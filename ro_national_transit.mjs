@@ -116,6 +116,11 @@ export function romanianNationalQuery(message,opts={}){
  // A named two-town journey is transport intent even before the passenger
  // selects train/coach. Do not turn a valid intercity route into a POI lookup.
  if(!explicitTransit&&!(naturalIntercity&&majorPair))return null;
+ // A GPS-origin mixed journey to a Romanian address is not a domestic Bilo
+ // trip when the device is outside Romania. Keep the confirmed destination
+ // for the international planner; never ask for two Romanian cities instead.
+ // An explicit named Romanian A -> B pair remains eligible from anywhere.
+ if(opts.mixed_journey===true&&!matched&&!opts.origin&&opts.destination&&!isRoGPS(opts.location))return null;
  // An explicit UK route takes priority over an old Romanian GPS fix or stale
  // destination selected earlier in a conversation. Do not send it to Bilo.
  const countryOf=value=>String(value?.country_code||value?.countryCode||'').toUpperCase();

@@ -1,0 +1,31 @@
+name: Mixed international GPS to Romania and burgundy retry
+on:
+  push:
+    branches: [fix/mixed-international-origin-and-burgundy-20261116]
+  pull_request:
+    paths:
+      - 'ro_national_transit.mjs'
+      - 'backend.js'
+      - 'one_field_journey_ui.mjs'
+      - 'index.js'
+      - 'tests_mixed_international_regression.mjs'
+      - 'tests_transport_departure_entrypoints.mjs'
+      - '.github/workflows/test-mixed-international-regression.yml'
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Syntax and screenshot scenario
+        run: |
+          node --check backend.js
+          node --check index.js
+          node --check one_field_journey_ui.mjs
+          node tests_mixed_international_regression.mjs
+          node tests_transport_departure_entrypoints.mjs
+          node tests_ro_national_transit.mjs
+          node tests_mixed_selector_ui.mjs
+          node tests_frontend_boot_syntax.mjs

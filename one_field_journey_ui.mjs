@@ -34,7 +34,7 @@ function handoffJourneyFromAssistant(handoff){
 }
 // Shared one-screen date/time step for Maps -> national public transport and mixed journeys.
 // "Unchanged" always means search from the moment the user submits, not a stale prefilled minute.
-function createTransportDepartureStep({title='',destination='',onBack,onSearch}={}){
+function createTransportDepartureStep({title='',destination='',initialDepartureAt=null,onBack,onSearch}={}){
  const phrases={
   ro:['Data și ora plecării','Poți schimba data și ora sau poți căuta de acum.','Caută trasee','← Înapoi','Data și ora sunt cele ale telefonului.','Alege o dată și oră valide, care nu au trecut.','Căutare de la ora actuală','Căutare pentru data și ora aleasă'],
   en:['Departure date and time','Change the date and time, or search from now.','Find routes','← Back','The date and time use your phone time zone.','Choose a valid future date and time.','Searching from now','Searching for selected date and time'],
@@ -65,7 +65,9 @@ function createTransportDepartureStep({title='',destination='',onBack,onSearch}=
  const picker=document.createElement('input');picker.type='datetime-local';
  picker.className='transport-departure-datetime';
  picker.setAttribute('aria-label',words[0]);
- picker.value=formatLocal(new Date());
+ const initialDate=initialDepartureAt?new Date(initialDepartureAt):null;
+ const validInitial=initialDate&&Number.isFinite(initialDate.getTime());
+ picker.value=formatLocal(validInitial?initialDate:new Date());
  picker.style.cssText='box-sizing:border-box;width:100%;min-height:56px;font-size:17px;padding:10px 12px;background:#102d40;border:2px solid #62b9d0;border-radius:15px;color:#fff;color-scheme:dark;touch-action:manipulation';
  const explain=document.createElement('p');
  explain.textContent=words[1]+' '+words[4];
@@ -79,7 +81,7 @@ function createTransportDepartureStep({title='',destination='',onBack,onSearch}=
   b.style.cssText='min-width:0;min-height:51px;flex:1 1 145px;padding:10px 12px;font-size:15px;white-space:normal;touch-action:manipulation';
   return b;
  };
- let changed=false,submitting=false;
+ let changed=Boolean(validInitial),submitting=false;
  const update=()=>{changed=true;notice.textContent=words[7];};
  picker.addEventListener('input',update);
  picker.addEventListener('change',update);
@@ -106,6 +108,7 @@ function createTransportDepartureStep({title='',destination='',onBack,onSearch}=
    if(step.isConnected){submit.disabled=false;back.disabled=false;}
   }
  });
+ submit.style.cssText+=';background:linear-gradient(145deg,#903550,#602139)!important;border:2px solid #e9a9b8!important;color:white!important';
  row.append(back,submit);
  step.append(headline,summary,label,picker,explain,notice,row);
  return step;
@@ -287,7 +290,10 @@ function showOneFieldJourney(choice){
  if(direct&&Number.isFinite(Number(direct.latitude))&&Number.isFinite(Number(direct.longitude))){
   selected={latitude:Number(direct.latitude),longitude:Number(direct.longitude),
    label:String(direct.label||incoming.destination_query||input.value),
-   country_code:String(direct.country_code||'')};
+   country_code:String(direct.country_code||''),city:String(direct.city||'')};
+  const priorOrigin=incoming?.selected_origin;
+  if(priorOrigin&&Number.isFinite(Number(priorOrigin.latitude))&&Number.isFinite(Number(priorOrigin.longitude)))
+   origin={...priorOrigin,latitude:Number(priorOrigin.latitude),longitude:Number(priorOrigin.longitude)};
   showModes();
  }else{
   status.textContent=input.value?text.checking:text.short;
