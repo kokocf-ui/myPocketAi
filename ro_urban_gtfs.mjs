@@ -148,6 +148,13 @@ export function planRomanianUrbanGtfs(feed,from,to,options={}){
    if(keys.has(key))continue;
    keys.add(key);unique.push(item);
   }
+  // Lower bound on arrival for any subsequent transfer departure.
+  // Lets crowded hubs skip entire noncompetitive sets without enumerating them.
+  unique.minArrivalSuffix=new Float64Array(unique.length+1);
+  unique.minArrivalSuffix[unique.length]=Infinity;
+  for(let i=unique.length-1;i>=0;i--)
+   unique.minArrivalSuffix[i]=Math.min(unique.minArrivalSuffix[i+1],
+    unique[i].ride.entries[unique[i].destIndex].arr);
   arrivals.set(stopId,unique);
  }
  const result=[],seen=new Set(),walking=d=>Math.ceil((d*1.45)/1.2);
@@ -204,7 +211,9 @@ export function planRomanianUrbanGtfs(feed,from,to,options={}){
    if(!options)continue;
    if(result.length===max&&mid.arr+180000>=Date.parse(result.at(-1).arrivalDateTime))continue;
    const min=mid.arr+3*60000,maxTime=mid.arr+90*60000;
-   for(let k=lowerBound(options,min);k<options.length&&options[k].entry.dep<=maxTime;k++){
+   const firstTransfer=lowerBound(options,min);
+   if(result.length===max&&options.minArrivalSuffix[firstTransfer]>=Date.parse(result.at(-1).arrivalDateTime))continue;
+   for(let k=firstTransfer;k<options.length&&options[k].entry.dep<=maxTime;k++){
     if(result.length===max&&options[k].entry.dep>=Date.parse(result.at(-1).arrivalDateTime))break;
     if(++searches>500000)return {status:'planner_busy',journeys:[],time_zone:zone,date};
     const next=options[k];
