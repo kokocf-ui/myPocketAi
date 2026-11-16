@@ -6,7 +6,7 @@ def normalize(x):
  return ''.join(c for c in unicodedata.normalize('NFD',x.casefold()) if unicodedata.category(c)!='Mn')
 
 def meters(a,b):
- lat1,lon1,lat2,lon2=(math.radians(float(v)) for v in (a[1],a[2],b[1],b[2]))
+ lat1,lon1,lat2,lon2=(math.radians(float(v)) for v in (a[2],a[3],b[2],b[3]))
  x=math.sin((lat2-lat1)/2)**2+math.cos(lat1)*math.cos(lat2)*math.sin((lon2-lon1)/2)**2
  return 6371000*2*math.atan2(math.sqrt(x),math.sqrt(max(0,1-x)))
 
