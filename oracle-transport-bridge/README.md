@@ -117,6 +117,36 @@ The Oracle GTFS services are NOT made public. Do not deploy the Worker before
 testing its bindings safely and preserving the existing Durable Object
 communication configuration/migrations.
 
+## Live VPC probe — blocked by Cloudflare account authorization
+
+On 2026-11-16, a **temporary local-only Wrangler VPC probe** ran in GitHub
+Actions (run 43855363528) using the existing masked GitHub
+`CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`. It did not deploy
+anything to production, did not read transport secrets, and did not send
+a route/coordinate request.
+
+- Pure local tests: **3 pass / 0 fail**.
+- The Cloudflare remote-binding setup returned **10196**, stating the
+  credentials were not authorized to bind the specified VPC Services.
+- Thus **no live VPC health or Bearer rejection was tested from Worker**.
+- Existing Oracle Tunnel and VPC Services need NOT be recreated.
+- Existing `RO_URBAN_API_TOKEN` and `EN_URBAN_API_TOKEN` secrets
+  need NOT be changed for this error.
+
+Required least-privilege fix: The member/token used for GitHub Wrangler must
+be able to **bind VPC Services** (`Connectivity Directory Bind`, or Admin).
+Cloudflare docs: <https://developers.cloudflare.com/workers-vpc/reference/troubleshooting/>.
+Also retain whatever Workers deploy permissions the existing CI pipeline needs.
+Do not replace the GitHub credential with a narrower token without verifying
+the existing frontend/backend production deployment permissions, and never
+paste any API credential into chat or source control.
+
+After updating account/automation permissions, re-run the **failed** isolated
+workflow (no production deployment). A successful probe will establish only:
+both VPC connections reach the matching Oracle APIs, and each API returns 401
+for a deliberately invalid Bearer token. It will **not** verify the encrypted
+production Worker secret values or real journey results.
+
 ## Step 4 — validation / rollback
 
 - Oracle `bash oracle-transport-bridge/preflight.sh`: both health endpoints
