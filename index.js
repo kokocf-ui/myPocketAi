@@ -19053,7 +19053,7 @@ function restoreTransitSessionFromNative(raw){
   state.lastTransitResponse={transit_destination_point:context.destinationPoint||null};
   state.lastTransitChoice={kind:'transit',nationalPublicTransport:true,transitDirect:true,
     transitDestination:context.destinationPoint||null,transitDepartureAt:context.journey.startDateTime||null};
-  const selected={journey:context.journey,options:[context.journey],index:0,
+  const selected={journey:context.journey,options:Array.isArray(context.options)&&context.options.length?context.options:[context.journey],index:0,
     loading:false,error:'',accessRoute:context.accessRoute||null,
     accessOptions:[],resumed:true};
   state.selectedTransitJourney=selected;
@@ -19123,7 +19123,10 @@ async function openTransitJourneyMap(selected,resume=null){
   const briefJourney={...journey,routeSegments:[],
    legs:(journey.legs||[]).map(leg=>({...leg,
     coordinates:Array.isArray(leg.coordinates)?leg.coordinates.slice(0,350):[]}))};
-  const context={journey:briefJourney,accessRoute:selected.accessRoute&&validMapRoute(selected.accessRoute)?
+  const shortOptions=(selected.options||[]).slice(0,6).map(option=>({
+   ...option,routeSegments:[],legs:(option.legs||[]).slice(0,30).map(leg=>({...leg,coordinates:[]}))
+  }));
+  const context={journey:briefJourney,options:shortOptions,accessRoute:selected.accessRoute&&validMapRoute(selected.accessRoute)?
    {...selected.accessRoute,coordinates:selected.accessRoute.coordinates.slice(0,1000)}:null,
    destinationPoint:state.lastTransitResponse?.transit_destination_point||
     state.lastTransitChoice?.transitDestination||null};
