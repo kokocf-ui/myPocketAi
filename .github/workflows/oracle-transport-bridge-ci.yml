@@ -42,6 +42,15 @@ jobs:
           bash -n oracle-transport-bridge/preflight.sh
           bash -n oracle-transport-bridge/install-cloudflared.sh
           bash -n oracle-transport-bridge/activate-private-tunnel.sh
+      - name: Audit all Romania counties and safe GTFS source staging syntax
+        run: |
+          python3 -m py_compile oracle-transport-bridge/stage-ro-gtfs.py
+          python3 oracle-transport-bridge/stage-ro-gtfs.py --list > /tmp/ro-gtfs-county-audit.txt
+          grep -q 'Total administrative regions: 42 source candidates: 5' /tmp/ro-gtfs-county-audit.txt
+          grep -q '^ro-bh candidate_source_found' /tmp/ro-gtfs-county-audit.txt
+          grep -q '^ro-b candidate_source_found' /tmp/ro-gtfs-county-audit.txt
+          grep -q '^ro-ab no_prevalidated_source' /tmp/ro-gtfs-county-audit.txt
+          echo 'PASS: all Romanian counties accounted for; missing feeds never marked available'
       - name: Test private transport clients and backend behavior
         run: |
           node --check ro_urban_client.mjs
