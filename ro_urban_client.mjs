@@ -1,4 +1,5 @@
 import {verifiedRouteOnlyOptions} from './transport_route_topology.mjs';
+import {inRomaniaApprox,pointDistanceMeters} from './regional_gtfs_registry.mjs';
 // Cloudflare Worker -> private Romanian urban GTFS router adapter.
 // Never send precise coordinates unless routed within a verified Romanian region.
 // The endpoint MUST be HTTPS and protected by a private bearer token.
@@ -24,6 +25,12 @@ export function romanianUrbanRegion(from,to){
   const nearby=[from,to].every(p=>distance(+p.latitude,+p.longitude,city.lat,city.lon)<=city.radius);
   if(nearby)return city.region;
  }
+ // No hard-coded city whitelist: local and county routes may now be offered
+ // anywhere in Romania IF a real GTFS feed covers both endpoints.
+ // 80 km separates local/regional queries from longer intercity Bilo trips.
+ // Coarse country limits are not proof of sovereignty or source coverage.
+ if(inRomaniaApprox(from)&&inRomaniaApprox(to)&&
+    pointDistanceMeters(from,to)<=80000)return 'romania';
  return null;
 }
 export async function planRomanianUrbanViaOracle(env,{from,to,departureAt=null,limit=4}={},opts={}){
