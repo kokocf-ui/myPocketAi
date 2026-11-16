@@ -2,6 +2,7 @@
 """Compare EVERY GTFS cell and read-only query speeds for East Anglia snapshots.
 Never changes snapshots, Docker, or live feeds. Run from the ubuntu account.
 """
+import argparse
 import contextlib
 import itertools
 import json
@@ -11,8 +12,11 @@ import statistics
 import time
 from pathlib import Path
 
-ORIGINAL=Path("/home/ubuntu/pocketai-england-audit/en-ea.sqlite3")
-COMPACT=Path("/home/ubuntu/pocketai-england-compact-pilot/en-ea.sqlite3")
+AUDIT_DIR=Path("/home/ubuntu/pocketai-england-audit")
+COMPACT_DIR=Path("/home/ubuntu/pocketai-england-compact-pilot")
+ORIGINAL=AUDIT_DIR/"en-ea.sqlite3"
+COMPACT=COMPACT_DIR/"en-ea.sqlite3"
+ALLOWED_REGIONS=("en-ea","en-em","en-ne","en-nw","en-se","en-sw","en-wm","en-yorkshire","en-london")
 TABLES={
  "stops":("stop_id,stop_name,stop_lat,stop_lon","stop_id"),
  "routes":("route_id,route_type,route_short_name,route_long_name,agency_id","route_id"),
@@ -100,4 +104,11 @@ def evaluate(original=ORIGINAL,compact=COMPACT,repeats=5):
 
 if __name__=="__main__":
     if os.geteuid()==0:raise SystemExit("Run as non-root ubuntu")
-    print(json.dumps(evaluate(),indent=2,ensure_ascii=False))
+    parser=argparse.ArgumentParser(description="Read-only full data parity and microbenchmark")
+    parser.add_argument("--region",choices=ALLOWED_REGIONS,default="en-ea")
+    args=parser.parse_args()
+    original=AUDIT_DIR/(args.region+".sqlite3")
+    compact=COMPACT_DIR/(args.region+".sqlite3")
+    report=evaluate(original,compact)
+    report["region"]=args.region
+    print(json.dumps(report,indent=2,ensure_ascii=False))

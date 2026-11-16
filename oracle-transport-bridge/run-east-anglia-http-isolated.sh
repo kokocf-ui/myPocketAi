@@ -6,12 +6,18 @@ S="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd -P)"
 A=/home/ubuntu/pocketai-england-audit
 P=/home/ubuntu/pocketai-england-compact-pilot
 IMAGE=pocketai-england-parity:test
+REGION=en-ea
+if [[ $# -ne 0 ]]; then
+ if [[ $# -ne 2 || "$1" != "--region" ]]; then echo "ERROR: usage --region en-em" >&2; exit 2; fi
+ REGION="$2"
+fi
+case "$REGION" in en-ea|en-em|en-ne|en-nw|en-se|en-sw|en-wm|en-yorkshire|en-london) ;; *) echo "ERROR: invalid region" >&2; exit 2;; esac
 
 if [[ "$(id -un)" != ubuntu ]]; then
   echo "ERROR: this test runner must be called as ubuntu" >&2
   exit 2
 fi
-for file in "$S/oracle-england-transport/Dockerfile" "$S/oracle-transport-bridge/probe-east-anglia-http.mjs" "$S/gtfs_sqlite_store.py" "$A/en-ea.sqlite3" "$P/en-ea.sqlite3"; do
+for file in "$S/oracle-england-transport/Dockerfile" "$S/oracle-transport-bridge/probe-east-anglia-http.mjs" "$S/gtfs_sqlite_store.py" "$A/$REGION.sqlite3" "$P/$REGION.sqlite3"; do
   if [[ ! -f "$file" || -L "$file" ]]; then
     echo "ERROR: required file absent or symlink: $file" >&2
     exit 2
@@ -22,12 +28,12 @@ if [[ ! -d "$A" || ! -d "$P" || -L "$A" || -L "$P" ]]; then
   exit 2
 fi
 echo '=== PREPARE COMPACT PILOT INDEX ==='
-if [[ -L "$P/en-ea.index.json" ]]; then
+if [[ -L "$P/$REGION.index.json" ]]; then
   echo 'ERROR: compact index is a symlink' >&2
   exit 2
 fi
 if [[ ! -f "$P/en-ea.index.json" ]]; then
-  python3 "$S/gtfs_sqlite_store.py" index "$P/en-ea.sqlite3" en-ea GB
+  python3 "$S/gtfs_sqlite_store.py" index "$P/$REGION.sqlite3" "$REGION" GB
 fi
 echo '=== BUILD SEPARATE TEST IMAGE: NODE 22 + PYTHON 3 ==='
 # Dockerfile explicitly RUNs "apk add --no-cache python3". Do not retag
@@ -45,4 +51,4 @@ sudo docker run --rm --network none --read-only \
   --mount "type=bind,src=$S,dst=$S,readonly" \
   --mount "type=bind,src=$A,dst=$A,readonly" \
   --mount "type=bind,src=$P,dst=$P,readonly" \
-  "$IMAGE" node "$S/oracle-transport-bridge/probe-east-anglia-http.mjs"
+  "$IMAGE" node "$S/oracle-transport-bridge/probe-east-anglia-http.mjs" --region "$REGION"

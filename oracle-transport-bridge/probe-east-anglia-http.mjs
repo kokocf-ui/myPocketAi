@@ -15,8 +15,15 @@ const PROBE=fileURLToPath(new URL('./probe-east-anglia-dated.py',import.meta.url
 const IMPORTER=fileURLToPath(new URL('../gtfs_sqlite_store.py',import.meta.url));
 const AUDIT='/home/ubuntu/pocketai-england-audit';
 const PILOT='/home/ubuntu/pocketai-england-compact-pilot';
-const SNAPSHOT='en-ea.sqlite3';
+export const ALLOWED_REGIONS=Object.freeze(['en-ea','en-em','en-ne','en-nw','en-se','en-sw','en-wm','en-yorkshire','en-london']);
 const MAX_JOURNEYS=4;
+function selectedRegion(){
+ const args=process.argv.slice(2);
+ if(args.length===0)return 'en-ea';
+ if(args.length!==2||args[0]!=='--region'||!ALLOWED_REGIONS.includes(args[1]))throw Error('invalid_test_region');
+ return args[1];
+}
+const SNAPSHOT='en-ea.sqlite3';
 
 function python(argv,timeout=45000) {
  const run=spawnSync('python3',argv,{encoding:'utf8',timeout,maxBuffer:16384,
@@ -24,13 +31,13 @@ function python(argv,timeout=45000) {
  if(run.error||run.status!==0)throw Error('Python source probe failed: '+(run.error?.code||run.status));
  return run.stdout.trim();
 }
-function ensurePilotIndex(){
- const snapshot=PILOT+'/'+SNAPSHOT,idx=PILOT+'/en-ea.index.json';
+function ensurePilotIndex(region){
+ const snapshot=PILOT+'/'+region+'.sqlite3',idx=PILOT+'/'+region+'.index.json';
  if(!existsSync(snapshot)||lstatSync(snapshot).isSymbolicLink())throw Error('compact_pilot_snapshot_missing');
- if(!existsSync(idx))python([IMPORTER,'index',snapshot,'en-ea','GB']);
+ if(!existsSync(idx))throw Error('compact_pilot_index_missing_run_host_index_for_region:'+region);
  if(!existsSync(idx)||lstatSync(idx).isSymbolicLink())throw Error('unsafe_compact_pilot_index');
 }
-function getActualSample(){
+function getActualSample(region){
  const code=`
 import json,sys,runpy
 from datetime import date,timedelta
@@ -53,14 +60,14 @@ raise SystemExit(3)
   timeZone:'Europe/London',year:'numeric',month:'2-digit',day:'2-digit'
  }).formatToParts(new Date()).map(x=>[x.type,x.value]));
  const localDate=parts.year+'-'+parts.month+'-'+parts.day;
- const output=python(['-c',code,PROBE,AUDIT+'/'+SNAPSHOT,localDate],60000);
+ const output=python(['-c',code,PROBE,AUDIT+'/'+region+'.sqlite3',localDate],60000);
  return JSON.parse(output);
 }
-function oneRegionCatalog(directory){
+function oneRegionCatalog(directory,region){
  const c=openGtfsFeedCatalog(directory,{country:'GB'});
  if(c.count<1)throw Error('catalog_no_indexed_feeds:'+directory);
  return {count:1,match:(from,to,radius)=>c.match(from,to,radius,3)
-   .filter(entry=>entry.region==='en-ea').slice(0,1)};
+    .filter(entry=>entry.region===region).slice(0,1)};
 }
 function canonicalJourneys(data){
  const journeys=Array.isArray(data.journeys)?data.journeys:[];
@@ -92,13 +99,14 @@ async function ask(catalog,body,token){
   await new Promise(resolve=>server.close(resolve));
  }
 }
-export async function runActualHttpParity(){
+export async function runActualHttpParity(region=selectedRegion()){
+ if(!ALLOWED_REGIONS.includes(region))throw Error('invalid_test_region');
  if(process.getuid?.()===0)throw Error('must_run_unprivileged');
- if(!existsSync(AUDIT+'/'+SNAPSHOT)||lstatSync(AUDIT+'/'+SNAPSHOT).isSymbolicLink())
+ if(!existsSync(AUDIT+'/'+region+'.sqlite3')||lstatSync(AUDIT+'/'+region+'.sqlite3').isSymbolicLink())
   throw Error('audit_original_missing');
- ensurePilotIndex();
- const sample=getActualSample();
- const original=oneRegionCatalog(AUDIT),compact=oneRegionCatalog(PILOT);
+ ensurePilotIndex(region);
+ const sample=getActualSample(region);
+ const original=oneRegionCatalog(AUDIT,region),compact=oneRegionCatalog(PILOT,region);
  const body={region:'england',from:sample.from,to:sample.to,
    date:sample.date,afterHHMM:'00:00',maxResults:MAX_JOURNEYS,
    maxStraightLineMeters:150};
@@ -109,7 +117,7 @@ export async function runActualHttpParity(){
  const a=await ask(original,body,token);
  const b=await ask(compact,body,token);
  const comparison=sameHttpJourneys(a,b);
- return {status:comparison.status==='success'&&comparison.journeyCount>0?
+ return {region,status:comparison.status==='success'&&comparison.journeyCount>0?
     'REAL_HTTP_JOURNEYS_IDENTICAL':'HTTP_PARITY_ONLY_NO_SCHEDULED_JOURNEY',
     date:sample.date,http:comparison.http,planner_status:comparison.status,
     journeys:comparison.journeyCount,

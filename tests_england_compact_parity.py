@@ -32,6 +32,11 @@ class ParityTests(unittest.TestCase):
                 ("t"+str(i),"s"+str((i+j)%40),j,"09:00:00","09:01:00")
                 for i in range(40) for j in range(4)])
             db.execute("INSERT INTO calendar VALUES ('W','1','1','1','1','1','1','1','20260101','20271231')")
+    def test_allowed_regions_cover_east_midlands(self):
+        self.assertIn("en-ea",mod.ALLOWED_REGIONS)
+        self.assertIn("en-em",mod.ALLOWED_REGIONS)
+        self.assertEqual(len(mod.ALLOWED_REGIONS),9)
+
     def test_parity_and_tamper_detection(self):
         with tempfile.TemporaryDirectory() as d:
             a=Path(d)/"old.sqlite3";b=Path(d)/"pilot.sqlite3"
