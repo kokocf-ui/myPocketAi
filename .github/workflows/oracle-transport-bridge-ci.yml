@@ -9,6 +9,8 @@ on:
       - 'en_urban_client.mjs'
       - 'tests_ro_urban_client.mjs'
       - 'tests_en_urban_access.mjs'
+      - 'wrangler-backend.toml'
+      - 'tests_workers_vpc_bindings.mjs'
       - '.github/workflows/oracle-transport-bridge-ci.yml'
   pull_request:
     paths:
@@ -17,6 +19,8 @@ on:
       - 'en_urban_client.mjs'
       - 'tests_ro_urban_client.mjs'
       - 'tests_en_urban_access.mjs'
+      - 'wrangler-backend.toml'
+      - 'tests_workers_vpc_bindings.mjs'
       - '.github/workflows/oracle-transport-bridge-ci.yml'
 jobs:
   validate:
@@ -35,7 +39,24 @@ jobs:
         run: |
           node --check ro_urban_client.mjs
           node --check en_urban_client.mjs
-          node --test tests_ro_urban_client.mjs tests_en_urban_access.mjs
+          node --test tests_ro_urban_client.mjs tests_en_urban_access.mjs tests_workers_vpc_bindings.mjs
+      - name: Parse actual Wrangler TOML and preserve communication bindings
+        run: |
+          python3 - <<'PY'
+          import tomllib
+          from pathlib import Path
+          config = tomllib.loads(Path('wrangler-backend.toml').read_text())
+          assert config['name']=='lifewise-ai-api'
+          assert config['main']=='backend.js'
+          assert config['ai']['binding']=='AI'
+          assert config['durable_objects']['bindings']==[{'name':'POCKET_COMM_HUB','class_name':'PocketCommunicationHub'}]
+          assert config['migrations']==[{'tag':'communication-sqlite-v1','new_sqlite_classes':['PocketCommunicationHub']}]
+          assert config['vpc_services']==[
+              {'binding':'RO_URBAN_VPC','service_id':'01a1e3ea-f6fa-7d11-8f85-21f267b1d833','remote':True},
+              {'binding':'EN_URBAN_VPC','service_id':'01a1e3e9-9c6b-7aa1-aefc-50a6824dbcd5','remote':True},
+          ]
+          print('PASS: VPC services and communication Durable Object preserved')
+          PY
       - name: Verify no leaked credentials in bridge scripts
         run: |
           node --input-type=module <<'NODE'
