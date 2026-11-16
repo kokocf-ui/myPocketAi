@@ -72,7 +72,7 @@ assert.equal(transitVerifiedWalkingMinutes({
 assert.equal(transitVerifiedWalkingMinutes({
  profile:'walk',durationSeconds:28*60,coordinates:[[origin.longitude,origin.latitude],[0.100,51.55]]
 },origin,destination),null,'Do not compare a walking route to the wrong destination');
-assert.match(ui,/transit-arrival-eta/,'Arrival from now is shown next to ride duration');
+assert.match(ui,/transit-choice-compact/,'Selection cards use the requested compact design');
 assert.match(ui,/Pe jos, dacă pleci acum:/,'Walking is explicitly measured from now');
 assert.match(ui,/este durata itinerariului/,'Transit minutes describe the scheduled itinerary, not a comparison of speed');
 assert.match(ui,/Comparând sosirile/,'Text compares arrival time rather than ride minutes');
