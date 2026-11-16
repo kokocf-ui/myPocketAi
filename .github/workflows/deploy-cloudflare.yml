@@ -146,10 +146,10 @@ jobs:
         with:
           node-version: '22'
 
-      - name: Install backend dependencies and pinned Wrangler
+      - name: Install backend dependencies and VPC-capable Wrangler
         run: |
           npm install --ignore-scripts --no-audit --no-fund
-          npm install --no-save --ignore-scripts --no-audit --no-fund wrangler@3.90.0
+          npm install --no-save --ignore-scripts --no-audit --no-fund wrangler@4.162.0
 
       - name: Verify backend news-search routing before deploy
         run: |
@@ -177,6 +177,11 @@ jobs:
 
       - name: Validate Romanian national Bilo provider
         run: node tests_ro_national_transit.mjs
+
+      - name: Verify Oracle VPC bindings and bundle before production deploy
+        run: |
+          node --test tests_workers_vpc_bindings.mjs tests_ro_urban_client.mjs tests_en_urban_access.mjs
+          npx --no-install wrangler deploy --dry-run --config wrangler-backend.toml --outdir /tmp/pocketai-backend-vpc-preflight
 
       - name: Deploy backend (retry transient Cloudflare outages only)
         env:
