@@ -13,7 +13,7 @@ assert.ok(!selector.includes('const departure=select('),'No long-press native se
 assert.ok(selector.includes('departure.onclick=()=>'),'A short tap opens the quick choice panel');
 assert.ok(frontend.includes('transit_departure_at:choice.transitDepartureAt||null'),'Calendar reaches the backend');
 assert.ok(frontend.includes('transit_departure_at:state.lastTransitChoice?.transitDepartureAt'),'Refresh keeps scheduled day');
-assert.ok(frontend.includes('function showTransitRetrySelector(choice)'),'Unverified mixed routes offer an in-app retry');
+assert.ok(frontend.includes('function showTransitRetrySelector(choice,response=null)'),'Unverified mixed routes preserve date/back actions and can offer external alternatives');
 assert.ok(backend.includes('transit_departure_at:departureAt'),'Backend reports selected date');
 // Verify that rail operator codes are readable and do not affect bus line CC.
 const labelFunctions=frontend.slice(frontend.indexOf('function transitDateLabel('),frontend.indexOf('function validTransitBoardingStop('));
