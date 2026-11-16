@@ -149,3 +149,33 @@ test('Workers VPC preferred: no domain or public hostname, private bound fetch a
  assert.equal(missingToken.status,'not_configured');
  assert.equal(called,1);
 });
+
+test('Eva /api/chat uses Romania VPC-only transport without a public API URL',async()=>{
+ let calls=0;
+ const vpc={fetch:async(url,opts)=>{
+   calls++;
+   assert.equal(url,'http://localhost/v1/plan');
+   assert.equal(opts.headers.Authorization,'Bearer '+token);
+   assert.equal(JSON.parse(opts.body).region,'oradea');
+   return Response.json({status:'success',journeys:[trip]});
+ }};
+ const body={
+   message:'Transport mixt din Piața Unirii spre Gara Oradea',
+   language:'ro',history:[],module:'maps',mixed_journey:true,
+   journey_origin:{...o,city:'Oradea',country_code:'RO'},
+   transit_destination:{...d,city:'Oradea',country_code:'RO'},
+   location:{latitude:51.50,longitude:-0.11,updatedAt:Date.now()},
+   transit_departure_at:new Date(Date.now()+86400000).toISOString()
+ };
+ const response=await worker.fetch(new Request('https://unit.test/api/chat',{
+   method:'POST',headers:{'content-type':'application/json'},
+   body:JSON.stringify(body)
+ }),{RO_URBAN_VPC:vpc,RO_URBAN_API_TOKEN:token,AI:{run:async()=>({response:'test'})}});
+ const result=await response.json();
+ assert.equal(response.status,200);
+ assert.equal(calls,1,'The VPC Service must be called, not public fetch or Bilo');
+ assert.equal(result.romanian_urban_journey,true,JSON.stringify(result).slice(0,400));
+ assert.equal(result.transit_available,true);
+ assert.equal(result.transit[0].legs[0].mode,'tram');
+ assert.ok(!JSON.stringify(result).includes(token),'Never send credential to app');
+});
