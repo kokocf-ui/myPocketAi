@@ -1,0 +1,68 @@
+name: Validate larger South England BODS regions off production
+on:
+  push:
+    branches: [feat/gtfs-sqlite-indexed-20261116]
+    paths:
+      - 'oracle-transport-bridge/stage-england-bods.py'
+      - 'gtfs_sqlite_store.py'
+      - '.github/workflows/england-bods-stage-ci.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: england-bods-region-stage-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  stage-remaining-regions:
+    name: "Staging ${{ matrix.label }} (not live)"
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+      matrix:
+        include:
+          - region: en-se
+            label: "South East"
+          - region: en-sw
+            label: "South West"
+    env:
+      REGION: ${{ matrix.region }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify regional staging scripts
+        run: |
+          python3 -m py_compile oracle-transport-bridge/stage-england-bods.py gtfs_sqlite_store.py
+      - name: Stage one official BODS region in disposable isolated runner
+        run: |
+          set -euo pipefail
+          sudo mkdir -p /home/ubuntu/pocketai-england-audit
+          sudo chown "$(id -u):$(id -g)" /home/ubuntu/pocketai-england-audit
+          df -h /home/ubuntu
+          ls -ld /home/ubuntu/pocketai-england-audit
+          test -d /home/ubuntu/pocketai-england-audit
+          test ! -L /home/ubuntu/pocketai-england-audit
+          python3 oracle-transport-bridge/stage-england-bods.py --stage --regions "$REGION"
+      - name: Verify complete GTFS schema, positive counts, and staging provenance
+        run: |
+          python3 - <<'PY'
+          import json,os,sqlite3
+          from pathlib import Path
+          region=os.environ['REGION']
+          path=Path('/home/ubuntu/pocketai-england-audit')
+          db_path=path/(region+'.sqlite3')
+          assert db_path.is_file(),f'{region}: missing staged database'
+          with sqlite3.connect('file:'+str(db_path)+'?mode=ro',uri=True) as db:
+              totals={table:db.execute('SELECT COUNT(*) FROM '+table).fetchone()[0]
+                      for table in ('stops','routes','trips','stop_times','calendar','calendar_dates')}
+              assert all(totals[t]>0 for t in ('stops','routes','trips','stop_times')),totals
+              assert totals['calendar']>0 or totals['calendar_dates']>0,totals
+              print('STAGED',region,json.dumps(totals,sort_keys=True))
+          index=json.loads((path/(region+'.index.json')).read_text())
+          provenance=json.loads((path/(region+'.provenance.json')).read_text())
+          assert index['country']=='GB' and index['region']==region and index['backend']=='sqlite'
+          assert len(index['positions'])==totals['stops'],(len(index['positions']),totals['stops'])
+          assert provenance['status']=='staged_not_activated' and provenance['region']==region
+          assert provenance['rights_status']=='OGL_UK_attribution_required'
+          print('PASS:',region,'schema + index + provenance validated; not imported to Oracle')
+          PY

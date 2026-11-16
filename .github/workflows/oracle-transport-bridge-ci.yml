@@ -1,0 +1,95 @@
+name: Oracle transport bridge validation
+on:
+  push:
+    branches:
+      - feat/gtfs-sqlite-indexed-20261116
+    paths:
+      - 'oracle-transport-bridge/**'
+      - 'ro_urban_client.mjs'
+      - 'en_urban_client.mjs'
+      - 'tests_ro_urban_client.mjs'
+      - 'tests_romania_provider_readiness.mjs'
+      - 'backend.js'
+      - 'tests_en_urban_access.mjs'
+      - 'wrangler-backend.toml'
+      - 'tests_workers_vpc_bindings.mjs'
+      - '.github/workflows/oracle-transport-bridge-ci.yml'
+  pull_request:
+    paths:
+      - 'oracle-transport-bridge/**'
+      - 'ro_urban_client.mjs'
+      - 'en_urban_client.mjs'
+      - 'tests_ro_urban_client.mjs'
+      - 'tests_romania_provider_readiness.mjs'
+      - 'backend.js'
+      - 'tests_en_urban_access.mjs'
+      - 'wrangler-backend.toml'
+      - 'tests_workers_vpc_bindings.mjs'
+      - '.github/workflows/oracle-transport-bridge-ci.yml'
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate scripts without executing privileged commands
+        run: |
+          bash -n oracle-transport-bridge/preflight.sh
+          bash -n oracle-transport-bridge/install-cloudflared.sh
+          bash -n oracle-transport-bridge/activate-private-tunnel.sh
+      - name: Audit all Romania counties and safe GTFS source staging syntax
+        run: |
+          python3 -m py_compile oracle-transport-bridge/stage-ro-gtfs.py
+          python3 oracle-transport-bridge/stage-ro-gtfs.py --list > /tmp/ro-gtfs-county-audit.txt
+          grep -q 'Total administrative regions: 42 source candidates: 9' /tmp/ro-gtfs-county-audit.txt
+          grep -q '^ro-bh candidate_source_found' /tmp/ro-gtfs-county-audit.txt
+          grep -q '^ro-b candidate_source_found' /tmp/ro-gtfs-county-audit.txt
+          grep -q '^ro-ab no_prevalidated_source' /tmp/ro-gtfs-county-audit.txt
+          echo 'PASS: all Romanian counties accounted for; missing feeds never marked available'
+      - name: Test private transport clients and backend behavior
+        run: |
+          node --check ro_urban_client.mjs
+          node --check en_urban_client.mjs
+          node --test tests_ro_urban_client.mjs tests_en_urban_access.mjs tests_workers_vpc_bindings.mjs
+          node tests_romania_provider_readiness.mjs
+      - name: Parse actual Wrangler TOML and preserve communication bindings
+        run: |
+          python3 - <<'PY'
+          import tomllib
+          from pathlib import Path
+          config = tomllib.loads(Path('wrangler-backend.toml').read_text())
+          assert config['name']=='lifewise-ai-api'
+          assert config['main']=='backend.js'
+          assert config['ai']['binding']=='AI'
+          assert config['durable_objects']['bindings']==[{'name':'POCKET_COMM_HUB','class_name':'PocketCommunicationHub'}]
+          assert config['migrations']==[{'tag':'communication-sqlite-v1','new_sqlite_classes':['PocketCommunicationHub']}]
+          assert config['vpc_services']==[
+              {'binding':'RO_URBAN_VPC','service_id':'01a1e3e9-9c6b-7aa1-aefc-50a6824dbcd5','remote':True},
+              {'binding':'EN_URBAN_VPC','service_id':'01a1e3ea-f6fa-7d11-8f85-21f267b1d833','remote':True},
+          ]
+          print('PASS: VPC services and communication Durable Object preserved')
+          PY
+      - name: Dry-run Worker VPC bundle with current Wrangler (no deployment)
+        run: |
+          npm install --ignore-scripts --no-audit --no-fund
+          npx --yes wrangler@4.162.0 deploy --dry-run --config wrangler-backend.toml --outdir /tmp/pocketai-vpc-worker-dryrun
+      - name: Verify no leaked credentials in bridge scripts
+        run: |
+          node --input-type=module <<'NODE'
+          import assert from 'node:assert/strict';
+          import {readFileSync} from 'node:fs';
+          const files=['oracle-transport-bridge/preflight.sh',
+            'oracle-transport-bridge/install-cloudflared.sh',
+            'oracle-transport-bridge/activate-private-tunnel.sh'];
+          const joined=files.map(x=>readFileSync(x,'utf8')).join('\n');
+          assert.ok(joined.includes('token-file'),'Tunnel must use credential file rather than CLI token');
+          assert.ok(!/--token\\s+\\$|ExecStart=.*--token\\s/.test(joined),
+            'Never expose tunnel connector token through commandline');
+          assert.ok(joined.includes('127.0.0.1:'));
+          console.log('Bridge uses local endpoints and no CLI tunnel token');
+          NODE

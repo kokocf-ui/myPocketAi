@@ -68,3 +68,45 @@ precise user coordinates. Server currently writes no request-body logs.
 Codul este într-un PR draft. Nu este dovedită conectarea la instanța Oracle,
 nu există instalare automată de feeduri și nu s-au configurat URL-ul HTTPS ori
 secretele din Cloudflare. Continuitatea serviciului de Comunicare are prioritate.
+
+
+## Importuri GTFS mari prin SQLite (propunere izolată, nepublicată)
+
+Seturi precum București–Ilfov pot avea peste 1,4 milioane de `stop_times`,
+ce ar depăși limita de 110 MiB pentru JSON. Varianta nouă creează un index
+SQLite pe disc; la fiecare solicitare citește doar cursele și stațiile
+relevante și transmite o secțiune limitată planificatorului existent.
+Același mecanism este folosit pentru județe și pentru Anglia.
+
+**Condiții înainte de import:** drept de reutilizare comercială și
+atribuirea sursei verificate; calendarul și integritatea ZIP confirmate;
+spațiu liber suficient pe disc; alte containere neatinse. Nu confundați
+orarele statice cu informațiile în timp real.
+
+### Procedură pentru București–Ilfov, numai după verificarea drepturilor
+
+În directorul checkout-ului nou, pe gazda Oracle (unde Python 3 există):
+
+```sh
+cd /home/ubuntu/pocketai-transport-src
+node --test tests_gtfs_sqlite_indexed.mjs  # prin container Node+Python dacă Node nu este instalat pe gazdă
+sudo python3 gtfs_sqlite_store.py import /home/ubuntu/pocketai-gtfs-audit/BUCHAREST-REGION.zip /home/ubuntu/pocketai-romania/feeds/ro-b.sqlite3 ro-b RO
+sudo python3 gtfs_sqlite_store.py index /home/ubuntu/pocketai-romania/feeds/ro-b.sqlite3 ro-b RO
+sudo chown 10001:10001 /home/ubuntu/pocketai-romania/feeds/ro-b.sqlite3 /home/ubuntu/pocketai-romania/feeds/ro-b.index.json
+sudo chmod 0400 /home/ubuntu/pocketai-romania/feeds/ro-b.sqlite3 /home/ubuntu/pocketai-romania/feeds/ro-b.index.json
+```
+
+Importul refuză suprascrierea unui feed deja existent. La actualizări se
+construiește separat un snapshot nou, se oprește controlat serviciul și se
+înlocuiesc împreună baza de date și indexul. Un index invalid, absent ori
+învechit este ignorat; nu se fabrică orare. Limitele de procesare excesivă
+raportează indisponibilitatea planificatorului, nu o rută fictivă.
+
+Reconfigurați doar containerul local pentru România cu Docker Compose-ul
+acestei ramuri; serviciile Comunicare nu trebuie restartate. Verificați
+`/healthz`, apoi interogați `/v1/plan` numai prin acces autentificat
+intern. Nu publicați portul 8766.
+
+**Nu este o certificare a acoperirii:** sunt necesare probe reale de trasee,
+moduri, transferuri, acces pietonal, ore în zile lucrătoare/weekend,
+performanță, licență și un canal TLS securizat înainte de activarea Eva.

@@ -1,0 +1,24 @@
+name: England BODS release readiness audit checks
+on:
+  push:
+    branches: [feat/gtfs-sqlite-indexed-20261116]
+    paths:
+      - 'oracle-transport-bridge/audit-england-release-readiness.py'
+      - 'tests_england_release_readiness.py'
+      - '.github/workflows/england-release-readiness-ci.yml'
+  pull_request:
+    paths:
+      - 'oracle-transport-bridge/audit-england-release-readiness.py'
+      - 'tests_england_release_readiness.py'
+      - '.github/workflows/england-release-readiness-ci.yml'
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          python3 -m py_compile oracle-transport-bridge/audit-england-release-readiness.py tests_england_release_readiness.py
+          python3 -m unittest -v tests_england_release_readiness

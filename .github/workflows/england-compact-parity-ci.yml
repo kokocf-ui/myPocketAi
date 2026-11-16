@@ -1,0 +1,25 @@
+name: England GTFS complete content parity
+on:
+  push:
+    branches: [feat/gtfs-sqlite-indexed-20261116]
+    paths:
+      - 'oracle-transport-bridge/verify-east-anglia-compact.py'
+      - 'tests_england_compact_parity.py'
+      - '.github/workflows/england-compact-parity-ci.yml'
+  pull_request:
+    paths:
+      - 'oracle-transport-bridge/verify-east-anglia-compact.py'
+      - 'tests_england_compact_parity.py'
+      - '.github/workflows/england-compact-parity-ci.yml'
+permissions:
+  contents: read
+jobs:
+  compare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          bash -n oracle-transport-bridge/run-east-anglia-http-isolated.sh
+          python3 -m py_compile oracle-transport-bridge/verify-east-anglia-compact.py tests_england_compact_parity.py
+          python3 tests_england_compact_parity.py

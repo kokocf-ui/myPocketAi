@@ -1,0 +1,24 @@
+name: England official BODS HEAD metadata audit safety
+on:
+  push:
+    branches: [feat/gtfs-sqlite-indexed-20261116]
+    paths:
+      - 'oracle-transport-bridge/audit-england-bods-metadata.py'
+      - 'tests_england_bods_metadata.py'
+      - '.github/workflows/england-bods-metadata-ci.yml'
+  pull_request:
+    paths:
+      - 'oracle-transport-bridge/audit-england-bods-metadata.py'
+      - 'tests_england_bods_metadata.py'
+      - '.github/workflows/england-bods-metadata-ci.yml'
+permissions:
+  contents: read
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          python3 -m py_compile oracle-transport-bridge/audit-england-bods-metadata.py tests_england_bods_metadata.py
+          python3 -m unittest -v tests_england_bods_metadata

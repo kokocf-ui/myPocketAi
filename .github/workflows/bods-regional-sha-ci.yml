@@ -1,0 +1,24 @@
+name: BODS nine-region on-demand streaming SHA audit
+on:
+  push:
+    branches: [feat/gtfs-sqlite-indexed-20261116]
+    paths:
+      - 'oracle-transport-bridge/verify-bods-regional-sha.py'
+      - 'tests_bods_regional_sha.py'
+      - '.github/workflows/bods-regional-sha-ci.yml'
+  pull_request:
+    paths:
+      - 'oracle-transport-bridge/verify-bods-regional-sha.py'
+      - 'tests_bods_regional_sha.py'
+      - '.github/workflows/bods-regional-sha-ci.yml'
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          python3 -m py_compile oracle-transport-bridge/verify-bods-regional-sha.py tests_bods_regional_sha.py
+          python3 -m unittest -v tests_bods_regional_sha

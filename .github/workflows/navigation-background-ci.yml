@@ -1,0 +1,40 @@
+name: Android persistent navigation validation
+on:
+  push:
+    branches:
+      - feat/gtfs-sqlite-indexed-20261116
+    paths:
+      - 'android/**'
+      - 'tests_android_navigation_notification.mjs'
+      - 'tests_android_navigation_bridge_runtime.mjs'
+      - '.github/workflows/navigation-background-ci.yml'
+jobs:
+  android-navigation-debug:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.7'
+      - name: Validate navigation service and browser handoff
+        run: |
+          node tests_android_navigation_notification.mjs
+          node tests_android_navigation_bridge_runtime.mjs
+          node tests_oracle_fcm.mjs
+          node tests_communication_message_controls.mjs
+          node tests_transit_final_mile.mjs
+      - name: Compile Android debug APK
+        run: gradle -p android --no-daemon assembleDebug
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pocketai-navigation-foreground-debug-not-upgradeable
+          path: android/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
+          retention-days: 7

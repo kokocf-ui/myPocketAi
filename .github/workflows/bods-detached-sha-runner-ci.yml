@@ -1,0 +1,36 @@
+name: BODS detached SHA audit launcher syntax and isolation
+on:
+  push:
+    branches: [feat/gtfs-sqlite-indexed-20261116]
+    paths:
+      - 'oracle-transport-bridge/run-bods-eight-sha-detached.sh'
+      - 'oracle-transport-bridge/verify-bods-regional-sha.py'
+      - 'tests_bods_regional_sha.py'
+      - '.github/workflows/bods-detached-sha-runner-ci.yml'
+  pull_request:
+    paths:
+      - 'oracle-transport-bridge/run-bods-eight-sha-detached.sh'
+      - 'oracle-transport-bridge/verify-bods-regional-sha.py'
+      - 'tests_bods_regional_sha.py'
+      - '.github/workflows/bods-detached-sha-runner-ci.yml'
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          set -euo pipefail
+          bash -n oracle-transport-bridge/run-bods-eight-sha-detached.sh
+          python3 -m py_compile oracle-transport-bridge/verify-bods-regional-sha.py
+          python3 -m unittest -v tests_bods_regional_sha
+          F=oracle-transport-bridge/run-bods-eight-sha-detached.sh
+          grep -Fq 'nohup bash "$SELF" --worker' "$F"
+          grep -Fq 'flock -n 9' "$F"
+          grep -Fq 'MAX_CUMULATIVE=2_000_000_000' oracle-transport-bridge/verify-bods-regional-sha.py
+          grep -Fq ' --progress' "$F"
+          grep -Fq 'ALREADY_RUNNING' "$F"
+          grep -Fq 'EXISTING_RUN_RECORD' "$F"
+          if grep -Eq 'rm -rf|docker (compose )?(restart|stop|up)|chmod 777|curl |wget ' "$F"; then exit 1; fi

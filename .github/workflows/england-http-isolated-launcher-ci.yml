@@ -1,0 +1,36 @@
+name: England safe isolated Docker parity launcher lint
+on:
+  push:
+    branches: [feat/gtfs-sqlite-indexed-20261116]
+    paths:
+      - 'oracle-transport-bridge/run-east-anglia-http-isolated.sh'
+      - '.github/workflows/england-http-isolated-launcher-ci.yml'
+  pull_request:
+    paths:
+      - 'oracle-transport-bridge/run-east-anglia-http-isolated.sh'
+      - '.github/workflows/england-http-isolated-launcher-ci.yml'
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate test image isolation, fixed CPU and Python
+        run: |
+          set -euo pipefail
+          bash -n oracle-transport-bridge/run-east-anglia-http-isolated.sh
+          grep -Fq 'IMAGE=pocketai-england-parity:test' oracle-transport-bridge/run-east-anglia-http-isolated.sh
+          grep -Fq 'python3 --version' oracle-transport-bridge/run-east-anglia-http-isolated.sh
+          grep -Fq -- '--cpus 1' oracle-transport-bridge/run-east-anglia-http-isolated.sh
+          grep -Fq -- '--network none' oracle-transport-bridge/run-east-anglia-http-isolated.sh
+          grep -Fq -- '--read-only' oracle-transport-bridge/run-east-anglia-http-isolated.sh
+          # Verify every accepted region is indexed using its own name,
+          # never the preexisting East Anglia index.
+          grep -Fq 'if [[ ! -f "$P/$REGION.index.json" ]]; then' oracle-transport-bridge/run-east-anglia-http-isolated.sh
+          if grep -Fq 'if [[ ! -f "$P/en-ea.index.json" ]]; then' oracle-transport-bridge/run-east-anglia-http-isolated.sh; then
+            echo "ERROR: hardcoded East Anglia index breaks other regions" >&2
+            exit 1
+          fi
+          grep -Fq 'RUN apk add --no-cache python3' oracle-england-transport/Dockerfile

@@ -2,8 +2,10 @@
 // An index is created only after a licensed source has been imported by its operator.
 import {readFileSync,writeFileSync,renameSync,lstatSync,readdirSync,statSync,unlinkSync} from 'node:fs';
 import {basename,join} from 'node:path';
+import {queryGtfsSqlite} from './gtfs_sqlite_reader.mjs';
 import {recognizedGtfsRegion,inRomaniaApprox,inEnglandApprox,pointDistanceMeters} from './regional_gtfs_registry.mjs';
 const LIMIT_BYTES=110*1024*1024; // Avoid loading unbounded national snapshots on a small VM.
+const MAX_SQLITE_SNAPSHOT_BYTES=8*1024*1024*1024; // Disk-backed regional BODS snapshots; only location-specific rows are read.
 const validRow=p=>p&&Number.isFinite(+p.stop_lat)&&Number.isFinite(+p.stop_lon)&&
   p.stop_lat!==null&&p.stop_lon!==null;
 const zone=c=>c==='RO'?'Europe/Bucharest':'Europe/London';
@@ -46,12 +48,16 @@ export function openGtfsFeedCatalog(dir,{country='RO'}={}){
     if(!name.endsWith('.index.json'))continue;
     const region=name.slice(0,-'.index.json'.length);
     if(!recognizedGtfsRegion(region,country)||region==='romania')continue;
-    const indexFile=safeFile(dir,name),snapshot=safeFile(dir,region+'.json');
-    const st=statFile(snapshot),idxStat=statFile(indexFile);
-    if(!st||!idxStat||st.size>LIMIT_BYTES||idxStat.size>15*1024*1024)continue;
+    const indexFile=safeFile(dir,name),idxStat=statFile(indexFile);
+    if(!idxStat||idxStat.size>15*1024*1024)continue;
     try{
       const index=JSON.parse(readFileSync(indexFile,'utf8'));
-      if(index.schema!==1||index.region!==region||index.country!==country||
+      const sqlite=index.schema===2&&index.backend==='sqlite';
+      if(!sqlite&&index.schema!==1)continue;
+      const snapshot=safeFile(dir,region+(sqlite?'.sqlite3':'.json'));
+      const st=statFile(snapshot);
+      if(!st||st.size>(sqlite?MAX_SQLITE_SNAPSHOT_BYTES:LIMIT_BYTES))continue;
+      if(index.region!==region||index.country!==country||
         index.timeZone!==zone(country)||index.snapshotBytes!==st.size||
         index.snapshotMtimeMs!==Math.trunc(st.mtimeMs)||
         !Array.isArray(index.positions)||!index.positions.length||
@@ -60,7 +66,12 @@ export function openGtfsFeedCatalog(dir,{country='RO'}={}){
         Number.isFinite(x[0])&&Number.isFinite(x[1]));
       if(positions.length!==index.positions.length)continue;
       entries.push({region,positions,snapshot,timeZone:zone(country),
-        load:()=>{const s=statFile(snapshot);
+        load:sqlite?async ({from,to,date,radius}={})=>{
+          const s=statFile(snapshot);
+          if(!s||s.size!==index.snapshotBytes||Math.trunc(s.mtimeMs)!==index.snapshotMtimeMs)return null;
+          const res=await queryGtfsSqlite(snapshot,{from,to,date,radius});
+          return res.feed||{__sqlite_status:res.status||'no_verified_itinerary'};
+        }:()=>{const s=statFile(snapshot);
           if(!s||s.size!==index.snapshotBytes||Math.trunc(s.mtimeMs)!==index.snapshotMtimeMs)
             return null; // Explicit reindex after updating a feed.
           const feed=JSON.parse(readFileSync(snapshot,'utf8'));

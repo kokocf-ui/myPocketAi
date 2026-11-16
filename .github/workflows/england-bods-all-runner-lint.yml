@@ -1,0 +1,25 @@
+name: Lint England BODS Oracle audit runner
+on:
+  push:
+    branches: [feat/gtfs-sqlite-indexed-20261116]
+    paths:
+      - 'oracle-transport-bridge/stage-england-all.sh'
+      - '.github/workflows/england-bods-all-runner-lint.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate isolated audit script
+        run: |
+          set -euo pipefail
+          bash -n oracle-transport-bridge/stage-england-all.sh
+          grep -Fq 'AUDIT=/home/ubuntu/pocketai-england-audit' oracle-transport-bridge/stage-england-all.sh
+          grep -Fq 'MIN_FREE_KB=8388608' oracle-transport-bridge/stage-england-all.sh
+          grep -Fq 'flock -n 9' oracle-transport-bridge/stage-england-all.sh
+          grep -Fq 'PRAGMA quick_check' oracle-transport-bridge/stage-england-all.sh
+          echo 'PASS: syntax and audit safeguards'

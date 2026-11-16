@@ -102,6 +102,115 @@ import java.io.File;
 import java.io.FileInputStream;
 
 public final class MainActivity extends ComponentActivity {
+    private boolean nativeNavigationActivityVisible=false;
+    private String pendingNavigationResume=null;
+    private void loadNavigationResume(Intent intent){
+        pendingNavigationResume=null;
+        if(intent!=null&&intent.getBooleanExtra(PocketNavigationService.EXTRA_RESUME,false)){
+            String id=intent.getStringExtra(PocketNavigationService.EXTRA_SESSION);
+            if(id!=null&&id.equals(PocketNavigationService.activeSession()))
+                pendingNavigationResume=id;
+        }
+    }
+    private void navigationResponse(boolean ok,String id){
+        if(web==null)return;
+        String url=web.getUrl();
+        if(url==null||!APP_HOST.equalsIgnoreCase(Uri.parse(url).getHost()))return;
+        web.evaluateJavascript("if(window.pocketNativeNavigationAck)window.pocketNativeNavigationAck("+
+            (ok?"true":"false")+","+JSONObject.quote(id)+");",null);
+    }
+    private void handleNavigationBridge(String payload){
+        if(payload==null||payload.length()>4000)return;
+        try{
+            JSONObject data=new JSONObject(payload);
+            String action=data.optString("action","");
+            if("stop".equals(action)){
+                startService(PocketNavigationService.stopIntent(this));
+                if(web!=null)web.evaluateJavascript("window.pocketNativeNavigationStopped&&window.pocketNativeNavigationStopped();",null);
+                return;
+            }
+            if(!"start".equals(action)||!nativeNavigationActivityVisible)return;
+            String id=data.optString("sessionId","");
+            String target=data.optString("destination","");
+            String mode=data.optString("mode","");
+            String steps=data.optString("steps","");
+            if(!id.matches("[A-Za-z0-9_-]{8,80}")||target.isBlank()||target.length()>120
+                ||!mode.matches("walking|transit|mixed|driving")||steps.length()>2800){
+                navigationResponse(false,id);return;
+            }
+            boolean location=ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION)==PackageManager.PERMISSION_GRANTED
+                ||ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION)==PackageManager.PERMISSION_GRANTED;
+            boolean notifications=Build.VERSION.SDK_INT<33
+                ||ContextCompat.checkSelfPermission(this,Manifest.permission.POST_NOTIFICATIONS)==PackageManager.PERMISSION_GRANTED;
+            android.location.LocationManager locationManager=
+                (android.location.LocationManager)getSystemService(LOCATION_SERVICE);
+            boolean enabled=locationManager!=null&&
+                (locationManager.isProviderEnabled(android.location.LocationManager.GPS_PROVIDER)
+                ||locationManager.isProviderEnabled(android.location.LocationManager.NETWORK_PROVIDER));
+            if(!location||!notifications||!enabled){navigationResponse(false,id);return;}
+            ContextCompat.startForegroundService(this,
+                PocketNavigationService.startIntent(this,id,target,mode,steps));
+            // The system may reject a location FGS after the start request.
+            // Acknowledge only once the service actually entered foreground.
+            new Handler(Looper.getMainLooper()).postDelayed(
+                ()->navigationResponse(id.equals(PocketNavigationService.activeSession()),id),800L);
+        }catch(Exception error){
+            navigationResponse(false,"");
+        }
+    }
+    private void injectNavigationBridge(){
+        if(web==null)return;
+        try(java.io.InputStream input=getAssets().open("navigation-background.js");
+            java.io.ByteArrayOutputStream out=new java.io.ByteArrayOutputStream()){
+            byte[] buffer=new byte[4096];int n;
+            while((n=input.read(buffer))!=-1)out.write(buffer,0,n);
+            final String script=out.toString("UTF-8");
+            web.evaluateJavascript(script,null);
+            if(!PocketNavigationService.isActive())
+                web.evaluateJavascript("window.pocketNativeNavigationStopped&&window.pocketNativeNavigationStopped();",null);
+            dispatchNavigationResume();
+        }catch(Exception e){
+            android.util.Log.w("PocketNavigation","Could not inject navigation controls");
+        }
+    }
+    private int navigationResumeAttempts=0;
+    private void dispatchNavigationResume(){
+        if(pendingNavigationResume==null||web==null)return;
+        final String id=pendingNavigationResume;
+        new Handler(Looper.getMainLooper()).postDelayed(()->{
+            if(!id.equals(pendingNavigationResume)||web==null)return;
+            if(!id.equals(PocketNavigationService.activeSession())){
+                pendingNavigationResume=null;navigationResumeAttempts=0;return;
+            }
+            String url=web.getUrl();
+            if(url==null||!APP_HOST.equalsIgnoreCase(Uri.parse(url).getHost())){
+                if(++navigationResumeAttempts<30)dispatchNavigationResume();return;
+            }
+            String script="(function(){try{return window.pocketNativeNavigationResume"+
+                "?window.pocketNativeNavigationResume("+JSONObject.quote(id)+"):false}"+
+                "catch(e){return false}})()";
+            web.evaluateJavascript(script,answer->{
+                if(!id.equals(pendingNavigationResume))return;
+                if("true".equals(answer)){
+                    pendingNavigationResume=null;navigationResumeAttempts=0;
+                }else if(++navigationResumeAttempts<30)dispatchNavigationResume();
+                else android.util.Log.w("PocketNavigation","Could not restore active map");
+            });
+        },400L);
+    }
+    @Override protected void onResume(){
+        super.onResume();
+        nativeNavigationActivityVisible=true;
+        if(web!=null&&!PocketNavigationService.isActive()){
+            String url=web.getUrl();
+            if(url!=null&&APP_HOST.equalsIgnoreCase(Uri.parse(url).getHost()))
+                web.evaluateJavascript("window.pocketNativeNavigationStopped&&window.pocketNativeNavigationStopped();",null);
+        }
+    }
+    @Override protected void onPause(){
+        nativeNavigationActivityVisible=false;
+        super.onPause();
+    }
     private boolean firebasePushConfigured=false;
     private void forwardFcmToken(String token){
         if(token==null||token.length()<24||token.length()>4096||web==null)return;
@@ -203,7 +312,9 @@ public final class MainActivity extends ComponentActivity {
         setIntent(intent);
         pendingCommunicationInvite=communicationInviteCode(intent);
         loadCommunicationNotification(intent);
+        loadNavigationResume(intent);
         communicationDispatchAttempts=0;
+        if(pendingNavigationResume!=null&&web!=null)dispatchNavigationResume();
         if(pendingCommunicationInvite!=null && web!=null)dispatchCommunicationInvite();
         if(pendingCommunicationKind!=null && web!=null)dispatchCommunicationNotification();
     }
@@ -984,6 +1095,7 @@ public final class MainActivity extends ComponentActivity {
         super.onCreate(state);
         pendingCommunicationInvite=communicationInviteCode(getIntent());
         loadCommunicationNotification(getIntent());
+        loadNavigationResume(getIntent());
         WindowCompat.setDecorFitsSystemWindows(getWindow(),true);
         getWindow().getDecorView().setSystemUiVisibility(0);
         getWindow().setStatusBarColor(Color.rgb(6,20,32));
@@ -1115,6 +1227,7 @@ public final class MainActivity extends ComponentActivity {
                     +"if(picker)picker.addEventListener('change',function(){setTimeout(send,0)});"
                     +"document.addEventListener('visibilitychange',send);window.addEventListener('pagehide',send);send()})()",null);
                 provideLocalUserProfile(view);
+                injectNavigationBridge();
             }
             @Override public WebResourceResponse shouldInterceptRequest(WebView view,WebResourceRequest request) {
                 Uri resource=request.getUrl();
@@ -1164,6 +1277,18 @@ public final class MainActivity extends ComponentActivity {
                 return true;
             }
         });
+        // Only messages sent by the trusted WebView main frame can control navigation.
+        // A route search alone never starts the native location foreground service.
+        if(WebViewFeature.isFeatureSupported(WebViewFeature.WEB_MESSAGE_LISTENER)){
+            WebViewCompat.addWebMessageListener(web,"PocketAndroidNavigation",
+                Collections.singleton("https://"+APP_HOST),
+                (view,message,origin,isMainFrame,replyProxy)->{
+                    if(!isMainFrame||!"https".equalsIgnoreCase(origin.getScheme())
+                        ||!APP_HOST.equalsIgnoreCase(origin.getHost()))return;
+                    final String payload=message.getData();
+                    runOnUiThread(()->handleNavigationBridge(payload));
+                });
+        }
         // Profile bridge is available only to the app's trusted first-party page.
         // Email never enters window.__pocketNativeProfile or the AI request.
         if(WebViewFeature.isFeatureSupported(WebViewFeature.WEB_MESSAGE_LISTENER)){

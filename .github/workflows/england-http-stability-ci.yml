@@ -1,0 +1,31 @@
+name: Repeated England HTTP itinerary stability regression
+on:
+  push:
+    branches: [feat/gtfs-sqlite-indexed-20261116]
+    paths:
+      - 'oracle-transport-bridge/check-england-http-stability.mjs'
+      - 'tests_england_http_stability.mjs'
+      - 'oracle-transport-bridge/probe-east-anglia-http.mjs'
+      - 'oracle-transport-bridge/run-east-anglia-http-isolated.sh'
+      - '.github/workflows/england-http-stability-ci.yml'
+  pull_request:
+    paths:
+      - 'oracle-transport-bridge/check-england-http-stability.mjs'
+      - 'tests_england_http_stability.mjs'
+      - 'oracle-transport-bridge/probe-east-anglia-http.mjs'
+      - 'oracle-transport-bridge/run-east-anglia-http-isolated.sh'
+      - '.github/workflows/england-http-stability-ci.yml'
+permissions:
+  contents: read
+jobs:
+  stable:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - run: |
+          bash -n oracle-transport-bridge/run-east-anglia-http-isolated.sh
+          node --check oracle-transport-bridge/check-england-http-stability.mjs
+          node --test tests_england_http_stability.mjs tests_east_anglia_http_parity.mjs

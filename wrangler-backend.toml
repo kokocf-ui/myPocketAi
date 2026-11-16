@@ -21,3 +21,16 @@ class_name = "PocketCommunicationHub"
 [[migrations]]
 tag = "communication-sqlite-v1"
 new_sqlite_classes = ["PocketCommunicationHub"]
+
+# Private Oracle transport services — Cloudflare Workers VPC (no public DNS).
+# The tunnel and service IDs are registered in Cloudflare; these are not secrets.
+# Do not touch PocketCommunicationHub, its migrations, or other bindings.
+[[vpc_services]]
+binding = "RO_URBAN_VPC"
+service_id = "01a1e3e9-9c6b-7aa1-aefc-50a6824dbcd5"
+remote = true
+
+[[vpc_services]]
+binding = "EN_URBAN_VPC"
+service_id = "01a1e3ea-f6fa-7d11-8f85-21f267b1d833"
+remote = true

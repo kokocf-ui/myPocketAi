@@ -55,6 +55,11 @@ function active(feed,day){
 function leg(ride,a,b){
  return {mode:vehicleMode(ride.route?.route_type),
   from:a.stop.stop_name,to:b.stop.stop_name,fromStopId:a.stop.stop_id,toStopId:b.stop.stop_id,
+  departurePoint:{latitude:Number(a.stop.stop_lat),longitude:Number(a.stop.stop_lon),
+   commonName:a.stop.stop_name,stop_id:a.stop.stop_id},
+  arrivalLatLon:{lat:Number(b.stop.stop_lat),lon:Number(b.stop.stop_lon)},
+  arrivalPoint:{latitude:Number(b.stop.stop_lat),longitude:Number(b.stop.stop_lon),
+   commonName:b.stop.stop_name,stop_id:b.stop.stop_id},
   departureTime:new Date(a.dep).toISOString(),arrivalTime:new Date(b.arr).toISOString(),
   lineNames:[String(ride.route?.route_short_name||ride.route?.route_long_name||ride.trip.trip_headsign||'').slice(0,60)].filter(Boolean),
   operator:String(ride.route?.agency_id||'').slice(0,80)};
@@ -85,36 +90,94 @@ export function planRomanianUrbanGtfs(feed,from,to,options={}){
  if(!origins.size||!targets.size)return {status:'no_nearby_gtfs_stop',journeys:[]};
  const allowed=active(feed,date);
  if(!allowed.size)return {status:'no_service_on_date',journeys:[]};
+ const midnightUtc=utcAt(date,0,zone);
+ if(midnightUtc===null)return {status:'invalid_date',journeys:[]};
+ // One time-zone offset lookup per request instead of two costly Intl
+ // formatter allocations for every row (large feeds can have 100k+ rows).
  const perTrip=new Map();
  for(const row of feed.stop_times){
   const trip=trips.get(String(row?.trip_id||'')),stop=stops.get(String(row?.stop_id||''));
   if(!trip||!stop||!allowed.has(String(trip.service_id)))continue;
   const arrival=timeSec(row.arrival_time),departure=timeSec(row.departure_time),seq=Number(row.stop_sequence);
   if(arrival===null||departure===null||departure<arrival||!Number.isSafeInteger(seq)||seq<0)continue;
-  const entry={stop,seq,arr:utcAt(date,arrival,zone),dep:utcAt(date,departure,zone)};
-  if(entry.arr===null||entry.dep===null)continue;
+  const entry={stop,seq,arr:midnightUtc+arrival*1000,dep:midnightUtc+departure*1000};
   if(!perTrip.has(trip.trip_id))perTrip.set(trip.trip_id,[]);
   perTrip.get(trip.trip_id).push(entry);
  }
- const depByStop=new Map();
+ const boardings=new Map(),arrivals=new Map();
+ // Index only boardable origins and second legs that can actually reach a
+ // destination stop later in their trip; pre-sort these by departure time.
  for(const [tripId,entries] of perTrip){
   entries.sort((a,b)=>a.seq-b.seq);
   if(entries.length<2||entries.some((e,i)=>i&&(e.seq===entries[i-1].seq||e.arr<entries[i-1].dep)))continue;
-  const trip=trips.get(tripId),ride={tripId,trip,route:routes.get(String(trip.route_id)),entries};
-  for(let i=0;i<entries.length;i++){
-   const id=String(entries[i].stop.stop_id);
-   if(!depByStop.has(id))depByStop.set(id,[]);
-   depByStop.get(id).push({ride,index:i,entry:entries[i]});
+  const trip=trips.get(tripId),ride={tripId,trip,route:routes.get(String(trip.route_id)),entries,
+   signature:entries.map(e=>e.stop.stop_id+'@'+e.arr+'/'+e.dep).join('>')};
+  const laterTarget=new Array(entries.length);
+  let nextTarget=-1;
+  for(let i=entries.length-1;i>=0;i--){
+   laterTarget[i]=nextTarget;
+   if(targets.has(String(entries[i].stop.stop_id)))nextTarget=i;
+  }
+  for(let i=0;i<entries.length-1;i++){
+   const id=String(entries[i].stop.stop_id),entry=entries[i];
+   if(origins.has(id)){
+    if(!boardings.has(id))boardings.set(id,[]);
+    boardings.get(id).push({ride,index:i,entry});
+   }
+   const destIndex=laterTarget[i];
+   if(destIndex>=0&&entries[destIndex].arr>entry.dep){
+    if(!arrivals.has(id))arrivals.set(id,[]);
+    arrivals.get(id).push({ride,index:i,entry,destIndex});
+   }
   }
  }
+ for(const [stopId,options] of boardings){
+  // Deduplicate exact trip copies only (preserve distinct stopping patterns).
+  const keys=new Set(),unique=[];
+  for(const item of options){
+   const key=item.ride.signature+'|'+item.index;
+   if(keys.has(key))continue;
+   keys.add(key);unique.push(item);
+  }
+  unique.sort((a,b)=>a.entry.dep-b.entry.dep);
+  boardings.set(stopId,unique);
+ }
+ for(const [stopId,options] of arrivals){
+  options.sort((a,b)=>a.entry.dep-b.entry.dep);
+  // Repeated GTFS trips with identical line, platform and timetable are
+  // equivalent transfer options. Collapse them before searching connections.
+  const keys=new Set(),unique=[];
+  for(const item of options){
+   const end=item.ride.entries[item.destIndex];
+   const key=item.ride.signature+'|'+item.index;
+   if(keys.has(key))continue;
+   keys.add(key);unique.push(item);
+  }
+  // Lower bound on arrival for any subsequent transfer departure.
+  // Lets crowded hubs skip entire noncompetitive sets without enumerating them.
+  unique.minArrivalSuffix=new Float64Array(unique.length+1);
+  unique.minArrivalSuffix[unique.length]=Infinity;
+  for(let i=unique.length-1;i>=0;i--)
+   unique.minArrivalSuffix[i]=Math.min(unique.minArrivalSuffix[i+1],
+    unique[i].ride.entries[unique[i].destIndex].arr);
+  arrivals.set(stopId,unique);
+ }
  const result=[],seen=new Set(),walking=d=>Math.ceil((d*1.45)/1.2);
+ const max=Math.min(6,Math.max(1,Math.floor(Number(options.maxResults)||4)));
+ const compare=(a,b)=>Date.parse(a.arrivalDateTime)-Date.parse(b.arrivalDateTime)||
+  a.legs.length-b.legs.length||
+  a.egress.directMeters-b.egress.directMeters||
+  a.access.directMeters-b.access.directMeters;
  const push=(legs,start,end)=>{
+  // Reject physically impossible zero-minute legs and missing chronological transfers.
+  if(legs.some(l=>l.fromStopId!==l.toStopId&&
+     Date.parse(l.arrivalTime)<=Date.parse(l.departureTime)))return;
+  if(legs.length===2&&Date.parse(legs[1].departureTime)<Date.parse(legs[0].arrivalTime)+180000)return;
   const key=legs.map(l=>l.fromStopId+'/'+l.toStopId+'/'+l.departureTime).join('|');
   if(seen.has(key))return;
-  seen.add(key);
   const begin=Math.max(earliest,Date.parse(legs[0].departureTime)-walking(start.d)*1000);
   const finish=Date.parse(legs.at(-1).arrivalTime);
-  result.push({provider:zone==='Europe/London'?'England GTFS static':'Romania GTFS static',time_zone:zone,
+  const option={provider:zone==='Europe/London'?'England GTFS static':'Romania GTFS static',time_zone:zone,
    startDateTime:new Date(begin).toISOString(),arrivalDateTime:new Date(finish).toISOString(),
    durationMinutes:Math.round((finish-begin)/60000),legs,
    routeSegments:[],geometryAvailable:false,scheduled:true,real_time:false,fareLocal:null,
@@ -123,22 +186,49 @@ export function planRomanianUrbanGtfs(feed,from,to,options={}){
      latitude:Number(start.stop.stop_lat),longitude:Number(start.stop.stop_lon)},
    egress:{stop_id:end.stop.stop_id,stop_name:end.stop.stop_name,directMeters:Math.ceil(end.d),
      latitude:Number(end.stop.stop_lat),longitude:Number(end.stop.stop_lon)},
-   source:'GTFS static (operator-published schedule, NOT live times)'});
+   source:'GTFS static (operator-published schedule, NOT live times)'};
+  // Retain the best candidates without accumulating potentially millions of
+  // transfer combinations in RAM. Results remain ordered by arrival time.
+  if(result.length>=max&&compare(option,result.at(-1))>=0)return;
+  seen.add(key);
+  result.push(option);result.sort(compare);
+  if(result.length>max){
+   const dropped=result.pop();
+   seen.delete(dropped.legs.map(l=>l.fromStopId+'/'+l.toStopId+'/'+l.departureTime).join('|'));
+  }
  };
- for(const [id,start] of origins)for(const first of depByStop.get(id)||[]){
+ const lowerBound=(rows,min)=>{
+  let lo=0,hi=rows.length;
+  while(lo<hi){const m=(lo+hi)>>>1;if(rows[m].entry.dep<min)lo=m+1;else hi=m;}
+  return lo;
+ };
+ let searches=0;
+ for(const [id,start] of origins)for(const first of boardings.get(id)||[]){
   if(first.entry.dep<earliest+walking(start.d)*1000||first.entry.dep>earliest+9*3600000)continue;
-  for(let i=first.index+1;i<first.ride.entries.length;i++){
-   const mid=first.ride.entries[i],end=targets.get(String(mid.stop.stop_id));
+  if(result.length===max&&first.entry.dep>=Date.parse(result.at(-1).arrivalDateTime))continue;
+  const entries=first.ride.entries;
+  for(let i=first.index+1;i<entries.length;i++){
+   const mid=entries[i],end=targets.get(String(mid.stop.stop_id));
+   // A real physical ride needs a positive time difference.
+   if(mid.arr<=first.entry.dep)continue;
    if(end)push([leg(first.ride,first.entry,mid)],start,end);
-   for(const next of depByStop.get(String(mid.stop.stop_id))||[]){
-    if(next.ride.tripId===first.ride.tripId||next.entry.dep<mid.arr+3*60000||next.entry.dep>mid.arr+90*60000)continue;
-    for(let k=next.index+1;k<next.ride.entries.length;k++){
-     const last=next.ride.entries[k],target=targets.get(String(last.stop.stop_id));
-     if(target)push([leg(first.ride,first.entry,mid),leg(next.ride,next.entry,last)],start,target);
-    }
+   const options=arrivals.get(String(mid.stop.stop_id));
+   if(!options)continue;
+   if(result.length===max&&mid.arr+180000>=Date.parse(result.at(-1).arrivalDateTime))continue;
+   const min=mid.arr+3*60000,maxTime=mid.arr+90*60000;
+   const firstTransfer=lowerBound(options,min);
+   if(result.length===max&&options.minArrivalSuffix[firstTransfer]>=Date.parse(result.at(-1).arrivalDateTime))continue;
+   for(let k=firstTransfer;k<options.length&&options[k].entry.dep<=maxTime;k++){
+    if(result.length===max&&options[k].entry.dep>=Date.parse(result.at(-1).arrivalDateTime))break;
+    if(++searches>500000)return {status:'planner_busy',journeys:[],time_zone:zone,date};
+    const next=options[k];
+    if(result.length===max&&next.ride.entries[next.destIndex].arr>=Date.parse(result.at(-1).arrivalDateTime))continue;
+    if(next.ride.tripId===first.ride.tripId)continue;
+    const last=next.ride.entries[next.destIndex],target=targets.get(String(last.stop.stop_id));
+    if(!target||last.arr<=next.entry.dep)continue;
+    push([leg(first.ride,first.entry,mid),leg(next.ride,next.entry,last)],start,target);
    }
   }
  }
- result.sort((a,b)=>Date.parse(a.arrivalDateTime)-Date.parse(b.arrivalDateTime)||a.legs.length-b.legs.length);
- return {status:result.length?'success':'no_verified_itinerary',journeys:result.slice(0,Math.min(6,Math.max(1,Number(options.maxResults)||4))),time_zone:zone,date,schedule_only:true};
+ return {status:result.length?'success':'no_verified_itinerary',journeys:result,time_zone:zone,date,schedule_only:true};
 }

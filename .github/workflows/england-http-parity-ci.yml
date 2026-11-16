@@ -1,0 +1,27 @@
+name: East Anglia actual HTTP planner parity lint
+on:
+  push:
+    branches: [feat/gtfs-sqlite-indexed-20261116]
+    paths:
+      - 'oracle-transport-bridge/probe-east-anglia-http.mjs'
+      - 'tests_east_anglia_http_parity.mjs'
+      - '.github/workflows/england-http-parity-ci.yml'
+  pull_request:
+    paths:
+      - 'oracle-transport-bridge/probe-east-anglia-http.mjs'
+      - 'tests_east_anglia_http_parity.mjs'
+      - '.github/workflows/england-http-parity-ci.yml'
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: |
+          node --check oracle-transport-bridge/probe-east-anglia-http.mjs
+          node --test tests_east_anglia_http_parity.mjs tests_regional_gtfs_end_to_end.mjs

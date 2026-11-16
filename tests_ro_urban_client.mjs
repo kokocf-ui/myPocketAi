@@ -88,3 +88,94 @@ test('Secure adapter accepts documented lines only, never fabricates departures'
  assert.equal(invalid.status,'invalid_route_only');
  assert.deepEqual(invalid.journeys,[]);
 });
+
+test('Worker adapter distinguishes planner overload from missing transit coverage',async()=>{
+ const env={RO_URBAN_API_URL:'https://private.example/',RO_URBAN_API_TOKEN:token};
+ for(const status of ['planner_busy','planner_unavailable']){
+  const answer=await planRomanianUrbanViaOracle(env,{from:o,to:d},{
+   fetchImpl:async()=>Response.json({status,journeys:[]},{status:503})});
+  assert.equal(answer.status,status);
+  assert.deepEqual(answer.journeys,[]);
+ }
+ const noFeed=await planRomanianUrbanViaOracle(env,{from:o,to:d},{
+  fetchImpl:async()=>Response.json({status:'feed_not_loaded',journeys:[]},{status:503})});
+ assert.equal(noFeed.status,'feed_not_loaded');
+});
+
+test('Cloudflare Access machine identity is included only as a complete pair',async()=>{
+ const env={RO_URBAN_API_URL:'https://private.example/',RO_URBAN_API_TOKEN:token,
+   RO_URBAN_ACCESS_CLIENT_ID:'id.cf-access',
+   RO_URBAN_ACCESS_CLIENT_SECRET:'a-service-secret'};
+ let headers=null;
+ const ans=await planRomanianUrbanViaOracle(env,{from:o,to:d},{
+   fetchImpl:async(url,opts)=>{headers=opts.headers;return Response.json({status:'success',journeys:[trip]})}});
+ assert.equal(ans.status,'ok');
+ assert.equal(headers['CF-Access-Client-Id'],env.RO_URBAN_ACCESS_CLIENT_ID);
+ assert.equal(headers['CF-Access-Client-Secret'],env.RO_URBAN_ACCESS_CLIENT_SECRET);
+ const invalid=await planRomanianUrbanViaOracle({...env,RO_URBAN_ACCESS_CLIENT_SECRET:''},
+   {from:o,to:d},{fetchImpl:async()=>{throw Error('must not fetch')}});
+ assert.equal(invalid.status,'invalid_access_config');
+ const basic=await planRomanianUrbanViaOracle({
+   RO_URBAN_API_URL:'https://private.example/',RO_URBAN_API_TOKEN:token},
+   {from:o,to:d},{fetchImpl:async(url,opts)=>{
+     assert.equal('CF-Access-Client-Secret' in opts.headers,false);
+     return Response.json({status:'success',journeys:[trip]});}});
+ assert.equal(basic.status,'ok');
+});
+
+test('Workers VPC preferred: no domain or public hostname, private bound fetch and existing origin bearer',async()=>{
+ let called=0;
+ const bound={fetch:async(url,opts)=>{
+   called++;
+   assert.equal(url,'http://romania.pocketai.internal/v1/plan');
+   assert.equal(opts.headers.Authorization,'Bearer '+token);
+   assert.equal(opts.headers['CF-Access-Client-Id'],undefined);
+   assert.equal(JSON.parse(opts.body).region,'oradea');
+   return Response.json({status:'success',journeys:[trip]});
+ }};
+ const answer=await planRomanianUrbanViaOracle({
+   RO_URBAN_VPC:bound,RO_URBAN_API_TOKEN:token,
+   // Even a stale public URL must NOT override private routing.
+   RO_URBAN_API_URL:'https://obsolete.example/'
+ },{from:o,to:d,departureAt:'2026-11-12T08:00:00Z'},
+ {fetchImpl:()=>{throw Error('public fetch must never run')}});
+ assert.equal(answer.status,'ok');
+ assert.equal(answer.journeys.length,1);
+ assert.equal(called,1);
+ const missing=await planRomanianUrbanViaOracle({RO_URBAN_VPC:{},RO_URBAN_API_TOKEN:token},
+   {from:o,to:d});
+ assert.equal(missing.status,'invalid_vpc_binding');
+ const missingToken=await planRomanianUrbanViaOracle({RO_URBAN_VPC:bound},{from:o,to:d});
+ assert.equal(missingToken.status,'not_configured');
+ assert.equal(called,1);
+});
+
+test('Eva /api/chat uses Romania VPC-only transport without a public API URL',async()=>{
+ let calls=0;
+ const vpc={fetch:async(url,opts)=>{
+   calls++;
+   assert.equal(url,'http://romania.pocketai.internal/v1/plan');
+   assert.equal(opts.headers.Authorization,'Bearer '+token);
+   assert.equal(JSON.parse(opts.body).region,'oradea');
+   return Response.json({status:'success',journeys:[trip]});
+ }};
+ const body={
+   message:'Transport mixt din Piața Unirii spre Gara Oradea',
+   language:'ro',history:[],module:'maps',mixed_journey:true,
+   journey_origin:{...o,city:'Oradea',country_code:'RO'},
+   transit_destination:{...d,city:'Oradea',country_code:'RO'},
+   location:{latitude:51.50,longitude:-0.11,updatedAt:Date.now()},
+   transit_departure_at:new Date(Date.now()+86400000).toISOString()
+ };
+ const response=await worker.fetch(new Request('https://unit.test/api/chat',{
+   method:'POST',headers:{'content-type':'application/json'},
+   body:JSON.stringify(body)
+ }),{RO_URBAN_VPC:vpc,RO_URBAN_API_TOKEN:token,AI:{run:async()=>({response:'test'})}});
+ const result=await response.json();
+ assert.equal(response.status,200);
+ assert.equal(calls,1,'The VPC Service must be called, not public fetch or Bilo');
+ assert.equal(result.romanian_urban_journey,true,JSON.stringify(result).slice(0,400));
+ assert.equal(result.transit_available,true);
+ assert.equal(result.transit[0].legs[0].mode,'tram');
+ assert.ok(!JSON.stringify(result).includes(token),'Never send credential to app');
+});

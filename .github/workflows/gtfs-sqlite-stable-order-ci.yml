@@ -1,0 +1,24 @@
+name: Stable ordered GTFS snapshots
+on:
+  push:
+    branches: [feat/gtfs-sqlite-indexed-20261116]
+    paths:
+      - 'gtfs_sqlite_store.py'
+      - 'tests_gtfs_sqlite_stable_order.py'
+      - '.github/workflows/gtfs-sqlite-stable-order-ci.yml'
+  pull_request:
+    paths:
+      - 'gtfs_sqlite_store.py'
+      - 'tests_gtfs_sqlite_stable_order.py'
+      - '.github/workflows/gtfs-sqlite-stable-order-ci.yml'
+permissions:
+  contents: read
+jobs:
+  stable:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          python3 -m py_compile gtfs_sqlite_store.py tests_gtfs_sqlite_stable_order.py
+          python3 -m unittest -v tests_gtfs_sqlite_stable_order

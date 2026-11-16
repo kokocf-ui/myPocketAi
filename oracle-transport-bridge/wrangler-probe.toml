@@ -1,0 +1,14 @@
+# Isolated, temporary read-only probe. Never deploy this as a production Worker.
+name = "pocketai-vpc-oracle-probe-devonly"
+main = "vpc_probe.mjs"
+compatibility_date = "2026-11-15"
+
+[[vpc_services]]
+binding = "RO_URBAN_VPC"
+service_id = "01a1e3e9-9c6b-7aa1-aefc-50a6824dbcd5"
+remote = true
+
+[[vpc_services]]
+binding = "EN_URBAN_VPC"
+service_id = "01a1e3ea-f6fa-7d11-8f85-21f267b1d833"
+remote = true

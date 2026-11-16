@@ -97,9 +97,14 @@ export function createRomanianUrbanServer({token,feeds={},catalog=null,country='
     journeys:[],country:cc});
    const journeys=[],routeOnly=[];
    let serviceStatus='no_verified_itinerary';
+   const requestDate=body.date||new Intl.DateTimeFormat('sv-SE',{
+     timeZone:zone,year:'numeric',month:'2-digit',day:'2-digit'
+   }).format(new Date());
    for(const candidate of candidates){
     let feed;
-    try{feed=candidate.load();}catch{continue;}
+    try{feed=await candidate.load({from,to,date:requestDate,radius});}
+    catch{serviceStatus='planner_unavailable';continue;}
+    if(feed?.__sqlite_status){serviceStatus=feed.__sqlite_status;continue;}
     if(!feed)continue; // Stale index or updated snapshot: never serve cached dates.
     const result=planRomanianUrbanGtfs(feed,from,to,{
      date:body.date,afterHHMM:body.afterHHMM,timeZone:zone,
@@ -110,7 +115,8 @@ export function createRomanianUrbanServer({token,feeds={},catalog=null,country='
       country:cc,maxStraightLineMeters:radius,maxResults:body.maxResults});
      routeOnly.push(...lines);
      serviceStatus=result.status;
-    }else if(result.status==='invalid_date'||result.status==='invalid_departure')
+    }else if(result.status==='planner_busy')serviceStatus='planner_busy';
+    else if(result.status==='invalid_date'||result.status==='invalid_departure')
      return reply(response,400,{status:result.status,journeys:[]});
    }
    const max=Math.min(6,Math.max(1,Math.floor(Number(body.maxResults)||4)));
@@ -127,6 +133,8 @@ export function createRomanianUrbanServer({token,feeds={},catalog=null,country='
    }
    if(routeOnly.length)return reply(response,200,{status:'route_only',
     journeys:routeOnly.slice(0,max),schedule_status:'unavailable',service_today_verified:false});
+   if(['planner_busy','planner_unavailable'].includes(serviceStatus))
+    return reply(response,503,{status:serviceStatus,journeys:[],time_zone:zone});
    return reply(response,200,{status:serviceStatus,journeys:[],time_zone:zone});
   }catch{return reply(response,400,{error:'invalid_request'});}
  });

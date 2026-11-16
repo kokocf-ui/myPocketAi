@@ -1,0 +1,24 @@
+name: England isolated live switch syntax and rollback checks
+on:
+  push:
+    branches: [feat/gtfs-sqlite-indexed-20261116]
+    paths:
+      - 'oracle-transport-bridge/activate-england-compact.py'
+      - 'tests_england_live_switch.py'
+      - '.github/workflows/england-live-switch-ci.yml'
+  pull_request:
+    paths:
+      - 'oracle-transport-bridge/activate-england-compact.py'
+      - 'tests_england_live_switch.py'
+      - '.github/workflows/england-live-switch-ci.yml'
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          python3 -m py_compile oracle-transport-bridge/activate-england-compact.py tests_england_live_switch.py
+          python3 -m unittest -v tests_england_live_switch
