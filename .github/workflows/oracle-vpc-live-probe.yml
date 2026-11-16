@@ -57,34 +57,37 @@ jobs:
           server_pid="$!"
           trap 'kill "$server_pid" 2>/dev/null || true; wait "$server_pid" 2>/dev/null || true' EXIT
           ready=0
-          for i in $(seq 1 40); do
+          for i in $(seq 1 20); do
             if ! kill -0 "$server_pid" 2>/dev/null; then
               echo "::error::Local Wrangler failed before request"
-              sed -n '1,90p' /tmp/pocket-vpc-dev.log
+              sed -n '1,70p' /tmp/pocket-vpc-dev.log
               exit 1
             fi
-            if curl -fsS --max-time 6 'http://127.0.0.1:8787/probe?region=RO' -o /tmp/probe-ro.json; then
+            if grep -q 'Ready on http://127.0.0.1:8787' /tmp/pocket-vpc-dev.log; then
               ready=1
               break
             fi
             sleep 2
           done
           if [ "$ready" -ne 1 ]; then
-            echo "::error::Oracle Romania VPC check failed / timed out"
-            sed -n '1,100p' /tmp/pocket-vpc-dev.log
-            if [ -f /tmp/probe-ro.json ]; then
-              python3 -c 'import json; print("RO:", json.load(open("/tmp/probe-ro.json")).get("status"))'
-            fi
+            echo "::error::Local Wrangler did not start"
+            sed -n '1,70p' /tmp/pocket-vpc-dev.log
             exit 1
           fi
-          curl -fsS --max-time 20 'http://127.0.0.1:8787/probe?region=GB' -o /tmp/probe-gb.json
-          python3 - <<'PY'
-          import json
-          for region in ['ro','gb']:
-              with open('/tmp/probe-'+region+'.json') as f: v=json.load(f)
-              assert v['status']=='ok' and v['vpc_reachable'] and v['bearer_auth_enforced'],v
-              assert not v['token_values_verified'] and not v['real_journey_verified']
-              print(region.upper(), 'VPC reachable, local Oracle API healthy, Bearer auth rejects bad token; real credential NOT tested')
+          for region in RO GB; do
+            status=$(curl -sS --max-time 15 -o "/tmp/probe-$region.json" -w '%{http_code}' "http://127.0.0.1:8787/probe?region=$region")
+            python3 - "$region" "$status" <<'PY'
+          import sys,json
+          region,http=sys.argv[1:]
+          with open('/tmp/probe-'+region+'.json') as f: data=json.load(f)
+          # The diagnostic returns only the fixed status category,
+          # never token values, internal exceptions or user location.
+          print(region,'HTTP',http,'diagnostic:',data.get('status'))
+          assert http=='200' and data.get('status')=='ok', data.get('status')
+          assert data.get('vpc_reachable') and data.get('bearer_auth_enforced')
+          assert data.get('token_values_verified') is False
+          assert data.get('real_journey_verified') is False
           PY
+          done
           echo 'PASS: two private VPC Service bindings reach the correct Oracle services.'
           echo 'No production deployment, no Oracle token values used, no API journey search.'
