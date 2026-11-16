@@ -117,35 +117,32 @@ The Oracle GTFS services are NOT made public. Do not deploy the Worker before
 testing its bindings safely and preserving the existing Durable Object
 communication configuration/migrations.
 
-## Live VPC probe — blocked by Cloudflare account authorization
+## Live VPC probe — successful (2026-11-16)
 
-On 2026-11-16, a **temporary local-only Wrangler VPC probe** ran in GitHub
-Actions (run 43855363528) using the existing masked GitHub
-`CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`. It did not deploy
-anything to production, did not read transport secrets, and did not send
-a route/coordinate request.
+GitHub Actions run [43862259568](https://github.com/kokocf-ui/myPocketAi/actions/runs/43862259568)
+ran a **local-only Wrangler preview with remote VPC bindings**. Results:
 
-- Pure local tests: **3 pass / 0 fail**.
-- The Cloudflare remote-binding setup returned **10196**, stating the
-  credentials were not authorized to bind the specified VPC Services.
-- Thus **no live VPC health or Bearer rejection was tested from Worker**.
-- Existing Oracle Tunnel and VPC Services need NOT be recreated.
-- Existing `RO_URBAN_API_TOKEN` and `EN_URBAN_API_TOKEN` secrets
-  need NOT be changed for this error.
+- Node tests **3 passed / 0 failed**.
+- Romania `RO_URBAN_VPC` (service ID ending `bcd5`, port 8766):
+  **HTTP 200**, matching `/healthz` country `RO`.
+- England `EN_URBAN_VPC` (service ID ending `d833`, port 8768):
+  **HTTP 200**, matching `/healthz` country `GB`.
+- Both services rejected a deliberately invalid Bearer token with
+  **HTTP 401**, so the authentication enforcement was verified.
+- **No production deploy, no real journey planning, no Worker secret value
+  verification and no APK change.**
 
-Required least-privilege fix: The member/token used for GitHub Wrangler must
-be able to **bind VPC Services** (`Connectivity Directory Bind`, or Admin).
-Cloudflare docs: <https://developers.cloudflare.com/workers-vpc/reference/troubleshooting/>.
-Also retain whatever Workers deploy permissions the existing CI pipeline needs.
-Do not replace the GitHub credential with a narrower token without verifying
-the existing frontend/backend production deployment permissions, and never
-paste any API credential into chat or source control.
+Previous blockers and repairs: account automation token lacked
+`Connectivity Directory Bind` (error 10196); service IDs were reversed in
+GitHub; and the diagnostic code incorrectly used `redirect: "error"`,
+which Workers VPC rejects with `TypeError`. Changing the isolated probe
+to `redirect: "manual"` resolved the final runtime failure.
 
-After updating account/automation permissions, re-run the **failed** isolated
-workflow (no production deployment). A successful probe will establish only:
-both VPC connections reach the matching Oracle APIs, and each API returns 401
-for a deliberately invalid Bearer token. It will **not** verify the encrypted
-production Worker secret values or real journey results.
+**Next before production:** validate actual production Worker secret matches
+Oracle; ensure backend runtime uses the corrected VPC bindings; run a
+real journey read-only probe; preserve communication Durable Object and
+all existing frontend/backend routes. This success establishes reachability
+and the failure-mode response only.
 
 ## Step 4 — validation / rollback
 
