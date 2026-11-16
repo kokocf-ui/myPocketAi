@@ -64,7 +64,15 @@ export async function planRomanianUrbanViaOracle(env,{from,to,departureAt=null,l
    signal:AbortSignal.timeout(6500)
   });
   if(res.status===401||res.status===403)return {status:'auth_failed',journeys:[],region};
-  if(res.status===503)return {status:'feed_not_loaded',journeys:[],region};
+  if(res.status===503){
+   let status='feed_not_loaded';
+   try{
+    const diagnostic=await res.json();
+    if(['planner_busy','planner_unavailable','no_nearby_gtfs_stop'].includes(diagnostic?.status))
+     status=diagnostic.status;
+   }catch{}
+   return {status,journeys:[],region};
+  }
   if(!res.ok)return {status:'provider_http_error',journeys:[],region};
   const data=await res.json();
   if(!['success','route_only','no_verified_itinerary','no_nearby_gtfs_stop','no_service_on_date'].includes(data?.status))
