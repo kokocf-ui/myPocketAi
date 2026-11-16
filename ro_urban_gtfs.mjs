@@ -17,8 +17,8 @@ function utcAt(date,secs,zone){
  const p=new Intl.DateTimeFormat('en-GB',{timeZone:zone,timeZoneName:'shortOffset'}).formatToParts(new Date(date+'T12:00:00Z'));
  const offset=p.find(x=>x.type==='timeZoneName')?.value||'';
  const m=/^GMT([+-])(\d{1,2})(?::(\d{2}))?$/.exec(offset);
- if(!m)return null;
- const min=(m[1]==='-'?-1:1)*(+m[2]*60+ +(m[3]||0));
+ if(!m&&offset!=='GMT')return null;
+ const min=!m?0:(m[1]==='-'?-1:1)*(+m[2]*60+ +(m[3]||0));
  return Date.parse(date+'T00:00:00Z')-min*60000+secs*1000;
 }
 function km(a,b){
