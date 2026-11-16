@@ -27,6 +27,20 @@ function safeErrorClass(e){
  // The class name is an allowlisted primitive, not the exception message.
  return ['TypeError','Error','DOMException','TimeoutError','AbortError','NetworkError','ReferenceError'].includes(name)?name:'Other';
 }
+function safeDiagnosticMessage(e){
+ const raw=String(e?.message||'');
+ // Strip any hostname, URL, IPv4/IPv6 literals, high-entropy values,
+ // JWTs, and quoted strings before outputting a bounded diagnostic.
+ return raw
+  .replace(/https?:\/\/[^\s'"]+/gi,'[URL]')
+  .replace(/(?:\d{1,3}\.){3}\d{1,3}/g,'[IP]')
+  .replace(/eyJ[A-Za-z0-9._-]+/g,'[REDACTED]')
+  .replace(/Bearer\s+[^\s'"]+/gi,'Bearer [REDACTED]')
+  .replace(/[a-f0-9]{8}-[a-f0-9-]{20,}/gi,'[ID]')
+  .replace(/['"][^'"]{8,}['"]/g,'[QUOTED]')
+  .replace(/[A-Za-z0-9_=-]{24,}/g,'[REDACTED]')
+  .slice(0,180);
+}
 function safeMessageCategory(e){
  const m=String(e?.message||'').toLowerCase();
  if(m.includes('proxyerror'))return 'proxy_error';
@@ -64,7 +78,7 @@ export async function checkPrivateTransport(env,region){
   const data=await res.json();
   if(data?.status!=='ok'||data?.country!==entry.country)
    return {region,status:'wrong_origin'};
- }catch(e){return {region,status:'health_unavailable',vpc_error:safeVPCError(e),error_class:safeErrorClass(e),cause_code:safeCauseCode(e),message_category:safeMessageCategory(e)}}
+ }catch(e){return {region,status:'health_unavailable',vpc_error:safeVPCError(e),error_class:safeErrorClass(e),cause_code:safeCauseCode(e),message_category:safeMessageCategory(e),safe_message:safeDiagnosticMessage(e)}}
  // Explicitly invalid Authorization tests that the real transport planner
  // rejects unauthenticated calls; it does not execute route planning.
  try{
