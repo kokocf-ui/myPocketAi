@@ -1,10 +1,12 @@
 // Read a bounded, location-specific slice from an indexed, private GTFS SQLite snapshot.
 // Never pass travel coordinates through command-line args or log them.
 import {spawn} from 'node:child_process';
+import {fileURLToPath} from 'node:url';
+const program=fileURLToPath(new URL('./gtfs_sqlite_store.py',import.meta.url));
 
 export function queryGtfsSqlite(snapshot,{from,to,date,radius=700}={}) {
   return new Promise((resolve,reject)=>{
-    const child=spawn('python3',['/app/gtfs_sqlite_store.py','query',snapshot],{
+    const child=spawn('python3',[program,'query',snapshot],{
       stdio:['pipe','pipe','pipe'],
       env:{PATH:process.env.PATH||'/usr/bin:/bin',PYTHONDONTWRITEBYTECODE:'1'}
     });
