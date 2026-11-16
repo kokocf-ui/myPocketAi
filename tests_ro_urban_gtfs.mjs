@@ -57,3 +57,28 @@ test('CSV parser handles BOM, escaped quotations and commas',()=>{
  const rows=parseGtfsCsv('\uFEFFstop_id,stop_name\r\nA,"Piața, Unirii"\r\nB,"Gara ""Centru"""\n');
  assert.deepEqual(rows,[{stop_id:'A',stop_name:'Piața, Unirii'},{stop_id:'B',stop_name:'Gara "Centru"'}]);
 });
+test('reject a zero-minute ride between different stops instead of inventing a transfer',()=>{
+ const stops=[
+  {stop_id:'A',stop_name:'Start',stop_lat:'47.0500',stop_lon:'21.9200'},
+  {stop_id:'B',stop_name:'Middle',stop_lat:'47.0540',stop_lon:'21.9200'},
+  {stop_id:'C',stop_name:'End',stop_lat:'47.0590',stop_lon:'21.9200'}];
+ const entries=(trip,ids,hours)=>ids.map((id,i)=>({trip_id:trip,stop_id:id,stop_sequence:String(i+1),arrival_time:hours[i],departure_time:hours[i]}));
+ const f={stops,routes:[
+  {route_id:'r0',route_short_name:'ZERO',route_type:'3'},
+  {route_id:'r1',route_short_name:'TRANSFER',route_type:'3'},
+  {route_id:'r2',route_short_name:'DIRECT',route_type:'3'}],
+  trips:[{trip_id:'t0',route_id:'r0',service_id:'W'},
+         {trip_id:'t1',route_id:'r1',service_id:'W'},
+         {trip_id:'t2',route_id:'r2',service_id:'W'}],
+  stop_times:[
+   ...entries('t0',['A','B'],['10:10:00','10:10:00']),
+   ...entries('t1',['B','C'],['10:14:00','10:25:00']),
+   ...entries('t2',['A','C'],['10:11:00','10:26:00'])],
+  calendar:[{service_id:'W',monday:'1',tuesday:'1',wednesday:'1',thursday:'1',friday:'1',saturday:'0',sunday:'0',start_date:'20261101',end_date:'20261231'}],calendar_dates:[]};
+ const r=plan(f,pt(47.05,21.92),pt(47.059,21.92),{
+  date:'2026-11-17',afterHHMM:'10:00',maxStraightLineMeters:150});
+ assert.equal(r.status,'success');
+ assert.ok(r.journeys.length);
+ assert.ok(r.journeys.every(j=>j.legs.length===1));
+ assert.equal(r.journeys[0].legs[0].lineNames[0],'DIRECT');
+});
