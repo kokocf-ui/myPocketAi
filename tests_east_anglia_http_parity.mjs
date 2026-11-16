@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import {test} from 'node:test';
-import {sameHttpJourneys} from './oracle-transport-bridge/probe-east-anglia-http.mjs';
+import {sameHttpJourneys,summarizeHttp} from './oracle-transport-bridge/probe-east-anglia-http.mjs';
 
 const row={status:'success',time_zone:'Europe/London',schedule_only:true,
  real_time:false,journeys:[{legs:[{mode:'bus',from:'A',to:'B',
@@ -15,4 +15,21 @@ test('HTTP parity detects unequal times, statuses, and HTTP failures',()=>{
  assert.throws(()=>sameHttpJourneys({http:200,data:row},{http:200,data:different}),/PLANNED_JOURNEYS_DIFFER/);
  assert.throws(()=>sameHttpJourneys({http:200,data:row},{http:503,data:row}),/HTTP_STATUS_DIFFERENCE/);
  assert.throws(()=>sameHttpJourneys({http:200,data:row},{http:200,data:{...row,status:'route_only'}}),/PLANNED_JOURNEYS_DIFFER/);
+});
+
+test('mismatch diagnostic includes journey identity but excludes coordinates and tokens',()=>{
+ const candidate={http:200,data:{
+  status:'success',journeys:[{startDateTime:'2026-11-16T09:00:00Z',
+   arrivalDateTime:'2026-11-16T09:20:00Z',access:{latitude:52.5},
+   legs:[{fromStopId:'A',toStopId:'B',
+     departureTime:'2026-11-16T09:00:00Z',
+     arrivalTime:'2026-11-16T09:20:00Z',
+     lineNames:['10'],departurePoint:{latitude:52.5}}]}]
+ }};
+ const d=summarizeHttp(candidate),serialized=JSON.stringify(d);
+ assert.equal(d.journey_count,1);
+ assert.equal(d.journeys[0].legs[0].line[0],'10');
+ assert.equal(serialized.includes('latitude'),false);
+ assert.equal(serialized.includes('departurePoint'),false);
+ assert.equal(serialized.includes('Authorization'),false);
 });

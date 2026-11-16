@@ -75,6 +75,22 @@ function canonicalJourneys(data){
   schedule_only:data.schedule_only||false,real_time:data.real_time??null,
   journeys:journeys.map(x=>JSON.stringify(x)).sort()});
 }
+// Minimal, non-user-specific diagnostics for a mismatch. No coordinates,
+// query token, credentials or whole GTFS feed are ever logged.
+export function summarizeHttp(result){
+ const data=result?.data||{};
+ return {http:result?.http??null,status:data.status??null,
+  journey_count:Array.isArray(data.journeys)?data.journeys.length:0,
+  journeys:(Array.isArray(data.journeys)?data.journeys:[]).slice(0,6).map(j=>({
+   start:j.startDateTime??null,end:j.arrivalDateTime??null,
+   legs:(Array.isArray(j.legs)?j.legs:[]).map(leg=>({
+    from:leg.fromStopId??null,to:leg.toStopId??null,
+    departure:leg.departureTime??null,arrival:leg.arrivalTime??null,
+    line:Array.isArray(leg.lineNames)?leg.lineNames.slice(0,2):[]
+   }))
+  }))
+ };
+}
 export function sameHttpJourneys(first,second){
  if(first.http!==second.http)throw Error('HTTP_STATUS_DIFFERENCE');
  if(canonicalJourneys(first.data)!==canonicalJourneys(second.data))
@@ -116,7 +132,27 @@ export async function runActualHttpParity(region=selectedRegion()){
  const token=randomBytes(32).toString('hex');
  const a=await ask(original,body,token);
  const b=await ask(compact,body,token);
- const comparison=sameHttpJourneys(a,b);
+ let comparison;
+ try{comparison=sameHttpJourneys(a,b);}
+ catch(err){
+  // Requery each SAME database once. If self-parity fails, it indicates
+  // unstable query/tie ordering, not missing GTFS rows. Never call it PASS.
+  const report={region,date:sample.date,reason:String(err?.message||'unknown'),
+   original:summarizeHttp(a),compact:summarizeHttp(b)};
+  try{
+   const a2=await ask(original,body,token);
+   const b2=await ask(compact,body,token);
+   report.original_repeat=summarizeHttp(a2);
+   report.compact_repeat=summarizeHttp(b2);
+   report.original_self_equal=canonicalJourneys(a.data)===canonicalJourneys(a2.data);
+   report.compact_self_equal=canonicalJourneys(b.data)===canonicalJourneys(b2.data);
+   report.cross_repeat_equal=canonicalJourneys(a2.data)===canonicalJourneys(b2.data);
+  }catch(secondErr){
+   report.repeat_probe_error=String(secondErr?.message||'unknown').slice(0,120);
+  }
+  console.error('HTTP_PARITY_DIAGNOSTIC '+JSON.stringify(report));
+  throw err;
+ }
  return {region,status:comparison.status==='success'&&comparison.journeyCount>0?
     'REAL_HTTP_JOURNEYS_IDENTICAL':'HTTP_PARITY_ONLY_NO_SCHEDULED_JOURNEY',
     date:sample.date,http:comparison.http,planner_status:comparison.status,
