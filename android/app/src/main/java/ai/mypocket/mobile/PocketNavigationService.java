@@ -104,7 +104,7 @@ public final class PocketNavigationService extends Service implements LocationLi
         return START_NOT_STICKY;
     }
     private Notification notification(){
-        Intent open=new Intent(this,PocketNavigationActivity.class)
+        Intent open=new Intent(this,MainActivity.class)
             .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP)
             .putExtra(EXTRA_RESUME,true).putExtra(EXTRA_SESSION,sessionId);
         PendingIntent resume=PendingIntent.getActivity(this,810,
