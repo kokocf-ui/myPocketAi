@@ -206,6 +206,22 @@ public final class MainActivity extends ComponentActivity {
         communicationDispatchAttempts=0;
         if(pendingCommunicationInvite!=null && web!=null)dispatchCommunicationInvite();
         if(pendingCommunicationKind!=null && web!=null)dispatchCommunicationNotification();
+        // Tapping the persistent GPS notification must reopen the route, not Home.
+        if(PocketNavigationService.ACTION_OPEN_NAVIGATION.equals(intent.getAction()))
+            restoreNativeNavigationInWebView();
+    }
+    private void restoreNativeNavigationInWebView(){
+        if(web==null)return;
+        String loaded=web.getUrl();
+        if(loaded==null||!APP_HOST.equals(Uri.parse(loaded).getHost()))return;
+        android.content.SharedPreferences prefs=getSharedPreferences("pocket_navigation_session",MODE_PRIVATE);
+        if(!prefs.getBoolean("active",false))return;
+        String snapshot=prefs.getString("journey","");
+        if(snapshot==null||snapshot.length()<10||snapshot.length()>250000)return;
+        // JSON-quoted argument; the app only consumes a data snapshot, never
+        // executable JavaScript supplied by transport providers.
+        web.evaluateJavascript("window.pocketRestoreNavigationSession && window.pocketRestoreNavigationSession("+
+            JSONObject.quote(snapshot)+");",null);
     }
     private static final String APP_URL = "https://lifewise-ai-v2.kokocf.workers.dev/";
     private static final String APP_HOST = "lifewise-ai-v2.kokocf.workers.dev";
@@ -1117,6 +1133,9 @@ public final class MainActivity extends ComponentActivity {
                 view.evaluateJavascript("window.__pocketNavigationActive="+
                     getSharedPreferences("pocket_navigation_session",MODE_PRIVATE)
                         .getBoolean("active",false)+";",null);
+                // When Android creates a fresh WebView, restore the verified
+                // journey and resume map tracking from the foreground service.
+                restoreNativeNavigationInWebView();
                 provideLocalUserProfile(view);
             }
             @Override public WebResourceResponse shouldInterceptRequest(WebView view,WebResourceRequest request) {
