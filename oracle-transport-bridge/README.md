@@ -97,8 +97,8 @@ The two bindings are now staged **only on the feature branch**:
 
 | Binding | VPC Service ID |
 | --- | --- |
-| `RO_URBAN_VPC` | `01a1e3ea-f6fa-7d11-8f85-21f267b1d833` |
-| `EN_URBAN_VPC` | `01a1e3e9-9c6b-7aa1-aefc-50a6824dbcd5` |
+| `RO_URBAN_VPC` | `01a1e3e9-9c6b-7aa1-aefc-50a6824dbcd5` |
+| `EN_URBAN_VPC` | `01a1e3ea-f6fa-7d11-8f85-21f267b1d833` |
 
 Keep the `RO_URBAN_API_TOKEN` and `EN_URBAN_API_TOKEN`
 Worker secrets. **Their existence and validity have not been verified**.
