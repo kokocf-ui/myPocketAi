@@ -17785,6 +17785,45 @@ function showTransitRetrySelector(choice){
   retry.onclick=()=>void runModuleSearch({...choice,transitDirect:true});
   body.append(retry);return;
  }
+ if(choice.mixedJourney===true){
+  // Mixed A->B keeps the verified destination and original departure; the
+  // old blue transit retry filter must never replace the chosen calendar.
+  const destination=choice.transitDestination||state.lastTransitChoice?.transitDestination;
+  const origin=choice.journeyOrigin||state.lastTransitChoice?.journeyOrigin||null;
+  if(!destination?.label)return;
+  const burgundy='background:linear-gradient(145deg,#903550,#602139)!important;border:2px solid #e9a9b8!important;color:white!important';
+  const returnToDestination=()=>{
+   oneFieldJourneyIncoming={raw:destination.label,selected_destination:destination,selected_origin:origin};
+   body.replaceChildren();body.style.cssText='';
+   document.querySelector('.module-quick-sheet')?.classList.remove('results-mode','details-mode');
+   showOneFieldJourney({...choice,mixedJourney:true});
+  };
+  const openDeparture=()=>{
+   const step=createTransportDepartureStep({
+    title:dialogText('Când dorești să pleci?','When would you like to leave?'),
+    destination:destination.label,
+    initialDepartureAt:choice.transitDepartureAt||state.lastTransitChoice?.transitDepartureAt||null,
+    onBack:returnToDestination,
+    onSearch:departureAt=>runModuleSearch({...choice,kind:'transit',mixedJourney:true,transitDirect:true,
+     journeyOrigin:origin,transitDestination:destination,transitQuery:destination.label,
+     transitDepartureOffset:0,transitDepartureAt:departureAt})
+   });
+   body.replaceChildren(step);body.style.cssText='overflow-y:auto;min-height:0;padding:12px';
+   body.scrollTop=0;
+  };
+  const actions=document.createElement('div');
+  actions.className='mixed-journey-retry-actions';
+  actions.style.cssText='display:flex;gap:9px;flex-wrap:wrap;margin-top:10px';
+  const action=(label,callback)=>{
+   const button=document.createElement('button');button.type='button';
+   button.className='transit-choice-action mixed-journey-retry-action';
+   button.style.cssText='flex:1 1 180px;min-width:0;min-height:48px;width:auto;white-space:normal;padding:10px 12px;'+burgundy;
+   button.textContent=label;button.onclick=callback;actions.append(button);
+  };
+  action(dialogText('Schimbă data și ora','Change date and time'),openDeparture);
+  action(dialogText('← Înapoi la destinație','← Back to destination'),returnToDestination);
+  body.append(actions);return;
+ }
  const filters=transitSearchSelectors();
  const button=document.createElement('button');button.type='button';button.className='transit-choice-action';
  button.textContent=dialogText('Recalculează cu plecarea aleasă','Recalculate for chosen departure');
