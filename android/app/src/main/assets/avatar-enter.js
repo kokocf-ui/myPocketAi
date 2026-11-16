@@ -125,17 +125,34 @@
   if(finished||begin()||++attempts>65)clearInterval(poll);
  },100);
  let spokenSequence=0;
+ let lipLimitTimer=null;
  window.pocketLaunchSpeak=(speaking,text)=>{
   if(finished)return;
+  clearTimeout(lipLimitTimer);lipLimitTimer=null;
+  const version=++spokenSequence;
   try{
-   if(speaking){spokenSequence++;window.PocketAvatarAPI?.setVisible?.(true);window.PocketAvatarAPI?.start?.(text||'Salut!');}
-   else window.PocketAvatarAPI?.stop?.();
+   if(speaking){
+    window.PocketAvatarAPI?.setVisible?.(true);
+    window.PocketAvatarAPI?.start?.(text||'Salut!');
+    // A one-word greeting must not generate a second pair of mouth
+    // movements while Android is still finalising its TTS callbacks.
+    // This is launch-only; normal conversation speech is unaffected.
+    const words=String(text||'Salut!').trim().split(/\s+/);
+    if(words.length===1){
+     const cap=Math.min(720,Math.max(530,words[0].length*85));
+     lipLimitTimer=setTimeout(()=>{
+      if(finished||version!==spokenSequence)return;
+      try{window.PocketAvatarAPI?.stop?.()}catch(_){}
+     },cap);
+    }
+   }else window.PocketAvatarAPI?.stop?.();
   }catch(_){}
  };
  // This event is sent only when the FINAL TTS sentence has completed.
  // Let the closed-mouth morph settle, then freeze the lip animation so
  // late audio/boundary callbacks cannot restart articulation.
  window.pocketLaunchEndGreeting=()=>{
+  clearTimeout(lipLimitTimer);lipLimitTimer=null;
   const version=++spokenSequence;
   try{window.PocketAvatarAPI?.stop?.()}catch(_){}
   setTimeout(()=>{
@@ -147,7 +164,7 @@
   try{window.PocketAvatarAPI?.boundary?.(charIndex)}catch(_){}
  };
  window.pocketLaunchFinish=()=>{
-  finished=true;spokenSequence++;clearInterval(poll);
+  finished=true;spokenSequence++;clearTimeout(lipLimitTimer);lipLimitTimer=null;clearInterval(poll);
   try{window.PocketAvatarAPI?.stop?.();window.PocketAvatarAPI?.setVisible?.(false)}catch(_){}
   if(surface){surface.style.setProperty('opacity','0','important')}
   mist.style.opacity='0';

@@ -18998,7 +18998,7 @@ async function openTransitJourneyMap(selected){
  stop.textContent=dialogText('Încheie navigarea','Stop navigation');
  const walkRoutes=new Map();
  follow.onclick=()=>{
-  if(typeof window.PocketAndroidNavigation?.postMessage!=='function'){
+  if(typeof window.PocketAndroidRouteGuidance?.postMessage!=='function'){
    note.textContent=dialogText('Navigația în fundal necesită un APK cu serviciul Android activ.',
     'Background navigation requires the Android navigation service.');return;
   }
@@ -19012,11 +19012,11 @@ async function openTransitJourneyMap(selected){
   }));
   if(!stages.length){note.textContent=dialogText('Nu există încă un tronson pietonal verificat pentru navigare.',
    'No verified walking leg is available for navigation yet.');return}
-  window.PocketAndroidNavigation.postMessage(JSON.stringify({action:'start',
+  window.PocketAndroidRouteGuidance.postMessage(JSON.stringify({action:'start',
    destination,language:state.language,walkingLegs:stages}));
   note.textContent=dialogText('Navigația GPS în fundal este activată.','Background GPS navigation requested.');
  };
- stop.onclick=()=>{window.PocketAndroidNavigation?.postMessage?.(JSON.stringify({action:'stop'}));
+ stop.onclick=()=>{window.PocketAndroidRouteGuidance?.postMessage?.(JSON.stringify({action:'stop'}));
   note.textContent=dialogText('Navigația a fost oprită.','Navigation stopped.')};
  details.append(intro,timing);
  const leaveBy=transitBoardingAdvice(journey);
