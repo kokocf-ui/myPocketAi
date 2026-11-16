@@ -81,7 +81,7 @@ test('A private snapshot must have a current matching coordinate index',()=>{
   assert.equal(catalog.match(roA,roB).length,1);
   assert.equal(catalog.match(enA,enB).length,0);
   assert.ok(catalog.match(roA,roB)[0].load().trips.length>0);
-  writeFileSync(file,JSON.stringify(sample(roA,roB,'2026-11-18')));
+  writeFileSync(file,JSON.stringify(sample(roA,roB,'2026-11-18'))+' ');
   assert.equal(openGtfsFeedCatalog(dir).count,0,'Updating data requires explicit reindex');
  }finally{rmSync(dir,{recursive:true,force:true});}
 });
