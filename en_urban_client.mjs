@@ -9,11 +9,18 @@ export function englandLocalGtfsRegion(from,to){
 export async function planEnglandLocalGtfs(env,{from,to,departureAt=null,limit=4}={},opts={}){
  const region=englandLocalGtfsRegion(from,to);
  if(!region)return {status:'outside_supported_english_regions',journeys:[]};
- const base=String(env?.EN_URBAN_API_URL||'').trim();
+ // Preferred: private Workers VPC Service -> Cloudflare Tunnel -> Oracle loopback.
+ // No owned domain, public hostname or Cloudflare Access token is required.
+ // The VPC Service binding itself restricts the internal host and port.
+ const vpc=env?.EN_URBAN_VPC;
+ const useVPC=Boolean(vpc);
+ if(useVPC&&typeof vpc.fetch!=='function')
+  return {status:'invalid_vpc_binding',journeys:[],region};
+ const base=useVPC?'http://localhost/':String(env?.EN_URBAN_API_URL||'').trim();
  const token=String(env?.EN_URBAN_API_TOKEN||'').trim();
  if(!base||token.length<32)return {status:'not_configured',journeys:[],region};
- const accessId=String(env?.EN_URBAN_ACCESS_CLIENT_ID||'').trim();
- const accessSecret=String(env?.EN_URBAN_ACCESS_CLIENT_SECRET||'').trim();
+ const accessId=useVPC?'':String(env?.EN_URBAN_ACCESS_CLIENT_ID||'').trim();
+ const accessSecret=useVPC?'':String(env?.EN_URBAN_ACCESS_CLIENT_SECRET||'').trim();
  if(Boolean(accessId)!==Boolean(accessSecret))
   return {status:'invalid_access_config',journeys:[],region};
  const authHeaders={Authorization:'Bearer '+token,'Content-Type':'application/json','Accept':'application/json'};
@@ -21,7 +28,7 @@ export async function planEnglandLocalGtfs(env,{from,to,departureAt=null,limit=4
  let url;
  try{
   url=new URL(base);
-  if(url.protocol!=='https:'||url.username||url.password||url.search||url.hash||
+  if((useVPC?(url.protocol!=='http:'||url.hostname!=='localhost'):url.protocol!=='https:')||url.username||url.password||url.search||url.hash||
      !url.hostname||(url.pathname!=='/'&&url.pathname!==''))throw Error('bad_endpoint');
   url.pathname='/v1/plan';
  }catch{return {status:'invalid_endpoint_config',journeys:[],region};}
@@ -32,7 +39,8 @@ export async function planEnglandLocalGtfs(env,{from,to,departureAt=null,limit=4
   hour:'2-digit',minute:'2-digit',hourCycle:'h23'
  }).formatToParts(when).map(x=>[x.type,x.value]));
  try{
-  const res=await (opts.fetchImpl||fetch)(url.toString(),{
+  const requestFetch=useVPC?vpc.fetch.bind(vpc):(opts.fetchImpl||fetch);
+  const res=await requestFetch(url.toString(),{
    method:'POST',
    headers:authHeaders,
    body:JSON.stringify({region,from:{latitude:+from.latitude,longitude:+from.longitude},
