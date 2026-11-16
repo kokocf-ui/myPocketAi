@@ -189,6 +189,11 @@ public final class MainActivity extends ComponentActivity {
     @Override protected void onResume(){
         super.onResume();
         nativeNavigationActivityVisible=true;
+        if(web!=null&&!PocketNavigationService.isActive()){
+            String url=web.getUrl();
+            if(url!=null&&APP_HOST.equalsIgnoreCase(Uri.parse(url).getHost()))
+                web.evaluateJavascript("window.pocketNativeNavigationStopped&&window.pocketNativeNavigationStopped();",null);
+        }
     }
     @Override protected void onPause(){
         nativeNavigationActivityVisible=false;
