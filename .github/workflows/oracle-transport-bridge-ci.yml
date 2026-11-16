@@ -1,0 +1,53 @@
+name: Oracle transport bridge validation
+on:
+  push:
+    branches:
+      - feat/gtfs-sqlite-indexed-20261116
+    paths:
+      - 'oracle-transport-bridge/**'
+      - 'ro_urban_client.mjs'
+      - 'en_urban_client.mjs'
+      - 'tests_ro_urban_client.mjs'
+      - 'tests_en_urban_access.mjs'
+      - '.github/workflows/oracle-transport-bridge-ci.yml'
+  pull_request:
+    paths:
+      - 'oracle-transport-bridge/**'
+      - 'ro_urban_client.mjs'
+      - 'en_urban_client.mjs'
+      - 'tests_ro_urban_client.mjs'
+      - 'tests_en_urban_access.mjs'
+      - '.github/workflows/oracle-transport-bridge-ci.yml'
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate scripts without executing privileged commands
+        run: |
+          bash -n oracle-transport-bridge/preflight.sh
+          bash -n oracle-transport-bridge/install-cloudflared.sh
+          bash -n oracle-transport-bridge/activate-private-tunnel.sh
+      - name: Test private transport clients and backend behavior
+        run: |
+          node --check ro_urban_client.mjs
+          node --check en_urban_client.mjs
+          node --test tests_ro_urban_client.mjs tests_en_urban_access.mjs
+      - name: Verify no leaked credentials in bridge scripts
+        run: |
+          node --input-type=module <<'NODE'
+          import assert from 'node:assert/strict';
+          import {readFileSync} from 'node:fs';
+          const files=['oracle-transport-bridge/preflight.sh',
+            'oracle-transport-bridge/install-cloudflared.sh',
+            'oracle-transport-bridge/activate-private-tunnel.sh'];
+          const joined=files.map(x=>readFileSync(x,'utf8')).join('\n');
+          assert.ok(joined.includes('token-file'),'Tunnel must use credential file rather than CLI token');
+          assert.ok(!/--token\\s+\\$|ExecStart=.*--token\\s/.test(joined),
+            'Never expose tunnel connector token through commandline');
+          assert.ok(joined.includes('127.0.0.1:'));
+          console.log('Bridge uses local endpoints and no CLI tunnel token');
+          NODE
