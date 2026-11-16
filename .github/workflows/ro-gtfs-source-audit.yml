@@ -18,18 +18,18 @@ jobs:
       - name: Audit 42 administrative areas
         run: |
           python3 oracle-transport-bridge/stage-ro-gtfs.py --list | tee /tmp/source-list.txt
-          grep -q 'Total administrative regions: 42 source candidates: 5' /tmp/source-list.txt
-      - name: Stage identified public GTFS feeds on temporary GitHub runner only
+          grep -q 'Total administrative regions: 42 source candidates: 9' /tmp/source-list.txt
+      - name: Stage nine identified public GTFS feeds on temporary GitHub runner only
         run: |
           set -euo pipefail
           sudo mkdir -p /home/ubuntu/pocketai-gtfs-audit
           sudo chown "$(id -u):$(id -g)" /home/ubuntu/pocketai-gtfs-audit
-          python3 oracle-transport-bridge/stage-ro-gtfs.py --stage             --regions ro-b,ro-bh,ro-cj,ro-is,ro-tm
+          python3 oracle-transport-bridge/stage-ro-gtfs.py --stage             --regions ro-b,ro-bh,ro-cj,ro-is,ro-tm,ro-ct,ro-dj,ro-sj,ro-ph
           python3 - <<'PY'
           import json,sqlite3
           from pathlib import Path
           root=Path('/home/ubuntu/pocketai-gtfs-audit')
-          for region in ('ro-b','ro-bh','ro-cj','ro-is','ro-tm'):
+          for region in ('ro-b','ro-bh','ro-cj','ro-is','ro-tm','ro-ct','ro-dj','ro-sj','ro-ph'):
               db=root/(region+'.sqlite3')
               idx=root/(region+'.index.json')
               assert db.exists() and idx.exists(),region
