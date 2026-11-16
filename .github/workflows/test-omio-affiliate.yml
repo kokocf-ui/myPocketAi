@@ -3,6 +3,8 @@ on:
   pull_request:
     paths:
       - 'omio_affiliate.mjs'
+      - 'impact_partner_api.mjs'
+      - 'tests_impact_partner_api.mjs'
       - 'tests_omio_affiliate.mjs'
       - 'package.json'
       - '.github/workflows/test-omio-affiliate.yml'
@@ -17,5 +19,5 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - run: node --check omio_affiliate.mjs && node --check tests_omio_affiliate.mjs
-      - run: node tests_omio_affiliate.mjs
+      - run: node --check omio_affiliate.mjs && node --check tests_omio_affiliate.mjs && node --check impact_partner_api.mjs && node --check tests_impact_partner_api.mjs
+      - run: node tests_omio_affiliate.mjs && node tests_impact_partner_api.mjs
