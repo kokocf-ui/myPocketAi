@@ -10,6 +10,18 @@ const json=(body,status=200)=>new Response(JSON.stringify(body),{
  headers:{'Content-Type':'application/json; charset=utf-8',
   'Cache-Control':'no-store','X-Content-Type-Options':'nosniff'}
 });
+// Do not emit raw remote exception messages (which may contain private data).
+// Return only documented Cloudflare connection error identifiers.
+const VPC_ERRORS=new Set(['connection_refused','connection_terminated','connection_timeout',
+ 'connection_limit_reached','destination_unavailable','destination_not_found',
+ 'destination_ip_prohibited','destination_ip_unroutable','proxy_loop_detected',
+ 'dns_error','dns_timeout','tls_protocol_error','tls_certificate_error',
+ 'connection_read_timeout','connection_write_timeout','rate_limited']);
+function safeVPCError(e){
+ const raw=String(e?.code||'')+' '+String(e?.message||'');
+ const value=raw.match(/(?:^|[^a-z_])(connection_refused|connection_terminated|connection_timeout|connection_limit_reached|destination_unavailable|destination_not_found|destination_ip_prohibited|destination_ip_unroutable|proxy_loop_detected|dns_error|dns_timeout|tls_protocol_error|tls_certificate_error|connection_read_timeout|connection_write_timeout|rate_limited)(?=$|[^a-z_])/i)?.[1]?.toLowerCase();
+ return VPC_ERRORS.has(value)?value:'unclassified';
+}
 export async function checkPrivateTransport(env,region){
  const entry=SOURCES[region];
  if(!entry)return {region,status:'invalid_region'};
@@ -25,7 +37,7 @@ export async function checkPrivateTransport(env,region){
   const data=await res.json();
   if(data?.status!=='ok'||data?.country!==entry.country)
    return {region,status:'wrong_origin'};
- }catch{return {region,status:'health_unavailable'}}
+ }catch(e){return {region,status:'health_unavailable',vpc_error:safeVPCError(e)}}
  // Explicitly invalid Authorization tests that the real transport planner
  // rejects unauthenticated calls; it does not execute route planning.
  try{
@@ -35,7 +47,7 @@ export async function checkPrivateTransport(env,region){
      'Content-Type':'application/json'},
    body:'{}',signal:AbortSignal.timeout(9000),redirect:'error'});
   if(res.status!==401)return {region,status:'unexpected_auth_response',http_status:res.status};
- }catch{return {region,status:'auth_probe_unavailable'}}
+ }catch(e){return {region,status:'auth_probe_unavailable',vpc_error:safeVPCError(e)}}
  return {region,status:'ok',vpc_reachable:true,oracle_health:true,
   bearer_auth_enforced:true,token_values_verified:false,
   real_journey_verified:false};
