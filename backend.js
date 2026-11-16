@@ -3704,6 +3704,7 @@ export default {
           }
           // MOTIS does not yet validate scheduled searches. Never silently use the current hour.
           const planned=data.national_public_transport===true?{status:'national_only',journeys:[]}:
+            !String(env.MOTIS_API_BASE_URL||'').trim()?{status:'not_configured',journeys:[]}:
             effectiveDepartureAt?{status:'scheduled_search_not_supported',journeys:[]}:
             validTarget&&hasValidLocation?await planMOTISMixedJourney(env,{latitude,longitude},{latitude:targetLat,longitude:targetLon},lang):
             {status:!validTarget?'destination_unverified':'origin_missing',journeys:[]};
@@ -3729,9 +3730,14 @@ export default {
           // may use TfL only when the whole journey falls in the London corridor;
           // the national fallback below supplies official verification links.
           if(internationalTarget){
-            return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply,
-              route_available:false,transit_available:false,international_journey:true,mixed_journey:true,international_destination:targetName,
-              provider_status:{motis:detail},reason:detail});
+            const messageForDeparture=detail==='scheduled_search_not_supported'
+             ?(lang==='en'?'The connected international planner cannot search the selected departure date and time yet.':'Planificatorul internațional conectat nu poate căuta încă pentru data și ora alese.')
+             :reply;
+            return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,
+              reply:messageForDeparture,route_available:false,transit_available:false,
+              international_journey:true,mixed_journey:true,international_destination:targetName,
+              transit_destination_point:{latitude:targetLat,longitude:targetLon,label:targetName},
+              transit_departure_at:departureAt,provider_status:{motis:detail},reason:detail});
           }
           transportErrors.motis=detail;
         }
