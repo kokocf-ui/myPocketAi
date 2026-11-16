@@ -1,6 +1,11 @@
 import assert from 'node:assert/strict';
-import {buildOmioAffiliateUrl,omioAffiliateReady} from './omio_affiliate.mjs';
+import {buildOmioAffiliateUrl,omioAffiliateReady,omioGeneralReferralUrl,OMIO_TRACKING_LINK} from './omio_affiliate.mjs';
 
+assert.equal(OMIO_TRACKING_LINK,'https://omio.sjv.io/WOoqQn');
+assert.equal(omioGeneralReferralUrl(),null);
+assert.equal(omioGeneralReferralUrl({mobileAppApproved:false}),null);
+assert.equal(omioGeneralReferralUrl({mobileAppApproved:true}),OMIO_TRACKING_LINK);
+assert.ok(!OMIO_TRACKING_LINK.includes('?'), 'Short link cannot be silently converted to a route-specific deep link');
 const base={impactPartnerId:'123456',mobileAppApproved:true,departure:'London',arrival:'Paris',departureDate:'2026-12-15'};
 assert.equal(omioAffiliateReady({...base,mobileAppApproved:false}),false);
 assert.equal(buildOmioAffiliateUrl({...base,mobileAppApproved:false}),null);
