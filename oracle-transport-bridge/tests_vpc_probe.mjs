@@ -7,9 +7,9 @@ test('Real Oracle VPC probe health and denied authorization, without exposing se
  const oracle=(country,port)=>({
   fetch:async(url,opt)=>{
    calls.push({url,method:opt.method,auth:opt.headers?.Authorization});
-   assert.ok(url.startsWith('http://127.0.0.1:'+port+'/'));
+   assert.ok(url.startsWith('http://'+(country==='RO'?'romania':'england')+'.pocketai.internal:'+port+'/'));
    if(url.endsWith('/healthz'))return Response.json({status:'ok',country});
-   assert.equal(url,'http://127.0.0.1:'+port+'/v1/plan');
+   assert.equal(url,'http://'+(country==='RO'?'romania':'england')+'.pocketai.internal:'+port+'/v1/plan');
    assert.equal(opt.method,'POST');
    assert.equal(opt.headers.Authorization,'Bearer intentionally-invalid-diagnostic-only');
    assert.equal(opt.body,'{}');
