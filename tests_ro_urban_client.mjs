@@ -127,7 +127,7 @@ test('Workers VPC preferred: no domain or public hostname, private bound fetch a
  let called=0;
  const bound={fetch:async(url,opts)=>{
    called++;
-   assert.equal(url,'http://localhost/v1/plan');
+   assert.equal(url,'http://romania.pocketai.internal/v1/plan');
    assert.equal(opts.headers.Authorization,'Bearer '+token);
    assert.equal(opts.headers['CF-Access-Client-Id'],undefined);
    assert.equal(JSON.parse(opts.body).region,'oradea');
@@ -154,7 +154,7 @@ test('Eva /api/chat uses Romania VPC-only transport without a public API URL',as
  let calls=0;
  const vpc={fetch:async(url,opts)=>{
    calls++;
-   assert.equal(url,'http://localhost/v1/plan');
+   assert.equal(url,'http://romania.pocketai.internal/v1/plan');
    assert.equal(opts.headers.Authorization,'Bearer '+token);
    assert.equal(JSON.parse(opts.body).region,'oradea');
    return Response.json({status:'success',journeys:[trip]});
