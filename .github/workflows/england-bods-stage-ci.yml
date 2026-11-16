@@ -1,0 +1,40 @@
+name: Verify England BODS SQLite staging off production
+on:
+  push:
+    branches: [feat/gtfs-sqlite-indexed-20261116]
+    paths:
+      - 'oracle-transport-bridge/stage-england-bods.py'
+      - '.github/workflows/england-bods-stage-ci.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  stage-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - name: Audit nine England regions and importer syntax
+        run: |
+          python3 -m py_compile oracle-transport-bridge/stage-england-bods.py
+          python3 oracle-transport-bridge/stage-england-bods.py --list | tee /tmp/england.txt
+          grep -q 'England regional BODS datasets: 9 verified HTTP ZIP endpoints: 9' /tmp/england.txt
+      - name: Stage East Anglia BODS data on isolated ephemeral runner
+        run: |
+          set -euo pipefail
+          sudo mkdir -p /home/ubuntu/pocketai-england-audit
+          sudo chown "$(id -u):$(id -g)" /home/ubuntu/pocketai-england-audit
+          python3 oracle-transport-bridge/stage-england-bods.py --stage --regions en-ea
+          python3 - <<'PY'
+          import json,sqlite3
+          from pathlib import Path
+          path=Path('/home/ubuntu/pocketai-england-audit')
+          with sqlite3.connect('file:'+str(path/'en-ea.sqlite3')+'?mode=ro',uri=True) as db:
+              stops=db.execute('SELECT COUNT(*) FROM stops').fetchone()[0]
+              trips=db.execute('SELECT COUNT(*) FROM trips').fetchone()[0]
+              assert stops>0 and trips>0
+              print('England East Anglia STAGED ONLY: stops',stops,'trips',trips)
+          index=json.loads((path/'en-ea.index.json').read_text())
+          assert index['country']=='GB' and index['region']=='en-ea' and index['backend']=='sqlite'
+          print('PASS: region source and SQLite index validated without Oracle writes')
+          PY
