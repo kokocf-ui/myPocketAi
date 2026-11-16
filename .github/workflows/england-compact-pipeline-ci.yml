@@ -1,0 +1,29 @@
+name: England single-region compact pipeline safety
+on:
+  push:
+    branches: [feat/gtfs-sqlite-indexed-20261116]
+    paths:
+      - 'oracle-transport-bridge/run-england-compact-validate.sh'
+      - '.github/workflows/england-compact-pipeline-ci.yml'
+  pull_request:
+    paths:
+      - 'oracle-transport-bridge/run-england-compact-validate.sh'
+      - '.github/workflows/england-compact-pipeline-ci.yml'
+permissions:
+  contents: read
+jobs:
+  static:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+      - name: Syntax and audit-only resource gates
+        run: |
+          set -euo pipefail
+          bash -n oracle-transport-bridge/run-england-compact-validate.sh
+          grep -Fq 'RESERVE_KB=16777216' oracle-transport-bridge/run-england-compact-validate.sh
+          grep -Fq 'flock -n 9' oracle-transport-bridge/run-england-compact-validate.sh
+          grep -Fq 'if (( free_kb < RESERVE_KB + 2 * source_kb ))' oracle-transport-bridge/run-england-compact-validate.sh
+          grep -Fq 'verify-east-anglia-compact.py' oracle-transport-bridge/run-england-compact-validate.sh
+          grep -Fq 'run-east-anglia-http-isolated.sh' oracle-transport-bridge/run-england-compact-validate.sh
+          grep -Fq 'PILOT ONLY, NOT LIVE' oracle-transport-bridge/run-england-compact-validate.sh
