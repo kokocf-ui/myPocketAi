@@ -12,6 +12,14 @@ assert.deepEqual(compareMixedTransportOptions([a,b,c]),{
 });
 assert.equal(compareMixedTransportOptions([a,b,c]).fastestIndex,1);
 assert.equal(compareMixedTransportOptions([a,journey('2026-12-01T11:00:00Z',null)]).priceStatus,'missing_or_incomplete');
+const partialFares=compareMixedTransportOptions([a,b,journey('2026-12-01T11:00:00Z',null)]);
+assert.equal(partialFares.cheapestIndex,null,'Do not claim a global cheapest with missing prices');
+assert.equal(partialFares.cheapestKnownIndex,0,'Compare only complete published prices');
+assert.deepEqual(partialFares.cheapestKnownFare,{amount:30,currency:'GBP'});
+assert.equal(compareMixedTransportOptions([a,journey('2026-12-01T11:00:00Z',null)]).cheapestKnownIndex,undefined,
+ 'No partial cheapest badge when only one route has a quote');
+assert.equal(compareMixedTransportOptions([a,b,journey('2026-12-01T12:30:00Z',null,{fareLocal:{amount:10,currency:'EUR'},fareComplete:true})]).cheapestKnownIndex,undefined,
+ 'Do not compare quoted totals across currencies');
 assert.equal(compareMixedTransportOptions([a,journey('2026-12-01T11:00:00Z',10,{fareComplete:false})]).cheapestIndex,null);
 assert.equal(compareMixedTransportOptions([a,journey('2026-12-01T11:00:00Z',10,{availability_disclosure:{fare_status:'partial'}})]).cheapestIndex,null);
 assert.equal(compareMixedTransportOptions([a,journey('2026-12-01T11:00:00Z',10,{fareLocal:{amount:10,currency:'EUR'}})]).priceStatus,'different_currencies');
