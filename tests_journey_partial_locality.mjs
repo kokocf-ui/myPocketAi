@@ -3,9 +3,9 @@ import worker from './backend.js';
 
 const oldFetch=globalThis.fetch;
 const calls=[];
-const addr=(city,house='1')=>({lat:47.0612,lon:21.9273,
- city,street:'Piata Unirii',housenumber:house,
- formatted:'Piata Unirii '+house+', '+city+', Romania',
+const addr=(city,house='1',street='Piata Unirii')=>({lat:47.0612,lon:21.9273,
+ city,street,housenumber:house,
+ formatted:street+' '+house+', '+city+', Romania',
  country_code:'ro',result_type:'building'});
 async function lookup(query){
  const resp=await worker.fetch(new Request('https://test.local/api/chat',{
@@ -24,8 +24,14 @@ try {
   // Provider returns plausible wrong house number and city as well as exact match.
   if(text.includes('1 Piata Unirii')&&text.includes('Ora'))
    return Response.json({results:[addr('Oradea','2'),addr('Oradea'),addr('Cluj-Napoca')]});
-  if(text==='Ora')return Response.json({results:[{city:'Oradea',country_code:'ro'},
-   {city:'Orastie',country_code:'ro'},{city:'Orange',country_code:'us'}]});
+  if(text.includes('1 Nufarului')&&/Ora/i.test(text)){
+   const neighbouring={...addr('Oradea','1','Nufarului'),village:'Sântandrei',
+    formatted:'Strada Nufarului 1, Sântandrei, Romania'};
+   return Response.json({results:[neighbouring,addr('Oradea','1','Nufarului')]});
+  }
+  if(/^(?:Or|Ora|Orad|Orade)$/i.test(text))return Response.json({results:[{city:'Oradea',country_code:'ro',result_type:'city',country:'Romania'},
+   {city:'Orastie',country_code:'ro',result_type:'city',country:'Romania'},
+   {city:'Orange',country_code:'us',result_type:'city',country:'United States'}]});
   if(text==='1 Piata Unirii, Oradea')
    return Response.json({results:[addr('Oradea')]});
   if(text==='1 Piata Unirii, Orastie')
@@ -38,6 +44,17 @@ try {
  assert.equal(data.candidates[0].city,'Oradea');
  assert.equal(data.candidates[0].house_number,'1');
  assert.ok(!data.candidates.some(x=>x.city==='Cluj-Napoca'||x.house_number==='2'));
+ for(const prefix of ['Or','Ora','Orad','Orade']){
+  const typed=await lookup('Nufarului 1, '+prefix);
+  assert.ok(typed.completions.some(x=>/Oradea/.test(x.query)),
+   'Complete actual provider town while typing '+prefix);
+  assert.ok(!typed.candidates.some(x=>/Sântandrei/.test(x.label)),
+   'Neighbouring village must not appear as requested city');
+  if(prefix.length>=3){
+   assert.equal(typed.candidates[0]?.city,'Oradea',
+    'Verified local address stays available for '+prefix);
+  }
+ }
  data=await lookup('Piața Unirii 1, Cla');
  assert.equal(data.candidates?.length,0,'Wrong city prefix must not match Oradea');
  // When the initial autocomplete is empty, city names are discovered from

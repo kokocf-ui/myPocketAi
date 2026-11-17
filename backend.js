@@ -1752,7 +1752,10 @@ export default {
       // If the user typed a partial town after a comma (e.g. an address,
       // followed by "Ora"), offer provider-confirmed town completions. Never
       // treat a town centre as the verified street/house-number destination.
-      const citySuffix=selected.match(/^(.{3,120}),\s*([\p{L}]{2,5})$/u);
+      // Keep completing a locality throughout typing, not just its first
+      // five letters. Only addresses need the separate city lookup.
+      const citySuffix=parsed.kind==='address'
+        ?selected.match(/^(.{3,120}),\s*([\p{L}\p{M}][\p{L}\p{M} '-]{1,29})$/u):null;
       const completionPromise=citySuffix?(async()=>{
         const cityUrl=new URL('https://api.geoapify.com/v1/geocode/autocomplete');
         cityUrl.searchParams.set('text',citySuffix[2]);
@@ -1835,11 +1838,15 @@ export default {
       }
       const seen=new Set(),candidates=[];
       const norm=value=>String(value||'').normalize('NFD').replace(/\p{M}/gu,'').toLowerCase().replace(/\s+/g,' ').trim();
-      const matchesVerifiedPlace=p=>partialLocality?
-        [p.city,p.town,p.village,p.municipality].some(city=>
-          norm(city).startsWith(norm(partialLocality)))&&
-        travelPlaceCandidateMatches(parsed.name,p):
-        travelPlaceCandidateMatches(selected,p);
+      const matchesVerifiedPlace=p=>{
+        if(!partialLocality)return travelPlaceCandidateMatches(selected,p);
+        // A house in a neighbouring village must not be identified as the
+        // requested city because its broader municipality has that name.
+        // Use the most specific location supplied by the map provider.
+        const locality=String(p.village||p.town||p.city||p.municipality||'');
+        if(!locality||!norm(locality).startsWith(norm(partialLocality)))return false;
+        return travelPlaceCandidateMatches(parsed.name,p);
+      };
       const collectVerified=answersToCollect=>{
        for(const answer of answersToCollect){
         if(answer.status!=='fulfilled')continue;
@@ -1912,7 +1919,9 @@ export default {
       // National autocomplete enforces precise station types, GPS-near exact addresses and de-duplicates provider results.
       const ranked=rankJourneySuggestions(selected,candidates,{origin:pointOk?{latitude:Number(location.latitude),longitude:Number(location.longitude)}:null,national:Boolean(nationalCountry)}).slice(0,8)
         .map(({_name,_categories,...candidate})=>candidate);
-      const completions=ranked.length?[]:await completionPromise;
+      // Continue offering verified town-name completions even if the provider
+      // found another possible address while the user is still typing.
+      const completions=await completionPromise;
       return json({candidates:ranked,completions,provider:'geoapify_tfl_if_applicable',exact_number_required:Boolean(num),query:raw});
     }
     // The personal assistant must not calculate routes; a legacy client that
