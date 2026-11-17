@@ -59,7 +59,7 @@ assert.equal(check({originCountry:'RO',destinationCountry:'RO',localRoute:nonGtf
 const intercity=romanianLocalJourneyScope({from:roFrom,to:{latitude:46.7712,longitude:23.6236}});
 assert.equal(intercity.localRoute,false);
 assert.equal(check({originCountry:'RO',destinationCountry:'RO',localRoute:intercity.localRoute}).provider,'ro_national_transit');
-assert.match(backend,/rankJourneySuggestions\(selected,candidates\)/);
+assert.match(backend,/rankJourneySuggestions\(selected,candidates,\{/);
 assert.match(backend,/localRoute:originCountry==='RO'&&roScope\.localRoute/);
 assert.match(backend,/StopPoint\/Search/);
 console.log('PASS national public transport registry, RO local/intercity, UK station ranking');
