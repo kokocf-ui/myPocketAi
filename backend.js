@@ -869,7 +869,9 @@ async function planMOTISMixedJourney(env,from,to,language,requestedDepartureAt=n
    const geometry=decodeLine(l.legGeometry?.points||'');
    const mapped={mode:isWalk(mode)?'walking':mode.toLowerCase(),from:fromPoint.label||'—',to:toPoint.label||'—',
     departurePoint:{lat:fromPoint.latitude,lon:fromPoint.longitude,commonName:fromPoint.label,naptanId:fromPoint.stop_id},
-    departureStopId:fromPoint.stop_id,durationMinutes:Number(l.duration)/60,
+    departureStopId:fromPoint.stop_id,arrivalStopId:toPoint.stop_id,
+    arrivalPoint:{lat:toPoint.latitude,lon:toPoint.longitude,commonName:toPoint.label,naptanId:toPoint.stop_id},
+    durationMinutes:Number(l.duration)/60,
     departureTime:l.startTime,arrivalTime:l.endTime,departureZone:String(l.from?.tz||''),arrivalZone:String(l.to?.tz||''),lineNames:isWalk(mode)?[]:[String(l.displayName||l.routeShortName||l.routeLongName||'').slice(0,65)].filter(Boolean),
     towards:String(l.headsign||'').slice(0,110),operator:String(l.agencyName||'').slice(0,110),
     realtime:l.realTime===true,schedule_only:l.realTime!==true,

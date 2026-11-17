@@ -9,6 +9,9 @@ on:
       - tests_verified_multimodal_itineraries.mjs
       - mixed_route_quality.mjs
       - mixed_route_provider_search.mjs
+      - mixed_stop_identity.mjs
+      - mixed_existing_provider_adapters.mjs
+      - tests_mixed_existing_provider_adapters.mjs
       - tests_mixed_route_quality.mjs
       - tests_mixed_route_provider_search.mjs
       - backend.js
@@ -34,6 +37,7 @@ jobs:
           node tests_verified_multimodal_itineraries.mjs
           node tests_mixed_route_quality.mjs
           node tests_mixed_route_provider_search.mjs
+          node tests_mixed_existing_provider_adapters.mjs
           node tests_mixed_uk_fallback.mjs
           node tests_mixed_airport_discovery.mjs
           node tests_mixed_transport_comparison.mjs

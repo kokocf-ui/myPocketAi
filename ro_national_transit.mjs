@@ -349,6 +349,22 @@ function biloParseHint(payload,date=''){
  return allowed.sort((a,b)=>(counts.get(b)||0)-(counts.get(a)||0))
    .find(x=>counts.has(x))||'unsupported_structure';
 }
+// Retain provider-supplied stop codes only as unlinked local metadata.
+// Never infer a common station or walking transfer from a matching name.
+const biloSourceStopReference=value=>{
+ if(!value||typeof value!=='object')return null;
+ const raw=value.station||value.stop||value;
+ const val=raw?.stopId??raw?.stop_id??raw?.stationId??raw?.station_id??raw?.id;
+ const code=(typeof val==='string'||typeof val==='number')?String(val).trim():'';
+ if(!/^[\w:.-]{1,90}$/.test(code))return null;
+ const lat=raw.lat??raw.latitude,lon=raw.lon??raw.longitude;
+ const latitude=Number(lat),longitude=Number(lon);
+ const positioned=lat!==undefined&&lat!==null&&lon!==undefined&&lon!==null&&
+  Number.isFinite(latitude)&&Number.isFinite(longitude)&&
+  Math.abs(latitude)<=90&&Math.abs(longitude)<=180;
+ return {id:code,source:'Bilo provider-local stop reference',
+  ...(positioned?{latitude,longitude}:{})};
+};
 export function normalizeBiloTrips(payload,limit=5,date=''){
  const {items,mode:rootMode}=biloRecords(payload);
  const seen=new Set(),out=[];
@@ -371,7 +387,11 @@ export function normalizeBiloTrips(payload,limit=5,date=''){
     record.trainNumber||record.train?.number||record.service?.number||'').slice(0,36);
    const operator=seg.operator||seg.operatorName||seg.operator_name||
      seg.service?.operator||record.operator||'';
+   const fromStopRef=biloSourceStopReference(seg.from||seg.origin||seg.departureStation||seg.departure_station);
+   const toStopRef=biloSourceStopReference(seg.to||seg.destination||seg.arrivalStation||seg.arrival_station);
    legs.push({mode:fields.mode,from:fields.from,to:fields.to,
+     ...(fromStopRef?{fromSourceStopRef:fromStopRef}:{}),
+     ...(toStopRef?{toSourceStopRef:toStopRef}:{}),
      ...(fields.railReplacement?{railReplacement:true}:{}),
      ...(fields.fromLocality?{fromLocality:fields.fromLocality}:{}),
      ...(fields.toLocality?{toLocality:fields.toLocality}:{}),
