@@ -1249,8 +1249,8 @@ export default {
   async fetch(request, env) {
     const API_VERSION = "v182";
     // The previous FP8 model took 32–55 seconds on live mobile requests.
-    // Choose the active faster 8B variant by default; permit an allowlisted deployment-level rollback.
-    const allowedTextModels=["@cf/meta/llama-3.1-8b-instruct-fast","@cf/meta/llama-3.1-8b-instruct-fp8","@cf/meta/llama-3.2-3b-instruct"];
+    // Keep the supported fast 8B default; allow only a deployed, active fast model as an override.
+    const allowedTextModels=["@cf/meta/llama-3.1-8b-instruct-fast","@cf/meta/llama-3.3-70b-instruct-fp8-fast"];
     const selectedAiModel=allowedTextModels.includes(String(env.POCKET_AI_TEXT_MODEL||""))?String(env.POCKET_AI_TEXT_MODEL):allowedTextModels[0];
     const isWorkersAiQuotaExceeded=error=>/\b4006\b/.test(String(error?.message||""))&&/neuron|daily free allocation/i.test(String(error?.message||""));
     const requestStartMs=Date.now();
@@ -2958,7 +2958,7 @@ export default {
           if(!localized){
             // Small models often return prose rather than valid JSON. Ask for prose.
             const sourceExcerpt=String(article.extract||'').slice(0,1100).trim();
-            for(const model of [...new Set([selectedAiModel,allowedTextModels[2]])]){
+            for(const model of [...new Set([selectedAiModel,allowedTextModels[1]])]){
               try{
                 const result=await env.AI.run(model,{
                   messages:[
@@ -7770,8 +7770,7 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
           diagnosticId,model:selectedAiModel,error_name:String(primaryError?.name||"Error"),
           error_code:String(primaryError?.message||"").slice(0,100)
         }));
-        const fallbackModel=selectedAiModel==="@cf/meta/llama-3.2-3b-instruct"
-          ?"@cf/meta/llama-3.1-8b-instruct-fp8":"@cf/meta/llama-3.2-3b-instruct";
+        const fallbackModel=selectedAiModel===allowedTextModels[0]?allowedTextModels[1]:allowedTextModels[0];
         try{
           result=await env.AI.run(fallbackModel,{
             messages:[
@@ -7843,7 +7842,7 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
         const firstDraft = result.response.trim();
         const sentenceCorrectionStartedAt=Date.now();
         const correction = await env.AI.run(
-          "@cf/meta/llama-3.1-8b-instruct-fp8",
+          selectedAiModel,
           {
             messages: [
               { role: "system", content: systemMessage },
@@ -7879,7 +7878,7 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
         try {
           const reviewStartedAt=Date.now();
           const review = await env.AI.run(
-            "@cf/meta/llama-3.1-8b-instruct-fp8",
+            selectedAiModel,
             {
               messages: [
                 { role: "system", content: systemMessage },
