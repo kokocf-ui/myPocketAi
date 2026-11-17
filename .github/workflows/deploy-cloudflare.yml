@@ -84,6 +84,7 @@ jobs:
           node tests_fast_food_discovery.mjs
           node tests_food_global_dedup.mjs
           node tests_quick_places_categories.mjs
+          node tests_poi_parallel_failover.mjs
           node tests_photon_worldwide.mjs
           node tests_world_food_names.mjs
           node tests_quick_places_no_photos.mjs

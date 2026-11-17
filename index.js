@@ -22984,16 +22984,27 @@ export default {
  async fetch(request,env) {
   const url = new URL(request.url);
   if (request.method === 'OPTIONS') return new Response(null,{status:204,headers:{'Access-Control-Allow-Origin':'*','Access-Control-Allow-Methods':'GET,POST,OPTIONS','Access-Control-Allow-Headers':'Content-Type'}});
-  // The Android WebView loads this Worker; its API calls must remain first-party.
-  // Service binding bypasses mobile cross-host DNS/TLS/CORS for nearby discovery.
+  // First-party Android API: hidden retry for transient internal Worker errors.
   if (url.pathname === '/api/chat') {
    if(request.method!=='POST')return new Response('Method not allowed',{status:405,headers:{Allow:'POST'}});
-   if(!env?.POCKET_API)return Response.json({status:'error',error:'internal_api_binding_unavailable'},{status:503});
-   try {
-    const backendRequest=new Request('https://lifewise-ai-api.kokocf.workers.dev/api/chat',request);
-    return await env.POCKET_API.fetch(backendRequest);
-   } catch(error) {
-    console.error('Pocket first-party service binding failed:',String(error?.name||'InternalError'));
+   const body=await request.text();
+   if(body.length>256000)return Response.json({status:'error',error:'request_too_large'},{status:413});
+   const backendUrl='https://lifewise-ai-api.kokocf.workers.dev/api/chat';
+   const backendRequest=()=>new Request(backendUrl,{method:'POST',headers:{'Content-Type':'application/json'},body});
+   let lastError=null;
+   if(env?.POCKET_API){
+    for(let attempt=0;attempt<2;attempt++){
+     try{
+      const response=await env.POCKET_API.fetch(backendRequest());
+      if(![502,503,504].includes(response.status))return response;
+      lastError=new Error('binding_http_'+response.status);
+     }catch(error){lastError=error}
+     if(attempt===0)await new Promise(resolve=>setTimeout(resolve,250));
+    }
+   }
+   try{return await fetch(backendRequest())}
+   catch(error){
+    console.error('Pocket backend connection failed:',String(lastError?.name||'binding_unavailable'),String(error?.name||'public_unavailable'));
     return Response.json({status:'error',error:'internal_api_unavailable'},{status:502});
    }
   }

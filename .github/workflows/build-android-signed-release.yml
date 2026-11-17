@@ -224,6 +224,7 @@ jobs:
           node tests_assistant_places_modal.mjs
           node tests_remote_street_nearby.mjs
           node tests_quick_places_categories.mjs
+          node tests_poi_parallel_failover.mjs
           node --check communication_ui.mjs
           node --check ai_response_quality.mjs
           node tests_communication_ui.mjs

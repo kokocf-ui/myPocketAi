@@ -6005,9 +6005,10 @@ export default {
         // v86: launch Photon immediately so its network request overlaps Geoapify.
         // Optional worldwide provider, disabled unless the owner explicitly
         // allows Places usage. Existing navigation TomTom calls are unaffected.
-        const globalPlacesPromise=env.TOMTOM_PLACES_ENABLED==='true'&&env.TOMTOM_API_KEY
+        const globalPlacesPromise=(env.TOMTOM_PLACES_ENABLED==='true'&&env.TOMTOM_API_KEY
          ?globalNearbyPlaces({latitude,longitude,radius,category:requestedPlaceCategory.key,
-           apiKey:env.TOMTOM_API_KEY,enabled:true}):Promise.resolve([]);
+           apiKey:env.TOMTOM_API_KEY,enabled:true}):Promise.resolve([]))
+         .catch(error=>{console.warn('Pocket TomTom places failed',String(error?.name||'error'));return []});
         // Opt-in country-aware provider selection. A geocoder-confirmed country
         // takes precedence over GPS and UI language; unknown country stays legacy.
         // The explicit destination, when supplied, wins. Otherwise, the
@@ -6040,10 +6041,11 @@ export default {
           mode:countryPlan.mode,country:countryPlan.country,
           reason:countryPlan.reason
         };
-        const ukRetailersPromise=useUkRetailSources&&['shop','corner_shop'].includes(requestedPlaceCategory.key)
+        const ukRetailersPromise=(useUkRetailSources&&['shop','corner_shop'].includes(requestedPlaceCategory.key)
           ?nearbyUkRegisteredRetailers(latitude,longitude,radius)
           :useUkRetailSources&&requestedPlaceCategory.key==='fast_food'
-          ?nearbyUkRegisteredTakeaways(latitude,longitude,radius):Promise.resolve([]);
+          ?nearbyUkRegisteredTakeaways(latitude,longitude,radius):Promise.resolve([]))
+          .catch(error=>{console.warn('Pocket UK food register unavailable',String(error?.name||'error'));return []});
         const photonStartedAt = Date.now();
         // Zoo uses its normal nearby radius; parking keeps its existing fast Photon.
         // Restore Photon for parking. The blanket sparse-category skip
@@ -6072,7 +6074,7 @@ export default {
           if (!data || !Array.isArray(data.features)) throw Object.assign(new Error("Photon provider returned invalid GeoJSON structure"), { name: "PlacesResponseError" });
           photonSucceeded = true;
           return data;
-        })();
+        })().catch(error=>({__photonFailure:error}));
         // v79: use the existing Geoapify key for nearby Places before public Overpass.
         // Normalize Geoapify features to the same element shape consumed by the existing renderer.
         if (env.GEOAPIFY_API_KEY) {
@@ -6269,6 +6271,7 @@ export default {
         {
           try {
             const photonData = await photonRequestPromise;
+            if(photonData?.__photonFailure)throw photonData.__photonFailure;
             const radians = degrees => degrees * Math.PI / 180;
             const distanceMeters = (lat1, lon1, lat2, lon2) => {
               const dLat = radians(lat2 - lat1);
