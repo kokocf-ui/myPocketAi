@@ -10,6 +10,14 @@ for(const token of ['data.mixed_composition===true','if(sources.length){','const
  assert.ok(backend.includes(token),token);
 assert.ok(frontend.includes('mixed_composition:choice.mixedComposition||undefined'));
 assert.ok(form.includes('mixedJourney:true,transitDirect:true,mixedComposition:true'));
+// Airport hubs are discovered from source geography, never hardcoded names.
+assert.ok(backend.includes('discoverAirportCandidates(env,start,{radiusKm:240,limit:12})'));
+assert.ok(backend.includes('discoverAirportCandidates(env,end,{radiusKm:240,limit:12})'));
+assert.ok(backend.includes("if(combined.status!=='verified'&&internationalTarget&&env.GEOAPIFY_API_KEY)"));
+assert.ok(backend.includes('candidateNodes:[first,last],sources,maxProviderCalls:7'));
+assert.ok(backend.includes("if(expanded.status==='verified')combined=expanded"));
+assert.ok(!backend.includes('const sources=[tc,mt].filter(s=>s.enabled&&s.licensed&&s.canServe(start,end))'),
+ 'A provider which only serves a verified transfer must not be prematurely excluded');
 const zero=Date.parse('2026-12-08T06:00:00Z'),at=n=>new Date(zero+n*60000).toISOString();
 const a={id:'mixed:departure',label:'Door A',latitude:51.5,longitude:-.12};
 const z={id:'mixed:arrival',label:'Door B',latitude:51.52,longitude:-.13};
