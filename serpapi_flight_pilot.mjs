@@ -108,8 +108,9 @@ export async function searchSerpApiFreeFlights(env,params,{fetcher=fetch}={}) {
     if (payload.error || payload.search_metadata?.status==='Error'){
       // Report a bounded, secret-redacted provider explanation, not a raw payload.
       const diagnostic=String(payload.error||payload.search_metadata?.status||'unknown')
-        .replaceAll(key,'[redacted]').replace(/api_key[\\s=:]+[^\\s&]+/gi,'api_key=[redacted]')
-        .replace(/https?:\\/\\/\\S+/g,'[url]').slice(0,180);
+        .replaceAll(key,'[redacted]')
+        .replace(/api_key[^ ]*/gi,'api_key=[redacted]')
+        .replace(/https?:[^ ]+/gi,'[url]').slice(0,180);
       return {status:'provider_error',diagnostic,candidates:[]};
     }
     return {status:'candidate_results_only',
