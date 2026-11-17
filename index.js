@@ -17807,10 +17807,10 @@ function transitSearchSelectors(){
  row.append(mode,departure,options);
  return {row,preference:()=>mode.value,departureOffset:()=>offset,departureAt:()=>absolute};
 }
-function renderMixedFlightCandidates(data,choice){
+function renderMixedFlightCandidates(data,choice,appendToExisting=false){
  const flights=Array.isArray(data?.flight_candidates)?data.flight_candidates:[];
  if(!flights.length)return false;
- moduleStatus(dialogText('Zboruri găsite — rezultate orientative, nu trasee complete de la A la B.',
+ if(!appendToExisting)moduleStatus(dialogText('Zboruri găsite — rezultate orientative, nu trasee complete de la A la B.',
    'Flights found — indicative results, not complete A-to-B itineraries.'));
  const host=$('moduleLayerBody');if(!host)return true;
  const group=document.createElement('section');
@@ -17846,7 +17846,7 @@ function renderMixedFlightCandidates(data,choice){
  note.textContent=dialogText('Pentru un traseu complet trebuie verificate transferurile către aeroport, fusurile orare, legăturile și disponibilitatea biletelor.',
   'Airport transfers, time zones, connections and ticket availability still need verification for a complete journey.');
  group.append(note);host.append(group);
- showTransitRetrySelector(choice,data);
+ if(!appendToExisting)showTransitRetrySelector(choice,data);
  return true;
 }
 function showTransitRetrySelector(choice,response=null){
@@ -19549,7 +19549,7 @@ state.moduleSearchResults=Array.isArray(data.places)?data.places:[];if(Array.isA
   option.onclick=()=>runModuleSearch({...choice,transitDestination:{label:String(candidate.label||''),latitude:lat,longitude:lon}});
   target.append(option);
  });
-}else if(choice.kind==='transit'&&Array.isArray(data.transit)&&data.transit.length){state.lastTransitResponse=data;renderTransitChoices(data.transit)}else if(choice.kind==='transit'&&Array.isArray(data.flight_candidates)&&data.flight_candidates.length){renderMixedFlightCandidates(data,choice)}else if(choice.kind==='places'&&state.moduleSearchResults.length){renderModulePlaces(state.moduleSearchResults)}else{moduleStatus(state.moduleSearchReply);if(choice.kind==='transit')appendOfficialUKJourneySources(data,$('moduleLayerBody'));if(choice.kind==='transit'&&!data.transit_available)showTransitRetrySelector(choice,data);if(choice.kind==='places'&&data.search_ok&&state.moduleSearchResults.length===0){const note=document.createElement('p');note.className='muted';note.textContent=dialogText('Căutarea s-a încheiat, dar nu a returnat locații. Poți reveni și încerca din nou.','The search finished but returned no locations. Go back and try again.');$('moduleLayerBody').append(note)}}}catch(error){if(searchGeneration===state.moduleSearchGeneration){
+}else if(choice.kind==='transit'&&Array.isArray(data.transit)&&data.transit.length){state.lastTransitResponse=data;renderTransitChoices(data.transit);if(Array.isArray(data.flight_candidates)&&data.flight_candidates.length)renderMixedFlightCandidates(data,choice,true)}else if(choice.kind==='transit'&&Array.isArray(data.flight_candidates)&&data.flight_candidates.length){renderMixedFlightCandidates(data,choice)}else if(choice.kind==='places'&&state.moduleSearchResults.length){renderModulePlaces(state.moduleSearchResults)}else{moduleStatus(state.moduleSearchReply);if(choice.kind==='transit')appendOfficialUKJourneySources(data,$('moduleLayerBody'));if(choice.kind==='transit'&&!data.transit_available)showTransitRetrySelector(choice,data);if(choice.kind==='places'&&data.search_ok&&state.moduleSearchResults.length===0){const note=document.createElement('p');note.className='muted';note.textContent=dialogText('Căutarea s-a încheiat, dar nu a returnat locații. Poți reveni și încerca din nou.','The search finished but returned no locations. Go back and try again.');$('moduleLayerBody').append(note)}}}catch(error){if(searchGeneration===state.moduleSearchGeneration){
  const detail=String(error?.message||error);
  const temporary=/failed to fetch|networkerror|network request failed|load failed|^HTTP (?:502|503|504)$/i.test(detail);
  const expired=error?.name==='AbortError';
