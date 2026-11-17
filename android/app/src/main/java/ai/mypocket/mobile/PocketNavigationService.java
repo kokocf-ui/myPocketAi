@@ -58,8 +58,10 @@ public final class PocketNavigationService extends Service implements LocationLi
     }
     private static final class Maneuver {
         final double along;
-        final String text;
-        Maneuver(double along,String text){this.along=along;this.text=text;}
+        final String text,type;
+        Maneuver(double along,String text,String type){
+            this.along=along;this.text=text;this.type=type;
+        }
     }
     private static final class WalkingLeg {
         final int index;
@@ -161,7 +163,8 @@ public final class PocketNavigationService extends Service implements LocationLi
                         JSONObject step=instructions.optJSONObject(j);if(step==null)continue;
                         String phrase=step.optString("text","").trim();
                         if(!phrase.isEmpty()&&phrase.length()<=180&&along<=stage.totalMeters+80)
-                            stage.maneuvers.add(new Maneuver(along,phrase));
+                            stage.maneuvers.add(new Maneuver(along,phrase,
+                                step.optString("maneuverType","")));
                         along+=Math.max(0,Math.min(50000,step.optDouble("distanceMeters",0)));
                     }
                 }
@@ -221,6 +224,34 @@ public final class PocketNavigationService extends Service implements LocationLi
             .replaceAll("(?i)^keep right","Țineți dreapta")
             .replaceAll("(?i)^keep left","Țineți stânga");
     }
+    // Maneuver metadata describes exit/merge direction, not lane count.
+    // A preparation notice is not permission to change lanes immediately.
+    private String drivingApproach(Maneuver maneuver,int band){
+        if(band!=800||maneuver==null)return "";
+        boolean ro="ro".equals(language);
+        if(!ro&&!"en".equals(language))return "";
+        switch(maneuver.type){
+            case "ExitRight":
+                return ro?"Pregătește încadrarea pentru ieșirea spre dreapta, respectând indicatoarele. ":
+                    "Prepare for the right exit and follow road signs. ";
+            case "ExitLeft":
+                return ro?"Pregătește încadrarea pentru ieșirea spre stânga, respectând indicatoarele. ":
+                    "Prepare for the left exit and follow road signs. ";
+            case "StayRight":
+                return ro?"Pregătește-te să urmezi direcția din dreapta. ":
+                    "Prepare to keep right. ";
+            case "StayLeft":
+                return ro?"Pregătește-te să urmezi direcția din stânga. ":
+                    "Prepare to keep left. ";
+            case "MergeRight":
+                return ro?"Urmează o îmbinare spre dreapta. Verifică traficul și indicatoarele. ":
+                    "A right merge is ahead. Check traffic and road signs. ";
+            case "MergeLeft":
+                return ro?"Urmează o îmbinare spre stânga. Verifică traficul și indicatoarele. ":
+                    "A left merge is ahead. Check traffic and road signs. ";
+            default:return "";
+        }
+    }
     private String spokenRouteLengthKm(double meters){
         double km=Math.max(0,meters)/1000.0;
         int decimalPlaces=km<1?2:1;
@@ -277,7 +308,8 @@ public final class PocketNavigationService extends Service implements LocationLi
                 if(band==100&&fix.getAccuracy()>15)break;
                 String key=index+":"+j+":auto:"+band;
                 if(!announced.contains(key)){
-                    String phrase=("ro".equals(language)?"Peste ":"In ")+band+
+                    String phrase=drivingApproach(m,band)+
+                        ("ro".equals(language)?"Peste ":"In ")+band+
                         ("ro".equals(language)?" de metri, ":" meters, ")+localize(m.text);
                     if(say(phrase))announced.add(key);
                 }
