@@ -56,7 +56,7 @@ const flightStart=node('flight-source',0,0),hub=node('airport-hub',0,5);
 const terminal=node('coach-terminal',0,5.005),home=node('home',0,5.1);
 const air=leg(flightStart,hub,'flight',120,220);
 const walk=leg(hub,terminal,'walking',240,251);
-const early=leg(terminal,home,'coach',255,300);
+const early=leg(terminal,home,'coach',260,300);
 const later=leg(terminal,home,'coach',270,325);
 const tooFast=composeVerifiedMixedItineraries({
  origin:flightStart,destination:home,departureAt:at(0),legs:[air,walk,early]
