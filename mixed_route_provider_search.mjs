@@ -37,8 +37,18 @@ function candidatePairs(origin,destination,rawNodes,maxHubs){
   if(a.id===b.id||seen.has(pairKey(a,b)))return;
   seen.add(pairKey(a,b));pairs.push({from:a,to:b});
  };
- // Prioritise direct, then access to/egress from dynamically found hubs.
+ // Prioritise complete A→B coverage. For geography-discovered hubs we
+ // know which search supplied each node: origin access, destination egress.
+ // Search those three proven transfer segments before optional detours so a
+ // modest provider budget does not miss the essential airport-to-airport leg.
  add(origin,destination);
+ const access=hubs.filter(n=>n.mixedHubRole==='origin_access');
+ const egress=hubs.filter(n=>n.mixedHubRole==='destination_egress');
+ if(access.length&&egress.length){
+  for(const hub of access)add(origin,hub);
+  for(const hub of egress)add(hub,destination);
+  for(const first of access)for(const last of egress)add(first,last);
+ }
  for(const hub of hubs){add(origin,hub);add(hub,destination)}
  // One-hop transfers between intermediate hubs can reveal train/flight/coach
  // combinations. Never add impossible teleport edges; suppliers must confirm.
