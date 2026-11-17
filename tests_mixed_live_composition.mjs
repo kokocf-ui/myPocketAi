@@ -14,7 +14,9 @@ assert.ok(form.includes('mixedJourney:true,transitDirect:true,mixedComposition:t
 assert.ok(backend.includes('discoverAirportCandidates(env,start,{radiusKm:240,limit:12})'));
 assert.ok(backend.includes('discoverAirportCandidates(env,end,{radiusKm:240,limit:12})'));
 assert.ok(backend.includes("if(combined.status!=='verified'&&internationalTarget&&env.GEOAPIFY_API_KEY)"));
-assert.ok(backend.includes('candidateNodes:[first,last],sources,maxProviderCalls:7'));
+assert.ok(backend.includes("mixedHubRole:'origin_access'"));
+assert.ok(backend.includes("mixedHubRole:'destination_egress'"));
+assert.ok(backend.includes('sources,maxProviderCalls:7'));
 assert.ok(backend.includes("if(expanded.status==='verified')combined=expanded"));
 assert.ok(!backend.includes('const sources=[tc,mt].filter(s=>s.enabled&&s.licensed&&s.canServe(start,end))'),
  'A provider which only serves a verified transfer must not be prematurely excluded');
