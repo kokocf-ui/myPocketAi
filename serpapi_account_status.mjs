@@ -19,7 +19,7 @@ export async function checkSerpApiSecretStatus(env,{fetcher=fetch,clock=Date.now
   const pilotFlag=env?.SERPAPI_FLIGHTS_PILOT_ENABLED==='true';
   const termsFlag=env?.SERPAPI_FLIGHTS_TERMS_REVIEWED==='true';
   const base={keyConfigured:configured,pilotEnabled:pilotFlag,termsReviewed:termsFlag,
-    flightSearchActive:configured&&pilotFlag&&termsFlag,
+    pilotConfigured:configured&&pilotFlag&&termsFlag,flightSearchActive:false,
     consumesSearchCredits:false};
   if(!configured)return {...base,status:'secret_missing',freePlan:false,hasQuota:false};
   if(!probe)return {...base,status:'configured_not_probed',freePlan:null,hasQuota:null};
