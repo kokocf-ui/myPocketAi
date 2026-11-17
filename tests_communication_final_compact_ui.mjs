@@ -23,11 +23,11 @@ assert.match(css,/\.comm-message\.comm-message--voice\{\s*width:min\(80vw,316px\
  'Narrower audio player still contains the playback seek slider');
 assert.match(css,/\.comm-message\.comm-message--text\.mine/,'Own text uses outgoing theme');
 assert.match(css,/\.comm-message\.comm-message--text\.theirs/,'Incoming text uses incoming theme');
-assert.match(css,/\.comm-message--text \.comm-message-footer\{[\s\S]*?min-height:0!important/,
+assert.match(css,/\.comm-message--text \.comm-message-footer,[\s\S]*?min-height:0!important/,
  'No large blank footer in short text messages');
-assert.match(css,/\.comm-message--text \.comm-message-menu\{[\s\S]*?position:absolute!important/,
+assert.match(css,/\.comm-message--text \.comm-message-menu,[\s\S]*?position:absolute!important/,
  'Text menu lives outside message bubble');
-assert.match(css,/\.comm-message--text\.mine \.comm-message-menu\{[\s\S]*?right:calc\(100% \+ 5px\)/,
+assert.match(css,/\.comm-message--text\.mine \.comm-message-menu,[\s\S]*?right:calc\(100% \+ 5px\)/,
  'Menu is outside the sender bubble');
 assert.match(render,/makeBtn\('⋮',\(\)=>showMessageActions/,
  'Text uses a vertical ellipsis');
