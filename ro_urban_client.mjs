@@ -29,14 +29,21 @@ export function romanianUrbanRegion(from,to){
 export async function planRomanianUrbanViaOracle(env,{from,to,departureAt=null,limit=4}={},opts={}){
  const region=romanianUrbanRegion(from,to);
  if(!region)return {status:'outside_supported_urban_regions',journeys:[]};
- const base=String(env?.RO_URBAN_API_URL||'').trim();
+ // Preferred: Workers VPC Service -> existing Cloudflare Tunnel -> Oracle loopback:8766.
+ // HTTPS URL remains an optional fallback for installations without a VPC binding.
+ const vpc=env?.RO_URBAN_VPC;
+ const useVPC=Boolean(vpc);
+ if(useVPC&&typeof vpc.fetch!=='function')
+  return {status:'invalid_vpc_binding',journeys:[],region};
+ const base=useVPC?'http://romania.pocketai.internal/':String(env?.RO_URBAN_API_URL||'').trim();
  const token=String(env?.RO_URBAN_API_TOKEN||'').trim();
  if(!base||token.length<32)return {status:'not_configured',journeys:[],region};
  let url;
  try{
   url=new URL(base);
-  if(url.protocol!=='https:'||url.username||url.password||url.search||url.hash||
-     !url.hostname||url.pathname!=='/'&&url.pathname!=='')throw Error('bad_endpoint');
+  if((useVPC?(url.protocol!=='http:'||url.hostname!=='romania.pocketai.internal'):url.protocol!=='https:')||
+     url.username||url.password||url.search||url.hash||
+     !url.hostname||(url.pathname!=='/'&&url.pathname!==''))throw Error('bad_endpoint');
   url.pathname='/v1/plan';
  }catch{return {status:'invalid_endpoint_config',journeys:[],region}}
  const requested=departureAt?new Date(departureAt):new Date();
@@ -48,8 +55,8 @@ export async function planRomanianUrbanViaOracle(env,{from,to,departureAt=null,l
  const date=parts.year+'-'+parts.month+'-'+parts.day;
  const afterHHMM=parts.hour+':'+parts.minute;
  try{
-  const fetchImpl=opts.fetchImpl||fetch;
-  const res=await fetchImpl(url.toString(),{
+  const requestFetch=useVPC?vpc.fetch.bind(vpc):(opts.fetchImpl||fetch);
+  const res=await requestFetch(url.toString(),{
    method:'POST',headers:{Authorization:'Bearer '+token,'Content-Type':'application/json','Accept':'application/json'},
    body:JSON.stringify({region,from:{latitude:+from.latitude,longitude:+from.longitude},
     to:{latitude:+to.latitude,longitude:+to.longitude},date,afterHHMM,

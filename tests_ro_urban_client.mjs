@@ -88,3 +88,51 @@ test('Secure adapter accepts documented lines only, never fabricates departures'
  assert.equal(invalid.status,'invalid_route_only');
  assert.deepEqual(invalid.journeys,[]);
 });
+
+test('Romanian Oracle adapter prefers private Workers VPC service and keeps token auth',async()=>{
+ let url,options,calls=0;
+ const vpc={fetch:async(u,opts)=>{
+  calls++;url=u;options=opts;
+  return Response.json({status:'success',journeys:[trip]});
+ }};
+ const answer=await planRomanianUrbanViaOracle({
+  RO_URBAN_VPC:vpc,RO_URBAN_API_URL:'http://unsafe.example',
+  RO_URBAN_API_TOKEN:token
+ },{from:o,to:d,departureAt:'2026-11-12T08:00:00Z'},{
+  fetchImpl:async()=>{throw Error('Public fetch must never be used for VPC')}
+ });
+ assert.equal(answer.status,'ok');
+ assert.equal(calls,1);
+ assert.equal(url,'http://romania.pocketai.internal/v1/plan');
+ assert.equal(options.headers.Authorization,'Bearer '+token);
+ assert.equal(JSON.parse(options.body).afterHHMM,'10:00');
+ assert.equal((await planRomanianUrbanViaOracle({
+  RO_URBAN_VPC:{},RO_URBAN_API_TOKEN:token
+ },{from:o,to:d})).status,'invalid_vpc_binding');
+ assert.equal((await planRomanianUrbanViaOracle({
+  RO_URBAN_VPC:vpc,RO_URBAN_API_TOKEN:'too-short'
+ },{from:o,to:d})).status,'not_configured');
+});
+test('Worker selects Romanian private VPC planner without an HTTPS URL',async()=>{
+ const calls=[];
+ const env={RO_URBAN_API_TOKEN:token,RO_URBAN_VPC:{fetch:async(u,opts)=>{
+  calls.push(String(u));
+  assert.equal(opts.headers.Authorization,'Bearer '+token);
+  return Response.json({status:'success',journeys:[trip]});
+ }},AI:{run:async()=>({response:'mock'})}};
+ const body={
+  message:'Transport mixt din Piața Unirii spre Gara Oradea',
+  language:'ro',history:[],module:'maps',mixed_journey:true,
+  journey_origin:{...o,city:'Oradea',country_code:'RO'},
+  transit_destination:{...d,city:'Oradea',country_code:'RO'},
+  location:{latitude:51.50,longitude:-0.11,updatedAt:Date.now()},
+  transit_departure_at:new Date(Date.now()+86400000).toISOString()
+ };
+ const response=await worker.fetch(new Request('https://unit.test/api/chat',{
+  method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(body)
+ }),env);
+ const data=await response.json();
+ assert.equal(data.romanian_urban_journey,true,JSON.stringify(data).slice(0,500));
+ assert.equal(data.transit_available,true);
+ assert.deepEqual(calls,['http://romania.pocketai.internal/v1/plan']);
+});

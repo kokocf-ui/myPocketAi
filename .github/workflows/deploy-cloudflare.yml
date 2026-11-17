@@ -193,6 +193,8 @@ jobs:
           node tests_walking_address_arrival.mjs
           node tests_corner_shop_walking_frontage.mjs
           node tests_romania_provider_readiness.mjs
+          node --check ro_urban_client.mjs
+          node tests_ro_urban_client.mjs
           node --check ai_response_quality.mjs
           node tests_response_quality.mjs
           node tests_communication_e2e.mjs

@@ -42,6 +42,13 @@ try{
  out=await askCountry(env(false,true));
  assert.equal(out.supported,true);
  assert.deepEqual(out.provider_coverage,{intercity_configured:false,urban_configured:true});
+ out=await askCountry({...env(false,false),RO_URBAN_VPC:{fetch:async()=>{}},
+  RO_URBAN_API_TOKEN:'too-short'});
+ assert.equal(out.supported,false,'VPC binding alone is not a configured private planner');
+ out=await askCountry({...env(false,false),RO_URBAN_VPC:{fetch:async()=>{}},
+  RO_URBAN_API_TOKEN:'1234567890'.repeat(4)});
+ assert.equal(out.supported,true);
+ assert.deepEqual(out.provider_coverage,{intercity_configured:false,urban_configured:true});
  assert.ok(!JSON.stringify(out).includes('1234567890'),'Never send private auth credentials to mobile');
  const askRoute=(destination,bindings)=>request({
   national_public_transport:true,message:'Transport public către '+destination.label,

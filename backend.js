@@ -1714,7 +1714,8 @@ export default {
       // missing/short access tokens, so do not call a truthy placeholder "ready".
       const roCoverage=country==='RO'?{
        intercity_configured:Boolean(String(env.BILO_API_KEY||'').trim()),
-       urban_configured:Boolean(String(env.RO_URBAN_API_URL||'').trim()&&
+       urban_configured:Boolean((typeof env.RO_URBAN_VPC?.fetch==='function'||
+         String(env.RO_URBAN_API_URL||'').trim())&&
          String(env.RO_URBAN_API_TOKEN||'').trim().length>=32)
       }:null;
       const supported=country==='RO'
@@ -3243,7 +3244,8 @@ export default {
         isTfLLondonCorridorPoint(destLat,destLon);
       const providers=[
         String(env.BILO_API_KEY||'').trim()?'ro_national_transit':null,
-        String(env.RO_URBAN_API_URL||'').trim()&&String(env.RO_URBAN_API_TOKEN||'').trim().length>=32?'ro_urban_gtfs':null,
+        (typeof env.RO_URBAN_VPC?.fetch==='function'||String(env.RO_URBAN_API_URL||'').trim())&&
+          String(env.RO_URBAN_API_TOKEN||'').trim().length>=32?'ro_urban_gtfs':null,
         env.TRANSCAPI_API_KEY?'uk_national_transit':null,
         (typeof env.EN_URBAN_VPC?.fetch==='function'||String(env.EN_URBAN_API_URL||'').trim())&&String(env.EN_URBAN_API_TOKEN||'').trim().length>=32?'en_urban_gtfs':null,
         env.TFL_APP_KEY||env.TFL_PUBLIC_FALLBACK!=='false'?'tfl':null
@@ -3322,7 +3324,9 @@ export default {
         (hasValidLocation?{latitude,longitude}:null);
       const urbanTo=data.transit_destination||data.route_context?.destination||data.route_destination;
       const urbanRegion=romanianUrbanRegion(urbanFrom,urbanTo);
-      if(urbanRegion && !explicitCarRoute && env.RO_URBAN_API_URL && env.RO_URBAN_API_TOKEN &&
+      if(urbanRegion && !explicitCarRoute &&
+         (typeof env.RO_URBAN_VPC?.fetch==='function'||env.RO_URBAN_API_URL) &&
+         String(env.RO_URBAN_API_TOKEN||'').trim().length>=32 &&
          (!data.national_public_transport||authorizedNationalProvider==='ro_urban_gtfs')){
         const selectedUrbanAt=typeof data.transit_departure_at==='string'?data.transit_departure_at.trim():'';
         const result=await planRomanianUrbanViaOracle(env,{
