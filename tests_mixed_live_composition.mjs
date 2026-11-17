@@ -33,6 +33,6 @@ assert.ok(result.journeys.every(j=>j.boarding_stop?.label==='Door A'));
 assert.ok(result.journeys.every(j=>j.firstVehicleDepartureTime===at(10)));
 assert.ok(result.journeys.every(j=>j.legs[0].departurePoint?.lat===a.latitude));
 assert.ok(result.journeys.every(j=>j.legs.at(-1).arrivalLatLon?.lon===z.longitude));
-assert.ok(index.includes("state.lastTransitChoice?.mixedJourney===true"),'Mixed results can open details without faking a boarding stop');
+assert.ok(frontend.includes("state.lastTransitChoice?.mixedJourney===true"),'Mixed results can open details without faking a boarding stop');
 assert.deepEqual(new Set(seen),new Set(['TransCAPI','MOTIS']));
 console.log('PASS mixed search: both licensed planners, selected origin and honest fares');
