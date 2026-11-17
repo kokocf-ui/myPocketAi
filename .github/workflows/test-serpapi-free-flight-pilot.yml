@@ -1,6 +1,14 @@
 name: Free flight discovery pilot validation
 
 on:
+  push:
+    branches: [main]
+    paths:
+      - backend.js
+      - mixed_serpapi_discovery.mjs
+      - serpapi_flight_pilot.mjs
+      - tests_mixed_serpapi_discovery.mjs
+      - .github/workflows/test-serpapi-free-flight-pilot.yml
   pull_request:
     branches: [main]
     paths:
