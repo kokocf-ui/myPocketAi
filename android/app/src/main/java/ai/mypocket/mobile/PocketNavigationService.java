@@ -202,6 +202,13 @@ public final class PocketNavigationService extends Service implements LocationLi
             .replaceAll("(?i)^keep right","Țineți dreapta")
             .replaceAll("(?i)^keep left","Țineți stânga");
     }
+    private String spokenRouteLengthKm(double meters){
+        double km=Math.max(0,meters)/1000.0;
+        int decimalPlaces=km<1?2:1;
+        Locale locale=Locale.forLanguageTag("ro".equals(language)?"ro-RO":"en-GB");
+        return String.format(locale,"%."+decimalPlaces+"f",km)+
+            ("ro".equals(language)?" kilometri":" kilometres");
+    }
     private void say(String text){
         if(text==null||text.isEmpty())return;
         lastInstruction=text;if(muted)return;
@@ -225,7 +232,7 @@ public final class PocketNavigationService extends Service implements LocationLi
             say(("ro".equals(language)?
                 (navigationMode.equals("drive")?"Urmează traseul auto către ":"Începe mersul pe jos către "):
                 (navigationMode.equals("drive")?"Follow the driving route towards ":"Start walking towards "))+closest.to+
-               (". "+("ro".equals(language)?"Distanță ":"Distance ")+Math.round(closest.totalMeters)+" metri."));
+               (". "+("ro".equals(language)?"Distanță ":"Distance ")+spokenRouteLengthKm(closest.totalMeters)+"."));
         }
         final WalkingLeg active=closest;final double along=nearest.along;
         for(int j=0;j<active.maneuvers.size();j++){
