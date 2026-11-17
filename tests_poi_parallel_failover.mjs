@@ -22,7 +22,7 @@ try{
   message:'Găsește cafenele în apropierea mea.',module:'travel',language:'ro',quick_place_search:true,
   place_category:'lounge',history:[],location:{latitude:51.4775,longitude:0.3007,accuracy:20}
  })});
- const response=await backend.fetch(req,{GEOAPIFY_API_KEY:'test',TOMTOM_PLACES_ENABLED:'false',SMART_COUNTRY_REGISTRY_ENABLED:'false'});
+ const response=await backend.fetch(req,{GEOAPIFY_API_KEY:'test',TOMTOM_PLACES_ENABLED:'false',SMART_COUNTRY_REGISTRY_ENABLED:'false',AI:{run:async()=>{throw Error('AI should not be called for POI')}}});
  assert.equal(response.status,200);
  const data=await response.json();
  assert.equal(data.status,'success');
