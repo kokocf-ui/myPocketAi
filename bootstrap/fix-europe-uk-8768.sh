@@ -50,9 +50,12 @@ cp "$SOURCE" "$TMP/original.mjs"
 cp "$CONF" "$TMP/original.json"
 cp "$ENVFILE" "$TMP/original.env"
 chmod 0600 "$TMP/original.env"
-python3 - "$SOURCE" "$CONF" "$ENVFILE" "$TMP" "$UK_TOKEN" <<'PY'
+printf '%s' "$UK_TOKEN" > "$TMP/uk.token"
+chmod 0600 "$TMP/uk.token"
+python3 - "$SOURCE" "$CONF" "$ENVFILE" "$TMP" <<'PY'
 import json,sys,pathlib
-source,config,envfile,tmp,token=sys.argv[1:]
+source,config,envfile,tmp=sys.argv[1:]
+token=(pathlib.Path(tmp)/'uk.token').read_text()
 p=pathlib.Path(tmp)
 s=pathlib.Path(source).read_text()
 a='[8764,8765,8766].includes(Number(u.port))'
