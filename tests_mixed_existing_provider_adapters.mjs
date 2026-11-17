@@ -47,7 +47,8 @@ const routes=await searchMixedRouteProviders({origin:A,destination:B,departureAt
 assert.equal(called,1);
 assert.equal(routes.status,'verified');
 assert.deepEqual(routes.journeys.map(x=>x.modeSignature),['train']);
-assert.equal(routes.journeys[0].legs.at(-1).to,B.label);
+assert.equal(routes.journeys[0].legs.at(-1).to,'Destination door');
+assert.equal(routes.journeys[0].finalTransferVerified,true);
 assert.equal(routes.journeys[0].fareComplete,false,'No invented all-in ticket price');
 assert.equal(makeTransCAPIMixedSource({TRANSCAPI_API_KEY:'present'},{licensed:false}).licensed,false);
 assert.equal(makeTransCAPIMixedSource({},{licensed:true}).enabled,false);
