@@ -17255,6 +17255,10 @@ const QUICK_SEARCH_ENGLISH={
 'Hoteluri':'Find hotels and hostels near me.',
 'Alte puncte de interes':'Find points of interest near me.'
 };
+// Server-side bundling may serialize parseJourneyExpression with nested
+// esbuild __name(...) wrappers. The serialized function executes in the
+// Android WebView, where Wrangler's server-side helper is NOT otherwise present.
+const __name=(target,value)=>Object.defineProperty(target,'name',{value,configurable:true});
 ${assistantBareDestinationQuery.toString()}
 ${parseJourneyExpression.toString()}
 ${assistantJourneyHandoff.toString()}

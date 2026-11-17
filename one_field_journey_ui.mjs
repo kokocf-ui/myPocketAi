@@ -267,7 +267,9 @@ function showOneFieldJourney(choice){
  const lookup=async()=>{
   if(!alive())return;
   const raw=input.value.trim();
-  const query=parseJourneyExpression(raw).destination_query;
+  let query='';
+  try{query=parseJourneyExpression(raw).destination_query}
+  catch{status.textContent=text.retry;results.replaceChildren();return}
   if(query.length<2){status.textContent=text.short;results.replaceChildren();return}
   const n=++seq;controller?.abort();controller=new AbortController();
   status.textContent=text.checking;typing=raw;

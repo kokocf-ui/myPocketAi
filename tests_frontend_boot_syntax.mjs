@@ -10,6 +10,18 @@ const html=await response.text();
 const script=html.match(/<script>([\s\S]*?)<\/script>/)?.[1];
 assert.ok(script&&script.length>100000,'generated app script exists');
 new vm.Script(script,{filename:'mypocketai-embedded-app.js'});
+
+// Wrangler/esbuild wraps nested parser helpers with __name(...) during
+// production bundling. The inline WebView script must provide that helper.
+const helperAt=script.indexOf('const __name=(target,value)=>');
+const parserAt=script.indexOf('function parseJourneyExpression(');
+assert.ok(helperAt>0&&parserAt>helperAt,
+ 'Embedded destination parser must include its esbuild name helper BEFORE the parser');
+const helperLine=script.slice(helperAt,script.indexOf('\n',helperAt));
+const named=vm.runInNewContext(helperLine+'\n__name((x)=>x.trim(), "cleanSuffix")');
+assert.equal(named.name,'cleanSuffix','Production-style compiled helper is available');
+assert.equal(named('  Basildon  '),'Basildon','Wrapped parser helper remains callable');
+
 assert.ok(script.includes('function foreignStudyButton('),'languages button has isolated name');
 assert.ok(script.includes('function languageOpen(stage)'),'language learning mounted');
 assert.ok(script.includes('function scienceJourneyShowChoices(stage)'),'sciences preserved');
