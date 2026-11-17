@@ -71,6 +71,15 @@ for(const module of ['maps','travel']){
  assert.equal(page.requests[0].journey_suggest.query,'Nufărului 1, Oradea');
  assert.equal(page.results.children[0].textContent,'Strada Nufărului 1, Oradea, România');
 }
+const pick=openJourney('maps');
+pick.input.value='Nufărului 1, Oradea';pick.input.emit('input');
+await pick.flush();
+pick.results.children[0].onclick();
+await new Promise(resolve=>setImmediate(resolve));
+assert.equal(pick.results.children.length,0,'Selecting a candidate clears the suggestion list');
+assert.equal(pick.root.children[5].children.length,5,'Select opens one confirmation and two transport modes');
+assert.equal(pick.status.textContent,'','Selected result removes temporary status');
+
 const enter=openJourney('travel');
 enter.input.value='Nufărului 1, Oradea';
 enter.input.emit('keydown','Enter'); // Manual search without a separate button
