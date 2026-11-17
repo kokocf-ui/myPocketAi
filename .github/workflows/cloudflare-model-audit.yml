@@ -1,0 +1,33 @@
+name: Cloudflare AI model retirement audit
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - backend.js
+      - news_article_detail.mjs
+      - localization.mjs
+      - math_photo_vision.mjs
+      - studio_worker.mjs
+      - creator_preview_worker.mjs
+      - tests_cloudflare_model_retirement.mjs
+      - .github/workflows/cloudflare-model-audit.yml
+  workflow_dispatch:
+
+jobs:
+  check-model-compatibility:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate Cloudflare model references and backend syntax
+        run: |
+          node --check backend.js
+          node --check tests_cloudflare_model_retirement.mjs
+          node tests_cloudflare_model_retirement.mjs
+          node tests_news_contextual_translation.mjs
+          node tests_response_quality.mjs
