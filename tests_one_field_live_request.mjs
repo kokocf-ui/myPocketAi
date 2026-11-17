@@ -51,7 +51,7 @@ function openJourney(currentModule,{hang=false}={}){
    return {ok:true,json:async()=>({candidates:[
     {label:'Strada Nufărului 1, Oradea, România',latitude:47.07,longitude:21.94,country_code:'RO'}
    ]})};
-  },()=>1,()=>{},cb=>{const id=++timerId;timers.set(id,cb);return id},
+  },()=>1,()=>{},(cb,ms)=>{const id=++timerId;timers.set(id,{cb,ms});return id},
   id=>timers.delete(id),AbortController,(ro,en)=>ro);
  render({mixedJourney:true});
  assert.equal(host.children.length,1,'No overlapping previous search windows');
@@ -59,7 +59,9 @@ function openJourney(currentModule,{hang=false}={}){
  assert.equal(root.children.length,6,'Only label, input, hint, status, suggestions and mode section');
  return {root,input:root.children[1],status:root.children[3],results:root.children[4],
   requests,
-  async flush(){for(const [id,cb] of [...timers]){timers.delete(id);cb()}
+  async flush(){for(const [id,{cb,ms}] of [...timers]){if(ms>300)continue;timers.delete(id);cb()}
+   await new Promise(resolve=>setImmediate(resolve));},
+  async expire(){for(const [id,{cb,ms}] of [...timers]){if(ms<12000)continue;timers.delete(id);cb()}
    await new Promise(resolve=>setImmediate(resolve));}};
 }
 
@@ -102,7 +104,7 @@ stalled.input.value='Nufărului 1, Oradea';
 stalled.input.emit('input');
 await stalled.flush(); // Debounce fires; HTTP remains unresolved
 assert.equal(stalled.status.textContent,'Caut locații pe hartă…');
-await stalled.flush(); // Enforced gateway deadline fires
+await stalled.expire(); // Enforced gateway deadline fires
 assert.equal(stalled.status.textContent,'Indisponibil',
  'A stalled request must stop loading and visibly report an error');
 
