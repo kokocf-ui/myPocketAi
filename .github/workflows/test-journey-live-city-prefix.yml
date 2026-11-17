@@ -38,5 +38,16 @@ jobs:
               error:data.error||''}));
             if(!response.ok||(!prefix.startsWith('__')&&!matches.length))failed=true;
           }
+          // Diagnostic: compare the existing country-scoped structured city
+          // resolver, without guessing a destination in the product.
+          for(const query of ['O','Or']){
+            const r=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},
+              body:JSON.stringify({address_lookup:{stage:'city',country:'ro',city:'',street:'',query,postcode:'',region:''}}),
+              signal:AbortSignal.timeout(25000)});
+            const result=await r.json().catch(()=>({}));
+            console.log(JSON.stringify({structuredCityPrefix:query,http:r.status,
+              candidateCount:result.candidates?.length||0,
+              topResults:(result.candidates||[]).slice(0,12).map(v=>v.label),error:result.error||''}));
+          }
           if(failed){console.error('LIVE PREFIX REGRESSION: A verified Oradea completion or address is missing for at least one typed prefix.');process.exit(1)}
           NODE
