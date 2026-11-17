@@ -262,6 +262,7 @@ jobs:
           node --check literature_task_ui.mjs
           node tests_frontend_boot_syntax.mjs
           node tests_places_same_origin_proxy.mjs
+          node tests_place_selection_media.mjs
           node tests_home_einstein_layout.mjs
           node tests_android_home_refresh.mjs
           node tests_exam_curriculum_europe.mjs

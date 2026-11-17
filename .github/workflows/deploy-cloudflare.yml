@@ -28,6 +28,7 @@ jobs:
           node tests_maps_empty_route_recovery.mjs
           node tests_corner_shop_retry_ui.mjs
           node tests_places_same_origin_proxy.mjs
+          node tests_place_selection_media.mjs
           node tests_food_global_dedup.mjs
           node tests_education_android.mjs
           node --check communication_ui.mjs
@@ -157,6 +158,13 @@ jobs:
           assert d.get('search_ok') is True and len(d.get('places') or [])>0,'Live nearby restaurants must return verified places'
           PY
 
+      - name: Live Android place-details endpoint
+        run: |
+          set -euo pipefail
+          curl --silent --show-error --max-time 20 --fail \
+            'https://lifewise-ai-v2.kokocf.workers.dev/api/place-media?name=Test' \
+            -o /tmp/poi-media-result.json
+          python3 -c 'import json; d=json.load(open("/tmp/poi-media-result.json")); assert isinstance(d.get("details"),dict) and isinstance(d.get("logos"),list); print("PASS live Android place details")'
   deploy-backend:
     runs-on: ubuntu-latest
     timeout-minutes: 15

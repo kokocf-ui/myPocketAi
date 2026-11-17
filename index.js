@@ -5013,7 +5013,7 @@ function budgetCountryRefresh(){
  if(budgetGeoAsked)return;
  budgetGeoAsked=true;
  const coords=cachedCoordinates();
- const endpoint=new URL(CLIENT_CONFIG.apiUrl);
+ const endpoint=new URL(CLIENT_CONFIG.apiUrl,location.origin);
  endpoint.pathname='/api/finance-country';endpoint.search='';
  if(coords){
   endpoint.searchParams.set('lat',String(coords.latitude));
@@ -17180,7 +17180,7 @@ function loadPlaceMedia(place){
  const ids=[place.wikidata,place.brand_wikidata].map(v=>/^Q[1-9][0-9]{0,11}$/.test(String(v||''))?String(v):'');
  if(!ids.some(Boolean)&&!(place.name&&Number.isFinite(Number(place.latitude))&&Number.isFinite(Number(place.longitude))))return Promise.resolve({});
  const key=ids.join(':')+'|'+String(place.name||'')+'|'+String(place.latitude||'')+'|'+String(place.longitude||'')+'|'+String(place.address||'');if(placeMediaRequests.has(key))return placeMediaRequests.get(key);
- const u=new URL(CLIENT_CONFIG.apiUrl.split('/api/chat')[0]+'/api/place-media');
+ const u=new URL('/api/place-media',location.origin);
  if(ids[0])u.searchParams.set('wikidata',ids[0]);if(ids[1])u.searchParams.set('brand_wikidata',ids[1]);if(place.name)u.searchParams.set('name',String(place.name).slice(0,120));if(place.address)u.searchParams.set('address',String(place.address).slice(0,180));if(Number.isFinite(Number(place.latitude))&&Number.isFinite(Number(place.longitude))){u.searchParams.set('lat',place.latitude);u.searchParams.set('lon',place.longitude)}
  const request=fetch(u.href,{signal:AbortSignal.timeout(12000)}).then(r=>r.ok?r.json():{}).catch(()=>({}));
  placeMediaRequests.set(key,request);if(placeMediaRequests.size>120)placeMediaRequests.delete(placeMediaRequests.keys().next().value);return request;
@@ -17231,7 +17231,7 @@ function renderModulePlaceDetails(place){document.querySelector('.module-quick-s
  // Only display provider-grounded attributes; never fabricate opening hours or services.
  const extraDetails=()=>{const fields=[['description',dialogText('Descriere','Description')],['opening_hours',dialogText('Program','Opening hours')],['services',dialogText('Servicii','Services')]];for(const [key,label] of fields){const value=Array.isArray(place[key])?place[key].filter(Boolean).join(', '):place[key];if(value&&typeof value==='string'&&!card.querySelector('[data-place-field="'+key+'"]')){const p=document.createElement('p');p.dataset.placeField=key;const strong=document.createElement('strong');strong.textContent=label+': ';p.append(strong,document.createTextNode(value));card.append(p)}}};
  extraDetails();
- loadPlaceMedia(place).then(data=>{if(!card.isConnected)return;const details=data.details||{};status.textContent=(details.opening_hours||details.description||(Array.isArray(details.services)&&details.services.length))?dialogText('Informații suplimentare găsite','Additional information found'):dialogText('Nu au fost găsite detalii suplimentare verificate','No additional verified details found');for(const key of ['description','opening_hours','services'])if(!place[key]&&details[key])place[key]=details[key];extraDetails();if(!place.phone&&details.phone){place.phone=details.phone;line(l.phone,details.phone)}if(!place.website&&data.website)appendPlaceWebsite(card,data.website);if(Array.isArray(data.evidence)&&data.evidence.length){const detailsLink=document.createElement('details');const summary=document.createElement('summary');summary.textContent=dialogText('Surse verificate','Verified sources');detailsLink.append(summary);for(const evidence of data.evidence){const a=document.createElement('a');a.href=evidence.url;a.target='_blank';a.rel='noopener noreferrer';a.textContent=evidence.field==='opening_hours'?dialogText('Sursa programului','Hours source'):dialogText('Sursa telefonului','Phone source');const p=document.createElement('p');p.append(a);detailsLink.append(p)}card.append(detailsLink)}}).catch(()=>{if(card.isConnected)status.textContent=dialogText('Nu s-au putut încărca detaliile suplimentare.','Additional details could not be loaded.');});
+ Promise.resolve().then(()=>loadPlaceMedia(place)).then(data=>{if(!card.isConnected)return;const details=data.details||{};status.textContent=(details.opening_hours||details.description||(Array.isArray(details.services)&&details.services.length))?dialogText('Informații suplimentare găsite','Additional information found'):dialogText('Nu au fost găsite detalii suplimentare verificate','No additional verified details found');for(const key of ['description','opening_hours','services'])if(!place[key]&&details[key])place[key]=details[key];extraDetails();if(!place.phone&&details.phone){place.phone=details.phone;line(l.phone,details.phone)}if(!place.website&&data.website)appendPlaceWebsite(card,data.website);if(Array.isArray(data.evidence)&&data.evidence.length){const detailsLink=document.createElement('details');const summary=document.createElement('summary');summary.textContent=dialogText('Surse verificate','Verified sources');detailsLink.append(summary);for(const evidence of data.evidence){const a=document.createElement('a');a.href=evidence.url;a.target='_blank';a.rel='noopener noreferrer';a.textContent=evidence.field==='opening_hours'?dialogText('Sursa programului','Hours source'):dialogText('Sursa telefonului','Phone source');const p=document.createElement('p');p.append(a);detailsLink.append(p)}card.append(detailsLink)}}).catch(()=>{if(card.isConnected)status.textContent=dialogText('Nu s-au putut încărca detaliile suplimentare.','Additional details could not be loaded.');});
  const line=(label,value)=>{if(value===undefined||value===null||String(value).trim()==='')return;const p=document.createElement('p');const strong=document.createElement('strong');strong.textContent=label+': ';p.append(strong,document.createTextNode(String(value)));card.append(p)};
  line(l.address,place.address||[place.house_number,place.street,place.city,place.postcode].filter(Boolean).join(', '));
  line(t.category,localizedPlaceCategory(place.type||t.unspecified));
@@ -20029,7 +20029,7 @@ function appendTelegramTranslationUI(target,url,language,indexExcerpt){
   const text=String(paste.value||"").trim();if(text.length<20){result.textContent=labels[6];return;}
   button.disabled=true;result.textContent=labels[7];
   try{
-   const endpoint=new URL(CLIENT_CONFIG.apiUrl);endpoint.pathname="/api/telegram-user-translation";endpoint.search="";
+   const endpoint=new URL(CLIENT_CONFIG.apiUrl,location.origin);endpoint.pathname="/api/telegram-user-translation";endpoint.search="";
    const response=await fetch(endpoint.href,{method:"POST",headers:{"Content-Type":"application/json"},
     body:JSON.stringify({url,language,text,consent:true})});
    if(!response.ok)throw Error("translation_http_failure");
@@ -20048,7 +20048,7 @@ async function loadSourceBasedNewsDetail(target,url,language,indexExcerpt=''){
  if(!url){target.textContent=messages.unavailable;return;}
  if(isTelegramLink(url)){appendTelegramTranslationUI(target,url,language,indexExcerpt);return;}
  try{
-  const endpoint=new URL(CLIENT_CONFIG.apiUrl);endpoint.pathname="/api/news-article-detail";endpoint.search="";
+  const endpoint=new URL(CLIENT_CONFIG.apiUrl,location.origin);endpoint.pathname="/api/news-article-detail";endpoint.search="";
   const response=await fetch(endpoint.href,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({url,language})});
   if(!response.ok)throw Error("article_read_failed");
   const data=await response.json();
@@ -21416,7 +21416,7 @@ function pocketApplyFirstInstallCountry(code,confidence){
 }
 function pocketFirstInstallDetectCountry(){
  if(!pocketFirstInstallAutoLanguage)return;
- const endpoint=new URL(CLIENT_CONFIG.apiUrl);
+ const endpoint=new URL(CLIENT_CONFIG.apiUrl,location.origin);
  endpoint.pathname='/api/finance-country';endpoint.search='';
  const fetchCountry=async(coordinates,confidence)=>{
   const url=new URL(endpoint.toString());
@@ -23007,6 +23007,31 @@ export default {
     console.error('Pocket backend connection failed:',String(lastError?.name||'binding_unavailable'),String(error?.name||'public_unavailable'));
     return Response.json({status:'error',error:'internal_api_unavailable'},{status:502});
    }
+  }
+  // Auxiliary read-only/place-specific API calls remain same-origin in Android.
+  // Routing them prevents a relative URL parse failure from blanking place cards.
+  const auxiliaryMethods={
+   '/api/place-media':'GET',
+   '/api/finance-country':'GET',
+   '/api/news-article-detail':'POST',
+   '/api/telegram-user-translation':'POST'
+  };
+  const auxiliaryMethod=auxiliaryMethods[url.pathname];
+  if(auxiliaryMethod){
+   if(request.method!==auxiliaryMethod)return new Response('Method not allowed',{status:405,headers:{Allow:auxiliaryMethod}});
+   const upstreamUrl=new URL('https://lifewise-ai-api.kokocf.workers.dev'+url.pathname+url.search);
+   const body=auxiliaryMethod==='POST'?await request.text():undefined;
+   if(body&&body.length>256000)return Response.json({status:'error',error:'request_too_large'},{status:413});
+   const makeRequest=()=>new Request(upstreamUrl,{method:auxiliaryMethod,
+    headers:auxiliaryMethod==='POST'?{'Content-Type':'application/json'}:undefined,body});
+   if(env?.POCKET_API){
+    try{
+     const upstream=await env.POCKET_API.fetch(makeRequest());
+     if(![502,503,504].includes(upstream.status))return upstream;
+    }catch(error){console.warn('Pocket auxiliary binding unavailable:',url.pathname,String(error?.name||'error'))}
+   }
+   try{return await fetch(makeRequest())}
+   catch(error){console.warn('Pocket auxiliary endpoint unavailable:',url.pathname,String(error?.name||'error'));return Response.json({status:'error',error:'auxiliary_api_unavailable'},{status:502})}
   }
   if (url.pathname === '/__ui_version') {
    return new Response(uiVersion(),{headers:{'Content-Type':'text/plain; charset=utf-8','Cache-Control':'no-store'}});
