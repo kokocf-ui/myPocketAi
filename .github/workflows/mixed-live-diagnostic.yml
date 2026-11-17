@@ -1,0 +1,64 @@
+name: Diagnose international mixed flight search
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/mixed-live-diagnostic.yml
+  workflow_dispatch:
+
+jobs:
+  live-mixed:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check backend flight provider status (no search credits)
+        run: |
+          python3 - <<'PY'
+          import json,urllib.request,urllib.error
+          u='https://lifewise-ai-api.kokocf.workers.dev/api/flight-source-status?probe=1'
+          try:
+              with urllib.request.urlopen(u,timeout=20) as f:
+                  data=json.load(f)
+                  print('Flight health HTTP',f.status)
+                  print('Flight health:',json.dumps({k:data.get(k) for k in (
+                    'status','keyConfigured','pilotEnabled','termsReviewed',
+                    'pilotConfigured','freePlan','hasQuota','flightSearchActive')},ensure_ascii=False))
+          except Exception as exc:
+              print('Flight health failed:',str(exc)[:200])
+          PY
+      - name: Request one live synthetic UK to Romania mixed journey
+        run: |
+          python3 - <<'PY'
+          import json,urllib.request,urllib.error,time
+          dest={'latitude':47.0612,'longitude':21.9473,'label':'Strada Nufărului 1, 410100 Oradea, Romania','country_code':'RO'}
+          origin={'latitude':51.475,'longitude':0.325,'label':'Grays, England, UK','country_code':'GB'}
+          payload={
+            'message':'Caută transport mixt către '+dest['label'],
+            'language':'ro','history':[],'module':'travel',
+            'mixed_journey':True,'mixed_composition':True,
+            'transit_query':dest['label'],'transit_destination':dest,
+            'journey_origin':origin,'transit_preference':'all',
+            'location':origin,'location_requested':True,
+            'travel_mode':'transit','transit_departure_at':None,
+            'requested_transit_count':6
+          }
+          request=urllib.request.Request(
+            'https://lifewise-ai-api.kokocf.workers.dev/api/chat',
+            data=json.dumps(payload).encode(),headers={'Content-Type':'application/json'},method='POST')
+          try:
+              with urllib.request.urlopen(request,timeout=105) as response:
+                  body=json.load(response)
+                  print('Mixed HTTP',response.status)
+                  print('Result:',json.dumps({k:body.get(k) for k in (
+                    'status','reason','international_journey','mixed_journey',
+                    'flight_search_status','flight_dates_checked','provider_status',
+                    'transit_available','route_available')},ensure_ascii=False))
+                  print('Flight candidates:',len(body.get('flight_candidates') or []))
+                  print('Transit options:',len(body.get('transit') or []))
+                  print('Reply excerpt:',str(body.get('reply',''))[:350])
+          except urllib.error.HTTPError as exc:
+              print('Mixed HTTP error:',exc.code,str(exc.read(300)))
+          except Exception as exc:
+              print('Mixed request failed:',str(exc)[:260])
+          PY
