@@ -64,3 +64,39 @@ export async function discoverMappedWalkingEntrances({destination,origin,fetcher
  }
  return mappedWalkingEntranceCandidates(data.elements,destination,origin);
 }
+
+
+// The routing provider may snap a venue POI to the wrong exterior street.
+// Where an actual public footway comes close to that POI, a validated footway
+// can be shown as an *approach* rather than inventing the missing indoor leg.
+export function nearbyPedestrianApproachRoute(route,footway,target,baselineMeters,lang='ro'){
+ if(route?.profile!=='walk'||!['footpath','footbridge'].includes(footway?.access_kind)||
+    !valid(footway)||!valid(target)||!Array.isArray(route.coordinates)||route.coordinates.length<2||
+    !Number.isFinite(route.distanceMeters)||!Number.isFinite(baselineMeters))return null;
+ const gap=distance(footway,target),last=route.coordinates.at(-1);
+ if(gap<14||gap>115||!Array.isArray(last)||last.length<2)return null;
+ const endpoint={latitude:last[1],longitude:last[0]};
+ // Avoid Geoapify snapping an access waypoint to a road on the other side.
+ if(!valid(endpoint)||distance(endpoint,footway)>27)return null;
+ // A genuine shortcut must beat the extra exterior walking by a useful margin.
+ if(route.distanceMeters+gap*2+100>=baselineMeters)return null;
+ const suffix=lang==='en'
+  ?'You have reached a mapped pedestrian approach near the destination. Access from here to the exact venue is not verified.'
+  :'Ai ajuns la o alee pietonală aproape de destinație. Accesul de aici până la obiectiv nu este verificat.';
+ const steps=[...(Array.isArray(route.steps)?route.steps:[]),
+   {text:suffix,streets:[],distanceMeters:null}].map((step,i)=>({...step,number:i+1}));
+ return {...route,id:'pedestrian_approach',access_kind:'nearby_pedestrian_path',
+  original_destination:target,approach_distance_m:Math.round(gap),
+  destination:{...target,latitude:footway.latitude,longitude:footway.longitude},
+  steps};
+}
+
+// Overlapping routes must not be replaced by a substantially longer route.
+// This previously turned a shorter pedestrian option into a longer detour.
+export function preferMappedWalkingEntrance(previous,candidate){
+ return candidate?.access_kind==='mapped_entrance' &&
+  previous?.access_kind!=='mapped_entrance' &&
+  Number.isFinite(previous?.distanceMeters) &&
+  Number.isFinite(candidate?.distanceMeters) &&
+  candidate.distanceMeters<=previous.distanceMeters+15;
+}

@@ -17,7 +17,7 @@ import {photonNearbyUrl} from "./photon_category_discovery.mjs";
 import {globalNearbyPlaces} from "./global_poi_sources.mjs";
 import {walkingAddressFromLabel,checkWalkingArrival,verifiedAddressGeocode} from "./walking_address_arrival.mjs";
 import {cornerShopFrontageRoute} from "./corner_shop_walking_frontage.mjs";
-import {discoverMappedWalkingEntrances} from "./walking_entrance_access.mjs";
+import {discoverMappedWalkingEntrances,nearbyPedestrianApproachRoute,preferMappedWalkingEntrance} from "./walking_entrance_access.mjs";
 import {planFrontendPlaceProviders} from "./country_frontend_request.mjs";
 import {verifiedGpsCountry} from "./country_gps_resolution.mjs";
 import {nationalPublicTransportPolicy} from "./national_public_transport_policy.mjs";
@@ -1241,13 +1241,13 @@ async function discoverWalkingAccess(destination,origin,key){
    const bridge=path&&Boolean(tags.bridge&&tags.bridge!=='no'),name=String(p.name||tags.name||'').slice(0,100);
    const point={latitude:rawLat,longitude:rawLon,label:name||String(p.formatted||'').slice(0,140),access_kind:bridge?'footbridge':station?'station':'footpath',osm_way_id:bridge&&String(tags.osm_type||'way')!=='node'?String(tags.osm_id||'').replace(/^(?:way\/|w)/,''):null};
    const from=routeGeoDistance(origin,point),to=routeGeoDistance(point,destination),direct=routeGeoDistance(origin,destination);
-   if(from<100||to<80||to>radius+50||from+to>direct*1.65+300)return [];
-   return [{...point,score:(bridge?0:station?1:2)+(from+to)/(Math.max(direct,100)*10)}];
+   if(from<100||to<(path?14:80)||to>radius+50||from+to>direct*1.65+300)return [];
+   return [{...point,score:(path?0:station?2:3)+(from+to)/(Math.max(direct,100)*10)}];
   });
  }));
  const sorted=results.flatMap(v=>v.status==='fulfilled'?v.value:[]).sort((a,b)=>a.score-b.score),points=[];
  // Keep geographically different approaches; never ask the visitor to pick an internal point.
- for(const point of sorted){if(!points.some(p=>routeGeoDistance(p,point)<180))points.push(point);if(points.length===4)break}
+ for(const point of sorted){if(!points.some(p=>routeGeoDistance(p,point)<(point.access_kind==='footpath'?70:160)))points.push(point);if(points.length===5)break}
  await Promise.all(points.map(async p=>{if(p.access_kind!=='footbridge')return;p.bridge_geometry=await walkingBridgeGeometry(p.osm_way_id);if(!p.bridge_geometry)p.access_kind='footpath'}));
  return {points,status:results.every(v=>v.status==='fulfilled')?'ok':results.some(v=>v.status==='fulfilled')?'partial':'unavailable'};
 }
@@ -4626,7 +4626,18 @@ export default {
           return [{...candidate,access_kind:'mapped_entrance',entrance_osm_id:point.entrance_osm_id,
             entrance_distance_m:point.entrance_distance_m}];
         });
-        const all=[...base,...verifiedAutomatic,...verifiedEntrances],best=Math.min(...all.map(v=>v.distanceMeters)),limit=best+Math.max(400,Math.min(1200,best*.45));
+        // A provider's snapped building centroid can require an unnecessary block detour.
+        // A short, mapped public footway may be a useful *approach*, never a claimed
+        // arrival at an unmapped shop entrance or a fictitious straight connector.
+        const baselineMeters=Math.min(...base.map(v=>v.distanceMeters));
+        const nearPaths=rc.profile==='walk'&&!via?access.points.filter(point=>
+          ['footpath','footbridge'].includes(point.access_kind)&&routeGeoDistance(point,destination)<=115):[];
+        const approachResults=nearPaths.length?await Promise.allSettled(nearPaths.map((point,i)=>
+          calculate('approach_'+i,null,{...destination,latitude:point.latitude,longitude:point.longitude}))):[];
+        const verifiedApproaches=approachResults.flatMap((result,i)=>result.status==='fulfilled'?
+          [nearbyPedestrianApproachRoute(result.value,nearPaths[i],destination,baselineMeters,lang)].filter(Boolean):[]);
+        const all=[...base,...verifiedAutomatic,...verifiedEntrances,...verifiedApproaches],
+          best=Math.min(...all.map(v=>v.distanceMeters)),limit=best+Math.max(400,Math.min(1200,best*.45));
         const candidates=all.filter(v=>rc.profile==='drive'||via||v.distanceMeters<=limit).sort((a,b)=>rc.profile==='drive'?(['balanced','short','economy'].indexOf(a.id)-['balanced','short','economy'].indexOf(b.id)):a.distanceMeters-b.distanceMeters);
         // A storefront address may resolve to a building centre while pedestrian
         // routing snaps its end onto a different, inaccessible street. Preserve
@@ -4684,7 +4695,7 @@ export default {
         const routes=[];
         for(const candidate of arrivalCandidates){
           const same=routes.findIndex(v=>rc.profile==='walk'?walkingOverlap(v,candidate)>=.88:JSON.stringify(v.coordinates)===JSON.stringify(candidate.coordinates));
-          if(same>=0){if(candidate.id==='via'||candidate.access_kind==='mapped_entrance'&&routes[same].access_kind!=='mapped_entrance')routes[same]=candidate;else if(candidate.access_kind==='footbridge'&&routes[same].access_kind!=='footbridge'&&candidate.bridge_geometry?.every(p=>walkingPointOnRoute(routes[same],{latitude:p[1],longitude:p[0]},20)))routes[same]={...routes[same],access_kind:'footbridge',bridge_geometry:candidate.bridge_geometry};continue;}
+          if(same>=0){if(candidate.id==='via'||preferMappedWalkingEntrance(routes[same],candidate))routes[same]=candidate;else if(candidate.access_kind==='footbridge'&&routes[same].access_kind!=='footbridge'&&candidate.bridge_geometry?.every(p=>walkingPointOnRoute(routes[same],{latitude:p[1],longitude:p[0]},20)))routes[same]={...routes[same],access_kind:'footbridge',bridge_geometry:candidate.bridge_geometry};continue;}
           if(routes.length<3)routes.push(candidate);
         }
         const walkingLabels={ro:['Traseu pietonal','Prin pasarelă','Prin','Indicații pentru'],en:['Walking route','Via footbridge','Via','Directions for'],fr:['Trajet à pied','Par la passerelle','Via','Instructions pour'],de:['Fußweg','Über Fußgängerbrücke','Über','Wegbeschreibung für'],it:['Percorso a piedi','Tramite passerella','Via','Indicazioni per'],es:['Ruta a pie','Por pasarela peatonal','Vía','Indicaciones para'],pt:['Percurso a pé','Pela passagem pedonal','Via','Indicações para'],nl:['Wandelroute','Via voetbrug','Via','Aanwijzingen voor'],ru:['Пеший маршрут','По пешеходному мосту','Через','Указания для'],pl:['Trasa piesza','Przez kładkę','Przez','Wskazówki dla']};

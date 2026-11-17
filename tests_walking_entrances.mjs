@@ -22,3 +22,22 @@ assert.match(backend,/rc\.profile==='walk'&&!via\?discoverMappedWalkingEntrances
 assert.match(backend,/entrance_distance_m/);
 assert.match(backend,/verifiedEntrances/);
 console.log('Walking entrance selection tests passed');
+
+
+import {nearbyPedestrianApproachRoute,preferMappedWalkingEntrance} from './walking_entrance_access.mjs';
+const approachDestination={latitude:51.475,longitude:0.326,label:'West Mall shop'};
+const publicFootway={latitude:51.4755,longitude:0.3257,access_kind:'footpath'};
+const plausible={profile:'walk',coordinates:[[.32,51.47],[.3257,51.4755]],
+ distanceMeters:1450,durationSeconds:1200,steps:[{text:'Go along pedestrian street',number:1}]};
+const accepted=nearbyPedestrianApproachRoute(plausible,publicFootway,approachDestination,2200);
+assert.ok(accepted,'provider-verifiable pedestrian approach may replace large building detour');
+assert.equal(accepted.access_kind,'nearby_pedestrian_path');
+assert.equal(accepted.original_destination.label,'West Mall shop');
+assert.match(accepted.steps.at(-1).text,/nu este verificat/);
+assert.equal(nearbyPedestrianApproachRoute({...plausible,distanceMeters:2070},publicFootway,approachDestination,2200),null,'no cosmetic shortcut');
+assert.equal(nearbyPedestrianApproachRoute({...plausible,coordinates:[[.32,51.47],[.333,51.478]]},publicFootway,approachDestination,2200),null,'no off-street snap');
+assert.equal(nearbyPedestrianApproachRoute({...plausible,profile:'drive'},publicFootway,approachDestination,2200),null,'car navigation excluded');
+assert.equal(preferMappedWalkingEntrance({distanceMeters:2200},{distanceMeters:2600,access_kind:'mapped_entrance'}),false,'39-minute route must not replace shorter overlap');
+assert.equal(preferMappedWalkingEntrance({distanceMeters:2200},{distanceMeters:2210,access_kind:'mapped_entrance'}),true,'near-equal mapped door can be labeled');
+assert.match(backend,/nearbyPedestrianApproachRoute\(result\.value,nearPaths\[i\],destination,baselineMeters,lang\)/);
+assert.match(backend,/preferMappedWalkingEntrance\(routes\[same\],candidate\)/);
