@@ -16,9 +16,9 @@ jobs:
         run: |
           python3 - <<'PY'
           import json,urllib.request,urllib.error
-          u='https://lifewise-ai-api.kokocf.workers.dev/api/flight-source-status?probe=1'
+          u='https://lifewise-ai-v2.kokocf.workers.dev/api/flight-source-status?probe=1'
           try:
-              with urllib.request.urlopen(u,timeout=20) as f:
+              with urllib.request.urlopen(urllib.request.Request(u,headers={'User-Agent':'Mozilla/5.0 (Linux; Android 10) AppleWebKit/537.36 Chrome/125.0 Safari/537.36','Accept':'application/json'}),timeout=20) as f:
                   data=json.load(f)
                   print('Flight health HTTP',f.status)
                   print('Flight health:',json.dumps({k:data.get(k) for k in (
@@ -44,10 +44,10 @@ jobs:
             'requested_transit_count':6
           }
           request=urllib.request.Request(
-            'https://lifewise-ai-api.kokocf.workers.dev/api/chat',
-            data=json.dumps(payload).encode(),headers={'Content-Type':'application/json'},method='POST')
+            'https://lifewise-ai-v2.kokocf.workers.dev/api/chat',
+            data=json.dumps(payload).encode(),headers={'Content-Type':'application/json','User-Agent':'Mozilla/5.0 (Linux; Android 10) AppleWebKit/537.36 Chrome/125.0 Safari/537.36','Accept':'application/json'},method='POST')
           try:
-              with urllib.request.urlopen(request,timeout=105) as response:
+              with urllib.request.urlopen(request,timeout=80) as response:
                   body=json.load(response)
                   print('Mixed HTTP',response.status)
                   print('Result:',json.dumps({k:body.get(k) for k in (
