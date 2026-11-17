@@ -17859,6 +17859,9 @@ function mixedOperatorWebsite(name){
  const key=String(name||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim().toLowerCase();
  const official={
   'british airways':'https://www.britishairways.com/',
+  'wizz air':'https://wizzair.com/',
+  'wizz air uk':'https://wizzair.com/',
+  'wizzair':'https://wizzair.com/',
   'lufthansa':'https://www.lufthansa.com/',
   'swiss':'https://www.swiss.com/',
   'swiss international air lines':'https://www.swiss.com/',
