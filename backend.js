@@ -35,6 +35,7 @@ export {PocketCommunicationHub} from "./pocket_communication_hub.mjs";
 import {hasAssistantRepetitionLoop} from "./ai_response_quality.mjs";
 import {planTransCAPIJourney,transCAPISharedZone} from "./uk_national_transit.mjs";
 import {motisQueryDepartureAt,selectScheduledMOTISAlternatives} from "./motis_mixed_schedule.mjs";
+import {checkSerpApiSecretStatus} from "./serpapi_account_status.mjs";
 import {requestTfLJourneys} from "./tfl_shared_journeys.mjs";
 import {annotateTransportJourneys,transportNoticeLine} from "./transport_availability_disclosure.mjs";
 import {planRomanianUrbanViaOracle,romanianUrbanRegion} from "./ro_urban_client.mjs";
@@ -1315,6 +1316,17 @@ export default {
     }
 
     const url = new URL(request.url);
+
+    // Key readiness without consuming paid/free flight search credits. This is
+    // NOT an open flight-search endpoint: no API secret or account data leaks.
+    if(url.pathname==="/api/flight-source-status"){
+      if(request.method!=="GET")return json({status:"method_not_allowed"},405);
+      const status=await checkSerpApiSecretStatus(env,{
+        probe:url.searchParams.get("probe")==="1"
+      });
+      return json({app:"Pocket AI",kind:"flight_source_status",provider:"SerpApi",
+        ...status,searchCandidatesShown:false,completeJourneyAvailable:false});
+    }
 
     // Preserve the legacy Durable Object data for safe migration, but do not
     // accept any further peer messages or invites outside the Oracle VM.
