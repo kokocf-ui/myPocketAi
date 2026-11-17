@@ -78,17 +78,17 @@ export async function discoverMixedFlightCandidates(env,{origin,destination,depa
   // results may have suppressed. Direct flights from farther London airports
   // must have a fair chance without assuming an airport name in the source.
   const requests=[],keys=new Set();
-  const add=(origins,destinations)=>{
+  const add=(origins,destinations,stops=0)=>{
    const a=origins.slice(0,6),b=destinations.slice(0,6);
    if(!a.length||!b.length)return;
-   const key=a.join(',')+'>'+b.join(',');
+   const key=a.join(',')+'>'+b.join(',')+'|'+stops;
    if(keys.has(key))return;
-   keys.add(key);requests.push({departureAirports:a,arrivalAirports:b});
+   keys.add(key);requests.push({departureAirports:a,arrivalAirports:b,stops});
   };
   add(departureAirports.slice(0,6),arrivalAirports.slice(0,6));
   if(departureAirports.length>1)
    for(const departure of departureAirports.slice(0,Math.min(8,maxQueries-1)))
-    add([departure],arrivalAirports.slice(0,6));
+    add([departure],arrivalAirports.slice(0,6),1);
   // If nearby destination airports exceed one supplier request, include the
   // farther group instead of silently dropping all those alternatives.
   if(arrivalAirports.length>6)
