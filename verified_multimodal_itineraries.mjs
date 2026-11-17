@@ -1,3 +1,4 @@
+import {mixedPoint,evaluateMixedJourneyGeography,isPlausibleMixedLegSpeed} from './mixed_route_quality.mjs';
 // Date-aware, provider-neutral multimodal routing over VERIFIED transport legs.
 // There are no preset cities, airports or countries here. Suppliers discover
 // connections independently; this engine only joins actually returned services.
@@ -39,8 +40,8 @@ export function normalizeVerifiedMixedLeg(raw){
   const fareLocal=raw.fareVerified===true?fee:null;
   return {
     id:safeText(raw.id,140)||[provider,mode,from.id,to.id,departure,arrival].join(':'),
-    mode,provider,from:{id:from.id,label:safeText(from.label,160)},
-    to:{id:to.id,label:safeText(to.label,160)},
+    mode,provider,from:{id:from.id,label:safeText(from.label,160),...(mixedPoint(from)||{})},
+    to:{id:to.id,label:safeText(to.label,160),...(mixedPoint(to)||{})},
     departureTime:new Date(departure).toISOString(),
     arrivalTime:new Date(arrival).toISOString(),
     departureMs:departure,arrivalMs:arrival,
@@ -69,7 +70,7 @@ export function minimumMixedTransferMinutes(previous,next){
   if(next.mode==='walking')return 0;
   return previous.mode===next.mode?8:12;
 }
-function asVisibleJourney(path,searchStart){
+function asVisibleJourney(path,searchStart,geography){
   const first=path[0],last=path.at(-1);
   const legs=path.map(l=>({
     mode:l.mode,from:l.from.label,to:l.to.label,provider:l.provider,
@@ -94,7 +95,7 @@ function asVisibleJourney(path,searchStart){
     modes:[...new Set(modes)],modeSignature:modes.join(' → '),
     fareComplete,fareLocal:fareComplete?{amount:Math.round(amount*100)/100,currency:[...currencySet][0]}:null,
     bookingRequirement:priced.length>1?'check_each_leg':'check_provider',
-    arrivalVerified:true,departureFeasible:true,finalTransferVerified:true
+    arrivalVerified:true,departureFeasible:true,finalTransferVerified:true,geography
   };
 }
 /**
@@ -119,36 +120,94 @@ export function composeVerifiedMixedItineraries(options={}){
   modesAllowed.add('walking');
   const incoming=Array.isArray(options.legs)?options.legs.slice(0,5000):[];
   const verified=incoming.map(normalizeVerifiedMixedLeg).filter(Boolean)
-    .filter(l=>modesAllowed.has(l.mode)&&l.arrivalMs<=searchStart+horizon&&l.departureMs>=searchStart);
-  const nextByNode=new Map();
+    .filter(l=>modesAllowed.has(l.mode)&&l.arrivalMs<=searchStart+horizon&&
+      l.departureMs>=searchStart&&isPlausibleMixedLegSpeed(l));
+  const nextByNode=new Map(),arrivingAt=new Map();
   for(const leg of verified){
     if(!nextByNode.has(leg.from.id))nextByNode.set(leg.from.id,[]);
     nextByNode.get(leg.from.id).push(leg);
+    if(!arrivingAt.has(leg.to.id))arrivingAt.set(leg.to.id,new Set());
+    arrivingAt.get(leg.to.id).add(leg.from.id);
   }
-  for(const group of nextByNode.values())group.sort((a,b)=>a.departureMs-b.departureMs||a.arrivalMs-b.arrivalMs);
-  const paths=[],stack=[{node:originId,at:searchStart,path:[],visited:new Set([originId])}];
+  // Route search must not waste its finite exploration budget on terminals
+  // which cannot reach the actual destination on any verified segment.
+  const canReach=new Set([destinationId]),backward=[destinationId];
+  while(backward.length){
+    const to=backward.pop();
+    for(const from of arrivingAt.get(to)||[]){
+      if(!canReach.has(from)){canReach.add(from);backward.push(from)}
+    }
+  }
+  if(!canReach.has(originId))return {status:'no_complete_verified_itinerary',
+    journeys:[],providers:[...new Set(verified.map(l=>l.provider))],
+    checkedLegs:verified.length,incompleteLegsIgnored:incoming.length-verified.length,
+    searchCapped:false};
+  for(const group of nextByNode.values())group.sort((a,b)=>a.arrivalMs-b.arrivalMs||a.departureMs-b.departureMs);
+
+  // Earliest-arrival first. A depth-first cap can accidentally return 2,000
+  // slower bus branches before visiting the best flight/train option.
+  const heap=[];
+  const push=state=>{
+    heap.push(state);
+    let i=heap.length-1;
+    while(i>0){
+      const p=Math.floor((i-1)/2);
+      if(heap[p].at<=heap[i].at)break;
+      [heap[p],heap[i]]=[heap[i],heap[p]];i=p;
+    }
+  };
+  const pop=()=>{
+    const first=heap[0],last=heap.pop();
+    if(heap.length){
+      heap[0]=last;let i=0;
+      while(true){
+        const a=i*2+1,b=a+1;
+        let smallest=i;
+        if(a<heap.length&&heap[a].at<heap[smallest].at)smallest=a;
+        if(b<heap.length&&heap[b].at<heap[smallest].at)smallest=b;
+        if(smallest===i)break;
+        [heap[i],heap[smallest]]=[heap[smallest],heap[i]];i=smallest;
+      }
+    }
+    return first;
+  };
+  const paths=[],rejectedGeographic={count:0},visitedPathSignatures=new Set();
+  push({node:originId,at:searchStart,path:[],visited:new Set([originId]),flightReleaseMs:null});
   let examined=0;
-  while(stack.length&&examined<25000&&paths.length<2000){
-    const state=stack.pop();examined++;
+  while(heap.length&&examined<40000&&paths.length<2000){
+    const state=pop();examined++;
     if(state.node===destinationId){
-      if(state.path.some(l=>!isWalk(l.mode)))paths.push(state.path);
+      if(!state.path.some(l=>!isWalk(l.mode)))continue;
+      const geography=evaluateMixedJourneyGeography(state.path,{origin:options.origin,destination:options.destination});
+      if(geography.status==='excessive_geographic_detour'||
+         geography.status==='conflicting_stop_locations'){
+        rejectedGeographic.count++;continue;
+      }
+      const signature=state.path.map(l=>l.id).join('|');
+      if(!visitedPathSignatures.has(signature)){
+        visitedPathSignatures.add(signature);
+        paths.push({path:state.path,geography});
+      }
       continue;
     }
     if(state.path.length>=maxLegs)continue;
-    const next=(nextByNode.get(state.node)||[]).filter(leg=>{
-      if(state.visited.has(leg.to.id))return false;
+    for(const leg of nextByNode.get(state.node)||[]){
+      if(!canReach.has(leg.to.id)||state.visited.has(leg.to.id))continue;
       const previous=state.path.at(-1);
       const min=minimumMixedTransferMinutes(previous,leg);
-      return leg.departureMs>=state.at+min*60000;
-    });
-    // Reverse push so the earliest feasible departure is explored first.
-    for(let k=next.length-1;k>=0;k--){
-      const leg=next[k];
-      stack.push({node:leg.to.id,at:leg.arrivalMs,path:[...state.path,leg],
-        visited:new Set([...state.visited,leg.to.id])});
+      if(leg.departureMs<state.at+min*60000)continue;
+      // Flight arrivals need passport control, baggage and exit time; a
+      // connecting walk must not reset this buffer and enable a fake coach.
+      if(state.flightReleaseMs!==null&&!isWalk(leg.mode)&&
+         leg.departureMs<state.flightReleaseMs)continue;
+      const flightReleaseMs=leg.mode==='flight'?leg.arrivalMs+45*60000:
+        isWalk(leg.mode)?state.flightReleaseMs:null;
+      push({node:leg.to.id,at:leg.arrivalMs,
+        path:[...state.path,leg],visited:new Set([...state.visited,leg.to.id]),
+        flightReleaseMs});
     }
   }
-  const candidates=paths.map(p=>asVisibleJourney(p,searchStart))
+  const candidates=paths.map(({path,geography})=>asVisibleJourney(path,searchStart,geography))
     .sort((a,b)=>a.elapsedFromRequestMinutes-b.elapsedFromRequestMinutes||
       a.transferCount-b.transferCount||a.journeyMinutes-b.journeyMinutes);
   const distinct=[],signatures=new Set(),modesSeen=new Set();
@@ -175,6 +234,7 @@ export function composeVerifiedMixedItineraries(options={}){
     providers:[...new Set(verified.map(l=>l.provider))],
     checkedLegs:verified.length,
     incompleteLegsIgnored:incoming.length-verified.length,
-    searchCapped:examined>=25000||paths.length>=2000
+    rejectedGeographicDetours:rejectedGeographic.count,
+    searchCapped:examined>=40000||paths.length>=2000
   };
 }

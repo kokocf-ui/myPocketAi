@@ -35,6 +35,7 @@ export {PocketCommunicationHub} from "./pocket_communication_hub.mjs";
 import {hasAssistantRepetitionLoop} from "./ai_response_quality.mjs";
 import {planTransCAPIJourney,transCAPISharedZone} from "./uk_national_transit.mjs";
 import {motisQueryDepartureAt,selectScheduledMOTISAlternatives} from "./motis_mixed_schedule.mjs";
+import {evaluateMixedJourneyGeography} from "./mixed_route_quality.mjs";
 import {checkSerpApiSecretStatus} from "./serpapi_account_status.mjs";
 import {requestTfLJourneys} from "./tfl_shared_journeys.mjs";
 import {annotateTransportJourneys,transportNoticeLine} from "./transport_availability_disclosure.mjs";
@@ -849,6 +850,15 @@ async function planMOTISMixedJourney(env,from,to,language,requestedDepartureAt=n
  const journeys=[],seen=new Set();
  for(const j of (Array.isArray(data?.itineraries)?data.itineraries:[]).slice(0,25)){
   if(!Array.isArray(j.legs)||!j.legs.length||!Number.isFinite(Number(j.duration))||Number(j.duration)<60)continue;
+  // Source-supplied stop geometry: a giant global detour must not be
+  // presented as a sensible journey even when the timestamps look valid.
+  const geoLegs=j.legs.map((l,i)=>({
+   from:{id:'stop:'+i,latitude:l.from?.lat,longitude:l.from?.lon},
+   to:{id:'stop:'+(i+1),latitude:l.to?.lat,longitude:l.to?.lon}
+  }));
+  const geo=evaluateMixedJourneyGeography(geoLegs,{origin:from,destination:to});
+  if(geo.status==='excessive_geographic_detour'||
+     geo.status==='conflicting_stop_locations')continue;
   if(Date.parse(j.startTime)<departure.ms-60000||!Number.isFinite(Date.parse(j.endTime)))continue;
   let previous=0,invalid=false;
   const legs=[];
@@ -866,7 +876,7 @@ async function planMOTISMixedJourney(env,from,to,language,requestedDepartureAt=n
     arrivalLatLon:{lat:toPoint.latitude,lon:toPoint.longitude},coordinates:geometry,geometryAvailable:geometry.length>1};
    legs.push(mapped);previous=end;
   }
-  if(invalid||!legs.some(l=>!isWalk(l.mode))||meters(point(j.legs.at(-1)?.to),to)>1700)continue;
+  if(invalid||!legs.some(l=>!isWalk(l.mode))||meters(point(j.legs[0]?.from),from)>1700||meters(point(j.legs.at(-1)?.to),to)>1700)continue;
   const boarding=legs.find(l=>!isWalk(l.mode));
   const walk=legs.slice(0,legs.indexOf(boarding)).reduce((v,l)=>v+l.durationMinutes,0);
   if(Date.parse(boarding.departureTime)<Date.now()+walk*60000+5*60000)continue;
@@ -877,7 +887,8 @@ async function planMOTISMixedJourney(env,from,to,language,requestedDepartureAt=n
    startDateTime:j.startTime,arrivalDateTime:j.endTime,legs,
    routeSegments:segments,geometryAvailable:segments.length>0,
    boarding_stop:transitBoardingStop(legs),walkToFirstStopMinutes:walk,safetyMarginMinutes:5,
-   transferCount:Number(j.transfers)||0,firstVehicleDepartureTime:boarding.departureTime,departureFeasible:true});
+   transferCount:Number(j.transfers)||0,firstVehicleDepartureTime:boarding.departureTime,departureFeasible:true,
+   geographicScreen:geo});
  }
  const alternatives=selectScheduledMOTISAlternatives(journeys,{departureAt:departure.iso,limit:8,now:departure.iso?departure.ms:Date.now()});
  return {status:alternatives.length?'success':'no_verified_journeys',journeys:alternatives};
