@@ -21,8 +21,9 @@ assert.match(gradle,/buildConfigField 'boolean', 'TOOLS_UI_PREVIEW', \(System\.g
  'Preview flag must default false');
 assert.match(flow,/name: Bundle exact PR frontend for preview-only APK/);
 assert.match(flow,/run: node scripts\/build_android_ui_preview\.mjs/);
-assert.match(flow,/POCKET_TOOLS_UI_PREVIEW: 'true'/);
+assert.match(flow,/POCKET_TOOLS_UI_PREVIEW: \$\{\{ github\.event_name == 'pull_request' && 'true' \|\| 'false' \}\}/,
+ 'Signed main APK must use live Cloudflare UI; only pull-request previews can intercept it');
 assert.match(flow,/assets\/tools-ui-preview\.html/);
 assert.match(bundler,/response\.status,200/);
 assert.match(bundler,/extraCreatorLocalHtml/);
-console.log('PASS: signed Android preview bundles branch UI; production host, APIs and native security preserved');
+console.log('PASS: main signed APK uses live Cloudflare UI, while allowed PR previews bundle branch UI');
