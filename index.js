@@ -19671,7 +19671,8 @@ function loadRouteMapLibrary(){
  }).catch(error=>{leafletLoading=null;throw error});return leafletLoading;
 }
 function closeRouteMap(restoreFocus=true){const current=activeRouteMap;if(!current)return;activeRouteMap=null;stopRouteTracking(current);current.cleanup();current.map?.remove();current.layer.remove();if(restoreFocus){const options=transitOptionsForRoute(current.route);if(options?.length)showTransitChoices(options);else if(current.origin?.isConnected)current.origin.focus({preventScroll:true})}}
-async function openRouteMap(route,origin,options=state.lastRouteOptions,startNavigation=false,resumeNative=false){
+async function openRouteMap(route,origin,options=state.lastRouteOptions,startNavigation=false){
+ const resumeNative=arguments.length>4&&arguments[4]===true;
  dismissSelectionKeyboard();
  if(!validMapRoute(route))return;state.lastRoute=route;closeAnswerReader(false);closeRouteMap(false);inputEl.blur();const t=routeMapText();
  const layer=document.createElement('section');layer.className='route-map-window';layer.setAttribute('role','dialog');layer.setAttribute('aria-modal','true');layer.setAttribute('aria-label',t.title);
