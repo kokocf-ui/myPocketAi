@@ -48,7 +48,7 @@ public final class PocketNavigationService extends Service implements LocationLi
     private final ArrayList<WalkingLeg> legs=new ArrayList<>();
     private final Set<String> announced=new HashSet<>();
     private int activeLeg=-1;
-    private String destination="",language="ro",lastInstruction="";
+    private String destination="",language="ro",lastInstruction="",navigationMode="walk";
     private long lastSpokenAt=0;
 
     private static final class Point {
@@ -84,7 +84,7 @@ public final class PocketNavigationService extends Service implements LocationLi
         return new NotificationCompat.Builder(this,CHANNEL)
             .setSmallIcon(android.R.drawable.ic_menu_mylocation)
             .setContentTitle("Eva • navigație GPS activă")
-            .setContentText(destination.isEmpty()?"Traseu pietonal în curs":destination)
+            .setContentText(destination.isEmpty()?(navigationMode.equals("drive")?"Traseu auto în curs":"Traseu pietonal în curs"):destination)
             .setContentIntent(toApp).setOngoing(true).setOnlyAlertOnce(true)
             .setPriority(NotificationCompat.PRIORITY_LOW)
             .addAction(android.R.drawable.ic_menu_close_clear_cancel,"Încheie",stopIntent)
@@ -115,9 +115,10 @@ public final class PocketNavigationService extends Service implements LocationLi
         try{
             JSONObject json=new JSONObject(payload);
             JSONArray stages=json.optJSONArray("walkingLegs");
-            if(stages==null||stages.length()==0||stages.length()>30)throw new IllegalArgumentException("No walking stages");
+            if(stages==null||stages.length()==0||stages.length()>30)throw new IllegalArgumentException("No verified route geometry");
             legs.clear();announced.clear();activeLeg=-1;muted=false;
             language=json.optString("language","ro");
+            navigationMode="drive".equals(json.optString("navigationMode"))?"drive":"walk";
             destination=json.optString("destination","").trim();
             if(destination.length()>160)destination=destination.substring(0,160);
             for(int i=0;i<stages.length();i++){
@@ -135,7 +136,7 @@ public final class PocketNavigationService extends Service implements LocationLi
                 }
                 if(stage.points.size()<2)continue;
                 for(int k=1;k<stage.points.size();k++)stage.totalMeters+=meters(stage.points.get(k-1),stage.points.get(k));
-                if(stage.totalMeters<5||stage.totalMeters>100000)continue;
+                if(stage.totalMeters<5||stage.totalMeters>(navigationMode.equals("drive")?2500000:100000))continue;
                 JSONArray instructions=raw.optJSONArray("steps");double along=0;
                 if(instructions!=null){
                     for(int j=0;j<instructions.length()&&j<100;j++){
@@ -148,7 +149,7 @@ public final class PocketNavigationService extends Service implements LocationLi
                 }
                 legs.add(stage);
             }
-            if(legs.isEmpty())throw new IllegalArgumentException("No validated walking geometry");
+            if(legs.isEmpty())throw new IllegalArgumentException("No validated route geometry");
             // Android 14+ requires an active visible Activity and a granted
             // while-in-use location permission BEFORE starting this service.
             if(Build.VERSION.SDK_INT>=29)startForeground(NOTIFICATION_ID,notification(),ServiceInfo.FOREGROUND_SERVICE_TYPE_LOCATION);
@@ -221,7 +222,9 @@ public final class PocketNavigationService extends Service implements LocationLi
         }
         if(nearest==null||nearest.away>Math.max(50,fix.getAccuracy()*2))return;
         if(activeLeg!=index){activeLeg=index;announced.clear();
-            say(("ro".equals(language)?"Începe mersul pe jos către ":"Start walking towards ")+closest.to+
+            say(("ro".equals(language)?
+                (navigationMode.equals("drive")?"Urmează traseul auto către ":"Începe mersul pe jos către "):
+                (navigationMode.equals("drive")?"Follow the driving route towards ":"Start walking towards "))+closest.to+
                (". "+("ro".equals(language)?"Distanță ":"Distance ")+Math.round(closest.totalMeters)+" metri."));
         }
         final WalkingLeg active=closest;final double along=nearest.along;
@@ -230,14 +233,14 @@ public final class PocketNavigationService extends Service implements LocationLi
             if(j==0)continue; // First instruction has already started with the leg.
             double remaining=m.along-along;
             String key=index+":"+j;
-            if(remaining>0&&remaining<=500&&remaining>70&&announced.add(key+":early")){
+            if(remaining>0&&remaining<=(navigationMode.equals("drive")?1300:500)&&remaining>(navigationMode.equals("drive")?180:70)&&announced.add(key+":early")){
                 say(("ro".equals(language)?"Peste ":"In ")+Math.round(remaining/10)*10+
                     ("ro".equals(language)?" de metri, ":" meters, ")+localize(m.text));break;
             }
             // At 20m use only high-accuracy GPS; never assert an exact turn
             // with a coarse fix on the wrong side of an intersection.
-            if(remaining>=0&&remaining<=20&&fix.getAccuracy()<=15&&announced.add(key+":near")){
-                say(("ro".equals(language)?"În aproximativ 20 de metri, ":"In about 20 meters, ")+localize(m.text));break;
+            if(remaining>=0&&remaining<=(navigationMode.equals("drive")?70:20)&&fix.getAccuracy()<=15&&announced.add(key+":near")){
+                say(("ro".equals(language)?(navigationMode.equals("drive")?"În aproximativ 70 de metri, ":"În aproximativ 20 de metri, "):(navigationMode.equals("drive")?"In approximately 70 meters, ":"In about 20 meters, "))+localize(m.text));break;
             }
         }
         if(active.totalMeters-along<18&&fix.getAccuracy()<=15&&announced.add(index+":arrived"))

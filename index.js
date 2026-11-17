@@ -19134,6 +19134,21 @@ function beginTransitVisualTracking(current){
  catch(error){onError(error)}
 }
 function restoreTransitSessionFromNative(raw){
+ try{
+  const snapshot=JSON.parse(raw||'{}');
+  if(snapshot.action==='start'&&snapshot.navigationContext?.kind==='road_route'){
+   const route=snapshot.navigationContext.route;
+   if(!validMapRoute(route))return;
+   if(activeRouteMap?.route&&activeRouteMap.navigating&&
+     activeRouteMap.route.profile===route.profile)return;
+   if(state.currentView!=='module'||state.currentModule!=='maps')openModule('maps');
+   state.lastRoute=route;state.lastRouteOptions=[route];
+   // A restored native session must not be restarted by the WebView.
+   void openRouteMap(route,null,[route],true,true);
+   return;
+  }
+ }catch(error){console.warn('Could not restore road GPS session',error)}
+
  if(activeRouteMap?.layer?.classList.contains('transit-full-journey-map')){
   if(activeRouteMap.map&&!activeRouteMap.navigating)beginTransitVisualTracking(activeRouteMap);
   return;
@@ -19547,13 +19562,69 @@ function loadRouteRotationLibrary(){
  });
  return routeRotationLoading;
 }
-function stopRouteTracking(current,message){
- if(!current)return;current.navigating=false;document.body.classList?.remove('pocket-navigation-fullscreen');current.map?.stopHeadingUp?.();current.resize?.();if(current.watchId!==null&&current.watchId!==undefined){navigator.geolocation?.clearWatch(current.watchId);current.watchId=null}clearTimeout(current.gpsTimer);current.gpsTimer=null;current.liveMarker?.remove();current.liveMarker=null;current.layer.classList?.remove('navigating');if(current.navigation)current.navigation.textContent=routeLiveText()[0];if(current.recenter)current.recenter.hidden=true;if(current.liveStatus){current.liveStatus.textContent=message||'';current.liveStatus.hidden=!message}
+// All user-initiated road and walking navigations share the same native
+// location foreground service as the verified public transport journey.
+function pocketNativeRouteCommand(action,route=null){
+ try{
+  const bridge=window.PocketAndroidRouteGuidance;
+  if(typeof bridge?.postMessage!=='function')return false;
+  if(action!=='start'){bridge.postMessage(JSON.stringify({action}));return true}
+  if(!validMapRoute(route))return false;
+  const original=route.coordinates;
+  const stride=Math.max(1,Math.ceil((original.length-1)/2700));
+  const points=original.filter((p,i)=>i===0||i===original.length-1||i%stride===0);
+  const destination=String(route.destination?.name||route.destination?.label||route.label||'Destinație').slice(0,160);
+  const safeSteps=(route.steps||[]).slice(0,80).map(step=>({
+   text:String(step.text||'').slice(0,180),
+   distanceMeters:Math.max(0,Number(step.distanceMeters)||0)
+  }));
+  const routeContext={...route,coordinates:points,steps:safeSteps};
+  const message={
+   action:'start',navigationMode:route.profile==='drive'?'drive':'walk',
+   language:state.language,destination,
+   walkingLegs:[{index:0,from:dialogText('Poziția mea','My location'),
+    to:destination,coordinates:points,steps:safeSteps}],
+   navigationContext:{kind:'road_route',route:routeContext}
+  };
+  const encoded=JSON.stringify(message);
+  if(encoded.length>249000)return false;
+  bridge.postMessage(encoded);return true;
+ }catch(error){console.warn('Native route session could not start',error);return false}
 }
-function startRouteTracking(current){
+function stopRouteTracking(current,message){
+ if(!current)return;
+ const wasNavigating=Boolean(current.navigating);
+ current.navigating=false;
+ if(wasNavigating)pocketNativeRouteCommand('stop');
+ document.body.classList?.remove('pocket-navigation-fullscreen');
+ current.map?.stopHeadingUp?.();
+ current.resize?.();
+ if(current.watchId!==null&&current.watchId!==undefined){
+  navigator.geolocation?.clearWatch(current.watchId);current.watchId=null
+ }
+ clearTimeout(current.gpsTimer);current.gpsTimer=null;
+ current.liveMarker?.remove();current.liveMarker=null;
+ current.layer.classList?.remove('navigating');
+ if(current.navigation)current.navigation.textContent=routeLiveText()[0];
+ if(current.recenter)current.recenter.hidden=true;
+ if(current.liveStatus){current.liveStatus.textContent=message||'';current.liveStatus.hidden=!message}
+ // The navigation map is GPS-centred and rotated. Restore the originally
+ // selected route's overview when Follow is stopped or Back is pressed.
+ if(wasNavigating&&current.layer.isConnected&&current.map&&current.overviewBounds?.length){
+  current.map.invalidateSize?.();
+  current.map.fitBounds?.(current.overviewBounds,{padding:[22,22],animate:false});
+ }
+}
+function startRouteTracking(current,resumeNative=false){
  if(activeRouteMap!==current||!current.map||current.navigating)return;const t=routeLiveText();
  if(typeof navigator==='undefined'||!navigator.geolocation?.watchPosition){current.liveStatus.hidden=false;current.liveStatus.textContent=t[4];return}
- current.navigating=true;current.watchId=null;current.follow=true;current.firstFix=true;current.layer.classList?.add('navigating');document.body.classList?.add('pocket-navigation-fullscreen');current.resize?.();current.navigation.textContent=t[1];current.recenter.hidden=false;current.liveStatus.hidden=false;current.liveStatus.textContent=t[3];
+ current.navigating=true;current.watchId=null;current.follow=true;current.firstFix=true;current.layer.classList?.add('navigating');
+ // In native foreground service, the same GPS route remains active if Eva
+ // is minimized, the screen locks or Android recreates this WebView.
+ if(!resumeNative&&!pocketNativeRouteCommand('start',current.route)){
+  current.liveStatus.hidden=false;
+  current.liveStatus.textContent=dialogText('Navigația vizuală funcționează, dar serviciul Android în fundal nu a pornit.','Visual tracking works, but Android background navigation did not start.');
+ }document.body.classList?.add('pocket-navigation-fullscreen');current.resize?.();current.navigation.textContent=t[1];current.recenter.hidden=false;current.liveStatus.hidden=false;current.liveStatus.textContent=t[3];
  const stale=()=>{clearTimeout(current.gpsTimer);current.gpsTimer=setTimeout(()=>{if(current.navigating&&activeRouteMap===current){current.liveStatus.textContent=t[8];current.liveMarker?.setStyle?.({opacity:.35,fillOpacity:.25})}},20000)};stale();
  const success=position=>{
   if(!current.navigating||activeRouteMap!==current)return;const c=position?.coords,age=Date.now()-position?.timestamp;
@@ -19601,6 +19672,7 @@ function loadRouteMapLibrary(){
 }
 function closeRouteMap(restoreFocus=true){const current=activeRouteMap;if(!current)return;activeRouteMap=null;stopRouteTracking(current);current.cleanup();current.map?.remove();current.layer.remove();if(restoreFocus){const options=transitOptionsForRoute(current.route);if(options?.length)showTransitChoices(options);else if(current.origin?.isConnected)current.origin.focus({preventScroll:true})}}
 async function openRouteMap(route,origin,options=state.lastRouteOptions,startNavigation=false){
+ const resumeNative=arguments.length>4&&arguments[4]===true;
  dismissSelectionKeyboard();
  if(!validMapRoute(route))return;state.lastRoute=route;closeAnswerReader(false);closeRouteMap(false);inputEl.blur();const t=routeMapText();
  const layer=document.createElement('section');layer.className='route-map-window';layer.setAttribute('role','dialog');layer.setAttribute('aria-modal','true');layer.setAttribute('aria-label',t.title);
@@ -19626,8 +19698,9 @@ async function openRouteMap(route,origin,options=state.lastRouteOptions,startNav
   const map=L.map(host,{rotate:rotateReady});current.map=map;current.leaflet=L;requestAnimationFrame(()=>{if(activeRouteMap===current)map.invalidateSize()});map.on?.('dragstart',()=>{current.follow=false});L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}).addTo(map);
   const points=route.coordinates.map(p=>[p[1],p[0]]),allPoints=[...points];
   for(const alternative of (options||[]).filter(validMapRoute)){if(alternative===route||(alternative.id&&alternative.id===route.id))continue;const grey=alternative.coordinates.map(p=>[p[1],p[0]]);allPoints.push(...grey);const other=L.polyline(grey,{color:'#647f91',weight:6,opacity:.65}).addTo(map);other.on?.('click',()=>{state.lastRoute=alternative;openRouteMap(alternative,null,options)})}
+  current.overviewBounds=allPoints;
   L.polyline(points,{color:'#087fd9',weight:5,opacity:1}).addTo(map);L.circleMarker(points[0],{radius:6,color:'#128a42'}).addTo(map);L.circleMarker(points.at(-1),{radius:6,color:'#c43737'}).addTo(map);map.fitBounds(allPoints,{padding:[22,22]});requestAnimationFrame(()=>{if(activeRouteMap===current){map.invalidateSize();map.fitBounds(allPoints,{padding:[22,22]})}});status.textContent=(route.distanceMeters/1000).toLocaleString(state.language,{maximumFractionDigits:1})+' km'+(Number.isFinite(route.durationSeconds)?' · '+formatTravelDurationMinutes(route.durationSeconds/60):'');
-  if(startNavigation)startRouteTracking(current);
+  if(startNavigation)startRouteTracking(current,resumeNative);
  }catch{if(layer.isConnected)status.textContent=t.failed}
 }
 const routeApproximationNotices=new WeakMap();

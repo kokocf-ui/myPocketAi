@@ -39,7 +39,7 @@ assert.match(activity,/WebViewCompat\.addWebMessageListener\(web,"PocketAndroidR
 assert.match(activity,/Collections\.singleton\("https:\/\/"\+APP_HOST\)/,'Restricted to trusted origin');
 assert.match(native,/startForeground\(NOTIFICATION_ID,notification\(\),ServiceInfo\.FOREGROUND_SERVICE_TYPE_LOCATION\)/);
 assert.match(native,/locations\.requestLocationUpdates/);
-assert.match(native,/remaining<=500/,'Early warning');
-assert.match(native,/remaining<=20&&fix\.getAccuracy\(\)<=15/,'20m warning gated by GPS accuracy');
+assert.match(native,/remaining<=\(navigationMode\.equals\("drive"\)\?1300:500\)/,'Early warning for walking and driving');
+assert.match(native,/remaining<=\(navigationMode\.equals\("drive"\)\?70:20\)&&fix\.getAccuracy\(\)<=15/,'GPS-accurate near turn warnings for both modes');
 assert.match(native,/ACTION_STOP/,'Explicit stop');
 console.log('PASS: compact transit choices, direct map, separate transfer paths, native background navigation');
