@@ -74,7 +74,9 @@ export async function searchMixedRouteProviders({
  // On direct A→B comparisons, fetch independent providers concurrently.
  // Only the already authorized, budgeted suppliers are included.
  const prefetched=new Map();
- if(parallelDirect===true&&candidates.length===1){
+ // Direct providers can be fetched concurrently even when a hub shortlist
+ // follows; keeping this first preserves the A→B priority within the budget.
+ if(parallelDirect===true){
   const pair=candidates[0];
   const active=providers.filter(s=>typeof s.canServe!=='function'||s.canServe(pair.from,pair.to))
    .slice(0,budget);
