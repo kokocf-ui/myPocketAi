@@ -114,6 +114,32 @@ function createTransportDepartureStep({title='',destination='',initialDepartureA
  return step;
 }
 
+// Some Android WebView/IME keyboards update a text input without dispatching
+// a timely input event. Observe the actual value as a safety net, not a second
+// network search: onChange runs only when the text really changed.
+function watchAndroidJourneyInput(input,isOpen,onChange){
+ let previous=String(input.value||''),poll=null,stopped=false;
+ const check=()=>{
+  if(stopped)return;
+  if(!isOpen()){stop();return}
+  const value=String(input.value||'');
+  if(value===previous)return;
+  previous=value;onChange();
+ };
+ const deferred=()=>setTimeout(check,0);
+ const events=[['input',check],['change',check],['keyup',check],
+  ['compositionend',check],['paste',deferred]];
+ for(const [name,listener] of events)input.addEventListener(name,listener);
+ const stop=()=>{
+  if(stopped)return;
+  stopped=true;
+  if(poll!==null){clearInterval(poll);poll=null}
+  for(const [name,listener] of events)input.removeEventListener(name,listener);
+ };
+ const start=()=>{if(!stopped&&poll===null)poll=setInterval(check,300)};
+ return {start,stop,check,reset(value){previous=String(value||'')}};
+}
+
 function showOneFieldJourney(choice){
  if(oneFieldJourneySession?.stop)oneFieldJourneySession.stop();
  const incoming=oneFieldJourneyIncoming;
@@ -142,10 +168,10 @@ function showOneFieldJourney(choice){
   button.style.cssText='min-height:48px;min-width:0;white-space:normal;overflow-wrap:anywhere;text-align:center;touch-action:manipulation';
   button.textContent=caption;button.onclick=click;return button;
  };
- let timer=null,controller=null,seq=0,selected=null,origin=null,typing='';
- const session={stop(){seq++;if(timer!==null)clearTimeout(timer);controller?.abort()}};
+ let timer=null,controller=null,seq=0,selected=null,origin=null,typing='',inputWatcher=null;
+ const session={stop(){seq++;if(timer!==null)clearTimeout(timer);controller?.abort();inputWatcher?.stop()}};
  oneFieldJourneySession=session;
- const alive=()=>root.isConnected&&oneFieldJourneySession===session&&state.currentView==='module'&&state.currentModule==='maps';
+ const alive=()=>root.isConnected&&oneFieldJourneySession===session&&state.currentModule==='maps'&&$('moduleQuickLayer')?.classList.contains('open');
  const fetchMatches=async(query,signal)=>{
   const r=await fetch(CLIENT_CONFIG.apiUrl,{method:'POST',headers:{'Content-Type':'application/json'},
    body:JSON.stringify({journey_suggest:{query}}),signal});
@@ -273,9 +299,10 @@ function showOneFieldJourney(choice){
   status.textContent=text.checking;
   timer=setTimeout(()=>void lookup(),280);
  };
- input.addEventListener('input',schedule);
+ inputWatcher=watchAndroidJourneyInput(input,alive,schedule);
  input.addEventListener('keydown',event=>{if(event.key==='Enter'){
-  event.preventDefault();if(timer!==null)clearTimeout(timer);void lookup(true)}});
+  event.preventDefault();inputWatcher?.check();
+  if(timer!==null)clearTimeout(timer);void lookup(true)}});
  const search=makeButton(text.search,()=>{if(timer!==null)clearTimeout(timer);void lookup(true)},true);
  search.style.flex='1 1 50%';
  const back=makeButton(text.back,()=>{session.stop();handleModuleLayerBack()},true);
@@ -286,6 +313,8 @@ function showOneFieldJourney(choice){
  root.append(title,input,hint,status,results,confirmed,actions);
  host.append(root);
  input.value=incoming?.raw||'';
+ inputWatcher.reset(input.value);
+ inputWatcher.start();
  const direct=incoming?.selected_destination;
  if(direct&&Number.isFinite(Number(direct.latitude))&&Number.isFinite(Number(direct.longitude))){
   selected={latitude:Number(direct.latitude),longitude:Number(direct.longitude),
