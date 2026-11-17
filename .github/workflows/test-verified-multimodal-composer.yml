@@ -7,6 +7,10 @@ on:
     paths:
       - verified_multimodal_itineraries.mjs
       - tests_verified_multimodal_itineraries.mjs
+      - mixed_route_quality.mjs
+      - mixed_route_provider_search.mjs
+      - tests_mixed_route_quality.mjs
+      - tests_mixed_route_provider_search.mjs
       - mixed_airport_discovery.mjs
       - tests_mixed_airport_discovery.mjs
       - package.json
@@ -26,6 +30,8 @@ jobs:
         run: |
           node --check verified_multimodal_itineraries.mjs
           node tests_verified_multimodal_itineraries.mjs
+          node tests_mixed_route_quality.mjs
+          node tests_mixed_route_provider_search.mjs
           node tests_mixed_airport_discovery.mjs
           node tests_mixed_transport_comparison.mjs
           node tests_mixed_international_regression.mjs
