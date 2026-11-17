@@ -1,0 +1,32 @@
+name: Dated MOTIS mixed transport
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - backend.js
+      - motis_mixed_schedule.mjs
+      - tests_motis_mixed_schedule.mjs
+      - tests_mixed_uk_fallback.mjs
+      - package.json
+      - .github/workflows/test-mixed-motis-date.yml
+  workflow_dispatch:
+
+jobs:
+  calendar-and-alternatives:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate licensed MOTIS date and actual results
+        run: |
+          node --check backend.js
+          node tests_motis_mixed_schedule.mjs
+          node tests_mixed_uk_fallback.mjs
+          node tests_mixed_international_regression.mjs
+          node tests_mixed_transport_comparison.mjs
+          node tests_verified_multimodal_itineraries.mjs
+          node tests_mixed_airport_discovery.mjs

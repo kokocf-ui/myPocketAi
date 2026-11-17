@@ -66,7 +66,8 @@ globalThis.fetch=async input=>{
  }
  if(url.hostname==="motis.example"){
   if(!provideMotisJourney)return Response.json({itineraries:[]});
-  const at=m=>new Date(Date.now()+m*60000).toISOString();
+  const queryTime=Date.parse(url.searchParams.get('time')||'');
+  const at=m=>new Date((Number.isFinite(queryTime)?queryTime:Date.now())+m*60000).toISOString();
   return Response.json({itineraries:[{
    duration:240*60,startTime:at(20),endTime:at(260),transfers:0,
    legs:[
@@ -242,6 +243,16 @@ try{
   "The international itinerary must not be replaced by TfL");
  assert.ok(calls.some(u=>u.hostname==="motis.example"&&u.pathname.endsWith("/api/v6/plan")),
   "Only the explicitly configured MOTIS v6 endpoint may be used");
+ const selectedInternationalAt=new Date(Date.now()+2*86400000).toISOString();
+ const futureInternational=await ask(abroad,{
+  MOTIS_API_BASE_URL:"https://motis.example",TFL_APP_KEY:"mock-tfl"
+ },{transit_departure_at:selectedInternationalAt});
+ assert.equal(futureInternational.transit_available,true,
+  "A dated international search must use licensed MOTIS rather than refusing the calendar");
+ assert.ok(calls.some(u=>u.hostname==="motis.example"&&u.searchParams.get('time')===selectedInternationalAt),
+  "The chosen future ISO time must reach the licensed MOTIS request");
+ assert.ok(Date.parse(futureInternational.transit[0].startDateTime)>=Date.parse(selectedInternationalAt),
+  "A future search must not silently return a today's itinerary");
  provideMotisJourney=false;
 
  internationalFixture=true;
