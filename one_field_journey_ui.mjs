@@ -146,22 +146,25 @@ function showOneFieldJourney(choice){
  oneFieldJourneyIncoming=null;
  state.moduleSearchCategory=choice;
  state.moduleSearchReturnMode='root';
+ // Same reset used by the working National public transport form.
+ // A previous results-mode sheet can obstruct the new destination input.
+ document.querySelector('.module-quick-sheet')?.classList.remove('results-mode','details-mode','mode-choice-screen');
+ $('moduleLayerBody').style.cssText='';
  const text=oneFieldJourneyCopy(),host=$('moduleLayerBody');
  setModuleLayerMode(text.title);
- const root=document.createElement('section');root.className='journey-one-field';
+ const root=document.createElement('section');root.className='journey-one-field national-transit-one-field';
  root.style.cssText='display:flex;flex-direction:column;gap:10px;min-width:0;width:100%;padding:4px 0 14px';
- const title=document.createElement('label');title.textContent=text.label;title.style.cssText='font-weight:800;font-size:16px';
+ const title=document.createElement('strong');title.textContent=text.label;title.style.cssText='font-weight:800;font-size:16px';
  const input=document.createElement('input');input.type='text';input.className='journey-one-field-input';
  input.autocomplete='off';input.spellcheck=false;input.maxLength=200;
  input.placeholder=text.placeholder;input.setAttribute('aria-label',text.label);
  input.style.cssText='box-sizing:border-box;width:100%;min-height:54px;font-size:16px;color:#fff;background:#102d40;border:2px solid #62b9d0;border-radius:16px;padding:12px;outline-offset:2px;touch-action:manipulation';
  const hint=document.createElement('p');hint.textContent=text.hint;hint.style.cssText='margin:0;color:#b7d3df;font-size:13px;line-height:1.45';
  const status=document.createElement('p');status.setAttribute('aria-live','polite');status.style.cssText='font-size:13px;min-height:20px;margin:0;color:#c8e0e9';
- const results=document.createElement('div');results.className='journey-live-suggestions';
+ const results=document.createElement('div');results.className='journey-live-suggestions national-transit-suggestions';
  results.style.cssText='display:flex;flex-direction:column;gap:7px;min-height:0;max-height:37dvh;overflow-y:auto;overscroll-behavior:contain';
  const confirmed=document.createElement('div');confirmed.className='journey-selected-destination';
  confirmed.style.cssText='display:flex;flex-direction:column;gap:8px';
- const actions=document.createElement('div');actions.style.cssText='display:flex;gap:8px;flex-wrap:wrap';
  const makeButton=(caption,click,principal=false)=>{
   const button=document.createElement('button');button.type='button';
   button.className=principal?'module-result-card journey-primary-action':'transit-choice-action';
@@ -191,7 +194,7 @@ function showOneFieldJourney(choice){
   }
  };
  // Restore the previously selected destination and modes when returning from the calendar.
- const searchNodes=[title,input,hint,status,results,confirmed,actions];
+ const searchNodes=[title,input,hint,status,results,confirmed];
  const resetJourneyScroll=()=>{
   for(let element=host;element&&element.id!=='moduleQuickLayer';element=element.parentElement)element.scrollTop=0;
  };
@@ -239,14 +242,11 @@ function showOneFieldJourney(choice){
   departure.textContent=text.from+': '+(origin?.label||text.fromGPS);
   const modes=document.createElement('strong');modes.textContent=text.modes;
   confirmed.append(summary,departure,modes);
-  const distance=origin?Math.hypot(Number(origin.latitude)-Number(selected.latitude),
-   (Number(origin.longitude)-Number(selected.longitude))*Math.cos(Number(selected.latitude)*Math.PI/180))*111:distanceToDestinationKm(selected);
   const suggestedMode=searchPhrase().preferred_mode;
   // The dedicated Hărți → Traseu pietonal remains the only walking entry.
   const choices=[['transit',text.transit],['drive',text.drive]];
   if(suggestedMode)choices.sort((a,b)=>(a[0]===suggestedMode?-1:0)-(b[0]===suggestedMode?-1:0));
   for(const [mode,label] of choices){
-   if(mode==='walk'&&Number.isFinite(distance)&&distance>5)continue;
    const button=makeButton(label,()=>void runMode(mode),true);button.style.width='100%';
    confirmed.append(button);
   }
@@ -274,46 +274,62 @@ function showOneFieldJourney(choice){
   }
   showModes();
  };
- const lookup=async(force=false)=>{
+ // Search flow matches Transport public național, without its GPS country filter.
+ // Its typed input is the primary trigger; the watcher handles Android IME gaps.
+ const lookup=async()=>{
   if(!alive())return;
   const raw=input.value.trim();
-  if(!raw){results.replaceChildren();status.textContent=text.short;return}
   const query=parseJourneyExpression(raw).destination_query;
-  if(query.length<2){status.textContent=text.short;return}
-  const thisSeq=++seq;controller?.abort();controller=new AbortController();
+  if(query.length<2){status.textContent=text.short;results.replaceChildren();return}
+  const n=++seq;controller?.abort();controller=new AbortController();
   status.textContent=text.checking;typing=raw;
   try{
-   const candidates=await fetchMatches(query,controller.signal);
-   if(!alive()||thisSeq!==seq||input.value.trim()!==typing)return;
-   if(candidates.length){status.textContent=text.pick;drawButtons(candidates,choose)}
-   else{results.replaceChildren();status.textContent=text.noResults}
-  }catch(error){
-   if(!alive()||thisSeq!==seq||error?.name==='AbortError')return;
-   results.replaceChildren();status.textContent=text.retry;
+   const response=await fetch(CLIENT_CONFIG.apiUrl,{
+    method:'POST',headers:{'Content-Type':'application/json'},signal:controller.signal,
+    body:JSON.stringify({journey_suggest:{query}})});
+   const data=await response.json();
+   if(!response.ok)throw Error('search_unavailable');
+   if(!alive()||n!==seq||input.value.trim()!==typing)return;
+   const options=Array.isArray(data.candidates)?data.candidates:[];
+   const used=new Set();results.replaceChildren();
+   for(const candidate of options){
+    if(!Number.isFinite(Number(candidate.latitude))||!Number.isFinite(Number(candidate.longitude)))continue;
+    const label=String(candidate.label||'').trim();
+    if(!label)continue;
+    const key=label.toLocaleLowerCase()+'|'+Number(candidate.latitude).toFixed(5)+'|'+Number(candidate.longitude).toFixed(5);
+    if(used.has(key))continue;used.add(key);
+    const btn=makeButton(label,()=>void choose(candidate));
+    btn.className='transit-choice-action journey-suggestion';
+    btn.style.flex='0 0 auto';btn.style.width='100%';btn.style.textAlign='left';
+    results.append(btn);
+    if(used.size>=8)break;
+   }
+   status.textContent=results.children.length?'':text.noResults;
+  }catch(err){
+   if(alive()&&n===seq&&err?.name!=='AbortError'){
+    results.replaceChildren();status.textContent=text.retry;
+   }
   }
  };
  const schedule=()=>{
-  if(timer!==null)clearTimeout(timer);
-  controller?.abort();seq++;selected=null;origin=null;
+  seq++;clearTimeout(timer);controller?.abort();selected=null;origin=null;
   confirmed.replaceChildren();results.replaceChildren();
-  const query=parseJourneyExpression(input.value).destination_query;
-  if(query.length<2){status.textContent=text.short;return}
+  if(input.value.trim().length<2){status.textContent=text.short;return}
   status.textContent=text.checking;
-  timer=setTimeout(()=>void lookup(),280);
+  timer=setTimeout(()=>void lookup(),300);
  };
+ // This is the same input + Enter wiring as national transport.
+ input.addEventListener('input',()=>{
+  inputWatcher?.reset(input.value);schedule();
+ });
+ input.addEventListener('keydown',event=>{
+  if(event.key==='Enter'){event.preventDefault();clearTimeout(timer);void lookup()}
+ });
+ // Additional Android IME fallback only; it never duplicates a normal input event.
  inputWatcher=watchAndroidJourneyInput(input,alive,schedule);
- input.addEventListener('keydown',event=>{if(event.key==='Enter'){
-  event.preventDefault();inputWatcher?.check();
-  if(timer!==null)clearTimeout(timer);void lookup(true)}});
- const search=makeButton(text.search,()=>{if(timer!==null)clearTimeout(timer);void lookup(true)},true);
- search.style.flex='1 1 50%';
- const back=makeButton(text.back,()=>{session.stop();handleModuleLayerBack()},true);
- back.classList.add('pocket-nav-return');
- back.style.flex='1 1 50%';
- back.style.cssText+=';background:linear-gradient(145deg,#903550,#602139)!important;border:2px solid #e9a9b8!important;color:white!important;box-shadow:inset 0 2px 0 #ffffff30,inset 0 -4px 0 #2a1020,0 4px 0 #341426,0 7px 12px #0006!important';
- actions.append(back,search);
- root.append(title,input,hint,status,results,confirmed,actions);
- host.append(root);
+ root.append(title,input,hint,status,results,confirmed);
+ // Replace all old content atomically, just as the working national form does.
+ host.replaceChildren(root);
  input.value=incoming?.raw||'';
  inputWatcher.reset(input.value);
  inputWatcher.start();
