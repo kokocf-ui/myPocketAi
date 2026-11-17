@@ -13,7 +13,7 @@ globalThis.fetch=async input=>{
    {result_type:'city',name:'Oran',city:'Oran',country:'Algeria',country_code:'dz',lat:35.69,lon:-0.64}
   ]});
  }
- if(url.searchParams.get('text')?.includes('Oradea'))
+ if(url.searchParams.get('text')?.includes('Oradea')&&url.searchParams.get('text')?.includes('Romania'))
   return Response.json({results:[{name:'Piața Unirii',street:'Piața Unirii',housenumber:'1',
    formatted:'Piața Unirii 1, Oradea, România',city:'Oradea',country:'Romania',
    country_code:'ro',lat:47.055,lon:21.92,result_type:'building'}]});
