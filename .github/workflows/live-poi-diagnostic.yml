@@ -24,7 +24,7 @@ jobs:
             --header 'Access-Control-Request-Headers: content-type' || true
           sed -n '1,25p' /tmp/opts-headers 2>/dev/null || true
           echo '== JSON category requests (synthetic location, no personal data) =='
-          for cat in restaurant fast_food parking; do
+          for cat in restaurant fast_food parking lounge beauty_services furniture appliances corner_shop poi park; do
             echo "::group::POST category=$cat"
             body=$(printf '{"message":"Caută locuri în apropierea mea.","language":"ro","history":[],"module":"travel","location_requested":true,"location":{"latitude":51.4775,"longitude":0.3007,"accuracy":20},"coordinates":{"latitude":51.4775,"longitude":0.3007,"accuracy":20},"quick_place_search":true,"place_category":"%s"}' "$cat")
             curl --silent --show-error --max-time 32 --output /tmp/poi-response \
