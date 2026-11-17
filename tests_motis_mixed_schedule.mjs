@@ -27,12 +27,11 @@ const trips=[
 const ranked=selectScheduledMOTISAlternatives(trips,{
  departureAt:at(15),limit:4,now:base
 });
-assert.deepEqual(ranked.map(x=>x.id),[
- 'flight-too-early-for-future-day','train-later-but-sooner','ferry-direct','coach-direct'
-].filter(x=>x!=='flight-too-early-for-future-day'),
+assert.ok(ranked.every(x=>Date.parse(x.startDateTime)>=Date.parse(at(15))),
  'Routes departing before the calendar selection must be excluded');
-assert.deepEqual(ranked.map(x=>x.id),['train-later-but-sooner','ferry-direct','coach-direct'],
- 'Fastest arrival and different transport modes take priority');
+assert.deepEqual(ranked.map(x=>x.id),[
+ 'train-later-but-sooner','ferry-direct','coach-direct','coach-slower'
+], 'Fastest arrival, a representative of each mode, then other verified alternatives');
 assert.deepEqual(selectScheduledMOTISAlternatives(trips,{
  departureAt:at(15),limit:2,now:base
 }).map(x=>x.id),['train-later-but-sooner','ferry-direct']);
