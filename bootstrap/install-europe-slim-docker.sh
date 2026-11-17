@@ -20,7 +20,7 @@ if ! command -v ss >/dev/null 2>&1; then
 fi
 PORT=''
 for candidate in 8770 8771 8772 8773 8774 8775; do
-  if ! sudo ss -H -ltn | awk '{print $4}' | grep -Eq "[:.]\${candidate}\$"; then
+  if ! sudo ss -H -ltn | awk '{print $4}' | grep -Eq "[:.]${candidate}$"; then
     PORT="$candidate"
     break
   fi
@@ -59,6 +59,6 @@ sudo docker run -d --name "$NAME" --restart unless-stopped --network host \
   node:22-alpine node /app/relay.mjs >/dev/null
 sleep 2
 curl --fail --silent --show-error --max-time 4 http://127.0.0.1:$PORT/healthz
-printf '%s\\n' "$PORT" | sudo tee /opt/pocketai-europe-slim/port >/dev/null
-printf '\\nEurope Slim launched on local port %s using existing Docker image; no GTFS downloaded.\\n' "$PORT"
+printf '%s\n' "$PORT" | sudo tee /opt/pocketai-europe-slim/port >/dev/null
+printf '\nEurope Slim launched on local port %s using existing Docker image; no GTFS downloaded.\n' "$PORT"
 df -h /
