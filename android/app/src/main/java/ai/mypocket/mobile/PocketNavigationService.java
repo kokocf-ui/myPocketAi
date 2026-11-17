@@ -222,8 +222,7 @@ public final class PocketNavigationService extends Service implements LocationLi
     }
     private boolean say(String text){
         if(text==null||text.isEmpty())return false;
-        lastInstruction=text;
-        if(muted)return true;
+        if(muted){lastInstruction=text;return true;}
         if(!speechReady)return false;
         long now=System.currentTimeMillis();
         // A suppressed message must not be considered delivered. Retry on
@@ -231,6 +230,7 @@ public final class PocketNavigationService extends Service implements LocationLi
         if(now-lastSpokenAt<3500)return false;
         int result=speech.speak(text,TextToSpeech.QUEUE_FLUSH,null,"pocket-guide-"+now);
         if(result!=TextToSpeech.SUCCESS)return false;
+        lastInstruction=text;
         lastSpokenAt=now;
         return true;
     }
