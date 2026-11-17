@@ -1,0 +1,30 @@
+name: Inline compact voice playback
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - oracle_communication_ui.mjs
+      - tests_inline_voice_player.mjs
+      - tests_communication_message_controls.mjs
+      - .github/workflows/test-inline-voice-player.yml
+  workflow_dispatch:
+
+jobs:
+  chat-voice:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify compact voice player and existing chat behavior
+        run: |
+          node --check oracle_communication_ui.mjs
+          node tests_inline_voice_player.mjs
+          node tests_communication_message_controls.mjs
+          node tests_communication_redesign.mjs
+          node tests_oracle_communication.mjs
+          node tests_hotels_back_chat_fullscreen.mjs
