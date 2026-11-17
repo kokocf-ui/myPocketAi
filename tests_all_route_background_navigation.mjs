@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import vm from 'node:vm';
 import {readFileSync} from 'node:fs';
 const read=p=>readFileSync(new URL(p,import.meta.url),'utf8');
 const app=read('./index.js');
@@ -41,4 +42,27 @@ assert.match(service,/navigationMode="drive".equals/);
 assert.match(service,/notification\(\)/);
 assert.match(service,/ServiceInfo.FOREGROUND_SERVICE_TYPE_LOCATION/);
 assert.match(service,/START_STICKY/);
+// Driving alert thresholds are exact, independently announced 800/200/100m.
+assert.match(service,/int band=remaining<=100\?100:remaining<=200\?200:800/);
+assert.match(service,/if\(say\(phrase\)\)announced.add\(key\)/);
+assert.match(service,/now-lastSpokenAt<3500\)return false/);
+const turnUI=snippet('function pocketDrivingTurnIcon(', 'function stopRouteTracking(');
+const turns={};
+vm.createContext(turns);
+vm.runInContext(turnUI,turns);
+assert.equal(turns.pocketDrivingTurnIcon('Turn right onto High Street'),'↱');
+assert.equal(turns.pocketDrivingTurnIcon('Turn left at the traffic lights'),'↰');
+assert.equal(turns.pocketDrivingTurnIcon('Merge onto the motorway'),'↑');
+const turnCue={hidden:true,style:{display:'none'}},turnIcon={textContent:''},turnDistance={textContent:''};
+const current={navigating:true,turnCue,turnCueIcon:turnIcon,turnCueDistance:turnDistance,route:{
+ profile:'drive',distanceMeters:1200,steps:[{text:'Continue ahead',distanceMeters:800},{text:'Turn right',distanceMeters:400}]}};
+turns.updateDrivingNextTurn(current,{alongMeters:600,totalMeters:1200,away:4},8);
+assert.equal(turnCue.hidden,false);
+assert.equal(turnIcon.textContent,'↱');
+assert.equal(turnDistance.textContent,'200 m');
+turns.updateDrivingNextTurn(current,{alongMeters:850,totalMeters:1200,away:80},8);
+assert.equal(turnCue.hidden,true,'off-route GPS never displays an apparent turn');
+turns.updateDrivingNextTurn({...current,route:{...current.route,profile:'walk'}},{alongMeters:600,totalMeters:1200,away:4},8);
+assert.equal(turnCue.hidden,true,'walking stays unchanged');
+assert.match(app,/host.append\(turnCue\)/);
 console.log('PASS persistent Android foreground route sessions for walking, driving and public transport; map overview on exit');
