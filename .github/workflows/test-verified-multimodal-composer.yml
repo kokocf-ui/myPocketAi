@@ -7,6 +7,8 @@ on:
     paths:
       - verified_multimodal_itineraries.mjs
       - tests_verified_multimodal_itineraries.mjs
+      - mixed_airport_discovery.mjs
+      - tests_mixed_airport_discovery.mjs
       - package.json
       - .github/workflows/test-verified-multimodal-composer.yml
   workflow_dispatch:
@@ -24,5 +26,6 @@ jobs:
         run: |
           node --check verified_multimodal_itineraries.mjs
           node tests_verified_multimodal_itineraries.mjs
+          node tests_mixed_airport_discovery.mjs
           node tests_mixed_transport_comparison.mjs
           node tests_mixed_international_regression.mjs
