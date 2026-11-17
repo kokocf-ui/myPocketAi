@@ -4,6 +4,8 @@ on:
   pull_request:
     branches: [main]
     paths:
+      - mixed_serpapi_discovery.mjs
+      - tests_mixed_serpapi_discovery.mjs
       - serpapi_flight_pilot.mjs
       - serpapi_account_status.mjs
       - tests_serpapi_account_status.mjs
@@ -26,6 +28,8 @@ jobs:
         run: |
           node --check serpapi_flight_pilot.mjs
           node tests_serpapi_flight_pilot.mjs
+          node --check mixed_serpapi_discovery.mjs
+          node tests_mixed_serpapi_discovery.mjs
           node tests_serpapi_account_status.mjs
           node tests_verified_multimodal_itineraries.mjs
           node tests_mixed_airport_discovery.mjs
