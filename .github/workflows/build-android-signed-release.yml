@@ -10,6 +10,9 @@ on:
       - 'tests_transport_departure_entrypoints.mjs'
       - '.github/workflows/build-android-signed-release.yml'
       - 'index.js'
+      - 'mixed_*.mjs'
+      - 'tests_mixed_*.mjs'
+      - 'mixed_stop_identity.mjs'
       - 'extra_tools_workspace.mjs'
       - 'tests_creation_ui.mjs'
       - 'creator_site_ui.mjs'
@@ -40,6 +43,9 @@ on:
       - 'tests_creator_live_ui.mjs'
       - 'android/**'
       - 'index.js'
+      - 'mixed_*.mjs'
+      - 'tests_mixed_*.mjs'
+      - 'mixed_stop_identity.mjs'
       - 'assistant_place_results_ui.mjs'
       - 'nearby_street_geocode.mjs'
       - 'photon_category_discovery.mjs'
@@ -294,7 +300,7 @@ jobs:
         run: node scripts/build_android_ui_preview.mjs
       - name: Assemble signed release
         env:
-          POCKET_TOOLS_UI_PREVIEW: 'true'
+          POCKET_TOOLS_UI_PREVIEW: ${{ github.event_name == 'pull_request' && 'true' || 'false' }}
           POCKET_STORE_PASSWORD: ${{ secrets.POCKET_STORE_PASSWORD }}
           POCKET_KEY_PASSWORD: ${{ secrets.POCKET_KEY_PASSWORD }}
           POCKET_FIREBASE_API_KEY: ${{ vars.POCKET_FIREBASE_API_KEY }}
