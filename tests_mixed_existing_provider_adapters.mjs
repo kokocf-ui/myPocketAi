@@ -167,4 +167,43 @@ const incomplete=await searchMixedRouteProviders({origin:RO1,destination:RO2,
  departureAt:at(0),now:t0,sources:[withRegistry],maxProviderCalls:2});
 assert.equal(incomplete.journeys.length,0,
  'Station-only Bilo journeys are not automatically home-to-home');
+// Cross-company join requires two separately sourced, geometrically checked
+// mappings to ONE documented stop ID. A matching label is never enough.
+const hub=loc('verified-hub',51.505,-0.123);
+const railStop=loc('rail-provider-local-14',hub.latitude,hub.longitude);
+const coachStop=loc('coach-provider-local-19',hub.latitude,hub.longitude);
+const legsFor=(which)=>{
+ if(which==='rail')return [{mode:'train',from:A,to:railStop,
+  departureTime:at(15),arrivalTime:at(48),verified:true}];
+ return [{mode:'coach',from:coachStop,to:B,
+  departureTime:at(70),arrivalTime:at(120),verified:true}];
+};
+const railSource={id:'rail-source',licensed:true,enabled:true,
+ canServe:(x,y)=>x.id===A.id&&y.id===hub.id,
+ async searchLegs(){return {status:'success',legs:legsFor('rail')}}};
+const coachSource={id:'coach-source',licensed:true,enabled:true,
+ canServe:(x,y)=>x.id===hub.id&&y.id===B.id,
+ async searchLegs(){return {status:'success',legs:legsFor('coach')}}};
+const baseRequest={origin:A,destination:B,departureAt:at(0),
+ now:t0,candidateNodes:[hub],sources:[railSource,coachSource]};
+const unlinked=await searchMixedRouteProviders(baseRequest);
+assert.equal(unlinked.journeys.length,0,
+ 'Identical coordinates and label do not themselves create a safe transfer');
+const proofs=[
+ {provider:'rail-source',providerStopId:railStop.id,
+  canonicalId:hub.id,latitude:hub.latitude,longitude:hub.longitude,
+  evidenceSource:'documented station stop code A',verified:true},
+ {provider:'coach-source',providerStopId:coachStop.id,
+  canonicalId:hub.id,latitude:hub.latitude,longitude:hub.longitude,
+  evidenceSource:'documented station stop code B',verified:true}
+];
+const linked=await searchMixedRouteProviders({...baseRequest,identityCrosswalk:proofs});
+assert.equal(linked.status,'verified');
+assert.equal(linked.journeys.length,1);
+assert.equal(linked.journeys[0].modeSignature,'train → coach');
+assert.equal(linked.journeys[0].arrivalDateTime,at(120));
+const falseProof=[proofs[0],{...proofs[1],longitude:hub.longitude+0.2}];
+assert.equal((await searchMixedRouteProviders({
+ ...baseRequest,identityCrosswalk:falseProof})).journeys.length,0,
+ 'Wrong-geometry registry proof cannot bridge distant station platforms');
 console.log('PASS existing providers: TransCAPI door-to-door, Bilo documented stops, crosswalk evidence, no fake transfers');
