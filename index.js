@@ -19617,11 +19617,11 @@ function loadRouteRotationLibrary(){
 }
 // All user-initiated road and walking navigations share the same native
 // location foreground service as the verified public transport journey.
-function pocketNativeRouteCommand(action,route=null){
+function pocketNativeRouteCommand(action,route=null,setting=null){
  try{
   const bridge=window.PocketAndroidRouteGuidance;
   if(typeof bridge?.postMessage!=='function')return false;
-  if(action!=='start'){bridge.postMessage(JSON.stringify({action}));return true}
+  if(action!=='start'){bridge.postMessage(JSON.stringify(action==='mute'&&typeof setting==='boolean'?{action,muted:setting}:{action}));return true}
   if(!validMapRoute(route))return false;
   const original=route.coordinates;
   const stride=Math.max(1,Math.ceil((original.length-1)/2700));
@@ -19634,7 +19634,7 @@ function pocketNativeRouteCommand(action,route=null){
   const routeContext={...route,coordinates:points,steps:safeSteps};
   const message={
    action:'start',navigationMode:route.profile==='drive'?'drive':'walk',
-   language:state.language,destination,
+   language:state.language,destination,muted:window.__pocketNavigationMuted===true,
    walkingLegs:[{index:0,from:dialogText('Poziția mea','My location'),
     to:destination,coordinates:points,steps:safeSteps,
     distanceMeters:Number(route.distanceMeters)||0}],
@@ -19655,6 +19655,19 @@ function pocketDrivingTurnIcon(text){
  if(/right|dreapt|droite|rechts|destra|derecha|direita/.test(phrase))return '↱';
  if(/exit|iesir|ramp|slip road|sortie|ausfahrt|uscita|salida/.test(phrase))return '↗';
  return '↑';
+}
+function syncDrivingVoiceControl(current){
+ const button=current?.voiceButton;
+ if(!button)return;
+ const bridgeReady=typeof window.PocketAndroidRouteGuidance?.postMessage==='function';
+ const visible=current.navigating&&current.route?.profile==='drive'&&bridgeReady;
+ button.hidden=!visible;button.style.display=visible?'grid':'none';
+ const muted=Boolean(current.voiceMuted);
+ button.textContent=muted?'🔇':'🔊';
+ button.setAttribute('aria-pressed',String(muted));
+ const name=muted?dialogText('Repornește indicațiile vocale','Resume voice guidance'):
+   dialogText('Oprește indicațiile vocale','Mute voice guidance');
+ button.setAttribute('aria-label',name);button.title=name;
 }
 function updateDrivingNextTurn(current,projected,accuracy){
  const cue=current?.turnCue;
@@ -19686,10 +19699,13 @@ function stopRouteTracking(current,message,stopNative=true){
  if(!current)return;
  const wasNavigating=Boolean(current.navigating);
  current.navigating=false;
+ syncDrivingVoiceControl(current);
  if(current.turnCue){current.turnCue.hidden=true;current.turnCue.style.display='none'}
  // Closing a map releases only the UI GPS watch; native navigation persists.
  // Only an explicit user Stop/Încheie action stops the foreground service.
- if(wasNavigating&&stopNative)pocketNativeRouteCommand('stop');
+ if(wasNavigating&&stopNative){
+  pocketNativeRouteCommand('stop');window.__pocketNavigationMuted=false;
+ }
  document.body.classList?.remove('pocket-navigation-fullscreen');
  current.map?.stopHeadingUp?.();
  current.resize?.();
@@ -19713,6 +19729,8 @@ function startRouteTracking(current,resumeNative=false){
  if(activeRouteMap!==current||!current.map||current.navigating)return;const t=routeLiveText();
  if(typeof navigator==='undefined'||!navigator.geolocation?.watchPosition){current.liveStatus.hidden=false;current.liveStatus.textContent=t[4];return}
  current.navigating=true;current.watchId=null;current.follow=true;current.firstFix=true;current.layer.classList?.add('navigating');
+ current.voiceMuted=window.__pocketNavigationMuted===true;
+ syncDrivingVoiceControl(current);
  // In native foreground service, the same GPS route remains active if Eva
  // is minimized, the screen locks or Android recreates this WebView.
  if(!resumeNative&&!pocketNativeRouteCommand('start',current.route)){
@@ -19790,9 +19808,21 @@ async function openRouteMap(route,origin,options=state.lastRouteOptions,startNav
  const turnCueIcon=document.createElement('strong');turnCueIcon.style.cssText='font-size:39px;line-height:1.05;font-weight:800;text-shadow:0 1px 2px #0009';
  const turnCueDistance=document.createElement('span');turnCueDistance.style.cssText='font-size:16px;line-height:1.2;font-weight:800;font-variant-numeric:tabular-nums;text-shadow:0 1px 2px #0009';
  turnCue.append(turnCueIcon,turnCueDistance);
- if(route.profile==='drive'){host.style.position='relative';host.append(turnCue);}
+ const voiceButton=document.createElement('button');voiceButton.type='button';voiceButton.className='pocket-driving-voice-toggle';
+ voiceButton.style.cssText='position:absolute;top:12px;right:12px;z-index:1200;box-sizing:border-box;width:52px;height:52px;display:none;place-items:center;border:1px solid rgba(239,250,255,.65);border-radius:14px;background:rgba(7,25,38,.55);color:#fff;font-size:26px;box-shadow:0 3px 12px rgba(0,0,0,.18);backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);touch-action:manipulation;cursor:pointer';
+ voiceButton.hidden=true;
+ if(route.profile==='drive'){host.style.position='relative';host.append(turnCue,voiceButton);}
  layer.append(header,status,navigation,recenter,liveStatus,host,stepsPanel);document.body.append(layer);
- const current={layer,origin,route,navigation,recenter,liveStatus,turnCue:route.profile==='drive'?turnCue:null,turnCueIcon,turnCueDistance,map:null,watchId:null,navigating:false,cleanup:()=>{},resize:null,backAction:previous.onclick};recenter.onclick=()=>{current.follow=true;if(current.lastFix)current.map?.setView(current.lastFix,16,{animate:false})};activeRouteMap=current;
+ const current={layer,origin,route,navigation,recenter,liveStatus,turnCue:route.profile==='drive'?turnCue:null,turnCueIcon,turnCueDistance,voiceButton:route.profile==='drive'?voiceButton:null,voiceMuted:window.__pocketNavigationMuted===true,map:null,watchId:null,navigating:false,cleanup:()=>{},resize:null,backAction:previous.onclick};
+ voiceButton.onclick=()=>{
+  if(!current.navigating||route.profile!=='drive')return;
+  const next=!current.voiceMuted;
+  if(!pocketNativeRouteCommand('mute',null,next))return;
+  current.voiceMuted=next;window.__pocketNavigationMuted=next;
+  syncDrivingVoiceControl(current);
+ };
+ syncDrivingVoiceControl(current);
+ recenter.onclick=()=>{current.follow=true;if(current.lastFix)current.map?.setView(current.lastFix,16,{animate:false})};activeRouteMap=current;
  const resize=()=>{const top=document.querySelector('.bottom-nav')?.getBoundingClientRect().top;layer.style.bottom=current.navigating?'0px':(top>0?Math.max(12,window.innerHeight-top+10):108)+'px';current.map?.invalidateSize()};current.resize=resize;
  const key=e=>{if(e.key==='Escape'){e.preventDefault();closeRouteMap()}};
  window.addEventListener('resize',resize);window.visualViewport?.addEventListener('resize',resize);document.addEventListener('keydown',key);current.cleanup=()=>{window.removeEventListener('resize',resize);window.visualViewport?.removeEventListener('resize',resize);document.removeEventListener('keydown',key)};
