@@ -49,7 +49,7 @@ assert.match(ORACLE_COMMUNICATION_SCRIPT,/selected\.id!==voiceDraftPeer/,'Late c
 assert.match(ORACLE_COMMUNICATION_SCRIPT,/action:'edit_message'/);
 assert.match(ORACLE_COMMUNICATION_SCRIPT,/action:'delete_message'/);
 assert.match(ORACLE_COMMUNICATION_SCRIPT,/function clearChatLocally\(peer\)/);
-assert.match(ORACLE_COMMUNICATION_SCRIPT,/function showMessageActions\(message,peer,visibleText\)/);
+assert.match(ORACLE_COMMUNICATION_SCRIPT,/function showMessageActions\(message,peer,visibleText,anchor\)/);
 assert.match(ORACLE_COMMUNICATION_SCRIPT,/function confirmChatAction\(/);
 assert.match(ORACLE_COMMUNICATION_STYLE,/\.comm-voice-panel/);
 assert.match(ORACLE_COMMUNICATION_STYLE,/dialog\.comm-action-dialog/);
