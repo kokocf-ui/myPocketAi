@@ -216,6 +216,8 @@ jobs:
           node tests_oracle_communication.mjs
           node tests_communication_redesign.mjs
           node tests_communication_message_controls.mjs
+          node tests_inline_voice_player.mjs
+          node tests_communication_final_compact_ui.mjs
           node tests_hotels_back_chat_fullscreen.mjs
           node tests_oracle_fcm.mjs
           node tests_response_quality.mjs

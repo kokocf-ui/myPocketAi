@@ -7,6 +7,7 @@ on:
     paths:
       - oracle_communication_ui.mjs
       - tests_inline_voice_player.mjs
+      - tests_communication_final_compact_ui.mjs
       - tests_communication_message_controls.mjs
       - .github/workflows/test-inline-voice-player.yml
   workflow_dispatch:
@@ -24,6 +25,7 @@ jobs:
         run: |
           node --check oracle_communication_ui.mjs
           node tests_inline_voice_player.mjs
+          node tests_communication_final_compact_ui.mjs
           node tests_communication_message_controls.mjs
           node tests_communication_redesign.mjs
           node tests_oracle_communication.mjs
