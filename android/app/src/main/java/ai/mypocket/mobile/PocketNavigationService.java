@@ -65,7 +65,7 @@ public final class PocketNavigationService extends Service implements LocationLi
         final String from,to;
         final ArrayList<Point> points=new ArrayList<>();
         final ArrayList<Maneuver> maneuvers=new ArrayList<>();
-        double totalMeters=0;
+        double totalMeters=0,reportedMeters=0;
         WalkingLeg(int index,String from,String to){this.index=index;this.from=from;this.to=to;}
     }
     @Override public void onCreate(){
@@ -137,6 +137,12 @@ public final class PocketNavigationService extends Service implements LocationLi
                 if(stage.points.size()<2)continue;
                 for(int k=1;k<stage.points.size();k++)stage.totalMeters+=meters(stage.points.get(k-1),stage.points.get(k));
                 if(stage.totalMeters<5||stage.totalMeters>(navigationMode.equals("drive")?2500000:100000))continue;
+                // Decimated geometry is for GPS tracking; the displayed route
+                // distance, when present, is the authoritative voice distance.
+                double sourceMeters=raw.optDouble("distanceMeters",Double.NaN);
+                stage.reportedMeters=Double.isFinite(sourceMeters)&&sourceMeters>=5&&
+                    sourceMeters<=(navigationMode.equals("drive")?2500000:100000)
+                    ?sourceMeters:stage.totalMeters;
                 JSONArray instructions=raw.optJSONArray("steps");double along=0;
                 if(instructions!=null){
                     for(int j=0;j<instructions.length()&&j<100;j++){
@@ -206,8 +212,13 @@ public final class PocketNavigationService extends Service implements LocationLi
         double km=Math.max(0,meters)/1000.0;
         int decimalPlaces=km<1?2:1;
         Locale locale=Locale.forLanguageTag("ro".equals(language)?"ro-RO":"en-GB");
-        return String.format(locale,"%."+decimalPlaces+"f",km)+
-            ("ro".equals(language)?" kilometri":" kilometres");
+        // Do not let TTS confuse thousands punctuation with decimals:
+        // "2.101,8 km" becomes "2101 virgulă 8 kilometri".
+        long unit=decimalPlaces==2?100:10;
+        long scaled=Math.round(km*unit),whole=scaled/unit,remainder=scaled%unit;
+        String decimal=remainder==0?"":("ro".equals(language)?" virgulă ":" point ")+
+            (unit==100&&remainder<10?"zero ":"")+remainder;
+        return whole+decimal+("ro".equals(language)?" kilometri":" kilometres");
     }
     private void say(String text){
         if(text==null||text.isEmpty())return;
@@ -232,7 +243,7 @@ public final class PocketNavigationService extends Service implements LocationLi
             say(("ro".equals(language)?
                 (navigationMode.equals("drive")?"Urmează traseul auto către ":"Începe mersul pe jos către "):
                 (navigationMode.equals("drive")?"Follow the driving route towards ":"Start walking towards "))+closest.to+
-               (". "+("ro".equals(language)?"Distanță ":"Distance ")+spokenRouteLengthKm(closest.totalMeters)+"."));
+               (". "+("ro".equals(language)?"Distanță ":"Distance ")+spokenRouteLengthKm(closest.reportedMeters)+"."));
         }
         final WalkingLeg active=closest;final double along=nearest.along;
         for(int j=0;j<active.maneuvers.size();j++){

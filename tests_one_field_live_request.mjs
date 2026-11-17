@@ -106,6 +106,7 @@ completing.input.emit('input');
 await completing.flush();
 assert.equal(completing.results.children.length,1,'Partial city is offered as an input completion');
 assert.match(completing.results.children[0].textContent,/Oradea/);
+assert.match(completing.results.children[0].textContent,/Completează localitatea/);
 completing.results.children[0].onclick();
 assert.equal(completing.input.value,'1 Piața Unirii, Oradea, Romania');
 await completing.flush();

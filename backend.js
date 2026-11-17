@@ -1773,7 +1773,7 @@ export default {
       };
       // Inspect provider-confirmed same-street/house hits to rank short city
       // prefixes. This is not a country hard-filter or a fixed city dictionary.
-      const streetContextPromise=cityPrefix&&cityPrefix.length<=2?(async()=>{
+      const streetContextPromise=cityPrefix&&cityPrefix.length<=7?(async()=>{
         const url=new URL('https://api.geoapify.com/v1/geocode/autocomplete');
         url.searchParams.set('text',citySuffix[1].trim());
         url.searchParams.set('format','json');
@@ -1790,12 +1790,17 @@ export default {
       const completionPromise=cityPrefix?(async()=>{
         const [context,globalCities]=await Promise.all([streetContextPromise,citiesPromise]);
         const norm=value=>normalizeGeoName(value),prefix=norm(cityPrefix);
-        const contextCountries=[...new Set(context.map(p=>String(p.country_code||'').toUpperCase()).filter(v=>/^[A-Z]{2}$/.test(v)))];
-        // If the same numbered street is confirmed in one country, fetch that
-        // country's cities too. Keep global options for cross-border searches.
-        let countryCities=[];
-        if(!nationalCountry&&contextCountries.length===1)
-          countryCities=await cityQuery(cityPrefix,contextCountries[0]).catch(()=>[]);
+        const counts=new Map();
+        for(const place of context){
+          const code=String(place.country_code||'').toUpperCase();
+          if(/^[A-Z]{2}$/.test(code))counts.set(code,(counts.get(code)||0)+1);
+        }
+        // Use confirmed street + house-number evidence to rank countries.
+        // Keep all countries possible; never infer the destination from GPS.
+        const countries=[...counts].sort((a,b)=>b[1]-a[1]).slice(0,3).map(([c])=>c);
+        const filtered=await Promise.all(countries.filter(c=>c!==nationalCountry)
+          .map(c=>cityQuery(cityPrefix,c).catch(()=>[])));
+        const countryCities=filtered.flat();
         const seen=new Set(),completions=[];
         const add=(place,locality)=>{
           const name=String(locality||place.city||place.town||place.village||place.name||'').trim();
@@ -1908,6 +1913,12 @@ export default {
        }
       };
       collectVerified(answers);
+      // Also consider verified street + house hits from the first clause
+      // while the user types the town. Exact address matching still applies.
+      if(partialLocality){
+        const streetHits=await streetContextPromise;
+        if(streetHits.length)collectVerified([{status:'fulfilled',value:streetHits}]);
+      }
       // A geocoder may not return a numbered address while the user is still
       // typing the locality. Resolve likely town completions from the mapping
       // provider, then re-query each FULL address. No hardcoded town dictionary.

@@ -167,7 +167,9 @@ function showOneFieldJourney(choice){
    const completions=Array.isArray(data.completions)?data.completions
     .filter(x=>typeof x.query==='string'&&x.query.length<=200&&typeof x.label==='string')
     .map(x=>({completion_only:true,completion_query:x.query,label:x.label})):[];
-   return [...places,...completions];
+   // Text-only city completions come first; selecting one must still
+   // verify the exact numbered address.
+   return [...completions,...places];
   })();
   try{
    return await Promise.race([work,new Promise((_,reject)=>{

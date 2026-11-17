@@ -8000,7 +8000,12 @@ window.pocketAndroidBack=function(){
  if($('mathResultDialog')?.open){mathCloseResults();return}
  if(pocketExitOpen){pocketExitClose();return}
  if($('longChoiceDialog')?.open){closeLongChoice();return}
- if(activeRouteMap){closeRouteMap();return}
+ if(activeRouteMap){
+  const routeWindow=activeRouteMap;
+  if(typeof routeWindow.backAction==='function')routeWindow.backAction();
+  else {closeRouteMap(false);if(state.navigationReturnContext)returnToNavigationSource();else returnToModuleLanding();}
+  return;
+ }
  if(activeAnswerReader){closeAnswerReader();return}
  // Android system Back should close the fullscreen private conversation,
  // not jump straight to Home while it is still open.
@@ -19222,7 +19227,7 @@ async function openTransitJourneyMap(selected,resume=null){
    index:i,from:i===-1?dialogText('Poziția mea','My location'):String(journey.legs?.[i]?.from||''),
    to:i===-1?String(journey.boarding_stop?.label||'Stația de îmbarcare'):String(journey.legs?.[i]?.to||''),
    departureTime:i===-1?String(journey.firstVehicleDepartureTime||''):String(journey.legs?.[i]?.departureTime||''),
-   coordinates:route.coordinates,
+   coordinates:route.coordinates,distanceMeters:Number(route.distanceMeters)||0,
    steps:(route.steps||[]).slice(0,60).map(step=>({text:String(step.text||'').slice(0,180),
      distanceMeters:Number(step.distanceMeters)||0}))
   }));
@@ -19282,7 +19287,7 @@ async function openTransitJourneyMap(selected,resume=null){
  layer.append(head,note,mapHost,details);document.body.append(layer);
  const current={layer,route:selected.accessRoute||null,journey,mapHost,details,
   followButton:follow,recenter,liveStatus:note,walkRoutes,
-  map:null,watchId:null,navigating:false,cleanup:()=>{},resize:null};
+  map:null,watchId:null,navigating:false,cleanup:()=>{},resize:null,backAction:back.onclick};
  activeRouteMap=current;
  const resize=()=>{const top=document.querySelector('.bottom-nav')?.getBoundingClientRect().top;
   layer.style.bottom=current.navigating?'0px':(top>0?Math.max(12,window.innerHeight-top+10):108)+'px';
@@ -19600,7 +19605,8 @@ function pocketNativeRouteCommand(action,route=null){
    action:'start',navigationMode:route.profile==='drive'?'drive':'walk',
    language:state.language,destination,
    walkingLegs:[{index:0,from:dialogText('Poziția mea','My location'),
-    to:destination,coordinates:points,steps:safeSteps}],
+    to:destination,coordinates:points,steps:safeSteps,
+    distanceMeters:Number(route.distanceMeters)||0}],
    navigationContext:{kind:'road_route',route:routeContext}
   };
   const encoded=JSON.stringify(message);
@@ -19705,7 +19711,7 @@ async function openRouteMap(route,origin,options=state.lastRouteOptions,startNav
  if(list.children.length)stepsPanel.append(list);else{const missing=document.createElement('p');missing.textContent=routeActionsText().noSteps;stepsPanel.append(missing)}
  
  const host=document.createElement('div');host.className='route-map-canvas';layer.append(header,status,navigation,recenter,liveStatus,host,stepsPanel);document.body.append(layer);
- const current={layer,origin,route,navigation,recenter,liveStatus,map:null,watchId:null,navigating:false,cleanup:()=>{},resize:null};recenter.onclick=()=>{current.follow=true;if(current.lastFix)current.map?.setView(current.lastFix,16,{animate:false})};activeRouteMap=current;
+ const current={layer,origin,route,navigation,recenter,liveStatus,map:null,watchId:null,navigating:false,cleanup:()=>{},resize:null,backAction:previous.onclick};recenter.onclick=()=>{current.follow=true;if(current.lastFix)current.map?.setView(current.lastFix,16,{animate:false})};activeRouteMap=current;
  const resize=()=>{const top=document.querySelector('.bottom-nav')?.getBoundingClientRect().top;layer.style.bottom=current.navigating?'0px':(top>0?Math.max(12,window.innerHeight-top+10):108)+'px';current.map?.invalidateSize()};current.resize=resize;
  const key=e=>{if(e.key==='Escape'){e.preventDefault();closeRouteMap()}};
  window.addEventListener('resize',resize);window.visualViewport?.addEventListener('resize',resize);document.addEventListener('keydown',key);current.cleanup=()=>{window.removeEventListener('resize',resize);window.visualViewport?.removeEventListener('resize',resize);document.removeEventListener('keydown',key)};
