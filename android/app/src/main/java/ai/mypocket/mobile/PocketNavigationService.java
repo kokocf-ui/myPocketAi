@@ -220,14 +220,19 @@ public final class PocketNavigationService extends Service implements LocationLi
             (unit==100&&remainder<10?"zero ":"")+remainder;
         return whole+decimal+("ro".equals(language)?" kilometri":" kilometres");
     }
-    private void say(String text){
-        if(text==null||text.isEmpty())return;
-        lastInstruction=text;if(muted)return;
-        if(!speechReady)return;
+    private boolean say(String text){
+        if(text==null||text.isEmpty())return false;
+        lastInstruction=text;
+        if(muted)return true;
+        if(!speechReady)return false;
         long now=System.currentTimeMillis();
-        if(now-lastSpokenAt<3500)return;
+        // A suppressed message must not be considered delivered. Retry on
+        // subsequent GPS fixes, while prioritising the nearest distance band.
+        if(now-lastSpokenAt<3500)return false;
+        int result=speech.speak(text,TextToSpeech.QUEUE_FLUSH,null,"pocket-guide-"+now);
+        if(result!=TextToSpeech.SUCCESS)return false;
         lastSpokenAt=now;
-        speech.speak(text,TextToSpeech.QUEUE_FLUSH,null,"pocket-guide-"+now);
+        return true;
     }
     @Override public void onLocationChanged(Location fix){
         if(!started||fix==null||!fix.hasAccuracy()||fix.getAccuracy()>35||
@@ -246,19 +251,40 @@ public final class PocketNavigationService extends Service implements LocationLi
                (". "+("ro".equals(language)?"Distanță ":"Distance ")+spokenRouteLengthKm(closest.reportedMeters)+"."));
         }
         final WalkingLeg active=closest;final double along=nearest.along;
-        for(int j=0;j<active.maneuvers.size();j++){
-            Maneuver m=active.maneuvers.get(j);
-            if(j==0)continue; // First instruction has already started with the leg.
-            double remaining=m.along-along;
-            String key=index+":"+j;
-            if(remaining>0&&remaining<=(navigationMode.equals("drive")?1300:500)&&remaining>(navigationMode.equals("drive")?180:70)&&announced.add(key+":early")){
-                say(("ro".equals(language)?"Peste ":"In ")+Math.round(remaining/10)*10+
-                    ("ro".equals(language)?" de metri, ":" meters, ")+localize(m.text));break;
+        if(navigationMode.equals("drive")){
+            // Auto guidance only: 800m, 200m and 100m before each verified turn.
+            // Process the nearest upcoming turn. If a GPS update jumps past an
+            // earlier band, do not speak an obsolete 800m/200m announcement.
+            for(int j=1;j<active.maneuvers.size();j++){
+                Maneuver m=active.maneuvers.get(j);
+                double remaining=m.along-along;
+                if(remaining<=0)continue;
+                if(remaining>800)break;
+                int band=remaining<=100?100:remaining<=200?200:800;
+                if(band==100&&fix.getAccuracy()>15)break;
+                String key=index+":"+j+":auto:"+band;
+                if(!announced.contains(key)){
+                    String phrase=("ro".equals(language)?"Peste ":"In ")+band+
+                        ("ro".equals(language)?" de metri, ":" meters, ")+localize(m.text);
+                    if(say(phrase))announced.add(key);
+                }
+                break;
             }
-            // At 20m use only high-accuracy GPS; never assert an exact turn
-            // with a coarse fix on the wrong side of an intersection.
-            if(remaining>=0&&remaining<=(navigationMode.equals("drive")?70:20)&&fix.getAccuracy()<=15&&announced.add(key+":near")){
-                say(("ro".equals(language)?(navigationMode.equals("drive")?"În aproximativ 70 de metri, ":"În aproximativ 20 de metri, "):(navigationMode.equals("drive")?"In approximately 70 meters, ":"In about 20 meters, "))+localize(m.text));break;
+        }else{
+            // Keep existing pedestrian distances and GPS-accuracy requirements.
+            for(int j=1;j<active.maneuvers.size();j++){
+                Maneuver m=active.maneuvers.get(j);
+                double remaining=m.along-along;
+                String key=index+":"+j;
+                if(remaining>70&&remaining<=500&&!announced.contains(key+":early")){
+                    if(say(("ro".equals(language)?"Peste ":"In ")+Math.round(remaining/10)*10+
+                        ("ro".equals(language)?" de metri, ":" meters, ")+localize(m.text)))announced.add(key+":early");
+                    break;
+                }
+                if(remaining>=0&&remaining<=20&&fix.getAccuracy()<=15&&!announced.contains(key+":near")){
+                    if(say(("ro".equals(language)?"În aproximativ 20 de metri, ":"In about 20 meters, ")+localize(m.text)))announced.add(key+":near");
+                    break;
+                }
             }
         }
         if(active.totalMeters-along<18&&fix.getAccuracy()<=15&&announced.add(index+":arrived"))
