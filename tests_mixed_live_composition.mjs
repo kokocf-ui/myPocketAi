@@ -5,7 +5,7 @@ import {makeTransCAPIMixedSource,makeMOTISMixedSource} from './mixed_existing_pr
 const backend=readFileSync(new URL('./backend.js',import.meta.url),'utf8');
 const frontend=readFileSync(new URL('./index.js',import.meta.url),'utf8');
 const form=readFileSync(new URL('./one_field_journey_ui.mjs',import.meta.url),'utf8');
-for(const token of ['data.mixed_composition===true','sources.length>=2','const mixedOrigin=explicitOrigin?',
+for(const token of ['data.mixed_composition===true','if(sources.length){','const mixedOrigin=explicitOrigin?',
  'planTransCAPIJourney(env,mixedOrigin,','planMOTISMixedJourney(env,mixedOrigin,'])
  assert.ok(backend.includes(token),token);
 assert.ok(frontend.includes('mixed_composition:choice.mixedComposition||undefined'));
@@ -35,4 +35,9 @@ assert.ok(result.journeys.every(j=>j.legs[0].departurePoint?.lat===a.latitude));
 assert.ok(result.journeys.every(j=>j.legs.at(-1).arrivalLatLon?.lon===z.longitude));
 assert.ok(frontend.includes("state.lastTransitChoice?.mixedJourney===true"),'Mixed results can open details without faking a boarding stop');
 assert.deepEqual(new Set(seen),new Set(['TransCAPI','MOTIS']));
+const motisOnly=await searchMixedRouteProviders({origin:a,destination:z,
+ departureAt:at(0),now:zero,sources:[motis],maxProviderCalls:2,maxHubs:0});
+assert.equal(motisOnly.status,'verified','One licensed provider must be sufficient');
+assert.deepEqual(motisOnly.journeys.map(j=>j.modeSignature),['coach']);
+assert.equal(motisOnly.completeJourneyVerified,true);
 console.log('PASS mixed search: both licensed planners, selected origin and honest fares');
