@@ -56,7 +56,7 @@ r=await discoverMixedFlightCandidates(env,{origin:broadOrigin,destination:broadD
 assert.equal(r.candidates[0].legs.length,1,
  'A direct flight returned by one airport-specific query must outrank 3 connecting flights');
 assert.equal(r.candidates[0].legs[0].from,'LTN');
-assert.ok(searchRequests.some(x=>x.departureAirports.length===1&&x.departureAirports[0]==='LTN'),
+assert.ok(searchRequests.some(x=>x.departureAirports.length===1&&x.departureAirports[0]==='LTN'&&x.stops===1),
  'Do not allow pooled LCY search to hide a London airport later in the geographical shortlist');
 assert.ok(searchRequests.length<=9,'Respect the configured free-query budget');
 assert.equal(r.completeDoorToDoor,false,'No claim of a complete journey without airport access/egress');
