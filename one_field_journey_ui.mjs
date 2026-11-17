@@ -114,32 +114,6 @@ function createTransportDepartureStep({title='',destination='',initialDepartureA
  return step;
 }
 
-// Some Android WebView/IME keyboards update a text input without dispatching
-// a timely input event. Observe the actual value as a safety net, not a second
-// network search: onChange runs only when the text really changed.
-function watchAndroidJourneyInput(input,isOpen,onChange){
- let previous=String(input.value||''),poll=null,stopped=false;
- const check=()=>{
-  if(stopped)return;
-  if(!isOpen()){stop();return}
-  const value=String(input.value||'');
-  if(value===previous)return;
-  previous=value;onChange();
- };
- const deferred=()=>setTimeout(check,0);
- const events=[['input',check],['change',check],['keyup',check],
-  ['compositionend',check],['paste',deferred]];
- for(const [name,listener] of events)input.addEventListener(name,listener);
- const stop=()=>{
-  if(stopped)return;
-  stopped=true;
-  if(poll!==null){clearInterval(poll);poll=null}
-  for(const [name,listener] of events)input.removeEventListener(name,listener);
- };
- const start=()=>{if(!stopped&&poll===null)poll=setInterval(check,300)};
- return {start,stop,check,reset(value){previous=String(value||'')}};
-}
-
 function showOneFieldJourney(choice){
  if(oneFieldJourneySession?.stop)oneFieldJourneySession.stop();
  const incoming=oneFieldJourneyIncoming;
@@ -171,18 +145,32 @@ function showOneFieldJourney(choice){
   button.style.cssText='min-height:48px;min-width:0;white-space:normal;overflow-wrap:anywhere;text-align:center;touch-action:manipulation';
   button.textContent=caption;button.onclick=click;return button;
  };
- let timer=null,controller=null,seq=0,selected=null,origin=null,typing='',inputWatcher=null;
- const session={stop(){seq++;if(timer!==null)clearTimeout(timer);controller?.abort();inputWatcher?.stop()}};
+ let timer=null,controller=null,seq=0,selected=null,origin=null,typing='',observedRaw='';
+ const session={stop(){seq++;if(timer!==null)clearTimeout(timer);controller?.abort()}};
  oneFieldJourneySession=session;
  // The mounted editor, not a lagging Maps/overlay flag, owns this lookup.
  // Android keyboard transitions can change view state without removing the form.
  const alive=()=>root.isConnected&&host.contains(root)&&oneFieldJourneySession===session;
- const fetchMatches=async(query,signal)=>{
-  const r=await fetch(CLIENT_CONFIG.apiUrl,{method:'POST',headers:{'Content-Type':'application/json'},
-   body:JSON.stringify({journey_suggest:{query}}),signal});
-  const data=await r.json();
-  if(!r.ok)throw Error(String(data.error||'journey_search_failed'));
-  return Array.isArray(data.candidates)?data.candidates:[];
+ // A geocoder response normally arrives within seconds. Limit the complete HTTP
+ // exchange, including JSON parsing; never leave "Searching" displayed forever.
+ const fetchMatches=async(query,requestController)=>{
+  let deadline=null;
+  const work=(async()=>{
+   const response=await fetch(CLIENT_CONFIG.apiUrl,{
+    method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({journey_suggest:{query}}),signal:requestController.signal});
+   const data=await response.json();
+   if(!response.ok)throw Error(String(data.error||'journey_search_failed'));
+   return Array.isArray(data.candidates)?data.candidates:[];
+  })();
+  try{
+   return await Promise.race([work,new Promise((_,reject)=>{
+    deadline=setTimeout(()=>{
+     requestController.abort();
+     reject(Error('journey_search_timeout'));
+    },12000);
+   })]);
+  }finally{if(deadline!==null)clearTimeout(deadline)}
  };
  const searchPhrase=()=>parseJourneyExpression(input.value.trim());
  const drawButtons=(list,onChoose)=>{
@@ -261,7 +249,7 @@ function showOneFieldJourney(choice){
    status.textContent=text.verifyFrom+' '+from;
    confirmed.replaceChildren();results.replaceChildren();
    try{
-    const origins=await fetchMatches(from,new AbortController().signal);
+    const origins=await fetchMatches(from,new AbortController());
     if(!alive()||selected!==item)return;
     if(origins.length===1){origin=origins[0];showModes();return}
     if(origins.length>1){
@@ -274,8 +262,8 @@ function showOneFieldJourney(choice){
   }
   showModes();
  };
- // Search flow matches Transport public național, without its GPS country filter.
- // Its typed input is the primary trigger; the watcher handles Android IME gaps.
+ // Keep the working national input listener; no second IME poller can
+ // repeatedly cancel identical requests. Only actual text changes schedule.
  const lookup=async()=>{
   if(!alive())return;
   const raw=input.value.trim();
@@ -284,13 +272,12 @@ function showOneFieldJourney(choice){
   const n=++seq;controller?.abort();controller=new AbortController();
   status.textContent=text.checking;typing=raw;
   try{
-   const response=await fetch(CLIENT_CONFIG.apiUrl,{
-    method:'POST',headers:{'Content-Type':'application/json'},signal:controller.signal,
-    body:JSON.stringify({journey_suggest:{query}})});
-   const data=await response.json();
-   if(!response.ok)throw Error('search_unavailable');
-   if(!alive()||n!==seq||input.value.trim()!==typing)return;
-   const options=Array.isArray(data.candidates)?data.candidates:[];
+   const options=await fetchMatches(query,controller);
+   if(!alive()||n!==seq)return;
+   if(input.value.trim()!==typing){
+    // Android may mutate the input without an event. Retry the actual value.
+    observedRaw='';schedule();return;
+   }
    const used=new Set();results.replaceChildren();
    for(const candidate of options){
     if(!Number.isFinite(Number(candidate.latitude))||!Number.isFinite(Number(candidate.longitude)))continue;
@@ -306,33 +293,32 @@ function showOneFieldJourney(choice){
    }
    status.textContent=results.children.length?'':text.noResults;
   }catch(err){
-   if(alive()&&n===seq&&err?.name!=='AbortError'){
+   // A timeout or unexpected abort is an error, not an infinite loading state.
+   if(alive()&&n===seq){
     results.replaceChildren();status.textContent=text.retry;
    }
   }
  };
  const schedule=()=>{
+  const raw=input.value.trim();
+  if(raw===observedRaw)return; // Ignore duplicate Android input events.
+  observedRaw=raw;
   seq++;clearTimeout(timer);controller?.abort();selected=null;origin=null;
   confirmed.replaceChildren();results.replaceChildren();
-  if(input.value.trim().length<2){status.textContent=text.short;return}
+  if(raw.length<2){status.textContent=text.short;return}
   status.textContent=text.checking;
   timer=setTimeout(()=>void lookup(),300);
  };
- // This is the same input + Enter wiring as national transport.
- input.addEventListener('input',()=>{
-  inputWatcher?.reset(input.value);schedule();
- });
+ input.addEventListener('input',schedule);
+ input.addEventListener('change',schedule);
+ input.addEventListener('compositionend',schedule);
  input.addEventListener('keydown',event=>{
   if(event.key==='Enter'){event.preventDefault();clearTimeout(timer);void lookup()}
  });
- // Additional Android IME fallback only; it never duplicates a normal input event.
- inputWatcher=watchAndroidJourneyInput(input,alive,schedule);
  root.append(title,input,hint,status,results,confirmed);
  // Replace all old content atomically, just as the working national form does.
  host.replaceChildren(root);
  input.value=incoming?.raw||'';
- inputWatcher.reset(input.value);
- inputWatcher.start();
  const direct=incoming?.selected_destination;
  if(direct&&Number.isFinite(Number(direct.latitude))&&Number.isFinite(Number(direct.longitude))){
   selected={latitude:Number(direct.latitude),longitude:Number(direct.longitude),
