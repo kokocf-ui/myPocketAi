@@ -47,7 +47,7 @@ export function convertTransCAPIToMixedLegs(journey,query,{journeyIndex=0}={}){
  const lastCoord=raws.at(-1)?.arrivalLatLon;
  if(!close(fromCoord,fromQuery)||!close(lastCoord,toQuery))return [];
  const normalized=[];
- const prefix='transcapi:itinerary:'+journeyIndex+':'+short(journey.startDateTime);
+ const prefix='tc:'+encodeURIComponent(fromQuery.id)+'>'+encodeURIComponent(toQuery.id)+':'+journeyIndex+':'+short(journey.startDateTime);
  let previousEnd=null,previousToPoint=null;
  for(let i=0;i<raws.length;i++){
   const raw=raws[i],mode=legMode(raw?.mode);
@@ -55,7 +55,8 @@ export function convertTransCAPIToMixedLegs(journey,query,{journeyIndex=0}={}){
   const start=utc(raw?.departureTime),end=utc(raw?.arrivalTime);
   if(!mode||!a||!b||!start||!end||Date.parse(end)<=Date.parse(start)||
      (previousEnd&&Date.parse(start)<Date.parse(previousEnd))||
-     (previousToPoint&&!close(previousToPoint,a)))return [];
+     (previousToPoint&&(!close(previousToPoint,a,75)||
+       label(raw.from)!==label(raws[i-1].to))))return [];
   const fromId=i===0?fromQuery.id:prefix+':stop:'+i;
   const toId=i===raws.length-1?toQuery.id:prefix+':stop:'+(i+1);
   if(!id(fromId)||!id(toId))return [];
