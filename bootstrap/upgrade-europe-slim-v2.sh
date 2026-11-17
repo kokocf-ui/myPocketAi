@@ -18,6 +18,15 @@ docker image inspect node:22-alpine >/dev/null || { echo 'Existing node:22-alpin
 work=$(mktemp -d /tmp/europe-slim-upgrade.XXXXXXXX)
 chmod 0700 "$work"
 changed=0
+launch(){
+ docker run -d --name "$NAME" --restart unless-stopped --network host \
+  --user 10001:10001 --read-only --cap-drop ALL --security-opt no-new-privileges \
+  --memory 192m --pids-limit 32 --cpus 0.5 --log-driver local --log-opt max-size=1m --log-opt max-file=2 \
+  --env-file "$ENVFILE" -e EU_RELAY_PORT="$PORT" -e EU_RELAY_PROVIDERS_FILE="$CONFIG" \
+  -e NODE_OPTIONS=--max-old-space-size=80 \
+  -v "$FILE:/app/relay.mjs:ro" -v "$CONFIG:$CONFIG:ro" \
+  node:22-alpine node /app/relay.mjs >/dev/null
+}
 restore(){
   trap - ERR
   if [[ "$changed" == 1 ]]; then
@@ -87,19 +96,14 @@ chmod 0644 "$CONFIG"
 # Copy in-place so the previously mounted file inode remains valid until restart.
 cat "$work/relay.new" > "$FILE"
 chmod 0644 "$FILE"
-launch(){
- docker run -d --name "$NAME" --restart unless-stopped --network host \
-  --user 10001:10001 --read-only --cap-drop ALL --security-opt no-new-privileges \
-  --memory 192m --pids-limit 32 --cpus 0.5 --log-driver local --log-opt max-size=1m --log-opt max-file=2 \
-  --env-file "$ENVFILE" -e EU_RELAY_PORT="$PORT" -e EU_RELAY_PROVIDERS_FILE="$CONFIG" \
-  -e NODE_OPTIONS=--max-old-space-size=80 \
-  -v "$FILE:/app/relay.mjs:ro" -v "$CONFIG:$CONFIG:ro" \
-  node:22-alpine node /app/relay.mjs >/dev/null
-}
 docker rm -f "$NAME" >/dev/null
 launch
-sleep 2
-curl -fsS --max-time 4 "http://127.0.0.1:$PORT/healthz"
+ready=0
+for attempt in 1 2 3 4 5 6 7 8; do
+  if curl -fsS --max-time 2 "http://127.0.0.1:$PORT/healthz"; then ready=1; break; fi
+  sleep 1
+done
+[[ "$ready" == 1 ]] || { echo "Europe Slim did not become ready"; false; }
 changed=0
 trap - ERR
 printf '\nEurope Slim v2 running on localhost:%s. Other containers unchanged.\n' "$PORT"
