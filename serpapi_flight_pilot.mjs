@@ -64,7 +64,7 @@ export function normalizeFlightSearchResults(payload, {currency = 'GBP', date, m
   return normalized;
 }
 
-export function prepareSerpApiFlightSearch({departureAirports,arrivalAirports,outboundDate,currency='GBP'}={}) {
+export function prepareSerpApiFlightSearch({departureAirports,arrivalAirports,outboundDate,currency='GBP',stops=0}={}) {
   const origin = codes(departureAirports),dest = codes(arrivalAirports);
   if (!origin.length || !dest.length || !datePattern.test(String(outboundDate||'')) ||
       !Number.isFinite(Date.parse(`${outboundDate}T00:00:00Z`)) ||
@@ -76,6 +76,9 @@ export function prepareSerpApiFlightSearch({departureAirports,arrivalAirports,ou
   u.searchParams.set('arrival_id',dest.join(','));
   u.searchParams.set('outbound_date',outboundDate);
   u.searchParams.set('currency',currency);u.searchParams.set('hl','en');
+  // SerpApi Google Flights uses stops=1 for NONSTOP flights, not one stop.
+  // Dedicated nonstop scans avoid multi-airport ranking bias.
+  if(stops===1)u.searchParams.set('stops','1');
   return u;
 }
 
