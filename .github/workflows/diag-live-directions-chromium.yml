@@ -1,0 +1,33 @@
+name: Diagnostic live Directions UI in Chromium
+
+on:
+  push:
+    branches:
+      - diag/live-directions-chromium-20261117
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  chromium-live:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install isolated Playwright browser
+        run: |
+          npm install --no-save --ignore-scripts --no-audit --no-fund playwright@1.56.1
+          npx playwright install chromium
+      - name: Trace actual live UI and geocoder
+        run: node scripts/diag_live_directions_browser.mjs
+      - name: Store screenshots for diagnosis
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: live-directions-diagnostic
+          path: directions-*.png
+          if-no-files-found: ignore
