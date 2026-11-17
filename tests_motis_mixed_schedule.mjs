@@ -22,7 +22,7 @@ const trips=[
  mk('ferry',50,190,'ferry-direct'),
  mk('coach',20,235,'coach-slower'),
  mk('walking',0,280,'no-public-transport'),
- mk('flight',20,85,'flight-too-early-for-future-day')
+ mk('flight',10,85,'flight-too-early-for-future-day')
 ];
 const ranked=selectScheduledMOTISAlternatives(trips,{
  departureAt:at(15),limit:4,now:base
