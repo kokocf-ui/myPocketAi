@@ -31,7 +31,24 @@ export function compareMixedTransportOptions(journeys){
   const fares=options.map(quotedTotalFare);
   const pricedCount=fares.filter(Boolean).length;
   if(options.length<2)return {fastestIndex,cheapestIndex:null,priceStatus:'one_option',pricedCount};
-  if(pricedCount!==options.length)return {fastestIndex,cheapestIndex:null,priceStatus:'missing_or_incomplete',pricedCount};
+  if(pricedCount!==options.length){
+    // Partial quotes can still be compared *among the fully priced options*.
+    // Never badge one as the absolute cheapest when other journeys have no
+    // verifiable total. Do not convert foreign currencies heuristically.
+    const available=fares.map((fare,index)=>fare?index:null).filter(index=>index!==null);
+    const currencies=new Set(available.map(index=>fares[index].currency));
+    if(available.length>=2&&currencies.size===1){
+      let cheapestKnownIndex=available[0];
+      for(const index of available.slice(1)){
+        if(fares[index].amount<fares[cheapestKnownIndex].amount||
+           fares[index].amount===fares[cheapestKnownIndex].amount&&index===fastestIndex)
+          cheapestKnownIndex=index;
+      }
+      return {fastestIndex,cheapestIndex:null,priceStatus:'missing_or_incomplete',
+        pricedCount,cheapestKnownIndex,cheapestKnownFare:fares[cheapestKnownIndex]};
+    }
+    return {fastestIndex,cheapestIndex:null,priceStatus:'missing_or_incomplete',pricedCount};
+  }
   const currencies=new Set(fares.map(f=>f.currency));
   if(currencies.size!==1)return {fastestIndex,cheapestIndex:null,priceStatus:'different_currencies',pricedCount};
   let cheapestIndex=0;
