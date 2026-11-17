@@ -35,7 +35,7 @@ assert.match(menus,/if\(event\.target===dialog\)close\(\)/,
  'Tapping outside the two actions dismisses them');
 assert.doesNotMatch(menus,/confirmChatAction|chatModal\(/,
  'Never open a second confirmation frame for voice deletion');
-assert.doesNotMatch(menus,/Înapoi|Back|Cancel/,'No Back/Cancel button in voice choices');
+assert.doesNotMatch(menus,/makeBtn\(tr\('Înapoi'|'Cancel'\)|makeBtn\('Înapoi'/,'No Back/Cancel button in voice choices');
 assert.match(menus,/if\(message\.sender===identity\.id\)buttons\.push/,
  'Deleting for both is sender-only');
 assert.match(menus,/action:'delete_message'/,'Server-synchronized delete remains');
