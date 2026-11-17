@@ -72,8 +72,17 @@ export function minimumMixedTransferMinutes(previous,next){
 }
 function asVisibleJourney(path,searchStart,geography){
   const first=path[0],last=path.at(-1);
+  const firstVehicle=path.find(l=>!isWalk(l.mode));
+  const boardingPoint=firstVehicle?mixedPoint(firstVehicle.from):null;
+  const boarding_stop=boardingPoint?{
+    ...boardingPoint,label:firstVehicle.from.label,
+    departure_time:firstVehicle.departureTime
+  }:null;
   const legs=path.map(l=>({
     mode:l.mode,from:l.from.label,to:l.to.label,provider:l.provider,
+    ...(mixedPoint(l.from)?{departurePoint:{lat:l.from.latitude,lon:l.from.longitude,
+      commonName:l.from.label}}:{}),
+    ...(mixedPoint(l.to)?{arrivalLatLon:{lat:l.to.latitude,lon:l.to.longitude}}:{}),
     departureTime:l.departureTime,arrivalTime:l.arrivalTime,
     durationMinutes:(l.arrivalMs-l.departureMs)/60000,
     operator:l.operator,lineNames:l.lineNames,
@@ -91,7 +100,9 @@ function asVisibleJourney(path,searchStart,geography){
     durationMinutes:(last.arrivalMs-searchStart)/60000,
     journeyMinutes:(last.arrivalMs-first.departureMs)/60000,
     elapsedFromRequestMinutes:(last.arrivalMs-searchStart)/60000,
-    legs,transferCount:Math.max(0,modes.length-1),
+    legs,boarding_stop,firstVehicleDepartureTime:firstVehicle?.departureTime||null,
+    safetyMarginMinutes:5,accessWalkVerified:false,
+    transferCount:Math.max(0,modes.length-1),
     modes:[...new Set(modes)],modeSignature:modes.join(' → '),
     fareComplete,fareLocal:fareComplete?{amount:Math.round(amount*100)/100,currency:[...currencySet][0]}:null,
     bookingRequirement:priced.length>1?'check_each_leg':'check_provider',

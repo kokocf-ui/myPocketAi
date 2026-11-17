@@ -19386,7 +19386,14 @@ async function selectTransitJourney(options,index){
  const stop=journey.boarding_stop,valid=()=>state.selectedTransitJourney===selected&&state.transitAccessGeneration===generation&&state.conversationGeneration===chatGeneration;
  if(isRomanianRailJourney(journey)&&!validTransitBoardingStop(stop)){selected.loading=false;selected.error='';renderTransitChoices(options,index);return;}
  const fail=message=>{if(!valid())return;selected.loading=false;selected.error=message;renderTransitChoices(options);transitRefreshNotice(message)};
- if(!validTransitBoardingStop(stop)){fail(t[11]);return}
+ if(!validTransitBoardingStop(stop)){
+  // A verified provider itinerary without coordinate-backed boarding data
+  // is still useful as timetable details; do not pretend to navigate to a stop.
+  if(state.lastTransitChoice?.mixedJourney===true){
+   selected.loading=false;selected.error='';renderTransitChoices(options,index);return;
+  }
+  fail(t[11]);return
+ }
  const departure=Date.parse(journey.firstVehicleDepartureTime||stop.departure_time||'');if(Number.isFinite(departure)&&departure<=Date.now()){fail(t[14]);return}
  let timer,locationReady=false;try{
   const coordinates=state.lastTransitChoice?.journeyOrigin||await getCurrentCoordinates(false);if(!valid())return;if(!coordinates||!Number.isFinite(coordinates.latitude)||!Number.isFinite(coordinates.longitude)){fail(t[12]);return}
