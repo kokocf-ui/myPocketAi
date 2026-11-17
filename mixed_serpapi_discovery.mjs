@@ -33,7 +33,8 @@ export async function discoverMixedFlightCandidates(env,{origin,destination,depa
     const outboundDate=day(start+offset*86400000);
     const result=await search(env,{departureAirports,arrivalAirports,outboundDate,
       currency:'GBP',userInitiated:true});
-    datesChecked.push({date:outboundDate,status:result.status});
+    datesChecked.push({date:outboundDate,status:result.status,
+      diagnostic:result.diagnostic||null});
     lastStatus=result.status;
     for(const candidate of result.candidates||[]){
       if(!departureAt&&candidate.legs?.[0]?.startLocal){
@@ -45,7 +46,9 @@ export async function discoverMixedFlightCandidates(env,{origin,destination,depa
       seen.add(key);all.push(candidate);
     }
     if(all.length)break; // earliest day with results, no needless credit use.
-    if(!['candidate_results_only'].includes(result.status))break;
+    // A provider error for today's search may be a no-departures/late-date
+    // response. In an undated user search, try following days too (max 3).
+    if(!['candidate_results_only','provider_error'].includes(result.status))break;
   }
   return {status:all.length?'candidate_results_only':lastStatus,
     candidates:all.slice(0,12),datesChecked,departureAirports,arrivalAirports,
