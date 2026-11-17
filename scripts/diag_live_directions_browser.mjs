@@ -21,12 +21,10 @@ page.on('response',async res=>{
 try{
  const response=await page.goto('https://lifewise-ai-v2.kokocf.workers.dev/?uiFresh='+Date.now(),{waitUntil:'domcontentloaded',timeout:35000});
  console.log('HTTP_FRONTEND',response?.status());
- await page.waitForFunction(()=>typeof window.switchConversationModule==='function' && typeof window.openModuleLandingAction==='function',{timeout:25000});
- console.log('READY',await page.evaluate(()=>({view:state.currentView,lang:state.language,module:state.currentModule})));
- await page.evaluate(()=>{
-  switchConversationModule('maps');
-  openModuleLandingAction(MODULE_QUICK_CHOICES.maps[0]);
- });
+ console.log('DOM_BOOT',await page.locator('#view-home .feature-card').count());
+ await page.locator('#view-home .feature-card[data-module="maps"]').click({timeout:12000});
+ console.log('MAPS_CARDS',await page.locator('.module-landing-choice').count());
+ await page.locator('.module-landing-choice').first().click({timeout:12000});
  await page.locator('.journey-one-field-input').waitFor({timeout:10000});
  for(const address of ['Basildon, UK','Nufărului 1, Oradea, România']){
   events.length=0;
@@ -52,5 +50,9 @@ try{
   console.log('FINISHED',address,'STATUS',status,'EVENTS',JSON.stringify(events).slice(0,7000));
   await page.screenshot({path:'directions-'+(address.startsWith('B')?'basildon':'oradea')+'.png',fullPage:true});
  }
-}catch(err){console.log('TEST_FAILED',String(err),String(err.stack).slice(0,1300));process.exitCode=1}
+}catch(err){console.log('TEST_FAILED',String(err),String(err.stack).slice(0,1300));
+ console.log('FAIL_EVENTS',JSON.stringify(events).slice(0,6000));
+ console.log('FAIL_DOM',await page.locator('body').innerText().then(x=>x.slice(0,1400)).catch(()=>'(none)'));
+ await page.screenshot({path:'directions-failure.png',fullPage:true}).catch(()=>{});
+ process.exitCode=1}
 finally{await browser.close()}
