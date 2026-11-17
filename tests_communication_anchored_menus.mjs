@@ -32,8 +32,12 @@ assert.match(css,/height:auto!important;max-height:none!important;min-height:max
  'Full height of wrapped message is preserved');
 assert.match(css,/\.comm-message--text \.comm-message-body,[\s\S]*?overflow:visible!important;overflow-wrap:anywhere!important/,
  'Long text wraps fully without drawing outside the bubble');
-assert.match(css,/\.comm-message--text\.mine \.comm-message-menu,[\s\S]*?left:calc\(100% \+ 5px\)!important;right:auto!important/,
- 'Ellipsis stays after sent message, not before it');
+assert.match(render,/footer\.append\(menu\);row\.append\(footer\)/,
+ 'Trailing ellipsis belongs inside text footer');
+assert.doesNotMatch(render,/row\.append\(menu\)/,
+ 'No external menu in text rows');
+assert.match(css,/\.comm-message--text \.comm-message-footer \.comm-message-menu,[\s\S]*?position:static!important/,
+ 'In-bubble text button ignores legacy external absolute position');
 
 const viewport={clientWidth:700,clientHeight:850};
 const document={documentElement:viewport};
