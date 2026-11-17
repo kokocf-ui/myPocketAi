@@ -4045,6 +4045,14 @@ function returnToNavigationSource(){
  if(source.view==='assistant'){switchConversationModule('assistant');if(source.encyclopediaArticle){state.encyclopediaTripActive=false;openEncyclopediaCard(source.encyclopediaArticle,NaN)}return}
  if(!['maps','travel'].includes(source.module)){switchConversationModule('assistant');return}
  switchConversationModule(source.module);
+ // A route started from the one-field Deplasare spre… selector must return
+ // to that selector with the destination preserved, never to app Home.
+ if(source.module==='maps'&&source.choice?.mixedJourney&&source.routeContext?.destination){
+  oneFieldJourneyIncoming={raw:String(source.routeContext.destination_query||''),
+   selected_destination:source.routeContext.destination,
+   selected_origin:source.routeContext.origin||null};
+  openModuleLandingAction(source.choice);return;
+ }
  state.moduleSearchResults=Array.isArray(source.results)?source.results.slice():[];state.moduleSearchCategory=source.choice||null;state.moduleSearchReply=source.reply||'';
  document.querySelector('.module-quick-sheet')?.classList.remove('results-mode');
  $('moduleLayerBody').style.cssText='';
@@ -8006,6 +8014,14 @@ window.pocketAndroidBack=function(){
   else {closeRouteMap(false);if(state.navigationReturnContext)returnToNavigationSource();else returnToModuleLanding();}
   return;
  }
+ // The route alternatives are a fullscreen step with their own Back button.
+ const routeChoiceScreen=document.querySelector('.route-choice-screen');
+ if(routeChoiceScreen){
+  const routeChoiceBack=routeChoiceScreen.querySelector('.answer-reader-header .route-header-action');
+  if(typeof routeChoiceBack?.onclick==='function')routeChoiceBack.onclick();
+  else routeChoiceScreen.remove();
+  return;
+ }
  if(activeAnswerReader){closeAnswerReader();return}
  // Android system Back should close the fullscreen private conversation,
  // not jump straight to Home while it is still open.
@@ -8019,6 +8035,11 @@ window.pocketAndroidBack=function(){
  if(state.currentView==='communication'&&window.pocketCommunicationCloseChat?.())return;
  const quick=$('moduleQuickLayer');
  if(quick?.classList.contains('open')){
+  // The native Back button follows the same hierarchy as the visible
+  // public-transport toolbar: journey details → itinerary alternatives.
+  const transitResults=quick.querySelector('.module-quick-sheet.results-mode');
+  const transitBack=transitResults?.querySelector('.quick-navigation-toolbar > button');
+  if(typeof transitBack?.onclick==='function'){transitBack.onclick();return;}
   handleModuleLayerBack();return;
  }
  if(state.currentView==='module'&&state.currentModule==='maps'&&state.navigationReturnContext?.module==='travel'){
@@ -19614,11 +19635,13 @@ function pocketNativeRouteCommand(action,route=null){
   bridge.postMessage(encoded);return true;
  }catch(error){console.warn('Native route session could not start',error);return false}
 }
-function stopRouteTracking(current,message){
+function stopRouteTracking(current,message,stopNative=true){
  if(!current)return;
  const wasNavigating=Boolean(current.navigating);
  current.navigating=false;
- if(wasNavigating)pocketNativeRouteCommand('stop');
+ // Closing a map releases only the UI GPS watch; native navigation persists.
+ // Only an explicit user Stop/Încheie action stops the foreground service.
+ if(wasNavigating&&stopNative)pocketNativeRouteCommand('stop');
  document.body.classList?.remove('pocket-navigation-fullscreen');
  current.map?.stopHeadingUp?.();
  current.resize?.();
@@ -19693,7 +19716,7 @@ function loadRouteMapLibrary(){
   script.onload=()=>{clearTimeout(timer);window.L?resolve(window.L):reject(new Error('Map unavailable'))};script.onerror=()=>{clearTimeout(timer);script.remove();reject(new Error('Map unavailable'))};document.head.append(script);
  }).catch(error=>{leafletLoading=null;throw error});return leafletLoading;
 }
-function closeRouteMap(restoreFocus=true){const current=activeRouteMap;if(!current)return;activeRouteMap=null;stopRouteTracking(current);current.cleanup();current.map?.remove();current.layer.remove();if(restoreFocus){const options=transitOptionsForRoute(current.route);if(options?.length)showTransitChoices(options);else if(current.origin?.isConnected)current.origin.focus({preventScroll:true})}}
+function closeRouteMap(restoreFocus=true){const current=activeRouteMap;if(!current)return;activeRouteMap=null;stopRouteTracking(current,undefined,false);current.cleanup();current.map?.remove();current.layer.remove();if(restoreFocus){const options=transitOptionsForRoute(current.route);if(options?.length)showTransitChoices(options);else if(current.origin?.isConnected)current.origin.focus({preventScroll:true})}}
 async function openRouteMap(route,origin,options=state.lastRouteOptions,startNavigation=false){
  const resumeNative=arguments.length>4&&arguments[4]===true;
  dismissSelectionKeyboard();
