@@ -1,0 +1,28 @@
+name: Free flight discovery pilot validation
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - serpapi_flight_pilot.mjs
+      - tests_serpapi_flight_pilot.mjs
+      - package.json
+      - .github/workflows/test-serpapi-free-flight-pilot.yml
+  workflow_dispatch:
+
+jobs:
+  safe-free-flight-pilot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify strict free-only flight candidate search
+        run: |
+          node --check serpapi_flight_pilot.mjs
+          node tests_serpapi_flight_pilot.mjs
+          node tests_verified_multimodal_itineraries.mjs
+          node tests_mixed_airport_discovery.mjs
+          node tests_motis_mixed_schedule.mjs
