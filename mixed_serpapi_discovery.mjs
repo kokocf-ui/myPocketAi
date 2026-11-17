@@ -93,7 +93,7 @@ export async function discoverMixedFlightCandidates(env,{origin,destination,depa
   // farther group instead of silently dropping all those alternatives.
   if(arrivalAirports.length>6)
    add(departureAirports.slice(0,6),arrivalAirports.slice(6,12));
-  let attempted=0,foundThisDay=0;
+  let attempted=0,foundThisDay=0,providerDiagnostic=null;
   for(const request of requests){
    if(queries>=maxQueries)break;
    queries++;attempted++;
@@ -102,6 +102,7 @@ export async function discoverMixedFlightCandidates(env,{origin,destination,depa
     result=await search(env,{...request,outboundDate,currency:'GBP',userInitiated:true});
    }catch{result={status:'provider_unavailable',candidates:[]};}
    lastStatus=result?.status||'provider_unavailable';
+   if(lastStatus==='provider_error')providerDiagnostic=String(result?.diagnostic||'provider_error').slice(0,120);
    for(const candidate of result?.candidates||[]){
     if(!departureAt&&candidate.legs?.[0]?.startLocal &&
        candidate.legs[0].startLocal.slice(0,10)<day(now))continue;
@@ -111,10 +112,11 @@ export async function discoverMixedFlightCandidates(env,{origin,destination,depa
    }
    // Do not continue to burn quota or report false 'no flights' when access
    // is disabled, exhausted, or credentials/provider requests fail.
-   if(!['candidate_results_only','provider_error'].includes(lastStatus))break;
+   if(lastStatus!=='candidate_results_only')break;
   }
   datesChecked.push({date:outboundDate,status:foundThisDay?'candidate_results_only':lastStatus,
-   queries:attempted,candidates:foundThisDay});
+   queries:attempted,candidates:foundThisDay,
+   ...(providerDiagnostic?{diagnostic:providerDiagnostic}:{})});
   // The selected date is fixed; an undated request shows the first day with
   // results, but compares all checked airport sources for that day.
   if(foundThisDay||!['candidate_results_only','provider_error'].includes(lastStatus))break;
