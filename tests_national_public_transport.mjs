@@ -15,6 +15,12 @@ assert.equal(check({originCountry:'GB',destinationCountry:'GB'}).provider,'uk_na
 assert.equal(check({originCountry:'GB',destinationCountry:'RO'}).status,'international_destination');
 assert.equal(check({originCountry:'RO',destinationCountry:'GB'}).status,'international_destination');
 assert.equal(check({originCountry:'FR',destinationCountry:'FR'}).status,'country_provider_not_connected');
+assert.equal(nationalPublicTransportPolicy({originCountry:'FR',destinationCountry:'FR',
+ enabledProviders:['europe_slim_national']}).provider,'europe_slim_national');
+assert.equal(nationalPublicTransportPolicy({originCountry:'FR',destinationCountry:'DE',
+ enabledProviders:['europe_slim_national']}).status,'international_destination');
+assert.equal(nationalPublicTransportPolicy({originCountry:'GB',destinationCountry:'GB',
+ enabledProviders:['europe_slim_national']}).provider,'europe_slim_national');
 assert.equal(check({originCountry:'',destinationCountry:'GB'}).status,'origin_country_unverified');
 assert.equal(nationalPublicTransportPolicy({originCountry:'GB',destinationCountry:'GB',enabledProviders:['tfl']}).status,'national_provider_not_connected');
 assert.match(frontend,/title:'Transport public național'/);
