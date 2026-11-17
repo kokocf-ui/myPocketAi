@@ -15,7 +15,7 @@ jobs:
         shell: bash
         run: |
           set -u
-          url='https://lifewise-ai-api.kokocf.workers.dev/api/chat'
+          url='https://lifewise-ai-v2.kokocf.workers.dev/api/chat'
           echo '== OPTIONS preflight (as WebView browser) =='
           curl --silent --show-error --max-time 12 --output /tmp/options --dump-header /tmp/opts-headers --write-out 'HTTP:%{http_code} TOTAL:%{time_total} DNS:%{time_namelookup} CONNECT:%{time_connect} TLS:%{time_appconnect}\n' \
             --request OPTIONS "$url" \
