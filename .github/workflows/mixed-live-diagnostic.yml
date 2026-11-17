@@ -1,10 +1,9 @@
 name: Diagnose international mixed flight search
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - .github/workflows/mixed-live-diagnostic.yml
+  workflow_run:
+    workflows: ["Deploy MyPocketAI to Cloudflare"]
+    types: [completed]
   workflow_dispatch:
 
 jobs:
