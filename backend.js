@@ -1726,11 +1726,13 @@ export default {
        urban_configured:Boolean(String(env.RO_URBAN_API_URL||'').trim()&&
          String(env.RO_URBAN_API_TOKEN||'').trim().length>=32)
       }:null;
-      const supported=country==='RO'
+      // A connected European relay may serve GB/RO even if their legacy adapter
+      // credentials are unavailable. Other countries must be explicitly enabled.
+      const euSupported=Boolean(country&&europeSlimConfigured(env)&&
+        (['GB','RO'].includes(country)||europeSlimCountryEnabled(env,country)));
+      const supported=euSupported||(country==='RO'
        ?Boolean(roCoverage.intercity_configured||roCoverage.urban_configured)
-       :country==='GB'?Boolean(env.TRANSCAPI_API_KEY||env.TFL_APP_KEY||env.TFL_PUBLIC_FALLBACK!=='false')
-       // Extra European countries are opt-in per verified source, never all 49 by default.
-       :Boolean(country&&europeSlimCountryEnabled(env,country));
+       :country==='GB'?Boolean(env.TRANSCAPI_API_KEY||env.TFL_APP_KEY||env.TFL_PUBLIC_FALLBACK!=='false'):false);
       return json({country_code:country||'',supported,source:'verified_gps_country',
        ...(roCoverage?{provider_coverage:roCoverage}:{})});
     }
