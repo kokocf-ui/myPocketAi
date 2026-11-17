@@ -220,7 +220,8 @@ public final class MainActivity extends ComponentActivity {
         if(snapshot==null||snapshot.length()<10||snapshot.length()>250000)return;
         // JSON-quoted argument; the app only consumes a data snapshot, never
         // executable JavaScript supplied by transport providers.
-        web.evaluateJavascript("window.pocketRestoreNavigationSession && window.pocketRestoreNavigationSession("+
+        web.evaluateJavascript("window.__pocketNavigationMuted="+prefs.getBoolean("muted",false)+";"+
+            "window.pocketRestoreNavigationSession && window.pocketRestoreNavigationSession("+
             JSONObject.quote(snapshot)+");",null);
     }
     private static final String APP_URL = "https://lifewise-ai-v2.kokocf.workers.dev/";
@@ -1130,9 +1131,11 @@ public final class MainActivity extends ComponentActivity {
                     +"var picker=document.getElementById('languageSelect');"
                     +"if(picker)picker.addEventListener('change',function(){setTimeout(send,0)});"
                     +"document.addEventListener('visibilitychange',send);window.addEventListener('pagehide',send);send()})()",null);
+                android.content.SharedPreferences navPrefs=
+                    getSharedPreferences("pocket_navigation_session",MODE_PRIVATE);
                 view.evaluateJavascript("window.__pocketNavigationActive="+
-                    getSharedPreferences("pocket_navigation_session",MODE_PRIVATE)
-                        .getBoolean("active",false)+";",null);
+                    navPrefs.getBoolean("active",false)+";window.__pocketNavigationMuted="+
+                    navPrefs.getBoolean("muted",false)+";",null);
                 // When Android creates a fresh WebView, restore the verified
                 // journey and resume map tracking from the foreground service.
                 restoreNativeNavigationInWebView();
@@ -1226,6 +1229,9 @@ public final class MainActivity extends ComponentActivity {
                                 startService(service);
                             }else if("mute".equals(action)){
                                 service.setAction(PocketNavigationService.ACTION_MUTE);
+                                // Explicit on/off rather than a blind toggle.
+                                if(request.has("muted")&&request.opt("muted") instanceof Boolean)
+                                    service.putExtra(PocketNavigationService.EXTRA_MUTED,request.optBoolean("muted"));
                                 startService(service);
                             }
                         }catch(Exception e){
