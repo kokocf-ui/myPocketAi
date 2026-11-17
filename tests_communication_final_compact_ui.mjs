@@ -9,7 +9,7 @@ const block=(a,b)=>{const i=js.indexOf(a),j=js.indexOf(b,i+a.length);assert(i>=0
 const render=block('async function refreshMessages(){','function resizeChatViewport(){');
 const player=block('function buildInlineVoice(','\nconst voiceBtn=makeBtn(');
 const attachments=block('const COMM_FILE_MIMES=Object.freeze({','async function encryptMedia(');
-const textMenu=block('function showMessageActions(message,peer,visibleText){','\n// Receipt acknowledgement');
+const textMenu=block('function showMessageActions(message,peer,visibleText,anchor){','\n// Receipt acknowledgement');
 assert.match(render,/const row=el\('div',undefined,'comm-message '\+\(message\.sender===identity\.id\?'mine':'theirs'\)/);
 assert.match(css,/\.comm-message\.mine\.comm-message--voice/,'Own voice styled independently');
 assert.match(css,/\.comm-message\.theirs\.comm-message--voice/,'Incoming voice styled independently');
@@ -27,13 +27,13 @@ assert.match(css,/\.comm-message--text \.comm-message-footer,[\s\S]*?min-height:
  'No large blank footer in short text messages');
 assert.match(css,/\.comm-message--text \.comm-message-menu,[\s\S]*?position:absolute!important/,
  'Text menu lives outside message bubble');
-assert.match(css,/\.comm-message--text\.mine \.comm-message-menu,[\s\S]*?right:calc\(100% \+ 5px\)/,
+assert.match(css,/\.comm-message--text\.mine \.comm-message-menu,[\s\S]*?left:calc\(100% \+ 5px\)!important;right:auto!important/, 
  'Menu is outside the sender bubble');
 assert.match(render,/makeBtn\('⋮',\(\)=>showMessageActions/,
  'Text uses a vertical ellipsis');
 assert.match(player,/makeBtn\('⋮',\(\)=>showVoiceSaveOptions/,
  'Voice uses a vertical ellipsis');
-assert.match(textMenu,/return showVoiceChoiceMenu\(options\)/,'Text options use the flat outside-dismiss menu');
+assert.match(textMenu,/return showVoiceChoiceMenu\(options,\{anchor,placement:'below',side:mine\?'right':'left'\}\)/,'Text options use anchored, outside-dismiss choice menu');
 assert.doesNotMatch(textMenu,/chatModal\(|confirmChatAction\(/,
  'Message context menu does not use nested framed confirmation');
 assert.match(css,/dialog\.comm-voice-choice-menu\{\s*box-sizing:border-box!important;display:flex!important/,
@@ -46,9 +46,9 @@ assert.match(js,/if\(event\.target===dialog\)close\(\)/,'Outside taps dismiss ch
 const fakePicker={accept:'',clicks:0,click(){this.clicks++}};
 const selected={id:'peer'};
 const showVoiceChoiceMenu=actions=>actions;
-const make= new Function('mediaPicker','selected','showVoiceChoiceMenu','tr',
+const make= new Function('mediaPicker','selected','showVoiceChoiceMenu','tr','attachButton',
  attachments+';return {communicationAttachmentMime,showAttachmentChoices,COMM_FILE_MIMES};');
-const h=make(fakePicker,selected,showVoiceChoiceMenu,(ro,en)=>ro);
+const h=make(fakePicker,selected,showVoiceChoiceMenu,(ro,en)=>ro,{getBoundingClientRect:()=>({})});
 const actions=h.showAttachmentChoices();
 assert.deepEqual(actions.map(x=>x.label),['📄 Fișier','🖼 Fotografie','🎬 Video']);
 actions[0].action();
