@@ -108,4 +108,29 @@ const falsePosition=await searchMixedRouteProviders({
 });
 assert.equal(falsePosition.journeys.length,0,
  'Source-provided start point 100 degrees away is not the requested door');
+// When the provider budget is tight, search verified origin access,
+// airport corridor and destination egress BEFORE irrelevant cross-country
+// queries. Neither airport nor route is hardcoded in the planner.
+const tried=[];
+const broadGround={id:'ground-with-broad-coverage',licensed:true,enabled:true,
+ canServe:()=>true,async searchLegs({from,to}){
+  tried.push(from.id+'>'+to.id);
+  if(from.id===start.id&&to.id===airportA.id)
+   return {status:'success',legs:[leg(start,airportA,'walking',0,50)]};
+  if(from.id===airportB.id&&to.id===finish.id)
+   return {status:'success',legs:[leg(airportB,finish,'coach',400,510)]};
+  return {status:'success',legs:[]};
+ }};
+const airConnector={...flight,id:'authorized-corridor-flights'};
+const prioritized=await searchMixedRouteProviders({
+ origin:start,destination:finish,departureAt:at(0),now:zero,
+ candidateNodes:[{...airportA,mixedHubRole:'origin_access'},
+  {...airportB,mixedHubRole:'destination_egress'}],
+ sources:[broadGround,airConnector],maxProviderCalls:5,maxHubs:2
+});
+assert.equal(prioritized.status,'verified','Dated flights and real access/egress connect');
+assert.equal(prioritized.journeys[0].modeSignature,'flight → coach');
+assert.equal(prioritized.searchCalls,5);
+assert.deepEqual(tried,[start.id+'>'+finish.id,start.id+'>'+airportA.id,
+ airportB.id+'>'+finish.id,airportA.id+'>'+airportB.id]);
 console.log('PASS source-driven mixed routing: dynamic hubs, verified stop identity, complete routes and licensed-only budgets');
