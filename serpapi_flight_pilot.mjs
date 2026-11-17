@@ -105,8 +105,13 @@ export async function searchSerpApiFreeFlights(env,params,{fetcher=fetch}={}) {
     const response = await fetcher(url,{signal:AbortSignal.timeout(20000)});
     if (!response.ok) return {status:'search_http_'+response.status,candidates:[]};
     const payload = await response.json();
-    if (payload.error || payload.search_metadata?.status==='Error')
-      return {status:'provider_error',candidates:[]};
+    if (payload.error || payload.search_metadata?.status==='Error'){
+      // Report a bounded, secret-redacted provider explanation, not a raw payload.
+      const diagnostic=String(payload.error||payload.search_metadata?.status||'unknown')
+        .replaceAll(key,'[redacted]').replace(/api_key[\\s=:]+[^\\s&]+/gi,'api_key=[redacted]')
+        .replace(/https?:\\/\\/\\S+/g,'[url]').slice(0,180);
+      return {status:'provider_error',diagnostic,candidates:[]};
+    }
     return {status:'candidate_results_only',
       candidates:normalizeFlightSearchResults(payload,{currency:params.currency||'GBP',date:params.outboundDate}),
       searchedAirports:{departure:codes(params.departureAirports),arrival:codes(params.arrivalAirports)},
