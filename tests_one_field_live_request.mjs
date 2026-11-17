@@ -27,7 +27,7 @@ class Element {
  emit(type,key=type){for(const fn of this.events.get(type)||[])fn({key,preventDefault(){}})}
 }
 
-function openJourney(currentModule,{hang=false,cityCompletion=false}={}){
+function openJourney(currentModule,{hang=false,cityCompletion=false,manyResults=false}={}){
  const doc={};doc.body=new Element(doc);doc.createElement=()=>new Element(doc);
  doc.querySelector=()=>({classList:{remove(){}}});
  const layer=new Element(doc),host=new Element(doc),header=new Element(doc);
@@ -52,7 +52,9 @@ function openJourney(currentModule,{hang=false,cityCompletion=false}={}){
    if(hang)return new Promise(()=>{}); // Simulates a stalled Android HTTP request.
    return {ok:true,json:async()=>cityCompletion&&requests.length===1
     ?{candidates:[],completions:[{label:'1 Piața Unirii, Oradea, Romania',query:'1 Piața Unirii, Oradea, Romania'}]}
-    :{candidates:[{label:'Strada Nufărului 1, Oradea, România',latitude:47.07,longitude:21.94,country_code:'RO'}]}};
+    :{candidates:manyResults?Array.from({length:18},(_,i)=>({label:'Verified address '+i,
+       latitude:47+i*0.001,longitude:21.94,country_code:'RO'})):
+      [{label:'Strada Nufărului 1, Oradea, România',latitude:47.07,longitude:21.94,country_code:'RO'}]}};
   },()=>1,()=>{},(cb,ms)=>{const id=++timerId;timers.set(id,{cb,ms});return id},
   id=>timers.delete(id),AbortController,(ro,en)=>ro);
  render({mixedJourney:true});
@@ -76,6 +78,11 @@ for(const module of ['maps','travel']){
  assert.equal(page.requests[0].journey_suggest.query,'Nufărului 1, Oradea');
  assert.equal(page.results.children[0].textContent,'Strada Nufărului 1, Oradea, România');
 }
+const unbounded=openJourney('maps',{manyResults:true});
+unbounded.input.value='Strada lungă 1,';
+unbounded.input.emit('input');
+await unbounded.flush();
+assert.equal(unbounded.results.children.length,18,'All provider suggestions should be rendered, without eight-result cutoff');
 const pick=openJourney('maps');
 pick.input.value='Nufărului 1, Oradea';pick.input.emit('input');
 await pick.flush();

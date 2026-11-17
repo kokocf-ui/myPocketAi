@@ -181,7 +181,7 @@ function showOneFieldJourney(choice){
  const searchPhrase=()=>parseJourneyExpression(input.value.trim());
  const drawButtons=(list,onChoose)=>{
   results.replaceChildren();
-  for(const item of list.slice(0,8)){
+  for(const item of list){
    const btn=makeButton(String(item.label||''),()=>onChoose(item));
    btn.classList.add('journey-suggestion');
    btn.style.textAlign='left';btn.style.width='100%';results.append(btn);
@@ -342,8 +342,7 @@ function showOneFieldJourney(choice){
      btn.className='transit-choice-action journey-city-completion';
      btn.style.flex='0 0 auto';btn.style.width='100%';btn.style.textAlign='left';
      results.append(btn);
-     if(results.children.length>=8)break;
-     continue;
+      continue;
     }
     if(!Number.isFinite(Number(candidate.latitude))||!Number.isFinite(Number(candidate.longitude)))continue;
     const label=String(candidate.label||'').trim();
@@ -354,8 +353,7 @@ function showOneFieldJourney(choice){
     btn.className='transit-choice-action journey-suggestion';
     btn.style.flex='0 0 auto';btn.style.width='100%';btn.style.textAlign='left';
     results.append(btn);
-    if(used.size>=8)break;
-   }
+    }
    status.textContent=results.children.length?'':text.noResults;
   }catch(err){
    // A timeout or unexpected abort is an error, not an infinite loading state.

@@ -24,12 +24,12 @@ try {
   // Provider returns plausible wrong house number and city as well as exact match.
   if(text.includes('1 Piata Unirii')&&text.includes('Ora'))
    return Response.json({results:[addr('Oradea','2'),addr('Oradea'),addr('Cluj-Napoca')]});
-  if(text.includes('1 Nufarului')&&/Ora/i.test(text)){
+  if(text.includes('1 Nufarului')&&/\bO/i.test(text)){
    const neighbouring={...addr('Oradea','1','Nufarului'),village:'Sântandrei',
     formatted:'Strada Nufarului 1, Sântandrei, Romania'};
    return Response.json({results:[neighbouring,addr('Oradea','1','Nufarului')]});
   }
-  if(/^(?:Or|Ora|Orad|Orade)$/i.test(text))return Response.json({results:[{city:'Oradea',country_code:'ro',result_type:'city',country:'Romania'},
+  if(/^(?:O|Or|Ora|Orad|Orade)$/i.test(text))return Response.json({results:[{city:'Oradea',country_code:'ro',result_type:'city',country:'Romania'},
    {city:'Orastie',country_code:'ro',result_type:'city',country:'Romania'},
    {city:'Orange',country_code:'us',result_type:'city',country:'United States'}]});
   if(text==='1 Piata Unirii, Oradea')
@@ -44,13 +44,13 @@ try {
  assert.equal(data.candidates[0].city,'Oradea');
  assert.equal(data.candidates[0].house_number,'1');
  assert.ok(!data.candidates.some(x=>x.city==='Cluj-Napoca'||x.house_number==='2'));
- for(const prefix of ['Or','Ora','Orad','Orade']){
+ for(const prefix of ['O','Or','Ora','Orad','Orade']){
   const typed=await lookup('Nufarului 1, '+prefix);
   assert.ok(typed.completions.some(x=>/Oradea/.test(x.query)),
    'Complete actual provider town while typing '+prefix);
   assert.ok(!typed.candidates.some(x=>/Sântandrei/.test(x.label)),
    'Neighbouring village must not appear as requested city');
-  if(prefix.length>=3){
+  if(prefix.length>=1){
    assert.equal(typed.candidates[0]?.city,'Oradea',
     'Verified local address stays available for '+prefix);
   }

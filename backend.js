@@ -1741,7 +1741,7 @@ export default {
       // A suffix such as ", Ora" can be a still-typed locality. In autocomplete
       // use provider-verified city prefixes but never relax street/door matching.
       const partialLocality=parsed.kind==='address'&&
-        /^[\p{L}\p{M}][\p{L}\p{M} '-]{2,30}$/u.test(parsed.locality||'')?
+        /^[\p{L}\p{M}][\p{L}\p{M} '-]{0,29}$/u.test(parsed.locality||'')?
         String(parsed.locality).trim():null;
       const pointOk=location&&Number.isFinite(Number(location.latitude))&&Number.isFinite(Number(location.longitude))&&Math.abs(Number(location.latitude))<=90&&Math.abs(Number(location.longitude))<=180;
       const endpoints=['https://api.geoapify.com/v1/geocode/autocomplete'];
@@ -1749,38 +1749,73 @@ export default {
       // search endpoint; a partial word does not trigger an extra provider call.
       if(selected.length>=8&&(/(?:,|\s+din\s+|\s+in\s+|\s+\d+[a-z]?$)/iu.test(selected)||/(?:station|underground|tube|railway|gara|gară|statie|stație|metrou|metro|airport|aeroport)/iu.test(selected)))
         endpoints.push('https://api.geoapify.com/v1/geocode/search');
-      // If the user typed a partial town after a comma (e.g. an address,
-      // followed by "Ora"), offer provider-confirmed town completions. Never
-      // treat a town centre as the verified street/house-number destination.
-      // Keep completing a locality throughout typing, not just its first
-      // five letters. Only addresses need the separate city lookup.
+      // Split a numbered address from its locality from the FIRST character
+      // after a comma. A city completion does not verify a building address.
       const citySuffix=parsed.kind==='address'
-        ?selected.match(/^(.{3,120}),\s*([\p{L}\p{M}][\p{L}\p{M} '-]{1,29})$/u):null;
-      const completionPromise=citySuffix?(async()=>{
-        const cityUrl=new URL('https://api.geoapify.com/v1/geocode/autocomplete');
-        cityUrl.searchParams.set('text',citySuffix[2]);
-        cityUrl.searchParams.set('type','city');
-        cityUrl.searchParams.set('limit','20');
-        cityUrl.searchParams.set('apiKey',env.GEOAPIFY_API_KEY);
-        if(nationalCountry)cityUrl.searchParams.set('filter','countrycode:'+nationalCountry.toLowerCase());
-        const response=await fetch(cityUrl.href,{signal:AbortSignal.timeout(6500)});
+        ?selected.match(/^([^,]{3,120}),\s*([\p{L}\p{M}][\p{L}\p{M} '-]{0,29})$/u):null;
+      const cityPrefix=citySuffix?citySuffix[2].trim():'';
+      const geocodeResults=async url=>{
+        const response=await fetch(url.href,{signal:AbortSignal.timeout(6500)});
         if(!response.ok)return [];
         const data=await response.json();
-        const cities=Array.isArray(data.results)?data.results:[];
-        const normCity=value=>normalizeGeoName(value);
-        const prefix=normCity(citySuffix[2]),seenCity=new Set(),completions=[];
-        for(const city of cities){
-          if(!/^(?:city|town|village|municipality)$/i.test(String(city.result_type||'')))continue;
-          const name=String(city.city||city.town||city.village||city.name||'').trim();
-          const country=String(city.country||'').trim();
-          const countryCode=String(city.country_code||'').toUpperCase();
-          if(!name||!/^[A-Z]{2}$/.test(countryCode)||!normCity(name).startsWith(prefix)||
-            normCity(name)===prefix||(nationalCountry&&countryCode!==nationalCountry))continue;
-          const key=normCity(name)+'|'+countryCode;
-          if(seenCity.has(key))continue;seenCity.add(key);
+        return Array.isArray(data.results)?data.results:
+          Array.isArray(data.features)?data.features.map(f=>f.properties||{}):[];
+      };
+      const cityQuery=(prefix,countryCode='')=>{
+        const url=new URL('https://api.geoapify.com/v1/geocode/autocomplete');
+        url.searchParams.set('text',prefix);
+        url.searchParams.set('type','city');
+        url.searchParams.set('format','json');
+        url.searchParams.set('limit','100');
+        url.searchParams.set('apiKey',env.GEOAPIFY_API_KEY);
+        if(countryCode)url.searchParams.set('filter','countrycode:'+countryCode.toLowerCase());
+        return geocodeResults(url);
+      };
+      // Inspect provider-confirmed same-street/house hits to rank short city
+      // prefixes. This is not a country hard-filter or a fixed city dictionary.
+      const streetContextPromise=cityPrefix&&cityPrefix.length<=2?(async()=>{
+        const url=new URL('https://api.geoapify.com/v1/geocode/autocomplete');
+        url.searchParams.set('text',citySuffix[1].trim());
+        url.searchParams.set('format','json');
+        url.searchParams.set('limit','100');
+        url.searchParams.set('apiKey',env.GEOAPIFY_API_KEY);
+        if(nationalCountry)url.searchParams.set('filter','countrycode:'+nationalCountry.toLowerCase());
+        const rows=await geocodeResults(url);
+        return rows.filter(p=>String(p.country_code||'')&&
+          (!num||String(p.housenumber||'').toLowerCase()===num.toLowerCase())&&
+          travelPlaceCandidateMatches(parsed.name,p));
+      })().catch(()=>[]):Promise.resolve([]);
+      const citiesPromise=cityPrefix?
+        cityQuery(cityPrefix,nationalCountry).catch(()=>[]):Promise.resolve([]);
+      const completionPromise=cityPrefix?(async()=>{
+        const [context,globalCities]=await Promise.all([streetContextPromise,citiesPromise]);
+        const norm=value=>normalizeGeoName(value),prefix=norm(cityPrefix);
+        const contextCountries=[...new Set(context.map(p=>String(p.country_code||'').toUpperCase()).filter(v=>/^[A-Z]{2}$/.test(v)))];
+        // If the same numbered street is confirmed in one country, fetch that
+        // country's cities too. Keep global options for cross-border searches.
+        let countryCities=[];
+        if(!nationalCountry&&contextCountries.length===1)
+          countryCities=await cityQuery(cityPrefix,contextCountries[0]).catch(()=>[]);
+        const seen=new Set(),completions=[];
+        const add=(place,locality)=>{
+          const name=String(locality||place.city||place.town||place.village||place.name||'').trim();
+          const country=String(place.country||'').trim();
+          const countryCode=String(place.country_code||'').toUpperCase();
+          if(!name||!/^[A-Z]{2}$/.test(countryCode)||
+             !norm(name).startsWith(prefix)||norm(name)===prefix||
+             (nationalCountry&&countryCode!==nationalCountry))return;
+          const key=norm(name)+'|'+countryCode;
+          if(seen.has(key))return;
+          seen.add(key);
           const query=[citySuffix[1].trim(),name,country].filter(Boolean).join(', ');
           completions.push({label:query,query});
-          if(completions.length>=5)break;
+        };
+        // These are text completions only. Selecting one re-geocodes the full
+        // street and house number before confirming a destination.
+        for(const place of context)add(place,place.village||place.town||place.city||place.municipality);
+        for(const place of [...countryCities,...globalCities]){
+          if(!/^(?:city|town|village|municipality)$/i.test(String(place.result_type||'')))continue;
+          add(place);
         }
         return completions;
       })().catch(()=>[]):Promise.resolve([]);
@@ -1788,7 +1823,7 @@ export default {
         const url=new URL(endpoint);
         url.searchParams.set('text',selected);
         url.searchParams.set('format','json');
-        url.searchParams.set('limit','10');
+        url.searchParams.set('limit','100');
         url.searchParams.set('apiKey',env.GEOAPIFY_API_KEY);
         if(nationalCountry)url.searchParams.set('filter','countrycode:'+nationalCountry.toLowerCase());
         // National named stations must not be geocoded as a nearby London POI
@@ -1869,16 +1904,14 @@ export default {
             kind:String(p.result_type||'place').slice(0,30),source:p.source||'Geoapify',
             stop_id:String(p.stop_id||''),_name:String(p.name||p.brand||'').slice(0,160),
             _categories:Array.isArray(p.categories)?p.categories.slice(0,12):[]});
-          if(candidates.length>=30)break;
         }
-        if(candidates.length>=30)break;
        }
       };
       collectVerified(answers);
       // A geocoder may not return a numbered address while the user is still
       // typing the locality. Resolve likely town completions from the mapping
       // provider, then re-query each FULL address. No hardcoded town dictionary.
-      if(!candidates.length&&partialLocality&&num&&selected.length<=180){
+      if(!candidates.length&&partialLocality&&partialLocality.length>=3&&num&&selected.length<=180){
        try{
         const cityUrl=new URL('https://api.geoapify.com/v1/geocode/autocomplete');
         cityUrl.searchParams.set('text',partialLocality);
@@ -1917,7 +1950,7 @@ export default {
        }catch{ /* Preserve first-pass candidates and never infer an address. */ }
       }
       // National autocomplete enforces precise station types, GPS-near exact addresses and de-duplicates provider results.
-      const ranked=rankJourneySuggestions(selected,candidates,{origin:pointOk?{latitude:Number(location.latitude),longitude:Number(location.longitude)}:null,national:Boolean(nationalCountry)}).slice(0,8)
+      const ranked=rankJourneySuggestions(selected,candidates,{origin:pointOk?{latitude:Number(location.latitude),longitude:Number(location.longitude)}:null,national:Boolean(nationalCountry)})
         .map(({_name,_categories,...candidate})=>candidate);
       // Continue offering verified town-name completions even if the provider
       // found another possible address while the user is still typing.

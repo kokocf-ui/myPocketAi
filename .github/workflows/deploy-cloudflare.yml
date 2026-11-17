@@ -194,6 +194,7 @@ jobs:
           node tests_corner_shop_walking_frontage.mjs
           node tests_romania_provider_readiness.mjs
           node tests_journey_city_autocomplete.mjs
+          node tests_one_field_live_request.mjs
           node --check ro_urban_client.mjs
           node tests_ro_urban_client.mjs
           node --check ai_response_quality.mjs
