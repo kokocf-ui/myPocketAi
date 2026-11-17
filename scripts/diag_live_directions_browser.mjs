@@ -1,4 +1,5 @@
 import {chromium} from 'playwright';
+// Production regression check after __name fix, commit 5602ac8.
 const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
 const page=await browser.newPage({viewport:{width:390,height:844},locale:'ro-RO'});
 const events=[];
