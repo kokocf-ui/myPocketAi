@@ -191,6 +191,7 @@ jobs:
           node tests_serpapi_account_status.mjs
           node --check mixed_serpapi_discovery.mjs
           node tests_mixed_serpapi_discovery.mjs
+          node tests_mixed_air_ground_coexist.mjs
           node tests_serpapi_flight_pilot.mjs
           node tests_cloudflare_model_retirement.mjs
           node tests_walking_address_arrival.mjs
