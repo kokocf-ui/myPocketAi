@@ -1,5 +1,12 @@
 import assert from 'node:assert/strict';
 import worker from './backend.js';
+import {europeCityPrefixMatches} from './europe_city_prefix_index.mjs';
+
+const europeanRo=europeCityPrefixMatches('O',['Romania']);
+assert.ok(europeanRo.some(c=>c.name==='Oradea'));
+assert.ok(europeCityPrefixMatches('Or',['Romania']).some(c=>c.name==='Oradea'));
+assert.ok(!europeCityPrefixMatches('O',['United Kingdom']).some(c=>c.name==='Oradea'),
+ 'The city index is country-scoped and never suggests a Romanian town for UK-only evidence');
 
 const oldFetch=globalThis.fetch;
 const calls=[];
@@ -54,6 +61,24 @@ try {
    assert.equal(typed.candidates[0]?.city,'Oradea',
     'Verified local address stays available for '+prefix);
   }
+ }
+ // Live-provider failure regression: a 1-2 letter city lookup may return NO
+ // cities, while the street-only lookup confirms the country. Completion
+ // must still surface Oradea from the licensed city index.
+ globalThis.fetch=async input=>{
+  const u=new URL(typeof input==='string'?input:input.url||String(input));
+  if(u.searchParams.get('text')==='1 Nufarului')return Response.json({results:[{
+   lat:45.6,lon:25.6,street:'Nufarului',housenumber:'1',city:'Brasov',
+   country:'Romania',country_code:'ro',result_type:'building',
+   formatted:'Nufarului 1, Brasov, Romania'
+  }]});
+  return Response.json({results:[]});
+ };
+ for(const prefix of ['O','Or']){
+  const limited=await lookup('Nufarului 1, '+prefix);
+  assert.ok(limited.completions.some(x=>/Oradea/.test(x.label)),
+   'Use the compact Europe city index when Geoapify returns no short prefix: '+prefix);
+  assert.deepEqual(limited.candidates,[],'No fictitious building for short city prefix');
  }
  data=await lookup('Piața Unirii 1, Cla');
  assert.equal(data.candidates?.length,0,'Wrong city prefix must not match Oradea');

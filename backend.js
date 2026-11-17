@@ -23,6 +23,7 @@ import {verifiedGpsCountry} from "./country_gps_resolution.mjs";
 import {nationalPublicTransportPolicy} from "./national_public_transport_policy.mjs";
 import {verifiedRouteOnlyOptions,routeOnlyMessage} from "./transport_route_topology.mjs";
 import {rankJourneySuggestions} from "./journey_suggestion_rank.mjs";
+import {europeCityPrefixMatches} from "./europe_city_prefix_index.mjs";
 import {romanianLocalJourneyScope} from "./romanian_transport_scope.mjs";
 import {searchAnchorPolicy} from "./country_search_anchor.mjs";
 import {nationalProviderAuthorized} from "./country_national_provider_gate.mjs";
@@ -1821,6 +1822,28 @@ export default {
         for(const place of [...countryCities,...globalCities]){
           if(!/^(?:city|town|village|municipality)$/i.test(String(place.result_type||'')))continue;
           add(place);
+        }
+        // Geoapify autocomplete does not serve one- and two-letter cities.
+        // For these early keystrokes use a licensed European CITY NAME index,
+        // scoped to countries evidenced by the exact street + house results.
+        // The city alone never authorizes navigation to an unverified building.
+        if(prefix.length<=2&&context.length){
+          const countryNames=[...new Set(context.map(place=>{
+            const code=String(place.country_code||'').toUpperCase();
+            const label=String(place.country||'').trim();
+            return label||(/^[A-Z]{2}$/.test(code)
+              ?new Intl.DisplayNames(['en'],{type:'region'}).of(code):'');
+          }).filter(Boolean))];
+          for(const city of europeCityPrefixMatches(cityPrefix,countryNames)){
+            const evidence=context.find(p=>{
+              const code=String(p.country_code||'').toUpperCase();
+              const name=String(p.country||'').trim()||
+                (/^[A-Z]{2}$/.test(code)?new Intl.DisplayNames(['en'],{type:'region'}).of(code):'');
+              return norm(name)===norm(city.country);
+            });
+            if(evidence)add({city:city.name,country:city.country,
+              country_code:String(evidence.country_code||'').toUpperCase()},city.name);
+          }
         }
         return completions;
       })().catch(()=>[]):Promise.resolve([]);
