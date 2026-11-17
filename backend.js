@@ -39,6 +39,7 @@ import {planTransCAPIJourney,transCAPISharedZone} from "./uk_national_transit.mj
 import {motisQueryDepartureAt,selectScheduledMOTISAlternatives} from "./motis_mixed_schedule.mjs";
 import {evaluateMixedJourneyGeography} from "./mixed_route_quality.mjs";
 import {searchMixedRouteProviders} from "./mixed_route_provider_search.mjs";
+import {discoverAirportCandidates} from "./mixed_airport_discovery.mjs";
 import {makeTransCAPIMixedSource,makeMOTISMixedSource} from "./mixed_existing_provider_adapters.mjs";
 import {checkSerpApiSecretStatus} from "./serpapi_account_status.mjs";
 import {requestTfLJourneys} from "./tfl_shared_journeys.mjs";
@@ -3829,12 +3830,37 @@ export default {
             const sources=[tc,mt].filter(s=>s.enabled&&s.licensed);
             if(sources.length){
               try{
-                const combined=await searchMixedRouteProviders({
-                  origin:start,destination:end,
-                  departureAt:effectiveDepartureAt||new Date().toISOString(),
-                  sources,maxProviderCalls:2,maxHubs:0,parallelDirect:true,maxResults:requestedOptionsCount,
-                  now:Date.now()-90000
+                const searchAt=effectiveDepartureAt||new Date().toISOString();
+                let combined=await searchMixedRouteProviders({
+                  origin:start,destination:end,departureAt:searchAt,
+                  sources,maxProviderCalls:2,maxHubs:0,parallelDirect:true,
+                  maxResults:requestedOptionsCount,now:Date.now()-90000
                 });
+                // International fallback: discover airport locations on BOTH
+                // sides of the journey from live geography, not a fixed list.
+                // Airports are only query nodes. A flight is never asserted
+                // unless a licensed schedule source actually returns a dated,
+                // fully connected flight leg all the way to the destination.
+                if(combined.status!=='verified'&&internationalTarget&&env.GEOAPIFY_API_KEY){
+                  const [fromAirports,toAirports]=await Promise.all([
+                    discoverAirportCandidates(env,start,{radiusKm:240,limit:12}),
+                    discoverAirportCandidates(env,end,{radiusKm:240,limit:12})
+                  ]);
+                  const first=fromAirports.airports?.[0];
+                  const last=toAirports.airports?.find(a=>a.id!==first?.id);
+                  if(first&&last){
+                    const expanded=await searchMixedRouteProviders({
+                      origin:start,destination:end,departureAt:searchAt,
+                      candidateNodes:[first,last],sources,maxProviderCalls:7,
+                      maxHubs:2,parallelDirect:true,maxResults:requestedOptionsCount,
+                      now:Date.now()-90000
+                    });
+                    if(expanded.status==='verified')combined=expanded;
+                    else transportErrors.mixed_hub_composition=expanded.status;
+                  }else transportErrors.mixed_hub_discovery=
+                    fromAirports.status==='candidates_only'&&toAirports.status==='candidates_only'?
+                      'no_verified_airport_pair':'airport_candidates_unavailable';
+                }
                 if(combined.status==='verified'&&combined.journeys.length){
                   const transit=annotateTransportJourneys(combined.journeys,lang);
                   const lines=transit.map((j,i)=>(i+1)+'. '+
@@ -3850,8 +3876,9 @@ export default {
                     transit,fastest_transit:transit[0],transit_provider:'Verified mixed providers',
                     transit_destination_point:{latitude:targetLat,longitude:targetLon,label:targetName},
                     transit_departure_at:departureAt,requested_transit_count:requestedOptionsCount,
-                    provider_status:{composition:'verified',providers:combined.providers},
-                    source:'Licensed TransCAPI and MOTIS scheduled services'});
+                    provider_status:{composition:'verified',providers:combined.providers,
+                      source_checks:combined.providerChecks,search_calls:combined.searchCalls},
+                    source:'Verified scheduled services: '+combined.providers.join(', ')});
                 }
                 transportErrors.composition=combined.status;
               }catch{transportErrors.composition='composition_unavailable'}
