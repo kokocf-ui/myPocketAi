@@ -3851,7 +3851,9 @@ export default {
                   if(first&&last){
                     const expanded=await searchMixedRouteProviders({
                       origin:start,destination:end,departureAt:searchAt,
-                      candidateNodes:[first,last],sources,maxProviderCalls:7,
+                      candidateNodes:[{...first,mixedHubRole:'origin_access'},
+                        {...last,mixedHubRole:'destination_egress'}],
+                      sources,maxProviderCalls:7,
                       maxHubs:2,parallelDirect:true,maxResults:requestedOptionsCount,
                       now:Date.now()-90000
                     });
