@@ -161,7 +161,13 @@ function showOneFieldJourney(choice){
     body:JSON.stringify({journey_suggest:{query}}),signal:requestController.signal});
    const data=await response.json();
    if(!response.ok)throw Error(String(data.error||'journey_search_failed'));
-   return Array.isArray(data.candidates)?data.candidates:[];
+   const places=Array.isArray(data.candidates)?data.candidates:[];
+   // Completion suggestions are *not* geocoded destinations. Re-run the
+   // address search after the user selects a provider-confirmed city.
+   const completions=Array.isArray(data.completions)?data.completions
+    .filter(x=>typeof x.query==='string'&&x.query.length<=200&&typeof x.label==='string')
+    .map(x=>({completion_only:true,completion_query:x.query,label:x.label})):[];
+   return [...places,...completions];
   })();
   try{
    return await Promise.race([work,new Promise((_,reject)=>{
@@ -273,7 +279,13 @@ function showOneFieldJourney(choice){
    button.onclick=()=>void runMode(mode);
    return button;
   };
-  confirmed.append(makeModeCard('transit',text.transit,mixedArt),
+  const departure=document.createElement('p');
+  departure.className='journey-origin-confirmation';
+  departure.style.cssText='margin:0;padding:8px 10px;border-radius:10px;color:#e1edf4;background:#173043;font-size:13px;line-height:1.45';
+  const tip=state.language==='ro'?' Pentru altă plecare, atinge adresa și scrie „de la A la B”.':
+   ' To change it, tap the destination and enter “from A to B”.';
+  departure.textContent=text.from+': '+(origin?.label||text.fromGPS)+(origin?'':'.'+tip);
+  confirmed.append(departure,makeModeCard('transit',text.transit,mixedArt),
    makeModeCard('drive',text.drive,carArt));
   root.replaceChildren(input,confirmed);
   resetJourneyScroll();
@@ -321,6 +333,18 @@ function showOneFieldJourney(choice){
    }
    const used=new Set();results.replaceChildren();
    for(const candidate of options){
+    if(candidate.completion_only){
+     const completed=String(candidate.completion_query||'').trim();
+     if(!completed||completed===raw)continue;
+     const btn=makeButton('Completează localitatea: '+String(candidate.label||completed),()=>{
+      input.value=completed;observedRaw='';schedule();
+     });
+     btn.className='transit-choice-action journey-city-completion';
+     btn.style.flex='0 0 auto';btn.style.width='100%';btn.style.textAlign='left';
+     results.append(btn);
+     if(results.children.length>=8)break;
+     continue;
+    }
     if(!Number.isFinite(Number(candidate.latitude))||!Number.isFinite(Number(candidate.longitude)))continue;
     const label=String(candidate.label||'').trim();
     if(!label)continue;

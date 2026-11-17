@@ -27,7 +27,7 @@ class Element {
  emit(type,key=type){for(const fn of this.events.get(type)||[])fn({key,preventDefault(){}})}
 }
 
-function openJourney(currentModule,{hang=false}={}){
+function openJourney(currentModule,{hang=false,cityCompletion=false}={}){
  const doc={};doc.body=new Element(doc);doc.createElement=()=>new Element(doc);
  doc.querySelector=()=>({classList:{remove(){}}});
  const layer=new Element(doc),host=new Element(doc),header=new Element(doc);
@@ -50,9 +50,9 @@ function openJourney(currentModule,{hang=false}={}){
    assert.equal(url,'https://backend.invalid/api/chat');
    requests.push(JSON.parse(opts.body));
    if(hang)return new Promise(()=>{}); // Simulates a stalled Android HTTP request.
-   return {ok:true,json:async()=>({candidates:[
-    {label:'Strada Nufărului 1, Oradea, România',latitude:47.07,longitude:21.94,country_code:'RO'}
-   ]})};
+   return {ok:true,json:async()=>cityCompletion&&requests.length===1
+    ?{candidates:[],completions:[{label:'1 Piața Unirii, Oradea, Romania',query:'1 Piața Unirii, Oradea, Romania'}]}
+    :{candidates:[{label:'Strada Nufărului 1, Oradea, România',latitude:47.07,longitude:21.94,country_code:'RO'}]}};
   },()=>1,()=>{},(cb,ms)=>{const id=++timerId;timers.set(id,{cb,ms});return id},
   id=>timers.delete(id),AbortController,(ro,en)=>ro);
  render({mixedJourney:true});
@@ -85,12 +85,25 @@ assert.equal(pick.results.children.length,0,'Selecting a candidate clears the su
 assert.equal(pick.root.children.length,2,'Only destination field and illustrated cards remain');
 assert.equal(pick.root.children[0],pick.input,'The confirmed destination stays in the input');
 assert.equal(pick.input.value,'Strada Nufărului 1, Oradea, România');
-assert.equal(pick.root.children[1].children.length,2,'Exactly two mode cards');
-assert.equal(pick.root.children[1].children[0].textContent,'','Illustration card caption is a separate element');
-assert.ok(pick.root.children[1].children[0].children[0].innerHTML.includes('<svg'),'Multimodal train, coach and plane are drawn');
-assert.ok(pick.root.children[1].children[1].children[0].innerHTML.includes('<svg'),'Unbranded frontal car is drawn');
+assert.equal(pick.root.children[1].children.length,3,'Visible departure context and exactly two mode cards');
+assert.match(pick.root.children[1].children[0].textContent,/Plecarea|undefined/, 'Origin context is visible before selection');
+assert.equal(pick.root.children[1].children[1].textContent,'','Illustration card caption is a separate element');
+assert.ok(pick.root.children[1].children[1].children[0].innerHTML.includes('<svg'),'Multimodal train, coach and plane are drawn');
+assert.ok(pick.root.children[1].children[2].children[0].innerHTML.includes('<svg'),'Unbranded frontal car is drawn');
 pick.input.emit('click');
 assert.equal(pick.root.children.length,6,'Tapping destination reopens address editing without a new window');
+
+const completing=openJourney('maps',{cityCompletion:true});
+completing.input.value='Piața Unirii 1, Ora';
+completing.input.emit('input');
+await completing.flush();
+assert.equal(completing.results.children.length,1,'Partial city is offered as an input completion');
+assert.match(completing.results.children[0].textContent,/Oradea/);
+completing.results.children[0].onclick();
+assert.equal(completing.input.value,'1 Piața Unirii, Oradea, Romania');
+await completing.flush();
+assert.equal(completing.requests.length,2,'Completing a city triggers a fresh verified-address lookup');
+assert.equal(completing.requests[1].journey_suggest.query,'1 Piața Unirii, Oradea, Romania');
 
 const enter=openJourney('travel');
 enter.input.value='Nufărului 1, Oradea';

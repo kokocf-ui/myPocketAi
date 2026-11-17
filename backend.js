@@ -1749,6 +1749,38 @@ export default {
       // search endpoint; a partial word does not trigger an extra provider call.
       if(selected.length>=8&&(/(?:,|\s+din\s+|\s+in\s+|\s+\d+[a-z]?$)/iu.test(selected)||/(?:station|underground|tube|railway|gara|gară|statie|stație|metrou|metro|airport|aeroport)/iu.test(selected)))
         endpoints.push('https://api.geoapify.com/v1/geocode/search');
+      // If the user typed a partial town after a comma (e.g. an address,
+      // followed by "Ora"), offer provider-confirmed town completions. Never
+      // treat a town centre as the verified street/house-number destination.
+      const citySuffix=selected.match(/^(.{3,120}),\s*([\p{L}]{2,5})$/u);
+      const completionPromise=citySuffix?(async()=>{
+        const cityUrl=new URL('https://api.geoapify.com/v1/geocode/autocomplete');
+        cityUrl.searchParams.set('text',citySuffix[2]);
+        cityUrl.searchParams.set('type','city');
+        cityUrl.searchParams.set('limit','20');
+        cityUrl.searchParams.set('apiKey',env.GEOAPIFY_API_KEY);
+        if(nationalCountry)cityUrl.searchParams.set('filter','countrycode:'+nationalCountry.toLowerCase());
+        const response=await fetch(cityUrl.href,{signal:AbortSignal.timeout(6500)});
+        if(!response.ok)return [];
+        const data=await response.json();
+        const cities=Array.isArray(data.results)?data.results:[];
+        const normCity=value=>normalizeGeoName(value);
+        const prefix=normCity(citySuffix[2]),seenCity=new Set(),completions=[];
+        for(const city of cities){
+          if(!/^(?:city|town|village|municipality)$/i.test(String(city.result_type||'')))continue;
+          const name=String(city.city||city.town||city.village||city.name||'').trim();
+          const country=String(city.country||'').trim();
+          const countryCode=String(city.country_code||'').toUpperCase();
+          if(!name||!/^[A-Z]{2}$/.test(countryCode)||!normCity(name).startsWith(prefix)||
+            normCity(name)===prefix||(nationalCountry&&countryCode!==nationalCountry))continue;
+          const key=normCity(name)+'|'+countryCode;
+          if(seenCity.has(key))continue;seenCity.add(key);
+          const query=[citySuffix[1].trim(),name,country].filter(Boolean).join(', ');
+          completions.push({label:query,query});
+          if(completions.length>=5)break;
+        }
+        return completions;
+      })().catch(()=>[]):Promise.resolve([]);
       const promises=endpoints.map(async endpoint=>{
         const url=new URL(endpoint);
         url.searchParams.set('text',selected);
@@ -1796,8 +1828,11 @@ export default {
         })());
       }
       const answers=await Promise.allSettled(promises);
-      if(!answers.some(a=>a.status==='fulfilled'))
+      if(!answers.some(a=>a.status==='fulfilled')){
+        const completions=await completionPromise;
+        if(completions.length)return json({candidates:[],completions,provider:'geoapify',query:raw});
         return json({candidates:[],error:'journey_search_unavailable'},502);
+      }
       const seen=new Set(),candidates=[];
       const norm=value=>String(value||'').normalize('NFD').replace(/\p{M}/gu,'').toLowerCase().replace(/\s+/g,' ').trim();
       const matchesVerifiedPlace=p=>partialLocality?
@@ -1877,7 +1912,8 @@ export default {
       // National autocomplete enforces precise station types, GPS-near exact addresses and de-duplicates provider results.
       const ranked=rankJourneySuggestions(selected,candidates,{origin:pointOk?{latitude:Number(location.latitude),longitude:Number(location.longitude)}:null,national:Boolean(nationalCountry)}).slice(0,8)
         .map(({_name,_categories,...candidate})=>candidate);
-      return json({candidates:ranked,provider:'geoapify_tfl_if_applicable',exact_number_required:Boolean(num),query:raw});
+      const completions=ranked.length?[]:await completionPromise;
+      return json({candidates:ranked,completions,provider:'geoapify_tfl_if_applicable',exact_number_required:Boolean(num),query:raw});
     }
     // The personal assistant must not calculate routes; a legacy client that
     // misses frontend interception is given a handoff, never an AI itinerary.
