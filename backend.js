@@ -17,6 +17,7 @@ import {photonNearbyUrl} from "./photon_category_discovery.mjs";
 import {globalNearbyPlaces} from "./global_poi_sources.mjs";
 import {walkingAddressFromLabel,checkWalkingArrival,verifiedAddressGeocode} from "./walking_address_arrival.mjs";
 import {cornerShopFrontageRoute} from "./corner_shop_walking_frontage.mjs";
+import {discoverMappedWalkingEntrances} from "./walking_entrance_access.mjs";
 import {planFrontendPlaceProviders} from "./country_frontend_request.mjs";
 import {verifiedGpsCountry} from "./country_gps_resolution.mjs";
 import {nationalPublicTransportPolicy} from "./national_public_transport_policy.mjs";
@@ -4580,12 +4581,14 @@ export default {
         };
         const labels=alternativeText[lang]||alternativeText.en;
         const accessSearch=rc.profile==='walk'&&!via?discoverWalkingAccess(destination,origin,env.GEOAPIFY_API_KEY):Promise.resolve({points:[],status:'not_requested'});
+        // Only walk routes may use OSM-tagged public entrances instead of a building centroid.
+        const entranceSearch=rc.profile==='walk'&&!via?discoverMappedWalkingEntrances({destination,origin}):Promise.resolve([]);
         const calculate=async (kind,access=null,arrival=destination)=>{
           const point=access||(kind==='via'?via:null);
           const points=point?[origin,point,arrival]:[origin,arrival];
           const u=new URL('https://api.geoapify.com/v1/routing');
           u.searchParams.set('waypoints',points.map(p=>`${p.latitude},${p.longitude}`).join('|'));
-          u.searchParams.set('mode',rc.profile);u.searchParams.set('type',kind==='short'||access?'short':'balanced');if(rc.profile==='drive'&&kind==='economy')u.searchParams.set('avoid','tolls:1');
+          u.searchParams.set('mode',rc.profile);u.searchParams.set('type',kind==='short'||access||kind.startsWith('entrance_')?'short':'balanced');if(rc.profile==='drive'&&kind==='economy')u.searchParams.set('avoid','tolls:1');
           if(point)u.searchParams.set('intermediate_waypoint_mode','pass_through');
           u.searchParams.set('details','instruction_details');u.searchParams.set('units','metric');u.searchParams.set('lang',lang);u.searchParams.set('apiKey',env.GEOAPIFY_API_KEY);
           const r=await fetch(u.href,{signal:AbortSignal.timeout(12000)});if(!r.ok)throw Object.assign(Error('route_provider_failed'),{httpStatus:r.status});
@@ -4596,6 +4599,7 @@ export default {
         const steps=(Array.isArray(props.legs)?props.legs:[]).flatMap(leg=>Array.isArray(leg.steps)?leg.steps:[]).map(step=>{
           let text=typeof step.instruction?.text==='string'?step.instruction.text.trim():'';
           if(lang==='ro')text=text.replace(/^Take the stairs\.?$/i,'Folosește scările.').replace(/^Take the stairs to Level ([-\d]+)\.?$/i,'Folosește scările către nivelul $1.').replace(/\bthe crosswalk\b/gi,'trecerea de pietoni');
+           if(rc.profile==='walk'&&lang==='ro')text=text.replace(/^Continue to Level (\d+)\.?$/i,'Continuă către nivelul $1.');
           const streets=Array.isArray(step.instruction?.streets)?step.instruction.streets.filter(v=>typeof v==='string').slice(0,8):[];
           return {text:text.slice(0,1200),streets,distanceMeters:Number.isFinite(step.distance)&&step.distance>=0?step.distance:null,
            ...(data.corner_shop_walk===true&&rc.profile==='walk'&&!point?{
@@ -4606,13 +4610,23 @@ export default {
 
         };
         const kinds=['balanced',...(['walk','drive'].includes(rc.profile)?['short']:[]),...(rc.profile==='drive'?['economy']:[]),...(via?['via']:[])];
-        const [calculated,access]=await Promise.all([Promise.allSettled(kinds.map(kind=>calculate(kind))),accessSearch]);
+        const [calculated,access,entrances]=await Promise.all([Promise.allSettled(kinds.map(kind=>calculate(kind))),accessSearch,entranceSearch]);
         const base=calculated.flatMap(v=>v.status==='fulfilled'?[v.value]:[]);
         if(!base.length)throw calculated.find(v=>v.status==='rejected')?.reason||Error('route_geometry_missing');
         const automatic=rc.profile==='walk'&&!via?await Promise.allSettled(access.points.map((point,i)=>calculate('access_'+i,point))):[];
         const shortest=Math.min(...base.map(v=>v.distanceMeters)),maxDetour=Math.max(400,Math.min(1200,shortest*.45));
         const verifiedAutomatic=automatic.flatMap(v=>v.status==='fulfilled'&&v.value.distanceMeters<=shortest+maxDetour&&v.value.via.every(p=>walkingPointOnRoute(v.value,p))&&(!v.value.bridge_geometry||v.value.bridge_geometry.every(p=>walkingPointOnRoute(v.value,{latitude:p[1],longitude:p[0]},20)))?[v.value]:[]);
-        const all=[...base,...verifiedAutomatic],best=Math.min(...all.map(v=>v.distanceMeters)),limit=best+Math.max(400,Math.min(1200,best*.45));
+        // Validate that Geoapify actually finishes near the mapped doorway; snapped
+        // endpoints far from it are never accepted as verified access.
+        const entranceRoutes=rc.profile==='walk'&&!via?await Promise.allSettled(entrances.map((point,i)=>calculate('entrance_'+i,null,{...destination,latitude:point.latitude,longitude:point.longitude}))):[];
+        const verifiedEntrances=entranceRoutes.flatMap((result,i)=>{
+          if(result.status!=='fulfilled')return [];
+          const candidate=result.value,point=entrances[i],end=candidate.coordinates.at(-1);
+          if(!end||routeGeoDistance({latitude:end[1],longitude:end[0]},point)>35)return [];
+          return [{...candidate,access_kind:'mapped_entrance',entrance_osm_id:point.entrance_osm_id,
+            entrance_distance_m:point.entrance_distance_m}];
+        });
+        const all=[...base,...verifiedAutomatic,...verifiedEntrances],best=Math.min(...all.map(v=>v.distanceMeters)),limit=best+Math.max(400,Math.min(1200,best*.45));
         const candidates=all.filter(v=>rc.profile==='drive'||via||v.distanceMeters<=limit).sort((a,b)=>rc.profile==='drive'?(['balanced','short','economy'].indexOf(a.id)-['balanced','short','economy'].indexOf(b.id)):a.distanceMeters-b.distanceMeters);
         // A storefront address may resolve to a building centre while pedestrian
         // routing snaps its end onto a different, inaccessible street. Preserve
@@ -4670,7 +4684,7 @@ export default {
         const routes=[];
         for(const candidate of arrivalCandidates){
           const same=routes.findIndex(v=>rc.profile==='walk'?walkingOverlap(v,candidate)>=.88:JSON.stringify(v.coordinates)===JSON.stringify(candidate.coordinates));
-          if(same>=0){if(candidate.id==='via')routes[same]=candidate;else if(candidate.access_kind==='footbridge'&&routes[same].access_kind!=='footbridge'&&candidate.bridge_geometry?.every(p=>walkingPointOnRoute(routes[same],{latitude:p[1],longitude:p[0]},20)))routes[same]={...routes[same],access_kind:'footbridge',bridge_geometry:candidate.bridge_geometry};continue;}
+          if(same>=0){if(candidate.id==='via'||candidate.access_kind==='mapped_entrance'&&routes[same].access_kind!=='mapped_entrance')routes[same]=candidate;else if(candidate.access_kind==='footbridge'&&routes[same].access_kind!=='footbridge'&&candidate.bridge_geometry?.every(p=>walkingPointOnRoute(routes[same],{latitude:p[1],longitude:p[0]},20)))routes[same]={...routes[same],access_kind:'footbridge',bridge_geometry:candidate.bridge_geometry};continue;}
           if(routes.length<3)routes.push(candidate);
         }
         const walkingLabels={ro:['Traseu pietonal','Prin pasarelă','Prin','Indicații pentru'],en:['Walking route','Via footbridge','Via','Directions for'],fr:['Trajet à pied','Par la passerelle','Via','Instructions pour'],de:['Fußweg','Über Fußgängerbrücke','Über','Wegbeschreibung für'],it:['Percorso a piedi','Tramite passerella','Via','Indicazioni per'],es:['Ruta a pie','Por pasarela peatonal','Vía','Indicaciones para'],pt:['Percurso a pé','Pela passagem pedonal','Via','Indicações para'],nl:['Wandelroute','Via voetbrug','Via','Aanwijzingen voor'],ru:['Пеший маршрут','По пешеходному мосту','Через','Указания для'],pl:['Trasa piesza','Przez kładkę','Przez','Wskazówki dla']};

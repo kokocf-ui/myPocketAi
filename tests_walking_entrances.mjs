@@ -1,0 +1,24 @@
+import assert from 'node:assert/strict';
+import {mappedWalkingEntranceCandidates,discoverMappedWalkingEntrances} from './walking_entrance_access.mjs';
+const dest={latitude:51.475,longitude:0.326,label:'Shopping Centre, Grays, UK'};
+const origin={latitude:51.47,longitude:0.32};
+const entrance=(id,lat,lon,kind='main',tags={})=>({type:'node',id,lat,lon,tags:{entrance:kind,...tags}});
+const points=[entrance(1,51.4757,.3255),entrance(2,51.475,.327),entrance(3,51.4752,.3262,'service'),
+entrance(4,51.4751,.326,'yes',{access:'private'}),entrance(5,51.482,.33)];
+const result=mappedWalkingEntranceCandidates(points,dest,origin);
+assert.equal(result.length,2);
+assert.ok(result.every(p=>p.access_kind==='mapped_entrance'));
+assert.ok(result.every(p=>p.entrance_distance_m<=180));
+assert.equal(mappedWalkingEntranceCandidates(points,{...dest,label:'Library'},origin).length,1);
+let called=0;
+const fetcher=async (url,opts)=>{called++;assert.match(url,/overpass/);assert.match(decodeURIComponent(opts.body),/node\["entrance"\]/);return Response.json({elements:points})};
+const selected=await discoverMappedWalkingEntrances({destination:dest,origin,fetcher});
+assert.equal(selected.length,2);
+assert.equal(called,1);
+assert.deepEqual(await discoverMappedWalkingEntrances({destination:{...dest,label:'Grays, UK'},origin,fetcher}),[]);
+assert.equal(called,1,'city destinations never query entrance API');
+const backend=await import('node:fs').then(fs=>fs.readFileSync(new URL('./backend.js',import.meta.url),'utf8'));
+assert.match(backend,/rc\.profile==='walk'&&!via\?discoverMappedWalkingEntrances/);
+assert.match(backend,/entrance_distance_m/);
+assert.match(backend,/verifiedEntrances/);
+console.log('Walking entrance selection tests passed');
