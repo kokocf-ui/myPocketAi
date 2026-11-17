@@ -218,6 +218,7 @@ jobs:
           node tests_mixed_route_quality.mjs
           node tests_mixed_route_provider_search.mjs
           node tests_mixed_existing_provider_adapters.mjs
+          node tests_mixed_live_composition.mjs
           node tests_transit_full_journey_native.mjs
           node tests_transit_navigation_resume.mjs
           node tests_all_route_background_navigation.mjs

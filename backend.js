@@ -3655,7 +3655,7 @@ export default {
                 const combined=await searchMixedRouteProviders({
                   origin:start,destination:end,
                   departureAt:effectiveDepartureAt||new Date().toISOString(),
-                  sources,maxProviderCalls:2,maxHubs:0,maxResults:requestedOptionsCount,
+                  sources,maxProviderCalls:2,maxHubs:0,parallelDirect:true,maxResults:requestedOptionsCount,
                   now:Date.now()-90000
                 });
                 if(combined.status==='verified'&&combined.journeys.length){

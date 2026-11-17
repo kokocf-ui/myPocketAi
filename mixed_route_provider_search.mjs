@@ -55,7 +55,7 @@ function candidatePairs(origin,destination,rawNodes,maxHubs){
 export async function searchMixedRouteProviders({
  origin,destination,departureAt,candidateNodes=[],sources=[],
  maxProviderCalls=20,maxHubs=6,maxResults=8,horizonHours=72,
- allowedModes=null,identityCrosswalk=[],now=Date.now()
+ allowedModes=null,identityCrosswalk=[],parallelDirect=false,now=Date.now()
 }={}){
  const from=fromNode(origin),to=fromNode(destination);
  if(!from||!to||from.id===to.id||!asDate(departureAt)||
@@ -71,6 +71,21 @@ export async function searchMixedRouteProviders({
  const observed=new Map(),checks=[];
  let calls=0,failures=0;
  const requestedEnd=new Date(Date.parse(departureAt)+timeHorizon*3600000).toISOString();
+ // On direct A→B comparisons, fetch independent providers concurrently.
+ // Only the already authorized, budgeted suppliers are included.
+ const prefetched=new Map();
+ if(parallelDirect===true&&candidates.length===1){
+  const pair=candidates[0];
+  const active=providers.filter(s=>typeof s.canServe!=='function'||s.canServe(pair.from,pair.to))
+   .slice(0,budget);
+  await Promise.all(active.map(async source=>{
+   try{prefetched.set(source,{result:await source.searchLegs({
+    from:pair.from,to:pair.to,departureAt,untilAt:requestedEnd,
+    modes:allowedModes,readOnly:true
+   })});}
+   catch{prefetched.set(source,{failed:true});}
+  }));
+ }
  outer: for(const pair of candidates){
   for(const source of providers){
    if(calls>=budget)break outer;
@@ -78,7 +93,9 @@ export async function searchMixedRouteProviders({
    calls++;
    const key=source.id+':'+pairKey(pair.from,pair.to);
    try{
-    const result=await source.searchLegs({
+    const earlier=prefetched.get(source);
+    if(earlier?.failed)throw Error('provider_unreachable');
+    const result=earlier?earlier.result:await source.searchLegs({
      from:pair.from,to:pair.to,departureAt,untilAt:requestedEnd,
      modes:allowedModes,readOnly:true
     });
