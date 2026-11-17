@@ -3,6 +3,7 @@ import {canonicalizeMixedProviderStop,resolveMixedTransferProvenance} from './mi
 import {convertTransCAPIToMixedLegs,convertMOTISToMixedLegs,convertBiloToMixedLegs,
  makeTransCAPIMixedSource,makeMOTISMixedSource,makeBiloMixedSource} from './mixed_existing_provider_adapters.mjs';
 import {searchMixedRouteProviders} from './mixed_route_provider_search.mjs';
+import {normalizeBiloTrips} from './ro_national_transit.mjs';
 
 const t0=Date.parse('2026-12-08T06:00:00Z'),at=n=>new Date(t0+n*60000).toISOString();
 const loc=(id,latitude,longitude,extra={})=>({id,label:id,latitude,longitude,...extra});
@@ -101,6 +102,18 @@ assert.equal(resolveMixedTransferProvenance(
  verified:true,mode:'walking',from:{id:'one'},to:{id:'two'},departureTime:at(10),arrivalTime:at(25)
  }}).allowed,true);
 
+const providerStops=normalizeBiloTrips({results:[{
+ from:{name:'Official Stop Alpha',stopId:'RO-STP-017',lat:47.11,lon:21.91},
+ to:{name:'Official Stop Beta',stopId:'RO-STP-018',lat:47.13,lon:21.94},
+ mode:'coach',departure_time:'08:00',arrival_time:'09:00'
+}]},5,'2026-12-08');
+assert.equal(providerStops[0]?.legs[0].fromSourceStopRef.id,'RO-STP-017');
+assert.deepEqual({
+ latitude:providerStops[0].legs[0].toSourceStopRef.latitude,
+ longitude:providerStops[0].legs[0].toSourceStopRef.longitude
+},{latitude:47.13,longitude:21.94});
+assert.equal(providerStops[0].legs[0].fromSourceStopRef.identityVerified,undefined,
+ 'Bilo's metadata is not an automatic cross-provider identity crosswalk');
 const bilo={scheduled:true,startDateTime:at(20),arrivalDateTime:at(200),legs:[
  {mode:'train',from:'Station One',to:'Station Two',fromLocality:'City One',toLocality:'City Two',
   departureTime:at(20),arrivalTime:at(110),operator:'Operator A'},
