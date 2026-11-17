@@ -34,6 +34,7 @@ import {planPresentation} from "./presentation.mjs";
 export {PocketCommunicationHub} from "./pocket_communication_hub.mjs";
 import {hasAssistantRepetitionLoop} from "./ai_response_quality.mjs";
 import {planTransCAPIJourney,transCAPISharedZone} from "./uk_national_transit.mjs";
+import {motisQueryDepartureAt,selectScheduledMOTISAlternatives} from "./motis_mixed_schedule.mjs";
 import {requestTfLJourneys} from "./tfl_shared_journeys.mjs";
 import {annotateTransportJourneys,transportNoticeLine} from "./transport_availability_disclosure.mjs";
 import {planRomanianUrbanViaOracle,romanianUrbanRegion} from "./ro_urban_client.mjs";
@@ -806,9 +807,11 @@ function selectTransitAlternatives(candidates,limit=4){
 }
 // Optional MOTIS v6-compatible provider. Use only a separately licensed/authorized service;
 // Transitous' volunteer public endpoint is NOT enabled by default (non-commercial policy).
-async function planMOTISMixedJourney(env,from,to,language){
+async function planMOTISMixedJourney(env,from,to,language,requestedDepartureAt=null){
  const raw=String(env.MOTIS_API_BASE_URL||'').trim();
  if(!raw)return {status:'not_configured',journeys:[]};
+ const departure=motisQueryDepartureAt(requestedDepartureAt);
+ if(departure.status==='invalid_departure_time')return {status:'invalid_departure_time',journeys:[]};
  let url;
  try{url=new URL(raw);if(url.protocol!=='https:'||url.username||url.password||!url.hostname||url.search||url.hash||url.port&&url.port!=='443')throw Error('invalid');
   if(url.hostname==='api.transitous.org')return {status:'provider_usage_not_authorized',journeys:[]};
@@ -818,6 +821,9 @@ async function planMOTISMixedJourney(env,from,to,language){
   url.searchParams.set('minTransferTime','5');
   url.searchParams.set('language',language);
   url.searchParams.set('detailedTransfers','true');
+  // MOTIS v6 officially supports a selected, offset-aware ISO time.
+  if(departure.iso)url.searchParams.set('time',departure.iso);
+  url.searchParams.set('searchWindow','3600');
  }catch{return {status:'invalid_provider_configuration',journeys:[]};}
  let data;
  try{
@@ -842,7 +848,7 @@ async function planMOTISMixedJourney(env,from,to,language){
  const journeys=[],seen=new Set();
  for(const j of (Array.isArray(data?.itineraries)?data.itineraries:[]).slice(0,25)){
   if(!Array.isArray(j.legs)||!j.legs.length||!Number.isFinite(Number(j.duration))||Number(j.duration)<60)continue;
-  if(Date.parse(j.startTime)<Date.now()-60000||!Number.isFinite(Date.parse(j.endTime)))continue;
+  if(Date.parse(j.startTime)<departure.ms-60000||!Number.isFinite(Date.parse(j.endTime)))continue;
   let previous=0,invalid=false;
   const legs=[];
   for(const l of j.legs){
@@ -872,8 +878,8 @@ async function planMOTISMixedJourney(env,from,to,language){
    boarding_stop:transitBoardingStop(legs),walkToFirstStopMinutes:walk,safetyMarginMinutes:5,
    transferCount:Number(j.transfers)||0,firstVehicleDepartureTime:boarding.departureTime,departureFeasible:true});
  }
- journeys.sort((a,b)=>Date.parse(a.startDateTime)-Date.parse(b.startDateTime)||Date.parse(a.arrivalDateTime)-Date.parse(b.arrivalDateTime)||0);
- return {status:journeys.length?'success':'no_verified_journeys',journeys:journeys.slice(0,4)};
+ const alternatives=selectScheduledMOTISAlternatives(journeys,{departureAt:departure.iso,limit:8,now:departure.iso?departure.ms:Date.now()});
+ return {status:alternatives.length?'success':'no_verified_journeys',journeys:alternatives};
 }
 
 // Coordinate-backed boarding places come from the selected transport leg, never from a street-name guess.
@@ -3702,14 +3708,13 @@ export default {
             }
             transportErrors.en_urban=local.status;
           }
-          // MOTIS does not yet validate scheduled searches. Never silently use the current hour.
+          // MOTIS v6 can use the calendar via the documented time parameter.
           const planned=data.national_public_transport===true?{status:'national_only',journeys:[]}:
             !String(env.MOTIS_API_BASE_URL||'').trim()?{status:'not_configured',journeys:[]}:
-            effectiveDepartureAt?{status:'scheduled_search_not_supported',journeys:[]}:
-            validTarget&&hasValidLocation?await planMOTISMixedJourney(env,{latitude,longitude},{latitude:targetLat,longitude:targetLon},lang):
+            validTarget&&hasValidLocation?await planMOTISMixedJourney(env,{latitude,longitude},{latitude:targetLat,longitude:targetLon},lang,effectiveDepartureAt):
             {status:!validTarget?'destination_unverified':'origin_missing',journeys:[]};
           if(planned.journeys.length){
-            const transit=planned.journeys.slice(0,requestedOptionsCount),fastest=planned.journeys[0];
+            const transit=planned.journeys.slice(0,requestedOptionsCount),fastest=transit[0];
             const coordinates=fastest.legs.flatMap(l=>l.coordinates||[]);
             const route=coordinates.length>1?{profile:'public_transport',coordinates,distanceMeters:null,durationSeconds:fastest.durationMinutes*60,destination:{name:targetName,latitude:targetLat,longitude:targetLon}}:null;
             const lines=transit.map((j,i)=>{
@@ -3734,7 +3739,7 @@ export default {
             // legitimate independently searchable intercity options on Omio.
             // The Impact affiliate credential is NOT Omio Meta Search access.
             // A validated external search is offered without inventing prices.
-            const messageForDeparture=detail==='scheduled_search_not_supported'
+            const messageForDeparture=detail==='invalid_departure_time'
              ?(lang==='en'?'The connected international planner cannot search the selected departure date and time yet. You can compare trains, coaches, flights and ferries on Omio.':'Planificatorul internațional conectat nu poate căuta încă pentru data și ora alese. Poți compara trenuri, autocare, avioane și feriboturi pe Omio.')
              :(lang==='en'
                ?'I confirmed '+targetName+' as your destination. Eva cannot yet show verified international tickets and timetables directly. Search trains, coaches, flights and ferries on Omio; a flight is not required.'
