@@ -67,6 +67,22 @@ export async function searchMixedRouteProviders({
   s&&s.licensed===true&&s.enabled===true&&isId(s.id)&&typeof s.searchLegs==='function');
  if(!providers.length)return {status:'sources_unavailable',journeys:[],
   providerChecks:[],searchCalls:0,completeJourneyVerified:false};
+ // Namespace supplier-local stop IDs. Cross-provider matching is safe only
+ // for a query endpoint whose coordinates agree with the source, or a stop
+ // carrying an explicitly verified canonical mapping. Identical display
+ // names, nearby stations and coincidental local IDs are NOT a crosswalk.
+ const canonicalStop=(stop,sourceId,pair)=>{
+  if(!stop||!isId(stop.id))return stop;
+  const matched=[pair.from,pair.to].find(n=>n.id===stop.id);
+  const km=matched?distance(stop,matched):null;
+  const authorizedPairEndpoint=matched&&km!==null&&km<=5;
+  const provenAlias=stop.identityVerified===true&&isId(stop.canonicalId);
+  if(matched&&km!==null&&km>5)return null;
+  const id=provenAlias?stop.canonicalId:
+    authorizedPairEndpoint?matched.id:
+    sourceId+':'+stop.id;
+  return {...stop,id};
+ };
  const observed=new Map(),checks=[];
  let calls=0,failures=0;
  const requestedEnd=new Date(Date.parse(departureAt)+timeHorizon*3600000).toISOString();
@@ -89,7 +105,10 @@ export async function searchMixedRouteProviders({
     for(const raw of result.legs.slice(0,1000)){
      // Only the source which fetched the original schedule can assert
      // provenance; do not default verified=true on behalf of adapters.
-     const candidate={...raw,provider:source.id};
+     const first=canonicalStop(raw.from,source.id,pair);
+     const last=canonicalStop(raw.to,source.id,pair);
+     if(!first||!last)continue;
+     const candidate={...raw,from:first,to:last,provider:source.id};
      const leg=normalizeVerifiedMixedLeg(candidate);
      if(!leg)continue;
      const identity=leg.id+'|'+leg.departureTime+'|'+leg.arrivalTime;
