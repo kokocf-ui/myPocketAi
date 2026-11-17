@@ -206,6 +206,7 @@ jobs:
           node tests_news_contextual_translation.mjs
           node tests_news_live_routing.mjs
           node tests_address_city_aliases.mjs
+          node tests_journey_partial_locality.mjs
           node tests_address_progressive.mjs
           node tests_progressive_selector_policy.mjs
           node tests_mixed_selector_ui.mjs

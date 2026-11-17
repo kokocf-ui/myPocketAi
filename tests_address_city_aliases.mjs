@@ -76,3 +76,5 @@ try {
 } finally {
   globalThis.fetch=actualFetch;
 }
+
+// The standalone journey partial-city regression is in tests_journey_partial_locality.mjs.
