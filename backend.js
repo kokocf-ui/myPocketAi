@@ -3814,6 +3814,26 @@ export default {
           const mixedOrigin=explicitOrigin?{latitude:originLat,longitude:originLon,
             label:String(chosenOrigin.label||'Departure').slice(0,160)}:{latitude,longitude,label:'GPS'};
           const mixedOriginValid=explicitOrigin||hasValidLocation;
+
+          // Search flights independently of terrestrial providers. A verified
+          // train/coach itinerary must not hide independently discovered flights.
+          // Flight candidates stay separate until UTC and transfers are verified.
+          const flightSearchPromise=internationalTarget&&explicitMixedJourney&&
+            transportPreference==='all'&&validTarget&&mixedOriginValid
+            ?discoverMixedFlightCandidates(env,{
+              origin:mixedOrigin,
+              destination:{latitude:targetLat,longitude:targetLon},
+              departureAt:effectiveDepartureAt||null,maxDays:3
+            }).catch(()=>({status:'provider_unavailable',candidates:[],datesChecked:[]}))
+            :Promise.resolve({status:'disabled',candidates:[],datesChecked:[]});
+          const mixedFlightFields=async()=>{
+            const result=await flightSearchPromise;
+            return result.candidates?.length?{
+              flight_candidates:result.candidates.slice(0,6),
+              flight_search_status:result.status,
+              flight_dates_checked:result.datesChecked
+            }:{};
+          };
           // Compare two independently licensed planners before accepting the
           // first response. Cross-supplier transfers require proved stop IDs.
           if(explicitMixedJourney&&data.mixed_composition===true&&
@@ -3877,6 +3897,7 @@ export default {
                     message_received:message,reply,international_journey:internationalTarget,
                     mixed_journey:true,transit_available:true,route_available:false,
                     transit,fastest_transit:transit[0],transit_provider:'Verified mixed providers',
+                    ...await mixedFlightFields(),
                     transit_destination_point:{latitude:targetLat,longitude:targetLon,label:targetName},
                     transit_departure_at:departureAt,requested_transit_count:requestedOptionsCount,
                     provider_status:{composition:'verified',providers:combined.providers,
@@ -3917,6 +3938,7 @@ export default {
                 international_journey:internationalTarget,uk_national_journey:transcapiZone==='gb',mixed_journey:true,
                 transit_available:true,route_available:false,route_geometry_available:false,
                 transit_geometry_available:false,transit:annotateTransportJourneys(transit,lang),fastest_transit:annotateTransportJourneys([first],lang)[0],transit_provider:'TransCAPI',
+                ...await mixedFlightFields(),
                 requested_transit_count:requestedOptionsCount,transit_preference:transportPreference,transit_departure_offset:departureOffsetMinutes,transit_departure_at:departureAt,
                 transit_destination_point:{latitude:targetLat,longitude:targetLon,label:targetName},
                 provider_status:{transcapi:national.status,region:transcapiZone},source:'TransCAPI: published schedules with available live updates'});
@@ -3985,6 +4007,7 @@ export default {
                   transit:annotateTransportJourneys(transit,lang),
                   fastest_transit:annotateTransportJourneys([first],lang)[0],
                   transit_provider:'England GTFS static',
+                  ...await mixedFlightFields(),
                   transit_departure_at:departureAt,requested_transit_count:requestedOptionsCount,
                   transit_destination_point:{latitude:targetLat,longitude:targetLon,label:targetName},
                   provider_status:{en_urban:local.status},
@@ -4009,7 +4032,7 @@ export default {
             const reply=(lang==='en'?'Verified mixed-mode public transport options to ':'Variante de transport mixt verificate către ')+targetName+'\n'+lines.join('\n')+'\n\n'+transit.map((j,i)=>(i+1)+'. '+transportNoticeLine(j,lang)).join('\n');
             return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply,
               international_journey:internationalTarget,mixed_journey:true,transit_available:true,route_available:Boolean(route),route,
-              transit:annotateTransportJourneys(transit,lang),transit_provider:'MOTIS',requested_transit_count:requestedOptionsCount,transit_destination_point:{latitude:targetLat,longitude:targetLon,label:targetName},
+              transit:annotateTransportJourneys(transit,lang),transit_provider:'MOTIS',...await mixedFlightFields(),requested_transit_count:requestedOptionsCount,transit_destination_point:{latitude:targetLat,longitude:targetLon,label:targetName},
               route_geometry_available:Boolean(route),source:'Authorized MOTIS v6 routing provider',provider_status:{motis:planned.status}});
           }
           const detail=planned.status==='not_configured'?'international_provider_not_connected':planned.status;
@@ -4023,17 +4046,7 @@ export default {
             // Discover actual flights in the selected date or progressively
             // from today, without requiring the user to choose a date.
             // Never pass tentative flight data off as an A-to-B route.
-            let flightDiscovery={status:'disabled',candidates:[],datesChecked:[]};
-            if(mixedOriginValid&&validTarget&&transportPreference==='all'){
-              try{
-                flightDiscovery=await discoverMixedFlightCandidates(env,{
-                  origin:mixedOrigin,
-                  destination:{latitude:targetLat,longitude:targetLon},
-                  departureAt:effectiveDepartureAt||null,
-                  maxDays:3
-                });
-              }catch{flightDiscovery={status:'provider_unavailable',candidates:[],datesChecked:[]};}
-            }
+            const flightDiscovery=await flightSearchPromise;
             if(flightDiscovery.candidates.length){
               const firstFlights=flightDiscovery.candidates.slice(0,6);
               const flightLines=firstFlights.map((f,i)=>{
