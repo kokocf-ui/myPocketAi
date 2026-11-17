@@ -1,0 +1,28 @@
+name: Verified multimodal itinerary composer
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - verified_multimodal_itineraries.mjs
+      - tests_verified_multimodal_itineraries.mjs
+      - package.json
+      - .github/workflows/test-verified-multimodal-composer.yml
+  workflow_dispatch:
+
+jobs:
+  itinerary-checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify generic source-backed multimodal alternatives
+        run: |
+          node --check verified_multimodal_itineraries.mjs
+          node tests_verified_multimodal_itineraries.mjs
+          node tests_mixed_transport_comparison.mjs
+          node tests_mixed_international_regression.mjs
