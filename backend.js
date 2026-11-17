@@ -42,6 +42,7 @@ import {searchMixedRouteProviders} from "./mixed_route_provider_search.mjs";
 import {discoverAirportCandidates} from "./mixed_airport_discovery.mjs";
 import {makeTransCAPIMixedSource,makeMOTISMixedSource} from "./mixed_existing_provider_adapters.mjs";
 import {checkSerpApiSecretStatus} from "./serpapi_account_status.mjs";
+import {discoverMixedFlightCandidates} from "./mixed_serpapi_discovery.mjs";
 import {requestTfLJourneys} from "./tfl_shared_journeys.mjs";
 import {annotateTransportJourneys,transportNoticeLine} from "./transport_availability_disclosure.mjs";
 import {planRomanianUrbanViaOracle,romanianUrbanRegion} from "./ro_urban_client.mjs";
@@ -4019,6 +4020,46 @@ export default {
           // may use TfL only when the whole journey falls in the London corridor;
           // the national fallback below supplies official verification links.
           if(internationalTarget){
+            // Discover actual flights in the selected date or progressively
+            // from today, without requiring the user to choose a date.
+            // Never pass tentative flight data off as an A-to-B route.
+            let flightDiscovery={status:'disabled',candidates:[],datesChecked:[]};
+            if(mixedOriginValid&&validTarget&&transportPreference==='all'){
+              try{
+                flightDiscovery=await discoverMixedFlightCandidates(env,{
+                  origin:mixedOrigin,
+                  destination:{latitude:targetLat,longitude:targetLon},
+                  departureAt:effectiveDepartureAt||null,
+                  maxDays:3
+                });
+              }catch{flightDiscovery={status:'provider_unavailable',candidates:[],datesChecked:[]};}
+            }
+            if(flightDiscovery.candidates.length){
+              const firstFlights=flightDiscovery.candidates.slice(0,6);
+              const flightLines=firstFlights.map((f,i)=>{
+                const segments=(f.legs||[]).map(l=>
+                  l.from+' → '+l.to+' ('+l.startLocal+' / '+l.endLocal+')').join(' + ');
+                const fare=f.fareObserved?' · '+f.fareObserved.amount+' '+f.fareObserved.currency:'';
+                return (i+1)+'. '+segments+fare;
+              });
+              const flightReply=(lang==='en'?
+                'Flight candidates found (indicative only):\n':
+                'Zboruri candidate găsite (informații orientative):\n')+
+                flightLines.join('\n')+'\n\n'+(lang==='en'?
+                'Airport transfers, time zones and booking availability are not yet verified; these are not complete A-to-B itineraries.':
+                'Transferurile la aeroport, fusurile orare și disponibilitatea biletelor nu sunt încă verificate; acestea nu sunt itinerarii complete de la A la B.');
+              return json({app:'Pocket AI',version:API_VERSION,status:'success',
+                language:lang,message_received:message,reply:flightReply,
+                international_journey:true,mixed_journey:true,
+                route_available:false,transit_available:false,
+                flight_candidates:firstFlights,flight_search_status:flightDiscovery.status,
+                flight_dates_checked:flightDiscovery.datesChecked,
+                international_destination:targetName,
+                transit_destination_point:{latitude:targetLat,longitude:targetLon,label:targetName},
+                transit_departure_at:departureAt,
+                provider_status:{motis:detail,serpapi:flightDiscovery.status},
+                reason:'flight_candidates_only'});
+            }
             // No airline requirement: train, coach, flight and ferry are all
             // legitimate independently searchable intercity options on Omio.
             // The Impact affiliate credential is NOT Omio Meta Search access.
