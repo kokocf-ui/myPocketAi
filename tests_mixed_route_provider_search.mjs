@@ -82,4 +82,30 @@ const noResult=await searchMixedRouteProviders({
 });
 assert.equal(noResult.journeys.length,0,'A provider adapter cannot silently assert verification');
 assert.equal(noResult.missingConnections,true);
-console.log('PASS source-driven mixed routing: dynamic hubs, ground/flight/coach, whole journey, date and licensed-only call cap');
+// Same provider-local stop token cannot make two unrelated operators meet.
+// Absent verified canonical identity or agreeing stop coordinates, keep them
+// isolated rather than making an invented multi-provider transfer.
+const ambiguous={id:'local-stop',label:'Unconfirmed stop'};
+const sourceA={id:'ground-A',licensed:true,enabled:true,
+ canServe:(a,b)=>a.id===start.id&&b.id===ambiguous.id,
+ async searchLegs(){return {status:'success',legs:[
+  leg(start,ambiguous,'coach',20,100)]}}};
+const sourceB={id:'ground-B',licensed:true,enabled:true,
+ canServe:(a,b)=>a.id===ambiguous.id&&b.id===finish.id,
+ async searchLegs(){return {status:'success',legs:[
+  leg(ambiguous,finish,'train',120,310)]}}};
+const coincidental=await searchMixedRouteProviders({
+ origin:start,destination:finish,departureAt:at(0),now:zero,
+ candidateNodes:[ambiguous],sources:[sourceA,sourceB]
+});
+assert.equal(coincidental.journeys.length,0,
+ 'Shared raw stop strings without coordinate or canonical proof cannot join providers');
+const badOffset={...ground,id:'bad-identity',canServe:(a,b)=>a.id===start.id&&b.id===finish.id,
+ async searchLegs(){return {status:'success',legs:[leg(
+  place(start.id,100),finish,'train',30,360)]}}};
+const falsePosition=await searchMixedRouteProviders({
+ origin:start,destination:finish,departureAt:at(0),now:zero,sources:[badOffset]
+});
+assert.equal(falsePosition.journeys.length,0,
+ 'Source-provided start point 100 degrees away is not the requested door');
+console.log('PASS source-driven mixed routing: dynamic hubs, verified stop identity, complete routes and licensed-only budgets');
