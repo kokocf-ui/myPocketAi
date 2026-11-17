@@ -6,15 +6,15 @@ const end=source.indexOf('async function runModuleSearch(choice){',start);
 assert.ok(start>=0&&end>start,'Small-shop retry implementation is present');
 const fragment=source.slice(start,end);
 assert.match(source,/fetchQuickPlaceResponse\(body,query,searchAbort.signal,choice.kind==='places'\)/,'Every POI category gets transient retry; transit does not');
-assert.match(source,/retry\.textContent=dialogText\('Reîncearcă căutarea'/,
- 'A failed search has an explicit manual retry button');
+assert.doesNotMatch(source,/retry\.textContent=dialogText\('Reîncearcă căutarea'/,
+ 'No manual retry control appears in any Hoteluri/Hărți POI category');
 assert.match(source,/const fromSmallShop=state\.navigationReturnContext\?\.choice\?\.placeCategory==='corner_shop'/,
  'Only a corner-shop route gets extra empty-screen recovery');
 assert.match(source,/if\(fromSmallShop&&\(mode==='walk'\|\|mode==='drive'\)/,
  'Walking and driving from small shops are protected');
 assert.match(source,/showDedicatedRouteIssue\(dialogText\(/,
  'If neither route results nor map are visible, show the existing route error panel');
-assert.match(source,/data\.search_error_code==='LOCAL_SEARCH_FAILED'&&Number\(data\.search_http_status\)!==429/,'Backend provider failures offer a manual retry, except rate limiting');
+assert.match(source,/if \(url.pathname === '\/api\/chat'\)/,'Nearby-places requests use first-party service binding');
 assert.match(source,/choice\.kind==='places'\?35000:25000/,'Place requests have a bounded 35s deadline');
 assert.match(source,/searchGeneration===state\.moduleSearchGeneration/,
  'An old request cannot overwrite a newer search');

@@ -27,6 +27,7 @@ jobs:
           node tests_one_field_live_request.mjs
           node tests_maps_empty_route_recovery.mjs
           node tests_corner_shop_retry_ui.mjs
+          node tests_places_same_origin_proxy.mjs
           node tests_food_global_dedup.mjs
           node tests_education_android.mjs
           node --check communication_ui.mjs
@@ -138,6 +139,22 @@ jobs:
             fi
             if [ "$attempt" -eq 1 ]; then sleep 15; else sleep 45; fi
           done
+
+      - name: Live first-party POI results (real backend after deployment)
+        run: |
+          set -euo pipefail
+          cat > /tmp/poi.json <<'JSON'
+          {"message":"Caută restaurante în apropierea mea.","language":"ro","history":[],"module":"travel","location_requested":true,"location":{"latitude":51.4775,"longitude":0.3007,"accuracy":20},"quick_place_search":true,"place_category":"restaurant"}
+          JSON
+          status=$(curl -sS --retry 1 --retry-delay 2 --max-time 32 -o /tmp/places-result.json -w '%{http_code}' -X POST -H 'Content-Type: application/json' --data-binary @/tmp/poi.json 'https://lifewise-ai-v2.kokocf.workers.dev/api/chat')
+          echo "same-origin HTTP=$status"
+          [ "$status" = "200" ]
+          python3 - <<'PY'
+          import json
+          with open('/tmp/places-result.json') as f:d=json.load(f)
+          print('status:',d.get('status'),'search_ok:',d.get('search_ok'),'result_count:',len(d.get('places') or []))
+          assert d.get('search_ok') is True and len(d.get('places') or [])>0,'Live nearby restaurants must return verified places'
+          PY
 
   deploy-backend:
     runs-on: ubuntu-latest

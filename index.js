@@ -64,7 +64,7 @@ import {FOREIGN_TOPIC_EXAMPLES,FOREIGN_CLASSICAL_VARIANTS} from './foreign_langu
 const APP = Object.freeze({
   name: "myPocket AI",
   version: "1.0.151",
-  apiUrl: "https://lifewise-ai-api.kokocf.workers.dev/api/chat",
+  apiUrl: "/api/chat",
   defaultLanguage: "ro",
   maxMessageLength: 4000,
   historyLimit: 20
@@ -3740,7 +3740,7 @@ ${ORACLE_COMMUNICATION_SCRIPT}
 // 01 — State and DOM references
 const nativeEntranceCompleted=new URLSearchParams(location.search).get('nativeLaunch')==='1';
 if(nativeEntranceCompleted)document.documentElement.classList.remove('pocket-boot');
-const CLIENT_CONFIG = Object.freeze({apiUrl:'https://lifewise-ai-api.kokocf.workers.dev/api/chat',maxMessageLength:4000,historyLimit:20,version:'1.0.132'});
+const CLIENT_CONFIG = Object.freeze({apiUrl:'/api/chat',maxMessageLength:4000,historyLimit:20,version:'1.0.132'});
 const POCKET_LANGUAGES=${JSON.stringify(POCKET_LANGUAGES)};
 const POCKET_COUNTRY_LANGUAGES=${JSON.stringify(POCKET_COUNTRY_LANGUAGES)};
 const pocketLanguageFromLocale=${pocketLanguageFromLocale.toString()};
@@ -19437,17 +19437,6 @@ async function fetchQuickPlaceResponse(body,query,signal,retryTemporary=false){
  }
  throw new Error(dialogText('Conexiunea cu serverul nu este disponibilă.','Cannot connect to the server.'));
 }
-function appendModulePlaceRetry(choice){
- if(choice.kind!=='places')return;
- const retry=document.createElement('button');retry.type='button';
- retry.className='transit-choice-action';
- retry.textContent=dialogText('Reîncearcă căutarea','Retry search');
- retry.style.cssText='display:block;width:100%;min-height:48px;margin-top:14px';
- retry.onclick=()=>{
-  if(!state.moduleSearchBusy&&state.currentView==='module'&&['travel','maps'].includes(state.currentModule))void runModuleSearch(choice);
- };
- $('moduleLayerBody').append(retry);
-}
 async function runModuleSearch(choice){if(state.moduleSearchBusy)return;state.moduleSearchScrollTop=0;state.moduleSearchBodyScrollTop=0;if(choice.kind==='transit'){cancelTransitAccess(true);state.lastTransitChoice=choice}if(choice.kind==='transit'&&!choice.transitDirect&&!choice.prompt.includes('până la ')){showTransitDestination(choice);return}if(choice.kind==='walking'){rememberNavigationSource();enterModuleRouteConversation();state.pendingRouteStart=true;inputEl.value=routeActionsText().walking;await submitMessage();return;}state.moduleSearchCategory=choice;state.moduleSearchBusy=true;const searchGeneration=++state.moduleSearchGeneration;setModuleLayerMode(localizedQuickChoiceTitle(choice));moduleStatus(quickUiText().searching+' '+localizedQuickChoiceTitle(choice).toLowerCase()+' '+quickUiText().nearby);try{let coords=null;let locationError=null;try{coords=choice.journeyOrigin||await Promise.race([getCurrentCoordinates(false),new Promise((_,reject)=>setTimeout(()=>reject(new Error('GPS timeout (8s)')),8000))])}catch(error){locationError=String(error&&error.message||(dialogText('Nu am putut obține locația telefonului.','Could not access the phone location.')))}if(choice.kind==='transit'&&coords&&Number.isFinite(coords.latitude)&&Number.isFinite(coords.longitude))state.lastTransitChoice={...state.lastTransitChoice,journeyOrigin:coords};const locationIntent=needsLocation(choice.prompt)||choice.kind==='places'||choice.kind==='transit';const body={message:choice.prompt,language:choice.kind==='places'?'ro':state.language,history:[],module:state.currentModule,location_requested:locationIntent,location:coords,coordinates:coords,location_error:locationError||undefined,quick_place_search:choice.kind==='places',place_category:choice.kind==='places'?(choice.placeCategory||undefined):undefined,journey_origin:choice.journeyOrigin||undefined,transit_destination:choice.transitDestination||undefined,mixed_journey:choice.mixedJourney||undefined,transit_query:choice.transitQuery||undefined,national_public_transport:choice.nationalPublicTransport===true,transit_preference:choice.transitPreference||'all',transit_departure_offset:choice.transitDepartureOffset||0,transit_departure_at:choice.transitDepartureAt||null};const searchAbort=new AbortController();const searchTimeout=setTimeout(()=>searchAbort.abort(),choice.kind==='places'?35000:25000);let data;try{const queries=choice.title==='Marketuri și brutării'?[{message:'Găsește supermarketuri în apropierea mea.',place_category:'supermarket'},{message:'Găsește brutării și patiserii în apropierea mea.',place_category:'confectionery'}]:[{message:body.message,place_category:body.place_category}];const responses=await Promise.all(queries.map(query=>fetchQuickPlaceResponse(body,query,searchAbort.signal,choice.kind==='places')));data=responses[0];if(responses.length>1){const merged=responses.flatMap(item=>Array.isArray(item.places)?item.places:[]);const seen=new Set();data={...data,places:merged.filter(place=>{const key=String(place.id||place.osm_id||[place.name,place.address].join('|')).toLowerCase();if(seen.has(key))return false;seen.add(key);return true}),search_ok:responses.some(item=>item.search_ok)};}if(!Array.isArray(data.places)&&!(typeof data.reply==='string'&&data.reply.trim()))throw new Error('Serverul nu a returnat un răspuns utilizabil.')}finally{clearTimeout(searchTimeout)};if(searchGeneration!==state.moduleSearchGeneration)return;state.placeSearchContext=data.place_context||null;state.distanceSearchContext=data.distance_context||null;state.routeSearchContext=data.route_context||null;state.weatherSearchContext=data.weather_context||null;state.moduleSearchReply=String(data.reply||'').trim();
 if(choice.mixedJourney===true&&data.international_journey===true&&data.transit_available!==true){
  const unavailable=String(data.provider_status?.motis||data.reason||'');
@@ -19466,16 +19455,15 @@ state.moduleSearchResults=Array.isArray(data.places)?data.places:[];if(Array.isA
   option.onclick=()=>runModuleSearch({...choice,transitDestination:{label:String(candidate.label||''),latitude:lat,longitude:lon}});
   target.append(option);
  });
-}else if(choice.kind==='transit'&&Array.isArray(data.transit)&&data.transit.length){state.lastTransitResponse=data;renderTransitChoices(data.transit)}else if(choice.kind==='places'&&state.moduleSearchResults.length){renderModulePlaces(state.moduleSearchResults)}else{moduleStatus(state.moduleSearchReply);if(choice.kind==='transit')appendOfficialUKJourneySources(data,$('moduleLayerBody'));if(choice.kind==='transit'&&!data.transit_available)showTransitRetrySelector(choice,data);if(choice.kind==='places'&&data.search_ok&&state.moduleSearchResults.length===0){const note=document.createElement('p');note.className='muted';note.textContent=dialogText('Căutarea s-a încheiat, dar nu a returnat locații. Poți reveni și încerca din nou.','The search finished but returned no locations. Go back and try again.');$('moduleLayerBody').append(note)}if(choice.kind==='places'&&data.search_error_code==='LOCAL_SEARCH_FAILED'&&Number(data.search_http_status)!==429)appendModulePlaceRetry(choice)}}catch(error){if(searchGeneration===state.moduleSearchGeneration){
+}else if(choice.kind==='transit'&&Array.isArray(data.transit)&&data.transit.length){state.lastTransitResponse=data;renderTransitChoices(data.transit)}else if(choice.kind==='places'&&state.moduleSearchResults.length){renderModulePlaces(state.moduleSearchResults)}else{moduleStatus(state.moduleSearchReply);if(choice.kind==='transit')appendOfficialUKJourneySources(data,$('moduleLayerBody'));if(choice.kind==='transit'&&!data.transit_available)showTransitRetrySelector(choice,data);if(choice.kind==='places'&&data.search_ok&&state.moduleSearchResults.length===0){const note=document.createElement('p');note.className='muted';note.textContent=dialogText('Căutarea s-a încheiat, dar nu a returnat locații. Poți reveni și încerca din nou.','The search finished but returned no locations. Go back and try again.');$('moduleLayerBody').append(note)}}}catch(error){if(searchGeneration===state.moduleSearchGeneration){
  const detail=String(error?.message||error);
  const temporary=/failed to fetch|networkerror|network request failed|load failed|^HTTP (?:502|503|504)$/i.test(detail);
  const expired=error?.name==='AbortError';
  const limitSeconds=choice.kind==='places'?35:25;
  moduleStatus(expired?
-  dialogText('Căutarea a depășit timpul disponibil ('+limitSeconds+' s). Poți reîncerca.','Search timed out ('+limitSeconds+' s). You can retry.'):
-  temporary?dialogText('Conexiunea cu serviciul de căutare a fost întreruptă. Poți reîncerca.','The search connection was interrupted. You can retry.'):
-  dialogText('Căutarea nu s-a putut finaliza. Poți reîncerca.','The search could not be completed. You can retry.'));
- appendModulePlaceRetry(choice);
+  dialogText('Căutarea nu a primit răspuns în timpul disponibil ('+limitSeconds+' s).','Search did not receive a response in time ('+limitSeconds+' s).'):
+  temporary?dialogText('Conexiunea cu serviciul de căutare nu este disponibilă.','The search connection is unavailable.'):
+  dialogText('Căutarea nu s-a putut finaliza.','The search could not be completed.'));
  console.error('myPocket AI module search failed:',{category:choice.placeCategory||'',errorName:error?.name||'Error',detail});
 }}finally{if(searchGeneration===state.moduleSearchGeneration)state.moduleSearchBusy=false}}
 function returnToModuleLanding(){
@@ -22996,6 +22984,19 @@ export default {
  async fetch(request,env) {
   const url = new URL(request.url);
   if (request.method === 'OPTIONS') return new Response(null,{status:204,headers:{'Access-Control-Allow-Origin':'*','Access-Control-Allow-Methods':'GET,POST,OPTIONS','Access-Control-Allow-Headers':'Content-Type'}});
+  // The Android WebView loads this Worker; its API calls must remain first-party.
+  // Service binding bypasses mobile cross-host DNS/TLS/CORS for nearby discovery.
+  if (url.pathname === '/api/chat') {
+   if(request.method!=='POST')return new Response('Method not allowed',{status:405,headers:{Allow:'POST'}});
+   if(!env?.POCKET_API)return Response.json({status:'error',error:'internal_api_binding_unavailable'},{status:503});
+   try {
+    const backendRequest=new Request('https://lifewise-ai-api.kokocf.workers.dev/api/chat',request);
+    return await env.POCKET_API.fetch(backendRequest);
+   } catch(error) {
+    console.error('Pocket first-party service binding failed:',String(error?.name||'InternalError'));
+    return Response.json({status:'error',error:'internal_api_unavailable'},{status:502});
+   }
+  }
   if (url.pathname === '/__ui_version') {
    return new Response(uiVersion(),{headers:{'Content-Type':'text/plain; charset=utf-8','Cache-Control':'no-store'}});
   }

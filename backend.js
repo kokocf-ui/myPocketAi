@@ -5986,6 +5986,8 @@ export default {
       let activeProvider = "none";
       let activeProviders = [];
       let lastSearchError = null;
+      const searchProviderFailures=[];
+      const sparseRecoveryTrace={};
       try {
         const sparseCategory=['parking','zoo'].includes(requestedPlaceCategory.key);
         // Zoo locations are sparse: show nearby verified zoos within 20 km,
@@ -5999,7 +6001,7 @@ export default {
         let geoapifySucceeded = false;
         let photonSucceeded = false;
         let resultRadius = radius;
-        const providerFailures = [];
+        const providerFailures = searchProviderFailures;
         // v86: launch Photon immediately so its network request overlaps Geoapify.
         // Optional worldwide provider, disabled unless the owner explicitly
         // allows Places usage. Existing navigation TomTom calls are unaffected.
@@ -6124,7 +6126,7 @@ export default {
             geoapifyUrl.searchParams.set("apiKey", env.GEOAPIFY_API_KEY);
             const geoapifyResponse = await fetch(geoapifyUrl.toString(), {
               headers: { "Accept": "application/json" },
-              signal: AbortSignal.timeout(requestedPlaceCategory.key==="parking"?2800:sparseCategory?4000:6500)
+              signal: AbortSignal.timeout(requestedPlaceCategory.key==="parking"?6500:sparseCategory?5000:6500)
             });
             if (!geoapifyResponse.ok) {
               const errorBody = (await geoapifyResponse.text().catch(() => "")).slice(0, 400);
@@ -6437,7 +6439,7 @@ export default {
         if(['parking','zoo'].includes(requestedPlaceCategory.key)&&
            (placesData.elements||[]).length===0){
           const sparseRadius=radius;
-          const sparseTrace={};
+          const sparseTrace=sparseRecoveryTrace;
           const mapped=await nearbySparseMapPlaces({
             latitude,longitude,radius:sparseRadius,
             category:requestedPlaceCategory.key,diagnostics:sparseTrace
@@ -6626,7 +6628,7 @@ export default {
           : (rateLimited
             ? `Am primit locația, dar serviciile publice de hărți limitează temporar căutările. Nu am putut verifica locuri din apropiere. Te rog să aștepți aproximativ ${retrySeconds} de secunde înainte de a încerca din nou.`
             : "Am primit locația, dar serviciile de căutare a locurilor sunt temporar indisponibile. Nu am putut verifica locuri din apropiere. Te rog să încerci din nou mai târziu.");
-        return json({ app: "Pocket AI", version: API_VERSION, status: "success", language: lang, message_received: message, reply, location_received: true, location_source: locationSource, search_ok: false, search_error_code: "LOCAL_SEARCH_FAILED", search_diagnostic_id: diagnosticId, search_error_name: errorName, search_error_detail: errorMessage, search_http_status: httpStatus, search_elapsed_ms: Date.now() - searchStartedAt, ai_connected: Boolean(env.AI) });
+        return json({ app: "Pocket AI", version: API_VERSION, status: "success", language: lang, message_received: message, reply, location_received: true, location_source: locationSource, search_ok: false, search_error_code: "LOCAL_SEARCH_FAILED", search_diagnostic_id: diagnosticId, search_error_name: errorName, search_error_detail: errorMessage, search_http_status: httpStatus, search_elapsed_ms: Date.now() - searchStartedAt, search_provider_failures:searchProviderFailures.map(f=>({provider:f.provider,errorName:f.errorName,httpStatus:f.httpStatus,elapsedMs:f.elapsedMs})), sparse_recovery_status:sparseRecoveryTrace.status||null, ai_connected: Boolean(env.AI) });
       }
       const reply = lang === "en"
         ? `The map data returned no named places for ${explicitPlaceQuery||"your GPS area"}. Try a more precise destination.`

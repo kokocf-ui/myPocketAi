@@ -37,7 +37,7 @@ jobs:
             echo "curl_exit_code=$status"
             grep -Ei '^(HTTP/|server:|cf-ray:|content-type:|access-control-allow-origin:|server-timing:)' /tmp/poi-headers || true
             if [ -s /tmp/poi-response ]; then
-              python3 -c 'import json,pathlib; s=pathlib.Path("/tmp/poi-response").read_text(errors="replace"); print((json.dumps({k:json.loads(s).get(k) for k in ("status","search_ok","search_error_code","search_error_name","search_error_detail","search_http_status","search_elapsed_ms","server_total_ms","results_count","source","reply")},ensure_ascii=False) if s.startswith("{") else s)[:1400])' || true
+              python3 -c 'import json,pathlib; s=pathlib.Path("/tmp/poi-response").read_text(errors="replace"); print((json.dumps({k:json.loads(s).get(k) for k in ("status","search_ok","search_error_code","search_error_name","search_error_detail","search_http_status","search_elapsed_ms","search_provider_failures","sparse_recovery_status","server_total_ms","results_count","source","reply")},ensure_ascii=False) if s.startswith("{") else s)[:1400])' || true
             fi
             echo "::endgroup::"
           done
