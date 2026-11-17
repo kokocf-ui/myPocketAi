@@ -39,6 +39,7 @@ public final class PocketNavigationService extends Service implements LocationLi
     public static final String ACTION_REPEAT="ai.mypocket.mobile.NAVIGATION_REPEAT";
     public static final String ACTION_MUTE="ai.mypocket.mobile.NAVIGATION_MUTE";
     public static final String EXTRA_JOURNEY="journey";
+    public static final String EXTRA_MUTED="muted";
     private static final String CHANNEL="pocket_navigation_active";
     private static final String PREFS="pocket_navigation_session";
     private static final int NOTIFICATION_ID=20311;
@@ -98,7 +99,14 @@ public final class PocketNavigationService extends Service implements LocationLi
         String action=intent==null?null:intent.getAction();
         if(ACTION_STOP.equals(action)){shutdown();return START_NOT_STICKY;}
         if(ACTION_REPEAT.equals(action)){if(!lastInstruction.isEmpty())say(lastInstruction);return START_STICKY;}
-        if(ACTION_MUTE.equals(action)){muted=!muted;if(muted&&speech!=null)speech.stop();return START_STICKY;}
+        if(ACTION_MUTE.equals(action)){
+            if(!started)return START_NOT_STICKY;
+            muted=intent!=null&&intent.hasExtra(EXTRA_MUTED)?
+                intent.getBooleanExtra(EXTRA_MUTED,muted):!muted;
+            getSharedPreferences(PREFS,MODE_PRIVATE).edit().putBoolean("muted",muted).apply();
+            if(muted&&speech!=null)speech.stop();
+            return START_STICKY;
+        }
         if(!ACTION_START.equals(action)&&!started){
             String saved=getSharedPreferences(PREFS,MODE_PRIVATE).getString("journey","");
             if(saved.isEmpty()){stopSelf();return START_NOT_STICKY;}
@@ -116,7 +124,11 @@ public final class PocketNavigationService extends Service implements LocationLi
             JSONObject json=new JSONObject(payload);
             JSONArray stages=json.optJSONArray("walkingLegs");
             if(stages==null||stages.length()==0||stages.length()>30)throw new IllegalArgumentException("No verified route geometry");
-            legs.clear();announced.clear();activeLeg=-1;muted=false;
+            legs.clear();announced.clear();activeLeg=-1;
+            // A re-created service or a route change keeps the user's voice
+            // preference during this active navigation, not across stopped trips.
+            muted=getSharedPreferences(PREFS,MODE_PRIVATE)
+                .getBoolean("muted",json.optBoolean("muted",false));
             language=json.optString("language","ro");
             navigationMode="drive".equals(json.optString("navigationMode"))?"drive":"walk";
             destination=json.optString("destination","").trim();
@@ -161,7 +173,8 @@ public final class PocketNavigationService extends Service implements LocationLi
             if(Build.VERSION.SDK_INT>=29)startForeground(NOTIFICATION_ID,notification(),ServiceInfo.FOREGROUND_SERVICE_TYPE_LOCATION);
             else startForeground(NOTIFICATION_ID,notification());
             started=true;
-            getSharedPreferences(PREFS,MODE_PRIVATE).edit().putString("journey",payload).putBoolean("active",true).apply();
+            getSharedPreferences(PREFS,MODE_PRIVATE).edit().putString("journey",payload)
+                .putBoolean("active",true).putBoolean("muted",muted).apply();
             locations.removeUpdates(this);
             boolean registered=false;
             if(locations.isProviderEnabled(LocationManager.GPS_PROVIDER)){
@@ -305,7 +318,8 @@ public final class PocketNavigationService extends Service implements LocationLi
         started=false;
         try{if(locations!=null)locations.removeUpdates(this);}catch(SecurityException ignored){}
         if(speech!=null)speech.stop();
-        getSharedPreferences(PREFS,MODE_PRIVATE).edit().remove("journey").putBoolean("active",false).apply();
+        getSharedPreferences(PREFS,MODE_PRIVATE).edit().remove("journey")
+            .remove("muted").putBoolean("active",false).apply();
         stopForeground(STOP_FOREGROUND_REMOVE);stopSelf();
     }
     @Override public void onDestroy(){
