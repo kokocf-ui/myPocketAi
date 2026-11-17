@@ -197,7 +197,7 @@ function showOneFieldJourney(choice){
    const step=createTransportDepartureStep({
     title:dialogText('Când dorești să pleci?','When would you like to leave?'),
     destination:point.label,
-    onBack:()=>{root.replaceChildren(...searchNodes);resetJourneyScroll()},
+    onBack:()=>{root.replaceChildren(...searchNodes);showModes();resetJourneyScroll()},
     onSearch:async departureAt=>{
      session.stop();
      await runModuleSearch({...choice,kind:'transit',mixedJourney:true,transitDirect:true,
@@ -222,22 +222,61 @@ function showOneFieldJourney(choice){
  };
  const showModes=()=>{
   if(!selected||!alive())return;
-  results.replaceChildren();
-  confirmed.replaceChildren();
-  const summary=document.createElement('strong');summary.textContent=text.selected+': '+selected.label;
-  summary.style.cssText='overflow-wrap:anywhere;line-height:1.45';
-  const departure=document.createElement('p');departure.style.cssText='margin:0;color:#b7d3df;font-size:13px';
-  departure.textContent=text.from+': '+(origin?.label||text.fromGPS);
-  const modes=document.createElement('strong');modes.textContent=text.modes;
-  confirmed.append(summary,departure,modes);
-  const suggestedMode=searchPhrase().preferred_mode;
-  // The dedicated Hărți → Traseu pietonal remains the only walking entry.
-  const choices=[['transit',text.transit],['drive',text.drive]];
-  if(suggestedMode)choices.sort((a,b)=>(a[0]===suggestedMode?-1:0)-(b[0]===suggestedMode?-1:0));
-  for(const [mode,label] of choices){
-   const button=makeButton(label,()=>void runMode(mode),true);button.style.width='100%';
-   confirmed.append(button);
-  }
+  // Selection is a stage of the same screen, not another modal. Keep the
+  // confirmed destination visible in the editable input; no repeat explanation.
+  input.value=String(selected.label||'');
+  observedRaw=input.value.trim();
+  input.readOnly=true;input.blur();
+  input.setAttribute('aria-label',text.selected+': '+input.value);
+  results.replaceChildren();confirmed.replaceChildren();
+  const mixedArt=[
+   "<svg viewBox='0 0 300 115' width='100%' height='102' xmlns='http://www.w3.org/2000/svg' aria-hidden='true'>",
+   "<g fill='none' stroke='#79bfd0' stroke-width='2' stroke-dasharray='4 5' opacity='.75'><path d='M150 102L150 30'/><path d='M150 102L66 71'/><path d='M150 102L234 71'/></g>",
+   "<circle cx='150' cy='102' r='6' fill='#e7aac3' stroke='#fff' stroke-width='2'/>",
+   "<path d='M150 8L155 23L175 31L175 37L153 34L153 44L161 50L161 54L150 51L139 54L139 50L147 44L147 34L125 37L125 31L145 23Z' fill='#e4f5f9' stroke='#7bd8e4' stroke-width='2' stroke-linejoin='round'/>",
+   "<rect x='41' y='42' width='53' height='40' rx='10' fill='#12384c' stroke='#85d4e0' stroke-width='2.6'/>",
+   "<rect x='47' y='48' width='41' height='20' rx='5' fill='#77bed1' opacity='.85'/>",
+   "<path d='M67 48V68' stroke='#183d4e' stroke-width='2'/>",
+   "<rect x='48' y='73' width='8' height='5' rx='2' fill='#f5e3a7'/><rect x='79' y='73' width='8' height='5' rx='2' fill='#f5e3a7'/>",
+   "<path d='M51 85L46 92M84 85L89 92' stroke='#b7d7e5' stroke-width='3' stroke-linecap='round'/>",
+   "<rect x='206' y='42' width='53' height='40' rx='8' fill='#193e51' stroke='#85d4e0' stroke-width='2.6'/>",
+   "<rect x='212' y='48' width='41' height='19' rx='3' fill='#77bed1' opacity='.86'/>",
+   "<path d='M212 57H253' stroke='#204052' stroke-width='2'/>",
+   "<path d='M218 71H247' stroke='#c4dce8' stroke-width='2.5' stroke-linecap='round'/>",
+   "<circle cx='216' cy='77' r='3' fill='#f5e3a7'/><circle cx='249' cy='77' r='3' fill='#f5e3a7'/>",
+   "<path d='M216 84V90M249 84V90' stroke='#b7d7e5' stroke-width='3' stroke-linecap='round'/>",
+   "</svg>"
+  ].join('');
+  const carArt=[
+   "<svg viewBox='0 0 300 115' width='100%' height='102' xmlns='http://www.w3.org/2000/svg' aria-hidden='true'>",
+   "<g fill='none' stroke='#6c95a8' stroke-width='2' opacity='.55'><path d='M84 113L100 82M216 113L200 82'/></g>",
+   "<path d='M111 44L122 27Q128 21 140 21H160Q172 21 178 27L189 44L204 54V86Q204 94 195 94H105Q96 94 96 86V54Z' fill='#173e52' stroke='#8dd4dd' stroke-width='2.6' stroke-linejoin='round'/>",
+   "<path d='M123 34Q128 29 141 29H159Q172 29 177 34L185 49H115Z' fill='#8ac6d6' opacity='.9'/>",
+   "<path d='M150 29V49' stroke='#296478' stroke-width='2'/>",
+   "<path d='M104 56H196' stroke='#afd9e3' stroke-width='2' opacity='.8'/>",
+   "<rect x='105' y='62' width='22' height='11' rx='5' fill='#ffe2a3'/><rect x='173' y='62' width='22' height='11' rx='5' fill='#ffe2a3'/>",
+   "<rect x='131' y='72' width='38' height='9' rx='4' fill='#091f2f' stroke='#a2c5d1' stroke-width='1.5'/>",
+   "<path d='M116 94V102M184 94V102' stroke='#b6dce8' stroke-width='8' stroke-linecap='round'/>",
+   "</svg>"
+  ].join('');
+  const makeModeCard=(mode,label,illustration)=>{
+   const button=document.createElement('button');
+   button.type='button';button.className='journey-mode-illustrated';
+   button.setAttribute('aria-label',label);
+   button.style.cssText='box-sizing:border-box;width:100%;min-height:153px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:10px 12px;border:2px solid #9b617d;border-radius:18px;background:linear-gradient(152deg,#18374a,#0b2031);color:#fff;box-shadow:inset 0 2px 0 #ffffff20,0 5px 0 #071c2d,0 10px 17px #0005;touch-action:manipulation';
+   const icon=document.createElement('span');icon.className='journey-mode-illustration';
+   icon.style.cssText='width:100%;max-width:300px;height:102px;display:block;pointer-events:none';
+   icon.innerHTML=illustration;
+   const caption=document.createElement('strong');
+   caption.textContent=label;caption.style.cssText='font-size:18px;line-height:1.2;text-align:center';
+   button.append(icon,caption);
+   button.onclick=()=>void runMode(mode);
+   return button;
+  };
+  confirmed.append(makeModeCard('transit',text.transit,mixedArt),
+   makeModeCard('drive',text.drive,carArt));
+  root.replaceChildren(input,confirmed);
+  resetJourneyScroll();
   status.textContent='';
  };
  const choose=async(item)=>{
@@ -302,6 +341,10 @@ function showOneFieldJourney(choice){
   }
  };
  const schedule=()=>{
+  if(root.children.length!==searchNodes.length){
+   input.readOnly=false;root.replaceChildren(...searchNodes);
+   input.setAttribute('aria-label',text.label);
+  }
   const raw=input.value.trim();
   if(raw===observedRaw)return; // Ignore duplicate Android input events.
   observedRaw=raw;
@@ -311,6 +354,15 @@ function showOneFieldJourney(choice){
   status.textContent=text.checking;
   timer=setTimeout(()=>void lookup(),300);
  };
+ // Tapping the confirmed field returns to the address suggestions on the
+ // same screen. No extra confirmation page or navigation stack.
+ input.addEventListener('click',()=>{
+  if(!selected)return;
+  selected=null;origin=null;input.readOnly=false;
+  root.replaceChildren(...searchNodes);confirmed.replaceChildren();
+  status.textContent=text.short;input.setAttribute('aria-label',text.label);
+  input.focus();
+ });
  input.addEventListener('input',schedule);
  input.addEventListener('change',schedule);
  input.addEventListener('compositionend',schedule);

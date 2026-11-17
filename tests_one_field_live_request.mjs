@@ -15,6 +15,8 @@ class Element {
  }
  get isConnected(){return this===this.doc.body||Boolean(this.parentElement?.isConnected)}
  contains(el){for(let p=el;p;p=p.parentElement)if(p===this)return true;return false}
+ blur(){this.blurred=true}
+ focus(){this.focused=true}
  set textContent(x){this._text=String(x)}
  get textContent(){return this._text}
  addEventListener(type,fn){this.events.set(type,[...(this.events.get(type)||[]),fn])}
@@ -80,8 +82,15 @@ await pick.flush();
 pick.results.children[0].onclick();
 await new Promise(resolve=>setImmediate(resolve));
 assert.equal(pick.results.children.length,0,'Selecting a candidate clears the suggestion list');
-assert.equal(pick.root.children[5].children.length,5,'Select opens one confirmation and two transport modes');
-assert.equal(pick.status.textContent,'','Selected result removes temporary status');
+assert.equal(pick.root.children.length,2,'Only destination field and illustrated cards remain');
+assert.equal(pick.root.children[0],pick.input,'The confirmed destination stays in the input');
+assert.equal(pick.input.value,'Strada Nufărului 1, Oradea, România');
+assert.equal(pick.root.children[1].children.length,2,'Exactly two mode cards');
+assert.equal(pick.root.children[1].children[0].textContent,'','Illustration card caption is a separate element');
+assert.ok(pick.root.children[1].children[0].children[0].innerHTML.includes('<svg'),'Multimodal train, coach and plane are drawn');
+assert.ok(pick.root.children[1].children[1].children[0].innerHTML.includes('<svg'),'Unbranded frontal car is drawn');
+pick.input.emit('click');
+assert.equal(pick.root.children.length,6,'Tapping destination reopens address editing without a new window');
 
 const enter=openJourney('travel');
 enter.input.value='Nufărului 1, Oradea';
