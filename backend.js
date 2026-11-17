@@ -3823,8 +3823,11 @@ export default {
             });
             const start={...mixedOrigin,id:'mixed:departure'};
             const end={id:'mixed:arrival',latitude:targetLat,longitude:targetLon,label:targetName};
-            const sources=[tc,mt].filter(s=>s.enabled&&s.licensed&&s.canServe(start,end));
-            if(sources.length>=2){
+            // The planner must use every enabled licensed source, even when only
+            // one can directly cover A→B. Other sources may cover proven
+            // access/transfer legs discovered in a later expansion stage.
+            const sources=[tc,mt].filter(s=>s.enabled&&s.licensed);
+            if(sources.length){
               try{
                 const combined=await searchMixedRouteProviders({
                   origin:start,destination:end,
