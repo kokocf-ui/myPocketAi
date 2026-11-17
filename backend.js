@@ -4070,7 +4070,9 @@ export default {
                ?'I confirmed '+targetName+' as your destination. Eva cannot yet show verified international tickets and timetables directly. Search trains, coaches, flights and ferries on Omio; a flight is not required.'
                :'Am confirmat destinația '+targetName+'. Eva nu poate afișa încă direct bilete și orare internaționale verificate. Caută pe Omio trenuri, autocare, avioane și feriboturi; zborul nu este obligatoriu.');
             return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,
-              reply:messageForDeparture,route_available:false,transit_available:false,
+              reply:flightDiscovery.status!=='disabled'?
+                (lang==='en'?'No complete journey or flight candidate was confirmed. Source status: ':'Nu s-a confirmat un traseu complet sau un zbor candidat. Starea sursei: ')+flightDiscovery.status
+                :messageForDeparture,route_available:false,transit_available:false,
               international_journey:true,mixed_journey:true,international_destination:targetName,
               transit_destination_point:{latitude:targetLat,longitude:targetLon,label:targetName},
               transit_departure_at:departureAt,
@@ -4079,7 +4081,10 @@ export default {
               external_travel_search:{provider:'Omio',url:'https://www.omio.com',
                 travel_modes:['train','bus','flight','ferry'],requires_manual_search:true,
                 service_scope:'city_or_station',destination:targetName,departure_at:departureAt},
-              provider_status:{motis:detail},reason:detail});
+              flight_search_status:flightDiscovery.status,
+              flight_dates_checked:flightDiscovery.datesChecked,
+              provider_status:{motis:detail,serpapi:flightDiscovery.status,
+                airportDiscovery:flightDiscovery.airportDiscovery||null},reason:detail});
           }
           transportErrors.motis=detail;
         }
