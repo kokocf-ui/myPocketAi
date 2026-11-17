@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import {canonicalizeMixedProviderStop,resolveMixedTransferProvenance} from './mixed_stop_identity.mjs';
-import {convertTransCAPIToMixedLegs,convertBiloToMixedLegs,makeTransCAPIMixedSource,
- makeBiloMixedSource} from './mixed_existing_provider_adapters.mjs';
+import {convertTransCAPIToMixedLegs,convertMOTISToMixedLegs,convertBiloToMixedLegs,
+ makeTransCAPIMixedSource,makeMOTISMixedSource,makeBiloMixedSource} from './mixed_existing_provider_adapters.mjs';
 import {searchMixedRouteProviders} from './mixed_route_provider_search.mjs';
 
 const t0=Date.parse('2026-12-08T06:00:00Z'),at=n=>new Date(t0+n*60000).toISOString();
@@ -52,6 +52,31 @@ assert.equal(routes.journeys[0].finalTransferVerified,true);
 assert.equal(routes.journeys[0].fareComplete,false,'No invented all-in ticket price');
 assert.equal(makeTransCAPIMixedSource({TRANSCAPI_API_KEY:'present'},{licensed:false}).licensed,false);
 assert.equal(makeTransCAPIMixedSource({},{licensed:true}).enabled,false);
+// MOTIS keeps its own source namespace and only accepts an authorized URL.
+// No public Transitous volunteer API may be silently used.
+const motisPayload={...j,legs:j.legs.map(l=>({
+ ...l,mode:l.mode==='national-rail'?'highspeed_rail':l.mode
+}))};
+const motisLegs=convertMOTISToMixedLegs(motisPayload,query);
+assert.equal(motisLegs.length,3);
+assert.equal(motisLegs[1].mode,'train');
+assert.equal(motisLegs[1].provider,'MOTIS');
+assert.notEqual(motisLegs[1].from.id,raw[1].from.id,
+ 'Two providers cannot merge a station solely because it has the same name');
+const volunteer=makeMOTISMixedSource({MOTIS_API_BASE_URL:'https://api.transitous.org'},{
+ licensed:true,planner:async()=>{throw Error('never reach volunteer API')}
+});
+assert.equal(volunteer.enabled,false);
+let motisRequests=0;
+const motis=makeMOTISMixedSource({MOTIS_API_BASE_URL:'https://licensed-motis.example'},{
+ licensed:true,planner:async(env,from,to,when)=>{
+  motisRequests++;assert.equal(when,at(0));return {status:'success',journeys:[motisPayload]};
+ }});
+const motisGraph=await searchMixedRouteProviders({origin:A,destination:B,
+ departureAt:at(0),now:t0,sources:[motis]});
+assert.equal(motisRequests,1);
+assert.equal(motisGraph.status,'verified');
+assert.deepEqual(motisGraph.journeys[0].modes,['train']);
 // Official stop crosswalk requires maintained evidence, not a raw feed flag.
 const passenger=loc('query-origin',51.5,-.12);
 const registry=[{provider:'Bilo',providerStopId:'station-42',
