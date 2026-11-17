@@ -62,3 +62,26 @@ export function evaluateMixedJourneyGeography(path,{origin,destination,maxDetour
   minimumPathKm:Math.round(travelledKm),maxReasonableKm:Math.round(maxKm),
   detourFactor:detourFactor===null?null:Math.round(detourFactor*100)/100};
 }
+
+
+/**
+ * Even an authenticated timetable can have mis-mapped stops or a bad time
+ * zone. Reject physically implausible point-to-point speeds only when BOTH
+ * stop coordinates and unambiguous UTC instants are present. Thresholds are
+ * deliberately generous; these are error checks, not realistic ETAs.
+ */
+export function isPlausibleMixedLegSpeed(leg){
+ if(!leg)return false;
+ const km=mixedGreatCircleKm(leg.from,leg.to);
+ if(km===null)return true;
+ const departure=Date.parse(leg.departureTime),arrival=Date.parse(leg.arrivalTime);
+ const hours=(arrival-departure)/3600000;
+ if(!Number.isFinite(hours)||hours<=0)return false;
+ const caps={
+  walking:18,bus:180,coach:180,train:460,metro:180,tram:130,
+  ferry:150,flight:1500
+ };
+ const max=caps[leg.mode];
+ if(!max)return false;
+ return km/hours<=max;
+}
