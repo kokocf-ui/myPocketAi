@@ -17810,44 +17810,89 @@ function transitSearchSelectors(){
 function renderMixedFlightCandidates(data,choice,appendToExisting=false){
  const flights=Array.isArray(data?.flight_candidates)?data.flight_candidates:[];
  if(!flights.length)return false;
- if(!appendToExisting)moduleStatus(dialogText('Zboruri găsite — rezultate orientative, nu trasee complete de la A la B.',
-   'Flights found — indicative results, not complete A-to-B itineraries.'));
+ if(!appendToExisting)moduleStatus(dialogText('Alternative aeriene de explorat — nu trasee complete.',
+  'Flight alternatives to explore — not complete journeys.'));
  const host=$('moduleLayerBody');if(!host)return true;
- const group=document.createElement('section');
- group.className='mixed-flight-candidate-results';
- group.style.cssText='display:flex;flex-direction:column;gap:12px;margin-top:14px';
- flights.slice(0,12).forEach((flight,i)=>{
-  const legs=Array.isArray(flight.legs)?flight.legs:[];
-  if(!legs.length)return;
-  const card=document.createElement('div');
-  card.className='module-result-card mixed-flight-candidate';
-  card.style.cssText='background:#102b3a;border:1px solid #8e526a;border-radius:16px;padding:14px;line-height:1.6;color:#f1f6f8';
-  const title=document.createElement('strong');
-  title.textContent=dialogText('Zbor posibil ','Possible flight ')+(i+1);
-  card.append(title);
-  for(const leg of legs){
-   const line=document.createElement('div');
-   line.textContent=[leg.from+' → '+leg.to,
-    leg.startLocal?dialogText('Plecare (ora locală): ','Departure (local time): ')+leg.startLocal:'',
-    leg.endLocal?dialogText('Sosire (ora locală): ','Arrival (local time): ')+leg.endLocal:'',
-    leg.airline||'',leg.flightNumber||''].filter(Boolean).join(' · ');
-   card.append(line);
+ const group=document.createElement('section');group.className='mixed-flight-candidate-results';
+ group.style.cssText='display:flex;flex-direction:column;gap:9px;margin-top:12px';
+ const heading=document.createElement('strong');
+ heading.textContent=dialogText('Zboruri posibile · transferurile de la/la aeroport nu sunt incluse',
+  'Possible flights · airport access and onward travel not included');
+ group.append(heading);
+ flights.forEach((flight,i)=>{
+  const legs=Array.isArray(flight.legs)?flight.legs:[];if(!legs.length)return;
+  const card=document.createElement('section');card.className='module-result-card mixed-flight-candidate';
+  card.style.cssText='background:#102b3a;border:1px solid #547a88;border-radius:14px;padding:12px 13px;display:flex;flex-direction:column;gap:6px;color:#f1f6f8';
+  const title=document.createElement('strong');title.style.cssText='font-size:16px';
+  title.textContent=(i+1)+'. '+legs.map((l,j)=>j?l.to:l.from+' → '+l.to).join(' → ');
+  const time=document.createElement('small');time.style.cssText='font-size:13px;color:#d5eaf1';
+  time.textContent=String(legs[0].startLocal||'')+' → '+String(legs.at(-1).endLocal||'')+
+   dialogText(' (ore locale)',' (local times)');
+  const meta=document.createElement('small');meta.style.cssText='font-size:13px;color:#d5eaf1';
+  meta.textContent=legs.length+dialogText(legs.length===1?' zbor':' zboruri',legs.length===1?' flight':' flights')+
+   (legs.length>1?' · '+(legs.length-1)+dialogText(' escale',' transfers'):'');
+  card.append(title,time,meta);
+  const fare=mixedFarePresentation(flight,true);
+  if(fare){const price=document.createElement('strong');price.style.cssText='font-size:14px;color:#e5f3e9';price.textContent=fare;card.append(price)}
+  const details=document.createElement('details');
+  const summary=document.createElement('summary');summary.style.cssText='cursor:pointer;color:#9fe0e8;font-size:14px;padding:4px 0';
+  summary.textContent=dialogText('Etape și companii','Flights and operators');details.append(summary);
+  for(const l of legs){
+   const stage=document.createElement('div');stage.style.cssText='padding:8px 2px;border-top:1px solid #416171;display:flex;flex-direction:column;gap:3px;font-size:13px';
+   const route=document.createElement('strong');route.textContent=l.from+' → '+l.to;
+   const hours=document.createElement('span');hours.textContent=String(l.startLocal||'')+' → '+String(l.endLocal||'');
+   stage.append(route,hours);
+   if(l.airline){const row=document.createElement('div');row.append(mixedOperatorName(l.airline));
+    if(l.flightNumber){const nr=document.createElement('span');nr.textContent=' · '+l.flightNumber;row.append(nr)}stage.append(row)}
+   details.append(stage);
   }
-  if(flight.fareObserved&&Number.isFinite(Number(flight.fareObserved.amount))){
-   const fare=document.createElement('div');
-   fare.textContent=dialogText('Preț orientativ: ','Indicative price: ')+
-    flight.fareObserved.amount+' '+String(flight.fareObserved.currency||'');
-   card.append(fare);
-  }
-  group.append(card);
+  card.append(details);group.append(card);
  });
- const note=document.createElement('p');
- note.style.cssText='color:#c6d6e1;font-size:13px;line-height:1.5;padding:6px';
- note.textContent=dialogText('Pentru un traseu complet trebuie verificate transferurile către aeroport, fusurile orare, legăturile și disponibilitatea biletelor.',
-  'Airport transfers, time zones, connections and ticket availability still need verification for a complete journey.');
+ const note=document.createElement('small');note.style.cssText='color:#bfcfd8;line-height:1.35';
+ note.textContent=dialogText('Tarifele afișate privesc doar componenta aeriană, nu călătoria până la adresă.',
+  'Displayed fares cover the flights, not the full journey to the final address.');
  group.append(note);host.append(group);
  if(!appendToExisting)showTransitRetrySelector(choice,data);
  return true;
+}
+function mixedOperatorWebsite(name){
+ const key=String(name||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim().toLowerCase();
+ const official={
+  'british airways':'https://www.britishairways.com/',
+  'lufthansa':'https://www.lufthansa.com/',
+  'swiss':'https://www.swiss.com/',
+  'swiss international air lines':'https://www.swiss.com/',
+  'ita':'https://www.ita-airways.com/',
+  'ita airways':'https://www.ita-airways.com/',
+  'air dolomiti':'https://www.airdolomiti.it/',
+  'cfr calatori':'https://www.cfrcalatori.ro/',
+  'flixbus':'https://www.flixbus.com/',
+  'national rail':'https://www.nationalrail.co.uk/',
+  'c2c':'https://www.c2c-online.co.uk/'
+ };
+ return official[key]||null;
+}
+function mixedOperatorName(name){
+ const href=mixedOperatorWebsite(name);
+ const el=document.createElement(href?'a':'span');el.textContent=String(name||'').trim();
+ if(href){el.href=href;el.target='_blank';el.rel='noopener noreferrer';
+  el.style.cssText='color:#9fe0e8;text-decoration:underline;text-underline-offset:2px'}
+ return el;
+}
+function mixedFarePresentation(item,flightOnly=false){
+ const r=item?.fareRange||item?.fareEstimateRange;
+ const lo=Number(r?.min??r?.minimum),hi=Number(r?.max??r?.maximum);
+ const cur=String(r?.currency||'').toUpperCase();
+ const suffix=flightOnly?dialogText(' (doar zboruri)',' (flights only)'):'';
+ if(r?.source && (r.min??r.minimum)!=null && (r.max??r.maximum)!=null &&
+    Number.isFinite(lo)&&Number.isFinite(hi)&&lo>=0&&hi>=lo&&/^[A-Z]{3}$/.test(cur))
+  return dialogText('Estimare: ','Estimate: ')+lo+'–'+hi+' '+cur+suffix;
+ const p=flightOnly?item?.fareObserved:(item?.fareLocal&&typeof item.fareLocal==='object'?item.fareLocal:
+   item?.fareGBP!=null?{amount:item.fareGBP,currency:'GBP'}:null);
+ const value=Number(p?.amount),code=String(p?.currency||'').toUpperCase();
+ if(p?.amount!=null&&Number.isFinite(value)&&value>=0&&/^[A-Z]{3}$/.test(code))
+  return dialogText('Tarif orientativ: ','Indicative fare: ')+value+' '+code+suffix;
+ return '';
 }
 function showTransitRetrySelector(choice,response=null){
  const body=$('moduleLayerBody');if(!body||!choice)return;
@@ -18456,7 +18501,7 @@ function appendTransitLegs(host,journey){
  for(const [i,leg] of (journey.legs||[]).entries()){
   const row=document.createElement('tr'),step=document.createElement('th'),action=document.createElement('td'),time=document.createElement('td');step.setAttribute('scope','row');step.textContent=String(i+1);
   const mode=document.createElement('strong');mode.textContent=transitModeName(leg.mode)+(transitLineLabel(leg)?' '+transitLineLabel(leg):'');
-  const places=document.createElement('div');places.textContent=(leg.from||'—')+' → '+(leg.to||'—');action.append(mode,places);
+  const places=document.createElement('div');places.textContent=(leg.from||'—')+' → '+(leg.to||'—');action.append(mode,places);if(leg.operator){const provider=document.createElement('div');provider.append(mixedOperatorName(leg.operator));action.append(provider)}
   const departure=document.createElement('div'),arrival=document.createElement('div');departure.textContent=transitClock(leg.departureTime,leg.departureZone||journey.time_zone);arrival.textContent='→ '+transitClock(leg.arrivalTime,leg.arrivalZone||journey.time_zone);time.append(departure,arrival);row.append(step,action,time);body.append(row);
  }table.append(body);host.append(table);
 }
@@ -18611,7 +18656,7 @@ function appendRomanianRailDetails(host,journey){
     'Train number: not supplied by provider.';
    item.append(unidentified);
   }
-  if(leg.operator){const operator=document.createElement('div');operator.style.cssText='font-size:12px;color:#b7d7e4';operator.textContent=leg.operator;item.append(operator)}
+  if(leg.operator){const operator=document.createElement('div');operator.style.cssText='font-size:12px;color:#b7d7e4';operator.append(mixedOperatorName(leg.operator));item.append(operator)}
   steps.append(item);
  }
  host.append(steps);
@@ -18621,8 +18666,6 @@ function appendRomanianRailDetails(host,journey){
  ticket.textContent=journey.fareLocal?
    (ro?'Tariful afișat trebuie verificat la operator.':'Verify the displayed fare with the operator.'):
    (ro?'Preț indisponibil. Verifică la operator.':'Fare unavailable. Check the operator.');
- if((journey.legs||[]).some(l=>/^(train|rail|coach|bus)$/i.test(String(l.mode||''))))
-   ticket.textContent+=' '+(ro?'Disponibilitatea locurilor nu este confirmată.':'Seat availability is not confirmed.');
  host.append(ticket);
  if(!validTransitBoardingStop(journey.boarding_stop)){
   const note=document.createElement('p');
@@ -18727,6 +18770,7 @@ function appendTransitCards(host,options){
   if(journey.distanceMeters!=null&&Number.isFinite(meters)&&meters>=0)
    date.textContent+=' · '+(meters/1000).toLocaleString(state.language,{maximumFractionDigits:1})+' km';
   button.append(title,schedule,date);
+  const estimated=mixedFarePresentation(journey);if(estimated){const price=document.createElement('small');price.textContent=estimated;price.style.cssText='font-size:13px;color:#e5f3e9';button.append(price)}
   button.onclick=()=>{closeAnswerReader(false);$('moduleQuickLayer').classList.add('open');
    $('moduleQuickLayer').setAttribute('aria-hidden','false');
    $('moduleLayerTitle').textContent=t[0];void selectTransitJourney(options,i)};
@@ -19030,21 +19074,7 @@ function appendMixedTransitComparison(host,options){
    amount+' '+rank.cheapestKnownFare.currency,rank.cheapestKnownIndex);
  }
  if(row.children.length)wrap.append(row);
- if(rank.priceStatus!=='comparable'){
-  const notice=document.createElement('p');notice.className='mixed-compare-price-unavailable';
-  notice.style.cssText='font-size:12px;line-height:1.4;margin:1px 0 0;color:#c9d9e2';
-  notice.textContent=rank.cheapestKnownIndex!==undefined
-   ?(ro?'Comparația include doar traseele cu tarif total verificat; cele fără preț pot costa mai puțin.':
-     'Only fully quoted journeys are compared; unpriced journeys may cost less.')
-   :(ro?'Nu pot confirma cea mai ieftină variantă: lipsesc prețuri totale comparabile pentru toate traseele.':
-     'Cheapest option not confirmed: complete, comparable fares are unavailable for every route.');
-  wrap.append(notice);
- }else{
-  const note=document.createElement('small');note.style.cssText='font-size:12px;opacity:.85';
-  note.textContent=ro?'Tarife furnizate de operatori; verifică prețul final înainte de rezervare.':
-   'Provider-published fares; verify final price before booking.';
-  wrap.append(note);
- }
+ // A fare is optional; never block or bury route alternatives under warnings.
  host.append(wrap);
 }
 function renderTransitChoices(options,selectedIndex=null){
