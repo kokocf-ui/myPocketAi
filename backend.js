@@ -4827,7 +4827,13 @@ export default {
           if(lang==='ro')text=text.replace(/^Take the stairs\.?$/i,'Folosește scările.').replace(/^Take the stairs to Level ([-\d]+)\.?$/i,'Folosește scările către nivelul $1.').replace(/\bthe crosswalk\b/gi,'trecerea de pietoni');
            if(rc.profile==='walk'&&lang==='ro')text=text.replace(/^Continue to Level (\d+)\.?$/i,'Continuă către nivelul $1.');
           const streets=Array.isArray(step.instruction?.streets)?step.instruction.streets.filter(v=>typeof v==='string').slice(0,8):[];
+          // Geoapify maneuver type may identify an exit/merge direction.
+          // It does NOT identify recommended lanes or when a lane change is safe.
+          const maneuverType=rc.profile==='drive'&&
+            /^(?:ExitLeft|ExitRight|StayLeft|StayRight|MergeLeft|MergeRight)$/.test(
+              String(step.instruction?.type||''))?step.instruction.type:'';
           return {text:text.slice(0,1200),streets,distanceMeters:Number.isFinite(step.distance)&&step.distance>=0?step.distance:null,
+           ...(maneuverType?{maneuverType}:{}),
            ...(data.corner_shop_walk===true&&rc.profile==='walk'&&!point?{
              fromIndex:Number.isInteger(step.from_index)?step.from_index:null,
              toIndex:Number.isInteger(step.to_index)?step.to_index:null}: {})};
