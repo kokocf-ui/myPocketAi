@@ -24,6 +24,7 @@ jobs:
           node --check index.js
           node tests_frontend_boot_syntax.mjs
           node tests_assistant_quick_route.mjs
+          node tests_one_field_live_request.mjs
           node tests_maps_empty_route_recovery.mjs
           node tests_corner_shop_retry_ui.mjs
           node tests_food_global_dedup.mjs

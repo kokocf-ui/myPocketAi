@@ -171,7 +171,9 @@ function showOneFieldJourney(choice){
  let timer=null,controller=null,seq=0,selected=null,origin=null,typing='',inputWatcher=null;
  const session={stop(){seq++;if(timer!==null)clearTimeout(timer);controller?.abort();inputWatcher?.stop()}};
  oneFieldJourneySession=session;
- const alive=()=>root.isConnected&&oneFieldJourneySession===session&&state.currentModule==='maps'&&$('moduleQuickLayer')?.classList.contains('open');
+ // The mounted editor, not a lagging Maps/overlay flag, owns this lookup.
+ // Android keyboard transitions can change view state without removing the form.
+ const alive=()=>root.isConnected&&host.contains(root)&&oneFieldJourneySession===session;
  const fetchMatches=async(query,signal)=>{
   const r=await fetch(CLIENT_CONFIG.apiUrl,{method:'POST',headers:{'Content-Type':'application/json'},
    body:JSON.stringify({journey_suggest:{query}}),signal});
