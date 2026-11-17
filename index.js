@@ -19629,7 +19629,8 @@ function pocketNativeRouteCommand(action,route=null,setting=null){
   const destination=String(route.destination?.name||route.destination?.label||route.label||'Destinație').slice(0,160);
   const safeSteps=(route.steps||[]).slice(0,80).map(step=>({
    text:String(step.text||'').slice(0,180),
-   distanceMeters:Math.max(0,Number(step.distanceMeters)||0)
+   distanceMeters:Math.max(0,Number(step.distanceMeters)||0),
+   maneuverType:/^(?:ExitLeft|ExitRight|StayLeft|StayRight|MergeLeft|MergeRight)$/.test(String(step.maneuverType||''))?String(step.maneuverType):''
   }));
   const routeContext={...route,coordinates:points,steps:safeSteps};
   const message={
@@ -19647,7 +19648,9 @@ function pocketNativeRouteCommand(action,route=null,setting=null){
 }
 // Compact translucent turn cue, anchored inside the driving map only.
 // Never derive lane directions from the turn's arrow or road geometry.
-function pocketDrivingTurnIcon(text){
+function pocketDrivingTurnIcon(text,maneuverType=''){
+ if(/^(?:ExitRight|StayRight|MergeRight)$/.test(maneuverType))return '↱';
+ if(/^(?:ExitLeft|StayLeft|MergeLeft)$/.test(maneuverType))return '↰';
  const phrase=String(text||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
  if(/u[ -]?turn|intoarcere|returnati/.test(phrase))return '↶';
  if(/roundabout|sens giratoriu|rond-point|kreisverkehr|rotonda|rotatoria/.test(phrase))return '⟳';
@@ -19685,14 +19688,14 @@ function updateDrivingNextTurn(current,projected,accuracy){
  for(let i=0;i<steps.length;i++){
   const step=steps[i];
   if(i>0&&position>travelled+3&&typeof step?.text==='string'&&step.text.trim()){
-   next={text:step.text,distance:position-travelled};
+   next={text:step.text,maneuverType:step.maneuverType||'',distance:position-travelled};
    break;
   }
   position+=Math.max(0,Number(step?.distanceMeters)||0);
  }
  if(!next){hide();return;}
  cue.hidden=false;cue.style.display='flex';
- current.turnCueIcon.textContent=pocketDrivingTurnIcon(next.text);
+ current.turnCueIcon.textContent=pocketDrivingTurnIcon(next.text,next.maneuverType);
  current.turnCueDistance.textContent=Math.max(0,Math.round(next.distance/10)*10)+' m';
 }
 function stopRouteTracking(current,message,stopNative=true){
