@@ -2,7 +2,7 @@ import {chromium} from 'playwright';
 const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
 const page=await browser.newPage({viewport:{width:390,height:844},locale:'ro-RO'});
 const events=[];
-page.on('pageerror',e=>events.push({type:'pageerror',message:String(e).slice(0,650)}));
+page.on('pageerror',e=>events.push({type:'pageerror',message:String(e).slice(0,650),stack:String(e.stack).slice(0,2400)}));
 page.on('console',m=>{if(m.type()==='error')events.push({type:'console',message:m.text().slice(0,450)})});
 page.on('request',req=>{
  if(req.url().includes('/api/chat')&&req.method()==='POST')
@@ -39,8 +39,8 @@ try{
       status:root?.querySelector('[aria-live]')?.textContent,
       choices:root?.querySelectorAll('.journey-live-suggestions button')?.length,
       visible:root?.isConnected,
-      module:state.currentModule,
-      view:state.currentView
+      input:root?.querySelector('input')?.value,
+      html:root?.outerHTML.slice(0,160)
     }
    });
    status=result.status||'';
