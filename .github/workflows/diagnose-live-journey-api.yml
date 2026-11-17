@@ -1,0 +1,48 @@
+name: Diagnostic public destination API - scoped versus international
+
+on:
+  push:
+    branches:
+      - fix/diagnose-live-journey-gateway-20261117
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - name: Compare real public autocomplete requests (no secrets)
+        shell: bash
+        run: |
+          set -uo pipefail
+          URL='https://lifewise-ai-api.kokocf.workers.dev/api/chat'
+          for case in international_oradea national_basildon international_basildon; do
+            case "$case" in
+              international_oradea) payload='{"journey_suggest":{"query":"Nufărului 1, Oradea, România"}}' ;;
+              national_basildon) payload='{"journey_suggest":{"query":"Basildon","country_code":"GB"}}' ;;
+              international_basildon) payload='{"journey_suggest":{"query":"Basildon"}}' ;;
+            esac
+            echo "::group::$case"
+            rc=0
+            curl --silent --show-error --connect-timeout 6 --max-time 18 \
+              -X POST "$URL" -H 'Content-Type: application/json' \
+              --data "$payload" --output /tmp/response.json \
+              --write-out 'http=%{http_code} total=%{time_total}s dns=%{time_namelookup}s connect=%{time_connect}s\n' || rc=$?
+            echo "curl_exit=$rc"
+            if [ -s /tmp/response.json ]; then
+              python3 - <<'PY'
+import json
+try:
+ p=json.load(open('/tmp/response.json'))
+ print('error='+str(p.get('error',''))[:120])
+ print('candidate_count='+str(len(p.get('candidates') or [])))
+ print('first_label='+str((p.get('candidates') or [{}])[0].get('label',''))[:140])
+except Exception as e: print('invalid_json='+repr(e)[:120])
+PY
+            fi
+            rm -f /tmp/response.json
+            echo "::endgroup::"
+          done
