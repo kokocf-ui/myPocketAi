@@ -18982,12 +18982,20 @@ function appendMixedTransitComparison(host,options){
   pick(ro?'💰 Cel mai ieftin tarif afișat':'💰 Lowest displayed fare',
    amount+' '+rank.cheapestFare.currency,rank.cheapestIndex);
  }
+ if(rank.cheapestKnownIndex!==undefined&&rank.cheapestKnownFare){
+  const amount=rank.cheapestKnownFare.amount.toLocaleString(state.language||'ro',{maximumFractionDigits:2});
+  pick(ro?'💰 Cel mai ieftin dintre tarifele verificate':'💰 Lowest among verified fares',
+   amount+' '+rank.cheapestKnownFare.currency,rank.cheapestKnownIndex);
+ }
  if(row.children.length)wrap.append(row);
  if(rank.priceStatus!=='comparable'){
   const notice=document.createElement('p');notice.className='mixed-compare-price-unavailable';
   notice.style.cssText='font-size:12px;line-height:1.4;margin:1px 0 0;color:#c9d9e2';
-  notice.textContent=ro?'Nu pot confirma cea mai ieftină variantă: lipsesc prețuri totale comparabile pentru toate traseele.':
-   'Cheapest option not confirmed: complete, comparable fares are unavailable for every route.';
+  notice.textContent=rank.cheapestKnownIndex!==undefined
+   ?(ro?'Comparația include doar traseele cu tarif total verificat; cele fără preț pot costa mai puțin.':
+     'Only fully quoted journeys are compared; unpriced journeys may cost less.')
+   :(ro?'Nu pot confirma cea mai ieftină variantă: lipsesc prețuri totale comparabile pentru toate traseele.':
+     'Cheapest option not confirmed: complete, comparable fares are unavailable for every route.');
   wrap.append(notice);
  }else{
   const note=document.createElement('small');note.style.cssText='font-size:12px;opacity:.85';
