@@ -9,6 +9,9 @@ compatibility_date = "2026-10-28"
 OSM_WORLD_FOOD_ENABLED = "true"
 # GPS is the sole implicit anchor; national providers are scoped through the common registry.
 SMART_COUNTRY_REGISTRY_ENABLED = "true"
+# Owner-authorized free-flight discovery pilot; no paid plan fallback.
+SERPAPI_FLIGHTS_PILOT_ENABLED = "true"
+SERPAPI_FLIGHTS_TERMS_REVIEWED = "true"
 
 [ai]
 binding = "AI"
