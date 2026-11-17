@@ -1,0 +1,42 @@
+name: Live journey city-prefix smoke
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/test-journey-live-city-prefix.yml'
+      - 'backend.js'
+      - 'one_field_journey_ui.mjs'
+  workflow_dispatch:
+jobs:
+  verify-real-geocoder:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check actual Cloudflare address suggestions
+        run: |
+          node --input-type=module <<'NODE'
+          const endpoint='https://lifewise-ai-api.kokocf.workers.dev/api/chat';
+          const prefixes=['O','Or','Ora','Orade','Oradea'];
+          let failed=false;
+          for(const prefix of prefixes){
+            const text='Nufărului 1, '+prefix;
+            const response=await fetch(endpoint,{
+              method:'POST',headers:{'Content-Type':'application/json'},
+              body:JSON.stringify({journey_suggest:{query:text}}),
+              signal:AbortSignal.timeout(25000)
+            });
+            const data=await response.json().catch(()=>({}));
+            const options=[...(Array.isArray(data.completions)?data.completions:[]),
+              ...(Array.isArray(data.candidates)?data.candidates:[])];
+            const matches=options.filter(p=>/oradea/i.test(String(p.label||'')));
+            console.log(JSON.stringify({prefix,http:response.status,
+              completionCount:data.completions?.length||0,
+              verifiedAddressCount:data.candidates?.length||0,
+              exactNumberRequired:data.exact_number_required,
+              matches:matches.slice(0,3).map(x=>x.label),
+              topResults:options.slice(0,3).map(x=>x.label),
+              error:data.error||''}));
+            if(!response.ok||!matches.length)failed=true;
+          }
+          if(failed){console.error('LIVE PREFIX REGRESSION: A verified Oradea completion or address is missing for at least one typed prefix.');process.exit(1)}
+          NODE
