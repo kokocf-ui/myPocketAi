@@ -9,6 +9,8 @@ assert.equal(u.searchParams.get('arrival_id'),'XYZ,UVW');
 assert.equal(u.searchParams.get('outbound_date'),'2026-12-06');
 assert.equal(u.searchParams.get('type'),'2');
 assert.equal(u.searchParams.get('engine'),'google_flights');
+assert.equal(prepareSerpApiFlightSearch({...params,stops:1}).searchParams.get('stops'),'1');
+assert.equal(prepareSerpApiFlightSearch(params).searchParams.has('stops'),false);
 assert.equal(u.hostname,'serpapi.com');
 assert.equal(u.searchParams.has('api_key'),false);
 assert.equal(prepareSerpApiFlightSearch({...params,departureAirports:[]}),null);
