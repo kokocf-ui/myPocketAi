@@ -19018,6 +19018,16 @@ function renderTransitChoices(options,selectedIndex=null){
   cancelTransitAccess(true);
   if(selectedIndex!==null){renderTransitChoices(options);return}
   if(state.lastTransitChoice?.nationalPublicTransport){showNationalTransitSearch(state.lastTransitChoice);return}
+  // Mixed journeys return to the one-field destination and mode selector.
+  if(state.lastTransitChoice?.mixedJourney&&state.lastTransitChoice?.transitDestination){
+   const fromChoice=(MODULE_QUICK_CHOICES.maps||[]).find(item=>item.mixedJourney);
+   if(fromChoice){
+    oneFieldJourneyIncoming={raw:String(state.lastTransitChoice.transitDestination.label||''),
+     selected_destination:state.lastTransitChoice.transitDestination,
+     selected_origin:state.lastTransitChoice.journeyOrigin||null};
+    openModuleLandingAction(fromChoice);return;
+   }
+  }
   const source=state.navigationReturnContext;
   if(source?.view==='assistant'){returnToNavigationSource();return}
   if(source?.details&&source.module===state.currentModule){offerPlaceTravelModes(source.details);return}
