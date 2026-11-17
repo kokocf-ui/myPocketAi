@@ -5,6 +5,12 @@ on:
     workflows: ["Deploy MyPocketAI to Cloudflare"]
     types: [completed]
   workflow_dispatch:
+    inputs:
+      run_live:
+        description: 'Use free flight search credits for one explicit live request'
+        required: false
+        default: false
+        type: boolean
 
 jobs:
   live-mixed:
@@ -27,6 +33,7 @@ jobs:
               print('Flight health failed:',str(exc)[:200])
           PY
       - name: Request one live synthetic UK to Romania mixed journey
+        if: github.event_name == 'workflow_dispatch' && inputs.run_live == true
         run: |
           python3 - <<'PY'
           import json,urllib.request,urllib.error,time
