@@ -15,8 +15,10 @@ assert.match(css,/\.comm-message\.mine\.comm-message--voice/,'Own voice styled i
 assert.match(css,/\.comm-message\.theirs\.comm-message--voice/,'Incoming voice styled independently');
 assert.match(css,/align-self:flex-end!important;margin:0 3px 0 auto!important/,'Own voice right-aligned');
 assert.match(css,/align-self:flex-start!important;margin:0 auto 0 3px!important/,'Incoming voice left-aligned');
-assert.match(css,/\.comm-message\.mine\.comm-message--voice \.comm-voice-bar\{\s*background:#65324b!important/,
- 'Own audio uses burgundy');
+const finalTheme=css.slice(css.indexOf('/* Route-theme sent messages + true in-bubble vertical menu.'));
+assert.ok(finalTheme.length>1000,'Final theme override is present');
+assert.match(finalTheme,/\.comm-message\.mine\.comm-message--voice \.comm-voice-bar,[\s\S]*?background:linear-gradient\(125deg,#1a605f 0%,#10465b 72%,#0d3045 100%\)!important/,
+ 'Own audio reuses muted petrol-green route theme');
 assert.match(css,/\.comm-message\.theirs\.comm-message--voice \.comm-voice-bar\{\s*background:#294353!important/,
  'Incoming audio uses petrol blue');
 assert.match(css,/\.comm-message\.comm-message--voice\{\s*width:min\(80vw,316px\)!important/,
@@ -25,10 +27,16 @@ assert.match(css,/\.comm-message\.comm-message--text\.mine/,'Own text uses outgo
 assert.match(css,/\.comm-message\.comm-message--text\.theirs/,'Incoming text uses incoming theme');
 assert.match(css,/\.comm-message--text \.comm-message-footer,[\s\S]*?min-height:0!important/,
  'No large blank footer in short text messages');
-assert.match(css,/\.comm-message--text \.comm-message-menu,[\s\S]*?position:absolute!important/,
- 'Text menu lives outside message bubble');
-assert.match(css,/\.comm-message--text\.mine \.comm-message-menu,[\s\S]*?left:calc\(100% \+ 5px\)!important;right:auto!important/, 
- 'Menu is outside the sender bubble');
+assert.match(render,/footer\.append\(menu\);row\.append\(footer\)/,
+ 'Text menu shares the timestamp/read footer INSIDE the message bubble');
+assert.doesNotMatch(render,/row\.append\(menu\)/,
+ 'Do not append text menu outside the message bubble');
+assert.match(finalTheme,/\.comm-message--text \.comm-message-footer \.comm-message-menu,[\s\S]*?position:static!important/,
+ 'Old absolute external positioning is overridden');
+assert.match(finalTheme,/margin-left:auto!important;margin-right:3px!important/,
+ 'Outgoing text bubble does not reserve an outside menu gutter');
+assert.match(finalTheme,/\.comm-message\.comm-message--text\.mine,[\s\S]*?background:linear-gradient\(125deg,#1a605f 0%,#10465b 72%,#0d3045 100%\)!important/,
+ 'Sent text reuses muted petrol-green route theme');
 assert.match(render,/makeBtn\('⋮',\(\)=>showMessageActions/,
  'Text uses a vertical ellipsis');
 assert.match(player,/makeBtn\('⋮',\(\)=>showVoiceSaveOptions/,
@@ -99,4 +107,4 @@ assert.match(api,/data\.cipher\.length<=15600000/,
  'Oracle encrypted payload size limit is unchanged');
 assert.match(api,/DELETE FROM device_messages WHERE id=\$1 AND sender_id=\$2 AND recipient_id=\$3 AND pair_key=\$4/,
  'Oracle ensures only original sender can delete for both');
-console.log('PASS final chat layout: own/their audio/text, compact outside menus, three attachment choices, APK <= 11 MiB and safe scoped deletion');
+console.log('PASS final chat layout: muted route-green sent bubbles, in-bubble text menu, compact anchored choices, files and sender-scoped deletion');
