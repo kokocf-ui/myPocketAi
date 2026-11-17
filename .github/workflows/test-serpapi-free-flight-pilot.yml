@@ -5,6 +5,9 @@ on:
     branches: [main]
     paths:
       - serpapi_flight_pilot.mjs
+      - serpapi_account_status.mjs
+      - tests_serpapi_account_status.mjs
+      - backend.js
       - tests_serpapi_flight_pilot.mjs
       - package.json
       - .github/workflows/test-serpapi-free-flight-pilot.yml
@@ -23,6 +26,7 @@ jobs:
         run: |
           node --check serpapi_flight_pilot.mjs
           node tests_serpapi_flight_pilot.mjs
+          node tests_serpapi_account_status.mjs
           node tests_verified_multimodal_itineraries.mjs
           node tests_mixed_airport_discovery.mjs
           node tests_motis_mixed_schedule.mjs
