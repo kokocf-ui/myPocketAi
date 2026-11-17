@@ -19589,7 +19589,7 @@ function projectWalkingPosition(route,latitude,longitude){
  const sx=111320*Math.max(.01,Math.cos(latitude*Math.PI/180)),sy=111320,x=longitude*sx,y=latitude*sy;
  let total=0,best=Infinity,along=0;
  for(let i=1;i<route.coordinates.length;i++){const a=route.coordinates[i-1],b=route.coordinates[i],ax=a[0]*sx,ay=a[1]*sy,dx=(b[0]-a[0])*sx,dy=(b[1]-a[1])*sy,len=Math.hypot(dx,dy),t=len?Math.max(0,Math.min(1,((x-ax)*dx+(y-ay)*dy)/(len*len))):0,d=Math.hypot(x-ax-t*dx,y-ay-t*dy);if(d<best){best=d;along=total+t*len}total+=len;}
- const length=Number.isFinite(route.distanceMeters)?route.distanceMeters:total;return {away:best,remaining:total?Math.max(0,(1-along/total)*length):0};
+ const length=Number.isFinite(route.distanceMeters)?route.distanceMeters:total;return {away:best,remaining:total?Math.max(0,(1-along/total)*length):0,alongMeters:along,totalMeters:total};
 }
 function routeBearing(lat1,lon1,lat2,lon2){
  const a=lat1*Math.PI/180,b=lat2*Math.PI/180,d=(lon2-lon1)*Math.PI/180;
@@ -19645,10 +19645,48 @@ function pocketNativeRouteCommand(action,route=null){
   bridge.postMessage(encoded);return true;
  }catch(error){console.warn('Native route session could not start',error);return false}
 }
+// Compact translucent turn cue, anchored inside the driving map only.
+// Never derive lane directions from the turn's arrow or road geometry.
+function pocketDrivingTurnIcon(text){
+ const phrase=String(text||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+ if(/u[ -]?turn|intoarcere|returnati/.test(phrase))return '↶';
+ if(/roundabout|sens giratoriu|rond-point|kreisverkehr|rotonda|rotatoria/.test(phrase))return '⟳';
+ if(/left|stang|gauche|links|sinistra|izquierda|esquerda/.test(phrase))return '↰';
+ if(/right|dreapt|droite|rechts|destra|derecha|direita/.test(phrase))return '↱';
+ if(/exit|iesir|ramp|slip road|sortie|ausfahrt|uscita|salida/.test(phrase))return '↗';
+ return '↑';
+}
+function updateDrivingNextTurn(current,projected,accuracy){
+ const cue=current?.turnCue;
+ if(!cue)return;
+ const hide=()=>{cue.hidden=true;cue.style.display='none';};
+ if(!current.navigating||current.route?.profile!=='drive'||!Number.isFinite(projected?.alongMeters)||
+    !Number.isFinite(projected?.totalMeters)||projected.totalMeters<=0||!Number.isFinite(accuracy)||
+    accuracy>35||projected.away>Math.max(50,accuracy*2)){hide();return;}
+ const route=current.route;
+ const steps=Array.isArray(route.steps)?route.steps:[];
+ const routeMeters=Number(route.distanceMeters);
+ const travelled=projected.alongMeters/projected.totalMeters*
+    (Number.isFinite(routeMeters)&&routeMeters>0?routeMeters:projected.totalMeters);
+ let position=0,next=null;
+ for(let i=0;i<steps.length;i++){
+  const step=steps[i];
+  if(i>0&&position>travelled+3&&typeof step?.text==='string'&&step.text.trim()){
+   next={text:step.text,distance:position-travelled};
+   break;
+  }
+  position+=Math.max(0,Number(step?.distanceMeters)||0);
+ }
+ if(!next){hide();return;}
+ cue.hidden=false;cue.style.display='flex';
+ current.turnCueIcon.textContent=pocketDrivingTurnIcon(next.text);
+ current.turnCueDistance.textContent=Math.max(0,Math.round(next.distance/10)*10)+' m';
+}
 function stopRouteTracking(current,message,stopNative=true){
  if(!current)return;
  const wasNavigating=Boolean(current.navigating);
  current.navigating=false;
+ if(current.turnCue){current.turnCue.hidden=true;current.turnCue.style.display='none'}
  // Closing a map releases only the UI GPS watch; native navigation persists.
  // Only an explicit user Stop/Încheie action stops the foreground service.
  if(wasNavigating&&stopNative)pocketNativeRouteCommand('stop');
@@ -19690,7 +19728,7 @@ function startRouteTracking(current,resumeNative=false){
   current.liveMarker?.setStyle?.({opacity:1,fillOpacity:1});
   if(current.follow){if(current.firstFix){current.map.setView(current.lastFix,16,{animate:false});current.firstFix=false}else current.map.panTo(current.lastFix,{animate:false})}
   const accuracy=' ±'+Math.round(c.accuracy)+' m';
-  if(c.accuracy>60){current.liveStatus.textContent=t[7]+accuracy;return}
+  if(c.accuracy>60){current.liveStatus.textContent=t[7]+accuracy;if(current.turnCue){current.turnCue.hidden=true;current.turnCue.style.display='none'}return}
   let heading=Number.isFinite(c.heading)&&c.heading>=0&&c.speed>=0.5?c.heading:null;
   if(heading===null&&previousFix){
    const delta=Math.hypot((c.latitude-previousFix[0])*111320,(c.longitude-previousFix[1])*111320*Math.cos(c.latitude*Math.PI/180));
@@ -19700,6 +19738,7 @@ function startRouteTracking(current,resumeNative=false){
   if(Number.isFinite(heading)){current.lastHeading=heading;current.map?.setHeading?.(heading)}
   if(typeof saveLocation==='function')saveLocation(c);
   const projected=projectWalkingPosition(current.route,c.latitude,c.longitude);
+  updateDrivingNextTurn(current,projected,c.accuracy);
   current.liveStatus.textContent=projected.away>Math.max(60,c.accuracy*2)?t[9]+accuracy:t[6]+': '+formatNavigationKilometers(projected.remaining,state.language)+accuracy;
  };
  const failure=error=>{if(!current.navigating||activeRouteMap!==current)return;if(error?.code===1){stopRouteTracking(current,t[5]);if(typeof forgetSharedLocation==='function')forgetSharedLocation()}else{current.liveStatus.textContent=t[8];current.liveMarker?.setStyle?.({opacity:.35,fillOpacity:.25})}};
@@ -19743,8 +19782,17 @@ async function openRouteMap(route,origin,options=state.lastRouteOptions,startNav
  for(const step of route.steps||[]){if(typeof step.text!=='string')continue;const li=document.createElement('li');li.textContent=step.text+(Number.isFinite(step.distanceMeters)&&step.distanceMeters>0?' · '+step.distanceMeters.toLocaleString(state.language,{maximumFractionDigits:0})+' m':'');list.append(li)}
  if(list.children.length)stepsPanel.append(list);else{const missing=document.createElement('p');missing.textContent=routeActionsText().noSteps;stepsPanel.append(missing)}
  
- const host=document.createElement('div');host.className='route-map-canvas';layer.append(header,status,navigation,recenter,liveStatus,host,stepsPanel);document.body.append(layer);
- const current={layer,origin,route,navigation,recenter,liveStatus,map:null,watchId:null,navigating:false,cleanup:()=>{},resize:null,backAction:previous.onclick};recenter.onclick=()=>{current.follow=true;if(current.lastFix)current.map?.setView(current.lastFix,16,{animate:false})};activeRouteMap=current;
+ const host=document.createElement('div');host.className='route-map-canvas';
+ // The turn indicator uses a transparent backdrop so the map remains visible.
+ const turnCue=document.createElement('div');turnCue.className='pocket-drive-next-turn';
+ turnCue.style.cssText='position:absolute;top:12px;left:12px;z-index:1200;box-sizing:border-box;min-width:86px;max-width:104px;min-height:91px;padding:8px 10px;border-radius:13px;border:1px solid rgba(239,250,255,.52);background:rgba(7,25,38,.52);color:#fff;box-shadow:0 3px 12px rgba(0,0,0,.18);backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);flex-direction:column;align-items:center;justify-content:center;gap:2px;pointer-events:none;text-align:center';
+ turnCue.hidden=true;turnCue.style.display='none';turnCue.setAttribute('aria-hidden','true');
+ const turnCueIcon=document.createElement('strong');turnCueIcon.style.cssText='font-size:39px;line-height:1.05;font-weight:800;text-shadow:0 1px 2px #0009';
+ const turnCueDistance=document.createElement('span');turnCueDistance.style.cssText='font-size:16px;line-height:1.2;font-weight:800;font-variant-numeric:tabular-nums;text-shadow:0 1px 2px #0009';
+ turnCue.append(turnCueIcon,turnCueDistance);
+ if(route.profile==='drive'){host.style.position='relative';host.append(turnCue);}
+ layer.append(header,status,navigation,recenter,liveStatus,host,stepsPanel);document.body.append(layer);
+ const current={layer,origin,route,navigation,recenter,liveStatus,turnCue:route.profile==='drive'?turnCue:null,turnCueIcon,turnCueDistance,map:null,watchId:null,navigating:false,cleanup:()=>{},resize:null,backAction:previous.onclick};recenter.onclick=()=>{current.follow=true;if(current.lastFix)current.map?.setView(current.lastFix,16,{animate:false})};activeRouteMap=current;
  const resize=()=>{const top=document.querySelector('.bottom-nav')?.getBoundingClientRect().top;layer.style.bottom=current.navigating?'0px':(top>0?Math.max(12,window.innerHeight-top+10):108)+'px';current.map?.invalidateSize()};current.resize=resize;
  const key=e=>{if(e.key==='Escape'){e.preventDefault();closeRouteMap()}};
  window.addEventListener('resize',resize);window.visualViewport?.addEventListener('resize',resize);document.addEventListener('keydown',key);current.cleanup=()=>{window.removeEventListener('resize',resize);window.visualViewport?.removeEventListener('resize',resize);document.removeEventListener('keydown',key)};
