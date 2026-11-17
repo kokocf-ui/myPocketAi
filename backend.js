@@ -832,7 +832,11 @@ async function planMOTISMixedJourney(env,from,to,language,requestedDepartureAt=n
  }catch{return {status:'invalid_provider_configuration',journeys:[]};}
  let data;
  try{
-  const response=await fetch(url.toString(),{headers:{Accept:'application/json','User-Agent':'PocketAI/1.0 (+https://github.com/kokocf-ui/myPocketAi)'},signal:AbortSignal.timeout(16000)});
+  const motisHeaders={Accept:'application/json','User-Agent':'PocketAI/1.0 (+https://github.com/kokocf-ui/myPocketAi)'};
+   // Optional bearer token for the localhost-only Europe Slim relay, exposed via
+   // an authenticated HTTPS tunnel. Existing licensed MOTIS services are unchanged.
+   if(String(env.MOTIS_API_TOKEN||'').trim())motisHeaders.Authorization='Bearer '+String(env.MOTIS_API_TOKEN).trim();
+   const response=await fetch(url.toString(),{headers:motisHeaders,signal:AbortSignal.timeout(16000)});
   if(!response.ok)return {status:'provider_http_'+response.status,journeys:[]};
   data=await response.json();
  }catch{return {status:'provider_unavailable',journeys:[]};}
