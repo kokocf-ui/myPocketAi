@@ -34,6 +34,7 @@ jobs:
           node tests_communication_message_controls.mjs
           node tests_inline_voice_player.mjs
           node tests_communication_final_compact_ui.mjs
+          node tests_communication_anchored_menus.mjs
           node tests_hotels_back_chat_fullscreen.mjs
           node --check oracle_communication_ui.mjs
           node --check oracle-communication/server.mjs
