@@ -19719,7 +19719,7 @@ function startRouteTracking(current,resumeNative=false){
   current.liveStatus.hidden=false;
   current.liveStatus.textContent=dialogText('Navigația vizuală funcționează, dar serviciul Android în fundal nu a pornit.','Visual tracking works, but Android background navigation did not start.');
  }document.body.classList?.add('pocket-navigation-fullscreen');current.resize?.();current.navigation.textContent=t[1];current.recenter.hidden=false;current.liveStatus.hidden=false;current.liveStatus.textContent=t[3];
- const stale=()=>{clearTimeout(current.gpsTimer);current.gpsTimer=setTimeout(()=>{if(current.navigating&&activeRouteMap===current){current.liveStatus.textContent=t[8];current.liveMarker?.setStyle?.({opacity:.35,fillOpacity:.25})}},20000)};stale();
+ const stale=()=>{clearTimeout(current.gpsTimer);current.gpsTimer=setTimeout(()=>{if(current.navigating&&activeRouteMap===current){current.liveStatus.textContent=t[8];if(current.turnCue){current.turnCue.hidden=true;current.turnCue.style.display='none'}current.liveMarker?.setStyle?.({opacity:.35,fillOpacity:.25})}},20000)};stale();
  const success=position=>{
   if(!current.navigating||activeRouteMap!==current)return;const c=position?.coords,age=Date.now()-position?.timestamp;
   if(!c||!Number.isFinite(c.latitude)||!Number.isFinite(c.longitude)||Math.abs(c.latitude)>90||Math.abs(c.longitude)>180||!Number.isFinite(c.accuracy)||c.accuracy<0||!Number.isFinite(age)||age>30000||age< -5000){current.liveStatus.textContent=t[8];return}
@@ -19741,7 +19741,7 @@ function startRouteTracking(current,resumeNative=false){
   updateDrivingNextTurn(current,projected,c.accuracy);
   current.liveStatus.textContent=projected.away>Math.max(60,c.accuracy*2)?t[9]+accuracy:t[6]+': '+formatNavigationKilometers(projected.remaining,state.language)+accuracy;
  };
- const failure=error=>{if(!current.navigating||activeRouteMap!==current)return;if(error?.code===1){stopRouteTracking(current,t[5]);if(typeof forgetSharedLocation==='function')forgetSharedLocation()}else{current.liveStatus.textContent=t[8];current.liveMarker?.setStyle?.({opacity:.35,fillOpacity:.25})}};
+ const failure=error=>{if(!current.navigating||activeRouteMap!==current)return;if(error?.code===1){stopRouteTracking(current,t[5]);if(typeof forgetSharedLocation==='function')forgetSharedLocation()}else{current.liveStatus.textContent=t[8];if(current.turnCue){current.turnCue.hidden=true;current.turnCue.style.display='none'}current.liveMarker?.setStyle?.({opacity:.35,fillOpacity:.25})}};
  try{const id=navigator.geolocation.watchPosition(success,failure,{enableHighAccuracy:true,maximumAge:0,timeout:12000});if(current.navigating)current.watchId=id;else navigator.geolocation.clearWatch(id)}catch{stopRouteTracking(current,t[4])}
 }
 function routeNavigationLink(route){const button=document.createElement('button');button.type='button';button.className='route-map-open route-eva-tracking';button.textContent=routeLiveText()[0];button.onclick=async()=>{const chosen=state.lastRouteOptions?.includes(route)&&state.lastRouteOptions.includes(state.lastRoute)?state.lastRoute:route;if(activeRouteMap?.route===chosen){activeRouteMap.navigating?stopRouteTracking(activeRouteMap):startRouteTracking(activeRouteMap)}else await openRouteMap(chosen,button,state.lastRouteOptions,true)};return button}
