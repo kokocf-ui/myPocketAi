@@ -1,0 +1,33 @@
+name: Diagnose cross-border mixed provider results
+
+on:
+  push:
+    branches:
+      - fix/global-background-navigation-mixed-20261117
+  workflow_dispatch:
+
+permissions:
+  contents: read
+jobs:
+  sample:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Test public routing API with synthetic UK origin (not user location)
+        shell: bash
+        run: |
+          curl --silent --show-error --connect-timeout 6 --max-time 45 \
+            -X POST https://lifewise-ai-api.kokocf.workers.dev/api/chat \
+            -H 'Content-Type: application/json' \
+            --data '{"message":"Caută transport mixt către Strada Nufărului 1, Oradea, România","language":"ro","history":[],"module":"maps","location_requested":true,"location":{"latitude":51.475,"longitude":0.325},"coordinates":{"latitude":51.475,"longitude":0.325},"mixed_journey":true,"transit_destination":{"latitude":47.068,"longitude":21.943,"label":"Strada Nufărului 1, Oradea, România","country_code":"RO"},"transit_query":"Strada Nufărului 1, Oradea, România","transit_preference":"all"}' \
+            --output /tmp/mixed.json --write-out 'status=%{http_code} latency=%{time_total}s\n'
+          python3 - <<'PY'
+          import json
+          d=json.load(open('/tmp/mixed.json'))
+          print('reason=',d.get('reason'))
+          print('provider_status=',d.get('provider_status'))
+          print('transit_available=',d.get('transit_available'))
+          print('transit_count=',len(d.get('transit') or []))
+          print('external_only=',bool(d.get('external_travel_search')))
+          print('reply_preview=',str(d.get('reply',''))[:300])
+          PY
