@@ -46,9 +46,9 @@ assert.match(js,/if\(event\.target===dialog\)close\(\)/,'Outside taps dismiss ch
 const fakePicker={accept:'',clicks:0,click(){this.clicks++}};
 const selected={id:'peer'};
 const showVoiceChoiceMenu=actions=>actions;
-const make= new Function('mediaPicker','selected','showVoiceChoiceMenu','tr',
+const make= new Function('mediaPicker','selected','showVoiceChoiceMenu','tr','attachButton',
  attachments+';return {communicationAttachmentMime,showAttachmentChoices,COMM_FILE_MIMES};');
-const h=make(fakePicker,selected,showVoiceChoiceMenu,(ro,en)=>ro);
+const h=make(fakePicker,selected,showVoiceChoiceMenu,(ro,en)=>ro,{getBoundingClientRect:()=>({})});
 const actions=h.showAttachmentChoices();
 assert.deepEqual(actions.map(x=>x.label),['📄 Fișier','🖼 Fotografie','🎬 Video']);
 actions[0].action();
