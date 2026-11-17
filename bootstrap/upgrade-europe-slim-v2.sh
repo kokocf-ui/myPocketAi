@@ -65,10 +65,10 @@ secret_of(){
 roport=$(port_of pocketai-romania-urban || true)
 gbport=$(port_of pocketai-england-local || true)
 rotoken=$(secret_of pocketai-romania-urban RO_GATEWAY_TOKEN || true)
-gbtoken=$(secret_of pocketai-england-local EN_GATEWAY_TOKEN EN_URBAN_API_TOKEN GATEWAY_TOKEN || true)
+gbtoken=$(secret_of pocketai-england-local EN_GATEWAY_TOKEN EN_URBAN_API_TOKEN RO_GATEWAY_TOKEN GATEWAY_TOKEN || true)
 for country in RO GB; do
   if [[ $country == RO ]]; then p=$roport; t=$rotoken; else p=$gbport; t=$gbtoken; fi
-  if [[ "$p" != 8764 && "$p" != 8765 && "$p" != 8766 ]]; then continue; fi
+  if [[ "$country" == "RO" && "$p" != 8766 ]] || [[ "$country" == "GB" && "$p" != 8768 ]]; then continue; fi
   if [[ ${#t} -lt 32 ]]; then continue; fi
   if ! curl -fsS --max-time 3 "http://127.0.0.1:$p/healthz" >/dev/null; then continue; fi
   if ! grep -q "^EU_UPSTREAM_${country}_TOKEN=" "$ENVFILE"; then
@@ -100,7 +100,7 @@ docker rm -f "$NAME" >/dev/null
 launch
 ready=0
 for attempt in 1 2 3 4 5 6 7 8; do
-  if curl -fsS --max-time 2 "http://127.0.0.1:$PORT/healthz"; then ready=1; break; fi
+  if curl -fs --max-time 2 "http://127.0.0.1:$PORT/healthz"; then ready=1; break; fi
   sleep 1
 done
 [[ "$ready" == 1 ]] || { echo "Europe Slim did not become ready"; false; }
