@@ -87,8 +87,14 @@ export async function discoverMixedFlightCandidates(env,{origin,destination,depa
   };
   // Probe direct routes from all nearby airports first. One shared no-stop
   // search can find a useful nonstop without spending the entire query budget.
-  add(departureAirports.slice(0,6),arrivalAirports.slice(0,6),1);
-  add(departureAirports.slice(0,6),arrivalAirports.slice(0,6));
+  if(departureAirports.length===1&&arrivalAirports.length===1){
+   // One exact pair needs a single search; the provider already returns its
+   // direct and connecting possibilities without an extra quota call.
+   add(departureAirports,arrivalAirports);
+  }else{
+   add(departureAirports.slice(0,6),arrivalAirports.slice(0,6),1);
+   add(departureAirports.slice(0,6),arrivalAirports.slice(0,6));
+  }
   if(departureAirports.length>1)
    for(const departure of departureAirports.slice(0,Math.min(8,maxQueries-1)))
     add([departure],arrivalAirports.slice(0,6),1);
