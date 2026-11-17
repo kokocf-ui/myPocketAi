@@ -26,7 +26,7 @@ const backend=readFileSync(new URL('./backend.js',import.meta.url),'utf8');
 assert.ok(backend.includes('const roTransitQuery=!explicitCarRoute?romanianNationalQuery('));
 assert.ok(backend.includes('if(roTransitQuery && (env.BILO_API_KEY || !env.MOTIS_API_BASE_URL)'));
 assert.ok(backend.includes('if(internationalTarget||explicitMixedJourney||ukRegionalJourney)'));
-assert.ok(backend.includes("!String(env.MOTIS_API_BASE_URL||'').trim()?{status:'not_configured',journeys:[]}"));
+assert.ok(backend.includes("!String(env.MOTIS_API_BASE_URL||'').trim()&&!europeSlimConfigured(env)?{status:'not_configured',journeys:[]}"));
 assert.ok(backend.includes('transit_destination_point:{latitude:targetLat,longitude:targetLon,label:targetName}'));
 assert.ok(backend.includes('departure_at:departureAt},')&&backend.includes('provider_status:{motis:detail},reason:detail'),'Departure remains available in the fallback response with sanitized provider status');
 const inline=readFileSync(new URL('./one_field_journey_ui.mjs',import.meta.url),'utf8');
@@ -47,3 +47,6 @@ assert.ok(retry.includes("const burgundy='background:linear-gradient(145deg,#903
 assert.ok(retry.indexOf("if(choice.mixedJourney===true)")<retry.indexOf('const filters=transitSearchSelectors()'),
  'Old blue recalculate + two selectors are not shown for mixed results');
 console.log('PASS screenshot regression: UK GPS -> Oradea international routing; date, destination, and burgundy recovery');
+
+assert.match(backend,/fetchEuropeSlimMotis\(env,url\.searchParams\)/,
+ 'Mixed MOTIS parser must also accept the common Europe Slim relay when configured');
