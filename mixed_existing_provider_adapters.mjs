@@ -38,7 +38,7 @@ const label=x=>String(x??'').trim();
  * bus stop in Bilo is NOT assumed to be the same physical stop.
  * Provider supplied consecutive waypoints must physically agree (<= 120m).
  */
-export function convertTransCAPIToMixedLegs(journey,query,{journeyIndex=0}={}){
+export function convertTransCAPIToMixedLegs(journey,query,{journeyIndex=0,provider='TransCAPI'}={}){
  const raws=Array.isArray(journey?.legs)?journey.legs:[];
  if(!raws.length||raws.length>30||journey.departureFeasible===false)return [];
  const fromQuery=query?.from,toQuery=query?.to;
@@ -47,7 +47,8 @@ export function convertTransCAPIToMixedLegs(journey,query,{journeyIndex=0}={}){
  const lastCoord=raws.at(-1)?.arrivalLatLon;
  if(!close(fromCoord,fromQuery)||!close(lastCoord,toQuery))return [];
  const normalized=[];
- const prefix='tc:'+encodeURIComponent(fromQuery.id)+'>'+encodeURIComponent(toQuery.id)+':'+journeyIndex+':'+short(journey.startDateTime);
+ const source=provider==='MOTIS'?'MOTIS':'TransCAPI';
+ const prefix=(source==='MOTIS'?'motis:':'tc:')+encodeURIComponent(fromQuery.id)+'>'+encodeURIComponent(toQuery.id)+':'+journeyIndex+':'+short(journey.startDateTime);
  let previousEnd=null,previousToPoint=null;
  for(let i=0;i<raws.length;i++){
   const raw=raws[i],mode=legMode(raw?.mode);
@@ -66,8 +67,8 @@ export function convertTransCAPIToMixedLegs(journey,query,{journeyIndex=0}={}){
   normalized.push({
    mode,from,to,departureTime:start,arrivalTime:end,
    operator:short(raw.operator),lineNames:Array.isArray(raw.lineNames)?raw.lineNames:[],
-   provider:'TransCAPI',verified:true,
-   verificationSource:'TransCAPI: dated operator journey timetable',
+   provider:source,verified:true,
+   verificationSource:source+': dated authorized operator journey timetable',
    // A per-leg / booking-total fare is not confirmed by the route geometry.
    fareVerified:false,cancelled:raw.cancelled===true
   });
@@ -127,6 +128,30 @@ export function convertBiloToMixedLegs(journey,{
   previousEnd=end;
  }
  return {status:'verified_station_records',legs};
+}
+// The existing MOTIS adapter also supplies provider stop coordinates and an
+// internally checked dated itinerary; this only adapts its payload shape.
+// Its network planner remains licensed/configured by the backend.
+export function convertMOTISToMixedLegs(journey,query,options={}){
+ return convertTransCAPIToMixedLegs(journey,query,{...options,provider:'MOTIS'});
+}
+export function makeMOTISMixedSource(env,{licensed=false,planner=null}={}){
+ let endpoint;
+ try{endpoint=new URL(String(env?.MOTIS_API_BASE_URL||''))}catch{}
+ const validEndpoint=endpoint?.protocol==='https:'&&
+  endpoint.hostname!=='api.transitous.org'&&Boolean(endpoint.hostname);
+ const enabled=licensed&&validEndpoint&&typeof planner==='function';
+ return {id:'MOTIS',licensed,enabled,
+  canServe:(from,to)=>enabled&&Boolean(point(from)&&point(to)),
+  async searchLegs(query){
+   if(!enabled)return {status:'not_authorized',legs:[]};
+   if(!point(query.from)||!point(query.to))return {status:'missing_coordinates',legs:[]};
+   const result=await planner(env,point(query.from),point(query.to),query.departureAt);
+   if(result?.status!=='success')return {status:result?.status||'unavailable',legs:[]};
+   const legs=(Array.isArray(result.journeys)?result.journeys:[])
+    .flatMap((j,i)=>convertMOTISToMixedLegs(j,query,{journeyIndex:i}));
+   return {status:legs.length?'success':'stops_not_verified',legs};
+  }};
 }
 export function makeTransCAPIMixedSource(env,{
  licensed=false,planner=planTransCAPIJourney
