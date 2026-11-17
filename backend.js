@@ -21,6 +21,7 @@ import {discoverMappedWalkingEntrances,nearbyPedestrianApproachRoute,preferMappe
 import {planFrontendPlaceProviders} from "./country_frontend_request.mjs";
 import {verifiedGpsCountry} from "./country_gps_resolution.mjs";
 import {nationalPublicTransportPolicy} from "./national_public_transport_policy.mjs";
+import {europeSlimConfigured,europeSlimCountryEnabled,planEuropeSlimNational,fetchEuropeSlimMotis} from "./europe_slim_client.mjs";
 import {verifiedRouteOnlyOptions,routeOnlyMessage} from "./transport_route_topology.mjs";
 import {rankJourneySuggestions} from "./journey_suggestion_rank.mjs";
 import {romanianLocalJourneyScope} from "./romanian_transport_scope.mjs";
@@ -813,7 +814,10 @@ function selectTransitAlternatives(candidates,limit=4){
 // Optional MOTIS v6-compatible provider. Use only a separately licensed/authorized service;
 // Transitous' volunteer public endpoint is NOT enabled by default (non-commercial policy).
 async function planMOTISMixedJourney(env,from,to,language,requestedDepartureAt=null){
- const raw=String(env.MOTIS_API_BASE_URL||'').trim();
+ // The Oracle relay is the common source when no independent MOTIS endpoint is configured.
+ // It remains empty until licensed international providers are registered.
+ const viaEurope=!String(env.MOTIS_API_BASE_URL||'').trim()&&europeSlimConfigured(env);
+ const raw=String(env.MOTIS_API_BASE_URL||'').trim()||(viaEurope?'https://europe.pocketai.internal/':'');
  if(!raw)return {status:'not_configured',journeys:[]};
  const departure=motisQueryDepartureAt(requestedDepartureAt);
  if(departure.status==='invalid_departure_time')return {status:'invalid_departure_time',journeys:[]};
@@ -832,13 +836,18 @@ async function planMOTISMixedJourney(env,from,to,language,requestedDepartureAt=n
  }catch{return {status:'invalid_provider_configuration',journeys:[]};}
  let data;
  try{
-  const motisHeaders={Accept:'application/json','User-Agent':'PocketAI/1.0 (+https://github.com/kokocf-ui/myPocketAi)'};
-   // Optional bearer token for the localhost-only Europe Slim relay, exposed via
-   // an authenticated HTTPS tunnel. Existing licensed MOTIS services are unchanged.
+  if(viaEurope){
+   // Same MOTIS v6 response contract; no fake mixed legs or separate APK logic.
+   const relay=await fetchEuropeSlimMotis(env,url.searchParams);
+   if(relay.status!=='success')return {status:relay.status,journeys:[]};
+   data=relay.data;
+  }else{
+   const motisHeaders={Accept:'application/json','User-Agent':'PocketAI/1.0 (+https://github.com/kokocf-ui/myPocketAi)'};
    if(String(env.MOTIS_API_TOKEN||'').trim())motisHeaders.Authorization='Bearer '+String(env.MOTIS_API_TOKEN).trim();
    const response=await fetch(url.toString(),{headers:motisHeaders,signal:AbortSignal.timeout(16000)});
-  if(!response.ok)return {status:'provider_http_'+response.status,journeys:[]};
-  data=await response.json();
+   if(!response.ok)return {status:'provider_http_'+response.status,journeys:[]};
+   data=await response.json();
+  }
  }catch{return {status:'provider_unavailable',journeys:[]};}
  const isWalk=m=>/^(?:FOOT|WALK|WALKING|PEDESTRIAN)$/i.test(String(m||''));
  const point=p=>{const lat=transitCoordinate(p?.lat,90),lon=transitCoordinate(p?.lon,180);
@@ -1719,7 +1728,9 @@ export default {
       }:null;
       const supported=country==='RO'
        ?Boolean(roCoverage.intercity_configured||roCoverage.urban_configured)
-       :country==='GB'?Boolean(env.TRANSCAPI_API_KEY||env.TFL_APP_KEY||env.TFL_PUBLIC_FALLBACK!=='false'):false;
+       :country==='GB'?Boolean(env.TRANSCAPI_API_KEY||env.TFL_APP_KEY||env.TFL_PUBLIC_FALLBACK!=='false')
+       // Extra European countries are opt-in per verified source, never all 49 by default.
+       :Boolean(country&&europeSlimCountryEnabled(env,country));
       return json({country_code:country||'',supported,source:'verified_gps_country',
        ...(roCoverage?{provider_coverage:roCoverage}:{})});
     }
@@ -3241,7 +3252,11 @@ export default {
       const urbanRoute=originCountry==='RO'&&Boolean(urbanRegion);
       const londonRoute=originCountry==='GB'&&isTfLLondonCorridorPoint(latitude,longitude)&&
         isTfLLondonCorridorPoint(destLat,destLon);
+      // National country stays GPS-verified and cannot leave the selected country.
+      const relayEligible=europeSlimConfigured(env)&&
+        (['RO','GB'].includes(originCountry)||europeSlimCountryEnabled(env,originCountry));
       const providers=[
+        relayEligible?'europe_slim_national':null,
         String(env.BILO_API_KEY||'').trim()?'ro_national_transit':null,
         String(env.RO_URBAN_API_URL||'').trim()&&String(env.RO_URBAN_API_TOKEN||'').trim().length>=32?'ro_urban_gtfs':null,
         env.TRANSCAPI_API_KEY?'uk_national_transit':null,
@@ -3275,8 +3290,37 @@ export default {
         return reject(authorization.status,errors[authorization.status]||errors.national_provider_not_connected);
       }
       authorizedNationalProvider=authorization.provider;
-      // The existing Romania urban/Bilo and UK TfL/TransCAPI paths below
-      // execute only after this country-specific registry authorization.
+      // Shared Europe Slim national relay is used before legacy country adapters.
+      // If it has no verified schedule, RO/GB keep the existing reliable paths.
+      // Other countries are opt-in and never assigned Romanian or British trains.
+      if(relayEligible){
+        const chosenAt=typeof data.transit_departure_at==='string'?data.transit_departure_at.trim():'';
+        const relay=await planEuropeSlimNational(env,{
+          country:originCountry,from:{latitude,longitude},
+          to:{latitude:destLat,longitude:destLon},
+          departureAt:chosenAt||null,limit:requestedTransitCount(message,data.transit_count)
+        });
+        if(relay.journeys.length){
+          const transit=annotateTransportJourneys(relay.journeys,lang);
+          const notice=lang==='en'
+            ?'Scheduled operator journeys. Walking access to stops and transfers are not yet verified.'
+            :'Curse din orarele operatorilor. Accesul pietonal la stații și transferurile nu sunt încă verificate.';
+          return json({app:'Pocket AI',version:API_VERSION,status:'success',
+            language:lang,message_received:message,national_public_transport:true,
+            transit_available:true,route_available:false,transit_geometry_available:false,
+            transit,fastest_transit:transit[0],transit_provider:'Europa Slim',
+            transit_departure_at:chosenAt||null,requested_transit_count:transit.length,
+            reply:(lang==='en'?'Verified scheduled local transport':'Transport local cu orare verificate')+
+             ' · '+originCountry+'\n'+notice,
+            provider_status:{europe_slim:relay.status,sources:relay.sources},
+            source:'Operator-published schedule via authenticated Europa Slim; not live'});
+        }
+        if(authorizedNationalProvider==='europe_slim_national')
+          return reject('eu_no_verified_itinerary',lang==='en'
+            ?'No verified national timetable is available for this trip yet.'
+            :'Nu există încă un orar național verificat pentru această călătorie.');
+      }
+      // Existing Bilo / GTFS / TfL / TransCAPI paths remain as fallback.
     }
 
     const chosenTravelMode=['walk','drive','transit'].includes(data.travel_mode)&&data.route_context?.pending==='profile'?data.travel_mode:null;
@@ -3792,7 +3836,7 @@ export default {
           }
           // MOTIS v6 can use the calendar via the documented time parameter.
           const planned=data.national_public_transport===true?{status:'national_only',journeys:[]}:
-            !String(env.MOTIS_API_BASE_URL||'').trim()?{status:'not_configured',journeys:[]}:
+            !String(env.MOTIS_API_BASE_URL||'').trim()&&!europeSlimConfigured(env)?{status:'not_configured',journeys:[]}:
             validTarget&&mixedOriginValid?await planMOTISMixedJourney(env,mixedOrigin,{latitude:targetLat,longitude:targetLon},lang,effectiveDepartureAt):
             {status:!validTarget?'destination_unverified':'origin_missing',journeys:[]};
           if(planned.journeys.length){
