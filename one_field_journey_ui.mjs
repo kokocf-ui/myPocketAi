@@ -200,7 +200,7 @@ function showOneFieldJourney(choice){
     onBack:()=>{root.replaceChildren(...searchNodes);showModes();resetJourneyScroll()},
     onSearch:async departureAt=>{
      session.stop();
-     await runModuleSearch({...choice,kind:'transit',mixedJourney:true,transitDirect:true,
+     await runModuleSearch({...choice,kind:'transit',mixedJourney:true,transitDirect:true,mixedComposition:true,
       journeyOrigin:from,transitDestination:point,transitQuery:point.label,
       transitPreference:'all',transitDepartureOffset:0,transitDepartureAt:departureAt,
       prompt:dialogText('Caută transport mixt către ','Find mixed transport to ')+point.label});

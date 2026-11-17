@@ -37,6 +37,8 @@ import {hasAssistantRepetitionLoop} from "./ai_response_quality.mjs";
 import {planTransCAPIJourney,transCAPISharedZone} from "./uk_national_transit.mjs";
 import {motisQueryDepartureAt,selectScheduledMOTISAlternatives} from "./motis_mixed_schedule.mjs";
 import {evaluateMixedJourneyGeography} from "./mixed_route_quality.mjs";
+import {searchMixedRouteProviders} from "./mixed_route_provider_search.mjs";
+import {makeTransCAPIMixedSource,makeMOTISMixedSource} from "./mixed_existing_provider_adapters.mjs";
 import {checkSerpApiSecretStatus} from "./serpapi_account_status.mjs";
 import {requestTfLJourneys} from "./tfl_shared_journeys.mjs";
 import {annotateTransportJourneys,transportNoticeLine} from "./transport_availability_disclosure.mjs";
@@ -3628,8 +3630,58 @@ export default {
           }
           departureAt=selectedDeparture?new Date(requestedMs).toISOString():null;
           effectiveDepartureAt=departureAt||(departureOffsetMinutes?new Date(Date.now()+departureOffsetMinutes*60000).toISOString():null);
-          const transcapiZone=validTarget&&hasValidLocation?transCAPISharedZone(
-            {latitude,longitude},{latitude:targetLat,longitude:targetLon}):null;
+          // Selected A→B origin overrides phone GPS for mixed travel only.
+          const chosenOrigin=data.journey_origin;
+          const originLat=Number(chosenOrigin?.latitude),originLon=Number(chosenOrigin?.longitude);
+          const explicitOrigin=explicitMixedJourney&&chosenOrigin&&chosenOrigin.latitude!=null&&chosenOrigin.longitude!=null&&
+            Number.isFinite(originLat)&&Number.isFinite(originLon)&&Math.abs(originLat)<=90&&Math.abs(originLon)<=180;
+          const mixedOrigin=explicitOrigin?{latitude:originLat,longitude:originLon,
+            label:String(chosenOrigin.label||'Departure').slice(0,160)}:{latitude,longitude,label:'GPS'};
+          const mixedOriginValid=explicitOrigin||hasValidLocation;
+          // Compare two independently licensed planners before accepting the
+          // first response. Cross-supplier transfers require proved stop IDs.
+          if(explicitMixedJourney&&data.mixed_composition===true&&
+             transportPreference==='all'&&validTarget&&mixedOriginValid){
+            const tc=makeTransCAPIMixedSource(env,{licensed:Boolean(env.TRANSCAPI_API_KEY)});
+            const mt=makeMOTISMixedSource(env,{
+              licensed:Boolean(env.MOTIS_API_BASE_URL),
+              planner:(e,from,to,when)=>planMOTISMixedJourney(e,from,to,lang,when)
+            });
+            const start={...mixedOrigin,id:'mixed:departure'};
+            const end={id:'mixed:arrival',latitude:targetLat,longitude:targetLon,label:targetName};
+            const sources=[tc,mt].filter(s=>s.enabled&&s.licensed&&s.canServe(start,end));
+            if(sources.length>=2){
+              try{
+                const combined=await searchMixedRouteProviders({
+                  origin:start,destination:end,
+                  departureAt:effectiveDepartureAt||new Date().toISOString(),
+                  sources,maxProviderCalls:2,maxHubs:0,maxResults:requestedOptionsCount,
+                  now:Date.now()-90000
+                });
+                if(combined.status==='verified'&&combined.journeys.length){
+                  const transit=annotateTransportJourneys(combined.journeys,lang);
+                  const lines=transit.map((j,i)=>(i+1)+'. '+
+                    formatJourneyDurationMinutes(j.durationMinutes,lang)+' · '+j.modeSignature+
+                    ' · '+j.startDateTime+' → '+j.arrivalDateTime).join('\n');
+                  const reply=(lang==='en'?'Verified mixed-transport alternatives to ':'Variante verificate de transport mixt către ')+
+                    targetName+'\n'+lines+'\n\n'+
+                    (lang==='en'?'Complete price shown only for fully priced routes.':
+                    'Preț total doar pentru trasee cu toate etapele tarifate.');
+                  return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,
+                    message_received:message,reply,international_journey:internationalTarget,
+                    mixed_journey:true,transit_available:true,route_available:false,
+                    transit,fastest_transit:transit[0],transit_provider:'Verified mixed providers',
+                    transit_destination_point:{latitude:targetLat,longitude:targetLon,label:targetName},
+                    transit_departure_at:departureAt,requested_transit_count:requestedOptionsCount,
+                    provider_status:{composition:'verified',providers:combined.providers},
+                    source:'Licensed TransCAPI and MOTIS scheduled services'});
+                }
+                transportErrors.composition=combined.status;
+              }catch{transportErrors.composition='composition_unavailable'}
+            }
+          }
+          const transcapiZone=validTarget&&mixedOriginValid?transCAPISharedZone(
+            mixedOrigin,{latitude:targetLat,longitude:targetLon}):null;
           const transcapiEligible=Boolean(transcapiZone)&&
             // TransCAPI's GB adapter is selected through the UK registry.
             // Irish/Benelux zones continue through their existing independent
@@ -3638,9 +3690,9 @@ export default {
               provider:'uk_national_transit',country:'GB',
               enabled:env.SMART_COUNTRY_REGISTRY_ENABLED==='true'
             }))&&
-            (transportPreference==='bus_only'||transcapiZone!=='gb'||!isTfLLondonCorridorPoint(latitude,longitude)||!isTfLLondonCorridorPoint(targetLat,targetLon));
+            (transportPreference==='bus_only'||transcapiZone!=='gb'||!isTfLLondonCorridorPoint(mixedOrigin.latitude,mixedOrigin.longitude)||!isTfLLondonCorridorPoint(targetLat,targetLon));
           if(transcapiEligible && (!data.national_public_transport||authorizedNationalProvider==='uk_national_transit')){
-            const national=await planTransCAPIJourney(env,{latitude,longitude},{latitude:targetLat,longitude:targetLon},requestedOptionsCount,{preference:transportPreference,departureOffsetMinutes,departureAt});
+            const national=await planTransCAPIJourney(env,mixedOrigin,{latitude:targetLat,longitude:targetLon},requestedOptionsCount,{preference:transportPreference,departureOffsetMinutes,departureAt});
             if(national.journeys.length){
               const transit=national.journeys,first=transit[0];
               const clock=value=>{
@@ -3670,9 +3722,9 @@ export default {
           }
           // Opt-in England BODS GTFS: after TransCAPI, before a generic MOTIS fallback.
           // Keep existing TfL and verified GB intercity planning unchanged.
-          const englishFrom={latitude,longitude},englishTo={latitude:targetLat,longitude:targetLon};
-          if(validTarget&&hasValidLocation&&!internationalTarget&&
-             !(isTfLLondonCorridorPoint(latitude,longitude)&&
+          const englishFrom=mixedOrigin,englishTo={latitude:targetLat,longitude:targetLon};
+          if(validTarget&&mixedOriginValid&&!internationalTarget&&
+              !(isTfLLondonCorridorPoint(mixedOrigin.latitude,mixedOrigin.longitude)&&
                isTfLLondonCorridorPoint(targetLat,targetLon))&&
              englandLocalGtfsRegion(englishFrom,englishTo)&&
              (typeof env.EN_URBAN_VPC?.fetch==='function'||env.EN_URBAN_API_URL)&&String(env.EN_URBAN_API_TOKEN||'').length>=32&&
@@ -3737,7 +3789,7 @@ export default {
           // MOTIS v6 can use the calendar via the documented time parameter.
           const planned=data.national_public_transport===true?{status:'national_only',journeys:[]}:
             !String(env.MOTIS_API_BASE_URL||'').trim()?{status:'not_configured',journeys:[]}:
-            validTarget&&hasValidLocation?await planMOTISMixedJourney(env,{latitude,longitude},{latitude:targetLat,longitude:targetLon},lang,effectiveDepartureAt):
+            validTarget&&mixedOriginValid?await planMOTISMixedJourney(env,mixedOrigin,{latitude:targetLat,longitude:targetLon},lang,effectiveDepartureAt):
             {status:!validTarget?'destination_unverified':'origin_missing',journeys:[]};
           if(planned.journeys.length){
             const transit=planned.journeys.slice(0,requestedOptionsCount),fastest=transit[0];
