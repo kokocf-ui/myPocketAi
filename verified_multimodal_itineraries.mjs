@@ -1,4 +1,4 @@
-import {mixedPoint,evaluateMixedJourneyGeography} from './mixed_route_quality.mjs';
+import {mixedPoint,evaluateMixedJourneyGeography,isPlausibleMixedLegSpeed} from './mixed_route_quality.mjs';
 // Date-aware, provider-neutral multimodal routing over VERIFIED transport legs.
 // There are no preset cities, airports or countries here. Suppliers discover
 // connections independently; this engine only joins actually returned services.
@@ -120,7 +120,8 @@ export function composeVerifiedMixedItineraries(options={}){
   modesAllowed.add('walking');
   const incoming=Array.isArray(options.legs)?options.legs.slice(0,5000):[];
   const verified=incoming.map(normalizeVerifiedMixedLeg).filter(Boolean)
-    .filter(l=>modesAllowed.has(l.mode)&&l.arrivalMs<=searchStart+horizon&&l.departureMs>=searchStart);
+    .filter(l=>modesAllowed.has(l.mode)&&l.arrivalMs<=searchStart+horizon&&
+      l.departureMs>=searchStart&&isPlausibleMixedLegSpeed(l));
   const nextByNode=new Map(),arrivingAt=new Map();
   for(const leg of verified){
     if(!nextByNode.has(leg.from.id))nextByNode.set(leg.from.id,[]);
