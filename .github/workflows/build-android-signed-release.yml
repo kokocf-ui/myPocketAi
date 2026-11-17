@@ -207,6 +207,7 @@ jobs:
           node --check index.js
           node --check android/app/src/main/assets/avatar-enter.js
           node tests_android_startup_bridge.mjs
+          node tests_assistant_quick_route.mjs
           node tests_mixed_route_quality.mjs
           node tests_mixed_route_provider_search.mjs
           node tests_mixed_existing_provider_adapters.mjs
