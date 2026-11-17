@@ -22,13 +22,15 @@ class Element {
  setAttribute(k,v){this.attrs[k]=v}
  append(...items){for(const el of items){this.children.push(el);el.parentElement=this}}
  replaceChildren(...items){for(const el of this.children)el.parentElement=null;this.children=[];this.append(...items)}
- emit(type){for(const fn of this.events.get(type)||[])fn({key:type,preventDefault(){}})}
+ emit(type,key=type){for(const fn of this.events.get(type)||[])fn({key,preventDefault(){}})}
 }
 
 function openJourney(currentModule){
  const doc={};doc.body=new Element(doc);doc.createElement=()=>new Element(doc);
+ doc.querySelector=()=>({classList:{remove(){}}});
  const layer=new Element(doc),host=new Element(doc),header=new Element(doc);
  doc.body.append(layer);layer.append(header,host);layer.classList.add('open');
+ host.append(new Element(doc)); // stale prior screen: must be replaced, never overlaid
  const $=id=>({moduleQuickLayer:layer,moduleLayerBody:host,moduleLayerTitle:header})[id];
  const state={currentView:'module',currentModule,language:'ro'};
  const words={title:'Deplasare spre…',label:'Unde dorești să ajungi?',hint:'Sugestii',
@@ -51,9 +53,11 @@ function openJourney(currentModule){
   },()=>1,()=>{},cb=>{const id=++timerId;timers.set(id,cb);return id},
   id=>timers.delete(id),AbortController,(ro,en)=>ro);
  render({mixedJourney:true});
+ assert.equal(host.children.length,1,'No overlapping previous search windows');
  const root=host.children[0];assert.ok(root?.isConnected);
- return {input:root.children[1],status:root.children[3],results:root.children[4],
-  actions:root.children[6],requests,
+ assert.equal(root.children.length,6,'Only label, input, hint, status, suggestions and mode section');
+ return {root,input:root.children[1],status:root.children[3],results:root.children[4],
+  requests,
   async flush(){for(const [id,cb] of [...timers]){timers.delete(id);cb()}
    await new Promise(resolve=>setImmediate(resolve));}};
 }
@@ -67,12 +71,11 @@ for(const module of ['maps','travel']){
  assert.equal(page.requests[0].journey_suggest.query,'Nufărului 1, Oradea');
  assert.equal(page.results.children[0].textContent,'Strada Nufărului 1, Oradea, România');
 }
-const press=openJourney('travel');
-press.input.value='Nufărului 1, Oradea';
-press.actions.children[1].onclick(); // No keyboard input event
-assert.equal(press.status.textContent,'Caut locații pe hartă…');
-await press.flush();
-assert.equal(press.requests.length,1,'Verify button silently discarded typed address');
-assert.equal(press.requests[0].journey_suggest.query,'Nufărului 1, Oradea');
-assert.equal(press.results.children.length,1);
-console.log('PASS: visible destination field reaches gateway and renders suggestions via input and Verify');
+const enter=openJourney('travel');
+enter.input.value='Nufărului 1, Oradea';
+enter.input.emit('keydown','Enter'); // Manual search without a separate button
+await enter.flush();
+assert.equal(enter.requests.length,1,'Keyboard Enter must send a typed address');
+assert.equal(enter.requests[0].journey_suggest.query,'Nufărului 1, Oradea');
+assert.equal(enter.results.children.length,1);
+console.log('PASS: clean Directions input matches national search and renders provider results');
