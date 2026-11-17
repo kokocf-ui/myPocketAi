@@ -56,44 +56,12 @@ assert.match(frontSource,/function showJourneyMode\(choice\)\{\n if\(choice\?\.m
 assert.match(frontSource,/if\(state\.currentView==='assistant'\)\{const route=assistantJourneyHandoff\(message\)/);
 assert.match(frontSource,/if\(state\.currentView==='assistant'\)\{\n  const point=data\.route_context\.destination;/,'Verified Assistant POI handoff must redirect to Deplasare');
 const oneField=readFileSync(new URL('./one_field_journey_ui.mjs',import.meta.url),'utf8');
-assert.match(oneField,/watchAndroidJourneyInput\(input,alive,schedule\)/,'Android keyboard uses guarded value-change search');
-assert.match(oneField,/controller\?\.abort\(\)/,'old suggestions are cancelled');
-
-// Regression for Android IMEs that update input.value without dispatching 'input'.
-// One value change must schedule one lookup, and the normal event must not duplicate it.
-const watchStart=oneField.indexOf('function watchAndroidJourneyInput(');
-const watchEnd=oneField.indexOf('function showOneFieldJourney(',watchStart);
-assert.ok(watchStart>=0&&watchEnd>watchStart,'Android input watchdog available');
-let intervalCallback=null,intervalCleared=false;
-const watcher=vm.runInNewContext(oneField.slice(watchStart,watchEnd)+';watchAndroidJourneyInput', {
- setInterval(callback,delay){assert.equal(delay,300);intervalCallback=callback;return 1},
- clearInterval(){intervalCleared=true},
- setTimeout(callback){callback();return 1}
-});
-const listeners=new Map();
-const addressInput={
- value:'',isConnected:true,
- addEventListener(name,listener){listeners.set(name,listener)},
- removeEventListener(name){listeners.delete(name)}
-};
-const searched=[];
-let open=true;
-const androidWatcher=watcher(addressInput,()=>open,()=>searched.push(addressInput.value));
-androidWatcher.start();
-addressInput.value='Nufărului 1, Oradea';
-intervalCallback(); // Android keyboard did not fire input
-assert.deepEqual(searched,['Nufărului 1, Oradea'],'IME-only text change schedules search');
-listeners.get('input')(); // late input event must not schedule a second fetch
-assert.equal(searched.length,1,'No duplicate backend requests');
-addressInput.value='Nufărului 12, Oradea';
-listeners.get('compositionend')();
-assert.equal(searched.length,2,'Final IME composition schedules a fresh search');
-addressInput.value='';
-listeners.get('change')();
-assert.equal(searched.length,3,'Clear text restores empty-state notice');
-open=false;intervalCallback();
-assert.equal(intervalCleared,true,'Watchdog stops when page is hidden');
-assert.equal(listeners.size,0,'Watchdog detaches all listeners');
+assert.match(oneField,/input\.addEventListener\('input',schedule\)/,'Android uses the same native input trigger as national search');
+assert.match(oneField,/if\(raw===observedRaw\)return/,'Duplicate IME input events must not repeatedly abort the HTTP request');
+assert.match(oneField,/Promise\.race\(\[work,new Promise/,'Whole gateway exchange has bounded completion');
+assert.match(oneField,/12000/,'Gateway does not spin indefinitely on a stalled network');
+assert.doesNotMatch(oneField,/watchAndroidJourneyInput/,'Old extra Android polling was removed to prevent repeated cancellation');
+assert.match(oneField,/controller\?\.abort\(\)/,'old suggestions are cancelled when text changes');
 
 assert.match(oneField,/journey_suggest/,'suggestions use backend service');
 assert.match(oneField,/transitDirect:true/,'mixed transit uses existing route engine');
