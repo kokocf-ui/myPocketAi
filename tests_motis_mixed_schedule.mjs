@@ -16,7 +16,7 @@ const mk=(mode,depart,arrive,id)=>({
  legs:[{mode,from:'A',to:'B',departureTime:at(depart),arrivalTime:at(arrive)}]
 });
 const trips=[
- mk('coach',10,210,'coach-direct'),
+ mk('coach',16,210,'coach-direct'),
  mk('train',60,135,'train-later-but-sooner'),
  mk('train',12,155,'train-early-but-slower'),
  mk('ferry',50,190,'ferry-direct'),
