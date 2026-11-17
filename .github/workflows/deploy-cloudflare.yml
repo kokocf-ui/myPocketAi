@@ -189,6 +189,9 @@ jobs:
           node tests_mixed_existing_provider_adapters.mjs
           node tests_mixed_live_composition.mjs
           node tests_serpapi_account_status.mjs
+          node --check mixed_serpapi_discovery.mjs
+          node tests_mixed_serpapi_discovery.mjs
+          node tests_serpapi_flight_pilot.mjs
           node tests_cloudflare_model_retirement.mjs
           node tests_walking_address_arrival.mjs
           node tests_corner_shop_walking_frontage.mjs
