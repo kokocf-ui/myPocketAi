@@ -113,7 +113,7 @@ assert.deepEqual({
  longitude:providerStops[0].legs[0].toSourceStopRef.longitude
 },{latitude:47.13,longitude:21.94});
 assert.equal(providerStops[0].legs[0].fromSourceStopRef.identityVerified,undefined,
- 'Bilo's metadata is not an automatic cross-provider identity crosswalk');
+ "Bilo metadata is not an automatic cross-provider identity crosswalk");
 const bilo={scheduled:true,startDateTime:at(20),arrivalDateTime:at(200),legs:[
  {mode:'train',from:'Station One',to:'Station Two',fromLocality:'City One',toLocality:'City Two',
   departureTime:at(20),arrivalTime:at(110),operator:'Operator A'},
