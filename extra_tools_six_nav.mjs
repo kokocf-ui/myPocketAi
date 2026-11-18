@@ -30,7 +30,7 @@ function extraToolsV2Screen(titleRo,titleEn,back){
  extraToolsStop();resetExtraToolsScreen();
  const root=$('view-module'),host=$('moduleContent');
  root.classList.remove('extra-tools-v2');
- root.classList.add('extra-tools-choose','extra-tools-workspace','extra-tools-v2');
+ root.classList.add('extra-tools-active','extra-tools-workspace','extra-tools-v2');
  $('moduleTitle').textContent=learningLabel(titleRo,titleEn);
  $('moduleLead').textContent='';host.replaceChildren();
  const head=document.createElement('div');head.className='education-toolbar extra-work-head';
@@ -72,56 +72,122 @@ function extraToolsV2Action(key,groupId){
  extraToolsOpenWorkspace(key);
 }
 function extraToolsV2Storybook(work,area,addPdf,input,primary,secondary,note){
- note('Creează o mini-carte în capitole scurte, ascult-o cu vocea Android și salvează textul ca PDF. Animația imaginilor și muzica de fundal vor fi integrate separat.','Create a short chapter book, listen with Android voice, and save the text as PDF. Animated artwork and background music are separate upcoming features.');
- work.title=extraToolsField(area,extraToolsLocale('Titlul mini-cărții','Mini-book title'),'text',extraToolsLocale('Ex.: O poveste din copilărie','e.g. A childhood memory'));
- const editor=input(extraToolsLocale('Povestea, întâmplarea sau ideea ta','Your story, event or idea'),
-  extraToolsLocale('Povestește în câteva fraze ce s-a întâmplat...','Describe what happened in a few sentences...'));
- const kind=extraToolsField(area,extraToolsLocale('Tipul poveștii','Story type'),'select');
- for(const [key,ro,en] of [['documentary','Documentar narativ','Narrative documentary'],
-  ['family','Amintire de familie','Family memory'],['children','Poveste pentru copii','Children’s story'],
-  ['travel','Jurnal de călătorie','Travel story']]){
-  const option=document.createElement('option');option.value=key;option.textContent=extraToolsLocale(ro,en);kind.append(option);
+ const compose=extraToolsEl('section','extra-storybook-compose');
+ area.append(compose);
+ const hint=extraToolsEl('p','extra-work-note',extraToolsLocale(
+  'Transformă o idee în capitole de citit și ascultat. Versiunea actuală nu include încă animații sau muzică.',
+  'Turn an idea into chapters to read and listen. Animated pictures and music are not available yet.'));
+ compose.append(hint);
+ work.title=extraToolsField(compose,extraToolsLocale('Titlul mini-cărții','Mini-book title'),
+  'text',extraToolsLocale('Ex.: Soldații de teracotă','e.g. The Terracotta Army'));
+ const editor=extraToolsField(compose,extraToolsLocale('Subiectul sau povestea','Story subject or idea'),
+  'textarea',extraToolsLocale('Despre ce vrei să povestească Eva?','What should Eva write about?'));
+ work.editor=editor;
+ editor.rows=4;
+ const kind=extraToolsField(compose,extraToolsLocale('Tipul poveștii','Story type'),'select');
+ for(const [key,ro,en] of [
+  ['children','Poveste pentru copii','Children’s story'],
+  ['documentary','Documentar narativ','Narrative documentary'],
+  ['family','Amintire de familie','Family memory'],
+  ['travel','Jurnal de călătorie','Travel story']
+ ]){
+  const option=extraToolsEl('option','',extraToolsLocale(ro,en));option.value=key;kind.append(option);
  }
- const length=extraToolsField(area,extraToolsLocale('Număr capitole','Number of chapters'),'select');
- for(const n of [3,4,5]){const option=document.createElement('option');option.value=String(n);option.textContent=String(n);length.append(option);}
- const viewer=extraToolsEl('section','extra-storybook-reader');viewer.hidden=true;
- const count=extraToolsEl('p','extra-storybook-counter');
- const page=extraToolsEl('div','extra-storybook-page');
- const controls=extraToolsActions(viewer);
- let chapters=[],position=0;
- function render(){
-  if(!chapters.length)return;
+ const chaptersCount=extraToolsField(compose,extraToolsLocale('Număr capitole','Number of chapters'),'select');
+ for(const n of [3,4,5]){
+  const option=extraToolsEl('option','',String(n));option.value=String(n);chaptersCount.append(option);
+ }
+ const state=extraToolsEl('p','extra-storybook-status');state.setAttribute('role','status');compose.append(state);
+ const reader=extraToolsEl('section','extra-storybook-reader');reader.hidden=true;
+ const cover=extraToolsEl('h3','extra-storybook-cover');
+ const progress=extraToolsEl('p','extra-storybook-counter');
+ const paper=extraToolsEl('article','extra-storybook-page');
+ const readerActions=extraToolsActions(reader);
+ const previous=secondary('← Capitol anterior','← Previous chapter',()=>navigate(-1));
+ const next=secondary('Capitol următor →','Next chapter →',()=>navigate(1));
+ const listen=primary('🔊 Ascultă','🔊 Listen',()=>{if(book.length)speakText(book[index].text);});
+ const stop=secondary('■ Oprește','■ Stop',()=>{if(typeof stopSpeech==='function')stopSpeech()});
+ readerActions.append(previous,next,listen,stop);
+ const edit=secondary('✏️ Revino la editor','✏️ Back to editor',()=>{
   if(typeof stopSpeech==='function')stopSpeech();
-  count.textContent=extraToolsLocale('Capitol ','Chapter ')+(position+1)+' / '+chapters.length;
-  page.textContent=chapters[position];
-  back.disabled=position===0;next.disabled=position===chapters.length-1;
- }
- const back=secondary('← Capitolul anterior','← Previous chapter',()=>{if(position>0){position--;render()}});
- const next=secondary('Capitolul următor →','Next chapter →',()=>{if(position<chapters.length-1){position++;render()}});
- const listen=primary('🔊 Ascultă pagina','🔊 Listen to page',()=>{if(chapters.length)speakText(chapters[position]);});
- const stop=secondary('■ Oprește lectura','■ Stop reading',()=>{if(typeof stopSpeech==='function')stopSpeech()});
- controls.append(back,next,listen,stop);viewer.append(count,page);area.append(viewer);
- const create=primary('✨ Creează mini-cartea','✨ Create mini-book',async()=>{
-  const raw=editor.value.trim();if(raw.length<30){extraToolsStatus(extraToolsLocale('Descrie povestea în cel puțin 30 de caractere.','Describe the story in at least 30 characters.'));return}
-  const title=work.title.value.trim()||extraToolsLocale('Mini-cartea mea','My mini-book');
-  const instruction='Transformă întâmplarea într-o mini-carte originală, în '+length.value+' capitole scurte, fiecare de aproximativ 100-170 cuvinte. Gen: '+kind.value+'. Titlul este '+title+'. Folosește EXACT antetele: CAPITOL 1:, CAPITOL 2: ... până la CAPITOL '+length.value+':. Un singur capitol sub fiecare antet, cu fraze naturale potrivite pentru ascultare. Nu inventa persoane, fapte istorice sau surse, dacă nu sunt în poveste. Dacă lipsesc detalii, păstrează tonul de poveste creativă, fără pretenții de documentar verificat.';
-  extraToolsShowOutput('');
-  await extraToolsAI(instruction,raw);
-  if(work!==extraToolsSession||!work.output)return;
-  const result=work.output;
-  const matches=[...result.matchAll(/(?:^|\n)\s*(?:CAPITOL|CHAPTER)\s+\d+\s*:/gi)];
-  chapters=[];
-  if(matches.length>1){
-   for(let i=0;i<matches.length;i++)chapters.push(result.slice(matches[i].index+(result[matches[i].index]==='\n'?1:0),matches[i+1]?.index??result.length).trim());
-  }else{
-   const paras=result.split(/\n\s*\n/).map(x=>x.trim()).filter(Boolean);
-   const groupSize=Math.max(1,Math.ceil(paras.length/Number(length.value)));
-   for(let i=0;i<paras.length;i+=groupSize)chapters.push(paras.slice(i,i+groupSize).join('\n\n'));
-  }
-  chapters=chapters.filter(Boolean);position=0;
-  if(chapters.length){viewer.hidden=false;work.result.hidden=true;render();}
+  reader.hidden=true;compose.hidden=false;
+  reader.scrollIntoView({block:'nearest'});
  });
- extraToolsActions(area,create,secondary('Copiază mini-cartea','Copy mini-book',()=>extraToolsCopy(work.output||'')));
+ const copy=secondary('📋 Copiază mini-cartea','📋 Copy mini-book',()=>extraToolsCopy(work.output||''));
+ extraToolsActions(reader,edit,copy);
+ reader.prepend(cover,progress,paper);
+ area.append(reader);
+ let book=[],index=0;
+ function navigate(direction){
+  const newIndex=Math.max(0,Math.min(book.length-1,index+direction));
+  if(newIndex===index||!book.length)return;
+  index=newIndex;display();
+ }
+ function display(){
+  if(!book.length)return;
+  if(typeof stopSpeech==='function')stopSpeech();
+  cover.textContent=work.title.value.trim()||extraToolsLocale('Mini-cartea mea','My mini-book');
+  progress.textContent=extraToolsLocale('Capitolul ','Chapter ')+(index+1)+' / '+book.length;
+  paper.replaceChildren();
+  const heading=extraToolsEl('h4','extra-storybook-chapter-title',
+   extraToolsLocale('Capitolul ','Chapter ')+(index+1)+(book[index].title&&
+   !/^capitol|chapter/i.test(book[index].title)?' — '+book[index].title:''));
+  const body=extraToolsEl('p','extra-storybook-prose',book[index].text);
+  paper.append(heading,body);
+  previous.disabled=index===0;next.disabled=index===book.length-1;
+  paper.scrollTop=0;area.scrollTop=0;
+ }
+ const create=primary('✨ Creează mini-cartea','✨ Create mini-book',async()=>{
+  const seed=editor.value.trim(),title=work.title.value.trim();
+  if(title.length<2||seed.length<20){
+   state.textContent=extraToolsLocale('Completează titlul și descrie povestea în cel puțin 20 de caractere.',
+    'Enter a title and describe the story in at least 20 characters.');return;
+  }
+  if(work.controller)return;
+  if(typeof stopSpeech==='function')stopSpeech();
+  if(document.activeElement?.blur)document.activeElement.blur();
+  const count=Number(chaptersCount.value);
+  const ctrl=new AbortController();work.controller=ctrl;
+  const timeout=setTimeout(()=>ctrl.abort(),65000);
+  create.disabled=true;
+  create.textContent=extraToolsLocale('⏳ Eva scrie…','⏳ Eva is writing…');
+  state.textContent=extraToolsLocale('Eva pregătește capitolele…','Eva is preparing the chapters…');
+  book=[];work.output='';reader.hidden=true;
+  try{
+   const response=await fetch(CLIENT_CONFIG.apiUrl,{
+    method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({message:seed,story_seed:seed,title,story_type:kind.value,
+      chapter_count:count,language:typeof state==='object'?'ro':'ro',module:'creative_storybook',history:[]}),
+    signal:ctrl.signal
+   });
+   const data=await response.json().catch(()=>null);
+   if(work!==extraToolsSession||!area.isConnected)return;
+   if(!response.ok||data?.status!=='success'||data?.module!=='creative_storybook'||
+      !Array.isArray(data.chapters)||data.chapters.length!==count||
+      data.chapters.some((part,i)=>Number(part.number)!==i+1||String(part.text||'').length<170)){
+     state.textContent=extraToolsLocale(
+      'Eva nu a creat capitolele cerute. Nu afișăm rezultate de știri sau texte incomplete ca mini-carte.',
+      'Eva did not create the requested chapters. News snippets or incomplete text will not be shown as a book.');
+     return;
+   }
+   book=data.chapters.map(part=>({title:String(part.title||'').slice(0,110),text:String(part.text||'').trim()}));
+   work.output=book.map((part,i)=>'CAPITOL '+(i+1)+':\n'+part.text).join('\n\n');
+   if(work.pdf)work.pdf.hidden=false;
+   index=0;compose.hidden=true;reader.hidden=false;
+   display();
+  }catch(error){
+   if(work===extraToolsSession)state.textContent=error?.name==='AbortError'?
+    extraToolsLocale('Cererea a durat prea mult. Încearcă din nou.','The request timed out. Try again.'):
+    extraToolsLocale('Nu am putut contacta serviciul de creare a poveștii.','Could not reach the story creation service.');
+  }finally{
+   clearTimeout(timeout);
+   if(work===extraToolsSession){
+    work.controller=null;create.disabled=false;
+    create.textContent=extraToolsLocale('✨ Creează mini-cartea','✨ Create mini-book');
+   }
+  }
+ });
+ extraToolsActions(compose,create);
  addPdf();
 }
 // Upgrade the existing Tools entry screen after all global app functions have been declared.
