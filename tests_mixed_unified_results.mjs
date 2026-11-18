@@ -17,12 +17,13 @@ class Element {
  append(...els){this.children.push(...els)}
  replaceChildren(...els){this.children=[...els]}
  setAttribute(k,v){this.attrs[k]=v}
+ addEventListener(k,listener){this.events??={};this.events[k]=listener}
 }
 const document={createElement:tag=>new Element(tag)};
 const body=new Element('main'),layer=new Element('div');
 const $=id=>({moduleLayerBody:body,moduleQuickLayer:layer})[id];
 const state={language:'ro',lastTransitChoice:{mixedJourney:true},lastTransitResponse:null};
-let shown=0;
+let shown=0,groundRequested=0;
 const run=new Function('document','state','$','renderTransitChoices','showTransitRetrySelector',
  'dialogText','mixedFarePresentation','mixedOperatorName','resolveMixedFlightGroundOptions',
  snippet+'\nreturn {renderMixedUnifiedResults};');
@@ -31,7 +32,7 @@ const api=run(document,state,$,()=>{
 },()=>{},(ro,en)=>ro,item=>item.fareFrom?
  'De la '+item.fareFrom.amount+' '+item.fareFrom.currency:
  item.fareObserved?'Tarif orientativ: '+item.fareObserved.amount+' '+item.fareObserved.currency:'',
- name=>{const el=new Element('a');el.textContent=name;return el;},()=>{});
+ name=>{const el=new Element('a');el.textContent=name;return el;},()=>{groundRequested++});
 const data={
  transit:[],
  operator_options:[{operator:'FlixBus',mode:'coach',from:'London',to:'Oradea',
@@ -60,4 +61,12 @@ assert.equal(link.textContent,'FlixBus');
 body.children[0].onclick();
 assert.equal(shown,2,'Back restores unified compact results');
 assert.equal(body.children.filter(e=>e.className.includes('mixed-unverified-candidate')).length,2);
-console.log('PASS unified mixed transport: official coach and air cards together, operator link, no old fallback, Back restores list');
+const flight=body.children.filter(e=>e.className.includes('mixed-unverified-candidate'))[1];
+flight.onclick();
+const ground=body.children.find(e=>e.textContent==='Caută transferurile terestre');
+assert.ok(ground?.events?.click,'Flight details must have an actionable ground-transfer button');
+let suppressed=0;
+ground.events.click({preventDefault(){suppressed++},stopPropagation(){suppressed++}});
+assert.equal(groundRequested,1,'Ground transfer search is invoked by one tap');
+assert.equal(suppressed,2,'Ground button interaction does not bubble to unrelated route navigation');
+console.log('PASS unified mixed transport: flight+coach cards, functional transfer action and preserved Back');

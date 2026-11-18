@@ -26,15 +26,24 @@ const supplier=url=>{
  const host=url.hostname.toLowerCase().replace(/^www\./,'');
  return allowed.find(x=>host===x.domain||host.endsWith('.'+x.domain))||null;
 };
+const cleanLocality=value=>{
+ // Addresses supplied by geocoders can prefix a city with a postal code:
+ // "Strada Nufărului 1, 410100 Oradea, România" must search "Oradea".
+ // Strip only postal codes at the start of an address component.
+ const text=trim(value,100).replace(/\s+/g,' ');
+ return trim(text
+  .replace(/^\d{4,6}[\s,–-]+/,'')
+  .replace(/^[A-Z]{1,2}\d[A-Z\d]?\s*\d[A-Z]{2}[\s,–-]+/i,''),75);
+};
 const locality=value=>{
- const own=trim(value?.city||value?.locality||value?.town,75);
+ const own=cleanLocality(value?.city||value?.locality||value?.town);
  if(own)return own;
  const label=trim(value?.label||value?.name||'',220);
  const parts=label.split(',').map(x=>x.trim()).filter(Boolean);
  if(!parts.length)return '';
  // Street names and exact house numbers must NOT be sent to a search engine.
  const street=/\b(?:strada|str\.?|street|road|lane|avenue|boulevard|drive|close|mill|calea|bulevardul|ulica)\b/i;
- return trim((parts.length>1&&(street.test(parts[0])||/\d/.test(parts[0]))?parts[1]:parts[0]),75);
+ return cleanLocality(parts.length>1&&(street.test(parts[0])||/\d/.test(parts[0]))?parts[1]:parts[0]);
 };
 const country=value=>{
  const raw=trim(value?.country_code||value?.countryCode||'',2).toUpperCase();

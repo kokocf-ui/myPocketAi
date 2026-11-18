@@ -40,7 +40,8 @@ assert.ok(backend.includes('if(roTransitQuery && (env.BILO_API_KEY || !env.MOTIS
 assert.ok(backend.includes('if(internationalTarget||explicitMixedJourney||ukRegionalJourney)'));
 assert.ok(backend.includes("!String(env.MOTIS_API_BASE_URL||'').trim()?{status:'not_configured',journeys:[]}"));
 assert.ok(backend.includes('transit_destination_point:{latitude:targetLat,longitude:targetLon,label:targetName}'));
-assert.ok(backend.includes('departure_at:departureAt},')&&backend.includes('provider_status:{motis:detail},reason:detail'),'Departure remains available in the fallback response with sanitized provider status');
+assert.ok(backend.includes('transit_departure_at:departureAt,')&&backend.includes('provider_status:{motis:detail,serpapi:flightDiscovery.status}'),
+ 'Departure and truthful supplier statuses remain available after flight and ground fallback');
 const inline=readFileSync(new URL('./one_field_journey_ui.mjs',import.meta.url),'utf8');
 assert.ok(inline.includes('journeyOrigin:from,transitDestination:point,transitQuery:point.label'));
 assert.ok(inline.includes("initialDepartureAt=null"));
@@ -53,6 +54,12 @@ assert.ok(inline.includes('back(){'),
  'The one-field wizard must handle Android and header Back locally');
 assert.ok(inline.includes("background:linear-gradient(145deg,#903550,#602139)!important"));
 const ui=readFileSync(new URL('./index.js',import.meta.url),'utf8');
+assert.ok(inline.includes('mixedComposition:true'),
+ 'The primary one-field journey route must enable verified provider composition');
+assert.ok(ui.includes("onSearch:departureAt=>runModuleSearch({...choice,kind:'transit',mixedJourney:true,mixedComposition:true,transitDirect:true,"),
+ 'The alternate departure calendar must not silently bypass provider composition');
+assert.ok(ui.includes("transitDirect:true,mixedComposition:true,journeyOrigin:origin,"),
+ 'Alternate mixed-mode entry must retain provider-composition intent');
 assert.ok(ui.includes('state.moduleSearchCategory={...choice,journeyOrigin:coords}'),
  'GPS resolution must be copied into the result Back snapshot');
 assert.ok(ui.includes("detail==='mixed_origin_unavailable'"),

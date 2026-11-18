@@ -37,6 +37,7 @@ const context={
  formatTravelDurationMinutes:min=>min+' min',
  transitModeName:mode=>mode==='train'?'Tren':mode,
  transitLineLabel:leg=>(leg.lineNames||[]).join(', '),
+ mixedOperatorName:name=>{const el=createElement('a');el.textContent=String(name);return el},
  validTransitBoardingStop:stop=>Boolean(stop?.latitude&&stop?.longitude),
  dialogText:(ro,en)=>ro,closeAnswerReader(){},selectTransitJourney(){},
  $:()=>({classList:{add(){}},setAttribute(){}}),transitAccessText:()=>['Variante']
