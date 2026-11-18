@@ -15,6 +15,8 @@ on:
       - 'tests_mixed_serpapi_discovery.mjs'
       - 'mixed_flight_ground_connections.mjs'
       - 'tests_mixed_flight_ground_connections.mjs'
+      - 'mixed_fixed_point_access.mjs'
+      - 'tests_mixed_fixed_point_access.mjs'
       - 'mixed_romanian_airport_onward.mjs'
       - 'tests_mixed_romanian_airport_onward.mjs'
       - 'tests_mixed_unified_results.mjs'
@@ -40,6 +42,7 @@ jobs:
           node tests_mixed_ground_operator_discovery.mjs
           node tests_mixed_serpapi_discovery.mjs
           node tests_mixed_flight_ground_connections.mjs
+          node tests_mixed_fixed_point_access.mjs
           node tests_mixed_romanian_airport_onward.mjs
           node tests_mixed_unified_results.mjs
           node tests_mixed_door_to_door_details.mjs
