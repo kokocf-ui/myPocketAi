@@ -61,4 +61,25 @@ assert.ok(searchRequests.some(x=>x.departureAirports.length===1&&x.departureAirp
 assert.ok(searchRequests.length<=9,'Respect the configured free-query budget');
 assert.equal(r.completeDoorToDoor,false,'No claim of a complete journey without airport access/egress');
 
+const alsoDirect={legs:[{from:'STN',to:'CLJ',
+ startLocal:'2026-11-20 05:55',endLocal:'2026-11-20 10:45',
+ airline:'Example competing direct'}],fareObserved:{amount:72,currency:'GBP'},
+ totalFlightDurationMinutes:170};
+const returned=[];
+const twoFlights=async (_env,query)=>{
+ returned.push(query);
+ if(query.departureAirports.length>1&&query.stops===1)
+  return {status:'candidate_results_only',candidates:[alsoDirect]};
+ if(query.departureAirports.length===1&&query.departureAirports[0]==='LTN')
+  return {status:'candidate_results_only',candidates:[direct]};
+ return {status:'candidate_results_only',candidates:[]};
+};
+const afterStansted=await discoverMixedFlightCandidates(env,{
+ origin:broadOrigin,destination:broadDestination,departureAt:'2026-11-20T00:00:00Z',
+ discover:airports,search:twoFlights,maxProviderQueries:9});
+assert.ok(returned.some(q=>q.departureAirports[0]==='LTN'&&q.stops===1),
+ 'A Stansted direct flight must not cancel the later Luton direct scan');
+assert.deepEqual(afterStansted.candidates.map(f=>f.legs[0].from),['LTN','STN']);
+
+
 console.log('PASS: progressive earliest-day flight discovery, deduplication, optional date and opt-in');
