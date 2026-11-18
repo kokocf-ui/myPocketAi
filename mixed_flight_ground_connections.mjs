@@ -4,6 +4,7 @@
 // No fixed airport/city routes, invented ground legs, or booking claims.
 import {discoverAirportCandidates} from './mixed_airport_discovery.mjs';
 import {planTransCAPIJourney} from './uk_national_transit.mjs';
+import {planFixedPointBoardingAccess} from './mixed_fixed_point_access.mjs';
 
 const validPoint=p=>p&&p.latitude!=null&&p.longitude!=null&&
  Number.isFinite(Number(p.latitude))&&Number.isFinite(Number(p.longitude))&&
@@ -13,6 +14,33 @@ const localTime=s=>/^\d{4}-\d{2}-\d{2} [012]\d:[0-5]\d$/.test(String(s||''))&&
  Number(String(s).slice(11,13))<24;
 const validIso=s=>typeof s==='string'&&/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}/.test(s)&&
  /(Z|[+-]\d{2}:\d{2})$/.test(s)&&Number.isFinite(Date.parse(s));
+const pointCoords=p=>{
+ const lat=p?.lat??p?.latitude,lon=p?.lon??p?.longitude;
+ if(lat===null||lat===undefined||lon===null||lon===undefined||
+  lat===''||lon===''||!Number.isFinite(Number(lat))||!Number.isFinite(Number(lon))||
+  Math.abs(Number(lat))>90||Math.abs(Number(lon))>180)return null;
+ return {lat:Number(lat),lon:Number(lon)};
+};
+const metresBetween=(a,b)=>{
+ const x=pointCoords(a),y=pointCoords(b);
+ if(!x||!y)return null;
+ const rad=Math.PI/180,lat=(y.lat-x.lat)*rad,lon=(y.lon-x.lon)*rad;
+ const h=Math.sin(lat/2)**2+Math.cos(x.lat*rad)*Math.cos(y.lat*rad)*
+  Math.sin(lon/2)**2;
+ return 12742000*Math.atan2(Math.sqrt(h),Math.sqrt(Math.max(0,1-h)));
+};
+// Only provider geospatial evidence can establish whether a supplied journey
+// begins and ends at the two points the user actually selected.
+export const journeyAnchoredToPoints=(journey,from,to,{fromRadius=350,toRadius=350}={})=>{
+ const legs=Array.isArray(journey?.legs)?journey.legs:[];
+ if(!legs.length)return false;
+ const start=metresBetween(legs[0].departurePoint,from);
+ const finish=metresBetween(legs.at(-1).arrivalPoint,to);
+ // Airport POIs can represent an entire mapped facility, not a terminal.
+// Allow the station to fall within its grounds but never assert a specific
+// terminal/platform as verified from this test alone.
+ return start!==null&&finish!==null&&start<=fromRadius&&finish<=toRadius;
+};
 // Keep the source's walking duration and distance on the wire. Previously
 // these were discarded, leaving the selected journey with only station names.
 export const compactJourney=j=>{
@@ -28,6 +56,8 @@ export const compactJourney=j=>{
    departureTime:l.departureTime,arrivalTime:l.arrivalTime,
    durationMinutes:metric(l.durationMinutes,10080),
    distanceMeters:metric(l.distanceMeters,2000000),
+   departurePoint:pointCoords(l.departurePoint),
+   arrivalPoint:pointCoords(l.arrivalPoint),
    departureZone:String(l.departureZone||timeZone||'').slice(0,80)||null,
    arrivalZone:String(l.arrivalZone||timeZone||'').slice(0,80)||null,
    operator:l.operator||'',lineNames:Array.isArray(l.lineNames)?l.lineNames.slice(0,5):[],
@@ -115,24 +145,25 @@ export async function connectCandidateFlightToGround(env,{
  // 45 minutes for luggage/passport control before ground departure.
  const departureMs=Date.parse(flightDeparture);
  const boardingCutoff=departureMs-90*60000;
- const roadSearchAt=Math.max(start,departureMs-6*3600000);
  const egressAfter=Date.parse(flightArrival)+45*60000;
- let access={status:'unavailable',journeys:[]},egress={status:'not_configured',journeys:[]};
- // Run independent already-authorized ground searches. There is no external
- // reservation and no implied cross-border coverage from a GB-only planner.
- const searches=await Promise.allSettled([
-  planAccess(env,origin,from,4,{departureAt:new Date(roadSearchAt).toISOString()}),
+ // The airport is an ordinary, geographically identified point. Use the
+ // same domestic public-transport planner as a street-address search, at
+ // departure times that can actually reach the pre-boarding deadline.
+ const [entryResult,exitResult]=await Promise.allSettled([
+  planFixedPointBoardingAccess(env,{
+   origin,boardingPoint:from,
+   earliestDeparture:new Date(start).toISOString(),
+   latestArrival:new Date(boardingCutoff).toISOString()
+  },{planner:planAccess,now}),
   typeof planEgress==='function'?
     planEgress(env,to,destination,language,new Date(egressAfter).toISOString()):
-    Promise.resolve(egress)
+    Promise.resolve({status:'not_configured',journeys:[]})
  ]);
- if(searches[0].status==='fulfilled'&&searches[0].value)access=searches[0].value;
- if(searches[1].status==='fulfilled'&&searches[1].value)egress=searches[1].value;
- const inbound=(access.journeys||[]).filter(j=>validIso(j?.startDateTime)&&
-  validIso(j?.arrivalDateTime)&&Date.parse(j.startDateTime)>=start-120000&&
-  Date.parse(j.arrivalDateTime)<=boardingCutoff&&
-  Date.parse(j.arrivalDateTime)>=Date.parse(j.startDateTime))
- .sort((j,k)=>Date.parse(k.arrivalDateTime)-Date.parse(j.arrivalDateTime))[0]||null;
+ const entry=entryResult.status==='fulfilled'?entryResult.value:
+   {status:'local_transport_unavailable',journey:null};
+ const egress=exitResult.status==='fulfilled'&&exitResult.value?
+   exitResult.value:{status:'unavailable',journeys:[]};
+ const inbound=entry.journey||null;
  const outbound=(egress.journeys||[]).filter(j=>validIso(j?.startDateTime)&&
   validIso(j?.arrivalDateTime)&&Date.parse(j.startDateTime)>=egressAfter&&
   Date.parse(j.arrivalDateTime)>=Date.parse(j.startDateTime)&&
@@ -151,7 +182,9 @@ export async function connectCandidateFlightToGround(env,{
     after:new Date(egressAfter).toISOString()})||onward;
   }catch{onward={status:'regional_provider_unavailable',journey:null}}
  }
- const full=Boolean(inbound&&outbound);
+ const accessAnchored=Boolean(inbound&&journeyAnchoredToPoints(inbound,origin,from,{toRadius:1200}));
+ const egressAnchored=Boolean(outbound&&journeyAnchoredToPoints(outbound,to,destination,{fromRadius:1200}));
+ const full=Boolean(inbound&&outbound&&accessAnchored&&egressAnchored);
  const fare=flight.fareObserved&&Number.isFinite(Number(flight.fareObserved.amount))&&
   Number(flight.fareObserved.amount)>0?{
    amount:Number(flight.fareObserved.amount),currency:String(flight.fareObserved.currency||'')
@@ -166,16 +199,25 @@ export async function connectCandidateFlightToGround(env,{
    departureTime:flightDeparture,arrivalTime:flightArrival,
    departureLocal:leg.startLocal,arrivalLocal:leg.endLocal,
    status:'third_party_observed_not_booked'},
-  airportFrom:{iata:from.iata,name:from.name},
-  airportTo:{iata:to.iata,name:to.name},
+  // The coordinates, not the airport's city name, anchor access routing.
+  // They identify the mapped airport feature; the specific airline terminal
+  // must still come from the operator where it differs from this feature.
+  airportFrom:{iata:from.iata,name:from.name,latitude:Number(from.latitude),
+   longitude:Number(from.longitude),country_code:from.country_code||null,
+   locationSource:from.identitySource||'Geoapify airport feature'},
+  airportTo:{iata:to.iata,name:to.name,latitude:Number(to.latitude),
+   longitude:Number(to.longitude),country_code:to.country_code||null,
+   locationSource:to.identitySource||'Geoapify airport feature'},
   accessJourney:inbound?compactJourney(inbound):null,
   egressJourney:outbound?compactJourney(outbound):null,
+  accessAnchoredToSelectedPoints:accessAnchored,
+  egressAnchoredToSelectedPoints:egressAnchored,
   // A Bilo national train/coach is an independently sourced intermediate
   // leg. City-to-city evidence is NOT enough for complete door-to-door.
   regionalOnwardJourney:onward?.journey?compactJourney(onward.journey):null,
   regionalOnwardStatus:onward?.status||'not_checked',
   regionalOnwardFromCity:onward?.fromCity||null,
   regionalOnwardToCity:onward?.toCity||null,
-  accessStatus:inbound?'scheduled_connection_found':access.status||'unavailable',
+  accessStatus:entry.status||'local_transport_unavailable',
   egressStatus:outbound?'scheduled_connection_found':egress.status||'unavailable'};
 }
