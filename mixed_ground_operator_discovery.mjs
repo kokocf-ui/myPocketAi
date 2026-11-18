@@ -10,7 +10,17 @@ const allowed=Object.freeze([
  {domain:'eurostar.com',operator:'Eurostar',mode:'train'},
  {domain:'regiojet.com',operator:'RegioJet',mode:'train'},
  {domain:'nationalexpress.com',operator:'National Express',mode:'coach'},
- {domain:'blablacar.com',operator:'BlaBlaCar Bus',mode:'coach'}
+ {domain:'blablacar.com',operator:'BlaBlaCar Bus',mode:'coach'},
+ {domain:'flixbus.ro',operator:'FlixBus',mode:'coach'},
+ {domain:'flixbus.de',operator:'FlixBus',mode:'coach'},
+ {domain:'flixbus.fr',operator:'FlixBus',mode:'coach'},
+ {domain:'euro-fratello.ro',operator:'Euro Fratello',mode:'coach'},
+ {domain:'tarsin.ro',operator:'Tarsin',mode:'coach'},
+ {domain:'oebb.at',operator:'ÖBB',mode:'train'},
+ {domain:'bahn.de',operator:'Deutsche Bahn',mode:'train'},
+ {domain:'mavcsoport.hu',operator:'MÁV',mode:'train'},
+ {domain:'cfrcalatori.ro',operator:'CFR Călători',mode:'train'},
+ {domain:'sncf-connect.com',operator:'SNCF Connect',mode:'train'}
 ]);
 const trim=(x,n=160)=>String(x||'').trim().slice(0,n);
 const fold=x=>trim(x).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
@@ -229,7 +239,7 @@ export async function discoverGroundCorridorCities(env,{origin,destination,fetch
       greatCircle(coords,q):Infinity;
     return {name,country_code:String(prop.country_code||'').toUpperCase(),
      population:Number.isFinite(pop)?pop:0,dist,fromKm,toKm,portion};
-   }).filter(x=>x.name&&x.country_code&&x.population>=40000&&x.dist<=175&&
+   }).filter(x=>x.name&&x.country_code&&(x.population>=40000||x.population===0)&&x.dist<=175&&
      x.fromKm>100&&x.toKm>100&&x.fromKm+x.toKm<=total*1.55+180)
     .sort((a,b)=>b.population-a.population||a.dist-b.dist).slice(0,3);
   }catch{return []}
