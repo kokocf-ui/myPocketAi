@@ -37,6 +37,7 @@ jobs:
           node tests_verified_multimodal_itineraries.mjs
           node tests_mixed_route_quality.mjs
           node tests_mixed_route_provider_search.mjs
+          node tests_mixed_three_provider_handoff.mjs
           node tests_mixed_existing_provider_adapters.mjs
           node tests_mixed_uk_fallback.mjs
           node tests_mixed_airport_discovery.mjs
