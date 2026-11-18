@@ -17807,6 +17807,81 @@ function transitSearchSelectors(){
  row.append(mode,departure,options);
  return {row,preference:()=>mode.value,departureOffset:()=>offset,departureAt:()=>absolute};
 }
+async function resolveMixedFlightGroundOptions(choice,flight,host,button){
+ const origin=choice?.journeyOrigin||state.lastTransitChoice?.journeyOrigin;
+ const destination=choice?.transitDestination||state.lastTransitChoice?.transitDestination;
+ if(!origin||!destination){
+  host.textContent=dialogText('Punctul de plecare sau destinația nu mai sunt confirmate.',
+   'The selected origin or destination is unavailable.');return;
+ }
+ const fullTime=String(choice.transitDepartureAt||'');
+ const url=new URL(CLIENT_CONFIG.apiUrl);
+ url.pathname='/api/mixed-flight-connections';url.search='';
+ const old=button.textContent;button.disabled=true;
+ button.textContent=dialogText('Verific legăturile terestre…','Checking ground connections…');
+ host.replaceChildren();
+ try{
+  const response=await fetch(url.toString(),{method:'POST',
+   headers:{'Content-Type':'application/json'},
+   body:JSON.stringify({userInitiated:true,origin,destination,flight,
+    requestedAt:fullTime||null,language:state.language}),
+   signal:AbortSignal.timeout(45000)});
+  const data=await response.json();
+  if(!response.ok)throw Error('HTTP '+response.status);
+  if(!host.isConnected)return;
+  const title=document.createElement('strong');
+  title.textContent=data.completeDoorToDoor?
+   dialogText('Itinerariu multimodal posibil (orar orientativ)',
+    'Possible multimodal journey (indicative timetable)'):
+   dialogText('Legături terestre găsite până acum','Ground connections found so far');
+  host.append(title);
+  const segment=(heading,journey)=>{
+   const wrap=document.createElement('section');
+   wrap.style.cssText='display:flex;flex-direction:column;gap:4px;border-top:1px solid #466575;padding:8px 0';
+   const name=document.createElement('strong');name.textContent=heading;wrap.append(name);
+   if(journey?.legs?.length){
+    for(const leg of journey.legs){
+     const stage=document.createElement('div');stage.style.cssText='font-size:13px;line-height:1.45';
+     stage.textContent=(leg.from||'')+' → '+(leg.to||'')+' · '+
+      (String(leg.departureTime||'').replace('T',' ').slice(0,16))+' → '+
+      String(leg.arrivalTime||'').replace('T',' ').slice(0,16)+' UTC · '+
+      transitModeName(leg.mode);
+     wrap.append(stage);
+     if(leg.operator){const op=document.createElement('div');op.append(mixedOperatorName(leg.operator));wrap.append(op)}
+    }
+   }else{
+    const notice=document.createElement('small');
+    notice.style.cssText='font-size:13px;color:#d1e4ea;line-height:1.45';
+    notice.textContent=dialogText('Nu există încă o legătură programată verificată pentru acest segment.',
+     'No validated scheduled connection is available for this segment yet.');
+    wrap.append(notice);
+   }
+   host.append(wrap);
+  };
+  segment(dialogText('1. Plecare → aeroport','1. Origin → airport'),data.accessJourney);
+  if(data.flight){
+   const f=data.flight;
+   const air=document.createElement('section');air.style.cssText='border-top:1px solid #466575;padding:8px 0;display:flex;flex-direction:column;gap:3px';
+   const heading=document.createElement('strong');
+   heading.textContent='2. ✈ '+f.from+' → '+f.to+' · '+f.departureLocal+' → '+f.arrivalLocal;
+   air.append(heading);
+   if(f.airline){const op=document.createElement('div');op.append(mixedOperatorName(f.airline));air.append(op)}
+   host.append(air);
+  }
+  segment(dialogText('3. Aeroport sosire → adresă','3. Arrival airport → final address'),data.egressJourney);
+  const note=document.createElement('small');
+  note.style.cssText='display:block;font-size:12px;color:#c8d8df;line-height:1.4';
+  note.textContent=data.completeDoorToDoor?
+   dialogText('Etapele sunt corelate în timp; orarul zborului rămâne orientativ și rezervarea se verifică la operator.',
+    'Ground connections align with the flight observation; verify airline timetable and booking.'):
+   dialogText('Nu este încă un traseu complet. Eva nu presupune transferuri inexistente.',
+    'This is not yet a complete route. Missing transfers are never invented.');
+  host.append(note);
+ }catch{
+  if(host.isConnected)host.textContent=dialogText('Nu s-au putut verifica acum legăturile terestre.',
+   'Ground connections could not be checked at this time.');
+ }finally{button.disabled=false;button.textContent=old}
+}
 function renderMixedFlightCandidates(data,choice,appendToExisting=false){
  const flights=Array.isArray(data?.flight_candidates)?data.flight_candidates:[];
  if(!flights.length)return false;
@@ -17846,7 +17921,16 @@ function renderMixedFlightCandidates(data,choice,appendToExisting=false){
     if(l.flightNumber){const nr=document.createElement('span');nr.textContent=' · '+l.flightNumber;row.append(nr)}stage.append(row)}
    details.append(stage);
   }
-  card.append(details);group.append(card);
+  const connect=document.createElement('button');connect.type='button';
+  connect.className='transit-choice-action mixed-flight-ground-check';
+  connect.style.cssText='width:100%;min-height:46px;margin:5px 0 0;padding:10px 12px;background:#772b48;border:1px solid #b5778c;border-radius:12px;text-align:left;color:#fff;font-size:14px';
+  connect.textContent=dialogText('Verifică transferurile și transportul terestru',
+   'Check airport transfers and ground transport');
+  const ground=document.createElement('div');
+  ground.className='mixed-flight-ground-result';
+  ground.style.cssText='display:flex;flex-direction:column;gap:4px;font-size:14px';
+  connect.onclick=()=>void resolveMixedFlightGroundOptions(choice,flight,ground,connect);
+  card.append(details,connect,ground);group.append(card);
  });
  const note=document.createElement('small');note.style.cssText='color:#bfcfd8;line-height:1.35';
  note.textContent=dialogText('Tarifele afișate privesc doar componenta aeriană, nu călătoria până la adresă.',
