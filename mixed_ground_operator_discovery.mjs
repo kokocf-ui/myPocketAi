@@ -212,11 +212,14 @@ export async function discoverGroundCorridorCities(env,{origin,destination,fetch
    Math.abs(p.longitude)>180||Math.abs(q.longitude)>180)return [];
  const total=greatCircle(p,q);
  if(!Number.isFinite(total)||total<250)return [];
- const positions=[0.2,0.45,0.7,0.84];
+ const positions=[0.17,0.45,0.7,0.84];
  const lookups=await Promise.all(positions.map(async portion=>{
   const mid=onGlobe(p,q,portion);
   const url=new URL('https://api.geoapify.com/v2/places');
   url.searchParams.set('categories','populated_place.city');
+  // Operator route titles are normally indexed in English. Request the
+  // provider's translated place name instead of querying for Wien vs Vienna.
+  url.searchParams.set('lang','en');
   url.searchParams.set('filter','circle:'+mid.longitude+','+mid.latitude+',175000');
   url.searchParams.set('bias','proximity:'+mid.longitude+','+mid.latitude);
   url.searchParams.set('limit','35');
@@ -227,7 +230,7 @@ export async function discoverGroundCorridorCities(env,{origin,destination,fetch
    const data=await response.json();
    return (Array.isArray(data.features)?data.features:[]).map(feature=>{
     const prop=feature.properties||{},raw=prop.datasource?.raw||{};
-    const name=trim(prop.name||prop.city||'',75);
+    const name=trim(raw['name:en']||prop.name_en||prop.name||prop.city||'',75);
     const coords={latitude:Number(prop.lat??feature?.geometry?.coordinates?.[1]),
      longitude:Number(prop.lon??feature?.geometry?.coordinates?.[0])};
     const pop=Number(prop.population??raw.population??0);

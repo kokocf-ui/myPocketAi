@@ -126,11 +126,14 @@ const checkCities=await discoverGroundCorridorCities({GEOAPIFY_API_KEY:'mock'},{
  origin:corridorOrigin,destination:corridorDestination,fetcher:async url=>{
   const u=new URL(String(url));
   assert.equal(u.hostname,'api.geoapify.com');
+  assert.equal(u.searchParams.get('lang'),'en','Request English names for official route lookup');
   const features=[
    {properties:{name:'Cologne',country_code:'de',
     lat:50.94,lon:6.96,population:1100000}},
    {properties:{name:'Brussels',country_code:'be',
-    lat:50.85,lon:4.35,population:185000}}
+    lat:50.85,lon:4.35,population:185000}},
+   {properties:{name:'Wien',country_code:'at',lat:48.2,lon:16.37,
+    population:1950000,datasource:{raw:{'name:en':'Vienna'}}}}
   ];
   return {ok:true,json:async()=>({features})};
  }
@@ -139,6 +142,8 @@ assert.ok(checkCities.some(x=>x.name==='Brussels'),
  'Corridor city must come from live geographic candidate evidence');
 assert.equal(checkCities[0].name,'Brussels',
  'The nearer rail interchange must not be hidden by a larger but remote city');
+assert.ok(checkCities.some(x=>x.name==='Vienna'),
+ 'Geoapify local name Wien should use the sourced English name Vienna');
 assert.ok(!checkCities.some(x=>x.name==='London'),
  'The example is not a preset static route');
 const corridorCalls=[];
