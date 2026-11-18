@@ -126,13 +126,19 @@ const checkCities=await discoverGroundCorridorCities({GEOAPIFY_API_KEY:'mock'},{
  origin:corridorOrigin,destination:corridorDestination,fetcher:async url=>{
   const u=new URL(String(url));
   assert.equal(u.hostname,'api.geoapify.com');
-  const features=[{properties:{name:'Brussels',country_code:'be',
-   lat:50.85,lon:4.35,population:1200000}}];
+  const features=[
+   {properties:{name:'Cologne',country_code:'de',
+    lat:50.94,lon:6.96,population:1100000}},
+   {properties:{name:'Brussels',country_code:'be',
+    lat:50.85,lon:4.35,population:185000}}
+  ];
   return {ok:true,json:async()=>({features})};
  }
 });
 assert.ok(checkCities.some(x=>x.name==='Brussels'),
  'Corridor city must come from live geographic candidate evidence');
+assert.equal(checkCities[0].name,'Brussels',
+ 'The nearer rail interchange must not be hidden by a larger but remote city');
 assert.ok(!checkCities.some(x=>x.name==='London'),
  'The example is not a preset static route');
 const corridorCalls=[];
@@ -157,7 +163,10 @@ const integrated=await discoverMixedGroundOperators({
   if(u.hostname==='api.search.brave.com'){
    const q=u.searchParams.get('q')||'';
    corridorCalls.push(q);
-   const rows=/London to Brussels/i.test(q)?[trainPage]:
+   const coachFirst={url:'https://www.flixbus.com/bus-routes/london-brussels',
+    title:'London to Brussels Coach Travel'};
+   const rows=/London to Brussels/i.test(q)?
+     (/train tickets Eurostar/i.test(q)?[trainPage]:[coachFirst]):
     /Brussels to Oradea/i.test(q)?[busContinuation]:[official];
    return {ok:true,json:async()=>({web:{results:rows}})};
   }
@@ -169,6 +178,8 @@ assert.ok(integrated.connections.some(x=>
  'End-to-end discovery must expose evidence-backed rail+coach interchange');
 assert.ok(corridorCalls.some(x=>/London to Brussels/i.test(x)));
 assert.ok(corridorCalls.some(x=>/Brussels to Oradea/i.test(x)));
+assert.ok(corridorCalls.some(x=>/London to Brussels.*train tickets Eurostar/i.test(x)),
+ 'Rail-specific fallback is independent from a broad coach-dominated search');
 assert.ok(!corridorCalls.some(x=>/Mill Lane|Nufărului/i.test(x)),
  'Never pass street-level private route endpoints to the search provider');
 
