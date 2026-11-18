@@ -43,6 +43,7 @@ jobs:
             print('Provider statuses:',json.dumps(body.get('provider_status'),ensure_ascii=False)[:1500])
             print('Transit options:',len(body.get('transit') or []))
             print('Operator discovery status:',body.get('operator_discovery_status'))
+            print('Operator search summary:',json.dumps(body.get('operator_search_summary'),ensure_ascii=False)[:1200])
             print('Ground operator options:',json.dumps([{k:o.get(k) for k in ('operator','mode','from','to','url','fareFrom','access_transfer_needed','door_to_door_complete')} for o in body.get('operator_options') or []],ensure_ascii=False)[:1700])
             print('Flight candidates:',len(body.get('flight_candidates') or []))
             print('Reply:',str(body.get('reply'))[:500])
