@@ -15,6 +15,8 @@ on:
       - 'tests_mixed_serpapi_discovery.mjs'
       - 'mixed_flight_ground_connections.mjs'
       - 'tests_mixed_flight_ground_connections.mjs'
+      - 'mixed_romanian_airport_onward.mjs'
+      - 'tests_mixed_romanian_airport_onward.mjs'
       - 'tests_mixed_unified_results.mjs'
       - 'tests_transport_departure_entrypoints.mjs'
       - '.github/workflows/test-mixed-international-regression.yml'
@@ -35,6 +37,7 @@ jobs:
           node tests_mixed_ground_operator_discovery.mjs
           node tests_mixed_serpapi_discovery.mjs
           node tests_mixed_flight_ground_connections.mjs
+          node tests_mixed_romanian_airport_onward.mjs
           node tests_mixed_unified_results.mjs
           node tests_transport_departure_entrypoints.mjs
           node tests_ro_national_transit.mjs
