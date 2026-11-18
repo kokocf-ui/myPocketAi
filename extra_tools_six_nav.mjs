@@ -206,7 +206,7 @@ queueMicrotask(()=>{
  };
 });
 `;
-export const EXTRA_TOOLS_SIX_NAV_STYLE=String.raw
+export const EXTRA_TOOLS_SIX_NAV_STYLE=String.raw`
 /* Unified, screen-centred category selectors: do not change active navigation. */
 #view-module.extra-tools-v2 .extra-tools-v2-choices{
  display:flex!important;flex-direction:column!important;align-items:center!important;
