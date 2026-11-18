@@ -186,6 +186,7 @@ jobs:
           node --check backend.js
           node tests_mixed_route_quality.mjs
           node tests_mixed_route_provider_search.mjs
+          node tests_mixed_ground_transfer_discovery.mjs
           node tests_mixed_existing_provider_adapters.mjs
           node tests_mixed_live_composition.mjs
           node tests_serpapi_account_status.mjs
