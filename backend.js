@@ -43,6 +43,7 @@ import {discoverAirportCandidates} from "./mixed_airport_discovery.mjs";
 import {makeTransCAPIMixedSource,makeMOTISMixedSource} from "./mixed_existing_provider_adapters.mjs";
 import {checkSerpApiSecretStatus} from "./serpapi_account_status.mjs";
 import {discoverMixedFlightCandidates} from "./mixed_serpapi_discovery.mjs";
+import {connectCandidateFlightToGround} from "./mixed_flight_ground_connections.mjs";
 import {requestTfLJourneys} from "./tfl_shared_journeys.mjs";
 import {annotateTransportJourneys,transportNoticeLine} from "./transport_availability_disclosure.mjs";
 import {planRomanianUrbanViaOracle,romanianUrbanRegion} from "./ro_urban_client.mjs";
@@ -1339,6 +1340,28 @@ export default {
     }
 
     const url = new URL(request.url);
+
+    // Follow-up to a user-selected flight, without spending another SerpApi
+    // search credit. Real airport identities/timezones and ground schedules
+    // are independently verified; missing onward links remain incomplete.
+    if(url.pathname==="/api/mixed-flight-connections"){
+      if(request.method!=="POST")return json({status:"method_not_allowed"},405);
+      if(Number(request.headers.get('content-length')||0)>12000)
+        return json({status:'request_too_large'},413);
+      const payload=await request.json().catch(()=>null);
+      if(!payload||payload.userInitiated!==true||
+         !payload.flight||!payload.origin||!payload.destination)
+        return json({status:'invalid_request',completeDoorToDoor:false},400);
+      try{
+        const result=await connectCandidateFlightToGround(env,payload,{
+          planEgress:planMOTISMixedJourney
+        });
+        return json({app:'Pocket AI',version:API_VERSION,...result});
+      }catch{
+        return json({app:'Pocket AI',version:API_VERSION,
+          status:'ground_connection_unavailable',completeDoorToDoor:false});
+      }
+    }
 
     // Key readiness without consuming paid/free flight search credits. This is
     // NOT an open flight-search endpoint: no API secret or account data leaks.
