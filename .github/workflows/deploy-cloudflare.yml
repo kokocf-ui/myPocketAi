@@ -191,6 +191,8 @@ jobs:
           node tests_mixed_transport_ui.mjs
           node tests_transport_availability_disclosure.mjs
           node tests_mixed_ground_transfer_discovery.mjs
+          node tests_mixed_ground_operator_discovery.mjs
+          node tests_mixed_unified_results.mjs
           node tests_mixed_existing_provider_adapters.mjs
           node tests_mixed_live_composition.mjs
           node tests_serpapi_account_status.mjs
