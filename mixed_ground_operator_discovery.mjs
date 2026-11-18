@@ -193,27 +193,38 @@ export async function discoverMixedGroundOperators(env,{origin,destination,fetch
  // credits, scraping, or invented outbound URLs.
  let eligible=normalizeMixedOperatorEvidence(candidateResults,{origin,destination});
  if(!eligible.length&&braveKey){
-  const url=new URL('https://api.search.brave.com/res/v1/web/search');
-  url.searchParams.set('q',queries[1]+' tickets timetable');
-  url.searchParams.set('count','20');
-  try{
-   const r=await fetcher(url,{headers:{
-    Accept:'application/json','X-Subscription-Token':braveKey
-   },signal:AbortSignal.timeout(7000)});
-   if(!r.ok)errors.push('brave_http_'+r.status);
-   else {
-    const data=await r.json();
-    if(Array.isArray(data.web?.results)){
-     successful++;
-     candidateResults.push(...data.web.results.map(x=>({
-      url:x.url,title:x.title,description:x.description,highlights:x.extra_snippets
-     })));
+  // One broad discovery, followed only if necessary by a provider-domain
+  // query. Both cities are derived from request geography; there is no
+  // London/Oradea-specific branch or invented route URL.
+  const searchTerms=[
+   queries[1]+' tickets timetable',
+   'site:flixbus.co.uk/bus-routes/ "'+(majorCity||fromCity)+'" "'+toCity+'" coach bus'
+  ];
+  for(const query of searchTerms){
+   const url=new URL('https://api.search.brave.com/res/v1/web/search');
+   url.searchParams.set('q',query);
+   url.searchParams.set('count','20');
+   try{
+    const r=await fetcher(url,{headers:{
+     Accept:'application/json','X-Subscription-Token':braveKey
+    },signal:AbortSignal.timeout(7000)});
+    if(!r.ok)errors.push('brave_http_'+r.status);
+    else {
+     const data=await r.json();
+     if(Array.isArray(data.web?.results)){
+      successful++;
+      candidateResults.push(...data.web.results.map(x=>({
+       url:x.url,title:x.title,description:x.description,highlights:x.extra_snippets
+      })));
+     }
     }
-   }
-  }catch{errors.push('brave_network_error')}
-  eligible=normalizeMixedOperatorEvidence(candidateResults,{origin,destination});
+   }catch{errors.push('brave_network_error')}
+   eligible=normalizeMixedOperatorEvidence(candidateResults,{origin,destination});
+   if(eligible.length)break;
+  }
  }
- if(!successful)return {status:errors.join('|')||'provider_unavailable',operators:[]};
+ if(!successful)return {status:errors.join('|')||'provider_unavailable',operators:[],
+  summary:{fromCity,toCity,majorCity,sourceHits:0,matchingRoutes:0,errors:errors.slice(0,4)}};
  // Validate all candidate origins concurrently, bounded by the shortlist,
  // instead of a potentially 30-second chain of individual geocoding requests.
  const verdicts=await Promise.all(eligible.map(async option=>{
@@ -226,5 +237,7 @@ export async function discoverMixedGroundOperators(env,{origin,destination,fetch
  const accepted=verdicts.filter(Boolean);
  return {status:accepted.length?'official_operator_options':'no_verified_operator_pages',
   operators:accepted,queriesUsed:queries.length,scheduledServicesVerified:false,
-  sourceErrors:errors.slice(0,4)};
+  sourceErrors:errors.slice(0,4),
+  summary:{fromCity,toCity,majorCity,sourceHits:candidateResults.length,
+   matchingRoutes:eligible.length,geographicallyAccepted:accepted.length,errors:errors.slice(0,4)}};
 }
