@@ -15,6 +15,18 @@ const normalized=normalizeMixedOperatorEvidence([
  official
 ],{origin,destination});
 assert.equal(normalized.length,1,'Only outbound official operator route evidence should survive');
+// A real Romanian address often puts the postcode BEFORE the city.
+// It must not be interpreted as a city named "410100 Oradea".
+const postalDestination={...destination,label:'Strada Nufărului 1, 410100 Oradea, România'};
+const postalRoutes=normalizeMixedOperatorEvidence([official],{
+ origin,destination:postalDestination
+});
+assert.equal(postalRoutes.length,1,'Postal prefix must not hide matching official coach routes');
+assert.equal(postalRoutes[0].to,'Oradea');
+const explicitPostcodeCity={...postalDestination,city:'410100 Oradea'};
+assert.equal(normalizeMixedOperatorEvidence([official],{
+ origin,destination:explicitPostcodeCity
+}).length,1,'Structured city fields with postal prefixes must be cleaned too');
 assert.equal(normalized[0].operator,'FlixBus');
 assert.equal(normalized[0].mode,'coach');
 assert.equal(normalized[0].from,'London');
