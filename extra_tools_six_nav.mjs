@@ -29,12 +29,13 @@ function extraToolsV2Card(icon,ro,en,descriptionRo,descriptionEn,action){
 function extraToolsV2Screen(titleRo,titleEn,back){
  extraToolsStop();resetExtraToolsScreen();
  const root=$('view-module'),host=$('moduleContent');
+ root.classList.remove('extra-tools-v2');
  root.classList.add('extra-tools-choose','extra-tools-workspace','extra-tools-v2');
  $('moduleTitle').textContent=learningLabel(titleRo,titleEn);
  $('moduleLead').textContent='';host.replaceChildren();
  const head=document.createElement('div');head.className='education-toolbar extra-work-head';
  const backButton=extraToolsBtn(learningLabel('← Înapoi','← Back'),back,true);
- if(!extraToolsMountNavigation(root,backButton,head))head.append(backButton);
+ if(!extraToolsMountNavigation(root,backButton,head)){head.append(backButton);host.prepend(head);}
  const area=document.createElement('section');area.className='extra-tools-workarea extra-tools-v2-choices';
  const grid=document.createElement('div');grid.className='education-grid extra-tools-v2-grid';
  area.append(grid);host.append(area);
@@ -124,6 +125,7 @@ function extraToolsV2Storybook(work,area,addPdf,input,primary,secondary,note){
 }
 // Upgrade the existing Tools entry screen after all global app functions have been declared.
 queueMicrotask(()=>{
+ if(typeof openModule!=='function'||typeof renderExtraToolsChoices!=='function')return;
  const nativeOpenModule=openModule;
  openModule=function(key){
   if(key==='tools'){extraToolsV2ReturnGroup=null;extraToolsV2ActiveGroup=null;}
