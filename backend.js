@@ -40,6 +40,7 @@ import {motisQueryDepartureAt,selectScheduledMOTISAlternatives} from "./motis_mi
 import {evaluateMixedJourneyGeography} from "./mixed_route_quality.mjs";
 import {searchMixedRouteProviders} from "./mixed_route_provider_search.mjs";
 import {discoverAirportCandidates} from "./mixed_airport_discovery.mjs";
+import {discoverGroundTransferCandidates} from "./mixed_ground_transfer_discovery.mjs";
 import {makeTransCAPIMixedSource,makeMOTISMixedSource} from "./mixed_existing_provider_adapters.mjs";
 import {checkSerpApiSecretStatus} from "./serpapi_account_status.mjs";
 import {discoverMixedFlightCandidates} from "./mixed_serpapi_discovery.mjs";
@@ -3875,38 +3876,44 @@ export default {
             if(sources.length){
               try{
                 const searchAt=effectiveDepartureAt||new Date().toISOString();
-                let combined=await searchMixedRouteProviders({
-                  origin:start,destination:end,departureAt:searchAt,
-                  sources,maxProviderCalls:2,maxHubs:0,parallelDirect:true,
-                  maxResults:requestedOptionsCount,now:Date.now()-90000
-                });
-                // International fallback: discover airport locations on BOTH
-                // sides of the journey from live geography, not a fixed list.
-                // Airports are only query nodes. A flight is never asserted
-                // unless a licensed schedule source actually returns a dated,
-                // fully connected flight leg all the way to the destination.
-                if(combined.status!=='verified'&&internationalTarget&&env.GEOAPIFY_API_KEY){
-                  const [fromAirports,toAirports]=await Promise.all([
-                    discoverAirportCandidates(env,start,{radiusKm:240,limit:12}),
-                    discoverAirportCandidates(env,end,{radiusKm:240,limit:12})
-                  ]);
-                  const first=fromAirports.airports?.[0];
-                  const last=toAirports.airports?.find(a=>a.id!==first?.id);
-                  if(first&&last){
-                    const expanded=await searchMixedRouteProviders({
-                      origin:start,destination:end,departureAt:searchAt,
-                      candidateNodes:[{...first,mixedHubRole:'origin_access'},
-                        {...last,mixedHubRole:'destination_egress'}],
-                      sources,maxProviderCalls:7,
-                      maxHubs:2,parallelDirect:true,maxResults:requestedOptionsCount,
-                      now:Date.now()-90000
-                    });
-                    if(expanded.status==='verified')combined=expanded;
-                    else transportErrors.mixed_hub_composition=expanded.status;
-                  }else transportErrors.mixed_hub_discovery=
-                    fromAirports.status==='candidates_only'&&toAirports.status==='candidates_only'?
-                      'no_verified_airport_pair':'airport_candidates_unavailable';
+                // Ground transport is NOT a fallback to air travel. Discover
+                // railway stations, bus terminals and ferry points independently
+                // from airports before querying the timetable suppliers.
+                // Geoapify supplies locations only, never scheduled services.
+                let hubCandidates=[];
+                if(internationalTarget&&env.GEOAPIFY_API_KEY){
+                  const [originGround,destinationGround,originAir,destinationAir]=
+                    await Promise.all([
+                      discoverGroundTransferCandidates(env,start,{radiusKm:140,limit:2}),
+                      discoverGroundTransferCandidates(env,end,{radiusKm:140,limit:2}),
+                      discoverAirportCandidates(env,start,{radiusKm:240,limit:12}),
+                      discoverAirportCandidates(env,end,{radiusKm:240,limit:12})
+                    ]);
+                  const originNodes=[...(originGround.candidates||[]),
+                    ...(originAir.airports||[]).slice(0,1)];
+                  const destinationNodes=[...(destinationGround.candidates||[]),
+                    ...(destinationAir.airports||[]).slice(0,1)];
+                  hubCandidates=[
+                    ...originNodes.map(n=>({...n,mixedHubRole:'origin_access'})),
+                    ...destinationNodes.map(n=>({...n,mixedHubRole:'destination_egress'}))
+                  ];
+                  transportErrors.ground_hub_discovery={
+                    origin:originGround.status,destination:destinationGround.status,
+                    originCount:originGround.candidates?.length||0,
+                    destinationCount:destinationGround.candidates?.length||0
+                  };
                 }
+                // Search all authorized transport providers on a single
+                // provider-neutral graph, even when a direct option exists.
+                // Flights stay independent; they are never a prerequisite.
+                const combined=await searchMixedRouteProviders({
+                  origin:start,destination:end,departureAt:searchAt,
+                  candidateNodes:hubCandidates,sources,
+                  maxProviderCalls:hubCandidates.length?18:2,
+                  maxHubs:hubCandidates.length?6:0,
+                  parallelDirect:true,maxResults:requestedOptionsCount,
+                  now:Date.now()-90000
+                });
                 if(combined.status==='verified'&&combined.journeys.length){
                   const transit=annotateTransportJourneys(combined.journeys,lang);
                   const lines=transit.map((j,i)=>(i+1)+'. '+
