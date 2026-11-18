@@ -241,7 +241,14 @@ export async function discoverGroundCorridorCities(env,{origin,destination,fetch
      population:Number.isFinite(pop)?pop:0,dist,fromKm,toKm,portion};
    }).filter(x=>x.name&&x.country_code&&(x.population>=40000||x.population===0)&&x.dist<=175&&
      x.fromKm>100&&x.toKm>100&&x.fromKm+x.toKm<=total*1.55+180)
-    .sort((a,b)=>b.population-a.population||a.dist-b.dist).slice(0,3);
+    // A large city far from the corridor must not hide a closer
+    // interchange such as the actual border/cross-Channel rail gateway.
+    // Population is a secondary connectivity signal, not an identity list.
+    .sort((a,b)=>{
+     const score=x=>x.dist/175+
+      (x.population>0?Math.max(0,0.16*Math.log10(1000000/x.population)):0.28);
+     return score(a)-score(b)||b.population-a.population;
+    }).slice(0,3);
   }catch{return []}
  }));
  const selected=[],seen=new Set();
@@ -311,23 +318,36 @@ async function discoverOfficialCorridorConnections(env,{
  const worker=async()=>{
   while(cursor<requests.length){
    const index=cursor++,pair=requests[index];
-   const u=new URL('https://api.search.brave.com/res/v1/web/search');
-   u.searchParams.set('q',pair.from+' to '+pair.to+
+   const lookup=async query=>{
+    const u=new URL('https://api.search.brave.com/res/v1/web/search');
+    u.searchParams.set('q',query);u.searchParams.set('count','20');
+    try{
+     const r=await fetcher(u,{headers:{Accept:'application/json',
+      'X-Subscription-Token':braveKey},signal:AbortSignal.timeout(7000)});
+     if(!r.ok)return [];
+     const data=await r.json();
+     const hits=(Array.isArray(data.web?.results)?data.web.results:[]).map(x=>({
+      url:x.url,title:x.title,description:x.description,highlights:x.extra_snippets
+     }));
+     return normalizeMixedOperatorEvidence(hits,{
+      origin:{city:pair.from},destination:{city:pair.to}
+     }).filter(x=>fold(x.from)===fold(pair.from));
+    }catch{return []}
+   };
+   let eligible=await lookup(pair.from+' to '+pair.to+
     ' train coach bus tickets official Eurostar FlixBus RegioJet BlaBlaCar');
-   u.searchParams.set('count','20');
-   try{
-    const r=await fetcher(u,{headers:{Accept:'application/json',
-     'X-Subscription-Token':braveKey},signal:AbortSignal.timeout(7000)});
-    if(!r.ok)continue;
-    const data=await r.json();
-    const hits=(Array.isArray(data.web?.results)?data.web.results:[]).map(x=>({
-     url:x.url,title:x.title,description:x.description,highlights:x.extra_snippets
-    }));
-    const eligible=normalizeMixedOperatorEvidence(hits,{
-     origin:{city:pair.from},destination:{city:pair.to}
-    }).filter(x=>fold(x.from)===fold(pair.from));
-    pages.push(...eligible);
-   }catch{}
+   // A generic mixed-mode search is often dominated by coach results.
+   // Ask again specifically for rail at the first hop and coach at the
+   // last hop, WITHOUT hardcoding any departure, transfer or target city.
+   const firstHop=fold(pair.from)===fold(gateway);
+   const wantedMode=firstHop?'train':'coach';
+   if(!eligible.some(x=>x.mode===wantedMode)){
+    const query=firstHop?
+     pair.from+' to '+pair.to+' train tickets Eurostar rail official operator':
+     pair.from+' to '+pair.to+' coach tickets FlixBus official bus route';
+    eligible=[...eligible,...await lookup(query)];
+   }
+   pages.push(...eligible);
   }
  };
  await Promise.all(Array.from({length:Math.min(4,requests.length)},()=>worker()));
