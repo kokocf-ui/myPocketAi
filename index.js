@@ -17959,7 +17959,7 @@ function showTransitRetrySelector(choice,response=null){
     destination:destination.label,
     initialDepartureAt:choice.transitDepartureAt||state.lastTransitChoice?.transitDepartureAt||null,
     onBack:returnToDestination,
-    onSearch:departureAt=>runModuleSearch({...choice,kind:'transit',mixedJourney:true,transitDirect:true,
+    onSearch:departureAt=>runModuleSearch({...choice,kind:'transit',mixedJourney:true,mixedComposition:true,transitDirect:true,
      journeyOrigin:origin,transitDestination:destination,transitQuery:destination.label,
      transitDepartureOffset:0,transitDepartureAt:departureAt})
    });
@@ -18009,7 +18009,7 @@ function showPreciseJourney(choice){
   body.append(card(t('Calculează traseul','Find routes'),()=>{
    if(state.busy||state.moduleSearchBusy)return;
    if(choice.journeyMode==='transit'){
-    runModuleSearch({...choice,transitDirect:true,journeyOrigin:origin,transitDestination:destination,transitQuery:destination.label,transitPreference:filters?.preference()||'all',transitDepartureOffset:filters?.departureOffset()||0,transitDepartureAt:filters?.departureAt()||null,prompt:t('Caută transport mixt către ','Find mixed transport to ')+destination.label});
+    runModuleSearch({...choice,transitDirect:true,mixedComposition:true,journeyOrigin:origin,transitDestination:destination,transitQuery:destination.label,transitPreference:filters?.preference()||'all',transitDepartureOffset:filters?.departureOffset()||0,transitDepartureAt:filters?.departureAt()||null,prompt:t('Caută transport mixt către ','Find mixed transport to ')+destination.label});
     return;
    }
    const selectedMode=choice.journeyMode==='walk'?'walk':'drive';
@@ -19278,7 +19278,12 @@ function appendMixedAirCandidateCards(host,flights,choice){
     body.append(p);
     const btn=document.createElement('button');btn.type='button';btn.className='transit-choice-action';
     btn.textContent=dialogText('Caută transferurile terestre','Find ground transfers');
-    const result=document.createElement('div');btn.onclick=()=>void resolveMixedFlightGroundOptions(choice,flight,result,btn);
+    btn.style.touchAction='manipulation';
+    const result=document.createElement('div');
+    btn.addEventListener('click',event=>{
+     event.preventDefault();event.stopPropagation();
+     void resolveMixedFlightGroundOptions(choice,flight,result,btn);
+    });
     body.append(btn,result);
    }
   });
@@ -19287,7 +19292,7 @@ function appendMixedAirCandidateCards(host,flights,choice){
 function renderTransitChoices(options,selectedIndex=null){
  dismissSelectionKeyboard();
  document.querySelector('.module-quick-sheet')?.classList.remove('details-mode');const body=$('moduleLayerBody'),t=transitAccessText();body.innerHTML='';document.querySelector('.module-quick-sheet')?.classList.add('results-mode');body.style.cssText='display:flex;flex-direction:column;gap:10px;overflow-y:auto!important;overflow-x:hidden;overscroll-behavior:contain;min-height:0;height:100%;max-height:100%;padding:12px 12px 40px';
- const heading=document.createElement('h3');heading.textContent=selectedIndex===null?t[0]:isRomanianRailJourney(options[selectedIndex])?dialogText('Detalii cursă ','Journey details ')+(selectedIndex+1):t[1]+' '+(selectedIndex+1)+(options[selectedIndex]?.legs?.at(-1)?.to?' → '+options[selectedIndex].legs.at(-1).to:'');body.append(heading);body.scrollTop=0;
+ const heading=document.createElement('h3');heading.textContent=selectedIndex===null?(state.lastTransitChoice?.mixedJourney===true?dialogText('Variante de transport mixt','Mixed transport options'):t[0]):isRomanianRailJourney(options[selectedIndex])?dialogText('Detalii cursă ','Journey details ')+(selectedIndex+1):t[1]+' '+(selectedIndex+1)+(options[selectedIndex]?.legs?.at(-1)?.to?' → '+options[selectedIndex].legs.at(-1).to:'');body.append(heading);body.scrollTop=0;
   if(selectedIndex===null){
     const chosen=state.lastTransitChoice?.transitDepartureAt||state.lastTransitResponse?.transit_departure_at;
     if(chosen&&Number.isFinite(Date.parse(chosen))){
