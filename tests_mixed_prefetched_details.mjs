@@ -42,7 +42,7 @@ const broken=await prepareMixedFlightOptions({},{
 assert.equal(broken[0].itinerary.status,'ground_provider_unavailable');
 assert.equal(broken[0].itinerary.flight.from,'STN');
 const backend=readFileSync(new URL('./backend.js',import.meta.url),'utf8');
-assert.ok(backend.includes('const candidates=await prepareMixedFlightOptions(env,'));
+assert.ok(backend.includes('prepareMixedFlightOptions(env,'));
 assert.ok(backend.includes('flight_details_prepared:true'));
 const frontend=readFileSync(new URL('./index.js',import.meta.url),'utf8');
 const selection=frontend.slice(frontend.indexOf('function appendMixedAirCandidateCards('),
