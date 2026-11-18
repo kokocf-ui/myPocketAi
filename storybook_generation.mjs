@@ -32,7 +32,7 @@ export function storybookUserPrompt(req){
 export function parseStorybookChapters(raw,count){
  const text=String(raw||'').replace(/\r\n/g,'\n').replace(/\r/g,'\n').trim();
  if(text.length<240||text.length>22000)return null;
- const re=/^[ \t]*(?:CAPITOL|CHAPTER)\s+([1-5])\s*[:.]\s*(.*)$/gim;
+ const re=/^[ \t]*(?:#{1,3}[ \t]*)?(?:\*\*)?(?:CAPITOLUL|CAPITOL|CHAPTER)\s+([1-5])\s*[:.]\s*(.*)$/gim;
  const hits=[...text.matchAll(re)];
  if(hits.length!==count)return null;
  if(text.slice(0,hits[0].index).trim())return null;
