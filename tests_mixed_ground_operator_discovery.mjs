@@ -52,6 +52,6 @@ const falseLocation=await discoverMixedGroundOperators(
 assert.equal(falseLocation.operators.length,0,
  'A London operator leg must not be attached to an unrelated departure country');
 const noKey=await discoverMixedGroundOperators({}, {origin,destination,fetcher});
-assert.equal(noKey.status,'exa_not_configured');
+assert.equal(noKey.status,'search_providers_not_configured');
 assert.equal(noKey.operators.length,0);
 console.log('PASS official coach route discovery, verified geography, indicative fare, zero fabricated transfers');
