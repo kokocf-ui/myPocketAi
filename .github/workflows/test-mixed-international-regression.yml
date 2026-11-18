@@ -25,6 +25,8 @@ jobs:
           node --check index.js
           node --check one_field_journey_ui.mjs
           node tests_mixed_international_regression.mjs
+          node tests_mixed_ground_operator_discovery.mjs
+          node tests_mixed_unified_results.mjs
           node tests_transport_departure_entrypoints.mjs
           node tests_ro_national_transit.mjs
           node tests_mixed_selector_ui.mjs
