@@ -98,45 +98,64 @@ export async function searchMixedRouteProviders({
    catch{prefetched.set(source.id+':'+pairKey(pair.from,pair.to),{failed:true});}
   }));
  }
+ // The budget is per source/pair, not per supplier. Query different hub
+ // pairs independently; process results in planned order for stable rankings.
+ const tasks=[];
  outer: for(const pair of candidates){
   for(const source of providers){
-   if(calls>=budget)break outer;
+   if(tasks.length>=budget)break outer;
    if(typeof source.canServe==='function'&&!source.canServe(pair.from,pair.to))continue;
-   calls++;
-   const key=source.id+':'+pairKey(pair.from,pair.to);
+   tasks.push({pair,source,key:source.id+':'+pairKey(pair.from,pair.to)});
+  }
+ }
+ calls=tasks.length;
+ // Real suppliers have nontrivial latency. A small concurrency cap allows
+ // ground-only alternatives to be explored inside the Android search timeout
+ // without flooding any individual licensed API.
+ let cursor=0;
+ const responses=new Array(tasks.length);
+ const worker=async()=>{
+  while(cursor<tasks.length){
+   const index=cursor++;
+   const {pair,source,key}=tasks[index];
    try{
     const earlier=prefetched.get(key);
     if(earlier?.failed)throw Error('provider_unreachable');
-    const result=earlier?earlier.result:await source.searchLegs({
+    responses[index]={result:earlier?earlier.result:await source.searchLegs({
      from:pair.from,to:pair.to,departureAt,untilAt:requestedEnd,
      modes:allowedModes,readOnly:true
-    });
-    if(result?.status!=='success'||!Array.isArray(result.legs)){
-     checks.push({source:source.id,status:result?.status||'unavailable'});
-     failures++;continue;
-    }
-    let accepted=0;
-    for(const raw of result.legs.slice(0,1000)){
-     // Only the source which fetched the original schedule can assert
-     // provenance; do not default verified=true on behalf of adapters.
-     const first=canonicalizeMixedProviderStop(raw.from,source.id,pair,{
-      crosswalk:identityCrosswalk});
-     const last=canonicalizeMixedProviderStop(raw.to,source.id,pair,{
-      crosswalk:identityCrosswalk});
-     if(!first||!last)continue;
-     const candidate={...raw,from:first,to:last,provider:source.id};
-     const leg=normalizeVerifiedMixedLeg(candidate);
-     if(!leg)continue;
-     const identity=leg.id+'|'+leg.departureTime+'|'+leg.arrivalTime;
-     if(observed.has(identity))continue;
-     observed.set(identity,candidate);accepted++;
-    }
-    checks.push({source:source.id,status:accepted?'legs_received':'no_verified_legs',
-      legCount:accepted});
-   }catch{
-    failures++;checks.push({source:source.id,status:'provider_unreachable'});
-   }
+    })};
+   }catch{responses[index]={failed:true};}
   }
+ };
+ await Promise.all(Array.from({length:Math.min(3,tasks.length)},()=>worker()));
+ for(const [index,{pair,source}] of tasks.entries()){
+  const response=responses[index];
+  if(response?.failed){
+   failures++;checks.push({source:source.id,status:'provider_unreachable'});continue;
+  }
+  const result=response?.result;
+  if(result?.status!=='success'||!Array.isArray(result.legs)){
+   checks.push({source:source.id,status:result?.status||'unavailable'});
+   failures++;continue;
+  }
+  let accepted=0;
+  for(const raw of result.legs.slice(0,1000)){
+   // The schedule source alone can assert verified=true.
+   const first=canonicalizeMixedProviderStop(raw.from,source.id,pair,{
+    crosswalk:identityCrosswalk});
+   const last=canonicalizeMixedProviderStop(raw.to,source.id,pair,{
+    crosswalk:identityCrosswalk});
+   if(!first||!last)continue;
+   const candidate={...raw,from:first,to:last,provider:source.id};
+   const leg=normalizeVerifiedMixedLeg(candidate);
+   if(!leg)continue;
+   const identity=leg.id+'|'+leg.departureTime+'|'+leg.arrivalTime;
+   if(observed.has(identity))continue;
+   observed.set(identity,candidate);accepted++;
+  }
+  checks.push({source:source.id,status:accepted?'legs_received':'no_verified_legs',
+   legCount:accepted});
  }
  const graph=composeVerifiedMixedItineraries({
   origin:from,destination:to,departureAt,legs:[...observed.values()],
