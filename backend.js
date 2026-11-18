@@ -58,6 +58,7 @@ import {addRomanianWalkingAccess} from "./ro_urban_walking.mjs";
 import {romanianNationalQuery,romanianHistoryJourney,planRomanianNationalJourney,romanianDepartureDate,romanianJourneySummary,reverseRomanianOriginCity} from "./ro_national_transit.mjs";
 import {classifyNewsRequest,requiresLiveNewsRetrieval} from "./response_intent.mjs";
 import {normalizeStorybookRequest,storybookSystemPrompt,storybookUserPrompt,parseStorybookChapters} from "./storybook_generation.mjs";
+import {searchStorybookCommonsPhotos} from "./storybook_commons_photos.mjs";
 import {contextualResearchQuery,isConversationOnlyTurn} from "./conversation_context.mjs";
 import {planAnswerFocus} from "./answer_focus.mjs";
 import {educationDepthInstruction,educationDepthAudit} from "./education_lesson_depth.mjs";
@@ -1733,6 +1734,22 @@ export default {
       if(researched.extracted){for(const key of ["opening_hours","phone"])if(!details[key]&&researched.extracted[key])details[key]=researched.extracted[key]}
       return new Response(JSON.stringify({logos:logos.slice(0,6),website:details.website||website,details,sources:[],evidence:researched.evidence||[],source:"OSM location tags + Wikidata/Wikimedia Commons + verified-address web references"}),{
         headers:{...corsHeaders,"Content-Type":"application/json; charset=utf-8","Cache-Control":"public, max-age=86400"}
+      });
+    }
+
+    // Real, reusable photographs for narrated mini-books. No AI image generation,
+    // no general web scraping, no uncredited media.
+    if(url.pathname==='/api/storybook-photos'){
+      if(request.method!=='POST')return json({status:'error',error:'method_not_allowed'},405);
+      let photoRequest=null;try{photoRequest=await request.json()}catch{}
+      const query=String(photoRequest?.query||'').trim();
+      if(query.length<3||query.length>110)return json({status:'error',error:'invalid_photo_topic'},400);
+      const result=await searchStorybookCommonsPhotos(query,{
+        limit:Math.max(1,Math.min(6,Number(photoRequest?.limit)||5))
+      });
+      return new Response(JSON.stringify(result),{
+       status:result.status==='rate_limited'?429:result.status==='upstream_unavailable'?503:200,
+       headers:{...corsHeaders,'Content-Type':'application/json; charset=utf-8','Cache-Control':'public,max-age=300'}
       });
     }
 
