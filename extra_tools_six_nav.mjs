@@ -75,8 +75,8 @@ function extraToolsV2Storybook(work,area,addPdf,input,primary,secondary,note){
  const compose=extraToolsEl('section','extra-storybook-compose');
  area.append(compose);
  const hint=extraToolsEl('p','extra-work-note',extraToolsLocale(
-  'Transformă o idee în capitole de citit și ascultat. Versiunea actuală nu include încă animații sau muzică.',
-  'Turn an idea into chapters to read and listen. Animated pictures and music are not available yet.'));
+  'Eva scrie capitolele, iar tu poți genera ilustrații cu mișcare cinematografică și poți adăuga muzica ta. Personajele nu au încă animație video proprie.',
+  'Eva writes chapters, and you can generate cinematic moving illustrations and add your music. Characters do not yet have full video animation.'));
  compose.append(hint);
  work.title=extraToolsField(compose,extraToolsLocale('Titlul mini-cărții','Mini-book title'),
   'text',extraToolsLocale('Ex.: Soldații de teracotă','e.g. The Terracotta Army'));
@@ -105,11 +105,9 @@ function extraToolsV2Storybook(work,area,addPdf,input,primary,secondary,note){
  const readerActions=extraToolsActions(reader);
  const previous=secondary('← Capitol anterior','← Previous chapter',()=>navigate(-1));
  const next=secondary('Capitol următor →','Next chapter →',()=>navigate(1));
- const listen=primary('🔊 Ascultă','🔊 Listen',()=>{if(book.length)speakText(book[index].text);});
- const stop=secondary('■ Oprește','■ Stop',()=>{if(typeof stopSpeech==='function')stopSpeech()});
- readerActions.append(previous,next,listen,stop);
+ readerActions.append(previous,next);
  const edit=secondary('✏️ Revino la editor','✏️ Back to editor',()=>{
-  if(typeof stopSpeech==='function')stopSpeech();
+  motion.stopNarration();
   reader.hidden=true;compose.hidden=false;
   reader.scrollIntoView({block:'nearest'});
  });
@@ -117,15 +115,15 @@ function extraToolsV2Storybook(work,area,addPdf,input,primary,secondary,note){
  extraToolsActions(reader,edit,copy);
  reader.prepend(cover,progress,paper);
  area.append(reader);
+ const motion=extraStorybookMotionAttach(work,reader);
  let book=[],index=0;
  function navigate(direction){
   const newIndex=Math.max(0,Math.min(book.length-1,index+direction));
   if(newIndex===index||!book.length)return;
-  index=newIndex;display();
+  motion.stopNarration();index=newIndex;display();
  }
  function display(){
   if(!book.length)return;
-  if(typeof stopSpeech==='function')stopSpeech();
   cover.textContent=work.title.value.trim()||extraToolsLocale('Mini-cartea mea','My mini-book');
   progress.textContent=extraToolsLocale('Capitolul ','Chapter ')+(index+1)+' / '+book.length;
   paper.replaceChildren();
@@ -135,8 +133,10 @@ function extraToolsV2Storybook(work,area,addPdf,input,primary,secondary,note){
   const body=extraToolsEl('p','extra-storybook-prose',book[index].text);
   paper.append(heading,body);
   previous.disabled=index===0;next.disabled=index===book.length-1;
+  motion.setCurrent(index);
   paper.scrollTop=0;area.scrollTop=0;
  }
+ work.storybookShowChapter=chapterIndex=>{index=Math.max(0,Math.min(book.length-1,chapterIndex));display();};
  const create=primary('✨ Creează mini-cartea','✨ Create mini-book',async()=>{
   const seed=editor.value.trim(),title=work.title.value.trim();
   if(title.length<2||seed.length<20){
@@ -174,7 +174,7 @@ function extraToolsV2Storybook(work,area,addPdf,input,primary,secondary,note){
    work.output=book.map((part,i)=>'CAPITOL '+(i+1)+':\n'+part.text).join('\n\n');
    if(work.pdf)work.pdf.hidden=false;
    index=0;compose.hidden=true;reader.hidden=false;
-   display();
+   motion.setBook(book);display();
   }catch(error){
    if(work===extraToolsSession)statusLine.textContent=error?.name==='AbortError'?
     extraToolsLocale('Cererea a durat prea mult. Încearcă din nou.','The request timed out. Try again.'):
