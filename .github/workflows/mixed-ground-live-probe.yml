@@ -43,7 +43,10 @@ jobs:
             print('Provider statuses:',json.dumps(body.get('provider_status'),ensure_ascii=False)[:1500])
             print('Transit options:',len(body.get('transit') or []))
             print('Operator discovery status:',body.get('operator_discovery_status'))
-            print('Operator search summary:',json.dumps(body.get('operator_search_summary'),ensure_ascii=False)[:1200])
+            summary=body.get('operator_search_summary') or {}
+            print('Operator search summary:',json.dumps({k:v for k,v in summary.items() if k not in ('corridorCities','corridorSearchedPairs')},ensure_ascii=False)[:1200])
+            print('Corridor cities:',json.dumps(summary.get('corridorCities') or [],ensure_ascii=False)[:1100])
+            print('Ground searched pairs:',json.dumps(summary.get('corridorSearchedPairs') or [],ensure_ascii=False)[:2400])
             print('Ground operator options:',json.dumps([{k:o.get(k) for k in ('operator','mode','from','to','url','fareFrom','access_transfer_needed','door_to_door_complete')} for o in body.get('operator_options') or []],ensure_ascii=False)[:1700])
             print('Ground corridor discovery:',body.get('ground_corridor_status'))
             print('Ground network connections:',json.dumps([{'via':c.get('transferCity'),'modes':c.get('modes'),'segments':[{'operator':l.get('operator'),'from':l.get('from'),'to':l.get('to')} for l in c.get('segments') or []]} for c in body.get('ground_connections') or []],ensure_ascii=False)[:2200])
