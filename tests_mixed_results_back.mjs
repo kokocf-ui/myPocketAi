@@ -36,6 +36,6 @@ assert.deepEqual(body.incoming().selected_origin,origin);
 assert.ok(destinationChoice?.mixedJourney);
 assert.equal(state.moduleSearchCategory,null);
 assert.equal(transitRendered,false);
-assert.match(ui.slice(end,end+150),/if\\(returnFromMixedJourneyResults\\(\\)\\)return;/,
+assert.ok(ui.slice(end,end+150).includes('if(returnFromMixedJourneyResults())return;'),
  'The top and physical Back button should share the mixed back hierarchy');
 console.log('PASS mixed results Back: flight results → calendar → same confirmed origin and destination');
