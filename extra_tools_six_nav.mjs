@@ -105,6 +105,7 @@ function extraToolsV2Storybook(work,area,addPdf,input,primary,secondary,note){
   const raw=editor.value.trim();if(raw.length<30){extraToolsStatus(extraToolsLocale('Descrie povestea în cel puțin 30 de caractere.','Describe the story in at least 30 characters.'));return}
   const title=work.title.value.trim()||extraToolsLocale('Mini-cartea mea','My mini-book');
   const instruction='Transformă întâmplarea într-o mini-carte originală, în '+length.value+' capitole scurte, fiecare de aproximativ 100-170 cuvinte. Gen: '+kind.value+'. Titlul este '+title+'. Folosește EXACT antetele: CAPITOL 1:, CAPITOL 2: ... până la CAPITOL '+length.value+':. Un singur capitol sub fiecare antet, cu fraze naturale potrivite pentru ascultare. Nu inventa persoane, fapte istorice sau surse, dacă nu sunt în poveste. Dacă lipsesc detalii, păstrează tonul de poveste creativă, fără pretenții de documentar verificat.';
+  extraToolsShowOutput('');
   await extraToolsAI(instruction,raw);
   if(work!==extraToolsSession||!work.output)return;
   const result=work.output;
