@@ -133,4 +133,33 @@ assert.equal(prioritized.journeys[0].modeSignature,'flight → coach');
 assert.equal(prioritized.searchCalls,5);
 assert.deepEqual(tried,[start.id+'>'+finish.id,start.id+'>'+airportA.id,
  airportB.id+'>'+finish.id,airportA.id+'>'+airportB.id]);
+// A direct prefetch must not be replayed when querying a different hub pair.
+// Otherwise the provider appears to search alternatives but never receives
+// origin → station, station → station, and station → destination.
+const parallelQueries=[];
+const byPair={id:'parallel-independent-ground',licensed:true,enabled:true,
+ async searchLegs({from,to}){
+  const pair=from.id+'>'+to.id;parallelQueries.push(pair);
+  if(pair===start.id+'>'+airportA.id)return {status:'success',legs:[
+   leg(start,airportA,'train',10,50)]};
+  if(pair===airportA.id+'>'+airportB.id)return {status:'success',legs:[
+   leg(airportA,airportB,'coach',85,310)]};
+  if(pair===airportB.id+'>'+finish.id)return {status:'success',legs:[
+   leg(airportB,finish,'train',330,510)]};
+  return {status:'success',legs:[]};
+ }};
+const independent=await searchMixedRouteProviders({
+ origin:start,destination:finish,departureAt:at(0),now:zero,
+ candidateNodes:[{...airportA,mixedHubRole:'origin_access'},
+  {...airportB,mixedHubRole:'destination_egress'}],
+ sources:[byPair],maxProviderCalls:5,maxHubs:2,parallelDirect:true
+});
+assert.equal(independent.status,'verified',
+ 'Independent train/coach/train itinerary must work with prefetch enabled');
+assert.equal(independent.journeys[0].modeSignature,'train → coach → train');
+assert.ok(parallelQueries.includes(start.id+'>'+airportA.id));
+assert.ok(parallelQueries.includes(airportA.id+'>'+airportB.id));
+assert.ok(parallelQueries.includes(airportB.id+'>'+finish.id));
+assert.equal(parallelQueries.filter(p=>p===start.id+'>'+finish.id).length,1,
+ 'Direct query was prefetched once, not duplicated');
 console.log('PASS source-driven mixed routing: dynamic hubs, verified stop identity, complete routes and licensed-only budgets');
