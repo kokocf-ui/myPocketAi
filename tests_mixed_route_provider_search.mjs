@@ -143,9 +143,9 @@ const byPair={id:'parallel-independent-ground',licensed:true,enabled:true,
   if(pair===start.id+'>'+airportA.id)return {status:'success',legs:[
    leg(start,airportA,'train',10,50)]};
   if(pair===airportA.id+'>'+airportB.id)return {status:'success',legs:[
-   leg(airportA,airportB,'coach',85,310)]};
+   leg(airportA,airportB,'coach',85,1350)]};
   if(pair===airportB.id+'>'+finish.id)return {status:'success',legs:[
-   leg(airportB,finish,'train',330,510)]};
+   leg(airportB,finish,'train',1380,1450)]};
   return {status:'success',legs:[]};
  }};
 const independent=await searchMixedRouteProviders({
