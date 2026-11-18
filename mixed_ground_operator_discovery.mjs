@@ -214,23 +214,16 @@ export async function discoverMixedGroundOperators(env,{origin,destination,fetch
   eligible=normalizeMixedOperatorEvidence(candidateResults,{origin,destination});
  }
  if(!successful)return {status:errors.join('|')||'provider_unavailable',operators:[]};
- const accepted=[];
- for(const option of eligible){
-  // If the provider departs from a different city, only accept an actual
-  // origin in the passenger's departure country, verified by geocoding.
-  // This doesn't claim that the access train/bus has been checked.
-  if(option.access_transfer_needed){
-   // Without a proven country, the operator page might depart from the
-   // wrong side of Europe; don't suggest that as an alternative.
-   if(!sourceCountry)continue;
-   const valid=await verifyOriginGeography(env,option.from,sourceCountry,{fetcher});
-   if(!valid)continue;
-  }
-  accepted.push({...option,
-   access_transfer_verified:!option.access_transfer_needed,
-   country_match_verified:true
-  });
- }
+ // Validate all candidate origins concurrently, bounded by the shortlist,
+ // instead of a potentially 30-second chain of individual geocoding requests.
+ const verdicts=await Promise.all(eligible.map(async option=>{
+  if(!option.access_transfer_needed)return {...option,
+   access_transfer_verified:true,country_match_verified:true};
+  if(!sourceCountry)return null;
+  const valid=await verifyOriginGeography(env,option.from,sourceCountry,{fetcher});
+  return valid?{...option,access_transfer_verified:false,country_match_verified:true}:null;
+ }));
+ const accepted=verdicts.filter(Boolean);
  return {status:accepted.length?'official_operator_options':'no_verified_operator_pages',
   operators:accepted,queriesUsed:queries.length,scheduledServicesVerified:false,
   sourceErrors:errors.slice(0,4)};
