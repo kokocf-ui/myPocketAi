@@ -19,7 +19,7 @@ assert.equal(walk.legs[1].towards,'London');
 assert.equal(compactJourney({legs:[{mode:'walking',distanceMeters:-10}]}).legs[0].distanceMeters,null);
 
 const frontend=readFileSync(new URL('./index.js',import.meta.url),'utf8');
-const start=frontend.indexOf('async function resolveMixedFlightGroundOptions(');
+const start=frontend.indexOf('function resolveMixedFlightGroundOptions(');
 const end=frontend.indexOf('function mixedOperatorWebsite(',start);
 assert.ok(start>0&&end>start,'Selected-flight resolver is present');
 const snippet=frontend.slice(start,end);
@@ -39,20 +39,20 @@ class Element {
 }
 const document={createElement:tag=>new Element(tag)};
 const state={language:'ro',lastTransitChoice:{}};
-let responsePayload;
-const fakeFetch=async()=>({ok:true,json:async()=>responsePayload});
+let requests=0;
+const forbiddenFetch=async()=>{requests++;throw Error('Selection must not make a request')};
 const mkName=name=>{const a=new Element('a');a.textContent=name;return a};
-const resolve=new Function('document','state','CLIENT_CONFIG','fetch','dialogText',
+const resolve=new Function('document','state','fetch','dialogText',
  'mixedOperatorName','transitModeName',snippet+';return resolveMixedFlightGroundOptions;')(
- document,state,{apiUrl:'https://example.org'},fakeFetch,(ro,en)=>ro,mkName,x=>x);
+ document,state,forbiddenFetch,(ro,en)=>ro,mkName,x=>x);
 const source={label:'Mill Lane, Grays'};
 const target={label:'Strada Nufărului 1, Oradea'};
 const choice={journeyOrigin:source,transitDestination:target,
  transitDepartureAt:'2026-11-20T02:00:00.000Z'};
 const flight={legs:[{from:'LTN',to:'DEB',startLocal:'2026-11-20 06:05',
  endLocal:'2026-11-20 09:45'}]};
-const host=new Element('div'),button=new Element('button');button.textContent='Actualizează';
-responsePayload={
+const host=new Element('div');
+const responsePayload={
  completeDoorToDoor:true,
  airportFrom:{name:'London Luton Airport'},
  airportTo:{name:'Debrecen Airport'},
@@ -68,7 +68,8 @@ responsePayload={
    durationMinutes:7,distanceMeters:500}
  ]}
 };
-await resolve(choice,flight,host,button);
+flight.itinerary=responsePayload;
+resolve(choice,flight,host);
 const stages=host.children.filter(e=>e.className.includes('mixed-door-to-door-stage'));
 assert.equal(stages.length,6,'Access walk, rail, flight, onward bus, transfer warning, final walk');
 assert.ok(stages.some(e=>e.className.includes('mixed-stage-walk')&&
@@ -81,11 +82,11 @@ assert.ok(stages.some(e=>e.className.includes('mixed-stage-flight')),
  'Flight must appear between ground legs');
 assert.ok(!stages.some(e=>e.children.some(c=>String(c.textContent).includes('UTC'))),
  'Known local time zones should not be displayed as UTC');
-assert.equal(button.disabled,false);
+assert.equal(requests,0,'Selection does not request itinerary or refresh provider');
 
-responsePayload={...responsePayload,completeDoorToDoor:false,
+flight.itinerary={...responsePayload,completeDoorToDoor:false,
  accessJourney:null,egressJourney:null};
-await resolve(choice,flight,host,button);
+resolve(choice,flight,host);
 const gaps=host.children.filter(e=>e.className.includes('mixed-stage-gap'));
 assert.equal(gaps.length,2,'Unverified first and last mile must be shown, never hidden');
 console.log('PASS selected mixed journey: walk metres/minutes, timezone, flight, gaps, no navigation');
