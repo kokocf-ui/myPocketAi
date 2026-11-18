@@ -46,6 +46,7 @@ import {makeTransCAPIMixedSource,makeMOTISMixedSource} from "./mixed_existing_pr
 import {checkSerpApiSecretStatus} from "./serpapi_account_status.mjs";
 import {discoverMixedFlightCandidates} from "./mixed_serpapi_discovery.mjs";
 import {connectCandidateFlightToGround} from "./mixed_flight_ground_connections.mjs";
+import {prepareMixedFlightOptions} from "./mixed_prefetched_details.mjs";
 import {searchRomanianAirportOnward} from "./mixed_romanian_airport_onward.mjs";
 import {requestTfLJourneys} from "./tfl_shared_journeys.mjs";
 import {annotateTransportJourneys,transportNoticeLine} from "./transport_availability_disclosure.mjs";
@@ -3870,13 +3871,24 @@ export default {
               departureAt:effectiveDepartureAt||null,maxDays:3
             }).catch(()=>({status:'provider_unavailable',candidates:[],datesChecked:[]}))
             :Promise.resolve({status:'disabled',candidates:[],datesChecked:[]});
+          // Every flight card receives its itinerary *before* the result list is
+          // returned. The detail screen only reads it; no follow-up fetch.
           const mixedFlightFields=async()=>{
             const result=await flightSearchPromise;
-            return result.candidates?.length?{
-              flight_candidates:result.candidates.slice(0,6),
-              flight_search_status:result.status,
-              flight_dates_checked:result.datesChecked
-            }:{};
+            if(!result.candidates?.length)return {};
+            const candidates=await prepareMixedFlightOptions(env,{
+              candidates:result.candidates,origin:mixedOrigin,
+              destination:{latitude:targetLat,longitude:targetLon,label:targetName,
+                country_code:String(data.transit_destination?.country_code||'').toUpperCase()},
+              requestedAt:effectiveDepartureAt||new Date().toISOString(),
+              language:lang,limit:6
+            },{
+              planEgress:planMOTISMixedJourney,
+              planRegional:searchRomanianAirportOnward
+            });
+            return {flight_candidates:candidates,flight_search_status:result.status,
+              flight_dates_checked:result.datesChecked,
+              flight_details_prepared:true};
           };
           // Operator pages are a SECOND, independent transport source. They
           // can justify an indicative coach/rail option even without a dated
