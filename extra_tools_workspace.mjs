@@ -60,6 +60,7 @@ function extraToolsStatus(message){
 }
 function extraToolsStop(){
  extraToolsRestoreNavigation();
+ if(extraToolsSession?.key==='storybook'&&typeof stopSpeech==='function')stopSpeech();
  if(extraToolsSession?.voice&&pocketNativeVoiceAvailable())pocketNativeVoiceSend({action:'stopListen'});
  if(extraToolsSession?.controller)extraToolsSession.controller.abort();
  extraToolsSession=null;
