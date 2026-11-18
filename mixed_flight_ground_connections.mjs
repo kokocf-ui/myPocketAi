@@ -13,15 +13,26 @@ const localTime=s=>/^\d{4}-\d{2}-\d{2} [012]\d:[0-5]\d$/.test(String(s||''))&&
  Number(String(s).slice(11,13))<24;
 const validIso=s=>typeof s==='string'&&/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}/.test(s)&&
  /(Z|[+-]\d{2}:\d{2})$/.test(s)&&Number.isFinite(Date.parse(s));
-const compactJourney=j=>{
+// Keep the source's walking duration and distance on the wire. Previously
+// these were discarded, leaving the selected journey with only station names.
+export const compactJourney=j=>{
  const legs=Array.isArray(j?.legs)?j.legs:[];
- return {startDateTime:j.startDateTime,arrivalDateTime:j.arrivalDateTime,
-  durationMinutes:j.durationMinutes,provider:j.provider||null,
-  fareLocal:j.fareLocal||null,fareGBP:j.fareGBP??null,
-  fareComplete:j.fareComplete===true,
-  legs:legs.slice(0,16).map(l=>({mode:l.mode,from:l.from,to:l.to,
+ const metric=(n,max)=>n!==null&&n!==undefined&&n!==''&&
+  Number.isFinite(Number(n))&&Number(n)>=0&&Number(n)<=max?Number(n):null;
+ const timeZone=String(j?.time_zone||'').slice(0,80)||null;
+ return {startDateTime:j?.startDateTime,arrivalDateTime:j?.arrivalDateTime,
+  durationMinutes:metric(j?.durationMinutes,10080),provider:j?.provider||null,
+  timeZone,fareLocal:j?.fareLocal||null,fareGBP:j?.fareGBP??null,
+  fareComplete:j?.fareComplete===true,
+  legs:legs.slice(0,30).map(l=>({mode:l.mode,from:l.from,to:l.to,
    departureTime:l.departureTime,arrivalTime:l.arrivalTime,
-   operator:l.operator||'',lineNames:l.lineNames||[],
+   durationMinutes:metric(l.durationMinutes,10080),
+   distanceMeters:metric(l.distanceMeters,2000000),
+   departureZone:String(l.departureZone||timeZone||'').slice(0,80)||null,
+   arrivalZone:String(l.arrivalZone||timeZone||'').slice(0,80)||null,
+   operator:l.operator||'',lineNames:Array.isArray(l.lineNames)?l.lineNames.slice(0,5):[],
+   towards:String(l.towards||'').slice(0,110),
+   platform:String(l.platform||'').slice(0,30),
    fareLocal:l.fareLocal||null}))};
 };
 export function localAirportInstant(local,zoneName,offsetSeconds){
