@@ -17959,8 +17959,16 @@ function mixedOperatorWebsite(name){
  };
  return official[key]||null;
 }
-function mixedOperatorName(name){
- const href=mixedOperatorWebsite(name);
+function mixedOperatorName(name,providerUrl=null){
+ // Prefer the operator page supplied by a timetable/route source. Never
+ // construct a booking URL from the operator's name or claim in-app booking.
+ let verifiedUrl=null;
+ if(typeof providerUrl==='string'&&providerUrl.length<=2048)try{
+  const url=new URL(providerUrl);
+  if(url.protocol==='https:'&&!url.username&&!url.password&&url.hostname.includes('.'))
+   verifiedUrl=url.href;
+ }catch{}
+ const href=verifiedUrl||mixedOperatorWebsite(name);
  const el=document.createElement(href?'a':'span');el.textContent=String(name||'').trim();
  if(href){el.href=href;el.target='_blank';el.rel='noopener noreferrer';
   el.style.cssText='color:#9fe0e8;text-decoration:underline;text-underline-offset:2px'}
@@ -18588,7 +18596,7 @@ function appendTransitLegs(host,journey){
  for(const [i,leg] of (journey.legs||[]).entries()){
   const row=document.createElement('tr'),step=document.createElement('th'),action=document.createElement('td'),time=document.createElement('td');step.setAttribute('scope','row');step.textContent=String(i+1);
   const mode=document.createElement('strong');mode.textContent=transitModeName(leg.mode)+(transitLineLabel(leg)?' '+transitLineLabel(leg):'');
-  const places=document.createElement('div');places.textContent=(leg.from||'—')+' → '+(leg.to||'—');action.append(mode,places);if(leg.operator){const provider=document.createElement('div');provider.append(mixedOperatorName(leg.operator));action.append(provider)}
+  const places=document.createElement('div');places.textContent=(leg.from||'—')+' → '+(leg.to||'—');action.append(mode,places);if(leg.operator){const provider=document.createElement('div');provider.append(mixedOperatorName(leg.operator,leg.operatorUrl||leg.bookingUrl));action.append(provider)}
   const departure=document.createElement('div'),arrival=document.createElement('div');departure.textContent=transitClock(leg.departureTime,leg.departureZone||journey.time_zone);arrival.textContent='→ '+transitClock(leg.arrivalTime,leg.arrivalZone||journey.time_zone);time.append(departure,arrival);row.append(step,action,time);body.append(row);
  }table.append(body);host.append(table);
 }
@@ -18743,7 +18751,7 @@ function appendRomanianRailDetails(host,journey){
     'Train number: not supplied by provider.';
    item.append(unidentified);
   }
-  if(leg.operator){const operator=document.createElement('div');operator.style.cssText='font-size:12px;color:#b7d7e4';operator.append(mixedOperatorName(leg.operator));item.append(operator)}
+  if(leg.operator){const operator=document.createElement('div');operator.style.cssText='font-size:12px;color:#b7d7e4';operator.append(mixedOperatorName(leg.operator,leg.operatorUrl||leg.bookingUrl));item.append(operator)}
   steps.append(item);
  }
  host.append(steps);
@@ -18857,6 +18865,14 @@ function appendTransitCards(host,options){
   if(journey.distanceMeters!=null&&Number.isFinite(meters)&&meters>=0)
    date.textContent+=' · '+(meters/1000).toLocaleString(state.language,{maximumFractionDigits:1})+' km';
   button.append(title,schedule,date);
+  if(journey.route_only===true||['indicative','estimated','unavailable','unconfirmed'].includes(String(journey.schedule_status||''))){
+   const note=document.createElement('small');
+   note.className='transit-estimated-timetable';
+   note.textContent=dialogText('Orar orientativ sau indisponibil · confirmă direct la operator.',
+    'Indicative or unavailable timetable · confirm directly with the operator.');
+   note.style.cssText='font-size:12px;line-height:1.4;color:#e5ced8';
+   button.append(note);
+  }
   const estimated=mixedFarePresentation(journey);if(estimated){const price=document.createElement('small');price.textContent=estimated;price.style.cssText='font-size:13px;color:#e5f3e9';button.append(price)}
   button.onclick=()=>{closeAnswerReader(false);$('moduleQuickLayer').classList.add('open');
    $('moduleQuickLayer').setAttribute('aria-hidden','false');
@@ -19222,6 +19238,12 @@ function renderTransitChoices(options,selectedIndex=null){
    (validTransitBoardingStop(journey.boarding_stop)?transitBoardingSummary(journey):
     dialogText('Acces pietonal: neverificat','Walking access: unverified'));
   body.append(summary);
+  if(journey.route_only===true||['indicative','estimated','unavailable','unconfirmed'].includes(String(journey.schedule_status||''))){
+   const note=document.createElement('p');note.className='transit-estimated-timetable';
+   note.textContent=dialogText('Variantă orientativă: verifică orarul, tariful și locurile la operator. Eva nu face rezervări.',
+    'Indicative option: confirm timetables, fares and seats with the operator. Eva does not take bookings.');
+   body.append(note);
+  }
   const bufferText=transitBoardingAdvice(journey);
   if(bufferText){const notice=document.createElement('p');notice.className='transit-boarding-buffer-notice';notice.textContent=bufferText;body.append(notice)}
   const selected=state.selectedTransitJourney,status=document.createElement('p');status.className='transit-access-status';status.setAttribute('role','status');status.textContent=selected?.loading?t[10]:selected?.error||'';body.append(status);
