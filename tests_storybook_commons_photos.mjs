@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import backend from './backend.js';
 import {normaliseCommonsPhoto,searchStorybookCommonsPhotos} from './storybook_commons_photos.mjs';
 const sample={
- title:'File:Terracotta Army Xi'an.jpg',
+ title:"File:Terracotta Army Xi'an.jpg",
  imageinfo:[{
   mime:'image/jpeg',width:1600,height:900,
   thumburl:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Terracotta_Army.jpg/960px-Terracotta_Army.jpg',
