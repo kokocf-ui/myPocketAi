@@ -231,8 +231,15 @@ export async function discoverMixedGroundOperators(env,{origin,destination,fetch
   if(!option.access_transfer_needed)return {...option,
    access_transfer_verified:true,country_match_verified:true};
   if(!sourceCountry)return null;
+  // A major city already discovered by Geoapify Places within 140 km of the
+  // actual departure coordinates, with matching country code, is stronger
+  // evidence than a second fuzzy worldwide geocoding search.
+  if(majorCity&&fold(option.from)===fold(majorCity))
+   return {...option,access_transfer_verified:false,
+    country_match_verified:true,origin_country_evidence:'nearby_city_geography'};
   const valid=await verifyOriginGeography(env,option.from,sourceCountry,{fetcher});
-  return valid?{...option,access_transfer_verified:false,country_match_verified:true}:null;
+  return valid?{...option,access_transfer_verified:false,country_match_verified:true,
+   origin_country_evidence:'geocode_city'}:null;
  }));
  const accepted=verdicts.filter(Boolean);
  return {status:accepted.length?'official_operator_options':'no_verified_operator_pages',
