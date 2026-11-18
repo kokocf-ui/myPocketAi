@@ -63,11 +63,12 @@ assert.equal(shown,2,'Back restores unified compact results');
 assert.equal(body.children.filter(e=>e.className.includes('mixed-unverified-candidate')).length,2);
 const flight=body.children.filter(e=>e.className.includes('mixed-unverified-candidate'))[1];
 flight.onclick();
-const ground=body.children.find(e=>e.textContent==='Caută transferurile terestre');
-assert.ok(ground?.events?.click,'Flight details must have an actionable ground-transfer button');
+const ground=body.children.find(e=>e.textContent==='Actualizează legăturile terestre');
+assert.ok(ground?.events?.click,'Flight details must offer a refresh action for ground transfers');
+assert.equal(groundRequested,1,'Opening a direct flight automatically checks both ground transfers');
 let suppressed=0;
 ground.events.click({preventDefault(){suppressed++},stopPropagation(){suppressed++}});
-assert.equal(groundRequested,1,'Ground transfer search is invoked by one tap');
+assert.equal(groundRequested,2,'Refresh explicitly repeats the ground connection check');
 assert.equal(suppressed,2,'Ground button interaction does not bubble to unrelated route navigation');
 
 const combined={...data,ground_connections:[{
@@ -85,10 +86,15 @@ assert.equal(multiCards.length,3,'A train+coach choice is a separate option alon
 assert.equal(multiCards[0].children[1].textContent,'🚆 → 🚌');
 assert.match(multiCards[0].children[0].textContent,/Brussels/);
 multiCards[0].onclick();
-const evidence=body.children.filter(e=>e.tag==='section');
+const evidence=body.children.filter(e=>e.tag==='section'&&
+ e.children.some(child=>child.tag==='a'));
 assert.equal(evidence.length,2,'A connected option opens both operator legs independently');
 assert.equal(evidence[0].children[1].href,'https://www.eurostar.com/uk-en/train/london-to-brussels');
 assert.equal(evidence[1].children[1].href,'https://www.flixbus.com/bus-routes/brussels-oradea');
+assert.ok(body.children.some(e=>e.className==='mixed-unverified-access-leg'),
+ 'A supplier page is insufficient to prove transport from the selected origin');
+assert.ok(body.children.some(e=>e.className==='mixed-unverified-egress-leg'),
+ 'The final address must be shown as a separate unsolved stage');
 assert.ok(body.children.some(e=>String(e.textContent).includes('nu sunt confirmate')),
  'The option must disclose that changeover and schedules are unverified');
 body.children[0].onclick();

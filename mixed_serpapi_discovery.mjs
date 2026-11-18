@@ -63,6 +63,16 @@ export async function discoverMixedFlightCandidates(env,{origin,destination,depa
  const departureAirports=uniqueCodes(from.airports,12);
  const arrivalAirports=uniqueCodes(to.airports,12)
   .filter(x=>!departureAirports.includes(x));
+ // Near international borders, the airport closest to the destination may
+ // belong to a different country from the first geocoded airport. A pooled
+ // multi-destination Google Flights query can suppress a direct regional
+ // flight; probe the first independently geocoded cross-border gateway.
+ const airportCountry=new Map((to.airports||[]).map(a=>[
+  String(a.iata||'').toUpperCase(),String(a.country_code||'').toUpperCase()
+ ]));
+ const referenceCountry=airportCountry.get(arrivalAirports[0])||'';
+ const borderAirport=referenceCountry?arrivalAirports.find(iata=>
+  airportCountry.get(iata)&&airportCountry.get(iata)!==referenceCountry)||null:null;
  if(!departureAirports.length||!arrivalAirports.length)
   return {status:'no_airport_pair',candidates:[],datesChecked:[],
    airportDiscovery:{origin:from.status,destination:to.status}};
@@ -88,20 +98,29 @@ export async function discoverMixedFlightCandidates(env,{origin,destination,depa
   // Probe direct routes from all nearby airports first. One shared no-stop
   // search can find a useful nonstop without spending the entire query budget.
   if(departureAirports.length===1&&arrivalAirports.length===1){
-   // One exact pair needs a single search; the provider already returns its
-   // direct and connecting possibilities without an extra quota call.
    add(departureAirports,arrivalAirports);
   }else{
+   // Broad availability remains independent of which departure terminal the
+   // passenger uses. This is a discovery query, NOT a transfer assumption.
    add(departureAirports.slice(0,6),arrivalAirports.slice(0,6),1);
-   add(departureAirports.slice(0,6),arrivalAirports.slice(0,6));
+   if(borderAirport){
+    // A regional airport over the border can be the practical gateway:
+    // reserve quota for exact departure-airport searches against that
+    // specific geographic target, rather than letting the pooled results
+    // repeatedly favor only long-haul/major-city destinations.
+    if(departureAirports.length>6)
+     add(departureAirports.slice(6,12),[borderAirport],1);
+    for(const departure of departureAirports.slice(0,Math.min(9,maxQueries)))
+     add([departure],[borderAirport],1);
+   }else{
+    add(departureAirports.slice(0,6),arrivalAirports.slice(0,6));
+    if(departureAirports.length>1)
+     for(const departure of departureAirports.slice(0,Math.min(8,maxQueries-1)))
+      add([departure],arrivalAirports.slice(0,6),1);
+    if(arrivalAirports.length>6)
+     add(departureAirports.slice(0,6),arrivalAirports.slice(6,12));
+   }
   }
-  if(departureAirports.length>1)
-   for(const departure of departureAirports.slice(0,Math.min(8,maxQueries-1)))
-    add([departure],arrivalAirports.slice(0,6),1);
-  // If nearby destination airports exceed one supplier request, include the
-  // farther group instead of silently dropping all those alternatives.
-  if(arrivalAirports.length>6)
-   add(departureAirports.slice(0,6),arrivalAirports.slice(6,12));
   let attempted=0,foundThisDay=0,providerDiagnostic=null;
   for(const request of requests){
    if(queries>=maxQueries)break;
@@ -127,6 +146,13 @@ export async function discoverMixedFlightCandidates(env,{origin,destination,depa
   }
   datesChecked.push({date:outboundDate,status:foundThisDay?'candidate_results_only':lastStatus,
    queries:attempted,candidates:foundThisDay,
+   // The provider may return no flight even for an existing scheduled
+   // service. Record the actual airport pairs queried, not a blanket
+   // assertion that every nearby airport was searched.
+   airportQueries:requests.slice(0,attempted).map(q=>({
+    departure:q.departureAirports,arrival:q.arrivalAirports,
+    nonstop:q.stops===1
+   })),
    ...(providerDiagnostic?{diagnostic:providerDiagnostic}:{})});
   // The selected date is fixed; an undated request shows the first day with
   // results, but compares all checked airport sources for that day.
@@ -134,6 +160,6 @@ export async function discoverMixedFlightCandidates(env,{origin,destination,depa
  }
  return {status:all.length?'candidate_results_only':lastStatus,
   candidates:rankMixedFlightCandidates(all,{max:20}),datesChecked,
-  departureAirports,arrivalAirports,providerSearchCount:queries,
+  departureAirports,arrivalAirports,borderAirport,providerSearchCount:queries,
   completeDoorToDoor:false,timezoneAndTransfersUnverified:true};
 }

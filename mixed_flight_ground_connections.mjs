@@ -67,6 +67,7 @@ export async function connectCandidateFlightToGround(env,{
  resolveZone=resolveAirportZone,
  planAccess=planTransCAPIJourney,
  planEgress=null,
+ planRegional=null,
  now=Date.now()
 }={}){
  if(!validPoint(origin)||!validPoint(destination)||
@@ -126,6 +127,19 @@ export async function connectCandidateFlightToGround(env,{
   Date.parse(j.arrivalDateTime)>=Date.parse(j.startDateTime)&&
   Date.parse(j.startDateTime)<egressAfter+36*3600000)
  .sort((j,k)=>Date.parse(j.arrivalDateTime)-Date.parse(k.arrivalDateTime))[0]||null;
+ // A geographically resolved Romanian domestic provider can sometimes
+ // confirm the intercity portion after an airport landing, even if the
+ // international door-to-door MOTIS planner is not connected. Never splice
+ // it into the completed path: the airport->station and last city station->
+ // exact house are not evidenced by a city-to-city Bilo timetable.
+ let onward={status:'not_checked',journey:null};
+ if(!outbound&&typeof planRegional==='function'&&to.country_code==='RO'&&
+    String(destination.country_code||'').toUpperCase()==='RO'){
+  try{
+   onward=await planRegional(env,{airport:to,destination,
+    after:new Date(egressAfter).toISOString()})||onward;
+  }catch{onward={status:'regional_provider_unavailable',journey:null}}
+ }
  const full=Boolean(inbound&&outbound);
  const fare=flight.fareObserved&&Number.isFinite(Number(flight.fareObserved.amount))&&
   Number(flight.fareObserved.amount)>0?{
@@ -145,6 +159,12 @@ export async function connectCandidateFlightToGround(env,{
   airportTo:{iata:to.iata,name:to.name},
   accessJourney:inbound?compactJourney(inbound):null,
   egressJourney:outbound?compactJourney(outbound):null,
+  // A Bilo national train/coach is an independently sourced intermediate
+  // leg. City-to-city evidence is NOT enough for complete door-to-door.
+  regionalOnwardJourney:onward?.journey?compactJourney(onward.journey):null,
+  regionalOnwardStatus:onward?.status||'not_checked',
+  regionalOnwardFromCity:onward?.fromCity||null,
+  regionalOnwardToCity:onward?.toCity||null,
   accessStatus:inbound?'scheduled_connection_found':access.status||'unavailable',
   egressStatus:outbound?'scheduled_connection_found':egress.status||'unavailable'};
 }

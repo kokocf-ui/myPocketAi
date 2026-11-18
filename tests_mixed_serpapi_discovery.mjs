@@ -82,4 +82,47 @@ assert.ok(returned.some(q=>q.departureAirports[0]==='LTN'&&q.stops===1),
 assert.deepEqual(afterStansted.candidates.map(f=>f.legs[0].from),['LTN','STN']);
 
 
+
+const nearBorderOrigin={latitude:51.475,longitude:0.325};
+const nearBorderDestination={latitude:47.0612,longitude:21.9473};
+const airportList=async (_env,location)=>({
+ status:'candidates_only',airports:location===nearBorderOrigin?
+  ['LCY','STN','LHR','LGW','SEN','LTN','BHX','EMA'].map((iata,index)=>({
+   iata,country_code:'GB',distanceMeters:index*10000
+  })):
+  [{iata:'OMR',country_code:'RO',distanceMeters:6000},
+   {iata:'DEB',country_code:'HU',distanceMeters:65000},
+   {iata:'CLJ',country_code:'RO',distanceMeters:147000}]
+});
+const borderRequests=[];
+const wizzDirect={legs:[{from:'LTN',to:'DEB',
+ startLocal:'2026-11-20 09:15',endLocal:'2026-11-20 12:35',
+ airline:'Wizz Air UK',flightNumber:'TEST'}],
+ totalFlightDurationMinutes:140,fareObserved:{amount:78,currency:'GBP'}};
+const borderSearch=async (_env,query)=>{
+ borderRequests.push(query);
+ return {status:'candidate_results_only',candidates:
+  query.outboundDate==='2026-11-20'&&
+  query.departureAirports.length===1&&query.departureAirports[0]==='LTN'&&
+  query.arrivalAirports.length===1&&query.arrivalAirports[0]==='DEB'?
+  [wizzDirect]:[]};
+};
+const borderResult=await discoverMixedFlightCandidates(env,{
+ origin:nearBorderOrigin,destination:nearBorderDestination,
+ departureAt:'2026-11-20T02:00:00.000Z',now:Date.parse('2026-11-18T10:00:00Z'),
+ discover:airportList,search:borderSearch,maxProviderQueries:9
+});
+assert.equal(borderResult.borderAirport,'DEB','Geography discovers neighboring-country airport');
+assert.ok(borderRequests.some(q=>
+ q.departureAirports.length===1&&q.departureAirports[0]==='LTN'&&
+ q.arrivalAirports.length===1&&q.arrivalAirports[0]==='DEB'),
+ 'A pooled flight search must not suppress independently requested direct regional services');
+assert.equal(borderResult.candidates.length,1);
+assert.equal(borderResult.candidates[0].legs[0].airline,'Wizz Air UK');
+assert.ok(borderRequests.every(q=>q.outboundDate==='2026-11-20'),
+ 'Selected calendar day is never silently replaced');
+assert.ok(borderRequests.length<=9,'Flight coverage must respect the free search budget');
+assert.equal(borderResult.datesChecked[0].airportQueries.length,borderRequests.length,
+ 'Diagnostics show exactly which pairs were checked rather than claiming full coverage');
+
 console.log('PASS: progressive earliest-day flight discovery, deduplication, optional date and opt-in');

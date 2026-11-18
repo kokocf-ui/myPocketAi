@@ -56,4 +56,42 @@ assert.equal(tooLate.accessJourney,null,'Reject ground access that leaves insuff
 assert.equal((await connectCandidateFlightToGround({}, {origin,destination,
  flight:{legs:[{from:'LTN',to:'DEB'},{from:'DEB',to:'CLJ'}]}},mocks)).status,
  'invalid_or_unconnected_flight','Do not splice multi-leg flights without transfer evidence');
+
+const flightRomania={legs:[{from:'STN',to:'CLJ',
+ startLocal:'2026-11-20 06:15',endLocal:'2026-11-20 10:55',
+ airline:'Example direct airline'}]};
+const airportRomania=(env,pt)=>({
+ airports:pt===origin?[{...make('STN',51.885,0.235),country_code:'GB'}]:
+  [{...make('CLJ',46.786,23.684),country_code:'RO'}]
+});
+let regionalRequested=null;
+const regionalResult=await connectCandidateFlightToGround({},{
+ origin,destination:{...destination,country_code:'RO'},
+ flight:flightRomania,requestedAt:'2026-11-20T02:00:00.000Z'
+},{
+ now,discover:airportRomania,
+ resolveZone:async(_env,airport)=>airport.iata==='STN'?
+  {name:'Europe/London',offsetSeconds:0}:
+  {name:'Europe/Bucharest',offsetSeconds:7200},
+ planAccess:async()=>({status:'success',journeys:[]}),
+ planEgress:async()=>({status:'not_configured',journeys:[]}),
+ planRegional:async(_env,query)=>{
+  regionalRequested=query;
+  return {status:'intercity_part_only',fromCity:'Cluj-Napoca',toCity:'Oradea',
+   journey:{startDateTime:'2026-11-20T11:00:00Z',
+    arrivalDateTime:'2026-11-20T15:00:00Z',durationMinutes:240,
+    legs:[{mode:'coach',from:'Cluj-Napoca',to:'Oradea',
+     departureTime:'2026-11-20T11:00:00Z',
+     arrivalTime:'2026-11-20T15:00:00Z',operator:'Mock operator'}]}}
+ }
+});
+assert.equal(regionalResult.completeDoorToDoor,false,
+ 'Even a national bus does not fill the missing airport and street transfer legs');
+assert.equal(regionalResult.regionalOnwardStatus,'intercity_part_only');
+assert.equal(regionalResult.regionalOnwardJourney.legs[0].mode,'coach');
+assert.equal(regionalRequested.airport.iata,'CLJ');
+assert.equal(regionalRequested.destination.country_code,'RO');
+assert.equal(regionalRequested.after,'2026-11-20T09:40:00.000Z',
+ 'National onward search starts at a safe post-landing buffer');
+
 console.log('PASS source-backed air+ground: timezone/DST, transfer safety, missing legs and no invented total fares');
