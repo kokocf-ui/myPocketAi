@@ -118,7 +118,9 @@ function showOneFieldJourney(choice){
  if(oneFieldJourneySession?.stop)oneFieldJourneySession.stop();
  const incoming=oneFieldJourneyIncoming;
  oneFieldJourneyIncoming=null;
- state.moduleSearchCategory=choice;
+ // A destination editor is not a results screen: do not let header Back
+ // resurrect an outdated calendar from a previous search.
+ state.moduleSearchCategory=null;
  state.moduleSearchReturnMode='root';
  // Same reset used by the working National public transport form.
  // A previous results-mode sheet can obstruct the new destination input.
@@ -146,7 +148,25 @@ function showOneFieldJourney(choice){
   button.textContent=caption;button.onclick=click;return button;
  };
  let timer=null,controller=null,seq=0,selected=null,origin=null,typing='',observedRaw='';
- const session={stop(){seq++;if(timer!==null)clearTimeout(timer);controller?.abort()}};
+ const session={
+  stop(){seq++;if(timer!==null)clearTimeout(timer);controller?.abort()},
+  back(){
+   if(!alive())return false;
+   if(root.querySelector('.transport-departure-datetime')){
+    state.moduleSearchCategory=null;
+    root.replaceChildren(...searchNodes);showModes();resetJourneyScroll();
+    return true;
+   }
+   if(selected){
+    state.moduleSearchCategory=null;
+    selected=null;origin=null;input.readOnly=false;
+    root.replaceChildren(...searchNodes);confirmed.replaceChildren();results.replaceChildren();
+    input.setAttribute('aria-label',text.label);observedRaw='';schedule();resetJourneyScroll();
+    return true;
+   }
+   return false;
+  }
+ };
  oneFieldJourneySession=session;
  // The mounted editor, not a lagging Maps/overlay flag, owns this lookup.
  // Android keyboard transitions can change view state without removing the form.
@@ -201,17 +221,19 @@ function showOneFieldJourney(choice){
   const from=origin?{latitude:origin.latitude,longitude:origin.longitude,label:origin.label,
    country_code:origin.country_code||''}:null;
   if(mode==='transit'){
-   // Calendar appears only AFTER the user explicitly chooses Transport mixt.
+   // Store the complete selected A→B stage for both Back mechanisms.
+   const stageChoice={...choice,kind:'transit',mixedJourney:true,transitDirect:true,mixedComposition:true,
+    journeyOrigin:from,transitDestination:point,transitQuery:point.label,
+    transitPreference:'all',transitDepartureOffset:0,
+    prompt:dialogText('Caută transport mixt către ','Find mixed transport to ')+point.label};
+   state.moduleSearchCategory=stageChoice;
    const step=createTransportDepartureStep({
     title:dialogText('Când dorești să pleci?','When would you like to leave?'),
     destination:point.label,
-    onBack:()=>{root.replaceChildren(...searchNodes);showModes();resetJourneyScroll()},
+    onBack:()=>{state.moduleSearchCategory=null;root.replaceChildren(...searchNodes);showModes();resetJourneyScroll()},
     onSearch:async departureAt=>{
      session.stop();
-     await runModuleSearch({...choice,kind:'transit',mixedJourney:true,transitDirect:true,mixedComposition:true,
-      journeyOrigin:from,transitDestination:point,transitQuery:point.label,
-      transitPreference:'all',transitDepartureOffset:0,transitDepartureAt:departureAt,
-      prompt:dialogText('Caută transport mixt către ','Find mixed transport to ')+point.label});
+     await runModuleSearch({...stageChoice,transitDepartureAt:departureAt});
     }
    });
    // Keep the calendar in the initial viewport; do not append it below the address/mode form.
@@ -230,6 +252,7 @@ function showOneFieldJourney(choice){
  };
  const showModes=()=>{
   if(!selected||!alive())return;
+  state.moduleSearchCategory=null;
   // Selection is a stage of the same screen, not another modal. Keep the
   // confirmed destination visible in the editable input; no repeat explanation.
   input.value=String(selected.label||'');
