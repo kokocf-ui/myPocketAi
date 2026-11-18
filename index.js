@@ -17820,6 +17820,10 @@ async function resolveMixedFlightGroundOptions(choice,flight,host,button){
  const old=button.textContent;button.disabled=true;
  button.textContent=dialogText('Verific legăturile terestre…','Checking ground connections…');
  host.replaceChildren();
+ const progress=document.createElement('small');
+ progress.textContent=dialogText('Verific separat accesul, transferurile și ultima etapă…',
+  'Checking origin access, transfers and the final leg separately…');
+ host.append(progress);
  try{
   const response=await fetch(url.toString(),{method:'POST',
    headers:{'Content-Type':'application/json'},
@@ -19177,10 +19181,12 @@ function renderMixedUnifiedResults(data,choice){
  renderTransitChoices(options);
  const host=$('moduleLayerBody');if(!host)return;
  const providers=Array.isArray(data?.operator_options)?data.operator_options:[];
+ const connections=Array.isArray(data?.ground_connections)?data.ground_connections:[];
  const flights=Array.isArray(data?.flight_candidates)?data.flight_candidates:[];
+ if(connections.length)appendMixedGroundConnectionCards(host,connections,choice);
  if(providers.length)appendMixedGroundOperatorCards(host,providers,choice);
  if(flights.length)appendMixedAirCandidateCards(host,flights,choice);
- if(!options.length&&!providers.length&&!flights.length){
+ if(!options.length&&!providers.length&&!connections.length&&!flights.length){
   const note=document.createElement('p');note.className='mixed-no-routes-note';
   note.textContent=dialogText('Nu am primit încă variante de transport de la furnizorii conectați. Rămâi în Transport mixt; schimbă data sau revino la destinație.',
    'Connected suppliers have not returned transport options. Stay in Mixed Transport; change the date or return to the destination.');
@@ -19244,6 +19250,64 @@ function appendMixedGroundOperatorCards(host,options,choice){
     link.href=String(option.url);link.target='_blank';link.rel='noopener noreferrer';
     link.style.cssText='display:block;padding:12px 14px;color:#fff;background:#752b48;border:1px solid #a96180;border-radius:11px;text-decoration:underline';
     body.append(link);
+   }
+  });
+ }
+}
+function appendMixedGroundConnectionCards(host,connections,choice){
+ mixedResultsSectionTitle(host,dialogText('Legături terestre · trenuri și autocare',
+  'Ground connections · trains and coaches'));
+ for(const connection of connections.slice(0,8)){
+  const steps=Array.isArray(connection?.segments)?connection.segments:[];
+  if(steps.length<2||steps.some(x=>!x?.url||!x?.operator||!x?.from||!x?.to))continue;
+  const via=String(connection.transferCity||steps[0].to||'');
+  const route=String(connection.from||steps[0].from)+' → '+String(connection.to||steps.at(-1).to);
+  const icons=steps.map(x=>x.mode==='train'?'🚆':x.mode==='ferry'?'⛴️':'🚌').join(' → ');
+  const names=steps.map(x=>x.operator).join(' + ');
+  mixedCandidateCard(host,{
+   name:route+' · '+via,icons,summary:names,
+   subtitle:dialogText('Schimbare posibilă la ','Possible interchange at ')+via+
+    dialogText(' · orele, stațiile și legătura trebuie verificate.',
+     ' · times, stops and connection must be checked.'),
+   onSelect:()=>{
+    const body=mixedCandidateDetailShell(route,()=>renderMixedUnifiedResults(dataForMixed(),choice));
+    if(!body)return;
+    const warning=document.createElement('p');
+    warning.textContent=dialogText('Sunt două tronsoane găsite pe paginile oficiale ale operatorilor. Nu avem încă dovada că se pot lega la data selectată; orele și prețul total nu sunt confirmate.',
+     'Two operator-owned route pages were found. Their transfer on the selected date, timings and complete price remain unverified.');
+    body.append(warning);
+    for(const [i,step] of steps.entries()){
+     const section=document.createElement('section');
+     section.style.cssText='border-top:1px solid #6c4a60;padding:10px 0;display:flex;flex-direction:column;gap:6px';
+     const heading=document.createElement('strong');
+     heading.textContent=(i+1)+'. '+(step.mode==='train'?'🚆':step.mode==='ferry'?'⛴️':'🚌')+
+      ' '+step.from+' → '+step.to;
+     section.append(heading);
+     const link=document.createElement('a');link.textContent=String(step.operator);
+     link.href=String(step.url);link.target='_blank';link.rel='noopener noreferrer';
+     link.style.cssText='align-self:flex-start;color:#b2e3ee;text-decoration:underline;padding:5px 0';
+     section.append(link);
+     if(step.fareFrom&&Number.isFinite(Number(step.fareFrom.amount))){
+      const fare=document.createElement('small');
+      fare.textContent=dialogText('Tarif publicat de la ','Published fare from ')+
+       String(step.fareFrom.amount)+' '+String(step.fareFrom.currency||'')+
+       dialogText(' · nu este prețul întregii călătorii',' · not a through-journey fare');
+      section.append(fare);
+     }
+     body.append(section);
+     if(i<steps.length-1){
+      const interchange=document.createElement('small');
+      interchange.textContent=dialogText('Schimbare la ','Transfer at ')+via+
+       dialogText(' · stația și timpul de transfer nu sunt confirmate.',
+        ' · connecting stop and time are not confirmed.');
+      interchange.style.cssText='font-size:12px;color:#ffd3dd';
+      body.append(interchange);
+     }
+    }
+    const last=document.createElement('small');
+    last.textContent=dialogText('Mai trebuie confirmat transportul de la adresa de plecare la primul terminal și de la ultimul terminal la destinație.',
+     'Local access to the first terminal and the last mile to the final address remain to be verified.');
+    body.append(last);
    }
   });
  }

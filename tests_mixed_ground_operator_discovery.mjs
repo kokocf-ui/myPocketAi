@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
-import {discoverMixedGroundOperators,normalizeMixedOperatorEvidence}
+import {discoverMixedGroundOperators,normalizeMixedOperatorEvidence,
+ discoverGroundCorridorCities,composeOfficialGroundConnections}
  from './mixed_ground_operator_discovery.mjs';
 const origin={label:'Mill Lane, Grays, England, UK',country_code:'GB',latitude:51.475,longitude:0.325};
 const destination={label:'Strada Nufărului 1, Oradea, România',country_code:'RO'};
@@ -93,4 +94,82 @@ assert.equal(brave.operators[0].operator,'FlixBus');
 assert.ok(fallbackRequests.some(r=>r.host==='api.search.brave.com'));
 assert.ok(fallbackRequests.some(r=>String(r.query).includes('London')),
  'Nearby major cities must be discovered from geography, not preset for the country');
+
+const trainPage={url:'https://www.eurostar.com/uk-en/train/london-to-brussels',
+ title:'London to Brussels train tickets | Eurostar'};
+const busContinuation={url:'https://www.flixbus.com/bus-routes/brussels-oradea',
+ title:'Brussels to Oradea Coach Travel | FlixBus'};
+const routePages=[
+ ...normalizeMixedOperatorEvidence([trainPage],{
+  origin:{city:'London'},destination:{city:'Brussels'}}),
+ ...normalizeMixedOperatorEvidence([busContinuation],{
+  origin:{city:'Brussels'},destination:{city:'Oradea'}})
+];
+const chains=composeOfficialGroundConnections(routePages,{
+ fromCity:'London',toCity:'Oradea',interchanges:[{name:'Brussels'}]
+});
+assert.equal(chains.length,1,'Two genuine operator route pages can form an indicative train+coach chain');
+assert.deepEqual(chains[0].modes,['train','coach']);
+assert.equal(chains[0].transferCity,'Brussels');
+assert.equal(chains[0].door_to_door_complete,false);
+assert.equal(chains[0].transfer_verified,false);
+assert.equal(composeOfficialGroundConnections(routePages.slice(0,1),{
+ fromCity:'London',toCity:'Oradea',interchanges:[{name:'Brussels'}]
+}).length,0,'One operator leg must never be presented as a complete train+coach chain');
+assert.equal(composeOfficialGroundConnections(routePages.slice(1),{
+ fromCity:'London',toCity:'Oradea',interchanges:[{name:'Brussels'}]
+}).length,0,'Cannot invent the missing first leg');
+const corridorOrigin={latitude:51.475,longitude:0.325},corridorDestination={
+ latitude:47.0612,longitude:21.9473
+};
+const checkCities=await discoverGroundCorridorCities({GEOAPIFY_API_KEY:'mock'},{
+ origin:corridorOrigin,destination:corridorDestination,fetcher:async url=>{
+  const u=new URL(String(url));
+  assert.equal(u.hostname,'api.geoapify.com');
+  const features=[{properties:{name:'Brussels',country_code:'be',
+   lat:50.85,lon:4.35,population:1200000}}];
+  return {ok:true,json:async()=>({features})};
+ }
+});
+assert.ok(checkCities.some(x=>x.name==='Brussels'),
+ 'Corridor city must come from live geographic candidate evidence');
+assert.ok(!checkCities.some(x=>x.name==='London'),
+ 'The example is not a preset static route');
+const corridorCalls=[];
+const integrated=await discoverMixedGroundOperators({
+ BRAVE_API_KEY:'mock-brave',GEOAPIFY_API_KEY:'mock-geo'
+},{origin,destination:{...destination,latitude:47.0612,longitude:21.9473},
+ fetcher:async(url,opts)=>{
+  const u=new URL(String(url));
+  if(u.hostname==='api.geoapify.com'){
+   if(u.pathname==='/v2/places'){
+    const isLocal=u.searchParams.get('filter').includes('0.325,51.475');
+    return {ok:true,json:async()=>({features:[isLocal?{
+     properties:{name:'London',country_code:'gb',population:9000000,
+      lat:51.51,lon:-0.13}
+    }:{properties:{name:'Brussels',country_code:'be',
+      population:1200000,lat:50.85,lon:4.35}}]})};
+   }
+   return {ok:true,json:async()=>({features:[{
+    properties:{city:'London',country_code:'gb'}
+   }]})};
+  }
+  if(u.hostname==='api.search.brave.com'){
+   const q=u.searchParams.get('q')||'';
+   corridorCalls.push(q);
+   const rows=/London to Brussels/i.test(q)?[trainPage]:
+    /Brussels to Oradea/i.test(q)?[busContinuation]:[official];
+   return {ok:true,json:async()=>({web:{results:rows}})};
+  }
+  throw Error('Unexpected test host '+u.hostname);
+ }
+});
+assert.ok(integrated.connections.some(x=>
+ x.modes.join('>')==='train>coach'&&x.transferCity==='Brussels'),
+ 'End-to-end discovery must expose evidence-backed rail+coach interchange');
+assert.ok(corridorCalls.some(x=>/London to Brussels/i.test(x)));
+assert.ok(corridorCalls.some(x=>/Brussels to Oradea/i.test(x)));
+assert.ok(!corridorCalls.some(x=>/Mill Lane|Nufărului/i.test(x)),
+ 'Never pass street-level private route endpoints to the search provider');
+
 console.log('PASS official coach route discovery, verified geography, indicative fare, zero fabricated transfers');

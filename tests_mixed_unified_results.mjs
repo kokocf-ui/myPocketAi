@@ -69,4 +69,30 @@ let suppressed=0;
 ground.events.click({preventDefault(){suppressed++},stopPropagation(){suppressed++}});
 assert.equal(groundRequested,1,'Ground transfer search is invoked by one tap');
 assert.equal(suppressed,2,'Ground button interaction does not bubble to unrelated route navigation');
+
+const combined={...data,ground_connections:[{
+ id:'ground-connection:0',from:'London',to:'Oradea',transferCity:'Brussels',
+ segments:[
+  {mode:'train',from:'London',to:'Brussels',operator:'Eurostar',
+   url:'https://www.eurostar.com/uk-en/train/london-to-brussels'},
+  {mode:'coach',from:'Brussels',to:'Oradea',operator:'FlixBus',
+   url:'https://www.flixbus.com/bus-routes/brussels-oradea'}
+ ],timetable_verified:false,door_to_door_complete:false
+}]};
+api.renderMixedUnifiedResults(combined,choice);
+let multiCards=body.children.filter(e=>e.className.includes('mixed-unverified-candidate'));
+assert.equal(multiCards.length,3,'A train+coach choice is a separate option alongside coach and flight');
+assert.equal(multiCards[0].children[1].textContent,'🚆 → 🚌');
+assert.match(multiCards[0].children[0].textContent,/Brussels/);
+multiCards[0].onclick();
+const evidence=body.children.filter(e=>e.tag==='section');
+assert.equal(evidence.length,2,'A connected option opens both operator legs independently');
+assert.equal(evidence[0].children[1].href,'https://www.eurostar.com/uk-en/train/london-to-brussels');
+assert.equal(evidence[1].children[1].href,'https://www.flixbus.com/bus-routes/brussels-oradea');
+assert.ok(body.children.some(e=>String(e.textContent).includes('nu sunt confirmate')),
+ 'The option must disclose that changeover and schedules are unverified');
+body.children[0].onclick();
+multiCards=body.children.filter(e=>e.className.includes('mixed-unverified-candidate'));
+assert.equal(multiCards.length,3,'Back retains all ground and flight options');
+
 console.log('PASS unified mixed transport: flight+coach cards, functional transfer action and preserved Back');

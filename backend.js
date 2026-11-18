@@ -3875,6 +3875,8 @@ export default {
           const mixedGroundFields=async()=>{
             const result=await groundOperatorSearchPromise;
             return {operator_options:Array.isArray(result.operators)?result.operators:[],
+              ground_connections:Array.isArray(result.connections)?result.connections:[],
+              ground_corridor_status:result.corridorDiscoveryStatus||null,
               operator_discovery_status:result.status,
               operator_search_summary:result.summary||null};
           };

@@ -10,7 +10,17 @@ const allowed=Object.freeze([
  {domain:'eurostar.com',operator:'Eurostar',mode:'train'},
  {domain:'regiojet.com',operator:'RegioJet',mode:'train'},
  {domain:'nationalexpress.com',operator:'National Express',mode:'coach'},
- {domain:'blablacar.com',operator:'BlaBlaCar Bus',mode:'coach'}
+ {domain:'blablacar.com',operator:'BlaBlaCar Bus',mode:'coach'},
+ {domain:'flixbus.ro',operator:'FlixBus',mode:'coach'},
+ {domain:'flixbus.de',operator:'FlixBus',mode:'coach'},
+ {domain:'flixbus.fr',operator:'FlixBus',mode:'coach'},
+ {domain:'euro-fratello.ro',operator:'Euro Fratello',mode:'coach'},
+ {domain:'tarsin.ro',operator:'Tarsin',mode:'coach'},
+ {domain:'oebb.at',operator:'ÖBB',mode:'train'},
+ {domain:'bahn.de',operator:'Deutsche Bahn',mode:'train'},
+ {domain:'mavcsoport.hu',operator:'MÁV',mode:'train'},
+ {domain:'cfrcalatori.ro',operator:'CFR Călători',mode:'train'},
+ {domain:'sncf-connect.com',operator:'SNCF Connect',mode:'train'}
 ]);
 const trim=(x,n=160)=>String(x||'').trim().slice(0,n);
 const fold=x=>trim(x).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
@@ -165,6 +175,172 @@ async function verifyOriginGeography(env,city,expected,{fetcher}){
   });
  }catch{return false}
 }
+
+const radians=degrees=>degrees*Math.PI/180;
+const earthRadius=6371;
+const onGlobe=(p,q,t)=>{
+ const a=radians(Number(p.latitude)),b=radians(Number(q.latitude));
+ const d1=radians(Number(p.longitude)),d2=radians(Number(q.longitude));
+ const cosine=Math.max(-1,Math.min(1,Math.sin(a)*Math.sin(b)+Math.cos(a)*Math.cos(b)*Math.cos(d2-d1)));
+ const angle=Math.acos(cosine);
+ if(angle<1e-9)return {latitude:Number(p.latitude),longitude:Number(p.longitude)};
+ const x=Math.sin((1-t)*angle)/Math.sin(angle),y=Math.sin(t*angle)/Math.sin(angle);
+ const X=x*Math.cos(a)*Math.cos(d1)+y*Math.cos(b)*Math.cos(d2);
+ const Y=x*Math.cos(a)*Math.sin(d1)+y*Math.cos(b)*Math.sin(d2);
+ const Z=x*Math.sin(a)+y*Math.sin(b);
+ return {latitude:Math.atan2(Z,Math.hypot(X,Y))/Math.PI*180,
+  longitude:Math.atan2(Y,X)/Math.PI*180};
+};
+const greatCircle=(a,b)=>{
+ const p=onGlobe(a,b,0),q=onGlobe(a,b,1);
+ return earthRadius*Math.acos(Math.max(-1,Math.min(1,
+  Math.sin(radians(p.latitude))*Math.sin(radians(q.latitude))+
+  Math.cos(radians(p.latitude))*Math.cos(radians(q.latitude))*
+  Math.cos(radians(q.longitude-p.longitude)))));
+};
+/**
+ * Discover major *candidate* interchanges from geography, never from an
+ * embedded list of routes. Geoapify returns city positions, NOT services.
+ * Only an official operator route page for BOTH halves can turn one of these
+ * cities into an indicative rail/coach/coach+coach transfer alternative.
+ */
+export async function discoverGroundCorridorCities(env,{origin,destination,fetcher=fetch,maxCities=5}={}){
+ const p={latitude:Number(origin?.latitude),longitude:Number(origin?.longitude)};
+ const q={latitude:Number(destination?.latitude),longitude:Number(destination?.longitude)};
+ if(!env?.GEOAPIFY_API_KEY||![p.latitude,p.longitude,q.latitude,q.longitude].every(Number.isFinite)||
+   Math.abs(p.latitude)>90||Math.abs(q.latitude)>90||
+   Math.abs(p.longitude)>180||Math.abs(q.longitude)>180)return [];
+ const total=greatCircle(p,q);
+ if(!Number.isFinite(total)||total<250)return [];
+ const positions=[0.2,0.45,0.7,0.84];
+ const lookups=await Promise.all(positions.map(async portion=>{
+  const mid=onGlobe(p,q,portion);
+  const url=new URL('https://api.geoapify.com/v2/places');
+  url.searchParams.set('categories','populated_place.city');
+  url.searchParams.set('filter','circle:'+mid.longitude+','+mid.latitude+',175000');
+  url.searchParams.set('bias','proximity:'+mid.longitude+','+mid.latitude);
+  url.searchParams.set('limit','35');
+  url.searchParams.set('apiKey',env.GEOAPIFY_API_KEY);
+  try{
+   const response=await fetcher(url,{headers:{Accept:'application/json'},signal:AbortSignal.timeout(5500)});
+   if(!response.ok)return [];
+   const data=await response.json();
+   return (Array.isArray(data.features)?data.features:[]).map(feature=>{
+    const prop=feature.properties||{},raw=prop.datasource?.raw||{};
+    const name=trim(prop.name||prop.city||'',75);
+    const coords={latitude:Number(prop.lat??feature?.geometry?.coordinates?.[1]),
+     longitude:Number(prop.lon??feature?.geometry?.coordinates?.[0])};
+    const pop=Number(prop.population??raw.population??0);
+    const dist=Number.isFinite(coords.latitude)&&Number.isFinite(coords.longitude)?
+      greatCircle(mid,coords):Infinity;
+    const fromKm=Number.isFinite(coords.latitude)&&Number.isFinite(coords.longitude)?
+      greatCircle(p,coords):Infinity;
+    const toKm=Number.isFinite(coords.latitude)&&Number.isFinite(coords.longitude)?
+      greatCircle(coords,q):Infinity;
+    return {name,country_code:String(prop.country_code||'').toUpperCase(),
+     population:Number.isFinite(pop)?pop:0,dist,fromKm,toKm,portion};
+   }).filter(x=>x.name&&x.country_code&&(x.population>=40000||x.population===0)&&x.dist<=175&&
+     x.fromKm>100&&x.toKm>100&&x.fromKm+x.toKm<=total*1.55+180)
+    .sort((a,b)=>b.population-a.population||a.dist-b.dist).slice(0,3);
+  }catch{return []}
+ }));
+ const selected=[],seen=new Set();
+ for(let rank=0;selected.length<maxCities&&rank<3;rank++){
+  for(const group of lookups){
+   const city=group[rank];
+   if(!city||seen.has(fold(city.name)))continue;
+   seen.add(fold(city.name));selected.push(city);
+   if(selected.length>=maxCities)break;
+  }
+ }
+ return selected;
+}
+/** Compose *route-page evidence*, never a fictional dated timetable.
+ * Transfer city comes from geocoded geography and must appear as the end of
+ * one official operator leg AND the beginning of another.
+ */
+export function composeOfficialGroundConnections(legs,{fromCity,toCity,interchanges=[],max=6}={}){
+ const normalized=Array.isArray(legs)?legs:[];
+ const results=[],seen=new Set();
+ for(const city of interchanges){
+  const mid=trim(city?.name||city,75);
+  if(!mid||fold(mid)===fold(fromCity)||fold(mid)===fold(toCity))continue;
+  const starts=normalized.filter(o=>fold(o.from)===fold(fromCity)&&fold(o.to)===fold(mid));
+  const ends=normalized.filter(o=>fold(o.from)===fold(mid)&&fold(o.to)===fold(toCity));
+  for(const first of starts)for(const second of ends){
+   if(!first.url||!second.url||!first.operator||!second.operator)continue;
+   const identity=fold(mid)+'|'+first.url+'|'+second.url;
+   if(seen.has(identity))continue;
+   seen.add(identity);
+   results.push({
+    id:'ground-connection:'+results.length,
+    from:fromCity,to:toCity,transferCity:mid,
+    segments:[first,second],modes:[first.mode,second.mode],
+    journey_status:'indicative_operator_route_chain',
+    timetable_verified:false,transfer_verified:false,
+    door_to_door_complete:false,
+    note:'Both operator route pages exist, but changeover, date, boarding stops, transfer time and total price are not confirmed'
+   });
+  }
+ }
+ // Show rail+coach, coach+rail, and coach-only networks alongside each other
+ // when sources actually provide them; no mode combination is fabricated.
+ const unique=[],duplicates=[],signatures=new Set();
+ for(const route of results){
+  const signature=route.modes.join('>')+'|'+route.transferCity;
+  if(signatures.has(signature))duplicates.push(route);
+  else {signatures.add(signature);unique.push(route)}
+ }
+ return [...unique,...duplicates].slice(0,Math.max(1,Math.min(12,max)));
+}
+async function discoverOfficialCorridorConnections(env,{
+ origin,destination,majorCity,fromCity,toCity,braveKey,fetcher
+}={}){
+ if(!braveKey)return {connections:[],corridorCities:[],segmentPages:0,status:'provider_unavailable'};
+ const cities=await discoverGroundCorridorCities(env,{origin,destination,fetcher,maxCities:5});
+ if(!cities.length)return {connections:[],corridorCities:[],segmentPages:0,status:'corridor_city_unavailable'};
+ const gateway=majorCity||fromCity,requests=[];
+ for(const city of cities){
+  requests.push({from:gateway,to:city.name});
+  requests.push({from:city.name,to:toCity});
+ }
+ // Query endpoints separately, not "route London via hardcoded X". Every X
+ // comes from the geographic corridor. Concurrency is bounded for the API.
+ let cursor=0;
+ const pages=[];
+ const worker=async()=>{
+  while(cursor<requests.length){
+   const index=cursor++,pair=requests[index];
+   const u=new URL('https://api.search.brave.com/res/v1/web/search');
+   u.searchParams.set('q',pair.from+' to '+pair.to+
+    ' train coach bus tickets official Eurostar FlixBus RegioJet BlaBlaCar');
+   u.searchParams.set('count','20');
+   try{
+    const r=await fetcher(u,{headers:{Accept:'application/json',
+     'X-Subscription-Token':braveKey},signal:AbortSignal.timeout(7000)});
+    if(!r.ok)continue;
+    const data=await r.json();
+    const hits=(Array.isArray(data.web?.results)?data.web.results:[]).map(x=>({
+     url:x.url,title:x.title,description:x.description,highlights:x.extra_snippets
+    }));
+    const eligible=normalizeMixedOperatorEvidence(hits,{
+     origin:{city:pair.from},destination:{city:pair.to}
+    }).filter(x=>fold(x.from)===fold(pair.from));
+    pages.push(...eligible);
+   }catch{}
+  }
+ };
+ await Promise.all(Array.from({length:Math.min(4,requests.length)},()=>worker()));
+ return {
+  connections:composeOfficialGroundConnections(pages,{
+   fromCity:gateway,toCity,interchanges:cities,max:6
+  }),
+  corridorCities:cities.map(x=>({name:x.name,country_code:x.country_code})),
+  segmentPages:pages.length,
+  status:'operator_route_page_discovery'
+ };
+}
+
 export async function discoverMixedGroundOperators(env,{origin,destination,fetcher=fetch}={}){
  const fromCity=locality(origin),toCity=locality(destination);
  if(!fromCity||!toCity)return {status:'location_unavailable',operators:[]};
@@ -251,7 +427,16 @@ export async function discoverMixedGroundOperators(env,{origin,destination,fetch
    origin_country_evidence:'geocode_city'}:null;
  }));
  const accepted=verdicts.filter(Boolean);
- return {status:accepted.length?'official_operator_options':'no_verified_operator_pages',
+ // Independently look for rail+coach and coach-only operator route chains.
+ // An unavailable provider or unconfirmed leg never becomes an invented route.
+ const corridor=await discoverOfficialCorridorConnections(env,{
+  origin,destination,majorCity,fromCity,toCity,braveKey,fetcher
+ });
+ return {connections:corridor.connections,
+  corridorDiscoveryStatus:corridor.status,
+  corridorCitiesChecked:corridor.corridorCities,
+  corridorSegmentPages:corridor.segmentPages,
+  status:accepted.length?'official_operator_options':'no_verified_operator_pages',
   operators:accepted,queriesUsed:queries.length,scheduledServicesVerified:false,
   sourceErrors:errors.slice(0,4),
   summary:{fromCity,toCity,majorCity,sourceHits:candidateResults.length,

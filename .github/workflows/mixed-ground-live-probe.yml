@@ -45,6 +45,8 @@ jobs:
             print('Operator discovery status:',body.get('operator_discovery_status'))
             print('Operator search summary:',json.dumps(body.get('operator_search_summary'),ensure_ascii=False)[:1200])
             print('Ground operator options:',json.dumps([{k:o.get(k) for k in ('operator','mode','from','to','url','fareFrom','access_transfer_needed','door_to_door_complete')} for o in body.get('operator_options') or []],ensure_ascii=False)[:1700])
+            print('Ground corridor discovery:',body.get('ground_corridor_status'))
+            print('Ground network connections:',json.dumps([{'via':c.get('transferCity'),'modes':c.get('modes'),'segments':[{'operator':l.get('operator'),'from':l.get('from'),'to':l.get('to')} for l in c.get('segments') or []]} for c in body.get('ground_connections') or []],ensure_ascii=False)[:2200])
             print('Flight candidates:',len(body.get('flight_candidates') or []))
             print('Reply:',str(body.get('reply'))[:500])
           except urllib.error.HTTPError as e:
