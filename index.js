@@ -19607,7 +19607,51 @@ function returnToModuleLanding(){
  state.moduleSearchReturnMode='root';state.lastQuickPlace=null;
  if(state.currentView==='module'&&['maps','travel'].includes(state.currentModule))renderModuleLandingChoices();
 }
+function returnFromMixedJourneyResults(){
+ // The shared header/Android Back must unwind the mixed A→B wizard rather
+ // than closing it to the Maps landing page. Retain BOTH selected endpoints.
+ const choice=state.moduleSearchCategory?.mixedJourney===true?
+  state.moduleSearchCategory:null;
+ if(!choice||!choice.transitDestination?.label)return false;
+ const root=$('moduleLayerBody'),destination=choice.transitDestination;
+ const origin=choice.journeyOrigin||state.lastTransitChoice?.journeyOrigin||null;
+ if(!root)return false;
+ // A selected verified public-transport detail is a level below the results.
+ if(root.querySelector('.transit-steps')&&state.selectedTransitJourney?.options?.length){
+  renderTransitChoices(state.selectedTransitJourney.options);return true;
+ }
+ const returnToDestination=()=>{
+  state.moduleSearchCategory=null;
+  oneFieldJourneyIncoming={raw:destination.label,
+   selected_destination:destination,selected_origin:origin};
+  document.querySelector('.module-quick-sheet')?.classList.remove('results-mode','details-mode');
+  root.style.cssText='';
+  showOneFieldJourney({...choice,mixedJourney:true});
+ };
+ // Once the calendar is visible, Back returns to the confirmed address step.
+ if(root.querySelector('.transport-departure-datetime')){
+  returnToDestination();return true;
+ }
+ // From a flight-only result or a mixed ground+flight result: back to calendar.
+ const step=createTransportDepartureStep({
+  title:dialogText('Când dorești să pleci?','When would you like to leave?'),
+  destination:destination.label,
+  initialDepartureAt:choice.transitDepartureAt||state.lastTransitChoice?.transitDepartureAt||null,
+  onBack:returnToDestination,
+  onSearch:departureAt=>runModuleSearch({...choice,kind:'transit',
+   mixedJourney:true,mixedComposition:true,transitDirect:true,
+   journeyOrigin:origin,transitDestination:destination,transitQuery:destination.label,
+   transitPreference:'all',transitDepartureOffset:0,transitDepartureAt:departureAt})
+ });
+ document.querySelector('.module-quick-sheet')?.classList.remove('results-mode','details-mode');
+ root.replaceChildren(step);
+ root.style.cssText='overflow-y:auto!important;overscroll-behavior:contain;min-height:0;padding:12px 12px 40px';
+ root.scrollTop=0;
+ $('moduleLayerTitle').textContent=dialogText('Deplasare spre…','Directions to…');
+ return true;
+}
 function handleModuleLayerBack(){
+ if(returnFromMixedJourneyResults())return;
  cancelTransitAccess(true);
  if(state.moduleSearchBusy){state.moduleSearchGeneration++;state.moduleSearchBusy=false}
  if(state.moduleSearchReturnMode==='mode'&&state.lastQuickPlace){renderModulePlaceDetails(state.lastQuickPlace);return}
