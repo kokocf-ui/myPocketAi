@@ -12,6 +12,18 @@ assert.equal(romanianNationalQuery(prompt,{...sameChoices,location:ukGps}),null,
  'UK phone GPS -> selected Oradea address is international, not a domestic Bilo request');
 assert.equal(romanianNationalQuery(prompt,{...sameChoices,location:null}),null,
  'Without verified Romanian origin, do not silently send mixed destination to Bilo');
+
+const ukSavedGps={latitude:51.475,longitude:0.325,label:'GPS'};
+assert.equal(romanianNationalQuery(prompt,{...sameChoices,location:ukGps,origin:ukSavedGps}),null,
+ 'Retained UK GPS coordinates cannot turn the mixed Oradea destination into Bilo domestic transport');
+assert.equal(romanianNationalQuery(prompt,{...sameChoices,location:null,origin:ukSavedGps}),null,
+ 'Retained overseas GPS coordinates still reject Bilo when location permission temporarily fails');
+const explicitRoPair=romanianNationalQuery('Caută transport mixt către Cluj-Napoca',{
+ mixed_journey:true,location:ukGps,origin:{city:'Oradea',country_code:'RO'},
+ destination:{city:'Cluj-Napoca',country_code:'RO'}});
+assert.equal(explicitRoPair?.origin,'Oradea',
+ 'A deliberate Romanian city pair remains eligible regardless of phone location');
+
 const domestic=romanianNationalQuery(prompt,{...sameChoices,location:roGps});
 assert.ok(domestic,'Romanian GPS origin remains eligible for domestic planning');
 assert.equal(domestic.hasOrigin,false);
@@ -35,8 +47,18 @@ assert.ok(inline.includes("initialDepartureAt=null"));
 assert.ok(inline.includes("picker.value=formatLocal(validInitial?initialDate:new Date())"));
 assert.ok(inline.includes('let changed=Boolean(validInitial)'));
 assert.ok(inline.includes('const priorOrigin=incoming?.selected_origin'));
+assert.ok(inline.includes('state.moduleSearchCategory=stageChoice'),
+ 'The calendar must preserve a coordinate-bearing mixed journey stage');
+assert.ok(inline.includes('back(){'),
+ 'The one-field wizard must handle Android and header Back locally');
 assert.ok(inline.includes("background:linear-gradient(145deg,#903550,#602139)!important"));
 const ui=readFileSync(new URL('./index.js',import.meta.url),'utf8');
+assert.ok(ui.includes('state.moduleSearchCategory={...choice,journeyOrigin:coords}'),
+ 'GPS resolution must be copied into the result Back snapshot');
+assert.ok(ui.includes("detail==='mixed_origin_unavailable'"),
+ 'Missing GPS must not trigger an unrelated Romanian domestic planner');
+assert.ok(ui.includes('if(oneFieldJourneySession?.back?.())return;'),
+ 'The shared Back action must unwind the active destination/calendar stage');
 const retry=ui.slice(ui.indexOf('function showTransitRetrySelector('),ui.indexOf('function showPreciseJourney('));
 assert.ok(retry.includes("if(choice.mixedJourney===true)"));
 assert.ok(retry.includes('selected_destination:destination,selected_origin:origin'));
