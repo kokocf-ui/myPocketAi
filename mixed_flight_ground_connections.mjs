@@ -14,6 +14,33 @@ const localTime=s=>/^\d{4}-\d{2}-\d{2} [012]\d:[0-5]\d$/.test(String(s||''))&&
  Number(String(s).slice(11,13))<24;
 const validIso=s=>typeof s==='string'&&/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}/.test(s)&&
  /(Z|[+-]\d{2}:\d{2})$/.test(s)&&Number.isFinite(Date.parse(s));
+const pointCoords=p=>{
+ const lat=p?.lat??p?.latitude,lon=p?.lon??p?.longitude;
+ if(lat===null||lat===undefined||lon===null||lon===undefined||
+  lat===''||lon===''||!Number.isFinite(Number(lat))||!Number.isFinite(Number(lon))||
+  Math.abs(Number(lat))>90||Math.abs(Number(lon))>180)return null;
+ return {lat:Number(lat),lon:Number(lon)};
+};
+const metresBetween=(a,b)=>{
+ const x=pointCoords(a),y=pointCoords(b);
+ if(!x||!y)return null;
+ const rad=Math.PI/180,lat=(y.lat-x.lat)*rad,lon=(y.lon-x.lon)*rad;
+ const h=Math.sin(lat/2)**2+Math.cos(x.lat*rad)*Math.cos(y.lat*rad)*
+  Math.sin(lon/2)**2;
+ return 12742000*Math.atan2(Math.sqrt(h),Math.sqrt(Math.max(0,1-h)));
+};
+// Only provider geospatial evidence can establish whether a supplied journey
+// begins and ends at the two points the user actually selected.
+export const journeyAnchoredToPoints=(journey,from,to)=>{
+ const legs=Array.isArray(journey?.legs)?journey.legs:[];
+ if(!legs.length)return false;
+ const start=metresBetween(legs[0].departurePoint,from);
+ const finish=metresBetween(legs.at(-1).arrivalPoint,to);
+ // Airport POIs can represent an entire mapped facility, not a terminal.
+// Allow the station to fall within its grounds but never assert a specific
+// terminal/platform as verified from this test alone.
+ return start!==null&&finish!==null&&start<=350&&finish<=1200;
+};
 // Keep the source's walking duration and distance on the wire. Previously
 // these were discarded, leaving the selected journey with only station names.
 export const compactJourney=j=>{
@@ -29,14 +56,8 @@ export const compactJourney=j=>{
    departureTime:l.departureTime,arrivalTime:l.arrivalTime,
    durationMinutes:metric(l.durationMinutes,10080),
    distanceMeters:metric(l.distanceMeters,2000000),
-   departurePoint:l.departurePoint&&typeof l.departurePoint==='object'?{
-    lat:metric(Math.abs(Number(l.departurePoint.lat??l.departurePoint.latitude)),90)===null?null:Number(l.departurePoint.lat??l.departurePoint.latitude),
-    lon:metric(Math.abs(Number(l.departurePoint.lon??l.departurePoint.longitude)),180)===null?null:Number(l.departurePoint.lon??l.departurePoint.longitude)
-   }:null,
-   arrivalPoint:l.arrivalPoint&&typeof l.arrivalPoint==='object'?{
-    lat:metric(Math.abs(Number(l.arrivalPoint.lat??l.arrivalPoint.latitude)),90)===null?null:Number(l.arrivalPoint.lat??l.arrivalPoint.latitude),
-    lon:metric(Math.abs(Number(l.arrivalPoint.lon??l.arrivalPoint.longitude)),180)===null?null:Number(l.arrivalPoint.lon??l.arrivalPoint.longitude)
-   }:null,
+   departurePoint:pointCoords(l.departurePoint),
+   arrivalPoint:pointCoords(l.arrivalPoint),
    departureZone:String(l.departureZone||timeZone||'').slice(0,80)||null,
    arrivalZone:String(l.arrivalZone||timeZone||'').slice(0,80)||null,
    operator:l.operator||'',lineNames:Array.isArray(l.lineNames)?l.lineNames.slice(0,5):[],
@@ -161,7 +182,9 @@ export async function connectCandidateFlightToGround(env,{
     after:new Date(egressAfter).toISOString()})||onward;
   }catch{onward={status:'regional_provider_unavailable',journey:null}}
  }
- const full=Boolean(inbound&&outbound);
+ const accessAnchored=Boolean(inbound&&journeyAnchoredToPoints(inbound,origin,from));
+ const egressAnchored=Boolean(outbound&&journeyAnchoredToPoints(outbound,to,destination));
+ const full=Boolean(inbound&&outbound&&accessAnchored&&egressAnchored);
  const fare=flight.fareObserved&&Number.isFinite(Number(flight.fareObserved.amount))&&
   Number(flight.fareObserved.amount)>0?{
    amount:Number(flight.fareObserved.amount),currency:String(flight.fareObserved.currency||'')
@@ -187,6 +210,8 @@ export async function connectCandidateFlightToGround(env,{
    locationSource:to.identitySource||'Geoapify airport feature'},
   accessJourney:inbound?compactJourney(inbound):null,
   egressJourney:outbound?compactJourney(outbound):null,
+  accessAnchoredToSelectedPoints:accessAnchored,
+  egressAnchoredToSelectedPoints:egressAnchored,
   // A Bilo national train/coach is an independently sourced intermediate
   // leg. City-to-city evidence is NOT enough for complete door-to-door.
   regionalOnwardJourney:onward?.journey?compactJourney(onward.journey):null,
