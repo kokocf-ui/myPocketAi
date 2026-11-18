@@ -17,12 +17,14 @@ const access={
  startDateTime:'2026-11-20T02:00:00.000Z',
  arrivalDateTime:'2026-11-20T04:00:00.000Z',durationMinutes:120,
  legs:[{mode:'train',from:'Mill Lane',to:'Luton Airport',
+ departurePoint:{lat:51.48,lon:0.30},arrivalPoint:{lat:51.875,lon:-0.368},
  departureTime:'2026-11-20T02:00:00.000Z',arrivalTime:'2026-11-20T04:00:00.000Z'}]}]};
 const egress={
  status:'success',journeys:[{provider:'MOTIS',
  startDateTime:'2026-11-20T09:45:00.000Z',
  arrivalDateTime:'2026-11-20T12:30:00.000Z',durationMinutes:165,
  legs:[{mode:'coach',from:'Debrecen Airport',to:'Oradea, Nufărului 1',
+ departurePoint:{lat:47.48,lon:21.61},arrivalPoint:{lat:47.06,lon:21.95},
  departureTime:'2026-11-20T09:45:00.000Z',arrivalTime:'2026-11-20T12:30:00.000Z'}]}]};
 const args=[{}, {origin,destination,flight,
  requestedAt:'2026-11-20T00:00:00.000Z'}];
@@ -37,6 +39,10 @@ assert.equal(localAirportInstant('2026-07-01 09:45','Europe/Budapest',3600),null
 const full=await connectCandidateFlightToGround(...args,mocks);
 assert.equal(full.status,'provisional_air_ground_itinerary');
 assert.equal(full.completeDoorToDoor,true);
+assert.equal(full.accessAnchoredToSelectedPoints,true);
+assert.equal(full.egressAnchoredToSelectedPoints,true);
+assert.equal(full.accessJourney.legs[0].arrivalPoint.lon,-0.368);
+assert.equal(full.airportFrom.latitude,51.875);
 assert.equal(full.flight.departureTime,'2026-11-20T06:05:00.000Z');
 assert.equal(full.flight.arrivalTime,'2026-11-20T08:45:00.000Z');
 assert.equal(full.accessJourney.legs[0].mode,'train');
