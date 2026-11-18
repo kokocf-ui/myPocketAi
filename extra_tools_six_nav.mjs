@@ -206,15 +206,97 @@ queueMicrotask(()=>{
  };
 });
 `;
-export const EXTRA_TOOLS_SIX_NAV_STYLE=String.raw`
-#view-module.extra-tools-v2 .extra-tools-v2-choices{width:100%;max-width:100%;overflow-y:auto}
-#view-module.extra-tools-v2 .extra-tools-v2-grid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important;padding:6px!important;width:100%;box-sizing:border-box}
-#view-module.extra-tools-v2 .extra-tools-v2-card{min-width:0!important;min-height:118px!important;padding:12px!important;border:1px solid #a46a80!important;border-radius:15px!important;background:linear-gradient(160deg,#173747,#102835)!important;box-shadow:0 3px 9px #0004;color:#f5fcff!important;text-align:left!important}
-#view-module.extra-tools-v2 .extra-tools-v2-card .education-art{font-size:25px!important;display:block!important;margin-bottom:4px!important}
-#view-module.extra-tools-v2 .extra-tools-v2-card strong{display:block!important;font-size:clamp(13px,3.8vw,17px)!important;line-height:1.2!important;overflow-wrap:anywhere}
-#view-module.extra-tools-v2 .extra-tools-v2-card small{display:block!important;margin-top:5px!important;color:#b5d2db!important;font-size:12px!important;line-height:1.3!important}
-#view-module.extra-tools-workspace .extra-storybook-reader{border:1px solid #a56c80;border-radius:16px;padding:12px;background:#142f41;margin:12px 0}
-#view-module.extra-tools-workspace .extra-storybook-counter{color:#efbfca;font-weight:800;margin:0 0 8px}
-#view-module.extra-tools-workspace .extra-storybook-page{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.65;font-size:16px;color:#f7fbff;min-height:160px}
-#view-module.extra-tools-workspace .extra-storybook-reader[hidden]{display:none!important}
+export const EXTRA_TOOLS_SIX_NAV_STYLE=String.raw
+/* Unified, screen-centred category selectors: do not change active navigation. */
+#view-module.extra-tools-v2 .extra-tools-v2-choices{
+ display:flex!important;flex-direction:column!important;align-items:center!important;
+ justify-content:safe center!important;width:100%!important;max-width:100%!important;
+ min-height:0!important;max-height:100%!important;overflow-y:auto!important;
+ padding:clamp(8px,2dvh,24px) 7px!important;box-sizing:border-box!important;
+}
+#view-module.extra-tools-v2 .extra-tools-v2-grid{
+ display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
+ grid-template-rows:none!important;grid-auto-rows:minmax(112px,auto)!important;
+ align-content:center!important;justify-content:center!important;
+ align-items:stretch!important;gap:clamp(9px,1.4dvh,16px)!important;
+ width:min(100%,720px)!important;height:auto!important;min-height:0!important;
+ margin:auto!important;padding:6px!important;overflow:visible!important;box-sizing:border-box!important;
+}
+#view-module.extra-tools-v2 .extra-tools-v2-card{
+ display:flex!important;flex-direction:column!important;align-items:center!important;
+ justify-content:center!important;text-align:center!important;width:100%!important;height:auto!important;
+ min-width:0!important;min-height:112px!important;max-height:none!important;
+ padding:12px 10px!important;gap:5px!important;
+ border:1px solid #a46a80!important;border-radius:15px!important;
+ background:linear-gradient(160deg,#173747,#102835)!important;
+ box-shadow:0 3px 9px #0004!important;color:#f5fcff!important;
+}
+#view-module.extra-tools-v2 .extra-tools-v2-card:last-child:nth-child(odd){
+ grid-column:1/-1!important;justify-self:center!important;width:calc(50% - 6px)!important;
+}
+#view-module.extra-tools-v2 .extra-tools-v2-card .education-art{
+ display:block!important;align-self:center!important;margin:0!important;
+ font-size:clamp(22px,3.6dvh,29px)!important;line-height:1.1!important;
+}
+#view-module.extra-tools-v2 .extra-tools-v2-card strong{
+ display:block!important;min-width:0!important;
+ font-size:clamp(13px,3.8vw,17px)!important;line-height:1.2!important;
+ text-align:center!important;overflow-wrap:anywhere!important;
+}
+#view-module.extra-tools-v2 .extra-tools-v2-card small{
+ display:block!important;color:#b5d2db!important;font-size:clamp(11px,2.7vw,13px)!important;
+ line-height:1.26!important;text-align:center!important;
+}
+/* Reuse central alignment for Education / Organisation selection cards too. */
+#view-module.learning-choose .education-card,
+#view-module.organize-choose .education-card{
+ align-items:center!important;justify-content:center!important;text-align:center!important;
+}
+#view-module.learning-choose .education-card strong,
+#view-module.learning-choose .education-card small,
+#view-module.organize-choose .education-card strong,
+#view-module.organize-choose .education-card small{text-align:center!important;width:100%!important}
+#view-module.learning-choose .education-grid{max-width:820px!important;margin-left:auto!important;margin-right:auto!important}
+/* Reader has a dedicated page instead of stacking a result inside the editor. */
+#view-module.extra-tools-workspace .extra-storybook-compose{
+ width:100%!important;max-width:720px!important;margin:0 auto!important;
+}
+#view-module.extra-tools-workspace .extra-storybook-reader{
+ width:100%!important;max-width:720px!important;margin:0 auto!important;
+ border:1px solid #a56c80!important;border-radius:16px!important;
+ padding:12px!important;background:#142f41!important;box-sizing:border-box!important;
+}
+#view-module.extra-tools-workspace .extra-storybook-reader[hidden],
+#view-module.extra-tools-workspace .extra-storybook-compose[hidden]{display:none!important}
+#view-module.extra-tools-workspace .extra-storybook-cover{
+ text-align:center!important;color:#f9f4eb!important;font-size:clamp(18px,4.6vw,24px)!important;
+ margin:3px 0 12px!important;line-height:1.24!important;
+}
+#view-module.extra-tools-workspace .extra-storybook-counter{
+ color:#efbfca!important;font-weight:800!important;
+ text-align:center!important;margin:0 0 9px!important;
+}
+#view-module.extra-tools-workspace .extra-storybook-page{
+ background:#fffdf5!important;color:#182b35!important;
+ padding:clamp(14px,3.2vw,28px)!important;border-radius:12px!important;
+ box-shadow:0 4px 15px #0004!important;min-height:190px!important;
+ overflow-wrap:anywhere!important;line-height:1.65!important;
+ font-size:clamp(15px,3.8vw,18px)!important;
+}
+#view-module.extra-tools-workspace .extra-storybook-chapter-title{
+ font-family:Georgia,serif!important;font-size:1.12em!important;
+ margin:0 0 14px!important;color:#23303a!important;
+}
+#view-module.extra-tools-workspace .extra-storybook-prose{
+ white-space:pre-wrap!important;margin:0!important;font-family:Georgia,serif!important;
+}
+#view-module.extra-tools-workspace .extra-storybook-status{
+ color:#d6e9f2!important;text-align:center!important;
+ margin:9px 0!important;font-size:14px!important;
+}
+@media(max-height:620px){
+ #view-module.extra-tools-v2 .extra-tools-v2-choices{justify-content:flex-start!important}
+ #view-module.extra-tools-v2 .extra-tools-v2-grid{margin:0 auto!important;grid-auto-rows:minmax(104px,auto)!important}
+ #view-module.extra-tools-v2 .extra-tools-v2-card{min-height:104px!important}
+}
 `;
