@@ -17842,6 +17842,22 @@ function resolveMixedFlightGroundOptions(choice,flight,host){
     hourCycle:'h23'}).format(new Date(value));}
    catch{return String(value).replace('T',' ').slice(0,16)+' UTC'}
   };
+  // A station name alone does not prove the journey begins at the selected
+  // house or reaches the mapped airport. Link only source-backed coordinates.
+  const coords=p=>{
+   const lat=p?.lat??p?.latitude,lon=p?.lon??p?.longitude;
+   if(lat===null||lat===undefined||lon===null||lon===undefined||
+      lat===''||lon===''||!Number.isFinite(Number(lat))||!Number.isFinite(Number(lon))||
+      Math.abs(Number(lat))>90||Math.abs(Number(lon))>180)return null;
+   return {lat:Number(lat),lon:Number(lon)};
+  };
+  const walkingGapDistance=(a,b)=>{
+   const from=coords(a),to=coords(b);if(!from||!to)return null;
+   const rad=Math.PI/180,dlat=(to.lat-from.lat)*rad,dlon=(to.lon-from.lon)*rad;
+   const h=Math.sin(dlat/2)**2+
+    Math.cos(from.lat*rad)*Math.cos(to.lat*rad)*Math.sin(dlon/2)**2;
+   return 12742000*Math.atan2(Math.sqrt(h),Math.sqrt(Math.max(0,1-h)));
+  };
   const walkMode=mode=>/^(walking|walk|foot|pedestrian)$/i.test(String(mode||''));
   const distance=n=>n!==null&&n!==undefined&&Number.isFinite(Number(n))&&Number(n)>=0?
    (Number(n)>=1000?(Number(n)/1000).toLocaleString(chosenZone,{maximumFractionDigits:1})+' km':
@@ -17863,13 +17879,25 @@ function resolveMixedFlightGroundOptions(choice,flight,host){
      'Walking or local transport connection is not verified.'),'gap');
    row.classList.add('mixed-unverified-walk-stage');
   };
-  const addJourney=(journey,from,to,missingText)=>{
+  const addJourney=(journey,from,to,missingText,{
+   fromPoint=null,toPoint=null,fromRadius=350,toRadius=350
+  }={})=>{
    const legs=Array.isArray(journey?.legs)?journey.legs:[];
    if(!legs.length){gap(from,to,missingText);return}
+   const first=legs[0],last=legs.at(-1);
+   if(fromPoint){
+    const startGap=walkingGapDistance(fromPoint,first.departurePoint);
+    if(startGap===null||startGap>fromRadius)
+     gap(from,String(first.from||from),
+      dialogText('Mersul pe jos sau transportul până la primul punct al cursei nu este verificat.',
+       'Walking or transport to the first stop is not verified.'));
+   }
    let previous=null;
    for(const leg of legs){
-    if(previous&&String(previous.to||'').trim().toLowerCase()!==
-       String(leg.from||'').trim().toLowerCase()){
+    const sameName=previous&&String(previous.to||'').trim().toLowerCase()===
+       String(leg.from||'').trim().toLowerCase();
+    const between=previous?walkingGapDistance(previous.arrivalPoint,leg.departurePoint):null;
+    if(previous&&!sameName&&(between===null||between>150)){
      gap(String(previous.to||''),String(leg.from||''),
       dialogText('Schimbarea între aceste două puncte nu este descrisă de furnizor.',
        'The supplier has not described the transfer between these points.'));
@@ -17898,12 +17926,21 @@ function resolveMixedFlightGroundOptions(choice,flight,host){
     }
     previous=leg;
    }
+   if(toPoint){
+    const endGap=walkingGapDistance(last.arrivalPoint,toPoint);
+    if(endGap===null||endGap>toRadius)
+     gap(String(last.to||to),to,
+      dialogText('Ultima porțiune până la punctul ales nu este verificată.',
+       'The final connection to the selected point is not verified.'));
+   }
   };
   addJourney(data.accessJourney,
    String(origin.label||dialogText('Acasă','Home')),
    String(data.airportFrom?.name||data.flight?.from||''),
    dialogText('Transportul de la adresa de plecare până la aeroport nu este încă verificat.',
-    'Transport from your starting address to the airport is not yet verified.'));
+    'Transport from your starting address to the airport is not yet verified.'),{
+     fromPoint:origin,toPoint:data.airportFrom,fromRadius:350,toRadius:1200
+   });
   if(legs.length>1){
    for(const [i,leg] of legs.entries()){
     const flightTime=String(leg.startLocal||'')+' → '+String(leg.endLocal||'');
@@ -17928,7 +17965,9 @@ function resolveMixedFlightGroundOptions(choice,flight,host){
    dialogText('Zborul nu a fost confirmat.','Flight details were not verified.'));
   if(data.egressJourney?.legs?.length){
    addJourney(data.egressJourney,String(data.airportTo?.name||''),
-    String(destination.label||''),'');
+    String(destination.label||''),'',{
+     fromPoint:data.airportTo,toPoint:destination,fromRadius:1200,toRadius:350
+    });
   }else if(data.regionalOnwardJourney?.legs?.length){
    gap(String(data.airportTo?.name||data.flight?.to||''),
     String(data.regionalOnwardFromCity||''),
@@ -17945,6 +17984,12 @@ function resolveMixedFlightGroundOptions(choice,flight,host){
     dialogText('Transportul local și ultima porțiune pietonală nu sunt încă verificate.',
      'Local transport and the final walking leg are not yet verified.'));
   }
+  const locationNote=document.createElement('small');
+  locationNote.style.cssText='font-size:12px;color:#d4c2cc;line-height:1.4';
+  locationNote.textContent=dialogText(
+   'Punctul aeroportului este identificat geografic. Terminalul exact și peronul se verifică la operator.',
+   'Airport coordinates are identified. Confirm the exact terminal and platform with the operator.');
+  host.append(locationNote);
   const note=document.createElement('p');
   note.style.cssText='font-size:12px;line-height:1.5;color:#d5e1e6;margin:4px 0';
   note.textContent=data.completeDoorToDoor?
