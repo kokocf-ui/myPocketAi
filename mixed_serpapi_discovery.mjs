@@ -102,7 +102,7 @@ export async function discoverMixedFlightCandidates(env,{origin,destination,depa
   // farther group instead of silently dropping all those alternatives.
   if(arrivalAirports.length>6)
    add(departureAirports.slice(0,6),arrivalAirports.slice(6,12));
-  let attempted=0,foundThisDay=0,providerDiagnostic=null,pooledDirect=false;
+  let attempted=0,foundThisDay=0,providerDiagnostic=null;
   for(const request of requests){
    if(queries>=maxQueries)break;
    queries++;attempted++;
@@ -111,8 +111,6 @@ export async function discoverMixedFlightCandidates(env,{origin,destination,depa
     result=await search(env,{...request,outboundDate,currency:'GBP',userInitiated:true});
    }catch{result={status:'provider_unavailable',candidates:[]};}
    lastStatus=result?.status||'provider_unavailable';
-   if(request.departureAirports.length>1&&request.stops===1&&
-      (result?.candidates||[]).some(x=>x?.legs?.length===1))pooledDirect=true;
    if(lastStatus==='provider_error')providerDiagnostic=String(result?.diagnostic||'provider_error').slice(0,120);
    for(const candidate of result?.candidates||[]){
     if(!departureAt&&candidate.legs?.[0]?.startLocal &&
@@ -124,10 +122,8 @@ export async function discoverMixedFlightCandidates(env,{origin,destination,depa
    // Do not continue to burn quota or report false 'no flights' when access
    // is disabled, exhausted, or credentials/provider requests fail.
    if(lastStatus!=='candidate_results_only')break;
-   // A pooled direct + pooled alternatives have already covered the query.
-   // Skip redundant independent calls; use them only if the broad search
-   // overlooked direct services from a nearby airport.
-   if(attempted>=2&&pooledDirect)break;
+   // A direct flight from one airport does NOT prove there are no other direct
+   // flights from nearby airports. Keep checking the independent airport scans.
   }
   datesChecked.push({date:outboundDate,status:foundThisDay?'candidate_results_only':lastStatus,
    queries:attempted,candidates:foundThisDay,
