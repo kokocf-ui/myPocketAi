@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import {discoverMixedGroundOperators,normalizeMixedOperatorEvidence}
  from './mixed_ground_operator_discovery.mjs';
-const origin={label:'Mill Lane, Grays, England, UK',country_code:'GB'};
+const origin={label:'Mill Lane, Grays, England, UK',country_code:'GB',latitude:51.475,longitude:0.325};
 const destination={label:'Strada Nufărului 1, Oradea, România',country_code:'RO'};
 const official={url:'https://www.flixbus.co.uk/bus-routes/london-oradea',
  title:'London to Oradea Coach Travel | Cheap bus tickets',
