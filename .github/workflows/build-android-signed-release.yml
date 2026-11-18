@@ -314,6 +314,7 @@ jobs:
           node tests_extra_tools_header_layout.mjs
           node tests_extra_tools_workspace.mjs
           node tests_tools_six_navigation.mjs
+          node tests_storybook_generation.mjs
           node tests_creation_ui.mjs && node tests_creation_site_v2.mjs && node tests_creator_management_and_translation.mjs && node tests_creator_premium_presentations.mjs && node tests_creator_live_ui.mjs && node tests_creator_preview_worker.mjs
           node tests_android_ui_preview.mjs
           node tests_math_whisper_pilot.mjs
