@@ -217,6 +217,7 @@ jobs:
           node tests_one_field_live_request.mjs
           node tests_mixed_route_quality.mjs
           node tests_mixed_route_provider_search.mjs
+          node tests_transport_availability_disclosure.mjs
           node tests_mixed_ground_transfer_discovery.mjs
           node tests_mixed_existing_provider_adapters.mjs
           node tests_mixed_live_composition.mjs
