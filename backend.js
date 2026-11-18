@@ -57,6 +57,7 @@ import {explicitOriginDestinationPair} from "./route_explicit_origin.mjs";
 import {addRomanianWalkingAccess} from "./ro_urban_walking.mjs";
 import {romanianNationalQuery,romanianHistoryJourney,planRomanianNationalJourney,romanianDepartureDate,romanianJourneySummary,reverseRomanianOriginCity} from "./ro_national_transit.mjs";
 import {classifyNewsRequest,requiresLiveNewsRetrieval} from "./response_intent.mjs";
+import {normalizeStorybookRequest,storybookSystemPrompt,storybookUserPrompt,parseStorybookChapters} from "./storybook_generation.mjs";
 import {contextualResearchQuery,isConversationOnlyTurn} from "./conversation_context.mjs";
 import {planAnswerFocus} from "./answer_focus.mjs";
 import {educationDepthInstruction,educationDepthAudit} from "./education_lesson_depth.mjs";
@@ -2337,6 +2338,35 @@ export default {
       }, 503);
     }
 
+    // Explicit creative mini-book generation, before all news, maps, POI and
+    // general assistant intent routing. A subject like "caută soldați de
+    // teracotă" is a writing request here, never a news query.
+    if(data.module==='creative_storybook'){
+      const req=normalizeStorybookRequest(data);
+      if(!req)return json({status:'error',error:'invalid_storybook_request'},400);
+      try{
+        const result=await env.AI.run(selectedAiModel,{
+          messages:[
+            {role:'system',content:storybookSystemPrompt(req)},
+            {role:'user',content:storybookUserPrompt(req)}
+          ],
+          max_tokens:2900,
+          temperature:0.65
+        });
+        const raw=String(result?.response||result?.result?.response||'').trim();
+        const chapters=parseStorybookChapters(raw,req.count);
+        if(!chapters)return json({status:'unavailable',error:'storybook_invalid_chapters'},502);
+        return json({
+          status:'success',module:'creative_storybook',
+          title:req.title,chapter_count:chapters.length,chapters,
+          reply:chapters.map(c=>'CAPITOL '+c.number+':\n'+c.text).join('\n\n'),
+          ai_generated:true,source_research_performed:false
+        });
+      }catch(error){
+        return json({status:'unavailable',
+          error:isWorkersAiQuotaExceeded(error)?'ai_quota_exceeded':'storybook_generation_unavailable'},503);
+      }
+    }
     let message = data.message.trim();
     const originalMessage=message;
     // Grammar, literature and vocabulary are never transport or geolocation.
