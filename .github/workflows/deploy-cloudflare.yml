@@ -74,6 +74,7 @@ jobs:
           node tests_science_navigation.mjs
           node tests_science_year_cards.mjs
           node tests_math_shared_workspace_layout.mjs
+          node tests_tools_six_navigation.mjs
 
       - name: Verify contextual news translation and apply avatar lip-stop patch
         run: |
@@ -96,6 +97,7 @@ jobs:
           node tests_eva_backend_recall.mjs
           node tests_first_install_profile_search.mjs
           node tests_response_intent.mjs
+          node tests_storybook_generation.mjs
           node tests_localization.mjs
           node tests_news_contextual_translation.mjs
           node tests_avatar_lipsync_stop.mjs
