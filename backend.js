@@ -41,6 +41,7 @@ import {evaluateMixedJourneyGeography} from "./mixed_route_quality.mjs";
 import {searchMixedRouteProviders} from "./mixed_route_provider_search.mjs";
 import {discoverAirportCandidates} from "./mixed_airport_discovery.mjs";
 import {discoverGroundTransferCandidates} from "./mixed_ground_transfer_discovery.mjs";
+import {discoverMixedGroundOperators} from "./mixed_ground_operator_discovery.mjs";
 import {makeTransCAPIMixedSource,makeMOTISMixedSource} from "./mixed_existing_provider_adapters.mjs";
 import {checkSerpApiSecretStatus} from "./serpapi_account_status.mjs";
 import {discoverMixedFlightCandidates} from "./mixed_serpapi_discovery.mjs";
@@ -3836,7 +3837,9 @@ export default {
           const explicitOrigin=explicitMixedJourney&&chosenOrigin&&chosenOrigin.latitude!=null&&chosenOrigin.longitude!=null&&
             Number.isFinite(originLat)&&Number.isFinite(originLon)&&Math.abs(originLat)<=90&&Math.abs(originLon)<=180;
           const mixedOrigin=explicitOrigin?{latitude:originLat,longitude:originLon,
-            label:String(chosenOrigin.label||'Departure').slice(0,160)}:{latitude,longitude,label:'GPS'};
+            label:String(chosenOrigin.label||'Departure').slice(0,160),
+            country_code:String(chosenOrigin.country_code||'').toUpperCase()}: {latitude,longitude,label:'GPS',
+            country_code:String(data.origin_country_code||'').toUpperCase()};
           const mixedOriginValid=explicitOrigin||hasValidLocation;
 
           // Search flights independently of terrestrial providers. A verified
@@ -3857,6 +3860,22 @@ export default {
               flight_search_status:result.status,
               flight_dates_checked:result.datesChecked
             }:{};
+          };
+          // Operator pages are a SECOND, independent transport source. They
+          // can justify an indicative coach/rail option even without a dated
+          // journey planner; they never masquerade as a complete itinerary.
+          const groundOperatorSearchPromise=internationalTarget&&explicitMixedJourney&&
+            validTarget&&mixedOriginValid
+            ?discoverMixedGroundOperators(env,{
+              origin:mixedOrigin,
+              destination:{latitude:targetLat,longitude:targetLon,label:targetName,
+                country_code:String(data.transit_destination?.country_code||'').toUpperCase()}
+            }).catch(()=>({status:'provider_unavailable',operators:[]}))
+            :Promise.resolve({status:'disabled',operators:[]});
+          const mixedGroundFields=async()=>{
+            const result=await groundOperatorSearchPromise;
+            return {operator_options:Array.isArray(result.operators)?result.operators:[],
+              operator_discovery_status:result.status};
           };
           // Compare two independently licensed planners before accepting the
           // first response. Cross-supplier transfers require proved stop IDs.
@@ -3927,7 +3946,7 @@ export default {
                     message_received:message,reply,international_journey:internationalTarget,
                     mixed_journey:true,transit_available:true,route_available:false,
                     transit,fastest_transit:transit[0],transit_provider:'Verified mixed providers',
-                    ...await mixedFlightFields(),
+                    ...await mixedFlightFields(),...await mixedGroundFields(),
                     transit_destination_point:{latitude:targetLat,longitude:targetLon,label:targetName},
                     transit_departure_at:departureAt,requested_transit_count:requestedOptionsCount,
                     provider_status:{composition:'verified',providers:combined.providers,
@@ -4095,7 +4114,7 @@ export default {
                 language:lang,message_received:message,reply:flightReply,
                 international_journey:true,mixed_journey:true,
                 route_available:false,transit_available:false,
-                flight_candidates:firstFlights,flight_search_status:flightDiscovery.status,
+                flight_candidates:firstFlights,...await mixedGroundFields(),flight_search_status:flightDiscovery.status,
                 flight_dates_checked:flightDiscovery.datesChecked,
                 international_destination:targetName,
                 transit_destination_point:{latitude:targetLat,longitude:targetLon,label:targetName},
@@ -4121,6 +4140,7 @@ export default {
               transit_departure_at:departureAt,
               // External website only. This is not an API search response and
               // includes no pricing, schedule, or tracking attribution claim.
+              ...await mixedGroundFields(),
               external_travel_search:{provider:'Omio',url:'https://www.omio.com',
                 travel_modes:['train','bus','flight','ferry'],requires_manual_search:true,
                 service_scope:'city_or_station',destination:targetName,departure_at:departureAt},
