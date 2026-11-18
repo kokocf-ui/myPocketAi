@@ -60,8 +60,8 @@ function extraToolsStatus(message){
  if(extraToolsSession?.status?.isConnected)extraToolsSession.status.textContent=message||'';
 }
 function extraToolsStop(){
- if(typeof extraToolsSession?.storybookCleanup==='function')extraToolsSession.storybookCleanup();
  extraToolsRestoreNavigation();
+ if(typeof extraToolsSession?.storybookCleanup==='function')extraToolsSession.storybookCleanup();
  if(extraToolsSession?.key==='storybook'&&typeof stopSpeech==='function')stopSpeech();
  if(extraToolsSession?.voice&&pocketNativeVoiceAvailable())pocketNativeVoiceSend({action:'stopListen'});
  if(extraToolsSession?.controller)extraToolsSession.controller.abort();
