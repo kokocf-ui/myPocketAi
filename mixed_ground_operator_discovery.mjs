@@ -306,7 +306,7 @@ async function discoverOfficialCorridorConnections(env,{
  if(!braveKey)return {connections:[],corridorCities:[],segmentPages:0,status:'provider_unavailable'};
  const cities=await discoverGroundCorridorCities(env,{origin,destination,fetcher,maxCities:5});
  if(!cities.length)return {connections:[],corridorCities:[],segmentPages:0,status:'corridor_city_unavailable'};
- const gateway=majorCity||fromCity,requests=[];
+ const gateway=majorCity||fromCity,requests=[],searchedPairs=[];
  for(const city of cities){
   requests.push({from:gateway,to:city.name});
   requests.push({from:city.name,to:toCity});
@@ -348,6 +348,9 @@ async function discoverOfficialCorridorConnections(env,{
     eligible=[...eligible,...await lookup(query)];
    }
    pages.push(...eligible);
+   searchedPairs.push({from:pair.from,to:pair.to,
+    modes:[...new Set(eligible.map(x=>x.mode))],
+    operatorPages:eligible.length});
   }
  };
  await Promise.all(Array.from({length:Math.min(4,requests.length)},()=>worker()));
@@ -357,6 +360,7 @@ async function discoverOfficialCorridorConnections(env,{
   }),
   corridorCities:cities.map(x=>({name:x.name,country_code:x.country_code})),
   segmentPages:pages.length,
+  searchedPairs:searchedPairs.sort((a,b)=>a.from.localeCompare(b.from)||a.to.localeCompare(b.to)),
   status:'operator_route_page_discovery'
  };
 }
@@ -461,5 +465,8 @@ export async function discoverMixedGroundOperators(env,{origin,destination,fetch
   sourceErrors:errors.slice(0,4),
   summary:{fromCity,toCity,majorCity,sourceHits:candidateResults.length,
    matchingRoutes:eligible.length,matchingOrigins:eligible.map(x=>x.from).slice(0,6),
-   geographicallyAccepted:accepted.length,errors:errors.slice(0,4)}};
+   geographicallyAccepted:accepted.length,errors:errors.slice(0,4),
+   corridorCities:corridor.corridorCities,
+   corridorOperatorPages:corridor.segmentPages,
+   corridorSearchedPairs:corridor.searchedPairs||[]}};
 }
