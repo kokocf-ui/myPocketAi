@@ -19416,16 +19416,13 @@ function appendMixedAirCandidateCards(host,flights,choice){
    onSelect:()=>{
     const body=mixedCandidateDetailShell(label,()=>renderMixedUnifiedResults(dataForMixed(),choice));
     if(!body)return;
-    for(const leg of legs){
-     const row=document.createElement('div');row.style.cssText='border-bottom:1px solid #6c4a60;padding:8px 0;display:flex;flex-direction:column;gap:4px';
-     const route=document.createElement('strong');route.textContent=String(leg.from||'')+' → '+String(leg.to||'');
-     const time=document.createElement('small');time.textContent=String(leg.startLocal||'')+' → '+String(leg.endLocal||'');
-     row.append(route,time);
-     if(leg.airline)row.append(mixedOperatorName(leg.airline));
-     body.append(row);
-    }
-    const p=document.createElement('p');p.textContent=dialogText('Verific automat accesul din adresa de plecare și continuarea către destinația finală. Zborul și transferurile sunt doar orientative până la confirmarea orarelor.',
-     'Checking access from your starting address and onward travel to the final address automatically. Flight and transfers are indicative until schedules are confirmed.');
+    // Present a single itinerary after selection; do not duplicate the
+    // flight-only preview above the automatic ground-connection details.
+    const p=document.createElement('p');
+    p.className='mixed-itinerary-intro';
+    p.style.cssText='margin:0;font-size:13px;line-height:1.45';
+    p.textContent=dialogText('Eva verifică traseul de la adresa de plecare până la destinația finală, inclusiv toate porțiunile pietonale disponibile.',
+     'Checking from your starting address to the final destination, including available walking legs.');
     body.append(p);
     const btn=document.createElement('button');btn.type='button';btn.className='transit-choice-action';
     btn.textContent=dialogText('Actualizează legăturile terestre','Refresh ground connections');
