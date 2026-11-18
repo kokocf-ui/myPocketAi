@@ -861,6 +861,20 @@ async function planMOTISMixedJourney(env,from,to,language,requestedDepartureAt=n
  const meters=(a,b)=>{if(!a||!b)return Infinity;const rad=Math.PI/180,x=(b.latitude-a.latitude)*rad,y=(b.longitude-a.longitude)*rad;
   const h=Math.sin(x/2)**2+Math.cos(a.latitude*rad)*Math.cos(b.latitude*rad)*Math.sin(y/2)**2;
   return 12742000*Math.atan2(Math.sqrt(h),Math.sqrt(Math.max(0,1-h)));};
+ // Measure walking distance along the provider's real path geometry,
+ // never from an invented straight-line connection between stops.
+ const geometryWalkMeters=geometry=>{
+  if(!Array.isArray(geometry)||geometry.length<2)return null;
+  let total=0;
+  for(let i=1;i<geometry.length;i++){
+   const a=geometry[i-1],b=geometry[i];
+   const segment=meters({latitude:a[1],longitude:a[0]},
+    {latitude:b[1],longitude:b[0]});
+   if(!Number.isFinite(segment))return null;
+   total+=segment;
+  }
+  return total<=200000?Math.round(total):null;
+ };
  const journeys=[],seen=new Set();
  for(const j of (Array.isArray(data?.itineraries)?data.itineraries:[]).slice(0,25)){
   if(!Array.isArray(j.legs)||!j.legs.length||!Number.isFinite(Number(j.duration))||Number(j.duration)<60)continue;
@@ -886,6 +900,7 @@ async function planMOTISMixedJourney(env,from,to,language,requestedDepartureAt=n
     departureStopId:fromPoint.stop_id,arrivalStopId:toPoint.stop_id,
     arrivalPoint:{lat:toPoint.latitude,lon:toPoint.longitude,commonName:toPoint.label,naptanId:toPoint.stop_id},
     durationMinutes:Number(l.duration)/60,
+    distanceMeters:isWalk(mode)?geometryWalkMeters(geometry):null,
     departureTime:l.startTime,arrivalTime:l.endTime,departureZone:String(l.from?.tz||''),arrivalZone:String(l.to?.tz||''),lineNames:isWalk(mode)?[]:[String(l.displayName||l.routeShortName||l.routeLongName||'').slice(0,65)].filter(Boolean),
     towards:String(l.headsign||'').slice(0,110),operator:String(l.agencyName||'').slice(0,110),
     realtime:l.realTime===true,schedule_only:l.realTime!==true,
