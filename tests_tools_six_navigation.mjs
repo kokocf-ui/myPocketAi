@@ -19,9 +19,13 @@ for(const group of groups){
 assert.match(EXTRA_TOOLS_WORKSPACE_SCRIPT,/if\(key==='storybook'\)/);
 assert.match(EXTRA_TOOLS_WORKSPACE_SCRIPT,/extraToolsV2Storybook\(work,area,addPdf,input,primary,secondary,note\)/);
 assert.match(EXTRA_TOOLS_SIX_NAV_SCRIPT,/speakText\(chapters\[position\]\)/);
-assert.match(EXTRA_TOOLS_SIX_NAV_SCRIPT,/await extraToolsAI\(instruction,raw\)/);
+assert.match(EXTRA_TOOLS_SIX_NAV_SCRIPT,/module:'creative_storybook'/);
+assert.match(EXTRA_TOOLS_SIX_NAV_SCRIPT,/data\.chapters\.length!==count/);
+assert.doesNotMatch(EXTRA_TOOLS_SIX_NAV_SCRIPT,/await extraToolsAI\(instruction,raw\)/);
 assert.match(EXTRA_TOOLS_SIX_NAV_STYLE,/grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/);
 assert.ok(EXTRA_TOOLS_WORKSPACE_STYLE.includes('extra-tools-v2'));
+assert.match(EXTRA_TOOLS_SIX_NAV_STYLE,/align-items:center!important/);
+assert.match(EXTRA_TOOLS_SIX_NAV_STYLE,/\.extra-storybook-page/);
 const html=await (await app.fetch(new Request('https://tool-menu.test/'))).text();
 const embedded=html.match(/<script>([\s\S]*?)<\/script>/)?.[1];
 assert.ok(embedded);
