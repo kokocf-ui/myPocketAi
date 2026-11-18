@@ -4,6 +4,49 @@
 import {discoverAirportCandidates} from './mixed_airport_discovery.mjs';
 import {searchSerpApiFreeFlights} from './serpapi_flight_pilot.mjs';
 
+// Cache only provider-observed flight candidates for the same airport sets
+// and travel date. No home address, GPS coordinate, API key, or passenger data
+// is stored in the cache key or response. An indicative flight is NOT a booking.
+const mixedFlightCacheKey=(base,request)=>{
+ const u=new URL('/_pocketai/air-candidates-v1',base);
+ u.searchParams.set('d',request.outboundDate);
+ u.searchParams.set('a',(request.departureAirports||[]).join(','));
+ u.searchParams.set('b',(request.arrivalAirports||[]).join(','));
+ u.searchParams.set('s',String(request.stops||0));
+ return new Request(u.toString(),{method:'GET'});
+};
+export async function cachedMixedFlightSearch(env,request,{
+ search=searchSerpApiFreeFlights,cache=null,cacheBaseUrl=null
+}={}){
+ let key=null;
+ if(cache&&cacheBaseUrl){
+  try{
+   key=mixedFlightCacheKey(cacheBaseUrl,request);
+   const hit=await cache.match(key);
+   if(hit?.ok){
+    const value=await hit.json();
+    if(value?.status==='candidate_results_only'&&Array.isArray(value.candidates)&&
+       value.candidates.length)return {...value,cacheReused:true};
+   }
+  }catch{key=null}
+ }
+ const result=await search(env,request);
+ if(key&&result?.status==='candidate_results_only'&&
+    Array.isArray(result.candidates)&&result.candidates.length){
+  try{
+   const response=new Response(JSON.stringify({
+    status:'candidate_results_only',
+    candidates:result.candidates,
+    searchedAirports:result.searchedAirports,
+    observedAt:new Date().toISOString()
+   }),{status:200,headers:{'Content-Type':'application/json',
+     'Cache-Control':'public,max-age=14400'}});
+   await cache.put(key,response);
+  }catch{} // Cache unavailable must never suppress live flight results.
+ }
+ return result;
+}
+
 const day = ms => new Date(ms).toISOString().slice(0,10);
 const code = v => /^[A-Z]{3}$/.test(String(v||'').toUpperCase());
 const uniqueCodes = (airports,max) => [...new Set(
@@ -49,7 +92,7 @@ export function rankMixedFlightCandidates(candidates,{max=12}={}){
  */
 export async function discoverMixedFlightCandidates(env,{origin,destination,departureAt=null,
  now=Date.now(),maxDays=3,maxProviderQueries=9,discover=discoverAirportCandidates,
- search=searchSerpApiFreeFlights}={}){
+ search=searchSerpApiFreeFlights,cache=null,cacheBaseUrl=null}={}){
  if(env?.SERPAPI_FLIGHTS_PILOT_ENABLED!=='true'||
     env?.SERPAPI_FLIGHTS_TERMS_REVIEWED!=='true')
    return {status:'disabled',candidates:[],datesChecked:[]};
@@ -81,7 +124,7 @@ export async function discoverMixedFlightCandidates(env,{origin,destination,depa
  const days=departureAt?1:Math.max(1,Math.min(7,maxDays));
  const maxQueries=Math.max(1,Math.min(12,Number(maxProviderQueries)||9));
  const datesChecked=[],all=[],seen=new Set();
- let lastStatus='no_candidates',queries=0;
+ let lastStatus='no_candidates',queries=0,cachedProviderResponses=0;
  for(let offset=0;offset<days&&queries<maxQueries;offset++){
   const outboundDate=day(start+offset*86400000);
   // One pooled query, then independently scan airports which the pooled
@@ -127,9 +170,12 @@ export async function discoverMixedFlightCandidates(env,{origin,destination,depa
    queries++;attempted++;
    let result;
    try{
-    result=await search(env,{...request,outboundDate,currency:'GBP',userInitiated:true});
+    result=await cachedMixedFlightSearch(env,{
+      ...request,outboundDate,currency:'GBP',userInitiated:true
+     },{search,cache,cacheBaseUrl});
    }catch{result={status:'provider_unavailable',candidates:[]};}
    lastStatus=result?.status||'provider_unavailable';
+   if(result?.cacheReused)cachedProviderResponses++;
    if(lastStatus==='provider_error')providerDiagnostic=String(result?.diagnostic||'provider_error').slice(0,120);
    for(const candidate of result?.candidates||[]){
     if(!departureAt&&candidate.legs?.[0]?.startLocal &&
@@ -161,5 +207,6 @@ export async function discoverMixedFlightCandidates(env,{origin,destination,depa
  return {status:all.length?'candidate_results_only':lastStatus,
   candidates:rankMixedFlightCandidates(all,{max:20}),datesChecked,
   departureAirports,arrivalAirports,borderAirport,providerSearchCount:queries,
+  fromCachedProviderResults:cachedProviderResponses>0,
   completeDoorToDoor:false,timezoneAndTransfersUnverified:true};
 }
