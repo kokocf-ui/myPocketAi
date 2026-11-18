@@ -17,6 +17,10 @@ on:
       - 'tests_mixed_*.mjs'
       - 'mixed_stop_identity.mjs'
       - 'extra_tools_workspace.mjs'
+      - 'extra_tools_six_nav.mjs'
+      - 'storybook_generation.mjs'
+      - 'tests_tools_six_navigation.mjs'
+      - 'tests_storybook_generation.mjs'
       - 'tests_creation_ui.mjs'
       - 'creator_site_ui.mjs'
       - 'creator_design_gallery.mjs'
@@ -46,6 +50,11 @@ on:
       - 'national_public_transport_ui.mjs'
       - 'tests_transport_departure_entrypoints.mjs'
       - 'creator_image_ai.mjs'
+      - 'extra_tools_workspace.mjs'
+      - 'extra_tools_six_nav.mjs'
+      - 'storybook_generation.mjs'
+      - 'tests_tools_six_navigation.mjs'
+      - 'tests_storybook_generation.mjs'
       - 'tests_creator_live_ui.mjs'
       - 'android/**'
       - 'index.js'
@@ -211,6 +220,8 @@ jobs:
           node --input-type=module -e "import {litEuropeanPlan} from './literature_curriculum_europe.mjs';import assert from 'node:assert/strict';assert.equal(litEuropeanPlan('PL','beginner','IV').verified,true,'PL grade IV missing verified framework');assert.equal(litEuropeanPlan('PL','beginner','II').verified,false,'PL grade II must remain phased');assert.equal(litEuropeanPlan('AT','medium','8').verified,true,'AT grade 8 verified framework missing');console.log('PASS: Poland IV true, Poland II false, Austria 8 true');"
           echo "::endgroup::"
           node --check index.js
+          node --check extra_tools_six_nav.mjs
+          node --check storybook_generation.mjs
           node --check android/app/src/main/assets/avatar-enter.js
           node tests_android_startup_bridge.mjs
           node tests_assistant_quick_route.mjs
