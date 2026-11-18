@@ -18,7 +18,7 @@ for(const group of groups){
 }
 assert.match(EXTRA_TOOLS_WORKSPACE_SCRIPT,/if\(key==='storybook'\)/);
 assert.match(EXTRA_TOOLS_WORKSPACE_SCRIPT,/extraToolsV2Storybook\(work,area,addPdf,input,primary,secondary,note\)/);
-assert.match(EXTRA_TOOLS_SIX_NAV_SCRIPT,/speakText\(chapters\[position\]\)/);
+assert.match(EXTRA_TOOLS_SIX_NAV_SCRIPT,/speakText\(book\[index\]\.text\)/);
 assert.match(EXTRA_TOOLS_SIX_NAV_SCRIPT,/module:'creative_storybook'/);
 assert.match(EXTRA_TOOLS_SIX_NAV_SCRIPT,/data\.chapters\.length!==count/);
 assert.doesNotMatch(EXTRA_TOOLS_SIX_NAV_SCRIPT,/await extraToolsAI\(instruction,raw\)/);
