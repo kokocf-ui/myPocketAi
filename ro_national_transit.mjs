@@ -120,7 +120,18 @@ export function romanianNationalQuery(message,opts={}){
  // trip when the device is outside Romania. Keep the confirmed destination
  // for the international planner; never ask for two Romanian cities instead.
  // An explicit named Romanian A -> B pair remains eligible from anywhere.
- if(opts.mixed_journey===true&&!matched&&!opts.origin&&opts.destination&&!isRoGPS(opts.location))return null;
+ if(opts.mixed_journey===true&&!matched&&opts.destination){
+  // An overseas GPS departure does not become a Romanian national journey
+  // merely because the selected destination is inside Romania.
+  const knownOrigin=opts.origin;
+  const hasOriginCoords=knownOrigin?.latitude!=null&&knownOrigin?.longitude!=null&&
+   Number.isFinite(Number(knownOrigin.latitude))&&Number.isFinite(Number(knownOrigin.longitude));
+  if(hasOriginCoords&&!isRoGPS(knownOrigin))return null;
+  const domesticOrigin=majorPair||isRoGPS(knownOrigin)||
+   String(knownOrigin?.country_code||knownOrigin?.countryCode||'').toUpperCase()==='RO'||
+   isRoGPS(opts.location);
+  if(!domesticOrigin)return null;
+ }
  // An explicit UK route takes priority over an old Romanian GPS fix or stale
  // destination selected earlier in a conversation. Do not send it to Bilo.
  const countryOf=value=>String(value?.country_code||value?.countryCode||'').toUpperCase();
