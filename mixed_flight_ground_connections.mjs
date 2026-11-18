@@ -31,7 +31,7 @@ const metresBetween=(a,b)=>{
 };
 // Only provider geospatial evidence can establish whether a supplied journey
 // begins and ends at the two points the user actually selected.
-export const journeyAnchoredToPoints=(journey,from,to)=>{
+export const journeyAnchoredToPoints=(journey,from,to,{fromRadius=350,toRadius=350}={})=>{
  const legs=Array.isArray(journey?.legs)?journey.legs:[];
  if(!legs.length)return false;
  const start=metresBetween(legs[0].departurePoint,from);
@@ -39,7 +39,7 @@ export const journeyAnchoredToPoints=(journey,from,to)=>{
  // Airport POIs can represent an entire mapped facility, not a terminal.
 // Allow the station to fall within its grounds but never assert a specific
 // terminal/platform as verified from this test alone.
- return start!==null&&finish!==null&&start<=350&&finish<=1200;
+ return start!==null&&finish!==null&&start<=fromRadius&&finish<=toRadius;
 };
 // Keep the source's walking duration and distance on the wire. Previously
 // these were discarded, leaving the selected journey with only station names.
@@ -182,8 +182,8 @@ export async function connectCandidateFlightToGround(env,{
     after:new Date(egressAfter).toISOString()})||onward;
   }catch{onward={status:'regional_provider_unavailable',journey:null}}
  }
- const accessAnchored=Boolean(inbound&&journeyAnchoredToPoints(inbound,origin,from));
- const egressAnchored=Boolean(outbound&&journeyAnchoredToPoints(outbound,to,destination));
+ const accessAnchored=Boolean(inbound&&journeyAnchoredToPoints(inbound,origin,from,{toRadius:1200}));
+ const egressAnchored=Boolean(outbound&&journeyAnchoredToPoints(outbound,to,destination,{fromRadius:1200}));
  const full=Boolean(inbound&&outbound&&accessAnchored&&egressAnchored);
  const fare=flight.fareObserved&&Number.isFinite(Number(flight.fareObserved.amount))&&
   Number(flight.fareObserved.amount)>0?{
