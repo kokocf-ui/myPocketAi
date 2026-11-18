@@ -91,11 +91,11 @@ export async function searchMixedRouteProviders({
   const active=providers.filter(s=>typeof s.canServe!=='function'||s.canServe(pair.from,pair.to))
    .slice(0,budget);
   await Promise.all(active.map(async source=>{
-   try{prefetched.set(source,{result:await source.searchLegs({
+   try{prefetched.set(source.id+':'+pairKey(pair.from,pair.to),{result:await source.searchLegs({
     from:pair.from,to:pair.to,departureAt,untilAt:requestedEnd,
     modes:allowedModes,readOnly:true
    })});}
-   catch{prefetched.set(source,{failed:true});}
+   catch{prefetched.set(source.id+':'+pairKey(pair.from,pair.to),{failed:true});}
   }));
  }
  outer: for(const pair of candidates){
@@ -105,7 +105,7 @@ export async function searchMixedRouteProviders({
    calls++;
    const key=source.id+':'+pairKey(pair.from,pair.to);
    try{
-    const earlier=prefetched.get(source);
+    const earlier=prefetched.get(key);
     if(earlier?.failed)throw Error('provider_unreachable');
     const result=earlier?earlier.result:await source.searchLegs({
      from:pair.from,to:pair.to,departureAt,untilAt:requestedEnd,
