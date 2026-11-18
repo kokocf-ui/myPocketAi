@@ -54,4 +54,31 @@ assert.equal(falseLocation.operators.length,0,
 const noKey=await discoverMixedGroundOperators({}, {origin,destination,fetcher});
 assert.equal(noKey.status,'search_providers_not_configured');
 assert.equal(noKey.operators.length,0);
+
+const fallbackRequests=[];
+const brave=await discoverMixedGroundOperators(
+ {EXA_API_KEY:'mock-exa',BRAVE_API_KEY:'mock-brave',GEOAPIFY_API_KEY:'mock-geo'},
+ {origin,destination,fetcher:async(url,opts)=>{
+  const u=new URL(String(url));
+  fallbackRequests.push({host:u.hostname,query:u.searchParams.get('q')});
+  if(u.hostname==='api.exa.ai')return {ok:false,status:402};
+  if(u.hostname==='api.search.brave.com')return {ok:true,json:async()=>({
+   web:{results:[{url:official.url,title:official.title,
+    description:'London to Oradea Bus from £92.97'}]}
+  })};
+  if(u.pathname==='/v2/places')return {ok:true,json:async()=>({features:[
+   {properties:{name:'London',country_code:'gb',population:8900000,
+     categories:['populated_place.city']}}
+  ]})};
+  return {ok:true,json:async()=>({features:[
+   {properties:{city:'London',country_code:'gb'}}
+  ]})};
+ }});
+assert.equal(brave.status,'official_operator_options',
+ 'Fallback should find an official coach page when Exa has no remaining credits');
+assert.equal(brave.operators.length,1);
+assert.equal(brave.operators[0].operator,'FlixBus');
+assert.ok(fallbackRequests.some(r=>r.host==='api.search.brave.com'));
+assert.ok(fallbackRequests.some(r=>String(r.query).includes('London')),
+ 'Nearby major cities must be discovered from geography, not preset for the country');
 console.log('PASS official coach route discovery, verified geography, indicative fare, zero fabricated transfers');
