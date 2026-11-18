@@ -8,7 +8,7 @@ test('show uncertainty without hiding a valid unpriced itinerary',()=>{
  assert.equal(d.fare_status,'unavailable');
  assert.equal(d.seat_status,'unverified');
  assert.match(transportNoticeLine(train),/Preț indisponibil/);
- assert.match(transportNoticeLine(train),/Disponibilitatea locurilor/);
+ assert.match(transportNoticeLine(train),/Eva nu efectuează rezervări/);
  const [annotated]=annotateTransportJourneys([train]);
  assert.equal(annotated.legs[0].mode,'train');
  assert.ok(annotated.availability_disclosure);
@@ -45,4 +45,29 @@ test('do not invent fare or reservation for local buses, unknown provider and ze
 test('FlixBus needs availability confirmation even if mode is bus',()=>{
  const d=transportAvailabilityDisclosure({provider:'external',legs:[{mode:'bus',operator:'FlixBus'}]});
  assert.equal(d.seat_status,'unverified');
+});
+
+test('route alternatives with missing timetable remain explicitly indicative',()=>{
+ const route={provider:'documented route',route_only:true,scheduled:false,
+  schedule_status:'unavailable',legs:[{mode:'coach',operator:'Example Operator'}],
+  fareRange:{min:60,max:240,currency:'RON',source:'operator published estimate'}};
+ const d=transportAvailabilityDisclosure(route);
+ assert.equal(d.timetable_status,'unavailable');
+ assert.match(d.timetable_message,/Traseu orientativ/);
+ assert.equal(d.fare_status,'indicative_range');
+ assert.match(d.fare_message,/60–240 RON/);
+ assert.match(d.seat_message,/Eva nu efectuează rezervări/);
+ const annotated=annotateTransportJourneys([route])[0];
+ assert.equal(annotated.route_only,true,'An illustrative option is not silently dropped');
+});
+test('estimated departure is disclosed, not promoted to a confirmed timetable',()=>{
+ const d=transportAvailabilityDisclosure({schedule_status:'estimated',
+  legs:[{mode:'train',operator:'Example Rail'}]},'en');
+ assert.equal(d.timetable_status,'indicative');
+ assert.match(d.timetable_message,/Indicative route/);
+});
+test('fare range needs explicit supplier attribution',()=>{
+ const d=transportAvailabilityDisclosure({fareRange:{
+  min:2,max:9,currency:'EUR'},legs:[{mode:'coach'}]});
+ assert.equal(d.fare_status,'unavailable');
 });
