@@ -91,6 +91,26 @@ export function normalizeMixedOperatorEvidence(results,{origin,destination}={}){
  }
  return items.slice(0,6);
 }
+async function resolveOriginCountry(env,origin,{fetcher}){
+ const explicit=country(origin);
+ if(explicit)return explicit;
+ const lat=Number(origin?.latitude),lon=Number(origin?.longitude);
+ if(!origin||origin.latitude==null||origin.longitude==null||
+  !Number.isFinite(lat)||!Number.isFinite(lon)||Math.abs(lat)>90||Math.abs(lon)>180||
+  !env?.GEOAPIFY_API_KEY)return '';
+ const url=new URL('https://api.geoapify.com/v1/geocode/reverse');
+ url.searchParams.set('lat',String(lat));
+ url.searchParams.set('lon',String(lon));
+ url.searchParams.set('limit','1');
+ url.searchParams.set('apiKey',env.GEOAPIFY_API_KEY);
+ try{
+  const r=await fetcher(url,{headers:{Accept:'application/json'},signal:AbortSignal.timeout(5000)});
+  if(!r.ok)return '';
+  const data=await r.json();
+  const guess=String(data.features?.[0]?.properties?.country_code||'').toUpperCase();
+  return /^[A-Z]{2}$/.test(guess)?guess:'';
+ }catch{return ''}
+}
 async function verifyOriginGeography(env,city,expected,{fetcher}){
  if(!expected||!env?.GEOAPIFY_API_KEY)return false;
  const u=new URL('https://api.geoapify.com/v1/geocode/search');
@@ -115,10 +135,13 @@ export async function discoverMixedGroundOperators(env,{origin,destination,fetch
  const key=trim(env?.EXA_API_KEY,300);
  if(!key)return {status:'exa_not_configured',operators:[]};
  // Search only approximate places, not street addresses or precise GPS.
- const sourceCountry=country(origin),destinationCountry=country(destination);
+ const sourceCountry=await resolveOriginCountry(env,origin,{fetcher});
+ const destinationCountry=country(destination);
+ const readableCountry=sourceCountry?
+  new Intl.DisplayNames(['en'],{type:'region'}).of(sourceCountry):fromCity;
  const queries=[
   [fromCity,toCity,'bus coach train transport operator official route'].join(' '),
-  [sourceCountry||fromCity,toCity,destinationCountry,'international coach bus operator timetable official'].filter(Boolean).join(' ')
+  [readableCountry,toCity,destinationCountry,'international coach bus operator official route'].filter(Boolean).join(' ')
  ];
  let candidateResults=[],successful=0;
  await Promise.all(queries.map(async query=>{
@@ -141,13 +164,16 @@ export async function discoverMixedGroundOperators(env,{origin,destination,fetch
   // If the provider departs from a different city, only accept an actual
   // origin in the passenger's departure country, verified by geocoding.
   // This doesn't claim that the access train/bus has been checked.
-  if(option.access_transfer_needed&&sourceCountry){
+  if(option.access_transfer_needed){
+   // Without a proven country, the operator page might depart from the
+   // wrong side of Europe; don't suggest that as an alternative.
+   if(!sourceCountry)continue;
    const valid=await verifyOriginGeography(env,option.from,sourceCountry,{fetcher});
    if(!valid)continue;
   }
   accepted.push({...option,
    access_transfer_verified:!option.access_transfer_needed,
-   country_match_verified:!option.access_transfer_needed||Boolean(sourceCountry)
+   country_match_verified:true
   });
  }
  return {status:accepted.length?'official_operator_options':'no_verified_operator_pages',
