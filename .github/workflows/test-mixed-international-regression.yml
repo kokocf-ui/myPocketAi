@@ -53,3 +53,9 @@ jobs:
           node tests_ro_national_transit.mjs
           node tests_mixed_selector_ui.mjs
           node tests_frontend_boot_syntax.mjs
+      # Public status endpoint: returns only flags and remaining/free
+      # eligibility status, never credentials or user data. No flight credits.
+      - name: Read-only live flight provider readiness
+        run: |
+          node --input-type=module -e "try { const r=await fetch('https://lifewise-ai-api.kokocf.workers.dev/api/flight-source-status?probe=1',{signal:AbortSignal.timeout(9000)}); const d=await r.json(); console.log(JSON.stringify({provider:'SerpApi',http:r.status,status:d.status,pilotConfigured:d.pilotConfigured,freePlan:d.freePlan,hasQuota:d.hasQuota,source:d.source})); } catch { console.log('flight_provider_status_unreachable_from_runner'); }"
+
