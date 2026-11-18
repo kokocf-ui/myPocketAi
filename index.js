@@ -17833,6 +17833,7 @@ async function resolveMixedFlightGroundOptions(choice,flight,host,button){
   const data=await response.json();
   if(!response.ok)throw Error('HTTP '+response.status);
   if(!host.isConnected)return;
+  host.replaceChildren();
   const title=document.createElement('strong');
   title.textContent=data.completeDoorToDoor?
    dialogText('Itinerariu multimodal posibil (orar orientativ)',
@@ -17881,6 +17882,13 @@ async function resolveMixedFlightGroundOptions(choice,flight,host,button){
    dialogText('Nu este încă un traseu complet. Eva nu presupune transferuri inexistente.',
     'This is not yet a complete route. Missing transfers are never invented.');
   host.append(note);
+  if(!data.completeDoorToDoor){
+   const status=document.createElement('small');
+   status.style.cssText='display:block;font-size:12px;line-height:1.45;color:#ffd0df';
+   status.textContent=dialogText('Acces: ','Origin access: ')+String(data.accessStatus||data.status||'neverificat')+
+    ' · '+dialogText('Ultima etapă: ','Final leg: ')+String(data.egressStatus||data.status||'neverificat');
+   host.append(status);
+  }
  }catch{
   if(host.isConnected)host.textContent=dialogText('Nu s-au putut verifica acum legăturile terestre.',
    'Ground connections could not be checked at this time.');
@@ -19276,6 +19284,19 @@ function appendMixedGroundConnectionCards(host,connections,choice){
     warning.textContent=dialogText('Sunt două tronsoane găsite pe paginile oficiale ale operatorilor. Nu avem încă dovada că se pot lega la data selectată; orele și prețul total nu sunt confirmate.',
      'Two operator-owned route pages were found. Their transfer on the selected date, timings and complete price remain unverified.');
     body.append(warning);
+    const exactOrigin=choice?.journeyOrigin?.label||state.lastTransitChoice?.journeyOrigin?.label||
+     dialogText('Locația mea','My location');
+    const exactDestination=choice?.transitDestination?.label||
+     state.lastTransitChoice?.transitDestination?.label||
+     dialogText('Adresa de destinație','Destination address');
+    const access=document.createElement('section');
+    access.className='mixed-unverified-access-leg';
+    access.style.cssText='border-top:1px solid #6c4a60;padding:10px 0';
+    access.textContent=dialogText('1. Din ','1. From ')+exactOrigin+
+     dialogText(' către terminalul din ',' to the terminal in ')+steps[0].from+
+     dialogText(' · terminalul de îmbarcare nu este încă identificat de furnizor; nu există încă un traseu verificat.',
+      ' · the operator has not identified the boarding terminal; no verified access route yet.');
+    body.append(access);
     for(const [i,step] of steps.entries()){
      const section=document.createElement('section');
      section.style.cssText='border-top:1px solid #6c4a60;padding:10px 0;display:flex;flex-direction:column;gap:6px';
@@ -19304,10 +19325,14 @@ function appendMixedGroundConnectionCards(host,connections,choice){
       body.append(interchange);
      }
     }
-    const last=document.createElement('small');
-    last.textContent=dialogText('Mai trebuie confirmat transportul de la adresa de plecare la primul terminal și de la ultimul terminal la destinație.',
-     'Local access to the first terminal and the last mile to the final address remain to be verified.');
-    body.append(last);
+    const final=document.createElement('section');
+    final.className='mixed-unverified-egress-leg';
+    final.style.cssText='border-top:1px solid #6c4a60;padding:10px 0';
+    final.textContent=dialogText('Ultima etapă: terminalul din ','Final leg: terminal in ')+
+     steps.at(-1).to+' → '+exactDestination+
+     dialogText(' · stația de sosire nu este identificată de furnizor; traseul până la adresă trebuie încă verificat.',
+      ' · the operator has not identified the arrival stop; onward routing to your address is not verified.');
+    body.append(final);
    }
   });
  }
@@ -19337,18 +19362,27 @@ function appendMixedAirCandidateCards(host,flights,choice){
      if(leg.airline)row.append(mixedOperatorName(leg.airline));
      body.append(row);
     }
-    const p=document.createElement('p');p.textContent=dialogText('Nu este un itinerariu complet. Verifică transferurile și rezervarea direct la operator.',
-     'Not a complete itinerary. Check transfers and booking with the operator.');
+    const p=document.createElement('p');p.textContent=dialogText('Verific automat accesul din adresa de plecare și continuarea către destinația finală. Zborul și transferurile sunt doar orientative până la confirmarea orarelor.',
+     'Checking access from your starting address and onward travel to the final address automatically. Flight and transfers are indicative until schedules are confirmed.');
     body.append(p);
     const btn=document.createElement('button');btn.type='button';btn.className='transit-choice-action';
-    btn.textContent=dialogText('Caută transferurile terestre','Find ground transfers');
+    btn.textContent=dialogText('Actualizează legăturile terestre','Refresh ground connections');
     btn.style.touchAction='manipulation';
     const result=document.createElement('div');
     btn.addEventListener('click',event=>{
      event.preventDefault();event.stopPropagation();
      void resolveMixedFlightGroundOptions(choice,flight,result,btn);
     });
-    body.append(btn,result);
+    body.append(result,btn);
+    // A single selected flight now triggers a real ground connection search
+    // automatically. Never require a second click just to learn where the
+    // booked/selected flight leaves the traveler.
+    if(legs.length===1)void resolveMixedFlightGroundOptions(choice,flight,result,btn);
+    else {
+     btn.disabled=true;
+     result.textContent=dialogText('Acest zbor are escale. Nu pot verifica încă toate transferurile aeriene și terestre; nu este o rută până la adresă.',
+      'This flight has stops. Not all air and ground transfers can yet be checked; this is not a door-to-door route.');
+    }
    }
   });
  }
