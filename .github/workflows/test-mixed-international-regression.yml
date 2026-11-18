@@ -12,6 +12,7 @@ on:
       - 'mixed_ground_operator_discovery.mjs'
       - 'tests_mixed_ground_operator_discovery.mjs'
       - 'mixed_serpapi_discovery.mjs'
+      - 'tests_mixed_flight_provider_reliability.mjs'
       - 'tests_mixed_serpapi_discovery.mjs'
       - 'mixed_flight_ground_connections.mjs'
       - 'tests_mixed_flight_ground_connections.mjs'
@@ -47,6 +48,7 @@ jobs:
           node tests_mixed_unified_results.mjs
           node tests_mixed_door_to_door_details.mjs
           node tests_mixed_prefetched_details.mjs
+          node tests_mixed_flight_provider_reliability.mjs
           node tests_transport_departure_entrypoints.mjs
           node tests_ro_national_transit.mjs
           node tests_mixed_selector_ui.mjs
