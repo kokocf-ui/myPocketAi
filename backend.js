@@ -46,6 +46,7 @@ import {makeTransCAPIMixedSource,makeMOTISMixedSource} from "./mixed_existing_pr
 import {checkSerpApiSecretStatus} from "./serpapi_account_status.mjs";
 import {discoverMixedFlightCandidates} from "./mixed_serpapi_discovery.mjs";
 import {connectCandidateFlightToGround} from "./mixed_flight_ground_connections.mjs";
+import {searchRomanianAirportOnward} from "./mixed_romanian_airport_onward.mjs";
 import {requestTfLJourneys} from "./tfl_shared_journeys.mjs";
 import {annotateTransportJourneys,transportNoticeLine} from "./transport_availability_disclosure.mjs";
 import {planRomanianUrbanViaOracle,romanianUrbanRegion} from "./ro_urban_client.mjs";
@@ -1356,7 +1357,8 @@ export default {
         return json({status:'invalid_request',completeDoorToDoor:false},400);
       try{
         const result=await connectCandidateFlightToGround(env,payload,{
-          planEgress:planMOTISMixedJourney
+          planEgress:planMOTISMixedJourney,
+          planRegional:searchRomanianAirportOnward
         });
         return json({app:'Pocket AI',version:API_VERSION,...result});
       }catch{
