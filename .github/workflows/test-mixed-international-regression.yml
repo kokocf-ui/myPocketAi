@@ -9,6 +9,9 @@ on:
       - 'one_field_journey_ui.mjs'
       - 'index.js'
       - 'tests_mixed_international_regression.mjs'
+      - 'mixed_ground_operator_discovery.mjs'
+      - 'tests_mixed_ground_operator_discovery.mjs'
+      - 'tests_mixed_unified_results.mjs'
       - 'tests_transport_departure_entrypoints.mjs'
       - '.github/workflows/test-mixed-international-regression.yml'
 jobs:
