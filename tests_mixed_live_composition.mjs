@@ -10,14 +10,20 @@ for(const token of ['data.mixed_composition===true','if(sources.length){','const
  assert.ok(backend.includes(token),token);
 assert.ok(frontend.includes('mixed_composition:choice.mixedComposition||undefined'));
 assert.ok(form.includes('mixedJourney:true,transitDirect:true,mixedComposition:true'));
-// Airport hubs are discovered from source geography, never hardcoded names.
+// Rail, coach and ferry transfer nodes must be discovered independently
+// of flight providers, even when a direct public-transport route exists.
+assert.ok(backend.includes('discoverGroundTransferCandidates(env,start,{radiusKm:140,limit:2})'));
+assert.ok(backend.includes('discoverGroundTransferCandidates(env,end,{radiusKm:140,limit:2})'));
 assert.ok(backend.includes('discoverAirportCandidates(env,start,{radiusKm:240,limit:12})'));
 assert.ok(backend.includes('discoverAirportCandidates(env,end,{radiusKm:240,limit:12})'));
-assert.ok(backend.includes("if(combined.status!=='verified'&&internationalTarget&&env.GEOAPIFY_API_KEY)"));
+assert.ok(backend.includes('originGround.candidates||[]'));
+assert.ok(backend.includes('destinationGround.candidates||[]'));
 assert.ok(backend.includes("mixedHubRole:'origin_access'"));
 assert.ok(backend.includes("mixedHubRole:'destination_egress'"));
-assert.ok(backend.includes('sources,maxProviderCalls:7'));
-assert.ok(backend.includes("if(expanded.status==='verified')combined=expanded"));
+assert.ok(backend.includes('maxProviderCalls:hubCandidates.length?18:2'));
+assert.ok(backend.includes('maxHubs:hubCandidates.length?6:0'));
+assert.ok(!backend.includes("if(combined.status!=='verified'&&internationalTarget&&env.GEOAPIFY_API_KEY)"),
+ 'No air-only fallback: always search land and ferry candidates independently');
 assert.ok(!backend.includes('const sources=[tc,mt].filter(s=>s.enabled&&s.licensed&&s.canServe(start,end))'),
  'A provider which only serves a verified transfer must not be prematurely excluded');
 const zero=Date.parse('2026-12-08T06:00:00Z'),at=n=>new Date(zero+n*60000).toISOString();
