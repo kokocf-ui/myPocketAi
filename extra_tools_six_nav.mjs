@@ -97,6 +97,10 @@ function extraToolsV2Storybook(work,area,addPdf,input,primary,secondary,note){
  for(const n of [3,4,5]){
   const option=extraToolsEl('option','',String(n));option.value=String(n);chaptersCount.append(option);
  }
+ const imageChoice=extraToolsEl('label','extra-storybook-image-option');
+ const autoImages=extraToolsEl('input');autoImages.type='checkbox';autoImages.checked=true;
+ const imageChoiceText=extraToolsEl('span','',extraToolsLocale('Creează automat scene ilustrate animate (consumă câte o imagine AI pentru fiecare capitol)','Generate moving illustrated scenes automatically (uses one AI image per chapter)'));
+ imageChoice.append(autoImages,imageChoiceText);compose.append(imageChoice);
  const statusLine=extraToolsEl('p','extra-storybook-status');statusLine.setAttribute('role','status');compose.append(statusLine);
  const reader=extraToolsEl('section','extra-storybook-reader');reader.hidden=true;
  const cover=extraToolsEl('h3','extra-storybook-cover');
@@ -137,7 +141,8 @@ function extraToolsV2Storybook(work,area,addPdf,input,primary,secondary,note){
   paper.scrollTop=0;area.scrollTop=0;
  }
  work.storybookShowChapter=chapterIndex=>{index=Math.max(0,Math.min(book.length-1,chapterIndex));display();};
- const create=primary('✨ Creează mini-cartea','✨ Create mini-book',async()=>{
+ const create=primary('✨ Creează cartea ilustrată','✨ Create illustrated book',async()=>{
+  let autoIllustrate=false;
   const seed=editor.value.trim(),title=work.title.value.trim();
   if(title.length<2||seed.length<20){
    statusLine.textContent=extraToolsLocale('Completează titlul și descrie povestea în cel puțin 20 de caractere.',
@@ -175,6 +180,7 @@ function extraToolsV2Storybook(work,area,addPdf,input,primary,secondary,note){
    if(work.pdf)work.pdf.hidden=false;
    index=0;compose.hidden=true;reader.hidden=false;
    motion.setBook(book);display();
+   autoIllustrate=autoImages.checked;
   }catch(error){
    if(work===extraToolsSession)statusLine.textContent=error?.name==='AbortError'?
     extraToolsLocale('Cererea a durat prea mult. Încearcă din nou.','The request timed out. Try again.'):
@@ -183,7 +189,10 @@ function extraToolsV2Storybook(work,area,addPdf,input,primary,secondary,note){
    clearTimeout(timeout);
    if(work===extraToolsSession){
     work.controller=null;create.disabled=false;
-    create.textContent=extraToolsLocale('✨ Creează mini-cartea','✨ Create mini-book');
+    create.textContent=extraToolsLocale('✨ Creează cartea ilustrată','✨ Create illustrated book');
+    if(autoIllustrate&&reader.isConnected){Promise.resolve().then(()=>{
+     if(work===extraToolsSession&&reader.isConnected)void motion.makeIllustrations();
+    });}
    }
   }
  });
@@ -298,5 +307,16 @@ export const EXTRA_TOOLS_SIX_NAV_STYLE=String.raw`
  #view-module.extra-tools-v2 .extra-tools-v2-choices{justify-content:flex-start!important}
  #view-module.extra-tools-v2 .extra-tools-v2-grid{margin:0 auto!important;grid-auto-rows:minmax(104px,auto)!important}
  #view-module.extra-tools-v2 .extra-tools-v2-card{min-height:104px!important}
+}
+
+#view-module.extra-tools-workspace .extra-storybook-image-option{
+ display:flex!important;align-items:center!important;gap:10px!important;
+ padding:9px 11px!important;border:1px solid #70455f!important;
+ border-radius:12px!important;background:#173547!important;font-size:13px!important;
+ color:#f2f6fb!important;line-height:1.4!important;margin:5px auto 10px!important;
+ max-width:720px!important;
+}
+#view-module.extra-tools-workspace .extra-storybook-image-option input{
+ width:18px!important;height:18px!important;flex:0 0 auto!important;accent-color:#8e3e60!important;
 }
 `;
