@@ -175,7 +175,7 @@ function extraStorybookMotionAttach(work,reader){
   music.removeAttribute('src');
   scenes=[];
  };
- return {setBook,setCurrent,stopNarration};
+ return {setBook,setCurrent,stopNarration,makeIllustrations};
 }
 `;
 export const STORYBOOK_MOTION_STYLE=String.raw`
