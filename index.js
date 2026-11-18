@@ -17815,8 +17815,8 @@ async function resolveMixedFlightGroundOptions(choice,flight,host,button){
    'The selected origin or destination is unavailable.');return;
  }
  const fullTime=String(choice.transitDepartureAt||'');
- const url=new URL(CLIENT_CONFIG.apiUrl);
- url.pathname='/api/mixed-flight-connections';url.search='';
+ const url=new URL('/api/mixed-flight-connections',CLIENT_CONFIG.apiUrl);
+ url.search='';
  const old=button.textContent;button.disabled=true;
  button.textContent=dialogText('Verific legăturile terestre…','Checking ground connections…');
  host.replaceChildren();
