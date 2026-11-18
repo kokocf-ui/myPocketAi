@@ -7,20 +7,24 @@ function extraStorybookMotionAttach(work,reader){
  image.hidden=true;
  const lights=extraToolsEl('div','eva-story-lights');lights.setAttribute('aria-hidden','true');
  const placeholder=extraToolsEl('div','eva-story-placeholder',
-  extraToolsLocale('Ilustrațiile animate ale capitolelor apar aici după generarea imaginilor AI.',
-   'Animated chapter illustrations appear here after AI image generation.'));
+  extraToolsLocale('Fotografiile reale din surse reutilizabile apar aici, cu mișcare discretă.',
+   'Reusable real photographs appear here, with subtle motion.'));
  const subtitles=extraToolsEl('div','eva-story-subtitles');
  picture.append(image,lights,placeholder,subtitles);
  motion.append(picture);
  const info=extraToolsEl('p','eva-story-image-status');
  info.setAttribute('role','status');
  info.textContent=extraToolsLocale(
-  'Imaginile AI folosesc cota zilnică; fiecare capitol necesită o generare. Mișcarea este cinematografică, nu animație video a personajelor.',
-  'AI images use the daily quota; each chapter needs one generation. Motion is cinematic, not character video animation.');
+  'Fotografiile provin din Wikimedia Commons. Autorul și licența sunt afișate pentru fiecare imagine. Mișcarea este de cameră, nu animație a personajelor.',
+  'Photos come from Wikimedia Commons. Author and licence appear for each image. Motion is camera movement, not character animation.');
  motion.append(info);
  reader.prepend(motion);
+ const credit=extraToolsEl('div','eva-story-credit');motion.append(credit);
+ const photoSearch=extraToolsField(motion,extraToolsLocale('Subiect pentru fotografii (poți ajusta)','Photo search topic (editable)'),
+  'text',extraToolsLocale('Ex.: Armata de teracotă','e.g. Terracotta Army'));
+ photoSearch.maxLength=110;
  const tools=extraToolsEl('div','eva-story-media-tools');
- const generate=extraToolsBtn(extraToolsLocale('🎨 Ilustrează capitolele','🎨 Illustrate chapters'),()=>void makeIllustrations(),true);
+ const generate=extraToolsBtn(extraToolsLocale('🔎 Caută fotografii reale','🔎 Find real photos'),()=>void makeIllustrations(),true);
  const animate=extraToolsBtn(extraToolsLocale('▶ Urmărește și ascultă','▶ Watch and listen'),()=>startNarration());
  const musicLabel=extraToolsEl('label','eva-story-audio-label',extraToolsLocale('🎵 Muzică de fundal (fișier propriu sau licențiat)','🎵 Background music (owned or licensed file)'));
  const file=extraToolsEl('input');file.type='file';file.accept='audio/*';
@@ -30,13 +34,12 @@ function extraStorybookMotionAttach(work,reader){
  tools.append(generate,animate,stop,musicLabel,music);
  motion.append(tools);
  let book=[],chapter=0,scenes=[],playing=false,audioObjectUrl=null;
- const installation=typeof evaImageInstallationId==='function'?evaImageInstallationId():null;
  const speakLocale=()=>({ro:'ro-RO',en:'en-GB',fr:'fr-FR',de:'de-DE',it:'it-IT',es:'es-ES',pt:'pt-PT',nl:'nl-NL',pl:'pl-PL',hu:'hu-HU'})[state.language]||state.language||'ro-RO';
  function setCurrent(i){
   chapter=Math.max(0,Math.min(book.length-1,i));
   const nextImage=scenes[chapter];
   image.hidden=!nextImage;
-  if(nextImage)image.src=nextImage;
+  if(nextImage)image.src=nextImage.url;
   else image.removeAttribute('src');
   placeholder.hidden=Boolean(nextImage);
   picture.classList.remove('eva-story-slide-active');
@@ -44,13 +47,21 @@ function extraStorybookMotionAttach(work,reader){
   picture.classList.add('eva-story-slide-active');
   picture.style.setProperty('--story-shift',chapter%2?' -3%':'3%');
   subtitles.textContent=book[chapter]?.text?.slice(0,220).replace(/\s+/g,' ')||'';
+  credit.replaceChildren();
+  if(nextImage){
+   const author=extraToolsEl('span','',nextImage.author+' · '+nextImage.license+' · Wikimedia Commons');
+   const source=extraToolsEl('a','',extraToolsLocale('Vezi fotografia și licența','View photo and licence'));
+   source.href=nextImage.source;source.target='_blank';source.rel='noopener';
+   credit.append(author,source);
+  }
   generate.textContent=scenes.every(Boolean)?
-   extraToolsLocale('✅ Scene ilustrate','✅ Illustrated scenes'):
-   extraToolsLocale('🎨 Ilustrează capitolele','🎨 Illustrate chapters');
+   extraToolsLocale('✅ Fotografii pregătite','✅ Photos ready'):
+   extraToolsLocale('🔎 Caută fotografii reale','🔎 Find real photos');
  }
  function setBook(newBook){
   stopNarration();
   book=newBook||[];chapter=0;scenes=Array(book.length).fill(null);
+  photoSearch.value=String(work.title?.value||'').slice(0,110);
   setCurrent(0);
  }
  function stopNarration(){
@@ -103,56 +114,49 @@ function extraStorybookMotionAttach(work,reader){
  }
  async function makeIllustrations(){
   if(!book.length||work.controller)return;
-  if(!installation){
-   info.textContent=extraToolsLocale('Identificatorul instalării nu este disponibil.','Image installation identifier unavailable.');return;
+  const topic=photoSearch.value.trim()||String(work.title?.value||'').trim();
+  if(topic.length<3){
+   info.textContent=extraToolsLocale('Scrie subiectul fotografiilor.','Enter a photo search topic.');return;
   }
-  if(typeof extraCreatorImagePreviewUrl!=='string'){
-   info.textContent=extraToolsLocale('Motorul de imagini nu este conectat.','Image generator is not connected.');return;
+  const api=new URL(CLIENT_CONFIG.apiUrl,location.href);
+  if(!/\/api\/chat$/.test(api.pathname)){
+   info.textContent=extraToolsLocale('Serviciul de fotografii nu este configurat.','Photo service is not configured.');return;
   }
-  const pending=book.map((_,i)=>i).filter(i=>!scenes[i]);
-  if(!pending.length){info.textContent=extraToolsLocale('Toate ilustrațiile sunt gata.','All illustrations are ready.');return}
-  generate.disabled=true;
-  const controller=new AbortController();work.controller=controller;
+  api.pathname=api.pathname.replace(/\/api\/chat$/,'/api/storybook-photos');
+  const controller=new AbortController();
+  work.controller=controller;generate.disabled=true;
+  info.textContent=extraToolsLocale('Eva caută fotografii reutilizabile, cu autor și licență…',
+   'Eva is searching reusable photos with author and licence…');
+  const timer=setTimeout(()=>controller.abort(),18000);
   try{
-   const quotaR=await fetch(evaImageQuotaUrl,{
+   const response=await fetch(api.toString(),{
     method:'POST',headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({installationId:installation}),signal:controller.signal});
-   const quota=await quotaR.json().catch(()=>null);
-   if(!quotaR.ok||!Number.isInteger(quota?.remaining))throw Error('image_quota_unavailable');
-   if(quota.remaining<pending.length){
-    info.textContent=extraToolsLocale(
-     'Mai ai '+quota.remaining+' generări azi, dar cartea necesită '+pending.length+'. Poți încerca după resetarea cotei.',
-     'You have '+quota.remaining+' image credits today; the book needs '+pending.length+'. Try after quota reset.');
+    body:JSON.stringify({query:topic,limit:book.length}),
+    signal:controller.signal
+   });
+   const data=await response.json().catch(()=>null);
+   if(work!==extraToolsSession||!reader.isConnected)return;
+   if(!response.ok||data?.status!=='success'||!Array.isArray(data.photos)||!data.photos.length){
+    scenes=Array(book.length).fill(null);setCurrent(chapter);
+    info.textContent=extraToolsLocale('Nu am găsit fotografii potrivite cu licență verificabilă. Încearcă o expresie mai scurtă sau în engleză.',
+     'No suitably licensed photos found. Try a shorter search phrase or an English topic.');
     return;
    }
-   for(const i of pending){
-    if(controller.signal.aborted||work!==extraToolsSession)break;
-    info.textContent=extraToolsLocale('Eva ilustrează capitolul ','Eva is illustrating chapter ')+(i+1)+' / '+book.length;
-    const snippet=String(book[i].text||'').replace(/\s+/g,' ').slice(0,620);
-    const prompt=[
-     'Wide 16:9 scene from an original animated illustrated storybook. Evocative 3D cartoon film concept art.',
-     'No words, no captions, no logos, no borders. Full scenery and consistent visual style.',
-     'Book title: '+String(work.title?.value||'').slice(0,110)+'.',
-     'Narrative scene '+(i+1)+' of '+book.length+': '+snippet
-    ].join(' ').slice(0,1300);
-    const r=await fetch(extraCreatorImagePreviewUrl,{
-     method:'POST',headers:{'Content-Type':'application/json'},
-     body:JSON.stringify({prompt,format:'wide',installationId:installation}),signal:controller.signal});
-    const data=await r.json().catch(()=>null);
-    if(!r.ok||data?.status!=='success'||typeof data.image!=='string')throw Error('image_generation_unavailable');
-    const canvas=await extraCreatorImageCanvas(data.image,'wide');
-    scenes[i]=canvas.toDataURL('image/jpeg',0.78);
-    if(chapter===i)setCurrent(i);
-   }
-   info.textContent=scenes.every(Boolean)?
-    extraToolsLocale('Scenele sunt gata. Apasă „Urmărește și ascultă”.','Scenes are ready. Tap Watch and listen.'):
-    extraToolsLocale('Ilustrarea a fost întreruptă.','Illustration was interrupted.');
+   const safe=data.photos.filter(p=>typeof p.url==='string'&&
+    /^https:\/\/upload\.wikimedia\.org\//.test(p.url)&&
+    /^https:\/\/commons\.wikimedia\.org\//.test(p.source)&&
+    typeof p.author==='string'&&typeof p.license==='string');
+   scenes=book.map((_,i)=>safe[i]||null);
+   setCurrent(chapter);
+   info.textContent=extraToolsLocale(
+    'Am găsit '+safe.length+' fotografii cu surse și licențe. Apasă „Urmărește și ascultă”.',
+    'Found '+safe.length+' photos with sources and licences. Tap Watch and listen.');
   }catch(error){
    if(work===extraToolsSession)info.textContent=controller.signal.aborted?
-    extraToolsLocale('Ilustrarea a fost anulată.','Illustration cancelled.'):
-    extraToolsLocale('Motorul de imagini nu a putut crea toate scenele. Cele realizate rămân disponibile până ieși din carte.',
-     'Not all scenes could be created. Completed illustrations stay available until you exit the book.');
+    extraToolsLocale('Căutarea fotografiilor a expirat.','Photo search timed out.'):
+    extraToolsLocale('Nu am putut consulta biblioteca de fotografii.','Photo library could not be reached.');
   }finally{
+   clearTimeout(timer);
    if(work===extraToolsSession){work.controller=null;generate.disabled=false;}
   }
  }
@@ -186,6 +190,8 @@ export const STORYBOOK_MOTION_STYLE=String.raw`
 #view-module.extra-tools-workspace .eva-story-lights{position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 12% 62%,#f7d5a122 0 6px,transparent 8px),radial-gradient(circle at 72% 20%,#fff4bd33 0 3px,transparent 5px);background-size:240px 170px;animation:evaStoryLightDrift 14s linear infinite;mix-blend-mode:screen}
 #view-module.extra-tools-workspace .eva-story-placeholder{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:18px;color:#deedf4;font-size:14px}
 #view-module.extra-tools-workspace .eva-story-subtitles{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,#071523e8);color:#fff;text-align:center;padding:20px 12px 8px;font-size:clamp(11px,2.8vw,14px);line-height:1.4;max-height:72px;overflow:hidden;pointer-events:none}
+.eva-story-credit{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:6px;font-size:11px;line-height:1.35;color:#c4dbe8;padding:3px 6px}
+.eva-story-credit a{color:#e7abc4;text-decoration:underline}
 #view-module.extra-tools-workspace .eva-story-media-tools{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 #view-module.extra-tools-workspace .eva-story-media-tools>button{flex:1 1 140px;min-width:0}
 #view-module.extra-tools-workspace .eva-story-audio-label{display:flex;flex-direction:column;gap:7px;flex:1 1 100%;font-size:13px;color:#d9e5ef}
