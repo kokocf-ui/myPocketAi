@@ -4,9 +4,12 @@ import {compactJourney} from './mixed_flight_ground_connections.mjs';
 
 const walk=compactJourney({time_zone:'Europe/London',durationMinutes:90,
  legs:[{mode:'walking',from:'Mill Lane',to:'Grays station',
+  departurePoint:{lat:51.48,lon:0.30},arrivalPoint:{lat:51.48,lon:0.31},
   departureTime:'2026-11-20T03:00:00Z',arrivalTime:'2026-11-20T03:08:00Z',
   durationMinutes:8,distanceMeters:620},
- {mode:'train',from:'Grays station',to:'London',
+ {mode:'train',from:'Grays station',to:'London Luton Airport',
+  departurePoint:{lat:51.48,lon:0.31},
+  arrivalPoint:{lat:51.875,lon:-0.368},
   durationMinutes:45,distanceMeters:null,lineNames:['c2c'],
   operator:'c2c',towards:'London'}]});
 assert.equal(walk.timeZone,'Europe/London');
@@ -45,8 +48,8 @@ const mkName=name=>{const a=new Element('a');a.textContent=name;return a};
 const resolve=new Function('document','state','fetch','dialogText',
  'mixedOperatorName','transitModeName',snippet+';return resolveMixedFlightGroundOptions;')(
  document,state,forbiddenFetch,(ro,en)=>ro,mkName,x=>x);
-const source={label:'Mill Lane, Grays'};
-const target={label:'Strada Nufărului 1, Oradea'};
+const source={label:'Mill Lane, Grays',latitude:51.48,longitude:0.30};
+const target={label:'Strada Nufărului 1, Oradea',latitude:47.06,longitude:21.95};
 const choice={journeyOrigin:source,transitDestination:target,
  transitDepartureAt:'2026-11-20T02:00:00.000Z'};
 const flight={legs:[{from:'LTN',to:'DEB',startLocal:'2026-11-20 06:05',
@@ -54,17 +57,19 @@ const flight={legs:[{from:'LTN',to:'DEB',startLocal:'2026-11-20 06:05',
 const host=new Element('div');
 const responsePayload={
  completeDoorToDoor:true,
- airportFrom:{name:'London Luton Airport'},
- airportTo:{name:'Debrecen Airport'},
+ airportFrom:{name:'London Luton Airport',latitude:51.875,longitude:-0.368},
+ airportTo:{name:'Debrecen Airport',latitude:47.48,longitude:21.61},
  originLabel:source.label,destinationLabel:target.label,
  flight:{from:'LTN',to:'DEB',airline:'Wizz Air',flightNumber:'W6 001',
   departureLocal:'2026-11-20 06:05',arrivalLocal:'2026-11-20 09:45'},
  accessJourney:walk,
  egressJourney:{timeZone:'Europe/Budapest',legs:[
   {mode:'bus',from:'Debrecen Airport',to:'Debrecen station',
+   departurePoint:{lat:47.48,lon:21.61},arrivalPoint:{lat:47.50,lon:21.64},
    departureTime:'2026-11-20T10:15:00Z',arrivalTime:'2026-11-20T10:45:00Z',
    durationMinutes:30,lineNames:['Airport bus']},
   {mode:'walking',from:'Oradea station',to:target.label,
+   departurePoint:{lat:47.06,lon:21.94},arrivalPoint:{lat:47.06,lon:21.95},
    durationMinutes:7,distanceMeters:500}
  ]}
 };
@@ -83,6 +88,15 @@ assert.ok(stages.some(e=>e.className.includes('mixed-stage-flight')),
 assert.ok(!stages.some(e=>e.children.some(c=>String(c.textContent).includes('UTC'))),
  'Known local time zones should not be displayed as UTC');
 assert.equal(requests,0,'Selection does not request itinerary or refresh provider');
+const lostOrigin={...responsePayload,completeDoorToDoor:false,
+ accessJourney:{...walk,legs:[{...walk.legs[0],
+  departurePoint:{lat:52.1,lon:1.2}},walk.legs[1]]}};
+flight.itinerary=lostOrigin;
+resolve(choice,flight,host);
+assert.ok(host.children.some(e=>e.className.includes('mixed-stage-gap')&&
+ e.children.some(c=>String(c.textContent).includes('Mill Lane'))),
+ 'A public-transport route starting away from home MUST show an access gap');
+assert.equal(requests,0,'Missing local access must not start a second search');
 
 flight.itinerary={...responsePayload,completeDoorToDoor:false,
  accessJourney:null,egressJourney:null};
