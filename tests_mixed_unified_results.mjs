@@ -86,7 +86,8 @@ assert.equal(multiCards.length,3,'A train+coach choice is a separate option alon
 assert.equal(multiCards[0].children[1].textContent,'🚆 → 🚌');
 assert.match(multiCards[0].children[0].textContent,/Brussels/);
 multiCards[0].onclick();
-const evidence=body.children.filter(e=>e.tag==='section');
+const evidence=body.children.filter(e=>e.tag==='section'&&
+ e.children.some(child=>child.tag==='a'));
 assert.equal(evidence.length,2,'A connected option opens both operator legs independently');
 assert.equal(evidence[0].children[1].href,'https://www.eurostar.com/uk-en/train/london-to-brussels');
 assert.equal(evidence[1].children[1].href,'https://www.flixbus.com/bus-routes/brussels-oradea');
