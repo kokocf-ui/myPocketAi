@@ -2,10 +2,12 @@ import assert from 'node:assert/strict';
 import vm from 'node:vm';
 import {EXTRA_TOOLS_SIX_NAV_SCRIPT,EXTRA_TOOLS_SIX_NAV_STYLE} from './extra_tools_six_nav.mjs';
 import {EXTRA_TOOLS_WORKSPACE_SCRIPT,EXTRA_TOOLS_WORKSPACE_STYLE} from './extra_tools_workspace.mjs';
+import {STORYBOOK_MOTION_SCRIPT,STORYBOOK_MOTION_STYLE} from './storybook_motion_ui.mjs';
 import app from './index.js';
 
 new vm.Script(EXTRA_TOOLS_SIX_NAV_SCRIPT);
 new vm.Script(EXTRA_TOOLS_WORKSPACE_SCRIPT);
+new vm.Script(STORYBOOK_MOTION_SCRIPT);
 const groups=new Function(EXTRA_TOOLS_SIX_NAV_SCRIPT+';return EXTRA_TOOLS_V2_GROUPS;')();
 assert.equal(groups.length,6);
 assert.deepEqual(groups.map(x=>x.id),['docs','translate','studio','creator','analysis','ideas']);
@@ -18,7 +20,13 @@ for(const group of groups){
 }
 assert.match(EXTRA_TOOLS_WORKSPACE_SCRIPT,/if\(key==='storybook'\)/);
 assert.match(EXTRA_TOOLS_WORKSPACE_SCRIPT,/extraToolsV2Storybook\(work,area,addPdf,input,primary,secondary,note\)/);
-assert.match(EXTRA_TOOLS_SIX_NAV_SCRIPT,/speakText\(book\[index\]\.text\)/);
+assert.match(EXTRA_TOOLS_SIX_NAV_SCRIPT,/extraStorybookMotionAttach\(work,reader\)/);
+assert.match(STORYBOOK_MOTION_SCRIPT,/evaImageQuotaUrl/);
+assert.match(STORYBOOK_MOTION_SCRIPT,/evaImageInstallationId/);
+assert.match(STORYBOOK_MOTION_SCRIPT,/pocketNativeVoiceSend/);
+assert.match(STORYBOOK_MOTION_SCRIPT,/chapter\+\+/);
+assert.match(STORYBOOK_MOTION_SCRIPT,/music\.volume=0\.14/);
+assert.match(STORYBOOK_MOTION_STYLE,/@keyframes evaStoryPan/);
 assert.match(EXTRA_TOOLS_SIX_NAV_SCRIPT,/module:'creative_storybook'/);
 assert.match(EXTRA_TOOLS_SIX_NAV_SCRIPT,/data\.chapters\.length!==count/);
 assert.doesNotMatch(EXTRA_TOOLS_SIX_NAV_SCRIPT,/await extraToolsAI\(instruction,raw\)/);
@@ -33,4 +41,5 @@ new vm.Script(embedded);
 assert.ok(embedded.includes('extraToolsV2Main'));
 assert.ok(embedded.includes('extraToolsV2OpenGroup'));
 assert.ok(embedded.includes('extraToolsV2Storybook'));
+assert.ok(embedded.includes('extraStorybookMotionAttach'));
 console.log('PASS six Tools categories, real nested cards, studio storybook and existing tools preserved');
