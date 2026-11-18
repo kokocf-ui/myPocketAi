@@ -75,7 +75,7 @@ export function normalizeMixedOperatorEvidence(results,{origin,destination}={}){
   const key=vendor.operator+'|'+fold(route.origin)+'|'+fold(route.destination);
   if(seen.has(key))continue;
   seen.add(key);
-  const excerpt=trim([result.text,...(Array.isArray(result.highlights)?result.highlights:[])].join(' '),1300);
+  const excerpt=trim([result.text,result.description,...(Array.isArray(result.highlights)?result.highlights:[])].join(' '),1300);
   const fare=fareFromText(excerpt);
   items.push({
    id:'operator:'+items.length,
@@ -91,6 +91,32 @@ export function normalizeMixedOperatorEvidence(results,{origin,destination}={}){
   });
  }
  return items.slice(0,6);
+}
+async function nearbyMajorCity(env,origin,expected,{fetcher}){
+ const lat=Number(origin?.latitude),lon=Number(origin?.longitude);
+ if(!origin||origin.latitude==null||origin.longitude==null||
+  !Number.isFinite(lat)||!Number.isFinite(lon)||Math.abs(lat)>90||
+  Math.abs(lon)>180||!env?.GEOAPIFY_API_KEY)return '';
+ const url=new URL('https://api.geoapify.com/v2/places');
+ url.searchParams.set('categories','populated_place.city');
+ url.searchParams.set('filter','circle:'+lon+','+lat+',140000');
+ url.searchParams.set('bias','proximity:'+lon+','+lat);
+ url.searchParams.set('limit','40');
+ url.searchParams.set('apiKey',env.GEOAPIFY_API_KEY);
+ try{
+  const r=await fetcher(url,{headers:{Accept:'application/json'},signal:AbortSignal.timeout(6000)});
+  if(!r.ok)return '';
+  const body=await r.json();
+  const cities=(Array.isArray(body.features)?body.features:[]).map(feature=>{
+   const p=feature.properties||{},raw=p.datasource?.raw||{};
+   const code=String(p.country_code||'').toUpperCase();
+   const name=trim(p.name||p.city||'',75);
+   const population=Number(p.population??raw.population);
+   return {name,country:code,population:Number.isFinite(population)?population:0};
+  }).filter(c=>c.name&&(!expected||c.country===expected));
+  cities.sort((a,b)=>b.population-a.population);
+  return cities[0]?.name||'';
+ }catch{return ''}
 }
 async function resolveOriginCountry(env,origin,{fetcher}){
  const explicit=country(origin);
@@ -134,18 +160,22 @@ export async function discoverMixedGroundOperators(env,{origin,destination,fetch
  const fromCity=locality(origin),toCity=locality(destination);
  if(!fromCity||!toCity)return {status:'location_unavailable',operators:[]};
  const key=trim(env?.EXA_API_KEY,300);
- if(!key)return {status:'exa_not_configured',operators:[]};
+ const braveKey=trim(env?.BRAVE_API_KEY,300);
+ if(!key&&!braveKey)return {status:'search_providers_not_configured',operators:[]};
  // Search only approximate places, not street addresses or precise GPS.
  const sourceCountry=await resolveOriginCountry(env,origin,{fetcher});
  const destinationCountry=country(destination);
  const readableCountry=sourceCountry?
   new Intl.DisplayNames(['en'],{type:'region'}).of(sourceCountry):fromCity;
+ const majorCity=await nearbyMajorCity(env,origin,sourceCountry,{fetcher});
  const queries=[
   [fromCity,toCity,'bus coach train transport operator official route'].join(' '),
-  [readableCountry,toCity,destinationCountry,'international coach bus operator official route'].filter(Boolean).join(' ')
+  [majorCity||readableCountry,toCity,destinationCountry,
+   'international coach bus operator official route'].filter(Boolean).join(' ')
  ];
  let candidateResults=[],successful=0;
- await Promise.all(queries.map(async query=>{
+ const errors=[];
+ if(key)await Promise.all(queries.map(async query=>{
   try{
    const r=await fetcher('https://api.exa.ai/search',{
     method:'POST',headers:{'Content-Type':'application/json','x-api-key':key},
@@ -153,15 +183,39 @@ export async function discoverMixedGroundOperators(env,{origin,destination,fetch
       contents:{text:{maxCharacters:850},highlights:{numSentences:2}}}),
     signal:AbortSignal.timeout(8000)
    });
-   if(!r.ok)return;
+   if(!r.ok){errors.push('exa_http_'+r.status);return;}
    const data=await r.json();
    if(Array.isArray(data.results)){successful++;candidateResults.push(...data.results)}
-  }catch{}
+  }catch{errors.push('exa_network_error')}
  }));
- if(!successful)return {status:'provider_unavailable',operators:[]};
- const mapped=normalizeMixedOperatorEvidence(candidateResults,{origin,destination});
+ // Use the existing licensed Brave Search key only when the Exa source is
+ // unavailable or returned no eligible operator page. No SerpApi flight
+ // credits, scraping, or invented outbound URLs.
+ let eligible=normalizeMixedOperatorEvidence(candidateResults,{origin,destination});
+ if(!eligible.length&&braveKey){
+  const url=new URL('https://api.search.brave.com/res/v1/web/search');
+  url.searchParams.set('q',queries[1]+' tickets timetable');
+  url.searchParams.set('count','20');
+  try{
+   const r=await fetcher(url,{headers:{
+    Accept:'application/json','X-Subscription-Token':braveKey
+   },signal:AbortSignal.timeout(7000)});
+   if(!r.ok)errors.push('brave_http_'+r.status);
+   else {
+    const data=await r.json();
+    if(Array.isArray(data.web?.results)){
+     successful++;
+     candidateResults.push(...data.web.results.map(x=>({
+      url:x.url,title:x.title,description:x.description,highlights:x.extra_snippets
+     })));
+    }
+   }
+  }catch{errors.push('brave_network_error')}
+  eligible=normalizeMixedOperatorEvidence(candidateResults,{origin,destination});
+ }
+ if(!successful)return {status:errors.join('|')||'provider_unavailable',operators:[]};
  const accepted=[];
- for(const option of mapped){
+ for(const option of eligible){
   // If the provider departs from a different city, only accept an actual
   // origin in the passenger's departure country, verified by geocoding.
   // This doesn't claim that the access train/bus has been checked.
@@ -178,5 +232,6 @@ export async function discoverMixedGroundOperators(env,{origin,destination,fetch
   });
  }
  return {status:accepted.length?'official_operator_options':'no_verified_operator_pages',
-  operators:accepted,queriesUsed:queries.length,scheduledServicesVerified:false};
+  operators:accepted,queriesUsed:queries.length,scheduledServicesVerified:false,
+  sourceErrors:errors.slice(0,4)};
 }
