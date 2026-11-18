@@ -18,6 +18,7 @@ on:
       - 'mixed_stop_identity.mjs'
       - 'extra_tools_workspace.mjs'
       - 'extra_tools_six_nav.mjs'
+      - 'storybook_motion_ui.mjs'
       - 'storybook_generation.mjs'
       - 'tests_tools_six_navigation.mjs'
       - 'tests_storybook_generation.mjs'
@@ -52,6 +53,7 @@ on:
       - 'creator_image_ai.mjs'
       - 'extra_tools_workspace.mjs'
       - 'extra_tools_six_nav.mjs'
+      - 'storybook_motion_ui.mjs'
       - 'storybook_generation.mjs'
       - 'tests_tools_six_navigation.mjs'
       - 'tests_storybook_generation.mjs'
@@ -221,6 +223,7 @@ jobs:
           echo "::endgroup::"
           node --check index.js
           node --check extra_tools_six_nav.mjs
+          node --check storybook_motion_ui.mjs
           node --check storybook_generation.mjs
           node --check android/app/src/main/assets/avatar-enter.js
           node tests_android_startup_bridge.mjs
