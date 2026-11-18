@@ -54,7 +54,7 @@ export function transportAvailabilityDisclosure(journey, language='ro') {
       'For seats and tickets, consult the operator. Eva does not take bookings.'
     :null;
   return {fare_status:fareStatus,seat_status:seatStatus,fare_message:fareMessage,seat_message:seatMessage,
-    timetable_status:indicative?'indicative':'provider_timetable',timetable_message:timetableMessage};
+    timetable_status:routeOnly?'unavailable':indicative?'indicative':'provider_timetable',timetable_message:timetableMessage};
 }
 
 export function annotateTransportJourneys(journeys, language='ro'){
