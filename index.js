@@ -17811,106 +17811,146 @@ async function resolveMixedFlightGroundOptions(choice,flight,host,button){
  const origin=choice?.journeyOrigin||state.lastTransitChoice?.journeyOrigin;
  const destination=choice?.transitDestination||state.lastTransitChoice?.transitDestination;
  if(!origin||!destination){
-  host.textContent=dialogText('Punctul de plecare sau destinația nu mai sunt confirmate.',
-   'The selected origin or destination is unavailable.');return;
+  host.textContent=dialogText('Adresa de plecare sau destinația nu mai este disponibilă.',
+   'Your starting or destination address is no longer available.');return;
  }
- const fullTime=String(choice.transitDepartureAt||'');
  const url=new URL('/api/mixed-flight-connections',CLIENT_CONFIG.apiUrl);
  url.search='';
  const old=button.textContent;button.disabled=true;
  button.textContent=dialogText('Verific legăturile terestre…','Checking ground connections…');
  host.replaceChildren();
  const progress=document.createElement('small');
- progress.textContent=dialogText('Verific separat accesul, transferurile și ultima etapă…',
-  'Checking origin access, transfers and the final leg separately…');
+ progress.setAttribute('role','status');
+ progress.textContent=dialogText('Construiesc itinerariul de la adresa de plecare până la destinație…',
+  'Building your itinerary from your starting address to the destination…');
  host.append(progress);
  try{
   const response=await fetch(url.toString(),{method:'POST',
    headers:{'Content-Type':'application/json'},
    body:JSON.stringify({userInitiated:true,origin,destination,flight,
-    requestedAt:fullTime||null,language:state.language}),
+    requestedAt:choice.transitDepartureAt||null,language:state.language}),
    signal:AbortSignal.timeout(45000)});
   const data=await response.json();
   if(!response.ok)throw Error('HTTP '+response.status);
   if(!host.isConnected)return;
   host.replaceChildren();
   const title=document.createElement('strong');
-  title.textContent=data.completeDoorToDoor?
-   dialogText('Itinerariu multimodal posibil (orar orientativ)',
-    'Possible multimodal journey (indicative timetable)'):
-   dialogText('Legături terestre găsite până acum','Ground connections found so far');
+  title.textContent=dialogText('Itinerariu · de la plecare la destinație',
+   'Itinerary · from origin to destination');
   host.append(title);
-  const segment=(heading,journey)=>{
-   const wrap=document.createElement('section');
-   wrap.style.cssText='display:flex;flex-direction:column;gap:4px;border-top:1px solid #466575;padding:8px 0';
-   const name=document.createElement('strong');name.textContent=heading;wrap.append(name);
-   if(journey?.legs?.length){
-    for(const leg of journey.legs){
-     const stage=document.createElement('div');stage.style.cssText='font-size:13px;line-height:1.45';
-     stage.textContent=(leg.from||'')+' → '+(leg.to||'')+' · '+
-      (String(leg.departureTime||'').replace('T',' ').slice(0,16))+' → '+
-      String(leg.arrivalTime||'').replace('T',' ').slice(0,16)+' UTC · '+
-      transitModeName(leg.mode);
-     wrap.append(stage);
-     if(leg.operator){const op=document.createElement('div');op.append(mixedOperatorName(leg.operator));wrap.append(op)}
-    }
-   }else{
-    const notice=document.createElement('small');
-    notice.style.cssText='font-size:13px;color:#d1e4ea;line-height:1.45';
-    notice.textContent=dialogText('Nu există încă o legătură programată verificată pentru acest segment.',
-     'No validated scheduled connection is available for this segment yet.');
-    wrap.append(notice);
-   }
-   host.append(wrap);
+  const beginning=document.createElement('p');
+  beginning.style.cssText='font-size:13px;line-height:1.45;margin:2px 0';
+  beginning.textContent=dialogText('Plecare: ','From: ')+
+   String(data.originLabel||origin.label||'')+' · '+
+   dialogText('Destinație: ','Destination: ')+String(data.destinationLabel||destination.label||'');
+  host.append(beginning);
+  const chosenZone=String(state.language||'ro');
+  const timeLabel=(value,zone)=>{
+   if(!value||!Number.isFinite(Date.parse(value)))return '';
+   if(!zone)return String(value).replace('T',' ').slice(0,16)+' UTC';
+   try{return new Intl.DateTimeFormat(chosenZone,{timeZone:zone,
+    day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit',
+    hourCycle:'h23'}).format(new Date(value));}
+   catch{return String(value).replace('T',' ').slice(0,16)+' UTC'}
   };
-  segment(dialogText('1. Plecare → aeroport','1. Origin → airport'),data.accessJourney);
+  const walkMode=mode=>/^(walking|walk|foot|pedestrian)$/i.test(String(mode||''));
+  const distance=n=>n!==null&&n!==undefined&&Number.isFinite(Number(n))&&Number(n)>=0?
+   (Number(n)>=1000?(Number(n)/1000).toLocaleString(chosenZone,{maximumFractionDigits:1})+' km':
+    Math.round(Number(n))+' m'):'';
+  const minutes=n=>n!==null&&n!==undefined&&Number.isFinite(Number(n))&&Number(n)>=0?
+   Math.max(1,Math.round(Number(n)))+' min':'';
+  let step=0;
+  const section=(icon,heading,meta,kind='leg')=>{
+   const wrap=document.createElement('section');wrap.className='mixed-door-to-door-stage mixed-stage-'+kind;
+   wrap.style.cssText='display:flex;flex-direction:column;gap:5px;border-top:1px solid #6d5062;padding:10px 0;line-height:1.4';
+   const h=document.createElement('strong');h.textContent=(++step)+'. '+icon+' '+heading;
+   wrap.append(h);
+   if(meta){const note=document.createElement('small');note.style.cssText='font-size:13px;color:#d9e8ee';note.textContent=meta;wrap.append(note)}
+   host.append(wrap);return wrap;
+  };
+  const gap=(from,to,reason)=>{
+   const row=section('⚠️',from+' → '+to,
+    reason||dialogText('Legătura pietonală sau transportul local nu sunt confirmate.',
+     'Walking or local transport connection is not verified.'),'gap');
+   row.classList.add('mixed-unverified-walk-stage');
+  };
+  const addJourney=(journey,from,to,missingText)=>{
+   const legs=Array.isArray(journey?.legs)?journey.legs:[];
+   if(!legs.length){gap(from,to,missingText);return}
+   let previous=null;
+   for(const leg of legs){
+    if(previous&&String(previous.to||'').trim().toLowerCase()!==
+       String(leg.from||'').trim().toLowerCase()){
+     gap(String(previous.to||''),String(leg.from||''),
+      dialogText('Schimbarea între aceste două puncte nu este descrisă de furnizor.',
+       'The supplier has not described the transfer between these points.'));
+    }
+    const walking=walkMode(leg.mode);
+    const icon=walking?'🚶':/rail|train|tube|metro|subway/i.test(String(leg.mode))?'🚆':
+     /bus|coach|tram/i.test(String(leg.mode))?'🚌':/ferry|boat/i.test(String(leg.mode))?'⛴️':'🚍';
+    const heading=(walking?dialogText('Mers pe jos: ','Walk: '):transitModeName(leg.mode)+': ')+
+     String(leg.from||from)+' → '+String(leg.to||to);
+    const startAt=timeLabel(leg.departureTime,leg.departureZone||journey.timeZone);
+    const finishAt=timeLabel(leg.arrivalTime,leg.arrivalZone||journey.timeZone);
+    const details=[walking?distance(leg.distanceMeters):'',
+     minutes(leg.durationMinutes),startAt&&finishAt?startAt+' → '+finishAt:'',
+     !walking&&leg.lineNames?.length?leg.lineNames.join(', '):'',
+     !walking&&leg.towards?dialogText('Direcția: ','Towards: ')+leg.towards:'',
+     !walking&&leg.platform?dialogText('Peron: ','Platform: ')+leg.platform:''].filter(Boolean).join(' · ');
+    const item=section(icon,heading,details,walking?'walk':'vehicle');
+    if(leg.operator&&!walking){const operator=document.createElement('div');
+     operator.append(mixedOperatorName(leg.operator));item.append(operator)}
+    if(walking&&!distance(leg.distanceMeters)){
+     const note=document.createElement('small');
+     note.style.cssText='color:#e4bfcb;font-size:12px';
+     note.textContent=dialogText('Distanța exactă nu este furnizată pentru acest segment.',
+      'Exact distance is not provided for this walking leg.');
+     item.append(note);
+    }
+    previous=leg;
+   }
+  };
+  addJourney(data.accessJourney,
+   String(origin.label||dialogText('Acasă','Home')),
+   String(data.airportFrom?.name||data.flight?.from||''),
+   dialogText('Transportul de la adresa de plecare până la aeroport nu este încă verificat.',
+    'Transport from your starting address to the airport is not yet verified.'));
   if(data.flight){
    const f=data.flight;
-   const air=document.createElement('section');air.style.cssText='border-top:1px solid #466575;padding:8px 0;display:flex;flex-direction:column;gap:3px';
-   const heading=document.createElement('strong');
-   heading.textContent='2. ✈ '+f.from+' → '+f.to+' · '+f.departureLocal+' → '+f.arrivalLocal;
-   air.append(heading);
+   const heading='✈️ '+String(f.from||'')+' → '+String(f.to||'');
+   const times=String(f.departureLocal||'')+' → '+String(f.arrivalLocal||'')+
+    (f.flightNumber?' · '+String(f.flightNumber):'');
+   const air=section('✈️',heading,times,'flight');
    if(f.airline){const op=document.createElement('div');op.append(mixedOperatorName(f.airline));air.append(op)}
-   host.append(air);
-  }
-  if(data.regionalOnwardJourney?.legs?.length&&!data.egressJourney?.legs?.length){
-   // A dated Bilo city-to-city service is NOT a connection from the airport
-   // or all the way to the street. The two missing transfers stay visible.
-   const airportGap=document.createElement('small');
-   airportGap.className='mixed-airport-to-city-gap';
-   airportGap.textContent=dialogText('3. Aeroport sosire → stația din ',
-    '3. Arrival airport → station in ')+String(data.regionalOnwardFromCity||'')+
-    dialogText(' · transferul de la aeroport nu este încă verificat.',
-     ' · transfer from the airport has not been verified.');
-   host.append(airportGap);
-   segment(dialogText('4. Tren/autocar național · ',
-    '4. National rail/coach · ')+String(data.regionalOnwardFromCity||'')+
-    ' → '+String(data.regionalOnwardToCity||''),data.regionalOnwardJourney);
-   const arrivalGap=document.createElement('small');
-   arrivalGap.className='mixed-city-to-address-gap';
-   arrivalGap.textContent=dialogText('5. Stația de sosire → ',
-    '5. Arrival station → ')+String(destination.label||'')+
-    dialogText(' · ultima etapă până la numărul străzii nu este încă verificată.',
-     ' · final travel to the exact street number is not yet verified.');
-   host.append(arrivalGap);
+  }else gap(String(data.airportFrom?.name||''),String(data.airportTo?.name||''),
+   dialogText('Zborul nu a fost confirmat.','Flight details were not verified.'));
+  if(data.egressJourney?.legs?.length){
+   addJourney(data.egressJourney,String(data.airportTo?.name||''),
+    String(destination.label||''),'');
+  }else if(data.regionalOnwardJourney?.legs?.length){
+   gap(String(data.airportTo?.name||data.flight?.to||''),
+    String(data.regionalOnwardFromCity||''),
+    dialogText('Transferul de la aeroport până la stația de plecare nu este verificat.',
+     'Transfer from the airport to the departure station is not verified.'));
+   addJourney(data.regionalOnwardJourney,String(data.regionalOnwardFromCity||''),
+    String(data.regionalOnwardToCity||''),'');
+   gap(String(data.regionalOnwardToCity||''),String(destination.label||''),
+    dialogText('Transportul și mersul pe jos până la adresa finală nu sunt verificate.',
+     'Transport and walking to the final address are not verified.'));
   }else{
-   segment(dialogText('3. Aeroport sosire → adresă','3. Arrival airport → final address'),data.egressJourney);
+   gap(String(data.airportTo?.name||data.flight?.to||''),
+    String(destination.label||''),
+    dialogText('Transportul local și ultima porțiune pietonală nu sunt încă verificate.',
+     'Local transport and the final walking leg are not yet verified.'));
   }
-  const note=document.createElement('small');
-  note.style.cssText='display:block;font-size:12px;color:#c8d8df;line-height:1.4';
+  const note=document.createElement('p');
+  note.style.cssText='font-size:12px;line-height:1.5;color:#d5e1e6;margin:4px 0';
   note.textContent=data.completeDoorToDoor?
-   dialogText('Etapele sunt corelate în timp; orarul zborului rămâne orientativ și rezervarea se verifică la operator.',
-    'Ground connections align with the flight observation; verify airline timetable and booking.'):
-   dialogText('Nu este încă un traseu complet. Eva nu presupune transferuri inexistente.',
-    'This is not yet a complete route. Missing transfers are never invented.');
+   dialogText('Legăturile au fost corelate cu zborul. Orele și disponibilitatea se confirmă la operator; prețul zborului nu reprezintă prețul întregii călătorii.',
+    'Connections are aligned with the flight. Confirm schedules and availability with operators; the flight fare is not the complete trip price.'):
+   dialogText('Etapele marcate cu ⚠️ nu sunt încă verificate. Nu sunt inventate distanțe, mers pe jos, stații sau ore.',
+    'Stages marked ⚠️ remain unverified. Walking distances, stops and times are not invented.');
   host.append(note);
-  if(!data.completeDoorToDoor){
-   const status=document.createElement('small');
-   status.style.cssText='display:block;font-size:12px;line-height:1.45;color:#ffd0df';
-   status.textContent=dialogText('Acces: ','Origin access: ')+String(data.accessStatus||data.status||'neverificat')+
-    ' · '+dialogText('Ultima etapă: ','Final leg: ')+String(data.egressStatus||data.status||'neverificat');
-   host.append(status);
-  }
  }catch{
   if(host.isConnected)host.textContent=dialogText('Nu s-au putut verifica acum legăturile terestre.',
    'Ground connections could not be checked at this time.');
