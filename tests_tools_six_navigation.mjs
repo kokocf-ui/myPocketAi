@@ -21,11 +21,13 @@ for(const group of groups){
 assert.match(EXTRA_TOOLS_WORKSPACE_SCRIPT,/if\(key==='storybook'\)/);
 assert.match(EXTRA_TOOLS_WORKSPACE_SCRIPT,/extraToolsV2Storybook\(work,area,addPdf,input,primary,secondary,note\)/);
 assert.match(EXTRA_TOOLS_SIX_NAV_SCRIPT,/extraStorybookMotionAttach\(work,reader\)/);
-assert.match(STORYBOOK_MOTION_SCRIPT,/evaImageQuotaUrl/);
-assert.match(STORYBOOK_MOTION_SCRIPT,/evaImageInstallationId/);
+assert.match(STORYBOOK_MOTION_SCRIPT,/api\/storybook-photos/);
+assert.match(STORYBOOK_MOTION_SCRIPT,/Wikimedia Commons/);
 assert.match(STORYBOOK_MOTION_SCRIPT,/pocketNativeVoiceSend/);
 assert.match(STORYBOOK_MOTION_SCRIPT,/chapter\+\+/);
 assert.match(STORYBOOK_MOTION_SCRIPT,/music\.volume=0\.14/);
+assert.doesNotMatch(STORYBOOK_MOTION_SCRIPT,/extraCreatorImagePreviewUrl|evaImageQuotaUrl/);
+assert.match(STORYBOOK_MOTION_SCRIPT,/nextImage\.source/);
 assert.match(STORYBOOK_MOTION_STYLE,/@keyframes evaStoryPan/);
 assert.match(EXTRA_TOOLS_SIX_NAV_SCRIPT,/module:'creative_storybook'/);
 assert.match(EXTRA_TOOLS_SIX_NAV_SCRIPT,/data\.chapters\.length!==count/);
