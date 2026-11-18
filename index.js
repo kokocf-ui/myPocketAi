@@ -19347,8 +19347,8 @@ function appendMixedGroundOperatorCards(host,options,choice){
  }
 }
 function appendMixedGroundConnectionCards(host,connections,choice){
- mixedResultsSectionTitle(host,dialogText('Legături terestre · trenuri și autocare',
-  'Ground connections · trains and coaches'));
+ mixedResultsSectionTitle(host,dialogText('Legături terestre · rute publicate, fără orar confirmat',
+  'Ground links · route pages without confirmed schedules'));
  for(const connection of connections.slice(0,8)){
   const steps=Array.isArray(connection?.segments)?connection.segments:[];
   if(steps.length<2||steps.some(x=>!x?.url||!x?.operator||!x?.from||!x?.to))continue;
@@ -19364,6 +19364,7 @@ function appendMixedGroundConnectionCards(host,connections,choice){
    onSelect:()=>{
     const body=mixedCandidateDetailShell(route,()=>renderMixedUnifiedResults(dataForMixed(),choice));
     if(!body)return;
+    let stageNumber=1;
     const warning=document.createElement('p');
     warning.textContent=dialogText('Sunt două tronsoane găsite pe paginile oficiale ale operatorilor. Nu avem încă dovada că se pot lega la data selectată; orele și prețul total nu sunt confirmate.',
      'Two operator-owned route pages were found. Their transfer on the selected date, timings and complete price remain unverified.');
@@ -19376,7 +19377,7 @@ function appendMixedGroundConnectionCards(host,connections,choice){
     const access=document.createElement('section');
     access.className='mixed-unverified-access-leg';
     access.style.cssText='border-top:1px solid #6c4a60;padding:10px 0';
-    access.textContent=dialogText('1. Din ','1. From ')+exactOrigin+
+    access.textContent=(stageNumber++)+'. '+dialogText('⚠ Acces de la ','⚠ Access from ')+exactOrigin+
      dialogText(' către terminalul din ',' to the terminal in ')+steps[0].from+
      dialogText(' · terminalul de îmbarcare nu este încă identificat de furnizor; nu există încă un traseu verificat.',
       ' · the operator has not identified the boarding terminal; no verified access route yet.');
@@ -19385,7 +19386,7 @@ function appendMixedGroundConnectionCards(host,connections,choice){
      const section=document.createElement('section');
      section.style.cssText='border-top:1px solid #6c4a60;padding:10px 0;display:flex;flex-direction:column;gap:6px';
      const heading=document.createElement('strong');
-     heading.textContent=(i+1)+'. '+(step.mode==='train'?'🚆':step.mode==='ferry'?'⛴️':'🚌')+
+     heading.textContent=(stageNumber++)+'. '+(step.mode==='train'?'🚆':step.mode==='ferry'?'⛴️':'🚌')+
       ' '+step.from+' → '+step.to;
      section.append(heading);
      const link=document.createElement('a');link.textContent=String(step.operator);
@@ -19402,7 +19403,7 @@ function appendMixedGroundConnectionCards(host,connections,choice){
      body.append(section);
      if(i<steps.length-1){
       const interchange=document.createElement('small');
-      interchange.textContent=dialogText('Schimbare la ','Transfer at ')+via+
+      interchange.textContent=(stageNumber++)+'. '+dialogText('⚠ Schimbare la ','⚠ Transfer at ')+via+
        dialogText(' · stația și timpul de transfer nu sunt confirmate.',
         ' · connecting stop and time are not confirmed.');
       interchange.style.cssText='font-size:12px;color:#ffd3dd';
@@ -19412,7 +19413,7 @@ function appendMixedGroundConnectionCards(host,connections,choice){
     const final=document.createElement('section');
     final.className='mixed-unverified-egress-leg';
     final.style.cssText='border-top:1px solid #6c4a60;padding:10px 0';
-    final.textContent=dialogText('Ultima etapă: terminalul din ','Final leg: terminal in ')+
+    final.textContent=(stageNumber++)+'. '+dialogText('⚠ Ultima etapă: terminalul din ','⚠ Final leg: terminal in ')+
      steps.at(-1).to+' → '+exactDestination+
      dialogText(' · stația de sosire nu este identificată de furnizor; traseul până la adresă trebuie încă verificat.',
       ' · the operator has not identified the arrival stop; onward routing to your address is not verified.');
