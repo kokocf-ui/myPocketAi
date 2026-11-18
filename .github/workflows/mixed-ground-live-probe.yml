@@ -1,0 +1,49 @@
+name: Probe real international ground transport coverage
+
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/mixed-ground-live-probe.yml']
+  workflow_dispatch:
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - name: Query UK to Romania ground options without flight credits
+        run: |
+          python3 - <<'PY'
+          import json,urllib.request,urllib.error,datetime
+          # Public example coordinates only, never the user's actual GPS.
+          origin={'latitude':51.475,'longitude':0.325,'label':'Grays, UK','country_code':'GB'}
+          dest={'latitude':47.0612,'longitude':21.9473,'label':'Strada Nufărului 1, Oradea, Romania','country_code':'RO'}
+          departure=(datetime.datetime.now(datetime.timezone.utc)+datetime.timedelta(days=2)).replace(hour=8,minute=0,second=0,microsecond=0).isoformat().replace('+00:00','Z')
+          payload={
+           'message':'Transport cu trenul sau autocarul la Oradea','module':'travel','language':'ro',
+           'history':[],'mixed_journey':True,'mixed_composition':True,
+           'transit_query':dest['label'],'transit_destination':dest,
+           'journey_origin':origin,'location':origin,'location_requested':True,
+           'travel_mode':'transit','transit_preference':'bus_only',
+           'transit_departure_at':departure,'requested_transit_count':8
+          }
+          u='https://lifewise-ai-v2.kokocf.workers.dev/api/chat'
+          request=urllib.request.Request(u,data=json.dumps(payload).encode(),
+           headers={'Content-Type':'application/json','Accept':'application/json',
+            'User-Agent':'PocketAI-transport-smoke-test'},method='POST')
+          try:
+           with urllib.request.urlopen(request,timeout=70) as resp:
+            body=json.load(resp)
+            print('HTTP:',resp.status)
+            print('Reason:',body.get('reason'))
+            print('Provider statuses:',json.dumps(body.get('provider_status'),ensure_ascii=False)[:1500])
+            print('Transit options:',len(body.get('transit') or []))
+            print('Flight candidates:',len(body.get('flight_candidates') or []))
+            print('Reply:',str(body.get('reply'))[:500])
+          except urllib.error.HTTPError as e:
+           print('HTTP ERROR:',e.code,e.read(350).decode(errors='replace'))
+           raise
+          except Exception as e:
+           print('ERROR:',type(e).__name__,str(e)[:350])
+           raise
+          PY
