@@ -75,8 +75,8 @@ function extraToolsV2Storybook(work,area,addPdf,input,primary,secondary,note){
  const compose=extraToolsEl('section','extra-storybook-compose');
  area.append(compose);
  const hint=extraToolsEl('p','extra-work-note',extraToolsLocale(
-  'Eva scrie capitolele, iar tu poți genera ilustrații cu mișcare cinematografică și poți adăuga muzica ta. Personajele nu au încă animație video proprie.',
-  'Eva writes chapters, and you can generate cinematic moving illustrations and add your music. Characters do not yet have full video animation.'));
+  'Eva creează capitolele, caută fotografii reale online cu licență clară și le prezintă cu mișcare de cameră, peste narațiune și muzică opțională.',
+  'Eva writes chapters, finds reusable real photos online, and shows them with camera movement, narration and optional music.'));
  compose.append(hint);
  work.title=extraToolsField(compose,extraToolsLocale('Titlul mini-cărții','Mini-book title'),
   'text',extraToolsLocale('Ex.: Soldații de teracotă','e.g. The Terracotta Army'));
@@ -99,7 +99,7 @@ function extraToolsV2Storybook(work,area,addPdf,input,primary,secondary,note){
  }
  const imageChoice=extraToolsEl('label','extra-storybook-image-option');
  const autoImages=extraToolsEl('input');autoImages.type='checkbox';autoImages.checked=true;
- const imageChoiceText=extraToolsEl('span','',extraToolsLocale('Creează automat scene ilustrate animate (consumă câte o imagine AI pentru fiecare capitol)','Generate moving illustrated scenes automatically (uses one AI image per chapter)'));
+ const imageChoiceText=extraToolsEl('span','',extraToolsLocale('Caută automat fotografii reale online, cu autor și licență (fără generare AI)','Automatically find real online photos with author and licence (no AI image generation)'));
  imageChoice.append(autoImages,imageChoiceText);compose.append(imageChoice);
  const statusLine=extraToolsEl('p','extra-storybook-status');statusLine.setAttribute('role','status');compose.append(statusLine);
  const reader=extraToolsEl('section','extra-storybook-reader');reader.hidden=true;
@@ -141,7 +141,7 @@ function extraToolsV2Storybook(work,area,addPdf,input,primary,secondary,note){
   paper.scrollTop=0;area.scrollTop=0;
  }
  work.storybookShowChapter=chapterIndex=>{index=Math.max(0,Math.min(book.length-1,chapterIndex));display();};
- const create=primary('✨ Creează cartea ilustrată','✨ Create illustrated book',async()=>{
+ const create=primary('✨ Creează cartea cu fotografii','✨ Create photo storybook',async()=>{
   let autoIllustrate=false;
   const seed=editor.value.trim(),title=work.title.value.trim();
   if(title.length<2||seed.length<20){
@@ -189,7 +189,7 @@ function extraToolsV2Storybook(work,area,addPdf,input,primary,secondary,note){
    clearTimeout(timeout);
    if(work===extraToolsSession){
     work.controller=null;create.disabled=false;
-    create.textContent=extraToolsLocale('✨ Creează cartea ilustrată','✨ Create illustrated book');
+    create.textContent=extraToolsLocale('✨ Creează cartea cu fotografii','✨ Create photo storybook');
     if(autoIllustrate&&reader.isConnected){Promise.resolve().then(()=>{
      if(work===extraToolsSession&&reader.isConnected)void motion.makeIllustrations();
     });}
