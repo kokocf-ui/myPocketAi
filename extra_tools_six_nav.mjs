@@ -97,7 +97,7 @@ function extraToolsV2Storybook(work,area,addPdf,input,primary,secondary,note){
  for(const n of [3,4,5]){
   const option=extraToolsEl('option','',String(n));option.value=String(n);chaptersCount.append(option);
  }
- const state=extraToolsEl('p','extra-storybook-status');state.setAttribute('role','status');compose.append(state);
+ const statusLine=extraToolsEl('p','extra-storybook-status');statusLine.setAttribute('role','status');compose.append(statusLine);
  const reader=extraToolsEl('section','extra-storybook-reader');reader.hidden=true;
  const cover=extraToolsEl('h3','extra-storybook-cover');
  const progress=extraToolsEl('p','extra-storybook-counter');
@@ -140,7 +140,7 @@ function extraToolsV2Storybook(work,area,addPdf,input,primary,secondary,note){
  const create=primary('✨ Creează mini-cartea','✨ Create mini-book',async()=>{
   const seed=editor.value.trim(),title=work.title.value.trim();
   if(title.length<2||seed.length<20){
-   state.textContent=extraToolsLocale('Completează titlul și descrie povestea în cel puțin 20 de caractere.',
+   statusLine.textContent=extraToolsLocale('Completează titlul și descrie povestea în cel puțin 20 de caractere.',
     'Enter a title and describe the story in at least 20 characters.');return;
   }
   if(work.controller)return;
@@ -151,13 +151,13 @@ function extraToolsV2Storybook(work,area,addPdf,input,primary,secondary,note){
   const timeout=setTimeout(()=>ctrl.abort(),65000);
   create.disabled=true;
   create.textContent=extraToolsLocale('⏳ Eva scrie…','⏳ Eva is writing…');
-  state.textContent=extraToolsLocale('Eva pregătește capitolele…','Eva is preparing the chapters…');
+  statusLine.textContent=extraToolsLocale('Eva pregătește capitolele…','Eva is preparing the chapters…');
   book=[];work.output='';reader.hidden=true;
   try{
    const response=await fetch(CLIENT_CONFIG.apiUrl,{
     method:'POST',headers:{'Content-Type':'application/json'},
     body:JSON.stringify({message:seed,story_seed:seed,title,story_type:kind.value,
-      chapter_count:count,language:typeof state==='object'?'ro':'ro',module:'creative_storybook',history:[]}),
+      chapter_count:count,language:state.language||'ro',module:'creative_storybook',history:[]}),
     signal:ctrl.signal
    });
    const data=await response.json().catch(()=>null);
@@ -165,7 +165,7 @@ function extraToolsV2Storybook(work,area,addPdf,input,primary,secondary,note){
    if(!response.ok||data?.status!=='success'||data?.module!=='creative_storybook'||
       !Array.isArray(data.chapters)||data.chapters.length!==count||
       data.chapters.some((part,i)=>Number(part.number)!==i+1||String(part.text||'').length<170)){
-     state.textContent=extraToolsLocale(
+     statusLine.textContent=extraToolsLocale(
       'Eva nu a creat capitolele cerute. Nu afișăm rezultate de știri sau texte incomplete ca mini-carte.',
       'Eva did not create the requested chapters. News snippets or incomplete text will not be shown as a book.');
      return;
@@ -176,7 +176,7 @@ function extraToolsV2Storybook(work,area,addPdf,input,primary,secondary,note){
    index=0;compose.hidden=true;reader.hidden=false;
    display();
   }catch(error){
-   if(work===extraToolsSession)state.textContent=error?.name==='AbortError'?
+   if(work===extraToolsSession)statusLine.textContent=error?.name==='AbortError'?
     extraToolsLocale('Cererea a durat prea mult. Încearcă din nou.','The request timed out. Try again.'):
     extraToolsLocale('Nu am putut contacta serviciul de creare a poveștii.','Could not reach the story creation service.');
   }finally{
