@@ -17873,7 +17873,29 @@ async function resolveMixedFlightGroundOptions(choice,flight,host,button){
    if(f.airline){const op=document.createElement('div');op.append(mixedOperatorName(f.airline));air.append(op)}
    host.append(air);
   }
-  segment(dialogText('3. Aeroport sosire → adresă','3. Arrival airport → final address'),data.egressJourney);
+  if(data.regionalOnwardJourney?.legs?.length&&!data.egressJourney?.legs?.length){
+   // A dated Bilo city-to-city service is NOT a connection from the airport
+   // or all the way to the street. The two missing transfers stay visible.
+   const airportGap=document.createElement('small');
+   airportGap.className='mixed-airport-to-city-gap';
+   airportGap.textContent=dialogText('3. Aeroport sosire → stația din ',
+    '3. Arrival airport → station in ')+String(data.regionalOnwardFromCity||'')+
+    dialogText(' · transferul de la aeroport nu este încă verificat.',
+     ' · transfer from the airport has not been verified.');
+   host.append(airportGap);
+   segment(dialogText('4. Tren/autocar național · ',
+    '4. National rail/coach · ')+String(data.regionalOnwardFromCity||'')+
+    ' → '+String(data.regionalOnwardToCity||''),data.regionalOnwardJourney);
+   const arrivalGap=document.createElement('small');
+   arrivalGap.className='mixed-city-to-address-gap';
+   arrivalGap.textContent=dialogText('5. Stația de sosire → ',
+    '5. Arrival station → ')+String(destination.label||'')+
+    dialogText(' · ultima etapă până la numărul străzii nu este încă verificată.',
+     ' · final travel to the exact street number is not yet verified.');
+   host.append(arrivalGap);
+  }else{
+   segment(dialogText('3. Aeroport sosire → adresă','3. Arrival airport → final address'),data.egressJourney);
+  }
   const note=document.createElement('small');
   note.style.cssText='display:block;font-size:12px;color:#c8d8df;line-height:1.4';
   note.textContent=data.completeDoorToDoor?
