@@ -17917,7 +17917,7 @@ async function resolveMixedFlightGroundOptions(choice,flight,host,button){
     'Transport from your starting address to the airport is not yet verified.'));
   if(data.flight){
    const f=data.flight;
-   const heading='✈️ '+String(f.from||'')+' → '+String(f.to||'');
+   const heading=String(f.from||'')+' → '+String(f.to||'');
    const times=String(f.departureLocal||'')+' → '+String(f.arrivalLocal||'')+
     (f.flightNumber?' · '+String(f.flightNumber):'');
    const air=section('✈️',heading,times,'flight');
@@ -19315,6 +19315,29 @@ function appendMixedGroundOperatorCards(host,options,choice){
     p.textContent=dialogText('Variantă orientativă. Verifică plecarea, durata, tariful și locurile la operator. Eva nu face rezervări.',
      'Indicative option. Verify departure, duration, fare and seats with the operator. Eva does not book.');
     body.append(p);
+    // A route-page result cannot prove first/last mile: show both gaps.
+    const fromAddress=String(choice?.journeyOrigin?.label||state.lastTransitChoice?.journeyOrigin?.label||
+     dialogText('Adresa de plecare','Starting address'));
+    const toAddress=String(choice?.transitDestination?.label||state.lastTransitChoice?.transitDestination?.label||
+     dialogText('Adresa finală','Final address'));
+    const access=document.createElement('section');
+    access.className='mixed-unverified-access-leg';
+    access.textContent=dialogText('1. ⚠ De la ','1. ⚠ From ')+fromAddress+
+     dialogText(' la stația din ',' to the station in ')+String(option.from)+
+     dialogText(' · accesul pietonal și stația de îmbarcare nu sunt confirmate.',
+      ' · walking access and boarding station are not verified.');
+    body.append(access);
+    const segment=document.createElement('section');
+    segment.className='mixed-operator-route-stage';
+    segment.textContent='2. '+icons+' '+label+' · '+String(option.operator);
+    body.append(segment);
+    const egress=document.createElement('section');
+    egress.className='mixed-unverified-egress-leg';
+    egress.textContent=dialogText('3. ⚠ De la stația de sosire din ','3. ⚠ From the arrival station in ')+
+     String(option.to)+' → '+toAddress+
+     dialogText(' · transportul local și mersul pe jos nu sunt confirmate.',
+      ' · local transport and walking are not verified.');
+    body.append(egress);
     const link=document.createElement('a');link.textContent=String(option.operator);
     link.className='transit-choice-action';
     link.href=String(option.url);link.target='_blank';link.rel='noopener noreferrer';
