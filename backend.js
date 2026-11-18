@@ -2350,7 +2350,7 @@ export default {
             {role:'system',content:storybookSystemPrompt(req)},
             {role:'user',content:storybookUserPrompt(req)}
           ],
-          max_tokens:2900,
+          max_tokens:2200,
           temperature:0.65
         });
         const raw=String(result?.response||result?.result?.response||'').trim();
