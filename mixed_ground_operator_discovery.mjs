@@ -220,7 +220,7 @@ export async function discoverMixedGroundOperators(env,{origin,destination,fetch
     }
    }catch{errors.push('brave_network_error')}
    eligible=normalizeMixedOperatorEvidence(candidateResults,{origin,destination});
-   if(eligible.length)break;
+   if(eligible.some(x=>fold(x.from)===fold(majorCity||fromCity)||fold(x.from)===fold(fromCity)))break;
   }
  }
  if(!successful)return {status:errors.join('|')||'provider_unavailable',operators:[],
@@ -239,5 +239,6 @@ export async function discoverMixedGroundOperators(env,{origin,destination,fetch
   operators:accepted,queriesUsed:queries.length,scheduledServicesVerified:false,
   sourceErrors:errors.slice(0,4),
   summary:{fromCity,toCity,majorCity,sourceHits:candidateResults.length,
-   matchingRoutes:eligible.length,geographicallyAccepted:accepted.length,errors:errors.slice(0,4)}};
+   matchingRoutes:eligible.length,matchingOrigins:eligible.map(x=>x.from).slice(0,6),
+   geographicallyAccepted:accepted.length,errors:errors.slice(0,4)}};
 }
