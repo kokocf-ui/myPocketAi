@@ -3868,27 +3868,48 @@ export default {
             ?discoverMixedFlightCandidates(env,{
               origin:mixedOrigin,
               destination:{latitude:targetLat,longitude:targetLon},
-              departureAt:effectiveDepartureAt||null,maxDays:3
+              departureAt:effectiveDepartureAt||null,maxDays:3,
+              cache:typeof caches!=='undefined'?caches.default:null,
+              cacheBaseUrl:new URL(request.url).origin
             }).catch(()=>({status:'provider_unavailable',candidates:[],datesChecked:[]}))
             :Promise.resolve({status:'disabled',candidates:[],datesChecked:[]});
           // Every flight card receives its itinerary *before* the result list is
           // returned. The detail screen only reads it; no follow-up fetch.
           const mixedFlightFields=async()=>{
             const result=await flightSearchPromise;
-            if(!result.candidates?.length)return {};
-            const candidates=await prepareMixedFlightOptions(env,{
-              candidates:result.candidates,origin:mixedOrigin,
-              destination:{latitude:targetLat,longitude:targetLon,label:targetName,
-                country_code:String(data.transit_destination?.country_code||'').toUpperCase()},
-              requestedAt:effectiveDepartureAt||new Date().toISOString(),
-              language:lang,limit:6
-            },{
-              planEgress:planMOTISMixedJourney,
-              planRegional:searchRomanianAirportOnward
-            });
-            return {flight_candidates:candidates,flight_search_status:result.status,
-              flight_dates_checked:result.datesChecked,
-              flight_details_prepared:true};
+            const status=String(result?.status||'provider_unavailable');
+            const diagnostic={
+              flight_search_status:status,
+              flight_dates_checked:Array.isArray(result?.datesChecked)?result.datesChecked:[],
+              flight_source_cache_used:result?.fromCachedProviderResults===true,
+              flight_provider_queries:Number(result?.providerSearchCount)||0,
+              flight_candidates_received:Array.isArray(result?.candidates)?result.candidates.length:0
+            };
+            if(!result?.candidates?.length)return diagnostic;
+            // Critical invariant: the original air results remain visible
+            // even when transit/airport enrichment fails or times out.
+            const raw=result.candidates.slice(0,6);
+            let candidates=raw,detailsReady=false;
+            try{
+              const prepared=await Promise.race([
+                prepareMixedFlightOptions(env,{
+                  candidates:raw,origin:mixedOrigin,
+                  destination:{latitude:targetLat,longitude:targetLon,label:targetName,
+                    country_code:String(data.transit_destination?.country_code||'').toUpperCase()},
+                  requestedAt:effectiveDepartureAt||new Date().toISOString(),
+                  language:lang,limit:6
+                },{
+                  planEgress:planMOTISMixedJourney,
+                  planRegional:searchRomanianAirportOnward
+                }),
+                new Promise(resolve=>setTimeout(()=>resolve(null),8500))
+              ]);
+              if(Array.isArray(prepared)&&prepared.length){
+                candidates=prepared;detailsReady=true;
+              }
+            }catch{}
+            return {...diagnostic,flight_candidates:candidates,
+              flight_details_prepared:detailsReady};
           };
           // Operator pages are a SECOND, independent transport source. They
           // can justify an indicative coach/rail option even without a dated

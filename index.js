@@ -19297,6 +19297,30 @@ function renderMixedUnifiedResults(data,choice){
  const providers=Array.isArray(data?.operator_options)?data.operator_options:[];
  const connections=Array.isArray(data?.ground_connections)?data.ground_connections:[];
  const flights=Array.isArray(data?.flight_candidates)?data.flight_candidates:[];
+ // An operator-page result must not hide a failed/empty flight search.
+ // Never translate source failure into the assertion that flights do not exist.
+ if(data?.international_journey===true&&!flights.length){
+  const status=String(data?.flight_search_status||'not_reported');
+  const airNote=document.createElement('p');
+  airNote.className='mixed-flight-search-disclosure';
+  airNote.style.cssText='padding:9px 11px;border:1px solid #996273;border-radius:9px;font-size:12px;line-height:1.4;color:#e4d7dc;margin:8px 0';
+  airNote.textContent=
+   ['free_quota_not_confirmed','quota_check_failed','search_http_429'].includes(status)?
+    dialogText('✈️ Sursa aeriană nu are acum o cotă gratuită de interogări confirmată. Zborurile existente pot lipsi din rezultate.',
+     '✈️ Flight search quota is not currently available or confirmed. Existing flights may be absent from these results.'):
+   ['disabled','no_free_key'].includes(status)?
+    dialogText('✈️ Căutarea zborurilor nu este activă în această sesiune. Variantele terestre nu reprezintă toate posibilitățile.',
+     '✈️ Flight search is not enabled in this session. Ground results are not all possible journeys.'):
+   ['no_airport_pair','missing_endpoints'].includes(status)?
+    dialogText('✈️ Nu au fost identificate aeroporturi de plecare și sosire pentru căutarea aeriană.',
+     '✈️ Origin and arrival airport points could not be identified for flight search.'):
+   ['provider_unavailable','provider_error','quota_check_failed','not_reported'].includes(status)||status.startsWith('search_http_')?
+    dialogText('✈️ Furnizorul de zboruri nu a returnat acum date utilizabile. Asta nu înseamnă că nu există zboruri.',
+     '✈️ The flight supplier returned no usable data. This does not mean that no flights operate.'):
+    dialogText('✈️ Furnizorul nu a prezentat zboruri pentru această căutare. Verificarea nu dovedește că nu există curse.',
+     '✈️ The supplier did not return flights for this search. This does not prove none operate.');
+  host.append(airNote);
+ }
  if(connections.length)appendMixedGroundConnectionCards(host,connections,choice);
  if(providers.length)appendMixedGroundOperatorCards(host,providers,choice);
  if(flights.length)appendMixedAirCandidateCards(host,flights,choice);
