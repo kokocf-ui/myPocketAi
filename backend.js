@@ -3875,7 +3875,8 @@ export default {
           const mixedGroundFields=async()=>{
             const result=await groundOperatorSearchPromise;
             return {operator_options:Array.isArray(result.operators)?result.operators:[],
-              operator_discovery_status:result.status};
+              operator_discovery_status:result.status,
+              operator_search_summary:result.summary||null};
           };
           // Compare two independently licensed planners before accepting the
           // first response. Cross-supplier transfers require proved stop IDs.
