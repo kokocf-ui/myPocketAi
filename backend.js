@@ -2439,6 +2439,10 @@ export default {
     }
     let message = data.message.trim();
     const originalMessage=message;
+    // Explicit creation is a writing task, never a history search or social
+    // small-talk turn merely because a fictional plot mentions a "message".
+    const creativeEntryIntent=creativeQualityEnabled?
+      evaCreativeIntent({module:data.module||'assistant',message:originalMessage}):{requested:false};
     // Grammar, literature and vocabulary are never transport or geolocation.
     // The assistant route may interpret the word "location" in a system
     // instruction as a travel request; isolate these lessons before intent
@@ -2626,7 +2630,7 @@ export default {
     const nativeConversationProfile=normalizeConversationProfile(data.user_profile);
     const userAddressInstruction=conversationProfileInstruction(nativeConversationProfile,lang);
     // Avoid making up a referent when an elliptical request has no prior topic.
-    const unresolvedReference=clarifyUnresolvedReference(originalMessage,data.history,{language:lang});
+    const unresolvedReference=creativeEntryIntent.requested?null:clarifyUnresolvedReference(originalMessage,data.history,{language:lang});
     if(unresolvedReference){
       return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,
         message_received:originalMessage,reply:unresolvedReference,
@@ -2636,7 +2640,7 @@ export default {
     }
     // Scoped history lookup runs before regular chat/research classification.
     // The client supplies the accessible turns; never imply global access.
-    const scopedRecall=recallFromSuppliedHistory(originalMessage,data.history,{language:lang});
+    const scopedRecall=creativeEntryIntent.requested?null:recallFromSuppliedHistory(originalMessage,data.history,{language:lang});
     if(scopedRecall){
       let recallReply=scopedRecall.found?scopedRecall.reply:
         (lang==='ro'?(scopedRecall.reason==='topic_missing'
@@ -2680,7 +2684,7 @@ export default {
     // E1: Speech-act gate has priority over stale route context, named-POI
     // lookup, news/web research, old lesson topics and fixed canned replies.
     // The app brand remains myPocket AI; only the avatar is named Eva.
-    const evaTurn=classifyEvaTurn(message,{module: data.module||'assistant'});
+    const evaTurn=creativeEntryIntent.requested?null:classifyEvaTurn(message,{module: data.module||'assistant'});
     if(evaTurn?.kind==='exit'){
       return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,
         message_received:originalMessage,reply:lang==='ro'?'Închizi?':'Close the app?',

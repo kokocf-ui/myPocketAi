@@ -73,4 +73,17 @@ r=await post({module:'assistant',language:'ro',
  }}});
 assert.equal(r.status,200);
 assert.equal(calls[0],EVA_AI_MODELS.fast);
+calls=[];
+const matureRequest={module:'assistant',language:'ro',
+ message:'Creează o poveste pentru adulți, de aproximativ 450 de cuvinte, despre o arhivistă care găsește un mesaj ascuns într-un ceas defect dintr-o gară. Vreau o scenă puternică, o decizie dificilă, dialog natural, un detaliu neașteptat și un final coerent. Nu scrie o morală și nu introduce un copil aventurier.'};
+r=await post(matureRequest,{AI:{run:async(model,options)=>{
+ calls.push({model,options});
+ return {response:'Arhivista intră în gara aproape pustie, cu o scrisoare în mână. Întinse degetele spre mecanismul ceasului, în timp ce mecanicul o avertiză că trenul nu mai poate aștepta. Își aminti de omul care îi ceruse să păstreze tăcerea, dar înțelese că adevărul trebuia transmis înainte de plecare. Împinse ușa și porni spre peron. Decizia era făcută, iar mesajul ajunsese la destinatar.'};
+}}});
+assert.equal(r.status,200,JSON.stringify(r.data).slice(0,300));
+assert.equal(r.data.status,'success');
+assert.notEqual(r.data.conversation_intent,'history_recall','A fictional hidden message cannot become a chat-history query');
+assert.equal(calls[0]?.model,EVA_AI_MODELS.balanced,'Adult creative story should reach the intended AI generator');
+assert.match(calls[0].options.messages[0].content,/Build scenes/);
+
 console.log('PASS: cross-module creative quality – adult writing, education, story repair, model selection and rollback');
