@@ -57,7 +57,8 @@ import {explicitOriginDestinationPair} from "./route_explicit_origin.mjs";
 import {addRomanianWalkingAccess} from "./ro_urban_walking.mjs";
 import {romanianNationalQuery,romanianHistoryJourney,planRomanianNationalJourney,romanianDepartureDate,romanianJourneySummary,reverseRomanianOriginCity} from "./ro_national_transit.mjs";
 import {classifyNewsRequest,requiresLiveNewsRetrieval} from "./response_intent.mjs";
-import {normalizeStorybookRequest,storybookSystemPrompt,storybookUserPrompt,parseStorybookChapters} from "./storybook_generation.mjs";
+import {normalizeStorybookRequest,storybookSystemPrompt,storybookUserPrompt,parseStorybookChapters,storybookQualityIssue} from "./storybook_generation.mjs";
+import {fetchStorybookHistory} from "./storybook_history_research.mjs";
 import {searchStorybookCommonsPhotos} from "./storybook_commons_photos.mjs";
 import {contextualResearchQuery,isConversationOnlyTurn} from "./conversation_context.mjs";
 import {planAnswerFocus} from "./answer_focus.mjs";
@@ -2362,23 +2363,36 @@ export default {
     if(data.module==='creative_storybook'){
       const req=normalizeStorybookRequest(data);
       if(!req)return json({status:'error',error:'invalid_storybook_request'},400);
+      let reference=null;
+      if(req.genre==='documentary'){
+        reference=await fetchStorybookHistory(req.title,{language:req.language});
+        if(reference.status!=='success')return json({
+          status:'unavailable',error:'storybook_documentary_sources_unavailable'
+        },503);
+      }
       try{
-        const result=await env.AI.run(selectedAiModel,{
+        // Higher-capacity storytelling model may be opted into separately, after cost review.
+        const storyModel=allowedTextModels.includes(String(env.POCKET_AI_STORY_MODEL||''))?
+          String(env.POCKET_AI_STORY_MODEL):selectedAiModel;
+        const result=await env.AI.run(storyModel,{
           messages:[
             {role:'system',content:storybookSystemPrompt(req)},
-            {role:'user',content:storybookUserPrompt(req)}
+            {role:'user',content:storybookUserPrompt(req,reference)}
           ],
-          max_tokens:2200,
-          temperature:0.65
+          max_tokens:3200,
+          temperature:req.genre==='documentary'?0.25:0.76
         });
         const raw=String(result?.response||result?.result?.response||'').trim();
         const chapters=parseStorybookChapters(raw,req.count);
         if(!chapters)return json({status:'unavailable',error:'storybook_invalid_chapters'},502);
+        const quality=storybookQualityIssue(chapters,req);
+        if(quality)return json({status:'unavailable',error:'storybook_quality_invalid',quality},502);
         return json({
           status:'success',module:'creative_storybook',
-          title:req.title,chapter_count:chapters.length,chapters,
+          title:req.title,story_type:req.genre,chapter_count:chapters.length,chapters,
           reply:chapters.map(c=>'CAPITOL '+c.number+':\n'+c.text).join('\n\n'),
-          ai_generated:true,source_research_performed:false
+          ai_generated:true,source_research_performed:Boolean(reference),
+          references:reference?.sources||[]
         });
       }catch(error){
         return json({status:'unavailable',
