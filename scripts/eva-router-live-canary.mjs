@@ -8,7 +8,7 @@ import {resolve} from 'node:path';
 
 const ACCOUNT_ID=process.env.CLOUDFLARE_ACCOUNT_ID;
 const API_TOKEN=process.env.CLOUDFLARE_AI_TOKEN;
-const MAX_CALLS=6;
+const MAX_CALLS=process.argv.includes('--assistant-only')?2:6;
 const USER_INPUTS=[
  {id:'assistant_reasoning',expected_tier:'deep',
   label:'Asistent – strategie tehnică și decizie motivată',
@@ -91,7 +91,7 @@ if(!ACCOUNT_ID||!API_TOKEN){
  await writeFile(resolve(outputDir,'eva-router-live.md'),'No credentials configured.');
  process.exit(0);
 }
-for(const item of USER_INPUTS){
+for(const item of (process.argv.includes('--assistant-only')?USER_INPUTS.slice(0,1):USER_INPUTS)){
  if(counts.quotaExceeded)break;
  const started=Date.now();
  const initialCallCount=counts.requests.length;

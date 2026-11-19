@@ -8307,10 +8307,18 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
     }));
 
     try {
-      const primaryMessages=[{role:"system",content:systemMessage},...modelHistory,{role:"user",content:aiUserMessage}];
       const smartMainPlan=evaPlan({module:data.module||'assistant',message,requiresSources:shouldSearchWeb});
-      const effectiveTokens=evaSmartRouterEnabled&&smartMainPlan.tier==='deep'
-        ?Math.max(1600,requestedModelTokens):requestedModelTokens;
+      const explicitlyLong=/\b(?:[2-9]\s*(?:pagini|pages)|peste\s+\d+\s+(?:cuvinte|words)|full source code|cod(?:ul)? complet|complete code|entire file)\b/i.test(message);
+      // Model reasoning can be more capable without producing a 1,200-word,
+      // abruptly cut-off answer to an ordinary analytical question.
+      const compactDeep=evaSmartRouterEnabled&&smartMainPlan.tier==='deep'
+        &&!explicitlyLong&&!recipeInstruction&&!eventResearchIntent;
+      const smartSystemMessage=compactDeep?systemMessage+
+        '\n\nSMART EVA ANSWER: Give a complete, useful answer in roughly 350–500 words maximum unless the user explicitly requests a long document. Include key trade-offs, a concrete recommendation and a short final conclusion. Avoid enormous tables, repetitive sections, speculative service claims and unfinished final words. Finish with a complete sentence.':systemMessage;
+      const primaryMessages=[{role:"system",content:smartSystemMessage},...modelHistory,{role:"user",content:aiUserMessage}];
+      const effectiveTokens=compactDeep?Math.min(2100,Math.max(1500,requestedModelTokens)):
+        evaSmartRouterEnabled&&smartMainPlan.tier==='deep'
+         ?Math.max(1600,requestedModelTokens):requestedModelTokens;
       let result;
       try{
         const primaryOpts={
