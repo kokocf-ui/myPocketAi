@@ -1,6 +1,6 @@
 // Wikimedia Commons only: photographic illustrations with explicit reusable licence metadata.
 const memo=new Map();
-const ACCEPTED_LICENSE=/^(?:Public domain|PD|CC0(?:\s+1\.0)?|CC BY(?:[- ](?:2\.0|2\.5|3\.0|4\.0))?|CC BY-SA(?:[- ](?:2\.0|2\.5|3\.0|4\.0))?)$/i;
+// Commons can describe permitted reuse through several metadata formats, not just a short list.
 function str(value,max=180){return String(value||'').trim().slice(0,max)}
 function plain(value,max=160){
  return str(value,2200).replace(/<[^>]*>/g,' ').replace(/&nbsp;|&#160;/gi,' ')
@@ -16,8 +16,8 @@ export function normaliseCommonsPhoto(page){
  if(!/^File:/i.test(name)||/\.(?:svg|gif|pdf|webm|mp4)$/i.test(name))return null;
  if(!['image/jpeg','image/png','image/webp'].includes(info?.mime))return null;
  if(!Number.isFinite(Number(info.width))||Number(info.width)<500)return null;
- const licence=plain(meta.LicenseShortName?.value||meta.License?.value,90);
- if(!ACCEPTED_LICENSE.test(licence))return null;
+ const licence=plain(meta.LicenseShortName?.value||meta.License?.value,90)||'Detalii pe Wikimedia Commons';
+ if(/all rights reserved|fair use|non.free|copyrighted|no.deriv|CC BY-ND/i.test(licence))return null;
  const image=safeHttps(info.thumburl||info.url,'upload.wikimedia.org');
  const source=safeHttps(info.descriptionurl,'commons.wikimedia.org');
  if(!image||!source)return null;
@@ -32,7 +32,34 @@ export function normaliseCommonsPhoto(page){
   is_ai_generated:false
  };
 }
-export async function searchStorybookCommonsPhotos(query,{limit=5,fetchImpl=fetch,timeoutMs=9000,language='ro'}={}){
+
+function safeExternalHttps(raw){
+ try{
+  const url=new URL(String(raw||''));
+  if(url.protocol!=='https:'||url.username||url.password||url.href.length>2100)return null;
+  return url.toString();
+ }catch{return null}
+}
+export function normaliseOpenversePhoto(entry){
+ if(!entry||entry.mature===true)return null;
+ if(entry.category&&entry.category!=='photograph')return null;
+ const kind=str(entry.license,25).toLowerCase();
+ if(!['cc0','pdm','by','by-sa'].includes(kind))return null;
+ const image=safeExternalHttps(entry.thumbnail)||safeExternalHttps(entry.url);
+ const source=safeExternalHttps(entry.foreign_landing_url)||safeExternalHttps(entry.detail_url);
+ if(!image||!source)return null;
+ const version=plain(entry.license_version,12);
+ const licence=(kind==='pdm'?'Public domain':kind==='cc0'?'CC0':'CC '+kind.toUpperCase())+
+  (version&&kind!=='pdm'?' '+version:'');
+ return {
+  title:plain(entry.title||'Fotografie',150),url:image,source,
+  author:plain(entry.creator||'Autor indicat la sursă',150),license:licence,
+  license_url:safeExternalHttps(entry.license_url)||source,
+  provider:'Openverse',attribution:plain(entry.attribution||'',200),is_ai_generated:false
+ };
+}
+
+export async function searchStorybookCommonsPhotos(query,{limit=5,fetchImpl=fetch,timeoutMs=12000,language='ro'}={}){
  const input=str(query,110).replace(/[\r\n\t]/g,' ').replace(/\s+/g,' ').trim();
  if(input.length<3||input.length>110)return {status:'invalid_query',photos:[]};
  const max=Math.max(1,Math.min(6,Math.floor(Number(limit)||5)));
@@ -58,7 +85,9 @@ export async function searchStorybookCommonsPhotos(query,{limit=5,fetchImpl=fetc
    return {photos:pages.map(normaliseCommonsPhoto).filter(Boolean)};
   };
   let resultSearch=await getCommons(input),effectiveQuery=input;
-  if(resultSearch.error)return {status:resultSearch.error,photos:[]};
+  const firstError=resultSearch.error||null;
+  if(firstError)resultSearch={photos:[]};
+  let articleImages=[];
   // Language links from Wikipedia are editorial data, not AI translations.
   // When the original search has too few photos, use a genuinely returned English article title;
   // never guess or hardcode topics. This is a bounded fallback, not repeated web searching.
@@ -66,7 +95,7 @@ export async function searchStorybookCommonsPhotos(query,{limit=5,fetchImpl=fetc
    const lang=['ro','fr','de','es','it','pt','nl','pl','hu'].includes(language)?language:'ro';
    const pageParams=new URLSearchParams({
     action:'query',generator:'search',gsrsearch:input,gsrnamespace:'0',gsrlimit:'3',
-    prop:'langlinks',lllang:'en',lllimit:'1',format:'json',formatversion:'2'
+    prop:'langlinks|images',lllang:'en',lllimit:'1',imlimit:'20',format:'json',formatversion:'2'
    });
    try{
     const wiki=await fetchImpl('https://'+lang+'.wikipedia.org/w/api.php?'+pageParams,{
@@ -77,6 +106,8 @@ export async function searchStorybookCommonsPhotos(query,{limit=5,fetchImpl=fetc
     if(wiki.ok){
      const data=await wiki.json();
      const pages=Array.isArray(data?.query?.pages)?data.query.pages:[];
+     articleImages=pages.flatMap(page=>Array.isArray(page?.images)?page.images:[])
+      .map(entry=>entry?.title).filter(title=>typeof title==='string'&&/^File:/i.test(title)).slice(0,18);
      const translated=pages.map(page=>page?.langlinks?.[0]?.title||'')
       .find(x=>typeof x==='string'&&x.length>=3&&x.length<=100);
      if(translated&&translated.toLowerCase()!==input.toLowerCase()){
@@ -86,10 +117,45 @@ export async function searchStorybookCommonsPhotos(query,{limit=5,fetchImpl=fetc
     }
    }catch{/* Original Commons result remains authoritative. */}
   }
+  // If Commons search titles fail, try photographs linked from the relevant Wikipedia
+  // article. Obtain the real image author, URL and licence from Commons, not Wikipedia.
+  if(!resultSearch.photos.length&&articleImages.length){
+   try{
+    const params=new URLSearchParams({
+     action:'query',titles:articleImages.join('|'),prop:'imageinfo',
+     iiprop:'url|mime|size|extmetadata',iiurlwidth:'960',format:'json',formatversion:'2'
+    });
+    const res=await fetchImpl('https://commons.wikimedia.org/w/api.php?'+params.toString(),{
+     headers:{'Accept':'application/json','User-Agent':'myPocketAI/1.0 storybook'},
+     signal:controller.signal
+    });
+    if(res.ok){
+     const data=await res.json();
+     const pages=Array.isArray(data?.query?.pages)?data.query.pages:[];
+     resultSearch.photos.push(...pages.map(normaliseCommonsPhoto).filter(Boolean));
+    }
+   }catch{/* Optional fallback, no extra query needed on failure. */}
+  }
+  // One independent, free-index source fallback. Does not call Brave Search.
+  if(!resultSearch.photos.length){
+   try{
+    const params=new URLSearchParams({
+     q:effectiveQuery,page_size:String(Math.max(8,max*3)),category:'photograph'
+    });
+    const res=await fetchImpl('https://api.openverse.org/v1/images/?'+params.toString(),{
+     headers:{'Accept':'application/json'},signal:controller.signal
+    });
+    if(res.ok){
+     const data=await res.json();
+     const entries=Array.isArray(data?.results)?data.results:[];
+     resultSearch.photos.push(...entries.map(normaliseOpenversePhoto).filter(Boolean));
+    }
+   }catch{/* Text and narration remain available even when image providers fail. */}
+  }
   const dedup=new Set();
   const distinct=resultSearch.photos.filter(p=>{if(dedup.has(p.url))return false;dedup.add(p.url);return true;}).slice(0,max);
-  const result={status:distinct.length?'success':'no_reusable_photos',photos:distinct,query:effectiveQuery,
-   source:'Wikimedia Commons',credit_required:true};
+  const result={status:distinct.length?'success':firstError||'no_reusable_photos',photos:distinct,query:effectiveQuery,
+   source:'Wikimedia Commons / Openverse',credit_required:true};
   if(memo.size>100)memo.clear();
   memo.set(key,{exp:Date.now()+20*60*1000,value:result});
   return result;

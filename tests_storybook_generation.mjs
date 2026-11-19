@@ -17,6 +17,12 @@ const chapterText='Mara a pășit în muzeu alături de bunicul ei. În fața lo
 const generated=Array.from({length:4},(_,i)=>'CAPITOL '+(i+1)+': Descoperirea '+(i+1)+'\n'+chapterText).join('\n\n');
 assert.equal(parseStorybookChapters(generated,4)?.length,4);
 assert.equal(parseStorybookChapters(generated,4)?.[0].title,'Descoperirea 1');
+const malformedHeader='CAPITOL 1: Într-o zi, Ling a găsit un obiect vechi. Era pictată c\n'+chapterText+'\n\n'+generated.slice(generated.indexOf('CAPITOL 2:'));
+const recovered=parseStorybookChapters(malformedHeader,4);
+assert.ok(recovered);
+assert.equal(recovered[0].title,'Capitolul 1');
+assert.ok(recovered[0].text.startsWith('Într-o zi, Ling a găsit un obiect vechi.'));
+assert.ok(recovered[0].text.includes('Era pictată\n'));
 assert.ok(parseStorybookChapters(generated,4)?.[0].text.startsWith('Mara a pășit'));
 assert.ok(!parseStorybookChapters(generated,4)?.[0].text.startsWith('Descoperirea 1'));
 

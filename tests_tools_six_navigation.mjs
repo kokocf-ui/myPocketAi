@@ -28,6 +28,8 @@ assert.match(STORYBOOK_MOTION_SCRIPT,/chapter\+\+/);
 assert.match(STORYBOOK_MOTION_SCRIPT,/startWithVisuals/);
 assert.match(STORYBOOK_MOTION_SCRIPT,/await makeIllustrations/);
 assert.match(STORYBOOK_MOTION_SCRIPT,/lastPhotoQuery/);
+assert.match(STORYBOOK_MOTION_SCRIPT,/picture\.hidden=!nextImage/);
+assert.match(STORYBOOK_MOTION_SCRIPT,/Openverse/);
 assert.match(STORYBOOK_MOTION_SCRIPT,/music\.volume=0\.14/);
 assert.doesNotMatch(STORYBOOK_MOTION_SCRIPT,/extraCreatorImagePreviewUrl|evaImageQuotaUrl/);
 assert.match(STORYBOOK_MOTION_SCRIPT,/nextImage\.source/);

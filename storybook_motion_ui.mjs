@@ -6,7 +6,7 @@ function extraStorybookMotionAttach(work,reader){
  image.alt=extraToolsLocale('Ilustrație a capitolului','Chapter illustration');
  image.hidden=true;
  const lights=extraToolsEl('div','eva-story-lights');lights.setAttribute('aria-hidden','true');
- image.addEventListener('error',()=>{image.hidden=true;placeholder.hidden=false;});
+ image.addEventListener('error',()=>{image.hidden=true;picture.hidden=true;});
  const placeholder=extraToolsEl('div','eva-story-placeholder',
   extraToolsLocale('Fotografiile reale din surse reutilizabile apar aici, cu mișcare discretă.',
    'Reusable real photographs appear here, with subtle motion.'));
@@ -16,8 +16,8 @@ function extraStorybookMotionAttach(work,reader){
  const info=extraToolsEl('p','eva-story-image-status');
  info.setAttribute('role','status');
  info.textContent=extraToolsLocale(
-  'Fotografiile provin din Wikimedia Commons. Autorul și licența sunt afișate pentru fiecare imagine. Mișcarea este de cameră, nu animație a personajelor.',
-  'Photos come from Wikimedia Commons. Author and licence appear for each image. Motion is camera movement, not character animation.');
+  'Fotografii reale din surse deschise, cu autorul și proveniența disponibile. Mișcarea este discretă.',
+  'Real photos from open sources, with attribution and provenance. Subtle camera movement.');
  motion.append(info);
  reader.prepend(motion);
  const credit=extraToolsEl('div','eva-story-credit');motion.append(credit);
@@ -25,7 +25,7 @@ function extraStorybookMotionAttach(work,reader){
   'text',extraToolsLocale('Ex.: Armata de teracotă','e.g. Terracotta Army'));
  photoSearch.maxLength=110;
  const tools=extraToolsEl('div','eva-story-media-tools');
- const generate=extraToolsBtn(extraToolsLocale('🔎 Caută fotografii reale','🔎 Find real photos'),()=>void makeIllustrations(),true);
+ const generate=extraToolsBtn(extraToolsLocale('🔎 Caută fotografii reale','🔎 Find real photos'),()=>void makeIllustrations(true),true);
  const animate=extraToolsBtn(extraToolsLocale('▶ Urmărește și ascultă','▶ Watch and listen'),()=>void startWithVisuals());
  const musicLabel=extraToolsEl('label','eva-story-audio-label',extraToolsLocale('🎵 Muzică de fundal (fișier propriu sau licențiat)','🎵 Background music (owned or licensed file)'));
  const file=extraToolsEl('input');file.type='file';file.accept='audio/*';
@@ -39,18 +39,21 @@ function extraStorybookMotionAttach(work,reader){
  function setCurrent(i){
   chapter=Math.max(0,Math.min(book.length-1,i));
   const nextImage=scenes[chapter];
+  picture.hidden=!nextImage;
   image.hidden=!nextImage;
   if(nextImage)image.src=nextImage.url;
   else image.removeAttribute('src');
   placeholder.hidden=Boolean(nextImage);
+  subtitles.hidden=!nextImage;
   picture.classList.remove('eva-story-slide-active');
   void picture.offsetWidth;
   picture.classList.add('eva-story-slide-active');
   picture.style.setProperty('--story-shift',chapter%2?' -3%':'3%');
-  subtitles.textContent=book[chapter]?.title||extraToolsLocale('Capitolul ','Chapter ')+(chapter+1);
+  const shortTitle=String(book[chapter]?.title||'').trim();
+  subtitles.textContent=extraToolsLocale('Capitolul ','Chapter ')+(chapter+1)+(shortTitle&&shortTitle.length<55&&!/[.!?]/.test(shortTitle)?' — '+shortTitle:'');
   credit.replaceChildren();
   if(nextImage){
-   const author=extraToolsEl('span','',nextImage.author+' · '+nextImage.license+' · Wikimedia Commons');
+   const author=extraToolsEl('span','',nextImage.author+' · '+nextImage.license+' · '+(nextImage.provider||'Sursa'));
    const source=extraToolsEl('a','',extraToolsLocale('Vezi fotografia și licența','View photo and licence'));
    source.href=nextImage.source;source.target='_blank';source.rel='noopener';
    credit.append(author,source);
@@ -109,7 +112,7 @@ function extraStorybookMotionAttach(work,reader){
  async function startWithVisuals(){
   if(!book.length||playing)return;
   // The watch button also starts the photo search, so it never silently shows only text.
-  if(!scenes.some(Boolean)&&!work.controller)await makeIllustrations();
+  if(!scenes.some(Boolean)&&!work.controller&&lastPhotoQuery!==photoSearch.value.trim())await makeIllustrations();
   if(work!==extraToolsSession||!reader.isConnected)return;
   startNarration();
  }
@@ -120,10 +123,10 @@ function extraStorybookMotionAttach(work,reader){
   if(music.src){const p=music.play();if(p?.catch)p.catch(()=>{});}
   playChapter();
  }
- async function makeIllustrations(){
+ async function makeIllustrations(force=false){
   if(!book.length||work.controller)return;
   const topic=photoSearch.value.trim()||String(work.title?.value||'').trim();
-  if(topic===lastPhotoQuery&&scenes.some(Boolean))return;
+  if(topic===lastPhotoQuery&&!force)return;
   if(topic.length<3){
    info.textContent=extraToolsLocale('Scrie subiectul fotografiilor.','Enter a photo search topic.');return;
   }
@@ -133,6 +136,7 @@ function extraStorybookMotionAttach(work,reader){
   }
   api.pathname=api.pathname.replace(/\/api\/chat$/,'/api/storybook-photos');
   const controller=new AbortController();
+  lastPhotoQuery=topic;
   work.controller=controller;generate.disabled=true;
   info.textContent=extraToolsLocale('Eva caută fotografii reutilizabile, cu autor și licență…',
    'Eva is searching reusable photos with author and licence…');
@@ -153,10 +157,15 @@ function extraStorybookMotionAttach(work,reader){
       'No photos found for this topic. Try a shorter title; the story remains available.');
     return;
    }
-   const safe=data.photos.filter(p=>typeof p.url==='string'&&
-    /^https:\/\/upload\.wikimedia\.org\//.test(p.url)&&
-    /^https:\/\/commons\.wikimedia\.org\//.test(p.source)&&
-    typeof p.author==='string'&&typeof p.license==='string');
+   const safe=data.photos.filter(p=>{
+    try{
+     const imageURL=new URL(p.url),sourceURL=new URL(p.source);
+     return imageURL.protocol==='https:'&&sourceURL.protocol==='https:'&&
+      !imageURL.username&&!imageURL.password&&!sourceURL.username&&!sourceURL.password&&
+      ['Wikimedia Commons','Openverse'].includes(p.provider)&&
+      typeof p.author==='string'&&typeof p.license==='string';
+    }catch{return false}
+   });
    scenes=book.map((_,i)=>safe.length?safe[i%safe.length]:null);
    if(safe.length)lastPhotoQuery=topic;
    setCurrent(chapter);
@@ -196,11 +205,13 @@ function extraStorybookMotionAttach(work,reader){
 `;
 export const STORYBOOK_MOTION_STYLE=String.raw`
 #view-module.extra-tools-workspace .eva-story-motion{display:flex;flex-direction:column;gap:8px;margin:0 0 12px;width:100%}
+#view-module.extra-tools-workspace .eva-story-picture[hidden]{display:none!important}
 #view-module.extra-tools-workspace .eva-story-picture{position:relative;aspect-ratio:16/9;width:100%;overflow:hidden;background:radial-gradient(circle at 70% 30%,#526d82,#102a41 76%);border:1px solid #947180;border-radius:14px}
 #view-module.extra-tools-workspace .eva-story-image{position:absolute;width:110%;height:110%;left:-5%;top:-5%;object-fit:cover;animation:evaStoryPan 16s ease-in-out infinite alternate;transform-origin:center;will-change:transform}
 #view-module.extra-tools-workspace .eva-story-picture.eva-story-slide-active{animation:evaStorySceneEnter 0.8s ease}
 #view-module.extra-tools-workspace .eva-story-lights{position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 12% 62%,#f7d5a122 0 6px,transparent 8px),radial-gradient(circle at 72% 20%,#fff4bd33 0 3px,transparent 5px);background-size:240px 170px;animation:evaStoryLightDrift 14s linear infinite;mix-blend-mode:screen}
 #view-module.extra-tools-workspace .eva-story-placeholder{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:18px;color:#deedf4;font-size:14px}
+#view-module.extra-tools-workspace .eva-story-subtitles[hidden]{display:none!important}
 #view-module.extra-tools-workspace .eva-story-subtitles{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,#071523e8);color:#fff;text-align:center;padding:20px 12px 8px;font-size:clamp(11px,2.8vw,14px);line-height:1.4;max-height:72px;overflow:hidden;pointer-events:none}
 .eva-story-credit{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:6px;font-size:11px;line-height:1.35;color:#c4dbe8;padding:3px 6px}
 .eva-story-credit a{color:#e7abc4;text-decoration:underline}

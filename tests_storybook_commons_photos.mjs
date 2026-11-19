@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import backend from './backend.js';
-import {normaliseCommonsPhoto,searchStorybookCommonsPhotos} from './storybook_commons_photos.mjs';
+import {normaliseCommonsPhoto,normaliseOpenversePhoto,searchStorybookCommonsPhotos} from './storybook_commons_photos.mjs';
 const sample={
  title:"File:Terracotta Army Xi'an.jpg",
  imageinfo:[{
@@ -22,6 +22,14 @@ assert.equal(found.is_ai_generated,false);
 assert.equal(normaliseCommonsPhoto({...sample,imageinfo:[{...sample.imageinfo[0],extmetadata:{LicenseShortName:{value:'All rights reserved'}}}]}),null);
 assert.equal(normaliseCommonsPhoto({...sample,imageinfo:[{...sample.imageinfo[0],mime:'image/svg+xml'}]}),null);
 assert.equal(normaliseCommonsPhoto({...sample,imageinfo:[{...sample.imageinfo[0],thumburl:'https://evil.example/photo.jpg'}]}),null);
+assert.ok(normaliseCommonsPhoto({...sample,imageinfo:[{...sample.imageinfo[0],extmetadata:{}}]}));
+const openverseSample={id:'example-photo',category:'photograph',mature:false,license:'by-sa',
+ license_version:'4.0',creator:'Museum',title:'Terracotta Warriors',
+ thumbnail:'https://api.openverse.org/v1/images/example-photo/thumb/',
+ foreign_landing_url:'https://photos.example.org/warriors',provider:'flickr'};
+assert.equal(normaliseOpenversePhoto(openverseSample)?.provider,'Openverse');
+assert.equal(normaliseOpenversePhoto({...openverseSample,mature:true}),null);
+assert.equal(normaliseOpenversePhoto({...openverseSample,license:'by-nd'}),null);
 
 let requested=0;
 const mock=async (url,opts)=>{
@@ -58,6 +66,21 @@ assert.equal(bilingualResult.status,'success');
 assert.equal(bilingualResult.photos.length,1);
 assert.equal(bilingualResult.query,'Terracotta Army');
 assert.equal(fallbackRequests,3);
+
+
+let openverseCalls=0;
+const onlyOpenverse=async(url)=>{
+ const u=new URL(url);
+ if(u.hostname==='api.openverse.org'){
+  openverseCalls++;
+  return new Response(JSON.stringify({results:[openverseSample]}),{status:200});
+ }
+ return new Response(JSON.stringify({query:{pages:[]}}),{status:200});
+};
+const openverseFallback=await searchStorybookCommonsPhotos('warrior photography generic',{language:'en',fetchImpl:onlyOpenverse});
+assert.equal(openverseFallback.status,'success');
+assert.equal(openverseFallback.photos[0].provider,'Openverse');
+assert.equal(openverseCalls,1);
 
 const orig=globalThis.fetch;
 try{

@@ -131,9 +131,10 @@ function extraToolsV2Storybook(work,area,addPdf,input,primary,secondary,note){
   cover.textContent=work.title.value.trim()||extraToolsLocale('Mini-cartea mea','My mini-book');
   progress.textContent=extraToolsLocale('Capitolul ','Chapter ')+(index+1)+' / '+book.length;
   paper.replaceChildren();
-  const heading=extraToolsEl('h4','extra-storybook-chapter-title',
-   extraToolsLocale('Capitolul ','Chapter ')+(index+1)+(book[index].title&&
-   !/^capitol|chapter/i.test(book[index].title)?' — '+book[index].title:''));
+  const safeTitle=String(book[index].title||'').trim();
+  const chapterLabel=extraToolsLocale('Capitolul ','Chapter ')+(index+1);
+  const heading=extraToolsEl('h4','extra-storybook-chapter-title',chapterLabel+
+   (safeTitle&&safeTitle.length<=58&&!/[.!?;:]/.test(safeTitle)&&!(/^(capitol|chapter)/i).test(safeTitle)?' — '+safeTitle:''));
   const body=extraToolsEl('p','extra-storybook-prose',book[index].text);
   paper.append(heading,body);
   previous.disabled=index===0;next.disabled=index===book.length-1;

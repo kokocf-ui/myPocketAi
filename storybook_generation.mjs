@@ -19,7 +19,7 @@ export function storybookSystemPrompt(req){
   'The input may contain "caută informații" or "search for information": treat it as the SUBJECT of the book, not a web-search command.',
   'Write ONLY in language code '+req.language+'; natural, vivid storytelling. Genre: '+voices[req.genre]+'.',
   'Produce EXACTLY '+req.count+' chapters, about 105-155 words per chapter. No introduction or conclusion outside chapters.',
-  'Required headers at the start of their own lines: CAPITOL 1:, CAPITOL 2: ... CAPITOL '+req.count+':.',
+  'Required headers on separate lines with NO prose after colon: CAPITOL 1:, CAPITOL 2: ... CAPITOL '+req.count+':. Start storytelling on the next line and never split words or truncate sentences.',
   'Each chapter MUST unfold as a specific scene with place, atmosphere, character motivation, actions, and consequences. Build a coherent plot with rising curiosity or tension, not a school summary.',
   'Use natural dialogue or vivid observations where helpful. Give every chapter a distinct event and a purposeful ending that invites the next. Avoid repetitious exposition, stock morals, and repeating the chapter title in the body.',
   'Where history is mentioned, distinguish clearly between documented facts and fictional dramatization; do not invent real historical witnesses, precise quotes, or pretend to have consulted sources.',
@@ -42,8 +42,12 @@ export function parseStorybookChapters(raw,count){
   const number=Number(hits[i][1]);
   if(number!==i+1)return null;
   const body=text.slice(hits[i].index+hits[i][0].length,hits[i+1]?.index??text.length).trim();
-  const heading=String(hits[i][2]||'').trim();
-  const content=body; // The chapter heading is rendered separately; do not repeat it in narration.
+  const inline=String(hits[i][2]||'').replace(/\*\*/g,'').trim();
+  // Some models write the first sentence on the chapter header. Preserve it as prose.
+  const prose=inline.length>58||inline.split(/\s+/).length>8||/[.!?;:]/.test(inline);
+  const heading=inline&&!prose?inline:'';
+  const intro=prose?inline.replace(/\s+[bcdfghjklmnpqrstvwxyz]$/i,'').trim():'';
+  const content=(intro?intro+'\n':'')+body;
   const words=content.split(/\s+/).filter(Boolean);
   if(words.length<35||content.length<170)return null;
   if(/știri identificate|news from retrieved sources|apasă pe titlul unei știri|tap a headline/i.test(content))return null;
