@@ -6,6 +6,7 @@ function extraStorybookMotionAttach(work,reader){
  image.alt=extraToolsLocale('Ilustrație a capitolului','Chapter illustration');
  image.hidden=true;
  const lights=extraToolsEl('div','eva-story-lights');lights.setAttribute('aria-hidden','true');
+ image.addEventListener('error',()=>{image.hidden=true;placeholder.hidden=false;});
  const placeholder=extraToolsEl('div','eva-story-placeholder',
   extraToolsLocale('Fotografiile reale din surse reutilizabile apar aici, cu mișcare discretă.',
    'Reusable real photographs appear here, with subtle motion.'));
@@ -25,7 +26,7 @@ function extraStorybookMotionAttach(work,reader){
  photoSearch.maxLength=110;
  const tools=extraToolsEl('div','eva-story-media-tools');
  const generate=extraToolsBtn(extraToolsLocale('🔎 Caută fotografii reale','🔎 Find real photos'),()=>void makeIllustrations(),true);
- const animate=extraToolsBtn(extraToolsLocale('▶ Urmărește și ascultă','▶ Watch and listen'),()=>startNarration());
+ const animate=extraToolsBtn(extraToolsLocale('▶ Urmărește și ascultă','▶ Watch and listen'),()=>void startWithVisuals());
  const musicLabel=extraToolsEl('label','eva-story-audio-label',extraToolsLocale('🎵 Muzică de fundal (fișier propriu sau licențiat)','🎵 Background music (owned or licensed file)'));
  const file=extraToolsEl('input');file.type='file';file.accept='audio/*';
  musicLabel.append(file);
@@ -33,7 +34,7 @@ function extraStorybookMotionAttach(work,reader){
  const stop=extraToolsBtn(extraToolsLocale('■ Oprește','■ Stop'),()=>stopNarration());
  tools.append(generate,animate,stop,musicLabel,music);
  motion.append(tools);
- let book=[],chapter=0,scenes=[],playing=false,audioObjectUrl=null;
+ let book=[],chapter=0,scenes=[],playing=false,audioObjectUrl=null,lastPhotoQuery='';
  const speakLocale=()=>({ro:'ro-RO',en:'en-GB',fr:'fr-FR',de:'de-DE',it:'it-IT',es:'es-ES',pt:'pt-PT',nl:'nl-NL',pl:'pl-PL',hu:'hu-HU'})[state.language]||state.language||'ro-RO';
  function setCurrent(i){
   chapter=Math.max(0,Math.min(book.length-1,i));
@@ -46,7 +47,7 @@ function extraStorybookMotionAttach(work,reader){
   void picture.offsetWidth;
   picture.classList.add('eva-story-slide-active');
   picture.style.setProperty('--story-shift',chapter%2?' -3%':'3%');
-  subtitles.textContent=book[chapter]?.text?.slice(0,220).replace(/\s+/g,' ')||'';
+  subtitles.textContent=book[chapter]?.title||extraToolsLocale('Capitolul ','Chapter ')+(chapter+1);
   credit.replaceChildren();
   if(nextImage){
    const author=extraToolsEl('span','',nextImage.author+' · '+nextImage.license+' · Wikimedia Commons');
@@ -60,7 +61,7 @@ function extraStorybookMotionAttach(work,reader){
  }
  function setBook(newBook){
   stopNarration();
-  book=newBook||[];chapter=0;scenes=Array(book.length).fill(null);
+  book=newBook||[];chapter=0;scenes=Array(book.length).fill(null);lastPhotoQuery='';
   photoSearch.value=String(work.title?.value||'').slice(0,110);
   setCurrent(0);
  }
@@ -105,6 +106,13 @@ function extraStorybookMotionAttach(work,reader){
   work.storybookShowChapter?.(chapter);
   playChapter();
  }
+ async function startWithVisuals(){
+  if(!book.length||playing)return;
+  // The watch button also starts the photo search, so it never silently shows only text.
+  if(!scenes.some(Boolean)&&!work.controller)await makeIllustrations();
+  if(work!==extraToolsSession||!reader.isConnected)return;
+  startNarration();
+ }
  function startNarration(){
   if(!book.length)return;
   stopNarration();
@@ -115,6 +123,7 @@ function extraStorybookMotionAttach(work,reader){
  async function makeIllustrations(){
   if(!book.length||work.controller)return;
   const topic=photoSearch.value.trim()||String(work.title?.value||'').trim();
+  if(topic===lastPhotoQuery&&scenes.some(Boolean))return;
   if(topic.length<3){
    info.textContent=extraToolsLocale('Scrie subiectul fotografiilor.','Enter a photo search topic.');return;
   }
@@ -137,20 +146,23 @@ function extraStorybookMotionAttach(work,reader){
    const data=await response.json().catch(()=>null);
    if(work!==extraToolsSession||!reader.isConnected)return;
    if(!response.ok||data?.status!=='success'||!Array.isArray(data.photos)||!data.photos.length){
-    scenes=Array(book.length).fill(null);setCurrent(chapter);
-    info.textContent=extraToolsLocale('Nu am găsit fotografii potrivite cu licență verificabilă. Încearcă o expresie mai scurtă sau în engleză.',
-     'No suitably licensed photos found. Try a shorter search phrase or an English topic.');
+    info.textContent=data?.status==='upstream_unavailable'||response.status>=500?
+     extraToolsLocale('Biblioteca de fotografii este momentan indisponibilă. Povestea poate fi ascultată în continuare.',
+      'Photo library is temporarily unavailable. You can still listen to the story.'):
+     extraToolsLocale('Nu am găsit fotografii pentru acest subiect. Încearcă un titlu mai scurt; povestea rămâne disponibilă.',
+      'No photos found for this topic. Try a shorter title; the story remains available.');
     return;
    }
    const safe=data.photos.filter(p=>typeof p.url==='string'&&
     /^https:\/\/upload\.wikimedia\.org\//.test(p.url)&&
     /^https:\/\/commons\.wikimedia\.org\//.test(p.source)&&
     typeof p.author==='string'&&typeof p.license==='string');
-   scenes=book.map((_,i)=>safe[i]||null);
+   scenes=book.map((_,i)=>safe.length?safe[i%safe.length]:null);
+   if(safe.length)lastPhotoQuery=topic;
    setCurrent(chapter);
    info.textContent=extraToolsLocale(
-    'Am găsit '+safe.length+' fotografii cu surse și licențe. Apasă „Urmărește și ascultă”.',
-    'Found '+safe.length+' photos with sources and licences. Tap Watch and listen.');
+    'Am pregătit '+safe.length+' fotografii pentru '+book.length+' capitole. Apasă „Urmărește și ascultă”.',
+    'Prepared '+safe.length+' photos for '+book.length+' chapters. Tap Watch and listen.');
   }catch(error){
    if(work===extraToolsSession)info.textContent=controller.signal.aborted?
     extraToolsLocale('Căutarea fotografiilor a expirat.','Photo search timed out.'):
