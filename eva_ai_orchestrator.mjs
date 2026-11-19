@@ -22,7 +22,11 @@ export function planEvaAI(task={}, {enabled=false,legacyModel=EVA_AI_MODELS.fast
   evidenceRequired:false,reasons:['feature_disabled']
  });
  let tier='fast',reason='simple_request';
- if(module==='creative_storybook'&&CREATIVE.has(genre)){
+ if(task.creativeIntent?.requested){
+  // Shared creative mode: short copy uses balanced, long-form/essay uses deep.
+  tier=task.creativeIntent.long||task.creativeIntent.kind==='documentary'?'deep':'balanced';
+  reason='creative_'+task.creativeIntent.kind;
+ }else if(module==='creative_storybook'&&CREATIVE.has(genre)){
   tier='deep';reason=genre==='documentary'?'nonfiction_documentary':'long_form_creative';
  }else if(module==='education_study'||module==='learning'){
   tier=SCIENCE.has(subject)&&/(analysis|solve|proof|write|essay|complex|advanced|verific|demonstra|deduc|anali|rezolv)/.test(activity+' '+query)

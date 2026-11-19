@@ -33,7 +33,7 @@ assert.equal(seen[0].model,EVA_AI_MODELS.deep);
 assert.equal(seen[0].args.reasoning_effort,'low');
 assert.ok(!JSON.stringify(response.body).includes('private'));
 seen=[];
-const passive={AI:{run:async(model)=>{
+const passive={POCKET_EVA_CREATIVE_QUALITY_ENABLED:'0',AI:{run:async(model)=>{
  seen.push(model);return {response:book};
 }}};
 response=await post(storyData,passive);
