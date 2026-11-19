@@ -74,6 +74,17 @@ export function evaModelOptions(plan,options){
  return {...supplied,reasoning_effort:'low',
   max_tokens:Math.max(900,Math.min(3600,limit))};
 }
+export function evaLikelyTruncated(result,maxTokens){
+ const text=String(result?.response||'').trim();
+ if(text.length<140)return false;
+ const used=Number(result?.usage?.output_tokens??result?.usage?.completion_tokens??0);
+ const finish=String(result?.finish_reason||result?.stop_reason||'').toLowerCase();
+ const limit=Number(maxTokens)||0;
+ const capped=limit>0&&Number.isFinite(used)&&used>=limit-16;
+ const marked=/(?:length|max[_ -]?tokens?|token[_ -]?limit)/.test(finish);
+ const ended=/[.!?…»”"')\]}]$/.test(text)||text.endsWith(String.fromCharCode(96));
+ return (capped||marked)&&!ended;
+}
 export async function executeEvaAI(ai,plan,options,{allowFallback=true}={}){
  if(!ai||typeof ai.run!=='function')throw new Error('eva_ai_unavailable');
  const model=plan?.model||EVA_AI_MODELS.fast;

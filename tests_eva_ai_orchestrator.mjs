@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {EVA_AI_MODELS,planEvaAI,evaVisibleAnswer,evaModelOptions,executeEvaAI} from './eva_ai_orchestrator.mjs';
+import {EVA_AI_MODELS,planEvaAI,evaVisibleAnswer,evaModelOptions,executeEvaAI,evaLikelyTruncated} from './eva_ai_orchestrator.mjs';
 
 const legacy=planEvaAI({module:'creative_storybook',genre:'documentary'},{enabled:false});
 assert.equal(legacy.model,EVA_AI_MODELS.fast);
@@ -62,4 +62,8 @@ calls=[];
 const noRetry={run:async model=>{calls.push(model);throw Error('Temporary outage')}};
 await assert.rejects(()=>executeEvaAI(noRetry,doc,{messages:[]},{allowFallback:false}),/Temporary/);
 assert.equal(calls.length,1);
+const cutFixture={response:'Acesta este un exemplu de răspuns informativ. '.repeat(14)+'În concluzie, trebuie să',usage:{output_tokens:2100}};
+assert.equal(evaLikelyTruncated(cutFixture,2100),true);
+assert.equal(evaLikelyTruncated({...cutFixture,response:cutFixture.response+' verificăm.'},2100),false);
+assert.equal(evaLikelyTruncated({...cutFixture,usage:{output_tokens:1100}},2100),false);
 console.log('PASS: Eva AI orchestrator model routing, visibility, one fallback, quota protection and default-off');

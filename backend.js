@@ -35,7 +35,7 @@ import {handleMathVisionPilot} from "./math_photo_vision.mjs";
 import {planPresentation} from "./presentation.mjs";
 export {PocketCommunicationHub} from "./pocket_communication_hub.mjs";
 import {hasAssistantRepetitionLoop} from "./ai_response_quality.mjs";
-import {planEvaAI,executeEvaAI} from "./eva_ai_orchestrator.mjs";
+import {planEvaAI,executeEvaAI,evaLikelyTruncated} from "./eva_ai_orchestrator.mjs";
 import {planTransCAPIJourney,transCAPISharedZone} from "./uk_national_transit.mjs";
 import {motisQueryDepartureAt,selectScheduledMOTISAlternatives} from "./motis_mixed_schedule.mjs";
 import {evaluateMixedJourneyGeography} from "./mixed_route_quality.mjs";
@@ -8307,10 +8307,18 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
     }));
 
     try {
-      const primaryMessages=[{role:"system",content:systemMessage},...modelHistory,{role:"user",content:aiUserMessage}];
       const smartMainPlan=evaPlan({module:data.module||'assistant',message,requiresSources:shouldSearchWeb});
-      const effectiveTokens=evaSmartRouterEnabled&&smartMainPlan.tier==='deep'
-        ?Math.max(1600,requestedModelTokens):requestedModelTokens;
+      const explicitlyLong=/\b(?:[2-9]\s*(?:pagini|pages)|peste\s+\d+\s+(?:cuvinte|words)|full source code|cod(?:ul)? complet|complete code|entire file)\b/i.test(message);
+      // Model reasoning can be more capable without producing a 1,200-word,
+      // abruptly cut-off answer to an ordinary analytical question.
+      const compactDeep=evaSmartRouterEnabled&&smartMainPlan.tier==='deep'
+        &&!explicitlyLong&&!recipeInstruction&&!eventResearchIntent;
+      const smartSystemMessage=compactDeep?systemMessage+
+        '\n\nSMART EVA ANSWER: Give a complete, useful answer in roughly 350–500 words maximum unless the user explicitly requests a long document. Include key trade-offs, a concrete recommendation and a short final conclusion. Avoid enormous tables, repetitive sections, speculative service claims and unfinished final words. Finish with a complete sentence.':systemMessage;
+      const primaryMessages=[{role:"system",content:smartSystemMessage},...modelHistory,{role:"user",content:aiUserMessage}];
+      const effectiveTokens=compactDeep?Math.min(2100,Math.max(1500,requestedModelTokens)):
+        evaSmartRouterEnabled&&smartMainPlan.tier==='deep'
+         ?Math.max(1600,requestedModelTokens):requestedModelTokens;
       let result;
       try{
         const primaryOpts={
@@ -8357,6 +8365,39 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
       }
 
       stageMetrics.primary_ai_ms=Date.now()-aiStartedAt;
+      // Finish an overlong deep-model answer instead of showing a dangling fragment.
+      // This is NOT a second research attempt. The balanced model only edits
+      // the material already produced and must not add unsupported claims.
+      if(evaSmartRouterEnabled&&smartMainPlan.tier==='deep'
+         &&!recipeInstruction&&!eventResearchIntent
+         &&evaLikelyTruncated(result,effectiveTokens)){
+        stageMetrics.eva_cutoff_detected=true;
+        const firstDraft=String(result.response||'');
+        try{
+          const editor=await env.AI.run(allowedTextModels[1],{
+            messages:[
+              {role:'system',content:'You are Eva final answer editor. Condense the supplied incomplete draft into a COMPLETE, cohesive Romanian answer of 350 to 500 words. Preserve essential technical details, trade-offs and conclusions. Do not add external facts, dates, products, capabilities or citations. Avoid long tables, repeated sections and broken words. End with a full final sentence. Return only the edited final answer.'},
+              {role:'user',content:'USER REQUEST:\n'+message.slice(0,1500)+'\nDRAFT TO COMPLETE AND CONDENSE:\n'+firstDraft.slice(0,12500)}
+            ],max_tokens:1450,temperature:0.1
+          });
+          const edited=String(editor?.response||editor?.result?.response||'').trim();
+          const completeEnding=/[.!?…»”"')\]}]$/.test(edited);
+          if(edited.length>=220&&completeEnding){
+            result={...result,response:edited,finish_reason:'stop'};
+            stageMetrics.eva_cutoff_repaired=true;
+            stageMetrics.eva_editor_model=allowedTextModels[1];
+          }
+        }catch(error){
+          stageMetrics.eva_cutoff_editor_error=String(error?.name||'unavailable').slice(0,45);
+        }
+        if(!stageMetrics.eva_cutoff_repaired){
+          // Honest, readable fallback: remove the visibly broken last fragment.
+          const lastPeriod=Math.max(firstDraft.lastIndexOf('. '),firstDraft.lastIndexOf('.\n'),firstDraft.lastIndexOf('! '),firstDraft.lastIndexOf('? '));
+          const completed=lastPeriod>firstDraft.length*0.65?firstDraft.slice(0,lastPeriod+1).trim():firstDraft.trim().replace(/\s+\S+$/u,'');
+          result={...result,response:completed+'\n\n'+(lang==='ro'?'Răspuns parțial: generarea a atins limita înainte de încheiere.':'Partial answer: generation stopped before the conclusion.'),finish_reason:'stop'};
+          stageMetrics.eva_partial_answer=true;
+        }
+      }
       stageMetrics.eva_model_used=result?.eva_model_used||selectedAiModel;
       stageMetrics.eva_tier=evaSmartRouterEnabled?smartMainPlan.tier:'legacy';
       stageMetrics.eva_fallback_used=Boolean(result?.eva_model_fallback);
