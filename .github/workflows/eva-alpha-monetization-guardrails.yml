@@ -1,0 +1,31 @@
+name: Eva Alpha commercial groundwork checks
+on:
+  push:
+    branches: [feat/eva-alpha-affiliate-monitor-20261116]
+    paths:
+      - 'eva_affiliate_registry.mjs'
+      - 'eva_alpha_cost_alerts.mjs'
+      - 'tests_eva_monetization_guardrails.mjs'
+      - '.github/workflows/eva-alpha-monetization-guardrails.yml'
+  pull_request:
+    paths:
+      - 'eva_affiliate_registry.mjs'
+      - 'eva_alpha_cost_alerts.mjs'
+      - 'tests_eva_monetization_guardrails.mjs'
+      - '.github/workflows/eva-alpha-monetization-guardrails.yml'
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Syntax and safety regression checks
+        run: |
+          node --check eva_affiliate_registry.mjs
+          node --check eva_alpha_cost_alerts.mjs
+          node --test tests_eva_monetization_guardrails.mjs
