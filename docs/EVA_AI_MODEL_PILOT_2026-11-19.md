@@ -41,3 +41,7 @@ Rezultatele sunt stocate exclusiv în artifactul eva-ai-model-pilot-results
 Dacă un model dovedește un avantaj clar, următoarea etapă este un router comun
 pentru cereri simple versus complexe, cu limite de cost și verificare de surse.
 Niciun rezultat de pilot nu activează automat modelul nou în producție.
+
+## Calea temporară cu AI binding
+
+Apelurile directe Cloudflare au returnat HTTP 403 pentru tokenul de deploy. Ca alternativă, GitHub Actions deschide un Wrangler remote preview cu binding AI, protejat de un token aleator efemer, trimite maximum 12 cereri prin localhost și închide preview-ul. Nu schimbă backendul public și nu produce APK. Dacă preview-ul nu pornește, raportul va spune explicit „preview_unavailable”.

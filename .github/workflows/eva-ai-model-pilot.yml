@@ -7,6 +7,9 @@ on:
     paths:
       - 'eva_ai_model_pilot.mjs'
       - 'tests_eva_ai_model_pilot.mjs'
+      - 'eva_ai_pilot_worker.mjs'
+      - 'wrangler-eva-ai-pilot.toml'
+      - 'scripts/eva-ai-pilot-preview.mjs'
       - '.github/workflows/eva-ai-model-pilot.yml'
   workflow_dispatch:
 
@@ -30,12 +33,16 @@ jobs:
         run: |
           node --check eva_ai_model_pilot.mjs
           node --check tests_eva_ai_model_pilot.mjs
+          node --check scripts/eva-ai-pilot-preview.mjs
+          node --check eva_ai_pilot_worker.mjs
           node tests_eva_ai_model_pilot.mjs
-      - name: Run at most 12 synthetic Workers AI calls
+      - name: Install pinned Wrangler for temporary AI binding preview
+        run: npm install --no-save --ignore-scripts --no-audit --no-fund wrangler@3.90.0
+      - name: Run at most 12 synthetic AI binding calls in temporary preview
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-        run: node eva_ai_model_pilot.mjs --live
+        run: node scripts/eva-ai-pilot-preview.mjs
       - name: Preserve model answers for manual quality review
         if: always()
         uses: actions/upload-artifact@v4
