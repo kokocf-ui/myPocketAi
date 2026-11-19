@@ -45,3 +45,7 @@ Niciun rezultat de pilot nu activează automat modelul nou în producție.
 ## Calea temporară cu AI binding
 
 Apelurile directe Cloudflare au returnat HTTP 403 pentru tokenul de deploy. Ca alternativă, GitHub Actions deschide un Wrangler remote preview cu binding AI, protejat de un token aleator efemer, trimite maximum 12 cereri prin localhost și închide preview-ul. Nu schimbă backendul public și nu produce APK. Dacă preview-ul nu pornește, raportul va spune explicit „preview_unavailable”.
+
+## Deblocare directă Workers AI
+
+Folosim un token Cloudflare separat pentru model inference, creat la Workers AI > Use REST API > Create a Workers AI API Token. Tokenul se salvează exclusiv in GitHub Actions ca CLOUDFLARE_AI_TOKEN. Nu se inlocuieste CLOUDFLARE_API_TOKEN folosit pentru deploy. Nu se trimite tokenul in chat. Dupa configurare, o singura rulare a pilotului va executa cel mult 12 apeluri.
