@@ -1,8 +1,8 @@
 // Live, isolated integration probe of the actual backend AI routing.
 // Three synthetic tasks, <=6 Workers AI requests including one fallback per task.
 // Does NOT deploy, contact Brave, access user conversations, or change environment flags.
-import backend from './backend.js';
-import {EVA_AI_MODELS} from './eva_ai_orchestrator.mjs';
+import backend from '../backend.js';
+import {EVA_AI_MODELS} from '../eva_ai_orchestrator.mjs';
 import {mkdir,writeFile} from 'node:fs/promises';
 import {resolve} from 'node:path';
 
@@ -29,7 +29,7 @@ const ENCYCLopedia_FIXTURE={
  query:{pages:[{title:'Decebal',fullurl:'https://ro.wikipedia.org/wiki/Decebal',index:1,
  extract:'Decebal a fost ultimul rege al Daciei independente, asociat cu domnia dintre anii 87 și 106. A condus regatul dac în perioada conflictelor cu Imperiul Roman. Înainte de Traian, împăratul Domițian a încheiat o pace cu dacii după confruntările militare de la sfârșitul secolului I. Sub împăratul Traian au avut loc două războaie dacice, în anii 101–102 și 105–106. După primul război, pacea din 102 a impus Daciei condiții restrictive. După al doilea război, capitala Sarmizegetusa Regia a căzut, iar Decebal a murit încercând să evite capturarea. În anul 106, o parte a Daciei a devenit provincie romană. Aceste evenimente au influențat istoria politică și culturală a spațiului carpato-dunărean. Monumentele contemporane care îl înfățișează pe Decebal sunt reprezentări moderne, nu portrete realizate în timpul vieții sale. Multe detalii privind viața sa rămân cunoscute doar din relatări antice și din interpretări istorice ulterioare.'
  }]}}
-};
+;
 const genuineFetch=globalThis.fetch;
 const counts={total:0,quotaExceeded:false,byModel:{},requests:[]};
 function summarizeUsage(j){
