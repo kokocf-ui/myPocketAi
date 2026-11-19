@@ -11,6 +11,8 @@ on:
       - 'tests_eva_creative_quality.mjs'
       - 'tests_eva_creative_backend.mjs'
       - 'tests_eva_ai_backend_routing.mjs'
+      - 'tests_eva_dialogue.mjs'
+      - 'storybook_generation.mjs'
       - '.github/workflows/eva-creative-quality-tests.yml'
   workflow_dispatch:
 
