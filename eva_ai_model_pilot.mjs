@@ -134,7 +134,8 @@ export async function runPilot({
       'Authorization':'Bearer '+apiToken,'Content-Type':'application/json'
      },signal:controller.signal,body:JSON.stringify({
       messages:[{role:'system',content:item.system},{role:'user',content:item.user}],
-      max_tokens:item.max_tokens,temperature:item.temperature,stream:false
+      max_tokens:item.max_tokens,temperature:item.temperature,stream:false,
+      ...(model.key==='gptoss120'?{reasoning_effort:'low'}:{})
      })}
     );
     const elapsedMs=Date.now()-started;
@@ -152,7 +153,9 @@ export async function runPilot({
     }
     const answer=visibleModelText(json);
     if(!answer){
-     results.push({case_id:item.id,model:model.key,status:'error',reason:'empty_response',latency_ms:elapsedMs});
+     results.push({case_id:item.id,model:model.key,status:'error',reason:'empty_response',
+      latency_ms:elapsedMs,usage:readUsage(json),
+      finish_reason:String(json?.result?.finish_reason||json?.result?.choices?.[0]?.finish_reason||'unknown').slice(0,40)});
      continue;
     }
     results.push({case_id:item.id,model:model.key,status:'success',
@@ -215,10 +218,18 @@ async function main(){
   console.log('SKIPPED: Cloudflare credentials unavailable.');
   return;
  }
+ const narrow=process.argv.includes('--gptoss-check');
  const report=await runPilot({
   accountId:process.env.CLOUDFLARE_ACCOUNT_ID,
-  apiToken:process.env.CLOUDFLARE_API_TOKEN
+  apiToken:process.env.CLOUDFLARE_API_TOKEN,
+  ...(narrow?{
+   models:PILOT_MODELS.filter(m=>m.key==='gptoss120'),
+   cases:PILOT_CASES.filter(c=>['history','creative'].includes(c.id))
+    .map(c=>({...c,max_tokens:1100})),
+   maxCalls:2
+  }:{})
  });
+ if(narrow)report.experiment='gptoss_low_reasoning_2_calls_only';
  await writeFile(resolve(outDir,'eva-ai-model-pilot.json'),JSON.stringify(report,null,2));
  await writeFile(resolve(outDir,'eva-ai-model-pilot.md'),markdownReport(report));
  console.log(JSON.stringify({status:report.status,calls:report.actual_calls,

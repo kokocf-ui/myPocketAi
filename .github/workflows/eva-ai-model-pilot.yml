@@ -40,7 +40,7 @@ jobs:
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_AI_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-        run: node eva_ai_model_pilot.mjs --live
+        run: node eva_ai_model_pilot.mjs --live --gptoss-check
       - name: Preserve model answers for manual quality review
         if: always()
         uses: actions/upload-artifact@v4
