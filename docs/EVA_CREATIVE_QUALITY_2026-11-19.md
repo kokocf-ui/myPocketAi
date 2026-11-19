@@ -19,7 +19,7 @@ interpretare / ficțiune. Un model performant nu trebuie să inventeze surse.
 4. Cererile creative nu sunt trunchiate după bugetul conversațiilor scurte.
 Modelul primește instrucțiuni concrete despre scenă, argumente, dialog sau
 structură, în loc de șabloane morale și generalități.
-5. Cererile de creație scurtă folosesc Llama 70B; cele ample, GPT-OSS 120B.
+5. Poeziile, discursurile și textele scurte folosesc Llama 70B; poveștile, documentarele și lucrările ample folosesc GPT-OSS 120B.
 Dacă modelul nu furnizează text vizibil, există maximum un fallback.
 Un eșec de cotă nu declanșează reluări inutile.
 6. Pentru mini-carte, dacă modelul livrează capitole invalide, există
@@ -43,3 +43,7 @@ Teste unitare pentru 9 genuri și șase solicitări necreative, detectarea
 repetițiilor / finalurilor incomplete, alegerea modelelor și conservarea
 informațiilor. Teste de integrare: Asistent, Educație, Mini-carte, fallback
 la generație invalidă și rollback prin variabila de mediu.
+
+## Descoperire în proba live
+
+Înainte de corecția P0, o poveste despre un mesaj ascuns într-o gară a fost deviată pe rând către căutarea conversațiilor și căutarea localurilor fără GPS. Cererile explicite de creație din Asistent sunt acum tratate înaintea acestor rutări, cu o verificare de regresie. Primul test live Llama 70B a produs 413 cuvinte, dar tonul era prea generic; a fost selectat GPT-OSS pentru povești și au fost întărite criteriile de scene, miză și final.

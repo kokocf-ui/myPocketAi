@@ -24,7 +24,7 @@ export function planEvaAI(task={}, {enabled=false,legacyModel=EVA_AI_MODELS.fast
  let tier='fast',reason='simple_request';
  if(task.creativeIntent?.requested){
   // Shared creative mode: short copy uses balanced, long-form/essay uses deep.
-  tier=task.creativeIntent.long||task.creativeIntent.kind==='documentary'?'deep':'balanced';
+  tier=task.creativeIntent.long||['documentary','story'].includes(task.creativeIntent.kind)?'deep':'balanced';
   reason='creative_'+task.creativeIntent.kind;
  }else if(module==='creative_storybook'&&CREATIVE.has(genre)){
   tier='deep';reason=genre==='documentary'?'nonfiction_documentary':'long_form_creative';

@@ -84,7 +84,7 @@ assert.equal(r.status,200,JSON.stringify(r.data).slice(0,300));
 assert.equal(r.data.status,'success');
 assert.notEqual(r.data.conversation_intent,'history_recall','A fictional hidden message cannot become a chat-history query');
 if(!calls.length)console.log('CREATIVE_ROUTE_DIAGNOSTIC',JSON.stringify({keys:Object.keys(r.data),reply:String(r.data.reply||'').slice(0,220),conversation_intent:r.data.conversation_intent||null}));
-assert.equal(calls[0]?.model,EVA_AI_MODELS.balanced,'Adult creative story should reach the intended AI generator');
-assert.match(calls[0].options.messages[0].content,/Build scenes/);
+assert.equal(calls[0]?.model,EVA_AI_MODELS.deep,'Adult creative story should reach the more capable AI model');
+assert.match(calls[0].options.messages[0].content,/concrete, consequential moment/);
 
 console.log('PASS: cross-module creative quality – adult writing, education, story repair, model selection and rollback');

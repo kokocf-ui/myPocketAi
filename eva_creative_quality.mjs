@@ -40,7 +40,7 @@ export function evaCreativeIntent(task={}){
 }
 const PREAMBLE='You are writing the requested finished work, not giving advice about how to write it. Preserve the user’s subject, format, language, audience, constraints and requested length. Write fluent, distinctive, well-developed prose with natural rhythm, precise vocabulary and a meaningful ending. Avoid filler, clichés, childish moralizing, generic introductions, repetitive paraphrases and arbitrary characters. Finish paragraphs and sentences; do not stop mid-word.';
 const BY_KIND={
- story:'Build scenes with concrete actions, believable motives, obstacles and consequences; make something actually happen. Use selective vivid sensory detail and natural dialogue when helpful. The ending must pay off the central thread, not merely announce a lesson.',
+ story:'Start inside a concrete, consequential moment rather than a generic ordinary day. Build dramatized scenes in which the protagonist wants something specific, makes a difficult choice, meets meaningful resistance, and experiences a credible consequence. Show decisive events through action and dialogue instead of summarizing hours of research, consulting an authority, or revealing everything in narration. Details must connect causally. Finish with a specific earned outcome, never an explicit moral lesson or a generic statement about learning.',
  documentary:'Write a gripping but serious factual documentary, not a fictional adventure. Keep the actual historical people and events central, explain chronology, causes and consequences, and distinguish evidence from disputed interpretations. Never invent eyewitness quotes, discoveries, characters, dialogue or specific dates. Draw factual assertions only from supplied evidence.',
  essay:'Develop a defensible thesis, a progression of specific arguments with examples, counterpoints when useful, and a conclusion that follows from the reasoning. No schoolbook filler or invented quotations. Adapt depth to school level, professional setting or audience requested.',
  poetry:'Use original images, controlled rhythm, intentional word choices and meaningful movement. Avoid nursery-rhyme platitudes unless explicitly requested.',
@@ -82,6 +82,7 @@ export function evaCreativeQualityIssue(text,intent){
  if(!intent?.requested)return null;
  const value=String(text||'').trim();
  if(!value)return 'empty';
+ if(intent.kind==='story'&&/^(?:era o zi obisnuita|intr-o zi|one ordinary day|once upon a time)\b/.test(norm(value)))return 'generic_opening';
  if(hasAssistantRepetitionLoop(value))return 'repetition_loop';
  // Only detect clearly unfinished prose; do not reject dialogue, poetry or scripts on punctuation alone.
  if(['story','documentary','essay','prose','speech'].includes(intent.kind)&&value.length>200

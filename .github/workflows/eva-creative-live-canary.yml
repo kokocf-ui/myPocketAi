@@ -8,6 +8,8 @@ on:
       - 'scripts/eva-creative-live-canary.mjs'
       - 'backend.js'
       - 'storybook_generation.mjs'
+      - 'eva_ai_orchestrator.mjs'
+      - 'eva_creative_quality.mjs'
       - '.github/workflows/eva-creative-live-canary.yml'
   workflow_dispatch:
 

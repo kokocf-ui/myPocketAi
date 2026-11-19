@@ -53,7 +53,7 @@ const result=enhanceEvaCreativeOptions({module:'assistant',message:positive[0][0
 assert.equal(result.intent.kind,'story');
 assert.ok(result.options.max_tokens>=1400);
 assert.ok(result.options.temperature>=0.6);
-assert.match(result.options.messages[0].content,/Build scenes/);
+assert.match(result.options.messages[0].content,/concrete, consequential moment/);
 assert.equal(original.max_tokens,120,'Do not mutate original options');
 assert.equal(original.messages[0].content,'Speak Romanian.');
 const document=enhanceEvaCreativeOptions({module:'creative_storybook',story_type:'documentary',
@@ -68,5 +68,6 @@ assert.equal(evaCreativeQualityIssue([repeated,repeated,repeated,repeated].join(
 const coherent='Mara deschise ușa bibliotecii și găsi o scrisoare care purta numele bunicului. Un vânt rece îi mișcă părul, iar lumina se stinse pe coridor. Prietenul ei aprinse lanterna și observă că cerneala ascundea un desen al orașului. Împreună descoperiră cheia unei încăperi uitate, unde îi aștepta un jurnal vechi. ';
 assert.equal(evaCreativeQualityIssue(coherent+'Apoi a simțit',result.intent),'unfinished_ending');
 assert.equal(evaCreativeQualityIssue(coherent,result.intent),null);
+assert.equal(evaCreativeQualityIssue('Era o zi obișnuită de marți, când totul se petrecea ca întotdeauna.',result.intent),'generic_opening');
 assert.equal(evaCreativeQualityIssue('Vântul bate\nFerestrele plâng',simple),null,'Poetry does not require full stop');
 console.log('PASS: Eva shared creative quality: genres, mature defaults, no false matches, model tiers and response checks');
