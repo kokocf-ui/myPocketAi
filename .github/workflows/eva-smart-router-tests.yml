@@ -1,0 +1,42 @@
+name: Eva common AI router - safe integration tests
+
+on:
+  push:
+    branches:
+      - feature/eva-smart-router-20261119
+    paths:
+      - 'backend.js'
+      - 'eva_ai_orchestrator.mjs'
+      - 'tests_eva_ai_orchestrator.mjs'
+      - 'tests_eva_ai_backend_routing.mjs'
+      - '.github/workflows/eva-smart-router-tests.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-smart-router:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Syntax and AI routing checks
+        run: |
+          node --check backend.js
+          node --check eva_ai_orchestrator.mjs
+          node --check tests_eva_ai_orchestrator.mjs
+          node --check tests_eva_ai_backend_routing.mjs
+          node tests_eva_ai_orchestrator.mjs
+          node tests_eva_ai_backend_routing.mjs
+      - name: Existing backend regression tests
+        run: |
+          node tests_cloudflare_model_retirement.mjs
+          node tests_storybook_generation.mjs
+          node tests_storybook_documentary.mjs
+          node tests_response_quality.mjs
+          node tests_eva_dialogue.mjs
+          node tests_eva_context_clarification.mjs

@@ -35,6 +35,7 @@ import {handleMathVisionPilot} from "./math_photo_vision.mjs";
 import {planPresentation} from "./presentation.mjs";
 export {PocketCommunicationHub} from "./pocket_communication_hub.mjs";
 import {hasAssistantRepetitionLoop} from "./ai_response_quality.mjs";
+import {planEvaAI,executeEvaAI} from "./eva_ai_orchestrator.mjs";
 import {planTransCAPIJourney,transCAPISharedZone} from "./uk_national_transit.mjs";
 import {motisQueryDepartureAt,selectScheduledMOTISAlternatives} from "./motis_mixed_schedule.mjs";
 import {evaluateMixedJourneyGeography} from "./mixed_route_quality.mjs";
@@ -1305,6 +1306,12 @@ export default {
     // Keep the supported fast 8B default; allow only a deployed, active fast model as an override.
     const allowedTextModels=["@cf/meta/llama-3.1-8b-instruct-fast","@cf/meta/llama-3.3-70b-instruct-fp8-fast"];
     const selectedAiModel=allowedTextModels.includes(String(env.POCKET_AI_TEXT_MODEL||""))?String(env.POCKET_AI_TEXT_MODEL):allowedTextModels[0];
+    // Controlled rollout: defaults OFF. Production behavior remains unchanged.
+    const evaSmartRouterEnabled=String(env.POCKET_EVA_SMART_ROUTER_ENABLED||'')==='1';
+    const evaPlan=task=>planEvaAI(task,{enabled:evaSmartRouterEnabled,legacyModel:selectedAiModel});
+    const evaTask=async(task,opts)=>evaSmartRouterEnabled
+      ?executeEvaAI(env.AI,evaPlan(task),opts)
+      :env.AI.run(selectedAiModel,opts);
     const isWorkersAiQuotaExceeded=error=>/\b4006\b/.test(String(error?.message||""))&&/neuron|daily free allocation/i.test(String(error?.message||""));
     const requestStartMs=Date.now();
     let responsePlaceContext=null;let responsePlaceLookup=null;
@@ -2374,7 +2381,10 @@ export default {
         // Higher-capacity storytelling model may be opted into separately, after cost review.
         const storyModel=allowedTextModels.includes(String(env.POCKET_AI_STORY_MODEL||''))?
           String(env.POCKET_AI_STORY_MODEL):selectedAiModel;
-        const result=await env.AI.run(storyModel,{
+        const runStory=evaSmartRouterEnabled
+          ?(options=>evaTask({module:'creative_storybook',genre:req.genre,query:req.seed,requiresSources:req.genre==='documentary'},options))
+          :(options=>env.AI.run(storyModel,options));
+        const result=await runStory({
           messages:[
             {role:'system',content:storybookSystemPrompt(req)},
             {role:'user',content:storybookUserPrompt(req,reference)}
@@ -2419,7 +2429,7 @@ export default {
         '. Remain strictly within the supplied mathematics exercise and level. Do not interpret numbers as coordinates or destinations. '+
         educationDepthInstruction('math',activity);
       try{
-        const response=await env.AI.run(selectedAiModel,{
+        const response=await evaTask({module:'learning',subject:'math',activity,message},{
           messages:[{role:'system',content:system},{role:'user',content:message}],
           max_tokens:methodOnly?1550:2300,temperature:0.1
         });
@@ -2456,7 +2466,7 @@ export default {
         'Only cite a source if supplied or independently verified; when uncertain, explain the limitation. '+
         'Use readable paragraphs and steps; no invented quoted literature, no unrelated maps, transit or GPS.';
       try{
-        const response=await env.AI.run(selectedAiModel,{messages:[{role:'system',content:system+'\n'+educationDepthInstruction('school_admission',activity)},{role:'user',content:message}],temperature:0.2,max_tokens:2800});
+        const response=await evaTask({module:'education_study',subject:'school_admission',activity,message},{messages:[{role:'system',content:system+'\n'+educationDepthInstruction('school_admission',activity)},{role:'user',content:message}],temperature:0.2,max_tokens:2800});
         const reply=String(response?.response||response?.result?.response||'').trim();
         if(!reply)return json({status:'unavailable',error:'education_text_empty',education_subject:'school_admission'},503);
         if(/(?:nu am coordonate GPS|permite accesul la locație|departure address\/postcode|do not have usable GPS coordinates)/i.test(reply))
@@ -2492,7 +2502,7 @@ export default {
         'For the correction activity only, refer to the question text and student answer in the request. '+
         'Never confuse dictionary entries with destinations. If the user has not supplied a needed text passage, do not pretend to have read it.';
       try{
-        const response=await env.AI.run(selectedAiModel,{messages:[{role:'system',content:system+'\n'+educationDepthInstruction('language_literature',activity)},{role:'user',content:message}],temperature:0.2,max_tokens:2800});
+        const response=await evaTask({module:'education_study',subject:'language_literature',activity,message},{messages:[{role:'system',content:system+'\n'+educationDepthInstruction('language_literature',activity)},{role:'user',content:message}],temperature:0.2,max_tokens:2800});
         let reply=String(response?.response||response?.result?.response||'').trim();
         // Safely correct the two exact malformed Romanian lesson-title tokens observed in production.
         if(locale==='ro')reply=reply.replace(/\bLehul(?:a)?\b/giu,'Lecția');
@@ -2517,7 +2527,7 @@ export default {
         'Follow the country, grade, topic and curriculum caveats from the user request. Do not invent historical maps, official syllabi, citations or factual certainty. '+
         'Do not repeat complete paragraphs, preambles or exercises. Use readable headings and paragraphs, no raw markdown characters.';
       try{
-        const response=await env.AI.run(selectedAiModel,{messages:[{role:'system',content:system+'\n'+educationDepthInstruction(subject,'lesson')},{role:'user',content:message}],temperature:0.14,max_tokens:2900});
+        const response=await evaTask({module:'education_study',subject,activity:data.education_activity||'lesson',message},{messages:[{role:'system',content:system+'\n'+educationDepthInstruction(subject,'lesson')},{role:'user',content:message}],temperature:0.14,max_tokens:2900});
         const reply=String(response?.response||response?.result?.response||'').trim();
         if(!reply)return json({status:'unavailable',error:'education_text_empty',education_subject:subject},503);
         return json({app:'Pocket AI',version:API_VERSION,status:'success',reply,language:locale,education_subject:subject,ai_generated:true});
@@ -2540,7 +2550,7 @@ export default {
         educationDepthInstruction(subject,activity);
       try{
         const maxTokens=activity==='lesson'||activity==='study'?3000:activity==='solve'||activity==='method'?2400:activity==='conversation'?900:2200;
-        const response=await env.AI.run(selectedAiModel,{
+        const response=await evaTask({module:'education_study',subject,activity,message},{
           messages:[{role:'system',content:system},{role:'user',content:message}],
           temperature:0.14,max_tokens:maxTokens
         });
@@ -8298,18 +8308,24 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
 
     try {
       const primaryMessages=[{role:"system",content:systemMessage},...modelHistory,{role:"user",content:aiUserMessage}];
+      const smartMainPlan=evaPlan({module:data.module||'assistant',message,requiresSources:shouldSearchWeb});
+      const effectiveTokens=evaSmartRouterEnabled&&smartMainPlan.tier==='deep'
+        ?Math.max(1600,requestedModelTokens):requestedModelTokens;
       let result;
       try{
-        result=await env.AI.run(selectedAiModel,{
-          messages:primaryMessages,max_tokens: requestedModelTokens,
+        const primaryOpts={
+          messages:primaryMessages,max_tokens:effectiveTokens,
           temperature:eventResearchIntent||recipeInstruction?0.05:0.18
-        });
+        };
+        result=evaSmartRouterEnabled
+          ?await executeEvaAI(env.AI,smartMainPlan,primaryOpts)
+          :await env.AI.run(selectedAiModel,primaryOpts);
         if(!result||typeof result.response!=="string"||!result.response.trim())
           throw Error("primary_empty_response");
       }catch(primaryError){
         // The same Workers AI account-wide free allocation is shared by ALL
         // models; retrying with another model cannot fix a 4006 quota error.
-        if(isWorkersAiQuotaExceeded(primaryError))throw primaryError;
+        if(isWorkersAiQuotaExceeded(primaryError)||evaSmartRouterEnabled)throw primaryError;
         // A model outage must not make ordinary questions fail permanently.
         // One bounded fallback on a separate deployed model, with compact context,
         // prevents a second long request and avoids replaying unrelated dialogue.
@@ -8341,6 +8357,9 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
       }
 
       stageMetrics.primary_ai_ms=Date.now()-aiStartedAt;
+      stageMetrics.eva_model_used=result?.eva_model_used||selectedAiModel;
+      stageMetrics.eva_tier=evaSmartRouterEnabled?smartMainPlan.tier:'legacy';
+      stageMetrics.eva_fallback_used=Boolean(result?.eva_model_fallback);
       // If the model hit its generation limit, finish the answer before displaying it.
       // A scrollable modal cannot recover text that the model never generated.
       const initialFinishReason=String(result?.finish_reason||result?.finishReason||result?.stop_reason||result?.stopReason||"").toLowerCase();
@@ -8570,7 +8589,7 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
         calculation_verified: false,
         ai_execution_ms: Date.now()-aiStartedAt,
         research_elapsed_ms: stageMetrics.research_ms,
-        latency_breakdown: {...stageMetrics, ai_model:selectedAiModel, recipe_fast_path:recipeFastPath, model_calls_estimate:1+Number(stageMetrics.sentence_correction_ms>0)+Number(stageMetrics.review_ai_ms>0)+Number(stageMetrics.recipe_correction_ms>0)},
+        latency_breakdown: {...stageMetrics, ai_model:stageMetrics.eva_model_used||selectedAiModel, recipe_fast_path:recipeFastPath, model_calls_estimate:1+Number(stageMetrics.sentence_correction_ms>0)+Number(stageMetrics.review_ai_ms>0)+Number(stageMetrics.recipe_correction_ms>0)},
         ai_generated: true,
         ai_connected: true
       });
