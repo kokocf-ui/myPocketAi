@@ -65,7 +65,8 @@ const noChange=enhanceEvaCreativeOptions({module:'maps',message:'Cum ajung la st
 assert.equal(noChange.options,original);
 const repeated='Această scenă are detalii precise și legături care definesc acțiunea personajului.';
 assert.equal(evaCreativeQualityIssue([repeated,repeated,repeated,repeated].join('\n\n'),result.intent),'repetition_loop');
-assert.equal(evaCreativeQualityIssue('Mara a deschis ușa și a descoperit o scrisoare. '.repeat(6)+'Apoi a simțit',result.intent),'unfinished_ending');
-assert.equal(evaCreativeQualityIssue('Mara a deschis ușa și a descoperit o scrisoare. '.repeat(6),result.intent),null);
+const coherent='Mara deschise ușa bibliotecii și găsi o scrisoare care purta numele bunicului. Un vânt rece îi mișcă părul, iar lumina se stinse pe coridor. Prietenul ei aprinse lanterna și observă că cerneala ascundea un desen al orașului. Împreună descoperiră cheia unei încăperi uitate, unde îi aștepta un jurnal vechi. ';
+assert.equal(evaCreativeQualityIssue(coherent+'Apoi a simțit',result.intent),'unfinished_ending');
+assert.equal(evaCreativeQualityIssue(coherent,result.intent),null);
 assert.equal(evaCreativeQualityIssue('Vântul bate\nFerestrele plâng',simple),null,'Poetry does not require full stop');
 console.log('PASS: Eva shared creative quality: genres, mature defaults, no false matches, model tiers and response checks');
