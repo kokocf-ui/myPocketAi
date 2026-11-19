@@ -11,9 +11,15 @@ const spec=normalizeStorybookRequest({...requestInput,message:requestInput.story
 assert.equal(spec?.count,4);
 assert.match(storybookSystemPrompt(spec),/NOT A NEWS SEARCH/);
 assert.match(storybookUserPrompt(spec),/Soldații de teracotă/);
+assert.match(storybookSystemPrompt(spec),/105-155 words/);
+assert.match(storybookSystemPrompt(spec),/specific scene/);
 const chapterText='Mara a pășit în muzeu alături de bunicul ei. În fața lor erau sute de statui, fiecare cu propria înfățișare. Bunicul i-a povestit că figurile de lut au fost modelate cu grijă cu mult timp în urmă. Mara s-a întrebat cine le-a făcut și de ce au rămas ascunse în pământ. Împreună au pornit să descopere răspunsurile, privind atent armurile și chipurile. Nu știau toate amănuntele, dar curiozitatea i-a îndemnat să învețe mai mult.';
 const generated=Array.from({length:4},(_,i)=>'CAPITOL '+(i+1)+': Descoperirea '+(i+1)+'\n'+chapterText).join('\n\n');
 assert.equal(parseStorybookChapters(generated,4)?.length,4);
+assert.equal(parseStorybookChapters(generated,4)?.[0].title,'Descoperirea 1');
+assert.ok(parseStorybookChapters(generated,4)?.[0].text.startsWith('Mara a pășit'));
+assert.ok(!parseStorybookChapters(generated,4)?.[0].text.startsWith('Descoperirea 1'));
+
 assert.equal(parseStorybookChapters(generated,3),null);
 assert.equal(parseStorybookChapters('Știri identificate în sursele consultate',4),null);
 assert.equal(parseStorybookChapters(generated.replace('CAPITOL 3:','CAPITOL 2:'),4),null);
