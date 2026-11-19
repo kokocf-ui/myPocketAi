@@ -15,6 +15,12 @@ assert.equal(check({originCountry:'GB',destinationCountry:'GB'}).provider,'uk_na
 assert.equal(check({originCountry:'GB',destinationCountry:'RO'}).status,'international_destination');
 assert.equal(check({originCountry:'RO',destinationCountry:'GB'}).status,'international_destination');
 assert.equal(check({originCountry:'FR',destinationCountry:'FR'}).status,'country_provider_not_connected');
+assert.equal(nationalPublicTransportPolicy({originCountry:'FR',destinationCountry:'FR',
+ enabledProviders:['europe_slim_national']}).provider,'europe_slim_national');
+assert.equal(nationalPublicTransportPolicy({originCountry:'FR',destinationCountry:'DE',
+ enabledProviders:['europe_slim_national']}).status,'international_destination');
+assert.equal(nationalPublicTransportPolicy({originCountry:'GB',destinationCountry:'GB',
+ enabledProviders:['europe_slim_national']}).provider,'europe_slim_national');
 assert.equal(check({originCountry:'',destinationCountry:'GB'}).status,'origin_country_unverified');
 assert.equal(nationalPublicTransportPolicy({originCountry:'GB',destinationCountry:'GB',enabledProviders:['tfl']}).status,'national_provider_not_connected');
 assert.match(frontend,/title:'Transport public național'/);
@@ -53,7 +59,7 @@ assert.equal(check({originCountry:'RO',destinationCountry:'RO',localRoute:nonGtf
 const intercity=romanianLocalJourneyScope({from:roFrom,to:{latitude:46.7712,longitude:23.6236}});
 assert.equal(intercity.localRoute,false);
 assert.equal(check({originCountry:'RO',destinationCountry:'RO',localRoute:intercity.localRoute}).provider,'ro_national_transit');
-assert.match(backend,/rankJourneySuggestions\(selected,candidates\)/);
+assert.match(backend,/rankJourneySuggestions\(selected,candidates,\{/);
 assert.match(backend,/localRoute:originCountry==='RO'&&roScope\.localRoute/);
 assert.match(backend,/StopPoint\/Search/);
 console.log('PASS national public transport registry, RO local/intercity, UK station ranking');

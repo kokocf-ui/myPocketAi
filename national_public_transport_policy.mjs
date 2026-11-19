@@ -8,9 +8,13 @@ export function nationalPublicTransportPolicy({originCountry='',destinationCount
  if(from==='RO'&&localRoute&&!urbanRoute)return {status:'local_provider_not_connected',provider:null,country:from,category:'urban_transport'};
  const permitted={RO:urbanRoute?['urban_transport','ro_urban_gtfs']:['intercity_transport','ro_national_transit'],
   GB:londonRoute?['urban_transport','tfl']:englandLocalRoute&&enabledProviders.includes('en_urban_gtfs')?['urban_transport','en_urban_gtfs']:['intercity_transport','uk_national_transit']}[from];
- if(!permitted)return {status:'country_provider_not_connected',provider:null,country:from};
+ if(!permitted)return enabledProviders.includes('europe_slim_national')
+   ?{status:'ready',provider:'europe_slim_national',country:from,category:'national_transport'}
+   :{status:'country_provider_not_connected',provider:null,country:from};
  const result=selectCountryProviders({country:from,category:permitted[0],region:from==='GB'&&londonRoute?'london':'',enabledProviders});
  if(result.status!=='ready'||!result.providers.includes(permitted[1]))
-  return {status:'national_provider_not_connected',provider:null,country:from,category:permitted[0]};
+  return enabledProviders.includes('europe_slim_national')
+   ?{status:'ready',provider:'europe_slim_national',country:from,category:permitted[0]}
+   :{status:'national_provider_not_connected',provider:null,country:from,category:permitted[0]};
  return {status:'ready',provider:permitted[1],country:from,category:permitted[0]};
 }

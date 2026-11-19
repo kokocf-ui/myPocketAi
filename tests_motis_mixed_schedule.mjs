@@ -50,6 +50,6 @@ assert.doesNotMatch(b,/scheduled_search_not_supported/,
  'No more skipping authorized requests solely because calendar has a date');
 assert.match(b,/if\(url\.hostname==='api\.transitous\.org'\)return \{status:'provider_usage_not_authorized'/,
  'Unlicensed volunteer MOTIS service remains rejected');
-assert.match(b,/!String\(env\.MOTIS_API_BASE_URL\|\|'\'\)\.trim\(\)\?\{status:'not_configured',journeys:\[\]\}/,
- 'Missing licensed endpoint is still not invented');
+assert.ok(b.includes("!String(env.MOTIS_API_BASE_URL||'').trim()&&!europeSlimConfigured(env)?{status:'not_configured',journeys:[]}"),
+ 'Missing both MOTIS and Europe Slim must never yield invented scheduled services');
 console.log('PASS mixed international calendar: MOTIS date, earliest complete arrival, diverse modes, no fabricated provider');

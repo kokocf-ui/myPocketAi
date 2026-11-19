@@ -1,0 +1,39 @@
+name: Europe Slim Worker integration
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - backend.js
+      - national_public_transport_policy.mjs
+      - europe_slim_client.mjs
+      - tests_europe_slim_client.mjs
+      - tests_national_public_transport.mjs
+      - tests_motis_mixed_schedule.mjs
+      - tests_mixed_international_regression.mjs
+      - .github/workflows/test-europe-slim-worker-bridge.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-bridge:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Syntax and secure federated relay contract
+        run: |
+          node --check backend.js
+          node --check national_public_transport_policy.mjs
+          node --check europe_slim_client.mjs
+          node --test tests_europe_slim_client.mjs
+      - name: Existing national and mixed transport regressions
+        run: |
+          node tests_national_public_transport.mjs
+          node tests_motis_mixed_schedule.mjs
+          node tests_mixed_international_regression.mjs
+          node tests_mixed_uk_fallback.mjs
