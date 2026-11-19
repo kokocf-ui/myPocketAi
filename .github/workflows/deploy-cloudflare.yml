@@ -191,6 +191,9 @@ jobs:
       - name: Verify backend news-search routing before deploy
         run: |
           node --check backend.js
+          node --check eva_ai_orchestrator.mjs
+          node tests_eva_ai_orchestrator.mjs
+          node tests_eva_ai_backend_routing.mjs
           node tests_mixed_route_quality.mjs
           node tests_mixed_route_provider_search.mjs
           node tests_mixed_three_provider_handoff.mjs
