@@ -1,0 +1,46 @@
+name: Eva AI model comparison - isolated pilot
+
+on:
+  push:
+    branches:
+      - feature/eva-ai-model-pilot-20261119
+    paths:
+      - 'eva_ai_model_pilot.mjs'
+      - 'tests_eva_ai_model_pilot.mjs'
+      - '.github/workflows/eva-ai-model-pilot.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: eva-model-pilot-synthetic
+  cancel-in-progress: false
+
+jobs:
+  compare-three-models:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check isolated pilot scripts
+        run: |
+          node --check eva_ai_model_pilot.mjs
+          node --check tests_eva_ai_model_pilot.mjs
+          node tests_eva_ai_model_pilot.mjs
+      - name: Run at most 12 synthetic Workers AI calls
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: node eva_ai_model_pilot.mjs --live
+      - name: Preserve model answers for manual quality review
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: eva-ai-model-pilot-results
+          path: reports/eva-ai-model-pilot.*
+          if-no-files-found: warn
+          retention-days: 7
