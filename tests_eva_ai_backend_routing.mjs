@@ -67,7 +67,7 @@ response=await post(history,{
 assert.equal(response.status,200,JSON.stringify(response.body).slice(0,400));
 assert.equal(seen[0],EVA_AI_MODELS.balanced);
 const backendText=fs.readFileSync('backend.js','utf8');
-assert.match(backendText,/const smartMainPlan=evaPlan\(/);
-assert.match(backendText,/executeEvaAI\(env\.AI,smartMainPlan,primaryOpts\)/);
+assert.match(backendText,/const smartMainPlan=evaSmartRouterEnabled/);
+assert.match(backendText,/executeEvaAI\(env\.AI,smartMainPlan,mainOptions\)/);
 assert.match(backendText,/POCKET_EVA_SMART_ROUTER_ENABLED/);
 console.log('PASS Eva backend AI routing: story deep, literature deep, history balanced, default OFF, no internal reasoning leakage');
