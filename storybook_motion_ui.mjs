@@ -8,8 +8,8 @@ function extraStorybookMotionAttach(work,reader){
  const lights=extraToolsEl('div','eva-story-lights');lights.setAttribute('aria-hidden','true');
  image.addEventListener('error',()=>{image.hidden=true;picture.hidden=true;});
  const placeholder=extraToolsEl('div','eva-story-placeholder',
-  extraToolsLocale('Fotografiile reale din surse reutilizabile apar aici, cu mișcare discretă.',
-   'Reusable real photographs appear here, with subtle motion.'));
+  extraToolsLocale('Imaginile reprezentative apar aici, cu mișcare discretă.',
+   'Representative images appear here with subtle motion.'));
  const subtitles=extraToolsEl('div','eva-story-subtitles');
  picture.append(image,lights,placeholder,subtitles);
  motion.append(picture);
@@ -21,11 +21,11 @@ function extraStorybookMotionAttach(work,reader){
  motion.append(info);
  reader.prepend(motion);
  const credit=extraToolsEl('div','eva-story-credit');motion.append(credit);
- const photoSearch=extraToolsField(motion,extraToolsLocale('Subiect pentru fotografii (poți ajusta)','Photo search topic (editable)'),
+ const photoSearch=extraToolsField(motion,extraToolsLocale('Subiect pentru imagini (poți ajusta)','Image search topic (editable)'),
   'text',extraToolsLocale('Ex.: Armata de teracotă','e.g. Terracotta Army'));
  photoSearch.maxLength=110;
  const tools=extraToolsEl('div','eva-story-media-tools');
- const generate=extraToolsBtn(extraToolsLocale('🔎 Caută fotografii reale','🔎 Find real photos'),()=>void makeIllustrations(true),true);
+ const generate=extraToolsBtn(extraToolsLocale('🔎 Caută imagini','🔎 Find images'),()=>void makeIllustrations(true),true);
  const animate=extraToolsBtn(extraToolsLocale('▶ Urmărește și ascultă','▶ Watch and listen'),()=>void startWithVisuals());
  const musicLabel=extraToolsEl('label','eva-story-audio-label',extraToolsLocale('🎵 Muzică de fundal (fișier propriu sau licențiat)','🎵 Background music (owned or licensed file)'));
  const file=extraToolsEl('input');file.type='file';file.accept='audio/*';
@@ -59,7 +59,7 @@ function extraStorybookMotionAttach(work,reader){
    credit.append(author,source);
   }
   generate.textContent=scenes.every(Boolean)?
-   extraToolsLocale('✅ Fotografii pregătite','✅ Photos ready'):
+   extraToolsLocale('✅ Imagini pregătite','✅ Images ready'):
    extraToolsLocale('🔎 Caută fotografii reale','🔎 Find real photos');
  }
  function setBook(newBook){
@@ -144,7 +144,7 @@ function extraStorybookMotionAttach(work,reader){
   try{
    const response=await fetch(api.toString(),{
     method:'POST',headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({query:topic,limit:book.length,language:state.language||'ro'}),
+    body:JSON.stringify({query:topic,limit:book.length,language:state.language||'ro',story_type:work.storybookGenre||'children'}),
     signal:controller.signal
    });
    const data=await response.json().catch(()=>null);
@@ -153,8 +153,8 @@ function extraStorybookMotionAttach(work,reader){
     info.textContent=data?.status==='upstream_unavailable'||response.status>=500?
      extraToolsLocale('Biblioteca de fotografii este momentan indisponibilă. Povestea poate fi ascultată în continuare.',
       'Photo library is temporarily unavailable. You can still listen to the story.'):
-     extraToolsLocale('Nu am găsit fotografii pentru acest subiect. Încearcă un titlu mai scurt; povestea rămâne disponibilă.',
-      'No photos found for this topic. Try a shorter title; the story remains available.');
+     extraToolsLocale('Nu am găsit imagini reprezentative pentru acest subiect. Textul și narațiunea rămân disponibile.',
+      'No representative images found for this topic. Text and narration remain available.');
     return;
    }
    const safe=data.photos.filter(p=>{
@@ -170,8 +170,8 @@ function extraStorybookMotionAttach(work,reader){
    if(safe.length)lastPhotoQuery=topic;
    setCurrent(chapter);
    info.textContent=extraToolsLocale(
-    'Am pregătit '+safe.length+' fotografii pentru '+book.length+' capitole. Apasă „Urmărește și ascultă”.',
-    'Prepared '+safe.length+' photos for '+book.length+' chapters. Tap Watch and listen.');
+    'Am pregătit '+safe.length+' imagini pentru '+book.length+' capitole. Apasă „Urmărește și ascultă”.',
+    'Prepared '+safe.length+' images for '+book.length+' chapters. Tap Watch and listen.');
   }catch(error){
    if(work===extraToolsSession)info.textContent=controller.signal.aborted?
     extraToolsLocale('Căutarea fotografiilor a expirat.','Photo search timed out.'):

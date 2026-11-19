@@ -1,4 +1,4 @@
-// Wikimedia Commons only: photographic illustrations with explicit reusable licence metadata.
+// Contextual representative illustrations from Commons/Wikipedia and Openverse, no Brave search.
 const memo=new Map();
 // Commons can describe permitted reuse through several metadata formats, not just a short list.
 function str(value,max=180){return String(value||'').trim().slice(0,max)}
@@ -42,7 +42,7 @@ function safeExternalHttps(raw){
 }
 export function normaliseOpenversePhoto(entry){
  if(!entry||entry.mature===true)return null;
- if(entry.category&&entry.category!=='photograph')return null;
+ if(entry.category&&!['photograph','illustration','painting'].includes(entry.category))return null;
  const kind=str(entry.license,25).toLowerCase();
  if(!['cc0','pdm','by','by-sa'].includes(kind))return null;
  const image=safeExternalHttps(entry.thumbnail)||safeExternalHttps(entry.url);
@@ -59,11 +59,11 @@ export function normaliseOpenversePhoto(entry){
  };
 }
 
-export async function searchStorybookCommonsPhotos(query,{limit=5,fetchImpl=fetch,timeoutMs=12000,language='ro'}={}){
+export async function searchStorybookCommonsPhotos(query,{limit=5,fetchImpl=fetch,timeoutMs=12000,language='ro',documentary=false}={}){
  const input=str(query,110).replace(/[\r\n\t]/g,' ').replace(/\s+/g,' ').trim();
  if(input.length<3||input.length>110)return {status:'invalid_query',photos:[]};
  const max=Math.max(1,Math.min(6,Math.floor(Number(limit)||5)));
- const key=input.toLocaleLowerCase()+':'+max+':'+language;
+ const key=input.toLocaleLowerCase()+':'+max+':'+language+':'+(documentary?'documentary':'story');
  const cached=memo.get(key);if(cached&&cached.exp>Date.now())return cached.value;
  const controller=new AbortController();
  const timer=setTimeout(()=>controller.abort(),timeoutMs);
@@ -119,7 +119,7 @@ export async function searchStorybookCommonsPhotos(query,{limit=5,fetchImpl=fetc
   }
   // If Commons search titles fail, try photographs linked from the relevant Wikipedia
   // article. Obtain the real image author, URL and licence from Commons, not Wikipedia.
-  if(!resultSearch.photos.length&&articleImages.length){
+  if(resultSearch.photos.length<max&&articleImages.length){
    try{
     const params=new URLSearchParams({
      action:'query',titles:articleImages.join('|'),prop:'imageinfo',
@@ -136,11 +136,24 @@ export async function searchStorybookCommonsPhotos(query,{limit=5,fetchImpl=fetc
     }
    }catch{/* Optional fallback, no extra query needed on failure. */}
   }
+  // History calls for photographs OF representations (statues, reliefs, monuments),
+  // illustrations and archaeological objects, not a photograph of the ancient person.
+  // Generic terms are derived from the selected subject; no subject-specific hardcoding.
+  if(documentary&&resultSearch.photos.length<max){
+   const topic=effectiveQuery||input;
+   for(const variant of [topic+' statue',topic+' historical illustration']){
+    if(resultSearch.photos.length>=max)break;
+    try{
+     const more=await getCommons(variant);
+     if(more.photos?.length)resultSearch.photos.push(...more.photos);
+    }catch{/* Single bounded variant failed; preserve results already found. */}
+   }
+  }
   // One independent, free-index source fallback. Does not call Brave Search.
   if(!resultSearch.photos.length){
    try{
     const params=new URLSearchParams({
-     q:effectiveQuery,page_size:String(Math.max(8,max*3)),category:'photograph'
+     q:effectiveQuery,page_size:String(Math.max(8,max*3)),...(documentary?{}:{category:'photograph'})
     });
     const res=await fetchImpl('https://api.openverse.org/v1/images/?'+params.toString(),{
      headers:{'Accept':'application/json'},signal:controller.signal

@@ -30,6 +30,7 @@ const openverseSample={id:'example-photo',category:'photograph',mature:false,lic
 assert.equal(normaliseOpenversePhoto(openverseSample)?.provider,'Openverse');
 assert.equal(normaliseOpenversePhoto({...openverseSample,mature:true}),null);
 assert.equal(normaliseOpenversePhoto({...openverseSample,license:'by-nd'}),null);
+assert.equal(normaliseOpenversePhoto({...openverseSample,category:'illustration'})?.provider,'Openverse');
 
 let requested=0;
 const mock=async (url,opts)=>{
@@ -81,6 +82,22 @@ const openverseFallback=await searchStorybookCommonsPhotos('warrior photography 
 assert.equal(openverseFallback.status,'success');
 assert.equal(openverseFallback.photos[0].provider,'Openverse');
 assert.equal(openverseCalls,1);
+
+
+const historicalQueries=[];
+const historicalImages=async url=>{
+ const u=new URL(url);
+ if(u.hostname==='commons.wikimedia.org'){
+  const q=u.searchParams.get('gsrsearch')||'';
+  historicalQueries.push(q);
+  return new Response(JSON.stringify({query:{pages:q.endsWith(' statue')?[sample]:[]}}),{status:200});
+ }
+ return new Response(JSON.stringify({results:[]}),{status:200});
+};
+const historical=await searchStorybookCommonsPhotos('Ancient Dacian king topic',{language:'en',documentary:true,limit:3,fetchImpl:historicalImages});
+assert.equal(historical.status,'success');
+assert.equal(historical.photos.length,1);
+assert.ok(historicalQueries.some(q=>q.endsWith(' statue')));
 
 const orig=globalThis.fetch;
 try{

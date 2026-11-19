@@ -20,6 +20,8 @@ on:
       - 'extra_tools_six_nav.mjs'
       - 'storybook_motion_ui.mjs'
       - 'storybook_commons_photos.mjs'
+      - 'storybook_history_research.mjs'
+      - 'tests_storybook_documentary.mjs'
       - 'tests_storybook_commons_photos.mjs'
       - 'storybook_generation.mjs'
       - 'tests_tools_six_navigation.mjs'
@@ -57,6 +59,8 @@ on:
       - 'extra_tools_six_nav.mjs'
       - 'storybook_motion_ui.mjs'
       - 'storybook_commons_photos.mjs'
+      - 'storybook_history_research.mjs'
+      - 'tests_storybook_documentary.mjs'
       - 'tests_storybook_commons_photos.mjs'
       - 'storybook_generation.mjs'
       - 'tests_tools_six_navigation.mjs'
@@ -230,6 +234,7 @@ jobs:
           node --check storybook_motion_ui.mjs
           node --check storybook_commons_photos.mjs
           node --check storybook_generation.mjs
+          node --check storybook_history_research.mjs
           node --check android/app/src/main/assets/avatar-enter.js
           node tests_android_startup_bridge.mjs
           node tests_assistant_quick_route.mjs
@@ -334,6 +339,7 @@ jobs:
           node tests_extra_tools_workspace.mjs
           node tests_tools_six_navigation.mjs
           node tests_storybook_generation.mjs
+          node tests_storybook_documentary.mjs
           node tests_storybook_commons_photos.mjs
           node tests_creation_ui.mjs && node tests_creation_site_v2.mjs && node tests_creator_management_and_translation.mjs && node tests_creator_premium_presentations.mjs && node tests_creator_live_ui.mjs && node tests_creator_preview_worker.mjs
           node tests_android_ui_preview.mjs

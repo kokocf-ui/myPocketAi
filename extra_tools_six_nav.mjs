@@ -75,8 +75,8 @@ function extraToolsV2Storybook(work,area,addPdf,input,primary,secondary,note){
  const compose=extraToolsEl('section','extra-storybook-compose');
  area.append(compose);
  const hint=extraToolsEl('p','extra-work-note',extraToolsLocale(
-  'Eva creează capitolele, caută fotografii reale online cu licență clară și le prezintă cu mișcare de cameră, peste narațiune și muzică opțională.',
-  'Eva writes chapters, finds reusable real photos online, and shows them with camera movement, narration and optional music.'));
+  'Eva creează povești originale sau documentare istorice bazate pe surse, cu imagini reprezentative și narațiune vocală.',
+  'Eva creates original stories or source-grounded historical documentaries, with representative images and narration.'));
  compose.append(hint);
  work.title=extraToolsField(compose,extraToolsLocale('Titlul mini-cărții','Mini-book title'),
   'text',extraToolsLocale('Ex.: Soldații de teracotă','e.g. The Terracotta Army'));
@@ -87,7 +87,7 @@ function extraToolsV2Storybook(work,area,addPdf,input,primary,secondary,note){
  const kind=extraToolsField(compose,extraToolsLocale('Tipul poveștii','Story type'),'select');
  for(const [key,ro,en] of [
   ['children','Poveste pentru copii','Children’s story'],
-  ['documentary','Documentar narativ','Narrative documentary'],
+  ['documentary','Documentar istoric factual','Factual historical documentary'],
   ['family','Amintire de familie','Family memory'],
   ['travel','Jurnal de călătorie','Travel story']
  ]){
@@ -99,13 +99,14 @@ function extraToolsV2Storybook(work,area,addPdf,input,primary,secondary,note){
  }
  const imageChoice=extraToolsEl('label','extra-storybook-image-option');
  const autoImages=extraToolsEl('input');autoImages.type='checkbox';autoImages.checked=true;
- const imageChoiceText=extraToolsEl('span','',extraToolsLocale('Caută automat fotografii reale online, cu autor și licență (fără generare AI)','Automatically find real online photos with author and licence (no AI image generation)'));
+ const imageChoiceText=extraToolsEl('span','',extraToolsLocale('Caută automat imagini reprezentative (fotografii, statui, picturi, ilustrații)','Automatically find representative images, statues, paintings and illustrations'));
  imageChoice.append(autoImages,imageChoiceText);compose.append(imageChoice);
  const statusLine=extraToolsEl('p','extra-storybook-status');statusLine.setAttribute('role','status');compose.append(statusLine);
  const reader=extraToolsEl('section','extra-storybook-reader');reader.hidden=true;
  const cover=extraToolsEl('h3','extra-storybook-cover');
  const progress=extraToolsEl('p','extra-storybook-counter');
  const paper=extraToolsEl('article','extra-storybook-page');
+ const references=extraToolsEl('div','extra-storybook-references');
  const readerActions=extraToolsActions(reader);
  const previous=secondary('← Capitol anterior','← Previous chapter',()=>navigate(-1));
  const next=secondary('Capitol următor →','Next chapter →',()=>navigate(1));
@@ -117,7 +118,7 @@ function extraToolsV2Storybook(work,area,addPdf,input,primary,secondary,note){
  });
  const copy=secondary('📋 Copiază mini-cartea','📋 Copy mini-book',()=>extraToolsCopy(work.output||''));
  extraToolsActions(reader,edit,copy);
- reader.prepend(cover,progress,paper);
+ reader.prepend(cover,progress,paper,references);
  area.append(reader);
  const motion=extraStorybookMotionAttach(work,reader);
  let book=[],index=0;
@@ -137,6 +138,12 @@ function extraToolsV2Storybook(work,area,addPdf,input,primary,secondary,note){
    (safeTitle&&safeTitle.length<=58&&!/[.!?;:]/.test(safeTitle)&&!(/^(capitol|chapter)/i).test(safeTitle)?' — '+safeTitle:''));
   const body=extraToolsEl('p','extra-storybook-prose',book[index].text);
   paper.append(heading,body);
+  references.replaceChildren();
+  for(const item of Array.isArray(work.storybookReferences)?work.storybookReferences:[]){
+   if(typeof item?.url!=='string'||!item.url.startsWith('https://'))continue;
+   const link=extraToolsEl('a','',extraToolsLocale('Sursa documentarului: ','Documentary source: ')+String(item.title||'Wikipedia').slice(0,90));
+   link.href=item.url;link.target='_blank';link.rel='noopener';references.append(link);
+  }
   previous.disabled=index===0;next.disabled=index===book.length-1;
   motion.setCurrent(index);
   paper.scrollTop=0;area.scrollTop=0;
@@ -158,7 +165,7 @@ function extraToolsV2Storybook(work,area,addPdf,input,primary,secondary,note){
   create.disabled=true;
   create.textContent=extraToolsLocale('⏳ Eva scrie…','⏳ Eva is writing…');
   statusLine.textContent=extraToolsLocale('Eva pregătește capitolele…','Eva is preparing the chapters…');
-  book=[];work.output='';reader.hidden=true;
+  book=[];work.output='';work.storybookReferences=[];reader.hidden=true;
   try{
    const response=await fetch(CLIENT_CONFIG.apiUrl,{
     method:'POST',headers:{'Content-Type':'application/json'},
@@ -168,6 +175,16 @@ function extraToolsV2Storybook(work,area,addPdf,input,primary,secondary,note){
    });
    const data=await response.json().catch(()=>null);
    if(work!==extraToolsSession||!area.isConnected)return;
+   if(!response.ok&&data?.error==='storybook_documentary_sources_unavailable'){
+    statusLine.textContent=extraToolsLocale(
+     'Nu am putut verifica informații istorice despre acest subiect. Eva nu inventează un documentar.',
+     'Historical sources could not be verified. Eva will not invent a documentary.');return;
+   }
+   if(!response.ok&&data?.error==='storybook_quality_invalid'){
+    statusLine.textContent=extraToolsLocale(
+     'Textul generat nu a respectat tipul ales. Nu afișăm ficțiune drept documentar sau capitole neterminate.',
+     'Generated text did not meet the chosen genre. Fiction will not be shown as history.');return;
+   }
    if(!response.ok||data?.status!=='success'||data?.module!=='creative_storybook'||
       !Array.isArray(data.chapters)||data.chapters.length!==count||
       data.chapters.some((part,i)=>Number(part.number)!==i+1||String(part.text||'').length<170)){
@@ -179,6 +196,8 @@ function extraToolsV2Storybook(work,area,addPdf,input,primary,secondary,note){
    book=data.chapters.map(part=>({title:String(part.title||'').slice(0,110),text:String(part.text||'').trim()}));
    work.output=book.map((part,i)=>'CAPITOL '+(i+1)+':\n'+part.text).join('\n\n');
    if(work.pdf)work.pdf.hidden=false;
+   work.storybookGenre=kind.value;
+   work.storybookReferences=Array.isArray(data.references)?data.references:[];
    index=0;compose.hidden=true;reader.hidden=false;
    motion.setBook(book);display();
    autoIllustrate=autoImages.checked;
@@ -317,6 +336,8 @@ export const EXTRA_TOOLS_SIX_NAV_STYLE=String.raw`
  color:#f2f6fb!important;line-height:1.4!important;margin:5px auto 10px!important;
  max-width:720px!important;
 }
+#view-module.extra-tools-workspace .extra-storybook-references{display:flex;flex-direction:column;gap:6px;font-size:12px;padding:8px 4px}
+#view-module.extra-tools-workspace .extra-storybook-references a{color:#e7b8d0;text-decoration:underline;overflow-wrap:anywhere}
 #view-module.extra-tools-workspace .extra-storybook-image-option input{
  width:18px!important;height:18px!important;flex:0 0 auto!important;accent-color:#8e3e60!important;
 }
