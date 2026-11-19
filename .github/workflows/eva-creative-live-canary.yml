@@ -6,6 +6,8 @@ on:
       - feature/eva-creative-quality-20261119
     paths:
       - 'scripts/eva-creative-live-canary.mjs'
+      - 'backend.js'
+      - 'storybook_generation.mjs'
       - '.github/workflows/eva-creative-live-canary.yml'
   workflow_dispatch:
 
@@ -34,7 +36,7 @@ jobs:
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_AI_TOKEN: ${{ secrets.CLOUDFLARE_AI_TOKEN }}
-        run: node scripts/eva-creative-live-canary.mjs
+        run: node scripts/eva-creative-live-canary.mjs --adult-only
       - name: Upload writing samples for manual review
         if: always()
         uses: actions/upload-artifact@v4

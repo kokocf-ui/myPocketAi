@@ -2437,6 +2437,74 @@ export default {
           error:isWorkersAiQuotaExceeded(error)?'ai_quota_exceeded':'storybook_generation_unavailable'},503);
       }
     }
+    // P0 creative intent: route an explicit request to WRITE a finished work
+    // before local search, history recall, GPS, transport and social small-talk.
+    // The ordinary assistant may mention a station, business or hidden message
+    // as fictional content; those words are not lookup commands.
+    const directCreativeTask=creativeQualityEnabled&&
+      ['assistant','creative_studio','creative_writing','creator_ai','ai_writing'].includes(String(data.module||'assistant'))?
+      evaCreativeIntent({module:data.module||'assistant',message:data.message}):{requested:false};
+    if(directCreativeTask.requested){
+      const requestText=data.message.trim();
+      const language=['ro','en','fr','de','it','es','pt','nl','hu','pl'].includes(data.language)?data.language:'ro';
+      let reference=null;
+      if(directCreativeTask.factual){
+        // A factual creative request must not silently become invented history.
+        const extracted=requestText.match(/\b(?:despre|about)\s+(.+?)(?=[.;!?]|$)/iu);
+        const subject=String(extracted?.[1]||'').replace(/\b(?:fara|fără|without|include|incluzand)\b.*$/iu,'').trim().slice(0,115);
+        if(!subject)return json({status:'unavailable',error:'creative_research_subject_missing'},422);
+        reference=await fetchStorybookHistory(subject,{language});
+        if(reference.status!=='success')return json({status:'unavailable',
+          error:'creative_factual_source_unavailable'},503);
+      }
+      const recentTurns=Array.isArray(data.history)?data.history.slice(-4)
+        .filter(item=>['user','assistant'].includes(item?.role)&&typeof item.content==='string')
+        .map(item=>({role:item.role,content:item.content.slice(0,900)})):[];
+      const factualInstruction=reference?
+        '\nREFERENCE FACTS, not to be copied verbatim:\n'+reference.excerpt+
+        '\nUse ONLY facts supported by these reference facts. No invented dates, sources, quotes or discoveries.':
+        '\nThis is original creative writing, not a request to find locations, transport, restaurants or previous messages.';
+      const prompt='You are Eva, a thoughtful professional author. Write the finished requested work in language '+language+
+        '. Do not turn this into a guide about how to write. Respect the exact requested genre, audience, details and form.'+factualInstruction;
+      try{
+        const options={messages:[{role:'system',content:prompt},...recentTurns,
+          {role:'user',content:requestText}],
+          max_tokens:directCreativeTask.long?3200:1900,
+          temperature:directCreativeTask.factual?0.25:0.60};
+        const candidate=await evaTask({module:data.module||'assistant',message:requestText,
+          activity:directCreativeTask.kind,requiresSources:directCreativeTask.factual},options);
+        let reply=String(candidate?.response||candidate?.result?.response||'').trim();
+        let quality=evaCreativeQualityIssue(reply,directCreativeTask);
+        if(quality){
+          // One bounded editorial repair; do not re-run if the quota is exhausted.
+          try{
+            const editor=await env.AI.run(allowedTextModels[1],{
+              messages:[
+                {role:'system',content:'Edit this requested creative work to be complete, fluent, mature and non-repetitive. Preserve its genre, story events, user constraints and factual evidence. Never add unsupported facts or invented citations. Return the complete work, not commentary.'},
+                {role:'user',content:'REQUEST:\n'+requestText.slice(0,1600)+
+                  '\nDRAFT:\n'+reply.slice(0,10000)+
+                  '\nISSUE:\n'+quality+'\nReturn a coherent complete revision in the same language.'}
+              ],max_tokens:Math.min(3100,Math.max(1400,options.max_tokens)),temperature:0.3
+            });
+            const revision=String(editor?.response||editor?.result?.response||'').trim();
+            if(revision&&!evaCreativeQualityIssue(revision,directCreativeTask)){
+              reply=revision;quality=null;
+            }
+          }catch(error){
+            if(isWorkersAiQuotaExceeded(error))
+              return json({status:'unavailable',error:'ai_quota_exceeded'},503);
+          }
+        }
+        if(!reply||quality)return json({status:'unavailable',error:'creative_text_incomplete',quality},502);
+        return json({app:'Pocket AI',version:API_VERSION,status:'success',
+          language,reply,ai_generated:true,ai_connected:true,
+          creative_type:directCreativeTask.kind,source_research_performed:Boolean(reference),
+          references:reference?.sources||[],web_search_status:reference?'source_verified':'not_needed'});
+      }catch(error){
+        return json({status:'unavailable',
+          error:isWorkersAiQuotaExceeded(error)?'ai_quota_exceeded':'creative_generation_unavailable'},503);
+      }
+    }
     let message = data.message.trim();
     const originalMessage=message;
     // Explicit creation is a writing task, never a history search or social
@@ -2529,7 +2597,9 @@ export default {
       };
       const system='You are a patient and knowledgeable language and literature teacher. Respond in language code '+locale+
         '. This is strictly an educational task, not a travel, navigation, location, weather, business or map request. '+
-        instructions[activity]+' Use the supplied country, school year and subject area to adapt depth without inventing an official curriculum. '+
+        instructions[activity]+(activity==='essay'||activity==='write'?
+        ' Produce the finished requested essay or writing as coherent flowing prose, with specific arguments and natural transitions. Do not present the requested finished work as a lesson, worksheet, outline or bullet-point plan. Avoid generic labels such as Teză/Argumentul I unless the user explicitly requests that structure. ':'')+
+        ' Use the supplied country, school year and subject area to adapt depth without inventing an official curriculum. '+
         'Keep useful correctly spelled headings and paragraphs. In Romanian write „Lecție”, „Introducere”, „Definiții”, not erroneous invented headings such as „Lehul” or „Lehula”. Avoid literal Markdown markers (** or ##) because content is saved as a formatted PDF. Be precise and complete, avoid unverified author attributions, made-up quotations and filler. '+
         'For the correction activity only, refer to the question text and student answer in the request. '+
         'Never confuse dictionary entries with destinations. If the user has not supplied a needed text passage, do not pretend to have read it.';

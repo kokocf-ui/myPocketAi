@@ -6,7 +6,7 @@ const account=process.env.CLOUDFLARE_ACCOUNT_ID;
 const secret=process.env.CLOUDFLARE_AI_TOKEN;
 const nativeFetch=globalThis.fetch;
 const quota={calls:0,limited:false};
-const maxCalls=6;
+const maxCalls=process.argv.includes('--adult-only')?2:6;
 const outputs=[];
 const cases=[
  {id:'adult_story',label:'Poveste pentru adulți în Asistent',
@@ -54,7 +54,7 @@ const env={AI:{run:aiRun},POCKET_EVA_SMART_ROUTER_ENABLED:'0',
  POCKET_EVA_CREATIVE_QUALITY_ENABLED:'1'};
 const results=[];
 if(account&&secret){
- for(const item of cases){
+ for(const item of (process.argv.includes('--adult-only')?cases.slice(0,1):cases)){
   if(quota.limited||quota.calls>=maxCalls)break;
   const callsBefore=outputs.length,start=Date.now();
   try{
