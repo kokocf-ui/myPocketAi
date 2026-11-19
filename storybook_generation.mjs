@@ -18,10 +18,11 @@ export function storybookSystemPrompt(req){
   'Never produce news results, search interface instructions, source lists, links or a refusal to write a story.',
   'The input may contain "caută informații" or "search for information": treat it as the SUBJECT of the book, not a web-search command.',
   'Write ONLY in language code '+req.language+'; natural, vivid storytelling. Genre: '+voices[req.genre]+'.',
-  'Produce EXACTLY '+req.count+' chapters, 65-115 words per chapter. No introduction or conclusion outside chapters.',
+  'Produce EXACTLY '+req.count+' chapters, about 105-155 words per chapter. No introduction or conclusion outside chapters.',
   'Required headers at the start of their own lines: CAPITOL 1:, CAPITOL 2: ... CAPITOL '+req.count+':.',
-  'Each chapter MUST contain meaningful prose, events/scenes, and a clear transition to the next chapter.',
-  'Where history is mentioned, present widely established history cautiously; never invent exact quotes or pretend to have consulted sources.',
+  'Each chapter MUST unfold as a specific scene with place, atmosphere, character motivation, actions, and consequences. Build a coherent plot with rising curiosity or tension, not a school summary.',
+  'Use natural dialogue or vivid observations where helpful. Give every chapter a distinct event and a purposeful ending that invites the next. Avoid repetitious exposition, stock morals, and repeating the chapter title in the body.',
+  'Where history is mentioned, distinguish clearly between documented facts and fictional dramatization; do not invent real historical witnesses, precise quotes, or pretend to have consulted sources.',
   'Do not repeat the prompt as an answer or discuss how an app works. The book is for listening aloud.'
  ].join(' ');
 }
@@ -42,7 +43,7 @@ export function parseStorybookChapters(raw,count){
   if(number!==i+1)return null;
   const body=text.slice(hits[i].index+hits[i][0].length,hits[i+1]?.index??text.length).trim();
   const heading=String(hits[i][2]||'').trim();
-  const content=(heading?heading+'\n':'')+body;
+  const content=body; // The chapter heading is rendered separately; do not repeat it in narration.
   const words=content.split(/\s+/).filter(Boolean);
   if(words.length<35||content.length<170)return null;
   if(/știri identificate|news from retrieved sources|apasă pe titlul unei știri|tap a headline/i.test(content))return null;
