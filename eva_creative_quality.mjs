@@ -27,10 +27,10 @@ export function evaCreativeIntent(task={}){
  if(!requested)return {requested:false,kind:'none',audience:'general',factual:false,long:false};
  let kind='prose';
  if(['documentary'].includes(genre)||factualGenre.test(n))kind='documentary';
+ else if(activity==='essay'||/\b(?:eseu|essay|compunere)\b/.test(n))kind='essay';
  else if(['children','family','travel'].includes(genre)||/\b(?:povest\w*|basm\w*|nuvela|roman|story|novel|fiction|adventure)\b/.test(n))kind='story';
  else if(/\b(?:poem|poezie|versuri|poetry)\b/.test(n))kind='poetry';
  else if(/\b(?:scenariu|script|screenplay|dialog fictiv|piesa de teatru)\b/.test(n))kind='script';
- else if(activity==='essay'||/\b(?:eseu|essay|compunere)\b/.test(n))kind='essay';
  else if(/\b(?:reclama|publicitar|campanie|advertising|copywriting|postare)\b/.test(n))kind='marketing';
  else if(/\b(?:discurs|speech|monolog)\b/.test(n))kind='speech';
  const audience=childAudience.test(n)||genre==='children'?'children':'general';
