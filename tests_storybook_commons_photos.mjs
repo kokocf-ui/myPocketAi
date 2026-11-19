@@ -32,13 +32,32 @@ const mock=async (url,opts)=>{
  assert.match(String(opts.headers['User-Agent']),/myPocketAI/);
  return new Response(JSON.stringify({query:{pages:[sample]}}),{status:200,headers:{'Content-Type':'application/json'}});
 };
-const searched=await searchStorybookCommonsPhotos('Terracotta Army',{limit:4,fetchImpl:mock});
+const searched=await searchStorybookCommonsPhotos('Terracotta Army',{limit:4,fetchImpl:mock,language:'en'});
 assert.equal(searched.status,'success');
 assert.equal(searched.photos.length,1);
 assert.equal(searched.photos[0].provider,'Wikimedia Commons');
 assert.equal(requested,1);
 const empty=await searchStorybookCommonsPhotos('Nothing Relevant Here',{fetchImpl:async()=>new Response(JSON.stringify({query:{pages:[]}}),{status:200})});
 assert.equal(empty.status,'no_reusable_photos');
+
+
+let fallbackRequests=0;
+const bilingual=async (url)=>{
+ fallbackRequests++;
+ const u=new URL(url);
+ if(u.hostname==='ro.wikipedia.org'){
+  assert.equal(u.searchParams.get('lllang'),'en');
+  return new Response(JSON.stringify({query:{pages:[{langlinks:[{title:'Terracotta Army'}]}]}}),{status:200});
+ }
+ assert.equal(u.hostname,'commons.wikimedia.org');
+ const pages=u.searchParams.get('gsrsearch')==='Terracotta Army'?[sample]:[];
+ return new Response(JSON.stringify({query:{pages}}),{status:200});
+};
+const bilingualResult=await searchStorybookCommonsPhotos('Soldații de teracotă',{limit:4,language:'ro',fetchImpl:bilingual});
+assert.equal(bilingualResult.status,'success');
+assert.equal(bilingualResult.photos.length,1);
+assert.equal(bilingualResult.query,'Terracotta Army');
+assert.equal(fallbackRequests,3);
 
 const orig=globalThis.fetch;
 try{
