@@ -6,6 +6,9 @@ on:
       - feature/eva-router-live-canary-20261119
     paths:
       - 'scripts/eva-router-live-canary.mjs'
+      - 'backend.js'
+      - 'eva_ai_orchestrator.mjs'
+      - 'tests_eva_ai_orchestrator.mjs'
       - '.github/workflows/eva-router-live-canary.yml'
   workflow_dispatch:
 
