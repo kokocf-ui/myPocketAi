@@ -60,8 +60,9 @@ export async function searchStorybookCommonsPhotos(query,{limit=5,fetchImpl=fetc
   let resultSearch=await getCommons(input),effectiveQuery=input;
   if(resultSearch.error)return {status:resultSearch.error,photos:[]};
   // Language links from Wikipedia are editorial data, not AI translations.
-  // Only use a genuinely returned English article title; never guess or hardcode keywords.
-  if(!resultSearch.photos.length&&language!=='en'){
+  // When the original search has too few photos, use a genuinely returned English article title;
+  // never guess or hardcode topics. This is a bounded fallback, not repeated web searching.
+  if(resultSearch.photos.length<max&&language!=='en'){
    const lang=['ro','fr','de','es','it','pt','nl','pl','hu'].includes(language)?language:'ro';
    const pageParams=new URLSearchParams({
     action:'query',generator:'search',gsrsearch:input,gsrnamespace:'0',gsrlimit:'3',
@@ -80,7 +81,7 @@ export async function searchStorybookCommonsPhotos(query,{limit=5,fetchImpl=fetc
       .find(x=>typeof x==='string'&&x.length>=3&&x.length<=100);
      if(translated&&translated.toLowerCase()!==input.toLowerCase()){
       const english=await getCommons(translated);
-      if(english.photos.length){resultSearch=english;effectiveQuery=translated;}
+      if(english.photos.length){resultSearch={photos:[...resultSearch.photos,...english.photos]};effectiveQuery=translated;}
      }
     }
    }catch{/* Original Commons result remains authoritative. */}
