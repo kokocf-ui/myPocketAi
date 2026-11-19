@@ -1,0 +1,47 @@
+name: Eva AI router - isolated live canary
+
+on:
+  push:
+    branches:
+      - feature/eva-router-live-canary-20261119
+    paths:
+      - 'scripts/eva-router-live-canary.mjs'
+      - '.github/workflows/eva-router-live-canary.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: eva-router-live-canary-20261119
+  cancel-in-progress: false
+
+jobs:
+  run-synthetic-requests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify new and existing backend router scripts
+        run: |
+          node --check backend.js
+          node --check scripts/eva-router-live-canary.mjs
+          node --check eva_ai_orchestrator.mjs
+          node tests_eva_ai_orchestrator.mjs
+          node tests_eva_ai_backend_routing.mjs
+      - name: Send three synthetic requests through the real backend router
+        env:
+          CLOUDFLARE_AI_TOKEN: ${{ secrets.CLOUDFLARE_AI_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: node scripts/eva-router-live-canary.mjs
+      - name: Upload full canary report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: eva-router-live-canary-report
+          path: reports/eva-router-live.*
+          if-no-files-found: warn
+          retention-days: 7
