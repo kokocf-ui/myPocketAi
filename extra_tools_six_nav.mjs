@@ -197,6 +197,7 @@ function extraToolsV2Storybook(work,area,addPdf,input,primary,secondary,note){
    work.output=book.map((part,i)=>'CAPITOL '+(i+1)+':\n'+part.text).join('\n\n');
    if(work.pdf)work.pdf.hidden=false;
    work.storybookGenre=kind.value;
+   work.storybookContext=seed;
    work.storybookReferences=Array.isArray(data.references)?data.references:[];
    index=0;compose.hidden=true;reader.hidden=false;
    motion.setBook(book);display();
