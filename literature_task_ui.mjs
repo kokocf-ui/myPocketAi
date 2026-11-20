@@ -394,6 +394,13 @@ async function litSimpleGenerate(out,status,mode,request,source='',onReady=null,
  const admissionPolicy=isHungarianAdmission
   ?' This is entry/transfer preparation for Hungary. Present practice prompts in Hungarian and explain the method in the user interface language. Different written exams apply for entry to grades 5, 7 and 9. Never imply any school-specific admission requirement, year, exemption, assessment rule, document or deadline is verified without an official source. If a school name is supplied but not its official policy, explicitly ask the learner to check the chosen school. '
   :'';
+ const roGrade=litJourney.country==='RO'?Number(litJourney.grade):NaN;
+ const pupilPolicy=Number.isInteger(roGrade)&&roGrade>=1&&roGrade<=4?
+  ' Talk to the CHILD as a pupil, not to a teacher. Use short clear Romanian sentences and familiar everyday examples. Introduce only terms relevant to this grade. Use accessible explanations, two or three fully worked examples and practice. Do not add instructional planning notes, academic metalanguage or school bureaucracy. ':
+  Number.isInteger(roGrade)&&roGrade>=5&&roGrade<=8?
+  ' Address a middle-school pupil directly. Clearly distinguish this grade from earlier years, provide specific relevant explanations, examples, reading questions, and practice. No generic repeated introductory essay about morphology and syntax. ':
+  Number.isInteger(roGrade)&&roGrade>=9&&roGrade<=12?
+  ' Address a high-school pupil with mature interpretation and evidence-based argument. Respect the current 2026–2027 curricula: grade 9 follows the new programme, grades 10–12 continue their prior programme. Do not present the same course for every year, nor invent compulsory reading lists. ':'';
  const prompt=(isHungarianAdmission?'You are a Hungarian school admission tutor for language, mathematics and transfer. Write in ':'You are an experienced language and literature teacher. Write in ')+language+
  '. Country of education: '+(educationCountrySelection.label||litJourney.country)+
  '. Original curriculum language: '+curriculumLanguage+
@@ -401,7 +408,7 @@ async function litSimpleGenerate(out,status,mode,request,source='',onReady=null,
  '. Retain proper names, original literary titles, technical symbols and original-language examples as needed, with explanations in '+language+'.'+
  '. Class/year: '+litJourney.grade+'. Profile: '+litJourney.track+'. Region: '+(litJourney.region||'unspecified')+
  '. Curriculum: '+(plan.verified?'general framework identified; order is pedagogical':'advisory plan; do not claim an officially verified national syllabus')+
- '. Activity: '+mode+'. '+admissionPolicy+' Explain the lesson fully and directly, without offering a form. '+
+ '. Activity: '+mode+'. '+admissionPolicy+pupilPolicy+' Explain the lesson fully and directly, without offering a form. '+
  'For lessons explain every important subtopic in depth, with definitions, distinctions, developed examples, interpretation, common mistakes and a reasoned conclusion; never return a short outline or just objectives. Use clear headings, no decorative rules. List alternatives a., b., c. and exercises 1., 2., 3., each on its own line. '+
  'For exercises and tests produce at least five clear numbered tasks without exposing their solutions until the learner answers. '+
  'For literary study cover the author, context, themes, structure and evidence-based interpretation. '+
@@ -574,7 +581,9 @@ function litSimpleWorkspace(panel){
   const school=branch==='admission'&&litJourney.targetSchool
     ?' Școală vizată: '+litJourney.targetSchool+'. Numele singur nu confirmă cerințele oficiale.'
     :'';
-  const task=title+'. '+(branch==='admission'?topic[3]+school+' ':'')+
+  const focus=branch==='program'&&typeof topic[3]==='string'?
+  ' Ce învăț și exersez la clasa '+litJourney.grade+': '+topic[3]+'. ':'';
+ const task=title+'. '+focus+(branch==='admission'?topic[3]+school+' ':'')+
     (phrase?'Textul utilizatorului: '+phrase+'. ':'')+'Solicitare: '+mode+'.';
   litSimpleGenerate(out,status,mode,task,'',text=>{
    // Do not expose the answer form underneath until the reader truly opens.
