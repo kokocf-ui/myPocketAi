@@ -13,7 +13,53 @@ if(typeof litOpen==='function'&&typeof LIT_TOPICS==='object'&&
  const originalOpen=litOpen;
  const originalProgram=litProgram;
  const originalGrammar=LIT_TOPICS.grammar.slice();
+ // The old same seven expert-level categories were shown to every pupil.
+ // Keep the original entries for other countries; simplify only Romanian UI.
+ const allBranches=typeof LIT_BRANCHES!=='undefined'&&Array.isArray(LIT_BRANCHES)
+  ?LIT_BRANCHES.map(b=>({...b})):null;
+ function litStudentBranches(){
+  if(!allBranches)return;
+  const grade=Number(litJourney.grade);
+  if(litJourney.country!=='RO'||!Number.isInteger(grade)||grade<1||grade>12){
+   LIT_BRANCHES.splice(0,LIT_BRANCHES.length,...allBranches.map(b=>({...b})));return;
+  }
+  const primary=grade<=4,lower=grade<=8;
+  const allowed=primary?['program','grammar','vocabulary','writing','assessment']:
+   lower?['program','grammar','literature','writing','assessment']:
+   ['program','literature','grammar','writing','analysis','assessment'];
+  const titles=primary?{
+   program:['Lecțiile clasei '+grade,'Lecții potrivite clasei, în ordine clară'],
+   grammar:['Cuvinte și propoziții','Învăț regulile din exemple'],
+   vocabulary:['Cuvinte noi','Descopăr sensuri și expresii'],
+   writing:['Scriu și povestesc','Compun texte scurte, pas cu pas'],
+   assessment:['Mă antrenez','Exerciții pe înțelesul meu']
+  }:lower?{
+   program:['Lecțiile clasei '+grade,'Citesc, înțeleg și exersez'],
+   grammar:['Gramatică pentru clasa '+grade,'Reguli și exerciții potrivite clasei'],
+   literature:['Caută o carte sau un autor','Opere și lecturi alese'],
+   writing:['Scriere și compunere','Povestiri, rezumate și argumente'],
+   assessment:['Recapitulare și exerciții','Verific ce am înțeles']
+  }:{
+   program:['Lecțiile clasei '+grade,'Conținut adaptat nivelului și profilului'],
+   literature:['Caută o operă literară','Lecturi, autori și interpretări'],
+   grammar:['Limbă și exprimare','Comunicare și folosirea limbii'],
+   writing:['Eseuri și redactare','Construiesc argumente și texte'],
+   analysis:['Analizez un fragment','Explic sensul și mijloacele expresive'],
+   assessment:['Recapitulez și exersez','Pregătire potrivită clasei']
+  };
+  const entries=allowed.map(id=>{
+   const original=allBranches.find(b=>b.id===id);
+   if(!original)return null;
+   const [label,description]=titles[id]||[original.ro||id,''];
+   return {...original,ro:label,en:label,
+    description:description,descriptionRo:description,descriptionEn:description,
+    desc:description,descRo:description,descEn:description,
+    subtitle:description,subtitleRo:description,subtitleEn:description};
+  }).filter(Boolean);
+  if(entries.length)LIT_BRANCHES.splice(0,LIT_BRANCHES.length,...entries);
+ }
  litOpen=function(stage){
+  if(stage==='branches')litStudentBranches();
   if(stage==='topics'){
    const units=litJourney.country==='RO'?LIT_RO_GRADE_LESSONS[String(litJourney.grade)]:null;
    LIT_TOPICS.grammar=units?units.map(x=>[x.id,x.ro,x.en]):originalGrammar.slice();
@@ -23,7 +69,13 @@ if(typeof litOpen==='function'&&typeof LIT_TOPICS==='object'&&
  litProgram=function(){
   const plan=originalProgram();
   const grade=String(litJourney.grade);
-  if(litJourney.country!=='RO'||!LIT_RO_GRADE_LESSONS[grade])return plan;
+  if(litJourney.country!=='RO')return plan;
+  const studentYear=Number(grade);
+  if(studentYear>=10&&studentYear<=12)return {...plan,
+   source:null,
+   sourceTitle:'Programa corespunzătoare generației claselor X–XII în 2026–2027',
+   note:'Clasa a IX-a folosește noul curriculum din 2026, dar X–XII continuă programa anterioară. Lecțiile sunt organizate pentru elev, orientativ.'};
+  if(!LIT_RO_GRADE_LESSONS[grade])return plan;
   const first=Number(grade)<=2;
   const primary=Number(grade)<=4;
   const src=first?'https://www.ecat.ro/wp-content/uploads/2021/05/01_CLR_CP_II_OMEN.pdf':
