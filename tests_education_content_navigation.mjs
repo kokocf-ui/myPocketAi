@@ -114,8 +114,9 @@ assert.ok(boot.includes('function educationOpenPagedLesson(title,body){'),
  'Education uses a reusable paginated reading dialog');
 assert.ok(boot.includes('educationOpenPagedLesson(heading,body);'),
  'History and geography themes open in the paginated dialog');
-assert.ok(boot.includes('educationOpenPagedLesson(item.title,material);'),
- 'Science study themes open in the paginated dialog');
+assert.ok(boot.includes("educationOpenPagedLesson(state.language==='ro'?item.title:chapterName+' · '+(index+1),material);")&&
+ boot.includes('button.onclick=()=>educationOpenPagedLesson(chapterName,'),
+ 'Science study themes open in the shared paginated dialog for lower and upper stages');
 assert.ok(boot.includes('head.eduPrintableMaterial=()=>({title:educationCleanLessonLine(title),text:educationCleanLessonText(raw)})'),
  'Save and print stay inside the opened lesson');
 const hgReader=boot.slice(boot.indexOf('function hgShowCoreLesson(panel,guide){'),boot.indexOf('function hgLesson(panel){'));
