@@ -34,6 +34,25 @@ export function literatureOutputInstruction(activity,request=''){
  ].join(' ');
  return '';
 }
+// Long repeated multiword sequences are a strong signal of circular prose even
+// when a text meets the required word count and paragraph structure.
+// Use a conservative threshold to avoid penalising normal thematic vocabulary.
+export function literatureRepetitiveProse(text){
+ const tokens=String(text||'').toLocaleLowerCase()
+  .match(/[\p{L}\p{M}]+/gu)||[];
+ if(tokens.length<200)return false;
+ const counts=new Map();
+ for(let i=0;i+5<=tokens.length;i++){
+  const phrase=tokens.slice(i,i+5).join(' ');
+  counts.set(phrase,(counts.get(phrase)||0)+1);
+ }
+ let excessive=0;
+ for(const n of counts.values()){
+  if(n>=3&&++excessive>=4)return true;
+ }
+ return false;
+}
+
 export function literatureOutputIssue(reply,activity,request=''){
  const text=String(reply||'').trim();
  if(!text)return 'empty';
@@ -51,6 +70,7 @@ export function literatureOutputIssue(reply,activity,request=''){
     return 'essay_contains_quiz';
   const requested=literatureRequestedWords(request);
   if(words<Math.max(220,requested?Math.floor(requested*.72):230))return 'essay_too_short';
+  if(literatureRepetitiveProse(text))return 'essay_repetitive_phrases';
   const paragraphs=text.split(/\n\s*\n/).filter(p=>literatureWordCount(p)>=16);
   if(paragraphs.length<3)return 'essay_unstructured';
   const sentences=(text.match(/[.!?…](?:\s|$)/g)||[]).length;
