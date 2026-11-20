@@ -4,13 +4,9 @@ const EXTRA_TOOLS_V2_GROUPS=[
   ['documents','📝','Creează document','Create document','Editor de text și salvare PDF','Text editor and PDF export'],
   ['ocr','📷','Scanează și extrage text','Scan and read text','Fotografie sau imagine din galerie','Camera or gallery image'],
   ['my-documents','📚','Documentele mele','My documents','Biblioteca PDF existentă','Existing saved PDF library']]},
- {id:'translate',icon:'🌍',ro:'Traduceri inteligente',en:'Smart translations',descriptionRo:'Traducere asistată de Eva',descriptionEn:'Eva-assisted translation',items:[
-  ['translate','💬','Tradu text','Translate text','Traducere și copiere rezultat','Translate and copy result']]},
  {id:'creator',icon:'🌐',ro:'Creare pagini și imagini',en:'Websites and images',descriptionRo:'Generatorul existent',descriptionEn:'Existing creation tools',items:[
   ['creator-website','🌐','Creează site web','Create website','Generatorul de site-uri existent','Existing website builder'],
   ['creator-images','🪄','Creează sau editează imagini','Create or edit images','Generatorul și editorul de imagini','Existing image tools']]},
- {id:'analysis',icon:'📊',ro:'Analiză și calcule',en:'Analysis and calculations',descriptionRo:'Statistici și grafice',descriptionEn:'Statistics and charts',items:[
-  ['analysis','📈','Statistici și grafice','Statistics and charts','Calcule pe datele introduse','Calculate from entered data']]},
  {id:'ideas',icon:'💡',ro:'Idei și proiecte',en:'Ideas and projects',descriptionRo:'Planuri și dezvoltarea ideilor',descriptionEn:'Plans and idea development',items:[
   ['ideas','🧠','Dezvoltă o idee','Develop an idea','Transformă obiectivul într-un plan de acțiune','Turn a goal into an action plan']]}
 ];
