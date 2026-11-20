@@ -71,6 +71,14 @@ assert.ok(script.length>100000,'Android WebView bootstrap missing');
 new vm.Script(script);
 assert.ok(script.includes('const SCIENCE_UNIVERSITY_TRACK_GUIDES=')&&script.includes('const SCIENCE_UNIVERSITY_CHAPTER='),
  'Full university course must be embedded into the Android application, not only imported in Node');
+for(const marker of [
+ "const scienceReader=document.querySelector('#view-module.learning-science')!==null;",
+ "const started=speakText(pages[page]);",
+ "readPageButton.textContent=readingThisPage?",
+ "prev.onclick=()=>{if(page>0){stopPageAudio();page--;paint()}};",
+ "next.onclick=()=>{if(page<pages.length-1){stopPageAudio();page++;paint()}};",
+ "dialog.addEventListener('close',()=>{stopPageAudio();dialog.remove()});"
+])assert.ok(script.includes(marker),'Missing Science audio page start/stop lifecycle: '+marker);
 const start=script.indexOf('function educationScienceTheoryReader('),end=script.indexOf('function scienceOpenChemistrySection(',start);
 assert.ok(start>=0&&end>start);
 const opened=[],state={language:'ro'},journey={level:'advanced',schoolStage:'advanced',specialty:'quantum',grade:'University year 1'};
