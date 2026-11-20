@@ -91,7 +91,7 @@ assert.doesNotMatch(cachedStatus.textContent,/Se pregătește materialul/);
 journey.country='HU';
 const hungOut=new El('article'),hungStatus=new El('p');
 await ui.generate(hungOut,hungStatus,'lesson','Comunicare','');
-assert.equal(timeoutMs,11000,'Online education must have a bounded timeout');
+assert.equal(timeoutMs,30000,'Ordinary online lessons remain bounded, while long-form essays have a longer timeout');
 assert.match(hungStatus.textContent,/Serviciul AI nu a răspuns/);
 assert.doesNotMatch(hungStatus.textContent,/Se pregătește materialul/);
 assert.equal(journey.busy,false,'Timeout releases the busy state');
