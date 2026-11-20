@@ -43,7 +43,7 @@ import {THEORY_ENTRIES} from './education_theory.mjs';
 import {CHEMISTRY_LEVELS, CHEMISTRY_TOPICS} from './chemistry_curriculum.mjs';
 import {CHEMISTRY_DETAILED_LESSONS} from './chemistry_detailed_lessons.mjs';
 import {scienceExtendedTheory,SCIENCE_GUIDES,SCIENCE_FEATURED,SCIENCE_METHOD} from './science_extended_theory.mjs';
-import {SCIENCE_ADVISORY_PROGRESSION,SCIENCE_PROGRESSION_SOURCES,SCIENCE_PRIMARY_LESSON_BANK,scienceGradeTopicPlan,scienceGradeLessonFrame} from './science_grade_progression.mjs';
+import {SCIENCE_ADVISORY_PROGRESSION,SCIENCE_PROGRESSION_SOURCES,SCIENCE_PRIMARY_LESSON_BANK,SCIENCE_PRIMARY_ENGLISH,scienceGradeTopicPlan,scienceGradeLessonFrame} from './science_grade_progression.mjs';
 import {CHEMISTRY_SPECIALIZATIONS,CHEMISTRY_SPECIALTY_TOPICS,CHEMISTRY_MOLECULES,chemistryVerifiedExercise} from './chemistry_advanced.mjs';
 import {BIOLOGY_TOPICS,BIOLOGY_SPECIALIZATIONS,BIOLOGY_SPECIALTY_TOPICS,biologyVerifiedExercise} from './biology_curriculum.mjs';
 import {mathAdvancedVerifiedModel} from './math_advanced_verified.mjs';
@@ -9002,6 +9002,7 @@ const EDUCATION_THEORY_DATA=${JSON.stringify(THEORY_ENTRIES)};
 const SCIENCE_ADVISORY_PROGRESSION=${JSON.stringify(SCIENCE_ADVISORY_PROGRESSION)};
 const SCIENCE_PROGRESSION_SOURCES=${JSON.stringify(SCIENCE_PROGRESSION_SOURCES)};
 const SCIENCE_PRIMARY_LESSON_BANK=${JSON.stringify(SCIENCE_PRIMARY_LESSON_BANK)};
+const SCIENCE_PRIMARY_ENGLISH=${JSON.stringify(SCIENCE_PRIMARY_ENGLISH)};
 const SCIENCE_GRADE_TOPIC_PLAN=${scienceGradeTopicPlan.toString()};
 const SCIENCE_GRADE_LESSON_FRAME=${scienceGradeLessonFrame.toString()};
 const PHYSICS_TOPIC_DATA=${JSON.stringify(PHYSICS_TOPICS)};
@@ -10609,7 +10610,7 @@ function educationScienceTheoryReader(subjectId,topicId,level){
     subject:subjectId,stage:scienceJourney.schoolStage||'lower',grade:scienceJourney.grade,
     topic:item.topic,chapter:chapterName,language:state.language
    });
-   const material=(frame?frame+'\n\n':'')+SCIENCE_THEORY_EXPAND(item,chapterName,rich);
+   const material=(frame?frame+String.fromCharCode(10,10):'')+SCIENCE_THEORY_EXPAND(item,chapterName,rich);
    educationOpenPagedLesson(item.title,material);
   };
   topics.append(button);
