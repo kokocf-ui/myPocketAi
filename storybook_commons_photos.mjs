@@ -70,7 +70,9 @@ export async function searchStorybookCommonsPhotos(query,{limit=5,fetchImpl=fetc
  if(input.length<3||input.length>110)return {status:'invalid_query',photos:[]};
  const max=Math.max(1,Math.min(6,Math.floor(Number(limit)||5)));
  const key=input.toLocaleLowerCase()+':'+max+':'+language+':'+(documentary?'documentary':'story');
- const cached=memo.get(key);if(cached&&cached.exp>Date.now())return cached.value;
+ // Injected fetches (tests/previews) must not share cached results from other providers.
+ const useCache=fetchImpl===fetch;
+ const cached=useCache?memo.get(key):null;if(cached&&cached.exp>Date.now())return cached.value;
  const controller=new AbortController();
  const timer=setTimeout(()=>controller.abort(),timeoutMs);
  try{
@@ -207,7 +209,7 @@ export async function searchStorybookCommonsPhotos(query,{limit=5,fetchImpl=fetc
   const result={status:distinct.length?'success':firstError||'no_images_found',photos:distinct,query:effectiveQuery,
    source:'Wikimedia Commons / Openverse',credit_required:true};
   if(memo.size>100)memo.clear();
-  memo.set(key,{exp:Date.now()+20*60*1000,value:result});
+  if(useCache)memo.set(key,{exp:Date.now()+20*60*1000,value:result});
   return result;
  }catch{return {status:'upstream_unavailable',photos:[]}}
  finally{clearTimeout(timer)}
