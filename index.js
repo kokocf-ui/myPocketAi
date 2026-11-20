@@ -10529,6 +10529,27 @@ function educationOpenPagedLesson(title,body){
  back.textContent=learningLabel('← Înapoi','← Back');back.onclick=()=>dialog.close();head.append(back);
  head.eduPrintableMaterial=()=>({title:educationCleanLessonLine(title),text:educationCleanLessonText(raw)});
  eduAttachPrintAction(head);
+ // Only voice-enabled Sciences show this control. Speak the current page,
+ // and stop immediately when changing pages or dismissing the reader.
+ const scienceReader=document.querySelector('#view-module.learning-science')!==null;
+ let readingThisPage=false,readPageButton=null;
+ const stopPageAudio=()=>{
+  if(readingThisPage){stopSpeech();readingThisPage=false;}
+  if(readPageButton)readPageButton.textContent=learningLabel('🔊 Citește','🔊 Read');
+ };
+ if(scienceReader){
+  readPageButton=document.createElement('button');readPageButton.type='button';
+  readPageButton.className='secondary-btn science-lesson-read';
+  readPageButton.textContent=learningLabel('🔊 Citește','🔊 Read');
+  readPageButton.onclick=()=>{
+   if(readingThisPage){stopPageAudio();return;}
+   if(state.speaking)stopSpeech();
+   const started=speakText(pages[page]);
+   readingThisPage=started!==false;
+   readPageButton.textContent=readingThisPage?learningLabel('■ Oprește','■ Stop'):learningLabel('🔊 Citește','🔊 Read');
+  };
+  head.append(readPageButton);
+ }
  const heading=document.createElement('h2');heading.textContent=educationCleanLessonLine(title);
  heading.className='education-paged-title';heading.title=heading.textContent;
  heading.style.cssText='margin:0;text-align:center;font-size:clamp(16px,3.6vw,21px);font-weight:750;line-height:1.25;overflow-wrap:anywhere;flex:0 0 auto;max-height:3.75em;overflow-y:auto;';
@@ -10573,11 +10594,11 @@ function educationOpenPagedLesson(title,body){
   prev.disabled=page===0;next.disabled=page===pages.length-1;
   count.textContent=learningLabel('Pagina ','Page ')+(page+1)+' / '+pages.length;
  };
- prev.onclick=()=>{if(page>0){page--;paint()}};
- next.onclick=()=>{if(page<pages.length-1){page++;paint()}};
+ prev.onclick=()=>{if(page>0){stopPageAudio();page--;paint()}};
+ next.onclick=()=>{if(page<pages.length-1){stopPageAudio();page++;paint()}};
  footer.append(prev,count,next);footer.hidden=pages.length===1;
  dialog.append(head,heading,content,footer);
- dialog.addEventListener('close',()=>dialog.remove());
+ dialog.addEventListener('close',()=>{stopPageAudio();dialog.remove()});
  document.body.append(dialog);
  try{dialog.showModal()}catch{dialog.setAttribute('open','')}
  paint();return dialog;
