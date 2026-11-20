@@ -72,7 +72,7 @@ new vm.Script(script);
 assert.ok(script.includes('const SCIENCE_UNIVERSITY_TRACK_GUIDES=')&&script.includes('const SCIENCE_UNIVERSITY_CHAPTER='),
  'Full university course must be embedded into the Android application, not only imported in Node');
 for(const marker of [
- "const scienceReader=document.querySelector('#view-module.learning-science')!==null;",
+ "const scienceReader=Boolean(document.querySelector?.('#view-module.learning-science'));",
  "const started=speakText(pages[page]);",
  "readPageButton.textContent=readingThisPage?",
  "prev.onclick=()=>{if(page>0){stopPageAudio();page--;paint()}};",
