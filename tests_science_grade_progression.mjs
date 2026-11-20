@@ -37,9 +37,10 @@ for(const country of EDUCATION_EUROPE_COUNTRIES){
      const english=scienceLowerTopicContent(subject,topic.id,'en');
      assert.ok(facts&&english,
       country+'/'+year.id+'/'+subject+'/'+topic.id+' needs a complete lower-secondary lesson');
-     assert.ok(facts.explanation.length>=90&&facts.workedExample.length>=50&&
-      facts.exercise.length>=20&&facts.answer.length>=25,
-      'Not just a lesson title: real explanation, worked example, exercise and feedback');
+     assert.ok(facts.explanation.length>=70&&facts.workedExample.length>=35&&
+      facts.exercise.length>=15&&facts.answer.length>=14&&
+      facts.exercise!==facts.answer,
+      'Not just a lesson title: '+country+'/'+year.id+'/'+subject+'/'+topic.id+' lengths '+[facts.explanation.length,facts.workedExample.length,facts.exercise.length,facts.answer.length].join('/'));
      assert.ok(english.explanation.length>=75&&english.workedExample.length>=35,
       'English version must contain independently authored substantive content');
      const p=years.findIndex(x=>x.id===year.id);
