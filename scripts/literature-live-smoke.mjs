@@ -34,7 +34,8 @@ for(const item of fixtures){
   const response=await backend.fetch(new Request('https://literature-test.invalid/api/chat',{
     method:'POST',headers:{'Content-Type':'application/json'},
     body:JSON.stringify({module:'education_study',education_subject:'language_literature',
-       education_activity:item.activity,language:'ro',message:item.message})}),{AI:{run:aiRun}});
+       education_activity:item.activity,language:'ro',message:item.message})}),{AI:{run:aiRun},
+       POCKET_AI_TEXT_MODEL:process.env.LITERATURE_CANARY_MODEL||''});
   const body=await response.json();
   const answer=String(body.reply||'');
   const issue=answer?literatureOutputIssue(answer,item.activity,item.message):body.quality||body.error||null;
