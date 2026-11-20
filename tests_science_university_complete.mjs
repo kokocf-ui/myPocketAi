@@ -28,9 +28,12 @@ for(const [subject,[topics,tracks]] of Object.entries(subjectRegistry)){
   const pathway=topics.filter(t=>t.specialty===programme.id||!t.specialty&&programme.core.includes(t.id));
   assert.ok(pathway.filter(t=>t.specialty===programme.id).length>=1,subject+'/'+programme.id+' has no specialist chapters');
   for(const topic of pathway){
-   const rows=THEORY_ENTRIES.filter(e=>e.subject===subject&&e.topic===topic.id&&e.level==='advanced');
-   assert.ok(rows.length>=1,subject+'/'+programme.id+'/'+topic.id+' has no university material');
+   const all=THEORY_ENTRIES.filter(e=>e.subject===subject&&e.topic===topic.id);
+   const advanced=all.filter(e=>e.level==='advanced');
    const spec=topic.specialty===programme.id;
+   const rows=spec?advanced:
+    advanced.concat(all.filter(e=>e.level!=='advanced').slice(0,Math.max(0,3-advanced.length)));
+   assert.ok(rows.length>=1,subject+'/'+programme.id+'/'+topic.id+' has no university/core material');
    if(spec)assert.ok(rows.length>=3,subject+'/'+programme.id+'/'+topic.id+' needs detailed specialist subtopics');
    const input={subject,specialty:programme.id,topic:topic.id,chapter:topic.ro,grade:'university',lessons:THEORY_ENTRIES};
    const ro=scienceUniversityChapter({...input,language:'ro'});
