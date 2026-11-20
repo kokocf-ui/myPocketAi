@@ -31,7 +31,7 @@ if(typeof litOpen==='function'&&typeof LIT_TOPICS==='object'&&
   }
   const grade=roGrade(),young=grade<=4;
   const textbook=[
-   ['program','📘 Lecțiile clasei '+grade,'Limba și literatura română, potrivit clasei','Grade '+grade+' lessons','Romanian Language and Literature']
+   ['program','📘 Lecțiile clasei '+grade,'Limba și literatura română, potrivit clasei','Grade '+grade+' lessons','Romanian Language and Literature'],
    ['literature',young?'📖 Citire și povești':'📖 Studiu opere',
     young?'Caut o poveste sau o poezie':'Caut opera sau autorul','Study works','Find a book or author'],
    ['writing',young?'✏️ Compunere':'✍️ Eseu',
