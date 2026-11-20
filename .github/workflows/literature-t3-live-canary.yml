@@ -1,0 +1,43 @@
+name: T3 live essay section smoke (temporary branch only)
+on:
+  push:
+    branches:
+      - fix/literature-t3-search-only-responsive-20261120
+    paths:
+      - .github/workflows/literature-t3-live-canary.yml
+permissions: {}
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Test actual live Cloudflare essay section without logging its text
+        shell: bash
+        run: |
+          node --input-type=module <<'NODE'
+          const started=Date.now();
+          const endpoint='https://lifewise-ai-api.kokocf.workers.dev/api/chat';
+          const request={
+            module:'education_study',education_subject:'language_literature',
+            education_activity:'essay',education_essay_pages:2,
+            education_essay_segment:1,language:'ro',history:[],
+            message:'Scrie prima parte dintr-un eseu interpretativ matur despre Luceafărul de Mihai Eminescu. Explică diferența dintre ideal și iubirea terestră, cu argumente literare proprii, fără citate inventate. Text cursiv.'
+          };
+          let response;
+          try{
+            response=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},
+              body:JSON.stringify(request),signal:AbortSignal.timeout(65000)});
+          }catch(error){
+            console.error('LIVE_T3_ESSAY_FAILED',JSON.stringify({transport:String(error?.name||'request_error'),elapsedMs:Date.now()-started}));
+            process.exit(1);
+          }
+          const payload=await response.json().catch(()=>({}));
+          const words=String(payload.reply||'').split(/\s+/).filter(Boolean).length;
+          const evidence={status:response.status,success:payload.status==='success',
+            segment:payload.essay_segment||null,requested_pages:payload.essay_pages||null,
+            words,elapsedMs:Date.now()-started,error:payload.error||null};
+          console.log('LIVE_T3_ESSAY_RESULT',JSON.stringify(evidence));
+          if(!response.ok||payload.status!=='success'||payload.essay_segment!==1||words<50)
+            process.exit(1);
+          console.log('LIVE_T3_ESSAY_PASS');
+          NODE
