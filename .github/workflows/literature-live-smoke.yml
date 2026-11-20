@@ -1,0 +1,40 @@
+name: Literature real model check
+
+on:
+  push:
+    branches: [feature/literature-full-lessons-essay-20261120]
+    paths:
+      - 'scripts/literature-live-smoke.mjs'
+      - 'literature_curated_concepts.mjs'
+      - 'literature_output_quality.mjs'
+      - 'backend.js'
+      - '.github/workflows/literature-live-smoke.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  cloudflare-literature-canary:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: One real essay and one real school lesson (up to four AI calls, no web discovery)
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_AI_TOKEN: ${{ secrets.CLOUDFLARE_AI_TOKEN }}
+          LITERATURE_CANARY_DEEP: '0'
+          LITERATURE_CANARY_MODEL: '@cf/meta/llama-3.1-8b-instruct-fast'
+          LITERATURE_CANARY_EDIT: '1'
+        run: node scripts/literature-live-smoke.mjs
+      - name: Keep the output for review, regardless of result
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: literature-real-output
+          path: reports/literature-live-smoke.json
+          if-no-files-found: ignore

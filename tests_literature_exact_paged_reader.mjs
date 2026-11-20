@@ -179,31 +179,24 @@ assert.equal(dialog.attrs['aria-modal'],'true');
 assert.equal(overlay.children.length,1,'Reader is in its own high stacking layer');
 assert.ok(overlay.style.cssText.includes('z-index:2147483000'),'Reader frame is visible even without injected CSS');
 const navs=all(dialog).filter(x=>x.tagName==='NAV');
-assert.equal(navs.length,2,'Page navigation is mirrored at top and bottom');
-assert.equal(navs[0].children[1].textContent,navs[1].children[1].textContent,
- 'Counters are synchronized on both controls');
-const firstCounter=navs[0].children[1].textContent;
-assert.match(firstCounter,/Pagina 1 din /);
-assert.equal(navs[0].children[0].disabled,true,'First page has no previous');
-navs[1].children[2].onclick();
-assert.match(navs[0].children[1].textContent,/Pagina 2 din /);
-assert.equal(navs[0].children[1].textContent,navs[1].children[1].textContent);
-navs[0].children[0].onclick();
-assert.equal(navs[0].children[1].textContent,firstCounter);
+assert.equal(navs.length,0,'Generated prose uses continuous scroll rather than sparse character-sized virtual pages');
+const documentArea=all(dialog).find(x=>x.className==='lit-reader-scroll');
+assert.ok(documentArea,'Study prose occupies one uninterrupted reading area');
+assert.ok(documentArea.textContent.includes('Citirea atentă'),'Rendered study text remains readable');
+assert.ok(documentArea.textContent.length>long.length*.7,'Entire prose is available in one scrollable reader');
 button(dialog,'💾 Salvează PDF').onclick();
 assert.equal(requests.at(-1).mode,'save');
 assert.equal(requests.at(-1).material.text,long.trim(),'PDF uses complete theory, not just the displayed page');
 
-// A WebView style-injection error must not hide the paging controls.
+// If Android blocks dynamic CSS, the complete prose still remains readable.
 const styleFailureDocument={...document,getElementById:()=>{throw Error('CSS injection is blocked')}};
 const fallbackUI=vm.runInNewContext(LITERATURE_TASK_UI_SCRIPT+
  '\n({reader:litShowMaterialReader})',{...cfg,document:styleFailureDocument});
-assert.equal(fallbackUI.reader('Paginare fără stil',long),true);
+assert.equal(fallbackUI.reader('Proză fără stil',long),true);
 const fallbackOverlay=body.children.filter(x=>x.className==='lit-reader-overlay'&&x.isConnected).at(-1);
-const fallbackNavs=all(fallbackOverlay).filter(x=>x.tagName==='NAV');
-assert.ok(fallbackNavs.length>0,'Paging survives failed WebView style injection');
-assert.match(fallbackNavs[0].children[1].textContent,/Pagina 1 din /);
-assert.ok(fallbackNavs[0].children[2].disabled===false,'Long work remains navigable');
+const fallbackDocument=all(fallbackOverlay).find(x=>x.className==='lit-reader-scroll');
+assert.ok(fallbackDocument.textContent.includes('Citirea atentă'),'Fallback reader never loses lesson text');
+assert.equal(all(fallbackOverlay).filter(x=>x.tagName==='NAV').length,0);
 button(fallbackOverlay,'Înapoi').onclick();
 
-console.log('PASS: exact title opens one work; author lists works; two pagers; full PDF material');
+console.log('PASS: exact titles, paginated poetry, continuously scrollable prose and full PDF material');

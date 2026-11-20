@@ -1,0 +1,49 @@
+name: Literature full lesson and essay QA
+
+on:
+  push:
+    branches:
+      - feature/literature-full-lessons-essay-20261120
+    paths:
+      - 'literature_task_ui.mjs'
+      - 'literature_output_quality.mjs'
+      - 'literature_curated_concepts.mjs'
+      - 'tests_literature_curated_concepts.mjs'
+      - 'backend.js'
+      - 'tests_literature_editorial_quality.mjs'
+      - 'tests_literature_tutor_response.mjs'
+      - 'tests_literature_exact_paged_reader.mjs'
+      - 'tests_eva_ai_backend_routing.mjs'
+      - 'tests_eva_creative_backend.mjs'
+      - 'tests_hungarian_school_paths.mjs'
+      - '.github/workflows/test-literature-quality.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  literature-essay-and-theory:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate source syntax
+        run: |
+          node --check backend.js
+          node --check literature_task_ui.mjs
+          node --check literature_output_quality.mjs
+      - name: Validate correct essay genre, depth and complete reader
+        run: |
+          node tests_literature_editorial_quality.mjs
+          node tests_literature_curated_concepts.mjs
+          node tests_literature_tutor_response.mjs
+          node tests_literature_exact_paged_reader.mjs
+          node tests_eva_ai_backend_routing.mjs
+          node tests_eva_creative_backend.mjs
+          node tests_hungarian_school_paths.mjs
+          node tests_education_reader_documents_regression.mjs
+          node tests_education_android.mjs

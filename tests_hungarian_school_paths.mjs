@@ -53,7 +53,13 @@ assert.match(script,/HUNGARY_ADMISSION_REFERENCES/,'Official admissions links ar
 // The admissions route must accept BOTH school maths and Hungarian language,
 // without being rejected as an off-topic Language & Literature query.
 let prompt=null;
-const sampleEnv={AI:{run:async(model,request)=>{prompt=request;return {response:'1. Oldd meg a feladatot: 12 + 8 = ?'}}}};
+const hungarianLesson=Array.from({length:6},(_,i)=>'A költészet vizsgálata – '+(i+1)+'\n\n'+
+ 'Az irodalom elemzése során fontos a vers beszélőjének azonosítása, a megszólítás és a képi nyelv értelmezése. A sorok ritmusa és hangzása befolyásolhatja az olvasó figyelmét, ugyanakkor a nyelvi forma soha nem helyettesíti a szöveg jelentésének vizsgálatát. Az értelmezésnek különbséget kell tennie a leírt jelenség és a lehetséges következtetés között. Az egyes motívumok kapcsolatát mindig a teljes vers összefüggésében szükséges megérteni.').join('\n\n');
+const sampleEnv={AI:{run:async(model,request)=>{
+ prompt=request;
+ return {response:request.messages[0].content.includes('language code hu')
+  ?hungarianLesson:'1. Oldd meg a feladatot: 12 + 8 = ?'};
+}}};
 const admissionsResponse=await backend.fetch(new Request('https://hungary-admissions.test/api/chat',{
  method:'POST',headers:{'Content-Type':'application/json'},
  body:JSON.stringify({module:'education_study',education_subject:'school_admission',education_activity:'exercises',
