@@ -267,8 +267,10 @@ assert.match(readerText(),/Paragraful 2-1/);
 assert.equal(requests.at(-1).education_essay_segment,2,
  'Requests for successful parts are retained; the rejected section is not falsely counted');
 const incompleteReader=readerOverlay();
+const partialExports=[];
+cfg.eduOpenPrint=(mode,material)=>partialExports.push({mode,material});
 press(incompleteReader,'💾 Salvează PDF');
-assert.ok(nativeRequests.at(-1).essayPages!==5,
+assert.equal(partialExports.at(-1)?.material?.essayPages,0,
  'Never promise the requested five A4 pages when the model returned only two sections');
 
 console.log('PASS: grammar, dictionary, test, correction, no premature answer box, no GPS contamination');
