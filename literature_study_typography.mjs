@@ -2,7 +2,7 @@
 // for PDF export, printing, and licensing checks.
 export function parseStudyBlocks(raw){
  const lines=String(raw||'').replace(/\r\n?/g,'\n').split('\n');
- const blocks=[];let paragraph=[];
+ const blocks=[];let paragraph=[],choiceGroup=false,nextChoice='a';
  const flush=()=>{if(paragraph.length){blocks.push({type:'paragraph',text:paragraph.join('\n').trim()});paragraph=[]}};
  const rules=/^\s*(?:[-_–—]{4,}|={4,})\s*$/;
  const labels=/^(?:introducere|defini(?:ții|tii)|subiecte principale|subiecte importante|noțiuni esențiale|notiuni esentiale|teorie|exemple?|exerci(?:ții|tii)|recapitulare|concluzii?|rezumat|lectura|context|bibliografie|introduction|definitions?|examples?|exercises?|summary|conclusions?|practice|wprowadzenie|einleitung|beispiele|zusammenfassung|giriş|tanımlar|örnekler)\s*:?$/iu;
@@ -36,9 +36,17 @@ export function parseStudyBlocks(raw){
    }
    // No synthetic a./b./c. labels: they repeatedly reset after headings
    // and mislead pupils. Retain true numbered exercises as 1., 2., 3.
-   blocks.push({type:'item',marker:numbered?numbered[1]+'.':'•',text:body});
+   let marker='•';
+   if(numbered){marker=numbered[1]+'.';choiceGroup=true;nextChoice='a'}
+   else if(labelled&&choiceGroup&&labelled[1].toLowerCase()===nextChoice){
+    // Genuine question with a., b., c. alternatives remains answerable.
+    marker=nextChoice+'.';nextChoice=String.fromCharCode(nextChoice.charCodeAt(0)+1);
+   }else choiceGroup=false;
+   if(bullet)choiceGroup=false;
+   blocks.push({type:'item',marker,text:body});
    continue;
   }
+  choiceGroup=false;
   paragraph.push(line);
  }
  flush();
