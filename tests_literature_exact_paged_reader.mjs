@@ -51,7 +51,7 @@ const panel=new El('main');
 ui.literature(panel);
 const search=all(panel).find(x=>x.tagName==='INPUT');
 assert.ok(search,'Study search input exists');
-assert.ok(panel.textContent.includes('János vitéz'),'Country works appear immediately');
+assert.ok(!panel.textContent.includes('János vitéz'),'Country works stay searchable but do not clutter the empty page');
 search.value='János vitéz';button(panel,'Caută autorul / opera').onclick();
 await Promise.resolve();
 assert.ok(panel.textContent.includes('János vitéz — Petőfi Sándor'),'Exact title opens correct work');
@@ -74,8 +74,8 @@ const roUi=vm.runInNewContext(LITERATURE_TASK_UI_SCRIPT+
  '\n({literature:litSimpleLiterature})',roConfig);
 const roPanel=new El('main');roUi.literature(roPanel);
 const roSearch=all(roPanel).find(x=>x.tagName==='INPUT');
-assert.ok(button(roPanel,'Luceafărul — Mihai Eminescu'),
- 'Romanian starter bibliography includes verified Luceafărul');
+assert.ok(!button(roPanel,'Luceafărul — Mihai Eminescu'),
+ 'The initial Romanian screen should contain the search box, not a list of authors');
 for(const wording of ['Mihai Eminescu – Luceafărul','Luceafărul — Mihai Eminescu']){
  roSearch.value=wording;button(roPanel,'Caută autorul / opera').onclick();
  await Promise.resolve();
