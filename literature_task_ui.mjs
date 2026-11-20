@@ -677,9 +677,16 @@ function litVerifiedLuceafarulMaterial(chosen,mode,passage=''){
  return intro+'\n\n'+material[mode]+excerpt;
 }
 
-function litSimpleLiterature(panel){
- litSimpleHeading(panel,litSimpleLabel('Literatură: autor și operă','Literature: author and work'),
-  litSimpleLabel('Selectează opera corectă, apoi Studiază, Rezumat, Eseu sau Analiză pe text.','Select a work, then Study, Summary, Essay or Text analysis.'));
+function litSimpleLiterature(panel,options={}){
+ const essayOnly=options.essayOnly===true;
+ const primary=options.primary===true;
+ litSimpleHeading(panel,
+  essayOnly?litSimpleLabel('Eseu — alege opera','Essay — choose the work'):
+  primary?litSimpleLabel('Citire și povești','Reading and stories'):
+  litSimpleLabel('Studiu opere','Study literary works'),
+  essayOnly?litSimpleLabel('Caută titlul sau autorul. După alegerea operei, poți scrie eseul și stabili numărul de pagini A4.','Find a work or author, then choose the number of A4 pages.'):
+  primary?litSimpleLabel('Caută o poveste sau o poezie. Citește și povestește ce ai înțeles.','Find a story or poem, read and retell it.'):
+  litSimpleLabel('Caută titlul sau autorul pentru studiu, rezumat ori analiză.','Find a work or author to study or summarize.'));
  const search=litSimpleNode('input','','lit-input');search.type='search';
  search.placeholder=litSimpleLabel('Titlu — autor (ex.: Luceafărul — Mihai Eminescu)','Title — author');search.setAttribute('aria-label',search.placeholder);
  const feedback=litSimpleNode('p','','lit-activity-status');feedback.setAttribute('role','status');
@@ -702,15 +709,21 @@ function litSimpleLiterature(panel){
  essayPages.style.cssText='width:90px;max-width:40%;min-height:40px;padding:7px 9px;text-align:center';
  essaySettings.append(litSimpleNode('span',litSimpleLabel('Eseu:','Essay:')),essayKind,
   litSimpleNode('span',litSimpleLabel('Pagini A4:','A4 pages:')),essayPages);
- const textArea=litSimpleNode('textarea','','lit-input');textArea.rows=4;textArea.placeholder=litSimpleLabel('Fragment propriu pentru analiză (opțional)','Your own passage for analysis (optional)');
+ const textArea=litSimpleNode('textarea','','lit-input');
+ textArea.rows=essayOnly?2:4;
+ textArea.placeholder=essayOnly?
+  litSimpleLabel('Tema eseului (opțional)','Essay topic (optional)'):
+  litSimpleLabel('Fragment propriu pentru analiză (opțional)','Your own passage for analysis (optional)');
  const passage=litSimpleNode('details','','lit-activity-review');passage.append(litSimpleNode('summary',litSimpleLabel('Adaugă un fragment pentru analiză','Add a passage to analyse')),textArea);
  const out=litSimpleNode('article','','lit-result lit-activity-output');
  out.hidden=true;out.setAttribute('aria-hidden','true');
  let chosen=null,searchNumber=0;
  const select=(name,author,url,work=null)=>{
   chosen={name,author,url,work};title.textContent=name+' — '+author;results.replaceChildren();acts.replaceChildren();
-  acts.append(essaySettings);
-  const types=[['Studiază','Study','study'],['Rezumat','Summary','summary'],['Eseu','Essay','essay'],['Analiză pe text','Text analysis','analysis']];
+  if(!primary)acts.append(essaySettings);
+  const types=essayOnly?[['Creează eseul','Create essay','essay']]:
+   primary?[['Citesc și înțeleg','Read and understand','study'],['Povestesc pe scurt','Retell briefly','summary']]:
+   [['Studiază','Study','study'],['Rezumat','Summary','summary'],['Eseu','Essay','essay'],['Analiză pe text','Text analysis','analysis']];
   for(const [ro,en,mode] of types)acts.append(litSimpleButton(litSimpleLabel(ro,en),()=>{
    // The verified short reference notes are not a finished multi-page essay.
    const checked=mode==='essay'?null:litVerifiedLuceafarulMaterial(chosen,mode,textArea.value);
@@ -726,15 +739,21 @@ function litSimpleLiterature(panel){
    }
    const requestedEssay=mode==='essay'?
     ' Scrie un eseu '+essayKind.value+' complet, aproximativ '+litEssaySpec(pages).targetWords+
-    ' cuvinte ('+pages+' pagini A4, în format PDF, font 11.5pt), cu introducere naturală, analiză susținută prin argumente distincte și concluzie. Nu oferi schelet de eseu, instrucțiuni de redactare sau afirmații fără dovezi.': '';
+    ' cuvinte ('+pages+' pagini A4, în format PDF, font 11.5pt), cu introducere naturală, analiză susținută prin argumente distincte și concluzie. Nu oferi schelet de eseu, instrucțiuni de redactare sau afirmații fără dovezi.'+
+    (essayOnly&&textArea.value.trim()?' Tema eseului: '+textArea.value.trim().slice(0,1600)+'.':''): '';
    out.replaceChildren();litSimpleGenerate(out,feedback,mode,
     'Opera: '+chosen.name+'. Autor: '+chosen.author+'.'+requestedEssay,
    'Sursă bibliografică (metadate, nu text integral): '+chosen.url+'. '+
-   (textArea.value.trim()?'Fragment introdus de utilizator: '+textArea.value.trim().slice(0,28000):'Text integral indisponibil; nu inventa citate sau lectura unei ediții.'),
+   (!essayOnly&&textArea.value.trim()?'Fragment introdus de utilizator: '+textArea.value.trim().slice(0,28000):'Text integral indisponibil; nu inventa citate sau lectura unei ediții.'),
    (result,details)=>litShowMaterialReader(chosen.name+' — '+chosen.author,result,
     mode==='essay'?{essayPages:details?.complete?pages:0,essayDraft:!details?.complete}:{}),
     mode==='essay'?{pages}:{});
   }));
+  if(essayOnly){
+   feedback.textContent=litSimpleLabel('Alege tipul, lungimea și creează eseul.','Choose type, length and create the essay.');
+   title.scrollIntoView({block:'nearest',behavior:'auto'});
+   return;
+  }
   // Contents can be shown only for a confirmed licensed source with actual text.
   // Do not manufacture chapter titles, missing lines or verses from catalogue metadata.
   const sections=Array.isArray(chosen.work?.sections)?chosen.work.sections:[];
@@ -855,7 +874,9 @@ function litSimpleLiterature(panel){
    litSimpleLabel('Nicio potrivire sigură. Încearcă titlul și autorul.','No confident match; try title and author.');
  };
  search.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();find()}});
- panel.append(search,litSimpleButton(litSimpleLabel('Caută autorul / opera','Search author / work'),find),feedback,results,title,acts,passage);
+ panel.append(search,litSimpleButton(litSimpleLabel('Caută titlul sau autorul','Search title or author'),find),feedback,results,title,acts);
+ if(essayOnly)panel.append(textArea);
+ else if(!primary)panel.append(passage);
  feedback.textContent=litSimpleLabel('Caută după titlu sau autor. Nu este necesar să alegi dintr-o listă de autori.','Search by title or author; no author selection list is needed.');
 }
 
