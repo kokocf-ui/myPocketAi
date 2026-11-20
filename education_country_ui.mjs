@@ -233,6 +233,16 @@ function eduYearOptions(code,level,moduleKey){
  const lv=level==='intermediate'?'medium':level;
  const source=EDUCATION_SCHOOL_YEARS_DATA[code]?.[lv];
  const numeric=(a,b,prefix='')=>Array.from({length:b-a+1},(_,i)=>({id:prefix+(a+i),ro:prefix?'Year '+(a+i):'Clasa '+(a+i),en:prefix?'Year '+(a+i):'Grade '+(a+i)}));
+ if(moduleKey==='science'&&level==='primary'){
+  // Scientific exploration in primary school is a general programme; reuse
+  // each jurisdiction's actual mapped primary years, never invent RO grades for it.
+  if(code==='RO')return numeric(1,4);
+  if(code==='GB-ENG')return numeric(1,6,'Y');
+  const mapped=EDUCATION_SCHOOL_YEARS_DATA[code]?.beginner||
+   worldwideSchoolYears(code,'beginner','science');
+  if(mapped?.length)return mapped;
+  return [{id:'general-primary',ro:'Program general · primar',en:'General primary science learning'}];
+ }
  if(moduleKey==='math'){
   if(code==='RO')return lv==='primary'?numeric(1,4):lv==='lower'?numeric(5,8):lv==='beginner'?numeric(1,8):lv==='medium'?numeric(9,12):[{id:'universitate',ro:'Universitate',en:'University'}];
   if(code==='GB-ENG')return lv==='primary'?numeric(1,6,'Y'):lv==='lower'?numeric(7,9,'Y'):lv==='beginner'?numeric(1,9,'Y'):lv==='medium'?numeric(10,13,'Y'):[{id:'university',ro:'Higher education',en:'Higher education'}];
