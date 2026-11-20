@@ -44,6 +44,8 @@ import {CHEMISTRY_LEVELS, CHEMISTRY_TOPICS} from './chemistry_curriculum.mjs';
 import {CHEMISTRY_DETAILED_LESSONS} from './chemistry_detailed_lessons.mjs';
 import {scienceExtendedTheory,SCIENCE_GUIDES,SCIENCE_FEATURED,SCIENCE_METHOD} from './science_extended_theory.mjs';
 import {SCIENCE_GUIDES_EN} from './science_english_reference_guides.mjs';
+import {SCIENCE_UNIVERSITY_TRACK_GUIDES} from './science_university_track_guides.mjs';
+import {scienceUniversityChapter} from './science_university_chapters.mjs';
 import {SCIENCE_ADVISORY_PROGRESSION,SCIENCE_PROGRESSION_SOURCES,SCIENCE_PRIMARY_LESSON_BANK,SCIENCE_PRIMARY_ENGLISH,SCIENCE_PRIMARY_DEPTH,scienceGradeTopicPlan,scienceGradeLessonFrame} from './science_grade_progression.mjs';
 import {SCIENCE_LOWER_TOPIC_LESSONS,scienceLowerTopicContent} from './science_lower_secondary_lessons.mjs';
 import {CHEMISTRY_SPECIALIZATIONS,CHEMISTRY_SPECIALTY_TOPICS,CHEMISTRY_MOLECULES,chemistryVerifiedExercise} from './chemistry_advanced.mjs';
@@ -9020,6 +9022,8 @@ const PHYSICS_SPECIALTY_DATA=${JSON.stringify(PHYSICS_SPECIALIZATIONS)};
 const PHYSICS_SOLVE_VERIFIED=${physicsVerifiedExercise.toString()};
 const SCIENCE_GUIDES=${JSON.stringify(SCIENCE_GUIDES)};
 const SCIENCE_GUIDES_EN=${JSON.stringify(SCIENCE_GUIDES_EN)};
+const SCIENCE_UNIVERSITY_TRACK_GUIDES=${JSON.stringify(SCIENCE_UNIVERSITY_TRACK_GUIDES)};
+const SCIENCE_UNIVERSITY_CHAPTER=${scienceUniversityChapter.toString()};
 const SCIENCE_FEATURED=${JSON.stringify(SCIENCE_FEATURED)};
 const SCIENCE_METHOD=${JSON.stringify(SCIENCE_METHOD)};
 const SCIENCE_THEORY_EXPAND=${scienceExtendedTheory.toString()};
@@ -10596,6 +10600,31 @@ function educationScienceTheoryReader(subjectId,topicId,level){
   button.className='secondary-btn science-inline-theory-item';
   button.textContent=learningLabel('Lecția clasei · explicații, activitate, verificare','Grade lesson · explanation, activity, review');
   button.onclick=()=>educationOpenPagedLesson(learningLabel(chapter?.ro||'',chapter?.en||''),lesson||learningLabel('Lecție generală indisponibilă.','General lesson unavailable.'));
+  section.append(button);return section;
+ }
+ // University courses have a chapter-specific, extended study document
+ // containing the existing original specialist sublessons, their formulas,
+ // an independently authored specialisation case and a review task.
+ // A previous UI exposed only short isolated cards with an empty generic
+ // appendix. Do not erase the established specialist chapter bank.
+ if(scienceJourney.level==='advanced'){
+  const chapter=scienceTopicInfo();
+  const chapterName=learningLabel(chapter?.ro||'',chapter?.en||'');
+  const body=SCIENCE_UNIVERSITY_CHAPTER({
+   subject:subjectId,topic:topicId,chapter:chapterName,
+   language:state.language,specialty:scienceJourney.specialty,
+   grade:scienceJourney.grade,lessons:EDUCATION_THEORY_DATA
+  });
+  if(!body){
+   const notice=document.createElement('p');
+   notice.textContent=learningLabel('Acest capitol nu are încă material universitar verificabil.','This university chapter has no verified study content.');
+   section.append(notice);return section;
+  }
+  head.textContent=learningLabel('📖 Curs universitar','📖 University study');
+  const button=document.createElement('button');button.type='button';
+  button.className='secondary-btn science-inline-theory-item';
+  button.textContent=learningLabel('Deschide capitolul integral și subcapitolele','Open full chapter and subtopics');
+  button.onclick=()=>educationOpenPagedLesson(chapterName,body);
   section.append(button);return section;
  }
  // A lower-secondary chapter has one complete year-specific lesson, not
