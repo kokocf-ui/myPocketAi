@@ -8,6 +8,7 @@ import {PHYSICS_TOPICS,PHYSICS_LESSONS} from './physics_curriculum.mjs';
 import {CHEMISTRY_TOPICS,CHEMISTRY_LESSONS} from './chemistry_curriculum.mjs';
 import {BIOLOGY_TOPICS,BIOLOGY_LESSONS} from './biology_curriculum.mjs';
 import {ASTRONOMY_TOPICS,ASTRONOMY_LESSONS} from './astronomy_curriculum.mjs';
+import {scienceGradeTopicPlan} from './science_grade_progression.mjs';
 import {COMPUTING_PATHS,COMPUTING_TOPICS} from './computing_curriculum.mjs';
 import {FOREIGN_TOPICS} from './foreign_languages_curriculum.mjs';
 import {examByGrade} from './exam_curriculum_europe.mjs';
@@ -74,8 +75,16 @@ function subjectInventory(subject,{country,stage,grade,track}){
    biology:[BIOLOGY_TOPICS,BIOLOGY_LESSONS],astronomy:[ASTRONOMY_TOPICS,ASTRONOMY_LESSONS]
   };
   const [topics,lessons]=tables[subject];
-  return {units:scienceTopics(topics,lessons,stage),verified:false,gradeSpecific:false,source:null,
-   note:subject==='astronomy'?'Astronomia poate fi disciplină opțională sau parte din alte materii.':''};
+  const schoolStage=stage==='beginner'?'primary':stage==='medium'?'upper':stage;
+  const mappedYears=educationCountrySchoolYears(country,stage).years;
+  const track=schoolStage==='advanced'?null:scienceGradeTopicPlan({
+   country,subject,stage:schoolStage,grade,years:mappedYears,topics
+  });
+  const ordered=track?.topics?.length?track.topics:topics.filter(x=>!x.specialty&&rank[x.minLevel||'beginner']<=stageRank[stage]);
+  return {units:ordered.map(x=>unit(x.id,x.ro,x.en,'',lessons.filter(y=>y.topic===x.id).length)),
+   verified:false,gradeSpecific:false,source:null,
+   note:'Program general de științe diferențiat pe clase; nu este manual sau programă națională verificată.'+
+    (subject==='astronomy'?' Astronomia este opțională sau integrată în alte discipline în multe sisteme.':'')};
  }
  if(subject==='computing'){
   const pathLevel=stage==='advanced'?'advanced':stage==='medium'?'medium':'beginner';
