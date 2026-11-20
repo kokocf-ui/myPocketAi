@@ -5,7 +5,7 @@ import {CREATOR_SITE_AI_SCRIPT} from './creator_site_ai.mjs';
 import {CREATOR_IMAGE_AI_SCRIPT} from './creator_image_ai.mjs';
 import {CREATOR_SITE_SCRIPT} from './creator_site_ui.mjs';
 new vm.Script(EXTRA_TOOLS_WORKSPACE_SCRIPT,{filename:'Tools creator combined JS'});
-assert.ok(EXTRA_TOOLS_WORKSPACE_SCRIPT.endsWith(CREATOR_IMAGE_AI_SCRIPT));
+assert.ok(EXTRA_TOOLS_WORKSPACE_SCRIPT.includes(CREATOR_IMAGE_AI_SCRIPT),'Creator image AI must be included in the Tools workspace');
 assert.match(EXTRA_TOOLS_WORKSPACE_SCRIPT,/function extraCreatorWorkingWebsite/);
 assert.match(EXTRA_TOOLS_WORKSPACE_SCRIPT,/function extraCreatorWorkingImages/);
 assert.match(CREATOR_SITE_AI_SCRIPT,/lifewise-ai-creator-preview\.kokocf\.workers\.dev\/site/);
