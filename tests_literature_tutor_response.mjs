@@ -46,18 +46,18 @@ assert.match(dictionary.input.messages[0].content,/dictionary definition/);
 const quiz=await tutoring('Creează un test de gramatică, clasa a VIII-a','test','1. Identifică subiectul.\n2. Identifică predicatul.\n3. Stabilește cazul.\n4. Alege forma corectă.\n5. Analizează fraza.');
 assert.equal(quiz.data.education_activity,'test');
 assert.match(quiz.input.messages[0].content,/five numbered assessment questions/);
-const essaySegment=n=>Array.from({length:9},(_,i)=>
- 'Paragraful '+(n+1)+'-'+(i+1)+'. '+Array(7).fill(
+const essaySegment=n=>Array.from({length:4},(_,i)=>
+ 'Paragraful '+(n+1)+'-'+(i+1)+'. '+Array(6).fill(
  'Poemul urmărește raportul dintre idealul inaccesibil și alegerea umană, prin alternarea unor perspective narative și lirice.').join(' ')
  ).join('\n\n');
-const finishedEssay=essaySegment(0)+'\n\n'+essaySegment(1);
+const finishedEssay=Array.from({length:5},(_,i)=>essaySegment(i)).join('\n\n');
 assert.equal(litEssaySpec(5).targetWords,2000);
 assert.ok(litEssayQuality(finishedEssay,5).ok,'A genuine long-form answer must pass the A4 length gate');
 assert.equal(litEssayQuality('Un eseu scurt.',5).reason,'essay_too_short');
 const essayBackend=await tutoring('Scrie un eseu interpretativ de aproximativ 2000 de cuvinte, 5 pagini A4, despre Luceafărul, fără citate inventate.','essay',
  (_,__,part)=>essaySegment(part));
 assert.equal(essayBackend.res.status,200);
-assert.equal(essayBackend.calls.length,2,'Five printed A4 pages are generated in two substantive sections');
+assert.equal(essayBackend.calls.length,5,'Five printed A4 pages use five different 400-word narrative sections');
 assert.ok(essayBackend.calls.every(call=>call.p.max_tokens>=2400),
  'Each section needs a full model response budget');
 assert.equal(essayBackend.data.essay_pages,5);
@@ -217,7 +217,7 @@ assert.match(essayPayload.message,/eseu interpretativ complet/);
 assert.match(essayPayload.message,/2000 cuvinte/);
 assert.equal(essayPayload.education_essay_pages,5);
 assert.match(essayPayload.message,/5 pagini A4/);
-assert.equal(essayWaitMs,180000,'Two-part A4 essays have sufficient network time');
+assert.equal(essayWaitMs,180000,'Multi-part A4 essays have sufficient network time');
 assertReader('Paragraful 1-1');
 assert.doesNotMatch(readerText(),/ESEU — IUBIREA, IDEALUL/,'No static short essay');
 // The PDF export must carry the 5-A4 request into Android, not the screen
