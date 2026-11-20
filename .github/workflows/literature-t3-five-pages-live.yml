@@ -1,0 +1,59 @@
+name: T3 live five-page essay calibration (temporary branch only)
+on:
+  push:
+    branches:
+      - fix/literature-t3-actual-length-20261120
+    paths:
+      - .github/workflows/literature-t3-five-pages-live.yml
+permissions: {}
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - name: Verify full ten-fragment essay against the actual deployed AI
+        shell: bash
+        run: |
+          node --input-type=module <<'NODE'
+          const api='https://lifewise-ai-api.kokocf.workers.dev/api/chat';
+          const start=Date.now(),parts=[],stats=[];
+          const count=text=>(String(text||'').match(/[\\p{L}\\p{N}]+(?:[’'-][\\p{L}\\p{N}]+)*/gu)||[]).length;
+          for(let fragment=1;fragment<=10;fragment++){
+            const previous=parts.at(-1)?.slice(-1100)||'';
+            const message='Scrie un eseu interpretativ matur, coerent, de cinci pagini A4 despre Luceafărul de Mihai Eminescu. '+ 
+             'Argumente literare distincte despre ideal, iubire, Hyperion, Cătălina, Cătălin, antiteză și sensul finalului. '+ 
+             'Fără liste, instrucțiuni de redactare sau citate inventate. Fragmentul '+fragment+'/10. '+
+             (fragment===1?'Introducere și teză.':fragment===10?'Continuă și încheie cu concluzia.':'Continuă cu un argument diferit, fără a repeta introducerea.')+
+             (previous?' Ultimele paragrafe, numai pentru continuitate: '+previous:'');
+            const one=Date.now();
+            let response;
+            try{response=await fetch(api,{method:'POST',headers:{'Content-Type':'application/json'},
+             body:JSON.stringify({module:'education_study',education_subject:'language_literature',
+              education_activity:'essay',education_essay_pages:5,education_essay_segment:fragment,
+              language:'ro',message,history:[]}),signal:AbortSignal.timeout(60000)});}
+            catch(error){
+              console.error('LIVE_T3_FULL_FAILED',JSON.stringify({fragment,completed:parts.length,
+               name:String(error?.name||'network_error'),elapsedMs:Date.now()-start}));
+              process.exit(1);
+            }
+            const data=await response.json().catch(()=>({}));
+            const words=count(data.reply);
+            stats.push({fragment,status:response.status,words,ms:Date.now()-one,error:data.error||null});
+            if(!response.ok||data.status!=='success'||data.essay_segment!==fragment||words<50){
+              console.error('LIVE_T3_FULL_FAILED',JSON.stringify({completed:parts.length,stats,
+               elapsedMs:Date.now()-start}));
+              process.exit(1);
+            }
+            parts.push(String(data.reply).trim());
+          }
+          const total=count(parts.join('\n\n'));
+          console.log('LIVE_T3_FULL_RESULT',JSON.stringify({
+            fragments:parts.length,words:total,elapsedMs:Date.now()-start,
+            fragmentWords:stats.map(x=>x.words),totalMin:1700,totalMax:2400
+          }));
+          if(total<1700||total>2400){
+            console.error('LIVE_T3_FULL_LENGTH_MISMATCH',JSON.stringify({words:total}));
+            process.exit(1);
+          }
+          console.log('LIVE_T3_FULL_PASS');
+          NODE
