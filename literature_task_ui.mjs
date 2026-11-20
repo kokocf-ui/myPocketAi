@@ -145,7 +145,7 @@ function litShowMaterialReader(title,text,options={}){
   }
   overlay.litClose=close;
   const head=litSimpleNode('div','','lit-reader-head');
-  const caption=litSimpleNode('strong',title,'lit-reader-title');
+  const caption=litSimpleNode('strong',title+(options.essayDraft?litSimpleLabel(' — ciornă incompletă',' — incomplete draft'):''),'lit-reader-title');
   const back=litSimpleButton(litSimpleLabel('Înapoi','Back'),close);
   back.classList.add('lit-reader-close');
   head.append(caption,back);
@@ -153,9 +153,9 @@ function litShowMaterialReader(title,text,options={}){
   content.style.cssText='flex:1 1 auto!important;overflow-y:auto!important;min-height:0!important;white-space:pre-wrap!important;padding:16px!important';
   const actions=litSimpleNode('div','','lit-reader-footer');
   const material={title,text:raw,essayPages:Number(options.essayPages)||0};
-  const save=litSimpleButton(litSimpleLabel('💾 Salvează PDF','💾 Save PDF'),
+  const save=litSimpleButton(options.essayDraft?litSimpleLabel('💾 Salvează ciorna','💾 Save draft'):litSimpleLabel('💾 Salvează PDF','💾 Save PDF'),
    ()=>material.essayPages?litEssayPrint('save',material,close):eduOpenPrint('save',material,close));
-  const print=litSimpleButton(litSimpleLabel('🖨 Imprimă','🖨 Print'),
+  const print=litSimpleButton(options.essayDraft?litSimpleLabel('🖨 Imprimă ciorna','🖨 Print draft'):litSimpleLabel('🖨 Imprimă','🖨 Print'),
    ()=>material.essayPages?litEssayPrint('print',material,close):eduOpenPrint('print',material,close));
   actions.append(save,print);
   reader.append(head,content,actions);
@@ -167,7 +167,13 @@ function litShowMaterialReader(title,text,options={}){
   if(host.style)host.style.overflow='hidden';
   document.addEventListener?.('keydown',onKey,true);
   try{back.focus?.()}catch{}
-  // The pager is essential. Build it independently of optional fonts and
+  // Essays are continuous documents; A4 sheets are counted by Android PDF.
+  if(options.continuous===true){
+   try{renderStudyBlocks(content,raw)}catch(error){content.textContent=litReaderSafeText(raw)}
+   try{litEnsureTypography()}catch(error){}
+   return true;
+  }
+  // The pager is essential for lessons and poems. Build it independently of optional fonts and
   // rich-text formatting; Android may reject style injection without affecting reading.
   try{
    const vh=typeof window!=='undefined'?window.innerHeight:680;
@@ -288,7 +294,7 @@ async function litSimpleGenerate(out,status,mode,request,source='',onReady=null,
   // attached to the document; a just-created workspace can still be detached.
   if((controller.signal.aborted&&!didTimeout)||serial!==litSimpleSerial||
    snapshot!==[litJourney.country,litJourney.grade,litJourney.branch,litJourney.topic].join('|'))return;
-  const text=String(material||'').trim().slice(0,72000);
+  const text=String(material||'').trim();
   if(!text)return;
   // Keep only an internal plain-text copy. All styled content belongs to
   // the independent reader and must never be mounted inside the workspace.
@@ -349,17 +355,20 @@ async function litSimpleGenerate(out,status,mode,request,source='',onReady=null,
     if(controller.signal.aborted||serial!==litSimpleSerial||
        snapshot!==[litJourney.country,litJourney.grade,litJourney.branch,litJourney.topic].join('|'))return;
     status.textContent=litSimpleLabel(
-     'Se redactează pagina A4 '+Math.ceil(part/2)+' din '+spec.pages+' (fragment '+(part%2||2)+'/2)…',
-     'Writing A4 page '+Math.ceil(part/2)+' of '+spec.pages+' (fragment '+(part%2||2)+'/2)…');
+     'Se redactează eseul…','Writing your essay…');
     let partTimer=null,partTimedOut=false;
     try{
-     const prev=parts.length?parts[parts.length-1].slice(-1100):'';
-     const sectionPrompt=prompt.slice(0,3100)+
-      '\nAcesta este fragmentul '+part+' din '+totalParts+' (pagina A4 '+Math.ceil(part/2)+') al UNUI SINGUR eseu. '+
-      (part===1?'Începe cu introducerea, nu încheia lucrarea.':
-       part===totalParts?'Continuă analiza și încheie cu o concluzie matură.':
-       'Continuă analiza cu un argument diferit, fără altă introducere sau concluzie.')+
-      (prev?' Finalul părții precedente, numai pentru continuitate: '+prev:'');
+     // Preserve previous prose inside the capped model prompt to reduce repetition.
+     const prev=parts.length?parts[parts.length-1].slice(-950):'';
+     const earlier=parts.length>1?parts.slice(0,-1).map(p=>p.slice(0,80)).slice(-8).join(' | '):'';
+     const sectionPrompt=prompt.slice(0,1800)+
+      '\nFragment de lucru '+part+' din '+totalParts+' al ACELUIAȘI eseu. '+
+      (part===1?'Începe cu introducerea, fără concluzie.':
+       part===totalParts?'Continuă ultimul argument și scrie concluzia.':
+        'Dezvoltă un argument NOU despre operă, fără altă introducere ori concluzie.')+
+      ' Nu repeta argumente, formulări sau interpretări anterioare; scrie numai proză finală.'+
+      (earlier?' Idei deja deschise, de EVITAT: '+earlier:'')+
+      (prev?' Finalul precedent pentru continuitate: '+prev:'');
      const resp=await Promise.race([
       fetch(CLIENT_CONFIG.apiUrl,{method:'POST',headers:{'Content-Type':'application/json'},
        body:JSON.stringify({message:sectionPrompt.slice(0,3900),module:'education_study',
@@ -381,16 +390,13 @@ async function litSimpleGenerate(out,status,mode,request,source='',onReady=null,
      if(litEssayWords(fragment)<50)throw Error('essay_segment_short');
      parts.push(fragment);
      status.textContent=litSimpleLabel(
-      'Eseu: '+part+'/'+totalParts+' fragmente redactate · '+litEssayWords(parts.join(' '))+' cuvinte.',
-      'Essay: '+part+'/'+totalParts+' fragments written · '+litEssayWords(parts.join(' '))+' words.');
+      'Eseul este în curs de redactare…','The essay is being written…');
     }catch(error){
      if(controller.signal.aborted&&!partTimedOut)return;
      if(!parts.length)throw error;
      const partial=parts.join('\n\n');
      const count=litEssayWords(partial);
-     present('ESEU INCOMPLET — '+parts.length+' din '+totalParts+
-      ' părți generate ('+count+' cuvinte). Textul nu reprezintă '+spec.pages+
-      ' pagini A4 verificate.\n\n'+partial,false,{complete:false});
+     present(partial,false,{complete:false,words:count,pages:spec.pages});
      status.textContent=litSimpleLabel(
       'Generarea s-a întrerupt după '+parts.length+' din '+totalParts+
        ' părți. Textul parțial este disponibil fără promisiunea unui PDF de '+spec.pages+' pagini.',
@@ -404,11 +410,7 @@ async function litSimpleGenerate(out,status,mode,request,source='',onReady=null,
    const essay=parts.join('\n\n');
    const audit=litEssayQuality(essay,spec.pages);
    const complete=audit.ok;
-   const visible=complete?essay:
-    'ESEU SUB LUNGIMEA SOLICITATĂ — '+audit.words+' cuvinte; pentru '+
-    spec.pages+' pagini A4 sunt necesare aproximativ '+spec.targetWords+
-    ' cuvinte. Textul nu este prezentat ca eseu complet.\n\n'+essay;
-   present(visible,false,{complete,words:audit.words,pages:spec.pages});
+   present(essay,false,{complete,words:audit.words,pages:spec.pages});
    if(!complete)status.textContent=litSimpleLabel(
     'Materialul este mai scurt decât '+spec.pages+' pagini A4. Este afișat ca incomplet.',
     'This material is shorter than '+spec.pages+' A4 pages and is shown as incomplete.');
@@ -578,27 +580,12 @@ function litSimpleLiterature(panel){
   const option=litSimpleNode('option',litSimpleLabel(ro,en));option.value=value;essayKind.append(option);
  }
  essayKind.value='argumentativ';
- // Android's native HTML-select popup truncated the last option on some
- // compact screens. Show all five A4 choices directly as tappable controls.
- const essayPages=litSimpleNode('div','','lit-essay-page-choices');
- essayPages.style.cssText='display:flex;flex-wrap:nowrap;gap:5px;align-items:center;width:100%';
- let selectedEssayPages=3;
- const choices=[];
- for(let pages=1;pages<=5;pages++){
-  const button=litSimpleButton(String(pages),()=>{
-   selectedEssayPages=pages;
-   for(const entry of choices){
-    const selected=entry.pages===selectedEssayPages;
-    entry.button.setAttribute('aria-pressed',selected?'true':'false');
-    entry.button.style.background=selected?'#793251':'#153b55';
-   }
-  });
-  button.className+=' lit-essay-page-choice';
-  button.style.cssText='flex:1 1 0;min-width:0;max-width:54px;min-height:35px;padding:3px;font-size:14px;background:'+(pages===3?'#793251':'#153b55');
-  button.setAttribute('aria-label',pages+' '+litSimpleLabel(pages===1?'pagină A4':'pagini A4',pages===1?'A4 page':'A4 pages'));
-  button.setAttribute('aria-pressed',pages===3?'true':'false');
-  choices.push({pages,button});essayPages.append(button);
- }
+ // A positive whole number entered by the author replaces five presets.
+ const essayPages=litSimpleNode('input','','lit-input lit-essay-pages-input');
+ essayPages.type='number';essayPages.min='1';essayPages.step='1';
+ essayPages.inputMode='numeric';essayPages.value='3';
+ essayPages.setAttribute('aria-label',litSimpleLabel('Numărul paginilor A4','Number of A4 pages'));
+ essayPages.style.cssText='width:90px;max-width:40%;min-height:40px;padding:7px 9px;text-align:center';
  essaySettings.append(litSimpleNode('span',litSimpleLabel('Eseu:','Essay:')),essayKind,
   litSimpleNode('span',litSimpleLabel('Pagini A4:','A4 pages:')),essayPages);
  const textArea=litSimpleNode('textarea','','lit-input');textArea.rows=4;textArea.placeholder=litSimpleLabel('Fragment propriu pentru analiză (opțional)','Your own passage for analysis (optional)');
@@ -618,7 +605,11 @@ function litSimpleLiterature(panel){
     litShowMaterialReader(chosen.name+' — '+chosen.author,checked);
     return;
    }
-   const pages=selectedEssayPages;
+   const pages=Number(essayPages.value);
+   if(mode==='essay'&&(!Number.isSafeInteger(pages)||pages<1)){
+    feedback.textContent=litSimpleLabel('Introdu un număr întreg de pagini, începând de la 1.','Enter a whole number of pages, starting from 1.');
+    essayPages.focus?.();return;
+   }
    const requestedEssay=mode==='essay'?
     ' Scrie un eseu '+essayKind.value+' complet, aproximativ '+litEssaySpec(pages).targetWords+
     ' cuvinte ('+pages+' pagini A4, în format PDF, font 11.5pt), cu introducere naturală, analiză susținută prin argumente distincte și concluzie. Nu oferi schelet de eseu, instrucțiuni de redactare sau afirmații fără dovezi.': '';
@@ -627,7 +618,7 @@ function litSimpleLiterature(panel){
    'Sursă bibliografică (metadate, nu text integral): '+chosen.url+'. '+
    (textArea.value.trim()?'Fragment introdus de utilizator: '+textArea.value.trim().slice(0,28000):'Text integral indisponibil; nu inventa citate sau lectura unei ediții.'),
    (result,details)=>litShowMaterialReader(chosen.name+' — '+chosen.author,result,
-    mode==='essay'&&details?.complete?{essayPages:pages}:{}),
+    mode==='essay'?{continuous:true,essayPages:details?.complete?pages:0,essayDraft:!details?.complete}:{}),
     mode==='essay'?{pages}:{});
   }));
   // Contents can be shown only for a confirmed licensed source with actual text.
