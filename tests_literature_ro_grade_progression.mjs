@@ -69,30 +69,48 @@ const journey={country:'RO',grade:'1',branch:'grammar',topic:''};
 const ctx={litJourney:journey,LIT_TOPICS:{grammar:[['grammar','Morfologie și sintaxă','Morphology and syntax']]},
  litOpen:stage=>stage,litProgram:()=>({source:null,sourceTitle:'',units:[]})};
 vm.runInNewContext(LITERATURE_TASK_UI_SCRIPT,ctx,{filename:'literature_task_ui-browser'});
+// The four textbook categories replace seven identical expert sub-menus.
 for(const grade of ['1','4','8']){
  journey.grade=grade;
  ctx.litOpen('topics');
  const actual=Array.from(ctx.LIT_TOPICS.grammar,x=>x[1]);
- const expected=LIT_RO_GRADE_LESSONS[grade].map(x=>x.ro);
- assert.deepEqual(actual,expected,'Rendered cards must change with grade '+grade);
+ assert.equal(actual.length,4,'The grammar textbook has four clear tabs in grade '+grade);
+ assert.equal(actual[0],'Teorie');
+ assert.ok(actual.every(x=>!(/Morfologie și sintaxă/.test(x))),'Do not show a generic teacher chapter');
 }
-// The class selection menu is different for an eight-year-old and a high-schooler.
+assert.equal(ctx.LIT_TOPICS.grammar[1][1],'Fonetică','Middle-school grammar uses familiar book terms');
 const branchNames=['program','grammar','vocabulary','analysis','literature','writing','assessment'];
-const cards=branchNames.map(id=>({id,ro:id,en:id,desc:'Generic teacher category'}));
+const cards=branchNames.map(id=>({id,ro:id,en:id,desc:'Legacy categories'}));
 const navigationCtx={litJourney:journey,LIT_BRANCHES:cards,LIT_TOPICS:{grammar:[]},
  litOpen:stage=>stage,litProgram:()=>({source:null,units:[]})};
 vm.runInNewContext(LITERATURE_TASK_UI_SCRIPT,navigationCtx);
-journey.country='RO';journey.grade='2';navigationCtx.litOpen('branches');
-assert.ok(!navigationCtx.LIT_BRANCHES.some(x=>x.id==='analysis'||x.id==='literature'),
- 'Early primary does not expose expert text analysis or bibliographic search');
-assert.ok(navigationCtx.LIT_BRANCHES.some(x=>x.ro.includes('Lecțiile clasei 2')),
- 'Primary route is shown in pupil language');
-journey.grade='11';navigationCtx.litOpen('branches');
-assert.ok(navigationCtx.LIT_BRANCHES.some(x=>x.id==='analysis'),
- 'High-school learners can analyse source passages');
-journey.country='GB-ENG';navigationCtx.litOpen('branches');
-assert.equal(navigationCtx.LIT_BRANCHES.length,7,'Other countries retain their own options');
-journey.country='RO';journey.grade='1';
+for(const grade of ['2','7','11']){
+ journey.country='RO';journey.grade=grade;journey.branch='program';
+ navigationCtx.litOpen('branches');
+ const menu=Array.from(navigationCtx.LIT_BRANCHES);
+ assert.deepEqual(menu.map(x=>x.id),['program','literature','writing','grammar'],
+  'Exactly the same four familiar textbook headings at all Romanian school levels');
+ assert.ok(menu.some(x=>x.ro.includes('Teorie')));
+ assert.ok(menu.some(x=>x.ro.includes('Gramatică')));
+ assert.ok(menu.some(x=>x.ro.includes(grade==='2'?'Compunere':'Eseu')),
+  'Primary should use Compunere; secondary school should use Eseu');
+ journey.branch='grammar';navigationCtx.litOpen('topics');
+ const grammar=Array.from(navigationCtx.LIT_TOPICS.grammar);
+ assert.equal(grammar.length,4);
+ assert.equal(grammar[0][1],'Teorie');
+ assert.equal(grammar[1][1],grade==='2'?'Sunete și litere':'Fonetică');
+ assert.equal(grammar[2][1],grade==='2'?'Cuvinte și înțelesuri':'Vocabular');
+ assert.equal(grammar[3][1],grade==='2'?'Propoziții simple':'Analiză');
+ if(grade!=='2'){
+  journey.branch='writing';
+  assert.equal(navigationCtx.litOpen('topics'),'workspace',
+   'The Essay menu goes directly to the real essay creator, not to a duplicate writing list');
+ }
+}
+journey.country='GB-ENG';journey.grade='Y3';journey.branch='grammar';
+navigationCtx.litOpen('branches');
+assert.equal(navigationCtx.LIT_BRANCHES.length,7,'Other countries must keep their own curriculum menus');
+journey.country='RO';journey.grade='1';journey.branch='grammar';
 journey.country='GB-ENG';journey.grade='Y3';ctx.litOpen('topics');
 assert.equal(ctx.LIT_TOPICS.grammar[0][1],'Morfologie și sintaxă','Other countries unchanged');
 journey.country='RO';journey.grade='2';
