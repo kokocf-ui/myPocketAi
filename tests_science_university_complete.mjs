@@ -1,0 +1,96 @@
+import assert from 'node:assert/strict';
+import vm from 'node:vm';
+import frontend from './index.js';
+import {THEORY_ENTRIES} from './education_theory.mjs';
+import {SCIENCE_UNIVERSITY_TRACK_GUIDES} from './science_university_track_guides.mjs';
+import {scienceUniversityChapter} from './science_university_chapters.mjs';
+import {EDUCATION_EUROPE_COUNTRIES,educationCountrySchoolYears} from './education_all_country_subject_matrix.mjs';
+import {PHYSICS_TOPICS,PHYSICS_SPECIALIZATIONS} from './physics_curriculum.mjs';
+import {CHEMISTRY_TOPICS} from './chemistry_curriculum.mjs';
+import {CHEMISTRY_SPECIALTY_TOPICS,CHEMISTRY_SPECIALIZATIONS} from './chemistry_advanced.mjs';
+import {BIOLOGY_TOPICS,BIOLOGY_SPECIALTY_TOPICS,BIOLOGY_SPECIALIZATIONS} from './biology_curriculum.mjs';
+import {ASTRONOMY_TOPICS,ASTRONOMY_SPECIALIZATIONS} from './astronomy_curriculum.mjs';
+
+const subjectRegistry={
+ physics:[PHYSICS_TOPICS,PHYSICS_SPECIALIZATIONS],
+ chemistry:[[...CHEMISTRY_TOPICS,...CHEMISTRY_SPECIALTY_TOPICS],CHEMISTRY_SPECIALIZATIONS],
+ biology:[[...BIOLOGY_TOPICS,...BIOLOGY_SPECIALTY_TOPICS],BIOLOGY_SPECIALIZATIONS],
+ astronomy:[ASTRONOMY_TOPICS,ASTRONOMY_SPECIALIZATIONS]
+};
+let programmes=0,chapters=0,subtopics=0;
+for(const [subject,[topics,tracks]] of Object.entries(subjectRegistry)){
+ const guide=SCIENCE_UNIVERSITY_TRACK_GUIDES[subject];
+ assert.equal(Object.keys(guide).length,tracks.length,subject+' program guide missing');
+ for(const programme of tracks){
+  const prose=guide[programme.id];
+  assert.ok(prose?.ro?.length===4&&prose?.en?.length===4,subject+'/'+programme.id+' needs bilingual authored course');
+  assert.ok(prose.ro.every(s=>s.length>=65)&&prose.en.every(s=>s.length>=60),'A track may not be a placeholder');
+  const pathway=topics.filter(t=>t.specialty===programme.id||!t.specialty&&programme.core.includes(t.id));
+  assert.ok(pathway.filter(t=>t.specialty===programme.id).length>=1,subject+'/'+programme.id+' has no specialist chapters');
+  for(const topic of pathway){
+   const rows=THEORY_ENTRIES.filter(e=>e.subject===subject&&e.topic===topic.id&&e.level==='advanced');
+   assert.ok(rows.length>=1,subject+'/'+programme.id+'/'+topic.id+' has no university material');
+   const spec=topic.specialty===programme.id;
+   if(spec)assert.ok(rows.length>=3,subject+'/'+programme.id+'/'+topic.id+' needs detailed specialist subtopics');
+   const input={subject,specialty:programme.id,topic:topic.id,chapter:topic.ro,grade:'university',lessons:THEORY_ENTRIES};
+   const ro=scienceUniversityChapter({...input,language:'ro'});
+   const en=scienceUniversityChapter({...input,language:'en',chapter:topic.en});
+   assert.ok(ro?.length>600&&en?.length>600,'University full text too short: '+subject+'/'+topic.id);
+   assert.ok(ro.includes(prose.ro[1])&&en.includes(prose.en[1]),'Selected specialisation case is required');
+   assert.ok(ro.includes(topic.ro)&&en.includes(topic.en),'Real chapter context must be explicit');
+   assert.match(ro,/program acreditat/,'Advisory programme must not be presented as certified');
+   assert.match(en,/translation not verified/,'English source caveat must be explicit');
+   for(const row of rows){
+    assert.ok(ro.includes(row.statement),'No Romanian subtopic may disappear from the chapter');
+    assert.ok(en.includes(row.statement),'English fallback must preserve source evidence without inventing a translation');
+    if(row.formula&&row.formula!=='—'){
+     assert.ok(ro.includes(row.formula),'Preserve specialist notation');
+     assert.ok(en.includes(row.formula),'Preserve technical symbols');
+    }
+   }
+   chapters++;
+   subtopics+=rows.length;
+  }
+  programmes++;
+ }
+}
+assert.equal(programmes,30,'Every University specialisation across the Sciences');
+assert.equal(EDUCATION_EUROPE_COUNTRIES.length,50);
+for(const country of EDUCATION_EUROPE_COUNTRIES){
+ const school=educationCountrySchoolYears(country,'advanced');
+ assert.ok(Array.isArray(school.years)&&school.years.length>=1,country+' university route is not navigable');
+}
+assert.equal(scienceUniversityChapter({subject:'chemistry',topic:'does-not-exist',lessons:THEORY_ENTRIES}),null,
+ 'Do not invent a lesson for missing specialist source material');
+const html=await(await frontend.fetch(new Request('https://science-university-integrated.test/'))).text();
+const script=html.match(/<script>([\s\S]*?)<\/script>/)?.[1]||'';
+assert.ok(script.length>100000,'Android WebView bootstrap missing');
+new vm.Script(script);
+assert.ok(script.includes('const SCIENCE_UNIVERSITY_TRACK_GUIDES=')&&script.includes('const SCIENCE_UNIVERSITY_CHAPTER='),
+ 'Full university course must be embedded into the Android application, not only imported in Node');
+const start=script.indexOf('function educationScienceTheoryReader('),end=script.indexOf('function scienceOpenChemistrySection(',start);
+assert.ok(start>=0&&end>start);
+const opened=[],state={language:'ro'},journey={level:'advanced',schoolStage:'advanced',specialty:'quantum',grade:'University year 1'};
+const topic=PHYSICS_TOPICS.find(t=>t.id==='special-quantum');
+const makeElement=tag=>({tag,children:[],style:{},append(...parts){this.children.push(...parts)}});
+const context={
+ document:{createElement:makeElement},state,scienceJourney:journey,
+ EDUCATION_THEORY_DATA:THEORY_ENTRIES,scienceTopicInfo:()=>topic,
+ SCIENCE_UNIVERSITY_CHAPTER:scienceUniversityChapter,
+ learningLabel:(ro,en)=>state.language==='ro'?ro:en,
+ educationOpenPagedLesson:(title,material)=>opened.push({title,material})
+};
+const reader=vm.runInNewContext(script.slice(start,end)+';educationScienceTheoryReader',context);
+let ui=reader('physics','special-quantum','advanced');
+assert.equal(ui.children.length,2,'University chapter should be one complete paginated document');
+ui.children[1].onclick();
+assert.ok(opened.at(-1).material.includes(SCIENCE_UNIVERSITY_TRACK_GUIDES.physics.quantum.ro[1]));
+assert.ok(opened.at(-1).material.includes('Relație și notație:'));
+state.language='en';ui=reader('physics','special-quantum','advanced');ui.children[1].onclick();
+assert.ok(opened.at(-1).material.includes(SCIENCE_UNIVERSITY_TRACK_GUIDES.physics.quantum.en[1]));
+assert.equal(opened.at(-1).title,topic.en,'English University chapter title must be translated');
+context.EDUCATION_THEORY_DATA=[];
+ui=reader('physics','special-quantum','advanced');
+assert.equal(ui.children.length,2);
+assert.equal(ui.children[1].tag,'p','University source must not be silently invented');
+console.log('PASS Sciences University: '+programmes+' specialisations, '+chapters+' nonempty programme chapters, '+subtopics+' real subtopics, all 50 school systems; full paginated Android reader');
