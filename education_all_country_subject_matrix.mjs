@@ -140,3 +140,21 @@ export function educationCoverageTotals(){
  }
  return totals;
 }
+
+// Non-negotiable gate: a UI which merely accepts a country/grade is not a
+// complete educational curriculum. A single successful Android build is not
+// evidence of lesson completeness. Manual and device reviews remain additional
+// acceptance criteria after this automated coverage gate is green.
+export function educationCompletionGate(){
+ const totals=educationCoverageTotals();
+ const missingCurriculum=totals.generalLearning+totals.gradeContentUnverified;
+ const ready=totals.unmappedStages===0&&totals.missingUnits===0&&missingCurriculum===0;
+ return {ready,schoolYear:EDUCATION_SCHOOL_YEAR,totals,
+  blockers:[
+   ...(totals.unmappedStages?['Unmapped national school-year stages: '+totals.unmappedStages]:[]),
+   ...(totals.generalLearning?['Country/class/subject combinations with only general-learning outlines: '+totals.generalLearning]:[]),
+   ...(totals.gradeContentUnverified?['Grade-specific content awaiting official verification: '+totals.gradeContentUnverified]:[]),
+   ...(totals.missingUnits?['Missing chapter lists: '+totals.missingUnits]:[]),
+   'Manual edition and on-device lesson quality must be verified separately.'
+  ]};
+}
