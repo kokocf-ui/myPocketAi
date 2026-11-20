@@ -8,7 +8,8 @@ const results=[];
 for(const check of checks){
  const started=Date.now();
  const result=await searchStorybookCommonsPhotos(check.topic,{
-  limit:3,language:check.language,documentary:check.documentary,timeoutMs:9500});
+  limit:3,language:check.language,documentary:check.documentary,
+  context:contexts[check.topic]||'',timeoutMs:9500});
  results.push({
   topic:check.topic,status:result.status,elapsed_ms:Date.now()-started,
   image_count:result.photos?.length||0,
