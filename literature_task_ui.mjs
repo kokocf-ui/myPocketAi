@@ -283,7 +283,7 @@ async function litSimpleGenerate(out,status,mode,request,source='',onReady=null,
     title:litSimpleLabel(currentTopic?.[1]||'Lecție',currentTopic?.[2]||'Lesson'),
     mode,grade:litJourney.grade,language:answerLanguage,notes:availableNotes});
  }catch(error){console.warn?.('lit_offline_material_unavailable',String(error?.message||error))}
- const present=(material,local=false)=>{
+ const present=(material,local=false,details={})=>{
   // Do not silently drop a synchronous offline result before its element is
   // attached to the document; a just-created workspace can still be detached.
   if((controller.signal.aborted&&!didTimeout)||serial!==litSimpleSerial||
@@ -299,7 +299,7 @@ async function litSimpleGenerate(out,status,mode,request,source='',onReady=null,
    (mode==='correction'?litSimpleLabel('Răspunsurile au fost evaluate.','Answers checked.'):
    litSimpleLabel('Materialul este afișat. Poți salva PDF sau imprima.','Material displayed. You can save or print.'));
   if(typeof onReady==='function'){
-   try{if(onReady(text)===false)throw Error('reader_could_not_attach')}catch(readerError){
+   try{if(onReady(text,details)===false)throw Error('reader_could_not_attach')}catch(readerError){
     // Reader/popup errors never invalidate the already rendered study material.
     const errorCode=typeof window!=='undefined'?String(window.__pocketLiteratureReaderDetail||'reader_could_not_attach').slice(0,60):'reader_could_not_attach';
     status.textContent=litSimpleLabel(
@@ -340,6 +340,80 @@ async function litSimpleGenerate(out,status,mode,request,source='',onReady=null,
  const lessonTimeoutMs=mode==='essay'?180000:['study','write'].includes(mode)?90000:
   ['summary','analysis'].includes(mode)?60000:30000;
  try{
+  if(mode==='essay'&&opts.pages){
+   // One HTTP request per A4 section, with visible progress between requests.
+   // An incomplete answer is shown honestly, rather than discarded after
+   // several minutes by an all-or-nothing server word-count gate.
+   const spec=litEssaySpec(opts.pages),parts=[];
+   for(let part=1;part<=spec.pages;part++){
+    if(controller.signal.aborted||serial!==litSimpleSerial||
+       snapshot!==[litJourney.country,litJourney.grade,litJourney.branch,litJourney.topic].join('|'))return;
+    status.textContent=litSimpleLabel(
+     'Se redactează eseul: partea '+part+' din '+spec.pages+'…',
+     'Writing essay: part '+part+' of '+spec.pages+'…');
+    let partTimer=null,partTimedOut=false;
+    try{
+     const prev=parts.length?parts[parts.length-1].slice(-1100):'';
+     const sectionPrompt=prompt.slice(0,3100)+
+      '\nAceasta este partea '+part+' din '+spec.pages+' a UNUI SINGUR eseu. '+
+      (part===1?'Începe cu introducerea, nu încheia lucrarea.':
+       part===spec.pages?'Continuă analiza și încheie cu o concluzie matură.':
+       'Continuă analiza cu un argument diferit, fără altă introducere sau concluzie.')+
+      (prev?' Finalul părții precedente, numai pentru continuitate: '+prev:'');
+     const resp=await Promise.race([
+      fetch(CLIENT_CONFIG.apiUrl,{method:'POST',headers:{'Content-Type':'application/json'},
+       body:JSON.stringify({message:sectionPrompt.slice(0,3900),module:'education_study',
+        education_subject:apiSubject,education_activity:'essay',
+        education_essay_pages:spec.pages,education_essay_segment:part,
+        language:answerLanguage,history:[]}),signal:controller.signal}),
+      new Promise((_,reject)=>{
+       partTimer=setTimeout(()=>{
+        partTimedOut=true;didTimeout=true;controller.abort();reject(Error('education_timeout'));
+       },45000);
+      })
+     ]);
+     const data=await resp.json();
+     if(!resp.ok||data.status!=='success'||data.education_subject!==apiSubject||
+       Number(data.essay_segment)!==part||typeof data.reply!=='string'||!data.reply.trim())
+      throw Error(String(data.error||('essay_segment_http_'+resp.status)));
+     if(controller.signal.aborted||serial!==litSimpleSerial)return;
+     const fragment=data.reply.trim();
+     if(litEssayWords(fragment)<50)throw Error('essay_segment_short');
+     parts.push(fragment);
+     status.textContent=litSimpleLabel(
+      'Eseu: '+part+'/'+spec.pages+' părți redactate · '+litEssayWords(parts.join(' '))+' cuvinte.',
+      'Essay: '+part+'/'+spec.pages+' parts written · '+litEssayWords(parts.join(' '))+' words.');
+    }catch(error){
+     if(controller.signal.aborted&&!partTimedOut)return;
+     if(!parts.length)throw error;
+     const partial=parts.join('\n\n');
+     const count=litEssayWords(partial);
+     present('ESEU INCOMPLET — '+parts.length+' din '+spec.pages+
+      ' părți generate ('+count+' cuvinte). Textul nu reprezintă '+spec.pages+
+      ' pagini A4 verificate.\n\n'+partial,false,{complete:false});
+     status.textContent=litSimpleLabel(
+      'Generarea s-a întrerupt după '+parts.length+' din '+spec.pages+
+       ' părți. Textul parțial este disponibil fără promisiunea unui PDF de '+spec.pages+' pagini.',
+      'Generation stopped after '+parts.length+' of '+spec.pages+
+       ' parts. Partial text is available but is not a verified '+spec.pages+'-page PDF.');
+     return;
+    }finally{
+     if(partTimer!==null)clearTimeout(partTimer);
+    }
+   }
+   const essay=parts.join('\n\n');
+   const audit=litEssayQuality(essay,spec.pages);
+   const complete=audit.ok;
+   const visible=complete?essay:
+    'ESEU SUB LUNGIMEA SOLICITATĂ — '+audit.words+' cuvinte; pentru '+
+    spec.pages+' pagini A4 sunt necesare aproximativ '+spec.targetWords+
+    ' cuvinte. Textul nu este prezentat ca eseu complet.\n\n'+essay;
+   present(visible,false,{complete,words:audit.words,pages:spec.pages});
+   if(!complete)status.textContent=litSimpleLabel(
+    'Materialul este mai scurt decât '+spec.pages+' pagini A4. Este afișat ca incomplet.',
+    'This material is shorter than '+spec.pages+' A4 pages and is shown as incomplete.');
+   return;
+  }
   // Long-form GPT-OSS requests outlast the former 11-second cutoff.
   const response=await Promise.race([fetch(CLIENT_CONFIG.apiUrl,{method:'POST',
    headers:{'Content-Type':'application/json'},
@@ -552,8 +626,9 @@ function litSimpleLiterature(panel){
     'Opera: '+chosen.name+'. Autor: '+chosen.author+'.'+requestedEssay,
    'Sursă bibliografică (metadate, nu text integral): '+chosen.url+'. '+
    (textArea.value.trim()?'Fragment introdus de utilizator: '+textArea.value.trim().slice(0,28000):'Text integral indisponibil; nu inventa citate sau lectura unei ediții.'),
-   result=>litShowMaterialReader(chosen.name+' — '+chosen.author,result,
-    mode==='essay'?{essayPages:pages}:{ }),mode==='essay'?{pages}:{});
+   (result,details)=>litShowMaterialReader(chosen.name+' — '+chosen.author,result,
+    mode==='essay'&&details?.complete?{essayPages:pages}:{}),
+    mode==='essay'?{pages}:{});
   }));
   // Contents can be shown only for a confirmed licensed source with actual text.
   // Do not manufacture chapter titles, missing lines or verses from catalogue metadata.
@@ -588,22 +663,9 @@ function litSimpleLiterature(panel){
   title.scrollIntoView({block:'nearest',behavior:'auto'});
  };
  const fold=value=>String(value||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^\p{L}\p{N}]+/gu,' ').trim();
- // Instant country-specific starter bibliography; never presented as compulsory reading.
- const showCountryLibrary=()=>{
-  const matches=LIT_VERIFIED_AUTHORS.filter(a=>a.country===litJourney.country)
-   .flatMap(a=>a.works.map(w=>({title:w.title,author:a.name,url:w.sourceUrl||a.sourceUrl,work:w}))).slice(0,8);
-  results.replaceChildren();
-  for(const entry of matches)results.append(litSimpleButton(entry.title+' — '+entry.author,
-   ()=>select(entry.title,entry.author,entry.url,entry.work)));
-  if(matches.length)feedback.textContent=litSimpleLabel('Bibliotecă locală de studiu: ','Local study library: ')+matches.length+' '+
-   litSimpleLabel('opere documentate. Nu sunt declarate lecturi obligatorii.','documented works, not labelled compulsory.');
-  else feedback.textContent=litSimpleLabel(
-   'Biblioteca acestei țări este în curs de completare. Poți căuta un titlu sau autor în catalogul internațional.',
-   'The local country library is being expanded. Search for a title or author in the international catalogue.');
- };
  const find=async()=>{
   const term=search.value.trim(),n=++searchNumber;
-  if(!term){showCountryLibrary();return}
+  if(!term){results.replaceChildren();feedback.textContent=litSimpleLabel('Scrie titlul operei sau numele autorului.','Enter a work title or author name.');search.focus();return}
   if(term.length<3){feedback.textContent=litSimpleLabel('Introdu cel puțin trei caractere.','Enter at least three characters.');search.focus();return}
   results.replaceChildren();feedback.textContent=litSimpleLabel('Se caută operele…','Searching works…');
   const parts=term.split(/\s+[—–-]\s+/).map(x=>x.trim()).filter(Boolean);
@@ -689,7 +751,7 @@ function litSimpleLiterature(panel){
  };
  search.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();find()}});
  panel.append(search,litSimpleButton(litSimpleLabel('Caută autorul / opera','Search author / work'),find),feedback,results,title,acts,passage);
- showCountryLibrary();
+ feedback.textContent=litSimpleLabel('Caută după titlu sau autor. Nu este necesar să alegi dintr-o listă de autori.','Search by title or author; no author selection list is needed.');
 }
 
 `;

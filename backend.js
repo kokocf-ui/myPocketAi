@@ -2607,7 +2607,42 @@ export default {
       try{
         let reply='';
         let essayAudit=null;
-        if(activity==='essay'){
+        if(activity==='essay'&&Number.isInteger(Number(data.education_essay_segment))&&
+           Number(data.education_essay_segment)>=1&&Number(data.education_essay_segment)<=5){
+          // T3: return ONE essay section promptly to the Android client. The
+          // client displays progress after every response instead of waiting
+          // for five sequential model runs inside a single HTTP request.
+          const spec=litEssaySpec(data.education_essay_pages);
+          const index=Math.min(spec.pages,Number(data.education_essay_segment));
+          const focuses=[
+            'Introduce the thesis and authentic literary context, then begin the interpretation.',
+            'Develop a fresh argument about character, perspective and human choices.',
+            'Examine poetic imagery, motifs, structural contrasts and their expressive effects.',
+            'Deepen the philosophical interpretation and an alternative critical nuance.',
+            'Resolve the argument in a substantial, reasoned conclusion.'
+          ];
+          const focus=focuses[Math.min(index-1,focuses.length-1)];
+          const sectionRole=index===1?'Start the essay with an introduction.':
+            index===spec.pages?'Finish the essay with a conclusion; do not reintroduce it.':
+            'Continue the preceding analysis seamlessly without a new opening or conclusion.';
+          const sectionPrompt=message+'\nPart '+index+' of '+spec.pages+
+            '. '+sectionRole+' '+focus+
+            ' Write approximately 400 words as connected literary prose, not bullets, a lesson or writing instructions.'+
+            ' Do not invent citations, quotes or facts. Avoid repeating preceding arguments.';
+          const response=await evaTask(
+            {module:'education_study',subject:'language_literature',activity,message:sectionPrompt},
+            {messages:[{role:'system',content:system+'\nReturn only this section of a continuous essay. No section labels, no list, no headings. '+
+              'Prioritize finished analysis over advice to the student.'},
+              {role:'user',content:sectionPrompt}],temperature:0.25,max_tokens:2300});
+          reply=String(response?.response||response?.result?.response||'').trim();
+          if(litEssayWords(reply)<50)
+            return json({status:'unavailable',error:'essay_segment_empty',education_subject:'language_literature',
+              education_activity:'essay',part:index},503);
+          return json({app:'Pocket AI',version:API_VERSION,status:'success',reply,
+            language:locale,education_subject:'language_literature',
+            education_activity:'essay',essay_segment:index,
+            essay_pages:spec.pages,essay_words:litEssayWords(reply),ai_generated:true});
+        }else if(activity==='essay'){
           // Each section has its own generation budget. Asking for all five
           // printed A4 sheets in a single model response silently truncated essays.
           const requestedPages=Number(data.education_essay_pages)||
