@@ -19,7 +19,10 @@ assert.ok(found);
 assert.equal(found.license,'CC BY-SA 4.0');
 assert.equal(found.author,'Museum Photographer');
 assert.equal(found.is_ai_generated,false);
-assert.equal(normaliseCommonsPhoto({...sample,imageinfo:[{...sample.imageinfo[0],extmetadata:{LicenseShortName:{value:'All rights reserved'}}}]}),null);
+const restricted=normaliseCommonsPhoto({...sample,imageinfo:[{...sample.imageinfo[0],
+ extmetadata:{LicenseShortName:{value:'All rights reserved'}}}]});
+assert.ok(restricted,'Discovery must not suppress a source-linked result based on copyright metadata');
+assert.equal(restricted.rights_review_required,true);
 assert.equal(normaliseCommonsPhoto({...sample,imageinfo:[{...sample.imageinfo[0],mime:'image/svg+xml'}]}),null);
 assert.equal(normaliseCommonsPhoto({...sample,imageinfo:[{...sample.imageinfo[0],thumburl:'https://evil.example/photo.jpg'}]}),null);
 assert.ok(normaliseCommonsPhoto({...sample,imageinfo:[{...sample.imageinfo[0],extmetadata:{}}]}));
@@ -29,7 +32,7 @@ const openverseSample={id:'example-photo',category:'photograph',mature:false,lic
  foreign_landing_url:'https://photos.example.org/warriors',provider:'flickr'};
 assert.equal(normaliseOpenversePhoto(openverseSample)?.provider,'Openverse');
 assert.equal(normaliseOpenversePhoto({...openverseSample,mature:true}),null);
-assert.equal(normaliseOpenversePhoto({...openverseSample,license:'by-nd'}),null);
+assert.equal(normaliseOpenversePhoto({...openverseSample,license:'by-nd'})?.rights_review_required,true);
 assert.equal(normaliseOpenversePhoto({...openverseSample,category:'illustration'})?.provider,'Openverse');
 
 let requested=0;
@@ -47,7 +50,7 @@ assert.equal(searched.photos.length,1);
 assert.equal(searched.photos[0].provider,'Wikimedia Commons');
 assert.equal(requested,1);
 const empty=await searchStorybookCommonsPhotos('Nothing Relevant Here',{fetchImpl:async()=>new Response(JSON.stringify({query:{pages:[]}}),{status:200})});
-assert.equal(empty.status,'no_reusable_photos');
+assert.equal(empty.status,'no_images_found');
 
 
 let fallbackRequests=0;
@@ -56,7 +59,7 @@ const bilingual=async (url)=>{
  const u=new URL(url);
  if(u.hostname==='ro.wikipedia.org'){
   assert.equal(u.searchParams.get('lllang'),'en');
-  return new Response(JSON.stringify({query:{pages:[{langlinks:[{title:'Terracotta Army'}]}]}}),{status:200});
+  return new Response(JSON.stringify({query:{pages:[{title:'Soldații de teracotă',langlinks:[{title:'Terracotta Army'}]}]}}),{status:200});
  }
  assert.equal(u.hostname,'commons.wikimedia.org');
  const pages=u.searchParams.get('gsrsearch')==='Terracotta Army'?[sample]:[];
@@ -98,6 +101,44 @@ const historical=await searchStorybookCommonsPhotos('Ancient Dacian king topic',
 assert.equal(historical.status,'success');
 assert.equal(historical.photos.length,1);
 assert.ok(historicalQueries.some(q=>q.endsWith(' statue')));
+
+
+// An exact Decebal article is valid, but Decebal Traian Remeș is a namesake.
+// Media must be selected from the exact historical article, not the politician.
+const exactQueries=[];
+const exactHistory=async url=>{
+ const u=new URL(url);exactQueries.push([u.hostname,u.searchParams.get('titles'),u.searchParams.get('gsrsearch')]);
+ if(u.hostname==='ro.wikipedia.org'){
+  if(u.searchParams.get('titles')==='Decebal')
+   return new Response(JSON.stringify({query:{pages:[
+    {title:'Decebal Traian Remeș',images:[{title:'File:Minister photo.jpg'}]},
+    {title:'Decebal',images:[{title:"File:Decebal statue.jpg"}]}
+   ]}}),{status:200});
+  return new Response(JSON.stringify({query:{pages:[]}}),{status:200});
+ }
+ if(u.hostname==='commons.wikimedia.org'&&u.searchParams.get('titles'))
+  return new Response(JSON.stringify({query:{pages:[{...sample,title:'File:Decebal statue.jpg'}]}}),{status:200});
+ return new Response(JSON.stringify(u.hostname==='api.openverse.org'?{results:[]}:{query:{pages:[]}}),{status:200});
+};
+const verifiedHistory=await searchStorybookCommonsPhotos('Decebal',{
+ limit:3,language:'ro',documentary:true,fetchImpl:exactHistory});
+assert.equal(verifiedHistory.status,'success');
+assert.equal(verifiedHistory.photos.length,1);
+assert.ok(exactQueries.some(x=>x[1]?.includes('File:Decebal statue.jpg')));
+assert.ok(!exactQueries.some(x=>x[1]?.includes('Minister photo')));
+const wrongOnly=async url=>{
+ const u=new URL(url);
+ if(u.hostname==='ro.wikipedia.org')
+  return new Response(JSON.stringify({query:{pages:[{
+   title:'Decebal Traian Remeș',images:[{title:'File:Minister photo.jpg'}],
+   langlinks:[{title:'Romanian politician'}]
+  }]}}),{status:200});
+ return new Response(JSON.stringify(u.hostname==='api.openverse.org'?{results:[]}:{query:{pages:[]}}),{status:200});
+};
+const wrongArticle=await searchStorybookCommonsPhotos('Decebal',{
+ limit:3,language:'ro',documentary:true,fetchImpl:wrongOnly});
+assert.equal(wrongArticle.status,'no_images_found');
+assert.deepEqual(wrongArticle.photos,[]);
 
 const orig=globalThis.fetch;
 try{
