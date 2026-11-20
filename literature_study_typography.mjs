@@ -2,18 +2,18 @@
 // for PDF export, printing, and licensing checks.
 export function parseStudyBlocks(raw){
  const lines=String(raw||'').replace(/\r\n?/g,'\n').split('\n');
- const blocks=[];let paragraph=[],letter=0;
+ const blocks=[];let paragraph=[];
  const flush=()=>{if(paragraph.length){blocks.push({type:'paragraph',text:paragraph.join('\n').trim()});paragraph=[]}};
  const rules=/^\s*(?:[-_–—]{4,}|={4,})\s*$/;
  const labels=/^(?:introducere|defini(?:ții|tii)|subiecte principale|teorie|exemple?|exerci(?:ții|tii)|recapitulare|concluzii?|rezumat|lectura|context|bibliografie|introduction|definitions?|examples?|exercises?|summary|conclusions?|practice|wprowadzenie|einleitung|beispiele|zusammenfassung|giriş|tanımlar|örnekler)\s*:?$/iu;
  for(let i=0;i<lines.length;i++){
   const line=lines[i].trim();
   if(!line){flush();continue}
-  if(rules.test(line)){flush();letter=0;blocks.push({type:'rule'});continue}
+  if(rules.test(line)){flush();blocks.push({type:'rule'});continue}
   const md=line.match(/^#{1,4}\s+(.+)$/);
   const next=lines[i+1]?.trim()||'';
   if(md||labels.test(line)||(rules.test(next)&&line.length<115)){
-   flush();letter=0;
+   flush();
    blocks.push({type:'heading',text:md?md[1].trim():line.replace(/:$/,''),level:md?.[0].startsWith('###')?3:2});
    continue;
   }
@@ -22,14 +22,23 @@ export function parseStudyBlocks(raw){
   const bullet=line.match(/^(?:[•*]|[-–])\s+(.+)$/);
   if(numbered||labelled||bullet){
    flush();
-   let marker,body;
-   if(numbered){marker=numbered[1]+'.';body=numbered[2];letter=0}
-   else if(labelled){marker=labelled[1].toLowerCase()+'.';body=labelled[2];letter=0}
-   else {marker=String.fromCharCode(97+(letter%26))+'.';letter++;body=bullet[1]}
-   blocks.push({type:'item',marker,text:body});
+   const body=numbered?numbered[2]:labelled?labelled[2]:bullet[1];
+   // AI prose sometimes writes "b. Identificarea temei" as a chapter,
+   // followed by "a. Tema este...". Treat the short title as a heading
+   // rather than inventing nested alphabetic bullet numbering.
+   const nextItem=/^(?:[a-zA-Z][.)]|\d{1,3}[.)]|[-–•*])\s+\S+/u.test(next);
+   const subsection=Boolean(labelled&&nextItem&&
+    body.length>=7&&body.length<=75&&
+    /^[\p{Lu}]/u.test(body)&&!/[.?!:;]$/.test(body)&&!body.includes(': '));
+   if(subsection){
+    blocks.push({type:'heading',text:body,level:3});
+    continue;
+   }
+   // No synthetic a./b./c. labels: they repeatedly reset after headings
+   // and mislead pupils. Retain true numbered exercises as 1., 2., 3.
+   blocks.push({type:'item',marker:numbered?numbered[1]+'.':'•',text:body});
    continue;
   }
-  if(!paragraph.length)letter=0;
   paragraph.push(line);
  }
  flush();
@@ -66,7 +75,7 @@ export function renderStudyBlocks(host,text){
    const body=document.createElement('div');body.className='lit-study-item-body';
    const definition=block.text.match(/^([^:\n]{2,54}):\s+(.+)$/s);
    if(definition){
-    const name=document.createElement('strong');name.textContent=definition[1]+': ';body.append(name);
+    const name=document.createElement('strong');name.textContent=definition[1].replace(/\*\*/g,'').replace(/__/g,'')+': ';body.append(name);
     inline(body,definition[2]);
    }else inline(body,block.text);
    element.append(label,body);host.append(element);continue;
