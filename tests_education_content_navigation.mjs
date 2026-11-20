@@ -80,9 +80,14 @@ for(const country of ['RO','GB-ENG','FR','DE','IT','ES']){
  const profile=LIT_EU_PROGRAMS[country];
  if(!profile)continue;
  for(const [level,units] of Object.entries(profile.byLevel||{}))assert.ok(units.length>=10,country+' '+level+' literature too short');
- for(const [grade,units] of Object.entries(profile.byGrade||{}))assert.ok(units.length>=10,country+' '+grade+' literature too short');
+ for(const [grade,units] of Object.entries(profile.byGrade||{})){
+  if(country==='RO'){
+   assert.ok(units.length>=7&&units.length<=12,'Romanian pupil grade '+grade+' should show a focused, usable chapter list');
+   assert.ok(!units.some(x=>String(x[0]).startsWith('study-')),'Do not pad a child's programme with advanced common topics');
+  }else assert.ok(units.length>=10,country+' '+grade+' literature too short');
+ }
 }
-assert.ok(litEuropeanPlan('RO','medium','9','TC').units.length>=10,'Romanian ninth-grade literature must not be four broad cards');
+assert.ok(litEuropeanPlan('RO','medium','9','TC').units.length>=7,'Romanian ninth-grade literature needs several specific, usable lessons, without generic padding');
 assert.equal(litEuropeanPlan('RO','medium','9','TC').verified,true,'Keep ninth grade official framework separate from advisory unit sequencing');
 const england1=hgSchoolChapters('GB-ENG','geography','beginner','Y1');
 assert.equal(england1.status,'official-framework','KS1 geography should reference statutory DfE programme');
