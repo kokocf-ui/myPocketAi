@@ -1762,7 +1762,8 @@ export default {
       if(query.length<3||query.length>110)return json({status:'error',error:'invalid_photo_topic'},400);
       const result=await searchStorybookCommonsPhotos(query,{
         limit:Math.max(1,Math.min(6,Number(photoRequest?.limit)||5)),language:String(photoRequest?.language||'ro').slice(0,5),
-        documentary:photoRequest?.story_type==='documentary'
+        documentary:photoRequest?.story_type==='documentary',
+        context:String(photoRequest?.context||'').slice(0,650)
       });
       return new Response(JSON.stringify(result),{
        status:result.status==='rate_limited'?429:result.status==='upstream_unavailable'?503:200,
