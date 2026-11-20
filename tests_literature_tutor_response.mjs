@@ -192,7 +192,7 @@ const litPanel=new El('div');ui.workspace(litPanel);
 press(litPanel,'Luceafărul — Mihai Eminescu');
 const selectors=all(litPanel).filter(x=>x.tagName==='SELECT');
 assert.equal(selectors.length,1,'Essay type has one selector; page count is explicitly visible');
-const pageButtons=all(litPanel).filter(x=>x.className?.includes('lit-essay-page-choice'));
+const pageButtons=all(litPanel).filter(x=>x.tagName==='BUTTON'&&x.className?.split(/\s+/).includes('lit-essay-page-choice'));
 assert.equal(pageButtons.length,5,'Android must show all five A4 lengths without a scrollable native popup');
 selectors[0].value='interpretativ';
 pageButtons[4].onclick();
