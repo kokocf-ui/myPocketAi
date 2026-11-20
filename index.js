@@ -43,6 +43,7 @@ import {THEORY_ENTRIES} from './education_theory.mjs';
 import {CHEMISTRY_LEVELS, CHEMISTRY_TOPICS} from './chemistry_curriculum.mjs';
 import {CHEMISTRY_DETAILED_LESSONS} from './chemistry_detailed_lessons.mjs';
 import {scienceExtendedTheory,SCIENCE_GUIDES,SCIENCE_FEATURED,SCIENCE_METHOD} from './science_extended_theory.mjs';
+import {SCIENCE_GUIDES_EN} from './science_english_reference_guides.mjs';
 import {SCIENCE_ADVISORY_PROGRESSION,SCIENCE_PROGRESSION_SOURCES,SCIENCE_PRIMARY_LESSON_BANK,SCIENCE_PRIMARY_ENGLISH,SCIENCE_PRIMARY_DEPTH,scienceGradeTopicPlan,scienceGradeLessonFrame} from './science_grade_progression.mjs';
 import {SCIENCE_LOWER_TOPIC_LESSONS,scienceLowerTopicContent} from './science_lower_secondary_lessons.mjs';
 import {CHEMISTRY_SPECIALIZATIONS,CHEMISTRY_SPECIALTY_TOPICS,CHEMISTRY_MOLECULES,chemistryVerifiedExercise} from './chemistry_advanced.mjs';
@@ -9018,6 +9019,7 @@ const ASTRONOMY_SOLVE_VERIFIED=${astronomyVerifiedExercise.toString()};
 const PHYSICS_SPECIALTY_DATA=${JSON.stringify(PHYSICS_SPECIALIZATIONS)};
 const PHYSICS_SOLVE_VERIFIED=${physicsVerifiedExercise.toString()};
 const SCIENCE_GUIDES=${JSON.stringify(SCIENCE_GUIDES)};
+const SCIENCE_GUIDES_EN=${JSON.stringify(SCIENCE_GUIDES_EN)};
 const SCIENCE_FEATURED=${JSON.stringify(SCIENCE_FEATURED)};
 const SCIENCE_METHOD=${JSON.stringify(SCIENCE_METHOD)};
 const SCIENCE_THEORY_EXPAND=${scienceExtendedTheory.toString()};
@@ -10624,7 +10626,7 @@ function educationScienceTheoryReader(subjectId,topicId,level){
   const button=document.createElement('button');button.type='button';
   button.className='secondary-btn science-inline-theory-item';
   button.style.cssText='width:100%;min-width:0;min-height:54px;padding:10px;white-space:normal;text-align:center;overflow-wrap:anywhere;';
-  button.textContent=(index+1)+'. '+item.title;
+  button.textContent=(index+1)+'. '+(state.language==='ro'?item.title:learningLabel('Capitol','Chapter')+' · '+learningLabel(scienceTopicInfo()?.ro||'',scienceTopicInfo()?.en||''));
   button.onclick=()=>{
    const rich=subjectId==='chemistry'?CHEMISTRY_DETAIL_DATA[item.id]:null;
    const chapter=(subjectId==='physics'?PHYSICS_TOPIC_DATA:subjectId==='chemistry'?CHEMISTRY_TOPIC_DATA:
@@ -10638,8 +10640,8 @@ function educationScienceTheoryReader(subjectId,topicId,level){
    // Lower secondary already has a complete, pupil-oriented worked lesson.
    // Do not prepend the same advanced theory twice to that lesson.
    const material=scienceJourney.schoolStage==='lower'&&frame?frame:
-    (frame?frame+String.fromCharCode(10,10):'')+SCIENCE_THEORY_EXPAND(item,chapterName,rich);
-   educationOpenPagedLesson(item.title,material);
+    (frame?frame+String.fromCharCode(10,10):'')+SCIENCE_THEORY_EXPAND(item,chapterName,rich,state.language);
+   educationOpenPagedLesson(state.language==='ro'?item.title:chapterName+' · '+(index+1),material);
   };
   topics.append(button);
  });
