@@ -35,3 +35,45 @@ export function splitLiteraturePages(raw,pageCharacters=850){
  flush();
  return pages;
 }
+
+// Fit actual rendered text into the available reader height. A phone reader
+// page is a screen of readable text; PDF A4 sheet count is measured separately.
+// The callback is UI-owned, making this algorithm independently testable.
+export function paginateLiteratureByFit(raw,fits){
+ const text=String(raw||'').replace(/\r\n?/g,'\n').trim();
+ if(!text)return [];
+ if(typeof fits!=='function')return splitLiteraturePages(text,2000);
+ const tokens=text.match(/\S+\s*/g)||[];
+ if(!tokens.length)return [];
+ // A broken WebView layout must never create thousands of one-word pages.
+ try{if(!fits(tokens[0].trim()))return splitLiteraturePages(text,2000)}
+ catch{return splitLiteraturePages(text,2000)}
+ const pages=[];let start=0,previous=120;
+ while(start<tokens.length){
+  const candidate=end=>tokens.slice(start,end).join('').trim();
+  // Use the last page as a fit estimate rather than rendering half a novel
+  // in the Android DOM on every binary-search iteration.
+  let accepted=start,upper=Math.min(tokens.length,start+Math.max(24,previous*2));
+  while(upper>accepted){
+   let good=false;
+   try{good=Boolean(fits(candidate(upper)))}catch{}
+   if(!good)break;
+   accepted=upper;
+   if(upper===tokens.length)break;
+   upper=Math.min(tokens.length,start+(upper-start)*2);
+  }
+  let low=accepted+1,high=upper-1;
+  while(low<=high){
+   const mid=Math.floor((low+high)/2);
+   let good=false;
+   try{good=Boolean(fits(candidate(mid)))}catch{}
+   if(good){accepted=mid;low=mid+1}
+   else high=mid-1;
+  }
+  if(accepted===start)accepted=start+1;
+  pages.push(candidate(accepted));
+  previous=accepted-start;
+  start=accepted;
+ }
+ return pages;
+}

@@ -1,9 +1,9 @@
-import {splitLiteraturePages} from './literature_reader_pagination.mjs';
+import {splitLiteraturePages,paginateLiteratureByFit} from './literature_reader_pagination.mjs';
 import {parseStudyBlocks,renderStudyBlocks,STUDY_TYPOGRAPHY_CSS} from './literature_study_typography.mjs';
 import {literatureOfflineActivity,LIT_PRIMARY_COMMUNICATION} from './literature_offline_activity.mjs';
 import {LIT_RO_GRADE_LESSONS,litRomanianGradeMaterial} from './literature_ro_grade_progression.mjs';
 import {litEssaySpec,litEssayWords,litEssayQuality} from './literature_essay_contract.mjs';
-export const LITERATURE_TASK_UI_SCRIPT=splitLiteraturePages.toString()+'\n'+parseStudyBlocks.toString()+'\n'+renderStudyBlocks.toString()+'\nconst COMMUNICATION_G1='+JSON.stringify(LIT_PRIMARY_COMMUNICATION)+';\n'+literatureOfflineActivity.toString()+'\nconst LIT_RO_GRADE_LESSONS='+JSON.stringify(LIT_RO_GRADE_LESSONS)+';\n'+litRomanianGradeMaterial.toString()+'\n'+litEssaySpec.toString()+'\n'+litEssayWords.toString()+'\n'+litEssayQuality.toString()+'\nconst LIT_STUDY_CSS='+JSON.stringify(STUDY_TYPOGRAPHY_CSS)+';\n'+String.raw`
+export const LITERATURE_TASK_UI_SCRIPT=splitLiteraturePages.toString()+'\n'+paginateLiteratureByFit.toString()+'\n'+parseStudyBlocks.toString()+'\n'+renderStudyBlocks.toString()+'\nconst COMMUNICATION_G1='+JSON.stringify(LIT_PRIMARY_COMMUNICATION)+';\n'+literatureOfflineActivity.toString()+'\nconst LIT_RO_GRADE_LESSONS='+JSON.stringify(LIT_RO_GRADE_LESSONS)+';\n'+litRomanianGradeMaterial.toString()+'\n'+litEssaySpec.toString()+'\n'+litEssayWords.toString()+'\n'+litEssayQuality.toString()+'\nconst LIT_STUDY_CSS='+JSON.stringify(STUDY_TYPOGRAPHY_CSS)+';\n'+String.raw`
 
 
 // Bind the existing choice cards to actual Romanian grade chapters.
@@ -13,17 +13,101 @@ if(typeof litOpen==='function'&&typeof LIT_TOPICS==='object'&&
  const originalOpen=litOpen;
  const originalProgram=litProgram;
  const originalGrammar=LIT_TOPICS.grammar.slice();
+ const originalTopics=Object.fromEntries(Object.entries(LIT_TOPICS).map(([id,rows])=>[id,rows.slice()]));
+ // The old same seven expert-level categories were shown to every pupil.
+ // Keep the original entries for other countries; simplify only Romanian UI.
+ const allBranches=typeof LIT_BRANCHES!=='undefined'&&Array.isArray(LIT_BRANCHES)
+  ?LIT_BRANCHES.map(b=>({...b})):null;
+ function litStudentBranches(){
+  if(!allBranches)return;
+  const grade=Number(litJourney.grade);
+  if(litJourney.country!=='RO'||!Number.isInteger(grade)||grade<1||grade>12){
+   LIT_BRANCHES.splice(0,LIT_BRANCHES.length,...allBranches.map(b=>({...b})));return;
+  }
+  const primary=grade<=4,lower=grade<=8;
+  const allowed=primary?['program','grammar','vocabulary','writing','assessment']:
+   lower?['program','grammar','literature','writing','assessment']:
+   ['program','literature','grammar','writing','analysis','assessment'];
+  const titles=primary?{
+   program:['Lecțiile clasei '+grade,'Lecții potrivite clasei, în ordine clară'],
+   grammar:['Cuvinte și propoziții','Învăț regulile din exemple'],
+   vocabulary:['Cuvinte noi','Descopăr sensuri și expresii'],
+   writing:['Scriu și povestesc','Compun texte scurte, pas cu pas'],
+   assessment:['Mă antrenez','Exerciții pe înțelesul meu']
+  }:lower?{
+   program:['Lecțiile clasei '+grade,'Citesc, înțeleg și exersez'],
+   grammar:['Gramatică pentru clasa '+grade,'Reguli și exerciții potrivite clasei'],
+   literature:['Caută o carte sau un autor','Opere și lecturi alese'],
+   writing:['Scriere și compunere','Povestiri, rezumate și argumente'],
+   assessment:['Recapitulare și exerciții','Verific ce am înțeles']
+  }:{
+   program:['Lecțiile clasei '+grade,'Conținut adaptat nivelului și profilului'],
+   literature:['Caută o operă literară','Lecturi, autori și interpretări'],
+   grammar:['Limbă și exprimare','Comunicare și folosirea limbii'],
+   writing:['Eseuri și redactare','Construiesc argumente și texte'],
+   analysis:['Analizez un fragment','Explic sensul și mijloacele expresive'],
+   assessment:['Recapitulez și exersez','Pregătire potrivită clasei']
+  };
+  const entries=allowed.map(id=>{
+   const original=allBranches.find(b=>b.id===id);
+   if(!original)return null;
+   const [label,description]=titles[id]||[original.ro||id,''];
+   return {...original,
+    ro:({'program':'📑','grammar':'📚','vocabulary':'🔤','analysis':'🔎','literature':'📖','writing':'✍️','assessment':'🎓'}[id]||'📘')+' '+label,
+    en:({'program':'Grade '+grade+' lessons','grammar':primary?'Words and sentences':'Grammar for this grade',
+     'vocabulary':'New words','analysis':'Analyse a passage','literature':'Find a book or author',
+     'writing':primary?'I write and tell stories':'Writing and essays',
+     'assessment':primary?'I practise':'Review and practice'}[id]||label),
+    noteRo:description,noteEn:description,
+    description:description,descriptionRo:description,descriptionEn:description,
+    desc:description,descRo:description,descEn:description,
+    subtitle:description,subtitleRo:description,subtitleEn:description};
+  }).filter(Boolean);
+  if(entries.length)LIT_BRANCHES.splice(0,LIT_BRANCHES.length,...entries);
+ }
  litOpen=function(stage){
+  if(stage==='branches')litStudentBranches();
   if(stage==='topics'){
-   const units=litJourney.country==='RO'?LIT_RO_GRADE_LESSONS[String(litJourney.grade)]:null;
-   LIT_TOPICS.grammar=units?units.map(x=>[x.id,x.ro,x.en]):originalGrammar.slice();
+   // A child should not see an academic-writing menu or a PhD research paper.
+   for(const [id,rows] of Object.entries(originalTopics))LIT_TOPICS[id]=rows.slice();
+   const grade=Number(litJourney.grade);
+   if(litJourney.country==='RO'&&Number.isInteger(grade)){
+    const units=LIT_RO_GRADE_LESSONS[String(grade)];
+    if(units)LIT_TOPICS.grammar=units.map(x=>[x.id,x.ro,x.en]);
+    if(grade<=4){
+     LIT_TOPICS.vocabulary=[
+      ['dictionary','Ce înseamnă acest cuvânt?','What does this word mean?'],
+      ['vocabulary','Cuvinte cu înțeles apropiat sau opus','Words with similar or opposite meanings']
+     ];
+     LIT_TOPICS.writing=[
+      ['composition',grade<=2?'Scriu câteva propoziții':'Scriu o povestire scurtă','Write a short story'],
+      ['summary',grade<=2?'Povestesc pe scurt':'Povestesc ce am citit','Tell a story in my own words']
+     ];
+     LIT_TOPICS.assessment=[
+      ['genres','Citesc și înțeleg','Read and understand'],
+      ['vocabulary','Cuvinte și sensuri','Words and meanings'],
+      ['grammar','Propoziții corecte','Correct sentences']
+     ];
+    }else if(grade<=8){
+     LIT_TOPICS.writing=(originalTopics.writing||[]).filter(x=>
+      ['composition','summary','commentary','essay'].includes(x[0]));
+    }else if(grade<=12){
+     LIT_TOPICS.writing=(originalTopics.writing||[]).filter(x=>x[0]!=='research');
+    }
+   }
   }
   return originalOpen(stage);
  };
  litProgram=function(){
   const plan=originalProgram();
   const grade=String(litJourney.grade);
-  if(litJourney.country!=='RO'||!LIT_RO_GRADE_LESSONS[grade])return plan;
+  if(litJourney.country!=='RO')return plan;
+  const studentYear=Number(grade);
+  if(studentYear>=10&&studentYear<=12)return {...plan,
+   source:null,
+   sourceTitle:'Programa corespunzătoare generației claselor X–XII în 2026–2027',
+   note:'Clasa a IX-a folosește noul curriculum din 2026, dar X–XII continuă programa anterioară. Lecțiile sunt organizate pentru elev, orientativ.'};
+  if(!LIT_RO_GRADE_LESSONS[grade])return plan;
   const first=Number(grade)<=2;
   const primary=Number(grade)<=4;
   const src=first?'https://www.ecat.ro/wp-content/uploads/2021/05/01_CLR_CP_II_OMEN.pdf':
@@ -167,12 +251,8 @@ function litShowMaterialReader(title,text,options={}){
   if(host.style)host.style.overflow='hidden';
   document.addEventListener?.('keydown',onKey,true);
   try{back.focus?.()}catch{}
-  // Essays are continuous documents; A4 sheets are counted by Android PDF.
-  if(options.continuous===true){
-   try{renderStudyBlocks(content,raw)}catch(error){content.textContent=litReaderSafeText(raw)}
-   try{litEnsureTypography()}catch(error){}
-   return true;
-  }
+  // All reading content uses visible, bounded pages, not one long scroll.
+  // A4 export has its own physical sheet count, verified by Android.
   // The pager is essential for lessons and poems. Build it independently of optional fonts and
   // rich-text formatting; Android may reject style injection without affecting reading.
   try{
@@ -238,6 +318,22 @@ function litShowMaterialReader(title,text,options={}){
    if(vh>=540){reader.insertBefore(makePager('top'),content)}
    try{litEnsureTypography()}catch(styleError){
     console.warn?.('literature_reader_style_fallback',String(styleError?.message||styleError));
+   }
+   // The previous character estimate created nearly empty screens, while
+   // the subsequent continuous reader discarded page navigation completely.
+   // Measure the REAL Android WebView reader height after header/pagers exist.
+   try{
+    const height=Number(content.clientHeight)||0,width=Number(content.clientWidth)||0;
+    if(height>=150&&width>=150){
+     const measured=paginateLiteratureByFit(raw,text=>{
+      if(options.poetry===true)litRenderPoemPage(content,text);
+      else renderStudyBlocks(content,text);
+      return content.scrollHeight<=content.clientHeight+3;
+     });
+     if(measured.length)pages=measured;
+    }
+   }catch(fitError){
+    console.warn?.('literature_visual_pagination_fallback',String(fitError?.message||fitError));
    }
    display(active);
   }catch(decoratingError){
@@ -330,6 +426,13 @@ async function litSimpleGenerate(out,status,mode,request,source='',onReady=null,
  const admissionPolicy=isHungarianAdmission
   ?' This is entry/transfer preparation for Hungary. Present practice prompts in Hungarian and explain the method in the user interface language. Different written exams apply for entry to grades 5, 7 and 9. Never imply any school-specific admission requirement, year, exemption, assessment rule, document or deadline is verified without an official source. If a school name is supplied but not its official policy, explicitly ask the learner to check the chosen school. '
   :'';
+ const roGrade=litJourney.country==='RO'?Number(litJourney.grade):NaN;
+ const pupilPolicy=Number.isInteger(roGrade)&&roGrade>=1&&roGrade<=4?
+  ' Talk to the CHILD as a pupil, not to a teacher. Use short clear Romanian sentences and familiar everyday examples. Introduce only terms relevant to this grade. Use accessible explanations, two or three fully worked examples and practice. Do not add instructional planning notes, academic metalanguage or school bureaucracy. ':
+  Number.isInteger(roGrade)&&roGrade>=5&&roGrade<=8?
+  ' Address a middle-school pupil directly. Clearly distinguish this grade from earlier years, provide specific relevant explanations, examples, reading questions, and practice. No generic repeated introductory essay about morphology and syntax. ':
+  Number.isInteger(roGrade)&&roGrade>=9&&roGrade<=12?
+  ' Address a high-school pupil with mature interpretation and evidence-based argument. Respect the current 2026–2027 curricula: grade 9 follows the new programme, grades 10–12 continue their prior programme. Do not present the same course for every year, nor invent compulsory reading lists. ':'';
  const prompt=(isHungarianAdmission?'You are a Hungarian school admission tutor for language, mathematics and transfer. Write in ':'You are an experienced language and literature teacher. Write in ')+language+
  '. Country of education: '+(educationCountrySelection.label||litJourney.country)+
  '. Original curriculum language: '+curriculumLanguage+
@@ -337,7 +440,7 @@ async function litSimpleGenerate(out,status,mode,request,source='',onReady=null,
  '. Retain proper names, original literary titles, technical symbols and original-language examples as needed, with explanations in '+language+'.'+
  '. Class/year: '+litJourney.grade+'. Profile: '+litJourney.track+'. Region: '+(litJourney.region||'unspecified')+
  '. Curriculum: '+(plan.verified?'general framework identified; order is pedagogical':'advisory plan; do not claim an officially verified national syllabus')+
- '. Activity: '+mode+'. '+admissionPolicy+' Explain the lesson fully and directly, without offering a form. '+
+ '. Activity: '+mode+'. '+admissionPolicy+pupilPolicy+' Explain the lesson fully and directly, without offering a form. '+
  'For lessons explain every important subtopic in depth, with definitions, distinctions, developed examples, interpretation, common mistakes and a reasoned conclusion; never return a short outline or just objectives. Use clear headings, no decorative rules. List alternatives a., b., c. and exercises 1., 2., 3., each on its own line. '+
  'For exercises and tests produce at least five clear numbered tasks without exposing their solutions until the learner answers. '+
  'For literary study cover the author, context, themes, structure and evidence-based interpretation. '+
@@ -510,7 +613,9 @@ function litSimpleWorkspace(panel){
   const school=branch==='admission'&&litJourney.targetSchool
     ?' Școală vizată: '+litJourney.targetSchool+'. Numele singur nu confirmă cerințele oficiale.'
     :'';
-  const task=title+'. '+(branch==='admission'?topic[3]+school+' ':'')+
+  const focus=branch==='program'&&typeof topic[3]==='string'?
+  ' Ce învăț și exersez la clasa '+litJourney.grade+': '+topic[3]+'. ':'';
+ const task=title+'. '+focus+(branch==='admission'?topic[3]+school+' ':'')+
     (phrase?'Textul utilizatorului: '+phrase+'. ':'')+'Solicitare: '+mode+'.';
   litSimpleGenerate(out,status,mode,task,'',text=>{
    // Do not expose the answer form underneath until the reader truly opens.
@@ -620,7 +725,7 @@ function litSimpleLiterature(panel){
    'Sursă bibliografică (metadate, nu text integral): '+chosen.url+'. '+
    (textArea.value.trim()?'Fragment introdus de utilizator: '+textArea.value.trim().slice(0,28000):'Text integral indisponibil; nu inventa citate sau lectura unei ediții.'),
    (result,details)=>litShowMaterialReader(chosen.name+' — '+chosen.author,result,
-    mode==='essay'?{continuous:true,essayPages:details?.complete?pages:0,essayDraft:!details?.complete}:{}),
+    mode==='essay'?{essayPages:details?.complete?pages:0,essayDraft:!details?.complete}:{}),
     mode==='essay'?{pages}:{});
   }));
   // Contents can be shown only for a confirmed licensed source with actual text.

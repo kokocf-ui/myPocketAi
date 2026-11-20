@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import vm from 'node:vm';
-import {splitLiteraturePages} from './literature_reader_pagination.mjs';
+import {splitLiteraturePages,paginateLiteratureByFit} from './literature_reader_pagination.mjs';
 import {LITERATURE_TASK_UI_SCRIPT} from './literature_task_ui.mjs';
 import {VERIFIED_LITERARY_AUTHORS} from './literature_verified_authors.mjs';
 import {LUCEAFARUL_STANZAS,LUCEAFARUL_SECTIONS,LUCEAFARUL_FACTS} from './literature_public_domain_luceafarul.mjs';
@@ -12,6 +12,13 @@ assert.ok(pages.length>3,'Long lesson is split into multiple pages');
 assert.ok(pages.every(p=>p.length<=620),'Every page is bounded');
 assert.equal(splitLiteraturePages('Poezia mea\n\nPrima strofă\nVers doi').length,1,'Short poetry is kept together');
 assert.deepEqual(splitLiteraturePages(''),[]);
+const fitted=paginateLiteratureByFit(long,text=>text.length<=1550);
+assert.ok(fitted.length>2,'Visual-fit reader must expose several page turns');
+assert.ok(fitted.every(page=>page.length<=1550),'No reader page silently overflows');
+assert.equal(fitted.join(' ').replace(/\s+/g,' ').trim(),long.replace(/\s+/g,' ').trim(),
+ 'All words survive page transitions in the same order');
+assert.deepEqual(paginateLiteratureByFit('',()=>true),[]);
+assert.deepEqual(paginateLiteratureByFit('Un text scurt.',()=>true),['Un text scurt.']);
 new vm.Script(LITERATURE_TASK_UI_SCRIPT,{filename:'literature-reader-ui.js'});
 
 class El{
