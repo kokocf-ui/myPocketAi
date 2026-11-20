@@ -89,10 +89,10 @@ if(typeof litOpen==='function'&&typeof LIT_TOPICS==='object'&&
       ['grammar','Propoziții corecte','Correct sentences']
      ];
     }else if(grade<=8){
-     LIT_TOPICS.writing=originalTopics.writing.filter(x=>
+     LIT_TOPICS.writing=(originalTopics.writing||[]).filter(x=>
       ['composition','summary','commentary','essay'].includes(x[0]));
     }else if(grade<=12){
-     LIT_TOPICS.writing=originalTopics.writing.filter(x=>x[0]!=='research');
+     LIT_TOPICS.writing=(originalTopics.writing||[]).filter(x=>x[0]!=='research');
     }
    }
   }
