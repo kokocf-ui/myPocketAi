@@ -179,7 +179,7 @@ const readerContext={
 const renderScienceReader=vm.runInNewContext(readerSource+';educationScienceTheoryReader',readerContext);
 let rendered=renderScienceReader('chemistry','atomic','beginner');
 assert.equal(rendered.children.length,2,'Only one lesson card follows the heading');
-assert.match(rendered.children[0].textContent,/\\(1\\)/,'Do not promise duplicated lower-secondary lessons');
+assert.match(rendered.children[0].textContent,/\(1\)/,'Do not promise duplicated lower-secondary lessons');
 rendered.children[1].onclick();
 assert.deepEqual(opened[0],{title:'Structura atomului',body:'Original chemistry atomic 7 / 0'});
 assert.equal(lessonArgs.length,1,'Render only the selected chapter lesson');
