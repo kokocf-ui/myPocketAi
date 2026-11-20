@@ -1,3 +1,4 @@
+import {LIT_RO_GRADE_LESSONS} from './literature_ro_grade_progression.mjs';
 import {LITERATURE_DEEP_UNITS} from './literature_extended_study.mjs';
 import {LIT_SEVEN_COUNTRY_PROGRAMS} from './literature_seven_country_tracks.mjs';
 // Literature pathways for Europe, referenced against official national/jurisdictional
@@ -140,6 +141,22 @@ export const LIT_EU_PROGRAMS={
 };
 // Seven dedicated national packs, with 2026/27 curriculum transition notes.
 Object.assign(LIT_EU_PROGRAMS,LIT_SEVEN_COUNTRY_PROGRAMS);
+// Romania I–VIII: build distinct year-specific learning sequences instead
+// of the same undifferentiated 'Morphology and syntax' chapter at every grade.
+// Other countries retain their existing programme mapping.
+for(const [grade,lessons] of Object.entries(LIT_RO_GRADE_LESSONS)){
+ const junior=Number(grade)<=4;
+ const sequence=[
+  ['ro-oral-'+grade,junior?'Comunicare orală și povestire — clasa '+grade:'Comunicare, argumentare și ascultare — clasa '+grade,
+   'Exprimare clară și adecvată vârstei, prin exemple și dialog.','communication'],
+  ['ro-read-'+grade,junior?'Lectură și înțelegerea textului — clasa '+grade:'Lectură critică și interpretare — clasa '+grade,
+   'Înțelegerea și explicarea unui text potrivit clasei.','genres'],
+  ...lessons.map(unit=>[unit.id,unit.ro,unit.intro,unit.id]),
+  ['ro-write-'+grade,junior?'Compunere și redactare — clasa '+grade:'Redactare, rezumat și argumentare — clasa '+grade,
+   'Structurarea progresivă a mesajului scris, cu exemple, revizuire și coerență.','composition']
+ ];
+ LIT_EU_PROGRAMS.RO.byGrade[grade]=sequence;
+}
 // Every level must expose a meaningful sequence of smaller study units in
 // addition to its broad curriculum domains. Not a mandatory list of texts.
 function literatureExpandRows(rows,level){
