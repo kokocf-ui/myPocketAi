@@ -1,3 +1,4 @@
+import {SCIENCE_GUIDES_EN} from './science_english_reference_guides.mjs';
 import {scienceLowerTopicContent} from './science_lower_secondary_lessons.mjs';
 import {SCIENCE_GUIDES} from './science_extended_theory.mjs';
 // Pan-European advisory science progression, not a national curriculum or textbook.
@@ -296,7 +297,7 @@ export function scienceGradeLessonFrame({subject,stage,grade,topic,chapter,langu
  return [
   'SCIENCE · '+(stage==='upper'?'Upper secondary':'University')+' · Year '+grade,
   'Chosen chapter: '+chapter,
-  'Enquiry: '+(guide?.[3]||'Explain what evidence is needed to interpret this chapter correctly.'),
+  'Enquiry: '+(SCIENCE_GUIDES_EN[subject]?.[topic]?.[3]||'Explain what evidence is needed to interpret this chapter correctly.'),
   'Method: define relevant quantities and assumptions, then use the worked examples from this chapter.',
   language!=='en'?'English reference content; translation into the selected language has not been verified.':'General study pathway, not a certified national syllabus.'
  ].join('\n\n');
