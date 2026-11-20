@@ -89,8 +89,18 @@ function litShowMaterialReader(title,text,options={}){
   if(host.style)host.style.overflow='hidden';
   document.addEventListener?.('keydown',onKey,true);
   try{back.focus?.()}catch{}
-  // The pager is essential. Build it independently of optional fonts and
-  // rich-text formatting; Android may reject style injection without affecting reading.
+  // Essays and prose lessons are continuous scroll documents. Character-estimated
+  // pseudo-pages caused seven sparse screens for a 500-word essay. Real A4 export
+  // is handled separately by the print flow and retains the full unmodified text.
+  if(options.poetry!==true){
+   try{litEnsureTypography();renderStudyBlocks(content,raw)}
+   catch(formatError){
+    content.textContent=litReaderSafeText(raw);
+    console.warn?.('literature_prose_reader_plain_text',String(formatError?.message||formatError));
+   }
+   return true;
+  }
+  // The dedicated poetry reader retains stanza-safe page navigation.
   try{
    const vh=typeof window!=='undefined'?window.innerHeight:680;
    const vw=typeof window!=='undefined'?window.innerWidth:420;
@@ -244,18 +254,29 @@ async function litSimpleGenerate(out,status,mode,request,source='',onReady=null)
  const admissionPolicy=isHungarianAdmission
   ?' This is entry/transfer preparation for Hungary. Present practice prompts in Hungarian and explain the method in the user interface language. Different written exams apply for entry to grades 5, 7 and 9. Never imply any school-specific admission requirement, year, exemption, assessment rule, document or deadline is verified without an official source. If a school name is supplied but not its official policy, explicitly ask the learner to check the chosen school. '
   :'';
- const prompt=(isHungarianAdmission?'You are a Hungarian school admission tutor for language, mathematics and transfer. Write in ':'You are an experienced language and literature teacher. Write in ')+language+
+ const isFinishedWriting=['write','essay'].includes(mode);
+ const lessonDirections=mode==='lesson'||mode==='study'
+  ?'Write a substantial, COMPLETE teaching chapter for this grade, with definitions, developed explanations of major subtopics, concrete distinct examples explained in context, common misunderstandings and a synthesis. Secondary-school theory needs approximately 450–650 substantial words; avoid a short introduction presented as a whole lesson. Do not invent a quote or curriculum. '
+  :mode==='exercises'||mode==='test'
+  ?'Provide at least five grade-appropriate numbered tasks. Do not display answers until the pupil responds. '
+  :mode==='examples'
+  ?'Give multiple distinct, developed and annotated examples with actual reasoning. '
+  :mode==='analysis'
+  ?'Analyse ONLY the supplied text or actual topic with evidence, literary techniques and their effects. Never invent passages. '
+  :mode==='summary'
+  ?'Write a coherent complete summary, not a lesson, quiz or a writing plan. '
+  :'Answer precisely for the selected educational activity. ';
+ const writingDirections=isFinishedWriting
+  ?'The requested product is a FINISHED piece of writing, not a lesson. Do not write a teaching plan, learning objectives, tasks or questions for students. For an argumentative essay develop a defensible thesis, at least two differentiated reasoned arguments, the requested objection and a meaningful conclusion in natural fluent paragraphs. Respect the requested word count, mature style, and topic. Never turn a finished essay into a quiz. '
+  :'';
+ const prompt=(isHungarianAdmission?'You are a Hungarian school admission tutor. Write in ':isFinishedWriting?'You are a skilled literary author and editor. Write in ':'You are an experienced language and literature teacher. Write in ')+language+
  '. Country of education: '+(educationCountrySelection.label||litJourney.country)+
  '. Original curriculum language: '+curriculumLanguage+
- '. Explain lesson content and the national curriculum in '+language+
- '. Retain proper names, original literary titles, technical symbols and original-language examples as needed, with explanations in '+language+'.'+
+ '. Retain proper names and original literary titles as needed, with explanation in '+language+'.'+
  '. Class/year: '+litJourney.grade+'. Profile: '+litJourney.track+'. Region: '+(litJourney.region||'unspecified')+
  '. Curriculum: '+(plan.verified?'general framework identified; order is pedagogical':'advisory plan; do not claim an officially verified national syllabus')+
- '. Activity: '+mode+'. '+admissionPolicy+' Explain the lesson fully and directly, without offering a form. '+
- 'For lessons give substantial definitions and explanations, rules and grade-appropriate examples. Use short clear headings, never type dashes/equals as decorative rules. List alternatives a., b., c. and exercises 1., 2., 3., each on its own line. '+
- 'For exercises and tests produce at least five clear numbered tasks without exposing their solutions until the learner answers. '+
- 'For literary study cover the author, context, themes, structure and evidence-based interpretation. '+
- 'For an essay or summary provide a complete coherent text, not a template. Never invent quotations or an author attribution. '+
+ '. Activity: '+mode+'. '+admissionPolicy+(isFinishedWriting?writingDirections:lessonDirections)+
+ 'Use normal well-developed paragraphs and necessary headings. No decorative separators or raw markdown. Never invent quotations or author attributions. '+
  'Task: '+request+'. '+source;
  try{
   // Bound the online wait: no lesson may remain on "preparing" indefinitely.
@@ -269,7 +290,7 @@ async function litSimpleGenerate(out,status,mode,request,source='',onReady=null)
     if(typeof setTimeout!=='function')return;
     timeoutId=setTimeout(()=>{
      didTimeout=true;controller.abort();reject(Error('education_timeout'));
-    },11000);
+    },27000);
    })
   ]);
   const data=await response.json();
@@ -283,17 +304,20 @@ async function litSimpleGenerate(out,status,mode,request,source='',onReady=null)
   present(text,false);
  }catch(error){
   if((controller.signal.aborted&&!didTimeout)||serial!==litSimpleSerial)return;
-  if(localMaterial?.text){
-   present(localMaterial.text,true);
-  }else{
+  // Except for the complete authored grade-I lesson, brief offline notes are
+  // NOT equivalent to the requested upper-grade theory or a finished essay.
+  // Never silently replace a failed complete response with a two-paragraph stub.
+  {
    const code=String(error?.message||'');
    const quota=code==='ai_quota_exceeded';
    const unavailable=code==='education_timeout'||didTimeout||
     code==='education_generation_unavailable'||code==='education_text_empty'||code==='Failed to fetch';
+   const poorQuality=code==='education_quality_invalid';
    status.textContent=quota?
     litSimpleLabel('Limita serviciului AI a fost atinsă. Materialul online nu poate fi generat momentan.','AI usage limit reached; online material is temporarily unavailable.'):
-    unavailable?litSimpleLabel('Serviciul AI nu a răspuns. Încearcă din nou mai târziu.','The AI service did not respond. Try again later.'):
-    litSimpleLabel('Nu s-a putut obține un răspuns educațional valid. Încearcă din nou.','No valid educational response was returned. Please try again.');
+    poorQuality?litSimpleLabel('Textul generat nu este suficient de complet sau nu respectă activitatea cerută; nu îl afișăm drept lecție ori eseu.', 'The generated text does not meet the lesson or essay requirements and was not presented as complete.'):
+    unavailable?litSimpleLabel('Serviciul AI nu a răspuns. Materialul complet nu este disponibil.','The AI service did not respond. Complete study material is unavailable.'):
+    litSimpleLabel('Nu s-a putut obține un răspuns educațional valid.','No valid educational response was returned.');
    if(!out.textContent.trim())out.append(litSimpleNode('p',
     litSimpleLabel('Acest material necesită un răspuns al serviciului AI. Nu au fost generate explicații inventate.','This material requires an AI response. No made-up lesson is shown.')));
   }
