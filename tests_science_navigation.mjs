@@ -98,10 +98,17 @@ yearTiles('intermediate')[0].onclick();
 assert.equal(api.state.level,'intermediate');
 assert.equal(api.state.grade,'Y10');
 assert.equal(api.state.stage,'topics');
-assert.ok(rows().some(x=>x.children[0].textContent==='Chimie organică'));
+assert.ok(rows().some(x=>x.children[0].textContent==='Atomul și structura materiei'),
+ 'First upper-secondary Chemistry year starts with matter and atomic structure');
 assert.ok(!rows().some(x=>x.children[0].textContent==='Chimie universitară avansată'),
  'no university chapter in intermediate level');
+api.back();
+assert.equal(api.state.stage,'years');
+yearTiles('intermediate')[2].onclick();
+assert.equal(api.state.grade,'Y12');
+assert.equal(api.state.stage,'topics');
 const chemistryOrganic=rows().find(x=>x.children[0].textContent==='Chimie organică');
+assert.ok(chemistryOrganic,'Later upper-secondary years progress to organic chemistry');
 chemistryOrganic.onclick();
 assert.equal(api.state.topic,'organic');
 assert.equal(api.state.stage,'chemistry-menu','Chemistry chapter opens its activity chooser');
