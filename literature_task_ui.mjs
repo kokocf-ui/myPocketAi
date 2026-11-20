@@ -344,20 +344,20 @@ async function litSimpleGenerate(out,status,mode,request,source='',onReady=null,
    // One HTTP request per A4 section, with visible progress between requests.
    // An incomplete answer is shown honestly, rather than discarded after
    // several minutes by an all-or-nothing server word-count gate.
-   const spec=litEssaySpec(opts.pages),parts=[];
-   for(let part=1;part<=spec.pages;part++){
+   const spec=litEssaySpec(opts.pages),parts=[],totalParts=spec.pages*2;
+   for(let part=1;part<=totalParts;part++){
     if(controller.signal.aborted||serial!==litSimpleSerial||
        snapshot!==[litJourney.country,litJourney.grade,litJourney.branch,litJourney.topic].join('|'))return;
     status.textContent=litSimpleLabel(
-     'Se redactează eseul: partea '+part+' din '+spec.pages+'…',
-     'Writing essay: part '+part+' of '+spec.pages+'…');
+     'Se redactează pagina A4 '+Math.ceil(part/2)+' din '+spec.pages+' (fragment '+(part%2||2)+'/2)…',
+     'Writing A4 page '+Math.ceil(part/2)+' of '+spec.pages+' (fragment '+(part%2||2)+'/2)…');
     let partTimer=null,partTimedOut=false;
     try{
      const prev=parts.length?parts[parts.length-1].slice(-1100):'';
      const sectionPrompt=prompt.slice(0,3100)+
-      '\nAceasta este partea '+part+' din '+spec.pages+' a UNUI SINGUR eseu. '+
+      '\nAcesta este fragmentul '+part+' din '+totalParts+' (pagina A4 '+Math.ceil(part/2)+') al UNUI SINGUR eseu. '+
       (part===1?'Începe cu introducerea, nu încheia lucrarea.':
-       part===spec.pages?'Continuă analiza și încheie cu o concluzie matură.':
+       part===totalParts?'Continuă analiza și încheie cu o concluzie matură.':
        'Continuă analiza cu un argument diferit, fără altă introducere sau concluzie.')+
       (prev?' Finalul părții precedente, numai pentru continuitate: '+prev:'');
      const resp=await Promise.race([
@@ -381,20 +381,20 @@ async function litSimpleGenerate(out,status,mode,request,source='',onReady=null,
      if(litEssayWords(fragment)<50)throw Error('essay_segment_short');
      parts.push(fragment);
      status.textContent=litSimpleLabel(
-      'Eseu: '+part+'/'+spec.pages+' părți redactate · '+litEssayWords(parts.join(' '))+' cuvinte.',
-      'Essay: '+part+'/'+spec.pages+' parts written · '+litEssayWords(parts.join(' '))+' words.');
+      'Eseu: '+part+'/'+totalParts+' fragmente redactate · '+litEssayWords(parts.join(' '))+' cuvinte.',
+      'Essay: '+part+'/'+totalParts+' fragments written · '+litEssayWords(parts.join(' '))+' words.');
     }catch(error){
      if(controller.signal.aborted&&!partTimedOut)return;
      if(!parts.length)throw error;
      const partial=parts.join('\n\n');
      const count=litEssayWords(partial);
-     present('ESEU INCOMPLET — '+parts.length+' din '+spec.pages+
+     present('ESEU INCOMPLET — '+parts.length+' din '+totalParts+
       ' părți generate ('+count+' cuvinte). Textul nu reprezintă '+spec.pages+
       ' pagini A4 verificate.\n\n'+partial,false,{complete:false});
      status.textContent=litSimpleLabel(
-      'Generarea s-a întrerupt după '+parts.length+' din '+spec.pages+
+      'Generarea s-a întrerupt după '+parts.length+' din '+totalParts+
        ' părți. Textul parțial este disponibil fără promisiunea unui PDF de '+spec.pages+' pagini.',
-      'Generation stopped after '+parts.length+' of '+spec.pages+
+      'Generation stopped after '+parts.length+' of '+totalParts+
        ' parts. Partial text is available but is not a verified '+spec.pages+'-page PDF.');
      return;
     }finally{
