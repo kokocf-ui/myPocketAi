@@ -8,6 +8,7 @@ import {CHEMISTRY_TOPICS} from './chemistry_curriculum.mjs';
 import {BIOLOGY_TOPICS} from './biology_curriculum.mjs';
 import {ASTRONOMY_TOPICS} from './astronomy_curriculum.mjs';
 import {SCIENCE_PROGRESSION_SOURCES,SCIENCE_PRIMARY_DEPTH,scienceGradeTopicPlan,scienceGradeLessonFrame} from './science_grade_progression.mjs';
+import {SCIENCE_LOWER_TOPIC_LESSONS,scienceLowerTopicContent} from './science_lower_secondary_lessons.mjs';
 import {EDUCATION_COUNTRY_UI_SCRIPT} from './education_country_ui.mjs';
 import {EDUCATION_SCHOOL_YEARS} from './education_school_paths.mjs';
 
@@ -31,6 +32,36 @@ for(const country of EDUCATION_EUROPE_COUNTRIES){
     assert.deepEqual(registry.units.map(x=>x.id),plan.topics.map(x=>x.id),
      'The 50-country registry and Android must follow one science path');
     assert.ok(plan.topics.every(x=>!x.specialty),'Do not show university modules to a pupil');
+    if(schoolStage==='lower')for(const topic of plan.topics){
+     const facts=scienceLowerTopicContent(subject,topic.id,'ro');
+     const english=scienceLowerTopicContent(subject,topic.id,'en');
+     assert.ok(facts&&english,
+      country+'/'+year.id+'/'+subject+'/'+topic.id+' needs a complete lower-secondary lesson');
+     assert.ok(facts.explanation.length>=90&&facts.workedExample.length>=50&&
+      facts.exercise.length>=20&&facts.answer.length>=25,
+      'Not just a lesson title: real explanation, worked example, exercise and feedback');
+     assert.ok(english.explanation.length>=75&&english.workedExample.length>=35,
+      'English version must contain independently authored substantive content');
+     const p=years.findIndex(x=>x.id===year.id);
+     const output=scienceGradeLessonFrame({subject,stage:'lower',grade:year.id,
+      topic:topic.id,chapter:topic.ro,language:'ro',gradePosition:p});
+     const translated=scienceGradeLessonFrame({subject,stage:'lower',grade:year.id,
+      topic:topic.id,chapter:topic.en,language:'en',gradePosition:p});
+     assert.ok(output.includes('Exemplu rezolvat')&&output.includes('Cum verifici'),
+      'Reader must show full worked lesson and pupil feedback');
+     assert.ok(output.includes(facts.workedExample)&&output.includes(facts.answer),
+      'Reader must expose the selected lesson content, not generic boilerplate');
+     assert.ok(translated.includes(english.workedExample)&&translated.includes(english.answer));
+     assert.doesNotMatch(output,/programă obligatorie a țării|calificare oficială/);
+     assert.notEqual(facts.explanation,english.explanation,'English must not be raw Romanian');
+    }
+    if(schoolStage==='upper')for(const topic of plan.topics){
+     const output=scienceGradeLessonFrame({subject,stage:'upper',grade:year.id,
+      topic:topic.id,chapter:topic.ro,language:'ro'});
+     assert.ok(output.includes(topic.ro)&&output.includes('Investigație:'),
+      'Upper-secondary learning must refer to the selected chapter and its question');
+     assert.ok(output.length>180);
+    }
     for(const topic of plan.topics){
      const limit=schoolStage==='upper'?1:0;
      const topicLevel={beginner:0,intermediate:1,advanced:2}[topic.minLevel]??0;
