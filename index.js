@@ -10582,7 +10582,7 @@ function educationScienceTheoryReader(subjectId,topicId,level){
  const max=rank[level]??0;
  const lessons=EDUCATION_THEORY_DATA.filter(item=>item.subject===subjectId&&item.topic===topicId&&(rank[item.level]??3)<=max);
  const section=document.createElement('section');section.className='science-inline-theory';
- const head=document.createElement('h3');head.textContent=learningLabel('📖 Teme de studiu','📖 Study topics')+' ('+(scienceJourney.schoolStage==='primary'?1:lessons.length)+')';
+ const head=document.createElement('h3');head.textContent=learningLabel('📖 Teme de studiu','📖 Study topics')+' ('+(['primary','lower'].includes(scienceJourney.schoolStage)?1:lessons.length)+')';
  section.append(head);
  if(scienceJourney.schoolStage==='primary'){
   const chapter=scienceTopicInfo();
@@ -10594,6 +10594,24 @@ function educationScienceTheoryReader(subjectId,topicId,level){
   button.className='secondary-btn science-inline-theory-item';
   button.textContent=learningLabel('Lecția clasei · explicații, activitate, verificare','Grade lesson · explanation, activity, review');
   button.onclick=()=>educationOpenPagedLesson(learningLabel(chapter?.ro||'',chapter?.en||''),lesson||learningLabel('Lecție generală indisponibilă.','General lesson unavailable.'));
+  section.append(button);return section;
+ }
+ // A lower-secondary chapter has one complete year-specific lesson, not
+ // several identical buttons that all reopen the same chapter text. Crucially,
+ // an empty legacy sublesson registry must not hide an authored lesson.
+ if(scienceJourney.schoolStage==='lower'){
+  const chapter=scienceTopicInfo();
+  const chapterName=learningLabel(chapter?.ro||'',chapter?.en||'');
+  const lesson=SCIENCE_GRADE_LESSON_FRAME({
+   subject:subjectId,stage:'lower',grade:scienceJourney.grade,
+   topic:topicId,chapter:chapterName,language:state.language,
+   gradePosition:scienceJourney.gradePosition
+  });
+  const button=document.createElement('button');button.type='button';
+  button.className='secondary-btn science-inline-theory-item';
+  button.textContent=learningLabel('Lecția capitolului · explicații, exemplu, exercițiu și verificare','Chapter lesson · explanation, worked example, practice and feedback');
+  button.onclick=()=>educationOpenPagedLesson(chapterName,
+   lesson||learningLabel('Lecție indisponibilă pentru acest capitol.','Lesson unavailable for this chapter.'));
   section.append(button);return section;
  }
  if(!lessons.length){
