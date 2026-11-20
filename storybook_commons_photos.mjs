@@ -17,7 +17,10 @@ export function normaliseCommonsPhoto(page){
  if(!['image/jpeg','image/png','image/webp'].includes(info?.mime))return null;
  if(!Number.isFinite(Number(info.width))||Number(info.width)<500)return null;
  const licence=plain(meta.LicenseShortName?.value||meta.License?.value,90)||'Detalii pe Wikimedia Commons';
- if(/all rights reserved|fair use|non.free|copyrighted|no.deriv|CC BY-ND/i.test(licence))return null;
+ // Search is not a grant of redistribution rights. Preserve restrictive results
+ // for a source-linked preview, and mark them for a separate rights review.
+ const rightsReviewRequired=/all rights reserved|fair use|non.free|copyrighted|no.deriv|CC BY-ND/i.test(licence)||
+  licence==='Detalii pe Wikimedia Commons';
  const image=safeHttps(info.thumburl||info.url,'upload.wikimedia.org');
  const source=safeHttps(info.descriptionurl,'commons.wikimedia.org');
  if(!image||!source)return null;
@@ -29,7 +32,7 @@ export function normaliseCommonsPhoto(page){
   title:plain(name.replace(/^File:/i,'').replace(/\.[^.]*$/,''),150),
   url:image,source,author,license:licence,license_url:licenseUrl,
   attribution:plain(meta.Attribution?.value||'',200),provider:'Wikimedia Commons',
-  is_ai_generated:false
+  rights_review_required:rightsReviewRequired,is_ai_generated:false
  };
 }
 
@@ -44,18 +47,21 @@ export function normaliseOpenversePhoto(entry){
  if(!entry||entry.mature===true)return null;
  if(entry.category&&!['photograph','illustration','painting'].includes(entry.category))return null;
  const kind=str(entry.license,25).toLowerCase();
- if(!['cc0','pdm','by','by-sa'].includes(kind))return null;
+ // A search result may be previewed with source attribution even if reuse
+ // conditions are not yet cleared. Never claim this authorises copying.
  const image=safeExternalHttps(entry.thumbnail)||safeExternalHttps(entry.url);
  const source=safeExternalHttps(entry.foreign_landing_url)||safeExternalHttps(entry.detail_url);
  if(!image||!source)return null;
  const version=plain(entry.license_version,12);
- const licence=(kind==='pdm'?'Public domain':kind==='cc0'?'CC0':'CC '+kind.toUpperCase())+
+ const licence=(kind==='pdm'?'Public domain':kind==='cc0'?'CC0':kind?'CC '+kind.toUpperCase():'Drepturi de verificat')+
   (version&&kind!=='pdm'?' '+version:'');
+ const rightsReviewRequired=!['cc0','pdm','by','by-sa'].includes(kind);
  return {
   title:plain(entry.title||'Fotografie',150),url:image,source,
   author:plain(entry.creator||'Autor indicat la sursă',150),license:licence,
   license_url:safeExternalHttps(entry.license_url)||source,
-  provider:'Openverse',attribution:plain(entry.attribution||'',200),is_ai_generated:false
+  provider:'Openverse',attribution:plain(entry.attribution||'',200),
+  rights_review_required:rightsReviewRequired,is_ai_generated:false
  };
 }
 
@@ -87,12 +93,40 @@ export async function searchStorybookCommonsPhotos(query,{limit=5,fetchImpl=fetc
   let resultSearch=await getCommons(input),effectiveQuery=input;
   const firstError=resultSearch.error||null;
   if(firstError)resultSearch={photos:[]};
-  let articleImages=[];
+  let articleImages=[],exactArticleMatched=false;
+  // The encyclopaedia media lookup must match the *subject*, not a namesake.
+  const foldTitle=value=>String(value||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+    .toLowerCase().replace(/[_\s]+/g,' ').trim();
+  const lang=['ro','en','fr','de','es','it','pt','nl','pl','hu'].includes(language)?language:'ro';
+  if(resultSearch.photos.length<max&&(documentary||lang!=='en')){
+   try{
+    const params=new URLSearchParams({action:'query',titles:input,redirects:'1',
+      prop:'images|langlinks',lllang:'en',lllimit:'1',imlimit:'35',
+      format:'json',formatversion:'2'});
+    const wiki=await fetchImpl('https://'+lang+'.wikipedia.org/w/api.php?'+params,{
+      method:'GET',headers:{'Accept':'application/json',
+       'User-Agent':'myPocketAI/1.0 (subject-matched illustration lookup)'},signal:controller.signal});
+    if(wiki.ok){
+     const data=await wiki.json();
+     const pages=Array.isArray(data?.query?.pages)?data.query.pages:[];
+     const exact=pages.find(page=>!page?.missing&&foldTitle(page.title)===foldTitle(input));
+     if(exact){
+      exactArticleMatched=true;
+      articleImages=(exact.images||[]).map(image=>image?.title)
+       .filter(title=>typeof title==='string'&&/^File:/i.test(title)).slice(0,24);
+      const translated=String(exact.langlinks?.[0]?.title||'').trim();
+      if(translated&&translated.length<110&&foldTitle(translated)!==foldTitle(input)){
+       const english=await getCommons(translated);
+       if(english.photos.length){resultSearch.photos.push(...english.photos);effectiveQuery=translated;}
+      }
+     }
+    }
+   }catch{/* The existing Commons search and Openverse fallback remain available. */}
+  }
   // Language links from Wikipedia are editorial data, not AI translations.
   // When the original search has too few photos, use a genuinely returned English article title;
   // never guess or hardcode topics. This is a bounded fallback, not repeated web searching.
-  if(resultSearch.photos.length<max&&language!=='en'){
-   const lang=['ro','fr','de','es','it','pt','nl','pl','hu'].includes(language)?language:'ro';
+  if(resultSearch.photos.length<max&&lang!=='en'&&!exactArticleMatched){
    const pageParams=new URLSearchParams({
     action:'query',generator:'search',gsrsearch:input,gsrnamespace:'0',gsrlimit:'3',
     prop:'langlinks|images',lllang:'en',lllimit:'1',imlimit:'20',format:'json',formatversion:'2'
@@ -105,7 +139,10 @@ export async function searchStorybookCommonsPhotos(query,{limit=5,fetchImpl=fetc
     });
     if(wiki.ok){
      const data=await wiki.json();
-     const pages=Array.isArray(data?.query?.pages)?data.query.pages:[];
+     const candidates=Array.isArray(data?.query?.pages)?data.query.pages:[];
+     const pages=candidates.filter(page=>foldTitle(page.title)===foldTitle(input)||
+      (foldTitle(input).split(' ').length>1&&foldTitle(input).split(' ').filter(Boolean)
+       .every(term=>foldTitle(page.title).split(' ').includes(term))));
      articleImages=pages.flatMap(page=>Array.isArray(page?.images)?page.images:[])
       .map(entry=>entry?.title).filter(title=>typeof title==='string'&&/^File:/i.test(title)).slice(0,18);
      const translated=pages.map(page=>page?.langlinks?.[0]?.title||'')
@@ -167,7 +204,7 @@ export async function searchStorybookCommonsPhotos(query,{limit=5,fetchImpl=fetc
   }
   const dedup=new Set();
   const distinct=resultSearch.photos.filter(p=>{if(dedup.has(p.url))return false;dedup.add(p.url);return true;}).slice(0,max);
-  const result={status:distinct.length?'success':firstError||'no_reusable_photos',photos:distinct,query:effectiveQuery,
+  const result={status:distinct.length?'success':firstError||'no_images_found',photos:distinct,query:effectiveQuery,
    source:'Wikimedia Commons / Openverse',credit_required:true};
   if(memo.size>100)memo.clear();
   memo.set(key,{exp:Date.now()+20*60*1000,value:result});
