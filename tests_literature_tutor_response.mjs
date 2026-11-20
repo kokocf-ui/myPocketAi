@@ -14,8 +14,8 @@ async function tutoring(message,mode,reply){
  }),{AI:{run:async(m,p)=>{model=m;input=p;return {response:reply}}}});
  return {res,data:await res.json(),model,input};
 }
-const lessonText=Array.from({length:7},(_,i)=>'Secțiunea '+(i+1)+': Morfologie și sintaxă\\n\\n'+
- 'Morfologia studiază forma, clasificarea și modificarea cuvintelor în context. Substantivul poate apărea la singular sau plural, iar formele sale exprimă relații importante în propoziție. De exemplu, în expresia «Copiii citesc», substantivul «copiii» este subiectul, iar verbul «citesc» se acordă cu subiectul la număr și persoană. Sintaxa arată cum se leagă aceste elemente, care este rolul fiecărui cuvânt și cum poate fi modificată ordinea lor fără a pierde claritatea. O analiză completă trebuie să explice nu numai termenii, ci și motivul clasificării.').join('\\n\\n');
+const lessonText=Array.from({length:7},(_,i)=>'Secțiunea '+(i+1)+': Morfologie și sintaxă\n\n'+
+ 'Morfologia studiază forma, clasificarea și modificarea cuvintelor în context. Substantivul poate apărea la singular sau plural, iar formele sale exprimă relații importante în propoziție. De exemplu, în expresia «Copiii citesc», substantivul «copiii» este subiectul, iar verbul «citesc» se acordă cu subiectul la număr și persoană. Sintaxa arată cum se leagă aceste elemente, care este rolul fiecărui cuvânt și cum poate fi modificată ordinea lor fără a pierde claritatea. O analiză completă trebuie să explice nu numai termenii, ci și motivul clasificării.').join('\n\n');
 const grammar=await tutoring('Explică morfologie și sintaxă pentru clasa a VIII-a, România','lesson',lessonText);
 assert.equal(grammar.res.status,200,'Grammar must not route to any GPS fallback');
 assert.equal(grammar.data.status,'success');
