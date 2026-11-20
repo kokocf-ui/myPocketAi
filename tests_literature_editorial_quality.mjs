@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import backend from './backend.js';
-import {literatureOutputIssue,literatureRequestedWords,literatureWordCount} from './literature_output_quality.mjs';
+import {literatureOutputIssue,literatureRequestedWords,literatureWordCount,literatureRepetitiveProse} from './literature_output_quality.mjs';
 
 const essayRequest='Redactează un eseu argumentativ de aproximativ 500 de cuvinte despre rolul memoriei în construirea identității personale. Formulează o teză clară, două argumente, o obiecție și o concluzie.';
 const paragraphs=[
@@ -18,6 +18,10 @@ assert.ok(literatureWordCount(essay)>350);
 assert.equal(literatureOutputIssue(essay,'write',essayRequest),null,'Complete argumentative essay is accepted');
 assert.equal(literatureOutputIssue('Lecție: Rolul memoriei\n\nÎn cadrul acestei lecții, elevii vor explora memoria.\n\n1. Ce este memoria?','write',essayRequest),'essay_returned_as_lesson');
 assert.equal(literatureOutputIssue('Memoria ne definește.','essay',essayRequest),'essay_too_short');
+const circular=['Memoria ne ajută să înțelegem trecutul și să ne conectăm la trecutul nostru. Înțelegem propriile nevoi și dorințe prin intermediul memoriei.','Memoria ne ajută să înțelegem trecutul și să ne conectăm la trecutul nostru. Înțelegem propriile nevoi și dorințe prin intermediul memoriei.','Memoria ne ajută să înțelegem trecutul și să ne conectăm la trecutul nostru. Înțelegem propriile nevoi și dorințe prin intermediul memoriei.','Memoria ne ajută să înțelegem trecutul și să ne conectăm la trecutul nostru. Înțelegem propriile nevoi și dorințe prin intermediul memoriei.'].join('\n\n').repeat(3);
+assert.equal(literatureRepetitiveProse(circular),true,'Repeated five-word sequences must be visible in quality audit');
+assert.equal(literatureOutputIssue(circular,'write',essayRequest),'essay_repetitive_phrases');
+assert.equal(literatureRepetitiveProse(essay),false,'Developed essay fixture should not be rejected for normal topic repetition');
 assert.equal(literatureOutputIssue(lesson,'lesson','Class/year: 10. Teorie despre rolul memoriei.'),null,'Substantial upper-secondary theory');
 assert.equal(literatureOutputIssue('Definiție. Teoria se aplică literaturii.','lesson','Class/year: 10.'),'lesson_too_short');
 
