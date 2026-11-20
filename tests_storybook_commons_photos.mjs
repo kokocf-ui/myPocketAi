@@ -140,6 +140,31 @@ const wrongArticle=await searchStorybookCommonsPhotos('Decebal',{
 assert.equal(wrongArticle.status,'no_images_found');
 assert.deepEqual(wrongArticle.photos,[]);
 
+
+// Source relevance, not licence restrictions: discard an unrelated namesake
+// even if its Commons file has a perfectly valid licence.
+const unrelatedPerson={...sample,title:'File:Decebal Neagu 1966.jpg',imageinfo:[{
+ ...sample.imageinfo[0],
+ thumburl:'https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Decebal_Neagu_1966.jpg/960px-Decebal_Neagu_1966.jpg',
+ descriptionurl:'https://commons.wikimedia.org/wiki/File:Decebal_Neagu_1966.jpg'
+}]};
+const relevantMap={...sample,title:'File:Dacia under Decebalus Remastered.png',imageinfo:[{
+ ...sample.imageinfo[0],mime:'image/png',
+ thumburl:'https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Dacia_under_Decebalus_Remastered.png/960px-Dacia_under_Decebalus_Remastered.png',
+ descriptionurl:'https://commons.wikimedia.org/wiki/File:Dacia_under_Decebalus_Remastered.png'
+}]};
+const mixedRealistic=async url=>{
+ const host=new URL(url).hostname;
+ if(host==='commons.wikimedia.org')return new Response(JSON.stringify({query:{pages:[unrelatedPerson,relevantMap]}}),{status:200});
+ return new Response(JSON.stringify(host==='api.openverse.org'?{results:[]}:{query:{pages:[]}}),{status:200});
+};
+const contextual=await searchStorybookCommonsPhotos('Decebal',{limit:3,
+ language:'ro',documentary:true,context:'Regele dacilor Decebal, ultimul rege al Daciei, războaiele cu Imperiul Roman',
+ fetchImpl:mixedRealistic});
+assert.equal(contextual.status,'success');
+assert.equal(contextual.photos.length,1);
+assert.match(contextual.photos[0].title,/Dacia under Decebalus/);
+
 const orig=globalThis.fetch;
 try{
  globalThis.fetch=mock;
