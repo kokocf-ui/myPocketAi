@@ -12,7 +12,7 @@ export function literatureRequestedWords(request){
 export function literatureOutputInstruction(activity,request=''){
  const mode=String(activity||'').toLowerCase();
  const target=literatureRequestedWords(request);
- const essay=mode==='essay'||(mode==='write'&&/\\beseu\\b|\\bargumentativ\\b|\\bessay\\b/iu.test(request));
+ const essay=mode==='essay'||(mode==='write'&&/\beseu\b|\bargumentativ\b|\bessay\b/iu.test(request));
  if(essay)return [
   'The task is a FINISHED ESSAY, never a lesson, outline or worksheet.',
   'Write naturally in the requested language; when Romanian is requested, use fluent standard Romanian with diacritics and verify all grammatical agreement (case, gender, number), syntax, spelling and punctuation before finalising.',
