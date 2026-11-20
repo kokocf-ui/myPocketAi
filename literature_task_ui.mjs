@@ -252,13 +252,15 @@ async function litSimpleGenerate(out,status,mode,request,source='',onReady=null)
  '. Class/year: '+litJourney.grade+'. Profile: '+litJourney.track+'. Region: '+(litJourney.region||'unspecified')+
  '. Curriculum: '+(plan.verified?'general framework identified; order is pedagogical':'advisory plan; do not claim an officially verified national syllabus')+
  '. Activity: '+mode+'. '+admissionPolicy+' Explain the lesson fully and directly, without offering a form. '+
- 'For lessons give substantial definitions and explanations, rules and grade-appropriate examples. Use short clear headings, never type dashes/equals as decorative rules. List alternatives a., b., c. and exercises 1., 2., 3., each on its own line. '+
+ 'For lessons explain every important subtopic in depth, with definitions, distinctions, developed examples, interpretation, common mistakes and a reasoned conclusion; never return a short outline or just objectives. Use clear headings, no decorative rules. List alternatives a., b., c. and exercises 1., 2., 3., each on its own line. '+
  'For exercises and tests produce at least five clear numbered tasks without exposing their solutions until the learner answers. '+
  'For literary study cover the author, context, themes, structure and evidence-based interpretation. '+
- 'For an essay or summary provide a complete coherent text, not a template. Never invent quotations or an author attribution. '+
+ 'For an essay write the FINISHED sustained prose, not a plan, skeleton, generic headings or disconnected summaries. Follow the requested essay type and approximate word target; each argument must be interpreted and connected to the work. For a summary be faithful to known source evidence. Never invent quotations or author attributions. '+
  'Task: '+request+'. '+source;
+ const lessonTimeoutMs=['essay','study','write'].includes(mode)?90000:
+  ['summary','analysis'].includes(mode)?60000:30000;
  try{
-  // Bound the online wait: no lesson may remain on "preparing" indefinitely.
+  // Long-form GPT-OSS requests outlast the former 11-second cutoff.
   const response=await Promise.race([fetch(CLIENT_CONFIG.apiUrl,{method:'POST',
    headers:{'Content-Type':'application/json'},
    body:JSON.stringify({message:prompt.slice(0,3900),module:'education_study',
@@ -269,7 +271,7 @@ async function litSimpleGenerate(out,status,mode,request,source='',onReady=null)
     if(typeof setTimeout!=='function')return;
     timeoutId=setTimeout(()=>{
      didTimeout=true;controller.abort();reject(Error('education_timeout'));
-    },11000);
+    },lessonTimeoutMs);
    })
   ]);
   const data=await response.json();
@@ -405,6 +407,22 @@ function litSimpleLiterature(panel){
  const results=litSimpleNode('div','','lit-activity-results');
  const title=litSimpleNode('h3','','lit-activity-heading');
  const acts=litSimpleNode('div','','lit-activity-bar');
+ const essaySettings=litSimpleNode('div','','lit-essay-settings');
+ essaySettings.style.cssText='display:flex;flex-wrap:wrap;gap:8px;align-items:center;width:100%';
+ const essayKind=litSimpleNode('select','','lit-input');
+ essayKind.setAttribute('aria-label',litSimpleLabel('Tipul eseului','Essay type'));
+ for(const [value,ro,en] of [['argumentativ','Argumentativ','Argumentative'],['interpretativ','Interpretativ','Interpretive'],['critic','Critic','Critical']]){
+  const option=litSimpleNode('option',litSimpleLabel(ro,en));option.value=value;essayKind.append(option);
+ }
+ essayKind.value='argumentativ';
+ const essayPages=litSimpleNode('select','','lit-input');
+ essayPages.setAttribute('aria-label',litSimpleLabel('Lungime aproximativă A4','Approximate A4 length'));
+ for(let pages=1;pages<=5;pages++){
+  const option=litSimpleNode('option',pages+' '+litSimpleLabel(pages===1?'pagină A4':'pagini A4',pages===1?'A4 page':'A4 pages'));
+  option.value=String(pages);essayPages.append(option);
+ }
+ essayPages.value='3';
+ essaySettings.append(litSimpleNode('span',litSimpleLabel('Eseu:','Essay:')),essayKind,essayPages);
  const textArea=litSimpleNode('textarea','','lit-input');textArea.rows=4;textArea.placeholder=litSimpleLabel('Fragment propriu pentru analiză (opțional)','Your own passage for analysis (optional)');
  const passage=litSimpleNode('details','','lit-activity-review');passage.append(litSimpleNode('summary',litSimpleLabel('Adaugă un fragment pentru analiză','Add a passage to analyse')),textArea);
  const out=litSimpleNode('article','','lit-result lit-activity-output');
@@ -412,15 +430,22 @@ function litSimpleLiterature(panel){
  let chosen=null,searchNumber=0;
  const select=(name,author,url,work=null)=>{
   chosen={name,author,url,work};title.textContent=name+' — '+author;results.replaceChildren();acts.replaceChildren();
+  acts.append(essaySettings);
   const types=[['Studiază','Study','study'],['Rezumat','Summary','summary'],['Eseu','Essay','essay'],['Analiză pe text','Text analysis','analysis']];
   for(const [ro,en,mode] of types)acts.append(litSimpleButton(litSimpleLabel(ro,en),()=>{
-   const checked=litVerifiedLuceafarulMaterial(chosen,mode,textArea.value);
+   // The verified short reference notes are not a finished multi-page essay.
+   const checked=mode==='essay'?null:litVerifiedLuceafarulMaterial(chosen,mode,textArea.value);
    if(checked){
     feedback.textContent=litSimpleLabel('Fișă verificată, din ediția de referință.','Verified notes from the reference edition.');
     litShowMaterialReader(chosen.name+' — '+chosen.author,checked);
     return;
    }
-   out.replaceChildren();litSimpleGenerate(out,feedback,mode,'Opera: '+chosen.name+'. Autor: '+chosen.author+'.',
+   const pages=Number(essayPages.value)||3;
+   const requestedEssay=mode==='essay'?
+    ' Scrie un eseu '+essayKind.value+' complet, aproximativ '+(pages*250)+
+    ' cuvinte ('+pages+' pagini A4 orientative), cu introducere naturală, analiză susținută prin argumente distincte și concluzie. Nu oferi schelet de eseu, instrucțiuni de redactare sau afirmații fără dovezi.': '';
+   out.replaceChildren();litSimpleGenerate(out,feedback,mode,
+    'Opera: '+chosen.name+'. Autor: '+chosen.author+'.'+requestedEssay,
    'Sursă bibliografică (metadate, nu text integral): '+chosen.url+'. '+
    (textArea.value.trim()?'Fragment introdus de utilizator: '+textArea.value.trim().slice(0,28000):'Text integral indisponibil; nu inventa citate sau lectura unei ediții.'),
    result=>litShowMaterialReader(chosen.name+' — '+chosen.author,result));

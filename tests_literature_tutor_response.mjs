@@ -32,6 +32,12 @@ assert.match(dictionary.input.messages[0].content,/dictionary definition/);
 const quiz=await tutoring('Creează un test de gramatică, clasa a VIII-a','test','1. Identifică subiectul.\n2. Identifică predicatul.\n3. Stabilește cazul.\n4. Alege forma corectă.\n5. Analizează fraza.');
 assert.equal(quiz.data.education_activity,'test');
 assert.match(quiz.input.messages[0].content,/five numbered assessment questions/);
+const essayBackend=await tutoring('Scrie un eseu interpretativ de aproximativ 1250 de cuvinte despre Luceafărul, fără citate inventate.','essay',
+ 'Introducere. Text literar complet, cu analiză, argumente şi concluzie.');
+assert.equal(essayBackend.res.status,200);
+assert.equal(essayBackend.input.max_tokens,4200,'Multi-page essays need the full output budget');
+assert.match(essayBackend.input.messages[0].content,/entire requested essay/);
+assert.equal(grammar.input.max_tokens,2800,'Ordinary lessons retain their normal budget');
 const bad=await tutoring('Morfologie și sintaxă','lesson',
  'Nu am coordonate GPS utilizabile. Permite accesul la locație.');
 assert.equal(bad.res.status,503,'A GPS result must be rejected, never marked as a complete lesson');
@@ -154,4 +160,30 @@ assert.equal(all(blockedPanel).find(x=>x.tagName==='DETAILS')?.hidden,true,
  'Answer form must remain hidden until modal actually opens');
 brokenHost.append=originalAppend;
 
+// Integrated UI regression: selecting a verified work and pressing Essay must
+// reach the AI with the chosen length, rather than opening a short static sheet.
+literature.branch='literature';literature.topic='authors';
+cfg.LIT_VERIFIED_AUTHORS=[{country:'RO',name:'Mihai Eminescu',works:[{
+ title:'Luceafărul',sourceUrl:'https://example.org/edition',sections:Array.from({length:7},(_,i)=>({
+ title:'Partea '+(i+1),text:'Versuri verificate în ediție.',rightsVerified:true,license:'Public domain'}))
+}]}];
+let essayWaitMs=null;
+cfg.setTimeout=(fn,ms)=>{essayWaitMs=ms;return setTimeout(fn,ms)};
+cfg.clearTimeout=clearTimeout;
+nextResponse={status:'success',education_subject:'language_literature',
+ reply:'Un eseu nou, cu argumente dezvoltate și concluzie. Acest text provine din model, nu din fișa statică.'};
+const litPanel=new El('div');ui.workspace(litPanel);
+press(litPanel,'Luceafărul — Mihai Eminescu');
+const selectors=all(litPanel).filter(x=>x.tagName==='SELECT');
+assert.equal(selectors.length,2,'Essay has type and approximate A4-page controls');
+selectors[0].value='interpretativ';selectors[1].value='5';
+press(litPanel,'Eseu');await flush();
+const essayPayload=requests.at(-1);
+assert.equal(essayPayload.education_activity,'essay');
+assert.match(essayPayload.message,/eseu interpretativ complet/);
+assert.match(essayPayload.message,/1250 cuvinte/);
+assert.match(essayPayload.message,/5 pagini A4/);
+assert.equal(essayWaitMs,90000,'Long-form response must not abort at eleven seconds');
+assertReader('Un eseu nou');
+assert.doesNotMatch(readerText(),/ESEU — IUBIREA, IDEALUL/,'No static short essay');
 console.log('PASS: grammar, dictionary, test, correction, no premature answer box, no GPS contamination');

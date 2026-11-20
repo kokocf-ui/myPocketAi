@@ -2592,7 +2592,7 @@ export default {
         write:'Produce the requested writing task using a coherent structure, suitable for the grade and national context.',
         study:'Teach the selected literary work with its author, verifiable context, themes, structure, characters when relevant, and techniques. No fabricated quotations.',
         summary:'Produce a faithful, understandable summary of the selected literary work; distinguish information that cannot be verified.',
-        essay:'Write a structured essay on the selected work, with relevant interpretation and a grounded conclusion; do not invent textual quotes.',
+        essay:'Write the entire requested essay in fluent connected paragraphs, with substantive critical interpretation, distinct developed arguments and a grounded conclusion. Respect the user\'s requested length as closely as possible; never replace the actual essay with a template or outline. Do not invent textual quotes.',
         correction:'Assess the learner answers against the exact questions supplied, identify each correct/incorrect response and explain the corrections constructively.'
       };
       const system='You are a patient and knowledgeable language and literature teacher. Respond in language code '+locale+
@@ -2604,7 +2604,7 @@ export default {
         'For the correction activity only, refer to the question text and student answer in the request. '+
         'Never confuse dictionary entries with destinations. If the user has not supplied a needed text passage, do not pretend to have read it.';
       try{
-        const response=await evaTask({module:'education_study',subject:'language_literature',activity,message},{messages:[{role:'system',content:system+'\n'+educationDepthInstruction('language_literature',activity)},{role:'user',content:message}],temperature:0.2,max_tokens:2800});
+        const response=await evaTask({module:'education_study',subject:'language_literature',activity,message},{messages:[{role:'system',content:system+'\n'+educationDepthInstruction('language_literature',activity)},{role:'user',content:message}],temperature:0.2,max_tokens:activity==='essay'?4200:2800});
         let reply=String(response?.response||response?.result?.response||'').trim();
         // Safely correct the two exact malformed Romanian lesson-title tokens observed in production.
         if(locale==='ro')reply=reply.replace(/\bLehul(?:a)?\b/giu,'Lecția');
