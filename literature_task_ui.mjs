@@ -2,8 +2,9 @@ import {splitLiteraturePages,paginateLiteratureByFit} from './literature_reader_
 import {parseStudyBlocks,renderStudyBlocks,STUDY_TYPOGRAPHY_CSS} from './literature_study_typography.mjs';
 import {literatureOfflineActivity,LIT_PRIMARY_COMMUNICATION} from './literature_offline_activity.mjs';
 import {LIT_RO_GRADE_LESSONS,litRomanianGradeMaterial} from './literature_ro_grade_progression.mjs';
+import {RO_SECONDARY_GRAMMAR,roGrammarTopicsForYear} from './literature_ro_grammar_path.mjs';
 import {litEssaySpec,litEssayWords,litEssayQuality} from './literature_essay_contract.mjs';
-export const LITERATURE_TASK_UI_SCRIPT=splitLiteraturePages.toString()+'\n'+paginateLiteratureByFit.toString()+'\n'+parseStudyBlocks.toString()+'\n'+renderStudyBlocks.toString()+'\nconst COMMUNICATION_G1='+JSON.stringify(LIT_PRIMARY_COMMUNICATION)+';\n'+literatureOfflineActivity.toString()+'\nconst LIT_RO_GRADE_LESSONS='+JSON.stringify(LIT_RO_GRADE_LESSONS)+';\n'+litRomanianGradeMaterial.toString()+'\n'+litEssaySpec.toString()+'\n'+litEssayWords.toString()+'\n'+litEssayQuality.toString()+'\nconst LIT_STUDY_CSS='+JSON.stringify(STUDY_TYPOGRAPHY_CSS)+';\n'+String.raw`
+export const LITERATURE_TASK_UI_SCRIPT=splitLiteraturePages.toString()+'\n'+paginateLiteratureByFit.toString()+'\n'+parseStudyBlocks.toString()+'\n'+renderStudyBlocks.toString()+'\nconst COMMUNICATION_G1='+JSON.stringify(LIT_PRIMARY_COMMUNICATION)+';\n'+literatureOfflineActivity.toString()+'\nconst LIT_RO_GRADE_LESSONS='+JSON.stringify(LIT_RO_GRADE_LESSONS)+';\n'+litRomanianGradeMaterial.toString()+'\nconst RO_SECONDARY_GRAMMAR='+JSON.stringify(RO_SECONDARY_GRAMMAR)+';\n'+roGrammarTopicsForYear.toString()+'\n'+litEssaySpec.toString()+'\n'+litEssayWords.toString()+'\n'+litEssayQuality.toString()+'\nconst LIT_STUDY_CSS='+JSON.stringify(STUDY_TYPOGRAPHY_CSS)+';\n'+String.raw`
 
 
 // Bind the existing choice cards to actual Romanian grade chapters.
@@ -19,6 +20,7 @@ if(typeof litOpen==='function'&&typeof LIT_TOPICS==='object'&&
  const allBranches=typeof LIT_BRANCHES!=='undefined'&&Array.isArray(LIT_BRANCHES)
   ?LIT_BRANCHES.map(item=>({...item})):null;
  const nativeBack=typeof litBack==='function'?litBack:null;
+ let roProfileExplicit=false;
  const roGrade=()=>litJourney.country==='RO'?Number(litJourney.grade):NaN;
  const roYear=()=>Number.isInteger(roGrade())&&roGrade()>=1&&roGrade()<=12;
  function litTextbookBranches(){
@@ -29,13 +31,13 @@ if(typeof litOpen==='function'&&typeof LIT_TOPICS==='object'&&
   }
   const grade=roGrade(),young=grade<=4;
   const textbook=[
-   ['program','📘 Teorie','Lecțiile clasei '+grade,'Theory','Grade '+grade+' lessons'],
+   ['program','📘 Lecțiile clasei '+grade,'Limba și literatura română, potrivit clasei','Grade '+grade+' lessons','Romanian Language and Literature'],
    ['literature',young?'📖 Citire și povești':'📖 Studiu opere',
     young?'Caut o poveste sau o poezie':'Caut opera sau autorul','Study works','Find a book or author'],
    ['writing',young?'✏️ Compunere':'✍️ Eseu',
     young?'Scriu și povestesc':'Redactez un eseu despre opera aleasă','Essay / composition','Write about a work'],
    ['grammar','📚 Gramatică',
-    young?'Cuvinte și propoziții':'Teorie, fonetică, vocabular, analiză','Grammar','Rules and analysis']
+    young?'Lecții de limbă potrivite clasei':'Cuvinte, propoziții, fraze și exprimare','Grammar','Grammar topics']
   ];
   const entries=textbook.map(([id,ro,noteRo,en,noteEn])=>{
    const old=allBranches.find(item=>item.id===id);
@@ -46,12 +48,18 @@ if(typeof litOpen==='function'&&typeof LIT_TOPICS==='object'&&
  if(nativeBack)litBack=function(){
   // Essay writing goes straight to the existing full-length A4 engine,
   // without unrelated essay category menus.
+  if(roYear()&&roGrade()===9&&litJourney.stage==='tracks'&&roProfileExplicit){
+   roProfileExplicit=false;litOpen('branches');return;
+  }
+  if(roYear()&&roGrade()===9&&litJourney.stage==='branches'){originalOpen('grades');return}
   if(roYear()&&roGrade()>4&&litJourney.branch==='writing'&&litJourney.stage==='workspace'){
    litOpen('branches');return;
   }
   return nativeBack();
  };
  litOpen=function(stage){
+  if(stage==='tracks'&&roYear()&&roGrade()===9&&!roProfileExplicit)
+   return litOpen('branches');
   if(stage==='branches')litTextbookBranches();
   if(stage==='topics'){
    for(const [id,rows] of Object.entries(originalTopics))LIT_TOPICS[id]=rows.slice();
@@ -59,14 +67,8 @@ if(typeof litOpen==='function'&&typeof LIT_TOPICS==='object'&&
     const grade=roGrade(),young=grade<=4;
     if(litJourney.branch==='writing'&&!young)
      return originalOpen('workspace');
-    if(litJourney.branch==='grammar'){
-     LIT_TOPICS.grammar=[
-      ['ro-grammar-theory','Teorie','Grammar theory'],
-      ['ro-grammar-phonetics',grade<=2?'Sunete și litere':grade<=4?'Sunete și silabe':'Fonetică','Phonetics'],
-      ['ro-grammar-vocabulary',young?'Cuvinte și înțelesuri':'Vocabular','Vocabulary'],
-      ['ro-grammar-analysis',grade<=2?'Propoziții simple':grade<=4?'Analiză simplă':'Analiză','Language analysis']
-     ];
-    }
+    if(litJourney.branch==='grammar')
+     LIT_TOPICS.grammar=roGrammarTopicsForYear(grade,LIT_RO_GRADE_LESSONS);
     if(litJourney.branch==='writing'&&young)
      LIT_TOPICS.writing=[
       ['composition',grade<=2?'Scriu propoziții':'Scriu o compunere','Write a composition'],
@@ -74,7 +76,23 @@ if(typeof litOpen==='function'&&typeof LIT_TOPICS==='object'&&
      ];
    }
   }
-  return originalOpen(stage);
+  const shown=originalOpen(stage);
+  if(stage==='branches'&&roYear()&&roGrade()===9&&typeof $==='function'){
+   const host=$('moduleContent');
+   const panel=host?.querySelector?.('.lit-panel')||
+    (host?.children||[]).find?.(el=>String(el.className||'').includes('lit-panel'));
+   if(panel){
+    const name=litJourney.track==='FILO'?'Filologie':litJourney.track==='SOC'?'Științe sociale':'Trunchi comun';
+    const switcher=document.createElement('button');switcher.type='button';
+    switcher.className='lit-activity-button';
+    switcher.style.cssText='font-size:13px;margin-top:8px;min-height:34px;padding:7px 12px';
+    switcher.textContent='Profil (opțional): '+name+' ▾';
+    switcher.onclick=()=>{roProfileExplicit=true;originalOpen('tracks')};
+    panel.append(switcher);
+   }
+  }
+  if(stage==='branches')roProfileExplicit=false;
+  return shown;
  };
  litProgram=function(){
   const plan=originalProgram();
@@ -167,6 +185,24 @@ function litEssayPrint(mode,material,close){
  }
 }
 
+function litReaderPrintableText(raw){
+ const blocks=parseStudyBlocks(raw);
+ const clean=value=>String(value||'').replace(/\*\*/g,'').replace(/__/g,'').trim();
+ let output='',previous='';
+ for(const block of blocks){
+  if(block.type==='rule')continue;
+  if(block.type==='heading'){
+   output+=(output?'\n\n':'')+clean(block.text);
+  }else if(block.type==='item'){
+   output+=(output?(previous==='item'?'\n':'\n\n'):'')+
+    block.marker+' '+clean(block.text);
+  }else{
+   output+=(output?'\n\n':'')+clean(block.text);
+  }
+  previous=block.type;
+ }
+ return output.trim();
+}
 function litShowMaterialReader(title,text,options={}){
  const raw=String(text||'').trim();
  if(!raw)return false;
@@ -214,7 +250,7 @@ function litShowMaterialReader(title,text,options={}){
   const content=litSimpleNode('article',litReaderSafeText(raw),'lit-reader-scroll');
   content.style.cssText='flex:1 1 auto!important;overflow-y:auto!important;min-height:0!important;white-space:pre-wrap!important;padding:16px!important';
   const actions=litSimpleNode('div','','lit-reader-footer');
-  const material={title,text:raw,essayPages:Number(options.essayPages)||0};
+  const material={title,text:options.essayPages||options.essayDraft||options.poetry?raw:litReaderPrintableText(raw),essayPages:Number(options.essayPages)||0};
   const save=litSimpleButton(options.essayDraft?litSimpleLabel('💾 Salvează ciorna','💾 Save draft'):litSimpleLabel('💾 Salvează PDF','💾 Save PDF'),
    ()=>material.essayPages?litEssayPrint('save',material,close):eduOpenPrint('save',material,close));
   const print=litSimpleButton(options.essayDraft?litSimpleLabel('🖨 Imprimă ciorna','🖨 Print draft'):litSimpleLabel('🖨 Imprimă','🖨 Print'),
@@ -431,6 +467,8 @@ async function litSimpleGenerate(out,status,mode,request,source='',onReady=null,
   ' Address a middle-school pupil directly. Clearly distinguish this grade from earlier years, provide specific relevant explanations, examples, reading questions, and practice. No generic repeated introductory essay about morphology and syntax. ':
   Number.isInteger(roGrade)&&roGrade>=9&&roGrade<=12?
   ' Address a high-school pupil with mature interpretation and evidence-based argument. Respect the current 2026–2027 curricula: grade 9 follows the new programme, grades 10–12 continue their prior programme. Do not present the same course for every year, nor invent compulsory reading lists. ':'';
+ const grammarFocus=litJourney.branch==='grammar'&&litJourney.country==='RO'?
+  ' This is a Romanian GRAMMAR lesson, not literary history or a literature review. Never introduce an unrelated writer, novel, poem or play as the lesson topic. Use precise grade-appropriate examples from Romanian language. Explain the selected grammar topic, do not choose a literary work for the learner. ':'';
  const prompt=(isHungarianAdmission?'You are a Hungarian school admission tutor for language, mathematics and transfer. Write in ':'You are an experienced language and literature teacher. Write in ')+language+
  '. Country of education: '+(educationCountrySelection.label||litJourney.country)+
  '. Original curriculum language: '+curriculumLanguage+
@@ -438,7 +476,7 @@ async function litSimpleGenerate(out,status,mode,request,source='',onReady=null,
  '. Retain proper names, original literary titles, technical symbols and original-language examples as needed, with explanations in '+language+'.'+
  '. Class/year: '+litJourney.grade+'. Profile: '+litJourney.track+'. Region: '+(litJourney.region||'unspecified')+
  '. Curriculum: '+(plan.verified?'general framework identified; order is pedagogical':'advisory plan; do not claim an officially verified national syllabus')+
- '. Activity: '+mode+'. '+admissionPolicy+pupilPolicy+' Explain the lesson fully and directly, without offering a form. '+
+ '. Activity: '+mode+'. '+admissionPolicy+pupilPolicy+grammarFocus+' Explain the lesson fully and directly, without offering a form. '+
  'For lessons explain every important subtopic in depth, with definitions, distinctions, developed examples, interpretation, common mistakes and a reasoned conclusion; never return a short outline or just objectives. Use clear headings, no decorative rules. List alternatives a., b., c. and exercises 1., 2., 3., each on its own line. '+
  'For exercises and tests produce at least five clear numbered tasks without exposing their solutions until the learner answers. '+
  'For literary study cover the author, context, themes, structure and evidence-based interpretation. '+
@@ -620,7 +658,7 @@ function litSimpleWorkspace(panel){
   const school=branch==='admission'&&litJourney.targetSchool
     ?' Școală vizată: '+litJourney.targetSchool+'. Numele singur nu confirmă cerințele oficiale.'
     :'';
-  const focus=branch==='program'&&typeof topic[3]==='string'?
+  const focus=typeof topic[3]==='string'?
   ' Ce învăț și exersez la clasa '+litJourney.grade+': '+topic[3]+'. ':'';
  const task=title+'. '+focus+(branch==='admission'?topic[3]+school+' ':'')+
     (phrase?'Textul utilizatorului: '+phrase+'. ':'')+'Solicitare: '+mode+'.';

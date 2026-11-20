@@ -3,6 +3,7 @@ import vm from 'node:vm';
 import {LIT_RO_GRADE_LESSONS,litRomanianGradeMaterial} from './literature_ro_grade_progression.mjs';
 import {LIT_EU_PROGRAMS,litEuropeanPlan} from './literature_curriculum_europe.mjs';
 import {LITERATURE_TASK_UI_SCRIPT} from './literature_task_ui.mjs';
+import {roGrammarTopicsForYear} from './literature_ro_grammar_path.mjs';
 
 const ids=new Set(),heads=new Set();
 for(let grade=1;grade<=8;grade++){
@@ -69,18 +70,17 @@ const journey={country:'RO',grade:'1',branch:'grammar',topic:''};
 const ctx={litJourney:journey,LIT_TOPICS:{grammar:[['grammar','Morfologie și sintaxă','Morphology and syntax']]},
  litOpen:stage=>stage,litProgram:()=>({source:null,sourceTitle:'',units:[]})};
 vm.runInNewContext(LITERATURE_TASK_UI_SCRIPT,ctx,{filename:'literature_task_ui-browser'});
-// The four textbook categories replace seven identical expert sub-menus.
+// Actual grammar chapters are visible immediately; no generic Theory menu.
 for(const grade of ['1','4','8']){
- journey.grade=grade;
+ journey.grade=grade;journey.branch='grammar';
  ctx.litOpen('topics');
  const actual=Array.from(ctx.LIT_TOPICS.grammar,x=>x[1]);
- assert.equal(actual.length,4,'The grammar textbook has four clear tabs in grade '+grade);
- assert.equal(actual[0],'Teorie');
- assert.ok(actual.every(x=>!(/Morfologie și sintaxă/.test(x))),'Do not show a generic teacher chapter');
+ const expected=LIT_RO_GRADE_LESSONS[grade].map(x=>x.ro);
+ assert.deepEqual(actual,expected,'Pupil grammar choices must be real class '+grade+' lessons');
+ assert.ok(!actual.includes('Teorie'),'No duplicate generic Theory chapter');
 }
-assert.equal(ctx.LIT_TOPICS.grammar[1][1],'Fonetică','Middle-school grammar uses familiar book terms');
 const branchNames=['program','grammar','vocabulary','analysis','literature','writing','assessment'];
-const cards=branchNames.map(id=>({id,ro:id,en:id,desc:'Legacy categories'}));
+const cards=branchNames.map(id=>({id,ro:id,en:id,desc:'Old teacher menu'}));
 const navigationCtx={litJourney:journey,LIT_BRANCHES:cards,LIT_TOPICS:{grammar:[]},
  litOpen:stage=>stage,litProgram:()=>({source:null,units:[]})};
 vm.runInNewContext(LITERATURE_TASK_UI_SCRIPT,navigationCtx);
@@ -89,27 +89,28 @@ for(const grade of ['2','7','11']){
  navigationCtx.litOpen('branches');
  const menu=Array.from(navigationCtx.LIT_BRANCHES);
  assert.deepEqual(menu.map(x=>x.id),['program','literature','writing','grammar'],
-  'Exactly the same four familiar textbook headings at all Romanian school levels');
- assert.ok(menu.some(x=>x.ro.includes('Teorie')));
+  'Romanian manual has exactly four choices');
+ assert.ok(menu[0].ro.includes('Lecțiile clasei '+grade),'School-year course is named');
  assert.ok(menu.some(x=>x.ro.includes('Gramatică')));
- assert.ok(menu.some(x=>x.ro.includes(grade==='2'?'Compunere':'Eseu')),
-  'Primary should use Compunere; secondary school should use Eseu');
+ assert.ok(menu.some(x=>x.ro.includes(grade==='2'?'Compunere':'Eseu')));
  journey.branch='grammar';navigationCtx.litOpen('topics');
  const grammar=Array.from(navigationCtx.LIT_TOPICS.grammar);
- assert.equal(grammar.length,4);
- assert.equal(grammar[0][1],'Teorie');
- assert.equal(grammar[1][1],grade==='2'?'Sunete și litere':'Fonetică');
- assert.equal(grammar[2][1],grade==='2'?'Cuvinte și înțelesuri':'Vocabular');
- assert.equal(grammar[3][1],grade==='2'?'Propoziții simple':'Analiză');
+ assert.ok(grammar.length>=3);
+ assert.deepEqual(grammar.map(x=>x[1]),roGrammarTopicsForYear(grade,LIT_RO_GRADE_LESSONS).map(x=>x[1]));
+ assert.ok(!grammar.some(x=>x[1]==='Teorie'),'Grammar topic must name what is taught');
+ if(grade==='11')assert.ok(grammar.some(x=>x[1].includes('argumentării')));
  if(grade!=='2'){
   journey.branch='writing';
-  assert.equal(navigationCtx.litOpen('topics'),'workspace',
-   'The Essay menu goes directly to the real essay creator, not to a duplicate writing list');
+  assert.equal(navigationCtx.litOpen('topics'),'workspace','Essay opens the existing generator');
  }
 }
+journey.country='RO';journey.grade='9';journey.branch='program';
+assert.equal(navigationCtx.litOpen('tracks'),'branches','IX no longer forces profile picker');
+assert.deepEqual(Array.from(navigationCtx.LIT_BRANCHES,x=>x.id),
+ ['program','literature','writing','grammar']);
 journey.country='GB-ENG';journey.grade='Y3';journey.branch='grammar';
 navigationCtx.litOpen('branches');
-assert.equal(navigationCtx.LIT_BRANCHES.length,7,'Other countries must keep their own curriculum menus');
+assert.equal(navigationCtx.LIT_BRANCHES.length,7,'Other countries retain own choices');
 journey.country='RO';journey.grade='1';journey.branch='grammar';
 journey.country='GB-ENG';journey.grade='Y3';ctx.litOpen('topics');
 assert.equal(ctx.LIT_TOPICS.grammar[0][1],'Morfologie și sintaxă','Other countries unchanged');
