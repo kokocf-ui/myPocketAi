@@ -2082,23 +2082,35 @@ public final class MainActivity extends ComponentActivity {
             File output=new File(folder,requested);
             int suffix=2;
             while(output.exists()){output=new File(folder,basename+"_"+suffix+".pdf");suffix++;}
-            if(!saveEducationPdf(output,title,text,data.optBoolean("color",true),data.optJSONArray("figures")))throw new IOException("PDF write failed");
-            // An essay's selected A4 sheet count must be checked against the
-            // actual saved PdfDocument. A WebView reader page is not A4.
+            // Fit a finished essay to the selected REAL A4 sheet count, using
+            // a limited, legible type-size range. Verify each candidate using
+            // Android's PDF renderer; do not insert blank pages or truncate text.
             int requestedEssayPages=data.optInt("essayPages",0);
-            if(requestedEssayPages>=1&&requestedEssayPages<=5){
-                int actualPages=0;
+            boolean essayPdf=requestedEssayPages>=1&&requestedEssayPages<=5;
+            int actualPages=0;
+            float textScale=1f,lowerScale=0.88f,upperScale=1.20f;
+            boolean accepted=false;
+            for(int attempt=0;attempt<(essayPdf?7:1);attempt++){
+                if(!saveEducationPdf(output,title,text,data.optBoolean("color",true),
+                    data.optJSONArray("figures"),textScale))throw new IOException("PDF write failed");
+                if(!essayPdf){accepted=true;break;}
                 try(ParcelFileDescriptor descriptor=ParcelFileDescriptor.open(output,ParcelFileDescriptor.MODE_READ_ONLY);
                     PdfRenderer renderer=new PdfRenderer(descriptor)){
                     actualPages=renderer.getPageCount();
                 }
-                if(actualPages!=requestedEssayPages){
-                    output.delete(); // Never label a short document "five A4 pages".
-                    notifyEducationPdf("a4Mismatch:"+requestedEssayPages+":"+actualPages);
-                    return;
+                if(actualPages==requestedEssayPages){accepted=true;break;}
+                if(actualPages<requestedEssayPages){
+                    lowerScale=textScale;textScale=(textScale+upperScale)/2f;
+                }else{
+                    upperScale=textScale;textScale=(lowerScale+textScale)/2f;
                 }
-                notifyEducationPdf("saved:"+actualPages);
-            }else notifyEducationPdf("saved");
+            }
+            if(!accepted){
+                output.delete(); // No fake extra sheets or silent partial PDF.
+                notifyEducationPdf("a4Mismatch:"+requestedEssayPages+":"+actualPages);
+                return;
+            }
+            notifyEducationPdf(essayPdf?"saved:"+actualPages:"saved");
             if("print".equals(data.optString("mode","save")))printSavedEducationPdf(output,title);
         }catch(Exception ignored){notifyEducationPdf("error");}
     }
@@ -2326,19 +2338,19 @@ public final class MainActivity extends ComponentActivity {
 
     // Structured A4 PDF: explicit paragraphs, headings and page numbers.
     // Colour is optional; black-and-white output remains available.
-    private boolean saveEducationPdf(File destination,String title,String content,boolean useColor,JSONArray figures){
+    private boolean saveEducationPdf(File destination,String title,String content,boolean useColor,JSONArray figures,float textScale){
         PdfDocument document=new PdfDocument();
         try{
             final int width=595,height=842,margin=48,usable=width-2*margin;
             final int accent=useColor?Color.rgb(26,106,154):Color.BLACK;
             Paint body=new Paint(Paint.ANTI_ALIAS_FLAG);
-            body.setColor(Color.rgb(35,43,48));body.setTextSize(11.5f);
+            body.setColor(Color.rgb(35,43,48));body.setTextSize(11.5f*textScale);
             body.setTypeface(Typeface.create("sans-serif",Typeface.NORMAL));
             Paint heading=new Paint(Paint.ANTI_ALIAS_FLAG);
-            heading.setColor(accent);heading.setTextSize(15.5f);
+            heading.setColor(accent);heading.setTextSize(15.5f*textScale);
             heading.setTypeface(Typeface.create("sans-serif",Typeface.BOLD));
             Paint mainTitle=new Paint(Paint.ANTI_ALIAS_FLAG);
-            mainTitle.setColor(accent);mainTitle.setTextSize(19f);
+            mainTitle.setColor(accent);mainTitle.setTextSize(19f*textScale);
             mainTitle.setTypeface(Typeface.create("sans-serif",Typeface.BOLD));
             Paint footer=new Paint(Paint.ANTI_ALIAS_FLAG);
             footer.setColor(useColor?Color.rgb(92,115,126):Color.DKGRAY);
@@ -2360,7 +2372,7 @@ public final class MainActivity extends ComponentActivity {
                 boolean isHeading=!first&&(markedHeading||paragraph.matches("(?iu)^(?:#{1,4}\\s*)?(?:\\d{1,2}[.)]\\s+)?(?:introducere|concluzii?|rezumat|personaje(?: principale)?|prezentarea acțiunii|analiză|context(?: istoric)?|bibliografie|cuprins|definiții|teorie|metodologie|rezolvare|rezultate|interpretare|observații|exemple|capitolul?\\s+\\w+)(?:\\s*[:—–-].*)?$")||paragraph.matches("^#{1,4}\\s+.+")||paragraph.matches("^\\d{1,2}\\.\\s+[^.]{3,85}$"));
                 String lineText=paragraph.replaceFirst("^#{1,4}\\s+","");
                 Paint paint=isTitle?mainTitle:(isHeading?heading:body);
-                float lineHeight=isTitle?27f:(isHeading?22f:18f);
+                float lineHeight=(isTitle?27f:(isHeading?22f:18f))*textScale;
                 if(page==null||y+lineHeight+(isHeading?14:0)>height-margin-28){
                     if(page!=null){
                         canvas.drawLine(margin,height-53,width-margin,height-53,rule);
