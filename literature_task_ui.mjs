@@ -391,6 +391,26 @@ async function litSimpleGenerate(out,status,mode,request,source='',onReady=null,
   }
   // The reader overlay is the only visible document; never scroll to hidden text.
  };
+ // Grade-specific grammar theory must use the actual material for this year,
+ // rather than restart the same general morphology introduction everywhere.
+ if(litJourney.country==='RO'&&litJourney.branch==='grammar'&&
+    key==='ro-grammar-theory'&&answerLanguage==='ro'&&
+    ['lesson','examples','exercises','test'].includes(mode)){
+  const chapters=LIT_RO_GRADE_LESSONS[String(litJourney.grade)]||[];
+  if(chapters.length){
+   const body=chapters.map((chapter,index)=>{
+    const heading=(index+1)+'. '+chapter.ro;
+    if(mode==='lesson')return heading+'\n\n'+chapter.intro+'\n\nExemplu explicat\n'+chapter.example;
+    if(mode==='examples')return heading+'\n\n'+chapter.example;
+    return heading+'\n'+chapter.tasks.map((task,i)=>(i+1)+'. '+task).join('\n');
+   }).join('\n\n');
+   const result='GRAMATICĂ — clasa '+litJourney.grade+'\n\n'+body;
+   try{present(result,true)}finally{
+    if(serial===litSimpleSerial){litJourney.busy=false;litSimpleAbort=null}
+   }
+   return;
+  }
+ }
  // Grade I Romanian basics are authored and instantly available, independent of
  // online inference quotas. These examples are not asserted to be official tests.
  if(localMaterial&&(String(litJourney.grade)==='1'||gradeSpecific)&&mode!=='correction'){
@@ -560,7 +580,15 @@ function litSimpleWorkspace(panel){
  const branch=litJourney.branch,topic=litCurrentTopic();
  const country=educationCountrySelection.label||litJourney.country;
  panel.append(litSimpleNode('p',country+' · '+litJourney.grade,'lit-activity-note'));
- if(branch==='literature'){litSimpleLiterature(panel);return}
+ if(branch==='literature'){
+  litSimpleLiterature(panel,{primary:litJourney.country==='RO'&&Number(litJourney.grade)<=4});
+  return;
+ }
+ if(branch==='writing'&&litJourney.country==='RO'&&Number(litJourney.grade)>=5&&
+    Number(litJourney.grade)<=12){
+  litSimpleLiterature(panel,{essayOnly:true});
+  return;
+ }
  if(!topic){panel.append(litSimpleNode('p',litSimpleLabel('Selectează un capitol.','Choose a chapter.')));return}
  const title=litSimpleLabel(topic[1],topic[2]);
  litSimpleHeading(panel,title,litSimpleLabel('Alege o activitate. Materialul se deschide într-o fereastră separată.','Choose an activity. Study material opens in a separate reader.'));
@@ -573,9 +601,10 @@ function litSimpleWorkspace(panel){
   sourceLink.href=HUNGARY_ADMISSION_REFERENCES.foreignPupils;sourceLink.target='_blank';sourceLink.rel='noopener noreferrer';
   panel.append(sourceLink);
  }
- const needsInput=['analysis','writing'].includes(branch)||(branch==='vocabulary'&&litJourney.topic==='dictionary');
+ const grammarAnalysis=branch==='grammar'&&litJourney.topic==='ro-grammar-analysis';
+ const needsInput=['analysis','writing'].includes(branch)||grammarAnalysis||(branch==='vocabulary'&&litJourney.topic==='dictionary');
  const request=needsInput?litSimpleNode(branch==='vocabulary'?'input':'textarea','','lit-input lit-activity-input'):null;
- if(request){request.placeholder=branch==='analysis'?litSimpleLabel('Propoziția sau fragmentul de analizat','Sentence or passage to analyse'):
+ if(request){request.placeholder=branch==='analysis'||grammarAnalysis?litSimpleLabel('Cuvântul sau propoziția de analizat','Word or sentence to analyse'):
     branch==='vocabulary'?litSimpleLabel('Cuvântul sau expresia','Word or expression'):
     litSimpleLabel('Cerința de redactare','Writing task');request.setAttribute('aria-label',request.placeholder);if(request.tagName==='TEXTAREA')request.rows=3;panel.append(request)}
  const bar=litSimpleNode('div','','lit-activity-bar');
@@ -604,7 +633,7 @@ function litSimpleWorkspace(panel){
    return displayed;
   });
  };
- const buttons=branch==='analysis'?[['Analizează','Analyse','analysis'],['Explică metoda','Explain method','lesson']]:
+ const buttons=branch==='analysis'||grammarAnalysis?[['Analizează','Analyse','analysis'],['Explică metoda','Explain method','lesson']]:
   branch==='writing'?[['Compune','Compose','write'],['Explică','Explain','lesson']]:
   branch==='vocabulary'&&litJourney.topic==='dictionary'?[['Caută definiția','Define','define'],['Exemple','Examples','examples']]:
   [['Teorie','Theory','lesson'],['Exemple','Examples','examples'],['Exerciții','Exercises','exercises'],['Teste','Tests','test']];
