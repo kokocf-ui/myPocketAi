@@ -50,7 +50,11 @@ const essaySegment=n=>Array.from({length:4},(_,i)=>
  'Paragraful '+(n+1)+'-'+(i+1)+'. '+Array(6).fill(
  'Poemul urmărește raportul dintre idealul inaccesibil și alegerea umană, prin alternarea unor perspective narative și lirice.').join(' ')
  ).join('\n\n');
-const finishedEssay=Array.from({length:5},(_,i)=>essaySegment(i)).join('\n\n');
+const essayFragment=n=>Array.from({length:2},(_,i)=>
+ 'Fragmentul '+(n+1)+'-'+(i+1)+'. '+Array(6).fill(
+ 'Poemul urmărește raportul dintre idealul inaccesibil și alegerea umană, prin alternarea unor perspective narative și lirice.').join(' ')
+ ).join('\n\n');
+const finishedEssay=Array.from({length:10},(_,i)=>essayFragment(i)).join('\n\n');
 assert.equal(litEssaySpec(5).targetWords,2000);
 assert.ok(litEssayQuality(finishedEssay,5).ok,'A genuine long-form answer must pass the A4 length gate');
 assert.equal(litEssayQuality('Un eseu scurt.',5).reason,'essay_too_short');
@@ -73,6 +77,13 @@ assert.equal(singleSegment.calls.length,1,'One HTTP call should perform just one
 assert.equal(singleSegment.data.essay_segment,1);
 assert.equal(singleSegment.data.essay_pages,5);
 assert.equal(singleSegment.data.reply,essaySegment(0));
+const closingSegment=await tutoring('Încheie eseul despre Luceafărul','essay',
+ essayFragment(9),{education_essay_pages:5,education_essay_segment:10});
+assert.equal(closingSegment.res.status,200);
+assert.equal(closingSegment.calls.length,1);
+assert.equal(closingSegment.data.essay_segment,10);
+assert.equal(closingSegment.data.essay_pages,5);
+
 
 assert.equal(grammar.input.max_tokens,2800,'Ordinary lessons retain their normal budget');
 const bad=await tutoring('Morfologie și sintaxă','lesson',
@@ -114,7 +125,7 @@ const cfg={
   if(payload.education_essay_segment){
    return {ok:true,json:async()=>({status:'success',education_subject:'language_literature',
     essay_pages:payload.education_essay_pages,essay_segment:payload.education_essay_segment,
-    reply:essaySegment(payload.education_essay_segment-1)})};
+    reply:essayFragment(payload.education_essay_segment-1)})};
   }
   return {ok:true,json:async()=>nextResponse};
  }
@@ -236,9 +247,9 @@ assert.match(essayPayload.message,/2000 cuvinte/);
 assert.equal(essayPayload.education_essay_pages,5);
 assert.match(essayPayload.message,/5 pagini A4/);
 assert.equal(essayWaitMs,45000,'Each progressive essay section times out independently');
-assert.deepEqual(requests.slice(-5).map(x=>x.education_essay_segment),[1,2,3,4,5],
- 'Five pages are fetched as five independent short HTTP requests, with visible progress');
-assertReader('Paragraful 1-1');
+assert.deepEqual(requests.slice(-10).map(x=>x.education_essay_segment),Array.from({length:10},(_,i)=>i+1),
+ 'Five A4 pages use ten short HTTP fragments with progress after each section');
+assertReader('Fragmentul 1-1');
 assert.doesNotMatch(readerText(),/ESEU — IUBIREA, IDEALUL/,'No static short essay');
 // The PDF export must carry the 5-A4 request into Android, not the screen
 // pager's independent 5/7 reading pages.
@@ -261,9 +272,9 @@ cfg.fetch=async(url,options)=>{
  return originalSegmentFetch(url,options);
 };
 press(litPanel,'Eseu');await flush();
-assertReader('ESEU INCOMPLET — 2 din 5');
-assert.match(readerText(),/Paragraful 1-1/);
-assert.match(readerText(),/Paragraful 2-1/);
+assertReader('ESEU INCOMPLET — 2 din 10');
+assert.match(readerText(),/Fragmentul 1-1/);
+assert.match(readerText(),/Fragmentul 2-1/);
 assert.equal(requests.at(-1).education_essay_segment,2,
  'Requests for successful parts are retained; the rejected section is not falsely counted');
 const incompleteReader=readerOverlay();
