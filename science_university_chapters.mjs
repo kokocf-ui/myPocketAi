@@ -9,8 +9,16 @@ export function scienceUniversityChapter({
 }={}){
  const allowed=['physics','chemistry','biology','astronomy'];
  if(!allowed.includes(subject)||!topic||!Array.isArray(lessons))return null;
- const source=lessons.filter(x=>x&&x.subject===subject&&x.topic===topic&&x.level==='advanced'
+ const available=lessons.filter(x=>x&&x.subject===subject&&x.topic===topic
   &&typeof x.statement==='string'&&x.statement.trim());
+ const advanced=available.filter(x=>x.level==='advanced');
+ // Specialised chapters must have their own advanced notes. Shared core
+ // chapters may deliberately revisit earlier concepts in the context of
+ // university case studies; label those notes as prerequisites.
+ const isSpecial=topic.startsWith('special-')||Boolean(available.find(x=>x.level==='advanced'&&
+  (x.id||'').includes('-spec-')));
+ const source=isSpecial?advanced:
+  advanced.concat(available.filter(x=>x.level!=='advanced').slice(0,Math.max(0,3-advanced.length)));
  if(!source.length)return null;
  const track=SCIENCE_UNIVERSITY_TRACK_GUIDES[subject]?.[specialty]||null;
  const ro=language==='ro';
@@ -34,7 +42,7 @@ export function scienceUniversityChapter({
  root.push('# '+(ro?'Subcapitole și concepte verificabile':'Chapter-specific concepts'));
  for(const [i,entry] of source.entries()){
   root.push(
-   '## '+(i+1)+'. '+(ro?entry.title:'Source concept '+(i+1)),
+   '## '+(i+1)+'. '+(ro?entry.title:'Source concept '+(i+1))+(entry.level!=='advanced'?(ro?' · recapitulare fundament':' · prerequisite review'):''),
    (ro?'Definiție și explicație: ':'Romanian primary-source study statement (English translation not verified): ')+entry.statement,
    entry.formula&&entry.formula!=='—'?(ro?'Relație și notație: ':'Formula or notation: ')+entry.formula:'',
    ro?
