@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import {EDUCATION_EUROPE_COUNTRIES,EDUCATION_CORE_SUBJECTS,EDUCATION_SCHOOL_STAGES,
  educationCountrySchoolYears,educationSubjectSchoolPlan,educationAllSubjectsForClass,
- educationCoverageTotals} from './education_all_country_subject_matrix.mjs';
+ educationCoverageTotals,educationCompletionGate} from './education_all_country_subject_matrix.mjs';
 
 assert.equal(EDUCATION_EUROPE_COUNTRIES.length,50,'Use every jurisdiction from the real Education picker');
 assert.equal(new Set(EDUCATION_EUROPE_COUNTRIES).size,50);
@@ -67,6 +67,11 @@ assert.equal(educationSubjectSchoolPlan({country:'GB-ENG',stage:'beginner',grade
  subject:'physics'}).status,'general-learning',
  'Even in England, local generic science topics are not a certified KS2 textbook');
 assert.ok(stats.generalLearning>stats.frameworkVerified,'Do not call the whole module finished');
+const gate=educationCompletionGate();
+assert.equal(gate.ready,false,'Never release a generic outline as a completed 50-country school curriculum');
+assert.ok(gate.blockers.some(x=>x.includes('general-learning')));
+assert.ok(gate.blockers.some(x=>x.includes('Unmapped')));
+
 console.log('PASS 50 jurisdictions × 11 academic domains × four stages, '
  +stats.combinations+' class-subject combinations; '
  +stats.frameworkVerified+' verified-framework, '
