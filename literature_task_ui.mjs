@@ -14,86 +14,64 @@ if(typeof litOpen==='function'&&typeof LIT_TOPICS==='object'&&
  const originalProgram=litProgram;
  const originalGrammar=LIT_TOPICS.grammar.slice();
  const originalTopics=Object.fromEntries(Object.entries(LIT_TOPICS).map(([id,rows])=>[id,rows.slice()]));
- // The old same seven expert-level categories were shown to every pupil.
- // Keep the original entries for other countries; simplify only Romanian UI.
+ // Romanian Literature follows the pupil's textbook, not AI capability categories.
+ // The underlying service and other countries' routes remain unchanged.
  const allBranches=typeof LIT_BRANCHES!=='undefined'&&Array.isArray(LIT_BRANCHES)
-  ?LIT_BRANCHES.map(b=>({...b})):null;
- function litStudentBranches(){
+  ?LIT_BRANCHES.map(item=>({...item})):null;
+ const nativeBack=typeof litBack==='function'?litBack:null;
+ const roGrade=()=>litJourney.country==='RO'?Number(litJourney.grade):NaN;
+ const roYear=()=>Number.isInteger(roGrade())&&roGrade()>=1&&roGrade()<=12;
+ function litTextbookBranches(){
   if(!allBranches)return;
-  const grade=Number(litJourney.grade);
-  if(litJourney.country!=='RO'||!Number.isInteger(grade)||grade<1||grade>12){
-   LIT_BRANCHES.splice(0,LIT_BRANCHES.length,...allBranches.map(b=>({...b})));return;
+  if(!roYear()){
+   LIT_BRANCHES.splice(0,LIT_BRANCHES.length,...allBranches.map(item=>({...item})));
+   return;
   }
-  const primary=grade<=4,lower=grade<=8;
-  const allowed=primary?['program','grammar','vocabulary','writing','assessment']:
-   lower?['program','grammar','literature','writing','assessment']:
-   ['program','literature','grammar','writing','analysis','assessment'];
-  const titles=primary?{
-   program:['Lecțiile clasei '+grade,'Lecții potrivite clasei, în ordine clară'],
-   grammar:['Cuvinte și propoziții','Învăț regulile din exemple'],
-   vocabulary:['Cuvinte noi','Descopăr sensuri și expresii'],
-   writing:['Scriu și povestesc','Compun texte scurte, pas cu pas'],
-   assessment:['Mă antrenez','Exerciții pe înțelesul meu']
-  }:lower?{
-   program:['Lecțiile clasei '+grade,'Citesc, înțeleg și exersez'],
-   grammar:['Gramatică pentru clasa '+grade,'Reguli și exerciții potrivite clasei'],
-   literature:['Caută o carte sau un autor','Opere și lecturi alese'],
-   writing:['Scriere și compunere','Povestiri, rezumate și argumente'],
-   assessment:['Recapitulare și exerciții','Verific ce am înțeles']
-  }:{
-   program:['Lecțiile clasei '+grade,'Conținut adaptat nivelului și profilului'],
-   literature:['Caută o operă literară','Lecturi, autori și interpretări'],
-   grammar:['Limbă și exprimare','Comunicare și folosirea limbii'],
-   writing:['Eseuri și redactare','Construiesc argumente și texte'],
-   analysis:['Analizez un fragment','Explic sensul și mijloacele expresive'],
-   assessment:['Recapitulez și exersez','Pregătire potrivită clasei']
-  };
-  const entries=allowed.map(id=>{
-   const original=allBranches.find(b=>b.id===id);
-   if(!original)return null;
-   const [label,description]=titles[id]||[original.ro||id,''];
-   return {...original,
-    ro:({'program':'📑','grammar':'📚','vocabulary':'🔤','analysis':'🔎','literature':'📖','writing':'✍️','assessment':'🎓'}[id]||'📘')+' '+label,
-    en:({'program':'Grade '+grade+' lessons','grammar':primary?'Words and sentences':'Grammar for this grade',
-     'vocabulary':'New words','analysis':'Analyse a passage','literature':'Find a book or author',
-     'writing':primary?'I write and tell stories':'Writing and essays',
-     'assessment':primary?'I practise':'Review and practice'}[id]||label),
-    noteRo:description,noteEn:description,
-    description:description,descriptionRo:description,descriptionEn:description,
-    desc:description,descRo:description,descEn:description,
-    subtitle:description,subtitleRo:description,subtitleEn:description};
+  const grade=roGrade(),young=grade<=4;
+  const textbook=[
+   ['program','📘 Teorie','Lecțiile clasei '+grade,'Theory','Grade '+grade+' lessons'],
+   ['literature',young?'📖 Citire și povești':'📖 Studiu opere',
+    young?'Caut o poveste sau o poezie':'Caut opera sau autorul','Study works','Find a book or author'],
+   ['writing',young?'✏️ Compunere':'✍️ Eseu',
+    young?'Scriu și povestesc':'Redactez un eseu despre opera aleasă','Essay / composition','Write about a work'],
+   ['grammar','📚 Gramatică',
+    young?'Cuvinte și propoziții':'Teorie, fonetică, vocabular, analiză','Grammar','Rules and analysis']
+  ];
+  const entries=textbook.map(([id,ro,noteRo,en,noteEn])=>{
+   const old=allBranches.find(item=>item.id===id);
+   return old?{...old,ro,en,noteRo,noteEn}:null;
   }).filter(Boolean);
-  if(entries.length)LIT_BRANCHES.splice(0,LIT_BRANCHES.length,...entries);
+  LIT_BRANCHES.splice(0,LIT_BRANCHES.length,...entries);
  }
+ if(nativeBack)litBack=function(){
+  // Essay writing goes straight to the existing full-length A4 engine,
+  // without unrelated essay category menus.
+  if(roYear()&&roGrade()>4&&litJourney.branch==='writing'&&litJourney.stage==='workspace'){
+   litOpen('branches');return;
+  }
+  return nativeBack();
+ };
  litOpen=function(stage){
-  if(stage==='branches')litStudentBranches();
+  if(stage==='branches')litTextbookBranches();
   if(stage==='topics'){
-   // A child should not see an academic-writing menu or a PhD research paper.
    for(const [id,rows] of Object.entries(originalTopics))LIT_TOPICS[id]=rows.slice();
-   const grade=Number(litJourney.grade);
-   if(litJourney.country==='RO'&&Number.isInteger(grade)){
-    const units=LIT_RO_GRADE_LESSONS[String(grade)];
-    if(units)LIT_TOPICS.grammar=units.map(x=>[x.id,x.ro,x.en]);
-    if(grade<=4){
-     LIT_TOPICS.vocabulary=[
-      ['dictionary','Ce înseamnă acest cuvânt?','What does this word mean?'],
-      ['vocabulary','Cuvinte cu înțeles apropiat sau opus','Words with similar or opposite meanings']
+   if(roYear()){
+    const grade=roGrade(),young=grade<=4;
+    if(litJourney.branch==='writing'&&!young)
+     return originalOpen('workspace');
+    if(litJourney.branch==='grammar'){
+     LIT_TOPICS.grammar=[
+      ['ro-grammar-theory','Teorie','Grammar theory'],
+      ['ro-grammar-phonetics',grade<=2?'Sunete și litere':grade<=4?'Sunete și silabe':'Fonetică','Phonetics'],
+      ['ro-grammar-vocabulary',young?'Cuvinte și înțelesuri':'Vocabular','Vocabulary'],
+      ['ro-grammar-analysis',grade<=2?'Propoziții simple':grade<=4?'Analiză simplă':'Analiză','Language analysis']
      ];
-     LIT_TOPICS.writing=[
-      ['composition',grade<=2?'Scriu câteva propoziții':'Scriu o povestire scurtă','Write a short story'],
-      ['summary',grade<=2?'Povestesc pe scurt':'Povestesc ce am citit','Tell a story in my own words']
-     ];
-     LIT_TOPICS.assessment=[
-      ['genres','Citesc și înțeleg','Read and understand'],
-      ['vocabulary','Cuvinte și sensuri','Words and meanings'],
-      ['grammar','Propoziții corecte','Correct sentences']
-     ];
-    }else if(grade<=8){
-     LIT_TOPICS.writing=(originalTopics.writing||[]).filter(x=>
-      ['composition','summary','commentary','essay'].includes(x[0]));
-    }else if(grade<=12){
-     LIT_TOPICS.writing=(originalTopics.writing||[]).filter(x=>x[0]!=='research');
     }
+    if(litJourney.branch==='writing'&&young)
+     LIT_TOPICS.writing=[
+      ['composition',grade<=2?'Scriu propoziții':'Scriu o compunere','Write a composition'],
+      ['summary',grade<=2?'Povestesc pe scurt':'Povestesc o întâmplare','Retell a story']
+     ];
    }
   }
   return originalOpen(stage);
