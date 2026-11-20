@@ -9,11 +9,13 @@ new vm.Script(EXTRA_TOOLS_SIX_NAV_SCRIPT);
 new vm.Script(EXTRA_TOOLS_WORKSPACE_SCRIPT);
 new vm.Script(STORYBOOK_MOTION_SCRIPT);
 const groups=new Function(EXTRA_TOOLS_SIX_NAV_SCRIPT+';return EXTRA_TOOLS_V2_GROUPS;')();
-assert.equal(groups.length,5);
-assert.deepEqual(groups.map(x=>x.id),['docs','translate','creator','analysis','ideas']);
+assert.equal(groups.length,3);
+assert.deepEqual(groups.map(x=>x.id),['docs','creator','ideas']);
 assert.deepEqual(groups.find(x=>x.id==='docs').items.map(x=>x[0]),['documents','ocr','my-documents']);
 assert.ok(!groups.some(x=>x.items.some(item=>item[0]==='storybook')),
  'Failed mini-book must not appear in any user-visible Tools group');
+assert.ok(!groups.some(x=>['studio','translate','analysis'].includes(x.id)),
+ 'Removed categories must not be present in the visible menu');
 assert.ok(!groups.some(x=>['audio','web','ocr','my-documents'].includes(x.id)));
 for(const group of groups){
  assert.ok(group.items.length);
@@ -50,4 +52,4 @@ assert.ok(embedded.includes('extraToolsV2Main'));
 assert.ok(embedded.includes('extraToolsV2OpenGroup'));
 assert.ok(embedded.includes('extraToolsV2Storybook'));
 assert.ok(embedded.includes('extraStorybookMotionAttach'));
-console.log('PASS five Tools categories, failed storybook hidden, remaining tools preserved');
+console.log('PASS three Tools categories, removed entries hidden, remaining tools preserved');
