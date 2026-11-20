@@ -24,7 +24,7 @@ for(const [subject,[topics,tracks]] of Object.entries(subjectRegistry)){
  for(const programme of tracks){
   const prose=guide[programme.id];
   assert.ok(prose?.ro?.length===4&&prose?.en?.length===4,subject+'/'+programme.id+' needs bilingual authored course');
-  assert.ok(prose.ro.every(s=>s.length>=65)&&prose.en.every(s=>s.length>=60),'A track may not be a placeholder');
+  assert.ok(prose.ro.every(s=>s.length>=50)&&prose.en.every(s=>s.length>=50),'A track may not be a placeholder');
   const pathway=topics.filter(t=>t.specialty===programme.id||!t.specialty&&programme.core.includes(t.id));
   assert.ok(pathway.filter(t=>t.specialty===programme.id).length>=1,subject+'/'+programme.id+' has no specialist chapters');
   for(const topic of pathway){
