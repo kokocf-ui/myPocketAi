@@ -57,7 +57,8 @@ r=await post(writing,{POCKET_EVA_CREATIVE_QUALITY_ENABLED:'1',AI:{run:async(mode
  calls.push({model,options});
  return {response:'Eseul urmărește contrastul dintre perspectiva narativă și simboluri. Introducerea fixează teza, argumentele sunt sprijinite prin interpretare, iar concluzia clarifică miza expresivă.'};
 }}});
-assert.equal(r.status,200,JSON.stringify(r.data).slice(0,260));
+assert.equal(r.status,503,'A 30-word mock essay must not pass an A4 length contract');
+assert.equal(r.data.error,'essay_too_short');
 assert.equal(calls[0].model,EVA_AI_MODELS.deep);
 assert.match(calls[0].options.messages[0].content,/defensible thesis/);
 calls=[];
