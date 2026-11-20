@@ -7,6 +7,7 @@ import {BIOLOGY_TOPICS,BIOLOGY_SPECIALIZATIONS,BIOLOGY_SPECIALTY_TOPICS} from '.
 import {THEORY_ENTRIES} from './education_theory.mjs';
 import {PHYSICS_TOPICS,PHYSICS_SPECIALIZATIONS} from './physics_curriculum.mjs';
 import {ASTRONOMY_TOPICS,ASTRONOMY_SPECIALIZATIONS} from './astronomy_curriculum.mjs';
+import {scienceGradeTopicPlan} from './science_grade_progression.mjs';
 
 const html=await(await frontend.fetch(new Request('https://science-navigation-test.test/'))).text();
 const script=html.match(/<script>([\s\S]*?)<\/script>/)?.[1];
@@ -60,6 +61,7 @@ const sandbox={
  ASTRONOMY_TOPIC_DATA:ASTRONOMY_TOPICS,ASTRONOMY_SPECIALTY_DATA:ASTRONOMY_SPECIALIZATIONS,
  BIOLOGY_TOPIC_DATA:[...BIOLOGY_TOPICS,...BIOLOGY_SPECIALTY_TOPICS],BIOLOGY_SPECIALTY_DATA:BIOLOGY_SPECIALIZATIONS,
  EDUCATION_THEORY_DATA:THEORY_ENTRIES,
+ SCIENCE_GRADE_TOPIC_PLAN:scienceGradeTopicPlan,
  LEARNING_SUBJECTS:[['science','⚛️','Științe','Sciences']],
  learningLabel:(ro,en)=>ro,
  eduAttachPrintAction:()=>{},
@@ -90,7 +92,7 @@ assert.deepEqual([...api.subjects.map(s=>s.ro)],['Fizică','Chimie','Biologie','
 rows()[1].onclick();
 assert.equal(api.state.subject,'chemistry');
 assert.equal(api.state.stage,'years','subject selection directly opens its school-year choices');
-assert.equal(yearBands().length,3,'grouped lower secondary, upper secondary, university');
+assert.equal(yearBands().length,4,'grouped primary, lower secondary, upper secondary, university');
 assert.equal(yearTiles('beginner').length,2);
 yearTiles('intermediate')[0].onclick();
 assert.equal(api.state.level,'intermediate');
@@ -119,7 +121,7 @@ for(const [index,id] of [[0,'physics'],[2,'biology'],[3,'astronomy']]){
  assert.equal(api.state.subject,id);
  yearTiles('beginner')[0].onclick();
  assert.equal(api.state.stage,'topics');
- assert.ok(rows().length>=4,'real chapter choices for '+id);
+ assert.ok(rows().length>=2,'real grade-specific chapter choices for '+id);
  rows()[0].onclick();
  assert.equal(api.state.stage,'chemistry-menu','all Sciences use a three-choice chapter menu');
  assert.equal(rows().length,3,'each Science chapter exposes three activities');
