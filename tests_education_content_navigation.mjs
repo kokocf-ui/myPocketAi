@@ -170,7 +170,7 @@ for(const token of [
  "function educationTextFromLesson(node){",
  "educationOpenPagedLesson(hgL(topic.ro,topic.en)",
  "educationOpenPagedLesson(heading,body)",
- "educationOpenPagedLesson(item.title,material)",
+ "educationOpenPagedLesson(state.language==='ro'?item.title:chapterName+' · '+(index+1),material)",
  "educationOpenPagedLesson(assignment||workInfo||learningLabel(topic[1],topic[2]),material)",
  "output.style.display='none';aiInline.append(deepen,output)",
  "out.className='lit-result';out.style.display='none'"
