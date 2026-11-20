@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import vm from 'node:vm';
 import frontend from './index.js';
 import {THEORY_ENTRIES,searchTheory,theorySubjects} from './education_theory.mjs';
-import {scienceGradeTopicPlan} from './science_grade_progression.mjs';
+import {scienceGradeTopicPlan,SCIENCE_PRIMARY_LESSON_BANK} from './science_grade_progression.mjs';
 import {CHEMISTRY_TOPICS,CHEMISTRY_LEVELS} from './chemistry_curriculum.mjs';
 import {CHEMISTRY_SPECIALIZATIONS,CHEMISTRY_SPECIALTY_TOPICS} from './chemistry_advanced.mjs';
 import {
@@ -92,6 +92,7 @@ const api=vm.runInNewContext('let activeLearningSubject=null;'+script.slice(star
  BIOLOGY_SPECIALTY_DATA:BIOLOGY_SPECIALIZATIONS,
  CHEMISTRY_LEVEL_DATA:CHEMISTRY_LEVELS,EDUCATION_THEORY_DATA:THEORY_ENTRIES,
  SCIENCE_GRADE_TOPIC_PLAN:scienceGradeTopicPlan,
+ SCIENCE_PRIMARY_LESSON_BANK,
  LEARNING_SUBJECTS:[['science','⚛️','Științe','Sciences']],
  learningLabel:(ro,en)=>ro,$:id=>els[id]||null,
  eduAttachPrintAction:()=>{},
