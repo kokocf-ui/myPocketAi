@@ -185,6 +185,24 @@ function litEssayPrint(mode,material,close){
  }
 }
 
+function litReaderPrintableText(raw){
+ const blocks=parseStudyBlocks(raw);
+ const clean=value=>String(value||'').replace(/\*\*/g,'').replace(/__/g,'').trim();
+ let output='',previous='';
+ for(const block of blocks){
+  if(block.type==='rule')continue;
+  if(block.type==='heading'){
+   output+=(output?'\n\n':'')+clean(block.text);
+  }else if(block.type==='item'){
+   output+=(output?(previous==='item'?'\n':'\n\n'):'')+
+    block.marker+' '+clean(block.text);
+  }else{
+   output+=(output?'\n\n':'')+clean(block.text);
+  }
+  previous=block.type;
+ }
+ return output.trim();
+}
 function litShowMaterialReader(title,text,options={}){
  const raw=String(text||'').trim();
  if(!raw)return false;
@@ -232,7 +250,7 @@ function litShowMaterialReader(title,text,options={}){
   const content=litSimpleNode('article',litReaderSafeText(raw),'lit-reader-scroll');
   content.style.cssText='flex:1 1 auto!important;overflow-y:auto!important;min-height:0!important;white-space:pre-wrap!important;padding:16px!important';
   const actions=litSimpleNode('div','','lit-reader-footer');
-  const material={title,text:raw,essayPages:Number(options.essayPages)||0};
+  const material={title,text:options.essayPages||options.essayDraft||options.poetry?raw:litReaderPrintableText(raw),essayPages:Number(options.essayPages)||0};
   const save=litSimpleButton(options.essayDraft?litSimpleLabel('💾 Salvează ciorna','💾 Save draft'):litSimpleLabel('💾 Salvează PDF','💾 Save PDF'),
    ()=>material.essayPages?litEssayPrint('save',material,close):eduOpenPrint('save',material,close));
   const print=litSimpleButton(options.essayDraft?litSimpleLabel('🖨 Imprimă ciorna','🖨 Print draft'):litSimpleLabel('🖨 Imprimă','🖨 Print'),
