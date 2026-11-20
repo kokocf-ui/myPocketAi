@@ -91,18 +91,48 @@ export const SCIENCE_PRIMARY_LESSON_BANK=Object.freeze({
   distances:['Distanțe în spațiu','În spațiu, distanțele sunt uriașe; lumina are o viteză finită. Modelele cu bile sunt utile, dar rar păstrează scara.','Explică de ce nu putem așeza planetele la distanțe reale într-o cameră.']
  }
 });
+export const SCIENCE_PRIMARY_ENGLISH=Object.freeze({
+ physics:{
+  units:['Measuring and comparing','Objects can differ in length, mass and temperature. Use a consistent unit and tool for reliable comparisons.','Measure the length of a book three times. Explain any differences.'],
+  energy:['Changes and energy','Light, motion and heat involve energy transfers. Energy is not a visible material.','Observe a toy moving down a ramp. What changes when the ramp is raised?'],
+  heat:['Temperature and heat','Temperature describes how hot or cold something is. Heat transfers from warmer objects to cooler ones.','Compare water temperatures with a thermometer under adult supervision.'],
+  kinematics:['Describing motion','We can describe motion by position, direction and elapsed time. Similar journeys can take different amounts of time.','Measure the time taken to move slowly and quickly along the same short path.'],
+  fluids:['Liquids and containers','Liquids flow and take the shape of their container, while retaining approximately the same volume when poured carefully.','Pour the same amount of water into containers of different shapes. What changes?']
+ },
+ chemistry:{
+  fundamentals:['Materials and their properties','Water, paper, wood and metals have different properties. Some changes are reversible while others form new substances.','Group safe objects by appearance, flexibility and behaviour in water; never taste chemicals.'],
+  solutions:['Everyday mixtures','Some materials dissolve in water while others remain visible. Dissolving does not mean matter disappears.','Compare a little salt dissolved in water with sand mixed in water. Do not drink the mixtures.'],
+  reactions:['Observable changes','Chemical reactions can form substances with new properties. A change in shape is not necessarily a chemical reaction.','Compare ice melting with food baking by observation only; explain the differences.']
+ },
+ biology:{
+  plants:['What plants need','Plants need water, light and minerals. Roots, stems and leaves have different roles.','Observe a plant for a few days and record where new leaves appear.'],
+  ecology:['Organisms and habitats','Living things need food, water and appropriate habitats. Ecosystems include living and nonliving parts.','Observe a green space and note plants, insects and water sources.'],
+  anatomy:['Our body and health','Organs and body systems work together. The heart moves blood and lungs exchange gases.','Count breaths before and after a gentle walk, without straining yourself.'],
+  cells:['What living things are made of','Plants and animals are made of cells. Many cells are too small to see without a microscope.','Compare a leaf and a hair. Which details need magnification?'],
+  evolution:['Diversity and adaptation','Living things vary and have traits that help them survive in particular environments.','Compare the beaks of two pictured birds and suggest what they might eat.']
+ },
+ astronomy:{
+  sky:['Changes in the sky','The Sun appears to move across the sky mainly because Earth rotates. Stars may be visible at night.','Draw the position of a shadow at two different times. Never look directly at the Sun.'],
+  solar:['Earth and its neighbours','Earth is a planet orbiting the Sun. The Moon is Earth’s natural satellite.','Make a simple model with balls, clearly stating that distances and sizes are not to scale.'],
+  observations:['Looking and recording','A useful observation includes date, time, location and sky conditions. Labelled drawings preserve details.','Keep a journal of the Moon’s shape over several clear evenings.'],
+  distances:['Distances in space','Space distances are enormous and light takes time to travel. Models are helpful but rarely use a true scale.','Explain why real interplanetary distances cannot be reproduced inside a room.']
+ }
+});
 export function scienceGradeLessonFrame({subject,stage,grade,topic,chapter,language='ro'}={}){
  if(stage==='primary'){
   const lesson=SCIENCE_PRIMARY_LESSON_BANK[subject]?.[topic];
   if(!lesson)return null;
-  if(language!=='ro')return [
+  if(language!=='ro'){
+  const english=SCIENCE_PRIMARY_ENGLISH[subject]?.[topic]||lesson;
+  return [
    'GENERAL SCIENCE · Advisory study route · Grade '+grade,
-   'Lesson: '+(chapter||lesson[0]),
-   'Explore: '+lesson[1],
-   'Observation: '+lesson[2],
+   'Lesson: '+english[0],
+   'Explore: '+english[1],
+   'Observation: '+english[2],
    'Review: Describe what you observed, how you compared the evidence, and what remains uncertain.',
    'This is an original introductory lesson, not an official national textbook.'
   ].join('\n\n');
+ }
   return [
    'ȘTIINȚE · Program general · Clasa/anul '+grade,
    'Lecție: '+lesson[0],
