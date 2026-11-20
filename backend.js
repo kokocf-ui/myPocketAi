@@ -1310,7 +1310,7 @@ export default {
     // Controlled rollout: defaults OFF. Production behavior remains unchanged.
     const evaSmartRouterEnabled=String(env.POCKET_EVA_SMART_ROUTER_ENABLED||'')==='1';
     const evaPlan=task=>planEvaAI(task,{enabled:evaSmartRouterEnabled,legacyModel:selectedAiModel});
-    const creativeQualityEnabled=String(env.POCKET_EVA_CREATIVE_QUALITY_ENABLED||'1')!=='0';
+    const creativeQualityEnabled=String(env.POCKET_EVA_CREATIVE_QUALITY_ENABLED||'')==='1';
     const evaTask=async(task,opts)=>{
       const prepared=creativeQualityEnabled?enhanceEvaCreativeOptions(task,opts):
         {intent:{requested:false},options:opts};
