@@ -65,6 +65,7 @@ import {searchStorybookCommonsPhotos} from "./storybook_commons_photos.mjs";
 import {contextualResearchQuery,isConversationOnlyTurn} from "./conversation_context.mjs";
 import {planAnswerFocus} from "./answer_focus.mjs";
 import {educationDepthInstruction,educationDepthAudit} from "./education_lesson_depth.mjs";
+import {literatureOutputInstruction,literatureOutputIssue} from "./literature_output_quality.mjs";
 import {classifyProgrammingRequest,programmingAssistantInstruction} from "./programming_assistance.mjs";
 import {isTransitJourneyRequest,correctedResearchTopic} from "./transit_intent.mjs";
 import {classifyDialogueIntent,blocksImplicitPlaceLookup,isStableCapitalQuestion} from "./dialogue_intent.mjs";
@@ -2597,18 +2598,40 @@ export default {
       };
       const system='You are a patient and knowledgeable language and literature teacher. Respond in language code '+locale+
         '. This is strictly an educational task, not a travel, navigation, location, weather, business or map request. '+
-        instructions[activity]+(activity==='essay'||activity==='write'?
+        instructions[activity]+' '+literatureOutputInstruction(activity,message)+(activity==='essay'||activity==='write'?
         ' Produce the finished requested essay or writing as coherent flowing prose, with specific arguments and natural transitions. Do not present the requested finished work as a lesson, worksheet, outline or bullet-point plan. Avoid generic labels such as Teză/Argumentul I unless the user explicitly requests that structure. ':'')+
         ' Use the supplied country, school year and subject area to adapt depth without inventing an official curriculum. '+
         'Keep useful correctly spelled headings and paragraphs. In Romanian write „Lecție”, „Introducere”, „Definiții”, not erroneous invented headings such as „Lehul” or „Lehula”. Avoid literal Markdown markers (** or ##) because content is saved as a formatted PDF. Be precise and complete, avoid unverified author attributions, made-up quotations and filler. '+
         'For the correction activity only, refer to the question text and student answer in the request. '+
         'Never confuse dictionary entries with destinations. If the user has not supplied a needed text passage, do not pretend to have read it.';
       try{
-        const response=await evaTask({module:'education_study',subject:'language_literature',activity,message},{messages:[{role:'system',content:system+'\n'+educationDepthInstruction('language_literature',activity)},{role:'user',content:message}],temperature:0.2,max_tokens:2800});
+        const task={module:'education_study',subject:'language_literature',activity,message};
+        const makeOptions=(extra='')=>({messages:[
+          {role:'system',content:system+'\n'+educationDepthInstruction('language_literature',activity)+extra},
+          {role:'user',content:message}
+        ],temperature:0.2,max_tokens:['lesson','study','essay','write'].includes(activity)?3500:2800});
+        const response=await evaTask(task,makeOptions());
         let reply=String(response?.response||response?.result?.response||'').trim();
-        // Safely correct the two exact malformed Romanian lesson-title tokens observed in production.
         if(locale==='ro')reply=reply.replace(/\bLehul(?:a)?\b/giu,'Lecția');
         if(!reply)return json({status:'unavailable',error:'education_text_empty',education_subject:'language_literature'},503);
+        let quality=literatureOutputIssue(reply,activity,message);
+        // One bounded internal regeneration, not an endless user-visible retry loop.
+        // Use the already selected AI route; no new image service or external API.
+        if(quality){
+          try{
+            const repaired=await evaTask(task,makeOptions(
+              '\nThe previous attempt failed editorial checks ('+quality+'). Write a NEW, fully developed finished response. Do not summarize the request or retain the failed outline. Strictly follow the requested activity and substantial length.'));
+            const candidate=String(repaired?.response||repaired?.result?.response||'').trim();
+            if(candidate&&!literatureOutputIssue(candidate,activity,message)){
+              reply=candidate;quality=null;
+            }
+          }catch(repairError){
+            if(isWorkersAiQuotaExceeded(repairError))
+              return json({status:'unavailable',error:'ai_quota_exceeded',education_subject:'language_literature'},503);
+          }
+        }
+        if(quality)return json({status:'unavailable',error:'education_quality_invalid',
+          education_subject:'language_literature',education_activity:activity,quality},502);
         // Fail closed if a provider ignores the education route.
         if(/(?:nu am coordonate GPS|permite accesul la locație|departure address\/postcode|do not have usable GPS coordinates)/i.test(reply))
           return json({status:'unavailable',error:'education_wrong_intent',education_subject:'language_literature'},503);
