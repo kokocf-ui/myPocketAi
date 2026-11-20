@@ -74,7 +74,7 @@ const entries={
    ['Plant parts and photosynthesis','Roots take up water and minerals, stems support and transport, and leaves help photosynthesis. Plants do not “eat soil”.','Example: plants produce organic matter using light, water and carbon dioxide.','How do roots help a plant grow?','They absorb water and minerals and anchor it.']
   ],
   ecology:[
-   ['Habitat și relații trofice','Un habitat oferă condițiile în care un organism trăiește; un ecosistem cuprinde și mediul neviiu. Lanțurile trofice descriu relații simplificate de hrană.','Exemplu: iarbă → iepure → vulpe este un model alimentar, nu o descriere completă a unei păduri.','Ce schimbare poate provoca dispariția unei specii dintr-un lanț?','Pot apărea modificări la populațiile care depind direct sau indirect de ea.'],
+   ['Habitat și relații trofice','Un habitat oferă condițiile în care un organism trăiește; un ecosistem cuprinde și mediul neviețuitor. Lanțurile trofice descriu relații simplificate de hrană.','Exemplu: iarbă → iepure → vulpe este un model alimentar, nu o descriere completă a unei păduri.','Ce schimbare poate provoca dispariția unei specii dintr-un lanț?','Pot apărea modificări la populațiile care depind direct sau indirect de ea.'],
    ['Habitats and food webs','A habitat provides living conditions; an ecosystem includes living things and nonliving surroundings. Food chains simplify feeding relationships.','Example: grass → rabbit → fox is a simplified model, not a complete woodland ecosystem.','What can happen if one species disappears from a food chain?','Populations depending on it directly or indirectly may change.']
   ],
   cells:[
