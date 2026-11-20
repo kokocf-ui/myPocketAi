@@ -5,7 +5,7 @@ export function parseStudyBlocks(raw){
  const blocks=[];let paragraph=[];
  const flush=()=>{if(paragraph.length){blocks.push({type:'paragraph',text:paragraph.join('\n').trim()});paragraph=[]}};
  const rules=/^\s*(?:[-_–—]{4,}|={4,})\s*$/;
- const labels=/^(?:introducere|defini(?:ții|tii)|subiecte principale|teorie|exemple?|exerci(?:ții|tii)|recapitulare|concluzii?|rezumat|lectura|context|bibliografie|introduction|definitions?|examples?|exercises?|summary|conclusions?|practice|wprowadzenie|einleitung|beispiele|zusammenfassung|giriş|tanımlar|örnekler)\s*:?$/iu;
+ const labels=/^(?:introducere|defini(?:ții|tii)|subiecte principale|subiecte importante|noțiuni esențiale|notiuni esentiale|teorie|exemple?|exerci(?:ții|tii)|recapitulare|concluzii?|rezumat|lectura|context|bibliografie|introduction|definitions?|examples?|exercises?|summary|conclusions?|practice|wprowadzenie|einleitung|beispiele|zusammenfassung|giriş|tanımlar|örnekler)\s*:?$/iu;
  for(let i=0;i<lines.length;i++){
   const line=lines[i].trim();
   if(!line){flush();continue}
