@@ -3,6 +3,7 @@ import vm from 'node:vm';
 import frontend from './index.js';
 import {LIT_OFFLINE_THEORY} from './literature_offline_theory.mjs';
 import {LIT_EU_COMMON,LIT_EU_PROGRAMS} from './literature_curriculum_europe.mjs';
+import {LIT_RO_GRADE_LESSONS} from './literature_ro_grade_progression.mjs';
 
 const branches={
  language:['grammar','vocabulary','spelling','communication','stylistics','linguistics'],
@@ -18,7 +19,8 @@ for(const [branch,ids] of Object.entries(branches)){
  }
 }
 let checked=0;
-const inspect=rows=>{if(!Array.isArray(rows))return;for(const entry of rows){assert.ok(LIT_OFFLINE_THEORY[entry[3]],'School chapter key '+entry[3]+' has offline theory');checked++}};
+const authoredGradeIds=new Set(Object.values(LIT_RO_GRADE_LESSONS).flat().map(u=>u.id));
+const inspect=rows=>{if(!Array.isArray(rows))return;for(const entry of rows){assert.ok(LIT_OFFLINE_THEORY[entry[3]]||authoredGradeIds.has(entry[3]),'School chapter key '+entry[3]+' has offline theory or authored grade lesson');checked++}};
 for(const rows of Object.values(LIT_EU_COMMON))inspect(rows);
 for(const profile of Object.values(LIT_EU_PROGRAMS)){
  for(const rows of Object.values(profile.byLevel||{}))inspect(rows);
