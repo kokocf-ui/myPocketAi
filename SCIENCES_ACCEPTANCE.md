@@ -20,3 +20,13 @@ Nu se livrează APK-uri separate pentru Fizică, Chimie, Biologie sau Astronomie
 
 ## Stadiu și regula de închidere
 Lucrul la capitol nu se declară finalizat prin testele de integrare ale matricei, nici printr-un APK care se compilează. Criteriile necesită o livrare coerentă și acceptarea utilizatorului pe telefon. Alte capitole nu se deschid pentru un raport intermediar.
+
+## Continuare internă — gimnaziu pentru toate cele 50 de sisteme (PR #501)
+- Baza este versiunea curentă din `main`, care avea deja trasee pe clase și lecții originale la primar; nu se reintroduce structura mai veche din PR #499.
+- Modulul `science_lower_secondary_lessons.mjs` adaugă **26 de teme unice** distribuite în Fizică (7), Chimie (8), Biologie (6), Astronomie (5), cu explicație proprie, exemplu rezolvat, exercițiu și răspuns de verificare în română și engleză.
+- `science_grade_progression.mjs` construiește acum o fișă completă pentru gimnaziu, cu activitate de investigație diferențiată, nu un șablon repetat pentru fiecare capitol.
+- `index.js` utilizează aceeași fișă la deschiderea lecției și **nu mai dublează peste ea explicația avansată**. Pentru liceu păstrează teoria de specialitate și leagă cerința de capitolul selectat.
+- Regresia `tests_science_grade_progression.mjs` verifică explicațiile, exemplele rezolvate, exercițiile, răspunsurile și legătura dintre tema selectată și material în toate cele 50 de jurisdicții școlare.
+- CI pentru modificările PR #501: `Education 50-country curriculum coverage` și `Pocket AI minimal code checks` au trecut; `Build myPocket AI Android APK` a trecut ca verificare de diagnostic. **Nu s-a publicat un APK semnat nou.**
+- Rămân până la acceptarea Științelor: verificarea programelor oficiale de țară/clasă/profil, acoperirea tuturor lecțiilor efective la liceu și universitate, funcționarea audio/figuri/PDF/Înapoi și proba pe un dispozitiv Android. Lecțiile în altă limbă decât română/engleză indică fallbackul în engleză; traducerile nu sunt certificate.
+- **Nu marca Științele ca terminate** și nu livra un APK pentru acest lot intermediar. 
