@@ -1,3 +1,4 @@
+import {ESSAY_TEST_SAMPLE} from './tests_literature_essay_fixture.mjs';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import backend from './backend.js';
@@ -48,7 +49,7 @@ const literature={
 };
 response=await post(literature,{
  POCKET_EVA_SMART_ROUTER_ENABLED:'1',AI:{run:async(model,args)=>{
-  seen.push({model,args});return {response:'Analiza urmărește simbolurile, ideile și efectele imaginilor poetice, cu exemple concrete și o interpretare coerentă.'};
+  seen.push({model,args});return {response:ESSAY_TEST_SAMPLE};
  }}
 });
 assert.equal(response.status,200,JSON.stringify(response.body).slice(0,400));
