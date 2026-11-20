@@ -588,22 +588,9 @@ function litSimpleLiterature(panel){
   title.scrollIntoView({block:'nearest',behavior:'auto'});
  };
  const fold=value=>String(value||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^\p{L}\p{N}]+/gu,' ').trim();
- // Instant country-specific starter bibliography; never presented as compulsory reading.
- const showCountryLibrary=()=>{
-  const matches=LIT_VERIFIED_AUTHORS.filter(a=>a.country===litJourney.country)
-   .flatMap(a=>a.works.map(w=>({title:w.title,author:a.name,url:w.sourceUrl||a.sourceUrl,work:w}))).slice(0,8);
-  results.replaceChildren();
-  for(const entry of matches)results.append(litSimpleButton(entry.title+' — '+entry.author,
-   ()=>select(entry.title,entry.author,entry.url,entry.work)));
-  if(matches.length)feedback.textContent=litSimpleLabel('Bibliotecă locală de studiu: ','Local study library: ')+matches.length+' '+
-   litSimpleLabel('opere documentate. Nu sunt declarate lecturi obligatorii.','documented works, not labelled compulsory.');
-  else feedback.textContent=litSimpleLabel(
-   'Biblioteca acestei țări este în curs de completare. Poți căuta un titlu sau autor în catalogul internațional.',
-   'The local country library is being expanded. Search for a title or author in the international catalogue.');
- };
  const find=async()=>{
   const term=search.value.trim(),n=++searchNumber;
-  if(!term){showCountryLibrary();return}
+  if(!term){results.replaceChildren();feedback.textContent=litSimpleLabel('Scrie titlul operei sau numele autorului.','Enter a work title or author name.');search.focus();return}
   if(term.length<3){feedback.textContent=litSimpleLabel('Introdu cel puțin trei caractere.','Enter at least three characters.');search.focus();return}
   results.replaceChildren();feedback.textContent=litSimpleLabel('Se caută operele…','Searching works…');
   const parts=term.split(/\s+[—–-]\s+/).map(x=>x.trim()).filter(Boolean);
@@ -689,7 +676,7 @@ function litSimpleLiterature(panel){
  };
  search.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();find()}});
  panel.append(search,litSimpleButton(litSimpleLabel('Caută autorul / opera','Search author / work'),find),feedback,results,title,acts,passage);
- showCountryLibrary();
+ feedback.textContent=litSimpleLabel('Caută după titlu sau autor. Nu este necesar să alegi dintr-o listă de autori.','Search by title or author; no author selection list is needed.');
 }
 
 `;
