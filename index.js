@@ -10584,7 +10584,7 @@ function educationScienceTheoryReader(subjectId,topicId,level){
  const max=rank[level]??0;
  const lessons=EDUCATION_THEORY_DATA.filter(item=>item.subject===subjectId&&item.topic===topicId&&(rank[item.level]??3)<=max);
  const section=document.createElement('section');section.className='science-inline-theory';
- const head=document.createElement('h3');head.textContent=learningLabel('📖 Teme de studiu','📖 Study topics')+' ('+(['primary','lower'].includes(scienceJourney.schoolStage)?1:lessons.length)+')';
+ const head=document.createElement('h3');head.textContent=learningLabel('📖 Teme de studiu','📖 Study topics')+' ('+(['primary','lower'].includes(scienceJourney.schoolStage)||scienceJourney.schoolStage==='upper'&&state.language!=='ro'?1:lessons.length)+')';
  section.append(head);
  if(scienceJourney.schoolStage==='primary'){
   const chapter=scienceTopicInfo();
@@ -10614,6 +10614,25 @@ function educationScienceTheoryReader(subjectId,topicId,level){
   button.textContent=learningLabel('Lecția capitolului · explicații, exemplu, exercițiu și verificare','Chapter lesson · explanation, worked example, practice and feedback');
   button.onclick=()=>educationOpenPagedLesson(chapterName,
    lesson||learningLabel('Lecție indisponibilă pentru acest capitol.','Lesson unavailable for this chapter.'));
+  section.append(button);return section;
+ }
+ // English upper-secondary content is authored per chapter, not a literal
+ // translation of each Romanian sublesson. Expose it once rather than making
+ // every numbered lesson open the same reference text.
+ if(scienceJourney.schoolStage==='upper'&&state.language!=='ro'){
+  const chapter=scienceTopicInfo();
+  const chapterName=learningLabel(chapter?.ro||'',chapter?.en||'');
+  const frame=SCIENCE_GRADE_LESSON_FRAME({
+   subject:subjectId,stage:'upper',grade:scienceJourney.grade,topic:topicId,
+   chapter:chapterName,language:state.language,gradePosition:scienceJourney.gradePosition
+  });
+  const reference=SCIENCE_THEORY_EXPAND(
+   {subject:subjectId,topic:topicId},chapterName,null,state.language);
+  const button=document.createElement('button');button.type='button';
+  button.className='secondary-btn science-inline-theory-item';
+  button.textContent=learningLabel('Fișa capitolului','Chapter reference lesson');
+  button.onclick=()=>educationOpenPagedLesson(chapterName,
+   [frame,reference].filter(Boolean).join(String.fromCharCode(10,10)));
   section.append(button);return section;
  }
  if(!lessons.length){
