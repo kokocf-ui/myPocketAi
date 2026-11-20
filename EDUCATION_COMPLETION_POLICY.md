@@ -4,7 +4,7 @@ Actualizat: 2026-11-07
 ## Principiu stabilit
 - Implementăm fiecare materie de la A la Z, în loturi interne de dezvoltare și verificare, fără a cere utilizatorului teste după fiecare modificare.
 - Utilizatorul poate începe o conversație nouă pentru fiecare materie. Acest fișier și starea verificată a codului sunt sursele de continuitate între conversații.
-- **Testarea manuală pe telefon se face numai după încheierea întregii opțiuni „Învățare și educație”**, cu un set integrat de scenarii. Verificările automate, testele unitare, CI și compilările de control se efectuează pe parcurs de către dezvoltare.
+- **Regulă actualizată 20.11.2026:** se finalizează integral un capitol (începând cu Științele: Fizică, Chimie, Biologie, Astronomie) pentru toate țările și clasele relevante, apoi se construiește **un singur APK** pentru acel capitol. Utilizatorul testează pe telefon și confirmă acceptarea; numai atunci poate fi închis. Testele automate, integrarea și compilările de control se fac intern, fără livrări sau rapoarte pe fragmente.
 - Nu afirmăm că o categorie este completă numai fiindcă există opțiunea în meniu; trebuie să fie operațională. Nu presupunem că toate temele universitare au un solver simbolic exact. Pentru cazuri nesuportate, sistemul declară limitele și nu inventează rezultate.
 - Nu alterăm secțiuni deja funcționale din afara materiei curente. Lucrăm pe ramuri, cu teste automate și integrare controlată.
 - Nu introducem obligații de plată sau API-uri cu cost fără aprobare explicită.
@@ -47,3 +47,11 @@ Actualizat: 2026-11-07
 
 ## Cum reluăm în conversația următoare
 Citește acest fișier, examinează PR-ul / ramura ultimei materii, rezultatele GitHub Actions și continuă de la restanțele rămase fără a cere utilizatorului să repete regulile. Raportează separat: cod implementat, teste CI verificate, nerezolvat, și stare de integrare.
+
+## Decizie actualizată: finalizare pe capitol, fără fragmentare (20 noiembrie 2026)
+- Ordine imediată: Științe complete (Fizică, Chimie, Biologie, Astronomie), apoi următorul capitol; nu se abandonează capitolul pentru a repara alte opțiuni nelegate.
+- Un capitol este un singur lot de dezvoltare, cu verificare a fiecărei materii în toate sistemele școlare din catalog, în paralel. Nu se raportează o funcție ca terminată dacă subfuncțiile ei au rămas incomplete.
+- Pentru țări sau clase fără programă oficială verificabilă se implementează un **parcurs general original, cu capitole diferențiate după etapă și clasă, lecții, exemple, exerciții și verificări**, inspirat de surse publice didactice. Eticheta spune explicit „Parcurs general orientativ”, fără a inventa o programă ministerială.
+- Un modul cu titluri de capitole, fără conținut sau cu exemple copiate de la alte vârste, nu este complet. Se verifică textul efectiv al lecției, reprezentările, rezolvarea, PDF, Înapoi, layout, audio și funcționarea pe Android.
+- APK-ul este livrat **numai după** trecerea testelor interne și încheierea celor patru materii; testarea utilizatorului validează închiderea. Defectele descoperite atunci trebuie corectate înainte de marcarea „capitol închis”.
+- Această decizie înlocuiește prevederile mai vechi despre testarea manuală numai după întreaga Educație și despre oprirea alinierii curriculare la celelalte materii.

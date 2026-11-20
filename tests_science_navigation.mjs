@@ -7,6 +7,7 @@ import {BIOLOGY_TOPICS,BIOLOGY_SPECIALIZATIONS,BIOLOGY_SPECIALTY_TOPICS} from '.
 import {THEORY_ENTRIES} from './education_theory.mjs';
 import {PHYSICS_TOPICS,PHYSICS_SPECIALIZATIONS} from './physics_curriculum.mjs';
 import {ASTRONOMY_TOPICS,ASTRONOMY_SPECIALIZATIONS} from './astronomy_curriculum.mjs';
+import {scienceGradeTopicPlan} from './science_grade_progression.mjs';
 
 const html=await(await frontend.fetch(new Request('https://science-navigation-test.test/'))).text();
 const script=html.match(/<script>([\s\S]*?)<\/script>/)?.[1];
@@ -60,13 +61,14 @@ const sandbox={
  ASTRONOMY_TOPIC_DATA:ASTRONOMY_TOPICS,ASTRONOMY_SPECIALTY_DATA:ASTRONOMY_SPECIALIZATIONS,
  BIOLOGY_TOPIC_DATA:[...BIOLOGY_TOPICS,...BIOLOGY_SPECIALTY_TOPICS],BIOLOGY_SPECIALTY_DATA:BIOLOGY_SPECIALIZATIONS,
  EDUCATION_THEORY_DATA:THEORY_ENTRIES,
+ SCIENCE_GRADE_TOPIC_PLAN:scienceGradeTopicPlan,
  LEARNING_SUBJECTS:[['science','⚛️','Științe','Sciences']],
  learningLabel:(ro,en)=>ro,
  eduAttachPrintAction:()=>{},
  educationCountrySelection:{code:'GB-ENG',label:'Anglia'},
  eduYearOptions:(country,level,moduleKey)=>(
   ['lower','beginner'].includes(level)?[{id:'Y7',ro:'Year 7',en:'Year 7'},{id:'Y8',ro:'Year 8',en:'Year 8'}]:
-  level==='intermediate'?[{id:'Y10',ro:'Year 10',en:'Year 10'},{id:'Y11',ro:'Year 11',en:'Year 11'}]:
+  level==='intermediate'?[{id:'Y10',ro:'Year 10',en:'Year 10'},{id:'Y11',ro:'Year 11',en:'Year 11'},{id:'Y12',ro:'Year 12',en:'Year 12'},{id:'Y13',ro:'Year 13',en:'Year 13'}]:
   [{id:'university',ro:'Universitate',en:'University'}]),
  $:key=>elements[key]||null,
  pocketNativeVoiceAvailable:()=>false,
@@ -90,16 +92,23 @@ assert.deepEqual([...api.subjects.map(s=>s.ro)],['Fizică','Chimie','Biologie','
 rows()[1].onclick();
 assert.equal(api.state.subject,'chemistry');
 assert.equal(api.state.stage,'years','subject selection directly opens its school-year choices');
-assert.equal(yearBands().length,3,'grouped lower secondary, upper secondary, university');
+assert.equal(yearBands().length,4,'grouped primary, lower secondary, upper secondary, university');
 assert.equal(yearTiles('beginner').length,2);
 yearTiles('intermediate')[0].onclick();
 assert.equal(api.state.level,'intermediate');
 assert.equal(api.state.grade,'Y10');
 assert.equal(api.state.stage,'topics');
-assert.ok(rows().some(x=>x.children[0].textContent==='Chimie organică'));
+assert.ok(rows().some(x=>x.children[0].textContent==='Atomul și structura materiei'),
+ 'First upper-secondary Chemistry year starts with matter and atomic structure');
 assert.ok(!rows().some(x=>x.children[0].textContent==='Chimie universitară avansată'),
  'no university chapter in intermediate level');
+api.back();
+assert.equal(api.state.stage,'years');
+yearTiles('intermediate')[2].onclick();
+assert.equal(api.state.grade,'Y12');
+assert.equal(api.state.stage,'topics');
 const chemistryOrganic=rows().find(x=>x.children[0].textContent==='Chimie organică');
+assert.ok(chemistryOrganic,'Later upper-secondary years progress to organic chemistry');
 chemistryOrganic.onclick();
 assert.equal(api.state.topic,'organic');
 assert.equal(api.state.stage,'chemistry-menu','Chemistry chapter opens its activity chooser');
@@ -119,7 +128,7 @@ for(const [index,id] of [[0,'physics'],[2,'biology'],[3,'astronomy']]){
  assert.equal(api.state.subject,id);
  yearTiles('beginner')[0].onclick();
  assert.equal(api.state.stage,'topics');
- assert.ok(rows().length>=4,'real chapter choices for '+id);
+ assert.ok(rows().length>=2,'real grade-specific chapter choices for '+id);
  rows()[0].onclick();
  assert.equal(api.state.stage,'chemistry-menu','all Sciences use a three-choice chapter menu');
  assert.equal(rows().length,3,'each Science chapter exposes three activities');

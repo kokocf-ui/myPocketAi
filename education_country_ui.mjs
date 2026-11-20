@@ -1,4 +1,26 @@
-export const EDUCATION_COUNTRY_UI_SCRIPT=String.raw`
+import {EDUCATION_EUROPE_COUNTRIES,EDUCATION_SCHOOL_STAGES,
+ educationCountrySchoolYears,educationSubjectSchoolPlan} from './education_all_country_subject_matrix.mjs';
+// Only positively supported curriculum claims are serialized to Android;
+// generic subject lists must never be mistaken for verified grade programmes.
+const EDU_FRAMEWORK_GRADE_KEYS=[];
+const EDU_AUTHORED_GRADE_KEYS=[];
+const EDU_UNMAPPED_STAGE_KEYS=[];
+for(const code of EDUCATION_EUROPE_COUNTRIES)for(const stage of EDUCATION_SCHOOL_STAGES){
+ const gradeTable=educationCountrySchoolYears(code,stage);
+ if(gradeTable.status==='grade-unmapped')EDU_UNMAPPED_STAGE_KEYS.push(code+'|'+stage);
+ for(const year of gradeTable.years)for(const subject of ['literature','history','geography','exams']){
+  const plan=educationSubjectSchoolPlan({country:code,stage,grade:year.id,subject});
+  const key=code+'|'+stage+'|'+year.id+'|'+subject;
+  if(plan.status==='framework-verified')EDU_FRAMEWORK_GRADE_KEYS.push(key);
+  else if(plan.status==='grade-content-unverified')EDU_AUTHORED_GRADE_KEYS.push(key);
+ }
+}
+export const EDUCATION_COUNTRY_UI_SCRIPT=
+ 'const EDU_EUROPE_COUNTRY_LIST='+JSON.stringify(EDUCATION_EUROPE_COUNTRIES)+';\n'+
+ 'const EDU_VERIFIED_GRADE_KEYS=new Set('+JSON.stringify(EDU_FRAMEWORK_GRADE_KEYS)+');\n'+
+ 'const EDU_AUTHORED_GRADE_KEYS=new Set('+JSON.stringify(EDU_AUTHORED_GRADE_KEYS)+');\n'+
+ 'const EDU_UNMAPPED_STAGE_KEYS=new Set('+JSON.stringify(EDU_UNMAPPED_STAGE_KEYS)+');\n'+
+ String.raw`
 // Shared country-first entry for every Education category except foreign languages.
 // This is ONE editable country field, not a grid of countries.
 // One deterministic, offline vocabulary for Education navigation.
@@ -80,7 +102,7 @@ function eduCountryFold(value){return String(value||'').normalize('NFD').replace
 // Education has a Europe-focused country picker. The app-wide country list
 // remains global for maps, finance, transport and general knowledge.
 // Oman (OM) is a real country but is not a European school jurisdiction.
-const EDU_EUROPE_COUNTRY_CODES=new Set(('AD AL AT BA BE BG BY CH CY CZ DE DK EE ES FI FR GR HR HU IE IS IT LI LT LU LV MC MD ME MK MT NL NO PL PT RO RS RU SE SI SK SM TR UA VA XK GB-ENG GB-SCT GB-WLS GB-NIR').split(' '));
+const EDU_EUROPE_COUNTRY_CODES=new Set(EDU_EUROPE_COUNTRY_LIST);
 function eduCountryOptions(){
  const all=typeof HG_COUNTRY_PICKER_DATA!=='undefined'?HG_COUNTRY_PICKER_DATA:[];
  const seen=new Set();return all.filter(x=>x&&EDU_EUROPE_COUNTRY_CODES.has(x.id)&&!seen.has(x.id)&&seen.add(x.id));
@@ -211,6 +233,29 @@ function eduYearOptions(code,level,moduleKey){
  const lv=level==='intermediate'?'medium':level;
  const source=EDUCATION_SCHOOL_YEARS_DATA[code]?.[lv];
  const numeric=(a,b,prefix='')=>Array.from({length:b-a+1},(_,i)=>({id:prefix+(a+i),ro:prefix?'Year '+(a+i):'Clasa '+(a+i),en:prefix?'Year '+(a+i):'Grade '+(a+i)}));
+ if(moduleKey==='science'&&['primary','lower','medium'].includes(lv)){
+  // A national school year must be a verified local label, not an invented
+  // Romanian year number. Where no grade catalogue exists, provide four
+  // successive, explicitly ADVISORY years so study develops by class.
+  if(code==='RO'&&lv==='primary')return numeric(1,4);
+  if(code==='GB-ENG'&&lv==='primary')return numeric(1,6,'Y');
+  const countryYears=lv==='primary'?
+   (EDUCATION_SCHOOL_YEARS_DATA[code]?.primary||EDUCATION_SCHOOL_YEARS_DATA[code]?.beginner):
+   source;
+  const worldwide=worldwideSchoolYears(code,lv==='primary'?'beginner':lv,'science');
+  const candidate=countryYears?.length?countryYears:worldwide;
+  const genuine=years=>years?.length&&years.every(x=>
+   x?.id&&!/^general-|^grade-not-mapped|^unmapped/i.test(String(x.id)));
+  if(genuine(candidate))return candidate;
+  if(genuine(worldwide))return worldwide;
+  const stageName=lv==='primary'?'primar':lv==='lower'?'gimnazial':'liceal';
+  return Array.from({length:4},(_,i)=>{
+   const year=i+1;
+   return {id:'general-'+lv+'-'+year,
+    ro:'An orientativ '+year+' · '+stageName,
+    en:'Advisory '+(lv==='primary'?'primary':lv==='lower'?'lower-secondary':'upper-secondary')+' year '+year};
+  });
+ }
  if(moduleKey==='math'){
   if(code==='RO')return lv==='primary'?numeric(1,4):lv==='lower'?numeric(5,8):lv==='beginner'?numeric(1,8):lv==='medium'?numeric(9,12):[{id:'universitate',ro:'Universitate',en:'University'}];
   if(code==='GB-ENG')return lv==='primary'?numeric(1,6,'Y'):lv==='lower'?numeric(7,9,'Y'):lv==='beginner'?numeric(1,9,'Y'):lv==='medium'?numeric(10,13,'Y'):[{id:'university',ro:'Higher education',en:'Higher education'}];
@@ -243,12 +288,33 @@ function eduYearOptions(code,level,moduleKey){
  if(worldwide.length)return worldwide;
  return [{id:'general-'+lv,ro:lv==='beginner'?'Învățare generală – primar':lv==='medium'?'Învățare generală – secundar':'Învățare generală – universitar',en:lv==='beginner'?'General primary learning':lv==='medium'?'General secondary learning':'General university learning'}];
 }
+function eduActiveSubjectCode(moduleKey){
+ if(moduleKey==='science')return String(typeof scienceJourney!=='undefined'?scienceJourney.subject||'physics':'physics');
+ if(moduleKey==='history')return String(typeof hgJourney!=='undefined'?hgJourney.subject||'history':'history');
+ return {math:'mathematics',literature:'literature',computing:'computing',
+  languages:'foreign_languages',exams:'exams'}[moduleKey]||moduleKey;
+}
+function eduCurriculumEvidence(country,level,grade,moduleKey){
+ const stage=level==='primary'?'beginner':level==='intermediate'?'medium':level;
+ const subject=eduActiveSubjectCode(moduleKey),key=country+'|'+stage+'|'+grade+'|'+subject;
+ if(EDU_VERIFIED_GRADE_KEYS.has(key))return 'framework-verified';
+ if(EDU_AUTHORED_GRADE_KEYS.has(key))return 'grade-content-unverified';
+ return 'general-learning';
+}
 function educationGradeGate(moduleKey,level,proceed,back){
  const root=document.getElementById('view-module'),host=document.getElementById('moduleContent');
  if(!root||!host)return;
  const country=educationCountrySelection.code;
  const options=eduYearOptions(country,level,moduleKey);
- if(options.length===1){proceed(options[0].id);return}
+ const startYear=id=>{
+  const status=eduCurriculumEvidence(country,level,id,moduleKey);
+  educationCountrySelection.curriculum={
+   country,grade:id,stage:level,subject:eduActiveSubjectCode(moduleKey),
+   schoolYear:'2026/27',status,verifiedTextbook:false
+  };
+  proceed(id);
+ };
+ if(options.length===1){startYear(options[0].id);return}
  if(moduleKey==='computing'){
   // All years in the chosen school stage fit one two-column screen without
   // searching. Do not modify the country finder or selectors in other modules.
@@ -263,7 +329,7 @@ function educationGradeGate(moduleKey,level,proceed,back){
    const btn=document.createElement('button');btn.type='button';btn.className='secondary-btn computing-grade-choice-tile';
    const art=document.createElement('span');art.className='computing-grade-icon';art.setAttribute('aria-hidden','true');art.textContent='🎓';
    const label=document.createElement('strong');label.textContent=eduUiLabel(option.ro,option.en);
-   btn.append(art,label);btn.onclick=()=>proceed(option.id);grid.append(btn);
+   btn.append(art,label);btn.onclick=()=>startYear(option.id);grid.append(btn);
   }
   panel.append(heading,notice,grid);host.append(panel);return;
  }
@@ -274,7 +340,7 @@ function educationGradeGate(moduleKey,level,proceed,back){
  const h=document.createElement('h2');h.textContent=eduUiLabel('Alege clasa / anul de studiu','Choose grade / school year');
  const context=document.createElement('p');
  const worldInfo=worldwideSchoolNotice(country);
- const mappedNational=country==='RO'||country==='GB-ENG';
+ const mappedNational=options.length>0&&options.every(o=>eduCurriculumEvidence(country,level,o.id,moduleKey)==='framework-verified');
  context.textContent=educationCountrySelection.label+' · '+eduUiLabel('Materia se adaptează clasei selectate.','Learning content follows the selected school year.')+
   (!mappedNational?' '+eduUiLabel('Traseu de studiu orientativ, nu programa oficială verificată pentru țara și clasa selectate.','Advisory study sequence, not an officially verified national curriculum for this country and school year.'):'' );
  context.setAttribute('aria-live','polite');
@@ -287,7 +353,7 @@ function educationGradeGate(moduleKey,level,proceed,back){
   list.replaceChildren();const text=eduCountryFold(search.value);
   const filtered=options.filter(o=>!text||eduCountryFold(o.ro).includes(text)||eduCountryFold(o.en).includes(text)||eduCountryFold(o.id).includes(text));
   if(page>=filtered.length)page=0;
-  filtered.slice(page,page+4).forEach(o=>{const b=document.createElement('button');b.type='button';b.className='secondary-btn';b.textContent=eduUiLabel(o.ro,o.en);b.style.cssText='min-height:52px;text-align:center;width:100%;min-width:0;padding:8px;white-space:normal;overflow-wrap:anywhere;';b.onclick=()=>proceed(o.id);list.append(b)});
+  filtered.slice(page,page+4).forEach(o=>{const b=document.createElement('button');b.type='button';b.className='secondary-btn';b.textContent=eduUiLabel(o.ro,o.en);b.style.cssText='min-height:52px;text-align:center;width:100%;min-width:0;padding:8px;white-space:normal;overflow-wrap:anywhere;';b.onclick=()=>startYear(o.id);list.append(b)});
   const arithmeticGradesOnly=moduleKey==='math'&&typeof mathJourney!=='undefined'&&mathJourney.topic==='arithmetic';
   if(!filtered.length){const p=document.createElement('p');p.textContent=arithmeticGradesOnly
    ?eduUiLabel('Pentru Aritmetică, alege una dintre clasele primare disponibile.','For Arithmetic, choose one of the available primary-school grades.')
@@ -300,7 +366,7 @@ function educationGradeGate(moduleKey,level,proceed,back){
     const custom=document.createElement('button');custom.type='button';custom.className='secondary-btn';
     custom.textContent=eduUiLabel('Folosește clasa: ','Use grade: ')+entered;
     custom.style.cssText='grid-column:1/-1;min-height:44px;width:100%;white-space:normal';
-    custom.onclick=()=>proceed(entered);list.append(custom);
+    custom.onclick=()=>startYear(entered);list.append(custom);
    }
   }
   if(page+4<filtered.length){const b=document.createElement('button');b.type='button';b.className='secondary-btn';b.textContent=eduUiLabel('Alte clase →','More grades →');b.style.cssText='grid-column:1/-1;min-height:44px;width:100%;';b.onclick=()=>{page+=4;draw();list.scrollIntoView({block:"nearest"})};list.append(b)}

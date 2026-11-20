@@ -1,9 +1,15 @@
 import assert from 'node:assert/strict';
+import './tests_education_all_country_subject_matrix.mjs';
 import vm from 'node:vm';
 import app from './index.js';
 import {EDUCATION_SCHOOL_YEARS,HG_SCHOOL_PLANS,HG_SCHOOL_GENERAL,educationYears,hgSchoolChapters} from './education_school_paths.mjs';
 import {EDUCATION_COUNTRY_UI_SCRIPT} from './education_country_ui.mjs';
 import {PRACTICAL_UI_SCRIPT} from './practical_ui.mjs';
+import {scienceGradeTopicPlan} from './science_grade_progression.mjs';
+import {PHYSICS_TOPICS} from './physics_curriculum.mjs';
+import {CHEMISTRY_TOPICS} from './chemistry_curriculum.mjs';
+import {BIOLOGY_TOPICS} from './biology_curriculum.mjs';
+import {ASTRONOMY_TOPICS} from './astronomy_curriculum.mjs';
 assert.ok(EDUCATION_SCHOOL_YEARS.RO.beginner.some(x=>x.id==='4'));
 assert.ok(EDUCATION_SCHOOL_YEARS.RO.lower.some(x=>x.id==='8'));
 assert.deepEqual(EDUCATION_SCHOOL_YEARS.RO.medium.map(x=>x.id),['9','10','11','12']);
@@ -86,11 +92,34 @@ const beginScience=boot.indexOf('function scienceTopicAllowedGrade(topic)');
 const endScience=boot.indexOf('function scienceTopicChoices()',beginScience);
 assert.ok(beginScience>=0&&endScience>beginScience,'Science grade router in web app');
 const scienceFunction=boot.slice(beginScience,endScience);
-const probe=(country,level,grade,subject,topic)=>new Function('educationCountrySelection','scienceJourney','topic',scienceFunction+';return scienceTopicAllowedGrade(topic);')({code:country},{level,grade,subject},topic);
-assert.equal(probe('FR','beginner','general-beginner','physics',{id:'modern',minLevel:'intermediate'}),false);
-assert.equal(probe('FR','beginner','general-beginner','astronomy',{id:'cosmology',minLevel:'intermediate'}),false);
-assert.equal(probe('FR','intermediate','general-medium','chemistry',{id:'organic',minLevel:'intermediate'}),true);
-assert.equal(probe('RO','beginner','8','physics',{id:'waves',minLevel:'intermediate'}),true,'Romanian class VIII exceptions remain explicit');
+const topics={physics:PHYSICS_TOPICS,chemistry:CHEMISTRY_TOPICS,
+ biology:BIOLOGY_TOPICS,astronomy:ASTRONOMY_TOPICS};
+const years=(country,level)=>{
+ if(level==='intermediate')return country==='GB-ENG'
+  ?['Y10','Y11','Y12','Y13'].map(id=>({id}))
+  :country==='RO'?['9','10','11','12'].map(id=>({id}))
+  :[{id:'general-medium'}];
+ if(level==='primary')return country==='RO'
+  ?['1','2','3','4'].map(id=>({id})): [{id:'general-primary'}];
+ return country==='RO'?['5','6','7','8'].map(id=>({id})):
+  country==='GB-ENG'?['Y7','Y8','Y9'].map(id=>({id})):
+  [{id:'general-lower'}];
+};
+const probe=(country,level,grade,subject,topic,stage)=>
+ new Function('educationCountrySelection','scienceJourney','topic',
+ 'eduYearOptions','SCIENCE_GRADE_TOPIC_PLAN',
+ 'PHYSICS_TOPIC_DATA','CHEMISTRY_TOPIC_DATA','BIOLOGY_TOPIC_DATA','ASTRONOMY_TOPIC_DATA',
+ scienceFunction+';return scienceTopicAllowedGrade(topic);')(
+ {code:country},{level,grade,subject,schoolStage:stage|| (level==='intermediate'?'upper':'lower')},
+ topic,years,scienceGradeTopicPlan,PHYSICS_TOPICS,CHEMISTRY_TOPICS,BIOLOGY_TOPICS,ASTRONOMY_TOPICS);
+assert.equal(probe('FR','beginner','general-lower','physics',{id:'modern',minLevel:'intermediate'}),false);
+assert.equal(probe('FR','beginner','general-lower','astronomy',{id:'cosmology',minLevel:'intermediate'}),false);
+assert.equal(probe('FR','intermediate','general-medium','chemistry',{id:'organic',minLevel:'intermediate'}),false,
+ 'Early upper-secondary science must not dump all intermediate topics at once');
+assert.equal(probe('GB-ENG','intermediate','Y12','chemistry',{id:'organic',minLevel:'intermediate'}),true,
+ 'Later upper-secondary chemistry introduces organic concepts');
+assert.equal(probe('RO','beginner','8','physics',{id:'electric',minLevel:'beginner'}),true,
+ 'Romanian grade VIII retains circuits and electricity in the age-appropriate track');
 assert.equal(probe('RO','beginner','7','chemistry',{id:'organic',minLevel:'intermediate'}),false);
 assert.equal(probe('RO','intermediate','9','physics',{id:'special-quantum',minLevel:'advanced'}),false);
 console.log('PASS country-first Education: country field, location suggestion, school-year isolation and non-duplicated quiz report');
