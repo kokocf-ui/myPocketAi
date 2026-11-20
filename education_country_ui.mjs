@@ -233,15 +233,28 @@ function eduYearOptions(code,level,moduleKey){
  const lv=level==='intermediate'?'medium':level;
  const source=EDUCATION_SCHOOL_YEARS_DATA[code]?.[lv];
  const numeric=(a,b,prefix='')=>Array.from({length:b-a+1},(_,i)=>({id:prefix+(a+i),ro:prefix?'Year '+(a+i):'Clasa '+(a+i),en:prefix?'Year '+(a+i):'Grade '+(a+i)}));
- if(moduleKey==='science'&&level==='primary'){
-  // Scientific exploration in primary school is a general programme; reuse
-  // each jurisdiction's actual mapped primary years, never invent RO grades for it.
-  if(code==='RO')return numeric(1,4);
-  if(code==='GB-ENG')return numeric(1,6,'Y');
-  const mapped=EDUCATION_SCHOOL_YEARS_DATA[code]?.beginner||
-   worldwideSchoolYears(code,'beginner','science');
-  if(mapped?.length)return mapped;
-  return [{id:'general-primary',ro:'Program general · primar',en:'General primary science learning'}];
+ if(moduleKey==='science'&&['primary','lower','medium'].includes(lv)){
+  // A national school year must be a verified local label, not an invented
+  // Romanian year number. Where no grade catalogue exists, provide four
+  // successive, explicitly ADVISORY years so study develops by class.
+  if(code==='RO'&&lv==='primary')return numeric(1,4);
+  if(code==='GB-ENG'&&lv==='primary')return numeric(1,6,'Y');
+  const countryYears=lv==='primary'?
+   (EDUCATION_SCHOOL_YEARS_DATA[code]?.primary||EDUCATION_SCHOOL_YEARS_DATA[code]?.beginner):
+   source;
+  const worldwide=worldwideSchoolYears(code,lv==='primary'?'beginner':lv,'science');
+  const candidate=countryYears?.length?countryYears:worldwide;
+  const genuine=years=>years?.length&&years.every(x=>
+   x?.id&&!/^general-|^grade-not-mapped|^unmapped/i.test(String(x.id)));
+  if(genuine(candidate))return candidate;
+  if(genuine(worldwide))return worldwide;
+  const stageName=lv==='primary'?'primar':lv==='lower'?'gimnazial':'liceal';
+  return Array.from({length:4},(_,i)=>{
+   const year=i+1;
+   return {id:'general-'+lv+'-'+year,
+    ro:'An orientativ '+year+' · '+stageName,
+    en:'Advisory '+(lv==='primary'?'primary':lv==='lower'?'lower-secondary':'upper-secondary')+' year '+year};
+  });
  }
  if(moduleKey==='math'){
   if(code==='RO')return lv==='primary'?numeric(1,4):lv==='lower'?numeric(5,8):lv==='beginner'?numeric(1,8):lv==='medium'?numeric(9,12):[{id:'universitate',ro:'Universitate',en:'University'}];
