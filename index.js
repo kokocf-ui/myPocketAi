@@ -8278,8 +8278,10 @@ function scienceJourneyShowChoices(stage){
    if(!['physics','chemistry','biology','astronomy'].includes(scienceJourney.subject))return true;
    const rank={beginner:0,intermediate:1,advanced:2};
    return rank[topic.minLevel]<=rank[scienceJourney.level] &&
-    EDUCATION_THEORY_DATA.some(x=>x.subject===scienceJourney.subject&&x.topic===topic.id&&
-     rank[x.level==='medium'?'intermediate':x.level]<=rank[scienceJourney.level]);
+    (scienceJourney.schoolStage==='primary'?
+     Boolean(SCIENCE_PRIMARY_LESSON_BANK[scienceJourney.subject]?.[topic.id]):
+     EDUCATION_THEORY_DATA.some(x=>x.subject===scienceJourney.subject&&x.topic===topic.id&&
+      rank[x.level==='medium'?'intermediate':x.level]<=rank[scienceJourney.level]));
   });
  if(stage==='years'){
   list.className+=' science-year-list';
