@@ -36,6 +36,7 @@ import {planPresentation} from "./presentation.mjs";
 export {PocketCommunicationHub} from "./pocket_communication_hub.mjs";
 import {hasAssistantRepetitionLoop} from "./ai_response_quality.mjs";
 import {planEvaAI,executeEvaAI,evaLikelyTruncated} from "./eva_ai_orchestrator.mjs";
+import {evaCreativeIntent,enhanceEvaCreativeOptions,evaCreativeQualityIssue} from "./eva_creative_quality.mjs";
 import {planTransCAPIJourney,transCAPISharedZone} from "./uk_national_transit.mjs";
 import {motisQueryDepartureAt,selectScheduledMOTISAlternatives} from "./motis_mixed_schedule.mjs";
 import {evaluateMixedJourneyGeography} from "./mixed_route_quality.mjs";
@@ -1309,9 +1310,16 @@ export default {
     // Controlled rollout: defaults OFF. Production behavior remains unchanged.
     const evaSmartRouterEnabled=String(env.POCKET_EVA_SMART_ROUTER_ENABLED||'')==='1';
     const evaPlan=task=>planEvaAI(task,{enabled:evaSmartRouterEnabled,legacyModel:selectedAiModel});
-    const evaTask=async(task,opts)=>evaSmartRouterEnabled
-      ?executeEvaAI(env.AI,evaPlan(task),opts)
-      :env.AI.run(selectedAiModel,opts);
+    const creativeQualityEnabled=String(env.POCKET_EVA_CREATIVE_QUALITY_ENABLED||'')==='1';
+    const evaTask=async(task,opts)=>{
+      const prepared=creativeQualityEnabled?enhanceEvaCreativeOptions(task,opts):
+        {intent:{requested:false},options:opts};
+      const selectedTask={...task,creativeIntent:prepared.intent};
+      if(evaSmartRouterEnabled)return executeEvaAI(env.AI,evaPlan(selectedTask),prepared.options);
+      if(prepared.intent.requested)return executeEvaAI(env.AI,
+        planEvaAI(selectedTask,{enabled:true,legacyModel:selectedAiModel}),prepared.options);
+      return env.AI.run(selectedAiModel,opts);
+    };
     const isWorkersAiQuotaExceeded=error=>/\b4006\b/.test(String(error?.message||""))&&/neuron|daily free allocation/i.test(String(error?.message||""));
     const requestStartMs=Date.now();
     let responsePlaceContext=null;let responsePlaceLookup=null;
@@ -2381,7 +2389,7 @@ export default {
         // Higher-capacity storytelling model may be opted into separately, after cost review.
         const storyModel=allowedTextModels.includes(String(env.POCKET_AI_STORY_MODEL||''))?
           String(env.POCKET_AI_STORY_MODEL):selectedAiModel;
-        const runStory=evaSmartRouterEnabled
+        const runStory=evaSmartRouterEnabled||creativeQualityEnabled
           ?(options=>evaTask({module:'creative_storybook',genre:req.genre,query:req.seed,requiresSources:req.genre==='documentary'},options))
           :(options=>env.AI.run(storyModel,options));
         const result=await runStory({
@@ -2392,10 +2400,30 @@ export default {
           max_tokens:3200,
           temperature:req.genre==='documentary'?0.25:0.76
         });
-        const raw=String(result?.response||result?.result?.response||'').trim();
-        const chapters=parseStorybookChapters(raw,req.count);
+        let raw=String(result?.response||result?.result?.response||'').trim();
+        let chapters=parseStorybookChapters(raw,req.count);
+        let quality=chapters?storybookQualityIssue(chapters,req):'invalid_chapter_structure';
+        // A valid model call can still produce missing chapters or incomplete prose.
+        // At most one independent reconstruction; NEVER retry account quota limits.
+        if(creativeQualityEnabled&&quality){
+          try{
+            const reconstructed=await env.AI.run(allowedTextModels[1],{
+              messages:[
+                {role:'system',content:storybookSystemPrompt(req)+' Repair task: deliver the COMPLETE finished work with EXACTLY '+req.count+' numbered chapters and complete sentences. No generic fillers, no invented historical assertions, and no prefatory remarks.'},
+                {role:'user',content:storybookUserPrompt(req,reference)+'\nThe previous attempt was incomplete or invalid ('+quality+'). Regenerate the full answer from these requirements and evidence; do not shorten it or invent facts.'}
+              ],max_tokens:3300,temperature:req.genre==='documentary'?0.25:0.62
+            });
+            const retryText=String(reconstructed?.response||reconstructed?.result?.response||'').trim();
+            const candidate=parseStorybookChapters(retryText,req.count);
+            if(candidate&&!storybookQualityIssue(candidate,req)){
+              raw=retryText;chapters=candidate;quality=null;
+            }
+          }catch(retryError){
+            if(isWorkersAiQuotaExceeded(retryError))
+              return json({status:'unavailable',error:'ai_quota_exceeded'},503);
+          }
+        }
         if(!chapters)return json({status:'unavailable',error:'storybook_invalid_chapters'},502);
-        const quality=storybookQualityIssue(chapters,req);
         if(quality)return json({status:'unavailable',error:'storybook_quality_invalid',quality},502);
         return json({
           status:'success',module:'creative_storybook',
@@ -2409,8 +2437,80 @@ export default {
           error:isWorkersAiQuotaExceeded(error)?'ai_quota_exceeded':'storybook_generation_unavailable'},503);
       }
     }
+    // P0 creative intent: route an explicit request to WRITE a finished work
+    // before local search, history recall, GPS, transport and social small-talk.
+    // The ordinary assistant may mention a station, business or hidden message
+    // as fictional content; those words are not lookup commands.
+    const directCreativeTask=creativeQualityEnabled&&
+      ['assistant','creative_studio','creative_writing','creator_ai','ai_writing'].includes(String(data.module||'assistant'))?
+      evaCreativeIntent({module:data.module||'assistant',message:data.message}):{requested:false};
+    if(directCreativeTask.requested){
+      const requestText=data.message.trim();
+      const language=['ro','en','fr','de','it','es','pt','nl','hu','pl'].includes(data.language)?data.language:'ro';
+      let reference=null;
+      if(directCreativeTask.factual){
+        // A factual creative request must not silently become invented history.
+        const extracted=requestText.match(/\b(?:despre|about)\s+(.+?)(?=[.;!?]|$)/iu);
+        const subject=String(extracted?.[1]||'').replace(/\b(?:fara|fără|without|include|incluzand)\b.*$/iu,'').trim().slice(0,115);
+        if(!subject)return json({status:'unavailable',error:'creative_research_subject_missing'},422);
+        reference=await fetchStorybookHistory(subject,{language});
+        if(reference.status!=='success')return json({status:'unavailable',
+          error:'creative_factual_source_unavailable'},503);
+      }
+      const recentTurns=Array.isArray(data.history)?data.history.slice(-4)
+        .filter(item=>['user','assistant'].includes(item?.role)&&typeof item.content==='string')
+        .map(item=>({role:item.role,content:item.content.slice(0,900)})):[];
+      const factualInstruction=reference?
+        '\nREFERENCE FACTS, not to be copied verbatim:\n'+reference.excerpt+
+        '\nUse ONLY facts supported by these reference facts. No invented dates, sources, quotes or discoveries.':
+        '\nThis is original creative writing, not a request to find locations, transport, restaurants or previous messages.';
+      const prompt='You are Eva, a thoughtful professional author. Write the finished requested work in language '+language+
+        '. Do not turn this into a guide about how to write. Respect the exact requested genre, audience, details and form.'+factualInstruction;
+      try{
+        const options={messages:[{role:'system',content:prompt},...recentTurns,
+          {role:'user',content:requestText}],
+          max_tokens:directCreativeTask.long?3200:1900,
+          temperature:directCreativeTask.factual?0.25:0.60};
+        const candidate=await evaTask({module:data.module||'assistant',message:requestText,
+          activity:directCreativeTask.kind,requiresSources:directCreativeTask.factual},options);
+        let reply=String(candidate?.response||candidate?.result?.response||'').trim();
+        let quality=evaCreativeQualityIssue(reply,directCreativeTask);
+        if(quality){
+          // One bounded editorial repair; do not re-run if the quota is exhausted.
+          try{
+            const editor=await env.AI.run(allowedTextModels[1],{
+              messages:[
+                {role:'system',content:'Edit this requested creative work to be complete, fluent, mature and non-repetitive. Preserve its genre, story events, user constraints and factual evidence. Never add unsupported facts or invented citations. Return the complete work, not commentary.'},
+                {role:'user',content:'REQUEST:\n'+requestText.slice(0,1600)+
+                  '\nDRAFT:\n'+reply.slice(0,10000)+
+                  '\nISSUE:\n'+quality+'\nReturn a coherent complete revision in the same language.'}
+              ],max_tokens:Math.min(3100,Math.max(1400,options.max_tokens)),temperature:0.3
+            });
+            const revision=String(editor?.response||editor?.result?.response||'').trim();
+            if(revision&&!evaCreativeQualityIssue(revision,directCreativeTask)){
+              reply=revision;quality=null;
+            }
+          }catch(error){
+            if(isWorkersAiQuotaExceeded(error))
+              return json({status:'unavailable',error:'ai_quota_exceeded'},503);
+          }
+        }
+        if(!reply||quality)return json({status:'unavailable',error:'creative_text_incomplete',quality},502);
+        return json({app:'Pocket AI',version:API_VERSION,status:'success',
+          language,reply,ai_generated:true,ai_connected:true,
+          creative_type:directCreativeTask.kind,source_research_performed:Boolean(reference),
+          references:reference?.sources||[],web_search_status:reference?'source_verified':'not_needed'});
+      }catch(error){
+        return json({status:'unavailable',
+          error:isWorkersAiQuotaExceeded(error)?'ai_quota_exceeded':'creative_generation_unavailable'},503);
+      }
+    }
     let message = data.message.trim();
     const originalMessage=message;
+    // Explicit creation is a writing task, never a history search or social
+    // small-talk turn merely because a fictional plot mentions a "message".
+    const creativeEntryIntent=creativeQualityEnabled?
+      evaCreativeIntent({module:data.module||'assistant',message:originalMessage}):{requested:false};
     // Grammar, literature and vocabulary are never transport or geolocation.
     // The assistant route may interpret the word "location" in a system
     // instruction as a travel request; isolate these lessons before intent
@@ -2497,7 +2597,9 @@ export default {
       };
       const system='You are a patient and knowledgeable language and literature teacher. Respond in language code '+locale+
         '. This is strictly an educational task, not a travel, navigation, location, weather, business or map request. '+
-        instructions[activity]+' Use the supplied country, school year and subject area to adapt depth without inventing an official curriculum. '+
+        instructions[activity]+(activity==='essay'||activity==='write'?
+        ' Produce the finished requested essay or writing as coherent flowing prose, with specific arguments and natural transitions. Do not present the requested finished work as a lesson, worksheet, outline or bullet-point plan. Avoid generic labels such as Teză/Argumentul I unless the user explicitly requests that structure. ':'')+
+        ' Use the supplied country, school year and subject area to adapt depth without inventing an official curriculum. '+
         'Keep useful correctly spelled headings and paragraphs. In Romanian write „Lecție”, „Introducere”, „Definiții”, not erroneous invented headings such as „Lehul” or „Lehula”. Avoid literal Markdown markers (** or ##) because content is saved as a formatted PDF. Be precise and complete, avoid unverified author attributions, made-up quotations and filler. '+
         'For the correction activity only, refer to the question text and student answer in the request. '+
         'Never confuse dictionary entries with destinations. If the user has not supplied a needed text passage, do not pretend to have read it.';
@@ -2598,7 +2700,7 @@ export default {
     const nativeConversationProfile=normalizeConversationProfile(data.user_profile);
     const userAddressInstruction=conversationProfileInstruction(nativeConversationProfile,lang);
     // Avoid making up a referent when an elliptical request has no prior topic.
-    const unresolvedReference=clarifyUnresolvedReference(originalMessage,data.history,{language:lang});
+    const unresolvedReference=creativeEntryIntent.requested?null:clarifyUnresolvedReference(originalMessage,data.history,{language:lang});
     if(unresolvedReference){
       return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,
         message_received:originalMessage,reply:unresolvedReference,
@@ -2608,7 +2710,7 @@ export default {
     }
     // Scoped history lookup runs before regular chat/research classification.
     // The client supplies the accessible turns; never imply global access.
-    const scopedRecall=recallFromSuppliedHistory(originalMessage,data.history,{language:lang});
+    const scopedRecall=creativeEntryIntent.requested?null:recallFromSuppliedHistory(originalMessage,data.history,{language:lang});
     if(scopedRecall){
       let recallReply=scopedRecall.found?scopedRecall.reply:
         (lang==='ro'?(scopedRecall.reason==='topic_missing'
@@ -2652,7 +2754,7 @@ export default {
     // E1: Speech-act gate has priority over stale route context, named-POI
     // lookup, news/web research, old lesson topics and fixed canned replies.
     // The app brand remains myPocket AI; only the avatar is named Eva.
-    const evaTurn=classifyEvaTurn(message,{module: data.module||'assistant'});
+    const evaTurn=creativeEntryIntent.requested?null:classifyEvaTurn(message,{module: data.module||'assistant'});
     if(evaTurn?.kind==='exit'){
       return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,
         message_received:originalMessage,reply:lang==='ro'?'Închizi?':'Close the app?',
@@ -7507,8 +7609,12 @@ export default {
     const evergreenSalaryExplanation=dialogueIntent.kind==="explanation" && /\b(?:diferenta|difference)\b/.test(normalizedResearchRequest) && /\b(?:brut|gross)\b/.test(normalizedResearchRequest) && /\bnet\b/.test(normalizedResearchRequest) && !/\b(?:impozit\w*|tax\w*|lege\w*|law|20\d\d)\b/.test(normalizedResearchRequest);
     // An explicit article collection MUST search sources before any requested translation.
     // A generic "tradu" command in the same prompt must not send news into AI-only mode.
+    const creativeIntent=creativeQualityEnabled?
+      evaCreativeIntent({module:data.module||'assistant',message}):{requested:false};
+    const creativeWithoutResearch=creativeIntent.requested&&!creativeIntent.factual;
     const sourceBackedNewsRequested=!voluntaryTelegramLink&&!recipeInstruction&&!eventResearchIntent&&requiresLiveNewsRetrieval(message);
-    const shouldSearchWeb = sourceBackedNewsRequested || voluntaryTelegramLink?.mode==="verify_user_claim" || data.search_web === true || (!dialogueOnlyIntent && dialogueIntent.kind!=="reformat_previous" && !stableCapitalNoSearch && !evergreenSalaryExplanation && !obviouslyNonResearch && !capabilityQuestion && (substantiveRequest || recipeInstruction) && (recipeInstruction || explicitLookup || ["article_collection","briefing","analysis"].includes(classifyNewsRequest(message).mode) || (!taskInsteadOfResearch && !recipeInstruction)));
+    const shouldSearchWebRaw = sourceBackedNewsRequested || voluntaryTelegramLink?.mode==="verify_user_claim" || data.search_web === true || (!dialogueOnlyIntent && dialogueIntent.kind!=="reformat_previous" && !stableCapitalNoSearch && !evergreenSalaryExplanation && !obviouslyNonResearch && !capabilityQuestion && (substantiveRequest || recipeInstruction) && (recipeInstruction || explicitLookup || ["article_collection","briefing","analysis"].includes(classifyNewsRequest(message).mode) || (!taskInsteadOfResearch && !recipeInstruction)));
+    const shouldSearchWeb = data.search_web===true || (!creativeWithoutResearch && shouldSearchWebRaw);
     const priceResearch = /\b(?:price|prices|cost|costs|how much|£|€|\$|pret\w*|preturi|preț|prețuri|cat costa|cât costă|costa|costă|oferta|oferte)\b/i.test(normalizedResearchRequest);
     const legalResearch = /\b(?:law\w*|legal\w*|legislation|regulat\w*|statut\w*|tax\w*|fine|penalt\w*|codul\s+(?:muncii|rutier|civil|penal)|lege\w*|legi|legislati\w*|regulament\w*|impozit\w*|taxa|taxe|amend\w*|sanctiun\w*|drepturi|obligatii|licente|visa|viz\w*|immigration|imigra\w*)\b/i.test(normalizedResearchRequest);
     // Reuse the full Intl.DisplayNames-backed country table for worldwide jurisdiction discovery.
@@ -7528,6 +7634,7 @@ export default {
     const programmingIntent=classifyProgrammingRequest(message,history);
     const answerFocus=(dialogueIntent.kind==="reformat_previous" || (dialogueIntent.kind==="explanation" && dialogueIntent.sentence_count))
       ? {mode:"format_constrained",max_tokens:220}
+      : creativeIntent.requested?{mode:"standard",max_tokens:creativeIntent.long?3000:1750}
       : planAnswerFocus(message,{contextApplied:contextualSearch.context_applied||Boolean(correctedTopic),dialogueOnly:dialogueOnlyIntent,recipeInstruction,eventResearchIntent});
     const searchQuery = (telegramExternalResearchQuery(voluntaryTelegramLink)|| (sourceBackedNewsRequested?newsSearchQuery(message,searchLanguage):(eventResearchIntent?(eventSearchText.replace(/\s*(?:[,.;:]?\s*(?:prezint[aă]|afișează|afiseaza|listează|listeaza|ordonează|ordoneaza)\b[^?.]*)[?.]?\s*$/iu,'').trim()||eventSearchText):recipeInstruction?culinarySearchQuery(message,searchLanguage):((correctedTopic||contextualSearch.query)+(legalResearch?" Prefer current official government or regulator sources for the stated jurisdiction.":" Prefer primary sources and exact dates; do not infer missing facts."))))).slice(0,550);
     const safeSourceUrl = value => {
@@ -8307,12 +8414,17 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
     }));
 
     try {
-      const smartMainPlan=evaPlan({module:data.module||'assistant',message,requiresSources:shouldSearchWeb});
+      const creativePlan=creativeQualityEnabled&&creativeIntent.requested
+        ?planEvaAI({module:data.module||'assistant',message,requiresSources:shouldSearchWeb,creativeIntent},{enabled:true,legacyModel:selectedAiModel})
+        :null;
+      const smartMainPlan=evaSmartRouterEnabled
+        ?evaPlan({module:data.module||'assistant',message,requiresSources:shouldSearchWeb,creativeIntent})
+        :creativePlan||evaPlan({module:data.module||'assistant',message,requiresSources:shouldSearchWeb});
       const explicitlyLong=/\b(?:[2-9]\s*(?:pagini|pages)|peste\s+\d+\s+(?:cuvinte|words)|full source code|cod(?:ul)? complet|complete code|entire file)\b/i.test(message);
       // Model reasoning can be more capable without producing a 1,200-word,
       // abruptly cut-off answer to an ordinary analytical question.
       const compactDeep=evaSmartRouterEnabled&&smartMainPlan.tier==='deep'
-        &&!explicitlyLong&&!recipeInstruction&&!eventResearchIntent;
+        &&!creativeIntent.requested&&!explicitlyLong&&!recipeInstruction&&!eventResearchIntent;
       const smartSystemMessage=compactDeep?systemMessage+
         '\n\nSMART EVA ANSWER: Give a complete, useful answer in roughly 350–500 words maximum unless the user explicitly requests a long document. Include key trade-offs, a concrete recommendation and a short final conclusion. Avoid enormous tables, repetitive sections, speculative service claims and unfinished final words. Finish with a complete sentence.':systemMessage;
       const primaryMessages=[{role:"system",content:smartSystemMessage},...modelHistory,{role:"user",content:aiUserMessage}];
@@ -8325,15 +8437,18 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
           messages:primaryMessages,max_tokens:effectiveTokens,
           temperature:eventResearchIntent||recipeInstruction?0.05:0.18
         };
-        result=evaSmartRouterEnabled
-          ?await executeEvaAI(env.AI,smartMainPlan,primaryOpts)
-          :await env.AI.run(selectedAiModel,primaryOpts);
+        const mainOptions=creativeQualityEnabled&&creativeIntent.requested
+          ?enhanceEvaCreativeOptions({module:data.module||'assistant',message},primaryOpts).options
+          :primaryOpts;
+        result=evaSmartRouterEnabled||creativePlan
+          ?await executeEvaAI(env.AI,smartMainPlan,mainOptions)
+          :await env.AI.run(selectedAiModel,mainOptions);
         if(!result||typeof result.response!=="string"||!result.response.trim())
           throw Error("primary_empty_response");
       }catch(primaryError){
         // The same Workers AI account-wide free allocation is shared by ALL
         // models; retrying with another model cannot fix a 4006 quota error.
-        if(isWorkersAiQuotaExceeded(primaryError)||evaSmartRouterEnabled)throw primaryError;
+        if(isWorkersAiQuotaExceeded(primaryError)||evaSmartRouterEnabled||creativePlan)throw primaryError;
         // A model outage must not make ordinary questions fail permanently.
         // One bounded fallback on a separate deployed model, with compact context,
         // prevents a second long request and avoids replaying unrelated dialogue.
@@ -8368,7 +8483,8 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
       // Finish an overlong deep-model answer instead of showing a dangling fragment.
       // This is NOT a second research attempt. The balanced model only edits
       // the material already produced and must not add unsupported claims.
-      if(evaSmartRouterEnabled&&smartMainPlan.tier==='deep'
+      if((evaSmartRouterEnabled||creativePlan)&&smartMainPlan.tier==='deep'
+         &&(!creativeIntent.requested||!creativeIntent.long)
          &&!recipeInstruction&&!eventResearchIntent
          &&evaLikelyTruncated(result,effectiveTokens)){
         stageMetrics.eva_cutoff_detected=true;
@@ -8399,7 +8515,7 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
         }
       }
       stageMetrics.eva_model_used=result?.eva_model_used||selectedAiModel;
-      stageMetrics.eva_tier=evaSmartRouterEnabled?smartMainPlan.tier:'legacy';
+      stageMetrics.eva_tier=evaSmartRouterEnabled||creativePlan?smartMainPlan.tier:'legacy';
       stageMetrics.eva_fallback_used=Boolean(result?.eva_model_fallback);
       // If the model hit its generation limit, finish the answer before displaying it.
       // A scrollable modal cannot recover text that the model never generated.

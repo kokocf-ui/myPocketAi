@@ -39,6 +39,7 @@ export function storybookSystemPrompt(req){
   'The user supplies the subject, not a request to show a search result. Write a polished literary miniature, NOT a school summary or generic moral.',
   'Genre: '+(voices[req.genre]||voices.children)+'.',
   'Every chapter must unfold as a specific scene with a setting, character desire, obstacle or discovery, action and consequence: a specific scene, not an outline.',
+  'Keep cause and effect plausible and consistent across scenes. Unless fantasy was explicitly requested, do not introduce arbitrary supernatural solutions, implausible animals or numbers, mechanically impossible actions or random twists unrelated to what came before. Set up and resolve each obstacle through earned character decisions.',
   'Choose vivid but economical images, natural cause-and-effect, realistic dialogue where appropriate, suspense or curiosity, and an ending that pays off something introduced earlier.',
   'Do not narrate only what characters imagine, decide or read. Make things actually happen on the page.',
   'Avoid filler: "intr-o zi" starts, generic mountains/forests, repeated descriptions, "a decis să afle mai multe" as a substitute for plot, repeated morals and summaries.',

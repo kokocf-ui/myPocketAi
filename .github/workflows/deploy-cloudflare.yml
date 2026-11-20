@@ -192,6 +192,9 @@ jobs:
         run: |
           node --check backend.js
           node --check eva_ai_orchestrator.mjs
+          node --check eva_creative_quality.mjs
+          node tests_eva_creative_quality.mjs
+          node tests_eva_creative_backend.mjs
           node tests_eva_ai_orchestrator.mjs
           node tests_eva_ai_backend_routing.mjs
           node tests_mixed_route_quality.mjs

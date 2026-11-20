@@ -77,7 +77,7 @@ assert.equal((cleaned.match(/Am încercat să răspund prea lung/g)||[]).length,
 assert.ok(cleanEvaReply('O explicație foarte lungă. '.repeat(60)).length<=480);
 
 const backend=readFileSync('backend.js','utf8');
-const gate=backend.indexOf('const evaTurn=classifyEvaTurn(message');
+const gate=backend.indexOf('const evaTurn=creativeEntryIntent.requested?null:classifyEvaTurn(message');
 const recipe=backend.indexOf('const culinaryRequest=parseCulinaryRequest(message)');
 const namePlace=backend.indexOf('const localNameQuery=');
 assert.ok(gate>0&&gate<recipe&&gate<namePlace,'Eva gate precedes recipe/location heuristics');
