@@ -19,12 +19,12 @@ assert.match(androidPdf,/output\.delete\(\); \/\/ No fake extra sheets or silent
 
 new vm.Script(LITERATURE_TASK_UI_SCRIPT,{filename:'literature_task_ui.mjs:browser'});
 
-async function tutoring(message,mode,reply){
+async function tutoring(message,mode,reply,extra={}){
  let model='',input;const calls=[];
  const res=await backend.fetch(new Request('https://education-fixture.test/api/chat',{
   method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
    module:'education_study',education_subject:'language_literature',education_activity:mode,
-   language:'ro',message,history:[]})
+   language:'ro',message,history:[],...extra})
  }),{AI:{run:async(m,p)=>{model=m;input=p;calls.push({m,p});return {response:typeof reply==='function'?reply(m,p,calls.length-1):reply}}}});
  return {res,data:await res.json(),model,input,calls};
 }
@@ -66,6 +66,14 @@ assert.match(essayBackend.input.messages[0].content,/entire requested essay/);
 const tooShort=await tutoring('Scrie 5 pagini A4 despre Luceafărul','essay','Introducere și concluzie.');
 assert.equal(tooShort.res.status,503,'Do not label 40 words as five A4 pages');
 assert.equal(tooShort.data.error,'essay_too_short');
+const singleSegment=await tutoring('Redactează începutul unui eseu despre Luceafărul','essay',
+ essaySegment(0),{education_essay_pages:5,education_essay_segment:1});
+assert.equal(singleSegment.res.status,200,'Each A4 section must return promptly without waiting for the whole essay');
+assert.equal(singleSegment.calls.length,1,'One HTTP call should perform just one model generation');
+assert.equal(singleSegment.data.essay_segment,1);
+assert.equal(singleSegment.data.essay_pages,5);
+assert.equal(singleSegment.data.reply,essaySegment(0));
+
 assert.equal(grammar.input.max_tokens,2800,'Ordinary lessons retain their normal budget');
 const bad=await tutoring('Morfologie și sintaxă','lesson',
  'Nu am coordonate GPS utilizabile. Permite accesul la locație.');
@@ -103,6 +111,11 @@ const cfg={
  hgDisplayStudyText:(el,val)=>{el.replaceChildren(new El('p'));el.children[0].textContent=val},
  fetch:async(url,options)=>{
   const payload=JSON.parse(options.body);requests.push(payload);
+  if(payload.education_essay_segment){
+   return {ok:true,json:async()=>({status:'success',education_subject:'language_literature',
+    essay_pages:payload.education_essay_pages,essay_segment:payload.education_essay_segment,
+    reply:essaySegment(payload.education_essay_segment-1)})};
+  }
   return {ok:true,json:async()=>nextResponse};
  }
 };
@@ -202,7 +215,12 @@ cfg.clearTimeout=clearTimeout;
 nextResponse={status:'success',education_subject:'language_literature',
  essay_pages:5,reply:finishedEssay};
 const litPanel=new El('div');ui.workspace(litPanel);
-press(litPanel,'Luceafărul — Mihai Eminescu');
+assert.equal(all(litPanel).filter(x=>x.tagName==='BUTTON'&&x.textContent==='Luceafărul — Mihai Eminescu').length,0,
+ 'Do not clutter Literature with preselected authors');
+const searchInput=all(litPanel).find(x=>x.tagName==='INPUT');
+searchInput.value='Luceafărul';
+press(litPanel,'Caută autorul / opera');await flush();
+assert.ok(litPanel.textContent.includes('Luceafărul — Mihai Eminescu'),'Simple title search directly selects the verified work');
 const selectors=all(litPanel).filter(x=>x.tagName==='SELECT');
 assert.equal(selectors.length,1,'Essay type has one selector; page count is explicitly visible');
 const pageButtons=all(litPanel).filter(x=>x.tagName==='BUTTON'&&x.className?.split(/\s+/).includes('lit-essay-page-choice'));
@@ -217,7 +235,9 @@ assert.match(essayPayload.message,/eseu interpretativ complet/);
 assert.match(essayPayload.message,/2000 cuvinte/);
 assert.equal(essayPayload.education_essay_pages,5);
 assert.match(essayPayload.message,/5 pagini A4/);
-assert.equal(essayWaitMs,180000,'Multi-part A4 essays have sufficient network time');
+assert.equal(essayWaitMs,45000,'Each progressive essay section times out independently');
+assert.deepEqual(requests.slice(-5).map(x=>x.education_essay_segment),[1,2,3,4,5],
+ 'Five pages are fetched as five independent short HTTP requests, with visible progress');
 assertReader('Paragraful 1-1');
 assert.doesNotMatch(readerText(),/ESEU — IUBIREA, IDEALUL/,'No static short essay');
 // The PDF export must carry the 5-A4 request into Android, not the screen
