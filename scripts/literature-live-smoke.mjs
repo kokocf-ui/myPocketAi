@@ -6,6 +6,7 @@ const account=process.env.CLOUDFLARE_ACCOUNT_ID;
 const token=process.env.CLOUDFLARE_AI_TOKEN;
 const nativeFetch=globalThis.fetch;
 const experimentModel=process.env.LITERATURE_CANARY_DEEP==='1'?'@cf/openai/gpt-oss-120b':null;
+const editorialCheck=process.env.LITERATURE_CANARY_EDIT==='1';
 let calls=0;
 const maxCalls=4;
 const callStats=[];
@@ -42,10 +43,25 @@ for(const item of fixtures){
        education_activity:item.activity,language:'ro',message:item.message})}),{AI:{run:aiRun},
        POCKET_AI_TEXT_MODEL:process.env.LITERATURE_CANARY_MODEL||''});
   const body=await response.json();
-  const answer=String(body.reply||'');
+  const draft=String(body.reply||'');
+  let answer=draft;
+  if(editorialCheck&&response.status===200&&draft){
+   const essay=item.activity==='write';
+   const requirements=essay
+    ?'A finished mature argumentative essay of approximately 460–550 words, 5–7 natural coherent paragraphs with thesis, two different arguments, a genuine objection and an earned conclusion. No section labels and no moralising.'
+    :'A complete class-10 literature chapter of 450–650 substantial words: accurate figures of speech, original labelled examples, precise distinctions between EPITET/comparison/metaphor/personification/ANTITHESIS vs OXYMORON, and an applied explanation of each expressive effect. No invented citations or attribution to real authors.';
+   const editor='You are an experienced native Romanian literary editor AND literature teacher. Revise the following draft into a publishable mature Romanian text. Thoroughly correct diacritics, cases, gender/number agreement, awkward calques, repetition and vague content. '
+    +'Preserve the original assignment and factual accuracy, remove unsupported author/poem examples, and prefer original concrete examples for explanations. '
+    +'Deliver the full revised FINAL text only, not editing notes, apology or a checklist. '+requirements;
+   const revise=await aiRun('@cf/meta/llama-3.3-70b-instruct-fp8-fast',{
+    messages:[{role:'system',content:editor},{role:'user',content:'CERINȚĂ ORIGINALĂ:\n'+item.message+
+     '\n\nTEXT DE REVIZUIT:\n'+draft}],temperature:0.12,max_tokens:3200});
+   answer=evaVisibleAnswer(revise);
+  }
   const issue=answer?literatureOutputIssue(answer,item.activity,item.message):body.quality||body.error||null;
   results.push({id:item.id,http:response.status,status:body.status,error:body.error||null,
-   issue,words:literatureWordCount(answer),ms:Date.now()-start,answer:answer.slice(0,14000)});
+   issue,draft_words:literatureWordCount(draft),words:literatureWordCount(answer),
+   ms:Date.now()-start,draft:draft.slice(0,14000),answer:answer.slice(0,14000)});
  }catch(error){results.push({id:item.id,error:String(error?.message||error).slice(0,180),ms:Date.now()-start,words:0});}
 }
 await mkdir('reports',{recursive:true});
