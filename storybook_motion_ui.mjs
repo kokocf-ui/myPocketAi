@@ -16,8 +16,8 @@ function extraStorybookMotionAttach(work,reader){
  const info=extraToolsEl('p','eva-story-image-status');
  info.setAttribute('role','status');
  info.textContent=extraToolsLocale(
-  'Fotografii reale din surse deschise, cu autorul și proveniența disponibile. Mișcarea este discretă.',
-  'Real photos from open sources, with attribution and provenance. Subtle camera movement.');
+  'Imagini publice găsite online, cu trimitere la sursă. Pentru export verifică drepturile de utilizare.',
+  'Publicly discovered images with source links. Check usage rights before exporting.');
  motion.append(info);
  reader.prepend(motion);
  const credit=extraToolsEl('div','eva-story-credit');motion.append(credit);
@@ -53,11 +53,15 @@ function extraStorybookMotionAttach(work,reader){
   subtitles.textContent=extraToolsLocale('Capitolul ','Chapter ')+(chapter+1)+(shortTitle&&shortTitle.length<55&&!/[.!?]/.test(shortTitle)?' — '+shortTitle:'');
   credit.replaceChildren();
   if(nextImage){
-   const author=extraToolsEl('span','',nextImage.author+' · '+nextImage.license+' · '+(nextImage.provider||'Sursa'));
+   const author=extraToolsEl('span','',nextImage.author+' · '+nextImage.license+' · '+(nextImage.provider||'Sursa')+
+    (nextImage.rights_review_required?extraToolsLocale(' · drepturi de verificat',' · rights to review'):''));
    const source=extraToolsEl('a','',extraToolsLocale('Vezi fotografia și licența','View photo and licence'));
    source.href=nextImage.source;source.target='_blank';source.rel='noopener';
    credit.append(author,source);
   }
+  animate.textContent=scenes.some(Boolean)?
+   extraToolsLocale('▶ Urmărește și ascultă','▶ Watch and listen'):
+   extraToolsLocale('🔊 Ascultă textul (fără imagini)','🔊 Listen to text (no images)');
   generate.textContent=scenes.every(Boolean)?
    extraToolsLocale('✅ Imagini pregătite','✅ Images ready'):
    extraToolsLocale('🔎 Caută fotografii reale','🔎 Find real photos');
@@ -113,6 +117,9 @@ function extraStorybookMotionAttach(work,reader){
   if(!book.length||playing)return;
   // The watch button also starts the photo search, so it never silently shows only text.
   if(!scenes.some(Boolean)&&!work.controller&&lastPhotoQuery!==photoSearch.value.trim())await makeIllustrations();
+  if(!scenes.some(Boolean))info.textContent=extraToolsLocale(
+   'Nu avem imagini de afișat. Pornește doar narațiunea vocală, nu o carte animată.',
+   'No images to display. Starting voice narration only, not an animated book.');
   if(work!==extraToolsSession||!reader.isConnected)return;
   startNarration();
  }
@@ -138,8 +145,8 @@ function extraStorybookMotionAttach(work,reader){
   const controller=new AbortController();
   lastPhotoQuery=topic;
   work.controller=controller;generate.disabled=true;
-  info.textContent=extraToolsLocale('Eva caută fotografii reutilizabile, cu autor și licență…',
-   'Eva is searching reusable photos with author and licence…');
+  info.textContent=extraToolsLocale('Eva caută fotografii și ilustrații online, cu trimitere la sursă…',
+   'Eva is searching online photos and illustrations with source links…');
   const timer=setTimeout(()=>controller.abort(),18000);
   try{
    const response=await fetch(api.toString(),{
@@ -153,8 +160,8 @@ function extraStorybookMotionAttach(work,reader){
     info.textContent=data?.status==='upstream_unavailable'||response.status>=500?
      extraToolsLocale('Biblioteca de fotografii este momentan indisponibilă. Povestea poate fi ascultată în continuare.',
       'Photo library is temporarily unavailable. You can still listen to the story.'):
-     extraToolsLocale('Nu am găsit imagini reprezentative pentru acest subiect. Textul și narațiunea rămân disponibile.',
-      'No representative images found for this topic. Text and narration remain available.');
+     extraToolsLocale('Nu am găsit imagini pentru acest subiect. Mini-cartea ilustrată nu este pregătită; poți asculta textul.',
+      'No images were found. The illustrated book is not ready; you can listen to the text.');
     return;
    }
    const safe=data.photos.filter(p=>{
