@@ -59,7 +59,7 @@ assert.match(pdf,/PocketAndroidPrint/);
 assert.match(boot,/const lesson=root\.querySelector\('\.lit-activity-heading'\)/,'PDF filename includes lesson');
 const java=readFileSync(new URL('./android/app/src/main/java/ai/mypocket/mobile/MainActivity.java',import.meta.url),'utf8');
 assert.match(java,/new File\(getFilesDir\(\),"documentele_mele"\)/,'Saved files are private native PDFs');
-assert.match(java,/notifyEducationPdf\("saved"\)/,'Android acknowledges save only after success');
+assert.match(java,/notifyEducationPdf\(essayPdf\?"saved:"\+actualPages:"saved"\)/,'Android acknowledges save only after native PDF success, including verified A4 essay sheet count');
 assert.match(java,/if\("list"\.equals\(request\)\)listEducationDocuments\(\)/,'Library bridge returns saved files');
 
 console.log('PASS: documents page scrolls; one reader export toolbar; reader closes on confirmed Android save');
