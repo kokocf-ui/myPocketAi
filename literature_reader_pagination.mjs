@@ -45,21 +45,35 @@ export function paginateLiteratureByFit(raw,fits){
  if(typeof fits!=='function')return splitLiteraturePages(text,2000);
  const tokens=text.match(/\S+\s*/g)||[];
  if(!tokens.length)return [];
- const pages=[];
- let start=0;
+ // A broken WebView layout must never create thousands of one-word pages.
+ try{if(!fits(tokens[0].trim()))return splitLiteraturePages(text,2000)}
+ catch{return splitLiteraturePages(text,2000)}
+ const pages=[];let start=0,previous=120;
  while(start<tokens.length){
-  let low=start+1,high=tokens.length,best=start;
+  const candidate=end=>tokens.slice(start,end).join('').trim();
+  // Use the last page as a fit estimate rather than rendering half a novel
+  // in the Android DOM on every binary-search iteration.
+  let accepted=start,upper=Math.min(tokens.length,start+Math.max(24,previous*2));
+  while(upper>accepted){
+   let good=false;
+   try{good=Boolean(fits(candidate(upper)))}catch{}
+   if(!good)break;
+   accepted=upper;
+   if(upper===tokens.length)break;
+   upper=Math.min(tokens.length,start+(upper-start)*2);
+  }
+  let low=accepted+1,high=upper-1;
   while(low<=high){
    const mid=Math.floor((low+high)/2);
-   const candidate=tokens.slice(start,mid).join('').trim();
    let good=false;
-   try{good=Boolean(fits(candidate))}catch{good=false}
-   if(good){best=mid;low=mid+1}
+   try{good=Boolean(fits(candidate(mid)))}catch{}
+   if(good){accepted=mid;low=mid+1}
    else high=mid-1;
   }
-  if(best===start)best=start+1; // Progress even for a single extra-long token.
-  pages.push(tokens.slice(start,best).join('').trim());
-  start=best;
+  if(accepted===start)accepted=start+1;
+  pages.push(candidate(accepted));
+  previous=accepted-start;
+  start=accepted;
  }
  return pages;
 }
