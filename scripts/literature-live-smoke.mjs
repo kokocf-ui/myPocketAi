@@ -1,9 +1,11 @@
 import backend from '../backend.js';
+import {evaVisibleAnswer} from '../eva_ai_orchestrator.mjs';
 import {literatureOutputIssue,literatureWordCount} from '../literature_output_quality.mjs';
 import {mkdir,writeFile} from 'node:fs/promises';
 const account=process.env.CLOUDFLARE_ACCOUNT_ID;
 const token=process.env.CLOUDFLARE_AI_TOKEN;
 const nativeFetch=globalThis.fetch;
+const experimentModel=process.env.LITERATURE_CANARY_DEEP==='1'?'@cf/openai/gpt-oss-120b':null;
 let calls=0;
 const maxCalls=4;
 const callStats=[];
@@ -15,15 +17,18 @@ async function aiRun(model,options){
  if(calls>=maxCalls)throw Error('canary_call_cap');
  calls++;
  const start=Date.now();
- const response=await nativeFetch('https://api.cloudflare.com/client/v4/accounts/'+encodeURIComponent(account)+'/ai/run/'+model,{
+ const chosen=experimentModel||model;
+ const tuned=experimentModel?{...options,reasoning_effort:'low',max_tokens:Math.max(2800,Number(options.max_tokens)||2800)}:options;
+ const response=await nativeFetch('https://api.cloudflare.com/client/v4/accounts/'+encodeURIComponent(account)+'/ai/run/'+chosen,{
    method:'POST',headers:{Authorization:'Bearer '+token,'Content-Type':'application/json'},
-   signal:AbortSignal.timeout(65000),
-   body:JSON.stringify({...options,stream:false})
+   signal:AbortSignal.timeout(85000),
+   body:JSON.stringify({...tuned,stream:false})
  });
  const body=await response.json().catch(()=>null);
- callStats.push({model,status:response.status,ms:Date.now()-start});
+ callStats.push({model:chosen,status:response.status,ms:Date.now()-start});
  if(!response.ok||body?.success===false)throw Error('cloudflare_ai_'+response.status+': '+JSON.stringify(body?.errors||[]).slice(0,170));
- return body?.result||body;
+ const raw=body?.result||body;
+ return experimentModel?{response:evaVisibleAnswer(raw)}:raw;
 }
 globalThis.fetch=async()=>{throw Error('Unexpected network request during literature canary')};
 const results=[];
