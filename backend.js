@@ -2621,12 +2621,21 @@ export default {
             const sections=role==='opening'?
               'Write the natural introduction, accurate context and first two fully argued interpretations. Do NOT write a conclusion yet.':
               role==='closing'?'Continue the same essay with further different, specific arguments, mature interpretation and a fully developed conclusion. Do NOT repeat the introduction.':
-              'Write the entire essay with introduction, developed arguments and conclusion.';
+              'Deepen a NEW analytical dimension of the same essay, with concrete interpretation of the selected work. Continue the preceding paragraph naturally. Do not write a new introduction or a conclusion.';
             const continuity=part>0?' The immediately preceding paragraphs of THIS essay end with: '+
               parts.at(-1).slice(-1200):'';
+            const distinctFocus=[
+              'Introduce the central interpretative thesis and the cultural context.',
+              'Explore the characters, perspectives and their conflicting desires.',
+              'Analyse structure, symbolic imagery and stylistic contrasts.',
+              'Discuss philosophical tension, the evolution of the conflict and an alternative interpretative nuance.',
+              'Draw the arguments together in a reasoned literary conclusion.'
+            ];
+            const focus=distinctFocus[Math.min(part,4)];
             const chapterRequest=message+'\nEssay section '+(part+1)+'/'+spec.segments+
               ': write approximately '+segmentWords+' words of FINISHED connected prose. '+
-              sections+' No tasks, exercises, numbered outline, bibliography or template. '+
+              sections+' Focus for this section: '+focus+
+              '. No tasks, exercises, numbered outline, bibliography or template. '+
               'Ground the analysis in the known work; invent no quotations.'+continuity;
             const response=await evaTask(
               {module:'education_study',subject:'language_literature',activity,message:chapterRequest},
