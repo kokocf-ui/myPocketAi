@@ -56,6 +56,7 @@ const essayFragment=n=>Array.from({length:2},(_,i)=>
  ).join('\n\n');
 const finishedEssay=Array.from({length:10},(_,i)=>essayFragment(i)).join('\n\n');
 assert.equal(litEssaySpec(5).targetWords,2000);
+assert.equal(litEssaySpec(12).pages,12,'Author may request more than five A4 sheets');
 assert.ok(litEssayQuality(finishedEssay,5).ok,'A genuine long-form answer must pass the A4 length gate');
 assert.equal(litEssayQuality('Un eseu scurt.',5).reason,'essay_too_short');
 const essayBackend=await tutoring('Scrie un eseu interpretativ de aproximativ 2000 de cuvinte, 5 pagini A4, despre Luceafărul, fără citate inventate.','essay',
@@ -234,11 +235,11 @@ press(litPanel,'Caută autorul / opera');await flush();
 assert.ok(litPanel.textContent.includes('Luceafărul — Mihai Eminescu'),'Simple title search directly selects the verified work');
 const selectors=all(litPanel).filter(x=>x.tagName==='SELECT');
 assert.equal(selectors.length,1,'Essay type has one selector; page count is explicitly visible');
-const pageButtons=all(litPanel).filter(x=>x.tagName==='BUTTON'&&x.className?.split(/\s+/).includes('lit-essay-page-choice'));
-assert.equal(pageButtons.length,5,'Android must show all five A4 lengths without a scrollable native popup');
+const pageInput=all(litPanel).find(x=>x.tagName==='INPUT'&&x.type==='number');
+assert.ok(pageInput,'A4 count must be freely editable without five preset buttons');
+assert.equal(pageInput.value,'3');
 selectors[0].value='interpretativ';
-pageButtons[4].onclick();
-assert.equal(pageButtons[4].attrs['aria-pressed'],'true','Fifth A4 page choice is active');
+pageInput.value='5';
 press(litPanel,'Eseu');await flush();
 const essayPayload=requests.at(-1);
 assert.equal(essayPayload.education_activity,'essay');
@@ -272,7 +273,8 @@ cfg.fetch=async(url,options)=>{
  return originalSegmentFetch(url,options);
 };
 press(litPanel,'Eseu');await flush();
-assertReader('ESEU INCOMPLET — 2 din 10');
+assertReader('ciornă incompletă');
+assert.doesNotMatch(readerText(),/ESEU INCOMPLET|ESEU SUB LUNGIMEA/, 'Do not add a generation diagnostic to the essay itself');
 assert.match(readerText(),/Fragmentul 1-1/);
 assert.match(readerText(),/Fragmentul 2-1/);
 assert.equal(requests.at(-1).education_essay_segment,2,
@@ -280,7 +282,7 @@ assert.equal(requests.at(-1).education_essay_segment,2,
 const incompleteReader=readerOverlay();
 const partialExports=[];
 cfg.eduOpenPrint=(mode,material)=>partialExports.push({mode,material});
-press(incompleteReader,'💾 Salvează PDF');
+press(incompleteReader,'💾 Salvează ciorna');
 assert.equal(partialExports.at(-1)?.material?.essayPages,0,
  'Never promise the requested five A4 pages when the model returned only two sections');
 
