@@ -3,6 +3,7 @@
 import {searchStorybookCommonsPhotos} from '../storybook_commons_photos.mjs';
 const checks=[{topic:'Decebal',language:'ro',documentary:true},
  {topic:'Terracotta Army',language:'en',documentary:false}];
+const contexts={Decebal:'Decebal, ultimul rege al Daciei, războaiele dacice cu Imperiul Roman'};
 const results=[];
 for(const check of checks){
  const started=Date.now();
