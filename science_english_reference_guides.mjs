@@ -31,7 +31,7 @@ export const SCIENCE_GUIDES_EN=Object.freeze({
       "Chemical equations describe reactants forming products. A balanced equation preserves the numbers of atoms of every element and total charge.",
       "2H₂ + O₂ → 2H₂O has four hydrogen atoms and two oxygen atoms on each side.",
       "Balancing coefficients cannot be substituted by changing the chemical subscripts in formulas.",
-      "Why is H₂ + O₂ → H₂O not balanced?"
+      "Why is H₂ + O₂ → H₂O not balanced, and which atoms are missing on the product side?"
     ],
     "inorganic": [
       "Inorganic chemistry includes salts, oxides, acids, bases and many other compounds. Classification combines composition, bonding and observed properties.",
@@ -127,7 +127,7 @@ export const SCIENCE_GUIDES_EN=Object.freeze({
     ],
     "electric": [
       "Charge flow constitutes electric current. Voltage is potential difference and resistance relates voltage and current for ohmic components.",
-      "Across a 4 Ω resistor at 12 V, I=V/R=3 A.",
+      "Across a 4 Ω resistor supplied at 12 V, the model gives I=V/R=12/4=3 A.",
       "Ohm's law should not be applied blindly to all materials or operating conditions.",
       "How does current change if resistance doubles at fixed voltage?"
     ],
@@ -179,7 +179,7 @@ export const SCIENCE_GUIDES_EN=Object.freeze({
       "Cell theory connects organisms to cellular structure. Cell membranes regulate exchange; eukaryotic and prokaryotic cells differ in compartmentalisation.",
       "A leaf cell may contain chloroplasts for photosynthesis and mitochondria for respiration.",
       "Not every cell contains every textbook organelle; specialised cells can lack typical structures.",
-      "Which feature is shared by all living cells?"
+      "Which structure is shared by all living cells, including bacteria and eukaryotes?"
     ],
     "biomolecules": [
       "Proteins, nucleic acids, carbohydrates and lipids have distinct roles in cellular structures and processes.",
@@ -252,7 +252,7 @@ export const SCIENCE_GUIDES_EN=Object.freeze({
     "distances": [
       "Astronomy uses astronomical units, light-years and parsecs to describe very large distances. Light takes finite time to travel.",
       "At about 300,000 km/s, light crosses the roughly 150 million km Sun–Earth distance in about 500 seconds.",
-      "A light-year is a distance, not a duration.",
+      "A light-year is a unit of distance travelled by light, not a unit of duration.",
       "What does observing a galaxy millions of light-years away reveal about its light?"
     ],
     "gravity": [
