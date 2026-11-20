@@ -34,7 +34,7 @@ export function scienceUniversityChapter({
  root.push('# '+(ro?'Subcapitole și concepte verificabile':'Chapter-specific concepts'));
  for(const [i,entry] of source.entries()){
   root.push(
-   '## '+(i+1)+'. '+(ro?entry.title:('#'+(i+1)+' · '+topic)),
+   '## '+(i+1)+'. '+(ro?entry.title:'Source concept '+(i+1)),
    (ro?'Definiție și explicație: ':'Romanian primary-source study statement (English translation not verified): ')+entry.statement,
    entry.formula&&entry.formula!=='—'?(ro?'Relație și notație: ':'Formula or notation: ')+entry.formula:'',
    ro?
