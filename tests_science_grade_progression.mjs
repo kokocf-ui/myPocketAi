@@ -149,5 +149,51 @@ for(const hook of ['SCIENCE_GRADE_TOPIC_PLAN','SCIENCE_GRADE_LESSON_FRAME',
  "schoolStage:'primary'", 'scienceJourney.schoolStage=group.schoolStage',
  'SCIENCE_PRIMARY_ENGLISH','scienceGradeTopicPlan'])
  assert.ok(html.includes(hook),'Missing Android science integration: '+hook);
+// Exercise the actual WebView reader with a minimal DOM. One authored lower
+// secondary lesson must remain accessible even when no legacy theory entries exist.
+const readerStart=script.indexOf('function educationScienceTheoryReader(');
+const readerEnd=script.indexOf('function scienceOpenChemistrySection(',readerStart);
+assert.ok(readerStart>0&&readerEnd>readerStart,'Science reader was not emitted');
+const readerSource=script.slice(readerStart,readerEnd);
+const opened=[];
+const journey={schoolStage:'lower',grade:'7',gradePosition:0};
+const runtimeState={language:'ro'};
+const lessonArgs=[];
+function fakeElement(tag){return {tag,children:[],style:{},
+ append(...children){this.children.push(...children)}};}
+const readerContext={
+ document:{createElement:fakeElement},
+ scienceJourney:journey,state:runtimeState,
+ EDUCATION_THEORY_DATA:[
+  {subject:'chemistry',topic:'atomic',level:'beginner',title:'Atom'}, 
+  {subject:'chemistry',topic:'atomic',level:'beginner',title:'Ioni'}
+ ],
+ scienceTopicInfo:()=>({ro:'Structura atomului',en:'Atomic structure'}),
+ learningLabel:(ro,en)=>runtimeState.language==='ro'?ro:en,
+ SCIENCE_GRADE_LESSON_FRAME:args=>{
+  lessonArgs.push(args);
+  return 'Original '+args.subject+' '+args.topic+' '+args.grade+' / '+args.gradePosition;
+ },
+ educationOpenPagedLesson:(title,body)=>opened.push({title,body})
+};
+const renderScienceReader=vm.runInNewContext(readerSource+';educationScienceTheoryReader',readerContext);
+let rendered=renderScienceReader('chemistry','atomic','beginner');
+assert.equal(rendered.children.length,2,'Only one lesson card follows the heading');
+assert.match(rendered.children[0].textContent,/\\(1\\)/,'Do not promise duplicated lower-secondary lessons');
+rendered.children[1].onclick();
+assert.deepEqual(opened[0],{title:'Structura atomului',body:'Original chemistry atomic 7 / 0'});
+assert.equal(lessonArgs.length,1,'Render only the selected chapter lesson');
+readerContext.EDUCATION_THEORY_DATA=[];
+journey.grade='8';journey.gradePosition=3;
+rendered=renderScienceReader('chemistry','atomic','beginner');
+assert.equal(rendered.children.length,2,'Missing legacy sublessons must not hide the authored chapter');
+rendered.children[1].onclick();
+assert.equal(opened.at(-1).body,'Original chemistry atomic 8 / 3',
+ 'Selecting a new grade must not reuse the previous lesson');
+runtimeState.language='en';
+rendered=renderScienceReader('chemistry','atomic','beginner');
+rendered.children[1].onclick();
+assert.equal(opened.at(-1).title,'Atomic structure','Localised chapter title must be used');
+
 console.log('PASS 50 European jurisdictions: '+checked+' science grade routes; '+
  gradeVariations+' grade-varied plans, '+frontendRoutes+' visible Android year routes, '+advisoryStages+' fallback school stages, school-stage lessons and frontend syntax');
