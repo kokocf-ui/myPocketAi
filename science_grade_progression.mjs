@@ -118,10 +118,94 @@ export const SCIENCE_PRIMARY_ENGLISH=Object.freeze({
   distances:['Distances in space','Space distances are enormous and light takes time to travel. Models are helpful but rarely use a true scale.','Explain why real interplanetary distances cannot be reproduced inside a room.']
  }
 });
-export function scienceGradeLessonFrame({subject,stage,grade,topic,chapter,language='ro'}={}){
+// Independently authored explanatory layers: observation, example, and a misconception
+// for EVERY primary Science topic, instead of a one-paragraph lesson.
+export const SCIENCE_PRIMARY_DEPTH=Object.freeze({
+ physics:{
+  units:{
+   ro:['Pentru a compara două măsurători trebuie să alegem aceeași unitate: dacă o carte are 24 cm și alta 30 cm, a doua este cu 6 cm mai lungă. Metrul și centimetrul măsoară lungimi; kilogramul și gramul măsoară mase.','Exemplu explicat: o riglă pusă strâmb sau care nu începe de la zero poate da un rezultat greșit. Măsurăm de la marcajul zero, privim gradația drept deasupra și repetăm.','Nu confunda masa cu greutatea: pentru o activitate de bază poți compara masele unor obiecte, dar în fizică greutatea este o forță.'],
+   en:['A fair comparison uses the same unit. If one book is 24 cm long and another is 30 cm long, the second is 6 cm longer. Metres and centimetres measure length; kilograms and grams measure mass.','Worked example: if a ruler starts away from zero or is placed at an angle, it can give a wrong reading. Align its zero mark, look straight down at the scale and repeat the measurement.','Do not confuse mass and weight: their meanings are related but distinct in physics.']
+  },
+  energy:{
+   ro:['Când o jucărie coboară pe o rampă, energia asociată poziției sale se poate transforma în energie de mișcare. O parte se transferă și în mediul înconjurător, de exemplu prin frecare și sunet.','Exemplu: două rampe cu înălțimi diferite nu produc obligatoriu aceeași mișcare; observă atent și păstrează aceeași jucărie. Notează ce modifici și ce măsori.','Nu afirma că energia „dispare” când obiectul se oprește: energia se transferă în alte forme.'],
+   en:['As a toy moves down a ramp, energy associated with its position can become energy of motion. Some is transferred into the environment, for example through friction and sound.','Example: ramps of different heights may lead to different motion. Use the same toy, change just one property at a time and record what you observe.','Energy does not simply disappear when the toy stops; it is transferred into other forms.']
+  },
+  heat:{
+   ro:['Temperatura unui obiect nu este același lucru cu energia totală din el. Un vas mare de apă călduță și o cană mică de apă fierbinte pot avea temperaturi diferite și cantități diferite de energie.','Exemplu explicat: termometrul arată un număr în grade. Citește numai după stabilizarea afișajului și compară rezultatele în aceeași unitate.','Nu testa temperatura lichidelor fierbinți cu mâna. Observațiile se fac cu un adult și cu apă sigură.'],
+   en:['Temperature is not the same as total thermal energy. A large container of lukewarm water and a small cup of hot water can have different temperatures and different amounts of energy.','Worked example: a thermometer shows a value in degrees. Let the reading settle and compare results in the same unit.','Never test hot liquids with your hand. Use safe water and adult supervision.']
+  },
+  kinematics:{
+   ro:['Pentru a descrie mișcarea trebuie să precizăm față de ce obiect observăm poziția. Spunem că o mașinuță se apropie de o linie marcată ori se depărtează de ea.','Exemplu: dacă două mașinuțe merg pe același traseu, cea care ajunge într-un timp mai scurt are o viteză medie mai mare, presupunând aceeași distanță.','Nu confunda distanța parcursă cu direcția deplasării; un obiect poate reveni la punctul de plecare după ce a parcurs un drum lung.'],
+   en:['Movement is described relative to a reference point. A toy car moves towards or away from a marked line.','Example: if two toy cars travel the same distance, the one that arrives sooner has the greater average speed.','Distance travelled and direction of movement are different ideas; an object can return to its starting point after travelling far.']
+  },
+  fluids:{
+   ro:['Apa poate umple fundul unui vas înalt sau al unuia lat. Forma suprafeței ocupate de lichid se schimbă, dar cantitatea de apă rămâne aceeași dacă nu se varsă nimic.','Exemplu: marchează volumul dintr-un pahar gradat, varsă cu grijă apa într-un alt vas și apoi măsoară din nou. Notează erorile posibile de turnare.','Nu presupune că un vas mai înalt conține automat mai mult lichid. Contează și lățimea și forma lui.'],
+   en:['Water can fill the bottom of a tall container or a wide one. Its shape changes but the amount of water stays the same if none spills.','Example: mark the volume on a measuring jug, transfer the water carefully and then measure again. Record any possible loss.','A taller container does not necessarily hold more liquid; width and shape matter too.']
+  }
+ },
+ chemistry:{
+  fundamentals:{
+   ro:['Proprietățile unui material pot include culoarea, duritatea, flexibilitatea, transparența și conductivitatea. Nu orice proprietate se testează acasă: unele materiale pot fi periculoase.','Exemplu: hârtia și aluminiul pot avea culori asemănătoare, dar reacționează diferit când sunt îndoite. Observă fără să rupi obiecte periculoase sau să încălzești materiale.','O schimbare de mărime, cum este ruperea hârtiei, nu dovedește formarea unei substanțe noi.'],
+   en:['Materials have properties such as colour, hardness, flexibility, transparency and conductivity. Some tests are unsafe at home and should not be attempted.','Example: paper and aluminium foil may look similar in colour but bend differently. Observe safely without heating unknown materials.','Changing the size of a material, such as tearing paper, does not prove that a new substance has formed.']
+  },
+  solutions:{
+   ro:['Într-o soluție, particulele substanței dizolvate se distribuie în solvent. Uneori soluția arată complet transparentă chiar dacă materia este încă prezentă.','Exemplu: sarea se poate dizolva în apă; nisipul rămâne un amestec cu particule vizibile. Ambele exemple conțin materie și pot fi comparate prin observații.','Nu spune că sarea „s-a evaporat” când nu o mai vezi. Dizolvarea și evaporarea sunt procese diferite.'],
+   en:['In a solution, dissolved particles are distributed through the solvent. A liquid may look clear even when dissolved matter is present.','Example: salt can dissolve in water; sand remains as visible particles. Both systems still contain matter.','Salt has not evaporated merely because you cannot see it. Dissolving and evaporation are different processes.']
+  },
+  reactions:{
+   ro:['Schimbările chimice pot fi însoțite de schimbări de culoare, formare de gaze ori temperatură, dar un singur semn nu este întotdeauna dovadă sigură. Interpretarea cere mai multă informație.','Exemplu: gheața care se topește rămâne apă, pe când coacerea unui aluat produce transformări chimice complexe. Observă procese cunoscute, nu realiza experimente improvizate.','Nu confunda simpla amestecare cu o reacție chimică; unele amestecuri pot fi separate fără formarea altor substanțe.'],
+   en:['Chemical changes may involve colour changes, gas release or temperature changes, but one visible sign alone is not conclusive. We need evidence to decide what happened.','Example: melting ice remains water, while baking dough involves complex chemical changes. Observe familiar examples rather than improvising experiments.','Mixing materials does not automatically produce a chemical reaction.']
+  }
+ },
+ biology:{
+  plants:{
+   ro:['Rădăcinile absorb apă și săruri minerale, tulpina susține planta, iar frunzele folosesc lumina pentru fotosinteză. Speciile diferă: nu toate frunzele au aceeași formă.','Exemplu: compară două plante crescute în locuri cu lumină diferită, fără a le priva de resurse sau a le deteriora. Notează forma și culoarea frunzelor.','Nu crede că plantele „mănâncă pământ”. Ele își produc multe dintre substanțele organice prin fotosinteză din dioxid de carbon și apă.'],
+   en:['Roots take up water and minerals, stems support the plant and leaves use light for photosynthesis. Species differ, so leaves are not all shaped alike.','Example: compare plants in different safe light conditions and record leaf shape and colour without harming them.','Plants do not eat soil; photosynthesis uses carbon dioxide and water to build organic substances.']
+  },
+  ecology:{
+   ro:['Habitatul oferă condițiile necesare vieții. Un copac poate oferi hrană și adăpost mai multor specii, dar dependențele dintre viețuitoare pot forma rețele alimentare complexe.','Exemplu: într-un parc, observă iarba, insectele și păsările. Desenează săgeți care arată cine se hrănește cu cine, fără a pretinde că știi toate relațiile.','Nu confunda habitatul cu un animal: habitatul este mediul în care acesta trăiește.'],
+   en:['A habitat provides the conditions needed for life. A tree may offer food and shelter to many species, while organisms interact through food webs.','Example: observe grass, insects and birds in a park and sketch possible feeding relationships, marking uncertain ones as hypotheses.','A habitat is the place and conditions in which an organism lives, not the organism itself.']
+  },
+  anatomy:{
+   ro:['La fiecare inspirație aerul intră în plămâni, iar oxigenul poate trece în sânge la nivelul alveolelor. Inima ajută sângele să circule prin corp.','Exemplu: ritmul respirației poate crește după activitate ușoară. Observă fără să îți ții respirația sau să faci efort excesiv.','Respirația și pulsul nu sunt același lucru. Fiecare este o măsurătoare diferită, iar valorile diferă de la o persoană la alta.'],
+   en:['During inhalation air enters the lungs and oxygen can pass into the blood at the alveoli. The heart helps blood circulate.','Example: breathing rate may rise after gentle movement. Observe without breath-holding or overexertion.','Breathing rate and pulse are different measurements and vary among people.']
+  },
+  cells:{
+   ro:['Celulele sunt unități vii cu membrane, material genetic și structuri interne. Celulele plantelor și animalelor au multe componente comune, dar și diferențe, precum peretele celular al celulelor vegetale.','Exemplu: desenează un model de celulă vegetală și unul de celulă animală; marchează membrana și nucleul doar acolo unde există în celula aleasă.','Nu toate celulele au nucleu: bacteriile nu au un nucleu delimitat de membrană.'],
+   en:['Cells are living units with membranes, genetic material and internal structures. Plant and animal cells share many components but differ, for example in the plant cell wall.','Example: draw models of a plant and an animal cell and label their parts accurately.','Not every cell has a membrane-bound nucleus; bacteria do not.']
+  },
+  evolution:{
+   ro:['Într-o populație există diferențe între indivizi. Unele trăsături pot favoriza supraviețuirea și reproducerea într-un mediu; de-a lungul generațiilor, frecvența lor se poate schimba.','Exemplu: ciocurile păsărilor pot fi adaptate hranei disponibile. Explică un avantaj posibil, dar nu deduce fără dovezi dieta exactă a unei specii.','Un individ nu își schimbă voit trăsăturile ereditare pentru că „are nevoie”. Evoluția se observă la populații, în generații.'],
+   en:['Individuals in a population vary. Some inherited traits can improve survival and reproduction in particular conditions; their frequency may change over generations.','Example: bird beak shapes can be related to available food. Suggest a plausible advantage without claiming certainty about a species.','An individual does not intentionally evolve an inherited trait because it needs one. Evolution concerns populations over generations.']
+  }
+ },
+ astronomy:{
+  sky:{
+   ro:['Alternanța dintre zi și noapte se explică prin rotația Pământului în jurul axei sale. Aspectul cerului se schimbă și în funcție de locul observării și de anotimp.','Exemplu: umbrele obiectelor pot avea lungimi și direcții diferite la ore diferite. Marchează observațiile cu ora și vremea; nu observa direct discul solar.','Nu spune că Soarele înconjoară Pământul în fiecare zi. Mișcarea sa zilnică pe cer este în principal aparentă.'],
+   en:['Day and night follow from Earth rotating on its axis. The visible sky also depends on observing location and season.','Example: shadows can differ in direction and length at different times. Record the time and weather and never view the Sun directly.','The Sun does not circle Earth each day; its daily path across the sky is mostly apparent.']
+  },
+  solar:{
+   ro:['Planetele se deplasează pe orbite în jurul Soarelui, iar Luna se deplasează în jurul Pământului. Dimensiunile și distanțele reale sunt foarte diferite de cele din imagini simple.','Exemplu: folosește o minge pentru Pământ și una pentru Lună pentru a modela mișcările, dar etichetează explicit că scara nu este păstrată.','Nu confunda rotația în jurul propriei axe cu revoluția în jurul altui corp. Sunt mișcări diferite.'],
+   en:['Planets orbit the Sun and the Moon orbits Earth. Real distances and sizes are very different from what small classroom models show.','Example: use balls to model Earth and Moon motion, but explicitly label the model as not to scale.','Rotation about an axis and revolution around another body are different types of motion.']
+  },
+  observations:{
+   ro:['O observație științifică este mai utilă când poate fi repetată: notează data, ora, condițiile și instrumentele. Un jurnal îți permite să compari mai multe seri.','Exemplu: desenează aproximativ forma Lunii câteva seri, la ore asemănătoare. Faptul că nu o vezi într-o seară înnorată nu dovedește că a dispărut.','Nu inventa poziții exacte ale planetelor fără un calendar astronomic sau observații reale.'],
+   en:['Scientific observations become more useful when repeated and recorded with date, time, conditions and tools. A journal allows comparisons across evenings.','Example: sketch the Moon over several evenings at similar times. A cloudy night is not evidence that the Moon disappeared.','Do not claim exact current planet positions without a real ephemeris or observation.']
+  },
+  distances:{
+   ro:['Distanța de la Pământ la Soare este mult mai mare decât cea până la Lună. Un an-lumină este o unitate de distanță, nu o durată; descrie cât parcurge lumina într-un an.','Exemplu: când desenăm planetele apropiate ca dimensiune și la intervale mici, folosim un model didactic, nu o hartă la scară.','Nu compara dimensiunea aparentă dintr-o fotografie cu diametrul real fără să ții cont de distanță.'],
+   en:['The Sun is much farther from Earth than the Moon. A light-year is a unit of distance, not time: it is the distance light travels in one year.','Example: small classroom planet diagrams show concepts but rarely preserve real distances and sizes.','An object’s apparent size in a photo is not its true diameter; distance matters.']
+  }
+ }
+});
+export function scienceGradeLessonFrame({subject,stage,grade,topic,chapter,language='ro',gradePosition=0}={}){
  if(stage==='primary'){
   const lesson=SCIENCE_PRIMARY_LESSON_BANK[subject]?.[topic];
   if(!lesson)return null;
+  const details=SCIENCE_PRIMARY_DEPTH[subject]?.[topic]||null;
+  const progress=Math.max(0,Math.min(3,Number.isFinite(Number(gradePosition))?Number(gradePosition):0));
+  const roProgress=['Observă și descrie proprietățile folosind cuvinte clare.','Compară două exemple și explică asemănările și deosebirile.','Fă o măsurătoare simplă ori un tabel și explică ce arată datele.','Formulează o explicație bazată pe dovezi și menționează o limită a modelului.'];
+  const enProgress=['Observe and describe the relevant properties.','Compare two examples and explain similarities and differences.','Make a simple measurement or table and interpret the data.','Give an evidence-based explanation and state a limitation of the model.'];
   if(language!=='ro'){
   const english=SCIENCE_PRIMARY_ENGLISH[subject]?.[topic]||lesson;
   return [
@@ -129,6 +213,8 @@ export function scienceGradeLessonFrame({subject,stage,grade,topic,chapter,langu
    'Lesson: '+english[0],
    'Explore: '+english[1],
    'Observation: '+english[2],
+   ...(details?.en?['Explanation: '+details.en[0],'Worked example: '+details.en[1],'Check a common misconception: '+details.en[2]]:[]),
+   'Skill for this year: '+enProgress[progress],
    'Review: Describe what you observed, how you compared the evidence, and what remains uncertain.',
    'This is an original introductory lesson, not an official national textbook.'
   ].join('\n\n');
@@ -138,6 +224,8 @@ export function scienceGradeLessonFrame({subject,stage,grade,topic,chapter,langu
    'Lecție: '+lesson[0],
    'Explicație: '+lesson[1],
    'Exemplu și activitate: '+lesson[2],
+   ...(details?.ro?['Explicație detaliată: '+details.ro[0],'Exemplu explicat: '+details.ro[1],'Atenție la confuzii: '+details.ro[2]]:[]),
+   'Competența acestei clase: '+roProgress[progress],
    'Exercițiu: Scrie două observații și explică prin ce se deosebesc de o presupunere.',
    'Verificare: Ce ai măsurat sau observat? Ce dovadă ai? Ce nu poți concluziona încă?',
    'Material didactic original, orientativ. Nu este un manual național oficial.'
