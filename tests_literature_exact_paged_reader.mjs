@@ -199,7 +199,8 @@ navs[0].children[0].onclick();
 assert.equal(navs[0].children[1].textContent,firstCounter);
 button(dialog,'💾 Salvează PDF').onclick();
 assert.equal(requests.at(-1).mode,'save');
-assert.equal(requests.at(-1).material.text,long.trim(),'PDF uses complete theory, not just the displayed page');
+assert.equal(requests.at(-1).material.text.replace(/\s+/g,''),long.trim().replace(/\s+/g,''),
+ 'PDF uses all theory paragraphs, normalizing visual whitespace rather than cutting to visible page');
 
 // A WebView style-injection error must not hide the paging controls.
 const styleFailureDocument={...document,getElementById:()=>{throw Error('CSS injection is blocked')}};
