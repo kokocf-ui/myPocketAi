@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import './tests_education_all_country_subject_matrix.mjs';
 import vm from 'node:vm';
 import app from './index.js';
 import {EDUCATION_SCHOOL_YEARS,HG_SCHOOL_PLANS,HG_SCHOOL_GENERAL,educationYears,hgSchoolChapters} from './education_school_paths.mjs';
