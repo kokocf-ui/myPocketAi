@@ -36,6 +36,26 @@ for(let grade=1;grade<=8;grade++){
  }
 }
 assert.equal(ids.size,24);
+// The pupil route may not inherit the same academic appendix at every grade.
+const classNames=[];
+for(let grade=1;grade<=12;grade++){
+ const level=grade<=4?'beginner':grade<=8?'lower':'medium';
+ const route=litEuropeanPlan('RO',level,String(grade));
+ const labels=route.units.map(x=>x.label);
+ assert.ok(labels.length>=7,'Class '+grade+' has age-specific subject chapters');
+ assert.equal(labels.length,new Set(labels).size,'No duplicate chapter at grade '+grade);
+ assert.ok(!route.units.some(x=>x.id.startsWith('study-')),
+  'No common advanced study units may be appended to class '+grade);
+ classNames.push(labels[0]);
+ if(grade<=4)assert.ok(labels.every(x=>!/hermeneutică|retorică|comentariu critic|curente literare/i.test(x)),
+  'Primary curriculum must be understandable to a child');
+}
+assert.equal(new Set(classNames).size,12,'All twelve grades have different first lesson menus');
+const ninth=litEuropeanPlan('RO','medium','9','TC');
+const tenth=litEuropeanPlan('RO','medium','10','TC');
+assert.ok(ninth.units.some(x=>/liceu/i.test(x.label)),'New grade 9 curriculum has its own introduction');
+assert.ok(!tenth.units.some(x=>/noua clasă a IX-a/i.test(x.label)),
+ 'Grade 10 must not inherit the 2026 grade 9 chapters');
 assert.equal(new Set(Array.from({length:8},(_,i)=>LIT_RO_GRADE_LESSONS[String(i+1)][0].ro)).size,8,
  'The first chapter cannot repeat in all eight grades');
 for(const grade of ['1','2','3','4']){
@@ -56,6 +76,23 @@ for(const grade of ['1','4','8']){
  const expected=LIT_RO_GRADE_LESSONS[grade].map(x=>x.ro);
  assert.deepEqual(actual,expected,'Rendered cards must change with grade '+grade);
 }
+// The class selection menu is different for an eight-year-old and a high-schooler.
+const branchNames=['program','grammar','vocabulary','analysis','literature','writing','assessment'];
+const cards=branchNames.map(id=>({id,ro:id,en:id,desc:'Generic teacher category'}));
+const navigationCtx={litJourney:journey,LIT_BRANCHES:cards,LIT_TOPICS:{grammar:[]},
+ litOpen:stage=>stage,litProgram:()=>({source:null,units:[]})};
+vm.runInNewContext(LITERATURE_TASK_UI_SCRIPT,navigationCtx);
+journey.country='RO';journey.grade='2';navigationCtx.litOpen('branches');
+assert.ok(!navigationCtx.LIT_BRANCHES.some(x=>x.id==='analysis'||x.id==='literature'),
+ 'Early primary does not expose expert text analysis or bibliographic search');
+assert.ok(navigationCtx.LIT_BRANCHES.some(x=>x.ro.includes('Lecțiile clasei 2')),
+ 'Primary route is shown in pupil language');
+journey.grade='11';navigationCtx.litOpen('branches');
+assert.ok(navigationCtx.LIT_BRANCHES.some(x=>x.id==='analysis'),
+ 'High-school learners can analyse source passages');
+journey.country='GB-ENG';navigationCtx.litOpen('branches');
+assert.equal(navigationCtx.LIT_BRANCHES.length,7,'Other countries retain their own options');
+journey.country='RO';journey.grade='1';
 journey.country='GB-ENG';journey.grade='Y3';ctx.litOpen('topics');
 assert.equal(ctx.LIT_TOPICS.grammar[0][1],'Morfologie și sintaxă','Other countries unchanged');
 journey.country='RO';journey.grade='2';
