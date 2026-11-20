@@ -40,6 +40,14 @@ assert.ok(uk[1].ids.includes('Y7'),'England lower secondary uses country-specifi
 assert.ok(uk[2].ids.includes('Y10'),'England upper-secondary years are not Romanian grade numbers');
 assert.ok(uk[3].ids.length===1,'university opens existing specialisations');
 assert.equal(new Set(uk.flatMap(x=>x.ids)).size,uk.flatMap(x=>x.ids).length,'no duplicate years');
+fn.country.code='AD';fn.journey.subject='physics';
+const advisory=groups();
+assert.deepEqual(advisory.slice(0,3).map(x=>x.ids.length),[4,4,4],
+ 'An unmapped country gets four explicitly advisory progression years in each school stage');
+assert.ok(advisory[0].ids.every(id=>id.startsWith('general-primary-')),
+ 'Generic years may never pretend to be a national grading scheme');
+assert.ok(advisory[1].ids.every(id=>id.startsWith('general-lower-')));
+assert.ok(advisory[2].ids.every(id=>id.startsWith('general-medium-')));
 assert.match(script,/scienceJourneyShowChoices\('years'\)/,'subject routes to school year selection');
 assert.match(script,/stage==='years'\?learningLabel\('Alege clasa/,'year screen has clear title');
 assert.match(html,/#view-module\.learning-science\.science-subject-stage\.active \.science-choice-list\{/,
