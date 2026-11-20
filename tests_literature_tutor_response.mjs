@@ -2,17 +2,18 @@ import assert from 'node:assert/strict';
 import vm from 'node:vm';
 import backend from './backend.js';
 import {LITERATURE_TASK_UI_SCRIPT} from './literature_task_ui.mjs';
+import {litEssaySpec,litEssayWords,litEssayQuality} from './literature_essay_contract.mjs';
 
 new vm.Script(LITERATURE_TASK_UI_SCRIPT,{filename:'literature_task_ui.mjs:browser'});
 
 async function tutoring(message,mode,reply){
- let model='',input;
+ let model='',input;const calls=[];
  const res=await backend.fetch(new Request('https://education-fixture.test/api/chat',{
   method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
    module:'education_study',education_subject:'language_literature',education_activity:mode,
    language:'ro',message,history:[]})
- }),{AI:{run:async(m,p)=>{model=m;input=p;return {response:reply}}}});
- return {res,data:await res.json(),model,input};
+ }),{AI:{run:async(m,p)=>{model=m;input=p;calls.push({m,p});return {response:typeof reply==='function'?reply(m,p,calls.length-1):reply}}}});
+ return {res,data:await res.json(),model,input,calls};
 }
 const lessonText='Morfologia studiază structura cuvintelor. Sintaxa studiază propoziția, părțile de propoziție, relațiile gramaticale și topica. Exemplul 1: Copiii citesc. Exemplul 2: Maria este veselă.';
 const grammar=await tutoring('Explică morfologie și sintaxă pentru clasa a VIII-a, România','lesson',lessonText);
@@ -32,11 +33,26 @@ assert.match(dictionary.input.messages[0].content,/dictionary definition/);
 const quiz=await tutoring('Creează un test de gramatică, clasa a VIII-a','test','1. Identifică subiectul.\n2. Identifică predicatul.\n3. Stabilește cazul.\n4. Alege forma corectă.\n5. Analizează fraza.');
 assert.equal(quiz.data.education_activity,'test');
 assert.match(quiz.input.messages[0].content,/five numbered assessment questions/);
-const essayBackend=await tutoring('Scrie un eseu interpretativ de aproximativ 1250 de cuvinte despre Luceafărul, fără citate inventate.','essay',
- 'Introducere. Text literar complet, cu analiză, argumente şi concluzie.');
+const essaySegment=n=>Array.from({length:9},(_,i)=>
+ 'Paragraful '+(n+1)+'-'+(i+1)+'. '+Array(7).fill(
+ 'Poemul urmărește raportul dintre idealul inaccesibil și alegerea umană, prin alternarea unor perspective narative și lirice.').join(' ')
+ ).join('\n\n');
+const finishedEssay=essaySegment(0)+'\n\n'+essaySegment(1);
+assert.equal(litEssaySpec(5).targetWords,2000);
+assert.ok(litEssayQuality(finishedEssay,5).ok,'A genuine long-form answer must pass the A4 length gate');
+assert.equal(litEssayQuality('Un eseu scurt.',5).reason,'essay_too_short');
+const essayBackend=await tutoring('Scrie un eseu interpretativ de aproximativ 2000 de cuvinte, 5 pagini A4, despre Luceafărul, fără citate inventate.','essay',
+ (_,__,part)=>essaySegment(part));
 assert.equal(essayBackend.res.status,200);
-assert.equal(essayBackend.input.max_tokens,4200,'Multi-page essays need the full output budget');
+assert.equal(essayBackend.calls.length,2,'Five printed A4 pages are generated in two substantive sections');
+assert.ok(essayBackend.calls.every(call=>call.p.max_tokens>=2400),
+ 'Each section needs a full model response budget');
+assert.equal(essayBackend.data.essay_pages,5);
+assert.ok(essayBackend.data.essay_words>=litEssaySpec(5).minWords);
 assert.match(essayBackend.input.messages[0].content,/entire requested essay/);
+const tooShort=await tutoring('Scrie 5 pagini A4 despre Luceafărul','essay','Introducere și concluzie.');
+assert.equal(tooShort.res.status,503,'Do not label 40 words as five A4 pages');
+assert.equal(tooShort.data.error,'essay_too_short');
 assert.equal(grammar.input.max_tokens,2800,'Ordinary lessons retain their normal budget');
 const bad=await tutoring('Morfologie și sintaxă','lesson',
  'Nu am coordonate GPS utilizabile. Permite accesul la locație.');
@@ -171,19 +187,24 @@ let essayWaitMs=null;
 cfg.setTimeout=(fn,ms)=>{essayWaitMs=ms;return setTimeout(fn,ms)};
 cfg.clearTimeout=clearTimeout;
 nextResponse={status:'success',education_subject:'language_literature',
- reply:'Un eseu nou, cu argumente dezvoltate și concluzie. Acest text provine din model, nu din fișa statică.'};
+ essay_pages:5,reply:finishedEssay};
 const litPanel=new El('div');ui.workspace(litPanel);
 press(litPanel,'Luceafărul — Mihai Eminescu');
 const selectors=all(litPanel).filter(x=>x.tagName==='SELECT');
-assert.equal(selectors.length,2,'Essay has type and approximate A4-page controls');
-selectors[0].value='interpretativ';selectors[1].value='5';
+assert.equal(selectors.length,1,'Essay type has one selector; page count is explicitly visible');
+const pageButtons=all(litPanel).filter(x=>x.className?.includes('lit-essay-page-choice'));
+assert.equal(pageButtons.length,5,'Android must show all five A4 lengths without a scrollable native popup');
+selectors[0].value='interpretativ';
+pageButtons[4].onclick();
+assert.equal(pageButtons[4].attrs['aria-pressed'],'true','Fifth A4 page choice is active');
 press(litPanel,'Eseu');await flush();
 const essayPayload=requests.at(-1);
 assert.equal(essayPayload.education_activity,'essay');
 assert.match(essayPayload.message,/eseu interpretativ complet/);
-assert.match(essayPayload.message,/1250 cuvinte/);
+assert.match(essayPayload.message,/2000 cuvinte/);
+assert.equal(essayPayload.education_essay_pages,5);
 assert.match(essayPayload.message,/5 pagini A4/);
-assert.equal(essayWaitMs,90000,'Long-form response must not abort at eleven seconds');
-assertReader('Un eseu nou');
+assert.equal(essayWaitMs,180000,'Two-part A4 essays have sufficient network time');
+assertReader('Paragraful 1-1');
 assert.doesNotMatch(readerText(),/ESEU — IUBIREA, IDEALUL/,'No static short essay');
 console.log('PASS: grammar, dictionary, test, correction, no premature answer box, no GPS contamination');
