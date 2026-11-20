@@ -2614,6 +2614,8 @@ export default {
         let reply=String(response?.response||response?.result?.response||'').trim();
         if(locale==='ro')reply=reply.replace(/\bLehul(?:a)?\b/giu,'Lecția');
         if(!reply)return json({status:'unavailable',error:'education_text_empty',education_subject:'language_literature'},503);
+        if(/(?:nu am coordonate GPS|permite accesul la locație|departure address\/postcode|do not have usable GPS coordinates)/i.test(reply))
+          return json({status:'unavailable',error:'education_wrong_intent',education_subject:'language_literature'},503);
         let quality=literatureOutputIssue(reply,activity,message);
         // One bounded internal regeneration, not an endless user-visible retry loop.
         // Use the already selected AI route; no new image service or external API.
