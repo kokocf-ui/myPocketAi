@@ -1,8 +1,21 @@
 import assert from 'node:assert/strict';
 import vm from 'node:vm';
+import {readFileSync} from 'node:fs';
 import backend from './backend.js';
 import {LITERATURE_TASK_UI_SCRIPT} from './literature_task_ui.mjs';
 import {litEssaySpec,litEssayWords,litEssayQuality} from './literature_essay_contract.mjs';
+
+const androidPdf=readFileSync(new URL('./android/app/src/main/java/ai/mypocket/mobile/MainActivity.java',import.meta.url),'utf8');
+assert.match(androidPdf,/int requestedEssayPages=data\.optInt\("essayPages",0\)/,
+ 'Native PDF bridge must consume the requested essay pages');
+assert.match(androidPdf,/new PdfRenderer\(descriptor\)/,
+ 'Inspect true PDF page count, not mobile reader pages');
+assert.match(androidPdf,/for\(int attempt=0;attempt<\(essayPdf\?7:1\);attempt\+\+\)/,
+ 'Bounded A4 font scaling prevents fake blank-page padding');
+assert.match(androidPdf,/actualPages==requestedEssayPages/,
+ 'Exact A4 sheet count must be verified before saving');
+assert.match(androidPdf,/output\.delete\(\); \/\/ No fake extra sheets or silent partial PDF\./,
+ 'Never save an incomplete essay under the requested sheet count');
 
 new vm.Script(LITERATURE_TASK_UI_SCRIPT,{filename:'literature_task_ui.mjs:browser'});
 
