@@ -9,6 +9,8 @@ import {BIOLOGY_TOPICS} from './biology_curriculum.mjs';
 import {ASTRONOMY_TOPICS} from './astronomy_curriculum.mjs';
 import {SCIENCE_PROGRESSION_SOURCES,SCIENCE_PRIMARY_DEPTH,scienceGradeTopicPlan,scienceGradeLessonFrame} from './science_grade_progression.mjs';
 import {SCIENCE_LOWER_TOPIC_LESSONS,scienceLowerTopicContent} from './science_lower_secondary_lessons.mjs';
+import {SCIENCE_GUIDES_EN} from './science_english_reference_guides.mjs';
+import {SCIENCE_GUIDES,scienceExtendedTheory} from './science_extended_theory.mjs';
 import {EDUCATION_COUNTRY_UI_SCRIPT} from './education_country_ui.mjs';
 import {EDUCATION_SCHOOL_YEARS} from './education_school_paths.mjs';
 
@@ -57,6 +59,20 @@ for(const country of EDUCATION_EUROPE_COUNTRIES){
      assert.notEqual(facts.explanation,english.explanation,'English must not be raw Romanian');
     }
     if(schoolStage==='upper')for(const topic of plan.topics){
+     const enGuide=SCIENCE_GUIDES_EN[subject]?.[topic.id];
+     assert.ok(enGuide&&enGuide.length===4,
+      country+'/'+year.id+'/'+subject+'/'+topic.id+' needs a genuine English reference');
+     assert.ok(enGuide.every(line=>typeof line==='string'&&line.length>=45),
+      'English reference must contain meaningful explanation, example, misconception and check');
+     const english=scienceExtendedTheory({subject,topic:topic.id},topic.en,null,'en');
+     assert.ok(english.includes(enGuide[0])&&english.includes(enGuide[1])&&
+      english.includes(enGuide[2])&&english.includes(enGuide[3]),
+      'English upper secondary must be a complete chapter lesson');
+     assert.ok(!english.includes(SCIENCE_GUIDES[subject]?.[topic.id]?.[0]||'\\u0000'),
+      'English reference must not include Romanian scientific text');
+     const englishFrame=scienceGradeLessonFrame({subject,stage:'upper',grade:year.id,
+      topic:topic.id,chapter:topic.en,language:'en'});
+     assert.ok(englishFrame.includes(enGuide[3]),'English enquiry must match its chapter');
      const output=scienceGradeLessonFrame({subject,stage:'upper',grade:year.id,
       topic:topic.id,chapter:topic.ro,language:'ro'});
      assert.ok(output.includes(topic.ro)&&output.includes('Investigație:'),
@@ -194,6 +210,21 @@ runtimeState.language='en';
 rendered=renderScienceReader('chemistry','atomic','beginner');
 rendered.children[1].onclick();
 assert.equal(opened.at(-1).title,'Atomic structure','Localised chapter title must be used');
+journey.schoolStage='upper';
+readerContext.EDUCATION_THEORY_DATA=[
+ {subject:'chemistry',topic:'atomic',level:'intermediate',title:'Structura'},
+ {subject:'chemistry',topic:'atomic',level:'intermediate',title:'Model'}
+];
+readerContext.SCIENCE_THEORY_EXPAND=scienceExtendedTheory;
+rendered=renderScienceReader('chemistry','atomic','intermediate');
+assert.equal(rendered.children.length,2,'English upper-secondary chapter must not duplicate Romanian sublessons');
+assert.match(rendered.children[0].textContent,/\(1\)/);
+rendered.children[1].onclick();
+assert.ok(opened.at(-1).body.includes(SCIENCE_GUIDES_EN.chemistry.atomic[0])&&
+ opened.at(-1).body.includes(SCIENCE_GUIDES_EN.chemistry.atomic[1]),
+ 'English upper reader must have a real explanation and worked example');
+assert.equal(opened.at(-1).title,'Atomic structure');
+
 
 console.log('PASS 50 European jurisdictions: '+checked+' science grade routes; '+
  gradeVariations+' grade-varied plans, '+frontendRoutes+' visible Android year routes, '+advisoryStages+' fallback school stages, school-stage lessons and frontend syntax');
