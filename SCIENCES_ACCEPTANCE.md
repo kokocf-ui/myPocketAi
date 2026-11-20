@@ -39,3 +39,9 @@ Lucrul la capitol nu se declară finalizat prin testele de integrare ale matrice
 - CI: Sciences — full four-subject acceptance checks, matricea de 50 de sisteme, smoke și compilarea unui APK debug exclusiv diagnostic au trecut la commit aaa0b0ff. APK-ul debug NU se livrează ca actualizare.
 - NU închide capitolul: sunt încă obligatorii verificarea pe Android real, deploymentul sincronizat Cloudflare, verificarea tuturor nivelurilor (inclusiv specializări universitare și fallbackuri de limbă), APK final semnat și acceptarea utilizatorului.
 - PR #501 rămâne draft. Nu confunda un build automat reușit cu finalizarea Științelor.
+
+## Cursurile universitare incluse în lotul Științe
+- 30 specializări cu ghiduri originale bilingve, exemple conceptuale specifice domeniului și verificări: 7 Fizică, 7 Chimie, 9 Biologie, 7 Astronomie. Se folosesc toate capitolele și subcapitolele academice existente în sursele offline; capitolele comune își marchează explicit materialele fundamentale de recapitulare, nu se prezintă drept curs acreditat.
+- Fiecare capitol deschide un cititor complet, cu subcapitolele reale, formule și considerații asupra limitelor, în fereastra existentă care permite PDF/imprimare. Pentru limbi fără traducere validată, referința originală în română rămâne etichetată ca atare.
+- Testul exhaustiv tests_science_university_complete.mjs confirmă prezența tuturor specializărilor, capitolelor, notelor originale, formularelor și a fluxului WebView în DOM simulat; workflow-ul test-sciences-acceptance.yml rulează împreună toate cele patru Științe și testele de documente/navigație.
+- Livrarea pentru acceptare nu se declară încheiere permanentă până când versiunea semnată Android și frontendul Cloudflare sunt sincronizate și utilizatorul verifică efectiv cele patru discipline pe telefon.
