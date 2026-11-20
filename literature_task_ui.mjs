@@ -2,7 +2,8 @@ import {splitLiteraturePages} from './literature_reader_pagination.mjs';
 import {parseStudyBlocks,renderStudyBlocks,STUDY_TYPOGRAPHY_CSS} from './literature_study_typography.mjs';
 import {literatureOfflineActivity,LIT_PRIMARY_COMMUNICATION} from './literature_offline_activity.mjs';
 import {LIT_RO_GRADE_LESSONS,litRomanianGradeMaterial} from './literature_ro_grade_progression.mjs';
-export const LITERATURE_TASK_UI_SCRIPT=splitLiteraturePages.toString()+'\n'+parseStudyBlocks.toString()+'\n'+renderStudyBlocks.toString()+'\nconst COMMUNICATION_G1='+JSON.stringify(LIT_PRIMARY_COMMUNICATION)+';\n'+literatureOfflineActivity.toString()+'\nconst LIT_RO_GRADE_LESSONS='+JSON.stringify(LIT_RO_GRADE_LESSONS)+';\n'+litRomanianGradeMaterial.toString()+'\nconst LIT_STUDY_CSS='+JSON.stringify(STUDY_TYPOGRAPHY_CSS)+';\n'+String.raw`
+import {litEssaySpec,litEssayWords,litEssayQuality} from './literature_essay_contract.mjs';
+export const LITERATURE_TASK_UI_SCRIPT=splitLiteraturePages.toString()+'\n'+parseStudyBlocks.toString()+'\n'+renderStudyBlocks.toString()+'\nconst COMMUNICATION_G1='+JSON.stringify(LIT_PRIMARY_COMMUNICATION)+';\n'+literatureOfflineActivity.toString()+'\nconst LIT_RO_GRADE_LESSONS='+JSON.stringify(LIT_RO_GRADE_LESSONS)+';\n'+litRomanianGradeMaterial.toString()+'\n'+litEssaySpec.toString()+'\n'+litEssayWords.toString()+'\n'+litEssayQuality.toString()+'\nconst LIT_STUDY_CSS='+JSON.stringify(STUDY_TYPOGRAPHY_CSS)+';\n'+String.raw`
 
 
 // Bind the existing choice cards to actual Romanian grade chapters.
@@ -62,6 +63,48 @@ function litRenderPoemPage(host,text){
   host.append(litSimpleNode(isSection?'h3':'p',block,isSection?'lit-poem-section':'lit-poem-stanza'));
  }
 }
+let litEssayPdfPending=false;
+function litEssayPrint(mode,material,close){
+ if(!Number(material?.essayPages)||typeof window==='undefined'||
+    !window.PocketAndroidPrint?.postMessage)
+  return eduOpenPrint(mode,material,close);
+ if(litEssayPdfPending)return;
+ litEssayPdfPending=true;
+ const display=message=>{
+  if(typeof notify==='function')notify(message);
+  else console.info?.('literature_pdf_status',message);
+ };
+ window.pocketEduPrintResult=state=>{
+  litEssayPdfPending=false;window.pocketEduPrintResult=null;
+  const result=String(state||'');
+  if(result.startsWith('saved:')){
+   const sheets=Number(result.split(':')[1])||0;
+   display(litSimpleLabel('Eseul a fost salvat: '+sheets+' pagini A4 verificate.',
+    'Essay saved: '+sheets+' verified A4 pages.'));
+   try{close?.()}catch{}
+   return;
+  }
+  if(result.startsWith('a4Mismatch:')){
+   const [,expected,actual]=result.split(':');
+   display(litSimpleLabel('PDF-ul are '+actual+' pagini A4, nu '+expected+'. Nu a fost salvat ca lucrare completă.',
+    'The PDF has '+actual+' A4 pages, not '+expected+'. It was not saved as a complete essay.'));
+   return;
+  }
+  display(litSimpleLabel('Nu s-a putut salva eseul A4.','Could not save the A4 essay.'));
+ };
+ try{
+  window.PocketAndroidPrint.postMessage(JSON.stringify({
+   mode:mode==='print'?'print':'save',title:material.title,text:material.text,
+   color:document.getElementById?.('litPdfColor')?.value!=='bw',
+   essayPages:Number(material.essayPages),figures:[]
+  }));
+ }catch(e){
+  litEssayPdfPending=false;window.pocketEduPrintResult=null;
+  display(litSimpleLabel('Comunicarea cu salvarea PDF a eșuat.',
+   'Could not request PDF saving.'));
+ }
+}
+
 function litShowMaterialReader(title,text,options={}){
  const raw=String(text||'').trim();
  if(!raw)return false;
@@ -109,9 +152,11 @@ function litShowMaterialReader(title,text,options={}){
   const content=litSimpleNode('article',litReaderSafeText(raw),'lit-reader-scroll');
   content.style.cssText='flex:1 1 auto!important;overflow-y:auto!important;min-height:0!important;white-space:pre-wrap!important;padding:16px!important';
   const actions=litSimpleNode('div','','lit-reader-footer');
-  const material={title,text:raw};
-  const save=litSimpleButton(litSimpleLabel('💾 Salvează PDF','💾 Save PDF'),()=>eduOpenPrint('save',material,close));
-  const print=litSimpleButton(litSimpleLabel('🖨 Imprimă','🖨 Print'),()=>eduOpenPrint('print',material,close));
+  const material={title,text:raw,essayPages:Number(options.essayPages)||0};
+  const save=litSimpleButton(litSimpleLabel('💾 Salvează PDF','💾 Save PDF'),
+   ()=>material.essayPages?litEssayPrint('save',material,close):eduOpenPrint('save',material,close));
+  const print=litSimpleButton(litSimpleLabel('🖨 Imprimă','🖨 Print'),
+   ()=>material.essayPages?litEssayPrint('print',material,close):eduOpenPrint('print',material,close));
   actions.append(save,print);
   reader.append(head,content,actions);
   overlay.append(reader);
@@ -207,7 +252,7 @@ function litShowMaterialReader(title,text,options={}){
 }
 
 let litSimpleSerial=0,litSimpleAbort=null;
-async function litSimpleGenerate(out,status,mode,request,source='',onReady=null){
+async function litSimpleGenerate(out,status,mode,request,source='',onReady=null,opts={}){
  if(litSimpleAbort)litSimpleAbort.abort();
  const controller=new AbortController();litSimpleAbort=controller;
  let timeoutId=null,didTimeout=false;
@@ -292,7 +337,7 @@ async function litSimpleGenerate(out,status,mode,request,source='',onReady=null)
  'For literary study cover the author, context, themes, structure and evidence-based interpretation. '+
  'For an essay write the FINISHED sustained prose, not a plan, skeleton, generic headings or disconnected summaries. Follow the requested essay type and approximate word target; each argument must be interpreted and connected to the work. For a summary be faithful to known source evidence. Never invent quotations or author attributions. '+
  'Task: '+request+'. '+source;
- const lessonTimeoutMs=['essay','study','write'].includes(mode)?90000:
+ const lessonTimeoutMs=mode==='essay'?180000:['study','write'].includes(mode)?90000:
   ['summary','analysis'].includes(mode)?60000:30000;
  try{
   // Long-form GPT-OSS requests outlast the former 11-second cutoff.
@@ -300,6 +345,7 @@ async function litSimpleGenerate(out,status,mode,request,source='',onReady=null)
    headers:{'Content-Type':'application/json'},
    body:JSON.stringify({message:prompt.slice(0,3900),module:'education_study',
     education_subject:apiSubject,education_activity:mode,
+    ...(mode==='essay'?{education_essay_pages:litEssaySpec(opts.pages).pages}:{}),
     language:answerLanguage,history:[]}),
    signal:controller.signal}),
    new Promise((_,reject)=>{
@@ -317,6 +363,11 @@ async function litSimpleGenerate(out,status,mode,request,source='',onReady=null)
   const text=String(data.reply).trim();
   if(/(?:nu am coordonate gps|permite accesul la locație|departure address\/postcode|do not have usable gps)/i.test(text))
    throw Error('wrong_intent');
+  if(mode==='essay'){
+   const audit=litEssayQuality(text,opts.pages);
+   if(!audit.ok)throw Error(audit.reason);
+   if(Number(data.essay_pages)&&Number(data.essay_pages)!==audit.pages)throw Error('essay_length_mismatch');
+  }
   present(text,false);
  }catch(error){
   if((controller.signal.aborted&&!didTimeout)||serial!==litSimpleSerial)return;
@@ -327,7 +378,10 @@ async function litSimpleGenerate(out,status,mode,request,source='',onReady=null)
    const quota=code==='ai_quota_exceeded';
    const unavailable=code==='education_timeout'||didTimeout||
     code==='education_generation_unavailable'||code==='education_text_empty'||code==='Failed to fetch';
-   status.textContent=quota?
+   status.textContent=(mode==='essay'&&/^essay_(?:too_short|too_long|is_outline|repeated_paragraphs|length_mismatch)$/.test(code))?
+    litSimpleLabel('Eseul nu a atins lungimea A4 solicitată. Nu afișăm un material incomplet ca și cum ar avea numărul cerut de pagini.',
+     'The essay did not meet the requested A4 length. An incomplete document is not presented as a finished essay.'):
+    quota?
     litSimpleLabel('Limita serviciului AI a fost atinsă. Materialul online nu poate fi generat momentan.','AI usage limit reached; online material is temporarily unavailable.'):
     unavailable?litSimpleLabel('Serviciul AI nu a răspuns. Încearcă din nou mai târziu.','The AI service did not respond. Try again later.'):
     litSimpleLabel('Nu s-a putut obține un răspuns educațional valid. Încearcă din nou.','No valid educational response was returned. Please try again.');
@@ -450,14 +504,29 @@ function litSimpleLiterature(panel){
   const option=litSimpleNode('option',litSimpleLabel(ro,en));option.value=value;essayKind.append(option);
  }
  essayKind.value='argumentativ';
- const essayPages=litSimpleNode('select','','lit-input');
- essayPages.setAttribute('aria-label',litSimpleLabel('Lungime aproximativă A4','Approximate A4 length'));
+ // Android's native HTML-select popup truncated the last option on some
+ // compact screens. Show all five A4 choices directly as tappable controls.
+ const essayPages=litSimpleNode('div','','lit-essay-page-choices');
+ essayPages.style.cssText='display:flex;flex-wrap:nowrap;gap:5px;align-items:center;width:100%';
+ let selectedEssayPages=3;
+ const choices=[];
  for(let pages=1;pages<=5;pages++){
-  const option=litSimpleNode('option',pages+' '+litSimpleLabel(pages===1?'pagină A4':'pagini A4',pages===1?'A4 page':'A4 pages'));
-  option.value=String(pages);essayPages.append(option);
+  const button=litSimpleButton(String(pages),()=>{
+   selectedEssayPages=pages;
+   for(const entry of choices){
+    const selected=entry.pages===selectedEssayPages;
+    entry.button.setAttribute('aria-pressed',selected?'true':'false');
+    entry.button.style.background=selected?'#793251':'#153b55';
+   }
+  });
+  button.className+=' lit-essay-page-choice';
+  button.style.cssText='flex:1 1 0;min-width:0;max-width:54px;min-height:35px;padding:3px;font-size:14px;background:'+(pages===3?'#793251':'#153b55');
+  button.setAttribute('aria-label',pages+' '+litSimpleLabel(pages===1?'pagină A4':'pagini A4',pages===1?'A4 page':'A4 pages'));
+  button.setAttribute('aria-pressed',pages===3?'true':'false');
+  choices.push({pages,button});essayPages.append(button);
  }
- essayPages.value='3';
- essaySettings.append(litSimpleNode('span',litSimpleLabel('Eseu:','Essay:')),essayKind,essayPages);
+ essaySettings.append(litSimpleNode('span',litSimpleLabel('Eseu:','Essay:')),essayKind,
+  litSimpleNode('span',litSimpleLabel('Pagini A4:','A4 pages:')),essayPages);
  const textArea=litSimpleNode('textarea','','lit-input');textArea.rows=4;textArea.placeholder=litSimpleLabel('Fragment propriu pentru analiză (opțional)','Your own passage for analysis (optional)');
  const passage=litSimpleNode('details','','lit-activity-review');passage.append(litSimpleNode('summary',litSimpleLabel('Adaugă un fragment pentru analiză','Add a passage to analyse')),textArea);
  const out=litSimpleNode('article','','lit-result lit-activity-output');
@@ -475,15 +544,16 @@ function litSimpleLiterature(panel){
     litShowMaterialReader(chosen.name+' — '+chosen.author,checked);
     return;
    }
-   const pages=Number(essayPages.value)||3;
+   const pages=selectedEssayPages;
    const requestedEssay=mode==='essay'?
-    ' Scrie un eseu '+essayKind.value+' complet, aproximativ '+(pages*250)+
-    ' cuvinte ('+pages+' pagini A4 orientative), cu introducere naturală, analiză susținută prin argumente distincte și concluzie. Nu oferi schelet de eseu, instrucțiuni de redactare sau afirmații fără dovezi.': '';
+    ' Scrie un eseu '+essayKind.value+' complet, aproximativ '+litEssaySpec(pages).targetWords+
+    ' cuvinte ('+pages+' pagini A4, în format PDF, font 11.5pt), cu introducere naturală, analiză susținută prin argumente distincte și concluzie. Nu oferi schelet de eseu, instrucțiuni de redactare sau afirmații fără dovezi.': '';
    out.replaceChildren();litSimpleGenerate(out,feedback,mode,
     'Opera: '+chosen.name+'. Autor: '+chosen.author+'.'+requestedEssay,
    'Sursă bibliografică (metadate, nu text integral): '+chosen.url+'. '+
    (textArea.value.trim()?'Fragment introdus de utilizator: '+textArea.value.trim().slice(0,28000):'Text integral indisponibil; nu inventa citate sau lectura unei ediții.'),
-   result=>litShowMaterialReader(chosen.name+' — '+chosen.author,result));
+   result=>litShowMaterialReader(chosen.name+' — '+chosen.author,result,
+    mode==='essay'?{essayPages:pages}:{ }),mode==='essay'?{pages}:{});
   }));
   // Contents can be shown only for a confirmed licensed source with actual text.
   // Do not manufacture chapter titles, missing lines or verses from catalogue metadata.
