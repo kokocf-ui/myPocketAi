@@ -1,3 +1,4 @@
+import {SCIENCE_GUIDES_EN} from './science_english_reference_guides.mjs';
 // Offline-first, subject- and chapter-specific reading context for the four Sciences.
 // Does not manufacture numerical inputs or replace an unsupported solver.
 export const SCIENCE_GUIDES={
@@ -299,8 +300,30 @@ export const SCIENCE_METHOD={
   "astronomy": "Distinge între ceea ce se observă și modelul folosit pentru interpretare. Precizează scara, unitățile și incertitudinile; nu confunda mișcarea aparentă cu cea reală. O schemă astronomică poate fi utilă fără a fi la scară."
 };
 
-export function scienceExtendedTheory(entry, chapterName='',explicit=null){
+export function scienceExtendedTheory(entry, chapterName='',explicit=null,language='ro'){
  if(!entry||!['chemistry','physics','biology','astronomy'].includes(entry.subject))return '';
+ // Provide a genuinely authored English reference instead of concatenating
+ // Romanian chemistry detail or Romanian SCIENCE_GUIDES into an English page.
+ // For other selected languages, English is a labelled fallback, not a
+ // claimed translation into the selected language.
+ if(language!=='ro'){
+  const english=SCIENCE_GUIDES_EN[entry.subject]?.[entry.topic];
+  const note=language==='en'?
+   'Original English reference material; this is not an official national syllabus.':
+   'English reference fallback: translation into the selected language is not verified.';
+  if(!english){
+   return '# English reference not available'+String.fromCharCode(10,10)+
+    'This specialised study item has no authored English guide. Switch to Romanian source material or seek a verified course. No automatic translation is claimed.'+
+    String.fromCharCode(10,10)+note;
+  }
+  return [
+   '# Concept and explanation',english[0],
+   '# Worked example',english[1],
+   '# Common misconception',english[2],
+   '# Check your understanding',english[3],
+   note
+  ].join(String.fromCharCode(10,10));
+ }
  if(typeof explicit==='string'&&explicit.trim())
   return explicit.trim().split('\n').map(part=>{
    const line=part.trim();
