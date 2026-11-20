@@ -83,7 +83,7 @@ for(const country of ['RO','GB-ENG','FR','DE','IT','ES']){
  for(const [grade,units] of Object.entries(profile.byGrade||{})){
   if(country==='RO'){
    assert.ok(units.length>=7&&units.length<=12,'Romanian pupil grade '+grade+' should show a focused, usable chapter list');
-   assert.ok(!units.some(x=>String(x[0]).startsWith('study-')),'Do not pad a child's programme with advanced common topics');
+   assert.ok(!units.some(x=>String(x[0]).startsWith('study-')),'Do not pad pupil programmes with advanced common topics');
   }else assert.ok(units.length>=10,country+' '+grade+' literature too short');
  }
 }
