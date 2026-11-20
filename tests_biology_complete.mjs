@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import vm from 'node:vm';
 import frontend from './index.js';
 import {THEORY_ENTRIES,searchTheory,theorySubjects} from './education_theory.mjs';
+import {scienceGradeTopicPlan} from './science_grade_progression.mjs';
 import {CHEMISTRY_TOPICS,CHEMISTRY_LEVELS} from './chemistry_curriculum.mjs';
 import {CHEMISTRY_SPECIALIZATIONS,CHEMISTRY_SPECIALTY_TOPICS} from './chemistry_advanced.mjs';
 import {
@@ -90,11 +91,13 @@ const api=vm.runInNewContext('let activeLearningSubject=null;'+script.slice(star
  BIOLOGY_TOPIC_DATA:[...BIOLOGY_TOPICS,...BIOLOGY_SPECIALTY_TOPICS],
  BIOLOGY_SPECIALTY_DATA:BIOLOGY_SPECIALIZATIONS,
  CHEMISTRY_LEVEL_DATA:CHEMISTRY_LEVELS,EDUCATION_THEORY_DATA:THEORY_ENTRIES,
+ SCIENCE_GRADE_TOPIC_PLAN:scienceGradeTopicPlan,
  LEARNING_SUBJECTS:[['science','⚛️','Științe','Sciences']],
  learningLabel:(ro,en)=>ro,$:id=>els[id]||null,
  eduAttachPrintAction:()=>{},
  educationCountrySelection:{code:'GB-ENG',label:'Anglia'},
- eduYearOptions:(country,level)=>['lower','beginner'].includes(level)?[{id:'Y7',ro:'Year 7',en:'Year 7'}]:
+ eduYearOptions:(country,level)=>level==='primary'?[{id:'Y1',ro:'Year 1',en:'Year 1'}]:
+  ['lower','beginner'].includes(level)?[{id:'Y7',ro:'Year 7',en:'Year 7'}]:
   level==='intermediate'?[{id:'Y10',ro:'Year 10',en:'Year 10'}]:
   [{id:'university',ro:'Universitate',en:'University'}],
  scienceOpenWorkspace:()=>{workspaces++},
@@ -105,7 +108,7 @@ const options=()=>host.children[1]?.children[2]?.children||[];
 api.open('subjects');options()[2].onclick();
 assert.equal(api.state.subject,'biology');
 assert.equal(api.state.stage,'years');
-options()[2].children[1].children[0].onclick();
+options()[3].children[1].children[0].onclick();
 assert.equal(api.state.level,'advanced');
 assert.equal(api.state.stage,'specialties');
 assert.equal(options().length,9);
@@ -129,6 +132,6 @@ api.back();assert.equal(api.state.stage,'years');
 api.back();assert.equal(api.state.stage,'subjects');
 api.open('subjects');options()[2].onclick();options()[0].children[1].children[0].onclick();
 assert.equal(api.state.stage,'topics','beginner bypasses specialty chooser');
-assert.ok(options().length>=6);
+assert.ok(options().length>=2,'Primary biology provides age-appropriate study chapters');
 assert.ok(!options().some(x=>x.children[0]?.textContent?.includes('Replicare')));
 console.log('PASS Biology: 9 tracks, 36 specialist chapters, 168 lessons, verified genetics, 2D/3D UI and staged Back navigation');
