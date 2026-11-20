@@ -51,7 +51,8 @@ response=await post(literature,{
   seen.push({model,args});return {response:'Analiza urmărește simbolurile, ideile și efectele imaginilor poetice, cu exemple concrete și o interpretare coerentă.'};
  }}
 });
-assert.equal(response.status,200,JSON.stringify(response.body).slice(0,400));
+assert.equal(response.status,503,'AI routing mock provides a short analysis, not a completed multi-page essay');
+assert.equal(response.body.error,'essay_too_short');
 assert.equal(seen[0].model,EVA_AI_MODELS.deep);
 seen=[];
 const history={
