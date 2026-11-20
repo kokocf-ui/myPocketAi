@@ -1,3 +1,4 @@
+import {litEssaySpec,litEssayQuality,litEssayWords} from "./literature_essay_contract.mjs";
 import {parseCulinaryRequest,culinarySearchQuery,recipeDishKeywords,recipeSpeciesCompatible,humanizeRecipeDuration,humanizeRecipeServings} from "./culinary_intent.mjs";
 import {classifyAssistantFeedback,resolveRecipeFollowupComplaint,resolveRecipeRequestRecall,formatRecipeRequestRecall} from "./social_feedback.mjs";
 import {assembleSourcedRecipeVariants} from "./culinary_multi.mjs";
@@ -2604,8 +2605,53 @@ export default {
         'For the correction activity only, refer to the question text and student answer in the request. '+
         'Never confuse dictionary entries with destinations. If the user has not supplied a needed text passage, do not pretend to have read it.';
       try{
-        const response=await evaTask({module:'education_study',subject:'language_literature',activity,message},{messages:[{role:'system',content:system+'\n'+educationDepthInstruction('language_literature',activity)},{role:'user',content:message}],temperature:0.2,max_tokens:activity==='essay'?4200:2800});
-        let reply=String(response?.response||response?.result?.response||'').trim();
+        let reply='';
+        let essayAudit=null;
+        if(activity==='essay'){
+          // Each section has its own generation budget. Asking for all five
+          // printed A4 sheets in a single model response silently truncated essays.
+          const requestedPages=Number(data.education_essay_pages)||
+            Number(message.match(/([1-5])\s+pagini?\s+A4/iu)?.[1])||3;
+          const spec=litEssaySpec(requestedPages);
+          const parts=[];
+          for(let part=0;part<spec.segments;part++){
+            const segmentWords=Math.ceil(spec.targetWords/spec.segments);
+            const role=spec.segments===1?'complete':
+              part===0?'opening':part===spec.segments-1?'closing':'development';
+            const sections=role==='opening'?
+              'Write the natural introduction, accurate context and first two fully argued interpretations. Do NOT write a conclusion yet.':
+              role==='closing'?'Continue the same essay with further different, specific arguments, mature interpretation and a fully developed conclusion. Do NOT repeat the introduction.':
+              'Write the entire essay with introduction, developed arguments and conclusion.';
+            const continuity=part>0?' The immediately preceding paragraphs of THIS essay end with: '+
+              parts.at(-1).slice(-1200):'';
+            const chapterRequest=message+'\nEssay section '+(part+1)+'/'+spec.segments+
+              ': write approximately '+segmentWords+' words of FINISHED connected prose. '+
+              sections+' No tasks, exercises, numbered outline, bibliography or template. '+
+              'Ground the analysis in the known work; invent no quotations.'+continuity;
+            const response=await evaTask(
+              {module:'education_study',subject:'language_literature',activity,message:chapterRequest},
+              {messages:[{role:'system',content:system+'\n'+educationDepthInstruction('language_literature',activity)+
+                '\nFor this segment produce ONLY substantive essay paragraphs and observe the '+segmentWords+
+                '-word budget. Do not substitute bullet points or teaching instructions.'},
+                {role:'user',content:chapterRequest}],
+               temperature:0.3,max_tokens:Math.min(4000,Math.max(2400,Math.ceil(segmentWords*3.4)))});
+            const section=String(response?.response||response?.result?.response||'').trim();
+            if(!section)break;
+            parts.push(section);
+          }
+          reply=parts.join('\n\n');
+          essayAudit=litEssayQuality(reply,spec.pages);
+          if(!essayAudit.ok)return json({
+            status:'unavailable',error:essayAudit.reason,education_subject:'language_literature',
+            education_activity:'essay',requested_pages:spec.pages,actual_words:essayAudit.words,
+            minimum_words:spec.minWords
+          },503);
+        }else{
+          const response=await evaTask({module:'education_study',subject:'language_literature',activity,message},
+            {messages:[{role:'system',content:system+'\n'+educationDepthInstruction('language_literature',activity)},
+              {role:'user',content:message}],temperature:0.2,max_tokens:2800});
+          reply=String(response?.response||response?.result?.response||'').trim();
+        }
         // Safely correct the two exact malformed Romanian lesson-title tokens observed in production.
         if(locale==='ro')reply=reply.replace(/\bLehul(?:a)?\b/giu,'Lecția');
         if(!reply)return json({status:'unavailable',error:'education_text_empty',education_subject:'language_literature'},503);
@@ -2613,7 +2659,8 @@ export default {
         if(/(?:nu am coordonate GPS|permite accesul la locație|departure address\/postcode|do not have usable GPS coordinates)/i.test(reply))
           return json({status:'unavailable',error:'education_wrong_intent',education_subject:'language_literature'},503);
         return json({app:'Pocket AI',version:API_VERSION,status:'success',reply,language:locale,
-          education_subject:'language_literature',education_activity:activity,ai_generated:true});
+          education_subject:'language_literature',education_activity:activity,ai_generated:true,
+          ...(essayAudit?{essay_pages:essayAudit.pages,essay_words:essayAudit.words}: {})});
       }catch(error){
         return json({status:'unavailable',error:isWorkersAiQuotaExceeded(error)?'ai_quota_exceeded':'education_generation_unavailable',education_subject:'language_literature'},503);
       }
