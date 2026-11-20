@@ -28,6 +28,8 @@ assert.ok(!blocks.some(b=>b.text==='----------'||b.text==='=========='),'No type
 assert.deepEqual(blocks.filter(b=>b.type==='item').map(b=>b.marker),
  ['•','•','•','1.','2.','3.'],'Plain bullets for definitions; only numbered exercises keep their numbers');
 assert.deepEqual(parseStudyBlocks('a. Primul\nb. Al doilea').map(b=>b.marker),['•','•'],'Repeated AI alphabetic bullets are not pupil-facing labels');
+assert.deepEqual(parseStudyBlocks('1. Alege varianta corectă:\na. Prima\nb. A doua\nc. A treia').filter(b=>b.type==='item').map(b=>b.marker),['1.','a.','b.','c.'],
+ 'Actual multiple-choice answers must retain letter identities');
 assert.ok(STUDY_TYPOGRAPHY_CSS.includes('.lit-study-marker{font-weight:900')&&
  STUDY_TYPOGRAPHY_CSS.includes('color:#91ddeb'),'Numbering bold and headings colored');
 assert.ok(STUDY_TYPOGRAPHY_CSS.includes('.lit-study-document'),'Typography is scoped to study materials');
