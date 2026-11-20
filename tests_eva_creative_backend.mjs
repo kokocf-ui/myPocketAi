@@ -1,3 +1,4 @@
+import {ESSAY_TEST_SAMPLE} from './tests_literature_essay_fixture.mjs';
 import assert from 'node:assert/strict';
 import backend from './backend.js';
 import {EVA_AI_MODELS} from './eva_ai_orchestrator.mjs';
@@ -55,7 +56,7 @@ const writing={module:'education_study',education_subject:'language_literature',
  message:'Redactează un eseu argumentativ despre simbolurile și perspectivele narative ale unui roman, fără citate inventate.'};
 r=await post(writing,{POCKET_EVA_CREATIVE_QUALITY_ENABLED:'1',AI:{run:async(model,options)=>{
  calls.push({model,options});
- return {response:'Eseul urmărește contrastul dintre perspectiva narativă și simboluri. Introducerea fixează teza, argumentele sunt sprijinite prin interpretare, iar concluzia clarifică miza expresivă.'};
+ return {response:ESSAY_TEST_SAMPLE};
 }}});
 assert.equal(r.status,200,JSON.stringify(r.data).slice(0,260));
 assert.equal(calls[0].model,EVA_AI_MODELS.deep);
