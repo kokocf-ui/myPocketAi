@@ -1,0 +1,29 @@
+name: Tools menu regression
+
+on:
+  push:
+    branches:
+      - main
+      - feature/remove-tools-translate-analysis-20261120
+    paths:
+      - extra_tools_six_nav.mjs
+      - tests_tools_six_navigation.mjs
+      - .github/workflows/test-tools-menu.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  tools-menu:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check menu JS and test nested navigation
+        run: |
+          node --check extra_tools_six_nav.mjs
+          node tests_tools_six_navigation.mjs
