@@ -30,3 +30,12 @@ Lucrul la capitol nu se declară finalizat prin testele de integrare ale matrice
 - CI pentru modificările PR #501: `Education 50-country curriculum coverage` și `Pocket AI minimal code checks` au trecut; `Build myPocket AI Android APK` a trecut ca verificare de diagnostic. **Nu s-a publicat un APK semnat nou.**
 - Rămân până la acceptarea Științelor: verificarea programelor oficiale de țară/clasă/profil, acoperirea tuturor lecțiilor efective la liceu și universitate, funcționarea audio/figuri/PDF/Înapoi și proba pe un dispozitiv Android. Lecțiile în altă limbă decât română/engleză indică fallbackul în engleză; traducerile nu sunt certificate.
 - **Nu marca Științele ca terminate** și nu livra un APK pentru acest lot intermediar. 
+
+## Validarea integrată a Științelor, același lot (20.11.2026)
+- Gimnaziu: un singur cititor complet per capitol și an, nu carduri redundante care deschid același text; funcționează chiar dacă registrul de sublecții vechi nu are intrări.
+- Ghiduri englezești originale pentru 47 de capitole de bază (14 fizică, 14 chimie, 10 biologie, 9 astronomie), cu explicație, exemplu, capcană conceptuală și întrebare de verificare. Fallbackul englez în alte limbi este etichetat explicit.
+- La liceu în engleză se deschide un singur capitol coerent, nu sublecții cu titluri identice. Lecțiile românești detaliate se păstrează.
+- tests_science_grade_progression.mjs verifică și cititorul într-un DOM simulat: clase diferite, lipsă sublecții vechi, interfața în engleză și conținut real.
+- CI: Sciences — full four-subject acceptance checks, matricea de 50 de sisteme, smoke și compilarea unui APK debug exclusiv diagnostic au trecut la commit aaa0b0ff. APK-ul debug NU se livrează ca actualizare.
+- NU închide capitolul: sunt încă obligatorii verificarea pe Android real, deploymentul sincronizat Cloudflare, verificarea tuturor nivelurilor (inclusiv specializări universitare și fallbackuri de limbă), APK final semnat și acceptarea utilizatorului.
+- PR #501 rămâne draft. Nu confunda un build automat reușit cu finalizarea Științelor.
