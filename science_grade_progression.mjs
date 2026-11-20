@@ -47,6 +47,7 @@ export function scienceGradeTopicPlan({country='',subject='',stage='lower',grade
   Math.round(yearIndex*(rows.length-1)/(yearList.length-1));
  const selected=rows[sequenceIndex]||rows[0];
  const max=stage==='upper'?1:0;
+ const rank={beginner:0,intermediate:1,advanced:2};
  const indexed=new Map(topics.filter(x=>x&&!x.specialty).map(x=>[x.id,x]));
  const ordered=selected.map(id=>indexed.get(id)).filter(x=>
   x&&((rank[x.minLevel]??0)<=max || stage==='primary'&&subject==='chemistry'&&x.id==='solutions'));
@@ -63,7 +64,7 @@ export function scienceGradeTopicPlan({country='',subject='',stage='lower',grade
   astronomyOptional:subject==='astronomy'
  };
 }
-const PRIMARY_LESSON_BANK=Object.freeze({
+export const SCIENCE_PRIMARY_LESSON_BANK=Object.freeze({
  physics:{
   units:['Măsurăm și comparăm','Un obiect poate fi mai lung, mai greu ori mai cald decât altul. Pentru a compara corect folosim aceeași unitate și același instrument.','Măsoară de trei ori lungimea unei cărți cu rigla. Compară rezultatele și explică diferențele.'],
   energy:['Schimbări și energie','Lumina, mișcarea și căldura sunt legate de transferuri de energie. Energia nu este o substanță pe care o putem vedea.','Observă o jucărie care coboară pe o rampă. Ce se schimbă când ridici începutul rampei?'],
@@ -92,7 +93,7 @@ const PRIMARY_LESSON_BANK=Object.freeze({
 });
 export function scienceGradeLessonFrame({subject,stage,grade,topic,chapter,language='ro'}={}){
  if(stage==='primary'){
-  const lesson=PRIMARY_LESSON_BANK[subject]?.[topic];
+  const lesson=SCIENCE_PRIMARY_LESSON_BANK[subject]?.[topic];
   if(!lesson)return null;
   if(language!=='ro')return [
    'GENERAL SCIENCE · Advisory study route · Grade '+grade,
