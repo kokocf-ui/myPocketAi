@@ -68,7 +68,7 @@ const sandbox={
  educationCountrySelection:{code:'GB-ENG',label:'Anglia'},
  eduYearOptions:(country,level,moduleKey)=>(
   ['lower','beginner'].includes(level)?[{id:'Y7',ro:'Year 7',en:'Year 7'},{id:'Y8',ro:'Year 8',en:'Year 8'}]:
-  level==='intermediate'?[{id:'Y10',ro:'Year 10',en:'Year 10'},{id:'Y11',ro:'Year 11',en:'Year 11'}]:
+  level==='intermediate'?[{id:'Y10',ro:'Year 10',en:'Year 10'},{id:'Y11',ro:'Year 11',en:'Year 11'},{id:'Y12',ro:'Year 12',en:'Year 12'},{id:'Y13',ro:'Year 13',en:'Year 13'}]:
   [{id:'university',ro:'Universitate',en:'University'}]),
  $:key=>elements[key]||null,
  pocketNativeVoiceAvailable:()=>false,
