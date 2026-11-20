@@ -63,6 +63,48 @@ function litRenderPoemPage(host,text){
   host.append(litSimpleNode(isSection?'h3':'p',block,isSection?'lit-poem-section':'lit-poem-stanza'));
  }
 }
+let litEssayPdfPending=false;
+function litEssayPrint(mode,material,close){
+ if(!Number(material?.essayPages)||typeof window==='undefined'||
+    !window.PocketAndroidPrint?.postMessage)
+  return eduOpenPrint(mode,material,close);
+ if(litEssayPdfPending)return;
+ litEssayPdfPending=true;
+ const display=message=>{
+  if(typeof notify==='function')notify(message);
+  else console.info?.('literature_pdf_status',message);
+ };
+ window.pocketEduPrintResult=state=>{
+  litEssayPdfPending=false;window.pocketEduPrintResult=null;
+  const result=String(state||'');
+  if(result.startsWith('saved:')){
+   const sheets=Number(result.split(':')[1])||0;
+   display(litSimpleLabel('Eseul a fost salvat: '+sheets+' pagini A4 verificate.',
+    'Essay saved: '+sheets+' verified A4 pages.'));
+   try{close?.()}catch{}
+   return;
+  }
+  if(result.startsWith('a4Mismatch:')){
+   const [,expected,actual]=result.split(':');
+   display(litSimpleLabel('PDF-ul are '+actual+' pagini A4, nu '+expected+'. Nu a fost salvat ca lucrare completă.',
+    'The PDF has '+actual+' A4 pages, not '+expected+'. It was not saved as a complete essay.'));
+   return;
+  }
+  display(litSimpleLabel('Nu s-a putut salva eseul A4.','Could not save the A4 essay.'));
+ };
+ try{
+  window.PocketAndroidPrint.postMessage(JSON.stringify({
+   mode:mode==='print'?'print':'save',title:material.title,text:material.text,
+   color:document.getElementById?.('litPdfColor')?.value!=='bw',
+   essayPages:Number(material.essayPages),figures:[]
+  }));
+ }catch(e){
+  litEssayPdfPending=false;window.pocketEduPrintResult=null;
+  display(litSimpleLabel('Comunicarea cu salvarea PDF a eșuat.',
+   'Could not request PDF saving.'));
+ }
+}
+
 function litShowMaterialReader(title,text,options={}){
  const raw=String(text||'').trim();
  if(!raw)return false;
@@ -111,8 +153,10 @@ function litShowMaterialReader(title,text,options={}){
   content.style.cssText='flex:1 1 auto!important;overflow-y:auto!important;min-height:0!important;white-space:pre-wrap!important;padding:16px!important';
   const actions=litSimpleNode('div','','lit-reader-footer');
   const material={title,text:raw,essayPages:Number(options.essayPages)||0};
-  const save=litSimpleButton(litSimpleLabel('💾 Salvează PDF','💾 Save PDF'),()=>eduOpenPrint('save',material,close));
-  const print=litSimpleButton(litSimpleLabel('🖨 Imprimă','🖨 Print'),()=>eduOpenPrint('print',material,close));
+  const save=litSimpleButton(litSimpleLabel('💾 Salvează PDF','💾 Save PDF'),
+   ()=>material.essayPages?litEssayPrint('save',material,close):eduOpenPrint('save',material,close));
+  const print=litSimpleButton(litSimpleLabel('🖨 Imprimă','🖨 Print'),
+   ()=>material.essayPages?litEssayPrint('print',material,close):eduOpenPrint('print',material,close));
   actions.append(save,print);
   reader.append(head,content,actions);
   overlay.append(reader);
