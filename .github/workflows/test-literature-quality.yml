@@ -13,6 +13,7 @@ on:
       - 'tests_literature_exact_paged_reader.mjs'
       - 'tests_eva_ai_backend_routing.mjs'
       - 'tests_eva_creative_backend.mjs'
+      - 'tests_hungarian_school_paths.mjs'
       - '.github/workflows/test-literature-quality.yml'
   workflow_dispatch:
 
@@ -40,3 +41,6 @@ jobs:
           node tests_literature_exact_paged_reader.mjs
           node tests_eva_ai_backend_routing.mjs
           node tests_eva_creative_backend.mjs
+          node tests_hungarian_school_paths.mjs
+          node tests_education_reader_documents_regression.mjs
+          node tests_education_android.mjs
