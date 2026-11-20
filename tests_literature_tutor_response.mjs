@@ -84,6 +84,11 @@ assert.equal(closingSegment.res.status,200);
 assert.equal(closingSegment.calls.length,1);
 assert.equal(closingSegment.data.essay_segment,10);
 assert.equal(closingSegment.data.essay_pages,5);
+const extendedSegment=await tutoring('Continuă analiza de literatură, eseu 12 pagini A4','essay',
+ essayFragment(10),{education_essay_pages:12,education_essay_segment:11});
+assert.equal(extendedSegment.res.status,200,'The eleventh segment must work for longer essays');
+assert.equal(extendedSegment.data.essay_segment,11);
+assert.equal(extendedSegment.data.essay_pages,12);
 
 
 assert.equal(grammar.input.max_tokens,2800,'Ordinary lessons retain their normal budget');
