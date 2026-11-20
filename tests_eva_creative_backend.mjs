@@ -14,7 +14,7 @@ const storyRequest={module:'creative_storybook',story_type:'children',
  story_seed:'Creează o poveste originală despre o busolă din biblioteca orașului și o descoperire surprinzătoare.',
  message:'Creează o poveste originală despre o busolă din biblioteca orașului și o descoperire surprinzătoare.'};
 let calls=[];
-let r=await post(storyRequest,{AI:{run:async(model,options)=>{
+let r=await post(storyRequest,{POCKET_EVA_CREATIVE_QUALITY_ENABLED:'1',AI:{run:async(model,options)=>{
  calls.push({model,options});
  return {output:[{type:'reasoning',summary:[{text:'internal only'}]},{type:'message',content:[{type:'output_text',text:book}]}]};
 }}});
@@ -30,14 +30,21 @@ r=await post(storyRequest,{POCKET_EVA_CREATIVE_QUALITY_ENABLED:'0',AI:{run:async
 assert.equal(r.status,200);
 assert.deepEqual(calls,[EVA_AI_MODELS.fast],'Kill switch restores legacy story model');
 calls=[];
-r=await post(storyRequest,{AI:{run:async(model,options)=>{
+r=await post(storyRequest,{AI:{run:async model=>{
+ calls.push(model);return {response:book};
+}}});
+assert.equal(r.status,200,'Default deployment must keep legacy story generation active');
+assert.deepEqual(calls,[EVA_AI_MODELS.fast],'Creative quality MUST be explicitly opted in');
+
+calls=[];
+r=await post(storyRequest,{POCKET_EVA_CREATIVE_QUALITY_ENABLED:'1',AI:{run:async(model,options)=>{
  calls.push(model);
  return {response:calls.length===1?'Povestea a fost creată incomplet, fără capitole.':book};
 }}});
 assert.equal(r.status,200,'One bounded book repair must recover invalid chapter layout');
 assert.deepEqual(calls,[EVA_AI_MODELS.deep,EVA_AI_MODELS.balanced]);
 calls=[];
-r=await post(storyRequest,{AI:{run:async model=>{
+r=await post(storyRequest,{POCKET_EVA_CREATIVE_QUALITY_ENABLED:'1',AI:{run:async model=>{
  calls.push(model);return {response:'Text incomplet.'};
 }}});
 assert.equal(r.status,502,'No fabricated successful book when both models fail');
@@ -46,7 +53,7 @@ calls=[];
 const writing={module:'education_study',education_subject:'language_literature',
  education_activity:'essay',language:'ro',
  message:'Redactează un eseu argumentativ despre simbolurile și perspectivele narative ale unui roman, fără citate inventate.'};
-r=await post(writing,{AI:{run:async(model,options)=>{
+r=await post(writing,{POCKET_EVA_CREATIVE_QUALITY_ENABLED:'1',AI:{run:async(model,options)=>{
  calls.push({model,options});
  return {response:'Eseul urmărește contrastul dintre perspectiva narativă și simboluri. Introducerea fixează teza, argumentele sunt sprijinite prin interpretare, iar concluzia clarifică miza expresivă.'};
 }}});
@@ -56,7 +63,7 @@ assert.match(calls[0].options.messages[0].content,/defensible thesis/);
 calls=[];
 r=await post({module:'assistant',language:'ro',
  message:'Compune o poezie originală despre un oraș vechi, cu imagini surprinzătoare și un ton matur.'},
- {AI:{run:async(model,options)=>{
+ {POCKET_EVA_CREATIVE_QUALITY_ENABLED:'1',AI:{run:async(model,options)=>{
   calls.push({model,options});
   return {response:'Ferestrele se aprind târziu, iar pașii trec prin umbrele pietrei. Din piața veche crește un ecou al timpului, dar fiecare ușă ascunde o altă poveste.'};
  }}});
@@ -76,7 +83,7 @@ assert.equal(calls[0],EVA_AI_MODELS.fast);
 calls=[];
 const matureRequest={module:'assistant',language:'ro',
  message:'Creează o poveste pentru adulți, de aproximativ 450 de cuvinte, despre o arhivistă care găsește un mesaj ascuns într-un ceas defect dintr-o gară. Vreau o scenă puternică, o decizie dificilă, dialog natural, un detaliu neașteptat și un final coerent. Nu scrie o morală și nu introduce un copil aventurier.'};
-r=await post(matureRequest,{AI:{run:async(model,options)=>{
+r=await post(matureRequest,{POCKET_EVA_CREATIVE_QUALITY_ENABLED:'1',AI:{run:async(model,options)=>{
  calls.push({model,options});
  return {response:'Arhivista intră în gara aproape pustie, cu o scrisoare în mână. Întinse degetele spre mecanismul ceasului, în timp ce mecanicul o avertiză că trenul nu mai poate aștepta. Își aminti de omul care îi ceruse să păstreze tăcerea, dar înțelese că adevărul trebuia transmis înainte de plecare. Împinse ușa și porni spre peron. Decizia era făcută, iar mesajul ajunsese la destinatar.'};
 }}});
