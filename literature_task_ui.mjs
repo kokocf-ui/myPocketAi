@@ -1,7 +1,40 @@
 import {splitLiteraturePages} from './literature_reader_pagination.mjs';
 import {parseStudyBlocks,renderStudyBlocks,STUDY_TYPOGRAPHY_CSS} from './literature_study_typography.mjs';
 import {literatureOfflineActivity,LIT_PRIMARY_COMMUNICATION} from './literature_offline_activity.mjs';
-export const LITERATURE_TASK_UI_SCRIPT=splitLiteraturePages.toString()+'\n'+parseStudyBlocks.toString()+'\n'+renderStudyBlocks.toString()+'\nconst COMMUNICATION_G1='+JSON.stringify(LIT_PRIMARY_COMMUNICATION)+';\n'+literatureOfflineActivity.toString()+'\nconst LIT_STUDY_CSS='+JSON.stringify(STUDY_TYPOGRAPHY_CSS)+';\n'+String.raw`
+import {LIT_RO_GRADE_LESSONS,litRomanianGradeMaterial} from './literature_ro_grade_progression.mjs';
+export const LITERATURE_TASK_UI_SCRIPT=splitLiteraturePages.toString()+'\n'+parseStudyBlocks.toString()+'\n'+renderStudyBlocks.toString()+'\nconst COMMUNICATION_G1='+JSON.stringify(LIT_PRIMARY_COMMUNICATION)+';\n'+literatureOfflineActivity.toString()+'\nconst LIT_RO_GRADE_LESSONS='+JSON.stringify(LIT_RO_GRADE_LESSONS)+';\n'+litRomanianGradeMaterial.toString()+'\nconst LIT_STUDY_CSS=+JSON.stringify(STUDY_TYPOGRAPHY_CSS)+';\n'+String.raw`
+
+
+// Bind the existing choice cards to actual Romanian grade chapters.
+// The original country-neutral topic list is restored for all other countries.
+if(typeof litOpen==='function'&&typeof LIT_TOPICS==='object'&&
+   typeof litProgram==='function'){
+ const originalOpen=litOpen;
+ const originalProgram=litProgram;
+ const originalGrammar=LIT_TOPICS.grammar.slice();
+ litOpen=function(stage){
+  if(stage==='topics'){
+   const units=litJourney.country==='RO'?LIT_RO_GRADE_LESSONS[String(litJourney.grade)]:null;
+   LIT_TOPICS.grammar=units?units.map(x=>[x.id,x.ro,x.en]):originalGrammar.slice();
+  }
+  return originalOpen(stage);
+ };
+ litProgram=function(){
+  const plan=originalProgram();
+  const grade=String(litJourney.grade);
+  if(litJourney.country!=='RO'||!LIT_RO_GRADE_LESSONS[grade])return plan;
+  const first=Number(grade)<=2;
+  const primary=Number(grade)<=4;
+  const src=first?'https://www.ecat.ro/wp-content/uploads/2021/05/01_CLR_CP_II_OMEN.pdf':
+   primary?'https://www.edums.ro/invprimar/LB%20ROMANA%20III%20IV%202014.pdf':
+   'https://www.edu.ro/Ordin_ministru_3393_2017';
+  const sourceTitle=first?'OMEN 3418/2013 — Comunicare în limba română, clasele I–II':
+   primary?'OMEN 5003/2014 — Limba și literatura română, clasele III–IV':
+   'OMEN 3393/2017 — Limba și literatura română, clasele V–VIII';
+  return {...plan,source:src,sourceTitle,
+    note:'Unități de învățare orientative, diferențiate pe clasă; nu reprezintă ordinea obligatorie a tuturor manualelor.'};
+ };
+}
 
 function litSimpleNode(tag,text='',className=''){const el=document.createElement(tag);el.textContent=text;if(className)el.className=className;return el}
 function litSimpleButton(text,fn){const b=litSimpleNode('button',text,'lit-activity-button');b.type='button';b.onclick=fn;return b}
@@ -194,11 +227,13 @@ async function litSimpleGenerate(out,status,mode,request,source='',onReady=null)
     ?new Intl.DisplayNames(['en'],{type:'language'}).of(answerLanguage):'English');
  const currentTopic=typeof litCurrentTopic==='function'?litCurrentTopic():null;
  const key=String(currentTopic?.[0]||litJourney.topic||'');
+ const gradeSpecific=litJourney.country==='RO'&&answerLanguage==='ro'?litRomanianGradeMaterial({
+  topicKey:key,grade:litJourney.grade,language:answerLanguage,mode}):null;
  const availableNotes=typeof LIT_OFFLINE_THEORY_DATA==='object'?
   (LIT_OFFLINE_THEORY_DATA[key]||LIT_OFFLINE_THEORY_DATA[litJourney.branch]):null;
- let localMaterial=null;
+ let localMaterial=gradeSpecific;
  try{
-  if(litJourney.country==='RO'&&['ro','en'].includes(answerLanguage))
+  if(!localMaterial&&litJourney.country==='RO'&&['ro','en'].includes(answerLanguage))
    localMaterial=literatureOfflineActivity({topicKey:key,
     title:litSimpleLabel(currentTopic?.[1]||'Lecție',currentTopic?.[2]||'Lesson'),
     mode,grade:litJourney.grade,language:answerLanguage,notes:availableNotes});
@@ -233,7 +268,7 @@ async function litSimpleGenerate(out,status,mode,request,source='',onReady=null)
  };
  // Grade I Romanian basics are authored and instantly available, independent of
  // online inference quotas. These examples are not asserted to be official tests.
- if(localMaterial&&String(litJourney.grade)==='1'&&mode!=='correction'){
+ if(localMaterial&&(String(litJourney.grade)==='1'||gradeSpecific)&&mode!=='correction'){
   try{present(localMaterial.text,true)}finally{
    if(serial===litSimpleSerial){litJourney.busy=false;litSimpleAbort=null}
   }
