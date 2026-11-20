@@ -66,6 +66,7 @@ import {contextualResearchQuery,isConversationOnlyTurn} from "./conversation_con
 import {planAnswerFocus} from "./answer_focus.mjs";
 import {educationDepthInstruction,educationDepthAudit} from "./education_lesson_depth.mjs";
 import {literatureOutputInstruction,literatureOutputIssue} from "./literature_output_quality.mjs";
+import {literatureGrounding,literatureUnsupportedAttribution} from "./literature_curated_concepts.mjs";
 import {classifyProgrammingRequest,programmingAssistantInstruction} from "./programming_assistance.mjs";
 import {isTransitJourneyRequest,correctedResearchTopic} from "./transit_intent.mjs";
 import {classifyDialogueIntent,blocksImplicitPlaceLookup,isStableCapitalQuestion} from "./dialogue_intent.mjs";
@@ -2606,8 +2607,12 @@ export default {
         'Never confuse dictionary entries with destinations. If the user has not supplied a needed text passage, do not pretend to have read it.';
       try{
         const task={module:'education_study',subject:'language_literature',activity,message};
+        const grounding=literatureGrounding(message,activity,locale);
+        const editorialIssue=text=>literatureOutputIssue(text,activity,message)||
+          (literatureUnsupportedAttribution(text,message,activity)?'unverified_literary_attribution':null);
         const makeOptions=(extra='')=>({messages:[
-          {role:'system',content:system+'\n'+educationDepthInstruction('language_literature',activity)+extra},
+          {role:'system',content:system+'\n'+educationDepthInstruction('language_literature',activity)+
+            (grounding?'\n'+grounding:'')+extra},
           {role:'user',content:message}
         ],temperature:0.2,max_tokens:['lesson','study','essay','write'].includes(activity)?3500:2800});
         const response=await evaTask(task,makeOptions());
@@ -2616,7 +2621,7 @@ export default {
         if(!reply)return json({status:'unavailable',error:'education_text_empty',education_subject:'language_literature'},503);
         if(/(?:nu am coordonate GPS|permite accesul la locație|departure address\/postcode|do not have usable GPS coordinates)/i.test(reply))
           return json({status:'unavailable',error:'education_wrong_intent',education_subject:'language_literature'},503);
-        let quality=literatureOutputIssue(reply,activity,message);
+        let quality=editorialIssue(reply);
         // One bounded internal regeneration, not an endless user-visible retry loop.
         // Use the already selected AI route; no new image service or external API.
         if(quality){
@@ -2624,7 +2629,7 @@ export default {
             const repaired=await evaTask(task,makeOptions(
               '\nThe previous attempt failed editorial checks ('+quality+'). Write a NEW, fully developed finished response. Do not summarize the request or retain the failed outline. Strictly follow the requested activity and substantial length.'));
             const candidate=String(repaired?.response||repaired?.result?.response||'').trim();
-            if(candidate&&!literatureOutputIssue(candidate,activity,message)){
+            if(candidate&&!editorialIssue(candidate)){
               reply=candidate;quality=null;
             }
           }catch(repairError){
