@@ -30,8 +30,8 @@ assert.match(LITERATURE_TASK_UI_SCRIPT,/if\(!response\.ok\|\|data\.status!=='suc
  'Response must be checked before claiming a generated essay');
 assert.match(LITERATURE_TASK_UI_SCRIPT,/essayOnly\?\[\['Creează eseul'/,
  'The standalone Essay page must expose a single clear generation action');
-assert.match(LITERATURE_TASK_UI_SCRIPT,/\['ro-grammar-theory','Teorie'/,
- 'Grammar must open with a simple Theory menu');
+assert.match(LITERATURE_TASK_UI_SCRIPT,/roGrammarTopicsForYear\(grade,LIT_RO_GRADE_LESSONS\)/,
+ 'Grammar must open actual class-specific lessons, not a duplicate generic Theory card');
 assert.match(LITERATURE_TASK_UI_SCRIPT,/rows=\(data\.docs\|\|\[\]\)\.flatMap/,
  'Search results must be publisher metadata, not invented author matching');
 assert.match(LITERATURE_TASK_UI_SCRIPT,/fold\(x\.title\)===fold\(name\)/,
