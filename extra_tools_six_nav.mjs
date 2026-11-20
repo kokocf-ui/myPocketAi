@@ -6,9 +6,6 @@ const EXTRA_TOOLS_V2_GROUPS=[
   ['my-documents','📚','Documentele mele','My documents','Biblioteca PDF existentă','Existing saved PDF library']]},
  {id:'translate',icon:'🌍',ro:'Traduceri inteligente',en:'Smart translations',descriptionRo:'Traducere asistată de Eva',descriptionEn:'Eva-assisted translation',items:[
   ['translate','💬','Tradu text','Translate text','Traducere și copiere rezultat','Translate and copy result']]},
- {id:'studio',icon:'✨',ro:'Studio creativ AI',en:'Creative AI studio',descriptionRo:'Povești și ilustrații',descriptionEn:'Stories and illustrations',items:[
-  ['storybook','📖','Mini-carte narată','Narrated mini-book','Transformă o întâmplare în capitole de ascultat','Turn a story into chapters to listen to'],
-  ['creator-images','🎨','Generează ilustrații','Generate illustrations','Desene și imagini realizate cu Eva','Create illustrations with Eva']]},
  {id:'creator',icon:'🌐',ro:'Creare pagini și imagini',en:'Websites and images',descriptionRo:'Generatorul existent',descriptionEn:'Existing creation tools',items:[
   ['creator-website','🌐','Creează site web','Create website','Generatorul de site-uri existent','Existing website builder'],
   ['creator-images','🪄','Creează sau editează imagini','Create or edit images','Generatorul și editorul de imagini','Existing image tools']]},
