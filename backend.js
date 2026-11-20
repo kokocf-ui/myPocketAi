@@ -2608,12 +2608,15 @@ export default {
         let reply='';
         let essayAudit=null;
         if(activity==='essay'&&Number.isInteger(Number(data.education_essay_segment))&&
-           Number(data.education_essay_segment)>=1&&Number(data.education_essay_segment)<=5){
+           Number(data.education_essay_segment)>=1&&Number(data.education_essay_segment)<=10){
           // T3: return ONE essay section promptly to the Android client. The
           // client displays progress after every response instead of waiting
           // for five sequential model runs inside a single HTTP request.
           const spec=litEssaySpec(data.education_essay_pages);
-          const index=Math.min(spec.pages,Number(data.education_essay_segment));
+          const totalParts=spec.pages*2;
+          const index=Number(data.education_essay_segment);
+          if(index>totalParts)return json({status:'invalid',error:'essay_segment_range'},400);
+          const page=Math.ceil(index/2);
           const focuses=[
             'Introduce the thesis and authentic literary context, then begin the interpretation.',
             'Develop a fresh argument about character, perspective and human choices.',
@@ -2621,13 +2624,13 @@ export default {
             'Deepen the philosophical interpretation and an alternative critical nuance.',
             'Resolve the argument in a substantial, reasoned conclusion.'
           ];
-          const focus=focuses[Math.min(index-1,focuses.length-1)];
+          const focus=focuses[Math.min(page-1,focuses.length-1)];
           const sectionRole=index===1?'Start the essay with an introduction.':
-            index===spec.pages?'Finish the essay with a conclusion; do not reintroduce it.':
+            index===totalParts?'Finish the essay with a conclusion; do not reintroduce it.':
             'Continue the preceding analysis seamlessly without a new opening or conclusion.';
-          const sectionPrompt=message+'\nPart '+index+' of '+spec.pages+
+          const sectionPrompt=message+'\nPart '+index+' of '+totalParts+' (A4 page '+page+' of '+spec.pages+')'+
             '. '+sectionRole+' '+focus+
-            ' Write approximately 400 words as connected literary prose, not bullets, a lesson or writing instructions.'+
+            ' Write approximately 350 words as connected literary prose, not bullets, a lesson or writing instructions.'+
             ' Do not invent citations, quotes or facts. Avoid repeating preceding arguments.';
           const response=await evaTask(
             {module:'education_study',subject:'language_literature',activity,message:sectionPrompt},
