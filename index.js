@@ -10531,7 +10531,7 @@ function educationOpenPagedLesson(title,body){
  eduAttachPrintAction(head);
  // Only voice-enabled Sciences show this control. Speak the current page,
  // and stop immediately when changing pages or dismissing the reader.
- const scienceReader=document.querySelector('#view-module.learning-science')!==null;
+ const scienceReader=Boolean(document.querySelector?.('#view-module.learning-science'));
  let readingThisPage=false,readPageButton=null;
  const stopPageAudio=()=>{
   if(readingThisPage){stopSpeech();readingThisPage=false;}
