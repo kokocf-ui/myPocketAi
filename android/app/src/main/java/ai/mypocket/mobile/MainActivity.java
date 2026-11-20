@@ -2083,7 +2083,22 @@ public final class MainActivity extends ComponentActivity {
             int suffix=2;
             while(output.exists()){output=new File(folder,basename+"_"+suffix+".pdf");suffix++;}
             if(!saveEducationPdf(output,title,text,data.optBoolean("color",true),data.optJSONArray("figures")))throw new IOException("PDF write failed");
-            notifyEducationPdf("saved");
+            // An essay's selected A4 sheet count must be checked against the
+            // actual saved PdfDocument. A WebView reader page is not A4.
+            int requestedEssayPages=data.optInt("essayPages",0);
+            if(requestedEssayPages>=1&&requestedEssayPages<=5){
+                int actualPages=0;
+                try(ParcelFileDescriptor descriptor=ParcelFileDescriptor.open(output,ParcelFileDescriptor.MODE_READ_ONLY);
+                    PdfRenderer renderer=new PdfRenderer(descriptor)){
+                    actualPages=renderer.getPageCount();
+                }
+                if(actualPages!=requestedEssayPages){
+                    output.delete(); // Never label a short document "five A4 pages".
+                    notifyEducationPdf("a4Mismatch:"+requestedEssayPages+":"+actualPages);
+                    return;
+                }
+                notifyEducationPdf("saved:"+actualPages);
+            }else notifyEducationPdf("saved");
             if("print".equals(data.optString("mode","save")))printSavedEducationPdf(output,title);
         }catch(Exception ignored){notifyEducationPdf("error");}
     }
