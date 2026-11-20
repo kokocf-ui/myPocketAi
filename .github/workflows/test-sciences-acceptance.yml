@@ -1,0 +1,60 @@
+name: Sciences — full four-subject acceptance checks
+on:
+  pull_request:
+    paths:
+      - 'science_*.mjs'
+      - 'tests_science_*.mjs'
+      - 'tests_physics_complete.mjs'
+      - 'tests_chemistry_*.mjs'
+      - 'tests_biology_complete.mjs'
+      - 'tests_astronomy_complete.mjs'
+      - 'tests_education_content_navigation.mjs'
+      - 'index.js'
+      - 'physics_*.mjs'
+      - 'chemistry_*.mjs'
+      - 'biology_*.mjs'
+      - 'astronomy_*.mjs'
+      - '.github/workflows/test-sciences-acceptance.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  four-subject-course:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Syntax and 50-country grade progression
+        run: |
+          node --check index.js
+          node --check science_grade_progression.mjs
+          node --check science_lower_secondary_lessons.mjs
+          node --check science_english_reference_guides.mjs
+          node --check science_extended_theory.mjs
+          node tests_education_all_country_subject_matrix.mjs
+          node tests_science_grade_progression.mjs
+          node tests_science_year_cards.mjs
+      - name: Four separate Sciences, theory and representation
+        run: |
+          node tests_physics_complete.mjs
+          node tests_chemistry_curriculum.mjs
+          node tests_chemistry_complete.mjs
+          node tests_chemistry_three_sections.mjs
+          node tests_chemistry_visuals.mjs
+          node tests_chemistry_atom_context.mjs
+          node tests_biology_complete.mjs
+          node tests_astronomy_complete.mjs
+          node tests_science_resolution_symbols.mjs
+          node tests_science_compact_theory.mjs
+      - name: Actual browser functions, navigation and paginated document contracts
+        run: |
+          node tests_science_navigation.mjs
+          node tests_science_scroll_unlock.mjs
+          node tests_science_viewport_keyboard.mjs
+          node tests_education_content_navigation.mjs
+          node tests_education_responsive_layout.mjs
+          node tests_education_android.mjs
+          node tests_pdf_library.mjs
