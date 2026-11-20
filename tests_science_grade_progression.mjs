@@ -7,7 +7,7 @@ import {PHYSICS_TOPICS} from './physics_curriculum.mjs';
 import {CHEMISTRY_TOPICS} from './chemistry_curriculum.mjs';
 import {BIOLOGY_TOPICS} from './biology_curriculum.mjs';
 import {ASTRONOMY_TOPICS} from './astronomy_curriculum.mjs';
-import {SCIENCE_PROGRESSION_SOURCES,scienceGradeTopicPlan,scienceGradeLessonFrame}
+import {SCIENCE_PROGRESSION_SOURCES,SCIENCE_PRIMARY_DEPTH,scienceGradeTopicPlan,scienceGradeLessonFrame}
  from './science_grade_progression.mjs';
 
 const tables={physics:PHYSICS_TOPICS,chemistry:CHEMISTRY_TOPICS,
@@ -42,6 +42,19 @@ for(const country of EDUCATION_EUROPE_COUNTRIES){
       assert.ok(lesson?.includes('Explicație:')&&lesson?.includes('Verificare:'),
        'Primary science needs a complete original lesson, not just a chapter title');
       assert.ok(en?.includes('Explore:')&&en?.includes('Review:'));
+      assert.ok(lesson.includes('Explicație detaliată:')&&lesson.includes('Exemplu explicat:'),
+       'An original primary lesson must have substantive content and an actual worked example');
+      assert.ok(en.includes('Worked example:')&&en.includes('misconception:'),
+       'English course must be complete, not a Romanian literal fallback');
+      const depth=SCIENCE_PRIMARY_DEPTH[subject]?.[topic.id];
+      assert.equal(depth?.ro?.length,3,'Every primary topic has theory, example and misconception in Romanian');
+      assert.equal(depth?.en?.length,3,'Every primary topic has theory, example and misconception in English');
+      const higher=scienceGradeLessonFrame({subject,stage:'primary',grade:year.id,
+       topic:topic.id,chapter:topic.ro,language:'ro',gradePosition:3});
+      assert.notEqual(
+       higher.includes('Formulează o explicație bazată pe dovezi'),
+       lesson.includes('Formulează o explicație bazată pe dovezi'),
+       'Different primary years require different enquiry challenges');
       assert.ok(!en.includes('Parcurs generic')&&!en.includes('Lecție:'));
      }
     }
