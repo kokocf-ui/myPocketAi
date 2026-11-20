@@ -3,6 +3,9 @@ on:
   pull_request:
     paths:
       - 'education_*'
+      - 'science_*.mjs'
+      - 'tests_science_*.mjs'
+      - 'index.js'
       - 'literature_*'
       - 'physics_curriculum.mjs'
       - 'chemistry_curriculum.mjs'
@@ -25,6 +28,6 @@ jobs:
         with:
           node-version: '22'
       - name: Check coverage module syntax
-        run: node --check education_all_country_subject_matrix.mjs && node --check education_country_ui.mjs
+        run: node --check education_all_country_subject_matrix.mjs && node --check education_country_ui.mjs && node --check science_grade_progression.mjs && node --check index.js
       - name: Audit all 50 systems, every class and every subject
-        run: node tests_education_all_country_subject_matrix.mjs
+        run: node tests_education_all_country_subject_matrix.mjs && node tests_science_grade_progression.mjs && node tests_science_year_cards.mjs && node tests_science_navigation.mjs
