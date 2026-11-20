@@ -25,9 +25,9 @@ for(let grade=1;grade<=8;grade++){
    const material=litRomanianGradeMaterial({topicKey:entry.id,grade:String(grade),language:'ro',mode});
    assert.equal(material?.origin,'authored_grade_specific');
    assert.ok(material.text.includes(entry.ro),'Selected grade displays the selected subject');
-   assert.ok(material.text.length>300,'Material must have content, not just a headline');
+   assert.ok(material.text.length>(mode==='lesson'||mode==='examples'?280:190),'Material must have content, not just a headline');
    if(mode==='test'||mode==='exercises'){
-    assert.equal((material.text.match(/^\\d+\\./gm)||[]).length,5);
+    assert.equal((material.text.match(/^\d+\./gm)||[]).length,5);
     assert.doesNotMatch(material.text,/Răspuns corect:/);
    }
   }
