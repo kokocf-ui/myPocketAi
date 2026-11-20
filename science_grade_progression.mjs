@@ -265,7 +265,7 @@ export function scienceGradeLessonFrame({subject,stage,grade,topic,chapter,langu
    '# Exemplu rezolvat\n'+actual.workedExample,
    '# Exercițiu\n'+actual.exercise,
    '# Cum verifici\n'+actual.answer,
-   '# Ce exersezi în această clasă\n'+tasksRo[position],
+   '# Investigație și competența clasei\nInvestigație: '+tasksRo[position],
    '# Observă în siguranță\n'+safe[0],
    'Lecție originală, nu o pagină dintr-un manual național verificat.'
   ].join('\n\n');
@@ -276,7 +276,7 @@ export function scienceGradeLessonFrame({subject,stage,grade,topic,chapter,langu
    '# Worked example\n'+actual.workedExample,
    '# Practice exercise\n'+actual.exercise,
    '# Check your answer\n'+actual.answer,
-   '# Skill for this year\n'+tasksEn[position],
+   '# Enquiry and skill for this year\nEnquiry: '+tasksEn[position],
    '# Safety\n'+safe[1],
    language!=='en'?'English reference lesson: local-language translation is not verified.':'Original lesson; not a certified national textbook.'
   ].join('\n\n');
