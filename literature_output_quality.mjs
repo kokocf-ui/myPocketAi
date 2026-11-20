@@ -12,10 +12,26 @@ export function literatureRequestedWords(request){
 export function literatureOutputInstruction(activity,request=''){
  const mode=String(activity||'').toLowerCase();
  const target=literatureRequestedWords(request);
- const essay=mode==='essay'||(mode==='write'&&/\beseu\b|\bargumentativ\b|\bessay\b/iu.test(request));
- if(essay)return 'The task is a FINISHED ESSAY, not a lesson. Write continuous polished prose divided into natural paragraphs, with a clear defensible thesis, two distinct evidence-based developed arguments, any requested counterargument, and a consequential conclusion. Preserve the exact user topic and audience. Do NOT write a lesson, learning objectives, a worksheet, a quiz, reflection questions, instructions to pupils, or a plan for the essay. '+(target?'The user asks for about '+target+' words; do not shorten it to a one-page sketch. ':'For an unspecified length, develop a substantial essay, not a summary. ')+'Avoid hollow filler, invented quotations, repetitive sentences, and meta-commentary on essay writing.';
- if(mode==='write')return 'Produce the complete finished writing in the requested genre, not a lecture or instructions on how to write it. Maintain credible details, natural paragraphing and the requested tone. Do not add a worksheet or a test.';
- if(mode==='lesson'||mode==='study')return 'Produce a full substantive TEACHING CHAPTER matched to the exact class and topic. Start with accurate definitions and context, develop every major subtopic with causes, contrasts, mechanisms or interpretation, add multiple concrete distinct examples with reasoning, discuss common misunderstandings, and finish with a short synthesis. Use normal paragraphs, clear headings and explain rather than list vague keywords. For upper-secondary grades aim for approximately 450–650 meaningful words (more if required); middle school 300–500, primary age appropriately. Do not append an unrelated test, invented literary quotations or generic learning objectives.';
+ const essay=mode==='essay'||(mode==='write'&&/\\beseu\\b|\\bargumentativ\\b|\\bessay\\b/iu.test(request));
+ if(essay)return [
+  'The task is a FINISHED ESSAY, never a lesson, outline or worksheet.',
+  'Write naturally in the requested language; when Romanian is requested, use fluent standard Romanian with diacritics and verify all grammatical agreement (case, gender, number), syntax, spelling and punctuation before finalising.',
+  'Compose 5–7 cohesive substantive paragraphs without labels such as Introducere, Argumentul I/II, Obiecție, Concluzie unless explicitly requested.',
+  'State one precise, debatable thesis early. Build two genuinely DISTINCT arguments through a specific concrete situation and reasoning; do not merely repeat that a concept is important. Address the strongest relevant objection rather than dismissing it, and end with a synthesis that follows from the argument.',
+  'Avoid formulaic openings such as „În acest eseu voi argumenta”, repetitive claims, circular reasoning, unnecessary abstract filler and moralising.',
+  'Never invent quotes, bibliographic attributions or examples falsely ascribed to real authors.',
+  target?'Target approximately '+target+' words, with a tolerance of about 12 percent.':'Develop substantial prose appropriate to the request.',
+  'Do not output discussion questions, a lesson, a quiz or instructions to the learner.'
+ ].join(' ');
+ if(mode==='write')return 'Deliver the complete finished original composition in the exact requested genre. Respect the required plot, genre and adult tone; ensure natural dialogue and an earned ending. Never substitute a lesson or an outline. Revise spelling, agreement and syntax silently.';
+ if(mode==='lesson'||mode==='study')return [
+  'Create a full, accurate TEACHING CHAPTER for the stated class and exact topic. Develop definitions, conceptual boundaries, meaningful comparisons, illustrative examples, analysis of effects, common errors and a concise synthesis, not a bullet-only overview.',
+  'In literature, distinguish a grammatical feature from a literary effect: an adjective does not automatically become an epithet; figures of speech are identified in context. Explain WHY a device is used, not just WHAT its label is.',
+  'For demonstrations compose ORIGINAL short illustrative sentences or a clearly marked original sample passage and analyse it. DO NOT attribute invented examples or quotations to real poems, authors, dates or editions. Only use a verified quoted passage actually supplied in the request when attributing wording to a named work.',
+  'If a particular named work is requested without the text, give careful high-level interpretation and label any textual example you create as original, not as a quote.',
+  'When writing Romanian, proofread diacritics, inflection, grammatical agreement and punctuation; avoid imported terms and artificial neologisms.',
+  'For secondary pupils develop approximately 450–650 meaningful words unless the request specifies otherwise, with connected paragraphs and distinct examples. Do not append a quiz unless one was requested.'
+ ].join(' ');
  return '';
 }
 export function literatureOutputIssue(reply,activity,request=''){
