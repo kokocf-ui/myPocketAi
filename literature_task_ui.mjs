@@ -2,8 +2,9 @@ import {splitLiteraturePages,paginateLiteratureByFit} from './literature_reader_
 import {parseStudyBlocks,renderStudyBlocks,STUDY_TYPOGRAPHY_CSS} from './literature_study_typography.mjs';
 import {literatureOfflineActivity,LIT_PRIMARY_COMMUNICATION} from './literature_offline_activity.mjs';
 import {LIT_RO_GRADE_LESSONS,litRomanianGradeMaterial} from './literature_ro_grade_progression.mjs';
+import {RO_SECONDARY_GRAMMAR,roGrammarTopicsForYear} from './literature_ro_grammar_path.mjs';
 import {litEssaySpec,litEssayWords,litEssayQuality} from './literature_essay_contract.mjs';
-export const LITERATURE_TASK_UI_SCRIPT=splitLiteraturePages.toString()+'\n'+paginateLiteratureByFit.toString()+'\n'+parseStudyBlocks.toString()+'\n'+renderStudyBlocks.toString()+'\nconst COMMUNICATION_G1='+JSON.stringify(LIT_PRIMARY_COMMUNICATION)+';\n'+literatureOfflineActivity.toString()+'\nconst LIT_RO_GRADE_LESSONS='+JSON.stringify(LIT_RO_GRADE_LESSONS)+';\n'+litRomanianGradeMaterial.toString()+'\n'+litEssaySpec.toString()+'\n'+litEssayWords.toString()+'\n'+litEssayQuality.toString()+'\nconst LIT_STUDY_CSS='+JSON.stringify(STUDY_TYPOGRAPHY_CSS)+';\n'+String.raw`
+export const LITERATURE_TASK_UI_SCRIPT=splitLiteraturePages.toString()+'\n'+paginateLiteratureByFit.toString()+'\n'+parseStudyBlocks.toString()+'\n'+renderStudyBlocks.toString()+'\nconst COMMUNICATION_G1='+JSON.stringify(LIT_PRIMARY_COMMUNICATION)+';\n'+literatureOfflineActivity.toString()+'\nconst LIT_RO_GRADE_LESSONS='+JSON.stringify(LIT_RO_GRADE_LESSONS)+';\n'+litRomanianGradeMaterial.toString()+'\nconst RO_SECONDARY_GRAMMAR='+JSON.stringify(RO_SECONDARY_GRAMMAR)+';\n'+roGrammarTopicsForYear.toString()+'\n'+litEssaySpec.toString()+'\n'+litEssayWords.toString()+'\n'+litEssayQuality.toString()+'\nconst LIT_STUDY_CSS='+JSON.stringify(STUDY_TYPOGRAPHY_CSS)+';\n'+String.raw`
 
 
 // Bind the existing choice cards to actual Romanian grade chapters.
@@ -19,6 +20,7 @@ if(typeof litOpen==='function'&&typeof LIT_TOPICS==='object'&&
  const allBranches=typeof LIT_BRANCHES!=='undefined'&&Array.isArray(LIT_BRANCHES)
   ?LIT_BRANCHES.map(item=>({...item})):null;
  const nativeBack=typeof litBack==='function'?litBack:null;
+ let roProfileExplicit=false;
  const roGrade=()=>litJourney.country==='RO'?Number(litJourney.grade):NaN;
  const roYear=()=>Number.isInteger(roGrade())&&roGrade()>=1&&roGrade()<=12;
  function litTextbookBranches(){
@@ -29,13 +31,13 @@ if(typeof litOpen==='function'&&typeof LIT_TOPICS==='object'&&
   }
   const grade=roGrade(),young=grade<=4;
   const textbook=[
-   ['program','📘 Teorie','Lecțiile clasei '+grade,'Theory','Grade '+grade+' lessons'],
+   ['program','📘 Lecțiile clasei '+grade,'Limba și literatura română, potrivit clasei','Grade '+grade+' lessons','Romanian Language and Literature']
    ['literature',young?'📖 Citire și povești':'📖 Studiu opere',
     young?'Caut o poveste sau o poezie':'Caut opera sau autorul','Study works','Find a book or author'],
    ['writing',young?'✏️ Compunere':'✍️ Eseu',
     young?'Scriu și povestesc':'Redactez un eseu despre opera aleasă','Essay / composition','Write about a work'],
    ['grammar','📚 Gramatică',
-    young?'Cuvinte și propoziții':'Teorie, fonetică, vocabular, analiză','Grammar','Rules and analysis']
+    young?'Lecții de limbă potrivite clasei':'Cuvinte, propoziții, fraze și exprimare','Grammar','Grammar topics']
   ];
   const entries=textbook.map(([id,ro,noteRo,en,noteEn])=>{
    const old=allBranches.find(item=>item.id===id);
@@ -46,12 +48,18 @@ if(typeof litOpen==='function'&&typeof LIT_TOPICS==='object'&&
  if(nativeBack)litBack=function(){
   // Essay writing goes straight to the existing full-length A4 engine,
   // without unrelated essay category menus.
+  if(roYear()&&roGrade()===9&&litJourney.stage==='tracks'&&roProfileExplicit){
+   roProfileExplicit=false;originalOpen('branches');return;
+  }
+  if(roYear()&&roGrade()===9&&litJourney.stage==='branches'){originalOpen('grades');return}
   if(roYear()&&roGrade()>4&&litJourney.branch==='writing'&&litJourney.stage==='workspace'){
    litOpen('branches');return;
   }
   return nativeBack();
  };
  litOpen=function(stage){
+  if(stage==='tracks'&&roYear()&&roGrade()===9&&!roProfileExplicit)
+   return originalOpen('branches');
   if(stage==='branches')litTextbookBranches();
   if(stage==='topics'){
    for(const [id,rows] of Object.entries(originalTopics))LIT_TOPICS[id]=rows.slice();
@@ -59,14 +67,8 @@ if(typeof litOpen==='function'&&typeof LIT_TOPICS==='object'&&
     const grade=roGrade(),young=grade<=4;
     if(litJourney.branch==='writing'&&!young)
      return originalOpen('workspace');
-    if(litJourney.branch==='grammar'){
-     LIT_TOPICS.grammar=[
-      ['ro-grammar-theory','Teorie','Grammar theory'],
-      ['ro-grammar-phonetics',grade<=2?'Sunete și litere':grade<=4?'Sunete și silabe':'Fonetică','Phonetics'],
-      ['ro-grammar-vocabulary',young?'Cuvinte și înțelesuri':'Vocabular','Vocabulary'],
-      ['ro-grammar-analysis',grade<=2?'Propoziții simple':grade<=4?'Analiză simplă':'Analiză','Language analysis']
-     ];
-    }
+    if(litJourney.branch==='grammar')
+     LIT_TOPICS.grammar=roGrammarTopicsForYear(grade,LIT_RO_GRADE_LESSONS);
     if(litJourney.branch==='writing'&&young)
      LIT_TOPICS.writing=[
       ['composition',grade<=2?'Scriu propoziții':'Scriu o compunere','Write a composition'],
@@ -74,7 +76,23 @@ if(typeof litOpen==='function'&&typeof LIT_TOPICS==='object'&&
      ];
    }
   }
-  return originalOpen(stage);
+  const shown=originalOpen(stage);
+  if(stage==='branches'&&roYear()&&roGrade()===9&&typeof $==='function'){
+   const host=$('moduleContent');
+   const panel=host?.querySelector?.('.lit-panel')||
+    (host?.children||[]).find?.(el=>String(el.className||'').includes('lit-panel'));
+   if(panel){
+    const name=litJourney.track==='FILO'?'Filologie':litJourney.track==='SOC'?'Științe sociale':'Trunchi comun';
+    const switcher=document.createElement('button');switcher.type='button';
+    switcher.className='lit-activity-button';
+    switcher.style.cssText='font-size:13px;margin-top:8px;min-height:34px;padding:7px 12px';
+    switcher.textContent='Profil (opțional): '+name+' ▾';
+    switcher.onclick=()=>{roProfileExplicit=true;originalOpen('tracks')};
+    panel.append(switcher);
+   }
+  }
+  if(stage==='branches')roProfileExplicit=false;
+  return shown;
  };
  litProgram=function(){
   const plan=originalProgram();
