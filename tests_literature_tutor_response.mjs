@@ -253,4 +253,22 @@ assert.equal(essayReader.isConnected,true,'Do not close reader or claim success 
 press(essayReader,'💾 Salvează PDF');
 cfg.window.pocketEduPrintResult('saved:5');
 assert.equal(essayReader.isConnected,false,'Close reader only after Android confirms five actual A4 pages');
+const originalSegmentFetch=cfg.fetch;
+cfg.fetch=async(url,options)=>{
+ const req=JSON.parse(options.body);
+ if(req.education_essay_segment===3)
+  return {ok:false,status:503,json:async()=>({status:'unavailable',error:'ai_quota_exceeded'})};
+ return originalSegmentFetch(url,options);
+};
+press(litPanel,'Eseu');await flush();
+assertReader('ESEU INCOMPLET — 2 din 5');
+assert.match(readerText(),/Paragraful 1-1/);
+assert.match(readerText(),/Paragraful 2-1/);
+assert.equal(requests.at(-1).education_essay_segment,2,
+ 'Requests for successful parts are retained; the rejected section is not falsely counted');
+const incompleteReader=readerOverlay();
+press(incompleteReader,'💾 Salvează PDF');
+assert.ok(nativeRequests.at(-1).essayPages!==5,
+ 'Never promise the requested five A4 pages when the model returned only two sections');
+
 console.log('PASS: grammar, dictionary, test, correction, no premature answer box, no GPS contamination');
