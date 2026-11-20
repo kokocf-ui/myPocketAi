@@ -65,11 +65,23 @@ export function normaliseOpenversePhoto(entry){
  };
 }
 
-export async function searchStorybookCommonsPhotos(query,{limit=5,fetchImpl=fetch,timeoutMs=12000,language='ro',documentary=false}={}){
+export async function searchStorybookCommonsPhotos(query,{limit=5,fetchImpl=fetch,timeoutMs=12000,language='ro',documentary=false,context=''}={}){
  const input=str(query,110).replace(/[\r\n\t]/g,' ').replace(/\s+/g,' ').trim();
  if(input.length<3||input.length>110)return {status:'invalid_query',photos:[]};
  const max=Math.max(1,Math.min(6,Math.floor(Number(limit)||5)));
- const key=input.toLocaleLowerCase()+':'+max+':'+language+':'+(documentary?'documentary':'story');
+ const contextText=str(context,650);
+ const foldWords=value=>String(value||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+   .toLowerCase().replace(/[^a-z0-9]+/g,' ').trim().split(/\s+/).filter(Boolean);
+ const titleWords=new Set(foldWords(input));
+ const stops=new Set(['creeaza','creaza','scrie','documentar','istoric','despre','cel','cea',
+  'unui','unei','pentru','cateva','capitole','reprezentative','vreau','prezinta','printre',
+  'aceste','aceasta','care','sunt','fapte','implicarea','the','about','create','write',
+  'story','historical','documentary','with','from','into','that']);
+ const contextWords=[...new Set(foldWords(contextText)
+  .filter(w=>w.length>=4&&!titleWords.has(w)&&!stops.has(w)))].slice(0,36);
+ // Different plot context must not reuse images from a namesake cached by title alone.
+ const key=input.toLocaleLowerCase()+':'+max+':'+language+':'+(documentary?'documentary':'story')+
+  ':'+contextWords.join(',').slice(0,160);
  // Injected fetches (tests/previews) must not share cached results from other providers.
  const useCache=fetchImpl===fetch;
  const cached=useCache?memo.get(key):null;if(cached&&cached.exp>Date.now())return cached.value;
@@ -119,7 +131,7 @@ export async function searchStorybookCommonsPhotos(query,{limit=5,fetchImpl=fetc
       const translated=String(exact.langlinks?.[0]?.title||'').trim();
       if(translated&&translated.length<110&&foldTitle(translated)!==foldTitle(input)){
        const english=await getCommons(translated);
-       if(english.photos.length){resultSearch.photos.push(...english.photos);effectiveQuery=translated;}
+       if(english.photos.length){resultSearch.photos.push(...english.photos.map(p=>({...p,source_subject_verified:true})));effectiveQuery=translated;}
       }
      }
     }
@@ -171,7 +183,8 @@ export async function searchStorybookCommonsPhotos(query,{limit=5,fetchImpl=fetc
     if(res.ok){
      const data=await res.json();
      const pages=Array.isArray(data?.query?.pages)?data.query.pages:[];
-     resultSearch.photos.push(...pages.map(normaliseCommonsPhoto).filter(Boolean));
+     resultSearch.photos.push(...pages.map(normaliseCommonsPhoto).filter(Boolean)
+      .map(p=>({...p,source_subject_verified:exactArticleMatched})));
     }
    }catch{/* Optional fallback, no extra query needed on failure. */}
   }
@@ -205,7 +218,18 @@ export async function searchStorybookCommonsPhotos(query,{limit=5,fetchImpl=fetc
    }catch{/* Text and narration remain available even when image providers fail. */}
   }
   const dedup=new Set();
-  const distinct=resultSearch.photos.filter(p=>{if(dedup.has(p.url))return false;dedup.add(p.url);return true;}).slice(0,max);
+  const imageRelevant=photo=>{
+   if(!documentary||!contextWords.length||photo.source_subject_verified)return true;
+   const imageWords=foldWords(photo.title);
+   // A bare-name match is not sufficient for historical documentaries.
+   // Require an independent topic cue from the user's narrative brief.
+   return contextWords.some(term=>imageWords.some(word=>
+     word.length>=4&&term.slice(0,4)===word.slice(0,4)));
+  };
+  const distinct=resultSearch.photos.filter(p=>{
+   if(!imageRelevant(p)||dedup.has(p.url))return false;
+   dedup.add(p.url);return true;
+  }).slice(0,max);
   const result={status:distinct.length?'success':firstError||'no_images_found',photos:distinct,query:effectiveQuery,
    source:'Wikimedia Commons / Openverse',credit_required:true};
   if(memo.size>100)memo.clear();
