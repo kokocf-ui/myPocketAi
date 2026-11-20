@@ -100,6 +100,7 @@ on:
       - 'literature_seven_country_tracks.mjs'
       - 'literature_school_streams.mjs'
       - 'literature_task_ui.mjs'
+      - 'literature_essay_contract.mjs'
       - 'literature_ro_grade_progression.mjs'
       - 'tests_literature_ro_grade_progression.mjs'
       - 'literature_offline_activity.mjs'
