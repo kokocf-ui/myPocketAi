@@ -10542,7 +10542,7 @@ function educationOpenPagedLesson(title,body){
   readPageButton.className='secondary-btn science-lesson-read';
   readPageButton.textContent=learningLabel('🔊 Citește','🔊 Read');
   readPageButton.onclick=()=>{
-   if(readingThisPage){stopPageAudio();return;}
+   if(readingThisPage&&state.speaking){stopPageAudio();return;}
    if(state.speaking)stopSpeech();
    const started=speakText(pages[page]);
    readingThisPage=started!==false;
