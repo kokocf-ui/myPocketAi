@@ -874,9 +874,12 @@ function litSimpleLiterature(panel,options={}){
    litSimpleLabel('Nicio potrivire sigură. Încearcă titlul și autorul.','No confident match; try title and author.');
  };
  search.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();find()}});
- panel.append(search,litSimpleButton(litSimpleLabel('Caută titlul sau autorul','Search title or author'),find),feedback,results,title,acts);
+ panel.append(search,litSimpleButton(
+  essayOnly||primary?litSimpleLabel('Caută titlul sau autorul','Search title or author'):
+  litSimpleLabel('Caută autorul / opera','Search author / work'),find),feedback,results,title);
  if(essayOnly)panel.append(textArea);
- else if(!primary)panel.append(passage);
+ panel.append(acts);
+ if(!essayOnly&&!primary)panel.append(passage);
  feedback.textContent=litSimpleLabel('Caută după titlu sau autor. Nu este necesar să alegi dintr-o listă de autori.','Search by title or author; no author selection list is needed.');
 }
 
