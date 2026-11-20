@@ -151,7 +151,7 @@ function extraStorybookMotionAttach(work,reader){
   try{
    const response=await fetch(api.toString(),{
     method:'POST',headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({query:topic,limit:book.length,language:state.language||'ro',story_type:work.storybookGenre||'children'}),
+    body:JSON.stringify({query:topic,context:String(work.storybookContext||'').slice(0,650),limit:book.length,language:state.language||'ro',story_type:work.storybookGenre||'children'}),
     signal:controller.signal
    });
    const data=await response.json().catch(()=>null);
