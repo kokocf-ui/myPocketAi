@@ -49,7 +49,7 @@ if(typeof litOpen==='function'&&typeof LIT_TOPICS==='object'&&
   // Essay writing goes straight to the existing full-length A4 engine,
   // without unrelated essay category menus.
   if(roYear()&&roGrade()===9&&litJourney.stage==='tracks'&&roProfileExplicit){
-   roProfileExplicit=false;originalOpen('branches');return;
+   roProfileExplicit=false;litOpen('branches');return;
   }
   if(roYear()&&roGrade()===9&&litJourney.stage==='branches'){originalOpen('grades');return}
   if(roYear()&&roGrade()>4&&litJourney.branch==='writing'&&litJourney.stage==='workspace'){
@@ -59,7 +59,7 @@ if(typeof litOpen==='function'&&typeof LIT_TOPICS==='object'&&
  };
  litOpen=function(stage){
   if(stage==='tracks'&&roYear()&&roGrade()===9&&!roProfileExplicit)
-   return originalOpen('branches');
+   return litOpen('branches');
   if(stage==='branches')litTextbookBranches();
   if(stage==='topics'){
    for(const [id,rows] of Object.entries(originalTopics))LIT_TOPICS[id]=rows.slice();
@@ -449,6 +449,8 @@ async function litSimpleGenerate(out,status,mode,request,source='',onReady=null,
   ' Address a middle-school pupil directly. Clearly distinguish this grade from earlier years, provide specific relevant explanations, examples, reading questions, and practice. No generic repeated introductory essay about morphology and syntax. ':
   Number.isInteger(roGrade)&&roGrade>=9&&roGrade<=12?
   ' Address a high-school pupil with mature interpretation and evidence-based argument. Respect the current 2026–2027 curricula: grade 9 follows the new programme, grades 10–12 continue their prior programme. Do not present the same course for every year, nor invent compulsory reading lists. ':'';
+ const grammarFocus=litJourney.branch==='grammar'&&litJourney.country==='RO'?
+  ' This is a Romanian GRAMMAR lesson, not literary history or a literature review. Never introduce an unrelated writer, novel, poem or play as the lesson topic. Use precise grade-appropriate examples from Romanian language. Explain the selected grammar topic, do not choose a literary work for the learner. ':'';
  const prompt=(isHungarianAdmission?'You are a Hungarian school admission tutor for language, mathematics and transfer. Write in ':'You are an experienced language and literature teacher. Write in ')+language+
  '. Country of education: '+(educationCountrySelection.label||litJourney.country)+
  '. Original curriculum language: '+curriculumLanguage+
@@ -456,7 +458,7 @@ async function litSimpleGenerate(out,status,mode,request,source='',onReady=null,
  '. Retain proper names, original literary titles, technical symbols and original-language examples as needed, with explanations in '+language+'.'+
  '. Class/year: '+litJourney.grade+'. Profile: '+litJourney.track+'. Region: '+(litJourney.region||'unspecified')+
  '. Curriculum: '+(plan.verified?'general framework identified; order is pedagogical':'advisory plan; do not claim an officially verified national syllabus')+
- '. Activity: '+mode+'. '+admissionPolicy+pupilPolicy+' Explain the lesson fully and directly, without offering a form. '+
+ '. Activity: '+mode+'. '+admissionPolicy+pupilPolicy+grammarFocus+' Explain the lesson fully and directly, without offering a form. '+
  'For lessons explain every important subtopic in depth, with definitions, distinctions, developed examples, interpretation, common mistakes and a reasoned conclusion; never return a short outline or just objectives. Use clear headings, no decorative rules. List alternatives a., b., c. and exercises 1., 2., 3., each on its own line. '+
  'For exercises and tests produce at least five clear numbered tasks without exposing their solutions until the learner answers. '+
  'For literary study cover the author, context, themes, structure and evidence-based interpretation. '+
@@ -638,7 +640,7 @@ function litSimpleWorkspace(panel){
   const school=branch==='admission'&&litJourney.targetSchool
     ?' Școală vizată: '+litJourney.targetSchool+'. Numele singur nu confirmă cerințele oficiale.'
     :'';
-  const focus=branch==='program'&&typeof topic[3]==='string'?
+  const focus=typeof topic[3]==='string'?
   ' Ce învăț și exersez la clasa '+litJourney.grade+': '+topic[3]+'. ':'';
  const task=title+'. '+focus+(branch==='admission'?topic[3]+school+' ':'')+
     (phrase?'Textul utilizatorului: '+phrase+'. ':'')+'Solicitare: '+mode+'.';
