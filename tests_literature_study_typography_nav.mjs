@@ -98,4 +98,14 @@ vm.runInNewContext('const parseStudyBlocks='+parseStudyBlocks.toString()+';'+
  {document:dom,target:visual,material:contaminated});
 assert.doesNotMatch(visual.textContent,/\*\*Tema\*\*/,'Definition labels must not show raw Markdown asterisks');
 assert.match(visual.textContent,/Tema:/,'Definition remains visible and clear');
+const exportStart=LITERATURE_TASK_UI_SCRIPT.indexOf('function litReaderPrintableText(');
+const exportEnd=LITERATURE_TASK_UI_SCRIPT.indexOf('function litShowMaterialReader(',exportStart);
+assert.ok(exportStart>=0&&exportEnd>exportStart,'PDF text normalizer is included in browser output');
+const exported=vm.runInNewContext(
+ 'const parseStudyBlocks='+parseStudyBlocks.toString()+';'+
+ LITERATURE_TASK_UI_SCRIPT.slice(exportStart,exportEnd)+';litReaderPrintableText(material)',
+ {material:contaminated});
+assert.doesNotMatch(exported,/\*\*Tema\*\*|(?:^|\n)[abc]\. /,
+ 'Saved PDF must not contain the reader\'s broken letter labels or Markdown');
+assert.match(exported,/• Tema: ideea centrală/,'Clean definition must survive PDF export');
 console.log('PASS: normal bullets, only real exercise numbering, true subsection headings and no raw Markdown');
