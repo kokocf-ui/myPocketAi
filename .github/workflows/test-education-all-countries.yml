@@ -1,0 +1,30 @@
+name: Education 50-country curriculum coverage
+on:
+  pull_request:
+    paths:
+      - 'education_*'
+      - 'literature_*'
+      - 'physics_curriculum.mjs'
+      - 'chemistry_curriculum.mjs'
+      - 'biology_curriculum.mjs'
+      - 'astronomy_curriculum.mjs'
+      - 'computing_curriculum.mjs'
+      - 'foreign_languages_curriculum.mjs'
+      - 'exam_curriculum_europe.mjs'
+      - 'tests_education_all_country_subject_matrix.mjs'
+      - '.github/workflows/test-education-all-countries.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  school-matrix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check coverage module syntax
+        run: node --check education_all_country_subject_matrix.mjs && node --check education_country_ui.mjs
+      - name: Audit all 50 systems, every class and every subject
+        run: node tests_education_all_country_subject_matrix.mjs
