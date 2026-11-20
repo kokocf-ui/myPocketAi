@@ -35,3 +35,31 @@ export function splitLiteraturePages(raw,pageCharacters=850){
  flush();
  return pages;
 }
+
+// Fit actual rendered text into the available reader height. A phone reader
+// page is a screen of readable text; PDF A4 sheet count is measured separately.
+// The callback is UI-owned, making this algorithm independently testable.
+export function paginateLiteratureByFit(raw,fits){
+ const text=String(raw||'').replace(/\r\n?/g,'\n').trim();
+ if(!text)return [];
+ if(typeof fits!=='function')return splitLiteraturePages(text,2000);
+ const tokens=text.match(/\S+\s*/g)||[];
+ if(!tokens.length)return [];
+ const pages=[];
+ let start=0;
+ while(start<tokens.length){
+  let low=start+1,high=tokens.length,best=start;
+  while(low<=high){
+   const mid=Math.floor((low+high)/2);
+   const candidate=tokens.slice(start,mid).join('').trim();
+   let good=false;
+   try{good=Boolean(fits(candidate))}catch{good=false}
+   if(good){best=mid;low=mid+1}
+   else high=mid-1;
+  }
+  if(best===start)best=start+1; // Progress even for a single extra-long token.
+  pages.push(tokens.slice(start,best).join('').trim());
+  start=best;
+ }
+ return pages;
+}
