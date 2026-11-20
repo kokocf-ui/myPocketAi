@@ -26,8 +26,8 @@ assert.ok(blocks.some(b=>b.type==='heading'&&b.text==='Definiții'),'Definitions
 assert.ok(blocks.filter(b=>b.type==='rule').length>=2,'Typed dashes and equals become rules');
 assert.ok(!blocks.some(b=>b.text==='----------'||b.text==='=========='),'No typed separators remain');
 assert.deepEqual(blocks.filter(b=>b.type==='item').map(b=>b.marker),
- ['a.','b.','c.','1.','2.','3.'],'Bold alphabetical options and numbered exercises');
-assert.ok(parseStudyBlocks('a. Primul\nb. Al doilea').every(b=>b.type==='item'),'Explicit a. b. options preserved');
+ ['•','•','•','1.','2.','3.'],'Plain bullets for definitions; only numbered exercises keep their numbers');
+assert.deepEqual(parseStudyBlocks('a. Primul\nb. Al doilea').map(b=>b.marker),['•','•'],'Repeated AI alphabetic bullets are not pupil-facing labels');
 assert.ok(STUDY_TYPOGRAPHY_CSS.includes('.lit-study-marker{font-weight:900')&&
  STUDY_TYPOGRAPHY_CSS.includes('color:#91ddeb'),'Numbering bold and headings colored');
 assert.ok(STUDY_TYPOGRAPHY_CSS.includes('.lit-study-document'),'Typography is scoped to study materials');
@@ -50,7 +50,7 @@ vm.runInNewContext('const parseStudyBlocks='+parseStudyBlocks.toString()+';'+
  'const renderStudyBlocks='+renderStudyBlocks.toString()+';renderStudyBlocks(target,material);',{document:dom,target,material});
 assert.ok(target.children.some(x=>x.tagName==='HR'),'Real rules rendered');
 const labels=target.children.filter(x=>x.className==='lit-study-row').map(x=>x.children[0]);
-assert.deepEqual(labels.map(x=>x.textContent.trim()),['a.','b.','c.','1.','2.','3.']);
+assert.deepEqual(labels.map(x=>x.textContent.trim()),['•','•','•','1.','2.','3.']);
 assert.ok(labels.every(x=>x.tagName==='STRONG'),'Every marker is semantically bold');
 assert.ok(target.children.some(x=>x.tagName==='H3'&&x.textContent==='Definiții'));
 
@@ -74,4 +74,26 @@ new vm.Script(LITERATURE_TASK_UI_SCRIPT,{filename:'literature-typography-browser
 assert.match(LITERATURE_TASK_UI_SCRIPT,/renderStudyBlocks\(content,pages\[active\]\|\|raw\)/);
 assert.match(LITERATURE_TASK_UI_SCRIPT,/out\.textContent=text/,'Workspace retains only detached internal text');
 assert.match(LITERATURE_TASK_UI_SCRIPT,/eduOpenPrint\('save',material,close\)/);
-console.log('PASS: bold a/b/c and 1/2/3, real rules, cyan headings, burgundy only Home/Back');
+const contaminated=[
+ 'Subiecte importante','a. Găsirea informațiilor importante',
+ 'a. Când citim un text nou, urmărim ideile lui.',
+ 'b. Aceste informații pot fi date, idei și evenimente.',
+ 'b. Identificarea temei',
+ 'a. **Tema**: ideea centrală a unui text.',
+ 'c. Identificarea ideilor principale',
+ 'a. **Ideile principale**: faptele și informațiile de bază.'
+].join('\n');
+const cleaned=parseStudyBlocks(contaminated);
+assert.ok(cleaned.some(b=>b.type==='heading'&&b.text==='Găsirea informațiilor importante'),
+ 'Subsection title must not receive a lettered bullet');
+assert.ok(cleaned.some(b=>b.type==='heading'&&b.text==='Identificarea temei'),
+ 'Second subsection title must not receive a lettered bullet');
+assert.ok(cleaned.filter(b=>b.type==='item').every(b=>b.marker==='•'),
+ 'No lettered a/b/c markers in ordinary teaching paragraphs');
+const visual=new Element();
+vm.runInNewContext('const parseStudyBlocks='+parseStudyBlocks.toString()+';'+
+ 'const renderStudyBlocks='+renderStudyBlocks.toString()+';renderStudyBlocks(target,material);',
+ {document:dom,target:visual,material:contaminated});
+assert.doesNotMatch(visual.textContent,/\*\*Tema\*\*/,'Definition labels must not show raw Markdown asterisks');
+assert.match(visual.textContent,/Tema:/,'Definition remains visible and clear');
+console.log('PASS: normal bullets, only real exercise numbering, true subsection headings and no raw Markdown');
