@@ -43,7 +43,7 @@ import {THEORY_ENTRIES} from './education_theory.mjs';
 import {CHEMISTRY_LEVELS, CHEMISTRY_TOPICS} from './chemistry_curriculum.mjs';
 import {CHEMISTRY_DETAILED_LESSONS} from './chemistry_detailed_lessons.mjs';
 import {scienceExtendedTheory,SCIENCE_GUIDES,SCIENCE_FEATURED,SCIENCE_METHOD} from './science_extended_theory.mjs';
-import {SCIENCE_ADVISORY_PROGRESSION,SCIENCE_PROGRESSION_SOURCES,SCIENCE_PRIMARY_LESSON_BANK,SCIENCE_PRIMARY_ENGLISH,scienceGradeTopicPlan,scienceGradeLessonFrame} from './science_grade_progression.mjs';
+import {SCIENCE_ADVISORY_PROGRESSION,SCIENCE_PROGRESSION_SOURCES,SCIENCE_PRIMARY_LESSON_BANK,SCIENCE_PRIMARY_ENGLISH,SCIENCE_PRIMARY_DEPTH,scienceGradeTopicPlan,scienceGradeLessonFrame} from './science_grade_progression.mjs';
 import {CHEMISTRY_SPECIALIZATIONS,CHEMISTRY_SPECIALTY_TOPICS,CHEMISTRY_MOLECULES,chemistryVerifiedExercise} from './chemistry_advanced.mjs';
 import {BIOLOGY_TOPICS,BIOLOGY_SPECIALIZATIONS,BIOLOGY_SPECIALTY_TOPICS,biologyVerifiedExercise} from './biology_curriculum.mjs';
 import {mathAdvancedVerifiedModel} from './math_advanced_verified.mjs';
@@ -8090,7 +8090,7 @@ const SCIENCE_OTHER_TOPICS={
   {id:'astrophysics',ro:'Astrofizică',en:'Astrophysics'}
  ]
 };
-let scienceJourney={stage:'subjects',subject:null,level:null,schoolStage:null,grade:null,specialty:null,topic:null};
+let scienceJourney={stage:'subjects',subject:null,level:null,schoolStage:null,grade:null,gradePosition:0,specialty:null,topic:null};
 let scienceVoiceActive=false,scienceLastReply='',scienceRequestController=null;
 function scienceSubjectInfo(){return SCIENCE_SUBJECTS.find(s=>s.id===scienceJourney.subject)||null}
 function scienceTopicAllowedGrade(topic){
@@ -8294,7 +8294,7 @@ function scienceJourneyShowChoices(stage){
     tile.className='secondary-btn science-year-tile';
     tile.textContent=learningLabel(year.ro,year.en);
     tile.onclick=()=>{
-     scienceJourney.level=group.level;scienceJourney.schoolStage=group.schoolStage;scienceJourney.grade=year.id;
+     scienceJourney.level=group.level;scienceJourney.schoolStage=group.schoolStage;scienceJourney.grade=year.id;scienceJourney.gradePosition=group.years.indexOf(year);
      scienceJourney.topic=null;scienceJourney.specialty=null;
      scienceJourneyShowChoices(group.level==='advanced'?'specialties':'topics');
     };
@@ -8328,7 +8328,7 @@ function scienceJourneyShowChoices(stage){
   btn.append(heading,sub);
   btn.onclick=()=>{
    if(stage==='subjects'){
-    scienceJourney.subject=item.id;scienceJourney.level=null;scienceJourney.schoolStage=null;scienceJourney.grade=null;
+    scienceJourney.subject=item.id;scienceJourney.level=null;scienceJourney.schoolStage=null;scienceJourney.grade=null;scienceJourney.gradePosition=0;
     scienceJourney.specialty=null;scienceJourney.topic=null;
     scienceJourneyShowChoices('years');
    }else if(stage==='specialties'){
@@ -9005,6 +9005,7 @@ const SCIENCE_ADVISORY_PROGRESSION=${JSON.stringify(SCIENCE_ADVISORY_PROGRESSION
 const SCIENCE_PROGRESSION_SOURCES=${JSON.stringify(SCIENCE_PROGRESSION_SOURCES)};
 const SCIENCE_PRIMARY_LESSON_BANK=${JSON.stringify(SCIENCE_PRIMARY_LESSON_BANK)};
 const SCIENCE_PRIMARY_ENGLISH=${JSON.stringify(SCIENCE_PRIMARY_ENGLISH)};
+const SCIENCE_PRIMARY_DEPTH=${JSON.stringify(SCIENCE_PRIMARY_DEPTH)};
 const SCIENCE_GRADE_TOPIC_PLAN=${scienceGradeTopicPlan.toString()};
 const SCIENCE_GRADE_LESSON_FRAME=${scienceGradeLessonFrame.toString()};
 const PHYSICS_TOPIC_DATA=${JSON.stringify(PHYSICS_TOPICS)};
@@ -10584,7 +10585,7 @@ function educationScienceTheoryReader(subjectId,topicId,level){
   const chapter=scienceTopicInfo();
   const lesson=SCIENCE_GRADE_LESSON_FRAME({
    subject:subjectId,stage:'primary',grade:scienceJourney.grade,topic:topicId,
-   chapter:learningLabel(chapter?.ro||'',chapter?.en||''),language:state.language
+   chapter:learningLabel(chapter?.ro||'',chapter?.en||''),language:state.language,gradePosition:scienceJourney.gradePosition
   });
   const button=document.createElement('button');button.type='button';
   button.className='secondary-btn science-inline-theory-item';
