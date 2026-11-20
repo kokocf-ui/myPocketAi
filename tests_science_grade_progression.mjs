@@ -7,10 +7,9 @@ import {PHYSICS_TOPICS} from './physics_curriculum.mjs';
 import {CHEMISTRY_TOPICS} from './chemistry_curriculum.mjs';
 import {BIOLOGY_TOPICS} from './biology_curriculum.mjs';
 import {ASTRONOMY_TOPICS} from './astronomy_curriculum.mjs';
-import {SCIENCE_PROGRESSION_SOURCES,SCIENCE_PRIMARY_DEPTH,scienceGradeTopicPlan,scienceGradeLessonFrame}
+import {SCIENCE_PROGRESSION_SOURCES,SCIENCE_PRIMARY_DEPTH,scienceGradeTopicPlan,scienceGradeLessonFrame} from './science_grade_progression.mjs';
 import {EDUCATION_COUNTRY_UI_SCRIPT} from './education_country_ui.mjs';
 import {EDUCATION_SCHOOL_YEARS} from './education_school_paths.mjs';
- from './science_grade_progression.mjs';
 
 const tables={physics:PHYSICS_TOPICS,chemistry:CHEMISTRY_TOPICS,
  biology:BIOLOGY_TOPICS,astronomy:ASTRONOMY_TOPICS};
