@@ -5,7 +5,7 @@
 export function litEssaySpec(input){
  const pages=Math.max(1,Math.min(5,Math.round(Number(input)||3)));
  return Object.freeze({pages,targetWords:pages*400,minWords:pages*340,
-   maxWords:pages*480,segments:pages>=3?2:1});
+   maxWords:pages*480,segments:pages});
 }
 export function litEssayWords(input){
  return (String(input||'').match(/[\p{L}\p{N}]+(?:[’'-][\p{L}\p{N}]+)*/gu)||[]).length;
