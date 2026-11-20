@@ -24,10 +24,14 @@ assert.ok(script.includes("litOpen(litJourney.branch==='literature'?'branches':'
  'Back from literary work selection returns to categories');
 assert.match(script,/if\(typeof litFitWindow==='function'\)requestAnimationFrame\(litFitWindow\)/);
 assert.match(LITERATURE_TASK_UI_SCRIPT,/function litSimpleWorkspace\(panel\)/);
-assert.match(LITERATURE_TASK_UI_SCRIPT,/function litSimpleLiterature\(panel\)/);
+assert.match(LITERATURE_TASK_UI_SCRIPT,/function litSimpleLiterature\(panel,options=/);
 assert.match(LITERATURE_TASK_UI_SCRIPT,/litSimpleGenerate\(out,feedback,mode/,'Study and essay buttons must execute the AI request');
 assert.match(LITERATURE_TASK_UI_SCRIPT,/if\(!response\.ok\|\|data\.status!=='success'/,
  'Response must be checked before claiming a generated essay');
+assert.match(LITERATURE_TASK_UI_SCRIPT,/essayOnly\?\[\['Creează eseul'/,
+ 'The standalone Essay page must expose a single clear generation action');
+assert.match(LITERATURE_TASK_UI_SCRIPT,/\['ro-grammar-theory','Teorie'/,
+ 'Grammar must open with a simple Theory menu');
 assert.match(LITERATURE_TASK_UI_SCRIPT,/rows=\(data\.docs\|\|\[\]\)\.flatMap/,
  'Search results must be publisher metadata, not invented author matching');
 assert.match(LITERATURE_TASK_UI_SCRIPT,/fold\(x\.title\)===fold\(name\)/,
@@ -38,7 +42,7 @@ assert.match(LITERATURE_TASK_UI_SCRIPT,/works\.json\?limit=50/,
  'Author search must provide bibliography from that author works');
 assert.match(LITERATURE_TASK_UI_SCRIPT,/Alte opere/,
  'Author works must be paginated rather than silently truncated');
-assert.match(LITERATURE_TASK_UI_SCRIPT,/const buttons=branch==='analysis'/,
+assert.match(LITERATURE_TASK_UI_SCRIPT,/const buttons=branch==='analysis'\|\|grammarAnalysis/,
  'Grammar and analysis must have distinct controls');
 assert.ok(!LITERATURE_TASK_UI_SCRIPT.includes("if(!needsInput)run('lesson')"),
  'Entering a workspace does not automatically start an overlapping AI request');

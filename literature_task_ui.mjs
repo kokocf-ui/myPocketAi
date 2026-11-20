@@ -14,86 +14,64 @@ if(typeof litOpen==='function'&&typeof LIT_TOPICS==='object'&&
  const originalProgram=litProgram;
  const originalGrammar=LIT_TOPICS.grammar.slice();
  const originalTopics=Object.fromEntries(Object.entries(LIT_TOPICS).map(([id,rows])=>[id,rows.slice()]));
- // The old same seven expert-level categories were shown to every pupil.
- // Keep the original entries for other countries; simplify only Romanian UI.
+ // Romanian Literature follows the pupil's textbook, not AI capability categories.
+ // The underlying service and other countries' routes remain unchanged.
  const allBranches=typeof LIT_BRANCHES!=='undefined'&&Array.isArray(LIT_BRANCHES)
-  ?LIT_BRANCHES.map(b=>({...b})):null;
- function litStudentBranches(){
+  ?LIT_BRANCHES.map(item=>({...item})):null;
+ const nativeBack=typeof litBack==='function'?litBack:null;
+ const roGrade=()=>litJourney.country==='RO'?Number(litJourney.grade):NaN;
+ const roYear=()=>Number.isInteger(roGrade())&&roGrade()>=1&&roGrade()<=12;
+ function litTextbookBranches(){
   if(!allBranches)return;
-  const grade=Number(litJourney.grade);
-  if(litJourney.country!=='RO'||!Number.isInteger(grade)||grade<1||grade>12){
-   LIT_BRANCHES.splice(0,LIT_BRANCHES.length,...allBranches.map(b=>({...b})));return;
+  if(!roYear()){
+   LIT_BRANCHES.splice(0,LIT_BRANCHES.length,...allBranches.map(item=>({...item})));
+   return;
   }
-  const primary=grade<=4,lower=grade<=8;
-  const allowed=primary?['program','grammar','vocabulary','writing','assessment']:
-   lower?['program','grammar','literature','writing','assessment']:
-   ['program','literature','grammar','writing','analysis','assessment'];
-  const titles=primary?{
-   program:['Lecțiile clasei '+grade,'Lecții potrivite clasei, în ordine clară'],
-   grammar:['Cuvinte și propoziții','Învăț regulile din exemple'],
-   vocabulary:['Cuvinte noi','Descopăr sensuri și expresii'],
-   writing:['Scriu și povestesc','Compun texte scurte, pas cu pas'],
-   assessment:['Mă antrenez','Exerciții pe înțelesul meu']
-  }:lower?{
-   program:['Lecțiile clasei '+grade,'Citesc, înțeleg și exersez'],
-   grammar:['Gramatică pentru clasa '+grade,'Reguli și exerciții potrivite clasei'],
-   literature:['Caută o carte sau un autor','Opere și lecturi alese'],
-   writing:['Scriere și compunere','Povestiri, rezumate și argumente'],
-   assessment:['Recapitulare și exerciții','Verific ce am înțeles']
-  }:{
-   program:['Lecțiile clasei '+grade,'Conținut adaptat nivelului și profilului'],
-   literature:['Caută o operă literară','Lecturi, autori și interpretări'],
-   grammar:['Limbă și exprimare','Comunicare și folosirea limbii'],
-   writing:['Eseuri și redactare','Construiesc argumente și texte'],
-   analysis:['Analizez un fragment','Explic sensul și mijloacele expresive'],
-   assessment:['Recapitulez și exersez','Pregătire potrivită clasei']
-  };
-  const entries=allowed.map(id=>{
-   const original=allBranches.find(b=>b.id===id);
-   if(!original)return null;
-   const [label,description]=titles[id]||[original.ro||id,''];
-   return {...original,
-    ro:({'program':'📑','grammar':'📚','vocabulary':'🔤','analysis':'🔎','literature':'📖','writing':'✍️','assessment':'🎓'}[id]||'📘')+' '+label,
-    en:({'program':'Grade '+grade+' lessons','grammar':primary?'Words and sentences':'Grammar for this grade',
-     'vocabulary':'New words','analysis':'Analyse a passage','literature':'Find a book or author',
-     'writing':primary?'I write and tell stories':'Writing and essays',
-     'assessment':primary?'I practise':'Review and practice'}[id]||label),
-    noteRo:description,noteEn:description,
-    description:description,descriptionRo:description,descriptionEn:description,
-    desc:description,descRo:description,descEn:description,
-    subtitle:description,subtitleRo:description,subtitleEn:description};
+  const grade=roGrade(),young=grade<=4;
+  const textbook=[
+   ['program','📘 Teorie','Lecțiile clasei '+grade,'Theory','Grade '+grade+' lessons'],
+   ['literature',young?'📖 Citire și povești':'📖 Studiu opere',
+    young?'Caut o poveste sau o poezie':'Caut opera sau autorul','Study works','Find a book or author'],
+   ['writing',young?'✏️ Compunere':'✍️ Eseu',
+    young?'Scriu și povestesc':'Redactez un eseu despre opera aleasă','Essay / composition','Write about a work'],
+   ['grammar','📚 Gramatică',
+    young?'Cuvinte și propoziții':'Teorie, fonetică, vocabular, analiză','Grammar','Rules and analysis']
+  ];
+  const entries=textbook.map(([id,ro,noteRo,en,noteEn])=>{
+   const old=allBranches.find(item=>item.id===id);
+   return old?{...old,ro,en,noteRo,noteEn}:null;
   }).filter(Boolean);
-  if(entries.length)LIT_BRANCHES.splice(0,LIT_BRANCHES.length,...entries);
+  LIT_BRANCHES.splice(0,LIT_BRANCHES.length,...entries);
  }
+ if(nativeBack)litBack=function(){
+  // Essay writing goes straight to the existing full-length A4 engine,
+  // without unrelated essay category menus.
+  if(roYear()&&roGrade()>4&&litJourney.branch==='writing'&&litJourney.stage==='workspace'){
+   litOpen('branches');return;
+  }
+  return nativeBack();
+ };
  litOpen=function(stage){
-  if(stage==='branches')litStudentBranches();
+  if(stage==='branches')litTextbookBranches();
   if(stage==='topics'){
-   // A child should not see an academic-writing menu or a PhD research paper.
    for(const [id,rows] of Object.entries(originalTopics))LIT_TOPICS[id]=rows.slice();
-   const grade=Number(litJourney.grade);
-   if(litJourney.country==='RO'&&Number.isInteger(grade)){
-    const units=LIT_RO_GRADE_LESSONS[String(grade)];
-    if(units)LIT_TOPICS.grammar=units.map(x=>[x.id,x.ro,x.en]);
-    if(grade<=4){
-     LIT_TOPICS.vocabulary=[
-      ['dictionary','Ce înseamnă acest cuvânt?','What does this word mean?'],
-      ['vocabulary','Cuvinte cu înțeles apropiat sau opus','Words with similar or opposite meanings']
+   if(roYear()){
+    const grade=roGrade(),young=grade<=4;
+    if(litJourney.branch==='writing'&&!young)
+     return originalOpen('workspace');
+    if(litJourney.branch==='grammar'){
+     LIT_TOPICS.grammar=[
+      ['ro-grammar-theory','Teorie','Grammar theory'],
+      ['ro-grammar-phonetics',grade<=2?'Sunete și litere':grade<=4?'Sunete și silabe':'Fonetică','Phonetics'],
+      ['ro-grammar-vocabulary',young?'Cuvinte și înțelesuri':'Vocabular','Vocabulary'],
+      ['ro-grammar-analysis',grade<=2?'Propoziții simple':grade<=4?'Analiză simplă':'Analiză','Language analysis']
      ];
-     LIT_TOPICS.writing=[
-      ['composition',grade<=2?'Scriu câteva propoziții':'Scriu o povestire scurtă','Write a short story'],
-      ['summary',grade<=2?'Povestesc pe scurt':'Povestesc ce am citit','Tell a story in my own words']
-     ];
-     LIT_TOPICS.assessment=[
-      ['genres','Citesc și înțeleg','Read and understand'],
-      ['vocabulary','Cuvinte și sensuri','Words and meanings'],
-      ['grammar','Propoziții corecte','Correct sentences']
-     ];
-    }else if(grade<=8){
-     LIT_TOPICS.writing=(originalTopics.writing||[]).filter(x=>
-      ['composition','summary','commentary','essay'].includes(x[0]));
-    }else if(grade<=12){
-     LIT_TOPICS.writing=(originalTopics.writing||[]).filter(x=>x[0]!=='research');
     }
+    if(litJourney.branch==='writing'&&young)
+     LIT_TOPICS.writing=[
+      ['composition',grade<=2?'Scriu propoziții':'Scriu o compunere','Write a composition'],
+      ['summary',grade<=2?'Povestesc pe scurt':'Povestesc o întâmplare','Retell a story']
+     ];
    }
   }
   return originalOpen(stage);
@@ -413,6 +391,26 @@ async function litSimpleGenerate(out,status,mode,request,source='',onReady=null,
   }
   // The reader overlay is the only visible document; never scroll to hidden text.
  };
+ // Grade-specific grammar theory must use the actual material for this year,
+ // rather than restart the same general morphology introduction everywhere.
+ if(litJourney.country==='RO'&&litJourney.branch==='grammar'&&
+    key==='ro-grammar-theory'&&answerLanguage==='ro'&&
+    ['lesson','examples','exercises','test'].includes(mode)){
+  const chapters=LIT_RO_GRADE_LESSONS[String(litJourney.grade)]||[];
+  if(chapters.length){
+   const body=chapters.map((chapter,index)=>{
+    const heading=(index+1)+'. '+chapter.ro;
+    if(mode==='lesson')return heading+'\n\n'+chapter.intro+'\n\nExemplu explicat\n'+chapter.example;
+    if(mode==='examples')return heading+'\n\n'+chapter.example;
+    return heading+'\n'+chapter.tasks.map((task,i)=>(i+1)+'. '+task).join('\n');
+   }).join('\n\n');
+   const result='GRAMATICĂ — clasa '+litJourney.grade+'\n\n'+body;
+   try{present(result,true)}finally{
+    if(serial===litSimpleSerial){litJourney.busy=false;litSimpleAbort=null}
+   }
+   return;
+  }
+ }
  // Grade I Romanian basics are authored and instantly available, independent of
  // online inference quotas. These examples are not asserted to be official tests.
  if(localMaterial&&(String(litJourney.grade)==='1'||gradeSpecific)&&mode!=='correction'){
@@ -582,7 +580,15 @@ function litSimpleWorkspace(panel){
  const branch=litJourney.branch,topic=litCurrentTopic();
  const country=educationCountrySelection.label||litJourney.country;
  panel.append(litSimpleNode('p',country+' · '+litJourney.grade,'lit-activity-note'));
- if(branch==='literature'){litSimpleLiterature(panel);return}
+ if(branch==='literature'){
+  litSimpleLiterature(panel,{primary:litJourney.country==='RO'&&Number(litJourney.grade)<=4});
+  return;
+ }
+ if(branch==='writing'&&litJourney.country==='RO'&&Number(litJourney.grade)>=5&&
+    Number(litJourney.grade)<=12){
+  litSimpleLiterature(panel,{essayOnly:true});
+  return;
+ }
  if(!topic){panel.append(litSimpleNode('p',litSimpleLabel('Selectează un capitol.','Choose a chapter.')));return}
  const title=litSimpleLabel(topic[1],topic[2]);
  litSimpleHeading(panel,title,litSimpleLabel('Alege o activitate. Materialul se deschide într-o fereastră separată.','Choose an activity. Study material opens in a separate reader.'));
@@ -595,9 +601,10 @@ function litSimpleWorkspace(panel){
   sourceLink.href=HUNGARY_ADMISSION_REFERENCES.foreignPupils;sourceLink.target='_blank';sourceLink.rel='noopener noreferrer';
   panel.append(sourceLink);
  }
- const needsInput=['analysis','writing'].includes(branch)||(branch==='vocabulary'&&litJourney.topic==='dictionary');
+ const grammarAnalysis=branch==='grammar'&&litJourney.topic==='ro-grammar-analysis';
+ const needsInput=['analysis','writing'].includes(branch)||grammarAnalysis||(branch==='vocabulary'&&litJourney.topic==='dictionary');
  const request=needsInput?litSimpleNode(branch==='vocabulary'?'input':'textarea','','lit-input lit-activity-input'):null;
- if(request){request.placeholder=branch==='analysis'?litSimpleLabel('Propoziția sau fragmentul de analizat','Sentence or passage to analyse'):
+ if(request){request.placeholder=branch==='analysis'||grammarAnalysis?litSimpleLabel('Cuvântul sau propoziția de analizat','Word or sentence to analyse'):
     branch==='vocabulary'?litSimpleLabel('Cuvântul sau expresia','Word or expression'):
     litSimpleLabel('Cerința de redactare','Writing task');request.setAttribute('aria-label',request.placeholder);if(request.tagName==='TEXTAREA')request.rows=3;panel.append(request)}
  const bar=litSimpleNode('div','','lit-activity-bar');
@@ -626,7 +633,7 @@ function litSimpleWorkspace(panel){
    return displayed;
   });
  };
- const buttons=branch==='analysis'?[['Analizează','Analyse','analysis'],['Explică metoda','Explain method','lesson']]:
+ const buttons=branch==='analysis'||grammarAnalysis?[['Analizează','Analyse','analysis'],['Explică metoda','Explain method','lesson']]:
   branch==='writing'?[['Compune','Compose','write'],['Explică','Explain','lesson']]:
   branch==='vocabulary'&&litJourney.topic==='dictionary'?[['Caută definiția','Define','define'],['Exemple','Examples','examples']]:
   [['Teorie','Theory','lesson'],['Exemple','Examples','examples'],['Exerciții','Exercises','exercises'],['Teste','Tests','test']];
@@ -670,9 +677,16 @@ function litVerifiedLuceafarulMaterial(chosen,mode,passage=''){
  return intro+'\n\n'+material[mode]+excerpt;
 }
 
-function litSimpleLiterature(panel){
- litSimpleHeading(panel,litSimpleLabel('Literatură: autor și operă','Literature: author and work'),
-  litSimpleLabel('Selectează opera corectă, apoi Studiază, Rezumat, Eseu sau Analiză pe text.','Select a work, then Study, Summary, Essay or Text analysis.'));
+function litSimpleLiterature(panel,options={}){
+ const essayOnly=options.essayOnly===true;
+ const primary=options.primary===true;
+ litSimpleHeading(panel,
+  essayOnly?litSimpleLabel('Eseu — alege opera','Essay — choose the work'):
+  primary?litSimpleLabel('Citire și povești','Reading and stories'):
+  litSimpleLabel('Studiu opere','Study literary works'),
+  essayOnly?litSimpleLabel('Caută titlul sau autorul. După alegerea operei, poți scrie eseul și stabili numărul de pagini A4.','Find a work or author, then choose the number of A4 pages.'):
+  primary?litSimpleLabel('Caută o poveste sau o poezie. Citește și povestește ce ai înțeles.','Find a story or poem, read and retell it.'):
+  litSimpleLabel('Caută titlul sau autorul pentru studiu, rezumat ori analiză.','Find a work or author to study or summarize.'));
  const search=litSimpleNode('input','','lit-input');search.type='search';
  search.placeholder=litSimpleLabel('Titlu — autor (ex.: Luceafărul — Mihai Eminescu)','Title — author');search.setAttribute('aria-label',search.placeholder);
  const feedback=litSimpleNode('p','','lit-activity-status');feedback.setAttribute('role','status');
@@ -695,15 +709,21 @@ function litSimpleLiterature(panel){
  essayPages.style.cssText='width:90px;max-width:40%;min-height:40px;padding:7px 9px;text-align:center';
  essaySettings.append(litSimpleNode('span',litSimpleLabel('Eseu:','Essay:')),essayKind,
   litSimpleNode('span',litSimpleLabel('Pagini A4:','A4 pages:')),essayPages);
- const textArea=litSimpleNode('textarea','','lit-input');textArea.rows=4;textArea.placeholder=litSimpleLabel('Fragment propriu pentru analiză (opțional)','Your own passage for analysis (optional)');
+ const textArea=litSimpleNode('textarea','','lit-input');
+ textArea.rows=essayOnly?2:4;
+ textArea.placeholder=essayOnly?
+  litSimpleLabel('Tema eseului (opțional)','Essay topic (optional)'):
+  litSimpleLabel('Fragment propriu pentru analiză (opțional)','Your own passage for analysis (optional)');
  const passage=litSimpleNode('details','','lit-activity-review');passage.append(litSimpleNode('summary',litSimpleLabel('Adaugă un fragment pentru analiză','Add a passage to analyse')),textArea);
  const out=litSimpleNode('article','','lit-result lit-activity-output');
  out.hidden=true;out.setAttribute('aria-hidden','true');
  let chosen=null,searchNumber=0;
  const select=(name,author,url,work=null)=>{
   chosen={name,author,url,work};title.textContent=name+' — '+author;results.replaceChildren();acts.replaceChildren();
-  acts.append(essaySettings);
-  const types=[['Studiază','Study','study'],['Rezumat','Summary','summary'],['Eseu','Essay','essay'],['Analiză pe text','Text analysis','analysis']];
+  if(!primary)acts.append(essaySettings);
+  const types=essayOnly?[['Creează eseul','Create essay','essay']]:
+   primary?[['Citesc și înțeleg','Read and understand','study'],['Povestesc pe scurt','Retell briefly','summary']]:
+   [['Studiază','Study','study'],['Rezumat','Summary','summary'],['Eseu','Essay','essay'],['Analiză pe text','Text analysis','analysis']];
   for(const [ro,en,mode] of types)acts.append(litSimpleButton(litSimpleLabel(ro,en),()=>{
    // The verified short reference notes are not a finished multi-page essay.
    const checked=mode==='essay'?null:litVerifiedLuceafarulMaterial(chosen,mode,textArea.value);
@@ -719,15 +739,21 @@ function litSimpleLiterature(panel){
    }
    const requestedEssay=mode==='essay'?
     ' Scrie un eseu '+essayKind.value+' complet, aproximativ '+litEssaySpec(pages).targetWords+
-    ' cuvinte ('+pages+' pagini A4, în format PDF, font 11.5pt), cu introducere naturală, analiză susținută prin argumente distincte și concluzie. Nu oferi schelet de eseu, instrucțiuni de redactare sau afirmații fără dovezi.': '';
+    ' cuvinte ('+pages+' pagini A4, în format PDF, font 11.5pt), cu introducere naturală, analiză susținută prin argumente distincte și concluzie. Nu oferi schelet de eseu, instrucțiuni de redactare sau afirmații fără dovezi.'+
+    (essayOnly&&textArea.value.trim()?' Tema eseului: '+textArea.value.trim().slice(0,1600)+'.':''): '';
    out.replaceChildren();litSimpleGenerate(out,feedback,mode,
     'Opera: '+chosen.name+'. Autor: '+chosen.author+'.'+requestedEssay,
    'Sursă bibliografică (metadate, nu text integral): '+chosen.url+'. '+
-   (textArea.value.trim()?'Fragment introdus de utilizator: '+textArea.value.trim().slice(0,28000):'Text integral indisponibil; nu inventa citate sau lectura unei ediții.'),
+   (!essayOnly&&textArea.value.trim()?'Fragment introdus de utilizator: '+textArea.value.trim().slice(0,28000):'Text integral indisponibil; nu inventa citate sau lectura unei ediții.'),
    (result,details)=>litShowMaterialReader(chosen.name+' — '+chosen.author,result,
     mode==='essay'?{essayPages:details?.complete?pages:0,essayDraft:!details?.complete}:{}),
     mode==='essay'?{pages}:{});
   }));
+  if(essayOnly){
+   feedback.textContent=litSimpleLabel('Alege tipul, lungimea și creează eseul.','Choose type, length and create the essay.');
+   title.scrollIntoView({block:'nearest',behavior:'auto'});
+   return;
+  }
   // Contents can be shown only for a confirmed licensed source with actual text.
   // Do not manufacture chapter titles, missing lines or verses from catalogue metadata.
   const sections=Array.isArray(chosen.work?.sections)?chosen.work.sections:[];
@@ -848,7 +874,12 @@ function litSimpleLiterature(panel){
    litSimpleLabel('Nicio potrivire sigură. Încearcă titlul și autorul.','No confident match; try title and author.');
  };
  search.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();find()}});
- panel.append(search,litSimpleButton(litSimpleLabel('Caută autorul / opera','Search author / work'),find),feedback,results,title,acts,passage);
+ panel.append(search,litSimpleButton(
+  essayOnly||primary?litSimpleLabel('Caută titlul sau autorul','Search title or author'):
+  litSimpleLabel('Caută autorul / opera','Search author / work'),find),feedback,results,title);
+ if(essayOnly)panel.append(textArea);
+ panel.append(acts);
+ if(!essayOnly&&!primary)panel.append(passage);
  feedback.textContent=litSimpleLabel('Caută după titlu sau autor. Nu este necesar să alegi dintr-o listă de autori.','Search by title or author; no author selection list is needed.');
 }
 
