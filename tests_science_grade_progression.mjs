@@ -1,0 +1,70 @@
+import assert from 'node:assert/strict';
+import vm from 'node:vm';
+import frontend from './index.js';
+import {EDUCATION_EUROPE_COUNTRIES,educationCountrySchoolYears,
+ educationSubjectSchoolPlan} from './education_all_country_subject_matrix.mjs';
+import {PHYSICS_TOPICS} from './physics_curriculum.mjs';
+import {CHEMISTRY_TOPICS} from './chemistry_curriculum.mjs';
+import {BIOLOGY_TOPICS} from './biology_curriculum.mjs';
+import {ASTRONOMY_TOPICS} from './astronomy_curriculum.mjs';
+import {SCIENCE_PROGRESSION_SOURCES,scienceGradeTopicPlan,scienceGradeLessonFrame}
+ from './science_grade_progression.mjs';
+
+const tables={physics:PHYSICS_TOPICS,chemistry:CHEMISTRY_TOPICS,
+ biology:BIOLOGY_TOPICS,astronomy:ASTRONOMY_TOPICS};
+let checked=0,gradeVariations=0;
+for(const country of EDUCATION_EUROPE_COUNTRIES){
+ for(const [schoolStage,matrixStage] of [['primary','beginner'],['lower','lower'],['upper','medium']]){
+  const years=educationCountrySchoolYears(country,matrixStage).years;
+  assert.ok(years.length>0,country+' has no grade/fallback');
+  for(const [subject,topics] of Object.entries(tables)){
+   const signatures=new Set();
+   for(const year of years){
+    const plan=scienceGradeTopicPlan({country,subject,stage:schoolStage,grade:year.id,years,topics});
+    const registry=educationSubjectSchoolPlan({
+     country,subject,stage:matrixStage,grade:year.id
+    });
+    assert.equal(plan.status,'general-learning');
+    assert.ok(plan.topics.length>0,country+'/'+schoolStage+'/'+year.id+'/'+subject);
+    assert.equal(plan.source.length,SCIENCE_PROGRESSION_SOURCES.length);
+    assert.deepEqual(registry.units.map(x=>x.id),plan.topics.map(x=>x.id),
+     'The 50-country registry and Android must follow one science path');
+    assert.ok(plan.topics.every(x=>!x.specialty),'Do not show university modules to a pupil');
+    for(const topic of plan.topics){
+     const limit=schoolStage==='upper'?1:0;
+     const topicLevel={beginner:0,intermediate:1,advanced:2}[topic.minLevel]??0;
+     assert.ok(topicLevel<=limit,'No higher-level lesson '+subject+'/'+topic.id);
+     if(schoolStage==='primary'){
+      const lesson= scienceGradeLessonFrame({subject,stage:'primary',grade:year.id,
+       topic:topic.id,chapter:topic.ro,language:'ro'});
+      const en= scienceGradeLessonFrame({subject,stage:'primary',grade:year.id,
+       topic:topic.id,chapter:topic.en,language:'en'});
+      assert.ok(lesson?.includes('Explicație:')&&lesson?.includes('Verificare:'),
+       'Primary science needs a complete original lesson, not just a chapter title');
+      assert.ok(en?.includes('Explore:')&&en?.includes('Review:'));
+      assert.ok(!en.includes('Parcurs generic')&&!en.includes('Lecție:'));
+     }
+    }
+    signatures.add(plan.topics.map(x=>x.id).join('/'));
+    checked++;
+   }
+   if(years.length>=3&&signatures.size>=2)gradeVariations++;
+  }
+ }
+}
+assert.ok(checked>2000,'Audit all 50 countries across primary, lower and upper secondary');
+assert.ok(gradeVariations>50,'Different grades must not share one unchanging list');
+assert.equal(scienceGradeTopicPlan({country:'RO',subject:'biology',stage:'lower',
+ grade:'unknown',years:[{id:'5'}],topics:BIOLOGY_TOPICS}).status,'invalid-selection');
+assert.equal(scienceGradeLessonFrame({subject:'chemistry',stage:'lower',
+ grade:'7',topic:'atomic',chapter:'Atomul',language:'ro'}).includes('Investigație:'),true);
+const html=await(await frontend.fetch(new Request('https://sciences-grade-e2e.test/'))).text();
+const script=html.match(/<script>([\s\S]*?)<\/script>/)?.[1];
+assert.ok(script,'Frontend emitted');
+new vm.Script(script);
+for(const hook of ['SCIENCE_GRADE_TOPIC_PLAN','SCIENCE_GRADE_LESSON_FRAME',
+ "schoolStage:'primary'", 'scienceJourney.schoolStage=group.schoolStage',
+ 'SCIENCE_PRIMARY_ENGLISH','scienceGradeTopicPlan'])
+ assert.ok(html.includes(hook),'Missing Android science integration: '+hook);
+console.log('PASS 50 European jurisdictions: '+checked+' science grade routes; '+
+ gradeVariations+' grade-varied plans, school-stage lessons and frontend syntax');
