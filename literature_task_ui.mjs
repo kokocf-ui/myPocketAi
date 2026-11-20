@@ -1,9 +1,9 @@
-import {splitLiteraturePages} from './literature_reader_pagination.mjs';
+import {splitLiteraturePages,paginateLiteratureByFit} from './literature_reader_pagination.mjs';
 import {parseStudyBlocks,renderStudyBlocks,STUDY_TYPOGRAPHY_CSS} from './literature_study_typography.mjs';
 import {literatureOfflineActivity,LIT_PRIMARY_COMMUNICATION} from './literature_offline_activity.mjs';
 import {LIT_RO_GRADE_LESSONS,litRomanianGradeMaterial} from './literature_ro_grade_progression.mjs';
 import {litEssaySpec,litEssayWords,litEssayQuality} from './literature_essay_contract.mjs';
-export const LITERATURE_TASK_UI_SCRIPT=splitLiteraturePages.toString()+'\n'+parseStudyBlocks.toString()+'\n'+renderStudyBlocks.toString()+'\nconst COMMUNICATION_G1='+JSON.stringify(LIT_PRIMARY_COMMUNICATION)+';\n'+literatureOfflineActivity.toString()+'\nconst LIT_RO_GRADE_LESSONS='+JSON.stringify(LIT_RO_GRADE_LESSONS)+';\n'+litRomanianGradeMaterial.toString()+'\n'+litEssaySpec.toString()+'\n'+litEssayWords.toString()+'\n'+litEssayQuality.toString()+'\nconst LIT_STUDY_CSS='+JSON.stringify(STUDY_TYPOGRAPHY_CSS)+';\n'+String.raw`
+export const LITERATURE_TASK_UI_SCRIPT=splitLiteraturePages.toString()+'\n'+paginateLiteratureByFit.toString()+'\n'+parseStudyBlocks.toString()+'\n'+renderStudyBlocks.toString()+'\nconst COMMUNICATION_G1='+JSON.stringify(LIT_PRIMARY_COMMUNICATION)+';\n'+literatureOfflineActivity.toString()+'\nconst LIT_RO_GRADE_LESSONS='+JSON.stringify(LIT_RO_GRADE_LESSONS)+';\n'+litRomanianGradeMaterial.toString()+'\n'+litEssaySpec.toString()+'\n'+litEssayWords.toString()+'\n'+litEssayQuality.toString()+'\nconst LIT_STUDY_CSS='+JSON.stringify(STUDY_TYPOGRAPHY_CSS)+';\n'+String.raw`
 
 
 // Bind the existing choice cards to actual Romanian grade chapters.
@@ -219,12 +219,8 @@ function litShowMaterialReader(title,text,options={}){
   if(host.style)host.style.overflow='hidden';
   document.addEventListener?.('keydown',onKey,true);
   try{back.focus?.()}catch{}
-  // Essays are continuous documents; A4 sheets are counted by Android PDF.
-  if(options.continuous===true){
-   try{renderStudyBlocks(content,raw)}catch(error){content.textContent=litReaderSafeText(raw)}
-   try{litEnsureTypography()}catch(error){}
-   return true;
-  }
+  // All reading content uses visible, bounded pages, not one long scroll.
+  // A4 export has its own physical sheet count, verified by Android.
   // The pager is essential for lessons and poems. Build it independently of optional fonts and
   // rich-text formatting; Android may reject style injection without affecting reading.
   try{
@@ -290,6 +286,22 @@ function litShowMaterialReader(title,text,options={}){
    if(vh>=540){reader.insertBefore(makePager('top'),content)}
    try{litEnsureTypography()}catch(styleError){
     console.warn?.('literature_reader_style_fallback',String(styleError?.message||styleError));
+   }
+   // The previous character estimate created nearly empty screens, while
+   // the subsequent continuous reader discarded page navigation completely.
+   // Measure the REAL Android WebView reader height after header/pagers exist.
+   try{
+    const height=Number(content.clientHeight)||0,width=Number(content.clientWidth)||0;
+    if(height>=150&&width>=150){
+     const measured=paginateLiteratureByFit(raw,text=>{
+      if(options.poetry===true)litRenderPoemPage(content,text);
+      else renderStudyBlocks(content,text);
+      return content.scrollHeight<=content.clientHeight+3;
+     });
+     if(measured.length)pages=measured;
+    }
+   }catch(fitError){
+    console.warn?.('literature_visual_pagination_fallback',String(fitError?.message||fitError));
    }
    display(active);
   }catch(decoratingError){
@@ -672,7 +684,7 @@ function litSimpleLiterature(panel){
    'Sursă bibliografică (metadate, nu text integral): '+chosen.url+'. '+
    (textArea.value.trim()?'Fragment introdus de utilizator: '+textArea.value.trim().slice(0,28000):'Text integral indisponibil; nu inventa citate sau lectura unei ediții.'),
    (result,details)=>litShowMaterialReader(chosen.name+' — '+chosen.author,result,
-    mode==='essay'?{continuous:true,essayPages:details?.complete?pages:0,essayDraft:!details?.complete}:{}),
+    mode==='essay'?{essayPages:details?.complete?pages:0,essayDraft:!details?.complete}:{}),
     mode==='essay'?{pages}:{});
   }));
   // Contents can be shown only for a confirmed licensed source with actual text.
