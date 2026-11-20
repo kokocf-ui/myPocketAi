@@ -2073,7 +2073,7 @@ public final class MainActivity extends ComponentActivity {
         try{
             JSONObject data=new JSONObject(payload);
             String text=data.optString("text","").trim();
-            if(text.isEmpty()||text.length()>160000){notifyEducationPdf("error");return;}
+            if(text.isEmpty()||text.length()>2000000){notifyEducationPdf("error");return;}
             String title=data.optString("title","Material educațional").trim();
             if(title.isEmpty())title="Material educațional";
             File folder=educationDocumentsFolder();
@@ -2086,7 +2086,7 @@ public final class MainActivity extends ComponentActivity {
             // a limited, legible type-size range. Verify each candidate using
             // Android's PDF renderer; do not insert blank pages or truncate text.
             int requestedEssayPages=data.optInt("essayPages",0);
-            boolean essayPdf=requestedEssayPages>=1&&requestedEssayPages<=5;
+            boolean essayPdf=requestedEssayPages>=1;
             int actualPages=0;
             float textScale=1f,lowerScale=0.88f,upperScale=1.20f;
             boolean accepted=false;

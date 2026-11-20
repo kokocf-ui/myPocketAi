@@ -2608,29 +2608,28 @@ export default {
         let reply='';
         let essayAudit=null;
         if(activity==='essay'&&Number.isInteger(Number(data.education_essay_segment))&&
-           Number(data.education_essay_segment)>=1&&Number(data.education_essay_segment)<=10){
-          // T3: return ONE essay section promptly to the Android client. The
-          // client displays progress after every response instead of waiting
-          // for five sequential model runs inside a single HTTP request.
+           Number(data.education_essay_segment)>=1){
+          // Return one essay section promptly; support the author-selected page count.
           const spec=litEssaySpec(data.education_essay_pages);
           const totalParts=spec.pages*2;
           const index=Number(data.education_essay_segment);
           if(index>totalParts)return json({status:'invalid',error:'essay_segment_range'},400);
           const page=Math.ceil(index/2);
           const focuses=[
-            'Introduce the thesis and authentic literary context, then begin the interpretation.',
-            'Develop a fresh argument about character, perspective and human choices.',
-            'Examine poetic imagery, motifs, structural contrasts and their expressive effects.',
-            'Deepen the philosophical interpretation and an alternative critical nuance.',
-            'Resolve the argument in a substantial, reasoned conclusion.'
+            'Develop a new interpretation of character, perspective and choices.',
+            'Interpret different images, motifs, or structural contrasts and their effects.',
+            'Connect a distinctive moment of the work to its wider cultural context.',
+            'Examine an additional philosophical tension and justify a nuanced interpretation.'
           ];
-          const focus=focuses[Math.min(page-1,focuses.length-1)];
+          const focus=index===1?'Introduce the thesis and authentic literary context.':
+            index===totalParts?'Resolve the arguments in a substantial, reasoned conclusion.':
+            focuses[(index-2)%focuses.length];
           const sectionRole=index===1?'Start the essay with an introduction.':
             index===totalParts?'Finish the essay with a conclusion; do not reintroduce it.':
             'Continue the preceding analysis seamlessly without a new opening or conclusion.';
           const sectionPrompt=message+'\nPart '+index+' of '+totalParts+' (A4 page '+page+' of '+spec.pages+')'+
             '. '+sectionRole+' '+focus+
-            ' Write approximately 350 words as connected literary prose, not bullets, a lesson or writing instructions.'+
+            ' Write approximately '+Math.ceil(spec.targetWords/totalParts)+' words as connected literary prose, not bullets, a lesson or writing instructions.'+
             ' Do not invent citations, quotes or facts. Avoid repeating preceding arguments.';
           const response=await evaTask(
             {module:'education_study',subject:'language_literature',activity,message:sectionPrompt},
@@ -2649,7 +2648,7 @@ export default {
           // Each section has its own generation budget. Asking for all five
           // printed A4 sheets in a single model response silently truncated essays.
           const requestedPages=Number(data.education_essay_pages)||
-            Number(message.match(/([1-5])\s+pagini?\s+A4/iu)?.[1])||3;
+            Number(message.match(/(\d+)\s+pagini?\s+A4/iu)?.[1])||3;
           const spec=litEssaySpec(requestedPages);
           const parts=[];
           for(let part=0;part<spec.segments;part++){
