@@ -361,7 +361,9 @@ async function litSimpleGenerate(out,status,mode,request,source='',onReady=null,
      // Preserve previous prose inside the capped model prompt to reduce repetition.
      const prev=parts.length?parts[parts.length-1].slice(-950):'';
      const earlier=parts.length>1?parts.slice(0,-1).map(p=>p.slice(0,80)).slice(-8).join(' | '):'';
-     const sectionPrompt=prompt.slice(0,1800)+
+     // Keep the actual author/title and requested format even in later sections.
+     const sectionPrompt=prompt.slice(0,850)+'\nTask: '+request.slice(0,1050)+
+      '\nSource: '+source.slice(0,480)+
       '\nFragment de lucru '+part+' din '+totalParts+' al ACELUIAȘI eseu. '+
       (part===1?'Începe cu introducerea, fără concluzie.':
        part===totalParts?'Continuă ultimul argument și scrie concluzia.':
