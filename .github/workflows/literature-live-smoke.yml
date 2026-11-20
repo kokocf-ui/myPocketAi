@@ -29,6 +29,7 @@ jobs:
           CLOUDFLARE_AI_TOKEN: ${{ secrets.CLOUDFLARE_AI_TOKEN }}
           LITERATURE_CANARY_DEEP: '0'
           LITERATURE_CANARY_MODEL: '@cf/meta/llama-3.1-8b-instruct-fast'
+          LITERATURE_CANARY_EDIT: '1'
         run: node scripts/literature-live-smoke.mjs
       - name: Keep the output for review, regardless of result
         if: always()
