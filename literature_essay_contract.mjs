@@ -3,7 +3,9 @@
 // 11.5 pt body type, A4 margins and 18 pt line-height as an estimate.
 // Native export can measure the final sheet count after pagination.
 export function litEssaySpec(input){
- const pages=Math.max(1,Math.min(5,Math.round(Number(input)||3)));
+ const requested=Number(input);
+ // Page count belongs to the author, not to a fixed 1–5 UI preset.
+ const pages=Number.isSafeInteger(requested)&&requested>=1?requested:3;
  return Object.freeze({pages,targetWords:pages*400,minWords:pages*340,
    maxWords:pages*480,segments:pages});
 }
