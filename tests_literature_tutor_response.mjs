@@ -207,4 +207,17 @@ assert.match(essayPayload.message,/5 pagini A4/);
 assert.equal(essayWaitMs,180000,'Two-part A4 essays have sufficient network time');
 assertReader('Paragraful 1-1');
 assert.doesNotMatch(readerText(),/ESEU — IUBIREA, IDEALUL/,'No static short essay');
+// The PDF export must carry the 5-A4 request into Android, not the screen
+// pager's independent 5/7 reading pages.
+const nativeRequests=[];
+cfg.window.PocketAndroidPrint={postMessage:json=>nativeRequests.push(JSON.parse(json))};
+const essayReader=readerOverlay();
+press(essayReader,'💾 Salvează PDF');
+assert.equal(nativeRequests.at(-1)?.essayPages,5,'Native PDF receives exact requested A4 length');
+assert.equal(nativeRequests.at(-1)?.text,finishedEssay,'Native PDF contains entire essay');
+cfg.window.pocketEduPrintResult('a4Mismatch:5:2');
+assert.equal(essayReader.isConnected,true,'Do not close reader or claim success if PDF has two instead of five A4 pages');
+press(essayReader,'💾 Salvează PDF');
+cfg.window.pocketEduPrintResult('saved:5');
+assert.equal(essayReader.isConnected,false,'Close reader only after Android confirms five actual A4 pages');
 console.log('PASS: grammar, dictionary, test, correction, no premature answer box, no GPS contamination');
