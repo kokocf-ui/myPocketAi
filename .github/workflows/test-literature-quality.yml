@@ -7,6 +7,8 @@ on:
     paths:
       - 'literature_task_ui.mjs'
       - 'literature_output_quality.mjs'
+      - 'literature_curated_concepts.mjs'
+      - 'tests_literature_curated_concepts.mjs'
       - 'backend.js'
       - 'tests_literature_editorial_quality.mjs'
       - 'tests_literature_tutor_response.mjs'
@@ -37,6 +39,7 @@ jobs:
       - name: Validate correct essay genre, depth and complete reader
         run: |
           node tests_literature_editorial_quality.mjs
+          node tests_literature_curated_concepts.mjs
           node tests_literature_tutor_response.mjs
           node tests_literature_exact_paged_reader.mjs
           node tests_eva_ai_backend_routing.mjs
