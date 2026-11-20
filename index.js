@@ -43,7 +43,11 @@ import {THEORY_ENTRIES} from './education_theory.mjs';
 import {CHEMISTRY_LEVELS, CHEMISTRY_TOPICS} from './chemistry_curriculum.mjs';
 import {CHEMISTRY_DETAILED_LESSONS} from './chemistry_detailed_lessons.mjs';
 import {scienceExtendedTheory,SCIENCE_GUIDES,SCIENCE_FEATURED,SCIENCE_METHOD} from './science_extended_theory.mjs';
+import {SCIENCE_GUIDES_EN} from './science_english_reference_guides.mjs';
+import {SCIENCE_UNIVERSITY_TRACK_GUIDES} from './science_university_track_guides.mjs';
+import {scienceUniversityChapter} from './science_university_chapters.mjs';
 import {SCIENCE_ADVISORY_PROGRESSION,SCIENCE_PROGRESSION_SOURCES,SCIENCE_PRIMARY_LESSON_BANK,SCIENCE_PRIMARY_ENGLISH,SCIENCE_PRIMARY_DEPTH,scienceGradeTopicPlan,scienceGradeLessonFrame} from './science_grade_progression.mjs';
+import {SCIENCE_LOWER_TOPIC_LESSONS,scienceLowerTopicContent} from './science_lower_secondary_lessons.mjs';
 import {CHEMISTRY_SPECIALIZATIONS,CHEMISTRY_SPECIALTY_TOPICS,CHEMISTRY_MOLECULES,chemistryVerifiedExercise} from './chemistry_advanced.mjs';
 import {BIOLOGY_TOPICS,BIOLOGY_SPECIALIZATIONS,BIOLOGY_SPECIALTY_TOPICS,biologyVerifiedExercise} from './biology_curriculum.mjs';
 import {mathAdvancedVerifiedModel} from './math_advanced_verified.mjs';
@@ -9006,6 +9010,8 @@ const SCIENCE_PROGRESSION_SOURCES=${JSON.stringify(SCIENCE_PROGRESSION_SOURCES)}
 const SCIENCE_PRIMARY_LESSON_BANK=${JSON.stringify(SCIENCE_PRIMARY_LESSON_BANK)};
 const SCIENCE_PRIMARY_ENGLISH=${JSON.stringify(SCIENCE_PRIMARY_ENGLISH)};
 const SCIENCE_PRIMARY_DEPTH=${JSON.stringify(SCIENCE_PRIMARY_DEPTH)};
+const SCIENCE_LOWER_TOPIC_LESSONS=${JSON.stringify(SCIENCE_LOWER_TOPIC_LESSONS)};
+const scienceLowerTopicContent=${scienceLowerTopicContent.toString()};
 const SCIENCE_GRADE_TOPIC_PLAN=${scienceGradeTopicPlan.toString()};
 const SCIENCE_GRADE_LESSON_FRAME=${scienceGradeLessonFrame.toString()};
 const PHYSICS_TOPIC_DATA=${JSON.stringify(PHYSICS_TOPICS)};
@@ -9015,6 +9021,9 @@ const ASTRONOMY_SOLVE_VERIFIED=${astronomyVerifiedExercise.toString()};
 const PHYSICS_SPECIALTY_DATA=${JSON.stringify(PHYSICS_SPECIALIZATIONS)};
 const PHYSICS_SOLVE_VERIFIED=${physicsVerifiedExercise.toString()};
 const SCIENCE_GUIDES=${JSON.stringify(SCIENCE_GUIDES)};
+const SCIENCE_GUIDES_EN=${JSON.stringify(SCIENCE_GUIDES_EN)};
+const SCIENCE_UNIVERSITY_TRACK_GUIDES=${JSON.stringify(SCIENCE_UNIVERSITY_TRACK_GUIDES)};
+const SCIENCE_UNIVERSITY_CHAPTER=${scienceUniversityChapter.toString()};
 const SCIENCE_FEATURED=${JSON.stringify(SCIENCE_FEATURED)};
 const SCIENCE_METHOD=${JSON.stringify(SCIENCE_METHOD)};
 const SCIENCE_THEORY_EXPAND=${scienceExtendedTheory.toString()};
@@ -10520,6 +10529,27 @@ function educationOpenPagedLesson(title,body){
  back.textContent=learningLabel('← Înapoi','← Back');back.onclick=()=>dialog.close();head.append(back);
  head.eduPrintableMaterial=()=>({title:educationCleanLessonLine(title),text:educationCleanLessonText(raw)});
  eduAttachPrintAction(head);
+ // Only voice-enabled Sciences show this control. Speak the current page,
+ // and stop immediately when changing pages or dismissing the reader.
+ const scienceReader=Boolean(document.querySelector?.('#view-module.learning-science'));
+ let readingThisPage=false,readPageButton=null;
+ const stopPageAudio=()=>{
+  if(readingThisPage){stopSpeech();readingThisPage=false;}
+  if(readPageButton)readPageButton.textContent=learningLabel('🔊 Citește','🔊 Read');
+ };
+ if(scienceReader){
+  readPageButton=document.createElement('button');readPageButton.type='button';
+  readPageButton.className='secondary-btn science-lesson-read';
+  readPageButton.textContent=learningLabel('🔊 Citește','🔊 Read');
+  readPageButton.onclick=()=>{
+   if(readingThisPage&&state.speaking){stopPageAudio();return;}
+   if(state.speaking)stopSpeech();
+   const started=speakText(pages[page]);
+   readingThisPage=started!==false;
+   readPageButton.textContent=readingThisPage?learningLabel('■ Oprește','■ Stop'):learningLabel('🔊 Citește','🔊 Read');
+  };
+  head.append(readPageButton);
+ }
  const heading=document.createElement('h2');heading.textContent=educationCleanLessonLine(title);
  heading.className='education-paged-title';heading.title=heading.textContent;
  heading.style.cssText='margin:0;text-align:center;font-size:clamp(16px,3.6vw,21px);font-weight:750;line-height:1.25;overflow-wrap:anywhere;flex:0 0 auto;max-height:3.75em;overflow-y:auto;';
@@ -10564,11 +10594,11 @@ function educationOpenPagedLesson(title,body){
   prev.disabled=page===0;next.disabled=page===pages.length-1;
   count.textContent=learningLabel('Pagina ','Page ')+(page+1)+' / '+pages.length;
  };
- prev.onclick=()=>{if(page>0){page--;paint()}};
- next.onclick=()=>{if(page<pages.length-1){page++;paint()}};
+ prev.onclick=()=>{if(page>0){stopPageAudio();page--;paint()}};
+ next.onclick=()=>{if(page<pages.length-1){stopPageAudio();page++;paint()}};
  footer.append(prev,count,next);footer.hidden=pages.length===1;
  dialog.append(head,heading,content,footer);
- dialog.addEventListener('close',()=>dialog.remove());
+ dialog.addEventListener('close',()=>{stopPageAudio();dialog.remove()});
  document.body.append(dialog);
  try{dialog.showModal()}catch{dialog.setAttribute('open','')}
  paint();return dialog;
@@ -10579,7 +10609,7 @@ function educationScienceTheoryReader(subjectId,topicId,level){
  const max=rank[level]??0;
  const lessons=EDUCATION_THEORY_DATA.filter(item=>item.subject===subjectId&&item.topic===topicId&&(rank[item.level]??3)<=max);
  const section=document.createElement('section');section.className='science-inline-theory';
- const head=document.createElement('h3');head.textContent=learningLabel('📖 Teme de studiu','📖 Study topics')+' ('+(scienceJourney.schoolStage==='primary'?1:lessons.length)+')';
+ const head=document.createElement('h3');head.textContent=learningLabel('📖 Teme de studiu','📖 Study topics')+' ('+(['primary','lower'].includes(scienceJourney.schoolStage)||scienceJourney.schoolStage==='upper'&&state.language!=='ro'?1:lessons.length)+')';
  section.append(head);
  if(scienceJourney.schoolStage==='primary'){
   const chapter=scienceTopicInfo();
@@ -10593,6 +10623,68 @@ function educationScienceTheoryReader(subjectId,topicId,level){
   button.onclick=()=>educationOpenPagedLesson(learningLabel(chapter?.ro||'',chapter?.en||''),lesson||learningLabel('Lecție generală indisponibilă.','General lesson unavailable.'));
   section.append(button);return section;
  }
+ // University courses have a chapter-specific, extended study document
+ // containing the existing original specialist sublessons, their formulas,
+ // an independently authored specialisation case and a review task.
+ // A previous UI exposed only short isolated cards with an empty generic
+ // appendix. Do not erase the established specialist chapter bank.
+ if(scienceJourney.level==='advanced'){
+  const chapter=scienceTopicInfo();
+  const chapterName=learningLabel(chapter?.ro||'',chapter?.en||'');
+  const body=SCIENCE_UNIVERSITY_CHAPTER({
+   subject:subjectId,topic:topicId,chapter:chapterName,
+   language:state.language,specialty:scienceJourney.specialty,
+   grade:scienceJourney.grade,lessons:EDUCATION_THEORY_DATA
+  });
+  if(!body){
+   const notice=document.createElement('p');
+   notice.textContent=learningLabel('Acest capitol nu are încă material universitar verificabil.','This university chapter has no verified study content.');
+   section.append(notice);return section;
+  }
+  head.textContent=learningLabel('📖 Curs universitar','📖 University study');
+  const button=document.createElement('button');button.type='button';
+  button.className='secondary-btn science-inline-theory-item';
+  button.textContent=learningLabel('Deschide capitolul integral și subcapitolele','Open full chapter and subtopics');
+  button.onclick=()=>educationOpenPagedLesson(chapterName,body);
+  section.append(button);return section;
+ }
+ // A lower-secondary chapter has one complete year-specific lesson, not
+ // several identical buttons that all reopen the same chapter text. Crucially,
+ // an empty legacy sublesson registry must not hide an authored lesson.
+ if(scienceJourney.schoolStage==='lower'){
+  const chapter=scienceTopicInfo();
+  const chapterName=learningLabel(chapter?.ro||'',chapter?.en||'');
+  const lesson=SCIENCE_GRADE_LESSON_FRAME({
+   subject:subjectId,stage:'lower',grade:scienceJourney.grade,
+   topic:topicId,chapter:chapterName,language:state.language,
+   gradePosition:scienceJourney.gradePosition
+  });
+  const button=document.createElement('button');button.type='button';
+  button.className='secondary-btn science-inline-theory-item';
+  button.textContent=learningLabel('Lecția capitolului · explicații, exemplu, exercițiu și verificare','Chapter lesson · explanation, worked example, practice and feedback');
+  button.onclick=()=>educationOpenPagedLesson(chapterName,
+   lesson||learningLabel('Lecție indisponibilă pentru acest capitol.','Lesson unavailable for this chapter.'));
+  section.append(button);return section;
+ }
+ // English upper-secondary content is authored per chapter, not a literal
+ // translation of each Romanian sublesson. Expose it once rather than making
+ // every numbered lesson open the same reference text.
+ if(scienceJourney.schoolStage==='upper'&&state.language!=='ro'){
+  const chapter=scienceTopicInfo();
+  const chapterName=learningLabel(chapter?.ro||'',chapter?.en||'');
+  const frame=SCIENCE_GRADE_LESSON_FRAME({
+   subject:subjectId,stage:'upper',grade:scienceJourney.grade,topic:topicId,
+   chapter:chapterName,language:state.language,gradePosition:scienceJourney.gradePosition
+  });
+  const reference=SCIENCE_THEORY_EXPAND(
+   {subject:subjectId,topic:topicId},chapterName,null,state.language);
+  const button=document.createElement('button');button.type='button';
+  button.className='secondary-btn science-inline-theory-item';
+  button.textContent=learningLabel('Fișa capitolului','Chapter reference lesson');
+  button.onclick=()=>educationOpenPagedLesson(chapterName,
+   [frame,reference].filter(Boolean).join(String.fromCharCode(10,10)));
+  section.append(button);return section;
+ }
  if(!lessons.length){
   const empty=document.createElement('p');empty.textContent=learningLabel('Nu există încă lecții verificate pentru acest capitol.','No verified lessons yet for this chapter.');
   section.append(empty);return section;
@@ -10603,7 +10695,7 @@ function educationScienceTheoryReader(subjectId,topicId,level){
   const button=document.createElement('button');button.type='button';
   button.className='secondary-btn science-inline-theory-item';
   button.style.cssText='width:100%;min-width:0;min-height:54px;padding:10px;white-space:normal;text-align:center;overflow-wrap:anywhere;';
-  button.textContent=(index+1)+'. '+item.title;
+  button.textContent=(index+1)+'. '+(state.language==='ro'?item.title:learningLabel('Capitol','Chapter')+' · '+learningLabel(scienceTopicInfo()?.ro||'',scienceTopicInfo()?.en||''));
   button.onclick=()=>{
    const rich=subjectId==='chemistry'?CHEMISTRY_DETAIL_DATA[item.id]:null;
    const chapter=(subjectId==='physics'?PHYSICS_TOPIC_DATA:subjectId==='chemistry'?CHEMISTRY_TOPIC_DATA:
@@ -10611,10 +10703,14 @@ function educationScienceTheoryReader(subjectId,topicId,level){
    const chapterName=learningLabel(chapter?.ro||'',chapter?.en||'');
    const frame=SCIENCE_GRADE_LESSON_FRAME({
     subject:subjectId,stage:scienceJourney.schoolStage||'lower',grade:scienceJourney.grade,
-    topic:item.topic,chapter:chapterName,language:state.language
+    topic:item.topic,chapter:chapterName,language:state.language,
+    gradePosition:scienceJourney.gradePosition
    });
-   const material=(frame?frame+String.fromCharCode(10,10):'')+SCIENCE_THEORY_EXPAND(item,chapterName,rich);
-   educationOpenPagedLesson(item.title,material);
+   // Lower secondary already has a complete, pupil-oriented worked lesson.
+   // Do not prepend the same advanced theory twice to that lesson.
+   const material=scienceJourney.schoolStage==='lower'&&frame?frame:
+    (frame?frame+String.fromCharCode(10,10):'')+SCIENCE_THEORY_EXPAND(item,chapterName,rich,state.language);
+   educationOpenPagedLesson(state.language==='ro'?item.title:chapterName+' · '+(index+1),material);
   };
   topics.append(button);
  });

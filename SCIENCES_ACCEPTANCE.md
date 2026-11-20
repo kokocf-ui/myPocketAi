@@ -20,3 +20,28 @@ Nu se livrează APK-uri separate pentru Fizică, Chimie, Biologie sau Astronomie
 
 ## Stadiu și regula de închidere
 Lucrul la capitol nu se declară finalizat prin testele de integrare ale matricei, nici printr-un APK care se compilează. Criteriile necesită o livrare coerentă și acceptarea utilizatorului pe telefon. Alte capitole nu se deschid pentru un raport intermediar.
+
+## Continuare internă — gimnaziu pentru toate cele 50 de sisteme (PR #501)
+- Baza este versiunea curentă din `main`, care avea deja trasee pe clase și lecții originale la primar; nu se reintroduce structura mai veche din PR #499.
+- Modulul `science_lower_secondary_lessons.mjs` adaugă **26 de teme unice** distribuite în Fizică (7), Chimie (8), Biologie (6), Astronomie (5), cu explicație proprie, exemplu rezolvat, exercițiu și răspuns de verificare în română și engleză.
+- `science_grade_progression.mjs` construiește acum o fișă completă pentru gimnaziu, cu activitate de investigație diferențiată, nu un șablon repetat pentru fiecare capitol.
+- `index.js` utilizează aceeași fișă la deschiderea lecției și **nu mai dublează peste ea explicația avansată**. Pentru liceu păstrează teoria de specialitate și leagă cerința de capitolul selectat.
+- Regresia `tests_science_grade_progression.mjs` verifică explicațiile, exemplele rezolvate, exercițiile, răspunsurile și legătura dintre tema selectată și material în toate cele 50 de jurisdicții școlare.
+- CI pentru modificările PR #501: `Education 50-country curriculum coverage` și `Pocket AI minimal code checks` au trecut; `Build myPocket AI Android APK` a trecut ca verificare de diagnostic. **Nu s-a publicat un APK semnat nou.**
+- Rămân până la acceptarea Științelor: verificarea programelor oficiale de țară/clasă/profil, acoperirea tuturor lecțiilor efective la liceu și universitate, funcționarea audio/figuri/PDF/Înapoi și proba pe un dispozitiv Android. Lecțiile în altă limbă decât română/engleză indică fallbackul în engleză; traducerile nu sunt certificate.
+- **Nu marca Științele ca terminate** și nu livra un APK pentru acest lot intermediar. 
+
+## Validarea integrată a Științelor, același lot (20.11.2026)
+- Gimnaziu: un singur cititor complet per capitol și an, nu carduri redundante care deschid același text; funcționează chiar dacă registrul de sublecții vechi nu are intrări.
+- Ghiduri englezești originale pentru 47 de capitole de bază (14 fizică, 14 chimie, 10 biologie, 9 astronomie), cu explicație, exemplu, capcană conceptuală și întrebare de verificare. Fallbackul englez în alte limbi este etichetat explicit.
+- La liceu în engleză se deschide un singur capitol coerent, nu sublecții cu titluri identice. Lecțiile românești detaliate se păstrează.
+- tests_science_grade_progression.mjs verifică și cititorul într-un DOM simulat: clase diferite, lipsă sublecții vechi, interfața în engleză și conținut real.
+- CI: Sciences — full four-subject acceptance checks, matricea de 50 de sisteme, smoke și compilarea unui APK debug exclusiv diagnostic au trecut la commit aaa0b0ff. APK-ul debug NU se livrează ca actualizare.
+- NU închide capitolul: sunt încă obligatorii verificarea pe Android real, deploymentul sincronizat Cloudflare, verificarea tuturor nivelurilor (inclusiv specializări universitare și fallbackuri de limbă), APK final semnat și acceptarea utilizatorului.
+- PR #501 rămâne draft. Nu confunda un build automat reușit cu finalizarea Științelor.
+
+## Cursurile universitare incluse în lotul Științe
+- 30 specializări cu ghiduri originale bilingve, exemple conceptuale specifice domeniului și verificări: 7 Fizică, 7 Chimie, 9 Biologie, 7 Astronomie. Se folosesc toate capitolele și subcapitolele academice existente în sursele offline; capitolele comune își marchează explicit materialele fundamentale de recapitulare, nu se prezintă drept curs acreditat.
+- Fiecare capitol deschide un cititor complet, cu subcapitolele reale, formule și considerații asupra limitelor, în fereastra existentă care permite PDF/imprimare. Pentru limbi fără traducere validată, referința originală în română rămâne etichetată ca atare.
+- Testul exhaustiv tests_science_university_complete.mjs confirmă prezența tuturor specializărilor, capitolelor, notelor originale, formularelor și a fluxului WebView în DOM simulat; workflow-ul test-sciences-acceptance.yml rulează împreună toate cele patru Științe și testele de documente/navigație.
+- Livrarea pentru acceptare nu se declară încheiere permanentă până când versiunea semnată Android și frontendul Cloudflare sunt sincronizate și utilizatorul verifică efectiv cele patru discipline pe telefon.

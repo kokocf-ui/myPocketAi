@@ -1,3 +1,6 @@
+import {SCIENCE_GUIDES_EN} from './science_english_reference_guides.mjs';
+import {scienceLowerTopicContent} from './science_lower_secondary_lessons.mjs';
+import {SCIENCE_GUIDES} from './science_extended_theory.mjs';
 // Pan-European advisory science progression, not a national curriculum or textbook.
 // Country-specific school-year labels come from the existing country picker.
 // Subject knowledge and scientific enquiry are sequenced together.
@@ -231,10 +234,71 @@ export function scienceGradeLessonFrame({subject,stage,grade,topic,chapter,langu
    'Material didactic original, orientativ. Nu este un manual național oficial.'
   ].join('\n\n');
  }
- const inquiry=stage==='upper'?
-  'Construiește o ipoteză, identifică variabilele și discută limitele dovezilor.':
-  'Formulează o întrebare, notează observații și deosebește dovezile de presupuneri.';
- return language==='ro'?
-  ['Clasa/anul '+grade+' · '+chapter,'Obiectiv: înțelege conceptul, explică un exemplu, apoi rezolvă un exercițiu potrivit nivelului.','Investigație: '+inquiry,'Evaluare: folosește definiții corecte, unități când sunt necesare și justifică rezultatul.','Parcurs generic orientativ, nu programă ministerială.'].join('\n\n'):
-  ['Grade '+grade+' · '+chapter,'Goal: understand the concept, explain an example, then solve an age-appropriate exercise.','Enquiry: pose a testable question, examine evidence and identify limitations.','Review: justify conclusions with correct terminology and units.','General learning route, not a certified national syllabus.'].join('\n\n');
+ if(stage==='lower'){
+  const actual=scienceLowerTopicContent(subject,topic,language);
+  if(!actual)return null; // Never replace absent core science with generic filler.
+  const position=Math.max(0,Math.min(3,Number.isFinite(Number(gradePosition))?
+   Number(gradePosition):0));
+  const tasksRo=[
+   'Identifică noțiunea și observă un exemplu concret.',
+   'Compară două situații și explică diferența pe baza conceptului.',
+   'Rezolvă exercițiul prin pași clari și controlează unitățile sau datele.',
+   'Justifică răspunsul, propune o verificare și precizează limitele modelului.'
+  ];
+  const tasksEn=[
+   'Identify the concept and observe a concrete example.',
+   'Compare two situations using the idea you have learned.',
+   'Solve the exercise in clear steps and check quantities and units.',
+   'Justify your answer, suggest a check and describe a limitation.'
+  ];
+  const safe={chemistry:['Nu gusta substanțe și nu amesteca produse necunoscute.',
+    'Never taste or mix unknown chemicals.'],
+   physics:['Pentru electricitate, nu utiliza prize sau cabluri ale rețelei.',
+    'Never experiment with mains electricity.'],
+   astronomy:['Nu privi direct Soarele, nici prin instrumente fără filtre certificate.',
+    'Never look directly at the Sun without certified solar viewing equipment.'],
+   biology:['Observă viețuitoarele fără să le rănești și nu efectua teste medicale.',
+    'Observe organisms without harming them; do not conduct medical tests.']}[subject]||['',''];
+  if(language==='ro')return [
+   'ȘTIINȚE · Gimnaziu · Clasa/anul '+grade+' · Parcurs general orientativ',
+   '# '+actual.title,
+   '# Explicația lecției\n'+actual.explanation,
+   '# Exemplu rezolvat\n'+actual.workedExample,
+   '# Exercițiu\n'+actual.exercise,
+   '# Cum verifici\n'+actual.answer,
+   '# Investigație și competența clasei\nInvestigație: '+tasksRo[position],
+   '# Observă în siguranță\n'+safe[0],
+   'Lecție originală, nu o pagină dintr-un manual național verificat.'
+  ].join('\n\n');
+  return [
+   'SCIENCE · Lower secondary · Year '+grade+' · General advisory learning route',
+   '# '+actual.title,
+   '# Explanation\n'+actual.explanation,
+   '# Worked example\n'+actual.workedExample,
+   '# Practice exercise\n'+actual.exercise,
+   '# Check your answer\n'+actual.answer,
+   '# Enquiry and skill for this year\nEnquiry: '+tasksEn[position],
+   '# Safety\n'+safe[1],
+   language!=='en'?'English reference lesson: local-language translation is not verified.':'Original lesson; not a certified national textbook.'
+  ].join('\n\n');
+ }
+ const guide=SCIENCE_GUIDES[subject]?.[topic];
+ // Upper secondary uses the detailed subject-specific offline chapter,
+ // appended by scienceExtendedTheory(), rather than a generic fake lesson.
+ const target=stage==='upper'?'liceu':'universitar';
+ const challenge=guide?.[3]||'Explică ce date și dovezi îți trebuie pentru a interpreta corect acest capitol.';
+ if(language==='ro')return [
+  'ȘTIINȚE · Nivel '+target+' · Clasa/anul '+grade,
+  'Capitol ales: '+chapter,
+  'Investigație: '+challenge,
+  'Metodă: definește mărimile și condițiile, apoi folosește teoria și exemplele din capitolul selectat.',
+  'Acest parcurs este orientativ, nu programa obligatorie a țării.'
+ ].join('\n\n');
+ return [
+  'SCIENCE · '+(stage==='upper'?'Upper secondary':'University')+' · Year '+grade,
+  'Chosen chapter: '+chapter,
+  'Enquiry: '+(SCIENCE_GUIDES_EN[subject]?.[topic]?.[3]||'Explain what evidence is needed to interpret this chapter correctly.'),
+  'Method: define relevant quantities and assumptions, then use the worked examples from this chapter.',
+  language!=='en'?'English reference content; translation into the selected language has not been verified.':'General study pathway, not a certified national syllabus.'
+ ].join('\n\n');
 }

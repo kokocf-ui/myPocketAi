@@ -24,7 +24,7 @@ for(const stage of ['chemistry-menu','chemistry-lessons','chemistry-lab']){
 }
 assert.ok(script.includes('function scienceOpenChemistrySection(stage)'));
 assert.ok(script.includes('CHEMISTRY_DETAIL_DATA[item.id]'),'opening a lesson uses full offline text');
-assert.ok(script.includes('educationOpenPagedLesson(item.title,material);'),'the existing paginated reader is reused');
+assert.ok(script.includes("educationOpenPagedLesson(state.language==='ro'?item.title:chapterName+' · '+(index+1),material);"),'the existing paginated reader is reused with a readable English chapter title');
 assert.ok(script.includes("if(false&&availableTopics.length>1)"),
  'exercise view does not duplicate the chapter list');
 assert.ok(script.includes("if(false&&topic)"),
