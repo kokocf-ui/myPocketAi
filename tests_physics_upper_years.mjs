@@ -72,6 +72,22 @@ for(const [code,lower,notOffered] of [
  const final=physicsCountryGradePlan({country:code,stage:'lower',grade:school.at(-1).id,years:school});
  assert.ok(final.topics.length>=4,code+' taught year needs substantive Physics areas');
 }
+for(const [country,missingGrades,beginAt] of [
+ ['HR',['5','6'],'7'],['UA',['5','6'],'7']
+]){
+ const yrs=educationCountrySchoolYears(country,'lower').years;
+ for(const grade of missingGrades)
+  assert.equal(physicsCountryGradePlan({country,stage:'lower',grade,years:yrs}).status,'not-offered',
+   country+' has no separate Physics in '+grade);
+ assert.ok(physicsCountryGradePlan({country,stage:'lower',grade:beginAt,years:yrs}).topics.length>=4,
+  country+' Physics starts at national grade '+beginAt);
+}
+for(const country of ['TR','NL']){
+ const years=educationCountrySchoolYears(country,'lower').years;
+ const plan=physicsCountryGradePlan({country,stage:'lower',grade:years[0].id,years});
+ assert.ok(['integrated','mixed'].includes(plan.kind),
+  country+' Physics lower stage is not a uniform standalone national course');
+}
 const frYears=educationCountrySchoolYears('FR','lower').years;
 assert.equal(physicsCountryGradePlan({country:'FR',grade:'6e',stage:'lower',years:frYears}).kind,'integrated',
  'France 6e uses integrated science, not a mandatory separate Physique-Chimie subject');
