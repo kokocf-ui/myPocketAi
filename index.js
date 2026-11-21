@@ -10558,8 +10558,7 @@ function scienceAttachLessonReview(dialog){
   if(controller)return;
   const local=spec.stage==='lower'?scienceCheckExactExercise({
    subject:spec.subject,topic:spec.topic,answer,language:spec.lang}):{status:'requires-assessment'};
-  if(['correct','incorrect','needs-unit','empty'].includes(local.status)||
-    (SCIENCE_EXACT_REFERENCE[spec.subject+':'+spec.topic]&&local.status==='requires-assessment')){
+  if(['correct','incorrect','needs-unit','empty'].includes(local.status)){
    status.textContent=local.feedback;return;
   }
   controller=new AbortController();check.disabled=true;
