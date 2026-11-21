@@ -59,6 +59,7 @@ import {PHYSICS_LOWER_ENGLISH_LESSONS} from './physics_lower_english_lessons.mjs
 import {PHYSICS_SPACE_LESSONS} from './physics_space_lessons.mjs';
 import {PHYSICS_PRIMARY_STRANDS,PHYSICS_PRIMARY_SCAFFOLDS,physicsPrimaryYearLessons} from './physics_primary_lessons.mjs';
 import {physicsUpperYearLessons} from './physics_upper_course.mjs';
+import {PHYSICS_UPPER_ENGLISH_BANK} from './physics_upper_english_bank.mjs';
 import {CHEMISTRY_SPECIALIZATIONS,CHEMISTRY_SPECIALTY_TOPICS,CHEMISTRY_MOLECULES,chemistryVerifiedExercise} from './chemistry_advanced.mjs';
 import {BIOLOGY_TOPICS,BIOLOGY_SPECIALIZATIONS,BIOLOGY_SPECIALTY_TOPICS,biologyVerifiedExercise} from './biology_curriculum.mjs';
 import {mathAdvancedVerifiedModel} from './math_advanced_verified.mjs';
@@ -9106,6 +9107,7 @@ const physicsAdvisoryTopicLessons=${physicsAdvisoryTopicLessons.toString()};
 const PHYSICS_PRIMARY_STRANDS=${JSON.stringify(PHYSICS_PRIMARY_STRANDS)};
 const PHYSICS_PRIMARY_SCAFFOLDS=${JSON.stringify(PHYSICS_PRIMARY_SCAFFOLDS)};
 const physicsPrimaryYearLessons=${physicsPrimaryYearLessons.toString()};
+const PHYSICS_UPPER_ENGLISH_BANK=${JSON.stringify(PHYSICS_UPPER_ENGLISH_BANK)};
 const physicsUpperYearLessons=${physicsUpperYearLessons.toString()};
 const scienceSchoolTopicLessons=${scienceSchoolTopicLessons.toString()};
 const scienceRoAnnualCoverage=${scienceRoAnnualCoverage.toString()};
