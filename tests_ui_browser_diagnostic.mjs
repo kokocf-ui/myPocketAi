@@ -57,6 +57,8 @@ try{
  await tryClick('#view-module .education-card:has-text("Științe")','sciences');
  let state=await page.locator('#view-module').innerText();console.log('SCIENCE_STEP',state.slice(0,1200));
  if(!state.includes('Chimie')){
+  await page.locator('#eduCountryInput').fill('România');
+  await tryClick('#view-module .edu-country-matches button:has-text("România")','country-select-romania');
   await tryClick('#view-module button:has-text("Continuă")','country-continue');
   state=await page.locator('#view-module').innerText();console.log('COUNTRY_STEP',state.slice(0,1200));
  }
