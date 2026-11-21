@@ -8318,7 +8318,8 @@ function scienceJourneyShowChoices(stage){
    (educationCountrySelection.code!=='RO'?
     ' '+learningLabel('Unde programa locală nu este verificată, conținutul este orientativ.','Where the local curriculum is unverified, content is advisory.'):''):
   stage==='specialties'?learningLabel('Fiecare specializare are capitole proprii și baze comune.','Each track has specialist and shared chapters.'):
-  learningLabel('Țara: ','Country: ')+educationCountrySelection.label+' · '+learningLabel('Clasa: ','Grade: ')+(scienceJourney.grade||'')+'. '+learningLabel('Program general de studiu, organizat pe clase; nu înlocuiește programa școlii.','General grade-by-grade learning route, not an official school syllabus.')+
+  learningLabel('Țara: ','Country: ')+educationCountrySelection.label+' · '+learningLabel('Clasa: ','Grade: ')+(scienceJourney.subject==='physics'&&scienceJourney.schoolStage==='advanced'?
+    learningLabel('Anul universitar ','University year ')+String(scienceJourney.grade||'').replace('univ-',''):(scienceJourney.grade||''))+'. '+learningLabel('Program general de studiu, organizat pe clase; nu înlocuiește programa școlii.','General grade-by-grade learning route, not an official school syllabus.')+
    (scienceJourney.schoolStage==='primary'?' '+learningLabel('La primar, disciplinele sunt explorate integrat, fără a le declara obligatorii separat.','In primary school these sciences are explored together, not declared separate compulsory subjects.'):'');
  const list=document.createElement('div');
  list.className='math-choice-list science-choice-list';
@@ -10896,7 +10897,27 @@ function scienceOpenChemistrySection(stage){
    tile('🧬','Molecule 3D','3D Molecules','H₂O, CO₂, CH₄, NH₃: rotire și mărire','H₂O, CO₂, CH₄, NH₃: rotate and zoom',scienceChemMoleculeOpen);
    tile('📊','Reprezentări','Visual models','Diagrame și structuri disponibile','Available diagrams and structures',chemistryVisualPicker);
   }else if(scienceJourney.subject==='physics'){
-   tile('📈','Reprezentări fizice','Physics diagrams','Grafice și reprezentări interactive','Interactive graphs and models',physicsVisualPicker);
+   if(scienceJourney.schoolStage==='advanced'&&/^univ-[1-5]$/.test(String(scienceJourney.grade||''))){
+    const course=scienceTopicInfo();
+    const documentText=physicsUniversityStudyDocument({
+     courseId:course?.courseId,country:educationCountrySelection.code,
+     routeId:scienceJourney.universityRoute,year:Number(String(scienceJourney.grade).slice(-1)),
+     specialty:scienceJourney.specialty,language:state.language,lessons:EDUCATION_THEORY_DATA,
+     trackGuide:SCIENCE_UNIVERSITY_TRACK_GUIDES.physics?.[scienceJourney.specialty]
+    });
+    if(documentText)tile('🧪','Investigația cursului','Course investigation',
+     'Ipoteze, pași, date, incertitudine și verificare','Hypotheses, procedure, data, uncertainty and review',
+     ()=>educationOpenPagedLesson(chapter,documentText));
+    const relevantModel=physicsVisualKind(course?.ro||'',course?.topic);
+    if(relevantModel)tile('📈','Modelul fizic relevant','Relevant physical model',
+     'Reprezentare numai pentru fenomenul studiat','Diagram only for this studied phenomenon',
+     ()=>physicsVisualOpen(relevantModel));
+    if(!relevantModel){
+     const explanation=document.createElement('p');
+     explanation.textContent=learningLabel('Nu există o reprezentare grafică specifică verificată pentru acest curs; nu afișăm o diagramă fără legătură.','No validated course-specific graph is available; an unrelated diagram will not be shown.');
+     list.append(explanation);
+    }
+   }else tile('📈','Reprezentări fizice','Physics diagrams','Grafice și reprezentări interactive','Interactive graphs and models',physicsVisualPicker);
   }else if(scienceJourney.subject==='biology'){
    tile('🧬','Celulă și ADN 3D','Cell and 3D DNA','Explorează modelele de celulă și ADN','Explore cell and DNA models',scienceBiologyDiagramOpen);
   }else if(scienceJourney.subject==='astronomy'){
