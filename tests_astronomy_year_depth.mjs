@@ -77,7 +77,7 @@ for(const country of EDUCATION_EUROPE_COUNTRIES){
  }
 }
 const html=await(await app.fetch(new Request('https://astronomy-curriculum-depth.test/'))).text();
-const script=html.match(/<script>([\\s\\S]*?)<\\/script>/)?.[1];
+const script=html.split('<script>')[1]?.split('</script>')[0]||'';
 assert.ok(script,'Missing Android WebView script');
 new vm.Script(script);
 for(const fragment of [
@@ -90,7 +90,7 @@ for(const fragment of [
  "astronomyDiagramPicker(diagrams)"
 ])assert.ok(script.includes(fragment),'Missing WebView wiring: '+fragment);
 const at=script.indexOf('function educationScienceTheoryReader(');
-const until=script.indexOf('\\nfunction ',at+40);
+const until=script.indexOf(String.fromCharCode(10)+'function ',at+40);
 assert.ok(at>=0&&until>at);
 class FakeElement{
  constructor(tag){this.tag=tag;this.children=[];this.textContent='';this.className='';this.style={};this.onclick=null;this.hidden=false;}
