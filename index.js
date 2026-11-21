@@ -8475,7 +8475,7 @@ function scienceJourneyShowChoices(stage){
      stage:'lower',years:eduYearOptions(educationCountrySelection.code,'lower','science')
     }).length>0;
    if(scienceJourney.subject==='chemistry'&&scienceJourney.schoolStage==='upper')
-    return rank[topic.minLevel]<=rank[scienceJourney.level]&&Boolean(CHEMISTRY_STUDY_CONCEPTS[topic.id]);
+    return rank[topic.minLevel]<=rank[scienceJourney.level]&&(typeof CHEMISTRY_STUDY_CONCEPTS==='undefined'||Boolean(CHEMISTRY_STUDY_CONCEPTS[topic.id]));
    return rank[topic.minLevel]<=rank[scienceJourney.level] &&
     (scienceJourney.schoolStage==='primary'?
      Boolean(SCIENCE_PRIMARY_LESSON_BANK[scienceJourney.subject]?.[topic.id]):
