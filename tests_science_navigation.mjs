@@ -94,7 +94,7 @@ assert.deepEqual([...api.subjects.map(s=>s.ro)],['Fizică','Chimie','Biologie','
 rows()[1].onclick();
 assert.equal(api.state.subject,'chemistry');
 assert.equal(api.state.stage,'years','subject selection directly opens its school-year choices');
-assert.equal(yearBands().length,4,'grouped primary, lower secondary, upper secondary, university');
+assert.equal(yearBands().length,3,'standalone Chemistry has only lower secondary, upper secondary and university');
 assert.equal(yearTiles('beginner').length,2);
 yearTiles('intermediate')[0].onclick();
 assert.equal(api.state.level,'intermediate');
