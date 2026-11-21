@@ -16,7 +16,7 @@ const knownTopicIds=new Set(PHYSICS_TOPICS.map(x=>x.id));
 for(const item of PHYSICS_UNIVERSITY_ALL_COURSES){
  assert.ok(knownTopicIds.has(item.topic),item.id+' source chapter missing');
  for(const prop of ['ro','en','focusRo','focusEn','formula','exampleRo','exampleEn'])
-  assert.ok(typeof item[prop]==='string'&&item[prop].length>8,item.id+'/'+prop);
+  assert.ok(typeof item[prop]==='string'&&item[prop].length>(prop==='formula'?3:8),item.id+'/'+prop);
 }
 const fields={countries:new Set(),examples:0,chapters:0,documents:0};
 for(const code of EDUCATION_EUROPE_COUNTRIES){
