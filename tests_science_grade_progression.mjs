@@ -212,6 +212,7 @@ const readerContext={
  document:{createElement:fakeElement},
  scienceJourney:journey,state:runtimeState,sciencePendingAssessmentSpec:null,
  educationCountrySelection:{code:'RO',label:'România'},
+ eduYearOptions:()=>[{id:'7'},{id:'8'}],
  EDUCATION_THEORY_DATA:[
   {id:'a1',subject:'chemistry',topic:'atomic',level:'beginner',title:'Atomul',statement:'Modelul atomului.'},
   {id:'a2',subject:'chemistry',topic:'atomic',level:'beginner',title:'Izotopi',statement:'Atomi cu neutroni diferiți.'}
