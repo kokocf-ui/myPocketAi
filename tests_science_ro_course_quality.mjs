@@ -29,9 +29,14 @@ for(const [subject,classes] of Object.entries(SCIENCE_RO_LOWER_TOPICS)){
     const body=scienceSchoolLessonMaterial({entry,subject,grade,chapter:topic,language:'ro',chapterLesson:reference,guide});
     assert.ok(body?.includes(entry.statement),'Lesson opens its unique scientific definition');
     assert.ok(body.includes('# Exercițiu pentru elev'),'Every lesson has practice');
-    assert.ok(body.includes('Material didactic original'),'Lesson provenance visible');
-    assert.ok(body.includes('Siguranță:')||subject==='astronomy',
-      'Subject safety note included');
+    assert.ok(entry.source,'Source provenance must remain in the auditable lesson metadata');
+    assert.ok(!body.includes('Material didactic original'),
+      'Do not repeat internal provenance instructions in the pupil-facing reader');
+    if(subject==='physics'&&!['electric','circuits'].includes(entry.topic))
+     assert.ok(!body.includes('Siguranță: circuitele electrice'),
+      'Unrelated electrical warning must not interrupt a measurement or optics lesson');
+    if(subject==='chemistry'||subject==='biology')
+     assert.ok(body.includes('Siguranță:'),'Subject-relevant safety note is retained');
     if(entry.workedExample){
      detailed++;
      assert.ok(body.includes(entry.workedExample),'Original worked explanation is present');
