@@ -255,7 +255,7 @@ export const CHEMISTRY_STUDY_CONCEPTS=Object.freeze({
   }
 });
 export function chemistrySchoolCourseDocuments({topic='',country='',grade='',stage='lower',
- yearPosition=0,yearCount=1,language='ro'}={}){
+ yearPosition=0,yearCount=1,language='ro',lessons=[]}={}){
  const item=CHEMISTRY_STUDY_CONCEPTS[topic];if(!item)return [];
  const ro=language==='ro';
  const label=(a,b)=>ro?a:b;
@@ -324,6 +324,33 @@ export function chemistrySchoolCourseDocuments({topic='',country='',grade='',sta
     label('Compară predicția și datele, explică neconcordanțele și separă limitele instrumentului de limitele legii chimice. Raportează rezultatul fără a inventa valori lipsă.',
           'Compare prediction with evidence, explain discrepancies and distinguish instrument limits from theory limits. Do not invent missing measurements.'))}
  ];
+ // Existing curated subject subtopics are supplementary, not four buttons
+ // reopening the same text. Use a different slice for each document and year.
+ const eligible=(Array.isArray(lessons)?lessons:[]).filter(e=>
+  e?.subject==='chemistry'&&e.topic===topic&&e.level!=='advanced'&&
+  (stage==='upper'||e.level==='beginner')).sort((a,b)=>
+   String(a.id||'').localeCompare(String(b.id||'')));
+ if(ro&&eligible.length){
+  const used=new Set();
+  for(const [index,doc] of docs.entries()){
+   const selected=[];
+   const offset=Math.max(0,Number(yearPosition)||0)*2+index*2;
+   for(let advance=0;advance<eligible.length&&selected.length<2;advance++){
+    const entry=eligible[(offset+advance)%eligible.length];
+    if(used.has(entry.id))continue;
+    used.add(entry.id);selected.push(entry);
+   }
+   if(selected.length){
+    const extra=selected.map((entry,i)=>[
+     'SUBCAPITOL '+(index+1)+'.'+(i+1)+' · '+entry.title,
+     String(entry.statement||'').trim(),
+     entry.formula&&entry.formula!=='—'?'Relație de studiu: '+entry.formula:'',
+     'Cerință: formulează o explicație proprie și identifică o condiție de aplicare.'
+    ].filter(Boolean).join('\n')).join('\n\n');
+    doc.text+='\n\n'+extra;
+   }
+  }
+ }
  if(zone==='integrated')return [docs[0],docs[3]];
  return docs;
 }
