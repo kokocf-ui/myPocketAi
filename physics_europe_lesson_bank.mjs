@@ -1,6 +1,7 @@
 import {physicsCountryGradePlan} from './physics_europe_frameworks.mjs';
 import {PHYSICS_EUROPE_EXTRA_LESSONS} from './physics_europe_wave_measurement.mjs';
 import {PHYSICS_LOWER_ENGLISH_LESSONS} from './physics_lower_english_lessons.mjs';
+import {PHYSICS_SPACE_LESSONS} from './physics_space_lessons.mjs';
 
 // An ORIGINAL, transparent cross-country *advisory* Physics study bank.
 // It reuses original, individually authored concept/activity cards, not a
@@ -41,7 +42,8 @@ export function physicsAdvisoryTopicLessons({
    .flatMap(x=>(bank?.[x]||[]).filter(entry=>entry.topic===topic))
    .concat(PHYSICS_EUROPE_EXTRA_LESSONS[topic]||[]);
   const english=language!=='ro'?(PHYSICS_LOWER_ENGLISH_LESSONS[topic]||[]):[];
-  const sourceEntries=english.length?english:[...direct,...supplemental];
+  const space=topic==='space'?PHYSICS_SPACE_LESSONS[language==='ro'?'ro':'en']:null;
+  const sourceEntries=space|| (english.length?english:[...direct,...supplemental]);
   const seen=new Set();
   const entries=sourceEntries.filter(entry=>{
    const key=String(entry.title||'').normalize('NFD').toLowerCase().replace(/[^a-z0-9]+/g,'');
