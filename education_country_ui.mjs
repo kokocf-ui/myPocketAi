@@ -239,6 +239,20 @@ function eduYearOptions(code,level,moduleKey){
   // successive, explicitly ADVISORY years so study develops by class.
   if(code==='RO'&&lv==='primary')return numeric(1,4);
   if(code==='GB-ENG'&&lv==='primary')return numeric(1,6,'Y');
+  const matrixStage=lv==='primary'?'beginner':lv;
+  // The generic worldwide P1/L1/U1 fallback is an ISCED approximation,
+  // NOT a verified national class number. Never display those tokens as
+  // official school grades for countries with no mapped year structure.
+  if(typeof EDU_UNMAPPED_STAGE_KEYS!=='undefined'&&
+     EDU_UNMAPPED_STAGE_KEYS.has(code+'|'+matrixStage)){
+   const stageName=lv==='primary'?'primar':lv==='lower'?'gimnazial':'liceal';
+   return Array.from({length:4},(_,i)=>({
+    id:'general-'+lv+'-'+(i+1),
+    ro:'An orientativ '+(i+1)+' · '+stageName,
+    en:'Advisory '+(lv==='primary'?'primary':lv==='lower'?'lower-secondary':'upper-secondary')+' year '+(i+1),
+    curriculumVerified:false,nationalYearVerified:false
+   }));
+  }
   const countryYears=lv==='primary'?
    (EDUCATION_SCHOOL_YEARS_DATA[code]?.primary||EDUCATION_SCHOOL_YEARS_DATA[code]?.beginner):
    source;
