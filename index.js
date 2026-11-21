@@ -54,6 +54,7 @@ import {SCIENCE_RO_LOWER_TOPICS,SCIENCE_RO_PHYSICS_LABELS,SCIENCE_RO_LESSON_EXTR
 import {scienceSchoolLessonMaterial,scienceSchoolLessonAssessment} from './science_school_lesson_material.mjs';
 import {PHYSICS_EUROPE_REFERENCE,PHYSICS_EUROPE_REFERENCES,PHYSICS_ADVISORY_TOPIC_SEQUENCES,PHYSICS_COUNTRY_YEAR_SEQUENCES,physicsCountryGradePlan} from './physics_europe_frameworks.mjs';
 import {PHYSICS_ADVISORY_OER_SOURCES,physicsAdvisoryTopicLessons} from './physics_europe_lesson_bank.mjs';
+import {PHYSICS_PRIMARY_STRANDS,PHYSICS_PRIMARY_SCAFFOLDS,physicsPrimaryYearLessons} from './physics_primary_lessons.mjs';
 import {CHEMISTRY_SPECIALIZATIONS,CHEMISTRY_SPECIALTY_TOPICS,CHEMISTRY_MOLECULES,chemistryVerifiedExercise} from './chemistry_advanced.mjs';
 import {BIOLOGY_TOPICS,BIOLOGY_SPECIALIZATIONS,BIOLOGY_SPECIALTY_TOPICS,biologyVerifiedExercise} from './biology_curriculum.mjs';
 import {mathAdvancedVerifiedModel} from './math_advanced_verified.mjs';
@@ -9059,6 +9060,9 @@ const SCIENCE_RO_2017_SOURCE=${JSON.stringify(SCIENCE_RO_2017_SOURCE)};
 const scienceRoGradeTopics=${scienceRoGradeTopics.toString()};
 const PHYSICS_ADVISORY_OER_SOURCES=${JSON.stringify(PHYSICS_ADVISORY_OER_SOURCES)};
 const physicsAdvisoryTopicLessons=${physicsAdvisoryTopicLessons.toString()};
+const PHYSICS_PRIMARY_STRANDS=${JSON.stringify(PHYSICS_PRIMARY_STRANDS)};
+const PHYSICS_PRIMARY_SCAFFOLDS=${JSON.stringify(PHYSICS_PRIMARY_SCAFFOLDS)};
+const physicsPrimaryYearLessons=${physicsPrimaryYearLessons.toString()};
 const scienceSchoolTopicLessons=${scienceSchoolTopicLessons.toString()};
 const scienceRoAnnualCoverage=${scienceRoAnnualCoverage.toString()};
 const scienceSchoolLessonMaterial=${scienceSchoolLessonMaterial.toString()};
@@ -10755,6 +10759,36 @@ function educationScienceTheoryReader(subjectId,topicId,level){
  const section=document.createElement('section');section.className='science-inline-theory';
  const head=document.createElement('h3');head.textContent=learningLabel('📖 Teme de studiu','📖 Study topics')+' ('+(['primary','lower'].includes(scienceJourney.schoolStage)||scienceJourney.schoolStage==='upper'&&state.language!=='ro'?1:lessons.length)+')';
  section.append(head);
+
+ if(scienceJourney.schoolStage==='primary'&&subjectId==='physics'){
+  const chapter=scienceTopicInfo(),name=learningLabel(chapter?.ro||'',chapter?.en||'');
+  const yearList=eduYearOptions(educationCountrySelection.code,'primary','science');
+  const entries=scienceSchoolTopicLessons({
+   country:educationCountrySelection.code,subject:'physics',stage:'primary',
+   grade:scienceJourney.grade,topic:topicId,years:yearList,
+   lessons:EDUCATION_THEORY_DATA,language:state.language
+  });
+  head.textContent=learningLabel('📖 Lecții de științe fizice','📖 Physical science lessons')+' ('+entries.length+')';
+  const grid=document.createElement('div');grid.className='science-theory-topic-list';
+  grid.style.cssText='display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:8px;';
+  for(const [index,entry] of entries.entries()){
+   const item=document.createElement('button');item.type='button';
+   item.className='secondary-btn science-inline-theory-item';
+   item.style.cssText='white-space:normal;text-align:left;min-height:55px;';
+   item.textContent=(index+1)+'. '+entry.title;
+   item.onclick=()=>{
+    const content=scienceSchoolLessonMaterial({entry,subject:'physics',
+     grade:scienceJourney.grade,chapter:name,language:state.language});
+    const assessment=scienceSchoolLessonAssessment({entry,subject:'physics',
+     topic:topicId,language:state.language});
+    sciencePendingAssessmentSpec={...assessment,stage:'primary',localVerification:false};
+    try{educationOpenPagedLesson(entry.title,content||'')}
+    finally{sciencePendingAssessmentSpec=null}
+   };
+   grid.append(item);
+  }
+  section.append(grid);return section;
+ }
  if(scienceJourney.schoolStage==='primary'){
   const chapter=scienceTopicInfo();
   const lesson=SCIENCE_GRADE_LESSON_FRAME({
@@ -10915,7 +10949,8 @@ function scienceOpenChemistrySection(stage){
   tile('📚','Teme de studiu','Study lessons','Definiții, formule, explicații și exemple','Definitions, formulae, explanations and examples',()=>{
    // Avoid an extra screen containing only a generic 'Open chapter' button.
    // Keep the existing multi-lesson navigator when a chapter really has sublessons.
-   if(['primary','advanced'].includes(scienceJourney.schoolStage)||
+   if((scienceJourney.schoolStage==='primary'&&scienceJourney.subject!=='physics')||
+      scienceJourney.schoolStage==='advanced'||
       scienceJourney.schoolStage==='upper'&&state.language!=='ro'){
     const reader=educationScienceTheoryReader(scienceJourney.subject,topic?.id,scienceJourney.level);
     const single=reader.querySelector('.science-inline-theory-item');
