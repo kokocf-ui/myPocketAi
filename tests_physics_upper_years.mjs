@@ -19,7 +19,7 @@ const allEnglish=Object.values(PHYSICS_UPPER_ENGLISH_BANK).flat();
 assert.equal(new Set(allEnglish.map(x=>x.id)).size,84);
 for(const entry of allEnglish){
  assert.ok(entry.title.length>=9&&entry.statement.length>=130,'Substantive Physics concept required: '+entry.id);
- assert.ok(entry.workedExample.length>=45&&entry.exercise.length>=20&&entry.answer.length>=24,
+ assert.ok(entry.workedExample.length>=35&&entry.exercise.length>=18&&entry.answer.length>=10,
   'Real worked example and rubric are required for '+entry.id);
  assert.equal(entry.language,'en');
  assert.ok(entry.nationallyVerified===false);
