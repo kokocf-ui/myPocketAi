@@ -11164,22 +11164,73 @@ function educationScienceTheoryReader(subjectId,topicId,level){
  }
  if(subjectId==='chemistry'&&typeof chemistrySchoolCourseDocuments==='function'&&['lower','upper'].includes(scienceJourney.schoolStage)){
   const chapter=scienceTopicInfo(),name=learningLabel(chapter?.ro||'',chapter?.en||'');
+  const country=educationCountrySelection.code,schoolStage=scienceJourney.schoolStage;
   const entries=chemistrySchoolCourseDocuments({
-   topic:chapter?.id,country:educationCountrySelection.code,grade:scienceJourney.grade,
-   stage:scienceJourney.schoolStage,yearPosition:scienceJourney.gradePosition,
+   topic:chapter?.id,country,grade:scienceJourney.grade,
+   stage:schoolStage,yearPosition:scienceJourney.gradePosition,
    language:state.language,lessons:EDUCATION_THEORY_DATA
   });
-  if(!entries.length){
+  // Four summaries do not replace the numerous individually authored lessons.
+  const authoredChemistry=schoolStage==='lower'?
+   scienceSchoolTopicLessons({
+    country,subject:'chemistry',grade:scienceJourney.grade,topic:chapter?.id,
+    lessons:EDUCATION_THEORY_DATA,stage:'lower',
+    years:eduYearOptions(country,'lower','science'),language:state.language
+   }):
+   EDUCATION_THEORY_DATA.filter(item=>item.subject==='chemistry'&&
+    item.topic===chapter?.id&&item.level==='intermediate'&&!item.specialty&&
+    item.title&&item.statement);
+  if(!authoredChemistry.length&&!entries.length){
    const alert=document.createElement('p');alert.textContent=learningLabel('Tema nu este disponibilă în acest an.','Chapter unavailable for this grade.');
    section.append(alert);return section;
   }
-  head.textContent=learningLabel('📖 Teme de studiu','📖 Study lessons')+' ('+entries.length+')';
-  for(const part of entries){
-   const button=document.createElement('button');button.type='button';
-   button.className='secondary-btn science-inline-theory-item';
-   button.textContent=learningLabel(part.ro,part.en);
-   button.onclick=()=>educationOpenPagedLesson(name+' · '+learningLabel(part.ro,part.en),part.text);
-   section.append(button);
+  head.textContent=learningLabel('📖 Lecții distincte','📖 Individual lessons')+' ('+authoredChemistry.length+')';
+  if(authoredChemistry.length){
+   const subheading=document.createElement('h4');
+   subheading.textContent=schoolStage==='lower'?
+    learningLabel('Lecțiile capitolului, explicate individual','Individual chapter lessons'):
+    learningLabel('Lecții suplimentare de aprofundare','Additional in-depth lessons');
+   section.append(subheading);
+   const grid=document.createElement('div');grid.className='science-theory-topic-list';
+   grid.style.cssText='display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:8px;width:100%;';
+   for(const [index,entry] of authoredChemistry.entries()){
+    const button=document.createElement('button');button.type='button';
+    button.className='secondary-btn science-inline-theory-item';
+    button.style.cssText='white-space:normal;text-align:left;min-height:55px;overflow-wrap:anywhere;';
+    button.textContent=(index+1)+'. '+entry.title;
+    button.onclick=()=>{
+     const chapterGuide=state.language==='ro'?SCIENCE_GUIDES.chemistry?.[chapter?.id]:
+      SCIENCE_GUIDES_EN.chemistry?.[chapter?.id];
+     const detailed=CHEMISTRY_DETAIL_DATA[entry.id];
+     const material=scienceSchoolLessonMaterial({
+      entry,subject:'chemistry',grade:scienceJourney.grade,chapter:name,
+      language:state.language,guide:chapterGuide,
+      chapterLesson:scienceLowerTopicContent('chemistry',chapter?.id,state.language),
+      detailed
+     });
+     const assessment=scienceSchoolLessonAssessment({
+      entry,subject:'chemistry',topic:chapter?.id,language:state.language,chapterGuide
+     });
+     sciencePendingAssessmentSpec=assessment;
+     try{educationOpenPagedLesson(entry.title,material||entry.statement)}
+     finally{sciencePendingAssessmentSpec=null}
+    };
+    grid.append(button);
+   }
+   section.append(grid);
+  }
+  if(entries.length){
+   const subheading=document.createElement('h4');
+   subheading.textContent=learningLabel('Fișe de sinteză, formule, aplicații și investigații ('+entries.length+')',
+    'Summary, formulas, applications and investigations ('+entries.length+')');
+   section.append(subheading);
+   for(const part of entries){
+    const button=document.createElement('button');button.type='button';
+    button.className='secondary-btn science-inline-theory-item';
+    button.textContent=learningLabel(part.ro,part.en);
+    button.onclick=()=>educationOpenPagedLesson(name+' · '+learningLabel(part.ro,part.en),part.text);
+    section.append(button);
+   }
   }
   return section;
  }
