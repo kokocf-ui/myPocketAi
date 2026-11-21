@@ -17,12 +17,16 @@ assert.ok(Object.values(PHYSICS_UPPER_ENGLISH_BANK).every(rows=>rows.length===6)
  'Each of the 14 areas needs 6 distinct advanced lessons, not one repeated heading');
 const allEnglish=Object.values(PHYSICS_UPPER_ENGLISH_BANK).flat();
 assert.equal(new Set(allEnglish.map(x=>x.id)).size,84);
+const weakEnglish=allEnglish.filter(entry=>
+ entry.title.length<9||entry.statement.length<130||entry.workedExample.length<35||
+ entry.exercise.length<18||entry.answer.length<10).map(entry=>({
+ id:entry.id,statement:entry.statement.length,example:entry.workedExample.length,
+ exercise:entry.exercise.length,answer:entry.answer.length
+}));
+assert.deepEqual(weakEnglish,[],'Each authored upper lesson needs explanatory content, own worked example and an answer key');
 for(const entry of allEnglish){
- assert.ok(entry.title.length>=9&&entry.statement.length>=130,'Substantive Physics concept required: '+entry.id);
- assert.ok(entry.workedExample.length>=35&&entry.exercise.length>=18&&entry.answer.length>=10,
-  'Real worked example and rubric are required for '+entry.id);
  assert.equal(entry.language,'en');
- assert.ok(entry.nationallyVerified===false);
+ assert.equal(entry.nationallyVerified,false);
  assert.doesNotMatch(entry.statement,/sorry|placeholder|coming soon|as an ai/i);
 }
 for(const [country,lower,upper,primary] of [
