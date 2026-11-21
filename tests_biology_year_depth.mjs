@@ -7,7 +7,7 @@ import app from './index.js';
 import {EDUCATION_EUROPE_COUNTRIES,educationCountrySchoolYears} from './education_all_country_subject_matrix.mjs';
 import {BIOLOGY_TOPICS,BIOLOGY_SPECIALIZATIONS,BIOLOGY_SPECIALTY_TOPICS} from './biology_curriculum.mjs';
 import {scienceUniversityChapter} from './science_university_chapters.mjs';
-import {biologyUniversityRoutes,biologyUniversityRoute,biologyUniversityYears,biologyUniversityCourseChoices,biologyUniversityCapstoneText} from './biology_university_years.mjs';
+import {biologyUniversityRoutes,biologyUniversityRoute,biologyUniversityYears,biologyUniversityCourseChoices,BIOLOGY_UNIVERSITY_ADVISORY_ELECTIVES,biologyUniversityCapstoneText} from './biology_university_years.mjs';
 import {THEORY_ENTRIES} from './education_theory.mjs';
 import {scienceGradeTopicPlan} from './science_grade_progression.mjs';
 import {scienceSchoolTopicLessons} from './science_ro_course_plan.mjs';
@@ -20,14 +20,15 @@ assert.equal(BIOLOGY_UPPER_YEAR_TOPICS.length,4);
 assert.deepEqual(BIOLOGY_UPPER_YEAR_TOPICS.map(x=>x.length),[4,3,4,4]);
 assert.equal(BIOLOGY_UPPER_YEAR_BANK.length,15,'Each selected annual chapter has authored study lessons');
 const flat=BIOLOGY_UPPER_YEAR_BANK.flatMap(ch=>ch.lessons);
-assert.equal(flat.length,45,'Four distinct Biology years have 45 original year-specific study lessons');
-assert.equal(new Set(flat.map(x=>x.id)).size,45,'All year-specific lesson IDs must differ');
-assert.equal(new Set(flat.map(x=>x.title)).size,45,'Do not repeat generic lesson titles');
+assert.equal(flat.length,90,'Four distinct Biology years have 90 original year-specific study lessons');
+assert.equal(new Set(flat.map(x=>x.id)).size,90,'All year-specific lesson IDs must differ');
+assert.equal(new Set(flat.map(x=>x.title)).size,90,'Do not repeat generic lesson titles');
 const knownTopics=new Set(BIOLOGY_TOPICS.map(x=>x.id));
 for(const chapter of BIOLOGY_UPPER_YEAR_BANK){
  assert.ok(knownTopics.has(chapter.topic),'Unknown chapter '+chapter.topic);
  assert.ok(BIOLOGY_UPPER_YEAR_TOPICS[chapter.year].includes(chapter.topic));
- assert.equal(chapter.lessons.length,3,'Chapter needs three individually selectable lessons');
+ assert.equal(chapter.lessons.length,6,'Every upper Biology chapter needs six individual lessons');
+ assert.equal(new Set(chapter.lessons.map(x=>x.id)).size,6,'Duplicate lesson within upper chapter');
  for(const entry of chapter.lessons){
   for(const key of ['id','title','statement','workedExample','exercise','answer','formula'])
    assert.ok(String(entry[key]||'').length>=5,entry.id+' missing '+key);
@@ -51,14 +52,14 @@ for(const [pos,year] of roYears.entries()){
   const entries=scienceSchoolTopicLessons({country:'RO',subject:'biology',grade:year.id,
    stage:'upper',topic:topic.id,years:roYears,lessons:THEORY_ENTRIES,language:'ro'});
   const fromBank=biologyUpperYearLessons({country:'RO',grade:year.id,topic:topic.id,years:roYears});
-  assert.equal(entries.length,3,'Chapter badge must match its real accessible cards');
+  assert.equal(entries.length,6,'Chapter badge must match its real accessible cards');
   assert.deepEqual(entries.map(x=>x.id),fromBank.map(x=>x.id));
   all.push(...entries);
  }
- assert.equal(all.length,plan.topics.length*3);
+ assert.equal(all.length,plan.topics.length*6);
  allRo.push(...all.map(x=>x.id));
 }
-assert.equal(new Set(allRo).size,45,'Romanian high-school grades must not repeat the same annual lesson');
+assert.equal(new Set(allRo).size,90,'Romanian high-school grades must not repeat the same annual lesson');
 let countriesChecked=0,gradesChecked=0;
 for(const country of EDUCATION_EUROPE_COUNTRIES){
  const yearList=educationCountrySchoolYears(country,'medium').years;
@@ -71,7 +72,7 @@ for(const country of EDUCATION_EUROPE_COUNTRIES){
   for(const topic of plan.topics){
    const entries=scienceSchoolTopicLessons({country,subject:'biology',grade:y.id,topic:topic.id,
     stage:'upper',years:yearList,lessons:THEORY_ENTRIES});
-   assert.equal(entries.length,3,country+'/'+y.id+'/'+topic.id+' unexpected badge/reader mismatch');
+   assert.equal(entries.length,6,country+'/'+y.id+'/'+topic.id+' unexpected badge/reader mismatch');
    assert.ok(entries.every(x=>x.grade===String(y.id)),'Never replace local school-year label');
   }
   gradesChecked++;
@@ -96,8 +97,11 @@ for(const country of EDUCATION_EUROPE_COUNTRIES){
     topics:[...BIOLOGY_TOPICS,...BIOLOGY_SPECIALTY_TOPICS],
     specializations:BIOLOGY_SPECIALIZATIONS
    }));
-   assert.equal(courses.length,15,country+'/'+specialty.id+' courses');
-   assert.equal(new Set(courses.map(x=>x.id)).size,15,'No duplicated university courses across years');
+   const expectedCourses=new Set([...specialty.core,...(BIOLOGY_UNIVERSITY_ADVISORY_ELECTIVES[specialty.id]||[])]).size+5;
+   assert.equal(courses.length,expectedCourses,country+'/'+specialty.id+' courses');
+   assert.equal(new Set(courses.map(x=>x.id)).size,expectedCourses,'No duplicated university courses across years');
+   if(specialty.id==='anatomy')assert.ok(!courses.some(x=>x.id==='plants'),'Anatomy route must not include unrelated plant biology');
+
    for(const course of courses){
     assert.ok(course.university&&course.courseYear>=1&&course.courseYear<=route.years);
     if(course.id==='biology-capstone'){
@@ -243,6 +247,6 @@ for(const year of roYears){
   }
  }
 }
-assert.equal(clickableLessons,45,'Every high-school Biology lesson must open from the real reader');
-console.log('PASS Biology: 45 distinct authored upper lessons, '+countriesChecked+
+assert.equal(clickableLessons,90,'Every high-school Biology lesson must open from the real reader');
+console.log('PASS Biology: 90 distinct authored upper lessons, '+countriesChecked+
  ' European country paths and '+gradesChecked+' grades, 20 references, WebView syntax and matching lesson counts');
