@@ -56,6 +56,22 @@ for(const country of ['EE','LV']){
  assert.ok(physicsCountryGradePlan({country,stage:'lower',grade:'8',years}).topics.length>=4,
   country+' Grade 8 provides distinct Physics programme');
 }
+for(const [code,lower,notOffered] of [
+ ['SK',['5','6','7','8','9'],'5'],
+ ['SI',['7','8','9'],'7'],
+ ['BG',['5','6','7'],'5'],
+ ['CY',['G1','G2','G3'],null]
+]){
+ const school=educationCountrySchoolYears(code,'lower').years;
+ assert.deepEqual(school.map(x=>x.id),lower,
+  code+' correct national school year identifiers are required');
+ if(notOffered)assert.equal(physicsCountryGradePlan({
+  country:code,stage:'lower',grade:notOffered,years:school
+ }).status,'not-offered',
+  code+' cannot present a separate Physics programme before its national entry grade');
+ const final=physicsCountryGradePlan({country:code,stage:'lower',grade:school.at(-1).id,years:school});
+ assert.ok(final.topics.length>=4,code+' taught year needs substantive Physics areas');
+}
 const frYears=educationCountrySchoolYears('FR','lower').years;
 assert.equal(physicsCountryGradePlan({country:'FR',grade:'6e',stage:'lower',years:frYears}).kind,'integrated',
  'France 6e uses integrated science, not a mandatory separate Physique-Chimie subject');
