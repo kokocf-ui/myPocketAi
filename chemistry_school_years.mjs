@@ -10,7 +10,7 @@ export const CHEMISTRY_GRADE_FRAMEWORKS=Object.freeze({
      noteEn:'Separate Chemistry begins in Year 7 (Romanian grade VII). Topics follow OMEN 3393/2017; lesson order is the teacher’s choice.'}
 });
 export const CHEMISTRY_ENGLAND_KS3='https://www.gov.uk/government/publications/national-curriculum-in-england-science-programmes-of-study/national-curriculum-in-england-science-programmes-of-study';
-export function chemistryGradeTopicPlan({country='',stage='lower',grade='',years=[],topics=[]}={}){
+export function chemistryGradeTopicPlan({country='',stage='lower',grade='',years=[],topics=[]}={},fallbackPlan=scienceGradeTopicPlan){
  const id=String(grade),known=CHEMISTRY_GRADE_FRAMEWORKS[country]?.[stage]?.[id];
  if(known){
   const registry=new Map(topics.filter(x=>!x.specialty).map(t=>[t.id,t]));
@@ -34,7 +34,7 @@ export function chemistryGradeTopicPlan({country='',stage='lower',grade='',years
  }
  // Keep each country’s real school-year labels from eduYearOptions, without
  // inventing national grade equivalences; each stage varies per actual year.
- return scienceGradeTopicPlan({country,subject:'chemistry',stage,grade,years,topics});
+ return fallbackPlan({country,subject:'chemistry',stage,grade,years,topics});
 }
 export function chemistryVisualizationFor({topic='',stage='',grade='',courseVisual=''}={}){
  const t=String(topic||'');
