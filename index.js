@@ -59,6 +59,7 @@ import {BIOLOGY_TOPICS,BIOLOGY_SPECIALIZATIONS,BIOLOGY_SPECIALTY_TOPICS,biologyV
 import {mathAdvancedVerifiedModel} from './math_advanced_verified.mjs';
 import {PHYSICS_TOPICS,PHYSICS_SPECIALIZATIONS} from './physics_curriculum.mjs';
 import {PHYSICS_LAWS,PHYSICS_LAWS_GROUPS} from './physics_laws_reference.mjs';
+import {CHEMISTRY_LAWS,CHEMISTRY_LAWS_GROUPS} from './chemistry_laws_reference.mjs';
 import {PHYSICS_UNIVERSITY_PROFILES,PHYSICS_UNIVERSITY_EHEA_SOURCE,physicsUniversityRoutes,physicsUniversityYears,physicsUniversityRoute} from './physics_university_europe.mjs';
 import {PHYSICS_UNIVERSITY_ALL_COURSES,physicsUniversityCourseChoices,physicsUniversityStudyDocument} from './physics_university_study.mjs';
 import {physicsVerifiedExercise} from './physics_verified.mjs';
@@ -8146,7 +8147,7 @@ function scienceVoiceStop(){
 function scienceBack(){
  const current=scienceJourney.stage;
  scienceVoiceStop();scienceStopRequest();
- if(current==='physics-laws')scienceJourney.stage='years';
+ if(current==='physics-laws'||current==='chemistry-laws')scienceJourney.stage='years';
  else if(current==='workspace')scienceJourney.stage='chemistry-menu';
  else if(current==='chemistry-lessons'||current==='chemistry-lab')scienceJourney.stage='chemistry-menu';
  else if(current==='chemistry-menu')scienceJourney.stage='topics';
@@ -8239,7 +8240,8 @@ function scienceYearGroups(){
   {level:'intermediate',schoolStage:'upper',ro:'Liceu / nivel mediu',en:'Upper secondary / intermediate'},
   {level:'advanced',schoolStage:'advanced',ro:'Universitate și specializări',en:'University and specialisations'}
  ];
- return bands.map(band=>{
+ // Primary integrated science must not appear as standalone Physics/Chemistry.
+ return bands.filter(band=>!(band.schoolStage==='primary'&&['physics','chemistry'].includes(scienceJourney.subject))).map(band=>{
   let years=eduYearOptions(country,band.schoolStage==='upper'?'intermediate':band.schoolStage,'science').filter(entry=>entry&&entry.id);
   if(country==='RO'&&band.schoolStage==='lower')
    years=years.filter(entry=>Number.isInteger(Number(entry.id))&&Number(entry.id)>=minRo&&Number(entry.id)<=8);
@@ -8257,10 +8259,11 @@ function scienceYearGroups(){
  }).filter(group=>group.years.length);
 }
 
-function sciencePhysicsLawText(law){
+function sciencePhysicsLawText(law,subject='physics'){
  return [
   '# '+learningLabel(law.ro,law.en),
-  learningLabel('Referință generală de fizică; nu este programă națională certificată.','General Physics reference; not a certified national curriculum.'),
+  subject==='chemistry'?learningLabel('Referință generală de chimie; nu este programă națională certificată.','General Chemistry reference; not a certified national curriculum.'):
+   learningLabel('Referință generală de fizică; nu este programă națională certificată.','General Physics reference; not a certified national curriculum.'),
   '# '+learningLabel('Enunț și explicație','Statement and explanation'),
   learningLabel(law.explainRo,law.explainEn),
   '# '+learningLabel('Legea sau relația matematică','Mathematical relation'),
@@ -8286,7 +8289,7 @@ function scienceJourneyShowChoices(stage){
  root.classList.toggle('science-choice-stage',stage!=='workspace');
  root.classList.toggle('science-subject-stage',stage==='subjects');
  root.classList.toggle('science-year-stage',stage==='years');
- root.classList.toggle('science-scroll-stage',stage==='years'||stage==='physics-laws');
+ root.classList.toggle('science-scroll-stage',stage==='years'||stage==='physics-laws'||stage==='chemistry-laws');
  $('moduleTitle').textContent=learningLabel('Științe','Sciences')+
   (stage==='subjects'?'':' · '+learningLabel(scienceSubjectInfo()?.ro||'',scienceSubjectInfo()?.en||''));
  $('moduleLead').textContent='';
@@ -8306,6 +8309,11 @@ function scienceJourneyShowChoices(stage){
   tableButton.textContent=learningLabel('🧪 Tabloul periodic','🧪 Periodic table');
   tableButton.onclick=()=>chemistryVisualOpen('periodic','');
   bar.append(tableButton);
+  const chemistryLawsButton=document.createElement('button');chemistryLawsButton.type='button';
+  chemistryLawsButton.className='secondary-btn science-laws-entry';
+  chemistryLawsButton.textContent=learningLabel('⚖️ Legi și principii','⚖️ Laws and principles');
+  chemistryLawsButton.onclick=()=>scienceJourneyShowChoices('chemistry-laws');
+  bar.append(chemistryLawsButton);
  }
  if(stage==='years'&&scienceJourney.subject==='physics'){
   const lawsButton=document.createElement('button');lawsButton.type='button';
@@ -8320,12 +8328,13 @@ function scienceJourneyShowChoices(stage){
  title.textContent=stage==='subjects'?learningLabel('Alege materia','Choose subject'):
   stage==='years'?learningLabel('Alege clasa / anul de studiu','Choose grade / school year'):
   stage==='physics-laws'?learningLabel('Legi și teoreme ale fizicii','Physics laws and theorems'):
+  stage==='chemistry-laws'?learningLabel('Legi și principii ale chimiei','Chemistry laws and principles'):
   stage==='specialties'?learningLabel('Alege specializarea universitară','Choose university specialization'):
   learningLabel('Alege capitolul','Choose chapter');
  const note=document.createElement('p');
  note.textContent=stage==='subjects'?
   learningLabel('Selectează una dintre cele patru materii.','Choose one of the four subjects.'):
-  stage==='physics-laws'?learningLabel('Referință generală fără alegerea clasei. Fiecare explicație conține un exemplu și condițiile de aplicare.','General reference without grade selection; each entry explains an example and its limitations.'):
+  (stage==='physics-laws'||stage==='chemistry-laws')?learningLabel('Referință generală fără alegerea clasei. Fiecare explicație conține un exemplu și condițiile de aplicare.','General reference without grade selection; each entry explains an example and its limitations.'):
   stage==='years'?
   educationCountrySelection.label+' · '+
    learningLabel('Selectează clasa sau anul pentru materia aleasă.','Choose the grade or school year for the selected subject.')+
@@ -8339,24 +8348,27 @@ function scienceJourneyShowChoices(stage){
    (scienceJourney.schoolStage==='primary'?' '+learningLabel('La primar, disciplinele sunt explorate integrat, fără a le declara obligatorii separat.','In primary school these sciences are explored together, not declared separate compulsory subjects.'):'');
  const list=document.createElement('div');
  list.className='math-choice-list science-choice-list';
- if(stage==='physics-laws'){
+ if(stage==='physics-laws'||stage==='chemistry-laws'){
+  const chemistryLaws=stage==='chemistry-laws';
+  const lawGroups=chemistryLaws?CHEMISTRY_LAW_GROUPS:PHYSICS_LAW_GROUPS;
+  const lawData=chemistryLaws?CHEMISTRY_LAWS_DATA:PHYSICS_LAWS_DATA;
   list.className+=' science-laws-list';
   const filter=document.createElement('input');filter.type='search';
   filter.className='science-laws-filter';
   filter.placeholder=learningLabel('Caută legea sau teorema…','Search laws and theorems…');
   filter.setAttribute('aria-label',filter.placeholder);
   const entries=[];
-  for(const group of PHYSICS_LAW_GROUPS){
+  for(const group of lawGroups){
    const section=document.createElement('section');section.className='science-law-group';
    const heading=document.createElement('h3');heading.textContent=learningLabel(group.ro,group.en);
    const rows=document.createElement('div');rows.className='science-law-tiles';
-   for(const law of PHYSICS_LAWS_DATA.filter(item=>item.group===group.id)){
+   for(const law of lawData.filter(item=>item.group===group.id)){
     const button=document.createElement('button');button.type='button';
     button.className='secondary-btn science-law-tile';
     const name=document.createElement('strong');name.textContent=learningLabel(law.ro,law.en);
     const relation=document.createElement('small');relation.textContent=law.formula;
     button.append(name,relation);
-    button.onclick=()=>educationOpenPagedLesson(learningLabel(law.ro,law.en),sciencePhysicsLawText(law));
+    button.onclick=()=>educationOpenPagedLesson(learningLabel(law.ro,law.en),sciencePhysicsLawText(law,chemistryLaws?'chemistry':'physics'));
     rows.append(button);entries.push({law,button,section});
    }
    section.append(heading,rows);list.append(section);
@@ -8368,7 +8380,7 @@ function scienceJourneyShowChoices(stage){
     const value=educationTheoryClean(law.ro+' '+law.en+' '+law.formula);
     item.button.hidden=Boolean(q&&!value.includes(q));
    }
-   for(const group of PHYSICS_LAW_GROUPS){
+   for(const group of lawGroups){
     const section=entries.find(item=>item.law.group===group.id)?.section;
     if(section)section.hidden=!entries.some(item=>item.law.group===group.id&&!item.button.hidden);
    }
@@ -9154,6 +9166,8 @@ const SCIENCE_GRADE_LESSON_FRAME=${scienceGradeLessonFrame.toString()};
 const PHYSICS_TOPIC_DATA=${JSON.stringify(PHYSICS_TOPICS)};
 const PHYSICS_LAWS_DATA=${JSON.stringify(PHYSICS_LAWS)};
 const PHYSICS_LAW_GROUPS=${JSON.stringify(PHYSICS_LAWS_GROUPS)};
+const CHEMISTRY_LAWS_DATA=${JSON.stringify(CHEMISTRY_LAWS)};
+const CHEMISTRY_LAW_GROUPS=${JSON.stringify(CHEMISTRY_LAWS_GROUPS)};
 const PHYSICS_UNIVERSITY_PROFILES=${JSON.stringify(PHYSICS_UNIVERSITY_PROFILES)};
 const PHYSICS_UNIVERSITY_EHEA_SOURCE=${JSON.stringify(PHYSICS_UNIVERSITY_EHEA_SOURCE)};
 const physicsUniversityRoutes=${physicsUniversityRoutes.toString()};
@@ -23535,6 +23549,34 @@ main.page:has(#view-module.learning-science.science-scroll-stage.active){
  margin-left:auto!important;padding:7px 10px!important;white-space:normal!important;
 }
 
+
+/* Scroll the page normally on long science year/law menus. Android's nested
+   100%-height grid scrollers previously left only a very small touch area. */
+main.page:has(#view-module.learning-science.science-scroll-stage.active){
+ flex:1 1 auto!important;height:auto!important;max-height:none!important;
+ min-height:0!important;overflow-y:auto!important;
+ padding-bottom:calc(100px + env(safe-area-inset-bottom))!important;
+ scroll-padding-bottom:110px!important;touch-action:pan-y!important;
+}
+#view-module.learning-science.science-scroll-stage.active{
+ display:block!important;height:auto!important;max-height:none!important;
+ min-height:0!important;overflow:visible!important;
+}
+#view-module.learning-science.science-scroll-stage.active > #moduleContent,
+#view-module.learning-science.science-scroll-stage.active .science-choice-panel{
+ height:auto!important;max-height:none!important;min-height:0!important;overflow:visible!important;
+}
+#view-module.learning-science.science-scroll-stage.active .science-choice-list{
+ height:auto!important;max-height:none!important;min-height:0!important;
+ flex:0 0 auto!important;overflow:visible!important;touch-action:pan-y!important;
+ overscroll-behavior:auto!important;
+}
+#view-module.learning-science.science-scroll-stage.active .science-stage-toolbar{
+ display:flex!important;flex-wrap:wrap!important;gap:7px!important;
+}
+#view-module.learning-science.science-scroll-stage.active .science-stage-toolbar .science-laws-entry{
+ margin-left:0!important;flex:1 1 120px!important;
+}
 
 /* University Physics route selector reuses the scrolling study-year band. */
 #view-module.learning-science.science-year-stage.active .science-university-route-picker{
