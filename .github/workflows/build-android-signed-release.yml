@@ -360,11 +360,9 @@ jobs:
           node tests_android_ui_preview.mjs
           node tests_math_whisper_pilot.mjs
           node tests_romania_provider_readiness.mjs
-      - name: Bundle exact PR frontend for preview-only APK
-        run: node scripts/build_android_ui_preview.mjs
       - name: Assemble signed release
         env:
-          POCKET_TOOLS_UI_PREVIEW: ${{ github.event_name == 'pull_request' && 'true' || 'false' }}
+          POCKET_TOOLS_UI_PREVIEW: 'false'
           POCKET_STORE_PASSWORD: ${{ secrets.POCKET_STORE_PASSWORD }}
           POCKET_KEY_PASSWORD: ${{ secrets.POCKET_KEY_PASSWORD }}
           POCKET_FIREBASE_API_KEY: ${{ vars.POCKET_FIREBASE_API_KEY }}
@@ -377,7 +375,10 @@ jobs:
           set -euo pipefail
           APK=android/app/build/outputs/apk/release/app-release.apk
           test -s "$APK"
-          unzip -l "$APK" | grep -F 'assets/tools-ui-preview.html'
+          if unzip -l "$APK" | grep -Fq 'assets/tools-ui-preview.html'; then
+            echo 'ERROR: production APK contains retired UI preview snapshot' >&2
+            exit 1
+          fi
           "$ANDROID_HOME/build-tools/35.0.0/apksigner" verify --print-certs "$APK"
           "$ANDROID_HOME/build-tools/35.0.0/aapt" dump badging "$APK" | head -1
       - uses: actions/upload-artifact@v4

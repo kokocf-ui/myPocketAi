@@ -3,7 +3,7 @@ import {readFileSync} from 'node:fs';
 const java=readFileSync('android/app/src/main/java/ai/mypocket/mobile/MainActivity.java','utf8');
 const gradle=readFileSync('android/app/build.gradle','utf8');
 const flow=readFileSync('.github/workflows/build-android-signed-release.yml','utf8');
-const bundler=readFileSync('scripts/build_android_ui_preview.mjs','utf8');
+
 
 assert.match(java,/BuildConfig\.TOOLS_UI_PREVIEW && request\.isForMainFrame\(\)/,
  'Only test builds may intercept top-level UI');
@@ -19,11 +19,14 @@ assert.match(java,/return super\.shouldInterceptRequest\(view,request\);/,
  'Other requests retain existing remote behavior');
 assert.match(gradle,/buildConfigField 'boolean', 'TOOLS_UI_PREVIEW', \(System\.getenv\('POCKET_TOOLS_UI_PREVIEW'\) == 'true'/,
  'Preview flag must default false');
-assert.match(flow,/name: Bundle exact PR frontend for preview-only APK/);
-assert.match(flow,/run: node scripts\/build_android_ui_preview\.mjs/);
-assert.match(flow,/POCKET_TOOLS_UI_PREVIEW: \$\{\{ github\.event_name == 'pull_request' && 'true' \|\| 'false' \}\}/,
- 'Signed main APK must use live Cloudflare UI; only pull-request previews can intercept it');
-assert.match(flow,/assets\/tools-ui-preview\.html/);
-assert.match(bundler,/response\.status,200/);
-assert.match(bundler,/extraCreatorLocalHtml/);
-console.log('PASS: main signed APK uses live Cloudflare UI, while allowed PR previews bundle branch UI');
+assert.doesNotMatch(flow,/Bundle exact PR frontend for preview-only APK/,
+ 'Production release must not generate an archived UI snapshot');
+assert.doesNotMatch(flow,/run: node scripts\/build_android_ui_preview\.mjs/,
+ 'Production workflow must not inject a preview HTML file');
+assert.match(flow,/POCKET_TOOLS_UI_PREVIEW: 'false'/,
+ 'Signed main APK must exclusively use the Cloudflare frontend');
+assert.match(flow,/if unzip -l "\$APK" \| grep -Fq 'assets\/tools-ui-preview\.html'/,
+ 'Production APK verification must reject old UI snapshots');
+
+
+console.log('PASS: signed main APK uses Cloudflare UI and refuses obsolete bundled previews');
