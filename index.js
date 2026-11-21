@@ -10817,7 +10817,7 @@ function educationScienceTheoryReader(subjectId,topicId,level){
   const entries=chemistrySchoolCourseDocuments({
    topic:chapter?.id,country:educationCountrySelection.code,grade:scienceJourney.grade,
    stage:scienceJourney.schoolStage,yearPosition:scienceJourney.gradePosition,
-   language:state.language
+   language:state.language,lessons:EDUCATION_THEORY_DATA
   });
   if(!entries.length){
    const alert=document.createElement('p');alert.textContent=learningLabel('Tema nu este disponibilă în acest an.','Chapter unavailable for this grade.');
@@ -11000,7 +11000,8 @@ function scienceOpenChemistrySection(stage){
    }else{
     const docs=chemistrySchoolCourseDocuments({
      topic:topicKey,country:educationCountrySelection.code,grade:scienceJourney.grade,
-     stage:scienceJourney.schoolStage,yearPosition:scienceJourney.gradePosition,language:state.language
+     stage:scienceJourney.schoolStage,yearPosition:scienceJourney.gradePosition,
+     language:state.language,lessons:EDUCATION_THEORY_DATA
     });
     const study=docs.find(x=>x.id===topicKey+'-enquiry');
     if(study)tile('🧪','Investigație explicată','Explained enquiry',
