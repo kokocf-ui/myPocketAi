@@ -44,8 +44,7 @@ export function physicsAdvisoryTopicLessons({
   const sourceEntries=english.length?english:[...direct,...supplemental];
   const seen=new Set();
   const entries=sourceEntries.filter(entry=>{
-   const key=String(entry.title||'').normalize('NFD')
-    .replace(/[\\u0300-\\u036f]/g,'').toLowerCase();
+   const key=String(entry.title||'').normalize('NFD').toLowerCase().replace(/[^a-z0-9]+/g,'');
    if(seen.has(key))return false;
    seen.add(key);return true;
   });
