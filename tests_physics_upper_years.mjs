@@ -40,6 +40,22 @@ for(const [country,lower,upper,primary] of [
    country+' should have correct national year identifiers and duration');
  }
 }
+for(const [country,primary,lower,upper] of [
+ ['CZ',['1','2','3','4','5'],['6','7','8','9'],['G1','G2','G3','G4']],
+ ['EE',['1','2','3','4','5','6'],['7','8','9'],['10','11','12']],
+ ['LV',['1','2','3','4','5','6'],['7','8','9'],['10','11','12']]
+]){
+ assert.deepEqual(educationCountrySchoolYears(country,'beginner').years.map(x=>x.id),primary);
+ assert.deepEqual(educationCountrySchoolYears(country,'lower').years.map(x=>x.id),lower);
+ assert.deepEqual(educationCountrySchoolYears(country,'medium').years.map(x=>x.id),upper);
+}
+for(const country of ['EE','LV']){
+ const years=educationCountrySchoolYears(country,'lower').years;
+ assert.equal(physicsCountryGradePlan({country,stage:'lower',grade:'7',years}).status,'not-offered',
+  country+' Grade 7 is integrated natural science, not separate Physics');
+ assert.ok(physicsCountryGradePlan({country,stage:'lower',grade:'8',years}).topics.length>=4,
+  country+' Grade 8 provides distinct Physics programme');
+}
 const frYears=educationCountrySchoolYears('FR','lower').years;
 assert.equal(physicsCountryGradePlan({country:'FR',grade:'6e',stage:'lower',years:frYears}).kind,'integrated',
  'France 6e uses integrated science, not a mandatory separate Physique-Chimie subject');
