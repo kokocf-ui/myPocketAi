@@ -4,6 +4,7 @@ import app from './index.js';
 import {EDUCATION_COUNTRY_UI_SCRIPT} from './education_country_ui.mjs';
 import {EDUCATION_SCHOOL_YEARS} from './education_school_paths.mjs';
 import {physicsUniversityYears} from './physics_university_europe.mjs';
+import {astronomyUniversityYears} from './astronomy_university_courses.mjs';
 import {scienceGradeTopicPlan} from './science_grade_progression.mjs';
 import {PHYSICS_TOPICS} from './physics_curriculum.mjs';
 
@@ -20,7 +21,7 @@ const environment={
  EDUCATION_SCHOOL_YEARS_DATA:EDUCATION_SCHOOL_YEARS,
  worldwideSchoolYears:()=>[],
  scienceJourney:{subject:'physics',universityRoute:null},
- physicsUniversityYears,
+ physicsUniversityYears,astronomyUniversityYears,
  SCIENCE_GRADE_TOPIC_PLAN:scienceGradeTopicPlan,PHYSICS_TOPIC_DATA:PHYSICS_TOPICS,
  educationCountrySelection:{code:'RO'}
 };
@@ -39,6 +40,7 @@ fn.journey.subject='biology';
 assert.deepEqual(groups()[1].ids,['5','6','7','8'],'Romania Biology lower stage begins at grade 5');
 fn.journey.subject='astronomy';
 assert.deepEqual(groups()[1].ids,['5','6','7','8'],'Astronomy advisory lower years explicitly labeled');
+assert.deepEqual(groups()[2].ids,['univ-1','univ-2','univ-3'],'Astronomy advisory university stages are year-specific');
 fn.country.code='GB-ENG';fn.journey.subject='physics';
 const uk=groups();
 assert.ok(uk.every(x=>x.schoolStage!=='primary'),'England primary integrated science is not a standalone Physics year');
