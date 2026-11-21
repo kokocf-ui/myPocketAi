@@ -81,10 +81,16 @@ const sandbox={
  renderLearningSubjects:()=>{home++},
  Math
 };
+const chemistryLessonsBegin=script.indexOf('function scienceChemistryUpperLessonEntries(');
+const chemistryLessonsEnd=script.indexOf('function educationScienceTheoryReader(',chemistryLessonsBegin);
+assert.ok(chemistryLessonsBegin>0&&chemistryLessonsEnd>chemistryLessonsBegin,
+ 'Actual WebView must expose the shared high-school Chemistry lesson catalogue');
 const chemistryBegin=script.indexOf('function scienceOpenChemistrySection(stage){');
 const chemistryEnd=script.indexOf('function scienceOpenWorkspace(){',chemistryBegin);
 assert.ok(chemistryBegin>0&&chemistryEnd>chemistryBegin,'Chemistry section renderer exists');
-const api=vm.runInNewContext('let activeLearningSubject=null;'+script.slice(start,end)+
+const api=vm.runInNewContext('let activeLearningSubject=null;'+
+ script.slice(chemistryLessonsBegin,chemistryLessonsEnd)+
+ script.slice(start,end)+
  script.slice(chemistryBegin,chemistryEnd)+
  '\n({open:scienceJourneyShowChoices,back:scienceBack,state:scienceJourney,subjects:SCIENCE_SUBJECTS})',sandbox);
 api.open('subjects');
