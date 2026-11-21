@@ -78,6 +78,8 @@ import {CHEMISTRY_SPECIALIZATIONS,CHEMISTRY_SPECIALTY_TOPICS,CHEMISTRY_SPECIALTY
 import {BIOLOGY_TOPICS,BIOLOGY_SPECIALIZATIONS,BIOLOGY_SPECIALTY_TOPICS,biologyVerifiedExercise} from './biology_curriculum.mjs';
 import {BIOLOGY_UPPER_YEAR_TOPICS,BIOLOGY_UPPER_YEAR_BANK,biologyUpperYearLessons} from './biology_upper_course.mjs';
 import {BIOLOGY_REFERENCE_GROUPS,BIOLOGY_REFERENCE,biologyReferenceText} from './biology_reference.mjs';
+import {BIOLOGY_UNIVERSITY_DEFAULT_YEARS,BIOLOGY_UNIVERSITY_CYCLE_REFERENCE,
+ biologyUniversityRoutes,biologyUniversityRoute,biologyUniversityYears,biologyUniversityCourseChoices,biologyUniversityCapstoneText} from './biology_university_years.mjs';
 import {mathAdvancedVerifiedModel} from './math_advanced_verified.mjs';
 import {PHYSICS_TOPICS,PHYSICS_SPECIALIZATIONS} from './physics_curriculum.mjs';
 import {PHYSICS_LAWS,PHYSICS_LAWS_GROUPS} from './physics_laws_reference.mjs';
@@ -8161,6 +8163,13 @@ function scienceTopicChoices(){
   return chemistryUniversityCourseChoices({year:Number(String(scienceJourney.grade).slice(-1)),specialty:scienceJourney.specialty});
  if(subject==='physics'&&scienceJourney.schoolStage==='advanced'&&/^univ-[1-5]$/.test(String(scienceJourney.grade||'')))
   return physicsUniversityCourseChoices({year:Number(String(scienceJourney.grade).slice(-1)),specialty:scienceJourney.specialty});
+ if(subject==='biology'&&scienceJourney.schoolStage==='advanced'&&/^univ-[1-4]$/.test(String(scienceJourney.grade||''))&&scienceJourney.specialty){
+  const route=biologyUniversityRoute(educationCountrySelection.code,scienceJourney.universityRoute);
+  return biologyUniversityCourseChoices({
+   year:Number(String(scienceJourney.grade).slice(-1)),years:route.years,
+   specialty:scienceJourney.specialty,topics:BIOLOGY_TOPIC_DATA,specializations:BIOLOGY_SPECIALTY_DATA
+  });
+ }
  if(subject==='chemistry'&&scienceJourney.schoolStage==='upper'&&typeof chemistryGradeTopicPlan==='function'){
   // Use the actual grade-specific high-school course plan. Do not derive the
   // visible chapters from the generic lesson bank or the subject grid.
@@ -8310,7 +8319,9 @@ function scienceYearGroups(){
    years=years.filter(entry=>Number.isInteger(Number(entry.id))&&Number(entry.id)>=9&&Number(entry.id)<=12);
   if(band.schoolStage==='advanced')years=scienceJourney.subject==='physics'?
    physicsUniversityYears(country,scienceJourney.universityRoute):
-   scienceJourney.subject==='chemistry'&&typeof chemistryUniversityYears==='function'?chemistryUniversityYears(country,scienceJourney.universityRoute):years.slice(0,1);
+   scienceJourney.subject==='chemistry'&&typeof chemistryUniversityYears==='function'?chemistryUniversityYears(country,scienceJourney.universityRoute):
+   scienceJourney.subject==='biology'&&typeof biologyUniversityYears==='function'?biologyUniversityYears(country,scienceJourney.universityRoute):
+   years.slice(0,1);
   years=years.filter(entry=>{
    const key=band.schoolStage+':'+String(entry.id);
    if(seen.has(key))return false;
@@ -8492,7 +8503,7 @@ function scienceJourneyShowChoices(stage){
   stage==='years'?[]:
   stage==='specialties'?(scienceJourney.subject==='physics'?PHYSICS_SPECIALTY_DATA:scienceJourney.subject==='biology'?BIOLOGY_SPECIALTY_DATA:scienceJourney.subject==='astronomy'?ASTRONOMY_SPECIALTY_DATA:CHEMISTRY_SPECIALTY_DATA):
   scienceTopicChoices().filter(topic=>{
-   if(['physics','chemistry'].includes(scienceJourney.subject)&&scienceJourney.schoolStage==='advanced')return true;
+   if(['physics','chemistry','biology'].includes(scienceJourney.subject)&&scienceJourney.schoolStage==='advanced')return true;
    if(!['physics','chemistry','biology','astronomy'].includes(scienceJourney.subject))return true;
    const rank={beginner:0,intermediate:1,advanced:2};
    if(scienceJourney.schoolStage==='lower'&&
@@ -8549,12 +8560,14 @@ function scienceJourneyShowChoices(stage){
     }
    };
    renderYearTiles(group.years);
-   if(group.schoolStage==='advanced'&&['physics','chemistry'].includes(scienceJourney.subject)&&
-    (scienceJourney.subject!=='chemistry'||typeof chemistryUniversityRoutes==='function')){
-    const chem=scienceJourney.subject==='chemistry';
-    const routes=chem?chemistryUniversityRoutes(educationCountrySelection.code):physicsUniversityRoutes(educationCountrySelection.code);
-    const getRoute=chem?chemistryUniversityRoute:physicsUniversityRoute;
-    const getYears=chem?chemistryUniversityYears:physicsUniversityYears;
+   if(group.schoolStage==='advanced'&&['physics','chemistry','biology'].includes(scienceJourney.subject)&&
+    (scienceJourney.subject!=='chemistry'||typeof chemistryUniversityRoutes==='function')&&
+    (scienceJourney.subject!=='biology'||typeof biologyUniversityRoutes==='function')){
+    const chem=scienceJourney.subject==='chemistry',bio=scienceJourney.subject==='biology';
+    const routes=chem?chemistryUniversityRoutes(educationCountrySelection.code):
+     bio?biologyUniversityRoutes(educationCountrySelection.code):physicsUniversityRoutes(educationCountrySelection.code);
+    const getRoute=chem?chemistryUniversityRoute:bio?biologyUniversityRoute:physicsUniversityRoute;
+    const getYears=chem?chemistryUniversityYears:bio?biologyUniversityYears:physicsUniversityYears;
     const selected=getRoute(educationCountrySelection.code,scienceJourney.universityRoute);
     scienceJourney.universityRoute=selected?.id||null;
     const picker=document.createElement('select');picker.className='science-university-route-picker';
@@ -8567,7 +8580,7 @@ function scienceJourneyShowChoices(stage){
     const description=document.createElement('p');description.className='science-university-route-description';
     const describe=()=>{
      const info=getRoute(educationCountrySelection.code,picker.value);
-     description.textContent=learningLabel((chem?info?.noticeRo:info?.provenanceRo)||'',(chem?info?.noticeEn:info?.provenanceEn)||'');
+     description.textContent=learningLabel((chem||bio?info?.noticeRo:info?.provenanceRo)||'',(chem||bio?info?.noticeEn:info?.provenanceEn)||'');
     };
     picker.onchange=()=>{
      scienceJourney.universityRoute=picker.value;
@@ -8593,6 +8606,8 @@ function scienceJourneyShowChoices(stage){
      learningLabel('9 capitole de bază · 7 specializări avansate','9 foundation chapters · 7 advanced tracks')):
    stage==='levels'?learningLabel(item.scopeRo,item.scopeEn):
    stage==='specialties'?(['physics','chemistry'].includes(scienceJourney.subject)?learningLabel('Cursuri proprii anului universitar selectat','University year-specific courses'):learningLabel('4 capitole proprii + materii comune','4 dedicated chapters + shared subjects')):
+   scienceJourney.subject==='biology'&&scienceJourney.schoolStage==='advanced'?
+     learningLabel('Curs universitar · anul ','University course · year ')+String(scienceJourney.grade||'').replace('univ-',''):
    ['physics','chemistry'].includes(scienceJourney.subject)&&scienceJourney.schoolStage==='advanced'?
      learningLabel('Anul universitar ','University year ')+String(scienceJourney.grade||'').replace('univ-','')+
      (item.specialty?learningLabel(' · specializare',' · specialist course'):' · '+learningLabel('curs fundamental','core course')):
@@ -9407,6 +9422,13 @@ const biologyUpperYearLessons=${biologyUpperYearLessons.toString()};
 const BIOLOGY_REFERENCE_GROUPS=${JSON.stringify(BIOLOGY_REFERENCE_GROUPS)};
 const BIOLOGY_REFERENCE=${JSON.stringify(BIOLOGY_REFERENCE)};
 const biologyReferenceText=${biologyReferenceText.toString()};
+const BIOLOGY_UNIVERSITY_DEFAULT_YEARS=${JSON.stringify(BIOLOGY_UNIVERSITY_DEFAULT_YEARS)};
+const BIOLOGY_UNIVERSITY_CYCLE_REFERENCE=${JSON.stringify(BIOLOGY_UNIVERSITY_CYCLE_REFERENCE)};
+const biologyUniversityRoutes=${biologyUniversityRoutes.toString()};
+const biologyUniversityRoute=${biologyUniversityRoute.toString()};
+const biologyUniversityYears=${biologyUniversityYears.toString()};
+const biologyUniversityCourseChoices=${biologyUniversityCourseChoices.toString()};
+const biologyUniversityCapstoneText=${biologyUniversityCapstoneText.toString()};
 const BIOLOGY_SPECIALTY_DATA=${JSON.stringify(BIOLOGY_SPECIALIZATIONS)};
 const BIOLOGY_SOLVE_VERIFIED=${biologyVerifiedExercise.toString()};
 let educationTheoryVoiceInput=null;
@@ -11374,11 +11396,18 @@ function educationScienceTheoryReader(subjectId,topicId,level){
  if(scienceJourney.level==='advanced'){
   const chapter=scienceTopicInfo();
   const chapterName=learningLabel(chapter?.ro||'',chapter?.en||'');
-  const body=SCIENCE_UNIVERSITY_CHAPTER({
-   subject:subjectId,topic:topicId,chapter:chapterName,
-   language:state.language,specialty:scienceJourney.specialty,
-   grade:scienceJourney.grade,lessons:EDUCATION_THEORY_DATA
-  });
+  const body=subjectId==='biology'&&topicId==='biology-capstone'?
+   biologyUniversityCapstoneText({
+    specialty:scienceJourney.specialty,
+    year:Number(String(scienceJourney.grade||'').replace('univ-',''))||3,
+    language:state.language,
+    guide:(SCIENCE_UNIVERSITY_TRACK_GUIDES.biology?.[scienceJourney.specialty]||{})[state.language==='ro'?'ro':'en']
+   }):
+   SCIENCE_UNIVERSITY_CHAPTER({
+    subject:subjectId,topic:topicId,chapter:chapterName,
+    language:state.language,specialty:scienceJourney.specialty,
+    grade:scienceJourney.grade,lessons:EDUCATION_THEORY_DATA
+   });
   if(!body){
    const notice=document.createElement('p');
    notice.textContent=learningLabel('Acest capitol nu are încă material universitar verificabil.','This university chapter has no verified study content.');
