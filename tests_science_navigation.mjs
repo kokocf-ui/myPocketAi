@@ -56,6 +56,7 @@ const sandbox={
  document:{createElement:tag=>new FakeEl(tag),querySelector:()=>null},
  window:{addEventListener:()=>{},visualViewport:null,innerHeight:900},
  requestAnimationFrame:()=>0,
+ state:{language:'ro'},
  CHEMISTRY_TOPIC_DATA:[...CHEMISTRY_TOPICS,...CHEMISTRY_SPECIALTY_TOPICS],CHEMISTRY_LEVEL_DATA:CHEMISTRY_LEVELS,
  CHEMISTRY_SPECIALTY_DATA:CHEMISTRY_SPECIALIZATIONS,
  PHYSICS_TOPIC_DATA:PHYSICS_TOPICS,PHYSICS_SPECIALTY_DATA:PHYSICS_SPECIALIZATIONS,
