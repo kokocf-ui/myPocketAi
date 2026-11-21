@@ -21,7 +21,10 @@ export function scienceUniversityChapter({
  const source=isSpecial?advanced:
   advanced.concat(available.filter(x=>x.level!=='advanced').slice(0,Math.max(0,3-advanced.length)));
  if(!source.length)return null;
- const track=SCIENCE_UNIVERSITY_TRACK_GUIDES[subject]?.[specialty]||null;
+ // Biology's specialisation-wide case study is ONLY relevant to its authored
+ // specialist chapters. Never inject an anatomy story into a plant course.
+ const track=(subject==='biology'&&!isSpecial)?null:
+  SCIENCE_UNIVERSITY_TRACK_GUIDES[subject]?.[specialty]||null;
  const ro=language==='ro';
  const line=String.fromCharCode(10),gap=line+line;
  const names={physics:['Fizică','Physics'],chemistry:['Chimie','Chemistry'],
