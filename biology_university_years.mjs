@@ -31,27 +31,34 @@ export function biologyUniversityYears(country='',routeId=null){
   en:'University year '+(i+1)
  }));
 }
-// 3-year route: 3 foundation courses / 3 specialist / 2 advanced+capstone.
-// 4-year route: 2 / 2 / 2 / 2. Each programme's 3 shared and 4 specialised
-// chapters are used once, rather than replayed in every academic year.
+// Annual course distribution is based on the available authored foundation
+// and specialist library, not a fixed four-course template per speciality.
+// A course belongs to one year only. Country route remains advisory.
 export function biologyUniversityCourseChoices({
  year=1,years=3,specialty='',topics=[],specializations=[]
 }={}){
  const programme=Array.isArray(specializations)?specializations.find(x=>x.id===specialty):null;
  if(!programme||![3,4].includes(years)||!Number.isInteger(year)||year<1||year>years)return [];
- const core=programme.core||[];
- const own=topics.filter(x=>x.specialty===specialty).map(x=>x.id);
- if(core.length!==3||own.length!==4)return [];
- const ids=[...core,...own,'biology-capstone'];
- const lengths=years===3?[3,3,2]:[2,2,2,2];
- const start=lengths.slice(0,year-1).reduce((sum,n)=>sum+n,0);
- return ids.slice(start,start+lengths[year-1]).map(id=>{
-  const source=topics.find(x=>x.id===id);
-  return {
-   ...(source||{id,ro:'Proiect de cercetare în biologie',en:'Biology research project'}),
-   courseYear:year,programme:specialty,university:true
-  };
- });
+ const foundations=topics.filter(x=>x&&!x.specialty&&x.id);
+ const specialist=topics.filter(x=>x&&x.specialty===specialty&&x.id);
+ if(!foundations.length||!specialist.length)return [];
+ const ordered=[];
+ const seen=new Set();
+ const add=entry=>{if(entry&&!seen.has(entry.id)){seen.add(entry.id);ordered.push(entry)}};
+ // Establish fundamentals first, including the track's explicit prerequisites.
+ for(const id of programme.core||[])add(foundations.find(x=>x.id===id));
+ for(const item of foundations)add(item);
+ for(const item of specialist)add(item);
+ add({id:'biology-capstone',ro:'Proiect de cercetare în biologie',en:'Biology research project'});
+ // Years receive every available distinct authored course, rather than
+ // silently dropping courses once an arbitrary 8-course ceiling is reached.
+ const per=Math.floor(ordered.length/years);
+ const rem=ordered.length%years;
+ const start=(year-1)*per+Math.min(year-1,rem);
+ const count=per+(year<=rem?1:0);
+ return ordered.slice(start,start+count).map(source=>({
+  ...source,courseYear:year,programme:specialty,university:true
+ }));
 }
 export function biologyUniversityCapstoneText({specialty='',year=3,language='ro',guide=null}={}){
  const ro=language==='ro';
