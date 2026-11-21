@@ -3,7 +3,6 @@
 // establish a uniform curriculum for all institutions within a country.
 // Every country in the application's Education selector has an explicitly
 // advisory 3/4-year route until a concrete degree programme is chosen.
-import {EDUCATION_EUROPE_COUNTRIES} from './education_all_country_subject_matrix.mjs';
 export const PHYSICS_UNIVERSITY_EHEA_SOURCE='https://education.ec.europa.eu/node/2412';
 export const PHYSICS_UNIVERSITY_PROFILES=Object.freeze({
   "AD": {
@@ -310,7 +309,7 @@ export const PHYSICS_UNIVERSITY_PROFILES=Object.freeze({
 });
 export function physicsUniversityRoutes(country){
  const code=String(country||'').toUpperCase();
- if(!EDUCATION_EUROPE_COUNTRIES.includes(code))return [];
+ if(!Object.prototype.hasOwnProperty.call(PHYSICS_UNIVERSITY_PROFILES,code))return [];
  const profile=PHYSICS_UNIVERSITY_PROFILES[code];
  const ref=profile?.verifiedExample;
  const general=years=>({
