@@ -63,6 +63,18 @@ export const EDUCATION_WORLDWIDE_SCHEMES={
  TR:scheme(grades(1,4,'Sınıf','Grade'),grades(5,8,'Sınıf','Grade'),grades(9,12,'Sınıf','Grade'),'Conținutul exact diferă după anul școlar și programul școlii.'),
  // National SCHOOL-YEAR labels only; the Physics content remains mapped
  // separately. Local syllabus sequencing is not certified by these labels.
+ CZ:scheme(grades(1,5,'Ročník','Grade'),grades(6,9,'Ročník','Grade'),
+  seq(1,4,'G','Gymnázium · anul','Upper secondary · year'),
+  'Cehia: základní škola are clasele I–IX, cu primul grad I–V și al doilea VI–IX. Gymnázium de patru ani este doar un traseu; pot exista programe și tipuri de școli diferite. RVP ZV 2025 are aplicare graduală până în 2028.',
+  'https://portal.gov.cz/en/informace/primary-education-INF-94'),
+ EE:scheme(grades(1,6,'Klass','Grade'),grades(7,9,'Klass','Grade'),
+  grades(10,12,'Gümnaasium · klass','Upper secondary grade'),
+  'Estonia: põhikool clasele 1–9; etapa I–II 1–6, etapa III 7–9; gümnaasium 10–12. Fizica distinctă este studiată de regulă în clasele 8–9, nu ca disciplină separată în clasa 7.',
+  'https://hm.ee/en/education-research-and-youth-affairs/general-education/general-education-estonia'),
+ LV:scheme(grades(1,6,'Klase','Grade'),grades(7,9,'Klase','Grade'),
+  grades(10,12,'Vidusskola · klase','Upper secondary grade'),
+  'Letonia: învățământ de bază clasele 1–9; standardul Skola2030 definește obiective și etape 1–3, 4–6 și 7–9. Fizika ca disciplină se predă în clasele 8–9, după științe integrate.',
+  'https://skola2030.lv/lv/skolotajiem/macibu-prieksmeti/fizika'),
  FI:scheme(grades(1,6,'Vuosiluokka','Grade'),grades(7,9,'Vuosiluokka','Grade'),
   seq(1,3,'L','Lukio · anul','General upper secondary · year'),
   'Finlanda: școală de bază clasele 1–9; mediul înconjurător este integrat în anii 1–6, iar Fizica se predă distinct la ciclul 7–9. Lukio este modular, durata și oferta diferă între școli.',
