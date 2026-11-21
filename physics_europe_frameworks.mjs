@@ -5,6 +5,16 @@
 // prescribes that year. Regions/exam boards may override the common framework.
 export const PHYSICS_EUROPE_REFERENCE='https://op.europa.eu/en/publication-detail/-/publication/f3bd0532-0255-11ed-acce-01aa75ed71a1/language-en';
 const refs=Object.freeze({
+ CZ:{source:'https://edu.gov.cz/dokumenty/rvp-ramcove-vzdelavaci-programy/rvp-zv-ramcovy-vzdelavaci-program-pro-zakladni-vzdelavani/',
+  scope:'national-stage',name:'Fyzika · RVP ZV',integrated:['primary'],
+  note:'În Cehia, Fizica face parte din programa secundară 6–9. Modificările RVP 2025 sunt introduse etapizat; ordinea anuală diferă după școală și cohortă.'},
+ EE:{source:'https://oppekava.ee/fuusika/',scope:'national-year',
+  name:'Füüsika · 8.–9. klass',integrated:['primary'],noLower:['7'],lowerEntry:'8',
+  note:'În Estonia, clasele 8–9 studiază Fizica distinctă. Clasa 7 are cunoștințe de științe naturale integrate; nu afișăm în mod fals Fizică obligatorie separată.'},
+ LV:{source:'https://skola2030.lv/lv/skolotajiem/macibu-prieksmeti/fizika',
+  scope:'national-year',name:'Fizika · 8.–9. klase',integrated:['primary'],
+  noLower:['7'],lowerEntry:'8',
+  note:'Letonia are Fizika în clasele 8–9; înaintea acestora se studiază concepte fizice în Științe integrate. Programa este definită pe competențe și clase, nu printr-o ordine universală a manualului.'},
  FI:{source:'https://www.oph.fi/en/education-and-qualifications/national-core-curriculum-primary-and-lower-secondary-basic-education',
   scope:'national-stage',name:'Fysiikka · vuosiluokat 7–9',integrated:['primary'],
   note:'Fizica este disciplină distinctă în partea finală a școlii de bază (7–9); programa definește obiective pe niveluri, iar repartizarea anuală poate varia după curriculumul local.'},
@@ -67,6 +77,21 @@ const countryGroups=Object.freeze({
  ]
 });
 const specialPlans={
+ EE:{lower:{
+  '8':['units','kinematics','waves','optics','heat'],
+  '9':['electric','circuits','electromagnetism','energy','thermodynamics']
+ }},
+ LV:{lower:{
+  '8':['units','kinematics','waves','optics','heat'],
+  '9':['dynamics','energy','electric','circuits','electromagnetism']
+ }},
+ CZ:{lower:{
+  '6':['units','kinematics','heat','energy','optics'],
+  '7':['dynamics','fluids','energy','measurement','kinematics'],
+  '8':['electric','circuits','heat','waves','optics'],
+  '9':['electromagnetism','electric','thermodynamics','waves','measurement']
+ }},
+
  // National year headings where published guidance supports a strand,
  // not a claim that the entire year MUST be taught in this exact order.
  PT:{lower:{
