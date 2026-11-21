@@ -1,3 +1,4 @@
+import {PHYSICS_SPACE_LESSONS} from './physics_space_lessons.mjs';
 export const PHYSICS_TOPICS = Object.freeze([
   {
     "id": "units",
@@ -1229,4 +1230,9 @@ export const PHYSICS_LESSONS = Object.freeze([
     "level": "advanced",
     "topic": "special-applied"
   }
+, ...PHYSICS_SPACE_LESSONS.ro.map(entry=>Object.freeze({
+  id:entry.id,subject:'physics',topic:'space',title:entry.title,
+  statement:entry.statement,formula:'—',aliases:[entry.title.toLocaleLowerCase('ro')],
+  level:'beginner',source:entry.source
+ }))
 ]);
