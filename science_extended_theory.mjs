@@ -83,6 +83,12 @@ export const SCIENCE_GUIDES={
     ]
   },
   "physics": {
+    "space": [
+          "Studiul fizic al spațiului urmărește interacțiunile gravitaționale, mișcarea corpurilor cerești și transportul informației prin lumină. Sistemul Solar conține steaua Soare, planete, sateliți, asteroizi și comete, iar Calea Lactee este galaxia din care face parte Soarele. Unitățile de lungime folosite în astronomie sunt adaptate distanțelor foarte mari.",
+          "Un model cu trei obiecte poate demonstra alternanța zilei și nopții: globul terestru se rotește în raport cu o sursă de lumină fixă. Faza Lunii se schimbă pentru că observăm din direcții diferite jumătatea luminată de Soare. Aceste modele sunt aproximări și nu respectă simultan scara distanțelor și dimensiunilor.",
+          "Anotimpurile nu sunt produse exclusiv de distanța Pământului față de Soare, iar anul-lumină nu este o durată. O fotografie mărită nu reprezintă automat un obiect astronomic mai apropiat; trebuie analizate datele și instrumentele.",
+          "Explică diferențele dintre rotația Pământului, revoluția în jurul Soarelui și mișcarea Lunii. Cum ai verifica una dintre predicțiile acestui model, fără să privești direct Soarele?"
+    ],
     "units": [
       "Fizica leagă mărimile observabile de modele matematice și unități. Sistemul Internațional folosește șapte unități de bază, între care metrul, kilogramul și secunda. O măsurare include o valoare, unitate și incertitudine.",
       "Pentru un corp cu masa 200 g și volumul 50 cm³, densitatea este 4 g/cm³. Conversia în SI dă 4 000 kg/m³. Este necesară convertirea coerentă a tuturor mărimilor.",
@@ -349,4 +355,4 @@ export function scienceExtendedTheory(entry, chapterName='',explicit=null,langua
  return parts.filter(Boolean).join(gap);
 }
 
-export const SCIENCE_CHAPTER_GUIDE_COUNT=46;
+export const SCIENCE_CHAPTER_GUIDE_COUNT=47;
