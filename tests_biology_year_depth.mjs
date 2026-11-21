@@ -14,6 +14,7 @@ import {scienceSchoolTopicLessons} from './science_ro_course_plan.mjs';
 import {scienceSchoolLessonMaterial,scienceSchoolLessonAssessment} from './science_school_lesson_material.mjs';
 import {BIOLOGY_UPPER_YEAR_TOPICS,BIOLOGY_UPPER_YEAR_BANK,biologyUpperYearLessons} from './biology_upper_course.mjs';
 import {BIOLOGY_REFERENCE_GROUPS,BIOLOGY_REFERENCE,biologyReferenceText} from './biology_reference.mjs';
+import {BIOLOGY_TOPIC_VISUALS,biologyTopicVisualBuild} from './biology_topic_visuals.mjs';
 
 assert.equal(BIOLOGY_UPPER_YEAR_TOPICS.length,4);
 assert.deepEqual(BIOLOGY_UPPER_YEAR_TOPICS.map(x=>x.length),[4,3,4,4]);
@@ -128,6 +129,37 @@ for(const item of BIOLOGY_REFERENCE){
  assert.ok(textRo.includes(item.explainRo)&&textRo.includes(item.exampleRo)&&textRo.includes(item.scopeRo));
  assert.ok(textEn.includes(item.explainEn)&&textEn.includes(item.exampleEn));
 }
+// Diagrams are selected by the actual Biology chapter. No reused DNA or
+// cell model for ecology, methods, anatomy or other unrelated chapters.
+assert.equal(Object.keys(BIOLOGY_TOPIC_VISUALS).length,8);
+for(const [topic,model] of Object.entries(BIOLOGY_TOPIC_VISUALS)){
+ assert.ok(model.nodes.length>=4&&model.edges.length>=3,topic+' diagram incomplete');
+ assert.ok(model.captionRo.length>=60&&model.limitRo.length>=40,topic+' needs scientific explanation and scope');
+ const fakeElement=tag=>({
+  tag,children:[],attrs:{},style:{},
+  setAttribute(k,v){this.attrs[k]=v;},
+  append(...nodes){this.children.push(...nodes)},
+  textContent:''
+ });
+ const oldDoc=globalThis.document;
+ globalThis.document={
+  createElement:fakeElement,
+  createElementNS:(ns,tag)=>fakeElement(tag)
+ };
+ try{
+  const visual=biologyTopicVisualBuild(topic,'ro');
+  assert.ok(visual,'No diagram for '+topic);
+  const svg=visual.children.find(x=>x.tag==='svg');
+  assert.ok(svg&&svg.children.length>=model.nodes.length+model.edges.length,
+   topic+' should render labelled nodes and links');
+  assert.ok(visual.children.some(x=>x.textContent===model.captionRo));
+ }finally{
+  if(oldDoc===undefined)delete globalThis.document;
+  else globalThis.document=oldDoc;
+ }
+}
+assert.equal(BIOLOGY_TOPIC_VISUALS.cells,undefined,'Cell uses the established model only');
+assert.equal(BIOLOGY_TOPIC_VISUALS.genetics,undefined,'DNA uses the established model only');
 const html=await(await app.fetch(new Request('https://biology-annual-year-reference.test/'))).text();
 const script=html.match(/<script>([\s\S]*?)<\/script>/)?.[1];
 assert.ok(script,'Actual Android WebView script');
@@ -138,6 +170,10 @@ for(const fragment of [
  'const biologyUpperYearLessons=',
  'const BIOLOGY_REFERENCE=',
  'const BIOLOGY_REFERENCE_GROUPS=',
+ 'const BIOLOGY_TOPIC_VISUALS=',
+ 'const biologyTopicVisualBuild=',
+ "else if(BIOLOGY_TOPIC_VISUALS[key])tile(",
+ "()=>biologyTopicVisualOpen(key)",
  'const biologyUniversityYears=',
  'const biologyUniversityCourseChoices=',
  'const biologyUniversityCapstoneText=',
