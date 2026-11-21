@@ -10801,7 +10801,7 @@ function astronomyOrbit3DOpen(){
  dialog.append(header,note,frame,controls);dialog.addEventListener('close',()=>dialog.remove());document.body.append(dialog);render();try{dialog.showModal()}catch{dialog.setAttribute('open','')};
 }
 
-function astronomyDiagramPicker(){
+function astronomyDiagramPicker(allowed=null){
  document.getElementById('astronomyDiagramDialog')?.remove();
  const dialog=document.createElement('dialog');dialog.id='astronomyDiagramDialog';dialog.className='education-theory-dialog physics-theory-dialog';
  const header=document.createElement('div');header.className='education-theory-head';
@@ -10809,7 +10809,7 @@ function astronomyDiagramPicker(){
  const back=document.createElement('button');back.type='button';back.className='secondary-btn';back.textContent=learningLabel('← Revenire','← Back');back.onclick=()=>dialog.close();header.append(title,back);
  const list=document.createElement('div');list.className='physics-theory-list';
  const detail=document.createElement('div');detail.className='physics-theory-detail';detail.hidden=true;
- for(const kind of ['solar','orbit','parallax','hr','transit','cosmos','telescope','galaxy']){
+ for(const kind of (Array.isArray(allowed)&&allowed.length?allowed:['solar','orbit','parallax','hr','transit','cosmos','telescope','galaxy'])){
   const btn=document.createElement('button');btn.type='button';btn.className='secondary-btn chemistry-curriculum-row';btn.textContent=learningLabel(...({solar:['Sistem solar','Solar system'],orbit:['Orbite','Orbits'],parallax:['Paralaxă','Parallax'],hr:['Diagrama H–R','H–R diagram'],transit:['Tranzit','Transit'],cosmos:['Expansiune cosmică','Cosmic expansion'],telescope:['Telescop','Telescope'],galaxy:['Galaxie','Galaxy']})[kind]);btn.onclick=()=>{detail.replaceChildren(astronomyVisualBuild(kind));detail.hidden=false;list.hidden=true};list.append(btn);
  }
  back.onclick=()=>{if(!detail.hidden){detail.hidden=true;list.hidden=false}else dialog.close()};
@@ -11304,6 +11304,68 @@ function educationScienceTheoryReader(subjectId,topicId,level){
  const section=document.createElement('section');section.className='science-inline-theory';
  const head=document.createElement('h3');head.textContent=learningLabel('📖 Teme de studiu','📖 Study topics')+' ('+(['primary','lower'].includes(scienceJourney.schoolStage)||scienceJourney.schoolStage==='upper'&&state.language!=='ro'?1:lessons.length)+')';
  section.append(head);
+
+ if(subjectId==='astronomy'&&['primary','lower','upper'].includes(scienceJourney.schoolStage)){
+  const schoolStage=scienceJourney.schoolStage,chapter=scienceTopicInfo();
+  const years=eduYearOptions(educationCountrySelection.code,
+   schoolStage==='upper'?'intermediate':schoolStage,'science');
+  const entries=astronomySchoolTopicLessons({
+   country:educationCountrySelection.code,grade:scienceJourney.grade,
+   stage:schoolStage,topic:topicId,years,lessons:ASTRONOMY_LESSON_DATA
+  });
+  head.textContent=learningLabel('📖 Lecții de astronomie','📖 Astronomy lessons')+' ('+entries.length+')';
+  const grid=document.createElement('div');grid.className='science-theory-topic-list';
+  grid.style.cssText='display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:8px;width:100%;';
+  if(!entries.length){
+   const notice=document.createElement('p');
+   notice.textContent=learningLabel('Nu există încă lecții potrivite acestui an şi capitol.','No age-appropriate lessons are available for this school year and chapter.');
+   section.append(notice);return section;
+  }
+  for(const [i,entry] of entries.entries()){
+   const button=document.createElement('button');button.type='button';
+   button.className='secondary-btn science-inline-theory-item';
+   button.style.cssText='white-space:normal;text-align:left;min-height:55px;overflow-wrap:anywhere;';
+   button.textContent=(i+1)+'. '+entry.title+
+    (state.language!=='ro'?learningLabel(' · referinţă RO',' · Romanian source'):'');
+   button.onclick=()=>{
+    const content=scienceSchoolLessonMaterial({
+     entry,subject:'astronomy',grade:scienceJourney.grade,
+     chapter:learningLabel(chapter?.ro||'',chapter?.en||''),language:state.language
+    });
+    const assessment=scienceSchoolLessonAssessment({
+     entry,subject:'astronomy',topic:topicId,language:state.language
+    });
+    sciencePendingAssessmentSpec={...assessment,stage:schoolStage,localVerification:false};
+    try{educationOpenPagedLesson(entry.title,content||entry.statement)}
+    finally{sciencePendingAssessmentSpec=null}
+   };
+   grid.append(button);
+  }
+  section.append(grid);return section;
+ }
+ if(subjectId==='astronomy'&&scienceJourney.schoolStage==='advanced'){
+  const chapter=scienceTopicInfo(),name=learningLabel(chapter?.ro||'',chapter?.en||'');
+  const content=topicId==='astronomy-capstone'?
+   astronomyUniversityProjectText({
+    specialty:scienceJourney.specialty,language:state.language,
+    year:Number(String(scienceJourney.grade||'').replace('univ-',''))||3
+   }):
+   astronomyUniversityStudyText({
+    topic:topicId,specialty:scienceJourney.specialty,
+    grade:scienceJourney.grade,language:state.language,lessons:ASTRONOMY_LESSON_DATA
+   });
+  head.textContent=learningLabel('📚 Curs universitar de astronomie','📚 University astronomy course');
+  if(!content){const notice=document.createElement('p');notice.textContent=learningLabel(
+   'Nu există material universitar verificabil pentru acest curs.',
+   'No verified university study material exists for this course.');
+   section.append(notice);return section;
+  }
+  const button=document.createElement('button');button.type='button';
+  button.className='secondary-btn science-inline-theory-item';
+  button.textContent=learningLabel('Deschide teoria, exemplele şi proiectul practic','Open theory, examples and practical study');
+  button.onclick=()=>educationOpenPagedLesson(name,content);
+  section.append(button);return section;
+ }
 
  if(scienceJourney.schoolStage==='primary'&&['physics','biology'].includes(subjectId)){
   const chapter=scienceTopicInfo(),name=learningLabel(chapter?.ro||'',chapter?.en||'');
@@ -11960,8 +12022,35 @@ function scienceOpenChemistrySection(stage){
    }
    }
   }else if(scienceJourney.subject==='astronomy'){
-   tile('🪐','Reprezentări astronomice','Astronomy diagrams','Diagrame pentru fenomenele studiate','Diagrams for studied phenomena',astronomyDiagramPicker);
-   tile('🌌','Orbite 3D','3D orbits','Vizualizare rotativă a orbitelor','Interactive rotating orbits',astronomyOrbit3DOpen);
+   const key=topic?.id||'';
+   const diagrams=ASTRONOMY_TOPIC_DIAGRAMS[key]||[];
+   const lab=key==='astronomy-capstone'?
+    astronomyUniversityProjectText({
+     specialty:scienceJourney.specialty,language:state.language,
+     year:Number(String(scienceJourney.grade||'').replace('univ-',''))||3
+    }):
+    astronomyLabMaterial({
+     topic:key,stage:scienceJourney.schoolStage,
+     grade:scienceJourney.grade,language:state.language
+    });
+   if(lab)tile('🔭','Activitate practică a capitolului','Chapter practical activity',
+    'Obiectiv, materiale, procedură, observaţii şi concluzii',
+    'Objective, materials, procedure, observations and conclusions',
+    ()=>educationOpenPagedLesson(learningLabel(topic?.ro||'',topic?.en||''),lab));
+   if(diagrams.length)tile('🪐','Reprezentări ale capitolului','Chapter diagrams',
+    'Numai diagramele legate de capitolul selectat',
+    'Only diagrams relevant to the selected chapter',
+    ()=>astronomyDiagramPicker(diagrams));
+   if(diagrams.includes('orbit')&&['upper','advanced'].includes(scienceJourney.schoolStage))
+    tile('🌌','Orbite 3D','3D orbits',
+     'Vizualizare orbitală educativă, fără scară reală',
+     'Educational orbit model, not to scale',astronomyOrbit3DOpen);
+   if(!lab&&!diagrams.length){
+    const notice=document.createElement('p');notice.className='chem-no-visual';
+    notice.textContent=learningLabel('Nu există o reprezentare adecvată pentru acest capitol.',
+     'No validated diagram exists for this chapter.');
+    list.append(notice);
+   }
   }
  }
  panel.append(title,note,list);host.append(panel);
