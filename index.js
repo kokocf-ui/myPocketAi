@@ -8584,7 +8584,9 @@ function scienceJourneyShowChoices(stage){
      learningLabel('Anul universitar ','University year ')+String(scienceJourney.grade||'').replace('univ-','')+
      (item.specialty?learningLabel(' · specializare',' · specialist course'):' · '+learningLabel('curs fundamental','core course')):
    ['physics','chemistry','biology','astronomy'].includes(scienceJourney.subject)?
-    (['lower','upper'].includes(scienceJourney.schoolStage)&&scienceJourney.subject==='physics'||scienceJourney.schoolStage==='lower'?
+    (scienceJourney.subject==='chemistry'&&scienceJourney.schoolStage==='upper'?
+      scienceChemistryUpperLessonEntries(item.id).length:
+     ['lower','upper'].includes(scienceJourney.schoolStage)&&scienceJourney.subject==='physics'||scienceJourney.schoolStage==='lower'?
       scienceSchoolTopicLessons({country:educationCountrySelection.code,
        subject:scienceJourney.subject,grade:scienceJourney.grade,
        topic:item.id,lessons:EDUCATION_THEORY_DATA,stage:scienceJourney.schoolStage,
@@ -11135,6 +11137,22 @@ function educationOpenPagedLesson(title,body){
  paint();return dialog;
 }
 
+// Single inventory for both the high-school Chemistry chapter counter and the
+// selectable lesson cards. Include foundation/review lessons and intermediate
+// lessons, but never university-only or unrelated specialisation entries.
+function scienceChemistryUpperLessonEntries(topicId){
+ const allowed=new Set(['beginner','medium','intermediate']);
+ const seen=new Set();
+ return EDUCATION_THEORY_DATA.filter(item=>{
+  if(!item||item.subject!=='chemistry'||item.topic!==topicId||item.specialty||
+     !allowed.has(item.level)||!item.title||!item.statement)return false;
+  const id=String(item.id||item.title);
+  if(seen.has(id))return false;
+  seen.add(id);
+  return true;
+ });
+}
+
 function educationScienceTheoryReader(subjectId,topicId,level){
  const rank={beginner:0,medium:1,intermediate:1,advanced:2};
  const max=rank[level]??0;
@@ -11219,9 +11237,7 @@ function educationScienceTheoryReader(subjectId,topicId,level){
     lessons:EDUCATION_THEORY_DATA,stage:'lower',
     years:eduYearOptions(country,'lower','science'),language:state.language
    }):
-   EDUCATION_THEORY_DATA.filter(item=>item.subject==='chemistry'&&
-    item.topic===chapter?.id&&item.level==='intermediate'&&!item.specialty&&
-    item.title&&item.statement);
+   scienceChemistryUpperLessonEntries(chapter?.id);
   if(!authoredChemistry.length&&!entries.length){
    const alert=document.createElement('p');alert.textContent=learningLabel('Tema nu este disponibilă în acest an.','Chapter unavailable for this grade.');
    section.append(alert);return section;
@@ -11231,7 +11247,7 @@ function educationScienceTheoryReader(subjectId,topicId,level){
    const subheading=document.createElement('h4');
    subheading.textContent=schoolStage==='lower'?
     learningLabel('Lecțiile capitolului, explicate individual','Individual chapter lessons'):
-    learningLabel('Lecții suplimentare de aprofundare','Additional in-depth lessons');
+    learningLabel('Lecțiile capitolului · recapitulare și aprofundare','Chapter lessons · foundations and deeper study');
    section.append(subheading);
    const grid=document.createElement('div');grid.className='science-theory-topic-list';
    grid.style.cssText='display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:8px;width:100%;';
