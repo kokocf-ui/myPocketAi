@@ -45,6 +45,8 @@ jobs:
         run: |
           node tests_physics_complete.mjs
           node tests_physics_laws_scroll.mjs
+          node --check chemistry_laws_reference.mjs
+          node tests_chemistry_laws_scroll.mjs
           node tests_chemistry_curriculum.mjs
           node tests_chemistry_complete.mjs
           node tests_chemistry_country_year_depth.mjs
