@@ -31,10 +31,10 @@ for(const fragment of [
  'const SCIENCE_YEAR_REFERENCE=','const scienceYearReferenceEntries=',
  'const scienceYearReferenceMaterial=',
  'function scienceYearReferenceOpen(subject)',
- "addShortcut(learningLabel('⚛ Tabelul periodic'",
+ "shortcut(learningLabel('⚛ Tabelul periodic'",
  "()=>chemistryVisualOpen('periodic','')",
- "addShortcut(learningLabel('📖 Legi și principii'",
- "addShortcut(learningLabel('📖 Legi și teoreme'",
+ "shortcut(learningLabel('📖 Legi și principii'",
+ "shortcut(learningLabel('📖 Legi și teoreme'",
  "main.page:has(#view-module.learning-science.science-year-stage.active)",
  'touch-action:pan-y!important',
  '#view-module.learning-science.science-year-stage.active .science-choice-list.science-year-list'
