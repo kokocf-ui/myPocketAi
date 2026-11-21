@@ -48,6 +48,7 @@ import {SCIENCE_UNIVERSITY_TRACK_GUIDES} from './science_university_track_guides
 import {scienceUniversityChapter} from './science_university_chapters.mjs';
 import {SCIENCE_ADVISORY_PROGRESSION,SCIENCE_PROGRESSION_SOURCES,SCIENCE_PRIMARY_LESSON_BANK,SCIENCE_PRIMARY_ENGLISH,SCIENCE_PRIMARY_DEPTH,scienceGradeTopicPlan,scienceGradeLessonFrame} from './science_grade_progression.mjs';
 import {SCIENCE_LOWER_TOPIC_LESSONS,scienceLowerTopicContent} from './science_lower_secondary_lessons.mjs';
+import {SCIENCE_EXACT_REFERENCE,scienceCheckExactExercise} from './science_exercise_verification.mjs';
 import {CHEMISTRY_SPECIALIZATIONS,CHEMISTRY_SPECIALTY_TOPICS,CHEMISTRY_MOLECULES,chemistryVerifiedExercise} from './chemistry_advanced.mjs';
 import {BIOLOGY_TOPICS,BIOLOGY_SPECIALIZATIONS,BIOLOGY_SPECIALTY_TOPICS,biologyVerifiedExercise} from './biology_curriculum.mjs';
 import {mathAdvancedVerifiedModel} from './math_advanced_verified.mjs';
@@ -9012,6 +9013,8 @@ const SCIENCE_PRIMARY_ENGLISH=${JSON.stringify(SCIENCE_PRIMARY_ENGLISH)};
 const SCIENCE_PRIMARY_DEPTH=${JSON.stringify(SCIENCE_PRIMARY_DEPTH)};
 const SCIENCE_LOWER_TOPIC_LESSONS=${JSON.stringify(SCIENCE_LOWER_TOPIC_LESSONS)};
 const scienceLowerTopicContent=${scienceLowerTopicContent.toString()};
+const SCIENCE_EXACT_REFERENCE=${JSON.stringify(SCIENCE_EXACT_REFERENCE)};
+const scienceCheckExactExercise=${scienceCheckExactExercise.toString()};
 const SCIENCE_GRADE_TOPIC_PLAN=${scienceGradeTopicPlan.toString()};
 const SCIENCE_GRADE_LESSON_FRAME=${scienceGradeLessonFrame.toString()};
 const PHYSICS_TOPIC_DATA=${JSON.stringify(PHYSICS_TOPICS)};
@@ -10504,6 +10507,92 @@ function educationNumberLessonAnswers(source){
   return 'Răspunsuri:\\n'+answers.map((answer,i)=>(i+1)+'. '+answer.replace(/^\\d{1,2}[.)]\\s*/,'')).join('\\n');
  });
 }
+
+function scienceLessonReviewSpec(){
+ const subject=scienceJourney.subject,topic=scienceJourney.topic,stage=scienceJourney.schoolStage;
+ const lang=state.language==='ro'?'ro':'en',ro=lang==='ro';
+ if(!['physics','chemistry','biology','astronomy'].includes(subject)||!topic)return null;
+ if(stage==='lower'){
+  const note=scienceLowerTopicContent(subject,topic,lang);
+  return note?{subject,topic,stage,lang,prompt:note.exercise,guide:note.answer}:null;
+ }
+ if(stage==='primary')return {subject,topic,stage,lang,
+  prompt:ro?'Scrie două observații din activitatea lecției și arată ce dovezi ai.':
+   'Give two observations from the lesson activity and explain your evidence.',
+  guide:ro?'Fiecare observație trebuie să descrie ceva văzut sau măsurat, separat de presupuneri.':
+   'Each observation must describe what was seen or measured, separately from guesses.'};
+ if(stage==='advanced'){
+  const track=SCIENCE_UNIVERSITY_TRACK_GUIDES[subject]?.[scienceJourney.specialty];
+  const notes=ro?track?.ro:track?.en;
+  return notes?{subject,topic,stage,lang,prompt:notes[3],guide:notes[1]+' '+notes[2]}:null;
+ }
+ const notes=(ro?SCIENCE_GUIDES:SCIENCE_GUIDES_EN)[subject]?.[topic];
+ return notes?{subject,topic,stage,lang,prompt:notes[3],guide:notes.slice(0,3).join(' ')}:null;
+}
+function scienceAttachLessonReview(dialog){
+ const spec=scienceLessonReviewSpec();if(!spec?.prompt||!spec.guide)return;
+ const ro=spec.lang==='ro';
+ const wrap=document.createElement('section');wrap.className='science-lesson-answer-check';
+ wrap.style.cssText='display:flex;flex-direction:column;gap:5px;flex:0 0 auto;min-height:0;';
+ const toggle=document.createElement('button');toggle.type='button';toggle.className='primary-btn';
+ toggle.textContent=ro?'✓ Verifică răspunsul':'✓ Check my answer';
+ const panel=document.createElement('div');panel.style.cssText='display:none;flex-direction:column;gap:6px;max-height:38dvh;overflow-y:auto;padding:7px;border:1px solid #987781;border-radius:9px;';
+ const question=document.createElement('p');question.style.cssText='margin:0;font-size:14px;white-space:pre-wrap';
+ question.textContent=(ro?'Exercițiu: ':'Exercise: ')+spec.prompt;
+ const entry=document.createElement('textarea');entry.rows=3;entry.maxLength=2200;
+ entry.style.cssText='width:100%;box-sizing:border-box;min-height:64px;max-height:22dvh;';
+ entry.setAttribute('aria-label',ro?'Răspunsul elevului':'Student answer');
+ entry.placeholder=ro?'Scrie răspunsul tău.':'Write your answer.';
+ const check=document.createElement('button');check.type='button';check.className='primary-btn';
+ check.textContent=ro?'Verifică':'Check answer';
+ const status=document.createElement('p');status.setAttribute('role','status');status.setAttribute('aria-live','polite');
+ status.style.cssText='margin:0;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.5;font-size:14px;';
+ let controller=null;
+ toggle.onclick=()=>{const show=panel.style.display==='none';panel.style.display=show?'flex':'none';
+  toggle.textContent=show?(ro?'Ascunde verificarea':'Hide answer check'):(ro?'✓ Verifică răspunsul':'✓ Check my answer');
+  if(show)entry.focus();
+ };
+ check.onclick=async()=>{
+  const answer=entry.value.trim();
+  if(!answer){status.textContent=ro?'Completează răspunsul.':'Enter your answer.';return;}
+  if(controller)return;
+  const local=spec.stage==='lower'?scienceCheckExactExercise({
+   subject:spec.subject,topic:spec.topic,answer,language:spec.lang}):{status:'requires-assessment'};
+  if(['correct','incorrect','needs-unit','empty'].includes(local.status)||
+    (SCIENCE_EXACT_REFERENCE[spec.subject+':'+spec.topic]&&local.status==='requires-assessment')){
+   status.textContent=local.feedback;return;
+  }
+  controller=new AbortController();check.disabled=true;
+  status.textContent=ro?'Se evaluează răspunsul…':'Assessing your answer…';
+  const message=(ro?
+   'Evaluează un răspuns școlar. Începe cu verdictul Corect / Parțial corect / Incorect / Nedeterminabil, apoi explică exact ce este bine, ce este greșit și cum se corectează. Nu inventa date și nu acorda un calificativ nesusținut.':
+   'Assess a student answer. Start with Correct / Partly correct / Incorrect / Indeterminate and explain the specific merits, errors and improvements. Do not invent facts or award an unsupported grade.')+
+   ' '+(ro?'Țara: ':'Country: ')+educationCountrySelection.label+
+   ', '+(ro?'clasa: ':'grade: ')+scienceJourney.grade+', '+
+   (ro?'materia: ':'subject: ')+spec.subject+', '+(ro?'capitol: ':'topic: ')+spec.topic+'. '+
+   (ro?'Exercițiu: ':'Question: ')+spec.prompt+'. '+
+   (ro?'Răspuns de referință și criterii: ':'Reference answer and criteria: ')+spec.guide+'. '+
+   (ro?'Răspunsul elevului: ':'Student answer: ')+answer+'. '+
+   (ro?'Răspunde în română.':'Respond in English.');
+  try{
+   const response=await fetch(CLIENT_CONFIG.apiUrl,{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({module:'education_study',education_subject:spec.subject,
+     education_activity:'correction',message:eduScopePrompt(message),language:state.language,history:[]}),
+    signal:controller.signal});
+   const data=await response.json();
+   if(!response.ok||data.status!=='success'||typeof data.reply!=='string'||!data.reply.trim())
+    throw Error('unavailable');
+   if(dialog.isConnected)status.textContent=(ro?'Evaluare AI orientativă: ':'Advisory AI assessment: ')+data.reply.trim().slice(0,4800);
+  }catch(error){
+   if(!controller.signal.aborted&&dialog.isConnected)status.textContent=ro?
+    'Verificarea nu este disponibilă. Nu pot stabili dacă răspunsul este corect. Reper: '+spec.guide:
+    'Assessment unavailable; no correctness claim can be made. Reference: '+spec.guide;
+  }finally{controller=null;check.disabled=false;}
+ };
+ panel.append(question,entry,check,status);wrap.append(toggle,panel);dialog.append(wrap);
+ dialog.addEventListener('close',()=>{controller?.abort();controller=null});
+}
+
 function educationOpenPagedLesson(title,body){
  document.getElementById('educationPagedLessonDialog')?.remove();
  const raw=educationNumberLessonAnswers(String(body||'').replaceAll(String.fromCharCode(13),'').trim());
@@ -10598,6 +10687,7 @@ function educationOpenPagedLesson(title,body){
  next.onclick=()=>{if(page<pages.length-1){stopPageAudio();page++;paint()}};
  footer.append(prev,count,next);footer.hidden=pages.length===1;
  dialog.append(head,heading,content,footer);
+ if(scienceReader)scienceAttachLessonReview(dialog);
  dialog.addEventListener('close',()=>{stopPageAudio();dialog.remove()});
  document.body.append(dialog);
  try{dialog.showModal()}catch{dialog.setAttribute('open','')}
