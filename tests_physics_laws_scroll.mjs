@@ -22,7 +22,7 @@ for(const fragment of [
  "lawsButton.onclick=()=>scienceJourneyShowChoices('physics-laws')",
  "if(current==='physics-laws'||current==='chemistry-laws')scienceJourney.stage='years';",
  "page.style.setProperty('--science-selector-height'",
- "function sciencePhysicsLawText(law)",
+ "function sciencePhysicsLawText(law,subject='physics')",
  "science-laws-filter"
 ])assert.ok(script.includes(fragment),fragment);
 assert.match(html,/main\.page:has\(#view-module\.learning-science\.science-scroll-stage\.active\)\{/, 'Scroll container scoped to Sciences year/laws');
