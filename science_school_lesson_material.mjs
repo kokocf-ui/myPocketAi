@@ -20,6 +20,9 @@ export function scienceSchoolLessonMaterial({
   (ro?'Capitol: ':'Chapter: ')+chapter,
   '# '+title
  ];
+ if(ro&&entry.language==='en'){
+  parts.push('Material original în engleză, oferit ca referință orientativă. Traducerea în română nu este verificată; această fișă nu este declarată ca manual românesc.');
+ }
  if(!ro&&entry.language!=='en'){
   parts.push('Romanian reference lesson. A verified translation into the selected language is not available; this lesson is not presented as a certified national course.');
  }else if(!ro&&entry.language==='en'&&language!=='en'){
