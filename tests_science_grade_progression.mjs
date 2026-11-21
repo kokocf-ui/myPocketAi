@@ -148,7 +148,11 @@ for(const country of EDUCATION_EUROPE_COUNTRIES){
    for(const year of yrs){
     const plan=scienceGradeTopicPlan({country,stage,grade:year.id,subject,years:yrs,topics});
     assert.equal(plan.status,'general-learning','UI Science plan must resolve');
-    assert.ok(plan.topics.length>=1,country+'/'+stage+'/'+subject+'/'+year.id+' must have a chapter');
+    const notTaught=subject==='physics'&&physicsCountryGradePlan({
+     country,stage,grade:year.id,years:yrs
+    }).status==='not-offered';
+    assert.ok(plan.topics.length>=1||notTaught,
+     country+'/'+stage+'/'+subject+'/'+year.id+' needs a real chapter or explicit not-offered status');
     distinct.add(plan.topics.map(x=>x.id).join('|'));
     frontendRoutes++;
    }
