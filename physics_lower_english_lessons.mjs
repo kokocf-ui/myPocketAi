@@ -1,3 +1,4 @@
+import {PHYSICS_LOWER_ENGLISH_EXTENSIONS} from './physics_lower_english_extensions.mjs';
 // Independent English-language physical-science learning cards. Authored as
 // an advisory concept bank from widely used open physics learning frameworks,
 // NOT translated Romanian school lessons, NOT a certified national curriculum.
@@ -109,7 +110,7 @@ const chapters={
  ]
 };
 export const PHYSICS_LOWER_ENGLISH_LESSONS=Object.freeze(Object.fromEntries(
- Object.entries(chapters).map(([topic,entries])=>[topic,Object.freeze(entries.map(
+ Object.entries(chapters).map(([topic,entries])=>[topic,Object.freeze([...entries,...(PHYSICS_LOWER_ENGLISH_EXTENSIONS[topic]||[])].map(
  ([title,statement,workedExample,exercise,answer],i)=>Object.freeze({
   id:'english-physics-'+topic+'-'+(i+1),subject:'physics',topic,
   title,statement,workedExample,exercise,answer,language:'en',
