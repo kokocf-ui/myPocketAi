@@ -221,7 +221,7 @@ const readerContext={
 const reader=vm.runInNewContext(readerSource+';educationScienceTheoryReader',readerContext);
 let rendered=reader('chemistry','atomic','beginner');
 assert.equal(rendered.children.length,2,'One study list per chapter');
-assert.match(rendered.children[0].textContent,/\\(2\\)/,'Display the actual count of distinct sublessons');
+assert.ok(rendered.children[0].textContent.includes('(2)'),'Display the actual count of distinct sublessons');
 assert.equal(rendered.children[1].children.length,2,'Two different sublesson buttons');
 rendered.children[1].children[0].onclick();
 rendered.children[1].children[1].onclick();
