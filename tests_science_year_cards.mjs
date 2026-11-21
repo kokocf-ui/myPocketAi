@@ -3,6 +3,7 @@ import vm from 'node:vm';
 import app from './index.js';
 import {EDUCATION_COUNTRY_UI_SCRIPT} from './education_country_ui.mjs';
 import {EDUCATION_SCHOOL_YEARS} from './education_school_paths.mjs';
+import {physicsUniversityYears} from './physics_university_europe.mjs';
 
 const html=await(await app.fetch(new Request('https://science-year-layout.test/'))).text();
 const script=html.match(/<script>([\s\S]*?)<\/script>/)?.[1];
@@ -16,7 +17,8 @@ assert.ok(first>=0&&last>first,'country-aware school years available');
 const environment={
  EDUCATION_SCHOOL_YEARS_DATA:EDUCATION_SCHOOL_YEARS,
  worldwideSchoolYears:()=>[],
- scienceJourney:{subject:'physics'},
+ scienceJourney:{subject:'physics',universityRoute:null},
+ physicsUniversityYears,
  educationCountrySelection:{code:'RO'}
 };
 const fn=vm.runInNewContext(EDUCATION_COUNTRY_UI_SCRIPT.slice(first,last)+
@@ -27,6 +29,7 @@ assert.deepEqual(groups().map(x=>x.schoolStage),['primary','lower','upper','adva
 assert.deepEqual(groups()[0].ids,['1','2','3','4'],'Science primary uses the right Romanian classes');
 assert.deepEqual(groups()[1].ids,['6','7','8'],'Romania lower Physics begins at grade 6');
 assert.deepEqual(groups()[2].ids,['9','10','11','12'],'Romania Physics upper secondary years');
+assert.deepEqual(groups()[3].ids,['univ-1','univ-2','univ-3'],'Romanian Physics example BSc has three years');
 fn.journey.subject='chemistry';
 assert.deepEqual(groups()[1].ids,['7','8'],'Romania Chemistry lower stage begins at grade 7');
 fn.journey.subject='biology';
@@ -38,7 +41,7 @@ const uk=groups();
 assert.ok(uk[0].ids.includes('Y1'),'England primary starts at country-specific Year 1');
 assert.ok(uk[1].ids.includes('Y7'),'England lower secondary uses country-specific Year numbering');
 assert.ok(uk[2].ids.includes('Y10'),'England upper-secondary years are not Romanian grade numbers');
-assert.ok(uk[3].ids.length===1,'university opens existing specialisations');
+assert.deepEqual(uk[3].ids,['univ-1','univ-2','univ-3'],'England example BSc has three actual academic years');
 assert.equal(new Set(uk.flatMap(x=>x.ids)).size,uk.flatMap(x=>x.ids).length,'no duplicate years');
 fn.country.code='AD';fn.journey.subject='physics';
 const advisory=groups();
