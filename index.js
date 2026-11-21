@@ -8350,12 +8350,13 @@ function scienceJourneyShowChoices(stage){
     tile.className='secondary-btn science-year-tile';
     tile.textContent=learningLabel(year.ro,year.en);
     if(scienceJourney.subject==='physics'&&group.schoolStage==='lower'){
-     const countryPlan=physicsCountryGradePlan({
-      country:educationCountrySelection.code,stage:'lower',grade:year.id,years:group.years
+     const countryPlan=SCIENCE_GRADE_TOPIC_PLAN({
+      country:educationCountrySelection.code,subject:'physics',stage:'lower',
+      grade:year.id,years:group.years,topics:PHYSICS_TOPIC_DATA
      });
-     if(countryPlan.kind==='integrated')tile.textContent+=' · '+
+     if(countryPlan.physicsTeachingKind==='integrated')tile.textContent+=' · '+
       learningLabel('Științe integrate','Integrated science');
-     else if(countryPlan.kind==='mixed')tile.textContent+=' · '+
+     else if(countryPlan.physicsTeachingKind==='mixed')tile.textContent+=' · '+
       learningLabel('Fizică–Chimie','Physics–Chemistry');
     }
     if(educationCountrySelection.code==='RO'&&group.schoolStage==='lower'&&
