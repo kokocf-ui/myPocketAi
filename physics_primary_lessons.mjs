@@ -68,12 +68,40 @@ export function physicsPrimaryYearLessons({country='',grade='',topic='',years=[]
  if(index<0)return [];
  const position=years.length<=1?0:Math.round(index*5/(years.length-1));
  const ro=language==='ro',plan=PHYSICS_PRIMARY_SCAFFOLDS[ro?'ro':'en'][position];
+ // Curriculum levels can cover 7–8 primary years, while the original six
+ // inquiry approaches remain reusable. The evidence task must STILL change
+ // every year; relabeling one identical worksheet would be misleading.
+ const evidenceTasks=ro?[
+  'Desenează obiectul și scrie două observații verificabile.',
+  'Compară două obiecte folosind aceeași unitate și explică alegerea.',
+  'Repetă observația de trei ori și notează ce a rămas constant.',
+  'Prezice ce se va întâmpla dacă schimbi doar o condiție.',
+  'Organizează observațiile într-un tabel cu etichete și unități.',
+  'Folosește un grafic simplu pentru a susține o concluzie.',
+  'Identifică o limitare a instrumentului și o metodă de îmbunătățire.',
+  'Propune un experiment comparativ cu martor și o explicație alternativă.',
+  'Evaluează două explicații folosind date, incertitudine și limite.'
+ ]:[
+  'Draw the object and describe two observations you could verify.',
+  'Compare two objects using the same unit and explain why it is suitable.',
+  'Repeat your observation three times and record what stayed the same.',
+  'Predict what changes when you alter only one condition.',
+  'Organise observations in a labelled table with units.',
+  'Use a simple graph to justify a conclusion.',
+  'Identify one limitation of the instrument and how to improve the method.',
+  'Design a controlled comparison and describe a possible alternative explanation.',
+  'Evaluate two explanations using evidence, uncertainty and limitations.'
+ ];
+ const evidenceTask=evidenceTasks[index]||
+  evidenceTasks[evidenceTasks.length-1]+' '+(ro?
+   'Compară și o a doua serie de date, cu o metodă justificată.':
+   'Compare a second data set using a justified method.');
  return items.map(([titleRo,titleEn,definitionRo,definitionEn,exampleRo,exampleEn],i)=>({
   id:'physics-primary-advisory-'+String(country)+'-'+String(grade)+'-'+topic+'-'+(i+1),
   title:ro?titleRo:titleEn,
   statement:ro?definitionRo:definitionEn,
   workedExample:(ro?'Exemplu: ':'Example: ')+(ro?exampleRo:exampleEn),
-  exercise:plan[0]+' '+plan[1]+' '+(ro?definitionRo:definitionEn),
+  exercise:plan[0]+' '+evidenceTask+' '+plan[1]+' '+(ro?definitionRo:definitionEn),
   answer:plan[2],
   country,grade,topic,subject:'physics',source:'original-integrated-science-advisory',
   nationallyVerified:false,language:ro?'ro':'en',
