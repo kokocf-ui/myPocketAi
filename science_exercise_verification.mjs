@@ -31,14 +31,9 @@ export function scienceCheckExactExercise({subject='',topic='',answer='',languag
   'Several different results use the same unit. State one final answer clearly.'};
  // Only a bare final result may be graded numerically. A worked solution,
  // even with the right final number, can contain an incorrect method.
- const compact=normalized.replace(/^(?:v|i|c|raspuns|rezultat|answer|result)\\s*[:=]\\s*/,'')
-  .replace(/[.!?]\\s*$/,'').trim();
- const direct=new RegExp('^(-?\\\\d+(?:[.,]\\\\d+)?)\\\\s*'+suffix+'
- return {status:correct?'correct':'incorrect',expected:ref.value,unit:ref.unit,
-  feedback:(correct?(ro?'Corect. ':'Correct. '):(ro?'Rezultatul nu este corect. ':'The result is not correct. '))+
-  (ro?ref.ro:ref.en)};
-}
-,'i');
+ const compact=normalized.replace(/^(?:v|i|c|raspuns|rezultat|answer|result)\s*[:=]\s*/,'')
+  .replace(/[.!?]\s*$/,'').trim();
+ const direct=new RegExp('^(-?\\d+(?:[.,]\\d+)?)\\s*'+suffix+'$','i');
  if(!direct.test(compact))return {status:'requires-assessment',feedback:ro?
   'Pentru verificarea pașilor de calcul este necesară evaluarea întregii rezolvări.':
   'The full worked solution needs assessment; a final number alone is not enough.'};
