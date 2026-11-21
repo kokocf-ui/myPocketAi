@@ -40,6 +40,7 @@ jobs:
           node --check science_university_chapters.mjs
           node tests_education_all_country_subject_matrix.mjs
           node tests_science_grade_progression.mjs
+          node tests_science_ro_course_quality.mjs
           node tests_science_exercise_verification.mjs
           node tests_eva_ai_orchestrator.mjs
           node tests_science_university_complete.mjs
