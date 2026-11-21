@@ -53,6 +53,8 @@ import {BIOLOGY_TOPICS,BIOLOGY_SPECIALIZATIONS,BIOLOGY_SPECIALTY_TOPICS,biologyV
 import {mathAdvancedVerifiedModel} from './math_advanced_verified.mjs';
 import {PHYSICS_TOPICS,PHYSICS_SPECIALIZATIONS} from './physics_curriculum.mjs';
 import {PHYSICS_LAWS,PHYSICS_LAWS_GROUPS} from './physics_laws_reference.mjs';
+import {PHYSICS_UNIVERSITY_PROFILES,PHYSICS_UNIVERSITY_EHEA_SOURCE,physicsUniversityRoutes,physicsUniversityYears,physicsUniversityRoute} from './physics_university_europe.mjs';
+import {PHYSICS_UNIVERSITY_ALL_COURSES,physicsUniversityCourseChoices,physicsUniversityStudyDocument} from './physics_university_study.mjs';
 import {physicsVerifiedExercise} from './physics_verified.mjs';
 import {ASTRONOMY_TOPICS,ASTRONOMY_SPECIALIZATIONS} from './astronomy_curriculum.mjs';
 import {astronomyVerifiedExercise} from './astronomy_verified.mjs';
@@ -8095,7 +8097,7 @@ const SCIENCE_OTHER_TOPICS={
   {id:'astrophysics',ro:'Astrofizică',en:'Astrophysics'}
  ]
 };
-let scienceJourney={stage:'subjects',subject:null,level:null,schoolStage:null,grade:null,gradePosition:0,specialty:null,topic:null};
+let scienceJourney={stage:'subjects',subject:null,level:null,schoolStage:null,grade:null,gradePosition:0,specialty:null,topic:null,universityRoute:null};
 let scienceVoiceActive=false,scienceLastReply='',scienceRequestController=null;
 function scienceSubjectInfo(){return SCIENCE_SUBJECTS.find(s=>s.id===scienceJourney.subject)||null}
 function scienceTopicAllowedGrade(topic){
@@ -8113,6 +8115,8 @@ function scienceTopicAllowedGrade(topic){
 }
 function scienceTopicChoices(){
  const subject=scienceJourney.subject;
+ if(subject==='physics'&&scienceJourney.schoolStage==='advanced'&&/^univ-[1-5]$/.test(String(scienceJourney.grade||'')))
+  return physicsUniversityCourseChoices({year:Number(String(scienceJourney.grade).slice(-1)),specialty:scienceJourney.specialty});
  if(!['physics','chemistry','biology','astronomy'].includes(subject))return SCIENCE_OTHER_TOPICS[subject]||[];
  const topics=subject==='physics'?PHYSICS_TOPIC_DATA:subject==='biology'?BIOLOGY_TOPIC_DATA:subject==='astronomy'?ASTRONOMY_TOPIC_DATA:CHEMISTRY_TOPIC_DATA;
  const specializations=subject==='physics'?PHYSICS_SPECIALTY_DATA:subject==='biology'?BIOLOGY_SPECIALTY_DATA:subject==='astronomy'?ASTRONOMY_SPECIALTY_DATA:CHEMISTRY_SPECIALTY_DATA;
@@ -8233,7 +8237,8 @@ function scienceYearGroups(){
    years=years.filter(entry=>Number.isInteger(Number(entry.id))&&Number(entry.id)>=minRo&&Number(entry.id)<=8);
   if(country==='RO'&&band.schoolStage==='upper')
    years=years.filter(entry=>Number.isInteger(Number(entry.id))&&Number(entry.id)>=9&&Number(entry.id)<=12);
-  if(band.schoolStage==='advanced')years=years.slice(0,1);
+  if(band.schoolStage==='advanced')years=scienceJourney.subject==='physics'?
+   physicsUniversityYears(country,scienceJourney.universityRoute):years.slice(0,1);
   years=years.filter(entry=>{
    const key=band.schoolStage+':'+String(entry.id);
    if(seen.has(key))return false;
@@ -8359,6 +8364,7 @@ function scienceJourneyShowChoices(stage){
   stage==='years'?[]:
   stage==='specialties'?(scienceJourney.subject==='physics'?PHYSICS_SPECIALTY_DATA:scienceJourney.subject==='biology'?BIOLOGY_SPECIALTY_DATA:scienceJourney.subject==='astronomy'?ASTRONOMY_SPECIALTY_DATA:CHEMISTRY_SPECIALTY_DATA):
   scienceTopicChoices().filter(topic=>{
+   if(scienceJourney.subject==='physics'&&scienceJourney.schoolStage==='advanced')return true;
    if(!['physics','chemistry','biology','astronomy'].includes(scienceJourney.subject))return true;
    const rank={beginner:0,intermediate:1,advanced:2};
    return rank[topic.minLevel]<=rank[scienceJourney.level] &&
@@ -8373,18 +8379,45 @@ function scienceJourneyShowChoices(stage){
    const section=document.createElement('section');section.className='science-year-band';
    const heading=document.createElement('h3');heading.textContent=learningLabel(group.ro,group.en);
    const tiles=document.createElement('div');tiles.className='science-year-tiles';
-   for(const year of group.years){
-    const tile=document.createElement('button');tile.type='button';
-    tile.className='secondary-btn science-year-tile';
-    tile.textContent=learningLabel(year.ro,year.en);
-    tile.onclick=()=>{
-     scienceJourney.level=group.level;scienceJourney.schoolStage=group.schoolStage;scienceJourney.grade=year.id;scienceJourney.gradePosition=group.years.indexOf(year);
-     scienceJourney.topic=null;scienceJourney.specialty=null;
-     scienceJourneyShowChoices(group.level==='advanced'?'specialties':'topics');
+   const renderYearTiles=years=>{
+    tiles.replaceChildren();
+    for(const [position,year] of years.entries()){
+     const tile=document.createElement('button');tile.type='button';
+     tile.className='secondary-btn science-year-tile';
+     tile.textContent=learningLabel(year.ro,year.en);
+     tile.onclick=()=>{
+      scienceJourney.level=group.level;scienceJourney.schoolStage=group.schoolStage;scienceJourney.grade=year.id;scienceJourney.gradePosition=position;
+      scienceJourney.topic=null;scienceJourney.specialty=null;
+      scienceJourneyShowChoices(group.level==='advanced'?'specialties':'topics');
+     };
+     tiles.append(tile);
+    }
+   };
+   renderYearTiles(group.years);
+   if(group.schoolStage==='advanced'&&scienceJourney.subject==='physics'){
+    const routes=physicsUniversityRoutes(educationCountrySelection.code);
+    const selected=physicsUniversityRoute(educationCountrySelection.code,scienceJourney.universityRoute);
+    scienceJourney.universityRoute=selected?.id||null;
+    const picker=document.createElement('select');picker.className='science-university-route-picker';
+    picker.setAttribute('aria-label',learningLabel('Traseu universitar pentru țara aleasă','University route for selected country'));
+    for(const route of routes){
+     const option=document.createElement('option');option.value=route.id;option.textContent=learningLabel(route.ro,route.en);
+     picker.append(option);
+    }
+    picker.value=scienceJourney.universityRoute;
+    const description=document.createElement('p');description.className='science-university-route-description';
+    const describe=()=>{
+     const info=physicsUniversityRoute(educationCountrySelection.code,picker.value);
+     description.textContent=learningLabel(info?.provenanceRo||'',info?.provenanceEn||'');
     };
-    tiles.append(tile);
-   }
-   section.append(heading,tiles);list.append(section);
+    picker.onchange=()=>{
+     scienceJourney.universityRoute=picker.value;
+     renderYearTiles(physicsUniversityYears(educationCountrySelection.code,picker.value));
+     describe();scienceFitViewport();
+    };
+    heading.append(picker);describe();section.append(heading,tiles,description);
+   }else section.append(heading,tiles);
+   list.append(section);
   }
  }
  for(const item of choices){
@@ -8400,7 +8433,10 @@ function scienceJourneyShowChoices(stage){
      item.id==='physics'?learningLabel('14 capitole de bază · 7 specializări avansate','14 foundation chapters · 7 advanced tracks'):
      learningLabel('9 capitole de bază · 7 specializări avansate','9 foundation chapters · 7 advanced tracks')):
    stage==='levels'?learningLabel(item.scopeRo,item.scopeEn):
-   stage==='specialties'?learningLabel('4 capitole proprii + materii comune','4 dedicated chapters + shared subjects'):
+   stage==='specialties'?(scienceJourney.subject==='physics'?learningLabel('Cursuri proprii anului universitar selectat','University year-specific courses'):learningLabel('4 capitole proprii + materii comune','4 dedicated chapters + shared subjects')):
+   scienceJourney.subject==='physics'&&scienceJourney.schoolStage==='advanced'?
+     learningLabel('Anul universitar ','University year ')+String(scienceJourney.grade||'').replace('univ-','')+
+     (item.specialty?learningLabel(' · specializare',' · specialist course'):' · '+learningLabel('curs fundamental','core course')):
    ['physics','chemistry','biology','astronomy'].includes(scienceJourney.subject)?
     EDUCATION_THEORY_DATA.filter(x=>x.subject===scienceJourney.subject&&x.topic===item.id).length+
       learningLabel(' fișe teoretice',' theory entries'):'';
@@ -8413,7 +8449,7 @@ function scienceJourneyShowChoices(stage){
   btn.onclick=()=>{
    if(stage==='subjects'){
     scienceJourney.subject=item.id;scienceJourney.level=null;scienceJourney.schoolStage=null;scienceJourney.grade=null;scienceJourney.gradePosition=0;
-    scienceJourney.specialty=null;scienceJourney.topic=null;
+    scienceJourney.specialty=null;scienceJourney.topic=null;scienceJourney.universityRoute=null;
     scienceJourneyShowChoices('years');
    }else if(stage==='specialties'){
     scienceJourney.specialty=item.id;scienceJourney.topic=null;scienceJourneyShowChoices('topics');
@@ -9097,6 +9133,14 @@ const SCIENCE_GRADE_LESSON_FRAME=${scienceGradeLessonFrame.toString()};
 const PHYSICS_TOPIC_DATA=${JSON.stringify(PHYSICS_TOPICS)};
 const PHYSICS_LAWS_DATA=${JSON.stringify(PHYSICS_LAWS)};
 const PHYSICS_LAW_GROUPS=${JSON.stringify(PHYSICS_LAWS_GROUPS)};
+const PHYSICS_UNIVERSITY_PROFILES=${JSON.stringify(PHYSICS_UNIVERSITY_PROFILES)};
+const PHYSICS_UNIVERSITY_EHEA_SOURCE=${JSON.stringify(PHYSICS_UNIVERSITY_EHEA_SOURCE)};
+const physicsUniversityRoutes=${physicsUniversityRoutes.toString()};
+const physicsUniversityRoute=${physicsUniversityRoute.toString()};
+const physicsUniversityYears=${physicsUniversityYears.toString()};
+const PHYSICS_UNIVERSITY_ALL_COURSES=${JSON.stringify(PHYSICS_UNIVERSITY_ALL_COURSES)};
+const physicsUniversityCourseChoices=${physicsUniversityCourseChoices.toString()};
+const physicsUniversityStudyDocument=${physicsUniversityStudyDocument.toString()};
 const ASTRONOMY_TOPIC_DATA=${JSON.stringify(ASTRONOMY_TOPICS)};
 const ASTRONOMY_SPECIALTY_DATA=${JSON.stringify(ASTRONOMY_SPECIALIZATIONS)};
 const ASTRONOMY_SOLVE_VERIFIED=${astronomyVerifiedExercise.toString()};
@@ -10703,6 +10747,23 @@ function educationScienceTheoryReader(subjectId,topicId,level){
   button.className='secondary-btn science-inline-theory-item';
   button.textContent=learningLabel('Lecția clasei · explicații, activitate, verificare','Grade lesson · explanation, activity, review');
   button.onclick=()=>educationOpenPagedLesson(learningLabel(chapter?.ro||'',chapter?.en||''),lesson||learningLabel('Lecție generală indisponibilă.','General lesson unavailable.'));
+  section.append(button);return section;
+ }
+ if(subjectId==='physics'&&scienceJourney.schoolStage==='advanced'&&/^univ-[1-5]$/.test(String(scienceJourney.grade||''))){
+  const chapter=scienceTopicInfo(),name=learningLabel(chapter?.ro||'',chapter?.en||'');
+  const body=physicsUniversityStudyDocument({
+   courseId:chapter?.courseId,country:educationCountrySelection.code,routeId:scienceJourney.universityRoute,
+   year:Number(String(scienceJourney.grade).slice(-1)),specialty:scienceJourney.specialty,language:state.language,
+   lessons:EDUCATION_THEORY_DATA,trackGuide:SCIENCE_UNIVERSITY_TRACK_GUIDES.physics?.[scienceJourney.specialty]
+  });
+  if(!body){
+   const notice=document.createElement('p');notice.textContent=learningLabel('Materialul cursului nu este disponibil.','Course material unavailable.');
+   section.append(notice);return section;
+  }
+  head.textContent=learningLabel('📚 Curs universitar integral','📚 Full university course');
+  const button=document.createElement('button');button.type='button';button.className='secondary-btn science-inline-theory-item';
+  button.textContent=learningLabel('Teorie, formule, exemple, exercițiu și investigație','Theory, formulas, examples, exercise and investigation');
+  button.onclick=()=>educationOpenPagedLesson(name,body);
   section.append(button);return section;
  }
  // University courses have a chapter-specific, extended study document
@@ -23334,6 +23395,20 @@ main.page:has(#view-module.learning-science.science-scroll-stage.active){
 #view-module.learning-science .science-stage-toolbar .science-laws-entry{
  min-height:44px!important;min-width:0!important;
  margin-left:auto!important;padding:7px 10px!important;white-space:normal!important;
+}
+
+
+/* University Physics route selector reuses the scrolling study-year band. */
+#view-module.learning-science.science-year-stage.active .science-university-route-picker{
+ display:block!important;box-sizing:border-box!important;width:100%!important;
+ min-height:44px!important;margin:8px 0 4px!important;padding:7px!important;
+ border-radius:10px!important;border:1px solid #86b1c4!important;
+ background:#123449!important;color:#fff!important;font-size:clamp(12px,3.2vw,15px)!important;
+ touch-action:manipulation!important;
+}
+#view-module.learning-science.science-year-stage.active .science-university-route-description{
+ font-size:clamp(12px,3vw,14px)!important;line-height:1.35!important;
+ margin:9px 0 0!important;opacity:.89!important;overflow-wrap:anywhere!important;
 }
 
 /* History / Geography subject selector: centre the two existing cards in
