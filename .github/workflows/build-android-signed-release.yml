@@ -46,7 +46,7 @@ on:
       - 'assistant_place_results_ui.mjs'
       - 'country_*.mjs'
   push:
-    branches: [main, feature/eva-images-release-20261115]
+    branches: [main]
     paths:
       - 'one_field_journey_ui.mjs'
       - 'tests_one_field_live_request.mjs'
@@ -160,8 +160,8 @@ permissions:
 
 jobs:
   apk-signed-release:
-    # The one-off registry preview must never sign unrelated PRs.
-    if: ${{ github.event_name != 'pull_request' || github.head_ref == 'feature/smart-country-registry' || (github.head_ref == 'ui/tools-workspaces-unified-2026-11-14' && github.event.pull_request.head.repo.full_name == github.repository) }}
+    # Only the single approved main branch may produce an installable release.
+    if: ${{ github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch') }}
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
