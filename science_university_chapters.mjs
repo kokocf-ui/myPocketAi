@@ -58,6 +58,12 @@ export function scienceUniversityChapter({
    root.push(
     '## '+(index+1)+'. '+unit.title,
     '# '+(ro?'Explicație universitară':'Scientific explanation'),unit.explanation,
+    unit.formula?'# '+(ro?'Formula de pornire':'Starting formula'):'',
+    unit.formula||'',
+    unit.symbols?'# '+(ro?'Simboluri și unități':'Symbols and units'):'',
+    unit.symbols||'',
+    unit.method?'# '+(ro?'Metoda de aplicare':'How to apply the model'):'',
+    unit.method||'',
     '# '+(ro?'Exemplu rezolvat':'Worked example'),unit.workedExample,
     '# '+(ro?'Exercițiu de evaluare':'Independent exercise'),unit.exercise,
     ro?
