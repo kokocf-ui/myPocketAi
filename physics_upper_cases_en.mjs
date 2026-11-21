@@ -1,6 +1,7 @@
 // Original, independently authored English upper-secondary Physics cases.
 // These are advisory learning materials, NOT translations claiming official
 // recognition by any national school or examination authority.
+const methodNotes={"units":"Check every conversion with the physical dimensions, and include both an appropriate unit and a plausible scale for the final result.","kinematics":"Identify initial and final states before calculating, and interpret the result with a defined direction and a time unit.","dynamics":"Begin by drawing all forces on one object, then calculate the net effect rather than treating one applied force as the resultant.","energy":"Keep the mass, speed and height in compatible SI units; report an energy in joules and state the reference if it matters.","fluids":"Identify the relevant contact area, depth or displaced-fluid volume and check whether the final unit is a pascal or a newton.","heat":"Separate warming without phase change from latent heat during a phase change, and use compatible mass and temperature units.","electric":"State the electrical quantities and the configuration in which the current, potential difference or capacitance law holds.","waves":"Check the relation between frequency in hertz, period in seconds and wavelength in metres before interpreting propagation.","optics":"Draw the optical normal or principal axis and name the angle convention before computing or explaining the light ray.","electromagnetism":"Check the orientation of the conductor or surface normal and the magnetic field before computing the force or flux.","thermodynamics":"Use an absolute temperature and declare the sign convention for heat and work before checking the energy balance.","circuits":"Identify each branch and node and confirm whether the elements are in series or parallel before combining resistances.","modern":"Keep physical constants in compatible SI units and verify the order of magnitude or the remaining fraction after decay.","measurement":"Preserve the raw data and examine instrument resolution and systematic errors before presenting a rounded conclusion."};
 const chapters={
   "units": [
     [
@@ -329,7 +330,7 @@ export const PHYSICS_UPPER_CASES_EN=Object.freeze(Object.fromEntries(
  Object.entries(chapters).map(([topic,items])=>[topic,Object.freeze(items.map(
  ([title,statement,workedExample,exercise,answer],i)=>Object.freeze({
   id:'upper-physics-en-case-'+topic+'-'+(i+1),subject:'physics',topic,
-  level:'intermediate',title,statement,workedExample,exercise,answer,
+  level:'intermediate',title,statement,workedExample:workedExample+' '+methodNotes[topic],exercise,answer,
   source:'original-english-high-school-physics-advisory',nationallyVerified:false,
   language:'en'
  })))])));
