@@ -3,6 +3,7 @@ import vm from 'node:vm';
 import frontend from './index.js';
 import {CHEMISTRY_DETAILED_LESSONS} from './chemistry_detailed_lessons.mjs';
 import {CHEMISTRY_LESSONS} from './chemistry_curriculum.mjs';
+import {THEORY_ENTRIES} from './education_theory.mjs';
 
 const originals=CHEMISTRY_LESSONS.filter(x=>x.topic==='fundamentals');
 assert.equal(originals.length,14,'foundation chapter still has fourteen lessons');
@@ -19,6 +20,30 @@ const html=await(await frontend.fetch(new Request('https://chemistry-three-scree
 const script=html.match(/<script>([\s\S]*?)<\/script>/)?.[1]||'';
 assert.ok(script,'main script must be embedded');
 new vm.Script(script);
+// Regression: the chapter badge must describe precisely the same accessible
+// lesson cards that the high-school reader renders, not a wider catalogue.
+const begin=script.indexOf('function scienceChemistryUpperLessonEntries(');
+const end=script.indexOf('function educationScienceTheoryReader(',begin);
+assert.ok(begin>0&&end>begin,'High-school Chemistry shares one lesson inventory');
+const selectLessons=vm.runInNewContext(
+ script.slice(begin,end)+';scienceChemistryUpperLessonEntries',
+ {EDUCATION_THEORY_DATA:THEORY_ENTRIES}
+);
+assert.equal(selectLessons('fundamentals').length,14,
+ 'The 14 advertised Matter & laboratory lessons must all be accessible');
+for(const topic of new Set(CHEMISTRY_LESSONS.filter(x=>x.level!=='advanced').map(x=>x.topic))){
+ const expected=THEORY_ENTRIES.filter(item=>item.subject==='chemistry'&&
+  item.topic===topic&&!item.specialty&&
+  ['beginner','intermediate','medium'].includes(item.level)&&
+  item.title&&item.statement);
+ const actual=selectLessons(topic);
+ assert.deepEqual([...actual].map(x=>x.id),expected.map(x=>x.id),
+  'No Chemistry lesson may disappear after selecting chapter '+topic);
+}
+assert.ok(script.includes('scienceChemistryUpperLessonEntries(item.id).length'),
+ 'The chapter lesson badge uses the exact reader inventory');
+assert.ok(script.includes('scienceChemistryUpperLessonEntries(chapter?.id)'),
+ 'The reader uses the exact chapter badge inventory');
 for(const stage of ['chemistry-menu','chemistry-lessons','chemistry-lab']){
  assert.ok(script.includes("'"+stage+"'"),stage+' is a real stage');
 }
