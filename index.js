@@ -52,6 +52,7 @@ import {CHEMISTRY_SPECIALIZATIONS,CHEMISTRY_SPECIALTY_TOPICS,CHEMISTRY_MOLECULES
 import {BIOLOGY_TOPICS,BIOLOGY_SPECIALIZATIONS,BIOLOGY_SPECIALTY_TOPICS,biologyVerifiedExercise} from './biology_curriculum.mjs';
 import {mathAdvancedVerifiedModel} from './math_advanced_verified.mjs';
 import {PHYSICS_TOPICS,PHYSICS_SPECIALIZATIONS} from './physics_curriculum.mjs';
+import {PHYSICS_LAWS,PHYSICS_LAWS_GROUPS} from './physics_laws_reference.mjs';
 import {physicsVerifiedExercise} from './physics_verified.mjs';
 import {ASTRONOMY_TOPICS,ASTRONOMY_SPECIALIZATIONS} from './astronomy_curriculum.mjs';
 import {astronomyVerifiedExercise} from './astronomy_verified.mjs';
@@ -8133,7 +8134,8 @@ function scienceVoiceStop(){
 function scienceBack(){
  const current=scienceJourney.stage;
  scienceVoiceStop();scienceStopRequest();
- if(current==='workspace')scienceJourney.stage='chemistry-menu';
+ if(current==='physics-laws')scienceJourney.stage='years';
+ else if(current==='workspace')scienceJourney.stage='chemistry-menu';
  else if(current==='chemistry-lessons'||current==='chemistry-lab')scienceJourney.stage='chemistry-menu';
  else if(current==='chemistry-menu')scienceJourney.stage='topics';
  else if(current==='topics')scienceJourney.stage=scienceJourney.level==='advanced'?'specialties':'years';
@@ -8161,11 +8163,23 @@ function scienceFitViewport(){
   page?.classList.remove('science-keyboard-visible');
   page?.style.removeProperty('--science-content-height');
   page?.style.removeProperty('--science-dock-clearance');
+  page?.style.removeProperty('--science-selector-height');
   return;
  }
  const focus=document.activeElement?.id==='scienceEducationText';
  page.classList.toggle('science-keyboard-visible',focus);
  if(!focus){
+  if(root.classList.contains('science-scroll-stage')){
+   const viewport=window.visualViewport;
+   const visibleBottom=viewport?viewport.offsetTop+viewport.height:window.innerHeight;
+   const pageTop=page.getBoundingClientRect().top;
+   const navTop=document.querySelector('.bottom-nav')?.getBoundingClientRect().top;
+   const bottom=Number.isFinite(navTop)&&navTop>pageTop&&navTop<visibleBottom?navTop:visibleBottom;
+   page.style.setProperty('--science-selector-height',Math.max(200,Math.floor(bottom-pageTop-8))+'px');
+   page.style.removeProperty('--science-content-height');
+   return;
+  }
+  page.style.removeProperty('--science-selector-height');
   // The normal flex page is already bounded by the header and bottom navigation.
   // Giving it an additional JS-computed fixed height previously double-subtracted chrome.
   page.style.removeProperty('--science-content-height');
@@ -8229,6 +8243,23 @@ function scienceYearGroups(){
  }).filter(group=>group.years.length);
 }
 
+function sciencePhysicsLawText(law){
+ return [
+  '# '+learningLabel(law.ro,law.en),
+  learningLabel('Referință generală de fizică; nu este programă națională certificată.','General Physics reference; not a certified national curriculum.'),
+  '# '+learningLabel('Enunț și explicație','Statement and explanation'),
+  learningLabel(law.explainRo,law.explainEn),
+  '# '+learningLabel('Legea sau relația matematică','Mathematical relation'),
+  law.formula,
+  '# '+learningLabel('Exemplu explicat','Explained example'),
+  learningLabel(law.exampleRo,law.exampleEn),
+  '# '+learningLabel('Condiții și limite de aplicare','Conditions and limitations'),
+  learningLabel(law.scopeRo,law.scopeEn),
+  '# '+learningLabel('Verifică înțelegerea','Check your understanding'),
+  learningLabel('Explică de ce formula este aplicabilă în exemplu și ce condiție i-ar limita folosirea.','Explain why the relation applies in the example and which assumption could invalidate it.')
+ ].join(String.fromCharCode(10)+String.fromCharCode(10));
+}
+
 function scienceJourneyShowChoices(stage){
  const science=LEARNING_SUBJECTS.find(s=>s[0]==='science');
  if(!science)return;
@@ -8241,6 +8272,7 @@ function scienceJourneyShowChoices(stage){
  root.classList.toggle('science-choice-stage',stage!=='workspace');
  root.classList.toggle('science-subject-stage',stage==='subjects');
  root.classList.toggle('science-year-stage',stage==='years');
+ root.classList.toggle('science-scroll-stage',stage==='years'||stage==='physics-laws');
  $('moduleTitle').textContent=learningLabel('Științe','Sciences')+
   (stage==='subjects'?'':' · '+learningLabel(scienceSubjectInfo()?.ro||'',scienceSubjectInfo()?.en||''));
  $('moduleLead').textContent='';
@@ -8253,16 +8285,26 @@ function scienceJourneyShowChoices(stage){
  back.className='secondary-btn science-stage-back';
  back.textContent=learningLabel('← Înapoi','← Back');back.onclick=scienceBack;
  const bar=document.createElement('div');bar.className='education-toolbar science-stage-toolbar';
- bar.append(back);host.append(bar);
+ bar.append(back);
+ if(stage==='years'&&scienceJourney.subject==='physics'){
+  const lawsButton=document.createElement('button');lawsButton.type='button';
+  lawsButton.className='secondary-btn science-laws-entry';
+  lawsButton.textContent=learningLabel('⚖️ Legi și teoreme','⚖️ Laws and theorems');
+  lawsButton.onclick=()=>scienceJourneyShowChoices('physics-laws');
+  bar.append(lawsButton);
+ }
+ host.append(bar);
  const panel=document.createElement('div');panel.className='math-choice-panel science-choice-panel';
  const title=document.createElement('h2');
  title.textContent=stage==='subjects'?learningLabel('Alege materia','Choose subject'):
   stage==='years'?learningLabel('Alege clasa / anul de studiu','Choose grade / school year'):
+  stage==='physics-laws'?learningLabel('Legi și teoreme ale fizicii','Physics laws and theorems'):
   stage==='specialties'?learningLabel('Alege specializarea universitară','Choose university specialization'):
   learningLabel('Alege capitolul','Choose chapter');
  const note=document.createElement('p');
  note.textContent=stage==='subjects'?
   learningLabel('Selectează una dintre cele patru materii.','Choose one of the four subjects.'):
+  stage==='physics-laws'?learningLabel('Referință generală fără alegerea clasei. Fiecare explicație conține un exemplu și condițiile de aplicare.','General reference without grade selection; each entry explains an example and its limitations.'):
   stage==='years'?
   educationCountrySelection.label+' · '+
    learningLabel('Selectează clasa sau anul pentru materia aleasă.','Choose the grade or school year for the selected subject.')+
@@ -8275,6 +8317,44 @@ function scienceJourneyShowChoices(stage){
    (scienceJourney.schoolStage==='primary'?' '+learningLabel('La primar, disciplinele sunt explorate integrat, fără a le declara obligatorii separat.','In primary school these sciences are explored together, not declared separate compulsory subjects.'):'');
  const list=document.createElement('div');
  list.className='math-choice-list science-choice-list';
+ if(stage==='physics-laws'){
+  list.className+=' science-laws-list';
+  const filter=document.createElement('input');filter.type='search';
+  filter.className='science-laws-filter';
+  filter.placeholder=learningLabel('Caută legea sau teorema…','Search laws and theorems…');
+  filter.setAttribute('aria-label',filter.placeholder);
+  const entries=[];
+  for(const group of PHYSICS_LAW_GROUPS){
+   const section=document.createElement('section');section.className='science-law-group';
+   const heading=document.createElement('h3');heading.textContent=learningLabel(group.ro,group.en);
+   const rows=document.createElement('div');rows.className='science-law-tiles';
+   for(const law of PHYSICS_LAWS_DATA.filter(item=>item.group===group.id)){
+    const button=document.createElement('button');button.type='button';
+    button.className='secondary-btn science-law-tile';
+    const name=document.createElement('strong');name.textContent=learningLabel(law.ro,law.en);
+    const relation=document.createElement('small');relation.textContent=law.formula;
+    button.append(name,relation);
+    button.onclick=()=>educationOpenPagedLesson(learningLabel(law.ro,law.en),sciencePhysicsLawText(law));
+    rows.append(button);entries.push({law,button,section});
+   }
+   section.append(heading,rows);list.append(section);
+  }
+  filter.oninput=()=>{
+   const q=educationTheoryClean(filter.value);
+   for(const item of entries){
+    const law=item.law;
+    const value=educationTheoryClean(law.ro+' '+law.en+' '+law.formula);
+    item.button.hidden=Boolean(q&&!value.includes(q));
+   }
+   for(const group of PHYSICS_LAW_GROUPS){
+    const section=entries.find(item=>item.law.group===group.id)?.section;
+    if(section)section.hidden=!entries.some(item=>item.law.group===group.id&&!item.button.hidden);
+   }
+  };
+  panel.append(title,note,filter,list);host.append(panel);
+  requestAnimationFrame(()=>{document.querySelector('main.page')?.scrollTo(0,0);scienceFitViewport()});
+  return;
+ }
  const choices=stage==='subjects'?SCIENCE_SUBJECTS:
   stage==='years'?[]:
   stage==='specialties'?(scienceJourney.subject==='physics'?PHYSICS_SPECIALTY_DATA:scienceJourney.subject==='biology'?BIOLOGY_SPECIALTY_DATA:scienceJourney.subject==='astronomy'?ASTRONOMY_SPECIALTY_DATA:CHEMISTRY_SPECIALTY_DATA):
@@ -9015,6 +9095,8 @@ const scienceLowerTopicContent=${scienceLowerTopicContent.toString()};
 const SCIENCE_GRADE_TOPIC_PLAN=${scienceGradeTopicPlan.toString()};
 const SCIENCE_GRADE_LESSON_FRAME=${scienceGradeLessonFrame.toString()};
 const PHYSICS_TOPIC_DATA=${JSON.stringify(PHYSICS_TOPICS)};
+const PHYSICS_LAWS_DATA=${JSON.stringify(PHYSICS_LAWS)};
+const PHYSICS_LAW_GROUPS=${JSON.stringify(PHYSICS_LAWS_GROUPS)};
 const ASTRONOMY_TOPIC_DATA=${JSON.stringify(ASTRONOMY_TOPICS)};
 const ASTRONOMY_SPECIALTY_DATA=${JSON.stringify(ASTRONOMY_SPECIALIZATIONS)};
 const ASTRONOMY_SOLVE_VERIFIED=${astronomyVerifiedExercise.toString()};
@@ -23185,6 +23267,73 @@ main.page:has(#view-module.learning-science.science-subject-stage.active){
 }
 #view-module.learning-science.science-subject-stage.active .science-choice-list > .science-subject-tile{
  height:100%!important;min-height:0!important;
+}
+
+
+/* Sciences scroll repair: keep the year/law picker bounded inside the actual
+   visible area above the fixed bottom dock. Subject tiles remain unchanged. */
+main.page:has(#view-module.learning-science.science-scroll-stage.active){
+ box-sizing:border-box!important;flex:0 0 auto!important;
+ height:var(--science-selector-height,calc(100dvh - 230px))!important;
+ max-height:var(--science-selector-height,calc(100dvh - 230px))!important;
+ min-height:0!important;padding-bottom:0!important;
+ overflow:hidden!important;overscroll-behavior:contain!important;
+}
+#view-module.learning-science.science-scroll-stage.active{
+ height:100%!important;max-height:100%!important;min-height:0!important;
+ display:grid!important;grid-template-rows:auto minmax(0,1fr)!important;
+ align-content:stretch!important;overflow:hidden!important;
+}
+#view-module.learning-science.science-scroll-stage.active.pocket-paired-nav-layout{
+ grid-template-rows:auto auto minmax(0,1fr)!important;
+}
+#view-module.learning-science.science-scroll-stage.active > #moduleContent{
+ display:flex!important;flex-direction:column!important;flex:1 1 auto!important;
+ height:100%!important;max-height:100%!important;min-height:0!important;
+ overflow:hidden!important;padding:0!important;
+}
+#view-module.learning-science.science-scroll-stage.active .science-choice-panel{
+ display:flex!important;flex-direction:column!important;flex:1 1 auto!important;
+ height:100%!important;max-height:100%!important;min-height:0!important;
+ box-sizing:border-box!important;overflow:hidden!important;
+}
+#view-module.learning-science.science-scroll-stage.active .science-choice-list{
+ display:flex!important;flex-direction:column!important;flex:1 1 auto!important;
+ height:auto!important;max-height:none!important;min-height:0!important;
+ overflow-y:auto!important;overflow-x:hidden!important;
+ -webkit-overflow-scrolling:touch!important;touch-action:pan-y!important;
+ overscroll-behavior:contain!important;
+ scroll-padding-bottom:24px!important;padding-bottom:24px!important;
+}
+#view-module.learning-science.science-scroll-stage.active .science-year-band,
+#view-module.learning-science.science-scroll-stage.active .science-law-group{
+ flex:0 0 auto!important;
+}
+#view-module.learning-science.science-scroll-stage.active .science-laws-filter{
+ width:100%!important;box-sizing:border-box!important;min-height:44px!important;
+ flex:0 0 auto!important;margin:0 0 7px!important;padding:9px 12px!important;
+ border:1px solid #608eaa!important;border-radius:10px!important;
+ background:#09263a!important;color:#fff!important;font:inherit!important;
+}
+#view-module.learning-science.science-scroll-stage.active .science-law-group h3{
+ font-size:clamp(14px,3.4vw,18px)!important;margin:3px 0 7px!important;
+}
+#view-module.learning-science.science-scroll-stage.active .science-law-tiles{
+ display:flex!important;flex-direction:column!important;gap:7px!important;
+}
+#view-module.learning-science.science-scroll-stage.active .science-law-tile{
+ display:flex!important;flex-direction:column!important;align-items:flex-start!important;
+ min-height:61px!important;gap:4px!important;white-space:normal!important;
+ width:100%!important;text-align:left!important;padding:9px 11px!important;
+}
+#view-module.learning-science.science-scroll-stage.active .science-law-tile small{
+ font-size:12px!important;opacity:.87!important;overflow-wrap:anywhere!important;
+}
+#view-module.learning-science.science-scroll-stage.active .science-law-tile[hidden],
+#view-module.learning-science.science-scroll-stage.active .science-law-group[hidden]{display:none!important}
+#view-module.learning-science .science-stage-toolbar .science-laws-entry{
+ min-height:44px!important;min-width:0!important;
+ margin-left:auto!important;padding:7px 10px!important;white-space:normal!important;
 }
 
 /* History / Geography subject selector: centre the two existing cards in
