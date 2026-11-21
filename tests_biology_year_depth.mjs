@@ -1,0 +1,111 @@
+// Acceptance checks for the existing Sciences UI with Biology's real-year
+// lecture inventory, exact badge counts and direct reference navigation.
+// All content tests run OFFLINE. No Workers, transport APIs or AI credits.
+import assert from 'node:assert/strict';
+import vm from 'node:vm';
+import app from './index.js';
+import {EDUCATION_EUROPE_COUNTRIES,educationCountrySchoolYears} from './education_all_country_subject_matrix.mjs';
+import {BIOLOGY_TOPICS} from './biology_curriculum.mjs';
+import {THEORY_ENTRIES} from './education_theory.mjs';
+import {scienceGradeTopicPlan} from './science_grade_progression.mjs';
+import {scienceSchoolTopicLessons} from './science_ro_course_plan.mjs';
+import {scienceSchoolLessonMaterial} from './science_school_lesson_material.mjs';
+import {BIOLOGY_UPPER_YEAR_TOPICS,BIOLOGY_UPPER_YEAR_BANK,biologyUpperYearLessons} from './biology_upper_course.mjs';
+import {BIOLOGY_REFERENCE_GROUPS,BIOLOGY_REFERENCE,biologyReferenceText} from './biology_reference.mjs';
+
+assert.equal(BIOLOGY_UPPER_YEAR_TOPICS.length,4);
+assert.deepEqual(BIOLOGY_UPPER_YEAR_TOPICS.map(x=>x.length),[4,3,4,4]);
+assert.equal(BIOLOGY_UPPER_YEAR_BANK.length,15,'Each selected annual chapter has authored study lessons');
+const flat=BIOLOGY_UPPER_YEAR_BANK.flatMap(ch=>ch.lessons);
+assert.equal(flat.length,45,'Four distinct Biology years have 45 original year-specific study lessons');
+assert.equal(new Set(flat.map(x=>x.id)).size,45,'All year-specific lesson IDs must differ');
+assert.equal(new Set(flat.map(x=>x.title)).size,45,'Do not repeat generic lesson titles');
+const knownTopics=new Set(BIOLOGY_TOPICS.map(x=>x.id));
+for(const chapter of BIOLOGY_UPPER_YEAR_BANK){
+ assert.ok(knownTopics.has(chapter.topic),'Unknown chapter '+chapter.topic);
+ assert.ok(BIOLOGY_UPPER_YEAR_TOPICS[chapter.year].includes(chapter.topic));
+ assert.equal(chapter.lessons.length,3,'Chapter needs three individually selectable lessons');
+ for(const entry of chapter.lessons){
+  for(const key of ['id','title','statement','workedExample','exercise','answer','formula'])
+   assert.ok(String(entry[key]||'').length>=5,entry.id+' missing '+key);
+  assert.ok(entry.statement.length>=115,entry.id+' must explain biological concepts, not a one-line definition');
+  assert.ok(entry.workedExample.length>=110,entry.id+' must have specific worked illustration');
+  const body=scienceSchoolLessonMaterial({entry,subject:'biology',grade:'9',chapter:chapter.topic,language:'ro'});
+  assert.ok(body?.includes(entry.statement)&&body.includes(entry.workedExample)&&body.includes(entry.exercise));
+  assert.match(body,/Exemplu explicat/);
+  assert.match(body,/Exercițiu pentru elev/);
+  assert.match(body,/Siguranță/);
+ }
+}
+const roYears=['9','10','11','12'].map(id=>({id}));
+const allRo=[];
+for(const [pos,year] of roYears.entries()){
+ const plan=scienceGradeTopicPlan({country:'RO',subject:'biology',stage:'upper',grade:year.id,years:roYears,topics:BIOLOGY_TOPICS});
+ assert.deepEqual(plan.topics.map(x=>x.id),[...BIOLOGY_UPPER_YEAR_TOPICS[pos]],
+  'Year-specific chapter plan must match the actual authored Biology lessons');
+ const all=[];
+ for(const topic of plan.topics){
+  const entries=scienceSchoolTopicLessons({country:'RO',subject:'biology',grade:year.id,
+   stage:'upper',topic:topic.id,years:roYears,lessons:THEORY_ENTRIES,language:'ro'});
+  const fromBank=biologyUpperYearLessons({country:'RO',grade:year.id,topic:topic.id,years:roYears});
+  assert.equal(entries.length,3,'Chapter badge must match its real accessible cards');
+  assert.deepEqual(entries.map(x=>x.id),fromBank.map(x=>x.id));
+  all.push(...entries);
+ }
+ assert.equal(all.length,plan.topics.length*3);
+ allRo.push(...all.map(x=>x.id));
+}
+assert.equal(new Set(allRo).size,45,'Romanian high-school grades must not repeat the same annual lesson');
+let countriesChecked=0,gradesChecked=0;
+for(const country of EDUCATION_EUROPE_COUNTRIES){
+ const yearList=educationCountrySchoolYears(country,'medium').years;
+ if(!yearList.length)continue;
+ countriesChecked++;
+ for(const y of yearList){
+  const plan=scienceGradeTopicPlan({country,subject:'biology',stage:'upper',grade:y.id,
+   years:yearList,topics:BIOLOGY_TOPICS});
+  assert.ok(plan.topics.length>=3,country+'/'+y.id+' upper-secondary Biology chapters missing');
+  for(const topic of plan.topics){
+   const entries=scienceSchoolTopicLessons({country,subject:'biology',grade:y.id,topic:topic.id,
+    stage:'upper',years:yearList,lessons:THEORY_ENTRIES});
+   assert.equal(entries.length,3,country+'/'+y.id+'/'+topic.id+' unexpected badge/reader mismatch');
+   assert.ok(entries.every(x=>x.grade===String(y.id)),'Never replace local school-year label');
+  }
+  gradesChecked++;
+ }
+}
+assert.ok(countriesChecked>=40,'Broad European upper-secondary year coverage');
+assert.ok(gradesChecked>=80,'Country-specific year labels must be exercised');
+assert.equal(BIOLOGY_REFERENCE_GROUPS.length,5);
+assert.equal(BIOLOGY_REFERENCE.length,20,'Definitions plus actual applicable scientific principles');
+assert.equal(new Set(BIOLOGY_REFERENCE.map(x=>x.id)).size,20);
+for(const item of BIOLOGY_REFERENCE){
+ assert.ok(BIOLOGY_REFERENCE_GROUPS.some(x=>x.id===item.group),'Ungrouped Biology concept');
+ for(const field of ['ro','en','formula','explainRo','explainEn','exampleRo','exampleEn','scopeRo','scopeEn'])
+  assert.ok(item[field]?.length>=4,item.id+'/'+field+' empty');
+ const textRo=biologyReferenceText(item,'ro'),textEn=biologyReferenceText(item,'en');
+ assert.ok(textRo.includes(item.explainRo)&&textRo.includes(item.exampleRo)&&textRo.includes(item.scopeRo));
+ assert.ok(textEn.includes(item.explainEn)&&textEn.includes(item.exampleEn));
+}
+const html=await(await app.fetch(new Request('https://biology-annual-year-reference.test/'))).text();
+const script=html.match(/<script>([\s\S]*?)<\/script>/)?.[1];
+assert.ok(script,'Actual Android WebView script');
+new vm.Script(script);
+for(const fragment of [
+ 'const BIOLOGY_UPPER_YEAR_BANK=',
+ 'const BIOLOGY_UPPER_YEAR_TOPICS=',
+ 'const biologyUpperYearLessons=',
+ 'const BIOLOGY_REFERENCE=',
+ 'const BIOLOGY_REFERENCE_GROUPS=',
+ 'const biologyReferenceText=',
+ "reference.onclick=()=>scienceJourneyShowChoices('biology-reference')",
+ "else if(current==='biology-reference')scienceJourney.stage='years';",
+ "subject:'biology',stage:'upper'",
+ "subjectId==='biology'",
+ "biologyReference?biologyReferenceText(law,state.language)",
+])
+ assert.ok(script.includes(fragment),'Missing Biology integration in Android: '+fragment);
+assert.ok(script.includes("scienceSchoolTopicLessons({")&&script.includes("country:educationCountrySelection.code,subject:'biology',grade:scienceJourney.grade"),
+ 'Biology chapter count and reader both use year-selected lesson function');
+console.log('PASS Biology: 45 distinct authored upper lessons, '+countriesChecked+
+ ' European country paths and '+gradesChecked+' grades, 20 references, WebView syntax and matching lesson counts');
