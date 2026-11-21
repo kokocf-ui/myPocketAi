@@ -64,6 +64,7 @@ jobs:
           node tests_chemistry_complete.mjs
           node tests_chemistry_three_sections.mjs
           node tests_chemistry_visuals.mjs
+          node tests_sciences_contextual_diagrams.mjs
           node tests_chemistry_atom_context.mjs
           node tests_biology_complete.mjs
           node tests_astronomy_complete.mjs

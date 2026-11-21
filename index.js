@@ -48,6 +48,7 @@ import {SCIENCE_UNIVERSITY_TRACK_GUIDES} from './science_university_track_guides
 import {scienceUniversityChapter} from './science_university_chapters.mjs';
 import {PHYSICS_UNIVERSITY_STUDIES} from './physics_university_studies.mjs';
 import {SCIENCE_YEAR_REFERENCE,scienceYearReferenceEntries,scienceYearReferenceMaterial} from './science_year_reference.mjs';
+import {SCIENCE_CONTEXTUAL_DIAGRAMS,scienceContextualDiagramSpec,scienceContextualDiagramBuild} from './science_contextual_diagrams.mjs';
 import {PHYSICS_UNIVERSITY_CORE_UNITS,physicsUniversityTopicUnits,physicsUniversityUnitMaterial} from './physics_university_learning_units.mjs';
 import {PHYSICS_UNIVERSITY_GRAPH_SPECS,physicsUniversityDiagramSpec,physicsUniversityVisualBuild} from './physics_university_visuals.mjs';
 import {SCIENCE_ADVISORY_PROGRESSION,SCIENCE_PROGRESSION_SOURCES,SCIENCE_PRIMARY_LESSON_BANK,SCIENCE_PRIMARY_ENGLISH,SCIENCE_PRIMARY_DEPTH,scienceGradeTopicPlan,scienceGradeLessonFrame} from './science_grade_progression.mjs';
@@ -9203,6 +9204,9 @@ const PHYSICS_UNIVERSITY_STUDIES=${JSON.stringify(PHYSICS_UNIVERSITY_STUDIES)};
 const SCIENCE_YEAR_REFERENCE=${JSON.stringify(SCIENCE_YEAR_REFERENCE)};
 const scienceYearReferenceEntries=${scienceYearReferenceEntries.toString()};
 const scienceYearReferenceMaterial=${scienceYearReferenceMaterial.toString()};
+const SCIENCE_CONTEXTUAL_DIAGRAMS=${JSON.stringify(SCIENCE_CONTEXTUAL_DIAGRAMS)};
+const scienceContextualDiagramSpec=${scienceContextualDiagramSpec.toString()};
+const scienceContextualDiagramBuild=${scienceContextualDiagramBuild.toString()};
 const PHYSICS_UNIVERSITY_CORE_UNITS=${JSON.stringify(PHYSICS_UNIVERSITY_CORE_UNITS)};
 const physicsUniversityTopicUnits=${physicsUniversityTopicUnits.toString()};
 const physicsUniversityUnitMaterial=${physicsUniversityUnitMaterial.toString()};
@@ -11202,6 +11206,34 @@ function educationScienceTheoryReader(subjectId,topicId,level){
 }
 
 
+function scienceSubjectDiagramOpen(subject){
+ const topic=scienceJourney.topic;
+ if(subject==='chemistry'&&topic==='periodic'){
+  // The original 118-element interactive table remains the correct
+  // scientific representation of the periodic system.
+  chemistryVisualOpen('periodic','');return;
+ }
+ document.getElementById('scienceContextDiagramDialog')?.remove();
+ const dialog=document.createElement('dialog');dialog.id='scienceContextDiagramDialog';
+ dialog.className='education-theory-dialog science-contextual-dialog';
+ const bar=document.createElement('div');bar.className='education-theory-head';
+ const title=document.createElement('h2');
+ title.textContent=learningLabel('Reprezentarea capitolului','Chapter illustration');
+ const back=document.createElement('button');back.type='button';back.className='secondary-btn';
+ back.textContent=learningLabel('← Revenire','← Back');back.onclick=()=>dialog.close();
+ bar.append(title,back);dialog.append(bar);
+ const visual=scienceContextualDiagramBuild(subject,topic,state.language);
+ if(visual)dialog.append(visual);
+ else{
+  // Do not recycle a generic cell, DNA strand or atom for unrelated courses.
+  const note=document.createElement('p');
+  note.textContent=learningLabel('Acest capitol nu are încă o reprezentare verificată. Nu afișăm o diagramă fără legătură cu tema.',
+   'No checked illustration for this exact chapter yet; unrelated charts are not substituted.');
+  dialog.append(note);
+ }
+ document.body.append(dialog);dialog.addEventListener('close',()=>dialog.remove());
+ try{dialog.showModal()}catch{dialog.setAttribute('open','')}
+}
 function scienceOpenChemistrySection(stage){
  const host=$('moduleContent'),topic=scienceTopicInfo();
  const toolbar=document.createElement('div');toolbar.className='education-toolbar science-stage-toolbar chemistry-stage-toolbar';
@@ -11255,8 +11287,15 @@ function scienceOpenChemistrySection(stage){
    learningLabel('Experimente sigure și explicații potrivite lecției alese.','Safe investigations directly tied to this chapter.'):
    learningLabel('Alege o reprezentare interactivă.','Choose an interactive visual model.'));
   if(scienceJourney.subject==='chemistry'){
-   tile('🧬','Molecule 3D','3D Molecules','H₂O, CO₂, CH₄, NH₃: rotire și mărire','H₂O, CO₂, CH₄, NH₃: rotate and zoom',scienceChemMoleculeOpen);
-   tile('📊','Reprezentări','Visual models','Diagrame și structuri disponibile','Available diagrams and structures',chemistryVisualPicker);
+   // Only show the molecule model where molecular geometry is scientifically
+   // relevant; an unrelated 3D water molecule is not a representation of pH,
+   // titration or laboratory calculations.
+   if(['atomic','bonding','organic','biochemistry','advanced'].includes(scienceJourney.topic))
+    tile('🧬','Molecule 3D','3D Molecules','Modele moleculare cunoscute, rotire și mărire',
+     'Known molecular geometry models, rotate and zoom',scienceChemMoleculeOpen);
+   tile('📊','Reprezentarea capitolului','Chapter illustration',
+    'Model propriu fenomenului ales','Model specific to the selected science topic',
+    ()=>scienceSubjectDiagramOpen('chemistry'));
   }else if(scienceJourney.subject==='physics'){
    if(introPhysics){
     const investigations=physicsGrade6Laboratories(scienceJourney.topic);
@@ -11285,7 +11324,13 @@ function scienceOpenChemistrySection(stage){
     tile('📈','Reprezentări din capitol','Chapter diagrams','Numai modele relevante lecției','Only lesson-relevant models',physicsVisualPicker);
    }
   }else if(scienceJourney.subject==='biology'){
-   tile('🧬','Celulă și ADN 3D','Cell and 3D DNA','Explorează modelele de celulă și ADN','Explore cell and DNA models',scienceBiologyDiagramOpen);
+   tile('🌿','Reprezentarea capitolului','Chapter illustration',
+    'Schemă legată de lecția selectată','A model relevant to the selected topic',
+    ()=>scienceSubjectDiagramOpen('biology'));
+   if(['cells','genetics'].includes(scienceJourney.topic))
+    tile('🧬','Celulă și ADN 3D','Cell and 3D DNA',
+     'Modelele existente pentru structuri celulare','Existing cellular structure models',
+     scienceBiologyDiagramOpen);
   }else if(scienceJourney.subject==='astronomy'){
    tile('🪐','Reprezentări astronomice','Astronomy diagrams','Diagrame pentru fenomenele studiate','Diagrams for studied phenomena',astronomyDiagramPicker);
    tile('🌌','Orbite 3D','3D orbits','Vizualizare rotativă a orbitelor','Interactive rotating orbits',astronomyOrbit3DOpen);
@@ -24375,6 +24420,27 @@ dialog.science-year-reference-dialog[open] .science-reference-results{
 }
 dialog.science-year-reference-dialog[open] .science-reference-entry{
  min-height:46px!important;text-align:left!important;white-space:normal!important;
+}
+
+/* Biology and Chemistry original context-specific visual guides.
+   A single correctly named diagram per foundational chapter instead of a
+   repeated global gallery, with no fictitious measured series. */
+dialog.science-contextual-dialog[open]{
+ box-sizing:border-box!important;display:flex!important;flex-direction:column!important;
+ overflow-y:auto!important;max-height:90dvh!important;width:min(95vw,630px)!important;
+ padding:12px!important;
+}
+dialog.science-contextual-dialog[open] .science-context-diagram{
+ width:100%!important;min-width:0!important;box-sizing:border-box!important;
+}
+dialog.science-contextual-dialog[open] .science-context-diagram svg{
+ display:block!important;width:100%!important;max-width:100%!important;
+ height:auto!important;min-height:220px!important;max-height:38dvh!important;
+ border:1px solid #50788e!important;border-radius:10px!important;background:#102c42!important;
+}
+dialog.science-contextual-dialog[open] .science-context-diagram-caption{
+ line-height:1.45!important;font-size:clamp(12px,3.4vw,15px)!important;
+ padding:7px 2px!important;white-space:normal!important;
 }
 
 </style>
