@@ -6,8 +6,11 @@ import {THEORY_ENTRIES} from './education_theory.mjs';
 import {scienceGradeTopicPlan} from './science_grade_progression.mjs';
 import {physicsCountryGradePlan,PHYSICS_EUROPE_REFERENCES,PHYSICS_EUROPE_REFERENCE} from './physics_europe_frameworks.mjs';
 import {scienceSchoolTopicLessons} from './science_ro_course_plan.mjs';
+import {PHYSICS_LOWER_ENGLISH_LESSONS} from './physics_lower_english_lessons.mjs';
+import {scienceSchoolLessonMaterial} from './science_school_lesson_material.mjs';
 
 let annual=0,nativeYears=0,advisoryYears=0,noStandalone=0,integrated=0,emptyChapters=0;
+let englishLessonYears=0,englishCards=0;
 const issues=[];
 for(const code of EDUCATION_EUROPE_COUNTRIES){
  for(const [stage,matrixStage] of [['primary','beginner'],['lower','lower'],['upper','medium']]){
@@ -51,6 +54,33 @@ for(const code of EDUCATION_EUROPE_COUNTRIES){
        'Advisory cards must declare their provenance');
      }
      lessons+=real.length;
+     if(code!=='RO'){
+      const english=scienceSchoolTopicLessons({country:code,subject:'physics',stage,
+       grade:year.id,topic:topic.id,lessons:THEORY_ENTRIES,years,language:'en'});
+      assert.equal(english.length,8,
+       'Each non-Romanian advisory lower domain needs 8 genuine independent English lessons: '+
+       code+'/'+year.id+'/'+topic.id);
+      assert.equal(new Set(english.map(x=>x.title)).size,english.length,
+       'English learning cards cannot be the same renamed filler');
+      for(const card of english){
+       assert.equal(card.language,'en','Original English reference, not Romanian school text');
+       assert.ok(card.statement.length>=105&&card.workedExample.length>=60,
+        'Substantive English explanation with own worked example required');
+       assert.ok(card.exercise.length>=65&&card.answer.length>=40,
+        'Independent English exercise and grading criteria required');
+       const body=scienceSchoolLessonMaterial({entry:card,subject:'physics',
+        grade:year.id,chapter:topic.en,language:'en'});
+       assert.ok(body.includes(card.statement)&&body.includes(card.workedExample),
+        'Study material must contain the actual English lesson, not generic chapter reuse');
+       assert.ok(!body.includes('Romanian reference lesson'),'Do not incorrectly label original English');
+       englishCards++;
+      }
+     }
+    }
+    if(code!=='RO'){
+     assert.ok(course.topics.length>=4,'A school-year overview cannot be one or two arbitrary topics');
+     assert.ok(englishCards>0,'No empty English learning year');
+     englishLessonYears++;
     }
     assert.ok(lessons>=10,code+'/'+year.id+' Physics has too few original study lessons: '+lessons);
    }
@@ -58,6 +88,11 @@ for(const code of EDUCATION_EUROPE_COUNTRIES){
   }
  }
 }
+assert.equal(Object.keys(PHYSICS_LOWER_ENGLISH_LESSONS).length,13);
+assert.ok(Object.values(PHYSICS_LOWER_ENGLISH_LESSONS).every(x=>x.length===8),
+ 'Each of 13 original English Physics strands must have eight lessons, not placeholders');
+assert.ok(englishLessonYears>=100&&englishCards>=3000,
+ 'Independent English reference must be useful for foreign school years');
 assert.equal(EDUCATION_EUROPE_COUNTRIES.length,50);
 assert.ok(annual>=300,'Audit every European country and school-year route');
 assert.equal(emptyChapters,0,'Listed chapter missing authored lessons: '+issues.slice(0,25).join(', '));
@@ -71,4 +106,5 @@ assert.ok(html.includes('const PHYSICS_EUROPE_REFERENCES='),
 console.log('PASS Physics Europe: '+EDUCATION_EUROPE_COUNTRIES.length+
  ' systems; '+annual+' taught/integrated year paths, '+nativeYears+' sourced-framework years, '+
  advisoryYears+' explicitly advisory years, '+noStandalone+' not-offered and '+integrated+
- ' integrated/mixed learning routes');
+ ' integrated/mixed learning routes, '+englishLessonYears+
+ ' lower-year English routes and '+englishCards+' English lesson checks');
