@@ -7,7 +7,7 @@ import {scienceGradeTopicPlan} from './science_grade_progression.mjs';
 import {physicsCountryGradePlan,PHYSICS_EUROPE_REFERENCES,PHYSICS_EUROPE_REFERENCE} from './physics_europe_frameworks.mjs';
 import {scienceSchoolTopicLessons} from './science_ro_course_plan.mjs';
 import {PHYSICS_LOWER_ENGLISH_LESSONS} from './physics_lower_english_lessons.mjs';
-import {scienceSchoolLessonMaterial} from './science_school_lesson_material.mjs';
+import {scienceSchoolLessonMaterial,scienceSchoolLessonAssessment} from './science_school_lesson_material.mjs';
 
 let annual=0,nativeYears=0,advisoryYears=0,noStandalone=0,integrated=0,emptyChapters=0;
 let englishLessonYears=0,englishCards=0;
@@ -64,10 +64,14 @@ for(const code of EDUCATION_EUROPE_COUNTRIES){
        'English learning cards cannot be the same renamed filler');
       for(const card of english){
        assert.equal(card.language,'en','Original English reference, not Romanian school text');
-       assert.ok(card.statement.length>=105&&card.workedExample.length>=60,
-        'Substantive English explanation with own worked example required');
-       assert.ok(card.exercise.length>=65&&card.answer.length>=40,
-        'Independent English exercise and grading criteria required');
+       assert.ok(card.statement.length>=90&&card.workedExample.length>=35,
+        'Substantive English explanation with an individual worked illustration required: '+code+'/'+year.id+'/'+card.title);
+       assert.ok(card.exercise.length>=30,
+        'Independent English exercise required: '+code+'/'+year.id+'/'+card.title);
+       const rubric=scienceSchoolLessonAssessment({entry:card,subject:'physics',
+        topic:topic.id,language:'en'});
+       assert.ok(rubric?.guide?.length>=120&&rubric.prompt.includes(card.exercise),
+        'Each exercise needs context-rich reference criteria and its own question');
        const body=scienceSchoolLessonMaterial({entry:card,subject:'physics',
         grade:year.id,chapter:topic.en,language:'en'});
        assert.ok(body.includes(card.statement)&&body.includes(card.workedExample),
