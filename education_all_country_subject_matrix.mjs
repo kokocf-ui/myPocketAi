@@ -54,12 +54,22 @@ export function educationCountrySchoolYears(country,stage){
  // fallback is an explicitly advisory sequence, matching the real Android
  // country/year picker rather than a single unusable 'grade-not-mapped' row.
  // P1/L1/U1 are study-sequence IDs, never national class identifiers.
+ const advisoryStage=st==='beginner'?'primary':st;
+ const advisory=st==='advanced'?
+  worldwideSchoolYears(code,st).map(x=>({
+   ...x,ro:'Studii universitare · orientativ',
+   en:'Higher education · advisory',
+   curriculumVerified:false,nationalYearVerified:false
+  })):
+  Array.from({length:4},(_,i)=>({
+   id:'general-'+advisoryStage+'-'+(i+1),
+   ro:'An orientativ '+(i+1)+' · '+(st==='beginner'?'primar':st==='lower'?'gimnazial':'liceal'),
+   en:'Advisory '+(st==='beginner'?'primary':st==='lower'?'lower-secondary':'upper-secondary')+' year '+(i+1),
+   curriculumVerified:false,nationalYearVerified:false
+  }));
  return {country:code,stage:st,status:'grade-unmapped',
   source:EDUCATION_WORLDWIDE_FALLBACK.source,
-  years:worldwideSchoolYears(code,st).map(x=>({
-   ...x,curriculumVerified:false,nationalYearVerified:false,
-   ro:'An orientativ · '+x.ro,en:'Advisory · '+x.en
-  }))};
+  years:advisory};
 }
 function subjectInventory(subject,{country,stage,grade,track}){
  if(subject==='literature'){
