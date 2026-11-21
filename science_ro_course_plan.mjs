@@ -7,6 +7,7 @@ import {BIOLOGY_RO_GRADE8} from './science_ro_biology_grade8.mjs';
 import {CHEMISTRY_RO_GRADE8} from './science_ro_chemistry_grade8.mjs';
 import {PHYSICS_RO_ADDITIONS} from './science_ro_physics_additions.mjs';
 import {BIOLOGY_RO_ADDITIONS} from './science_ro_biology_additions.mjs';
+import {physicsAdvisoryTopicLessons} from './physics_europe_lesson_bank.mjs';
 
 // This is a controlled original teaching outline using the CONTENT AREAS in
 // Romania's 2017 lower-secondary syllabuses. It is not a Ministry-approved
@@ -65,9 +66,15 @@ export function scienceRoGradeTopics(subject,grade,topics=[]){
 function schoolReferenceLessons(subject,grade,topic){
  return (SCIENCE_RO_LESSON_EXTRAS[subject]?.[String(grade)]||[]).filter(x=>x.topic===topic);
 }
-export function scienceSchoolTopicLessons({country='',subject='',grade='',topic='',lessons=[]}={}){
+export function scienceSchoolTopicLessons({country='',subject='',grade='',topic='',lessons=[],stage='lower',years=[]}={}){
  const localized=String(country).toUpperCase()==='RO';
  const id=String(grade);
+ if(subject==='physics'&&!localized&&stage==='lower'&&Array.isArray(years)&&years.length){
+  return physicsAdvisoryTopicLessons({
+   country,stage,grade,topic,years,
+   bank:SCIENCE_RO_LESSON_EXTRAS.physics,referenceLessons:lessons
+  });
+ }
  if(localized&&SCIENCE_RO_LOWER_TOPICS[subject]?.[id]&&
     !SCIENCE_RO_LOWER_TOPICS[subject][id].includes(topic))return [];
  const extras=localized?(SCIENCE_RO_LESSON_EXTRAS[subject]?.[id]||[]).filter(x=>x.topic===topic):[];
