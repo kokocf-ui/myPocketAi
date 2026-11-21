@@ -86,7 +86,7 @@ const api=vm.runInNewContext('let activeLearningSubject=null;'+script.slice(star
  script.slice(chemistryBegin,chemistryEnd)+
  '\n({open:scienceJourneyShowChoices,back:scienceBack,state:scienceJourney,subjects:SCIENCE_SUBJECTS})',sandbox);
 api.open('subjects');
-let rows=()=>host.children[1]?.children[2]?.children||[];
+let rows=()=>host.children[1]?.children.find(e=>String(e.className||'').includes('science-choice-list'))?.children||[];
 assert.equal(rows().length,4,'four science subject tiles appear first');
 const yearBands=()=>rows();
 const yearTiles=level=>yearBands().find(section=>section.children[0]?.textContent===
