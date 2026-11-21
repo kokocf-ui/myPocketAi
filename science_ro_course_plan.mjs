@@ -35,6 +35,27 @@ export const SCIENCE_RO_LOWER_TOPICS=Object.freeze({
   '8':['genetics','evolution','ecology']
  })
 });
+export const SCIENCE_RO_BIOLOGY_LABELS=Object.freeze({
+ '5':{
+  ecology:['Diversitatea viețuitoarelor · Zoologie și ecologie','Living diversity · Zoology and ecology'],
+  plants:['Plante și clasificare · Botanică','Plant classification · Botany']
+ },
+ '6':{
+  cells:['Celula și organizarea organismelor','Cells and organism organization'],
+  plants:['Nutriția plantelor · Botanică','Plant nutrition · Botany'],
+  anatomy:['Nutriția animalelor și a omului · Anatomie','Animal and human nutrition · Anatomy']
+ },
+ '7':{
+  anatomy:['Relația și reproducerea la animale și om','Animal and human responses and reproduction'],
+  plants:['Relația și reproducerea la plante · Botanică','Plant responses and reproduction · Botany'],
+  homeostasis:['Coordonare, hormoni și reglare','Coordination, hormones and regulation']
+ },
+ '8':{
+  genetics:['Genetică și ereditate','Genetics and inheritance'],
+  evolution:['Evoluția viețuitoarelor','Evolution of living organisms'],
+  ecology:['Ecologie, sănătate și mediu','Ecology, health and environment']
+ }
+});
 export const SCIENCE_RO_PHYSICS_LABELS={
  '6':{optics:['Lumină, umbră și reflexie','Light, shadow and reflection'],
   electromagnetism:['Magneți și fenomene magnetice','Magnets and magnetic phenomena'],
@@ -61,7 +82,8 @@ export function scienceRoGradeTopics(subject,grade,topics=[]){
  return ids.map(id=>{
   const topic=source.get(id);
   if(!topic)return null;
-  const label=subject==='physics'?SCIENCE_RO_PHYSICS_LABELS[String(grade)]?.[id]:null;
+  const label=subject==='physics'?SCIENCE_RO_PHYSICS_LABELS[String(grade)]?.[id]:
+   subject==='biology'?SCIENCE_RO_BIOLOGY_LABELS[String(grade)]?.[id]:null;
   // A class VI introduction to optical phenomena must not become the
   // secondary/upper-level 'wave optics' course merely because its parent
   // topic has a higher minLevel in a legacy catalogue.

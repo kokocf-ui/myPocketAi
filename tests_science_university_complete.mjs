@@ -75,10 +75,11 @@ assert.ok(script.includes('const SCIENCE_UNIVERSITY_TRACK_GUIDES=')&&script.incl
 for(const marker of [
  "const scienceReader=Boolean(document.querySelector?.('#view-module.learning-science'));",
  "const started=speakText(pages[page]);",
- "readPageButton.textContent=readingThisPage?",
+ "const playing=readingThisPage&&state.speaking;",
+  "readPageButton.textContent=playing?",
  "prev.onclick=()=>{if(page>0){stopPageAudio();page--;paint()}};",
  "next.onclick=()=>{if(page<pages.length-1){stopPageAudio();page++;paint()}};",
- "dialog.addEventListener('close',()=>{stopPageAudio();dialog.remove()});"
+ "dialog.addEventListener('close',()=>{stopPageAudio();if(scienceReader)window.removeEventListener('pocket-speech-state',updatePageSpeech);dialog.remove()});"
 ])assert.ok(script.includes(marker),'Missing Science audio page start/stop lifecycle: '+marker);
 const start=script.indexOf('function educationScienceTheoryReader('),end=script.indexOf('function scienceOpenChemistrySection(',start);
 assert.ok(start>=0&&end>start);

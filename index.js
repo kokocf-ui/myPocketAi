@@ -56,7 +56,7 @@ import {PHYSICS_UNIVERSITY_STUDIES} from './physics_university_studies.mjs';
 import {PHYSICS_UNIVERSITY_CORE_UNITS,physicsUniversityTopicUnits,physicsUniversityUnitMaterial} from './physics_university_learning_units.mjs';
 import {PHYSICS_UNIVERSITY_GRAPH_SPECS,physicsUniversityDiagramSpec,physicsUniversityVisualBuild} from './physics_university_visuals.mjs';
 import {SCIENCE_EXACT_REFERENCE,scienceCheckExactExercise} from './science_exercise_verification.mjs';
-import {SCIENCE_RO_LOWER_TOPICS,SCIENCE_RO_PHYSICS_LABELS,SCIENCE_RO_LESSON_EXTRAS,SCIENCE_RO_2017_SOURCE,
+import {SCIENCE_RO_LOWER_TOPICS,SCIENCE_RO_PHYSICS_LABELS,SCIENCE_RO_BIOLOGY_LABELS,SCIENCE_RO_LESSON_EXTRAS,SCIENCE_RO_2017_SOURCE,
  scienceRoGradeTopics,scienceSchoolTopicLessons,scienceRoAnnualCoverage} from './science_ro_course_plan.mjs';
 import {scienceSchoolLessonMaterial,scienceSchoolLessonAssessment} from './science_school_lesson_material.mjs';
 import {physicsGrade6TeacherNotes} from './physics_grade6_pedagogy.mjs';
@@ -9338,6 +9338,7 @@ const scienceLowerTopicContent=${scienceLowerTopicContent.toString()};
 const SCIENCE_EXACT_REFERENCE=${JSON.stringify(SCIENCE_EXACT_REFERENCE)};
 const SCIENCE_RO_LOWER_TOPICS=${JSON.stringify(SCIENCE_RO_LOWER_TOPICS)};
 const SCIENCE_RO_PHYSICS_LABELS=${JSON.stringify(SCIENCE_RO_PHYSICS_LABELS)};
+const SCIENCE_RO_BIOLOGY_LABELS=${JSON.stringify(SCIENCE_RO_BIOLOGY_LABELS)};
 const SCIENCE_RO_LESSON_EXTRAS=${JSON.stringify(SCIENCE_RO_LESSON_EXTRAS)};
 const SCIENCE_RO_2017_SOURCE=${JSON.stringify(SCIENCE_RO_2017_SOURCE)};
 const scienceRoGradeTopics=${scienceRoGradeTopics.toString()};
@@ -11271,7 +11272,7 @@ function educationScienceTheoryReader(subjectId,topicId,level){
    item.style.cssText='white-space:normal;text-align:left;min-height:55px;';
    item.textContent=(index+1)+'. '+entry.title;
    item.onclick=()=>{
-    if(subjectId==='biology')scienceJourney.biologyLabLesson={...entry,topic:topicId,grade:scienceJourney.grade,stage:'primary'};
+    if(subjectId==='biology')scienceJourney.biologyLabLesson={...entry,topic:topicId,grade:scienceJourney.grade,stage:'primary',country:educationCountrySelection.code};
     const content=scienceSchoolLessonMaterial({entry,subject:subjectId,
      grade:scienceJourney.grade,chapter:name,language:state.language});
     const assessment=scienceSchoolLessonAssessment({entry,subject:subjectId,
@@ -11494,7 +11495,7 @@ function educationScienceTheoryReader(subjectId,topicId,level){
    button.textContent=(index+1)+'. '+entry.title+
     (entry.language==='en'?(state.language==='en'?'':' · EN reference'):(state.language!=='ro'?' · RO source':''));
    button.onclick=()=>{
-    if(subjectId==='biology')scienceJourney.biologyLabLesson={...entry,topic:topicId,grade:scienceJourney.grade,stage:'lower'};
+    if(subjectId==='biology')scienceJourney.biologyLabLesson={...entry,topic:topicId,grade:scienceJourney.grade,stage:'lower',country:educationCountrySelection.code};
     const chapterGuide=state.language==='ro'?SCIENCE_GUIDES[subjectId]?.[topicId]:
      SCIENCE_GUIDES_EN[subjectId]?.[topicId];
     const source=scienceLowerTopicContent(subjectId,topicId,state.language);
@@ -11539,7 +11540,7 @@ function educationScienceTheoryReader(subjectId,topicId,level){
    button.textContent=(index+1)+'. '+entry.title+
     (state.language!=='ro'&&entry.language!=='en'?' · RO source':'');
    button.onclick=()=>{
-    scienceJourney.biologyLabLesson={...entry,topic:topicId,grade:scienceJourney.grade,stage:'upper'};
+    scienceJourney.biologyLabLesson={...entry,topic:topicId,grade:scienceJourney.grade,stage:'upper',country:educationCountrySelection.code};
     const guide=(state.language==='ro'?SCIENCE_GUIDES:SCIENCE_GUIDES_EN).biology?.[topicId];
     const material=scienceSchoolLessonMaterial({
      entry,subject:'biology',grade:scienceJourney.grade,chapter:name,
@@ -11766,7 +11767,7 @@ function scienceOpenChemistrySection(stage){
    if(['primary','lower','upper'].includes(scienceJourney.schoolStage)){
     const chosen=scienceJourney.biologyLabLesson;
     const same=chosen&&chosen.grade===scienceJourney.grade&&chosen.topic===key&&
-     chosen.stage===scienceJourney.schoolStage;
+     chosen.stage===scienceJourney.schoolStage&&chosen.country===educationCountrySelection.code;
     if(!same){
      const notice=document.createElement('p');notice.className='chem-no-visual';
      notice.textContent=learningLabel(
@@ -11774,18 +11775,18 @@ function scienceOpenChemistrySection(stage){
       'Select a lesson first. The lab then shows only the activity related to it.');
      list.append(notice);
     }else{
-     tile('🔎','Investigația lecției','Lesson investigation',
-      'Observație, exemplu și întrebare pentru: '+chosen.title,
-      'Observation, example and question for: '+chosen.title,()=>{
+     tile('🔎','Activitatea lecției','Lesson activity',
+      'Observație sau model asociat temei: '+chosen.title,
+      'Observation or model linked to: '+chosen.title,()=>{
        const body=[
         '# '+chosen.title,
         '# '+learningLabel('Contextul lecției','Lesson context'),
         chosen.statement,
-        '# '+learningLabel('Observație sau investigație','Observation or investigation'),
+        '# '+learningLabel('Exemplu de observare sau modelare','Observation or modelling example'),
         chosen.workedExample||learningLabel('Nu există o investigație separată verificată.','No separately validated investigation is available.'),
         '# '+learningLabel('Întrebare de verificare','Check question'),chosen.exercise||'',
         '# '+learningLabel('Răspuns de verificare','Check answer'),chosen.answer||''
-       ].filter(Boolean).join('\n\n');
+       ].filter(Boolean).join('\\n\\n');
        educationOpenPagedLesson(chosen.title,body);
       });
      // A generic diagram is never repeated just because two years share
