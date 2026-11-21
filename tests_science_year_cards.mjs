@@ -4,6 +4,8 @@ import app from './index.js';
 import {EDUCATION_COUNTRY_UI_SCRIPT} from './education_country_ui.mjs';
 import {EDUCATION_SCHOOL_YEARS} from './education_school_paths.mjs';
 import {physicsUniversityYears} from './physics_university_europe.mjs';
+import {scienceGradeTopicPlan} from './science_grade_progression.mjs';
+import {PHYSICS_TOPICS} from './physics_curriculum.mjs';
 
 const html=await(await app.fetch(new Request('https://science-year-layout.test/'))).text();
 const script=html.match(/<script>([\s\S]*?)<\/script>/)?.[1];
@@ -19,6 +21,7 @@ const environment={
  worldwideSchoolYears:()=>[],
  scienceJourney:{subject:'physics',universityRoute:null},
  physicsUniversityYears,
+ SCIENCE_GRADE_TOPIC_PLAN:scienceGradeTopicPlan,PHYSICS_TOPIC_DATA:PHYSICS_TOPICS,
  educationCountrySelection:{code:'RO'}
 };
 const fn=vm.runInNewContext(EDUCATION_COUNTRY_UI_SCRIPT.slice(first,last)+
