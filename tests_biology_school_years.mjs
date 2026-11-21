@@ -104,6 +104,9 @@ for(const text of [
  "['physics','biology'].includes(subjectId)",
  "if(subject==='biology'&&['primary','lower','upper'].includes(scienceJourney.schoolStage))",
  'scienceJourney.biologyLabLesson',
+ "if(scienceJourney.subject==='biology'&&['primary','lower','upper'].includes(scienceJourney.schoolStage))return true",
+ "const entries=scienceSchoolTopicLessons({",
+ "'No documented investigation exists for this chapter and school year.'",
  'chosen.country===educationCountrySelection.code',
  'Acest capitol nu are încă activități documentate pentru anul ales.',
  'Schemă pentru lecția selectată'
