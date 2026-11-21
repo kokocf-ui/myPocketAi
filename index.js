@@ -10801,7 +10801,7 @@ function educationScienceTheoryReader(subjectId,topicId,level){
    button.className='secondary-btn science-inline-theory-item';
    button.style.cssText='white-space:normal;text-align:left;min-height:55px;overflow-wrap:anywhere;';
    button.textContent=(index+1)+'. '+entry.title+
-    (state.language!=='ro'&&entry.source?' · RO source':'');
+    (state.language!=='ro'?' · RO source':'');
    button.onclick=()=>{
     const chapterGuide=state.language==='ro'?SCIENCE_GUIDES[subjectId]?.[topicId]:
      SCIENCE_GUIDES_EN[subjectId]?.[topicId];
