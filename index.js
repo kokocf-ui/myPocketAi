@@ -9189,7 +9189,8 @@ const chemistryUniversityYears=${chemistryUniversityYears.toString()};
 const CHEMISTRY_UNIVERSITY_CORE=${JSON.stringify(CHEMISTRY_UNIVERSITY_CORE)};
 const CHEMISTRY_UNIVERSITY_SPECIALTY_YEARS=${JSON.stringify(CHEMISTRY_UNIVERSITY_SPECIALTY_YEARS)};
 const CHEMISTRY_UNIVERSITY_COURSE_COUNT=${JSON.stringify(CHEMISTRY_UNIVERSITY_COURSE_COUNT)};
-const CHEMISTRY_SPECIALTY_LESSONS_DATA=${JSON.stringify(CHEMISTRY_SPECIALTY_LESSONS)};
+const CHEMISTRY_SPECIALTY_TOPICS=${JSON.stringify(CHEMISTRY_SPECIALTY_TOPICS)};
+const CHEMISTRY_SPECIALTY_LESSONS=${JSON.stringify(CHEMISTRY_SPECIALTY_LESSONS)};
 const chemistryUniversityCourseChoices=${chemistryUniversityCourseChoices.toString()};
 const chemistryUniversityStudyDocument=${chemistryUniversityStudyDocument.toString()};
 const CHEMISTRY_SPECIALTY_DATA=${JSON.stringify(CHEMISTRY_SPECIALIZATIONS)};
@@ -10784,6 +10785,47 @@ function educationScienceTheoryReader(subjectId,topicId,level){
   button.textContent=learningLabel('Lecția clasei · explicații, activitate, verificare','Grade lesson · explanation, activity, review');
   button.onclick=()=>educationOpenPagedLesson(learningLabel(chapter?.ro||'',chapter?.en||''),lesson||learningLabel('Lecție generală indisponibilă.','General lesson unavailable.'));
   section.append(button);return section;
+ }
+ if(subjectId==='chemistry'&&scienceJourney.schoolStage==='advanced'&&/^univ-[1-5]$/.test(String(scienceJourney.grade||''))){
+  const chapter=scienceTopicInfo(),name=learningLabel(chapter?.ro||'',chapter?.en||'');
+  const body=chemistryUniversityStudyDocument({
+   courseId:chapter?.courseId,country:educationCountrySelection.code,
+   routeId:scienceJourney.universityRoute,year:Number(String(scienceJourney.grade).slice(-1)),
+   specialty:scienceJourney.specialty,language:state.language,lessons:EDUCATION_THEORY_DATA
+  });
+  if(!body){
+   const alert=document.createElement('p');
+   alert.textContent=learningLabel('Acest curs nu are un material valid pentru anul ales.','No valid study notes for the selected university year.');
+   section.append(alert);return section;
+  }
+  head.textContent=learningLabel('📚 Curs universitar · '+String(scienceJourney.grade).replace('univ-',''),
+   '📚 University course · year '+String(scienceJourney.grade).replace('univ-',''));
+  const button=document.createElement('button');button.type='button';
+  button.className='secondary-btn science-inline-theory-item';
+  button.textContent=learningLabel('Deschide teoria, formulele, aplicațiile și exercițiile','Open theory, formulas, applications and exercises');
+  button.onclick=()=>educationOpenPagedLesson(name,body);
+  section.append(button);return section;
+ }
+ if(subjectId==='chemistry'&&['lower','upper'].includes(scienceJourney.schoolStage)){
+  const chapter=scienceTopicInfo(),name=learningLabel(chapter?.ro||'',chapter?.en||'');
+  const entries=chemistrySchoolCourseDocuments({
+   topic:chapter?.id,country:educationCountrySelection.code,grade:scienceJourney.grade,
+   stage:scienceJourney.schoolStage,yearPosition:scienceJourney.gradePosition,
+   language:state.language
+  });
+  if(!entries.length){
+   const alert=document.createElement('p');alert.textContent=learningLabel('Tema nu este disponibilă în acest an.','Chapter unavailable for this grade.');
+   section.append(alert);return section;
+  }
+  head.textContent=learningLabel('📖 Teme de studiu','📖 Study lessons')+' ('+entries.length+')';
+  for(const part of entries){
+   const button=document.createElement('button');button.type='button';
+   button.className='secondary-btn science-inline-theory-item';
+   button.textContent=learningLabel(part.ro,part.en);
+   button.onclick=()=>educationOpenPagedLesson(name+' · '+learningLabel(part.ro,part.en),part.text);
+   section.append(button);
+  }
+  return section;
  }
  if(subjectId==='physics'&&scienceJourney.schoolStage==='advanced'&&/^univ-[1-5]$/.test(String(scienceJourney.grade||''))){
   const chapter=scienceTopicInfo(),name=learningLabel(chapter?.ro||'',chapter?.en||'');
