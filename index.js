@@ -8159,6 +8159,16 @@ function scienceTopicChoices(){
   return chemistryUniversityCourseChoices({year:Number(String(scienceJourney.grade).slice(-1)),specialty:scienceJourney.specialty});
  if(subject==='physics'&&scienceJourney.schoolStage==='advanced'&&/^univ-[1-5]$/.test(String(scienceJourney.grade||'')))
   return physicsUniversityCourseChoices({year:Number(String(scienceJourney.grade).slice(-1)),specialty:scienceJourney.specialty});
+ if(subject==='chemistry'&&scienceJourney.schoolStage==='upper'&&typeof chemistryGradeTopicPlan==='function'){
+  // Use the actual grade-specific high-school course plan. Do not derive the
+  // visible chapters from the generic lesson bank or the subject grid.
+  const years=eduYearOptions(educationCountrySelection.code,'intermediate','science');
+  const plan=chemistryGradeTopicPlan({
+   country:educationCountrySelection.code,stage:'upper',grade:scienceJourney.grade,
+   years,topics:CHEMISTRY_TOPIC_DATA
+  },SCIENCE_GRADE_TOPIC_PLAN);
+  return plan.topics||[];
+ }
  if(!['physics','chemistry','biology','astronomy'].includes(subject))return SCIENCE_OTHER_TOPICS[subject]||[];
  const topics=subject==='physics'?PHYSICS_TOPIC_DATA:subject==='biology'?BIOLOGY_TOPIC_DATA:subject==='astronomy'?ASTRONOMY_TOPIC_DATA:CHEMISTRY_TOPIC_DATA;
  const specializations=subject==='physics'?PHYSICS_SPECIALTY_DATA:subject==='biology'?BIOLOGY_SPECIALTY_DATA:subject==='astronomy'?ASTRONOMY_SPECIALTY_DATA:CHEMISTRY_SPECIALTY_DATA;
@@ -24913,6 +24923,26 @@ main.page:has(#view-module.my-documents-active.active){
 #view-module.learning-science.science-scroll-stage.active .science-choice-panel>h2,
 #view-module.learning-science.science-scroll-stage.active .science-choice-panel>p,
 #view-module.learning-science.science-scroll-stage.active .science-stage-toolbar{flex:0 0 auto!important;}
+
+/* Science subject selection is a 2x2 compact menu; never let the
+   shared vertical scroller turn four subject choices into full-height cards. */
+#view-module.learning-science.science-subject-stage.science-scroll-stage.active .science-choice-list{
+ display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
+ grid-template-rows:repeat(2,minmax(0,1fr))!important;
+ grid-auto-rows:auto!important;gap:8px!important;
+ flex:1 1 0%!important;min-height:0!important;min-width:0!important;
+ align-content:stretch!important;overflow-y:auto!important;
+ padding:5px!important;
+}
+#view-module.learning-science.science-subject-stage.science-scroll-stage.active .science-subject-tile{
+ width:100%!important;height:100%!important;min-height:0!important;
+ max-height:100%!important;flex:initial!important;
+ box-sizing:border-box!important;padding:8px 5px!important;
+ font-size:clamp(12px,3vw,15px)!important;
+}
+#view-module.learning-science.science-subject-stage.science-scroll-stage.active .science-subject-icon{
+ font-size:clamp(22px,6vw,31px)!important;
+}
 
 </style>
 </body>
