@@ -1,0 +1,237 @@
+/**
+ * Original, 8-sublesson Physical Science / Space learning sequence.
+ * Based on Portugal's 2026 7.º ano Físico-Química 'Espaço' learning outcomes.
+ * The original text is NOT copied from the Portuguese syllabus or translated
+ * as an official Portuguese textbook. Original text is available in RO/EN.
+ * Source: https://www.dge.mec.pt/sites/default/files/7_fisico_quimica.pdf
+ */
+export const PHYSICS_SPACE_LESSONS={
+  "ro": [
+    {
+      "id": "physics-space-ro-1",
+      "subject": "physics",
+      "topic": "space",
+      "grade": "7",
+      "title": "Ce înseamnă Universul",
+      "statement": "Universul cuprinde materia, radiația, spațiul și evoluția lor fizică. Stelele sunt obiecte care emit radiație datorită proceselor din interior; planetele orbitează stele, iar galaxiile conțin sisteme stelare și materie interstelară. O fotografie a cerului este o observație, nu o hartă la scară a întregului Univers.",
+      "workedExample": "Soarele este o stea din galaxia Calea Lactee; Pământul nu este o stea.",
+      "exercise": "Este Calea Lactee o singură stea?",
+      "answer": "Nu; este o galaxie cu multe stele și alte componente.",
+      "language": "ro",
+      "source": "original-physics-astronomy-advisory",
+      "nationallyVerified": false
+    },
+    {
+      "id": "physics-space-ro-2",
+      "subject": "physics",
+      "topic": "space",
+      "grade": "7",
+      "title": "Scări și distanțe în spațiu",
+      "statement": "În astronomie se folosesc unități potrivite scării. Unitatea astronomică este o distanță definită, apropiată de distanța medie dintre Pământ și Soare. Anul-lumină este o distanță, nu un timp; reprezintă drumul parcurs de lumină într-un an în vid.",
+      "workedExample": "Lumina Soarelui are nevoie de aproximativ opt minute pentru a ajunge la Pământ.",
+      "exercise": "De ce un an-lumină nu este o unitate de timp?",
+      "answer": "Pentru că măsoară o distanță calculată din viteză și timp.",
+      "language": "ro",
+      "source": "original-physics-astronomy-advisory",
+      "nationallyVerified": false
+    },
+    {
+      "id": "physics-space-ro-3",
+      "subject": "physics",
+      "topic": "space",
+      "grade": "7",
+      "title": "Arhitectura Sistemului Solar",
+      "statement": "Sistemul Solar cuprinde Soarele și corpurile legate gravitațional de el: opt planete, sateliți, planete pitice, asteroizi și comete. Orbitele sunt aproximativ eliptice. Planetele interioare sunt predominant telurice, iar cele exterioare includ giganți gazoși și de gheață.",
+      "workedExample": "Pământul este a treia planetă de la Soare, iar Luna este satelitul său natural.",
+      "exercise": "Este Luna o planetă a Sistemului Solar?",
+      "answer": "Nu; este satelit natural al Pământului.",
+      "language": "ro",
+      "source": "original-physics-astronomy-advisory",
+      "nationallyVerified": false
+    },
+    {
+      "id": "physics-space-ro-4",
+      "subject": "physics",
+      "topic": "space",
+      "grade": "7",
+      "title": "Rotația Pământului și ziua",
+      "statement": "Pământul se rotește în jurul propriei axe, ceea ce explică în mare parte alternanța zilei și nopții. Soarele pare să se deplaseze pe cer deoarece observatorul se află pe o planetă în rotație. Experimentele cu o lampă și un glob trebuie să precizeze că dimensiunile nu sunt la scară.",
+      "workedExample": "Ora la care apare răsăritul depinde de loc și de sezon.",
+      "exercise": "Este noaptea produsă de Luna care acoperă Soarele?",
+      "answer": "Nu; noaptea apare când regiunea Pământului este orientată în sens opus Soarelui.",
+      "language": "ro",
+      "source": "original-physics-astronomy-advisory",
+      "nationallyVerified": false
+    },
+    {
+      "id": "physics-space-ro-5",
+      "subject": "physics",
+      "topic": "space",
+      "grade": "7",
+      "title": "Anotimpurile și înclinarea axei",
+      "statement": "Anotimpurile rezultă mai ales din înclinarea axei Pământului față de planul orbitei și din mișcarea anuală în jurul Soarelui. În cele două emisfere, anotimpurile sunt aproximativ opuse. Cauza nu este simpla apropiere ori depărtare de Soare.",
+      "workedExample": "Când în Europa este vară, în mare parte din Australia este iarnă.",
+      "exercise": "Sunt anotimpurile cauzate doar de distanța Pământ–Soare?",
+      "answer": "Nu; înclinarea axei și durata/înălțimea aparentă a Soarelui sunt esențiale.",
+      "language": "ro",
+      "source": "original-physics-astronomy-advisory",
+      "nationallyVerified": false
+    },
+    {
+      "id": "physics-space-ro-6",
+      "subject": "physics",
+      "topic": "space",
+      "grade": "7",
+      "title": "Fazele Lunii și eclipsele",
+      "statement": "Luna reflectă lumina Soarelui. Fazele ei apar pentru că observăm din unghiuri diferite porțiunea luminată, pe măsură ce Luna orbitează Pământul. O eclipsă necesită o aliniere specială și nu apare la fiecare Lună nouă sau plină, deoarece orbita Lunii este înclinată.",
+      "workedExample": "Semiluna nu apare deoarece o jumătate a Lunii ar fi în umbra permanentă a Pământului.",
+      "exercise": "Apare o eclipsă la fiecare Lună plină?",
+      "answer": "Nu; trebuie să se îndeplinească și condițiile de aliniere a planurilor orbitale.",
+      "language": "ro",
+      "source": "original-physics-astronomy-advisory",
+      "nationallyVerified": false
+    },
+    {
+      "id": "physics-space-ro-7",
+      "subject": "physics",
+      "topic": "space",
+      "grade": "7",
+      "title": "Gravitație, masă și greutate",
+      "statement": "Gravitația este o interacțiune atractivă între corpuri cu masă. Greutatea este forța gravitațională asupra unui corp și se exprimă în newtoni; masa se exprimă în kilograme. La nivel introductiv, în apropierea suprafeței Pământului folosim relația G≈m·g.",
+      "workedExample": "Un corp de 2 kg are greutatea aproximativ 20 N dacă g≈10 N/kg.",
+      "exercise": "Ce se modifică la mutarea unui obiect pe Lună: masa sau greutatea?",
+      "answer": "Greutatea se schimbă; masa obiectului rămâne aproximativ aceeași.",
+      "language": "ro",
+      "source": "original-physics-astronomy-advisory",
+      "nationallyVerified": false
+    },
+    {
+      "id": "physics-space-ro-8",
+      "subject": "physics",
+      "topic": "space",
+      "grade": "7",
+      "title": "Instrumentele observației astronomice",
+      "statement": "Observațiile astronomice folosesc telescoape, camere și detectori pentru a colecta informații despre radiație. Mărirea imaginii nu înlocuiește rezoluția și calibrarea. Observatorii consemnează data, locul și condițiile, iar un model al planetelor trebuie să declare limitele sale.",
+      "workedExample": "O fotografie mai luminoasă nu dovedește automat că un obiect s-a apropiat de Pământ.",
+      "exercise": "De ce notăm data și locul unei observații?",
+      "answer": "Pentru a putea compara și reproduce observația în condiții cunoscute.",
+      "language": "ro",
+      "source": "original-physics-astronomy-advisory",
+      "nationallyVerified": false
+    }
+  ],
+  "en": [
+    {
+      "id": "physics-space-en-1",
+      "subject": "physics",
+      "topic": "space",
+      "grade": "7",
+      "title": "What the Universe contains",
+      "statement": "The Universe contains matter, radiation, space and their physical evolution. Stars emit radiation from internal processes; planets orbit stars, and galaxies contain stellar systems and interstellar material. An image of the night sky is an observation, not a scale map of the whole Universe.",
+      "workedExample": "The Sun is a star in the Milky Way galaxy; Earth is not a star.",
+      "exercise": "Is the Milky Way a single star?",
+      "answer": "No. It is a galaxy containing many stars and other material.",
+      "language": "en",
+      "source": "original-physics-astronomy-advisory",
+      "nationallyVerified": false
+    },
+    {
+      "id": "physics-space-en-2",
+      "subject": "physics",
+      "topic": "space",
+      "grade": "7",
+      "title": "Distances in space",
+      "statement": "Astronomers choose units suited to enormous distances. An astronomical unit is a defined length close to the mean Earth–Sun distance. A light-year is a distance, not a duration: it is the length light travels in vacuum in one year.",
+      "workedExample": "Sunlight takes roughly eight minutes to reach Earth.",
+      "exercise": "Why is a light-year not a unit of time?",
+      "answer": "It measures the distance light travels in a specified time.",
+      "language": "en",
+      "source": "original-physics-astronomy-advisory",
+      "nationallyVerified": false
+    },
+    {
+      "id": "physics-space-en-3",
+      "subject": "physics",
+      "topic": "space",
+      "grade": "7",
+      "title": "Organisation of the Solar System",
+      "statement": "The Solar System consists of the Sun and bodies bound to it by gravity: eight planets, moons, dwarf planets, asteroids and comets. Planetary orbits are approximately elliptical. The inner planets are mostly rocky, while the outer planets include gas and ice giants.",
+      "workedExample": "Earth is the third planet from the Sun and the Moon is its natural satellite.",
+      "exercise": "Is the Moon a planet of the Solar System?",
+      "answer": "No. It is Earth's natural satellite.",
+      "language": "en",
+      "source": "original-physics-astronomy-advisory",
+      "nationallyVerified": false
+    },
+    {
+      "id": "physics-space-en-4",
+      "subject": "physics",
+      "topic": "space",
+      "grade": "7",
+      "title": "Earth's rotation and day",
+      "statement": "Earth rotates on its axis, which chiefly explains the alternation of day and night. The Sun appears to cross the sky because the observer stands on a rotating planet. A lamp-and-globe model should state that the sizes and distances are not to scale.",
+      "workedExample": "The time of sunrise depends on location and season.",
+      "exercise": "Is night caused by the Moon blocking the Sun?",
+      "answer": "No. Night occurs when a location on Earth faces away from the Sun.",
+      "language": "en",
+      "source": "original-physics-astronomy-advisory",
+      "nationallyVerified": false
+    },
+    {
+      "id": "physics-space-en-5",
+      "subject": "physics",
+      "topic": "space",
+      "grade": "7",
+      "title": "Seasons and axial tilt",
+      "statement": "Seasons mainly result from the tilt of Earth's axis relative to its orbital plane as Earth travels around the Sun. The hemispheres experience broadly opposite seasons. The cause is not simply being nearer to or farther from the Sun.",
+      "workedExample": "When Europe experiences summer, much of Australia experiences winter.",
+      "exercise": "Are seasons caused only by Earth–Sun distance?",
+      "answer": "No. Axial tilt and patterns of daylight and Sun angle are fundamental.",
+      "language": "en",
+      "source": "original-physics-astronomy-advisory",
+      "nationallyVerified": false
+    },
+    {
+      "id": "physics-space-en-6",
+      "subject": "physics",
+      "topic": "space",
+      "grade": "7",
+      "title": "Moon phases and eclipses",
+      "statement": "The Moon reflects sunlight. Its phases arise because we view different fractions of the sunlit half as the Moon orbits Earth. An eclipse requires a special alignment and does not happen at every new or full Moon because the lunar orbit is tilted.",
+      "workedExample": "A crescent Moon is not caused by Earth's shadow permanently covering part of it.",
+      "exercise": "Does a lunar eclipse occur at every full Moon?",
+      "answer": "No. Orbital alignment requirements must also be met.",
+      "language": "en",
+      "source": "original-physics-astronomy-advisory",
+      "nationallyVerified": false
+    },
+    {
+      "id": "physics-space-en-7",
+      "subject": "physics",
+      "topic": "space",
+      "grade": "7",
+      "title": "Gravity, mass and weight",
+      "statement": "Gravity is an attractive interaction between objects with mass. Weight is the gravitational force acting on an object and is measured in newtons; mass is measured in kilograms. Near Earth's surface a useful approximation is weight ≈ mass × g.",
+      "workedExample": "A 2 kg object weighs approximately 20 N when g≈10 N/kg.",
+      "exercise": "What changes when an object is moved to the Moon: mass or weight?",
+      "answer": "Weight changes; the object's mass remains essentially the same.",
+      "language": "en",
+      "source": "original-physics-astronomy-advisory",
+      "nationallyVerified": false
+    },
+    {
+      "id": "physics-space-en-8",
+      "subject": "physics",
+      "topic": "space",
+      "grade": "7",
+      "title": "Instruments for astronomical observation",
+      "statement": "Astronomical observations use telescopes, cameras and detectors to gather information about radiation. Magnification alone cannot replace resolution and calibration. Observers record location, time and conditions, and a model of planets must describe its limitations.",
+      "workedExample": "A brighter image does not necessarily prove that an object moved closer to Earth.",
+      "exercise": "Why record the time and location of an observation?",
+      "answer": "To make observations comparable and interpretable under known conditions.",
+      "language": "en",
+      "source": "original-physics-astronomy-advisory",
+      "nationallyVerified": false
+    }
+  ]
+};
