@@ -82,7 +82,7 @@ export const PHYSICS_ADVISORY_TOPIC_SEQUENCES=Object.freeze(countryGroups);
 export const PHYSICS_COUNTRY_YEAR_SEQUENCES=Object.freeze(specialPlans);
 const normalizeStage=stage=>stage==='medium'||stage==='intermediate'?'upper':stage==='beginner'?'primary':String(stage||'');
 export function physicsCountryGradePlan({country='',stage='lower',grade='',years=[]}={}){
- const code=String(country).toUpperCase(),phase=normalizeStage(stage);
+ const code=String(country).toUpperCase(),phase=stage==='medium'||stage==='intermediate'?'upper':stage==='beginner'?'primary':String(stage||'');
  const yr=String(grade),rows=Array.isArray(years)?years:[];
  const idx=rows.findIndex(x=>String(x.id)===yr);
  if(!['primary','lower','upper','advanced'].includes(phase)||idx<0)
@@ -93,9 +93,9 @@ export function physicsCountryGradePlan({country='',stage='lower',grade='',years
  const noSeparate=phase==='lower'&&ref?.noLower?.includes(yr);
  const status=noSeparate?'integrated-or-not-taught':integrated?'integrated-science':
   mixed?'mixed-physics-chemistry':ref?'framework-advisory':'european-advisory';
- const base=countryGroups[phase]||[];
+ const base=PHYSICS_ADVISORY_TOPIC_SEQUENCES[phase]||[];
  const sequence=base.length?base[Math.round(idx*(base.length-1)/Math.max(1,rows.length-1))]:[];
- const yearly=specialPlans[code]?.[phase]?.[yr]||sequence;
+ const yearly=PHYSICS_COUNTRY_YEAR_SEQUENCES[code]?.[phase]?.[yr]||sequence;
  const blocked=noSeparate&&code==='RO';
  return {country:code,stage:phase,grade:yr,yearIndex:idx,
   status:blocked?'not-offered':status,
