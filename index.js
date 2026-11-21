@@ -53,6 +53,7 @@ import {SCIENCE_RO_LOWER_TOPICS,SCIENCE_RO_PHYSICS_LABELS,SCIENCE_RO_LESSON_EXTR
  scienceRoGradeTopics,scienceSchoolTopicLessons,scienceRoAnnualCoverage} from './science_ro_course_plan.mjs';
 import {scienceSchoolLessonMaterial,scienceSchoolLessonAssessment} from './science_school_lesson_material.mjs';
 import {PHYSICS_EUROPE_REFERENCE,PHYSICS_EUROPE_REFERENCES,PHYSICS_ADVISORY_TOPIC_SEQUENCES,PHYSICS_COUNTRY_YEAR_SEQUENCES,physicsCountryGradePlan} from './physics_europe_frameworks.mjs';
+import {PHYSICS_ADVISORY_OER_SOURCES,physicsAdvisoryTopicLessons} from './physics_europe_lesson_bank.mjs';
 import {CHEMISTRY_SPECIALIZATIONS,CHEMISTRY_SPECIALTY_TOPICS,CHEMISTRY_MOLECULES,chemistryVerifiedExercise} from './chemistry_advanced.mjs';
 import {BIOLOGY_TOPICS,BIOLOGY_SPECIALIZATIONS,BIOLOGY_SPECIALTY_TOPICS,biologyVerifiedExercise} from './biology_curriculum.mjs';
 import {mathAdvancedVerifiedModel} from './math_advanced_verified.mjs';
@@ -8358,7 +8359,8 @@ function scienceJourneyShowChoices(stage){
     (scienceJourney.schoolStage==='lower'?
       scienceSchoolTopicLessons({country:educationCountrySelection.code,
        subject:scienceJourney.subject,grade:scienceJourney.grade,
-       topic:item.id,lessons:EDUCATION_THEORY_DATA}).length:
+       topic:item.id,lessons:EDUCATION_THEORY_DATA,stage:scienceJourney.schoolStage,
+       years:eduYearOptions(educationCountrySelection.code,'lower','science')}).length:
       EDUCATION_THEORY_DATA.filter(x=>x.subject===scienceJourney.subject&&x.topic===item.id).length)+
       learningLabel(' lecții de studiu',' study lessons'):'';
   if(stage==='subjects'){
@@ -9055,6 +9057,8 @@ const SCIENCE_RO_PHYSICS_LABELS=${JSON.stringify(SCIENCE_RO_PHYSICS_LABELS)};
 const SCIENCE_RO_LESSON_EXTRAS=${JSON.stringify(SCIENCE_RO_LESSON_EXTRAS)};
 const SCIENCE_RO_2017_SOURCE=${JSON.stringify(SCIENCE_RO_2017_SOURCE)};
 const scienceRoGradeTopics=${scienceRoGradeTopics.toString()};
+const PHYSICS_ADVISORY_OER_SOURCES=${JSON.stringify(PHYSICS_ADVISORY_OER_SOURCES)};
+const physicsAdvisoryTopicLessons=${physicsAdvisoryTopicLessons.toString()};
 const scienceSchoolTopicLessons=${scienceSchoolTopicLessons.toString()};
 const scienceRoAnnualCoverage=${scienceRoAnnualCoverage.toString()};
 const scienceSchoolLessonMaterial=${scienceSchoolLessonMaterial.toString()};
@@ -10797,7 +10801,8 @@ function educationScienceTheoryReader(subjectId,topicId,level){
   const chapterName=learningLabel(chapter?.ro||'',chapter?.en||'');
   const chapterLessons=scienceSchoolTopicLessons({
    country:educationCountrySelection.code,subject:subjectId,grade:scienceJourney.grade,
-   topic:topicId,lessons:EDUCATION_THEORY_DATA
+   topic:topicId,lessons:EDUCATION_THEORY_DATA,stage:scienceJourney.schoolStage,
+   years:eduYearOptions(educationCountrySelection.code,'lower','science')
   });
   head.textContent=learningLabel('📖 Teme de studiu','📖 Study lessons')+
    ' ('+chapterLessons.length+')';
