@@ -1,4 +1,5 @@
 import {SCIENCE_LOWER_DEPTH} from './science_lower_secondary_depth.mjs';
+import {PHYSICS_SPACE_LESSONS} from './physics_space_lessons.mjs';
 // Original, pupil-oriented lower secondary science notes, independent of nation.
 // These are supplementary study frames, NOT national textbooks or a claim that
 // a topic is compulsory for a particular grade. Each item gives a distinct
@@ -6,6 +7,12 @@ import {SCIENCE_LOWER_DEPTH} from './science_lower_secondary_depth.mjs';
 // National year/topic selection remains in science_grade_progression.mjs.
 const entries={
  physics:{
+  space:[
+   [PHYSICS_SPACE_LESSONS.ro[0].title,PHYSICS_SPACE_LESSONS.ro[0].statement,
+    PHYSICS_SPACE_LESSONS.ro[0].workedExample,PHYSICS_SPACE_LESSONS.ro[0].exercise,PHYSICS_SPACE_LESSONS.ro[0].answer],
+   [PHYSICS_SPACE_LESSONS.en[0].title,PHYSICS_SPACE_LESSONS.en[0].statement,
+    PHYSICS_SPACE_LESSONS.en[0].workedExample,PHYSICS_SPACE_LESSONS.en[0].exercise,PHYSICS_SPACE_LESSONS.en[0].answer]
+  ],
   units:[
    ['Mărimi și unități','Măsurarea leagă o mărime fizică de o unitate. Lungimea se exprimă în metri, timpul în secunde, masa în kilograme; conversia cere păstrarea tipului mărimii.','Exemplu: 2,5 m înseamnă 250 cm, deoarece 1 m = 100 cm.','Transformă 750 mm în metri.','750 mm = 0,75 m. Împarți la 1.000.'],
    ['Quantities and units','Measurement connects a quantity to its unit. Length uses metres, time uses seconds, mass uses kilograms; conversions must preserve the type of quantity.','Example: 2.5 m equals 250 cm because 1 m = 100 cm.','Convert 750 mm into metres.','750 mm = 0.75 m: divide by 1,000.']
