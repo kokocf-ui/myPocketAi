@@ -105,7 +105,7 @@ for(const text of [
  "if(subject==='biology'&&['primary','lower','upper'].includes(scienceJourney.schoolStage))",
  'scienceJourney.biologyLabLesson',
  'chosen.country===educationCountrySelection.code',
- 'Selectează mai întâi o lecție',
+ 'Acest capitol nu are încă activități documentate pentru anul ales.',
  'Schemă pentru lecția selectată'
 ])assert.ok(script.includes(text),'Missing WebView Biology regression guard: '+text);
 console.log('Biology year-specific age tests:',primaryYears,'primary years,',
