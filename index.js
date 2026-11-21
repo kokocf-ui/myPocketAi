@@ -8295,6 +8295,29 @@ function scienceJourneyShowChoices(stage){
   stage==='specialties'?learningLabel('Fiecare specializare are capitole proprii și baze comune.','Each track has specialist and shared chapters.'):
   learningLabel('Țara: ','Country: ')+educationCountrySelection.label+' · '+learningLabel('Clasa: ','Grade: ')+(scienceJourney.grade||'')+'. '+learningLabel('Program general de studiu, organizat pe clase; nu înlocuiește programa școlii.','General grade-by-grade learning route, not an official school syllabus.')+
    (scienceJourney.schoolStage==='primary'?' '+learningLabel('La primar, disciplinele sunt explorate integrat, fără a le declara obligatorii separat.','In primary school these sciences are explored together, not declared separate compulsory subjects.'):'');
+ if(scienceJourney.subject==='physics'&&stage==='topics'){
+  const scope=SCIENCE_GRADE_TOPIC_PLAN({
+   country:educationCountrySelection.code,subject:'physics',stage:scienceJourney.schoolStage,
+   grade:scienceJourney.grade,
+   years:eduYearOptions(educationCountrySelection.code,
+    scienceJourney.schoolStage==='upper'?'intermediate':scienceJourney.schoolStage,'science'),
+   topics:PHYSICS_TOPIC_DATA
+  });
+  const origin=scope.physicsTeachingKind==='integrated'?
+   learningLabel('Științe integrate','Integrated science'):
+   scope.physicsTeachingKind==='mixed'?
+   learningLabel('Fizică și Chimie','Physics and Chemistry'):
+   learningLabel('Fizică · parcurs didactic','Physics · study route');
+  note.textContent=educationCountrySelection.label+' · '+origin+' · '+
+   (scope.physicsSourceScope==='national-cohort-framework'?
+    learningLabel('Programă diferențiată pe cohortă; verifică profilul liceal.',
+     'Cohort-specific syllabus; check the upper-secondary track.'):
+    scope.physicsSourceScope==='national-stage'||scope.physicsSourceScope==='national-year'?
+    learningLabel('Domenii verificate pe etapă; ordinea anuală este orientativă.',
+     'Stage-level framework verified; annual teaching order is advisory.'):
+    learningLabel('Parcurs orientativ din surse educaționale, nu programă națională verificată.',
+     'Advisory study sequence, not a verified national annual syllabus.'));
+ }
  const list=document.createElement('div');
  list.className='math-choice-list science-choice-list';
  const choices=stage==='subjects'?SCIENCE_SUBJECTS:
@@ -8303,10 +8326,12 @@ function scienceJourneyShowChoices(stage){
   scienceTopicChoices().filter(topic=>{
    if(!['physics','chemistry','biology','astronomy'].includes(scienceJourney.subject))return true;
    const rank={beginner:0,intermediate:1,advanced:2};
-   if(scienceJourney.schoolStage==='lower'&&educationCountrySelection.code==='RO')
+   if(scienceJourney.schoolStage==='lower'&&
+      (scienceJourney.subject==='physics'||educationCountrySelection.code==='RO'))
     return scienceSchoolTopicLessons({
-     country:'RO',subject:scienceJourney.subject,grade:scienceJourney.grade,
-     topic:topic.id,lessons:EDUCATION_THEORY_DATA
+     country:educationCountrySelection.code,subject:scienceJourney.subject,
+     grade:scienceJourney.grade,topic:topic.id,lessons:EDUCATION_THEORY_DATA,
+     stage:'lower',years:eduYearOptions(educationCountrySelection.code,'lower','science')
     }).length>0;
    return rank[topic.minLevel]<=rank[scienceJourney.level] &&
     (scienceJourney.schoolStage==='primary'?
@@ -8324,6 +8349,15 @@ function scienceJourneyShowChoices(stage){
     const tile=document.createElement('button');tile.type='button';
     tile.className='secondary-btn science-year-tile';
     tile.textContent=learningLabel(year.ro,year.en);
+    if(scienceJourney.subject==='physics'&&group.schoolStage==='lower'){
+     const countryPlan=physicsCountryGradePlan({
+      country:educationCountrySelection.code,stage:'lower',grade:year.id,years:group.years
+     });
+     if(countryPlan.kind==='integrated')tile.textContent+=' · '+
+      learningLabel('Științe integrate','Integrated science');
+     else if(countryPlan.kind==='mixed')tile.textContent+=' · '+
+      learningLabel('Fizică–Chimie','Physics–Chemistry');
+    }
     if(educationCountrySelection.code==='RO'&&group.schoolStage==='lower'&&
        ['physics','chemistry','biology'].includes(scienceJourney.subject)){
      const count=scienceRoAnnualCoverage({
