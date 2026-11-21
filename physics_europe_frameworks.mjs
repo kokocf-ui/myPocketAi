@@ -5,6 +5,22 @@
 // prescribes that year. Regions/exam boards may override the common framework.
 export const PHYSICS_EUROPE_REFERENCE='https://op.europa.eu/en/publication-detail/-/publication/f3bd0532-0255-11ed-acce-01aa75ed71a1/language-en';
 const refs=Object.freeze({
+ HR:{source:'https://narodne-novine.nn.hr/clanci/sluzbeni/full/2019_01_10_210.html',
+  scope:'national-year',name:'Fizika · 7. i 8. razred',integrated:['primary'],
+  noLower:['5','6'],lowerEntry:'7',
+  note:'Croația are Fizica separată în clasele 7–8; clasele 5–6 predau fenomene în Priroda. Programa oficială Fizika include domeniile structură materiei, interacțiuni, mișcare, energie și rezultate pe an.'},
+ UA:{source:'https://mon.gov.ua/osvita-2/zagalna-serednya-osvita/osvitni-programi/modelni-navchalni-programi-dlya-5-9-klasiv-novoi-ukrainskoi-shkoli-zaprovadzhuyutsya-poetapno-z-2022-roku',
+  scope:'national-cohort-framework',name:'Фізика · 7–9 класи',integrated:['primary'],
+  noLower:['5','6'],lowerEntry:'7',
+  note:'Ucraina: Fizica 7–9 conform programelor-model aprobate în NUS; implementarea este graduală după cohortă. Nu se aplică aceeași repartizare anuală tuturor cohortelor ori tuturor școlilor.'},
+ TR:{source:'https://tymm.meb.gov.tr/upload/program/2024programfen345678Onayli.pdf',
+  scope:'national-stage',name:'Fen Bilimleri · 5–8, Fizik · 9–12',
+  integrated:['primary','lower'],
+  note:'În Turcia, fizica din clasele 5–8 se studiază în Fen Bilimleri (Științe integrate), nu ca materie separată. Fizik ca disciplină apare în liceu, unde programa nouă diferă după clasă și cohortă.'},
+ NL:{source:'https://www.slo.nl/sectoren/vmbo/natuurkunde-vmbo/onderbouw/onderwijsdoelen-natuurkunde-scheikunde/',
+  scope:'national-stage',name:'Natuurkunde / NaSk · vmbo/havo/vwo',
+  integrated:['primary'],mixed:['lower'],
+  note:'În Olanda, în secundar inferior VMBO poate studia NaSk combinat, pe când HAVO/VWO au trasee proprii. Nu putem pretinde o singură programă anuală pentru toate filierele.'},
  SK:{source:'https://www.statpedu.sk/sk/svp/statny-vzdelavaci-program/svp-druhy-stupen-zs/ramcove-ucebne-plany/',
   scope:'national-stage',name:'Fyzika · 6.–9. ročník',integrated:['primary'],noLower:['5'],
   lowerEntry:'6',note:'Fizica începe în mod uzual în clasa 6; programa pe competențe și structura în tranziție nu impun o singură ordine anuală a manualului. Clasele 5 au științe naturale, nu Fizică separată obligatorie.'},
@@ -94,6 +110,16 @@ const countryGroups=Object.freeze({
  ]
 });
 const specialPlans={
+ HR:{lower:{
+  '7':['units','kinematics','energy','dynamics','heat'],
+  '8':['electric','circuits','electromagnetism','waves','optics']
+ }},
+ UA:{lower:{
+  '7':['units','kinematics','dynamics','energy','measurement'],
+  '8':['heat','electric','circuits','fluids','energy'],
+  '9':['electromagnetism','optics','waves','energy','measurement']
+ }},
+
  SI:{lower:{
   '8':['units','kinematics','waves','optics','energy'],
   '9':['electric','circuits','dynamics','thermodynamics','measurement']
