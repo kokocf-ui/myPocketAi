@@ -47,6 +47,8 @@ import {SCIENCE_GUIDES_EN} from './science_english_reference_guides.mjs';
 import {SCIENCE_UNIVERSITY_TRACK_GUIDES} from './science_university_track_guides.mjs';
 import {scienceUniversityChapter} from './science_university_chapters.mjs';
 import {PHYSICS_UNIVERSITY_STUDIES} from './physics_university_studies.mjs';
+import {PHYSICS_UNIVERSITY_CORE_UNITS,physicsUniversityTopicUnits,physicsUniversityUnitMaterial} from './physics_university_learning_units.mjs';
+import {PHYSICS_UNIVERSITY_GRAPH_SPECS,physicsUniversityDiagramSpec,physicsUniversityVisualBuild} from './physics_university_visuals.mjs';
 import {SCIENCE_ADVISORY_PROGRESSION,SCIENCE_PROGRESSION_SOURCES,SCIENCE_PRIMARY_LESSON_BANK,SCIENCE_PRIMARY_ENGLISH,SCIENCE_PRIMARY_DEPTH,scienceGradeTopicPlan,scienceGradeLessonFrame} from './science_grade_progression.mjs';
 import {SCIENCE_LOWER_TOPIC_LESSONS,scienceLowerTopicContent} from './science_lower_secondary_lessons.mjs';
 import {SCIENCE_EXACT_REFERENCE,scienceCheckExactExercise} from './science_exercise_verification.mjs';
@@ -8409,7 +8411,10 @@ function scienceJourneyShowChoices(stage){
        topic:item.id,lessons:EDUCATION_THEORY_DATA,stage:scienceJourney.schoolStage,
        years:eduYearOptions(educationCountrySelection.code,
         scienceJourney.schoolStage==='upper'?'intermediate':'lower','science'),language:state.language}).length:
-      EDUCATION_THEORY_DATA.filter(x=>x.subject===scienceJourney.subject&&x.topic===item.id).length)+
+      (scienceJourney.schoolStage==='advanced'&&scienceJourney.subject==='physics'?
+       physicsUniversityTopicUnits(item.id,state.language).length:
+       EDUCATION_THEORY_DATA.filter(x=>x.subject===scienceJourney.subject&&x.topic===item.id).length))+
+
       learningLabel(' lecții de studiu',' study lessons'):'';
   if(stage==='subjects'){
    const icon=document.createElement('span');icon.className='science-subject-icon';
@@ -8425,7 +8430,7 @@ function scienceJourneyShowChoices(stage){
    }else if(stage==='specialties'){
     scienceJourney.specialty=item.id;scienceJourney.topic=null;scienceJourneyShowChoices('topics');
    }else{
-    scienceJourney.topic=item.id;scienceJourneyShowChoices('chemistry-menu');
+    scienceJourney.topic=item.id;physicsUniversitySelectedLessonIndex=0;scienceJourneyShowChoices('chemistry-menu');
    }
   };
   list.append(btn);
@@ -9145,6 +9150,13 @@ const SCIENCE_GUIDES=${JSON.stringify(SCIENCE_GUIDES)};
 const SCIENCE_GUIDES_EN=${JSON.stringify(SCIENCE_GUIDES_EN)};
 const SCIENCE_UNIVERSITY_TRACK_GUIDES=${JSON.stringify(SCIENCE_UNIVERSITY_TRACK_GUIDES)};
 const PHYSICS_UNIVERSITY_STUDIES=${JSON.stringify(PHYSICS_UNIVERSITY_STUDIES)};
+const PHYSICS_UNIVERSITY_CORE_UNITS=${JSON.stringify(PHYSICS_UNIVERSITY_CORE_UNITS)};
+const physicsUniversityTopicUnits=${physicsUniversityTopicUnits.toString()};
+const physicsUniversityUnitMaterial=${physicsUniversityUnitMaterial.toString()};
+const PHYSICS_UNIVERSITY_GRAPH_SPECS=${JSON.stringify(PHYSICS_UNIVERSITY_GRAPH_SPECS)};
+const physicsUniversityDiagramSpec=${physicsUniversityDiagramSpec.toString()};
+const physicsUniversityVisualBuild=${physicsUniversityVisualBuild.toString()};
+let physicsUniversitySelectedLessonIndex=0;
 const SCIENCE_UNIVERSITY_CHAPTER=${scienceUniversityChapter.toString()};
 const SCIENCE_FEATURED=${JSON.stringify(SCIENCE_FEATURED)};
 const SCIENCE_METHOD=${JSON.stringify(SCIENCE_METHOD)};
@@ -10229,6 +10241,28 @@ function physicsVisualPicker(){
  const close=document.createElement('button');close.className='secondary-btn';close.type='button';
  close.textContent=learningLabel('← Revenire','← Back');close.onclick=()=>dialog.close();
  bar.append(h,close);dialog.append(bar);
+ if(scienceJourney.level==='advanced'){
+  const studies=physicsUniversityTopicUnits(scienceJourney.topic,state.language);
+  // A diagram must be explicitly tied to an actual individual university
+  // study. Do not show the same global gallery for every course.
+  for(const [index,unit] of studies.entries()){
+   if(!physicsUniversityDiagramSpec(scienceJourney.topic,index))continue;
+   const btn=document.createElement('button');btn.type='button';
+   btn.className='secondary-btn chemistry-curriculum-row';
+   btn.textContent=(index+1)+'. '+unit.title;
+   btn.onclick=()=>{dialog.close();physicsUniversityVisualOpen(index)};
+   dialog.append(btn);
+  }
+  if(!studies.length){
+   const p=document.createElement('p');
+   p.textContent=learningLabel('Nu există o diagramă didactică documentată pentru această temă.',
+    'No documented educational diagram exists for this topic.');
+   dialog.append(p);
+  }
+  document.body.append(dialog);dialog.addEventListener('close',()=>dialog.remove());
+  try{dialog.showModal()}catch{dialog.setAttribute('open','')}
+  return;
+ }
  const topicModels={kinematics:['motion'],dynamics:['force'],energy:['energy'],
   waves:['wave'],electric:['circuit'],circuits:['circuit'],
   optics:['optics'],heat:[],thermodynamics:['thermo'],modern:['quantum'],
@@ -10248,6 +10282,23 @@ function physicsVisualPicker(){
   btn.textContent=example.children[0].textContent;btn.onclick=()=>{dialog.close();physicsVisualOpen(kind)};
   dialog.append(btn);
  }
+ document.body.append(dialog);dialog.addEventListener('close',()=>dialog.remove());
+ try{dialog.showModal()}catch{dialog.setAttribute('open','')}
+}
+function physicsUniversityVisualOpen(index){
+ const items=physicsUniversityTopicUnits(scienceJourney.topic,state.language);
+ const item=items[index];
+ if(!item)return;
+ physicsUniversitySelectedLessonIndex=index;
+ document.getElementById('physicsVisualDialog')?.remove();
+ const dialog=document.createElement('dialog');dialog.id='physicsVisualDialog';
+ dialog.className='education-theory-dialog physics-visual-dialog';
+ const back=document.createElement('button');back.type='button';back.className='secondary-btn';
+ back.textContent=learningLabel('← La reprezentări','← To diagrams');
+ back.onclick=event=>{event?.stopPropagation?.();dialog.close();physicsVisualPicker()};
+ dialog.append(back);
+ const diagram=physicsUniversityVisualBuild(scienceJourney.topic,index,state.language,item.title);
+ if(diagram)dialog.append(diagram);
  document.body.append(dialog);dialog.addEventListener('close',()=>dialog.remove());
  try{dialog.showModal()}catch{dialog.setAttribute('open','')}
 }
@@ -10913,6 +10964,37 @@ function educationScienceTheoryReader(subjectId,topicId,level){
  // an independently authored specialisation case and a review task.
  // A previous UI exposed only short isolated cards with an empty generic
  // appendix. Do not erase the established specialist chapter bank.
+ // University Physics must expose actual distinct studies, not one generic
+ // chapter card for every university topic. Keep other Sciences unchanged.
+ if(scienceJourney.level==='advanced'&&subjectId==='physics'){
+  const entries=physicsUniversityTopicUnits(topicId,state.language);
+  head.textContent=learningLabel('📖 Lecții universitare','📖 University lessons')+' ('+entries.length+')';
+  if(!entries.length){
+   const notice=document.createElement('p');
+   notice.textContent=learningLabel('Nu există studii universitare pentru acest subiect.','No university studies available for this topic.');
+   section.append(notice);return section;
+  }
+  const list=document.createElement('div');list.className='science-theory-topic-list physics-university-studies';
+  list.style.cssText='display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:8px;width:100%;';
+  for(const [index,entry] of entries.entries()){
+   const button=document.createElement('button');button.type='button';
+   button.className='secondary-btn science-inline-theory-item';
+   button.style.cssText='white-space:normal;text-align:left;min-height:60px;overflow-wrap:anywhere;';
+   button.textContent=(index+1)+'. '+entry.title;
+   button.onclick=()=>{
+    physicsUniversitySelectedLessonIndex=index;
+    const content=physicsUniversityUnitMaterial({unit:entry,language:state.language,specialty:scienceJourney.specialty});
+    const lang=state.language==='ro'?'ro':'en';
+    sciencePendingAssessmentSpec={subject:'physics',topic:topicId,stage:'advanced',lang,
+     prompt:entry.exercise,guide:[entry.answer,entry.formula,entry.symbols,entry.method].filter(Boolean).join(' '),
+     localVerification:false};
+    try{educationOpenPagedLesson(entry.title,content)}
+    finally{sciencePendingAssessmentSpec=null}
+   };
+   list.append(button);
+  }
+  section.append(list);return section;
+ }
  if(scienceJourney.level==='advanced'){
   const chapter=scienceTopicInfo();
   const chapterName=learningLabel(chapter?.ro||'',chapter?.en||'');
@@ -11090,7 +11172,7 @@ function scienceOpenChemistrySection(stage){
    // Avoid an extra screen containing only a generic 'Open chapter' button.
    // Keep the existing multi-lesson navigator when a chapter really has sublessons.
    if((scienceJourney.schoolStage==='primary'&&scienceJourney.subject!=='physics')||
-      scienceJourney.schoolStage==='advanced'||
+      (scienceJourney.schoolStage==='advanced'&&scienceJourney.subject!=='physics')||
       scienceJourney.schoolStage==='upper'&&state.language!=='ro'&&scienceJourney.subject!=='physics'){
     const reader=educationScienceTheoryReader(scienceJourney.subject,topic?.id,scienceJourney.level);
     const single=reader.querySelector('.science-inline-theory-item');
