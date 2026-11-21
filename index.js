@@ -43,6 +43,7 @@ import {THEORY_ENTRIES} from './education_theory.mjs';
 import {CHEMISTRY_LEVELS, CHEMISTRY_TOPICS} from './chemistry_curriculum.mjs';
 import {CHEMISTRY_DETAILED_LESSONS} from './chemistry_detailed_lessons.mjs';
 import {CHEMISTRY_STUDY_CONCEPTS,chemistrySchoolCourseDocuments} from './chemistry_school_depth.mjs';
+import {chemistryContextVisualBuild} from './chemistry_context_visuals.mjs';
 import {CHEMISTRY_GRADE_FRAMEWORKS,CHEMISTRY_ENGLAND_KS3,chemistryGradeTopicPlan,chemistryVisualizationFor} from './chemistry_school_years.mjs';
 import {CHEMISTRY_UNIVERSITY_PROFILES,CHEMISTRY_EHEA_REFERENCE,chemistryUniversityRoutes,chemistryUniversityYears,chemistryUniversityRoute} from './chemistry_university_europe.mjs';
 import {CHEMISTRY_UNIVERSITY_CORE} from './chemistry_university_core.mjs';
@@ -9195,6 +9196,7 @@ const chemistryUniversityCourseChoices=${chemistryUniversityCourseChoices.toStri
 const chemistryUniversityStudyDocument=${chemistryUniversityStudyDocument.toString()};
 const CHEMISTRY_SPECIALTY_DATA=${JSON.stringify(CHEMISTRY_SPECIALIZATIONS)};
 const CHEMISTRY_MOLECULE_DATA=${JSON.stringify(CHEMISTRY_MOLECULES)};
+const chemistryContextVisualBuild=${chemistryContextVisualBuild.toString()};
 const CHEMISTRY_SOLVE_VERIFIED=${chemistryVerifiedExercise.toString()};
 const BIOLOGY_TOPIC_DATA=${JSON.stringify([...BIOLOGY_TOPICS,...BIOLOGY_SPECIALTY_TOPICS])};
 const BIOLOGY_SPECIALTY_DATA=${JSON.stringify(BIOLOGY_SPECIALIZATIONS)};
@@ -10014,6 +10016,9 @@ function chemistryAtomShells(z){
 }
 function chemistryVisualBuild(kind,question){
  if(!kind)return null;
+ if(['separation','solubility','stoichiometry','concentration','energy-profile',
+     'cell','calibration','enzyme','equilibrium'].includes(kind))
+  return chemistryContextVisualBuild(kind);
  const box=document.createElement('section');box.className='chem-visual';
  const title=document.createElement('h3');
  const ns='http://www.w3.org/2000/svg';
@@ -10971,8 +10976,41 @@ function scienceOpenChemistrySection(stage){
   title.textContent=learningLabel('Laborator și modele 3D','Laboratory and 3D models');
   note.textContent=chapter+' · '+learningLabel('Alege o reprezentare interactivă.','Choose an interactive visual model.');
   if(scienceJourney.subject==='chemistry'){
-   tile('🧬','Molecule 3D','3D Molecules','H₂O, CO₂, CH₄, NH₃: rotire și mărire','H₂O, CO₂, CH₄, NH₃: rotate and zoom',scienceChemMoleculeOpen);
-   tile('📊','Reprezentări','Visual models','Diagrame și structuri disponibile','Available diagrams and structures',chemistryVisualPicker);
+   const topicKey=topic?.originalTopic||topic?.id;
+   const diagram=chemistryVisualizationFor({
+    topic:topicKey,stage:scienceJourney.schoolStage,grade:scienceJourney.grade
+   });
+   if(diagram)tile('📊','Reprezentarea temei','Topic-specific visual',
+    'Diagramă pentru capitolul ales, nu o galerie repetată','Diagram for this chapter, not a repeated gallery',
+    ()=>chemistryVisualOpen(diagram,learningLabel(topic?.ro||'',topic?.en||'')));
+   if(['bond','molecule'].includes(diagram)&&scienceJourney.schoolStage!=='lower')
+    tile('🧬','Molecule 3D','3D molecules',
+     'Geometrii ideale H₂O, CO₂, CH₄ și NH₃','Ideal H₂O, CO₂, CH₄ and NH₃ geometry',
+     scienceChemMoleculeOpen);
+   if(scienceJourney.schoolStage==='advanced'){
+    const material=chemistryUniversityStudyDocument({
+     courseId:topic?.courseId,country:educationCountrySelection.code,
+     routeId:scienceJourney.universityRoute,year:Number(String(scienceJourney.grade).slice(-1)),
+     specialty:scienceJourney.specialty,language:state.language,lessons:EDUCATION_THEORY_DATA
+    });
+    if(material)tile('🔬','Investigația universitară','University investigation',
+     'Model, observații, siguranță și verificare','Model, evidence, safety and validation',
+     ()=>educationOpenPagedLesson(chapter,material));
+   }else{
+    const docs=chemistrySchoolCourseDocuments({
+     topic:topicKey,country:educationCountrySelection.code,grade:scienceJourney.grade,
+     stage:scienceJourney.schoolStage,yearPosition:scienceJourney.gradePosition,language:state.language
+    });
+    const study=docs.find(x=>x.id===topicKey+'-enquiry');
+    if(study)tile('🧪','Investigație explicată','Explained enquiry',
+      'Observații și siguranță, fără reactivi periculoși','Evidence and safety, no hazardous chemicals',
+      ()=>educationOpenPagedLesson(chapter,study.text));
+   }
+   if(!diagram){
+    const notice=document.createElement('p');notice.className='chem-no-visual';
+    notice.textContent=learningLabel('Această temă nu are un grafic specific validat. Nu afișăm reprezentări fără legătură.','This topic has no validated relevant graph; unrelated diagrams are not shown.');
+    list.append(notice);
+   }
   }else if(scienceJourney.subject==='physics'){
    if(scienceJourney.schoolStage==='advanced'&&/^univ-[1-5]$/.test(String(scienceJourney.grade||''))){
     const course=scienceTopicInfo();
