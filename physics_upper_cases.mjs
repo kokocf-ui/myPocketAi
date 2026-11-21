@@ -1,3 +1,5 @@
+import {physicsUpperTeachingGuide} from './physics_upper_teaching_guides.mjs';
+
 // Independent original upper-secondary Physics study cases. These are
 // pedagogical examples based on common open educational physics concepts,
 // not a copied textbook and NOT a certified year-by-year national curriculum.
@@ -332,6 +334,7 @@ const chapters={
 export const PHYSICS_UPPER_CASES=Object.freeze(Object.fromEntries(
  Object.entries(chapters).map(([topic,items])=>[topic,Object.freeze(items.map(
  ([title,statement,workedExample,exercise,answer],i)=>Object.freeze({
+  ...physicsUpperTeachingGuide(topic,i,'ro'),
   id:'upper-physics-case-'+topic+'-'+(i+1),subject:'physics',topic,
   level:'intermediate',title,statement,workedExample:workedExample+' '+methodNotes[topic],exercise,answer,
   source:'original-high-school-physics-advisory',nationallyVerified:false,

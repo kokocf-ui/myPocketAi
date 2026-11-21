@@ -32,18 +32,21 @@ export function scienceSchoolLessonMaterial({
  }
  parts.push('# '+(ro?'Explicația noțiunii':'Concept explanation'),core);
  const romanianPhysics=subject==='physics'&&ro;
- // Exact original concept title determines the notes. The original national
- // tier may also be used as an explicitly advisory foreign-language study card.
- const teacherNotes=romanianPhysics?physicsGrade6TeacherNotes(title,language):'';
- const introFormula=romanianPhysics?physicsGrade6Formula(title):null;
- const teacherGuide=romanianPhysics?(physicsGrade7TeacherGuide(title)||physicsGrade8TeacherGuide(title)):null;
+ // Apply lower-secondary teaching notes only to the actual source year.
+ // Upper-secondary and university are different courses even where titles repeat.
+ const sourceYear=String(entry.advisoryTier||entry.grade||grade);
+ const teacherNotes=romanianPhysics&&sourceYear==='6'?physicsGrade6TeacherNotes(title,language):'';
+ const introFormula=romanianPhysics&&sourceYear==='6'?physicsGrade6Formula(title):null;
+ const teacherGuide=romanianPhysics&&sourceYear==='7'?physicsGrade7TeacherGuide(title):
+  romanianPhysics&&sourceYear==='8'?physicsGrade8TeacherGuide(title):null;
  // A formula and its symbols come BEFORE any worked calculation.
  const mainFormula=teacherGuide?.formula||introFormula?.formula||(formula&&formula!=='—'?formula:'');
  if(mainFormula){
-  parts.push('# Formula de pornire',mainFormula);
-  const symbols=teacherGuide?.symbols||introFormula?.symbols;
-  if(symbols)parts.push('# Ce înseamnă simbolurile și unitățile',symbols);
+  parts.push('# '+(ro?'Formula de pornire':'Starting formula'),mainFormula);
+  const symbols=teacherGuide?.symbols||introFormula?.symbols||entry.symbols;
+  if(symbols)parts.push('# '+(ro?'Ce înseamnă simbolurile și unitățile':'Symbols and units'),symbols);
  }
+ if(entry.method)parts.push('# '+(ro?'Cum aplici modelul':'How to apply the model'),entry.method);
  if(teacherNotes)parts.push('# Explicație aprofundată',teacherNotes);
  if(teacherGuide){
   parts.push('# Cum gândim și aplicăm, pas cu pas',teacherGuide.method,

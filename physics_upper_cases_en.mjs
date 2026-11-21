@@ -1,3 +1,5 @@
+import {physicsUpperTeachingGuide} from './physics_upper_teaching_guides.mjs';
+
 // Original, independently authored English upper-secondary Physics cases.
 // These are advisory learning materials, NOT translations claiming official
 // recognition by any national school or examination authority.
@@ -329,6 +331,7 @@ const chapters={
 export const PHYSICS_UPPER_CASES_EN=Object.freeze(Object.fromEntries(
  Object.entries(chapters).map(([topic,items])=>[topic,Object.freeze(items.map(
  ([title,statement,workedExample,exercise,answer],i)=>Object.freeze({
+  ...physicsUpperTeachingGuide(topic,i,'en'),
   id:'upper-physics-en-case-'+topic+'-'+(i+1),subject:'physics',topic,
   level:'intermediate',title,statement,workedExample:workedExample+' '+methodNotes[topic],exercise,answer,
   source:'original-english-high-school-physics-advisory',nationallyVerified:false,
