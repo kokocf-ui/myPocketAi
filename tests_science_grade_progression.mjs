@@ -14,6 +14,7 @@ import {SCIENCE_GUIDES,scienceExtendedTheory} from './science_extended_theory.mj
 import {EDUCATION_COUNTRY_UI_SCRIPT} from './education_country_ui.mjs';
 import {EDUCATION_SCHOOL_YEARS} from './education_school_paths.mjs';
 import {SCIENCE_RO_LOWER_TOPICS,scienceSchoolTopicLessons,scienceRoAnnualCoverage} from './science_ro_course_plan.mjs';
+import {physicsCountryGradePlan} from './physics_europe_frameworks.mjs';
 import {THEORY_ENTRIES} from './education_theory.mjs';
 
 const tables={physics:PHYSICS_TOPICS,chemistry:CHEMISTRY_TOPICS,
@@ -31,7 +32,12 @@ for(const country of EDUCATION_EUROPE_COUNTRIES){
      country,subject,stage:matrixStage,grade:year.id
     });
     assert.equal(plan.status,'general-learning');
-    assert.ok(plan.topics.length>0,country+'/'+schoolStage+'/'+year.id+'/'+subject);
+    const notOffered=subject==='physics'&&physicsCountryGradePlan({
+     country,stage:schoolStage,grade:year.id,years
+    }).status==='not-offered';
+    assert.ok(plan.topics.length>0||notOffered,
+     country+'/'+schoolStage+'/'+year.id+'/'+subject+' needs lessons, unless curriculum explicitly excludes separate Physics');
+    if(notOffered)assert.equal(plan.topics.length,0,'Do not invent a standalone Physics class');
     assert.equal(plan.source.length,SCIENCE_PROGRESSION_SOURCES.length);
     assert.deepEqual(registry.units.map(x=>x.id),plan.topics.map(x=>x.id),
      'The 50-country registry and Android must follow one science path');
