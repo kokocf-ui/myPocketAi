@@ -31,6 +31,19 @@ export function biologyUniversityYears(country='',routeId=null){
   en:'University year '+(i+1)
  }));
 }
+export const BIOLOGY_UNIVERSITY_ADVISORY_ELECTIVES=Object.freeze({
+ cellular:['genetics','homeostasis','microbes'],
+ molecular:['biomolecules','microbes','evolution'],
+ anatomy:['biomolecules','methods'],
+ microbiology:['cells','biomolecules','ecology','evolution'],
+ biomedical:['cells','biomolecules','genetics','methods'],
+ biotech:['cells','microbes','plants','ecology'],
+ ecology:['plants','microbes','genetics'],
+ bioinformatics:['cells','biomolecules','ecology','microbes'],
+ neurobiology:['genetics','biomolecules','methods']
+});
+// Electives are chosen for each track, never the entire generic Biology
+// library. An anatomy student must not be given unrelated botany modules.
 // Annual course distribution is based on the available authored foundation
 // and specialist library, not a fixed four-course template per speciality.
 // A course belongs to one year only. Country route remains advisory.
@@ -47,11 +60,12 @@ export function biologyUniversityCourseChoices({
  const add=entry=>{if(entry&&!seen.has(entry.id)){seen.add(entry.id);ordered.push(entry)}};
  // Establish fundamentals first, including the track's explicit prerequisites.
  for(const id of programme.core||[])add(foundations.find(x=>x.id===id));
- for(const item of foundations)add(item);
+ for(const id of BIOLOGY_UNIVERSITY_ADVISORY_ELECTIVES[specialty]||[])
+  add(foundations.find(x=>x.id===id));
  for(const item of specialist)add(item);
  add({id:'biology-capstone',ro:'Proiect de cercetare în biologie',en:'Biology research project'});
- // Years receive every available distinct authored course, rather than
- // silently dropping courses once an arbitrary 8-course ceiling is reached.
+ // Retain all relevant core, track-specific elective and specialist chapters.
+ // Never pad a specialisation with unrelated Botany merely to inflate a count.
  const per=Math.floor(ordered.length/years);
  const rem=ordered.length%years;
  const start=(year-1)*per+Math.min(year-1,rem);
