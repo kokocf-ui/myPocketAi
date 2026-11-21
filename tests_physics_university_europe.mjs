@@ -7,6 +7,8 @@ import {PHYSICS_UNIVERSITY_ALL_COURSES,physicsUniversityCourseChoices,physicsUni
 import {SCIENCE_UNIVERSITY_TRACK_GUIDES} from './science_university_track_guides.mjs';
 import {THEORY_ENTRIES} from './education_theory.mjs';
 import {PHYSICS_TOPICS,PHYSICS_SPECIALIZATIONS} from './physics_curriculum.mjs';
+import {scienceGradeTopicPlan} from './science_grade_progression.mjs';
+import {scienceSchoolTopicLessons,scienceRoAnnualCoverage} from './science_ro_course_plan.mjs';
 
 assert.equal(EDUCATION_EUROPE_COUNTRIES.length,50);
 assert.deepEqual(Object.keys(PHYSICS_UNIVERSITY_PROFILES).sort(),[...EDUCATION_EUROPE_COUNTRIES].sort());
@@ -111,6 +113,7 @@ const sandbox={
   stage==='intermediate'?[{id:'9',ro:'Clasa a IX-a',en:'Year 9'}]:
   [{id:'universitate',ro:'Universitate',en:'University'}],
  PHYSICS_TOPIC_DATA:PHYSICS_TOPICS,PHYSICS_SPECIALTY_DATA:PHYSICS_SPECIALIZATIONS,
+ SCIENCE_GRADE_TOPIC_PLAN:scienceGradeTopicPlan,scienceSchoolTopicLessons,scienceRoAnnualCoverage,
  PHYSICS_UNIVERSITY_ALL_COURSES,physicsUniversityRoutes,physicsUniversityRoute,physicsUniversityYears,physicsUniversityCourseChoices,
  SCIENCE_PRIMARY_LESSON_BANK:{},EDUCATION_THEORY_DATA:THEORY_ENTRIES,
  learningLabel:(ro,en)=>ro,
