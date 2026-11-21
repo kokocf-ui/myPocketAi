@@ -21,9 +21,13 @@ await page.addInitScript(()=>{
 const metrics=async(name,sel)=>page.evaluate(({name,sel})=>{
  const root=document.querySelector('#view-module'),scroller=document.querySelector(sel);
  const pageEl=document.querySelector('main.page');
- const rect=el=>{if(!el)return null;const r=el.getBoundingClientRect();const c=getComputedStyle(el);return {top:+r.top.toFixed(1),bottom:+r.bottom.toFixed(1),height:+r.height.toFixed(1),overflowY:c.overflowY,display:c.display,position:c.position,scrollHeight:el.scrollHeight,clientHeight:el.clientHeight,scrollTop:el.scrollTop}};
+ const rect=el=>{if(!el)return null;const r=el.getBoundingClientRect();const c=getComputedStyle(el);return {top:+r.top.toFixed(1),bottom:+r.bottom.toFixed(1),height:+r.height.toFixed(1),overflowY:c.overflowY,display:c.display,position:c.position,scrollHeight:el.scrollHeight,clientHeight:el.clientHeight,scrollTop:el.scrollTop,paddingBottom:c.paddingBottom,paddingTop:c.paddingTop,marginBottom:c.marginBottom,heightCss:c.height,gridTemplateRows:c.gridTemplateRows,gridAutoRows:c.gridAutoRows,flex:c.flex}};
  return {name,rootClass:root?.className,body:rect(document.body),page:rect(pageEl),root:rect(root),
   panel:rect(root?.querySelector('.science-choice-panel,.my-documents-panel')),
+  content:rect(root?.querySelector('#moduleContent')),
+  toolbar:rect(root?.querySelector('.science-stage-toolbar')),
+  lead:rect(root?.querySelector('#moduleLead')),
+  chat:rect(root?.querySelector('#moduleChatHost')),
   scroller:rect(scroller),buttons:[...root?.querySelectorAll('.module-actions-row button')||[]].map(b=>({text:b.textContent,cls:b.className,visible:b.getBoundingClientRect().height>0})),
   dock:rect(document.querySelector('.bottom-nav')),
   docCount:root?.querySelectorAll('.my-documents-row').length,
@@ -68,7 +72,19 @@ try{
  const yearLoc=page.locator('.science-choice-list').first();
  if(await yearLoc.count()){await yearLoc.hover();await page.mouse.wheel(0,300);await page.waitForTimeout(250)}
  const sciAfter=await metrics('scienceafter','.science-choice-list');
- console.log('SCI_SCROLL_DELTA',JSON.stringify({page:sciAfter.page?.scrollTop-sciBefore.page?.scrollTop,list:sciAfter.scroller?.scrollTop-sciBefore.scroller?.scrollTop,panelY:sciAfter.panel?.top-sciBefore.panel?.top}));
+ console.log('SCI_SCROLL_DELTA',JSON.stringify({page:sciAfter.page?.scrollTop-sciBefore.page?.scrollTop,list:sciAfter.scroller?.scrollTop-sciBefore.scroller?.scrollTop,panelY:sciAfter.panel?.top-sciBefore.panel?.top,root:sciAfter.root,content:sciAfter.content,toolbar:sciAfter.toolbar,lead:sciAfter.lead,chat:sciAfter.chat}));
+ if(await yearLoc.count()){
+  await page.evaluate(()=>document.querySelector('.science-choice-list').scrollTop=0);
+  const beforeTouch=await metrics('before-touch','.science-choice-list');
+  const session=await page.context().newCDPSession(page);
+  await session.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x:150,y:520}]});
+  for(let y=500;y>=340;y-=20) await session.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x:150,y}]});
+  await session.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});
+  await page.waitForTimeout(400);
+  const afterTouch=await metrics('after-touch','.science-choice-list');
+  console.log('SCI_TOUCH_DELTA',JSON.stringify({page:afterTouch.page?.scrollTop-beforeTouch.page?.scrollTop,list:afterTouch.scroller?.scrollTop-beforeTouch.scroller?.scrollTop,panelY:afterTouch.panel?.top-beforeTouch.panel?.top}));
+  await page.screenshot({path:'ui-browser-audit/science-after-touch.png'});
+ }
  await page.screenshot({path:'ui-browser-audit/science-after-scroll.png'});
 }catch(e){console.log('FATAL',String(e).slice(0,1900))}
 finally{fs.writeFileSync('ui-browser-audit/log.json',JSON.stringify({logs,issues},null,2));await browser.close();server.close();}
