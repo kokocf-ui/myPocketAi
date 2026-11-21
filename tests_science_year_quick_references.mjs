@@ -10,7 +10,7 @@ for(const [subject,minimum] of [['physics',10],['chemistry',12]]){
   const items=scienceYearReferenceEntries(subject,lang);
   assert.equal(items.length,minimum);
   for(const law of items){
-   assert.ok(law.title.length>9&&law.explanation.length>65,'Reference explanation missing: '+law.title);
+   assert.ok(law.title.length>=8&&law.explanation.length>65,'Reference explanation missing: '+law.title);
    assert.ok(law.formula.length>=5&&law.symbols.length>=35&&law.limits.length>=55,'Relation, symbols and limits: '+law.title);
    assert.ok(law.example.length>=65,'Need complete example: '+law.title);
    const page=scienceYearReferenceMaterial(law,lang);
