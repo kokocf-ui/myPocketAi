@@ -1,9 +1,7 @@
 name: Diagnose international mixed flight search
 
 on:
-  workflow_run:
-    workflows: ["Deploy MyPocketAI to Cloudflare"]
-    types: [completed]
+  # No transport provider probes on unrelated deployments.
   workflow_dispatch:
     inputs:
       run_live:
