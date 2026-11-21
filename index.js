@@ -52,6 +52,7 @@ import {SCIENCE_EXACT_REFERENCE,scienceCheckExactExercise} from './science_exerc
 import {SCIENCE_RO_LOWER_TOPICS,SCIENCE_RO_PHYSICS_LABELS,SCIENCE_RO_LESSON_EXTRAS,SCIENCE_RO_2017_SOURCE,
  scienceRoGradeTopics,scienceSchoolTopicLessons,scienceRoAnnualCoverage} from './science_ro_course_plan.mjs';
 import {scienceSchoolLessonMaterial,scienceSchoolLessonAssessment} from './science_school_lesson_material.mjs';
+import {PHYSICS_EUROPE_REFERENCE,PHYSICS_EUROPE_REFERENCES,PHYSICS_ADVISORY_TOPIC_SEQUENCES,PHYSICS_COUNTRY_YEAR_SEQUENCES,physicsCountryGradePlan} from './physics_europe_frameworks.mjs';
 import {CHEMISTRY_SPECIALIZATIONS,CHEMISTRY_SPECIALTY_TOPICS,CHEMISTRY_MOLECULES,chemistryVerifiedExercise} from './chemistry_advanced.mjs';
 import {BIOLOGY_TOPICS,BIOLOGY_SPECIALIZATIONS,BIOLOGY_SPECIALTY_TOPICS,biologyVerifiedExercise} from './biology_curriculum.mjs';
 import {mathAdvancedVerifiedModel} from './math_advanced_verified.mjs';
@@ -8230,6 +8231,12 @@ function scienceYearGroups(){
   let years=eduYearOptions(country,band.schoolStage==='upper'?'intermediate':band.schoolStage,'science').filter(entry=>entry&&entry.id);
   if(country==='RO'&&band.schoolStage==='lower')
    years=years.filter(entry=>Number.isInteger(Number(entry.id))&&Number(entry.id)>=minRo&&Number(entry.id)<=8);
+  if(scienceJourney.subject==='physics'&&band.schoolStage==='lower'){
+   const all=[...years];
+   years=years.filter(entry=>physicsCountryGradePlan({
+    country,stage:'lower',grade:entry.id,years:all
+   }).kind!=='not-taught');
+  }
   if(country==='RO'&&band.schoolStage==='upper')
    years=years.filter(entry=>Number.isInteger(Number(entry.id))&&Number(entry.id)>=9&&Number(entry.id)<=12);
   if(band.schoolStage==='advanced')years=years.slice(0,1);
@@ -9053,6 +9060,11 @@ const scienceRoAnnualCoverage=${scienceRoAnnualCoverage.toString()};
 const scienceSchoolLessonMaterial=${scienceSchoolLessonMaterial.toString()};
 const scienceSchoolLessonAssessment=${scienceSchoolLessonAssessment.toString()};
 const scienceCheckExactExercise=${scienceCheckExactExercise.toString()};
+const PHYSICS_EUROPE_REFERENCE=${JSON.stringify(PHYSICS_EUROPE_REFERENCE)};
+const PHYSICS_EUROPE_REFERENCES=${JSON.stringify(PHYSICS_EUROPE_REFERENCES)};
+const PHYSICS_ADVISORY_TOPIC_SEQUENCES=${JSON.stringify(PHYSICS_ADVISORY_TOPIC_SEQUENCES)};
+const PHYSICS_COUNTRY_YEAR_SEQUENCES=${JSON.stringify(PHYSICS_COUNTRY_YEAR_SEQUENCES)};
+const physicsCountryGradePlan=${physicsCountryGradePlan.toString()};
 const SCIENCE_GRADE_TOPIC_PLAN=${scienceGradeTopicPlan.toString()};
 const SCIENCE_GRADE_LESSON_FRAME=${scienceGradeLessonFrame.toString()};
 const PHYSICS_TOPIC_DATA=${JSON.stringify(PHYSICS_TOPICS)};
