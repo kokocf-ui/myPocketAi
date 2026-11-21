@@ -11786,7 +11786,7 @@ function scienceOpenChemistrySection(stage){
         chosen.workedExample||learningLabel('Nu există o investigație separată verificată.','No separately validated investigation is available.'),
         '# '+learningLabel('Întrebare de verificare','Check question'),chosen.exercise||'',
         '# '+learningLabel('Răspuns de verificare','Check answer'),chosen.answer||''
-       ].filter(Boolean).join('\n\n');
+       ].filter(Boolean).join('\\n\\n');
        educationOpenPagedLesson(chosen.title,body);
       });
      // A generic diagram is never repeated just because two years share
