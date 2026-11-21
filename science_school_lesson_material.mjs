@@ -22,6 +22,8 @@ export function scienceSchoolLessonMaterial({
  ];
  if(!ro&&entry.language!=='en'){
   parts.push('Romanian reference lesson. A verified translation into the selected language is not available; this lesson is not presented as a certified national course.');
+ }else if(!ro&&entry.language==='en'&&language!=='en'){
+  parts.push('Original English reference material. Translation into the selected interface language is not independently verified; this is an advisory course, not a certified national syllabus.');
  }
  parts.push('# '+(ro?'Explicația noțiunii':'Concept explanation'),core);
  if(fullDetail){
