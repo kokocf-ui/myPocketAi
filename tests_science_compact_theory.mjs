@@ -9,7 +9,7 @@ import {ASTRONOMY_TOPICS} from './astronomy_curriculum.mjs';
 import {CHEMISTRY_DETAILED_LESSONS} from './chemistry_detailed_lessons.mjs';
 import {scienceExtendedTheory,SCIENCE_CHAPTER_GUIDE_COUNT,SCIENCE_GUIDES} from './science_extended_theory.mjs';
 
-assert.equal(SCIENCE_CHAPTER_GUIDE_COUNT,46,'all non-foundation core chapters have authored guidance');
+assert.equal(SCIENCE_CHAPTER_GUIDE_COUNT,47,'all non-foundation core chapters have authored guidance');
 const chapters={chemistry:CHEMISTRY_TOPICS,physics:PHYSICS_TOPICS,biology:BIOLOGY_TOPICS,astronomy:ASTRONOMY_TOPICS};
 let checked=0;
 for(const [subject,topics] of Object.entries(chapters)){
