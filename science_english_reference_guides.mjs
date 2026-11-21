@@ -89,6 +89,12 @@ export const SCIENCE_GUIDES_EN=Object.freeze({
     ]
   },
   "physics": {
+    "space": [
+          "Physical science of space studies gravity, celestial motion and how light carries information across very large distances. The Sun is a star in the Milky Way galaxy; planets orbit stars, and natural satellites orbit planets. Astronomical units and light-years describe distances at different scales, not the duration of an academic year.",
+          "A globe illuminated by a stationary lamp can illustrate day and night as Earth rotates. A second ball moving around the globe illustrates lunar phases if one carefully tracks the sunlit side. This model is simplified: the relative sizes and separations of the real Earth, Moon and Sun are not drawn to scale.",
+          "The seasons are not caused simply by Earth being closer to the Sun, and a light-year measures distance rather than time. Apparent changes in brightness do not automatically prove a change of distance; observations need careful interpretation.",
+          "Explain why the seasons differ between Earth's hemispheres and how the Moon's phases differ from eclipses. State a safe observation that could test a model and describe its limitations."
+    ],
     "units": [
       "Physics describes quantities with numerical values and units. SI base and derived units allow dimensional consistency.",
       "Convert 72 km/h to metres per second: 72×1000/3600 = 20 m/s.",

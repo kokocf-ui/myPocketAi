@@ -2,13 +2,15 @@
 // This describes which *existing* lessons are available; it does not transform
 // a generic topic list into a supposedly verified national textbook.
 import {EDUCATION_SCHOOL_YEARS,hgSchoolChapters} from './education_school_paths.mjs';
-import {EDUCATION_WORLDWIDE_SCHEMES,worldwideSchoolYears} from './education_worldwide_paths.mjs';
+import {EDUCATION_WORLDWIDE_SCHEMES,EDUCATION_WORLDWIDE_FALLBACK,worldwideSchoolYears} from './education_worldwide_paths.mjs';
 import {litEuropeanPlan,LIT_EU_PROGRAMS} from './literature_curriculum_europe.mjs';
 import {PHYSICS_TOPICS,PHYSICS_LESSONS} from './physics_curriculum.mjs';
 import {CHEMISTRY_TOPICS,CHEMISTRY_LESSONS} from './chemistry_curriculum.mjs';
 import {BIOLOGY_TOPICS,BIOLOGY_LESSONS} from './biology_curriculum.mjs';
 import {ASTRONOMY_TOPICS,ASTRONOMY_LESSONS} from './astronomy_curriculum.mjs';
 import {scienceGradeTopicPlan} from './science_grade_progression.mjs';
+import {scienceSchoolTopicLessons} from './science_ro_course_plan.mjs';
+import {physicsCountryGradePlan} from './physics_europe_frameworks.mjs';
 import {COMPUTING_PATHS,COMPUTING_TOPICS} from './computing_curriculum.mjs';
 import {FOREIGN_TOPICS} from './foreign_languages_curriculum.mjs';
 import {examByGrade} from './exam_curriculum_europe.mjs';
@@ -50,9 +52,26 @@ export function educationCountrySchoolYears(country,stage){
  const scheme=EDUCATION_WORLDWIDE_SCHEMES[code];
  if(scheme)return {country:code,stage:st,status:'mapped-years-advisory',
   source:scheme.source||null,years:worldwideSchoolYears(code,st).map(x=>({...x,curriculumVerified:false}))};
- // Do not invent fictitious P1/L1/U1 national grades for uncovered microstates.
- return {country:code,stage:st,status:'grade-unmapped',source:null,
-  years:[{id:'grade-not-mapped',ro:'Clasa de confirmat',en:'Grade to confirm',curriculumVerified:false}]};
+ // National year names remain UNMAPPED. The common ISCED-inspired
+ // fallback is an explicitly advisory sequence, matching the real Android
+ // country/year picker rather than a single unusable 'grade-not-mapped' row.
+ // P1/L1/U1 are study-sequence IDs, never national class identifiers.
+ const advisoryStage=st==='beginner'?'primary':st;
+ const advisory=st==='advanced'?
+  worldwideSchoolYears(code,st).map(x=>({
+   ...x,ro:'Studii universitare · orientativ',
+   en:'Higher education · advisory',
+   curriculumVerified:false,nationalYearVerified:false
+  })):
+  Array.from({length:4},(_,i)=>({
+   id:'general-'+advisoryStage+'-'+(i+1),
+   ro:'An orientativ '+(i+1)+' · '+(st==='beginner'?'primar':st==='lower'?'gimnazial':'liceal'),
+   en:'Advisory '+(st==='beginner'?'primary':st==='lower'?'lower-secondary':'upper-secondary')+' year '+(i+1),
+   curriculumVerified:false,nationalYearVerified:false
+  }));
+ return {country:code,stage:st,status:'grade-unmapped',
+  source:EDUCATION_WORLDWIDE_FALLBACK.source,
+  years:advisory};
 }
 function subjectInventory(subject,{country,stage,grade,track}){
  if(subject==='literature'){
@@ -77,15 +96,33 @@ function subjectInventory(subject,{country,stage,grade,track}){
   const [topics,lessons]=tables[subject];
   const schoolStage=stage==='beginner'?'primary':stage==='medium'?'upper':stage;
   const mappedYears=educationCountrySchoolYears(country,stage).years;
-  const track=schoolStage==='advanced'?null:scienceGradeTopicPlan({
+  const schoolPlan=schoolStage==='advanced'?null:scienceGradeTopicPlan({
    country,subject,stage:schoolStage,grade,years:mappedYears,topics
   });
-  const ordered=track?.topics?.length?track.topics:topics.filter(x=>!x.specialty&&rank[x.minLevel||'beginner']<=stageRank[stage]);
-  return {units:ordered.map(x=>unit(x.id,x.ro,x.en,'',lessons.filter(y=>y.topic===x.id).length)),
-   verified:false,gradeSpecific:false,source:null,
-   note:'Program general de științe diferențiat pe clase; nu este manual sau programă națională verificată.'+
-    (subject==='astronomy'?' Astronomia este opțională sau integrată în alte discipline în multe sisteme.':'')};
+  const physicsPlan=subject==='physics'&&schoolStage!=='advanced'?
+   physicsCountryGradePlan({country,stage:schoolStage,grade,years:mappedYears}):null;
+  const ordered=schoolPlan&&Array.isArray(schoolPlan.topics)?schoolPlan.topics:
+   topics.filter(x=>!x.specialty&&rank[x.minLevel||'beginner']<=stageRank[stage]);
+  const actualLessons=x=>subject==='physics'&&schoolStage!=='advanced'?
+   scienceSchoolTopicLessons({
+    country,subject,grade,stage:schoolStage,topic:x.id,
+    years:mappedYears,lessons,language:'en'
+   }).length:
+   lessons.filter(y=>y.topic===x.id).length;
+  const units=ordered.map(x=>unit(x.id,x.ro,x.en,'',actualLessons(x)));
+  const kind=physicsPlan?.kind==='integrated'?' Conținut integrat în Științe.':
+   physicsPlan?.kind==='mixed'?' Conținut combinat cu Chimie.':'';
+  const note=physicsPlan?
+   (physicsPlan.status==='not-offered'?
+    'Fizica nu este disciplină separată în acest an. Nu afișăm o programă de Fizică inventată.':
+    'Parcurs didactic de Fizică pe domeniile disponibile, cu lecții originale.'+kind+
+    ' Ordinea pe an este orientativă, dacă programa oficială nu o prescrie.')+
+    ' '+physicsPlan.note:
+   'Program general de științe diferențiat pe clase; nu este manual sau programă națională verificată.'+
+    (subject==='astronomy'?' Astronomia este opțională sau integrată în alte discipline în multe sisteme.':'');
+  return {units,verified:false,gradeSpecific:false,source:physicsPlan?.source||null,note};
  }
+
  if(subject==='computing'){
   const pathLevel=stage==='advanced'?'advanced':stage==='medium'?'medium':'beginner';
   return {units:COMPUTING_PATHS.filter(p=>p.level===pathLevel).map(p=>

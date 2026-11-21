@@ -1,3 +1,5 @@
+import {SCIENCE_LOWER_DEPTH} from './science_lower_secondary_depth.mjs';
+import {PHYSICS_SPACE_LESSONS} from './physics_space_lessons.mjs';
 // Original, pupil-oriented lower secondary science notes, independent of nation.
 // These are supplementary study frames, NOT national textbooks or a claim that
 // a topic is compulsory for a particular grade. Each item gives a distinct
@@ -5,6 +7,12 @@
 // National year/topic selection remains in science_grade_progression.mjs.
 const entries={
  physics:{
+  space:[
+   [PHYSICS_SPACE_LESSONS.ro[0].title,PHYSICS_SPACE_LESSONS.ro[0].statement,
+    PHYSICS_SPACE_LESSONS.ro[0].workedExample,PHYSICS_SPACE_LESSONS.ro[0].exercise,PHYSICS_SPACE_LESSONS.ro[0].answer],
+   [PHYSICS_SPACE_LESSONS.en[0].title,PHYSICS_SPACE_LESSONS.en[0].statement,
+    PHYSICS_SPACE_LESSONS.en[0].workedExample,PHYSICS_SPACE_LESSONS.en[0].exercise,PHYSICS_SPACE_LESSONS.en[0].answer]
+  ],
   units:[
    ['Mărimi și unități','Măsurarea leagă o mărime fizică de o unitate. Lungimea se exprimă în metri, timpul în secunde, masa în kilograme; conversia cere păstrarea tipului mărimii.','Exemplu: 2,5 m înseamnă 250 cm, deoarece 1 m = 100 cm.','Transformă 750 mm în metri.','750 mm = 0,75 m. Împarți la 1.000.'],
    ['Quantities and units','Measurement connects a quantity to its unit. Length uses metres, time uses seconds, mass uses kilograms; conversions must preserve the type of quantity.','Example: 2.5 m equals 250 cm because 1 m = 100 cm.','Convert 750 mm into metres.','750 mm = 0.75 m: divide by 1,000.']
@@ -33,6 +41,33 @@ const entries={
    ['Circuit electric simplu','Un circuit închis oferă un traseu conductiv pentru curent. Tensiunea, curentul și rezistența sunt mărimi diferite; legea lui Ohm se aplică în condiții potrivite.','Exemplu: dacă U = 6 V și R = 3 Ω pentru un rezistor ohmic, I = 6/3 = 2 A.','În același model, ce curent trece la 9 V și 3 Ω?','I = 9/3 = 3 A. Nu lucra la prize sau la rețeaua electrică.'],
    ['Simple electric circuits','A closed circuit provides a conducting path. Voltage, current and resistance are distinct; Ohm’s law applies to suitable components.','Example: U = 6 V across a 3 Ω ohmic resistor gives I = 2 A.','In the same model, find the current for 9 V and 3 Ω.','I = 9/3 = 3 A. Never experiment with mains electricity.']
   ]
+  ,
+  optics:[
+   ['Lumină, reflexie și refracție','Lumina se propagă rectiliniu în medii omogene și poate produce umbre când întâlnește obiecte opace. La suprafețe reflectante, unghiul de reflexie este egal cu unghiul de incidență, măsurate față de normală. Când trece oblic între medii transparente cu indici diferiți, direcția luminii se poate modifica prin refracție. Aceste fenomene se studiază cu surse școlare sigure, niciodată prin observarea directă a Soarelui.','Exemplu: oglinda plană reflectă lumina; un creion scufundat în apă pare frânt din cauza refracției.','De ce un obiect opac poate produce o umbră?','Pentru că împiedică lumina să ajungă direct într-o anumită regiune.'],
+   ['Light, reflection and refraction','Light travels in straight lines through uniform media and can form shadows when blocked by opaque objects. At a reflecting surface the angle of reflection equals the angle of incidence, measured from the surface normal. Light may change direction when it enters another transparent medium at an angle. These effects can be investigated with safe classroom light sources, never by looking directly at the Sun.','Example: a plane mirror reflects light, while a pencil viewed through water may appear bent due to refraction.','Why can an opaque object form a shadow?','Because it blocks light from reaching a region directly.']
+  ],
+  electromagnetism:[
+   ['Magneți și câmp magnetic','Magneții pot interacționa fără contact direct și au doi poli, numiți convențional nord și sud. Polii de același tip se resping, iar cei diferiți se atrag. Câmpul magnetic descrie influența magnetică în spațiu și poate fi investigat prin orientarea unei busole. Un conductor parcurs de curent produce, de asemenea, câmp magnetic, însă experimentul trebuie realizat numai cu tensiuni școlare sigure.','Exemplu: o busolă se poate orienta diferit lângă un magnet; un electromagnet funcționează doar când circulă curent prin bobină.','Ce se întâmplă între doi poli nord?','Polii magnetici de același tip se resping.'],
+   ['Magnets and magnetic fields','Magnets can interact without touching and have conventionally named north and south poles. Like poles repel and unlike poles attract. A magnetic field describes magnetic influence in the surrounding space and can be explored with a compass. An electric current also generates a magnetic field, but any classroom investigation must use safe low-voltage apparatus rather than household mains electricity.','Example: a compass changes direction near a magnet; an electromagnet becomes active when its coil carries current.','What happens between two north poles?','They repel each other.']
+  ],
+  thermodynamics:[
+   ['Energie termică și calorimetrie','Temperatura nu este identică cu energia internă a unui corp, iar căldura este energie transferată din cauza unei diferențe de temperatură. Conducția, convecția și radiația sunt mecanisme de transfer. Într-un model simplificat, energia necesară încălzirii fără schimbare de fază poate fi exprimată prin Q = m·c·ΔT. Modelul depinde de substanță și de condițiile de schimb termic.','Exemplu: două corpuri de mase diferite din aceeași substanță necesită cantități diferite de energie pentru aceeași creștere de temperatură.','Ce mărime exprimă c în relația Q=m·c·ΔT?','Căldura specifică.'],
+   ['Thermal energy and calorimetry','Temperature differs from the total internal energy of a body, while heat is energy transferred because of a temperature difference. Conduction, convection and radiation are distinct transfer mechanisms. In a simplified model with no phase change, heating energy can be written as Q = m·c·ΔT. The relation requires the substance properties and transfer conditions to be understood.','Example: two masses of the same material need different energy transfers for the same temperature change.','What is c in Q=m·c·ΔT?','Specific heat capacity.']
+  ],
+  circuits:[
+   ['Măsurări în circuite de curent continuu','Într-un circuit electric, curentul descrie rata de trecere a sarcinii, tensiunea reprezintă diferența de potențial și rezistența modelează opoziția la curent. Pentru un rezistor ohmic la temperatură potrivită, I=U/R. Ampermetrul se leagă în serie și voltmetrul în paralel cu componenta măsurată. Nu folosi instalații casnice pentru experimente, ci numai simulări ori surse de laborator adecvate.','Exemplu: la 8 V și 4 Ω, un rezistor ohmic conduce un curent de 2 A, în condițiile modelului.','Cum se montează voltmetrul pentru tensiunea pe un rezistor?','În paralel cu rezistorul.'],
+   ['Direct-current circuit measurements','Electric current is the rate of charge flow, voltage is a potential difference and resistance describes opposition to current in a chosen model. For a suitable ohmic resistor, I=V/R. An ammeter is connected in series and a voltmeter in parallel across the component being measured. Do not experiment with household mains; use safe educational low-voltage equipment or simulations.','Example: at 8 V across 4 Ω, an ohmic resistor carries a current of 2 A under the stated assumptions.','How should a voltmeter measure voltage across a resistor?','In parallel with the resistor.']
+  ]
+ 
+  ,waves:[
+   ['Sunetul, vibrațiile și undele','Sunetul pornește de la vibrații și se transmite prin medii materiale. Undele transportă energie și informație fără să transporte permanent materia pe aceeași distanță. Frecvența este numărul de oscilații pe secundă, iar amplitudinea caracterizează mărimea oscilației; în cazul sunetului acestea influențează înălțimea și intensitatea percepute. Undele nu se propagă toate cu aceeași viteză, iar protecția auzului este importantă.','Exemplu: o coardă care vibrează pune aerul în mișcare și produce un sunet; o coardă întinsă diferit poate vibra cu altă frecvență.','De ce nu se transmite sunetul prin vid?','Pentru că sunetul este o undă mecanică și are nevoie de un mediu material.'],
+   ['Sound, vibrations and waves','Sound originates in vibration and travels through a material medium. Waves transfer energy and information without permanently transporting the bulk material over the same distance. Frequency describes cycles per second, while amplitude describes the size of an oscillation; they affect the pitch and loudness we perceive. Not all waves travel at the same speed, and protecting hearing from prolonged loud noise is important.','Example: a vibrating string moves nearby air, producing sound; changing its tension can change the frequency.','Why cannot sound travel through a vacuum?','Sound is a mechanical wave and requires a material medium.']
+  ],
+  measurement:[
+   ['Măsurători, incertitudini și modele','Măsurarea fizică înseamnă compararea unei mărimi cu o unitate convenită, folosind un instrument potrivit. Citirea depinde de scala instrumentului, poziția observatorului și condițiile măsurării. Repetarea observațiilor ajută la estimarea variației datelor, iar un rezultat trebuie exprimat prin valoare, unitate și, când este necesar, incertitudine. Un model matematic este util dacă ipotezele, unitățile și limitele sale sunt explicate.','Exemplu: la măsurători repetate ale timpului de 4,9 s, 5,0 s și 5,1 s, media este 5,0 s, însă rezultatele nu sunt identice.','De ce nu scriem „5” ca rezultat complet al unui interval de timp?','Pentru că trebuie precizată unitatea de timp și, după caz, precizia sau incertitudinea măsurării.'],
+   ['Measurement, uncertainty and models','A physical measurement compares a quantity with an agreed unit using an appropriate instrument. Readings depend on the instrument scale, the observer and the conditions of the measurement. Repeated readings help estimate variation, and a result should include its value, unit and, when appropriate, uncertainty. A mathematical model is useful only when its assumptions, units and limitations are made explicit.','Example: measurements of 4.9 s, 5.0 s and 5.1 s have a mean of 5.0 s, but the readings are not identical.','Why is “5” an incomplete report of a time interval?','The unit and, when relevant, measurement precision or uncertainty must be stated.']
+  ]
+
  },
  chemistry:{
   fundamentals:[
@@ -93,6 +128,11 @@ const entries={
    ['Adaptare și selecție naturală','Populațiile au variație ereditară. În anumite condiții, unele variante favorizează supraviețuirea și reproducerea, iar frecvențele lor pot crește în generații.','Exemplu: forma ciocului poate influența accesul la hrană, dar nu este o alegere conștientă a păsării.','Evoluează un singur individ într-o zi?','Nu. Schimbarea evolutivă este studiată între generații în populații.'],
    ['Adaptation and natural selection','Populations have inherited variation. In certain environments some traits improve survival and reproduction over generations.','Example: beak shape may affect food access but is not consciously chosen by a bird.','Does one individual evolve a new inherited trait in a day?','No. Evolutionary changes are studied across generations in populations.']
   ]
+  ,
+  homeostasis:[
+   ['Reglarea funcțiilor organismului','Organismul păstrează anumite condiții interne în intervale compatibile cu funcționarea sa. Mecanismele de reglare implică receptori, centre de control și efectori și pot funcționa prin feedback negativ. Sistemul nervos și cel endocrin participă în moduri complementare la răspuns. Termoreglarea este un exemplu, dar un singur semn observat nu permite diagnosticarea unei tulburări.','Exemplu: transpirația poate contribui la răcirea organismului prin evaporarea apei de pe piele.','Ce urmărește feedbackul negativ?','Reducerea abaterii unei variabile de la intervalul reglat.'],
+   ['Regulating body functions','The body maintains certain internal conditions within ranges compatible with normal function. Regulation often involves sensors, control centres and effectors and may use negative feedback. Nervous and endocrine signalling contribute in different, complementary ways. Temperature regulation is one example, but an isolated observation cannot establish a medical diagnosis.','Example: sweating can help cool the body as water evaporates from the skin.','What is the role of negative feedback?','To reduce deviation from the regulated range.']
+  ]
  },
  astronomy:{
   solar:[
@@ -120,7 +160,12 @@ const entries={
 export const SCIENCE_LOWER_TOPIC_LESSONS=Object.freeze(Object.fromEntries(
  Object.entries(entries).map(([subject,topics])=>[
   subject,Object.freeze(Object.fromEntries(Object.entries(topics).map(([topic,versions])=>
-   [topic,Object.freeze({ro:Object.freeze(versions[0]),en:Object.freeze(versions[1])})])))
+   [topic,Object.freeze({
+    ro:Object.freeze(versions[0].map((value,i)=>i===1?
+     value+' '+(SCIENCE_LOWER_DEPTH[subject]?.[topic]?.ro||''):value)),
+    en:Object.freeze(versions[1].map((value,i)=>i===1?
+     value+' '+(SCIENCE_LOWER_DEPTH[subject]?.[topic]?.en||''):value))
+   })])))
  ])
 ));
 export function scienceLowerTopicContent(subject,topic,language='ro'){

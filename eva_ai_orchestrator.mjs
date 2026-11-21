@@ -29,7 +29,7 @@ export function planEvaAI(task={}, {enabled=false,legacyModel=EVA_AI_MODELS.fast
  }else if(module==='creative_storybook'&&CREATIVE.has(genre)){
   tier='deep';reason=genre==='documentary'?'nonfiction_documentary':'long_form_creative';
  }else if(module==='education_study'||module==='learning'){
-  tier=SCIENCE.has(subject)&&/(analysis|solve|proof|write|essay|complex|advanced|verific|demonstra|deduc|anali|rezolv)/.test(activity+' '+query)
+  tier=SCIENCE.has(subject)&&(/^(correction|review|assessment|feedback|evaluate|grading)$/.test(activity)||/(analysis|solve|proof|write|essay|complex|advanced|verific|demonstra|deduc|anali|rezolv)/.test(activity+' '+query))
    ?'deep':'balanced';
   if(STUDY.has(subject)&&/(analysis|essay|write|comparison|research|documentary|compare|analiz|eseu|argument|compar)/.test(activity+' '+query))
    tier='deep';

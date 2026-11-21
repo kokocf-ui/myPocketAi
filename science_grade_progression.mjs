@@ -1,6 +1,8 @@
 import {SCIENCE_GUIDES_EN} from './science_english_reference_guides.mjs';
 import {scienceLowerTopicContent} from './science_lower_secondary_lessons.mjs';
 import {SCIENCE_GUIDES} from './science_extended_theory.mjs';
+import {scienceRoGradeTopics,SCIENCE_RO_2017_SOURCE} from './science_ro_course_plan.mjs';
+import {physicsCountryGradePlan,PHYSICS_EUROPE_REFERENCES} from './physics_europe_frameworks.mjs';
 // Pan-European advisory science progression, not a national curriculum or textbook.
 // Country-specific school-year labels come from the existing country picker.
 // Subject knowledge and scientific enquiry are sequenced together.
@@ -54,16 +56,40 @@ export function scienceGradeTopicPlan({country='',subject='',stage='lower',grade
  const indexed=new Map(topics.filter(x=>x&&!x.specialty).map(x=>[x.id,x]));
  const ordered=selected.map(id=>indexed.get(id)).filter(x=>
   x&&((rank[x.minLevel]??0)<=max || stage==='primary'&&subject==='chemistry'&&x.id==='solutions'));
- const unique=[...new Map(ordered.map(x=>[x.id,x])).values()];
+ const countryPhysics=subject==='physics'?physicsCountryGradePlan({
+  country,stage,grade,years:yearList
+ }):null;
+ const curated=String(country).toUpperCase()==='RO'&&stage==='lower'
+  ?scienceRoGradeTopics(subject,grade,topics):null;
+ // Separate national Physics is not offered in Romanian Grade V.
+ // Other systems may teach physical science inside an integrated subject.
+ const gradeBlocked=countryPhysics?.status==='not-offered';
+ const adapted=countryPhysics&&stage!=='advanced'?
+  countryPhysics.topics.map(id=>indexed.get(id)).filter(Boolean).map(entry=>({
+   ...entry,minLevel:stage==='lower'||stage==='primary'?'beginner':entry.minLevel
+  })):null;
+ const unique=[...new Map((curated||adapted||ordered).map(x=>[x.id,x])).values()];
  // Never hide the whole subject because a national stage has an unverified
  // grade map: a known, clearly marked general course is always available.
  const fallback=topics.filter(x=>x&&!x.specialty&&(rank[x.minLevel]??0)<=max).slice(0,3);
  return {
   country,subject,stage,grade,status:'general-learning',
-  topics:unique.length?unique:fallback,
+  topics:gradeBlocked?[]:unique.length?unique:fallback,
   sequenceIndex,yearIndex,yearCount:yearList.length,
   source:SCIENCE_PROGRESSION_SOURCES,
-  note:'Parcurs generic de studiu, nu programa obligatorie a țării sau manualul clasei.',
+  note:subject==='physics'&&countryPhysics?
+   (countryPhysics.status==='not-offered'?
+    'În acest an Fizica nu se studiază ca disciplină separată în programa verificată.':
+    countryPhysics.note+' '+(countryPhysics.kind==='integrated'?
+     'Conținutul este parte a Științelor integrate, nu o disciplină Fizică separată.':'')):
+   curated?'Parcurs didactic original organizat după domeniile programei românești OMEN 3393/2017. Succesiunea săptămânală și manualul nu sunt obligatorii și pot diferi între școli.':
+    'Parcurs general orientativ. Nu reprezintă programa obligatorie sau manualul unei țări.',
+  physicsTeachingKind:countryPhysics?.kind||null,
+  physicsProgrammeName:countryPhysics?.programmeName||null,
+  physicsSourceScope:countryPhysics?.sourceScope||null,
+  physicsReference:countryPhysics?.source||null,
+  yearSpecificOfficial:false,
+  curriculumReference:curated?SCIENCE_RO_2017_SOURCE:countryPhysics?.source||null,
   astronomyOptional:subject==='astronomy'
  };
 }

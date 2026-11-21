@@ -1,0 +1,241 @@
+// 2026/27: syllabus STAGE references and provisional year sequencing
+// for Physics across the European Education picker. This file makes no
+// assertion that a stage-level learning outcome is compulsory in every grade.
+// A year-specific plan is labelled advisory unless a published specification
+// prescribes that year. Regions/exam boards may override the common framework.
+export const PHYSICS_EUROPE_REFERENCE='https://op.europa.eu/en/publication-detail/-/publication/f3bd0532-0255-11ed-acce-01aa75ed71a1/language-en';
+const refs=Object.freeze({
+ HR:{source:'https://narodne-novine.nn.hr/clanci/sluzbeni/full/2019_01_10_210.html',
+  scope:'national-year',name:'Fizika · 7. i 8. razred',integrated:['primary'],
+  noLower:['5','6'],lowerEntry:'7',
+  note:'Croația are Fizica separată în clasele 7–8; clasele 5–6 predau fenomene în Priroda. Programa oficială Fizika include domeniile structură materiei, interacțiuni, mișcare, energie și rezultate pe an.'},
+ UA:{source:'https://mon.gov.ua/osvita-2/zagalna-serednya-osvita/osvitni-programi/modelni-navchalni-programi-dlya-5-9-klasiv-novoi-ukrainskoi-shkoli-zaprovadzhuyutsya-poetapno-z-2022-roku',
+  scope:'national-cohort-framework',name:'Фізика · 7–9 класи',integrated:['primary'],
+  noLower:['5','6'],lowerEntry:'7',
+  note:'Ucraina: Fizica 7–9 conform programelor-model aprobate în NUS; implementarea este graduală după cohortă. Nu se aplică aceeași repartizare anuală tuturor cohortelor ori tuturor școlilor.'},
+ TR:{source:'https://tymm.meb.gov.tr/upload/program/2024programfen345678Onayli.pdf',
+  scope:'national-stage',name:'Fen Bilimleri · 5–8, Fizik · 9–12',
+  integrated:['primary','lower'],
+  note:'În Turcia, fizica din clasele 5–8 se studiază în Fen Bilimleri (Științe integrate), nu ca materie separată. Fizik ca disciplină apare în liceu, unde programa nouă diferă după clasă și cohortă.'},
+ NL:{source:'https://www.slo.nl/sectoren/vmbo/natuurkunde-vmbo/onderbouw/onderwijsdoelen-natuurkunde-scheikunde/',
+  scope:'national-stage',name:'Natuurkunde / NaSk · vmbo/havo/vwo',
+  integrated:['primary'],mixed:['lower'],
+  note:'În Olanda, în secundar inferior VMBO poate studia NaSk combinat, pe când HAVO/VWO au trasee proprii. Nu putem pretinde o singură programă anuală pentru toate filierele.'},
+ SK:{source:'https://www.statpedu.sk/sk/svp/statny-vzdelavaci-program/svp-druhy-stupen-zs/ramcove-ucebne-plany/',
+  scope:'national-stage',name:'Fyzika · 6.–9. ročník',integrated:['primary'],noLower:['5'],
+  lowerEntry:'6',note:'Fizica începe în mod uzual în clasa 6; programa pe competențe și structura în tranziție nu impun o singură ordine anuală a manualului. Clasele 5 au științe naturale, nu Fizică separată obligatorie.'},
+ SI:{source:'https://www.gov.si/teme/programi-in-ucni-nacrti-v-osnovni-soli/',
+  scope:'national-year',name:'Fizika · 8.–9. razred',integrated:['primary'],
+  noLower:['7'],lowerEntry:'8',
+  note:'În Slovenia Fizica distinctă este în clasele 8 și 9 ale școlii de bază; înaintea acestora conceptele apar în alte discipline de știință. Secvențierea manualelor poate varia.'},
+ BG:{source:'https://www.mon.bg/obshto-obrazovanie/uchebni-planove-i-programi-2/uchebni-programi/uchebni-programi-za-obsthoobrazovatelna-podgotovka/vii-klas/',
+  scope:'national-year',name:'Физика и астрономия · VII клас',integrated:['primary'],
+  noLower:['5','6'],lowerEntry:'7',
+  note:'Fizică și astronomie ca disciplină distinctă începe în clasa VII; în clasele V–VI se predau elemente în Științe ale naturii. De la clasa VIII există diferite profiluri liceale.'},
+ CY:{source:'https://www.moec.gov.cy/dme/en/gymnasium.html',
+  scope:'national-stage',name:'Physics · Gymnasium',integrated:['primary'],
+  note:'În Cipru, gimnaziul G1–G3 include Fizică în cadrul programului de științe; liceul L1–L3 poate varia în funcție de profil și de cursurile alese.'},
+ CZ:{source:'https://edu.gov.cz/dokumenty/rvp-ramcove-vzdelavaci-programy/rvp-zv-ramcovy-vzdelavaci-program-pro-zakladni-vzdelavani/',
+  scope:'national-stage',name:'Fyzika · RVP ZV',integrated:['primary'],
+  note:'În Cehia, Fizica face parte din programa secundară 6–9. Modificările RVP 2025 sunt introduse etapizat; ordinea anuală diferă după școală și cohortă.'},
+ EE:{source:'https://oppekava.ee/fuusika/',scope:'national-year',
+  name:'Füüsika · 8.–9. klass',integrated:['primary'],noLower:['7'],lowerEntry:'8',
+  note:'În Estonia, clasele 8–9 studiază Fizica distinctă. Clasa 7 are cunoștințe de științe naturale integrate; nu afișăm în mod fals Fizică obligatorie separată.'},
+ LV:{source:'https://skola2030.lv/lv/skolotajiem/macibu-prieksmeti/fizika',
+  scope:'national-year',name:'Fizika · 8.–9. klase',integrated:['primary'],
+  noLower:['7'],lowerEntry:'8',
+  note:'Letonia are Fizika în clasele 8–9; înaintea acestora se studiază concepte fizice în Științe integrate. Programa este definită pe competențe și clase, nu printr-o ordine universală a manualului.'},
+ FI:{source:'https://www.oph.fi/en/education-and-qualifications/national-core-curriculum-primary-and-lower-secondary-basic-education',
+  scope:'national-stage',name:'Fysiikka · vuosiluokat 7–9',integrated:['primary'],
+  note:'Fizica este disciplină distinctă în partea finală a școlii de bază (7–9); programa definește obiective pe niveluri, iar repartizarea anuală poate varia după curriculumul local.'},
+ SE:{source:'https://www.skolverket.se/undervisning/grundskolan/laroplan-lgr22-for-grundskolan-samt-for-forskoleklassen-och-fritidshemmet/curriculums/LGR22/GRGRFYS01',
+  scope:'national-stage',name:'Fysik · Lgr22',integrated:['primary'],
+  note:'Cunoștințele sunt grupate pe anii 1–3, 4–6 și 7–9. Fizica nu are o singură secvență obligatorie de lecții pentru fiecare an; programa liceală depinde de profil și nivel.'},
+ NO:{source:'https://www.udir.no/lk20/nat01-05/?lang=eng',
+  scope:'national-stage',name:'Naturfag · fizică integrată',integrated:['primary','lower'],
+  note:'Clasele 1–10 urmează Naturfag cu componente fizice, chimice și biologice; Fizica separată la liceu depinde de program și opțiune.'},
+ DK:{source:'https://emu.dk/grundskole/fysikkemi/faghaefte-faelles-maal-laeseplan-og-vejledning',
+  scope:'national-stage',name:'Fysik/Kemi · 7.–9. klasse',mixed:['lower'],integrated:['primary'],
+  note:'La ciclul gimnazial, Fizica/Chimia este o disciplină comună în clasele 7–9; planul anual al școlii poate ordona diferit temele.'},
+ RO:{source:'https://www.edu.ro/Ordin_ministru_3393_2017',scope:'national-stage',name:'Fizică · învățământ gimnazial',lowerEntry:'6',noLower:['5'],note:'Clasele VI–VIII; la liceu distribuția depinde de profil și de programa clasei.'},
+ 'GB-ENG':{source:'https://www.gov.uk/government/publications/national-curriculum-in-england-science-programmes-of-study/national-curriculum-in-england-science-programmes-of-study',scope:'national-stage',name:'Science: physics component',integrated:['primary','lower'],note:'Key Stage 3 covers Years 7–9; topics are prescribed at key-stage level, NOT as a legally fixed sequence in each year. Year 12–13 programmes are qualification-dependent.'},
+ 'GB-SCT':{source:'https://education.gov.scot/curriculum-for-excellence/curriculum-areas/sciences/',scope:'national-stage',name:'Curriculum for Excellence: Sciences',integrated:['primary','lower'],note:'BGE experiences and outcomes use curriculum levels (Early–Fourth); S1–S3 do not correspond to a national Physics chapter-by-year scheme.'},
+ 'GB-WLS':{source:'https://hwb.gov.wales/curriculum-for-wales/areas-of-learning-and-experience/science-and-technology/principles-of-progression/',scope:'national-stage',name:'Curriculum for Wales: Science and Technology',integrated:['primary','lower'],note:'Science and Technology follows progression steps, not mandatory lesson lists per Year 7, 8 or 9.'},
+ 'GB-NIR':{source:'https://ccea.org.uk/key-stage-3/curriculum/science-and-technology',scope:'national-stage',name:'Science and Technology, KS3',integrated:['primary','lower'],note:'Northern Ireland has integrated Science in Key Stage 3; exam-board syllabuses determine GCSE and post-16 Physics options.'},
+ MT:{source:'https://ildmalta.gov.mt/education/',scope:'national-school-stage',
+  name:'Middle Science (Y7–Y8), Physics (Y9–Y11)',integrated:['primary','lower'],
+  note:'În Malta, clasele Years 7–8 sunt Middle School, iar Fizica distinctă este predată în Years 9–11, în Secondary School. Year 11 este urmat de opțiuni postsecundare; nu există un singur program de fizică obligatoriu pentru toate aceste trasee.'},
+  IE:{source:'https://curriculumonline.ie/junior-cycle/junior-cycle-subjects/science/expectations-for-students-learning-outcomes/',scope:'national-stage',name:'Junior Cycle Science — Physical World',integrated:['primary','lower'],note:'Learning outcomes cover the entire three-year Junior Cycle, so a fixed J1/J2/J3 chapter distribution would be a false official attribution.'},
+ FR:{source:'https://eduscol.education.gouv.fr/5739/ressources-d-accompagnement-du-programme-de-physique-chimie-au-cycle-4',scope:'national-stage',name:'Physique-chimie · cycle 4',integrated:['primary'],integratedGrades:['6e'],mixed:['lower'],note:'Cycle 4 covers 5e, 4e and 3e; the school-year sequence is advisory, not prescribed for each class. 6e is interdisciplinary science.'},
+ HU:{source:'https://www.oktatas.hu/kozneveles/kerettantervek/2020_nat',scope:'national-stage',name:'Fizika · NAT 2020',noLower:['5','6'],lowerEntry:'7',note:'Grade 7–8 Fizika foundation, revised in grades 9–10; specialised school tracks may vary.'},
+ PL:{source:'https://zpe.gov.pl/podstawa-programowa/szkola-podstawowa/fizyka',scope:'national-stage',name:'Fizyka · klasy VII–VIII',lowerEntry:'VII',noLower:['V','VI'],note:'Separate Physics in classes VII and VIII; 2026 curriculum transition may be cohort-sensitive.'},
+ PT:{source:'https://www.dge.mec.pt/programas-e-metas-curriculares/fisico-quimica',scope:'national-year',name:'Físico-Química · 7.º–9.º ano',noLower:['5','6'],lowerEntry:'7',mixed:['lower'],note:'Physics and Chemistry are combined in 7th–9th. 8th includes Sound and Light; 9th includes Motion/Forces and Electricity. 10th–12th depend on course options.'},
+ ES:{source:'https://www.boe.es/eli/es/rd/2022/03/29/217/con',scope:'national-stage',name:'Física y Química · ESO',mixed:['lower'],note:'ESO minimum teaching framework; autonomous communities and school streams determine exact annual distribution and whether Physics/Chemistry is selected.'},
+ IT:{source:'https://www.mim.gov.it/',scope:'education-structure',name:'Scienze · scuola secondaria I',integrated:['primary','lower'],note:'Lower-secondary Physics concepts fall under Scienze. Physics as a separate subject in upper secondary depends on school stream.'},
+ DE:{source:'https://www.kmk.org/en/bildungsministerkonferenz/bildungsthemen/bildungsstandards.html',scope:'national-stage',name:'Physik · Bundesländer',note:'KMK sets common educational standards; exact grades/topics depend on Land and school type. National standard is NOT an annual schedule.'},
+ AT:{source:'https://www.bmb.gv.at/',scope:'education-structure',name:'Physik · Schulart',note:'Separate Physics arrangements depend on AHS/Mittelschule and local school type. Year allocation remains advisory until school stream is chosen.'},
+ CH:{source:'https://www.edk.ch/',scope:'education-structure',name:'Natur und Technik · Kantone',integrated:['primary'],note:'Canton and language determine exact programme; a national single grade timetable must not be asserted.'},
+ BE:{source:'https://eurydice.eacea.ec.europa.eu/',scope:'education-structure',name:'Sciences · Communities',integrated:['primary'],note:'Belgium requires the linguistic community and stream before Physics grade-specific curriculum can be confirmed.'}
+});
+export const PHYSICS_EUROPE_REFERENCES=refs;
+const countryGroups=Object.freeze({
+ // Original spiral sequences, NOT prescribed national textbooks. Enough
+ // distinct steps for six-year lower-secondary and long upper-secondary
+ // tracks; the real country school-year IDs determine placement.
+ lower:[
+  ['units','kinematics','heat','energy','optics'],
+  ['units','kinematics','dynamics','fluids','energy'],
+  ['kinematics','dynamics','fluids','heat','waves'],
+  ['electric','circuits','optics','waves','measurement'],
+  ['electric','circuits','electromagnetism','thermodynamics','waves'],
+  ['energy','electric','thermodynamics','optics','measurement']
+ ],
+ upper:[
+  ['measurement','kinematics','dynamics','energy','fluids'],
+  ['heat','thermodynamics','waves','optics','energy'],
+  ['electric','circuits','electromagnetism','measurement','waves'],
+  ['waves','optics','modern','energy','circuits'],
+  ['modern','measurement','dynamics','thermodynamics','electromagnetism'],
+  ['modern','optics','waves','electric','measurement']
+ ],
+ primary:[
+  ['units','energy','heat'],
+  ['units','kinematics','energy'],
+  ['energy','heat','fluids'],
+  ['heat','fluids','kinematics'],
+  ['units','kinematics','fluids','heat'],
+  ['energy','kinematics','heat','units'],
+  ['units','energy','heat','fluids'],
+  ['units','kinematics','energy','fluids']
+ ]
+});
+const specialPlans={
+ HR:{lower:{
+  '7':['units','kinematics','energy','dynamics','heat'],
+  '8':['electric','circuits','electromagnetism','waves','optics']
+ }},
+ UA:{lower:{
+  '7':['units','kinematics','dynamics','energy','measurement'],
+  '8':['heat','electric','circuits','fluids','energy'],
+  '9':['electromagnetism','optics','waves','energy','measurement']
+ }},
+
+ SI:{lower:{
+  '8':['units','kinematics','waves','optics','energy'],
+  '9':['electric','circuits','dynamics','thermodynamics','measurement']
+ }},
+ BG:{lower:{
+  '7':['units','kinematics','energy','electric','optics']
+ }},
+ SK:{lower:{
+  '6':['units','kinematics','heat','fluids','energy'],
+  '7':['dynamics','energy','heat','measurement','optics'],
+  '8':['electric','circuits','waves','optics','energy'],
+  '9':['electric','electromagnetism','thermodynamics','waves','measurement']
+ }},
+ CY:{lower:{
+  G1:['units','kinematics','energy','heat','optics'],
+  G2:['dynamics','energy','waves','fluids','optics'],
+  G3:['electric','circuits','electromagnetism','measurement','energy']
+ }},
+
+ EE:{lower:{
+  '8':['units','kinematics','waves','optics','heat'],
+  '9':['electric','circuits','electromagnetism','energy','thermodynamics']
+ }},
+ LV:{lower:{
+  '8':['units','kinematics','waves','optics','heat'],
+  '9':['dynamics','energy','electric','circuits','electromagnetism']
+ }},
+ CZ:{lower:{
+  '6':['units','kinematics','heat','energy','optics'],
+  '7':['dynamics','fluids','energy','measurement','kinematics'],
+  '8':['electric','circuits','heat','waves','optics'],
+  '9':['electromagnetism','electric','thermodynamics','waves','measurement']
+ }},
+
+ // National year headings where published guidance supports a strand,
+ // not a claim that the entire year MUST be taught in this exact order.
+ PT:{lower:{
+  '7':['space','units','energy','heat','kinematics'],
+  '8':['waves','optics','energy','heat','measurement'],
+  '9':['kinematics','dynamics','electric','circuits','energy']
+ }},
+ RO:{lower:{
+  '6':['units','kinematics','dynamics','energy','heat','electric','electromagnetism','optics'],
+  '7':['units','dynamics','kinematics','fluids','energy'],
+  '8':['heat','thermodynamics','electric','circuits','electromagnetism','optics']
+ }},
+ 'GB-ENG':{lower:{
+  Y7:['units','kinematics','dynamics','energy','heat'],
+  Y8:['fluids','waves','optics','electric','energy'],
+  Y9:['electromagnetism','circuits','measurement','dynamics','energy']
+ }},
+ HU:{lower:{
+  '7':['units','kinematics','dynamics','energy','heat'],
+  '8':['electric','optics','waves','thermodynamics','electromagnetism']
+ }},
+ PL:{lower:{
+  VII:['units','kinematics','dynamics','fluids','energy','heat'],
+  VIII:['electric','circuits','electromagnetism','waves','optics']
+ }},
+ FR:{lower:{
+  '6e':['units','energy','heat','optics'],
+  '5e':['units','kinematics','energy','electric'],
+  '4e':['dynamics','electric','waves','optics'],
+  '3e':['kinematics','energy','electric','optics','measurement']
+ }}
+};
+export const PHYSICS_ADVISORY_TOPIC_SEQUENCES=Object.freeze(countryGroups);
+export const PHYSICS_COUNTRY_YEAR_SEQUENCES=Object.freeze(specialPlans);
+const normalizeStage=stage=>stage==='medium'||stage==='intermediate'?'upper':stage==='beginner'?'primary':String(stage||'');
+export function physicsCountryGradePlan({country='',stage='lower',grade='',years=[]}={}){
+ const code=String(country).toUpperCase(),phase=stage==='medium'||stage==='intermediate'?'upper':stage==='beginner'?'primary':String(stage||'');
+ const yr=String(grade),rows=Array.isArray(years)?years:[];
+ const idx=rows.findIndex(x=>String(x.id)===yr);
+ if(!['primary','lower','upper','advanced'].includes(phase)||idx<0)
+  return {country:code,grade:yr,stage:phase,status:'invalid-grade',topics:[],source:null,kind:'unmapped'};
+ const ref=PHYSICS_EUROPE_REFERENCES[code]||null;
+ const integrated=phase==='primary'||ref?.integrated?.includes(phase)||
+  phase==='lower'&&ref?.integratedGrades?.includes(yr);
+ const mixed=ref?.mixed?.includes(phase);
+ const noSeparate=phase==='lower'&&ref?.noLower?.includes(yr);
+ const status=noSeparate?'integrated-or-not-taught':integrated?'integrated-science':
+  mixed?'mixed-physics-chemistry':ref?'framework-advisory':'european-advisory';
+ const base=PHYSICS_ADVISORY_TOPIC_SEQUENCES[phase]||[];
+ const sequence=base.length?base[Math.round(idx*(base.length-1)/Math.max(1,rows.length-1))]:[];
+ const yearly=PHYSICS_COUNTRY_YEAR_SEQUENCES[code]?.[phase]?.[yr]||sequence;
+ const blocked=Boolean(noSeparate);
+ // Romania: the new secondary-school syllabus begins with IX in 2026/27.
+ // X-XII remain on their applicable transitional cohort plans. An old
+ // 2017 lower-secondary order must not be misattributed to Grade IX.
+ const roUpper=code==='RO'&&phase==='upper';
+ const roNew=roUpper&&yr==='9';
+ const roOlder=roUpper&&['10','11','12'].includes(yr);
+ const pt2026=code==='PT'&&phase==='lower'&&yr==='7';
+ const selectedSource=pt2026?'https://www.dge.mec.pt/sites/default/files/7_fisico_quimica.pdf':
+  roNew?'https://sbisj.ro/curriculum-si-inspectie-scolara/fizica/documente-actuale/':
+  roOlder?'https://sbisj.ro/curriculum-si-inspectie-scolara/fizica/documente-actuale/':
+  ref?.source||PHYSICS_EUROPE_REFERENCE;
+ const frenchTransition=code==='FR'&&phase==='lower'?
+  (yr==='6e'?'6e: în 2026/27 este în vigoare vechea programă integrată Sciences et technologie a ciclului 3 (2023). Fizica nu este materie separată.':
+   yr==='5e'?'5e: noul program al ciclului 4 începe la această clasă în septembrie 2026. Lecțiile din aplicație reprezintă o succesiune didactică orientativă.':
+   '4e/3e: anul 2026/27 este afectat de tranziția progresivă a programelor ciclului 4. Nu eticheta cursul orientativ drept programă anuală oficială.'):null;
+ const transition=roNew?'Clasa a IX-a urmează noua programă introdusă în anul școlar 2026–2027 (OME 6930/2025); diferențierea TC/CS și profilul liceal sunt obligatorii pentru potrivirea exactă.':
+  roOlder?'Clasele X–XII urmează programe de tranziție/cotortă diferite de clasa IX 2026/27; confirmă profilul și programa aplicabilă.':null;
+ return {country:code,stage:phase,grade:yr,yearIndex:idx,
+  status:blocked?'not-offered':status,
+  kind:blocked?'not-taught':noSeparate?'not-separate':integrated?'integrated':
+   mixed?'mixed':'subject-or-track-dependent',
+  // No stand-alone grade V Physics for RO; other systems may offer the
+  // same concepts as integrated science without calling them a Physics class.
+  topics:blocked?[]:[...new Set(yearly)],
+  source:selectedSource,
+  sourceScope:roUpper?'national-cohort-framework':ref?.scope||'cross-national-comparative',
+  curriculumVersion:roNew?'2026-grade-9':roOlder?'transitional-pre-2026-cohort':null,
+  programmeName:ref?.name||'Advisory Physics strand',
+  verifiedAnnual:false,
+  nationalGradeLabels:Boolean(ref),
+  note:transition||frenchTransition||ref?.note||'Local Physics syllabus/grade timetable not independently verified. This is an original advisory science progression grounded in Eurydice/ISCED school structures, not a national year-by-year curriculum.'
+ };
+}

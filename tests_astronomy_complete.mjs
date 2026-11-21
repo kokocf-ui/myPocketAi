@@ -9,7 +9,7 @@ assert.equal(ASTRONOMY_TOPICS.filter(x=>!x.specialty).length,9);
 assert.equal(ASTRONOMY_SPECIALIZATIONS.length,7);
 assert.equal(ASTRONOMY_TOPICS.filter(x=>x.specialty).length,7);
 assert.equal(ASTRONOMY_LESSONS.length,82);
-assert.deepEqual(theorySubjects().map(x=>x.count),[211,102,268,168,82]);
+assert.deepEqual(theorySubjects().map(x=>x.count),[211,110,268,168,82]);
 assert.equal(new Set(ASTRONOMY_LESSONS.map(x=>x.id)).size,82);
 assert.ok(ASTRONOMY_LESSONS.every(x=>x.subject==='astronomy'&&x.title&&x.formula&&x.statement&&x.topic&&rank[x.level]>=rank[ASTRONOMY_TOPICS.find(t=>t.id===x.topic).minLevel]));
 for(const track of ASTRONOMY_SPECIALIZATIONS){

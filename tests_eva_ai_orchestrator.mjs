@@ -11,6 +11,10 @@ assert.equal(doc.fallback,EVA_AI_MODELS.balanced);
 assert.equal(doc.evidenceRequired,true);
 assert.equal(planEvaAI({module:'creative_storybook',genre:'children'},{enabled:true}).tier,'deep');
 assert.equal(planEvaAI({module:'education_study',subject:'math',query:'Rezolvă această ecuație pas cu pas'},{enabled:true}).tier,'deep');
+assert.equal(planEvaAI({module:'education_study',education_subject:'physics',education_activity:'correction',message:'Verifică soluția elevului.'},{enabled:true}).tier,'deep');
+assert.equal(planEvaAI({module:'education_study',education_subject:'biology',education_activity:'correction',message:'Evaluează explicația despre ADN'},{enabled:true}).model,EVA_AI_MODELS.deep);
+assert.equal(planEvaAI({module:'education_study',education_subject:'biology',education_activity:'correction'},{enabled:false}).tier,'legacy',
+ 'Disabled flag must preserve existing production model');
 assert.equal(planEvaAI({module:'education_study',subject:'history',query:'Lecția despre antichitate'},{enabled:true}).tier,'balanced');
 assert.equal(planEvaAI({module:'education_study',subject:'history',activity:'essay'},{enabled:true}).tier,'deep');
 assert.equal(planEvaAI({module:'assistant',query:'Bună ziua'},{enabled:true}).tier,'fast');
