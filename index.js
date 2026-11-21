@@ -90,7 +90,7 @@ import {CHEMISTRY_LAWS,CHEMISTRY_LAWS_GROUPS} from './chemistry_laws_reference.m
 import {PHYSICS_UNIVERSITY_PROFILES,PHYSICS_UNIVERSITY_EHEA_SOURCE,physicsUniversityRoutes,physicsUniversityYears,physicsUniversityRoute} from './physics_university_europe.mjs';
 import {PHYSICS_UNIVERSITY_ALL_COURSES,physicsUniversityCourseChoices,physicsUniversityStudyDocument} from './physics_university_study.mjs';
 import {physicsVerifiedExercise} from './physics_verified.mjs';
-import {ASTRONOMY_TOPICS,ASTRONOMY_SPECIALIZATIONS} from './astronomy_curriculum.mjs';
+import {ASTRONOMY_TOPICS,ASTRONOMY_SPECIALIZATIONS,ASTRONOMY_LESSONS} from './astronomy_curriculum.mjs';
 import {astronomyVerifiedExercise} from './astronomy_verified.mjs';
 import {ASTRONOMY_STUDY_CASES,ASTRONOMY_TOPIC_DIAGRAMS,astronomySchoolTopicLessons,astronomyLabMaterial} from './astronomy_study_course.mjs';
 import {ASTRONOMY_UNIVERSITY_DEFAULT_FOUR,ASTRONOMY_UNIVERSITY_ELECTIVES,astronomyUniversityRoutes,astronomyUniversityRoute,astronomyUniversityYears,astronomyUniversityCourseChoices,astronomyUniversityStudyText,astronomyUniversityProjectText} from './astronomy_university_courses.mjs';
