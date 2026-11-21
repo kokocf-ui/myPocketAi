@@ -8337,7 +8337,7 @@ function scienceJourneyShowChoices(stage){
  root.classList.toggle('science-choice-stage',stage!=='workspace');
  root.classList.toggle('science-subject-stage',stage==='subjects');
  root.classList.toggle('science-year-stage',stage==='years');
- root.classList.toggle('science-scroll-stage',stage==='years'||stage==='physics-laws'||stage==='chemistry-laws');
+ root.classList.toggle('science-scroll-stage',['subjects','years','topics','specialties','physics-laws','chemistry-laws','chemistry-menu','chemistry-lessons','chemistry-lab'].includes(stage));
  $('moduleTitle').textContent=learningLabel('Științe','Sciences')+
   (stage==='subjects'?'':' · '+learningLabel(scienceSubjectInfo()?.ro||'',scienceSubjectInfo()?.en||''));
  $('moduleLead').textContent='';
@@ -8480,7 +8480,7 @@ function scienceJourneyShowChoices(stage){
      stage:'lower',years:eduYearOptions(educationCountrySelection.code,'lower','science')
     }).length>0;
    if(scienceJourney.subject==='chemistry'&&scienceJourney.schoolStage==='upper')
-    return rank[topic.minLevel]<=rank[scienceJourney.level]&&(typeof CHEMISTRY_STUDY_CONCEPTS==='undefined'||Boolean(CHEMISTRY_STUDY_CONCEPTS[topic.id]));
+    return (rank[topic.minLevel]??0)<=rank[scienceJourney.level]; // Do not hide syllabus chapters merely because a summary-concept lookup is absent.
    return rank[topic.minLevel]<=rank[scienceJourney.level] &&
     (scienceJourney.schoolStage==='primary'?
      Boolean(SCIENCE_PRIMARY_LESSON_BANK[scienceJourney.subject]?.[topic.id]):
@@ -24904,6 +24904,15 @@ main.page:has(#view-module.my-documents-active.active){
 #view-module.my-documents-active .module-actions-row.pocket-docs-nav>button:not(.module-home-btn):not(.pocket-docs-back){
  display:none!important;
 }
+/* All Sciences choice screens: same bounded window, fixed panel and native inner list scroll. */
+#view-module.learning-science.science-scroll-stage.active .science-choice-panel.chemistry-section-panel{flex:1 1 0%!important;min-height:0!important;overflow:hidden!important;}
+#view-module.learning-science.science-scroll-stage.active .science-choice-list.chemistry-section-list{flex:1 1 0%!important;min-height:0!important;overflow-y:auto!important;touch-action:pan-y!important;}
+#view-module.learning-science.science-scroll-stage.active .science-choice-list .science-choice-row,
+#view-module.learning-science.science-scroll-stage.active .science-choice-list .chemistry-section-tile,
+#view-module.learning-science.science-scroll-stage.active .science-choice-list .science-subject-tile{flex-shrink:0!important;}
+#view-module.learning-science.science-scroll-stage.active .science-choice-panel>h2,
+#view-module.learning-science.science-scroll-stage.active .science-choice-panel>p,
+#view-module.learning-science.science-scroll-stage.active .science-stage-toolbar{flex:0 0 auto!important;}
 
 </style>
 </body>
