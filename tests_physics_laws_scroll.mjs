@@ -48,7 +48,7 @@ const sandbox={
  window:{addEventListener(){},visualViewport:null,innerHeight:850},
  requestAnimationFrame:()=>0,
  LEARNING_SUBJECTS:[['science','⚛️','Științe','Sciences']],
- PHYSICS_LAWS_DATA:PHYSICS_LAWS,PHYSICS_LAW_GROUPS,
+ PHYSICS_LAWS_DATA:PHYSICS_LAWS,PHYSICS_LAW_GROUPS:PHYSICS_LAWS_GROUPS,
  PHYSICS_TOPIC_DATA:PHYSICS_TOPICS,PHYSICS_SPECIALTY_DATA:PHYSICS_SPECIALIZATIONS,
  learningLabel:(ro,en)=>ro,
  educationTheoryClean:value=>String(value||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim(),
