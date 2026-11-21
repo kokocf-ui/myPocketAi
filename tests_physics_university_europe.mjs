@@ -26,7 +26,7 @@ for(const code of EDUCATION_EUROPE_COUNTRIES){
  assert.ok(routes.every(x=>x.years>=3&&x.years<=5&&x.source),code+' route must be grounded');
  if(routes.some(x=>x.verified))fields.examples++;
  const chosen=physicsUniversityRoute(code,null);
- assert.equal(chosen, routes[0]);
+ assert.deepEqual(chosen,routes[0]);
  for(const route of routes){
   const years=physicsUniversityYears(code,route.id);
   assert.equal(years.length,route.years,code+'/'+route.id);
