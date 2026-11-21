@@ -10648,7 +10648,7 @@ let sciencePendingAssessmentSpec=null;
 function scienceAttachLessonReview(dialog){
  const spec=sciencePendingAssessmentSpec||scienceLessonReviewSpec();if(!spec?.prompt||!spec.guide)return;
  const ro=spec.lang==='ro';
- let currentIndex=0;
+ let currentIndex=0,exerciseChoiceSelect=null;
  const currentExercise=()=>spec.choices?.[currentIndex]||spec;
  const wrap=document.createElement('section');wrap.className='science-lesson-answer-check';
  wrap.style.cssText='display:flex;flex-direction:column;gap:5px;flex:0 0 auto;min-height:0;';
@@ -10658,7 +10658,8 @@ function scienceAttachLessonReview(dialog){
  const question=document.createElement('p');question.style.cssText='margin:0;font-size:14px;white-space:pre-wrap';
  question.textContent=(ro?'Exercițiu: ':'Exercise: ')+currentExercise().prompt;
  if(spec.choices?.length>1){
-  const choose=document.createElement('select');choose.className='science-review-exercise-choice';
+  const choose=document.createElement('select');exerciseChoiceSelect=choose;
+  choose.className='science-review-exercise-choice';
   choose.setAttribute('aria-label',ro?'Alege exercițiul universitar':'Choose university exercise');
   for(const [index,choice] of spec.choices.entries()){
    const option=document.createElement('option');option.value=String(index);
@@ -10694,7 +10695,8 @@ function scienceAttachLessonReview(dialog){
   if(['correct','incorrect','needs-unit','empty'].includes(local.status)){
    status.textContent=local.feedback;return;
   }
-  controller=new AbortController();check.disabled=true;
+  controller=new AbortController();const inflight=controller;check.disabled=true;
+  if(exerciseChoiceSelect)exerciseChoiceSelect.disabled=true;
   status.textContent=ro?'Se evaluează răspunsul…':'Assessing your answer…';
   const selectedExercise=currentExercise();
   const message=(ro?
@@ -10711,16 +10713,17 @@ function scienceAttachLessonReview(dialog){
    const response=await fetch(CLIENT_CONFIG.apiUrl,{method:'POST',headers:{'Content-Type':'application/json'},
     body:JSON.stringify({module:'education_study',education_subject:spec.subject,
      education_activity:'correction',message:eduScopePrompt(message),language:state.language,history:[]}),
-    signal:controller.signal});
+    signal:inflight.signal});
    const data=await response.json();
    if(!response.ok||data.status!=='success'||typeof data.reply!=='string'||!data.reply.trim())
     throw Error('unavailable');
    if(dialog.isConnected)status.textContent=(ro?'Evaluare AI orientativă: ':'Advisory AI assessment: ')+data.reply.trim().slice(0,4800);
   }catch(error){
-   if(!controller.signal.aborted&&dialog.isConnected)status.textContent=ro?
+   if(!inflight.signal.aborted&&dialog.isConnected)status.textContent=ro?
     'Verificarea nu este disponibilă. Nu pot stabili dacă răspunsul este corect. Reper: '+selectedExercise.guide:
     'Assessment unavailable; no correctness claim can be made. Reference: '+selectedExercise.guide;
-  }finally{controller=null;check.disabled=false;}
+  }finally{if(controller===inflight)controller=null;check.disabled=false;
+   if(exerciseChoiceSelect)exerciseChoiceSelect.disabled=false;}
  };
  panel.append(question,entry,check,status);wrap.append(toggle,panel);dialog.append(wrap);
  dialog.addEventListener('close',()=>{controller?.abort();controller=null});
