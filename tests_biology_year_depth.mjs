@@ -5,7 +5,9 @@ import assert from 'node:assert/strict';
 import vm from 'node:vm';
 import app from './index.js';
 import {EDUCATION_EUROPE_COUNTRIES,educationCountrySchoolYears} from './education_all_country_subject_matrix.mjs';
-import {BIOLOGY_TOPICS} from './biology_curriculum.mjs';
+import {BIOLOGY_TOPICS,BIOLOGY_SPECIALIZATIONS,BIOLOGY_SPECIALTY_TOPICS} from './biology_curriculum.mjs';
+import {scienceUniversityChapter} from './science_university_chapters.mjs';
+import {biologyUniversityRoutes,biologyUniversityRoute,biologyUniversityYears,biologyUniversityCourseChoices,biologyUniversityCapstoneText} from './biology_university_years.mjs';
 import {THEORY_ENTRIES} from './education_theory.mjs';
 import {scienceGradeTopicPlan} from './science_grade_progression.mjs';
 import {scienceSchoolTopicLessons} from './science_ro_course_plan.mjs';
@@ -76,6 +78,45 @@ for(const country of EDUCATION_EUROPE_COUNTRIES){
 }
 assert.ok(countriesChecked>=40,'Broad European upper-secondary year coverage');
 assert.ok(gradesChecked>=80,'Country-specific year labels must be exercised');
+// University route is selected per country and programme rather than
+// silently offering one generic university year for all countries.
+let degreesChecked=0;
+for(const country of EDUCATION_EUROPE_COUNTRIES){
+ const routes=biologyUniversityRoutes(country);
+ assert.equal(routes.length,2);
+ assert.deepEqual([...routes.map(x=>x.years)].sort(),[3,4]);
+ assert.ok(biologyUniversityRoute(country,undefined).years>=3);
+ for(const route of routes){
+  const yearRows=biologyUniversityYears(country,route.id);
+  assert.equal(yearRows.length,route.years);
+  for(const specialty of BIOLOGY_SPECIALIZATIONS){
+   const courses=yearRows.flatMap(y=>biologyUniversityCourseChoices({
+    year:y.year,years:route.years,specialty:specialty.id,
+    topics:[...BIOLOGY_TOPICS,...BIOLOGY_SPECIALTY_TOPICS],
+    specializations:BIOLOGY_SPECIALIZATIONS
+   }));
+   assert.equal(courses.length,8,country+'/'+specialty.id+' courses');
+   assert.equal(new Set(courses.map(x=>x.id)).size,8,'No duplicated university courses across years');
+   for(const course of courses){
+    assert.ok(course.university&&course.courseYear>=1&&course.courseYear<=route.years);
+    if(course.id==='biology-capstone'){
+     const document=biologyUniversityCapstoneText({specialty:specialty.id,year:course.courseYear,language:'ro'});
+     assert.ok(document.length>=1700,'Final-year research project is substantive');
+    }else{
+     const doc=scienceUniversityChapter({
+      subject:'biology',topic:course.id,specialty:specialty.id,
+      chapter:course.ro,grade:'univ-'+course.courseYear,lessons:THEORY_ENTRIES,language:'ro'
+     });
+     assert.ok(doc?.length>900,'Actual specialist content missing: '+course.id);
+    }
+   }
+   degreesChecked++;
+  }
+ }
+}
+assert.equal(biologyUniversityRoute('GB-SCT',null).years,4,'Scottish honours example is four years');
+assert.equal(biologyUniversityRoute('RO',null).years,3,'Romanian advisory route defaults to 180 ECTS model');
+
 assert.equal(BIOLOGY_REFERENCE_GROUPS.length,5);
 assert.equal(BIOLOGY_REFERENCE.length,20,'Definitions plus actual applicable scientific principles');
 assert.equal(new Set(BIOLOGY_REFERENCE.map(x=>x.id)).size,20);
@@ -97,7 +138,13 @@ for(const fragment of [
  'const biologyUpperYearLessons=',
  'const BIOLOGY_REFERENCE=',
  'const BIOLOGY_REFERENCE_GROUPS=',
+ 'const biologyUniversityYears=',
+ 'const biologyUniversityCourseChoices=',
+ 'const biologyUniversityCapstoneText=',
  'const biologyReferenceText=',
+ "scienceJourney.subject==='biology'&&typeof biologyUniversityYears==='function'",
+ "year:Number(String(scienceJourney.grade).slice(-1))",
+ "subjectId==='biology'&&topicId==='biology-capstone'",
  "reference.onclick=()=>scienceJourneyShowChoices('biology-reference')",
  "else if(current==='biology-reference')scienceJourney.stage='years';",
  "subject:'biology',stage:'upper'",
