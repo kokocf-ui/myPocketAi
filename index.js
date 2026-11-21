@@ -47,6 +47,7 @@ import {SCIENCE_GUIDES_EN} from './science_english_reference_guides.mjs';
 import {SCIENCE_UNIVERSITY_TRACK_GUIDES} from './science_university_track_guides.mjs';
 import {scienceUniversityChapter} from './science_university_chapters.mjs';
 import {PHYSICS_UNIVERSITY_STUDIES} from './physics_university_studies.mjs';
+import {SCIENCE_YEAR_REFERENCE,scienceYearReferenceEntries,scienceYearReferenceMaterial} from './science_year_reference.mjs';
 import {PHYSICS_UNIVERSITY_CORE_UNITS,physicsUniversityTopicUnits,physicsUniversityUnitMaterial} from './physics_university_learning_units.mjs';
 import {PHYSICS_UNIVERSITY_GRAPH_SPECS,physicsUniversityDiagramSpec,physicsUniversityVisualBuild} from './physics_university_visuals.mjs';
 import {SCIENCE_ADVISORY_PROGRESSION,SCIENCE_PROGRESSION_SOURCES,SCIENCE_PRIMARY_LESSON_BANK,SCIENCE_PRIMARY_ENGLISH,SCIENCE_PRIMARY_DEPTH,scienceGradeTopicPlan,scienceGradeLessonFrame} from './science_grade_progression.mjs';
@@ -8264,6 +8265,40 @@ function scienceYearGroups(){
  }).filter(group=>group.years.length&&!(scienceJourney.subject==='physics'&&group.schoolStage==='primary'));
 }
 
+function scienceYearReferenceOpen(subject){
+ const items=scienceYearReferenceEntries(subject,state.language);
+ if(!items.length)return;
+ document.getElementById('scienceYearReferenceDialog')?.remove();
+ const dialog=document.createElement('dialog');dialog.id='scienceYearReferenceDialog';
+ dialog.className='education-theory-dialog science-year-reference-dialog';
+ const top=document.createElement('div');top.className='education-theory-head';
+ const heading=document.createElement('h2');
+ heading.textContent=subject==='physics'?learningLabel('Legi și teoreme','Laws and theorems'):learningLabel('Legi și principii','Laws and principles');
+ const back=document.createElement('button');back.type='button';back.className='secondary-btn';
+ back.textContent=learningLabel('← Revenire','← Back');back.onclick=()=>dialog.close();
+ top.append(heading,back);
+ const hint=document.createElement('p');
+ hint.textContent=learningLabel('Referințe de studiu, independente de clasă. Fiecare conține formula, unitățile, un exemplu și condițiile de aplicare.',
+  'School-year-independent reference: formula, units, worked example and validity conditions.');
+ const input=document.createElement('input');input.type='search';input.autocomplete='off';
+ input.placeholder=learningLabel('Caută legea…','Search a law…');
+ const list=document.createElement('div');list.className='science-reference-results';
+ function render(){
+  list.replaceChildren();
+  const q=educationTheoryClean(input.value);
+  for(const entry of items.filter(x=>!q||educationTheoryClean(x.title+' '+x.explanation+' '+x.formula).includes(q))){
+   const btn=document.createElement('button');btn.type='button';
+   btn.className='secondary-btn chemistry-curriculum-row science-reference-entry';
+   btn.textContent=entry.title;
+   btn.onclick=()=>educationOpenPagedLesson(entry.title,scienceYearReferenceMaterial(entry,state.language));
+   list.append(btn);
+  }
+  if(!list.children.length){const p=document.createElement('p');p.textContent=learningLabel('Niciun rezultat.','No results.');list.append(p)}
+ }
+ input.addEventListener('input',render);dialog.append(top,hint,input,list);
+ document.body.append(dialog);dialog.addEventListener('close',()=>dialog.remove());render();
+ try{dialog.showModal()}catch{dialog.setAttribute('open','')}
+}
 function scienceJourneyShowChoices(stage){
  const science=LEARNING_SUBJECTS.find(s=>s[0]==='science');
  if(!science)return;
@@ -8435,7 +8470,22 @@ function scienceJourneyShowChoices(stage){
   };
   list.append(btn);
  }
- panel.append(title,note,list);host.append(panel);
+ panel.append(title,note);
+ if(stage==='years'&&['physics','chemistry'].includes(scienceJourney.subject)){
+  const shelf=document.createElement('div');shelf.className='science-year-shortcuts';
+  const shortcut=(title,fn)=>{
+   const btn=document.createElement('button');btn.type='button';btn.className='secondary-btn science-year-shortcut';
+   btn.textContent=title;btn.onclick=fn;shelf.append(btn);
+  };
+  if(scienceJourney.subject==='chemistry'){
+   shortcut(learningLabel('⚛ Tabelul periodic','⚛ Periodic table'),()=>chemistryVisualOpen('periodic',''));
+   shortcut(learningLabel('📖 Legi și principii','📖 Laws and principles'),()=>scienceYearReferenceOpen('chemistry'));
+  }else{
+   shortcut(learningLabel('📖 Legi și teoreme','📖 Laws and theorems'),()=>scienceYearReferenceOpen('physics'));
+  }
+  panel.append(shelf);
+ }
+ panel.append(list);host.append(panel);
  requestAnimationFrame(()=>{document.querySelector('main.page')?.scrollTo(0,0);scienceFitViewport()});
 }
 
@@ -9150,6 +9200,9 @@ const SCIENCE_GUIDES=${JSON.stringify(SCIENCE_GUIDES)};
 const SCIENCE_GUIDES_EN=${JSON.stringify(SCIENCE_GUIDES_EN)};
 const SCIENCE_UNIVERSITY_TRACK_GUIDES=${JSON.stringify(SCIENCE_UNIVERSITY_TRACK_GUIDES)};
 const PHYSICS_UNIVERSITY_STUDIES=${JSON.stringify(PHYSICS_UNIVERSITY_STUDIES)};
+const SCIENCE_YEAR_REFERENCE=${JSON.stringify(SCIENCE_YEAR_REFERENCE)};
+const scienceYearReferenceEntries=${scienceYearReferenceEntries.toString()};
+const scienceYearReferenceMaterial=${scienceYearReferenceMaterial.toString()};
 const PHYSICS_UNIVERSITY_CORE_UNITS=${JSON.stringify(PHYSICS_UNIVERSITY_CORE_UNITS)};
 const physicsUniversityTopicUnits=${physicsUniversityTopicUnits.toString()};
 const physicsUniversityUnitMaterial=${physicsUniversityUnitMaterial.toString()};
@@ -24268,6 +24321,60 @@ main.page:has(#view-module.learning-computing.active),
 main.page:has(#view-module.learning-practical.active){
  overflow-x:hidden!important;overflow-y:auto!important;
  overscroll-behavior:contain!important;
+}
+
+/* SCIENCE YEARS: Android scrolls one container only; nested flex scrolling
+   previously captured a swipe on year tiles and made upward/downward panning unreliable. */
+main.page:has(#view-module.learning-science.science-year-stage.active){
+ overflow-y:auto!important;overflow-x:hidden!important;
+ -webkit-overflow-scrolling:touch!important;touch-action:pan-y!important;
+ overscroll-behavior-y:contain!important;
+}
+#view-module.learning-science.science-year-stage.active,
+#view-module.learning-science.science-year-stage.active #moduleContent,
+#view-module.learning-science.science-year-stage.active .science-choice-panel,
+#view-module.learning-science.science-year-stage.active .science-choice-list.science-year-list{
+ flex:0 0 auto!important;height:auto!important;max-height:none!important;
+ min-height:0!important;overflow:visible!important;touch-action:pan-y!important;
+}
+#view-module.learning-science.science-year-stage.active .science-choice-panel{
+ display:flex!important;flex-direction:column!important;
+ width:100%!important;align-items:stretch!important;justify-content:flex-start!important;
+}
+#view-module.learning-science.science-year-stage.active .science-choice-list.science-year-list{
+ display:flex!important;flex-direction:column!important;
+ padding:5px 2px calc(115px + env(safe-area-inset-bottom,0px))!important;
+ scroll-snap-type:none!important;
+}
+#view-module.learning-science.science-year-stage.active .science-year-band,
+#view-module.learning-science.science-year-stage.active .science-year-tiles,
+#view-module.learning-science.science-year-stage.active .science-year-tile{
+ touch-action:pan-y!important;
+}
+#view-module.learning-science.science-year-stage.active .science-year-shortcuts{
+ display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
+ gap:8px!important;width:100%!important;margin:6px 0 9px!important;
+}
+#view-module.learning-science.science-year-stage.active .science-year-shortcut{
+ width:100%!important;min-width:0!important;min-height:48px!important;
+ padding:7px!important;white-space:normal!important;touch-action:pan-y!important;
+}
+dialog.science-year-reference-dialog[open]{
+ display:flex!important;flex-direction:column!important;
+ box-sizing:border-box!important;width:min(94vw,620px)!important;max-height:86dvh!important;
+ padding:12px!important;overflow:hidden!important;
+}
+dialog.science-year-reference-dialog[open] input{
+ width:100%!important;min-height:44px!important;margin:7px 0!important;
+}
+dialog.science-year-reference-dialog[open] .science-reference-results{
+ display:flex!important;flex-direction:column!important;gap:7px!important;
+ min-height:0!important;flex:1 1 auto!important;overflow-y:auto!important;
+ touch-action:pan-y!important;-webkit-overflow-scrolling:touch!important;
+ padding:4px 4px 24px!important;
+}
+dialog.science-year-reference-dialog[open] .science-reference-entry{
+ min-height:46px!important;text-align:left!important;white-space:normal!important;
 }
 
 </style>
