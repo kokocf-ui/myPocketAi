@@ -10,5 +10,8 @@ export function physicsUpperTeachingGuide(topic,index,language='ro'){
  const r=PHYSICS_UPPER_TEACHING_GUIDES[String(topic||'')]?.[Number(index)]||null;
  if(!r)return null;
  const localized=language==='ro'?r.ro:r.en;
- return {formula:r.formula,symbols:localized.symbols,method:localized.method};
+ const steps=language==='ro'?
+  '1. Identifică fenomenul și notează datele cu unitățile lor. 2. Alege relația de mai sus numai dacă ipotezele ei sunt îndeplinite. 3. Înlocuiește valorile cu unități, calculează și verifică ordinul de mărime. ':
+  '1. Identify the phenomenon and write down the data with units. 2. Apply the stated relationship only when its assumptions hold. 3. Substitute quantities with units, calculate and check the scale of the result. ';
+ return {formula:r.formula,symbols:localized.symbols,method:steps+localized.method};
 }
