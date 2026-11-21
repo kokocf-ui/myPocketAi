@@ -2,7 +2,7 @@
 // This describes which *existing* lessons are available; it does not transform
 // a generic topic list into a supposedly verified national textbook.
 import {EDUCATION_SCHOOL_YEARS,hgSchoolChapters} from './education_school_paths.mjs';
-import {EDUCATION_WORLDWIDE_SCHEMES,worldwideSchoolYears} from './education_worldwide_paths.mjs';
+import {EDUCATION_WORLDWIDE_SCHEMES,EDUCATION_WORLDWIDE_FALLBACK,worldwideSchoolYears} from './education_worldwide_paths.mjs';
 import {litEuropeanPlan,LIT_EU_PROGRAMS} from './literature_curriculum_europe.mjs';
 import {PHYSICS_TOPICS,PHYSICS_LESSONS} from './physics_curriculum.mjs';
 import {CHEMISTRY_TOPICS,CHEMISTRY_LESSONS} from './chemistry_curriculum.mjs';
@@ -50,9 +50,16 @@ export function educationCountrySchoolYears(country,stage){
  const scheme=EDUCATION_WORLDWIDE_SCHEMES[code];
  if(scheme)return {country:code,stage:st,status:'mapped-years-advisory',
   source:scheme.source||null,years:worldwideSchoolYears(code,st).map(x=>({...x,curriculumVerified:false}))};
- // Do not invent fictitious P1/L1/U1 national grades for uncovered microstates.
- return {country:code,stage:st,status:'grade-unmapped',source:null,
-  years:[{id:'grade-not-mapped',ro:'Clasa de confirmat',en:'Grade to confirm',curriculumVerified:false}]};
+ // National year names remain UNMAPPED. The common ISCED-inspired
+ // fallback is an explicitly advisory sequence, matching the real Android
+ // country/year picker rather than a single unusable 'grade-not-mapped' row.
+ // P1/L1/U1 are study-sequence IDs, never national class identifiers.
+ return {country:code,stage:st,status:'grade-unmapped',
+  source:EDUCATION_WORLDWIDE_FALLBACK.source,
+  years:worldwideSchoolYears(code,st).map(x=>({
+   ...x,curriculumVerified:false,nationalYearVerified:false,
+   ro:'An orientativ · '+x.ro,en:'Advisory · '+x.en
+  }))};
 }
 function subjectInventory(subject,{country,stage,grade,track}){
  if(subject==='literature'){
