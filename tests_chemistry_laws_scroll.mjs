@@ -18,7 +18,7 @@ for(const item of CHEMISTRY_LAWS){
 const html=await(await app.fetch(new Request('https://chemistry-laws-grade.test/'))).text();
 const script=html.match(/<script>([\s\S]*?)<\/script>/)?.[1];
 assert.ok(script,'Frontend script exists');new vm.Script(script);
-assert.match(html,/Scroll the page normally on long science year\/law menus/);
+assert.match(html,/Final bounded-window contract/,'Chemistry year and law menus remain within a fixed viewport');
 assert.match(script,/chemistryLawsButton\.onclick=\(\)=>scienceJourneyShowChoices\('chemistry-laws'\)/);
 assert.match(script,/band\.schoolStage==='primary'&&\['physics','chemistry'\]/);
 const begin=script.indexOf('const SCIENCE_SUBJECTS=');

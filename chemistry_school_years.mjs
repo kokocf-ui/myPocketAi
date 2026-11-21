@@ -9,9 +9,34 @@ export const CHEMISTRY_GRADE_FRAMEWORKS=Object.freeze({
    },noteRo:'Chimie ca disciplină distinctă din clasa a VII-a. Tema și competențele urmează OMEN 3393/2017; ordinea capitolelor poate fi adaptată de profesor.',
      noteEn:'Separate Chemistry begins in Year 7 (Romanian grade VII). Topics follow OMEN 3393/2017; lesson order is the teacher’s choice.'}
 });
+// Full upper-secondary thematic catalogue. Not a profile-specific mandatory
+// curriculum: national pathways and the 2026 Romanian cohort transition differ.
+// Every topic below has four long, distinct study documents in the offline bank.
+export const CHEMISTRY_UPPER_STUDY_SEQUENCE=Object.freeze([
+ ['fundamentals','atomic','periodic','bonding','reactions','inorganic','solutions','acids'],
+ ['inorganic','reactions','solutions','acids','electrochem','physical','analytical','organic'],
+ ['organic','bonding','reactions','solutions','physical','biochemistry','electrochem','analytical'],
+ ['organic','physical','electrochem','analytical','biochemistry','solutions','acids','reactions']
+].map(list=>Object.freeze(list)));
 export const CHEMISTRY_ENGLAND_KS3='https://www.gov.uk/government/publications/national-curriculum-in-england-science-programmes-of-study/national-curriculum-in-england-science-programmes-of-study';
 export function chemistryGradeTopicPlan({country='',stage='lower',grade='',years=[],topics=[]}={},fallbackPlan=scienceGradeTopicPlan){
  const id=String(grade),known=CHEMISTRY_GRADE_FRAMEWORKS[country]?.[stage]?.[id];
+ if(stage==='upper'){
+  const index=country==='RO'&&/^(9|10|11|12)$/.test(id)?Number(id)-9:
+   years.findIndex(y=>String(y?.id)===id);
+  if(index<0)return {country,stage,grade,status:'invalid-selection',topics:[],note:'Unknown year'};
+  const registry=new Map(topics.filter(x=>!x.specialty&&x.minLevel!=='advanced').map(x=>[x.id,x]));
+  const ids=CHEMISTRY_UPPER_STUDY_SEQUENCE[Math.min(3,Math.floor(index*4/Math.max(4,years.length)))];
+  // RO grades 9–12 correspond to actual year positions; other countries keep their own year labels.
+  const sequence=country==='RO'?CHEMISTRY_UPPER_STUDY_SEQUENCE[Math.min(3,index)]:ids;
+  return {country,stage,grade,
+   status:'general-learning',
+   source:country==='RO'?'https://www.edu.ro/press_rel_02_2026':'',
+   topics:sequence.map(key=>registry.get(key)).filter(Boolean),
+   note:country==='RO'?
+    'Parcurs de studiu pe clase, nu programă certificată pentru fiecare profil. Programa 2026 se aplică treptat: clasa IX din 2026–2027; clasele X–XII pot urma programele anterioare.':
+    'Advisory thematic selection for the country’s real school-year labels, not a verified statutory year-by-year national syllabus.'};
+ }
  if(known){
   const registry=new Map(topics.filter(x=>!x.specialty).map(t=>[t.id,t]));
   return {country,stage,grade,status:'official-framework-topic-alignment',source:CHEMISTRY_GRADE_FRAMEWORKS[country].source,

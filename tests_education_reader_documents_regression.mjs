@@ -36,10 +36,13 @@ assert.match(boot,/root\.classList\.add\('extra-tools-active','my-documents-acti
 assert.match(boot,/back\.textContent=learningLabel\('← Înapoi','← Back'\);back\.onclick=renderExtraToolsChoices/,'Back button returns from Documents to Tools');
 assert.match(html,/#view-module\.my-documents-active #moduleContent\{[\s\S]*?grid-column:1\/-1!important/,'Documents use entire width rather than left column');
 assert.match(html,/#view-module\.my-documents-active \.my-documents-batch\{[\s\S]*?display:flex!important/,'Print/share/delete actions remain visible');
-assert.match(html,/id="pdf-library-flow-fix"/,'My Documents must have an explicit non-clipping scrolling layout');
-assert.match(html,/#view-module\.my-documents-active\.active\{[\s\S]*?height:auto!important;max-height:none!important/,'Library must not have a fixed viewport that clips document rows');
-assert.match(html,/#view-module\.my-documents-active \.my-documents-list\{[\s\S]*?max-height:none!important/,'All documents remain reachable by ordinary page scrolling');
-assert.match(html,/main\.page:has\(#view-module\.my-documents-active\.active\)\{[\s\S]*?overflow-y:auto!important/,'The app page provides vertical scrolling above the fixed dock');
+const finalLayout=html.slice(html.lastIndexOf('/* Final bounded-window contract'));
+assert.ok(finalLayout.length>5000,'Last-scoped viewport CSS must be present after the legacy style rules');
+assert.match(finalLayout,/main\.page:has\(#view-module\.my-documents-active\.active\)\{[\s\S]*?overflow:hidden!important/,'Document window is fixed, page does not scroll');
+assert.match(finalLayout,/#view-module\.my-documents-active \.my-documents-list\{[\s\S]*?overflow-y:auto!important/,'Only the inner PDF list scrolls');
+assert.match(finalLayout,/#view-module\.my-documents-active>\.module-actions-row\.pocket-docs-nav\{[\s\S]*?display:flex!important/,'Home and Back share the fixed header row');
+assert.match(boot,/topActions\?\.append\(back\)/,'Documents Back is mounted directly beside Home');
+assert.doesNotMatch(boot.slice(boot.indexOf('function renderMyDocuments(){'),boot.indexOf('\nfunction openExtraTool(key){')),/bar\.append\(back\);panel\.append\(bar\)/,'No duplicate Back inside the list');
 assert.match(boot,/window\.PocketAndroidDocuments\.postMessage\('list'\)/,'Document list is fetched from Android storage');
 assert.match(boot,/window\.PocketAndroidDocuments\?\.postMessage\('print:'/);
 assert.match(boot,/share-many:'\+JSON\.stringify\(names\)/);

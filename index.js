@@ -4269,7 +4269,9 @@ function resetExtraToolsScreen(){
  root.classList.remove('learning-choose','learning-active','learning-math','learning-science',
   'learning-languages','learning-hg','learning-literature','learning-computing',
   'learning-exams','learning-practical','learning-country-gate','science-choice-stage',
-  'math-choice-stage','extra-tools-choose','extra-tools-active','extra-tools-chat','extra-tools-workspace','my-documents-active');
+  'math-choice-stage','extra-tools-choose','extra-tools-active','extra-tools-chat','extra-tools-workspace','my-documents-active','pocket-paired-nav-layout');
+ root.querySelector('.module-actions-row')?.querySelector('.pocket-docs-back')?.remove();
+ root.querySelector('.module-actions-row')?.classList.remove('pocket-docs-nav');
  for(const prop of ['height','max-height','min-height'])root.style.removeProperty(prop);
  const page=document.querySelector('main.page');
  page?.classList.remove('math-keyboard-visible','science-keyboard-visible');
@@ -4301,8 +4303,13 @@ function renderMyDocuments(){
  $('moduleLead').textContent='';
  host.replaceChildren();
  const panel=document.createElement('div');panel.className='extra-tools-panel my-documents-panel';
- const bar=document.createElement('div');bar.className='education-toolbar';
- const back=document.createElement('button');back.className='secondary-btn';back.textContent=learningLabel('← Înapoi','← Back');back.onclick=renderExtraToolsChoices;bar.append(back);panel.append(bar);
+ // Put the real Back beside the existing Home, not in a second row inside the PDF window.
+ const topActions=root.querySelector('.module-actions-row');
+ topActions?.querySelector('.pocket-inline-back')?.remove();
+ topActions?.classList.remove('pocket-inline-nav');
+ topActions?.classList.add('pocket-docs-nav');
+ const back=document.createElement('button');back.className='secondary-btn pocket-docs-back pocket-nav-return pocket-nav-text';back.textContent=learningLabel('← Înapoi','← Back');back.onclick=renderExtraToolsChoices;
+ topActions?.append(back);
  const hint=document.createElement('p');hint.textContent=learningLabel('Atinge titlul pentru vizualizare A4 în aplicație. Bifează documentele pentru acțiuni comune.','Tap a title to preview A4 pages in the app. Select documents for shared actions.');panel.append(hint);
  const selected=new Set(),actions=document.createElement('div');actions.className='my-documents-batch';
  actions.setAttribute('role','group');actions.setAttribute('aria-label',learningLabel('Acțiuni documente selectate','Selected documents actions'));
@@ -4346,6 +4353,7 @@ function renderMyDocuments(){
    row.append(check,name);list.append(row);
   }
  };window.PocketAndroidDocuments.postMessage('list');
+ requestAnimationFrame(()=>window.dispatchEvent(new Event('resize')));
 }
 
 function openExtraTool(key){
@@ -8381,6 +8389,11 @@ function scienceJourneyShowChoices(stage){
   learningLabel('Țara: ','Country: ')+educationCountrySelection.label+' · '+learningLabel('Clasa: ','Grade: ')+(['physics','chemistry'].includes(scienceJourney.subject)&&scienceJourney.schoolStage==='advanced'?
     learningLabel('Anul universitar ','University year ')+String(scienceJourney.grade||'').replace('univ-',''):(scienceJourney.grade||''))+'. '+learningLabel('Program general de studiu, organizat pe clase; nu înlocuiește programa școlii.','General grade-by-grade learning route, not an official school syllabus.')+
    (scienceJourney.schoolStage==='primary'?' '+learningLabel('La primar, disciplinele sunt explorate integrat, fără a le declara obligatorii separat.','In primary school these sciences are explored together, not declared separate compulsory subjects.'):'');
+ if(scienceJourney.subject==='chemistry'&&scienceJourney.schoolStage==='upper'&&stage==='topics'){
+  note.textContent=educationCountrySelection.label+' · '+learningLabel(
+   'Parcurs liceal cu mai multe capitole și lecții. Ordinea și obligativitatea diferă după profil, țară și generația școlară; nu este o programă unică certificată.',
+   'Extended upper-secondary study topics. Required topics and order vary by country, school profile and cohort; this is not a single certified national programme.');
+ }
  if(scienceJourney.subject==='physics'&&stage==='topics'){
   const scope=SCIENCE_GRADE_TOPIC_PLAN({
    country:educationCountrySelection.code,subject:'physics',stage:scienceJourney.schoolStage,
@@ -8461,6 +8474,8 @@ function scienceJourneyShowChoices(stage){
      grade:scienceJourney.grade,topic:topic.id,lessons:EDUCATION_THEORY_DATA,
      stage:'lower',years:eduYearOptions(educationCountrySelection.code,'lower','science')
     }).length>0;
+   if(scienceJourney.subject==='chemistry'&&scienceJourney.schoolStage==='upper')
+    return rank[topic.minLevel]<=rank[scienceJourney.level]&&Boolean(CHEMISTRY_STUDY_CONCEPTS[topic.id]);
    return rank[topic.minLevel]<=rank[scienceJourney.level] &&
     (scienceJourney.schoolStage==='primary'?
      Boolean(SCIENCE_PRIMARY_LESSON_BANK[scienceJourney.subject]?.[topic.id]):
@@ -11195,7 +11210,7 @@ function educationScienceTheoryReader(subjectId,topicId,level){
    const alert=document.createElement('p');alert.textContent=learningLabel('Tema nu este disponibilă în acest an.','Chapter unavailable for this grade.');
    section.append(alert);return section;
   }
-  head.textContent=learningLabel('📖 Lecții distincte','📖 Individual lessons')+' ('+authoredChemistry.length+')';
+  head.textContent=learningLabel('📖 Lecții și fișe de studiu','📖 Lessons and study sheets')+' ('+(authoredChemistry.length+entries.length)+')';
   if(authoredChemistry.length){
    const subheading=document.createElement('h4');
    subheading.textContent=schoolStage==='lower'?
@@ -24718,6 +24733,148 @@ main.page:has(#view-module.learning-practical.active){
  overflow-x:hidden!important;overflow-y:auto!important;
  overscroll-behavior:contain!important;
 }
+
+
+/* Final bounded-window contract, after old page-level scroll patches.
+   The fixed bottom dock is left completely unchanged. */
+main.page:has(#view-module.learning-science.science-scroll-stage.active){
+ display:flex!important;flex-direction:column!important;flex:0 0 auto!important;
+ box-sizing:border-box!important;
+ height:var(--science-selector-height,calc(100dvh - 226px))!important;
+ max-height:var(--science-selector-height,calc(100dvh - 226px))!important;
+ min-height:0!important;overflow:hidden!important;
+ padding-bottom:0!important;touch-action:pan-y!important;
+}
+#view-module.learning-science.science-scroll-stage.active,
+#view-module.learning-science.science-scroll-stage.active.pocket-paired-nav-layout{
+ display:grid!important;grid-template-columns:minmax(0,1fr)!important;
+ grid-template-rows:auto auto minmax(0,1fr)!important;
+ box-sizing:border-box!important;flex:1 1 0%!important;
+ height:100%!important;max-height:100%!important;min-height:0!important;
+ overflow:hidden!important;align-content:stretch!important;
+}
+#view-module.learning-science.science-scroll-stage.active>.module-actions-row{
+ grid-column:1/-1!important;grid-row:1!important;min-width:0!important;
+ position:relative!important;top:auto!important;
+}
+#view-module.learning-science.science-scroll-stage.active>.module-heading-row{
+ grid-column:1/-1!important;grid-row:2!important;min-width:0!important;
+}
+#view-module.learning-science.science-scroll-stage.active>#moduleContent{
+ grid-column:1/-1!important;grid-row:3!important;
+ display:flex!important;flex-direction:column!important;
+ flex:1 1 0%!important;height:100%!important;max-height:100%!important;
+ min-height:0!important;min-width:0!important;
+ overflow:hidden!important;padding:0!important;
+}
+#view-module.learning-science.science-scroll-stage.active .science-choice-panel{
+ display:flex!important;flex-direction:column!important;
+ flex:1 1 0%!important;height:100%!important;max-height:100%!important;
+ min-height:0!important;overflow:hidden!important;
+ box-sizing:border-box!important;position:relative!important;
+}
+#view-module.learning-science.science-scroll-stage.active .science-choice-list{
+ display:flex!important;flex-direction:column!important;
+ flex:1 1 0%!important;height:auto!important;max-height:100%!important;
+ min-height:0!important;overflow-y:auto!important;overflow-x:hidden!important;
+ overscroll-behavior:contain!important;touch-action:pan-y!important;
+ -webkit-overflow-scrolling:touch!important;
+ box-sizing:border-box!important;padding:5px 20px 25px 2px!important;
+ scroll-padding-bottom:25px!important;scrollbar-width:thin;
+ scrollbar-color:#7cbed1 #10354b;
+}
+#view-module.learning-science.science-scroll-stage.active .science-year-band,
+#view-module.learning-science.science-scroll-stage.active .science-law-group{
+ flex:0 0 auto!important;
+}
+#view-module.learning-science.science-year-stage.active .science-stage-toolbar:has(.science-periodic-entry){
+ display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
+ gap:8px!important;flex-wrap:nowrap!important;align-items:stretch!important;
+}
+#view-module.learning-science.science-year-stage.active .science-stage-toolbar:has(.science-periodic-entry)>.science-laws-entry{
+ display:flex!important;align-items:center!important;justify-content:center!important;
+ box-sizing:border-box!important;width:100%!important;min-width:0!important;max-width:none!important;
+ height:clamp(48px,7dvh,62px)!important;flex:none!important;
+ margin:0!important;padding:7px 5px!important;white-space:normal!important;
+ text-align:center!important;line-height:1.2!important;
+ font-size:clamp(12px,3.2vw,16px)!important;
+}
+/* My Documents: same fixed header / inner list, never scroll the whole page. */
+main.page:has(#view-module.my-documents-active.active){
+ display:flex!important;flex-direction:column!important;flex:0 0 auto!important;
+ height:var(--pocket-documents-height,calc(100dvh - 226px))!important;
+ max-height:var(--pocket-documents-height,calc(100dvh - 226px))!important;
+ box-sizing:border-box!important;min-height:0!important;
+ overflow:hidden!important;padding:0!important;
+}
+#view-module.my-documents-active.active{
+ display:grid!important;grid-template-columns:minmax(0,1fr)!important;
+ grid-template-rows:auto auto minmax(0,1fr)!important;
+ box-sizing:border-box!important;flex:1 1 0%!important;
+ height:100%!important;max-height:100%!important;min-height:0!important;
+ overflow:hidden!important;align-content:stretch!important;gap:6px!important;
+}
+#view-module.my-documents-active>.module-actions-row.pocket-docs-nav{
+ display:flex!important;grid-column:1!important;grid-row:1!important;
+ align-items:center!important;justify-content:space-between!important;
+ width:100%!important;min-width:0!important;gap:10px!important;
+ padding:1px 0!important;margin:0!important;
+}
+#view-module.my-documents-active .module-actions-row.pocket-docs-nav>.module-home-btn,
+#view-module.my-documents-active .module-actions-row.pocket-docs-nav>.pocket-docs-back{
+ display:inline-flex!important;align-items:center!important;justify-content:center!important;
+ flex:0 1 calc(50% - 5px)!important;width:calc(50% - 5px)!important;
+ max-width:none!important;min-width:0!important;
+ height:clamp(50px,7dvh,60px)!important;min-height:50px!important;
+ margin:0!important;padding:8px!important;white-space:nowrap!important;
+ font-size:clamp(13px,3.6vw,17px)!important;box-sizing:border-box!important;
+}
+#view-module.my-documents-active>.module-heading-row{
+ display:flex!important;grid-column:1!important;grid-row:2!important;
+ align-items:center!important;justify-content:center!important;min-width:0!important;
+ margin:0!important;padding:0!important;
+}
+#view-module.my-documents-active>.module-heading-row .section-title{
+ display:block!important;width:100%!important;max-width:100%!important;
+ text-align:center!important;margin:0!important;
+ font-size:clamp(17px,4.6vw,23px)!important;
+}
+#view-module.my-documents-active>#moduleContent{
+ display:flex!important;flex-direction:column!important;flex:1 1 0%!important;
+ grid-column:1!important;grid-row:3!important;
+ box-sizing:border-box!important;height:100%!important;max-height:100%!important;
+ min-height:0!important;width:100%!important;overflow:hidden!important;
+ padding:0!important;margin:0!important;
+}
+#view-module.my-documents-active .my-documents-panel{
+ display:flex!important;flex-direction:column!important;position:relative!important;
+ flex:1 1 0%!important;height:100%!important;max-height:100%!important;
+ min-height:0!important;width:100%!important;box-sizing:border-box!important;
+ overflow:hidden!important;gap:8px!important;margin:0!important;
+ padding:10px 11px 12px!important;border-radius:16px!important;
+ border:1px solid #568fa5!important;background:#102f40!important;
+}
+#view-module.my-documents-active .my-documents-panel>.education-toolbar{display:none!important}
+#view-module.my-documents-active .my-documents-panel>p,
+#view-module.my-documents-active .my-documents-panel>.my-documents-status{
+ flex:0 0 auto!important;min-height:0!important;margin:0!important;
+}
+#view-module.my-documents-active .my-documents-batch{
+ flex:0 0 auto!important;position:static!important;
+}
+#view-module.my-documents-active .my-documents-list{
+ display:flex!important;flex-direction:column!important;flex:1 1 0%!important;
+ height:auto!important;max-height:100%!important;min-height:0!important;
+ box-sizing:border-box!important;overflow-y:auto!important;overflow-x:hidden!important;
+ touch-action:pan-y!important;-webkit-overflow-scrolling:touch!important;
+ overscroll-behavior:contain!important;gap:9px!important;
+ padding:4px 20px 20px 1px!important;scroll-padding-bottom:20px!important;
+ scrollbar-width:thin;scrollbar-color:#7cbed1 #10354b;
+}
+#view-module.my-documents-active .my-documents-list>.my-documents-row{
+ flex:0 0 auto!important;min-width:0!important;
+}
+#view-module.my-documents-active .my-documents-batch[hidden]{display:none!important}
 
 </style>
 </body>

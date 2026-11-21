@@ -30,6 +30,9 @@ for(const fragment of [
 assert.match(html,/main\.page:has\(#view-module\.learning-science\.science-scroll-stage\.active\)\{/, 'Scroll container scoped to Sciences year/laws');
 assert.match(html,/#view-module\.learning-science\.science-scroll-stage\.active \.science-choice-list\{[\s\S]*?overflow-y:auto!important/, 'Year/laws list is scrollable');
 assert.match(html,/-webkit-overflow-scrolling:touch!important;touch-action:pan-y!important/, 'Native touch scrolling enabled');
+const finalLayout=html.slice(html.lastIndexOf('/* Final bounded-window contract'));
+assert.match(finalLayout,/science-choice-list\{[\s\S]*?overflow-y:auto!important/, 'Final Science list rules, not historic page scrolling, are active');
+assert.match(finalLayout,/science-scroll-stage\.active\)\{[\s\S]*?overflow:hidden!important/, 'Fixed Science viewport keeps Home and bottom dock in place');
 const begin=script.indexOf('const SCIENCE_SUBJECTS=');
 const end=script.indexOf('const MATH_LEVELS=[',begin);
 assert.ok(begin>=0&&end>begin);

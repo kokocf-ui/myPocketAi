@@ -4,7 +4,7 @@ import app from './index.js';
 import {EDUCATION_EUROPE_COUNTRIES,educationCountrySchoolYears} from './education_all_country_subject_matrix.mjs';
 import {CHEMISTRY_TOPICS} from './chemistry_curriculum.mjs';
 import {CHEMISTRY_STUDY_CONCEPTS,chemistrySchoolCourseDocuments} from './chemistry_school_depth.mjs';
-import {CHEMISTRY_GRADE_FRAMEWORKS,chemistryGradeTopicPlan,chemistryVisualizationFor} from './chemistry_school_years.mjs';
+import {CHEMISTRY_GRADE_FRAMEWORKS,CHEMISTRY_UPPER_STUDY_SEQUENCE,chemistryGradeTopicPlan,chemistryVisualizationFor} from './chemistry_school_years.mjs';
 import {CHEMISTRY_UNIVERSITY_PROFILES,chemistryUniversityRoutes,chemistryUniversityYears,chemistryUniversityRoute} from './chemistry_university_europe.mjs';
 import {CHEMISTRY_UNIVERSITY_CORE} from './chemistry_university_core.mjs';
 import {CHEMISTRY_UNIVERSITY_SPECIALTY_YEARS,CHEMISTRY_UNIVERSITY_COURSE_COUNT,
@@ -29,6 +29,29 @@ const uk7=chemistryGradeTopicPlan({country:'GB-ENG',stage:'lower',grade:'Y7',top
 const uk8=chemistryGradeTopicPlan({country:'GB-ENG',stage:'lower',grade:'Y8',topics:CHEMISTRY_TOPICS});
 assert.notDeepEqual(uk7.topics.map(t=>t.id),uk8.topics.map(t=>t.id));
 assert.ok(uk7.note.includes('NOT statutory'));
+assert.equal(CHEMISTRY_UPPER_STUDY_SEQUENCE.length,4);
+for(const [i,grade] of ['9','10','11','12'].entries()){
+ const plan=chemistryGradeTopicPlan({country:'RO',stage:'upper',grade,
+  years:['9','10','11','12'].map(id=>({id})),topics:CHEMISTRY_TOPICS});
+ const ids=plan.topics.map(t=>t.id);
+ assert.deepEqual(ids,[...CHEMISTRY_UPPER_STUDY_SEQUENCE[i]],'RO high-school year '+grade+' must not collapse to 4 generic chapters');
+ assert.ok(ids.length>=8,'Each RO high-school grade has several distinct substantive chapters');
+ assert.equal(new Set(ids).size,ids.length,'No repeated high-school chapter');
+ assert.equal(plan.status,'general-learning','Different school profiles/cohorts cannot be misrepresented as certified');
+ for(const topic of ids){
+  assert.ok(CHEMISTRY_STUDY_CONCEPTS[topic],grade+'/'+topic+' has no detailed lesson bank');
+  const docs=chemistrySchoolCourseDocuments({topic,country:'RO',grade,stage:'upper',language:'ro'});
+  assert.equal(docs.length,4,grade+'/'+topic+' needs full study, formula, applications and investigation documents');
+  assert.ok(docs.every(x=>x.text.length>650),grade+'/'+topic+' shallow high-school content');
+ }
+}
+const foreignUpper=educationCountrySchoolYears('GB-ENG','medium').years;
+for(const y of foreignUpper){
+ const plan=chemistryGradeTopicPlan({country:'GB-ENG',stage:'upper',grade:y.id,
+  years:foreignUpper,topics:CHEMISTRY_TOPICS});
+ assert.ok(plan.topics.length>=8,'England upper secondary does not show just a few generic chapters');
+ assert.equal(plan.status,'general-learning','England programme is advisory without qualification profile');
+}
 for(const key of ['RO','GB-ENG','GB-SCT','FR','DE','ES','IT','HU','SE','PL','AL']){
  for(const stage of ['primary','lower','upper']){
   const years=educationCountrySchoolYears(key,stage==='upper'?'medium':stage==='primary'?'beginner':stage).years;
