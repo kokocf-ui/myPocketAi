@@ -55,6 +55,7 @@ import {scienceSchoolLessonMaterial,scienceSchoolLessonAssessment} from './scien
 import {PHYSICS_EUROPE_REFERENCE,PHYSICS_EUROPE_REFERENCES,PHYSICS_ADVISORY_TOPIC_SEQUENCES,PHYSICS_COUNTRY_YEAR_SEQUENCES,physicsCountryGradePlan} from './physics_europe_frameworks.mjs';
 import {PHYSICS_ADVISORY_OER_SOURCES,physicsAdvisoryTopicLessons} from './physics_europe_lesson_bank.mjs';
 import {PHYSICS_PRIMARY_STRANDS,PHYSICS_PRIMARY_SCAFFOLDS,physicsPrimaryYearLessons} from './physics_primary_lessons.mjs';
+import {physicsUpperYearLessons} from './physics_upper_course.mjs';
 import {CHEMISTRY_SPECIALIZATIONS,CHEMISTRY_SPECIALTY_TOPICS,CHEMISTRY_MOLECULES,chemistryVerifiedExercise} from './chemistry_advanced.mjs';
 import {BIOLOGY_TOPICS,BIOLOGY_SPECIALIZATIONS,BIOLOGY_SPECIALTY_TOPICS,biologyVerifiedExercise} from './biology_curriculum.mjs';
 import {mathAdvancedVerifiedModel} from './math_advanced_verified.mjs';
@@ -8392,11 +8393,12 @@ function scienceJourneyShowChoices(stage){
    stage==='levels'?learningLabel(item.scopeRo,item.scopeEn):
    stage==='specialties'?learningLabel('4 capitole proprii + materii comune','4 dedicated chapters + shared subjects'):
    ['physics','chemistry','biology','astronomy'].includes(scienceJourney.subject)?
-    (scienceJourney.schoolStage==='lower'?
+    (['lower','upper'].includes(scienceJourney.schoolStage)&&scienceJourney.subject==='physics'||scienceJourney.schoolStage==='lower'?
       scienceSchoolTopicLessons({country:educationCountrySelection.code,
        subject:scienceJourney.subject,grade:scienceJourney.grade,
        topic:item.id,lessons:EDUCATION_THEORY_DATA,stage:scienceJourney.schoolStage,
-       years:eduYearOptions(educationCountrySelection.code,'lower','science')}).length:
+       years:eduYearOptions(educationCountrySelection.code,
+        scienceJourney.schoolStage==='upper'?'intermediate':'lower','science')}).length:
       EDUCATION_THEORY_DATA.filter(x=>x.subject===scienceJourney.subject&&x.topic===item.id).length)+
       learningLabel(' lecții de studiu',' study lessons'):'';
   if(stage==='subjects'){
@@ -9098,6 +9100,7 @@ const physicsAdvisoryTopicLessons=${physicsAdvisoryTopicLessons.toString()};
 const PHYSICS_PRIMARY_STRANDS=${JSON.stringify(PHYSICS_PRIMARY_STRANDS)};
 const PHYSICS_PRIMARY_SCAFFOLDS=${JSON.stringify(PHYSICS_PRIMARY_SCAFFOLDS)};
 const physicsPrimaryYearLessons=${physicsPrimaryYearLessons.toString()};
+const physicsUpperYearLessons=${physicsUpperYearLessons.toString()};
 const scienceSchoolTopicLessons=${scienceSchoolTopicLessons.toString()};
 const scienceRoAnnualCoverage=${scienceRoAnnualCoverage.toString()};
 const scienceSchoolLessonMaterial=${scienceSchoolLessonMaterial.toString()};
@@ -10909,10 +10912,41 @@ function educationScienceTheoryReader(subjectId,topicId,level){
   }
   section.append(lessonsGrid);return section;
  }
+
+ if(scienceJourney.schoolStage==='upper'&&subjectId==='physics'){
+  const chapter=scienceTopicInfo(),name=learningLabel(chapter?.ro||'',chapter?.en||'');
+  const years=eduYearOptions(educationCountrySelection.code,'intermediate','science');
+  const entries=scienceSchoolTopicLessons({
+   country:educationCountrySelection.code,subject:'physics',stage:'upper',
+   grade:scienceJourney.grade,topic:topicId,years,
+   lessons:EDUCATION_THEORY_DATA,language:state.language
+  });
+  head.textContent=learningLabel('📖 Lecții de fizică liceală','📖 Upper-secondary Physics')+' ('+entries.length+')';
+  const grid=document.createElement('div');grid.className='science-theory-topic-list';
+  grid.style.cssText='display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:8px;';
+  for(const [index,entry] of entries.entries()){
+   const button=document.createElement('button');button.type='button';
+   button.className='secondary-btn science-inline-theory-item';
+   button.style.cssText='white-space:normal;text-align:left;min-height:55px;';
+   button.textContent=(index+1)+'. '+entry.title+(state.language!=='ro'?' · RO source':'');
+   button.onclick=()=>{
+    const guide=(state.language==='ro'?SCIENCE_GUIDES:SCIENCE_GUIDES_EN)[subjectId]?.[topicId];
+    const content=scienceSchoolLessonMaterial({entry,subject:'physics',
+     grade:scienceJourney.grade,chapter:name,language:state.language,guide});
+    const assessment=scienceSchoolLessonAssessment({entry,subject:'physics',
+     topic:topicId,language:state.language,chapterGuide:guide});
+    sciencePendingAssessmentSpec={...assessment,stage:'upper',localVerification:false};
+    try{educationOpenPagedLesson(entry.title,content||'')}
+    finally{sciencePendingAssessmentSpec=null}
+   };
+   grid.append(button);
+  }
+  section.append(grid);return section;
+ }
  // English upper-secondary content is authored per chapter, not a literal
  // translation of each Romanian sublesson. Expose it once rather than making
  // every numbered lesson open the same reference text.
- if(scienceJourney.schoolStage==='upper'&&state.language!=='ro'){
+ if(scienceJourney.schoolStage==='upper'&&state.language!=='ro'&&subjectId!=='physics'){
   const chapter=scienceTopicInfo();
   const chapterName=learningLabel(chapter?.ro||'',chapter?.en||'');
   const frame=SCIENCE_GRADE_LESSON_FRAME({
@@ -10986,7 +11020,7 @@ function scienceOpenChemistrySection(stage){
    // Keep the existing multi-lesson navigator when a chapter really has sublessons.
    if((scienceJourney.schoolStage==='primary'&&scienceJourney.subject!=='physics')||
       scienceJourney.schoolStage==='advanced'||
-      scienceJourney.schoolStage==='upper'&&state.language!=='ro'){
+      scienceJourney.schoolStage==='upper'&&state.language!=='ro'&&scienceJourney.subject!=='physics'){
     const reader=educationScienceTheoryReader(scienceJourney.subject,topic?.id,scienceJourney.level);
     const single=reader.querySelector('.science-inline-theory-item');
     if(single?.onclick){single.onclick();return;}
