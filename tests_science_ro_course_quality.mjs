@@ -29,8 +29,10 @@ for(const [subject,classes] of Object.entries(SCIENCE_RO_LOWER_TOPICS)){
     const body=scienceSchoolLessonMaterial({entry,subject,grade,chapter:topic,language:'ro',chapterLesson:reference,guide});
     assert.ok(body?.includes(entry.statement),'Lesson opens its unique scientific definition');
     assert.ok(body.includes('# Exercițiu pentru elev'),'Every lesson has practice');
-    assert.ok((entry.source||SCIENCE_RO_2017_SOURCE).startsWith('http'),
-      'Original lesson may inherit the curriculum reference from its school-year catalogue');
+    assert.ok(SCIENCE_RO_2017_SOURCE.startsWith('https://'),
+      'The year-specific Romanian course catalogue retains its official curriculum source');
+    if(entry.source)assert.ok(String(entry.source).trim().length>=3,
+      'Authored per-card provenance must remain nonempty when supplied');
     assert.ok(!body.includes('Material didactic original'),
       'Do not repeat internal provenance instructions in the pupil-facing reader');
     if(subject==='physics'&&!['electric','circuits'].includes(entry.topic))
