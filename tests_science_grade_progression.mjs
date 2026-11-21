@@ -201,6 +201,7 @@ function fakeElement(tag){return {tag,children:[],style:{},
 const readerContext={
  document:{createElement:fakeElement},
  scienceJourney:journey,state:runtimeState,sciencePendingAssessmentSpec:null,
+ educationCountrySelection:{code:'RO',label:'România'},
  EDUCATION_THEORY_DATA:[
   {id:'a1',subject:'chemistry',topic:'atomic',level:'beginner',title:'Atomul',statement:'Modelul atomului.'},
   {id:'a2',subject:'chemistry',topic:'atomic',level:'beginner',title:'Izotopi',statement:'Atomi cu neutroni diferiți.'}
