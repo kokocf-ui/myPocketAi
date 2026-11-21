@@ -4,6 +4,7 @@ import {BIOLOGY_RO_GRADE5} from './science_ro_biology_grade5.mjs';
 import {BIOLOGY_RO_GRADE6} from './science_ro_biology_grade6.mjs';
 import {BIOLOGY_RO_GRADE7} from './science_ro_biology_grade7.mjs';
 import {BIOLOGY_RO_GRADE8} from './science_ro_biology_grade8.mjs';
+import {CHEMISTRY_RO_GRADE8} from './science_ro_chemistry_grade8.mjs';
 
 // This is a controlled original teaching outline using the CONTENT AREAS in
 // Romania's 2017 lower-secondary syllabuses. It is not a Ministry-approved
@@ -36,6 +37,7 @@ export const SCIENCE_RO_PHYSICS_LABELS={
   optics:['Reflexie, refracție și lentile','Reflection, refraction and lenses']}
 };
 export const SCIENCE_RO_LESSON_EXTRAS=Object.freeze({
+ chemistry:Object.freeze({'8':CHEMISTRY_RO_GRADE8}),
  biology:Object.freeze({'5':BIOLOGY_RO_GRADE5,'6':BIOLOGY_RO_GRADE6,
   '7':BIOLOGY_RO_GRADE7,'8':BIOLOGY_RO_GRADE8}),
  physics:Object.freeze({'6':SCIENCE_RO_PHYSICS_EXTRAS['6'],
