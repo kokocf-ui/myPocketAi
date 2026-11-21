@@ -73,6 +73,8 @@ jobs:
           node tests_education_content_navigation.mjs
           node tests_science_navigation.mjs
           node tests_science_year_cards.mjs
+          node tests_physics_laws_scroll.mjs
+          node tests_chemistry_laws_scroll.mjs
           node tests_math_shared_workspace_layout.mjs
           node --check storybook_motion_ui.mjs
           node --check storybook_commons_photos.mjs
