@@ -1,3 +1,5 @@
+import {physicsGrade6TeacherNotes} from './physics_grade6_pedagogy.mjs';
+
 // Present a REAL distinct sublesson, not the same generic chapter for all
 // buttons. Native catalogue notes are augmented by existing authored chapter
 // guides, and original Romanian per-grade lessons supply their own case/tasks.
@@ -26,6 +28,10 @@ export function scienceSchoolLessonMaterial({
   parts.push('Original English reference material. Translation into the selected interface language is not independently verified; this is an advisory course, not a certified national syllabus.');
  }
  parts.push('# '+(ro?'Explicația noțiunii':'Concept explanation'),core);
+ const roGrade6=subject==='physics'&&ro&&String(grade)==='6'&&
+  /^ro-physics-6-/.test(String(entry.id||''));
+ const teacherNotes=roGrade6?physicsGrade6TeacherNotes(title,language):'';
+ if(teacherNotes)parts.push('# Explicație aprofundată',teacherNotes);
  if(fullDetail){
   parts.push('# '+(ro?'Lecție detaliată':'Detailed study content'),fullDetail);
  }else if(!specific&&chapterLesson?.explanation){
@@ -35,9 +41,7 @@ export function scienceSchoolLessonMaterial({
   parts.push('# '+(ro?'Context':'Context'),guide[0]);
  }
  if(formula&&formula!=='—'){
-  parts.push('# '+(ro?'Relație sau notație':'Formula or notation'),formula,
-   ro?'Formula ori simbolul trebuie interpretat în condițiile explicate în lecție; nu inventa date care lipsesc.':
-    'Explain the notation and assumptions; do not invent missing quantities.');
+  parts.push('# '+(ro?'Relație sau notație':'Formula or notation'),formula);
  }
  const worked=specific?entry.workedExample:chapterLesson?.workedExample||guide?.[1];
  if(worked){
@@ -53,7 +57,7 @@ export function scienceSchoolLessonMaterial({
  if(subject==='chemistry'){
   parts.push(ro?'Siguranță: nu gusta și nu amesteca substanțe necunoscute; experimentele de laborator se fac supravegheat.':
    'Safety: never taste or mix unknown chemicals; lab activities require supervision.');
- }else if(subject==='physics'){
+ }else if(subject==='physics'&&['electric','circuits'].includes(entry.topic)){
   parts.push(ro?'Siguranță: circuitele electrice se studiază numai cu simulări sau surse școlare adecvate, nu la prize.':
    'Safety: use safe school low-voltage sources or simulations, never mains electricity.');
  }else if(subject==='biology'){
@@ -63,9 +67,7 @@ export function scienceSchoolLessonMaterial({
   parts.push(ro?'Siguranță: nu privi Soarele direct, nici cu instrumente fără filtre solare certificate.':
    'Safety: never look at the Sun directly or through instruments without certified solar filters.');
  }
- parts.push(ro?
-  'Material didactic original bazat pe domeniul de studiu; nu este o pagină copiată din manual și nu impune ordinea lecțiilor în toate școlile.':
-  'Original advisory learning material, not an official national textbook or a prescribed weekly schedule.');
+ // Pedagogical provenance belongs in metadata/curriculum status, not as a repeated page in the pupil's lesson.
  return parts.filter(Boolean).join(eol);
 }
 export function scienceSchoolLessonAssessment({

@@ -53,6 +53,8 @@ import {SCIENCE_EXACT_REFERENCE,scienceCheckExactExercise} from './science_exerc
 import {SCIENCE_RO_LOWER_TOPICS,SCIENCE_RO_PHYSICS_LABELS,SCIENCE_RO_LESSON_EXTRAS,SCIENCE_RO_2017_SOURCE,
  scienceRoGradeTopics,scienceSchoolTopicLessons,scienceRoAnnualCoverage} from './science_ro_course_plan.mjs';
 import {scienceSchoolLessonMaterial,scienceSchoolLessonAssessment} from './science_school_lesson_material.mjs';
+import {physicsGrade6TeacherNotes} from './physics_grade6_pedagogy.mjs';
+import {physicsGrade6Laboratories} from './physics_grade6_labs.mjs';
 import {PHYSICS_EUROPE_REFERENCE,PHYSICS_EUROPE_REFERENCES,PHYSICS_ADVISORY_TOPIC_SEQUENCES,PHYSICS_COUNTRY_YEAR_SEQUENCES,physicsCountryGradePlan} from './physics_europe_frameworks.mjs';
 import {PHYSICS_ADVISORY_OER_SOURCES,physicsAdvisoryTopicLessons} from './physics_europe_lesson_bank.mjs';
 import {PHYSICS_EUROPE_EXTRA_LESSONS} from './physics_europe_wave_measurement.mjs';
@@ -8254,7 +8256,7 @@ function scienceYearGroups(){
    seen.add(key);return true;
   });
   return {...band,years};
- }).filter(group=>group.years.length);
+ }).filter(group=>group.years.length&&!(scienceJourney.subject==='physics'&&group.schoolStage==='primary'));
 }
 
 function scienceJourneyShowChoices(stage){
@@ -9112,6 +9114,8 @@ const PHYSICS_UPPER_CASES_EN=${JSON.stringify(PHYSICS_UPPER_CASES_EN)};
 const physicsUpperYearLessons=${physicsUpperYearLessons.toString()};
 const scienceSchoolTopicLessons=${scienceSchoolTopicLessons.toString()};
 const scienceRoAnnualCoverage=${scienceRoAnnualCoverage.toString()};
+const physicsGrade6TeacherNotes=${physicsGrade6TeacherNotes.toString()};
+const physicsGrade6Laboratories=${physicsGrade6Laboratories.toString()};
 const scienceSchoolLessonMaterial=${scienceSchoolLessonMaterial.toString()};
 const scienceSchoolLessonAssessment=${scienceSchoolLessonAssessment.toString()};
 const scienceCheckExactExercise=${scienceCheckExactExercise.toString()};
@@ -10216,7 +10220,20 @@ function physicsVisualPicker(){
  const close=document.createElement('button');close.className='secondary-btn';close.type='button';
  close.textContent=learningLabel('← Revenire','← Back');close.onclick=()=>dialog.close();
  bar.append(h,close);dialog.append(bar);
- for(const kind of ['motion','force','energy','wave','circuit','optics','thermo','quantum']){
+ const topicModels={kinematics:['motion'],dynamics:['force'],energy:['energy'],
+  waves:['wave'],electric:['circuit'],circuits:['circuit'],
+  optics:['optics'],heat:[],thermodynamics:['thermo'],modern:['quantum'],
+  units:[],measurement:[],fluids:[],electromagnetism:[]};
+ const available=scienceJourney.level==='advanced'?
+  ['motion','force','energy','wave','circuit','optics','thermo','quantum']:
+  (topicModels[scienceJourney.topic]||[]);
+ if(!available.length){
+  const info=document.createElement('p');
+  info.textContent=learningLabel('Acest capitol se învață prin măsurători și observații, nu printr-un desen avansat fără legătură cu lecția.',
+   'Study this chapter through measurements and observations, not unrelated advanced diagrams.');
+  dialog.append(info);
+ }
+ for(const kind of available){
   const example=physicsVisualBuild(kind);if(!example)continue;
   const btn=document.createElement('button');btn.type='button';btn.className='secondary-btn chemistry-curriculum-row';
   btn.textContent=example.children[0].textContent;btn.onclick=()=>{dialog.close();physicsVisualOpen(kind)};
@@ -10229,7 +10246,8 @@ function physicsVisualOpen(kind){
  const old=document.getElementById('physicsVisualDialog');old?.remove();
  const dialog=document.createElement('dialog');dialog.id='physicsVisualDialog';dialog.className='education-theory-dialog physics-visual-dialog';
  const back=document.createElement('button');back.type='button';back.className='secondary-btn';
- back.textContent=learningLabel('← Revenire','← Back');back.onclick=()=>dialog.close();
+ back.textContent=learningLabel('← La reprezentări','← To diagrams');
+ back.onclick=event=>{event?.stopPropagation?.();dialog.close();physicsVisualPicker()};
  dialog.append(back,physicsVisualBuild(kind));
  document.body.append(dialog);dialog.addEventListener('close',()=>dialog.remove());
  try{dialog.showModal()}catch{dialog.setAttribute('open','')}
@@ -11070,20 +11088,45 @@ function scienceOpenChemistrySection(stage){
    scienceJourneyShowChoices('chemistry-lessons');
   });
   tile('⚗️','Exerciții și probleme','Exercises and problems','Scriere, dictare, fotografiere și rezolvare','Type, dictate, photograph and solve',()=>scienceJourneyShowChoices('workspace'));
-  tile('⚛️','Laborator și modele 3D','Laboratory and 3D models','Molecule interactive și reprezentări','Interactive molecules and visual models',()=>scienceJourneyShowChoices('chemistry-lab'));
+  const introPhysics=scienceJourney.subject==='physics'&&educationCountrySelection.code==='RO'&&
+   scienceJourney.schoolStage==='lower'&&String(scienceJourney.grade)==='6';
+  tile(introPhysics?'🧪':'⚛️',introPhysics?'Experimente pentru clasa a VI-a':'Laborator și modele 3D',
+   introPhysics?'Grade VI investigations':'Laboratory and 3D models',
+   introPhysics?'Măsurători și observații din capitol':'Molecule interactive și reprezentări',
+   introPhysics?'Chapter-specific experiments':'Interactive molecules and visual models',
+   ()=>scienceJourneyShowChoices('chemistry-lab'));
  }else if(stage==='chemistry-lessons'){
   title.textContent=learningLabel('Teme de studiu','Study lessons');
   note.textContent=chapter+' · '+learningLabel('Atinge o lecție pentru materialul complet.','Select a lesson for the full material.');
   const reader=educationScienceTheoryReader(scienceJourney.subject,topic?.id,scienceJourney.level);
   reader.classList.add('chemistry-lesson-list');list.append(reader);
  }else{
-  title.textContent=learningLabel('Laborator și modele 3D','Laboratory and 3D models');
-  note.textContent=chapter+' · '+learningLabel('Alege o reprezentare interactivă.','Choose an interactive visual model.');
+  const introPhysics=scienceJourney.subject==='physics'&&educationCountrySelection.code==='RO'&&
+   scienceJourney.schoolStage==='lower'&&String(scienceJourney.grade)==='6';
+  title.textContent=introPhysics?learningLabel('Experimente de fizică · clasa a VI-a','Grade VI Physics investigations'):
+   learningLabel('Laborator și modele 3D','Laboratory and 3D models');
+  note.textContent=chapter+' · '+(introPhysics?
+   learningLabel('Experimente sigure și explicații potrivite lecției alese.','Safe investigations directly tied to this chapter.'):
+   learningLabel('Alege o reprezentare interactivă.','Choose an interactive visual model.'));
   if(scienceJourney.subject==='chemistry'){
    tile('🧬','Molecule 3D','3D Molecules','H₂O, CO₂, CH₄, NH₃: rotire și mărire','H₂O, CO₂, CH₄, NH₃: rotate and zoom',scienceChemMoleculeOpen);
    tile('📊','Reprezentări','Visual models','Diagrame și structuri disponibile','Available diagrams and structures',chemistryVisualPicker);
   }else if(scienceJourney.subject==='physics'){
-   tile('📈','Reprezentări fizice','Physics diagrams','Grafice și reprezentări interactive','Interactive graphs and models',physicsVisualPicker);
+   if(introPhysics){
+    const investigations=physicsGrade6Laboratories(scienceJourney.topic);
+    for(const lab of investigations){
+     tile('🧪',lab.title,lab.en,'Scop, materiale, pași, explicație','Aim, materials, steps and explanation',
+      ()=>educationOpenPagedLesson(learningLabel(lab.title,lab.en),lab.body));
+    }
+    if(!investigations.length){
+     const missing=document.createElement('p');
+     missing.textContent=learningLabel('Nu există un experiment simplu verificat pentru această temă.',
+      'No suitable introductory investigation is available for this topic.');
+     list.append(missing);
+    }
+   }else{
+    tile('📈','Reprezentări din capitol','Chapter diagrams','Numai modele relevante lecției','Only lesson-relevant models',physicsVisualPicker);
+   }
   }else if(scienceJourney.subject==='biology'){
    tile('🧬','Celulă și ADN 3D','Cell and 3D DNA','Explorează modelele de celulă și ADN','Explore cell and DNA models',scienceBiologyDiagramOpen);
   }else if(scienceJourney.subject==='astronomy'){
