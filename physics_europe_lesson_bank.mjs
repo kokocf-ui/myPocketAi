@@ -30,7 +30,19 @@ export function physicsAdvisoryTopicLessons({
   if(rank<0)return [];
   const ratio=available.length<=1?0:rank/(available.length-1);
   const tier=allTiers[Math.round(ratio*(allTiers.length-1))];
-  const entries=(bank?.[tier]||[]).filter(entry=>entry.topic===topic);
+  const direct=(bank?.[tier]||[]).filter(entry=>entry.topic===topic);
+  // Where an official stage spans several grades, Physics topics can be
+  // revisited in a spiral. If a topic has no original introductory cards
+  // at this level, use another real authored example rather than a dead
+  // chapter with a fake count or an AI-invented lesson.
+  const supplemental=['6','7','8'].filter(x=>x!==tier)
+   .flatMap(x=>(bank?.[x]||[]).filter(entry=>entry.topic===topic));
+  const seen=new Set();
+  const entries=[...direct,...supplemental].filter(entry=>{
+   const key=String(entry.title||'').normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').toLowerCase();
+   if(seen.has(key))return false;
+   seen.add(key);return true;
+  });
   return entries.map((entry,index)=>({...entry,
    id:'advisory-physics-'+code+'-'+scoped+'-'+tier+'-'+entry.id,
    grade:scoped,source:'oer-original-advisory',nationallyVerified:false,
