@@ -1,3 +1,4 @@
+import {SCIENCE_LOWER_DEPTH} from './science_lower_secondary_depth.mjs';
 // Original, pupil-oriented lower secondary science notes, independent of nation.
 // These are supplementary study frames, NOT national textbooks or a claim that
 // a topic is compulsory for a particular grade. Each item gives a distinct
@@ -120,7 +121,12 @@ const entries={
 export const SCIENCE_LOWER_TOPIC_LESSONS=Object.freeze(Object.fromEntries(
  Object.entries(entries).map(([subject,topics])=>[
   subject,Object.freeze(Object.fromEntries(Object.entries(topics).map(([topic,versions])=>
-   [topic,Object.freeze({ro:Object.freeze(versions[0]),en:Object.freeze(versions[1])})])))
+   [topic,Object.freeze({
+    ro:Object.freeze(versions[0].map((value,i)=>i===1?
+     value+' '+(SCIENCE_LOWER_DEPTH[subject]?.[topic]?.ro||''):value)),
+    en:Object.freeze(versions[1].map((value,i)=>i===1?
+     value+' '+(SCIENCE_LOWER_DEPTH[subject]?.[topic]?.en||''):value))
+   })])))
  ])
 ));
 export function scienceLowerTopicContent(subject,topic,language='ro'){
