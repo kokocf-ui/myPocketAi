@@ -65,6 +65,7 @@ const sandbox={
  BIOLOGY_TOPIC_DATA:[...BIOLOGY_TOPICS,...BIOLOGY_SPECIALTY_TOPICS],BIOLOGY_SPECIALTY_DATA:BIOLOGY_SPECIALIZATIONS,
  EDUCATION_THEORY_DATA:THEORY_ENTRIES,
  SCIENCE_GRADE_TOPIC_PLAN:scienceGradeTopicPlan,
+ state:{language:'ro'},
  scienceSchoolTopicLessons,scienceRoAnnualCoverage,
  LEARNING_SUBJECTS:[['science','⚛️','Științe','Sciences']],
  learningLabel:(ro,en)=>ro,
