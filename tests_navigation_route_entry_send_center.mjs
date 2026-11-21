@@ -40,6 +40,9 @@ class Node {
  querySelector(selector){
   if(selector==='.module-actions-row')return this.querySelectorAll('*').find(x=>x.classList.contains('module-actions-row'))||null;
   if(selector==='button.pocket-inline-back')return this.querySelectorAll('button').find(x=>x.classList.contains('pocket-inline-back'))||null;
+  if(selector==='button.pocket-docs-back')return this.querySelectorAll('button').find(x=>x.classList.contains('pocket-docs-back'))||null;
+  if(selector==='.my-documents-panel>.education-toolbar')return this.querySelectorAll('*').find(x=>x.classList.contains('my-documents-panel'))?.children.find(x=>x.classList.contains('education-toolbar'))||null;
+  if(selector==='button')return this.querySelectorAll('button')[0]||null;
   if(selector==='#moduleContent')return this.querySelectorAll('*').find(x=>x.id==='moduleContent')||null;
   if(selector==='.education-toolbar:not(.math-navigation)')return this.querySelectorAll('*').find(x=>x.classList.contains('education-toolbar')&&!x.classList.contains('math-navigation'))||null;
   if(selector==='.agenda-voice-controls')return this.querySelectorAll('*').find(x=>x.classList.contains('agenda-voice-controls'))||null;
@@ -77,7 +80,7 @@ const search=new Node('button','Caută variante de transport');
 const confirm=new Node('button','Confirmă localitatea / adresa');
 const send=new Node('button','➤');send.classList.add('send-btn');
 body.append(search,confirm,send);
-const doc={body,querySelector:s=>s==='#moduleQuickLayer .module-quick-sheet'?sheet:null,
+const doc={body,head:new Node('head'),createElement:tag=>new Node(tag),querySelector:s=>s==='#moduleQuickLayer .module-quick-sheet'?sheet:null,
  getElementById:id=>({view_module:root,'view-module':root,moduleLayerTitle:layerTitle,moduleLayerBody:layerBody}[id]||null)};
 let observer;
 class MockObserver{constructor(cb){this.cb=cb;observer=this}observe(){}}
@@ -117,6 +120,33 @@ observer.cb([{type:'childList',target:agendaBar,addedNodes:[agendaBack]}]);
 assert.equal(agendaBack.parentElement,actions,'Agenda Back is next to Home at sufficient width');
 assert.equal(agendaMic.parentElement,agendaBar,'Microphone stays in Agenda controls');
 assert.ok(root.classList.contains('pocket-paired-nav-layout'),'Agenda paired layout enabled');
+
+root.classList.remove('organize-active');
+root.classList.add('my-documents-active');
+const documentsPanel=new Node('div');documentsPanel.classList.add('my-documents-panel');
+const documentsToolbar=new Node('div');documentsToolbar.classList.add('education-toolbar');
+const documentBack=new Node('button','← Înapoi');let documentBackClicks=0;documentBack.onclick=()=>documentBackClicks++;
+documentsToolbar.append(documentBack);documentsPanel.append(documentsToolbar);content.append(documentsPanel);
+observer.cb([{type:'childList',target:content,addedNodes:[documentsPanel]}]);
+assert.equal(documentBack.parentElement,actions,'Documents Back moves right of Home');
+assert.equal(home.parentElement,actions,'Home stays in the original navigation row');
+assert.equal(actions.children.filter(x=>x.textContent.includes('Înapoi')).length,1,'Only one Back in Documents');
+assert.ok(!actions.children.includes(agendaBack),'No stale Agenda Back leaks into Documents');
+assert.equal(documentsToolbar.children.length,0,'No redundant lower Back remains');
+documentBack.onclick();assert.equal(documentBackClicks,1,'Original Back handler stays attached');
+assert.ok(actions.classList.contains('pocket-docs-nav'),'Documents activate their own paired header');
+assert.ok(doc.head.children.some(x=>x.id==='pocket-layout-science-documents-20261121'),'Last-scoped layout CSS mounted');
+root.classList.remove('my-documents-active');documentsPanel.remove();
+observer.cb([{type:'childList',target:content,addedNodes:[]}]);
+assert.ok(!actions.children.includes(documentBack),'Documents Back removed on exit');
+
+assert.match(NAV_RETURN_ACCENT_SCRIPT,/--science-selector-height/,'Science scroll stays inside bounded viewport');
+assert.match(NAV_RETURN_ACCENT_SCRIPT,/\.science-stage-toolbar:has\(\.science-periodic-entry\)/,'Chemistry buttons share equal-width grid');
+assert.match(NAV_RETURN_ACCENT_SCRIPT,/--pocket-documents-height/,'Documents viewport measured above dock');
+assert.match(NAV_RETURN_ACCENT_SCRIPT,/\.my-documents-list/,'PDFs have a dedicated inner scroller');
+assert.match(NAV_RETURN_ACCENT_SCRIPT,/pocket-fast-scroll-track/,'Manual drag scrollbar available');
+assert.match(NAV_RETURN_ACCENT_SCRIPT,/science-lesson-read/,'Science audio is icon-only with readable label');
+
 
 assert.match(NAV_RETURN_ACCENT_CSS,/\.pocket-route-entry #moduleLayerBody button\.module-result-card:not\(\.pocket-nav-return\)/);
 assert.match(NAV_RETURN_ACCENT_CSS,/#view-assistant \.chat-form > \.send-btn/);
