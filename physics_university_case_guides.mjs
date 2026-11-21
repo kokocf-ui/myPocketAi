@@ -8,5 +8,10 @@ export const PHYSICS_UNIVERSITY_CASE_GUIDES=Object.freeze(Object.fromEntries(Obj
 ])));
 export function physicsUniversityCaseGuide(topic,index,language='ro'){
  const item=PHYSICS_UNIVERSITY_CASE_GUIDES[String(topic||'')]?.[Number(index)]||null;
- return item?{formula:item.formula,...item[language==='ro'?'ro':'en']}:null;
+ if(!item)return null;
+ const locale=language==='ro'?'ro':'en',details=item[locale];
+ const protocol=locale==='ro'?
+  '1. Identifică mărimile și modelul matematic. 2. Precizează unitățile și ipotezele de valabilitate. 3. Aplică formula și verifică rezultatul prin interpretare fizică. ':
+  '1. Identify the physical quantities and the mathematical model. 2. State units and validity assumptions. 3. Apply the equation and check that the result has physical meaning. ';
+ return {formula:item.formula,symbols:details.symbols,method:protocol+details.method};
 }
