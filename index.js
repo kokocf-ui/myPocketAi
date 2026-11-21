@@ -10932,7 +10932,8 @@ function educationScienceTheoryReader(subjectId,topicId,level){
    const button=document.createElement('button');button.type='button';
    button.className='secondary-btn science-inline-theory-item';
    button.style.cssText='white-space:normal;text-align:left;min-height:55px;';
-   button.textContent=(index+1)+'. '+entry.title+(state.language!=='ro'?' · RO source':'');
+   button.textContent=(index+1)+'. '+entry.title+
+    (entry.language==='en'?(state.language==='en'?'':' · EN reference'):(state.language!=='ro'?' · RO source':''));
    button.onclick=()=>{
     const guide=(state.language==='ro'?SCIENCE_GUIDES:SCIENCE_GUIDES_EN)[subjectId]?.[topicId];
     const content=scienceSchoolLessonMaterial({entry,subject:'physics',
