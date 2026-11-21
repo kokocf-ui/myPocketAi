@@ -77,6 +77,8 @@ import {SCIENCE_LOWER_TOPIC_LESSONS,scienceLowerTopicContent} from './science_lo
 import {CHEMISTRY_SPECIALIZATIONS,CHEMISTRY_SPECIALTY_TOPICS,CHEMISTRY_SPECIALTY_LESSONS,CHEMISTRY_MOLECULES,chemistryVerifiedExercise} from './chemistry_advanced.mjs';
 import {BIOLOGY_TOPICS,BIOLOGY_SPECIALIZATIONS,BIOLOGY_SPECIALTY_TOPICS,biologyVerifiedExercise} from './biology_curriculum.mjs';
 import {BIOLOGY_UPPER_YEAR_TOPICS,BIOLOGY_UPPER_YEAR_BANK,biologyUpperYearLessons} from './biology_upper_course.mjs';
+import {BIOLOGY_PRIMARY_YEAR_TOPICS,BIOLOGY_PRIMARY_YEAR_ROWS,biologyPrimaryYearPosition,biologyPrimaryTopics,biologyPrimaryYearLessons} from './biology_primary_years.mjs';
+import {BIOLOGY_LOWER_YEAR_TOPICS,BIOLOGY_LOWER_YEAR_ROWS,biologyLowerYearLessons} from './biology_lower_europe_years.mjs';
 import {BIOLOGY_REFERENCE_GROUPS,BIOLOGY_REFERENCE,biologyReferenceText} from './biology_reference.mjs';
 import {BIOLOGY_TOPIC_VISUALS,biologyTopicVisualBuild} from './biology_topic_visuals.mjs';
 import {BIOLOGY_UNIVERSITY_DEFAULT_YEARS,BIOLOGY_UNIVERSITY_CYCLE_REFERENCE,
@@ -8181,6 +8183,18 @@ function scienceTopicChoices(){
   },SCIENCE_GRADE_TOPIC_PLAN);
   return plan.topics||[];
  }
+ if(subject==='biology'&&['primary','lower','upper'].includes(scienceJourney.schoolStage)){
+  // Use exactly the country + school-year programme; never expose all
+  // 'beginner' molecular chapters because a general catalogue contains them.
+  const stage=scienceJourney.schoolStage;
+  const years=eduYearOptions(educationCountrySelection.code,
+   stage==='upper'?'intermediate':stage,'science');
+  const plan=SCIENCE_GRADE_TOPIC_PLAN({
+   country:educationCountrySelection.code,subject:'biology',stage,
+   grade:scienceJourney.grade,years,topics:BIOLOGY_TOPIC_DATA
+  });
+  return plan.topics||[];
+ }
  if(!['physics','chemistry','biology','astronomy'].includes(subject))return SCIENCE_OTHER_TOPICS[subject]||[];
  const topics=subject==='physics'?PHYSICS_TOPIC_DATA:subject==='biology'?BIOLOGY_TOPIC_DATA:subject==='astronomy'?ASTRONOMY_TOPIC_DATA:CHEMISTRY_TOPIC_DATA;
  const specializations=subject==='physics'?PHYSICS_SPECIALTY_DATA:subject==='biology'?BIOLOGY_SPECIALTY_DATA:subject==='astronomy'?ASTRONOMY_SPECIALTY_DATA:CHEMISTRY_SPECIALTY_DATA;
@@ -9417,6 +9431,14 @@ const CHEMISTRY_MOLECULE_DATA=${JSON.stringify(CHEMISTRY_MOLECULES)};
 const chemistryContextVisualBuild=${chemistryContextVisualBuild.toString()};
 const CHEMISTRY_SOLVE_VERIFIED=${chemistryVerifiedExercise.toString()};
 const BIOLOGY_TOPIC_DATA=${JSON.stringify([...BIOLOGY_TOPICS,...BIOLOGY_SPECIALTY_TOPICS])};
+const BIOLOGY_PRIMARY_YEAR_TOPICS=${JSON.stringify(BIOLOGY_PRIMARY_YEAR_TOPICS)};
+const BIOLOGY_PRIMARY_YEAR_ROWS=${JSON.stringify(BIOLOGY_PRIMARY_YEAR_ROWS)};
+const biologyPrimaryYearPosition=${biologyPrimaryYearPosition.toString()};
+const biologyPrimaryTopics=${biologyPrimaryTopics.toString()};
+const biologyPrimaryYearLessons=${biologyPrimaryYearLessons.toString()};
+const BIOLOGY_LOWER_YEAR_TOPICS=${JSON.stringify(BIOLOGY_LOWER_YEAR_TOPICS)};
+const BIOLOGY_LOWER_YEAR_ROWS=${JSON.stringify(BIOLOGY_LOWER_YEAR_ROWS)};
+const biologyLowerYearLessons=${biologyLowerYearLessons.toString()};
 const BIOLOGY_UPPER_YEAR_TOPICS=${JSON.stringify(BIOLOGY_UPPER_YEAR_TOPICS)};
 const BIOLOGY_UPPER_YEAR_BANK=${JSON.stringify(BIOLOGY_UPPER_YEAR_BANK)};
 const biologyUpperYearLessons=${biologyUpperYearLessons.toString()};
@@ -11231,15 +11253,16 @@ function educationScienceTheoryReader(subjectId,topicId,level){
  const head=document.createElement('h3');head.textContent=learningLabel('📖 Teme de studiu','📖 Study topics')+' ('+(['primary','lower'].includes(scienceJourney.schoolStage)||scienceJourney.schoolStage==='upper'&&state.language!=='ro'?1:lessons.length)+')';
  section.append(head);
 
- if(scienceJourney.schoolStage==='primary'&&subjectId==='physics'){
+ if(scienceJourney.schoolStage==='primary'&&['physics','biology'].includes(subjectId)){
   const chapter=scienceTopicInfo(),name=learningLabel(chapter?.ro||'',chapter?.en||'');
   const yearList=eduYearOptions(educationCountrySelection.code,'primary','science');
   const entries=scienceSchoolTopicLessons({
-   country:educationCountrySelection.code,subject:'physics',stage:'primary',
+   country:educationCountrySelection.code,subject:subjectId,stage:'primary',
    grade:scienceJourney.grade,topic:topicId,years:yearList,
    lessons:EDUCATION_THEORY_DATA,language:state.language
   });
-  head.textContent=learningLabel('📖 Lecții de științe fizice','📖 Physical science lessons')+' ('+entries.length+')';
+  head.textContent=(subjectId==='biology'?learningLabel('📖 Lecții de științele vieții','📖 Life science lessons'):
+   learningLabel('📖 Lecții de științe fizice','📖 Physical science lessons'))+' ('+entries.length+')';
   const grid=document.createElement('div');grid.className='science-theory-topic-list';
   grid.style.cssText='display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:8px;';
   for(const [index,entry] of entries.entries()){
@@ -11248,9 +11271,10 @@ function educationScienceTheoryReader(subjectId,topicId,level){
    item.style.cssText='white-space:normal;text-align:left;min-height:55px;';
    item.textContent=(index+1)+'. '+entry.title;
    item.onclick=()=>{
-    const content=scienceSchoolLessonMaterial({entry,subject:'physics',
+    if(subjectId==='biology')scienceJourney.biologyLabLesson={...entry,topic:topicId,grade:scienceJourney.grade,stage:'primary'};
+    const content=scienceSchoolLessonMaterial({entry,subject:subjectId,
      grade:scienceJourney.grade,chapter:name,language:state.language});
-    const assessment=scienceSchoolLessonAssessment({entry,subject:'physics',
+    const assessment=scienceSchoolLessonAssessment({entry,subject:subjectId,
      topic:topicId,language:state.language});
     sciencePendingAssessmentSpec={...assessment,stage:'primary',localVerification:false};
     try{educationOpenPagedLesson(entry.title,content||'')}
@@ -11470,6 +11494,7 @@ function educationScienceTheoryReader(subjectId,topicId,level){
    button.textContent=(index+1)+'. '+entry.title+
     (entry.language==='en'?(state.language==='en'?'':' · EN reference'):(state.language!=='ro'?' · RO source':''));
    button.onclick=()=>{
+    if(subjectId==='biology')scienceJourney.biologyLabLesson={...entry,topic:topicId,grade:scienceJourney.grade,stage:'lower'};
     const chapterGuide=state.language==='ro'?SCIENCE_GUIDES[subjectId]?.[topicId]:
      SCIENCE_GUIDES_EN[subjectId]?.[topicId];
     const source=scienceLowerTopicContent(subjectId,topicId,state.language);
@@ -11514,6 +11539,7 @@ function educationScienceTheoryReader(subjectId,topicId,level){
    button.textContent=(index+1)+'. '+entry.title+
     (state.language!=='ro'&&entry.language!=='en'?' · RO source':'');
    button.onclick=()=>{
+    scienceJourney.biologyLabLesson={...entry,topic:topicId,grade:scienceJourney.grade,stage:'upper'};
     const guide=(state.language==='ro'?SCIENCE_GUIDES:SCIENCE_GUIDES_EN).biology?.[topicId];
     const material=scienceSchoolLessonMaterial({
      entry,subject:'biology',grade:scienceJourney.grade,chapter:name,
@@ -11737,6 +11763,57 @@ function scienceOpenChemistrySection(stage){
    }else tile('📈','Reprezentări din capitol','Chapter diagrams','Doar modele relevante lecției','Only lesson-relevant models',physicsVisualPicker);
   }else if(scienceJourney.subject==='biology'){
    const key=topic?.id||'';
+   if(['primary','lower','upper'].includes(scienceJourney.schoolStage)){
+    const chosen=scienceJourney.biologyLabLesson;
+    const same=chosen&&chosen.grade===scienceJourney.grade&&chosen.topic===key&&
+     chosen.stage===scienceJourney.schoolStage;
+    if(!same){
+     const notice=document.createElement('p');notice.className='chem-no-visual';
+     notice.textContent=learningLabel(
+      'Selectează mai întâi o lecție din capitol. Laboratorul va arăta numai activitatea potrivită acelei lecții.',
+      'Select a lesson first. The lab then shows only the activity related to it.');
+     list.append(notice);
+    }else{
+     tile('🔎','Investigația lecției','Lesson investigation',
+      'Observație, exemplu și întrebare pentru: '+chosen.title,
+      'Observation, example and question for: '+chosen.title,()=>{
+       const body=[
+        '# '+chosen.title,
+        '# '+learningLabel('Contextul lecției','Lesson context'),
+        chosen.statement,
+        '# '+learningLabel('Observație sau investigație','Observation or investigation'),
+        chosen.workedExample||learningLabel('Nu există o investigație separată verificată.','No separately validated investigation is available.'),
+        '# '+learningLabel('Întrebare de verificare','Check question'),chosen.exercise||'',
+        '# '+learningLabel('Răspuns de verificare','Check answer'),chosen.answer||''
+       ].filter(Boolean).join('\n\n');
+       educationOpenPagedLesson(chosen.title,body);
+      });
+     // A generic diagram is never repeated just because two years share
+     // a chapter label. It must match the selected lesson and year.
+     const title=String(chosen.title||'');
+     const valid={biomolecules:/enzim/i,anatomy:/inim|circula|vase|sâng/i,
+      evolution:/selecți|frecvenț|deriv/i,ecology:/trofic|rețea de hran/i,
+      microbes:/bacteri|virus|replica/i,plants:/fotosintez|cloroplast/i,
+      homeostasis:/feedback|homeostaz/i,methods:/ipotez|experiment|variabil/i};
+     const roLower=educationCountrySelection.code==='RO'&&
+      (String(scienceJourney.grade)==='5'&&key==='ecology'||
+       String(scienceJourney.grade)==='6'&&['anatomy','plants'].includes(key));
+     const ageOK=scienceJourney.schoolStage==='upper'||
+      scienceJourney.schoolStage==='lower'&&roLower;
+     if(ageOK&&valid[key]?.test(title)&&BIOLOGY_TOPIC_VISUALS[key])
+      tile('📊','Schemă pentru lecția selectată','Diagram for selected lesson',
+       'Reprezentarea corespunde temei: '+chosen.title,
+       'Diagram matches: '+chosen.title,()=>biologyTopicVisualOpen(key));
+     if(scienceJourney.schoolStage==='upper'&&key==='cells'&&/membran|organit/i.test(title))
+      tile('🧬','Celula eucariotă','Eukaryotic cell',
+       'Reprezentare a structurii celulare','Cell structure representation',
+       ()=>scienceBiologyDiagramOpen('cell'));
+     if(scienceJourney.schoolStage==='upper'&&key==='genetics'&&/ADN|genă|cromozom/i.test(title))
+      tile('🧬','ADN dublu helix','DNA double helix',
+       'Model molecular asociat lecției','Molecular model related to the lesson',
+       ()=>scienceBiologyDiagramOpen('dna'));
+    }
+   }else{
    if(key==='cells')tile('🧬','Celula eucariotă','Eukaryotic cell',
     'Membrană, nucleu și mitocondrii','Membrane, nucleus and mitochondria',
     ()=>scienceBiologyDiagramOpen('cell'));
@@ -11752,6 +11829,7 @@ function scienceOpenChemistrySection(stage){
      'Nu există încă o reprezentare validată pentru acest capitol. Nu afișăm automat celula sau ADN-ul la teme fără legătură.',
      'There is no validated diagram for this chapter. Cell and DNA models will not be shown for unrelated topics.');
     list.append(notice);
+   }
    }
   }else if(scienceJourney.subject==='astronomy'){
    tile('🪐','Reprezentări astronomice','Astronomy diagrams','Diagrame pentru fenomenele studiate','Diagrams for studied phenomena',astronomyDiagramPicker);

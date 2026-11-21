@@ -3,6 +3,7 @@ import {scienceLowerTopicContent} from './science_lower_secondary_lessons.mjs';
 import {SCIENCE_GUIDES} from './science_extended_theory.mjs';
 import {scienceRoGradeTopics,SCIENCE_RO_2017_SOURCE} from './science_ro_course_plan.mjs';
 import {physicsCountryGradePlan,PHYSICS_EUROPE_REFERENCES} from './physics_europe_frameworks.mjs';
+import {biologyPrimaryTopics} from './biology_primary_years.mjs';
 // Pan-European advisory science progression, not a national curriculum or textbook.
 // Country-specific school-year labels come from the existing country picker.
 // Subject knowledge and scientific enquiry are sequenced together.
@@ -68,7 +69,9 @@ export function scienceGradeTopicPlan({country='',subject='',stage='lower',grade
   countryPhysics.topics.map(id=>indexed.get(id)).filter(Boolean).map(entry=>({
    ...entry,minLevel:stage==='lower'||stage==='primary'?'beginner':entry.minLevel
   })):null;
- const unique=[...new Map((curated||adapted||ordered).map(x=>[x.id,x])).values()];
+ const primaryBiology=subject==='biology'&&stage==='primary'?
+  biologyPrimaryTopics({country,grade,years:yearList}).map(id=>indexed.get(id)).filter(Boolean):null;
+ const unique=[...new Map((curated||adapted||primaryBiology||ordered).map(x=>[x.id,x])).values()];
  // Never hide the whole subject because a national stage has an unverified
  // grade map: a known, clearly marked general course is always available.
  const fallback=topics.filter(x=>x&&!x.specialty&&(rank[x.minLevel]??0)<=max).slice(0,3);

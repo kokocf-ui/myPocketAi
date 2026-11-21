@@ -11,6 +11,8 @@ import {physicsAdvisoryTopicLessons} from './physics_europe_lesson_bank.mjs';
 import {physicsPrimaryYearLessons} from './physics_primary_lessons.mjs';
 import {physicsUpperYearLessons} from './physics_upper_course.mjs';
 import {biologyUpperYearLessons} from './biology_upper_course.mjs';
+import {biologyPrimaryYearLessons} from './biology_primary_years.mjs';
+import {biologyLowerYearLessons} from './biology_lower_europe_years.mjs';
 
 // This is a controlled original teaching outline using the CONTENT AREAS in
 // Romania's 2017 lower-secondary syllabuses. It is not a Ministry-approved
@@ -72,6 +74,10 @@ function schoolReferenceLessons(subject,grade,topic){
 export function scienceSchoolTopicLessons({country='',subject='',grade='',topic='',lessons=[],stage='lower',years=[],language='ro'}={}){
  const localized=String(country).toUpperCase()==='RO';
  const id=String(grade);
+ if(subject==='biology'&&stage==='primary'&&Array.isArray(years)&&years.length){
+  // Never expose generic molecular-biology cards in integrated primary science.
+  return biologyPrimaryYearLessons({country,grade,topic,years});
+ }
  if(subject==='physics'&&stage==='primary'&&Array.isArray(years)&&years.length){
   return physicsPrimaryYearLessons({country,grade,topic,years,language});
  }
@@ -82,6 +88,9 @@ export function scienceSchoolTopicLessons({country='',subject='',grade='',topic=
  }
  // The grade-specific Biology syllabus uses the real school-year identifier
  // and returns distinct authored lessons, not all 60 generic theory cards.
+ if(subject==='biology'&&!localized&&stage==='lower'&&Array.isArray(years)&&years.length){
+  return biologyLowerYearLessons({country,grade,topic,years});
+ }
  if(subject==='biology'&&stage==='upper'&&Array.isArray(years)&&years.length){
   return biologyUpperYearLessons({country,grade,topic,years,language});
  }
