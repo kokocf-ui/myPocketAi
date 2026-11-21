@@ -26,11 +26,14 @@ const fn=vm.runInNewContext(EDUCATION_COUNTRY_UI_SCRIPT.slice(first,last)+
  '\n'+script.slice(start,end)+'\n({years:scienceYearGroups,journey:scienceJourney,country:educationCountrySelection})',
  environment);
 const groups=()=>Array.from(fn.years(),x=>({level:x.level,schoolStage:x.schoolStage,ids:Array.from(x.years,y=>String(y.id))}));
-assert.deepEqual(groups().map(x=>x.schoolStage),['primary','lower','upper','advanced']);
-assert.deepEqual(groups()[0].ids,['1','2','3','4'],'Science primary uses the right Romanian classes');
-assert.deepEqual(groups()[1].ids,['6','7','8'],'Romania lower Physics begins at grade 6');
-assert.deepEqual(groups()[2].ids,['9','10','11','12'],'Romania Physics upper secondary years');
+assert.deepEqual(groups().map(x=>x.schoolStage),['lower','upper','advanced'],
+ 'Physics is a separate Romanian subject starting at Grade VI, never primary');
+assert.deepEqual(groups()[0].ids,['6','7','8'],'Romania lower Physics begins at grade 6');
+assert.deepEqual(groups()[1].ids,['9','10','11','12'],'Romania Physics upper secondary years');
 fn.journey.subject='chemistry';
+assert.deepEqual(groups().map(x=>x.schoolStage),['primary','lower','upper','advanced'],
+ 'Other integrated primary science experiences remain available');
+assert.deepEqual(groups()[0].ids,['1','2','3','4'],'Integrated primary science keeps Romanian class names');
 assert.deepEqual(groups()[1].ids,['7','8'],'Romania Chemistry lower stage begins at grade 7');
 fn.journey.subject='biology';
 assert.deepEqual(groups()[1].ids,['5','6','7','8'],'Romania Biology lower stage begins at grade 5');
@@ -38,19 +41,19 @@ fn.journey.subject='astronomy';
 assert.deepEqual(groups()[1].ids,['5','6','7','8'],'Astronomy advisory lower years explicitly labeled');
 fn.country.code='GB-ENG';fn.journey.subject='physics';
 const uk=groups();
-assert.ok(uk[0].ids.includes('Y1'),'England primary starts at country-specific Year 1');
-assert.ok(uk[1].ids.includes('Y7'),'England lower secondary uses country-specific Year numbering');
-assert.ok(uk[2].ids.includes('Y10'),'England upper-secondary years are not Romanian grade numbers');
-assert.ok(uk[3].ids.length===1,'university opens existing specialisations');
+assert.deepEqual(uk.map(x=>x.schoolStage),['lower','upper','advanced'],
+ 'England integrated primary science should not look like a standalone Physics course');
+assert.ok(uk[0].ids.includes('Y7'),'England lower secondary uses country-specific Year numbering');
+assert.ok(uk[1].ids.includes('Y10'),'England upper-secondary years are not Romanian grade numbers');
+assert.ok(uk[2].ids.length===1,'university opens existing specialisations');
 assert.equal(new Set(uk.flatMap(x=>x.ids)).size,uk.flatMap(x=>x.ids).length,'no duplicate years');
 fn.country.code='AD';fn.journey.subject='physics';
 const advisory=groups();
-assert.deepEqual(advisory.slice(0,3).map(x=>x.ids.length),[4,4,4],
- 'An unmapped country gets four explicitly advisory progression years in each school stage');
-assert.ok(advisory[0].ids.every(id=>id.startsWith('general-primary-')),
- 'Generic years may never pretend to be a national grading scheme');
-assert.ok(advisory[1].ids.every(id=>id.startsWith('general-lower-')));
-assert.ok(advisory[2].ids.every(id=>id.startsWith('general-medium-')));
+assert.deepEqual(advisory.map(x=>x.schoolStage),['lower','upper','advanced']);
+assert.deepEqual(advisory[0].ids,['S1','S2','S3','S4'],
+ 'Andorran lower-secondary year names are provisional, not fabricated ISCED labels');
+assert.deepEqual(advisory[1].ids,['B1','B2'],
+ 'Andorran upper-secondary Bachillerat is two years, with school stream still unverified');
 assert.match(script,/scienceJourneyShowChoices\('years'\)/,'subject routes to school year selection');
 assert.match(script,/stage==='years'\?learningLabel\('Alege clasa/,'year screen has clear title');
 assert.match(html,/#view-module\.learning-science\.science-subject-stage\.active \.science-choice-list\{/,
@@ -59,4 +62,4 @@ assert.match(html,/grid-template-columns:repeat\(2,minmax\(0,1fr\)\)!important/,
  'science subject cards form two columns');
 assert.match(html,/#view-module\.learning-choose\.active>#moduleContent>.education-grid\{/,
  'Education main cards are vertically centered in the viewport');
-console.log('PASS science school years: 4 bands, correct Romanian and England grade labels and stage-specific science progression');
+console.log('PASS science school years: Physics from lower secondary, other primary science unchanged, Romanian/English/Andorran stages');
