@@ -102,7 +102,7 @@ const specialPlans={
   '6':['units','kinematics','heat','fluids','energy'],
   '7':['dynamics','energy','heat','measurement','optics'],
   '8':['electric','circuits','waves','optics','energy'],
-  '9':['electric','electromagnetism','modern','waves','measurement']
+  '9':['electric','electromagnetism','thermodynamics','waves','measurement']
  }},
  CY:{lower:{
   G1:['units','kinematics','energy','heat','optics'],
