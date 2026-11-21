@@ -42,6 +42,7 @@ jobs:
           node tests_science_grade_progression.mjs
           node tests_science_ro_course_quality.mjs
           node tests_physics_europe_coverage.mjs
+          node tests_physics_portugal_grade7.mjs
           node tests_physics_primary_years.mjs
           node tests_physics_upper_years.mjs
           node tests_science_exercise_verification.mjs
