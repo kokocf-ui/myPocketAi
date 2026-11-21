@@ -87,7 +87,7 @@ function subjectInventory(subject,{country,stage,grade,track}){
   const track=schoolStage==='advanced'?null:scienceGradeTopicPlan({
    country,subject,stage:schoolStage,grade,years:mappedYears,topics
   });
-  const ordered=track?.topics?.length?track.topics:topics.filter(x=>!x.specialty&&rank[x.minLevel||'beginner']<=stageRank[stage]);
+  const ordered=track&&Array.isArray(track.topics)?track.topics:topics.filter(x=>!x.specialty&&rank[x.minLevel||'beginner']<=stageRank[stage]);
   return {units:ordered.map(x=>unit(x.id,x.ro,x.en,'',lessons.filter(y=>y.topic===x.id).length)),
    verified:false,gradeSpecific:false,source:null,
    note:'Program general de științe diferențiat pe clase; nu este manual sau programă națională verificată.'+
