@@ -10628,6 +10628,15 @@ function scienceLessonReviewSpec(){
   guide:ro?'Fiecare observație trebuie să descrie ceva văzut sau măsurat, separat de presupuneri.':
    'Each observation must describe what was seen or measured, separately from guesses.'};
  if(stage==='advanced'){
+  if(subject==='physics'&&PHYSICS_UNIVERSITY_STUDIES[topic]){
+   const cases=PHYSICS_UNIVERSITY_STUDIES[topic][ro?'ro':'en'];
+   return {subject,topic,stage,lang,
+    prompt:cases[0].exercise,guide:cases[0].answer+' '+cases[0].explanation,
+    choices:cases.map(x=>({
+     title:x.title,prompt:x.exercise,
+     guide:x.answer+' '+x.explanation+' '+x.workedExample
+    }))};
+  }
   const track=SCIENCE_UNIVERSITY_TRACK_GUIDES[subject]?.[scienceJourney.specialty];
   const notes=ro?track?.ro:track?.en;
   return notes?{subject,topic,stage,lang,prompt:notes[3],guide:notes[1]+' '+notes[2]}:null;
@@ -10639,13 +10648,30 @@ let sciencePendingAssessmentSpec=null;
 function scienceAttachLessonReview(dialog){
  const spec=sciencePendingAssessmentSpec||scienceLessonReviewSpec();if(!spec?.prompt||!spec.guide)return;
  const ro=spec.lang==='ro';
+ let currentIndex=0;
+ const currentExercise=()=>spec.choices?.[currentIndex]||spec;
  const wrap=document.createElement('section');wrap.className='science-lesson-answer-check';
  wrap.style.cssText='display:flex;flex-direction:column;gap:5px;flex:0 0 auto;min-height:0;';
  const toggle=document.createElement('button');toggle.type='button';toggle.className='primary-btn';
  toggle.textContent=ro?'✓ Verifică răspunsul':'✓ Check my answer';
  const panel=document.createElement('div');panel.style.cssText='display:none;flex-direction:column;gap:6px;max-height:38dvh;overflow-y:auto;padding:7px;border:1px solid #987781;border-radius:9px;';
  const question=document.createElement('p');question.style.cssText='margin:0;font-size:14px;white-space:pre-wrap';
- question.textContent=(ro?'Exercițiu: ':'Exercise: ')+spec.prompt;
+ question.textContent=(ro?'Exercițiu: ':'Exercise: ')+currentExercise().prompt;
+ if(spec.choices?.length>1){
+  const choose=document.createElement('select');choose.className='science-review-exercise-choice';
+  choose.setAttribute('aria-label',ro?'Alege exercițiul universitar':'Choose university exercise');
+  for(const [index,choice] of spec.choices.entries()){
+   const option=document.createElement('option');option.value=String(index);
+   option.textContent=(index+1)+'. '+choice.title;choose.append(option);
+  }
+  choose.onchange=()=>{
+   const next=Number(choose.value);currentIndex=Number.isInteger(next)&&
+    next>=0&&next<spec.choices.length?next:0;
+   question.textContent=(ro?'Exercițiu: ':'Exercise: ')+currentExercise().prompt;
+   entry.value='';status.textContent='';
+  };
+  panel.append(choose);
+ }
  const entry=document.createElement('textarea');entry.rows=3;entry.maxLength=2200;
  entry.style.cssText='width:100%;box-sizing:border-box;min-height:64px;max-height:22dvh;';
  entry.setAttribute('aria-label',ro?'Răspunsul elevului':'Student answer');
@@ -10670,14 +10696,15 @@ function scienceAttachLessonReview(dialog){
   }
   controller=new AbortController();check.disabled=true;
   status.textContent=ro?'Se evaluează răspunsul…':'Assessing your answer…';
+  const selectedExercise=currentExercise();
   const message=(ro?
    'Evaluează un răspuns școlar. Începe cu verdictul Corect / Parțial corect / Incorect / Nedeterminabil, apoi explică exact ce este bine, ce este greșit și cum se corectează. Nu inventa date și nu acorda un calificativ nesusținut.':
    'Assess a student answer. Start with Correct / Partly correct / Incorrect / Indeterminate and explain the specific merits, errors and improvements. Do not invent facts or award an unsupported grade.')+
    ' '+(ro?'Țara: ':'Country: ')+educationCountrySelection.label+
    ', '+(ro?'clasa: ':'grade: ')+scienceJourney.grade+', '+
    (ro?'materia: ':'subject: ')+spec.subject+', '+(ro?'capitol: ':'topic: ')+spec.topic+'. '+
-   (ro?'Exercițiu: ':'Question: ')+spec.prompt+'. '+
-   (ro?'Răspuns de referință și criterii: ':'Reference answer and criteria: ')+spec.guide+'. '+
+   (ro?'Exercițiu: ':'Question: ')+selectedExercise.prompt+'. '+
+   (ro?'Răspuns de referință și criterii: ':'Reference answer and criteria: ')+selectedExercise.guide+'. '+
    (ro?'Răspunsul elevului: ':'Student answer: ')+answer+'. '+
    (ro?'Răspunde în română.':'Respond in English.');
   try{
@@ -10691,8 +10718,8 @@ function scienceAttachLessonReview(dialog){
    if(dialog.isConnected)status.textContent=(ro?'Evaluare AI orientativă: ':'Advisory AI assessment: ')+data.reply.trim().slice(0,4800);
   }catch(error){
    if(!controller.signal.aborted&&dialog.isConnected)status.textContent=ro?
-    'Verificarea nu este disponibilă. Nu pot stabili dacă răspunsul este corect. Reper: '+spec.guide:
-    'Assessment unavailable; no correctness claim can be made. Reference: '+spec.guide;
+    'Verificarea nu este disponibilă. Nu pot stabili dacă răspunsul este corect. Reper: '+selectedExercise.guide:
+    'Assessment unavailable; no correctness claim can be made. Reference: '+selectedExercise.guide;
   }finally{controller=null;check.disabled=false;}
  };
  panel.append(question,entry,check,status);wrap.append(toggle,panel);dialog.append(wrap);
