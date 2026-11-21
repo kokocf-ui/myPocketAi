@@ -18,9 +18,9 @@ const script=html.match(/<script>([\s\S]*?)<\/script>/)?.[1];
 assert.ok(script,'Browser script served');
 new vm.Script(script);
 for(const fragment of [
- "root.classList.toggle('science-scroll-stage',stage==='years'||stage==='physics-laws');",
+ "root.classList.toggle('science-scroll-stage',stage==='years'||stage==='physics-laws'||stage==='chemistry-laws');",
  "lawsButton.onclick=()=>scienceJourneyShowChoices('physics-laws')",
- "if(current==='physics-laws')scienceJourney.stage='years';",
+ "if(current==='physics-laws'||current==='chemistry-laws')scienceJourney.stage='years';",
  "page.style.setProperty('--science-selector-height'",
  "function sciencePhysicsLawText(law)",
  "science-laws-filter"
