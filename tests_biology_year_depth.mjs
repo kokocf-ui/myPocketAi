@@ -11,7 +11,7 @@ import {biologyUniversityRoutes,biologyUniversityRoute,biologyUniversityYears,bi
 import {THEORY_ENTRIES} from './education_theory.mjs';
 import {scienceGradeTopicPlan} from './science_grade_progression.mjs';
 import {scienceSchoolTopicLessons} from './science_ro_course_plan.mjs';
-import {scienceSchoolLessonMaterial} from './science_school_lesson_material.mjs';
+import {scienceSchoolLessonMaterial,scienceSchoolLessonAssessment} from './science_school_lesson_material.mjs';
 import {BIOLOGY_UPPER_YEAR_TOPICS,BIOLOGY_UPPER_YEAR_BANK,biologyUpperYearLessons} from './biology_upper_course.mjs';
 import {BIOLOGY_REFERENCE_GROUPS,BIOLOGY_REFERENCE,biologyReferenceText} from './biology_reference.mjs';
 
@@ -154,5 +154,59 @@ for(const fragment of [
  assert.ok(script.includes(fragment),'Missing Biology integration in Android: '+fragment);
 assert.ok(script.includes("scienceSchoolTopicLessons({")&&script.includes("country:educationCountrySelection.code,subject:'biology',grade:scienceJourney.grade"),
  'Biology chapter count and reader both use year-selected lesson function');
+// Execute the same WebView lesson renderer used by the Android application.
+// The displayed total and clickable lesson cards must match for every RO
+// high-school grade and each corresponding curriculum chapter.
+const renderStart=script.indexOf('function educationScienceTheoryReader(');
+const renderEnd=script.indexOf('\nfunction ',renderStart+30);
+assert.ok(renderStart>0&&renderEnd>renderStart,'WebView lesson renderer extractable');
+class FakeElement{
+ constructor(tag){this.tag=tag;this.children=[];this.className='';this.style={};
+  this.textContent='';this.onclick=null;this.hidden=false;}
+ append(...children){this.children.push(...children);}
+ replaceChildren(...children){this.children=[...children];}
+ setAttribute(){}
+}
+const selectedChapter={id:'',ro:'',en:''},opened=[];
+const lessonContext={
+ document:{createElement:tag=>new FakeElement(tag)},
+ state:{language:'ro'},scienceJourney:{schoolStage:'upper',level:'intermediate',grade:'9',gradePosition:0},
+ educationCountrySelection:{code:'RO',label:'România'},
+ EDUCATION_THEORY_DATA:THEORY_ENTRIES,
+ eduYearOptions:()=>roYears,
+ learningLabel:(ro,en)=>ro,
+ scienceTopicInfo:()=>selectedChapter,
+ scienceSchoolTopicLessons,scienceSchoolLessonMaterial,scienceSchoolLessonAssessment,
+ SCIENCE_GUIDES:{biology:{}},SCIENCE_GUIDES_EN:{biology:{}},
+ sciencePendingAssessmentSpec:null,
+ educationOpenPagedLesson:(name,body)=>opened.push({name,body})
+};
+const render=vm.runInNewContext(script.slice(renderStart,renderEnd)+';educationScienceTheoryReader',lessonContext);
+let clickableLessons=0;
+for(const year of roYears){
+ lessonContext.scienceJourney.grade=year.id;
+ const plan=scienceGradeTopicPlan({country:'RO',subject:'biology',stage:'upper',grade:year.id,years:roYears,topics:BIOLOGY_TOPICS});
+ for(const chapter of plan.topics){
+  selectedChapter.id=chapter.id;selectedChapter.ro=chapter.ro;selectedChapter.en=chapter.en;
+  const panel=render('biology',chapter.id,'intermediate');
+  const grid=panel.children.find(x=>x.className==='science-theory-topic-list');
+  assert.ok(grid,year.id+'/'+chapter.id+' no clickable lecture list');
+  const expected=scienceSchoolTopicLessons({country:'RO',subject:'biology',stage:'upper',
+   grade:year.id,topic:chapter.id,years:roYears,lessons:THEORY_ENTRIES});
+  assert.equal(grid.children.length,expected.length,'App shows a different number of cards than advertised');
+  assert.ok(panel.children[0].textContent.includes('('+expected.length+')'),'Reader header count mismatch');
+  for(const [index,button] of grid.children.entries()){
+   assert.ok(button.textContent.includes(expected[index].title));
+   button.onclick();
+   const openedLesson=opened.pop();
+   assert.ok(openedLesson?.body.includes(expected[index].statement),
+    'Button '+index+' in '+year.id+'/'+chapter.id+' opens no relevant theory');
+   assert.ok(openedLesson.body.includes(expected[index].workedExample),
+    'Button '+index+' must open a relevant worked example');
+   clickableLessons++;
+  }
+ }
+}
+assert.equal(clickableLessons,45,'Every high-school Biology lesson must open from the real reader');
 console.log('PASS Biology: 45 distinct authored upper lessons, '+countriesChecked+
  ' European country paths and '+gradesChecked+' grades, 20 references, WebView syntax and matching lesson counts');
