@@ -81,7 +81,7 @@ import {BIOLOGY_PRIMARY_YEAR_TOPICS,BIOLOGY_PRIMARY_YEAR_ROWS,biologyPrimaryYear
 import {BIOLOGY_LOWER_YEAR_TOPICS,BIOLOGY_LOWER_YEAR_ROWS,biologyLowerYearLessons} from './biology_lower_europe_years.mjs';
 import {BIOLOGY_REFERENCE_GROUPS,BIOLOGY_REFERENCE,biologyReferenceText} from './biology_reference.mjs';
 import {BIOLOGY_TOPIC_VISUALS,biologyTopicVisualBuild} from './biology_topic_visuals.mjs';
-import {BIOLOGY_UNIVERSITY_DEFAULT_YEARS,BIOLOGY_UNIVERSITY_CYCLE_REFERENCE,
+import {BIOLOGY_UNIVERSITY_DEFAULT_YEARS,BIOLOGY_UNIVERSITY_CYCLE_REFERENCE,BIOLOGY_UNIVERSITY_ADVISORY_ELECTIVES,
  biologyUniversityRoutes,biologyUniversityRoute,biologyUniversityYears,biologyUniversityCourseChoices,biologyUniversityCapstoneText} from './biology_university_years.mjs';
 import {mathAdvancedVerifiedModel} from './math_advanced_verified.mjs';
 import {PHYSICS_TOPICS,PHYSICS_SPECIALIZATIONS} from './physics_curriculum.mjs';
@@ -9453,6 +9453,7 @@ const BIOLOGY_TOPIC_VISUALS=${JSON.stringify(BIOLOGY_TOPIC_VISUALS)};
 const biologyTopicVisualBuild=${biologyTopicVisualBuild.toString()};
 const BIOLOGY_UNIVERSITY_DEFAULT_YEARS=${JSON.stringify(BIOLOGY_UNIVERSITY_DEFAULT_YEARS)};
 const BIOLOGY_UNIVERSITY_CYCLE_REFERENCE=${JSON.stringify(BIOLOGY_UNIVERSITY_CYCLE_REFERENCE)};
+const BIOLOGY_UNIVERSITY_ADVISORY_ELECTIVES=${JSON.stringify(BIOLOGY_UNIVERSITY_ADVISORY_ELECTIVES)};
 const biologyUniversityRoutes=${biologyUniversityRoutes.toString()};
 const biologyUniversityRoute=${biologyUniversityRoute.toString()};
 const biologyUniversityYears=${biologyUniversityYears.toString()};
