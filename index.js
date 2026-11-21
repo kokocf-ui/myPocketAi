@@ -11853,6 +11853,44 @@ function scienceOpenChemistrySection(stage){
        ()=>scienceBiologyDiagramOpen('dna'));
     }
    }else{
+    // University lab access is independent of any previous theory selection.
+    // A chapter-specific study task uses the actual authored course document.
+    const courseDocument=key==='biology-capstone'?
+     biologyUniversityCapstoneText({
+      specialty:scienceJourney.specialty,
+      year:Number(String(scienceJourney.grade).replace('univ-',''))||3,
+      language:state.language
+     }):
+     SCIENCE_UNIVERSITY_CHAPTER({
+      subject:'biology',topic:key,specialty:scienceJourney.specialty,
+      chapter:learningLabel(topic?.ro||'',topic?.en||''),
+      grade:scienceJourney.grade,lessons:EDUCATION_THEORY_DATA,language:state.language
+     });
+    if(courseDocument){
+     tile('🔬','Investigație și studiu practic','Practical investigation',
+      'Metodologie, observații, analiză și concluzii pentru curs',
+      'Methods, observations, analysis and conclusions for this course',()=>{
+       const title=learningLabel(topic?.ro||'',topic?.en||'');
+       const body=[
+        '# '+title+' · '+learningLabel('Laborator universitar','University practical'),
+        '# '+learningLabel('Obiectiv','Objective'),
+        learningLabel('Identifică o întrebare testabilă din curs și justifică metoda folosită.',
+         'Identify a testable question within this course and justify the selected method.'),
+        '# '+learningLabel('Fundamentare științifică','Scientific background'),
+        courseDocument,
+        '# '+learningLabel('Metodă și materiale','Method and materials'),
+        learningLabel('Propune un protocol corespunzător fenomenului studiat, indicând variabila, martorul, replicatele, materialele și condițiile de siguranță. Dacă lipsesc echipamente sau aprobări, lucrează numai cu date publice ori simulări.',
+         'Propose a topic-appropriate protocol with variables, controls, independent replicates, materials and safety requirements. Use public data or simulations when facilities or approvals are unavailable.'),
+        '# '+learningLabel('Date și interpretare','Data and interpretation'),
+        learningLabel('Construiește un tabel cu unități, sursa datelor și incertitudini. Nu introduce rezultate experimentale inventate. Explică ce rezultate ar susține sau ar contrazice ipoteza.',
+         'Build a data table including units, sources and uncertainties. Do not invent experimental results. Explain what findings would support or contradict the hypothesis.'),
+        '# '+learningLabel('Concluzie și limite','Conclusion and limitations'),
+        learningLabel('Precizează ce se poate afirma din date, ce factori pot influența rezultatul și ce verificări suplimentare sunt necesare.',
+         'State what the evidence supports, possible confounding factors and necessary follow-up checks.')
+       ].join('\\n\\n');
+       educationOpenPagedLesson(title,body);
+      });
+    }
    if(key==='cells')tile('🧬','Celula eucariotă','Eukaryotic cell',
     'Membrană, nucleu și mitocondrii','Membrane, nucleus and mitochondria',
     ()=>scienceBiologyDiagramOpen('cell'));
