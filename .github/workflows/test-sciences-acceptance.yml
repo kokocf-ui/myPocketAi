@@ -7,6 +7,7 @@ on:
       - 'tests_physics_complete.mjs'
       - 'tests_chemistry_*.mjs'
       - 'tests_biology_complete.mjs'
+      - 'tests_biology_year_depth.mjs'
       - 'tests_astronomy_complete.mjs'
       - 'tests_education_content_navigation.mjs'
       - 'index.js'
@@ -55,6 +56,7 @@ jobs:
           node tests_chemistry_visuals.mjs
           node tests_chemistry_atom_context.mjs
           node tests_biology_complete.mjs
+          node tests_biology_year_depth.mjs
           node tests_astronomy_complete.mjs
           node tests_science_resolution_symbols.mjs
           node tests_science_compact_theory.mjs
