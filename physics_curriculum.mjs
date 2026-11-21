@@ -84,6 +84,12 @@ export const PHYSICS_TOPICS = Object.freeze([
     "minLevel": "intermediate"
   },
   {
+    "id": "space",
+    "ro": "Univers, Sistemul Solar și gravitație",
+    "en": "Space, Solar System and gravity",
+    "minLevel": "beginner"
+  },
+  {
     "id": "special-quantum",
     "ro": "Mecanică cuantică",
     "en": "Quantum mechanics",
