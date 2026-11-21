@@ -62,8 +62,8 @@ export function scienceSchoolLessonMaterial({
   parts.push('# '+(ro?'Context':'Context'),guide[0]);
  }
  const worked=specific?entry.workedExample:chapterLesson?.workedExample||guide?.[1];
- if(worked&&!teacherGuide&&!introFormula){
-  parts.push('# '+(ro?'Exemplu explicat':'Worked illustration'),worked);
+ if(worked){
+  parts.push('# '+(ro?(teacherGuide||introFormula?'Observație și exemplu suplimentar':'Exemplu explicat'):'Worked illustration'),worked);
  }
  const misconception=!specific?(chapterLesson?.answer||guide?.[2]):null;
  if(misconception){
