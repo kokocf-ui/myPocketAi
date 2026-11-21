@@ -55,6 +55,7 @@ import {scienceSchoolLessonMaterial,scienceSchoolLessonAssessment} from './scien
 import {PHYSICS_EUROPE_REFERENCE,PHYSICS_EUROPE_REFERENCES,PHYSICS_ADVISORY_TOPIC_SEQUENCES,PHYSICS_COUNTRY_YEAR_SEQUENCES,physicsCountryGradePlan} from './physics_europe_frameworks.mjs';
 import {PHYSICS_ADVISORY_OER_SOURCES,physicsAdvisoryTopicLessons} from './physics_europe_lesson_bank.mjs';
 import {PHYSICS_EUROPE_EXTRA_LESSONS} from './physics_europe_wave_measurement.mjs';
+import {PHYSICS_LOWER_ENGLISH_LESSONS} from './physics_lower_english_lessons.mjs';
 import {PHYSICS_PRIMARY_STRANDS,PHYSICS_PRIMARY_SCAFFOLDS,physicsPrimaryYearLessons} from './physics_primary_lessons.mjs';
 import {physicsUpperYearLessons} from './physics_upper_course.mjs';
 import {CHEMISTRY_SPECIALIZATIONS,CHEMISTRY_SPECIALTY_TOPICS,CHEMISTRY_MOLECULES,chemistryVerifiedExercise} from './chemistry_advanced.mjs';
@@ -8399,7 +8400,7 @@ function scienceJourneyShowChoices(stage){
        subject:scienceJourney.subject,grade:scienceJourney.grade,
        topic:item.id,lessons:EDUCATION_THEORY_DATA,stage:scienceJourney.schoolStage,
        years:eduYearOptions(educationCountrySelection.code,
-        scienceJourney.schoolStage==='upper'?'intermediate':'lower','science')}).length:
+        scienceJourney.schoolStage==='upper'?'intermediate':'lower','science'),language:state.language}).length:
       EDUCATION_THEORY_DATA.filter(x=>x.subject===scienceJourney.subject&&x.topic===item.id).length)+
       learningLabel(' lecții de studiu',' study lessons'):'';
   if(stage==='subjects'){
@@ -9098,6 +9099,7 @@ const SCIENCE_RO_2017_SOURCE=${JSON.stringify(SCIENCE_RO_2017_SOURCE)};
 const scienceRoGradeTopics=${scienceRoGradeTopics.toString()};
 const PHYSICS_ADVISORY_OER_SOURCES=${JSON.stringify(PHYSICS_ADVISORY_OER_SOURCES)};
 const PHYSICS_EUROPE_EXTRA_LESSONS=${JSON.stringify(PHYSICS_EUROPE_EXTRA_LESSONS)};
+const PHYSICS_LOWER_ENGLISH_LESSONS=${JSON.stringify(PHYSICS_LOWER_ENGLISH_LESSONS)};
 const physicsAdvisoryTopicLessons=${physicsAdvisoryTopicLessons.toString()};
 const PHYSICS_PRIMARY_STRANDS=${JSON.stringify(PHYSICS_PRIMARY_STRANDS)};
 const PHYSICS_PRIMARY_SCAFFOLDS=${JSON.stringify(PHYSICS_PRIMARY_SCAFFOLDS)};
@@ -10876,7 +10878,7 @@ function educationScienceTheoryReader(subjectId,topicId,level){
   const chapterLessons=scienceSchoolTopicLessons({
    country:educationCountrySelection.code,subject:subjectId,grade:scienceJourney.grade,
    topic:topicId,lessons:EDUCATION_THEORY_DATA,stage:scienceJourney.schoolStage,
-   years:eduYearOptions(educationCountrySelection.code,'lower','science')
+   years:eduYearOptions(educationCountrySelection.code,'lower','science'),language:state.language
   });
   head.textContent=learningLabel('📖 Teme de studiu','📖 Study lessons')+
    ' ('+chapterLessons.length+')';
@@ -10892,7 +10894,7 @@ function educationScienceTheoryReader(subjectId,topicId,level){
    button.className='secondary-btn science-inline-theory-item';
    button.style.cssText='white-space:normal;text-align:left;min-height:55px;overflow-wrap:anywhere;';
    button.textContent=(index+1)+'. '+entry.title+
-    (state.language!=='ro'?' · RO source':'');
+    (entry.language==='en'?(state.language==='en'?'':' · EN reference'):(state.language!=='ro'?' · RO source':''));
    button.onclick=()=>{
     const chapterGuide=state.language==='ro'?SCIENCE_GUIDES[subjectId]?.[topicId]:
      SCIENCE_GUIDES_EN[subjectId]?.[topicId];
