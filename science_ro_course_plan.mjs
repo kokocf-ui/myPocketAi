@@ -26,7 +26,7 @@ export const SCIENCE_RO_LOWER_TOPICS=Object.freeze({
   '8':['genetics','evolution','ecology']
  })
 });
-const PHYSICS_RO_LABELS={
+export const SCIENCE_RO_PHYSICS_LABELS={
  '6':{optics:['Lumină, umbră și reflexie','Light, shadow and reflection'],
   electromagnetism:['Magneți și fenomene magnetice','Magnets and magnetic phenomena'],
   energy:['Energie și transformări simple','Energy and simple transformations']},
@@ -35,7 +35,7 @@ const PHYSICS_RO_LABELS={
   electromagnetism:['Efecte magnetice ale curentului','Magnetic effects of current'],
   optics:['Reflexie, refracție și lentile','Reflection, refraction and lenses']}
 };
-const gradeExtra=Object.freeze({
+export const SCIENCE_RO_LESSON_EXTRAS=Object.freeze({
  biology:Object.freeze({'5':BIOLOGY_RO_GRADE5,'6':BIOLOGY_RO_GRADE6,
   '7':BIOLOGY_RO_GRADE7,'8':BIOLOGY_RO_GRADE8}),
  physics:Object.freeze({'6':SCIENCE_RO_PHYSICS_EXTRAS['6'],
@@ -49,7 +49,7 @@ export function scienceRoGradeTopics(subject,grade,topics=[]){
  return ids.map(id=>{
   const topic=source.get(id);
   if(!topic)return null;
-  const label=subject==='physics'?PHYSICS_RO_LABELS[String(grade)]?.[id]:null;
+  const label=subject==='physics'?SCIENCE_RO_PHYSICS_LABELS[String(grade)]?.[id]:null;
   // A class VI introduction to optical phenomena must not become the
   // secondary/upper-level 'wave optics' course merely because its parent
   // topic has a higher minLevel in a legacy catalogue.
@@ -57,7 +57,7 @@ export function scienceRoGradeTopics(subject,grade,topics=[]){
  }).filter(Boolean);
 }
 function schoolReferenceLessons(subject,grade,topic){
- return (gradeExtra[subject]?.[String(grade)]||[]).filter(x=>x.topic===topic);
+ return (SCIENCE_RO_LESSON_EXTRAS[subject]?.[String(grade)]||[]).filter(x=>x.topic===topic);
 }
 export function scienceSchoolTopicLessons({country='',subject='',grade='',topic='',lessons=[]}={}){
  const localized=String(country).toUpperCase()==='RO';
