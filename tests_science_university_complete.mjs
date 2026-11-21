@@ -117,4 +117,9 @@ assert.equal(screen.children[1].children.length,4,
  'University Physics authored specialist lessons must not disappear when a generic theory bank is unavailable');
 const other=ui.render('chemistry','does-not-exist','advanced');
 assert.equal(other.children[1].tag,'p','Unmapped other Science chapter must not be invented');
+assert.match(script,/const wasSpeaking=state\.speaking/,'Speech stop captures active state');
+assert.match(script,/if\(wasSpeaking&&avatarOverlay\.classList\.contains\('visible'\)&&!pocketExitOpen\)hideAvatar\(\)/,'Stop must dismiss visible avatar outside exit prompt');
+assert.match(script,/function updatePageSpeech\(\)|const updatePageSpeech=\(\)=>/,'Lesson reader must sync play state');
+assert.match(script,/window\.addEventListener\('pocket-speech-state',updatePageSpeech\)/,'Playback completion updates button');
+assert.match(script,/window\.removeEventListener\('pocket-speech-state',updatePageSpeech\)/,'Lesson reader removes speech listener when closed');
 console.log('PASS Sciences University: '+programmes+' specialisations, '+chapters+' nonempty programme chapters, '+subtopics+' real subtopics, all 50 school systems; full paginated Android reader');

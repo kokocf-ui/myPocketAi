@@ -11019,9 +11019,18 @@ function educationOpenPagedLesson(title,body){
  // and stop immediately when changing pages or dismissing the reader.
  const scienceReader=Boolean(document.querySelector?.('#view-module.learning-science'));
  let readingThisPage=false,readPageButton=null;
+ const updatePageSpeech=()=>{
+  if(readingThisPage&&!state.speaking)readingThisPage=false;
+  if(!readPageButton)return;
+  const playing=readingThisPage&&state.speaking;
+  readPageButton.textContent=playing?learningLabel('■ Oprește','■ Stop'):learningLabel('🔊 Citește','🔊 Read');
+  readPageButton.setAttribute('aria-pressed',String(playing));
+  const label=playing?learningLabel('Oprește citirea','Stop reading'):learningLabel('Citește pagina','Read page');
+  readPageButton.setAttribute('aria-label',label);readPageButton.title=label;
+ };
  const stopPageAudio=()=>{
   if(readingThisPage){stopSpeech();readingThisPage=false;}
-  if(readPageButton)readPageButton.textContent=learningLabel('🔊 Citește','🔊 Read');
+  updatePageSpeech();
  };
  if(scienceReader){
   readPageButton=document.createElement('button');readPageButton.type='button';
@@ -11032,8 +11041,10 @@ function educationOpenPagedLesson(title,body){
    if(state.speaking)stopSpeech();
    const started=speakText(pages[page]);
    readingThisPage=started!==false;
-   readPageButton.textContent=readingThisPage?learningLabel('■ Oprește','■ Stop'):learningLabel('🔊 Citește','🔊 Read');
+   updatePageSpeech();
   };
+  updatePageSpeech();
+  window.addEventListener('pocket-speech-state',updatePageSpeech);
   head.append(readPageButton);
  }
  const heading=document.createElement('h2');heading.textContent=educationCleanLessonLine(title);
@@ -11087,7 +11098,7 @@ function educationOpenPagedLesson(title,body){
  footer.append(prev,count,next);footer.hidden=pages.length===1;
  dialog.append(head,heading,content,footer);
  if(scienceReader)scienceAttachLessonReview(dialog);
- dialog.addEventListener('close',()=>{stopPageAudio();dialog.remove()});
+ dialog.addEventListener('close',()=>{stopPageAudio();if(scienceReader)window.removeEventListener('pocket-speech-state',updatePageSpeech);dialog.remove()});
  document.body.append(dialog);
  try{dialog.showModal()}catch{dialog.setAttribute('open','')}
  paint();return dialog;
@@ -22649,7 +22660,7 @@ function speakText(text,{continuous=false}={}){stopRecognition();state.dictation
 }
 if(!('speechSynthesis'in window)||!('SpeechSynthesisUtterance'in window)){hideAvatar();notify('Redarea vocală nu este disponibilă în acest browser. Răspunsul rămâne disponibil în scris.');return false}stopSpeech();const utterance=new SpeechSynthesisUtterance(prepareSpeechText(text));utterance.lang=({ro:'ro-RO',en:'en-GB',fr:'fr-FR',de:'de-DE',it:'it-IT',es:'es-ES',pt:'pt-PT',nl:'nl-NL',ru:'ru-RU',pl:'pl-PL'})[state.language]||state.language;utterance.rate=state.language==='en'?1:0.96;utterance.pitch=state.language==='en'?1:1.04;state.speaking=true;pocketNotifySpeechState();showAvatar({message:'Îți citesc răspunsul…',status:'Răspund vocal…',speaking:true});utterance.onstart=()=>{avatar3dLoad();avatar3dSend('start',{text:utterance.text})};utterance.onboundary=event=>avatar3dSend('boundary',{charIndex:event.charIndex});utterance.onend=()=>{avatar3dSend('stop');state.speaking=false;pocketNotifySpeechState();avatarOverlay.classList.remove('speaking');voiceWave.hidden=true;hideAvatar();if(continuous&&state.voiceMode){setStatus('Te ascult…');setTimeout(()=>{if(state.voiceMode&&!state.speaking&&!state.recognition)startRecognition('voice')},120)}};utterance.onerror=()=>{avatar3dSend('stop');state.speaking=false;pocketNotifySpeechState();avatarOverlay.classList.remove('speaking');voiceWave.hidden=true;hideAvatar();if(continuous&&state.voiceMode){setStatus('Redarea vocală nu a pornit. Poți continua prin microfon sau text.')}else{notify('Răspunsul text este disponibil; redarea vocală nu a reușit.')}};const speakWhenReady=()=>{const voice=getSpeechVoice();if(voice)utterance.voice=voice;try{window.speechSynthesis.speak(utterance)}catch{state.speaking=false;hideAvatar();notify('Nu am putut porni redarea vocală. Răspunsul rămâne disponibil în scris.')}};if(refreshSpeechVoices().length)speakWhenReady();else waitForSpeechVoices().then(speakWhenReady);return true}
 function pocketNotifySpeechState(){window.dispatchEvent(new Event('pocket-speech-state'))}
-function stopSpeech(){if(pocketNativeVoiceAvailable())pocketNativeVoiceSend({action:'stop'});avatar3dSend('stop');pocketNativeSpokenText='';if('speechSynthesis'in window)window.speechSynthesis.cancel();state.speaking=false;avatarOverlay.classList.remove('speaking');voiceWave.hidden=true;pocketNotifySpeechState()}
+function stopSpeech(){const wasSpeaking=state.speaking;if(pocketNativeVoiceAvailable())pocketNativeVoiceSend({action:'stop'});avatar3dSend('stop');pocketNativeSpokenText='';if('speechSynthesis'in window)window.speechSynthesis.cancel();state.speaking=false;avatarOverlay.classList.remove('speaking');voiceWave.hidden=true;pocketNotifySpeechState();if(wasSpeaking&&avatarOverlay.classList.contains('visible')&&!pocketExitOpen)hideAvatar()}
 // 06 — Speech recognition: dictation and continuous voice are distinct modes
 // Voice recognition uses the APK's native Android speech bridge only.
 // Conservative cleanup used ONLY for continuous voice conversation, not dictation.
