@@ -8518,6 +8518,9 @@ function scienceJourneyShowChoices(stage){
   stage==='years'?[]:
   stage==='specialties'?(scienceJourney.subject==='physics'?PHYSICS_SPECIALTY_DATA:scienceJourney.subject==='biology'?BIOLOGY_SPECIALTY_DATA:scienceJourney.subject==='astronomy'?ASTRONOMY_SPECIALTY_DATA:CHEMISTRY_SPECIALTY_DATA):
   scienceTopicChoices().filter(topic=>{
+   // Biology chapters have already been selected by the actual country/year
+   // curriculum. A legacy generic theory bank must not hide these chapters.
+   if(scienceJourney.subject==='biology'&&['primary','lower','upper'].includes(scienceJourney.schoolStage))return true;
    if(['physics','chemistry','biology'].includes(scienceJourney.subject)&&scienceJourney.schoolStage==='advanced')return true;
    if(!['physics','chemistry','biology','astronomy'].includes(scienceJourney.subject))return true;
    const rank={beginner:0,intermediate:1,advanced:2};
