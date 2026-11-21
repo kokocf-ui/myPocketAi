@@ -1,8 +1,9 @@
 import {PHYSICS_UPPER_CASES} from './physics_upper_cases.mjs';
+import {PHYSICS_UPPER_CASES_EN} from './physics_upper_cases_en.mjs';
 // Original advisory study catalogue for upper-secondary Physics. A physical
 // law/formula is an individual learning concept; a review pre-requisite is
 // labelled as review rather than a new advanced national lesson.
-export function physicsUpperYearLessons({country='',grade='',topic='',years=[],lessons=[],reviewBank=null}={}){
+export function physicsUpperYearLessons({country='',grade='',topic='',years=[],lessons=[],reviewBank=null,language='ro'}={}){
  const yr=String(grade);
  if(!years.some(x=>String(x.id)===yr))return [];
  const core=(Array.isArray(lessons)?lessons:[]).filter(item=>
@@ -20,7 +21,8 @@ export function physicsUpperYearLessons({country='',grade='',topic='',years=[],l
    'Specifică mărimea măsurată, controlul, predicția și criteriul de verificare.']
  ];
  const inquiry=reviewQuestions[Math.min(gradeIndex,reviewQuestions.length-1)];
- const cases=(PHYSICS_UPPER_CASES[topic]||[]).map((entry,n)=>({
+ const caseBank=language==='ro'?PHYSICS_UPPER_CASES:PHYSICS_UPPER_CASES_EN;
+ const cases=(caseBank[topic]||[]).map((entry,n)=>({
   ...entry,grade:yr,source:'original-upper-physics-advisory',nationallyVerified:false,
   id:'upper-physics-case-'+String(country)+'-'+yr+'-'+entry.id,
   chapterIndex:n+1,exercise:entry.exercise+' '+inquiry[0],
