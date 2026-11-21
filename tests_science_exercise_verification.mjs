@@ -23,6 +23,10 @@ assert.equal(check('astronomy','stars','Nu știu.').status,'requires-assessment'
 assert.equal(check('physics','units','0.75 m și 0.8 m').status,'requires-assessment',
  'Conflicting numeric results require one clear answer');
 assert.equal(check('physics','units','').status,'empty');
+assert.equal(check('physics','kinematics','v = 200 + 50 = 4 m/s').status,'requires-assessment',
+ 'A fabricated method must not be marked correct just because the last number is right');
+assert.equal(check('physics','electric','I = 9 / 3 = 3 A').status,'requires-assessment',
+ 'Worked steps need a holistic rubric');
 assert.equal(check('physics','kinematics','4 metres per second','en').status,'correct');
 assert.equal(check('chemistry','solutions','4 percent','en').status,'correct');
 const html=await(await frontend.fetch(new Request('https://science-feedback-test.test/'))).text();
