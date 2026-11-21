@@ -2,6 +2,7 @@
 // The cases are for introductory advanced study; they are NOT country-level
 // degree accreditation, nor the full syllabus of any university programme.
 // Every case has an independently checkable numerical or conceptual task.
+const methodNotes={"ro":{"special-quantum":"Calculul folosește unități compatibile și modelul cuantic precizat; explicația trebuie să spună ce stare sau ce mărime se măsoară.","special-relativity":"Precizăm cadrul de referință și ipotezele relativiste înainte de a substitui datele; nu extrapolăm dincolo de limita aproximării.","special-theory":"Verificăm ecuația diferențială, condițiile la limită și unitățile, apoi interpretăm dacă aproximația este fizic valabilă.","special-condensed":"Modelul descrie un material idealizat; temperatura, structura cristalului și defectele pot schimba concluzia experimentului.","special-nuclear":"Conservăm unitățile, sarcina și numărul de nucleoni după caz și deosebim o predicție statistică de evenimentul individual.","special-astro":"Precizăm distanțele, scările și aproximările astronomice; apoi verificăm dacă magnitudinea numerică este plauzibilă.","special-applied":"Documentăm instrumentele, erorile și intervalul de valabilitate al formulei înainte de a interpreta rezultatul tehnic."},"en":{"special-quantum":"The calculation uses consistent units and a specified quantum model; identify the state or observable involved in the measurement.","special-relativity":"Name the reference frame and relevant approximation before substituting values, and do not extrapolate past its domain of validity.","special-theory":"Check the differential equation, boundary conditions and physical units, then assess whether the approximation is justified.","special-condensed":"This model idealises the material; crystal structure, temperature and defects can change the real experimental outcome.","special-nuclear":"Check units, charge and nucleon balances where appropriate, and distinguish statistical predictions from individual events.","special-astro":"State the astronomical scale and approximation, then check that the result has a physically plausible order of magnitude.","special-applied":"Record instruments, error assumptions and the formula's range of validity before interpreting the engineering result."}};
 const chapters={
   "special-quantum": [
     [
@@ -356,6 +357,6 @@ const chapters={
 };
 export const PHYSICS_UNIVERSITY_STUDIES=Object.freeze(Object.fromEntries(
  Object.entries(chapters).map(([topic,entries])=>[topic,Object.freeze({
-  ro:Object.freeze(entries.map((r,i)=>Object.freeze({id:topic+'-'+(i+1),title:r[0],explanation:r[1],workedExample:r[2],exercise:r[3],answer:r[4]}))),
-  en:Object.freeze(entries.map((r,i)=>Object.freeze({id:topic+'-'+(i+1),title:r[5],explanation:r[6],workedExample:r[7],exercise:r[8],answer:r[9]})))
+  ro:Object.freeze(entries.map((r,i)=>Object.freeze({id:topic+'-'+(i+1),title:r[0],explanation:r[1],workedExample:r[2]+' '+methodNotes.ro[topic],exercise:r[3],answer:r[4]}))),
+  en:Object.freeze(entries.map((r,i)=>Object.freeze({id:topic+'-'+(i+1),title:r[5],explanation:r[6],workedExample:r[7]+' '+methodNotes.en[topic],exercise:r[8],answer:r[9]})))
  })])));
