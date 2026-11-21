@@ -1,6 +1,5 @@
 import {CREATOR_SITE_SCRIPT,CREATOR_SITE_STYLE} from './creator_site_ui.mjs';
 import {EXTRA_TOOLS_SIX_NAV_SCRIPT,EXTRA_TOOLS_SIX_NAV_STYLE} from './extra_tools_six_nav.mjs';
-import {STORYBOOK_MOTION_SCRIPT,STORYBOOK_MOTION_STYLE} from './storybook_motion_ui.mjs';
 import {CREATOR_DESIGN_SCRIPT,CREATOR_DESIGN_STYLE} from './creator_design_gallery.mjs';
 import {CREATOR_PREMIUM_SCRIPT,CREATOR_PREMIUM_STYLE} from './creator_premium_presentations.mjs';
 import {CREATOR_MANAGEMENT_SCRIPT,CREATOR_MANAGEMENT_STYLE} from './creator_management_ui.mjs';
@@ -61,14 +60,11 @@ function extraToolsStatus(message){
 }
 function extraToolsStop(){
  extraToolsRestoreNavigation();
- if(typeof extraToolsSession?.storybookCleanup==='function')extraToolsSession.storybookCleanup();
- if(extraToolsSession?.key==='storybook'&&typeof stopSpeech==='function')stopSpeech();
  if(extraToolsSession?.voice&&pocketNativeVoiceAvailable())pocketNativeVoiceSend({action:'stopListen'});
  if(extraToolsSession?.controller)extraToolsSession.controller.abort();
  extraToolsSession=null;
 }
 function extraToolsVoiceHandleAndroid(data){
- if(data?.mode==='tts'&&typeof extraToolsSession?.storybookOnVoiceEvent==='function')extraToolsSession.storybookOnVoiceEvent(data);
  if(data?.mode!=='extraTools')return false;
  const work=extraToolsSession;if(!work||!work.area?.isConnected)return true;
  if(data.status==='partial'){extraToolsStatus(extraToolsLocale('Aud: ','Hearing: ')+String(data.text||''));return true}
@@ -316,7 +312,8 @@ function extraCreatorWebsite(work){
  extraToolsActions(area,generate);
 }
 function extraToolsOpenWorkspace(key){
- const cat=EXTRA_TOOLS_CATEGORIES.find(c=>c[0]===key)||(key==='storybook'?['storybook','📖','Mini-carte narată','Narrated mini-book']:null);if(!cat)return;
+ if(key==='storybook')return;
+ const cat=EXTRA_TOOLS_CATEGORIES.find(c=>c[0]===key);if(!cat)return;
  extraToolsStop();resetExtraToolsScreen();
  const root=$('view-module'),host=$('moduleContent');root.classList.add('extra-tools-active','extra-tools-workspace');
  $('moduleTitle').textContent=extraToolsLocale(cat[2],cat[3]);$('moduleLead').textContent='';host.replaceChildren();
@@ -338,9 +335,7 @@ function extraToolsOpenWorkspace(key){
  };
  const addCopy=()=>extraToolsActions(area,secondary('Copiază textul','Copy text',()=>extraToolsCopy(work.output||work.editor?.value||'')));
  const input=(title,placeholder)=>{const el=extraToolsField(area,title,'textarea',placeholder);work.editor=el;return el};
- if(key==='storybook'){
-  extraToolsV2Storybook(work,area,addPdf,input,primary,secondary,note);
- }else if(key==='creator'){
+ if(key==='creator'){
   extraCreatorHome(work);
  }else if(key==='documents'){
   note('Editorul funcționează local. Salvează PDF-ul în Documentele mele sau deschide biblioteca deja existentă.','Edit locally. Save a PDF into My Documents or open the existing library.');
@@ -458,7 +453,7 @@ function extraToolsOpenWorkspace(key){
  }
  area.append(result,status);panel.append(area);host.append(panel);
 }
-`+CREATOR_SITE_SCRIPT+CREATOR_DESIGN_SCRIPT+CREATOR_PREMIUM_SCRIPT+CREATOR_MANAGEMENT_SCRIPT+CREATOR_SITE_AI_SCRIPT+CREATOR_HANDOFF_SCRIPT+CREATOR_GUESTHOUSE_SCRIPT+"\nconst GUESTHOUSE_SITE_CSS="+JSON.stringify(GUESTHOUSE_SITE_CSS)+";\n"+CREATOR_HOSTING_SCRIPT+CREATOR_CLIENT_INSTALL_SCRIPT+CREATOR_IMAGE_AI_SCRIPT+STORYBOOK_MOTION_SCRIPT+EXTRA_TOOLS_SIX_NAV_SCRIPT;
+`+CREATOR_SITE_SCRIPT+CREATOR_DESIGN_SCRIPT+CREATOR_PREMIUM_SCRIPT+CREATOR_MANAGEMENT_SCRIPT+CREATOR_SITE_AI_SCRIPT+CREATOR_HANDOFF_SCRIPT+CREATOR_GUESTHOUSE_SCRIPT+"\nconst GUESTHOUSE_SITE_CSS="+JSON.stringify(GUESTHOUSE_SITE_CSS)+";\n"+CREATOR_HOSTING_SCRIPT+CREATOR_CLIENT_INSTALL_SCRIPT+CREATOR_IMAGE_AI_SCRIPT +EXTRA_TOOLS_SIX_NAV_SCRIPT;
 export const EXTRA_TOOLS_WORKSPACE_STYLE=String.raw`/* Dedicated Tools: fixed app navigation, scrolling only within the actual workspace. */
 main.page:has(#view-module.extra-tools-workspace.active){overflow:hidden!important;min-height:0!important}
 #view-module.extra-tools-workspace #moduleLead{display:none!important}
@@ -541,4 +536,4 @@ main.page:has(#view-module.extra-tools-workspace.active){overflow:hidden!importa
 .extra-creator-overlay .extra-creator-overlay-frame{flex:1 1 auto!important;width:100%!important;min-height:0!important;border:0!important;border-radius:10px!important;background:#f7f4ee!important}
 
 #view-module.extra-tools-workspace [hidden]{display:none!important}
-`+CREATOR_SITE_STYLE+CREATOR_DESIGN_STYLE+CREATOR_PREMIUM_STYLE+CREATOR_MANAGEMENT_STYLE+CREATOR_SITE_AI_STYLE+CREATOR_HANDOFF_STYLE+CREATOR_IMAGE_AI_STYLE+CREATOR_GUESTHOUSE_STYLE+CREATOR_HOSTING_STYLE+CREATOR_CLIENT_INSTALL_STYLE+STORYBOOK_MOTION_STYLE+EXTRA_TOOLS_SIX_NAV_STYLE;
+`+CREATOR_SITE_STYLE+CREATOR_DESIGN_STYLE+CREATOR_PREMIUM_STYLE+CREATOR_MANAGEMENT_STYLE+CREATOR_SITE_AI_STYLE+CREATOR_HANDOFF_STYLE+CREATOR_IMAGE_AI_STYLE+CREATOR_GUESTHOUSE_STYLE+CREATOR_HOSTING_STYLE+CREATOR_CLIENT_INSTALL_STYLE+EXTRA_TOOLS_SIX_NAV_STYLE;

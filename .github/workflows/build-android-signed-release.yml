@@ -18,7 +18,6 @@ on:
       - 'mixed_stop_identity.mjs'
       - 'extra_tools_workspace.mjs'
       - 'extra_tools_six_nav.mjs'
-      - 'storybook_motion_ui.mjs'
       - 'storybook_commons_photos.mjs'
       - 'storybook_history_research.mjs'
       - 'tests_storybook_documentary.mjs'
@@ -57,7 +56,6 @@ on:
       - 'creator_image_ai.mjs'
       - 'extra_tools_workspace.mjs'
       - 'extra_tools_six_nav.mjs'
-      - 'storybook_motion_ui.mjs'
       - 'storybook_commons_photos.mjs'
       - 'storybook_history_research.mjs'
       - 'tests_storybook_documentary.mjs'
@@ -234,7 +232,6 @@ jobs:
           echo "::endgroup::"
           node --check index.js
           node --check extra_tools_six_nav.mjs
-          node --check storybook_motion_ui.mjs
           node --check storybook_commons_photos.mjs
           node --check storybook_generation.mjs
           node --check storybook_history_research.mjs
