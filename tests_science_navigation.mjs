@@ -53,6 +53,7 @@ const host=new FakeEl('div'),title=new FakeEl('h2'),lead=new FakeEl('div');
 const elements={'view-module':root,moduleContent:host,moduleTitle:title,moduleLead:lead};
 let workspaces=0,home=0;
 const sandbox={
+ state:{language:'ro'}, // Real frontend global; the isolated VM extracts only the Sciences functions.
  document:{createElement:tag=>new FakeEl(tag),querySelector:()=>null},
  window:{addEventListener:()=>{},visualViewport:null,innerHeight:900},
  requestAnimationFrame:()=>0,
