@@ -3,6 +3,7 @@ import vm from 'node:vm';
 import app from './index.js';
 import {PHYSICS_LAWS,PHYSICS_LAWS_GROUPS} from './physics_laws_reference.mjs';
 import {PHYSICS_TOPICS,PHYSICS_SPECIALIZATIONS} from './physics_curriculum.mjs';
+import {physicsUniversityYears,physicsUniversityRoute,physicsUniversityRoutes} from './physics_university_europe.mjs';
 
 assert.equal(PHYSICS_LAWS.length,32,'All physics reference items present');
 assert.equal(new Set(PHYSICS_LAWS.map(x=>x.id)).size,PHYSICS_LAWS.length,'No duplicate laws');
@@ -50,6 +51,7 @@ const sandbox={
  LEARNING_SUBJECTS:[['science','⚛️','Științe','Sciences']],
  PHYSICS_LAWS_DATA:PHYSICS_LAWS,PHYSICS_LAW_GROUPS:PHYSICS_LAWS_GROUPS,
  PHYSICS_TOPIC_DATA:PHYSICS_TOPICS,PHYSICS_SPECIALTY_DATA:PHYSICS_SPECIALIZATIONS,
+ physicsUniversityYears,physicsUniversityRoute,physicsUniversityRoutes,
  learningLabel:(ro,en)=>ro,
  educationTheoryClean:value=>String(value||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim(),
  educationOpenPagedLesson:(name,body)=>opened.push({name,body}),
