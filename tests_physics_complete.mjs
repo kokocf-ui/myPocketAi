@@ -53,4 +53,4 @@ for(const kind of ['motion','force','energy','wave','circuit','optics','thermo',
  const img=visual.draw(kind);
  assert.ok(img?.children.some(x=>x.tag==='svg'),kind+' has diagram');
 }
-console.log('PASS physics: 21 chapters, 7 advanced specialties, 102 theory cards, guarded SI solvers, contextual diagrams and shared symbols');
+console.log('PASS physics: '+PHYSICS_TOPICS.length+' chapters, '+PHYSICS_SPECIALIZATIONS.length+' advanced specialties, '+THEORY_ENTRIES.filter(x=>x.subject==='physics').length+' theory cards, guarded SI solvers, contextual diagrams and shared symbols');
