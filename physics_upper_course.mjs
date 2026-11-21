@@ -1,5 +1,6 @@
 import {PHYSICS_UPPER_CASES} from './physics_upper_cases.mjs';
 import {PHYSICS_UPPER_CASES_EN} from './physics_upper_cases_en.mjs';
+import {PHYSICS_LOWER_ENGLISH_LESSONS} from './physics_lower_english_lessons.mjs';
 // Original advisory study catalogue for upper-secondary Physics. A physical
 // law/formula is an individual learning concept; a review pre-requisite is
 // labelled as review rather than a new advanced national lesson.
@@ -28,7 +29,7 @@ export function physicsUpperYearLessons({country='',grade='',topic='',years=[],l
   chapterIndex:n+1,exercise:entry.exercise+' '+inquiry[0],
   answer:entry.answer+' '+inquiry[1]
  }));
- const order=core.map((item,n)=>({
+ const order=(language==='ro'?core:[]).map((item,n)=>({
   ...item,grade:yr,source:'original-upper-physics-advisory',nationallyVerified:false,
   id:'upper-physics-'+String(country)+'-'+yr+'-'+String(item.id),
   chapterIndex:cases.length+n+1,
@@ -39,13 +40,22 @@ export function physicsUpperYearLessons({country='',grade='',topic='',years=[],l
     'Compară două situații fizice și arată când este utilă definiția.'),
   answer:'O rezolvare adecvată trebuie să explice conceptul, să declare ipotezele, unitățile și limitele formulei, fără rezultate numerice inventate.'
  }));
- // Revisions are educationally legitimate, but must not be counted as new
- // upper-year national curriculum or hide the authored upper lessons.
- const revision=(reviewBank?.['8']||[]).filter(x=>x.topic===topic).slice(0,6)
-  .map((entry,index)=>({...entry,
-   id:'upper-review-'+String(country)+'-'+yr+'-'+entry.id,
+ // Clearly marked prior-knowledge review: these are not new national
+ // high-school topics, and their counts are not used to claim programme
+ // verification. English follows original English sources, never Romanian
+ // source summaries mislabelled as translated lessons.
+ const revision=language==='ro'?
+  (reviewBank?.['8']||[]).filter(x=>x.topic===topic).slice(0,6).map((entry,index)=>({
+   ...entry,id:'upper-review-'+String(country)+'-'+yr+'-'+entry.id,
    title:'Recapitulare: '+entry.title,source:'original-upper-physics-review',
    grade:yr,chapterIndex:cases.length+order.length+index+1,reviewOnly:true
+  })):
+  (PHYSICS_LOWER_ENGLISH_LESSONS[topic]||[]).slice(0,5).map((entry,index)=>({
+   ...entry,id:'upper-english-review-'+String(country)+'-'+yr+'-'+entry.id,
+   title:'Prerequisite review: '+entry.title,
+   exercise:entry.exercise+' '+inquiry[0],answer:entry.answer+' '+inquiry[1],
+   source:'original-english-physics-prerequisite',language:'en',
+   grade:yr,chapterIndex:cases.length+index+1,reviewOnly:true
   }));
  return [...cases,...order,...revision];
 }
