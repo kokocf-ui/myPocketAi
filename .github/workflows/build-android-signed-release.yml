@@ -318,6 +318,17 @@ jobs:
           node tests_education_country_first.mjs
           node tests_education_content_navigation.mjs
           node tests_science_navigation.mjs
+          node tests_science_year_cards.mjs
+          node tests_science_scroll_unlock.mjs
+          node tests_science_viewport_keyboard.mjs
+          node tests_physics_laws_scroll.mjs
+          node tests_chemistry_laws_scroll.mjs
+          node tests_chemistry_curriculum.mjs
+          node tests_chemistry_complete.mjs
+          node tests_chemistry_country_year_depth.mjs
+          node tests_chemistry_three_sections.mjs
+          node tests_chemistry_visuals.mjs
+          node tests_chemistry_atom_context.mjs
           node tests_science_compact_theory.mjs
           node tests_biology_complete.mjs
           node tests_practical_courses.mjs
