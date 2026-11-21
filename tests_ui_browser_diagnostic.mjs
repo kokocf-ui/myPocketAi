@@ -40,7 +40,8 @@ try{
  await page.goto('http://127.0.0.1:3778/?nativeLaunch=1',{waitUntil:'domcontentloaded',timeout:30000});
  await dump('home');
  await tryClick('[data-module="tools"]','tools');
- await tryClick('#view-module .education-card:has-text("Documentele mele")','documents');
+ await tryClick('#view-module button:has-text("Documente și fișiere")','docs-category');
+ await tryClick('#view-module button:has-text("Biblioteca PDF")','documents');
  await page.evaluate(()=>{const l=document.querySelector('.my-documents-list');if(!l)return;for(let i=0;i<20;i++){const el=document.createElement('div');el.className='my-documents-row';el.style.minHeight='65px';el.textContent='Document de probă '+i;l.append(el)}});
  await dump('documents-loaded');
  const docBefore=await metrics('docbefore','.my-documents-list');
@@ -56,9 +57,10 @@ try{
  await tryClick('#view-module .education-card:has-text("Științe")','sciences');
  let state=await page.locator('#view-module').innerText();console.log('SCIENCE_STEP',state.slice(0,1200));
  if(!state.includes('Chimie')){
-  await tryClick('#view-module button:has-text("România")','country-romania');
+  await tryClick('#view-module button:has-text("Continuă")','country-continue');
   state=await page.locator('#view-module').innerText();console.log('COUNTRY_STEP',state.slice(0,1200));
  }
+ if(!state.includes('Chimie')) await tryClick('#view-module button:has-text("Științe")','science-subjects');
  await tryClick('#view-module button:has-text("Chimie")','chemistry');
  const sciBefore=await metrics('sciencebefore','.science-choice-list');
  const yearLoc=page.locator('.science-choice-list').first();
