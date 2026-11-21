@@ -44,7 +44,7 @@ import {CHEMISTRY_LEVELS, CHEMISTRY_TOPICS} from './chemistry_curriculum.mjs';
 import {CHEMISTRY_DETAILED_LESSONS} from './chemistry_detailed_lessons.mjs';
 import {CHEMISTRY_STUDY_CONCEPTS,chemistrySchoolCourseDocuments} from './chemistry_school_depth.mjs';
 import {chemistryContextVisualBuild} from './chemistry_context_visuals.mjs';
-import {CHEMISTRY_GRADE_FRAMEWORKS,CHEMISTRY_ENGLAND_KS3,chemistryGradeTopicPlan,chemistryVisualizationFor} from './chemistry_school_years.mjs';
+import {CHEMISTRY_GRADE_FRAMEWORKS,CHEMISTRY_UPPER_STUDY_SEQUENCE,CHEMISTRY_ENGLAND_KS3,chemistryGradeTopicPlan,chemistryVisualizationFor} from './chemistry_school_years.mjs';
 import {CHEMISTRY_UNIVERSITY_PROFILES,CHEMISTRY_EHEA_REFERENCE,chemistryUniversityRoutes,chemistryUniversityYears,chemistryUniversityRoute} from './chemistry_university_europe.mjs';
 import {CHEMISTRY_UNIVERSITY_CORE} from './chemistry_university_core.mjs';
 import {CHEMISTRY_UNIVERSITY_COURSE_COUNT,CHEMISTRY_UNIVERSITY_SPECIALTY_YEARS,chemistryUniversityCourseChoices,chemistryUniversityStudyDocument} from './chemistry_university_study.mjs';
@@ -9358,6 +9358,7 @@ const CHEMISTRY_TOPIC_DATA=${JSON.stringify([...CHEMISTRY_TOPICS,...CHEMISTRY_SP
 const CHEMISTRY_STUDY_CONCEPTS=${JSON.stringify(CHEMISTRY_STUDY_CONCEPTS)};
 const chemistrySchoolCourseDocuments=${chemistrySchoolCourseDocuments.toString()};
 const CHEMISTRY_GRADE_FRAMEWORKS=${JSON.stringify(CHEMISTRY_GRADE_FRAMEWORKS)};
+const CHEMISTRY_UPPER_STUDY_SEQUENCE=${JSON.stringify(CHEMISTRY_UPPER_STUDY_SEQUENCE)};
 const CHEMISTRY_ENGLAND_KS3=${JSON.stringify(CHEMISTRY_ENGLAND_KS3)};
 const chemistryGradeTopicPlan=${chemistryGradeTopicPlan.toString()};
 const chemistryVisualizationFor=${chemistryVisualizationFor.toString()};
