@@ -6,6 +6,16 @@ import {scienceGradeTopicPlan} from './science_grade_progression.mjs';
 import {physicsPrimaryYearLessons} from './physics_primary_lessons.mjs';
 import {scienceSchoolTopicLessons} from './science_ro_course_plan.mjs';
 import {scienceSchoolLessonMaterial,scienceSchoolLessonAssessment} from './science_school_lesson_material.mjs';
+// NCCA confirms Ireland has an eight-year primary cycle; infant classes must
+// not vanish from the Physics-in-STEM learning pathway.
+const irelandPrimary=educationCountrySchoolYears('IE','beginner').years;
+assert.deepEqual(irelandPrimary.map(y=>y.id),['JI','SI','1C','2C','3C','4C','5C','6C'],
+ 'Ireland: Junior/Senior Infants plus First–Sixth Class, not only six years');
+const irelandFirst=scienceGradeTopicPlan({country:'IE',subject:'physics',stage:'primary',
+ grade:'JI',years:irelandPrimary,topics:PHYSICS_TOPICS});
+assert.ok(irelandFirst.topics.length>=2,
+ 'Junior Infants study physical concepts within integrated science, without pretending it is a separate Physics class');
+
 let yearsAudited=0,independentLessons=0;
 for(const country of EDUCATION_EUROPE_COUNTRIES){
  const years=educationCountrySchoolYears(country,'beginner').years;
