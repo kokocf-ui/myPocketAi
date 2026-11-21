@@ -1,6 +1,7 @@
 import {SCIENCE_GUIDES_EN} from './science_english_reference_guides.mjs';
 import {scienceLowerTopicContent} from './science_lower_secondary_lessons.mjs';
 import {SCIENCE_GUIDES} from './science_extended_theory.mjs';
+import {scienceRoGradeTopics,SCIENCE_RO_2017_SOURCE} from './science_ro_course_plan.mjs';
 // Pan-European advisory science progression, not a national curriculum or textbook.
 // Country-specific school-year labels come from the existing country picker.
 // Subject knowledge and scientific enquiry are sequenced together.
@@ -54,7 +55,9 @@ export function scienceGradeTopicPlan({country='',subject='',stage='lower',grade
  const indexed=new Map(topics.filter(x=>x&&!x.specialty).map(x=>[x.id,x]));
  const ordered=selected.map(id=>indexed.get(id)).filter(x=>
   x&&((rank[x.minLevel]??0)<=max || stage==='primary'&&subject==='chemistry'&&x.id==='solutions'));
- const unique=[...new Map(ordered.map(x=>[x.id,x])).values()];
+ const curated=String(country).toUpperCase()==='RO'&&stage==='lower'
+  ?scienceRoGradeTopics(subject,grade,topics):null;
+ const unique=[...new Map((curated||ordered).map(x=>[x.id,x])).values()];
  // Never hide the whole subject because a national stage has an unverified
  // grade map: a known, clearly marked general course is always available.
  const fallback=topics.filter(x=>x&&!x.specialty&&(rank[x.minLevel]??0)<=max).slice(0,3);
@@ -63,7 +66,8 @@ export function scienceGradeTopicPlan({country='',subject='',stage='lower',grade
   topics:unique.length?unique:fallback,
   sequenceIndex,yearIndex,yearCount:yearList.length,
   source:SCIENCE_PROGRESSION_SOURCES,
-  note:'Parcurs generic de studiu, nu programa obligatorie a țării sau manualul clasei.',
+  note:curated?'Parcurs didactic original organizat după domeniile programei românești OMEN 3393/2017. Succesiunea săptămânală și manualul nu sunt obligatorii și pot diferi între școli.':'Parcurs general orientativ. Nu reprezintă programa obligatorie sau manualul unei țări.',
+  curriculumReference:curated?SCIENCE_RO_2017_SOURCE:null,
   astronomyOptional:subject==='astronomy'
  };
 }
