@@ -17,6 +17,9 @@ on:
       - 'tests_chemistry_laws_scroll.mjs'
       - 'tests_chemistry_three_sections.mjs'
       - 'tests_science_navigation.mjs'
+      - 'biology_*.mjs'
+      - 'tests_biology_*.mjs'
+      - 'science_ro_course_plan.mjs'
       - 'mixed_*.mjs'
       - 'tests_mixed_*.mjs'
       - 'mixed_stop_identity.mjs'
@@ -74,6 +77,9 @@ on:
       - 'tests_chemistry_laws_scroll.mjs'
       - 'tests_chemistry_three_sections.mjs'
       - 'tests_science_navigation.mjs'
+      - 'biology_*.mjs'
+      - 'tests_biology_*.mjs'
+      - 'science_ro_course_plan.mjs'
       - 'mixed_*.mjs'
       - 'tests_mixed_*.mjs'
       - 'mixed_stop_identity.mjs'
@@ -337,6 +343,7 @@ jobs:
           node tests_chemistry_atom_context.mjs
           node tests_science_compact_theory.mjs
           node tests_biology_complete.mjs
+          node tests_biology_year_depth.mjs
           node tests_practical_courses.mjs
           node tests_education_android.mjs
           node tests_eva_dialogue.mjs
