@@ -82,7 +82,7 @@ export function scienceSchoolTopicLessons({country='',subject='',grade='',topic=
  if(subject==='physics'&&!localized&&stage==='lower'&&Array.isArray(years)&&years.length){
   return physicsAdvisoryTopicLessons({
    country,stage,grade,topic,years,
-   bank:SCIENCE_RO_LESSON_EXTRAS.physics,referenceLessons:lessons
+   bank:SCIENCE_RO_LESSON_EXTRAS.physics,referenceLessons:lessons,language
   });
  }
  if(localized&&SCIENCE_RO_LOWER_TOPICS[subject]?.[id]&&
