@@ -145,6 +145,7 @@ const html=await(await app.fetch(new Request('https://chemistry-year-complete.te
 const script=html.match(/<script>([\s\S]*?)<\/script>/)?.[1];
 assert.ok(script);
 new vm.Script(script);
+assert.ok(script.includes('const CHEMISTRY_UPPER_STUDY_SEQUENCE='),'Upper-secondary Chemistry year catalogue must be embedded in WebView');
 for(const marker of ['const CHEMISTRY_STUDY_CONCEPTS=','const CHEMISTRY_UNIVERSITY_PROFILES=',
  'const chemistryUniversityCourseChoices=','const chemistryContextVisualBuild=',
  "chemistryUniversityStudyDocument({","chemistrySchoolCourseDocuments({",
