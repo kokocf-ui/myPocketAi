@@ -111,7 +111,7 @@ export const EDUCATION_WORLDWIDE_SCHEMES={
   grades(8,12,'Гимназия · клас','Upper secondary grade'),
   'Bulgaria: învățământ primar 1–4, secundar inferior 5–7, superior 8–12; Fizică și astronomie distincte din clasa 7, după Științe ale naturii integrate.',
   'https://www.mon.bg/obshto-obrazovanie/uchebni-planove-i-programi-2/uchebni-programi/uchebni-programi-za-obsthoobrazovatelna-podgotovka/vii-klas/'),
- CY:scheme(seq(1,6,'P','Dimotiko · anul','Primary · year'),seq(1,3,'G','Gymnasio · anul','Lower secondary · year'),
+ CY:scheme(grades(1,6,'Dimotiko · anul','Primary · year'),seq(1,3,'G','Gymnasio · anul','Lower secondary · year'),
   seq(1,3,'L','Lykeio · anul','Upper secondary · year'),
   'Cipru: școală primară 6 ani, gimnaziu 3 ani și liceu 3 ani. Programa de Fizică este stabilită pentru anii de gimnaziu și în funcție de opțiuni și filieră la liceu.',
   'https://www.moec.gov.cy/dme/en/gymnasium.html'),
