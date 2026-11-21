@@ -105,19 +105,12 @@ export const PHYSICS_UNIVERSITY_PROFILES=Object.freeze({
   },
   "HR": {
     "verifiedExample": {
-      "years": 3,
-      "institutionRo": "Universitatea din Zagreb, Fizică (licență)",
-      "institutionEn": "University of Zagreb, Physics undergraduate",
-      "source": "https://www.pmf.unizg.hr/en/study_at/how_are_our_studies_organised"
+      "years": 5,
+      "institutionRo": "Universitatea din Zagreb, Fizică – studii integrate de cercetare",
+      "institutionEn": "University of Zagreb, integrated research-oriented Physics degree",
+      "source": "https://camen.pmf.unizg.hr/phy/en/teaching/graduate"
     },
-    "specialExamples": [
-      {
-        "years": 5,
-        "ro": "Fizică și pedagogie, studii integrate, exemplu Zagreb",
-        "en": "Integrated Physics teaching degree, Zagreb example",
-        "source": "https://www.pmf.unizg.hr/en/study_at/how_are_our_studies_organised"
-      }
-    ]
+    "specialExamples": []
   },
   "HU": {
     "verifiedExample": null,
