@@ -32,6 +32,7 @@ jobs:
           node --check index.js
           node --check science_grade_progression.mjs
           node --check science_lower_secondary_lessons.mjs
+          node --check science_lower_secondary_depth.mjs
           node --check science_exercise_verification.mjs
           node --check science_english_reference_guides.mjs
           node --check science_extended_theory.mjs
