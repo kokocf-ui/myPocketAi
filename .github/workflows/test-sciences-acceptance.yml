@@ -47,6 +47,7 @@ jobs:
           node tests_physics_laws_scroll.mjs
           node tests_chemistry_curriculum.mjs
           node tests_chemistry_complete.mjs
+          node tests_chemistry_country_year_depth.mjs
           node tests_chemistry_three_sections.mjs
           node tests_chemistry_visuals.mjs
           node tests_chemistry_atom_context.mjs
