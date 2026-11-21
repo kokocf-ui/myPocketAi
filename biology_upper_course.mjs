@@ -1,3 +1,4 @@
+import {BIOLOGY_UPPER_SUPPLEMENT} from './biology_upper_supplement.mjs';
 // Biology: year-specific, authored upper-secondary lessons. This is a study
 // pathway, NOT a claim that every European nation mandates this exact sequence.
 // Year indices map to each country's actual school-year picker, never to RO IDs.
@@ -91,7 +92,7 @@ const ROWS=[
  ]]
 ];
 export const BIOLOGY_UPPER_YEAR_BANK=Object.freeze(ROWS.map(([year,topic,lessons])=>
- Object.freeze({year,topic,lessons:Object.freeze(lessons.map(([title,statement,workedExample,exercise,answer,formula],i)=>
+ Object.freeze({year,topic,lessons:Object.freeze([...lessons,...(BIOLOGY_UPPER_SUPPLEMENT[year+':'+topic]||[])].map(([title,statement,workedExample,exercise,answer,formula],i)=>
   Object.freeze({
    id:'biology-upper-'+year+'-'+topic+'-'+(i+1),
    subject:'biology',topic,year,
