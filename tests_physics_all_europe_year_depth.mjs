@@ -16,7 +16,7 @@ for(const country of EDUCATION_EUROPE_COUNTRIES)for(const [stage,mapped] of [
   const plan=physicsCountryGradePlan({country,stage,grade,years});
   const chapters=scienceGradeTopicPlan({country,subject:'physics',stage,grade,years,topics:PHYSICS_TOPICS}).topics;
   const entries=chapters.flatMap(topic=>scienceSchoolTopicLessons({
-   country,stage,grade,years,topic:topic.id,language:'ro',lessons:THEORY_ENTRIES
+   country,subject:'physics',stage,grade,years,topic:topic.id,language:'ro',lessons:THEORY_ENTRIES
   }));
   if(plan.status==='not-offered'){
    assert.equal(country,'RO','Only confirmed Romania Grade V has no Physics course');
