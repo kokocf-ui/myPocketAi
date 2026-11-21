@@ -92,6 +92,8 @@ import {PHYSICS_UNIVERSITY_ALL_COURSES,physicsUniversityCourseChoices,physicsUni
 import {physicsVerifiedExercise} from './physics_verified.mjs';
 import {ASTRONOMY_TOPICS,ASTRONOMY_SPECIALIZATIONS} from './astronomy_curriculum.mjs';
 import {astronomyVerifiedExercise} from './astronomy_verified.mjs';
+import {ASTRONOMY_STUDY_CASES,ASTRONOMY_TOPIC_DIAGRAMS,astronomySchoolTopicLessons,astronomyLabMaterial} from './astronomy_study_course.mjs';
+import {ASTRONOMY_UNIVERSITY_DEFAULT_FOUR,ASTRONOMY_UNIVERSITY_ELECTIVES,astronomyUniversityRoutes,astronomyUniversityRoute,astronomyUniversityYears,astronomyUniversityCourseChoices,astronomyUniversityStudyText,astronomyUniversityProjectText} from './astronomy_university_courses.mjs';
 import {FOREIGN_LANGUAGES,FOREIGN_LEVELS,FOREIGN_TOPICS,FOREIGN_PHRASES,ANCIENT_GREEK_PHRASES,CLASSICAL_LEVELS} from './foreign_languages_curriculum.mjs';
 import {MODERN_OUTCOMES,CLASSICAL_OUTCOMES,TOPIC_GOALS,foreignStudyPlan,foreignStudyRubric,foreignStudyReview,foreignStudyDue,foreignStudyPlacementQuestions,foreignStudyPlacementResult} from './foreign_languages_learning.mjs';
 import {FOREIGN_TOPIC_EXAMPLES,FOREIGN_CLASSICAL_VARIANTS} from './foreign_languages_examples.mjs';
@@ -8166,6 +8168,13 @@ function scienceTopicChoices(){
   return chemistryUniversityCourseChoices({year:Number(String(scienceJourney.grade).slice(-1)),specialty:scienceJourney.specialty});
  if(subject==='physics'&&scienceJourney.schoolStage==='advanced'&&/^univ-[1-5]$/.test(String(scienceJourney.grade||'')))
   return physicsUniversityCourseChoices({year:Number(String(scienceJourney.grade).slice(-1)),specialty:scienceJourney.specialty});
+ if(subject==='astronomy'&&scienceJourney.schoolStage==='advanced'&&/^univ-[1-4]$/.test(String(scienceJourney.grade||''))&&scienceJourney.specialty){
+  const route=astronomyUniversityRoute(educationCountrySelection.code,scienceJourney.universityRoute);
+  return astronomyUniversityCourseChoices({
+   year:Number(String(scienceJourney.grade).slice(-1)),years:route.years,
+   specialty:scienceJourney.specialty,topics:ASTRONOMY_TOPIC_DATA,specializations:ASTRONOMY_SPECIALTY_DATA
+  });
+ }
  if(subject==='biology'&&scienceJourney.schoolStage==='advanced'&&/^univ-[1-4]$/.test(String(scienceJourney.grade||''))&&scienceJourney.specialty){
   const route=biologyUniversityRoute(educationCountrySelection.code,scienceJourney.universityRoute);
   return biologyUniversityCourseChoices({
@@ -8182,6 +8191,15 @@ function scienceTopicChoices(){
    years,topics:CHEMISTRY_TOPIC_DATA
   },SCIENCE_GRADE_TOPIC_PLAN);
   return plan.topics||[];
+ }
+ if(subject==='astronomy'&&['primary','lower','upper'].includes(scienceJourney.schoolStage)){
+  const stage=scienceJourney.schoolStage;
+  return SCIENCE_GRADE_TOPIC_PLAN({
+   country:educationCountrySelection.code,subject:'astronomy',stage,
+   grade:scienceJourney.grade,
+   years:eduYearOptions(educationCountrySelection.code,stage==='upper'?'intermediate':stage,'science'),
+   topics:ASTRONOMY_TOPIC_DATA
+  }).topics||[];
  }
  if(subject==='biology'&&['primary','lower','upper'].includes(scienceJourney.schoolStage)){
   // Use exactly the country + school-year programme; never expose all
@@ -8336,6 +8354,7 @@ function scienceYearGroups(){
    physicsUniversityYears(country,scienceJourney.universityRoute):
    scienceJourney.subject==='chemistry'&&typeof chemistryUniversityYears==='function'?chemistryUniversityYears(country,scienceJourney.universityRoute):
    scienceJourney.subject==='biology'&&typeof biologyUniversityYears==='function'?biologyUniversityYears(country,scienceJourney.universityRoute):
+   scienceJourney.subject==='astronomy'?astronomyUniversityYears(country,scienceJourney.universityRoute):
    years.slice(0,1);
   years=years.filter(entry=>{
    const key=band.schoolStage+':'+String(entry.id);
@@ -8521,6 +8540,7 @@ function scienceJourneyShowChoices(stage){
    // Biology chapters have already been selected by the actual country/year
    // curriculum. A legacy generic theory bank must not hide these chapters.
    if(scienceJourney.subject==='biology'&&['primary','lower','upper'].includes(scienceJourney.schoolStage))return true;
+   if(scienceJourney.subject==='astronomy'&&['primary','lower','upper','advanced'].includes(scienceJourney.schoolStage))return true;
    if(['physics','chemistry','biology'].includes(scienceJourney.subject)&&scienceJourney.schoolStage==='advanced')return true;
    if(!['physics','chemistry','biology','astronomy'].includes(scienceJourney.subject))return true;
    const rank={beginner:0,intermediate:1,advanced:2};
@@ -8578,14 +8598,18 @@ function scienceJourneyShowChoices(stage){
     }
    };
    renderYearTiles(group.years);
-   if(group.schoolStage==='advanced'&&['physics','chemistry','biology'].includes(scienceJourney.subject)&&
+   if(group.schoolStage==='advanced'&&['physics','chemistry','biology','astronomy'].includes(scienceJourney.subject)&&
     (scienceJourney.subject!=='chemistry'||typeof chemistryUniversityRoutes==='function')&&
     (scienceJourney.subject!=='biology'||typeof biologyUniversityRoutes==='function')){
-    const chem=scienceJourney.subject==='chemistry',bio=scienceJourney.subject==='biology';
+    const chem=scienceJourney.subject==='chemistry',bio=scienceJourney.subject==='biology',
+     astro=scienceJourney.subject==='astronomy';
     const routes=chem?chemistryUniversityRoutes(educationCountrySelection.code):
-     bio?biologyUniversityRoutes(educationCountrySelection.code):physicsUniversityRoutes(educationCountrySelection.code);
-    const getRoute=chem?chemistryUniversityRoute:bio?biologyUniversityRoute:physicsUniversityRoute;
-    const getYears=chem?chemistryUniversityYears:bio?biologyUniversityYears:physicsUniversityYears;
+     bio?biologyUniversityRoutes(educationCountrySelection.code):
+     astro?astronomyUniversityRoutes(educationCountrySelection.code):physicsUniversityRoutes(educationCountrySelection.code);
+    const getRoute=chem?chemistryUniversityRoute:bio?biologyUniversityRoute:
+     astro?astronomyUniversityRoute:physicsUniversityRoute;
+    const getYears=chem?chemistryUniversityYears:bio?biologyUniversityYears:
+     astro?astronomyUniversityYears:physicsUniversityYears;
     const selected=getRoute(educationCountrySelection.code,scienceJourney.universityRoute);
     scienceJourney.universityRoute=selected?.id||null;
     const picker=document.createElement('select');picker.className='science-university-route-picker';
@@ -8598,7 +8622,7 @@ function scienceJourneyShowChoices(stage){
     const description=document.createElement('p');description.className='science-university-route-description';
     const describe=()=>{
      const info=getRoute(educationCountrySelection.code,picker.value);
-     description.textContent=learningLabel((chem||bio?info?.noticeRo:info?.provenanceRo)||'',(chem||bio?info?.noticeEn:info?.provenanceEn)||'');
+     description.textContent=learningLabel((chem||bio||astro?info?.noticeRo:info?.provenanceRo)||'',(chem||bio||astro?info?.noticeEn:info?.provenanceEn)||'');
     };
     picker.onchange=()=>{
      scienceJourney.universityRoute=picker.value;
@@ -8623,14 +8647,24 @@ function scienceJourneyShowChoices(stage){
      item.id==='physics'?learningLabel('14 capitole de bază · 7 specializări avansate','14 foundation chapters · 7 advanced tracks'):
      learningLabel('9 capitole de bază · 7 specializări avansate','9 foundation chapters · 7 advanced tracks')):
    stage==='levels'?learningLabel(item.scopeRo,item.scopeEn):
-   stage==='specialties'?(['physics','chemistry'].includes(scienceJourney.subject)?learningLabel('Cursuri proprii anului universitar selectat','University year-specific courses'):learningLabel('4 capitole proprii + materii comune','4 dedicated chapters + shared subjects')):
+   stage==='specialties'?(['physics','chemistry','astronomy'].includes(scienceJourney.subject)?learningLabel('Cursuri proprii anului universitar selectat','University year-specific courses'):learningLabel('Specializare cu materii comune şi proprii','Specialisation with shared and dedicated courses')):
    scienceJourney.subject==='biology'&&scienceJourney.schoolStage==='advanced'?
+     learningLabel('Curs universitar · anul ','University course · year ')+String(scienceJourney.grade||'').replace('univ-',''):
+   scienceJourney.subject==='astronomy'&&scienceJourney.schoolStage==='advanced'?
      learningLabel('Curs universitar · anul ','University course · year ')+String(scienceJourney.grade||'').replace('univ-',''):
    ['physics','chemistry'].includes(scienceJourney.subject)&&scienceJourney.schoolStage==='advanced'?
      learningLabel('Anul universitar ','University year ')+String(scienceJourney.grade||'').replace('univ-','')+
      (item.specialty?learningLabel(' · specializare',' · specialist course'):' · '+learningLabel('curs fundamental','core course')):
    ['physics','chemistry','biology','astronomy'].includes(scienceJourney.subject)?
-    (scienceJourney.subject==='biology'&&scienceJourney.schoolStage==='upper'?
+    (scienceJourney.subject==='astronomy'&&['primary','lower','upper'].includes(scienceJourney.schoolStage)?
+      astronomySchoolTopicLessons({
+       country:educationCountrySelection.code,grade:scienceJourney.grade,
+       stage:scienceJourney.schoolStage,topic:item.id,
+       years:eduYearOptions(educationCountrySelection.code,
+        scienceJourney.schoolStage==='upper'?'intermediate':scienceJourney.schoolStage,'science'),
+       lessons:ASTRONOMY_LESSON_DATA
+      }).length:
+     scienceJourney.subject==='biology'&&scienceJourney.schoolStage==='upper'?
       scienceSchoolTopicLessons({
        country:educationCountrySelection.code,subject:'biology',grade:scienceJourney.grade,
        topic:item.id,lessons:EDUCATION_THEORY_DATA,stage:'upper',
@@ -9391,6 +9425,19 @@ const physicsUniversityStudyDocument=${physicsUniversityStudyDocument.toString()
 const ASTRONOMY_TOPIC_DATA=${JSON.stringify(ASTRONOMY_TOPICS)};
 const ASTRONOMY_SPECIALTY_DATA=${JSON.stringify(ASTRONOMY_SPECIALIZATIONS)};
 const ASTRONOMY_SOLVE_VERIFIED=${astronomyVerifiedExercise.toString()};
+const ASTRONOMY_LESSON_DATA=${JSON.stringify(ASTRONOMY_LESSONS)};
+const ASTRONOMY_STUDY_CASES=${JSON.stringify(ASTRONOMY_STUDY_CASES)};
+const ASTRONOMY_TOPIC_DIAGRAMS=${JSON.stringify(ASTRONOMY_TOPIC_DIAGRAMS)};
+const astronomySchoolTopicLessons=${astronomySchoolTopicLessons.toString()};
+const astronomyLabMaterial=${astronomyLabMaterial.toString()};
+const ASTRONOMY_UNIVERSITY_DEFAULT_FOUR=${JSON.stringify(ASTRONOMY_UNIVERSITY_DEFAULT_FOUR)};
+const ASTRONOMY_UNIVERSITY_ELECTIVES=${JSON.stringify(ASTRONOMY_UNIVERSITY_ELECTIVES)};
+const astronomyUniversityRoutes=${astronomyUniversityRoutes.toString()};
+const astronomyUniversityRoute=${astronomyUniversityRoute.toString()};
+const astronomyUniversityYears=${astronomyUniversityYears.toString()};
+const astronomyUniversityCourseChoices=${astronomyUniversityCourseChoices.toString()};
+const astronomyUniversityStudyText=${astronomyUniversityStudyText.toString()};
+const astronomyUniversityProjectText=${astronomyUniversityProjectText.toString()};
 const PHYSICS_SPECIALTY_DATA=${JSON.stringify(PHYSICS_SPECIALIZATIONS)};
 const PHYSICS_SOLVE_VERIFIED=${physicsVerifiedExercise.toString()};
 const SCIENCE_GUIDES=${JSON.stringify(SCIENCE_GUIDES)};
