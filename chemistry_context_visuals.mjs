@@ -28,7 +28,10 @@ export function chemistryContextVisualBuild(kind){
  const t=(x,y,label,size=12)=>el('text',{x,y,fill:'#e6f9ff','font-size':size},label);
  const rect=(x,y,w,h,c='#22546d')=>el('rect',{x,y,width:w,height:h,rx:7,fill:c,stroke:'#83bdca'});
  const path=(d,c='#8fe6cb',w=3)=>el('path',{d,fill:'none',stroke:c,'stroke-width':w,'stroke-linecap':'round'});
- const axes=(xl,yl)=>{line(42,178,330,178);line(42,178,42,24);t(273,206,xl);t(7,18,yl)};
+ const axes=(xl,yl)=>{line(42,178,330,178);line(42,178,42,24);t(273,206,xl);t(7,18,yl);
+  [100,170,240,310].forEach(x=>line(x,178,x,173,'#568698',1));
+  [52,92,132].forEach(y=>line(42,y,47,y,'#568698',1));
+ };
  let commentRo='',commentEn='';
  if(kind==='separation'){
   rect(17,62,92,81);rect(133,62,92,81);rect(250,62,92,81);
