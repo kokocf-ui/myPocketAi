@@ -44,7 +44,7 @@ export function chemistryVisualizationFor({topic='',stage='',grade='',courseVisu
  // Only depict a visual model relevant to the topic AND age group.
  const map={
   fundamentals:'separation',atomic:'atom',periodic:'periodic',bonding:'bond',
-  reactions:'reaction',inorganic:'reaction',solutions:'solubility',
+  reactions:'reaction',inorganic:null,solutions:'solubility',
   acids:'ph',organic:'molecule',physical:'energy-profile',
   electrochem:'cell',analytical:'calibration',biochemistry:'enzyme',
   advanced:'equilibrium'
