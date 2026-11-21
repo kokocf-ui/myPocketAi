@@ -48,7 +48,7 @@ const env={
  learningLabel:(ro,en)=>ro,
  educationTheoryClean:value=>String(value||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim(),
  educationOpenPagedLesson:(name,body)=>opened.push({name,body}),
- SCIENCE_GRADE_TOPIC_PLAN:()=>[],SCIENCE_PRIMARY_LESSON_BANK:{},EDUCATION_THEORY_DATA:[],
+ SCIENCE_PRIMARY_LESSON_BANK:{},EDUCATION_THEORY_DATA:[],state:{language:'ro'},
  $:key=>els[key]||null,scienceVoiceStop:()=>{},scienceStopRequest:()=>{},
  scienceOpenWorkspace:()=>{},renderLearningSubjects:()=>{},pocketNativeVoiceAvailable:()=>false,
 };
