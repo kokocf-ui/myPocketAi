@@ -3,7 +3,7 @@
 // assertion that a stage-level learning outcome is compulsory in every grade.
 // A year-specific plan is labelled advisory unless a published specification
 // prescribes that year. Regions/exam boards may override the common framework.
-export const PHYSICS_EUROPE_REFERENCE='https://op.europa.eu/en/publication-detail/-/publication/b82d1d07-abf4-11f1-b9e5-01aa75ed71a1/language-en';
+export const PHYSICS_EUROPE_REFERENCE='https://op.europa.eu/en/publication-detail/-/publication/f3bd0532-0255-11ed-acce-01aa75ed71a1/language-en';
 const refs=Object.freeze({
  FI:{source:'https://www.oph.fi/en/education-and-qualifications/national-core-curriculum-primary-and-lower-secondary-basic-education',
   scope:'national-stage',name:'Fysiikka · vuosiluokat 7–9',integrated:['primary'],
@@ -24,7 +24,7 @@ const refs=Object.freeze({
  'GB-NIR':{source:'https://ccea.org.uk/key-stage-3/curriculum/science-and-technology',scope:'national-stage',name:'Science and Technology, KS3',integrated:['primary','lower'],note:'Northern Ireland has integrated Science in Key Stage 3; exam-board syllabuses determine GCSE and post-16 Physics options.'},
  IE:{source:'https://curriculumonline.ie/junior-cycle/junior-cycle-subjects/science/expectations-for-students-learning-outcomes/',scope:'national-stage',name:'Junior Cycle Science — Physical World',integrated:['primary','lower'],note:'Learning outcomes cover the entire three-year Junior Cycle, so a fixed J1/J2/J3 chapter distribution would be a false official attribution.'},
  FR:{source:'https://eduscol.education.gouv.fr/5739/ressources-d-accompagnement-du-programme-de-physique-chimie-au-cycle-4',scope:'national-stage',name:'Physique-chimie · cycle 4',integrated:['primary'],integratedGrades:['6e'],mixed:['lower'],note:'Cycle 4 covers 5e, 4e and 3e; the school-year sequence is advisory, not prescribed for each class. 6e is interdisciplinary science.'},
- HU:{source:'https://www.oktatas.hu/kozneveles/kerettantervek/2020_nat',scope:'national-stage',name:'Fizika · NAT 2020',noLower:['5','6'],lowerEntry:'7',note:'Grade 7–8 Física/Fizika foundation, revised in grades 9–10; specialised school tracks may vary.'},
+ HU:{source:'https://www.oktatas.hu/kozneveles/kerettantervek/2020_nat',scope:'national-stage',name:'Fizika · NAT 2020',noLower:['5','6'],lowerEntry:'7',note:'Grade 7–8 Fizika foundation, revised in grades 9–10; specialised school tracks may vary.'},
  PL:{source:'https://zpe.gov.pl/podstawa-programowa/szkola-podstawowa/fizyka',scope:'national-stage',name:'Fizyka · klasy VII–VIII',lowerEntry:'VII',noLower:['V','VI'],note:'Separate Physics in classes VII and VIII; 2026 curriculum transition may be cohort-sensitive.'},
  PT:{source:'https://www.dge.mec.pt/programas-e-metas-curriculares/fisico-quimica',scope:'national-year',name:'Físico-Química · 7.º–9.º ano',noLower:['5','6'],lowerEntry:'7',mixed:['lower'],note:'Physics and Chemistry are combined in 7th–9th. 8th includes Sound and Light; 9th includes Motion/Forces and Electricity. 10th–12th depend on course options.'},
  ES:{source:'https://www.boe.es/eli/es/rd/2022/03/29/217/con',scope:'national-stage',name:'Física y Química · ESO',mixed:['lower'],note:'ESO minimum teaching framework; autonomous communities and school streams determine exact annual distribution and whether Physics/Chemistry is selected.'},
@@ -125,9 +125,13 @@ export function physicsCountryGradePlan({country='',stage='lower',grade='',years
  const roUpper=code==='RO'&&phase==='upper';
  const roNew=roUpper&&yr==='9';
  const roOlder=roUpper&&['10','11','12'].includes(yr);
- const selectedSource=roNew?'https://www.edu.ro/press_rel_02_2026':
+ const selectedSource=roNew?'https://sbisj.ro/curriculum-si-inspectie-scolara/fizica/documente-actuale/':
   roOlder?'https://sbisj.ro/curriculum-si-inspectie-scolara/fizica/documente-actuale/':
   ref?.source||PHYSICS_EUROPE_REFERENCE;
+ const frenchTransition=code==='FR'&&phase==='lower'?
+  (yr==='6e'?'6e: în 2026/27 este în vigoare vechea programă integrată Sciences et technologie a ciclului 3 (2023). Fizica nu este materie separată.':
+   yr==='5e'?'5e: noul program al ciclului 4 începe la această clasă în septembrie 2026. Lecțiile din aplicație reprezintă o succesiune didactică orientativă.':
+   '4e/3e: anul 2026/27 este afectat de tranziția progresivă a programelor ciclului 4. Nu eticheta cursul orientativ drept programă anuală oficială.'):null;
  const transition=roNew?'Clasa a IX-a urmează noua programă introdusă în anul școlar 2026–2027 (OME 6930/2025); diferențierea TC/CS și profilul liceal sunt obligatorii pentru potrivirea exactă.':
   roOlder?'Clasele X–XII urmează programe de tranziție/cotortă diferite de clasa IX 2026/27; confirmă profilul și programa aplicabilă.':null;
  return {country:code,stage:phase,grade:yr,yearIndex:idx,
@@ -143,6 +147,6 @@ export function physicsCountryGradePlan({country='',stage='lower',grade='',years
   programmeName:ref?.name||'Advisory Physics strand',
   verifiedAnnual:false,
   nationalGradeLabels:Boolean(ref),
-  note:transition||ref?.note||'Local Physics syllabus/grade timetable not independently verified. This is an original advisory science progression grounded in Eurydice/ISCED school structures, not a national year-by-year curriculum.'
+  note:transition||frenchTransition||ref?.note||'Local Physics syllabus/grade timetable not independently verified. This is an original advisory science progression grounded in Eurydice/ISCED school structures, not a national year-by-year curriculum.'
  };
 }
