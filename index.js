@@ -4269,7 +4269,7 @@ function resetExtraToolsScreen(){
  root.classList.remove('learning-choose','learning-active','learning-math','learning-science',
   'learning-languages','learning-hg','learning-literature','learning-computing',
   'learning-exams','learning-practical','learning-country-gate','science-choice-stage',
-  'math-choice-stage','extra-tools-choose','extra-tools-active','extra-tools-chat','extra-tools-workspace','my-documents-active','pocket-paired-nav-layout');
+  'math-choice-stage','extra-tools-choose','extra-tools-active','extra-tools-chat','extra-tools-workspace','extra-tools-v2','my-documents-active','pocket-paired-nav-layout');
  root.querySelector('.module-actions-row')?.querySelector('.pocket-docs-back')?.remove();
  root.querySelector('.module-actions-row')?.classList.remove('pocket-docs-nav');
  for(const prop of ['height','max-height','min-height'])root.style.removeProperty(prop);
@@ -4305,7 +4305,12 @@ function renderMyDocuments(){
  const panel=document.createElement('div');panel.className='extra-tools-panel my-documents-panel';
  // Put the real Back beside the existing Home, not in a second row inside the PDF window.
  const topActions=root.querySelector('.module-actions-row');
- topActions?.querySelector('.pocket-inline-back')?.remove();
+ // The Tools v2 menu leaves an extracted Back next to Home. Never retain
+ // that control when mounting the PDF library's one and only Back.
+ for(const button of Array.from(topActions?.querySelectorAll('button')||[])){
+  if(button.classList.contains('module-home-btn')||button.id==='moduleQuickTrigger')continue;
+  button.remove();
+ }
  topActions?.classList.remove('pocket-inline-nav');
  topActions?.classList.add('pocket-docs-nav');
  const back=document.createElement('button');back.className='secondary-btn pocket-docs-back pocket-nav-return pocket-nav-text';back.textContent=learningLabel('← Înapoi','← Back');back.onclick=renderExtraToolsChoices;
@@ -24875,6 +24880,30 @@ main.page:has(#view-module.my-documents-active.active){
  flex:0 0 auto!important;min-width:0!important;
 }
 #view-module.my-documents-active .my-documents-batch[hidden]{display:none!important}
+
+
+/* Science mobile viewport: the general Education layout reserved 108px
+   inside the module even though the fixed dock was already outside it.
+   That empty padding was shrinking the study-year/law inner window. */
+#view-module.learning-active.learning-science.science-scroll-stage.active{
+ padding:0!important;
+ grid-template-rows:auto auto minmax(0,1fr)!important;
+ align-content:stretch!important;
+}
+#view-module.learning-science.science-scroll-stage.active .science-choice-panel{
+ flex:1 1 0%!important;height:100%!important;min-height:0!important;
+ max-height:100%!important;
+}
+#view-module.learning-science.science-scroll-stage.active .science-choice-list{
+ padding-bottom:18px!important;scroll-padding-bottom:18px!important;
+}
+#view-module.learning-science.science-year-stage.science-scroll-stage.active .science-choice-list.science-year-list{
+ padding-bottom:18px!important;scroll-padding-bottom:18px!important;
+}
+/* PDF Library: never show a retained Back from the previous Tools workspace. */
+#view-module.my-documents-active .module-actions-row.pocket-docs-nav>button:not(.module-home-btn):not(.pocket-docs-back){
+ display:none!important;
+}
 
 </style>
 </body>
