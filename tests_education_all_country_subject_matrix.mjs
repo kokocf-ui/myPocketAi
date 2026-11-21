@@ -51,8 +51,11 @@ assert.deepEqual(ro,['1','2','3','4']);
 assert.ok(fr.includes('CP')&&fr.includes('CM2'),'French school year names are not Romanian grades');
 assert.ok(es.includes('P1'),'Spanish primary school years keep their native identifiers');
 assert.ok(hu.includes('5'),'Hungarian lower school stages keep national identifiers');
-assert.equal(educationCountrySchoolYears('AD','beginner').status,'grade-unmapped',
- 'Do not present invented P1–P6 to Andorra as a verified national grade list');
+const andorra=educationCountrySchoolYears('AD','beginner');
+assert.equal(andorra.status,'mapped-years-advisory',
+ 'Andorran year names are structurally mapped but the teaching sequence is not an official annual Physics syllabus');
+assert.ok(andorra.years.length>=5&&andorra.years.every(y=>!/^P[1-6]$/.test(y.id)),
+ 'Use explicitly provisional local year names, not invented P1–P6 labels');
 const france=Math.max(1,fr.length);
 assert.ok(france>1);
 assert.equal(educationSubjectSchoolPlan({country:'US',stage:'lower',grade:'7',subject:'physics'}).status,
