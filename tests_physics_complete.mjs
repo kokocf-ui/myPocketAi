@@ -6,7 +6,7 @@ import {physicsVerifiedExercise} from './physics_verified.mjs';
 import {THEORY_ENTRIES,searchTheory} from './education_theory.mjs';
 const rank={beginner:0,intermediate:1,advanced:2};
 const ids=new Set(PHYSICS_TOPICS.map(x=>x.id));
-assert.equal(PHYSICS_TOPICS.length,21,'14 common chapters and 7 specialties');
+assert.equal(PHYSICS_TOPICS.length,22,'15 common chapters including Space and 7 specialties');
 assert.equal(PHYSICS_SPECIALIZATIONS.length,7);
 assert.equal(PHYSICS_LESSONS.length,83);
 assert.equal(new Set(PHYSICS_LESSONS.map(x=>x.id)).size,83,'unique cards');
