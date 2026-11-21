@@ -9,6 +9,7 @@ import {PHYSICS_RO_ADDITIONS} from './science_ro_physics_additions.mjs';
 import {BIOLOGY_RO_ADDITIONS} from './science_ro_biology_additions.mjs';
 import {physicsAdvisoryTopicLessons} from './physics_europe_lesson_bank.mjs';
 import {physicsPrimaryYearLessons} from './physics_primary_lessons.mjs';
+import {physicsUpperYearLessons} from './physics_upper_course.mjs';
 
 // This is a controlled original teaching outline using the CONTENT AREAS in
 // Romania's 2017 lower-secondary syllabuses. It is not a Ministry-approved
@@ -72,6 +73,11 @@ export function scienceSchoolTopicLessons({country='',subject='',grade='',topic=
  const id=String(grade);
  if(subject==='physics'&&stage==='primary'&&Array.isArray(years)&&years.length){
   return physicsPrimaryYearLessons({country,grade,topic,years,language});
+ }
+ if(subject==='physics'&&stage==='upper'&&Array.isArray(years)&&years.length){
+  return physicsUpperYearLessons({
+   country,grade,topic,years,lessons,reviewBank:SCIENCE_RO_LESSON_EXTRAS.physics
+  });
  }
  if(subject==='physics'&&!localized&&stage==='lower'&&Array.isArray(years)&&years.length){
   return physicsAdvisoryTopicLessons({
