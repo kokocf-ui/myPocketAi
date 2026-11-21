@@ -344,6 +344,8 @@ jobs:
           node tests_science_compact_theory.mjs
           node tests_biology_complete.mjs
           node tests_biology_year_depth.mjs
+          node tests_astronomy_complete.mjs
+          node tests_astronomy_year_depth.mjs
           node tests_practical_courses.mjs
           node tests_education_android.mjs
           node tests_eva_dialogue.mjs
