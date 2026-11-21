@@ -42,13 +42,19 @@ import {HG_THEME_DATA,hgThemeFold,buildHgThemeGuide} from './education_hg_theme_
 import {THEORY_ENTRIES} from './education_theory.mjs';
 import {CHEMISTRY_LEVELS, CHEMISTRY_TOPICS} from './chemistry_curriculum.mjs';
 import {CHEMISTRY_DETAILED_LESSONS} from './chemistry_detailed_lessons.mjs';
+import {CHEMISTRY_STUDY_CONCEPTS,chemistrySchoolCourseDocuments} from './chemistry_school_depth.mjs';
+import {chemistryContextVisualBuild} from './chemistry_context_visuals.mjs';
+import {CHEMISTRY_GRADE_FRAMEWORKS,CHEMISTRY_ENGLAND_KS3,chemistryGradeTopicPlan,chemistryVisualizationFor} from './chemistry_school_years.mjs';
+import {CHEMISTRY_UNIVERSITY_PROFILES,CHEMISTRY_EHEA_REFERENCE,chemistryUniversityRoutes,chemistryUniversityYears,chemistryUniversityRoute} from './chemistry_university_europe.mjs';
+import {CHEMISTRY_UNIVERSITY_CORE} from './chemistry_university_core.mjs';
+import {CHEMISTRY_UNIVERSITY_COURSE_COUNT,CHEMISTRY_UNIVERSITY_SPECIALTY_YEARS,chemistryUniversityCourseChoices,chemistryUniversityStudyDocument} from './chemistry_university_study.mjs';
 import {scienceExtendedTheory,SCIENCE_GUIDES,SCIENCE_FEATURED,SCIENCE_METHOD} from './science_extended_theory.mjs';
 import {SCIENCE_GUIDES_EN} from './science_english_reference_guides.mjs';
 import {SCIENCE_UNIVERSITY_TRACK_GUIDES} from './science_university_track_guides.mjs';
 import {scienceUniversityChapter} from './science_university_chapters.mjs';
 import {SCIENCE_ADVISORY_PROGRESSION,SCIENCE_PROGRESSION_SOURCES,SCIENCE_PRIMARY_LESSON_BANK,SCIENCE_PRIMARY_ENGLISH,SCIENCE_PRIMARY_DEPTH,scienceGradeTopicPlan,scienceGradeLessonFrame} from './science_grade_progression.mjs';
 import {SCIENCE_LOWER_TOPIC_LESSONS,scienceLowerTopicContent} from './science_lower_secondary_lessons.mjs';
-import {CHEMISTRY_SPECIALIZATIONS,CHEMISTRY_SPECIALTY_TOPICS,CHEMISTRY_MOLECULES,chemistryVerifiedExercise} from './chemistry_advanced.mjs';
+import {CHEMISTRY_SPECIALIZATIONS,CHEMISTRY_SPECIALTY_TOPICS,CHEMISTRY_SPECIALTY_LESSONS,CHEMISTRY_MOLECULES,chemistryVerifiedExercise} from './chemistry_advanced.mjs';
 import {BIOLOGY_TOPICS,BIOLOGY_SPECIALIZATIONS,BIOLOGY_SPECIALTY_TOPICS,biologyVerifiedExercise} from './biology_curriculum.mjs';
 import {mathAdvancedVerifiedModel} from './math_advanced_verified.mjs';
 import {PHYSICS_TOPICS,PHYSICS_SPECIALIZATIONS} from './physics_curriculum.mjs';
@@ -8108,13 +8114,15 @@ function scienceTopicAllowedGrade(topic){
  const topics=scienceJourney.subject==='physics'?PHYSICS_TOPIC_DATA:
   scienceJourney.subject==='chemistry'?CHEMISTRY_TOPIC_DATA:
   scienceJourney.subject==='biology'?BIOLOGY_TOPIC_DATA:ASTRONOMY_TOPIC_DATA;
- const plan=SCIENCE_GRADE_TOPIC_PLAN({
-  country,subject:scienceJourney.subject,stage,grade:scienceJourney.grade,years,topics
- });
+ const params={country,subject:scienceJourney.subject,stage,grade:scienceJourney.grade,years,topics};
+ const plan=scienceJourney.subject==='chemistry'&&typeof chemistryGradeTopicPlan==='function'?
+  chemistryGradeTopicPlan(params,SCIENCE_GRADE_TOPIC_PLAN):SCIENCE_GRADE_TOPIC_PLAN(params);
  return plan.topics.some(x=>x.id===topic.id);
 }
 function scienceTopicChoices(){
  const subject=scienceJourney.subject;
+ if(subject==='chemistry'&&typeof chemistryUniversityCourseChoices==='function'&&scienceJourney.schoolStage==='advanced'&&/^univ-[1-5]$/.test(String(scienceJourney.grade||'')))
+  return chemistryUniversityCourseChoices({year:Number(String(scienceJourney.grade).slice(-1)),specialty:scienceJourney.specialty});
  if(subject==='physics'&&scienceJourney.schoolStage==='advanced'&&/^univ-[1-5]$/.test(String(scienceJourney.grade||'')))
   return physicsUniversityCourseChoices({year:Number(String(scienceJourney.grade).slice(-1)),specialty:scienceJourney.specialty});
  if(!['physics','chemistry','biology','astronomy'].includes(subject))return SCIENCE_OTHER_TOPICS[subject]||[];
@@ -8238,7 +8246,8 @@ function scienceYearGroups(){
   if(country==='RO'&&band.schoolStage==='upper')
    years=years.filter(entry=>Number.isInteger(Number(entry.id))&&Number(entry.id)>=9&&Number(entry.id)<=12);
   if(band.schoolStage==='advanced')years=scienceJourney.subject==='physics'?
-   physicsUniversityYears(country,scienceJourney.universityRoute):years.slice(0,1);
+   physicsUniversityYears(country,scienceJourney.universityRoute):
+   scienceJourney.subject==='chemistry'&&typeof chemistryUniversityYears==='function'?chemistryUniversityYears(country,scienceJourney.universityRoute):years.slice(0,1);
   years=years.filter(entry=>{
    const key=band.schoolStage+':'+String(entry.id);
    if(seen.has(key))return false;
@@ -8291,6 +8300,13 @@ function scienceJourneyShowChoices(stage){
  back.textContent=learningLabel('← Înapoi','← Back');back.onclick=scienceBack;
  const bar=document.createElement('div');bar.className='education-toolbar science-stage-toolbar';
  bar.append(back);
+ if(stage==='years'&&scienceJourney.subject==='chemistry'){
+  const tableButton=document.createElement('button');tableButton.type='button';
+  tableButton.className='secondary-btn science-laws-entry science-periodic-entry';
+  tableButton.textContent=learningLabel('🧪 Tabloul periodic','🧪 Periodic table');
+  tableButton.onclick=()=>chemistryVisualOpen('periodic','');
+  bar.append(tableButton);
+ }
  if(stage==='years'&&scienceJourney.subject==='physics'){
   const lawsButton=document.createElement('button');lawsButton.type='button';
   lawsButton.className='secondary-btn science-laws-entry';
@@ -8318,7 +8334,7 @@ function scienceJourneyShowChoices(stage){
    (educationCountrySelection.code!=='RO'?
     ' '+learningLabel('Unde programa locală nu este verificată, conținutul este orientativ.','Where the local curriculum is unverified, content is advisory.'):''):
   stage==='specialties'?learningLabel('Fiecare specializare are capitole proprii și baze comune.','Each track has specialist and shared chapters.'):
-  learningLabel('Țara: ','Country: ')+educationCountrySelection.label+' · '+learningLabel('Clasa: ','Grade: ')+(scienceJourney.subject==='physics'&&scienceJourney.schoolStage==='advanced'?
+  learningLabel('Țara: ','Country: ')+educationCountrySelection.label+' · '+learningLabel('Clasa: ','Grade: ')+(['physics','chemistry'].includes(scienceJourney.subject)&&scienceJourney.schoolStage==='advanced'?
     learningLabel('Anul universitar ','University year ')+String(scienceJourney.grade||'').replace('univ-',''):(scienceJourney.grade||''))+'. '+learningLabel('Program general de studiu, organizat pe clase; nu înlocuiește programa școlii.','General grade-by-grade learning route, not an official school syllabus.')+
    (scienceJourney.schoolStage==='primary'?' '+learningLabel('La primar, disciplinele sunt explorate integrat, fără a le declara obligatorii separat.','In primary school these sciences are explored together, not declared separate compulsory subjects.'):'');
  const list=document.createElement('div');
@@ -8365,7 +8381,7 @@ function scienceJourneyShowChoices(stage){
   stage==='years'?[]:
   stage==='specialties'?(scienceJourney.subject==='physics'?PHYSICS_SPECIALTY_DATA:scienceJourney.subject==='biology'?BIOLOGY_SPECIALTY_DATA:scienceJourney.subject==='astronomy'?ASTRONOMY_SPECIALTY_DATA:CHEMISTRY_SPECIALTY_DATA):
   scienceTopicChoices().filter(topic=>{
-   if(scienceJourney.subject==='physics'&&scienceJourney.schoolStage==='advanced')return true;
+   if(['physics','chemistry'].includes(scienceJourney.subject)&&scienceJourney.schoolStage==='advanced')return true;
    if(!['physics','chemistry','biology','astronomy'].includes(scienceJourney.subject))return true;
    const rank={beginner:0,intermediate:1,advanced:2};
    return rank[topic.minLevel]<=rank[scienceJourney.level] &&
@@ -8395,9 +8411,13 @@ function scienceJourneyShowChoices(stage){
     }
    };
    renderYearTiles(group.years);
-   if(group.schoolStage==='advanced'&&scienceJourney.subject==='physics'){
-    const routes=physicsUniversityRoutes(educationCountrySelection.code);
-    const selected=physicsUniversityRoute(educationCountrySelection.code,scienceJourney.universityRoute);
+   if(group.schoolStage==='advanced'&&['physics','chemistry'].includes(scienceJourney.subject)&&
+    (scienceJourney.subject!=='chemistry'||typeof chemistryUniversityRoutes==='function')){
+    const chem=scienceJourney.subject==='chemistry';
+    const routes=chem?chemistryUniversityRoutes(educationCountrySelection.code):physicsUniversityRoutes(educationCountrySelection.code);
+    const getRoute=chem?chemistryUniversityRoute:physicsUniversityRoute;
+    const getYears=chem?chemistryUniversityYears:physicsUniversityYears;
+    const selected=getRoute(educationCountrySelection.code,scienceJourney.universityRoute);
     scienceJourney.universityRoute=selected?.id||null;
     const picker=document.createElement('select');picker.className='science-university-route-picker';
     picker.setAttribute('aria-label',learningLabel('Traseu universitar pentru țara aleasă','University route for selected country'));
@@ -8408,12 +8428,12 @@ function scienceJourneyShowChoices(stage){
     picker.value=scienceJourney.universityRoute;
     const description=document.createElement('p');description.className='science-university-route-description';
     const describe=()=>{
-     const info=physicsUniversityRoute(educationCountrySelection.code,picker.value);
-     description.textContent=learningLabel(info?.provenanceRo||'',info?.provenanceEn||'');
+     const info=getRoute(educationCountrySelection.code,picker.value);
+     description.textContent=learningLabel((chem?info?.noticeRo:info?.provenanceRo)||'',(chem?info?.noticeEn:info?.provenanceEn)||'');
     };
     picker.onchange=()=>{
      scienceJourney.universityRoute=picker.value;
-     renderYearTiles(physicsUniversityYears(educationCountrySelection.code,picker.value));
+     renderYearTiles(getYears(educationCountrySelection.code,picker.value));
      describe();scienceFitViewport();
     };
     heading.append(picker);describe();section.append(heading,tiles,description);
@@ -8434,8 +8454,8 @@ function scienceJourneyShowChoices(stage){
      item.id==='physics'?learningLabel('14 capitole de bază · 7 specializări avansate','14 foundation chapters · 7 advanced tracks'):
      learningLabel('9 capitole de bază · 7 specializări avansate','9 foundation chapters · 7 advanced tracks')):
    stage==='levels'?learningLabel(item.scopeRo,item.scopeEn):
-   stage==='specialties'?(scienceJourney.subject==='physics'?learningLabel('Cursuri proprii anului universitar selectat','University year-specific courses'):learningLabel('4 capitole proprii + materii comune','4 dedicated chapters + shared subjects')):
-   scienceJourney.subject==='physics'&&scienceJourney.schoolStage==='advanced'?
+   stage==='specialties'?(['physics','chemistry'].includes(scienceJourney.subject)?learningLabel('Cursuri proprii anului universitar selectat','University year-specific courses'):learningLabel('4 capitole proprii + materii comune','4 dedicated chapters + shared subjects')):
+   ['physics','chemistry'].includes(scienceJourney.subject)&&scienceJourney.schoolStage==='advanced'?
      learningLabel('Anul universitar ','University year ')+String(scienceJourney.grade||'').replace('univ-','')+
      (item.specialty?learningLabel(' · specializare',' · specialist course'):' · '+learningLabel('curs fundamental','core course')):
    ['physics','chemistry','biology','astronomy'].includes(scienceJourney.subject)?
@@ -9157,8 +9177,27 @@ const SCIENCE_THEORY_EXPAND=${scienceExtendedTheory.toString()};
 const CHEMISTRY_DETAIL_DATA=${JSON.stringify(CHEMISTRY_DETAILED_LESSONS)};
 const CHEMISTRY_LEVEL_DATA=${JSON.stringify(CHEMISTRY_LEVELS)};
 const CHEMISTRY_TOPIC_DATA=${JSON.stringify([...CHEMISTRY_TOPICS,...CHEMISTRY_SPECIALTY_TOPICS])};
+const CHEMISTRY_STUDY_CONCEPTS=${JSON.stringify(CHEMISTRY_STUDY_CONCEPTS)};
+const chemistrySchoolCourseDocuments=${chemistrySchoolCourseDocuments.toString()};
+const CHEMISTRY_GRADE_FRAMEWORKS=${JSON.stringify(CHEMISTRY_GRADE_FRAMEWORKS)};
+const CHEMISTRY_ENGLAND_KS3=${JSON.stringify(CHEMISTRY_ENGLAND_KS3)};
+const chemistryGradeTopicPlan=${chemistryGradeTopicPlan.toString()};
+const chemistryVisualizationFor=${chemistryVisualizationFor.toString()};
+const CHEMISTRY_UNIVERSITY_PROFILES=${JSON.stringify(CHEMISTRY_UNIVERSITY_PROFILES)};
+const CHEMISTRY_EHEA_REFERENCE=${JSON.stringify(CHEMISTRY_EHEA_REFERENCE)};
+const chemistryUniversityRoutes=${chemistryUniversityRoutes.toString()};
+const chemistryUniversityRoute=${chemistryUniversityRoute.toString()};
+const chemistryUniversityYears=${chemistryUniversityYears.toString()};
+const CHEMISTRY_UNIVERSITY_CORE=${JSON.stringify(CHEMISTRY_UNIVERSITY_CORE)};
+const CHEMISTRY_UNIVERSITY_SPECIALTY_YEARS=${JSON.stringify(CHEMISTRY_UNIVERSITY_SPECIALTY_YEARS)};
+const CHEMISTRY_UNIVERSITY_COURSE_COUNT=${JSON.stringify(CHEMISTRY_UNIVERSITY_COURSE_COUNT)};
+const CHEMISTRY_SPECIALTY_TOPICS=${JSON.stringify(CHEMISTRY_SPECIALTY_TOPICS)};
+const CHEMISTRY_SPECIALTY_LESSONS=${JSON.stringify(CHEMISTRY_SPECIALTY_LESSONS)};
+const chemistryUniversityCourseChoices=${chemistryUniversityCourseChoices.toString()};
+const chemistryUniversityStudyDocument=${chemistryUniversityStudyDocument.toString()};
 const CHEMISTRY_SPECIALTY_DATA=${JSON.stringify(CHEMISTRY_SPECIALIZATIONS)};
 const CHEMISTRY_MOLECULE_DATA=${JSON.stringify(CHEMISTRY_MOLECULES)};
+const chemistryContextVisualBuild=${chemistryContextVisualBuild.toString()};
 const CHEMISTRY_SOLVE_VERIFIED=${chemistryVerifiedExercise.toString()};
 const BIOLOGY_TOPIC_DATA=${JSON.stringify([...BIOLOGY_TOPICS,...BIOLOGY_SPECIALTY_TOPICS])};
 const BIOLOGY_SPECIALTY_DATA=${JSON.stringify(BIOLOGY_SPECIALIZATIONS)};
@@ -9978,6 +10017,9 @@ function chemistryAtomShells(z){
 }
 function chemistryVisualBuild(kind,question){
  if(!kind)return null;
+ if(['separation','solubility','stoichiometry','concentration','energy-profile',
+     'cell','calibration','enzyme','equilibrium'].includes(kind))
+  return chemistryContextVisualBuild(kind);
  const box=document.createElement('section');box.className='chem-visual';
  const title=document.createElement('h3');
  const ns='http://www.w3.org/2000/svg';
@@ -10750,6 +10792,47 @@ function educationScienceTheoryReader(subjectId,topicId,level){
   button.onclick=()=>educationOpenPagedLesson(learningLabel(chapter?.ro||'',chapter?.en||''),lesson||learningLabel('Lecție generală indisponibilă.','General lesson unavailable.'));
   section.append(button);return section;
  }
+ if(subjectId==='chemistry'&&typeof chemistryUniversityStudyDocument==='function'&&scienceJourney.schoolStage==='advanced'&&/^univ-[1-5]$/.test(String(scienceJourney.grade||''))){
+  const chapter=scienceTopicInfo(),name=learningLabel(chapter?.ro||'',chapter?.en||'');
+  const body=chemistryUniversityStudyDocument({
+   courseId:chapter?.courseId,country:educationCountrySelection.code,
+   routeId:scienceJourney.universityRoute,year:Number(String(scienceJourney.grade).slice(-1)),
+   specialty:scienceJourney.specialty,language:state.language,lessons:EDUCATION_THEORY_DATA
+  });
+  if(!body){
+   const alert=document.createElement('p');
+   alert.textContent=learningLabel('Acest curs nu are un material valid pentru anul ales.','No valid study notes for the selected university year.');
+   section.append(alert);return section;
+  }
+  head.textContent=learningLabel('📚 Curs universitar · '+String(scienceJourney.grade).replace('univ-',''),
+   '📚 University course · year '+String(scienceJourney.grade).replace('univ-',''));
+  const button=document.createElement('button');button.type='button';
+  button.className='secondary-btn science-inline-theory-item';
+  button.textContent=learningLabel('Deschide teoria, formulele, aplicațiile și exercițiile','Open theory, formulas, applications and exercises');
+  button.onclick=()=>educationOpenPagedLesson(name,body);
+  section.append(button);return section;
+ }
+ if(subjectId==='chemistry'&&typeof chemistrySchoolCourseDocuments==='function'&&['lower','upper'].includes(scienceJourney.schoolStage)){
+  const chapter=scienceTopicInfo(),name=learningLabel(chapter?.ro||'',chapter?.en||'');
+  const entries=chemistrySchoolCourseDocuments({
+   topic:chapter?.id,country:educationCountrySelection.code,grade:scienceJourney.grade,
+   stage:scienceJourney.schoolStage,yearPosition:scienceJourney.gradePosition,
+   language:state.language,lessons:EDUCATION_THEORY_DATA
+  });
+  if(!entries.length){
+   const alert=document.createElement('p');alert.textContent=learningLabel('Tema nu este disponibilă în acest an.','Chapter unavailable for this grade.');
+   section.append(alert);return section;
+  }
+  head.textContent=learningLabel('📖 Teme de studiu','📖 Study lessons')+' ('+entries.length+')';
+  for(const part of entries){
+   const button=document.createElement('button');button.type='button';
+   button.className='secondary-btn science-inline-theory-item';
+   button.textContent=learningLabel(part.ro,part.en);
+   button.onclick=()=>educationOpenPagedLesson(name+' · '+learningLabel(part.ro,part.en),part.text);
+   section.append(button);
+  }
+  return section;
+ }
  if(subjectId==='physics'&&scienceJourney.schoolStage==='advanced'&&/^univ-[1-5]$/.test(String(scienceJourney.grade||''))){
   const chapter=scienceTopicInfo(),name=learningLabel(chapter?.ro||'',chapter?.en||'');
   const body=physicsUniversityStudyDocument({
@@ -10894,8 +10977,42 @@ function scienceOpenChemistrySection(stage){
   title.textContent=learningLabel('Laborator și modele 3D','Laboratory and 3D models');
   note.textContent=chapter+' · '+learningLabel('Alege o reprezentare interactivă.','Choose an interactive visual model.');
   if(scienceJourney.subject==='chemistry'){
-   tile('🧬','Molecule 3D','3D Molecules','H₂O, CO₂, CH₄, NH₃: rotire și mărire','H₂O, CO₂, CH₄, NH₃: rotate and zoom',scienceChemMoleculeOpen);
-   tile('📊','Reprezentări','Visual models','Diagrame și structuri disponibile','Available diagrams and structures',chemistryVisualPicker);
+   const topicKey=topic?.originalTopic||topic?.id;
+   const diagram=chemistryVisualizationFor({
+    topic:topicKey,stage:scienceJourney.schoolStage,grade:scienceJourney.grade
+   });
+   if(diagram)tile('📊','Reprezentarea temei','Topic-specific visual',
+    'Diagramă pentru capitolul ales, nu o galerie repetată','Diagram for this chapter, not a repeated gallery',
+    ()=>chemistryVisualOpen(diagram,learningLabel(topic?.ro||'',topic?.en||'')));
+   if(['bond','molecule'].includes(diagram)&&scienceJourney.schoolStage!=='lower')
+    tile('🧬','Molecule 3D','3D molecules',
+     'Geometrii ideale H₂O, CO₂, CH₄ și NH₃','Ideal H₂O, CO₂, CH₄ and NH₃ geometry',
+     scienceChemMoleculeOpen);
+   if(scienceJourney.schoolStage==='advanced'){
+    const material=chemistryUniversityStudyDocument({
+     courseId:topic?.courseId,country:educationCountrySelection.code,
+     routeId:scienceJourney.universityRoute,year:Number(String(scienceJourney.grade).slice(-1)),
+     specialty:scienceJourney.specialty,language:state.language,lessons:EDUCATION_THEORY_DATA
+    });
+    if(material)tile('🔬','Investigația universitară','University investigation',
+     'Model, observații, siguranță și verificare','Model, evidence, safety and validation',
+     ()=>educationOpenPagedLesson(chapter,material));
+   }else{
+    const docs=chemistrySchoolCourseDocuments({
+     topic:topicKey,country:educationCountrySelection.code,grade:scienceJourney.grade,
+     stage:scienceJourney.schoolStage,yearPosition:scienceJourney.gradePosition,
+     language:state.language,lessons:EDUCATION_THEORY_DATA
+    });
+    const study=docs.find(x=>x.id===topicKey+'-enquiry');
+    if(study)tile('🧪','Investigație explicată','Explained enquiry',
+      'Observații și siguranță, fără reactivi periculoși','Evidence and safety, no hazardous chemicals',
+      ()=>educationOpenPagedLesson(chapter,study.text));
+   }
+   if(!diagram){
+    const notice=document.createElement('p');notice.className='chem-no-visual';
+    notice.textContent=learningLabel('Această temă nu are un grafic specific validat. Nu afișăm reprezentări fără legătură.','This topic has no validated relevant graph; unrelated diagrams are not shown.');
+    list.append(notice);
+   }
   }else if(scienceJourney.subject==='physics'){
    if(scienceJourney.schoolStage==='advanced'&&/^univ-[1-5]$/.test(String(scienceJourney.grade||''))){
     const course=scienceTopicInfo();

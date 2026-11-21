@@ -83,7 +83,7 @@ for(const code of [
  'const PHYSICS_UNIVERSITY_PROFILES=','const PHYSICS_UNIVERSITY_ALL_COURSES=',
  'const physicsUniversityRoutes=','const physicsUniversityCourseChoices=',
  'const physicsUniversityStudyDocument=',
- "scienceJourney.subject==='physics'&&scienceJourney.schoolStage==='advanced'",
+ "physicsUniversityCourseChoices({year:Number(String(scienceJourney.grade).slice(-1))",
  "root.classList.toggle('science-scroll-stage'"
 ])assert.ok(script.includes(code),code);
 assert.match(html,/\.science-university-route-picker\{/);
