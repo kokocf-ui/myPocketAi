@@ -323,6 +323,7 @@ jobs:
           node tests_science_viewport_keyboard.mjs
           node tests_physics_laws_scroll.mjs
           node tests_chemistry_laws_scroll.mjs
+          node tests_chemistry_individual_theory.mjs
           node tests_chemistry_curriculum.mjs
           node tests_chemistry_complete.mjs
           node tests_chemistry_country_year_depth.mjs
