@@ -13,9 +13,11 @@ import {BIOLOGY_LOWER_YEAR_TOPICS,BIOLOGY_LOWER_YEAR_ROWS,
 import {scienceGradeTopicPlan} from './science_grade_progression.mjs';
 import {scienceSchoolTopicLessons} from './science_ro_course_plan.mjs';
 import {THEORY_ENTRIES} from './education_theory.mjs';
-assert.equal(BIOLOGY_PRIMARY_YEAR_ROWS.length,36,'Primary years need 36 original, age-specific lessons');
+assert.equal(BIOLOGY_PRIMARY_YEAR_ROWS.length,54,'Primary years need 54 original, age-specific lessons');
 assert.equal(BIOLOGY_LOWER_YEAR_ROWS.length,30,'Advisory lower years need 30 original lessons');
 assert.deepEqual(BIOLOGY_PRIMARY_YEAR_TOPICS['GB-ENG'].Y6,['anatomy','ecology','evolution']);
+assert.deepEqual(BIOLOGY_PRIMARY_YEAR_TOPICS['GB-ENG'].Y1,['plants','anatomy','ecology']);
+assert.deepEqual(BIOLOGY_PRIMARY_YEAR_TOPICS['GB-ENG'].Y4,['ecology','anatomy']);
 assert.deepEqual(BIOLOGY_PRIMARY_YEAR_TOPICS.RO['1'],['plants','ecology']);
 let primaryYears=0,lowerYears=0,schoolCards=0;
 const unique=new Set();
@@ -35,7 +37,7 @@ for(const country of EDUCATION_EUROPE_COUNTRIES){
      years,lessons:THEORY_ENTRIES
     });
     if(stage==='primary'||country!=='RO')
-     assert.equal(cards.length,2,country+'/'+year.id+'/'+topic.id+' needs two authored age-specific lessons');
+     assert.equal(cards.length,stage==='primary'?3:2,country+'/'+year.id+'/'+topic.id+' has incorrect card count');
     else
      assert.ok(cards.length>0,'RO grade '+year.id+' lacks '+topic.id);
     for(const card of cards){
@@ -63,18 +65,33 @@ assert.ok(primaryYears>=100&&lowerYears>=100,
  'Curriculum guard must exercise the European school-year picker');
 const ro=[1,2,3,4].map(n=>({id:String(n)}));
 assert.ok(ro.flatMap(y=>biologyPrimaryYearLessons({country:'RO',grade:y.id,
- topic:'plants',years:ro})).length>=8,'Each Romanian primary year needs plant study cards');
+ topic:'plants',years:ro})).length>=12,'Each Romanian primary year needs three plant study cards');
 const gb=[1,2,3,4,5,6].map(n=>({id:'Y'+n}));
 assert.equal(biologyPrimaryYearLessons({country:'GB-ENG',grade:'Y1',
  topic:'evolution',years:gb}).length,0,'Evolution appears in Year 6, not Year 1');
 assert.equal(biologyPrimaryYearLessons({country:'GB-ENG',grade:'Y6',
- topic:'evolution',years:gb}).length,2,'Year 6 evolution needs original lessons');
+ topic:'evolution',years:gb}).length,3,'Year 6 evolution needs original lessons');
 const de=[1,2,3,4].map(n=>({id:'L'+n}));
 assert.equal(biologyLowerYearLessons({country:'DE',grade:'L1',
  topic:'genetics',years:de}).length,0,'Do not introduce Grade 3 genetics into first lower-secondary year');
 assert.equal(biologyLowerYearLessons({country:'DE',grade:'L3',
  topic:'genetics',years:de}).length,2);
 assert.deepEqual(BIOLOGY_LOWER_YEAR_TOPICS[0],['plants','ecology','cells']);
+const titleSet=new Set(BIOLOGY_PRIMARY_YEAR_ROWS.map(r=>r[2]));
+assert.equal(titleSet.size,BIOLOGY_PRIMARY_YEAR_ROWS.length,'Primary lesson titles must not duplicate');
+for(const y of ['1','2','3','4']){
+ const years=ro,plan=scienceGradeTopicPlan({country:'RO',subject:'biology',stage:'primary',
+  grade:y,years,topics:BIOLOGY_TOPICS});
+ assert.ok(plan.topics.find(x=>x.id==='plants')?.ro.includes('Botanică'));
+ assert.ok(plan.topics.find(x=>x.id==='ecology')?.ro.includes('Zoologie')||y==='3'&&false);
+}
+for(const grade of ['5','6','7','8']){
+ const years=['5','6','7','8'].map(id=>({id}));
+ const plan=scienceGradeTopicPlan({country:'RO',subject:'biology',stage:'lower',
+  grade,years,topics:BIOLOGY_TOPICS});
+ assert.ok(plan.topics.length>=2);
+ assert.ok(plan.topics.every(x=>x.ro&&x.en));
+}
 const html=await(await app.fetch(new Request('https://biology-age-scope-test.invalid/'))).text();
 const script=html.match(/<script>([\s\S]*?)<\/script>/)?.[1];
 assert.ok(script,'Must serve Android WebView script');
@@ -87,6 +104,7 @@ for(const text of [
  "['physics','biology'].includes(subjectId)",
  "if(subject==='biology'&&['primary','lower','upper'].includes(scienceJourney.schoolStage))",
  'scienceJourney.biologyLabLesson',
+ 'chosen.country===educationCountrySelection.code',
  'Selectează mai întâi o lecție',
  'Schemă pentru lecția selectată'
 ])assert.ok(script.includes(text),'Missing WebView Biology regression guard: '+text);

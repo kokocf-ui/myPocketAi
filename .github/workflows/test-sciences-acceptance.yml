@@ -32,6 +32,8 @@ jobs:
         run: |
           node --check index.js
           node --check science_grade_progression.mjs
+          node --check biology_primary_years.mjs
+          node --check biology_lower_europe_years.mjs
           node --check science_lower_secondary_lessons.mjs
           node --check science_english_reference_guides.mjs
           node --check science_extended_theory.mjs
@@ -57,6 +59,7 @@ jobs:
           node tests_chemistry_atom_context.mjs
           node tests_biology_complete.mjs
           node tests_biology_year_depth.mjs
+          node tests_biology_school_years.mjs
           node tests_astronomy_complete.mjs
           node tests_science_resolution_symbols.mjs
           node tests_science_compact_theory.mjs

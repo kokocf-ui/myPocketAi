@@ -70,7 +70,17 @@ export function scienceGradeTopicPlan({country='',subject='',stage='lower',grade
    ...entry,minLevel:stage==='lower'||stage==='primary'?'beginner':entry.minLevel
   })):null;
  const primaryBiology=subject==='biology'&&stage==='primary'?
-  biologyPrimaryTopics({country,grade,years:yearList}).map(id=>indexed.get(id)).filter(Boolean):null;
+  biologyPrimaryTopics({country,grade,years:yearList}).map(id=>{
+   const entry=indexed.get(id);
+   if(!entry)return null;
+   const labels={
+    plants:['Botanică · Plantele și viața lor','Botany · Plants and their lives'],
+    ecology:['Zoologie, medii de viață și ecologie','Zoology, habitats and ecology'],
+    anatomy:['Anatomie · Corpul și sănătatea','Anatomy · Body and health'],
+    evolution:['Evoluție, fosile și adaptări','Evolution, fossils and adaptations']
+   }[id];
+   return {...entry,ro:labels?.[0]||entry.ro,en:labels?.[1]||entry.en};
+  }).filter(Boolean):null;
  const unique=[...new Map((curated||adapted||primaryBiology||ordered).map(x=>[x.id,x])).values()];
  // Never hide the whole subject because a national stage has an unverified
  // grade map: a known, clearly marked general course is always available.
