@@ -76,9 +76,10 @@ export function scienceSchoolLessonAssessment({
   prompt:entry.exercise||
    (ro?'Explică noțiunea „'+entry.title+'” folosind definiția și exemplul din fișa de studiu.':
     'Explain the concept '+entry.title+' using the given definition and case.'),
-  guide:hasOriginalQuestion?entry.answer:
-   [entry.statement,entry.formula&&entry.formula!=='—'?entry.formula:null,
-    Array.isArray(chapterGuide)?chapterGuide[2]:null].filter(Boolean).join(' '),
+  guide:[hasOriginalQuestion?entry.answer:null,entry.statement,
+   entry.workedExample||null,
+   entry.formula&&entry.formula!=='—'?entry.formula:null,
+   Array.isArray(chapterGuide)?chapterGuide[2]:null].filter(Boolean).join(' '),
   // Exact numeric checks apply ONLY to the original 26 chapter-level exercises,
   // not to similarly named but distinct sublesson questions.
   localVerification:false
