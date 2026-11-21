@@ -10898,7 +10898,7 @@ function scienceOpenChemistrySection(stage){
   tile('📚','Teme de studiu','Study lessons','Definiții, formule, explicații și exemple','Definitions, formulae, explanations and examples',()=>{
    // Avoid an extra screen containing only a generic 'Open chapter' button.
    // Keep the existing multi-lesson navigator when a chapter really has sublessons.
-   if(['primary','lower','advanced'].includes(scienceJourney.schoolStage)||
+   if(['primary','advanced'].includes(scienceJourney.schoolStage)||
       scienceJourney.schoolStage==='upper'&&state.language!=='ro'){
     const reader=educationScienceTheoryReader(scienceJourney.subject,topic?.id,scienceJourney.level);
     const single=reader.querySelector('.science-inline-theory-item');
