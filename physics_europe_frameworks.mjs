@@ -70,7 +70,7 @@ const specialPlans={
  // National year headings where published guidance supports a strand,
  // not a claim that the entire year MUST be taught in this exact order.
  PT:{lower:{
-  '7':['units','energy','heat','solar','kinematics'],
+  '7':['space','units','energy','heat','kinematics'],
   '8':['waves','optics','energy','heat','measurement'],
   '9':['kinematics','dynamics','electric','circuits','energy']
  }},
@@ -125,7 +125,9 @@ export function physicsCountryGradePlan({country='',stage='lower',grade='',years
  const roUpper=code==='RO'&&phase==='upper';
  const roNew=roUpper&&yr==='9';
  const roOlder=roUpper&&['10','11','12'].includes(yr);
- const selectedSource=roNew?'https://sbisj.ro/curriculum-si-inspectie-scolara/fizica/documente-actuale/':
+ const pt2026=code==='PT'&&phase==='lower'&&yr==='7';
+ const selectedSource=pt2026?'https://www.dge.mec.pt/sites/default/files/7_fisico_quimica.pdf':
+  roNew?'https://sbisj.ro/curriculum-si-inspectie-scolara/fizica/documente-actuale/':
   roOlder?'https://sbisj.ro/curriculum-si-inspectie-scolara/fizica/documente-actuale/':
   ref?.source||PHYSICS_EUROPE_REFERENCE;
  const frenchTransition=code==='FR'&&phase==='lower'?
@@ -140,7 +142,7 @@ export function physicsCountryGradePlan({country='',stage='lower',grade='',years
    mixed?'mixed':'subject-or-track-dependent',
   // No stand-alone grade V Physics for RO; other systems may offer the
   // same concepts as integrated science without calling them a Physics class.
-  topics:blocked?[]:[...new Set(yearly)].filter(x=>x!=='solar'),
+  topics:blocked?[]:[...new Set(yearly)],
   source:selectedSource,
   sourceScope:roUpper?'national-cohort-framework':ref?.scope||'cross-national-comparative',
   curriculumVersion:roNew?'2026-grade-9':roOlder?'transitional-pre-2026-cohort':null,
