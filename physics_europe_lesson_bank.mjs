@@ -1,4 +1,5 @@
 import {physicsCountryGradePlan} from './physics_europe_frameworks.mjs';
+import {PHYSICS_EUROPE_EXTRA_LESSONS} from './physics_europe_wave_measurement.mjs';
 
 // An ORIGINAL, transparent cross-country *advisory* Physics study bank.
 // It reuses original, individually authored concept/activity cards, not a
@@ -36,10 +37,11 @@ export function physicsAdvisoryTopicLessons({
   // at this level, use another real authored example rather than a dead
   // chapter with a fake count or an AI-invented lesson.
   const supplemental=['6','7','8'].filter(x=>x!==tier)
-   .flatMap(x=>(bank?.[x]||[]).filter(entry=>entry.topic===topic));
+   .flatMap(x=>(bank?.[x]||[]).filter(entry=>entry.topic===topic))
+   .concat(PHYSICS_EUROPE_EXTRA_LESSONS[topic]||[]);
   const seen=new Set();
   const entries=[...direct,...supplemental].filter(entry=>{
-   const key=String(entry.title||'').normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').toLowerCase();
+   const key=String(entry.title||'').normalize('NFD').replace(/[^a-z0-9]+/g,'').toLowerCase();
    if(seen.has(key))return false;
    seen.add(key);return true;
   });
