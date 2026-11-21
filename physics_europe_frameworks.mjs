@@ -6,12 +6,12 @@
 export const PHYSICS_EUROPE_REFERENCE='https://op.europa.eu/en/publication-detail/-/publication/b82d1d07-abf4-11f1-b9e5-01aa75ed71a1/language-en';
 const refs=Object.freeze({
  RO:{source:'https://www.edu.ro/Ordin_ministru_3393_2017',scope:'national-stage',name:'Fizică · învățământ gimnazial',lowerEntry:'6',noLower:['5'],note:'Clasele VI–VIII; la liceu distribuția depinde de profil și de programa clasei.'},
- 'GB-ENG':{source:'https://www.gov.uk/government/publications/national-curriculum-in-england-science-programmes-of-study/national-curriculum-in-england-science-programmes-of-study',scope:'national-stage',name:'Science: physics component',integrated:['primary','lower'],note:'Key Stage 3 covers Years 7–9; topics are prescribed at key-stage level, NOT as a legally fixed sequence in each year. Year 12–13 programmes are qualification-dependent.'},
- 'GB-SCT':{source:'https://education.gov.scot/curriculum-for-excellence/curriculum-areas/sciences/',scope:'national-stage',name:'Curriculum for Excellence: Sciences',integrated:['primary','lower'],note:'BGE experiences and outcomes use curriculum levels (Early–Fourth); S1–S3 do not correspond to a national Physics chapter-by-year scheme.'},
- 'GB-WLS':{source:'https://hwb.gov.wales/curriculum-for-wales/areas-of-learning-and-experience/science-and-technology/principles-of-progression/',scope:'national-stage',name:'Curriculum for Wales: Science and Technology',integrated:['primary','lower'],note:'Science and Technology follows progression steps, not mandatory lesson lists per Year 7, 8 or 9.'},
- 'GB-NIR':{source:'https://ccea.org.uk/key-stage-3/curriculum/science-and-technology',scope:'national-stage',name:'Science and Technology, KS3',integrated:['primary','lower'],note:'Northern Ireland has integrated Science in Key Stage 3; exam-board syllabuses determine GCSE and post-16 Physics options.'},
- IE:{source:'https://curriculumonline.ie/junior-cycle/junior-cycle-subjects/science/expectations-for-students-learning-outcomes/',scope:'national-stage',name:'Junior Cycle Science — Physical World',integrated:['primary','lower'],note:'Learning outcomes cover the entire three-year Junior Cycle, so a fixed J1/J2/J3 chapter distribution would be a false official attribution.'},
- FR:{source:'https://eduscol.education.gouv.fr/5739/ressources-d-accompagnement-du-programme-de-physique-chimie-au-cycle-4',scope:'national-stage',name:'Physique-chimie · cycle 4',integrated:['primary'],mixed:['lower'],note:'Cycle 4 covers 5e, 4e and 3e; the school-year sequence is advisory, not prescribed for each class. 6e is interdisciplinary science.'},
+ 'GB-ENG':{source:'https://www.gov.uk/government/publications/national-curriculum-in-england-science-programmes-of-study/national-curriculum-in-england-science-programmes-of-study',scope:'national-stage',name:'Science: physics component',integrated:['primary','lower'],mixedUpper:['Y10','Y11'],optionalUpper:['Y12','Y13'],note:'Key Stage 3 covers Years 7–9; topics are prescribed at key-stage level, NOT as a legally fixed sequence in each year. Year 12–13 programmes are qualification-dependent.'},
+ 'GB-SCT':{source:'https://education.gov.scot/curriculum-for-excellence/curriculum-areas/sciences/',scope:'national-stage',name:'Curriculum for Excellence: Sciences',integrated:['primary','lower'],optionalUpper:['S4','S5','S6'],note:'BGE experiences and outcomes use curriculum levels (Early–Fourth); S1–S3 do not correspond to a national Physics chapter-by-year scheme.'},
+ 'GB-WLS':{source:'https://hwb.gov.wales/curriculum-for-wales/areas-of-learning-and-experience/science-and-technology/principles-of-progression/',scope:'national-stage',name:'Curriculum for Wales: Science and Technology',integrated:['primary','lower'],optionalUpper:['Y12','Y13'],note:'Science and Technology follows progression steps, not mandatory lesson lists per Year 7, 8 or 9.'},
+ 'GB-NIR':{source:'https://ccea.org.uk/key-stage-3/curriculum/science-and-technology',scope:'national-stage',name:'Science and Technology, KS3',integrated:['primary','lower'],optionalUpper:['Y13','Y14'],note:'Northern Ireland has integrated Science in Key Stage 3; exam-board syllabuses determine GCSE and post-16 Physics options.'},
+ IE:{source:'https://curriculumonline.ie/junior-cycle/junior-cycle-subjects/science/expectations-for-students-learning-outcomes/',scope:'national-stage',name:'Junior Cycle Science — Physical World',integrated:['primary','lower'],optionalUpper:['S1','S2','S3'],note:'Learning outcomes cover the entire three-year Junior Cycle, so a fixed J1/J2/J3 chapter distribution would be a false official attribution.'},
+ FR:{source:'https://eduscol.education.gouv.fr/5739/ressources-d-accompagnement-du-programme-de-physique-chimie-au-cycle-4',scope:'national-stage',name:'Physique-chimie · cycle 4',integrated:['primary'],noLower:['6e'],mixed:['lower'],note:'Cycle 4 covers 5e, 4e and 3e; the school-year sequence is advisory, not prescribed for each class. 6e is interdisciplinary science.'},
  HU:{source:'https://www.oktatas.hu/kozneveles/kerettantervek/2020_nat',scope:'national-stage',name:'Fizika · NAT 2020',noLower:['5','6'],lowerEntry:'7',note:'Grade 7–8 Física/Fizika foundation, revised in grades 9–10; specialised school tracks may vary.'},
  PL:{source:'https://zpe.gov.pl/podstawa-programowa/szkola-podstawowa/fizyka',scope:'national-stage',name:'Fizyka · klasy VII–VIII',lowerEntry:'VII',noLower:['V','VI'],note:'Separate Physics in classes VII and VIII; 2026 curriculum transition may be cohort-sensitive.'},
  PT:{source:'https://www.dge.mec.pt/programas-e-metas-curriculares/fisico-quimica',scope:'national-year',name:'Físico-Química · 7.º–9.º ano',noLower:['5','6'],lowerEntry:'7',mixed:['lower'],note:'Physics and Chemistry are combined in 7th–9th. 8th includes Sound and Light; 9th includes Motion/Forces and Electricity. 10th–12th depend on course options.'},
@@ -91,12 +91,21 @@ export function physicsCountryGradePlan({country='',stage='lower',grade='',years
  const integrated=phase==='primary'||ref?.integrated?.includes(phase);
  const mixed=ref?.mixed?.includes(phase);
  const noSeparate=phase==='lower'&&ref?.noLower?.includes(yr);
- const status=noSeparate?'integrated-or-not-taught':integrated?'integrated-science':
-  mixed?'mixed-physics-chemistry':ref?'framework-advisory':'european-advisory';
+ // "Not a separate timetabled Physics subject" is NOT the same as
+ // "the pupil does not study physical phenomena": many systems integrate.
+ // Romania Grade V is the one confirmed case where no Physics class is
+ // catalogued at all; its study starts in Grade VI.
+ const absent=code==='RO'&&phase==='lower'&&yr==='5';
+ const schoolScience=integrated||noSeparate;
+ const upperMix=phase==='upper'&&ref?.mixedUpper?.includes(yr);
+ const upperOptional=phase==='upper'&&ref?.optionalUpper?.includes(yr);
+ const status=absent?'not-offered':schoolScience?'integrated-science':
+  upperMix||mixed?'mixed-physics-chemistry':upperOptional?'elective-or-track-dependent':
+  ref?'framework-advisory':'european-advisory';
  const base=PHYSICS_ADVISORY_TOPIC_SEQUENCES[phase]||[];
  const sequence=base.length?base[Math.round(idx*(base.length-1)/Math.max(1,rows.length-1))]:[];
  const yearly=PHYSICS_COUNTRY_YEAR_SEQUENCES[code]?.[phase]?.[yr]||sequence;
- const blocked=Boolean(noSeparate);
+ const blocked=Boolean(absent);
  // Romania: the new secondary-school syllabus begins with IX in 2026/27.
  // X-XII remain on their applicable transitional cohort plans. An old
  // 2017 lower-secondary order must not be misattributed to Grade IX.
@@ -110,8 +119,8 @@ export function physicsCountryGradePlan({country='',stage='lower',grade='',years
   roOlder?'Clasele X–XII urmează programe de tranziție/cotortă diferite de clasa IX 2026/27; confirmă profilul și programa aplicabilă.':null;
  return {country:code,stage:phase,grade:yr,yearIndex:idx,
   status:blocked?'not-offered':status,
-  kind:blocked?'not-taught':noSeparate?'not-separate':integrated?'integrated':
-   mixed?'mixed':'subject-or-track-dependent',
+  kind:blocked?'not-taught':schoolScience?'integrated':upperMix||mixed?'mixed':
+   upperOptional?'elective':'subject-or-track-dependent',
   // No stand-alone grade V Physics for RO; other systems may offer the
   // same concepts as integrated science without calling them a Physics class.
   topics:blocked?[]:[...new Set(yearly)].filter(x=>x!=='solar'),
@@ -121,6 +130,11 @@ export function physicsCountryGradePlan({country='',stage='lower',grade='',years
   programmeName:ref?.name||'Advisory Physics strand',
   verifiedAnnual:false,
   nationalGradeLabels:Boolean(ref),
-  note:transition||ref?.note||'Local Physics syllabus/grade timetable not independently verified. This is an original advisory science progression grounded in Eurydice/ISCED school structures, not a national year-by-year curriculum.'
+  note:transition||ref?.note||'Local Physics syllabus/grade timetable not independently verified. This is an original advisory science progression grounded in Eurydice/ISCED school structures, not a national year-by-year curriculum.',
+  separatePhysicsOffered:!blocked&&!schoolScience,
+  integratedScience:schoolScience,
+  optionalByTrack:Boolean(upperOptional),
+  regionOrExamBoardRequired:['DE','AT','CH','BE','ES','GB-ENG','GB-SCT','GB-WLS','GB-NIR','NL'].includes(code),
+  sourceStatus:ref?.scope||'cross-national-advisory'
  };
 }
