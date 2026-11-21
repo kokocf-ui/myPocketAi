@@ -8233,9 +8233,9 @@ function scienceYearGroups(){
    years=years.filter(entry=>Number.isInteger(Number(entry.id))&&Number(entry.id)>=minRo&&Number(entry.id)<=8);
   if(scienceJourney.subject==='physics'&&band.schoolStage==='lower'){
    const all=[...years];
-   years=years.filter(entry=>physicsCountryGradePlan({
-    country,stage:'lower',grade:entry.id,years:all
-   }).kind!=='not-taught');
+   years=years.filter(entry=>SCIENCE_GRADE_TOPIC_PLAN({
+    country,subject:'physics',stage:'lower',grade:entry.id,years:all,topics:PHYSICS_TOPIC_DATA
+   }).topics.length>0);
   }
   if(country==='RO'&&band.schoolStage==='upper')
    years=years.filter(entry=>Number.isInteger(Number(entry.id))&&Number(entry.id)>=9&&Number(entry.id)<=12);
