@@ -182,7 +182,7 @@ export const NAV_RETURN_ACCENT_SCRIPT=String.raw`
   'text-shadow':'none'
  };
  const syncScienceReaderButton=button=>{
-  if(!button?.classList?.contains('science-lesson-read'))return;
+  if(!button?.classList?.contains?.('science-lesson-read'))return;
   const stopped=/(?:oprește|stop|■)/i.test(button.textContent||'');
   const label=stopped?'Oprește citirea / Stop reading':'Citește pagina / Read page';
   if(button.getAttribute?.('aria-label')!==label)button.setAttribute('aria-label',label);
