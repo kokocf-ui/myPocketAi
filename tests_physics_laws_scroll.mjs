@@ -60,7 +60,7 @@ const sandbox={
  educationOpenPagedLesson:(name,body)=>opened.push({name,body}),
  educationCountrySelection:{code:'RO',label:'România'},
  eduYearOptions:()=>[{id:'6',ro:'Clasa 6',en:'Year 6'}],
- SCIENCE_GRADE_TOPIC_PLAN:()=>[], SCIENCE_PRIMARY_LESSON_BANK:{}, EDUCATION_THEORY_DATA:[],
+ SCIENCE_PRIMARY_LESSON_BANK:{}, EDUCATION_THEORY_DATA:[],state:{language:'ro'},
  chemistryCurriculumPreset:null,
  $:key=>els[key]||null,scienceVoiceStop:()=>{},scienceStopRequest:()=>{},
  scienceOpenWorkspace:()=>{},renderLearningSubjects:()=>{},
