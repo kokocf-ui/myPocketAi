@@ -5,6 +5,8 @@ import {BIOLOGY_RO_GRADE6} from './science_ro_biology_grade6.mjs';
 import {BIOLOGY_RO_GRADE7} from './science_ro_biology_grade7.mjs';
 import {BIOLOGY_RO_GRADE8} from './science_ro_biology_grade8.mjs';
 import {CHEMISTRY_RO_GRADE8} from './science_ro_chemistry_grade8.mjs';
+import {PHYSICS_RO_ADDITIONS} from './science_ro_physics_additions.mjs';
+import {BIOLOGY_RO_ADDITIONS} from './science_ro_biology_additions.mjs';
 
 // This is a controlled original teaching outline using the CONTENT AREAS in
 // Romania's 2017 lower-secondary syllabuses. It is not a Ministry-approved
@@ -38,11 +40,13 @@ export const SCIENCE_RO_PHYSICS_LABELS={
 };
 export const SCIENCE_RO_LESSON_EXTRAS=Object.freeze({
  chemistry:Object.freeze({'8':CHEMISTRY_RO_GRADE8}),
- biology:Object.freeze({'5':BIOLOGY_RO_GRADE5,'6':BIOLOGY_RO_GRADE6,
-  '7':BIOLOGY_RO_GRADE7,'8':BIOLOGY_RO_GRADE8}),
- physics:Object.freeze({'6':SCIENCE_RO_PHYSICS_EXTRAS['6'],
-  '7':SCIENCE_RO_PHYSICS_EXTRAS['7'],
-  '8':Object.freeze([...SCIENCE_RO_PHYSICS_EXTRAS['8'],...PHYSICS_RO_GRADE8_MORE])})
+ biology:Object.freeze({'5':Object.freeze([...BIOLOGY_RO_GRADE5,...BIOLOGY_RO_ADDITIONS['5']]),
+  '6':Object.freeze([...BIOLOGY_RO_GRADE6,...BIOLOGY_RO_ADDITIONS['6']]),
+  '7':Object.freeze([...BIOLOGY_RO_GRADE7,...BIOLOGY_RO_ADDITIONS['7']]),
+  '8':Object.freeze([...BIOLOGY_RO_GRADE8,...BIOLOGY_RO_ADDITIONS['8']])}),
+ physics:Object.freeze({'6':Object.freeze([...SCIENCE_RO_PHYSICS_EXTRAS['6'],...PHYSICS_RO_ADDITIONS['6']]),
+  '7':Object.freeze([...SCIENCE_RO_PHYSICS_EXTRAS['7'],...PHYSICS_RO_ADDITIONS['7']]),
+  '8':Object.freeze([...SCIENCE_RO_PHYSICS_EXTRAS['8'],...PHYSICS_RO_GRADE8_MORE,...PHYSICS_RO_ADDITIONS['8']])})
 });
 export function scienceRoGradeTopics(subject,grade,topics=[]){
  const ids=SCIENCE_RO_LOWER_TOPICS[String(subject)]?.[String(grade)]||null;
@@ -75,7 +79,11 @@ export function scienceSchoolTopicLessons({country='',subject='',grade='',topic=
  // Biology year V primarily studies ecosystem diversity and classification.
  const filtered=localized&&subject==='biology'&&id==='5'&&topic==='plants'?
   original.filter(x=>/germin|cloroplast|fotosintez/i.test(x.title||'')).slice(0,2):original;
- const ordered=extras.concat(filtered);
+ // For Romanian Physics and Biology, the national grade-specific authored
+ // cards take precedence. Do not merge generic cross-grade facts that could
+ // silently introduce Grade VIII formulas into Grade VI.
+ const ordered=localized&&['physics','biology'].includes(subject)&&extras.length?
+  extras:extras.concat(filtered);
  const seen=new Set();
  return ordered.filter(entry=>{
   const key=String(entry.id||entry.title);
