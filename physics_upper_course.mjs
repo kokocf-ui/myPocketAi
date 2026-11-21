@@ -1,31 +1,85 @@
-// Original advisory study catalogue for upper-secondary Physics. A physical
-// law/formula is an individual learning concept; a review pre-requisite is
-// labelled as review rather than a new advanced national lesson.
-export function physicsUpperYearLessons({country='',grade='',topic='',years=[],lessons=[],reviewBank=null}={}){
- const yr=String(grade);
- if(!years.some(x=>String(x.id)===yr))return [];
- const core=(Array.isArray(lessons)?lessons:[]).filter(item=>
-  item.subject==='physics'&&item.topic===topic&&
-  ['beginner','intermediate'].includes(item.level)&&item.title&&item.statement);
- const gradeIndex=years.findIndex(y=>String(y.id)===yr);
- const order=core.map((item,n)=>({
-  ...item,grade:yr,source:'original-upper-physics-advisory',nationallyVerified:false,
-  id:'upper-physics-'+String(country)+'-'+yr+'-'+String(item.id),
-  chapterIndex:n+1,
-  exercise:'Interpretează noțiunea „'+item.title+'”, formulează ipotezele de aplicare și verifică dimensional relația: '+String(item.formula||'fără formulă numerică')+'.',
-  workedExample:'Exemplu de interpretare: '+item.statement+' '+
-   (item.formula&&item.formula!=='—'?
-    'În relația '+item.formula+', explică semnificația mărimilor și a unităților înainte de a calcula.':
-    'Compară două situații fizice și arată când este utilă definiția.'),
-  answer:'O rezolvare adecvată trebuie să explice conceptul, să declare ipotezele, unitățile și limitele formulei, fără rezultate numerice inventate.'
- }));
- // Revisions are educationally legitimate, but must not be counted as new
- // upper-year national curriculum or hide the authored upper lessons.
- const revision=(reviewBank?.['8']||[]).filter(x=>x.topic===topic).slice(0,6)
-  .map((entry,index)=>({...entry,
-   id:'upper-review-'+String(country)+'-'+yr+'-'+entry.id,
-   title:'Recapitulare: '+entry.title,source:'original-upper-physics-review',
-   grade:yr,chapterIndex:order.length+index+1,reviewOnly:true
-  }));
- return order.concat(revision);
+import {PHYSICS_UPPER_ENGLISH_MECHANICS} from './physics_upper_english_mechanics.mjs';
+import {PHYSICS_UPPER_ENGLISH_FIELDS} from './physics_upper_english_fields.mjs';
+import {PHYSICS_LOWER_ENGLISH_LESSONS} from './physics_lower_english_lessons.mjs';
+
+// 14 chapters with six advanced original exercises each, plus two clearly
+// labelled prerequisite reviews when presenting a complete upper-year course.
+// No copy/paste of a national exam board or textbook.
+export const PHYSICS_UPPER_ENGLISH_BANK=Object.freeze(Object.fromEntries(
+ Object.entries({...PHYSICS_UPPER_ENGLISH_MECHANICS,...PHYSICS_UPPER_ENGLISH_FIELDS})
+  .map(([topic,cards])=>[topic,Object.freeze(cards.map(
+   ([title,statement,workedExample,exercise,answer],index)=>Object.freeze({
+    id:'physics-upper-en-'+topic+'-'+(index+1),subject:'physics',topic,
+    title,statement,workedExample,exercise,answer,language:'en',
+    level:'intermediate',nationallyVerified:false,
+    source:'original-open-education-advisory'
+   })))]))
+);
+export function physicsUpperYearLessons({
+ country='',grade='',topic='',years=[],lessons=[],reviewBank=null,language='ro'
+}={}){
+ const yr=String(grade),yearIndex=years.findIndex(y=>String(y.id)===yr);
+ if(yearIndex<0)return [];
+ const code=String(country).toUpperCase(),english=language!=='ro';
+ const focusRatio=years.length<=1?0:yearIndex/(years.length-1);
+ const analysisDepth=focusRatio<0.34?0:focusRatio<0.68?1:2;
+ const difficultyEn=[
+  ['Write the physical assumptions and define the quantities before calculating.',
+   'A correct response identifies the model, variables, compatible units and conditions of validity.'],
+  ['Justify the formula, compare cases, and identify one plausible source of measurement uncertainty.',
+   'The argument should identify the mechanism and testable evidence, with uncertainty and units.'],
+  ['Check the result against a limiting case or alternative model, explaining what the model cannot predict.',
+   'A strong answer explains a limiting case, model assumptions, and where observations may differ.']
+ ];
+ const difficultyRo=[
+  ['Precizează ipotezele modelului și unitățile înaintea calculelor.',
+   'Rezolvarea trebuie să declare modelul, mărimile, unitățile și condițiile de aplicare.'],
+  ['Justifică formula și arată o sursă de incertitudine experimentală.',
+   'Justificarea trebuie să arate mecanismul fizic, ipotezele și unitățile.'],
+  ['Compară rezultatul cu un caz-limită și explică unde încetează să fie valid modelul.',
+   'O rezolvare bună discută un caz-limită și limitele predicției.']
+ ];
+ const challenge=(english?difficultyEn:difficultyRo)[analysisDepth];
+ const englishOriginal=PHYSICS_UPPER_ENGLISH_BANK[topic]||[];
+ const enrich=(entry,index,isReview)=>({
+  ...entry,grade:yr,chapterIndex:index+1,
+  id:'upper-'+code+'-'+yr+'-'+entry.id,
+  nationallyVerified:false,
+  reviewOnly:isReview,
+  exercise:entry.exercise+' '+challenge[0],
+  answer:(entry.answer||entry.statement)+' '+challenge[1]
+ });
+ const englishAdvanced=englishOriginal.map((entry,i)=>enrich(entry,i,false));
+ const lowerEnglish=(PHYSICS_LOWER_ENGLISH_LESSONS[topic]||[]).slice(0,2)
+  .map((item,i)=>enrich({
+   ...item,id:'prerequisite-'+item.id,
+   title:'Prerequisite review: '+item.title,reviewOnly:true
+  },englishAdvanced.length+i,true));
+ if(english)return [...englishAdvanced,...lowerEnglish];
+ const native=(Array.isArray(lessons)?lessons:[]).filter(entry=>
+  entry.subject==='physics'&&entry.topic===topic&&
+  ['beginner','intermediate'].includes(entry.level)&&entry.title&&entry.statement);
+ const roNative=native.map((entry,i)=>enrich({
+  ...entry,workedExample:'Exemplu de interpretare: '+entry.statement+
+    (entry.formula&&entry.formula!=='—'?
+     ' Pentru relația '+entry.formula+' explică semnificația mărimilor și a unităților, fără a introduce valori inventate.':
+     ' Compară două situații și precizează limitele definiției.'),
+  exercise:'Explică noțiunea „'+entry.title+'” și precizează când este validă formula ori definiția.',
+  answer:entry.statement
+ },i,false));
+ const revision=(reviewBank?.['8']||[]).filter(x=>x.topic===topic).slice(0,2)
+  .map((entry,i)=>enrich({
+   ...entry,id:'review-'+entry.id,
+   title:'Recapitulare necesară: '+entry.title,
+   source:'original-prerequisite-review'
+  },roNative.length+i,true));
+ // Even where the domestic Romanian catalogue has fewer advanced cards,
+ // expose the original English course as a visibly marked REFERENCE rather
+ // than misrepresenting that source as translated Romanian teaching.
+ const englishReference=englishOriginal.map((entry,i)=>enrich({
+  ...entry,id:'english-reference-'+entry.id,
+  title:'Referință în engleză: '+entry.title,
+  source:'original-english-upper-reference'
+ },roNative.length+revision.length+i,false));
+ return [...roNative,...revision,...englishReference];
 }
