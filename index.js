@@ -78,6 +78,7 @@ import {CHEMISTRY_SPECIALIZATIONS,CHEMISTRY_SPECIALTY_TOPICS,CHEMISTRY_SPECIALTY
 import {BIOLOGY_TOPICS,BIOLOGY_SPECIALIZATIONS,BIOLOGY_SPECIALTY_TOPICS,biologyVerifiedExercise} from './biology_curriculum.mjs';
 import {BIOLOGY_UPPER_YEAR_TOPICS,BIOLOGY_UPPER_YEAR_BANK,biologyUpperYearLessons} from './biology_upper_course.mjs';
 import {BIOLOGY_REFERENCE_GROUPS,BIOLOGY_REFERENCE,biologyReferenceText} from './biology_reference.mjs';
+import {BIOLOGY_TOPIC_VISUALS,biologyTopicVisualBuild} from './biology_topic_visuals.mjs';
 import {BIOLOGY_UNIVERSITY_DEFAULT_YEARS,BIOLOGY_UNIVERSITY_CYCLE_REFERENCE,
  biologyUniversityRoutes,biologyUniversityRoute,biologyUniversityYears,biologyUniversityCourseChoices,biologyUniversityCapstoneText} from './biology_university_years.mjs';
 import {mathAdvancedVerifiedModel} from './math_advanced_verified.mjs';
@@ -9422,6 +9423,8 @@ const biologyUpperYearLessons=${biologyUpperYearLessons.toString()};
 const BIOLOGY_REFERENCE_GROUPS=${JSON.stringify(BIOLOGY_REFERENCE_GROUPS)};
 const BIOLOGY_REFERENCE=${JSON.stringify(BIOLOGY_REFERENCE)};
 const biologyReferenceText=${biologyReferenceText.toString()};
+const BIOLOGY_TOPIC_VISUALS=${JSON.stringify(BIOLOGY_TOPIC_VISUALS)};
+const biologyTopicVisualBuild=${biologyTopicVisualBuild.toString()};
 const BIOLOGY_UNIVERSITY_DEFAULT_YEARS=${JSON.stringify(BIOLOGY_UNIVERSITY_DEFAULT_YEARS)};
 const BIOLOGY_UNIVERSITY_CYCLE_REFERENCE=${JSON.stringify(BIOLOGY_UNIVERSITY_CYCLE_REFERENCE)};
 const biologyUniversityRoutes=${biologyUniversityRoutes.toString()};
@@ -10045,7 +10048,25 @@ function scienceInsertSymbol(editor,symbol){
  editor.setSelectionRange(a+symbol.length,a+symbol.length);
  editor.dispatchEvent(new Event('input',{bubbles:true}));
 }
+function biologyTopicVisualOpen(topicId){
+ const board=biologyTopicVisualBuild(topicId,state.language);
+ if(!board)return;
+ document.getElementById('biologyContextDialog')?.remove();
+ const dialog=document.createElement('dialog');
+ dialog.id='biologyContextDialog';
+ dialog.className='education-theory-dialog science-result-dialog biology-diagram-dialog';
+ const header=document.createElement('div');header.className='education-theory-head';
+ const title=document.createElement('h2');
+ title.textContent=learningLabel('Biologie · schemă de studiu','Biology · study diagram');
+ const back=document.createElement('button');back.type='button';back.className='secondary-btn';
+ back.textContent=learningLabel('← Revenire','← Back');back.onclick=()=>dialog.close();
+ header.append(title,back);dialog.append(header,board);
+ dialog.addEventListener('close',()=>dialog.remove());
+ document.body.append(dialog);
+ try{dialog.showModal()}catch{dialog.setAttribute('open','')}
+}
 function scienceBiologyDiagramOpen(){
+ const defaultMode=arguments[0]==='dna'?'dna':'cell';
  document.getElementById('biologyDiagramDialog')?.remove();
  const dialog=document.createElement('dialog');dialog.id='biologyDiagramDialog';
  dialog.className='education-theory-dialog science-result-dialog biology-diagram-dialog';
@@ -10057,6 +10078,7 @@ function scienceBiologyDiagramOpen(){
  for(const [value,ro,en] of [['cell','Celulă eucariotă 2D','Eukaryotic cell 2D'],['dna','ADN dublu helix 3D','DNA double helix 3D']]){
   const option=document.createElement('option');option.value=value;option.textContent=learningLabel(ro,en);choose.append(option);
  }
+ choose.value=defaultMode;
  const frame=document.createElement('div');frame.className='chemistry-molecule-frame biology-diagram-frame';
  const ns='http://www.w3.org/2000/svg',svg=document.createElementNS(ns,'svg');
  svg.setAttribute('viewBox','0 0 360 260');svg.setAttribute('role','img');
@@ -11714,7 +11736,23 @@ function scienceOpenChemistrySection(stage){
     }
    }else tile('📈','Reprezentări din capitol','Chapter diagrams','Doar modele relevante lecției','Only lesson-relevant models',physicsVisualPicker);
   }else if(scienceJourney.subject==='biology'){
-   tile('🧬','Celulă și ADN 3D','Cell and 3D DNA','Explorează modelele de celulă și ADN','Explore cell and DNA models',scienceBiologyDiagramOpen);
+   const key=topic?.id||'';
+   if(key==='cells')tile('🧬','Celula eucariotă','Eukaryotic cell',
+    'Membrană, nucleu și mitocondrii','Membrane, nucleus and mitochondria',
+    ()=>scienceBiologyDiagramOpen('cell'));
+   else if(key==='genetics')tile('🧬','ADN dublu helix 3D','3D DNA double helix',
+    'Catene antiparalele și perechi de baze','Antiparallel strands and base pairs',
+    ()=>scienceBiologyDiagramOpen('dna'));
+   else if(BIOLOGY_TOPIC_VISUALS[key])tile('📊','Schema capitolului','Chapter-specific diagram',
+    'Reprezentare biologică relevantă pentru această temă','Relevant biological model for this topic',
+    ()=>biologyTopicVisualOpen(key));
+   else{
+    const notice=document.createElement('p');notice.className='chem-no-visual';
+    notice.textContent=learningLabel(
+     'Nu există încă o reprezentare validată pentru acest capitol. Nu afișăm automat celula sau ADN-ul la teme fără legătură.',
+     'There is no validated diagram for this chapter. Cell and DNA models will not be shown for unrelated topics.');
+    list.append(notice);
+   }
   }else if(scienceJourney.subject==='astronomy'){
    tile('🪐','Reprezentări astronomice','Astronomy diagrams','Diagrame pentru fenomenele studiate','Diagrams for studied phenomena',astronomyDiagramPicker);
    tile('🌌','Orbite 3D','3D orbits','Vizualizare rotativă a orbitelor','Interactive rotating orbits',astronomyOrbit3DOpen);
