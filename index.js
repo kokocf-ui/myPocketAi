@@ -10708,7 +10708,7 @@ function scienceAttachLessonReview(dialog){
    (ro?'Exercițiu: ':'Question: ')+selectedExercise.prompt+'. '+
    (ro?'Răspuns de referință și criterii: ':'Reference answer and criteria: ')+selectedExercise.guide+'. '+
    (ro?'Răspunsul elevului: ':'Student answer: ')+answer+'. '+
-   (ro?'Răspunde în română.':'Respond in English.');
+   (ro?'Răspunde în română.':'Respond in the selected interface language, code '+String(state.language||'en')+'. The original study material may be English and must not be claimed to be an official translation.');
   try{
    const response=await fetch(CLIENT_CONFIG.apiUrl,{method:'POST',headers:{'Content-Type':'application/json'},
     body:JSON.stringify({module:'education_study',education_subject:spec.subject,
