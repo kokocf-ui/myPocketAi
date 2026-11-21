@@ -20,7 +20,7 @@ export function scienceSchoolLessonMaterial({
   (ro?'Capitol: ':'Chapter: ')+chapter,
   '# '+title
  ];
- if(!ro){
+ if(!ro&&entry.language!=='en'){
   parts.push('Romanian reference lesson. A verified translation into the selected language is not available; this lesson is not presented as a certified national course.');
  }
  parts.push('# '+(ro?'Explicația noțiunii':'Concept explanation'),core);
