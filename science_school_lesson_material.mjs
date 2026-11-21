@@ -1,4 +1,7 @@
 import {physicsGrade6TeacherNotes} from './physics_grade6_pedagogy.mjs';
+import {physicsGrade6Formula} from './physics_grade6_formula_notes.mjs';
+import {physicsGrade7TeacherGuide} from './physics_grade7_teacher_guides.mjs';
+import {physicsGrade8TeacherGuide} from './physics_grade8_teacher_guides.mjs';
 
 // Present a REAL distinct sublesson, not the same generic chapter for all
 // buttons. Native catalogue notes are augmented by existing authored chapter
@@ -28,10 +31,28 @@ export function scienceSchoolLessonMaterial({
   parts.push('Original English reference material. Translation into the selected interface language is not independently verified; this is an advisory course, not a certified national syllabus.');
  }
  parts.push('# '+(ro?'Explicația noțiunii':'Concept explanation'),core);
- const roGrade6=subject==='physics'&&ro&&String(grade)==='6'&&
-  /^ro-physics-(?:extra-)?6-/.test(String(entry.id||''));
- const teacherNotes=roGrade6?physicsGrade6TeacherNotes(title,language):'';
+ const romanianPhysics=subject==='physics'&&ro;
+ // Exact original concept title determines the notes. The original national
+ // tier may also be used as an explicitly advisory foreign-language study card.
+ const teacherNotes=romanianPhysics?physicsGrade6TeacherNotes(title,language):'';
+ const introFormula=romanianPhysics?physicsGrade6Formula(title):null;
+ const teacherGuide=romanianPhysics?(physicsGrade7TeacherGuide(title)||physicsGrade8TeacherGuide(title)):null;
+ // A formula and its symbols come BEFORE any worked calculation.
+ const mainFormula=teacherGuide?.formula||introFormula?.formula||(formula&&formula!=='—'?formula:'');
+ if(mainFormula){
+  parts.push('# Formula de pornire',mainFormula);
+  const symbols=teacherGuide?.symbols||introFormula?.symbols;
+  if(symbols)parts.push('# Ce înseamnă simbolurile și unitățile',symbols);
+ }
  if(teacherNotes)parts.push('# Explicație aprofundată',teacherNotes);
+ if(teacherGuide){
+  parts.push('# Cum gândim și aplicăm, pas cu pas',teacherGuide.method,
+   '# Exemplu rezolvat pas cu pas',teacherGuide.worked,
+   '# Cum verificăm rezultatul și ce greșeli evităm',teacherGuide.check);
+ }else if(introFormula){
+  parts.push('# Exemplu cu formula',introFormula.worked,
+   '# Verifică dacă ai înțeles',introFormula.check);
+ }
  if(fullDetail){
   parts.push('# '+(ro?'Lecție detaliată':'Detailed study content'),fullDetail);
  }else if(!specific&&chapterLesson?.explanation){
@@ -40,11 +61,8 @@ export function scienceSchoolLessonMaterial({
  }else if(!specific&&Array.isArray(guide)&&guide[0]){
   parts.push('# '+(ro?'Context':'Context'),guide[0]);
  }
- if(formula&&formula!=='—'){
-  parts.push('# '+(ro?'Relație sau notație':'Formula or notation'),formula);
- }
  const worked=specific?entry.workedExample:chapterLesson?.workedExample||guide?.[1];
- if(worked){
+ if(worked&&!teacherGuide&&!introFormula){
   parts.push('# '+(ro?'Exemplu explicat':'Worked illustration'),worked);
  }
  const misconception=!specific?(chapterLesson?.answer||guide?.[2]):null;
@@ -76,13 +94,17 @@ export function scienceSchoolLessonAssessment({
  if(!entry||!entry.title)return null;
  const ro=language==='ro';
  const hasOriginalQuestion=Boolean(entry.exercise&&entry.answer);
+ const referenceGuide=subject==='physics'&&ro?
+  (physicsGrade7TeacherGuide(entry.title)||physicsGrade8TeacherGuide(entry.title)):null;
  return {subject,topic,stage:'lower',lang:ro?'ro':'en',
   prompt:entry.exercise||
    (ro?'Explică noțiunea „'+entry.title+'” folosind definiția și exemplul din fișa de studiu.':
     'Explain the concept '+entry.title+' using the given definition and case.'),
   guide:[hasOriginalQuestion?entry.answer:null,entry.statement,
    entry.workedExample||null,
-   entry.formula&&entry.formula!=='—'?entry.formula:null,
+   referenceGuide?.formula||physicsGrade6Formula(entry.title)?.formula||
+    (entry.formula&&entry.formula!=='—'?entry.formula:null),
+   referenceGuide?.worked||null,
    Array.isArray(chapterGuide)?chapterGuide[2]:null].filter(Boolean).join(' '),
   // Exact numeric checks apply ONLY to the original 26 chapter-level exercises,
   // not to similarly named but distinct sublesson questions.
