@@ -1,13 +1,9 @@
 name: Probe real international ground transport coverage
 
 on:
-  push:
-    branches: [main]
-    paths: ['.github/workflows/mixed-ground-live-probe.yml']
+  # Live transport checks can call the AI backend. Keep them manual so
+  # Education and other unrelated deployments do not consume quota.
   workflow_dispatch:
-  workflow_run:
-    workflows: ['Deploy MyPocketAI to Cloudflare']
-    types: [completed]
 
 jobs:
   probe:
