@@ -29,7 +29,7 @@ assert.ok(script.includes("if(false&&availableTopics.length>1)"),
  'exercise view does not duplicate the chapter list');
 assert.ok(script.includes("if(false&&topic)"),
  'exercise view does not duplicate lessons');
-assert.ok(script.includes("scienceJourney.topic=item.id;scienceJourneyShowChoices('chemistry-menu')"),
+assert.ok(script.includes("scienceJourney.topic=item.id;physicsUniversitySelectedLessonIndex=0;scienceJourneyShowChoices('chemistry-menu')"),
  'All Sciences open the simplified chapter menu without duplicated inline lessons');
 assert.ok(html.includes('.science-compact-panel .chemistry-section-list{'),
  'lessons scroll with clearance above persistent navigation');

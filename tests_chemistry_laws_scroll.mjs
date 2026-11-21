@@ -3,6 +3,8 @@ import vm from 'node:vm';
 import app from './index.js';
 import {CHEMISTRY_LAWS,CHEMISTRY_LAWS_GROUPS} from './chemistry_laws_reference.mjs';
 import {PHYSICS_LAWS,PHYSICS_LAWS_GROUPS} from './physics_laws_reference.mjs';
+import {scienceGradeTopicPlan} from './science_grade_progression.mjs';
+import {scienceSchoolTopicLessons,scienceRoAnnualCoverage} from './science_ro_course_plan.mjs';
 import {physicsUniversityYears,physicsUniversityRoute,physicsUniversityRoutes} from './physics_university_europe.mjs';
 
 assert.equal(CHEMISTRY_LAWS.length,16,'A meaningful Chemistry reference is present');
@@ -40,12 +42,13 @@ const env={
  PHYSICS_LAWS_DATA:PHYSICS_LAWS,PHYSICS_LAW_GROUPS:PHYSICS_LAWS_GROUPS,
  CHEMISTRY_LAWS_DATA:CHEMISTRY_LAWS,CHEMISTRY_LAW_GROUPS:CHEMISTRY_LAWS_GROUPS,
  physicsUniversityYears,physicsUniversityRoute,physicsUniversityRoutes,
+ SCIENCE_GRADE_TOPIC_PLAN:scienceGradeTopicPlan,scienceSchoolTopicLessons,scienceRoAnnualCoverage,
  educationCountrySelection:{code:'RO',label:'România'},
  eduYearOptions:()=>[{id:'7',ro:'Clasa 7',en:'Grade 7'},{id:'8',ro:'Clasa 8',en:'Grade 8'}],
  learningLabel:(ro,en)=>ro,
  educationTheoryClean:value=>String(value||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim(),
  educationOpenPagedLesson:(name,body)=>opened.push({name,body}),
- SCIENCE_GRADE_TOPIC_PLAN:()=>[],SCIENCE_PRIMARY_LESSON_BANK:{},EDUCATION_THEORY_DATA:[],
+ SCIENCE_PRIMARY_LESSON_BANK:{},EDUCATION_THEORY_DATA:[],state:{language:'ro'},
  $:key=>els[key]||null,scienceVoiceStop:()=>{},scienceStopRequest:()=>{},
  scienceOpenWorkspace:()=>{},renderLearningSubjects:()=>{},pocketNativeVoiceAvailable:()=>false,
 };

@@ -4,6 +4,7 @@ import frontend from './index.js';
 import {THEORY_ENTRIES} from './education_theory.mjs';
 import {SCIENCE_UNIVERSITY_TRACK_GUIDES} from './science_university_track_guides.mjs';
 import {scienceUniversityChapter} from './science_university_chapters.mjs';
+import {physicsUniversityTopicUnits,physicsUniversityUnitMaterial} from './physics_university_learning_units.mjs';
 import {EDUCATION_EUROPE_COUNTRIES,educationCountrySchoolYears} from './education_all_country_subject_matrix.mjs';
 import {PHYSICS_TOPICS,PHYSICS_SPECIALIZATIONS} from './physics_curriculum.mjs';
 import {CHEMISTRY_TOPICS} from './chemistry_curriculum.mjs';
@@ -83,25 +84,37 @@ const start=script.indexOf('function educationScienceTheoryReader('),end=script.
 assert.ok(start>=0&&end>start);
 const opened=[],state={language:'ro'},journey={level:'advanced',schoolStage:'advanced',specialty:'quantum',grade:'University year 1'};
 const topic=PHYSICS_TOPICS.find(t=>t.id==='special-quantum');
-const makeElement=tag=>({tag,children:[],style:{},append(...parts){this.children.push(...parts)}});
+const makeElement=tag=>({tag,children:[],style:{},textContent:'',
+ classList:{add(){}},append(...parts){this.children.push(...parts)}});
 const context={
  document:{createElement:makeElement},state,scienceJourney:journey,
  EDUCATION_THEORY_DATA:THEORY_ENTRIES,scienceTopicInfo:()=>topic,
  SCIENCE_UNIVERSITY_CHAPTER:scienceUniversityChapter,
+ physicsUniversityTopicUnits,physicsUniversityUnitMaterial,
  learningLabel:(ro,en)=>state.language==='ro'?ro:en,
  educationOpenPagedLesson:(title,material)=>opened.push({title,material})
 };
-const reader=vm.runInNewContext(script.slice(start,end)+';educationScienceTheoryReader',context);
-let ui=reader('physics','special-quantum','advanced');
-assert.equal(ui.children.length,2,'University chapter should be one complete paginated document');
-ui.children[1].onclick();
-assert.ok(opened.at(-1).material.includes(SCIENCE_UNIVERSITY_TRACK_GUIDES.physics.quantum.ro[1]));
-assert.ok(opened.at(-1).material.includes('Relație și notație:'));
-state.language='en';ui=reader('physics','special-quantum','advanced');ui.children[1].onclick();
-assert.ok(opened.at(-1).material.includes(SCIENCE_UNIVERSITY_TRACK_GUIDES.physics.quantum.en[1]));
-assert.equal(opened.at(-1).title,topic.en,'English University chapter title must be translated');
+const ui=vm.runInNewContext('let physicsUniversitySelectedLessonIndex=0;let sciencePendingAssessmentSpec=null;'+
+ script.slice(start,end)+';({render:educationScienceTheoryReader,pending:()=>sciencePendingAssessmentSpec})',context);
+let screen=ui.render('physics','special-quantum','advanced');
+assert.equal(screen.children.length,2,'University Physics must show a heading plus real lesson list');
+assert.equal(screen.children[1].children.length,4,'Four distinct specialist studies must be selectable');
+screen.children[1].children[0].onclick();
+assert.ok(opened.at(-1).material.includes('Lungimea de undă de Broglie'));
+assert.ok(opened.at(-1).material.includes('Formula de pornire'));
+assert.equal(ui.pending(),null,'Answer review state must be cleared');
+screen.children[1].children[1].onclick();
+assert.notEqual(opened.at(-1).title,opened.at(-2).title,'Different university studies must open different pages');
+state.language='en';
+screen=ui.render('physics','special-quantum','advanced');
+assert.equal(screen.children[1].children.length,4);
+screen.children[1].children[0].onclick();
+assert.ok(opened.at(-1).material.includes('De Broglie wavelength'));
+assert.ok(opened.at(-1).material.includes('Starting formula'));
 context.EDUCATION_THEORY_DATA=[];
-ui=reader('physics','special-quantum','advanced');
-assert.equal(ui.children.length,2);
-assert.equal(ui.children[1].tag,'p','University source must not be silently invented');
+screen=ui.render('physics','special-quantum','advanced');
+assert.equal(screen.children[1].children.length,4,
+ 'University Physics authored specialist lessons must not disappear when a generic theory bank is unavailable');
+const other=ui.render('chemistry','does-not-exist','advanced');
+assert.equal(other.children[1].tag,'p','Unmapped other Science chapter must not be invented');
 console.log('PASS Sciences University: '+programmes+' specialisations, '+chapters+' nonempty programme chapters, '+subtopics+' real subtopics, all 50 school systems; full paginated Android reader');

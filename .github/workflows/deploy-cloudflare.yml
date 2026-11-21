@@ -13,6 +13,7 @@ concurrency:
 
 jobs:
   deploy-frontend:
+    if: ${{ github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -175,6 +176,7 @@ jobs:
             -o /tmp/poi-media-result.json
           python3 -c 'import json; d=json.load(open("/tmp/poi-media-result.json")); assert isinstance(d.get("details"),dict) and isinstance(d.get("logos"),list); print("PASS live Android place details")'
   deploy-backend:
+    if: ${{ github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
