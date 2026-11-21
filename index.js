@@ -11769,11 +11769,49 @@ function scienceOpenChemistrySection(stage){
     const same=chosen&&chosen.grade===scienceJourney.grade&&chosen.topic===key&&
      chosen.stage===scienceJourney.schoolStage&&chosen.country===educationCountrySelection.code;
     if(!same){
-     const notice=document.createElement('p');notice.className='chem-no-visual';
-     notice.textContent=learningLabel(
-      'Selectează mai întâi o lecție din capitol. Laboratorul va arăta numai activitatea potrivită acelei lecții.',
-      'Select a lesson first. The lab then shows only the activity related to it.');
-     list.append(notice);
+     // Lab must be reachable directly, without opening Theory first.
+     // Reuse the exact grade/country/chapter inventory used by the reader.
+     const years=eduYearOptions(educationCountrySelection.code,
+      scienceJourney.schoolStage==='upper'?'intermediate':scienceJourney.schoolStage,'science');
+     const entries=scienceSchoolTopicLessons({
+      country:educationCountrySelection.code,subject:'biology',
+      stage:scienceJourney.schoolStage,grade:scienceJourney.grade,
+      topic:key,years,lessons:EDUCATION_THEORY_DATA,language:state.language
+     });
+     for(const entry of entries){
+      tile('🔎',entry.title,entry.title,
+       'Activitate și observații pentru lecția selectată',
+       'Lesson-specific investigation and observations',()=>{
+        const ro=state.language==='ro';
+        const body=[
+         '# '+entry.title,
+         '# '+learningLabel('Obiectivul activității','Learning objective'),
+         entry.statement||'',
+         '# '+learningLabel('Materiale și pregătire','Materials and preparation'),
+         learningLabel('Caiet, creion și materialul vizual al lecției. Pentru observații directe, folosește numai materiale sigure, potrivite vârstei și cu supraveghere dacă este necesar.',
+          'Notebook, pencil and the lesson visual. For direct observation, use only age-appropriate safe materials with supervision where necessary.'),
+         '# '+learningLabel('Procedură și observații','Method and observations'),
+         entry.workedExample||entry.example||entry.activity||entry.method||
+          learningLabel('Observă fenomenul descris în lecție. Notează ce se vede direct și separă observația de explicație.',
+           'Observe the phenomenon described in the lesson. Record direct observations separately from interpretations.'),
+         '# '+learningLabel('Explicarea rezultatelor','Explaining the findings'),
+         entry.statement||'',
+         '# '+learningLabel('Verificare','Check your understanding'),
+         entry.exercise||entry.question||learningLabel('Ce ai observat și ce concluzie este justificată de observații?',
+          'What did you observe and which conclusion is supported by the evidence?'),
+         '# '+learningLabel('Concluzie și limite','Conclusion and limitations'),
+         entry.answer||learningLabel('Concluzia se bazează pe observațiile înregistrate. Nu inventa măsurători și nu confunda modelul cu un experiment realizat.',
+          'Base conclusions on recorded observations. Do not invent measurements or claim a model is a completed experiment.')
+        ].filter(Boolean).join('\\n\\n');
+        educationOpenPagedLesson(entry.title,body);
+       });
+     }
+     if(!entries.length){
+      const notice=document.createElement('p');notice.className='chem-no-visual';
+      notice.textContent=learningLabel('Acest capitol nu are încă activități documentate pentru anul ales.',
+       'No documented investigation exists for this chapter and school year.');
+      list.append(notice);
+     }
     }else{
      tile('🔎','Activitatea lecției','Lesson activity',
       'Observație sau model asociat temei: '+chosen.title,
