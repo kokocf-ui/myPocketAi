@@ -49,7 +49,8 @@ for(const code of EDUCATION_EUROPE_COUNTRIES){
      for(const marker of ['Goals and conceptual foundations','Worked example and interpretation','Review exercise','Laboratory, simulation or investigation'])
       assert.ok(en.includes(marker),course.id+'/'+marker);
      assert.ok(ro.includes(course.ro)&&en.includes(course.en),course.id+' must have own material');
-     assert.ok(ro.includes(course.formula)&&en.includes(course.formula),course.id+' formula missing');
+     const formula=PHYSICS_UNIVERSITY_ALL_COURSES.find(x=>x.id===course.courseId)?.formula;
+     assert.ok(formula&&ro.includes(formula)&&en.includes(formula),course.id+' formula missing');
      assert.ok(!/acreditat|certified national curriculum/.test(''), 'No assertion side effects');
      fields.documents++;
     }
