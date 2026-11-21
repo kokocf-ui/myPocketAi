@@ -29,7 +29,7 @@ export function scienceSchoolLessonMaterial({
  }
  parts.push('# '+(ro?'Explicația noțiunii':'Concept explanation'),core);
  const roGrade6=subject==='physics'&&ro&&String(grade)==='6'&&
-  /^ro-physics-6-/.test(String(entry.id||''));
+  /^ro-physics-(?:extra-)?6-/.test(String(entry.id||''));
  const teacherNotes=roGrade6?physicsGrade6TeacherNotes(title,language):'';
  if(teacherNotes)parts.push('# Explicație aprofundată',teacherNotes);
  if(fullDetail){
