@@ -1,0 +1,2017 @@
+{
+  "date": "2026-11-21",
+  "repository": "kokocf-ui/myPocketAi",
+  "original_main": "a71e97275977ae118bbd3c851a46e1baa51a9f7e",
+  "purpose": "Archival only; preserves histories, never merges unfinished code into main",
+  "restore": "git branch <new-branch-name> <sha>",
+  "branches": [
+    {
+      "name": "archive/tests-before-cleanup-2026-11-03",
+      "sha": "4dfd540dd2fcdf38006c468d33925f35c5a470a3"
+    },
+    {
+      "name": "audit-edu-reader-ui-provider-latency-20261112",
+      "sha": "99e11e791c4789f0b8e2e4988a3f5cdf805580bd"
+    },
+    {
+      "name": "audit-poi-parking-zoo-latency-20261112",
+      "sha": "103b96b86e0d9bf3475fa664788e146010cd64df"
+    },
+    {
+      "name": "audit-shared-tfl-education-render-20261112",
+      "sha": "60e5cee35af11d7cb9253b51cf2729471703d7ec"
+    },
+    {
+      "name": "chore/cleanup-obsolete-tests-20261106",
+      "sha": "490ab38f18378d81ec855621ab7bebc0497b8c83"
+    },
+    {
+      "name": "chore/signed-apk-after-eva-quality",
+      "sha": "8c7382262d9ba75de4d23b78edd4e7855de1a332"
+    },
+    {
+      "name": "cleanup/legacy-telegram-channel-and-live-qa-20261105",
+      "sha": "29c4f5b57830be10309812802b8dd7ed22207ceb"
+    },
+    {
+      "name": "diag/live-directions-chromium-20261117",
+      "sha": "187157dc4eb3ed2fc661d42174b904e6d17d498e"
+    },
+    {
+      "name": "diagnostic/news-translation-errors-20261104",
+      "sha": "576f2c150639489c21bd37be5c2468f000530897"
+    },
+    {
+      "name": "diagnostic/news-translation-trace-20261104",
+      "sha": "25d165b93fb20029aae7f117ed761e1bd5753c73"
+    },
+    {
+      "name": "education-literature-national-libraries-20261112",
+      "sha": "71230f0bf1b7c91cc162f20270a2814e0834a1c0"
+    },
+    {
+      "name": "education-paged-themes-2026-11-13",
+      "sha": "dc4f0d4abc01bcfdb2bfa8bf413efd7b5e948901"
+    },
+    {
+      "name": "education-reader-complete-content-scroll-20261113",
+      "sha": "fb1a3bb1532ea44255711898838181028af47af6"
+    },
+    {
+      "name": "europe-slim-installer",
+      "sha": "d6efe277cd46a69082d2b5e1f3c4ba6d7951cace"
+    },
+    {
+      "name": "feat/account-birthday-greeting-no-age-20261111",
+      "sha": "bba91538aabf0ea8e5868bf13561f841d85c0a1f"
+    },
+    {
+      "name": "feat/agenda-android-reminders-20261105",
+      "sha": "b9048882f83885b94f8198cf150cf5e1647b59e9"
+    },
+    {
+      "name": "feat/agenda-annual-birthdays-20261105",
+      "sha": "91b227485ade76123eba5824ed18c83ec4a47f6e"
+    },
+    {
+      "name": "feat/agenda-calendar-details-20261106",
+      "sha": "c7eabd0e6a98552b7756492effcee236bba2cc38"
+    },
+    {
+      "name": "feat/agenda-smart-event-presets-20261105",
+      "sha": "917769312b1105cd48838cf14d0a77d7a3d720ec"
+    },
+    {
+      "name": "feat/biology-complete-specialists-20261107",
+      "sha": "56cb39e37c0905e9161e68344d71ba89c2584fb0"
+    },
+    {
+      "name": "feat/chemistry-complete-country-year-depth-20261121",
+      "sha": "239445f807f59263ba9e7125a63d8d327a01cf5a"
+    },
+    {
+      "name": "feat/chemistry-complete-specializations-20261107",
+      "sha": "42598d9d9b885d1306f0959cc57660f84dfabb61"
+    },
+    {
+      "name": "feat/chemistry-three-sections-detailed-theory-20261114",
+      "sha": "010608cbca8bdf41c5e44d90d05604ed9a6a30df"
+    },
+    {
+      "name": "feat/chemistry-visuals-and-workspace-reset-20261107",
+      "sha": "513b8b46792d1708dba4e9d5719fbfbdbe3f2464"
+    },
+    {
+      "name": "feat/comm-voice-drafts-message-actions-20261115",
+      "sha": "2b644868b2547cc377ef6c3c7b0ca8ff8a6f1793"
+    },
+    {
+      "name": "feat/communication-inbox-blue-theme",
+      "sha": "1c41826c477f184cd51974fb849bf8ee2d5e9507"
+    },
+    {
+      "name": "feat/computing-free-eva-chat-copyable-code",
+      "sha": "85dba25ae32e5935fda898de6312a06b2d57d936"
+    },
+    {
+      "name": "feat/computing-full-theory-20261109",
+      "sha": "40826d96d1e038610491b8d4cee267df73027ae2"
+    },
+    {
+      "name": "feat/education-hg-offline-lessons-20261109",
+      "sha": "d108a610342a746249b8c1174cc17c8a3f02091e"
+    },
+    {
+      "name": "feat/education-math-results-pages-and-plots-20261106",
+      "sha": "147216890538c4df2e44b0bf80c630b4a2ec3921"
+    },
+    {
+      "name": "feat/education-worldwide-curriculum-20261109",
+      "sha": "d97ba8adf3a2a0e43f9b8ad92f432d92b48d3dc6"
+    },
+    {
+      "name": "feat/europe-literature-seven-languages-20261110",
+      "sha": "a94008dc067f1df44c78c10f3f7ad827fd90afa9"
+    },
+    {
+      "name": "feat/eva-alpha-affiliate-monitor-20261116",
+      "sha": "f9953ff5e2263fdada8d4531357b8c258d566300"
+    },
+    {
+      "name": "feat/eva-coding-capabilities",
+      "sha": "650c51d25f8bc972f545fdaaf6976cf79af11dad"
+    },
+    {
+      "name": "feat/global-progressive-choice-on-main-20261107",
+      "sha": "fa0f3d2dd48fad7aac86d9cb8c3c6a3840704517"
+    },
+    {
+      "name": "feat/gtfs-sqlite-indexed-20261116",
+      "sha": "e6b1d8ec05b3c17a3af95a47b085ec11ff0456d1"
+    },
+    {
+      "name": "feat/international-all-subjects-curriculum-20261109",
+      "sha": "b0a74335a25756731788387bdf99f8c1f7ad55ed"
+    },
+    {
+      "name": "feat/literature-offline-theory-20261109",
+      "sha": "83d46dd25013e36db58c60ae2204ebb317d799f5"
+    },
+    {
+      "name": "feat/math-algebra-engine-registry-20261107",
+      "sha": "0cad7a6fa6f35621acc07c1161a4815c5b6755af"
+    },
+    {
+      "name": "feat/math-editor-library-expanded-20261107",
+      "sha": "1d8044de1c69ee03d861bfb7eb065b266c8776e0"
+    },
+    {
+      "name": "feat/math-figure-workbench-20261107",
+      "sha": "bf6e65e3c50de8c254137c4d6a3cfa4f09484755"
+    },
+    {
+      "name": "feat/math-geometry-editor-20261107",
+      "sha": "047161c6600df9806060a7818b47b66f6cf1dc68"
+    },
+    {
+      "name": "feat/math-graph-results-corner-20261107",
+      "sha": "c916e2d010d692cde3ad0fb7cc840900d5cfad61"
+    },
+    {
+      "name": "feat/math-level-subject-navigation-20261107",
+      "sha": "28808511f1652a2a6d1dca53218d33897afd8a1c"
+    },
+    {
+      "name": "feat/math-linear-systems-20261107",
+      "sha": "678aa017191e4f25e73a7d69ed54a83ef2c1ff56"
+    },
+    {
+      "name": "feat/math-matrices-symbolic-20261107",
+      "sha": "38cc817bda100365bed39f22662604f24a16382c"
+    },
+    {
+      "name": "feat/math-plane-shapes-20261107",
+      "sha": "7c0bfcedc2419241e0720cdfc06c88d8b5320e16"
+    },
+    {
+      "name": "feat/math-right-triangle-20261107",
+      "sha": "14c9ace5ebcf43cb5df44d5d517e7f3fc03e6f71"
+    },
+    {
+      "name": "feat/math-rotatable-3d-planes-20261107",
+      "sha": "69c403ce49cabfa2a5c02de0d94d91e4c23076dc"
+    },
+    {
+      "name": "feat/math-systems-3x3-determinants-20261107",
+      "sha": "d9e5d4784d00450df49a6af1365bc1d87500ef9b"
+    },
+    {
+      "name": "feat/math-visualizations-matrices-symbolic-20261107",
+      "sha": "5c9962bbb848495e5e2540eb4f92ceaa70c882f1"
+    },
+    {
+      "name": "feat/math-voice-bracket-types-20261106",
+      "sha": "fc702ab14fc682581caaedfe0ea00fdfad820b2e"
+    },
+    {
+      "name": "feat/mixed-existing-operator-stop-identity-adapters",
+      "sha": "cb27a4ac924810c5f022143d434e9174414501e7"
+    },
+    {
+      "name": "feat/mixed-fastest-cheapest-20261116",
+      "sha": "de36303c4c016653f90c34179d959608eeb26e77"
+    },
+    {
+      "name": "feat/mixed-omio-multimodal-fallback-20261116",
+      "sha": "35e12a4a5fb50c1d276f629c5f43e9f5b849ed66"
+    },
+    {
+      "name": "feat/mixed-route-sanity-and-verified-transfer-engine",
+      "sha": "543ca6435a6f5eef2febe631c3674d4cf8d848f3"
+    },
+    {
+      "name": "feat/mixed-verified-engine-current-main",
+      "sha": "a77652d07746ebaf5c31d016962f7c19ac3ccb72"
+    },
+    {
+      "name": "feat/omio-affiliate-2026-11-16",
+      "sha": "3d62134ea51e41cf9f632cbd1141e6d6f27dec6f"
+    },
+    {
+      "name": "feat/oracle-fcm-private-push",
+      "sha": "1fcca80adca790943fdadf9366cbb00466862042"
+    },
+    {
+      "name": "feat/physics-curriculum-and-shared-symbols-20261108",
+      "sha": "8337be1e859386b5e2c6449c92afbcd3764dae22"
+    },
+    {
+      "name": "feat/physics-university-europe-50-20261121",
+      "sha": "a1f16da82fd9e8561f2a0b56272dabd17ee2af44"
+    },
+    {
+      "name": "feat/pocketai-feminine-persona-conversation-variety-20261104",
+      "sha": "93ea2e8a49430f57ca496f415c4745c0b9a5301e"
+    },
+    {
+      "name": "feat/refresh-ui-on-module-exit",
+      "sha": "c76a527ce500e517c0d653fca9e9cc99513e3519"
+    },
+    {
+      "name": "feat/romania-transport-and-communication-design-20261111",
+      "sha": "860cfdfde8fcdc1a6bd1cc9b81cd72011bf69b2f"
+    },
+    {
+      "name": "feat/romania-urban-gtfs-engine",
+      "sha": "69b6262e82f800e0fcd7c57b0470e0d96310ccd7"
+    },
+    {
+      "name": "feat/serpapi-free-account-status-probe",
+      "sha": "91de0c57676353474776e20ca8205dea7b40b865"
+    },
+    {
+      "name": "feat/serpapi-free-flight-discovery-pilot",
+      "sha": "dd360e3592b095dc1b6c81e33026fe37922461ea"
+    },
+    {
+      "name": "feat/shopping-auto-dated-lists",
+      "sha": "34676c9489fe3fd017e1b2efaaf589beb76a4bb1"
+    },
+    {
+      "name": "feat/shopping-single-screen-views",
+      "sha": "7eadcc81b2312ce8fc87ade24eb3bc3aea433a22"
+    },
+    {
+      "name": "feat/shopping-voice-actions",
+      "sha": "edb36dcfb8ae0acb708004d671fc23b39c8687ff"
+    },
+    {
+      "name": "feat/shopping-voice-dictation",
+      "sha": "a6269a1d17f0ac8cf899fb5f57f6400f1ab13f83"
+    },
+    {
+      "name": "feat/telegram-authorized-news-parallel",
+      "sha": "976f51bd75f8925b471ee285b0f5b5c1ac558447"
+    },
+    {
+      "name": "feat/telegram-consented-channels",
+      "sha": "0658734e144ec5cb1c470dd597d762c61e2c2dc8"
+    },
+    {
+      "name": "feat/telegram-mtproto-private-on-demand-20261105",
+      "sha": "2e9eb067061372315740bd0237dd0e0d8cf29f47"
+    },
+    {
+      "name": "feat/telegram-public-web-links",
+      "sha": "3b30c82e27d73ded0b8a67cdea7ca8e73164f939"
+    },
+    {
+      "name": "feat/telegram-voluntary-link-verification",
+      "sha": "ea9c15844fb99114ab856011c9558110a3d892ce"
+    },
+    {
+      "name": "feat/universal-progressive-choice-prewarm-20261107",
+      "sha": "a69a14ecd7057b247d342613f2784d0d88c02e5f"
+    },
+    {
+      "name": "feat/verified-multimodal-itinerary-engine",
+      "sha": "67bda6658cc3174eff0cd5c9224a8c3c36ed3ef6"
+    },
+    {
+      "name": "feat/voice-first-calendar-workspace",
+      "sha": "7ad73e0bb2120553fc15da8087baa26b4366980e"
+    },
+    {
+      "name": "feature/adaptive-reader-20261104",
+      "sha": "7429635d1bfc0d19cdfdb12a57230788048b352f"
+    },
+    {
+      "name": "feature/assistant-public-intel-20261104",
+      "sha": "63eb9461245a6b416ede491b775b9df01da27664"
+    },
+    {
+      "name": "feature/automatic-presentation-contract-20261104",
+      "sha": "db2eedbf31bb7ac423cca6c70f862e5bcdef709c"
+    },
+    {
+      "name": "feature/avatar3d-isolated-rebuild-20261103",
+      "sha": "0cb9f15f26b4d82f54507c60554bbb6222107157"
+    },
+    {
+      "name": "feature/budget-fx-swap-20261106",
+      "sha": "078546815d62e976bab6e1a44006b8f3f93fccd2"
+    },
+    {
+      "name": "feature/budget-planned-info-20261106",
+      "sha": "2fb0abb2e13dcdf5162253acc14c6b8bd5ac7fd3"
+    },
+    {
+      "name": "feature/chemistry-curriculum-preview-20261107",
+      "sha": "74e24b40cbe147f3eeea2473375ff6055cb37ed7"
+    },
+    {
+      "name": "feature/complete-education-and-tools-20261114",
+      "sha": "fdb65c7966427872e2abd13f2f0619a31861db43"
+    },
+    {
+      "name": "feature/contextual-presentation-20261104",
+      "sha": "6158b8e6ec1a87afdcae29b44a81ea2b674182bd"
+    },
+    {
+      "name": "feature/daily-planning-20261106",
+      "sha": "61ae6ba872f35f706a65bb03313b48a0dcc0cb35"
+    },
+    {
+      "name": "feature/document-ocr-fields-20261106",
+      "sha": "e01c28de89479d4c2f9aa44854cd26c49236a1f8"
+    },
+    {
+      "name": "feature/documents-deadlines-workspace-20261106",
+      "sha": "ecee1de8083a2dccc6c8570ae420151009b1d998"
+    },
+    {
+      "name": "feature/documents-private-photos-20261106",
+      "sha": "52651fa2f9e1c8519c91ccd13966c3b9def66c5c"
+    },
+    {
+      "name": "feature/education-language-activity-cards",
+      "sha": "aff753fa59c45b27116db7c6e8df5807db0fec13"
+    },
+    {
+      "name": "feature/education-math-guided-actions-20261106",
+      "sha": "2e1aa6aba3ed579ae50a20f5c0a1a3d4c896e011"
+    },
+    {
+      "name": "feature/education-subject-pathways-20261107",
+      "sha": "730a950caf62322456e234fc97b5970d8adf6054"
+    },
+    {
+      "name": "feature/education-theory-library-20261107",
+      "sha": "9d48c046c237253926b3ce07a1253c76095c9a1d"
+    },
+    {
+      "name": "feature/england-app-gateway-20261116",
+      "sha": "d82a34f6ce3c14da8e92052a0fea2ca09cb9b6ce"
+    },
+    {
+      "name": "feature/europe-slim-worker-bridge-20261117",
+      "sha": "609cfd13a4c9a872169053805a3aed243469d935"
+    },
+    {
+      "name": "feature/eva-ai-model-pilot-20261119",
+      "sha": "a5f795bb3c3116cdd26eadf5624744974df1f30c"
+    },
+    {
+      "name": "feature/eva-creative-quality-20261119",
+      "sha": "7a3f945ef9ea656e746274b9ff3b6af5936bc8a3"
+    },
+    {
+      "name": "feature/eva-identity-first-install-20261111",
+      "sha": "7b19191e72b87d4c5e8fda3f507fc3e5f103a6a9"
+    },
+    {
+      "name": "feature/eva-image-studio-20261114",
+      "sha": "117d2cb83dbb5c3d88c72078c711349602c73435"
+    },
+    {
+      "name": "feature/eva-images-release-20261115",
+      "sha": "41e4cde48698875ee4cc8b0ba5d58811e6bf0692"
+    },
+    {
+      "name": "feature/eva-router-live-canary-20261119",
+      "sha": "c8063ac486e202a22c9738ea3a82e1cd2dad2cda"
+    },
+    {
+      "name": "feature/eva-smart-router-20261119",
+      "sha": "3822414b8cee0e0fa0efcc710e4072ab5d5a2504"
+    },
+    {
+      "name": "feature/first-install-profile-search-language-20261111",
+      "sha": "fa04aa730b702ca2a6bc2d986a4147efb929e25d"
+    },
+    {
+      "name": "feature/free-public-intelligence-20261104",
+      "sha": "47114a14f75982c46522d78186128e1a7d0cc57d"
+    },
+    {
+      "name": "feature/hoteluri-shopping-servicii-3d-20261112",
+      "sha": "70fd2b246c1317bade58b462fd8f889f52567ec9"
+    },
+    {
+      "name": "feature/hourly-weather-local-global-20261105",
+      "sha": "90239b1d75cabaeb770239364be29eeda6553137"
+    },
+    {
+      "name": "feature/literature-full-lessons-essay-20261120",
+      "sha": "209b5bdd23c7cdd4e6b377d7906af630fdf602e9"
+    },
+    {
+      "name": "feature/math-completion-20261107",
+      "sha": "d63047690947f55661d6482e125cb52fc329b626"
+    },
+    {
+      "name": "feature/math-completion-batch-20261107",
+      "sha": "866d50739c6600536ad89089d579c68f0324f048"
+    },
+    {
+      "name": "feature/math-teacher-style-20261106",
+      "sha": "69e9085b579076e9974629ef830709fc9dcbbb7c"
+    },
+    {
+      "name": "feature/math-whisper-audio-pilot-20261106",
+      "sha": "c27e78e6487243556a61ee41ac86adf5256bf648"
+    },
+    {
+      "name": "feature/national-public-transport-country-engine-20261115",
+      "sha": "96e70653d03833194e577e9623c10d1fb0bb6ab3"
+    },
+    {
+      "name": "feature/news-table-reader-20261104",
+      "sha": "63d382fae19e4489cbf009efb41d5c1528edebaf"
+    },
+    {
+      "name": "feature/personal-notes-20261106",
+      "sha": "1d529c5845e45d213040d79d84a2350f46e43256"
+    },
+    {
+      "name": "feature/predestination-departure-date-time-20261115",
+      "sha": "071bae7ece2a57643db25b802beedab8809cb785"
+    },
+    {
+      "name": "feature/professional-budget-fx-20261106",
+      "sha": "a32baf69752a6d3e3a8ccbdfed459bdc18fb01cf"
+    },
+    {
+      "name": "feature/quick-place-detail-local-shops",
+      "sha": "f45b8c0862c8b092b7b0277948f700247274ba79"
+    },
+    {
+      "name": "feature/remove-tools-translate-analysis-20261120",
+      "sha": "1a8ea9881447712c3e8dd40d88e563fc07ef7043"
+    },
+    {
+      "name": "feature/retire-failed-storybook-menu-20261120",
+      "sha": "efc19eb2068c01bdab920c0dfefd4a457754745d"
+    },
+    {
+      "name": "feature/route-only-global-no-schedule-20261115",
+      "sha": "702d1ac8e8811b48712f327d51f72902c2b31b69"
+    },
+    {
+      "name": "feature/shared-localization-layer-20261104",
+      "sha": "11d6f089fb9668270638d1562ec2b5c6317a8da9"
+    },
+    {
+      "name": "feature/simple-voice-reminders-20261106",
+      "sha": "66ebe1139633f31e2826527e00c9cf36c2c267b0"
+    },
+    {
+      "name": "feature/smart-country-registry",
+      "sha": "ce64a22ea4c7f430ab591df511b473d15ed90f15"
+    },
+    {
+      "name": "feature/storybook-free-image-discovery-20261120",
+      "sha": "0bbd66f5d60eae152eafb2e32f40ca2d4c635375"
+    },
+    {
+      "name": "feature/tasks-goals-workspace-20261106",
+      "sha": "e705f4b58a1203db15c75f36278a7b9d00226e5e"
+    },
+    {
+      "name": "feature/transport-bus-only-alternatives",
+      "sha": "57698512b5d73cd2047e990581eb0bb3dccf3d6a"
+    },
+    {
+      "name": "feature/weather-hourly-visual-20261105",
+      "sha": "5f933001410501a8a69b5bd8fc2263d050079e4c"
+    },
+    {
+      "name": "fix-education-lesson-text-in-dialogs-20261113",
+      "sha": "0019aaef6ec7cf2f510ffc468297980bf23d2100"
+    },
+    {
+      "name": "fix-literature-grade1-fallback-nav-20261112",
+      "sha": "12668f2de14ce07603468c9f1a19364eac8ba70d"
+    },
+    {
+      "name": "fix-literature-modal-only-reader-20261112",
+      "sha": "b100688b2b136848b8f98abaf38cf06fda527fcf"
+    },
+    {
+      "name": "fix-navigation-route-palette-chat-compose-20261112",
+      "sha": "3637501869857c59285b60f4f24973da5935d462"
+    },
+    {
+      "name": "fix-parking-photon-single-route-audit-20261112",
+      "sha": "a236dd36160a8510ed24dff9b6ca266d4560c341"
+    },
+    {
+      "name": "fix-sparse-poi-provider-routing-20261112",
+      "sha": "d0e5ca51346442cce095cf02313e4376c681c0e7"
+    },
+    {
+      "name": "fix-verifiable-literature-poi-tfl-20261112",
+      "sha": "c934dcfa745213a67d9c28bb793fd4a108b4b571"
+    },
+    {
+      "name": "fix/2026-11-10-legacy-navigation-routes",
+      "sha": "d01107c1b8428bfd0179280c20ab8b49bd7d45b8"
+    },
+    {
+      "name": "fix/a4-deploy-legacy-creative-test-20261120",
+      "sha": "8bacba54542d470cdfe1c17a17f0d50da44cfe6a"
+    },
+    {
+      "name": "fix/a4-smart-router-old-essay-test-20261120",
+      "sha": "277e9efb2401d11932508d187654582828a26d48"
+    },
+    {
+      "name": "fix/accommodation-first-adaptive-address-20261104",
+      "sha": "3709bcb26cdcc4775b378a4bfc6307f7e53579c5"
+    },
+    {
+      "name": "fix/active-session-stability-integrate-417-418-20261115",
+      "sha": "f1260457fb812a5bcbca7d1681fb2676d05cb372"
+    },
+    {
+      "name": "fix/adaptive-presentation-t1-t10-20261104",
+      "sha": "a9b48d6e36e12c424059caf40a9298c957e50ef4"
+    },
+    {
+      "name": "fix/adaptive-reader-protected-flows-20261104",
+      "sha": "89eca458a99334e06296dbda8f240bf2c7249baa"
+    },
+    {
+      "name": "fix/address-picker-localized-city-20261107",
+      "sha": "d3e9afbb8eb6f9fdc6f80282bc4519952dbb781d"
+    },
+    {
+      "name": "fix/agenda-back-mic-row-20261106",
+      "sha": "8401e098ee9985d5b0ca4e3d29c57db4c9b422ff"
+    },
+    {
+      "name": "fix/agenda-delete-confirm-layout-20261106",
+      "sha": "3518431807c02557cdf5c20bd9275c58d5fc50b9"
+    },
+    {
+      "name": "fix/agenda-microphone-20261106",
+      "sha": "0a806f7bc0f195415ede4c7bfb5066760ed6ed57"
+    },
+    {
+      "name": "fix/agenda-toolbar-voice-guide-20261106",
+      "sha": "e659da558fbfa96e3b15ed5ebae11dd55efa3462"
+    },
+    {
+      "name": "fix/agenda-voice-layout-20261106",
+      "sha": "6a75dfb0020ac5dea51747d5a907dc17a585b2df"
+    },
+    {
+      "name": "fix/ambiguous-entities-alba-20261104",
+      "sha": "1f5dba97d51da70148b3dc2c5a864eb3ea19f4a7"
+    },
+    {
+      "name": "fix/android-flight-reminder-test-20261106",
+      "sha": "d4b6a4ed1394fa7b41bfb5784b4b214e45e880fa"
+    },
+    {
+      "name": "fix/android-force-fresh-home-20261109",
+      "sha": "dbb00ee0ddf65ea518bcc8b17bae26c7d9e41bb0"
+    },
+    {
+      "name": "fix/android-journey-autocomplete-input-20261117",
+      "sha": "1385db08d7957e7f659d8ee19de58385a68df69a"
+    },
+    {
+      "name": "fix/android-natural-speech-budget-20261106",
+      "sha": "1e9a65d922a40245cd4cce3308b551d85fd7800c"
+    },
+    {
+      "name": "fix/android-speech-faster-finalization-20261106",
+      "sha": "a567245a77cdbd196d25c073585c153566301a32"
+    },
+    {
+      "name": "fix/android-startup-double-navigation-bridge-20261116",
+      "sha": "90f2ae3caf1a413ac8b15786a5b9339845066240"
+    },
+    {
+      "name": "fix/approved-zoo-walk-button-return-row-20261112",
+      "sha": "48dc7fb5ad8fdfa6a1d7002ed73be747043b525a"
+    },
+    {
+      "name": "fix/assistant-country-locality-dedupe-20261104",
+      "sha": "938623953fd88a98fbc3ba8ab962f649d7740b38"
+    },
+    {
+      "name": "fix/assistant-county-address-picker-20261104",
+      "sha": "b9560872f72465c8ae1c9d78c54d4e43d18f6d38"
+    },
+    {
+      "name": "fix/assistant-destination-unified-flow-20261104",
+      "sha": "51155f0b4cb86a8a5705054ad00ee608e2714ee6"
+    },
+    {
+      "name": "fix/assistant-global-destination-flow-20261104",
+      "sha": "cb2cb441126a89784b873cc56ece07ea5861b1f7"
+    },
+    {
+      "name": "fix/assistant-keep-selected-village-20261104",
+      "sha": "f823351999ad3fed79553ceb19e8bfd6b72fbb92"
+    },
+    {
+      "name": "fix/assistant-locality-mode-first-20261104",
+      "sha": "98a11629922dcf82e7d3d27239e0dd5fa4bfaef4"
+    },
+    {
+      "name": "fix/assistant-reuse-structured-address-picker-20261104",
+      "sha": "81b04ff8d3c5a7f1ff863bbf0c635b43771d6730"
+    },
+    {
+      "name": "fix/assistant-show-geography-profile-before-journey-20261104",
+      "sha": "f919ee6c02b42c721e5949fd8fe08a044f5c06f1"
+    },
+    {
+      "name": "fix/assistant-stay-on-current-screen-structured-address-20261104",
+      "sha": "4b9b255e42039a81b0496c3a0f649e10ded61695"
+    },
+    {
+      "name": "fix/avatar-anticipate-tts-synthesis",
+      "sha": "722a9ef7cc18387c6f4f5a735ff3e4ce473a85f5"
+    },
+    {
+      "name": "fix/avatar-language-country-gate-20261110",
+      "sha": "c43793923f93448b759fec4de18d6bc4dd122d05"
+    },
+    {
+      "name": "fix/avatar-native-word-boundaries",
+      "sha": "68bf732af7654915c9053caa6a0bdbd388ad3697"
+    },
+    {
+      "name": "fix/avatar-single-language-greeting",
+      "sha": "8303a22eb0b7c72f93f0adaad18bdb7f30815457"
+    },
+    {
+      "name": "fix/avatar-stop-on-playback-completion",
+      "sha": "0bea69e9fee76a7c66feb616035e6fc44b45eda2"
+    },
+    {
+      "name": "fix/bilo-all-modes-station-locality-pages",
+      "sha": "957d6167f46f0bb83240165764f2871c7f6d8aaf"
+    },
+    {
+      "name": "fix/bilo-auth-error-401-403-20261111",
+      "sha": "6c70d23ed8c2ec04e2708a94e6255ab0605ada00"
+    },
+    {
+      "name": "fix/bilo-developer-documented-base-20261111",
+      "sha": "d0afe64f1fba0ec13b28e64e1f8ae706cddf2912"
+    },
+    {
+      "name": "fix/bilo-official-api-response-20261111",
+      "sha": "cbf5cb7d33b197278da8c60be33d895554498260"
+    },
+    {
+      "name": "fix/bilo-result-diagnostics-20261111",
+      "sha": "541fc8dd263f0f48d3d61ea51de83f4b0d9e86e5"
+    },
+    {
+      "name": "fix/bilo-search-trip-details-20261111",
+      "sha": "00248cc138313f76e474e46c8e05a57d2bab74b1"
+    },
+    {
+      "name": "fix/budget-compact-periods-currency-20261106",
+      "sha": "f15b6b527fc3c28efa98f45fced7f32976c53dd2"
+    },
+    {
+      "name": "fix/budget-future-payment-visibility-20261106",
+      "sha": "4c1b734b093df125b99bc3000cec29c9ef7f1a3e"
+    },
+    {
+      "name": "fix/budget-next-month-synonyms-20261106",
+      "sha": "7d82ba7a9ad781ee3ab5d01d5391d9e408b58aa1"
+    },
+    {
+      "name": "fix/budget-spending-report-20261106",
+      "sha": "12d6605f0a0c77e57c225e5491b4d7e14538985e"
+    },
+    {
+      "name": "fix/budget-title-live-ui-update-20261106",
+      "sha": "c2b1bee5bfe25f22223ce510339f8497719fc180"
+    },
+    {
+      "name": "fix/budget-voice-results-layout-info-20261106",
+      "sha": "6297aca1f26cdc55e81491d8e965b0ddb78338bb"
+    },
+    {
+      "name": "fix/chat-anchored-menus-and-text-overflow",
+      "sha": "262376176af2312d0d4dc52ba6eeed1157410ade"
+    },
+    {
+      "name": "fix/chat-final-compact-bubbles-menus-attachments",
+      "sha": "24ffd0ef7dfd018ebea68b89bc6b6b30d2a84e35"
+    },
+    {
+      "name": "fix/chat-inline-text-menu-route-green",
+      "sha": "84d918922c317c128ded130cafc5eb23491a25aa"
+    },
+    {
+      "name": "fix/chemistry-atom-context-and-dialog-20261107",
+      "sha": "c1c94360a6189237813a95b525b65cbc00dea3fd"
+    },
+    {
+      "name": "fix/ci-deduplicate-debug-signing-20261107",
+      "sha": "6d38008bbac7dbd63650e8f74aa7662a2fb3d044"
+    },
+    {
+      "name": "fix/ci-neuron-budget-20261105",
+      "sha": "29f9f6a26f35d25cd95a88b4c94e3850574ffdcf"
+    },
+    {
+      "name": "fix/cisa-kev-fallback-20261104",
+      "sha": "87cb2c534495346e285a86612789fb74d96de61b"
+    },
+    {
+      "name": "fix/clean-directions-national-search-20261117",
+      "sha": "22164028ad36de8966b1379a6374952c16ca3262"
+    },
+    {
+      "name": "fix/cloudflare-ai-retirement-2026-11-20",
+      "sha": "6108bbff5d07e155dc4918f7cdcb229e1c4ef526"
+    },
+    {
+      "name": "fix/cloudflare-deploy-retry-503-20261106",
+      "sha": "7d61f20fd13f4293ab835ce19911ae90b950b6ff"
+    },
+    {
+      "name": "fix/communication-chat-viewport-20261113",
+      "sha": "00b5df6814ae947790903006bac03556c2c73ec4"
+    },
+    {
+      "name": "fix/communication-delivery-chat-avatar-20261115",
+      "sha": "7d80d3a65804f25ecf21b04906a8a081e5d3d435"
+    },
+    {
+      "name": "fix/communication-mic-audio-conflict-20261113",
+      "sha": "9379e13a7c42d6d7913eb857bb2bc03b257efd40"
+    },
+    {
+      "name": "fix/communication-native-voice-20261113",
+      "sha": "54b36b3ec645caf11630d5410ca390ee8d355021"
+    },
+    {
+      "name": "fix/communication-reverify-device-on-oracle",
+      "sha": "a924daedb968e32a7212a0f75187030ec72f32f6"
+    },
+    {
+      "name": "fix/computing-chat-viewport-regional-speech",
+      "sha": "38b39252259b9969f6ad86c812ead7ed6c6a8cd0"
+    },
+    {
+      "name": "fix/contextual-news-intent-20261104",
+      "sha": "6bd57a5de62c2c3d65de888fa846b7a46ef2ad40"
+    },
+    {
+      "name": "fix/conversation-intent-before-tools-20261110",
+      "sha": "18b4243f24d37f7eee28c29f07c15fd04f5f5ee9"
+    },
+    {
+      "name": "fix/corner-shop-resilience-food-alias-20261115",
+      "sha": "10bbbccedbeefbe3c4c10059ecadb1e59ebc7fe5"
+    },
+    {
+      "name": "fix/corner-shop-walking-frontage-20261115",
+      "sha": "b28170195c0c9eb00537810c8bfe543a70ce7791"
+    },
+    {
+      "name": "fix/dated-flights-first-last-mile-20261118",
+      "sha": "a8346318ffc57c7eb6b7d51a2208d1f102594566"
+    },
+    {
+      "name": "fix/diagnose-live-journey-gateway-20261117",
+      "sha": "a8fb6391ef839ab8d2ac7a3fd9ca24eca87d4dbf"
+    },
+    {
+      "name": "fix/directions-visual-cards-mixed-results-20261117",
+      "sha": "b76b646674a76e26cc49317231465f45dd5e0412"
+    },
+    {
+      "name": "fix/document-ocr-field-values-layout-20261106",
+      "sha": "cc1ddb9821691462e07796e4244e6898f0d2eb89"
+    },
+    {
+      "name": "fix/document-ocr-heading-rotation-20261106",
+      "sha": "a20ca0862c94174c90b0297552475aba593d2367"
+    },
+    {
+      "name": "fix/document-scan-photo-bytes-20261106",
+      "sha": "449cf50fea40f03550d9ee070ba33899e411dff1"
+    },
+    {
+      "name": "fix/document-scan-reaction-mrz-20261106",
+      "sha": "a2655a5aea7d35bb763b5e4142ecd739a3747c00"
+    },
+    {
+      "name": "fix/documents-reader-onboarding-avatar-20261110",
+      "sha": "5bbb633193f22f6c62252aae27a11cf5ec5655e8"
+    },
+    {
+      "name": "fix/documents-viewport-direct-pdf-20261110",
+      "sha": "acf437ff70895e030b61b001baeb3377867791d3"
+    },
+    {
+      "name": "fix/education-android-check-bridge-20261106",
+      "sha": "ba36351947c41a9eee35c28ced393f0ec373c5b8"
+    },
+    {
+      "name": "fix/education-back-and-fuller-syllabi-20261109",
+      "sha": "45cdf2639c8314f8d5b12efad3c2debfe5d6c8c6"
+    },
+    {
+      "name": "fix/education-course-theory-navigation-20261109",
+      "sha": "3732f0bd2246e8a16ba3ef94df1a15fa31cb3a92"
+    },
+    {
+      "name": "fix/education-culinary-regressions-20261110",
+      "sha": "76b51f023f5884530114ae15ad5cc19e91f4ca8c"
+    },
+    {
+      "name": "fix/education-inner-scroll-fixed-shell-20261112",
+      "sha": "204a3990d9556f8f207dd24eda1a7dd3ec2157a2"
+    },
+    {
+      "name": "fix/education-locales-crosscountry-20261110",
+      "sha": "71efd83798cb69dc14761afe1fa9d32af06eaf50"
+    },
+    {
+      "name": "fix/education-math-ocr-reliability-20261106",
+      "sha": "afbd3654efbec7f47dd55a34df4dd8fe2729f2fc"
+    },
+    {
+      "name": "fix/education-math-one-step-flow-20261106",
+      "sha": "489e0387d90f50b6ca739a06803909d2db47d937"
+    },
+    {
+      "name": "fix/education-ocr-legacy-apk-compat-20261106",
+      "sha": "b58cb05308fcfaba4006c2445fd1aec497c5c44f"
+    },
+    {
+      "name": "fix/education-practical-computing-tiles-20261114",
+      "sha": "b579c0ca4794e71dd83671066dd29d764fdedecf"
+    },
+    {
+      "name": "fix/education-reader-document-library-20261110",
+      "sha": "16cb70d54a32e57bfe90927678bf791933ed5242"
+    },
+    {
+      "name": "fix/education-reader-outline-student-syllabus-20261120",
+      "sha": "0f187f95e973eac520a34c7d15f6283e5d6c7396"
+    },
+    {
+      "name": "fix/education-real-answers-and-contextual-checking-20261110",
+      "sha": "17b8a40d515087e85da6ddaacb32dc91ea3005f7"
+    },
+    {
+      "name": "fix/education-science-years-centered-20261113",
+      "sha": "b31df3f2a020eb328fdc65555954fb4b46f75c43"
+    },
+    {
+      "name": "fix/education-subject-header-20261106",
+      "sha": "b0b2c0e06057f47638869b655e55e0c747b338b3"
+    },
+    {
+      "name": "fix/education-tall-lesson-focus-20261109",
+      "sha": "3f88fc08e1ed8c369c4af8e8ce751ca8f602bd40"
+    },
+    {
+      "name": "fix/education-toolbar-align-20261109",
+      "sha": "be4ad0b82e8ffec7fefeec4c2b577d092a0a22cd"
+    },
+    {
+      "name": "fix/education-uniform-20261114",
+      "sha": "88f1950e37bfae2684407d581a06776a8b28c2cd"
+    },
+    {
+      "name": "fix/education-viewport-theory-20261114",
+      "sha": "fe08e5c4d6abfd15a58c56fccd96ae67cc5a124c"
+    },
+    {
+      "name": "fix/emergency-navigation-boot-20261110",
+      "sha": "50017cf01b672cb980b2d39f811205df7ae1c538"
+    },
+    {
+      "name": "fix/europe-literature-release-test-20261110",
+      "sha": "1e8bd1c0e3dbe4d8fa648afe96337f80d9a2078a"
+    },
+    {
+      "name": "fix/eva-chat-and-editable-account-20261111",
+      "sha": "7eb18e79fc592474904ddacbf28dde72d3eca845"
+    },
+    {
+      "name": "fix/eva-complete-image-styles-20261115",
+      "sha": "87cf4dbf29ff5b51b3a6f562ccd9542ff98c1956"
+    },
+    {
+      "name": "fix/eva-conversation-engine-20261111",
+      "sha": "a93302679a07607d68416070d7270c7f546fbcc5"
+    },
+    {
+      "name": "fix/eva-local-history-recall-20261112",
+      "sha": "b8a1cd75df09ff4b820b34b7ac755c79b8f51f25"
+    },
+    {
+      "name": "fix/eva-local-shops-multisource-20261112",
+      "sha": "3337461e33ffd3b4daf05e991d7b7c7c958f4214"
+    },
+    {
+      "name": "fix/eva-optional-name-social-conversation-20261111",
+      "sha": "59530f1bdc4865e6e7c37b90e5bb5542731458e2"
+    },
+    {
+      "name": "fix/eva-repeat-guard-before-apk",
+      "sha": "3f19aba063da540d2403a0499d389e67abf21d5d"
+    },
+    {
+      "name": "fix/event-evidence-integrity-20261104",
+      "sha": "85638d359d9a0b7a3aa4e385a766e72e1a0fab1c"
+    },
+    {
+      "name": "fix/final-mile-walking-navigation",
+      "sha": "54f286b7720a75e2383140d0c5278197946c0b39"
+    },
+    {
+      "name": "fix/first-install-country-language-budget-income-20261109",
+      "sha": "7b294d49636e3bf367800ee544263f7e8ca19f7f"
+    },
+    {
+      "name": "fix/fixed-point-boarding-access-20261118",
+      "sha": "d7ef98d7ed4f36f08b07e710e2cf3cf606d23c3c"
+    },
+    {
+      "name": "fix/frontend-complete-dialog-localization-20261104",
+      "sha": "a3ca3a0b8a1970d2648ebe64386a1dd91da21b56"
+    },
+    {
+      "name": "fix/fsa-trading-name-alias-20261112",
+      "sha": "eb90024aa30571d0b9dea2f82a6adba12c33a6c0"
+    },
+    {
+      "name": "fix/global-background-navigation-mixed-20261117",
+      "sha": "62a88b9eb7278cc4cef432e62a1c55b30cc7bfce"
+    },
+    {
+      "name": "fix/global-places-provider-optin-20261112",
+      "sha": "392ff9f89acaec8da85c113e362818b88fc666ee"
+    },
+    {
+      "name": "fix/ground-diagnostics-and-rail-coverage-nov18",
+      "sha": "ccb5922f4728ae1de6eb0db3ae0228701a910cf2"
+    },
+    {
+      "name": "fix/ground-multimodal-network-nov18",
+      "sha": "2ff5a0a16a914599563a6304f771b94aaf03914c"
+    },
+    {
+      "name": "fix/ground-rail-hub-priority-nov18",
+      "sha": "9fb038620a77ad87b4b1b976dfad2e887042a5bd"
+    },
+    {
+      "name": "fix/home-cards-einstein-final-20261109",
+      "sha": "23821a333d9ecb72b775eb8103979d68583646f3"
+    },
+    {
+      "name": "fix/home-refresh-approved-subtitle-20261112",
+      "sha": "553741ca586f140a797256df8280f0d9a7c7991b"
+    },
+    {
+      "name": "fix/home-weather-greeting-recall-ro-beta-20261111",
+      "sha": "9fcf935b20ced16f7ac9ffd2d1c9165344e25948"
+    },
+    {
+      "name": "fix/hotels-back-and-chat-fullscreen-20261114",
+      "sha": "53108c9ea4ee6827d05ba169a750b800c6c1d46b"
+    },
+    {
+      "name": "fix/hungary-stage-pathways-admissions-20261110",
+      "sha": "c56a66253e7a11583ae39ffe5bd858f40645e79d"
+    },
+    {
+      "name": "fix/identity-ocr-name-pairing-20261106",
+      "sha": "2f801dc72de7bf97ae0e0cbf58ccea2827ad3e45"
+    },
+    {
+      "name": "fix/inline-compact-chat-voice-player",
+      "sha": "acf3c1f22bfaa5587433484b4823fbc713bc3555"
+    },
+    {
+      "name": "fix/intent-guard-social-time-20261105",
+      "sha": "af3f314e3eb47e9c0c78e16147b2b0a272ede260"
+    },
+    {
+      "name": "fix/literature-author-title-search-after-ui",
+      "sha": "adad9fc8d0ce4026886a90ee313f44c601e7dca6"
+    },
+    {
+      "name": "fix/literature-deploy-country-test-20261110",
+      "sha": "44366225ff69446903757f86d5568565ba794ece"
+    },
+    {
+      "name": "fix/literature-essay-a4-pages-20261120",
+      "sha": "fc5afd618a6babbb54b967217d54f8943e112d9d"
+    },
+    {
+      "name": "fix/literature-essay-real-test-20261120",
+      "sha": "ce98401500e804ee76df13bfcf99a1df1560b19d"
+    },
+    {
+      "name": "fix/literature-real-a4-essay-20261120",
+      "sha": "458965a648b51ad7154c6980b8ab3080e28ac256"
+    },
+    {
+      "name": "fix/literature-student-pages-curriculum-20261120",
+      "sha": "b99b1b7426f180b76d84827a2713f7fa5b7e7b2c"
+    },
+    {
+      "name": "fix/literature-t3-actual-length-20261120",
+      "sha": "ed54c36f570d407206a2d15e8e5b02a0861d7b24"
+    },
+    {
+      "name": "fix/literature-t3-search-only-responsive-20261120",
+      "sha": "84933abf8aeb15778eac628b6ad720a674c89ba6"
+    },
+    {
+      "name": "fix/literature-tests-expanded-20261109",
+      "sha": "e3392fd6915e362a8ac36b6a8ce9839239f00dc5"
+    },
+    {
+      "name": "fix/literature-verified-authors-romanian-default-20261109",
+      "sha": "db0f7403d44eddc1119f9902ecfe39daf03f7394"
+    },
+    {
+      "name": "fix/literature-viewport-grade-loop-20261110",
+      "sha": "074e819633610cb37cabd6c1add3c2ec09ddde01"
+    },
+    {
+      "name": "fix/live-directions-esbuild-name-20261117",
+      "sha": "d89aa210c68c386d7921031a7533f67348a4ca7b"
+    },
+    {
+      "name": "fix/maps-empty-after-walking-rejection-20261115",
+      "sha": "40150e4c5681eabf411d1db131c7e62a033f7e0d"
+    },
+    {
+      "name": "fix/maps-walk-drive-route-visibility-20261111",
+      "sha": "e94ec72f35bdfa4a5e63e72c8dc11f1baeb07b06"
+    },
+    {
+      "name": "fix/math-android-back-paged-theory-20261115",
+      "sha": "41efdcc038ae87b0a86b2dbb360b7a87373aff30"
+    },
+    {
+      "name": "fix/math-arithmetic-nav-theory-20261113",
+      "sha": "a4c0bc8db17ee79e12e4c9192e87a5942c13f383"
+    },
+    {
+      "name": "fix/math-back-regression-test-20261109",
+      "sha": "e5e78d1b39c903ed8c9217969d05cfff6cd4aa84"
+    },
+    {
+      "name": "fix/math-continuous-dictation-organize-20261106",
+      "sha": "f78d788041ae275116eb6862e28732b6837f496b"
+    },
+    {
+      "name": "fix/math-detailed-local-steps-20261106",
+      "sha": "da542a6cca1b47ac44ecbcd00787075bff63b06d"
+    },
+    {
+      "name": "fix/math-distinct-method-guide-20261106",
+      "sha": "73259c5c585c423bd26151ee1856851fbefd96a2"
+    },
+    {
+      "name": "fix/math-editor-caret-follow-20261107",
+      "sha": "faf0a45b330804aab2dd106d48889cade6a416ba"
+    },
+    {
+      "name": "fix/math-equality-verification-20261106",
+      "sha": "e1c09bb264268cd36c7fa2a67c252bc896e4acf1"
+    },
+    {
+      "name": "fix/math-figure-single-exercise-20261107",
+      "sha": "afdbd435c530981913fd1bff0d4ef2cb38490158"
+    },
+    {
+      "name": "fix/math-figure-visible-workspace-20261107",
+      "sha": "379157c8ee4351940235b1de8757dfe2954e7e31"
+    },
+    {
+      "name": "fix/math-figures-touch-and-catalog-20261107",
+      "sha": "3ce3b46848f366ac0a5338f9f8b38636ea85d99b"
+    },
+    {
+      "name": "fix/math-fixed-layout-voice-controls-20261106",
+      "sha": "4e01e937526b671be8aebe3a3d8b5322c85c9c86"
+    },
+    {
+      "name": "fix/math-graph-legacy-ci-20261106",
+      "sha": "f7a300636fe8a751a0f975668da7ed6d514c3294"
+    },
+    {
+      "name": "fix/math-like-terms-verified-ocr-20261107",
+      "sha": "f3f69abc2b024e757803dfa9348073840ec7c39b"
+    },
+    {
+      "name": "fix/math-linear-consistency-20261106",
+      "sha": "c898b438063a177b94415b51bbae0bd42595d5aa"
+    },
+    {
+      "name": "fix/math-linear-graph-proof-20261106",
+      "sha": "a011f870533533b0f718c0a42f4f64dddd700f7b"
+    },
+    {
+      "name": "fix/math-linear-method-test-20261106",
+      "sha": "5cabdd2936b3bf710dedbd648f3c5e4746f96374"
+    },
+    {
+      "name": "fix/math-ocr-overlap-crops-20261107",
+      "sha": "6597c847afc6a2b8078d27edba48fdc06efc9c30"
+    },
+    {
+      "name": "fix/math-ocr-review-visible-20261107",
+      "sha": "f0626a7d4d24fe25a996c370cc022e30718cfc9e"
+    },
+    {
+      "name": "fix/math-ocr-two-exercise-sections-20261107",
+      "sha": "5424f807c351d70376c59c74f0b25ea4c35bf210"
+    },
+    {
+      "name": "fix/math-photo-flag-corrupted-powers-20261107",
+      "sha": "dc7749835be14f0e634a64f0add88d77f75ace78"
+    },
+    {
+      "name": "fix/math-photo-guided-ocr-corrections-20261107",
+      "sha": "965f28673d31f3e87602334b953aa24125eec4f3"
+    },
+    {
+      "name": "fix/math-photo-ocr-candidate-merge-20261107",
+      "sha": "f754b5b0769056243e7e4aa553c573a7ba81feb5"
+    },
+    {
+      "name": "fix/math-photo-review-clarify-candidates-20261107",
+      "sha": "0f5c268f599455696176569c75e4cff0f9340cf6"
+    },
+    {
+      "name": "fix/math-photo-review-dialog-20261107",
+      "sha": "9baec3824cf04fd352ae06b39338682f2672ec1c"
+    },
+    {
+      "name": "fix/math-photo-review-dialog-rebased-20261107",
+      "sha": "3e2556a0b653f4fe45398af07c716dacf8b29f9a"
+    },
+    {
+      "name": "fix/math-photo-review-exercise-selection-20261107",
+      "sha": "6df98ab821ce96391201704d96d5374e61ce4ade"
+    },
+    {
+      "name": "fix/math-photo-tap-resilience-20261107",
+      "sha": "ccfd06f6f32dc3aa3b4fa24beb728fb04ba7eb03"
+    },
+    {
+      "name": "fix/math-photo-touch-selection-20261107",
+      "sha": "a1b7b66bd173ceaade45938190ff5254665bd28f"
+    },
+    {
+      "name": "fix/math-preserve-exercise-draft-20261106",
+      "sha": "86788856359eaf8f035f5cb229d1e26fb8d2cfd9"
+    },
+    {
+      "name": "fix/math-quadratic-verified-20261107",
+      "sha": "d60ffb94133cb83b2c6a2f30de649eb04ed4bad4"
+    },
+    {
+      "name": "fix/math-scope-formulas-function-teaching-20261106",
+      "sha": "95a998e3c731a3682b517a860cc6a1e37dccc2cb"
+    },
+    {
+      "name": "fix/math-teacher-style-20261106",
+      "sha": "686bc8a322c8b504b3cf459f48a4d69ae32c1039"
+    },
+    {
+      "name": "fix/math-text-rectangle-grounding-20261107",
+      "sha": "2938da9d8830ebd76b5449bfd396434fe5eb823d"
+    },
+    {
+      "name": "fix/math-verification-steps-20261106",
+      "sha": "7abc729463a03131af1d525ae1bd6aa39dc86065"
+    },
+    {
+      "name": "fix/math-voice-asr-brackets-negative-20261106",
+      "sha": "48a59952a462e5c687f21e28bc47ab7b7bd597c9"
+    },
+    {
+      "name": "fix/math-voice-ci-check-20261106",
+      "sha": "a545d46440e3daa22306d749ca32ff79cad27db5"
+    },
+    {
+      "name": "fix/math-voice-context-close-negative-candidates-20261106",
+      "sha": "0cb1e407119f028fa447f2373e9a3687b6cdd500"
+    },
+    {
+      "name": "fix/math-voice-continuous-20261106",
+      "sha": "7b9b4d4859e92e1dde61f00daa2edacc4e3bbdcd"
+    },
+    {
+      "name": "fix/math-whisper-punctuation-20261106",
+      "sha": "d745265ba33eb408542085cd5d3f5cad7e55ca1b"
+    },
+    {
+      "name": "fix/math-workspace-actions-visible-20261107",
+      "sha": "267bf2d790e832cfd207040a8a36cf997767eca4"
+    },
+    {
+      "name": "fix/math-workspace-all-levels-20261113",
+      "sha": "539046a0af1f3c3c7527c31c9f59b6614867310c"
+    },
+    {
+      "name": "fix/mixed-air-results-never-disappear-20261118",
+      "sha": "31ed275715820e1c080300fc5babdfb78f558ec8"
+    },
+    {
+      "name": "fix/mixed-calendar-transit-20261109",
+      "sha": "5b2749ec9e5039c8ef60a4fb6cc70fdf462d8e35"
+    },
+    {
+      "name": "fix/mixed-destination-no-silent-search-20261117",
+      "sha": "1da7ce75fb6bffbc337f9dfa79cd36be15eb06cd"
+    },
+    {
+      "name": "fix/mixed-door-to-door-walk-20261118",
+      "sha": "e9dba77c17e499227b29905b5055bacfb9cab0a5"
+    },
+    {
+      "name": "fix/mixed-international-origin-and-burgundy-20261116",
+      "sha": "af328927896945286abaf41bf0a20260ee98b647"
+    },
+    {
+      "name": "fix/mixed-journey-uk-fallback-20261107",
+      "sha": "cff40a8de52bf36482a3aa4f564c7ed7db670b15"
+    },
+    {
+      "name": "fix/mixed-motis-scheduled-alternatives",
+      "sha": "ebe430bd9e13c4d7df90d60d02612596d6d755f7"
+    },
+    {
+      "name": "fix/mixed-option-direct-itinerary-20261118",
+      "sha": "f0e02fbd1971105dd866a4e69a7b4b7ca0dab611"
+    },
+    {
+      "name": "fix/mixed-route-composition-nov18",
+      "sha": "48afe3226a71507e91b9d434a844f6cbbad01da0"
+    },
+    {
+      "name": "fix/mixed-selector-country-station-20261107",
+      "sha": "66abae9f0315dc2f959e6d568ed0fe18b744901c"
+    },
+    {
+      "name": "fix/mixed-transport-calendar-viewport-20261115",
+      "sha": "9fe56c3ee4bd1f255421daa7cd3e598c570c4e6f"
+    },
+    {
+      "name": "fix/mobile-keyboard-math-microphone-20261106",
+      "sha": "fc2da89e0002897f9fbe8ecbca7272cc73b67e7b"
+    },
+    {
+      "name": "fix/module-landings-education-viewport-locale-ui",
+      "sha": "38bfdf392f108451dd3e7ec67b9fbec5c7d7b878"
+    },
+    {
+      "name": "fix/multilingual-news-20261104",
+      "sha": "2830150efccaffc8c724334d6802d112fdd3b8bf"
+    },
+    {
+      "name": "fix/national-search-precision-shopping-send-20261115",
+      "sha": "2380e0dd286a6373e011e22f7eb12226dadb2b21"
+    },
+    {
+      "name": "fix/national-transit-calendar-flow-20261115",
+      "sha": "85f1ac89afd814cee2bd08bf288a5b50663ef23f"
+    },
+    {
+      "name": "fix/national-transit-poi-local-ro-uk-20261115",
+      "sha": "29573e90ed6b8c096bfdc2c1dd93779c67f8e8f0"
+    },
+    {
+      "name": "fix/navigation-fullscreen-heading-home-20261104",
+      "sha": "c33de7570f60b0116600a12a007b8eb607f64dcd"
+    },
+    {
+      "name": "fix/news-column-schema-20261104",
+      "sha": "55feb6afe5565a029d549d011d2b998786756dd9"
+    },
+    {
+      "name": "fix/news-contextual-translation-avatar-stop-20261107",
+      "sha": "72ee9e7ee0bd406215ae1e03062b58b4bd2a4f8e"
+    },
+    {
+      "name": "fix/news-coverage-20261104",
+      "sha": "351d3e6f5a72ecac09b9c91d9149c47d070cabd5"
+    },
+    {
+      "name": "fix/news-gdelt-evidence-20261104",
+      "sha": "18f1276ddcd9a29e0355551ac328f51ee84ce8c6"
+    },
+    {
+      "name": "fix/news-localization-validation-20261104",
+      "sha": "979e3900ad8a88641b1699c6a3694365150d6a6f"
+    },
+    {
+      "name": "fix/news-plain-translation-diagnostics-20261104",
+      "sha": "3ac22f77d09d33a36f38dcebf71df6fc3d619607"
+    },
+    {
+      "name": "fix/news-quality-20261104",
+      "sha": "d372cc69b398b9f7319536fd950fa96189806ff0"
+    },
+    {
+      "name": "fix/news-reader-translation-audit-20261107",
+      "sha": "95c50cf5565b1a60034d16482a8b9b34a54154a7"
+    },
+    {
+      "name": "fix/news-retest-source-integrity-20261107",
+      "sha": "71d8c0ce8abc25e56ca61068c6a40211a716bfb4"
+    },
+    {
+      "name": "fix/news-six-language-qa-20261107",
+      "sha": "b3d374e4393de0404e178ea53a51d5f2d677481d"
+    },
+    {
+      "name": "fix/news-summary-localization-20261104",
+      "sha": "9221c24827ede78a6ab8be99b38c0a158bc796df"
+    },
+    {
+      "name": "fix/news-translation-layout-20261104",
+      "sha": "ba01402661659b323874b4d0962bbfe80caee01d"
+    },
+    {
+      "name": "fix/news-translation-response-20261104",
+      "sha": "5c48fe2e4f7a21b39195c2fbfa8d39e774acc1d5"
+    },
+    {
+      "name": "fix/no-ui-autoreload-fast-dictation-native-version-20261115",
+      "sha": "4e527ab6f43deb77a6fedb4b8d16fa15a7ccc3c2"
+    },
+    {
+      "name": "fix/notes-autosave-agenda-origin-20261106",
+      "sha": "0f6ccbfc14c980ec35a8aca343a89f7f98835d71"
+    },
+    {
+      "name": "fix/notes-preview-centered-title-20261106",
+      "sha": "7805d755d17a75af519e27c5d140eee16e2e6e06"
+    },
+    {
+      "name": "fix/on-select-place-research-20261104",
+      "sha": "dc96c1675685e806fc497d951c95db0cae341636"
+    },
+    {
+      "name": "fix/one-row-voice-player-and-delete-menu",
+      "sha": "93659b796530058385996a9ed4adaa1290da22d4"
+    },
+    {
+      "name": "fix/oracle-communication-network-diagnostics-20261113",
+      "sha": "dd88bfec0bfa2d05b7eb814edd235aeeeb2a05b2"
+    },
+    {
+      "name": "fix/oracle-communication-thread-list",
+      "sha": "17a38f37b03ffdebf1e4aae378dcc1aaa06a10fc"
+    },
+    {
+      "name": "fix/oracle-romania-transport-20261116",
+      "sha": "ef9976ca7c04a58c8c8322288d2ce1b8d9bce9a4"
+    },
+    {
+      "name": "fix/parking-zoo-and-route-audit-20261112",
+      "sha": "2cbb77c13b9a8603ce27fed583dbbb6a2c0e7cf2"
+    },
+    {
+      "name": "fix/passport-mrz-fragments-20261106",
+      "sha": "a0d8ad7842612b064a4a534cf94b107464ddc688"
+    },
+    {
+      "name": "fix/passport-mrz-hires-crop-20261106",
+      "sha": "1a4b13792161766ffc240c5399f6645c0e46abc9"
+    },
+    {
+      "name": "fix/pdf-a4-in-app-bulk-doc-actions-20261110",
+      "sha": "356de6c228f2af27e6024a85af32d93728f9126f"
+    },
+    {
+      "name": "fix/persona-intent-grounded-answers-20261104",
+      "sha": "84f182dc376b366e9894ef399be7f5d0897b97f5"
+    },
+    {
+      "name": "fix/physics-laws-year-scroll-20261121",
+      "sha": "926b9f776667e84d70fc3f70b71c562b3ad6d719"
+    },
+    {
+      "name": "fix/place-enrichment-20261104",
+      "sha": "3c74fa21b1e5d044ffba8e518ad653d305e324f0"
+    },
+    {
+      "name": "fix/place-extraction-regex-20261104",
+      "sha": "b8bdd7f52d5ba8eef8987962a5bf21caa34277ee"
+    },
+    {
+      "name": "fix/place-photo-and-provider-details-20261104",
+      "sha": "993eb4b8952fda531bd79fc2effb5bd20709f55d"
+    },
+    {
+      "name": "fix/poi-categories-scroll-3d-car-dealers-20261112",
+      "sha": "ac6e73204e6be9774ad4e63c694c49303938ecda"
+    },
+    {
+      "name": "fix/practical-course-presentations-modal-20261114",
+      "sha": "f2b7b132b5ba81758427a8148ed4afeeb6ba4b5f"
+    },
+    {
+      "name": "fix/practical-lesson-single-screen-dialogs-20261114",
+      "sha": "027292a61b76f62c88084cbc3102d6729d5d3974"
+    },
+    {
+      "name": "fix/progressive-locality-street-20261107",
+      "sha": "86595bcaebae6b306a8bdff24c3409856aa5a75d"
+    },
+    {
+      "name": "fix/quick-place-metadata-photo",
+      "sha": "1a0ae342b70b4a616a203c52c34dd3ed65e304bc"
+    },
+    {
+      "name": "fix/rail-gateway-language-and-geography-nov18",
+      "sha": "28ef95f571073f4de8f77582baf2865c13bc7bc9"
+    },
+    {
+      "name": "fix/recipe-followup-batch-20261110",
+      "sha": "616770aec32f6447cbe789414f969e0b3129f785"
+    },
+    {
+      "name": "fix/recipe-multi-evidence-feedback-20261110",
+      "sha": "e212d7072d53fbe6b9602d09a6c32535af309c2f"
+    },
+    {
+      "name": "fix/recipe-recall-and-quality-20261110",
+      "sha": "1e26fbcf109458359e543ddf6b5610d38dd806c9"
+    },
+    {
+      "name": "fix/recipe-relevance-pagination-dialogue-20261110",
+      "sha": "dbffe4e477db04a1a19146ac2805c1e441a71be3"
+    },
+    {
+      "name": "fix/recipe-source-completeness-20261110",
+      "sha": "78e4694671fc3af3e5c0599df6828cdafb789fc8"
+    },
+    {
+      "name": "fix/recipe-structure-quality-v177",
+      "sha": "833a1f951d255a5f7a99e77b1d4c0da7b5d0a4e6"
+    },
+    {
+      "name": "fix/region-locality-and-encyclopedia-translation-20261104",
+      "sha": "da55f01a10cc204f1e18024ce0a7cf1d895eed7b"
+    },
+    {
+      "name": "fix/release-live-app-20261117",
+      "sha": "19dfa32741db598893f357c7630be093d803e370"
+    },
+    {
+      "name": "fix/reminders-keyword-delete-20261106",
+      "sha": "e399df7f2d67b2db212f866b85c52908f9edbc83"
+    },
+    {
+      "name": "fix/reminders-shared-workspace-layout-20261106",
+      "sha": "a3dbdd3a1bcada8cd781b81ae90f2f2559ec926f"
+    },
+    {
+      "name": "fix/reminders-voice-delete-intent-20261106",
+      "sha": "60f7d73a684a94913299481601d1c23c769fc757"
+    },
+    {
+      "name": "fix/remote-street-nearby-search-20261112",
+      "sha": "bff70059ecc2f45295483c670e7e791c73c84823"
+    },
+    {
+      "name": "fix/responsive-learning-single-screen-20261105",
+      "sha": "5647af6e56fa6c33d654c4815a14324b4aa9c9c5"
+    },
+    {
+      "name": "fix/restore-creator-tools-menu-20261115",
+      "sha": "445c0610c2675db6da46fc5448b2edef656c0bd1"
+    },
+    {
+      "name": "fix/restore-international-news-20261104",
+      "sha": "6b4dece6de29a444fe23cbd1658daa54ac639093"
+    },
+    {
+      "name": "fix/restore-original-module-colors",
+      "sha": "17706350e4ce57e00510da1a3a786e5dada457bd"
+    },
+    {
+      "name": "fix/retail-category-exa-fallback-20261112",
+      "sha": "0b3a4770c1d2fc06786b170ce5bf582013306c96"
+    },
+    {
+      "name": "fix/ro-bilo-coach-mode-rail-replacement-20261111",
+      "sha": "53a3385da4e11e289a08be19c77f44bf82b7e8fd"
+    },
+    {
+      "name": "fix/ro-bilo-itinerary-shape-probe-20261111",
+      "sha": "5c2100bbbf9803dffbfb9faac2f8c20c6fee38a8"
+    },
+    {
+      "name": "fix/ro-generic-transport-coach-awareness-20261111",
+      "sha": "5b0f488d30ca32a50a7a9c1230eaf23b45a69562"
+    },
+    {
+      "name": "fix/ro-intercity-intent-bilo-coverage-1111",
+      "sha": "40d9b1e53ce51a669faf2020edb6341aa618e8b5"
+    },
+    {
+      "name": "fix/ro-literature-textbook-menu-20261120",
+      "sha": "26180ce3fa42bf015b73232389b30e88c9ee4032"
+    },
+    {
+      "name": "fix/ro-rail-compact-itineraries-20261111",
+      "sha": "dbd9d2af5aa3b4a11881aa71a9007f8233dd156e"
+    },
+    {
+      "name": "fix/ro-transit-relative-dates-intent-20261111",
+      "sha": "6ec0ad5df93c1a66927aba63bda8b45ebf1301f5"
+    },
+    {
+      "name": "fix/ro-uk-transport-test-regressions",
+      "sha": "47630d35cf87453aafc44b8003d46cab7a3ef36c"
+    },
+    {
+      "name": "fix/romania-literature-grade-progression-20261120",
+      "sha": "1a6939ff0f18307384884082e0fc7c8fe4c26473"
+    },
+    {
+      "name": "fix/romania-provider-truth-mobile-scale-20261115",
+      "sha": "302ff3e9a54417175d16139faf471bbe52572f9c"
+    },
+    {
+      "name": "fix/romanian-london-display-20261107",
+      "sha": "7a0cd05bd01ae5827fc9f00944cc1581aa08d5ad"
+    },
+    {
+      "name": "fix/route-choices-no-chat-end-to-end-20261111",
+      "sha": "d5f655ae09f0c00b331a989aa21384fa62fee89a"
+    },
+    {
+      "name": "fix/science-keyboard-viewport-scroll-20261107",
+      "sha": "403194b4813c9527798c410815405625d9de38da"
+    },
+    {
+      "name": "fix/science-lessons-scroll-numbered-20261114",
+      "sha": "30dc3035852228e05369582773d6b0638646a9b0"
+    },
+    {
+      "name": "fix/science-mobile-scroll-and-touch-20261107",
+      "sha": "8fe3d808d9e4e029ed63e74873d9aa1f63464742"
+    },
+    {
+      "name": "fix/science-resolve-visible-feedback-symbols-20261108",
+      "sha": "234215e41b956ede1c5369f4f7bc8c0f065577d9"
+    },
+    {
+      "name": "fix/science-subject-first-workspace-20261107",
+      "sha": "c6752fe70f2456da19ec3d0e7c3aade440b8e31b"
+    },
+    {
+      "name": "fix/sciences-compact-actions-and-detailed-theory-20261114",
+      "sha": "8beadf5af99fdd6633464ab2d6d94c75238ab6e0"
+    },
+    {
+      "name": "fix/scrollable-image-art-styles-20261115",
+      "sha": "670f05d2b185993d10b0cc17914e3baa476db33e"
+    },
+    {
+      "name": "fix/settings-version-label-20261111",
+      "sha": "2bba6785377927bff60af2e3050e0d83ced170c4"
+    },
+    {
+      "name": "fix/shopping-action-no-terminator",
+      "sha": "fc82ad72bbe2e8effd54f8c67556ba8224f351ef"
+    },
+    {
+      "name": "fix/shopping-all-controls-consistency",
+      "sha": "b03d248dbec0c711ec519b6c86ab3bfd3d8c22da"
+    },
+    {
+      "name": "fix/shopping-archive-delete-action",
+      "sha": "651e9a42d3d57297c21b5569b26325bc0fa2f100"
+    },
+    {
+      "name": "fix/shopping-archive-no-confirm",
+      "sha": "18fbbe5264a64e2f2da7c98ef962e148e67be504"
+    },
+    {
+      "name": "fix/shopping-controls-alignment",
+      "sha": "6068a41c37caac90cf9d73cc75885eb8e6576fe9"
+    },
+    {
+      "name": "fix/shopping-docked-mic-multi-check",
+      "sha": "6bbc0921ef89c4924a88b2aa0865c9a8dd36a719"
+    },
+    {
+      "name": "fix/shopping-mic-multicheck-20261105",
+      "sha": "32f114767bf9570c6a883305124d4425341d947f"
+    },
+    {
+      "name": "fix/shopping-mic-stale-state",
+      "sha": "3d554e5ed60b05ba864f63ffe6b13cd89bc545af"
+    },
+    {
+      "name": "fix/shopping-plurals-quick-assistant-route-20261115",
+      "sha": "bb4631697d9a1a9bb9aadacbba99dd9030850aba"
+    },
+    {
+      "name": "fix/shopping-share-guard-regression-20261115",
+      "sha": "c4fd31ccb2c0a5cfb6005468dad7531f2043fbf7"
+    },
+    {
+      "name": "fix/shopping-voice-aggregate-archive",
+      "sha": "2b173f3b9fb12e1e7c0e50ee48c98429f1442851"
+    },
+    {
+      "name": "fix/shopping-voice-boundaries-confirmation",
+      "sha": "52fe1421f3b7b8720f4b5232bfce67d964c945b5"
+    },
+    {
+      "name": "fix/shopping-voice-segmentation-and-recovery",
+      "sha": "a181c8a9983ac5965867cf1fd2a5ddf699459f61"
+    },
+    {
+      "name": "fix/shopping-voice-show-list",
+      "sha": "dabf336888cb487d7f21d305b93bdbe026c7a998"
+    },
+    {
+      "name": "fix/shopping-voice-subtract-quantity",
+      "sha": "b49671d3660725d81b0b7413dcc0f81ea35f1915"
+    },
+    {
+      "name": "fix/short-local-transit-ranking-20261114",
+      "sha": "ffc5eacbb858f7a63fb70672952e904ede95ac7d"
+    },
+    {
+      "name": "fix/signed-apk-trace-source-20261110",
+      "sha": "f87f8d3c17259515029388d22c5f4a0d7394091c"
+    },
+    {
+      "name": "fix/signed-apk-watches-transit-calendar-ui-20261115",
+      "sha": "9c2492dd8dfa92ca734c59f7a623164c7bf92814"
+    },
+    {
+      "name": "fix/social-wellbeing-intent-20261104",
+      "sha": "da143a805b4a001321b498d6dd3240a1893be98f"
+    },
+    {
+      "name": "fix/source-grounded-recipes-20261103",
+      "sha": "75017cf2fc0f7137df3c9ab25e14f97494644089"
+    },
+    {
+      "name": "fix/stop-endless-directions-search-20261117",
+      "sha": "370b31b30f72137dbf5ffda3c5b297c1d4db4532"
+    },
+    {
+      "name": "fix/structured-place-details-20261104",
+      "sha": "82045b930c3078902bca01d0d29a77ec64629680"
+    },
+    {
+      "name": "fix/t1-answer-focus-and-salary-evidence",
+      "sha": "bf3dda1cd0b9af085beb59322fce396126676dd8"
+    },
+    {
+      "name": "fix/t2-public-transport-topic-vs-route",
+      "sha": "267d51157b2baeb37cd494d592b8102298777c7b"
+    },
+    {
+      "name": "fix/t3-t8-conversation-before-geocoding",
+      "sha": "b1b7f96f35d7d81d98b525d3f60982185471e6de"
+    },
+    {
+      "name": "fix/t6-news-context-and-yesterday",
+      "sha": "1837939728f6c25f317d4ce37ffcae92aa90e8ef"
+    },
+    {
+      "name": "fix/t8-app-command-routing-20261105",
+      "sha": "948cea14e809e6f6939cdc93838dccbf5dda71d5"
+    },
+    {
+      "name": "fix/td2-romanian-id-ocr-20261106",
+      "sha": "d6aa01e1a79427c981465c8515e1326b745ebd46"
+    },
+    {
+      "name": "fix/telegram-alternative-code-delivery-20261105",
+      "sha": "b9882c79565dd087045a408ee359ee7b5f8cf254"
+    },
+    {
+      "name": "fix/telegram-auth-error-categories-20261105",
+      "sha": "80913cd17a0ca20de18dbe031af4efa60e6132a5"
+    },
+    {
+      "name": "fix/telegram-auth-safe-rpc-inspection-20261105",
+      "sha": "93a26d36326a8724fc95f60698b567214fe717ce"
+    },
+    {
+      "name": "fix/telegram-auth-stop-retry-safe-code-20261105",
+      "sha": "fa9e5d908d7ced1cd8c2e0448f183c2643ce0427"
+    },
+    {
+      "name": "fix/telegram-freshness-excerpt-quality",
+      "sha": "66aa0d12c3443602411ee8dd2f8147b66c8533cf"
+    },
+    {
+      "name": "fix/telegram-index-language",
+      "sha": "6c4127f776514675472364961c996891f8da4a81"
+    },
+    {
+      "name": "fix/telegram-indexed-news-metadata",
+      "sha": "5cf8de5ea32718d34d2998e92a91edc9a05c06db"
+    },
+    {
+      "name": "fix/telegram-login-diagnostics-phone-20261105",
+      "sha": "ee12bb0d8fe45fd95bfc09274fe9345acfa27763"
+    },
+    {
+      "name": "fix/telegram-login-hide-sensitive-input-20261105",
+      "sha": "ea226f07f52d44bfbe65c568e96a3555358b12f0"
+    },
+    {
+      "name": "fix/telegram-login-interactive-api-credentials-20261105",
+      "sha": "0848cb166244379537f5394a8e71804e20fdce81"
+    },
+    {
+      "name": "fix/telegram-phone-migrate-dc-20261105",
+      "sha": "c80fec2e782bc8bc8c84e710bdf3156d814c5871"
+    },
+    {
+      "name": "fix/telegram-signin-code-delivery-display-20261105",
+      "sha": "62382c1aee462ec9b3684224d43f214836682377"
+    },
+    {
+      "name": "fix/telegram-termux-hidden-prompts-portable-20261105",
+      "sha": "8ca04a13bd3c699dd2c57d95857428050197e55e"
+    },
+    {
+      "name": "fix/telegram-termux-reconnect-dc4-20261105",
+      "sha": "b2d175d5c8cab339cbf394afa0a5b9e1a7ec13aa"
+    },
+    {
+      "name": "fix/transit-boarding-buffer-20261109",
+      "sha": "381aa8e8dfc33cac0ec1cd71c5bfbb593ac1b884"
+    },
+    {
+      "name": "fix/transit-gps-map-resume-back-20261116",
+      "sha": "0981cb2c844b1bb5ab484ea2fb757a2c95608474"
+    },
+    {
+      "name": "fix/transit-map-navigation-20261116",
+      "sha": "7c17e28af6ac9253215c9f2c61efe5360fb9aae7"
+    },
+    {
+      "name": "fix/transit-walk-vs-schedule-wording-20261114",
+      "sha": "539158e8ed76aab451c0f4b232c759436d4d24cc"
+    },
+    {
+      "name": "fix/transport-date-c2c-20261109",
+      "sha": "c5d2f9a37a15043481e77aac9e299269c69ab95f"
+    },
+    {
+      "name": "fix/transport-fares-seat-disclosure",
+      "sha": "1c834cdec98fdc5e885c028f1ce4c94011859cf5"
+    },
+    {
+      "name": "fix/uk-mixed-live-and-londra-input-20261107",
+      "sha": "92c7cb19ef54929cc0d5897be5bae62f0b8a4d97"
+    },
+    {
+      "name": "fix/uk-nationwide-mixed-itineraries",
+      "sha": "c000d8f1083e82286cc49335d68b8c790f6be159"
+    },
+    {
+      "name": "fix/unified-themed-select-popups-20261106",
+      "sha": "3659551edf65336e4fdc74fa04440b238a4fad31"
+    },
+    {
+      "name": "fix/unify-place-navigation-and-verified-station-access",
+      "sha": "f400bf3f91261348c8e3e6d189c29f72760ee2f1"
+    },
+    {
+      "name": "fix/victoria-underground-choices-and-route-colors-20261111",
+      "sha": "584f8b52f503236fb3f95fd70527cfafe45384c9"
+    },
+    {
+      "name": "fix/visible-maps-hotels-education-catalan-20261110",
+      "sha": "9bb6de467c7bcd4e3796b1a1086d7fda5e3f8446"
+    },
+    {
+      "name": "fix/walking-address-endpoint-validation-20261115",
+      "sha": "506daa24084d23853112a03abe2b071b8c192227"
+    },
+    {
+      "name": "fix/weather-complete-ui-gps-20261105",
+      "sha": "7503edf2f84ae1f033a934f4f11968acdb905fe1"
+    },
+    {
+      "name": "fix/weather-dedicated-overlay-20261105",
+      "sha": "05cb00bf81ee0f0f9538b3eceaa7256e86356a50"
+    },
+    {
+      "name": "fix/weather-future-hours-florida-20261105",
+      "sha": "086dd4dd99286b3668efc8d5718e602567c0e4d1"
+    },
+    {
+      "name": "fix/weather-inplace-toggle-no-nested-modal-20261105",
+      "sha": "11848895ce5fc325d3a8e4fb3bf83366293acfc9"
+    },
+    {
+      "name": "fix/weather-location-choice-buttons-20261105",
+      "sha": "8d4cb6c57a80f7a969d56ed903b114d83c806c0b"
+    },
+    {
+      "name": "fix/weather-modal-choice-layout-20261105",
+      "sha": "83fae978e14f3f634b63a34ac295906c176fb8ee"
+    },
+    {
+      "name": "fix/weather-readable-summary-modal-20261105",
+      "sha": "a175ef68e1a2a0aa58b362e64dffb440ac45d2b7"
+    },
+    {
+      "name": "fix/weather-summary-first-20261105",
+      "sha": "807eee34acf43758224520324a29da6c68d6b921"
+    },
+    {
+      "name": "fix/weather-summary-newline-20261105",
+      "sha": "37af31f8f84a62cb5c55b84d2f0626a469cea1b9"
+    },
+    {
+      "name": "fix/workers-ai-quota-4006-20261105",
+      "sha": "3d390c7b411880fe17f542564e8f7d59e43e64b2"
+    },
+    {
+      "name": "fix/world-events-yesterday-news-intent",
+      "sha": "71c5376e221222593cccc45c97b8733667052c3e"
+    },
+    {
+      "name": "fix/zoo-5km-shared-map-route-20261112",
+      "sha": "f14a764b198a47e23972b604153738b95c6998ec"
+    },
+    {
+      "name": "hotfix/restore-responsive-frontend-20261105",
+      "sha": "6caf7379f91cbee4dd0f5243273cdd39c7c69975"
+    },
+    {
+      "name": "improve/conversational-context-and-relevance",
+      "sha": "49374a9ab4dcdd5e39340608c67c9fcf2a06977f"
+    },
+    {
+      "name": "improve/multi-source-world-news-discovery",
+      "sha": "00f003771b83a2189e29ed694e8276abf4abee2b"
+    },
+    {
+      "name": "improve/personality-feedback-no-unneeded-search",
+      "sha": "e85b9d9b595d657aefbe2d9e640eff9559ee1b69"
+    },
+    {
+      "name": "infra/oracle-comunicare-gateway",
+      "sha": "5366a8f42420e0a472971799d6013d8a7796d59b"
+    },
+    {
+      "name": "literature-exact-work-paged-reader-20261112",
+      "sha": "d406b1fcf172508219943023bf5fbb314a3dfff4"
+    },
+    {
+      "name": "physics-year-catalogue-20261121",
+      "sha": "7edf885b180c7805faa45b348efe0d4a0bcb8d3a"
+    },
+    {
+      "name": "pilot/math-photo-vision-20261107",
+      "sha": "d84e83fcefc503d404373c13ef4b8afbd4735ac4"
+    },
+    {
+      "name": "preview/physics-grade6-teaching-20261121",
+      "sha": "7be6b2bae9de94b35db4f75a7157f2a4ef381a33"
+    },
+    {
+      "name": "preview/physics-signed-20261121",
+      "sha": "ec62b964482fbec458e216635014f89e225590f2"
+    },
+    {
+      "name": "recovery/physics-approved-20261121",
+      "sha": "0e69840eae0bbc4a3f0bef1abab8a26a2f155b6d"
+    },
+    {
+      "name": "refactor/shared-pocket-choice-components-20261105",
+      "sha": "29157d70b4e54faf017fe562ebe003aeaa272ee6"
+    },
+    {
+      "name": "refactor/unified-selection-panel-weather-transport-20261105",
+      "sha": "8601d5405790e50dee342757ac61faf62bd7831c"
+    },
+    {
+      "name": "repair-literature-render-lifecycle-timeout-20261112",
+      "sha": "5c00b98c637ea153dde66fb73162565a7806365d"
+    },
+    {
+      "name": "science-repair-answer-review-20261121",
+      "sha": "934b0ef1a2c034bfa9eb2f8b5d61bedba5ea6ed6"
+    },
+    {
+      "name": "sciences-chemistry-biology-20261121",
+      "sha": "615c379e604cb9ea2b23c5b8f640c14be8588484"
+    },
+    {
+      "name": "style/assistant-route-palette-unified-20261111",
+      "sha": "4fbe78471be1c0bd433e1a81c996ad2ab67eb7a1"
+    },
+    {
+      "name": "style/route-petrol-plum-quiet-search-20261111",
+      "sha": "e4d4dafea4ffd915fdd656f5bcf24022c4c168d6"
+    },
+    {
+      "name": "test/international-mixed-motis-20261107",
+      "sha": "c5005bfad672259f86e9f6dc041687566b442b7d"
+    },
+    {
+      "name": "test/shopping-history-reuse-regression",
+      "sha": "6967e2f42f57ba2f4eb3506061dd1806b7dfc758"
+    },
+    {
+      "name": "ui-study-typography-nav-only-20261112",
+      "sha": "20f9d38f37dcc313a6e1abcbc3dae6c8a73e0e4d"
+    },
+    {
+      "name": "ui/markdown-bold-render-v132-20261103",
+      "sha": "bdcf51323488f45ae85a7895c3d32662866478ca"
+    },
+    {
+      "name": "ui/reader-recipes-events-spacing-20261103",
+      "sha": "6cfe5394b71e8693b906c8f58341b35111e527a4"
+    },
+    {
+      "name": "ui/recipe-step-separators-v133",
+      "sha": "71f3e4a7ede7126fa04b840163db08efe809505c"
+    },
+    {
+      "name": "ui/tools-workspaces-unified-2026-11-14",
+      "sha": "976f131fcd5632aba1f9389e9d4dc2b9b43155f6"
+    },
+    {
+      "name": "work/education-50-systems-all-subjects-20261120",
+      "sha": "f1a955fc05bb5d87e5fa7582dd7c6ef2a30927e4"
+    },
+    {
+      "name": "work/sciences-all-countries-secondary-depth-20261120",
+      "sha": "38f2efb3aa6cb805a0277405763e889394070cd3"
+    },
+    {
+      "name": "work/sciences-unified-20261120",
+      "sha": "6d4b75efaec1592079f67bcb7f132cf98e981fc9"
+    }
+  ]
+}
