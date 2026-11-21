@@ -1,0 +1,27 @@
+name: Diagnose Education fixed windows in real headless Chromium
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'tests_ui_browser_diagnostic.mjs'
+      - '.github/workflows/test-education-dom-browser.yml'
+jobs:
+  evaluate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --no-save --no-package-lock playwright@1.56.1
+      - run: npx playwright install --with-deps chromium
+      - run: node tests_ui_browser_diagnostic.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: education-dom-browser-diagnostic
+          path: ui-browser-audit/
+          if-no-files-found: warn
+          retention-days: 2
