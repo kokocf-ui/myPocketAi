@@ -10,7 +10,16 @@ const curriculum=[
  ['IE',['JI','SI','1C','2C','3C','4C','5C','6C'],['J1','J2','J3'],['S1','S2','S3']],
  ['BG',['1','2','3','4'],['5','6','7'],['8','9','10','11','12']],
  ['EE',['1','2','3','4','5','6'],['7','8','9'],['10','11','12']],
- ['SK',['1','2','3','4'],['5','6','7','8','9'],['G1','G2','G3','G4']]
+ ['SK',['1','2','3','4'],['5','6','7','8','9'],['G1','G2','G3','G4']],
+ ['AL',['1','2','3','4','5'],['6','7','8','9'],['10','11','12']],
+ ['BY',['1','2','3','4'],['5','6','7','8','9'],['10','11']],
+ ['CY',['1','2','3','4','5','6'],['G1','G2','G3'],['L1','L2','L3']],
+ ['LT',['1','2','3','4'],['5','6','7','8','9','10'],['11','12']],
+ ['MK',['1','2','3','4','5','6'],['7','8','9'],['G1','G2','G3','G4']],
+ ['ME',['1','2','3','4','5','6'],['7','8','9'],['G1','G2','G3','G4']],
+ ['MT',['Y1','Y2','Y3','Y4','Y5','Y6'],['Y7','Y8'],['Y9','Y10','Y11']],
+ ['RU',['1','2','3','4'],['5','6','7','8','9'],['10','11']],
+ ['SI',['1','2','3','4','5','6'],['7','8','9'],['G1','G2','G3','G4']]
 ];
 let checked=0;
 for(const [country,primary,lower,upper] of curriculum){
@@ -52,4 +61,11 @@ for(const [country,primary,lower,upper] of curriculum){
   }
  }
 }
-console.log('PASS documented national Physics year identifiers and sourced advisory pathways for Ireland, Bulgaria, Estonia, Slovakia: '+checked+' country/year routes');
+const mt=educationCountrySchoolYears('MT','lower').years;
+assert.equal(physicsCountryGradePlan({country:'MT',stage:'lower',grade:'Y7',years:mt}).kind,'integrated',
+ 'Malta Middle School Year 7 Physics is integrated, not separate upper Physics');
+const mtUpper=educationCountrySchoolYears('MT','medium').years;
+assert.notEqual(physicsCountryGradePlan({country:'MT',stage:'upper',grade:'Y9',years:mtUpper}).kind,'integrated',
+ 'Malta Secondary Years 9–11 explicitly teach Physics');
+console.log('PASS documented native Physics school years for '+curriculum.length+
+ ' jurisdictions with full year/stage coverage: '+checked+' country/year routes');
