@@ -10827,7 +10827,17 @@ function scienceOpenChemistrySection(stage){
  }
  if(stage==='chemistry-menu'){
   title.textContent=chapter;note.textContent=learningLabel('Alege activitatea dorită.','Choose an activity.');
-  tile('📚','Teme de studiu','Study lessons','Definiții, formule, explicații și exemple','Definitions, formulae, explanations and examples',()=>scienceJourneyShowChoices('chemistry-lessons'));
+  tile('📚','Teme de studiu','Study lessons','Definiții, formule, explicații și exemple','Definitions, formulae, explanations and examples',()=>{
+   // Avoid an extra screen containing only a generic 'Open chapter' button.
+   // Keep the existing multi-lesson navigator when a chapter really has sublessons.
+   if(['primary','lower','advanced'].includes(scienceJourney.schoolStage)||
+      scienceJourney.schoolStage==='upper'&&state.language!=='ro'){
+    const reader=educationScienceTheoryReader(scienceJourney.subject,topic?.id,scienceJourney.level);
+    const single=reader.querySelector('.science-inline-theory-item');
+    if(single?.onclick){single.onclick();return;}
+   }
+   scienceJourneyShowChoices('chemistry-lessons');
+  });
   tile('⚗️','Exerciții și probleme','Exercises and problems','Scriere, dictare, fotografiere și rezolvare','Type, dictate, photograph and solve',()=>scienceJourneyShowChoices('workspace'));
   tile('⚛️','Laborator și modele 3D','Laboratory and 3D models','Molecule interactive și reprezentări','Interactive molecules and visual models',()=>scienceJourneyShowChoices('chemistry-lab'));
  }else if(stage==='chemistry-lessons'){
