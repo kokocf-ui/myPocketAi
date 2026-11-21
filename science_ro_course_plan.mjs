@@ -64,7 +64,7 @@ export function scienceSchoolTopicLessons({country='',subject='',grade='',topic=
  const id=String(grade);
  if(localized&&SCIENCE_RO_LOWER_TOPICS[subject]?.[id]&&
     !SCIENCE_RO_LOWER_TOPICS[subject][id].includes(topic))return [];
- const extras=localized?schoolReferenceLessons(subject,id,topic):[];
+ const extras=localized?(SCIENCE_RO_LESSON_EXTRAS[subject]?.[id]||[]).filter(x=>x.topic===topic):[];
  const original=Array.isArray(lessons)?lessons.filter(entry=>entry&&
   entry.subject===subject&&entry.topic===topic&&entry.level==='beginner'&&
   !entry.specialty&&entry.statement&&entry.title):[];
