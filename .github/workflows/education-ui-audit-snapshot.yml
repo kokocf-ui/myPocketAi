@@ -1,0 +1,22 @@
+name: Education UI source snapshot for independent Android viewport audit
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/education-ui-audit-snapshot.yml'
+jobs:
+  source-snapshot:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Archive exact source for headless layout regression review
+        run: |
+          tar -czf /tmp/pocketai-ui-audit-source.tgz --exclude=.git --exclude=android --exclude=node_modules --exclude=.github .
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pocketai-ui-audit-source
+          path: /tmp/pocketai-ui-audit-source.tgz
+          if-no-files-found: error
+          retention-days: 1
