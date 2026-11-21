@@ -32,12 +32,22 @@ jobs:
           node --check index.js
           node --check science_grade_progression.mjs
           node --check science_lower_secondary_lessons.mjs
+          node --check science_lower_secondary_depth.mjs
+          node --check science_exercise_verification.mjs
           node --check science_english_reference_guides.mjs
           node --check science_extended_theory.mjs
           node --check science_university_track_guides.mjs
           node --check science_university_chapters.mjs
           node tests_education_all_country_subject_matrix.mjs
           node tests_science_grade_progression.mjs
+          node tests_science_ro_course_quality.mjs
+          node tests_physics_all_europe_year_depth.mjs
+          node tests_physics_upper_bilingual.mjs
+          node tests_physics_university_studies.mjs
+          node tests_physics_europe_coverage.mjs
+          node tests_physics_primary_years.mjs
+          node tests_science_exercise_verification.mjs
+          node tests_eva_ai_orchestrator.mjs
           node tests_science_university_complete.mjs
           node tests_science_year_cards.mjs
       - name: Four separate Sciences, theory and representation

@@ -1,4 +1,5 @@
 import {SCIENCE_UNIVERSITY_TRACK_GUIDES} from './science_university_track_guides.mjs';
+import {PHYSICS_UNIVERSITY_STUDIES} from './physics_university_studies.mjs';
 
 // Creates a substantive, bounded university chapter from its real existing
 // topic-specific sublessons. Unmapped specialties do not invent material.
@@ -49,6 +50,24 @@ export function scienceUniversityChapter({
     'Analizează ipotezele din afirmație, identifică mărimile și explică în ce condiții formula sau modelul pot fi aplicate.':
     'Interpret this notation in the source context; do not assume the Romanian text is a certified translation.'
   );
+ }
+ if(subject==='physics'&&PHYSICS_UNIVERSITY_STUDIES[topic]){
+  const cases=PHYSICS_UNIVERSITY_STUDIES[topic][ro?'ro':'en'];
+  root.push('# '+(ro?'Studii de caz universitare':'University-level worked case studies'));
+  for(const [index,unit] of cases.entries()){
+   root.push(
+    '## '+(index+1)+'. '+unit.title,
+    '# '+(ro?'Explicație universitară':'Scientific explanation'),unit.explanation,
+    '# '+(ro?'Exemplu rezolvat':'Worked example'),unit.workedExample,
+    '# '+(ro?'Exercițiu de evaluare':'Independent exercise'),unit.exercise,
+    ro?
+      'Rezolvă exercițiul înainte să apeși „Verifică răspunsul”; explicația trebuie să arate ipotezele și unitățile, nu doar rezultatul numeric.':
+      'Attempt the exercise before using Check my answer; explain assumptions and physical units, not merely the final number.'
+   );
+  }
+  root.push(ro?
+   'Cele patru studii de caz sunt unități originale de învățare, NU un an universitar complet ori un curs acreditat.':
+   'These four original case studies do NOT constitute a full accredited university module or degree year.');
  }
  if(track){
   root.push('# '+(ro?'Sarcină de verificare':'Independent study question'),

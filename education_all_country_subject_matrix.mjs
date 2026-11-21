@@ -2,7 +2,7 @@
 // This describes which *existing* lessons are available; it does not transform
 // a generic topic list into a supposedly verified national textbook.
 import {EDUCATION_SCHOOL_YEARS,hgSchoolChapters} from './education_school_paths.mjs';
-import {EDUCATION_WORLDWIDE_SCHEMES,worldwideSchoolYears} from './education_worldwide_paths.mjs';
+import {EDUCATION_WORLDWIDE_SCHEMES,EDUCATION_WORLDWIDE_FALLBACK,worldwideSchoolYears} from './education_worldwide_paths.mjs';
 import {litEuropeanPlan,LIT_EU_PROGRAMS} from './literature_curriculum_europe.mjs';
 import {PHYSICS_TOPICS,PHYSICS_LESSONS} from './physics_curriculum.mjs';
 import {CHEMISTRY_TOPICS,CHEMISTRY_LESSONS} from './chemistry_curriculum.mjs';
@@ -50,9 +50,26 @@ export function educationCountrySchoolYears(country,stage){
  const scheme=EDUCATION_WORLDWIDE_SCHEMES[code];
  if(scheme)return {country:code,stage:st,status:'mapped-years-advisory',
   source:scheme.source||null,years:worldwideSchoolYears(code,st).map(x=>({...x,curriculumVerified:false}))};
- // Do not invent fictitious P1/L1/U1 national grades for uncovered microstates.
- return {country:code,stage:st,status:'grade-unmapped',source:null,
-  years:[{id:'grade-not-mapped',ro:'Clasa de confirmat',en:'Grade to confirm',curriculumVerified:false}]};
+ // National year names remain UNMAPPED. The common ISCED-inspired
+ // fallback is an explicitly advisory sequence, matching the real Android
+ // country/year picker rather than a single unusable 'grade-not-mapped' row.
+ // P1/L1/U1 are study-sequence IDs, never national class identifiers.
+ const advisoryStage=st==='beginner'?'primary':st;
+ const advisory=st==='advanced'?
+  worldwideSchoolYears(code,st).map(x=>({
+   ...x,ro:'Studii universitare · orientativ',
+   en:'Higher education · advisory',
+   curriculumVerified:false,nationalYearVerified:false
+  })):
+  Array.from({length:4},(_,i)=>({
+   id:'general-'+advisoryStage+'-'+(i+1),
+   ro:'An orientativ '+(i+1)+' · '+(st==='beginner'?'primar':st==='lower'?'gimnazial':'liceal'),
+   en:'Advisory '+(st==='beginner'?'primary':st==='lower'?'lower-secondary':'upper-secondary')+' year '+(i+1),
+   curriculumVerified:false,nationalYearVerified:false
+  }));
+ return {country:code,stage:st,status:'grade-unmapped',
+  source:EDUCATION_WORLDWIDE_FALLBACK.source,
+  years:advisory};
 }
 function subjectInventory(subject,{country,stage,grade,track}){
  if(subject==='literature'){
@@ -80,7 +97,7 @@ function subjectInventory(subject,{country,stage,grade,track}){
   const track=schoolStage==='advanced'?null:scienceGradeTopicPlan({
    country,subject,stage:schoolStage,grade,years:mappedYears,topics
   });
-  const ordered=track?.topics?.length?track.topics:topics.filter(x=>!x.specialty&&rank[x.minLevel||'beginner']<=stageRank[stage]);
+  const ordered=track&&Array.isArray(track.topics)?track.topics:topics.filter(x=>!x.specialty&&rank[x.minLevel||'beginner']<=stageRank[stage]);
   return {units:ordered.map(x=>unit(x.id,x.ro,x.en,'',lessons.filter(y=>y.topic===x.id).length)),
    verified:false,gradeSpecific:false,source:null,
    note:'Program general de științe diferențiat pe clase; nu este manual sau programă națională verificată.'+

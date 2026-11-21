@@ -8,6 +8,7 @@ import {THEORY_ENTRIES} from './education_theory.mjs';
 import {PHYSICS_TOPICS,PHYSICS_SPECIALIZATIONS} from './physics_curriculum.mjs';
 import {ASTRONOMY_TOPICS,ASTRONOMY_SPECIALIZATIONS} from './astronomy_curriculum.mjs';
 import {scienceGradeTopicPlan} from './science_grade_progression.mjs';
+import {scienceSchoolTopicLessons,scienceRoAnnualCoverage} from './science_ro_course_plan.mjs';
 
 const html=await(await frontend.fetch(new Request('https://science-navigation-test.test/'))).text();
 const script=html.match(/<script>([\s\S]*?)<\/script>/)?.[1];
@@ -52,6 +53,7 @@ const host=new FakeEl('div'),title=new FakeEl('h2'),lead=new FakeEl('div');
 const elements={'view-module':root,moduleContent:host,moduleTitle:title,moduleLead:lead};
 let workspaces=0,home=0;
 const sandbox={
+ state:{language:'ro'}, // Real frontend global; the isolated VM extracts only the Sciences functions.
  document:{createElement:tag=>new FakeEl(tag),querySelector:()=>null},
  window:{addEventListener:()=>{},visualViewport:null,innerHeight:900},
  requestAnimationFrame:()=>0,
@@ -62,6 +64,7 @@ const sandbox={
  BIOLOGY_TOPIC_DATA:[...BIOLOGY_TOPICS,...BIOLOGY_SPECIALTY_TOPICS],BIOLOGY_SPECIALTY_DATA:BIOLOGY_SPECIALIZATIONS,
  EDUCATION_THEORY_DATA:THEORY_ENTRIES,
  SCIENCE_GRADE_TOPIC_PLAN:scienceGradeTopicPlan,
+ scienceSchoolTopicLessons,scienceRoAnnualCoverage,
  LEARNING_SUBJECTS:[['science','⚛️','Științe','Sciences']],
  learningLabel:(ro,en)=>ro,
  eduAttachPrintAction:()=>{},
