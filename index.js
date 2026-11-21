@@ -46,6 +46,7 @@ import {scienceExtendedTheory,SCIENCE_GUIDES,SCIENCE_FEATURED,SCIENCE_METHOD} fr
 import {SCIENCE_GUIDES_EN} from './science_english_reference_guides.mjs';
 import {SCIENCE_UNIVERSITY_TRACK_GUIDES} from './science_university_track_guides.mjs';
 import {scienceUniversityChapter} from './science_university_chapters.mjs';
+import {PHYSICS_UNIVERSITY_STUDIES} from './physics_university_studies.mjs';
 import {SCIENCE_ADVISORY_PROGRESSION,SCIENCE_PROGRESSION_SOURCES,SCIENCE_PRIMARY_LESSON_BANK,SCIENCE_PRIMARY_ENGLISH,SCIENCE_PRIMARY_DEPTH,scienceGradeTopicPlan,scienceGradeLessonFrame} from './science_grade_progression.mjs';
 import {SCIENCE_LOWER_TOPIC_LESSONS,scienceLowerTopicContent} from './science_lower_secondary_lessons.mjs';
 import {SCIENCE_EXACT_REFERENCE,scienceCheckExactExercise} from './science_exercise_verification.mjs';
@@ -9130,6 +9131,7 @@ const PHYSICS_SOLVE_VERIFIED=${physicsVerifiedExercise.toString()};
 const SCIENCE_GUIDES=${JSON.stringify(SCIENCE_GUIDES)};
 const SCIENCE_GUIDES_EN=${JSON.stringify(SCIENCE_GUIDES_EN)};
 const SCIENCE_UNIVERSITY_TRACK_GUIDES=${JSON.stringify(SCIENCE_UNIVERSITY_TRACK_GUIDES)};
+const PHYSICS_UNIVERSITY_STUDIES=${JSON.stringify(PHYSICS_UNIVERSITY_STUDIES)};
 const SCIENCE_UNIVERSITY_CHAPTER=${scienceUniversityChapter.toString()};
 const SCIENCE_FEATURED=${JSON.stringify(SCIENCE_FEATURED)};
 const SCIENCE_METHOD=${JSON.stringify(SCIENCE_METHOD)};
