@@ -40,9 +40,9 @@ const countryGroups=Object.freeze({
  ],
  primary:[
   ['units','energy','heat'],
-  ['units','kinematics','energy','optics'],
-  ['heat','energy','fluids','electric'],
-  ['kinematics','optics','energy','measurement']
+  ['units','kinematics','energy','fluids'],
+  ['heat','energy','fluids','units'],
+  ['kinematics','fluids','energy','units']
  ]
 });
 const specialPlans={
@@ -96,7 +96,7 @@ export function physicsCountryGradePlan({country='',stage='lower',grade='',years
  const base=PHYSICS_ADVISORY_TOPIC_SEQUENCES[phase]||[];
  const sequence=base.length?base[Math.round(idx*(base.length-1)/Math.max(1,rows.length-1))]:[];
  const yearly=PHYSICS_COUNTRY_YEAR_SEQUENCES[code]?.[phase]?.[yr]||sequence;
- const blocked=noSeparate&&code==='RO';
+ const blocked=Boolean(noSeparate);
  return {country:code,stage:phase,grade:yr,yearIndex:idx,
   status:blocked?'not-offered':status,
   kind:blocked?'not-taught':noSeparate?'not-separate':integrated?'integrated':
