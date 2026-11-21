@@ -5,13 +5,25 @@
 // prescribes that year. Regions/exam boards may override the common framework.
 export const PHYSICS_EUROPE_REFERENCE='https://op.europa.eu/en/publication-detail/-/publication/b82d1d07-abf4-11f1-b9e5-01aa75ed71a1/language-en';
 const refs=Object.freeze({
+ FI:{source:'https://www.oph.fi/en/education-and-qualifications/national-core-curriculum-primary-and-lower-secondary-basic-education',
+  scope:'national-stage',name:'Fysiikka · vuosiluokat 7–9',integrated:['primary'],
+  note:'Fizica este disciplină distinctă în partea finală a școlii de bază (7–9); programa definește obiective pe niveluri, iar repartizarea anuală poate varia după curriculumul local.'},
+ SE:{source:'https://www.skolverket.se/undervisning/grundskolan/laroplan-lgr22-for-grundskolan-samt-for-forskoleklassen-och-fritidshemmet/curriculums/LGR22/GRGRFYS01',
+  scope:'national-stage',name:'Fysik · Lgr22',integrated:['primary'],
+  note:'Cunoștințele sunt grupate pe anii 1–3, 4–6 și 7–9. Fizica nu are o singură secvență obligatorie de lecții pentru fiecare an; programa liceală depinde de profil și nivel.'},
+ NO:{source:'https://www.udir.no/lk20/nat01-05/?lang=eng',
+  scope:'national-stage',name:'Naturfag · fizică integrată',integrated:['primary','lower'],
+  note:'Clasele 1–10 urmează Naturfag cu componente fizice, chimice și biologice; Fizica separată la liceu depinde de program și opțiune.'},
+ DK:{source:'https://emu.dk/grundskole/fysikkemi/faghaefte-faelles-maal-laeseplan-og-vejledning',
+  scope:'national-stage',name:'Fysik/Kemi · 7.–9. klasse',mixed:['lower'],integrated:['primary'],
+  note:'La ciclul gimnazial, Fizica/Chimia este o disciplină comună în clasele 7–9; planul anual al școlii poate ordona diferit temele.'},
  RO:{source:'https://www.edu.ro/Ordin_ministru_3393_2017',scope:'national-stage',name:'Fizică · învățământ gimnazial',lowerEntry:'6',noLower:['5'],note:'Clasele VI–VIII; la liceu distribuția depinde de profil și de programa clasei.'},
  'GB-ENG':{source:'https://www.gov.uk/government/publications/national-curriculum-in-england-science-programmes-of-study/national-curriculum-in-england-science-programmes-of-study',scope:'national-stage',name:'Science: physics component',integrated:['primary','lower'],note:'Key Stage 3 covers Years 7–9; topics are prescribed at key-stage level, NOT as a legally fixed sequence in each year. Year 12–13 programmes are qualification-dependent.'},
  'GB-SCT':{source:'https://education.gov.scot/curriculum-for-excellence/curriculum-areas/sciences/',scope:'national-stage',name:'Curriculum for Excellence: Sciences',integrated:['primary','lower'],note:'BGE experiences and outcomes use curriculum levels (Early–Fourth); S1–S3 do not correspond to a national Physics chapter-by-year scheme.'},
  'GB-WLS':{source:'https://hwb.gov.wales/curriculum-for-wales/areas-of-learning-and-experience/science-and-technology/principles-of-progression/',scope:'national-stage',name:'Curriculum for Wales: Science and Technology',integrated:['primary','lower'],note:'Science and Technology follows progression steps, not mandatory lesson lists per Year 7, 8 or 9.'},
  'GB-NIR':{source:'https://ccea.org.uk/key-stage-3/curriculum/science-and-technology',scope:'national-stage',name:'Science and Technology, KS3',integrated:['primary','lower'],note:'Northern Ireland has integrated Science in Key Stage 3; exam-board syllabuses determine GCSE and post-16 Physics options.'},
  IE:{source:'https://curriculumonline.ie/junior-cycle/junior-cycle-subjects/science/expectations-for-students-learning-outcomes/',scope:'national-stage',name:'Junior Cycle Science — Physical World',integrated:['primary','lower'],note:'Learning outcomes cover the entire three-year Junior Cycle, so a fixed J1/J2/J3 chapter distribution would be a false official attribution.'},
- FR:{source:'https://eduscol.education.gouv.fr/5739/ressources-d-accompagnement-du-programme-de-physique-chimie-au-cycle-4',scope:'national-stage',name:'Physique-chimie · cycle 4',integrated:['primary'],mixed:['lower'],note:'Cycle 4 covers 5e, 4e and 3e; the school-year sequence is advisory, not prescribed for each class. 6e is interdisciplinary science.'},
+ FR:{source:'https://eduscol.education.gouv.fr/5739/ressources-d-accompagnement-du-programme-de-physique-chimie-au-cycle-4',scope:'national-stage',name:'Physique-chimie · cycle 4',integrated:['primary'],integratedGrades:['6e'],mixed:['lower'],note:'Cycle 4 covers 5e, 4e and 3e; the school-year sequence is advisory, not prescribed for each class. 6e is interdisciplinary science.'},
  HU:{source:'https://www.oktatas.hu/kozneveles/kerettantervek/2020_nat',scope:'national-stage',name:'Fizika · NAT 2020',noLower:['5','6'],lowerEntry:'7',note:'Grade 7–8 Física/Fizika foundation, revised in grades 9–10; specialised school tracks may vary.'},
  PL:{source:'https://zpe.gov.pl/podstawa-programowa/szkola-podstawowa/fizyka',scope:'national-stage',name:'Fizyka · klasy VII–VIII',lowerEntry:'VII',noLower:['V','VI'],note:'Separate Physics in classes VII and VIII; 2026 curriculum transition may be cohort-sensitive.'},
  PT:{source:'https://www.dge.mec.pt/programas-e-metas-curriculares/fisico-quimica',scope:'national-year',name:'Físico-Química · 7.º–9.º ano',noLower:['5','6'],lowerEntry:'7',mixed:['lower'],note:'Physics and Chemistry are combined in 7th–9th. 8th includes Sound and Light; 9th includes Motion/Forces and Electricity. 10th–12th depend on course options.'},
@@ -88,7 +100,8 @@ export function physicsCountryGradePlan({country='',stage='lower',grade='',years
  if(!['primary','lower','upper','advanced'].includes(phase)||idx<0)
   return {country:code,grade:yr,stage:phase,status:'invalid-grade',topics:[],source:null,kind:'unmapped'};
  const ref=PHYSICS_EUROPE_REFERENCES[code]||null;
- const integrated=phase==='primary'||ref?.integrated?.includes(phase);
+ const integrated=phase==='primary'||ref?.integrated?.includes(phase)||
+  phase==='lower'&&ref?.integratedGrades?.includes(yr);
  const mixed=ref?.mixed?.includes(phase);
  const noSeparate=phase==='lower'&&ref?.noLower?.includes(yr);
  const status=noSeparate?'integrated-or-not-taught':integrated?'integrated-science':
