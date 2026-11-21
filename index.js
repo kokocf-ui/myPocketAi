@@ -49,6 +49,9 @@ import {scienceUniversityChapter} from './science_university_chapters.mjs';
 import {SCIENCE_ADVISORY_PROGRESSION,SCIENCE_PROGRESSION_SOURCES,SCIENCE_PRIMARY_LESSON_BANK,SCIENCE_PRIMARY_ENGLISH,SCIENCE_PRIMARY_DEPTH,scienceGradeTopicPlan,scienceGradeLessonFrame} from './science_grade_progression.mjs';
 import {SCIENCE_LOWER_TOPIC_LESSONS,scienceLowerTopicContent} from './science_lower_secondary_lessons.mjs';
 import {SCIENCE_EXACT_REFERENCE,scienceCheckExactExercise} from './science_exercise_verification.mjs';
+import {SCIENCE_RO_LOWER_TOPICS,SCIENCE_RO_PHYSICS_LABELS,SCIENCE_RO_LESSON_EXTRAS,SCIENCE_RO_2017_SOURCE,
+ scienceRoGradeTopics,scienceSchoolTopicLessons,scienceRoAnnualCoverage} from './science_ro_course_plan.mjs';
+import {scienceSchoolLessonMaterial,scienceSchoolLessonAssessment} from './science_school_lesson_material.mjs';
 import {CHEMISTRY_SPECIALIZATIONS,CHEMISTRY_SPECIALTY_TOPICS,CHEMISTRY_MOLECULES,chemistryVerifiedExercise} from './chemistry_advanced.mjs';
 import {BIOLOGY_TOPICS,BIOLOGY_SPECIALIZATIONS,BIOLOGY_SPECIALTY_TOPICS,biologyVerifiedExercise} from './biology_curriculum.mjs';
 import {mathAdvancedVerifiedModel} from './math_advanced_verified.mjs';
@@ -8116,7 +8119,16 @@ function scienceTopicChoices(){
  if(!['physics','chemistry','biology','astronomy'].includes(subject))return SCIENCE_OTHER_TOPICS[subject]||[];
  const topics=subject==='physics'?PHYSICS_TOPIC_DATA:subject==='biology'?BIOLOGY_TOPIC_DATA:subject==='astronomy'?ASTRONOMY_TOPIC_DATA:CHEMISTRY_TOPIC_DATA;
  const specializations=subject==='physics'?PHYSICS_SPECIALTY_DATA:subject==='biology'?BIOLOGY_SPECIALTY_DATA:subject==='astronomy'?ASTRONOMY_SPECIALTY_DATA:CHEMISTRY_SPECIALTY_DATA;
- if(scienceJourney.level!=='advanced'||!scienceJourney.specialty)return topics.filter(x=>!x.specialty&&scienceTopicAllowedGrade(x));
+ if(scienceJourney.level!=='advanced'||!scienceJourney.specialty){
+  if(educationCountrySelection.code==='RO'&&scienceJourney.schoolStage==='lower'){
+   const years=eduYearOptions('RO','lower','science');
+   const plan=SCIENCE_GRADE_TOPIC_PLAN({
+    country:'RO',subject,stage:'lower',grade:scienceJourney.grade,years,topics
+   });
+   return plan.topics;
+  }
+  return topics.filter(x=>!x.specialty&&scienceTopicAllowedGrade(x));
+ }
  const track=specializations.find(x=>x.id===scienceJourney.specialty);
  return topics.filter(x=>x.specialty===scienceJourney.specialty||
   (!x.specialty&&(track?.core||[]).includes(x.id)));
@@ -8282,6 +8294,11 @@ function scienceJourneyShowChoices(stage){
   scienceTopicChoices().filter(topic=>{
    if(!['physics','chemistry','biology','astronomy'].includes(scienceJourney.subject))return true;
    const rank={beginner:0,intermediate:1,advanced:2};
+   if(scienceJourney.schoolStage==='lower'&&educationCountrySelection.code==='RO')
+    return scienceSchoolTopicLessons({
+     country:'RO',subject:scienceJourney.subject,grade:scienceJourney.grade,
+     topic:topic.id,lessons:EDUCATION_THEORY_DATA
+    }).length>0;
    return rank[topic.minLevel]<=rank[scienceJourney.level] &&
     (scienceJourney.schoolStage==='primary'?
      Boolean(SCIENCE_PRIMARY_LESSON_BANK[scienceJourney.subject]?.[topic.id]):
@@ -8298,6 +8315,14 @@ function scienceJourneyShowChoices(stage){
     const tile=document.createElement('button');tile.type='button';
     tile.className='secondary-btn science-year-tile';
     tile.textContent=learningLabel(year.ro,year.en);
+    if(educationCountrySelection.code==='RO'&&group.schoolStage==='lower'&&
+       ['physics','chemistry','biology'].includes(scienceJourney.subject)){
+     const count=scienceRoAnnualCoverage({
+      subject:scienceJourney.subject,grade:year.id,lessons:EDUCATION_THEORY_DATA
+     });
+     if(count.lessonCount)tile.textContent+=' · '+count.lessonCount+
+       learningLabel(' lecții',' lessons');
+    }
     tile.onclick=()=>{
      scienceJourney.level=group.level;scienceJourney.schoolStage=group.schoolStage;scienceJourney.grade=year.id;scienceJourney.gradePosition=group.years.indexOf(year);
      scienceJourney.topic=null;scienceJourney.specialty=null;
@@ -8323,8 +8348,12 @@ function scienceJourneyShowChoices(stage){
    stage==='levels'?learningLabel(item.scopeRo,item.scopeEn):
    stage==='specialties'?learningLabel('4 capitole proprii + materii comune','4 dedicated chapters + shared subjects'):
    ['physics','chemistry','biology','astronomy'].includes(scienceJourney.subject)?
-    EDUCATION_THEORY_DATA.filter(x=>x.subject===scienceJourney.subject&&x.topic===item.id).length+
-      learningLabel(' fișe teoretice',' theory entries'):'';
+    (scienceJourney.schoolStage==='lower'?
+      scienceSchoolTopicLessons({country:educationCountrySelection.code,
+       subject:scienceJourney.subject,grade:scienceJourney.grade,
+       topic:item.id,lessons:EDUCATION_THEORY_DATA}).length:
+      EDUCATION_THEORY_DATA.filter(x=>x.subject===scienceJourney.subject&&x.topic===item.id).length)+
+      learningLabel(' lecții de studiu',' study lessons'):'';
   if(stage==='subjects'){
    const icon=document.createElement('span');icon.className='science-subject-icon';
    icon.textContent=item.icon;icon.setAttribute('aria-hidden','true');
@@ -9014,6 +9043,15 @@ const SCIENCE_PRIMARY_DEPTH=${JSON.stringify(SCIENCE_PRIMARY_DEPTH)};
 const SCIENCE_LOWER_TOPIC_LESSONS=${JSON.stringify(SCIENCE_LOWER_TOPIC_LESSONS)};
 const scienceLowerTopicContent=${scienceLowerTopicContent.toString()};
 const SCIENCE_EXACT_REFERENCE=${JSON.stringify(SCIENCE_EXACT_REFERENCE)};
+const SCIENCE_RO_LOWER_TOPICS=${JSON.stringify(SCIENCE_RO_LOWER_TOPICS)};
+const SCIENCE_RO_PHYSICS_LABELS=${JSON.stringify(SCIENCE_RO_PHYSICS_LABELS)};
+const SCIENCE_RO_LESSON_EXTRAS=${JSON.stringify(SCIENCE_RO_LESSON_EXTRAS)};
+const SCIENCE_RO_2017_SOURCE=${JSON.stringify(SCIENCE_RO_2017_SOURCE)};
+const scienceRoGradeTopics=${scienceRoGradeTopics.toString()};
+const scienceSchoolTopicLessons=${scienceSchoolTopicLessons.toString()};
+const scienceRoAnnualCoverage=${scienceRoAnnualCoverage.toString()};
+const scienceSchoolLessonMaterial=${scienceSchoolLessonMaterial.toString()};
+const scienceSchoolLessonAssessment=${scienceSchoolLessonAssessment.toString()};
 const scienceCheckExactExercise=${scienceCheckExactExercise.toString()};
 const SCIENCE_GRADE_TOPIC_PLAN=${scienceGradeTopicPlan.toString()};
 const SCIENCE_GRADE_LESSON_FRAME=${scienceGradeLessonFrame.toString()};
@@ -10529,8 +10567,9 @@ function scienceLessonReviewSpec(){
  const notes=(ro?SCIENCE_GUIDES:SCIENCE_GUIDES_EN)[subject]?.[topic];
  return notes?{subject,topic,stage,lang,prompt:notes[3],guide:notes.slice(0,3).join(' ')}:null;
 }
+let sciencePendingAssessmentSpec=null;
 function scienceAttachLessonReview(dialog){
- const spec=scienceLessonReviewSpec();if(!spec?.prompt||!spec.guide)return;
+ const spec=sciencePendingAssessmentSpec||scienceLessonReviewSpec();if(!spec?.prompt||!spec.guide)return;
  const ro=spec.lang==='ro';
  const wrap=document.createElement('section');wrap.className='science-lesson-answer-check';
  wrap.style.cssText='display:flex;flex-direction:column;gap:5px;flex:0 0 auto;min-height:0;';
@@ -10556,7 +10595,7 @@ function scienceAttachLessonReview(dialog){
   const answer=entry.value.trim();
   if(!answer){status.textContent=ro?'Completează răspunsul.':'Enter your answer.';return;}
   if(controller)return;
-  const local=spec.stage==='lower'?scienceCheckExactExercise({
+  const local=spec.stage==='lower'&&spec.localVerification!==false?scienceCheckExactExercise({
    subject:spec.subject,topic:spec.topic,answer,language:spec.lang}):{status:'requires-assessment'};
   if(['correct','incorrect','needs-unit','empty'].includes(local.status)){
    status.textContent=local.feedback;return;
@@ -10737,23 +10776,52 @@ function educationScienceTheoryReader(subjectId,topicId,level){
   button.onclick=()=>educationOpenPagedLesson(chapterName,body);
   section.append(button);return section;
  }
- // A lower-secondary chapter has one complete year-specific lesson, not
- // several identical buttons that all reopen the same chapter text. Crucially,
- // an empty legacy sublesson registry must not hide an authored lesson.
+
+ // The annual year is NOT a single chapter card. Each named sublesson below
+ // has its own scientific statement and, when authored, worked illustration
+ // and assessment task. Do not re-open the same generic lesson N times.
  if(scienceJourney.schoolStage==='lower'){
   const chapter=scienceTopicInfo();
   const chapterName=learningLabel(chapter?.ro||'',chapter?.en||'');
-  const lesson=SCIENCE_GRADE_LESSON_FRAME({
-   subject:subjectId,stage:'lower',grade:scienceJourney.grade,
-   topic:topicId,chapter:chapterName,language:state.language,
-   gradePosition:scienceJourney.gradePosition
+  const chapterLessons=scienceSchoolTopicLessons({
+   country:educationCountrySelection.code,subject:subjectId,grade:scienceJourney.grade,
+   topic:topicId,lessons:EDUCATION_THEORY_DATA
   });
-  const button=document.createElement('button');button.type='button';
-  button.className='secondary-btn science-inline-theory-item';
-  button.textContent=learningLabel('Lecția capitolului · explicații, exemplu, exercițiu și verificare','Chapter lesson · explanation, worked example, practice and feedback');
-  button.onclick=()=>educationOpenPagedLesson(chapterName,
-   lesson||learningLabel('Lecție indisponibilă pentru acest capitol.','Lesson unavailable for this chapter.'));
-  section.append(button);return section;
+  head.textContent=learningLabel('📖 Teme de studiu','📖 Study lessons')+
+   ' ('+chapterLessons.length+')';
+  if(!chapterLessons.length){
+   const notice=document.createElement('p');
+   notice.textContent=learningLabel('Nu există lecții individuale documentate pentru acest capitol. Nu îl prezint ca parcurs complet.','No individual documented lessons are available in this chapter; it is not presented as a complete course.');
+   section.append(notice);return section;
+  }
+  const lessonsGrid=document.createElement('div');lessonsGrid.className='science-theory-topic-list';
+  lessonsGrid.style.cssText='display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:8px;width:100%;';
+  for(const [index,entry] of chapterLessons.entries()){
+   const button=document.createElement('button');button.type='button';
+   button.className='secondary-btn science-inline-theory-item';
+   button.style.cssText='white-space:normal;text-align:left;min-height:55px;overflow-wrap:anywhere;';
+   button.textContent=(index+1)+'. '+entry.title+
+    (state.language!=='ro'&&entry.source?' · RO source':'');
+   button.onclick=()=>{
+    const chapterGuide=state.language==='ro'?SCIENCE_GUIDES[subjectId]?.[topicId]:
+     SCIENCE_GUIDES_EN[subjectId]?.[topicId];
+    const source=scienceLowerTopicContent(subjectId,topicId,state.language);
+    const detailed=subjectId==='chemistry'?CHEMISTRY_DETAIL_DATA[entry.id]:null;
+    const material=scienceSchoolLessonMaterial({
+     entry,subject:subjectId,grade:scienceJourney.grade,chapter:chapterName,
+     language:state.language,guide:chapterGuide,chapterLesson:source,detailed
+    });
+    const assessment=scienceSchoolLessonAssessment({
+     entry,subject:subjectId,topic:topicId,
+     language:state.language,chapterGuide
+    });
+    sciencePendingAssessmentSpec=assessment;
+    try{educationOpenPagedLesson(entry.title,material||'')}
+    finally{sciencePendingAssessmentSpec=null}
+   };
+   lessonsGrid.append(button);
+  }
+  section.append(lessonsGrid);return section;
  }
  // English upper-secondary content is authored per chapter, not a literal
  // translation of each Romanian sublesson. Expose it once rather than making
