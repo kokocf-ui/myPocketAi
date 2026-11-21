@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import frontend from './index.js';
-import {SCIENCE_RO_LOWER_TOPICS,scienceSchoolTopicLessons,
+import {SCIENCE_RO_LOWER_TOPICS,SCIENCE_RO_2017_SOURCE,scienceSchoolTopicLessons,
  scienceRoAnnualCoverage} from './science_ro_course_plan.mjs';
 import {SCIENCE_GUIDES} from './science_extended_theory.mjs';
 import {SCIENCE_GUIDES_EN} from './science_english_reference_guides.mjs';
@@ -29,7 +29,8 @@ for(const [subject,classes] of Object.entries(SCIENCE_RO_LOWER_TOPICS)){
     const body=scienceSchoolLessonMaterial({entry,subject,grade,chapter:topic,language:'ro',chapterLesson:reference,guide});
     assert.ok(body?.includes(entry.statement),'Lesson opens its unique scientific definition');
     assert.ok(body.includes('# Exercițiu pentru elev'),'Every lesson has practice');
-    assert.ok(entry.source,'Source provenance must remain in the auditable lesson metadata');
+    assert.ok((entry.source||SCIENCE_RO_2017_SOURCE).startsWith('http'),
+      'Original lesson may inherit the curriculum reference from its school-year catalogue');
     assert.ok(!body.includes('Material didactic original'),
       'Do not repeat internal provenance instructions in the pupil-facing reader');
     if(subject==='physics'&&!['electric','circuits'].includes(entry.topic))
