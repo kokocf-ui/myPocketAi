@@ -8115,13 +8115,13 @@ function scienceTopicAllowedGrade(topic){
   scienceJourney.subject==='chemistry'?CHEMISTRY_TOPIC_DATA:
   scienceJourney.subject==='biology'?BIOLOGY_TOPIC_DATA:ASTRONOMY_TOPIC_DATA;
  const params={country,subject:scienceJourney.subject,stage,grade:scienceJourney.grade,years,topics};
- const plan=scienceJourney.subject==='chemistry'?
+ const plan=scienceJourney.subject==='chemistry'&&typeof chemistryGradeTopicPlan==='function'?
   chemistryGradeTopicPlan(params,SCIENCE_GRADE_TOPIC_PLAN):SCIENCE_GRADE_TOPIC_PLAN(params);
  return plan.topics.some(x=>x.id===topic.id);
 }
 function scienceTopicChoices(){
  const subject=scienceJourney.subject;
- if(subject==='chemistry'&&scienceJourney.schoolStage==='advanced'&&/^univ-[1-5]$/.test(String(scienceJourney.grade||'')))
+ if(subject==='chemistry'&&typeof chemistryUniversityCourseChoices==='function'&&scienceJourney.schoolStage==='advanced'&&/^univ-[1-5]$/.test(String(scienceJourney.grade||'')))
   return chemistryUniversityCourseChoices({year:Number(String(scienceJourney.grade).slice(-1)),specialty:scienceJourney.specialty});
  if(subject==='physics'&&scienceJourney.schoolStage==='advanced'&&/^univ-[1-5]$/.test(String(scienceJourney.grade||'')))
   return physicsUniversityCourseChoices({year:Number(String(scienceJourney.grade).slice(-1)),specialty:scienceJourney.specialty});
@@ -8247,7 +8247,7 @@ function scienceYearGroups(){
    years=years.filter(entry=>Number.isInteger(Number(entry.id))&&Number(entry.id)>=9&&Number(entry.id)<=12);
   if(band.schoolStage==='advanced')years=scienceJourney.subject==='physics'?
    physicsUniversityYears(country,scienceJourney.universityRoute):
-   scienceJourney.subject==='chemistry'?chemistryUniversityYears(country,scienceJourney.universityRoute):years.slice(0,1);
+   scienceJourney.subject==='chemistry'&&typeof chemistryUniversityYears==='function'?chemistryUniversityYears(country,scienceJourney.universityRoute):years.slice(0,1);
   years=years.filter(entry=>{
    const key=band.schoolStage+':'+String(entry.id);
    if(seen.has(key))return false;
@@ -8411,7 +8411,8 @@ function scienceJourneyShowChoices(stage){
     }
    };
    renderYearTiles(group.years);
-   if(group.schoolStage==='advanced'&&['physics','chemistry'].includes(scienceJourney.subject)){
+   if(group.schoolStage==='advanced'&&['physics','chemistry'].includes(scienceJourney.subject)&&
+    (scienceJourney.subject!=='chemistry'||typeof chemistryUniversityRoutes==='function')){
     const chem=scienceJourney.subject==='chemistry';
     const routes=chem?chemistryUniversityRoutes(educationCountrySelection.code):physicsUniversityRoutes(educationCountrySelection.code);
     const getRoute=chem?chemistryUniversityRoute:physicsUniversityRoute;
@@ -10791,7 +10792,7 @@ function educationScienceTheoryReader(subjectId,topicId,level){
   button.onclick=()=>educationOpenPagedLesson(learningLabel(chapter?.ro||'',chapter?.en||''),lesson||learningLabel('Lecție generală indisponibilă.','General lesson unavailable.'));
   section.append(button);return section;
  }
- if(subjectId==='chemistry'&&scienceJourney.schoolStage==='advanced'&&/^univ-[1-5]$/.test(String(scienceJourney.grade||''))){
+ if(subjectId==='chemistry'&&typeof chemistryUniversityStudyDocument==='function'&&scienceJourney.schoolStage==='advanced'&&/^univ-[1-5]$/.test(String(scienceJourney.grade||''))){
   const chapter=scienceTopicInfo(),name=learningLabel(chapter?.ro||'',chapter?.en||'');
   const body=chemistryUniversityStudyDocument({
    courseId:chapter?.courseId,country:educationCountrySelection.code,
@@ -10811,7 +10812,7 @@ function educationScienceTheoryReader(subjectId,topicId,level){
   button.onclick=()=>educationOpenPagedLesson(name,body);
   section.append(button);return section;
  }
- if(subjectId==='chemistry'&&['lower','upper'].includes(scienceJourney.schoolStage)){
+ if(subjectId==='chemistry'&&typeof chemistrySchoolCourseDocuments==='function'&&['lower','upper'].includes(scienceJourney.schoolStage)){
   const chapter=scienceTopicInfo(),name=learningLabel(chapter?.ro||'',chapter?.en||'');
   const entries=chemistrySchoolCourseDocuments({
    topic:chapter?.id,country:educationCountrySelection.code,grade:scienceJourney.grade,
