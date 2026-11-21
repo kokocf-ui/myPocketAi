@@ -10664,7 +10664,7 @@ function scienceLessonReviewSpec(){
 }
 let sciencePendingAssessmentSpec=null;
 function scienceAttachLessonReview(dialog){
- const spec=sciencePendingAssessmentSpec||scienceLessonReviewSpec();if(!spec?.prompt||!spec.guide)return;
+ const spec=sciencePendingAssessmentSpec||scienceLessonReviewSpec();if(spec?.disabled||!spec?.prompt||!spec.guide)return;
  const ro=spec.lang==='ro';
  let currentIndex=0,exerciseChoiceSelect=null;
  const currentExercise=()=>spec.choices?.[currentIndex]||spec;
@@ -10800,9 +10800,11 @@ function educationOpenPagedLesson(title,body){
  content.style.cssText='box-sizing:border-box;min-height:0;flex:1 1 auto;width:100%;padding:8px 9px 18px;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;touch-action:pan-y;-webkit-overflow-scrolling:touch;line-height:1.55;text-align:left;';
  const footer=document.createElement('div');footer.className='education-paged-controls';
  footer.style.cssText='display:flex;align-items:center;justify-content:space-between;gap:6px;flex:0 0 auto;padding-top:4px;';
- const prev=document.createElement('button');prev.type='button';prev.className='secondary-btn';prev.textContent=learningLabel('← Anterior','← Previous');
+ // Same visual contract for Previous and Next; disabled state remains functional.
+ const lessonPageNavStyle='background:#812b4b!important;border:1px solid #b96380!important;color:#fff!important;box-shadow:none!important;min-width:90px;min-height:38px;';
+ const prev=document.createElement('button');prev.type='button';prev.className='secondary-btn education-page-step';prev.textContent=learningLabel('← Anterior','← Previous');prev.style.cssText=lessonPageNavStyle;
  const count=document.createElement('span');count.setAttribute('aria-live','polite');count.style.cssText='text-align:center;font-size:clamp(13px,3.5vw,16px);min-width:64px;';
- const next=document.createElement('button');next.type='button';next.className='secondary-btn';next.textContent=learningLabel('Următor →','Next →');
+ const next=document.createElement('button');next.type='button';next.className='secondary-btn education-page-step';next.textContent=learningLabel('Următor →','Next →');next.style.cssText=lessonPageNavStyle;
  let page=0;
  const paint=()=>{
   content.replaceChildren();let list=null,listType='';
@@ -11116,7 +11118,18 @@ function scienceOpenChemistrySection(stage){
     const investigations=physicsGrade6Laboratories(scienceJourney.topic);
     for(const lab of investigations){
      tile('🧪',lab.title,lab.en,'Scop, materiale, pași, explicație','Aim, materials, steps and explanation',
-      ()=>educationOpenPagedLesson(learningLabel(lab.title,lab.en),lab.body));
+      ()=>{
+       // Each laboratory must carry its OWN assessable question. Do not fall back to
+       // the chapter-level exercise (e.g. 750 mm) for unrelated investigations.
+       const lang=state.language==='ro'?'ro':'en';
+       const review=lab.review?.[lang];
+       sciencePendingAssessmentSpec=review?{
+        subject:'physics',topic:scienceJourney.topic,stage:'lower',lang,
+        prompt:review.prompt,guide:review.guide,localVerification:false
+       }:{disabled:true};
+       try{educationOpenPagedLesson(learningLabel(lab.title,lab.en),lab.body)}
+       finally{sciencePendingAssessmentSpec=null}
+      });
     }
     if(!investigations.length){
      const missing=document.createElement('p');

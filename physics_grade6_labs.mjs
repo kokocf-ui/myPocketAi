@@ -32,5 +32,144 @@ export function physicsGrade6Laboratories(topic){
    {title:'Cum apare umbra?',en:'Observe light and shadow',body:'# Întrebarea\nDe ce se formează umbra în spatele unui corp opac?\n\n# Materiale\nO lanternă obișnuită, o foaie de carton și un perete liber.\n\n# Pași\n1. Așază cartonul între lanternă și perete, fără să îndrepți lumina spre ochi.\n2. Observă conturul umbrei și desenează-l.\n3. Apropie cartonul de lanternă și compară mărimea umbrei.\n4. Încearcă o bucată de material translucid și descrie diferența.\n\n# Concluzie\nUn corp opac blochează lumina și formează o zonă umbrită. Acesta este un experiment introductiv, fără formule despre lentile sau optică geometrică avansată.'}
   ]
  };
- return all[String(topic||'')]||[];
+ const reviewByLab={
+  "Măsoară o lungime cu rigla": {
+    "ro": [
+      "O riglă arată începutul unui obiect la 3 cm și sfârșitul la 18 cm. Care este lungimea reală?",
+      "Lungimea este 18 − 3 = 15 cm. Se scade marcajul de la început și se indică unitatea, deoarece obiectul nu începe la zero."
+    ],
+    "en": [
+      "A ruler shows an object starting at 3 cm and ending at 18 cm. What is its length?",
+      "18 − 3 = 15 cm. Subtract the starting mark and report centimetres."
+    ]
+  },
+  "Află aria unei suprafețe": {
+    "ro": [
+      "O foaie dreptunghiulară are lungimea de 30 cm și lățimea de 10 cm. Ce arie are și în ce unitate o exprimi?",
+      "Aria este 30 × 10 = 300 cm². Înmulțirea a două lungimi în centimetri produce centimetri pătrați, nu centimetri cubi."
+    ],
+    "en": [
+      "A rectangular sheet is 30 cm long and 10 cm wide. Calculate its area and unit.",
+      "30 × 10 = 300 cm². Multiplying two lengths gives square centimetres."
+    ]
+  },
+  "Determină volumul unei cutii": {
+    "ro": [
+      "O cutie măsoară 6 cm în lungime, 4 cm în lățime și 5 cm în înălțime. Care este volumul în cm³ și mL?",
+      "Volumul este 6 × 4 × 5 = 120 cm³. Pentru volume echivalente, 1 cm³ = 1 mL, deci 120 mL."
+    ],
+    "en": [
+      "A box measures 6 cm by 4 cm by 5 cm. Give its volume in cm³ and mL.",
+      "6 × 4 × 5 = 120 cm³, which is 120 mL because 1 cm³ equals 1 mL."
+    ]
+  },
+  "Repetă măsurarea timpului": {
+    "ro": [
+      "Ai măsurat de trei ori același traseu: 3 s, 6 s și 9 s. Care este durata medie și de ce păstrăm toate citirile?",
+      "Media este (3 + 6 + 9)/3 = 6 s. Păstrăm toate citirile pentru a observa variațiile și eventualele erori; media nu elimină erorile sistematice."
+    ],
+    "en": [
+      "Three timings are 3 s, 6 s and 9 s. What is the mean and why keep every reading?",
+      "(3 + 6 + 9)/3 = 6 s. Keep the readings to inspect variation and potential measurement error."
+    ]
+  },
+  "Observă repausul și mișcarea": {
+    "ro": [
+      "Un elev stă pe scaun într-un autobuz care se deplasează. Este elevul în repaus sau în mișcare? Numește două repere.",
+      "Elevul este în repaus față de scaunul autobuzului și în mișcare față de stația de pe stradă. Descrierea depinde de reper."
+    ],
+    "en": [
+      "A pupil sits on a moving bus. Is the pupil at rest or moving? Name two reference frames.",
+      "At rest relative to the bus seat, moving relative to a street stop. Motion depends on the reference frame."
+    ]
+  },
+  "Determină viteza medie": {
+    "ro": [
+      "Un cărucior parcurge 1,2 m în 4 s. Calculează viteza medie și indică unitatea corectă.",
+      "v = distanță / timp = 1,2 m / 4 s = 0,3 m/s. Este viteza medie pe interval, nu neapărat viteza în fiecare clipă."
+    ],
+    "en": [
+      "A cart travels 1.2 m in 4 s. Find its average speed and unit.",
+      "Average speed is 1.2 / 4 = 0.3 m/s; it need not be the speed at every instant."
+    ]
+  },
+  "Observă inerția în siguranță": {
+    "ro": [
+      "De ce o jucărie nefixată poate continua înainte când căruciorul pe care se află este oprit ușor?",
+      "Din cauza inerției, obiectul tinde să păstreze mișcarea anterioară. Nu există o forță specială care îl împinge singură înainte."
+    ],
+    "en": [
+      "Why can an unsecured toy keep moving forward when its cart stops?",
+      "Because of inertia, it tends to retain its previous motion; inertia is not an extra forward force."
+    ]
+  },
+  "Urmărește transformările energiei": {
+    "ro": [
+      "De ce o jucărie care pornește mai sus pe o rampă poate ajunge la o viteză mai mare? De unde provine energia?",
+      "La înălțime mai mare are mai multă energie potențială gravitațională față de baza rampei, care se poate transforma în energie cinetică. Frecarea și celelalte condiții modifică rezultatul."
+    ],
+    "en": [
+      "Why may a toy released higher on a ramp travel faster? Where does that energy come from?",
+      "Greater initial gravitational potential energy can turn into kinetic energy; friction and conditions matter."
+    ]
+  },
+  "Citește un termometru": {
+    "ro": [
+      "Un termometru indică 17 °C într-o cameră și 22 °C într-alta. Care este diferența de temperatură?",
+      "Diferența este 22 − 17 = 5 °C. Menționăm unitatea, iar măsurarea se face cu instrumentul adecvat, nu doar după senzație."
+    ],
+    "en": [
+      "One room reads 17 °C and another 22 °C. What is the temperature difference?",
+      "22 − 17 = 5 °C. Report the unit and read the appropriate thermometer."
+    ]
+  },
+  "Observă electrizarea prin frecare": {
+    "ro": [
+      "De ce un balon frecat poate atrage bucăți mici de hârtie care erau inițial neutre?",
+      "Balonul electrizat poate produce redistribuirea sarcinilor în hârtie, iar interacțiunea electrică duce la atracție. Nu este nevoie de priză sau curent de rețea."
+    ],
+    "en": [
+      "Why can a rubbed balloon attract small pieces of initially neutral paper?",
+      "The charged balloon can polarize the paper, leading to electrical attraction; no mains power is involved."
+    ]
+  },
+  "Circuit simplu cu baterie școlară": {
+    "ro": [
+      "Ce se întâmplă cu becul unui circuit școlar simplu atunci când întrerupătorul este deschis și de ce?",
+      "Becul se stinge, deoarece traseul conductor se întrerupe. Experimentul se face numai cu o baterie de joasă tensiune adecvată și sub supraveghere."
+    ],
+    "en": [
+      "What happens to the lamp when a school circuit switch is opened, and why?",
+      "The lamp turns off because the conducting path is broken; use supervised low-voltage equipment."
+    ]
+  },
+  "Testează atracția dintre magneți": {
+    "ro": [
+      "Ce observi când apropii doi poli nord ai magneților? Dar un pol nord de un pol sud?",
+      "Doi poli de același fel se resping; doi poli diferiți se atrag. Încercarea trebuie descrisă prin observații, nu doar prin numele polilor."
+    ],
+    "en": [
+      "What happens when two north magnetic poles approach? What about north and south?",
+      "Like poles repel; unlike poles attract. Describe the observable interaction."
+    ]
+  },
+  "Cum apare umbra?": {
+    "ro": [
+      "De ce apare o regiune întunecată pe perete când așezăm carton opac între lanternă și perete?",
+      "Cartonul blochează propagarea directă a luminii. Pe perete, în zona în care lumina nu ajunge direct, apare umbra."
+    ],
+    "en": [
+      "Why does a dark region appear on the wall when opaque card is placed in front of a torch?",
+      "The card blocks the direct light path, creating a shadow on the wall."
+    ]
+  }
+};
+ return (all[String(topic||'')]||[]).map(lab=>{
+  const review=reviewByLab[lab.title];
+  if(!review)return {...lab,review:null};
+  return {...lab,review:{
+   ro:{prompt:review.ro[0],guide:review.ro[1]},
+   en:{prompt:review.en[0],guide:review.en[1]}
+  }};
+ });
 }
