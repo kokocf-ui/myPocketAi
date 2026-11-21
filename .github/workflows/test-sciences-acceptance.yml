@@ -43,6 +43,7 @@ jobs:
           node tests_science_ro_course_quality.mjs
           node tests_physics_all_europe_year_depth.mjs
           node tests_physics_upper_bilingual.mjs
+          node tests_physics_university_studies.mjs
           node tests_physics_europe_coverage.mjs
           node tests_physics_primary_years.mjs
           node tests_science_exercise_verification.mjs
