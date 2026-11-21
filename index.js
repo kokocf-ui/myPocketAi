@@ -11805,7 +11805,7 @@ function scienceOpenChemistrySection(stage){
          '# '+learningLabel('Concluzie și limite','Conclusion and limitations'),
          entry.answer||learningLabel('Concluzia se bazează pe observațiile înregistrate. Nu inventa măsurători și nu confunda modelul cu un experiment realizat.',
           'Base conclusions on recorded observations. Do not invent measurements or claim a model is a completed experiment.')
-        ].filter(Boolean).join('\n\n');
+        ].filter(Boolean).join('\\n\\n');
         educationOpenPagedLesson(entry.title,body);
        });
      }
@@ -11890,7 +11890,7 @@ function scienceOpenChemistrySection(stage){
         '# '+learningLabel('Concluzie și limite','Conclusion and limitations'),
         learningLabel('Precizează ce se poate afirma din date, ce factori pot influența rezultatul și ce verificări suplimentare sunt necesare.',
          'State what the evidence supports, possible confounding factors and necessary follow-up checks.')
-       ].join('\n\n');
+       ].join('\\n\\n');
        educationOpenPagedLesson(title,body);
       });
     }
