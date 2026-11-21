@@ -36,25 +36,34 @@ const refs=Object.freeze({
 });
 export const PHYSICS_EUROPE_REFERENCES=refs;
 const countryGroups=Object.freeze({
- // These are original, advisory progressions for school years; they are not
- // attributed to official annual outcomes in stage-level national frameworks.
+ // Original spiral sequences, NOT prescribed national textbooks. Enough
+ // distinct steps for six-year lower-secondary and long upper-secondary
+ // tracks; the real country school-year IDs determine placement.
  lower:[
   ['units','kinematics','heat','energy','optics'],
-  ['kinematics','dynamics','fluids','energy','waves'],
-  ['electric','circuits','optics','electromagnetism','measurement'],
-  ['energy','thermodynamics','waves','electric','optics']
+  ['units','kinematics','dynamics','fluids','energy'],
+  ['kinematics','dynamics','fluids','heat','waves'],
+  ['electric','circuits','optics','waves','measurement'],
+  ['electric','circuits','electromagnetism','thermodynamics','waves'],
+  ['energy','electric','thermodynamics','optics','measurement']
  ],
  upper:[
   ['measurement','kinematics','dynamics','energy','fluids'],
-  ['heat','thermodynamics','waves','optics','circuits'],
+  ['heat','thermodynamics','waves','optics','energy'],
   ['electric','circuits','electromagnetism','measurement','waves'],
-  ['modern','measurement','energy','waves','thermodynamics']
+  ['waves','optics','modern','energy','circuits'],
+  ['modern','measurement','dynamics','thermodynamics','electromagnetism'],
+  ['modern','optics','waves','electric','measurement']
  ],
  primary:[
   ['units','energy','heat'],
-  ['units','kinematics','energy','fluids'],
-  ['heat','energy','fluids','units'],
-  ['kinematics','fluids','energy','units']
+  ['units','kinematics','energy'],
+  ['energy','heat','fluids'],
+  ['heat','fluids','kinematics'],
+  ['units','kinematics','fluids','heat'],
+  ['energy','kinematics','heat','units'],
+  ['units','energy','heat','fluids'],
+  ['units','kinematics','energy','fluids']
  ]
 });
 const specialPlans={
