@@ -4,6 +4,7 @@
 // Each case has a unique scientific concept, worked example, pupil question
 // and a verifiable reference answer. The grade's own curriculum framework
 // decides which chapters to include; we do not invent a national syllabus.
+const methodNotes={"units":"Verificăm toate conversiile prin păstrarea dimensiunilor și scriem unitatea și ordinul de mărime lângă rezultatul final.","kinematics":"Calculăm diferența dintre valorile inițiale și finale, apoi interpretăm sensul fizic al rezultatului pe axa aleasă.","dynamics":"Reprezentăm mai întâi forțele asupra unui singur corp și precizăm sensurile, ca să nu confundăm rezultanta cu o forță izolată.","energy":"Verificăm că datele au unități compatibile și că energia rezultată este exprimată în jouli, cu un reper precizat când este necesar.","fluids":"Identificăm suprafața, adâncimea sau volumul de fluid relevant și verificăm unitățile pentru presiune ori forța arhimedică.","heat":"Separăm schimbarea temperaturii de o eventuală schimbare de fază și verificăm masele și constantele în unități compatibile.","electric":"Precizăm ce mărimi sunt date și ce configurație a circuitului sau condensatorului justifică formula utilizată.","waves":"Folosim hertz pentru frecvență, secunde pentru perioadă și metri pentru lungime, verificând relația dimensională.","optics":"Desenăm o normală la suprafață sau axa optică și precizăm convenția de semn înaintea aplicării relațiilor.","electromagnetism":"Verificăm orientarea conductorului, normalei ori fluxului magnetic, apoi deducem corect direcția sau unitatea rezultatului.","thermodynamics":"Precizăm temperatura absolută și convenția semnelor pentru lucrul mecanic, apoi verificăm conservarea energiei.","circuits":"Desenăm ramurile și nodurile înaintea calculului, pentru a nu confunda conexiunea în serie cu cea în paralel.","modern":"Folosim unități SI pentru constantele fizice și verificăm ordinul de mărime al rezultatului sau al fracției rămase.","measurement":"Păstrăm citirile inițiale și verificăm scala și precizia instrumentului înainte de rotunjirea concluziei."};
 const chapters={
   "units": [
     [
@@ -332,7 +333,7 @@ export const PHYSICS_UPPER_CASES=Object.freeze(Object.fromEntries(
  Object.entries(chapters).map(([topic,items])=>[topic,Object.freeze(items.map(
  ([title,statement,workedExample,exercise,answer],i)=>Object.freeze({
   id:'upper-physics-case-'+topic+'-'+(i+1),subject:'physics',topic,
-  level:'intermediate',title,statement,workedExample,exercise,answer,
+  level:'intermediate',title,statement,workedExample:workedExample+' '+methodNotes[topic],exercise,answer,
   source:'original-high-school-physics-advisory',nationallyVerified:false,
   language:'ro'
  })))])));
