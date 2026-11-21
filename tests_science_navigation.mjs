@@ -7,7 +7,9 @@ import {BIOLOGY_TOPICS,BIOLOGY_SPECIALIZATIONS,BIOLOGY_SPECIALTY_TOPICS} from '.
 import {THEORY_ENTRIES} from './education_theory.mjs';
 import {PHYSICS_TOPICS,PHYSICS_SPECIALIZATIONS} from './physics_curriculum.mjs';
 import {physicsUniversityYears,physicsUniversityRoute,physicsUniversityRoutes} from './physics_university_europe.mjs';
-import {ASTRONOMY_TOPICS,ASTRONOMY_SPECIALIZATIONS} from './astronomy_curriculum.mjs';
+import {ASTRONOMY_TOPICS,ASTRONOMY_SPECIALIZATIONS,ASTRONOMY_LESSONS} from './astronomy_curriculum.mjs';
+import {astronomySchoolTopicLessons} from './astronomy_study_course.mjs';
+import {astronomyUniversityYears,astronomyUniversityRoute,astronomyUniversityRoutes,astronomyUniversityCourseChoices} from './astronomy_university_courses.mjs';
 import {scienceGradeTopicPlan} from './science_grade_progression.mjs';
 import {scienceSchoolTopicLessons,scienceRoAnnualCoverage} from './science_ro_course_plan.mjs';
 
@@ -62,6 +64,8 @@ const sandbox={
  PHYSICS_TOPIC_DATA:PHYSICS_TOPICS,PHYSICS_SPECIALTY_DATA:PHYSICS_SPECIALIZATIONS,
  physicsUniversityYears,physicsUniversityRoute,physicsUniversityRoutes,
  ASTRONOMY_TOPIC_DATA:ASTRONOMY_TOPICS,ASTRONOMY_SPECIALTY_DATA:ASTRONOMY_SPECIALIZATIONS,
+ ASTRONOMY_LESSON_DATA:ASTRONOMY_LESSONS,astronomySchoolTopicLessons,
+ astronomyUniversityYears,astronomyUniversityRoute,astronomyUniversityRoutes,astronomyUniversityCourseChoices,
  BIOLOGY_TOPIC_DATA:[...BIOLOGY_TOPICS,...BIOLOGY_SPECIALTY_TOPICS],BIOLOGY_SPECIALTY_DATA:BIOLOGY_SPECIALIZATIONS,
  EDUCATION_THEORY_DATA:THEORY_ENTRIES,
  SCIENCE_GRADE_TOPIC_PLAN:scienceGradeTopicPlan,
