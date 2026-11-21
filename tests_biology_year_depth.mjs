@@ -96,8 +96,8 @@ for(const country of EDUCATION_EUROPE_COUNTRIES){
     topics:[...BIOLOGY_TOPICS,...BIOLOGY_SPECIALTY_TOPICS],
     specializations:BIOLOGY_SPECIALIZATIONS
    }));
-   assert.equal(courses.length,8,country+'/'+specialty.id+' courses');
-   assert.equal(new Set(courses.map(x=>x.id)).size,8,'No duplicated university courses across years');
+   assert.equal(courses.length,15,country+'/'+specialty.id+' courses');
+   assert.equal(new Set(courses.map(x=>x.id)).size,15,'No duplicated university courses across years');
    for(const course of courses){
     assert.ok(course.university&&course.courseYear>=1&&course.courseYear<=route.years);
     if(course.id==='biology-capstone'){
