@@ -5,6 +5,20 @@
 // prescribes that year. Regions/exam boards may override the common framework.
 export const PHYSICS_EUROPE_REFERENCE='https://op.europa.eu/en/publication-detail/-/publication/f3bd0532-0255-11ed-acce-01aa75ed71a1/language-en';
 const refs=Object.freeze({
+ SK:{source:'https://www.statpedu.sk/sk/svp/statny-vzdelavaci-program/svp-druhy-stupen-zs/ramcove-ucebne-plany/',
+  scope:'national-stage',name:'Fyzika · 6.–9. ročník',integrated:['primary'],noLower:['5'],
+  lowerEntry:'6',note:'Fizica începe în mod uzual în clasa 6; programa pe competențe și structura în tranziție nu impun o singură ordine anuală a manualului. Clasele 5 au științe naturale, nu Fizică separată obligatorie.'},
+ SI:{source:'https://www.gov.si/teme/programi-in-ucni-nacrti-v-osnovni-soli/',
+  scope:'national-year',name:'Fizika · 8.–9. razred',integrated:['primary'],
+  noLower:['7'],lowerEntry:'8',
+  note:'În Slovenia Fizica distinctă este în clasele 8 și 9 ale școlii de bază; înaintea acestora conceptele apar în alte discipline de știință. Secvențierea manualelor poate varia.'},
+ BG:{source:'https://www.mon.bg/obshto-obrazovanie/uchebni-planove-i-programi-2/uchebni-programi/uchebni-programi-za-obsthoobrazovatelna-podgotovka/vii-klas/',
+  scope:'national-year',name:'Физика и астрономия · VII клас',integrated:['primary'],
+  noLower:['5','6'],lowerEntry:'7',
+  note:'Fizică și astronomie ca disciplină distinctă începe în clasa VII; în clasele V–VI se predau elemente în Științe ale naturii. De la clasa VIII există diferite profiluri liceale.'},
+ CY:{source:'https://www.moec.gov.cy/dme/en/gymnasium.html',
+  scope:'national-stage',name:'Physics · Gymnasium',integrated:['primary'],
+  note:'În Cipru, gimnaziul G1–G3 include Fizică în cadrul programului de științe; liceul L1–L3 poate varia în funcție de profil și de cursurile alese.'},
  CZ:{source:'https://edu.gov.cz/dokumenty/rvp-ramcove-vzdelavaci-programy/rvp-zv-ramcovy-vzdelavaci-program-pro-zakladni-vzdelavani/',
   scope:'national-stage',name:'Fyzika · RVP ZV',integrated:['primary'],
   note:'În Cehia, Fizica face parte din programa secundară 6–9. Modificările RVP 2025 sunt introduse etapizat; ordinea anuală diferă după școală și cohortă.'},
@@ -77,6 +91,25 @@ const countryGroups=Object.freeze({
  ]
 });
 const specialPlans={
+ SI:{lower:{
+  '8':['units','kinematics','waves','optics','energy'],
+  '9':['electric','circuits','dynamics','thermodynamics','measurement']
+ }},
+ BG:{lower:{
+  '7':['units','kinematics','energy','electric','optics']
+ }},
+ SK:{lower:{
+  '6':['units','kinematics','heat','fluids','energy'],
+  '7':['dynamics','energy','heat','measurement','optics'],
+  '8':['electric','circuits','waves','optics','energy'],
+  '9':['electric','electromagnetism','modern','waves','measurement']
+ }},
+ CY:{lower:{
+  G1:['units','kinematics','energy','heat','optics'],
+  G2:['dynamics','energy','waves','fluids','optics'],
+  G3:['electric','circuits','electromagnetism','measurement','energy']
+ }},
+
  EE:{lower:{
   '8':['units','kinematics','waves','optics','heat'],
   '9':['electric','circuits','electromagnetism','energy','thermodynamics']
