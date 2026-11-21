@@ -1,20 +1,9 @@
-import {PHYSICS_UPPER_ENGLISH_MECHANICS} from './physics_upper_english_mechanics.mjs';
-import {PHYSICS_UPPER_ENGLISH_FIELDS} from './physics_upper_english_fields.mjs';
+import {PHYSICS_UPPER_ENGLISH_BANK} from './physics_upper_english_bank.mjs';
 import {PHYSICS_LOWER_ENGLISH_LESSONS} from './physics_lower_english_lessons.mjs';
 
-// 14 chapters with six advanced original exercises each, plus two clearly
-// labelled prerequisite reviews when presenting a complete upper-year course.
-// No copy/paste of a national exam board or textbook.
-export const PHYSICS_UPPER_ENGLISH_BANK=Object.freeze(Object.fromEntries(
- Object.entries({...PHYSICS_UPPER_ENGLISH_MECHANICS,...PHYSICS_UPPER_ENGLISH_FIELDS})
-  .map(([topic,cards])=>[topic,Object.freeze(cards.map(
-   ([title,statement,workedExample,exercise,answer],index)=>Object.freeze({
-    id:'physics-upper-en-'+topic+'-'+(index+1),subject:'physics',topic,
-    title,statement,workedExample,exercise,answer,language:'en',
-    level:'intermediate',nationallyVerified:false,
-    source:'original-open-education-advisory'
-   })))]))
-);
+// Six upper-level original lessons per Physics chapter, with two labelled
+// prerequisite reviews where available. Every country/year route preserves
+// locally selected school-year IDs and advisory status.
 export function physicsUpperYearLessons({
  country='',grade='',topic='',years=[],lessons=[],reviewBank=null,language='ro'
 }={}){
