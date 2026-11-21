@@ -46,7 +46,7 @@ assert.deepEqual(new Set(PHYSICS_GRADE8_GUIDE_TITLES),new Set(SCIENCE_RO_LESSON_
 assert.ok(withFormula>=39,'Expected formulas in the quantitative lessons, no artificial formula in descriptive lessons');
 const inclined=SCIENCE_RO_LESSON_EXTRAS.physics['7'].find(x=>x.title==='Mișcarea pe plan înclinat');
 const plane=scienceSchoolLessonMaterial({entry:inclined,subject:'physics',grade:'7',chapter:'Dinamica și forțe',language:'ro'});
-assert.ok(plane.includes('F_∥ = G·h/l')&&plane.includes('Fricarea nu'), 'Grade VII must distinguish ideal plane from friction');
+assert.ok(plane.includes('F_∥ = G·h/l')&&plane.includes('Dacă frecarea există'), 'Grade VII must distinguish ideal plane from friction');
 const gravity=SCIENCE_RO_LESSON_EXTRAS.physics['7'].find(x=>x.title==='Greutatea și câmpul gravitațional');
 const weight=scienceSchoolLessonMaterial({entry:gravity,subject:'physics',grade:'7',chapter:'Dinamica și forțe',language:'ro'});
 assert.ok(weight.includes('G = m · g')&&weight.includes('19,6 N')&&weight.indexOf('# Formula de pornire')<weight.indexOf('19,6 N'));
