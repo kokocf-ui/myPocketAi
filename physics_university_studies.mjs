@@ -1,3 +1,5 @@
+import {physicsUniversityCaseGuide} from './physics_university_case_guides.mjs';
+
 // Original bilingual specialisation-specific university Physics studies.
 // The cases are for introductory advanced study; they are NOT country-level
 // degree accreditation, nor the full syllabus of any university programme.
@@ -357,6 +359,6 @@ const chapters={
 };
 export const PHYSICS_UNIVERSITY_STUDIES=Object.freeze(Object.fromEntries(
  Object.entries(chapters).map(([topic,entries])=>[topic,Object.freeze({
-  ro:Object.freeze(entries.map((r,i)=>Object.freeze({id:topic+'-'+(i+1),title:r[0],explanation:r[1],workedExample:r[2]+' '+methodNotes.ro[topic],exercise:r[3],answer:r[4]}))),
-  en:Object.freeze(entries.map((r,i)=>Object.freeze({id:topic+'-'+(i+1),title:r[5],explanation:r[6],workedExample:r[7]+' '+methodNotes.en[topic],exercise:r[8],answer:r[9]})))
+  ro:Object.freeze(entries.map((r,i)=>Object.freeze({id:topic+'-'+(i+1),...physicsUniversityCaseGuide(topic,i,'ro'),title:r[0],explanation:r[1],workedExample:r[2]+' '+methodNotes.ro[topic],exercise:r[3],answer:r[4]}))),
+  en:Object.freeze(entries.map((r,i)=>Object.freeze({id:topic+'-'+(i+1),...physicsUniversityCaseGuide(topic,i,'en'),title:r[5],explanation:r[6],workedExample:r[7]+' '+methodNotes.en[topic],exercise:r[8],answer:r[9]})))
  })])));
