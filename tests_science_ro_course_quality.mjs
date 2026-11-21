@@ -65,8 +65,9 @@ assert.ok(!grade5.some(x=>/meioz|cromozom|hom(eo|eo)staz/i.test(x.title)),
 const other=scienceSchoolTopicLessons({country:'GB-ENG',subject:'physics',grade:'Y7',topic:'units',lessons:THEORY_ENTRIES});
 assert.ok(other.every(x=>!x.id.startsWith('ro-')),'Romanian original grade sequences must not masquerade as verified English curricula');
 const html=await(await frontend.fetch(new Request('https://science-national-depth.test/'))).text();
-assert.ok(html.includes("if(['primary','advanced'].includes(scienceJourney.schoolStage)"),
- 'Lower-secondary Study must show the entire sublesson list, not auto-open one sample');
+assert.ok(html.includes("scienceJourney.schoolStage==='primary'&&scienceJourney.subject!=='physics'")&&
+ html.includes("const chapterLessons=scienceSchoolTopicLessons({"),
+ 'Lower-secondary Study must show all sublessons; primary Physics also has a full list');
 assert.ok(html.includes('const scienceSchoolLessonMaterial='),'Android receives authored sublesson materials');
 assert.ok(html.includes('const SCIENCE_RO_LESSON_EXTRAS='),'Android receives the actual Romanian original syllabus bank');
 console.log('PASS Romanian Sciences grade-specific original lesson quality: '+reports.join(' | '));
