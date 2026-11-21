@@ -97,6 +97,17 @@ export function physicsCountryGradePlan({country='',stage='lower',grade='',years
  const sequence=base.length?base[Math.round(idx*(base.length-1)/Math.max(1,rows.length-1))]:[];
  const yearly=PHYSICS_COUNTRY_YEAR_SEQUENCES[code]?.[phase]?.[yr]||sequence;
  const blocked=Boolean(noSeparate);
+ // Romania: the new secondary-school syllabus begins with IX in 2026/27.
+ // X-XII remain on their applicable transitional cohort plans. An old
+ // 2017 lower-secondary order must not be misattributed to Grade IX.
+ const roUpper=code==='RO'&&phase==='upper';
+ const roNew=roUpper&&yr==='9';
+ const roOlder=roUpper&&['10','11','12'].includes(yr);
+ const selectedSource=roNew?'https://www.edu.ro/press_rel_02_2026':
+  roOlder?'https://sbisj.ro/curriculum-si-inspectie-scolara/fizica/documente-actuale/':
+  ref?.source||PHYSICS_EUROPE_REFERENCE;
+ const transition=roNew?'Clasa a IX-a urmează noua programă introdusă în anul școlar 2026–2027 (OME 6930/2025); diferențierea TC/CS și profilul liceal sunt obligatorii pentru potrivirea exactă.':
+  roOlder?'Clasele X–XII urmează programe de tranziție/cotortă diferite de clasa IX 2026/27; confirmă profilul și programa aplicabilă.':null;
  return {country:code,stage:phase,grade:yr,yearIndex:idx,
   status:blocked?'not-offered':status,
   kind:blocked?'not-taught':noSeparate?'not-separate':integrated?'integrated':
@@ -104,11 +115,12 @@ export function physicsCountryGradePlan({country='',stage='lower',grade='',years
   // No stand-alone grade V Physics for RO; other systems may offer the
   // same concepts as integrated science without calling them a Physics class.
   topics:blocked?[]:[...new Set(yearly)].filter(x=>x!=='solar'),
-  source:ref?.source||PHYSICS_EUROPE_REFERENCE,
-  sourceScope:ref?.scope||'cross-national-comparative',
+  source:selectedSource,
+  sourceScope:roUpper?'national-cohort-framework':ref?.scope||'cross-national-comparative',
+  curriculumVersion:roNew?'2026-grade-9':roOlder?'transitional-pre-2026-cohort':null,
   programmeName:ref?.name||'Advisory Physics strand',
   verifiedAnnual:false,
   nationalGradeLabels:Boolean(ref),
-  note:ref?.note||'Local Physics syllabus/grade timetable not independently verified. This is an original advisory science progression grounded in Eurydice/ISCED school structures, not a national year-by-year curriculum.'
+  note:transition||ref?.note||'Local Physics syllabus/grade timetable not independently verified. This is an original advisory science progression grounded in Eurydice/ISCED school structures, not a national year-by-year curriculum.'
  };
 }
