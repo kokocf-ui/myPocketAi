@@ -43,6 +43,7 @@ jobs:
       - name: Four separate Sciences, theory and representation
         run: |
           node tests_physics_complete.mjs
+          node tests_physics_laws_scroll.mjs
           node tests_chemistry_curriculum.mjs
           node tests_chemistry_complete.mjs
           node tests_chemistry_three_sections.mjs
