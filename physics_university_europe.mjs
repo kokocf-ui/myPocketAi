@@ -314,8 +314,8 @@ export function physicsUniversityRoutes(country){
  const ref=profile?.verifiedExample;
  const general=years=>({
   id:'general-'+years,years,
-  ro:years+' ani · '+(years*60)+' ECTS · program orientativ',
-  en:years+' years · '+(years*60)+' ECTS · advisory model',
+  ro:years+' ani · program orientativ'+(code.startsWith('GB-')?'':(' · model '+(years*60)+' ECTS')),
+  en:years+' years · advisory route'+(code.startsWith('GB-')?'':(' · '+(years*60)+'-ECTS model')),
   source:PHYSICS_UNIVERSITY_EHEA_SOURCE,verified:false,
   provenanceRo:'Model comparativ european de '+years+' ani, nu confirmare de programă pentru această țară.',
   provenanceEn:'European '+years+'-year comparison model; not a verified curriculum for this country.'
