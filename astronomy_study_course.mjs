@@ -216,7 +216,7 @@ export function astronomySchoolTopicLessons({country='',grade='',stage='primary'
  const offset=(tier*limit)%source.length;
  const plan=ASTRONOMY_STUDY_CASES[topic];
  return Array.from({length:limit},(_,i)=>{
-  const entry=source[(offset+i)%source.length],slot=(tier+i)%plan.core.length;
+  const entry=source[(offset+i)%source.length],slot=(tier+i)%(stage==='upper'?plan.core.length:2);
   const prefix=stage==='primary'?'Observăm şi explicăm: ':
    stage==='lower'?'Explicăm mecanismul: ':'Analizăm modelul şi limitele: ';
   return {...entry,id:'astronomy-'+String(country).toUpperCase()+'-'+String(grade)+'-'+stage+'-'+topic+'-'+(i+1),
