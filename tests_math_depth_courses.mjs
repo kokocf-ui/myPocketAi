@@ -7,11 +7,17 @@ import {mathCountryStudyYears} from './math_country_grade_areas.mjs';
 const topicIds=new Set(['arithmetic','geometry','measurement','algebra','statistics','functions',
  'trigonometry','analysis','linear-algebra','discrete','differential']);
 const ids=new Set();
+const primaryStatements=new Set();
 let lessonCount=0, countryChecks=0, academicYearChecks=0;
 for(const [stage,phases] of Object.entries(MATH_DEPTH_STAGES)){
  assert.equal(phases.length,stage==='primary'?6:4,stage+' must have a distinct learning phase for every supported school year');
  for(const [phaseIndex,domains] of phases.entries()){
   assert.ok(Object.keys(domains).length>=3,stage+'/'+(phaseIndex+1)+' needs at least three branches');
+  const total=Object.entries(domains).reduce((sum,[topic,rows])=>sum+rows.length,0);
+  const minimum=stage==='primary'?(phaseIndex<4?18:11):
+   stage==='lower'?20:stage==='intermediate'?18:21;
+  assert.ok(total>=minimum,stage+' year '+(phaseIndex+1)+' has only '+total+
+   ' chapters, below the minimum of '+minimum);
   for(const topic of Object.keys(domains)){
    assert.ok(topicIds.has(topic),'Unknown topic '+topic);
    const lessons=mathInDepthEntries({stage,phase:phaseIndex+1,topic});
@@ -19,6 +25,10 @@ for(const [stage,phases] of Object.entries(MATH_DEPTH_STAGES)){
    assert.equal(new Set(lessons.map(x=>x.title)).size,lessons.length,stage+'/'+topic+' duplicate titles');
    for(const entry of lessons){
     assert.ok(!ids.has(entry.id),'Duplicate mathematics lesson ID '+entry.id);ids.add(entry.id);
+    if(stage==='primary'){
+     assert.ok(!primaryStatements.has(entry.statement),'Identical primary explanations reused across school years: '+entry.title);
+     primaryStatements.add(entry.statement);
+    }
     assert.equal(entry.stage,stage);assert.equal(entry.phase,phaseIndex+1);assert.equal(entry.topic,topic);
     assert.ok(entry.title.trim().length>=5,entry.id+' missing concept title');
     assert.ok(entry.statement.length>=64,entry.id+' short explanation');
