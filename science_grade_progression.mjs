@@ -4,6 +4,7 @@ import {SCIENCE_GUIDES} from './science_extended_theory.mjs';
 import {scienceRoGradeTopics,SCIENCE_RO_2017_SOURCE} from './science_ro_course_plan.mjs';
 import {physicsCountryGradePlan,PHYSICS_EUROPE_REFERENCES} from './physics_europe_frameworks.mjs';
 import {biologyPrimaryTopics} from './biology_primary_years.mjs';
+import {biologyCountryStageInfo} from './biology_country_alignment.mjs';
 import {astronomyNationalAlignment} from './astronomy_country_alignment.mjs';
 import {chemistryCountryGradePlan} from './chemistry_country_alignment.mjs';
 // Pan-European advisory science progression, not a national curriculum or textbook.
@@ -69,6 +70,7 @@ export function scienceGradeTopicPlan({country='',subject='',stage='lower',grade
  }):null;
  const countryChemistry=subject==='chemistry'&&stage==='lower'?
   chemistryCountryGradePlan({country,stage,grade,years:yearList}):null;
+ const countryBiology=subject==='biology'?biologyCountryStageInfo({country,stage,grade,years:yearList}):null;
  const chemistryAdapted=countryChemistry?.topics?.length?
   countryChemistry.topics.map(id=>indexed.get(id)).filter(Boolean).map(x=>({...x,minLevel:'beginner'})):null;
  const astroScope=subject==='astronomy'?astronomyNationalAlignment({country,stage,grade}):null;
@@ -108,7 +110,7 @@ export function scienceGradeTopicPlan({country='',subject='',stage='lower',grade
     'În acest an Fizica nu se studiază ca disciplină separată în programa verificată.':
     countryPhysics.note+' '+(countryPhysics.kind==='integrated'?
      'Conținutul este parte a Științelor integrate, nu o disciplină Fizică separată.':'')):
-   countryChemistry?.note||
+   countryChemistry?.note||countryBiology?.note||
    (curated?'Parcurs didactic original organizat după domeniile programei românești OMEN 3393/2017. Succesiunea săptămânală și manualul nu sunt obligatorii și pot diferi între școli.':
     'Parcurs general orientativ. Nu reprezintă programa obligatorie sau manualul unei țări.'),
   chemistryTeachingKind:countryChemistry?.kind||null,
@@ -118,8 +120,13 @@ export function scienceGradeTopicPlan({country='',subject='',stage='lower',grade
   physicsProgrammeName:countryPhysics?.programmeName||null,
   physicsSourceScope:countryPhysics?.sourceScope||null,
   physicsReference:countryPhysics?.source||null,
+  biologyTeachingKind:countryBiology?.kind||null,
+  biologyProgrammeName:countryBiology?.programme||null,
+  biologySourceScope:countryBiology?.sourceScope||null,
+  biologyReference:countryBiology?.source||null,
+  biologyVerifiedAnnual:countryBiology?.verifiedAnnual||false,
   yearSpecificOfficial:false,
-  curriculumReference:astroScope?.source||countryChemistry?.source|| (curated?SCIENCE_RO_2017_SOURCE:countryPhysics?.source)||null,
+  curriculumReference:astroScope?.source||countryBiology?.source||countryChemistry?.source|| (curated?SCIENCE_RO_2017_SOURCE:countryPhysics?.source)||null,
   astronomyEvidenceStatus:astroScope?.status||null,
   astronomyTeachingKind:astroScope?.kind||null,
   astronomyReferenceYear:astroScope?.sourceYear||null,

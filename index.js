@@ -85,6 +85,8 @@ import {BIOLOGY_PRIMARY_YEAR_TOPICS,BIOLOGY_PRIMARY_YEAR_ROWS,biologyPrimaryYear
 import {BIOLOGY_LOWER_YEAR_TOPICS,BIOLOGY_LOWER_YEAR_ROWS,biologyLowerYearLessons} from './biology_lower_europe_years.mjs';
 import {BIOLOGY_REFERENCE_GROUPS,BIOLOGY_REFERENCE,biologyReferenceText} from './biology_reference.mjs';
 import {BIOLOGY_TOPIC_VISUALS,biologyTopicVisualBuild} from './biology_topic_visuals.mjs';
+import {BIOLOGY_COUNTRY_REFERENCES,BIOLOGY_EUROPE_FALLBACK_SOURCE,biologyCountryStageInfo} from './biology_country_alignment.mjs';
+import {BIOLOGY_LAB_GUIDES,BIOLOGY_UNIVERSITY_PRACTICALS,biologySchoolLabSheet,biologyUniversityLabSheet} from './biology_lab_guides.mjs';
 import {BIOLOGY_UNIVERSITY_DEFAULT_YEARS,BIOLOGY_UNIVERSITY_CYCLE_REFERENCE,BIOLOGY_UNIVERSITY_ADVISORY_ELECTIVES,
  biologyUniversityRoutes,biologyUniversityRoute,biologyUniversityYears,biologyUniversityCourseChoices,biologyUniversityCapstoneText} from './biology_university_years.mjs';
 import {mathAdvancedVerifiedModel} from './math_advanced_verified.mjs';
@@ -9436,6 +9438,9 @@ const CHEMISTRY_ADVISORY_LOWER_STEPS=${JSON.stringify(CHEMISTRY_ADVISORY_LOWER_S
 const CHEMISTRY_YEAR_TOPIC_SUGGESTIONS=${JSON.stringify(CHEMISTRY_YEAR_TOPIC_SUGGESTIONS)};
 const CHEMISTRY_COUNTRY_GENERIC_SOURCE=${JSON.stringify(CHEMISTRY_COUNTRY_GENERIC_SOURCE)};
 const chemistryCountryGradePlan=${chemistryCountryGradePlan.toString()};
+const BIOLOGY_COUNTRY_REFERENCES=${JSON.stringify(BIOLOGY_COUNTRY_REFERENCES)};
+const BIOLOGY_EUROPE_FALLBACK_SOURCE=${JSON.stringify(BIOLOGY_EUROPE_FALLBACK_SOURCE)};
+const biologyCountryStageInfo=${biologyCountryStageInfo.toString()};
 const ASTRONOMY_COUNTRY_EVIDENCE=${JSON.stringify(ASTRONOMY_COUNTRY_EVIDENCE)};
 const astronomyNationalAlignment=${astronomyNationalAlignment.toString()};
 const SCIENCE_GRADE_TOPIC_PLAN=${scienceGradeTopicPlan.toString()};
@@ -9543,6 +9548,10 @@ const BIOLOGY_REFERENCE=${JSON.stringify(BIOLOGY_REFERENCE)};
 const biologyReferenceText=${biologyReferenceText.toString()};
 const BIOLOGY_TOPIC_VISUALS=${JSON.stringify(BIOLOGY_TOPIC_VISUALS)};
 const biologyTopicVisualBuild=${biologyTopicVisualBuild.toString()};
+const BIOLOGY_LAB_GUIDES=${JSON.stringify(BIOLOGY_LAB_GUIDES)};
+const BIOLOGY_UNIVERSITY_PRACTICALS=${JSON.stringify(BIOLOGY_UNIVERSITY_PRACTICALS)};
+const biologySchoolLabSheet=${biologySchoolLabSheet.toString()};
+const biologyUniversityLabSheet=${biologyUniversityLabSheet.toString()};
 const BIOLOGY_UNIVERSITY_DEFAULT_YEARS=${JSON.stringify(BIOLOGY_UNIVERSITY_DEFAULT_YEARS)};
 const BIOLOGY_UNIVERSITY_CYCLE_REFERENCE=${JSON.stringify(BIOLOGY_UNIVERSITY_CYCLE_REFERENCE)};
 const BIOLOGY_UNIVERSITY_ADVISORY_ELECTIVES=${JSON.stringify(BIOLOGY_UNIVERSITY_ADVISORY_ELECTIVES)};
@@ -12429,28 +12438,9 @@ function scienceOpenChemistrySection(stage){
       tile('🔎',entry.title,entry.title,
        'Activitate și observații pentru lecția selectată',
        'Lesson-specific investigation and observations',()=>{
-        const ro=state.language==='ro';
-        const body=[
-         '# '+entry.title,
-         '# '+learningLabel('Obiectivul activității','Learning objective'),
-         entry.statement||'',
-         '# '+learningLabel('Materiale și pregătire','Materials and preparation'),
-         learningLabel('Caiet, creion și materialul vizual al lecției. Pentru observații directe, folosește numai materiale sigure, potrivite vârstei și cu supraveghere dacă este necesar.',
-          'Notebook, pencil and the lesson visual. For direct observation, use only age-appropriate safe materials with supervision where necessary.'),
-         '# '+learningLabel('Procedură și observații','Method and observations'),
-         entry.workedExample||entry.example||entry.activity||entry.method||
-          learningLabel('Observă fenomenul descris în lecție. Notează ce se vede direct și separă observația de explicație.',
-           'Observe the phenomenon described in the lesson. Record direct observations separately from interpretations.'),
-         '# '+learningLabel('Explicarea rezultatelor','Explaining the findings'),
-         entry.statement||'',
-         '# '+learningLabel('Verificare','Check your understanding'),
-         entry.exercise||entry.question||learningLabel('Ce ai observat și ce concluzie este justificată de observații?',
-          'What did you observe and which conclusion is supported by the evidence?'),
-         '# '+learningLabel('Concluzie și limite','Conclusion and limitations'),
-         entry.answer||learningLabel('Concluzia se bazează pe observațiile înregistrate. Nu inventa măsurători și nu confunda modelul cu un experiment realizat.',
-          'Base conclusions on recorded observations. Do not invent measurements or claim a model is a completed experiment.')
-        ].filter(Boolean).join('\\n\\n');
-        educationOpenPagedLesson(entry.title,body);
+        const body=biologySchoolLabSheet({entry,grade:scienceJourney.grade,stage:scienceJourney.schoolStage,
+         country:educationCountrySelection.code,language:state.language});
+        if(body)educationOpenPagedLesson(entry.title,body);
        });
      }
      if(!entries.length){
@@ -12463,16 +12453,9 @@ function scienceOpenChemistrySection(stage){
      tile('🔎','Activitatea lecției','Lesson activity',
       'Observație sau model asociat temei: '+chosen.title,
       'Observation or model linked to: '+chosen.title,()=>{
-       const body=[
-        '# '+chosen.title,
-        '# '+learningLabel('Contextul lecției','Lesson context'),
-        chosen.statement,
-        '# '+learningLabel('Exemplu de observare sau modelare','Observation or modelling example'),
-        chosen.workedExample||learningLabel('Nu există o investigație separată verificată.','No separately validated investigation is available.'),
-        '# '+learningLabel('Întrebare de verificare','Check question'),chosen.exercise||'',
-        '# '+learningLabel('Răspuns de verificare','Check answer'),chosen.answer||''
-       ].filter(Boolean).join('\\n\\n');
-       educationOpenPagedLesson(chosen.title,body);
+       const body=biologySchoolLabSheet({entry:chosen,grade:scienceJourney.grade,stage:scienceJourney.schoolStage,
+        country:educationCountrySelection.code,language:state.language});
+       if(body)educationOpenPagedLesson(chosen.title,body);
       });
      // A generic diagram is never repeated just because two years share
      // a chapter label. It must match the selected lesson and year.
@@ -12518,24 +12501,9 @@ function scienceOpenChemistrySection(stage){
       'Metodologie, observații, analiză și concluzii pentru curs',
       'Methods, observations, analysis and conclusions for this course',()=>{
        const title=learningLabel(topic?.ro||'',topic?.en||'');
-       const body=[
-        '# '+title+' · '+learningLabel('Laborator universitar','University practical'),
-        '# '+learningLabel('Obiectiv','Objective'),
-        learningLabel('Identifică o întrebare testabilă din curs și justifică metoda folosită.',
-         'Identify a testable question within this course and justify the selected method.'),
-        '# '+learningLabel('Fundamentare științifică','Scientific background'),
-        courseDocument,
-        '# '+learningLabel('Metodă și materiale','Method and materials'),
-        learningLabel('Propune un protocol corespunzător fenomenului studiat, indicând variabila, martorul, replicatele, materialele și condițiile de siguranță. Dacă lipsesc echipamente sau aprobări, lucrează numai cu date publice ori simulări.',
-         'Propose a topic-appropriate protocol with variables, controls, independent replicates, materials and safety requirements. Use public data or simulations when facilities or approvals are unavailable.'),
-        '# '+learningLabel('Date și interpretare','Data and interpretation'),
-        learningLabel('Construiește un tabel cu unități, sursa datelor și incertitudini. Nu introduce rezultate experimentale inventate. Explică ce rezultate ar susține sau ar contrazice ipoteza.',
-         'Build a data table including units, sources and uncertainties. Do not invent experimental results. Explain what findings would support or contradict the hypothesis.'),
-        '# '+learningLabel('Concluzie și limite','Conclusion and limitations'),
-        learningLabel('Precizează ce se poate afirma din date, ce factori pot influența rezultatul și ce verificări suplimentare sunt necesare.',
-         'State what the evidence supports, possible confounding factors and necessary follow-up checks.')
-       ].join('\\n\\n');
-       educationOpenPagedLesson(title,body);
+       const body=biologyUniversityLabSheet({topic:key,specialty:scienceJourney.specialty,
+        grade:scienceJourney.grade,courseDocument,language:state.language});
+       if(body)educationOpenPagedLesson(title,body);
       });
     }
    if(key==='cells')tile('🧬','Celula eucariotă','Eukaryotic cell',
