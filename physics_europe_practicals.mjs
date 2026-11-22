@@ -87,6 +87,45 @@ export function physicsLaboratoryYearInvestigations({country='',grade='',stage='
    (skippedBeforePhysics[String(country).toUpperCase()]||0)):position;
   const depth=phase===0?0:phase===2?Math.min(2,1+Math.floor(position/2)):
    Math.min(2,subjectPosition);
+  // Primary Science needs direct observations, not copied lower-secondary
+  // equations hidden in the protocol. Only simple, supervised equipment is
+  // permitted here; a more demanding investigation stays in later stages.
+  const primaryMethods={
+   units:[
+    ['Așază două cărți la aceeași margine. Citește centimetrii cu rigla și notează ce ai comparat.',
+     'Align two books at the same edge. Read their lengths on a ruler and record what you compared.'],
+    ['Urmărește o jucărie între două repere. Măsoară durata cu un cronometru și notează de două ori.',
+     'Time a toy between two marks using a stopwatch. Repeat and write down both readings.']
+   ],
+   kinematics:[
+    ['Trasează pe hârtie locul de pornire și două poziții ale mașinuței. Spune în ce direcție se deplasează.',
+     'Mark the starting point and two toy-car positions on paper. Describe the direction of travel.'],
+    ['Desenează două trasee dintre aceleași puncte, unul drept și unul ocolit. Compară lungimile măsurate.',
+     'Draw a direct path and a detour between the same points. Compare their measured lengths.']
+   ],
+   energy:[
+    ['Lasă o minge să coboare de pe o rampă mică și descrie când se mișcă și când se oprește.',
+     'Release a ball down a low ramp and describe when it moves and when it comes to rest.'],
+    ['Pornește o lanternă cu baterie și identifică sursa energiei și efectul luminos, fără a o desface.',
+     'Switch on a battery torch and identify its energy source and light output without opening it.']
+   ],
+   fluids:[
+    ['Apasă ușor două obiecte cu baze diferite pe un burete. Compară urmele fără a calcula presiune.',
+     'Gently press two objects with different bases on a sponge. Compare impressions without calculating pressure.'],
+    ['Compară în apă o bilă din plastilină cu o formă de bărcuță din aceeași cantitate, sub supraveghere.',
+     'Under supervision compare a clay ball and a boat shape made from the same amount of clay in water.']
+   ],
+   heat:[
+    ['Citește cu un adult temperatura apei călduțe și repetă după câteva minute; nu folosi apă fierbinte.',
+     'With an adult read lukewarm water temperature and repeat after a few minutes; do not use hot water.'],
+    ['Compară două căni cu apă călduță, dintre care una este învelită în material textil. Notează diferențele.',
+     'Compare two cups of lukewarm water, wrapping only one in cloth. Record differences.']
+   ]
+  };
+  const primaryMethod=primaryMethods[topic]?.[i]?.[isRo?0:1]||
+   (isRo?'Observă fenomenul cu materiale sigure, desenează ceea ce se schimbă și compară cu o a doua situație.':
+    'Observe the phenomenon using safe materials, sketch what changes, and compare a second case.');
+  const scopedProcedure=phase===0?primaryMethod:procedure;
   const focused={
    units:[
     ['Compară citirile a două obiecte cu o riglă și notează centimetrii, fără a ghici zecimale.','Măsoară de cinci ori aceeași dimensiune, calculează media și diferența maxim–minim cu unități.','Estimează incertitudinea unei arii calculate din două lungimi și justifică cifrele semnificative.'],
@@ -161,7 +200,7 @@ export function physicsLaboratoryYearInvestigations({country='',grade='',stage='
    isRo?'Activitate didactică originală pentru anul de studiu '+String(grade)+'. Nu pretinde că sunt colectate date reale.':
     'Original guided investigation for study year '+String(grade)+'. No measurements are claimed to have been performed.',
    '# '+labels[1],materials,
-   '# '+labels[2],procedure,
+   '# '+labels[2],scopedProcedure,
    '# '+labelsDepth[depth],ageAppropriate+' '+focus,
    '# '+labels[3],scientific,
    '# '+labels[4],worked,
