@@ -81,6 +81,11 @@ export function literatureQuickReferenceAttach(panel,options={}){
   detail.setAttribute('role','status');
   detail.setAttribute('aria-live','polite');
   detail.style.cssText='display:none;border-radius:9px;border:1px solid #d4c5c8;background:#faf5f6;padding:10px;flex:0 0 auto;font-size:14px;line-height:1.4;max-height:32dvh;overflow-y:auto';
+  // Important selections remain visible immediately under the input, even
+  // when Android WebView compresses the scrollable results above the keyboard.
+  const pinned=create('div','lit-quick-pinned');
+  pinned.setAttribute('aria-label',t('Alegeri rapide','Quick choices'));
+  pinned.style.cssText='display:flex;flex-wrap:wrap;gap:5px;flex:0 0 auto;max-height:88px;overflow-y:auto';
   const results=create('div','lit-quick-results');
   results.setAttribute('role','listbox');
   results.setAttribute('aria-label',t('Sugestii și termeni','Suggestions and terms'));
@@ -93,7 +98,7 @@ export function literatureQuickReferenceAttach(panel,options={}){
   foot.style.cssText='margin:0;padding-top:6px;font-size:11px;color:#666;flex:0 0 auto;border-top:1px solid #ddd';
   input.addEventListener('focus',()=>{foot.style.display='none'});
   input.addEventListener('blur',()=>{foot.style.display='block'});
-  dialog.append(head,help,input,detail,results,foot);
+  dialog.append(head,help,input,pinned,detail,results,foot);
   overlay.append(dialog);
   overlay.addEventListener('click',event=>{if(event.target===overlay)removeOverlay()});
   overlay.addEventListener('keydown',event=>{if(event.key==='Escape'){event.preventDefault();removeOverlay()}});
@@ -181,6 +186,14 @@ export function literatureQuickReferenceAttach(panel,options={}){
    showDetail(q,t('Se caută definiția în Wikționar…','Looking up the definition in Wiktionary…'));
    defineRemote(q,searchSerial);
   };
+  const pinOptions=(items)=>{
+   clear(pinned);
+   for(const item of items.slice(0,5)){
+    const chip=styleButton(create('button','lit-quick-chip',item.label));
+    chip.style.cssText+=';padding:5px 8px;min-height:30px;border-color:#874457;background:#f5edf0;font-size:12px';
+    chip.onclick=item.action;pinned.append(chip);
+   }
+  };
   const addOption=(label,onClick)=>{
    const button=styleButton(create('button','lit-quick-option',label));
    button.setAttribute('role','option');
@@ -203,7 +216,7 @@ export function literatureQuickReferenceAttach(panel,options={}){
   function displayWords(query,remote=[]){
    clear(results);
    const key=literatureQuickNormal(query);
-   if(!key){status(t('Tastează prima literă pentru sugestii.','Type the first letter for suggestions.'));return}
+   if(!key){clear(pinned);status(t('Tastează prima literă pentru sugestii.','Type the first letter for suggestions.'));return}
    const local=localLanguage?literatureQuickSuggestions(query,localLanguage,16):[];
    const unique=new Map();
    for(const candidate of [...local,...remote]){
@@ -213,6 +226,8 @@ export function literatureQuickReferenceAttach(panel,options={}){
     if(!unique.has(normalized))unique.set(normalized,title);
    }
    const matches=[...unique.values()].sort((a,b)=>a.localeCompare(b,sourceLanguage)).slice(0,18);
+   pinOptions(matches.slice(0,4).map(word=>({label:word,action:()=>chooseWord(word)})));
+   if(!matches.length)pinOptions([{label:t('Caută cuvântul scris','Look up typed word'),action:remoteDirect}]);
    // Explicit action when a word is not among the offline/online suggestions.
    // The learner can still inspect the currently typed word.
    const searchButton=styleButton(create('button','lit-quick-search-direct',t('Caută definiția cuvântului scris','Look up the typed word')));
@@ -227,6 +242,9 @@ export function literatureQuickReferenceAttach(panel,options={}){
    if(!grammar)return;
    clear(results);
    const list=literatureQuickGrammarSearch(query,interfaceLanguage==='ro'?'ro':'en',65);
+   const shown=(query?list:(interfaceLanguage==='ro'?['Predicat','Adjectiv','Adverb','Timpul prezent','Timpul trecut']:['Predicate','Adjective','Adverb','Present simple','Past simple'])
+    .map(name=>list.find(x=>x[1]===name)).filter(Boolean));
+   pinOptions(shown.map(row=>({label:row[1],action:()=>showDetail(row[1],row[2],row[3])})));
    if(!list.length){status(t('Nu există o definiție locală pentru termenul introdus.','No local definition for this term.'));return}
    for(const [group,title,definition,example] of list){
     addOption(title+' · '+group,()=>{
