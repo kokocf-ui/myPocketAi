@@ -2,6 +2,7 @@ import {LIT_RO_GRADE_LESSONS} from './literature_ro_grade_progression.mjs';
 import {romanianStudentGradeRows} from './literature_ro_student_path.mjs';
 import {LITERATURE_DEEP_UNITS} from './literature_extended_study.mjs';
 import {LIT_SEVEN_COUNTRY_PROGRAMS} from './literature_seven_country_tracks.mjs';
+import {expandLiteratureEuropeanGrades} from './literature_europe_grade_expansion.mjs';
 // Literature pathways for Europe, referenced against official national/jurisdictional
 // publications. A verified framework is NOT an exhaustive list of mandatory works.
 // The generic path is explicitly advisory when a country, grade or track is not checked.
@@ -165,13 +166,11 @@ for(const profile of Object.values(LIT_EU_PROGRAMS)){
  for(const [level,rows] of Object.entries(profile.byLevel||{})){
   literatureExpandRows(rows,level==='intermediate'?'medium':level);
  }
- for(const [grade,rows] of Object.entries(profile.byGrade||{})){
-   if(profile===LIT_EU_PROGRAMS.RO)continue; // Avoid generic deep-academic chapters.
-  const year=Number(String(grade).replace('Y',''));
-  const level=year<=4?'beginner':year<=8?'lower':'medium';
-  literatureExpandRows(rows,level);
- }
+ // Do not append the same academic units to each class: an actual
+ // per-year learning path is generated below, including countries which
+ // previously had no national literature entry at all.
 }
+export const LIT_EU_GRADE_COVERAGE=expandLiteratureEuropeanGrades(LIT_EU_PROGRAMS);
 
 export function litEuropeanPlan(country, level, grade, track){
  const profile=LIT_EU_PROGRAMS[country]||null;
@@ -185,7 +184,7 @@ export function litEuropeanPlan(country, level, grade, track){
   units:units.map((x,i)=>({id:String(x[0])+'-'+i,label:x[1],focus:x[2],topic:x[3],order:i+1})),
   source:profile?.source||null,sourceTitle:profile?.sourceTitle||null,
   verified:verified&&!regionalPending,requiresRegion:regionalPending,
-  status:!profile?'orientative':verified&&!regionalPending?'framework-verified':'partial',
+  status:!profile?.source?'orientative':verified&&!regionalPending?'framework-verified':'partial',
   note:profile?.note||'Ordine didactică orientativă; programa oficială a acestei țări și clase nu este încă verificată.',
   grade:gradeKey,track:selectedTrack
  };
