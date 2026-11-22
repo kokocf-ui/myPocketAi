@@ -42,6 +42,13 @@ async function pickGrade(label){
 try{
  await page.goto(origin+'/?nativeLaunch=1&mathQa=1',{waitUntil:'domcontentloaded',timeout:30000});
  await click(page.locator('[data-module="learning"]').first());
+ // The first-use disclosure is a real modal: dismiss it through its visible
+ // acknowledgement button before assessing screen content or navigation.
+ const firstNotice=page.locator('#education-first-use-notice');
+ if(await firstNotice.count()){
+  await firstNotice.locator('button').first().click();
+  await firstNotice.waitFor({state:'detached',timeout:5000});
+ }
  await click(page.locator('#view-module .education-card').filter({hasText:'Matematică'}).first());
  await chooseCountry('România');
  const stageButtons=await page.locator('#view-module .math-choice-row').allTextContents();
@@ -62,6 +69,7 @@ try{
  await click(page.locator('#view-module .math-choice-row').filter({hasText:'Aritmetică'}).first());
  let chapters=await page.locator('#view-module .math-choice-row').count();
  assert.ok(chapters>=2&&chapters<=4,'First primary year must not show all higher-grade chapters');
+ assert.equal(await page.locator('#education-first-use-notice').count(),0,'First-use disclosure must not cover lesson tiles');
  await page.screenshot({path:'math-browser-audit/romanian-primary.png'});
  // Back via the actual Android-sized controls: chapter → branches → grades → stages.
  await click(page.locator('#view-module .math-stage-back').first());
