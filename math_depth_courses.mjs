@@ -80,14 +80,13 @@ export const MATH_DEPTH_LOWER=[
  ]
  }
 ];
-const TOPIC_TO_LEVEL={arithmetic:'beginner',geometry:'beginner',measurement:'beginner',statistics:'beginner',algebra:'beginner',functions:'intermediate',trigonometry:'intermediate',analysis:'intermediate','linear-algebra':'advanced',discrete:'advanced',differential:'advanced'};
 export function mathInDepthEntries({stage,phase,topic}={}){
  const st=String(stage||''),p=Number(phase),subject=String(topic||'');
  const rows=st==='lower'?MATH_DEPTH_LOWER[p-1]?.[subject]:null;
  if(!Array.isArray(rows))return [];
  return rows.map((x,i)=>({
   id:'math-depth-'+st+'-'+p+'-'+subject+'-'+(i+1),
-  subject:'math',level:TOPIC_TO_LEVEL[subject]||'beginner',
+  subject:'math',level:st==='advanced'?'advanced':st==='intermediate'?'intermediate':'beginner',
   stage:st,phase:p,topic:subject,title:x[0],statement:x[1],formula:x[2]||'',
   worked:x[3],practice:x[4],answers:x[5],sourceStatus:'general-learning',
   aliases:[]
