@@ -11,7 +11,7 @@ export const LIT_UNIVERSITY_YEARS=Object.freeze([
  Object.freeze({id:'uni-ma-2',ro:'Master · anul II',en:'Master · Year 2',stage:'master'}),
  Object.freeze({id:'uni-doctoral',ro:'Doctorat · cercetare (fără an fix)',en:'Doctoral research (year depends on programme)',stage:'doctoral'})
 ]);
-const UNIVERSITY_UNITS={
+export const LIT_UNIVERSITY_UNITS={
  'uni-ba-1':[
   ['introducere','Introducere în studiile literare','Deosebește interpretarea literară de rezumat și explică de ce citatul trebuie să provină din ediția consultată.','Analizează un fragment original folosind o observație textuală și o ipoteză de interpretare.','criticism'],
   ['teorie-genuri','Teoria genurilor și a speciilor','Distinge convențiile epicului, liricului și dramaticului și identifică zonele de întâlnire dintre ele.','Un text poetic poate include un mic episod narativ; explică în ce fel.','genres'],
@@ -87,7 +87,7 @@ const UNIVERSITY_UNITS={
  ]
 };
 export function literatureUniversityPlan(year,language='ro'){
- const id=String(year||''),rows=UNIVERSITY_UNITS[id];
+ const id=String(year||''),rows=LIT_UNIVERSITY_UNITS[id];
  if(!rows)return null;
  return {
   source:null,sourceTitle:'',verified:false,regions:false,university:true,
@@ -104,7 +104,7 @@ export function literatureUniversityMaterial({topicKey='',grade='',title='',mode
  const key=String(topicKey),prefix='uni-lit-'+String(grade)+'-';
  if(!key.startsWith(prefix)||!['lesson','examples','exercises','test'].includes(mode)||language!=='ro')return null;
  const slug=key.slice(prefix.length);
- const row=(UNIVERSITY_UNITS[String(grade)]||[]).find(x=>x[0]===slug);
+ const row=(LIT_UNIVERSITY_UNITS[String(grade)]||[]).find(x=>x[0]===slug);
  if(!row)return null;
  const [,heading,idea,example,topic]=row;
  const keyConcept=topic==='research'?'Metoda se alege în funcție de problema și de sursele pe care le poți verifica.':
