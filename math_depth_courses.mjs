@@ -13,7 +13,7 @@ import {MATH_UNIVERSITY_EXTENSION} from './math_depth_university_extension.mjs';
 import {MATH_LOWER_EXTENSION} from './math_depth_lower_extension.mjs';
 import {MATH_UPPER_EXTENSION} from './math_depth_upper_extension.mjs';
 import {MATH_UPPER_2026_ADDITIONS} from './math_depth_upper_2026_additions.mjs';
-import {englandKS4CardRows,englandKS4ExcludedTitles} from './math_england_ks4_curriculum.mjs';
+import {ENGLAND_KS4_LESSONS,ENGLAND_KS4_EXCLUDED_TITLES} from './math_england_ks4_curriculum.mjs';
 import {MATH_UNIVERSITY_2026_ADDITIONS} from './math_depth_university_2026_additions.mjs';
 // Mathematics learning cards: authored, age-progressive explanations and worked
 // problems. These are *general European learning aids*, not certified copies
@@ -168,10 +168,10 @@ export function mathInDepthEntries({stage,phase,topic}={}){
 // advisory European sequence. Do not label generic lessons as national courses.
 export function mathCountryCourseEntries({country,stage,grade,phase,topic}={}){
  if(String(country||'').toUpperCase()==='GB-ENG'&&stage==='intermediate'&&['Y10','Y11'].includes(String(grade))){
-  const g=String(grade),excluded=englandKS4ExcludedTitles(g);
+  const g=String(grade),excluded=new Set(ENGLAND_KS4_EXCLUDED_TITLES[g]||[]);
   const standard=mathInDepthEntries({stage,phase:g==='Y10'?1:2,topic})
    .filter(entry=>!excluded.has(entry.title));
-  return [...standard,...englandKS4CardRows(g,topic)];
+  return [...standard,...(ENGLAND_KS4_LESSONS[g]?.[topic]||[])];
  }
  if(String(country||'').toUpperCase()==='GB-ENG'&&String(grade)==='Y6'&&stage==='primary')
   return [...mathInDepthEntries({stage,phase:6,topic}),
