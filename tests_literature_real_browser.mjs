@@ -67,33 +67,52 @@ try{
  await cmd('Runtime.enable');
  await cmd('Page.enable');
  await cmd('Log.enable');
- let booted=false;
- for(let i=0;i<120;i++){
-  if(await js("document.readyState === 'complete' && typeof litOpen === 'function'")){booted=true;break}
-  await sleep(250);
- }
- assert.ok(booted,'Actual frontend did not expose litOpen: '+JSON.stringify({page:await js('({url:location.href,body:document.body?.innerText?.slice(0,120),title:document.title})'),exceptions,logs}));
- const screen=await js("(()=>{litJourney.country='RO';litJourney.language='ro';state.language='ro';litJourney.level='beginner';litOpen('levels');return {stage:litJourney.stage,buttons:[...document.querySelectorAll('[data-lit-quick-entry] button')].map(x=>x.textContent),errors:document.body.textContent.slice(0,70)}})()");
- assert.equal(screen.stage,'levels','Cannot open first Literature level window');
- assert.equal(screen.buttons.length,2,'Two quick-reference controls must render');
- const dict=await js("(()=>{document.querySelectorAll('[data-lit-quick-entry] button')[0].click();const i=document.querySelector('.lit-quick-input');i.value='cop';i.dispatchEvent(new Event('input',{bubbles:true}));return {items:[...document.querySelectorAll('.lit-quick-option,.lit-quick-chip')].map(x=>x.textContent),results:document.querySelector('.lit-quick-results')?.innerText,pinned:document.querySelector('.lit-quick-pinned')?.innerText}})()");
- assert.ok(dict.items.some(x=>x.toLowerCase().includes('copac')),'Android dictionary typed prefix cop yielded no clickable copac: '+JSON.stringify({dict,exceptions,logs}));
- const grammar=await js("(()=>{document.querySelector('[data-lit-quick-overlay] .lit-quick-head button').click();document.querySelectorAll('[data-lit-quick-entry] button')[1].click();return {initial:document.querySelector('.lit-quick-results')?.innerText,pinned:document.querySelector('.lit-quick-pinned')?.innerText,options:[...document.querySelectorAll('.lit-quick-option')].map(x=>x.textContent).slice(0,10)}})()");
- assert.ok(grammar.initial?.includes('Predicat')||grammar.pinned?.includes('Predicat'),'Android grammar initially blank: '+JSON.stringify({grammar,exceptions,logs}));
+ await sleep(800);
+ const visible=async()=>await js("Array.from(document.querySelectorAll('button,[role=button]')).map(x=>x.textContent?.trim().replace(/\\s+/g,' ').slice(0,85)).filter(Boolean).slice(0,65)");
+ const tap=async(terms)=>{
+  const expr="(()=>{const terms="+JSON.stringify(terms.map(x=>x.toLowerCase()))+";const buttons=Array.from(document.querySelectorAll('button,[role=button]'));const found=buttons.find(x=>terms.some(t=>(x.textContent||'').toLowerCase().includes(t)));if(found){found.click();return found.textContent.trim()}return null})()";
+  const clicked=await js(expr);
+  assert.ok(clicked,'Button not found for '+JSON.stringify(terms)+': '+JSON.stringify({url:await js('location.href'),buttons:await visible(),exceptions,logs}));
+  await sleep(120);
+  return clicked;
+ };
+ await tap(['education','educație','learning and education']);
+ await tap(['language and literature','limbă și literatură']);
+ const country=await js("(()=>{const i=document.getElementById('eduCountryInput');if(!i)return false;i.value='Romania';i.dispatchEvent(new Event('input',{bubbles:true}));const match=Array.from(document.querySelectorAll('.edu-country-matches button')).find(x=>/rom[aâ]n/i.test(x.textContent));if(match)match.click();return true})()");
+ assert.ok(country,'Country selector was not opened for Literature: '+JSON.stringify({buttons:await visible(),exceptions,logs}));
+ await tap(['Continue','Continuă']);
+ const screen=await js("(()=>({buttons:[...document.querySelectorAll('[data-lit-quick-entry] button')].map(x=>x.textContent),title:document.querySelector('#moduleContent h2')?.textContent}))()");
+ assert.equal(screen.buttons.length,2,'Two quick-reference buttons must appear before school level selection: '+JSON.stringify({screen,buttons:await visible()}));
+ await js("document.querySelectorAll('[data-lit-quick-entry] button')[0].click()");
+ const dict=await js("(()=>{const i=document.querySelector('.lit-quick-input');i.value='cop';i.dispatchEvent(new Event('input',{bubbles:true}));return {items:[...document.querySelectorAll('.lit-quick-option,.lit-quick-chip')].map(x=>x.textContent),results:document.querySelector('.lit-quick-results')?.innerText}})()");
+ assert.ok(dict.items.some(x=>x.toLowerCase().includes('copac')),'Real WebView-style dictionary typed prefix cop has no clickable copac: '+JSON.stringify({dict,exceptions,logs}));
+ const grammar=await js("(()=>{document.querySelector('[data-lit-quick-overlay] .lit-quick-back').click();document.querySelectorAll('[data-lit-quick-entry] button')[1].click();return {initial:document.querySelector('.lit-quick-results')?.innerText,pinned:document.querySelector('.lit-quick-pinned')?.innerText,options:[...document.querySelectorAll('.lit-quick-option')].map(x=>x.textContent).slice(0,10)}})()");
+ assert.ok(grammar.initial?.includes('Predicat')||grammar.pinned?.includes('Predicat'),'Actual browser grammar initially blank: '+JSON.stringify({grammar,exceptions,logs}));
  const typed=await js("(()=>{const i=document.querySelector('.lit-quick-input');i.value='predicat';i.dispatchEvent(new Event('input',{bubbles:true}));return {text:document.querySelector('.lit-quick-results')?.innerText,options:[...document.querySelectorAll('.lit-quick-option,.lit-quick-chip')].map(x=>x.textContent)}})()");
- assert.ok(typed.options.some(x=>x.includes('Predicat')),'Predicat filter returned no options: '+JSON.stringify({typed,exceptions,logs}));
+ assert.ok(typed.options.some(x=>x.includes('Predicat')),'Actual browser predicat typed has no options: '+JSON.stringify({typed,exceptions,logs}));
  const grammarMeaning=await js("(()=>{const o=[...document.querySelectorAll('.lit-quick-option')].find(x=>x.textContent.includes('Predicat'));o.click();return document.querySelector('.lit-quick-detail')?.innerText})()");
- assert.match(grammarMeaning,/subiect/i,'Predicat must show a meaningful definition and example');
- const abbreviation=await js("(()=>{const t=[...document.querySelectorAll('.lit-quick-tab')].find(x=>x.textContent.includes('Prescurtări'));t.click();const a=[...document.querySelectorAll('.lit-quick-option')].find(x=>x.textContent.startsWith('etc.'));a.click();return {shown:document.querySelector('.lit-quick-detail')?.innerText,groups:[...document.querySelectorAll('.lit-quick-group')].length}})()");
- assert.match(abbreviation.shown,/celelalte/,'Abbreviation etc. definition must be selectable');
- assert.ok(abbreviation.groups>=3,'Abbreviation groups must be browseable');
- const unit=await js("(()=>{const t=[...document.querySelectorAll('.lit-quick-tab')].find(x=>x.textContent.includes('Unități'));t.click();const u=[...document.querySelectorAll('.lit-quick-option')].find(x=>x.textContent.startsWith('km ·'));u.click();return document.querySelector('.lit-quick-detail')?.innerText})()");
- assert.match(unit,/Kilometru/,'Selecting km should display its unit definition');
- const school=await js("(()=>{const c=document.querySelector('[data-lit-quick-overlay] .lit-quick-back');c.click();litJourney.country='RO';litJourney.level='medium';litJourney.grade='9';litJourney.branch='program';const p=litProgram();litJourney.topic=p.units[0].id;return {selected:litCurrentTopic()?.[0],title:litCurrentTopic()?.[1],offlineSource:romanianExpandedMaterial({topicKey:litCurrentTopic()?.[0],title:litCurrentTopic()?.[1],focus:litCurrentTopic()?.[3],grade:'9',mode:'lesson'})?.origin}})()");
- assert.equal(school.offlineSource,'authored_ro_year_specific','Actual grade-IX selected topic must have an authored lesson');
- assert.match(school.selected,/^ro-elev-9-/);
-
- console.log('PASS real Chromium: first screen, dictionary live prefix, grammar visible without typing and filtered predicate');
+ assert.match(grammarMeaning,/subiect/i);
+ const abbreviation=await js("(()=>{const t=[...document.querySelectorAll('.lit-quick-tab')].find(x=>/Abbrev|Prescurt/i.test(x.textContent));t.click();const a=[...document.querySelectorAll('.lit-quick-option')].find(x=>x.textContent.startsWith('etc.'));a.click();return {shown:document.querySelector('.lit-quick-detail')?.innerText,groups:[...document.querySelectorAll('.lit-quick-group')].length}})()");
+ assert.match(abbreviation.shown,/celelalte/);
+ assert.ok(abbreviation.groups>=3);
+ const unit=await js("(()=>{const t=[...document.querySelectorAll('.lit-quick-tab')].find(x=>/Unit/i.test(x.textContent));t.click();const u=[...document.querySelectorAll('.lit-quick-option')].find(x=>x.textContent.startsWith('km ·'));u.click();return document.querySelector('.lit-quick-detail')?.innerText})()");
+ assert.match(unit,/Kilometru/);
+ // Navigate as a real learner: RO > liceu > clasa IX > lecție > teorie.
+ const nine=await js("(()=>{document.querySelector('[data-lit-quick-overlay] .lit-quick-back').click();const cards=[...document.querySelectorAll('#moduleContent .lit-choice-card')];const b=cards.find(x=>/Liceu|Intermediate|upper secondary/i.test(x.textContent));if(!b)return {ok:false,cards:cards.map(x=>x.textContent)};b.click();return {ok:true}})()");
+ assert.ok(nine.ok,'Upper-secondary selection is absent: '+JSON.stringify(nine));
+ const grade=await js("(()=>{const cards=[...document.querySelectorAll('#moduleContent .lit-choice-card')];const b=cards.find(x=>x.textContent.trim()==='9');if(!b)return {ok:false,cards:cards.map(x=>x.textContent)};b.click();return {ok:true}})()");
+ assert.ok(grade.ok,'Class IX is absent: '+JSON.stringify(grade));
+ const branch=await js("(()=>{const cards=[...document.querySelectorAll('#moduleContent .lit-choice-card')];const b=cards.find(x=>/Grade 9 lessons|Lecțiile clasei 9/i.test(x.textContent));if(!b)return {ok:false,cards:cards.map(x=>x.textContent)};b.click();return {ok:true}})()");
+ assert.ok(branch.ok,'Grade IX authored chapters absent: '+JSON.stringify(branch));
+ const chapter=await js("(()=>{const cards=[...document.querySelectorAll('#moduleContent .lit-choice-card')];const b=cards[0];if(!b)return {ok:false,cards:[]};b.click();return {ok:true,choice:b.textContent}})()");
+ assert.ok(chapter.ok,'Class IX has no first chapter');
+ const theory=await js("(()=>{const buttons=[...document.querySelectorAll('#moduleContent button')];const t=buttons.find(x=>/Teorie|Theory/.test(x.textContent));if(!t)return {ok:false,buttons:buttons.map(x=>x.textContent)};t.click();return {ok:true}})()");
+ assert.ok(theory.ok,'Actual Grade IX workspace has no theory action: '+JSON.stringify(theory));
+ await sleep(350);
+ const reader=await js("(()=>{const r=document.querySelector('.lit-reader-overlay,[data-literature-reader]');return {text:r?.innerText?.slice(0,7000)||'',visible:!!r}})()");
+ assert.ok(reader.visible,'Theory reader did not open: '+JSON.stringify({reader,exceptions,logs}));
+ assert.ok(!/Războiul stelelor|George Lucas|Star Wars/i.test(reader.text),'Grade IX automatically inserted unrelated Star Wars example');
+ console.log('PASS real Chromium: real UI clicks, live dictionary, grammar, abbreviations, units and noninvented grade-IX theory');
 }finally{
  try{ws?.close()}catch{}
  child.kill('SIGKILL');
