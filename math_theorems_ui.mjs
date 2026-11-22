@@ -16,8 +16,9 @@ function mathTheoryQuickReference(){
  const back=document.createElement('button');
  back.type='button';back.className='secondary-btn';
  back.textContent=eduUiLabel('← Înapoi la Matematică','← Back to Mathematics');
+ const previousStage=mathJourney?.stage==='branches'?'branches':'stages';
  const restore=()=>{mathTheoryQuickReferenceOpen=false;
-   if(typeof mathJourneyShowChoices==='function')mathJourneyShowChoices('branches');
+   if(typeof mathJourneyShowChoices==='function')mathJourneyShowChoices(previousStage);
  };
  back.onclick=restore;
  const panel=document.createElement('section');
@@ -71,7 +72,7 @@ function mathInstallTheoryShortcut(){
  if(!host)return;
  if(mathTheoryQuickReferenceObserver)mathTheoryQuickReferenceObserver.disconnect();
  function refresh(){
-  if(mathTheoryQuickReferenceOpen||educationCountrySelection.activeModule!=='math'||typeof mathJourney==='undefined'||mathJourney.stage!=='branches')return;
+  if(mathTheoryQuickReferenceOpen||educationCountrySelection.activeModule!=='math'||typeof mathJourney==='undefined'||!['stages','branches'].includes(mathJourney.stage))return;
   const root=document.getElementById('view-module');
   if(!root?.classList.contains('learning-math')||host.querySelector('#math-theory-quick-reference'))return;
   const btn=document.createElement('button');btn.id='math-theory-quick-reference';
