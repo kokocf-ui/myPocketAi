@@ -168,7 +168,7 @@ const exclusions={
  'Teorema factorului pentru polinoame','Teorema restului polinomial','Ecuația cercului în coordonate',
  'Intersecțiile cercului cu axa Ox','Tangenta la un cerc','Grade și radiani',
  'Sinus și cosinus pe cercul unitate','Polinoame și gradul lor','Rădăcinile unui polinom',
- 'Transformări între radiani și grade','Ecuații trigonometrice cu tangentă',
+ 'Identitatea fundamentală','Transformări între radiani și grade','Ecuații trigonometrice cu tangentă',
  'Relații trigonometrice pentru unghiuri complementare','Împărțirea polinoamelor la x−a',
  'Ecuații exponențiale cu aceeași bază','Inecuații raționale și tabelul semnelor',
  'Distanța de la punct la dreaptă','Permutări fără repetiție','Combinări fără ordine'])
