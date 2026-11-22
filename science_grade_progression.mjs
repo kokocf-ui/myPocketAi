@@ -4,6 +4,7 @@ import {SCIENCE_GUIDES} from './science_extended_theory.mjs';
 import {scienceRoGradeTopics,SCIENCE_RO_2017_SOURCE} from './science_ro_course_plan.mjs';
 import {physicsCountryGradePlan,PHYSICS_EUROPE_REFERENCES} from './physics_europe_frameworks.mjs';
 import {biologyPrimaryTopics} from './biology_primary_years.mjs';
+import {astronomyNationalAlignment} from './astronomy_country_alignment.mjs';
 // Pan-European advisory science progression, not a national curriculum or textbook.
 // Country-specific school-year labels come from the existing country picker.
 // Subject knowledge and scientific enquiry are sequenced together.
@@ -60,6 +61,8 @@ export function scienceGradeTopicPlan({country='',subject='',stage='lower',grade
  const countryPhysics=subject==='physics'?physicsCountryGradePlan({
   country,stage,grade,years:yearList
  }):null;
+ const astroScope=subject==='astronomy'?astronomyNationalAlignment({country,stage,grade}):null;
+ const astroSpecific=astroScope?.yearScoped?astroScope.topicIds.map(id=>indexed.get(id)).filter(Boolean):null;
  const curated=String(country).toUpperCase()==='RO'&&stage==='lower'
   ?scienceRoGradeTopics(subject,grade,topics):null;
  // Separate national Physics is not offered in Romanian Grade V.
@@ -81,7 +84,7 @@ export function scienceGradeTopicPlan({country='',subject='',stage='lower',grade
    }[id];
    return {...entry,ro:labels?.[0]||entry.ro,en:labels?.[1]||entry.en};
   }).filter(Boolean):null;
- const unique=[...new Map((curated||adapted||primaryBiology||ordered).map(x=>[x.id,x])).values()];
+ const unique=[...new Map((astroSpecific?.length?astroSpecific:(curated||adapted||primaryBiology||ordered)).map(x=>[x.id,x])).values()];
  // Never hide the whole subject because a national stage has an unverified
  // grade map: a known, clearly marked general course is always available.
  const fallback=topics.filter(x=>x&&!x.specialty&&(rank[x.minLevel]??0)<=max).slice(0,3);
@@ -90,7 +93,7 @@ export function scienceGradeTopicPlan({country='',subject='',stage='lower',grade
   topics:gradeBlocked?[]:unique.length?unique:fallback,
   sequenceIndex,yearIndex,yearCount:yearList.length,
   source:SCIENCE_PROGRESSION_SOURCES,
-  note:subject==='physics'&&countryPhysics?
+  note:astroScope?astroScope.noteRo:subject==='physics'&&countryPhysics?
    (countryPhysics.status==='not-offered'?
     'În acest an Fizica nu se studiază ca disciplină separată în programa verificată.':
     countryPhysics.note+' '+(countryPhysics.kind==='integrated'?
@@ -102,7 +105,10 @@ export function scienceGradeTopicPlan({country='',subject='',stage='lower',grade
   physicsSourceScope:countryPhysics?.sourceScope||null,
   physicsReference:countryPhysics?.source||null,
   yearSpecificOfficial:false,
-  curriculumReference:curated?SCIENCE_RO_2017_SOURCE:countryPhysics?.source||null,
+  curriculumReference:astroScope?.source|| (curated?SCIENCE_RO_2017_SOURCE:countryPhysics?.source)||null,
+  astronomyEvidenceStatus:astroScope?.status||null,
+  astronomyTeachingKind:astroScope?.kind||null,
+  astronomyReferenceYear:astroScope?.sourceYear||null,
   astronomyOptional:subject==='astronomy'
  };
 }

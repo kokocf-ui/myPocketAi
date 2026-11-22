@@ -11,6 +11,7 @@ import {ASTRONOMY_TOPICS,ASTRONOMY_SPECIALIZATIONS,ASTRONOMY_LESSONS} from './as
 import {astronomySchoolTopicLessons} from './astronomy_study_course.mjs';
 import {astronomyUniversityYears,astronomyUniversityRoute,astronomyUniversityRoutes,astronomyUniversityCourseChoices} from './astronomy_university_courses.mjs';
 import {scienceGradeTopicPlan} from './science_grade_progression.mjs';
+import {astronomyNationalAlignment} from './astronomy_country_alignment.mjs';
 import {scienceSchoolTopicLessons,scienceRoAnnualCoverage} from './science_ro_course_plan.mjs';
 
 const html=await(await frontend.fetch(new Request('https://science-navigation-test.test/'))).text();
@@ -69,6 +70,7 @@ const sandbox={
  BIOLOGY_TOPIC_DATA:[...BIOLOGY_TOPICS,...BIOLOGY_SPECIALTY_TOPICS],BIOLOGY_SPECIALTY_DATA:BIOLOGY_SPECIALIZATIONS,
  EDUCATION_THEORY_DATA:THEORY_ENTRIES,
  SCIENCE_GRADE_TOPIC_PLAN:scienceGradeTopicPlan,
+ astronomyNationalAlignment,
  state:{language:'ro'},
  scienceSchoolTopicLessons,scienceRoAnnualCoverage,
  LEARNING_SUBJECTS:[['science','⚛️','Științe','Sciences']],

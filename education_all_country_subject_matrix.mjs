@@ -9,6 +9,7 @@ import {CHEMISTRY_TOPICS,CHEMISTRY_LESSONS} from './chemistry_curriculum.mjs';
 import {BIOLOGY_TOPICS,BIOLOGY_LESSONS} from './biology_curriculum.mjs';
 import {ASTRONOMY_TOPICS,ASTRONOMY_LESSONS} from './astronomy_curriculum.mjs';
 import {scienceGradeTopicPlan} from './science_grade_progression.mjs';
+import {astronomyNationalAlignment} from './astronomy_country_alignment.mjs';
 import {COMPUTING_PATHS,COMPUTING_TOPICS} from './computing_curriculum.mjs';
 import {FOREIGN_TOPICS} from './foreign_languages_curriculum.mjs';
 import {examByGrade} from './exam_curriculum_europe.mjs';
@@ -98,10 +99,11 @@ function subjectInventory(subject,{country,stage,grade,track}){
    country,subject,stage:schoolStage,grade,years:mappedYears,topics
   });
   const ordered=track&&Array.isArray(track.topics)?track.topics:topics.filter(x=>!x.specialty&&rank[x.minLevel||'beginner']<=stageRank[stage]);
+  const astronomyEvidence=subject==='astronomy'?astronomyNationalAlignment({country,stage:schoolStage,grade}):null;
   return {units:ordered.map(x=>unit(x.id,x.ro,x.en,'',lessons.filter(y=>y.topic===x.id).length)),
-   verified:false,gradeSpecific:false,source:null,
-   note:'Program general de științe diferențiat pe clase; nu este manual sau programă națională verificată.'+
-    (subject==='astronomy'?' Astronomia este opțională sau integrată în alte discipline în multe sisteme.':'')};
+   verified:false,gradeSpecific:false,source:astronomyEvidence?.source||null,
+   note:astronomyEvidence?astronomyEvidence.noteRo:
+    'Program general de științe diferențiat pe clase; nu este manual sau programă națională verificată.'};
  }
  if(subject==='computing'){
   const pathLevel=stage==='advanced'?'advanced':stage==='medium'?'medium':'beginner';
