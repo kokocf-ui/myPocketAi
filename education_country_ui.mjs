@@ -3,6 +3,17 @@ import {EDUCATION_EUROPE_COUNTRIES,EDUCATION_SCHOOL_STAGES,
 import {physicsCountryGradePlan} from './physics_europe_frameworks.mjs';
 import {chemistryCountryGradePlan} from './chemistry_country_alignment.mjs';
 import {MATH_THEOREMS_UI_SCRIPT} from './math_theorems_ui.mjs';
+import {mathCountryGradeAreas} from './math_country_grade_areas.mjs';
+const EDU_MATH_COUNTRY_YEARS={};
+const EDU_MATH_GRADE_AREAS={};
+for(const code of EDUCATION_EUROPE_COUNTRIES)for(const stage of EDUCATION_SCHOOL_STAGES){
+ const years=educationCountrySchoolYears(code,stage).years;
+ EDU_MATH_COUNTRY_YEARS[code+'|'+stage]=years;
+ for(const year of years){
+  const path=mathCountryGradeAreas({country:code,stage,grade:year.id,years});
+  EDU_MATH_GRADE_AREAS[code+'|'+stage+'|'+year.id]=path.units;
+ }
+}
 // Only positively supported curriculum claims are serialized to Android;
 // generic subject lists must never be mistaken for verified grade programmes.
 const EDU_FRAMEWORK_GRADE_KEYS=[];
@@ -29,6 +40,8 @@ for(const code of EDUCATION_EUROPE_COUNTRIES)for(const stage of EDUCATION_SCHOOL
 }
 export const EDUCATION_COUNTRY_UI_SCRIPT=
  'const EDU_EUROPE_COUNTRY_LIST='+JSON.stringify(EDUCATION_EUROPE_COUNTRIES)+';\n'+
+ 'const EDU_MATH_COUNTRY_YEARS='+JSON.stringify(EDU_MATH_COUNTRY_YEARS)+';\n'+
+ 'const EDU_MATH_GRADE_AREAS='+JSON.stringify(EDU_MATH_GRADE_AREAS)+';\n'+
  'const EDU_VERIFIED_GRADE_KEYS=new Set('+JSON.stringify(EDU_FRAMEWORK_GRADE_KEYS)+');\n'+
  'const EDU_AUTHORED_GRADE_KEYS=new Set('+JSON.stringify(EDU_AUTHORED_GRADE_KEYS)+');\n'+
  'const EDU_UNMAPPED_STAGE_KEYS=new Set('+JSON.stringify(EDU_UNMAPPED_STAGE_KEYS)+');\n'+
@@ -317,13 +330,12 @@ function eduYearOptionsUnfiltered(code,level,moduleKey){
   });
  }
  if(moduleKey==='math'){
-  if(code==='RO')return lv==='primary'?numeric(1,4):lv==='lower'?numeric(5,8):lv==='beginner'?numeric(1,8):lv==='medium'?numeric(9,12):[{id:'universitate',ro:'Universitate',en:'University'}];
-  if(code==='GB-ENG')return lv==='primary'?numeric(1,6,'Y'):lv==='lower'?numeric(7,9,'Y'):lv==='beginner'?numeric(1,9,'Y'):lv==='medium'?numeric(10,13,'Y'):[{id:'university',ro:'Higher education',en:'Higher education'}];
-  // Other countries keep their own worldwide catalogue; never map their
-  // grades to the Romanian or English numbering by assumption.
-  const mapped=worldwideSchoolYears(code,lv==='primary'?'beginner':lv==='lower'?'lower':lv,'math');
-  if(mapped.length)return mapped;
-  return [{id:'general-'+lv,ro:'Parcurs orientativ — '+(lv==='primary'?'primar':lv==='lower'?'gimnaziu':lv==='medium'?'liceu':'universitar'),en:'Advisory '+lv+' learning'}];
+  const schoolStage=lv==='primary'?'beginner':lv;
+  // Use the same school-year IDs as the all-European country-grade matrix.
+  // Romanian / English hardcoded years and the one-year university placeholder
+  // previously diverged from other countries and hid several study years.
+  const mapped=EDU_MATH_COUNTRY_YEARS[code+'|'+schoolStage]||[];
+  return mapped.length?mapped:[];
  }
  if(moduleKey==='history'){
   if(code==='RO')return lv==='beginner'?numeric(4,4):lv==='lower'?numeric(5,8):lv==='medium'?numeric(9,12):[{id:'universitate',ro:'Universitate',en:'University'}];
