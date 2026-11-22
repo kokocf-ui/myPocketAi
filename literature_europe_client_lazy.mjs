@@ -38,16 +38,16 @@ export function literatureClientGradeExpand(programs,journey){
  const index=order>=0?order:(number-1);
  const theme=names[stage][Math.min(index,names[stage].length-1)];
  const sections=[
-  ['parcurs','Obiective și progresia clasei','genres','identify the key learning goal'],
-  ['intelegere','Înțelegerea unui text','genres','explain textual evidence'],
-  ['narativ','Proză, narator și personaje','narrative','trace characters and plot'],
-  ['poezie','Poezie, vers și expresivitate','poetry','interpret imagery'],
-  ['dialog','Dialog și prezentare orală','communication','explain dialogue and tone'],
-  ['vocabular','Vocabular în context','grammar','explain contextual meaning'],
-  ['exprimare','Construcția frazei','grammar','write clearly'],
-  ['redactare','Compunere și revizuire','composition','organise an original text'],
-  ['interpretare','Comparație și interpretare','commentary','support interpretation'],
-  ['verificare','Exerciții și verificare','essay','demonstrate the learning goal']
+  ['parcurs','Obiective și progresia clasei','genres','identific obiectivul principal de lectură'],
+  ['intelegere','Înțelegerea unui text','genres','explic ideea prin dovezi din text'],
+  ['narativ','Proză, narator și personaje','narrative','urmăresc acțiunea, naratorul și personajele'],
+  ['poezie','Poezie, vers și expresivitate','poetry','interpretez imaginile și expresivitatea versurilor'],
+  ['dialog','Dialog și prezentare orală','communication','explic replicile, tonul și relațiile dintre personaje'],
+  ['vocabular','Vocabular în context','grammar','explic sensul cuvintelor în context'],
+  ['exprimare','Construcția frazei','grammar','construiesc propoziții și fraze clare'],
+  ['redactare','Compunere și revizuire','composition','redactez și revizuiesc un text original'],
+  ['interpretare','Comparație și interpretare','commentary','susțin interpretarea cu exemple și comparații'],
+  ['verificare','Exerciții și verificare','essay','demonstrez competența prin exerciții aplicate']
  ];
  const texts={
   beginner:['Într-o zi, Mara a găsit o carte în parc și a început să o citească.',
