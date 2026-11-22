@@ -2,6 +2,7 @@ import {mathInDepthEntries,mathCountryCourseEntries} from './math_depth_courses.
 import {ro5TopicLessons,RO5_MATH_UNITS} from './math_ro5_curriculum.mjs';
 import {ro678TopicLessons,ro678GradeSummary} from './math_ro678_curriculum.mjs';
 import {ENGLAND_Y6_MATH_LESSONS} from './math_england_y6_curriculum.mjs';
+import {mathUpperCohortGuidance} from './math_ro_upper_cohort_policy.mjs';
 // Mathematics learning paths for every European country in the Education picker.
 // A progression is *advisory* unless an official country/grade source is attached.
 // Stage years are supplied by the shared school-year mapping, never inferred from
@@ -82,6 +83,20 @@ export function mathCountryGradeAreas({country,stage,grade,years}={}){
     focus:'',lessonCount:ro678TopicLessons(selected,id).length,
     curriculumUnitCount:ro678GradeSummary(selected).length,
     countrySpecific:true,curriculumCompletion:'under-review'}))};
+ }
+ if(country==='RO'&&st==='medium'&&['9','10','11','12'].includes(String(grade))){
+  const cohort=mathUpperCohortGuidance({country,grade});
+  return {status:'general-learning',country,stage:st,grade,
+   note:cohort.note,
+   units:row.map(([id,ro])=>({id,ro,en:({
+    algebra:'Algebra',functions:'Functions and graphs',
+    geometry:'Analytic and spatial geometry',statistics:'Statistics',
+    trigonometry:'Trigonometry',analysis:'Mathematical analysis'
+   })[id]||ro,focus:'',
+    lessonCount:mathCountryCourseEntries({country,stage:'intermediate',
+     grade:String(grade),phase:phase+1,topic:id}).length,
+    countrySpecific:false,curriculumCompletion:'unverified-advisory',
+    schoolCohort:cohort.status}))};
  }
  if(country==='GB-ENG'&&st==='medium'&&['Y10','Y11'].includes(String(grade))){
   // DfE KS4/GCSE is statutory across the key stage, NOT separately prescribed
