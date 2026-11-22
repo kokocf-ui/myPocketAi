@@ -88,6 +88,8 @@ assert.ok(input?.focused,'Keyboard focus only after dictionary is opened');
 input.value='p';input.listeners.input();
 let candidates=walk(overlay).filter(x=>x.tagName==='BUTTON'&&x.getAttribute('role')==='option');
 assert.ok(candidates.length>2,'First letter MUST show clickable word suggestions immediately');
+assert.ok(walk(overlay).some(x=>x.className==='lit-quick-pinned'&&x.children.length>=2),
+ 'Mobile keyboard must never hide every suggestion: pin them directly under input');
 const predicate=candidates.find(x=>/^Predicat/.test(x.textContent));
 assert.ok(predicate,'Autocomplete must suggest grammatical terms as well as words');
 predicate.onclick();
@@ -101,6 +103,8 @@ assert.ok(overlay,'Grammar quick reference must open');
 input=walk(overlay).find(x=>x.tagName==='INPUT');
 assert.equal(input.focused,false,'Do not open keyboard automatically for grammar chips');
 assert.ok(text(overlay).includes('Predicat'),'Grammar terms visible without typing');
+assert.ok(walk(overlay).some(x=>x.className==='lit-quick-pinned'&&x.children.some(y=>y.textContent==='Predicat')),
+ 'Predicate/Adjective/Adverb quick chips must be visible without keyboard');
 input.value='adve';input.listeners.input();
 let matches=walk(overlay).filter(x=>x.tagName==='BUTTON'&&x.getAttribute('role')==='option');
 assert.ok(matches.some(x=>x.textContent.includes('Adverb')),'Quick grammar filter must work live');
