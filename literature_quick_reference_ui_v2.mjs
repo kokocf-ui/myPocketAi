@@ -251,8 +251,15 @@ export function literatureQuickReferenceAttach(panel,options={}){
     const json=await r.json();
     if(version!==requestSerial||!active)return;
     const wikitext=String(json.parse?.wikitext?.['*']||'');
-    const def=wikitext.match(/^#(?![#*:])[ \t]*([^\n]+)/m);
-    if(def){showDetail(word,cleanWikitext(def[1]),'',link);return}
+    const rawDefinitions=wikitext.split('\n')
+     .filter(line=>/^#(?![#*:])\s*\S/.test(line))
+     .map(line=>cleanWikitext(line.replace(/^#\s*/,'')))
+     .filter(text=>text.length>=8&&text.length<=650);
+    const uniqueMeanings=[...new Set(rawDefinitions)].slice(0,3);
+    if(uniqueMeanings.length){
+     showDetail(word,uniqueMeanings.map((meaning,i)=>(i+1)+'. '+meaning).join('\n\n'),'',link);
+     return
+    }
    }catch(error){if(controller.signal.aborted)return}
    if(version===requestSerial&&active)
     showDetail(word,tr('Nu am găsit o definiție verificabilă în sursa online. Poți consulta intrarea Wikționarului.',
@@ -283,11 +290,15 @@ export function literatureQuickReferenceAttach(panel,options={}){
    for(const term of fromLocal){
     if(norm(term).startsWith(norm(q))&&!unique.has(norm(term)))unique.set(norm(term),term);
    }
-   const sorted=[...unique.values()].sort((a,b)=>a.localeCompare(b,language)).slice(0,25);
+   const ranked=(word)=>{
+    const name=norm(word),search=norm(q);
+    return (name===search?0:name.startsWith(search)&&!word.includes('-')?1:word.includes('-')?3:2);
+   };
+   const sorted=[...unique.values()].sort((a,b)=>ranked(a)-ranked(b)||a.localeCompare(b,language)).slice(0,25);
    pin(sorted.slice(0,5).map(word=>[word,()=>selectWord(word)]));
    for(const word of sorted)makeOption(word,()=>selectWord(word));
    // Always provide a direct online fallback instead of showing a blank box.
-   const lookup=button(tr('Caută definiția: ','Look up: ')+q,()=>selectWord(q),'lookup');
+   const lookup=button(tr('Verifică mai multe sensuri: ','Check more meanings: ')+q,()=>selectWord(q),'lookup');
    lookup.style.cssText+=';width:100%!important;border-color:#8d4e61!important;margin-top:4px!important';
    results.append(lookup);
    if(!sorted.length){const item=el('p','',tr('Nu există sugestii locale; poți căuta online cuvântul.', 'No offline suggestions; try online lookup.'));item.style.cssText='margin:4px;color:#394b59!important;font-size:12px';results.prepend(item)}
