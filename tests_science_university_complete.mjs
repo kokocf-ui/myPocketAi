@@ -40,7 +40,13 @@ for(const [subject,[topics,tracks]] of Object.entries(subjectRegistry)){
    const ro=scienceUniversityChapter({...input,language:'ro'});
    const en=scienceUniversityChapter({...input,language:'en',chapter:topic.en});
    assert.ok(ro?.length>600&&en?.length>600,'University full text too short: '+subject+'/'+topic.id);
-   assert.ok(ro.includes(prose.ro[1])&&en.includes(prose.en[1]),'Selected specialisation case is required');
+   if(subject==='biology'&&!spec){
+    assert.ok(!ro.includes(prose.ro[1])&&!en.includes(prose.en[1]),
+     'Do not repeat an unrelated Biology specialist case in general foundation chapters');
+   }else{
+    assert.ok(ro.includes(prose.ro[1])&&en.includes(prose.en[1]),
+     'Selected specialisation case is required for specialist and shared non-Biology chapters');
+   }
    assert.ok(ro.includes(topic.ro)&&en.includes(topic.en),'Real chapter context must be explicit');
    assert.match(ro,/program acreditat/,'Advisory programme must not be presented as certified');
    assert.match(en,/translation not verified/,'English source caveat must be explicit');

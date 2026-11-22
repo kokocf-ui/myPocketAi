@@ -23,6 +23,12 @@ const evidence=Object.freeze({
    source:'https://education.gov.scot/media/hpidflxa/sciences-eo.pdf',
    title:'Curriculum for Excellence sciences SCN 1–4; levels are not individual years'}
  ],
+ 'GB-NIR':[
+  {stage:'lower',grades:null,subject:'Science – Earth and Universe',kind:'integrated',
+   topicIds:null,sourceYear:2024,validFrom:null,
+   source:'https://ccea.org.uk/downloads/docs/ccea-asset/General/Key%20Stage%203%20Non-Statutory%20Guidance%20for%20Science.pdf',
+   title:'CCEA Key Stage 3 non-statutory Science guidance; topic year is school-dependent'}
+ ],
  'GB-WLS':[
   {stage:'primary',grades:null,subject:'Science and Technology',kind:'integrated',
    topicIds:null,sourceYear:2022,validFrom:'2022/23',
@@ -42,6 +48,12 @@ const evidence=Object.freeze({
    topicIds:['solar','sky'],sourceYear:2023,validFrom:'2023/24',
    source:'https://eduscol.education.gouv.fr/6878/ressources-d-accompagnement-du-programme-de-sciences-et-technologie-au-cycle-3',
    title:'2023 cycle-3 programme RETAINED in 6e for 2026/27, replaced in 2027/28'}
+ ],
+ IE:[
+  {stage:'lower',grades:null,subject:'Junior Cycle Science – Earth and space',kind:'integrated',
+   topicIds:null,sourceYear:2016,validFrom:null,
+   source:'https://www.curriculumonline.ie/junior-cycle/junior-cycle-subjects/science/expectations-for-students-learning-outcomes/',
+   title:'Junior Cycle Science: celestial objects and Earth–Sun–Moon outcomes across all three years; not assigned to a single year'}
  ],
  PL:[
   {stage:'lower',grades:['VI'],subject:'Geografia – Ruchy Ziemi',kind:'integrated',
