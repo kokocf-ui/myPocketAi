@@ -1,4 +1,4 @@
-import {mathInDepthEntries} from './math_depth_courses.mjs';
+import {mathInDepthEntries,mathCountryCourseEntries} from './math_depth_courses.mjs';
 import {ro5TopicLessons,RO5_MATH_UNITS} from './math_ro5_curriculum.mjs';
 import {ro678TopicLessons,ro678GradeSummary} from './math_ro678_curriculum.mjs';
 import {ENGLAND_Y6_MATH_LESSONS} from './math_england_y6_curriculum.mjs';
@@ -82,6 +82,20 @@ export function mathCountryGradeAreas({country,stage,grade,years}={}){
     focus:'',lessonCount:ro678TopicLessons(selected,id).length,
     curriculumUnitCount:ro678GradeSummary(selected).length,
     countrySpecific:true,curriculumCompletion:'under-review'}))};
+ }
+ if(country==='GB-ENG'&&st==='medium'&&['Y10','Y11'].includes(String(grade))){
+  // DfE KS4/GCSE is statutory across the key stage, NOT separately prescribed
+  // for Year 10 and 11. This progression is therefore a source-informed aid.
+  const selected=String(grade);
+  return {status:'general-learning',country,stage:st,grade,
+   note:'Anglia, Key Stage 4 / GCSE: teme suplimentare raportate la cerințele DfE; repartizarea Year 10–11 este orientativă. Nu este un curs național anual verificat.',
+   units:row.map(([id,ro])=>({id,ro,en:({
+    algebra:'Number, ratio and algebra',functions:'Functions and graphs',
+    geometry:'Geometry and measures',statistics:'Statistics and probability',
+    trigonometry:'Trigonometry'})[id]||ro,focus:'',
+    lessonCount:mathCountryCourseEntries({country,stage:'intermediate',grade:selected,
+     phase:phase+1,topic:id}).length,countrySpecific:false,
+    curriculumCompletion:'partial-source-review'}))};
  }
  if(country==='GB-ENG'&&st==='beginner'&&String(grade)==='Y6'){
   const topics=[...row,['algebra','Introducere în algebră'],['measurement','Măsurători și volume']];
