@@ -39,6 +39,12 @@ assert.equal(astronomyNationalAlignment({country:'SI',stage:'lower',grade:'7'}).
 assert.equal(astronomyNationalAlignment({country:'LT',stage:'upper',grade:'11'}).kind,'optional-standalone');
 assert.deepEqual(astronomyNationalAlignment({country:'LT',stage:'upper',grade:'12'}).topicIds,
  ['stars','galaxies','cosmology','exoplanets','gravity','distances','observations','sky']);
+assert.equal(astronomyNationalAlignment({country:'MD',stage:'upper',grade:'12'}).sourceYear,2019,
+ 'Moldovan adopted 2019 Physics/Astronomy curriculum must remain recognized while 2026 proposal is pending');
+assert.equal(astronomyNationalAlignment({country:'DE',stage:'lower',grade:'8'}).kind,'framework-only',
+ 'German Länder annual Astronomy curriculum is not automatically established by KMK standards');
+assert.equal(astronomyNationalAlignment({country:'CZ',stage:'lower',grade:'7'}).sourceYear,2004,
+ 'Older Czech framework must not be discarded before cohort-specific replacement');
 assert.equal(astronomyNationalAlignment({country:'NO',stage:'lower',grade:'8'}).sourceYear,2026,
  'Use Norway NAT01-05, not superseded 2020 NAT01-04');
 for(const code of ['DK','NL','NO','SE','LT','SI']){
