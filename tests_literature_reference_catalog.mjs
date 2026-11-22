@@ -24,7 +24,7 @@ for(const [section,group,term,part] of [
  ['unitati','Masă','kg','masă'],
  ['unitati','Timp','min','șaizeci'],
  ['unitati','Viteză','mph','britanice'],
- ['unitati','Date digitale','MiB','1024']
+ ['unitati','Date digitale','MiB','binară']
 ]){
  const row=literatureReferenceEntries(section,group).find(x=>x[2]===term);
  assert.ok(row,section+'/'+term+' must be selectable');
