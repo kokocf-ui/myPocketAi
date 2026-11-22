@@ -35,7 +35,7 @@ for(const code of EDUCATION_EUROPE_COUNTRIES){
      assert.equal(new Set(labs.map(x=>x.title)).size,2);
      assert.equal(new Set(labs.map(x=>x.review.prompt)).size,2);
      assert.ok(labs.every(x=>x.body.includes(x.lesson)&&x.body.includes(String(year.id))));
-     assert.ok(labs.every(x=>x.body.length>=500&&x.body.includes(entries[0].topic?chapter.id:'')===false||x.body.length>=500));
+     assert.ok(labs.every(x=>x.body.length>=500),'Practical text requires a full safe method and linked lesson');
      assert.ok(labs.every(x=>x.review.prompt.length>=65&&x.review.guide.length>=50));
      assert.ok(labs.every(x=>x.source==='original-physics-year-lab'));
      if(stage==='primary')assert.ok(labs.every(x=>!x.body.includes('Q=mcΔT')),'No advanced equation leaked into primary practical');
