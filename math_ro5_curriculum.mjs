@@ -8,9 +8,10 @@ import {RO5_MATH_GEOMETRY} from './math_ro5_geometry.mjs';
 import {RO5_MATH_CORE_GAPS} from './math_ro5_core_gaps.mjs';
 
 export {RO5_MATH_SOURCES};
+const RO5_UNIT_ORDER=['natural','methods','divisibility','fractions','decimals','data','geometry'];
 export const RO5_MATH_LESSONS=Object.freeze([
  ...RO5_MATH_NUMBERS,...RO5_MATH_FRACTIONS,...RO5_MATH_GEOMETRY,...RO5_MATH_CORE_GAPS
-]);
+].sort((a,b)=>RO5_UNIT_ORDER.indexOf(a.unitId)-RO5_UNIT_ORDER.indexOf(b.unitId)));
 export const RO5_MATH_UNITS=Object.freeze([
  {id:'natural',title:'Numere naturale și operații',topic:'algebra'},
  {id:'methods',title:'Metode aritmetice de rezolvare a problemelor',topic:'algebra'},
