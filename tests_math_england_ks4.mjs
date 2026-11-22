@@ -39,5 +39,9 @@ assert.ok(ENGLISH_KS4_REFERENCE.ks4.startsWith('https://www.gov.uk/'));
 assert.ok(!mathCountryCourseEntries({country:'GB-ENG',stage:'intermediate',grade:'Y10',topic:'algebra',phase:1})
  .some(l=>/Inducția matematică|Propoziții logice/.test(l.title)));
 assert.ok(!mathCountryCourseEntries({country:'GB-ENG',stage:'intermediate',grade:'Y11',topic:'functions',phase:2})
- .some(l=>/logaritm|invers/i.test(l.title)));
+ .some(l=>/logaritm/i.test(l.title)));
+assert.ok(mathCountryCourseEntries({country:'GB-ENG',stage:'intermediate',grade:'Y11',topic:'functions',phase:2})
+ .some(l=>l.title==='Funcția inversă'),'AQA GCSE Higher inverse functions must not be globally removed');
+assert.ok(mathCountryCourseEntries({country:'GB-ENG',stage:'intermediate',grade:'Y11',topic:'geometry',phase:2})
+ .some(l=>l.title==='Tangenta la un cerc'),'AQA GCSE Higher A16 circle tangent must not be globally removed');
 console.log('PASS',rows.length,'original GCSE supplementary cards across Years 10-11; exact national annual certification NOT claimed');

@@ -24,6 +24,27 @@ for(const grade of ['Y10','Y11'])for(const topic of ['algebra','functions','geom
   if(mathGcseLessonTier(x)==='higher-only')higher.add(x.title);
  }
 }
+// AQA 8300 A7 covers inverse/composite functions on Higher only; they must
+// be accessible for Higher learners, not excluded from BOTH GCSE tiers.
+const year11= ['algebra','functions','geometry','statistics','trigonometry']
+ .flatMap(topic=>mathCountryCourseEntries({country:'GB-ENG',stage:'intermediate',
+   grade:'Y11',phase:2,topic}));
+const year11Higher=mathGcseSelectTier(year11,'higher');
+const year11Foundation=mathGcseSelectTier(year11,'foundation');
+for(const title of ['Funcția inversă','Inversa funcției afine','Funcții inverse și restricții de domeniu']){
+ assert.ok(year11Higher.some(entry=>entry.title===title),
+   'GCSE Higher must include inverse-function lesson: '+title);
+ assert.ok(!year11Foundation.some(entry=>entry.title===title),
+   'GCSE Foundation must exclude A7 inverse-functions lesson: '+title);
+ assert.equal(MATH_GCSE_HIGHER_ONLY[title],'A7');
+}
+for(const title of ['Tangenta la un cerc']){
+ assert.ok(year11Higher.some(entry=>entry.title===title),
+   'GCSE Higher must include the A16 circle-tangent lesson');
+ assert.ok(!year11Foundation.some(entry=>entry.title===title),
+   'GCSE Foundation must exclude the A16 circle-tangent lesson');
+ assert.equal(MATH_GCSE_HIGHER_ONLY[title],'A16');
+}
 for(const [title,reference] of Object.entries(MATH_GCSE_HIGHER_ONLY)){
  assert.ok(all.has(title),'Unknown title in crosswalk: '+title);
  assert.match(reference,/^[A-Z]+[0-9]+$/);
