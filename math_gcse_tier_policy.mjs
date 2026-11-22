@@ -5,6 +5,13 @@
 // Each mapped reference below has a directly reviewed specification row.
 export const MATH_GCSE_HIGHER_ONLY=Object.freeze({
  'Puterile cu exponent fracționar':'N7',
+ 'Ecuații simple cu numitor necunoscut':'A4',
+ 'Forma canonică a unei funcții pătratice':'A11',
+ 'Imaginea unei funcții exponențiale':'A12',
+ 'Compunerea funcțiilor':'A7',
+ 'Inecuații sub formă de produs':'A22',
+ 'Expresii algebrice raționale':'A4',
+ 'Drepte paralele și perpendiculare':'A9',
  'Ecuații pătratice cu formula generală':'A18',
  'Translatarea graficului unei funcții':'A13',
  'Intersecția dreptei cu o parabolă':'A19',
