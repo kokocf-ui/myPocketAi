@@ -20,8 +20,8 @@ for(const [country,items] of Object.entries(ASTRONOMY_COUNTRY_EVIDENCE)){
  assert.ok(EDUCATION_EUROPE_COUNTRIES.includes(country));
  for(const item of items){
   assert.match(item.source,/^https:\/\/(www\.)?/);
-  assert.ok(item.sourceYear>=2000&&item.sourceYear<=2026);
-  assert.ok(['integrated','framework-only'].includes(item.kind));
+  assert.ok(item.sourceYear>=1990&&item.sourceYear<=2026);
+  assert.ok(['integrated','framework-only','optional-standalone'].includes(item.kind));
   assert.ok(item.subject&&item.title);
  }
 }
@@ -32,6 +32,19 @@ assert.equal(frCm2.sourceYear,2023,'2023 cycle-3 programme remains applicable in
 assert.equal(fr6.sourceYear,2023,'2023 cycle-3 programme remains applicable in 6e for 2026/27');
 assert.equal(frCm1.sourceYear,2026,'2026 cycle-3 programme applies to CM1 first');
 assert.equal(frCm2.supercessionConfirmed,false,'do not presume earlier 2023 programme expired');
+assert.equal(astronomyNationalAlignment({country:'SI',stage:'lower',grade:'7'}).kind,'optional-standalone');
+assert.equal(astronomyNationalAlignment({country:'SI',stage:'lower',grade:'7'}).sourceYear,1999,
+ 'Older officially listed elective must not be dropped because of its date');
+assert.equal(astronomyNationalAlignment({country:'SI',stage:'lower',grade:'7'}).verifiedOptionalAsStandalone,true);
+assert.equal(astronomyNationalAlignment({country:'LT',stage:'upper',grade:'11'}).kind,'optional-standalone');
+assert.deepEqual(astronomyNationalAlignment({country:'LT',stage:'upper',grade:'12'}).topicIds,
+ ['stars','galaxies','cosmology','exoplanets']);
+assert.equal(astronomyNationalAlignment({country:'NO',stage:'lower',grade:'8'}).sourceYear,2026,
+ 'Use Norway NAT01-05, not superseded 2020 NAT01-04');
+for(const code of ['DK','NL','NO','SE','LT','SI']){
+ const stage=code==='NL'?'primary':'lower';
+ assert.notEqual(astronomyNationalAlignment({country:code,stage,grade:'7'}).status,'source-not-yet-reviewed');
+}
 assert.equal(astronomyNationalAlignment({country:'RO',stage:'lower',grade:'5'}).kind,'integrated');
 assert.equal(astronomyNationalAlignment({country:'GB-ENG',stage:'primary',grade:'Y5'}).kind,'integrated');
 assert.equal(astronomyNationalAlignment({country:'AD',stage:'lower',grade:'general-lower-1'}).kind,'unknown',
