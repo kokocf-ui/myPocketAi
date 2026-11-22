@@ -4,6 +4,20 @@ import {MATH_DEPTH_UNIVERSITY} from './math_depth_university.mjs';
 // Mathematics learning cards: authored, age-progressive explanations and worked
 // problems. These are *general European learning aids*, not certified copies
 // of a country's national mathematics programme.
+export const MATH_DEPTH_EN_LOWER=[
+ {algebra:['Natural numbers and place value','Operations with natural numbers','Multiples and divisors','Fractions and decimal numbers','Equations with one unknown'],
+  geometry:['Points, lines and segments','Angles and how to measure them','Triangles and quadrilaterals','Circles, disks and radius'],
+  statistics:['Collecting data','Bar charts','Introduction to arithmetic mean']},
+ {algebra:['Integers and the number line','Rational numbers and equivalent fractions','Ratios, proportions and percentages','Linear equations with coefficients'],
+  geometry:['Vertically opposite and adjacent angles','Triangles and angle sums','Quadrilaterals and their properties','Circle circumference and area'],
+  statistics:['Relative frequency','Mean and median','Intuitive probability']},
+ {algebra:['Algebraic expressions and like terms','Algebraic identities and formulas','Equations with brackets','Linear inequalities'],
+  geometry:['Triangle congruence','The Pythagorean theorem','Areas of triangles and quadrilaterals','Central angles in circles'],
+  statistics:['Sample spaces','Complementary events','Chart interpretation and critical reading']},
+ {algebra:['Linear equations in word problems','Systems of two equations','Functions and coordinate graphs','Factorisation'],
+  geometry:['Triangle similarity','Thales theorem and proportional segments','Volume of geometric solids','Theorems and logical proof'],
+  statistics:['Incompatible events','Probability from tables','Elementary counting principles']}
+];
 export const MATH_DEPTH_LOWER=[
  {
  algebra:[
@@ -95,7 +109,7 @@ export function mathInDepthEntries({stage,phase,topic}={}){
   return {
    id:'math-depth-'+st+'-'+p+'-'+subject+'-'+(i+1),
    subject:'math',level:st==='advanced'?'advanced':st==='intermediate'?'intermediate':'beginner',
-   stage:st,phase:p,topic:subject,title:x[offset],enTitle:offset?x[0]:x[0],
+   stage:st,phase:p,topic:subject,title:x[offset],enTitle:offset?x[0]:(MATH_DEPTH_EN_LOWER[p-1]?.[subject]?.[i]||x[0]),
    statement:x[offset+1],formula:x[offset+2]||'',
    worked:x[offset+3],practice:x[offset+4],answers:x[offset+5],
    sourceStatus:'general-learning',aliases:[]
