@@ -170,6 +170,14 @@ for(const profile of Object.values(LIT_EU_PROGRAMS)){
  // per-year learning path is generated below, including countries which
  // previously had no national literature entry at all.
 }
+// Keep the generated Android HTML below its strict offline payload budget.
+// Curriculum remains fully expanded for server-side validation, while the
+// embedded browser catalog contains only the original verified/advisory rows.
+// The client materializes the user's chosen year when it is actually opened.
+const LIT_EU_EMBEDDED_BASE=JSON.parse(JSON.stringify(LIT_EU_PROGRAMS));
+Object.defineProperty(LIT_EU_PROGRAMS,'toJSON',{
+ configurable:false,enumerable:false,value:()=>LIT_EU_EMBEDDED_BASE
+});
 export const LIT_EU_GRADE_COVERAGE=expandLiteratureEuropeanGrades(LIT_EU_PROGRAMS);
 
 export function litEuropeanPlan(country, level, grade, track){
