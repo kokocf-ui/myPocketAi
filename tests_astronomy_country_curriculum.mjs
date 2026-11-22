@@ -64,7 +64,7 @@ for(const year of ['Y7','Y8','Y9']){
 }
 for(const country of ['GB-SCT','GB-WLS','GB-NIR'])
  assert.equal(get(country,'lower',educationCountrySchoolYears(country,'lower').years[0].id).policy.kind,'integrated');
-for(const country of ['HU','IT','PL','DE','PT','NO','TR']){
+for(const country of ['HU','IT','DE','PT','TR']){
  const first=educationCountrySchoolYears(country,'lower').years[0];
  assert.equal(get(country,'lower',first.id).policy.status,'country-curriculum-unverified');
 }

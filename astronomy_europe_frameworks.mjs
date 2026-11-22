@@ -40,7 +40,7 @@ export const ASTRONOMY_EUROPE_FRAMEWORKS=Object.freeze({
   upper:{source:'https://www.udir.no/lk20/nat01-04/kompetansemaal-og-vurdering/kv77',scope:'NAT01-04-Vg1-study-preparatory'}
  }),
  PL:Object.freeze({
-  primary:{source:'https://www.gov.pl/web/edukacja/nowe-podstawy-programowe-wychowania-przedszkolnego-i-ksztalcenia-ogolnego-dla-szkoly-podstawowej-wraz-ze-zmianami-w-ramowych-planow-nauczania-dla-publicznych-szkol-podstawowych--rozporzadzenia-podpisane',scope:'2026-reform-intake-I-IV'},
+  primary:{source:'https://www.gov.pl/web/edukacja/nowe-podstawy-programowe-wychowania-przedszkolnego-i-ksztalcenia-ogolnego-dla-szkoly-podstawowej-wraz-ze-zmianami-w-ramowych-planach-nauczania-dla-publicznych-szkol-podstawowych--rozporzadzenia-podpisane',scope:'2026-reform-intake-I-IV'},
   lower:{source:'https://zpe.gov.pl/podstawa-programowa/szkola-podstawowa/geografia',scope:'legacy-geography-cohorts-2026'},
   upper:{source:'https://zpe.gov.pl/a/dla-nauczyciela/DDPz14FRF',scope:'geography-first-year-teaching-reference'}
  }),
@@ -111,6 +111,15 @@ export function astronomyCountryGradePlan({country='',stage='primary',grade='',y
   programmeRo:'Junior Cycle Science · Earth and space',programmeEn:'Junior Cycle Science · Earth and space',
   noteRo:'În Irlanda, Earth and space este domeniu în Științe la Junior Cycle, cu competențe pe întregul ciclu de trei ani. Nu există aici o repartizare oficială exactă pe anul 1, 2 sau 3.',
   noteEn:'Ireland Junior Cycle Science includes Earth and space over the full three-year cycle; the source does not prescribe the app’s exact year-by-year order.'};
+ if(code==='ES'&&level==='lower'&&year==='ESO4')return {...general,
+  status:'official-final-year-eso-topic',kind:'integrated',topicIds:['solar','stars','observations','sky'],
+  source:'https://educagob.educacionfpydeportes.gob.es/ca/curriculo/curriculo-lomloe/menu-curriculos-basicos/ed-secundaria-obligatoria/materias/biologia-geologia/criterios-evaluacion-cuarto-curso.html',
+  sourceScope:'national-ESO4-biology-geology',
+  programmeRo:'ESO 4 · Biología y Geología · La Tierra en el universo',
+  programmeEn:'ESO Year 4 · Biology and Geology · Earth in the Universe',
+  offerVerified:false,
+  noteRo:'Curriculum LOMLOE ESO 4 include originea Universului și a Sistemului Solar în Biología y Geología. Alegerea disciplinei și a distribuției pot varia după comunitatea autonomă.',
+  noteEn:'LOMLOE ESO Year 4 Biology and Geology includes the origins of the Universe and Solar System; offering and allocation may vary by autonomous community.'};
  if(code==='ES'&&level==='lower')return {...general,status:'integrated-framework',kind:'integrated',
   source:base?.source||null,sourceScope:base?.scope||null,
   programmeRo:'ESO · Biología y Geología · La Tierra en el universo',
@@ -220,15 +229,6 @@ export function astronomyCountryGradePlan({country='',stage='primary',grade='',y
   programmeEn:'Primary School · General Studies · natural phenomena',
   noteRo:'Programa austriacă Sachunterricht dezvoltă explorarea naturii, Soarelui și fenomenelor observabile. Nu confirmăm din această sursă o programă autonomă obligatorie despre toate planetele în fiecare clasă.',
   noteEn:'Austrian primary Sachunterricht covers the Sun and observable natural phenomena. This source does not establish a standalone compulsory all-planets syllabus for each year.'};
- if(code==='ES'&&level==='lower'&&year==='ESO4')return {...general,
-  status:'official-final-year-eso-topic',kind:'integrated',topicIds:['solar','stars','observations','sky'],
-  source:'https://educagob.educacionfpydeportes.gob.es/ca/curriculo/curriculo-lomloe/menu-curriculos-basicos/ed-secundaria-obligatoria/materias/biologia-geologia/criterios-evaluacion-cuarto-curso.html',
-  sourceScope:'national-ESO4-biology-geology',
-  programmeRo:'ESO 4 · Biología y Geología · La Tierra en el universo',
-  programmeEn:'ESO Year 4 · Biology and Geology · Earth in the Universe',
-  offerVerified:false,
-  noteRo:'Curriculum LOMLOE ESO 4 include originea Universului și a Sistemului Solar în Biología y Geología. Alegerea disciplinei și a distribuției pot varia după comunitatea autonomă.',
-  noteEn:'LOMLOE ESO Year 4 Biology and Geology includes the origins of the Universe and Solar System; offering and allocation may vary by autonomous community.'};
  if(code==='GB-SCT')return {...general,status:'integrated-framework',kind:'integrated',
   source:base?.source||null,sourceScope:base?.scope||null,offerVerified:false,
   programmeRo:'Curriculum for Excellence · Sciences',programmeEn:'Curriculum for Excellence · Sciences',
