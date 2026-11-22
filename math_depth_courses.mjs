@@ -17,6 +17,10 @@ import {MATH_DEPTH_UPPER} from './math_depth_upper.mjs';
 import {MATH_DEPTH_UNIVERSITY} from './math_depth_university.mjs';
 import {MATH_UNIVERSITY_EXTENSION} from './math_depth_university_extension.mjs';
 import {MATH_LOWER_EXTENSION} from './math_depth_lower_extension.mjs';
+import {MATH_LOWER_YEAR1_EXTRA} from './math_lower_year1_extra.mjs';
+import {MATH_LOWER_YEAR2_EXTRA} from './math_lower_year2_extra.mjs';
+import {MATH_LOWER_YEAR3_EXTRA} from './math_lower_year3_extra.mjs';
+import {MATH_LOWER_YEAR4_EXTRA} from './math_lower_year4_extra.mjs';
 import {MATH_UPPER_EXTENSION} from './math_depth_upper_extension.mjs';
 import {MATH_UPPER_2026_ADDITIONS} from './math_depth_upper_2026_additions.mjs';
 import {MATH_UPPER_2026_COMPANION} from './math_depth_upper_companion_2026.mjs';
@@ -138,8 +142,11 @@ const MATH_PRIMARY_14_EXTRA=[MATH_PRIMARY_YEAR1_EXTRA,MATH_PRIMARY_YEAR2_EXTRA,
 const EXPANDED_PRIMARY=MATH_DEPTH_PRIMARY.map((phase,i)=>Object.fromEntries(
  Object.entries(phase).map(([topic,rows])=>[topic,[...rows,...(MATH_PRIMARY_EXTENSION[i]?.[topic]||[]),
   ...(MATH_PRIMARY_14_EXTRA[i]?.[topic]||[])]])));
+const MATH_LOWER_YEAR_EXTRA=[MATH_LOWER_YEAR1_EXTRA,MATH_LOWER_YEAR2_EXTRA,
+ MATH_LOWER_YEAR3_EXTRA,MATH_LOWER_YEAR4_EXTRA];
 const EXPANDED_LOWER=MATH_DEPTH_LOWER.map((phase,i)=>Object.fromEntries(
- Object.entries(phase).map(([topic,rows])=>[topic,[...rows,...(MATH_LOWER_EXTENSION[i]?.[topic]||[])]])));
+ Object.entries(phase).map(([topic,rows])=>[topic,[...rows,...(MATH_LOWER_EXTENSION[i]?.[topic]||[]),
+  ...(MATH_LOWER_YEAR_EXTRA[i]?.[topic]||[])]])));
 const EXPANDED_UPPER=MATH_DEPTH_UPPER.map((phase,i)=>{
  const extras=MATH_UPPER_EXTENSION[i]||{},newLessons=MATH_UPPER_2026_ADDITIONS[i]||{};
  const companion=MATH_UPPER_2026_COMPANION[i]||{};
