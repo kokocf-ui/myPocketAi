@@ -94,6 +94,7 @@ import {ASTRONOMY_TOPICS,ASTRONOMY_SPECIALIZATIONS,ASTRONOMY_LESSONS} from './as
 import {astronomyVerifiedExercise} from './astronomy_verified.mjs';
 import {ASTRONOMY_STUDY_CASES,ASTRONOMY_TOPIC_DIAGRAMS,ASTRONOMY_PRIMARY_ALLOWED,ASTRONOMY_PRIMARY_CASES,ASTRONOMY_PRIMARY_SKILLS,ASTRONOMY_LAB_TOPIC,ASTRONOMY_LAB_YEAR_METHODS,astronomySchoolTopicLessons,astronomyLabMaterial} from './astronomy_study_course.mjs';
 import {ASTRONOMY_UPPER_YEAR_METHODS,ASTRONOMY_UPPER_CHAPTERS,astronomyUpperSupplement} from './astronomy_upper_secondary.mjs';
+import {ASTRONOMY_GRAPH_SERIES,ASTRONOMY_LOWER_SERIES,ASTRONOMY_ACTIVITY_DIAGRAM_BY_STAGE,astronomyActivityProgression} from './astronomy_practical_progression.mjs';
 import {ASTRONOMY_PLANETS,ASTRONOMY_PLANET_REFERENCE} from './astronomy_planets.mjs';
 import {ASTRONOMY_COUNTRY_EVIDENCE,astronomyNationalAlignment} from './astronomy_country_alignment.mjs';
 import {ASTRONOMY_UNIVERSITY_DEFAULT_FOUR,ASTRONOMY_UNIVERSITY_ELECTIVES,astronomyUniversityRoutes,astronomyUniversityRoute,astronomyUniversityYears,astronomyUniversityCourseChoices,astronomyUniversityStudyText,astronomyUniversityProjectText} from './astronomy_university_courses.mjs';
@@ -9454,6 +9455,10 @@ const ASTRONOMY_PLANET_REFERENCE=${JSON.stringify(ASTRONOMY_PLANET_REFERENCE)};
 const ASTRONOMY_UPPER_YEAR_METHODS=${JSON.stringify(ASTRONOMY_UPPER_YEAR_METHODS)};
 const ASTRONOMY_UPPER_CHAPTERS=${JSON.stringify(ASTRONOMY_UPPER_CHAPTERS)};
 const astronomyUpperSupplement=${astronomyUpperSupplement.toString()};
+const ASTRONOMY_GRAPH_SERIES=${JSON.stringify(ASTRONOMY_GRAPH_SERIES)};
+const ASTRONOMY_LOWER_SERIES=${JSON.stringify(ASTRONOMY_LOWER_SERIES)};
+const ASTRONOMY_ACTIVITY_DIAGRAM_BY_STAGE=${JSON.stringify(ASTRONOMY_ACTIVITY_DIAGRAM_BY_STAGE)};
+const astronomyActivityProgression=${astronomyActivityProgression.toString()};
 const astronomySchoolTopicLessons=${astronomySchoolTopicLessons.toString()};
 const astronomyLabMaterial=${astronomyLabMaterial.toString()};
 const ASTRONOMY_UNIVERSITY_DEFAULT_FOUR=${JSON.stringify(ASTRONOMY_UNIVERSITY_DEFAULT_FOUR)};
@@ -10782,7 +10787,13 @@ function astronomyVisualBuild(kind){
   lightcurve:['Curba de lumină a unui tranzit','Transit light curve'],
   atmosphere:['Atmosferă planetară – straturi','Planetary atmosphere – layers'],
   interferometer:['Interferometrie – bază și semnal','Interferometry – baseline and signal'],
-  accretion:['Disc de acreție – model','Accretion disk – model']
+  accretion:['Disc de acreție – model','Accretion disk – model'],
+  seasons:['Înclinarea axei terestre','Earth axial tilt'],
+  constellations:['Constelații și distanțe aparente','Constellations and apparent distances'],
+  diurnal:['Mișcarea aparentă a cerului','Apparent sky movement'],
+  moonlog:['Jurnalul fazelor Lunii','Moon-phase observation journal'],
+  scalecomparison:['Distanțe între Pământ, Lună și Soare','Earth, Moon and Sun distances'],
+  startrail:['Urme circulare ale stelelor – model','Star trails – schematic']
  };
  if(!names[kind])return null;
  const section=document.createElement('section');section.className='physics-visual astronomy-visual';
@@ -10856,14 +10867,31 @@ function astronomyVisualBuild(kind){
   circle(180,107,16,'#ffd8ac');for(let arm=0;arm<3;arm++)for(let i=0;i<65;i++){const t=i*.12+arm*2.094,r=12+i*1.8;circle(180+r*Math.cos(t),107+r*.48*Math.sin(t),1.1,'#b4c9fa')}label(105,188,'spirală · fără scară');
  }else if(kind==='phases'){
   circle(35,106,20,'#ffd477');label(7,143,learningLabel('Soare','Sun'));
-  line(62,106,115,106);add('path',{d:'M106 100 L115 106 L106 112',fill:'none',stroke:'#a9e4f3','stroke-width':2});
-  circle(198,106,22,'#559bd4');label(175,142,learningLabel('Pământ','Earth'));
-  for(const [x,y,phase] of [[198,28,0],[283,106,1],[198,187,2],[113,106,3]]){
-   circle(x,y,12,'#27384a');add('path',{d:'M'+x+' '+(y-12)+' A12 12 0 0 1 '+x+' '+(y+12)+' Z',fill:'#f5eed5'});
-   if(phase===2)label(x-23,y-19,learningLabel('Plină','Full'));
-   if(phase===0)label(x-24,y-18,learningLabel('Nouă','New'));
+  line(62,106,115,106);
+  add('path',{d:'M106 100 L115 106 L106 112',fill:'none',stroke:'#a9e4f3','stroke-width':2});
+  circle(198,106,22,'#559bd4');label(173,143,learningLabel('Pământ','Earth'));
+  // Viewing geometry: new Moon toward Sun, full Moon opposite Sun.
+  // North-up convention: first quarter with right hemisphere illuminated.
+  const phases=[
+   {x:113,y:106,phase:'new',ro:'Nouă',en:'New'},
+   {x:198,y:28,phase:'first',ro:'Primul pătrar',en:'First quarter'},
+   {x:283,y:106,phase:'full',ro:'Plină',en:'Full'},
+   {x:198,y:187,phase:'last',ro:'Ultimul pătrar',en:'Last quarter'}
+  ];
+  for(const p of phases){
+   circle(p.x,p.y,12,'#27384a');
+   if(p.phase==='full')circle(p.x,p.y,12,'#f5eed5');
+   else if(p.phase==='first')
+    add('path',{d:'M'+p.x+' '+(p.y-12)+' A12 12 0 0 1 '+p.x+' '+(p.y+12)+' Z',fill:'#f5eed5'});
+   else if(p.phase==='last')
+    add('path',{d:'M'+p.x+' '+(p.y-12)+' A12 12 0 0 0 '+p.x+' '+(p.y+12)+' Z',fill:'#f5eed5'});
+   if(p.phase==='first')label(207,18,learningLabel('Pătrar I','1st quarter'));
+   if(p.phase==='full')label(298,92,learningLabel(p.ro,p.en));
+   if(p.phase==='new')label(80,85,learningLabel(p.ro,p.en));
+   if(p.phase==='last')label(209,191,learningLabel('Pătrar III','3rd quarter'));
   }
-  label(250,196,learningLabel('model de iluminare','light model'));
+  label(18,204,learningLabel('Model schematic: orbită și mărimi fără scară',
+   'Schematic: orbit and sizes not to scale'));
  }else if(kind==='skycoords'){
   add('ellipse',{cx:176,cy:158,rx:150,ry:36,fill:'none',stroke:'#79d2e3','stroke-width':2});
   line(28,158,326,158);line(176,158,176,28);line(176,158,262,73);
@@ -10895,6 +10923,68 @@ function astronomyVisualBuild(kind){
   label(274,155,learningLabel('Supernovă','Supernova'));
   label(209,24,learningLabel('masă mică','low mass'));
   label(199,198,learningLabel('masă mare','high mass'));
+ }else if(kind==='seasons'){
+  circle(180,100,20,'#ffdb91');label(163,130,learningLabel('Soare','Sun'));
+  add('ellipse',{cx:180,cy:102,rx:122,ry:74,fill:'none',
+   stroke:'#698dac','stroke-width':1.4,'stroke-dasharray':'5 3'});
+  for(const [x,y] of [[80,52],[280,52],[80,152],[280,152]]){
+   circle(x,y,11,'#78b9e5');
+   line(x-6,y+14,x+6,y-14);
+  }
+  label(9,24,learningLabel('Aceeași direcție a axei în model','Axis direction remains fixed'));
+  label(122,200,learningLabel('≈23,4° față de perpendiculara pe planul orbitei','≈23.4° axial tilt'));
+ }else if(kind==='constellations'){
+  const pts=[[40,111],[97,61],[141,104],[190,53],[228,104],[286,65],[322,137]];
+  for(let i=0;i<pts.length-1;i++){
+   const [x,y]=pts[i],[u,v]=pts[i+1];add('line',{x1:x,y1:y,x2:u,y2:v,
+    stroke:'#7eb2ca','stroke-width':1.5,'stroke-dasharray':'4 4'});
+  }
+  for(const [x,y] of pts)circle(x,y,5,'#ffedbb');
+  label(46,34,learningLabel('Constelație aparentă','Apparent constellation'));
+  label(30,187,learningLabel('Stelele pot fi la distanțe foarte diferite','Stars may be at very different distances'));
+ }else if(kind==='diurnal'){
+  add('path',{d:'M38 166 Q180 -10 322 166',stroke:'#8bc7e6','stroke-width':2,fill:'none'});
+  line(28,166,330,166);
+  for(const [x,y] of [[54,149],[101,85],[180,47],[260,85],[308,149]])circle(x,y,6,'#ffe6a1');
+  label(22,188,learningLabel('Est','East'));label(282,188,learningLabel('Vest','West'));
+  label(66,24,learningLabel('Traseu aparent; nu poziție actuală','Apparent path; not a live position'));
+ }else if(kind==='moonlog'){
+  const observations=[
+   {x:58,day:1,phase:'new'},
+   {x:139,day:8,phase:'first'},
+   {x:220,day:15,phase:'full'},
+   {x:301,day:22,phase:'last'}
+  ];
+  for(const p of observations){
+   const y=96;circle(p.x,y,23,'#344a61');
+   if(p.phase==='full')circle(p.x,y,21,'#f1e8cd');
+   if(p.phase==='first')add('path',{d:'M'+p.x+' '+(y-21)+' A21 21 0 0 1 '+p.x+' '+(y+21)+' Z',fill:'#f1e8cd'});
+   if(p.phase==='last')add('path',{d:'M'+p.x+' '+(y-21)+' A21 21 0 0 0 '+p.x+' '+(y+21)+' Z',fill:'#f1e8cd'});
+   label(p.x-22,148,learningLabel('Ziua ','Day ')+p.day);
+  }
+  label(18,34,learningLabel('Faze schematice, la interval de circa o săptămână',
+   'Schematic phases, roughly one week apart'));
+  label(13,189,learningLabel('Faza reală depinde de data observației',
+   'Real lunar phase depends on observation date'));
+ }else if(kind==='scalecomparison'){
+  circle(45,65,14,'#70aee0');circle(137,65,6,'#d7dce7');
+  line(62,65,126,65);label(22,41,learningLabel('Pământ','Earth'));
+  label(122,42,learningLabel('Lună','Moon'));
+  label(37,101,learningLabel('≈384 400 km','≈384,400 km'));
+  circle(55,143,12,'#70aee0');circle(322,143,19,'#ffd690');
+  line(70,143,302,143);
+  label(30,124,learningLabel('Pământ','Earth'));
+  label(286,119,learningLabel('Soare','Sun'));
+  label(110,162,learningLabel('≈150 milioane km','≈150 million km'));
+  label(55,198,learningLabel('Desen fără scară','Drawing not to scale'));
+ }else if(kind==='startrail'){
+  circle(182,100,5,'#fff0af');
+  for(const rad of [37,65,93]){
+   add('path',{d:'M'+(182+rad)+' 100 A'+rad+' '+rad+' 0 1 1 '+(182-rad)+' 100',
+    fill:'none',stroke:'#a4cbe8','stroke-width':2});
+  }
+  label(192,94,learningLabel('Nord ceresc','Celestial north'));
+  label(35,194,learningLabel('Urme în expunere lungă, fără poziții reale','Long-exposure schematic, not live stars'));
  }else if(kind==='rotationcurve'){
   line(42,23,42,177);line(42,177,340,177);
   label(13,23,'v(r)');label(245,199,learningLabel('rază r →','radius r →'));
@@ -10963,6 +11053,117 @@ function astronomyVisualBuild(kind){
  return section;
 }
 
+
+// A numerical educational graph with labelled axes, model assumptions and
+// distinguishable simulated measurements. Never presented as live observations.
+function astronomyPracticalGraphOpen(activity){
+ document.getElementById('astronomyPracticalGraphDialog')?.remove();
+ if(!activity?.x?.length||!activity.y?.length)return;
+ const residual=activity.kind==='analysis';
+ const modelData=activity.x.map((x,i)=>({x:Number(x),y:Number(activity.y[i])}));
+ // Residuals show percentage deviations of artificial measurements from
+ // theoretical values, not a second copy of the underlying model curve.
+ const data=residual?modelData.map((p,i)=>({...p,
+  y:Math.round((([.015,-.012,.010,-.009,.012,-.007,.005][i%7])*100)*100)/100})):modelData;
+ if(data.some(p=>!Number.isFinite(p.x)||!Number.isFinite(p.y)))return;
+ const dialog=document.createElement('dialog');
+ dialog.id='astronomyPracticalGraphDialog';
+ dialog.className='education-theory-dialog physics-theory-dialog';
+ dialog.style.cssText='box-sizing:border-box;width:min(94vw,760px);max-height:90dvh;overflow-y:auto;padding:12px;';
+ const header=document.createElement('div');header.className='education-theory-head';
+ const back=document.createElement('button');back.type='button';back.className='secondary-btn';
+ back.textContent=learningLabel('← Revenire','← Back');back.onclick=()=>dialog.close();
+ const title=document.createElement('h2');title.style.fontSize='18px';title.textContent=activity.title;
+ header.append(title,back);
+ const intro=document.createElement('p');intro.style.cssText='font-size:12px;line-height:1.5;';
+ intro.textContent=activity.gradeName+' · '+activity.intro;
+ const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
+ svg.setAttribute('viewBox','0 0 370 290');svg.setAttribute('role','img');
+ svg.setAttribute('aria-label',activity.title+'; '+activity.xLabel+', '+activity.yLabel);
+ svg.style.cssText='width:100%;max-height:330px;background:#10263a;border-radius:10px;';
+ const add=(tag,attrs,text)=>{const el=document.createElementNS('http://www.w3.org/2000/svg',tag);
+  for(const [k,v] of Object.entries(attrs||{}))el.setAttribute(k,String(v));
+  if(text!==undefined)el.textContent=String(text);svg.append(el);return el};
+ const x0=57,x1=342,y0=229,y1=47;
+ const minX=Math.min(...data.map(p=>p.x)),maxX=Math.max(...data.map(p=>p.x));
+ const minDataY=Math.min(...data.map(p=>p.y)),maxDataY=Math.max(...data.map(p=>p.y));
+ const transit=!residual&&minDataY>.9&&maxDataY<=1.01&&maxDataY-minDataY<.02;
+ const minY=residual?-3:transit?Math.min(.996,minDataY-.0004):0;
+ const maxY=residual?3:transit?Math.max(1.0005,maxDataY+.0004):maxDataY*1.13;
+ const xp=x=>x0+(x-minX)/Math.max(1e-9,maxX-minX)*(x1-x0);
+ const yp=y=>y0-(y-minY)/Math.max(1e-9,maxY-minY)*(y0-y1);
+ const fmt=n=>transit?n.toFixed(4):(Math.abs(n)>=100?n.toFixed(0):Number(n.toFixed(2))).toString();
+ for(let j=0;j<=4;j++){
+  const py=y0-(y0-y1)*j/4,yval=minY+(maxY-minY)*j/4;
+  add('line',{x1:x0,y1:py,x2:x1,y2:py,stroke:'#55758d','stroke-width':.7});
+  add('text',{x:x0-7,y:py+4,'font-size':10,fill:'#d4e7f5','text-anchor':'end'},fmt(yval));
+ }
+ add('line',{x1:x0,y1:y0,x2:x1,y2:y0,stroke:'#d4e7f5','stroke-width':2});
+ add('line',{x1:x0,y1:y0,x2:x0,y2:y1,stroke:'#d4e7f5','stroke-width':2});
+ for(let j=0;j<=4;j++){
+  const x=minX+(maxX-minX)*j/4,px=xp(x);
+  add('line',{x1:px,y1:y0,x2:px,y2:y0+4,stroke:'#d4e7f5'});
+  add('text',{x:px,y:y0+17,'font-size':10,fill:'#d4e7f5','text-anchor':'middle'},fmt(x));
+ }
+ add('text',{x:(x0+x1)/2,y:279,'font-size':12,fill:'#eaf8ff','text-anchor':'middle'},activity.xLabel);
+ add('text',{x:x0,y:27,'font-size':12,fill:'#eaf8ff'},residual?learningLabel('Reziduu (%)','Residual (%)'):activity.yLabel);
+ add('path',{d:data.map((p,i)=>(i?'L':'M')+xp(p.x).toFixed(2)+' '+yp(p.y).toFixed(2)).join(' '),
+  stroke:'#89d4eb','stroke-width':2.5,fill:'none'});
+ for(const p of data)add('circle',{cx:xp(p.x),cy:yp(p.y),r:3.8,fill:'#f7d592'});
+ if(activity.advanced&&!residual){
+  const simulated=data.map((p,i)=>({...p,y:p.y*(1+[.015,-.012,.01,-.009,.012,-.007,.005][i%7])}));
+  add('path',{d:simulated.map((p,i)=>(i?'L':'M')+xp(p.x).toFixed(2)+' '+yp(Math.min(maxY,Math.max(minY,p.y))).toFixed(2)).join(' '),
+   stroke:'#e69cb9','stroke-width':2,'stroke-dasharray':'5 3',fill:'none'});
+  for(const p of simulated){
+   const px=xp(p.x),py=yp(Math.min(maxY,Math.max(minY,p.y))),dy=Math.max(2,Math.min(12,(y0-y1)*.023));
+   add('line',{x1:px,y1:py-dy,x2:px,y2:py+dy,stroke:'#e69cb9','stroke-width':1.3});
+  }
+ }
+ if(residual){
+  // The zero line makes sign and deviation immediately readable.
+  add('line',{x1:x0,y1:yp(0),x2:x1,y2:yp(0),stroke:'#ffe29e','stroke-width':1.4,'stroke-dasharray':'4 4'});
+  for(const p of data)add('line',{x1:xp(p.x),y1:yp(p.y-1),x2:xp(p.x),y2:yp(p.y+1),
+   stroke:'#e69cb9','stroke-width':1.3});
+ }
+ const key=document.createElement('p');key.style.cssText='font-size:12px;line-height:1.5;';
+ key.textContent=activity.model+' · '+(residual?learningLabel('Graficul arată diferențele procentuale sintetice față de model; linia galbenă marchează zero.','Synthetic percentage differences from the model; yellow line marks zero.'):
+  learningLabel('Linia albastră reprezintă valorile modelului.','Blue line: model values.'))+
+  (activity.advanced&&!residual?' '+learningLabel('Linia roz și barele sunt date artificiale perturbate, pentru analiza incertitudinii.','Pink line and bars are artificially perturbed values for uncertainty analysis.'):'');
+ const table=document.createElement('div');table.style.cssText='overflow-x:auto;font-size:12px;';
+ const tab=document.createElement('table');tab.style.cssText='width:100%;border-collapse:collapse;text-align:center;';
+ const head=document.createElement('tr');
+ for(const text of [activity.xLabel,residual?learningLabel('Reziduu (%)','Residual (%)'):activity.yLabel]){const th=document.createElement('th');th.textContent=text;
+  th.style.cssText='padding:6px;border-bottom:1px solid #7c9bac';head.append(th)}tab.append(head);
+ for(const p of data){const row=document.createElement('tr');
+  for(const v of [p.x,p.y]){const cell=document.createElement('td');cell.textContent=String(v);
+   cell.style.cssText='padding:4px;border-bottom:1px solid #39576f';row.append(cell)}tab.append(row)}
+ table.append(tab);
+ const prompt=document.createElement('p');prompt.style.cssText='font-size:13px;line-height:1.5;';
+ prompt.textContent=activity.question;
+ dialog.append(header,intro,svg,key,table,prompt);
+ dialog.addEventListener('close',()=>dialog.remove());
+ document.body.append(dialog);try{dialog.showModal()}catch{dialog.setAttribute('open','')}
+}
+function astronomyActivityLessonText(activity,lab){
+ const source=activity.dataSource,ro=state.language==='ro',primary=activity.stage==='primary';
+ const values=source&&!primary?source.x.map((x,i)=>String(x)+' → '+String(source.y[i])).join('; '):'';
+ const ageGround=primary?ASTRONOMY_PRIMARY_CASES[activity.topic]?.core[activity.tier%2]:null;
+ return [
+  '# '+activity.title,activity.gradeName+' · '+activity.intro,
+  '# '+learningLabel('Obiectivul specific anului','Grade-specific objective'),
+  activity.subtitle+' · '+activity.mode,
+  '# '+learningLabel('Ipoteza testabilă','Testable hypothesis'),activity.question,
+  '# '+learningLabel('Fundamentarea activității','Scientific grounding'),ageGround||source?.model||'',
+  primary?'# '+learningLabel('Jurnal de observație: data, locul și desenul','Observation journal: date, place and drawing'):
+   '# '+learningLabel('Date de lucru – simulare','Practice values – simulation'),
+  values?(ro?source.xRo:source.xEn)+' / '+(ro?source.yRo:source.yEn)+': '+values:'',
+  '# '+learningLabel('Procedură, observații, analiză și limite','Procedure, observations, analysis and limitations'),
+  lab||'',
+  '# '+learningLabel('Concluzie raportată la nivel','Grade-appropriate conclusion'),
+  ro?'Concluzia trebuie să precizeze ipoteza, valoarea măsurată ori simulată, unitățile, condițiile modelului și cel puțin o limitare. Datele fictive nu pot fi descrise ca observații proprii.':
+   'The conclusion must state the hypothesis, measured or simulated quantity, units, assumptions and at least one limitation. Synthetic data must not be passed off as observations.'
+ ].filter(Boolean).join('\\n\\n');
+}
 function astronomyOrbit3DOpen(){
  document.getElementById('astronomy3DDialog')?.remove();
  const dialog=document.createElement('dialog');dialog.id='astronomy3DDialog';dialog.className='education-theory-dialog physics-theory-dialog';
@@ -11014,7 +11215,7 @@ function astronomyOrbit3DOpen(){
  dialog.append(header,note,frame,controls,info,note2);dialog.addEventListener('close',()=>dialog.remove());document.body.append(dialog);render();try{dialog.showModal()}catch{dialog.setAttribute('open','')};
 }
 
-function astronomyDiagramPicker(allowed=null){
+function astronomyDiagramPicker(allowed=null,activity=null){
  document.getElementById('astronomyDiagramDialog')?.remove();
  const dialog=document.createElement('dialog');dialog.id='astronomyDiagramDialog';dialog.className='education-theory-dialog physics-theory-dialog';
  const header=document.createElement('div');header.className='education-theory-head';
@@ -11046,7 +11247,16 @@ function astronomyDiagramPicker(allowed=null){
   };list.append(btn);
  }
 
- back.onclick=()=>{if(!detail.hidden){detail.hidden=true;list.hidden=false}else dialog.close()};
+ back.onclick=()=>{if(!detail.hidden&&!activity){detail.hidden=true;list.hidden=false}else dialog.close()};
+ if(activity){
+  const visual=astronomyVisualBuild(activity.diagram);
+  if(visual){
+   detail.replaceChildren(visual);
+   const note=document.createElement('p');note.style.cssText='font-size:13px;line-height:1.5;';
+   note.textContent=activity.gradeName+' · '+activity.intro+' '+activity.question;
+   detail.append(note);detail.hidden=false;list.hidden=true;title.textContent=activity.title;
+  }
+ }
  dialog.append(header,list,detail);dialog.addEventListener('close',()=>dialog.remove());document.body.append(dialog);try{dialog.showModal()}catch{dialog.setAttribute('open','')};
 }
 function astronomyTheoryOpen(){
@@ -12280,37 +12490,51 @@ function scienceOpenChemistrySection(stage){
    }
    }
   }else if(scienceJourney.subject==='astronomy'){
-   const key=topic?.id||'';
-   const diagrams=ASTRONOMY_TOPIC_DIAGRAMS[key]||[];
+   const key=topic?.id||'',stage=scienceJourney.schoolStage;
+   const years=stage==='advanced'?
+    astronomyUniversityYears(educationCountrySelection.code,scienceJourney.universityRoute):
+    eduYearOptions(educationCountrySelection.code,stage==='upper'?'intermediate':stage,'science');
    const lab=key==='astronomy-capstone'?
     astronomyUniversityProjectText({
      specialty:scienceJourney.specialty,language:state.language,
      year:Number(String(scienceJourney.grade||'').replace('univ-',''))||3
-    }):
-    astronomyLabMaterial({
-     topic:key,stage:scienceJourney.schoolStage,
-     grade:scienceJourney.grade,language:state.language,
-     years:eduYearOptions(educationCountrySelection.code,
-      scienceJourney.schoolStage==='upper'?'intermediate':scienceJourney.schoolStage,'science'),
-     specialty:scienceJourney.specialty
+    }):astronomyLabMaterial({
+     topic:key,stage,grade:scienceJourney.grade,language:state.language,
+     years,specialty:scienceJourney.specialty
     });
-   if(lab)tile('🔭','Activitate practică a capitolului','Chapter practical activity',
-    'Obiectiv, materiale, procedură, observaţii şi concluzii',
-    'Objective, materials, procedure, observations and conclusions',
-    ()=>educationOpenPagedLesson(learningLabel(topic?.ro||'',topic?.en||''),lab));
-   if(diagrams.length)tile('🪐','Reprezentări ale capitolului','Chapter diagrams',
-    'Numai diagramele legate de capitolul selectat',
-    'Only diagrams relevant to the selected chapter',
-    ()=>astronomyDiagramPicker(diagrams));
-   if((key==='solar'||key==='gravity'||key==='special-dynamics')&&['upper','advanced'].includes(scienceJourney.schoolStage))
-    tile('🌌','Orbite 3D','3D orbits',
-     'Vizualizare orbitală educativă, fără scară reală',
-     'Educational orbit model, not to scale',astronomyOrbit3DOpen);
-   if(!lab&&!diagrams.length){
-    const notice=document.createElement('p');notice.className='chem-no-visual';
-    notice.textContent=learningLabel('Nu există o reprezentare adecvată pentru acest capitol.',
-     'No validated diagram exists for this chapter.');
-    list.append(notice);
+   const activities=astronomyActivityProgression({
+    topic:key,stage,grade:scienceJourney.grade,years,
+    language:state.language,specialty:scienceJourney.specialty
+   });
+   if(key==='astronomy-capstone'&&lab)
+    tile('🔬','Proiect universitar','University research project',
+     'Metodă, date, analiză, concluzii și limite','Methods, data, findings and limitations',
+     ()=>educationOpenPagedLesson(chapter,lab));
+   for(const item of activities){
+    if(item.kind==='activity')
+     tile('🔭',item.title,item.title,item.subtitle,item.subtitle,
+      ()=>educationOpenPagedLesson(item.title,astronomyActivityLessonText(item,lab)));
+    else if(item.kind==='graph')
+     tile('📈',item.title,item.title,item.subtitle,item.subtitle,
+      ()=>astronomyPracticalGraphOpen(item));
+    else if(item.kind==='diagram')
+     tile('🪐',item.title,item.title,item.subtitle,item.subtitle,
+      ()=>astronomyDiagramPicker([item.diagram],item));
+    else if(item.kind==='analysis')
+     tile('🔬',item.title,item.title,item.subtitle,item.subtitle,
+      ()=>astronomyPracticalGraphOpen(item));
+   }
+   // Reserve a rotatable orbit model for celestial mechanics/planetology,
+   // rather than repeating the same cartoon for every university course.
+   if(stage==='advanced'&&['special-dynamics','special-planetary'].includes(key))
+    tile('🌌','Orbital 3D – mecanică cerească','Orbital 3D – celestial mechanics',
+     'Rotire, înclinare, zoom; distanțe fără scară',
+     'Rotation, tilt, zoom; distances not to scale',astronomyOrbit3DOpen);
+   if(!activities.length&&key!=='astronomy-capstone'){
+    const msg=document.createElement('p');msg.className='chem-no-visual';
+    msg.textContent=learningLabel('Nu există o activitate validată pentru această temă și acest an.',
+     'No age-appropriate activity is available for this topic and year.');
+    list.append(msg);
    }
   }
  }

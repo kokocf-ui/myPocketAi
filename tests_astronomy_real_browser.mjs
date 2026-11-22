@@ -17,6 +17,8 @@ await new Promise(resolve=>server.listen(3879,'127.0.0.1',resolve));
 const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
 const page=await browser.newPage({viewport:{width:390,height:844},deviceScaleFactor:1,isMobile:true,hasTouch:true,locale:'ro-RO'});
 let testedYears=0,openedLessons=0,upperLessons=0;
+let practicals=0,graphs=0;
+const upperSvgBodies=[];
 const browserErrors=[];
 page.on('pageerror',e=>browserErrors.push('page error: '+String(e)));
 page.on('console',m=>{if(m.type()==='error')browserErrors.push('console: '+m.text())});
@@ -91,7 +93,55 @@ try{
   openedLessons++;
   await dialog.screenshot({path:'astronomy-browser-audit/grade-'+grade+'.png'});
   await dialog.locator('.education-theory-head button').first().evaluate(el=>el.click());
-  // Reader → chapter activities → chapter list → grade selection.
+  // The activity/representation path must be tested by clicks. Static JS
+  // unit tests previously allowed empty or unrelated diagrams to ship.
+  let backBtn=page.locator('#view-module .science-stage-back').first();
+  await backBtn.evaluate(el=>el.click()); // lesson list -> chapter menu
+  const labAction=page.locator('#view-module .chemistry-section-tile').nth(2);
+  assert.ok((await labAction.innerText()).includes('Activități'),
+   'Astronomy activities action missing in grade '+grade);
+  await labAction.evaluate(el=>el.click());
+  let activityRows=page.locator('#view-module .chemistry-section-tile');
+  const activityCount=await activityRows.count();
+  assert.equal(activityCount,grade<=4?2:3,
+   'Activities not differentiated for grade '+grade);
+  const labelTexts=await activityRows.allTextContents();
+  assert.equal(new Set(labelTexts).size,activityCount,'Repeated activity cards in grade '+grade);
+  await activityRows.first().evaluate(el=>el.click());
+  await dialog.waitFor({state:'visible',timeout:8000});
+  const practicalContent=await dialog.locator('.education-paged-text').innerText();
+  assert.ok(practicalContent.length>160,'Empty practical lesson in grade '+grade);
+  if(grade<=4)assert.ok(!practicalContent.includes('T²/a³'),
+   'University-grade Kepler equation leaked into primary grade '+grade);
+  practicals++;
+  await dialog.locator('.education-theory-head button').first().evaluate(el=>el.click());
+  if(grade>4){
+   activityRows=page.locator('#view-module .chemistry-section-tile');
+   await activityRows.nth(1).evaluate(el=>el.click());
+   const graph=page.locator('#astronomyPracticalGraphDialog');
+   await graph.waitFor({state:'visible',timeout:8000});
+   const svg=graph.locator('svg');
+   assert.ok(await svg.count(),'Numerical activity has no real SVG graph in grade '+grade);
+   assert.ok(await svg.locator('text').count()>4,'Graph is unlabeled in grade '+grade);
+   assert.ok(await graph.locator('table tr').count()>=4,'Missing numerical data table in grade '+grade);
+   const data=await svg.evaluate(el=>el.outerHTML);
+   if(grade>=9)upperSvgBodies.push(data);
+   await graph.screenshot({path:'astronomy-browser-audit/practical-graph-'+grade+'.png'});
+   await graph.locator('.education-theory-head button').first().evaluate(el=>el.click());
+   graphs++;
+  }
+  activityRows=page.locator('#view-module .chemistry-section-tile');
+  const modelIndex=grade<=4?1:2;
+  await activityRows.nth(modelIndex).evaluate(el=>el.click());
+  const model=page.locator('#astronomyDiagramDialog');
+  await model.waitFor({state:'visible',timeout:8000});
+  assert.ok(await model.locator('.astronomy-visual svg').count(),
+   'No topic-related explanatory diagram in grade '+grade);
+  assert.ok((await model.innerText()).includes('Clasa / anul '+grade),
+   'Diagram is not explicitly attached to the grade '+grade);
+  await model.screenshot({path:'astronomy-browser-audit/practical-diagram-'+grade+'.png'});
+  await model.locator('.education-theory-head button').first().evaluate(el=>el.click());
+  // Activity menu → chapter menu → chapter list → year selection.
   for(let back=0;back<3;back++){
    const btn=page.locator('#view-module .science-stage-back').first();
    assert.ok(await btn.count(),'Missing scoped Back at grade '+grade+' step '+back);
@@ -101,8 +151,39 @@ try{
    'Back does not return to all grade buttons from grade '+grade);
   testedYears++;
  }
- console.log('PASS Chromium Astronomy all '+testedYears+' actual Romanian grades, '+openedLessons+
-  ' opened nonempty paged lessons, '+upperLessons+' extended high-school lessons, visible study UI');
+ assert.equal(upperSvgBodies.length,4);
+ assert.equal(new Set(upperSvgBodies).size,4,'Upper-secondary grades still repeat identical plotted datasets');
+ // University practicals are not a two-cartoon gallery either.
+ const universityButton=page.locator('#view-module .science-year-tile').filter({hasText:'Anul universitar 1'}).first();
+ await universityButton.waitFor({state:'attached',timeout:8000});
+ await universityButton.evaluate(el=>el.click());
+ const specs=page.locator('#view-module .science-choice-row');
+ assert.ok(await specs.count()>=5,'Missing university specialties');
+ await specs.first().evaluate(el=>el.click());
+ const course=page.locator('#view-module .science-choice-row').first();
+ assert.ok(await course.count(),'University specialty courses missing');
+ await course.evaluate(el=>el.click());
+ const uniLab=page.locator('#view-module .chemistry-section-tile').nth(2);
+ await uniLab.evaluate(el=>el.click());
+ const universityTasks=page.locator('#view-module .chemistry-section-tile');
+ assert.ok(await universityTasks.count()>=4,
+  'University lab still only displays the same two graphics');
+ await universityTasks.nth(1).evaluate(el=>el.click());
+ const uniGraph=page.locator('#astronomyPracticalGraphDialog');
+ await uniGraph.waitFor({state:'visible',timeout:8000});
+ const firstPlot=await uniGraph.locator('svg').evaluate(el=>el.outerHTML);
+ await uniGraph.screenshot({path:'astronomy-browser-audit/university-data-graph.png'});
+ await uniGraph.locator('.education-theory-head button').first().evaluate(el=>el.click());
+ await page.locator('#view-module .chemistry-section-tile').filter({hasText:'Analiza reziduurilor'}).first().evaluate(el=>el.click());
+ await uniGraph.waitFor({state:'visible',timeout:8000});
+ const residualPlot=await uniGraph.locator('svg').evaluate(el=>el.outerHTML);
+ assert.notEqual(firstPlot,residualPlot,'University residual model duplicates the first graph');
+ assert.ok((await uniGraph.innerText()).includes('Reziduu (%)'),
+  'University uncertainty graph has no residual axes');
+ await uniGraph.screenshot({path:'astronomy-browser-audit/university-residual-analysis.png'});
+ console.log('PASS Chromium Astronomy '+testedYears+' Romanian grades, '+openedLessons+
+  ' opened lessons, '+practicals+' grade-specific practicals, '+graphs+
+  ' labelled and checked school graphs, distinct university model/residual plots');
 }catch(error){
  try{
   await page.screenshot({path:'astronomy-browser-audit/browser-failure.png',fullPage:true});
