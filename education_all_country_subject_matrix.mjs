@@ -13,7 +13,7 @@ import {astronomyNationalAlignment} from './astronomy_country_alignment.mjs';
 import {COMPUTING_PATHS,COMPUTING_TOPICS} from './computing_curriculum.mjs';
 import {FOREIGN_TOPICS} from './foreign_languages_curriculum.mjs';
 import {examByGrade} from './exam_curriculum_europe.mjs';
-import {mathCountryGradeAreas} from './math_country_grade_areas.mjs';
+import {mathCountryGradeAreas,mathCountryStudyYears} from './math_country_grade_areas.mjs';
 
 export const EDUCATION_SCHOOL_YEAR='2026/27';
 export const EDUCATION_EUROPE_COUNTRIES=Object.freeze('AD AL AT BA BE BG BY CH CY CZ DE DK EE ES FI FR GR HR HU IE IS IT LI LT LU LV MC MD ME MK MT NL NO PL PT RO RS RU SE SI SK SM TR UA VA XK GB-ENG GB-SCT GB-WLS GB-NIR'.split(' '));
@@ -81,7 +81,9 @@ function subjectInventory(subject,{country,stage,grade,track}){
    gradeSpecific:path.status==='official-framework',source:path.source,note:''};
  }
  if(subject==='mathematics'){
-  const path=mathCountryGradeAreas({country,stage,grade,years:educationCountrySchoolYears(country,stage).years});
+  const years=mathCountryStudyYears({country,stage,years:educationCountrySchoolYears(country,stage).years});
+  const selected=years.some(x=>x.id===grade)?grade:stage==='advanced'?years[0]?.id:grade;
+  const path=mathCountryGradeAreas({country,stage,grade:selected,years});
   return {units:path.units,verified:false,gradeSpecific:false,source:null,note:path.note||''};
  }
  if(['physics','chemistry','biology','astronomy'].includes(subject)){
@@ -122,8 +124,9 @@ function subjectInventory(subject,{country,stage,grade,track}){
 export function educationSubjectSchoolPlan({country,stage,grade,subject,track='',region='',manual=''}={}){
  const code=String(country||'').toUpperCase(),st=level(stage),g=String(grade||''),key=String(subject||'');
  const school=educationCountrySchoolYears(code,st);
+ const mathsYears=key==='mathematics'?mathCountryStudyYears({country:code,stage:st,years:school.years}):[];
  const valid=allowedCountries.has(code)&&allowedSubjects.has(key)&&
-  school.years.some(x=>x.id===g);
+  (school.years.some(x=>x.id===g)||mathsYears.some(x=>x.id===g));
  if(!valid)return {country:code,stage:st,grade:g,subject:key,status:'invalid-selection',
   units:[],schoolYear:EDUCATION_SCHOOL_YEAR,gradeStatus:school.status,verifiedManual:false};
  const data=subjectInventory(key,{country:code,stage:st,grade:g,track});
