@@ -4,28 +4,28 @@
 // Romanian class numbers (UK year numbering and reform cohorts differ).
 const PATHS=Object.freeze({
  beginner:[
-  [['arithmetic','Aritmetică: numere și adunare/scădere'],['shapes','Forme geometrice'],['measures','Măsurători']],
-  [['arithmetic','Aritmetică: înmulțire și împărțire'],['shapes','Forme și corpuri geometrice'],['measures','Măsurători și probleme']],
-  [['arithmetic','Aritmetică: operații și probleme'],['shapes','Figuri, perimetre și spațiu'],['measures','Unități de măsură']],
-  [['arithmetic','Aritmetică: fracții și operații'],['shapes','Figuri și corpuri geometrice'],['measures','Măsurători și date']]
+  [['arithmetic','Aritmetică: numere și adunare/scădere'],['geometry','Forme geometrice'],['measurement','Măsurători']],
+  [['arithmetic','Aritmetică: înmulțire și împărțire'],['geometry','Forme și corpuri geometrice'],['measurement','Măsurători și probleme']],
+  [['arithmetic','Aritmetică: operații și probleme'],['geometry','Figuri, perimetre și spațiu'],['measurement','Unități de măsură']],
+  [['arithmetic','Aritmetică: fracții și operații'],['geometry','Figuri și corpuri geometrice'],['measurement','Măsurători și date']]
  ],
  lower:[
-  [['algebra','Algebră: numere, operații și expresii'],['geometry','Geometrie: noțiuni introductive'],['data','Date și reprezentări']],
-  [['algebra','Algebră: rapoarte, proporții și ecuații'],['geometry','Geometrie: unghiuri și figuri'],['data','Statistică introductivă']],
-  [['algebra','Algebră: expresii și ecuații'],['geometry','Geometrie: proprietăți și demonstrații'],['probability','Probabilități introductive']],
-  [['algebra','Algebră: ecuații, inecuații și funcții'],['geometry','Geometrie: teoreme și aplicații'],['data','Statistică și probabilități']]
+  [['algebra','Algebră: numere, operații și expresii'],['geometry','Geometrie: noțiuni introductive'],['statistics','Date și reprezentări']],
+  [['algebra','Algebră: rapoarte, proporții și ecuații'],['geometry','Geometrie: unghiuri și figuri'],['statistics','Statistică introductivă']],
+  [['algebra','Algebră: expresii și ecuații'],['geometry','Geometrie: proprietăți și demonstrații'],['statistics','Probabilități introductive']],
+  [['algebra','Algebră: ecuații, inecuații și funcții'],['geometry','Geometrie: teoreme și aplicații'],['statistics','Statistică și probabilități']]
  ],
  medium:[
   [['algebra','Algebră și ecuații'],['functions','Funcții și grafice'],['geometry','Geometrie']],
   [['functions','Funcții și grafice'],['trigonometry','Trigonometrie'],['algebra','Algebră']],
-  [['analysis','Analiză matematică introductivă'],['trigonometry','Trigonometrie'],['probability','Statistică și probabilități']],
-  [['analysis','Analiză matematică'],['algebra','Algebră și aplicații'],['probability','Probabilități']]
+  [['analysis','Analiză matematică introductivă'],['trigonometry','Trigonometrie'],['statistics','Statistică și probabilități']],
+  [['analysis','Analiză matematică'],['algebra','Algebră și aplicații'],['statistics','Probabilități']]
  ],
  advanced:[
-  [['analysis','Analiză matematică'],['linear','Algebră liniară'],['discrete','Matematică discretă']],
-  [['analysis','Analiză în mai multe variabile'],['linear','Algebră liniară'],['probability','Probabilități']],
+  [['analysis','Analiză matematică'],['linear-algebra','Algebră liniară'],['discrete','Matematică discretă']],
+  [['analysis','Analiză în mai multe variabile'],['linear-algebra','Algebră liniară'],['statistics','Probabilități']],
   [['differential','Ecuații diferențiale'],['analysis','Analiză avansată'],['discrete','Matematică discretă']],
-  [['analysis','Matematică avansată pe domeniu'],['probability','Statistică matematică'],['discrete','Structuri discrete']]
+  [['analysis','Matematică avansată pe domeniu'],['statistics','Statistică matematică'],['discrete','Structuri discrete']]
  ]
 });
 export function mathCountryGradeAreas({country,stage,grade,years}={}){
@@ -38,10 +38,9 @@ export function mathCountryGradeAreas({country,stage,grade,years}={}){
  return {status:'general-learning',country,stage:st,grade,
   note:'Parcurs matematic orientativ, diferențiat pe etapă și an; nu reprezintă programa națională verificată.',
   units:row.map(([id,ro])=>({id,ro,en:({
-   arithmetic:'Arithmetic',shapes:'Shapes and space',measures:'Measurement',
-   algebra:'Algebra',geometry:'Geometry',data:'Data and statistics',
-   probability:'Probability',functions:'Functions and graphs',
+   arithmetic:'Arithmetic',geometry:'Geometry and shapes',measurement:'Measurement',
+   algebra:'Algebra',statistics:'Statistics and probability',functions:'Functions and graphs',
    trigonometry:'Trigonometry',analysis:'Mathematical analysis',
-   linear:'Linear algebra',discrete:'Discrete mathematics',
+   'linear-algebra':'Linear algebra',discrete:'Discrete mathematics',
    differential:'Differential equations'})[id]||ro,focus:'',lessonCount:0}))};
 }
