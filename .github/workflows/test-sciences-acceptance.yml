@@ -43,6 +43,9 @@ jobs:
           node tests_science_grade_progression.mjs
           node tests_science_university_complete.mjs
           node tests_physics_university_europe.mjs
+          node tests_physics_visible_school_years.mjs
+          node tests_physics_all_europe_year_depth.mjs
+          node tests_physics_europe_coverage.mjs
           node tests_science_year_cards.mjs
       - name: Four separate Sciences, theory and representation
         run: |

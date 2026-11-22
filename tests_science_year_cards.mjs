@@ -7,6 +7,7 @@ import {physicsUniversityYears} from './physics_university_europe.mjs';
 import {astronomyUniversityYears} from './astronomy_university_courses.mjs';
 import {scienceGradeTopicPlan} from './science_grade_progression.mjs';
 import {PHYSICS_TOPICS} from './physics_curriculum.mjs';
+import {PHYSICS_NOT_OFFERED_LOWER_YEARS} from './physics_europe_frameworks.mjs';
 
 const html=await(await app.fetch(new Request('https://science-year-layout.test/'))).text();
 const script=html.match(/<script>([\s\S]*?)<\/script>/)?.[1];
@@ -17,7 +18,10 @@ assert.ok(start>=0&&end>start,'science groups extracted for deterministic checks
 const first=EDUCATION_COUNTRY_UI_SCRIPT.indexOf('function eduYearOptions(');
 const last=EDUCATION_COUNTRY_UI_SCRIPT.indexOf('function educationGradeGate(',first);
 assert.ok(first>=0&&last>first,'country-aware school years available');
+const physicsAbsentKeys=new Set(Object.entries(PHYSICS_NOT_OFFERED_LOWER_YEARS).flatMap(
+ ([country,grades])=>grades.map(grade=>country+'|lower|'+grade)));
 const environment={
+ EDU_PHYSICS_ABSENT_YEAR_KEYS:physicsAbsentKeys,
  EDUCATION_SCHOOL_YEARS_DATA:EDUCATION_SCHOOL_YEARS,
  worldwideSchoolYears:()=>[],
  scienceJourney:{subject:'physics',universityRoute:null},

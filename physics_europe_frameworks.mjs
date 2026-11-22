@@ -28,6 +28,16 @@ const refs=Object.freeze({
  SE:{source:'https://www.skolverket.se/sok-publikationer/publikationsserier/styrdokument/2024/curriculum-for-compulsory-school-preschool-class-and-school-age-educare---lgr22',scope:'national-stage',name:'Fysik · Lgr22',note:'Programul suedez folosește grupe de ani 1–3, 4–6, 7–9. Conținutul anual este repartizat local; nu există un cuprins național obligatoriu pentru fiecare clasă.'},
  CZ:{source:'https://msmt.gov.cz/vzdelavani/zakladni-vzdelavani/ramcovy-vzdelavaci-program-pro-zakladni-vzdelavani',scope:'national-stage',name:'Fyzika · RVP ZV',note:'Cadrul RVP stabilește obiectivele etapei; școlile elaborează ŠVP. Reforma RVP 2026–2028 se implementează gradual în funcție de cohortă, fără o ordine națională identică a lecțiilor.'}
 });
+// Documented years before standalone Physics/Physics-Chemistry starts.
+// Concepts inside other sciences are not incorrectly called compulsory Physics.
+export const PHYSICS_NOT_OFFERED_LOWER_YEARS=Object.freeze({
+ RO:Object.freeze(['5']),
+ FR:Object.freeze(['6e']),
+ HU:Object.freeze(['5','6']),
+ PL:Object.freeze(['V','VI']),
+ PT:Object.freeze(['5','6']),
+ LV:Object.freeze(['7'])
+});
 export const PHYSICS_EUROPE_REFERENCES=refs;
 const countryGroups=Object.freeze({
  // These are original, advisory progressions for school years; they are not
@@ -99,9 +109,10 @@ export function physicsCountryGradePlan({country='',stage='lower',grade='',years
  const noSeparate=phase==='lower'&&ref?.noLower?.includes(yr);
  // "Not a separate timetabled Physics subject" is NOT the same as
  // "the pupil does not study physical phenomena": many systems integrate.
- // Romania Grade V is the one confirmed case where no Physics class is
- // catalogued at all; its study starts in Grade VI.
- const absent=code==='RO'&&phase==='lower'&&yr==='5';
+ // Hide only years with a documented absence of a separately scheduled
+ // Physics course. Other countries retain their integrated/advisory study.
+ const absent=phase==='lower'&&
+  Boolean(PHYSICS_NOT_OFFERED_LOWER_YEARS[code]?.includes(yr));
  const schoolScience=integrated||noSeparate;
  const upperMix=phase==='upper'&&ref?.mixedUpper?.includes(yr);
  const upperOptional=phase==='upper'&&ref?.optionalUpper?.includes(yr);
@@ -127,8 +138,8 @@ export function physicsCountryGradePlan({country='',stage='lower',grade='',years
   status:blocked?'not-offered':status,
   kind:blocked?'not-taught':schoolScience?'integrated':upperMix||mixed?'mixed':
    upperOptional?'elective':'subject-or-track-dependent',
-  // No stand-alone grade V Physics for RO; other systems may offer the
-  // same concepts as integrated science without calling them a Physics class.
+  // Blocked years may still teach physics concepts as integrated Science,
+  // but they must not be offered as standalone Physics school years.
   topics:blocked?[]:[...new Set(yearly)].filter(x=>x!=='solar'),
   source:selectedSource,
   sourceScope:roUpper?'national-cohort-framework':ref?.scope||'cross-national-comparative',
@@ -136,7 +147,7 @@ export function physicsCountryGradePlan({country='',stage='lower',grade='',years
   programmeName:ref?.name||'Advisory Physics strand',
   verifiedAnnual:false,
   nationalGradeLabels:Boolean(ref),
-  note:transition||ref?.note||'Local Physics syllabus/grade timetable not independently verified. This is an original advisory science progression grounded in Eurydice/ISCED school structures, not a national year-by-year curriculum.',
+  note:blocked?'În acest an nu este programată o disciplină Fizică separată; noțiunile de fizică pot fi studiate în Științe integrate.':transition||ref?.note||'Local Physics syllabus/grade timetable not independently verified. This is an original advisory science progression grounded in Eurydice/ISCED school structures, not a national year-by-year curriculum.',
   separatePhysicsOffered:!blocked&&!schoolScience,
   integratedScience:schoolScience,
   optionalByTrack:Boolean(upperOptional),
