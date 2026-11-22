@@ -3,6 +3,7 @@
 // No AI token use on typed prefixes; original offline entries render instantly.
 export function literatureQuickReferenceAttach(panel,options={}){
  if(!panel||typeof document==='undefined'||typeof document.createElement!=='function')return null;
+ if(panel.querySelector?.('[data-lit-quick-entry]'))return panel.querySelector('[data-lit-quick-entry]');
  const interfaceLanguage=String(options.interfaceLanguage||'ro');
  const sourceLanguage=String(options.studyLanguage||'ro').toLowerCase();
  const inRomanian=interfaceLanguage==='ro';
@@ -92,6 +93,7 @@ export function literatureQuickReferenceAttach(panel,options={}){
   overlay.append(dialog);
   overlay.addEventListener('click',event=>{if(event.target===overlay)removeOverlay()});
   overlay.addEventListener('keydown',event=>{if(event.key==='Escape'){event.preventDefault();removeOverlay()}});
+  overlay.litQuickClose=removeOverlay;
   body.append(overlay);
   activeOverlay=overlay;
   const clear=node=>{if(node?.replaceChildren)node.replaceChildren();else node.textContent=''};
