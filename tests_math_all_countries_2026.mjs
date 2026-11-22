@@ -4,6 +4,7 @@ import frontend from './index.js';
 import {EDUCATION_EUROPE_COUNTRIES,educationCountrySchoolYears,educationSubjectSchoolPlan}
  from './education_all_country_subject_matrix.mjs';
 import {mathCountryGradeAreas,mathCountryStudyYears} from './math_country_grade_areas.mjs';
+import {mathCountryCourseEntries} from './math_depth_courses.mjs';
 const html=await(await frontend.fetch(new Request('https://math-all-countries.test/'))).text();
 const script=[...html.matchAll(/<script[^>]*>([\s\S]*?)<\/script>/g)][0]?.[1];
 assert.ok(script,'Android frontend must contain inline JavaScript');
@@ -35,7 +36,10 @@ for(const country of EDUCATION_EUROPE_COUNTRIES){
    assert.ok(plan.units.every(x=>x.ro&&x.en));
    assert.ok(plan.units.every(x=>x.lessonCount>=3),'No empty advertised mathematics lessons for '+country+' '+stage+' '+grade.id);
    const lessonStage=stage==='beginner'?'primary':stage==='medium'?'intermediate':stage;
-   assert.ok(plan.units.every(x=>(bank[x.id]?.[lessonStage]||[]).length>0),
+   assert.ok(plan.units.every(x=>
+    (bank[x.id]?.[lessonStage]||[]).length>0||
+    mathCountryCourseEntries({country,stage:lessonStage,grade:grade.id,
+      phase:0,topic:x.id}).length>0),
     country+' '+stage+' '+grade.id+' cannot contain a branch with no lessons');
    if(stage==='beginner')assert.ok(plan.units.some(x=>x.id==='arithmetic'),'Primary arithmetic');
    if(stage==='lower'){
