@@ -13,7 +13,7 @@ assert.ok(script.includes("if(subject==='math')dialog.append(header,description,
 assert.ok(script.includes("else dialog.append(header,description,searchBar,list,detail)"),'Science theory keeps its existing search and dictation');
 assert.ok(script.includes("dialog.className='education-theory-dialog'+(subject==='math'"),'Theory list style is scoped only to Maths');
 assert.match(script,/function educationTheoryFind\(query,subject,level,limit=4\)/);
-assert.match(script,/educationTheoryOpen\('math',mathJourney.level\)/);
+assert.match(script,/if\(chapterLesson\)\{mathOpenDepthLesson\(chapterLesson\);return;\}/,'Mathematics chapters now open their own authored lessons directly');
 assert.match(script,/theory.onclick=\(\)=>physicsTheoryOpen\(\)/,'Physics opens its own chapter theory from workspace');
 assert.match(script,/chemistryCurriculumPreset=\{level:scienceJourney.level,topic:scienceJourney.topic\}/,'Chemistry theory opens in the selected topic');
 assert.match(script,/educationTheoryHandleAndroid\(data\)/);
