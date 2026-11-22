@@ -427,7 +427,31 @@ export function chemistrySchoolCourseDocuments({topic='',country='',grade='',sta
  const slot=Number.isFinite(Number(yearPosition))&&yearPosition!==null?
   Math.max(0,Number(yearPosition)):inferred;
  const step=stage==='primary'?0:Math.min(3,Math.floor(slot));
- const progressive=annualFocus[topic]?.[ro?0:1]?.[step]||'';
+ const extendedInvestigations={
+  ro:[
+   'Compară două observații directe și identifică proprietatea chimică sau fizică folosită în clasificare.',
+   'Construiește un tabel cu unități și calculează diferența dintre două condiții controlate.',
+   'Formulează o predicție pentru un al treilea caz și argumentează ce relație o susține.',
+   'Evaluează incertitudinea și separă variația măsurării de limita modelului chimic.',
+   'Compară două metode de cercetare a aceluiași fenomen folosind date furnizate, nu experiment inventat.',
+   'Aplică modelul unui context de mediu și explică dacă o schimbare a variabilei inversează concluzia.',
+   'Construiește o reprezentare etichetată cu simboluri și unități și testează un caz-limită.',
+   'Propune o verificare independentă cu control experimental și criteriu explicit de respingere.'
+  ],
+  en:[
+   'Compare two direct observations and identify the physical or chemical property used to classify them.',
+   'Build a data table with units and calculate the difference between two controlled conditions.',
+   'Predict a third case and justify which chemical relationship supports that prediction.',
+   'Estimate uncertainty and distinguish measurement variation from the limitations of the chemical model.',
+   'Compare two methods of investigating the same phenomenon using supplied data, not fabricated experiments.',
+   'Apply the model to an environmental context and check whether changing one variable reverses the conclusion.',
+   'Create a labelled representation with symbols and units and test a limiting case.',
+   'Design an independent controlled check with an explicit criterion that could falsify the prediction.'
+  ]
+ };
+ const progressiveBase=annualFocus[topic]?.[ro?0:1]?.[step]||'';
+ const yearInvestigation=extendedInvestigations[ro?'ro':'en'][Math.max(0,Math.floor(slot))%8];
+ const progressive=progressiveBase+(yearInvestigation?' '+yearInvestigation:'');
  const skillTask=label(
   ['Observă și clasifică, apoi explică în cuvinte ce dovedește comparația.',
    'Reproduce un exemplu cu date și unități, arătând fiecare transformare.',
