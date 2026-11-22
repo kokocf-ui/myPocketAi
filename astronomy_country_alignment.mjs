@@ -285,6 +285,72 @@ const evidence=Object.freeze({
    source:'https://edu.gov.ru/press/12186/minprosvescheniya-rossii-obnovit-rabochie-programmy-po-klyuchevym-shkolnym-predmetam-v-sootvetstvii-s-fgos-soo',
    title:'Russia secondary federal framework amended September 2026; October 2026 working programmes are only draft for September 2027 cohorts, current 2026/27 Astronomy distribution not nationally confirmed'}
  ],
+ AD:[
+  {stage:'primary',grades:null,subject:'Ciències – Escola Andorrana',kind:'framework-only',
+   topicIds:null,sourceYear:2021,validFrom:null,
+   source:'https://www.govern.ad/ca/w/govern-actualitza-els-programes-de-les-arees-d-aprenentatge-i-competencies-transversals-de-primera-ensenyanca-d-escola-andorrana-1',
+   title:'Andorra 2021 primary competence update for national Escola Andorrana; other schools follow French or Spanish systems'},
+  {stage:'lower',grades:null,subject:'Escola Andorrana / sistema espanyol / francès',kind:'framework-only',
+   topicIds:null,sourceYear:null,validFrom:null,
+   source:'https://www.govern.ad/es/tematiques/educacio-formacio-investigacio-i-divulgacio-del-coneixement/estudiar-a-andorra/sistemes-educatius-a-andorra',
+   title:'Andorra operates distinct Andorran, Spanish and French school systems; no single Astronomy syllabus without choosing school system'}
+ ],
+ LI:[
+  {stage:'primary',grades:null,subject:'LiLe – Natur, Mensch, Gesellschaft',kind:'integrated',
+   topicIds:null,sourceYear:2019,validFrom:'2019/20',
+   source:'https://www.llv.li/de/privatpersonen/bildung/schule-und-studium/lehrplaene',
+   title:'Liechtenstein LiLe curriculum introduced 2019, aligned with Swiss Lehrplan 21; competence cycles not mandatory year topics'},
+  {stage:'lower',grades:null,subject:'LiLe – Natur und Technik',kind:'integrated',
+   topicIds:null,sourceYear:2019,validFrom:'2019/20',
+   source:'https://www.llv.li/de/landesverwaltung/schulamt/bildungsbereiche/bildungswesen-schularten',
+   title:'Liechtenstein LiLe 2019 mandatory-school curriculum; lower secondary teaching levels differ by stream'}
+ ],
+ IS:[
+  {stage:'primary',grades:null,subject:'Náttúrugreinar – aðalnámskrá grunnskóla',kind:'integrated',
+   topicIds:null,sourceYear:2024,validFrom:null,
+   source:'https://www.adalnamskra.is/grunnskoli/kafli-22-natturugreinar-2024',
+   title:'Iceland Natural Sciences 2024 chapter: the Universe, planets and stars; learning targets at stages, not prescribed per grade'},
+  {stage:'lower',grades:null,subject:'Náttúrugreinar – alheimurinn',kind:'integrated',
+   topicIds:null,sourceYear:2024,validFrom:null,
+   source:'https://www.adalnamskra.is/grunnskoli/kafli-22-natturugreinar-2024',
+   title:'Iceland Natural Science current curricular area: universe competencies and stages'}
+ ],
+ BE:[
+  {stage:'primary',grades:null,subject:'Sciences – référentiels du tronc commun (FWB)',kind:'framework-only',
+   topicIds:null,sourceYear:2024,validFrom:null,
+   source:'https://www.enseignement.be/parcours-dapprentissage/maternel-et-primaire-ordinaire/organisation-de-lenseignement-maternel-et-primaire/contenus-dapprentissage',
+   title:'Belgium French Community 2024 approved curriculum references; Flemish and German-speaking Community use different curricular authorities'},
+  {stage:'lower',grades:null,subject:'Sciences – communauté et réseau',kind:'framework-only',
+   topicIds:null,sourceYear:null,validFrom:null,
+   source:'https://www.enseignement.be/',
+   title:'Belgium: no one national annual Astronomy programme; must select French, Flemish or German-speaking Community'}
+ ],
+ LU:[
+  {stage:'lower',grades:null,subject:'Sciences naturelles / physique – enseignement secondaire',kind:'framework-only',
+   topicIds:null,sourceYear:null,validFrom:null,
+   source:'https://men.public.lu/fr/systeme-educatif/secondaire/apprentissages-evaluation/apprentissages.html',
+   title:'Luxembourg Ministry: Physics, science and subjects available by class/profile; detailed annual programme on eschoolbooks.lu'}
+ ],
+ MC:[
+  {stage:'primary',grades:null,subject:'Sciences – enseignement monégasque / français',kind:'framework-only',
+   topicIds:null,sourceYear:2025,validFrom:null,
+   source:'https://cien.gouv.mc/content/download/28960/file/L%27%C3%89ducation%20en%20Principaut%C3%A9_Livret%20d%27accueil_2025.pdf?inLanguage=fre-FR&version=37',
+   title:'Monaco 2025 national education guide: schools are linked to French education standards with Monegasque features; programme details not reproduced'},
+  {stage:'lower',grades:null,subject:'Sciences – enseignement monégasque / français',kind:'framework-only',
+   topicIds:null,sourceYear:2025,validFrom:null,
+   source:'https://cien.gouv.mc/content/download/28960/file/L%27%C3%89ducation%20en%20Principaut%C3%A9_Livret%20d%27accueil_2025.pdf?inLanguage=fre-FR&version=37',
+   title:'Monaco education guidance 2025: school profile and French/Monegasque framework must be chosen'}
+ ],
+ SM:[
+  {stage:'primary',grades:null,subject:'Scienze – indicazioni curricolari sammarinesi',kind:'framework-only',
+   topicIds:null,sourceYear:2006,validFrom:null,
+   source:'https://www.gov.sm/pub1/GovSM/Amministrazione-Trasparente/Atti-di-carattere-normativo-ed-amministrativo-generale/Direttive-Circolari-Istruzioni-Interpretazioni-di-norme-di-diritto/Area-Istruzione/Istruzione-e-obbligo-scolastico.html',
+   title:'San Marino decree 57/2006 curricular directions, phased science curriculum experimentation from 2019 and 2021; not identical to Italy by assumption'},
+  {stage:'lower',grades:null,subject:'Scienze – scuola media sammarinese',kind:'framework-only',
+   topicIds:null,sourceYear:2006,validFrom:null,
+   source:'https://www.gov.sm/pub1/GovSM/Amministrazione-Trasparente/Atti-di-carattere-normativo-ed-amministrativo-generale/Direttive-Circolari-Istruzioni-Interpretazioni-di-norme-di-diritto/Area-Istruzione/Istruzione-e-obbligo-scolastico.html',
+   title:'San Marino independent national framework; older 2006 curriculum and later experimentation in sciences are not assumed revoked'}
+ ],
  FI:[
   {stage:'primary',grades:null,subject:'Environmental studies',kind:'framework-only',
    topicIds:null,sourceYear:2014,validFrom:'2016/17',
@@ -315,7 +381,7 @@ export function astronomyNationalAlignment({country='',stage='',grade=''}={}){
   // No national school programme is inferred to have expired merely for being old.
   superseded:false,supercessionConfirmed:false,
   noteRo:framework?
-   'Există o referință curriculară din '+framework.sourceYear+' pentru '+framework.subject+
+   'Există o referință curriculară '+(framework.sourceYear?'din '+framework.sourceYear:'cu anul adoptării încă neconfirmat')+' pentru '+framework.subject+
    '. Data ei nu o invalidează automat. '+(framework.kind==='optional-standalone'?
    'Astronomia este disponibilă ca disciplină opțională, nu obligatorie.':
    framework.kind==='framework-only'?'Referința confirmă numai cadrul general, nu o programă anuală completă de Astronomie.':
@@ -323,7 +389,7 @@ export function astronomyNationalAlignment({country='',stage='',grade=''}={}){
    ' Conținutul pe fiecare clasă este certificat numai unde există teme anuale documentate.':
    'Programa națională de astronomie pentru această clasă nu a fost încă verificată. Aceasta nu înseamnă că țara nu are programă; sunt afișate lecții generale orientative.',
   noteEn:framework?
-   'An existing '+framework.sourceYear+' reference covers '+framework.subject+
+   'An existing '+(framework.sourceYear?'reference from '+framework.sourceYear:'reference of unverified publication date')+' covers '+framework.subject+
    '. Older dates do not alone invalidate a curriculum. '+(framework.kind==='optional-standalone'?
    'Astronomy is a separately offered elective, not a mandatory subject.':
    framework.kind==='framework-only'?'This source describes only the broader curriculum framework.':
