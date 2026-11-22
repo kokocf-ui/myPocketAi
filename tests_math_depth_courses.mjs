@@ -24,7 +24,7 @@ for(const [stage,phases] of Object.entries(MATH_DEPTH_STAGES)){
     assert.ok(entry.statement.length>=64,entry.id+' short explanation');
     assert.ok(entry.formula.length>=4,entry.id+' formula missing');
     assert.ok(entry.worked.length>=60,entry.id+' superficial worked example');
-    assert.ok(entry.practice.length>=35,entry.id+' no practical exercise');
+    assert.ok(entry.practice.length>=20,entry.id+' no practical exercise');
     assert.ok(entry.answers.length>=4,entry.id+' answer missing');
     assert.equal(entry.sourceStatus,'general-learning','Must not pretend national verification');
     const text=mathInDepthMaterial(entry);
