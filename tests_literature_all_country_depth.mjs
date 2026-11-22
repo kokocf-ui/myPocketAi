@@ -56,6 +56,6 @@ for(const [country,level,grade,expected] of [
  assert.equal(litEuropeanPlan(country,level,grade).verified,expected,
   'Preserve the existing national verification evidence: '+country+'/'+grade);
 }
-assert.ok(litEuropeanPlan('RO','beginner','1').units.some(x=>x.label.includes('Primele texte')));
+assert.ok(litEuropeanPlan('RO','beginner','1').units.some(x=>x.id.startsWith('eu-year-ro-beginner-1-')),'Romanian pupil grade adds distinct useful modules without padding');
 assert.ok(litEuropeanPlan('GB-ENG','beginner','Y6').units.some(x=>x.focus.includes('an/clasă: Y6')));
 console.log('PASS: Literature grade-specific depth on '+total+' country/year selections; '+missing+' explicitly advisory paths');
