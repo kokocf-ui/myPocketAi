@@ -352,7 +352,8 @@ export function literatureQuickSuggestions(prefix,language='ro',limit=12){
 }
 export function literatureQuickDefinition(word,language='ro'){
  const lang=language==='ro'?'ro':'en',key=literatureQuickNormal(word);
- const direct=LIT_QUICK_DICTIONARY[lang].find(x=>literatureQuickNormal(x[0])===key);
+ const direct=LIT_QUICK_DICTIONARY[lang].find(x=>String(x[0]).trim().toLocaleLowerCase()===String(word).trim().toLocaleLowerCase())||
+  LIT_QUICK_DICTIONARY[lang].find(x=>literatureQuickNormal(x[0])===key);
  if(direct)return {word:direct[0],definition:direct[1],example:direct[2],source:'local'};
  const grammar=LIT_QUICK_GRAMMAR[lang].find(x=>literatureQuickNormal(x[1])===key);
  return grammar?{word:grammar[1],definition:grammar[2],example:grammar[3],source:'local'}:null;
