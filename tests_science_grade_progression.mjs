@@ -153,6 +153,8 @@ for(const country of EDUCATION_EUROPE_COUNTRIES){
     assert.equal(plan.status,'general-learning','UI Science plan must resolve');
     const notTaught=subject==='physics'&&physicsCountryGradePlan({
      country,stage,grade:year.id,years:yrs
+    }).status==='not-offered'||subject==='chemistry'&&chemistryCountryGradePlan({
+     country,stage,grade:year.id,years:yrs
     }).status==='not-offered';
     assert.ok(plan.topics.length>=1||notTaught,
      country+'/'+stage+'/'+subject+'/'+year.id+' needs a real chapter or explicit not-offered status');
