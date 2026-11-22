@@ -86,7 +86,7 @@ export function physicsLaboratoryYearInvestigations({country='',grade='',stage='
     ['Marchează pozițiile unei jucării, ordonează-le după timp și arată direcția mișcării.','Trasează poziție–timp pe axe cu unități și calculează viteza medie pe două intervale.','Compară pantele pe graficul poziție–timp, estimează o viteză instantanee și discută eroarea de cronometrare.'],
     ['Mark successive toy positions, order them in time and identify the direction of motion.','Plot position against time with units and calculate mean speed over two intervals.','Compare gradients of position–time data, estimate an instantaneous velocity and discuss timing error.']],
    dynamics:[
-    ['Desenează săgeți pentru împingere, greutate și reacțiune, fără a inventa forțe numerice.','Compară forța rezultantă pentru două înclinări și explică efectul frecării.','Testeză un model F=ma cu date simulate etichetate, un grafic și analiza reziduurilor.'],
+    ['Desenează săgeți pentru împingere, greutate și reacțiune, fără a inventa forțe numerice.','Compară forța rezultantă pentru două înclinări și explică efectul frecării.','Testează un model F=ma cu date simulate etichetate, un grafic și analiza reziduurilor.'],
     ['Draw arrows for push, weight and reaction without inventing numerical forces.','Compare net force for two slopes and explain the contribution of friction.','Test an F=ma prediction with clearly labelled simulated data, a graph and residual analysis.']],
    energy:[
     ['Construiește un lanț de transfer energetic pentru un obiect care se deplasează.','Estimează energia potențială mgh pentru două înălțimi și compară pierderile.','Construiește un bilanț energetic măsurabil, cu randament, disipare și ipoteze explicite.'],

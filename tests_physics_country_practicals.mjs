@@ -47,6 +47,43 @@ for(const code of EDUCATION_EUROPE_COUNTRIES){
   }
  }
 }
+
+// Regression: the same conceptual Physics chapter must not present the
+// same research objective in consecutive national years. This compares the
+// *actual rendered investigation text*, not merely synthetic IDs or counts.
+for(const [country,gradeA,gradeB,topic] of [
+ ['FR','6e','5e','energy'],['PT','7','8','energy'],
+ ['RO','6','7','kinematics'],['MD','6','7','energy']
+]){
+ const years=educationCountrySchoolYears(country,'lower').years;
+ const investigations=grade=>{
+  const yearPosition=years.findIndex(year=>String(year.id)===grade);
+  assert.ok(yearPosition>=0,country+' must have the real grade '+grade);
+  const entries=scienceSchoolTopicLessons({
+   country,subject:'physics',stage:'lower',grade,topic,years,
+   language:'ro',lessons:THEORY_ENTRIES
+  });
+  assert.ok(entries.length>=1,country+'/'+grade+'/'+topic+' has no study content');
+  return physicsLaboratoryYearInvestigations({
+   country,stage:'lower',grade,topic,yearPosition,lessons:entries,language:'ro'
+  });
+ };
+ const earlier=investigations(gradeA),later=investigations(gradeB);
+ assert.equal(earlier.length,2);
+ assert.equal(later.length,2);
+ for(let i=0;i<2;i++){
+  assert.notEqual(earlier[i].review.prompt,later[i].review.prompt,
+   country+'/'+topic+' cannot repeat the same assessment in successive grades');
+  assert.notEqual(earlier[i].body,later[i].body,
+   country+'/'+topic+' cannot repeat the same full laboratory text in successive grades');
+  assert.ok(earlier[i].body.includes('Măsurare, tabel și calcule')||
+   earlier[i].body.includes('Observare sigură și identificarea variabilelor')||
+   earlier[i].body.includes('Predicție, incertitudine și validitatea modelului'));
+  assert.ok(later[i].body.includes('Predicție, incertitudine și validitatea modelului')||
+   later[i].body.includes('Măsurare, tabel și calcule'));
+ }
+}
+
 assert.equal(EDUCATION_EUROPE_COUNTRIES.length,50);
 assert.ok(yearChecks>=500&&courseChecks>=1500&&labChecks>=6000,
  'Insufficient cross-country original practical coverage');
