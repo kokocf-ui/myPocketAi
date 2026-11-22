@@ -85,7 +85,9 @@ try{
   await open(page.locator('#view-module .chemistry-section-tile').nth(2));
   const labOptions=page.locator('#view-module .chemistry-section-tile');
   assert.ok(await labOptions.count()>=1,'Chemistry has no authentic investigation');
-  await open(labOptions.first());
+  const enquiry=labOptions.filter({hasText:/Investigație explicată|Explained enquiry/i}).first();
+  assert.ok(await enquiry.count()===1,'Chemistry has no authored investigation, only an illustrative diagram');
+  await open(enquiry);
   await dialog.waitFor({state:'visible',timeout:9000});
   const lab=await dialog.locator('.education-paged-text').innerText();
   assert.ok(lab.length>=160,'Chemistry investigation is empty or not explained');

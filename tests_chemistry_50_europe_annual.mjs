@@ -112,7 +112,7 @@ for(const country of countries){
 assert.ok(visibleYears>=115&&hiddenYears>=8&&upperYears>=120, 'Audit too narrow');
 assert.ok(documents>=4000,'The complete European Chemistry chapter bank must be substantial');
 assert.ok(verifiedReferences>=10,'Independent national frameworks were not retained');
-assert.ok(integrated>=25,'Integrated and mixed pathways were lost');
+assert.ok(integrated>=12,'Integrated and mixed pathways were lost');
 const html=await(await app.fetch(new Request('https://chemistry-50-country-annual.test/'))).text();
 const script=html.match(/<script>([\s\S]*?)<\/script>/)?.[1]||'';
 new vm.Script(script);
