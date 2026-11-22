@@ -115,11 +115,11 @@ const evidence=Object.freeze({
    source:'https://emokykla.lt/bendrosios-programos/visos-bendrosios-programos/15',
    title:'Lithuanian Astronomy programme states early grades integrate astronomy in Natural Sciences/Physics'},
   {stage:'upper',grades:['11'],subject:'Astronomija (optional)',kind:'optional-standalone',
-   topicIds:['sky','solar','distances','observations'],sourceYear:2023,validFrom:'2023/24',
+   topicIds:['sky','solar','distances','observations','gravity','stars'],sourceYear:2023,validFrom:'2023/24',
    source:'https://emokykla.lt/bendrosios-programos/visos-bendrosios-programos/15',
    title:'Lithuanian optional standalone Astronomy, gymnasium III (grade 11): solar system, celestial coordinates and observations'},
   {stage:'upper',grades:['12'],subject:'Astronomija (optional)',kind:'optional-standalone',
-   topicIds:['stars','galaxies','cosmology','exoplanets'],sourceYear:2023,validFrom:'2023/24',
+   topicIds:['stars','galaxies','cosmology','exoplanets','gravity','distances','observations','sky'],sourceYear:2023,validFrom:'2023/24',
    source:'https://emokykla.lt/bendrosios-programos/visos-bendrosios-programos/15',
    title:'Lithuanian optional standalone Astronomy, gymnasium IV (grade 12): stellar evolution, galaxies and cosmology'}
  ],
