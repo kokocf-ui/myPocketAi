@@ -6,7 +6,7 @@ import {educationCountrySchoolYears,educationSubjectSchoolPlan} from './educatio
 const courses=RO5_MATH_LESSONS;
 const units=RO5_MATH_UNITS;
 const subset=topic=>mathCountryCourseEntries({country:'RO',grade:'5',stage:'lower',phase:1,topic});
-assert.ok(courses.length>=58,'Class V requires a complete annual set of original educational lessons');
+assert.ok(courses.length>=71,'Class V requires the sourced main lessons and seven validated curricular gap lessons');
 assert.ok(units.length>=7,'The six official learning units plus data section must be identifiable');
 assert.ok(subset('algebra').length>=42,'Numbers, fractions and arithmetic methods cannot be reduced to five chapters');
 assert.ok(subset('geometry').length>=14,'Grade V needs distinct geometry, angles, area and volume lessons');
@@ -16,6 +16,16 @@ assert.ok(courses.some(x=>x.title==='Metoda falsei ipoteze'),'Missing a statutor
 assert.ok(courses.some(x=>x.title==='Reguli de calcul cu puteri'),'Missing natural-power rules');
 assert.ok(courses.some(x=>x.title==='Scrierea numerelor în bazele 10 și 2'),'Missing base conversion');
 assert.ok(courses.some(x=>x.title==='Măsurarea și construirea unghiurilor cu raportorul'),'Missing angle measurement');
+for(const title of [
+ 'Aproximarea și estimarea numerelor naturale',
+ 'Criteriul de divizibilitate cu puterile lui 10',
+ 'Transformarea unei fracții zecimale periodice în fracție ordinară',
+ 'Probleme cu fracții și unități de măsură',
+ 'Planul și semiplanul determinate de o dreaptă',
+ 'Unghiuri congruente și construcția lor',
+ 'Capacitate, masă, timp și conversii în probleme'
+])assert.ok(courses.some(x=>x.title===title),'Required statutory concept lacks a theory lesson: '+title);
+
 assert.ok(!courses.some(x=>/^Ecuați/i.test(x.title)),'Equations begin in grade VI, not grade V (MEN 3393/2017, methodology p.32)');
 assert.ok(!courses.some(x=>/sinus|derivat|matrice|trigonometrie|pătratică|inecuații/i.test(x.title)),'Do not mix upper-grade mathematics into class V');
 assert.equal(new Set(courses.map(x=>x.id)).size,courses.length,'No repeated lesson ID');
