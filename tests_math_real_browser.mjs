@@ -82,7 +82,7 @@ try{
  await page.screenshot({path:'math-browser-audit/romanian-lower.png'});
  await click(page.locator('#view-module .math-stage-back').first());
  await click(page.locator('#view-module .math-stage-back').first());
- const gradePanel=page.locator('#view-module .edu-grade-panel');
+ {const gradePanel=page.locator('#view-module .edu-grade-panel');
  if(!await gradePanel.count()){
   const snapshot=await page.locator('#moduleContent').evaluate(node=>({text:node.innerText.slice(0,1200),html:node.innerHTML.slice(0,1600)}));
   throw Error('Grade picker missing after branch Back: '+JSON.stringify(snapshot));
