@@ -3,6 +3,7 @@ import {romanianStudentGradeRows} from './literature_ro_student_path.mjs';
 import {LITERATURE_DEEP_UNITS} from './literature_extended_study.mjs';
 import {LIT_SEVEN_COUNTRY_PROGRAMS} from './literature_seven_country_tracks.mjs';
 import {expandLiteratureEuropeanGrades} from './literature_europe_grade_expansion.mjs';
+import {romanianExpandedRows} from './literature_ro_expanded_years.mjs';
 // Literature pathways for Europe, referenced against official national/jurisdictional
 // publications. A verified framework is NOT an exhaustive list of mandatory works.
 // The generic path is explicitly advisory when a country, grade or track is not checked.
@@ -179,6 +180,13 @@ Object.defineProperty(LIT_EU_PROGRAMS,'toJSON',{
  configurable:false,enumerable:false,value:()=>LIT_EU_EMBEDDED_BASE
 });
 export const LIT_EU_GRADE_COVERAGE=expandLiteratureEuropeanGrades(LIT_EU_PROGRAMS);
+// Keep server validation and the Android client in sync: Romanian school
+// years show the actual level-specific lessons, not ten auto-padded modules.
+for(let year=1;year<=12;year++){
+ const grade=String(year);
+ const base=LIT_EU_EMBEDDED_BASE.RO.byGrade[grade]||[];
+ LIT_EU_PROGRAMS.RO.byGrade[grade]=romanianExpandedRows(grade,base);
+}
 
 export function litEuropeanPlan(country, level, grade, track){
  const profile=LIT_EU_PROGRAMS[country]||null;
