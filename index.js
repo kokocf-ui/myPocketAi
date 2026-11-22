@@ -12717,6 +12717,10 @@ function mathJourneyShowChoices(stage){
  mathJourney.stage=stage;
  const root=$('view-module'),host=$('moduleContent');
  if(root?.dataset)root.dataset.mathStage=stage;
+ // The shared responsive header may still hold a Back button from the
+ // previous step until its next animation frame. Remove that stale handler
+ // synchronously so rapid double-taps cannot return to the wrong screen.
+ root?.querySelectorAll?.('.module-actions-row .math-stage-back').forEach(node=>node.remove());
  root.classList.remove('learning-choose','learning-hg','learning-languages','learning-country-gate');
  root.classList.add('learning-active','learning-math','math-choice-stage');
  host.replaceChildren();$('moduleLead').textContent='';
