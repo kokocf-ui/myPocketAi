@@ -46,7 +46,7 @@ try{
  const tiles=page.locator('#view-module .science-year-tile');
  await tiles.first().waitFor({state:'attached',timeout:10000});
  let all=await tiles.allTextContents();
- assert.ok(!all.some(x=>/Clasa\\s+(?:a\\s+)?5\\b|Grade\\s+5\\b/i.test(x)),
+ assert.ok(!all.some(x=>/Clasa\s+(?:a\s+)?5\b|Grade\s+5\b/i.test(x)),
   'Romanian Grade V must not be offered as standalone Physics');
  for(const grade of [6,7,8,9,10,11,12]){
   all=await tiles.allTextContents();
@@ -70,7 +70,7 @@ try{
   await dialog.waitFor({state:'visible',timeout:8000});
   const text=await dialog.locator('.education-paged-text').innerText();
   assert.ok(text.length>=160,'Empty or one-paragraph Physics explanation in '+grade);
-  assert.ok((await dialog.locator('.education-paged-controls').innerText()).match(/Pagina\\s+1\\s*\\/\\s*\\d+/),
+  assert.ok((await dialog.locator('.education-paged-controls').innerText()).match(/Pagina\s+1\s*\/\s*\d+/),
    'Missing actual paginated PDF/lesson reader');
   lessons++;
   if(grade===6||grade===9||grade===12)
