@@ -8798,7 +8798,7 @@ function mathYearPosition(){
  const years=typeof EDU_MATH_COUNTRY_YEARS!=='undefined'?EDU_MATH_COUNTRY_YEARS[key]||[]:[];
  const index=years.findIndex(x=>String(x.id)===String(mathJourney.grade||''));
  return {index,years,progress:index<0?0:(index+1)/years.length,
-  year4:index<0?0:Math.max(1,Math.ceil((index+1)*4/years.length))};
+  year4:index<0?0:Math.min(4,Math.floor(index*4/Math.max(4,years.length))+1)};
 }
 function mathOpenDepthLesson(lesson){
  if(!lesson?.worked)return;
