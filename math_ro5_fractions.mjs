@@ -164,6 +164,18 @@ add({id:'data',name:'Organizarea și reprezentarea datelor'},'statistics',[
  'diferență=valoare finală−valoare inițială',
  'Temperatura crește de la 12°C luni la 18°C marți. Diferența de temperatură este 18−12=6°C, chiar dacă graficul vertical începe la 10°C.',
  'Vânzările cresc de la 24 la 35. Care este diferența?','11 unități.',
- 'Scara trunchiată poate exagera vizual o diferență mică.']
+ 'Scara trunchiată poate exagera vizual o diferență mică.'],
+['Interpretarea frecvențelor și a mediei dintr-un tabel',
+ 'Un tabel poate arăta fiecare valoare și frecvența ei. Pentru a afla media, înmulțim fiecare valoare cu numărul aparițiilor, adunăm produsele și împărțim la numărul total de observații.',
+ 'medie=Σ(valoare×frecvență)/Σfrecvențe',
+ 'Un tabel are notele 6 de două ori și 9 de trei ori. Suma notelor este 6×2+9×3=39, iar numărul notelor este 5. Media este 39:5=7,8.',
+ 'Într-un tabel nota 5 apare de două ori și nota 10 de două ori. Care este media?','7,5.',
+ 'Nu împărți la numărul de rânduri din tabel, ci la suma frecvențelor.'],
+['Alegerea unei reprezentări statistice potrivite',
+ 'Pentru categorii distincte folosim de regulă o diagramă cu bare; pentru evoluția unei mărimi pe momente succesive folosim adesea o diagramă cu linii. Alegerea reprezentării trebuie să ajute cititorul să răspundă la întrebare.',
+ 'diagramă cu bare → comparație; diagramă cu linii → evoluție',
+ 'Numărul de cărți citite pe patru luni poate fi desenat pe un grafic cu linii pentru a observa schimbările: 2, 4, 3, 6. Cea mai mare valoare este 6, în ultima lună.',
+ 'Ce reprezentare alegi pentru a compara numărul de elevi din patru clase?','Diagramă cu bare.',
+ 'Nu interpreta un grafic fără să citești etichetele axelor și scara.']
 ]);
 export const RO5_MATH_FRACTIONS=Object.freeze(lessons);
