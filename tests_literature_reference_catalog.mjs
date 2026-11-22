@@ -3,9 +3,9 @@ import {LIT_REFERENCE_CATALOG,literatureReferenceEntries} from './literature_ref
 import {literatureQuickSuggestions,literatureQuickDefinition} from './literature_quick_reference.mjs';
 import {LITERATURE_TASK_UI_SCRIPT} from './literature_task_ui.mjs';
 assert.ok(LIT_REFERENCE_CATALOG.length>=230,'Reference must cover substantial forms and units');
-const valid=new Set(['grammatica','abrevieri','unitati']);
+const valid=new Set(['gramatica','abrevieri','unitati']);
 const counts=Object.fromEntries([...valid].map(s=>[s,LIT_REFERENCE_CATALOG.filter(x=>x[0]===s).length]));
-assert.ok(counts.grammatica>=100,'Full range of common grammatical categories required');
+assert.ok(counts.gramatica>=100,'Full range of common gramatical categories required');
 assert.ok(counts.abrevieri>=50,'Abbreviations section too thin');
 assert.ok(counts.unitati>=50,'Units section too thin');
 for(const row of LIT_REFERENCE_CATALOG){
@@ -14,10 +14,10 @@ for(const row of LIT_REFERENCE_CATALOG){
  assert.ok(row.every(x=>typeof x==='string'&&x.trim().length>0),'Empty reference field');
 }
 for(const [section,group,term,part] of [
- ['grammatica','Propoziție','Predicat','subiect'],
- ['grammatica','Verb: timpuri','Viitor anterior','viitoare'],
- ['grammatica','Substantiv și articol','Genitiv','posesia'],
- ['grammatica','Adjectiv și pronume','Superlativ absolut','însușire'],
+ ['gramatica','Propoziție','Predicat','subiect'],
+ ['gramatica','Verb: timpuri','Viitor anterior','viitoare'],
+ ['gramatica','Substantiv și articol','Genitiv','posesia'],
+ ['gramatica','Adjectiv și pronume','Superlativ absolut','însușire'],
  ['abrevieri','Formule uzuale','ș.a.m.d.','mai departe'],
  ['abrevieri','Carte și școală','ISBN','ediție'],
  ['unitati','Lungime','km','o mie de metri'],
