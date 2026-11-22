@@ -90,6 +90,13 @@ try{
   assert.equal(new Set(titles).size,titles.length,'Repeated Chemistry chapter lessons');
   await open(cards.first());
   await dialog.waitFor({state:'visible',timeout:9000});
+  const header=dialog.locator('.education-theory-head').first();
+  const backInReader=header.locator('button.pocket-nav-return').first();
+  if(await backInReader.count()){
+   const [btn,area]=await Promise.all([backInReader.boundingBox(),header.boundingBox()]);
+   if(btn&&area)assert.ok(btn.x+btn.width/2>=area.x+area.width/2,
+    'Lesson reader Back button must always be in the right-hand portion');
+  }
   const body=await dialog.locator('.education-paged-text').innerText();
   assert.ok(body.length>=200,'One-paragraph Chemistry lesson '+grade);
   assert.match(await dialog.locator('.education-paged-controls').innerText(),/Pagina\s+1\s*\/\s*\d+/);
