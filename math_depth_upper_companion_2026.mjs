@@ -62,6 +62,7 @@ export const MATH_UPPER_2026_COMPANION=[
     'm=(n₁m₁+n₂m₂)/(n₁+n₂)',
     'O grupă de 10 elevi are media 8, iar una de 20 are media 5. Media tuturor este (10·8+20·5)/30=180/30=6.',
     '5 elevi au media 9, iar 15 au media 7. Află media comună.','7,5.']
+  ]
  },
  {
   functions:[
@@ -123,6 +124,7 @@ export const MATH_UPPER_2026_COMPANION=[
     'P(non A)=1−P(A)',
     'Dacă probabilitatea ca un tren să întârzie este 0,15, probabilitatea ca el să nu întârzie este 1−0,15=0,85.',
     'Dacă P(A)=3/8, cât este P(non A)?','5/8.']
+  ]
  },
  {
   analysis:[
@@ -184,6 +186,7 @@ export const MATH_UPPER_2026_COMPANION=[
     'comp_v(u)=(u·v)/|v|',
     'Pentru u=(3,4), v=(1,0), produsul scalar este 3, iar |v|=1. Componenta lui u pe axa Ox este 3.',
     'u=(−2,5), v=(0,1). Află proiecția scalară.','5.']
+  ]
  },
  {
   analysis:[
@@ -245,5 +248,6 @@ export const MATH_UPPER_2026_COMPANION=[
     'fₘ(x)=x²−2x+m, Δ=4−4m',
     'Pentru m=1, discriminantul este zero, deci parabola atinge axa Ox în x=1. Pentru m>1 discriminantul este negativ și nu există intersecții reale.',
     'Pentru ce m are fₘ două zerouri reale distincte?','m<1.']
+  ]
  }
 ];
