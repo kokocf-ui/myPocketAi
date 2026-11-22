@@ -19,7 +19,7 @@ const page=await browser.newPage({viewport:{width:390,height:844},deviceScaleFac
 let testedYears=0,openedLessons=0,upperLessons=0;
 try{
  await page.goto('http://127.0.0.1:3879/?astronomyQa=1',{waitUntil:'domcontentloaded',timeout:30000});
- await page.waitForFunction(()=>typeof window.eval('scienceJourneyShowChoices')==='function',{timeout:18000});
+ await page.waitForFunction(()=>typeof scienceJourneyShowChoices==='function',{timeout:18000});
  const start=await page.evaluate(()=>{
   openModule('learning');educationCountrySelection.code='RO';
   educationCountrySelection.label='România';
