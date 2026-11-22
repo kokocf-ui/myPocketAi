@@ -16,14 +16,16 @@ function mathTheoryQuickReference(){
  const back=document.createElement('button');
  back.type='button';back.className='secondary-btn';
  back.textContent=learningLabel('← Înapoi la Matematică','← Back to Mathematics');
- const previousStage=mathJourney?.stage==='branches'?'branches':'stages';
+ const previousStage='stages';
  const restore=()=>{mathTheoryQuickReferenceOpen=false;
    if(typeof mathJourneyShowChoices==='function')mathJourneyShowChoices(previousStage);
  };
  back.onclick=restore;
+ if(root){root.classList.remove('math-choice-stage');root.dataset.mathStage='reference';}
  const panel=document.createElement('section');
- panel.className='math-choice-panel';panel.style.cssText=
-  'width:100%;min-width:0;max-width:100%;box-sizing:border-box;display:flex;flex-direction:column;gap:10px;overflow-y:auto;max-height:calc(100dvh - 190px);padding:12px;';
+ panel.className='math-theory-reference-panel';panel.style.cssText=
+  'width:100%;min-width:0;max-width:100%;max-height:calc(100dvh - 240px);'+
+  'box-sizing:border-box;display:flex;flex-direction:column;gap:9px;overflow:hidden;padding:12px;';
  const title=document.createElement('h2');
  title.textContent=learningLabel('Legi și teoreme','Laws and theorems');
  const note=document.createElement('p');
@@ -46,8 +48,12 @@ function mathTheoryQuickReference(){
   const option=document.createElement('option');option.value=topic;
   option.textContent=learningLabel(...(topics[topic]||[topic,topic]));group.append(option);
  }
- const options=document.createElement('div');options.style.cssText='display:flex;flex-direction:column;gap:6px;';
- const details=document.createElement('article');details.style.cssText='overflow-wrap:anywhere;line-height:1.6;padding:8px;';
+ const options=document.createElement('div');options.className='math-theory-scroll-list';
+ options.style.cssText='display:flex;flex-direction:column;gap:6px;flex:1 1 auto;'+
+  'overflow-y:auto;overflow-x:hidden;min-height:145px;max-height:42dvh;'+
+  'touch-action:pan-y;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;';
+ const details=document.createElement('article');details.style.cssText='overflow-wrap:anywhere;line-height:1.6;padding:8px;'+
+  'overflow-y:auto;max-height:24dvh;min-height:0;flex:0 1 auto;-webkit-overflow-scrolling:touch;';
  function normalize(v){return String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();}
  let selectionToken=0,listToken=0;
  function openItem(item){
@@ -75,7 +81,6 @@ function mathTheoryQuickReference(){
    }).catch(()=>{if(token===selectionToken)info.textContent=learningLabel('Traducerea nu este disponibilă.','Translation is unavailable.');});
   }
  }
- let page=0;
  function draw(){
   options.replaceChildren();
   const term=normalize(query.value).trim(),section=group.value;
@@ -83,9 +88,7 @@ function mathTheoryQuickReference(){
    (!section||x.topic===section)&&
    (!term||normalize([x.title,...x.aliases,x.statement].join(' ')).includes(term)))
    .sort((a,b)=>a.title.localeCompare(b.title,'ro'));
-  const pages=Math.max(1,Math.ceil(entries.length/24));
-  page=Math.min(page,pages-1);
-  const currentPage=entries.slice(page*24,(page+1)*24),buttons=[];
+  const currentPage=entries,buttons=[];
   const token=++listToken;
   for(const item of currentPage){
    const btn=document.createElement('button');btn.type='button';
@@ -95,27 +98,16 @@ function mathTheoryQuickReference(){
   }
   if(state.language!=='ro'&&buttons.length&&typeof eduTranslateMaterial==='function'){
    eduTranslateMaterial({titles:currentPage.map(x=>x.title)},
-    'math:reference-titles:'+group.value+':'+page,'ro').then(translated=>{
+    'math:reference-titles:'+group.value+':'+normalize(query.value),'ro').then(translated=>{
      if(!mathTheoryQuickReferenceOpen||token!==listToken||!Array.isArray(translated?.titles))return;
      buttons.forEach((btn,i)=>{if(translated.titles[i])btn.textContent=translated.titles[i]});
     }).catch(()=>{});
   }
   if(!entries.length){const empty=document.createElement('p');
    empty.textContent=learningLabel('Nu există rezultate.','No matching entries.');options.append(empty);}
-  if(pages>1){
-   const nav=document.createElement('div');nav.style.cssText='display:flex;gap:8px;justify-content:space-between;align-items:center;';
-   const prev=document.createElement('button');prev.type='button';prev.className='secondary-btn';
-   prev.textContent=learningLabel('← Anterior','← Previous');prev.disabled=page===0;
-   prev.onclick=()=>{page--;details.replaceChildren();draw()};
-   const count=document.createElement('span');count.textContent=(page+1)+' / '+pages;
-   const next=document.createElement('button');next.type='button';next.className='secondary-btn';
-   next.textContent=learningLabel('Următor →','Next →');next.disabled=page+1>=pages;
-   next.onclick=()=>{page++;details.replaceChildren();draw()};
-   nav.append(prev,count,next);options.append(nav);
-  }
  }
- query.addEventListener('input',()=>{page=0;details.replaceChildren();draw()});
- group.addEventListener('change',()=>{page=0;details.replaceChildren();draw()});
+ query.addEventListener('input',()=>{details.replaceChildren();draw();options.scrollTop=0});
+ group.addEventListener('change',()=>{details.replaceChildren();draw();options.scrollTop=0});
  panel.append(title,note,query,group,options,details);
  host.replaceChildren(back,panel);
  if(root)root.classList.add('learning-math');
@@ -127,7 +119,7 @@ function mathInstallTheoryShortcut(){
  if(!host)return;
  if(mathTheoryQuickReferenceObserver)mathTheoryQuickReferenceObserver.disconnect();
  function refresh(){
-  if(mathTheoryQuickReferenceOpen||educationCountrySelection.activeModule!=='math'||typeof mathJourney==='undefined'||!['stages','branches'].includes(mathJourney.stage))return;
+  if(mathTheoryQuickReferenceOpen||educationCountrySelection.activeModule!=='math'||typeof mathJourney==='undefined'||mathJourney.stage!=='stages')return;
   const root=document.getElementById('view-module');
   if(!root?.classList.contains('learning-math')||host.querySelector('#math-theory-quick-reference'))return;
   const btn=document.createElement('button');btn.id='math-theory-quick-reference';
