@@ -47,6 +47,12 @@ page.on('pageerror',e=>exceptions.push(String(e)));
 const dialog=page.locator('#educationPagedLessonDialog');
 try{
  const tiles=await navigate(page,'RO');
+ // The bottom dock owns Home. A second visible top Home can be confused
+ // with Back when navigating from left to right.
+ const topHome=page.locator('#view-module .module-actions-row > .module-home-btn');
+ if(await topHome.count())assert.equal(await topHome.isVisible(),false,
+  'Never expose a second Home alongside the top-right Back');
+
  let labels=await tiles.allTextContents();
  assert.ok(!labels.some(x=>/Clasa\s+(?:a\s+)?(?:5|6)\b|Grade\s+(?:5|6)\b/i.test(x)),
   'Romanian Chemistry must not fabricate standalone grade V or VI');
@@ -61,6 +67,15 @@ try{
   const chapters=page.locator('#view-module .science-choice-list > .science-choice-row');
   const chapterLabels=await chapters.allTextContents();
   assert.ok(chapterLabels.length>=3,'Chemistry must have several real chapters in grade '+grade);
+  const scrollBar=await page.locator('#view-module .science-choice-list').evaluate(element=>
+   getComputedStyle(element,'::-webkit-scrollbar').width);
+  assert.equal(scrollBar,'0px','Native WebView scrollbar must be hidden beside custom drag grip');
+  const backButton=page.locator('#view-module .pocket-inline-back').first();
+  if(await backButton.count()){
+   const [b,r]=await Promise.all([backButton.boundingBox(),page.locator('#view-module').boundingBox()]);
+   if(b&&r)assert.ok(b.x+b.width/2>=r.x+r.width/2,
+    'Back must stay to the right; left side must not contain a second Home');
+  }
   assert.equal(new Set(chapterLabels).size,chapterLabels.length);
   if(lastChapters&&grade===8)assert.notDeepEqual(chapterLabels,lastChapters,
    'Romanian Chemistry VII/VIII cannot show the exact same chapter list');
