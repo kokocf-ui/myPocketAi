@@ -45,6 +45,8 @@ export const ASTRONOMY_EUROPE_FRAMEWORKS=Object.freeze({
   primary:{source:'https://skola2030.lv/lv/macibu-saturs/macibu-jomas/dabaszinatnes',scope:'national-science-integrated-grades-1-6'},
   upper:{source:'https://www.skola2030.lv/admin/filemanager/files/2/visp_vid_izgl_modelis.pdf',scope:'upper-secondary-optional-course-model-not-year-fixed'}
  }),
+ MD:Object.freeze({upper:{source:'https://edu.gov.md/sites/default/files/geografie_liceu_ro.pdf',scope:'national-geography-2019-physical-geography-grade-10'}}),
+ TR:Object.freeze({lower:{source:'https://tymm.meb.gov.tr/fen-bilimleri-dersi/unite/409',scope:'national-2026-27-grade6-unit1-12-hours'}}),
  BG:Object.freeze({lower:{source:'https://www.mon.bg/nfs/2023/12/up_vii_fizika.pdf',scope:'ministry-physics-and-astronomy-grade-7'}}),
  UA:Object.freeze({upper:{source:'https://mon.gov.ua/static-objects/mon/sites/1/zagalna%20serednya/programy-10-11-klas/ast-ak.pdf',scope:'ministry-astronomy-grade-11-2017-programme'}}),
  NL:Object.freeze({primary:{source:'https://www.slo.nl/thema/meer/tule/orientatie-jezelf-wereld/kerndoel-46/',scope:'SLO-core-objective-46-primary-natural-science'}}),
@@ -163,6 +165,23 @@ export function astronomyCountryGradePlan({country='',stage='primary',grade='',y
 
 
 
+
+ if(code==='TR'&&level==='lower'&&year==='6')return {...general,
+  status:'national-grade6-solar-and-eclipses-unit',kind:'integrated',
+  topicIds:['solar','sky','observations'],
+  source:base?.source||null,sourceScope:base?.scope||null,offerVerified:true,
+  programmeRo:'Fen Bilimleri · clasa 6 · Güneş Sistemi ve Tutulmalar · 12 ore',
+  programmeEn:'Science · Grade 6 · Solar System and Eclipses · 12 hours',
+  noteRo:'În Türkiye, Türkiye Yüzyılı Maarif Modeli include în clasa 6, la Fen Bilimleri, unitatea „Güneş Sistemi ve Tutulmalar” (12 ore): clasificarea planetelor, construirea și revizuirea modelelor Sistemului Solar, eclipse solare și lunare. Nu este o disciplină separată obligatorie de Astronomie.',
+  noteEn:'Türkiye Year 6 national Science contains the 12-hour “Solar System and Eclipses” unit: planet classification, construction and revision of Solar System models, solar and lunar eclipses. This is integrated Science, not separate compulsory Astronomy.'};
+ if(code==='MD'&&level==='upper'&&year==='10')return {...general,
+  status:'national-geography-grade10-universe-module',kind:'integrated',
+  topicIds:['solar','sky','gravity','observations','distances'],
+  source:base?.source||null,sourceScope:base?.scope||null,offerVerified:true,
+  programmeRo:'Geografie fizică generală · clasa X · Pământul în Univers',
+  programmeEn:'Physical Geography · Grade 10 · Earth in the Universe',
+  noteRo:'Curriculumul național al Republicii Moldova la Geografie, clasa X, începe cu modulul „Pământul – individualitate în univers” (9 ore). Include Universul, Sistemul Solar, influența Soarelui, rotația și revoluția Pământului și gravitația. Conținuturile marcate * nu intră în examenul de bacalaureat; disciplina este Geografie, nu Astronomie autonomă.',
+  noteEn:'Moldova national Grade 10 Geography starts with the nine-hour “Earth in the Universe” module: Solar System, the Sun, Earth’s rotation and revolution, and gravity. Starred subtopics are excluded from the Baccalaureate examination; this is Geography rather than a standalone Astronomy class.'};
  if(code==='BG'&&level==='lower'&&year==='7')return {...general,
   status:'mandatory-physics-astronomy-grade-7',kind:'integrated',
   topicIds:['solar','sky','stars','observations'],

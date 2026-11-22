@@ -64,7 +64,7 @@ for(const year of ['Y7','Y8','Y9']){
 }
 for(const country of ['GB-SCT','GB-WLS','GB-NIR'])
  assert.equal(get(country,'lower',educationCountrySchoolYears(country,'lower').years[0].id).policy.kind,'integrated');
-for(const country of ['HU','DE','PT','TR']){
+for(const country of ['HU','DE','PT']){
  const first=educationCountrySchoolYears(country,'lower').years[0];
  assert.equal(get(country,'lower',first.id).policy.status,'country-curriculum-unverified');
 }
@@ -154,6 +154,16 @@ assert.equal(ukr11.policy.status,'national-astronomy-grade-11-curriculum');
 assert.ok(ukr11.plan.topics.length>=6,'Ukraine 11 should expose deep astronomy');
 assert.equal(ukr11.policy.offerVerified,true);
 assert.equal(get('UA','upper','10').policy.kind,'unverified','No unsupported Year 10 astronomy as a separate course');
+
+const turkey6=get('TR','lower','6');
+assert.equal(turkey6.policy.status,'national-grade6-solar-and-eclipses-unit');
+assert.equal(turkey6.policy.offerVerified,true);
+assert.ok(turkey6.plan.topics.some(x=>x.id==='solar'));
+assert.equal(get('TR','lower','5').policy.kind,'unverified');
+const moldova10=get('MD','upper','10');
+assert.equal(moldova10.policy.status,'national-geography-grade10-universe-module');
+assert.ok(moldova10.plan.topics.some(x=>x.id==='gravity'));
+assert.equal(get('MD','upper','11').policy.kind,'unverified');
 assert.equal(astronomyCountryGradePlan({country:'RO',stage:'lower',grade:'99',years:[]}).status,'invalid-selection');
 const html=await(await app.fetch(new Request('https://astronomy-europe-registry.test/'))).text();
 const script=html.match(/<script>([\s\S]*?)<\/script>/)?.[1]||'';
