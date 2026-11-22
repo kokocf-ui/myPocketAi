@@ -1,7 +1,7 @@
 // Mathematics learning cards: authored, age-progressive explanations and worked
 // problems. These are *general European learning aids*, not certified copies
 // of a country's national mathematics programme.
-const LOWER=[
+export const MATH_DEPTH_LOWER=[
  {
  algebra:[
  ['Numere naturale și valoarea pozițională','O cifră are o valoare diferită după poziția ei. Descompunerea în ordine de mărime ne ajută să comparăm și să calculăm numere naturale.','34 708 = 30 000 + 4 000 + 700 + 8','Comparăm 34 708 cu 34 780: primele trei ordine coincid; la zeci avem 0 < 8. Prin urmare 34 708 < 34 780.','Descompune 52 406; compară 52 406 cu 52 460.','50 000 + 2 000 + 400 + 6; primul număr este mai mic.'],
@@ -83,7 +83,7 @@ const LOWER=[
 const TOPIC_TO_LEVEL={arithmetic:'beginner',geometry:'beginner',measurement:'beginner',statistics:'beginner',algebra:'beginner',functions:'intermediate',trigonometry:'intermediate',analysis:'intermediate','linear-algebra':'advanced',discrete:'advanced',differential:'advanced'};
 export function mathInDepthEntries({stage,phase,topic}={}){
  const st=String(stage||''),p=Number(phase),subject=String(topic||'');
- const rows=st==='lower'?LOWER[p-1]?.[subject]:null;
+ const rows=st==='lower'?MATH_DEPTH_LOWER[p-1]?.[subject]:null;
  if(!Array.isArray(rows))return [];
  return rows.map((x,i)=>({
   id:'math-depth-'+st+'-'+p+'-'+subject+'-'+(i+1),
