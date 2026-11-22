@@ -72,7 +72,7 @@ try{
  assert.ok(!branches.some(x=>x.includes('Algebră')),'Algebra branch must not appear in first primary year');
  await click(page.locator('#view-module .math-choice-row').filter({hasText:'Aritmetică'}).first());
  let chapters=await page.locator('#view-module .math-choice-row').count();
- assert.ok(chapters>=3&&chapters<=4,'First primary year must have distinct, age-appropriate lessons');
+ assert.ok(chapters>=6&&chapters<=9,'Primary year one must expose its expanded set of distinct age-appropriate lessons');
  assert.equal(await page.locator('#view-module .math-choice-row').filter({hasText:'Teorie'}).count(),0,
   'No duplicate Theory tile beside real chapters');
  assert.equal(await page.locator('#view-module .math-practice-entry').count(),1,
