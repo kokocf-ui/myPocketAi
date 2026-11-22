@@ -28,6 +28,22 @@ const PATHS=Object.freeze({
   [['analysis','Matematică avansată pe domeniu'],['statistics','Statistică matematică'],['discrete','Structuri discrete']]
  ]
 });
+// General higher-education study sequence, not a national degree programme.
+// Where universities differ by institution or specialisation, do not invent
+// an official national four-year syllabus. Three/four stages here are clearly
+// labelled advisory; users can select the phase of their own course.
+export function mathCountryStudyYears({country,stage,years=[]}={}){
+ const code=String(country||'').toUpperCase(),st=String(stage||'');
+ if(st!=='advanced')return Array.isArray(years)?years:[];
+ if(Array.isArray(years)&&years.length>=3)return years;
+ const count=({'RO':3,'GB-ENG':3,'GB-WLS':3,'GB-NIR':3,'GB-SCT':4})[code]||4;
+ return Array.from({length:count},(_,i)=>({
+  id:'math-university-'+(i+1),
+  ro:'An universitar orientativ '+(i+1),
+  en:'Advisory university study year '+(i+1),
+  curriculumVerified:false,nationalYearVerified:false
+ }));
+}
 export function mathCountryGradeAreas({country,stage,grade,years}={}){
  const st=stage==='primary'?'beginner':stage==='intermediate'?'medium':String(stage||'');
  const yearList=Array.isArray(years)?years:[];
