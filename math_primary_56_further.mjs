@@ -75,7 +75,7 @@ export const MATH_PRIMARY_56_FURTHER=[
         "Estimarea și verificarea unei lungimi",
         "O estimare este o valoare aproximativă calculată înaintea măsurării. Comparăm obiectul cu o lungime cunoscută și verificăm apoi cu rigla sau ruleta.",
         "Eroare absolută=|estimare−măsurare|",
-        "Estimăm o masă de 120 cm, apoi o măsurăm și obținem 125 cm. Diferența dintre estimare și măsurare este |120−125|=5 cm.",
+        "Estimăm lungimea unei mese la 120 cm, apoi o măsurăm și obținem 125 cm. Diferența dintre estimare și măsurare este |120−125|=5 cm.",
         "Estimezi 90 cm, măsori 94 cm. Care este diferența?",
         "4 cm."
       ],
