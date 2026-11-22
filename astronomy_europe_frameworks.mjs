@@ -45,6 +45,11 @@ export const ASTRONOMY_EUROPE_FRAMEWORKS=Object.freeze({
   primary:{source:'https://skola2030.lv/lv/macibu-saturs/macibu-jomas/dabaszinatnes',scope:'national-science-integrated-grades-1-6'},
   upper:{source:'https://www.skola2030.lv/admin/filemanager/files/2/visp_vid_izgl_modelis.pdf',scope:'upper-secondary-optional-course-model-not-year-fixed'}
  }),
+ AL:Object.freeze({primary:{source:'https://www.ascap.edu.al/Biblioteka/3Programe%20Lendore/1Programet%20e%20Arsimit%20Baze/Arsimi%20Baze/Klasa%205/Dituri-natyre-5-Dituri-Natyre.pdf',scope:'albania-grade5-nature-sciences-source-edition-to-confirm'}}),
+ MK:Object.freeze({
+  primary:{source:'https://bro.gov.mk/wp-content/uploads/2022/12/Prirodni-nauki-III-odd-FF5542.pdf',scope:'north-macedonia-2022-grade3-science'},
+  lower:{source:'https://www.bro.gov.mk/wp-content/uploads/2023/03/Prirodni-nauki-6-odd..pdf',scope:'north-macedonia-2023-grade6-natural-sciences'}
+ }),
  MD:Object.freeze({upper:{source:'https://edu.gov.md/sites/default/files/geografie_liceu_ro.pdf',scope:'national-geography-2019-physical-geography-grade-10'}}),
  TR:Object.freeze({lower:{source:'https://tymm.meb.gov.tr/fen-bilimleri-dersi/unite/409',scope:'national-2026-27-grade6-unit1-12-hours'}}),
  BG:Object.freeze({lower:{source:'https://www.mon.bg/nfs/2023/12/up_vii_fizika.pdf',scope:'ministry-physics-and-astronomy-grade-7'}}),
@@ -166,6 +171,33 @@ export function astronomyCountryGradePlan({country='',stage='primary',grade='',y
 
 
 
+
+ if(code==='AL'&&level==='primary'&&year==='5')return {...general,
+  status:'national-grade5-solar-system-science',kind:'integrated',
+  topicIds:['solar','sky','stars','observations'],
+  source:base?.source||null,sourceScope:base?.scope||null,
+  programmeRo:'Dituri natyre · clasa a V-a · Sistemi diellor',
+  programmeEn:'Nature Studies · Grade 5 · Solar System',
+  noteRo:'Programul albanez de Științe ale naturii pentru clasa V descrie Sistemul Solar, mărimile și perioadele planetelor, fazele Lunii, eclipsele, anotimpurile, stelele și constelațiile. Sursa este o ediție oficială arhivată ASCAP; confirmarea aplicabilității integrale în 2026/27 rămâne necesară.',
+  noteEn:'Albanian archived official Grade 5 Nature Studies syllabus covers the Solar System, planetary sizes and periods, Moon phases, eclipses, seasons and constellations. Its full applicability to the 2026/27 cohort still requires confirmation.'};
+ if(code==='MK'){
+  if(level==='primary'&&year==='3')return {...general,
+   status:'national-grade3-universe-and-celestial-bodies',kind:'integrated',
+   topicIds:['sky','solar','observations','stars'],
+   source:base?.source||null,sourceScope:base?.scope||null,offerVerified:true,
+   programmeRo:'Природни науки · clasa a III-a · Universul și corpurile cerești',
+   programmeEn:'Natural Science · Grade 3 · Universe and celestial bodies',
+   noteRo:'În Macedonia de Nord, programa de Științe ale naturii pentru clasa III include tema „Вселена и небесни тела”: Soare, stele, planete, sateliți, Pământ și Lună. Este știință integrată, nu materie separată de Astronomie.',
+   noteEn:'North Macedonia Grade 3 Natural Science includes “Universe and celestial bodies”: Sun, stars, planets, satellites, Earth and Moon. It is integrated Science, not separate Astronomy.'};
+  if(level==='lower'&&year==='6')return {...general,
+   status:'national-grade6-universe-and-solar-system',kind:'integrated',
+   topicIds:['solar','sky','stars','observations'],
+   source:base?.source||null,sourceScope:base?.scope||null,offerVerified:true,
+   programmeRo:'Природни науки · clasa a VI-a · Universul și Sistemul Solar',
+   programmeEn:'Natural Science · Grade 6 · Universe and Solar System',
+   noteRo:'Ministerul Educației din Macedonia de Nord, programa pentru clasa VI (2023), include „Вселена и Сончев систем”: galaxii, Sistemul Solar, planete, Luna, faze, comete și rotație/revoluție. Nu introducem lecții de cosmologie matematică universitară la acest nivel.',
+   noteEn:'North Macedonia Grade 6 Natural Science (2023) covers Universe and Solar System: galaxies, planets, the Moon, phases, comets and Earth motion. Advanced mathematical cosmology is excluded from this grade.'};
+ }
  if(code==='TR'&&level==='lower'&&year==='6')return {...general,
   status:'national-grade6-solar-and-eclipses-unit',kind:'integrated',
   topicIds:['solar','sky','observations'],

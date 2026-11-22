@@ -164,6 +164,15 @@ const moldova10=get('MD','upper','10');
 assert.equal(moldova10.policy.status,'national-geography-grade10-universe-module');
 assert.ok(moldova10.plan.topics.some(x=>x.id==='gravity'));
 assert.equal(get('MD','upper','11').policy.kind,'unverified');
+
+const albania5=get('AL','primary','5');
+assert.equal(albania5.policy.status,'national-grade5-solar-system-science');
+assert.equal(albania5.policy.offerVerified,false,'Old programme edition needs current-cohort confirmation');
+assert.ok(albania5.plan.topics.some(x=>x.id==='solar'));
+assert.equal(get('AL','primary','4').policy.kind,'unverified');
+assert.equal(get('MK','primary','3').policy.status,'national-grade3-universe-and-celestial-bodies');
+assert.equal(get('MK','lower','6').policy.status,'national-grade6-universe-and-solar-system');
+assert.equal(get('MK','lower','7').policy.kind,'unverified');
 assert.equal(astronomyCountryGradePlan({country:'RO',stage:'lower',grade:'99',years:[]}).status,'invalid-selection');
 
 const progressSource=await import('./astronomy_europe_frameworks.mjs');
