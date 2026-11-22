@@ -13,6 +13,7 @@ import {astronomyNationalAlignment} from './astronomy_country_alignment.mjs';
 import {COMPUTING_PATHS,COMPUTING_TOPICS} from './computing_curriculum.mjs';
 import {FOREIGN_TOPICS} from './foreign_languages_curriculum.mjs';
 import {examByGrade} from './exam_curriculum_europe.mjs';
+import {mathCountryGradeAreas} from './math_country_grade_areas.mjs';
 
 export const EDUCATION_SCHOOL_YEAR='2026/27';
 export const EDUCATION_EUROPE_COUNTRIES=Object.freeze('AD AL AT BA BE BG BY CH CY CZ DE DK EE ES FI FR GR HR HU IE IS IT LI LT LU LV MC MD ME MK MT NL NO PL PT RO RS RU SE SI SK SM TR UA VA XK GB-ENG GB-SCT GB-WLS GB-NIR'.split(' '));
@@ -30,12 +31,6 @@ const regionalRequirements={
  PL:'Cohorta reformei și filieră',IT:'Tip de școală și cohortă',
  HU:'Gimnázium/technikum sau alt traseu',MD:'Limba de predare',
  RS:'Tip de școală și limbă',HR:'Gimnazija/strukovna',TR:'Tip de liceu'
-};
-const mathAreas={
- beginner:[['numbers','Numere și operații'],['measures','Măsurători și unități'],['shapes','Forme și spațiu'],['problems','Probleme și modele']],
- lower:[['algebra','Algebră și ecuații'],['geometry','Geometrie'],['data','Date și probabilități'],['relations','Raporturi și funcții']],
- medium:[['functions','Funcții și grafice'],['algebra','Ecuații și inecuații'],['trigonometry','Trigonometrie'],['probability','Statistică și probabilități']],
- advanced:[['analysis','Analiză matematică'],['linear','Algebră liniară'],['discrete','Structuri discrete'],['probability','Probabilități']]
 };
 const level=x=>x==='primary'?'beginner':x==='intermediate'?'medium':String(x||'');
 const unit=(id,ro,en,focus='',lessonCount=0)=>({id:String(id),ro:String(ro),en:String(en||ro),focus:String(focus||''),lessonCount:Number(lessonCount)||0});
@@ -85,8 +80,10 @@ function subjectInventory(subject,{country,stage,grade,track}){
    verified:path.status==='official-framework',
    gradeSpecific:path.status==='official-framework',source:path.source,note:''};
  }
- if(subject==='mathematics')return {units:mathAreas[stage].map(x=>unit(x[0],x[1],x[1])),
-  verified:false,gradeSpecific:false,source:null,note:''};
+ if(subject==='mathematics'){
+  const path=mathCountryGradeAreas({country,stage,grade,years:educationCountrySchoolYears(country,stage).years});
+  return {units:path.units,verified:false,gradeSpecific:false,source:null,note:path.note||''};
+ }
  if(['physics','chemistry','biology','astronomy'].includes(subject)){
   const tables={
    physics:[PHYSICS_TOPICS,PHYSICS_LESSONS],chemistry:[CHEMISTRY_TOPICS,CHEMISTRY_LESSONS],
