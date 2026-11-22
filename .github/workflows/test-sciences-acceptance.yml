@@ -46,6 +46,7 @@ jobs:
           node tests_physics_visible_school_years.mjs
           node tests_physics_all_europe_year_depth.mjs
           node tests_physics_country_year_entry_2026.mjs
+          node tests_physics_grade_inquiry_no_repeats.mjs
           node tests_physics_europe_coverage.mjs
           node tests_science_year_cards.mjs
       - name: Four separate Sciences, theory and representation
