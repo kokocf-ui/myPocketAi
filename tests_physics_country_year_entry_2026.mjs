@@ -16,7 +16,14 @@ const evidence={
  BG:{hidden:['5','6'],first:'7'},
  HR:{hidden:['5','6'],first:'7'},
  SI:{hidden:['7'],first:'8'},
- SK:{hidden:['5'],first:'6'}
+ SK:{hidden:['5'],first:'6'},
+ LT:{hidden:['5','6'],first:'7'},
+ RS:{hidden:['5'],first:'6'},
+ ME:{hidden:['6'],first:'7'},
+ MK:{hidden:['6'],first:'7'},
+ UA:{hidden:['5','6'],first:'7'},
+ RU:{hidden:['5','6'],first:'7'},
+ AL:{hidden:[],first:'6'}
 };
 let covered=0,excluded=0,eligible=0,sourceChecks=0;
 for(const code of EDUCATION_EUROPE_COUNTRIES){
@@ -70,7 +77,7 @@ for(const code of EDUCATION_EUROPE_COUNTRIES){
 }
 assert.equal(EDUCATION_EUROPE_COUNTRIES.length,50);
 assert.equal(sourceChecks,Object.keys(evidence).length);
-assert.ok(covered>=100&&excluded>=15&&eligible>=100);
+assert.ok(covered>=100&&excluded>=24&&eligible>=100);
 for(const [code,grade] of [['FR','6e'],['GR','G1'],['DK','7'],['NO','8']]){
  const years=educationCountrySchoolYears(code,'lower').years;
  assert.notEqual(physicsCountryGradePlan({country:code,stage:'lower',grade,years}).status,'not-offered',
