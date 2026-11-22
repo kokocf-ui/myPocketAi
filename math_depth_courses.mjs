@@ -7,6 +7,7 @@ export {RO5_MATH_LESSONS};
 import {MATH_DEPTH_PRIMARY} from './math_depth_primary.mjs';
 import {MATH_DEPTH_PRIMARY_56} from './math_depth_primary_56.mjs';
 import {MATH_DEPTH_PRIMARY_56_EXTRA} from './math_depth_primary_56_extra.mjs';
+import {MATH_PRIMARY_56_FURTHER} from './math_primary_56_further.mjs';
 import {MATH_PRIMARY_YEAR1_EXTRA} from './math_primary_year1_extra.mjs';
 import {MATH_PRIMARY_YEAR2_EXTRA} from './math_primary_year2_extra.mjs';
 import {MATH_PRIMARY_YEAR3_EXTRA} from './math_primary_year3_extra.mjs';
@@ -154,8 +155,9 @@ const EXPANDED_UNIVERSITY=MATH_DEPTH_UNIVERSITY.map((phase,i)=>{
  ));
 });
 const EXPANDED_PRIMARY_56=MATH_DEPTH_PRIMARY_56.map((phase,i)=>Object.fromEntries(
- [...new Set([...Object.keys(phase),...Object.keys(MATH_DEPTH_PRIMARY_56_EXTRA[i]||{})])]
- .map(topic=>[topic,[...(phase[topic]||[]),...(MATH_DEPTH_PRIMARY_56_EXTRA[i]?.[topic]||[])]])));
+ [...new Set([...Object.keys(phase),...Object.keys(MATH_DEPTH_PRIMARY_56_EXTRA[i]||{}),...Object.keys(MATH_PRIMARY_56_FURTHER[i]||{})])]
+ .map(topic=>[topic,[...(phase[topic]||[]),...(MATH_DEPTH_PRIMARY_56_EXTRA[i]?.[topic]||[]),
+  ...(MATH_PRIMARY_56_FURTHER[i]?.[topic]||[])]])));
 export const MATH_DEPTH_STAGES=Object.freeze({
  primary:[...EXPANDED_PRIMARY,...EXPANDED_PRIMARY_56],
  lower:EXPANDED_LOWER,intermediate:EXPANDED_UPPER,advanced:EXPANDED_UNIVERSITY
