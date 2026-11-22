@@ -129,6 +129,50 @@ const evidence=Object.freeze({
    source:'https://www.gov.si/assets/ministrstva/MVI/Dokumenti/Osnovna-sola/Ucni-nacrti/izbirni/1-letni/Astronomija_izbirni-v2.pdf',
    title:'Slovenian officially listed Astronomy elective, adopted 11 February 1999: three independent one-year thematic courses'}
  ],
+ AT:[
+  {stage:'lower',grades:null,subject:'Physik / Naturwissenschaften (Mittelschule)',kind:'integrated',
+   topicIds:null,sourceYear:2023,validFrom:'2023/24',
+   source:'https://www.ris.bka.gv.at/NormDokument.wxe?Abfrage=Bundesnormen&Anlage=1&Gesetzesnummer=20007850',
+   title:'Austria Mittelschule, legally consolidated science/physics curriculum: Sun, Moon, seasons and Moon phases'}
+ ],
+ DE:[
+  {stage:'lower',grades:null,subject:'Physik – KMK Länderstandards',kind:'framework-only',
+   topicIds:null,sourceYear:2024,validFrom:'2024/25',
+   source:'https://www.kmk.org/bildungsministerkonferenz/bildungsthemen/bildungsstandards.html',
+   title:'Germany KMK updated Physics standards (2024); actual school-year astronomy teaching depends on Bundesland and Schulart'}
+ ],
+ CZ:[
+  {stage:'lower',grades:null,subject:'RVP ZV – Přírodovědné vzdělávání',kind:'framework-only',
+   topicIds:null,sourceYear:2004,validFrom:null,
+   source:'https://msmt.gov.cz/vzdelavani/zakladni-vzdelavani/ramcovy-vzdelavaci-program-pro-zakladni-vzdelavani',
+   title:'Czech basic education framework 2004 stays applicable to cohorts; revision released 2025, compulsory switch delayed to 2028'}
+ ],
+ HR:[
+  {stage:'lower',grades:null,subject:'Priroda / Geografija',kind:'integrated',
+   topicIds:null,sourceYear:2019,validFrom:'2019/20',
+   source:'https://narodne-novine.nn.hr/clanci/sluzbeni/2019_01_7_145.html',
+   title:'Croatian Geography curriculum NN 7/2019: Sun, Earth in Solar System and space; class order follows national outcomes'},
+  {stage:'upper',grades:null,subject:'Fizika / Geografija',kind:'integrated',
+   topicIds:null,sourceYear:2019,validFrom:'2019/20',
+   source:'https://narodne-novine.nn.hr/clanci/sluzbeni/2019_01_10_210.html',
+   title:'Croatian Physics curriculum NN 10/2019: model of Solar System formation and universe; track affects year allocation'}
+ ],
+ MD:[
+  {stage:'upper',grades:null,subject:'Fizică. Astronomie (clasele X–XII)',kind:'integrated',
+   topicIds:null,sourceYear:2019,validFrom:'2019/20',
+   source:'https://edu.gov.md/sites/default/files/13_fizica_ro_2019-20_final_12.09.2019f_0.pdf',
+   title:'Moldova Ministry: Physics/Astronomy 2019 curriculum, Order 906/17 July 2019; 2026 consultation is not an adopted replacement'}
+ ],
+ EE:[
+  {stage:'primary',grades:null,subject:'Loodusõpetus / natural sciences',kind:'framework-only',
+   topicIds:null,sourceYear:2025,validFrom:null,
+   source:'https://www.riigiteataja.ee/et/akt/123122025007',
+   title:'Estonia national basic-school framework as amended 2025; annual astronomy chapters must be checked in Natural Science annex and school programme'},
+  {stage:'lower',grades:null,subject:'Loodusained / natural sciences',kind:'framework-only',
+   topicIds:null,sourceYear:2025,validFrom:null,
+   source:'https://www.riigiteataja.ee/et/akt/123122025007',
+   title:'Estonia basic school curriculum and science area framework, not a fixed standalone Astronomy syllabus'}
+ ],
  FI:[
   {stage:'primary',grades:null,subject:'Environmental studies',kind:'framework-only',
    topicIds:null,sourceYear:2014,validFrom:'2016/17',
