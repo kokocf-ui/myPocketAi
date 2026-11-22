@@ -58,6 +58,23 @@ try{
  await click(page.locator('#math-theory-quick-reference'));
  const theoremList=page.locator('#moduleContent .math-theory-scroll-list');
  await theoremList.waitFor({state:'visible'});
+ // Regression for Android's global picker: a branch selector must allow
+ // swiping through ALL mathematical branches, not just the first four.
+ const branchPicker=page.locator('#moduleContent .math-theory-reference-panel select');
+ assert.equal(await branchPicker.getAttribute('data-pocket-picker-mode'),'scroll',
+  'Theorem branch picker must request the swipeable Android modal');
+ await branchPicker.evaluate(el=>el.dispatchEvent(new MouseEvent('click',{bubbles:true,cancelable:true,button:0})));
+ await page.locator('#pocketSelectDialog').waitFor({state:'visible'});
+ assert.ok(await page.locator('#pocketSelectDialog').evaluate(el=>el.classList.contains('pocket-select-scroll-mode')),
+  'Theorem branch picker must use the scroll modal, not a four-item-only modal');
+ const pickerItems=await page.locator('#pocketSelectList .pocket-select-option').count();
+ assert.ok(pickerItems>=8,'More than four theorem branches must be rendered before typing');
+ const pickerScroll=await page.locator('#pocketSelectList').evaluate(el=>{
+  el.scrollTop=el.scrollHeight;return {top:el.scrollTop,scrollHeight:el.scrollHeight,clientHeight:el.clientHeight}
+ });
+ assert.ok(pickerScroll.scrollHeight>pickerScroll.clientHeight&&pickerScroll.top>0,
+  'Android theorem branch picker must physically scroll');
+ await click(page.locator('#pocketSelectClose'));
  const scroll=await theoremList.evaluate(el=>{el.scrollTop=el.scrollHeight;return {top:el.scrollTop,height:el.scrollHeight,client:el.clientHeight}});
  assert.ok(scroll.height>scroll.client&&scroll.top>0,'Mathematics reference list must scroll by touch');
  await page.locator('#moduleContent input[type="search"]').fill('Pitagora');
