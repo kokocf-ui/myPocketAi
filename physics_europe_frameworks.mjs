@@ -164,7 +164,7 @@ export function physicsCountryGradePlan({country='',stage='lower',grade='',years
  // the country's lower-secondary school stage starts. This matters when
  // grade V/VI is integrated science and Physics begins in a later grade.
  const courseYears=phase==='lower'?rows.filter(row=>
-  !PHYSICS_NOT_OFFERED_LOWER_YEARS[code]?.includes(String(row.id))):rows;
+  !(code!=='FR'&&ref?.noLower?.includes(String(row.id)))):rows;
  const coursePosition=courseYears.findIndex(row=>String(row.id)===yr);
  const base=PHYSICS_ADVISORY_TOPIC_SEQUENCES[phase]||[];
  const sequence=base.length&&coursePosition>=0?
