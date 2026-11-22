@@ -22,6 +22,8 @@ const DICTIONARY_RO=[
  ['bibliotecă','Loc în care sunt păstrate și puse la dispoziție cărți și alte materiale.','Împrumut o carte de la bibliotecă.'],
  ['bine','În mod potrivit, corect sau avantajos.','A rezolvat bine exercițiul.'],
  ['bucurie','Stare de mulțumire și încântare.','A simțit bucurie la vestea bună.'],
+ ['buruiană','Plantă care crește spontan, de obicei acolo unde nu este dorită.','În grădină a crescut o buruiană.'],
+ ['buruieni','Pluralul cuvântului «buruiană»: plante spontane, nedorite într-un anumit loc.','A smuls buruienile dintre legume.'],
  ['bunătate','Însușirea de a fi binevoitor și de a face bine.','Bunătatea se vede din fapte.'],
  ['calm','Lipsit de agitație; liniștit.','A răspuns calm.'],
  ['caracter','Totalitatea trăsăturilor morale și de comportament ale unei persoane.','Faptele arată caracterul personajului.'],
