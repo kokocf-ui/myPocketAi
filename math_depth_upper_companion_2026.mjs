@@ -47,7 +47,7 @@ export const MATH_UPPER_2026_COMPANION=[
   geometry:[
    ['Equation of a vertical line','Ecuația unei drepte verticale',
     'O dreaptă verticală conține puncte cu aceeași coordonată x, indiferent de y. Ea nu are pantă finită și nu se poate scrie ca y=mx+n.',
-    'x=c',
+    'x=c, c∈ℝ',
     'Punctele (2,−1) și (2,7) au aceeași abscisă. Dreapta care trece prin ele are ecuația x=2; fiecare punct de pe dreaptă o satisface.',
     'Scrie ecuația dreptei prin (−3,1) paralelă cu Oy.','x=−3.'],
    ['Triangle area from coordinates','Aria triunghiului din coordonate',
@@ -79,7 +79,7 @@ export const MATH_UPPER_2026_COMPANION=[
    ['Solving an exponential equation','Ecuații exponențiale cu aceeași bază',
     'Dacă două puteri ale aceleiași baze pozitive diferite de unu sunt egale, atunci exponenții lor sunt egali. Transformăm mai întâi numerele în puteri ale aceleiași baze.',
     'aᵘ=aᵛ ⇒ u=v, a>0, a≠1',
-    'Rezolvăm 2^(x+1)=16 scriind 16=2⁴. Atunci x+1=4 și x=3. Verificăm 2⁴=16.',
+    'Rezolvăm 2^(x+1)=16 scriind 16=2⁴. Atunci x+1=4 și x=3. Verificăm 2⁴=16 și observăm că baza 2 este pozitivă și diferită de 1.',
     'Rezolvă 3^(2x)=81.','x=2.']
   ],
   trigonometry:[
@@ -136,7 +136,7 @@ export const MATH_UPPER_2026_COMPANION=[
    ['Derivative of a polynomial','Derivarea unui polinom',
     'Derivata este liniară și fiecare monom xⁿ se derivează în nxⁿ⁻¹. Termenul constant are derivata zero. Formula se aplică termen cu termen.',
     '(aₙxⁿ+…+a₀)′=naₙxⁿ⁻¹+…+a₁',
-    'Pentru f(x)=3x³−2x²+5, derivăm succesiv: 9x²−4x+0. Așadar f′(x)=9x²−4x.',
+    'Pentru f(x)=3x³−2x²+5, derivăm succesiv: 9x²−4x+0. Așadar f′(x)=9x²−4x; termenul constant dispare deoarece derivata unei constante este zero.',
     'Derivează f(x)=4x⁴−x.','f′(x)=16x³−1.'],
    ['Stationary points and derivatives','Puncte staționare și semnul derivatei',
     'Un punct interior unde derivata este zero poate fi maxim, minim sau niciuna dintre acestea. Studiem schimbarea semnului derivatei pe intervale pentru clasificare.',
@@ -158,7 +158,7 @@ export const MATH_UPPER_2026_COMPANION=[
    ['Cosine double-angle identity','Cosinusul unghiului dublu',
     'Pornind de la formula cos(a+b), pentru a=b obținem o identitate în sinus și cosinus. Forma potrivită se alege după datele exercițiului.',
     'cos(2x)=cos²x−sin²x=2cos²x−1',
-    'Dacă x=60°, cos(2x)=2·(1/2)²−1=−1/2, aceeași valoare ca cos 120°.',
+    'Dacă x=60°, cos(2x)=2·(1/2)²−1=−1/2, aceeași valoare ca cos 120°. Verificăm mai întâi că valoarea cos 60° este 1/2.',
     'Dacă cos x=3/5, află cos 2x.','2·9/25−1=−7/25.']
   ],
   statistics:[
@@ -198,7 +198,7 @@ export const MATH_UPPER_2026_COMPANION=[
    ['Area between a line and x-axis','Aria dintre grafic și axa Ox',
     'Aria geometrică se determină din integrala valorii absolute a funcției când aceasta își schimbă semnul. Dacă funcția este pozitivă pe interval, aria este chiar integrala.',
     'A=∫ₐᵇ |f(x)|dx',
-    'Pe [0,2], f(x)=x≥0, așa că aria de sub grafic este ∫₀² x dx=[x²/2]₀²=2.',
+    'Pe [0,2], f(x)=x≥0, așa că aria de sub grafic este ∫₀² x dx=[x²/2]₀²=2. Nu este necesar modulul deoarece funcția nu este negativă.',
     'Află aria dintre y=−x și Ox pe [0,2].','∫₀² x dx=2.'],
    ['Average value of a function','Valoarea medie a unei funcții',
     'Valoarea medie pe un interval se obține împărțind integrala definită la lungimea intervalului. Ea nu este, în general, media aritmetică a valorilor la capete.',
