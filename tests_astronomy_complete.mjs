@@ -40,7 +40,7 @@ for(const marker of ['ASTRONOMY_TOPIC_DATA','ASTRONOMY_SPECIALTY_DATA','ASTRONOM
  assert.ok(script.includes(marker),marker);
 const begin=script.indexOf('function astronomyVisualKind(question,topic)');
 const end=script.indexOf('function scienceShowResult(title,body)',begin);
-class FakeEl{constructor(tag){this.tag=tag;this.children=[];this.textContent='';this.attrs={}}append(...v){this.children.push(...v)}setAttribute(k,v){this.attrs[k]=v}}
+class FakeEl{constructor(tag){this.tag=tag;this.children=[];this.textContent='';this.attrs={};this.style={}}append(...v){this.children.push(...v)}setAttribute(k,v){this.attrs[k]=v}}
 const visual=vm.runInNewContext(script.slice(begin,end)+';({kind:astronomyVisualKind,draw:astronomyVisualBuild})',{
  document:{createElement:t=>new FakeEl(t),createElementNS:(ns,t)=>new FakeEl(t)},
  learningLabel:(ro,en)=>ro,
