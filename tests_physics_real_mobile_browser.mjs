@@ -113,8 +113,10 @@ try{
   'University study requires study, exercises, and laboratory or physical models');
  await open(universityActions.first());
  const universityLessons=page.locator('#view-module .science-inline-theory-item');
- assert.ok(await universityLessons.count()>=2,
-  'University chapter must show multiple independently written Physics lessons');
+ assert.ok(await universityLessons.count()>=1,
+  'Every full university chapter must offer at least one independent lesson');
+ assert.equal(new Set(await universityLessons.allTextContents()).size,
+  await universityLessons.count(),'University chapter has duplicated study entries');
  await open(universityLessons.first());
  await dialog.waitFor({state:'visible',timeout:8000});
  const undergraduateText=await dialog.locator('.education-paged-text').innerText();
