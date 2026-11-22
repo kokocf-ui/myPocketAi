@@ -3,7 +3,7 @@ import vm from 'node:vm';
 import frontend from './index.js';
 import {EDUCATION_EUROPE_COUNTRIES,educationCountrySchoolYears,educationSubjectSchoolPlan}
  from './education_all_country_subject_matrix.mjs';
-import {mathCountryGradeAreas} from './math_country_grade_areas.mjs';
+import {mathCountryGradeAreas,mathCountryStudyYears} from './math_country_grade_areas.mjs';
 const html=await(await frontend.fetch(new Request('https://math-all-countries.test/'))).text();
 const script=[...html.matchAll(/<script[^>]*>([\s\S]*?)<\/script>/g)][0]?.[1];
 assert.ok(script,'Android frontend must contain inline JavaScript');
@@ -17,6 +17,17 @@ let examined=0;
 for(const country of EDUCATION_EUROPE_COUNTRIES){
  for(const stage of ['beginner','lower','medium','advanced']){
   const {years}=educationCountrySchoolYears(country,stage);
+  if(stage==='advanced'){
+   const university=mathCountryStudyYears({country,stage,years});
+   assert.ok(university.length>=3,'University maths must offer differentiated advisory years: '+country);
+   assert.equal(new Set(university.map(x=>x.id)).size,university.length);
+   assert.ok(university.every(x=>x.nationalYearVerified!==true),'Advisory university years must not masquerade as official');
+   for(const grade of university){
+    const course=educationSubjectSchoolPlan({country,stage,grade:grade.id,subject:'mathematics'});
+    assert.ok(course.units.length>=3,'University year must have maths branches: '+country+' '+grade.id);
+    assert.ok(course.units.every(x=>(bank[x.id]?.advanced||[]).length>0),'University branch has no chapters');
+   }
+  }
   for(const grade of years){
    const plan=educationSubjectSchoolPlan({country,stage,grade:grade.id,subject:'mathematics'});
    assert.equal(plan.status,'general-learning');
