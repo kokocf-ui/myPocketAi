@@ -39,7 +39,14 @@ for(const code of EDUCATION_EUROPE_COUNTRIES){
      assert.ok(labs.every(x=>x.body.length>=500),'Practical text requires a full safe method and linked lesson');
      assert.ok(labs.every(x=>x.review.prompt.length>=65&&x.review.guide.length>=50));
      assert.ok(labs.every(x=>x.source==='original-physics-year-lab'));
-     if(stage==='primary')assert.ok(labs.every(x=>!x.body.includes('Q=mcΔT')),'No advanced equation leaked into primary practical');
+     if(stage==='primary'){
+      const notPrimary=/(?:Q\s*=\s*mc|p\s*=\s*F\s*\/\s*A|p\s*=\s*ρgh|Kirchhoff|Faraday|Bernoulli|ε\s*=|v\s*=\s*fλ|F\s*=\s*ma)/i;
+      assert.ok(labs.every(x=>!notPrimary.test(x.body)),
+       'No advanced equations or university concepts in primary integrated-science laboratory: '+code+'/'+year.id+'/'+chapter.id);
+      assert.ok(labs.every(x=>x.body.includes('Observare sigură și identificarea variabilelor')||
+       x.body.includes('Safe observation and identifying variables')),
+       'Primary practical must explicitly focus on simple observations');
+     }
      labChecks+=2;
     }
     courseChecks++;
