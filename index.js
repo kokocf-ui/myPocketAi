@@ -83,6 +83,7 @@ import {BIOLOGY_TOPICS,BIOLOGY_SPECIALIZATIONS,BIOLOGY_SPECIALTY_TOPICS,biologyV
 import {BIOLOGY_UPPER_YEAR_TOPICS,BIOLOGY_UPPER_YEAR_BANK,biologyUpperYearLessons} from './biology_upper_course.mjs';
 import {BIOLOGY_PRIMARY_YEAR_TOPICS,BIOLOGY_PRIMARY_YEAR_ROWS,biologyPrimaryYearPosition,biologyPrimaryTopics,biologyPrimaryYearLessons} from './biology_primary_years.mjs';
 import {BIOLOGY_LOWER_YEAR_TOPICS,BIOLOGY_LOWER_YEAR_ROWS,biologyLowerYearLessons} from './biology_lower_europe_years.mjs';
+import {BIOLOGY_LOWER_YEAR_SEQUENCE,BIOLOGY_UPPER_YEAR_SEQUENCE,biologyYearUnits,biologyYearTopicIds} from './biology_year_distribution.mjs';
 import {BIOLOGY_REFERENCE_GROUPS,BIOLOGY_REFERENCE,biologyReferenceText} from './biology_reference.mjs';
 import {BIOLOGY_TOPIC_VISUALS,biologyTopicVisualBuild} from './biology_topic_visuals.mjs';
 import {BIOLOGY_COUNTRY_REFERENCES,BIOLOGY_EUROPE_FALLBACK_SOURCE,biologyCountryStageInfo} from './biology_country_alignment.mjs';
@@ -9443,6 +9444,10 @@ const BIOLOGY_EUROPE_FALLBACK_SOURCE=${JSON.stringify(BIOLOGY_EUROPE_FALLBACK_SO
 const biologyCountryStageInfo=${biologyCountryStageInfo.toString()};
 const ASTRONOMY_COUNTRY_EVIDENCE=${JSON.stringify(ASTRONOMY_COUNTRY_EVIDENCE)};
 const astronomyNationalAlignment=${astronomyNationalAlignment.toString()};
+const BIOLOGY_LOWER_YEAR_SEQUENCE=${JSON.stringify(BIOLOGY_LOWER_YEAR_SEQUENCE)};
+const BIOLOGY_UPPER_YEAR_SEQUENCE=${JSON.stringify(BIOLOGY_UPPER_YEAR_SEQUENCE)};
+const biologyYearUnits=${biologyYearUnits.toString()};
+const biologyYearTopicIds=${biologyYearTopicIds.toString()};
 const SCIENCE_GRADE_TOPIC_PLAN=${scienceGradeTopicPlan.toString()};
 const SCIENCE_GRADE_LESSON_FRAME=${scienceGradeLessonFrame.toString()};
 const PHYSICS_TOPIC_DATA=${JSON.stringify(PHYSICS_TOPICS)};

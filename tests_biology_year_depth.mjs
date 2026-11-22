@@ -175,6 +175,10 @@ const script=html.match(/<script>([\s\S]*?)<\/script>/)?.[1];
 assert.ok(script,'Actual Android WebView script');
 new vm.Script(script);
 for(const fragment of [
+ 'const BIOLOGY_LOWER_YEAR_SEQUENCE=',
+ 'const BIOLOGY_UPPER_YEAR_SEQUENCE=',
+ 'const biologyYearUnits=',
+ 'const biologyYearTopicIds=',
  'const BIOLOGY_UPPER_YEAR_BANK=',
  'const BIOLOGY_UPPER_YEAR_TOPICS=',
  'const biologyUpperYearLessons=',
