@@ -64,7 +64,7 @@ for(const year of ['Y7','Y8','Y9']){
 }
 for(const country of ['GB-SCT','GB-WLS','GB-NIR'])
  assert.equal(get(country,'lower',educationCountrySchoolYears(country,'lower').years[0].id).policy.kind,'integrated');
-for(const country of ['HU','IT','DE','PT','TR']){
+for(const country of ['HU','DE','PT','TR']){
  const first=educationCountrySchoolYears(country,'lower').years[0];
  assert.equal(get(country,'lower',first.id).policy.status,'country-curriculum-unverified');
 }
@@ -118,6 +118,20 @@ assert.equal(get('EE','primary','4').policy.status,'national-grade-4-nature-stud
 assert.equal(get('EE','primary','3').policy.kind,'unverified');
 assert.equal(get('LV','primary','3').policy.status,'national-integrated-stage');
 assert.equal(get('LV','upper','11').policy.status,'astronomy-option-not-year-specific');
+
+for(const grade of ['7','8','9']){
+ const {policy,plan}=get('SI','lower',grade);
+ assert.equal(policy.status,'national-three-electives-no-fixed-grade');
+ assert.equal(policy.electiveModules.length,3);
+ assert.ok(policy.electiveModules.every(x=>x.hours===35&&x.topics.length>=2));
+ assert.ok(plan.topics.length>=3);
+}
+assert.equal(get('RS','upper','G4').policy.status,'specialist-physics-gymnasium-year-4');
+assert.equal(get('RS','upper','G3').policy.kind,'unverified','No general mandatory astronomy before specialist Year 4');
+assert.equal(get('IT','primary','P1').policy.status,'new-national-framework-2026');
+assert.equal(get('IT','primary','P2').policy.status,'legacy-national-framework-2012');
+assert.equal(get('IT','lower','M1').policy.status,'new-national-framework-2026');
+assert.equal(get('IT','lower','M2').policy.status,'legacy-national-framework-2012');
 assert.equal(astronomyCountryGradePlan({country:'RO',stage:'lower',grade:'99',years:[]}).status,'invalid-selection');
 const html=await(await app.fetch(new Request('https://astronomy-europe-registry.test/'))).text();
 const script=html.match(/<script>([\s\S]*?)<\/script>/)?.[1]||'';

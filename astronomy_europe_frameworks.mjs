@@ -30,6 +30,12 @@ export const ASTRONOMY_EUROPE_FRAMEWORKS=Object.freeze({
  }),
 
 
+ SI:Object.freeze({lower:{source:'https://www.gov.si/assets/ministrstva/MVI/Dokumenti/Osnovna-sola/Ucni-nacrti/izbirni/1-letni/Astronomija_izbirni-v3.pdf',scope:'three-national-one-year-elective-modules-choice-not-grade-fixed'}}),
+ RS:Object.freeze({upper:{source:'https://prosveta.gov.rs/prosveta/srednje-obrazovanje/gimnazije/specijalizovne-gimnazije-i-odeljenja/specijalizovana-odeljenja-za-ucenike-sa-posebnim-sposobnostima-za-fiziku/?pismo=lat',scope:'specialist-physics-gymnasium-year-4-only'}}),
+ IT:Object.freeze({
+  primary:{source:'https://www.normattiva.it/atto/caricaDettaglioAtto?atto.codiceRedazionale=26G00021&atto.dataPubblicazioneGazzetta=2026-01-27',scope:'new-first-cohort-P1-2026-vs-2012-existing-cohorts'},
+  lower:{source:'https://www.normattiva.it/atto/caricaDettaglioAtto?atto.codiceRedazionale=26G00021&atto.dataPubblicazioneGazzetta=2026-01-27',scope:'new-first-cohort-M1-2026-vs-2012-existing-cohorts'}
+ }),
  LT:Object.freeze({
   lower:{source:'https://emokykla.lt/bendrosios-programos/visos-bendrosios-programos/38',scope:'national-science-curriculum-grade-6'},
   upper:{source:'https://emokykla.lt/bendrosios-programos/visos-bendrosios-programos/15',scope:'national-elective-Astronomija-gymnasium-III-IV'}
@@ -148,6 +154,37 @@ export function astronomyCountryGradePlan({country='',stage='primary',grade='',y
  // Source-backed national programmes: compare year IDs with the existing country picker.
  // Goals and topic lists below are ORIGINAL teaching adaptations, not verbatim official syllabi.
 
+
+ if(code==='SI'&&level==='lower'&&['7','8','9'].includes(year))return {...general,
+  status:'national-three-electives-no-fixed-grade',kind:'national-optional',
+  topicIds:['solar','sky','observations','stars'],
+  source:base?.source||null,sourceScope:base?.scope||null,offerVerified:true,
+  programmeRo:'Astronomija · trei module opționale anuale',programmeEn:'Astronomy · three optional one-year modules',
+  electiveModules:[
+   {id:'sun-earth-moon',ro:'Sonce, Luna in Zemlja',en:'Sun, Moon and Earth',hours:35,topics:['solar','sky','observations']},
+   {id:'telescopes-planets',ro:'Daljnogledi in planeti',en:'Telescopes and planets',hours:35,topics:['solar','observations']},
+   {id:'stars-universe',ro:'Zvezde in vesolje',en:'Stars and universe',hours:35,topics:['stars','sky']}
+  ],
+  noteRo:'Ministerul Educației din Slovenia publică trei programe de Astronomija, fiecare opțional pentru un an școlar (35 sau 32 de ore), la clasele 7–9. Sunt module distincte, iar școala și elevul aleg cursul; NU atribuim o temă fixă clasei 7, 8 sau 9.',
+  noteEn:'Slovenia offers three distinct national one-year Astronomy electives (35 or 32 hours) for Years 7–9. The school and pupil select a course; the app does not assign a fixed module to Year 7, 8 or 9.'};
+ if(code==='RS'&&level==='upper'&&year==='G4')return {...general,
+  status:'specialist-physics-gymnasium-year-4',kind:'integrated',
+  topicIds:['stars','galaxies','gravity','distances','observations'],
+  source:base?.source||null,sourceScope:base?.scope||null,offerVerified:true,
+  programmeRo:'Gimnazija · fizică specializată · anul 4 · Osnove astrofizike i astronomije',
+  programmeEn:'Physics specialist gymnasium · Year 4 · Foundations of Astrophysics and Astronomy',
+  noteRo:'În Serbia, doar filiera de gimnaziu specializată pentru elevii cu aptitudini în Fizică cuprinde în anul IV „Osnove astrofizike i astronomije”. Nu extindem această materie automat către toate liceele.',
+  noteEn:'Serbia Year 4 specialised Physics gymnasium explicitly includes Foundations of Astrophysics and Astronomy. It must NOT be shown as a compulsory subject in all upper-secondary schools.'};
+ if(code==='IT'&&['primary','lower'].includes(level))return {...general,
+  status:(level==='primary'&&year==='P1'||level==='lower'&&year==='M1')?'new-national-framework-2026':'legacy-national-framework-2012',
+  kind:'integrated',source:base?.source||null,sourceScope:base?.scope||null,
+  programmeRo:(level==='primary'&&year==='P1'||level==='lower'&&year==='M1')?
+   'Indicazioni nazionali 2025 · aplicate în 2026/27 pentru primul an':
+   'Indicazioni nazionali 2012 · generații începute înainte de 2026/27',
+  programmeEn:(level==='primary'&&year==='P1'||level==='lower'&&year==='M1')?
+   '2025 national guidelines · first-year entry in 2026/27':'2012 national guidelines · continuing cohorts',
+  noteRo:'Italia aplică treptat DM 221/2025 din 2026/27 în primele clase de școală primară și secundară de grad I. Generațiile din clasele următoare păstrează indicațiile din 2012. Sursa stabilește regimul legal, nu atestă un capitol de Astronomie separat sau o repartizare unică pe clasă.',
+  noteEn:'Italy DM 221/2025 phases in from 2026/27 in first primary and first lower-secondary classes. Continuing cohorts follow 2012 guidelines. This legal source confirms the cohort framework, not a separate Astronomy syllabus or precise year topics.'};
  if(code==='LT'){
   if(level==='lower'&&year==='6')return {...general,
    status:'national-science-grade-6',kind:'integrated',

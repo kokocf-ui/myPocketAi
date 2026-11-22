@@ -145,6 +145,7 @@ export const SCIENCE_PRIMARY_LESSON_BANK=Object.freeze({
   sky:['Cerul se schimbă aparent','Soarele pare să traverseze cerul deoarece Pământul se rotește. Stelele se văd noaptea în condiții potrivite.','Desenează poziția umbrei la două ore diferite. Nu privi direct Soarele.'],
   solar:['Vecinii Pământului','Pământul este o planetă ce se rotește în jurul Soarelui. Luna este satelitul natural al Pământului.','Construiește un model simplu cu bile de dimensiuni simbolice, fără a pretinde scară exactă.'],
   observations:['Observăm și notăm','O observație bună include data, ora, locul și condițiile cerului. Un desen este mai util dacă este etichetat.','Ține un jurnal al fazelor Lunii timp de câteva seri, dacă cerul permite.'],
+  stars:['Stelele și constelațiile','Soarele este o stea. Celelalte stele vizibile noaptea sunt foarte îndepărtate, iar constelațiile sunt grupări aparente de stele văzute de pe Pământ.','Desenează o constelație de pe o hartă simplă a cerului și explică de ce punctele din desen nu trebuie să fie apropiate în spațiu.'],
   distances:['Distanțe în spațiu','În spațiu, distanțele sunt uriașe; lumina are o viteză finită. Modelele cu bile sunt utile, dar rar păstrează scara.','Explică de ce nu putem așeza planetele la distanțe reale într-o cameră.']
  }
 });
@@ -172,6 +173,7 @@ export const SCIENCE_PRIMARY_ENGLISH=Object.freeze({
   sky:['Changes in the sky','The Sun appears to move across the sky mainly because Earth rotates. Stars may be visible at night.','Draw the position of a shadow at two different times. Never look directly at the Sun.'],
   solar:['Earth and its neighbours','Earth is a planet orbiting the Sun. The Moon is Earth’s natural satellite.','Make a simple model with balls, clearly stating that distances and sizes are not to scale.'],
   observations:['Looking and recording','A useful observation includes date, time, location and sky conditions. Labelled drawings preserve details.','Keep a journal of the Moon’s shape over several clear evenings.'],
+  stars:['Stars and constellations','The Sun is a star. Other stars visible at night are far away, and constellations are apparent patterns seen from Earth, not physically close groups.','Draw a constellation from a simple sky chart and explain why its stars need not be close together in space.'],
   distances:['Distances in space','Space distances are enormous and light takes time to travel. Models are helpful but rarely use a true scale.','Explain why real interplanetary distances cannot be reproduced inside a room.']
  }
 });
@@ -248,6 +250,10 @@ export const SCIENCE_PRIMARY_DEPTH=Object.freeze({
   observations:{
    ro:['O observație științifică este mai utilă când poate fi repetată: notează data, ora, condițiile și instrumentele. Un jurnal îți permite să compari mai multe seri.','Exemplu: desenează aproximativ forma Lunii câteva seri, la ore asemănătoare. Faptul că nu o vezi într-o seară înnorată nu dovedește că a dispărut.','Nu inventa poziții exacte ale planetelor fără un calendar astronomic sau observații reale.'],
    en:['Scientific observations become more useful when repeated and recorded with date, time, conditions and tools. A journal allows comparisons across evenings.','Example: sketch the Moon over several evenings at similar times. A cloudy night is not evidence that the Moon disappeared.','Do not claim exact current planet positions without a real ephemeris or observation.']
+  },
+  stars:{
+   ro:['Stelele produc propria lor lumină, spre deosebire de planetele care reflectă în principal lumina Soarelui. Soarele pare mai mare și mai luminos fiindcă este steaua cea mai apropiată de Pământ.','Exemplu: compară două schițe ale unor constelații și marchează stelele fără a uni punctele într-un obiect fizic. Modelul arată direcții aparente, nu distanțele reale dintre stele.','Nu considera stelele unei constelații drept vecini apropiați în spațiu: pot fi la distanțe foarte diferite.'],
+   en:['Stars emit their own light, unlike planets which mainly reflect sunlight. The Sun looks larger and brighter because it is the nearest star to Earth.','Example: compare two sketched constellations and label the stars without claiming the lines form a physical object. The chart shows apparent directions rather than true distances.','Constellation stars are not necessarily close neighbours; their distances can differ greatly.']
   },
   distances:{
    ro:['Distanța de la Pământ la Soare este mult mai mare decât cea până la Lună. Un an-lumină este o unitate de distanță, nu o durată; descrie cât parcurge lumina într-un an.','Exemplu: când desenăm planetele apropiate ca dimensiune și la intervale mici, folosim un model didactic, nu o hartă la scară.','Nu compara dimensiunea aparentă dintr-o fotografie cu diametrul real fără să ții cont de distanță.'],
