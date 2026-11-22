@@ -76,8 +76,17 @@ export function physicsLaboratoryYearInvestigations({country='',grade='',stage='
   // The last two arrays are bilingual and keep grade progression independent
   // of the country's numbering convention (e.g. VII, 7, Y8 or 4e).
   const phase=stage==='primary'?0:stage==='upper'?2:1;
+  // The index coming from the school picker includes grades in which
+  // standalone Physics is not yet offered. Progress laboratory demands from
+  // the first *eligible subject year*, rather than the first school grade.
+  const skippedBeforePhysics={
+   RO:1,MD:1,HU:2,PL:2,PT:2,LV:1,BG:2,HR:2,SI:1,SK:1,
+   LT:2,RS:1,ME:1,MK:1,UA:2,RU:2,BY:2
+  };
+  const subjectPosition=phase===1?Math.max(0,position-
+   (skippedBeforePhysics[String(country).toUpperCase()]||0)):position;
   const depth=phase===0?0:phase===2?Math.min(2,1+Math.floor(position/2)):
-   Math.min(2,position);
+   Math.min(2,subjectPosition);
   const focused={
    units:[
     ['Compară citirile a două obiecte cu o riglă și notează centimetrii, fără a ghici zecimale.','Măsoară de cinci ori aceeași dimensiune, calculează media și diferența maxim–minim cu unități.','Estimează incertitudinea unei arii calculate din două lungimi și justifică cifrele semnificative.'],
@@ -136,8 +145,10 @@ export function physicsLaboratoryYearInvestigations({country='',grade='',stage='
   const scientific=String(entry.statement||'');
   const worked=phase===0?'':String(entry.workedExample||entry.example||'');
   const prompt=title+': '+focus+' '+
-   (isRo?'Precizează dovezile specifice acestei investigații și modul în care ai verifica rezultatul.':
-   'State evidence specific to this investigation and how the result would be checked.');
+   (isRo?'Aplică acest obiectiv la lecția «':'Apply this aim to the lesson “')+
+   String(entry.title||topic)+(isRo?'»: ':'”: ')+String(entry.exercise||'')+' '+
+   (isRo?'Precizează dovezile specifice investigației și cum verifici rezultatul.':
+   'State evidence specific to this investigation and how to verify the result.');
   const guide=String(entry.answer||'')+' '+
    (isRo?'Sunt necesare o ipoteză explicită, o metodă sigură, observații cu unități când se măsoară și o concluzie limitată la dovezi.':
    'A valid response states a hypothesis, safe method, measurements with units where relevant, and an evidence-limited conclusion.');
