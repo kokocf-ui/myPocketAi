@@ -268,7 +268,9 @@ export function literatureQuickReferenceAttach(panel,options={}){
   const selectWord=word=>{
    requestSerial++;
    if(aborter){aborter.abort();aborter=null}
-   const local=(dict[language]||[]).find(x=>norm(x[0])===norm(word))||
+   const wordsForLanguage=dict[language]||[];
+   const exactWord=wordsForLanguage.find(x=>String(x[0]).toLocaleLowerCase()===String(word).toLocaleLowerCase());
+   const local=exactWord||wordsForLanguage.find(x=>norm(x[0])===norm(word))||
     (grammar[language]||[]).find(x=>norm(x[1])===norm(word))?.slice(1);
    input.value=word;
    if(local)showDetail(local[0],local[1],local[2]);
@@ -288,7 +290,7 @@ export function literatureQuickReferenceAttach(panel,options={}){
    ];
    const unique=new Map();
    for(const term of fromLocal){
-    if(norm(term).startsWith(norm(q))&&!unique.has(norm(term)))unique.set(norm(term),term);
+    if(norm(term).startsWith(norm(q))&&!unique.has(String(term).toLocaleLowerCase()))unique.set(String(term).toLocaleLowerCase(),term);
    }
    const ranked=(word)=>{
     const name=norm(word),search=norm(q);
