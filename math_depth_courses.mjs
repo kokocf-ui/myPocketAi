@@ -6,11 +6,21 @@ export {RO678_MATH_LESSONS};
 export {RO5_MATH_LESSONS};
 import {MATH_DEPTH_PRIMARY} from './math_depth_primary.mjs';
 import {MATH_DEPTH_PRIMARY_56} from './math_depth_primary_56.mjs';
+import {MATH_DEPTH_PRIMARY_56_EXTRA} from './math_depth_primary_56_extra.mjs';
+import {MATH_PRIMARY_56_FURTHER} from './math_primary_56_further.mjs';
+import {MATH_PRIMARY_YEAR1_EXTRA} from './math_primary_year1_extra.mjs';
+import {MATH_PRIMARY_YEAR2_EXTRA} from './math_primary_year2_extra.mjs';
+import {MATH_PRIMARY_YEAR3_EXTRA} from './math_primary_year3_extra.mjs';
+import {MATH_PRIMARY_YEAR4_EXTRA} from './math_primary_year4_extra.mjs';
 import {MATH_PRIMARY_EXTENSION} from './math_depth_primary_extension.mjs';
 import {MATH_DEPTH_UPPER} from './math_depth_upper.mjs';
 import {MATH_DEPTH_UNIVERSITY} from './math_depth_university.mjs';
 import {MATH_UNIVERSITY_EXTENSION} from './math_depth_university_extension.mjs';
 import {MATH_LOWER_EXTENSION} from './math_depth_lower_extension.mjs';
+import {MATH_LOWER_YEAR1_EXTRA} from './math_lower_year1_extra.mjs';
+import {MATH_LOWER_YEAR2_EXTRA} from './math_lower_year2_extra.mjs';
+import {MATH_LOWER_YEAR3_EXTRA} from './math_lower_year3_extra.mjs';
+import {MATH_LOWER_YEAR4_EXTRA} from './math_lower_year4_extra.mjs';
 import {MATH_UPPER_EXTENSION} from './math_depth_upper_extension.mjs';
 import {MATH_UPPER_2026_ADDITIONS} from './math_depth_upper_2026_additions.mjs';
 import {MATH_UPPER_2026_COMPANION} from './math_depth_upper_companion_2026.mjs';
@@ -127,10 +137,16 @@ export const MATH_DEPTH_LOWER=[
  ]
  }
 ];
+const MATH_PRIMARY_14_EXTRA=[MATH_PRIMARY_YEAR1_EXTRA,MATH_PRIMARY_YEAR2_EXTRA,
+ MATH_PRIMARY_YEAR3_EXTRA,MATH_PRIMARY_YEAR4_EXTRA];
 const EXPANDED_PRIMARY=MATH_DEPTH_PRIMARY.map((phase,i)=>Object.fromEntries(
- Object.entries(phase).map(([topic,rows])=>[topic,[...rows,...(MATH_PRIMARY_EXTENSION[i]?.[topic]||[])]])));
+ Object.entries(phase).map(([topic,rows])=>[topic,[...rows,...(MATH_PRIMARY_EXTENSION[i]?.[topic]||[]),
+  ...(MATH_PRIMARY_14_EXTRA[i]?.[topic]||[])]])));
+const MATH_LOWER_YEAR_EXTRA=[MATH_LOWER_YEAR1_EXTRA,MATH_LOWER_YEAR2_EXTRA,
+ MATH_LOWER_YEAR3_EXTRA,MATH_LOWER_YEAR4_EXTRA];
 const EXPANDED_LOWER=MATH_DEPTH_LOWER.map((phase,i)=>Object.fromEntries(
- Object.entries(phase).map(([topic,rows])=>[topic,[...rows,...(MATH_LOWER_EXTENSION[i]?.[topic]||[])]])));
+ Object.entries(phase).map(([topic,rows])=>[topic,[...rows,...(MATH_LOWER_EXTENSION[i]?.[topic]||[]),
+  ...(MATH_LOWER_YEAR_EXTRA[i]?.[topic]||[])]])));
 const EXPANDED_UPPER=MATH_DEPTH_UPPER.map((phase,i)=>{
  const extras=MATH_UPPER_EXTENSION[i]||{},newLessons=MATH_UPPER_2026_ADDITIONS[i]||{};
  const companion=MATH_UPPER_2026_COMPANION[i]||{};
@@ -145,8 +161,12 @@ const EXPANDED_UNIVERSITY=MATH_DEPTH_UNIVERSITY.map((phase,i)=>{
   topic=>[topic,[...(phase[topic]||[]),...(extras[topic]||[]),...(newLessons[topic]||[]),...(companion[topic]||[])]]
  ));
 });
+const EXPANDED_PRIMARY_56=MATH_DEPTH_PRIMARY_56.map((phase,i)=>Object.fromEntries(
+ [...new Set([...Object.keys(phase),...Object.keys(MATH_DEPTH_PRIMARY_56_EXTRA[i]||{}),...Object.keys(MATH_PRIMARY_56_FURTHER[i]||{})])]
+ .map(topic=>[topic,[...(phase[topic]||[]),...(MATH_DEPTH_PRIMARY_56_EXTRA[i]?.[topic]||[]),
+  ...(MATH_PRIMARY_56_FURTHER[i]?.[topic]||[])]])));
 export const MATH_DEPTH_STAGES=Object.freeze({
- primary:[...EXPANDED_PRIMARY,...MATH_DEPTH_PRIMARY_56],
+ primary:[...EXPANDED_PRIMARY,...EXPANDED_PRIMARY_56],
  lower:EXPANDED_LOWER,intermediate:EXPANDED_UPPER,advanced:EXPANDED_UNIVERSITY
 });
 export function mathInDepthEntries({stage,phase,topic}={}){

@@ -65,6 +65,8 @@ on:
   push:
     branches: [main]
     paths:
+      - 'math_*.mjs'
+      - 'tests_math_*.mjs'
       - 'literature_quick_reference*.mjs'
       - 'literature_dictionary_*.mjs'
       - 'literature_reference_catalog.mjs'
@@ -396,6 +398,15 @@ jobs:
           node tests_literature_navigation_viewport.mjs
           node tests_education_reader_documents_regression.mjs
           node tests_pdf_library.mjs
+          # Validate annual maths course depth and live chapter inventory before signing.
+          node tests_math_all_countries_2026.mjs
+          node tests_math_depth_courses.mjs
+          node tests_math_england_y6.mjs
+          node tests_math_curriculum_readiness.mjs
+          node tests_math_upper_university_2026.mjs
+          node tests_math_companions_2026.mjs
+          node tests_math_gcse_tiers.mjs
+          node tests_math_theorems_countries.mjs
           node tests_math_voice_parentheses.mjs
           node tests_math_linear_equations.mjs
           node tests_math_linear_graph_proof.mjs
