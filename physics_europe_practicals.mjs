@@ -72,7 +72,7 @@ export function physicsLaboratoryYearInvestigations({country='',grade='',stage='
   const procedure=isRo?protocol[4]:protocol[5];
   const scientific=String(entry.statement||'');
   const worked=String(entry.workedExample||entry.example||'');
-  const prompt=String(entry.exercise||'')+' '+
+  const prompt=title+': '+String(entry.exercise||'')+' '+
    (isRo?'În această activitate, descrie ce date ai măsura și cum ai verifica rezultatul.':
    'For this investigation, describe which data you would measure and how you would check the result.');
   const guide=String(entry.answer||'')+' '+
