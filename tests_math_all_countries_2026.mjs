@@ -1,7 +1,18 @@
 import assert from 'node:assert/strict';
+import vm from 'node:vm';
+import frontend from './index.js';
 import {EDUCATION_EUROPE_COUNTRIES,educationCountrySchoolYears,educationSubjectSchoolPlan}
  from './education_all_country_subject_matrix.mjs';
 import {mathCountryGradeAreas} from './math_country_grade_areas.mjs';
+const html=await(await frontend.fetch(new Request('https://math-all-countries.test/'))).text();
+const script=[...html.matchAll(/<script[^>]*>([\\s\\S]*?)<\\/script>/g)][0]?.[1];
+assert.ok(script,'Android frontend must contain inline JavaScript');
+assert.doesNotThrow(()=>new vm.Script(script),'Android inline JavaScript must parse');
+const bankText=script.split('const MATH_CHAPTER_BANK=')[1]?.split(';\\n')[0];
+assert.ok(bankText,'The existing mathematics lesson bank must be available');
+const bank=JSON.parse(bankText);
+assert.ok(script.includes('const EDU_MATH_COUNTRY_YEARS='));
+assert.ok(script.includes('const EDU_MATH_GRADE_AREAS='));
 let examined=0;
 for(const country of EDUCATION_EUROPE_COUNTRIES){
  for(const stage of ['beginner','lower','medium','advanced']){
@@ -11,6 +22,9 @@ for(const country of EDUCATION_EUROPE_COUNTRIES){
    assert.equal(plan.status,'general-learning');
    assert.ok(plan.units.length>=3,country+' '+stage+' '+grade.id+' has usable named branches');
    assert.ok(plan.units.every(x=>x.ro&&x.en));
+   const lessonStage=stage==='beginner'?'primary':stage==='medium'?'intermediate':stage;
+   assert.ok(plan.units.every(x=>(bank[x.id]?.[lessonStage]||[]).length>0),
+    country+' '+stage+' '+grade.id+' cannot contain a branch with no lessons');
    if(stage==='beginner')assert.ok(plan.units.some(x=>x.id==='arithmetic'),'Primary arithmetic');
    if(stage==='lower'){
     assert.ok(plan.units.some(x=>x.id==='algebra'),'Secondary algebra');
