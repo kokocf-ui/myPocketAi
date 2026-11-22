@@ -40,7 +40,7 @@ export function literatureQuickReferenceAttach(panel,options={}){
   if(pendingTimer!==null&&typeof clearTimeout==='function'){clearTimeout(pendingTimer);pendingTimer=null}
   if(controller)controller.abort();
   controller=null;
-  if(activeOverlay?.parentNode)activeOverlay.parentNode.removeChild(activeOverlay);
+  if(activeOverlay?.parentNode)activeOverlay.remove();
   activeOverlay=null;
  };
  const styleButton=(el)=>{
