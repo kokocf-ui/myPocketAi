@@ -78,6 +78,31 @@ for(const country of ['IE','ES']){
  assert.equal(x.topicsVerified,false);
  assert.equal(x.offerVerified,false,'framework knowledge is not an exact year lesson map');
 }
+
+const sourcedCases=[
+ ['SE','primary','4','physics-stage-content'],['SE','lower','7','physics-stage-content'],
+ ['FI','primary','3','integrated-stage-framework'],['NO','primary','7','attainment-by-year-7'],
+ ['NO','upper','11','vg1-subject-conditional'],['PL','primary','IV','2026-primary-reform'],
+ ['PL','lower','V','legacy-geography-stage'],['PL','upper','L1','geography-first-year-resource'],
+ ['MT','lower','7','verified-year-unit'],['PT','primary','3','official-teaching-resource'],
+ ['CZ','lower',educationCountrySchoolYears('CZ','lower').years[0].id,'integrated-general-framework'],
+ ['AT','primary',educationCountrySchoolYears('AT','beginner').years[0].id,'broad-integrated-primary']
+];
+for(const [country,stage,grade,status] of sourcedCases){
+ const {policy,plan}=get(country,stage,grade);
+ assert.equal(policy.status,status,country+'/'+grade+' expected '+status);
+ assert.equal(policy.kind,'integrated');
+ assert.ok(policy.source?.startsWith('https://'));
+ assert.ok(policy.noteRo.length>85);
+ assert.ok(plan.topics.length>=2);
+ assert.equal(plan.astronomyOfferingVerified,country==='MT');
+}
+assert.equal(get('SE','primary','1').policy.kind,'unverified','LGR22 4-6 not assigned to Grade 1');
+assert.equal(get('FI','primary','1').policy.kind,'unverified','Environment Studies 3-6 not claimed for Grade 1');
+assert.equal(get('PL','primary','I').policy.kind,'unverified','No verified Grade I astronomy year');
+assert.equal(get('MT','lower','8').policy.kind,'unverified','Year 7 unit must not leak to Year 8');
+assert.equal(get('NO','upper','12').policy.kind,'unverified','Vg1 is not Vg2');
+assert.equal(get('ES','lower','ESO4').policy.status,'official-final-year-eso-topic');
 assert.equal(astronomyCountryGradePlan({country:'RO',stage:'lower',grade:'99',years:[]}).status,'invalid-selection');
 const html=await(await app.fetch(new Request('https://astronomy-europe-registry.test/'))).text();
 const script=html.match(/<script>([\s\S]*?)<\/script>/)?.[1]||'';

@@ -28,6 +28,26 @@ export const ASTRONOMY_EUROPE_FRAMEWORKS=Object.freeze({
   primary:{source:'https://eduscol.education.gouv.fr/6878/ressources-d-accompagnement-du-programme-de-sciences-et-technologie-au-cycle-3',scope:'legacy-cycle-3-CM2-2026'},
   lower:{source:'https://eduscol.education.gouv.fr/6878/ressources-d-accompagnement-du-programme-de-sciences-et-technologie-au-cycle-3',scope:'legacy-cycle-3-6e-2026'}
  }),
+
+ SE:Object.freeze({
+  primary:{source:'https://www.skolverket.se/undervisning/grundskolan/kursplaner-for-grundskolan/subjects/GRGRFYS01?currentListHeading=Kursplaner+i+grundskolan&schoolType=GR&timespan=LATEST&typeOfSyllabus=COURSE_SYLLABUS',scope:'LGR22-physics-years-4-6'},
+  lower:{source:'https://www.skolverket.se/undervisning/grundskolan/kursplaner-for-grundskolan/subjects/GRGRFYS01?currentListHeading=Kursplaner+i+grundskolan&schoolType=GR&timespan=LATEST&typeOfSyllabus=COURSE_SYLLABUS',scope:'LGR22-physics-years-7-9'},
+  upper:{source:'https://www.skolverket.se/undervisning/gymnasieskolan/program-och-amnen-i-gymnasieskolan/gymnasieprogrammen-gy25/nationella-program/programs/na25/FYSK',scope:'GY25-physics-qualification'}
+ }),
+ FI:Object.freeze({primary:{source:'https://www.oph.fi/fi/koulutus-ja-tutkinnot/ymparistoopin-keskeisia-teemoja',scope:'national-environmental-studies-3-6-local-year-order'}}),
+ NO:Object.freeze({
+  primary:{source:'https://www.udir.no/lk20/nat01-04/kompetansemaal-og-vurdering/kv79',scope:'NAT01-04-learning-outcomes-by-grade-7'},
+  upper:{source:'https://www.udir.no/lk20/nat01-04/kompetansemaal-og-vurdering/kv77',scope:'NAT01-04-Vg1-study-preparatory'}
+ }),
+ PL:Object.freeze({
+  primary:{source:'https://www.gov.pl/web/edukacja/nowe-podstawy-programowe-wychowania-przedszkolnego-i-ksztalcenia-ogolnego-dla-szkoly-podstawowej-wraz-ze-zmianami-w-ramowych-planow-nauczania-dla-publicznych-szkol-podstawowych--rozporzadzenia-podpisane',scope:'2026-reform-intake-I-IV'},
+  lower:{source:'https://zpe.gov.pl/podstawa-programowa/szkola-podstawowa/geografia',scope:'legacy-geography-cohorts-2026'},
+  upper:{source:'https://zpe.gov.pl/a/dla-nauczyciela/DDPz14FRF',scope:'geography-first-year-teaching-reference'}
+ }),
+ MT:Object.freeze({lower:{source:'https://curriculum.gov.mt/wp-content/uploads/2025/05/syllabus_science_yr07_may_2025.pdf',scope:'national-year-7-science-unit-7-6'}}),
+ PT:Object.freeze({primary:{source:'https://estudoautonomo.dge.mec.pt/recurso/o-sistema-solar',scope:'official-learning-resource-not-mandatory-syllabus'}}),
+ CZ:Object.freeze({lower:{source:'https://www.edu.cz/wp-content/uploads/2021/07/RVP-ZV-2021.pdf',scope:'RVP-ZV-2021-school-implementation-dependent'}}),
+ AT:Object.freeze({primary:{source:'https://ris.bka.gv.at/NormDokument.wxe?Abfrage=Bundesnormen&Anlage=1&Artikel=&Gesetzesnummer=10009275&Paragraf=&Uebergangsrecht=',scope:'volksschule-sachunterricht-broad-primary-stage'}}),
  'GB-NIR':Object.freeze({
   primary:{source:'https://www.education-ni.gov.uk/articles/statutory-curriculum',scope:'broad-current-curriculum'},
   lower:{source:'https://www.education-ni.gov.uk/articles/statutory-curriculum',scope:'broad-current-curriculum'}
@@ -105,6 +125,110 @@ export function astronomyCountryGradePlan({country='',stage='primary',grade='',y
    programmeEn:'France · Science and technology · Cycle 3 (2023 programme)',
    noteRo:'În anul 2026–2027, programa Cycle 3 din 2023 rămâne aplicabilă pentru CM2 și 6e. Temele Pământului și Sistemului Solar sunt integrate în Științe; ordinea fișelor aplicației nu este un manual oficial.',
    noteEn:'The 2023 Cycle 3 science programme still applies to CM2 and 6e in 2026–27. Earth and Solar System are integrated in Science; app lessons are not an official textbook.'};
+
+ // Source-backed national programmes: compare year IDs with the existing country picker.
+ // Goals and topic lists below are ORIGINAL teaching adaptations, not verbatim official syllabi.
+ if(code==='SE'){
+  if(level==='primary'&&['4','5','6'].includes(year))
+   return {...general,status:'physics-stage-content',kind:'integrated',topicIds:['solar','sky','observations'],
+    source:base?.source||null,sourceScope:base?.scope||null,
+    programmeRo:'Fysik · mișcările corpurilor Sistemului Solar · anii 4–6',
+    programmeEn:'Physics · Solar System movements · Years 4–6',
+    noteRo:'Programa suedeză LGR22 include ziua/noaptea și anotimpurile în Fizică, la nivelul grupului 4–6. Nu stabilește că fiecare dintre acești ani predă aceleași capitole.',
+    noteEn:'Swedish LGR22 Physics covers day/night and seasons across Years 4–6, not an identical syllabus assigned to each individual year.'};
+  if(level==='lower'&&['7','8','9'].includes(year))
+   return {...general,status:'physics-stage-content',kind:'integrated',topicIds:['stars','solar','sky','observations'],
+    source:base?.source||null,sourceScope:base?.scope||null,
+    programmeRo:'Fysik · Universul și exoplanetele · anii 7–9',
+    programmeEn:'Physics · Universe and exoplanets · Years 7–9',
+    noteRo:'În anii 7–9, Fizica LGR22 studiază originea, structura și evoluția Universului și posibilitatea descoperirii altor sisteme planetare; ordinea este stabilită local, nu anual.',
+    noteEn:'LGR22 Years 7–9 Physics includes the origin, structure and evolution of the Universe and planets beyond our Solar System; exact year order is school-dependent.'};
+  if(level==='upper')return {...general,status:'qualification-dependent',kind:'enrichment',
+   source:base?.source||null,sourceScope:base?.scope||null,
+   programmeRo:'Gymnasieskola · Fysik · Gy25',programmeEn:'Upper secondary Physics · Gy25',
+   noteRo:'Astronomia se regăsește în unele trasee de Fizică Gy25, dar accesul depinde de program și nivelul cursului; nu este obligatorie în fiecare an de liceu.',
+   noteEn:'Astronomy-related content can occur in Gy25 Physics pathways; the selected programme and course level determine whether it is taught, not the year alone.'};
+ }
+ if(code==='FI'&&level==='primary'&&['3','4','5','6'].includes(year))
+  return {...general,status:'integrated-stage-framework',kind:'integrated',topicIds:['solar','sky','observations'],
+   source:base?.source||null,sourceScope:base?.scope||null,
+   programmeRo:'Ympäristöoppi · Științe integrate · anii 3–6',
+   programmeEn:'Environmental studies · Years 3–6',
+   noteRo:'În Finlanda, studiul Sistemului Solar este cuprins în Ympäristöoppi pentru anii 3–6. Programa națională nu prescrie anul exact; școlile îl stabilesc local.',
+   noteEn:'Finnish Environmental Studies includes the Solar System at Years 3–6; the local school curriculum chooses the particular year, so these lessons are stage-based.'};
+ if(code==='NO'){
+  if(level==='primary'&&['5','6','7'].includes(year))
+   return {...general,status:'attainment-by-year-7',kind:'integrated',topicIds:['sky','solar','observations'],
+    source:base?.source||null,sourceScope:base?.scope||null,
+    programmeRo:'Naturfag · competențe după clasa a 7-a',
+    programmeEn:'Natural science · learning outcomes by Year 7',
+    noteRo:'NAT01-04 cere explicarea zilei, fazelor Lunii și anotimpurilor până după anul 7, fără a obliga școlile să le predea identic în clasele 5, 6 și 7.',
+    noteEn:'NAT01-04 defines day, Moon phases and seasons as learning outcomes by Year 7; it does not prescribe the same chapters separately in Years 5, 6 and 7.'};
+  if(level==='upper'&&year==='11')return {...general,status:'vg1-subject-conditional',kind:'integrated',
+   topicIds:['cosmology','galaxies','stars','observations'],
+   source:base?.source||null,sourceScope:base?.scope||null,
+   programmeRo:'Naturfag · Vg1 studieførebuande',programmeEn:'Natural science · Vg1 study preparatory',
+   noteRo:'NAT01-04, Vg1 filiera de pregătire pentru studii: teoria Big Bang și observațiile care o susțin. Nu extindem această cerință la toate filierele liceale.',
+   noteEn:'NAT01-04 Vg1 study-preparatory Science covers the Big Bang theory and supporting observations; this does not cover every upper-secondary track.'};
+ }
+ if(code==='PL'){
+  if(level==='primary'&&year==='IV')return {...general,status:'2026-primary-reform',kind:'integrated',
+   topicIds:['solar','sky','observations'],
+   source:base?.source||null,sourceScope:base?.scope||null,
+   programmeRo:'Przyroda · clasa IV · reforma 2026',programmeEn:'Integrated Nature · Grade IV · 2026 reform',
+   noteRo:'Reforma poloneză intră în 2026/27 la clasele I și IV; în clasa IV, Științele naturii (Przyroda) integrează noțiuni despre planeta Pământ. Nu aplicăm reforma automat claselor V–VIII.',
+   noteEn:'The Polish 2026/27 reform starts in Grades I and IV. Grade IV Integrated Nature explores Earth; the new standard is not yet applied to the higher cohorts.'};
+  if(level==='lower'&&['V','VI','VII','VIII'].includes(year))return {...general,
+   status:'legacy-geography-stage',kind:'integrated',topicIds:['solar','sky','observations'],
+   source:base?.source||null,sourceScope:base?.scope||null,
+   programmeRo:'Geografia · mișcările Pământului · programa anterioară',
+   programmeEn:'Geography · Earth movements · pre-reform curriculum',
+   noteRo:'În 2026/27, generațiile V–VIII folosesc încă programa anterioară la Geografie: Pământul în Sistemul Solar, rotație și revoluție; repartizarea exactă pe clasă trebuie confirmată.',
+   noteEn:'The pre-2026 Geography curriculum continues for Grades V–VIII; Earth in the Solar System and its movements are included, but an exact year-specific ordering is not verified.'};
+  if(level==='upper'&&year==='L1')return {...general,status:'geography-first-year-resource',kind:'integrated',
+   topicIds:['solar','sky','distances','observations'],
+   source:base?.source||null,sourceScope:base?.scope||null,
+   programmeRo:'Geografia · anul I de liceu',programmeEn:'Geography · first upper-secondary year',
+   noteRo:'Materialul oficial ZPE pentru liceu, anul I, acoperă formarea Sistemului Solar și a Pământului. Este o resursă educațională corelată cu programa, nu dovada unei ordini unice naționale.',
+   noteEn:'Polish ZPE offers a Year 1 Geography lesson on the formation of the Solar System and Earth. It supports teaching, not one mandatory national lesson order.'};
+ }
+ if(code==='MT'&&level==='lower'&&year==='7')return {...general,
+  status:'verified-year-unit',kind:'integrated',topicIds:['solar','sky','distances','observations'],
+  source:base?.source||null,sourceScope:base?.scope||null,offerVerified:true,
+  programmeRo:'Science · Year 7 · Unit 7.6 Earth and Space',
+  programmeEn:'Science · Year 7 · Unit 7.6 Earth and Space',
+  noteRo:'Programa malteză Year 7, unitatea 7.6, include mișcările Pământului și Lunii, anotimpurile, fazele, eclipsele, cele 8 planete și explorarea spațiului. În Fizică sunt incluse și gravitația, masa și greutatea; fișele aplicației sunt adaptate.',
+  noteEn:'Malta Year 7 Science Unit 7.6 includes Earth–Moon motion, seasons, phases, eclipses, eight planets and space exploration, also touching gravity, mass and weight. App chapters are teaching adaptations.'};
+ if(code==='PT'&&level==='primary'&&year==='3')return {...general,
+  status:'official-teaching-resource',kind:'integrated',topicIds:['solar','sky','observations'],
+  source:base?.source||null,sourceScope:base?.scope||null,
+  programmeRo:'Estudo do Meio · anul 3 · Sistemul Solar',
+  programmeEn:'Environmental Studies · Year 3 · Solar System',
+  noteRo:'Direção-Geral da Educação publică un material pentru clasa a 3-a despre Sistemul Solar la Estudo do Meio. Resursa justifică nivelul de studiu, dar nu certifică toate lecțiile ca programă națională obligatorie.',
+  noteEn:'Portugal DGE provides a Year 3 Environmental Studies Solar System resource. It supports the school level, but does not certify the app’s full set of lessons as the mandatory annual syllabus.'};
+ if(code==='CZ'&&level==='lower')return {...general,status:'integrated-general-framework',kind:'integrated',
+  topicIds:['sky','solar','observations'],
+  source:base?.source||null,sourceScope:base?.scope||null,
+  programmeRo:'RVP ZV · Pământul ca astru / Sistemul Solar',
+  programmeEn:'RVP ZV · Earth in space / Solar System',
+  noteRo:'Cadrul RVP ZV din 2021 include Pământul ca astru, Sistemul Solar și fazele Lunii, dar programele școlare și tranziția la edițiile revizuite diferă. Nu atribuim o clasă exactă fără verificarea cohortei.',
+  noteEn:'The Czech 2021 RVP ZV framework includes Earth in space, the Solar System and Moon phases; schools and the transition to newer versions differ, so the exact grade is not certified here.'};
+ if(code==='AT'&&level==='primary')return {...general,status:'broad-integrated-primary',kind:'integrated',
+  topicIds:['sky','observations'],
+  source:base?.source||null,sourceScope:base?.scope||null,
+  programmeRo:'Volksschule · Sachunterricht · fenomene naturale',
+  programmeEn:'Primary School · General Studies · natural phenomena',
+  noteRo:'Programa austriacă Sachunterricht dezvoltă explorarea naturii, Soarelui și fenomenelor observabile. Nu confirmăm din această sursă o programă autonomă obligatorie despre toate planetele în fiecare clasă.',
+  noteEn:'Austrian primary Sachunterricht covers the Sun and observable natural phenomena. This source does not establish a standalone compulsory all-planets syllabus for each year.'};
+ if(code==='ES'&&level==='lower'&&year==='ESO4')return {...general,
+  status:'official-final-year-eso-topic',kind:'integrated',topicIds:['solar','stars','observations','sky'],
+  source:'https://educagob.educacionfpydeportes.gob.es/ca/curriculo/curriculo-lomloe/menu-curriculos-basicos/ed-secundaria-obligatoria/materias/biologia-geologia/criterios-evaluacion-cuarto-curso.html',
+  sourceScope:'national-ESO4-biology-geology',
+  programmeRo:'ESO 4 · Biología y Geología · La Tierra en el universo',
+  programmeEn:'ESO Year 4 · Biology and Geology · Earth in the Universe',
+  offerVerified:false,
+  noteRo:'Curriculum LOMLOE ESO 4 include originea Universului și a Sistemului Solar în Biología y Geología. Alegerea disciplinei și a distribuției pot varia după comunitatea autonomă.',
+  noteEn:'LOMLOE ESO Year 4 Biology and Geology includes the origins of the Universe and Solar System; offering and allocation may vary by autonomous community.'};
  if(code==='GB-SCT')return {...general,status:'integrated-framework',kind:'integrated',
   source:base?.source||null,sourceScope:base?.scope||null,offerVerified:false,
   programmeRo:'Curriculum for Excellence · Sciences',programmeEn:'Curriculum for Excellence · Sciences',
