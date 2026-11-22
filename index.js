@@ -2025,6 +2025,33 @@ main.page.science-keyboard-visible #view-module.learning-science #moduleContent{
  display:block!important;font-size:clamp(10px,2.9vw,12px)!important;line-height:1.2!important;
  text-align:center!important;overflow-wrap:anywhere!important;max-width:100%!important;
 }
+/* The Mathematics chapter menu is a single scrollable lesson list, never a
+   grid of repeated workspace shortcuts. */
+#view-module.learning-math.math-choice-stage[data-math-stage="chapters"] .math-choice-list{
+ display:flex!important;flex-direction:column!important;grid-template-columns:none!important;
+ gap:7px!important;overflow-y:auto!important;overflow-x:hidden!important;
+ touch-action:pan-y!important;-webkit-overflow-scrolling:touch!important;min-height:0!important;
+ overscroll-behavior:contain!important;
+}
+#view-module.learning-math.math-choice-stage[data-math-stage="chapters"] .math-choice-row{
+ display:flex!important;flex-direction:row!important;align-items:center!important;
+ justify-content:flex-start!important;text-align:left!important;width:100%!important;
+ height:auto!important;min-height:60px!important;padding:10px 12px!important;gap:10px!important;
+ border-radius:12px!important;
+}
+#view-module.learning-math.math-choice-stage[data-math-stage="chapters"] .math-choice-row .math-tile-icon{
+ font-size:20px!important;line-height:1!important;
+}
+#view-module.learning-math.math-choice-stage[data-math-stage="chapters"] .math-choice-row strong{
+ font-size:14px!important;line-height:1.3!important;text-align:left!important;
+}
+#view-module.learning-math.math-choice-stage[data-math-stage="chapters"] .math-choice-row small{
+ display:none!important;
+}
+#view-module.learning-math.math-choice-stage .math-practice-entry{
+ min-height:48px!important;width:100%!important;text-align:left!important;
+ font-size:14px!important;flex:none!important;white-space:normal!important;
+}
 .education-theory-dialog.math-theory-list-mode .education-theory-results{
  display:grid!important;gap:8px!important;overflow-y:auto!important;
  max-height:47dvh!important;overscroll-behavior:contain!important;
@@ -8781,10 +8808,8 @@ function educationMathTheoryList(query=''){
  const order={beginner:0,intermediate:1,medium:1,advanced:2};
  const max=stage==='advanced'?2:stage==='intermediate'?1:0;
  const course=mathInDepthEntries({stage,phase:year,topic});
- let available=stage==='primary'
-  ?[...MATH_PRIMARY_THEORY_LESSONS.filter(x=>x.topic===topic&&(!year||year>=x.minGrade)),...course]
-  :course.length?course:
-    EDUCATION_THEORY_DATA.filter(x=>x.subject==='math'&&x.topic===topic&&order[x.level]<=max);
+ let available=course.length?course:
+  EDUCATION_THEORY_DATA.filter(x=>x.subject==='math'&&x.topic===topic&&order[x.level]<=max);
  // Do not teach class-V/Vl geometry as a class-VII demonstration syllabus.
  if(!course.length&&stage==='lower'&&topic==='geometry'&&year>0&&year<3)
   available=available.filter(x=>/^(?:Perimetrul|Aria dreptunghiului|Aria pătratului|Suma unghiurilor|Unghiuri|Linii|Segmente)/i.test(x.title));
@@ -12807,14 +12832,14 @@ function mathJourneyShowChoices(stage){
   button.className='secondary-btn math-choice-row';
   const art=document.createElement('span');art.className='math-tile-icon';
   art.setAttribute('aria-hidden','true');art.textContent=stage==='stages'?MATH_STAGE_ICONS[entry.id]||'📚':
-   stage==='branches'?MATH_TILE_ICONS[entry.id]||'📘':MATH_TILE_ICONS[mathJourney.topic]||'📘';
+   stage==='branches'?MATH_TILE_ICONS[entry.id]||'📘':'📖';
   const heading=document.createElement('strong');heading.textContent=learningLabel(entry.ro,entry.en);
   if(stage==='chapters')lessonHeadings.push(heading);
   const subtitle=document.createElement('small');
   subtitle.textContent=stage==='stages'
    ?learningLabel(entry.scopeRo||'',entry.scopeEn||''):
    stage==='branches'?learningLabel(entry.topicFocus||'',entry.topicFocusEn||''):
-   learningLabel('Lecții și exerciții','Lessons and exercises');
+   learningLabel('Deschide lecția','Open lesson');
   button.append(art,heading,subtitle);
   button.onclick=()=>{
    if(stage==='stages'){
@@ -12831,27 +12856,24 @@ function mathJourneyShowChoices(stage){
     mathJourney.topic=entry.id;mathJourney.chapter=null;
     mathJourneyShowChoices('chapters');return;
    }
-   mathJourney.chapter=entry.id;mathJourney.stage='workspace';
-   root.classList.remove('math-choice-stage');
+   mathJourney.chapter=entry.id;
+   const chapterLesson=mathInDepthEntries({stage:mathJourney.schoolStage,phase:mathYearPosition().year4,topic:mathJourney.topic}).find(x=>x.id===entry.id);
+   if(chapterLesson){mathOpenDepthLesson(chapterLesson);return;}
+   mathJourney.stage='workspace';root.classList.remove('math-choice-stage');
    openLearningSubjectAfterCountry('math');
   };
   items.append(button);
  }
+ panel.append(title,note);
  if(stage==='chapters'){
-  const theory=document.createElement('button');theory.type='button';
-  theory.className='secondary-btn math-choice-row';
-  const theoryArt=document.createElement('span');
-  theoryArt.className='math-tile-icon';theoryArt.textContent='📖';
-  theoryArt.setAttribute('aria-hidden','true');
-  const theoryTitle=document.createElement('strong');
-  theoryTitle.textContent=learningLabel('Teorie','Theory');
-  const theoryHint=document.createElement('small');
-  theoryHint.textContent=learningLabel('Alege o lecție','Choose a lesson');
-  theory.append(theoryArt,theoryTitle,theoryHint);
-  theory.onclick=()=>educationTheoryOpen('math',mathJourney.level);
-  items.prepend(theory);
+  const practice=document.createElement('button');practice.type='button';
+  practice.className='secondary-btn math-practice-entry';
+  practice.textContent=learningLabel('✏️ Rezolvă un exercițiu în spațiul de lucru','✏️ Open the exercise workspace');
+  practice.onclick=()=>{mathJourney.chapter=null;mathJourney.stage='workspace';
+   root.classList.remove('math-choice-stage');openLearningSubjectAfterCountry('math');};
+  panel.append(practice);
  }
- panel.append(title,note,items);host.append(panel);
+ panel.append(items);host.append(panel);
  // Study labels are available in Romanian and English offline. For other
  // European app languages translate the visible list as a cached batch;
  // discarded selections never overwrite the next school's chapter list.
