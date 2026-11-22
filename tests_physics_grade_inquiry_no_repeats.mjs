@@ -29,6 +29,11 @@ for(const [country,gradeA,gradeB,topic] of [
   assert.ok(overlap.length>=2,'The same scientific topic should have some revisited concepts');
   assert.ok(overlap.every(entry=>entry.exercise!==compare.get(entry.title)),
    country+'/'+topic+'/'+language+' must give different year-specific practice');
+  const byTitle=new Map(b.map(item=>[item.title,item]));
+  assert.ok(overlap.every(entry=>entry.statement!==byTitle.get(entry.title).statement),
+   country+'/'+topic+'/'+language+' must explain the same concept at a deeper next-year level');
+  assert.ok([...a,...b].every(entry=>entry.statement.length>=180),
+   'Year-specific course explanation cannot be reduced to one short definition');
   const expected=language==='ro'?'Extensie pentru «':'Year extension for “';
   assert.ok(a.every(x=>x.exercise.includes(expected)&&x.exercise.includes(x.title)),
    'Every extension must be explicitly tied to its own lesson, not a shared filler prompt');
