@@ -88,8 +88,22 @@ try{
  assert.ok(branches.some(x=>x.includes('Algebră')),'Romanian class V must show algebra');
  assert.ok(!branches.some(x=>x.includes('Aritmetică')),'Romanian class V must not show standalone arithmetic');
  await click(page.locator('#view-module .math-choice-row').filter({hasText:'Algebră'}).first());
- assert.ok(await page.locator('#view-module .math-choice-row').count()>=2,'Algebra class V chapters unavailable');
+ const algebraChapterTitles=await page.locator('#view-module .math-choice-row strong').allTextContents();
+ assert.ok(algebraChapterTitles.length>=6,'Class V Algebra must have at least five distinct detailed lessons, not one repeated chapter');
+ assert.equal(new Set(algebraChapterTitles).size,algebraChapterTitles.length,'Algebra school-year chapter titles duplicated');
  await page.screenshot({path:'math-browser-audit/romanian-lower.png'});
+ await click(page.locator('#view-module .math-choice-row').filter({hasText:'Numere naturale și valoarea pozițională'}).first());
+ await page.locator('#mathEducationWorkspace').waitFor({state:'attached',timeout:10000});
+ const study=page.locator('#moduleContent button').filter({hasText:'Studiază lecția și exemplele'}).first();
+ await click(study);
+ const reader=page.locator('#educationPagedLessonDialog');
+ await reader.waitFor({state:'visible',timeout:10000});
+ const lessonText=await reader.innerText();
+ assert.ok(lessonText.includes('Definiție și explicație')&&lessonText.includes('Exersează singur'),
+  'Opening a chapter must show its full explanation, worked example and practice');
+ assert.ok(lessonText.length>400,'Class V maths lesson is too short');
+ await click(reader.locator('.education-theory-head button').first());
+ await click(page.locator('#view-module .math-workspace-back').first());
  await click(page.locator('#view-module .math-stage-back').first());
  await click(page.locator('#view-module .math-stage-back').first());
  {const gradePanel=page.locator('#view-module .edu-grade-panel');
