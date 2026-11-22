@@ -4,7 +4,7 @@ import {PHYSICS_TOPICS} from './physics_curriculum.mjs';
 import {THEORY_ENTRIES} from './education_theory.mjs';
 import {scienceGradeTopicPlan} from './science_grade_progression.mjs';
 import {scienceSchoolTopicLessons,SCIENCE_RO_LOWER_TOPICS} from './science_ro_course_plan.mjs';
-import {physicsCountryGradePlan} from './physics_europe_frameworks.mjs';
+import {physicsCountryGradePlan,PHYSICS_NOT_OFFERED_LOWER_YEARS} from './physics_europe_frameworks.mjs';
 import {EDUCATION_WORLDWIDE_SCHEMES} from './education_worldwide_paths.mjs';
 
 const counts={},coverage=[],errors=[],integrated=[],generic=[];
@@ -20,9 +20,10 @@ for(const country of EDUCATION_EUROPE_COUNTRIES)for(const [stage,mapped] of [
    country,subject:'physics',stage,grade,years,topic:topic.id,language:'ro',lessons:THEORY_ENTRIES
   }));
   if(plan.status==='not-offered'){
-   assert.equal(country,'RO','Only confirmed Romania Grade V has no Physics course');
-   assert.equal(grade,'5');
-   assert.equal(entries.length,0,'No falsely listed Romanian Grade V Physics');
+   assert.equal(stage,'lower','Do not remove integrated primary Science or upper years');
+   assert.ok(PHYSICS_NOT_OFFERED_LOWER_YEARS[country]?.includes(String(grade)),
+    'Only evidence-backed grades may be hidden: '+country+'/'+grade);
+   assert.equal(entries.length,0,'No standalone Physics chapters before the subject starts');
    continue;
   }
   if(plan.kind==='integrated')integrated.push(country+'/'+grade);
@@ -64,9 +65,9 @@ assert.deepEqual(educationCountrySchoolYears('IE','medium').years.map(x=>x.id),
 assert.equal(educationCountrySchoolYears('DK','beginner').years[0].id,'1',
  'Optional Danish preschool class 0 must not become a first Physics school year');
 for(const [country,grade,expected] of [
- ['RO','5','not-offered'],['FR','6e','integrated-science'],
- ['HU','5','integrated-science'],['PL','V','integrated-science'],
- ['LV','7','integrated-science'],['DK','7','mixed-physics-chemistry'],
+ ['RO','5','not-offered'],['FR','6e','integrated-science'],['MD','5','not-offered'],
+ ['HU','5','not-offered'],['PL','V','not-offered'],
+ ['LV','7','not-offered'],['DK','7','mixed-physics-chemistry'],
  ['FI','7','framework-advisory'],['NO','8','integrated-science']
 ]){
  const years=educationCountrySchoolYears(country,'lower').years;

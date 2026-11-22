@@ -11,7 +11,8 @@ const refs=Object.freeze({
  'GB-WLS':{source:'https://hwb.gov.wales/curriculum-for-wales/areas-of-learning-and-experience/science-and-technology/principles-of-progression/',scope:'national-stage',name:'Curriculum for Wales: Science and Technology',integrated:['primary','lower'],optionalUpper:['Y12','Y13'],note:'Science and Technology follows progression steps, not mandatory lesson lists per Year 7, 8 or 9.'},
  'GB-NIR':{source:'https://ccea.org.uk/key-stage-3/curriculum/science-and-technology',scope:'national-stage',name:'Science and Technology, KS3',integrated:['primary','lower'],optionalUpper:['Y13','Y14'],note:'Northern Ireland has integrated Science in Key Stage 3; exam-board syllabuses determine GCSE and post-16 Physics options.'},
  IE:{source:'https://curriculumonline.ie/junior-cycle/junior-cycle-subjects/science/expectations-for-students-learning-outcomes/',scope:'national-stage',name:'Junior Cycle Science — Physical World',integrated:['primary','lower'],optionalUpper:['TY','5Y','6Y'],note:'Learning outcomes cover the entire three-year Junior Cycle, so a fixed J1/J2/J3 chapter distribution would be a false official attribution.'},
- FR:{source:'https://eduscol.education.gouv.fr/5739/ressources-d-accompagnement-du-programme-de-physique-chimie-au-cycle-4',scope:'national-stage',name:'Physique-chimie · cycle 4',integrated:['primary'],noLower:['6e'],mixed:['lower'],note:'Cycle 4 covers 5e, 4e and 3e; the school-year sequence is advisory, not prescribed for each class. 6e is interdisciplinary science.'},
+ FR:{source:'https://www.education.gouv.fr/l-enseignement-des-sciences-7076',scope:'national-stage',name:'Physique-chimie · collège',integrated:['primary'],noLower:['6e'],mixed:['lower'],note:'Selon le ministère, les enseignements de physique-chimie commencent dès la 6e (depuis 2016), en articulation possible avec les sciences intégrées. 5e–3e suivent le cycle 4; la séquence par classe reste indicative.'},
+ MD:{source:'https://edu.gov.md/sites/default/files/plan_cadru_2026-27.pdf',scope:'national-year',name:'Fizica · gimnaziu VI–IX',noLower:['5'],lowerEntry:'6',note:'Plan-cadru MEC nr. 888/2026, învățământ general: Fizica începe în clasa VI și continuă până în IX. Distribuția exactă a temelor poate depinde de curriculum și filieră.'},
  HU:{source:'https://www.oktatas.hu/kozneveles/kerettantervek/2020_nat',scope:'national-stage',name:'Fizika · NAT 2020',noLower:['5','6'],lowerEntry:'7',note:'Grade 7–8 Física/Fizika foundation, revised in grades 9–10; specialised school tracks may vary.'},
  PL:{source:'https://zpe.gov.pl/podstawa-programowa/szkola-podstawowa/fizyka',scope:'national-stage',name:'Fizyka · klasy VII–VIII',lowerEntry:'VII',noLower:['V','VI'],note:'Separate Physics in classes VII and VIII; 2026 curriculum transition may be cohort-sensitive.'},
  PT:{source:'https://www.dge.mec.pt/programas-e-metas-curriculares/fisico-quimica',scope:'national-year',name:'Físico-Química · 7.º–9.º ano',noLower:['5','6'],lowerEntry:'7',mixed:['lower'],note:'Physics and Chemistry are combined in 7th–9th. 8th includes Sound and Light; 9th includes Motion/Forces and Electricity. 10th–12th depend on course options.'},
@@ -27,6 +28,16 @@ const refs=Object.freeze({
  LV:{source:'https://skola2030.lv/lv/skolotajiem/macibu-prieksmeti/fizika',scope:'national-year',name:'Fizika · 8.–9. klase',noLower:['7'],note:'Fizica separată este indicată pentru clasele 8–9. În clasa 7 conceptele sunt în Științele naturii și nu se pretinde o disciplină Fizică separată.'},
  SE:{source:'https://www.skolverket.se/sok-publikationer/publikationsserier/styrdokument/2024/curriculum-for-compulsory-school-preschool-class-and-school-age-educare---lgr22',scope:'national-stage',name:'Fysik · Lgr22',note:'Programul suedez folosește grupe de ani 1–3, 4–6, 7–9. Conținutul anual este repartizat local; nu există un cuprins național obligatoriu pentru fiecare clasă.'},
  CZ:{source:'https://msmt.gov.cz/vzdelavani/zakladni-vzdelavani/ramcovy-vzdelavaci-program-pro-zakladni-vzdelavani',scope:'national-stage',name:'Fyzika · RVP ZV',note:'Cadrul RVP stabilește obiectivele etapei; școlile elaborează ŠVP. Reforma RVP 2026–2028 se implementează gradual în funcție de cohortă, fără o ordine națională identică a lecțiilor.'}
+});
+// Documented years before standalone Physics/Physics-Chemistry starts.
+// Concepts inside other sciences are not incorrectly called compulsory Physics.
+export const PHYSICS_NOT_OFFERED_LOWER_YEARS=Object.freeze({
+ RO:Object.freeze(['5']),
+ HU:Object.freeze(['5','6']),
+ PL:Object.freeze(['V','VI']),
+ PT:Object.freeze(['5','6']),
+ LV:Object.freeze(['7']),
+ MD:Object.freeze(['5'])
 });
 export const PHYSICS_EUROPE_REFERENCES=refs;
 const countryGroups=Object.freeze({
@@ -99,9 +110,10 @@ export function physicsCountryGradePlan({country='',stage='lower',grade='',years
  const noSeparate=phase==='lower'&&ref?.noLower?.includes(yr);
  // "Not a separate timetabled Physics subject" is NOT the same as
  // "the pupil does not study physical phenomena": many systems integrate.
- // Romania Grade V is the one confirmed case where no Physics class is
- // catalogued at all; its study starts in Grade VI.
- const absent=code==='RO'&&phase==='lower'&&yr==='5';
+ // Hide only years with a documented absence of a separately scheduled
+ // Physics course. Other countries retain their integrated/advisory study.
+ const absent=phase==='lower'&&
+  Boolean(PHYSICS_NOT_OFFERED_LOWER_YEARS[code]?.includes(yr));
  const schoolScience=integrated||noSeparate;
  const upperMix=phase==='upper'&&ref?.mixedUpper?.includes(yr);
  const upperOptional=phase==='upper'&&ref?.optionalUpper?.includes(yr);
@@ -127,8 +139,8 @@ export function physicsCountryGradePlan({country='',stage='lower',grade='',years
   status:blocked?'not-offered':status,
   kind:blocked?'not-taught':schoolScience?'integrated':upperMix||mixed?'mixed':
    upperOptional?'elective':'subject-or-track-dependent',
-  // No stand-alone grade V Physics for RO; other systems may offer the
-  // same concepts as integrated science without calling them a Physics class.
+  // Blocked years may still teach physics concepts as integrated Science,
+  // but they must not be offered as standalone Physics school years.
   topics:blocked?[]:[...new Set(yearly)].filter(x=>x!=='solar'),
   source:selectedSource,
   sourceScope:roUpper?'national-cohort-framework':ref?.scope||'cross-national-comparative',
@@ -136,7 +148,7 @@ export function physicsCountryGradePlan({country='',stage='lower',grade='',years
   programmeName:ref?.name||'Advisory Physics strand',
   verifiedAnnual:false,
   nationalGradeLabels:Boolean(ref),
-  note:transition||ref?.note||'Local Physics syllabus/grade timetable not independently verified. This is an original advisory science progression grounded in Eurydice/ISCED school structures, not a national year-by-year curriculum.',
+  note:blocked?'În acest an nu este programată o disciplină Fizică separată; noțiunile de fizică pot fi studiate în Științe integrate.':transition||ref?.note||'Local Physics syllabus/grade timetable not independently verified. This is an original advisory science progression grounded in Eurydice/ISCED school structures, not a national year-by-year curriculum.',
   separatePhysicsOffered:!blocked&&!schoolScience,
   integratedScience:schoolScience,
   optionalByTrack:Boolean(upperOptional),
