@@ -12814,10 +12814,9 @@ function mathJourneyShowChoices(stage){
  note.textContent=stage==='stages'
   ?educationCountrySelection.label+' · '+learningLabel('Selectează etapa și anul de studiu.','Select your stage and school year.'):
   stage==='branches'
-  ?educationCountrySelection.label+' · '+learningLabel('Clasa / anul: ','Grade / year: ')+(mathJourney.grade||'')+
-   '. '+mathCurriculumNotice():
+  ?educationCountrySelection.label+' · '+learningLabel('Clasa / anul: ','Grade / year: ')+(mathJourney.grade||''):
    educationCountrySelection.label+' · '+learningLabel('Clasa / anul: ','Grade / year: ')+
-   (mathJourney.grade||'')+' · '+learningLabel(topic?.ro||'',topic?.en||'')+'. '+mathCurriculumNotice();
+   (mathJourney.grade||'')+' · '+learningLabel(topic?.ro||'',topic?.en||'');
  const items=document.createElement('div');items.className='math-choice-list';
  const lessonHeadings=[];
  const candidates=stage==='stages'?MATH_SCHOOL_STAGES:
