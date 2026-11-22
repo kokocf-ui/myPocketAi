@@ -1,6 +1,14 @@
 # Fizică — criterii reale de acceptare pentru toate țările (21.11.2026)
 **Stare: dezvoltare și audit parțial verificate; NU modul certificat/finalizat și NU aprobarea unui APK.**
 
+## Actualizare de verificare, 22 noiembrie 2026 — PR #519
+- Confirmate prin GitHub Actions pentru commitul `1154e39b63abb86ff4cee2080a912e6dc6b47862`: **Sciences — full four-subject acceptance checks**, **Education 50-country curriculum coverage**, **Physics real mobile browser acceptance** și **Build myPocket AI Android APK**, toate cu rezultat `success`. Ultimul este un build de verificare Android (debug), NU un APK release semnat și aprobat.
+- Testul Chromium din PR #519 navighează efectiv interfața de la Educație prin selectarea țării și deschiderea primului capitol de Fizică/Științe fizice pentru **toate cele 50 de jurisdicții**. A identificat lipsa Kosovo din selectorul educațional, corectată prin fallback în `education_country_ui.mjs`.
+- Lecțiile gimnaziale orientative în română și engleză au acum explicații originale progresive în funcție de anul efectiv de studiu, nu numai un enunț standard repetat cu altă etichetă. Laboratoarele au metode sigure distincte pentru primar și întrebări specifice lecției; evaluările liceale în engleză nu mai primesc instrucțiuni adăugate în română.
+- Aceste teste **nu certifică automat programa oficială pe clasă** în fiecare țară. Pentru perioade, cohorte, regiuni și profiluri rămase neconfirmate se menține eticheta explicită de parcurs orientativ. Testele headless Chromium și build-ul debug NU înlocuiesc instalarea, funcționarea și testele complete ale unui release semnat pe dispozitive Android.
+- **Decizia de acceptare:** PR-ul rămâne `Draft`, nu se integrează în `main` și nu se livrează un APK până la verificarea condițiilor pedagogice și Android rămase.
+
+
 ## Ce este implementat în PR #503, dependent de PR #502
 
 - **Structura claselor:** opțiunile de țară din Educație păstrează 50 de jurisdicții europene (incluzând separat cele patru națiuni UK). Pentru 49 sunt disponibile nume / numere de ani școlari mapate pe structură cunoscută sau orientativă; Vatican păstrează explicit un parcurs generic, fiindcă un curriculum național civil comparabil nu este documentat. În unele state (Andorra, Bosnia, Germania, Elveția, Belgia etc.) lipsește identificarea obligatorie a filierei/regiunii. Afișarea unui an nu certifică **programa anuală de Fizică**.
@@ -24,7 +32,7 @@
 2. Verificare de curriculum oficial **pe anul de studiu și cohortă**, pentru țările care au filiere/regiuni și programă anuală verificabilă; generic orientativ doar unde nu se găsește o sursă clară. Nu certifica un an de studiu pe baza unei diagrame ISCED.
 3. Traducere didactică corectă în limbile aplicației; doar româna și engleza au material original complet pentru cazurile nou introduse. Pentru alte limbi, fallback în engleză marcat ca atare, nu o falsă traducere.
 4. Test UI/Android real al fluxului selecție țară→clasă→capitol→lecție→exercițiu→feedback→Înapoi, inclusiv offline / API indisponibil, și verificarea PDF/imprimării.
-5. Un singur APK numai după finalizarea **întregului capitol Științe**, inclusiv celelalte trei discipline și acceptarea utilizatorului.
+5. Un singur APK **după finalizarea și acceptarea integrală a materiei Fizică**, independent de celelalte materii de Științe. Build-ul trebuie să fie release semnat pe ramura de producție, după verificări pedagogice și Android fără regresii; nu se livrează build-uri intermediare sau debug.
 
 ## Repere publice pentru verificare
 - Eurydice, structuri școlare 2026/2027: https://op.europa.eu/en/publication-detail/-/publication/b82d1d07-abf4-11f1-b9e5-01aa75ed71a1/language-en
