@@ -1,3 +1,4 @@
+import {mathInDepthEntries} from './math_depth_courses.mjs';
 // Mathematics learning paths for every European country in the Education picker.
 // A progression is *advisory* unless an official country/grade source is attached.
 // Stage years are supplied by the shared school-year mapping, never inferred from
@@ -50,7 +51,9 @@ export function mathCountryGradeAreas({country,stage,grade,years}={}){
  const index=yearList.findIndex(x=>String(x.id)===String(grade));
  if(!PATHS[st]||index<0)return {status:'invalid-selection',country,stage:st,grade,units:[]};
  const sequence=PATHS[st];
- const row=sequence[Math.min(sequence.length-1,Math.floor(index*sequence.length/Math.max(sequence.length,yearList.length)))];
+ const phase=Math.min(sequence.length-1,Math.floor(index*sequence.length/Math.max(sequence.length,yearList.length)));
+ const row=sequence[phase];
+ const clientStage=st==='beginner'?'primary':st==='medium'?'intermediate':st;
  return {status:'general-learning',country,stage:st,grade,
   note:'Parcurs matematic orientativ, diferențiat pe etapă și an; nu reprezintă programa națională verificată.',
   units:row.map(([id,ro])=>({id,ro,en:({
@@ -58,5 +61,5 @@ export function mathCountryGradeAreas({country,stage,grade,years}={}){
    algebra:'Algebra',statistics:'Statistics and probability',functions:'Functions and graphs',
    trigonometry:'Trigonometry',analysis:'Mathematical analysis',
    'linear-algebra':'Linear algebra',discrete:'Discrete mathematics',
-   differential:'Differential equations'})[id]||ro,focus:'',lessonCount:0}))};
+   differential:'Differential equations'})[id]||ro,focus:'',lessonCount:mathInDepthEntries({stage:clientStage,phase:phase+1,topic:id}).length}))};
 }
