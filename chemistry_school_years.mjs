@@ -32,7 +32,8 @@ export function chemistryGradeTopicPlan({country='',stage='lower',grade='',years
    status:plan.status==='not-offered'||plan.status==='invalid-selection'?plan.status:
     country==='RO'?'official-framework-topic-alignment':
     country==='GB-ENG'?'official-ks3-stage-advisory-sequence':'general-learning',
-   topics:plan.topics.map(key=>registry.get(key)).filter(Boolean)};
+   topics:plan.topics.map(key=>registry.get(key)).filter(Boolean),
+   note:country==='GB-ENG'?'Key Stage 3 Chemistry content is verified at stage scope; the chosen yearly lesson order is advisory, NOT statutory by year.':plan.note};
  }
  if(stage==='upper'){
   const index=country==='RO'&&/^(9|10|11|12)$/.test(id)?Number(id)-9:

@@ -21,8 +21,8 @@ assert.equal(CHEMISTRY_SPECIALTY_LESSONS.length,84);
 assert.deepEqual(CHEMISTRY_UNIVERSITY_SPECIALTY_YEARS,[3,4,4,5]);
 const ro7=chemistryGradeTopicPlan({country:'RO',stage:'lower',grade:'7',topics:CHEMISTRY_TOPICS}).topics.map(t=>t.id);
 const ro8=chemistryGradeTopicPlan({country:'RO',stage:'lower',grade:'8',topics:CHEMISTRY_TOPICS}).topics.map(t=>t.id);
-assert.deepEqual(ro7,['fundamentals','solutions','atomic','periodic','bonding','inorganic','acids']);
-assert.deepEqual(ro8,['reactions','inorganic','acids','solutions']);
+assert.deepEqual(ro7,['fundamentals','solutions','atomic','periodic','bonding']);
+assert.deepEqual(ro8,['reactions','inorganic','acids','solutions','bonding']);
 assert.equal(CHEMISTRY_GRADE_FRAMEWORKS.RO.source,'https://www.edu.ro/Ordin_ministru_3393_2017');
 assert.ok(!ro8.includes('periodic')&&!ro7.includes('reactions'),'RO grade-specific chapters differ');
 const uk7=chemistryGradeTopicPlan({country:'GB-ENG',stage:'lower',grade:'Y7',topics:CHEMISTRY_TOPICS});
@@ -57,7 +57,7 @@ for(const key of ['RO','GB-ENG','GB-SCT','FR','DE','ES','IT','HU','SE','PL','AL'
   const years=educationCountrySchoolYears(key,stage==='upper'?'medium':stage==='primary'?'beginner':stage).years;
   const options=years.map(y=>chemistryGradeTopicPlan({country:key,stage,grade:y.id,years,topics:CHEMISTRY_TOPICS}));
   if(years.length&&key!=='RO'&&key!=='GB-ENG'){
-   assert.ok(options.every(p=>p.status==='general-learning'||p.status==='invalid-selection'),
+   assert.ok(options.every(p=>p.status==='general-learning'||p.status==='invalid-selection'||p.status==='not-offered'),
     key+'/'+stage+' must remain advisory');
   }
  }

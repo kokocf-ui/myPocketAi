@@ -27,13 +27,13 @@ export const CHEMISTRY_NOT_OFFERED_LOWER_YEARS=Object.freeze({
  HU:Object.freeze(['5','6']),
  CZ:Object.freeze(['6','7'])
 });
-const lowerSteps=Object.freeze([
+export const CHEMISTRY_ADVISORY_LOWER_STEPS=Object.freeze([
  ['fundamentals','solutions','atomic','periodic','bonding'],
  ['atomic','periodic','bonding','reactions','inorganic','fundamentals'],
  ['reactions','inorganic','solutions','acids','bonding','periodic'],
  ['solutions','acids','reactions','inorganic','bonding','fundamentals']
 ]);
-const specified=Object.freeze({
+export const CHEMISTRY_YEAR_TOPIC_SUGGESTIONS=Object.freeze({
  RO:{'7':['fundamentals','solutions','atomic','periodic','bonding'],
      '8':['reactions','inorganic','acids','solutions','bonding']},
  'GB-ENG':{'Y7':['fundamentals','atomic','solutions','periodic'],
@@ -53,7 +53,7 @@ const specified=Object.freeze({
  CZ:{'8':['fundamentals','atomic','solutions','periodic','bonding','reactions'],
      '9':['reactions','inorganic','acids','solutions','bonding','fundamentals']}
 });
-const genericSource='https://op.europa.eu/en/publication-detail/-/publication/b82d1d07-abf4-11f1-b9e5-01aa75ed71a1/language-en';
+export const CHEMISTRY_COUNTRY_GENERIC_SOURCE='https://op.europa.eu/en/publication-detail/-/publication/b82d1d07-abf4-11f1-b9e5-01aa75ed71a1/language-en';
 export function chemistryCountryGradePlan({country='',stage='lower',grade='',years=[]}={}){
  const code=String(country||'').toUpperCase(),id=String(grade||'');
  const list=Array.isArray(years)?years:[];
@@ -67,26 +67,26 @@ export function chemistryCountryGradePlan({country='',stage='lower',grade='',yea
  const kind=stage==='primary'?'integrated':reference?.kind||'advisory';
  if(stage==='lower'&&subjectIndex<0)return {
   country:code,stage,grade:id,status:'not-offered',topics:[],
-  kind:'not-offered',source:reference?.source||genericSource,
+  kind:'not-offered',source:reference?.source||CHEMISTRY_COUNTRY_GENERIC_SOURCE,
   subjectYearIndex:-1,subjectYearCount:offered.length,verifiedAnnual:false,
   note:'Acest an nu are Chimie ca disciplină separată în sistemul verificat. Nu afișăm un curs inventat.'
  };
  if(stage==='primary')return {country:code,stage,grade:id,status:'integrated',
   topics:['fundamentals','solutions'],kind:'integrated',
-  source:reference?.source||genericSource,subjectYearIndex:index,
+  source:reference?.source||CHEMISTRY_COUNTRY_GENERIC_SOURCE,subjectYearIndex:index,
   subjectYearCount:list.length,verifiedAnnual:false,
   note:'Noțiuni de materiale și transformări în Științe integrate; NU Chimie separată.'};
  if(stage==='upper')return {country:code,stage,grade:id,status:'advisory',topics:[],
-  kind:'track-dependent',source:reference?.source||genericSource,
+  kind:'track-dependent',source:reference?.source||CHEMISTRY_COUNTRY_GENERIC_SOURCE,
   subjectYearIndex:index,subjectYearCount:list.length,verifiedAnnual:false,
   note:'Profilul, filiera, opțiunile și cohorta trebuie cunoscute pentru o programă oficială.'};
  const indexAmong=subjectIndex<0?0:subjectIndex;
  const progression=offered.length<=1?0:Math.round(indexAmong*3/(offered.length-1));
- const topics=specified[code]?.[id]||lowerSteps[progression];
+ const topics=CHEMISTRY_YEAR_TOPIC_SUGGESTIONS[code]?.[id]||CHEMISTRY_ADVISORY_LOWER_STEPS[progression];
  return {country:code,stage,grade:id,
   status:reference?'framework-stage-advisory-year':'advisory',
   kind:code==='FR'&&id==='6e'?'integrated':kind,
-  source:reference?.source||genericSource,
+  source:reference?.source||CHEMISTRY_COUNTRY_GENERIC_SOURCE,
   programme:reference?.name||'Chemistry / integrated chemical sciences · advisory',
   sourceScope:reference?.scope||'European school structure, not a local chemistry syllabus',
   topics:[...topics],subjectYearIndex:indexAmong,
