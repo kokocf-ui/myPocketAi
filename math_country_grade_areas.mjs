@@ -8,7 +8,9 @@ const PATHS=Object.freeze({
   [['arithmetic','Aritmetică: numere și adunare/scădere'],['geometry','Forme geometrice'],['measurement','Măsurători']],
   [['arithmetic','Aritmetică: înmulțire și împărțire'],['geometry','Forme și corpuri geometrice'],['measurement','Măsurători și probleme']],
   [['arithmetic','Aritmetică: operații și probleme'],['geometry','Figuri, perimetre și spațiu'],['measurement','Unități de măsură']],
-  [['arithmetic','Aritmetică: fracții și operații'],['geometry','Figuri și corpuri geometrice'],['measurement','Măsurători și date']]
+  [['arithmetic','Aritmetică: fracții și operații'],['geometry','Figuri și corpuri geometrice'],['measurement','Măsurători și date']],
+  [['arithmetic','Aritmetică: numere mari și fracții'],['geometry','Geometrie: unghiuri și transformări'],['measurement','Măsurători și arii']],
+  [['arithmetic','Aritmetică: rapoarte și procente'],['geometry','Geometrie: arii și volume'],['statistics','Statistică: medii și diagrame']]
  ],
  lower:[
   [['algebra','Algebră: numere, operații și expresii'],['geometry','Geometrie: noțiuni introductive'],['statistics','Date și reprezentări']],
