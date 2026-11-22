@@ -11,7 +11,8 @@ const refs=Object.freeze({
  'GB-WLS':{source:'https://hwb.gov.wales/curriculum-for-wales/areas-of-learning-and-experience/science-and-technology/principles-of-progression/',scope:'national-stage',name:'Curriculum for Wales: Science and Technology',integrated:['primary','lower'],optionalUpper:['Y12','Y13'],note:'Science and Technology follows progression steps, not mandatory lesson lists per Year 7, 8 or 9.'},
  'GB-NIR':{source:'https://ccea.org.uk/key-stage-3/curriculum/science-and-technology',scope:'national-stage',name:'Science and Technology, KS3',integrated:['primary','lower'],optionalUpper:['Y13','Y14'],note:'Northern Ireland has integrated Science in Key Stage 3; exam-board syllabuses determine GCSE and post-16 Physics options.'},
  IE:{source:'https://curriculumonline.ie/junior-cycle/junior-cycle-subjects/science/expectations-for-students-learning-outcomes/',scope:'national-stage',name:'Junior Cycle Science — Physical World',integrated:['primary','lower'],optionalUpper:['TY','5Y','6Y'],note:'Learning outcomes cover the entire three-year Junior Cycle, so a fixed J1/J2/J3 chapter distribution would be a false official attribution.'},
- FR:{source:'https://eduscol.education.gouv.fr/5739/ressources-d-accompagnement-du-programme-de-physique-chimie-au-cycle-4',scope:'national-stage',name:'Physique-chimie · cycle 4',integrated:['primary'],noLower:['6e'],mixed:['lower'],note:'Cycle 4 covers 5e, 4e and 3e; the school-year sequence is advisory, not prescribed for each class. 6e is interdisciplinary science.'},
+ FR:{source:'https://www.education.gouv.fr/l-enseignement-des-sciences-7076',scope:'national-stage',name:'Physique-chimie · collège',integrated:['primary'],noLower:['6e'],mixed:['lower'],note:'Selon le ministère, les enseignements de physique-chimie commencent dès la 6e (depuis 2016), en articulation possible avec les sciences intégrées. 5e–3e suivent le cycle 4; la séquence par classe reste indicative.'},
+ MD:{source:'https://edu.gov.md/sites/default/files/plan_cadru_2026-27.pdf',scope:'national-year',name:'Fizica · gimnaziu VI–IX',noLower:['5'],lowerEntry:'6',note:'Plan-cadru MEC nr. 888/2026, învățământ general: Fizica începe în clasa VI și continuă până în IX. Distribuția exactă a temelor poate depinde de curriculum și filieră.'},
  HU:{source:'https://www.oktatas.hu/kozneveles/kerettantervek/2020_nat',scope:'national-stage',name:'Fizika · NAT 2020',noLower:['5','6'],lowerEntry:'7',note:'Grade 7–8 Física/Fizika foundation, revised in grades 9–10; specialised school tracks may vary.'},
  PL:{source:'https://zpe.gov.pl/podstawa-programowa/szkola-podstawowa/fizyka',scope:'national-stage',name:'Fizyka · klasy VII–VIII',lowerEntry:'VII',noLower:['V','VI'],note:'Separate Physics in classes VII and VIII; 2026 curriculum transition may be cohort-sensitive.'},
  PT:{source:'https://www.dge.mec.pt/programas-e-metas-curriculares/fisico-quimica',scope:'national-year',name:'Físico-Química · 7.º–9.º ano',noLower:['5','6'],lowerEntry:'7',mixed:['lower'],note:'Physics and Chemistry are combined in 7th–9th. 8th includes Sound and Light; 9th includes Motion/Forces and Electricity. 10th–12th depend on course options.'},
@@ -32,11 +33,11 @@ const refs=Object.freeze({
 // Concepts inside other sciences are not incorrectly called compulsory Physics.
 export const PHYSICS_NOT_OFFERED_LOWER_YEARS=Object.freeze({
  RO:Object.freeze(['5']),
- FR:Object.freeze(['6e']),
  HU:Object.freeze(['5','6']),
  PL:Object.freeze(['V','VI']),
  PT:Object.freeze(['5','6']),
- LV:Object.freeze(['7'])
+ LV:Object.freeze(['7']),
+ MD:Object.freeze(['5'])
 });
 export const PHYSICS_EUROPE_REFERENCES=refs;
 const countryGroups=Object.freeze({
