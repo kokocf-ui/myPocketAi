@@ -161,12 +161,17 @@ const cards={
  }
 };
 const exclusions={
- Y10:new Set(['Propoziții logice și tabele de adevăr','Inducția matematică și suma primelor numere']),
+ Y10:new Set(['Propoziții logice și tabele de adevăr','Inducția matematică și suma primelor numere',
+ 'Aria triunghiului din coordonate']),
  Y11:new Set(['Exponențiale și logaritmi','Domeniul funcțiilor logaritmice','Ecuații logaritmice și domenii',
  'Funcția inversă','Inversa funcției afine','Funcții inverse și restricții de domeniu',
  'Teorema factorului pentru polinoame','Teorema restului polinomial','Ecuația cercului în coordonate',
  'Intersecțiile cercului cu axa Ox','Tangenta la un cerc','Grade și radiani',
- 'Sinus și cosinus pe cercul unitate','Polinoame și gradul lor','Rădăcinile unui polinom'])
+ 'Sinus și cosinus pe cercul unitate','Polinoame și gradul lor','Rădăcinile unui polinom',
+ 'Transformări între radiani și grade','Ecuații trigonometrice cu tangentă',
+ 'Relații trigonometrice pentru unghiuri complementare','Împărțirea polinoamelor la x−a',
+ 'Ecuații exponențiale cu aceeași bază','Inecuații raționale și tabelul semnelor',
+ 'Distanța de la punct la dreaptă','Permutări fără repetiție','Combinări fără ordine'])
 };
 export const ENGLISH_KS4_REFERENCE=Object.freeze({
  ks4:'https://www.gov.uk/government/publications/national-curriculum-in-england-mathematics-programmes-of-study/national-curriculum-in-england-mathematics-programmes-of-study',
