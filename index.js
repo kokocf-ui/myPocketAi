@@ -26,7 +26,7 @@ import {PRACTICAL_UI_SCRIPT} from './practical_ui.mjs';
 import {EDUCATION_SELECTS_UI_SCRIPT} from './education_selects_ui.mjs';
 import {EDUCATION_SCOPE_UI_SCRIPT} from './education_scope_ui.mjs';
 import {EDUCATION_COUNTRY_UI_SCRIPT} from './education_country_ui.mjs';
-import {MATH_DEPTH_STAGES, MATH_DEPTH_EN_LOWER, MATH_DEPTH_EN_UNIVERSITY, RO5_MATH_LESSONS, mathInDepthEntries, mathInDepthMaterial,mathCountryCourseEntries} from './math_depth_courses.mjs';
+import {MATH_DEPTH_STAGES, MATH_DEPTH_EN_LOWER, MATH_DEPTH_EN_UNIVERSITY, RO5_MATH_LESSONS, RO678_MATH_LESSONS, mathInDepthEntries, mathInDepthMaterial,mathCountryCourseEntries} from './math_depth_courses.mjs';
 import {EDUCATION_FIRST_USE_NOTICE_SCRIPT} from './education_first_use_notice.mjs';
 import {POCKET_LANGUAGES,POCKET_COUNTRY_LANGUAGES,pocketLanguageFromLocale,pocketLanguageFromCountry,pocketPreferredLanguage} from './language_first_install.mjs';
 import {EUROPEAN_UI_LOCALES} from './european_app_locales.mjs';
@@ -8794,6 +8794,7 @@ const MATH_DEPTH_STAGES=${JSON.stringify(MATH_DEPTH_STAGES)};
 const MATH_DEPTH_EN_LOWER=${JSON.stringify(MATH_DEPTH_EN_LOWER)};
 const MATH_DEPTH_EN_UNIVERSITY=${JSON.stringify(MATH_DEPTH_EN_UNIVERSITY)};
 const RO5_MATH_LESSONS=${JSON.stringify(RO5_MATH_LESSONS)};
+const RO678_MATH_LESSONS=${JSON.stringify(RO678_MATH_LESSONS)};
 ${mathInDepthEntries.toString()}
 ${mathCountryCourseEntries.toString()}
 ${mathInDepthMaterial.toString()}
@@ -12775,7 +12776,10 @@ function mathYearTopics(){
  const areas=typeof EDU_MATH_GRADE_AREAS!=='undefined'?EDU_MATH_GRADE_AREAS[key]||[]:[];
  return areas.map(area=>{
   const topic=MATH_TOPICS.find(x=>x.id===area.id);
-  if(!topic||(MATH_CHAPTER_BANK[topic.id]?.[mathJourney.schoolStage]||[]).length===0)return null;
+  // Source-aligned Romanian years may contain a Mathematics branch
+  // (e.g. eighth-grade functions) absent from the old generic lesson bank.
+  if(!topic||(!(MATH_CHAPTER_BANK[topic.id]?.[mathJourney.schoolStage]||[]).length
+      &&!mathSelectedYearLessons(topic.id).length))return null;
   return {...topic,
    ro:stage==='beginner'&&area.id==='geometry'?'Forme geometrice':topic.ro,
    en:stage==='beginner'&&area.id==='geometry'?'Shapes and space':topic.en,
