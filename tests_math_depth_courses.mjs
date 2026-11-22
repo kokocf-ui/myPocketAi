@@ -15,7 +15,7 @@ for(const [stage,phases] of Object.entries(MATH_DEPTH_STAGES)){
  for(const [phaseIndex,domains] of phases.entries()){
   assert.ok(Object.keys(domains).length>=3,stage+'/'+(phaseIndex+1)+' needs at least three branches');
   const total=Object.entries(domains).reduce((sum,[topic,rows])=>sum+rows.length,0);
-  const minimum=stage==='primary'?(phaseIndex<4?30:23):
+  const minimum=stage==='primary'?(phaseIndex<4?30:32):
    stage==='lower'?20:stage==='intermediate'?18:21;
   assert.ok(total>=minimum,stage+' year '+(phaseIndex+1)+' has only '+total+
    ' chapters, below the minimum of '+minimum);
