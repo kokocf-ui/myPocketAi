@@ -188,3 +188,9 @@ export function englandKS4ExcludedTitles(grade){return exclusions[String(grade)]
 export const ENGLAND_KS4_TOPICS=Object.freeze(Object.fromEntries(
  Object.entries(cards).map(([grade,bank])=>[grade,Object.freeze(Object.keys(bank))])
 ));
+
+export const ENGLAND_KS4_LESSONS=Object.freeze(Object.fromEntries(
+ Object.entries(cards).map(([grade,topics])=>[grade,Object.freeze(Object.fromEntries(
+ Object.keys(topics).map(topic=>[topic,englandKS4CardRows(grade,topic)])))])));
+export const ENGLAND_KS4_EXCLUDED_TITLES=Object.freeze(Object.fromEntries(
+ Object.entries(exclusions).map(([grade,titles])=>[grade,Array.from(titles)])));
