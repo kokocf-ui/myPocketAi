@@ -64,6 +64,8 @@ import {PHYSICS_GRADE6_FORMULAS,physicsGrade6Formula} from './physics_grade6_for
 import {PHYSICS_GRADE7_GUIDES,physicsGrade7TeacherGuide} from './physics_grade7_teacher_guides.mjs';
 import {PHYSICS_GRADE8_GUIDES,physicsGrade8TeacherGuide} from './physics_grade8_teacher_guides.mjs';
 import {physicsGrade6Laboratories} from './physics_grade6_labs.mjs';
+import {PHYSICS_PRACTICAL_PROTOCOLS,physicsLaboratoryYearInvestigations} from './physics_europe_practicals.mjs';
+import {UNIVERSITY_PHYSICS_INQUIRY_BANK,physicsUniversityIndependentInvestigation} from './physics_university_independent_investigations.mjs';
 import {PHYSICS_EUROPE_REFERENCE,PHYSICS_EUROPE_REFERENCES,PHYSICS_ADVISORY_TOPIC_SEQUENCES,PHYSICS_COUNTRY_YEAR_SEQUENCES,physicsCountryGradePlan} from './physics_europe_frameworks.mjs';
 import {PHYSICS_ADVISORY_OER_SOURCES,physicsAdvisoryTopicLessons} from './physics_europe_lesson_bank.mjs';
 import {PHYSICS_EUROPE_EXTRA_LESSONS} from './physics_europe_wave_measurement.mjs';
@@ -9414,6 +9416,10 @@ const physicsGrade7TeacherGuide=${physicsGrade7TeacherGuide.toString()};
 const PHYSICS_GRADE8_GUIDES=${JSON.stringify(PHYSICS_GRADE8_GUIDES)};
 const physicsGrade8TeacherGuide=${physicsGrade8TeacherGuide.toString()};
 const physicsGrade6Laboratories=${physicsGrade6Laboratories.toString()};
+const PHYSICS_PRACTICAL_PROTOCOLS=${JSON.stringify(PHYSICS_PRACTICAL_PROTOCOLS)};
+const physicsLaboratoryYearInvestigations=${physicsLaboratoryYearInvestigations.toString()};
+const UNIVERSITY_PHYSICS_INQUIRY_BANK=${JSON.stringify(UNIVERSITY_PHYSICS_INQUIRY_BANK)};
+const physicsUniversityIndependentInvestigation=${physicsUniversityIndependentInvestigation.toString()};
 const scienceSchoolLessonMaterial=${scienceSchoolLessonMaterial.toString()};
 const scienceSchoolLessonAssessment=${scienceSchoolLessonAssessment.toString()};
 const scienceCheckExactExercise=${scienceCheckExactExercise.toString()};
@@ -12244,8 +12250,8 @@ function scienceOpenChemistrySection(stage){
    scienceJourney.schoolStage==='lower'&&String(scienceJourney.grade)==='6';
   const astronomy=scienceJourney.subject==='astronomy';
   tile(introPhysics?'🧪':astronomy?'🔭':'⚛️',
-   introPhysics?'Experimente pentru clasa a VI-a':astronomy?'Activități și reprezentări':'Laborator și modele 3D',
-   introPhysics?'Grade VI investigations':astronomy?'Activities and diagrams':'Laboratory and 3D models',
+   introPhysics?'Experimente pentru clasa a VI-a':scienceJourney.subject==='physics'?'Experimente și reprezentări':astronomy?'Activități și reprezentări':'Laborator și modele 3D',
+   introPhysics?'Grade VI investigations':scienceJourney.subject==='physics'?'Physics investigations and diagrams':astronomy?'Activities and diagrams':'Laboratory and 3D models',
    introPhysics?'Măsurători și observații din capitol':astronomy?'Experimente și grafice specifice capitolului':'Molecule interactive și reprezentări',
    introPhysics?'Chapter-specific experiments':astronomy?'Chapter-specific activities and scientific diagrams':'Interactive molecules and visual models',
    ()=>scienceJourneyShowChoices('chemistry-lab'));
@@ -12305,15 +12311,26 @@ function scienceOpenChemistrySection(stage){
   }else if(scienceJourney.subject==='physics'){
    if(scienceJourney.schoolStage==='advanced'&&/^univ-[1-5]$/.test(String(scienceJourney.grade||''))){
     const course=scienceTopicInfo();
-    const documentText=physicsUniversityStudyDocument({
-     courseId:course?.courseId,country:educationCountrySelection.code,
-     routeId:scienceJourney.universityRoute,year:Number(String(scienceJourney.grade).slice(-1)),
-     specialty:scienceJourney.specialty,language:state.language,lessons:EDUCATION_THEORY_DATA,
-     trackGuide:SCIENCE_UNIVERSITY_TRACK_GUIDES.physics?.[scienceJourney.specialty]
+    // The laboratory is an INDEPENDENT question/protocol, not a second
+    // button reopening the identical university study document.
+    const universityLab=physicsUniversityIndependentInvestigation({
+     courseId:course?.courseId,topic:course?.topic,courseName:chapter,
+     country:educationCountrySelection.code,
+     year:Number(String(scienceJourney.grade).slice(-1)),
+     specialty:scienceJourney.specialty,language:state.language
     });
-    if(documentText)tile('🧪','Investigația cursului','Course investigation',
-     'Ipoteze, pași, date, incertitudine și verificare','Hypotheses, procedure, data, uncertainty and review',
-     ()=>educationOpenPagedLesson(chapter,documentText));
+    if(universityLab)tile('🧪','Investigația cursului','Course investigation',
+     'Protocol separat: ipoteze, metodă, date, incertitudine și verificare',
+     'Independent protocol: hypothesis, method, data, uncertainty and review',()=>{
+      sciencePendingAssessmentSpec={
+       subject:'physics',topic:course?.topic,stage:'advanced',
+       lang:state.language==='ro'?'ro':'en',
+       prompt:universityLab.review.prompt,guide:universityLab.review.guide,
+       localVerification:false
+      };
+      try{educationOpenPagedLesson(universityLab.title,universityLab.body)}
+      finally{sciencePendingAssessmentSpec=null}
+     });
     const relevantModel=physicsVisualKind(course?.ro||'',course?.topic);
     if(relevantModel)tile('📈','Modelul fizic relevant','Relevant physical model',
      'Reprezentare numai pentru fenomenul studiat','Diagram only for this studied phenomenon',
@@ -12342,7 +12359,48 @@ function scienceOpenChemistrySection(stage){
      notice.textContent=learningLabel('Nu există un experiment adecvat verificat pentru această temă.','No suitable verified investigation for this topic.');
      list.append(notice);
     }
-   }else tile('📈','Reprezentări din capitol','Chapter diagrams','Doar modele relevante lecției','Only lesson-relevant models',physicsVisualPicker);
+   }else{
+    // Every European school grade gets its own relevant, safe Physics
+    // investigations. Never show a generic diagram as the only laboratory.
+    const country=educationCountrySelection.code;
+    const studyYears=eduYearOptions(country,
+     scienceJourney.schoolStage==='upper'?'intermediate':scienceJourney.schoolStage,'science');
+    const authored=scienceSchoolTopicLessons({
+     country,subject:'physics',stage:scienceJourney.schoolStage,
+     grade:scienceJourney.grade,topic:scienceJourney.topic,years:studyYears,
+     lessons:EDUCATION_THEORY_DATA,language:state.language
+    });
+    const investigations=physicsLaboratoryYearInvestigations({
+     country,grade:scienceJourney.grade,stage:scienceJourney.schoolStage,
+     topic:scienceJourney.topic,yearPosition:scienceJourney.gradePosition,
+     language:state.language,lessons:authored
+    });
+    for(const lab of investigations){
+     tile('🧪',lab.ro,lab.en,'Experiment explicat, pași, date și verificare',
+      'Explained experiment, procedure, evidence and review',()=>{
+       sciencePendingAssessmentSpec={
+        subject:'physics',topic:scienceJourney.topic,
+        stage:scienceJourney.schoolStage,lang:state.language,
+        prompt:lab.review.prompt,guide:lab.review.guide,localVerification:false
+       };
+       try{educationOpenPagedLesson(learningLabel(lab.ro,lab.en),lab.body)}
+       finally{sciencePendingAssessmentSpec=null}
+      });
+    }
+    const topicModels={kinematics:true,dynamics:true,energy:true,waves:true,
+     electric:true,circuits:true,optics:true,thermodynamics:true,modern:true};
+    if(topicModels[scienceJourney.topic])
+     tile('📈','Modelul fizic al capitolului','Chapter-specific physical model',
+      'Numai reprezentări corespunzătoare fenomenului studiat',
+      'Only diagrams matching the studied physical phenomenon',physicsVisualPicker);
+    if(!investigations.length){
+     const notice=document.createElement('p');notice.className='chem-no-visual';
+     notice.textContent=learningLabel(
+      'Nu există o investigație originală documentată pentru această temă și acest an.',
+      'No authored investigation exists for this exact topic and year.');
+     list.append(notice);
+    }
+   }
   }else if(scienceJourney.subject==='biology'){
    const key=topic?.id||'';
    if(['primary','lower','upper'].includes(scienceJourney.schoolStage)){

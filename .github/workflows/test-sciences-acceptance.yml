@@ -45,11 +45,24 @@ jobs:
           node tests_physics_university_europe.mjs
           node tests_physics_visible_school_years.mjs
           node tests_physics_all_europe_year_depth.mjs
+          node tests_physics_country_year_entry_2026.mjs
+          node tests_physics_grade_inquiry_no_repeats.mjs
+          node tests_physics_country_practicals.mjs
           node tests_physics_europe_coverage.mjs
           node tests_science_year_cards.mjs
       - name: Four separate Sciences, theory and representation
         run: |
           node tests_physics_complete.mjs
+          node tests_physics_primary_years.mjs
+          node tests_physics_lab_review_context.mjs
+          node tests_physics_teacher_formula_sequence.mjs
+          node tests_physics_upper_bilingual.mjs
+          node tests_physics_upper_formula_coverage.mjs
+          node tests_physics_university_studies.mjs
+          node tests_physics_university_real_lessons.mjs
+          node tests_physics_university_independent_labs.mjs
+          node tests_physics_university_formula_sequence.mjs
+          node tests_physics_video_repair.mjs
           node tests_physics_laws_scroll.mjs
           node --check chemistry_laws_reference.mjs
           node tests_chemistry_laws_scroll.mjs

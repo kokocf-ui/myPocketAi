@@ -34,8 +34,9 @@ const html=await(await frontend.fetch(new Request('https://physics-grade6-review
 const script=html.match(/<script>([\s\S]*?)<\/script>/)?.[1]||'';
 new vm.Script(script);
 assert.ok(script.includes('const physicsGrade6Laboratories=')&&script.includes('const physicsGrade6TeacherNotes='));
-assert.ok(script.includes("!(scienceJourney.subject==='physics'&&group.schoolStage==='primary')"),
- 'No separate primary Physics group in school year chooser');
+assert.ok(script.includes('const physicsPrimaryYearLessons=')&&
+ script.includes('scienceJourney.schoolStage=group.schoolStage'),
+ 'Primary Physics must remain an integrated-science strand with correct school-year selection');
 assert.ok(script.includes('const investigations=physicsGrade6Laboratories(scienceJourney.topic)'),
  'Grade VI lab must use the currently chosen chapter rather than a generic graphics gallery');
 assert.ok(script.includes("back.onclick=event=>{event?.stopPropagation?.();dialog.close();physicsVisualPicker()}"),

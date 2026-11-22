@@ -53,8 +53,9 @@ for(const country of EDUCATION_EUROPE_COUNTRIES){
  }
 }
 const html=await(await frontend.fetch(new Request('https://physics-primary-year.test/'))).text();
-assert.ok(html.includes("scienceJourney.schoolStage==='primary'&&subjectId==='physics'"),
- 'Physical science primary opens several independent activities');
+assert.ok(html.includes("if(subject==='physics'&&stage==='primary'")&&
+ html.includes('const scienceSchoolTopicLessons='),
+ 'Primary Physics must route through subject-specific original study lessons');
 assert.ok(html.includes('const physicsPrimaryYearLessons='),
  'Primary grade/year scaffolds must exist in WebView');
 console.log('PASS primary Physics strands: '+yearsAudited+' country-year routes, '+

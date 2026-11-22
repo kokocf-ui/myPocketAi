@@ -40,6 +40,10 @@ for(const country of EDUCATION_EUROPE_COUNTRIES){
   assert.ok(prerequisite.every(x=>x.title.startsWith('Prerequisite review:')),
    'Earlier-grade topics must be clearly labelled review instead of falsely presented as new upper-year requirements');
   assert.ok(all.every(x=>x.language==='en'),'Never insert untranslated Romanian cards in English high-school lessons');
+  assert.ok(original.every(item=>!/Verifică|Compară|Estimează|Propune|Justifică|Arată|Precizează/.test(item.exercise)),
+   'English upper-secondary pupils must not see Romanian assessment instructions');
+  assert.ok(original.every(item=>/\b(?:Check|Compare|Estimate|Design)\b/.test(item.exercise)),
+   'Each English year must have its own independently readable investigation question');
   for(const item of original){
    const body=scienceSchoolLessonMaterial({entry:item,subject:'physics',grade:grade.id,
     chapter:item.topic,language:'en'});

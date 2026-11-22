@@ -6,6 +6,23 @@ import {worldwideSchoolYears} from './education_worldwide_paths.mjs';
 import {EDUCATION_COUNTRY_UI_SCRIPT} from './education_country_ui.mjs';
 import {PHYSICS_NOT_OFFERED_LOWER_YEARS,physicsCountryGradePlan} from './physics_europe_frameworks.mjs';
 
+// Check the PRODUCTION country picker itself, not only the lesson-year matrix:
+// each supported European education jurisdiction must remain selectable even
+// when the global History/Geography country database is incomplete.
+const s=EDUCATION_COUNTRY_UI_SCRIPT.indexOf('const EDU_EUROPE_COUNTRY_CODES=');
+const e=EDUCATION_COUNTRY_UI_SCRIPT.indexOf('function eduCountryLabel(',s);
+assert.ok(s>=0&&e>s,'Missing production Education country picker');
+const options=vm.runInNewContext(EDUCATION_COUNTRY_UI_SCRIPT.slice(s,e)+
+ '\neduCountryOptions()',{
+ EDU_EUROPE_COUNTRY_LIST:EDUCATION_EUROPE_COUNTRIES,
+ HG_COUNTRY_PICKER_DATA:[{id:'RO',ro:'România',en:'Romania'}],
+ Intl
+});
+assert.equal(options.length,50,'Education must not inherit missing jurisdictions from other modules');
+assert.equal(new Set(options.map(x=>x.id)).size,50);
+assert.equal(options.find(x=>x.id==='XK')?.ro,'Kosovo',
+ 'Kosovo must be selectable as a school system even if absent from world-countries metadata');
+
 const first=EDUCATION_COUNTRY_UI_SCRIPT.indexOf('function eduYearOptions(');
 const last=EDUCATION_COUNTRY_UI_SCRIPT.indexOf('function educationGradeGate(',first);
 assert.ok(first>=0&&last>first,'Android Physics picker source is present');

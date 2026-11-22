@@ -11,17 +11,22 @@ export function physicsUpperYearLessons({country='',grade='',topic='',years=[],l
   item.subject==='physics'&&item.topic===topic&&
   ['beginner','intermediate'].includes(item.level)&&item.title&&item.statement);
  const gradeIndex=years.findIndex(y=>String(y.id)===yr);
- const reviewQuestions=[
-  ['Verifică rezultatul printr-o unitate sau un caz-limită.',
-   'Justifică unitatea și o ipoteză a modelului.'],
-  ['Compară metoda cu o altă situație fizică și indică ce date s-ar modifica.',
-   'Arată ce mărimi sau ipoteze se schimbă și ce relații rămân valabile.'],
-  ['Descrie o posibilă eroare de măsurare și efectul ei asupra rezultatului.',
-   'Explică o sursă plauzibilă de eroare și sensul influenței asupra rezultatului.'],
-  ['Propune un experiment sigur care să pună la încercare modelul.',
-   'Specifică mărimea măsurată, controlul, predicția și criteriul de verificare.']
- ];
- const inquiry=reviewQuestions[Math.min(gradeIndex,reviewQuestions.length-1)];
+ const reviewQuestions={
+  ro:[
+   ['Verifică rezultatul prin unitate și un caz-limită.','Justifică unitatea și o ipoteză a modelului.'],
+   ['Compară două situații și indică ce date sau condiții se schimbă.','Arată ce mărimi ori ipoteze se schimbă și ce relații rămân valabile.'],
+   ['Estimează o eroare de măsurare și explică influența asupra rezultatului.','Explică o sursă plauzibilă de eroare și sensul influenței asupra rezultatului.'],
+   ['Propune un test sigur al modelului și interpretează datele necesare.','Precizează variabila controlată, predicția, incertitudinea și un criteriu de verificare.']
+  ],
+  en:[
+   ['Check the result using its units and a limiting case.','Explain the unit and one assumption behind the model.'],
+   ['Compare two physical settings and identify changed data or conditions.','Explain which quantities or assumptions vary and which relationships remain valid.'],
+   ['Estimate a measurement error and its influence on the result.','Explain one plausible source of error and how it affects the result.'],
+   ['Design a safe test of the model and interpret the required data.','State the controlled variable, prediction, uncertainty and an evidence-based check.']
+  ]
+ };
+ const inquiry=reviewQuestions[language==='ro'?'ro':'en'][
+  Math.min(gradeIndex,reviewQuestions.ro.length-1)]; 
  const caseBank=language==='ro'?PHYSICS_UPPER_CASES:PHYSICS_UPPER_CASES_EN;
  const cases=(caseBank[topic]||[]).map((entry,n)=>({
   ...entry,grade:yr,source:'original-upper-physics-advisory',nationallyVerified:false,
