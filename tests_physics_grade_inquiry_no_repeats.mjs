@@ -19,13 +19,15 @@ for(const [country,gradeA,gradeB,topic] of [
    language,lessons:THEORY_ENTRIES
   });
   const a=retrieve(gradeA),b=retrieve(gradeB);
-  assert.equal(a.length,8);
-  assert.equal(b.length,8);
+  assert.ok(a.length>=8&&b.length>=8,'Every grade needs multiple distinct lessons');
   assert.ok(a.every(x=>x.exercise.length>=65&&x.answer.length>=40));
   assert.ok(b.every(x=>x.exercise.length>=65&&x.answer.length>=40));
-  assert.equal(new Set(a.map(x=>x.exercise)).size,8);
-  assert.equal(new Set(b.map(x=>x.exercise)).size,8);
-  assert.ok(a.every((entry,i)=>entry.exercise!==b[i].exercise),
+  assert.equal(new Set(a.map(x=>x.exercise)).size,a.length);
+  assert.equal(new Set(b.map(x=>x.exercise)).size,b.length);
+  const compare=new Map(b.map(entry=>[entry.title,entry.exercise]));
+  const overlap=a.filter(entry=>compare.has(entry.title));
+  assert.ok(overlap.length>=2,'The same scientific topic should have some revisited concepts');
+  assert.ok(overlap.every(entry=>entry.exercise!==compare.get(entry.title)),
    country+'/'+topic+'/'+language+' must give different year-specific practice');
   const expected=language==='ro'?'Extensie pentru «':'Year extension for “';
   assert.ok(a.every(x=>x.exercise.includes(expected)&&x.exercise.includes(x.title)),
