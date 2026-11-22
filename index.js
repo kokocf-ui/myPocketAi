@@ -12832,6 +12832,8 @@ function mathJourneyShowChoices(stage){
   learningLabel('Alege lecția','Choose a lesson');
  const note=document.createElement('p');
  const topic=MATH_TOPICS.find(x=>x.id===mathJourney.topic);
+ const isEnglandGcse=String(educationCountrySelection.code||'')==='GB-ENG'&&
+  mathJourney.schoolStage==='intermediate'&&['Y10','Y11'].includes(String(mathJourney.grade||''));
  note.textContent=stage==='stages'
   ?educationCountrySelection.label+' · '+learningLabel('Selectează etapa și anul de studiu.','Select your stage and school year.'):
   stage==='branches'
@@ -12897,8 +12899,7 @@ function mathJourneyShowChoices(stage){
   items.append(button);
  }
  panel.append(title,note);
- const isEnglandGcse=String(educationCountrySelection.code||'')==='GB-ENG'&&
-  mathJourney.schoolStage==='intermediate'&&['Y10','Y11'].includes(String(mathJourney.grade||''));
+
  if(isEnglandGcse&&(stage==='branches'||stage==='chapters')){
   const tierRow=document.createElement('label');tierRow.className='math-gcse-tier-row';
   tierRow.style.cssText='display:flex;flex-direction:column;gap:6px;max-width:100%;font-size:14px;margin:8px 0;';
