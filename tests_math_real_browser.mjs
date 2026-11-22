@@ -120,6 +120,26 @@ try{
  assert.ok(branches.some(x=>x.includes('Aritmetică')),'England Y1 has no primary arithmetic');
  assert.ok(!branches.some(x=>x.includes('Algebră')),'England Y1 shows formal algebra');
  await page.screenshot({path:'math-browser-audit/england-year1.png'});
+ // University years must have their own advanced material, not reuse the
+ // same primary-school pictures or a single empty "university" placeholder.
+ await click(page.locator('#view-module .math-stage-back').first());
+ const gradeBack=page.locator('#view-module .module-actions-row .pocket-inline-back, #view-module .education-toolbar button').first();
+ await click(gradeBack);
+ await pickMathStage('Universitate');
+ await pickGrade('1');
+ const universityBranches=await page.locator('#view-module .math-choice-list .math-choice-row strong').allTextContents();
+ assert.ok(universityBranches.some(x=>x.includes('Analiză matematică')),'University analysis branch unavailable');
+ assert.ok(universityBranches.some(x=>x.includes('Algebră liniară')),'University linear algebra branch unavailable');
+ await click(page.locator('#view-module .math-choice-row').filter({hasText:'Analiză matematică'}).first());
+ const universityLessons=await page.locator('#view-module .math-choice-list .math-choice-row strong').allTextContents();
+ assert.ok(universityLessons.length>=4,'University analysis needs multiple distinct complete lessons');
+ await page.screenshot({path:'math-browser-audit/england-university.png'});
+ await click(page.locator('#view-module .math-choice-row').filter({hasText:'Secvențe numerice și limita lor'}).first());
+ await page.locator('#mathEducationWorkspace').waitFor({state:'attached',timeout:10000});
+ await click(page.locator('#moduleContent button').filter({hasText:'Studiază lecția și exemplele'}).first());
+ await page.locator('#educationPagedLessonDialog').waitFor({state:'visible',timeout:10000});
+ assert.match(await page.locator('#educationPagedLessonDialog').innerText(),/convergență|Convergență|limita/i,
+  'University Year 1 analysis must contain the actual lesson, not a placeholder');
  assert.equal(errors.length,0,'Unexpected JavaScript errors: '+errors.slice(0,5).join('; '));
  console.log('PASS mobile Chromium maths: Romania primary + lower secondary, theorem reference, England Y1, Back and branches');
 }finally{
