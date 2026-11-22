@@ -1,3 +1,6 @@
+import {MATH_DEPTH_PRIMARY} from './math_depth_primary.mjs';
+import {MATH_DEPTH_UPPER} from './math_depth_upper.mjs';
+import {MATH_DEPTH_UNIVERSITY} from './math_depth_university.mjs';
 // Mathematics learning cards: authored, age-progressive explanations and worked
 // problems. These are *general European learning aids*, not certified copies
 // of a country's national mathematics programme.
@@ -80,17 +83,24 @@ export const MATH_DEPTH_LOWER=[
  ]
  }
 ];
+export const MATH_DEPTH_STAGES=Object.freeze({primary:MATH_DEPTH_PRIMARY,lower:MATH_DEPTH_LOWER,intermediate:MATH_DEPTH_UPPER,advanced:MATH_DEPTH_UNIVERSITY});
 export function mathInDepthEntries({stage,phase,topic}={}){
  const st=String(stage||''),p=Number(phase),subject=String(topic||'');
- const rows=st==='lower'?MATH_DEPTH_LOWER[p-1]?.[subject]:null;
+ const rows=MATH_DEPTH_STAGES[st]?.[p-1]?.[subject];
  if(!Array.isArray(rows))return [];
- return rows.map((x,i)=>({
-  id:'math-depth-'+st+'-'+p+'-'+subject+'-'+(i+1),
-  subject:'math',level:st==='advanced'?'advanced':st==='intermediate'?'intermediate':'beginner',
-  stage:st,phase:p,topic:subject,title:x[0],statement:x[1],formula:x[2]||'',
-  worked:x[3],practice:x[4],answers:x[5],sourceStatus:'general-learning',
-  aliases:[]
- }));
+ return rows.map((x,i)=>{
+  // Lower-secondary entries were authored first in Romanian; later stage
+  // entries include a stable English title for non-Romanian app navigation.
+  const offset=x.length===7?1:0;
+  return {
+   id:'math-depth-'+st+'-'+p+'-'+subject+'-'+(i+1),
+   subject:'math',level:st==='advanced'?'advanced':st==='intermediate'?'intermediate':'beginner',
+   stage:st,phase:p,topic:subject,title:x[offset],enTitle:offset?x[0]:x[0],
+   statement:x[offset+1],formula:x[offset+2]||'',
+   worked:x[offset+3],practice:x[offset+4],answers:x[offset+5],
+   sourceStatus:'general-learning',aliases:[]
+  };
+ });
 }
 export function mathInDepthMaterial(entry){
  if(!entry?.title||!entry?.statement||!entry?.worked)return '';
