@@ -175,6 +175,10 @@ try{
  await click(gradeBack);
  await pickMathStage('Liceu');
  await pickGrade('Year 10');
+ assert.equal(await page.locator('#view-module .math-curriculum-status').count(),1,
+  'Country/year curriculum status must be visible on the phone');
+ assert.match(await page.locator('#view-module .math-curriculum-status').innerText(),/GCSE|Key Stage 4/i,
+  'England Year 10 must be labelled as a GCSE-stage advisory sequence');
  const upperBranches=await page.locator('#view-module .math-choice-list .math-choice-row strong').allTextContents();
  assert.ok(upperBranches.some(x=>x.includes('Algebră')),'Upper secondary must show an algebra branch');
  await click(page.locator('#view-module .math-choice-row').filter({hasText:'Algebră'}).first());
