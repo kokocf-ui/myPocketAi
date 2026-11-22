@@ -1,3 +1,4 @@
+import {astronomyUpperSupplement} from './astronomy_upper_secondary.mjs';
 // Astronomy study cards: original, year-scoped educational examples. The
 // country chooser supplies actual school-year labels; the teaching sequence
 // remains advisory until a jurisdiction's optional curriculum is verified.
@@ -275,7 +276,7 @@ export function astronomySchoolTopicLessons({country='',grade='',stage='primary'
  const limit=Math.min(stage==='primary'?2:stage==='lower'?3:4,source.length);
  const offset=(stage==='primary'?idx:tier*limit)%source.length;
  const plan=stage==='primary'?(ASTRONOMY_PRIMARY_CASES[topic]||ASTRONOMY_STUDY_CASES[topic]):ASTRONOMY_STUDY_CASES[topic];
- return Array.from({length:limit},(_,i)=>{
+ const cards=Array.from({length:limit},(_,i)=>{
   const entry=source[(offset+i)%source.length],slot=(stage==='primary'?idx+i:tier+i)%(stage==='upper'?plan.core.length:2);
   const prefix=stage==='primary'?'Observăm şi explicăm: ':
    stage==='lower'?'Explicăm mecanismul: ':'Analizăm modelul şi limitele: ';
@@ -288,6 +289,9 @@ export function astronomySchoolTopicLessons({country='',grade='',stage='primary'
    laboratoryType:'safe-observation-or-simulation'
   };
  });
+ const supplement=stage==='upper'?astronomyUpperSupplement({country,grade,years:yearList,topic}):null;
+ if(supplement)cards.push(supplement);
+ return cards;
 }
 // One chapter's practical figures should represent that chapter; unrelated
 // Solar System, parallax or galaxy cartoons must not be recycled everywhere.

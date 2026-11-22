@@ -37,7 +37,12 @@ export const SCIENCE_ADVISORY_PROGRESSION=Object.freeze({
   physics:[['units','kinematics','dynamics','measurement'],['heat','thermodynamics','waves','optics'],['electric','circuits','electromagnetism','measurement'],['modern','measurement','energy','waves']],
   chemistry:[['fundamentals','atomic','periodic','bonding'],['reactions','inorganic','solutions','acids'],['organic','physical','solutions','reactions'],['organic','electrochem','analytical','biochemistry']],
   biology:[['cells','biomolecules','genetics','ecology'],['anatomy','homeostasis','microbes'],['genetics','evolution','methods','ecology'],['biomolecules','homeostasis','methods','microbes']],
-  astronomy:[['solar','sky','gravity','distances'],['stars','galaxies','observations'],['cosmology','exoplanets','gravity'],['cosmology','stars','galaxies','observations']]
+  astronomy:[
+   ['solar','sky','distances','gravity','observations'],
+   ['solar','gravity','stars','observations','exoplanets','distances'],
+   ['stars','galaxies','cosmology','exoplanets','gravity','observations'],
+   ['sky','distances','stars','galaxies','cosmology','observations','exoplanets','gravity']
+  ]
  }
 });
 const rank=Object.freeze({beginner:0,intermediate:1,advanced:2});
