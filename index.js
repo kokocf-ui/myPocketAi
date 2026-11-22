@@ -12716,6 +12716,7 @@ function mathJourneyShowChoices(stage){
  mathVoiceStop();mathCloseResults();mathClearWorkspaceHeader();
  mathJourney.stage=stage;
  const root=$('view-module'),host=$('moduleContent');
+ if(root?.dataset)root.dataset.mathStage=stage;
  root.classList.remove('learning-choose','learning-hg','learning-languages','learning-country-gate');
  root.classList.add('learning-active','learning-math','math-choice-stage');
  host.replaceChildren();$('moduleLead').textContent='';
