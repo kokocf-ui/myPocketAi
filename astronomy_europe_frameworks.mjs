@@ -94,6 +94,8 @@ export function astronomyCountryGradePlan({country='',stage='primary',grade='',y
   offerVerified:false,topicsVerified:false,
   noteRo:'Parcurs original orientativ. Încadrarea astronomiei ca materie separată, integrată sau opțională nu este verificată pentru această țară și clasă.',
   noteEn:'Original advisory learning route. Astronomy as a separate, integrated or optional subject is not verified for this jurisdiction and school year.'};
+ // Advisory placeholder IDs are NOT official national school years.
+ if(year.startsWith('general-'))return general;
  if(code==='RO'){
   const offer=RO_ASTRONOMY_OPTIONALS[level]?.[year];
   if(offer&&base)return {...general,status:'official-elective-offer',kind:'national-optional',
