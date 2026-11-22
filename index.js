@@ -65,6 +65,7 @@ import {PHYSICS_GRADE7_GUIDES,physicsGrade7TeacherGuide} from './physics_grade7_
 import {PHYSICS_GRADE8_GUIDES,physicsGrade8TeacherGuide} from './physics_grade8_teacher_guides.mjs';
 import {physicsGrade6Laboratories} from './physics_grade6_labs.mjs';
 import {PHYSICS_PRACTICAL_PROTOCOLS,physicsLaboratoryYearInvestigations} from './physics_europe_practicals.mjs';
+import {UNIVERSITY_PHYSICS_INQUIRY_BANK,physicsUniversityIndependentInvestigation} from './physics_university_independent_investigations.mjs';
 import {PHYSICS_EUROPE_REFERENCE,PHYSICS_EUROPE_REFERENCES,PHYSICS_ADVISORY_TOPIC_SEQUENCES,PHYSICS_COUNTRY_YEAR_SEQUENCES,physicsCountryGradePlan} from './physics_europe_frameworks.mjs';
 import {PHYSICS_ADVISORY_OER_SOURCES,physicsAdvisoryTopicLessons} from './physics_europe_lesson_bank.mjs';
 import {PHYSICS_EUROPE_EXTRA_LESSONS} from './physics_europe_wave_measurement.mjs';
@@ -9417,6 +9418,8 @@ const physicsGrade8TeacherGuide=${physicsGrade8TeacherGuide.toString()};
 const physicsGrade6Laboratories=${physicsGrade6Laboratories.toString()};
 const PHYSICS_PRACTICAL_PROTOCOLS=${JSON.stringify(PHYSICS_PRACTICAL_PROTOCOLS)};
 const physicsLaboratoryYearInvestigations=${physicsLaboratoryYearInvestigations.toString()};
+const UNIVERSITY_PHYSICS_INQUIRY_BANK=${JSON.stringify(UNIVERSITY_PHYSICS_INQUIRY_BANK)};
+const physicsUniversityIndependentInvestigation=${physicsUniversityIndependentInvestigation.toString()};
 const scienceSchoolLessonMaterial=${scienceSchoolLessonMaterial.toString()};
 const scienceSchoolLessonAssessment=${scienceSchoolLessonAssessment.toString()};
 const scienceCheckExactExercise=${scienceCheckExactExercise.toString()};
@@ -12308,15 +12311,26 @@ function scienceOpenChemistrySection(stage){
   }else if(scienceJourney.subject==='physics'){
    if(scienceJourney.schoolStage==='advanced'&&/^univ-[1-5]$/.test(String(scienceJourney.grade||''))){
     const course=scienceTopicInfo();
-    const documentText=physicsUniversityStudyDocument({
-     courseId:course?.courseId,country:educationCountrySelection.code,
-     routeId:scienceJourney.universityRoute,year:Number(String(scienceJourney.grade).slice(-1)),
-     specialty:scienceJourney.specialty,language:state.language,lessons:EDUCATION_THEORY_DATA,
-     trackGuide:SCIENCE_UNIVERSITY_TRACK_GUIDES.physics?.[scienceJourney.specialty]
+    // The laboratory is an INDEPENDENT question/protocol, not a second
+    // button reopening the identical university study document.
+    const universityLab=physicsUniversityIndependentInvestigation({
+     courseId:course?.courseId,topic:course?.topic,courseName:chapter,
+     country:educationCountrySelection.code,
+     year:Number(String(scienceJourney.grade).slice(-1)),
+     specialty:scienceJourney.specialty,language:state.language
     });
-    if(documentText)tile('🧪','Investigația cursului','Course investigation',
-     'Ipoteze, pași, date, incertitudine și verificare','Hypotheses, procedure, data, uncertainty and review',
-     ()=>educationOpenPagedLesson(chapter,documentText));
+    if(universityLab)tile('🧪','Investigația cursului','Course investigation',
+     'Protocol separat: ipoteze, metodă, date, incertitudine și verificare',
+     'Independent protocol: hypothesis, method, data, uncertainty and review',()=>{
+      sciencePendingAssessmentSpec={
+       subject:'physics',topic:course?.topic,stage:'advanced',
+       lang:state.language==='ro'?'ro':'en',
+       prompt:universityLab.review.prompt,guide:universityLab.review.guide,
+       localVerification:false
+      };
+      try{educationOpenPagedLesson(universityLab.title,universityLab.body)}
+      finally{sciencePendingAssessmentSpec=null}
+     });
     const relevantModel=physicsVisualKind(course?.ro||'',course?.topic);
     if(relevantModel)tile('📈','Modelul fizic relevant','Relevant physical model',
      'Reprezentare numai pentru fenomenul studiat','Diagram only for this studied phenomenon',
