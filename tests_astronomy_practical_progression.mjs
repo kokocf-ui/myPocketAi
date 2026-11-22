@@ -126,5 +126,25 @@ const primary=astronomyActivityProgression({stage:'primary',grade:'1',topic:'sol
 const primaryText=documentText(primary[0],'# Activitate primară cu lanternă și glob');
 assert.ok(primaryText.includes('Jurnal de observație'));
 assert.ok(!primaryText.includes('T²/a³'),'Primary text must not import Kepler');
+// Lunar phase diagrams are not four copies of the same half-illuminated
+// disc. This previously looked attractive but taught incorrect astronomy.
+const moonStart=script.indexOf('function astronomyVisualBuild(kind){');
+const moonEnd=script.indexOf('function astronomyPracticalGraphOpen(activity)',moonStart);
+const {draw}=vm.runInNewContext(script.slice(moonStart,moonEnd)+
+ '\n({draw:astronomyVisualBuild})',{
+ document:{createElement:tag=>new El(tag),createElementNS:(ns,tag)=>new El(tag)},
+ ASTRONOMY_PLANETS:[],ASTRONOMY_PLANET_REFERENCE:{},
+ learningLabel:(ro,en)=>ro
+});
+const phaseSvg=draw('phases').children.find(x=>x.tag==='svg');
+assert.ok(phaseSvg.children.some(x=>x.tag==='text'&&x.textContent==='Nouă'));
+assert.ok(phaseSvg.children.some(x=>x.tag==='text'&&x.textContent==='Plină'));
+assert.ok(phaseSvg.children.some(x=>x.tag==='text'&&x.textContent==='Pătrar I'));
+assert.ok(phaseSvg.children.some(x=>x.tag==='text'&&x.textContent==='Pătrar III'));
+const logSvg=draw('moonlog').children.find(x=>x.tag==='svg');
+const observationDays=logSvg.children.filter(x=>x.tag==='text'&&x.textContent.startsWith('Ziua '))
+ .map(x=>x.textContent);
+assert.deepEqual(observationDays,['Ziua 1','Ziua 8','Ziua 15','Ziua 22'],
+ 'The four lunar phases cannot be presented as four consecutive days');
 console.log('PASS Astronomy practical progression: '+subjects+' European school chapters, '+
  gradeActivities+' age-specific activities, '+universityActivities+' university tasks, 4 distinct high-school graphs and separate residual plot');

@@ -10867,14 +10867,31 @@ function astronomyVisualBuild(kind){
   circle(180,107,16,'#ffd8ac');for(let arm=0;arm<3;arm++)for(let i=0;i<65;i++){const t=i*.12+arm*2.094,r=12+i*1.8;circle(180+r*Math.cos(t),107+r*.48*Math.sin(t),1.1,'#b4c9fa')}label(105,188,'spirală · fără scară');
  }else if(kind==='phases'){
   circle(35,106,20,'#ffd477');label(7,143,learningLabel('Soare','Sun'));
-  line(62,106,115,106);add('path',{d:'M106 100 L115 106 L106 112',fill:'none',stroke:'#a9e4f3','stroke-width':2});
-  circle(198,106,22,'#559bd4');label(175,142,learningLabel('Pământ','Earth'));
-  for(const [x,y,phase] of [[198,28,0],[283,106,1],[198,187,2],[113,106,3]]){
-   circle(x,y,12,'#27384a');add('path',{d:'M'+x+' '+(y-12)+' A12 12 0 0 1 '+x+' '+(y+12)+' Z',fill:'#f5eed5'});
-   if(phase===2)label(x-23,y-19,learningLabel('Plină','Full'));
-   if(phase===0)label(x-24,y-18,learningLabel('Nouă','New'));
+  line(62,106,115,106);
+  add('path',{d:'M106 100 L115 106 L106 112',fill:'none',stroke:'#a9e4f3','stroke-width':2});
+  circle(198,106,22,'#559bd4');label(173,143,learningLabel('Pământ','Earth'));
+  // Viewing geometry: new Moon toward Sun, full Moon opposite Sun.
+  // North-up convention: first quarter with right hemisphere illuminated.
+  const phases=[
+   {x:113,y:106,phase:'new',ro:'Nouă',en:'New'},
+   {x:198,y:28,phase:'first',ro:'Primul pătrar',en:'First quarter'},
+   {x:283,y:106,phase:'full',ro:'Plină',en:'Full'},
+   {x:198,y:187,phase:'last',ro:'Ultimul pătrar',en:'Last quarter'}
+  ];
+  for(const p of phases){
+   circle(p.x,p.y,12,'#27384a');
+   if(p.phase==='full')circle(p.x,p.y,12,'#f5eed5');
+   else if(p.phase==='first')
+    add('path',{d:'M'+p.x+' '+(p.y-12)+' A12 12 0 0 1 '+p.x+' '+(p.y+12)+' Z',fill:'#f5eed5'});
+   else if(p.phase==='last')
+    add('path',{d:'M'+p.x+' '+(p.y-12)+' A12 12 0 0 0 '+p.x+' '+(p.y+12)+' Z',fill:'#f5eed5'});
+   if(p.phase==='first')label(207,18,learningLabel('Pătrar I','1st quarter'));
+   if(p.phase==='full')label(298,92,learningLabel(p.ro,p.en));
+   if(p.phase==='new')label(80,85,learningLabel(p.ro,p.en));
+   if(p.phase==='last')label(209,191,learningLabel('Pătrar III','3rd quarter'));
   }
-  label(250,196,learningLabel('model de iluminare','light model'));
+  label(18,204,learningLabel('Model schematic: orbită și mărimi fără scară',
+   'Schematic: orbit and sizes not to scale'));
  }else if(kind==='skycoords'){
   add('ellipse',{cx:176,cy:158,rx:150,ry:36,fill:'none',stroke:'#79d2e3','stroke-width':2});
   line(28,158,326,158);line(176,158,176,28);line(176,158,262,73);
@@ -10932,16 +10949,23 @@ function astronomyVisualBuild(kind){
   label(22,188,learningLabel('Est','East'));label(282,188,learningLabel('Vest','West'));
   label(66,24,learningLabel('Traseu aparent; nu poziție actuală','Apparent path; not a live position'));
  }else if(kind==='moonlog'){
-  for(const [i,x] of [58,139,220,301].entries()){
-   const y=96;circle(x,y,23,'#344a61');
-   if(i===0)circle(x,y,21,'#7f90a5');
-   if(i===1)add('path',{d:'M'+x+' '+(y-21)+' A21 21 0 0 1 '+x+' '+(y+21)+' A10 21 0 0 0 '+x+' '+(y-21)+' Z',fill:'#f1e8cd'});
-   if(i===2)circle(x,y,21,'#f1e8cd');
-   if(i===3)add('path',{d:'M'+x+' '+(y-21)+' A21 21 0 0 0 '+x+' '+(y+21)+' A10 21 0 0 0 '+x+' '+(y-21)+' Z',fill:'#f1e8cd'});
-   label(x-18,148,learningLabel('Ziua ','Day ')+(i+1));
+  const observations=[
+   {x:58,day:1,phase:'new'},
+   {x:139,day:8,phase:'first'},
+   {x:220,day:15,phase:'full'},
+   {x:301,day:22,phase:'last'}
+  ];
+  for(const p of observations){
+   const y=96;circle(p.x,y,23,'#344a61');
+   if(p.phase==='full')circle(p.x,y,21,'#f1e8cd');
+   if(p.phase==='first')add('path',{d:'M'+p.x+' '+(y-21)+' A21 21 0 0 1 '+p.x+' '+(y+21)+' Z',fill:'#f1e8cd'});
+   if(p.phase==='last')add('path',{d:'M'+p.x+' '+(y-21)+' A21 21 0 0 0 '+p.x+' '+(y+21)+' Z',fill:'#f1e8cd'});
+   label(p.x-22,148,learningLabel('Ziua ','Day ')+p.day);
   }
-  label(15,34,learningLabel('Patru observații demonstrative','Four illustrative observations'));
-  label(13,189,learningLabel('Faza reală depinde de data observației','Real phase depends on observation date'));
+  label(18,34,learningLabel('Faze schematice, la interval de circa o săptămână',
+   'Schematic phases, roughly one week apart'));
+  label(13,189,learningLabel('Faza reală depinde de data observației',
+   'Real lunar phase depends on observation date'));
  }else if(kind==='scalecomparison'){
   circle(45,65,14,'#70aee0');circle(137,65,6,'#d7dce7');
   line(62,65,126,65);label(22,41,learningLabel('Pământ','Earth'));
