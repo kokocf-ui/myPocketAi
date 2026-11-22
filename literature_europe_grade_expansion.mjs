@@ -170,8 +170,17 @@ export function expandLiteratureEuropeanGrades(programs){
     const before=profile.byGrade[grade]||[];
     // Existing detailed national packages stay intact; small selections
     // receive genuine year-targeted chapters instead of generic level repeats.
+    const additions=yearRows(country,stage,grade,idx);
+    const roPriority=['intelegere','dialog','vocabular','interpretare','verificare',
+     'poezie','narativ','redactare','parcurs','exprimare'];
+    const selected=country==='RO'?
+     roPriority.map(id=>additions.find(row=>String(row[0]).endsWith('-'+id))):additions;
+    // Romanian pupil-facing routes must remain focused, not a sprawling
+    // second menu duplicating grammar. Preserve the original 7–8 chapters,
+    // enriching up to twelve with selected, usable activities.
+    const max=country==='RO'?12:Number.POSITIVE_INFINITY;
     const expanded=before.length>=15?before.map(row=>row.slice()):
-     mergeUnique(before,yearRows(country,stage,grade,idx));
+     mergeUnique(before,selected).slice(0,max);
     if(!profile.byGrade[grade]||expanded.length>before.length)
      profile.byGrade[grade]=expanded;
     coverage.yearPaths++;
