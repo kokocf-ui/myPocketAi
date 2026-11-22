@@ -44,7 +44,7 @@ export const MATH_UNIVERSITY_2026_COMPANION=[
     'n+1 obiecte în n cutii ⇒ o cutie cu ≥2 obiecte',
     'Într-o clasă de 13 elevi există cel puțin doi născuți în aceeași lună, fiindcă există numai 12 luni. Nu trebuie să știm lunile concrete.',
     'Ce garantăm pentru 11 șosete în 5 sertare?','Cel puțin un sertar conține cel puțin 3 șosete.'],
-   ['Equivalence relations and partitions','Relații de echivalență și partiții',
+   ['Modular congruence as an equivalence relation','Congruența modulară și clasele de resturi',
     'O relație este de echivalență dacă este reflexivă, simetrică și tranzitivă. Clasele ei de echivalență sunt mulțimi disjuncte sau identice și formează o partiție.',
     'a~b ⇔ a≡b (mod n)',
     'La relația congruenței modulo 3, numerele 1 și 4 sunt echivalente deoarece diferența lor este divizibilă cu 3. Clasele posibile sunt [0], [1], [2].',
@@ -63,10 +63,10 @@ export const MATH_UNIVERSITY_2026_COMPANION=[
     'J_F=[[∂u/∂x,∂u/∂y],[∂v/∂x,∂v/∂y]]',
     'Pentru F(x,y)=(2x,3y), matricea Jacobiană este diag(2,3). Determinantul este 6, deci ariile sunt multiplicate cu factorul 6.',
     'Determină det J pentru F(x,y)=(x+y,x−y).','−2.'],
-   ['Iterated double integrals over a rectangle','Integrale duble pe dreptunghiuri',
+   ['Changing the integration order on a rectangle','Schimbarea ordinii de integrare pe un dreptunghi',
     'Pentru funcții continue pe un dreptunghi, integrala dublă poate fi calculată integrând succesiv în cele două variabile. Ordinea se poate schimba când ipotezele sunt îndeplinite.',
     '∬_R f(x,y)dA=∫ₐᵇ∫_cᵈ f(x,y)dydx',
-    'Pe [0,1]×[0,2], integrăm f(x,y)=x+y: mai întâi în y obținem 2x+2, apoi în x rezultă 1+2=3.',
+    'Pe [0,1]×[0,2], calculăm ∫∫(x+y) dydx=3. Schimbând ordinea, ∫₀²∫₀¹(x+y) dxdy=∫₀²(1/2+y)dy=1+2=3.',
     'Află ∬_[0,1]×[0,1] xy dA.','1/4.']
   ],
   'linear-algebra':[
