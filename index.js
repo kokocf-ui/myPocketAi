@@ -12792,6 +12792,7 @@ function mathJourneyShowChoices(stage){
    educationCountrySelection.label+' · '+learningLabel('Clasa / anul: ','Grade / year: ')+
    (mathJourney.grade||'')+' · '+learningLabel(topic?.ro||'',topic?.en||'')+'. '+mathCurriculumNotice();
  const items=document.createElement('div');items.className='math-choice-list';
+ const lessonHeadings=[];
  const candidates=stage==='stages'?MATH_SCHOOL_STAGES:
   stage==='branches'?mathYearTopics():
   mathChaptersForSelection();
@@ -12807,6 +12808,7 @@ function mathJourneyShowChoices(stage){
   art.setAttribute('aria-hidden','true');art.textContent=stage==='stages'?MATH_STAGE_ICONS[entry.id]||'📚':
    stage==='branches'?MATH_TILE_ICONS[entry.id]||'📘':MATH_TILE_ICONS[mathJourney.topic]||'📘';
   const heading=document.createElement('strong');heading.textContent=learningLabel(entry.ro,entry.en);
+  if(stage==='chapters')lessonHeadings.push(heading);
   const subtitle=document.createElement('small');
   subtitle.textContent=stage==='stages'
    ?learningLabel(entry.scopeRo||'',entry.scopeEn||''):
@@ -12849,6 +12851,20 @@ function mathJourneyShowChoices(stage){
   items.prepend(theory);
  }
  panel.append(title,note,items);host.append(panel);
+ // Study labels are available in Romanian and English offline. For other
+ // European app languages translate the visible list as a cached batch;
+ // discarded selections never overwrite the next school's chapter list.
+ const lang=String(state.language||'ro');
+ if(stage==='chapters'&&lang!=='ro'&&lang!=='en'&&lessonHeadings.length&&
+    typeof eduTranslateMaterial==='function'){
+  const country=String(educationCountrySelection.code||''),grade=String(mathJourney.grade||'');
+  const selectedTopic=String(mathJourney.topic||''),chapterKey=country+':'+grade+':'+selectedTopic;
+  eduTranslateMaterial({titles:candidates.map(x=>x.ro)},'math:chapter-titles:'+chapterKey,'ro').then(result=>{
+   if(!result?.titles||mathJourney.stage!=='chapters'||mathJourney.grade!==grade||
+       mathJourney.topic!==selectedTopic||educationCountrySelection.code!==country)return;
+   result.titles.forEach((name,i)=>{if(lessonHeadings[i]&&name)lessonHeadings[i].textContent=name});
+  }).catch(()=>{});
+ }
  requestAnimationFrame(mathFitViewport);
 }
 function mathJourneyDescription(){
