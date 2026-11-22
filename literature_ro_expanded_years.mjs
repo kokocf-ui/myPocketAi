@@ -6,7 +6,7 @@ import {LIT_RO_GRADE_LESSONS} from './literature_ro_grade_progression.mjs';
 // [key, title, explanation, concrete example, short learner task].
 // The supplementary syllabus is deliberately grade-specific, not a fixed
 // ten-chapter template silently repeated in every year.
-const RO_EXTRA={
+export const RO_YEAR_EXTRA={
  '1':[
  ['rime','Cuvinte care rimează','Două cuvinte rimează când se aud asemănător la sfârșit. Ne jucăm cu sunetele și le spunem cu voce tare.','soare — floare','Spune un cuvânt care rimează cu „casă”.']
  ],
@@ -99,21 +99,21 @@ const RO_EXTRA={
  ]
 };
 export const ROMANIAN_EXPANDED_COUNTS=Object.freeze(
- Object.fromEntries(Object.entries(RO_EXTRA).map(([grade,add])=>[
+ Object.fromEntries(Object.entries(RO_YEAR_EXTRA).map(([grade,add])=>[
   grade,romanianStudentGradeRows(grade,LIT_RO_GRADE_LESSONS[grade]||[]).length+add.length]))
 );
-export function romanianExpandedRows(grade){
+export function romanianExpandedRows(grade,baseRows=null){
  const key=String(grade);
- if(!RO_EXTRA[key])return null;
- const original=romanianStudentGradeRows(key,LIT_RO_GRADE_LESSONS[key]||[]);
- const extra=RO_EXTRA[key].map(([slug,title,teaching,example,task])=>[
+ if(!RO_YEAR_EXTRA[key])return null;
+ const original=Array.isArray(baseRows)?baseRows.map(row=>row.slice()):romanianStudentGradeRows(key,LIT_RO_GRADE_LESSONS[key]||[]);
+ const extra=RO_YEAR_EXTRA[key].map(([slug,title,teaching,example,task])=>[
   'ro-deep-'+key+'-'+slug,title,teaching+' Exemplu: '+example+' Cerință: '+task,'grade-specific'
  ]);
  return [...original,...extra];
 }
 // Child-facing theory never includes research terminology, editorial boilerplate,
 // fake author citations, ministry notices or "inference", "hermeneutics" etc.
-const CHILD_SAFE={
+export const RO_CHILD_SAFE={
  '1-vorbesc':['Ascult și vorbesc pe rând. Când un coleg spune ceva, îl las să termine. Apoi îi răspund frumos.','— Bună, Ana!\n— Bună, Mara!\n— Vrei să ne jucăm?\n— Da!','Spune ce a întrebat Mara.'],
  '1-citesc':['Citim litere, apoi cuvinte. Când le unim, putem citi o propoziție. Citim încet și încercăm din nou.','Ana are mere.','Câte cuvinte sunt?'],
  '1-povesti':['O poveste ne spune ce se întâmplă cu cineva. Ascultăm, ne uităm la imagini și povestim ce am înțeles.','Mara vede un pui de pisică. Îi aduce apă. Pisica bea.','Cine a adus apă?'],
@@ -141,8 +141,8 @@ export function romanianExpandedMaterial({topicKey='',title='',focus='',grade=''
  const [,kind,year,slug]=match;
  if(String(grade)!==year)return null;
  const isChild=Number(year)<=4;
- const row=kind==='deep'?RO_EXTRA[year]?.find(x=>x[0]===slug):null;
- const safe=kind==='elev'&&isChild?CHILD_SAFE[year+'-'+slug]:null;
+ const row=kind==='deep'?RO_YEAR_EXTRA[year]?.find(x=>x[0]===slug):null;
+ const safe=kind==='elev'&&isChild?RO_CHILD_SAFE[year+'-'+slug]:null;
  const concept=row?.[2]||safe?.[0]||String(focus||'');
  const example=row?.[3]||safe?.[1]||
   'Într-o dimineață, personajul se oprește în fața ușii deschise, apoi își schimbă hotărârea.';
