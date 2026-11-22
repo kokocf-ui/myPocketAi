@@ -72,7 +72,8 @@ export function biologyPrimaryYearPosition({country='',grade='',years=[]}={}){
  if(code==='RO'&&/^[1-4]$/.test(id))return Number(id)-1;
  if(code==='GB-ENG'&&/^Y[1-6]$/.test(id))return Number(id.slice(1))-1;
  const list=Array.isArray(years)?years:[],p=list.findIndex(x=>String(x?.id)===id);
- return p<0?-1:list.length===1?0:Math.round(p*5/(list.length-1));
+ // A 4-year primary programme must not jump to Year 6 content in its final year.
+ return p<0?-1:list.length<=6?p:Math.min(5,Math.floor(p*6/list.length));
 }
 export function biologyPrimaryTopics(args={}){
  const code=String(args.country||'').toUpperCase(),id=String(args.grade||'');

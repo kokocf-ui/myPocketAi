@@ -65,6 +65,7 @@ for(const country of EDUCATION_EUROPE_COUNTRIES){
  const yearList=educationCountrySchoolYears(country,'medium').years;
  if(!yearList.length)continue;
  countriesChecked++;
+ const uniqueCountryLessons=[];
  for(const y of yearList){
   const plan=scienceGradeTopicPlan({country,subject:'biology',stage:'upper',grade:y.id,
    years:yearList,topics:BIOLOGY_TOPICS});
@@ -72,10 +73,15 @@ for(const country of EDUCATION_EUROPE_COUNTRIES){
   for(const topic of plan.topics){
    const entries=scienceSchoolTopicLessons({country,subject:'biology',grade:y.id,topic:topic.id,
     stage:'upper',years:yearList,lessons:THEORY_ENTRIES});
-   assert.equal(entries.length,6,country+'/'+y.id+'/'+topic.id+' unexpected badge/reader mismatch');
+   assert.ok(entries.length>=6&&entries.length%6===0,country+'/'+y.id+'/'+topic.id+' must have whole authored six-lesson units');
    assert.ok(entries.every(x=>x.grade===String(y.id)),'Never replace local school-year label');
+   uniqueCountryLessons.push(...entries.map(x=>x.id));
   }
   gradesChecked++;
+ }
+ if(yearList.length<=15){
+  assert.equal(uniqueCountryLessons.length,90,country+' skipped upper Biology units');
+  assert.equal(new Set(uniqueCountryLessons).size,90,country+' repeats upper Biology lessons across grades');
  }
 }
 assert.ok(countriesChecked>=40,'Broad European upper-secondary year coverage');

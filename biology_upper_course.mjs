@@ -1,15 +1,11 @@
+import {BIOLOGY_UPPER_YEAR_SEQUENCE,biologyYearUnits} from './biology_year_distribution.mjs';
 import {BIOLOGY_UPPER_SUPPLEMENT} from './biology_upper_supplement.mjs';
 // Biology: year-specific, authored upper-secondary lessons. This is a study
 // pathway, NOT a claim that every European nation mandates this exact sequence.
 // Year indices map to each country's actual school-year picker, never to RO IDs.
 // Each item contains a definition, contextual reasoning, a worked illustration,
 // an assessment question and its grounded answer.
-export const BIOLOGY_UPPER_YEAR_TOPICS=Object.freeze([
- ['cells','biomolecules','genetics','ecology'],
- ['anatomy','homeostasis','microbes'],
- ['genetics','evolution','methods','ecology'],
- ['biomolecules','homeostasis','methods','microbes']
-]);
+export const BIOLOGY_UPPER_YEAR_TOPICS=BIOLOGY_UPPER_YEAR_SEQUENCE;
 const ROWS=[
  // Year 1 — cellular foundations, energy, heredity and ecosystems.
  [0,'cells',[
@@ -101,15 +97,12 @@ export const BIOLOGY_UPPER_YEAR_BANK=Object.freeze(ROWS.map(([year,topic,lessons
   })))
  })));
 export function biologyUpperYearLessons({country='',grade='',topic='',years=[],language='ro'}={}){
- const list=Array.isArray(years)?years:[];
- const position=list.findIndex(x=>String(x?.id)===String(grade));
- if(position<0||!list.length)return [];
- const year=list.length===1?0:Math.round(position*3/(list.length-1));
- const chapter=BIOLOGY_UPPER_YEAR_BANK.find(x=>x.year===year&&x.topic===topic);
- if(!chapter)return [];
- // Keep the documented Romanian source when no verified translation is
- // available; the reader labels the source instead of inventing one.
- return chapter.lessons.map(x=>({...x,grade:String(grade),advisoryTier:'upper-'+year,
-  curriculumScope:String(country).toUpperCase()==='RO'?
-   'Romania: advisory, cohort- and track-dependent':'Europe: year-position advisory'}));
+ const units=biologyYearUnits({stage:'upper',grade,years}).filter(x=>x.topic===topic);
+ return units.flatMap(({tier})=>{
+  const chapter=BIOLOGY_UPPER_YEAR_BANK.find(x=>x.year===tier&&x.topic===topic);
+  if(!chapter)return [];
+  return chapter.lessons.map(x=>({...x,grade:String(grade),advisoryTier:'upper-'+tier,
+   curriculumScope:String(country).toUpperCase()==='RO'?
+    'Romania: advisory, cohort- and track-dependent':'Europe: year-position advisory'}));
+ });
 }

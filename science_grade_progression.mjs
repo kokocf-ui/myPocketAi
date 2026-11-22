@@ -4,6 +4,7 @@ import {SCIENCE_GUIDES} from './science_extended_theory.mjs';
 import {scienceRoGradeTopics,SCIENCE_RO_2017_SOURCE} from './science_ro_course_plan.mjs';
 import {physicsCountryGradePlan,PHYSICS_EUROPE_REFERENCES} from './physics_europe_frameworks.mjs';
 import {biologyPrimaryTopics} from './biology_primary_years.mjs';
+import {biologyYearTopicIds} from './biology_year_distribution.mjs';
 import {biologyCountryStageInfo} from './biology_country_alignment.mjs';
 import {astronomyNationalAlignment} from './astronomy_country_alignment.mjs';
 import {chemistryCountryGradePlan} from './chemistry_country_alignment.mjs';
@@ -96,7 +97,12 @@ export function scienceGradeTopicPlan({country='',subject='',stage='lower',grade
    }[id];
    return {...entry,ro:labels?.[0]||entry.ro,en:labels?.[1]||entry.en};
   }).filter(Boolean):null;
- const unique=[...new Map((astroSpecific?.length?astroSpecific:(curated||chemistryAdapted||adapted||primaryBiology||ordered)).map(x=>[x.id,x])).values()];
+ const biologyScoped=subject==='biology'&&['lower','upper'].includes(stage)&&
+  !(stage==='lower'&&String(country).toUpperCase()==='RO')?
+  biologyYearTopicIds({stage,grade,years:yearList}).map(id=>indexed.get(id))
+   .filter(Boolean).map(x=>({...x,minLevel:stage==='lower'?'beginner':x.minLevel})):null;
+ const unique=[...new Map((astroSpecific?.length?astroSpecific:
+  (curated||chemistryAdapted||adapted||primaryBiology||biologyScoped||ordered)).map(x=>[x.id,x])).values()];
  // Never hide the whole subject because a national stage has an unverified
  // grade map: a known, clearly marked general course is always available.
  const fallback=topics.filter(x=>x&&!x.specialty&&(rank[x.minLevel]??0)<=max).slice(0,3);

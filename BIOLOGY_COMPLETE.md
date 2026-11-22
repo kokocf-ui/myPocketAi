@@ -45,3 +45,6 @@ Aceste repere nu certifică sau acreditează aplicația. Cele 168 de fișe repre
 
 ## Validare
 `npm run check` include noul modul, iar `npm run test:ui` include `tests_biology_complete.mjs`, pe lângă testele existente de navigare, teorie, matematică și chimie. CI rulează testele în PR. Verificarea practică pe dispozitiv (model vizual, dictare, OCR, scroll și WebView) rămâne separată și se face la testarea completă a Educației.
+
+## Distribuție pe ani școlari europeni
+Lecțiile originale de gimnaziu și liceu sunt acum repartizate o singură dată pe numărul real de ani din selectorul fiecărei țări: ciclurile de 2 sau 3 ani nu mai sar capitole, iar programele pe 4 ani (inclusiv România) rămân neschimbate. La primar, un ciclu de patru ani nu mai avansează artificial până la nivelul Year 6 din Anglia. Aceste parcursuri sunt orientative: nu certifică o programă anuală națională și nu înlocuiesc documentele școlilor. Testele urmăresc toate sistemele europene, anii fără duplicate și corelarea numărului de fișe cu lecțiile accesibile.

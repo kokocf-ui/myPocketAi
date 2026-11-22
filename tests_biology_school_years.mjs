@@ -7,7 +7,7 @@ import app from './index.js';
 import {EDUCATION_EUROPE_COUNTRIES,educationCountrySchoolYears} from './education_all_country_subject_matrix.mjs';
 import {BIOLOGY_TOPICS} from './biology_curriculum.mjs';
 import {BIOLOGY_PRIMARY_YEAR_TOPICS,BIOLOGY_PRIMARY_YEAR_ROWS,
- biologyPrimaryTopics,biologyPrimaryYearLessons} from './biology_primary_years.mjs';
+ biologyPrimaryTopics,biologyPrimaryYearLessons,biologyPrimaryYearPosition} from './biology_primary_years.mjs';
 import {BIOLOGY_LOWER_YEAR_TOPICS,BIOLOGY_LOWER_YEAR_ROWS,
  biologyLowerYearLessons} from './biology_lower_europe_years.mjs';
 import {scienceGradeTopicPlan} from './science_grade_progression.mjs';
@@ -36,10 +36,11 @@ for(const country of EDUCATION_EUROPE_COUNTRIES){
      country,subject:'biology',stage,grade:year.id,topic:topic.id,
      years,lessons:THEORY_ENTRIES
     });
-    if(stage==='primary'||country!=='RO')
-     assert.equal(cards.length,stage==='primary'?3:2,country+'/'+year.id+'/'+topic.id+' has incorrect card count');
-    else
-     assert.ok(cards.length>0,'RO grade '+year.id+' lacks '+topic.id);
+    if(stage==='primary')
+     assert.equal(cards.length,3,country+'/'+year.id+'/'+topic.id+' has incorrect primary count');
+    else if(country!=='RO')
+     assert.ok(cards.length>=2&&cards.length%2===0,country+'/'+year.id+'/'+topic.id+' should have complete original units');
+    else assert.ok(cards.length>0,'RO grade '+year.id+' lacks '+topic.id);
     for(const card of cards){
      assert.equal(String(card.grade||year.id),String(year.id));
      assert.equal(card.topic,topic.id);
@@ -60,6 +61,27 @@ for(const country of EDUCATION_EUROPE_COUNTRIES){
    else lowerYears++;
   }
  }
+}
+const fourYearPrimary=[1,2,3,4].map(i=>({id:'P'+i}));
+assert.equal(biologyPrimaryYearPosition({country:'HU',grade:'P4',years:fourYearPrimary}),3,
+ 'Four-year primary stages must not select England Year 6 depth');
+assert.ok(!biologyPrimaryTopics({country:'HU',grade:'P4',years:fourYearPrimary}).includes('evolution'));
+for(const country of EDUCATION_EUROPE_COUNTRIES){
+ if(country==='RO')continue; // separately curated Romanian grades V–VIII
+ const years=educationCountrySchoolYears(country,'lower').years;
+ if(!years.length||years.length>15)continue;
+ const ids=[];
+ for(const y of years){
+  const plan=scienceGradeTopicPlan({country,subject:'biology',stage:'lower',
+   grade:y.id,years,topics:BIOLOGY_TOPICS});
+  for(const topic of plan.topics){
+   const entries=scienceSchoolTopicLessons({country,subject:'biology',stage:'lower',
+    grade:y.id,topic:topic.id,years,lessons:THEORY_ENTRIES});
+   ids.push(...entries.map(x=>x.sequenceLessonId));
+  }
+ }
+ assert.equal(ids.length,30,country+' lower grades skipped authored Biology units');
+ assert.equal(new Set(ids).size,30,country+' duplicated Biology units between lower grades');
 }
 assert.ok(primaryYears>=100&&lowerYears>=100,
  'Curriculum guard must exercise the European school-year picker');

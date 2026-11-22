@@ -1,13 +1,9 @@
+import {BIOLOGY_LOWER_YEAR_SEQUENCE,biologyYearUnits} from './biology_year_distribution.mjs';
 // Country-year aware advisory Biology sequence for lower secondary.
 // Actual national year labels come from educationCountrySchoolYears.
 // Original material is NOT presented as a ministry-certified curriculum.
 // RO has separate, richer lessons from the 2017 subject programme.
-export const BIOLOGY_LOWER_YEAR_TOPICS=Object.freeze([
- ['plants','ecology','cells'],
- ['cells','anatomy','plants','ecology'],
- ['genetics','evolution','cells','ecology'],
- ['anatomy','genetics','ecology','evolution']
-]);
+export const BIOLOGY_LOWER_YEAR_TOPICS=BIOLOGY_LOWER_YEAR_SEQUENCE;
 // [year-position, chapter, title, concept, explained example, exercise, answer]
 export const BIOLOGY_LOWER_YEAR_ROWS=Object.freeze([
  [0,'plants','Rădăcina, tulpina și frunza','Organele vegetative îndeplinesc funcții complementare: absorbția apei, susținere, transport și producerea substanțelor organice. Formele sunt adaptate mediului și diferă între specii.','La un răsad de fasole putem identifica rădăcina, tulpina și frunzele fără a desprinde fiecare parte de pe plantă.','Ce rol principal are rădăcina?','Absoarbe apă și minerale din mediu.'],
@@ -42,16 +38,14 @@ export const BIOLOGY_LOWER_YEAR_ROWS=Object.freeze([
  [3,'evolution','Arbori de înrudire','Un arbore filogenetic este o ipoteză despre relațiile de descendență, construită din dovezi. Ramurile nu reprezintă neapărat o scară de progres de la inferior la superior.','Comparăm două diagrame de înrudire și identificăm cel mai recent strămoș comun reprezentat.','Arată arborele că o specie actuală este strămoșul direct al alteia?','Nu neapărat; indică relații de înrudire și strămoși comuni.']
 ]);
 export function biologyLowerYearLessons({country='',grade='',topic='',years=[]}={}){
- const list=Array.isArray(years)?years:[];
- const index=list.findIndex(y=>String(y?.id)===String(grade));
- if(index<0)return [];
- const tier=list.length===1?0:Math.round(index*3/(list.length-1));
- if(!BIOLOGY_LOWER_YEAR_TOPICS[tier]?.includes(topic))return [];
- return BIOLOGY_LOWER_YEAR_ROWS.filter(r=>r[0]===tier&&r[1]===topic).map((r,i)=>({
+ const units=biologyYearUnits({stage:'lower',grade,years}).filter(x=>x.topic===topic);
+ return units.flatMap(({tier})=>BIOLOGY_LOWER_YEAR_ROWS.filter(r=>r[0]===tier&&r[1]===topic).map((r,i)=>({
   id:'biology-lower-'+tier+'-'+topic+'-'+(i+1)+'-'+String(country).toUpperCase()+'-'+String(grade),
+  sequenceLessonId:'biology-lower-'+tier+'-'+topic+'-'+(i+1),
   subject:'biology',topic,grade:String(grade),stage:'lower',
   title:r[2],statement:r[3],workedExample:r[4],exercise:r[5],answer:r[6],
   language:'ro',formula:'',source:'original-advisory',diagramId:null,
-  curriculumScope:'Lower-secondary Biology advisory placement; national year-specific syllabus unverified'
- }));
+  advisoryTier:'lower-'+tier,
+  curriculumScope:'Lower-secondary Biology advisory placement; annual national syllabus unverified'
+ })));
 }
