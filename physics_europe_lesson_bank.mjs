@@ -256,8 +256,7 @@ export function physicsAdvisoryTopicLessons({
    'The answer must refer to this specific concept and state relevant data, units, assumptions and a way to check the result.';
   return entries.map((entry,index)=>({...entry,
    statement:String(entry.statement||'')+(lens?' '+lens:''),
-   workedExample:String(entry.workedExample||entry.example||'')+
-    (lens?' '+(ro?'Aplicare progresivă: ':'Progressive application: ')+lens:''),
+   workedExample:String(entry.workedExample||entry.example||''),
    id:'advisory-physics-'+code+'-'+scoped+'-'+tier+'-'+entry.id,
    grade:scoped,source:'oer-original-advisory',nationallyVerified:false,
    advisoryTier:tier,chapterIndex:index+1,
