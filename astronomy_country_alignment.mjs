@@ -263,6 +263,28 @@ const evidence=Object.freeze({
    source:'https://www.gov.me/zzs/predmetni-programi',
    title:'Montenegro Institute for Education publishes subject curricula; exact astronomy-grade allocation not certified'}
  ],
+ SK:[
+  {stage:'primary',grades:['1'],subject:'Človek a príroda – ŠVP 2023',kind:'framework-only',
+   topicIds:null,sourceYear:2023,validFrom:'2026/27',
+   source:'https://www.minedu.sk/statny-vzdelavaci-program-pre-zakladne-vzdelavanie-2023/',
+   title:'Slovakia 2023 new national basic curriculum starts for ALL first-grade cohorts in 2026/27; phased/early-adopter implementation elsewhere'},
+  {stage:'lower',grades:null,subject:'Fyzika / Človek a príroda',kind:'framework-only',
+   topicIds:null,sourceYear:2023,validFrom:null,
+   source:'https://www.minedu.sk/konsolidovane-znenie-svp-pre-zakladne-vzdelavanie/',
+   title:'Slovak national curriculum consolidated through 2026 amendments; ongoing classes may follow former curriculum until cohort transition'}
+ ],
+ TR:[
+  {stage:'upper',grades:null,subject:'Astronomi ve Uzay Bilimleri – seçmeli ders',kind:'optional-standalone',
+   topicIds:null,sourceYear:2026,validFrom:'2026/27',
+   source:'https://tymm.meb.gov.tr/ogretim-programlari/ortaogretim',
+   title:'Turkey officially adopted 2026 elective Astronomy and Space Sciences curriculum for 2026/27, superseding 2010 version; offered grade/track varies'}
+ ],
+ RU:[
+  {stage:'upper',grades:null,subject:'Естественно-научные предметы – ФГОС СОО',kind:'framework-only',
+   topicIds:null,sourceYear:2026,validFrom:null,
+   source:'https://edu.gov.ru/press/12186/minprosvescheniya-rossii-obnovit-rabochie-programmy-po-klyuchevym-shkolnym-predmetam-v-sootvetstvii-s-fgos-soo',
+   title:'Russia secondary federal framework amended September 2026; October 2026 working programmes are only draft for September 2027 cohorts, current 2026/27 Astronomy distribution not nationally confirmed'}
+ ],
  FI:[
   {stage:'primary',grades:null,subject:'Environmental studies',kind:'framework-only',
    topicIds:null,sourceYear:2014,validFrom:'2016/17',
