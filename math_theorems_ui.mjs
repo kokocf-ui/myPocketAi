@@ -43,6 +43,10 @@ function mathTheoryQuickReference(){
   differential:['Ecuații diferențiale','Differential equations'],
   discrete:['Matematică discretă','Discrete mathematics']};
  const group=document.createElement('select');group.style.cssText='min-height:44px;width:100%;font-size:16px;';
+ // Global Android picker otherwise clips the mathematical branches to four search-only entries.
+ // Explicitly use its existing swipeable all-options mode, only for this reference selector.
+ group.dataset.pocketPickerMode='scroll';
+ group.setAttribute('aria-label',learningLabel('Alege ramura matematicii','Choose a mathematics branch'));
  const all=document.createElement('option');all.value='';all.textContent=learningLabel('Toate ramurile','All branches');group.append(all);
  for(const topic of [...new Set(MATH_THEOREM_ITEMS.map(x=>x.topic))].sort()){
   const option=document.createElement('option');option.value=topic;
