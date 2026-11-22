@@ -153,7 +153,11 @@ export function literatureQuickReferenceAttach(panel,options={}){
    const found=filteredReference(q);
    if(!found.length){pin([]);showInfo(tr('Nu există potriviri în această categorie.','No matches in this category.'));return}
    const sorted=found.slice().sort((a,b)=>a[2].localeCompare(b[2],ui));
-   pin(sorted.slice(0,5).map(x=>[x[2],()=>rowMeaning(x)]));
+   const pinnedRows=section==='grammatica'&&!q&&!selectedGroup?
+    ['Predicat','Adjectiv','Adverb','Timpul prezent','Timpul trecut']
+     .map(name=>sorted.find(row=>row[2]===name)).filter(Boolean):
+    sorted.slice(0,5);
+   pin(pinnedRows.map(x=>[x[2],()=>rowMeaning(x)]));
    for(const row of sorted){
     const label=row[2]+' · '+row[1];
     makeOption(label,()=>rowMeaning(row));
