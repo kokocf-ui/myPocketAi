@@ -1,6 +1,7 @@
 import {mathInDepthEntries} from './math_depth_courses.mjs';
 import {ro5TopicLessons,RO5_MATH_UNITS} from './math_ro5_curriculum.mjs';
 import {ro678TopicLessons,ro678GradeSummary} from './math_ro678_curriculum.mjs';
+import {ENGLAND_Y6_MATH_LESSONS} from './math_england_y6_curriculum.mjs';
 // Mathematics learning paths for every European country in the Education picker.
 // A progression is *advisory* unless an official country/grade source is attached.
 // Stage years are supplied by the shared school-year mapping, never inferred from
@@ -81,6 +82,19 @@ export function mathCountryGradeAreas({country,stage,grade,years}={}){
     focus:'',lessonCount:ro678TopicLessons(selected,id).length,
     curriculumUnitCount:ro678GradeSummary(selected).length,
     countrySpecific:true,curriculumCompletion:'under-review'}))};
+ }
+ if(country==='GB-ENG'&&st==='beginner'&&String(grade)==='Y6'){
+  const topics=[...row,['algebra','Introducere în algebră'],['measurement','Măsurători și volume']];
+  return {status:'general-learning',country,stage:st,grade,
+   note:'England Year 6: 21 lecții originale suplimentare corelate cu obiectivele DfE, alături de materialul general; nu este o certificare a acoperirii anuale integrale.',
+   units:topics.map(([id,ro])=>({id,ro,en:({
+    arithmetic:'Number and calculation',geometry:'Geometry and shapes',
+    statistics:'Statistics and data',algebra:'Introductory algebra',
+    measurement:'Measurement, area and volume'
+   })[id]||ro,focus:'',
+    lessonCount:mathInDepthEntries({stage:'primary',phase:6,topic:id}).length+
+      ENGLAND_Y6_MATH_LESSONS.filter(lesson=>lesson.topic===id).length,
+    countrySpecific:false,curriculumCompletion:'partial-source-review'}))};
  }
  return {status:'general-learning',country,stage:st,grade,
   note:'Parcurs matematic orientativ, diferențiat pe etapă și an; nu reprezintă programa națională verificată.',
