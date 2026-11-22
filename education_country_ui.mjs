@@ -4,6 +4,7 @@ import {physicsCountryGradePlan} from './physics_europe_frameworks.mjs';
 import {chemistryCountryGradePlan} from './chemistry_country_alignment.mjs';
 import {MATH_THEOREMS_UI_SCRIPT} from './math_theorems_ui.mjs';
 import {mathCountryGradeAreas,mathCountryStudyYears} from './math_country_grade_areas.mjs';
+import {ENGLAND_KS4_LESSONS,ENGLAND_KS4_EXCLUDED_TITLES} from './math_england_ks4_curriculum.mjs';
 const EDU_MATH_COUNTRY_YEARS={};
 const EDU_MATH_GRADE_AREAS={};
 for(const code of EDUCATION_EUROPE_COUNTRIES)for(const stage of EDUCATION_SCHOOL_STAGES){
@@ -42,6 +43,8 @@ export const EDUCATION_COUNTRY_UI_SCRIPT=
  'const EDU_EUROPE_COUNTRY_LIST='+JSON.stringify(EDUCATION_EUROPE_COUNTRIES)+';\n'+
  'const EDU_MATH_COUNTRY_YEARS='+JSON.stringify(EDU_MATH_COUNTRY_YEARS)+';\n'+
  'const EDU_MATH_GRADE_AREAS='+JSON.stringify(EDU_MATH_GRADE_AREAS)+';\n'+
+  'const ENGLAND_KS4_LESSONS='+JSON.stringify(ENGLAND_KS4_LESSONS)+';\n'+
+  'const ENGLAND_KS4_EXCLUDED_TITLES='+JSON.stringify(ENGLAND_KS4_EXCLUDED_TITLES)+';\n'+
  'const EDU_VERIFIED_GRADE_KEYS=new Set('+JSON.stringify(EDU_FRAMEWORK_GRADE_KEYS)+');\n'+
  'const EDU_AUTHORED_GRADE_KEYS=new Set('+JSON.stringify(EDU_AUTHORED_GRADE_KEYS)+');\n'+
  'const EDU_UNMAPPED_STAGE_KEYS=new Set('+JSON.stringify(EDU_UNMAPPED_STAGE_KEYS)+');\n'+
