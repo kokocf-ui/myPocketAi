@@ -3,11 +3,11 @@ import {EDUCATION_EUROPE_COUNTRIES,EDUCATION_SCHOOL_STAGES,
 import {physicsCountryGradePlan} from './physics_europe_frameworks.mjs';
 import {chemistryCountryGradePlan} from './chemistry_country_alignment.mjs';
 import {MATH_THEOREMS_UI_SCRIPT} from './math_theorems_ui.mjs';
-import {mathCountryGradeAreas} from './math_country_grade_areas.mjs';
+import {mathCountryGradeAreas,mathCountryStudyYears} from './math_country_grade_areas.mjs';
 const EDU_MATH_COUNTRY_YEARS={};
 const EDU_MATH_GRADE_AREAS={};
 for(const code of EDUCATION_EUROPE_COUNTRIES)for(const stage of EDUCATION_SCHOOL_STAGES){
- const years=educationCountrySchoolYears(code,stage).years;
+ const years=mathCountryStudyYears({country:code,stage,years:educationCountrySchoolYears(code,stage).years});
  EDU_MATH_COUNTRY_YEARS[code+'|'+stage]=years;
  for(const year of years){
   const path=mathCountryGradeAreas({country:code,stage,grade:year.id,years});
