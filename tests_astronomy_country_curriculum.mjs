@@ -222,6 +222,30 @@ assert.ok(trLessons.length>0);
 assert.ok(trLessons[0].statement.includes('Fen Bilimleri'),'Real country programme context must reach teaching text');
 assert.ok(trLessons[0].curriculumSource?.includes('meb.gov.tr'));
 assert.equal(trLessons[0].nationalTopicsVerified,false,'App topic sequence is not a national syllabus transcription');
+const germanYears={
+ lower:educationCountrySchoolYears('DE','lower').years,
+ upper:educationCountrySchoolYears('DE','medium').years
+};
+const de=(region,stage,grade)=>astronomyCountryGradePlan({
+ country:'DE',region,stage,grade,years:germanYears[stage]
+});
+assert.equal(de('DE-SN','upper','11').status,'regional-existing-curriculum');
+assert.equal(de('DE-SN','upper','11').edition,'2004/2019');
+assert.ok(de('DE-SN','upper','11').source.includes('schulportal.sachsen.de'));
+assert.ok(de('DE-SN','upper','12').topicIds.includes('cosmology'));
+assert.equal(de('DE-ST','lower','9').kind,'regional-compulsory');
+assert.equal(de('DE-ST','lower','10').kind,'regional-optional');
+assert.equal(de('DE-ST','upper','11').kind,'regional-optional');
+assert.equal(de('DE-ST','upper','12').kind,'regional-optional');
+assert.equal(de('DE-SN','lower','7').kind,'unverified');
+const withoutRegion=get('DE','upper','11').policy;
+assert.equal(withoutRegion.kind,'unverified');
+assert.equal(withoutRegion.source,null);
+assert.equal(withoutRegion.regionalExamples.length,2);
+assert.ok(get('IT','primary','P2').policy.source.includes('13G00034'));
+assert.ok(get('IT','primary','P1').policy.source.includes('26G00021'));
+assert.equal(get('IT','primary','P2').policy.validity,'legacy-still-applicable-under-transitional-law');
+assert.ok(get('IT','lower','M2').policy.source.includes('13G00034'));
 const html=await(await app.fetch(new Request('https://astronomy-europe-registry.test/'))).text();
 const script=html.match(/<script>([\s\S]*?)<\/script>/)?.[1]||'';
 assert.ok(script.includes('const astronomyCountryGradePlan=')&&script.includes('const ASTRONOMY_EUROPE_COUNTRIES='));
