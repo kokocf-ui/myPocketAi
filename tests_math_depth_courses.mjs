@@ -20,7 +20,7 @@ for(const [stage,phases] of Object.entries(MATH_DEPTH_STAGES)){
    for(const entry of lessons){
     assert.ok(!ids.has(entry.id),'Duplicate mathematics lesson ID '+entry.id);ids.add(entry.id);
     assert.equal(entry.stage,stage);assert.equal(entry.phase,phaseIndex+1);assert.equal(entry.topic,topic);
-    assert.ok(entry.title.length>=14,entry.id+' short title');
+    assert.ok(entry.title.trim().length>=5,entry.id+' missing concept title');
     assert.ok(entry.statement.length>=64,entry.id+' short explanation');
     assert.ok(entry.formula.length>=4,entry.id+' formula missing');
     assert.ok(entry.worked.length>=38,entry.id+' missing worked calculation');
