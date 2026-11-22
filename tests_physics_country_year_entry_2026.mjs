@@ -23,6 +23,7 @@ const evidence={
  MK:{hidden:['6'],first:'7'},
  UA:{hidden:['5','6'],first:'7'},
  RU:{hidden:['5','6'],first:'7'},
+ BY:{hidden:['5','6'],first:'7'},
  AL:{hidden:[],first:'6'}
 };
 let covered=0,excluded=0,eligible=0,sourceChecks=0;
