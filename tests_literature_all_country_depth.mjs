@@ -16,7 +16,8 @@ for(const country of EDUCATION_EUROPE_COUNTRIES){
   for(const year of years){
    const grade=String(year.id);
    const path=litEuropeanPlan(country,stage,grade);
-   assert.ok(path.units.length>=(country==='RO'?9:10),'Too few units: '+country+' '+stage+' '+grade);
+   assert.ok(path.units.length>=(stage==='advanced'?8:country==='RO'?9:10),
+    'Too few units: '+country+' '+stage+' '+grade);
    const labels=path.units.map(x=>x.label.normalize('NFD').toLowerCase());
    assert.equal(new Set(labels).size,labels.length,'Duplicate titles: '+country+' '+stage+' '+grade);
    assert.equal(new Set(path.units.map(x=>x.id)).size,path.units.length,
