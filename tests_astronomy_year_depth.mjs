@@ -5,7 +5,7 @@ import app from './index.js';
 import {EDUCATION_EUROPE_COUNTRIES,educationCountrySchoolYears} from './education_all_country_subject_matrix.mjs';
 import {ASTRONOMY_TOPICS,ASTRONOMY_SPECIALIZATIONS,ASTRONOMY_LESSONS} from './astronomy_curriculum.mjs';
 import {scienceGradeTopicPlan} from './science_grade_progression.mjs';
-import {astronomySchoolTopicLessons,astronomyLabMaterial,ASTRONOMY_TOPIC_DIAGRAMS,ASTRONOMY_STUDY_CASES} from './astronomy_study_course.mjs';
+import {astronomySchoolTopicLessons,astronomyLabMaterial,ASTRONOMY_TOPIC_DIAGRAMS,ASTRONOMY_STUDY_CASES,ASTRONOMY_PRIMARY_ALLOWED} from './astronomy_study_course.mjs';
 import {astronomyUniversityRoutes,astronomyUniversityRoute,astronomyUniversityYears,astronomyUniversityCourseChoices,astronomyUniversityStudyText,astronomyUniversityProjectText,ASTRONOMY_UNIVERSITY_ELECTIVES} from './astronomy_university_courses.mjs';
 import {scienceSchoolLessonMaterial,scienceSchoolLessonAssessment} from './science_school_lesson_material.mjs';
 assert.equal(Object.keys(ASTRONOMY_STUDY_CASES).length,9);
@@ -23,6 +23,7 @@ for(const country of EDUCATION_EUROPE_COUNTRIES){
     const cards=astronomySchoolTopicLessons({country,grade:y.id,stage,topic:topic.id,years,lessons:ASTRONOMY_LESSONS});
     assert.ok(cards.length>0,country+'/'+stage+'/'+y.id+'/'+topic.id+' cannot open study cards');
     for(const item of cards){
+     if(stage==='primary')assert.ok(ASTRONOMY_PRIMARY_ALLOWED[topic.id].includes(item.sourceId),'Primary inappropriate lesson: '+item.sourceId);
      assert.ok(item.title&&item.statement.length>125&&item.workedExample.length>115&&item.exercise&&item.answer,
       'Not a substantive lesson: '+item.id);
      assert.ok(!idStore.has(item.id),'Duplicate lesson ID '+item.id);

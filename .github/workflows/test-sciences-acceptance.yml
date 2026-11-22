@@ -62,6 +62,8 @@ jobs:
           node tests_biology_school_years.mjs
           node tests_astronomy_complete.mjs
           node tests_astronomy_year_depth.mjs
+          node tests_astronomy_country_evidence.mjs
+          node tests_astronomy_3d_complete.mjs
           node tests_science_resolution_symbols.mjs
           node tests_science_compact_theory.mjs
       - name: Actual browser functions, navigation and paginated document contracts

@@ -3,6 +3,7 @@ import vm from 'node:vm';
 import frontend from './index.js';
 import {ASTRONOMY_TOPICS,ASTRONOMY_SPECIALIZATIONS,ASTRONOMY_LESSONS} from './astronomy_curriculum.mjs';
 import {astronomyVerifiedExercise} from './astronomy_verified.mjs';
+import {ASTRONOMY_PLANETS,ASTRONOMY_PLANET_REFERENCE} from './astronomy_planets.mjs';
 import {THEORY_ENTRIES,searchTheory,theorySubjects} from './education_theory.mjs';
 const rank={beginner:0,intermediate:1,advanced:2};
 assert.equal(ASTRONOMY_TOPICS.filter(x=>!x.specialty).length,9);
@@ -40,15 +41,26 @@ for(const marker of ['ASTRONOMY_TOPIC_DATA','ASTRONOMY_SPECIALTY_DATA','ASTRONOM
  assert.ok(script.includes(marker),marker);
 const begin=script.indexOf('function astronomyVisualKind(question,topic)');
 const end=script.indexOf('function scienceShowResult(title,body)',begin);
-class FakeEl{constructor(tag){this.tag=tag;this.children=[];this.textContent='';this.attrs={}}append(...v){this.children.push(...v)}setAttribute(k,v){this.attrs[k]=v}}
+class FakeEl{constructor(tag){this.tag=tag;this.children=[];this.textContent='';this.attrs={};this.style={};this.className=''}append(...v){this.children.push(...v)}setAttribute(k,v){this.attrs[k]=v}}
 const visual=vm.runInNewContext(script.slice(begin,end)+';({kind:astronomyVisualKind,draw:astronomyVisualBuild})',{
  document:{createElement:t=>new FakeEl(t),createElementNS:(ns,t)=>new FakeEl(t)},
+ ASTRONOMY_PLANETS,ASTRONOMY_PLANET_REFERENCE,
  learningLabel:(ro,en)=>ro,
  educationTheoryClean:v=>String(v).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim()
 });
 for(const kind of ['solar','orbit','parallax','hr','transit','cosmos','telescope','galaxy']){
  assert.ok(visual.draw(kind).children.some(x=>x.tag==='svg'));
 }
+assert.equal(ASTRONOMY_PLANETS.length,8);
+assert.deepEqual(ASTRONOMY_PLANETS.map(x=>x.id),['mercury','venus','earth','mars','jupiter','saturn','uranus','neptune']);
+assert.ok(ASTRONOMY_PLANETS.every(x=>x.au>0&&x.factRo&&x.factEn));
+const diagram=visual.draw('solar');
+assert.equal(diagram.children.filter(x=>x.tag==='div'&&x.className==='astronomy-planet-facts').length,1);
+const solarSvg=diagram.children.find(x=>x.tag==='svg');
+const solarLabels=solarSvg.children.filter(x=>x.tag==='text').map(x=>x.textContent);
+for(const planet of ASTRONOMY_PLANETS)assert.ok(solarLabels.includes(planet.ro),'Missing visual planet label: '+planet.ro);
+const description=diagram.children.find(x=>x.tag==='p')?.textContent||'';
+assert.match(description,/NU sunt la scară/,'Scale disclaimer must remain visible');
 assert.equal(visual.kind('Paralaxa stelară','distances'),'parallax');
 assert.equal(visual.kind('Legea lui Kepler','gravity'),'orbit');
 console.log('PASS astronomy: 82 curated entries, 7 university tracks, guarded calculations, eight SVG diagrams and UI integration');

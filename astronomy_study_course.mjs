@@ -202,6 +202,65 @@ export const ASTRONOMY_STUDY_CASES=Object.freeze({
   ]
  }
 });
+// Primary is a safe integrated introduction, not university content or a
+// claim that Astronomy is a mandatory separate subject.
+export const ASTRONOMY_PRIMARY_ALLOWED=Object.freeze({
+ solar:['astro-solar-1','astro-solar-2','astro-solar-4','astro-solar-5'],
+ sky:['astro-sky-1','astro-sky-2','astro-sky-6'],
+ distances:['astro-distances-6','astro-distances-1'],
+ observations:['astro-observations-5','astro-observations-6'],
+ stars:['astro-stars-1']
+});
+export const ASTRONOMY_PRIMARY_CASES=Object.freeze({
+ solar:{core:[
+  'Soarele este o stea, Pământul este o planetă, iar Luna este satelitul natural al Pământului. Desenul arată obiecte diferite, nu dimensiunile și distanțele reale.',
+  'Partea Pământului orientată spre Soare are zi, iar partea opusă are noapte. Pământul se rotește în jurul axei proprii, nu Soarele în jurul Pământului.'
+ ],examples:[
+  'Desenează Soarele, Pământul și Luna cu etichete. Unește cele trei obiecte și explică de ce un desen pe o foaie nu poate păstra distanțele reale din spațiu.',
+  'Ține o lanternă fixă și rotește ușor o minge cu un punct marcat. Punctul trece prin zona luminată și cea întunecată. Nu privi niciodată direct Soarele.'
+ ],questions:['Ce tip de corp este Soarele și care este satelitul natural al Pământului?','De ce apare ziua urmată de noapte?'],
+ answers:['Soarele este o stea, iar Luna este satelitul natural al Pământului.','Deoarece Pământul se rotește în jurul propriei axe.']},
+ sky:{core:[
+  'Orizontul este limita aparentă dintre cer și pământ acolo unde îl putem vedea. Constelațiile sunt forme de recunoaștere, nu stele aflate obligatoriu la aceeași distanță.',
+  'Stelele par să se deplaseze pe cer în decursul nopții. Această mișcare aparentă se explică în mare parte prin rotația Pământului în jurul propriei axe.'
+ ],examples:[
+  'Desenează un peisaj și marchează orizontul. Identifică un obiect deasupra și unul dedesubtul liniei în desen; spune ce parte a scenei reprezintă cerul.',
+  'Compară două hărți simple ale cerului la ore diferite. Notează ce s-a schimbat și propune o explicație legată de rotația Pământului, fără a pretinde poziții actuale.'
+ ],questions:['Este orizontul un zid real sau o limită aparentă?','De ce stelele par să-și schimbe poziția noaptea?'],
+ answers:['O limită aparentă, care depinde de locul observării.','În principal, din cauza rotației Pământului.']},
+ distances:{core:[
+  'Luna este mult mai aproape de Pământ decât Soarele. Un desen cu aceste corpuri este util pentru identificare, dar de cele mai multe ori nu păstrează distanțele la scară.',
+  'Lumina călătorește foarte repede, dar nu instantaneu. Pentru distanțe foarte mari se folosesc unități astronomice speciale, care nu trebuie confundate cu timpul.'
+ ],examples:[
+  'Pe o foaie desenează două obiecte apropiate și două depărtate. Explică de ce punctele de pe hârtie nu pot reprezenta singure kilometrii reali dintre corpurile cerești.',
+  'Compară distanțele aproximative ale Pământului până la Lună și Soare într-un tabel furnizat de profesor; spune care este mai mare și de ce desenele nu au scară.'
+ ],questions:['De ce un desen cu planete nu arată automat distanțele reale?','Anul-lumină este o distanță sau o durată?'],
+ answers:['Fiindcă reprezintă schematic spațiul, fără o scară măsurată.','O unitate de distanță parcursă de lumină într-un an.']},
+ observations:{core:[
+  'Observarea cerului înseamnă să notăm ce vedem și în ce condiții. Data, ora, locul și desenul ajută la compararea observațiilor dintre seri diferite.',
+  'Putem studia cerul prin schițe și simulări, fără telescop. Nu privim niciodată direct Soarele, nici prin binoclu sau telescop obișnuit fără protecție solară certificată.'
+ ],examples:[
+  'Ține un jurnal timp de două seri cu cer senin. Desenează forma Lunii, dacă este vizibilă, și notează data; dacă norii împiedică observația, notează exact acest lucru.',
+  'Compară un desen propriu cu o simulare a fazelor Lunii și marchează diferențele. O simulare arată o posibilitate, nu dovedește ce era pe cer la tine.'
+ ],questions:['Ce date notezi într-un jurnal al cerului?','Este sigur să privești Soarele prin binoclu fără filtru certificat?'],
+ answers:['Data, ora, locul, condițiile și un desen sau descriere.','Nu. Observarea Soarelui fără filtru solar special certificat este periculoasă.']},
+ stars:{core:[
+  'Soarele este una dintre numeroasele stele ale Universului. Stelele par puncte luminoase noaptea pentru că sunt foarte îndepărtate; ele nu au toate aceeași culoare.',
+  'O stea emite propria lumină. O planetă, precum Pământul, nu este o stea: vedem planetele pentru că reflectă lumina primită de la Soare sau altă stea.'
+ ],examples:[
+  'Desenează Soarele și o altă stea reprezentate prin două cercuri colorate. Precizează ce arată desenul corect și de ce nu poți deduce dimensiuni și distanțe reale.',
+  'Compară un bec aprins și o minge luminată de bec, într-o cameră sub supraveghere. Explică de ce unul emite lumina, iar celălalt reflectă lumina primită.'
+ ],questions:['Soarele este o stea sau o planetă?','Pământul emite lumină ca o stea sau reflectă lumina Soarelui?'],
+ answers:['Soarele este o stea.','Pământul reflectă o parte din lumina Soarelui.']}
+});
+export const ASTRONOMY_PRIMARY_SKILLS=Object.freeze([
+ 'Recunoaște și numește obiectele cerești din desen fără calcule complicate.',
+ 'Compară două observații făcute în momente diferite.',
+ 'Construiește un model etichetat și precizează ce nu poate arăta corect.',
+ 'Folosește un jurnal sau un tabel simplu cu data și obiectul observat.',
+ 'Compară două explicații prin argumente bazate pe dovezi.',
+ 'Separă măsurarea, modelul și presupunerea; explică limitele concluziei.'
+]);
 export function astronomySchoolTopicLessons({country='',grade='',stage='primary',topic='',years=[],lessons=[]}={}){
  if(!['primary','lower','upper'].includes(stage)||!topic)return [];
  const yearList=Array.isArray(years)?years:[],idx=yearList.findIndex(x=>String(x?.id)===String(grade));
@@ -209,20 +268,21 @@ export function astronomySchoolTopicLessons({country='',grade='',stage='primary'
  const tier=yearList.length===1?0:Math.round(idx*3/(yearList.length-1));
  const rank={beginner:0,intermediate:1,advanced:2};
  const max=stage==='upper'?1:0;
- const source=lessons.filter(x=>x?.subject==='astronomy'&&x.topic===topic&&
+ const allowed=stage==='primary'?ASTRONOMY_PRIMARY_ALLOWED[topic]||[]:null;
+ const source=lessons.filter(x=>(!allowed||allowed.includes(x.id))&&x?.subject==='astronomy'&&x.topic===topic&&
   (rank[x.level]??3)<=max&&x.statement&&x.title);
  if(!source.length)return [];
  const limit=Math.min(stage==='primary'?2:stage==='lower'?3:4,source.length);
- const offset=(tier*limit)%source.length;
- const plan=ASTRONOMY_STUDY_CASES[topic];
+ const offset=(stage==='primary'?idx:tier*limit)%source.length;
+ const plan=stage==='primary'?(ASTRONOMY_PRIMARY_CASES[topic]||ASTRONOMY_STUDY_CASES[topic]):ASTRONOMY_STUDY_CASES[topic];
  return Array.from({length:limit},(_,i)=>{
-  const entry=source[(offset+i)%source.length],slot=(tier+i)%(stage==='upper'?plan.core.length:2);
+  const entry=source[(offset+i)%source.length],slot=(stage==='primary'?idx+i:tier+i)%(stage==='upper'?plan.core.length:2);
   const prefix=stage==='primary'?'Observăm şi explicăm: ':
    stage==='lower'?'Explicăm mecanismul: ':'Analizăm modelul şi limitele: ';
   return {...entry,id:'astronomy-'+String(country).toUpperCase()+'-'+String(grade)+'-'+stage+'-'+topic+'-'+(i+1),
    grade:String(grade),stage,sourceId:entry.id,language:'ro',
    formula:stage==='primary'?'':entry.formula,
-   statement:entry.statement+' '+prefix+plan.core[slot],
+   statement:entry.statement+' '+prefix+plan.core[slot]+(stage==='primary'?' Competența etapei: '+ASTRONOMY_PRIMARY_SKILLS[Math.min(5,Math.floor(idx*6/yearList.length))]:''),
    workedExample:plan.examples[slot],exercise:plan.questions[slot],answer:plan.answers[slot],
    curriculumScope:'Original advisory Astronomy study, not a mandatory national grade programme',
    laboratoryType:'safe-observation-or-simulation'

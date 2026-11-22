@@ -92,7 +92,9 @@ import {PHYSICS_UNIVERSITY_ALL_COURSES,physicsUniversityCourseChoices,physicsUni
 import {physicsVerifiedExercise} from './physics_verified.mjs';
 import {ASTRONOMY_TOPICS,ASTRONOMY_SPECIALIZATIONS,ASTRONOMY_LESSONS} from './astronomy_curriculum.mjs';
 import {astronomyVerifiedExercise} from './astronomy_verified.mjs';
-import {ASTRONOMY_STUDY_CASES,ASTRONOMY_TOPIC_DIAGRAMS,astronomySchoolTopicLessons,astronomyLabMaterial} from './astronomy_study_course.mjs';
+import {ASTRONOMY_STUDY_CASES,ASTRONOMY_TOPIC_DIAGRAMS,ASTRONOMY_PRIMARY_ALLOWED,ASTRONOMY_PRIMARY_CASES,ASTRONOMY_PRIMARY_SKILLS,astronomySchoolTopicLessons,astronomyLabMaterial} from './astronomy_study_course.mjs';
+import {ASTRONOMY_PLANETS,ASTRONOMY_PLANET_REFERENCE} from './astronomy_planets.mjs';
+import {ASTRONOMY_COUNTRY_EVIDENCE,astronomyNationalAlignment} from './astronomy_country_alignment.mjs';
 import {ASTRONOMY_UNIVERSITY_DEFAULT_FOUR,ASTRONOMY_UNIVERSITY_ELECTIVES,astronomyUniversityRoutes,astronomyUniversityRoute,astronomyUniversityYears,astronomyUniversityCourseChoices,astronomyUniversityStudyText,astronomyUniversityProjectText} from './astronomy_university_courses.mjs';
 import {FOREIGN_LANGUAGES,FOREIGN_LEVELS,FOREIGN_TOPICS,FOREIGN_PHRASES,ANCIENT_GREEK_PHRASES,CLASSICAL_LEVELS} from './foreign_languages_curriculum.mjs';
 import {MODERN_OUTCOMES,CLASSICAL_OUTCOMES,TOPIC_GOALS,foreignStudyPlan,foreignStudyRubric,foreignStudyReview,foreignStudyDue,foreignStudyPlacementQuestions,foreignStudyPlacementResult} from './foreign_languages_learning.mjs';
@@ -8454,7 +8456,7 @@ function scienceJourneyShowChoices(stage){
   educationCountrySelection.label+' · '+
    learningLabel('Selectează clasa sau anul pentru materia aleasă.','Choose the grade or school year for the selected subject.')+
    (scienceJourney.subject==='astronomy'?
-    ' '+learningLabel('Astronomia este un parcurs orientativ, nu o disciplină obligatorie în fiecare clasă.','Astronomy is an advisory study track, not a compulsory subject in every grade.'):'')+
+    ' '+learningLabel('Astronomia poate fi integrată în alte discipline; o programă mai veche nu încetează automat să fie valabilă.','Astronomy can be taught within other subjects; older programmes do not automatically expire.'):'')+
    (educationCountrySelection.code!=='RO'?
     ' '+learningLabel('Unde programa locală nu este verificată, conținutul este orientativ.','Where the local curriculum is unverified, content is advisory.'):''):
   stage==='specialties'?learningLabel('Fiecare specializare are capitole proprii și baze comune.','Each track has specialist and shared chapters.'):
@@ -8465,6 +8467,17 @@ function scienceJourneyShowChoices(stage){
   note.textContent=educationCountrySelection.label+' · '+learningLabel(
    'Parcurs liceal cu mai multe capitole și lecții. Ordinea și obligativitatea diferă după profil, țară și generația școlară; nu este o programă unică certificată.',
    'Extended upper-secondary study topics. Required topics and order vary by country, school profile and cohort; this is not a single certified national programme.');
+ }
+ if(scienceJourney.subject==='astronomy'&&stage==='topics'&&
+  ['primary','lower','upper'].includes(scienceJourney.schoolStage)){
+  const alignment=astronomyNationalAlignment({
+   country:educationCountrySelection.code,stage:scienceJourney.schoolStage,
+   grade:scienceJourney.grade
+  });
+  note.textContent=educationCountrySelection.label+' · '+
+   learningLabel(alignment.noteRo,alignment.noteEn)+
+   ' '+learningLabel('Lecțiile suplimentare sunt explicativ-orientative, nu copie a programei oficiale.',
+    'Additional lessons are original advisory teaching, not copies of the national syllabus.');
  }
  if(scienceJourney.subject==='physics'&&stage==='topics'){
   const scope=SCIENCE_GRADE_TOPIC_PLAN({
@@ -9407,6 +9420,8 @@ const PHYSICS_EUROPE_REFERENCES=${JSON.stringify(PHYSICS_EUROPE_REFERENCES)};
 const PHYSICS_ADVISORY_TOPIC_SEQUENCES=${JSON.stringify(PHYSICS_ADVISORY_TOPIC_SEQUENCES)};
 const PHYSICS_COUNTRY_YEAR_SEQUENCES=${JSON.stringify(PHYSICS_COUNTRY_YEAR_SEQUENCES)};
 const physicsCountryGradePlan=${physicsCountryGradePlan.toString()};
+const ASTRONOMY_COUNTRY_EVIDENCE=${JSON.stringify(ASTRONOMY_COUNTRY_EVIDENCE)};
+const astronomyNationalAlignment=${astronomyNationalAlignment.toString()};
 const SCIENCE_GRADE_TOPIC_PLAN=${scienceGradeTopicPlan.toString()};
 const SCIENCE_GRADE_LESSON_FRAME=${scienceGradeLessonFrame.toString()};
 const PHYSICS_TOPIC_DATA=${JSON.stringify(PHYSICS_TOPICS)};
@@ -9427,7 +9442,12 @@ const ASTRONOMY_SPECIALTY_DATA=${JSON.stringify(ASTRONOMY_SPECIALIZATIONS)};
 const ASTRONOMY_SOLVE_VERIFIED=${astronomyVerifiedExercise.toString()};
 const ASTRONOMY_LESSON_DATA=${JSON.stringify(ASTRONOMY_LESSONS)};
 const ASTRONOMY_STUDY_CASES=${JSON.stringify(ASTRONOMY_STUDY_CASES)};
+const ASTRONOMY_PRIMARY_ALLOWED=${JSON.stringify(ASTRONOMY_PRIMARY_ALLOWED)};
+const ASTRONOMY_PRIMARY_CASES=${JSON.stringify(ASTRONOMY_PRIMARY_CASES)};
+const ASTRONOMY_PRIMARY_SKILLS=${JSON.stringify(ASTRONOMY_PRIMARY_SKILLS)};
 const ASTRONOMY_TOPIC_DIAGRAMS=${JSON.stringify(ASTRONOMY_TOPIC_DIAGRAMS)};
+const ASTRONOMY_PLANETS=${JSON.stringify(ASTRONOMY_PLANETS)};
+const ASTRONOMY_PLANET_REFERENCE=${JSON.stringify(ASTRONOMY_PLANET_REFERENCE)};
 const astronomySchoolTopicLessons=${astronomySchoolTopicLessons.toString()};
 const astronomyLabMaterial=${astronomyLabMaterial.toString()};
 const ASTRONOMY_UNIVERSITY_DEFAULT_FOUR=${JSON.stringify(ASTRONOMY_UNIVERSITY_DEFAULT_FOUR)};
@@ -10738,15 +10758,53 @@ function astronomyVisualBuild(kind){
  const names={solar:['Sistem solar · schematic','Solar system · schematic'],orbit:['Orbită eliptică · model','Elliptical orbit · model'],parallax:['Paralaxă · geometrie','Parallax · geometry'],hr:['Diagrama H–R · schematic','H–R diagram · schematic'],transit:['Tranzit planetar · model','Planet transit · model'],cosmos:['Expansiunea cosmică · schematic','Cosmic expansion · schematic'],telescope:['Telescop · raze','Telescope · rays'],galaxy:['Galaxie spirală · schematic','Spiral galaxy · schematic']};
  const section=document.createElement('section');section.className='physics-visual astronomy-visual';
  const title=document.createElement('h3');title.textContent=learningLabel(...names[kind]);section.append(title);
- const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');svg.setAttribute('viewBox','0 0 360 210');svg.setAttribute('role','img');svg.setAttribute('aria-label',title.textContent);section.append(svg);
+ const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');svg.setAttribute('viewBox',kind==='solar'?'0 0 360 310':'0 0 360 210');svg.setAttribute('role','img');svg.setAttribute('aria-label',title.textContent);section.append(svg);
  const add=(tag,attrs,txt)=>{const n=document.createElementNS('http://www.w3.org/2000/svg',tag);for(const [k,v] of Object.entries(attrs||{}))n.setAttribute(k,String(v));if(txt!==undefined)n.textContent=txt;svg.append(n);return n};
  const line=(x1,y1,x2,y2)=>add('line',{x1,y1,x2,y2,stroke:'#9ddff3','stroke-width':2});
  const circle=(x,y,r,color)=>add('circle',{cx:x,cy:y,r,fill:color});
  const label=(x,y,v)=>add('text',{x,y,fill:'#eaf8ff','font-size':12},v);
  if(kind==='solar'){
-  circle(40,105,17,'#ffd56f');label(17,147,'Soare');
-  [55,83,115,150,192,236,282].forEach((x,i)=>{circle(x+46,105,3+i*.6,['#9dc7ff','#ffbd95','#69a7ed','#e6b396','#edc88b','#aec6df','#79a6d9'][i]);line(57,105,x+40,105)});
-  label(180,182,'schematic · distanțe neproporționale');
+  // Two rows of four show all eight labelled planets on a narrow mobile screen.
+  // Spacing, diameters and positions are symbolic: neither orbital nor physical scale.
+  circle(25,156,18,'#ffd56f');
+  add('text',{x:25,y:194,fill:'#fff0be','font-size':12,'text-anchor':'middle'},learningLabel('Soare','Sun'));
+  const positions=[[73,73],[162,73],[251,73],[337,73],
+   [73,232],[162,232],[251,232],[337,232]];
+  for(const [i,planet] of ASTRONOMY_PLANETS.entries()){
+   const [x,y]=positions[i],r=Math.max(5,planet.size);
+   if(i===0){line(46,145,x,105)}
+   if(i===4){line(46,167,x,200)}
+   circle(x,y,r,planet.color);
+   if(planet.id==='saturn'){
+    add('ellipse',{cx:x,cy:y,rx:21,ry:6,transform:'rotate(-19 '+x+' '+y+')',
+     fill:'none',stroke:'#dfbd89','stroke-width':3});
+   }
+   if(planet.id==='earth')circle(x+2,y-2,2,'#94d28a');
+   if(planet.id==='jupiter'){
+    add('line',{x1:x-10,y1:y+2,x2:x+10,y2:y+2,stroke:'#ad7657','stroke-width':2});
+   }
+   add('text',{x,y:y+29,fill:'#eaf8ff','font-size':12,'text-anchor':'middle'},
+    learningLabel(planet.ro,planet.en));
+   add('text',{x,y:y+44,fill:'#c5d7e9','font-size':10,'text-anchor':'middle'},
+    learningLabel(planet.au.toFixed(2).replace('.',','),planet.au.toFixed(2))+' '+learningLabel('UA','AU'));
+   add('text',{x,y:y-27,fill:'#a9d5ed','font-size':10,'text-anchor':'middle'},String(i+1));
+  }
+  const legend=document.createElement('p');legend.style.cssText='font-size:12px;line-height:1.45;overflow-wrap:anywhere';
+  legend.textContent=learningLabel(ASTRONOMY_PLANET_REFERENCE.disclaimerRo,
+    ASTRONOMY_PLANET_REFERENCE.disclaimerEn)+
+   ' '+learningLabel('UA = distanța medie Pământ–Soare; valorile sunt distanțe medii aproximative.',
+    'AU = mean Earth–Sun distance; numeric values are rounded mean orbital distances.');
+  section.append(legend);
+  const facts=document.createElement('div');facts.className='astronomy-planet-facts';
+  facts.style.cssText='display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:7px;width:100%;';
+  for(const planet of ASTRONOMY_PLANETS){
+   const entry=document.createElement('article');entry.style.cssText='padding:8px;border:1px solid #62778a;border-radius:8px;min-width:0;';
+   const h=document.createElement('strong');h.textContent=learningLabel(planet.ro,planet.en)+' · '+planet.au+' '+learningLabel('UA','AU');
+   const f=document.createElement('p');f.style.cssText='font-size:12px;line-height:1.4;margin:5px 0 0;';
+   f.textContent=learningLabel(planet.factRo,planet.factEn);
+   entry.append(h,f);facts.append(entry);
+  }
+  section.append(facts);
  }else if(kind==='orbit'){
   add('ellipse',{cx:180,cy:106,rx:140,ry:70,fill:'none',stroke:'#8eddef','stroke-width':2});circle(95,106,13,'#ffcf73');circle(305,143,7,'#9bb9f5');line(95,106,305,143);label(67,93,'focar');label(295,165,'corp');label(158,25,'orbită eliptică');
  }else if(kind==='parallax'){
@@ -10779,26 +10837,47 @@ function astronomyOrbit3DOpen(){
  const back=document.createElement('button');back.type='button';back.className='secondary-btn';back.textContent=learningLabel('← Revenire','← Back');back.onclick=()=>dialog.close();header.append(heading,back);
  const note=document.createElement('p');note.textContent=learningLabel('Proiecție 3D educativă. Mărimile, perioadele și distanțele nu sunt la scară.','Educational 3D projection. Sizes, periods and distances are not to scale.');
  const frame=document.createElement('div');frame.className='physics-visual';frame.style.maxWidth='100%';frame.style.overflow='hidden';
- const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');svg.setAttribute('viewBox','0 0 360 240');svg.setAttribute('role','img');svg.setAttribute('aria-label',learningLabel('Planete și orbite rotibile','Rotatable planets and orbits'));frame.append(svg);
+ const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');svg.setAttribute('viewBox','0 0 440 330');svg.setAttribute('role','img');svg.setAttribute('aria-label',learningLabel('Planete și orbite rotibile','Rotatable planets and orbits'));frame.append(svg);
  const controls=document.createElement('div');controls.className='science-work-tools';
  const make=(ro,en,min,max,value)=>{const box=document.createElement('label');box.textContent=learningLabel(ro,en);const input=document.createElement('input');input.type='range';input.min=min;input.max=max;input.value=value;input.setAttribute('aria-label',box.textContent);box.append(input);controls.append(box);return input};
  const turn=make('Rotire','Rotation','0','360','28'),tilt=make('Înclinare','Tilt','0','85','48'),zoom=make('Zoom','Zoom','50','140','100');
  const ns='http://www.w3.org/2000/svg';
  const node=(tag,attrs)=>{const el=document.createElementNS(ns,tag);for(const [k,v] of Object.entries(attrs))el.setAttribute(k,String(v));svg.append(el);return el};
- const project=(x,y,z)=>{const a=Number(turn.value)*Math.PI/180,b=Number(tilt.value)*Math.PI/180,k=Number(zoom.value)/100;const xx=x*Math.cos(a)-y*Math.sin(a),yy=x*Math.sin(a)+y*Math.cos(a);return [180+xx*k,120+(yy*Math.cos(b)-z*Math.sin(b))*k]};
- const render=()=>{svg.replaceChildren();node('circle',{cx:180,cy:120,r:11,fill:'#ffd477'});
-  for(const [radius,size,color,phase] of [[38,3,'#bfc6d4',.2],[66,5,'#e2ba83',1.7],[91,6,'#79bafd',3.4],[113,4,'#e39a7a',5.2]]){
-   let path='';for(let i=0;i<=96;i++){const a=i*Math.PI*2/96;const p=project(radius*Math.cos(a),radius*Math.sin(a),0);path+=(i?' L':'M')+p[0].toFixed(2)+' '+p[1].toFixed(2)}
-   node('path',{d:path,stroke:'#7899b7','stroke-width':1.3,fill:'none'});
-   const pos=project(radius*Math.cos(phase),radius*Math.sin(phase),0);node('circle',{cx:pos[0],cy:pos[1],r:size,fill:color});
+ const project=(x,y,z)=>{const a=Number(turn.value)*Math.PI/180,b=Number(tilt.value)*Math.PI/180,k=Number(zoom.value)/100;const xx=x*Math.cos(a)-y*Math.sin(a),yy=x*Math.sin(a)+y*Math.cos(a);return [220+xx*k,164+(yy*Math.cos(b)-z*Math.sin(b))*k]};
+ const render=()=>{svg.replaceChildren();node('circle',{cx:220,cy:164,r:13,fill:'#ffd477'});
+  const orbits=[22,40,58,75,94,115,136,156];
+  for(const [i,planet] of ASTRONOMY_PLANETS.entries()){
+   const radius=orbits[i],phase=planet.phase;
+   let path='';for(let j=0;j<=120;j++){const a=j*Math.PI*2/120;
+    const p=project(radius*Math.cos(a),radius*Math.sin(a),0);
+    path+=(j?' L':'M')+p[0].toFixed(2)+' '+p[1].toFixed(2)}
+   node('path',{d:path,stroke:'#7899b7','stroke-width':1,fill:'none'});
+   const pos=project(radius*Math.cos(phase),radius*Math.sin(phase),0);
+   node('circle',{cx:pos[0],cy:pos[1],r:planet.size*0.48+2,fill:planet.color});
+   node('text',{x:pos[0],y:pos[1]-11,'font-size':11,'text-anchor':'middle',fill:'#eaf8ff'}
+    ).textContent=String(i+1);
+   if(planet.id==='saturn')
+    node('ellipse',{cx:pos[0],cy:pos[1],rx:12,ry:4,fill:'none',
+     stroke:'#f5d49a','stroke-width':2});
   }
+  node('text',{x:222,y:188,'font-size':12,'text-anchor':'middle',fill:'#fff1bd'}
+   ).textContent=learningLabel('Soare','Sun');
  };
  const interact=()=>render();turn.addEventListener('input',interact);tilt.addEventListener('input',interact);zoom.addEventListener('input',interact);
  let dragX=null;svg.style.touchAction='none';
  svg.addEventListener('pointerdown',e=>{dragX=e.clientX;svg.setPointerCapture?.(e.pointerId)});
  svg.addEventListener('pointermove',e=>{if(dragX===null)return;turn.value=String((Number(turn.value)+e.clientX-dragX+360)%360);dragX=e.clientX;render()});
  svg.addEventListener('pointerup',()=>dragX=null);svg.addEventListener('pointercancel',()=>dragX=null);
- dialog.append(header,note,frame,controls);dialog.addEventListener('close',()=>dialog.remove());document.body.append(dialog);render();try{dialog.showModal()}catch{dialog.setAttribute('open','')};
+ const info=document.createElement('div');info.style.cssText='display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;font-size:12px;';
+ for(const [i,planet] of ASTRONOMY_PLANETS.entries()){
+  const p=document.createElement('div');p.style.cssText='padding:5px 7px;border:1px solid #657588;border-radius:6px;';
+  p.textContent=(i+1)+'. '+learningLabel(planet.ro,planet.en)+' · '+planet.au+' '+learningLabel('UA','AU');
+  info.append(p);
+ }
+ const note2=document.createElement('p');note2.style.cssText='font-size:12px;line-height:1.4;';
+ note2.textContent=learningLabel(ASTRONOMY_PLANET_REFERENCE.disclaimerRo,
+  ASTRONOMY_PLANET_REFERENCE.disclaimerEn);
+ dialog.append(header,note,frame,controls,info,note2);dialog.addEventListener('close',()=>dialog.remove());document.body.append(dialog);render();try{dialog.showModal()}catch{dialog.setAttribute('open','')};
 }
 
 function astronomyDiagramPicker(allowed=null){
