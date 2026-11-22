@@ -57,9 +57,9 @@ export function literatureQuickReferenceAttach(panel,options={}){
   overlay.setAttribute('role','dialog');
   overlay.setAttribute('aria-modal','true');
   overlay.setAttribute('aria-label',mode==='dictionary'?t('Dicționar','Dictionary'):t('Gramatică rapidă','Quick grammar'));
-  overlay.style.cssText='position:fixed;inset:0;z-index:22000;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.58);padding:12px;box-sizing:border-box';
+  overlay.style.cssText='position:fixed;inset:0;z-index:22000;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.58);padding:12px;box-sizing:border-box;overflow:auto';
   const dialog=create('section','lit-quick-dialog');
-  dialog.style.cssText='box-sizing:border-box;display:flex;flex-direction:column;gap:8px;width:min(100%,520px);max-height:calc(100dvh - 40px);min-height:180px;padding:13px;border-radius:14px;background:#fff;color:#202020;box-shadow:0 12px 38px rgba(0,0,0,.35);overflow:hidden';
+  dialog.style.cssText='box-sizing:border-box;display:flex;flex-direction:column;gap:8px;width:min(100%,520px);height:min(65dvh,580px);max-height:calc(100dvh - 24px);min-height:270px;padding:13px;border-radius:14px;background:#fff;color:#202020;box-shadow:0 12px 38px rgba(0,0,0,.35);overflow:hidden';
   const head=create('div','lit-quick-head');
   head.style.cssText='display:flex;align-items:center;justify-content:space-between;gap:8px;flex:0 0 auto';
   const heading=create('strong','',mode==='dictionary'?t('📖 Dicționar','📖 Dictionary'):t('📚 Gramatică rapidă','📚 Quick grammar'));
@@ -84,11 +84,15 @@ export function literatureQuickReferenceAttach(panel,options={}){
   const results=create('div','lit-quick-results');
   results.setAttribute('role','listbox');
   results.setAttribute('aria-label',t('Sugestii și termeni','Suggestions and terms'));
-  results.style.cssText='display:flex;flex-direction:column;gap:5px;overflow-y:auto;overscroll-behavior:contain;min-height:60px;max-height:55dvh;flex:1 1 auto;padding:2px';
+  results.style.cssText='display:flex;flex-direction:column;gap:5px;overflow-y:auto;overscroll-behavior:contain;min-height:140px;flex:1 1 160px;padding:2px;border:1px solid #e1e1e1;border-radius:8px;background:#fff';
+  // A persistent result region stays visible even when Android opens its
+  // software keyboard. Hide only the explanatory footer while typing.
   const foot=create('p','',mode==='dictionary'
    ?t('Definițiile locale funcționează offline. Pentru alte cuvinte se consultă Wikționarul, când există internet.','Local entries work offline. Other words are checked in Wiktionary when online.')
    :t('Ghid explicativ; terminologia și programa pot diferi în funcție de limba de studiu.','Reference guide; grammar terminology and curricula vary by study language.'));
   foot.style.cssText='margin:0;padding-top:6px;font-size:11px;color:#666;flex:0 0 auto;border-top:1px solid #ddd';
+  input.addEventListener('focus',()=>{foot.style.display='none'});
+  input.addEventListener('blur',()=>{foot.style.display='block'});
   dialog.append(head,help,input,detail,results,foot);
   overlay.append(dialog);
   overlay.addEventListener('click',event=>{if(event.target===overlay)removeOverlay()});
@@ -170,6 +174,13 @@ export function literatureQuickReferenceAttach(panel,options={}){
     showDetail(word,t('Definiția nu este disponibilă offline sau sursa nu a răspuns. Consultă intrarea pentru sensul verificat.',
        'No offline definition is available, or the source did not respond. Open the entry to check its meaning.'),'',url);
   }
+  const remoteDirect=()=>{
+   const q=String(input.value||'').trim();
+   if(!q)return;
+   searchSerial++;
+   showDetail(q,t('Se caută definiția în Wikționar…','Looking up the definition in Wiktionary…'));
+   defineRemote(q,searchSerial);
+  };
   const addOption=(label,onClick)=>{
    const button=styleButton(create('button','lit-quick-option',label));
    button.setAttribute('role','option');
@@ -202,8 +213,14 @@ export function literatureQuickReferenceAttach(panel,options={}){
     if(!unique.has(normalized))unique.set(normalized,title);
    }
    const matches=[...unique.values()].sort((a,b)=>a.localeCompare(b,sourceLanguage)).slice(0,18);
+   // Explicit action when a word is not among the offline/online suggestions.
+   // The learner can still inspect the currently typed word.
+   const searchButton=styleButton(create('button','lit-quick-search-direct',t('Caută definiția cuvântului scris','Look up the typed word')));
+   searchButton.style.cssText+=';width:100%;text-align:center;border-color:#824151;margin:2px 0 5px';
+   results.append(searchButton);searchButton.onclick=remoteDirect;
    if(!matches.length){
-    status(t('Se caută sugestii…','Searching for suggestions…'));
+    const note=create('p','',t('Nu există încă sugestii locale. Poți căuta cuvântul scris mai sus.','No local suggestions yet. Use the lookup button above.'));
+    note.style.cssText='font-size:12px;margin:5px';results.append(note);
    }else for(const title of matches)addOption(title,()=>chooseWord(title));
   }
   function grammarOptions(query){
@@ -243,12 +260,13 @@ export function literatureQuickReferenceAttach(panel,options={}){
      const remote=Array.isArray(data?.query?.prefixsearch)?
       data.query.prefixsearch.map(x=>x.title):[];
      displayWords(q,remote);
-     if(!remote.length&&!results.querySelector?.('button'))
-      status(t('Nu s-au găsit sugestii. Poți căuta alt cuvânt.','No suggestions found. Try another word.'));
+     if(!remote.length&&localLanguage===null){
+      // The direct lookup button stays visible even with no suggestions.
+     }
     }catch(err){
-     if(current===searchSerial&&!abort.signal.aborted&&!results.querySelector?.('button'))
-      status(t('Rețeaua nu este disponibilă. Încearcă un termen din dicționarul local.',
-       'Network unavailable. Try an offline dictionary entry.'));
+     // Keep offline suggestions and the explicit lookup button on network errors.
+     if(current===searchSerial&&!abort.signal.aborted&&results.children.length===0)
+      status(t('Rețeaua nu este disponibilă.','Network unavailable.'));
     }
    },160);
   });
