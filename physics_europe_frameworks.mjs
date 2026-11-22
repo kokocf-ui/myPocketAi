@@ -157,8 +157,15 @@ export function physicsCountryGradePlan({country='',stage='lower',grade='',years
  const status=absent?'not-offered':schoolScience?'integrated-science':
   upperMix||mixed?'mixed-physics-chemistry':upperOptional?'elective-or-track-dependent':
   ref?'framework-advisory':'european-advisory';
+ // Subject-year progress starts when the separate course starts, not when
+ // the country's lower-secondary school stage starts. This matters when
+ // grade V/VI is integrated science and Physics begins in a later grade.
+ const courseYears=phase==='lower'?rows.filter(row=>
+  !PHYSICS_NOT_OFFERED_LOWER_YEARS[code]?.includes(String(row.id))):rows;
+ const coursePosition=courseYears.findIndex(row=>String(row.id)===yr);
  const base=PHYSICS_ADVISORY_TOPIC_SEQUENCES[phase]||[];
- const sequence=base.length?base[Math.round(idx*(base.length-1)/Math.max(1,rows.length-1))]:[];
+ const sequence=base.length&&coursePosition>=0?
+  base[Math.round(coursePosition*(base.length-1)/Math.max(1,courseYears.length-1))]:[];
  const yearly=PHYSICS_COUNTRY_YEAR_SEQUENCES[code]?.[phase]?.[yr]||sequence;
  const blocked=Boolean(absent);
  // Romania: the new secondary-school syllabus begins with IX in 2026/27.
@@ -173,6 +180,7 @@ export function physicsCountryGradePlan({country='',stage='lower',grade='',years
  const transition=roNew?'Clasa a IX-a urmează noua programă introdusă în anul școlar 2026–2027 (OME 6930/2025); diferențierea TC/CS și profilul liceal sunt obligatorii pentru potrivirea exactă.':
   roOlder?'Clasele X–XII urmează programe de tranziție/cotortă diferite de clasa IX 2026/27; confirmă profilul și programa aplicabilă.':null;
  return {country:code,stage:phase,grade:yr,yearIndex:idx,
+  subjectYearIndex:coursePosition,subjectYearCount:courseYears.length,
   status:blocked?'not-offered':status,
   kind:blocked?'not-taught':schoolScience?'integrated':upperMix||mixed?'mixed':
    upperOptional?'elective':'subject-or-track-dependent',
