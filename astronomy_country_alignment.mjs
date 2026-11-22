@@ -73,6 +73,62 @@ const evidence=Object.freeze({
    source:'https://dge.mec.pt/sites/default/files/7_fisico_quimica.pdf',
    title:'Aprendizagens Essenciais, Físico-Química 7.º ano, published March 2026; effective cohort not independently certified'}
  ],
+ DK:[
+  {stage:'primary',grades:null,subject:'Natur/teknologi',kind:'integrated',
+   topicIds:null,sourceYear:2024,validFrom:'2025/26',
+   source:'https://www.retsinformation.dk/eli/lta/2024/1715',
+   title:'Fælles Mål (2024): science/technology national competencies; no fixed astronomy grade'},
+  {stage:'lower',grades:null,subject:'Fysik/kemi',kind:'integrated',
+   topicIds:null,sourceYear:2024,validFrom:'2025/26',
+   source:'https://www.retsinformation.dk/eli/lta/2024/1715',
+   title:'Fælles Mål: integrated Physics/Chemistry, school plans are flexible'}
+ ],
+ NL:[
+  {stage:'primary',grades:null,subject:'Natuur en techniek – kerndoel 46',kind:'integrated',
+   topicIds:null,sourceYear:2006,validFrom:null,
+   source:'https://www.slo.nl/thema/meer/tule/orientatie-jezelf-wereld/kerndoel-46/',
+   title:'SLO kerndoel 46, day/night and seasons; local year distribution and newer core-goal rollout require separate checks'}
+ ],
+ NO:[
+  {stage:'primary',grades:null,subject:'Naturfag',kind:'integrated',
+   topicIds:null,sourceYear:2026,validFrom:'2026/27',
+   source:'https://www.udir.no/lk20/nat01-05?lang=eng',
+   title:'Norwegian Natural Science NAT01-05 in force from 1 Aug 2026; competence aims by milestone, not individual grade'},
+  {stage:'lower',grades:null,subject:'Naturfag',kind:'integrated',
+   topicIds:null,sourceYear:2026,validFrom:'2026/27',
+   source:'https://www.udir.no/lk20/nat01-05?lang=eng',
+   title:'Norwegian Natural Science NAT01-05; replaces NAT01-04 (2020–2026)'}
+ ],
+ SE:[
+  {stage:'primary',grades:null,subject:'Fysik – Lgr22',kind:'integrated',
+   topicIds:null,sourceYear:2022,validFrom:'2022/23',
+   source:'https://www.skolverket.se/undervisning/grundskolan/laroplan-lgr22-for-grundskolan-samt-for-forskoleklassen-och-fritidshemmet/curriculums/LGR22/GRGRFYS01',
+   title:'Swedish Physics, content bands 1–3 and 4–6: solar system; no mandated annual chapter list'},
+  {stage:'lower',grades:null,subject:'Fysik – Lgr22',kind:'integrated',
+   topicIds:null,sourceYear:2022,validFrom:'2022/23',
+   source:'https://www.skolverket.se/undervisning/grundskolan/laroplan-lgr22-for-grundskolan-samt-for-forskoleklassen-och-fritidshemmet/curriculums/LGR22/GRGRFYS01',
+   title:'Swedish Physics, content band 7–9: universe, origin/evolution, planets; not a grade-specific sequence'}
+ ],
+ LT:[
+  {stage:'lower',grades:null,subject:'Gamtos mokslai / Fizika',kind:'integrated',
+   topicIds:null,sourceYear:2023,validFrom:'2023/24',
+   source:'https://emokykla.lt/bendrosios-programos/visos-bendrosios-programos/15',
+   title:'Lithuanian Astronomy programme states early grades integrate astronomy in Natural Sciences/Physics'},
+  {stage:'upper',grades:['11'],subject:'Astronomija (optional)',kind:'optional-standalone',
+   topicIds:['sky','solar','distances','observations'],sourceYear:2023,validFrom:'2023/24',
+   source:'https://emokykla.lt/bendrosios-programos/visos-bendrosios-programos/15',
+   title:'Lithuanian optional standalone Astronomy, gymnasium III (grade 11): solar system, celestial coordinates and observations'},
+  {stage:'upper',grades:['12'],subject:'Astronomija (optional)',kind:'optional-standalone',
+   topicIds:['stars','galaxies','cosmology','exoplanets'],sourceYear:2023,validFrom:'2023/24',
+   source:'https://emokykla.lt/bendrosios-programos/visos-bendrosios-programos/15',
+   title:'Lithuanian optional standalone Astronomy, gymnasium IV (grade 12): stellar evolution, galaxies and cosmology'}
+ ],
+ SI:[
+  {stage:'lower',grades:null,subject:'Astronomija – izbirni predmet',kind:'optional-standalone',
+   topicIds:null,sourceYear:1999,validFrom:null,
+   source:'https://www.gov.si/assets/ministrstva/MVI/Dokumenti/Osnovna-sola/Ucni-nacrti/izbirni/1-letni/Astronomija_izbirni-v2.pdf',
+   title:'Slovenian officially listed Astronomy elective, adopted 11 February 1999: three independent one-year thematic courses'}
+ ],
  FI:[
   {stage:'primary',grades:null,subject:'Environmental studies',kind:'framework-only',
    topicIds:null,sourceYear:2014,validFrom:'2016/17',
@@ -99,15 +155,24 @@ export function astronomyNationalAlignment({country='',stage='',grade=''}={}){
   source:framework?.source||null,sourceYear:framework?.sourceYear||null,
   sourceTitle:framework?.title||null,
   verifiedMandatoryAsStandalone:false,
+  verifiedOptionalAsStandalone:framework?.kind==='optional-standalone',
   // No national school programme is inferred to have expired merely for being old.
   superseded:false,supercessionConfirmed:false,
   noteRo:framework?
    'Există o referință curriculară din '+framework.sourceYear+' pentru '+framework.subject+
-   '. Data ei nu o invalidează automat. Astronomia este tratată în cadrul disciplinei indicate; programa completă a fiecărei clase nu este reprodusă aici.':
+   '. Data ei nu o invalidează automat. '+(framework.kind==='optional-standalone'?
+   'Astronomia este disponibilă ca disciplină opțională, nu obligatorie.':
+   framework.kind==='framework-only'?'Referința confirmă numai cadrul general, nu o programă anuală completă de Astronomie.':
+   'Noțiunile de astronomie sunt integrate în disciplina indicată, nu predate automat separat.')+
+   ' Conținutul pe fiecare clasă este certificat numai unde există teme anuale documentate.':
    'Programa națională de astronomie pentru această clasă nu a fost încă verificată. Aceasta nu înseamnă că țara nu are programă; sunt afișate lecții generale orientative.',
   noteEn:framework?
    'An existing '+framework.sourceYear+' reference covers '+framework.subject+
-   '. An earlier publication date does not invalidate a programme. Astronomy is taught inside the named area; this is not its complete national syllabus.':
+   '. Older dates do not alone invalidate a curriculum. '+(framework.kind==='optional-standalone'?
+   'Astronomy is a separately offered elective, not a mandatory subject.':
+   framework.kind==='framework-only'?'This source describes only the broader curriculum framework.':
+   'Astronomy concepts are integrated in the named subject, not automatically taught separately.')+
+   ' Individual school-year topics are considered verified only where directly documented.':
    'A country-specific Astronomy syllabus has not yet been verified for this year. This does not mean no syllabus exists; advisory lessons are offered.'
  };
 }
