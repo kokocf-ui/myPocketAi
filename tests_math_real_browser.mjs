@@ -150,6 +150,24 @@ try{
  assert.ok(branches.some(x=>x.includes('Aritmetică')),'England Y1 has no primary arithmetic');
  assert.ok(!branches.some(x=>x.includes('Algebră')),'England Y1 shows formal algebra');
  await page.screenshot({path:'math-browser-audit/england-year1.png'});
+ await click(page.locator('#view-module .math-stage-back').first());
+ await pickGrade('Year 6');
+ branches=await page.locator('#view-module .math-choice-list .math-choice-row').allTextContents();
+ assert.ok(branches.some(x=>x.includes('Algebră')),'England Year 6 must show its DfE algebra branch');
+ assert.ok(branches.some(x=>x.includes('Măsurători')),'England Year 6 must show its distinct measurement branch');
+ assert.equal(branches.length,5,'England Year 6 must expose five substantial educational strands');
+ await click(page.locator('#view-module .math-choice-row').filter({hasText:'Algebră'}).first());
+ const englandAlgebra=await page.locator('#view-module .math-choice-row strong').allTextContents();
+ assert.ok(englandAlgebra.length>=6,'England Year 6 Algebra must contain separate theory lessons');
+ assert.ok(englandAlgebra.some(x=>x.includes('Simboluri pentru numere necunoscute')),
+  'English sixth-year Algebra must teach letters as variables');
+ await page.screenshot({path:'math-browser-audit/england-year6-algebra.png'});
+ await click(page.locator('#view-module .math-choice-row').filter({hasText:'Simboluri pentru numere necunoscute'}).first());
+ await page.locator('#educationPagedLessonDialog').waitFor({state:'visible',timeout:10000});
+ assert.ok((await page.locator('#educationPagedLessonDialog').innerText()).includes('n+7'),
+  'England Year 6 theory must open its own worked example');
+ await click(page.locator('#educationPagedLessonDialog .education-theory-head button').first());
+ await click(page.locator('#view-module .math-stage-back').first());
  // University years must have their own advanced material, not reuse the
  // same primary-school pictures or a single empty "university" placeholder.
  await click(page.locator('#view-module .math-stage-back').first());
@@ -171,7 +189,7 @@ try{
  assert.match(await page.locator('#educationPagedLessonDialog').innerText(),/convergență|Convergență|limita/i,
   'University Year 1 analysis must contain the actual lesson, not a placeholder');
  assert.equal(errors.length,0,'Unexpected JavaScript errors: '+errors.slice(0,5).join('; '));
- console.log('PASS mobile Chromium maths: Romania primary + lower secondary, theorem reference, England Y1, Back and branches');
+ console.log('PASS mobile Chromium maths: Romania primary + lower secondary, theorem reference, England Y1/Y6 algebra, University, Back and branches');
 }finally{
  await browser.close();await new Promise(resolve=>server.close(resolve));
 }
