@@ -1,4 +1,5 @@
 import {MATH_DEPTH_PRIMARY} from './math_depth_primary.mjs';
+import {MATH_DEPTH_PRIMARY_56} from './math_depth_primary_56.mjs';
 import {MATH_DEPTH_UPPER} from './math_depth_upper.mjs';
 import {MATH_DEPTH_UNIVERSITY} from './math_depth_university.mjs';
 // Mathematics learning cards: authored, age-progressive explanations and worked
@@ -111,7 +112,7 @@ export const MATH_DEPTH_LOWER=[
  ]
  }
 ];
-export const MATH_DEPTH_STAGES=Object.freeze({primary:MATH_DEPTH_PRIMARY,lower:MATH_DEPTH_LOWER,intermediate:MATH_DEPTH_UPPER,advanced:MATH_DEPTH_UNIVERSITY});
+export const MATH_DEPTH_STAGES=Object.freeze({primary:[...MATH_DEPTH_PRIMARY,...MATH_DEPTH_PRIMARY_56],lower:MATH_DEPTH_LOWER,intermediate:MATH_DEPTH_UPPER,advanced:MATH_DEPTH_UNIVERSITY});
 export function mathInDepthEntries({stage,phase,topic}={}){
  const st=String(stage||''),p=Number(phase),subject=String(topic||'');
  const rows=MATH_DEPTH_STAGES[st]?.[p-1]?.[subject];
