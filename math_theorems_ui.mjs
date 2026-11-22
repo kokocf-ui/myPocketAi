@@ -66,6 +66,7 @@ function mathTheoryQuickReference(){
  draw();
 }
 function mathInstallTheoryShortcut(){
+ mathTheoryQuickReferenceOpen=false;
  const host=document.getElementById('moduleContent');
  if(!host)return;
  if(mathTheoryQuickReferenceObserver)mathTheoryQuickReferenceObserver.disconnect();
