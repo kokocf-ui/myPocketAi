@@ -173,6 +173,96 @@ const evidence=Object.freeze({
    source:'https://www.riigiteataja.ee/et/akt/123122025007',
    title:'Estonia basic school curriculum and science area framework, not a fixed standalone Astronomy syllabus'}
  ],
+ HU:[
+  {stage:'lower',grades:null,subject:'Fizika / Természettudomány – NAT 2020',kind:'framework-only',
+   topicIds:null,sourceYear:2020,validFrom:'2020/21',
+   source:'https://www.oktatas.hu/kozneveles/kerettantervek/2020_nat',
+   title:'Hungary NAT 2020 subject frameworks; separate lower/upper school tracks and local year sequencing'}
+ ],
+ CH:[
+  {stage:'lower',grades:null,subject:'Natur und Technik – Lehrplan 21 (Deutschschweiz)',kind:'framework-only',
+   topicIds:null,sourceYear:2014,validFrom:null,
+   source:'https://www.lehrplan21.ch/',
+   title:'Swiss German-speaking cantonal Lehrplan 21; cantonal implementation and language required; not a single national timetable'}
+ ],
+ LV:[
+  {stage:'primary',grades:null,subject:'Dabaszinības',kind:'integrated',
+   topicIds:null,sourceYear:2018,validFrom:'2020/21',
+   source:'https://likumi.lv/ta/id/303768-noteikumi-par-valsts-pamatizglitibasstandartu-un-pamatizglitibas-programmu-paraugiem',
+   title:'Latvian 2018 basic-education standard, as amended: natural science astronomy outcomes; not former repealed 2007 standard'},
+  {stage:'lower',grades:null,subject:'Dabaszinības / Fizika',kind:'integrated',
+   topicIds:null,sourceYear:2018,validFrom:'2020/21',
+   source:'https://likumi.lv/ta/id/303768-noteikumi-par-valsts-pamatizglitibasstandartu-un-pamatizglitibas-programmu-paraugiem',
+   title:'Latvia basic education current natural sciences framework: solar system and universe; grade sequencing subject to school'}
+ ],
+ IT:[
+  {stage:'primary',grades:['P1'],subject:'Scienze – Indicazioni nazionali 2025',kind:'integrated',
+   topicIds:null,sourceYear:2025,validFrom:'2026/27',
+   source:'https://www.normattiva.it/atto/caricaDettaglioAtto?atto.codiceRedazionale=26G00021&atto.dataPubblicazioneGazzetta=2026-01-27',
+   title:'Italy DM 221/2025: new first-cycle framework applies to new primary Year 1 cohorts from 2026/27'},
+  {stage:'primary',grades:['P2','P3','P4','P5'],subject:'Scienze – Indicazioni nazionali 2012',kind:'integrated',
+   topicIds:null,sourceYear:2012,validFrom:'2013/14',
+   source:'https://www.normattiva.it/atto/caricaDettaglioAtto?atto.codiceRedazionale=26G00021&atto.dataPubblicazioneGazzetta=2026-01-27',
+   title:'Italy DM 221/2025 transition explicitly retains 2012 curriculum for ongoing primary cohorts'},
+  {stage:'lower',grades:['M1'],subject:'Scienze – Indicazioni nazionali 2025',kind:'integrated',
+   topicIds:null,sourceYear:2025,validFrom:'2026/27',
+   source:'https://www.normattiva.it/atto/caricaDettaglioAtto?atto.codiceRedazionale=26G00021&atto.dataPubblicazioneGazzetta=2026-01-27',
+   title:'Italy 2026/27: new lower-secondary first-year cohort follows 2025 indications, astronomy via Scienze'},
+  {stage:'lower',grades:['M2','M3'],subject:'Scienze – Indicazioni nazionali 2012',kind:'integrated',
+   topicIds:null,sourceYear:2012,validFrom:'2013/14',
+   source:'https://www.normattiva.it/atto/caricaDettaglioAtto?atto.codiceRedazionale=26G00021&atto.dataPubblicazioneGazzetta=2026-01-27',
+   title:'Italy 2026/27: cohorts already in lower-secondary Years 2 and 3 retain 2012 framework until completion'}
+ ],
+ BG:[
+  {stage:'lower',grades:['5'],subject:'Човекът и природата / География',kind:'integrated',
+   topicIds:null,sourceYear:2015,validFrom:'2016/17',
+   source:'https://www.mon.bg/obshto-obrazovanie/uchebni-planove-i-programi-2/uchebni-programi/uchebni-programi-za-obsthoobrazovatelna-podgotovka/v-klas/',
+   title:'Bulgarian ministry Grade V curriculum 2015, updated 2020 and 2023: natural sciences and geography, Sun/Earth topics'},
+  {stage:'lower',grades:['6'],subject:'Човекът и природата',kind:'integrated',
+   topicIds:null,sourceYear:2020,validFrom:'2022/23',
+   source:'https://www.mon.bg/obshto-obrazovanie/uchebni-planove-i-programi-2/arhiv-na-uchebni-programi-po-klasove/uchebni-programi-za-vi-klas/',
+   title:'Bulgarian Grade VI officially amended curriculum 2020, still applies to grade 6 cohorts'},
+  {stage:'upper',grades:null,subject:'Физика и астрономия',kind:'framework-only',
+   topicIds:null,sourceYear:2025,validFrom:null,
+   source:'https://www.mon.bg/obshto-obrazovanie/darzhavni-zrelostni-izpiti-dzi/izpitni-materiali-za-dzi-po-predmeti/fizika-i-astronomiya/',
+   title:'Bulgarian ministry national graduation exam Physics/Astronomy 2025; does not establish an exact annual curriculum'}
+ ],
+ MT:[
+  {stage:'lower',grades:['7'],subject:'Science – revised Year 7',kind:'integrated',
+   topicIds:null,sourceYear:2025,validFrom:'2025/26',
+   source:'https://curriculum.gov.mt/years-7-and-8-learning-outcomes-programmes-and-syllabi-2/',
+   title:'Malta Year 7 Science revised September 2025, Earth around Sun and day/night'},
+  {stage:'lower',grades:['8'],subject:'Science – revised Year 8',kind:'integrated',
+   topicIds:null,sourceYear:2026,validFrom:'2026/27',
+   source:'https://curriculum.gov.mt/years-7-and-8-learning-outcomes-programmes-and-syllabi-2/',
+   title:'Malta Year 8 Science revised September 2026; grade-specific document on official curriculum portal'},
+  {stage:'upper',grades:null,subject:'Physics / Science and Technology',kind:'framework-only',
+   topicIds:null,sourceYear:2026,validFrom:'2026/27',
+   source:'https://curriculum.gov.mt/syllabi-years-9-10-11-new/',
+   title:'Malta secondary Physics and Science syllabi on official 2026 Education portal; route depends on subject selection'}
+ ],
+ UA:[
+  {stage:'upper',grades:['10'],subject:'Астрономія – профільний рівень',kind:'optional-standalone',
+   topicIds:null,sourceYear:2018,validFrom:'2018/19',
+   source:'https://mon.gov.ua/osvita-2/zagalna-serednya-osvita/osvitni-programi/navchalni-programi-dlya-10-11-klasiv',
+   title:'Ukraine high-school Astronomy 2018 programme: specialist profile includes grades 10 and 11; normal grade 10 not necessarily standalone'},
+  {stage:'upper',grades:['11'],subject:'Астрономія / Фізика і астрономія',kind:'optional-standalone',
+   topicIds:['sky','observations','solar','stars','galaxies','cosmology','gravity','distances'],sourceYear:2018,validFrom:'2018/19',
+   source:'https://mon.gov.ua/osvita-2/zagalna-serednya-osvita/osvitni-programi/navchalni-programi-dlya-10-11-klasiv',
+   title:'Ukraine ministry retains Astronomy standalone and Physics+Astronomy programmes for grade 11 from 2018; reform 10–12 from 2027 is not in force for these cohorts'}
+ ],
+ RS:[
+  {stage:'upper',grades:null,subject:'Fizika – astronomija (gimnazija)',kind:'integrated',
+   topicIds:null,sourceYear:2018,validFrom:'2018/19',
+   source:'https://prosveta.gov.rs/prosveta/udzbenici/udzbenici-za-srednju-skolu/?pismo=lat',
+   title:'Serbian secondary gymnasium curriculum adopted 2018 onward with later amendments; astronomy within Physics, program depends on gymnasium track'}
+ ],
+ ME:[
+  {stage:'lower',grades:null,subject:'Fizika / Priroda',kind:'framework-only',
+   topicIds:null,sourceYear:2025,validFrom:null,
+   source:'https://www.gov.me/zzs/predmetni-programi',
+   title:'Montenegro Institute for Education publishes subject curricula; exact astronomy-grade allocation not certified'}
+ ],
  FI:[
   {stage:'primary',grades:null,subject:'Environmental studies',kind:'framework-only',
    topicIds:null,sourceYear:2014,validFrom:'2016/17',
