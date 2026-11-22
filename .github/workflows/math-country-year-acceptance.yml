@@ -12,11 +12,10 @@ on:
   push:
     branches: [main]
     paths:
-      - 'math_country_grade_areas.mjs'
-      - 'math_theorems_ui.mjs'
-      - 'tests_math_all_countries_2026.mjs'
-      - 'tests_math_theorems_countries.mjs'
-      - 'tests_math_real_browser.mjs'
+      - 'math_*.mjs'
+      - 'tests_math_*.mjs'
+      - 'education_country_ui.mjs'
+      - 'education_all_country_subject_matrix.mjs'
       - 'index.js'
       - '.github/workflows/math-country-year-acceptance.yml'
 permissions:
@@ -38,6 +37,8 @@ jobs:
           node --check math_depth_primary.mjs
           node --check math_depth_upper.mjs
           node --check math_depth_university.mjs
+          node --check math_depth_primary_56.mjs
+          node --check math_depth_university_extension.mjs
           node --check math_theorems_ui.mjs
           node --check education_country_ui.mjs
           node --check tests_math_real_browser.mjs
