@@ -179,12 +179,12 @@ try{
  assert.ok(upperBranches.some(x=>x.includes('Algebră')),'Upper secondary must show an algebra branch');
  await click(page.locator('#view-module .math-choice-row').filter({hasText:'Algebră'}).first());
  const upperLessons=await page.locator('#view-module .math-choice-list .math-choice-row strong').allTextContents();
- assert.ok(upperLessons.some(x=>x.includes('Propoziții logice și tabele de adevăr')),
+ assert.ok(upperLessons.some(x=>x.includes('Forma standard a numerelor')),
   'Upper-secondary new material must be reachable in the real Android-sized chapter list');
- await click(page.locator('#view-module .math-choice-row').filter({hasText:'Propoziții logice și tabele de adevăr'}).first());
+ await click(page.locator('#view-module .math-choice-row').filter({hasText:'Forma standard a numerelor'}).first());
  await page.locator('#educationPagedLessonDialog').waitFor({state:'visible',timeout:10000});
  const upperText=await page.locator('#educationPagedLessonDialog').innerText();
- assert.ok(upperText.includes('Conjuncția')&&upperText.includes('Exersează singur'),
+ assert.ok(upperText.includes('putere întreagă')&&upperText.includes('Exersează singur'),
   'Upper-secondary chapter must open its full offline theory and practice');
  await page.screenshot({path:'math-browser-audit/england-upper-secondary.png'});
  await click(page.locator('#educationPagedLessonDialog .education-theory-head button').first());
