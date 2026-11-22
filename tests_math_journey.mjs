@@ -26,7 +26,8 @@ assert.deepEqual(Array.from(api.stages(api.subjects.find(x=>x.id==='arithmetic')
  'Arithmetic must not offer gymnasium, lyceum or university');
 const arithmetic1=vm.runInNewContext(source+
  "\n(mathJourney.topic='arithmetic',mathJourney.schoolStage='primary',mathJourney.grade='1',educationMathTheoryList())",
- {learningLabel:ro=>ro,educationCountrySelection:{code:'RO'},educationTheoryClean:value=>String(value||'').toLowerCase()});
+ {learningLabel:ro=>ro,educationCountrySelection:{code:'RO'},educationTheoryClean:value=>String(value||'').toLowerCase(),
+  EDU_MATH_COUNTRY_YEARS:{'RO|beginner':Array.from({length:4},(_,i)=>({id:String(i+1)}))}});
 assert.ok(arithmetic1.length>=5,'Primary grade 1 starts with an interactive lesson library');
 assert.ok(arithmetic1.some(x=>x.title==='Adunarea')&&arithmetic1.some(x=>x.title==='Scăderea'));
 assert.ok(!arithmetic1.some(x=>/Pitagora|fracții|înmulțire/i.test(x.title)),'Do not show upper-grade theory in class I');
