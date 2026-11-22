@@ -9,7 +9,7 @@ const topicIds=new Set(['arithmetic','geometry','measurement','algebra','statist
 const ids=new Set();
 let lessonCount=0, countryChecks=0, academicYearChecks=0;
 for(const [stage,phases] of Object.entries(MATH_DEPTH_STAGES)){
- assert.equal(phases.length,4,stage+' must have four progressively distinct learning phases');
+ assert.equal(phases.length,stage==='primary'?6:4,stage+' must have a distinct learning phase for every supported school year');
  for(const [phaseIndex,domains] of phases.entries()){
   assert.ok(Object.keys(domains).length>=3,stage+'/'+(phaseIndex+1)+' needs at least three branches');
   for(const topic of Object.keys(domains)){
@@ -44,7 +44,8 @@ for(const country of EDUCATION_EUROPE_COUNTRIES){
   const years=mathCountryStudyYears({country,stage,years:base});
   assert.ok(years.length>0,country+' has no maths years in '+stage);
   for(const [i,year] of years.entries()){
-   const phase=Math.floor(i*4/Math.max(4,years.length))+1;
+   const band=schoolStage==='primary'?6:4;
+   const phase=Math.floor(i*band/Math.max(band,years.length))+1;
    const plan=educationSubjectSchoolPlan({country,stage,grade:year.id,subject:'mathematics'});
    assert.equal(plan.status,'general-learning',country+'/'+year.id+' claims unverified maths is official');
    assert.ok(plan.units.length>=3,country+'/'+year.id+' no mathematical branches');
@@ -59,6 +60,8 @@ for(const country of EDUCATION_EUROPE_COUNTRIES){
  }
 }
 for(const [stage,phase,topic,term] of [
+ ['primary',5,'arithmetic','Numere până la un milion'],
+ ['primary',6,'statistics','Diagrame circulare'],
  ['primary',1,'arithmetic','Adunare'],['lower',1,'algebra','Ecuații'],
  ['lower',3,'geometry','Pitagora'],['intermediate',1,'algebra','Ecuația'],
  ['intermediate',3,'analysis','Derivata'],['advanced',3,'differential','diferențiale']
