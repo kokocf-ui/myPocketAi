@@ -119,11 +119,11 @@ export const MATH_UNIVERSITY_2026_ADDITIONS=[
  },
  {
   analysis:[
-   ['Banach fixed point principle','Principiul punctului fix Banach',
-    'O contracție pe un spațiu metric complet are un unic punct fix. Iterarea din orice punct converge către acesta; trebuie verificate atât completitudinea cât și factorul de contracție strict sub unu.',
-    'd(Tx,Ty)≤q d(x,y), 0≤q<1',
-    'Pentru T(x)=x/2+1 pe R avem q=1/2. Ecuația x=x/2+1 dă unicul punct fix x=2; iterațiile se apropie de acesta.',
-    'Determină punctul fix al lui T(x)=x/4+3.','x=4.'],
+   ['Gradient descent for minimisation','Coborârea pe gradient pentru minimizare',
+    'Coborârea pe gradient actualizează iterativ parametrii în direcția opusă gradientului pentru a micșora o funcție obiectiv. Alegerea pasului de învățare este importantă: un pas prea mare poate face metoda să oscileze sau să diverge.',
+    'xₙ₊₁=xₙ−η∇f(xₙ), η>0',
+    'Pentru f(x)=x², derivata este 2x. Cu x₀=4 și η=0,25, actualizăm x₁=4−0,25×8=2. Valoarea funcției scade de la 16 la 4.',
+    'Pentru f(x)=x², x₀=6 și η=0,25, află x₁.','x₁=3.'],
    ['Newton method and a stopping criterion','Metoda Newton și criteriul de oprire',
     'Metoda Newton folosește tangenta pentru a aproxima o rădăcină. Ea cere o derivată nenulă în iterație și poate eșua fără o alegere potrivită a punctului inițial; oprirea după puțini pași nu garantează precizia.',
     'xₙ₊₁=xₙ−f(xₙ)/f′(xₙ)',
