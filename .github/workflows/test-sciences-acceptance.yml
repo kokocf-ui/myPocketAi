@@ -1,5 +1,14 @@
 name: Sciences — full four-subject acceptance checks
 on:
+  push:
+    branches: [main]
+    paths:
+      - 'index.js'
+      - 'biology_*.mjs'
+      - 'science_grade_progression.mjs'
+      - 'education_first_use_notice.mjs'
+      - 'tests_education_biology_notice.mjs'
+      - '.github/workflows/test-sciences-acceptance.yml'
   pull_request:
     paths:
       - 'science_*.mjs'
@@ -77,6 +86,7 @@ jobs:
           node tests_biology_complete.mjs
           node tests_biology_year_depth.mjs
           node tests_biology_school_years.mjs
+          node tests_education_biology_notice.mjs
           node tests_astronomy_complete.mjs
           node tests_astronomy_year_depth.mjs
           node tests_astronomy_country_evidence.mjs
