@@ -18,6 +18,20 @@ export const MATH_DEPTH_EN_LOWER=[
   geometry:['Triangle similarity','Thales theorem and proportional segments','Volume of geometric solids','Theorems and logical proof'],
   statistics:['Incompatible events','Probability from tables','Elementary counting principles']}
 ];
+export const MATH_DEPTH_EN_UNIVERSITY=[
+ {analysis:['Sequences and their limits','Continuity of functions','Derivatives and differentials'],
+  'linear-algebra':['Vectors and vector spaces','Matrices, determinants and invertibility','Linear systems and Gaussian elimination'],
+  discrete:['Sets and operations','Mathematical induction','Propositional logic']},
+ {analysis:['Series and convergence tests','Definite integrals and substitution','Multivariable functions'],
+  'linear-algebra':['Linear independence','Eigenvalues and eigenvectors','Orthogonality and projections'],
+  statistics:['Discrete random variables','Expectation and variance','The normal distribution']},
+ {differential:['Separable differential equations','First-order linear differential equations','Basic dynamical systems'],
+  analysis:['Improper integrals','Uniform convergence','Introduction to complex analysis'],
+  discrete:['Graphs and vertex degrees','Trees and connectivity','Recurrences and complexity']},
+ {analysis:['Normed spaces and convergence','Linear operators and continuity','Numerical methods and error'],
+  statistics:['Confidence intervals for the mean','Hypothesis testing','Linear regression and residuals'],
+  discrete:['Counting and inclusion–exclusion','Shortest paths in graphs','Combinatorial probability']}
+];
 export const MATH_DEPTH_LOWER=[
  {
  algebra:[
@@ -109,7 +123,8 @@ export function mathInDepthEntries({stage,phase,topic}={}){
   return {
    id:'math-depth-'+st+'-'+p+'-'+subject+'-'+(i+1),
    subject:'math',level:st==='advanced'?'advanced':st==='intermediate'?'intermediate':'beginner',
-   stage:st,phase:p,topic:subject,title:x[offset],enTitle:offset?x[0]:(MATH_DEPTH_EN_LOWER[p-1]?.[subject]?.[i]||x[0]),
+   stage:st,phase:p,topic:subject,title:x[offset],enTitle:st==='advanced'?(MATH_DEPTH_EN_UNIVERSITY[p-1]?.[subject]?.[i]||x[0]):
+    offset?x[0]:(st==='lower'?(MATH_DEPTH_EN_LOWER[p-1]?.[subject]?.[i]||x[0]):x[0]),
    statement:x[offset+1],formula:x[offset+2]||'',
    worked:x[offset+3],practice:x[offset+4],answers:x[offset+5],
    sourceStatus:'general-learning',aliases:[]
