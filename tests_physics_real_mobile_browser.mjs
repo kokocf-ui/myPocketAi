@@ -96,6 +96,38 @@ try{
  }
  assert.equal(lessons,7);
  assert.equal(practicals,7);
+ // The undergraduate study pathway must work through the real mobile UI,
+ // not only through simulated JS fixtures.
+ const universityBand=page.locator('#view-module .science-year-band').last();
+ assert.ok(await universityBand.locator('.science-university-route-picker').count(),
+  'Physics university must provide its own 3/4-year national route selector');
+ await open(universityBand.locator('.science-year-tile').first());
+ const specialties=page.locator('#view-module .science-choice-list > .science-choice-row');
+ assert.ok(await specialties.count()>=7,'Physics university requires multiple distinct specialisations');
+ await open(specialties.first());
+ const universityChapters=page.locator('#view-module .science-choice-list > .science-choice-row');
+ assert.ok(await universityChapters.count()>=3,'A university study year must contain multiple chapters');
+ await open(universityChapters.first());
+ const universityActions=page.locator('#view-module .chemistry-section-tile');
+ assert.equal(await universityActions.count(),3,
+  'University study requires study, exercises, and laboratory or physical models');
+ await open(universityActions.first());
+ const universityLessons=page.locator('#view-module .science-inline-theory-item');
+ assert.ok(await universityLessons.count()>=2,
+  'University chapter must show multiple independently written Physics lessons');
+ await open(universityLessons.first());
+ await dialog.waitFor({state:'visible',timeout:8000});
+ const undergraduateText=await dialog.locator('.education-paged-text').innerText();
+ assert.ok(undergraduateText.length>=480,'University Physics lesson is too short to teach the topic');
+ assert.ok(/formula|formulă|unită|simbol/i.test(undergraduateText),
+  'University lesson must explain laws and physical formulae');
+ await dialog.screenshot({path:'physics-browser-audit/university-lesson.png'});
+ await closeDialog();
+ await back(); // university lesson list -> 3-option chapter menu
+ await open(page.locator('#view-module .chemistry-section-tile').nth(2));
+ const universityPractical=page.locator('#view-module .chemistry-section-tile');
+ assert.ok(await universityPractical.count()>=2,
+  'University physics must expose laboratory activities or topic-specific models');
  assert.ok(!errors.length,'Frontend console exceptions: '+errors.slice(0,3).join('; '));
  console.log('PASS mobile Chromium Physics: grades VI–XII, seven detailed lessons, seven activity readers, paginated dialogs and navigation');
 }catch(error){
