@@ -7,18 +7,25 @@ assert.equal(audit.fullyApproved,0,'Do not report a full Mathematics course clos
 assert.equal(audit.readiness,'incomplete');
 assert.ok(audit.rows.every(x=>x.blockers.length>0));
 assert.equal(audit.yearSpecificCandidates,4,'Only four Romanian grade V–VIII source-reviewed annual outlines, not fully approved');
-assert.equal(audit.partialSourceReviews,1,'England Y6 has an explicitly partial DfE crosswalk');
+assert.equal(audit.partialSourceReviews,3,'England Y6 and KS4 Y10/Y11 are explicitly partial, NOT complete');
 assert.ok(audit.rows.filter(x=>x.country==='RO'&&x.stage==='lower'&&['5','6','7','8'].includes(x.grade))
  .every(x=>x.scope==='national-crosswalk-review'&&!x.complete),
  'Romanian source-mapped annual outlines must not masquerade as pedagogically approved courses');
 assert.ok(audit.rows.find(x=>x.country==='GB-ENG'&&x.stage==='beginner'&&x.grade==='Y6')
  ?.scope==='partial-year-source-review','England Year 6 is an incomplete statutory mapping');
 assert.ok(audit.rows.filter(x=>!(x.country==='RO'&&x.stage==='lower'&&['5','6','7','8'].includes(x.grade))&&
- !(x.country==='GB-ENG'&&x.stage==='beginner'&&x.grade==='Y6'))
+ !(x.country==='GB-ENG'&&x.stage==='beginner'&&x.grade==='Y6')&&
+ !(x.country==='GB-ENG'&&x.stage==='medium'&&['Y10','Y11'].includes(x.grade)))
  .every(x=>x.scope==='unverified-advisory'),
  'Other European school-years still use generic content and must be marked unverified');
 assert.ok(MATH_CURRICULUM_SOURCE_REGISTRY.RO.grades5to8.startsWith('https://www.edu.ro/'));
 assert.ok(MATH_CURRICULUM_SOURCE_REGISTRY['GB-ENG'].primary.startsWith('https://www.gov.uk/'));
+for(const grade of ['Y10','Y11']){
+ const row=audit.rows.find(x=>x.country==='GB-ENG'&&x.stage==='medium'&&x.grade===grade);
+ assert.ok(row?.partialSourceReview&&!row.complete&&row.scope==='partial-year-source-review');
+ assert.ok(row.blockers.some(x=>x.includes('not official Year 10/11')));
+ assert.ok(row.source.includes('gov.uk'));
+}
 const byCountry=new Set(audit.rows.map(x=>x.country));
 assert.ok(byCountry.size>=48);
 console.log('MATHEMATICS NOT CLOSED:',audit.total,'country/year combinations,',audit.yearSpecificCandidates,
