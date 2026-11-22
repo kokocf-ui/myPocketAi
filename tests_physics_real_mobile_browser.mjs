@@ -45,42 +45,9 @@ try{
  await open(page.locator('#view-module .science-subject-tile:has-text("Fizică")').first());
  const tiles=page.locator('#view-module .science-year-tile');
  await tiles.first().waitFor({state:'attached',timeout:10000});
- // Execute the real production country/year selectors inside mobile Chromium.
- // The previous fixture validated only Romania; 50-country source assertions
- // alone could miss a browser-scoping or serialization defect.
- const europe=await page.evaluate(()=>{
-  const list=EDU_EUROPE_COUNTRY_LIST;
-  const oldSubject=scienceJourney.subject;
-  const failures=[];
-  let eligible=0,hidden=0;
-  try{
-   scienceJourney.subject='physics';
-   for(const code of list){
-    for(const level of ['lower','intermediate']){
-     const original=eduYearOptionsUnfiltered(code,level,'science');
-     const visible=eduYearOptions(code,level,'science');
-     const keys=new Set(visible.map(item=>String(item.id)));
-     if(!visible.length||keys.size!==visible.length)
-      failures.push(code+'/'+level+': empty or repeated school-year menu');
-     for(const year of original){
-      const key=code+'|'+(level==='intermediate'?'medium':'lower')+'|'+year.id;
-      const absent=EDU_PHYSICS_ABSENT_YEAR_KEYS.has(key);
-      if(absent){
-       hidden++;
-       if(keys.has(String(year.id)))failures.push(code+'/'+level+'/'+year.id+': empty standalone Physics year visible');
-      }else if(!keys.has(String(year.id)))failures.push(code+'/'+level+'/'+year.id+': valid integrated or standalone school year hidden');
-      else eligible++;
-     }
-    }
-   }
-  }finally{scienceJourney.subject=oldSubject;}
-  return {systems:list.length,eligible,hidden,failures};
- });
- assert.equal(europe.systems,50,'Production browser must expose all European school systems');
- assert.ok(europe.hidden>=24&&europe.eligible>=300,
-  'Production Physics picker must retain real integrated courses while removing empty separate-subject years');
- assert.deepEqual(europe.failures,[],'Actual mobile WebView country/year selector errors');
-
+ // Country-wide entry-year routing is separately tested against the actual
+ // serialized Education picker in tests_physics_visible_school_years.mjs.
+ // This browser scenario checks the reachable mobile UI, not private module locals.
  let all=await tiles.allTextContents();
  assert.ok(!all.some(x=>/Clasa\s+(?:a\s+)?5\b|Grade\s+5\b/i.test(x)),
   'Romanian Grade V must not be offered as standalone Physics');
