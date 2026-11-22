@@ -12,6 +12,7 @@ export const MATH_GCSE_HIGHER_ONLY=Object.freeze({
  'Funcția inversă':'A7',
  'Inversa funcției afine':'A7',
  'Funcții inverse și restricții de domeniu':'A7',
+ 'Tangenta la un cerc':'A16',
  'Inecuații sub formă de produs':'A22',
  'Expresii algebrice raționale':'A4',
  'Drepte paralele și perpendiculare':'A9',
