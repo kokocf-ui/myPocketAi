@@ -8771,33 +8771,42 @@ function mathStudyStagesForTopic(topic){
 }
 function educationMathTheoryList(query=''){
  const topic=String(mathJourney.topic||''),stage=String(mathJourney.schoolStage||'');
- const year=Number(String(mathJourney.grade||'').replace(/[^0-9]/g,''))||0;
+ const year=mathYearPosition().year4;
  const order={beginner:0,intermediate:1,medium:1,advanced:2};
  const max=stage==='advanced'?2:stage==='intermediate'?1:0;
  let available=stage==='primary'
   ?MATH_PRIMARY_THEORY_LESSONS.filter(x=>x.topic===topic&&(!year||year>=x.minGrade))
   :EDUCATION_THEORY_DATA.filter(x=>x.subject==='math'&&x.topic===topic&&order[x.level]<=max);
  // Do not teach class-V/Vl geometry as a class-VII demonstration syllabus.
- if(stage==='lower'&&educationCountrySelection.code==='RO'&&topic==='geometry'&&year>0&&year<7)
-  available=available.filter(x=>/^(?:Perimetrul|Aria dreptunghiului|Aria pătratului|Suma unghiurilor|Unghiuri)/i.test(x.title));
+ if(stage==='lower'&&topic==='geometry'&&year>0&&year<3)
+  available=available.filter(x=>/^(?:Perimetrul|Aria dreptunghiului|Aria pătratului|Suma unghiurilor|Unghiuri|Linii|Segmente)/i.test(x.title));
  const words=educationTheoryClean(query);
  if(words)available=available.filter(x=>educationTheoryClean([x.title,...(x.aliases||[]),x.statement].join(' ')).includes(words));
  return available.slice().sort((a,b)=>a.title.localeCompare(b.title,'ro')).slice(0,120);
 }
 
+function mathYearPosition(){
+ const stage=mathJourney.schoolStage==='primary'?'beginner':
+  mathJourney.schoolStage==='intermediate'?'medium':mathJourney.schoolStage;
+ const key=String(educationCountrySelection.code||'')+'|'+stage;
+ const years=typeof EDU_MATH_COUNTRY_YEARS!=='undefined'?EDU_MATH_COUNTRY_YEARS[key]||[]:[];
+ const index=years.findIndex(x=>String(x.id)===String(mathJourney.grade||''));
+ return {index,years,progress:index<0?0:(index+1)/years.length,
+  year4:index<0?0:Math.max(1,Math.ceil((index+1)*4/years.length))};
+}
 function mathChaptersForSelection(){
  const topic=String(mathJourney.topic||''),stage=String(mathJourney.schoolStage||'');
- const country=String(educationCountrySelection.code||''),grade=String(mathJourney.grade||'');
  const base=MATH_CHAPTER_BANK[topic]?.[stage]||[];
- const year=Number(grade.replace(/[^0-9]/g,''));
- // Geometrical proofs are not a class-I/II activity and must not be offered
- // to class-V/VI pupils as if they were the class-VII syllabus.
- if(topic==='geometry'&&stage==='lower'&&country==='RO'&&year>0&&year<7)
-  return base.filter(x=>!x.id.endsWith('-4'));
- // For first primary years, show only the operations introduced at that stage.
- // Keep the country-specific school-year selection; do not expose later lessons.
- if(topic==='arithmetic'&&stage==='primary'&&year===1)return base.filter(x=>/-[12]$/.test(x.id));
- if(topic==='arithmetic'&&stage==='primary'&&year===2)return base.filter(x=>!x.id.endsWith('-4'));
+ const phase=mathYearPosition().year4;
+ // Use the relative year within the *selected country's stage*, not a
+ // Romanian class number extracted from another country's year identifier.
+ if(!phase)return base;
+ if(stage==='primary'&&topic==='arithmetic')
+  return base.slice(0,phase===1?2:phase===2?3:4);
+ if(stage==='primary'&&['geometry','measurement','statistics'].includes(topic))
+  return base.slice(0,Math.min(base.length,Math.max(1,Math.ceil(phase*base.length/4))));
+ if(stage==='lower'&&['geometry','algebra','statistics'].includes(topic))
+  return base.slice(0,Math.min(base.length,Math.max(1,Math.ceil(phase*base.length/4))));
  return base;
 }
 function mathCurriculumNotice(){
