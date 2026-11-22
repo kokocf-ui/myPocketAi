@@ -19,10 +19,10 @@ const PATHS=Object.freeze({
   [['algebra','Algebră: ecuații, inecuații și funcții'],['geometry','Geometrie: teoreme și aplicații'],['statistics','Statistică și probabilități']]
  ],
  medium:[
-  [['algebra','Algebră și ecuații'],['functions','Funcții și grafice'],['geometry','Geometrie']],
-  [['functions','Funcții și grafice'],['trigonometry','Trigonometrie'],['algebra','Algebră']],
-  [['analysis','Analiză matematică introductivă'],['trigonometry','Trigonometrie'],['statistics','Statistică și probabilități']],
-  [['analysis','Analiză matematică'],['algebra','Algebră și aplicații'],['statistics','Probabilități']]
+  [['algebra','Algebră și ecuații'],['functions','Funcții și grafice'],['geometry','Geometrie analitică'],['statistics','Statistică descriptivă']],
+  [['functions','Funcții și grafice'],['trigonometry','Trigonometrie'],['algebra','Polinoame și ecuații'],['geometry','Geometrie analitică'],['statistics','Combinatorică și probabilități']],
+  [['analysis','Analiză matematică introductivă'],['trigonometry','Trigonometrie'],['statistics','Statistică și probabilități'],['algebra','Algebră și numere complexe'],['functions','Funcții și limite'],['geometry','Vectori și geometrie']],
+  [['analysis','Analiză matematică'],['algebra','Algebră și aplicații'],['statistics','Probabilități'],['functions','Studiul funcțiilor'],['trigonometry','Ecuații trigonometrice'],['geometry','Geometrie în spațiu']]
  ],
  advanced:[
   [['analysis','Analiză matematică'],['linear-algebra','Algebră liniară'],['discrete','Matematică discretă']],
