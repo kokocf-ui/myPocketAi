@@ -47,13 +47,13 @@ for(const country of EDUCATION_EUROPE_COUNTRIES){
  }
  countries++;
 }
-for(const [country,grade] of [['RO','5'],['FR','6e'],['HU','5'],['HU','6'],
+for(const [country,grade] of [['RO','5'],['MD','5'],['HU','5'],['HU','6'],
  ['PL','V'],['PL','VI'],['LV','7']]){
  const years=educationCountrySchoolYears(country,'lower').years;
  assert.ok(years.some(x=>x.id===grade),'Expected real year missing: '+country+'/'+grade);
  assert.equal(physicsCountryGradePlan({country,stage:'lower',grade,years}).status,'not-offered');
 }
-for(const [country,grade] of [['FR','5e'],['HU','7'],['PL','VII'],['LV','8'],
+for(const [country,grade] of [['FR','6e'],['FR','5e'],['MD','6'],['HU','7'],['PL','VII'],['LV','8'],
  ['DK','7'],['FI','7'],['GB-ENG','Y7']]){
  const years=educationCountrySchoolYears(country,'lower').years;
  assert.notEqual(physicsCountryGradePlan({country,stage:'lower',grade,years}).status,'not-offered',
