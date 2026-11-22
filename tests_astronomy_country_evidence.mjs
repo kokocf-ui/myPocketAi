@@ -48,6 +48,11 @@ assert.equal(astronomyNationalAlignment({country:'IT',stage:'primary',grade:'P5'
 assert.equal(astronomyNationalAlignment({country:'MT',stage:'lower',grade:'7'}).sourceYear,2025);
 assert.equal(astronomyNationalAlignment({country:'MT',stage:'lower',grade:'8'}).sourceYear,2026);
 assert.equal(astronomyNationalAlignment({country:'UA',stage:'upper',grade:'11'}).topicIds.length,8);
+assert.equal(astronomyNationalAlignment({country:'TR',stage:'upper',grade:'10'}).sourceYear,2026);
+assert.equal(astronomyNationalAlignment({country:'TR',stage:'upper',grade:'11'}).kind,'optional-standalone');
+assert.equal(astronomyNationalAlignment({country:'SK',stage:'primary',grade:'1'}).sourceYear,2023);
+assert.equal(astronomyNationalAlignment({country:'RU',stage:'upper',grade:'10'}).yearScoped,false,
+ 'Future 2027 Russian draft cannot be presented as mandatory 2026 Astronomy chapters');
 assert.equal(astronomyNationalAlignment({country:'UA',stage:'upper',grade:'10'}).yearScoped,false,
  'Grade 10 standalone is available in the profile route but not a mandated universal topic-by-year list');
 assert.equal(astronomyNationalAlignment({country:'LV',stage:'lower',grade:'7'}).sourceYear,2018);
