@@ -193,6 +193,17 @@ for(const grade of ['1','3','4','6']){
 assert.equal(get('CY','primary','5').policy.kind,'unverified');
 assert.equal(get('SK','primary','4').policy.status,'legacy-grade4-universe-programme');
 assert.equal(get('SK','primary','1').policy.kind,'unverified','Slovak new cohort needs new ŠVP');
+const leftToVerify=['AD','BA','BE','BY','CH','DE','LU','MC','ME','RU','SM','VA','XK'];
+for(const country of leftToVerify){
+ const y=educationCountrySchoolYears(country,'lower').years[0].id;
+ const {policy,plan}=get(country,'lower',y);
+ assert.equal(policy.kind,'unverified');
+ assert.equal(policy.status,'school-system-verification-required');
+ assert.equal(policy.source,null);
+ assert.ok(policy.requiredContext&&policy.noteRo.length>45);
+ assert.ok(plan.topics.length>0);
+}
+assert.equal(get('LI','primary',educationCountrySchoolYears('LI','beginner').years[0].id).policy.status,'national-lile-integrated-framework');
 assert.equal(astronomyCountryGradePlan({country:'RO',stage:'lower',grade:'99',years:[]}).status,'invalid-selection');
 
 const progressSource=await import('./astronomy_europe_frameworks.mjs');

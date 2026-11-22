@@ -68,6 +68,7 @@ export const ASTRONOMY_EUROPE_FRAMEWORKS=Object.freeze({
  TR:Object.freeze({lower:{source:'https://tymm.meb.gov.tr/fen-bilimleri-dersi/unite/409',scope:'national-2026-27-grade6-unit1-12-hours'}}),
  BG:Object.freeze({lower:{source:'https://www.mon.bg/nfs/2023/12/up_vii_fizika.pdf',scope:'ministry-physics-and-astronomy-grade-7'}}),
  UA:Object.freeze({upper:{source:'https://mon.gov.ua/static-objects/mon/sites/1/zagalna%20serednya/programy-10-11-klas/ast-ak.pdf',scope:'ministry-astronomy-grade-11-2017-programme'}}),
+ LI:Object.freeze({primary:{source:'https://www.regierung.li/ministerium/16666/ministry-of-infrastructure-and-education/topics/16789/Liechtenstein-Curriculum',scope:'LiLe-national-NMG-Lehrplan21-adapted'}}),
  NL:Object.freeze({primary:{source:'https://www.slo.nl/thema/meer/tule/orientatie-jezelf-wereld/kerndoel-46/',scope:'SLO-core-objective-46-primary-natural-science'}}),
  DK:Object.freeze({primary:{source:'https://emu.dk/sites/default/files/2020-09/Gsk_fagh%C3%A6fte_naturteknologi.pdf',scope:'Falles-Mal-natur-teknologi-primary-grade-bands'}}),
  SE:Object.freeze({
@@ -94,6 +95,7 @@ export const ASTRONOMY_EUROPE_FRAMEWORKS=Object.freeze({
   lower:{source:'https://www.education-ni.gov.uk/articles/statutory-curriculum',scope:'broad-current-curriculum'}
  })
 });
+export const ASTRONOMY_UNVERIFIED_COUNTRY_NOTES=Object.freeze({"AD":["Alege sistemul școlar andorran, francez sau spaniol; nu există o singură programă pentru toate.","Choose Andorran, French or Spanish school system; there is no one universal country syllabus.","school-system"],"BA":["Programa depinde de entitate, canton sau districtul Brčko; trebuie indicată autoritatea școlară.","Curriculum depends on entity, canton or Brčko district; the education authority is required.","entity-canton-district"],"BE":["Alege comunitatea lingvistică și filiera înaintea unui curriculum verificat.","Select the linguistic community and school track before claiming a verified curriculum.","linguistic-community"],"BY":["Nu este verificată programa actuală de Astronomie pentru clasa și cohorta din Belarus.","Current Belarusian astronomy-related syllabus for this grade is not verified.","national-edition"],"CH":["Alege cantonul și limba de predare; Lehrplan 21 nu se aplică identic tuturor cantoanelor.","Select canton and teaching language; Lehrplan 21 is not universal to all cantons.","canton-language"],"DE":["Alege landul și tipul de școală: nu există o singură programă de Astronomie la nivel federal.","Select federal state and school type; no single national Astronomy syllabus applies.","land-school-type"],"LU":["Ciclurile 1–2 adoptă noul plan în 2026/27, iar ciclurile 3–4 în 2027/28; confirmă ciclul și cohorta.","Cycles 1–2 adopt the new plan in 2026/27 and Cycles 3–4 in 2027/28; confirm cycle and cohort.","cycle-cohort"],"MC":["Programele școlare trebuie confirmate local; nu atribuim automat programa franceză integrală.","Verify local school adaptations; do not automatically assign the full French syllabus.","local-school-programme"],"ME":["Este necesară programa școlară oficială actuală, pe an și filieră, pentru Muntenegru.","Current Montenegro grade-specific curriculum and school track need verification.","school-track"],"RU":["Verifică programul federal curent, anul și filiera înainte de a declara Astronomia materie separată.","Verify current federal programme, year and track before calling Astronomy a separate subject.","federal-edition"],"SM":["San Marino necesită verificarea propriului curriculum; nu copiem automat Italia.","San Marino needs its own curriculum verification; do not automatically copy Italy.","local-curriculum"],"VA":["Nu există un sistem școlar general de clase naționale comparabil; oferim doar învățare liberă.","No comparable national general school-grade system; free learning only.","no-comparable-school-system"],"XK":["Kosovo necesită verificarea programei după an, limba de predare și rețeaua școlară.","Kosovo syllabus requires verification by grade, teaching language and school system.","language-school-programme"]});
 export const RO_ASTRONOMY_OPTIONALS=Object.freeze({
  lower:{
   '5':{ro:'Aventura cunoașterii Universului · clasa a V-a',en:'Exploring the Universe · Year 5',topics:['sky','solar','observations','stars']},
@@ -120,7 +122,10 @@ export function astronomyCountryGradePlan({country='',stage='primary',grade='',y
   noteRo:'Parcurs original orientativ. Încadrarea astronomiei ca materie separată, integrată sau opțională nu este verificată pentru această țară și clasă.',
   noteEn:'Original advisory learning route. Astronomy as a separate, integrated or optional subject is not verified for this jurisdiction and school year.'};
  // Advisory placeholder IDs are NOT official national school years.
- if(year.startsWith('general-'))return general;
+ const custom=ASTRONOMY_UNVERIFIED_COUNTRY_NOTES[code];
+ const unverified=custom?{...general,status:'school-system-verification-required',
+  noteRo:custom[0],noteEn:custom[1],requiredContext:custom[2]}:general;
+ if(year.startsWith('general-'))return unverified;
  if(code==='RO'){
   const offer=RO_ASTRONOMY_OPTIONALS[level]?.[year];
   if(offer&&base)return {...general,status:'official-elective-offer',kind:'national-optional',
@@ -188,6 +193,12 @@ export function astronomyCountryGradePlan({country='',stage='primary',grade='',y
 
 
 
+ if(code==='LI'&&level==='primary')return {...general,status:'national-lile-integrated-framework',kind:'integrated',
+  source:base?.source||null,sourceScope:base?.scope||null,
+  programmeRo:'Liechtensteiner Lehrplan LiLe · Natur, Mensch, Gesellschaft',
+  programmeEn:'Liechtenstein LiLe · Nature, Humanity and Society',
+  noteRo:'LiLe este adaptarea națională din Liechtenstein a Lehrplan 21. Pământul, Luna, Soarele și modelele lor apar în Științele integrate/NMG, dar distribuirea pe clase urmează ciclurile și este stabilită local; nu este identică automat cu un canton elvețian.',
+  noteEn:'Liechtenstein has its own LiLe adaptation of Lehrplan 21. Earth, Moon, Sun and their models belong in integrated NMG; the detailed grade progression depends on the school rather than a standalone compulsory Astronomy class.'};
  if(code==='GR'&&level==='primary'&&year==='6')return {...general,
   status:'grade6-geography-earth-as-planet-guide',kind:'integrated',
   topicIds:['solar','sky','observations'],
@@ -505,7 +516,7 @@ export function astronomyCountryGradePlan({country='',stage='primary',grade='',y
   programmeRo:'Northern Ireland Curriculum · Științe',programmeEn:'Northern Ireland Curriculum · Science',
   noteRo:'Cadrul curent integrează științele; nu există în sursa consultată o ordine anuală verificată a astronomiei. Reforma curriculară propusă pentru 2028 nu este tratată ca programă 2026.',
   noteEn:'Current science curriculum is integrated; no astronomy-by-year sequence is verified. Proposed 2028 reforms are not treated as effective in 2026.'};
- return general;
+ return unverified;
 }
 
 export function astronomyCurriculumCompletionGate(){
