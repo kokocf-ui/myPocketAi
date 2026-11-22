@@ -36,6 +36,7 @@ jobs:
           node --check math_country_grade_areas.mjs
           node --check math_theorems_ui.mjs
           node --check education_country_ui.mjs
+          node --check tests_math_real_browser.mjs
       - name: Check country-by-year coverage and theorems
         run: |
           node tests_math_all_countries_2026.mjs
