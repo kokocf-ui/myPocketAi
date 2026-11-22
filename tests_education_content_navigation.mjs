@@ -8,6 +8,7 @@ import {EXAM_UI_SCRIPT} from './exam_ui.mjs';
 import {HG_SCHOOL_PLANS,hgSchoolChapters} from './education_school_paths.mjs';
 import {HG_LOCAL_GUIDES} from './education_hg_lessons.mjs';
 import {LIT_EU_COMMON,LIT_EU_PROGRAMS,litEuropeanPlan} from './literature_curriculum_europe.mjs';
+import {ROMANIAN_EXPANDED_COUNTS} from './literature_ro_expanded_years.mjs';
 import {EDUCATION_COUNTRY_UI_SCRIPT} from './education_country_ui.mjs';
 
 const computingGradeHelpers=COMPUTING_UI_SCRIPT.slice(
@@ -82,7 +83,8 @@ for(const country of ['RO','GB-ENG','FR','DE','IT','ES']){
  for(const [level,units] of Object.entries(profile.byLevel||{}))assert.ok(units.length>=10,country+' '+level+' literature too short');
  for(const [grade,units] of Object.entries(profile.byGrade||{})){
   if(country==='RO'){
-   assert.ok(units.length>=7&&units.length<=12,'Romanian pupil grade '+grade+' should show a focused, usable chapter list');
+   assert.equal(units.length,ROMANIAN_EXPANDED_COUNTS[grade],
+    'Romanian grade '+grade+' must expose its actual age-specific syllabus, not a fixed 12-topic cap');
    assert.ok(!units.some(x=>String(x[0]).startsWith('study-')),'Do not pad pupil programmes with advanced common topics');
   }else assert.ok(units.length>=10,country+' '+grade+' literature too short');
  }
