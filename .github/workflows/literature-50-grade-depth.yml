@@ -1,0 +1,31 @@
+name: Literature 50-country grade depth
+on:
+  pull_request:
+    paths:
+      - 'literature_*.mjs'
+      - 'tests_literature_*.mjs'
+      - 'education_all_country_subject_matrix.mjs'
+      - '.github/workflows/literature-50-grade-depth.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  grade-curriculum:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Syntax checks
+        run: |
+          node --check literature_curriculum_europe.mjs
+          node --check literature_europe_grade_expansion.mjs
+          node --check tests_literature_all_country_depth.mjs
+      - name: National coverage and existing literature regressions
+        run: |
+          node tests_literature_all_country_depth.mjs
+          node tests_literature_europe.mjs
+          node tests_literature_ro_grade_progression.mjs
+          node tests_seven_europe_literature.mjs
+          node tests_literature_completion.mjs
