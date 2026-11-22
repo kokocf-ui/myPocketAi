@@ -22,6 +22,12 @@ export const ASTRONOMY_EUROPE_FRAMEWORKS=Object.freeze({
   lower:{source:'https://hwb.gov.wales/curriculum-for-wales/areas-of-learning-and-experience/science-and-technology/designing-your-curriculum/',scope:'broad-progression-framework'},
   upper:{source:'https://hwb.gov.wales/curriculum-for-wales/areas-of-learning-and-experience/science-and-technology/designing-your-curriculum/',scope:'broad-progression-framework'}
  }),
+ IE:Object.freeze({lower:{source:'https://www.curriculumonline.ie/junior-cycle/junior-cycle-subjects/science/expectations-for-students-learning-outcomes/',scope:'national-three-year-junior-cycle'}}),
+ ES:Object.freeze({lower:{source:'https://www.boe.es/eli/es/rd/2022/03/29/217/con',scope:'national-ESO-minimum-regional-adaptation'}}),
+ FR:Object.freeze({
+  primary:{source:'https://eduscol.education.gouv.fr/6878/ressources-d-accompagnement-du-programme-de-sciences-et-technologie-au-cycle-3',scope:'legacy-cycle-3-CM2-2026'},
+  lower:{source:'https://eduscol.education.gouv.fr/6878/ressources-d-accompagnement-du-programme-de-sciences-et-technologie-au-cycle-3',scope:'legacy-cycle-3-6e-2026'}
+ }),
  'GB-NIR':Object.freeze({
   primary:{source:'https://www.education-ni.gov.uk/articles/statutory-curriculum',scope:'broad-current-curriculum'},
   lower:{source:'https://www.education-ni.gov.uk/articles/statutory-curriculum',scope:'broad-current-curriculum'}
@@ -80,6 +86,25 @@ export function astronomyCountryGradePlan({country='',stage='primary',grade='',y
    noteRo:'Nu există aici o mapare anuală verificată pentru Astronomie separată. La GCSE/A-level conținutul depinde de calificare, profil și exam board; lecțiile sunt de aprofundare.',
    noteEn:'No verified separate Astronomy year syllabus here. GCSE/A-level content depends on qualification and examination board; the app lessons are enrichment.'};
  }
+ if(code==='IE'&&level==='lower')return {...general,status:'integrated-framework',kind:'integrated',
+  source:base?.source||null,sourceScope:base?.scope||null,
+  programmeRo:'Junior Cycle Science · Earth and space',programmeEn:'Junior Cycle Science · Earth and space',
+  noteRo:'În Irlanda, Earth and space este domeniu în Științe la Junior Cycle, cu competențe pe întregul ciclu de trei ani. Nu există aici o repartizare oficială exactă pe anul 1, 2 sau 3.',
+  noteEn:'Ireland Junior Cycle Science includes Earth and space over the full three-year cycle; the source does not prescribe the app’s exact year-by-year order.'};
+ if(code==='ES'&&level==='lower')return {...general,status:'integrated-framework',kind:'integrated',
+  source:base?.source||null,sourceScope:base?.scope||null,
+  programmeRo:'ESO · Biología y Geología · La Tierra en el universo',
+  programmeEn:'ESO · Biology and Geology · Earth in the universe',
+  noteRo:'În Spania, cadrul minim ESO include originea Universului și a Sistemului Solar în Biología y Geología. Comunitatea autonomă și școala determină organizarea; nu atribuim o clasă exactă.',
+  noteEn:'Spain ESO minimum curriculum includes the origins of the Universe and Solar System within Biology and Geology. Autonomous communities determine details; no exact year mapping is asserted.'};
+ if(code==='FR'&&((level==='primary'&&year==='CM2')||(level==='lower'&&year==='6e')))
+  return {...general,status:'integrated-year-framework',kind:'integrated',
+   topicIds:['solar','sky','observations'],
+   source:base?.source||null,sourceScope:base?.scope||null,
+   programmeRo:'France · Sciences et technologie · Cycle 3 (programa 2023)',
+   programmeEn:'France · Science and technology · Cycle 3 (2023 programme)',
+   noteRo:'În anul 2026–2027, programa Cycle 3 din 2023 rămâne aplicabilă pentru CM2 și 6e. Temele Pământului și Sistemului Solar sunt integrate în Științe; ordinea fișelor aplicației nu este un manual oficial.',
+   noteEn:'The 2023 Cycle 3 science programme still applies to CM2 and 6e in 2026–27. Earth and Solar System are integrated in Science; app lessons are not an official textbook.'};
  if(code==='GB-SCT')return {...general,status:'integrated-framework',kind:'integrated',
   source:base?.source||null,sourceScope:base?.scope||null,offerVerified:false,
   programmeRo:'Curriculum for Excellence · Sciences',programmeEn:'Curriculum for Excellence · Sciences',
