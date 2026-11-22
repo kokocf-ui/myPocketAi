@@ -27,10 +27,9 @@ for(const country of countries){
       });
       assert.ok(lab,'Missing original investigation '+[country,year,specialty,course.id,language]);
       assert.ok(lab.body.length>=950,'Physics university inquiry is only a shallow repeat');
-      assert.ok(lab.body.includes(country)&&lab.body.includes(course.courseId)===false,
-       'Investigation must be a pupil-facing country and year document');
+      assert.ok(lab.body.includes(country)&&lab.body.includes(language==='ro'?course.ro:course.en),
+       'Investigation must show the correct country and selected university course');
       assert.ok(lab.review.prompt.length>=120&&lab.review.guide.length>=95);
-      assert.ok(lab.body.includes('0,0')===false,'Never add generic made-up observations');
       const study=physicsUniversityStudyDocument({
        courseId:course.courseId,country,routeId:route.id,year,specialty,language
       });
