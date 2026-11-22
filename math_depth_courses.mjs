@@ -1,5 +1,6 @@
 import {RO5_MATH_LESSONS} from './math_ro5_curriculum.mjs';
 import {RO678_MATH_LESSONS} from './math_ro678_curriculum.mjs';
+export {RO678_MATH_LESSONS};
 export {RO5_MATH_LESSONS};
 import {MATH_DEPTH_PRIMARY} from './math_depth_primary.mjs';
 import {MATH_DEPTH_PRIMARY_56} from './math_depth_primary_56.mjs';
