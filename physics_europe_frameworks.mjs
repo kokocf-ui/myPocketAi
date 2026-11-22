@@ -28,10 +28,16 @@ const refs=Object.freeze({
  SK:{source:'https://www.minedu.sk/46634-sk/konsolidovany-svp-pre-zakladne-vzdelavanie/',scope:'national-stage',name:'Fyzika · tretí cyklus (6.–9. ročník)',noLower:['5'],lowerEntry:'6',note:'Programul slovac actualizat organizează Științele în cicluri; în 5. ročník se studiază științe integrate, Fizica separată începe de regulă în 6. ročník; ordinea pe clase depinde de reforma aplicabilă cohortei.'},
  EE:{source:'https://www.riigiteataja.ee/et/akt/123122025007',scope:'national-stage',name:'Füüsika · põhikool III kooliaste',note:'Legislația confirmă Fizica în al treilea ciclu (clasele 7–9), dar repartizarea în clasele 8–9 depinde de programa școlii. Nu ascundem automat clasa 7 fără dovadă universală.'},
  TR:{source:'https://mufredat.meb.gov.tr/ProgramDetay.aspx?PID=2254',scope:'national-cohort-framework',name:'Fizik dersi · lise 9–12',integrated:['primary','lower'],note:'În 5–8 Fen Bilimleri integrează concepte fizice; Fizik separat este liceal. Türkiye Yüzyılı Maarif Modeli este introdus progresiv pe clase și cohortă în 2026–2027, nu este identic pentru toate cele patru clase.'},
+ AL:{source:'https://www.ascap.edu.al/wp-content/uploads/2025/11/Fizike-6.pdf',scope:'national-year',name:'Fizikë · klasa 6–9',lowerEntry:'6',note:'Agenția națională ASCAP a publicat Fizikë 6 (2025); începutul clasei VI este în învățământul secundar inferior albanez, nu clasa V primară. Clasele următoare trebuie corelate cu noua cohortă.'},
+ RS:{source:'https://door.prosveta.gov.rs/handle/123456789/1472',scope:'national-year',name:'Физика · VI–VIII разред',noLower:['5'],lowerEntry:'6',note:'Resursele Ministerului Educației Serbiei confirmă Fizica separată în clasa VI; clasa V nu reprezintă un an de Fizică separat. Programele se modifică pe cohorte, inclusiv în 2026.'},
+ ME:{source:'https://www.ucidoma.edu.me/predmet/7/FIZ',scope:'national-year',name:'Fizika · 7–9 razred',noLower:['6'],lowerEntry:'7',note:'Platforma educațională din Muntenegru are cursul Fizika în clasa VII; ghidurile și manualele aprobate vizează clasele VII–IX. Reforma curriculară 2026 poate afecta cohorte viitoare.'},
+ MK:{source:'https://mon.gov.mk/mk-MK/odnosi-so-javnost/soopstenija/mon-unapredena-e-koncepcijata-za-osnovno-obrazovanie-soglasno-sugestiite-na-nastavnicite-i-strucnata-javnost',scope:'national-cohort-framework',name:'Физика · VII–IX одделение',noLower:['6'],lowerEntry:'7',note:'Ministerul Macedoniei de Nord a reintrodus Fizica distinctă în clasele VII–IX, începând etapizat din 2025/26; pentru 2026/27 noile programe nu sunt identice pentru toate cohorte.'},
+ UA:{source:'https://mon.gov.ua/osvita-2/zagalna-serednya-osvita/osvitni-programi/modelni-navchalni-programi-dlya-5-9-klasiv-novoi-ukrainskoi-shkoli-zaprovadzhuyutsya-poetapno-z-2022-roku',scope:'national-cohort-framework',name:'Фізика · 7–9 класи',noLower:['5','6'],lowerEntry:'7',mixed:['lower'],note:'În reforma NUS, clasele 5–6 studiază Natură/Științe integrate, iar 7–9 pot studia Fizica distinctă sau un curs de Științe naturale integrat, în funcție de curriculumul școlii.'},
+ RU:{source:'https://edsoo.ru/wp-content/uploads/2025/07/2025_ooo_frp_fizika-7-9_baz.pdf',scope:'national-year',name:'Физика · 7–9 классы',noLower:['5','6'],lowerEntry:'7',note:'Programul federal de bază 2025 pentru Fizica 7–9 stabilește rezultate pe clase. Pentru 2026/27 se aplică modificările actuale și diferențierea nivel de bază/aprofundat.'},
  CY:{source:'https://www.moec.gov.cy/dme/en/gymnasium.html',scope:'national-stage',name:'Φυσική · Γυμνάσιο',note:'În Gymnasium sunt predate Științele fizice inclusiv Fizică; programa și secvența pe ani G1–G3 diferă de exemplul românesc. Liceul are profiluri și opțiuni.'},
  GR:{source:'https://www.minedu.gov.gr/protovathmia-defterovathmia/orologio-programma-gymnasiou',scope:'national-cohort-framework',name:'Φυσική · Γυμνάσιο',note:'Ministerul grec publică programul și instrucțiunile de predare pentru A/B/Γ Gymnasio, inclusiv 2026–27; filierele și calendarul de predare pot varia.'},
  IS:{source:'https://www.government.is/library/01-Ministries/Ministry-of-Education/Curriculum/adskr_grsk_ens_2012.pdf',scope:'national-stage',name:'Náttúrugreinar · natural sciences',integrated:['primary','lower'],note:'În învățământul obligatoriu islandez, fizica apare în domeniul interdisciplinar al științelor naturii; nu trebuie pretins un curs separat obligatoriu în fiecare clasă.'},
- LT:{source:'https://emokykla.lt/metodine-medziaga/medziaga/perziura/566',scope:'national-stage',name:'Fizika · pagrindinis ugdymas',note:'Materiale ministeriale pentru Fizică începând cu a VII-a și continuând în gimnaziu; distribuția anuală pe cohorta 2026/27 trebuie verificată înainte de o atribuire obligatorie.'},
+ LT:{source:'https://emokykla.lt/bendrosios-programos/vidurinis-ugdymas/12',scope:'national-stage',name:'Fizika · 7–10 klasės',noLower:['5','6'],lowerEntry:'7',mixed:['lower'],optionalUpper:['11','12'],note:'Conform programei naționale, în clasele 5–6 fizica este integrată în Gamtos mokslai; în 7–8 școlile aleg între curs integrat și discipline separate, în 9–10 Fizica este distinctă; în ultimii doi ani liceali poate fi opțională.'},
  LU:{source:'https://men.public.lu/fr/systeme-educatif/secondaire/apprentissages-evaluation/apprentissages.html',scope:'national-stage',name:'Sciences intégrées / physique-chimie',integrated:['primary','lower'],note:'În 7e și 6e, în special pe filiera clasică, conținutul fizicii intră în Științe naturale integrate; la 5e pot exista cursuri autonome fizică-chimie. Diferă după ESC/ESG și liceu.'},
  MT:{source:'https://curriculum.gov.mt/syllabi-years-9-10-11-new/',scope:'national-stage',name:'Physics · Years 9–11',integrated:['primary'],note:'Curriculumul maltez publică discipline de Physics și Science pentru Years 9–11; disponibilitatea separată depinde de ruta de studii și de clasă.'},
  NL:{source:'https://www.rijksoverheid.nl/documenten/vraag-en-antwoord/voortgezet-onderwijs/hoe-zit-het-vmbo-in-elkaar',scope:'national-stage',name:'Natuur- en scheikunde · onderbouw / natuurkunde',integrated:['primary'],mixed:['lower'],note:'În onderbouw vmbo, natuur- en scheikunde este combinată; Fizica distinctă depinde de nivelul și profilul de învățământ (vmbo, havo, vwo) și de ani.'},
@@ -50,6 +56,12 @@ export const PHYSICS_NOT_OFFERED_LOWER_YEARS=Object.freeze({
  BG:Object.freeze(['5','6']),
  SI:Object.freeze(['7']),
  SK:Object.freeze(['5']),
+ LT:Object.freeze(['5','6']),
+ RS:Object.freeze(['5']),
+ ME:Object.freeze(['6']),
+ MK:Object.freeze(['6']),
+ UA:Object.freeze(['5','6']),
+ RU:Object.freeze(['5','6']),
  HU:Object.freeze(['5','6']),
  PL:Object.freeze(['V','VI']),
  PT:Object.freeze(['5','6']),
@@ -82,6 +94,43 @@ const countryGroups=Object.freeze({
 const specialPlans={
  // National year headings where published guidance supports a strand,
  // not a claim that the entire year MUST be taught in this exact order.
+ RU:{lower:{
+  '7':['units','measurement','kinematics','dynamics','fluids','energy'],
+  '8':['heat','thermodynamics','electric','circuits','electromagnetism','optics'],
+  '9':['kinematics','dynamics','waves','optics','modern','energy']
+ }},
+ UA:{lower:{
+  '7':['units','measurement','kinematics','dynamics','energy'],
+  '8':['heat','electric','circuits','optics','energy'],
+  '9':['waves','optics','electromagnetism','modern','kinematics']
+ }},
+ RS:{lower:{
+  '6':['units','measurement','kinematics','dynamics','energy'],
+  '7':['fluids','heat','energy','dynamics','measurement'],
+  '8':['electric','circuits','optics','waves','electromagnetism']
+ }},
+ ME:{lower:{
+  '7':['units','measurement','kinematics','dynamics','energy'],
+  '8':['fluids','heat','dynamics','energy','measurement'],
+  '9':['electric','circuits','optics','waves','electromagnetism']
+ }},
+ MK:{lower:{
+  '7':['units','measurement','kinematics','energy','dynamics'],
+  '8':['electric','circuits','optics','energy','heat'],
+  '9':['waves','optics','electromagnetism','modern','kinematics']
+ }},
+ LT:{lower:{
+  '7':['units','measurement','kinematics','energy','waves'],
+  '8':['dynamics','heat','electric','circuits','optics'],
+  '9':['dynamics','energy','electromagnetism','waves','measurement'],
+  '10':['electric','circuits','optics','thermodynamics','modern']
+ }},
+ AL:{lower:{
+  '6':['units','measurement','kinematics','dynamics','energy'],
+  '7':['fluids','heat','energy','waves','measurement'],
+  '8':['electric','circuits','optics','electromagnetism','energy'],
+  '9':['waves','optics','thermodynamics','modern','electric']
+ }},
  HR:{lower:{
   '7':['units','kinematics','dynamics','energy','heat'],
   '8':['electric','circuits','waves','optics','electromagnetism']
