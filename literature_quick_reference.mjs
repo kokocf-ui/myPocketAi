@@ -218,7 +218,7 @@ const DICTIONARY_EN=[
 export const LIT_QUICK_DICTIONARY=Object.freeze({
  ro:Object.freeze(
  [...new Map([...LIT_EVERYDAY_WORDS_RO,...DICTIONARY_RO].map(row=>[
-  row[0].normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase(),row
+  row[0].trim().toLocaleLowerCase(),row
  ])).values()].map(x=>Object.freeze(x))
 ),
  en:Object.freeze(DICTIONARY_EN.map(x=>Object.freeze(x)))
@@ -347,7 +347,7 @@ export function literatureQuickSuggestions(prefix,language='ro',limit=12){
  const pool=[...LIT_QUICK_DICTIONARY[lang],...LIT_QUICK_GRAMMAR[lang].map(x=>[x[1],x[2],x[3]])];
  const hits=pool.filter(item=>literatureQuickNormal(item[0]).startsWith(needle));
  const dedup=new Map();
- for(const row of hits)if(!dedup.has(literatureQuickNormal(row[0])))dedup.set(literatureQuickNormal(row[0]),row[0]);
+ for(const row of hits){const exact=String(row[0]).toLocaleLowerCase();if(!dedup.has(exact))dedup.set(exact,row[0]);}
  return [...dedup.values()].sort((a,b)=>a.localeCompare(b,lang)).slice(0,Math.max(1,Math.min(30,limit)));
 }
 export function literatureQuickDefinition(word,language='ro'){
