@@ -7,6 +7,10 @@ export {RO5_MATH_LESSONS};
 import {MATH_DEPTH_PRIMARY} from './math_depth_primary.mjs';
 import {MATH_DEPTH_PRIMARY_56} from './math_depth_primary_56.mjs';
 import {MATH_DEPTH_PRIMARY_56_EXTRA} from './math_depth_primary_56_extra.mjs';
+import {MATH_PRIMARY_YEAR1_EXTRA} from './math_primary_year1_extra.mjs';
+import {MATH_PRIMARY_YEAR2_EXTRA} from './math_primary_year2_extra.mjs';
+import {MATH_PRIMARY_YEAR3_EXTRA} from './math_primary_year3_extra.mjs';
+import {MATH_PRIMARY_YEAR4_EXTRA} from './math_primary_year4_extra.mjs';
 import {MATH_PRIMARY_EXTENSION} from './math_depth_primary_extension.mjs';
 import {MATH_DEPTH_UPPER} from './math_depth_upper.mjs';
 import {MATH_DEPTH_UNIVERSITY} from './math_depth_university.mjs';
@@ -128,8 +132,11 @@ export const MATH_DEPTH_LOWER=[
  ]
  }
 ];
+const MATH_PRIMARY_14_EXTRA=[MATH_PRIMARY_YEAR1_EXTRA,MATH_PRIMARY_YEAR2_EXTRA,
+ MATH_PRIMARY_YEAR3_EXTRA,MATH_PRIMARY_YEAR4_EXTRA];
 const EXPANDED_PRIMARY=MATH_DEPTH_PRIMARY.map((phase,i)=>Object.fromEntries(
- Object.entries(phase).map(([topic,rows])=>[topic,[...rows,...(MATH_PRIMARY_EXTENSION[i]?.[topic]||[])]])));
+ Object.entries(phase).map(([topic,rows])=>[topic,[...rows,...(MATH_PRIMARY_EXTENSION[i]?.[topic]||[]),
+  ...(MATH_PRIMARY_14_EXTRA[i]?.[topic]||[])]])));
 const EXPANDED_LOWER=MATH_DEPTH_LOWER.map((phase,i)=>Object.fromEntries(
  Object.entries(phase).map(([topic,rows])=>[topic,[...rows,...(MATH_LOWER_EXTENSION[i]?.[topic]||[])]])));
 const EXPANDED_UPPER=MATH_DEPTH_UPPER.map((phase,i)=>{
