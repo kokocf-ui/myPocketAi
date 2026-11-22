@@ -78,6 +78,17 @@ try{
  assert.ok(grammar.initial?.includes('Predicat')||grammar.pinned?.includes('Predicat'),'Android grammar initially blank: '+JSON.stringify({grammar,exceptions,logs}));
  const typed=await js("(()=>{const i=document.querySelector('.lit-quick-input');i.value='predicat';i.dispatchEvent(new Event('input',{bubbles:true}));return {text:document.querySelector('.lit-quick-results')?.innerText,options:[...document.querySelectorAll('.lit-quick-option,.lit-quick-chip')].map(x=>x.textContent)}})()");
  assert.ok(typed.options.some(x=>x.includes('Predicat')),'Predicat filter returned no options: '+JSON.stringify({typed,exceptions,logs}));
+ const grammarMeaning=await js("(()=>{const o=[...document.querySelectorAll('.lit-quick-option')].find(x=>x.textContent.includes('Predicat'));o.click();return document.querySelector('.lit-quick-detail')?.innerText})()");
+ assert.match(grammarMeaning,/subiect/i,'Predicat must show a meaningful definition and example');
+ const abbreviation=await js("(()=>{const t=[...document.querySelectorAll('.lit-quick-tab')].find(x=>x.textContent.includes('Prescurtări'));t.click();const a=[...document.querySelectorAll('.lit-quick-option')].find(x=>x.textContent.startsWith('etc.'));a.click();return {shown:document.querySelector('.lit-quick-detail')?.innerText,groups:[...document.querySelectorAll('.lit-quick-group')].length}})()");
+ assert.match(abbreviation.shown,/celelalte/,'Abbreviation etc. definition must be selectable');
+ assert.ok(abbreviation.groups>=3,'Abbreviation groups must be browseable');
+ const unit=await js("(()=>{const t=[...document.querySelectorAll('.lit-quick-tab')].find(x=>x.textContent.includes('Unități'));t.click();const u=[...document.querySelectorAll('.lit-quick-option')].find(x=>x.textContent.startsWith('km ·'));u.click();return document.querySelector('.lit-quick-detail')?.innerText})()");
+ assert.match(unit,/Kilometru/,'Selecting km should display its unit definition');
+ const school=await js("(()=>{const c=document.querySelector('[data-lit-quick-overlay] .lit-quick-back');c.click();litJourney.country='RO';litJourney.level='medium';litJourney.grade='9';litJourney.branch='program';const p=litProgram();litJourney.topic=p.units[0].id;return {selected:litCurrentTopic()?.[0],title:litCurrentTopic()?.[1],offlineSource:romanianExpandedMaterial({topicKey:litCurrentTopic()?.[0],title:litCurrentTopic()?.[1],focus:litCurrentTopic()?.[3],grade:'9',mode:'lesson'})?.origin}})()");
+ assert.equal(school.offlineSource,'authored_ro_year_specific','Actual grade-IX selected topic must have an authored lesson');
+ assert.match(school.selected,/^ro-elev-9-/);
+
  console.log('PASS real Chromium: first screen, dictionary live prefix, grammar visible without typing and filtered predicate');
 }finally{
  try{ws?.close()}catch{}
