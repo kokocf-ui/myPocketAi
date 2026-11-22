@@ -259,7 +259,7 @@ const evidence=Object.freeze({
  ],
  ME:[
   {stage:'lower',grades:null,subject:'Fizika / Priroda',kind:'framework-only',
-   topicIds:null,sourceYear:2025,validFrom:null,
+   topicIds:null,sourceYear:null,validFrom:null,
    source:'https://www.gov.me/zzs/predmetni-programi',
    title:'Montenegro Institute for Education publishes subject curricula; exact astronomy-grade allocation not certified'}
  ],
@@ -365,9 +365,9 @@ const evidence=Object.freeze({
  ],
  BY:[
   {stage:'upper',grades:['11'],subject:'Астрономия – XI класс',kind:'standalone',
-   topicIds:null,sourceYear:2025,validFrom:'2025/26',
+   topicIds:null,sourceYear:null,validFrom:null,
    source:'https://adu.by/ru/homeru/obrazovatelnyj-protsess-2025-2026-uchebnyj-god/obshchee-srednee-obrazovanie',
-   title:'Belarus 2025 Grade XI Astronomy curriculum cited under Ministry of Education Resolution 132 of 29 July 2025; direct ministry portal grade details need further verification'}
+   title:'Belarus Grade XI Astronomy is listed in school study plans; direct validation of the ministerial programme adoption/version is still needed'}
  ],
  CY:[
   {stage:'primary',grades:null,subject:'Φυσικές επιστήμες – αναλυτικό πρόγραμμα',kind:'framework-only',
