@@ -32,7 +32,8 @@ assert.equal(astronomyNationalAlignment({country:'AD',stage:'lower',grade:'gener
  'Unreviewed does not equal absent curriculum');
 for(const [country,stage,grade,expected] of [
  ['RO','lower','5',['solar','sky']],['GB-ENG','primary','Y5',['solar','sky']],
- ['FR','primary','CM2',['solar','sky']],['PT','lower','7',['solar','sky','distances']]
+ ['FR','primary','CM2',['solar','sky']],['PT','lower','7',['solar','sky','distances']],
+ ['PL','lower','VI',['solar','sky']]
 ]){
  const years=educationCountrySchoolYears(country,stage==='primary'?'beginner':'lower').years;
  const plan=scienceGradeTopicPlan({country,stage,grade,years,subject:'astronomy',topics:ASTRONOMY_TOPICS});

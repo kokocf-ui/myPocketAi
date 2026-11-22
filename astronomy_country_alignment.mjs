@@ -20,7 +20,7 @@ const evidence=Object.freeze({
  'GB-SCT':[
   {stage:'primary',grades:null,subject:'Sciences – Planet Earth',kind:'integrated',
    topicIds:null,sourceYear:2010,validFrom:null,
-   source:'https://education.gov.scot/media/ds2avrw4/hwb24-ol-sciences.pdf',
+   source:'https://education.gov.scot/media/hpidflxa/sciences-eo.pdf',
    title:'Curriculum for Excellence sciences SCN 1–4; levels are not individual years'}
  ],
  'GB-WLS':[
@@ -44,10 +44,10 @@ const evidence=Object.freeze({
    title:'2023 cycle-3 programme RETAINED in 6e for 2026/27, replaced in 2027/28'}
  ],
  PL:[
-  {stage:'lower',grades:null,subject:'Geografia – Ruchy Ziemi',kind:'integrated',
-   topicIds:null,sourceYear:2024,validFrom:'2024/25',
+  {stage:'lower',grades:['VI'],subject:'Geografia – Ruchy Ziemi',kind:'integrated',
+   topicIds:['solar','sky'],sourceYear:2024,validFrom:'2024/25',
    source:'https://zpe.gov.pl/podstawa-programowa/szkola-podstawowa/geografia',
-   title:'School geography – movements of Earth and the solar system; exact school year not asserted'}
+   title:'Geography class VI: Earth in the Solar System, rotation and revolution'}
  ],
  ES:[
   {stage:'lower',grades:null,subject:'Biología y Geología / Ciencias',kind:'integrated',
@@ -57,9 +57,9 @@ const evidence=Object.freeze({
  ],
  PT:[
   {stage:'lower',grades:['7'],subject:'Físico-Química – Terra no Espaço',kind:'integrated',
-   topicIds:['solar','sky','distances'],sourceYear:2018,validFrom:'2018/19',
-   source:'https://www.dge.mec.pt/aprendizagens-essenciais-ensino-basico',
-   title:'Aprendizagens Essenciais, 7.º ano; earlier approved programme remains evidence'}
+   topicIds:['solar','sky','distances'],sourceYear:2026,validFrom:null,
+   source:'https://dge.mec.pt/sites/default/files/7_fisico_quimica.pdf',
+   title:'Aprendizagens Essenciais, Físico-Química 7.º ano, published March 2026; effective cohort not independently certified'}
  ],
  FI:[
   {stage:'primary',grades:null,subject:'Environmental studies',kind:'framework-only',

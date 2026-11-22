@@ -56,6 +56,11 @@ assert.deepEqual(ASTRONOMY_PLANETS.map(x=>x.id),['mercury','venus','earth','mars
 assert.ok(ASTRONOMY_PLANETS.every(x=>x.au>0&&x.factRo&&x.factEn));
 const diagram=visual.draw('solar');
 assert.equal(diagram.children.filter(x=>x.tag==='div'&&x.className==='astronomy-planet-facts').length,1);
+const solarSvg=diagram.children.find(x=>x.tag==='svg');
+const solarLabels=solarSvg.children.filter(x=>x.tag==='text').map(x=>x.textContent);
+for(const planet of ASTRONOMY_PLANETS)assert.ok(solarLabels.includes(planet.ro),'Missing visual planet label: '+planet.ro);
+const description=diagram.children.find(x=>x.tag==='p')?.textContent||'';
+assert.match(description,/NU sunt la scară/,'Scale disclaimer must remain visible');
 assert.equal(visual.kind('Paralaxa stelară','distances'),'parallax');
 assert.equal(visual.kind('Legea lui Kepler','gravity'),'orbit');
 console.log('PASS astronomy: 82 curated entries, 7 university tracks, guarded calculations, eight SVG diagrams and UI integration');

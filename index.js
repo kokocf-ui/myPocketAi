@@ -10854,6 +10854,8 @@ function astronomyOrbit3DOpen(){
    node('path',{d:path,stroke:'#7899b7','stroke-width':1,fill:'none'});
    const pos=project(radius*Math.cos(phase),radius*Math.sin(phase),0);
    node('circle',{cx:pos[0],cy:pos[1],r:planet.size*0.48+2,fill:planet.color});
+   node('text',{x:pos[0],y:pos[1]-11,'font-size':11,'text-anchor':'middle',fill:'#eaf8ff'}
+    ).textContent=String(i+1);
    if(planet.id==='saturn')
     node('ellipse',{cx:pos[0],cy:pos[1],rx:12,ry:4,fill:'none',
      stroke:'#f5d49a','stroke-width':2});
