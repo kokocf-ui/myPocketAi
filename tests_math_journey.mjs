@@ -28,8 +28,8 @@ const arithmetic1=vm.runInNewContext(source+
  "\n(mathJourney.topic='arithmetic',mathJourney.schoolStage='primary',mathJourney.grade='1',educationMathTheoryList())",
  {learningLabel:ro=>ro,educationCountrySelection:{code:'RO'},educationTheoryClean:value=>String(value||'').toLowerCase(),
   EDU_MATH_COUNTRY_YEARS:{'RO|beginner':Array.from({length:4},(_,i)=>({id:String(i+1)}))}});
-assert.ok(arithmetic1.length>=5,'Primary grade 1 starts with an interactive lesson library');
-assert.ok(arithmetic1.some(x=>x.title==='Adunarea')&&arithmetic1.some(x=>x.title==='Scăderea'));
+assert.ok(arithmetic1.length>=3,'Primary grade 1 starts with distinct original age-appropriate lessons');
+assert.ok(arithmetic1.some(x=>/Adunare/i.test(x.title))&&arithmetic1.some(x=>/Scădere/i.test(x.title)),'Grade I contains own addition and subtraction lessons');
 assert.ok(!arithmetic1.some(x=>/Pitagora|fracții|înmulțire/i.test(x.title)),'Do not show upper-grade theory in class I');
 assert.match(html,/#view-module\.learning-math\.math-choice-stage \.math-choice-list\{/,'Maths shows a two-column picture tile grid');
 assert.match(html,/\.math-choice-row \.math-tile-icon\{/,'Each maths tile has a drawing');
@@ -38,7 +38,8 @@ assert.ok(script.includes("if(key==='math'&&mathJourney.stage!=='workspace')"),'
 assert.ok(script.includes("mathJourneyShowChoices('chapters')"),'workspace back opens the chapter list');
 assert.ok(script.includes("mathJourney.stage='branches';mathJourney.level=null"),'learning reset clears the previous maths year');
 assert.ok(script.includes("mathJourney.topic=entry.id;mathJourney.chapter=null"),'branch is selected only after the school year');
-assert.ok(script.includes("mathJourney.chapter=entry.id;mathJourney.stage='workspace'"),'chapter opens the existing maths engine');
+assert.ok(script.includes('if(chapterLesson){mathOpenDepthLesson(chapterLesson);return;}'),'chapter opens its own lesson, not the common editor');
+assert.ok(script.includes('className=\'secondary-btn math-practice-entry\''),'one dedicated practice entry opens the maths engine');
 const stages=vm.runInNewContext(source+'\nMATH_SCHOOL_STAGES');
 assert.deepEqual(Array.from(stages,x=>x.id),['primary','lower','intermediate','advanced']);
 const bank=vm.runInNewContext(source+'\nMATH_CHAPTER_BANK');
