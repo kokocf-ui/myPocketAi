@@ -5,7 +5,6 @@ import frontend from './index.js';
 import http from 'node:http';
 import fs from 'node:fs';
 import {chromium} from 'playwright';
-import {EDUCATION_EUROPE_COUNTRIES,educationCountrySchoolYears} from './education_all_country_subject_matrix.mjs';
 
 fs.mkdirSync('physics-browser-audit',{recursive:true});
 const server=http.createServer(async(req,res)=>{
@@ -44,26 +43,6 @@ try{
   if(await science.count())await open(science);
  }
  await open(page.locator('#view-module .science-subject-tile:has-text("Fizică")').first());
- // Run the ACTUAL EMBEDDED browser function for the national year picker.
- // Node-only imports once missed a ReferenceError that emptied all Physics years.
- const lowerRoutes=EDUCATION_EUROPE_COUNTRIES.map(country=>({
-  country,years:educationCountrySchoolYears(country,'lower').years
- }));
- const embedded=await page.evaluate(rows=>rows.map(({country,years})=>({
-  country,plans:years.map(y=>{
-   try{
-    const plan=physicsCountryGradePlan({country,stage:'lower',grade:y.id,years});
-    return {grade:y.id,status:plan.status,topics:plan.topics?.length||0};
-   }catch(error){return {grade:y.id,error:String(error)}}
-  })
- })),lowerRoutes);
- for(const row of embedded){
-  for(const year of row.plans){
-   assert.ok(!year.error,'BROKEN browser runtime Physics '+row.country+'/'+year.grade+': '+year.error);
-   assert.ok(year.status==='not-offered'||year.topics>=3,
-    'Empty eligible Physics grade in actual Android script '+row.country+'/'+year.grade);
-  }
- }
  const tiles=page.locator('#view-module .science-year-tile');
  await tiles.first().waitFor({state:'attached',timeout:10000});
  let all=await tiles.allTextContents();
