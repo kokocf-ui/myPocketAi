@@ -87,11 +87,11 @@ export const MATH_UPPER_2026_ADDITIONS = [
     'Rezolvă (x−2)/(x+1)>0.','x∈(−∞,−1)∪(2,∞).']
   ],
   geometry:[
-   ['Circle equation in coordinates','Ecuația cercului în coordonate',
-    'Cercul cu centru C(a,b) și rază pozitivă r este mulțimea punctelor aflate la distanța r de centru. Forma sa carteziană se obține ridicând la pătrat formula distanței.',
-    '(x−a)²+(y−b)²=r²',
-    'Cercul de centru (1,−2) și rază 3 are ecuația (x−1)²+(y+2)²=9. Punctul (4,−2) o satisface, deci aparține cercului.',
-    'Scrie ecuația cercului de centru (0,0), rază 5.','x²+y²=25.']
+   ['Intersections of a circle with the x-axis','Intersecțiile cercului cu axa Ox',
+    'Pentru a afla intersecțiile unui cerc cu axa Ox, rezolvăm simultan ecuația cercului și condiția y=0. Rădăcinile reale ale ecuației obținute dau abscisele punctelor comune; fără rădăcini reale nu există intersecții.',
+    '(x−a)²+b²=r² atunci când y=0',
+    'Pentru cercul (x−1)²+(y+2)²=9, punem y=0 și obținem (x−1)²=5. Intersecțiile cu Ox sunt (1−√5,0) și (1+√5,0).',
+    'Determină intersecțiile cercului x²+y²=25 cu Ox.','(−5,0) și (5,0).']
   ],
   statistics:[
    ['Conditional probability in a table','Probabilități condiționate din tabel',
@@ -157,11 +157,11 @@ export const MATH_UPPER_2026_ADDITIONS = [
  },
  {
   analysis:[
-   ['Integration by parts','Integrarea prin părți',
-    'Integrarea prin părți rezultă din formula de derivare a produsului și permite mutarea derivatei de pe un factor pe altul. Alegem factorii astfel încât integrala rămasă să fie mai simplă.',
-    '∫u dv=uv−∫v du',
-    'Pentru ∫x eˣ dx alegem u=x, dv=eˣdx. Atunci du=dx, v=eˣ, deci rezultatul este xeˣ−eˣ+C.',
-    'Calculează ∫x cos x dx.','x sin x+cos x+C.'],
+   ['Substitution in composite integrals','Substituția în integralele funcțiilor compuse',
+    'Metoda substituției schimbă variabila de integrare pentru a recunoaște o primitivă a unei funcții compuse. Substituția este justificată când identificăm atât expresia interioară cât și derivata ei, inclusiv factorul numeric.',
+    '∫f(g(x))g′(x)dx=F(g(x))+C, dacă F′=f',
+    'În ∫2x cos(x²)dx alegem u=x², du=2x dx. Integrala devine ∫cos u du=sin u+C, deci sin(x²)+C.',
+    'Calculează ∫3x² e^(x³)dx.','e^(x³)+C.'],
    ['Definite integrals and accumulated change','Integrale definite și variație acumulată',
     'Integrala definită exprimă acumularea semnată a unei mărimi variabile. Dacă funcția este negativă pe un interval, contribuția sa este negativă; aria geometrică nu se confundă cu integrala semnată.',
     '∫ₐᵇ f(x)dx=F(b)−F(a), dacă F′=f',
