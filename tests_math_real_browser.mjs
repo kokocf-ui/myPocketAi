@@ -56,8 +56,12 @@ try{
   assert.ok(stageButtons.some(x=>x.includes(stage)),'Missing Maths school stage: '+stage);
  await page.locator('#math-theory-quick-reference').waitFor({state:'visible',timeout:10000});
  await click(page.locator('#math-theory-quick-reference'));
+ const theoremList=page.locator('#moduleContent .math-theory-scroll-list');
+ await theoremList.waitFor({state:'visible'});
+ const scroll=await theoremList.evaluate(el=>{el.scrollTop=el.scrollHeight;return {top:el.scrollTop,height:el.scrollHeight,client:el.clientHeight}});
+ assert.ok(scroll.height>scroll.client&&scroll.top>0,'Mathematics reference list must scroll by touch');
  await page.locator('#moduleContent input[type="search"]').fill('Pitagora');
- await click(page.locator('#moduleContent .math-choice-panel button').filter({hasText:'Pitagora'}).first());
+ await click(theoremList.locator('button').filter({hasText:'Pitagora'}).first());
  assert.ok((await page.locator('#moduleContent article').innerText()).includes('triunghi'));
  await click(page.locator('#moduleContent > button').first());
  await pickMathStage('Primar');
@@ -68,7 +72,11 @@ try{
  assert.ok(!branches.some(x=>x.includes('Algebră')),'Algebra branch must not appear in first primary year');
  await click(page.locator('#view-module .math-choice-row').filter({hasText:'Aritmetică'}).first());
  let chapters=await page.locator('#view-module .math-choice-row').count();
- assert.ok(chapters>=2&&chapters<=4,'First primary year must not show all higher-grade chapters');
+ assert.ok(chapters>=3&&chapters<=4,'First primary year must have distinct, age-appropriate lessons');
+ assert.equal(await page.locator('#view-module .math-choice-row').filter({hasText:'Teorie'}).count(),0,
+  'No duplicate Theory tile beside real chapters');
+ assert.equal(await page.locator('#view-module .math-practice-entry').count(),1,
+  'Exactly one exercise workspace entry per branch');
  assert.equal(await page.locator('#education-first-use-notice').count(),0,'First-use disclosure must not cover lesson tiles');
  await page.screenshot({path:'math-browser-audit/romanian-primary.png'});
  // Back via the actual Android-sized controls: chapter → branches → grades → stages.
@@ -89,13 +97,12 @@ try{
  assert.ok(!branches.some(x=>x.includes('Aritmetică')),'Romanian class V must not show standalone arithmetic');
  await click(page.locator('#view-module .math-choice-row').filter({hasText:'Algebră'}).first());
  const algebraChapterTitles=await page.locator('#view-module .math-choice-row strong').allTextContents();
- assert.ok(algebraChapterTitles.length>=6,'Class V Algebra must have at least five distinct detailed lessons, not one repeated chapter');
+ assert.ok(algebraChapterTitles.length>=5,'Class V Algebra must have at least five distinct detailed lessons, not one repeated chapter');
  assert.equal(new Set(algebraChapterTitles).size,algebraChapterTitles.length,'Algebra school-year chapter titles duplicated');
  await page.screenshot({path:'math-browser-audit/romanian-lower.png'});
  await click(page.locator('#view-module .math-choice-row').filter({hasText:'Numere naturale și valoarea pozițională'}).first());
- await page.locator('#mathEducationWorkspace').waitFor({state:'attached',timeout:10000});
- const study=page.locator('#moduleContent button').filter({hasText:'Studiază lecția și exemplele'}).first();
- await click(study);
+ assert.equal(await page.locator('#mathEducationWorkspace').count(),0,
+  'Chapter must open its own lesson rather than the shared editor');
  const reader=page.locator('#educationPagedLessonDialog');
  await reader.waitFor({state:'visible',timeout:10000});
  const lessonText=await reader.innerText();
@@ -103,6 +110,8 @@ try{
   'Opening a chapter must show its full explanation, worked example and practice');
  assert.ok(lessonText.length>400,'Class V maths lesson is too short');
  await click(reader.locator('.education-theory-head button').first());
+ await click(page.locator('#view-module .math-practice-entry'));
+ await page.locator('#mathEducationWorkspace').waitFor({state:'attached',timeout:10000});
  await click(page.locator('#view-module .math-workspace-back').first());
  await click(page.locator('#view-module .math-stage-back').first());
  await click(page.locator('#view-module .math-stage-back').first());
@@ -132,11 +141,11 @@ try{
  assert.ok(universityBranches.some(x=>x.includes('Algebră liniară')),'University linear algebra branch unavailable');
  await click(page.locator('#view-module .math-choice-row').filter({hasText:'Analiză matematică'}).first());
  const universityLessons=await page.locator('#view-module .math-choice-list .math-choice-row strong').allTextContents();
- assert.ok(universityLessons.length>=4,'University analysis needs multiple distinct complete lessons');
+ assert.ok(universityLessons.length>=3,'University analysis needs multiple distinct complete lessons');
  await page.screenshot({path:'math-browser-audit/england-university.png'});
  await click(page.locator('#view-module .math-choice-row').filter({hasText:'Secvențe numerice și limita lor'}).first());
- await page.locator('#mathEducationWorkspace').waitFor({state:'attached',timeout:10000});
- await click(page.locator('#moduleContent button').filter({hasText:'Studiază lecția și exemplele'}).first());
+ assert.equal(await page.locator('#mathEducationWorkspace').count(),0,
+  'University chapters must open lessons, not a generic problem workspace');
  await page.locator('#educationPagedLessonDialog').waitFor({state:'visible',timeout:10000});
  assert.match(await page.locator('#educationPagedLessonDialog').innerText(),/convergență|Convergență|limita/i,
   'University Year 1 analysis must contain the actual lesson, not a placeholder');
