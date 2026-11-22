@@ -33,6 +33,19 @@ function mathTheoryQuickReference(){
  query.placeholder=eduUiLabel('Caută o lege, teoremă sau definiție','Search laws, theorems and definitions');
  query.setAttribute('aria-label',query.placeholder);
  query.style.cssText='min-height:46px;width:100%;box-sizing:border-box;font-size:16px;';
+ const topics={geometry:['Geometrie','Geometry'],algebra:['Algebră','Algebra'],
+  arithmetic:['Aritmetică','Arithmetic'],trigonometry:['Trigonometrie','Trigonometry'],
+  functions:['Funcții','Functions'],measurement:['Măsurători','Measurement'],
+  statistics:['Statistică și probabilități','Statistics and probability'],
+  'linear-algebra':['Algebră liniară','Linear algebra'],analysis:['Analiză matematică','Mathematical analysis'],
+  differential:['Ecuații diferențiale','Differential equations'],
+  discrete:['Matematică discretă','Discrete mathematics']};
+ const group=document.createElement('select');group.style.cssText='min-height:44px;width:100%;font-size:16px;';
+ const all=document.createElement('option');all.value='';all.textContent=eduUiLabel('Toate ramurile','All branches');group.append(all);
+ for(const topic of [...new Set(MATH_THEOREM_ITEMS.map(x=>x.topic))].sort()){
+  const option=document.createElement('option');option.value=topic;
+  option.textContent=eduUiLabel(...(topics[topic]||[topic,topic]));group.append(option);
+ }
  const options=document.createElement('div');options.style.cssText='display:flex;flex-direction:column;gap:6px;';
  const details=document.createElement('article');details.style.cssText='overflow-wrap:anywhere;line-height:1.6;padding:8px;';
  function normalize(v){return String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();}
@@ -46,22 +59,39 @@ function mathTheoryQuickReference(){
    formula.textContent=item.formula;details.append(formula)}
   details.scrollIntoView({block:'nearest'});
  }
+ let page=0;
  function draw(){
   options.replaceChildren();
-  const term=normalize(query.value).trim();
-  const entries=MATH_THEOREM_ITEMS.filter(x=>!term||normalize([x.title,...x.aliases,x.statement].join(' ')).includes(term));
-  for(const item of entries.slice(0,40)){
+  const term=normalize(query.value).trim(),section=group.value;
+  const entries=MATH_THEOREM_ITEMS.filter(x=>
+   (!section||x.topic===section)&&
+   (!term||normalize([x.title,...x.aliases,x.statement].join(' ')).includes(term)))
+   .sort((a,b)=>a.title.localeCompare(b.title,'ro'));
+  const pages=Math.max(1,Math.ceil(entries.length/24));
+  page=Math.min(page,pages-1);
+  for(const item of entries.slice(page*24,(page+1)*24)){
    const btn=document.createElement('button');btn.type='button';
    btn.className='secondary-btn';btn.textContent=item.title;
    btn.style.cssText='width:100%;text-align:left;min-height:42px;white-space:normal;';
    btn.onclick=()=>openItem(item);options.append(btn);
   }
-  if(entries.length>40){const info=document.createElement('p');
-   info.textContent=eduUiLabel('Rafinează căutarea pentru mai multe rezultate.','Refine the search for more results.');
-   options.append(info)}
+  if(!entries.length){const empty=document.createElement('p');
+   empty.textContent=eduUiLabel('Nu există rezultate.','No matching entries.');options.append(empty);}
+  if(pages>1){
+   const nav=document.createElement('div');nav.style.cssText='display:flex;gap:8px;justify-content:space-between;align-items:center;';
+   const prev=document.createElement('button');prev.type='button';prev.className='secondary-btn';
+   prev.textContent=eduUiLabel('← Anterior','← Previous');prev.disabled=page===0;
+   prev.onclick=()=>{page--;details.replaceChildren();draw()};
+   const count=document.createElement('span');count.textContent=(page+1)+' / '+pages;
+   const next=document.createElement('button');next.type='button';next.className='secondary-btn';
+   next.textContent=eduUiLabel('Următor →','Next →');next.disabled=page+1>=pages;
+   next.onclick=()=>{page++;details.replaceChildren();draw()};
+   nav.append(prev,count,next);options.append(nav);
+  }
  }
- query.addEventListener('input',draw);
- panel.append(title,note,query,options,details);
+ query.addEventListener('input',()=>{page=0;details.replaceChildren();draw()});
+ group.addEventListener('change',()=>{page=0;details.replaceChildren();draw()});
+ panel.append(title,note,query,group,options,details);
  host.replaceChildren(back,panel);
  if(root)root.classList.add('learning-math');
  draw();
