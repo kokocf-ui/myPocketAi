@@ -266,8 +266,8 @@ function eduYearOptions(code,level,moduleKey){
  const rows=eduYearOptionsUnfiltered(code,level,moduleKey);
  if(moduleKey!=='science'||typeof scienceJourney==='undefined')return rows;
  const subject=String(scienceJourney.subject||'');
- const absent=subject==='physics'?EDU_PHYSICS_ABSENT_YEAR_KEYS:
-  subject==='chemistry'?EDU_CHEMISTRY_ABSENT_YEAR_KEYS:null;
+ const absent=subject==='physics'&&typeof EDU_PHYSICS_ABSENT_YEAR_KEYS!=='undefined'?EDU_PHYSICS_ABSENT_YEAR_KEYS:
+  subject==='chemistry'&&typeof EDU_CHEMISTRY_ABSENT_YEAR_KEYS!=='undefined'?EDU_CHEMISTRY_ABSENT_YEAR_KEYS:null;
  if(!absent)return rows;
  const stage=level==='intermediate'?'medium':level;
  return rows.filter(row=>!absent.has(
