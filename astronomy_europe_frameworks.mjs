@@ -354,7 +354,16 @@ export function astronomyCountryGradePlan({country='',stage='primary',grade='',y
   noteEn:'Serbia Year 4 specialised Physics gymnasium explicitly includes Foundations of Astrophysics and Astronomy. It must NOT be shown as a compulsory subject in all upper-secondary schools.'};
  if(code==='IT'&&['primary','lower'].includes(level))return {...general,
   status:(level==='primary'&&year==='P1'||level==='lower'&&year==='M1')?'new-national-framework-2026':'legacy-national-framework-2012',
-  kind:'integrated',source:base?.source||null,sourceScope:base?.scope||null,
+  kind:'integrated',
+  source:(level==='primary'&&year==='P1'||level==='lower'&&year==='M1')?
+   base?.source||null:'https://www.gazzettaufficiale.it/eli/id/2013/02/05/13G00034/sq',
+  sourceScope:(level==='primary'&&year==='P1'||level==='lower'&&year==='M1')?
+   'new-framework-first-intake-2026':'older-2012-framework-still-applies-to-continuing-cohorts',
+  edition:(level==='primary'&&year==='P1'||level==='lower'&&year==='M1')?
+   'D.M. 221/2025':'D.M. 254/2012',
+  validity:(level==='primary'&&year==='P1'||level==='lower'&&year==='M1')?
+   'new-cohort':'legacy-still-applicable-under-transitional-law',
+  replacementSource:base?.source||null,
   programmeRo:(level==='primary'&&year==='P1'||level==='lower'&&year==='M1')?
    'Indicazioni nazionali 2025 · aplicate în 2026/27 pentru primul an':
    'Indicazioni nazionali 2012 · generații începute înainte de 2026/27',
