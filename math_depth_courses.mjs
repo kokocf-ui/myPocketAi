@@ -13,6 +13,7 @@ import {MATH_UNIVERSITY_EXTENSION} from './math_depth_university_extension.mjs';
 import {MATH_LOWER_EXTENSION} from './math_depth_lower_extension.mjs';
 import {MATH_UPPER_EXTENSION} from './math_depth_upper_extension.mjs';
 import {MATH_UPPER_2026_ADDITIONS} from './math_depth_upper_2026_additions.mjs';
+import {englandKS4CardRows,englandKS4ExcludedTitles} from './math_england_ks4_curriculum.mjs';
 import {MATH_UNIVERSITY_2026_ADDITIONS} from './math_depth_university_2026_additions.mjs';
 // Mathematics learning cards: authored, age-progressive explanations and worked
 // problems. These are *general European learning aids*, not certified copies
@@ -166,6 +167,12 @@ export function mathInDepthEntries({stage,phase,topic}={}){
 // Grade-specific source-mapped course entries take precedence over the shared
 // advisory European sequence. Do not label generic lessons as national courses.
 export function mathCountryCourseEntries({country,stage,grade,phase,topic}={}){
+ if(String(country||'').toUpperCase()==='GB-ENG'&&stage==='intermediate'&&['Y10','Y11'].includes(String(grade))){
+  const g=String(grade),excluded=englandKS4ExcludedTitles(g);
+  const standard=mathInDepthEntries({stage,phase:g==='Y10'?1:2,topic})
+   .filter(entry=>!excluded.has(entry.title));
+  return [...standard,...englandKS4CardRows(g,topic)];
+ }
  if(String(country||'').toUpperCase()==='GB-ENG'&&String(grade)==='Y6'&&stage==='primary')
   return [...mathInDepthEntries({stage,phase:6,topic}),
     ...ENGLAND_Y6_MATH_LESSONS.filter(item=>item.topic===topic)];
@@ -193,6 +200,8 @@ export function mathInDepthMaterial(entry){
   ?'Clasa a '+entry.grade+'-a, România. Lecție originală corelată cu temele din programa MEN 3393/2017 și cuprinsuri de manuale școlare. Inventarul clasei rămâne în revizie pedagogică; nu reprezintă certificarea unui curs anual complet.'
   :entry.country==='GB-ENG'&&entry.grade==='Y6'&&entry.sourceStatus==='official-topic-reviewed'
   ?'England Year 6. Lecție originală corelată cu obiectivele statutare DfE. Material suplimentar, nu un curs anual complet.'
+  :entry.country==='GB-ENG'&&['Y10','Y11'].includes(String(entry.grade))&&entry.sourceStatus==='official-topic-reviewed'
+  ?'Anglia, Key Stage 4 (GCSE). Lecție originală corelată cu teme din cadrul DfE. Distribuirea între Year 10 și Year 11 este orientativă; acoperirea integrală și aprobarea pedagogică nu au fost confirmate.'
   :'Material orientativ de învățare; repartizarea oficială diferă după țară, instituție și an școlar.'
  ].join('\n\n');
 }
