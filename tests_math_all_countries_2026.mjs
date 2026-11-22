@@ -5,10 +5,10 @@ import {EDUCATION_EUROPE_COUNTRIES,educationCountrySchoolYears,educationSubjectS
  from './education_all_country_subject_matrix.mjs';
 import {mathCountryGradeAreas} from './math_country_grade_areas.mjs';
 const html=await(await frontend.fetch(new Request('https://math-all-countries.test/'))).text();
-const script=[...html.matchAll(/<script[^>]*>([\\s\\S]*?)<\\/script>/g)][0]?.[1];
+const script=[...html.matchAll(/<script[^>]*>([\s\S]*?)<\/script>/g)][0]?.[1];
 assert.ok(script,'Android frontend must contain inline JavaScript');
 assert.doesNotThrow(()=>new vm.Script(script),'Android inline JavaScript must parse');
-const bankText=script.split('const MATH_CHAPTER_BANK=')[1]?.split(';\\n')[0];
+const bankText=script.split('const MATH_CHAPTER_BANK=')[1]?.split(';\n')[0];
 assert.ok(bankText,'The existing mathematics lesson bank must be available');
 const bank=JSON.parse(bankText);
 assert.ok(script.includes('const EDU_MATH_COUNTRY_YEARS='));
