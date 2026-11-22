@@ -136,6 +136,8 @@ button.pocket-nav-return:focus-visible{outline:3px solid #ffd6e0!important;outli
 /* Global navigation contract: Home is available in the bottom dock,
    so never make a second top Home sit where people expect Back. Keep
    the original click handler on the extracted Back and pin it right. */
+#view-module.learning-active .module-actions-row.pocket-inline-nav > button.module-home-btn,
+#view-module.my-documents-active .module-actions-row.pocket-docs-nav > button.module-home-btn,
 #view-module .module-actions-row > button.module-home-btn{
  display:none!important;
 }
