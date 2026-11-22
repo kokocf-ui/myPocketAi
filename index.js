@@ -26,7 +26,7 @@ import {PRACTICAL_UI_SCRIPT} from './practical_ui.mjs';
 import {EDUCATION_SELECTS_UI_SCRIPT} from './education_selects_ui.mjs';
 import {EDUCATION_SCOPE_UI_SCRIPT} from './education_scope_ui.mjs';
 import {EDUCATION_COUNTRY_UI_SCRIPT} from './education_country_ui.mjs';
-import {MATH_DEPTH_STAGES, MATH_DEPTH_EN_LOWER, MATH_DEPTH_EN_UNIVERSITY, mathInDepthEntries, mathInDepthMaterial} from './math_depth_courses.mjs';
+import {MATH_DEPTH_STAGES, MATH_DEPTH_EN_LOWER, MATH_DEPTH_EN_UNIVERSITY, RO5_MATH_LESSONS, mathInDepthEntries, mathInDepthMaterial,mathCountryCourseEntries} from './math_depth_courses.mjs';
 import {EDUCATION_FIRST_USE_NOTICE_SCRIPT} from './education_first_use_notice.mjs';
 import {POCKET_LANGUAGES,POCKET_COUNTRY_LANGUAGES,pocketLanguageFromLocale,pocketLanguageFromCountry,pocketPreferredLanguage} from './language_first_install.mjs';
 import {EUROPEAN_UI_LOCALES} from './european_app_locales.mjs';
@@ -8793,7 +8793,9 @@ const MATH_STAGE_ICONS={primary:'🎒',lower:'📚',intermediate:'🎓',advanced
 const MATH_DEPTH_STAGES=${JSON.stringify(MATH_DEPTH_STAGES)};
 const MATH_DEPTH_EN_LOWER=${JSON.stringify(MATH_DEPTH_EN_LOWER)};
 const MATH_DEPTH_EN_UNIVERSITY=${JSON.stringify(MATH_DEPTH_EN_UNIVERSITY)};
+const RO5_MATH_LESSONS=${JSON.stringify(RO5_MATH_LESSONS)};
 ${mathInDepthEntries.toString()}
+${mathCountryCourseEntries.toString()}
 ${mathInDepthMaterial.toString()}
 const MATH_PRIMARY_THEORY_LESSONS=[{"topic":"arithmetic","minGrade":1,"title":"Numere naturale și numărare","statement":"Numerele naturale ne ajută să numărăm obiecte și să indicăm ordinea lor. Cifrele 0–9 se combină pentru a scrie numere; începem de la unități și zeci.","formula":"0, 1, 2, 3, 4, 5 …","id":"primary-math-1","subject":"math","level":"beginner","aliases":[]},{"topic":"arithmetic","minGrade":1,"title":"Zeci și unități","statement":"Poziția unei cifre arată valoarea ei. În numărul 24 avem două zeci și patru unități. Împărțim numerele în zeci și unități ca să le citim și să calculăm mai ușor.","formula":"24 = 20 + 4","id":"primary-math-2","subject":"math","level":"beginner","aliases":[]},{"topic":"arithmetic","minGrade":1,"title":"Compararea numerelor","statement":"Pentru a compara două numere verificăm mai întâi câte zeci sau sute au, apoi unitățile. Folosim semnele «mai mic», «mai mare» și «egal».","formula":"7 < 9, 12 > 8, 5 = 5","id":"primary-math-3","subject":"math","level":"beginner","aliases":[]},{"topic":"arithmetic","minGrade":1,"title":"Adunarea","statement":"Adunarea arată câte elemente avem împreună. Putem număra obiecte, putem desena sau putem folosi o axă numerică. Rezultatul se numește sumă.","formula":"2 + 3 = 5","id":"primary-math-4","subject":"math","level":"beginner","aliases":[]},{"topic":"arithmetic","minGrade":1,"title":"Scăderea","statement":"Scăderea arată câte elemente rămân când luăm o parte dintr-o mulțime. Rezultatul se numește diferență. Verificăm prin adunare.","formula":"7 − 3 = 4; 4 + 3 = 7","id":"primary-math-5","subject":"math","level":"beginner","aliases":[]},{"topic":"arithmetic","minGrade":1,"title":"Probleme cu o operație","statement":"Citim cerința, identificăm ce știm și ce trebuie să aflăm, alegem operația, calculăm și formulăm răspunsul în cuvinte. Nu ghicim operația numai după un cuvânt.","formula":"3 mere + 2 mere = 5 mere","id":"primary-math-6","subject":"math","level":"beginner","aliases":[]},{"topic":"arithmetic","minGrade":2,"title":"Înmulțirea","statement":"Înmulțirea este o formă rapidă de a aduna grupe egale. Primul factor arată mărimea grupei, iar celălalt numărul grupelor.","formula":"3 + 3 + 3 = 3 × 3 = 9","id":"primary-math-7","subject":"math","level":"beginner","aliases":[]},{"topic":"arithmetic","minGrade":2,"title":"Împărțirea","statement":"Împărțirea repartizează obiecte în grupe egale sau arată de câte ori încape un număr în altul. O verificăm prin înmulțire.","formula":"12 : 3 = 4; 4 × 3 = 12","id":"primary-math-8","subject":"math","level":"beginner","aliases":[]},{"topic":"arithmetic","minGrade":2,"title":"Proprietăți ale adunării","statement":"La adunare putem schimba ordinea termenilor fără să schimbăm suma. Putem și grupa termenii în moduri diferite, obținând același rezultat.","formula":"3 + 5 = 5 + 3","id":"primary-math-9","subject":"math","level":"beginner","aliases":[]},{"topic":"arithmetic","minGrade":3,"title":"Ordinea operațiilor","statement":"În expresii cu mai multe operații efectuăm întâi calculele din paranteze, apoi înmulțirile și împărțirile, apoi adunările și scăderile. Operațiile de același rang se fac de la stânga la dreapta.","formula":"2 + 3 × 4 = 14","id":"primary-math-10","subject":"math","level":"beginner","aliases":[]},{"topic":"arithmetic","minGrade":3,"title":"Fracții simple","statement":"O fracție descrie părți egale dintr-un întreg. Numitorul arată în câte părți egale a fost împărțit întregul, iar numărătorul câte părți luăm.","formula":"1/2 = o jumătate; 1/4 = un sfert","id":"primary-math-11","subject":"math","level":"beginner","aliases":[]},{"topic":"arithmetic","minGrade":4,"title":"Probleme cu mai multe operații","statement":"La problemele mai lungi facem un plan: calculăm ce este necesar mai întâi, păstrăm unitățile de măsură și verificăm rezultatul în contextul întrebării.","formula":"(5 + 3) × 2 = 16","id":"primary-math-12","subject":"math","level":"beginner","aliases":[]},{"topic":"geometry","minGrade":1,"title":"Figuri geometrice plane","statement":"Recunoaștem cercul, triunghiul, pătratul și dreptunghiul după forma lor. Pătratul are patru laturi egale, iar triunghiul are trei laturi.","formula":"△  □  ○","id":"primary-math-13","subject":"math","level":"beginner","aliases":[]},{"topic":"geometry","minGrade":1,"title":"Corpuri geometrice simple","statement":"Cubul, sfera, cilindrul și conul sunt corpuri în spațiu. Le recunoaștem în obiecte și observăm fețele, muchiile sau suprafețele lor.","formula":"cub · sferă · cilindru · con","id":"primary-math-14","subject":"math","level":"beginner","aliases":[]},{"topic":"geometry","minGrade":2,"title":"Linii și segmente","statement":"Un segment unește două puncte și are o lungime măsurabilă. Distingem liniile drepte de cele curbe și învățăm să folosim rigla.","formula":"Segmentul AB","id":"primary-math-15","subject":"math","level":"beginner","aliases":[]},{"topic":"geometry","minGrade":3,"title":"Perimetrul pătratului","statement":"Perimetrul este lungimea totală a conturului. Un pătrat are patru laturi egale: adunăm lungimile tuturor celor patru laturi.","formula":"P = 4 × l","id":"primary-math-16","subject":"math","level":"beginner","aliases":[]},{"topic":"geometry","minGrade":3,"title":"Perimetrul dreptunghiului","statement":"Dreptunghiul are laturile opuse egale. Perimetrul este suma celor patru laturi.","formula":"P = 2 × (L + l)","id":"primary-math-17","subject":"math","level":"beginner","aliases":[]},{"topic":"algebra","minGrade":1,"title":"Numărul necunoscut","statement":"Uneori într-un exercițiu lipsește un număr. Îl aflăm prin încercare logică sau prin operația inversă, păstrând egalitatea adevărată.","formula":"□ + 3 = 7 ⇒ □ = 4","id":"primary-math-18","subject":"math","level":"beginner","aliases":[]},{"topic":"algebra","minGrade":3,"title":"Șiruri și reguli de calcul","statement":"Un șir urmează o regulă. Observăm diferența sau modelul dintre termeni și continuăm respectând aceeași regulă.","formula":"2, 4, 6, 8, …","id":"primary-math-19","subject":"math","level":"beginner","aliases":[]},{"topic":"measurement","minGrade":1,"title":"Lungimi și măsurarea cu rigla","statement":"Pentru a măsura un segment punem originea riglei la începutul lui și citim unde se termină. Folosim centimetri și metri în funcție de lungime.","formula":"1 m = 100 cm","id":"primary-math-20","subject":"math","level":"beginner","aliases":[]},{"topic":"measurement","minGrade":2,"title":"Timpul: ore și minute","statement":"Un ceas ne ajută să citim orele și minutele. O oră are 60 de minute, iar o zi are 24 de ore.","formula":"1 h = 60 min","id":"primary-math-21","subject":"math","level":"beginner","aliases":[]},{"topic":"measurement","minGrade":3,"title":"Masa și capacitatea","statement":"Pentru masă folosim grame și kilograme. Pentru lichide folosim litri și mililitri. Alegem unitatea potrivită obiectului măsurat.","formula":"1 kg = 1000 g; 1 l = 1000 ml","id":"primary-math-22","subject":"math","level":"beginner","aliases":[]},{"topic":"statistics","minGrade":1,"title":"Gruparea și numărarea datelor","statement":"Strângem observații, le ordonăm după o regulă și numărăm de câte ori apare fiecare categorie. Putem face un tabel simplu.","formula":"Mere: 4; Pere: 2","id":"primary-math-23","subject":"math","level":"beginner","aliases":[]},{"topic":"statistics","minGrade":3,"title":"Tabele și diagrame","statement":"Un tabel pune datele pe rânduri și coloane, iar o diagramă cu bare ne ajută să comparăm cantități. Citiți mereu titlul și unitățile.","formula":"Bara mai înaltă = cantitate mai mare","id":"primary-math-24","subject":"math","level":"beginner","aliases":[]}];
 function mathStudyStagesForTopic(topic){
@@ -8807,7 +8809,7 @@ function educationMathTheoryList(query=''){
  const year=mathYearPosition().year4;
  const order={beginner:0,intermediate:1,medium:1,advanced:2};
  const max=stage==='advanced'?2:stage==='intermediate'?1:0;
- const course=mathInDepthEntries({stage,phase:year,topic});
+ const course=mathSelectedYearLessons(topic);
  let available=course.length?course:
   EDUCATION_THEORY_DATA.filter(x=>x.subject==='math'&&x.topic===topic&&order[x.level]<=max);
  // Do not teach class-V/Vl geometry as a class-VII demonstration syllabus.
@@ -8857,8 +8859,8 @@ function mathChaptersForSelection(){
  const topic=String(mathJourney.topic||''),stage=String(mathJourney.schoolStage||'');
  const base=MATH_CHAPTER_BANK[topic]?.[stage]||[];
  const phase=mathYearPosition().year4;
- const course=mathInDepthEntries({stage,phase,topic});
- if(course.length)return course.map(x=>({id:x.id,ro:x.title,en:x.enTitle||x.title,depth:true}));
+ const course=mathSelectedYearLessons(topic);
+ if(course.length)return course.map(x=>({id:x.id,ro:x.title,en:x.enTitle||x.title,depth:true,unit:x.unit||null}));
  // Use the relative year within the *selected country's stage*, not a
  // Romanian class number extracted from another country's year identifier.
  if(!phase)return base;
@@ -12757,6 +12759,14 @@ function mathClearWorkspaceHeader(){
  root?.classList.remove('math-workspace-header');
  root?.querySelectorAll('.math-workspace-title,.math-workspace-back').forEach(node=>node.remove());
 }
+function mathSelectedYearLessons(topic){
+ return mathCountryCourseEntries({
+  country:String(educationCountrySelection.code||''),
+  grade:String(mathJourney.grade||''),
+  stage:String(mathJourney.schoolStage||''),
+  phase:mathYearPosition().year4,topic:String(topic||'')
+ });
+}
 function mathYearTopics(){
  const country=String(educationCountrySelection.code||'');
  const stage=mathJourney.schoolStage==='primary'?'beginner':
@@ -12808,7 +12818,7 @@ function mathJourneyShowChoices(stage){
  const title=document.createElement('h2');
  title.textContent=stage==='stages'?learningLabel('Alege etapa de studiu','Choose your study stage'):
   stage==='branches'?learningLabel('Alege ramura matematicii','Choose a mathematics branch'):
-  learningLabel('Alege capitolul','Choose a chapter');
+  learningLabel('Alege lecția','Choose a lesson');
  const note=document.createElement('p');
  const topic=MATH_TOPICS.find(x=>x.id===mathJourney.topic);
  note.textContent=stage==='stages'
@@ -12819,6 +12829,7 @@ function mathJourneyShowChoices(stage){
    (mathJourney.grade||'')+' · '+learningLabel(topic?.ro||'',topic?.en||'');
  const items=document.createElement('div');items.className='math-choice-list';
  const lessonHeadings=[];
+ let shownUnit='';
  const candidates=stage==='stages'?MATH_SCHOOL_STAGES:
   stage==='branches'?mathYearTopics():
   mathChaptersForSelection();
@@ -12828,6 +12839,14 @@ function mathJourneyShowChoices(stage){
   items.append(empty);
  }
  for(const entry of candidates){
+  if(stage==='chapters'&&entry.unit&&entry.unit!==shownUnit){
+   shownUnit=entry.unit;
+   const subheading=document.createElement('h3');subheading.className='math-lesson-unit-heading';
+   subheading.textContent=entry.unit;
+   subheading.style.cssText='font-size:16px;font-weight:700;margin:12px 2px 3px;'+
+    'text-align:left;color:#d7f4ff;width:100%;';
+   items.append(subheading);
+  }
   const button=document.createElement('button');button.type='button';
   button.className='secondary-btn math-choice-row';
   const art=document.createElement('span');art.className='math-tile-icon';
@@ -12857,7 +12876,7 @@ function mathJourneyShowChoices(stage){
     mathJourneyShowChoices('chapters');return;
    }
    mathJourney.chapter=entry.id;
-   const chapterLesson=mathInDepthEntries({stage:mathJourney.schoolStage,phase:mathYearPosition().year4,topic:mathJourney.topic}).find(x=>x.id===entry.id);
+   const chapterLesson=mathSelectedYearLessons(mathJourney.topic).find(x=>x.id===entry.id);
    if(chapterLesson){mathOpenDepthLesson(chapterLesson);return;}
    mathJourney.stage='workspace';root.classList.remove('math-choice-stage');
    openLearningSubjectAfterCountry('math');
@@ -15602,7 +15621,7 @@ function openLearningSubjectAfterCountry(key){
  eduAttachPrintAction(bar);host.append(bar);
  if(key==='math'){
   const chapter=mathChaptersForSelection().find(x=>x.id===mathJourney.chapter);
-  const lesson=mathInDepthEntries({stage:mathJourney.schoolStage,phase:mathYearPosition().year4,topic:mathJourney.topic}).find(x=>x.id===mathJourney.chapter);
+  const lesson=mathSelectedYearLessons(mathJourney.topic).find(x=>x.id===mathJourney.chapter);
   if(lesson){
    const study=document.createElement('button');study.type='button';
    study.className='secondary-btn';study.style.cssText='min-height:48px;width:100%;margin:4px 0 10px;';
