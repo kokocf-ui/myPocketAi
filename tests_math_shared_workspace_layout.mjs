@@ -20,7 +20,8 @@ assert.ok(workspace.includes("dictate.setAttribute('aria-label',dictate.title)")
 assert.ok(workspace.includes("read.setAttribute('aria-label',read.title)"),'Read has accessible name');
 assert.ok(workspace.includes('eduAttachPrintAction(bar);host.append(bar)'), 'Save and Print remain beside the voice icons');
 assert.ok(!workspace.includes("const theory=document.createElement('button')"),'no redundant Theory button in exercises');
-assert.ok(script.includes("theory.onclick=()=>educationTheoryOpen('math',mathJourney.level)"), 'Theory remains in the prior chapter menu');
+assert.ok(script.includes('if(chapterLesson){mathOpenDepthLesson(chapterLesson);return;}'), 'Mathematics chapter tiles open their own lesson reader');
+assert.ok(script.includes("practice.className='secondary-btn math-practice-entry'"), 'Exactly one separate practice workspace shortcut is shown');
 
 const explain=workspace.indexOf("['explain',learningLabel(");
 const solve=workspace.indexOf("['solve',learningLabel(");
