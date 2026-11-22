@@ -351,6 +351,70 @@ const evidence=Object.freeze({
    source:'https://www.gov.sm/pub1/GovSM/Amministrazione-Trasparente/Atti-di-carattere-normativo-ed-amministrativo-generale/Direttive-Circolari-Istruzioni-Interpretazioni-di-norme-di-diritto/Area-Istruzione/Istruzione-e-obbligo-scolastico.html',
    title:'San Marino independent national framework; older 2006 curriculum and later experimentation in sciences are not assumed revoked'}
  ],
+ AL:[
+  {stage:'lower',grades:['9'],subject:'Fizikë – programi i klasës IX',kind:'integrated',
+   topicIds:null,sourceYear:null,validFrom:null,
+   source:'https://ascap.edu.al/Biblioteka/3Programe%20Lendore/1Programet%20e%20Arsimit%20Baze/Arsimi%20Baze/Klasa%209/04.1fizika-9-modeli-i-ri-Fizike.pdf',
+   title:'Albanian pre-university standards agency ASCAP: official Grade 9 Physics programme; astronomy topics must be checked in grade document'}
+ ],
+ BA:[
+  {stage:'lower',grades:null,subject:'Prirodne nauke / Fizika – zajednička jezgra',kind:'framework-only',
+   topicIds:null,sourceYear:2017,validFrom:null,
+   source:'https://aposo.gov.ba/bs/publikacije/zajednicka-jezgra-npp/prirodoslovlje/',
+   title:'Bosnia and Herzegovina common Physics/Natural Sciences outcomes adopted 2017; legally binding grade programmes set by entities, cantons and Brčko District'}
+ ],
+ BY:[
+  {stage:'upper',grades:['11'],subject:'Астрономия – XI класс',kind:'standalone',
+   topicIds:null,sourceYear:2025,validFrom:'2025/26',
+   source:'https://adu.by/ru/homeru/obrazovatelnyj-protsess-2025-2026-uchebnyj-god/obshchee-srednee-obrazovanie',
+   title:'Belarus 2025 Grade XI Astronomy curriculum cited under Ministry of Education Resolution 132 of 29 July 2025; direct ministry portal grade details need further verification'}
+ ],
+ CY:[
+  {stage:'primary',grades:null,subject:'Φυσικές επιστήμες – αναλυτικό πρόγραμμα',kind:'framework-only',
+   topicIds:null,sourceYear:null,validFrom:null,
+   source:'https://www.moec.gov.cy/dde/programs/eniaio_oloimero/analytika_programmata.html',
+   title:'Cyprus official Ministry primary school curricular objectives in natural sciences; no grade-specific Astronomy topics certified'},
+  {stage:'lower',grades:null,subject:'Φυσική / Γεωγραφία – αναλυτικά προγράμματα',kind:'framework-only',
+   topicIds:null,sourceYear:null,validFrom:null,
+   source:'https://eservices.moec.gov.cy/dme-odigies-sch',
+   title:'Cyprus secondary education authority curriculum and success indicators; annual astronomy mapping school route dependent'}
+ ],
+ GR:[
+  {stage:'lower',grades:null,subject:'Φυσική / Γεωλογία-Γεωγραφία',kind:'framework-only',
+   topicIds:null,sourceYear:2026,validFrom:'2026/27',
+   source:'https://www.iep.edu.gr/yli-kai-odigies-didaskalias-gymnasiou-gia-to-scholiko-etos-2026-2027/',
+   title:'Greece Institute of Education Policy 2026/27 official lower secondary teaching content per subject; astronomy grade scope not independently certified'}
+ ],
+ MK:[
+  {stage:'lower',grades:['7'],subject:'Природни науки / Физика',kind:'integrated',
+   topicIds:null,sourceYear:2025,validFrom:'2025/26',
+   source:'https://bro.gov.mk/%D0%BD%D0%B0%D1%81%D1%82%D0%B0%D0%B2%D0%BD%D0%B8-%D0%BF%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%B8-%D0%B7%D0%B0-vii-%D0%BE%D0%B4%D0%B4%D0%B5%D0%BB%D0%B5%D0%BD%D0%B8%D0%B5-%D0%B7%D0%B0-%D1%83%D1%87/',
+   title:'North Macedonia official Grade VII curriculum 2025/26 in Physics/Natural Sciences'},
+  {stage:'lower',grades:['8'],subject:'Физика / Природни науки',kind:'integrated',
+   topicIds:null,sourceYear:2026,validFrom:'2026/27',
+   source:'https://bro.gov.mk/npviii/',
+   title:'North Macedonia official Grade VIII curriculum for academic year 2026/27; not earlier draft'}
+ ],
+ XK:[
+  {stage:'primary',grades:null,subject:'Shkencat e natyrës – kurrikula bërthamë',kind:'framework-only',
+   topicIds:null,sourceYear:2022,validFrom:null,
+   source:'https://masht.rks-gov.net/wp-content/uploads/2022/06/kurrikula-berthame-1-finale-2.pdf',
+   title:'Kosovo Ministry official core curriculum: primary natural sciences learning outcomes; astronomy allocation by local course year remains not verified'},
+  {stage:'lower',grades:null,subject:'Shkencat e natyrës – kurrikula bërthamë',kind:'framework-only',
+   topicIds:null,sourceYear:2022,validFrom:null,
+   source:'https://masht.rks-gov.net/wp-content/uploads/2022/06/korniza-berthame-3-final.pdf',
+   title:'Kosovo Natural Sciences framework published 2022, Physics and other subjects; no imposed separate Astronomy programme'}
+ ],
+ VA:[
+  {stage:'primary',grades:null,subject:'Școlarizare în sistemul instituției frecventate (de regulă Italia)',kind:'no-independent-curriculum',
+   topicIds:null,sourceYear:null,validFrom:null,
+   source:'https://www.dce.va/en/education/schools/About-us.html',
+   title:'Vatican City has no separate annual state elementary Astronomy syllabus; Holy See schools office has worldwide role and children use legally recognized schools in surrounding states'},
+  {stage:'lower',grades:null,subject:'Școlarizare în sistemul instituției frecventate (de regulă Italia)',kind:'no-independent-curriculum',
+   topicIds:null,sourceYear:null,validFrom:null,
+   source:'https://www.dce.va/en/education/schools/About-us.html',
+   title:'Vatican state students follow their actual recognized school programme, not an invented Vatican national Astronomy syllabus'}
+ ],
  FI:[
   {stage:'primary',grades:null,subject:'Environmental studies',kind:'framework-only',
    topicIds:null,sourceYear:2014,validFrom:'2016/17',
@@ -370,7 +434,8 @@ export function astronomyNationalAlignment({country='',stage='',grade=''}={}){
  const trulyYearScoped=Boolean(exact&&exact.topicIds?.length);
  return {
   country:code,stage,grade:String(grade),status:framework?
-   (trulyYearScoped?'documented-topics':'documented-framework'):'source-not-yet-reviewed',
+   (framework.kind==='no-independent-curriculum'?'no-independent-national-school-syllabus':
+   trulyYearScoped?'documented-topics':'documented-framework'):'source-not-yet-reviewed',
   kind:framework?.kind||'unknown',subjects:framework?.subject||null,
   yearScoped:trulyYearScoped,
   topicIds:trulyYearScoped?[...exact.topicIds]:null,
@@ -378,20 +443,27 @@ export function astronomyNationalAlignment({country='',stage='',grade=''}={}){
   sourceTitle:framework?.title||null,
   verifiedMandatoryAsStandalone:false,
   verifiedOptionalAsStandalone:framework?.kind==='optional-standalone',
+  verifiedSeparateAstronomyProgramme:framework?.kind==='standalone'||framework?.kind==='optional-standalone',
   // No national school programme is inferred to have expired merely for being old.
   superseded:false,supercessionConfirmed:false,
-  noteRo:framework?
+  noteRo:framework?.kind==='no-independent-curriculum'?
+   'Nu există o programă de Astronomie independentă pentru clasele din Vatican. Pentru corelarea reală trebuie ales sistemul școlii frecventate, adesea Italia; lecțiile rămân orientative.':
+   framework?
    'Există o referință curriculară '+(framework.sourceYear?'din '+framework.sourceYear:'cu anul adoptării încă neconfirmat')+' pentru '+framework.subject+
    '. Data ei nu o invalidează automat. '+(framework.kind==='optional-standalone'?
    'Astronomia este disponibilă ca disciplină opțională, nu obligatorie.':
+   framework.kind==='standalone'?'Există o disciplină separată de Astronomie în programa de studiu indicată; caracterul obligatoriu necesită planul concret al școlii.':
    framework.kind==='framework-only'?'Referința confirmă numai cadrul general, nu o programă anuală completă de Astronomie.':
    'Noțiunile de astronomie sunt integrate în disciplina indicată, nu predate automat separat.')+
    ' Conținutul pe fiecare clasă este certificat numai unde există teme anuale documentate.':
    'Programa națională de astronomie pentru această clasă nu a fost încă verificată. Aceasta nu înseamnă că țara nu are programă; sunt afișate lecții generale orientative.',
-  noteEn:framework?
+  noteEn:framework?.kind==='no-independent-curriculum'?
+   'Vatican City does not define a separate national Astronomy syllabus for school grades. Select the school actually attended (often in Italy); shown lessons are advisory.':
+   framework?
    'An existing '+(framework.sourceYear?'reference from '+framework.sourceYear:'reference of unverified publication date')+' covers '+framework.subject+
    '. Older dates do not alone invalidate a curriculum. '+(framework.kind==='optional-standalone'?
    'Astronomy is a separately offered elective, not a mandatory subject.':
+   framework.kind==='standalone'?'Astronomy is available as a separate subject; whether required depends on the actual school plan.':
    framework.kind==='framework-only'?'This source describes only the broader curriculum framework.':
    'Astronomy concepts are integrated in the named subject, not automatically taught separately.')+
    ' Individual school-year topics are considered verified only where directly documented.':
