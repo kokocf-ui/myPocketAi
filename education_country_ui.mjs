@@ -241,7 +241,8 @@ function educationCountryGate(moduleKey,proceed){
 function eduYearOptions(code,level,moduleKey){
  const rows=eduYearOptionsUnfiltered(code,level,moduleKey);
  if(moduleKey!=='science'||typeof scienceJourney==='undefined'||
-    scienceJourney.subject!=='physics')return rows;
+    scienceJourney.subject!=='physics'||
+    typeof EDU_PHYSICS_ABSENT_YEAR_KEYS==='undefined')return rows;
  const stage=level==='intermediate'?'medium':level;
  return rows.filter(row=>!EDU_PHYSICS_ABSENT_YEAR_KEYS.has(
   String(code).toUpperCase()+'|'+stage+'|'+String(row.id)));
