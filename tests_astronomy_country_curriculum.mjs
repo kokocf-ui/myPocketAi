@@ -64,9 +64,19 @@ for(const year of ['Y7','Y8','Y9']){
 }
 for(const country of ['GB-SCT','GB-WLS','GB-NIR'])
  assert.equal(get(country,'lower',educationCountrySchoolYears(country,'lower').years[0].id).policy.kind,'integrated');
-for(const country of ['HU','FR','IT','PL','DE','PT','NO','TR']){
+for(const country of ['HU','IT','PL','DE','PT','NO','TR']){
  const first=educationCountrySchoolYears(country,'lower').years[0];
  assert.equal(get(country,'lower',first.id).policy.status,'country-curriculum-unverified');
+}
+assert.equal(get('FR','primary','CM2').policy.kind,'integrated');
+assert.equal(get('FR','lower','6e').policy.kind,'integrated');
+assert.equal(get('FR','primary','CM1').policy.kind,'unverified','new 2026 curriculum is cohort-dependent');
+for(const country of ['IE','ES']){
+ const grade=educationCountrySchoolYears(country,'lower').years[0].id;
+ const x=get(country,'lower',grade).policy;
+ assert.equal(x.kind,'integrated');
+ assert.equal(x.topicsVerified,false);
+ assert.equal(x.offerVerified,false,'framework knowledge is not an exact year lesson map');
 }
 assert.equal(astronomyCountryGradePlan({country:'RO',stage:'lower',grade:'99',years:[]}).status,'invalid-selection');
 const html=await(await app.fetch(new Request('https://astronomy-europe-registry.test/'))).text();
