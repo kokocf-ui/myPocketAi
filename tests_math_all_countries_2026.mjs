@@ -33,6 +33,7 @@ for(const country of EDUCATION_EUROPE_COUNTRIES){
    assert.equal(plan.status,'general-learning');
    assert.ok(plan.units.length>=3,country+' '+stage+' '+grade.id+' has usable named branches');
    assert.ok(plan.units.every(x=>x.ro&&x.en));
+   assert.ok(plan.units.every(x=>x.lessonCount>=3),'No empty advertised mathematics lessons for '+country+' '+stage+' '+grade.id);
    const lessonStage=stage==='beginner'?'primary':stage==='medium'?'intermediate':stage;
    assert.ok(plan.units.every(x=>(bank[x.id]?.[lessonStage]||[]).length>0),
     country+' '+stage+' '+grade.id+' cannot contain a branch with no lessons');
