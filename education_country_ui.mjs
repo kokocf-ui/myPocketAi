@@ -113,7 +113,26 @@ function eduCountryFold(value){return String(value||'').normalize('NFD').replace
 const EDU_EUROPE_COUNTRY_CODES=new Set(EDU_EUROPE_COUNTRY_LIST);
 function eduCountryOptions(){
  const all=typeof HG_COUNTRY_PICKER_DATA!=='undefined'?HG_COUNTRY_PICKER_DATA:[];
- const seen=new Set();return all.filter(x=>x&&EDU_EUROPE_COUNTRY_CODES.has(x.id)&&!seen.has(x.id)&&seen.add(x.id));
+ const seen=new Set(),options=all.filter(x=>x&&EDU_EUROPE_COUNTRY_CODES.has(x.id)&&!seen.has(x.id)&&seen.add(x.id));
+ // The common History/Geography country catalogue can omit a legitimate
+ // European education jurisdiction (Kosovo was missing). Never silently
+ // drop an approved system from the country-first Education selection.
+ const names={
+  XK:['Kosovo','Kosovo'],'GB-ENG':['Anglia','England'],
+  'GB-SCT':['Scoția','Scotland'],'GB-WLS':['Țara Galilor','Wales'],
+  'GB-NIR':['Irlanda de Nord','Northern Ireland']
+ };
+ for(const id of EDU_EUROPE_COUNTRY_LIST){
+  if(seen.has(id))continue;
+  const fallback=names[id];
+  const label=locale=>{
+   if(fallback)return fallback[locale==='ro'?0:1];
+   try{return new Intl.DisplayNames([locale],{type:'region'}).of(id)||id}catch{return id}
+  };
+  options.push({id,ro:label('ro'),en:label('en')});
+  seen.add(id);
+ }
+ return options;
 }
 function eduCountryLabel(country){
  const code=country?.id||'',lang=state.language||'ro';

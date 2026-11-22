@@ -176,7 +176,8 @@ try{
    countryRoutes++;
   }catch(e){
    await countryPage.screenshot({path:'physics-browser-audit/country-route-failure.png',fullPage:true}).catch(()=>{});
-   throw Error('Physics mobile UI route '+code+': '+String(e));
+   throw Error('Physics mobile UI route '+code+': '+String(e)+' | visible screen: '+
+    (await countryPage.locator('#view-module').innerText().catch(()=>'' )).slice(0,450));
   }finally{await countryPage.close();}
  }
  assert.equal(countryRoutes,50,'All national Physics entry routes must be navigable in mobile Chromium');
