@@ -20,7 +20,7 @@ for(const [country,items] of Object.entries(ASTRONOMY_COUNTRY_EVIDENCE)){
  assert.ok(EDUCATION_EUROPE_COUNTRIES.includes(country));
  for(const item of items){
   assert.match(item.source,/^https:\/\/(www\.)?/);
-  assert.ok(item.sourceYear>=1990&&item.sourceYear<=2026);
+  assert.ok(item.sourceYear==null||(item.sourceYear>=1990&&item.sourceYear<=2026));
   assert.ok(['integrated','framework-only','optional-standalone'].includes(item.kind));
   assert.ok(item.subject&&item.title);
  }
@@ -39,6 +39,13 @@ assert.equal(astronomyNationalAlignment({country:'SI',stage:'lower',grade:'7'}).
 assert.equal(astronomyNationalAlignment({country:'LT',stage:'upper',grade:'11'}).kind,'optional-standalone');
 assert.deepEqual(astronomyNationalAlignment({country:'LT',stage:'upper',grade:'12'}).topicIds,
  ['stars','galaxies','cosmology','exoplanets','gravity','distances','observations','sky']);
+assert.equal(astronomyNationalAlignment({country:'SM',stage:'primary',grade:'1'}).sourceYear,2006);
+assert.equal(astronomyNationalAlignment({country:'LI',stage:'primary',grade:'1'}).sourceYear,2019);
+assert.equal(astronomyNationalAlignment({country:'IS',stage:'lower',grade:'8'}).sourceYear,2024);
+assert.equal(astronomyNationalAlignment({country:'AD',stage:'lower',grade:'7'}).yearScoped,false,
+ 'Andorra cannot use one Astronomy programme for its three separate national school systems');
+assert.equal(astronomyNationalAlignment({country:'BE',stage:'lower',grade:'7'}).sourceYear,null,
+ 'Undated Belgian cross-community programme must not receive fabricated publication year');
 assert.equal(astronomyNationalAlignment({country:'IT',stage:'lower',grade:'M1'}).sourceYear,2025,
  'Italy new 2025 curriculum starts with lower-secondary Year 1 in 2026/27');
 assert.equal(astronomyNationalAlignment({country:'IT',stage:'lower',grade:'M3'}).sourceYear,2012,
