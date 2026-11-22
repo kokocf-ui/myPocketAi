@@ -128,8 +128,18 @@ try{
  await back(); // university lesson list -> 3-option chapter menu
  await open(page.locator('#view-module .chemistry-section-tile').nth(2));
  const universityPractical=page.locator('#view-module .chemistry-section-tile');
- assert.ok(await universityPractical.count()>=2,
-  'University physics must expose laboratory activities or topic-specific models');
+ assert.ok(await universityPractical.count()>=1,
+  'A university course must show its own scientific investigation');
+ const inquiryTitles=await universityPractical.allTextContents();
+ assert.ok(inquiryTitles.some(x=>/Investigația cursului|Course investigation/i.test(x)),
+  'A university Physics course needs a genuine investigation, not a repeated graphic gallery');
+ await open(universityPractical.first());
+ await dialog.waitFor({state:'visible',timeout:8000});
+ const investigation=await dialog.locator('.education-paged-text').innerText();
+ assert.ok(investigation.length>=480,'University inquiry is missing meaningful physical study steps');
+ assert.notEqual(investigation,undergraduateText,'University lab must not just repeat lesson theory');
+ await dialog.screenshot({path:'physics-browser-audit/university-investigation.png'});
+ await closeDialog();
  assert.ok(!errors.length,'Frontend console exceptions: '+errors.slice(0,3).join('; '));
  console.log('PASS mobile Chromium Physics: grades VI–XII, seven detailed lessons, seven activity readers, paginated dialogs and navigation');
 }catch(error){
