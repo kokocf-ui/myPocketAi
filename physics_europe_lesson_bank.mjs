@@ -80,14 +80,52 @@ export function physicsAdvisoryTopicLessons({
    ['Test a limiting case in which the proposed model no longer applies.',
     'State which assumption fails and how that affects the prediction.']
   ];
-  const tasks=language==='ro'?inquiryRo:inquiryEn;
-  const challenge=tasks[Math.min(rank,tasks.length-1)];
+  // A school year must not append the identical generic prompt to all
+  // eight chapter lessons. Inquiry advances from observation to quantitative
+  // reasoning and finally evaluation of the physical model.
+  const probes={
+   units:[['Măsoară aceeași lungime de trei ori și notează unitățile.','Transformă măsurarea în două unități SI și explică alegerea.','Estimează incertitudinea și justifică cifrele semnificative.'],
+    ['Measure the same length three times and record units.','Convert a measured quantity between SI units and explain why.','Estimate uncertainty and justify the significant figures.']],
+   kinematics:[['Alege un reper și distinge drumul parcurs de deplasare.','Calculează viteza medie din distanță și durată, în m/s.','Interpretează panta graficului poziție–timp și limitele modelului.'],
+    ['Choose a reference frame; distinguish path length from displacement.','Calculate mean speed in m/s from distance and time.','Interpret a position–time gradient and the model assumptions.']],
+   dynamics:[['Desenează sensul unei forțe și efectul observabil.','Calculează rezultanta forțelor pe o axă, cu semn.','Justifică modelul F=ma și discută rolul frecării.'],
+    ['Draw the direction and observable effect of an applied force.','Calculate a signed net force along one axis.','Explain when F=ma applies and how friction changes the prediction.']],
+   energy:[['Descrie un transfer energetic într-un dispozitiv real.','Calculează un transfer de energie cu unități coerente.','Compară energia utilă și disiparea într-un bilanț verificabil.'],
+    ['Describe an energy transfer in a real device.','Calculate an energy transfer with consistent units.','Evaluate useful energy and dissipation in a justified energy balance.']],
+   heat:[['Compară temperatura măsurată cu senzația de cald.','Interpretează încălzirea și schimbarea de fază separat.','Estimează transferul Q=mcΔT și discută pierderile de căldură.'],
+    ['Compare thermometer readings with perceived warmth.','Distinguish warming from a change of state.','Estimate Q=mcΔT and examine heat losses.']],
+   fluids:[['Observă presiunea la două adâncimi diferite.','Calculează presiunea p=F/A pentru o suprafață dată.','Testează ipotezele modelului hidrostatic sau arhimedic.'],
+    ['Observe pressure changes with depth.','Calculate pressure p=F/A for a stated surface.','Check assumptions behind hydrostatic or buoyancy models.']],
+   electric:[['Identifică sursa și receptorul într-un circuit sigur cu baterie.','Compară tensiunea și intensitatea într-un circuit simplu.','Calculează o relație electrică și evaluează limita modelului ohmic.'],
+    ['Identify the source and load in a safe battery-only circuit.','Compare potential difference and current in a simple circuit.','Calculate an electrical relationship and assess the ohmic assumption.']],
+   circuits:[['Recunoaște ramurile și nodurile unui circuit sigur.','Calculează rezistența echivalentă în serie și paralel.','Evaluează un circuit prin legile Kirchhoff și bilanț energetic.'],
+    ['Identify branches and junctions in a low-voltage circuit.','Calculate series and parallel equivalent resistance.','Analyse a circuit using Kirchhoff laws and an energy balance.']],
+   waves:[['Observă o oscilație fără a confunda unda cu materia.','Calculează frecvența sau lungimea de undă din date.','Compară interferența și reflexia pe baza condițiilor la limită.'],
+    ['Observe an oscillation without confusing wave propagation with material transport.','Calculate frequency or wavelength from data.','Compare interference and reflection under stated boundary conditions.']],
+   optics:[['Distinge umbra de reflexie într-un experiment sigur.','Trasează normala și măsoară unghiurile de reflexie.','Folosește un model al lentilelor și descrie limitele sale.'],
+    ['Distinguish shadows from reflections in a safe experiment.','Draw a normal and measure reflection angles.','Use a lens model and state its limitations.']],
+   electromagnetism:[['Explorează un magnet cu obiecte obișnuite, fără prize.','Explică efectul curentului asupra unui câmp magnetic.','Analizează inducția prin variația fluxului magnetic.'],
+    ['Explore magnets with ordinary objects; avoid mains electricity.','Explain how electric current produces a magnetic field.','Analyse induction using a changing magnetic flux.']],
+   thermodynamics:[['Distinge temperatura de energia transferată prin căldură.','Calculează o variație energetică pentru un proces definit.','Aplică prima lege și precizează convenția semnelor.'],
+    ['Distinguish temperature from transferred heat.','Calculate an energy change for a defined process.','Apply the first law and declare the sign convention.']],
+   measurement:[['Notează observații și unități într-un tabel clar.','Desenează un grafic cu axe și unități.','Analizează erori sistematice și variația datelor.'],
+    ['Record observations with units in a clear table.','Draw a graph with labelled axes and units.','Analyse systematic errors and data variation.']],
+   modern:[['Descrie o dovadă experimentală pentru modelul atomic.','Aplică o relație cuantificată simplă și verifică unitățile.','Identifică unde încetează să fie valid modelul clasic.'],
+    ['Describe experimental evidence for an atomic model.','Apply a simple quantised relation and check its units.','Identify a case where the classical model fails.']]
+  };
+  const ro=language==='ro',phaseIndex=Math.min(2,Math.round(rank*2/Math.max(1,available.length-1)));
+  const selected=probes[topic]?.[ro?0:1]?.[phaseIndex]||
+   (ro?inquiryRo:inquiryEn)[Math.min(rank,6)][0];
+  const closing=ro?
+   'Răspunsul trebuie să se refere la conceptul din această lecție, să precizeze datele, unitățile, ipotezele și modul de verificare.':
+   'The answer must refer to this specific concept and state relevant data, units, assumptions and a way to check the result.';
   return entries.map((entry,index)=>({...entry,
    id:'advisory-physics-'+code+'-'+scoped+'-'+tier+'-'+entry.id,
    grade:scoped,source:'oer-original-advisory',nationallyVerified:false,
    advisoryTier:tier,chapterIndex:index+1,
-   exercise:(entry.exercise||'')+' '+challenge[0],
-   answer:(entry.answer||'')+' '+challenge[1]
+   exercise:(entry.exercise||'')+' '+(ro?'Extensie pentru «':'Year extension for “')+
+    entry.title+(ro?'»: ':'”: ')+selected,
+   answer:(entry.answer||'')+' '+closing
   }));
  }
  if(phase==='upper'){
