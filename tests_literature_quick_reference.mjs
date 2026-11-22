@@ -73,9 +73,9 @@ const ctx={
  fetch:async()=>{throw Error('simulated network outage')}
 };
 vm.runInNewContext(LITERATURE_TASK_UI_SCRIPT,ctx,{filename:'lit-quick-reference-browser'});
-ctx.litOpen('grades');
+ctx.litOpen('levels');
 let toolbar=walk(panel).find(x=>x.attrs['data-lit-quick-entry']==='true');
-assert.ok(toolbar,'Quick buttons must appear IN the study-years screen');
+assert.ok(toolbar,'Quick buttons must appear in the first window AFTER language selection, BEFORE cycles');
 const actions=walk(toolbar).filter(x=>x.tagName==='BUTTON');
 assert.equal(actions.length,2,'Separate dictionary and grammar buttons');
 assert.match(text(actions[0]),/Dicționar/);
@@ -109,4 +109,4 @@ assert.match(text(overlay),/Parte de vorbire/,'Grammar term opens definition imm
 ctx.litBack();
 assert.equal(doc.querySelector('[data-lit-quick-overlay]'),null);
 ctx.litBack();assert.equal(originalBackCount,1,'Normal literature Back works after closing reference');
-console.log('PASS: first-character autocomplete, selected definitions, grammar quick reference, study-years buttons, Android-style Back and offline fallback');
+console.log('PASS: first-character autocomplete, selected definitions, grammar quick reference, pre-cycle buttons, Android-style Back and offline fallback');
