@@ -194,6 +194,22 @@ try{
  await click(page.locator('#educationPagedLessonDialog .education-theory-head button').first());
  await click(page.locator('#view-module .math-stage-back').first());
  await click(page.locator('#view-module .math-stage-back').first());
+ await pickGrade('Year 11');
+ const tier=page.locator('#view-module #math-gcse-tier');
+ assert.equal(await tier.inputValue(),'foundation','Foundation must be the first-choice exam tier');
+ await click(page.locator('#view-module .math-choice-row').filter({hasText:'Algebră'}).first());
+ const foundationLessons=await page.locator('#view-module .math-choice-list .math-choice-row strong').allTextContents();
+ assert.ok(!foundationLessons.some(x=>x.includes('Ecuații pătratice cu formula generală')),
+  'Foundation GCSE must exclude Higher-only quadratic-formula material');
+ await page.locator('#view-module #math-gcse-tier').selectOption('higher');
+ const higherLessons=await page.locator('#view-module .math-choice-list .math-choice-row strong').allTextContents();
+ assert.ok(higherLessons.some(x=>x.includes('Ecuații pătratice cu formula generală')),
+  'Higher GCSE must include differentiated algebra lessons and Foundation topics');
+ assert.ok(await page.locator('#view-module .math-choice-row').filter({hasText:'Exclusiv nivelului Higher'}).count()>=1,
+  'Higher-only lessons must be visibly identified in the lesson list');
+ await page.screenshot({path:'math-browser-audit/england-gcse-tiers.png'});
+ await click(page.locator('#view-module .math-stage-back').first());
+ await click(page.locator('#view-module .math-stage-back').first());
  await click(page.locator('#view-module .module-actions-row .pocket-inline-back, #view-module .education-toolbar button').first());
  await pickMathStage('Universitate');
  await pickGrade('1');
