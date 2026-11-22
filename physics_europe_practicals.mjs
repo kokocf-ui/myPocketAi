@@ -70,11 +70,74 @@ export function physicsLaboratoryYearInvestigations({country='',grade='',stage='
   const title=isRo?protocol[0]:protocol[1];
   const materials=isRo?protocol[2]:protocol[3];
   const procedure=isRo?protocol[4]:protocol[5];
+  // The two protocols belong to the chapter, but the investigative aim and
+  // measured evidence must progress through real school years. A repeated
+  // fixed diagram or identical worksheet is NOT a new laboratory.
+  // The last two arrays are bilingual and keep grade progression independent
+  // of the country's numbering convention (e.g. VII, 7, Y8 or 4e).
+  const phase=stage==='primary'?0:stage==='upper'?2:1;
+  const depth=phase===0?0:phase===2?Math.min(2,1+Math.floor(position/2)):
+   Math.min(2,position);
+  const focused={
+   units:[
+    ['Compară citirile a două obiecte cu o riglă și notează centimetrii, fără a ghici zecimale.','Măsoară de cinci ori aceeași dimensiune, calculează media și diferența maxim–minim cu unități.','Estimează incertitudinea unei arii calculate din două lungimi și justifică cifrele semnificative.'],
+    ['Compare ruler readings for two objects; record centimetres without inventing decimals.','Repeat the same length measurement five times and calculate the mean and range with units.','Estimate uncertainty in an area derived from two lengths and justify significant figures.']],
+   kinematics:[
+    ['Marchează pozițiile unei jucării, ordonează-le după timp și arată direcția mișcării.','Trasează poziție–timp pe axe cu unități și calculează viteza medie pe două intervale.','Compară pantele pe graficul poziție–timp, estimează o viteză instantanee și discută eroarea de cronometrare.'],
+    ['Mark successive toy positions, order them in time and identify the direction of motion.','Plot position against time with units and calculate mean speed over two intervals.','Compare gradients of position–time data, estimate an instantaneous velocity and discuss timing error.']],
+   dynamics:[
+    ['Desenează săgeți pentru împingere, greutate și reacțiune, fără a inventa forțe numerice.','Compară forța rezultantă pentru două înclinări și explică efectul frecării.','Testeză un model F=ma cu date simulate etichetate, un grafic și analiza reziduurilor.'],
+    ['Draw arrows for push, weight and reaction without inventing numerical forces.','Compare net force for two slopes and explain the contribution of friction.','Test an F=ma prediction with clearly labelled simulated data, a graph and residual analysis.']],
+   energy:[
+    ['Construiește un lanț de transfer energetic pentru un obiect care se deplasează.','Estimează energia potențială mgh pentru două înălțimi și compară pierderile.','Construiește un bilanț energetic măsurabil, cu randament, disipare și ipoteze explicite.'],
+    ['Draw an energy-transfer chain for a moving object.','Estimate mgh at two release heights and compare dissipative losses.','Construct a measurable energy balance including efficiency, dissipation and explicit assumptions.']],
+   fluids:[
+    ['Compară plutirea a două forme de plastilină fără a confunda masa cu forma.','Măsoară aria de contact și compară presiunea p=F/A pentru două condiții.','Compară predicția hidrostatică p=ρgh cu un set de valori simulate și explică limitele măsurării.'],
+    ['Compare how two shapes of modelling clay float without conflating mass and shape.','Measure contact area and compare p=F/A for two conditions.','Compare hydrostatic p=ρgh predictions with explicitly simulated readings and discuss measurement limits.']],
+   heat:[
+    ['Înregistrează dacă temperatura apei călduțe scade, folosind doar un termometru sigur.','Reprezintă T în funcție de timp și compară răcirea în două condiții controlate.','Calculează Q=mcΔT pentru un model și explică unde pierderile invalidează estimarea.'],
+    ['Record whether lukewarm water cools using a safe thermometer.','Plot T against time and compare cooling under two controlled conditions.','Model Q=mcΔT and explain how losses invalidate the estimate.']],
+   electric:[
+    ['Identifică sursa, conductorii și receptorul într-un circuit numai cu baterie.','Măsoară sau modelează U și I la tensiune joasă și verifică raportul U/I.','Compară o caracteristică ohmică simulată cu una neliniară și justifică limita modelului.'],
+    ['Identify source, conductors and load in a battery-only circuit.','Measure or model low-voltage U and I and check U/I.','Compare simulated ohmic and nonlinear current-voltage characteristics and explain validity limits.']],
+   circuits:[
+    ['Desenează o buclă închisă și explică unde poate circula curentul.','Compară rezistența echivalentă a doi rezistori în serie și paralel, numai cu baterie.','Verifică bilanțul de curent în noduri și puterea disipată într-un model Kirchhoff.'],
+    ['Draw a closed loop and indicate where current can flow.','Compare equivalent resistance for two resistors in series and in parallel using battery voltage only.','Check junction current balance and dissipated power in a Kirchhoff model.']],
+   waves:[
+    ['Arată diferența dintre mișcarea unei rigle și propagarea unei perturbații.','Măsoară perioada unei oscilații și calculează frecvența în hertzi.','Compară v=fλ pentru două unde modelate și discută eroarea de eșantionare.'],
+    ['Distinguish the motion of a vibrating ruler from propagation of a disturbance.','Measure oscillation period and calculate frequency in hertz.','Compare v=fλ for two modelled waves and discuss sampling uncertainty.']],
+   optics:[
+    ['Desenează raza incidentă și raza reflectată cu normala pe o foaie.','Compară unghiurile de reflexie și marchează incertitudinea unghiului.','Prezice poziția imaginii cu 1/f=1/u+1/v și explică aproximația lentilei subțiri.'],
+    ['Draw incident and reflected rays with a normal on paper.','Compare reflection angles and estimate angular reading uncertainty.','Predict an image position with 1/f=1/u+1/v and discuss the thin-lens approximation.']],
+   electromagnetism:[
+    ['Observă ce materiale obișnuite sunt atrase de magnet; nu folosi prize.','Compară efectul numărului de spire asupra electromagnetului alimentat scurt din baterie.','Modelează inducția ε=−NΔΦ/Δt folosind doar date simulate și convenția de semne.'],
+    ['Observe which ordinary materials respond to a magnet; avoid mains power.','Compare coil turns using a briefly powered battery electromagnet with supervision.','Model ε=−NΔΦ/Δt from simulated data and state the sign convention.']],
+   thermodynamics:[
+    ['Compară două schimbări de temperatură fără a confunda căldura cu temperatura.','Descrie un sistem și bilanțul de energie pentru un proces la presiune aproximativ constantă.','Calculează lucrul pΔV și variația energiei interne cu convenție explicită pentru Q și W.'],
+    ['Compare two temperature changes without conflating heat with temperature.','Identify a system and an energy balance for an approximately constant-pressure process.','Calculate pΔV work and internal energy change with a stated convention for Q and W.']],
+   measurement:[
+    ['Înregistrează trei observații cu unități și arată ce poate fi citit efectiv.','Compară dispersia a cinci citiri, media și rezoluția instrumentului.','Trasează reziduuri pentru un model liniar și distinge eroarea sistematică de variația aleatorie.'],
+    ['Record three readings with units and show what can actually be read.','Compare the spread, mean and instrument resolution from five readings.','Plot residuals for a linear model and distinguish systematic from random errors.']],
+   modern:[
+    ['Construiește din hârtie un model al unor niveluri de energie; nu pretinde observații reale.','Compară frecvențele a două tranziții ipotetice cu E=hf, având unități coerente.','Analizează limitele unui model clasic față de tranziții cuantice și separă modelarea de date măsurate.'],
+    ['Build a paper model of energy levels without claiming real observations.','Compare frequencies for two hypothetical transitions using E=hf and consistent units.','Analyse why a classical model fails for discrete quantum transitions and separate models from measurements.']]
+  };
+  const focus=focused[topic]?.[isRo?0:1]?.[depth]||procedure;
+  const labelsDepth=isRo?
+   ['Observare sigură și identificarea variabilelor','Măsurare, tabel și calcule','Predicție, incertitudine și validitatea modelului']:
+   ['Safe observation and identifying variables','Measurement, table and calculation','Prediction, uncertainty and model validity'];
+  const ageAppropriate=phase===0? (isRo?
+   'Etapa primară: folosește doar observații și comparații, fără formule avansate.':
+   'Primary stage: use observations and comparisons without advanced equations.') :
+   phase===1? (isRo?'Etapa gimnazială: notează unitățile și justifică metoda.':
+   'Lower-secondary stage: record units and justify the method.') :
+   (isRo?'Etapa liceală: argumentează modelul, ipotezele și incertitudinea.':
+   'Upper-secondary stage: justify the model, assumptions and uncertainty.');
   const scientific=String(entry.statement||'');
-  const worked=String(entry.workedExample||entry.example||'');
-  const prompt=title+': '+String(entry.exercise||'')+' '+
-   (isRo?'În această activitate, descrie ce date ai măsura și cum ai verifica rezultatul.':
-   'For this investigation, describe which data you would measure and how you would check the result.');
+  const worked=phase===0?'':String(entry.workedExample||entry.example||'');
+  const prompt=title+': '+focus+' '+
+   (isRo?'Precizează dovezile specifice acestei investigații și modul în care ai verifica rezultatul.':
+   'State evidence specific to this investigation and how the result would be checked.');
   const guide=String(entry.answer||'')+' '+
    (isRo?'Sunt necesare o ipoteză explicită, o metodă sigură, observații cu unități când se măsoară și o concluzie limitată la dovezi.':
    'A valid response states a hypothesis, safe method, measurements with units where relevant, and an evidence-limited conclusion.');
@@ -88,6 +151,7 @@ export function physicsLaboratoryYearInvestigations({country='',grade='',stage='
     'Original guided investigation for study year '+String(grade)+'. No measurements are claimed to have been performed.',
    '# '+labels[1],materials,
    '# '+labels[2],procedure,
+   '# '+labelsDepth[depth],ageAppropriate+' '+focus,
    '# '+labels[3],scientific,
    '# '+labels[4],worked,
    '# '+labels[5],prompt,
@@ -95,7 +159,8 @@ export function physicsLaboratoryYearInvestigations({country='',grade='',stage='
   ].filter(Boolean).join('\n\n');
   return {
    id:'physics-practical-'+String(country)+'-'+String(grade)+'-'+String(topic)+'-'+i,
-   title,ro:protocol[0],en:protocol[1],lesson:entry.title,
+   title:title+' · '+String(entry.title||topic),
+   ro:protocol[0],en:protocol[1],lesson:entry.title,
    source:'original-physics-year-lab',grade:String(grade),stage,
    body,review:{prompt,guide}
   };
