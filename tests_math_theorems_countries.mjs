@@ -10,5 +10,8 @@ assert.ok(catalog.length>=200,'All existing maths concepts available as read-onl
 assert.ok(catalog.some(x=>x.title.includes('Pitagora')),'Pythagoras included');
 assert.ok(catalog.every(x=>x.title&&x.statement),'No empty law or definition cards');
 assert.match(MATH_THEOREMS_UI_SCRIPT,/mathTheoryQuickReferenceOpen=true/);
-assert.match(MATH_THEOREMS_UI_SCRIPT,/mathJourneyShowChoices\('branches'\)/,'Back returns to branch selection');
+assert.match(MATH_THEOREMS_UI_SCRIPT,/mathJourneyShowChoices\(previousStage\)/,'Back returns to the screen that opened the catalog');
+assert.match(MATH_THEOREMS_UI_SCRIPT,/entries\.slice\(page\*24,\(page\+1\)\*24\)/,'Every reference page is reachable');
+assert.match(MATH_THEOREMS_UI_SCRIPT,/group\.addEventListener\('change'/,'Reference can be filtered by mathematical branch');
+assert.match(EDUCATION_COUNTRY_UI_SCRIPT,/EDU_MATH_GRADE_AREAS/,'Grade-aware mathematics data is available in Android');
 console.log('PASS mathematics laws and theorems selector and country entry point');
