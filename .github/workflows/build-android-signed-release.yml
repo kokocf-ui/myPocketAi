@@ -13,6 +13,8 @@ on:
       - 'tests_transport_departure_entrypoints.mjs'
       - '.github/workflows/build-android-signed-release.yml'
       - 'index.js'
+      - 'physics_*.mjs'
+      - 'tests_physics_*.mjs'
       - 'tests_physics_laws_scroll.mjs'
       - 'tests_chemistry_laws_scroll.mjs'
       - 'tests_chemistry_three_sections.mjs'
@@ -77,6 +79,8 @@ on:
       - 'tests_creator_live_ui.mjs'
       - 'android/**'
       - 'index.js'
+      - 'physics_*.mjs'
+      - 'tests_physics_*.mjs'
       - 'tests_physics_laws_scroll.mjs'
       - 'tests_chemistry_laws_scroll.mjs'
       - 'tests_chemistry_three_sections.mjs'
@@ -340,6 +344,15 @@ jobs:
           node tests_science_year_cards.mjs
           node tests_science_scroll_unlock.mjs
           node tests_science_viewport_keyboard.mjs
+          node tests_physics_complete.mjs
+          node tests_physics_primary_years.mjs
+          node tests_physics_country_year_entry_2026.mjs
+          node tests_physics_all_europe_year_depth.mjs
+          node tests_physics_country_practicals.mjs
+          node tests_physics_europe_coverage.mjs
+          node tests_physics_university_europe.mjs
+          node tests_physics_university_real_lessons.mjs
+          node tests_physics_university_independent_labs.mjs
           node tests_physics_laws_scroll.mjs
           node tests_chemistry_laws_scroll.mjs
           node tests_chemistry_individual_theory.mjs
