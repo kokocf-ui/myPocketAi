@@ -4,6 +4,7 @@ import {LITERATURE_DEEP_UNITS} from './literature_extended_study.mjs';
 import {LIT_SEVEN_COUNTRY_PROGRAMS} from './literature_seven_country_tracks.mjs';
 import {expandLiteratureEuropeanGrades} from './literature_europe_grade_expansion.mjs';
 import {romanianExpandedRows} from './literature_ro_expanded_years.mjs';
+import {literatureUniversityPlan} from './literature_university_years.mjs';
 // Literature pathways for Europe, referenced against official national/jurisdictional
 // publications. A verified framework is NOT an exhaustive list of mandatory works.
 // The generic path is explicitly advisory when a country, grade or track is not checked.
@@ -189,6 +190,18 @@ for(let year=1;year<=12;year++){
 }
 
 export function litEuropeanPlan(country, level, grade, track){
+ // University curricula are institutional, not grade-IX national curricula.
+ // A legacy generic "university" identifier opens the introductory year only
+ // for server compatibility. The Android picker uses exact cycle/year IDs.
+ if(level==='advanced'){
+  const requested=String(grade||'');
+  const uni=literatureUniversityPlan(requested)||literatureUniversityPlan('uni-ba-1');
+  return {
+   units:uni.units.map((x,i)=>({id:x.id,label:x.ro,focus:x.focus,topic:x.topic,order:i+1})),
+   source:null,sourceTitle:null,verified:false,requiresRegion:false,
+   status:'orientative',note:uni.note,grade:requested,track:String(track||'TC')
+  };
+ }
  const profile=LIT_EU_PROGRAMS[country]||null;
  const generic=LIT_EU_COMMON[level]||LIT_EU_COMMON.medium;
  const gradeKey=String(grade||'');
