@@ -9,6 +9,12 @@ import {ASTRONOMY_TOPICS} from './astronomy_curriculum.mjs';
 import {scienceGradeTopicPlan} from './science_grade_progression.mjs';
 
 assert.equal(EDUCATION_EUROPE_COUNTRIES.length,50);
+assert.equal(Object.keys(ASTRONOMY_COUNTRY_EVIDENCE).length,50,
+ 'Every European school-system selector needs a documented evidence policy, including explicit Vatican exception');
+for(const country of EDUCATION_EUROPE_COUNTRIES){
+ assert.ok(ASTRONOMY_COUNTRY_EVIDENCE[country]?.length,
+  'No curriculum source or explicit educational-system exception for '+country);
+}
 // The actual mobile app serializes the function, losing module closures.
 // This isolated-realm test previously missed the real 'evidence is not defined' crash.
 const browserAligned=vm.runInNewContext(
@@ -84,7 +90,7 @@ for(const code of ['DK','NL','NO','SE','LT','SI']){
 }
 assert.equal(astronomyNationalAlignment({country:'RO',stage:'lower',grade:'5'}).kind,'integrated');
 assert.equal(astronomyNationalAlignment({country:'GB-ENG',stage:'primary',grade:'Y5'}).kind,'integrated');
-assert.equal(astronomyNationalAlignment({country:'AD',stage:'lower',grade:'general-lower-1'}).kind,'unknown',
+assert.equal(astronomyNationalAlignment({country:'AD',stage:'upper',grade:'general-upper-1'}).kind,'unknown',
  'Unreviewed does not equal absent curriculum');
 for(const [country,stage,grade,expected] of [
  ['RO','lower','5',['solar','sky']],['GB-ENG','primary','Y5',['solar','sky']],
