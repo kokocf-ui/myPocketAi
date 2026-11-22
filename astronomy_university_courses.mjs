@@ -49,9 +49,9 @@ export function astronomyUniversityCourseChoices({
   ...item,university:true,courseYear:year,programme:specialty
  }));
 }
-export function astronomyUniversityStudyText({topic='',specialty='',grade='',language='ro',lessons=[]}={}){
+export function astronomyUniversityStudyText({topic='',specialty='',grade='',language='ro',lessons=[],entryId=''}={}){
  const ro=language==='ro';
- const source=lessons.filter(x=>x?.subject==='astronomy'&&x.topic===topic&&x.statement);
+ const source=lessons.filter(x=>x?.subject==='astronomy'&&x.topic===topic&&x.statement&&(!entryId||x.id===entryId));
  if(!source.length)return '';
  const domain=topic.startsWith('special-')?{
   'special-stellar':'stars','special-dynamics':'gravity','special-galactic':'galaxies',

@@ -289,37 +289,142 @@ export function astronomySchoolTopicLessons({country='',grade='',stage='primary'
   };
  });
 }
+// One chapter's practical figures should represent that chapter; unrelated
+// Solar System, parallax or galaxy cartoons must not be recycled everywhere.
 export const ASTRONOMY_TOPIC_DIAGRAMS=Object.freeze({
- solar:['solar','orbit'],sky:['solar','parallax'],distances:['parallax','telescope'],
- gravity:['orbit','solar'],stars:['hr','telescope'],galaxies:['galaxy','cosmos'],
- observations:['telescope','parallax'],cosmology:['cosmos','galaxy'],exoplanets:['transit','orbit'],
- 'special-stellar':['hr','telescope'],'special-dynamics':['orbit','solar'],
- 'special-galactic':['galaxy','cosmos'],'special-cosmo':['cosmos','galaxy'],
- 'special-planetary':['transit','solar'],'special-instruments':['telescope','parallax'],
- 'special-highenergy':['hr','galaxy']
+ solar:['solar','phases'],
+ sky:['skycoords','daynight'],
+ distances:['lighttravel','parallax'],
+ gravity:['orbit','orbittransfer'],
+ stars:['stellarlife','hr'],
+ galaxies:['galaxy','rotationcurve'],
+ observations:['telescope','spectrum'],
+ cosmology:['cosmos','redshift'],
+ exoplanets:['transit','lightcurve'],
+ 'special-stellar':['stellarlife','spectrum'],
+ 'special-dynamics':['orbittransfer','orbit'],
+ 'special-galactic':['rotationcurve','galaxy'],
+ 'special-cosmo':['redshift','cosmos'],
+ 'special-planetary':['atmosphere','transit'],
+ 'special-instruments':['interferometer','telescope'],
+ 'special-highenergy':['accretion','spectrum']
 });
-export function astronomyLabMaterial({topic='',stage='primary',grade='',language='ro'}={}){
- const plan=ASTRONOMY_STUDY_CASES[topic]||ASTRONOMY_STUDY_CASES[
+export const ASTRONOMY_LAB_TOPIC=Object.freeze({
+ solar:['Mișcări în Sistemul Solar','Solar System motions',
+  'compararea mișcării de rotație cu revoluția folosind corpuri etichetate'],
+ sky:['Coordonate și orientare','Sky coordinates and orientation',
+  'estimarea altitudinii și azimutului pe o hartă simulată cu origine explicită'],
+ distances:['Lumină și distanță','Light and distance',
+  'conversia unităților astronomice și compararea geometriei de paralaxă'],
+ gravity:['Orbite și gravitație','Orbits and gravity',
+  'compararea vitezelor și ariilor măturate într-o orbită idealizată'],
+ stars:['Stele și evoluție','Stars and evolution',
+  'compararea temperaturii și luminozității dintr-un tabel de stele public sau simulat'],
+ galaxies:['Structuri galactice','Galactic structures',
+  'clasificarea a două galaxii și interpretarea unei curbe de rotație simulate'],
+ observations:['Instrumente și observații','Instruments and observations',
+  'estimarea rezoluției unei aperturi și documentarea condițiilor de observație'],
+ cosmology:['Expansiunea Universului','Universe expansion',
+  'compararea redshiftului și distanței într-un set de date etichetat ca simulat'],
+ exoplanets:['Curbe de tranzit','Transit light curves',
+  'calcularea adâncimii relative a unui tranzit cu un model controlat'],
+ 'special-stellar':['Modele stelare','Stellar models',
+  'compararea unui model de secvență principală cu un obiect evoluat'],
+ 'special-dynamics':['Mecanică cerească','Celestial dynamics',
+  'analiza unei orbite transferate și a ipotezelor dinamice'],
+ 'special-galactic':['Dinamica galactică','Galactic dynamics',
+  'compararea curbei de rotație observate cu o aproximație Kepleriană'],
+ 'special-cosmo':['Parametri cosmologici','Cosmological parameters',
+  'confruntarea unui model de expansiune cu redshifturile tabelate'],
+ 'special-planetary':['Atmosfere și planete','Planetary atmospheres',
+  'compararea proprietăților atmosferelor planetare și a incertitudinilor'],
+ 'special-instruments':['Astrometrie și instrumentație','Astrometry and instrumentation',
+  'evaluarea rezoluției și a calibrării unui instrument'],
+ 'special-highenergy':['Energii înalte','High energies',
+  'separarea unui semnal energetic modelat de fondul simulat']
+});
+// The teaching method evolves every year; the practical is not the same
+// three static activities repeated for all classes or university cohorts.
+export const ASTRONOMY_LAB_YEAR_METHODS=Object.freeze({
+ primary:[
+  ['Recunoaște obiectele și descrie ceea ce observi într-un desen simplu.','Identify and describe the observed objects in a simple drawing.'],
+  ['Compară două observații și consemnează ce s-a schimbat.','Compare two observations and record the change.'],
+  ['Construiește un model simplu și explică de ce nu este la scară.','Make a simple model and explain its scale limitations.'],
+  ['Organizează observațiile într-un tabel cu dată și descriere.','Organise observations in a date-and-description table.']
+ ],
+ lower:[
+  ['Descrie variabilele și distinge observarea de explicație.','Identify variables and distinguish observation from explanation.'],
+  ['Controlează un singur factor într-o comparație repetabilă.','Control one factor in a repeatable comparison.'],
+  ['Construiește un grafic cu axe și unități pentru date simulate.','Plot labelled axes and units for simulated data.'],
+  ['Examinează o ipoteză și explică limitele dovezilor disponibile.','Test a hypothesis and discuss evidence limitations.']
+ ],
+ upper:[
+  ['Definește parametrii unui model și unitățile de măsură.','Define model parameters and their units.'],
+  ['Aplică o relație matematică și verifică dimensiunile fizice.','Apply a mathematical relation and verify physical dimensions.'],
+  ['Compară predicții ale două modele și descrie diferențele.','Compare two model predictions and describe their differences.'],
+  ['Analizează incertitudinile și construiește un raport argumentat.','Analyse uncertainty and produce an evidence-based report.']
+ ],
+ advanced:[
+  ['Documentează setul de date, unitățile și metodologia înainte de prelucrare.','Document data provenance, units and methods before analysis.'],
+  ['Evaluează calibrarea, propagarea erorilor și reziduurile modelului.','Evaluate calibration, uncertainty propagation and fit residuals.'],
+  ['Compară două ipoteze și cuantifică erorile sistematice posibile.','Compare competing hypotheses and quantify potential systematic errors.'],
+  ['Construiește un proiect reproductibil cu limitări, bibliografie și cod sau calcule verificabile.','Build a reproducible study with limitations, references and checkable code or calculations.']
+ ]
+});
+export function astronomyLabMaterial({topic='',stage='primary',grade='',language='ro',
+ years=[],specialty=''}={}){
+ const source=(stage==='primary'?ASTRONOMY_PRIMARY_CASES[topic]:null)||
+  ASTRONOMY_STUDY_CASES[topic]||ASTRONOMY_STUDY_CASES[
   {'special-stellar':'stars','special-dynamics':'gravity','special-galactic':'galaxies',
    'special-cosmo':'cosmology','special-planetary':'exoplanets','special-instruments':'observations',
    'special-highenergy':'stars'}[topic]];
- if(!plan)return '';
- const idx=stage==='primary'?0:stage==='lower'?1:2,ro=language==='ro';
- const title=ro?'Laborator de astronomie — observaţie şi model':'Astronomy practical — observation and model';
- const materials=ro?'Caiet, creion, riglă şi o diagramă ori simulare. Nu folosi instrumente optice către Soare fără filtre solare profesionale certificate.':
-  'Notebook, pencil, ruler and a diagram or simulation. Never point optical instruments at the Sun without professionally certified solar filters.';
+ const strand=ASTRONOMY_LAB_TOPIC[topic];
+ if(!source||!strand)return '';
+ const ro=language==='ro',isUniversity=stage==='advanced';
+ const countryYearIndex=(Array.isArray(years)?years:[]).findIndex(y=>String(y?.id)===String(grade));
+ const universityYear=Number(String(grade).replace('univ-',''));
+ const stageMethods=ASTRONOMY_LAB_YEAR_METHODS[stage]||ASTRONOMY_LAB_YEAR_METHODS.upper;
+ const localIndex=isUniversity?Math.max(0,Math.min(3,(universityYear||1)-1)):
+  Math.max(0,countryYearIndex);
+ const yearSlot=(Array.isArray(years)&&years.length>1)?
+  Math.min(3,Math.floor(localIndex*4/years.length)):Math.min(3,localIndex);
+ const method=stageMethods[yearSlot]||stageMethods[0];
+ const sourceIndex=(localIndex+(
+  Object.keys(ASTRONOMY_LAB_TOPIC).indexOf(topic)
+ ))%source.core.length;
+ const title=ro?'Laborator de astronomie: ':'Astronomy practical: ';
+ const point=ro?strand[2]:
+  'Use a chapter-specific simulated dataset or observational sketch with declared variables.';
+ const provenance=ro?
+  'Pentru date reale citează catalogul și data; orice valori inventate pentru demonstrație trebuie marcate SIMULARE.':
+  'For real observations cite the catalogue and date; mark invented practice numbers as SIMULATED.';
+ const safety=ro?
+  'Nu privi Soarele direct și nici prin dispozitive optice fără filtre solare certificate.':
+  'Never look at the Sun directly or through optical instruments without certified solar filters.';
  return [
-  '# '+title+' · '+(grade||''),
-  '# '+(ro?'Obiectiv':'Objective'),plan.core[idx],
-  '# '+(ro?'Materiale şi siguranţă':'Materials and safety'),materials,
-  '# '+(ro?'Procedură':'Procedure'),plan.examples[idx],
-  '# '+(ro?'Fişa de observaţie':'Observation record'),
-  ro?'Notează în tabel: data şi ora (dacă există observaţie reală), variabila studiată, observaţia, valoarea sau desenul şi sursa. Orice date simulate trebuie marcate explicit „simulare”.':
-   'Record time (if observational), variable, observation, measured value or sketch, and source. Label any simulated data clearly.',
-  '# '+(ro?'Analiză şi întrebări':'Analysis and questions'),plan.questions[idx],
-  '# '+(ro?'Răspuns orientativ':'Reference answer'),plan.answers[idx],
-  '# '+(ro?'Concluzie şi limite':'Conclusion and limitations'),
-  ro?'Separă observaţia directă de interpretare. Modelul nu păstrează automat scara, nu furnizează poziţii astronomice în timp real şi nu produce date experimentale reale.':
-   'Separate observed evidence from interpretation. Diagrams are not automatically to scale, do not provide live sky positions and are not experimental measurements.'
- ].join('\n\n');
+  '# '+title+(ro?strand[0]:strand[1])+' · '+String(grade),
+  '# '+(ro?'Obiectiv și întrebare de cercetare':'Research question and objective'),
+  ro?point:'Study: '+(strand[1]||'')+'. '+source.core[sourceIndex],
+  '# '+(ro?'Fundamentare':'Scientific background'),source.core[sourceIndex],
+  '# '+(ro?'Materiale și siguranță':'Materials and safety'),
+  (ro?'Caiet, riglă, desen sau simulare, tabel pentru rezultate; pentru nivel universitar se poate folosi un catalog public ori un program de analiză.':
+   'Notebook, ruler, diagram or simulation and data sheet; advanced work may use a public catalogue or analysis software.')+' '+safety,
+  '# '+(ro?'Metodă potrivită anului':'Year-specific method'),
+  ro?method[0]:method[1],
+  '# '+(ro?'Procedură specifică':'Topic-specific procedure'),source.examples[sourceIndex],
+  '# '+(ro?'Fișa datelor':'Data sheet'),
+  (ro?'Completează câmpurile: sursa, dată sau moment simulat, variabila independentă, variabila măsurată, unitate, incertitudine sau limită, rezultat observat.':
+   'Record source, actual or simulated time, independent variable, measured variable, unit, uncertainty or limitation, observed result.'),
+  '# '+(ro?'Exercițiu':'Check understanding'),source.questions[sourceIndex],
+  '# '+(ro?'Rezultat orientativ':'Expected reasoning'),source.answers[sourceIndex],
+  '# '+(ro?'Interpretare și limite':'Interpretation and limitations'),
+  provenance+' '+(isUniversity?
+   (ro?'Repetă analiza pentru altă selecție de date, compară reziduurile și discută dacă modelul poate explica fenomenul.':
+    'Repeat analysis on a second selection, compare residuals and discuss whether the model explains the phenomenon.'):
+   (ro?'Spune ce nu se poate concluziona din desen sau din datele disponibile.':
+    'State what cannot be concluded from the drawing or available data.')),
+  '# '+(ro?'Concluzie':'Conclusion'),
+  ro?'Formulează o concluzie bazată pe observațiile sau simulările documentate; nu confunda reprezentările cu măsurătorile astronomice în timp real.':
+   'Conclude from documented observations or simulation; do not mistake drawings for live astronomical measurements.'
+ ].join('\\n\\n');
 }
