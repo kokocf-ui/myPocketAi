@@ -10731,11 +10731,11 @@ function astronomyVisualKind(question,topic){
  if(/spectr|stele|stea|diagrama hr/.test(q)||topic==='stars'||topic==='special-stellar')return 'hr';
  if(/telescop|difract|observ/.test(q)||topic==='observations')return 'telescope';
  if(/galax|spiral/.test(q)||topic==='galaxies'||topic==='special-galactic')return 'galaxy';
- return topic==='solar'||topic==='sky'?'solar':null;
+ return topic==='solar'?'solar':topic==='sky'?'sky':null;
 }
 function astronomyVisualBuild(kind){
  if(!kind)return null;
- const names={solar:['Sistem solar · schematic','Solar system · schematic'],orbit:['Orbită eliptică · model','Elliptical orbit · model'],parallax:['Paralaxă · geometrie','Parallax · geometry'],hr:['Diagrama H–R · schematic','H–R diagram · schematic'],transit:['Tranzit planetar · model','Planet transit · model'],cosmos:['Expansiunea cosmică · schematic','Cosmic expansion · schematic'],telescope:['Telescop · raze','Telescope · rays'],galaxy:['Galaxie spirală · schematic','Spiral galaxy · schematic']};
+ const names={solar:['Sistem solar · schematic','Solar system · schematic'],sky:['Cerul · orizont și zenit','Sky · horizon and zenith'],orbit:['Orbită eliptică · model','Elliptical orbit · model'],parallax:['Paralaxă · geometrie','Parallax · geometry'],hr:['Diagrama H–R · schematic','H–R diagram · schematic'],transit:['Tranzit planetar · model','Planet transit · model'],cosmos:['Expansiunea cosmică · schematic','Cosmic expansion · schematic'],telescope:['Telescop · raze','Telescope · rays'],galaxy:['Galaxie spirală · schematic','Spiral galaxy · schematic']};
  const section=document.createElement('section');section.className='physics-visual astronomy-visual';
  const title=document.createElement('h3');title.textContent=learningLabel(...names[kind]);section.append(title);
  const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');svg.setAttribute('viewBox','0 0 360 210');svg.setAttribute('role','img');svg.setAttribute('aria-label',title.textContent);section.append(svg);
@@ -10770,6 +10770,16 @@ function astronomyVisualBuild(kind){
    card.textContent=learningLabel(ro+' — '+detailRo,en+' — '+detailEn);facts.append(card);
   }
   section.append(facts);
+ }else if(kind==='sky'){
+  line(24,169,336,169);label(25,190,learningLabel('orizont','horizon'));
+  add('path',{d:'M55 169 Q180 38 305 169',fill:'none',stroke:'#6799b9','stroke-dasharray':'5 5','stroke-width':1.5});
+  circle(180,169,5,'#aaccdb');line(180,169,180,24);
+  label(185,29,learningLabel('zenit','zenith'));
+  const px=259,py=81;circle(px,py,6,'#ffdfa0');
+  line(180,169,px,py);label(266,83,learningLabel('astru','object'));
+  add('path',{d:'M210 169 Q211 143 230 125',fill:'none',stroke:'#f0ca7f','stroke-width':2});
+  label(219,154,learningLabel('înălțime','altitude'));
+  label(12,207,learningLabel('Secțiune verticală · direcție, nu poziție reală','Vertical plane · direction, not live position'));
  }else if(kind==='orbit'){
   add('ellipse',{cx:180,cy:106,rx:140,ry:70,fill:'none',stroke:'#8eddef','stroke-width':2});circle(95,106,13,'#ffcf73');circle(305,143,7,'#9bb9f5');line(95,106,305,143);label(67,93,'focar');label(295,165,'corp');label(158,25,'orbită eliptică');
  }else if(kind==='parallax'){
@@ -10847,8 +10857,8 @@ function astronomyDiagramPicker(allowed=null){
  const back=document.createElement('button');back.type='button';back.className='secondary-btn';back.textContent=learningLabel('← Revenire','← Back');back.onclick=()=>dialog.close();header.append(title,back);
  const list=document.createElement('div');list.className='physics-theory-list';
  const detail=document.createElement('div');detail.className='physics-theory-detail';detail.hidden=true;
- for(const kind of (Array.isArray(allowed)&&allowed.length?allowed:['solar','orbit','parallax','hr','transit','cosmos','telescope','galaxy'])){
-  const btn=document.createElement('button');btn.type='button';btn.className='secondary-btn chemistry-curriculum-row';btn.textContent=learningLabel(...({solar:['Sistem solar','Solar system'],orbit:['Orbite','Orbits'],parallax:['Paralaxă','Parallax'],hr:['Diagrama H–R','H–R diagram'],transit:['Tranzit','Transit'],cosmos:['Expansiune cosmică','Cosmic expansion'],telescope:['Telescop','Telescope'],galaxy:['Galaxie','Galaxy']})[kind]);btn.onclick=()=>{detail.replaceChildren(astronomyVisualBuild(kind));detail.hidden=false;list.hidden=true};list.append(btn);
+ for(const kind of (Array.isArray(allowed)&&allowed.length?allowed:['solar','sky','orbit','parallax','hr','transit','cosmos','telescope','galaxy'])){
+  const btn=document.createElement('button');btn.type='button';btn.className='secondary-btn chemistry-curriculum-row';btn.textContent=learningLabel(...({solar:['Sistem solar','Solar system'],sky:['Orizont și zenit','Horizon and zenith'],orbit:['Orbite','Orbits'],parallax:['Paralaxă','Parallax'],hr:['Diagrama H–R','H–R diagram'],transit:['Tranzit','Transit'],cosmos:['Expansiune cosmică','Cosmic expansion'],telescope:['Telescop','Telescope'],galaxy:['Galaxie','Galaxy']})[kind]);btn.onclick=()=>{detail.replaceChildren(astronomyVisualBuild(kind));detail.hidden=false;list.hidden=true};list.append(btn);
  }
  back.onclick=()=>{if(!detail.hidden){detail.hidden=true;list.hidden=false}else dialog.close()};
  dialog.append(header,list,detail);dialog.addEventListener('close',()=>dialog.remove());document.body.append(dialog);try{dialog.showModal()}catch{dialog.setAttribute('open','')};

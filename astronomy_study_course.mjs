@@ -230,7 +230,7 @@ export function astronomySchoolTopicLessons({country='',grade='',stage='primary'
  });
 }
 export const ASTRONOMY_TOPIC_DIAGRAMS=Object.freeze({
- solar:['solar','orbit'],sky:['solar','parallax'],distances:['parallax','telescope'],
+ solar:['solar','orbit'],sky:['sky'],distances:['parallax','telescope'],
  gravity:['orbit','solar'],stars:['hr','telescope'],galaxies:['galaxy','cosmos'],
  observations:['telescope','parallax'],cosmology:['cosmos','galaxy'],exoplanets:['transit','orbit'],
  'special-stellar':['hr','telescope'],'special-dynamics':['orbit','solar'],
