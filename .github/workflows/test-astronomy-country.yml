@@ -1,0 +1,30 @@
+name: Astronomy country curriculum — standalone acceptance
+on:
+  pull_request:
+    paths:
+      - 'astronomy_*.mjs'
+      - 'tests_astronomy_*.mjs'
+      - 'science_grade_progression.mjs'
+      - 'education_all_country_subject_matrix.mjs'
+      - 'index.js'
+      - '.github/workflows/test-astronomy-country.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify-astronomy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Astronomy syntax and 50-country policy
+        run: |
+          node --check index.js
+          node --check astronomy_europe_frameworks.mjs
+          node --check science_grade_progression.mjs
+          node tests_astronomy_country_curriculum.mjs
+          node tests_astronomy_complete.mjs
+          node tests_astronomy_year_depth.mjs

@@ -93,6 +93,7 @@ import {physicsVerifiedExercise} from './physics_verified.mjs';
 import {ASTRONOMY_TOPICS,ASTRONOMY_SPECIALIZATIONS,ASTRONOMY_LESSONS} from './astronomy_curriculum.mjs';
 import {astronomyVerifiedExercise} from './astronomy_verified.mjs';
 import {ASTRONOMY_STUDY_CASES,ASTRONOMY_TOPIC_DIAGRAMS,astronomySchoolTopicLessons,astronomyLabMaterial} from './astronomy_study_course.mjs';
+import {ASTRONOMY_EUROPE_COUNTRIES,ASTRONOMY_EUROPE_FRAMEWORKS,astronomyCountryGradePlan} from './astronomy_europe_frameworks.mjs';
 import {ASTRONOMY_UNIVERSITY_DEFAULT_FOUR,ASTRONOMY_UNIVERSITY_ELECTIVES,astronomyUniversityRoutes,astronomyUniversityRoute,astronomyUniversityYears,astronomyUniversityCourseChoices,astronomyUniversityStudyText,astronomyUniversityProjectText} from './astronomy_university_courses.mjs';
 import {FOREIGN_LANGUAGES,FOREIGN_LEVELS,FOREIGN_TOPICS,FOREIGN_PHRASES,ANCIENT_GREEK_PHRASES,CLASSICAL_LEVELS} from './foreign_languages_curriculum.mjs';
 import {MODERN_OUTCOMES,CLASSICAL_OUTCOMES,TOPIC_GOALS,foreignStudyPlan,foreignStudyRubric,foreignStudyReview,foreignStudyDue,foreignStudyPlacementQuestions,foreignStudyPlacementResult} from './foreign_languages_learning.mjs';
@@ -8461,6 +8462,17 @@ function scienceJourneyShowChoices(stage){
   learningLabel('Țara: ','Country: ')+educationCountrySelection.label+' · '+learningLabel('Clasa: ','Grade: ')+(['physics','chemistry'].includes(scienceJourney.subject)&&scienceJourney.schoolStage==='advanced'?
     learningLabel('Anul universitar ','University year ')+String(scienceJourney.grade||'').replace('univ-',''):(scienceJourney.grade||''))+'. '+learningLabel('Program general de studiu, organizat pe clase; nu înlocuiește programa școlii.','General grade-by-grade learning route, not an official school syllabus.')+
    (scienceJourney.schoolStage==='primary'?' '+learningLabel('La primar, disciplinele sunt explorate integrat, fără a le declara obligatorii separat.','In primary school these sciences are explored together, not declared separate compulsory subjects.'):'');
+ if(scienceJourney.subject==='astronomy'&&stage==='topics'&&['primary','lower','upper'].includes(scienceJourney.schoolStage)){
+  const schoolStage=scienceJourney.schoolStage;
+  const scope=SCIENCE_GRADE_TOPIC_PLAN({
+   country:educationCountrySelection.code,subject:'astronomy',stage:schoolStage,
+   grade:scienceJourney.grade,years:eduYearOptions(educationCountrySelection.code,
+    schoolStage==='upper'?'intermediate':schoolStage,'science'),topics:ASTRONOMY_TOPIC_DATA
+  });
+  note.textContent=educationCountrySelection.label+' · '+
+   learningLabel(scope.astronomyNoteRo||'Parcurs orientativ.',
+    scope.astronomyNoteEn||'Advisory learning route.');
+ }
  if(scienceJourney.subject==='chemistry'&&scienceJourney.schoolStage==='upper'&&stage==='topics'){
   note.textContent=educationCountrySelection.label+' · '+learningLabel(
    'Parcurs liceal cu mai multe capitole și lecții. Ordinea și obligativitatea diferă după profil, țară și generația școlară; nu este o programă unică certificată.',
@@ -9407,6 +9419,9 @@ const PHYSICS_EUROPE_REFERENCES=${JSON.stringify(PHYSICS_EUROPE_REFERENCES)};
 const PHYSICS_ADVISORY_TOPIC_SEQUENCES=${JSON.stringify(PHYSICS_ADVISORY_TOPIC_SEQUENCES)};
 const PHYSICS_COUNTRY_YEAR_SEQUENCES=${JSON.stringify(PHYSICS_COUNTRY_YEAR_SEQUENCES)};
 const physicsCountryGradePlan=${physicsCountryGradePlan.toString()};
+const ASTRONOMY_EUROPE_COUNTRIES=${JSON.stringify(ASTRONOMY_EUROPE_COUNTRIES)};
+const ASTRONOMY_EUROPE_FRAMEWORKS=${JSON.stringify(ASTRONOMY_EUROPE_FRAMEWORKS)};
+const astronomyCountryGradePlan=${astronomyCountryGradePlan.toString()};
 const SCIENCE_GRADE_TOPIC_PLAN=${scienceGradeTopicPlan.toString()};
 const SCIENCE_GRADE_LESSON_FRAME=${scienceGradeLessonFrame.toString()};
 const PHYSICS_TOPIC_DATA=${JSON.stringify(PHYSICS_TOPICS)};
