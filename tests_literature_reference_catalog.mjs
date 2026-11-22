@@ -19,7 +19,7 @@ for(const [section,group,term,part] of [
  ['grammatica','Substantiv și articol','Genitiv','posesia'],
  ['grammatica','Adjectiv și pronume','Superlativ absolut','însușire'],
  ['abrevieri','Formule uzuale','ș.a.m.d.','mai departe'],
- ['abrevieri','Carte și școală','ISBN','cărți'],
+ ['abrevieri','Carte și școală','ISBN','ediție'],
  ['unitati','Lungime','km','o mie de metri'],
  ['unitati','Masă','kg','masă'],
  ['unitati','Timp','min','șaizeci'],
