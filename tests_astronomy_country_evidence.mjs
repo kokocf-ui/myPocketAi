@@ -39,6 +39,18 @@ assert.equal(astronomyNationalAlignment({country:'SI',stage:'lower',grade:'7'}).
 assert.equal(astronomyNationalAlignment({country:'LT',stage:'upper',grade:'11'}).kind,'optional-standalone');
 assert.deepEqual(astronomyNationalAlignment({country:'LT',stage:'upper',grade:'12'}).topicIds,
  ['stars','galaxies','cosmology','exoplanets','gravity','distances','observations','sky']);
+assert.equal(astronomyNationalAlignment({country:'IT',stage:'lower',grade:'M1'}).sourceYear,2025,
+ 'Italy new 2025 curriculum starts with lower-secondary Year 1 in 2026/27');
+assert.equal(astronomyNationalAlignment({country:'IT',stage:'lower',grade:'M3'}).sourceYear,2012,
+ 'Italy 2012 framework legally remains in force for pre-reform cohorts');
+assert.equal(astronomyNationalAlignment({country:'IT',stage:'primary',grade:'P1'}).sourceYear,2025);
+assert.equal(astronomyNationalAlignment({country:'IT',stage:'primary',grade:'P5'}).sourceYear,2012);
+assert.equal(astronomyNationalAlignment({country:'MT',stage:'lower',grade:'7'}).sourceYear,2025);
+assert.equal(astronomyNationalAlignment({country:'MT',stage:'lower',grade:'8'}).sourceYear,2026);
+assert.equal(astronomyNationalAlignment({country:'UA',stage:'upper',grade:'11'}).topicIds.length,8);
+assert.equal(astronomyNationalAlignment({country:'UA',stage:'upper',grade:'10'}).yearScoped,false,
+ 'Grade 10 standalone is available in the profile route but not a mandated universal topic-by-year list');
+assert.equal(astronomyNationalAlignment({country:'LV',stage:'lower',grade:'7'}).sourceYear,2018);
 assert.equal(astronomyNationalAlignment({country:'MD',stage:'upper',grade:'12'}).sourceYear,2019,
  'Moldovan adopted 2019 Physics/Astronomy curriculum must remain recognized while 2026 proposal is pending');
 assert.equal(astronomyNationalAlignment({country:'DE',stage:'lower',grade:'8'}).kind,'framework-only',
