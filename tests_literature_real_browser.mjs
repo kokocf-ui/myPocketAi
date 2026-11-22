@@ -13,7 +13,12 @@ for(const candidate of paths){const p=spawnSync('which',[candidate],{encoding:'u
 assert.ok(executable,'Chromium/Chrome is required: cannot replace an actual browser test with mocks');
 const response=await frontend.fetch(new Request('https://pocket.example/'));
 assert.equal(response.status,200);
-const html=await response.text();
+let html=await response.text();
+// Test-only hook inside the existing app closure: set the same language a
+// Romanian user selected in Settings, without exposing production globals.
+assert.ok(html.includes('function litOpen(stage){'));
+html=html.replace('function litOpen(stage){',
+ "window.__literatureAcceptance={setLanguage(value){state.language=value}};function litOpen(stage){");
 const server=createServer((req,res)=>{
  if(req.url==='/favicon.ico'){res.writeHead(204);res.end();return}
  res.writeHead(200,{'Content-Type':'text/html; charset=utf-8','Access-Control-Allow-Origin':'*'});res.end(html)
@@ -97,6 +102,8 @@ try{
  assert.ok(abbreviation.groups>=3);
  const unit=await js("(()=>{const t=[...document.querySelectorAll('.lit-quick-tab')].find(x=>/Unit/i.test(x.textContent));t.click();const u=[...document.querySelectorAll('.lit-quick-option')].find(x=>x.textContent.startsWith('km ·'));u.click();return document.querySelector('.lit-quick-detail')?.innerText})()");
  assert.match(unit,/Kilometru/);
+ // Match the user's Romanian interface before asking for authored local theory.
+ await js("window.__literatureAcceptance.setLanguage('ro')");
  // Navigate as a real learner: RO > liceu > clasa IX > lecție > teorie.
  const nine=await js("(()=>{document.querySelector('[data-lit-quick-overlay] .lit-quick-back').click();const cards=[...document.querySelectorAll('#moduleContent .lit-choice-card')];const b=cards.find(x=>/Liceu|Intermediate|upper secondary/i.test(x.textContent));if(!b)return {ok:false,cards:cards.map(x=>x.textContent)};b.click();return {ok:true}})()");
  assert.ok(nine.ok,'Upper-secondary selection is absent: '+JSON.stringify(nine));
@@ -109,7 +116,7 @@ try{
  const theory=await js("(()=>{const buttons=[...document.querySelectorAll('#moduleContent button')];const t=buttons.find(x=>/Teorie|Theory/.test(x.textContent));if(!t)return {ok:false,buttons:buttons.map(x=>x.textContent)};t.click();return {ok:true}})()");
  assert.ok(theory.ok,'Actual Grade IX workspace has no theory action: '+JSON.stringify(theory));
  await sleep(350);
- const reader=await js("(()=>{const r=document.querySelector('.lit-reader-overlay,[data-literature-reader]');return {text:r?.innerText?.slice(0,7000)||'',visible:!!r}})()");
+ const reader=await js("(()=>{const r=document.querySelector('.lit-reader-overlay,[data-literature-reader]');return {text:r?.innerText?.slice(0,7000)||'',visible:!!r,status:document.querySelector('#moduleContent')?.innerText?.slice(0,500),detail:window.__pocketLiteratureReaderDetail||''}})()");
  assert.ok(reader.visible,'Theory reader did not open: '+JSON.stringify({reader,exceptions,logs}));
  assert.ok(!/Războiul stelelor|George Lucas|Star Wars/i.test(reader.text),'Grade IX automatically inserted unrelated Star Wars example');
  console.log('PASS real Chromium: real UI clicks, live dictionary, grammar, abbreviations, units and noninvented grade-IX theory');
