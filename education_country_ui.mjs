@@ -1,12 +1,14 @@
 import {EDUCATION_EUROPE_COUNTRIES,EDUCATION_SCHOOL_STAGES,
  educationCountrySchoolYears,educationSubjectSchoolPlan} from './education_all_country_subject_matrix.mjs';
 import {physicsCountryGradePlan} from './physics_europe_frameworks.mjs';
+import {chemistryCountryGradePlan} from './chemistry_country_alignment.mjs';
 // Only positively supported curriculum claims are serialized to Android;
 // generic subject lists must never be mistaken for verified grade programmes.
 const EDU_FRAMEWORK_GRADE_KEYS=[];
 const EDU_AUTHORED_GRADE_KEYS=[];
 const EDU_UNMAPPED_STAGE_KEYS=[];
 const EDU_PHYSICS_ABSENT_YEAR_KEYS=[];
+const EDU_CHEMISTRY_ABSENT_YEAR_KEYS=[];
 for(const code of EDUCATION_EUROPE_COUNTRIES)for(const stage of EDUCATION_SCHOOL_STAGES){
  const gradeTable=educationCountrySchoolYears(code,stage);
  if(gradeTable.status==='grade-unmapped')EDU_UNMAPPED_STAGE_KEYS.push(code+'|'+stage);
@@ -14,6 +16,8 @@ for(const code of EDUCATION_EUROPE_COUNTRIES)for(const stage of EDUCATION_SCHOOL
   const phase=stage==='medium'?'upper':'lower';
   if(physicsCountryGradePlan({country:code,stage:phase,grade:year.id,years:gradeTable.years}).status==='not-offered')
    EDU_PHYSICS_ABSENT_YEAR_KEYS.push(code+'|'+stage+'|'+year.id);
+  if(phase==='lower'&&chemistryCountryGradePlan({country:code,stage:phase,grade:year.id,years:gradeTable.years}).status==='not-offered')
+   EDU_CHEMISTRY_ABSENT_YEAR_KEYS.push(code+'|'+stage+'|'+year.id);
  }
  for(const year of gradeTable.years)for(const subject of ['literature','history','geography','exams']){
   const plan=educationSubjectSchoolPlan({country:code,stage,grade:year.id,subject});
@@ -28,6 +32,7 @@ export const EDUCATION_COUNTRY_UI_SCRIPT=
  'const EDU_AUTHORED_GRADE_KEYS=new Set('+JSON.stringify(EDU_AUTHORED_GRADE_KEYS)+');\n'+
  'const EDU_UNMAPPED_STAGE_KEYS=new Set('+JSON.stringify(EDU_UNMAPPED_STAGE_KEYS)+');\n'+
  'const EDU_PHYSICS_ABSENT_YEAR_KEYS=new Set('+JSON.stringify(EDU_PHYSICS_ABSENT_YEAR_KEYS)+');\n'+
+ 'const EDU_CHEMISTRY_ABSENT_YEAR_KEYS=new Set('+JSON.stringify(EDU_CHEMISTRY_ABSENT_YEAR_KEYS)+');\n'+
  String.raw`
 // Shared country-first entry for every Education category except foreign languages.
 // This is ONE editable country field, not a grid of countries.
@@ -259,11 +264,13 @@ function educationCountryGate(moduleKey,proceed){
 // Preserve every other subject, filtering only standalone Physics picker.
 function eduYearOptions(code,level,moduleKey){
  const rows=eduYearOptionsUnfiltered(code,level,moduleKey);
- if(moduleKey!=='science'||typeof scienceJourney==='undefined'||
-    scienceJourney.subject!=='physics'||
-    typeof EDU_PHYSICS_ABSENT_YEAR_KEYS==='undefined')return rows;
+ if(moduleKey!=='science'||typeof scienceJourney==='undefined')return rows;
+ const subject=String(scienceJourney.subject||'');
+ const absent=subject==='physics'?EDU_PHYSICS_ABSENT_YEAR_KEYS:
+  subject==='chemistry'?EDU_CHEMISTRY_ABSENT_YEAR_KEYS:null;
+ if(!absent)return rows;
  const stage=level==='intermediate'?'medium':level;
- return rows.filter(row=>!EDU_PHYSICS_ABSENT_YEAR_KEYS.has(
+ return rows.filter(row=>!absent.has(
   String(code).toUpperCase()+'|'+stage+'|'+String(row.id)));
 }
 function eduYearOptionsUnfiltered(code,level,moduleKey){
