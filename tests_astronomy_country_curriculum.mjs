@@ -103,6 +103,21 @@ assert.equal(get('PL','primary','I').policy.kind,'unverified','No verified Grade
 assert.equal(get('MT','lower','8').policy.kind,'unverified','Year 7 unit must not leak to Year 8');
 assert.equal(get('NO','upper','12').policy.kind,'unverified','Vg1 is not Vg2');
 assert.equal(get('ES','lower','ESO4').policy.status,'official-final-year-eso-topic');
+
+const lith11=get('LT','upper','11'),lith12=get('LT','upper','12');
+assert.equal(lith11.policy.kind,'national-optional');
+assert.equal(lith12.policy.kind,'national-optional');
+assert.ok(lith11.policy.source.includes('emokykla.lt'));
+assert.ok(lith11.plan.topics.some(x=>x.id==='solar'));
+assert.ok(lith12.plan.topics.some(x=>x.id==='stars'));
+assert.ok(lith12.plan.topics.some(x=>x.id==='galaxies'));
+assert.notDeepEqual(lith11.plan.topics.map(x=>x.id),lith12.plan.topics.map(x=>x.id));
+assert.equal(get('LT','lower','6').policy.kind,'integrated');
+assert.equal(get('LT','lower','7').policy.kind,'unverified');
+assert.equal(get('EE','primary','4').policy.status,'national-grade-4-nature-studies');
+assert.equal(get('EE','primary','3').policy.kind,'unverified');
+assert.equal(get('LV','primary','3').policy.status,'national-integrated-stage');
+assert.equal(get('LV','upper','11').policy.status,'astronomy-option-not-year-specific');
 assert.equal(astronomyCountryGradePlan({country:'RO',stage:'lower',grade:'99',years:[]}).status,'invalid-selection');
 const html=await(await app.fetch(new Request('https://astronomy-europe-registry.test/'))).text();
 const script=html.match(/<script>([\s\S]*?)<\/script>/)?.[1]||'';

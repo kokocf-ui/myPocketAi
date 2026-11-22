@@ -29,6 +29,16 @@ export const ASTRONOMY_EUROPE_FRAMEWORKS=Object.freeze({
   lower:{source:'https://eduscol.education.gouv.fr/6878/ressources-d-accompagnement-du-programme-de-sciences-et-technologie-au-cycle-3',scope:'legacy-cycle-3-6e-2026'}
  }),
 
+
+ LT:Object.freeze({
+  lower:{source:'https://emokykla.lt/bendrosios-programos/visos-bendrosios-programos/38',scope:'national-science-curriculum-grade-6'},
+  upper:{source:'https://emokykla.lt/bendrosios-programos/visos-bendrosios-programos/15',scope:'national-elective-Astronomija-gymnasium-III-IV'}
+ }),
+ EE:Object.freeze({primary:{source:'https://oppekava.ee/pohiharidus/loodusained-2/loodusopetus/',scope:'national-general-studies-grade-4'}}),
+ LV:Object.freeze({
+  primary:{source:'https://skola2030.lv/lv/macibu-saturs/macibu-jomas/dabaszinatnes',scope:'national-science-integrated-grades-1-6'},
+  upper:{source:'https://www.skola2030.lv/admin/filemanager/files/2/visp_vid_izgl_modelis.pdf',scope:'upper-secondary-optional-course-model-not-year-fixed'}
+ }),
  SE:Object.freeze({
   primary:{source:'https://www.skolverket.se/undervisning/grundskolan/kursplaner-for-grundskolan/subjects/GRGRFYS01?currentListHeading=Kursplaner+i+grundskolan&schoolType=GR&timespan=LATEST&typeOfSyllabus=COURSE_SYLLABUS',scope:'LGR22-physics-years-4-6'},
   lower:{source:'https://www.skolverket.se/undervisning/grundskolan/kursplaner-for-grundskolan/subjects/GRGRFYS01?currentListHeading=Kursplaner+i+grundskolan&schoolType=GR&timespan=LATEST&typeOfSyllabus=COURSE_SYLLABUS',scope:'LGR22-physics-years-7-9'},
@@ -137,6 +147,53 @@ export function astronomyCountryGradePlan({country='',stage='primary',grade='',y
 
  // Source-backed national programmes: compare year IDs with the existing country picker.
  // Goals and topic lists below are ORIGINAL teaching adaptations, not verbatim official syllabi.
+
+ if(code==='LT'){
+  if(level==='lower'&&year==='6')return {...general,
+   status:'national-science-grade-6',kind:'integrated',
+   topicIds:['solar','sky','stars','observations'],
+   source:base?.source||null,sourceScope:base?.scope||null,offerVerified:true,
+   programmeRo:'Gamtos mokslai · clasa a 6-a · Sistemul Solar',
+   programmeEn:'Natural sciences · Grade 6 · Solar System',
+   noteRo:'În Lituania clasa a VI-a, Gamtos mokslai include observația Soarelui, Lunii și stelelor, fazele, eclipsele, constelațiile, planetele și diferența dintre astronomie și astrologie. Este Știință integrată, nu Astronomie separată obligatorie.',
+   noteEn:'Lithuania Grade 6 Natural Sciences includes Sun, Moon and stars, phases, eclipses, constellations and distinguishing astronomy from astrology. It is integrated Science, not compulsory separate Astronomy.'};
+  if(level==='upper'&&['11','12'].includes(year)){
+   const yr3=year==='11';
+   return {...general,status:'national-astronomy-elective-curriculum',kind:'national-optional',
+    topicIds:yr3?['solar','sky','distances','gravity','observations']:['stars','galaxies','cosmology','observations','exoplanets'],
+    source:base?.source||null,sourceScope:base?.scope||null,offerVerified:true,
+    programmeRo:yr3?'Astronomija · III gimnazijos klasė':'Astronomija · IV gimnazijos klasė',
+    programmeEn:yr3?'Astronomy elective · Gymnasium year III':'Astronomy elective · Gymnasium year IV',
+    noteRo:yr3?
+     'Programă națională lituaniană de Astronomie ca disciplină liber aleasă, anul III gimnazial (echivalent clasa 11): planete, sateliți, corpuri mici, Soare, astrometrie, paralaxă. Se oferă după alegerea școlii și elevului, nu obligatoriu.':
+     'Programă națională lituaniană de Astronomie ca disciplină liber aleasă, anul IV gimnazial (echivalent clasa 12): spectre stelare, diagrama H–R, evoluție stelară, galaxii și cosmologie. Nu este obligatorie la toate școlile.',
+    noteEn:yr3?
+     'Lithuania provides a freely chosen Astronomy national syllabus in Gymnasium III (Grade 11): planets, moons, small bodies, the Sun, astrometry and parallax. It is elective, not compulsory.':
+     'Lithuania provides a freely chosen Astronomy national syllabus in Gymnasium IV (Grade 12): stellar spectra, H–R diagram, stellar evolution, galaxies and cosmology. It is not compulsory for every pupil.'};
+  }
+ }
+ if(code==='EE'&&level==='primary'&&year==='4')return {...general,
+  status:'national-grade-4-nature-studies',kind:'integrated',
+  topicIds:['solar','sky','stars','observations'],
+  source:base?.source||null,sourceScope:base?.scope||null,offerVerified:true,
+  programmeRo:'Loodusõpetus · clasa a 4-a · Maailmaruum',
+  programmeEn:'Nature studies · Grade 4 · Outer space',
+  noteRo:'În Estonia, clasa a IV-a, Loodusõpetus: Soare, Pământ, Lună, planete, constelații, Calea Lactee, modelarea mărimilor și distanțelor, ziua/noaptea și determinarea Nordului după Steaua Polară.',
+  noteEn:'Estonia Grade 4 Nature Studies covers the Sun, Earth, Moon, planets, constellations, solar-system scale models, day/night and orientation using the Pole Star.'};
+ if(code==='LV'){
+  if(level==='primary')return {...general,status:'national-integrated-stage',kind:'integrated',
+   source:base?.source||null,sourceScope:base?.scope||null,
+   programmeRo:'Dabaszinības · Științe integrate · anii 1–6',
+   programmeEn:'Integrated natural science · Years 1–6',
+   noteRo:'Letonia studiază Sistemul Solar în domeniul Dabaszinības în anii 1–6, iar din anul 7 îl distribuie în Științe, Fizică și Geografie. Cadrul Skola2030 nu justifică aceeași listă obligatorie în fiecare clasă.',
+   noteEn:'Latvia teaches the Solar System in integrated Nature Studies at Years 1–6; separate science subjects start from Year 7. Skola2030 does not prescribe an identical chapter list for each year.'};
+  if(level==='upper')return {...general,status:'astronomy-option-not-year-specific',kind:'national-optional',
+   source:base?.source||null,sourceScope:base?.scope||null,offerVerified:true,
+   programmeRo:'Astronomija · curs la alegere în liceu',
+   programmeEn:'Astronomija · optional upper-secondary course',
+   noteRo:'Skola2030 include Astronomija ca posibil curs la alegere la nivel liceal. Nu există în sursa verificată o repartizare obligatorie pe clasa 10, 11 sau 12; școala decide când și dacă îl oferă.',
+   noteEn:'Skola2030 includes Astronomija as a possible upper-secondary elective. The verified framework does not specify whether it belongs to Year 10, 11 or 12, nor guarantee school availability.'};
+ }
  if(code==='SE'){
   if(level==='primary'&&['4','5','6'].includes(year))
    return {...general,status:'physics-stage-content',kind:'integrated',topicIds:['solar','sky','observations'],
