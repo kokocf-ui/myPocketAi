@@ -38,7 +38,7 @@ assert.equal(astronomyNationalAlignment({country:'SI',stage:'lower',grade:'7'}).
 assert.equal(astronomyNationalAlignment({country:'SI',stage:'lower',grade:'7'}).verifiedOptionalAsStandalone,true);
 assert.equal(astronomyNationalAlignment({country:'LT',stage:'upper',grade:'11'}).kind,'optional-standalone');
 assert.deepEqual(astronomyNationalAlignment({country:'LT',stage:'upper',grade:'12'}).topicIds,
- ['stars','galaxies','cosmology','exoplanets']);
+ ['stars','galaxies','cosmology','exoplanets','gravity','distances','observations','sky']);
 assert.equal(astronomyNationalAlignment({country:'NO',stage:'lower',grade:'8'}).sourceYear,2026,
  'Use Norway NAT01-05, not superseded 2020 NAT01-04');
 for(const code of ['DK','NL','NO','SE','LT','SI']){
