@@ -1,0 +1,31 @@
+name: Physics migrate independent university practical
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/physics-university-patch-once.yml'
+permissions:
+  contents: write
+jobs:
+  migrate:
+    if: github.event.pull_request.head.repo.full_name == github.repository && github.event.pull_request.head.ref == 'work/physics-complete-europe-audit-2026-11-22'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          persist-credentials: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node scripts/physics_apply_independent_university.mjs
+      - run: node --check index.js
+      - run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.js
+          if ! git diff --cached --quiet; then
+            git commit -m "Physics: separate independent university investigation from theory"
+            git push origin HEAD:${{ github.event.pull_request.head.ref }}
+          fi
