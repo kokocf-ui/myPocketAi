@@ -47,7 +47,7 @@ export function literatureQuickReferenceAttach(panel,options={}){
   overlay.setAttribute('aria-modal','true');
   overlay.style.cssText='position:fixed!important;inset:0!important;z-index:2147483000!important;display:flex!important;align-items:center!important;justify-content:center!important;background:rgba(0,9,20,.78)!important;padding:10px!important;box-sizing:border-box!important;overflow:hidden!important';
   const box=el('section','lit-quick-dialog');
-  box.style.cssText='box-sizing:border-box!important;display:flex!important;flex-direction:column!important;gap:8px!important;width:min(100%,560px)!important;max-height:calc(100dvh - 24px)!important;height:min(78dvh,660px)!important;min-height:260px!important;overflow:hidden!important;border-radius:13px!important;border:1px solid #8bb3c3!important;background:#fff!important;color:#1d2a34!important;padding:12px!important';
+  box.style.cssText='box-sizing:border-box!important;display:flex!important;flex-direction:column!important;gap:13px!important;width:min(100%,560px)!important;max-height:calc(100dvh - 20px)!important;height:min(85dvh,720px)!important;min-height:270px!important;overflow:hidden!important;border-radius:15px!important;border:1px solid #8bb3c3!important;background:#fff!important;color:#1d2a34!important;padding:clamp(14px,3.4vw,24px)!important';
   const header=el('div','lit-quick-head');
   header.style.cssText='display:flex;align-items:center;justify-content:space-between;gap:8px;flex:0 0 auto';
   const heading=el('strong','',wordMode?tr('📖 Dicționar','📖 Dictionary'):tr('📚 Ghid rapid','📚 Quick reference'));
@@ -74,16 +74,16 @@ export function literatureQuickReferenceAttach(panel,options={}){
   const detail=el('article','lit-quick-detail');
   detail.setAttribute('role','status');
   detail.setAttribute('aria-live','polite');
-  detail.style.cssText='display:none;flex:0 0 auto;max-height:30dvh;overflow-y:auto;padding:9px;border:1px solid #9babb5;border-radius:9px;background:#f2f5f7!important;color:#172333!important;font:14px/1.4 system-ui,sans-serif!important';
+  detail.style.cssText='display:none!important;flex:1 1 auto!important;min-height:0!important;max-height:none!important;overflow-y:auto!important;overscroll-behavior:contain!important;padding:clamp(16px,4vw,25px)!important;border:1px solid #b2c5ce!important;border-radius:12px!important;background:#f8fbfc!important;color:#172333!important;font:17px/1.7 system-ui,sans-serif!important';
   const results=el('div','lit-quick-results');
   results.setAttribute('role','listbox');
-  results.style.cssText='display:flex!important;flex-direction:column!important;gap:5px!important;flex:1 1 120px!important;min-height:95px!important;overflow-y:auto!important;overscroll-behavior:contain!important;padding:5px!important;background:#fff!important;border:1px solid #ccd8de!important;border-radius:8px!important;color:#172333!important';
+  results.style.cssText='display:flex!important;flex-direction:column!important;gap:8px!important;flex:1 1 120px!important;min-height:100px!important;overflow-y:auto!important;overscroll-behavior:contain!important;padding:9px!important;background:#fff!important;border:1px solid #ccd8de!important;border-radius:10px!important;color:#172333!important';
   const info=el('p','lit-quick-foot',wordMode?
     tr('Cuvintele locale se explică offline. Pentru alte intrări poate fi necesar Wikționarul online.',
        'Local words work offline. Other entries may require online Wiktionary.'):
     tr('Ghid de consultare, nu lista exhaustivă a tuturor regulilor sau unităților.',
        'A practical reference, not an exhaustive catalogue of every rule or unit.'));
-  info.style.cssText='font-size:11px;color:#556471!important;line-height:1.3;margin:0;flex:0 0 auto';
+  info.style.cssText='font-size:12px!important;color:#556471!important;line-height:1.5!important;margin:0!important;flex:0 0 auto';
   box.append(header,hint);
   if(!wordMode)box.append(tabs);
   box.append(input);
@@ -102,26 +102,70 @@ export function literatureQuickReferenceAttach(panel,options={}){
    line.style.cssText='font-size:13px;color:#40505d!important;margin:7px!important';
    results.append(line);
   };
+  // On a small phone display the list and the explanation must never compete
+  // for vertical space. Selection opens a dedicated readable detail view.
+  let reading=false;
+  const setVisible=(node,shown,display='block')=>{
+   if(!node?.style)return;
+   if(typeof node.style.setProperty==='function')
+    node.style.setProperty('display',shown?display:'none','important');
+   else node.style.cssText+=';display:'+(shown?display:'none')+'!important';
+  };
+  const switchReading=show=>{
+   reading=!!show;
+   setVisible(hint,!show,'block');
+   setVisible(tabs,!show&&!wordMode,'flex');
+   setVisible(input,!show,'block');
+   setVisible(groups,!show&&!wordMode,'flex');
+   setVisible(pinned,!show,'flex');
+   setVisible(results,!show,'flex');
+   setVisible(info,!show,'block');
+   setVisible(detail,show,'block');
+   if(show){
+    if(typeof input.blur==='function')input.blur();
+    detail.scrollTop=0;
+   }
+  };
+  const detailAction=(label,href)=>{
+   const a=el('a','lit-quick-source-link',label);
+   a.href=href;a.rel='noopener noreferrer';a.target='_blank';
+   a.style.cssText='display:inline-block!important;margin:4px 12px 4px 0!important;padding:9px 12px!important;border:1px solid #a2b6c0!important;border-radius:9px!important;color:#703149!important;background:#fff!important;text-decoration:none!important;font-size:14px!important;line-height:1.5!important';
+   return a;
+  };
   const showDetail=(word,definition,example='',url='')=>{
    clear(detail);
-   const h=el('strong','',word);
-   h.style.cssText='display:block;color:#112230!important;margin-bottom:7px;font-size:16px';
-   const p=el('p','',definition);
-   p.style.cssText='color:#172333!important;margin:2px 0;white-space:pre-wrap!important';
-   detail.append(h,p);
-   if(example){const ex=el('p','',tr('Exemplu: ','Example: ')+example);ex.style.cssText='margin:7px 0 0;color:#394b59!important;font-style:italic';detail.append(ex)}
-   if(url){
-    const a=el('a','',tr('Deschide în Wikționar','Open in Wiktionary'));
-    a.href=url;a.target='_blank';a.rel='noopener noreferrer';
-    a.style.cssText='color:#703149!important;text-decoration:underline!important;font-size:12px';
-    detail.append(a);
+   const backToList=button(tr('← Înapoi la listă','← Back to the list'),()=>switchReading(false),'detail-back');
+   backToList.style.cssText+=';width:auto!important;min-height:43px!important;margin:0 0 17px!important;background:#e8f0f3!important;color:#17334a!important;font-size:15px!important;border:1px solid #9bb7c4!important';
+   const title=el('h3','lit-quick-definition-title',word);
+   title.style.cssText='font-size:clamp(21px,5.3vw,27px)!important;line-height:1.3!important;font-weight:750!important;color:#142e3c!important;margin:0 0 18px!important;letter-spacing:-.01em!important;overflow-wrap:anywhere!important';
+   const label=el('div','lit-quick-definition-label',tr('DEFINIȚIE','DEFINITION'));
+   label.style.cssText='font-size:12px!important;letter-spacing:.08em!important;text-transform:uppercase!important;font-weight:750!important;color:#536b7b!important;margin-bottom:8px!important';
+   const explanation=el('p','lit-quick-definition-text',String(definition||''));
+   explanation.style.cssText='font-size:17px!important;line-height:1.75!important;font-weight:400!important;letter-spacing:.01em!important;white-space:pre-wrap!important;overflow-wrap:anywhere!important;color:#203443!important;margin:0 0 22px!important';
+   detail.append(backToList,title,label,explanation);
+   if(example){
+    const divider=el('div','lit-quick-divider');
+    divider.style.cssText='height:1px!important;background:#cbd8dd!important;margin:2px 0 18px!important';
+    const exampleLabel=el('strong','lit-quick-example-label',tr('EXEMPLU DE UTILIZARE','EXAMPLE'));
+    exampleLabel.style.cssText='display:block!important;font-size:12px!important;letter-spacing:.06em!important;color:#536b7b!important;margin:0 0 9px!important';
+    const ex=el('p','lit-quick-example-text',example);
+    ex.style.cssText='font-size:16px!important;line-height:1.75!important;color:#30485c!important;margin:0 0 20px!important;font-style:italic!important';
+    detail.append(divider,exampleLabel,ex);
    }
-   detail.style.display='block';
+   if(wordMode&&language==='ro'){
+    const note=el('p','lit-quick-source-note',tr('Pentru mai multe sensuri, pronunție și forme, consultă sursele lexicografice.','For additional senses, pronunciation and forms, consult lexical sources.'));
+    note.style.cssText='font-size:13px!important;line-height:1.65!important;color:#435768!important;margin:14px 0 12px!important';
+    detail.append(note);
+    const safe=encodeURIComponent(String(word||'').trim());
+    detail.append(detailAction('DEX online','https://dexonline.ro/definitie/'+safe));
+    detail.append(detailAction('Wikționar',url||'https://ro.wiktionary.org/wiki/'+safe));
+   }else if(url)detail.append(detailAction(tr('Wikționar','Wiktionary'),url));
+   switchReading(true);
   };
   const makeOption=(title,fn,receiver=results)=>{
    const n=button(title,fn,'option');
    n.setAttribute('role','option');
-   n.style.cssText+=';width:100%!important';
+   n.style.cssText+=';width:100%!important;min-height:48px!important;padding:12px 13px!important;font-size:15px!important;line-height:1.5!important;border-color:#c9d8de!important';
    receiver.append(n);
    return n;
   };
@@ -129,7 +173,7 @@ export function literatureQuickReferenceAttach(panel,options={}){
    clear(pinned);
    for(const [word,fn] of items.slice(0,5)){
     const n=button(word,fn,'chip');
-    n.style.cssText+=';padding:5px 8px!important;min-height:31px!important;width:auto!important;border-color:#8d4e61!important;background:#f6e9ef!important;font-size:12px!important';
+    n.style.cssText+=';padding:8px 10px!important;min-height:37px!important;width:auto!important;border-color:#8d4e61!important;background:#f6e9ef!important;font-size:13px!important;line-height:1.5!important';
     pinned.append(n);
    }
   };
@@ -152,6 +196,7 @@ export function literatureQuickReferenceAttach(panel,options={}){
    const q=input.value.trim();
    const found=filteredReference(q);
    if(!found.length){pin([]);showInfo(tr('Nu există potriviri în această categorie.','No matches in this category.'));return}
+   switchReading(false);
    const sorted=found.slice().sort((a,b)=>a[2].localeCompare(b[2],ui));
    const pinnedRows=section==='gramatica'&&!q&&!selectedGroup?
     ['Predicat','Adjectiv','Adverb','Timpul prezent','Timpul trecut']
@@ -179,7 +224,7 @@ export function literatureQuickReferenceAttach(panel,options={}){
    clear(tabs);
    for(const [id,label] of sectionNames){
     const b=button(label,()=>{
-     section=id;selectedGroup='';input.value='';detail.style.display='none';
+     section=id;selectedGroup='';input.value='';switchReading(false);
      safely(drawTabs);safely(drawGroups);safely(drawReference);
     },'tab');
     b.style.cssText+=';padding:7px 8px!important;flex:1 1 90px!important;text-align:center!important;background:'+(section===id?'#f0dbe3':'#eef3f6')+'!important;font-size:12px!important;border-color:#a2aeb9!important';
@@ -263,7 +308,7 @@ export function literatureQuickReferenceAttach(panel,options={}){
    if(aborter){aborter.abort();aborter=null}
    if(remoteTimer!==null&&typeof clearTimeout==='function')clearTimeout(remoteTimer);
    remoteTimer=null;
-   detail.style.display='none';
+   switchReading(false);
    if(wordMode){
     safely(()=>drawWords());
     const q=input.value.trim(),version=requestSerial;
