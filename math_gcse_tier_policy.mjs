@@ -10,10 +10,12 @@ export const MATH_GCSE_HIGHER_ONLY=Object.freeze({
  'Intersecția dreptei cu o parabolă':'A19',
  'Asemănare și raportul volumelor':'G19',
  'Pitagora în spațiu':'G20',
+ 'Unghiuri la centru și pe cerc':'G10',
+ 'Teorema sinusurilor și cosinusurilor':'G22',
  'Grafice de creștere și descreștere exponențială':'A12',
  'Histograme cu clase de lățimi diferite':'S3',
  'Probabilități condiționate din tabel':'P9',
- 'Teorema sinusurilor în triunghiuri oarecare':'G23'
+ 'Teorema sinusurilor în triunghiuri oarecare':'G22'
 });
 export const MATH_GCSE_REFERENCE=Object.freeze({
  content:'https://www.gov.uk/government/publications/gcse-mathematics-subject-content-and-assessment-objectives',
