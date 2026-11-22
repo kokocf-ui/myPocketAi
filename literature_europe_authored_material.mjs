@@ -6,7 +6,7 @@ export function literatureEuropeanAuthoredMaterial({
 }={}){
  const key=String(topicKey||'');
  if(!key.startsWith('eu-year-')||!['lesson','examples','exercises','test'].includes(mode))return null;
- const part=(key.match(/-(parcurs|intelegere|narativ|poezie|dialog|vocabular|exprimare|redactare|interpretare|verificare)$/)||[])[1];
+ const part=(key.match(/-(parcurs|intelegere|narativ|poezie|dialog|vocabular|exprimare|redactare|interpretare|verificare)(?:-\d+)?$/)||[])[1];
  const stage=(key.match(/-(beginner|lower|medium|advanced)-/)||[])[1];
  if(!part||!stage||!['ro','en'].includes(language))return null;
  const ro=language==='ro',g=String(grade||'');
