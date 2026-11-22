@@ -39,7 +39,9 @@ async function connect(){
    const port=Number((await readFile(path.join(dir,'DevToolsActivePort'),'utf8')).split('\n')[0]);
    if(!port){await sleep(200);continue}
    const pages=await (await fetch('http://127.0.0.1:'+port+'/json/list')).json();
-   const page=pages.find(x=>x.type==='page');
+   // Chrome may spawn a background new-tab page before the requested app.
+   const page=pages.find(x=>x.type==='page'&&x.url.includes('127.0.0.1'));
+
    if(!page){await sleep(200);continue}
    ws=new WebSocket(page.webSocketDebuggerUrl);
    await new Promise((ok,bad)=>{ws.onopen=ok;ws.onerror=bad});
@@ -65,10 +67,12 @@ try{
  await cmd('Runtime.enable');
  await cmd('Page.enable');
  await cmd('Log.enable');
+ let booted=false;
  for(let i=0;i<120;i++){
-  if(await js("document.readyState === 'complete' && typeof litOpen === 'function'"))break;
+  if(await js("document.readyState === 'complete' && typeof litOpen === 'function'")){booted=true;break}
   await sleep(250);
  }
+ assert.ok(booted,'Actual frontend did not expose litOpen: '+JSON.stringify({page:await js('({url:location.href,body:document.body?.innerText?.slice(0,120),title:document.title})'),exceptions,logs}));
  const screen=await js("(()=>{litJourney.country='RO';litJourney.language='ro';state.language='ro';litJourney.level='beginner';litOpen('levels');return {stage:litJourney.stage,buttons:[...document.querySelectorAll('[data-lit-quick-entry] button')].map(x=>x.textContent),errors:document.body.textContent.slice(0,70)}})()");
  assert.equal(screen.stage,'levels','Cannot open first Literature level window');
  assert.equal(screen.buttons.length,2,'Two quick-reference controls must render');
