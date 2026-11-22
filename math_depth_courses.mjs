@@ -12,6 +12,8 @@ import {MATH_DEPTH_UNIVERSITY} from './math_depth_university.mjs';
 import {MATH_UNIVERSITY_EXTENSION} from './math_depth_university_extension.mjs';
 import {MATH_LOWER_EXTENSION} from './math_depth_lower_extension.mjs';
 import {MATH_UPPER_EXTENSION} from './math_depth_upper_extension.mjs';
+import {MATH_UPPER_2026_ADDITIONS} from './math_depth_upper_2026_additions.mjs';
+import {MATH_UNIVERSITY_2026_ADDITIONS} from './math_depth_university_2026_additions.mjs';
 // Mathematics learning cards: authored, age-progressive explanations and worked
 // problems. These are *general European learning aids*, not certified copies
 // of a country's national mathematics programme.
@@ -127,13 +129,17 @@ const EXPANDED_PRIMARY=MATH_DEPTH_PRIMARY.map((phase,i)=>Object.fromEntries(
 const EXPANDED_LOWER=MATH_DEPTH_LOWER.map((phase,i)=>Object.fromEntries(
  Object.entries(phase).map(([topic,rows])=>[topic,[...rows,...(MATH_LOWER_EXTENSION[i]?.[topic]||[])]])));
 const EXPANDED_UPPER=MATH_DEPTH_UPPER.map((phase,i)=>{
- const extras=MATH_UPPER_EXTENSION[i]||{};
- return Object.fromEntries([...new Set([...Object.keys(phase),...Object.keys(extras)])].map(
-  topic=>[topic,[...(phase[topic]||[]),...(extras[topic]||[])]]
+ const extras=MATH_UPPER_EXTENSION[i]||{},newLessons=MATH_UPPER_2026_ADDITIONS[i]||{};
+ return Object.fromEntries([...new Set([...Object.keys(phase),...Object.keys(extras),...Object.keys(newLessons)])].map(
+  topic=>[topic,[...(phase[topic]||[]),...(extras[topic]||[]),...(newLessons[topic]||[])]]
  ));
 });
-const EXPANDED_UNIVERSITY=MATH_DEPTH_UNIVERSITY.map((phase,i)=>Object.fromEntries(
- Object.entries(phase).map(([topic,rows])=>[topic,[...rows,...(MATH_UNIVERSITY_EXTENSION[i]?.[topic]||[])]])));
+const EXPANDED_UNIVERSITY=MATH_DEPTH_UNIVERSITY.map((phase,i)=>{
+ const extras=MATH_UNIVERSITY_EXTENSION[i]||{},newLessons=MATH_UNIVERSITY_2026_ADDITIONS[i]||{};
+ return Object.fromEntries([...new Set([...Object.keys(phase),...Object.keys(extras),...Object.keys(newLessons)])].map(
+  topic=>[topic,[...(phase[topic]||[]),...(extras[topic]||[]),...(newLessons[topic]||[])]]
+ ));
+});
 export const MATH_DEPTH_STAGES=Object.freeze({
  primary:[...EXPANDED_PRIMARY,...MATH_DEPTH_PRIMARY_56],
  lower:EXPANDED_LOWER,intermediate:EXPANDED_UPPER,advanced:EXPANDED_UNIVERSITY
