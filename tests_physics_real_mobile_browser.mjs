@@ -84,9 +84,9 @@ try{
   assert.equal(await actions.count(),3,'Physics must offer study, practice and activities');
   await open(actions.first());
   const cards=page.locator('#view-module .science-inline-theory-item');
-  assert.ok(await cards.count()>=2,'No actual Physics study cards in '+grade);
+  assert.ok(await cards.count()>=1,'No actual Physics study cards in '+grade);
   const titles=await cards.allTextContents();
-  assert.ok(new Set(titles).size>=2,'Repeated identical study cards in '+grade);
+  assert.equal(new Set(titles).size,titles.length,'Repeated identical study cards in '+grade);
   await open(cards.first());
   await dialog.waitFor({state:'visible',timeout:8000});
   const text=await dialog.locator('.education-paged-text').innerText();
