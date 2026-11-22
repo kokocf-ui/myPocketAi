@@ -108,7 +108,7 @@ export function scienceGradeTopicPlan({country='',subject='',stage='lower',grade
   physicsReference:countryPhysics?.source||null,
   yearSpecificOfficial:false,
   curriculumReference:astronomyCountry?.source|| (curated?SCIENCE_RO_2017_SOURCE:countryPhysics?.source||null),
-  astronomyOptional:subject==='astronomy'&&['national-optional','enrichment'].includes(astronomyCountry?.kind),
+  astronomyOptional:subject==='astronomy'&&['national-optional','regional-optional','enrichment'].includes(astronomyCountry?.kind),
   astronomyTeachingKind:astronomyCountry?.kind||null,
   astronomyProgrammeRo:astronomyCountry?.programmeRo||null,
   astronomyProgrammeEn:astronomyCountry?.programmeEn||null,
