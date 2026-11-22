@@ -40,15 +40,24 @@ for(const marker of ['ASTRONOMY_TOPIC_DATA','ASTRONOMY_SPECIALTY_DATA','ASTRONOM
  assert.ok(script.includes(marker),marker);
 const begin=script.indexOf('function astronomyVisualKind(question,topic)');
 const end=script.indexOf('function scienceShowResult(title,body)',begin);
-class FakeEl{constructor(tag){this.tag=tag;this.children=[];this.textContent='';this.attrs={}}append(...v){this.children.push(...v)}setAttribute(k,v){this.attrs[k]=v}}
+class FakeEl{constructor(tag){this.tag=tag;this.children=[];this.textContent='';this.attrs={};this.style={}}append(...v){this.children.push(...v)}setAttribute(k,v){this.attrs[k]=v}}
 const visual=vm.runInNewContext(script.slice(begin,end)+';({kind:astronomyVisualKind,draw:astronomyVisualBuild})',{
  document:{createElement:t=>new FakeEl(t),createElementNS:(ns,t)=>new FakeEl(t)},
  learningLabel:(ro,en)=>ro,
  educationTheoryClean:v=>String(v).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim()
 });
-for(const kind of ['solar','orbit','parallax','hr','transit','cosmos','telescope','galaxy']){
+for(const kind of ['solar','sky','orbit','parallax','hr','transit','cosmos','telescope','galaxy']){
  assert.ok(visual.draw(kind).children.some(x=>x.tag==='svg'));
 }
+const solarSvg=visual.draw('solar').children.find(x=>x.tag==='svg');
+const solarLabels=solarSvg.children.filter(x=>x.tag==='text').map(x=>x.textContent);
+const planetNames=['Mercur','Venus','Pământ','Marte','Jupiter','Saturn','Uranus','Neptun'];
+for(const name of planetNames)assert.ok(solarLabels.includes(name),'missing planet label: '+name);
+assert.ok(solarLabels.some(x=>x.includes('NU sunt la scară')),'solar diagram must declare non-scale proportions');
+const orbitData=script.match(/const planetOrbits=\[([\s\S]*?)\];\s*const render=/)?.[1]||'';
+for(const name of planetNames)assert.ok(orbitData.includes("'"+name+"'"),'missing planet in orbital projection: '+name);
+assert.equal((orbitData.match(/\[\d+(?:\.\d+)?,/g)||[]).length,8,'orbital model must depict exactly eight planets');
 assert.equal(visual.kind('Paralaxa stelară','distances'),'parallax');
+assert.equal(visual.kind('Mișcarea aparentă','sky'),'sky','sky chapters must not draw a planetary diagram');
 assert.equal(visual.kind('Legea lui Kepler','gravity'),'orbit');
 console.log('PASS astronomy: 82 curated entries, 7 university tracks, guarded calculations, eight SVG diagrams and UI integration');

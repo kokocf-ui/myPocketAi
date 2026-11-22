@@ -1,0 +1,254 @@
+// Source-scoped 2026/27 Astronomy: no invented national curricula for 50 countries.
+import assert from 'node:assert/strict';
+import app from './index.js';
+import {EDUCATION_EUROPE_COUNTRIES,educationCountrySchoolYears,educationSubjectSchoolPlan} from './education_all_country_subject_matrix.mjs';
+import {ASTRONOMY_EUROPE_COUNTRIES,ASTRONOMY_EUROPE_FRAMEWORKS,astronomyCountryGradePlan} from './astronomy_europe_frameworks.mjs';
+import {ASTRONOMY_TOPICS} from './astronomy_curriculum.mjs';
+import {scienceGradeTopicPlan} from './science_grade_progression.mjs';
+assert.deepEqual(new Set(ASTRONOMY_EUROPE_COUNTRIES),new Set(EDUCATION_EUROPE_COUNTRIES));
+let checked=0,unknown=0,official=0;
+const get=(country,stage,grade)=>{
+ const mapStage=stage==='primary'?'beginner':stage==='upper'?'medium':stage;
+ const years=educationCountrySchoolYears(country,mapStage).years;
+ const policy=astronomyCountryGradePlan({country,stage,grade,years});
+ const plan=scienceGradeTopicPlan({country,subject:'astronomy',stage,grade,years,topics:ASTRONOMY_TOPICS});
+ return {policy,plan,years};
+};
+for(const country of EDUCATION_EUROPE_COUNTRIES){
+ for(const [stage,level] of [['primary','beginner'],['lower','lower'],['upper','medium']]){
+  const years=educationCountrySchoolYears(country,level).years;
+  for(const year of years){
+   const {policy,plan}=get(country,stage,year.id);
+   assert.notEqual(policy.status,'invalid-selection',country+'/'+stage+'/'+year.id);
+   assert.equal(policy.country,country);assert.equal(policy.grade,year.id);
+   assert.ok(policy.noteRo.length>60&&policy.noteEn.length>60);
+   assert.ok(['national-optional','integrated','enrichment','unverified'].includes(policy.kind));
+   assert.ok(policy.source===null||policy.source.startsWith('https://'));
+   assert.ok(policy.offerVerified===false||policy.source,'an official offer needs a source');
+   assert.equal(policy.topicsVerified,false,'no full national chapter mapping is yet certified');
+   assert.equal(plan.astronomyTeachingKind,policy.kind);
+   assert.equal(plan.astronomyStatus,policy.status);
+   assert.equal(plan.astronomyReference,policy.source);
+   assert.deepEqual(plan.topics.map(x=>x.id),educationSubjectSchoolPlan({country,stage:level,grade:year.id,subject:'astronomy'}).units.map(x=>x.id));
+   if(policy.topicIds.length)assert.deepEqual(plan.topics.map(x=>x.id),policy.topicIds);
+   assert.ok(plan.topics.length>0);
+   if(policy.kind==='unverified'){unknown++;assert.equal(policy.source,null,'no invented source for unverified country');}
+   if(policy.offerVerified)official++;
+   checked++;
+  }
+ }
+}
+const ro5=get('RO','lower','5'),ro7=get('RO','lower','7');
+assert.equal(ro5.policy.kind,'national-optional');
+assert.equal(ro7.policy.kind,'national-optional');
+assert.notDeepEqual(ro5.plan.topics.map(x=>x.id),ro7.plan.topics.map(x=>x.id));
+for(const [grade,name,first] of [
+ ['9','Cerul mai aproape','sky'],['10','Universul în mișcare','gravity'],
+ ['11','Stelele sub lupă','stars'],['12','Universul și omul','cosmology']
+]){
+ const {policy,plan}=get('RO','upper',grade);
+ assert.equal(policy.kind,'national-optional');
+ assert.ok(policy.programmeRo.includes(name));
+ assert.equal(plan.topics[0].id,first);
+ assert.equal(plan.astronomyOfferingVerified,true);
+}
+for(const y of ['6','8'])assert.equal(get('RO','lower',y).policy.kind,'enrichment');
+const en5=get('GB-ENG','primary','Y5');
+assert.equal(en5.policy.kind,'integrated');
+assert.equal(en5.policy.sourceScope,'national-stage-and-year');
+for(const year of ['Y7','Y8','Y9']){
+ const plan=get('GB-ENG','lower',year);
+ assert.equal(plan.policy.kind,'integrated');
+ assert.equal(plan.policy.sourceScope,'national-key-stage');
+ assert.equal(plan.policy.topicsVerified,false);
+}
+for(const country of ['GB-SCT','GB-WLS','GB-NIR'])
+ assert.equal(get(country,'lower',educationCountrySchoolYears(country,'lower').years[0].id).policy.kind,'integrated');
+for(const country of ['PT']){
+ const first=educationCountrySchoolYears(country,'lower').years[0];
+ assert.equal(get(country,'lower',first.id).policy.status,'country-curriculum-unverified');
+}
+assert.equal(get('FR','primary','CM2').policy.kind,'integrated');
+assert.equal(get('FR','lower','6e').policy.kind,'integrated');
+assert.equal(get('FR','primary','CM1').policy.kind,'unverified','new 2026 curriculum is cohort-dependent');
+for(const country of ['IE','ES']){
+ const grade=educationCountrySchoolYears(country,'lower').years[0].id;
+ const x=get(country,'lower',grade).policy;
+ assert.equal(x.kind,'integrated');
+ assert.equal(x.topicsVerified,false);
+ assert.equal(x.offerVerified,false,'framework knowledge is not an exact year lesson map');
+}
+
+const sourcedCases=[
+ ['SE','primary','4','physics-stage-content'],['SE','lower','7','physics-stage-content'],
+ ['FI','primary','3','integrated-stage-framework'],['NO','primary','7','attainment-by-year-7'],
+ ['NO','upper','11','vg1-subject-conditional'],['PL','primary','IV','2026-primary-reform'],
+ ['PL','lower','V','legacy-geography-stage'],['PL','upper','L1','geography-first-year-resource'],
+ ['MT','lower','7','verified-year-unit'],['PT','primary','3','official-teaching-resource'],
+ ['CZ','lower',educationCountrySchoolYears('CZ','lower').years[0].id,'integrated-general-framework'],
+ ['AT','primary',educationCountrySchoolYears('AT','beginner').years[0].id,'broad-integrated-primary']
+];
+for(const [country,stage,grade,status] of sourcedCases){
+ const {policy,plan}=get(country,stage,grade);
+ assert.equal(policy.status,status,country+'/'+grade+' expected '+status);
+ assert.equal(policy.kind,'integrated');
+ assert.ok(policy.source?.startsWith('https://'));
+ assert.ok(policy.noteRo.length>85);
+ assert.ok(plan.topics.length>=2);
+ assert.equal(plan.astronomyOfferingVerified,country==='MT');
+}
+assert.equal(get('SE','primary','1').policy.kind,'unverified','LGR22 4-6 not assigned to Grade 1');
+assert.equal(get('FI','primary','1').policy.kind,'unverified','Environment Studies 3-6 not claimed for Grade 1');
+assert.equal(get('PL','primary','I').policy.kind,'unverified','No verified Grade I astronomy year');
+assert.equal(get('MT','lower','8').policy.kind,'unverified','Year 7 unit must not leak to Year 8');
+assert.equal(get('NO','upper','12').policy.kind,'unverified','Vg1 is not Vg2');
+assert.equal(get('ES','lower','ESO4').policy.status,'official-final-year-eso-topic');
+
+const lith11=get('LT','upper','11'),lith12=get('LT','upper','12');
+assert.equal(lith11.policy.kind,'national-optional');
+assert.equal(lith12.policy.kind,'national-optional');
+assert.ok(lith11.policy.source.includes('emokykla.lt'));
+assert.ok(lith11.plan.topics.some(x=>x.id==='solar'));
+assert.ok(lith12.plan.topics.some(x=>x.id==='stars'));
+assert.ok(lith12.plan.topics.some(x=>x.id==='galaxies'));
+assert.notDeepEqual(lith11.plan.topics.map(x=>x.id),lith12.plan.topics.map(x=>x.id));
+assert.equal(get('LT','lower','6').policy.kind,'integrated');
+assert.equal(get('LT','lower','7').policy.kind,'unverified');
+assert.equal(get('EE','primary','4').policy.status,'national-grade-4-nature-studies');
+assert.equal(get('EE','primary','3').policy.kind,'unverified');
+assert.equal(get('LV','primary','3').policy.status,'national-integrated-stage');
+assert.equal(get('LV','upper','11').policy.status,'astronomy-option-not-year-specific');
+
+for(const grade of ['7','8','9']){
+ const {policy,plan}=get('SI','lower',grade);
+ assert.equal(policy.status,'national-three-electives-no-fixed-grade');
+ assert.equal(policy.electiveModules.length,3);
+ assert.ok(policy.electiveModules.every(x=>x.hours===35&&x.topics.length>=2));
+ assert.ok(plan.topics.length>=3);
+}
+assert.equal(get('RS','upper','G4').policy.status,'specialist-physics-gymnasium-year-4');
+assert.equal(get('RS','upper','G3').policy.kind,'unverified','No general mandatory astronomy before specialist Year 4');
+assert.equal(get('IT','primary','P1').policy.status,'new-national-framework-2026');
+assert.equal(get('IT','primary','P2').policy.status,'legacy-national-framework-2012');
+assert.equal(get('IT','lower','M1').policy.status,'new-national-framework-2026');
+assert.equal(get('IT','lower','M2').policy.status,'legacy-national-framework-2012');
+
+for(const [year,firstTopic] of [['G2','sky'],['G4','sky'],['G6','solar'],['G8','solar']]){
+ const result=get('NL','primary',year);
+ assert.equal(result.policy.status,'national-primary-core-goal-46');
+ assert.equal(result.plan.topics[0]?.id,firstTopic);
+ assert.equal(result.policy.offerVerified,false,'National integrated core goal does not certify app lessons');
+}
+for(const year of ['2','4','6']){
+ const result=get('DK','primary',year);
+ assert.equal(result.policy.status,'national-primary-science-band');
+ assert.equal(result.policy.kind,'integrated');
+ assert.ok(result.plan.topics.length>=2);
+}
+
+assert.equal(get('BG','lower','7').policy.status,'mandatory-physics-astronomy-grade-7');
+assert.ok(get('BG','lower','7').plan.topics.some(x=>x.id==='solar'));
+assert.equal(get('BG','lower','5').policy.kind,'unverified');
+const ukr11=get('UA','upper','11');
+assert.equal(ukr11.policy.status,'national-astronomy-grade-11-curriculum');
+assert.ok(ukr11.plan.topics.length>=6,'Ukraine 11 should expose deep astronomy');
+assert.equal(ukr11.policy.offerVerified,true);
+assert.equal(get('UA','upper','10').policy.kind,'unverified','No unsupported Year 10 astronomy as a separate course');
+
+const turkey6=get('TR','lower','6');
+assert.equal(turkey6.policy.status,'national-grade6-solar-and-eclipses-unit');
+assert.equal(turkey6.policy.offerVerified,true);
+assert.ok(turkey6.plan.topics.some(x=>x.id==='solar'));
+assert.equal(get('TR','lower','5').policy.kind,'unverified');
+const moldova10=get('MD','upper','10');
+assert.equal(moldova10.policy.status,'national-geography-grade10-universe-module');
+assert.ok(moldova10.plan.topics.some(x=>x.id==='gravity'));
+assert.equal(get('MD','upper','11').policy.kind,'unverified');
+
+const albania5=get('AL','primary','5');
+assert.equal(albania5.policy.status,'national-grade5-solar-system-science');
+assert.equal(albania5.policy.offerVerified,false,'Old programme edition needs current-cohort confirmation');
+assert.ok(albania5.plan.topics.some(x=>x.id==='solar'));
+assert.equal(get('AL','primary','4').policy.kind,'unverified');
+assert.equal(get('MK','primary','3').policy.status,'national-grade3-universe-and-celestial-bodies');
+assert.equal(get('MK','lower','6').policy.status,'national-grade6-universe-and-solar-system');
+assert.equal(get('MK','lower','7').policy.kind,'unverified');
+
+assert.equal(get('HR','lower','6').policy.status,'national-priroda-grade6-celestial-cycles');
+assert.equal(get('HR','lower','5').policy.kind,'unverified');
+for(const grade of ['1','4','7'])assert.equal(get('IS','primary',grade).policy.status,'national-2024-natural-science-outcomes');
+assert.equal(get('IS','lower','8').policy.status,'national-2024-natural-science-outcomes');
+assert.equal(get('IS','lower','10').policy.status,'national-2024-natural-science-outcomes');
+for(const grade of ['5','6','7','8'])assert.equal(get('HU','lower',grade).policy.status,'national-integrated-science-or-geography-2020');
+assert.equal(get('HU','primary','3').policy.status,'national-environmental-studies-2020');
+assert.equal(get('HU','primary','1').policy.kind,'unverified');
+
+assert.equal(get('GR','primary','6').policy.status,'grade6-geography-earth-as-planet-guide');
+assert.equal(get('GR','primary','5').policy.kind,'unverified');
+for(const grade of ['1','3','4','6']){
+ const p=get('CY','primary',grade);
+ assert.equal(p.policy.status,'archived-celestial-earth-by-primary-grade');
+ assert.equal(p.policy.offerVerified,false,'Archived programme not certified for 2026/27');
+}
+assert.equal(get('CY','primary','5').policy.kind,'unverified');
+assert.equal(get('SK','primary','4').policy.status,'legacy-grade4-universe-programme');
+assert.equal(get('SK','primary','1').policy.kind,'unverified','Slovak new cohort needs new ŠVP');
+const leftToVerify=['AD','BA','BE','BY','CH','DE','LU','MC','ME','RU','SM','VA','XK'];
+for(const country of leftToVerify){
+ const y=educationCountrySchoolYears(country,'lower').years[0].id;
+ const {policy,plan}=get(country,'lower',y);
+ assert.equal(policy.kind,'unverified');
+ assert.equal(policy.status,'school-system-verification-required');
+ assert.equal(policy.source,null);
+ assert.ok(policy.requiredContext&&policy.noteRo.length>45);
+ assert.ok(plan.topics.length>0);
+}
+assert.equal(get('LI','primary',educationCountrySchoolYears('LI','beginner').years[0].id).policy.status,'national-lile-integrated-framework');
+assert.equal(astronomyCountryGradePlan({country:'RO',stage:'lower',grade:'99',years:[]}).status,'invalid-selection');
+
+const progressSource=await import('./astronomy_europe_frameworks.mjs');
+const gate=progressSource.astronomyCurriculumCompletionGate();
+assert.equal(gate.ready,false,'Never ship an unverified 50-country national curriculum');
+assert.equal(gate.totalJurisdictions,50);
+assert.equal(gate.jurisdictionsWithAnySource+gate.jurisdictionsMissingVerifiedSource.length,50);
+assert.ok(gate.jurisdictionsMissingVerifiedSource.length>0,'Open country blockers must be visible');
+const {astronomySchoolTopicLessons}=await import('./astronomy_study_course.mjs');
+const trYears=educationCountrySchoolYears('TR','lower').years;
+const trLessons=astronomySchoolTopicLessons({
+ country:'TR',stage:'lower',grade:'6',topic:'solar',years:trYears,
+ lessons:(await import('./astronomy_curriculum.mjs')).ASTRONOMY_LESSONS
+});
+assert.ok(trLessons.length>0);
+assert.ok(trLessons[0].statement.includes('Fen Bilimleri'),'Real country programme context must reach teaching text');
+assert.ok(trLessons[0].curriculumSource?.includes('meb.gov.tr'));
+assert.equal(trLessons[0].nationalTopicsVerified,false,'App topic sequence is not a national syllabus transcription');
+const germanYears={
+ lower:educationCountrySchoolYears('DE','lower').years,
+ upper:educationCountrySchoolYears('DE','medium').years
+};
+const de=(region,stage,grade)=>astronomyCountryGradePlan({
+ country:'DE',region,stage,grade,years:germanYears[stage]
+});
+assert.equal(de('DE-SN','upper','11').status,'regional-existing-curriculum');
+assert.equal(de('DE-SN','upper','11').edition,'2004/2019');
+assert.ok(de('DE-SN','upper','11').source.includes('schulportal.sachsen.de'));
+assert.ok(de('DE-SN','upper','12').topicIds.includes('cosmology'));
+assert.equal(de('DE-ST','lower','9').kind,'regional-compulsory');
+assert.equal(de('DE-ST','lower','10').kind,'regional-optional');
+assert.equal(de('DE-ST','upper','11').kind,'regional-optional');
+assert.equal(de('DE-ST','upper','12').kind,'regional-optional');
+assert.equal(de('DE-SN','lower','7').kind,'unverified');
+const withoutRegion=get('DE','upper','11').policy;
+assert.equal(withoutRegion.kind,'unverified');
+assert.equal(withoutRegion.source,null);
+assert.equal(withoutRegion.regionalExamples.length,2);
+assert.ok(get('IT','primary','P2').policy.source.includes('13G00034'));
+assert.ok(get('IT','primary','P1').policy.source.includes('26G00021'));
+assert.equal(get('IT','primary','P2').policy.validity,'legacy-still-applicable-under-transitional-law');
+assert.ok(get('IT','lower','M2').policy.source.includes('13G00034'));
+const html=await(await app.fetch(new Request('https://astronomy-europe-registry.test/'))).text();
+const script=html.match(/<script>([\s\S]*?)<\/script>/)?.[1]||'';
+assert.ok(script.includes('const astronomyCountryGradePlan=')&&script.includes('const ASTRONOMY_EUROPE_COUNTRIES='));
+assert.ok(script.includes("if(scienceJourney.subject==='astronomy'&&stage==='topics'"));
+console.log('PASS Astronomy scoped curriculum:',ASTRONOMY_EUROPE_COUNTRIES.length,
+ 'jurisdictions,',checked,'school-year tracks,',official,'source-backed offerings,',unknown,'unverified flags');

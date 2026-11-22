@@ -1,3 +1,4 @@
+import {astronomyCountryGradePlan} from './astronomy_europe_frameworks.mjs';
 // Astronomy study cards: original, year-scoped educational examples. The
 // country chooser supplies actual school-year labels; the teaching sequence
 // remains advisory until a jurisdiction's optional curriculum is verified.
@@ -215,6 +216,9 @@ export function astronomySchoolTopicLessons({country='',grade='',stage='primary'
  const limit=Math.min(stage==='primary'?2:stage==='lower'?3:4,source.length);
  const offset=(tier*limit)%source.length;
  const plan=ASTRONOMY_STUDY_CASES[topic];
+ const scope=astronomyCountryGradePlan({country,stage,grade,years:yearList});
+ const sourceContext=scope.topicIds.includes(topic)&&scope.programmeRo?
+  ' Corelare pe țară și an: '+scope.programmeRo+'. Fișa explică această temă printr-un exemplu original; nu reproduce integral programa sau manualul.' : '';
  return Array.from({length:limit},(_,i)=>{
   const entry=source[(offset+i)%source.length],slot=(tier+i)%(stage==='upper'?plan.core.length:2);
   const prefix=stage==='primary'?'Observăm şi explicăm: ':
@@ -222,15 +226,21 @@ export function astronomySchoolTopicLessons({country='',grade='',stage='primary'
   return {...entry,id:'astronomy-'+String(country).toUpperCase()+'-'+String(grade)+'-'+stage+'-'+topic+'-'+(i+1),
    grade:String(grade),stage,sourceId:entry.id,language:'ro',
    formula:stage==='primary'?'':entry.formula,
-   statement:entry.statement+' '+prefix+plan.core[slot],
+   statement:entry.statement+' '+prefix+plan.core[slot]+sourceContext,
    workedExample:plan.examples[slot],exercise:plan.questions[slot],answer:plan.answers[slot],
-   curriculumScope:'Original advisory Astronomy study, not a mandatory national grade programme',
+   curriculumScope:scope.kind==='unverified'?
+    'Original advisory Astronomy study; national curriculum not yet verified':
+    scope.noteRo,
+   curriculumSource:scope.source||null,
+   curriculumEvidenceScope:scope.sourceScope||null,
+   countryProgramme:scope.programmeRo||null,
+   nationalTopicsVerified:scope.topicsVerified,
    laboratoryType:'safe-observation-or-simulation'
   };
  });
 }
 export const ASTRONOMY_TOPIC_DIAGRAMS=Object.freeze({
- solar:['solar','orbit'],sky:['solar','parallax'],distances:['parallax','telescope'],
+ solar:['solar','orbit'],sky:['sky'],distances:['parallax','telescope'],
  gravity:['orbit','solar'],stars:['hr','telescope'],galaxies:['galaxy','cosmos'],
  observations:['telescope','parallax'],cosmology:['cosmos','galaxy'],exoplanets:['transit','orbit'],
  'special-stellar':['hr','telescope'],'special-dynamics':['orbit','solar'],

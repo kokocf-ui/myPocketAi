@@ -99,9 +99,12 @@ function subjectInventory(subject,{country,stage,grade,track}){
   });
   const ordered=track&&Array.isArray(track.topics)?track.topics:topics.filter(x=>!x.specialty&&rank[x.minLevel||'beginner']<=stageRank[stage]);
   return {units:ordered.map(x=>unit(x.id,x.ro,x.en,'',lessons.filter(y=>y.topic===x.id).length)),
-   verified:false,gradeSpecific:false,source:null,
-   note:'Program general de științe diferențiat pe clase; nu este manual sau programă națională verificată.'+
-    (subject==='astronomy'?' Astronomia este opțională sau integrată în alte discipline în multe sisteme.':'')};
+   verified:false,gradeSpecific:false,
+   source:subject==='astronomy'?(track?.astronomyReference||null):null,
+   note:subject==='astronomy'?
+    (track?.astronomyNoteRo||'Lecții astronomice orientative, fără programă locală verificată.')+
+     ' Fișele sunt originale și nu reprezintă transcrierea programei sau a manualului.' :
+    'Program general de științe diferențiat pe clase; nu este manual sau programă națională verificată.'};
  }
  if(subject==='computing'){
   const pathLevel=stage==='advanced'?'advanced':stage==='medium'?'medium':'beginner';

@@ -4,6 +4,7 @@ import {SCIENCE_GUIDES} from './science_extended_theory.mjs';
 import {scienceRoGradeTopics,SCIENCE_RO_2017_SOURCE} from './science_ro_course_plan.mjs';
 import {physicsCountryGradePlan,PHYSICS_EUROPE_REFERENCES} from './physics_europe_frameworks.mjs';
 import {biologyPrimaryTopics} from './biology_primary_years.mjs';
+import {astronomyCountryGradePlan} from './astronomy_europe_frameworks.mjs';
 // Pan-European advisory science progression, not a national curriculum or textbook.
 // Country-specific school-year labels come from the existing country picker.
 // Subject knowledge and scientific enquiry are sequenced together.
@@ -60,7 +61,7 @@ export function scienceGradeTopicPlan({country='',subject='',stage='lower',grade
  const countryPhysics=subject==='physics'?physicsCountryGradePlan({
   country,stage,grade,years:yearList
  }):null;
- const curated=String(country).toUpperCase()==='RO'&&stage==='lower'
+ const curated=String(country).toUpperCase()==='RO'&&stage==='lower'&&subject!=='astronomy'
   ?scienceRoGradeTopics(subject,grade,topics):null;
  // Separate national Physics is not offered in Romanian Grade V.
  // Other systems may teach physical science inside an integrated subject.
@@ -81,7 +82,11 @@ export function scienceGradeTopicPlan({country='',subject='',stage='lower',grade
    }[id];
    return {...entry,ro:labels?.[0]||entry.ro,en:labels?.[1]||entry.en};
   }).filter(Boolean):null;
- const unique=[...new Map((curated||adapted||primaryBiology||ordered).map(x=>[x.id,x])).values()];
+ const astronomyCountry=subject==='astronomy'?astronomyCountryGradePlan({country,stage,grade,years:yearList}):null;
+ const astronomyAligned=astronomyCountry?.topicIds?.length?
+  astronomyCountry.topicIds.map(id=>indexed.get(id)).filter(x=>
+   x&&(rank[x.minLevel]??0)<=(stage==='upper'?1:0)):[];
+ const unique=[...new Map(((astronomyAligned.length?astronomyAligned:null)||curated||adapted||primaryBiology||ordered).map(x=>[x.id,x])).values()];
  // Never hide the whole subject because a national stage has an unverified
  // grade map: a known, clearly marked general course is always available.
  const fallback=topics.filter(x=>x&&!x.specialty&&(rank[x.minLevel]??0)<=max).slice(0,3);
@@ -102,8 +107,18 @@ export function scienceGradeTopicPlan({country='',subject='',stage='lower',grade
   physicsSourceScope:countryPhysics?.sourceScope||null,
   physicsReference:countryPhysics?.source||null,
   yearSpecificOfficial:false,
-  curriculumReference:curated?SCIENCE_RO_2017_SOURCE:countryPhysics?.source||null,
-  astronomyOptional:subject==='astronomy'
+  curriculumReference:astronomyCountry?.source|| (curated?SCIENCE_RO_2017_SOURCE:countryPhysics?.source||null),
+  astronomyOptional:subject==='astronomy'&&['national-optional','regional-optional','enrichment'].includes(astronomyCountry?.kind),
+  astronomyTeachingKind:astronomyCountry?.kind||null,
+  astronomyProgrammeRo:astronomyCountry?.programmeRo||null,
+  astronomyProgrammeEn:astronomyCountry?.programmeEn||null,
+  astronomyReference:astronomyCountry?.source||null,
+  astronomyEvidenceScope:astronomyCountry?.sourceScope||null,
+  astronomyOfferingVerified:astronomyCountry?.offerVerified||false,
+  astronomyTopicsVerified:astronomyCountry?.topicsVerified||false,
+  astronomyStatus:astronomyCountry?.status||null,
+  astronomyNoteRo:astronomyCountry?.noteRo||null,
+  astronomyNoteEn:astronomyCountry?.noteEn||null
  };
 }
 export const SCIENCE_PRIMARY_LESSON_BANK=Object.freeze({
@@ -130,6 +145,7 @@ export const SCIENCE_PRIMARY_LESSON_BANK=Object.freeze({
   sky:['Cerul se schimbă aparent','Soarele pare să traverseze cerul deoarece Pământul se rotește. Stelele se văd noaptea în condiții potrivite.','Desenează poziția umbrei la două ore diferite. Nu privi direct Soarele.'],
   solar:['Vecinii Pământului','Pământul este o planetă ce se rotește în jurul Soarelui. Luna este satelitul natural al Pământului.','Construiește un model simplu cu bile de dimensiuni simbolice, fără a pretinde scară exactă.'],
   observations:['Observăm și notăm','O observație bună include data, ora, locul și condițiile cerului. Un desen este mai util dacă este etichetat.','Ține un jurnal al fazelor Lunii timp de câteva seri, dacă cerul permite.'],
+  stars:['Stelele și constelațiile','Soarele este o stea. Celelalte stele vizibile noaptea sunt foarte îndepărtate, iar constelațiile sunt grupări aparente de stele văzute de pe Pământ.','Desenează o constelație de pe o hartă simplă a cerului și explică de ce punctele din desen nu trebuie să fie apropiate în spațiu.'],
   distances:['Distanțe în spațiu','În spațiu, distanțele sunt uriașe; lumina are o viteză finită. Modelele cu bile sunt utile, dar rar păstrează scara.','Explică de ce nu putem așeza planetele la distanțe reale într-o cameră.']
  }
 });
@@ -157,6 +173,7 @@ export const SCIENCE_PRIMARY_ENGLISH=Object.freeze({
   sky:['Changes in the sky','The Sun appears to move across the sky mainly because Earth rotates. Stars may be visible at night.','Draw the position of a shadow at two different times. Never look directly at the Sun.'],
   solar:['Earth and its neighbours','Earth is a planet orbiting the Sun. The Moon is Earth’s natural satellite.','Make a simple model with balls, clearly stating that distances and sizes are not to scale.'],
   observations:['Looking and recording','A useful observation includes date, time, location and sky conditions. Labelled drawings preserve details.','Keep a journal of the Moon’s shape over several clear evenings.'],
+  stars:['Stars and constellations','The Sun is a star. Other stars visible at night are far away, and constellations are apparent patterns seen from Earth, not physically close groups.','Draw a constellation from a simple sky chart and explain why its stars need not be close together in space.'],
   distances:['Distances in space','Space distances are enormous and light takes time to travel. Models are helpful but rarely use a true scale.','Explain why real interplanetary distances cannot be reproduced inside a room.']
  }
 });
@@ -233,6 +250,10 @@ export const SCIENCE_PRIMARY_DEPTH=Object.freeze({
   observations:{
    ro:['O observație științifică este mai utilă când poate fi repetată: notează data, ora, condițiile și instrumentele. Un jurnal îți permite să compari mai multe seri.','Exemplu: desenează aproximativ forma Lunii câteva seri, la ore asemănătoare. Faptul că nu o vezi într-o seară înnorată nu dovedește că a dispărut.','Nu inventa poziții exacte ale planetelor fără un calendar astronomic sau observații reale.'],
    en:['Scientific observations become more useful when repeated and recorded with date, time, conditions and tools. A journal allows comparisons across evenings.','Example: sketch the Moon over several evenings at similar times. A cloudy night is not evidence that the Moon disappeared.','Do not claim exact current planet positions without a real ephemeris or observation.']
+  },
+  stars:{
+   ro:['Stelele produc propria lor lumină, spre deosebire de planetele care reflectă în principal lumina Soarelui. Soarele pare mai mare și mai luminos fiindcă este steaua cea mai apropiată de Pământ.','Exemplu: compară două schițe ale unor constelații și marchează stelele fără a uni punctele într-un obiect fizic. Modelul arată direcții aparente, nu distanțele reale dintre stele.','Nu considera stelele unei constelații drept vecini apropiați în spațiu: pot fi la distanțe foarte diferite.'],
+   en:['Stars emit their own light, unlike planets which mainly reflect sunlight. The Sun looks larger and brighter because it is the nearest star to Earth.','Example: compare two sketched constellations and label the stars without claiming the lines form a physical object. The chart shows apparent directions rather than true distances.','Constellation stars are not necessarily close neighbours; their distances can differ greatly.']
   },
   distances:{
    ro:['Distanța de la Pământ la Soare este mult mai mare decât cea până la Lună. Un an-lumină este o unitate de distanță, nu o durată; descrie cât parcurge lumina într-un an.','Exemplu: când desenăm planetele apropiate ca dimensiune și la intervale mici, folosim un model didactic, nu o hartă la scară.','Nu compara dimensiunea aparentă dintr-o fotografie cu diametrul real fără să ții cont de distanță.'],
