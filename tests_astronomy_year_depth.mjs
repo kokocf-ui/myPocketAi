@@ -88,7 +88,7 @@ for(const fragment of [
  "if(subjectId==='astronomy'&&['primary','lower','upper'].includes(scienceJourney.schoolStage))",
  "if(subjectId==='astronomy'&&scienceJourney.schoolStage==='advanced')",
  "if(scienceJourney.subject==='astronomy'&&['primary','lower','upper','advanced'].includes(scienceJourney.schoolStage))",
- "astronomyDiagramPicker(diagrams)"
+ "astronomyDiagramPicker([item.diagram],item)"
 ])assert.ok(script.includes(fragment),'Missing WebView wiring: '+fragment);
 const at=script.indexOf('function educationScienceTheoryReader(');
 const until=script.indexOf(String.fromCharCode(10)+'function ',at+40);
