@@ -143,12 +143,20 @@ function mergeUnique(existing,additional){
 export function expandLiteratureEuropeanGrades(programs){
  const coverage={countries:0,yearPaths:0,originalChapters:0};
  for(const country of LITERATURE_50_COUNTRIES){
-  const profile=programs[country]||{
+  const original=programs[country]||null;
+  // Dedicated country packs are frozen; work on copies so imports of those
+  // sources and previously validated curricula cannot be mutated in place.
+  const profile=original?{
+   ...original,
+   grades:Object.fromEntries(Object.entries(original.grades||{}).map(([k,v])=>[k,v.slice()])),
+   byGrade:Object.fromEntries(Object.entries(original.byGrade||{}).map(([k,rows])=>
+    [k,rows.map(row=>row.slice())]))
+  }:{
    source:null,sourceTitle:null,regions:false,verified:{},
    note:'Parcurs pedagogic original, orientativ; programa oficială pentru țară, limbă de predare, regiune, clasă și filieră nu este încă verificată. Nu sunt atribuite opere obligatorii.',
    grades:{},byLevel:{},byGrade:{}
   };
-  if(!programs[country])programs[country]=profile;
+  programs[country]=profile;
   profile.byGrade=profile.byGrade||{};
   profile.grades=profile.grades||{};
   for(const stage of ['beginner','lower','medium','advanced']){
