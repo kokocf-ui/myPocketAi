@@ -41,14 +41,16 @@ assert.equal(years.length,6);
 const plan=mathCountryGradeAreas({country:'GB-ENG',stage:'beginner',grade:'Y6',years});
 assert.equal(plan.status,'general-learning','Source-matched extras are not curriculum-certified');
 assert.equal(plan.units.length,5,'Year 6 algebra and measurement must not disappear behind three old cards');
-assert.equal(plan.units.reduce((n,x)=>n+x.lessonCount,0),32,'Visible counts must match actual editor');
+assert.equal(plan.units.reduce((n,x)=>n+x.lessonCount,0),44,'Visible counts must match actual editor');
 assert.ok(plan.units.some(u=>u.id==='algebra'&&u.lessonCount===6));
 assert.ok(plan.units.some(u=>u.id==='measurement'&&u.lessonCount===3));
+assert.ok(plan.units.some(u=>u.id==='arithmetic'&&u.lessonCount>=8),
+ 'Upper-primary review adds age-appropriate arithmetic chapters without dropping official Year 6 material');
 assert.ok(plan.units.every(u=>u.curriculumCompletion==='partial-source-review'));
 const education=educationSubjectSchoolPlan({country:'GB-ENG',stage:'beginner',grade:'Y6',subject:'mathematics'});
 assert.equal(education.units.length,5);
-assert.equal(education.units.reduce((n,x)=>n+x.lessonCount,0),32);
+assert.equal(education.units.reduce((n,x)=>n+x.lessonCount,0),44);
 const ro=mathCountryCourseEntries({country:'RO',grade:'4',stage:'primary',phase:4,topic:'arithmetic'});
 assert.ok(ro.every(l=>l.country!=='GB-ENG'),'English year-six source must not leak into Romanian curriculum');
 console.log('PASS England Year 6 national-source supplementary mathematics:',source.length,
- 'original lessons and',32,'visible lessons across five branches');
+ 'original lessons and',44,'visible lessons across five branches');
