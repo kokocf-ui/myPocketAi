@@ -15267,6 +15267,7 @@ ${EXAM_UI_SCRIPT}
 ${PRACTICAL_UI_SCRIPT}
 ${EDUCATION_SELECTS_UI_SCRIPT}
 ${EDUCATION_COUNTRY_UI_SCRIPT}
+${EDUCATION_FIRST_USE_NOTICE_SCRIPT}
 ${EDUCATION_SCOPE_UI_SCRIPT}
 function eduPrintEscape(value){return String(value||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
 function eduCurrentPrintable(){
