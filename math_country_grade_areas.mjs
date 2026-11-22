@@ -39,7 +39,7 @@ export function mathCountryStudyYears({country,stage,years=[]}={}){
  if(Array.isArray(years)&&years.length>=3)return years;
  const count=({'RO':3,'GB-ENG':3,'GB-WLS':3,'GB-NIR':3,'GB-SCT':4})[code]||4;
  return Array.from({length:count},(_,i)=>({
-  id:'math-university-'+(i+1),
+  id:String(i+1),
   ro:'An universitar orientativ '+(i+1),
   en:'Advisory university study year '+(i+1),
   curriculumVerified:false,nationalYearVerified:false
