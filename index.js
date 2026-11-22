@@ -26,6 +26,7 @@ import {PRACTICAL_UI_SCRIPT} from './practical_ui.mjs';
 import {EDUCATION_SELECTS_UI_SCRIPT} from './education_selects_ui.mjs';
 import {EDUCATION_SCOPE_UI_SCRIPT} from './education_scope_ui.mjs';
 import {EDUCATION_COUNTRY_UI_SCRIPT} from './education_country_ui.mjs';
+import {MATH_GCSE_HIGHER_ONLY,mathGcseSelectTier,mathGcseLessonTier} from './math_gcse_tier_policy.mjs';
 import {MATH_DEPTH_STAGES, MATH_DEPTH_EN_LOWER, MATH_DEPTH_EN_UNIVERSITY, RO5_MATH_LESSONS, RO678_MATH_LESSONS, ENGLAND_Y6_MATH_LESSONS, mathInDepthEntries, mathInDepthMaterial,mathCountryCourseEntries} from './math_depth_courses.mjs';
 import {EDUCATION_FIRST_USE_NOTICE_SCRIPT} from './education_first_use_notice.mjs';
 import {POCKET_LANGUAGES,POCKET_COUNTRY_LANGUAGES,pocketLanguageFromLocale,pocketLanguageFromCountry,pocketPreferredLanguage} from './language_first_install.mjs';
@@ -8796,6 +8797,10 @@ const MATH_DEPTH_EN_UNIVERSITY=${JSON.stringify(MATH_DEPTH_EN_UNIVERSITY)};
 const RO5_MATH_LESSONS=${JSON.stringify(RO5_MATH_LESSONS)};
 const RO678_MATH_LESSONS=${JSON.stringify(RO678_MATH_LESSONS)};
 const ENGLAND_Y6_MATH_LESSONS=${JSON.stringify(ENGLAND_Y6_MATH_LESSONS)};
+const MATH_GCSE_HIGHER_ONLY=${JSON.stringify(MATH_GCSE_HIGHER_ONLY)};
+${mathGcseSelectTier.toString()}
+${mathGcseLessonTier.toString()}
+let mathGcseTier='foundation';
 ${mathInDepthEntries.toString()}
 ${mathCountryCourseEntries.toString()}
 ${mathInDepthMaterial.toString()}
@@ -8862,7 +8867,8 @@ function mathChaptersForSelection(){
  const base=MATH_CHAPTER_BANK[topic]?.[stage]||[];
  const phase=mathYearPosition().year4;
  const course=mathSelectedYearLessons(topic);
- if(course.length)return course.map(x=>({id:x.id,ro:x.title,en:x.enTitle||x.title,depth:true,unit:x.unit||null}));
+ if(course.length)return course.map(x=>({id:x.id,ro:x.title,en:x.enTitle||x.title,depth:true,
+  unit:x.unit||null,tier:mathGcseLessonTier(x)}));
  // Use the relative year within the *selected country's stage*, not a
  // Romanian class number extracted from another country's year identifier.
  if(!phase)return base;
@@ -12762,12 +12768,12 @@ function mathClearWorkspaceHeader(){
  root?.querySelectorAll('.math-workspace-title,.math-workspace-back').forEach(node=>node.remove());
 }
 function mathSelectedYearLessons(topic){
- return mathCountryCourseEntries({
-  country:String(educationCountrySelection.code||''),
-  grade:String(mathJourney.grade||''),
-  stage:String(mathJourney.schoolStage||''),
-  phase:mathYearPosition().year4,topic:String(topic||'')
- });
+ const country=String(educationCountrySelection.code||''),grade=String(mathJourney.grade||'');
+ const stage=String(mathJourney.schoolStage||'');
+ const lessons=mathCountryCourseEntries({country,grade,stage,
+  phase:mathYearPosition().year4,topic:String(topic||'')});
+ return country==='GB-ENG'&&stage==='intermediate'&&['Y10','Y11'].includes(grade)
+  ?mathGcseSelectTier(lessons,mathGcseTier):lessons;
 }
 function mathYearTopics(){
  const country=String(educationCountrySelection.code||'');
@@ -12863,7 +12869,9 @@ function mathJourneyShowChoices(stage){
   subtitle.textContent=stage==='stages'
    ?learningLabel(entry.scopeRo||'',entry.scopeEn||''):
    stage==='branches'?learningLabel(entry.topicFocus||'',entry.topicFocusEn||''):
-   learningLabel('Deschide lecția','Open lesson');
+   (isEnglandGcse&&entry.tier==='higher-only'
+    ?learningLabel('Exclusiv nivelului Higher','Higher tier only')
+    :learningLabel('Deschide lecția','Open lesson'));
   button.append(art,heading,subtitle);
   button.onclick=()=>{
    if(stage==='stages'){
@@ -12889,6 +12897,31 @@ function mathJourneyShowChoices(stage){
   items.append(button);
  }
  panel.append(title,note);
+ const isEnglandGcse=String(educationCountrySelection.code||'')==='GB-ENG'&&
+  mathJourney.schoolStage==='intermediate'&&['Y10','Y11'].includes(String(mathJourney.grade||''));
+ if(isEnglandGcse&&(stage==='branches'||stage==='chapters')){
+  const tierRow=document.createElement('label');tierRow.className='math-gcse-tier-row';
+  tierRow.style.cssText='display:flex;flex-direction:column;gap:6px;max-width:100%;font-size:14px;margin:8px 0;';
+  const caption=document.createElement('span');
+  caption.textContent=learningLabel('Nivel de examen GCSE','GCSE examination tier');
+  const select=document.createElement('select');select.id='math-gcse-tier';
+  select.dataset.pocketPickerMode='scroll';
+  select.style.cssText='min-height:46px;width:100%;font-size:16px;';
+  for(const [value,ro,en] of [
+   ['foundation','Foundation (materie de bază)','Foundation (core material)'],
+   ['higher','Higher (include Foundation)','Higher (also includes Foundation)']]){
+    const option=document.createElement('option');
+    option.value=value;option.textContent=learningLabel(ro,en);select.append(option);
+  }
+  select.value=mathGcseTier;
+  select.onchange=()=>{mathGcseTier=select.value;mathJourneyShowChoices(stage);};
+  const help=document.createElement('small');
+  help.textContent=learningLabel(
+   'Materie corelată cu GCSE; ordinea între Year 10 și Year 11 este orientativă.',
+   'GCSE-aligned material; the split between Year 10 and 11 is illustrative.');
+  help.style.cssText='font-size:12px;line-height:1.35;';
+  tierRow.append(caption,select,help);panel.append(tierRow);
+ }
  if(stage==='branches'){
   const selectedStage=mathJourney.schoolStage==='primary'?'beginner':
    mathJourney.schoolStage==='intermediate'?'medium':mathJourney.schoolStage;
