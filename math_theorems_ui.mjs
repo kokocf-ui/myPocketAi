@@ -34,7 +34,7 @@ function mathTheoryQuickReference(){
  query.style.cssText='min-height:46px;width:100%;box-sizing:border-box;font-size:16px;';
  const options=document.createElement('div');options.style.cssText='display:flex;flex-direction:column;gap:6px;';
  const details=document.createElement('article');details.style.cssText='overflow-wrap:anywhere;line-height:1.6;padding:8px;';
- function normalize(v){return String(v||'').normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').toLowerCase();}
+ function normalize(v){return String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();}
  function openItem(item){
   details.replaceChildren();
   const name=document.createElement('h3');name.textContent=item.title;
