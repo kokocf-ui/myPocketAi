@@ -114,10 +114,14 @@ try{
  assert.ok(!branches.some(x=>x.includes('Aritmetică')),'Romanian class V must not show standalone arithmetic');
  await click(page.locator('#view-module .math-choice-row').filter({hasText:'Algebră'}).first());
  const algebraChapterTitles=await page.locator('#view-module .math-choice-row strong').allTextContents();
- assert.ok(algebraChapterTitles.length>=5,'Class V Algebra must have at least five distinct detailed lessons, not one repeated chapter');
+ assert.ok(algebraChapterTitles.length>=40,'Romanian class V must expose its full authored annual algebra curriculum, not five placeholders');
  assert.equal(new Set(algebraChapterTitles).size,algebraChapterTitles.length,'Algebra school-year chapter titles duplicated');
+ assert.ok(algebraChapterTitles.some(x=>x.includes('Metoda falsei ipoteze')),'Romanian class V missing the false-assumption method');
+ assert.ok(algebraChapterTitles.some(x=>x.includes('Reguli de calcul cu puteri')),'Romanian class V missing power laws');
+ assert.ok(!algebraChapterTitles.some(x=>x.includes('Ecuații cu o necunoscută')),'Romanian class V must not teach formal algebraic equations');
+ assert.ok(await page.locator('.math-lesson-unit-heading').count()>=5,'The theory must be grouped by curricular units');
  await page.screenshot({path:'math-browser-audit/romanian-lower.png'});
- await click(page.locator('#view-module .math-choice-row').filter({hasText:'Numere naturale și valoarea pozițională'}).first());
+ await click(page.locator('#view-module .math-choice-row').filter({hasText:'Scrierea și citirea numerelor naturale'}).first());
  assert.equal(await page.locator('#mathEducationWorkspace').count(),0,
   'Chapter must open its own lesson rather than the shared editor');
  const reader=page.locator('#educationPagedLessonDialog');
