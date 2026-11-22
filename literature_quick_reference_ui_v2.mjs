@@ -134,11 +134,11 @@ export function literatureQuickReferenceAttach(panel,options={}){
    }
   };
   const sectionNames=[
-   ['grammatica',tr('Gramatică','Grammar')],
+   ['gramatica',tr('Gramatică','Grammar')],
    ['abrevieri',tr('Prescurtări / abrevieri','Abbreviations')],
    ['unitati',tr('Unități de măsură','Units of measure')]
   ];
-  let section='grammatica',selectedGroup='';
+  let section='gramatica',selectedGroup='';
   const rowMeaning=(x)=>{showDetail(x[2],x[3],x[4])};
   const filteredReference=q=>catalog.filter(x=>x[0]===section&&
    (!selectedGroup||x[1]===selectedGroup)&&
@@ -153,7 +153,7 @@ export function literatureQuickReferenceAttach(panel,options={}){
    const found=filteredReference(q);
    if(!found.length){pin([]);showInfo(tr('Nu există potriviri în această categorie.','No matches in this category.'));return}
    const sorted=found.slice().sort((a,b)=>a[2].localeCompare(b[2],ui));
-   const pinnedRows=section==='grammatica'&&!q&&!selectedGroup?
+   const pinnedRows=section==='gramatica'&&!q&&!selectedGroup?
     ['Predicat','Adjectiv','Adverb','Timpul prezent','Timpul trecut']
      .map(name=>sorted.find(row=>row[2]===name)).filter(Boolean):
     sorted.slice(0,5);
