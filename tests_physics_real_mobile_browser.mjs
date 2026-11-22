@@ -2,6 +2,7 @@
 // WebView (separate from deterministic unit tests and Gradle compilation).
 import assert from 'node:assert/strict';
 import frontend from './index.js';
+import {EDUCATION_EUROPE_COUNTRIES} from './education_all_country_subject_matrix.mjs';
 import http from 'node:http';
 import fs from 'node:fs';
 import {chromium} from 'playwright';
@@ -143,6 +144,42 @@ try{
  assert.notEqual(investigation,undergraduateText,'University lab must not just repeat lesson theory');
  await dialog.screenshot({path:'physics-browser-audit/university-investigation.png'});
  await closeDialog();
+ // Real UI click-through for every European school system, not just an
+ // isolated year-registry function. Each browser page has a fresh profile.
+ let countryRoutes=0;
+ for(const code of EDUCATION_EUROPE_COUNTRIES){
+  const countryPage=await browser.newPage({viewport:{width:390,height:844},
+   deviceScaleFactor:1,isMobile:true,hasTouch:true,locale:'ro-RO'});
+  try{
+   await countryPage.goto('http://127.0.0.1:3880/?nativeLaunch=1&physicsQa=1',
+    {waitUntil:'domcontentloaded',timeout:30000});
+   await open(countryPage.locator('[data-module="learning"]').first());
+   await open(countryPage.locator('#view-module .education-card:has-text("Științe")').first());
+   const field=countryPage.locator('#eduCountryInput');
+   assert.ok(await field.count()&&await field.isVisible(),
+    code+' must offer a country input on a fresh installation');
+   await field.fill(code);
+   await open(countryPage.locator('#view-module button:has-text("Continuă")').first());
+   if(!((await countryPage.locator('#view-module').innerText()).includes('Fizică'))){
+    const science=countryPage.locator('#view-module button:has-text("Științe")').first();
+    if(await science.count())await open(science);
+   }
+   await open(countryPage.locator('#view-module .science-subject-tile:has-text("Fizică")').first());
+   const yearTiles=countryPage.locator('#view-module .science-year-tile');
+   await yearTiles.first().waitFor({state:'attached',timeout:10000});
+   assert.ok(await yearTiles.count()>=2,
+    code+' must have at least one school year and a university pathway');
+   await open(yearTiles.first());
+   const chapters=countryPage.locator('#view-module .science-choice-list > .science-choice-row');
+   assert.ok(await chapters.count()>=2,
+    code+' first visible Physics/integrated Science year has empty or shallow chapters');
+   countryRoutes++;
+  }catch(e){
+   await countryPage.screenshot({path:'physics-browser-audit/country-route-failure.png',fullPage:true}).catch(()=>{});
+   throw Error('Physics mobile UI route '+code+': '+String(e));
+  }finally{await countryPage.close();}
+ }
+ assert.equal(countryRoutes,50,'All national Physics entry routes must be navigable in mobile Chromium');
  assert.ok(!errors.length,'Frontend console exceptions: '+errors.slice(0,3).join('; '));
  console.log('PASS mobile Chromium Physics: grades VI–XII, seven detailed lessons, seven activity readers, paginated dialogs and navigation');
 }catch(error){
