@@ -96,6 +96,7 @@ export const ASTRONOMY_EUROPE_FRAMEWORKS=Object.freeze({
  })
 });
 export const ASTRONOMY_UNVERIFIED_COUNTRY_NOTES=Object.freeze({"AD":["Alege sistemul școlar andorran, francez sau spaniol; nu există o singură programă pentru toate.","Choose Andorran, French or Spanish school system; there is no one universal country syllabus.","school-system"],"BA":["Programa depinde de entitate, canton sau districtul Brčko; trebuie indicată autoritatea școlară.","Curriculum depends on entity, canton or Brčko district; the education authority is required.","entity-canton-district"],"BE":["Alege comunitatea lingvistică și filiera înaintea unui curriculum verificat.","Select the linguistic community and school track before claiming a verified curriculum.","linguistic-community"],"BY":["Nu este verificată programa actuală de Astronomie pentru clasa și cohorta din Belarus.","Current Belarusian astronomy-related syllabus for this grade is not verified.","national-edition"],"CH":["Alege cantonul și limba de predare; Lehrplan 21 nu se aplică identic tuturor cantoanelor.","Select canton and teaching language; Lehrplan 21 is not universal to all cantons.","canton-language"],"DE":["Alege landul și tipul de școală: nu există o singură programă de Astronomie la nivel federal.","Select federal state and school type; no single national Astronomy syllabus applies.","land-school-type"],"LU":["Ciclurile 1–2 adoptă noul plan în 2026/27, iar ciclurile 3–4 în 2027/28; confirmă ciclul și cohorta.","Cycles 1–2 adopt the new plan in 2026/27 and Cycles 3–4 in 2027/28; confirm cycle and cohort.","cycle-cohort"],"MC":["Programele școlare trebuie confirmate local; nu atribuim automat programa franceză integrală.","Verify local school adaptations; do not automatically assign the full French syllabus.","local-school-programme"],"ME":["Este necesară programa școlară oficială actuală, pe an și filieră, pentru Muntenegru.","Current Montenegro grade-specific curriculum and school track need verification.","school-track"],"RU":["Verifică programul federal curent, anul și filiera înainte de a declara Astronomia materie separată.","Verify current federal programme, year and track before calling Astronomy a separate subject.","federal-edition"],"SM":["San Marino necesită verificarea propriului curriculum; nu copiem automat Italia.","San Marino needs its own curriculum verification; do not automatically copy Italy.","local-curriculum"],"VA":["Nu există un sistem școlar general de clase naționale comparabil; oferim doar învățare liberă.","No comparable national general school-grade system; free learning only.","no-comparable-school-system"],"XK":["Kosovo necesită verificarea programei după an, limba de predare și rețeaua școlară.","Kosovo syllabus requires verification by grade, teaching language and school system.","language-school-programme"]});
+export const ASTRONOMY_REGIONAL_PROGRAMMES=Object.freeze({"DE":{"DE-SN":{"regionRo":"Saxonia","regionEn":"Saxony","schoolType":"Gymnasium","edition":"2004/2019","source":"https://www.schulportal.sachsen.de/lplandb/lehrplan/102","validity":"official-portal-currently-lists","grades":{"upper:11":{"kind":"regional-course","topics":["solar","stars","sky","observations"],"nameRo":"Astronomie · Gymnasium · anul 11","nameEn":"Astronomy · Gymnasium · Year 11"},"upper:12":{"kind":"regional-course","topics":["stars","galaxies","cosmology","observations"],"nameRo":"Astronomie · Gymnasium · anul 12","nameEn":"Astronomy · Gymnasium · Year 12"}}},"DE-ST":{"regionRo":"Saxonia-Anhalt","regionEn":"Saxony-Anhalt","schoolType":"Gymnasium","edition":"2024","source":"https://lisa.sachsen-anhalt.de/fileadmin/Bibliothek/Politik_und_Verwaltung/MK/LISA/Unterricht/Lehrplaene/Gym/FLP_Astronomie_01082024_LTd.pdf","validity":"official-portal-currently-lists","grades":{"lower:9":{"kind":"regional-compulsory","topics":["sky","solar","stars","observations"],"nameRo":"Astronomie · Gymnasium · clasa IX obligatoriu","nameEn":"Astronomy · Gymnasium · Grade 9 compulsory"},"lower:10":{"kind":"regional-optional","topics":["sky","solar","stars","observations"],"nameRo":"Astronomie · Gymnasium · clasa X opțional","nameEn":"Astronomy · Gymnasium · Grade 10 elective"},"upper:11":{"kind":"regional-optional","topics":["gravity","stars","observations","distances"],"nameRo":"Astronomie · Gymnasium · anul 11 opțional","nameEn":"Astronomy · Gymnasium · Year 11 elective"},"upper:12":{"kind":"regional-optional","topics":["stars","galaxies","cosmology","observations"],"nameRo":"Astronomie · Gymnasium · anul 12 opțional","nameEn":"Astronomy · Gymnasium · Year 12 elective"}}}}});
 export const RO_ASTRONOMY_OPTIONALS=Object.freeze({
  lower:{
   '5':{ro:'Aventura cunoașterii Universului · clasa a V-a',en:'Exploring the Universe · Year 5',topics:['sky','solar','observations','stars']},
@@ -108,7 +109,7 @@ export const RO_ASTRONOMY_OPTIONALS=Object.freeze({
   '12':{ro:'Astronomie. Universul și omul – o călătorie existențială',en:'Astronomy: The universe and humanity',topics:['cosmology','galaxies','stars','exoplanets']}
  }
 });
-export function astronomyCountryGradePlan({country='',stage='primary',grade='',years=[]}={}){
+export function astronomyCountryGradePlan({country='',stage='primary',grade='',years=[],region=''}={}){
  const code=String(country||'').toUpperCase(),level=String(stage||''),year=String(grade||'');
  const valid=ASTRONOMY_EUROPE_COUNTRIES.includes(code)&&['primary','lower','upper'].includes(level)&&
   Array.isArray(years)&&years.some(item=>String(item?.id)===year);
@@ -126,6 +127,25 @@ export function astronomyCountryGradePlan({country='',stage='primary',grade='',y
  const unverified=custom?{...general,status:'school-system-verification-required',
   noteRo:custom[0],noteEn:custom[1],requiredContext:custom[2]}:general;
  if(year.startsWith('general-'))return unverified;
+ if(code==='DE'){
+  const info=ASTRONOMY_REGIONAL_PROGRAMMES.DE;
+  const name=String(region||'').trim().toLowerCase();
+  const id=['de-sn','sachsen','saxony'].includes(name)?'DE-SN':
+   ['de-st','sachsen-anhalt','saxony-anhalt'].includes(name)?'DE-ST':'';
+  const selected=info[id];
+  const item=selected?.grades?.[level+':'+year];
+  if(item)return {...general,status:'regional-existing-curriculum',
+   kind:item.kind,topicIds:item.topics,source:selected.source,
+   sourceScope:'regional-'+selected.schoolType,offerVerified:true,
+   programmeRo:item.nameRo,programmeEn:item.nameEn,
+   region:id,edition:selected.edition,validity:selected.validity,
+   noteRo:'Programa Astronomie '+selected.edition+' este încă publicată oficial în '+selected.regionRo+'. Valabilitatea concretă se raportează la Gymnasium, nu la întreaga Germanie; capitolele aplicației sunt adaptări.',
+   noteEn:'The Astronomy syllabus '+selected.edition+' remains officially published for '+selected.regionEn+'. It applies to Gymnasium, not all of Germany; app chapters are adaptations.'};
+  return {...unverified,regionalExamples:Object.entries(info).map(([key,item])=>({
+   region:key,edition:item.edition,source:item.source,grades:Object.keys(item.grades)
+  })),noteRo:'Există programe Astronomie vechi încă publicate oficial în Saxonia (2004/2019) și Saxonia-Anhalt (2024). Nu sunt absente: trebuie selectate landul și tipul școlii.',
+  noteEn:'Older Astronomy syllabi still appear in official portals for Saxony (2004/2019) and Saxony-Anhalt (2024). A state and school type must be chosen.'};
+ }
  if(code==='RO'){
   const offer=RO_ASTRONOMY_OPTIONALS[level]?.[year];
   if(offer&&base)return {...general,status:'official-elective-offer',kind:'national-optional',
