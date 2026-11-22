@@ -17,19 +17,40 @@ await new Promise(resolve=>server.listen(3879,'127.0.0.1',resolve));
 const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
 const page=await browser.newPage({viewport:{width:390,height:844},deviceScaleFactor:1,isMobile:true,hasTouch:true,locale:'ro-RO'});
 let testedYears=0,openedLessons=0,upperLessons=0;
+const browserErrors=[];
+page.on('pageerror',e=>browserErrors.push('page error: '+String(e)));
+page.on('console',m=>{if(m.type()==='error')browserErrors.push('console: '+m.text())});
 try{
- await page.goto('http://127.0.0.1:3879/?astronomyQa=1',{waitUntil:'domcontentloaded',timeout:30000});
- await page.waitForFunction(()=>typeof scienceJourneyShowChoices==='function',{timeout:18000});
- const start=await page.evaluate(()=>{
-  openModule('learning');educationCountrySelection.code='RO';
-  educationCountrySelection.label='România';
-  scienceJourney.subject='astronomy';scienceJourneyShowChoices('years');
-  return {view:state.currentView,count:document.querySelectorAll('.science-year-tile').length};
- });
- assert.equal(start.view,'module');assert.ok(start.count>=12,'12 school year tiles must be rendered');
- const rawTitle=grade=>grade<=4?'Clasa '+grade:grade<=8?'Clasa a '+grade+'-a':'Clasa a '+grade+'-a';
+ await page.goto('http://127.0.0.1:3879/?nativeLaunch=1&astronomyQa=1',{waitUntil:'domcontentloaded',timeout:30000});
+ await page.locator('[data-module="learning"]').first().waitFor({state:'attached',timeout:15000});
+ await page.locator('[data-module="learning"]').first().evaluate(el=>el.click());
+ await page.locator('#view-module .education-card:has-text("Științe")').first().waitFor({state:'attached',timeout:10000});
+ await page.locator('#view-module .education-card:has-text("Științe")').first().evaluate(el=>el.click());
+ let intro=await page.locator('#view-module').innerText();
+ if(!intro.includes('Astronomie')){
+  const country=page.locator('#eduCountryInput');
+  if(await country.count()&&await country.isVisible()){
+   await country.fill('România');
+   const pick=page.locator('#view-module .edu-country-matches button:has-text("România")').first();
+   await pick.waitFor({state:'attached',timeout:8000});
+   await pick.evaluate(el=>el.click());
+   const cont=page.locator('#view-module button:has-text("Continuă")').first();
+   if(await cont.count())await cont.evaluate(el=>el.click());
+  }
+  intro=await page.locator('#view-module').innerText();
+ }
+ if(!intro.includes('Astronomie')){
+  const science=page.locator('#view-module button:has-text("Științe")').first();
+  if(await science.count())await science.evaluate(el=>el.click());
+ }
+ const astro=page.locator('#view-module .science-subject-tile:has-text("Astronomie")').first();
+ await astro.waitFor({state:'attached',timeout:10000});
+ await astro.evaluate(el=>el.click());
+ assert.ok(await page.locator('#view-module .science-year-tile').count()>=12,
+  'All 12 Romanian school-year buttons must appear in actual UI');
+
  for(const grade of Array.from({length:12},(_,i)=>i+1)){
-  await page.evaluate(()=>scienceJourneyShowChoices('years'));
+  // The preceding grade returns via the visible Back control, not a hidden test hook.
   const all=await page.locator('.science-year-tile').allTextContents();
   const patterns=[new RegExp('(?:Clasa\\s+(?:a\\s+)?)'+grade+'\\b','i'),new RegExp('(?:Grade\\s+)'+grade+'\\b','i')];
   const index=all.findIndex(x=>patterns.some(rx=>rx.test(x)));
@@ -37,6 +58,8 @@ try{
   await page.locator('.science-year-tile').nth(index).evaluate(el=>el.click());
   const subject=await page.locator('.science-choice-list > .science-choice-row').count();
   assert.ok(subject>=2,'No visible science chapters in school grade '+grade);
+  if(grade>=9)assert.equal(subject,({9:5,10:6,11:6,12:8})[grade],
+   'The grade '+grade+' upper-secondary chapter plan is incomplete');
   const visible=await page.locator('.science-choice-list > .science-choice-row').first().isVisible();
   assert.ok(visible,'Chapter buttons visually hidden in grade '+grade);
   const headings=await page.locator('.science-choice-list > .science-choice-row strong').allTextContents();
@@ -68,21 +91,24 @@ try{
   openedLessons++;
   await dialog.screenshot({path:'astronomy-browser-audit/grade-'+grade+'.png'});
   await dialog.locator('.education-theory-head button').first().evaluate(el=>el.click());
+  // Reader → chapter activities → chapter list → grade selection.
+  for(let back=0;back<3;back++){
+   const btn=page.locator('#view-module .science-stage-back').first();
+   assert.ok(await btn.count(),'Missing scoped Back at grade '+grade+' step '+back);
+   await btn.evaluate(el=>el.click());
+  }
+  assert.ok(await page.locator('#view-module .science-year-tile').count()>=12,
+   'Back does not return to all grade buttons from grade '+grade);
   testedYears++;
- }
- // Verify the actual detailed upper-secondary content (all paragraphs, not
- // merely one button) and the distinct late-year syllabus.
- for(const grade of [9,10,11,12]){
-  await page.evaluate(g=>{
-   const years={9:['solar','sky','distances','gravity','observations'],
-    10:['solar','gravity','stars','observations','exoplanets','distances'],
-    11:['stars','galaxies','cosmology','exoplanets','gravity','observations'],
-    12:['sky','distances','stars','galaxies','cosmology','observations','exoplanets','gravity']};
-   const options=eduYearOptions(educationCountrySelection.code,'intermediate','science');
-   const plan=SCIENCE_GRADE_TOPIC_PLAN({country:educationCountrySelection.code,subject:'astronomy',stage:'upper',grade:String(g),years:options,topics:ASTRONOMY_TOPIC_DATA});
-   if(plan.topics.length!==years[g].length)throw Error('Missing chapters for grade '+g);
-  },grade);
  }
  console.log('PASS Chromium Astronomy all '+testedYears+' actual Romanian grades, '+openedLessons+
   ' opened nonempty paged lessons, '+upperLessons+' extended high-school lessons, visible study UI');
+}catch(error){
+ try{
+  await page.screenshot({path:'astronomy-browser-audit/browser-failure.png',fullPage:true});
+  fs.writeFileSync('astronomy-browser-audit/browser-failure.txt',
+   JSON.stringify({error:String(error),browserErrors,url:page.url(),
+    stage:await page.locator('#view-module').innerText().catch(()=>null)},null,2));
+ }catch{}
+ throw error;
 }finally{await browser.close();await new Promise(resolve=>server.close(resolve));}
