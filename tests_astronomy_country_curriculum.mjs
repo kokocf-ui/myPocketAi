@@ -145,6 +145,15 @@ for(const year of ['2','4','6']){
  assert.equal(result.policy.kind,'integrated');
  assert.ok(result.plan.topics.length>=2);
 }
+
+assert.equal(get('BG','lower','7').policy.status,'mandatory-physics-astronomy-grade-7');
+assert.ok(get('BG','lower','7').plan.topics.some(x=>x.id==='solar'));
+assert.equal(get('BG','lower','5').policy.kind,'unverified');
+const ukr11=get('UA','upper','11');
+assert.equal(ukr11.policy.status,'national-astronomy-grade-11-curriculum');
+assert.ok(ukr11.plan.topics.length>=6,'Ukraine 11 should expose deep astronomy');
+assert.equal(ukr11.policy.offerVerified,true);
+assert.equal(get('UA','upper','10').policy.kind,'unverified','No unsupported Year 10 astronomy as a separate course');
 assert.equal(astronomyCountryGradePlan({country:'RO',stage:'lower',grade:'99',years:[]}).status,'invalid-selection');
 const html=await(await app.fetch(new Request('https://astronomy-europe-registry.test/'))).text();
 const script=html.match(/<script>([\s\S]*?)<\/script>/)?.[1]||'';

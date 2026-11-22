@@ -45,6 +45,8 @@ export const ASTRONOMY_EUROPE_FRAMEWORKS=Object.freeze({
   primary:{source:'https://skola2030.lv/lv/macibu-saturs/macibu-jomas/dabaszinatnes',scope:'national-science-integrated-grades-1-6'},
   upper:{source:'https://www.skola2030.lv/admin/filemanager/files/2/visp_vid_izgl_modelis.pdf',scope:'upper-secondary-optional-course-model-not-year-fixed'}
  }),
+ BG:Object.freeze({lower:{source:'https://www.mon.bg/nfs/2023/12/up_vii_fizika.pdf',scope:'ministry-physics-and-astronomy-grade-7'}}),
+ UA:Object.freeze({upper:{source:'https://mon.gov.ua/static-objects/mon/sites/1/zagalna%20serednya/programy-10-11-klas/ast-ak.pdf',scope:'ministry-astronomy-grade-11-2017-programme'}}),
  NL:Object.freeze({primary:{source:'https://www.slo.nl/thema/meer/tule/orientatie-jezelf-wereld/kerndoel-46/',scope:'SLO-core-objective-46-primary-natural-science'}}),
  DK:Object.freeze({primary:{source:'https://emu.dk/sites/default/files/2020-09/Gsk_fagh%C3%A6fte_naturteknologi.pdf',scope:'Falles-Mal-natur-teknologi-primary-grade-bands'}}),
  SE:Object.freeze({
@@ -160,6 +162,23 @@ export function astronomyCountryGradePlan({country='',stage='primary',grade='',y
 
 
 
+
+ if(code==='BG'&&level==='lower'&&year==='7')return {...general,
+  status:'mandatory-physics-astronomy-grade-7',kind:'integrated',
+  topicIds:['solar','sky','stars','observations'],
+  source:base?.source||null,sourceScope:base?.scope||null,offerVerified:true,
+  programmeRo:'Физика и астрономия · clasa a VII-a',
+  programmeEn:'Physics and Astronomy · Grade 7',
+  noteRo:'Ministerul Educației din Bulgaria publică programa pentru clasa VII la disciplina obligatorie „Физика и астрономия”, care include Sistemul Solar, clasificarea planetelor, cosmosul, stelele și metode de observare. Este fizică și astronomie integrate, nu curs autonom exclusiv de Astronomie.',
+  noteEn:'Bulgarian Ministry Grade 7 Physics and Astronomy curriculum covers the Solar System, grouping planets, the cosmos, stars and observation. It is the combined Physics and Astronomy subject, not a standalone compulsory Astronomy course.'};
+ if(code==='UA'&&level==='upper'&&year==='11')return {...general,
+  status:'national-astronomy-grade-11-curriculum',kind:'integrated',
+  topicIds:['sky','observations','distances','gravity','solar','stars','galaxies','cosmology'],
+  source:base?.source||null,sourceScope:base?.scope||null,offerVerified:true,
+  programmeRo:'Астрономія · clasa a 11-a · 17 ore / an (nivel standard)',
+  programmeEn:'Astronomy · Grade 11 · 17 hours yearly (standard level)',
+  noteRo:'Ministerul Educației din Ucraina publică programă națională de Astronomie pentru clasa a XI-a (17 ore/an, nivel standard), cu obiectele astronomiei, observarea cerului, coordonate, legi Kepler, Sistemul Solar, stele și galaxii. Școala poate utiliza un curs separat ori Fizică și Astronomie integrat; reforma profilului 2027 nu este tratată ca intrată în vigoare în 2026.',
+  noteEn:'Ukraine Ministry Grade 11 Astronomy national syllabus provides 17 yearly hours at standard level, covering celestial observations, coordinates, Kepler laws, the Solar System, stars and galaxies. Schools may use the separate or integrated Physics and Astronomy programme; planned profile-school changes from 2027 are not imposed in 2026.'};
  if(code==='NL'&&level==='primary'&&/^G[1-8]$/.test(year)){
   const n=Number(year.slice(1));
   const ids=n<=2?['sky','observations']:n<=4?['sky','solar','observations']:n<=6?['solar','sky','observations']:['solar','sky','observations','distances'];
