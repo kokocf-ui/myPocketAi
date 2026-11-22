@@ -93,7 +93,7 @@ import {physicsVerifiedExercise} from './physics_verified.mjs';
 import {ASTRONOMY_TOPICS,ASTRONOMY_SPECIALIZATIONS,ASTRONOMY_LESSONS} from './astronomy_curriculum.mjs';
 import {astronomyVerifiedExercise} from './astronomy_verified.mjs';
 import {ASTRONOMY_STUDY_CASES,ASTRONOMY_TOPIC_DIAGRAMS,astronomySchoolTopicLessons,astronomyLabMaterial} from './astronomy_study_course.mjs';
-import {ASTRONOMY_EUROPE_COUNTRIES,ASTRONOMY_EUROPE_FRAMEWORKS,astronomyCountryGradePlan} from './astronomy_europe_frameworks.mjs';
+import {ASTRONOMY_EUROPE_COUNTRIES,ASTRONOMY_EUROPE_FRAMEWORKS,RO_ASTRONOMY_OPTIONALS,astronomyCountryGradePlan} from './astronomy_europe_frameworks.mjs';
 import {ASTRONOMY_UNIVERSITY_DEFAULT_FOUR,ASTRONOMY_UNIVERSITY_ELECTIVES,astronomyUniversityRoutes,astronomyUniversityRoute,astronomyUniversityYears,astronomyUniversityCourseChoices,astronomyUniversityStudyText,astronomyUniversityProjectText} from './astronomy_university_courses.mjs';
 import {FOREIGN_LANGUAGES,FOREIGN_LEVELS,FOREIGN_TOPICS,FOREIGN_PHRASES,ANCIENT_GREEK_PHRASES,CLASSICAL_LEVELS} from './foreign_languages_curriculum.mjs';
 import {MODERN_OUTCOMES,CLASSICAL_OUTCOMES,TOPIC_GOALS,foreignStudyPlan,foreignStudyRubric,foreignStudyReview,foreignStudyDue,foreignStudyPlacementQuestions,foreignStudyPlacementResult} from './foreign_languages_learning.mjs';
@@ -9421,6 +9421,7 @@ const PHYSICS_COUNTRY_YEAR_SEQUENCES=${JSON.stringify(PHYSICS_COUNTRY_YEAR_SEQUE
 const physicsCountryGradePlan=${physicsCountryGradePlan.toString()};
 const ASTRONOMY_EUROPE_COUNTRIES=${JSON.stringify(ASTRONOMY_EUROPE_COUNTRIES)};
 const ASTRONOMY_EUROPE_FRAMEWORKS=${JSON.stringify(ASTRONOMY_EUROPE_FRAMEWORKS)};
+const RO_ASTRONOMY_OPTIONALS=${JSON.stringify(RO_ASTRONOMY_OPTIONALS)};
 const astronomyCountryGradePlan=${astronomyCountryGradePlan.toString()};
 const SCIENCE_GRADE_TOPIC_PLAN=${scienceGradeTopicPlan.toString()};
 const SCIENCE_GRADE_LESSON_FRAME=${scienceGradeLessonFrame.toString()};
