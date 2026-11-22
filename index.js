@@ -8779,10 +8779,10 @@ function educationMathTheoryList(query=''){
  const order={beginner:0,intermediate:1,medium:1,advanced:2};
  const max=stage==='advanced'?2:stage==='intermediate'?1:0;
  const course=mathInDepthEntries({stage,phase:year,topic});
- let available=course.length?course:
-  stage==='primary'
-   ?MATH_PRIMARY_THEORY_LESSONS.filter(x=>x.topic===topic&&(!year||year>=x.minGrade))
-   :EDUCATION_THEORY_DATA.filter(x=>x.subject==='math'&&x.topic===topic&&order[x.level]<=max);
+ let available=stage==='primary'
+  ?[...MATH_PRIMARY_THEORY_LESSONS.filter(x=>x.topic===topic&&(!year||year>=x.minGrade)),...course]
+  :course.length?course:
+    EDUCATION_THEORY_DATA.filter(x=>x.subject==='math'&&x.topic===topic&&order[x.level]<=max);
  // Do not teach class-V/Vl geometry as a class-VII demonstration syllabus.
  if(!course.length&&stage==='lower'&&topic==='geometry'&&year>0&&year<3)
   available=available.filter(x=>/^(?:Perimetrul|Aria dreptunghiului|Aria pătratului|Suma unghiurilor|Unghiuri|Linii|Segmente)/i.test(x.title));
