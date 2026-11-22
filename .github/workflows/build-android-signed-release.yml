@@ -356,6 +356,8 @@ jobs:
           node tests_astronomy_year_depth.mjs
           node tests_astronomy_country_evidence.mjs
           node tests_astronomy_3d_complete.mjs
+          node tests_astronomy_all_12_screens.mjs
+          node tests_astronomy_visual_relevance.mjs
           node tests_practical_courses.mjs
           node tests_education_android.mjs
           node tests_eva_dialogue.mjs
