@@ -57,6 +57,8 @@ jobs:
           node --check math_ro8_statistics.mjs
           node --check math_ro678_curriculum.mjs
           node --check math_england_y6_curriculum.mjs
+          node --check math_england_ks4_curriculum.mjs
+          node --check tests_math_england_ks4.mjs
           node --check education_country_ui.mjs
           node --check tests_math_real_browser.mjs
       - name: Check country-by-year coverage and theorems
@@ -68,6 +70,7 @@ jobs:
           node tests_math_curriculum_readiness.mjs
           node tests_math_ro678_country_curriculum.mjs
           node tests_math_england_y6.mjs
+          node tests_math_england_ks4.mjs
           node tests_math_theorems_countries.mjs
           node tests_math_journey.mjs
           node tests_education_country_first.mjs
