@@ -170,7 +170,10 @@ export function physicsLaboratoryYearInvestigations({country='',grade='',stage='
     ['Construiește din hârtie un model al unor niveluri de energie; nu pretinde observații reale.','Compară frecvențele a două tranziții ipotetice cu E=hf, având unități coerente.','Analizează limitele unui model clasic față de tranziții cuantice și separă modelarea de date măsurate.'],
     ['Build a paper model of energy levels without claiming real observations.','Compare frequencies for two hypothetical transitions using E=hf and consistent units.','Analyse why a classical model fails for discrete quantum transitions and separate models from measurements.']]
   };
-  const focus=focused[topic]?.[isRo?0:1]?.[depth]||procedure;
+  const focus=phase===0?(isRo?
+   'În legătură cu «'+String(entry.title||topic)+'», descrie o observație din această activitate, fără formule.':
+   'For “'+String(entry.title||topic)+'”, describe one observation from this activity without equations.'):
+   focused[topic]?.[isRo?0:1]?.[depth]||procedure;
   const labelsDepth=isRo?
    ['Observare sigură și identificarea variabilelor','Măsurare, tabel și calcule','Predicție, incertitudine și validitatea modelului']:
    ['Safe observation and identifying variables','Measurement, table and calculation','Prediction, uncertainty and model validity'];
