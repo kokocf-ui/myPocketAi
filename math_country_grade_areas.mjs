@@ -1,5 +1,6 @@
 import {mathInDepthEntries} from './math_depth_courses.mjs';
 import {ro5TopicLessons,RO5_MATH_UNITS} from './math_ro5_curriculum.mjs';
+import {ro678TopicLessons,ro678GradeSummary} from './math_ro678_curriculum.mjs';
 // Mathematics learning paths for every European country in the Education picker.
 // A progression is *advisory* unless an official country/grade source is attached.
 // Stage years are supplied by the shared school-year mapping, never inferred from
@@ -67,6 +68,19 @@ export function mathCountryGradeAreas({country,stage,grade,years}={}){
     focus:summary[id],lessonCount:ro5TopicLessons(id).length,
     curriculumUnitCount:RO5_MATH_UNITS.filter(x=>x.topic===id).length,
     countrySpecific:true}))};
+ }
+ if(country==='RO'&&st==='lower'&&['6','7','8'].includes(String(grade))){
+  const selected=String(grade);
+  const topics=selected==='8'?[...row,['functions','Funcții și grafice']]:row;
+  return {status:'general-learning',country,stage:st,grade,
+   note:'Clasa '+grade+': lecții originale legate de temele MEN 3393/2017; inventarul anual și evaluarea pedagogică necesită în continuare verificare.',
+   units:topics.map(([id,ro])=>({id,ro,en:({
+    algebra:'Numbers and algebra',geometry:'Geometry',
+    statistics:'Data and probability',functions:'Functions and graphs'
+   })[id]||ro,
+    focus:'',lessonCount:ro678TopicLessons(selected,id).length,
+    curriculumUnitCount:ro678GradeSummary(selected).length,
+    countrySpecific:true,curriculumCompletion:'under-review'}))};
  }
  return {status:'general-learning',country,stage:st,grade,
   note:'Parcurs matematic orientativ, diferențiat pe etapă și an; nu reprezintă programa națională verificată.',
