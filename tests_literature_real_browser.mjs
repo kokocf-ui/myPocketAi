@@ -72,6 +72,7 @@ try{
  await cmd('Runtime.enable');
  await cmd('Page.enable');
  await cmd('Log.enable');
+ await cmd('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});
  await sleep(800);
  const visible=async()=>await js("Array.from(document.querySelectorAll('button,[role=button]')).map(x=>x.textContent?.trim().replace(/\\s+/g,' ').slice(0,85)).filter(Boolean).slice(0,65)");
  const tap=async(terms)=>{
@@ -91,16 +92,34 @@ try{
  await js("document.querySelectorAll('[data-lit-quick-entry] button')[0].click()");
  const dict=await js("(()=>{const i=document.querySelector('.lit-quick-input');i.value='cop';i.dispatchEvent(new Event('input',{bubbles:true}));return {items:[...document.querySelectorAll('.lit-quick-option,.lit-quick-chip')].map(x=>x.textContent),results:document.querySelector('.lit-quick-results')?.innerText}})()");
  assert.ok(dict.items.some(x=>x.toLowerCase().includes('copac')),'Real WebView-style dictionary typed prefix cop has no clickable copac: '+JSON.stringify({dict,exceptions,logs}));
+
+ const wordExample=await js("(()=>{const option=[...document.querySelectorAll('.lit-quick-option')].find(x=>x.textContent.trim()==='copac');option.click();const text=document.querySelector('.lit-quick-definition-text');const example=document.querySelector('.lit-quick-example-text');const article=document.querySelector('.lit-quick-detail');const list=document.querySelector('.lit-quick-results');return {definition:text?.textContent,example:example?.textContent,fontsize:parseFloat(getComputedStyle(text).fontSize),lineHeight:parseFloat(getComputedStyle(text).lineHeight),articleHeight:Math.round(article?.getBoundingClientRect().height||0),listDisplay:getComputedStyle(list).display,source:!!article.querySelector('a[href*=\"dexonline.ro\"]'),return:!!article.querySelector('.lit-quick-detail-back')}})()");
+ assert.match(wordExample.definition,/Plantă lemnoasă|trunchi/);
+ assert.ok(wordExample.example?.length>15,'The example is missing after selecting a dictionary word');
+ assert.ok(wordExample.fontsize>=16&&wordExample.lineHeight>=27,'Dictionary definition is visually cramped on 390px phone: '+JSON.stringify(wordExample));
+ assert.ok(wordExample.articleHeight>=240,'Dictionary detail is too small: '+JSON.stringify(wordExample));
+ assert.equal(wordExample.listDisplay,'none','Dictionary must not squeeze detail and suggestions into the same panel');
+ assert.ok(wordExample.source,'The full Romanian dictionary must be accessible as a named external source');
+ const otherWord=await js("(()=>{document.querySelector('.lit-quick-detail-back').click();const i=document.querySelector('.lit-quick-input');i.value='găi';i.dispatchEvent(new Event('input',{bubbles:true}));const a=[...document.querySelectorAll('.lit-quick-option')].map(x=>x.textContent);return {results:a,body:document.querySelector('.lit-quick-results')?.innerText}})()");
+ assert.ok(otherWord.results.some(x=>x==='găină'),'User test case găină should have an immediate offline suggestion');
+
  const grammar=await js("(()=>{document.querySelector('[data-lit-quick-overlay] .lit-quick-back').click();document.querySelectorAll('[data-lit-quick-entry] button')[1].click();return {initial:document.querySelector('.lit-quick-results')?.innerText,pinned:document.querySelector('.lit-quick-pinned')?.innerText,options:[...document.querySelectorAll('.lit-quick-option')].map(x=>x.textContent).slice(0,10)}})()");
  assert.ok(grammar.initial?.includes('Predicat')||grammar.pinned?.includes('Predicat'),'Actual browser grammar initially blank: '+JSON.stringify({grammar,exceptions,logs}));
  const typed=await js("(()=>{const i=document.querySelector('.lit-quick-input');i.value='predicat';i.dispatchEvent(new Event('input',{bubbles:true}));return {text:document.querySelector('.lit-quick-results')?.innerText,options:[...document.querySelectorAll('.lit-quick-option,.lit-quick-chip')].map(x=>x.textContent)}})()");
  assert.ok(typed.options.some(x=>x.includes('Predicat')),'Actual browser predicat typed has no options: '+JSON.stringify({typed,exceptions,logs}));
  const grammarMeaning=await js("(()=>{const o=[...document.querySelectorAll('.lit-quick-option')].find(x=>x.textContent.includes('Predicat'));o.click();return document.querySelector('.lit-quick-detail')?.innerText})()");
  assert.match(grammarMeaning,/subiect/i);
- const abbreviation=await js("(()=>{const t=[...document.querySelectorAll('.lit-quick-tab')].find(x=>/Abbrev|Prescurt/i.test(x.textContent));t.click();const a=[...document.querySelectorAll('.lit-quick-option')].find(x=>x.textContent.startsWith('etc.'));a.click();return {shown:document.querySelector('.lit-quick-detail')?.innerText,groups:[...document.querySelectorAll('.lit-quick-group')].length}})()");
+
+ const readableGrammar=await js("(()=>{const d=document.querySelector('.lit-quick-detail'),p=d.querySelector('.lit-quick-definition-text'),e=d.querySelector('.lit-quick-example-text');return {fontsize:parseFloat(getComputedStyle(p).fontSize),lineHeight:parseFloat(getComputedStyle(p).lineHeight),height:Math.round(d.getBoundingClientRect().height),exampleHeight:e?Math.round(e.getBoundingClientRect().height):0,returnVisible:getComputedStyle(d.querySelector('.lit-quick-detail-back')).display!=='none',list:getComputedStyle(document.querySelector('.lit-quick-results')).display}})()");
+ assert.ok(readableGrammar.fontsize>=16&&readableGrammar.lineHeight>=27&&readableGrammar.height>=240,
+  'Grammar definition must be spacious and readable on phone: '+JSON.stringify(readableGrammar));
+ assert.equal(readableGrammar.list,'none');
+ assert.ok(readableGrammar.returnVisible,'Selected terms need a visible return-to-list action');
+
+ const abbreviation=await js("(()=>{document.querySelector('.lit-quick-detail-back').click();const t=[...document.querySelectorAll('.lit-quick-tab')].find(x=>/Abbrev|Prescurt/i.test(x.textContent));t.click();const a=[...document.querySelectorAll('.lit-quick-option')].find(x=>x.textContent.startsWith('etc.'));a.click();return {shown:document.querySelector('.lit-quick-detail')?.innerText,groups:[...document.querySelectorAll('.lit-quick-group')].length}})()");
  assert.match(abbreviation.shown,/celelalte/);
  assert.ok(abbreviation.groups>=3);
- const unit=await js("(()=>{const t=[...document.querySelectorAll('.lit-quick-tab')].find(x=>/Unit/i.test(x.textContent));t.click();const u=[...document.querySelectorAll('.lit-quick-option')].find(x=>x.textContent.startsWith('km ·'));u.click();return document.querySelector('.lit-quick-detail')?.innerText})()");
+ const unit=await js("(()=>{document.querySelector('.lit-quick-detail-back').click();const t=[...document.querySelectorAll('.lit-quick-tab')].find(x=>/Unit/i.test(x.textContent));t.click();const u=[...document.querySelectorAll('.lit-quick-option')].find(x=>x.textContent.startsWith('km ·'));u.click();return document.querySelector('.lit-quick-detail')?.innerText})()");
  assert.match(unit,/Kilometru/);
  // Match the user's Romanian interface before asking for authored local theory.
  await js("window.__literatureAcceptance.setLanguage('ro')");
@@ -119,7 +138,7 @@ try{
  const reader=await js("(()=>{const r=document.querySelector('.lit-reader-overlay,[data-literature-reader]');return {text:r?.innerText?.slice(0,7000)||'',visible:!!r,status:document.querySelector('#moduleContent')?.innerText?.slice(0,500),detail:window.__pocketLiteratureReaderDetail||''}})()");
  assert.ok(reader.visible,'Theory reader did not open: '+JSON.stringify({reader,exceptions,logs}));
  assert.ok(!/Războiul stelelor|George Lucas|Star Wars/i.test(reader.text),'Grade IX automatically inserted unrelated Star Wars example');
- console.log('PASS real Chromium: real UI clicks, live dictionary, grammar, abbreviations, units and noninvented grade-IX theory');
+ console.log('PASS real Chromium mobile 390x844: dictionary quality, readable full-screen definitions, grammar, abbreviations, units and grade IX theory');
 }finally{
  try{ws?.close()}catch{}
  child.kill('SIGKILL');

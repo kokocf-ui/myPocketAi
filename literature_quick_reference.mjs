@@ -1,3 +1,4 @@
+import {LIT_EVERYDAY_WORDS_RO} from './literature_dictionary_everyday_ro.mjs';
 // Original quick reference: authored micro-definitions, not a national syllabus.
 // Works without an AI quota or network; live Wiktionary suggestions are supplemental.
 const DICTIONARY_RO=[
@@ -215,7 +216,11 @@ const DICTIONARY_EN=[
  ['write','To form words and sentences in written form.','Write an example.']
 ];
 export const LIT_QUICK_DICTIONARY=Object.freeze({
- ro:Object.freeze(DICTIONARY_RO.map(x=>Object.freeze(x))),
+ ro:Object.freeze(
+ [...new Map([...LIT_EVERYDAY_WORDS_RO,...DICTIONARY_RO].map(row=>[
+  row[0].trim().toLocaleLowerCase(),row
+ ])).values()].map(x=>Object.freeze(x))
+),
  en:Object.freeze(DICTIONARY_EN.map(x=>Object.freeze(x)))
 });
 const GRAMMAR_RO=[
@@ -342,12 +347,13 @@ export function literatureQuickSuggestions(prefix,language='ro',limit=12){
  const pool=[...LIT_QUICK_DICTIONARY[lang],...LIT_QUICK_GRAMMAR[lang].map(x=>[x[1],x[2],x[3]])];
  const hits=pool.filter(item=>literatureQuickNormal(item[0]).startsWith(needle));
  const dedup=new Map();
- for(const row of hits)if(!dedup.has(literatureQuickNormal(row[0])))dedup.set(literatureQuickNormal(row[0]),row[0]);
+ for(const row of hits){const exact=String(row[0]).toLocaleLowerCase();if(!dedup.has(exact))dedup.set(exact,row[0]);}
  return [...dedup.values()].sort((a,b)=>a.localeCompare(b,lang)).slice(0,Math.max(1,Math.min(30,limit)));
 }
 export function literatureQuickDefinition(word,language='ro'){
  const lang=language==='ro'?'ro':'en',key=literatureQuickNormal(word);
- const direct=LIT_QUICK_DICTIONARY[lang].find(x=>literatureQuickNormal(x[0])===key);
+ const direct=LIT_QUICK_DICTIONARY[lang].find(x=>String(x[0]).trim().toLocaleLowerCase()===String(word).trim().toLocaleLowerCase())||
+  LIT_QUICK_DICTIONARY[lang].find(x=>literatureQuickNormal(x[0])===key);
  if(direct)return {word:direct[0],definition:direct[1],example:direct[2],source:'local'};
  const grammar=LIT_QUICK_GRAMMAR[lang].find(x=>literatureQuickNormal(x[1])===key);
  return grammar?{word:grammar[1],definition:grammar[2],example:grammar[3],source:'local'}:null;
