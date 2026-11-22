@@ -375,6 +375,7 @@ function eduCurriculumEvidence(country,level,grade,moduleKey){
 }
 function educationGradeGate(moduleKey,level,proceed,back){
  const root=document.getElementById('view-module'),host=document.getElementById('moduleContent');
+ if(moduleKey==='math'&&root?.dataset)root.dataset.mathStage='grade';
  if(!root||!host)return;
  const country=educationCountrySelection.code;
  const options=eduYearOptions(country,level,moduleKey);
