@@ -144,21 +144,17 @@ export function expandLiteratureEuropeanGrades(programs){
  const coverage={countries:0,yearPaths:0,originalChapters:0};
  for(const country of LITERATURE_50_COUNTRIES){
   const original=programs[country]||null;
-  // Dedicated country packs are frozen; work on copies so imports of those
-  // sources and previously validated curricula cannot be mutated in place.
-  const profile=original?{
-   ...original,
-   grades:Object.fromEntries(Object.entries(original.grades||{}).map(([k,v])=>[k,v.slice()])),
-   byGrade:Object.fromEntries(Object.entries(original.byGrade||{}).map(([k,rows])=>
-    [k,rows.map(row=>row.slice())]))
-  }:{
+  // The seven dedicated profiles are frozen at top level and deliberately
+  // shared with their source module. Keep the same object identity, extending
+  // only its (unfrozen) grade catalogue; never replace existing authored rows.
+  const profile=original||{
    source:null,sourceTitle:null,regions:false,verified:{},
    note:'Parcurs pedagogic original, orientativ; programa oficială pentru țară, limbă de predare, regiune, clasă și filieră nu este încă verificată. Nu sunt atribuite opere obligatorii.',
    grades:{},byLevel:{},byGrade:{}
   };
-  programs[country]=profile;
-  profile.byGrade=profile.byGrade||{};
-  profile.grades=profile.grades||{};
+  if(!original)programs[country]=profile;
+  if(!profile.byGrade||!profile.grades)
+   throw Error('Country literature profile lacks mutable grade catalogue: '+country);
   for(const stage of ['beginner','lower','medium','advanced']){
    const ids=[...new Set([...(profile.grades[stage]||[]),...studyYears(country,stage)])];
    profile.grades[stage]=ids.slice();
