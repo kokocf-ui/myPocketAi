@@ -30,8 +30,12 @@ for(const [section,group,term,part] of [
  assert.ok(row,section+'/'+term+' must be selectable');
  assert.ok(row[3].toLowerCase().includes(part.toLowerCase()),'Wrong definition: '+term);
 }
-assert.ok(literatureQuickSuggestions('c','ro',30).some(x=>x==='copac'));
+assert.ok(literatureQuickSuggestions('c','ro',30).length>=8,'First-letter suggestions are available');
 assert.ok(literatureQuickSuggestions('cop','ro',30).some(x=>x==='copac'));
+assert.ok(literatureQuickSuggestions('coco','ro',30).includes('cocoș'));
+assert.ok(literatureQuickSuggestions('coco','ro',30).includes('cocos'));
+assert.match(literatureQuickDefinition('cocoș','ro')?.definition||'',/Masculul găinii/);
+assert.match(literatureQuickDefinition('cocos','ro')?.definition||'',/Palmier/);
 assert.match(literatureQuickDefinition('copac','ro')?.definition||'',/Plantă lemnoasă/);
 assert.match(LITERATURE_TASK_UI_SCRIPT,/const LIT_REFERENCE_CATALOG=/,'Reference must actually be embedded');
 assert.match(LITERATURE_TASK_UI_SCRIPT,/function literatureQuickReferenceAttach\(/);
