@@ -28,6 +28,9 @@ jobs:
           node --check literature_quick_reference.mjs
           node --check literature_quick_reference_ui.mjs
           node --check tests_literature_quick_reference.mjs
+          node --check literature_ro_expanded_years.mjs
+          node --check literature_university_years.mjs
+          node --check tests_literature_android_corrections.mjs
           node --check tests_literature_europe_authored_material.mjs
       - name: National coverage and existing literature regressions
         run: |
@@ -35,6 +38,7 @@ jobs:
           node tests_literature_europe_authored_material.mjs
           node tests_literature_compact_html.mjs
           node tests_literature_quick_reference.mjs
+          node tests_literature_android_corrections.mjs
           node tests_literature_europe.mjs
           node tests_literature_ro_grade_progression.mjs
           node tests_seven_europe_literature.mjs
