@@ -1,3 +1,5 @@
+import {RO5_MATH_LESSONS} from './math_ro5_curriculum.mjs';
+export {RO5_MATH_LESSONS};
 import {MATH_DEPTH_PRIMARY} from './math_depth_primary.mjs';
 import {MATH_DEPTH_PRIMARY_56} from './math_depth_primary_56.mjs';
 import {MATH_PRIMARY_EXTENSION} from './math_depth_primary_extension.mjs';
@@ -151,6 +153,13 @@ export function mathInDepthEntries({stage,phase,topic}={}){
   };
  });
 }
+// Grade-specific source-mapped course entries take precedence over the shared
+// advisory European sequence. Do not label generic lessons as national courses.
+export function mathCountryCourseEntries({country,stage,grade,phase,topic}={}){
+ if(String(country||'').toUpperCase()==='RO'&&String(grade)==='5'&&stage==='lower')
+  return RO5_MATH_LESSONS.filter(item=>item.topic===topic);
+ return mathInDepthEntries({stage,phase,topic});
+}
 export function mathInDepthMaterial(entry){
  if(!entry?.title||!entry?.statement||!entry?.worked)return '';
  return [
@@ -161,6 +170,9 @@ export function mathInDepthMaterial(entry){
  '# Exersează singur',entry.practice,
  '# Verifică răspunsurile',entry.answers,
  '# Atenție', 'Fiecare operație trebuie justificată și verificată în context. Nu deduce măsuri, valori sau ipoteze care nu au fost precizate.',
- '# Încadrare curriculară', 'Material orientativ de învățare; repartizarea oficială diferă după țară, instituție și an școlar.'
+ ...(entry.mistake?['# Greșeală frecventă și prevenirea ei',entry.mistake]:[]),
+ '# Încadrare curriculară',entry.country==='RO'&&entry.grade==='5'&&entry.sourceStatus==='curriculum-crosschecked'
+  ?'Clasa a V-a, România. Lecție originală corelată cu programa MEN 3393/2017 și cuprinsul unui manual aprobat Art Klett 2022; nu reproduce manualul.'
+  :'Material orientativ de învățare; repartizarea oficială diferă după țară, instituție și an școlar.'
  ].join('\n\n');
 }
