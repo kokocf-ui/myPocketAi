@@ -66,7 +66,7 @@ try{
  // Back via the actual Android-sized controls: chapter → branches → grades → stages.
  await click(page.locator('#view-module .math-stage-back').first());
  await click(page.locator('#view-module .math-stage-back').first());
- await click(page.locator('#view-module .edu-grade-panel .education-toolbar button').first());
+ await click(page.locator('#view-module #moduleContent > .education-toolbar button').first());
  await pickMathStage('Gimnaziu');
  await pickGrade('5');
  branches=await page.locator('#view-module .math-choice-list .math-choice-row').allTextContents();
@@ -77,7 +77,7 @@ try{
  await page.screenshot({path:'math-browser-audit/romanian-lower.png'});
  await click(page.locator('#view-module .math-stage-back').first());
  await click(page.locator('#view-module .math-stage-back').first());
- await click(page.locator('#view-module .edu-grade-panel .education-toolbar button').first());
+ await click(page.locator('#view-module #moduleContent > .education-toolbar button').first());
  await click(page.locator('#view-module .math-stage-back').first()); // country picker
  await chooseCountry('Anglia');
  await pickMathStage('Primar');
