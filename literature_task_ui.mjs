@@ -83,7 +83,7 @@ if(typeof litOpen==='function'&&typeof LIT_TOPICS==='object'&&
    }
   }
   const shown=originalOpen(stage);
-  if(stage==='grades'&&typeof document!=='undefined'&&typeof $==='function'){
+  if(stage==='levels'&&typeof document!=='undefined'&&typeof $==='function'){
    const host=$('moduleContent');
    const panel=host?.querySelector?.('.lit-panel')||
     (host?.children||[]).find?.(el=>String(el.className||'').includes('lit-panel'));
