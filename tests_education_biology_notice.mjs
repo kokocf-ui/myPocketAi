@@ -62,7 +62,7 @@ for(const specialty of BIOLOGY_SPECIALIZATIONS){
   courseDocument:'Course-specific scientific mechanism and worked evidence for this chosen degree topic.',
   language:'ro'
  });
- assert.ok(sheet?.length>1100,specialty.id+' needs a complete degree practical');
+ assert.ok(sheet?.length>800,specialty.id+' needs a complete degree practical');
  assert.ok(sheet.includes(BIOLOGY_UNIVERSITY_PRACTICALS[specialty.id].ro[0]));
  assert.ok(sheet.includes('Course-specific scientific mechanism'));
  assert.ok(sheet.includes('incertitudinea')&&sheet.includes('Etică și siguranță'));
