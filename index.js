@@ -12685,6 +12685,21 @@ function mathClearWorkspaceHeader(){
  root?.classList.remove('math-workspace-header');
  root?.querySelectorAll('.math-workspace-title,.math-workspace-back').forEach(node=>node.remove());
 }
+function mathYearTopics(){
+ const country=String(educationCountrySelection.code||'');
+ const stage=mathJourney.schoolStage==='primary'?'beginner':
+  mathJourney.schoolStage==='intermediate'?'medium':mathJourney.schoolStage;
+ const key=country+'|'+stage+'|'+String(mathJourney.grade||'');
+ const areas=typeof EDU_MATH_GRADE_AREAS!=='undefined'?EDU_MATH_GRADE_AREAS[key]||[]:[];
+ return areas.map(area=>{
+  const topic=MATH_TOPICS.find(x=>x.id===area.id);
+  if(!topic||(MATH_CHAPTER_BANK[topic.id]?.[mathJourney.schoolStage]||[]).length===0)return null;
+  return {...topic,
+   ro:stage==='beginner'&&area.id==='geometry'?'Forme geometrice':topic.ro,
+   en:stage==='beginner'&&area.id==='geometry'?'Shapes and space':topic.en,
+   topicFocus:area.ro,topicFocusEn:area.en};
+ }).filter(Boolean);
+}
 function mathJourneyShowChoices(stage){
  const mathSubject=LEARNING_SUBJECTS.find(x=>x[0]==='math');
  if(!mathSubject)return;
@@ -12700,80 +12715,68 @@ function mathJourneyShowChoices(stage){
  back.className='secondary-btn math-stage-back';
  back.textContent=learningLabel('← Înapoi','← Back');
  back.onclick=()=>{
-  if(stage==='branches'){return educationCountryGate('math',()=>mathJourneyShowChoices('branches'))}
-  if(stage==='levels'){return mathJourneyShowChoices('branches')}
-  if(stage==='chapters'){
+  if(stage==='stages')return educationCountryGate('math',()=>mathJourneyShowChoices('stages'));
+  if(stage==='branches'){
    mathJourney.stage='grade';
    return educationGradeGate('math',mathJourney.schoolStage,grade=>{
-    mathJourney.grade=grade;mathJourneyShowChoices('chapters');
-   },()=>mathJourneyShowChoices(mathJourney.topic==='arithmetic'?'branches':'levels'));
+    mathJourney.grade=grade;mathJourneyShowChoices('branches');
+   },()=>mathJourneyShowChoices('stages'));
   }
-  return mathJourneyShowChoices('branches');
+  if(stage==='chapters')return mathJourneyShowChoices('branches');
+  return mathJourneyShowChoices('stages');
  };
  const bar=document.createElement('div');bar.className='education-toolbar';
  bar.append(back);host.append(bar);
  const panel=document.createElement('div');panel.className='math-choice-panel';
  const title=document.createElement('h2');
- title.textContent=stage==='branches'?learningLabel('Alege ramura matematicii','Choose a mathematics branch'):
-  stage==='levels'?learningLabel('Alege etapa de studiu','Choose the study stage'):
+ title.textContent=stage==='stages'?learningLabel('Alege etapa de studiu','Choose your study stage'):
+  stage==='branches'?learningLabel('Alege ramura matematicii','Choose a mathematics branch'):
   learningLabel('Alege capitolul','Choose a chapter');
  const note=document.createElement('p');
  const topic=MATH_TOPICS.find(x=>x.id===mathJourney.topic);
- note.textContent=stage==='branches'
-  ?educationCountrySelection.label+' · '+learningLabel('Selectează o ramură, apoi etapa și clasa.','Select a branch, then a stage and grade.'):
-  stage==='levels'
-  ?learningLabel('Ramura: ','Branch: ')+learningLabel(topic?.ro||'',topic?.en||'')+'. '+
-   learningLabel('Etapele disponibile depind de conținutul studiat.','Available stages depend on the subject.'):
-  educationCountrySelection.label+' · '+learningLabel('Clasa / anul: ','Grade / year: ')+
-   (mathJourney.grade||'')+' · '+mathCurriculumNotice();
+ note.textContent=stage==='stages'
+  ?educationCountrySelection.label+' · '+learningLabel('Selectează etapa și anul de studiu.','Select your stage and school year.'):
+  stage==='branches'
+  ?educationCountrySelection.label+' · '+learningLabel('Clasa / anul: ','Grade / year: ')+(mathJourney.grade||'')+
+   '. '+mathCurriculumNotice():
+   educationCountrySelection.label+' · '+learningLabel('Clasa / anul: ','Grade / year: ')+
+   (mathJourney.grade||'')+' · '+learningLabel(topic?.ro||'',topic?.en||'')+'. '+mathCurriculumNotice();
  const items=document.createElement('div');items.className='math-choice-list';
- const candidates=stage==='branches'?MATH_TOPICS:
-  stage==='levels'?mathStudyStagesForTopic(topic):
+ const candidates=stage==='stages'?MATH_SCHOOL_STAGES:
+  stage==='branches'?mathYearTopics():
   mathChaptersForSelection();
  if(!candidates.length){
   const empty=document.createElement('p');
-  empty.textContent=learningLabel('Nu sunt capitole confirmate pentru această combinație. Revino și selectează altă ramură sau etapă.','No confirmed chapters for this combination; select a different branch or stage.');
+  empty.textContent=learningLabel('Nu există capitole pentru această selecție. Revino la anul de studiu.','No chapters for this selection. Return to the school year.');
   items.append(empty);
  }
  for(const entry of candidates){
   const button=document.createElement('button');button.type='button';
   button.className='secondary-btn math-choice-row';
   const art=document.createElement('span');art.className='math-tile-icon';
-  art.setAttribute('aria-hidden','true');art.textContent=stage==='branches'?MATH_TILE_ICONS[entry.id]||'📘':stage==='levels'?MATH_STAGE_ICONS[entry.id]||'📚':MATH_TILE_ICONS[mathJourney.topic]||'📘';
+  art.setAttribute('aria-hidden','true');art.textContent=stage==='stages'?MATH_STAGE_ICONS[entry.id]||'📚':
+   stage==='branches'?MATH_TILE_ICONS[entry.id]||'📘':MATH_TILE_ICONS[mathJourney.topic]||'📘';
   const heading=document.createElement('strong');heading.textContent=learningLabel(entry.ro,entry.en);
   const subtitle=document.createElement('small');
-  subtitle.textContent=stage==='levels'
-   ?(entry.id==='primary'?learningLabel('Clasele I–IV','Primary years'):
-     entry.id==='lower'?learningLabel('Clasele V–VIII','Lower secondary'):
-     entry.id==='intermediate'?learningLabel('Liceu','Upper secondary'):
-     learningLabel('Studii superioare','Higher education'))
-   :stage==='branches'&&entry.id==='arithmetic'?learningLabel('Clasele primare','Primary school'):
-    stage==='branches'&&entry.id==='geometry'?learningLabel('Figuri și spațiu','Shapes and space'):
-    stage==='chapters'?learningLabel('Lecții și exerciții','Lessons and exercises'):'';
+  subtitle.textContent=stage==='stages'
+   ?learningLabel(entry.scopeRo||'',entry.scopeEn||''):
+   stage==='branches'?learningLabel(entry.topicFocus||'',entry.topicFocusEn||''):
+   learningLabel('Lecții și exerciții','Lessons and exercises');
   button.append(art,heading,subtitle);
   button.onclick=()=>{
+   if(stage==='stages'){
+    mathJourney.level=entry.level;mathJourney.schoolStage=entry.id;
+    mathJourney.grade=null;mathJourney.topic=null;mathJourney.chapter=null;
+    mathJourney.stage='grade';
+    educationGradeGate('math',entry.id,grade=>{
+     mathJourney.grade=grade;mathJourneyShowChoices('branches');
+    },()=>mathJourneyShowChoices('stages'));
+    return;
+   }
    if(stage==='branches'){
     if(mathJourney.topic!==entry.id)mathFigureDraft=null;
-    mathJourney.topic=entry.id;mathJourney.level=null;mathJourney.schoolStage=null;
-    mathJourney.grade=null;mathJourney.chapter=null;
-    // Aritmetica is the primary-school path: do not offer Gymnasium/Lyceum.
-    if(entry.id==='arithmetic'){
-     mathJourney.level='beginner';mathJourney.schoolStage='primary';
-     mathJourney.stage='grade';
-     educationGradeGate('math','primary',grade=>{
-      mathJourney.grade=grade;mathJourneyShowChoices('chapters');
-     },()=>mathJourneyShowChoices('branches'));
-     return;
-    }
-    mathJourneyShowChoices('levels');return;
-   }
-   if(stage==='levels'){
-    mathJourney.level=entry.level;mathJourney.schoolStage=entry.id;
-    mathJourney.grade=null;mathJourney.chapter=null;mathJourney.stage='grade';
-    educationGradeGate('math',entry.id,grade=>{
-     mathJourney.grade=grade;mathJourneyShowChoices('chapters');
-    },()=>mathJourneyShowChoices('levels'));
-    return;
+    mathJourney.topic=entry.id;mathJourney.chapter=null;
+    mathJourneyShowChoices('chapters');return;
    }
    mathJourney.chapter=entry.id;mathJourney.stage='workspace';
    root.classList.remove('math-choice-stage');
@@ -12782,11 +12785,15 @@ function mathJourneyShowChoices(stage){
   items.append(button);
  }
  if(stage==='chapters'){
-  const theory=document.createElement('button');
-  theory.type='button';theory.className='secondary-btn math-choice-row';
-  const theoryArt=document.createElement('span');theoryArt.className='math-tile-icon';theoryArt.textContent='📖';theoryArt.setAttribute('aria-hidden','true');
-  const theoryTitle=document.createElement('strong');theoryTitle.textContent=learningLabel('Teorie','Theory');
-  const theoryHint=document.createElement('small');theoryHint.textContent=learningLabel('Alege o lecție','Choose a lesson');
+  const theory=document.createElement('button');theory.type='button';
+  theory.className='secondary-btn math-choice-row';
+  const theoryArt=document.createElement('span');
+  theoryArt.className='math-tile-icon';theoryArt.textContent='📖';
+  theoryArt.setAttribute('aria-hidden','true');
+  const theoryTitle=document.createElement('strong');
+  theoryTitle.textContent=learningLabel('Teorie','Theory');
+  const theoryHint=document.createElement('small');
+  theoryHint.textContent=learningLabel('Alege o lecție','Choose a lesson');
   theory.append(theoryArt,theoryTitle,theoryHint);
   theory.onclick=()=>educationTheoryOpen('math',mathJourney.level);
   items.prepend(theory);
@@ -15458,7 +15465,11 @@ function openLearningSubjectAfterCountry(key){
  if(key==='science'){scienceJourneyShowChoices('subjects');return}
  const subject=LEARNING_SUBJECTS.find(x=>x[0]===key);if(!subject)return;
  if(key==='math'&&mathJourney.stage!=='workspace'){
-  mathJourneyShowChoices(mathJourney.stage==='levels'?'levels':mathJourney.stage==='chapters'?'chapters':'branches');return;
+  // The national school year precedes the available branches; never show an
+  // unfiltered 11-branch catalogue before knowing the pupil's year.
+  const next=mathJourney.stage==='chapters'?'chapters':
+   mathJourney.stage==='branches'&&mathJourney.grade?'branches':'stages';
+  mathJourneyShowChoices(next);return;
  }
  activeLearningSubject=subject;
  $('moduleTitle').textContent=key==='math'?
