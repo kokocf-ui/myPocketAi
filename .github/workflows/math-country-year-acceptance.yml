@@ -1,0 +1,45 @@
+name: Mathematics country and school-year acceptance
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'math_*.mjs'
+      - 'tests_math_*.mjs'
+      - 'education_country_ui.mjs'
+      - 'education_all_country_subject_matrix.mjs'
+      - 'index.js'
+      - '.github/workflows/math-country-year-acceptance.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'math_country_grade_areas.mjs'
+      - 'math_theorems_ui.mjs'
+      - 'tests_math_all_countries_2026.mjs'
+      - 'tests_math_theorems_countries.mjs'
+      - 'index.js'
+      - '.github/workflows/math-country-year-acceptance.yml'
+permissions:
+  contents: read
+jobs:
+  mathematics:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate mathematics and country code
+        run: |
+          node --check index.js
+          node --check math_country_grade_areas.mjs
+          node --check math_theorems_ui.mjs
+          node --check education_country_ui.mjs
+      - name: Check country-by-year coverage and theorems
+        run: |
+          node tests_math_all_countries_2026.mjs
+          node tests_math_theorems_countries.mjs
+          node tests_math_journey.mjs
+          node tests_education_country_first.mjs
+          node tests_math_subject_coverage.mjs
+          node tests_education_theory_ui.mjs
