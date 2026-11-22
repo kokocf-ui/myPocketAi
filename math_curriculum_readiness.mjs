@@ -35,7 +35,8 @@ export function mathCurriculumReadiness(){
      lessonCount:actual,units:plan.units.length,
      countryYearSpecific:candidate,
      source:country==='RO'&&stage==='lower'?MATH_CURRICULUM_SOURCE_REGISTRY.RO.grades5to8:
-       country==='GB-ENG'?MATH_CURRICULUM_SOURCE_REGISTRY['GB-ENG'].primary:null,
+       country==='GB-ENG'?(stage==='beginner'?MATH_CURRICULUM_SOURCE_REGISTRY['GB-ENG'].primary:
+        stage==='lower'?MATH_CURRICULUM_SOURCE_REGISTRY['GB-ENG'].secondary:null):null,
      complete:false,
      blockers:candidate?
       ['Independent pedagogical validation','Check annual assessments and classroom progression','Device acceptance']:
