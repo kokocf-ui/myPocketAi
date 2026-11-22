@@ -1,0 +1,14 @@
+import assert from 'node:assert/strict';
+import vm from 'node:vm';
+import {MATH_THEOREMS_UI_SCRIPT} from './math_theorems_ui.mjs';
+import {EDUCATION_COUNTRY_UI_SCRIPT} from './education_country_ui.mjs';
+assert.doesNotThrow(()=>new vm.Script(MATH_THEOREMS_UI_SCRIPT),'Theorem reference script parses');
+assert.doesNotThrow(()=>new vm.Script(EDUCATION_COUNTRY_UI_SCRIPT),'Combined school-country UI parses');
+assert.match(EDUCATION_COUNTRY_UI_SCRIPT,/mathInstallTheoryShortcut\(\)/,'Country confirmation installs Mathematics shortcut');
+const catalog=vm.runInNewContext(MATH_THEOREMS_UI_SCRIPT+'\nMATH_THEOREM_ITEMS');
+assert.ok(catalog.length>=200,'All existing maths concepts available as read-only reference');
+assert.ok(catalog.some(x=>x.title.includes('Pitagora')),'Pythagoras included');
+assert.ok(catalog.every(x=>x.title&&x.statement),'No empty law or definition cards');
+assert.match(MATH_THEOREMS_UI_SCRIPT,/mathTheoryQuickReferenceOpen=true/);
+assert.match(MATH_THEOREMS_UI_SCRIPT,/mathJourneyShowChoices\('branches'\)/,'Back returns to branch selection');
+console.log('PASS mathematics laws and theorems selector and country entry point');
