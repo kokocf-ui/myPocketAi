@@ -65,7 +65,7 @@ assert.deepEqual(educationCountrySchoolYears('IE','medium').years.map(x=>x.id),
 assert.equal(educationCountrySchoolYears('DK','beginner').years[0].id,'1',
  'Optional Danish preschool class 0 must not become a first Physics school year');
 for(const [country,grade,expected] of [
- ['RO','5','not-offered'],['FR','6e','not-offered'],
+ ['RO','5','not-offered'],['FR','6e','integrated-science'],['MD','5','not-offered'],
  ['HU','5','not-offered'],['PL','V','not-offered'],
  ['LV','7','not-offered'],['DK','7','mixed-physics-chemistry'],
  ['FI','7','framework-advisory'],['NO','8','integrated-science']
