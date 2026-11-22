@@ -64,7 +64,7 @@ for(const year of ['Y7','Y8','Y9']){
 }
 for(const country of ['GB-SCT','GB-WLS','GB-NIR'])
  assert.equal(get(country,'lower',educationCountrySchoolYears(country,'lower').years[0].id).policy.kind,'integrated');
-for(const country of ['HU','DE','PT']){
+for(const country of ['DE','PT']){
  const first=educationCountrySchoolYears(country,'lower').years[0];
  assert.equal(get(country,'lower',first.id).policy.status,'country-curriculum-unverified');
 }
@@ -173,6 +173,15 @@ assert.equal(get('AL','primary','4').policy.kind,'unverified');
 assert.equal(get('MK','primary','3').policy.status,'national-grade3-universe-and-celestial-bodies');
 assert.equal(get('MK','lower','6').policy.status,'national-grade6-universe-and-solar-system');
 assert.equal(get('MK','lower','7').policy.kind,'unverified');
+
+assert.equal(get('HR','lower','6').policy.status,'national-priroda-grade6-celestial-cycles');
+assert.equal(get('HR','lower','5').policy.kind,'unverified');
+for(const grade of ['1','4','7'])assert.equal(get('IS','primary',grade).policy.status,'national-2024-natural-science-outcomes');
+assert.equal(get('IS','lower','8').policy.status,'national-2024-natural-science-outcomes');
+assert.equal(get('IS','lower','10').policy.status,'national-2024-natural-science-outcomes');
+for(const grade of ['5','6','7','8'])assert.equal(get('HU','lower',grade).policy.status,'national-integrated-science-or-geography-2020');
+assert.equal(get('HU','primary','3').policy.status,'national-environmental-studies-2020');
+assert.equal(get('HU','primary','1').policy.kind,'unverified');
 assert.equal(astronomyCountryGradePlan({country:'RO',stage:'lower',grade:'99',years:[]}).status,'invalid-selection');
 
 const progressSource=await import('./astronomy_europe_frameworks.mjs');

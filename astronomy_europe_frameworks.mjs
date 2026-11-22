@@ -50,6 +50,17 @@ export const ASTRONOMY_EUROPE_FRAMEWORKS=Object.freeze({
   primary:{source:'https://bro.gov.mk/wp-content/uploads/2022/12/Prirodni-nauki-III-odd-FF5542.pdf',scope:'north-macedonia-2022-grade3-science'},
   lower:{source:'https://www.bro.gov.mk/wp-content/uploads/2023/03/Prirodni-nauki-6-odd..pdf',scope:'north-macedonia-2023-grade6-natural-sciences'}
  }),
+ HR:Object.freeze({
+  lower:{source:'https://narodne-novine.nn.hr/clanci/sluzbeni/2019_01_7_148.html',scope:'Croatian-official-Priroda-grade-6'}
+ }),
+ IS:Object.freeze({
+  primary:{source:'https://www.adalnamskra.is/grunnskoli/kafli-22-natturugreinar-2024',scope:'Iceland-2024-Nature-Science-attain-by-Year-4-or-7'},
+  lower:{source:'https://www.adalnamskra.is/grunnskoli/kafli-22-natturugreinar-2024',scope:'Iceland-2024-Nature-Science-attain-by-Year-10'}
+ }),
+ HU:Object.freeze({
+  primary:{source:'https://www.oktatas.hu/kozneveles/kerettantervek/2020_nat',scope:'Hungarian-NAT2020-integrated-environmental-studies-Years-3-4'},
+  lower:{source:'https://www.oktatas.hu/kozneveles/kerettantervek/2020_nat',scope:'Hungarian-NAT2020-science-Years-5-6-and-physics-geography-Years-7-8'}
+ }),
  MD:Object.freeze({upper:{source:'https://edu.gov.md/sites/default/files/geografie_liceu_ro.pdf',scope:'national-geography-2019-physical-geography-grade-10'}}),
  TR:Object.freeze({lower:{source:'https://tymm.meb.gov.tr/fen-bilimleri-dersi/unite/409',scope:'national-2026-27-grade6-unit1-12-hours'}}),
  BG:Object.freeze({lower:{source:'https://www.mon.bg/nfs/2023/12/up_vii_fizika.pdf',scope:'ministry-physics-and-astronomy-grade-7'}}),
@@ -172,6 +183,38 @@ export function astronomyCountryGradePlan({country='',stage='primary',grade='',y
 
 
 
+
+ if(code==='HR'&&level==='lower'&&year==='6')return {...general,
+  status:'national-priroda-grade6-celestial-cycles',kind:'integrated',
+  topicIds:['solar','sky','observations','stars'],
+  source:base?.source||null,sourceScope:base?.scope||null,offerVerified:true,
+  programmeRo:'Priroda · clasa VI · cicluri ale corpurilor cerești',
+  programmeEn:'Nature Science · Grade 6 · Celestial cycles',
+  noteRo:'Croația are curriculumul național Priroda pentru clasa a VI-a, cu demonstrații despre ciclurile Soarelui și Lunii, constelații observabile, Sistemul Solar și relația dintre acestea și ritmurile vieții. Astronomia este integrată în Științele naturii.',
+  noteEn:'Croatian national Grade 6 Priroda asks students to observe repeated patterns related to the Sun, Moon and visible constellations, connecting them to life on Earth. This is integrated Nature Science, not separate compulsory Astronomy.'};
+ if(code==='IS'&&['primary','lower'].includes(level))return {...general,
+  status:'national-2024-natural-science-outcomes',kind:'integrated',
+  source:base?.source||null,sourceScope:base?.scope||null,
+  programmeRo:'Náttúrugreinar · 2024 · competențe la sfârșit de 4, 7 sau 10',
+  programmeEn:'Natural Sciences 2024 · learning outcomes at Years 4, 7 and 10',
+  noteRo:'Islanda are programă națională de Științe ale naturii din 2024, cu rezultate urmărite la finalul anilor 4, 7 și 10, inclusiv anotimpurile și fazele Lunii. Școala determină repartizarea lecțiilor în anii intermediari; fișele de Astronomie rămân adaptări didactice.',
+  noteEn:'Iceland 2024 Natural Sciences curriculum describes attainment at the end of Years 4, 7 and 10, including seasons and Moon phases. Schools determine the teaching sequence between milestones; app Astronomy cards are adaptations.'};
+ if(code==='HU'){
+  if(level==='primary'&&['3','4'].includes(year))return {...general,
+   status:'national-environmental-studies-2020',kind:'integrated',
+   source:base?.source||null,sourceScope:base?.scope||null,
+   programmeRo:'Környezetismeret · clasele 3–4 · NAT 2020',
+   programmeEn:'Environmental Studies · Grades 3–4 · NAT 2020',
+   noteRo:'În Ungaria, NAT 2020 include Környezetismeret în clasele 3–4. Nu atribui acestei clase un capitol astronomic obligatoriu separat, deoarece programa națională este cadru și conținutul exact trebuie verificat pe capitole.',
+   noteEn:'Hungarian NAT 2020 includes Environmental Studies in Grades 3–4. The exact Astronomy chapter allocation is not certified here; no standalone compulsory Astronomy course is claimed.'};
+  if(level==='lower'&&['5','6','7','8'].includes(year))return {...general,
+   status:'national-integrated-science-or-geography-2020',kind:'integrated',
+   source:base?.source||null,sourceScope:base?.scope||null,
+   programmeRo:Number(year)<=6?'Természettudomány · clasele 5–6 · NAT 2020':'Fizika/Földrajz · clasele 7–8 · NAT 2020',
+   programmeEn:Number(year)<=6?'Natural Sciences · Grades 5–6 · NAT 2020':'Physics/Geography · Grades 7–8 · NAT 2020',
+   noteRo:'NAT 2020 diferențiază Természettudomány în anii 5–6 și disciplinele Fizica/Geografia în anii 7–8. Astronomia poate apărea integrată, dar din sursele disponibile nu este confirmată o listă oficială a capitolelor pentru fiecare an.',
+   noteEn:'NAT 2020 places integrated Natural Sciences in Years 5–6 and separate Physics/Geography in Years 7–8. Astronomy topics can be integrated, but an exact annual national chapter list has not been verified.'};
+ }
  if(code==='AL'&&level==='primary'&&year==='5')return {...general,
   status:'national-grade5-solar-system-science',kind:'integrated',
   topicIds:['solar','sky','stars','observations'],
