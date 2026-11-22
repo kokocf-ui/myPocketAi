@@ -182,6 +182,17 @@ assert.equal(get('IS','lower','10').policy.status,'national-2024-natural-science
 for(const grade of ['5','6','7','8'])assert.equal(get('HU','lower',grade).policy.status,'national-integrated-science-or-geography-2020');
 assert.equal(get('HU','primary','3').policy.status,'national-environmental-studies-2020');
 assert.equal(get('HU','primary','1').policy.kind,'unverified');
+
+assert.equal(get('GR','primary','6').policy.status,'grade6-geography-earth-as-planet-guide');
+assert.equal(get('GR','primary','5').policy.kind,'unverified');
+for(const grade of ['1','3','4','6']){
+ const p=get('CY','primary',grade);
+ assert.equal(p.policy.status,'archived-celestial-earth-by-primary-grade');
+ assert.equal(p.policy.offerVerified,false,'Archived programme not certified for 2026/27');
+}
+assert.equal(get('CY','primary','5').policy.kind,'unverified');
+assert.equal(get('SK','primary','4').policy.status,'legacy-grade4-universe-programme');
+assert.equal(get('SK','primary','1').policy.kind,'unverified','Slovak new cohort needs new ŠVP');
 assert.equal(astronomyCountryGradePlan({country:'RO',stage:'lower',grade:'99',years:[]}).status,'invalid-selection');
 
 const progressSource=await import('./astronomy_europe_frameworks.mjs');

@@ -50,6 +50,9 @@ export const ASTRONOMY_EUROPE_FRAMEWORKS=Object.freeze({
   primary:{source:'https://bro.gov.mk/wp-content/uploads/2022/12/Prirodni-nauki-III-odd-FF5542.pdf',scope:'north-macedonia-2022-grade3-science'},
   lower:{source:'https://www.bro.gov.mk/wp-content/uploads/2023/03/Prirodni-nauki-6-odd..pdf',scope:'north-macedonia-2023-grade6-natural-sciences'}
  }),
+ GR:Object.freeze({primary:{source:'https://www.iep.edu.gr/wp-content/uploads/2025/01/2024-09-16_138644_6_%CE%A0%CE%91%CE%A1%CE%91%CE%A1%CE%A4%CE%97%CE%9C%CE%91_1_%CE%93%CE%9B_%CE%9C%CE%91%CE%98._%CE%9A%CE%9B%CE%A0.pdf',scope:'IEP-2024-25-Grade6-Geography-teaching-guidance'}}),
+ CY:Object.freeze({primary:{source:'https://archeia.moec.gov.cy/mc/2/ektenes_programma_fysikesepistimes.pdf',scope:'Cyprus-archived-primary-sciences-Celestial-Earth-theme'}}),
+ SK:Object.freeze({primary:{source:'https://www.statpedu.sk/files/articles/dokumenty/statny-vzdelavaci-program/prirodoveda_isced1.pdf',scope:'legacy-2011-Prírodoveda-Universe-grade4-2026-reform-transition'}}),
  HR:Object.freeze({
   lower:{source:'https://narodne-novine.nn.hr/clanci/sluzbeni/2019_01_7_148.html',scope:'Croatian-official-Priroda-grade-6'}
  }),
@@ -184,6 +187,32 @@ export function astronomyCountryGradePlan({country='',stage='primary',grade='',y
 
 
 
+
+ if(code==='GR'&&level==='primary'&&year==='6')return {...general,
+  status:'grade6-geography-earth-as-planet-guide',kind:'integrated',
+  topicIds:['solar','sky','observations'],
+  source:base?.source||null,sourceScope:base?.scope||null,
+  programmeRo:'Γεωγραφία · clasa a VI-a · Pământul ca astru',
+  programmeEn:'Geography · Grade 6 · Earth as a celestial body',
+  noteRo:'Institutul grec IEP, în îndrumarul oficial de Geografie pentru 2024–2025, recomandă în clasa a VI-a Pământul ca astru (6 ore): forma și mișcările Pământului, zi-noapte, anotimpuri și Sistemul Solar. Reconfirmarea ediției de îndrumare 2026–2027 rămâne necesară; nu este disciplină Astronomie separată.',
+  noteEn:'Greek IEP Grade 6 Geography 2024–25 teaching guidance includes a six-hour Earth-as-celestial-body unit covering Earth motions, day/night, seasons and the Solar System. Guidance version for 2026–27 still requires confirmation; not standalone Astronomy.'};
+ if(code==='CY'&&level==='primary'&&['1','3','4','6'].includes(year))return {...general,
+  status:'archived-celestial-earth-by-primary-grade',kind:'integrated',
+  topicIds:year==='1'?['sky','observations']:year==='3'?['sky','solar','observations']:
+   year==='4'?['solar','sky','observations']:['solar','sky','observations','distances'],
+  source:base?.source||null,sourceScope:base?.scope||null,
+  programmeRo:'Φυσικές Επιστήμες · Ουρανός και Γη · clasa '+year,
+  programmeEn:'Natural Sciences · Sky and Earth · Grade '+year,
+  noteRo:'Arhiva curriculară oficială din Cipru pentru „Cerul și Pământul” diferențiază pe clase: I zi/noapte, III mișcările Pământului și anotimpurile, IV Pământ-Lună și Sistemul Solar, VI explorarea spațiului și eclipse. Nu confundăm arhiva cu o confirmare automată a programei 2026–2027.',
+  noteEn:'Cyprus archived official Sky and Earth programme differentiates Grade 1 day/night, Grade 3 Earth movements/seasons, Grade 4 Earth/Moon/Solar System, and Grade 6 eclipses and space exploration. Applicability of this archived edition in 2026–27 needs confirmation.'};
+ if(code==='SK'&&level==='primary'&&year==='4')return {...general,
+  status:'legacy-grade4-universe-programme',kind:'integrated',
+  topicIds:['sky','solar','stars','observations'],
+  source:base?.source||null,sourceScope:base?.scope||null,
+  programmeRo:'Prírodoveda · clasa a 4-a · Vesmír',
+  programmeEn:'Natural Science · Grade 4 · Universe',
+  noteRo:'Programa istorică slovacă Prírodoveda 2011 recomandă „Vesmír” în clasa a IV-a (uneori a III-a): cele opt planete, Soarele ca stea, Luna, zi-noapte și anotimpurile. Nu preluăm afirmații științifice depășite din document. Reforma ŠVP 2023 intră obligatoriu în 2026–2027 începând cu clasa I, iar cursurile generațiilor mai mari pot diferi după adoptarea școlii.',
+  noteEn:'Slovak legacy 2011 Grade 4 Prírodoveda recommends the Universe unit, eight planets, the Sun, Moon, day/night and seasons, but contains obsolete science statements which are NOT reused. The 2023 curriculum reforms phase in mandatorily from Grade 1 in 2026–27; earlier adopter schools may differ.'};
  if(code==='HR'&&level==='lower'&&year==='6')return {...general,
   status:'national-priroda-grade6-celestial-cycles',kind:'integrated',
   topicIds:['solar','sky','observations','stars'],
