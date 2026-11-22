@@ -114,7 +114,7 @@ export const MATH_UNIVERSITY_2026_COMPANION=[
    ['Initial condition for an exponential ODE','Condiție inițială într-o ecuație diferențială',
     'O condiție inițială alege o soluție din familia soluțiilor generale. Trebuie introdusă după determinarea formei generale și verificată în model.',
     'y′=ky, y(0)=y₀ ⇒ y=y₀e^(kx)',
-    'Pentru y′=2y obținem y=Ce²ˣ. Condiția y(0)=3 impune C=3, deci y=3e²ˣ.',
+    'Pentru y′=2y obținem y=Ce²ˣ. Condiția y(0)=3 impune C=3, deci y=3e²ˣ. Derivata acestei funcții este 6e²ˣ, adică de două ori valoarea sa.',
     'Rezolvă y′=−y, y(0)=5.','y=5e⁻ˣ.']
   ],
   analysis:[
