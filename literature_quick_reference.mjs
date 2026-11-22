@@ -1,3 +1,4 @@
+import {LIT_EVERYDAY_WORDS_RO} from './literature_dictionary_everyday_ro.mjs';
 // Original quick reference: authored micro-definitions, not a national syllabus.
 // Works without an AI quota or network; live Wiktionary suggestions are supplemental.
 const DICTIONARY_RO=[
@@ -215,7 +216,11 @@ const DICTIONARY_EN=[
  ['write','To form words and sentences in written form.','Write an example.']
 ];
 export const LIT_QUICK_DICTIONARY=Object.freeze({
- ro:Object.freeze(DICTIONARY_RO.map(x=>Object.freeze(x))),
+ ro:Object.freeze(
+ [...new Map([...LIT_EVERYDAY_WORDS_RO,...DICTIONARY_RO].map(row=>[
+  row[0].normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase(),row
+ ])).values()].map(x=>Object.freeze(x))
+),
  en:Object.freeze(DICTIONARY_EN.map(x=>Object.freeze(x)))
 });
 const GRAMMAR_RO=[
