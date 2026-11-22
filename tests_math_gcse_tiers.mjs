@@ -38,6 +38,13 @@ for(const title of ['Funcția inversă','Inversa funcției afine','Funcții inve
    'GCSE Foundation must exclude A7 inverse-functions lesson: '+title);
  assert.equal(MATH_GCSE_HIGHER_ONLY[title],'A7');
 }
+for(const title of ['Tangenta la un cerc']){
+ assert.ok(year11Higher.some(entry=>entry.title===title),
+   'GCSE Higher must include the A16 circle-tangent lesson');
+ assert.ok(!year11Foundation.some(entry=>entry.title===title),
+   'GCSE Foundation must exclude the A16 circle-tangent lesson');
+ assert.equal(MATH_GCSE_HIGHER_ONLY[title],'A16');
+}
 for(const [title,reference] of Object.entries(MATH_GCSE_HIGHER_ONLY)){
  assert.ok(all.has(title),'Unknown title in crosswalk: '+title);
  assert.match(reference,/^[A-Z]+[0-9]+$/);
