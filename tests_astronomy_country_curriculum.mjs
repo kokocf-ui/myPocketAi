@@ -165,6 +165,23 @@ assert.equal(moldova10.policy.status,'national-geography-grade10-universe-module
 assert.ok(moldova10.plan.topics.some(x=>x.id==='gravity'));
 assert.equal(get('MD','upper','11').policy.kind,'unverified');
 assert.equal(astronomyCountryGradePlan({country:'RO',stage:'lower',grade:'99',years:[]}).status,'invalid-selection');
+
+const progressSource=await import('./astronomy_europe_frameworks.mjs');
+const gate=progressSource.astronomyCurriculumCompletionGate();
+assert.equal(gate.ready,false,'Never ship an unverified 50-country national curriculum');
+assert.equal(gate.totalJurisdictions,50);
+assert.equal(gate.jurisdictionsWithAnySource+gate.jurisdictionsMissingVerifiedSource.length,50);
+assert.ok(gate.jurisdictionsMissingVerifiedSource.length>0,'Open country blockers must be visible');
+const {astronomySchoolTopicLessons}=await import('./astronomy_study_course.mjs');
+const trYears=educationCountrySchoolYears('TR','lower').years;
+const trLessons=astronomySchoolTopicLessons({
+ country:'TR',stage:'lower',grade:'6',topic:'solar',years:trYears,
+ lessons:(await import('./astronomy_curriculum.mjs')).ASTRONOMY_LESSONS
+});
+assert.ok(trLessons.length>0);
+assert.ok(trLessons[0].statement.includes('Fen Bilimleri'),'Real country programme context must reach teaching text');
+assert.ok(trLessons[0].curriculumSource?.includes('meb.gov.tr'));
+assert.equal(trLessons[0].nationalTopicsVerified,false,'App topic sequence is not a national syllabus transcription');
 const html=await(await app.fetch(new Request('https://astronomy-europe-registry.test/'))).text();
 const script=html.match(/<script>([\s\S]*?)<\/script>/)?.[1]||'';
 assert.ok(script.includes('const astronomyCountryGradePlan=')&&script.includes('const ASTRONOMY_EUROPE_COUNTRIES='));

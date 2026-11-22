@@ -403,3 +403,19 @@ export function astronomyCountryGradePlan({country='',stage='primary',grade='',y
   noteEn:'Current science curriculum is integrated; no astronomy-by-year sequence is verified. Proposed 2028 reforms are not treated as effective in 2026.'};
  return general;
 }
+
+export function astronomyCurriculumCompletionGate(){
+ const covered=ASTRONOMY_EUROPE_COUNTRIES.filter(code=>Boolean(ASTRONOMY_EUROPE_FRAMEWORKS[code]));
+ const missing=ASTRONOMY_EUROPE_COUNTRIES.filter(code=>!ASTRONOMY_EUROPE_FRAMEWORKS[code]);
+ // A document describing a national programme does NOT certify the authored
+ // per-topic/per-grade lesson bank. Do not mark this module fully accepted.
+ return {ready:false,schoolYear:'2026/27',totalJurisdictions:ASTRONOMY_EUROPE_COUNTRIES.length,
+  jurisdictionsWithAnySource:covered.length,jurisdictionsMissingVerifiedSource:missing,
+  schoolTopicSequenceVerified:false,
+  blockers:[
+   ...(missing.length?['Unverified jurisdiction-level source: '+missing.join(', ')]:[]),
+   'Official year/topic concordance is not complete even for source-backed jurisdictions.',
+   'University modules depend on institution and cannot be nationally certified.',
+   'Android device and PDF/scroll/visual acceptance have not been completed.'
+  ]};
+}
