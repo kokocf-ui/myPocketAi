@@ -21,7 +21,7 @@ for(const [country,items] of Object.entries(ASTRONOMY_COUNTRY_EVIDENCE)){
  for(const item of items){
   assert.match(item.source,/^https:\/\/(www\.)?/);
   assert.ok(item.sourceYear==null||(item.sourceYear>=1990&&item.sourceYear<=2026));
-  assert.ok(['integrated','framework-only','optional-standalone'].includes(item.kind));
+  assert.ok(['integrated','framework-only','optional-standalone','standalone','no-independent-curriculum'].includes(item.kind));
   assert.ok(item.subject&&item.title);
  }
 }
@@ -39,6 +39,13 @@ assert.equal(astronomyNationalAlignment({country:'SI',stage:'lower',grade:'7'}).
 assert.equal(astronomyNationalAlignment({country:'LT',stage:'upper',grade:'11'}).kind,'optional-standalone');
 assert.deepEqual(astronomyNationalAlignment({country:'LT',stage:'upper',grade:'12'}).topicIds,
  ['stars','galaxies','cosmology','exoplanets','gravity','distances','observations','sky']);
+assert.equal(astronomyNationalAlignment({country:'VA',stage:'primary',grade:'1'}).status,'no-independent-national-school-syllabus');
+assert.equal(astronomyNationalAlignment({country:'VA',stage:'lower',grade:'7'}).kind,'no-independent-curriculum');
+assert.equal(astronomyNationalAlignment({country:'BY',stage:'upper',grade:'11'}).verifiedSeparateAstronomyProgramme,true);
+assert.equal(astronomyNationalAlignment({country:'BA',stage:'lower',grade:'8'}).yearScoped,false,
+ 'Bosnian cantons and entities, not common core, assign compulsory grade chapters');
+assert.equal(astronomyNationalAlignment({country:'MK',stage:'lower',grade:'8'}).sourceYear,2026);
+assert.equal(astronomyNationalAlignment({country:'MK',stage:'lower',grade:'7'}).sourceYear,2025);
 assert.equal(astronomyNationalAlignment({country:'SM',stage:'primary',grade:'1'}).sourceYear,2006);
 assert.equal(astronomyNationalAlignment({country:'LI',stage:'primary',grade:'1'}).sourceYear,2019);
 assert.equal(astronomyNationalAlignment({country:'IS',stage:'lower',grade:'8'}).sourceYear,2024);
