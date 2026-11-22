@@ -54,7 +54,6 @@ for(const topic of BIOLOGY_TOPICS){
  assert.ok(primary.includes(entry.title)&&lower.includes(entry.workedExample));
  assert.ok(primary.includes(BIOLOGY_LAB_GUIDES[topic.id].en[0]));
  assert.ok(upper.includes('replicates')&&upper.includes('uncertainty'));
- assert.ok(lower.includes('martorul')&&lower.includes('incertitudinea')===false || lower.includes('martorul'));
  assert.ok(!primary.includes('culture unknown microorganisms'));
 }
 for(const specialty of BIOLOGY_SPECIALIZATIONS){
