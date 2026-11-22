@@ -8807,7 +8807,7 @@ function mathOpenDepthLesson(lesson){
  const chosenCountry=String(educationCountrySelection.code||'');
  const chosenYear=String(mathJourney.grade||'');
  const note=mathCurriculumNotice();
- const original=content+'\n\n# Contextul de studiu\n'+chosenCountry+' · '+chosenYear+' · '+note;
+ const original=content+'\\n\\n# Contextul de studiu\\n'+chosenCountry+' · '+chosenYear+' · '+note;
  // The offline Romanian original remains available when translation is
  // unavailable. For other languages, use the existing cached educational
  // translator; never change formulas, numbers or solved answers.
@@ -8820,7 +8820,7 @@ function mathOpenDepthLesson(lesson){
  if(dialog)dialog.dataset.mathLessonId=token;
  eduTranslateMaterial({text:content},'math-depth:'+token,'ro').then(result=>{
   if(!result?.text||document.getElementById('educationPagedLessonDialog')?.dataset.mathLessonId!==token)return;
-  educationOpenPagedLesson(title,result.text+'\n\n'+chosenCountry+' · '+chosenYear);
+  educationOpenPagedLesson(title,result.text+'\\n\\n'+chosenCountry+' · '+chosenYear);
   const updated=document.getElementById('educationPagedLessonDialog');
   if(updated)updated.dataset.mathLessonId=token;
  }).catch(()=>{});
