@@ -27,7 +27,7 @@ export const ASTRONOMY_EUROPE_FRAMEWORKS=Object.freeze({
   lower:{source:'https://www.education-ni.gov.uk/articles/statutory-curriculum',scope:'broad-current-curriculum'}
  })
 });
-const RO_ASTRONOMY_OPTIONALS=Object.freeze({
+export const RO_ASTRONOMY_OPTIONALS=Object.freeze({
  lower:{
   '5':{ro:'Aventura cunoașterii Universului · clasa a V-a',en:'Exploring the Universe · Year 5',topics:['sky','solar','observations','stars']},
   '7':{ro:'Aventura cunoașterii Universului · clasa a VII-a',en:'Exploring the Universe · Year 7',topics:['solar','sky','distances','stars','observations']}
