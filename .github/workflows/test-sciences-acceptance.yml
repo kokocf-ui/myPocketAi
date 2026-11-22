@@ -60,6 +60,7 @@ jobs:
           node tests_physics_upper_formula_coverage.mjs
           node tests_physics_university_studies.mjs
           node tests_physics_university_real_lessons.mjs
+          node tests_physics_university_independent_labs.mjs
           node tests_physics_university_formula_sequence.mjs
           node tests_physics_video_repair.mjs
           node tests_physics_laws_scroll.mjs
