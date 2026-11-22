@@ -46,11 +46,14 @@ assert.match(EDUCATION_COUNTRY_UI_SCRIPT,/function educationGradeGate\(moduleKey
 const start=EDUCATION_COUNTRY_UI_SCRIPT.indexOf('function eduYearOptions(');
 const end=EDUCATION_COUNTRY_UI_SCRIPT.indexOf('function educationGradeGate(',start);
 assert.ok(start>=0&&end>start,'School-year routing must be available for isolated testing');
-const yearsFunction=new Function('EDUCATION_SCHOOL_YEARS_DATA',
- 'let scienceJourney={subject:"physics"};\n'+EDUCATION_COUNTRY_UI_SCRIPT.slice(start,end)+'\nreturn eduYearOptions;')(EDUCATION_SCHOOL_YEARS);
+const mathsYears={};
+for(const country of ['RO','GB-ENG'])for(const stage of ['beginner','lower','medium','advanced'])
+ mathsYears[country+'|'+stage]=EDUCATION_SCHOOL_YEARS[country][stage];
+const yearsFunction=new Function('EDUCATION_SCHOOL_YEARS_DATA','EDU_MATH_COUNTRY_YEARS',
+ 'let scienceJourney={subject:"physics"};\n'+EDUCATION_COUNTRY_UI_SCRIPT.slice(start,end)+'\nreturn eduYearOptions;')(EDUCATION_SCHOOL_YEARS,mathsYears);
 assert.deepEqual(yearsFunction('RO','intermediate','math').map(x=>x.id),['9','10','11','12'],
  'Romanian Maths intermediate must contain only high-school classes');
-assert.deepEqual(yearsFunction('RO','beginner','math').map(x=>x.id),['1','2','3','4','5','6','7','8']);
+assert.deepEqual(yearsFunction('RO','beginner','math').map(x=>x.id),['1','2','3','4'],'Primary selection excludes lower-secondary classes');
 assert.deepEqual(yearsFunction('RO','primary','math').map(x=>x.id),['1','2','3','4'],'Primary maths ends at class IV');
 assert.ok(EDUCATION_COUNTRY_UI_SCRIPT.includes("!arithmeticGradesOnly&&search.value.trim().length<=40"),'Arithmetic must not accept manually typed higher grades');
 assert.deepEqual(yearsFunction('RO','lower','math').map(x=>x.id),['5','6','7','8'],'Lower-secondary maths begins at class V');
