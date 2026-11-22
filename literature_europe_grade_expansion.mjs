@@ -153,8 +153,14 @@ export function expandLiteratureEuropeanGrades(programs){
    grades:{},byLevel:{},byGrade:{}
   };
   if(!original)programs[country]=profile;
-  if(!profile.byGrade||!profile.grades)
-   throw Error('Country literature profile lacks mutable grade catalogue: '+country);
+  if(!profile.byGrade){
+   if(Object.isFrozen(profile))throw Error('Frozen literature profile lacks grade catalogue: '+country);
+   profile.byGrade={};
+  }
+  if(!profile.grades){
+   if(Object.isFrozen(profile))throw Error('Frozen literature profile lacks year catalogue: '+country);
+   profile.grades={};
+  }
   for(const stage of ['beginner','lower','medium','advanced']){
    const ids=[...new Set([...(profile.grades[stage]||[]),...studyYears(country,stage)])];
    profile.grades[stage]=ids.slice();
