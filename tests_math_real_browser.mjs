@@ -65,9 +65,9 @@ try{
  await page.screenshot({path:'math-browser-audit/romanian-primary.png'});
  // Back via the actual Android-sized controls: chapter → branches → grades → stages.
  await click(page.locator('#view-module .math-stage-back').first());
- const firstBackState=await page.evaluate(()=>({stage:mathJourney.stage,schoolStage:mathJourney.schoolStage,grade:mathJourney.grade}));
+ const firstBackState=await page.locator('#view-module').evaluate(el=>({stage:el.dataset.mathStage,text:el.innerText.slice(0,180)}));
  await click(page.locator('#view-module .math-stage-back').first());
- const secondBackState=await page.evaluate(()=>({stage:mathJourney.stage,schoolStage:mathJourney.schoolStage,grade:mathJourney.grade,years:eduYearOptions(educationCountrySelection.code,mathJourney.schoolStage,'math').map(x=>x.id)}));
+ const secondBackState=await page.locator('#view-module').evaluate(el=>({stage:el.dataset.mathStage,text:el.innerText.slice(0,180)}));
  {const gradePanel=page.locator('#view-module .edu-grade-panel');
  if(!await gradePanel.count()){
   const snapshot=await page.locator('#moduleContent').evaluate(node=>({text:node.innerText.slice(0,1200),html:node.innerHTML.slice(0,1600)}));
