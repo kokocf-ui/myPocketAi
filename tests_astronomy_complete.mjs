@@ -49,6 +49,14 @@ const visual=vm.runInNewContext(script.slice(begin,end)+';({kind:astronomyVisual
 for(const kind of ['solar','orbit','parallax','hr','transit','cosmos','telescope','galaxy']){
  assert.ok(visual.draw(kind).children.some(x=>x.tag==='svg'));
 }
+const solarSvg=visual.draw('solar').children.find(x=>x.tag==='svg');
+const solarLabels=solarSvg.children.filter(x=>x.tag==='text').map(x=>x.textContent);
+const planetNames=['Mercur','Venus','Pământ','Marte','Jupiter','Saturn','Uranus','Neptun'];
+for(const name of planetNames)assert.ok(solarLabels.includes(name),'missing planet label: '+name);
+assert.ok(solarLabels.some(x=>x.includes('NU sunt la scară')),'solar diagram must declare non-scale proportions');
+const orbitData=script.match(/const planetOrbits=\[([\s\S]*?)\];\s*const render=/)?.[1]||'';
+for(const name of planetNames)assert.ok(orbitData.includes("'"+name+"'"),'missing planet in orbital projection: '+name);
+assert.equal((orbitData.match(/\[\d+(?:\.\d+)?,/g)||[]).length,8,'orbital model must depict exactly eight planets');
 assert.equal(visual.kind('Paralaxa stelară','distances'),'parallax');
 assert.equal(visual.kind('Legea lui Kepler','gravity'),'orbit');
 console.log('PASS astronomy: 82 curated entries, 7 university tracks, guarded calculations, eight SVG diagrams and UI integration');

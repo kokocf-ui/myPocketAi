@@ -10744,9 +10744,32 @@ function astronomyVisualBuild(kind){
  const circle=(x,y,r,color)=>add('circle',{cx:x,cy:y,r,fill:color});
  const label=(x,y,v)=>add('text',{x,y,fill:'#eaf8ff','font-size':12},v);
  if(kind==='solar'){
-  circle(40,105,17,'#ffd56f');label(17,147,'Soare');
-  [55,83,115,150,192,236,282].forEach((x,i)=>{circle(x+46,105,3+i*.6,['#9dc7ff','#ffbd95','#69a7ed','#e6b396','#edc88b','#aec6df','#79a6d9'][i]);line(57,105,x+40,105)});
-  label(180,182,'schematic · distanțe neproporționale');
+  svg.setAttribute('viewBox','0 0 360 230');
+  circle(37,27,15,'#ffd56f');label(63,32,learningLabel('Soare','Sun'));
+  const planets=[
+   ['Mercur','Mercury','#b7bec8',4,'Planetă stâncoasă; revoluție ≈88 zile.','Rocky planet; orbital period ≈88 days.'],
+   ['Venus','Venus','#e7be8b',8,'Atmosferă densă; revoluție ≈225 zile.','Dense atmosphere; orbital period ≈225 days.'],
+   ['Pământ','Earth','#67baf3',9,'Apă lichidă la suprafață; revoluție ≈365 zile.','Surface liquid water; orbital period ≈365 days.'],
+   ['Marte','Mars','#d78d73',6,'Planetă stâncoasă; revoluție ≈687 zile.','Rocky planet; orbital period ≈687 days.'],
+   ['Jupiter','Jupiter','#d8ad7f',18,'Gigant gazos; revoluție ≈11,9 ani.','Gas giant; orbital period ≈11.9 years.'],
+   ['Saturn','Saturn','#e3cca0',15,'Gigant gazos cu inele; revoluție ≈29,4 ani.','Ringed gas giant; orbital period ≈29.4 years.'],
+   ['Uranus','Uranus','#9edbe0',13,'Gigant de gheață; revoluție ≈84 ani.','Ice giant; orbital period ≈84 years.'],
+   ['Neptun','Neptune','#6a91e4',13,'Gigant de gheață; revoluție ≈165 ani.','Ice giant; orbital period ≈165 years.']
+  ];
+  planets.forEach(([ro,en,color,size],i)=>{
+   const x=45+(i%4)*90,y=85+Math.floor(i/4)*80;
+   circle(x,y,size,color);
+   if(i===5)add('ellipse',{cx:x,cy:y,rx:24,ry:6,fill:'none',stroke:'#e3d1aa','stroke-width':2});
+   label(x-29,y+29,learningLabel(ro,en));
+  });
+  label(8,222,learningLabel('8 planete · mărimi și distanțe NU sunt la scară','8 planets · sizes and distances NOT to scale'));
+  const facts=document.createElement('div');facts.className='astronomy-planet-facts';
+  facts.style.cssText='display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:10px';
+  for(const [ro,en,color,size,detailRo,detailEn] of planets){
+   const card=document.createElement('p');card.style.cssText='margin:0;padding:7px;border:1px solid #597d91;border-radius:7px;font-size:0.85rem;line-height:1.35';
+   card.textContent=learningLabel(ro+' — '+detailRo,en+' — '+detailEn);facts.append(card);
+  }
+  section.append(facts);
  }else if(kind==='orbit'){
   add('ellipse',{cx:180,cy:106,rx:140,ry:70,fill:'none',stroke:'#8eddef','stroke-width':2});circle(95,106,13,'#ffcf73');circle(305,143,7,'#9bb9f5');line(95,106,305,143);label(67,93,'focar');label(295,165,'corp');label(158,25,'orbită eliptică');
  }else if(kind==='parallax'){
@@ -10786,11 +10809,25 @@ function astronomyOrbit3DOpen(){
  const ns='http://www.w3.org/2000/svg';
  const node=(tag,attrs)=>{const el=document.createElementNS(ns,tag);for(const [k,v] of Object.entries(attrs))el.setAttribute(k,String(v));svg.append(el);return el};
  const project=(x,y,z)=>{const a=Number(turn.value)*Math.PI/180,b=Number(tilt.value)*Math.PI/180,k=Number(zoom.value)/100;const xx=x*Math.cos(a)-y*Math.sin(a),yy=x*Math.sin(a)+y*Math.cos(a);return [180+xx*k,120+(yy*Math.cos(b)-z*Math.sin(b))*k]};
+ const planetOrbits=[
+  [22,2.5,'#b7bec8',.15,'Mercur','Mercury'],
+  [38,3.7,'#e7be8b',1.9,'Venus','Venus'],
+  [52,4.2,'#67baf3',3.6,'Pământ','Earth'],
+  [65,3.2,'#d78d73',5.3,'Marte','Mars'],
+  [80,7.0,'#d8ad7f',.8,'Jupiter','Jupiter'],
+  [94,6.2,'#e3cca0',2.7,'Saturn','Saturn'],
+  [109,5.2,'#9edbe0',4.2,'Uranus','Uranus'],
+  [123,5.1,'#6a91e4',5.7,'Neptun','Neptune']
+ ];
  const render=()=>{svg.replaceChildren();node('circle',{cx:180,cy:120,r:11,fill:'#ffd477'});
-  for(const [radius,size,color,phase] of [[38,3,'#bfc6d4',.2],[66,5,'#e2ba83',1.7],[91,6,'#79bafd',3.4],[113,4,'#e39a7a',5.2]]){
+  for(const [radius,size,color,phase,ro,en] of planetOrbits){
    let path='';for(let i=0;i<=96;i++){const a=i*Math.PI*2/96;const p=project(radius*Math.cos(a),radius*Math.sin(a),0);path+=(i?' L':'M')+p[0].toFixed(2)+' '+p[1].toFixed(2)}
-   node('path',{d:path,stroke:'#7899b7','stroke-width':1.3,fill:'none'});
-   const pos=project(radius*Math.cos(phase),radius*Math.sin(phase),0);node('circle',{cx:pos[0],cy:pos[1],r:size,fill:color});
+   node('path',{d:path,stroke:'#7899b7','stroke-width':1.2,fill:'none'});
+   const pos=project(radius*Math.cos(phase),radius*Math.sin(phase),0);
+   node('circle',{cx:pos[0],cy:pos[1],r:size,fill:color});
+   if(ro==='Saturn')node('ellipse',{cx:pos[0],cy:pos[1],rx:size+6,ry:3,stroke:'#e3d1aa',fill:'none','stroke-width':1.4});
+   const tag=node('text',{x:Math.min(311,Math.max(5,pos[0]+size+3)),y:Math.min(232,Math.max(10,pos[1]-size)),fill:'#eef7ff','font-size':9});
+   tag.textContent=learningLabel(ro,en);
   }
  };
  const interact=()=>render();turn.addEventListener('input',interact);tilt.addEventListener('input',interact);zoom.addEventListener('input',interact);
@@ -10798,7 +10835,8 @@ function astronomyOrbit3DOpen(){
  svg.addEventListener('pointerdown',e=>{dragX=e.clientX;svg.setPointerCapture?.(e.pointerId)});
  svg.addEventListener('pointermove',e=>{if(dragX===null)return;turn.value=String((Number(turn.value)+e.clientX-dragX+360)%360);dragX=e.clientX;render()});
  svg.addEventListener('pointerup',()=>dragX=null);svg.addEventListener('pointercancel',()=>dragX=null);
- dialog.append(header,note,frame,controls);dialog.addEventListener('close',()=>dialog.remove());document.body.append(dialog);render();try{dialog.showModal()}catch{dialog.setAttribute('open','')};
+ const legend=document.createElement('p');legend.style.fontSize='0.85rem';legend.textContent=learningLabel('Ordinea planetelor dinspre Soare: Mercur, Venus, Pământ, Marte, Jupiter, Saturn, Uranus, Neptun. Pozițiile orbitale sunt ilustrative, nu poziții actuale.','Planet order from the Sun: Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, Neptune. Orbital positions are illustrative, not live positions.');
+ dialog.append(header,note,frame,legend,controls);dialog.addEventListener('close',()=>dialog.remove());document.body.append(dialog);render();try{dialog.showModal()}catch{dialog.setAttribute('open','')};
 }
 
 function astronomyDiagramPicker(allowed=null){
