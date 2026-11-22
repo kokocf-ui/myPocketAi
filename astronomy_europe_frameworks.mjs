@@ -59,7 +59,6 @@ export function astronomyCountryGradePlan({country='',stage='primary',grade='',y
    programmeRo:offer.ro,programmeEn:offer.en,offerVerified:true,topicsVerified:false,
    noteRo:offer.ro+' · opțional integrat în oferta națională, nu materie obligatorie. Școala decide oferta efectivă; selecția capitolelor din aplicație este originală, nu cuprinsul oficial integral.',
    noteEn:offer.en+' · officially offered integrated elective, not a compulsory separate subject. School availability varies; these app chapters are original study choices, not a complete official syllabus.'};
-  }
   return {...general,status:'enrichment-only',kind:'enrichment',
    noteRo:'Astronomie pentru aprofundare liberă. Nu prezentăm o programă autonomă obligatorie și nu atribuim aceste lecții unei programe oficiale pentru această clasă.',
    noteEn:'Optional enrichment studies. No mandatory standalone Astronomy syllabus or officially prescribed annual lesson order is claimed.'};
