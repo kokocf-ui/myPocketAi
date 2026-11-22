@@ -23,11 +23,14 @@ jobs:
           node --check literature_europe_grade_expansion.mjs
           node --check tests_literature_all_country_depth.mjs
           node --check literature_europe_authored_material.mjs
+          node --check literature_europe_client_lazy.mjs
+          node --check tests_literature_compact_html.mjs
           node --check tests_literature_europe_authored_material.mjs
       - name: National coverage and existing literature regressions
         run: |
           node tests_literature_all_country_depth.mjs
           node tests_literature_europe_authored_material.mjs
+          node tests_literature_compact_html.mjs
           node tests_literature_europe.mjs
           node tests_literature_ro_grade_progression.mjs
           node tests_seven_europe_literature.mjs
