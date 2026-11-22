@@ -12889,6 +12889,22 @@ function mathJourneyShowChoices(stage){
   items.append(button);
  }
  panel.append(title,note);
+ if(stage==='branches'){
+  const selectedStage=mathJourney.schoolStage==='primary'?'beginner':
+   mathJourney.schoolStage==='intermediate'?'medium':mathJourney.schoolStage;
+  const countryCode=String(educationCountrySelection.code||'');
+  const curriculumKey=countryCode+'|'+selectedStage+'|'+String(mathJourney.grade||'');
+  const sourceNote=typeof EDU_MATH_GRADE_NOTES==='undefined'?'':String(EDU_MATH_GRADE_NOTES[curriculumKey]||'');
+  if(sourceNote){
+   const sourceStatus=document.createElement('p');
+   sourceStatus.className='math-curriculum-status';
+   sourceStatus.style.cssText='font-size:12px;line-height:1.35;margin:6px 0 10px;max-width:100%;overflow-wrap:anywhere;';
+   sourceStatus.textContent=String(state.language||'ro')==='ro'?sourceNote:
+    learningLabel('Parcurs matematic orientativ; programa pe țară și an nu este validată integral.',
+     'Advisory mathematics course; full country/year syllabus has not been validated.');
+   panel.append(sourceStatus);
+  }
+ }
  if(stage==='chapters'){
   const practice=document.createElement('button');practice.type='button';
   practice.className='secondary-btn math-practice-entry';
