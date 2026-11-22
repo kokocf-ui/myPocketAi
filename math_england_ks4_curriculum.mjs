@@ -164,7 +164,8 @@ const exclusions={
  Y10:new Set(['Propoziții logice și tabele de adevăr','Inducția matematică și suma primelor numere',
  'Aria triunghiului din coordonate']),
  Y11:new Set(['Exponențiale și logaritmi','Domeniul funcțiilor logaritmice','Ecuații logaritmice și domenii',
- 'Funcția inversă','Inversa funcției afine','Funcții inverse și restricții de domeniu',
+ // AQA 8300 section A7 requires inverse functions at Higher tier; keep
+ // their cards available and leave Foundation filtering to mathGcseSelectTier.
  'Teorema factorului pentru polinoame','Teorema restului polinomial','Ecuația cercului în coordonate',
  'Intersecțiile cercului cu axa Ox','Tangenta la un cerc','Grade și radiani',
  'Sinus și cosinus pe cercul unitate','Polinoame și gradul lor','Rădăcinile unui polinom',
