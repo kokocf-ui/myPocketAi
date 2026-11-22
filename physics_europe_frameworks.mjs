@@ -97,12 +97,12 @@ const specialPlans={
  RU:{lower:{
   '7':['units','measurement','kinematics','dynamics','fluids','energy'],
   '8':['heat','thermodynamics','electric','circuits','electromagnetism','optics'],
-  '9':['kinematics','dynamics','waves','optics','modern','energy']
+  '9':['kinematics','dynamics','waves','optics','measurement','energy']
  }},
  UA:{lower:{
   '7':['units','measurement','kinematics','dynamics','energy'],
   '8':['heat','electric','circuits','optics','energy'],
-  '9':['waves','optics','electromagnetism','modern','kinematics']
+  '9':['waves','optics','electromagnetism','measurement','kinematics']
  }},
  RS:{lower:{
   '6':['units','measurement','kinematics','dynamics','energy'],
@@ -117,19 +117,19 @@ const specialPlans={
  MK:{lower:{
   '7':['units','measurement','kinematics','energy','dynamics'],
   '8':['electric','circuits','optics','energy','heat'],
-  '9':['waves','optics','electromagnetism','modern','kinematics']
+  '9':['waves','optics','electromagnetism','measurement','kinematics']
  }},
  LT:{lower:{
   '7':['units','measurement','kinematics','energy','waves'],
   '8':['dynamics','heat','electric','circuits','optics'],
   '9':['dynamics','energy','electromagnetism','waves','measurement'],
-  '10':['electric','circuits','optics','thermodynamics','modern']
+  '10':['electric','circuits','optics','thermodynamics','measurement']
  }},
  AL:{lower:{
   '6':['units','measurement','kinematics','dynamics','energy'],
   '7':['fluids','heat','energy','waves','measurement'],
   '8':['electric','circuits','optics','electromagnetism','energy'],
-  '9':['waves','optics','thermodynamics','modern','electric']
+  '9':['waves','optics','thermodynamics','measurement','electric']
  }},
  HR:{lower:{
   '7':['units','kinematics','dynamics','energy','heat'],
