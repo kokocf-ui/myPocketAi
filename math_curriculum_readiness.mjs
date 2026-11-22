@@ -40,7 +40,7 @@ export function mathCurriculumReadiness(){
       sourceRows.every(l=>l.statement&&l.formula&&l.worked&&l.practice&&l.answers);
     const partialCandidate=(englandY6&&ENGLAND_Y6_MATH_LESSONS.length===21&&plan.units.length===5)||
       (englandKS4&&plan.units.length>=4&&
-       plan.units.every(unit=>englandKS4CardRows(grade,unit.id).length>=3));
+       plan.units.filter(unit=>englandKS4CardRows(grade,unit.id).length>=3).length>=3);
     rows.push({
      country,stage,grade:String(year.id),
      scope:national?'national-crosswalk-review':partialCandidate?'partial-year-source-review':'unverified-advisory',
