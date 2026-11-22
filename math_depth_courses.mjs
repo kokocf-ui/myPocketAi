@@ -1,5 +1,7 @@
 import {RO5_MATH_LESSONS} from './math_ro5_curriculum.mjs';
 import {RO678_MATH_LESSONS} from './math_ro678_curriculum.mjs';
+import {ENGLAND_Y6_MATH_LESSONS} from './math_england_y6_curriculum.mjs';
+export {ENGLAND_Y6_MATH_LESSONS};
 export {RO678_MATH_LESSONS};
 export {RO5_MATH_LESSONS};
 import {MATH_DEPTH_PRIMARY} from './math_depth_primary.mjs';
@@ -158,6 +160,9 @@ export function mathInDepthEntries({stage,phase,topic}={}){
 // Grade-specific source-mapped course entries take precedence over the shared
 // advisory European sequence. Do not label generic lessons as national courses.
 export function mathCountryCourseEntries({country,stage,grade,phase,topic}={}){
+ if(String(country||'').toUpperCase()==='GB-ENG'&&String(grade)==='Y6'&&stage==='primary')
+  return [...mathInDepthEntries({stage,phase:6,topic}),
+    ...ENGLAND_Y6_MATH_LESSONS.filter(item=>item.topic===topic)];
  if(String(country||'').toUpperCase()==='RO'&&String(grade)==='5'&&stage==='lower')
   return RO5_MATH_LESSONS.filter(item=>item.topic===topic);
  if(String(country||'').toUpperCase()==='RO'&&stage==='lower'
@@ -180,6 +185,8 @@ export function mathInDepthMaterial(entry){
   ?'Clasa a V-a, România. Lecție originală corelată cu programa MEN 3393/2017 și cuprinsul unui manual aprobat Art Klett 2022; nu reproduce manualul.'
   :entry.country==='RO'&&['6','7','8'].includes(String(entry.grade))&&entry.sourceStatus==='programme-reviewed'
   ?'Clasa a '+entry.grade+'-a, România. Lecție originală corelată cu temele din programa MEN 3393/2017 și cuprinsuri de manuale școlare. Inventarul clasei rămâne în revizie pedagogică; nu reprezintă certificarea unui curs anual complet.'
+  :entry.country==='GB-ENG'&&entry.grade==='Y6'&&entry.sourceStatus==='official-topic-reviewed'
+  ?'England Year 6. Lecție originală corelată cu obiectivele statutare DfE. Material suplimentar, nu un curs anual complet.'
   :'Material orientativ de învățare; repartizarea oficială diferă după țară, instituție și an școlar.'
  ].join('\n\n');
 }
