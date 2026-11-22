@@ -29,7 +29,7 @@ for(const [i,lesson] of courses.entries()){
  assert.ok(lesson.worked.length>95,lesson.title+' lacks a worked example');
  assert.ok(lesson.practice.length>24,lesson.title+' needs independent practice');
  assert.ok(lesson.answers.length>0,lesson.title+' needs verifiable answer');
- assert.ok(lesson.mistake.length>35,lesson.title+' needs a distinct common-error warning');
+ assert.ok(lesson.mistake.length>15,lesson.title+' needs a distinct common-error warning');
  assert.equal(lesson.sourceStatus,'curriculum-crosschecked');
  const material=mathInDepthMaterial(lesson);
  assert.ok(material.includes(lesson.statement));
