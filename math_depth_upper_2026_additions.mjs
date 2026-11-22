@@ -33,7 +33,7 @@ export const MATH_UPPER_2026_ADDITIONS = [
    ['Midpoint and distance in the plane','Mijlocul segmentului și distanța în plan',
     'Coordonatele mijlocului sunt mediile coordonatelor capetelor. Distanța dintre două puncte rezultă din teorema lui Pitagora pe diferențele coordonatelor, nu din suma simplă a acestora.',
     'M=((x₁+x₂)/2,(y₁+y₂)/2); AB=√((x₂−x₁)²+(y₂−y₁)²)',
-    'Pentru A(1,2), B(5,5), mijlocul este (3,3,5), iar lungimea AB este √(16+9)=5.',
+    'Pentru A(1,2), B(5,5), mijlocul este (3; 3,5), iar lungimea AB este √(16+9)=5.',
     'Calculează mijlocul și distanța dintre (0,0) și (6,8).','M=(3,4), distanța 10.'],
    ['Parallel and perpendicular lines','Drepte paralele și perpendiculare',
     'Două drepte neverticale sunt paralele dacă au aceeași pantă. Sunt perpendiculare dacă produsul pantelor este minus unu; cazul dreptelor verticale și orizontale se tratează separat.',
