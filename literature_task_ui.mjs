@@ -1,10 +1,11 @@
 import {splitLiteraturePages,paginateLiteratureByFit} from './literature_reader_pagination.mjs';
 import {parseStudyBlocks,renderStudyBlocks,STUDY_TYPOGRAPHY_CSS} from './literature_study_typography.mjs';
 import {literatureOfflineActivity,LIT_PRIMARY_COMMUNICATION} from './literature_offline_activity.mjs';
+import {literatureEuropeanAuthoredMaterial} from './literature_europe_authored_material.mjs';
 import {LIT_RO_GRADE_LESSONS,litRomanianGradeMaterial} from './literature_ro_grade_progression.mjs';
 import {RO_SECONDARY_GRAMMAR,roGrammarTopicsForYear} from './literature_ro_grammar_path.mjs';
 import {litEssaySpec,litEssayWords,litEssayQuality} from './literature_essay_contract.mjs';
-export const LITERATURE_TASK_UI_SCRIPT=splitLiteraturePages.toString()+'\n'+paginateLiteratureByFit.toString()+'\n'+parseStudyBlocks.toString()+'\n'+renderStudyBlocks.toString()+'\nconst COMMUNICATION_G1='+JSON.stringify(LIT_PRIMARY_COMMUNICATION)+';\n'+literatureOfflineActivity.toString()+'\nconst LIT_RO_GRADE_LESSONS='+JSON.stringify(LIT_RO_GRADE_LESSONS)+';\n'+litRomanianGradeMaterial.toString()+'\nconst RO_SECONDARY_GRAMMAR='+JSON.stringify(RO_SECONDARY_GRAMMAR)+';\n'+roGrammarTopicsForYear.toString()+'\n'+litEssaySpec.toString()+'\n'+litEssayWords.toString()+'\n'+litEssayQuality.toString()+'\nconst LIT_STUDY_CSS='+JSON.stringify(STUDY_TYPOGRAPHY_CSS)+';\n'+String.raw`
+export const LITERATURE_TASK_UI_SCRIPT=splitLiteraturePages.toString()+'\n'+paginateLiteratureByFit.toString()+'\n'+parseStudyBlocks.toString()+'\n'+renderStudyBlocks.toString()+'\nconst COMMUNICATION_G1='+JSON.stringify(LIT_PRIMARY_COMMUNICATION)+';\n'+literatureOfflineActivity.toString()+'\n'+literatureEuropeanAuthoredMaterial.toString()+'\nconst LIT_RO_GRADE_LESSONS='+JSON.stringify(LIT_RO_GRADE_LESSONS)+';\n'+litRomanianGradeMaterial.toString()+'\nconst RO_SECONDARY_GRAMMAR='+JSON.stringify(RO_SECONDARY_GRAMMAR)+';\n'+roGrammarTopicsForYear.toString()+'\n'+litEssaySpec.toString()+'\n'+litEssayWords.toString()+'\n'+litEssayQuality.toString()+'\nconst LIT_STUDY_CSS='+JSON.stringify(STUDY_TYPOGRAPHY_CSS)+';\n'+String.raw`
 
 
 // Bind the existing choice cards to actual Romanian grade chapters.
@@ -398,6 +399,12 @@ async function litSimpleGenerate(out,status,mode,request,source='',onReady=null,
    localMaterial=literatureOfflineActivity({topicKey:key,
     title:litSimpleLabel(currentTopic?.[1]||'Lecție',currentTopic?.[2]||'Lesson'),
     mode,grade:litJourney.grade,language:answerLanguage,notes:availableNotes});
+  if(!localMaterial&&key.startsWith('eu-year-'))
+   localMaterial=literatureEuropeanAuthoredMaterial({
+    topicKey:key,title:String(currentTopic?.[1]||'Lecție'),
+    focus:String(currentTopic?.[3]||''),grade:litJourney.grade,
+    language:answerLanguage,mode
+   });
  }catch(error){console.warn?.('lit_offline_material_unavailable',String(error?.message||error))}
  const present=(material,local=false,details={})=>{
   // Do not silently drop a synchronous offline result before its element is
@@ -449,7 +456,7 @@ async function litSimpleGenerate(out,status,mode,request,source='',onReady=null,
  }
  // Grade I Romanian basics are authored and instantly available, independent of
  // online inference quotas. These examples are not asserted to be official tests.
- if(localMaterial&&(String(litJourney.grade)==='1'||gradeSpecific)&&mode!=='correction'){
+ if(localMaterial&&(String(litJourney.grade)==='1'||gradeSpecific||localMaterial.origin==='authored_european_grade')&&mode!=='correction'){
   try{present(localMaterial.text,true)}finally{
    if(serial===litSimpleSerial){litJourney.busy=false;litSimpleAbort=null}
   }
