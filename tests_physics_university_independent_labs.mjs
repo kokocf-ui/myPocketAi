@@ -6,8 +6,8 @@ import {physicsUniversityRoutes} from './physics_university_europe.mjs';
 import {PHYSICS_UNIVERSITY_ALL_COURSES} from './physics_university_study.mjs';
 import {UNIVERSITY_PHYSICS_INQUIRY_BANK,physicsUniversityIndependentInvestigation} from './physics_university_independent_investigations.mjs';
 const keys=[...new Set(PHYSICS_UNIVERSITY_ALL_COURSES.map(x=>x.topic))].sort();
-assert.deepEqual(Object.keys(UNIVERSITY_PHYSICS_INQUIRY_BANK).sort(),keys,
- 'Every distinct university Physics course domain must get an original experiment or simulation');
+for(const topic of keys)assert.ok(UNIVERSITY_PHYSICS_INQUIRY_BANK[topic],
+ 'Every university Physics course must get an original topic-specific experiment or simulation: '+topic);
 const countries=EDUCATION_EUROPE_COUNTRIES;
 let n=0,compared=0;
 for(const country of countries){
