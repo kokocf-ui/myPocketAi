@@ -9,6 +9,12 @@ import {ASTRONOMY_TOPICS} from './astronomy_curriculum.mjs';
 import {scienceGradeTopicPlan} from './science_grade_progression.mjs';
 
 assert.equal(EDUCATION_EUROPE_COUNTRIES.length,50);
+// The actual mobile app serializes the function, losing module closures.
+// This isolated-realm test previously missed the real 'evidence is not defined' crash.
+const browserAligned=vm.runInNewContext(
+ 'const ASTRONOMY_COUNTRY_EVIDENCE='+JSON.stringify(ASTRONOMY_COUNTRY_EVIDENCE)+';\n'+
+ '('+astronomyNationalAlignment.toString()+')({country:\'RO\',stage:\'lower\',grade:\'5\'})');
+assert.equal(browserAligned.status,'documented-topics');
 assert.ok(EDUCATION_EUROPE_COUNTRIES.every(c=>astronomyNationalAlignment({country:c,stage:'lower',grade:'random'})));
 for(const [country,items] of Object.entries(ASTRONOMY_COUNTRY_EVIDENCE)){
  assert.ok(EDUCATION_EUROPE_COUNTRIES.includes(country));

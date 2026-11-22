@@ -81,12 +81,14 @@ const evidence=Object.freeze({
  ]
 });
 export const ASTRONOMY_COUNTRY_EVIDENCE=evidence;
-const applicable=(item,stage,grade)=>item.stage===stage&&
- (item.grades===null||item.grades.includes(String(grade)));
 export function astronomyNationalAlignment({country='',stage='',grade=''}={}){
- const code=String(country).toUpperCase(),items=evidence[code]||[];
- const exact=items.find(x=>applicable(x,stage,grade)&&Array.isArray(x.grades));
- const framework=exact||items.find(x=>applicable(x,stage,grade))||null;
+ // Keep this function self-contained: its source is embedded in Android WebView.
+ // Module-local helpers such as evidence/applicable do not exist there.
+ const code=String(country).toUpperCase(),items=ASTRONOMY_COUNTRY_EVIDENCE[code]||[];
+ const applicable=item=>item.stage===stage&&
+  (item.grades===null||item.grades.includes(String(grade)));
+ const exact=items.find(x=>applicable(x)&&Array.isArray(x.grades));
+ const framework=exact||items.find(x=>applicable(x))||null;
  const trulyYearScoped=Boolean(exact&&exact.topicIds?.length);
  return {
   country:code,stage,grade:String(grade),status:framework?
