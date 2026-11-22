@@ -2,6 +2,7 @@ import {EDUCATION_EUROPE_COUNTRIES,EDUCATION_SCHOOL_STAGES,
  educationCountrySchoolYears,educationSubjectSchoolPlan} from './education_all_country_subject_matrix.mjs';
 import {physicsCountryGradePlan} from './physics_europe_frameworks.mjs';
 import {chemistryCountryGradePlan} from './chemistry_country_alignment.mjs';
+import {MATH_THEOREMS_UI_SCRIPT} from './math_theorems_ui.mjs';
 // Only positively supported curriculum claims are serialized to Android;
 // generic subject lists must never be mistaken for verified grade programmes.
 const EDU_FRAMEWORK_GRADE_KEYS=[];
@@ -248,6 +249,7 @@ function educationCountryGate(moduleKey,proceed){
   if(!eduCountryApply(moduleKey,code))return;
   educationCountrySelection.requestId++;root.classList.remove('learning-country-gate');
   proceed();
+  if(moduleKey==='math'&&typeof mathInstallTheoryShortcut==='function')mathInstallTheoryShortcut();
  };
  // Geo resolution is asynchronous, never requests fresh permission and never changes a field the user touched.
  function autoDetectFromCoords(coords){
@@ -434,4 +436,4 @@ function educationGradeGate(moduleKey,level,proceed,back){
  search.oninput=()=>{page=0;draw()};draw();
 }
 
-`;
+` + MATH_THEOREMS_UI_SCRIPT;
