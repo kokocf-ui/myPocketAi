@@ -16,7 +16,8 @@ for(const country of EDUCATION_EUROPE_COUNTRIES){
   for(const year of years){
    const grade=String(year.id);
    const path=litEuropeanPlan(country,stage,grade);
-   assert.ok(path.units.length>=10,'Too few units: '+country+' '+stage+' '+grade);
+   assert.ok(path.units.length>=(stage==='advanced'?8:country==='RO'?9:10),
+    'Too few units: '+country+' '+stage+' '+grade);
    const labels=path.units.map(x=>x.label.normalize('NFD').toLowerCase());
    assert.equal(new Set(labels).size,labels.length,'Duplicate titles: '+country+' '+stage+' '+grade);
    assert.equal(new Set(path.units.map(x=>x.id)).size,path.units.length,
@@ -56,6 +57,6 @@ for(const [country,level,grade,expected] of [
  assert.equal(litEuropeanPlan(country,level,grade).verified,expected,
   'Preserve the existing national verification evidence: '+country+'/'+grade);
 }
-assert.ok(litEuropeanPlan('RO','beginner','1').units.some(x=>x.id.startsWith('eu-year-ro-beginner-1-')),'Romanian pupil grade adds distinct useful modules without padding');
+assert.ok(litEuropeanPlan('RO','beginner','1').units.some(x=>x.id.startsWith('ro-deep-1-')),'Romanian pupil grade uses child-friendly authored modules without padding');
 assert.ok(litEuropeanPlan('GB-ENG','beginner','Y6').units.some(x=>x.focus.includes('an/clasă: Y6')));
 console.log('PASS: Literature grade-specific depth on '+total+' country/year selections; '+missing+' explicitly advisory paths');

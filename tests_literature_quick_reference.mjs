@@ -73,9 +73,9 @@ const ctx={
  fetch:async()=>{throw Error('simulated network outage')}
 };
 vm.runInNewContext(LITERATURE_TASK_UI_SCRIPT,ctx,{filename:'lit-quick-reference-browser'});
-ctx.litOpen('grades');
+ctx.litOpen('levels');
 let toolbar=walk(panel).find(x=>x.attrs['data-lit-quick-entry']==='true');
-assert.ok(toolbar,'Quick buttons must appear IN the study-years screen');
+assert.ok(toolbar,'Quick buttons must appear in the first window AFTER language selection, BEFORE cycles');
 const actions=walk(toolbar).filter(x=>x.tagName==='BUTTON');
 assert.equal(actions.length,2,'Separate dictionary and grammar buttons');
 assert.match(text(actions[0]),/Dicționar/);
@@ -88,6 +88,8 @@ assert.ok(input?.focused,'Keyboard focus only after dictionary is opened');
 input.value='p';input.listeners.input();
 let candidates=walk(overlay).filter(x=>x.tagName==='BUTTON'&&x.getAttribute('role')==='option');
 assert.ok(candidates.length>2,'First letter MUST show clickable word suggestions immediately');
+assert.ok(walk(overlay).some(x=>x.className==='lit-quick-pinned'&&x.children.length>=2),
+ 'Mobile keyboard must never hide every suggestion: pin them directly under input');
 const predicate=candidates.find(x=>/^Predicat/.test(x.textContent));
 assert.ok(predicate,'Autocomplete must suggest grammatical terms as well as words');
 predicate.onclick();
@@ -101,6 +103,8 @@ assert.ok(overlay,'Grammar quick reference must open');
 input=walk(overlay).find(x=>x.tagName==='INPUT');
 assert.equal(input.focused,false,'Do not open keyboard automatically for grammar chips');
 assert.ok(text(overlay).includes('Predicat'),'Grammar terms visible without typing');
+assert.ok(walk(overlay).some(x=>x.className==='lit-quick-pinned'&&x.children.some(y=>y.textContent==='Predicat')),
+ 'Predicate/Adjective/Adverb quick chips must be visible without keyboard');
 input.value='adve';input.listeners.input();
 let matches=walk(overlay).filter(x=>x.tagName==='BUTTON'&&x.getAttribute('role')==='option');
 assert.ok(matches.some(x=>x.textContent.includes('Adverb')),'Quick grammar filter must work live');
@@ -109,4 +113,4 @@ assert.match(text(overlay),/Parte de vorbire/,'Grammar term opens definition imm
 ctx.litBack();
 assert.equal(doc.querySelector('[data-lit-quick-overlay]'),null);
 ctx.litBack();assert.equal(originalBackCount,1,'Normal literature Back works after closing reference');
-console.log('PASS: first-character autocomplete, selected definitions, grammar quick reference, study-years buttons, Android-style Back and offline fallback');
+console.log('PASS: first-character autocomplete, selected definitions, grammar quick reference, pre-cycle buttons, Android-style Back and offline fallback');

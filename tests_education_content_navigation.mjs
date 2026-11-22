@@ -8,6 +8,7 @@ import {EXAM_UI_SCRIPT} from './exam_ui.mjs';
 import {HG_SCHOOL_PLANS,hgSchoolChapters} from './education_school_paths.mjs';
 import {HG_LOCAL_GUIDES} from './education_hg_lessons.mjs';
 import {LIT_EU_COMMON,LIT_EU_PROGRAMS,litEuropeanPlan} from './literature_curriculum_europe.mjs';
+import {ROMANIAN_EXPANDED_COUNTS} from './literature_ro_expanded_years.mjs';
 import {EDUCATION_COUNTRY_UI_SCRIPT} from './education_country_ui.mjs';
 
 const computingGradeHelpers=COMPUTING_UI_SCRIPT.slice(
@@ -82,11 +83,16 @@ for(const country of ['RO','GB-ENG','FR','DE','IT','ES']){
  for(const [level,units] of Object.entries(profile.byLevel||{}))assert.ok(units.length>=10,country+' '+level+' literature too short');
  for(const [grade,units] of Object.entries(profile.byGrade||{})){
   if(country==='RO'){
-   assert.ok(units.length>=7&&units.length<=12,'Romanian pupil grade '+grade+' should show a focused, usable chapter list');
+   if(Object.hasOwn(ROMANIAN_EXPANDED_COUNTS,grade))
+    assert.equal(units.length,ROMANIAN_EXPANDED_COUNTS[grade],
+     'Romanian school grade '+grade+' must use its own age-specific syllabus');
+   else assert.ok(units.length>=8,'Retained university catalogue should not be empty');
    assert.ok(!units.some(x=>String(x[0]).startsWith('study-')),'Do not pad pupil programmes with advanced common topics');
   }else assert.ok(units.length>=10,country+' '+grade+' literature too short');
  }
 }
+assert.equal(litEuropeanPlan('RO','advanced','universitate').source,null,
+ 'University must never inherit grade-IX official curriculum URL');
 assert.ok(litEuropeanPlan('RO','medium','9','TC').units.length>=7,'Romanian ninth-grade literature needs several specific, usable lessons, without generic padding');
 assert.equal(litEuropeanPlan('RO','medium','9','TC').verified,true,'Keep ninth grade official framework separate from advisory unit sequencing');
 const england1=hgSchoolChapters('GB-ENG','geography','beginner','Y1');

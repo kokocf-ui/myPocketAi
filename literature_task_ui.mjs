@@ -5,10 +5,12 @@ import {literatureEuropeanAuthoredMaterial} from './literature_europe_authored_m
 import {literatureClientGradeExpand} from './literature_europe_client_lazy.mjs';
 import {LIT_QUICK_DICTIONARY,LIT_QUICK_GRAMMAR,literatureQuickNormal,literatureQuickSuggestions,literatureQuickDefinition,literatureQuickGrammarSearch} from './literature_quick_reference.mjs';
 import {literatureQuickReferenceAttach} from './literature_quick_reference_ui.mjs';
+import {RO_YEAR_EXTRA,RO_CHILD_SAFE,romanianExpandedRows,romanianExpandedMaterial} from './literature_ro_expanded_years.mjs';
+import {LIT_UNIVERSITY_YEARS,LIT_UNIVERSITY_UNITS,literatureUniversityPlan,literatureUniversityMaterial} from './literature_university_years.mjs';
 import {LIT_RO_GRADE_LESSONS,litRomanianGradeMaterial} from './literature_ro_grade_progression.mjs';
 import {RO_SECONDARY_GRAMMAR,roGrammarTopicsForYear} from './literature_ro_grammar_path.mjs';
 import {litEssaySpec,litEssayWords,litEssayQuality} from './literature_essay_contract.mjs';
-export const LITERATURE_TASK_UI_SCRIPT=splitLiteraturePages.toString()+'\n'+paginateLiteratureByFit.toString()+'\n'+parseStudyBlocks.toString()+'\n'+renderStudyBlocks.toString()+'\nconst COMMUNICATION_G1='+JSON.stringify(LIT_PRIMARY_COMMUNICATION)+';\n'+literatureOfflineActivity.toString()+'\n'+literatureEuropeanAuthoredMaterial.toString()+'\n'+literatureClientGradeExpand.toString()+'\nconst LIT_QUICK_DICTIONARY='+JSON.stringify(LIT_QUICK_DICTIONARY)+';\nconst LIT_QUICK_GRAMMAR='+JSON.stringify(LIT_QUICK_GRAMMAR)+';\n'+literatureQuickNormal.toString()+'\n'+literatureQuickSuggestions.toString()+'\n'+literatureQuickDefinition.toString()+'\n'+literatureQuickGrammarSearch.toString()+'\n'+literatureQuickReferenceAttach.toString()+'\nconst LIT_RO_GRADE_LESSONS='+JSON.stringify(LIT_RO_GRADE_LESSONS)+';\n'+litRomanianGradeMaterial.toString()+'\nconst RO_SECONDARY_GRAMMAR='+JSON.stringify(RO_SECONDARY_GRAMMAR)+';\n'+roGrammarTopicsForYear.toString()+'\n'+litEssaySpec.toString()+'\n'+litEssayWords.toString()+'\n'+litEssayQuality.toString()+'\nconst LIT_STUDY_CSS='+JSON.stringify(STUDY_TYPOGRAPHY_CSS)+';\n'+String.raw`
+export const LITERATURE_TASK_UI_SCRIPT=splitLiteraturePages.toString()+'\n'+paginateLiteratureByFit.toString()+'\n'+parseStudyBlocks.toString()+'\n'+renderStudyBlocks.toString()+'\nconst COMMUNICATION_G1='+JSON.stringify(LIT_PRIMARY_COMMUNICATION)+';\n'+literatureOfflineActivity.toString()+'\n'+literatureEuropeanAuthoredMaterial.toString()+'\n'+literatureClientGradeExpand.toString()+'\nconst LIT_QUICK_DICTIONARY='+JSON.stringify(LIT_QUICK_DICTIONARY)+';\nconst LIT_QUICK_GRAMMAR='+JSON.stringify(LIT_QUICK_GRAMMAR)+';\n'+literatureQuickNormal.toString()+'\n'+literatureQuickSuggestions.toString()+'\n'+literatureQuickDefinition.toString()+'\n'+literatureQuickGrammarSearch.toString()+'\n'+literatureQuickReferenceAttach.toString()+'\nconst RO_YEAR_EXTRA='+JSON.stringify(RO_YEAR_EXTRA)+';\nconst RO_CHILD_SAFE='+JSON.stringify(RO_CHILD_SAFE)+';\n'+romanianExpandedRows.toString()+'\n'+romanianExpandedMaterial.toString()+'\nconst LIT_UNIVERSITY_YEARS='+JSON.stringify(LIT_UNIVERSITY_YEARS)+';\nconst LIT_UNIVERSITY_UNITS='+JSON.stringify(LIT_UNIVERSITY_UNITS)+';\n'+literatureUniversityPlan.toString()+'\n'+literatureUniversityMaterial.toString()+'\nconst LIT_RO_GRADE_LESSONS='+JSON.stringify(LIT_RO_GRADE_LESSONS)+';\n'+litRomanianGradeMaterial.toString()+'\nconst RO_SECONDARY_GRAMMAR='+JSON.stringify(RO_SECONDARY_GRAMMAR)+';\n'+roGrammarTopicsForYear.toString()+'\n'+litEssaySpec.toString()+'\n'+litEssayWords.toString()+'\n'+litEssayQuality.toString()+'\nconst LIT_STUDY_CSS='+JSON.stringify(STUDY_TYPOGRAPHY_CSS)+';\n'+String.raw`
 
 
 // Bind the existing choice cards to actual Romanian grade chapters.
@@ -17,6 +19,17 @@ if(typeof litOpen==='function'&&typeof LIT_TOPICS==='object'&&
    typeof litProgram==='function'){
  const originalOpen=litOpen;
  const originalProgram=litProgram;
+ const nativeCurrentTopic=typeof litCurrentTopic==='function'?litCurrentTopic:null;
+ // Each selected programme chapter has a unique ID. The old bridge exposed
+ // its area ('narrative'/'grammar'), discarding the lesson ID and loading
+ // the same generic theory for every chapter. Resolve the selected unit ID.
+ if(nativeCurrentTopic)litCurrentTopic=function(){
+  if(litJourney.branch==='program'){
+   const unit=litProgram()?.units?.find(x=>x.id===litJourney.topic);
+   return unit?[String(unit.id).replace(/-\d+$/,''),unit.ro,unit.en,unit.focus]:null;
+  }
+  return nativeCurrentTopic();
+ };
  const originalGrammar=LIT_TOPICS.grammar.slice();
  const originalTopics=Object.fromEntries(Object.entries(LIT_TOPICS).map(([id,rows])=>[id,rows.slice()]));
  // Romanian Literature follows the pupil's textbook, not AI capability categories.
@@ -83,7 +96,29 @@ if(typeof litOpen==='function'&&typeof LIT_TOPICS==='object'&&
    }
   }
   const shown=originalOpen(stage);
-  if(stage==='grades'&&typeof document!=='undefined'&&typeof $==='function'){
+  // The legacy university selector displayed one fake school-style grade.
+  // Replace it with clear Bachelor/Master/research choices, leaving all
+  // school-year selectors and prior navigation unchanged.
+  if(stage==='grades'&&litJourney.level==='advanced'&&typeof $==='function'){
+   const panel=$('moduleContent')?.querySelector?.('.lit-panel');
+   const list=panel?.querySelector?.('.lit-options');
+   if(list){
+    list.replaceChildren();
+    for(const year of LIT_UNIVERSITY_YEARS){
+     const card=document.createElement('button');card.type='button';
+     card.className='secondary-btn lit-option lit-choice-card';
+     card.textContent=(typeof state!=='undefined'&&state.language==='ro')?year.ro:year.en;
+     card.onclick=()=>{litJourney.grade=year.id;litJourney.region='';litJourney.track='TC';litOpen('branches')};
+     list.append(card);
+    }
+    const info=document.createElement('p');
+    info.textContent=(typeof state!=='undefined'&&state.language==='ro')?
+     'Alege anul universitar. Durata și cursurile diferă între universități; acest parcurs este orientativ.':
+     'Choose your university study year. Programme duration and courses vary by university.';
+    panel.insertBefore(info,list);
+   }
+  }
+  if(stage==='levels'&&typeof document!=='undefined'&&typeof $==='function'){
    const host=$('moduleContent');
    const panel=host?.querySelector?.('.lit-panel')||
     (host?.children||[]).find?.(el=>String(el.className||'').includes('lit-panel'));
@@ -110,11 +145,25 @@ if(typeof litOpen==='function'&&typeof LIT_TOPICS==='object'&&
   return shown;
  };
  litProgram=function(){
+  const grade=String(litJourney.grade);
+  if(litJourney.level==='advanced'){
+   const university=literatureUniversityPlan(grade,
+    typeof state!=='undefined'?String(state.language||'ro'):'ro');
+   if(university)return university;
+  }
   if(typeof LIT_EUROPE_PROGRAMS!=='undefined')
    literatureClientGradeExpand(LIT_EUROPE_PROGRAMS,litJourney);
-  const plan=originalProgram();
-  const grade=String(litJourney.grade);
+  let plan=originalProgram();
   if(litJourney.country!=='RO')return plan;
+  if(/^\d{1,2}$/.test(grade)&&typeof LIT_EUROPE_PROGRAMS!=='undefined'){
+   const prior=(LIT_EUROPE_PROGRAMS.RO?.byGrade?.[grade]||[])
+    .filter(row=>!String(row[0]).startsWith('eu-year-'));
+   if(prior.length){
+    const school=romanianExpandedRows(grade,prior);
+    plan={...plan,units:school.map(([id,title,focus,topic],i)=>({
+     id:id+'-'+i,topic,ro:title,en:title,focus,order:i+1}))};
+   }
+  }
   const studentYear=Number(grade);
   if(studentYear>=10&&studentYear<=12)return {...plan,
    source:null,
@@ -411,6 +460,14 @@ async function litSimpleGenerate(out,status,mode,request,source='',onReady=null,
   (LIT_OFFLINE_THEORY_DATA[key]||LIT_OFFLINE_THEORY_DATA[litJourney.branch]):null;
  let localMaterial=gradeSpecific;
  try{
+  if(!localMaterial&&key.startsWith('uni-lit-'))
+   localMaterial=literatureUniversityMaterial({topicKey:key,
+    title:String(currentTopic?.[1]||'Seminar'),grade:litJourney.grade,
+    language:answerLanguage,mode});
+  if(!localMaterial&&litJourney.country==='RO'&&/^(ro-elev-|ro-deep-)/.test(key))
+   localMaterial=romanianExpandedMaterial({topicKey:key,
+    title:String(currentTopic?.[1]||'Lecție'),focus:String(currentTopic?.[3]||''),
+    grade:litJourney.grade,language:answerLanguage,mode});
   if(!localMaterial&&litJourney.country==='RO'&&['ro','en'].includes(answerLanguage))
    localMaterial=literatureOfflineActivity({topicKey:key,
     title:litSimpleLabel(currentTopic?.[1]||'Lecție',currentTopic?.[2]||'Lesson'),
