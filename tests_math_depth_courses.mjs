@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {MATH_DEPTH_STAGES, mathInDepthEntries, mathInDepthMaterial} from './math_depth_courses.mjs';
+import {MATH_DEPTH_STAGES, mathInDepthEntries, mathCountryCourseEntries, mathInDepthMaterial} from './math_depth_courses.mjs';
 import {EDUCATION_EUROPE_COUNTRIES, educationCountrySchoolYears, educationSubjectSchoolPlan}
  from './education_all_country_subject_matrix.mjs';
 import {mathCountryStudyYears} from './math_country_grade_areas.mjs';
@@ -60,7 +60,7 @@ for(const country of EDUCATION_EUROPE_COUNTRIES){
    assert.equal(plan.status,'general-learning',country+'/'+year.id+' claims unverified maths is official');
    assert.ok(plan.units.length>=3,country+'/'+year.id+' no mathematical branches');
    for(const branch of plan.units){
-    const lessons=mathInDepthEntries({stage:schoolStage,phase,topic:branch.id});
+    const lessons=mathCountryCourseEntries({country,stage:schoolStage,grade:year.id,phase,topic:branch.id});
     assert.ok(lessons.length>=3,
      country+'/'+stage+'/'+year.id+'/'+branch.id+' lacks year-appropriate detailed maths lessons');
    }
