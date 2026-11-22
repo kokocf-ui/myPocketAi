@@ -167,7 +167,7 @@ const exclusions={
  // AQA 8300 section A7 requires inverse functions at Higher tier; keep
  // their cards available and leave Foundation filtering to mathGcseSelectTier.
  'Teorema factorului pentru polinoame','Teorema restului polinomial','Ecuația cercului în coordonate',
- 'Intersecțiile cercului cu axa Ox','Tangenta la un cerc','Grade și radiani',
+ 'Intersecțiile cercului cu axa Ox','Grade și radiani',
  'Sinus și cosinus pe cercul unitate','Polinoame și gradul lor','Rădăcinile unui polinom',
  'Identitatea fundamentală','Transformări între radiani și grade','Ecuații trigonometrice cu tangentă',
  'Relații trigonometrice pentru unghiuri complementare','Împărțirea polinoamelor la x−a',
