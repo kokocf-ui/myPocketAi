@@ -39,8 +39,8 @@ assert.equal(literatureEuropeanAuthoredMaterial({topicKey:sample.id,language:'fr
  'The offline content must not falsely claim French translation');
 assert.match(LITERATURE_TASK_UI_SCRIPT,/function literatureEuropeanAuthoredMaterial\(/,
  'Actual client must embed authored content, not merely the metadata');
-assert.match(LITERATURE_TASK_UI_SCRIPT,/localMaterial\.origin==='authored_european_grade'/,
- 'UI must serve new offline material rather than bypass it');
+assert.match(LITERATURE_TASK_UI_SCRIPT,/\['authored_european_grade','authored_ro_year_specific','authored_university_year'\]\.includes\(localMaterial\.origin\)/,
+ 'UI must use all authored grade, university and European local materials instead of falling through to AI');
 const ctx={
  litJourney:{country:'FR',grade:'4e',branch:'program',topic:'',stage:'branches'},
  LIT_BRANCHES:[],LIT_TOPICS:{grammar:[]},
