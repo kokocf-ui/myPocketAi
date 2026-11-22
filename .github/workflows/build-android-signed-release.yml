@@ -5,6 +5,11 @@ on:
   pull_request:
     branches: [main]
     paths:
+      - 'literature_quick_reference*.mjs'
+      - 'literature_dictionary_*.mjs'
+      - 'literature_reference_catalog.mjs'
+      - 'tests_literature_real_browser.mjs'
+      - 'tests_literature_reference_catalog.mjs'
       - 'one_field_journey_ui.mjs'
       - 'tests_one_field_live_request.mjs'
       - 'tests_places_same_origin_proxy.mjs'
@@ -60,6 +65,12 @@ on:
   push:
     branches: [main]
     paths:
+      - 'literature_quick_reference*.mjs'
+      - 'literature_dictionary_*.mjs'
+      - 'literature_reference_catalog.mjs'
+      - 'tests_literature_real_browser.mjs'
+      - 'tests_literature_reference_catalog.mjs'
+      - '.github/workflows/build-android-signed-release.yml'
       - 'one_field_journey_ui.mjs'
       - 'tests_one_field_live_request.mjs'
       - 'tests_places_same_origin_proxy.mjs'
