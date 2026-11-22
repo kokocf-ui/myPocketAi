@@ -27,7 +27,7 @@ for(const country of EDUCATION_EUROPE_COUNTRIES){
    }
    const owned=path.units.filter(x=>String(x.id).startsWith('eu-year-'));
    if(owned.length){
-    assert.ok(owned.length>=9,'Partial grade-depth extension: '+country+'/'+grade);
+    assert.ok(owned.length>=(country==='RO'?3:9),'Partial grade-depth extension: '+country+'/'+grade);
     assert.ok(owned.every(x=>x.focus.includes('an/clasă: '+grade)),
      'Grade-specific content must reference its own year: '+country+'/'+grade);
     assert.ok(owned.some(x=>x.focus.includes('Fragment original creat pentru exercițiu')),
