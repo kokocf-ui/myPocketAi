@@ -173,6 +173,24 @@ try{
  await click(page.locator('#view-module .math-stage-back').first());
  const gradeBack=page.locator('#view-module .module-actions-row .pocket-inline-back, #view-module .education-toolbar button').first();
  await click(gradeBack);
+ await pickMathStage('Liceu');
+ await pickGrade('Year 10');
+ const upperBranches=await page.locator('#view-module .math-choice-list .math-choice-row strong').allTextContents();
+ assert.ok(upperBranches.some(x=>x.includes('Algebră')),'Upper secondary must show an algebra branch');
+ await click(page.locator('#view-module .math-choice-row').filter({hasText:'Algebră'}).first());
+ const upperLessons=await page.locator('#view-module .math-choice-list .math-choice-row strong').allTextContents();
+ assert.ok(upperLessons.some(x=>x.includes('Propoziții logice și tabele de adevăr')),
+  'Upper-secondary new material must be reachable in the real Android-sized chapter list');
+ await click(page.locator('#view-module .math-choice-row').filter({hasText:'Propoziții logice și tabele de adevăr'}).first());
+ await page.locator('#educationPagedLessonDialog').waitFor({state:'visible',timeout:10000});
+ const upperText=await page.locator('#educationPagedLessonDialog').innerText();
+ assert.ok(upperText.includes('Conjuncția')&&upperText.includes('Exersează singur'),
+  'Upper-secondary chapter must open its full offline theory and practice');
+ await page.screenshot({path:'math-browser-audit/england-upper-secondary.png'});
+ await click(page.locator('#educationPagedLessonDialog .education-theory-head button').first());
+ await click(page.locator('#view-module .math-stage-back').first());
+ await click(page.locator('#view-module .math-stage-back').first());
+ await click(page.locator('#view-module .module-actions-row .pocket-inline-back, #view-module .education-toolbar button').first());
  await pickMathStage('Universitate');
  await pickGrade('1');
  const universityBranches=await page.locator('#view-module .math-choice-list .math-choice-row strong').allTextContents();
@@ -188,8 +206,16 @@ try{
  await page.locator('#educationPagedLessonDialog').waitFor({state:'visible',timeout:10000});
  assert.match(await page.locator('#educationPagedLessonDialog').innerText(),/convergență|Convergență|limita/i,
   'University Year 1 analysis must contain the actual lesson, not a placeholder');
+ await click(page.locator('#educationPagedLessonDialog .education-theory-head button').first());
+ const newUniversity=page.locator('#view-module .math-choice-row').filter({hasText:'Definiția epsilon-delta a limitei'});
+ assert.equal(await newUniversity.count(),1,'New university analysis lesson must be selectable');
+ await click(newUniversity);
+ await page.locator('#educationPagedLessonDialog').waitFor({state:'visible',timeout:10000});
+ const newUniversityText=await page.locator('#educationPagedLessonDialog').innerText();
+ assert.ok(newUniversityText.includes('epsilon-delta')&&newUniversityText.includes('Exersează singur'),
+  'New university theory must open a complete original worked explanation');
  assert.equal(errors.length,0,'Unexpected JavaScript errors: '+errors.slice(0,5).join('; '));
- console.log('PASS mobile Chromium maths: Romania primary + lower secondary, theorem reference, England Y1/Y6 algebra, University, Back and branches');
+ console.log('PASS mobile Chromium maths: Romania primary + lower, theorem reference, England Y1/Y6, upper-secondary and university original lessons, Back and branches');
 }finally{
  await browser.close();await new Promise(resolve=>server.close(resolve));
 }
