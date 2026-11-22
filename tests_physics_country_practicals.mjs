@@ -8,7 +8,8 @@ import {scienceSchoolTopicLessons} from './science_ro_course_plan.mjs';
 import {PHYSICS_PRACTICAL_PROTOCOLS,physicsLaboratoryYearInvestigations} from './physics_europe_practicals.mjs';
 
 const supported=new Set(Object.keys(PHYSICS_PRACTICAL_PROTOCOLS));
-const expected=new Set(PHYSICS_TOPICS.map(x=>x.id));
+// Specialised university subjects use distinct research projects, not school experiments.
+const expected=new Set(PHYSICS_TOPICS.filter(x=>!x.specialty).map(x=>x.id));
 assert.deepEqual([...supported].sort(),[...expected].sort(),'No school Physics subject may use a generic lab fallback');
 let yearChecks=0,labChecks=0,courseChecks=0;
 for(const code of EDUCATION_EUROPE_COUNTRIES){
