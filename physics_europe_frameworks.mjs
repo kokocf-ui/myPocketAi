@@ -22,6 +22,12 @@ const refs=Object.freeze({
  AT:{source:'https://www.bmb.gv.at/',scope:'education-structure',name:'Physik · Schulart',note:'Separate Physics arrangements depend on AHS/Mittelschule and local school type. Year allocation remains advisory until school stream is chosen.'},
  CH:{source:'https://www.edk.ch/',scope:'education-structure',name:'Natur und Technik · Kantone',integrated:['primary'],note:'Canton and language determine exact programme; a national single grade timetable must not be asserted.'},
  BE:{source:'https://eurydice.eacea.ec.europa.eu/',scope:'education-structure',name:'Sciences · Communities',integrated:['primary'],note:'Belgium requires the linguistic community and stream before Physics grade-specific curriculum can be confirmed.'},
+ HR:{source:'https://narodne-novine.nn.hr/clanci/sluzbeni/full/2019_01_10_210.html',scope:'national-year',name:'Fizika · 7. i 8. razred',noLower:['5','6'],lowerEntry:'7',note:'Curriculumul croat Fizika începe în clasa a VII-a de osnovna škola și continuă în clasa VIII; gimnazija are curriculum propriu pe clase, iar formarea profesională poate avea altă distribuție.'},
+ BG:{source:'https://www.mon.bg/obshto-obrazovanie/uchebni-planove-i-programi-2/uchebni-programi/uchebni-programi-za-obsthoobrazovatelna-podgotovka/vii-klas/',scope:'national-year',name:'Физика и астрономия · VII клас',noLower:['5','6'],lowerEntry:'7',note:'În V–VI se studiază Човекът и природата (științe integrate); disciplina separată Физика и астрономия începe în VII. La liceu programa diferă în funcție de filieră.'},
+ SI:{source:'https://www.gov.si/assets/ministrstva/MVI/Dokumenti/Osnovna-sola/Ucni-nacrti/Ucni-nacrti/2025/UN_OS/Ucni_nacrt_fizika_2025.pdf',scope:'national-stage',name:'Fizika · 8. in 9. razred',noLower:['7'],lowerEntry:'8',note:'Planul de Fizică pentru 8.–9. razred completează disciplinele de științe anterioare; introducerea pe cohortă a reformei 2026 trebuie respectată.'},
+ SK:{source:'https://www.minedu.sk/46634-sk/konsolidovany-svp-pre-zakladne-vzdelavanie/',scope:'national-stage',name:'Fyzika · tretí cyklus (6.–9. ročník)',noLower:['5'],lowerEntry:'6',note:'Programul slovac actualizat organizează Științele în cicluri; în 5. ročník se studiază științe integrate, Fizica separată începe de regulă în 6. ročník; ordinea pe clase depinde de reforma aplicabilă cohortei.'},
+ EE:{source:'https://www.riigiteataja.ee/et/akt/123122025007',scope:'national-stage',name:'Füüsika · põhikool III kooliaste',note:'Legislația confirmă Fizica în al treilea ciclu (clasele 7–9), dar repartizarea în clasele 8–9 depinde de programa școlii. Nu ascundem automat clasa 7 fără dovadă universală.'},
+ TR:{source:'https://mufredat.meb.gov.tr/ProgramDetay.aspx?PID=2254',scope:'national-cohort-framework',name:'Fizik dersi · lise 9–12',integrated:['primary','lower'],note:'În 5–8 Fen Bilimleri integrează concepte fizice; Fizik separat este liceal. Türkiye Yüzyılı Maarif Modeli este introdus progresiv pe clase și cohortă în 2026–2027, nu este identic pentru toate cele patru clase.'},
  DK:{source:'https://eng.uvm.dk/primary-and-lower-secondary-education/the-folkeskole/subjects-and-curriculum',scope:'national-stage',name:'Fysik/kemi · Folkeskolen',noLower:[],mixed:['lower'],note:'Fysik/kemi este o disciplină combinată predată în clasele 7–9. Acestea sunt competențe de etapă, nu un cuprins fix în fiecare an; reforma Fagfornyelsen cere verificarea cohortei.'},
  FI:{source:'https://www.oph.fi/en/education-and-qualifications/national-core-curriculum-primary-and-lower-secondary-basic-education',scope:'national-stage',name:'Fysiikka · perusopetus',integrated:['primary'],note:'Clasele 1–6 studiază Environmental Studies; Fizica și Chimia sunt discipline distincte în 7–9, cu alocarea obiectivelor adaptată curriculumului local.'},
  NO:{source:'https://www.udir.no/lk20/nat01-05/gyldighet-og-innfoering?lang=eng',scope:'national-stage',name:'Naturfag · curriculum integrat',integrated:['primary','lower'],note:'Norvegia predă Naturfag integrat inclusiv în 8–10; nu există curs național separat de Fizică pentru fiecare an. Revizuirea 2026 necesită potrivirea clasei cu cohorta.'},
@@ -33,6 +39,10 @@ const refs=Object.freeze({
 // Concepts inside other sciences are not incorrectly called compulsory Physics.
 export const PHYSICS_NOT_OFFERED_LOWER_YEARS=Object.freeze({
  RO:Object.freeze(['5']),
+ HR:Object.freeze(['5','6']),
+ BG:Object.freeze(['5','6']),
+ SI:Object.freeze(['7']),
+ SK:Object.freeze(['5']),
  HU:Object.freeze(['5','6']),
  PL:Object.freeze(['V','VI']),
  PT:Object.freeze(['5','6']),
@@ -65,6 +75,33 @@ const countryGroups=Object.freeze({
 const specialPlans={
  // National year headings where published guidance supports a strand,
  // not a claim that the entire year MUST be taught in this exact order.
+ HR:{lower:{
+  '7':['units','kinematics','dynamics','energy','heat'],
+  '8':['electric','circuits','waves','optics','electromagnetism']
+ }},
+ BG:{lower:{
+  '7':['units','kinematics','dynamics','energy','heat','waves']
+ }},
+ SI:{lower:{
+  '8':['units','kinematics','dynamics','heat','energy'],
+  '9':['electric','circuits','optics','waves','electromagnetism']
+ }},
+ SK:{lower:{
+  '6':['units','heat','fluids','energy','measurement'],
+  '7':['kinematics','dynamics','energy','fluids','heat'],
+  '8':['electric','circuits','measurement','energy','optics'],
+  '9':['waves','optics','electromagnetism','energy','measurement']
+ }},
+ LV:{lower:{
+  '8':['units','heat','waves','optics','energy'],
+  '9':['kinematics','dynamics','electric','circuits','electromagnetism']
+ }},
+ MD:{lower:{
+  '6':['units','kinematics','heat','energy','measurement'],
+  '7':['dynamics','kinematics','fluids','energy','units'],
+  '8':['electric','circuits','electromagnetism','measurement','energy'],
+  '9':['waves','optics','thermodynamics','electric','measurement']
+ }},
  PT:{lower:{
   '7':['units','energy','heat','solar','kinematics'],
   '8':['waves','optics','energy','heat','measurement'],
