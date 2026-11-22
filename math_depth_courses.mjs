@@ -6,6 +6,7 @@ export {RO678_MATH_LESSONS};
 export {RO5_MATH_LESSONS};
 import {MATH_DEPTH_PRIMARY} from './math_depth_primary.mjs';
 import {MATH_DEPTH_PRIMARY_56} from './math_depth_primary_56.mjs';
+import {MATH_DEPTH_PRIMARY_56_EXTRA} from './math_depth_primary_56_extra.mjs';
 import {MATH_PRIMARY_EXTENSION} from './math_depth_primary_extension.mjs';
 import {MATH_DEPTH_UPPER} from './math_depth_upper.mjs';
 import {MATH_DEPTH_UNIVERSITY} from './math_depth_university.mjs';
@@ -145,8 +146,11 @@ const EXPANDED_UNIVERSITY=MATH_DEPTH_UNIVERSITY.map((phase,i)=>{
   topic=>[topic,[...(phase[topic]||[]),...(extras[topic]||[]),...(newLessons[topic]||[]),...(companion[topic]||[])]]
  ));
 });
+const EXPANDED_PRIMARY_56=MATH_DEPTH_PRIMARY_56.map((phase,i)=>Object.fromEntries(
+ [...new Set([...Object.keys(phase),...Object.keys(MATH_DEPTH_PRIMARY_56_EXTRA[i]||{})])]
+ .map(topic=>[topic,[...(phase[topic]||[]),...(MATH_DEPTH_PRIMARY_56_EXTRA[i]?.[topic]||[])]])));
 export const MATH_DEPTH_STAGES=Object.freeze({
- primary:[...EXPANDED_PRIMARY,...MATH_DEPTH_PRIMARY_56],
+ primary:[...EXPANDED_PRIMARY,...EXPANDED_PRIMARY_56],
  lower:EXPANDED_LOWER,intermediate:EXPANDED_UPPER,advanced:EXPANDED_UNIVERSITY
 });
 export function mathInDepthEntries({stage,phase,topic}={}){
