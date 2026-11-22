@@ -45,6 +45,8 @@ export const ASTRONOMY_EUROPE_FRAMEWORKS=Object.freeze({
   primary:{source:'https://skola2030.lv/lv/macibu-saturs/macibu-jomas/dabaszinatnes',scope:'national-science-integrated-grades-1-6'},
   upper:{source:'https://www.skola2030.lv/admin/filemanager/files/2/visp_vid_izgl_modelis.pdf',scope:'upper-secondary-optional-course-model-not-year-fixed'}
  }),
+ NL:Object.freeze({primary:{source:'https://www.slo.nl/thema/meer/tule/orientatie-jezelf-wereld/kerndoel-46/',scope:'SLO-core-objective-46-primary-natural-science'}}),
+ DK:Object.freeze({primary:{source:'https://emu.dk/sites/default/files/2020-09/Gsk_fagh%C3%A6fte_naturteknologi.pdf',scope:'Falles-Mal-natur-teknologi-primary-grade-bands'}}),
  SE:Object.freeze({
   primary:{source:'https://www.skolverket.se/undervisning/grundskolan/kursplaner-for-grundskolan/subjects/GRGRFYS01?currentListHeading=Kursplaner+i+grundskolan&schoolType=GR&timespan=LATEST&typeOfSyllabus=COURSE_SYLLABUS',scope:'LGR22-physics-years-4-6'},
   lower:{source:'https://www.skolverket.se/undervisning/grundskolan/kursplaner-for-grundskolan/subjects/GRGRFYS01?currentListHeading=Kursplaner+i+grundskolan&schoolType=GR&timespan=LATEST&typeOfSyllabus=COURSE_SYLLABUS',scope:'LGR22-physics-years-7-9'},
@@ -157,6 +159,26 @@ export function astronomyCountryGradePlan({country='',stage='primary',grade='',y
  // Goals and topic lists below are ORIGINAL teaching adaptations, not verbatim official syllabi.
 
 
+
+ if(code==='NL'&&level==='primary'&&/^G[1-8]$/.test(year)){
+  const n=Number(year.slice(1));
+  const ids=n<=2?['sky','observations']:n<=4?['sky','solar','observations']:n<=6?['solar','sky','observations']:['solar','sky','observations','distances'];
+  return {...general,status:'national-primary-core-goal-46',kind:'integrated',
+   topicIds:ids,source:base?.source||null,sourceScope:base?.scope||null,
+   programmeRo:'Natuur en techniek · kerndoel 46 · Groep '+n,
+   programmeEn:'Nature and technology · Core objective 46 · Group '+n,
+   noteRo:'În Olanda, kerndoel 46 include zi/noapte, anotimpuri și mișcările relative Pământ–Soare–Lună. SLO prezintă exemple diferențiate pentru grupurile 1–2, 3–4, 5–6 și 7–8, dar nu un cuprins obligatoriu identic pentru fiecare clasă. Fișele din aplicație sunt adaptări.',
+   noteEn:'Netherlands primary core objective 46 covers day/night, seasons and Earth–Moon–Sun relationships. SLO offers example progressions for Groups 1–2, 3–4, 5–6 and 7–8, not a prescribed identical chapter list for each individual grade.'};
+ }
+ if(code==='DK'&&level==='primary'&&/^[1-6]$/.test(year)){
+  const n=Number(year),ids=n<=2?['sky','observations']:n<=4?['solar','sky','observations']:['solar','sky','distances','observations'];
+  return {...general,status:'national-primary-science-band',kind:'integrated',
+   topicIds:ids,source:base?.source||null,sourceScope:base?.scope||null,
+   programmeRo:'Natur/teknologi · Jorden og solsystemet · anul '+n,
+   programmeEn:'Nature and technology · Earth and Solar System · Year '+n,
+   noteRo:'În Danemarca, Natur/teknologi este o disciplină integrată în anii 1–6. Cadrul Fælles Mål descrie Jorden og solsystemet și modele despre planete, mișcarea lor și sateliți; din 2025 unele obiective specifice sunt orientative. Ordinea din aplicație este diferențiată pedagogic, nu programa obligatorie anuală.',
+   noteEn:'Denmark Natur/teknologi is integrated in Years 1–6. The Fælles Mål guidance covers Earth, planets and orbital models. Since 2025 certain detailed goals are advisory, and the app’s grade allocation is a teaching adaptation rather than a compulsory national year sequence.'};
+ }
  if(code==='SI'&&level==='lower'&&['7','8','9'].includes(year))return {...general,
   status:'national-three-electives-no-fixed-grade',kind:'national-optional',
   topicIds:['solar','sky','observations','stars'],

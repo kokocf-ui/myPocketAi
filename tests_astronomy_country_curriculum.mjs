@@ -132,6 +132,19 @@ assert.equal(get('IT','primary','P1').policy.status,'new-national-framework-2026
 assert.equal(get('IT','primary','P2').policy.status,'legacy-national-framework-2012');
 assert.equal(get('IT','lower','M1').policy.status,'new-national-framework-2026');
 assert.equal(get('IT','lower','M2').policy.status,'legacy-national-framework-2012');
+
+for(const [year,firstTopic] of [['G2','sky'],['G4','sky'],['G6','solar'],['G8','solar']]){
+ const result=get('NL','primary',year);
+ assert.equal(result.policy.status,'national-primary-core-goal-46');
+ assert.equal(result.plan.topics[0]?.id,firstTopic);
+ assert.equal(result.policy.offerVerified,false,'National integrated core goal does not certify app lessons');
+}
+for(const year of ['2','4','6']){
+ const result=get('DK','primary',year);
+ assert.equal(result.policy.status,'national-primary-science-band');
+ assert.equal(result.policy.kind,'integrated');
+ assert.ok(result.plan.topics.length>=2);
+}
 assert.equal(astronomyCountryGradePlan({country:'RO',stage:'lower',grade:'99',years:[]}).status,'invalid-selection');
 const html=await(await app.fetch(new Request('https://astronomy-europe-registry.test/'))).text();
 const script=html.match(/<script>([\s\S]*?)<\/script>/)?.[1]||'';
