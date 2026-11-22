@@ -63,7 +63,7 @@ export const MATH_DEPTH_PRIMARY_56_EXTRA=[
       [
         "Rotational symmetry of a rectangle",
         "Simetria prin rotație a dreptunghiului",
-        "O figură are simetrie prin rotație dacă o întoarcere cu un unghi mai mic de 360 de grade o suprapune peste ea însăși. Dreptunghiul nesquare se suprapune după o jumătate de tură.",
+        "O figură are simetrie prin rotație dacă o întoarcere cu un unghi mai mic de 360 de grade o suprapune peste ea însăși. Dreptunghiul care nu este pătrat se suprapune după o jumătate de tură.",
         "Jumătate de tură = 180°",
         "Un dreptunghi de 6 cm pe 4 cm, rotit cu 180° în jurul centrului, ocupă aceeași poziție. O rotație de 90° nu îl suprapune, fiindcă laturile au lungimi diferite.",
         "Care este cea mai mică rotație pentru un dreptunghi nepătrat?",
