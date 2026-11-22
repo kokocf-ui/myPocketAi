@@ -149,8 +149,11 @@ export function physicsCountryGradePlan({country='',stage='lower',grade='',years
  // "the pupil does not study physical phenomena": many systems integrate.
  // Hide only years with a documented absence of a separately scheduled
  // Physics course. Other countries retain their integrated/advisory study.
- const absent=phase==='lower'&&
-  Boolean(PHYSICS_NOT_OFFERED_LOWER_YEARS[code]?.includes(yr));
+ // The generated Android WebView embeds this function as standalone JS.
+ // Use the embedded framework entry rather than an unbound module export.
+ // France 6e has an integrated Physics/Chemistry programme and is retained.
+ const absent=phase==='lower'&&code!=='FR'&&
+  Boolean(ref?.noLower?.includes(yr));
  const schoolScience=integrated||noSeparate;
  const upperMix=phase==='upper'&&ref?.mixedUpper?.includes(yr);
  const upperOptional=phase==='upper'&&ref?.optionalUpper?.includes(yr);
