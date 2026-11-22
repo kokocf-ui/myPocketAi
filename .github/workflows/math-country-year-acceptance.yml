@@ -41,6 +41,9 @@ jobs:
           node --check math_depth_university_extension.mjs
           node --check math_depth_upper_2026_additions.mjs
           node --check math_depth_university_2026_additions.mjs
+          node --check math_depth_upper_companion_2026.mjs
+          node --check math_depth_university_companion_2026.mjs
+          node --check tests_math_companions_2026.mjs
           node --check tests_math_upper_university_2026.mjs
           node --check math_theorems_ui.mjs
           node --check math_ro5_numeracy.mjs
@@ -70,6 +73,7 @@ jobs:
           node tests_math_all_countries_2026.mjs
           node tests_math_depth_courses.mjs
           node tests_math_upper_university_2026.mjs
+          node tests_math_companions_2026.mjs
           node tests_math_ro5_source_alignment.mjs
           node tests_math_curriculum_readiness.mjs
           node tests_math_ro678_country_curriculum.mjs
