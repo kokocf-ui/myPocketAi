@@ -5,10 +5,11 @@
 import {RO5_MATH_NUMBERS,RO5_MATH_SOURCES} from './math_ro5_numeracy.mjs';
 import {RO5_MATH_FRACTIONS} from './math_ro5_fractions.mjs';
 import {RO5_MATH_GEOMETRY} from './math_ro5_geometry.mjs';
+import {RO5_MATH_CORE_GAPS} from './math_ro5_core_gaps.mjs';
 
 export {RO5_MATH_SOURCES};
 export const RO5_MATH_LESSONS=Object.freeze([
- ...RO5_MATH_NUMBERS,...RO5_MATH_FRACTIONS,...RO5_MATH_GEOMETRY
+ ...RO5_MATH_NUMBERS,...RO5_MATH_FRACTIONS,...RO5_MATH_GEOMETRY,...RO5_MATH_CORE_GAPS
 ]);
 export const RO5_MATH_UNITS=Object.freeze([
  {id:'natural',title:'Numere naturale și operații',topic:'algebra'},
