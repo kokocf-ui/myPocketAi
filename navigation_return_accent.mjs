@@ -133,6 +133,43 @@ button.pocket-nav-return:focus-visible{outline:3px solid #ffd6e0!important;outli
  transform:translateY(2px);
  box-shadow:inset 0 2px 0 #ffffff14,0 2px 0 #041925!important;
 }
+/* Global navigation contract: Home is available in the bottom dock,
+   so never make a second top Home sit where people expect Back. Keep
+   the original click handler on the extracted Back and pin it right. */
+#view-module.learning-active .module-actions-row.pocket-inline-nav > button.module-home-btn,
+#view-module.my-documents-active .module-actions-row.pocket-docs-nav > button.module-home-btn,
+#view-module .module-actions-row > button.module-home-btn{
+ display:none!important;
+}
+#view-module.learning-active .module-actions-row.pocket-inline-nav,
+#view-module.my-documents-active .module-actions-row.pocket-docs-nav{
+ justify-content:flex-end!important;
+}
+#view-module.learning-active .module-actions-row.pocket-inline-nav > .pocket-inline-back,
+#view-module.my-documents-active .module-actions-row.pocket-docs-nav > .pocket-docs-back{
+ margin-left:auto!important;flex:0 0 min(45%,240px)!important;
+ width:min(45%,240px)!important;max-width:240px!important;
+}
+#view-module.learning-active .education-toolbar button.pocket-nav-return{
+ margin-left:auto!important;
+}
+.education-paged-dialog .education-theory-head > button.pocket-nav-return{
+ order:99!important;margin-left:auto!important;
+}
+#moduleQuickLayer .module-quick-header button.pocket-nav-return{
+ order:99!important;margin-left:auto!important;
+}
+/* When a draggable scrollbar is already drawn, the native WebView bar
+   must be invisible. This does NOT disable swiping, scrolling, or keyboard. */
+#view-module.learning-science .science-choice-list,
+#view-module.my-documents-active .my-documents-list{
+ scrollbar-width:none!important;
+}
+#view-module.learning-science .science-choice-list::-webkit-scrollbar,
+#view-module.my-documents-active .my-documents-list::-webkit-scrollbar{
+ width:0!important;height:0!important;display:none!important;
+}
+
 /* Only the map closing action was still bright red. The map's Back action
    keeps the previously working navigation rule. */
 .route-map-header > button.route-header-action:last-child{

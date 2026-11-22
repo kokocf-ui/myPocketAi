@@ -255,7 +255,7 @@ export const CHEMISTRY_STUDY_CONCEPTS=Object.freeze({
   }
 });
 export function chemistrySchoolCourseDocuments({topic='',country='',grade='',stage='lower',
- yearPosition=0,yearCount=1,language='ro',lessons=[]}={}){
+ yearPosition=null,yearCount=1,language='ro',lessons=[]}={}){
  const item=CHEMISTRY_STUDY_CONCEPTS[topic];if(!item)return [];
  const ro=language==='ro';
  const label=(a,b)=>ro?a:b;
@@ -280,6 +280,189 @@ export function chemistrySchoolCourseDocuments({topic='',country='',grade='',sta
   zone==='foundation'?label('interpretează și compară','interpret and compare'):
    label('modelează și verifică experimental','model and validate evidence');
  const paragraphs=(...parts)=>parts.filter(Boolean).join('\n\n');
+ // Stage- and year-specific authored instructional targets. A common broad
+ // chemical concept is revisited at progressively higher difficulty, not
+ // relabelled as the same worksheet in every national school year. These are
+ // original teaching examples; country/year labels do NOT certify local
+ // statutory syllabus order. Text stays bilingual as an explicit fallback.
+ const annualFocus={
+ fundamentals:[
+  ['Deosebește obiectele de materialele lor și descrie trei proprietăți observabile fără a gusta sau încălzi probele.',
+   'Pentru două obiecte, calculează densitatea din masă și volum. Verifică unitățile și precizează dacă este un obiect gol ori omogen.',
+   'Alege filtrarea, decantarea sau evaporarea pentru două amestecuri; compară proprietatea folosită și pierderile posibile.',
+   'Planifică separarea unui amestec cu trei componente. Construiește bilanțul masei, explică randamentul și sursele de eroare.'],
+  ['Distinguish an object from its material and identify three observable properties without tasting or heating samples.',
+   'Calculate density from mass and volume for two objects. Check units and consider whether either object is hollow or nonuniform.',
+   'Select filtration, decantation or evaporation for two mixtures and compare the exploited property and possible losses.',
+   'Design a three-component mixture separation, account for recovered mass and discuss recovery efficiency and measurement bias.']],
+ atomic:[
+  ['Distinge atomul, molecula și ionul folosind modele cu etichete pentru protoni, neutroni și electroni.',
+   'Folosind Z și A, deduce numerele protonilor și neutronilor pentru doi izotopi și diferențiază un atom neutru de ion.',
+   'Compară configurațiile electronice ale elementelor ușoare și explică de ce modelul straturilor este o aproximare.',
+   'Analizează dovezile experimentale ale modelului atomic, compară modele succesive și explică limitele lor.'],
+  ['Distinguish atom, molecule and ion using labelled models of protons, neutrons and electrons.',
+   'Given Z and A, calculate proton and neutron counts for two isotopes; distinguish neutral atoms from ions.',
+   'Compare electron configurations of light elements and explain why fixed electron-shell diagrams are approximations.',
+   'Evaluate experimental evidence behind atomic models, compare successive models and explain their limitations.']],
+ periodic:[
+  ['Găsește în tabel numărul atomic și simbolul a trei elemente, fără a deduce proprietăți inexistente.',
+   'Compară două elemente din aceeași grupă și unul din altă grupă; explică rolul electronilor de valență.',
+   'Descrie o tendință periodică și arată cel puțin o limitare sau excepție a unui model simplu.',
+   'Justifică periodicitatea folosind configurații electronice și separă predicțiile calitative de datele măsurate.'],
+  ['Locate atomic numbers and symbols of three elements in the periodic table without inventing properties.',
+   'Compare two elements from one group and one from another; relate similarities to valence electrons.',
+   'Describe a periodic trend and explain at least one exception to a simplified model.',
+   'Use electron configurations to justify periodicity and separate qualitative predictions from observed data.']],
+ bonding:[
+  ['Distinge amestecul de compus și construiește cu bile modele simple pentru H₂O și NaCl.',
+   'Compară atracția ionică cu partajarea electronilor într-o legătură covalentă; verifică neutralitatea formulelor.',
+   'Explică diferențe de conductivitate și topire folosind structuri metalice, ionice și moleculare.',
+   'Folosește polaritatea, geometria și forțele intermoleculare pentru a explica proprietăți; indică limitele modelului cu bile.'],
+  ['Distinguish compounds from mixtures using simple labelled models of H₂O and NaCl.',
+   'Compare ionic attraction with shared electron density; verify charge balance in ionic formula units.',
+   'Explain conductivity and melting differences using metallic, ionic and molecular structure.',
+   'Use polarity, molecular geometry and intermolecular forces to explain properties and the limits of ball-and-stick models.']],
+ reactions:[
+  ['Separă observația unei schimbări fizice de indiciile unei reacții chimice, fără experimente cu reactivi necunoscuți.',
+   'Echilibrează ecuații simple numărând atomii; schimbă coeficienții, nu indicii din formule.',
+   'Calculează mase sau cantități de substanță într-o reacție echilibrată și identifică reactantul limitant.',
+   'Compară randamentul teoretic cu cel real, explică pierderile și interpretarea energetică a reacției.'],
+  ['Distinguish evidence of chemical reaction from physical change without mixing unknown substances.',
+   'Balance simple equations by counting atoms; change coefficients, never subscripts in formulas.',
+   'Use a balanced equation for mass or mole calculations and identify a limiting reactant.',
+   'Compare theoretical and actual yield, explain losses and interpret the reaction energy profile.']],
+ inorganic:[
+  ['Recunoaște oxizi, săruri, acizi și baze din formule și denumiri uzuale, fără a manipula produse concentrate.',
+   'Scrie formule folosind valențe și sarcini ionice; explică de ce neutralitatea este necesară.',
+   'Compară clase de compuși prin reacții reprezentative și verifică balanța atomilor.',
+   'Prezice produșii în condiții definite, discută solubilitatea, starea substanțelor și limitele regulilor de clasificare.'],
+  ['Identify oxides, salts, acids and bases from common names and formulas without handling concentrated products.',
+   'Construct formulas from ionic charges and explain why bulk compounds are electrically neutral.',
+   'Compare inorganic classes using representative, atom-balanced equations.',
+   'Predict products under stated conditions and discuss solubility, phase and limits of simple classification rules.']],
+ solutions:[
+  ['Distingem dizolvarea de dispariția substanței și observăm un amestec omogen folosind sare alimentară și apă.',
+   'Calculează procentul masic pentru o soluție din masa solutului și masa totală; nu confunda masa solventului cu cea a soluției.',
+   'Compară concentrația și solubilitatea la temperaturi diferite cu un grafic construit din date oferite.',
+   'Planifică diluții și bilanțuri de masă; justifică de ce relațiile simple pot eșua la variații mari de volum.'],
+  ['Distinguish dissolving from disappearing matter using safe food-grade salt and water.',
+   'Calculate mass percentage from solute mass and total solution mass, not solvent mass alone.',
+   'Compare concentration and solubility at different temperatures using supplied plotted data.',
+   'Plan dilutions and mass balances and explain when simple volume-additivity assumptions fail.']],
+ acids:[
+  ['Observă o scală de culori a indicatorului universal dintr-o imagine, fără a gusta sau amesteca produse casnice.',
+   'Interpretează pH-ul ca scară logaritmică și compară două valori, fără a confunda acidul tare cu cel concentrat.',
+   'Echilibrează o neutralizare sigură reprezentată pe hârtie și calculează rapoartele molare.',
+   'Folosește pKa și Henderson–Hasselbalch în condițiile declarate, discutând activitățile și capacitatea tampon.'],
+  ['Interpret a printed universal-indicator colour scale without tasting or mixing household substances.',
+   'Read the logarithmic pH scale and compare two readings; distinguish strong from concentrated acid.',
+   'Balance a paper-model neutralisation and compute the reacting mole ratio.',
+   'Apply pKa and the Henderson–Hasselbalch relation under stated assumptions, discussing activities and buffer capacity.']],
+ organic:[
+  ['Recunoaște carbonul ca element prezent în numeroși compuși și distinge formulele de imaginile moleculelor.',
+   'Identifică grupe funcționale în exemple simple și explică diferența dintre doi izomeri.',
+   'Scrie o reacție organică reprezentativă cu reactanți și produși corecți, fără proceduri periculoase.',
+   'Analizează selectivitate, mecanisme și interpretări spectroscopice folosind numai date sau modele autorizate.'],
+  ['Recognise carbon in a wide range of compounds and distinguish chemical formulas from molecular pictures.',
+   'Identify common functional groups and explain structural isomerism with examples.',
+   'Write representative organic transformations with atom-balanced reactants and products, without hazardous procedures.',
+   'Analyse selectivity, mechanisms and spectroscopy using provided safe educational models or datasets.']],
+ physical:[
+  ['Distinge viteza unei schimbări de cantitatea totală de produs, fără a interpreta temperatura ca reacție în sine.',
+   'Citește un profil energetic al reacției și deosebește energia de activare de schimbarea entalpiei.',
+   'Compară viteze de reacție în două condiții controlate și explică rolul catalizatorului.',
+   'Aplică noțiuni de echilibru și termodinamică chimică în modele delimitate; verifică semnul lui ΔG.'],
+  ['Distinguish how fast a chemical change occurs from the total product formed.',
+   'Read an energy-profile diagram and distinguish activation energy from reaction enthalpy change.',
+   'Compare reaction rates under two controlled conditions and explain catalyst action.',
+   'Use equilibrium and chemical thermodynamics in explicitly bounded models and verify the sign of ΔG.']],
+ electrochem:[
+  ['Identifică în schemă două materiale diferite și un traseu al sarcinilor, fără a folosi alimentare la priză.',
+   'Distinge oxidarea de reducere urmărind electronii într-o reacție echilibrată.',
+   'Compară două celule galvanice modelate și explică semnul polarității și rolul electrolitului.',
+   'Aplică ecuația Nernst doar pentru activități și temperaturi definite și discută limitele modelului ideal.'],
+  ['Identify two dissimilar materials and a charge path in a diagram without using mains electricity.',
+   'Track electrons to distinguish oxidation from reduction in a balanced reaction.',
+   'Compare model galvanic cells and explain electrode polarity and the electrolyte role.',
+   'Apply the Nernst equation with defined activities and temperature and discuss ideal-model limitations.']],
+ analytical:[
+  ['Deosebește culoarea observată de o măsurătoare cu unități și explică de ce un instrument trebuie calibrat.',
+   'Organizează un set de date în tabel și construiește un grafic de calibrare cu axe etichetate.',
+   'Aplică o dreaptă de calibrare pentru a estima o concentrație, discutând erorile de citire.',
+   'Separă precizia, exactitatea, limitele de detecție și cuantificare pe date experimentale publicate.'],
+  ['Distinguish a visible colour observation from a measurement with units and explain calibration.',
+   'Tabulate measurements and build a calibration graph with labelled axes.',
+   'Use a fitted calibration line to estimate concentration and discuss reading uncertainty.',
+   'Distinguish precision, accuracy, detection and quantification limits using provided data.']],
+ biochemistry:[
+  ['Recunoaște glucidele, lipidele și proteinele ca grupe de substanțe din organisme, fără teste medicale.',
+   'Compară rolul unor nutrienți și explică de ce structura moleculei contează.',
+   'Interpretează un grafic simplu de activitate enzimatică în funcție de temperatură, fără a inventa valori.',
+   'Analizează un model Michaelis–Menten și limitele de aplicare; nu interpreta graficul ca diagnostic.'],
+  ['Recognise carbohydrates, lipids and proteins as classes of biological substances without doing medical tests.',
+   'Compare nutrient functions and explain why molecular structure matters.',
+   'Interpret a supplied enzyme-activity curve against temperature without inventing measurements.',
+   'Analyse the Michaelis–Menten model and its conditions without interpreting the curve as a diagnosis.']],
+ advanced:[
+  ['Distinge o explicație chimică bazată pe dovezi de un model ilustrativ care simplifică realitatea.',
+   'Descrie o relație dintre structură, legături și proprietățile substanței folosind date cunoscute.',
+   'Compară predicțiile a două modele și precizează unde fiecare poate produce erori.',
+   'Justifică explicit ecuația și condițiile modelului pentru o problemă de echilibru sau structură cuantică.'],
+  ['Distinguish evidence-based chemical explanation from an illustrative model that simplifies reality.',
+   'Relate structure, bonding and properties using available evidence.',
+   'Compare predictions from two models and explain where each can fail.',
+   'State governing equations and explicit validity conditions for an equilibrium or quantum-structure problem.']]
+ };
+ const localYears={
+  RO:{'7':0,'8':1,'9':0,'10':1,'11':2,'12':3},
+  'GB-ENG':{'Y7':0,'Y8':1,'Y9':2,'Y10':0,'Y11':1,'Y12':2,'Y13':3},
+  FR:{'6e':0,'5e':1,'4e':2,'3e':3},
+  PT:{'7':0,'8':1,'9':2},
+  HU:{'7':0,'8':1},PL:{VII:0,VIII:1},CZ:{'8':0,'9':1}
+ };
+ const parsedGrade=Number((suffix.match(/\d+/)||[])[0]||0);
+ const inferred=localYears[String(country).toUpperCase()]?.[suffix] ??
+  (Number.isFinite(parsedGrade)&&parsedGrade>0?
+   (stage==='upper'?Math.max(0,parsedGrade-9):Math.max(0,parsedGrade-6)):0);
+ const slot=Number.isFinite(Number(yearPosition))&&yearPosition!==null?
+  Math.max(0,Number(yearPosition)):inferred;
+ const step=stage==='primary'?0:Math.min(3,Math.floor(slot));
+ const extendedInvestigations={
+  ro:[
+   'Compară două observații directe și identifică proprietatea chimică sau fizică folosită în clasificare.',
+   'Construiește un tabel cu unități și calculează diferența dintre două condiții controlate.',
+   'Formulează o predicție pentru un al treilea caz și argumentează ce relație o susține.',
+   'Evaluează incertitudinea și separă variația măsurării de limita modelului chimic.',
+   'Compară două metode de cercetare a aceluiași fenomen folosind date furnizate, nu experiment inventat.',
+   'Aplică modelul unui context de mediu și explică dacă o schimbare a variabilei inversează concluzia.',
+   'Construiește o reprezentare etichetată cu simboluri și unități și testează un caz-limită.',
+   'Propune o verificare independentă cu control experimental și criteriu explicit de respingere.'
+  ],
+  en:[
+   'Compare two direct observations and identify the physical or chemical property used to classify them.',
+   'Build a data table with units and calculate the difference between two controlled conditions.',
+   'Predict a third case and justify which chemical relationship supports that prediction.',
+   'Estimate uncertainty and distinguish measurement variation from the limitations of the chemical model.',
+   'Compare two methods of investigating the same phenomenon using supplied data, not fabricated experiments.',
+   'Apply the model to an environmental context and check whether changing one variable reverses the conclusion.',
+   'Create a labelled representation with symbols and units and test a limiting case.',
+   'Design an independent controlled check with an explicit criterion that could falsify the prediction.'
+  ]
+ };
+ const progressiveBase=annualFocus[topic]?.[ro?0:1]?.[step]||'';
+ const yearInvestigation=extendedInvestigations[ro?'ro':'en'][Math.max(0,Math.floor(slot))%8];
+ const progressive=progressiveBase+(yearInvestigation?' '+yearInvestigation:'');
+ const skillTask=label(
+  ['Observă și clasifică, apoi explică în cuvinte ce dovedește comparația.',
+   'Reproduce un exemplu cu date și unități, arătând fiecare transformare.',
+   'Compara două scenarii și indică o variabilă controlată și o limitare a calculelor.',
+   'Evaluează două modele sau seturi de date și susține o concluzie folosind incertitudinea.'][step],
+  ['Observe and classify, then explain the evidence in words.',
+   'Work through an example using data and units with each step shown.',
+   'Compare two scenarios with a control variable and a calculation limitation.',
+   'Evaluate competing models or data sets and justify a conclusion using uncertainty.'][step]
+ );
+
  const docs=[
   {id:topic+'-concept',ro:'1. Concepte și explicații',en:'1. Concepts and explanations',
    text:paragraphs(start,year,origin,levelNote,'1. '+label('Ideea de bază','Core idea'),label(item.conceptRo,item.conceptEn),
@@ -324,6 +507,23 @@ export function chemistrySchoolCourseDocuments({topic='',country='',grade='',sta
     label('Compară predicția și datele, explică neconcordanțele și separă limitele instrumentului de limitele legii chimice. Raportează rezultatul fără a inventa valori lipsă.',
           'Compare prediction with evidence, explain discrepancies and distinguish instrument limits from theory limits. Do not invent missing measurements.'))}
  ];
+ // The four documents must teach a *real annual skill* alongside the core
+ // chapter instead of reopening identical material in every grade.
+ if(progressive){
+  const title=label('Obiectiv specific acestui an','Year-specific learning objective');
+  docs[0].text+='\n\n'+title+'\n'+progressive+'\n\n'+
+   label('Competență verificabilă','Measurable outcome')+'\n'+skillTask;
+  docs[1].text+='\n\n'+title+'\n'+progressive+'\n\n'+
+   label('Aplică relația sau modelul în acest context și justifică dacă formula este potrivită.',
+         'Apply the relation or model to this context and justify its suitability.');
+  docs[2].text+='\n\n'+title+'\n'+progressive+'\n\n'+
+   label('Cerință nouă pentru anul selectat:','New question for this school year:')+'\n'+skillTask;
+  docs[3].text+='\n\n'+title+'\n'+progressive+'\n\n'+
+   label('Investigație adecvată etapei și clasei:','Investigation suited to the stage and year:')+
+   '\n'+skillTask+'\n'+
+   label('Folosește numai simulări, date furnizate sau materiale școlare sigure; nu inventa observații.',
+         'Use only simulations, supplied datasets or safe school materials; never fabricate observations.');
+ }
  // Existing curated subject subtopics are supplementary, not four buttons
  // reopening the same text. Use a different slice for each document and year.
  const eligible=(Array.isArray(lessons)?lessons:[]).filter(e=>

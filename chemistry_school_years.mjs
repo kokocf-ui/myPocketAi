@@ -1,11 +1,12 @@
 // Chemistry teaching progression by country year; only documentary country mappings
 // claim framework alignment. Other country grades retain a labelled advisory plan.
 import {scienceGradeTopicPlan} from './science_grade_progression.mjs';
+import {chemistryCountryGradePlan} from './chemistry_country_alignment.mjs';
 export const CHEMISTRY_GRADE_FRAMEWORKS=Object.freeze({
  RO:{source:'https://www.edu.ro/Ordin_ministru_3393_2017',
    lower:{
-    '7':['fundamentals','solutions','atomic','periodic','bonding','inorganic','acids'],
-    '8':['reactions','inorganic','acids','solutions']
+    '7':['fundamentals','solutions','atomic','periodic','bonding'],
+    '8':['reactions','inorganic','acids','solutions','bonding']
    },noteRo:'Chimie ca disciplină distinctă din clasa a VII-a. Tema și competențele urmează OMEN 3393/2017; ordinea capitolelor poate fi adaptată de profesor.',
      noteEn:'Separate Chemistry begins in Year 7 (Romanian grade VII). Topics follow OMEN 3393/2017; lesson order is the teacher’s choice.'}
 });
@@ -21,6 +22,19 @@ export const CHEMISTRY_UPPER_STUDY_SEQUENCE=Object.freeze([
 export const CHEMISTRY_ENGLAND_KS3='https://www.gov.uk/government/publications/national-curriculum-in-england-science-programmes-of-study/national-curriculum-in-england-science-programmes-of-study';
 export function chemistryGradeTopicPlan({country='',stage='lower',grade='',years=[],topics=[]}={},fallbackPlan=scienceGradeTopicPlan){
  const id=String(grade),known=CHEMISTRY_GRADE_FRAMEWORKS[country]?.[stage]?.[id];
+ if(stage==='lower'){
+  const schoolYears=years.length?years:country==='RO'?
+   ['5','6','7','8'].map(id=>({id})):country==='GB-ENG'?
+   ['Y7','Y8','Y9'].map(id=>({id})):[{id}];
+  const plan=chemistryCountryGradePlan({country,stage,grade:id,years:schoolYears});
+  const registry=new Map(topics.filter(x=>x&&!x.specialty).map(x=>[x.id,x]));
+  return {...plan,
+   status:plan.status==='not-offered'||plan.status==='invalid-selection'?plan.status:
+    country==='RO'?'official-framework-topic-alignment':
+    country==='GB-ENG'?'official-ks3-stage-advisory-sequence':'general-learning',
+   topics:plan.topics.map(key=>registry.get(key)).filter(Boolean),
+   note:country==='GB-ENG'?'Key Stage 3 Chemistry content is verified at stage scope; the chosen yearly lesson order is advisory, NOT statutory by year.':plan.note};
+ }
  if(stage==='upper'){
   const index=country==='RO'&&/^(9|10|11|12)$/.test(id)?Number(id)-9:
    years.findIndex(y=>String(y?.id)===id);
