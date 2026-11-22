@@ -530,7 +530,8 @@ async function litSimpleGenerate(out,status,mode,request,source='',onReady=null,
  }
  // Grade I Romanian basics are authored and instantly available, independent of
  // online inference quotas. These examples are not asserted to be official tests.
- if(localMaterial&&(String(litJourney.grade)==='1'||gradeSpecific||localMaterial.origin==='authored_european_grade')&&mode!=='correction'){
+ if(localMaterial&&(String(litJourney.grade)==='1'||gradeSpecific||
+   ['authored_european_grade','authored_ro_year_specific','authored_university_year'].includes(localMaterial.origin))&&mode!=='correction'){
   try{present(localMaterial.text,true)}finally{
    if(serial===litSimpleSerial){litJourney.busy=false;litSimpleAbort=null}
   }
@@ -547,7 +548,7 @@ async function litSimpleGenerate(out,status,mode,request,source='',onReady=null,
   Number.isInteger(roGrade)&&roGrade>=5&&roGrade<=8?
   ' Address a middle-school pupil directly. Clearly distinguish this grade from earlier years, provide specific relevant explanations, examples, reading questions, and practice. No generic repeated introductory essay about morphology and syntax. ':
   Number.isInteger(roGrade)&&roGrade>=9&&roGrade<=12?
-  ' Address a high-school pupil with mature interpretation and evidence-based argument. Respect the current 2026–2027 curricula: grade 9 follows the new programme, grades 10–12 continue their prior programme. Do not present the same course for every year, nor invent compulsory reading lists. ':'';
+  ' Address a high-school pupil with mature interpretation and evidence-based argument. Respect the current 2026–2027 curricula: grade 9 follows the new programme, grades 10–12 continue their prior programme. Do not present the same course for every year, nor invent compulsory reading lists. Do not suggest Star Wars or Războiul stelelor as a Romanian required reading: it is a movie screenplay novelization, not a verified compulsory book; prefer original illustrations or works the user selects. If an example text is not confirmed by the applicable curriculum, mark it explicitly as optional, never obligatory. ':'';
  const grammarFocus=litJourney.branch==='grammar'&&litJourney.country==='RO'?
   ' This is a Romanian GRAMMAR lesson, not literary history or a literature review. Never introduce an unrelated writer, novel, poem or play as the lesson topic. Use precise grade-appropriate examples from Romanian language. Explain the selected grammar topic, do not choose a literary work for the learner. ':'';
  const prompt=(isHungarianAdmission?'You are a Hungarian school admission tutor for language, mathematics and transfer. Write in ':'You are an experienced language and literature teacher. Write in ')+language+
