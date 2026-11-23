@@ -90,7 +90,12 @@ export function bulkMathNationalProfile({country,stage,grade,years=[],topics=[]}
   code==='IE'&&grade==='TY'?' Transition Year este o perioadă de explorare, nu o materie anuală unică.':
   code==='PL'?' Doar clasele I și IV intră în noua reformă 2026/27; celelalte clase nu sunt reformate retroactiv.':
   '';
- const units=topics.map(([id,ro,en])=>({id,ro,en,native:p.nativeTopics[id]||en,
+ const english={arithmetic:'Numbers and calculation',geometry:'Geometry',measurement:'Measurement',
+  statistics:'Statistics and probability',algebra:'Algebra and equations',
+  functions:'Functions and graphs',trigonometry:'Trigonometry',analysis:'Mathematical analysis',
+  'linear-algebra':'Linear algebra',discrete:'Discrete mathematics',differential:'Differential equations'};
+ const units=topics.map(([id,ro,en])=>({id,ro,en:en||english[id]||ro,
+  native:p.nativeTopics[id]||en||english[id]||ro,
   nativeLang:p.lang,focus:'',countryFrameworkSpecific:true,countrySpecific:false,
   curriculumCompletion:'unverified-advisory',curriculumSource:source}));
  return {country:code,stage:st,grade,source,note:p.note+additional+
