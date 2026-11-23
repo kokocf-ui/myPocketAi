@@ -407,6 +407,7 @@ jobs:
           node tests_education_reader_documents_regression.mjs
           node tests_pdf_library.mjs
           # Validate annual maths course depth and live chapter inventory before signing.
+          node tests_math_europe_country_alignment_2026.mjs
           node tests_math_all_countries_2026.mjs
           node tests_math_depth_courses.mjs
           node tests_math_england_y6.mjs
