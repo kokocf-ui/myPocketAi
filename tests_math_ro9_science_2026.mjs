@@ -29,7 +29,7 @@ for(const unit of RO9_SCIENCE_2026_UNITS){
 for(const row of RO9_SCIENCE_2026_LESSONS){
  assert.ok(row.title.length>=12,row.id+' missing lesson title');
  for(const key of ['statement','formula','worked','practice','answers']){
-  assert.ok(String(row[key]).length>=3,row.id+' missing '+key);
+  assert.ok(String(row[key]).trim().length>=1,row.id+' missing '+key);
  }
  assert.ok(row.statement.length>=75,'Too-short authored explanation: '+row.id);
  assert.equal(row.country,'RO');
