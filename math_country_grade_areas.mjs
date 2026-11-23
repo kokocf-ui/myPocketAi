@@ -7,6 +7,7 @@ import {PL_CLASS4_2026_SOURCES,polandClass4Lessons} from './math_poland_class4_2
 import {mathUpperCohortGuidance} from './math_ro_upper_cohort_policy.mjs';
 import {mathCountryYearSequence,mathCountryPhasePlan,mathCountryEvidence} from './math_country_year_alignment_2026.mjs';
 import {franceGrade5eLessons} from './math_france_5e_2026.mjs';
+import {hungaryGrade5Lessons,HUNGARY_GRADE5_SOURCES} from './math_hungary_grade5_2026.mjs';
 import {ITALY_MATH_YEARS,italyMathGradeProfile} from './math_italy_framework_2026.mjs';
 import {SPAIN_MATH_YEARS,spainMathGradeProfile} from './math_spain_lomloe_2026.mjs';
 import {bulkMathYearLabels,bulkMathNationalProfile} from './math_europe_batch_2026.mjs';
@@ -117,6 +118,19 @@ export function mathCountryGradeAreas({country,stage,grade,years}={}){
      curriculumSource:native.source,manualExample:null
     }))};
   }
+ }
+ if(country==='HU'&&st==='lower'&&String(grade)==='5'){
+  const topics=[['algebra','Numere, operații și fracții','Numbers and fractions'],
+   ['geometry','Geometrie și măsurători','Geometry and measurement'],
+   ['statistics','Date și diagrame','Data and charts']];
+  return {status:'general-learning',country,stage:st,grade,
+   source:HUNGARY_GRADE5_SOURCES.curriculum,manualExample:HUNGARY_GRADE5_SOURCES.manual,
+   note:'Ungaria, clasa 5, NAT 2020: lecții originale orientate după domeniile programei și manualul OH-MAT05TA. Sunt materiale suplimentare; comparația exhaustivă cu toate capitolele, competențele și evaluările anuale nu este finalizată.',
+   units:topics.map(([id,ro,en])=>({id,ro,en,focus:'',countrySpecific:true,
+    lessonCount:hungaryGrade5Lessons(id).length,
+    curriculumCompletion:'partial-source-review',
+    curriculumSource:HUNGARY_GRADE5_SOURCES.curriculum,
+    manualExample:HUNGARY_GRADE5_SOURCES.manual}))};
  }
  if(country==='PL'&&st==='lower'&&String(grade)==='IV'){
   const branches=[
