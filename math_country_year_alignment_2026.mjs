@@ -37,6 +37,14 @@ export const MATH_EUROPE_SOURCE_REGISTRY=Object.freeze({
   curriculum:'https://www.gov.uk/government/publications/national-curriculum-in-england-mathematics-programmes-of-study',
   note:'Anglia: programele primare au obiective pe ani; KS3/KS4 nu prescriu aceeași ordine de lecții la toate școlile.'
  },
+ NL:{
+  curriculum:'https://www.slo.nl/kerndoelen/',
+  note:'Țările de Jos: în Groep 1–2 Matematica este exploratorie (numărare, forme, măsurări), nu algebră formală. Obiectivele SLO 2025 nu sunt un cuprins pe fiecare clasă; în VMBO/HAVO/VWO diferențele sunt esențiale.'
+ },
+ IE:{
+  curriculum:'https://curriculumonline.ie/repository/primary-subjects/mathematics/',
+  note:'Irlanda: Junior și Senior Infants învață numere, forme și măsurare prin activități potrivite vârstei. Junior Cycle are trei ani; Leaving Certificate diferă după nivel și calificare.'
+ },
  RO:{
   curriculum:'https://www.edu.ro/Ordin_ministru_3393_2017',
   note:'România: păstrează fără intervenții lecțiile deja lucrate pe clase și regulile de cohortă.'
