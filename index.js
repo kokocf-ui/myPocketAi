@@ -3832,7 +3832,7 @@ const pocketLanguageFromCountry=${pocketLanguageFromCountry.toString()};
 const pocketPreferredLanguage=${pocketPreferredLanguage.toString()};
 
 function loadSavedLocation(){try{const v=JSON.parse(sessionStorage.getItem('mypocketai_last_location')||'null');if(v&&Number.isFinite(v.latitude)&&Number.isFinite(v.longitude)&&Math.abs(v.latitude)<=90&&Math.abs(v.longitude)<=180&&Number.isFinite(v.updatedAt)&&Date.now()-v.updatedAt>=0&&Date.now()-v.updatedAt<=600000)return v}catch{}return null}
-function saveLocation(coords){if(!coords||!Number.isFinite(coords.latitude)||!Number.isFinite(coords.longitude)||Math.abs(coords.latitude)>90||Math.abs(coords.longitude)>180)return;state.location={latitude:coords.latitude,longitude:coords.longitude,accuracy:Number.isFinite(coords.accuracy)?coords.accuracy:null,updatedAt:Date.now()};try{sessionStorage.setItem('mypocketai_last_location',JSON.stringify(state.location))}catch{}}
+function saveLocation(coords){if(!coords||!Number.isFinite(coords.latitude)||!Number.isFinite(coords.longitude)||Math.abs(coords.latitude)>90||Math.abs(coords.longitude)>180)return;if(state.location&&Number.isFinite(state.location.updatedAt)&&state.location.updatedAt>(Number.isFinite(coords.updatedAt)&&coords.updatedAt>0?coords.updatedAt:Date.now()))return;state.location={latitude:coords.latitude,longitude:coords.longitude,accuracy:Number.isFinite(coords.accuracy)?coords.accuracy:null,updatedAt:Number.isFinite(coords.updatedAt)&&coords.updatedAt>0&&coords.updatedAt<=Date.now()+1000?coords.updatedAt:Date.now()};try{sessionStorage.setItem('mypocketai_last_location',JSON.stringify(state.location))}catch{}}
 const state = { moduleSearchScrollTop:0,moduleSearchBodyScrollTop:0,location:loadSavedLocation(), locationWatchId:null, locationStarted:false, currentView:'home', currentModule:'assistant', language:'ro', conversationGeneration:0, busy:false, voiceMode:false, dictationMode:false, recognition:null, speaking:false, voiceParts:[], voiceInterim:'', voiceSilenceTimer:null, voicePendingSubmit:false, lastReply:'', history:[], messages:[], avatarTimer:null, noticeTimer:null, moduleSearchBusy:false, moduleSearchGeneration:0, moduleSearchResults:[], moduleSearchCategory:null, moduleSearchReply:'', moduleSearchReturnMode:'list',transitRefreshBusy:false,transitRefreshGeneration:0,transitRefreshAbort:null };
 const $ = id => document.getElementById(id);
  // Read the actual Android package version from the installed APK, not Cloudflare.
@@ -23913,14 +23913,14 @@ function cachedCoordinates(){
 function startSharedLocation(){
  if(state.locationStarted)return;state.locationStarted=true;if(!navigator.geolocation)return;
  getCurrentCoordinates(true).catch(()=>{});
- state.locationWatchId=navigator.geolocation.watchPosition(pos=>saveLocation({latitude:pos.coords.latitude,longitude:pos.coords.longitude,accuracy:pos.coords.accuracy}),err=>{if(err.code===1)forgetSharedLocation();console.info('GPS update unavailable',err.code)},{enableHighAccuracy:true,timeout:15000,maximumAge:30000});
+ state.locationWatchId=navigator.geolocation.watchPosition(pos=>saveLocation({latitude:pos.coords.latitude,longitude:pos.coords.longitude,accuracy:pos.coords.accuracy,updatedAt:pos.timestamp}),err=>{if(err.code===1)forgetSharedLocation();console.info('GPS update unavailable',err.code)},{enableHighAccuracy:true,timeout:15000,maximumAge:30000});
 }
 window.addEventListener('pocketandroidlocation',event=>{
  if(!event.detail?.granted){setStatus('Localizarea Android nu este permisă. Traseele pot necesita activarea GPS.');return}
  getCurrentCoordinates(true).catch(()=>{});
  if(state.locationWatchId!=null&&navigator.geolocation)navigator.geolocation.clearWatch(state.locationWatchId);
  if(navigator.geolocation)state.locationWatchId=navigator.geolocation.watchPosition(
-  pos=>saveLocation({latitude:pos.coords.latitude,longitude:pos.coords.longitude,accuracy:pos.coords.accuracy}),
+  pos=>saveLocation({latitude:pos.coords.latitude,longitude:pos.coords.longitude,accuracy:pos.coords.accuracy,updatedAt:pos.timestamp}),
   err=>{if(err.code===1)forgetSharedLocation();console.info('GPS update unavailable',err.code)},
   {enableHighAccuracy:true,timeout:15000,maximumAge:30000});
 });
@@ -23930,8 +23930,8 @@ async function getCurrentCoordinates(forceRefresh=false){
  if(!navigator.geolocation)throw new Error('GPS unavailable');
  state.locationPromise=new Promise((resolve,reject)=>navigator.geolocation.getCurrentPosition(pos=>{
   const c=pos?.coords;if(!c||!Number.isFinite(c.latitude)||!Number.isFinite(c.longitude)||Math.abs(c.latitude)>90||Math.abs(c.longitude)>180){reject(new Error('Invalid GPS coordinates'));return}
-  saveLocation({latitude:c.latitude,longitude:c.longitude,accuracy:c.accuracy});resolve(cachedCoordinates());
- },err=>{if(err.code===1)forgetSharedLocation();reject(locationErrorMessage(err))},{enableHighAccuracy:true,timeout:8000,maximumAge:30000})).finally(()=>{state.locationPromise=null});
+  saveLocation({latitude:c.latitude,longitude:c.longitude,accuracy:c.accuracy,updatedAt:pos.timestamp});resolve(cachedCoordinates());
+ },err=>{if(err.code===1)forgetSharedLocation();reject(locationErrorMessage(err))},{enableHighAccuracy:true,timeout:8000,maximumAge:forceRefresh?0:30000})).finally(()=>{state.locationPromise=null});
  return state.locationPromise;
 }
 function isRecipeQuestion(text){
@@ -23969,7 +23969,8 @@ function isEvaConversationClient(value){
  if(/^(?:buna|salut|hei|hello|hey|hi|neata|good morning|multumesc|mersi|merci|thanks|thank you|la revedere|bye)\\b/.test(t))return true;
  if(/\\b(?:cum te cheama|cine esti|cum te numesti|ce fel de asistenta esti|who are you|what s your name)\\b/.test(t))return true;
  if(/^(?:nu prea m ai convins|parca vorbesti|fii mai naturala|incearca sa fii|si daca ma supar|daca ma supar|despre ce te am tachinat|ce am discutat mai devreme|ma contrazici|esti (?:cam )?(?:proasta|obraznica|nesimtita)|glumeam|glumesc)\\b/.test(core))return true;
- return /^(?:(?:buna|salut|hei|hello)\\s+)?(?:eva|evo)\\b/.test(t)
+ if(/\b(?:unde ma aflu|unde ma gasesc|unde sunt acum|pe ce strada|adresa mea|where am i|what street am i on)\b/.test(core))return false;
+  return /^(?:(?:buna|salut|hei|hello)\\s+)?(?:eva|evo)\\b/.test(t)
   &&!/\\b(?:traseu|ruta|tren|gara|station|underground|hotel\\w*|restaurant\\w*|farmaci\\w*|pharmacy)\\b/.test(core)
   &&/\\b(?:esti|te|tine|tie|ma|mi|m ai|mi ai|ai|iti|tachinat|contrazici|supar|impaci|obraznica|gluma|frumoaso|natural|prostie|vorbesti|your|you)\\b/.test(core);
 }
@@ -24004,14 +24005,15 @@ function requestUsesLocation(text){
 }
 async function coordinatesForRequest(text){
  const locationIntent=!isRecipeQuestion(text)&&!isCasualConversationReply(text)&&!isEvaConversationClient(text)&&(Boolean(state.pendingTravelMode)||requestUsesLocation(text)),cached=cachedCoordinates();
+  const selfQuery=/(?:unde ma aflu|unde ma gasesc|unde sunt(?: acum)?|pe ce strada|adresa mea|where am i|what street am i on|my current location)/i.test(String(text||'').normalize('NFD').replace(/[\u0300-\u036f]/g,''));
  if(!locationIntent)return {coordinates:cached,locationIntent:false,error:null};
- if(cached&&cached.age_ms<=30000)return {coordinates:cached,locationIntent:true,error:null};
+ if(cached&&cached.age_ms<=(selfQuery?10000:30000))return {coordinates:cached,locationIntent:true,error:null};
  let timer;try{
-  const coordinates=await Promise.race([getCurrentCoordinates(true),new Promise((_,reject)=>{timer=setTimeout(()=>reject(new Error('GPS pending')),5000)})]);
+  const coordinates=await Promise.race([getCurrentCoordinates(true),new Promise((_,reject)=>{timer=setTimeout(()=>reject(new Error('GPS pending')),8500)})]);
   return {coordinates,locationIntent:true,error:null};
- }catch(error){return {coordinates:cachedCoordinates(),locationIntent:true,error:String(error.message||error)}}finally{clearTimeout(timer)}
+ }catch(error){const fallback=cachedCoordinates();return {coordinates:selfQuery&&(!fallback||fallback.age_ms>30000)?null:fallback,locationIntent:true,error:String(error.message||error)}}finally{clearTimeout(timer)}
 }
-function needsLocation(text){return /(unde sunt|localiz\\w*|geolocaliz\\w*|locatia mea|in jurul meu|in apropiere|in apropierea mea|in zona mea|pe langa mine|aproape de mine|near me|nearby|around me|around here|near here|close to me|my location)/i.test(String(text||'').normalize('NFD').replace(/[\u0300-\u036f]/g,''));}
+function needsLocation(text){return /(unde sunt|unde ma aflu|unde ma gasesc|pe ce strada|adresa mea|where am i|what street am i on|localiz\\w*|geolocaliz\\w*|locatia mea|in jurul meu|in apropiere|in apropierea mea|in zona mea|pe langa mine|aproape de mine|near me|nearby|around me|around here|near here|close to me|my location)/i.test(String(text||'').normalize('NFD').replace(/[\u0300-\u036f]/g,''));}
 // 07 — Chat transport. Voice errors never convert a successful API response into request failure.
 // A requested count survives an Assistant → transport chooser handoff.
 function requestedTransitCountInMessage(value){
