@@ -2,6 +2,7 @@ import {mathInDepthEntries,mathCountryCourseEntries} from './math_depth_courses.
 import {ro5TopicLessons,RO5_MATH_UNITS} from './math_ro5_curriculum.mjs';
 import {ro678TopicLessons,ro678GradeSummary} from './math_ro678_curriculum.mjs';
 import {ENGLAND_Y6_MATH_LESSONS} from './math_england_y6_curriculum.mjs';
+import {ENGLAND_Y34_REFERENCE,englandY34TopicLessons} from './math_england_year3_year4_2026.mjs';
 import {mathUpperCohortGuidance} from './math_ro_upper_cohort_policy.mjs';
 import {mathCountryYearSequence,mathCountryPhasePlan,mathCountryEvidence} from './math_country_year_alignment_2026.mjs';
 import {franceGrade5eLessons} from './math_france_5e_2026.mjs';
@@ -105,6 +106,27 @@ export function mathCountryGradeAreas({country,stage,grade,years}={}){
      curriculumSource:native.source,manualExample:null
     }))};
   }
+ }
+ if(country==='GB-ENG'&&st==='beginner'&&['Y3','Y4'].includes(String(grade))){
+  const g=String(grade);
+  const areas=[
+   ['arithmetic','Numere, operații și fracții','Number, calculation and fractions'],
+   ['measurement','Măsurători, timp și bani','Measurement, time and money'],
+   ['geometry','Geometrie și reprezentări','Geometry and shapes'],
+   ['statistics','Date, tabele și diagrame','Statistics and data']
+  ];
+  return {status:'general-learning',country,stage:st,grade,
+   source:ENGLAND_Y34_REFERENCE.dfe,
+   externalUnitSequence:g==='Y3'?ENGLAND_Y34_REFERENCE.oak3:ENGLAND_Y34_REFERENCE.oak4,
+   manualExample:null,
+   note:'Anglia, '+g+', curriculum DfE pe ani și secvențele independente Oak National Academy. Lecții originale cu teorie, model pas cu pas și exercițiu, organizate în cele patru domenii. Școala poate schimba repartizarea în KS2; nu reproduce un manual și nu certifică o programă anuală exhaustivă.',
+   units:areas.map(([id,ro,en])=>({
+    id,ro,en,focus:'',countrySpecific:true,
+    lessonCount:englandY34TopicLessons(g,id).length,
+    curriculumCompletion:'partial-source-review',
+    curriculumSource:ENGLAND_Y34_REFERENCE.dfe,
+    externalUnitSequence:g==='Y3'?ENGLAND_Y34_REFERENCE.oak3:ENGLAND_Y34_REFERENCE.oak4
+   }))};
  }
  if(country==='PT'&&st==='lower'&&['5','6'].includes(String(grade))){
   // Official DGE 2026 references are per grade; Year 5 and Year 6 must not
