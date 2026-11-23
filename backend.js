@@ -5997,10 +5997,10 @@ export default {
     const earlyFoodSearchIntent = Boolean(activePlaceRequest)&&!culinaryRequest.isRecipe&&!nonPlaceFeedback;
     const locationIntentText = message.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
       .toLowerCase().replace(/[șş]/g, "s").replace(/[țţ]/g, "t");
-    const locationIntent = /(?:\b(localiz\w*|locația mea|locatia mea|locația actuală|locatia actuala|locație actuală|locatie actuala|gps|coordonate|identifică locația|identifica locatia|where am i|locate me|my location|current location|current position|nearest station|closest station|nearest train station|closest train station|nearest railway station|cea mai apropiata gara|gara cea mai apropiata|cea mai apropiata statie)\b)/i.test(locationIntentText);
+    const locationIntent = /(?:\b(localiz\w*|locația mea|locatia mea|locația actuală|locatia actuala|locație actuală|locatie actuala|gps|coordonate|identifică locația|identifica locatia|where am i|unde ma aflu|unde ma gasesc|unde sunt acum|where exactly am i|locate me|my location|current location|current position|nearest station|closest station|nearest train station|closest train station|nearest railway station|cea mai apropiata gara|gara cea mai apropiata|cea mai apropiata statie)\b)/i.test(locationIntentText);
     // v96: do not treat the word "road" in unrelated topics (for example "road tax") as a street lookup.
     // Require an explicit request for a street/road name or nearby roads.
-    const streetIntent = /(?:\b(strada|străzi|strazi|străzile|strazile|străzii|strazii|străzi din jur|strazi din jur|strada din apropiere|străzi din apropiere|ce stradă|ce strada|numele străzii|numele strazii|street|streets|nearest street|nearby streets|what street|which street|nearest road|nearby roads|what road|which road|road name|street name)\b|\b(in jurul meu|în jurul meu|in apropiere|near me|around me)\b)/i.test(locationIntentText);
+    const streetIntent = /(?:\b(strada|străzi|strazi|străzile|strazile|străzii|strazii|străzi din jur|strazi din jur|strada din apropiere|străzi din apropiere|ce stradă|ce strada|pe ce strada|ce adresa am|care este adresa mea|numele străzii|numele strazii|street|streets|nearest street|nearby streets|what street|which street|nearest road|nearby roads|what road|which road|road name|street name)\b|\b(in jurul meu|în jurul meu|in apropiere|near me|around me)\b)/i.test(locationIntentText);
     // Location and street questions are answered from map data, not guessed by the language model.
     // Combined restaurant requests continue into local search instead of returning from this branch.
     console.info("Pocket AI v96 intent routing", JSON.stringify({
@@ -6009,6 +6009,8 @@ export default {
       locationPayloadPresent:Boolean(hasValidLocation), timestamp:new Date().toISOString()
     }));
     if ((locationIntent || streetIntent) && !earlyFoodSearchIntent && !culinaryRequest.isRecipe && !nonPlaceFeedback) {
+      // Current-location questions must not use a stale GPS fix from another street.
+      if(!Number.isFinite(gpsTimestamp)||gpsTimestamp<=0||gpsAge>60000)hasValidLocation=false;
       if (!hasValidLocation) {
         console.warn("Pocket AI v96 location diagnostic", JSON.stringify({
           diagnosticId: locationDiagnosticId,
@@ -6028,7 +6030,7 @@ export default {
         // v39: zoom 10 commonly returns only a county (for example, Essex).
         // Use a more detailed reverse lookup, then prefer neighbourhood/locality fields
         // before falling back to a county or region.
-        const reverseZoom = streetIntent ? 17 : 16;
+        const reverseZoom = 18;
         const reverseUrl = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}&zoom=${reverseZoom}&addressdetails=1`;
         const reverseResponse = await fetch(reverseUrl, {
           headers: { "Accept": "application/json", "User-Agent": "PocketAI/47 (location lookup)" },
@@ -6047,30 +6049,40 @@ export default {
         const country = address.country || "";
         const street = address.road || address.pedestrian || address.residential || address.footway || address.path || address.cycleway || "";
         const houseNumber = address.house_number || "";
-        const placeParts = [];
-        if (locality) placeParts.push(locality);
-        if (town && town !== locality) placeParts.push(town);
-        if (!town && !locality && region) placeParts.push(region);
-        if (country && !placeParts.includes(country)) placeParts.push(country);
-        const place = placeParts.join(", ");
-        if (!place && !street) throw new Error("No street or locality returned");
+        const postalCode = address.postcode || '';
+        const accuracyMeters=Number(location?.accuracy);
+        const accuracyKnown=Number.isFinite(accuracyMeters)&&accuracyMeters>0;
+        const numberUsable=accuracyKnown&&accuracyMeters<=75;
+        const placeParts=[];
+        if(locality)placeParts.push(locality);
+        if(town&&town!==locality)placeParts.push(town);
+        if(!town&&!locality&&region)placeParts.push(region);
+        if(country&&!placeParts.includes(country))placeParts.push(country);
+        const place=placeParts.join(', ');
+        if(!place&&!street)throw new Error('No street or locality returned');
+        // Reverse-geocoded house numbers belong to the nearest mapped building, not necessarily the user.
+        const streetLabel=street?(numberUsable&&houseNumber?houseNumber+' '+street:street):'';
+        const addressParts=[streetLabel,...placeParts.filter(x=>x!==country)].filter(Boolean);
+        if(postalCode)addressParts.push(postalCode);
+        if(country)addressParts.push(country);
+        const addressLabel=addressParts.join(', ');
+        const uncertainty=accuracyKnown?(lang==='en'?` Reported GPS accuracy: approximately ${Math.round(accuracyMeters)} metres.`:` Precizia GPS raportată: aproximativ ${Math.round(accuracyMeters)} m.`):'';
         let reply;
-        if (streetIntent && street) {
-          const streetLabel = houseNumber ? `${street} ${houseNumber}` : street;
-          reply = lang === "en"
-            ? `The map identifies your nearest mapped street as ${streetLabel}${place ? `, ${place}` : ""}. This is a reverse-geocoding result, not a guarantee that the GPS point is exactly on that street.`
-            : `Harta identifică strada cartografiată cea mai apropiată ca fiind ${streetLabel}${place ? `, ${place}` : ""}. Este un rezultat de geocodare inversă, nu o garanție că punctul GPS se află exact pe acea stradă.`;
-        } else if (streetIntent) {
-          reply = lang === "en"
-            ? `The map returned the area ${place}, but it did not provide a street name for these coordinates. I cannot reliably list surrounding streets from this result alone.`
-            : `Harta a identificat zona ${place}, dar nu a furnizat numele străzii pentru aceste coordonate. Nu pot enumera în mod fiabil străzile din jur doar din acest rezultat.`;
-        } else {
-          reply = lang === "en"
-            ? `Your approximate location is: ${place || street}. The map service may identify a nearby area rather than your exact position; this is not a verified street address.`
-            : `Locația ta aproximativă este: ${place || street}. Serviciul de hărți poate indica o zonă apropiată, nu poziția exactă; aceasta nu este o adresă stradală verificată.`;
+        if(streetIntent&&street){
+          reply=lang==='en'
+            ? `You are near ${addressLabel}. This is the nearest mapped address, not confirmation of an exact building.${uncertainty}`
+            : `Te afli în apropiere de ${addressLabel}. Este adresa cartografiată apropiată, nu o confirmare a clădirii exacte.${uncertainty}`;
+        }else if(streetIntent){
+          reply=lang==='en'
+            ? `I identified the approximate area ${place}, but the map did not provide a reliable street name.${uncertainty}`
+            : `Am identificat zona aproximativă ${place}, dar harta nu a furnizat un nume de stradă sigur.${uncertainty}`;
+        }else{
+          reply=lang==='en'
+            ? `Your location is approximately ${addressLabel}. This is a reverse-geocoded nearby address, not a verified building position.${uncertainty}`
+            : `Te afli aproximativ în apropiere de ${addressLabel}. Adresa provine din harta zonei și nu confirmă clădirea exactă.${uncertainty}`;
         }
         console.info("Pocket AI v96 location diagnostic", JSON.stringify({ diagnosticId: locationDiagnosticId, stage: "reverse_geocode_completed", coordinatesValid: hasValidLocation, timestamp: new Date().toISOString() }));
-        return json({ app: "Pocket AI", version: API_VERSION, status: "success", language: lang, message_received: message, reply, location_received: true, street: street || null, house_number: houseNumber || null, area: place || null, reverse_geocode_ok: true, source: "OpenStreetMap Nominatim", ai_connected: Boolean(env.AI) });
+        return json({ app: "Pocket AI", version: API_VERSION, status: "success", language: lang, message_received: message, reply, location_received: true, street: street || null, house_number: numberUsable ? houseNumber || null : null, postcode: postalCode || null, gps_accuracy_m: accuracyKnown ? Math.round(accuracyMeters) : null, area: place || null, reverse_geocode_ok: true, source: "OpenStreetMap Nominatim", ai_connected: Boolean(env.AI) });
       } catch (reverseError) {
         console.warn("Pocket AI v96 reverse geocoding failed", JSON.stringify({ stage: "reverse_geocode_error", errorName: reverseError && reverseError.name ? String(reverseError.name) : "UnknownError" }));
         const reply = lang === "en"
