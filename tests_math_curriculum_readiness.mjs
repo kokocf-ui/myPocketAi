@@ -8,7 +8,7 @@ assert.equal(audit.readiness,'incomplete');
 assert.ok(audit.rows.every(x=>x.blockers.length>0));
 assert.equal(audit.yearSpecificCandidates,4,'Only four Romanian grade V–VIII source-reviewed annual outlines, not fully approved');
 assert.equal(audit.partialSourceReviews,7,'Romania grade IX science TC+CS plus Poland IV and England Y3/Y4, Y6 and KS4 Y10/Y11 are source mapped but not independently complete');
-const ro9=audit.rows.find(x=>x.country==='RO'&&x.stage==='medium'&&x.grade==='9');
+const ro9=audit.rows.find(x=>x.country==='RO'&&x.stage==='medium'&&x.grade==='9-SCI');
 assert.equal(ro9?.scope,'source-unit-reviewed-track-specific');
 assert.equal(ro9?.lessonCount,35);
 assert.equal(ro9?.units,4);
@@ -35,7 +35,7 @@ assert.ok(audit.rows.filter(x=>x.country==='RO'&&x.stage==='lower'&&['5','6','7'
 assert.ok(audit.rows.find(x=>x.country==='GB-ENG'&&x.stage==='beginner'&&x.grade==='Y6')
  ?.scope==='partial-year-source-review','England Year 6 is an incomplete statutory mapping');
 assert.ok(audit.rows.filter(x=>!(x.country==='RO'&&x.stage==='lower'&&['5','6','7','8'].includes(x.grade))&&
- !(x.country==='RO'&&x.stage==='medium'&&x.grade==='9')&&
+ !(x.country==='RO'&&x.stage==='medium'&&x.grade==='9-SCI')&&
  !(x.country==='PL'&&x.stage==='lower'&&x.grade==='IV')&&
  !(x.country==='GB-ENG'&&x.stage==='beginner'&&['Y3','Y4','Y6'].includes(x.grade))&&
  !(x.country==='GB-ENG'&&x.stage==='medium'&&['Y10','Y11'].includes(x.grade)))
