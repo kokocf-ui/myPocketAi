@@ -270,14 +270,23 @@ export function mathCountryCourseEntries({country,stage,grade,phase,phases,topic
   return (RO678_MATH_LESSONS[String(grade)]||[]).filter(item=>item.topic===topic);
  const selected=Array.isArray(phases)&&phases.length?phases:[phase];
  const valid=[...new Set(selected.map(Number).filter(p=>Number.isInteger(p)&&p>=1&&p<=6))];
+ const decoupledPackLessons=typeof eduPackTopicLessons==='function'
+  ?eduPackTopicLessons('mathematics',country,grade,topic):[];
  const localSupplement=typeof bulkMathFirstLessons==='function'
   ?bulkMathFirstLessons({country,stage,grade,topic}):[];
  const secondSupplement=typeof secondBatchMathStarterLessons==='function'
   ?secondBatchMathStarterLessons({country,stage,grade,topic}):[];
  const finalSupplement=typeof finalMathStarterLessons==='function'
   ?finalMathStarterLessons({country,stage,grade,topic}):[];
- return [...localSupplement,...secondSupplement,...finalSupplement,
+ const combined=[...decoupledPackLessons,...localSupplement,...secondSupplement,...finalSupplement,
   ...valid.flatMap(p=>mathInDepthEntries({stage,phase:p,topic}))];
+ if(!decoupledPackLessons.length)return combined;
+ const seenIds=new Set();
+ return combined.filter(item=>{
+  const id=item?.id||item?.title;
+  if(!id||seenIds.has(id))return false;
+  seenIds.add(id);return true;
+ });
 }
 export function mathInDepthMaterial(entry){
  if(!entry?.title||!entry?.statement||!entry?.worked)return '';

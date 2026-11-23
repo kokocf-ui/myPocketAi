@@ -27,6 +27,7 @@ import {PRACTICAL_UI_SCRIPT} from './practical_ui.mjs';
 import {EDUCATION_SELECTS_UI_SCRIPT} from './education_selects_ui.mjs';
 import {EDUCATION_SCOPE_UI_SCRIPT} from './education_scope_ui.mjs';
 import {EDUCATION_COUNTRY_UI_SCRIPT} from './education_country_ui.mjs';
+import {curriculumPackAssetPath,normalizeCurriculumPackTuple} from './curriculum_pack_protocol.mjs';
 import {MATH_GCSE_HIGHER_ONLY,mathGcseSelectTier,mathGcseLessonTier} from './math_gcse_tier_policy.mjs';
 import {MATH_DEPTH_STAGES, MATH_DEPTH_EN_LOWER, MATH_DEPTH_EN_UNIVERSITY, RO5_MATH_LESSONS, RO678_MATH_LESSONS, ENGLAND_Y6_MATH_LESSONS, MATH_EARLY_YEAR_BANK, mathEarlyYearEntries, FRANCE_5E_MATH_UNITS, franceGrade5eLessons, mathInDepthEntries, mathInDepthMaterial,mathCountryCourseEntries} from './math_depth_courses.mjs';
 import {EDUCATION_FIRST_USE_NOTICE_SCRIPT} from './education_first_use_notice.mjs';
@@ -8644,7 +8645,10 @@ function scienceJourneyShowChoices(stage){
      tile.onclick=()=>{
       scienceJourney.level=group.level;scienceJourney.schoolStage=group.schoolStage;scienceJourney.grade=year.id;scienceJourney.gradePosition=position;
       scienceJourney.topic=null;scienceJourney.specialty=null;
-      scienceJourneyShowChoices(group.level==='advanced'?'specialties':'topics');
+      const nextStage=group.level==='advanced'?'specialties':'topics';
+      if(typeof eduRunWithCurriculumPack==='function'){
+       eduRunWithCurriculumPack(scienceJourney.subject,educationCountrySelection.code,year.id,()=>scienceJourneyShowChoices(nextStage));
+      }else scienceJourneyShowChoices(nextStage);
      };
      tiles.append(tile);
     }
@@ -14368,7 +14372,10 @@ function hgOpen(stage){
     const btn=hgBtn(hgL(year.ro,year.en),()=>{
      hgJourney.country=country;hgJourney.level=group.level;hgJourney.grade=year.id;
      hgJourney.topic=null;hgJourney.speciality=null;
-     hgOpen(group.level==='advanced'?'specialties':'chapters');
+     const nextStage=group.level==='advanced'?'specialties':'chapters';
+     if(typeof eduRunWithCurriculumPack==='function'){
+      eduRunWithCurriculumPack(hgJourney.subject||'history',country,year.id,()=>hgOpen(nextStage));
+     }else hgOpen(nextStage);
     },'secondary-btn hg-year-tile');
     tiles.append(btn);
    }
@@ -15035,7 +15042,10 @@ function litOpen(stage){
       console.error('literature_grade_track_lookup_failed',error);
     }
     litJourney.track=tracks[0]?.[0]||'TC';
-    litOpen(tracks.length>1?'tracks':litIsRegional()?'regions':'branches')
+    const goLit=()=>litOpen(tracks.length>1?'tracks':litIsRegional()?'regions':'branches');
+    if(typeof eduRunWithCurriculumPack==='function'){
+     eduRunWithCurriculumPack('literature',litJourney.country,c.id,goLit);
+    }else goLit();
    })
  }
  if(stage==='tracks'){
@@ -26197,6 +26207,38 @@ export default {
    }
    try{return await fetch(makeRequest())}
    catch(error){console.warn('Pocket auxiliary endpoint unavailable:',url.pathname,String(error?.name||'error'));return Response.json({status:'error',error:'auxiliary_api_unavailable'},{status:502})}
+  }
+  if (url.pathname === '/api/curriculum-pack') {
+   if(request.method!=='GET')return new Response('Method not allowed',{status:405,headers:{Allow:'GET'}});
+   const secSite=String(request.headers.get('Sec-Fetch-Site')||'').toLowerCase();
+   if(secSite==='cross-site'||request.headers.get('X-Pocket-Client')!=='1'){
+    return Response.json({status:'error',error:'client_required'},{status:403});
+   }
+   const tuple=normalizeCurriculumPackTuple(
+    url.searchParams.get('subject'),
+    url.searchParams.get('country'),
+    url.searchParams.get('grade')
+   );
+   if(!tuple)return Response.json({status:'error',error:'invalid_pack_query'},{status:400});
+   const assetPath=await curriculumPackAssetPath(tuple.subject,tuple.country,tuple.grade);
+   const packHeaders={
+    'Content-Type':'application/json; charset=utf-8',
+    'Cache-Control':'private, max-age=3600, stale-while-revalidate=86400',
+    'X-Content-Type-Options':'nosniff'
+   };
+   if(env?.ASSETS){
+    const assetRes=await env.ASSETS.fetch(new Request(new URL(assetPath,url)));
+    if(assetRes.status===200)return new Response(assetRes.body,{status:200,headers:packHeaders});
+    return Response.json({status:'empty',lessonsByTopic:{}},{status:200,headers:packHeaders});
+   }
+   try{
+    const fsMod=await Function('m','return import(m)')('node:fs/promises');
+    const localUrl=new URL('./public'+assetPath,import.meta.url);
+    const raw=await fsMod.readFile(localUrl,'utf8');
+    return new Response(raw,{status:200,headers:packHeaders});
+   }catch{
+    return Response.json({status:'empty',lessonsByTopic:{}},{status:200,headers:packHeaders});
+   }
   }
   if (url.pathname === '/__ui_version') {
    return new Response(uiVersion(),{headers:{'Content-Type':'text/plain; charset=utf-8','Cache-Control':'no-store'}});

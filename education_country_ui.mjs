@@ -13,11 +13,11 @@ import {MATH_READER_LOCALE_UI_SCRIPT} from './math_reader_locale_ui.mjs';
 import {RO9_SCIENCE_2026_LESSONS} from './math_ro9_science_2026.mjs';
 import {ENGLAND_Y34_LESSONS} from './math_england_year3_year4_2026.mjs';
 import {PL_IV_2026_LESSONS} from './math_poland_class4_2026_lessons.mjs';
-import {HUNGARY_MATH_GRADES,hungaryMathOriginalLessons} from './math_hungary_full_track_2026.mjs';
-import {hungaryGrade5Lessons} from './math_hungary_grade5_2026.mjs';
-import {spainMathOriginalEntries} from './math_spain_lomloe_2026.mjs';
-import {italyMathFocalLessons} from './math_italy_framework_2026.mjs';
-import {portugalMath2026Lessons} from './math_portugal_2026.mjs';
+import {
+ CURRICULUM_REMOTE_PACK_KEYS,
+ CURRICULUM_PACK_BUNDLE_VERSION,
+ HUNGARY_CLIENT_GRADE_META
+} from './curriculum_pack_manifest.mjs';
 const EDU_MATH_COUNTRY_YEARS={};
 const EDU_MATH_GRADE_AREAS={};
 const EDU_MATH_GRADE_NOTES={};
@@ -29,25 +29,6 @@ const EDU_MATH_SECOND_BATCH_EXAMPLES={};
 const EDU_MATH_SECOND_BATCH_SET=new Set(MATH_SECOND_BATCH_COUNTRIES);
 const EDU_MATH_FINAL_EXAMPLES={};
 const EDU_MATH_FINAL_SET=new Set(MATH_FINAL_COUNTRIES);
-const EDU_HUNGARY_GRADE_META=Object.fromEntries(
- Object.entries(HUNGARY_MATH_GRADES).map(([grade,entry])=>[grade,{stage:entry.stage,phase:entry.phase}])
-);
-const EDU_HUNGARY_G5_LESSONS={
- algebra:hungaryGrade5Lessons('algebra'),
- geometry:hungaryGrade5Lessons('geometry'),
- statistics:hungaryGrade5Lessons('statistics')
-};
-const EDU_HUNGARY_ORIGINAL_LESSONS={};
-for(const [grade,entry] of Object.entries(HUNGARY_MATH_GRADES)){
- if(grade==='5')continue;
- for(const [topic] of entry.units){
-  const items=hungaryMathOriginalLessons({grade,topic});
-  if(items.length)EDU_HUNGARY_ORIGINAL_LESSONS[grade+'|'+topic]=items;
- }
-}
-const EDU_SPAIN_ORIGINAL_LESSONS={};
-const EDU_ITALY_FOCAL_LESSONS={};
-const EDU_PORTUGAL_2026_LESSONS={};
 for(const code of EDUCATION_EUROPE_COUNTRIES)for(const stage of EDUCATION_SCHOOL_STAGES){
  const years=mathCountryStudyYears({country:code,stage,years:educationCountrySchoolYears(code,stage).years});
  EDU_MATH_COUNTRY_YEARS[code+'|'+stage]=years.map(({id,ro,en,it,es,native,nativeLang})=>({id,ro,en,...(it?{it}:{}),...(es?{es}:{}),...(native?{native,nativeLang}:{})}));
@@ -56,22 +37,6 @@ for(const code of EDUCATION_EUROPE_COUNTRIES)for(const stage of EDUCATION_SCHOOL
   // The existing UI reads only id, ro, and en. Keep complete pedagogical
   // metadata in the server-side plan rather than duplicating it in Android HTML.
   EDU_MATH_GRADE_AREAS[code+'|'+stage+'|'+year.id]=path.units.map(({id,ro,en,it,es,native,nativeLang})=>({id,ro,en,...(it?{it}:{}),...(es?{es}:{}),...(native?{native,nativeLang}:{})}));
-  if(code==='ES'){
-   for(const unit of path.units){
-    const items=spainMathOriginalEntries({grade:year.id,topic:unit.id});
-    if(items.length)EDU_SPAIN_ORIGINAL_LESSONS[year.id+'|'+unit.id]=items;
-   }
-  }else if(code==='IT'){
-   for(const unit of path.units){
-    const items=italyMathFocalLessons({grade:year.id,topic:unit.id});
-    if(items.length)EDU_ITALY_FOCAL_LESSONS[year.id+'|'+unit.id]=items;
-   }
-  }else if(code==='PT'&&stage==='lower'){
-   for(const unit of path.units){
-    const items=portugalMath2026Lessons({grade:year.id,topic:unit.id});
-    if(items.length)EDU_PORTUGAL_2026_LESSONS[year.id+'|'+unit.id]=items;
-   }
-  }
   const {phase,phases}=mathCountryPhasePlan({country:code,stage,grade:year.id,years});
   EDU_MATH_GRADE_PHASES[code+'|'+stage+'|'+year.id]={phase,phases};
   if(EDU_MATH_BULK_SET.has(code)&&stage!=='advanced'){
@@ -141,17 +106,105 @@ export const EDUCATION_COUNTRY_UI_SCRIPT=
  'const EDU_MATH_GRADE_NOTES='+JSON.stringify(EDU_MATH_GRADE_NOTES)+';\n'+
   'const PL_IV_2026_LESSONS='+JSON.stringify(PL_IV_2026_LESSONS)+';\n'+
  'function polandClass4Lessons(topic){return PL_IV_2026_LESSONS.filter(x=>x.topic===String(topic||\'\')).map(x=>state.language===\'pl\'?{...x,enTitle:x.native}:x);}\n'+
- 'const HUNGARY_MATH_GRADES='+JSON.stringify(EDU_HUNGARY_GRADE_META)+';\n'+
- 'const HUNGARY_G5_LESSONS='+JSON.stringify(EDU_HUNGARY_G5_LESSONS)+';\n'+
- 'function hungaryGrade5Lessons(topic){return HUNGARY_G5_LESSONS[String(topic||\'\')]||[];}\n'+
- 'const HUNGARY_ORIGINAL_LESSONS='+JSON.stringify(EDU_HUNGARY_ORIGINAL_LESSONS)+';\n'+
- 'function hungaryMathOriginalLessons({grade,topic}={}){return HUNGARY_ORIGINAL_LESSONS[String(grade||\'\')+\'|\'+String(topic||\'\')]||[];}\n'+
- 'const SPAIN_MATH_ORIGINAL_LESSONS='+JSON.stringify(EDU_SPAIN_ORIGINAL_LESSONS)+';\n'+
- 'function spainMathOriginalEntries({grade,topic}={}){return SPAIN_MATH_ORIGINAL_LESSONS[String(grade||\'\')+\'|\'+String(topic||\'\')]||[];}\n'+
- 'const ITALY_MATH_FOCAL_LESSONS='+JSON.stringify(EDU_ITALY_FOCAL_LESSONS)+';\n'+
- 'function italyMathFocalLessons({grade,topic}={}){return ITALY_MATH_FOCAL_LESSONS[String(grade||\'\')+\'|\'+String(topic||\'\')]||[];}\n'+
- 'const PORTUGAL_MATH_2026_LESSONS='+JSON.stringify(EDU_PORTUGAL_2026_LESSONS)+';\n'+
- 'function portugalMath2026Lessons({grade,topic}={}){return PORTUGAL_MATH_2026_LESSONS[String(grade||\'\')+\'|\'+String(topic||\'\')]||[];}\n'+
+ 'const HUNGARY_MATH_GRADES='+JSON.stringify(HUNGARY_CLIENT_GRADE_META)+';\n'+
+ 'const EDU_CURRICULUM_PACK_VERSION='+JSON.stringify(CURRICULUM_PACK_BUNDLE_VERSION)+';\n'+
+ 'const EDU_REMOTE_PACK_KEYS=new Set('+JSON.stringify(CURRICULUM_REMOTE_PACK_KEYS)+');\n'+
+ String.raw`const EDU_LOADED_CURRICULUM_PACKS={};
+const EDU_PENDING_CURRICULUM_PACKS={};
+function eduCurriculumPackKey(subject,country,grade){
+ const s=String(subject||'').trim().toLowerCase(),c=String(country||'').trim().toUpperCase(),g=String(grade||'').trim();
+ if(!s||!c||!g)return '';
+ return s+'|'+c+'|'+g;
+}
+function eduReadLocalCurriculumPack(key){
+ if(!key)return null;
+ if(Object.hasOwn(EDU_LOADED_CURRICULUM_PACKS,key))return EDU_LOADED_CURRICULUM_PACKS[key];
+ try{
+  const raw=typeof localStorage!=='undefined'?localStorage.getItem('pocketai.pack.v1.'+key):null;
+  if(!raw)return null;
+  const parsed=JSON.parse(raw);
+  if(parsed&&parsed.packVersion===EDU_CURRICULUM_PACK_VERSION){
+   EDU_LOADED_CURRICULUM_PACKS[key]=parsed;
+   return parsed;
+  }
+ }catch{}
+ return null;
+}
+function eduStoreLocalCurriculumPack(key,pack,urlStr){
+ if(!key||!pack)return;
+ EDU_LOADED_CURRICULUM_PACKS[key]=pack;
+ try{
+  if(typeof localStorage!=='undefined')localStorage.setItem('pocketai.pack.v1.'+key,JSON.stringify(pack));
+ }catch{}
+ try{
+  if(typeof caches!=='undefined'&&urlStr){
+   caches.open('pocketai-curriculum-packs-v1').then(cache=>{
+    cache.put(urlStr,new Response(JSON.stringify(pack),{headers:{'Content-Type':'application/json'}}));
+   }).catch(()=>{});
+  }
+ }catch{}
+}
+async function eduEnsureCurriculumPack(subject,country,grade){
+ const key=eduCurriculumPackKey(subject,country,grade);
+ if(!key||!EDU_REMOTE_PACK_KEYS.has(key))return null;
+ const cached=eduReadLocalCurriculumPack(key);
+ if(cached)return cached;
+ if(EDU_PENDING_CURRICULUM_PACKS[key])return EDU_PENDING_CURRICULUM_PACKS[key];
+ const s=String(subject||'').trim().toLowerCase(),c=String(country||'').trim().toUpperCase(),g=String(grade||'').trim();
+ const urlStr='/api/curriculum-pack?subject='+encodeURIComponent(s)+'&country='+encodeURIComponent(c)+'&grade='+encodeURIComponent(g)+'&v='+encodeURIComponent(EDU_CURRICULUM_PACK_VERSION);
+ const job=(async()=>{
+  try{
+   if(typeof caches!=='undefined'){
+    const cache=await caches.open('pocketai-curriculum-packs-v1');
+    const hit=await cache.match(urlStr);
+    if(hit){
+     const data=await hit.json();
+     if(data&&data.lessonsByTopic){EDU_LOADED_CURRICULUM_PACKS[key]=data;return data;}
+    }
+   }
+  }catch{}
+  try{
+   if(typeof fetch==='function'){
+    const res=await fetch(urlStr,{headers:{'X-Pocket-Client':'1'}});
+    if(res.ok){
+     const data=await res.json();
+     if(data&&data.lessonsByTopic){
+      eduStoreLocalCurriculumPack(key,data,urlStr);
+      return data;
+     }
+    }
+   }
+  }catch{}
+  return null;
+ })().finally(()=>{delete EDU_PENDING_CURRICULUM_PACKS[key]});
+ EDU_PENDING_CURRICULUM_PACKS[key]=job;
+ return job;
+}
+function eduRunWithCurriculumPack(subject,country,grade,proceed){
+ const key=eduCurriculumPackKey(subject,country,grade);
+ if(!key||!EDU_REMOTE_PACK_KEYS.has(key)||eduReadLocalCurriculumPack(key)){
+  proceed();return;
+ }
+ eduEnsureCurriculumPack(subject,country,grade).finally(()=>proceed());
+}
+function eduPackTopicLessons(subject,country,grade,topic){
+ const key=eduCurriculumPackKey(subject,country,grade);
+ const pack=eduReadLocalCurriculumPack(key);
+ return pack?.lessonsByTopic?.[String(topic||'')]||[];
+}
+function eduPackMetadata(subject,country,grade){
+ const key=eduCurriculumPackKey(subject,country,grade);
+ return eduReadLocalCurriculumPack(key)||null;
+}
+if(typeof window!=='undefined'){
+ window.pocketResetCurriculumMemoryCache=()=>{for(const k of Object.keys(EDU_LOADED_CURRICULUM_PACKS))delete EDU_LOADED_CURRICULUM_PACKS[k];};
+}
+function hungaryGrade5Lessons(topic){return eduPackTopicLessons('mathematics','HU','5',topic)}
+function hungaryMathOriginalLessons({grade,topic}={}){return eduPackTopicLessons('mathematics','HU',grade,topic)}
+function spainMathOriginalEntries({grade,topic}={}){return eduPackTopicLessons('mathematics','ES',grade,topic)}
+function italyMathFocalLessons({grade,topic}={}){return eduPackTopicLessons('mathematics','IT',grade,topic)}
+function portugalMath2026Lessons({grade,topic}={}){return eduPackTopicLessons('mathematics','PT',grade,topic)}
+`+
  'const ENGLAND_Y34_COURSES='+JSON.stringify(ENGLAND_Y34_LESSONS)+';\n'+
  'function englandY34TopicLessons(grade,topic){return (ENGLAND_Y34_COURSES[String(grade||\'\')]||[]).filter(row=>row.topic===String(topic||\'\'));}\n'+
  'const ENGLAND_KS4_LESSONS='+JSON.stringify(ENGLAND_KS4_LESSONS)+';\n'+
@@ -497,12 +550,20 @@ function educationGradeGate(moduleKey,level,proceed,back){
  const country=educationCountrySelection.code;
  const options=eduYearOptions(country,level,moduleKey);
  const startYear=id=>{
+  const subject=eduActiveSubjectCode(moduleKey);
   const status=eduCurriculumEvidence(country,level,id,moduleKey);
   educationCountrySelection.curriculum={
-   country,grade:id,stage:level,subject:eduActiveSubjectCode(moduleKey),
+   country,grade:id,stage:level,subject,
    schoolYear:'2026/27',status,verifiedTextbook:false
   };
-  proceed(id);
+  eduRunWithCurriculumPack(subject,country,id,()=>{
+   const packMeta=eduPackMetadata(subject,country,id);
+   if(packMeta&&educationCountrySelection.curriculum){
+    educationCountrySelection.curriculum.packLoaded=true;
+    educationCountrySelection.curriculum.textbooks=packMeta.textbooks||[];
+   }
+   proceed(id);
+  });
  };
  if(options.length===1){startYear(options[0].id);return}
  if(moduleKey==='computing'){
