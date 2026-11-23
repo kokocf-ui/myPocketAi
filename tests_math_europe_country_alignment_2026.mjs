@@ -113,6 +113,10 @@ const inline=html.match(/<script[^>]*>([\s\S]*?)<\/script>/)?.[1];
 assert.ok(inline);
 new vm.Script(inline);
 assert.ok(inline.includes('const EDU_MATH_GRADE_PHASES='));
+assert.ok(inline.includes('const EDU_MATH_STAGE_LABELS='));
+assert.ok(inline.includes('countryStage?learningLabel(countryStage[0],countryStage[1])'));
+assert.ok(inline.includes('Selectează anul de studiu al țării.'));
+
 assert.ok(inline.includes('const MATH_EARLY_YEAR_BANK='));
 assert.ok(inline.includes('phases:mathYearPosition().phases'));
 console.log('PASS',checked,'Mathematics-only European grade paths, sourced advisory status, accessible infant lessons and intact RO/England');
