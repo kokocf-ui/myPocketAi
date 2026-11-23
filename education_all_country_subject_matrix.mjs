@@ -84,7 +84,7 @@ function subjectInventory(subject,{country,stage,grade,track}){
   const years=mathCountryStudyYears({country,stage,years:educationCountrySchoolYears(country,stage).years});
   const selected=years.some(x=>x.id===grade)?grade:stage==='advanced'?years[0]?.id:grade;
   const path=mathCountryGradeAreas({country,stage,grade:selected,years});
-  return {units:path.units,verified:false,gradeSpecific:false,source:null,note:path.note||''};
+  return {units:path.units,verified:false,gradeSpecific:false,source:path.source||null,note:path.note||''};
  }
  if(['physics','chemistry','biology','astronomy'].includes(subject)){
   const tables={
@@ -126,7 +126,7 @@ export function educationSubjectSchoolPlan({country,stage,grade,subject,track=''
  const school=educationCountrySchoolYears(code,st);
  const mathsYears=key==='mathematics'?mathCountryStudyYears({country:code,stage:st,years:school.years}):[];
  const valid=allowedCountries.has(code)&&allowedSubjects.has(key)&&
-  (school.years.some(x=>x.id===g)||mathsYears.some(x=>x.id===g));
+  (key==='mathematics'?mathsYears.some(x=>x.id===g):school.years.some(x=>x.id===g));
  if(!valid)return {country:code,stage:st,grade:g,subject:key,status:'invalid-selection',
   units:[],schoolYear:EDUCATION_SCHOOL_YEAR,gradeStatus:school.status,verifiedManual:false};
  const data=subjectInventory(key,{country:code,stage:st,grade:g,track});
