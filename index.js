@@ -23074,6 +23074,19 @@ function openAnswerReader(text,origin){
  for(const value of [.5,1,1.5]){const option=document.createElement('option');option.value=String(value);option.textContent=String(value)+'×';speed.append(option)}speed.value='1';speedLabel.append(speed);controls.append(pause,restart,speedLabel);
  const body=document.createElement('div');body.className='answer-reader-body';body.tabIndex=0;body.setAttribute('aria-label',readerTitle);layer.append(header,controls,body);let recipePaged=false;if(!(state.lastPresentationResponse?.reply===String(text).trim()&&appendAdaptivePresentation(body,state.lastPresentationResponse))&&!(state.lastStructuredResponse?.reply===String(text).trim()&&appendStructuredCollectionTable(body,state.lastStructuredResponse))&&!(typeof appendTravelModeOverview==='function'&&appendTravelModeOverview(body,String(text)))&&!(typeof appendTransitOverview==='function'&&appendTransitOverview(body,String(text)))){if(typeof appendRouteReaderActions==='function')appendRouteReaderActions(body,String(text));recipePaged=renderRecipePages(layer,body,String(text),appendRecipeReaderText,appendAnswerText);if(!recipePaged&&!appendRecipeReaderText(body,String(text))&&!appendAnswerCodeBlocks(body,String(text)))appendAnswerText(body,String(text));}
  const geoRecord=state.lastLocationAnswer?.reply===String(text).trim()?state.lastLocationAnswer:null;
+ if(geoRecord){
+  // A location result is an address and a map, not a scrolling article.
+  layer.classList.add('answer-reader-location');
+  title.textContent=dialogText('Locația mea','My location');
+  controls.style.display='none';
+  body.replaceChildren();
+  body.style.cssText='padding:8px 10px 10px;display:flex;flex:1 1 0;min-height:0;flex-direction:column;gap:6px;overflow:hidden;font-size:15px;line-height:1.3;white-space:normal';
+  const address=document.createElement('p');
+  address.className='current-location-address';
+  address.style.cssText='margin:0;padding:5px 4px;font-size:16px;font-weight:700;line-height:1.35;overflow-wrap:anywhere;flex-shrink:0';
+  address.textContent=geoRecord.reply;
+  body.append(address);
+ }
  const geoCleanup=geoRecord?appendCurrentLocationMap(body,geoRecord):null;
  document.body.append(layer);
  const reader={layer,origin,frame:0,cleanup:()=>{geoCleanup?.()}};activeAnswerReader=reader;
