@@ -1,6 +1,8 @@
 import {RO5_MATH_LESSONS} from './math_ro5_curriculum.mjs';
 import {mathEarlyYearEntries,MATH_EARLY_YEAR_BANK} from './math_early_years_europe.mjs';
 import {franceGrade5eLessons,FRANCE_5E_MATH_UNITS} from './math_france_5e_2026.mjs';
+import {portugalMath2026Lessons,PORTUGAL_MATH_2026} from './math_portugal_2026.mjs';
+export {portugalMath2026Lessons,PORTUGAL_MATH_2026};
 export {franceGrade5eLessons,FRANCE_5E_MATH_UNITS};
 export {mathEarlyYearEntries,MATH_EARLY_YEAR_BANK};
 import {RO678_MATH_LESSONS} from './math_ro678_curriculum.mjs';
@@ -195,6 +197,8 @@ export function mathInDepthEntries({stage,phase,topic}={}){
 // Grade-specific source-mapped course entries take precedence over the shared
 // advisory European sequence. Do not label generic lessons as national courses.
 export function mathCountryCourseEntries({country,stage,grade,phase,phases,topic}={}){
+ if(String(country||'').toUpperCase()==='PT'&&stage==='lower'&&['5','6'].includes(String(grade)))
+  return portugalMath2026Lessons({grade,topic});
  if(String(country||'').toUpperCase()==='FR'&&stage==='lower'&&String(grade)==='5e')
   return franceGrade5eLessons(topic);
  if(stage==='primary'){
