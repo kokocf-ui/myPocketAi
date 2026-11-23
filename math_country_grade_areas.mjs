@@ -12,6 +12,7 @@ import {SPAIN_MATH_YEARS,spainMathGradeProfile} from './math_spain_lomloe_2026.m
 import {bulkMathYearLabels,bulkMathNationalProfile} from './math_europe_batch_2026.mjs';
 import {secondBatchMathStudyYears,secondBatchMathGradeProfile} from './math_europe_second_batch_2026.mjs';
 import {finalMathStudyYears,finalMathGradeProfile} from './math_europe_final_systems_2026.mjs';
+import {RO9_SCIENCE_2026_PATHS,RO9_SCIENCE_2026_SOURCES,RO9_SCIENCE_2026_UNITS} from './math_ro9_science_2026.mjs';
 import {portugalMath2026Lessons,PORTUGAL_MATH_2026_SOURCE} from './math_portugal_2026.mjs';
 // Mathematics learning paths for every European country in the Education picker.
 // A progression is *advisory* unless an official country/grade source is attached.
@@ -213,6 +214,16 @@ export function mathCountryGradeAreas({country,stage,grade,years}={}){
     focus:'',lessonCount:ro678TopicLessons(selected,id).length,
     curriculumUnitCount:ro678GradeSummary(selected).length,
     countrySpecific:true,curriculumCompletion:'under-review'}))};
+ }
+ if(country==='RO'&&st==='medium'&&String(grade)==='9'){
+  return {status:'general-learning',country,stage:st,grade,
+   source:RO9_SCIENCE_2026_SOURCES.syllabus,
+   manualExample:RO9_SCIENCE_2026_SOURCES.manual,
+   textbookUnits:RO9_SCIENCE_2026_UNITS,
+   schoolTrack:'științe-ale-naturii-TC-CS',
+   note:'România, clasa a IX-a, cohorta 2026/27: 35 lecții originale organizate în cele șapte unități ale manualului Booklet 2026 pentru Științe ale naturii (TC+CS), corelate tematic cu programa OMEC 6930/2025. Pentru profilul matematică-informatică, umanist, tehnologic sau vocațional trebuie un traseu separat; NU presupunem că acest manual este valabil tuturor elevilor. Nu este încă verificarea completă a tuturor competențelor și evaluărilor anuale.',
+   units:RO9_SCIENCE_2026_PATHS.map(x=>({...x}))
+  };
  }
  if(country==='RO'&&st==='medium'&&['9','10','11','12'].includes(String(grade))){
   const cohort=mathUpperCohortGuidance({country,grade});

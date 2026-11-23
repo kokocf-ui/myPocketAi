@@ -12,10 +12,19 @@ for(const [grade,status] of Object.entries(expected)){
  const plan=educationSubjectSchoolPlan({country:'RO',stage:'medium',grade,subject:'mathematics'});
  assert.equal(guidance.status,status);
  assert.ok(guidance.note.includes('2026/27'));
- assert.ok(areas.note.includes(status==='new-2026-cohort'?'noul curriculum':'curriculumul liceal anterior'));
- assert.ok(areas.units.length>=4&&areas.units.every(x=>x.schoolCohort===status));
- assert.ok(areas.units.every(x=>x.lessonCount>=3));
- assert.ok(areas.units.every(x=>x.countrySpecific===false&&x.curriculumCompletion==='unverified-advisory'));
+ if(grade==='9'){
+  assert.ok(areas.note.includes('cohorta 2026/27'));
+  assert.ok(areas.note.includes('Științe ale naturii'));
+  assert.equal(areas.units.reduce((n,x)=>n+x.lessonCount,0),35);
+  assert.equal(areas.units.length,4);
+  assert.ok(areas.units.every(x=>x.countrySpecific===true&&
+    x.curriculumCompletion==='source-unit-reviewed-not-full-year-certified'));
+ }else{
+  assert.ok(areas.note.includes('curriculumul liceal anterior'));
+  assert.ok(areas.units.length>=4&&areas.units.every(x=>x.schoolCohort===status));
+  assert.ok(areas.units.every(x=>x.lessonCount>=3));
+  assert.ok(areas.units.every(x=>x.countrySpecific===false&&x.curriculumCompletion==='unverified-advisory'));
+ }
  assert.equal(plan.status,'general-learning','Policy warning is not a claim that the course follows the statutory syllabus');
 }
 assert.equal(mathUpperCohortGuidance({country:'RO',grade:'9',schoolYear:'2027/28'}).status,'needs-cohort-review',

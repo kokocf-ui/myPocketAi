@@ -11,6 +11,7 @@ import {ENGLAND_Y34_LESSONS,ENGLAND_Y34_REFERENCE} from './math_england_year3_ye
 import {PL_IV_2026_LESSONS,PL_CLASS4_2026_SOURCES} from './math_poland_class4_2026_lessons.mjs';
 import {ENGLISH_KS4_REFERENCE,englandKS4CardRows} from './math_england_ks4_curriculum.mjs';
 import {MATH_EUROPE_SOURCE_REGISTRY,mathCountryEvidence} from './math_country_year_alignment_2026.mjs';
+import {RO9_SCIENCE_2026_LESSONS,RO9_SCIENCE_2026_SOURCES} from './math_ro9_science_2026.mjs';
 
 export const MATH_CURRICULUM_SOURCE_REGISTRY=Object.freeze({
  ...Object.fromEntries(Object.entries(MATH_EUROPE_SOURCE_REGISTRY)
@@ -56,28 +57,39 @@ export function mathCurriculumReadiness(){
     const authoredPolandIV=polandIV&&PL_IV_2026_LESSONS.length>=30&&
       actual===PL_IV_2026_LESSONS.length&&plan.units.length===3&&
       ['algebra','geometry','statistics'].every(t=>PL_IV_2026_LESSONS.filter(l=>l.topic===t).length>=3);
-    const partialCandidate=authoredPolandIV||authoredY34||
+    const romania9=country==='RO'&&stage==='medium'&&grade==='9'&&
+      plan.units.every(x=>x.countrySpecific===true)&&
+      actual===RO9_SCIENCE_2026_LESSONS.length&&plan.units.length===4;
+    const partialCandidate=romania9||authoredPolandIV||authoredY34||
       (englandY6&&ENGLAND_Y6_MATH_LESSONS.length===21&&plan.units.length===5)||
       (englandKS4&&plan.units.length>=4&&
        plan.units.filter(unit=>englandKS4CardRows(grade,unit.id).length>=3).length>=3);
     rows.push({
      country,stage,grade:String(year.id),
-     scope:national?'national-crosswalk-review':partialCandidate?'partial-year-source-review':'unverified-advisory',
+     scope:national?'national-crosswalk-review':
+      romania9?'source-unit-reviewed-track-specific':
+      partialCandidate?'partial-year-source-review':'unverified-advisory',
      lessonCount:actual,units:plan.units.length,
      countryYearSpecific:candidate,
      partialSourceReview:partialCandidate,
-     officialYearSourceMapped:authoredY34||authoredPolandIV,
+     officialYearSourceMapped:romania9||authoredY34||authoredPolandIV,
      independentCourseSequence:authoredPolandIV?PL_CLASS4_2026_SOURCES.independentScheme:
        authoredY34?(grade==='Y3'?ENGLAND_Y34_REFERENCE.oak3:ENGLAND_Y34_REFERENCE.oak4):null,
      evidenceStatus:evidence.status,
-     manualExample:authoredPolandIV?PL_CLASS4_2026_SOURCES.approvedManual:evidence.manualExample,
-     source:authoredPolandIV?PL_CLASS4_2026_SOURCES.law:
+     manualExample:romania9?RO9_SCIENCE_2026_SOURCES.manual:
+      authoredPolandIV?PL_CLASS4_2026_SOURCES.approvedManual:evidence.manualExample,
+     source:romania9?RO9_SCIENCE_2026_SOURCES.syllabus:
+      authoredPolandIV?PL_CLASS4_2026_SOURCES.law:
       country==='RO'&&stage==='lower'?MATH_CURRICULUM_SOURCE_REGISTRY.RO.grades5to8:
        country==='GB-ENG'?(stage==='beginner'?MATH_CURRICULUM_SOURCE_REGISTRY['GB-ENG'].primary:
         stage==='lower'?MATH_CURRICULUM_SOURCE_REGISTRY['GB-ENG'].secondary:
         stage==='medium'?MATH_CURRICULUM_SOURCE_REGISTRY['GB-ENG'].ks4:null):evidence.source,
      complete:false,
-     blockers:candidate?
+     blockers:romania9?
+      ['Only Științe ale naturii (TC+CS) mapped; other Romanian lycée profiles need separate programmes',
+       'All seven 2026 textbook units represented but statutory competencies and assessments not independently crosschecked',
+       'Review exact edition, lesson coverage and Android device acceptance']:
+      candidate?
       ['Independent pedagogical validation','Verify exact full-year content against textbooks','Check progress assessment and classroom sequencing','Android device acceptance']:
       authoredPolandIV?
       ['MEN 2026 framework and registered manual compared, but objective-by-objective exhaustiveness requires independent review',
