@@ -151,7 +151,7 @@ assert.match(NAV_RETURN_ACCENT_SCRIPT,/science-lesson-read/,'Science audio is ic
 assert.match(NAV_RETURN_ACCENT_CSS,/\.pocket-route-entry #moduleLayerBody button\.module-result-card:not\(\.pocket-nav-return\)/);
 assert.match(NAV_RETURN_ACCENT_CSS,/#view-assistant \.chat-form > \.send-btn/);
 assert.match(NAV_RETURN_ACCENT_CSS,/place-items:center!important/);
-assert.match(NAV_RETURN_ACCENT_CSS,/\.pocket-inline-nav > \.module-home-btn/);
+assert.match(NAV_RETURN_ACCENT_CSS,/\.module-actions-row > button\.module-home-btn/,'Header Acasă stays visible (left), Back pinned right');
 assert.match(COMMUNICATION_STYLE,/pocket-route-entry/,'Main stylesheet includes fix');
 assert.match(COMMUNICATION_SCRIPT,/pocketReturnAccentInstalled/,'Main script includes fix');
 new vm.Script(NAV_RETURN_ACCENT_SCRIPT);

@@ -61,6 +61,13 @@ function mathTheoryQuickReference(){
  function normalize(v){return String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();}
  let selectionToken=0,listToken=0;
  function openItem(item){
+  // Each law/theorem/definition opens in its own full-screen paged study window
+  // (statement, formula, interpretation, worked steps, mistakes, checks), as before.
+  if(typeof educationOpenPagedLesson==='function'&&typeof educationMathTheoryMaterial==='function'){
+   ++selectionToken;details.replaceChildren();
+   educationOpenPagedLesson(item.title,educationMathTheoryMaterial(item));
+   return;
+  }
   const token=++selectionToken;
   details.replaceChildren();
   const name=document.createElement('h3');name.textContent=item.title;

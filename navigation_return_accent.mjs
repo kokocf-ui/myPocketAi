@@ -133,17 +133,17 @@ button.pocket-nav-return:focus-visible{outline:3px solid #ffd6e0!important;outli
  transform:translateY(2px);
  box-shadow:inset 0 2px 0 #ffffff14,0 2px 0 #041925!important;
 }
-/* Global navigation contract: Home is available in the bottom dock,
-   so never make a second top Home sit where people expect Back. Keep
-   the original click handler on the extracted Back and pin it right. */
-#view-module.learning-active .module-actions-row.pocket-inline-nav > button.module-home-btn,
-#view-module.my-documents-active .module-actions-row.pocket-docs-nav > button.module-home-btn,
+/* Global navigation contract (restored 2026-11-23 at the user's request):
+   the top "← Acasă" stays visible on the LEFT; Back is pinned on the RIGHT
+   of the same row, so the two can never be confused. */
 #view-module .module-actions-row > button.module-home-btn{
- display:none!important;
+ display:inline-flex!important;align-items:center!important;justify-content:center!important;
+ flex:0 0 min(45%,240px)!important;width:min(45%,240px)!important;max-width:240px!important;
+ margin-right:auto!important;
 }
 #view-module.learning-active .module-actions-row.pocket-inline-nav,
 #view-module.my-documents-active .module-actions-row.pocket-docs-nav{
- justify-content:flex-end!important;
+ justify-content:space-between!important;
 }
 #view-module.learning-active .module-actions-row.pocket-inline-nav > .pocket-inline-back,
 #view-module.my-documents-active .module-actions-row.pocket-docs-nav > .pocket-docs-back{

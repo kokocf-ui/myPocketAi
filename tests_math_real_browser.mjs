@@ -79,7 +79,13 @@ try{
  assert.ok(scroll.height>scroll.client&&scroll.top>0,'Mathematics reference list must scroll by touch');
  await page.locator('#moduleContent input[type="search"]').fill('Pitagora');
  await click(theoremList.locator('button').filter({hasText:'Pitagora'}).first());
- assert.ok((await page.locator('#moduleContent article').innerText()).includes('triunghi'));
+ // Selecting a theorem opens its own full-screen study window (regression fix).
+ const paged=page.locator('#educationPagedLessonDialog');
+ await paged.waitFor({state:'visible',timeout:10000});
+ assert.ok((await paged.innerText()).includes('triunghi'),'The Pitagora study window must contain the theorem text');
+ await click(paged.locator('.education-theory-head button').first());
+ await paged.waitFor({state:'detached',timeout:5000});
+ // Return from the theory reference panel to the stage picker.
  await click(page.locator('#moduleContent > button').first());
  await pickMathStage('Primar');
  await pickGrade('1');

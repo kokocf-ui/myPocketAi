@@ -47,11 +47,12 @@ page.on('pageerror',e=>exceptions.push(String(e)));
 const dialog=page.locator('#educationPagedLessonDialog');
 try{
  const tiles=await navigate(page,'RO');
- // The bottom dock owns Home. A second visible top Home can be confused
- // with Back when navigating from left to right.
+ // Home is shown on the top-left of the Education header (user-requested
+ // restore); Back stays pinned on the right of the same row, so the two
+ // are visually distinct.
  const topHome=page.locator('#view-module .module-actions-row > .module-home-btn');
- if(await topHome.count())assert.equal(await topHome.isVisible(),false,
-  'Never expose a second Home alongside the top-right Back');
+ if(await topHome.count())assert.equal(await topHome.isVisible(),true,
+  'The header Acasă (Home) button must be visible again');
 
  let labels=await tiles.allTextContents();
  assert.ok(!labels.some(x=>/Clasa\s+(?:a\s+)?(?:5|6)\b|Grade\s+(?:5|6)\b/i.test(x)),
