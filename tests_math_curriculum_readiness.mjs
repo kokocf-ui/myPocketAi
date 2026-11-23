@@ -7,7 +7,13 @@ assert.equal(audit.fullyApproved,0,'Do not report a full Mathematics course clos
 assert.equal(audit.readiness,'incomplete');
 assert.ok(audit.rows.every(x=>x.blockers.length>0));
 assert.equal(audit.yearSpecificCandidates,4,'Only four Romanian grade V–VIII source-reviewed annual outlines, not fully approved');
-assert.equal(audit.partialSourceReviews,5,'England Y3/Y4 source-authored, Y6 and KS4 Y10/Y11 remain partial, NOT complete');
+assert.equal(audit.partialSourceReviews,6,'Poland grade IV plus England Y3/Y4, Y6 and KS4 Y10/Y11 remain partial, NOT complete');
+const plIV=audit.rows.find(x=>x.country==='PL'&&x.grade==='IV'&&x.stage==='lower');
+assert.ok(plIV?.officialYearSourceMapped);
+assert.equal(plIV.scope,'partial-year-source-review');
+assert.ok(plIV.source.includes('eli.gov.pl'));
+assert.ok(plIV.manualExample.includes('podreczniki.men.gov.pl'));
+assert.equal(plIV.complete,false);
 for(const grade of ['Y3','Y4']){
  const row=audit.rows.find(x=>x.country==='GB-ENG'&&x.stage==='beginner'&&x.grade===grade);
  assert.ok(row?.officialYearSourceMapped,'DfE original annual lessons are actually routed');
@@ -22,6 +28,7 @@ assert.ok(audit.rows.filter(x=>x.country==='RO'&&x.stage==='lower'&&['5','6','7'
 assert.ok(audit.rows.find(x=>x.country==='GB-ENG'&&x.stage==='beginner'&&x.grade==='Y6')
  ?.scope==='partial-year-source-review','England Year 6 is an incomplete statutory mapping');
 assert.ok(audit.rows.filter(x=>!(x.country==='RO'&&x.stage==='lower'&&['5','6','7','8'].includes(x.grade))&&
+ !(x.country==='PL'&&x.stage==='lower'&&x.grade==='IV')&&
  !(x.country==='GB-ENG'&&x.stage==='beginner'&&['Y3','Y4','Y6'].includes(x.grade))&&
  !(x.country==='GB-ENG'&&x.stage==='medium'&&['Y10','Y11'].includes(x.grade)))
  .every(x=>x.scope==='unverified-advisory'),
