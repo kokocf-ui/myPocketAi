@@ -70,7 +70,7 @@ export function mathCountryGradeAreas({country,stage,grade,years}={}){
     source:native.source,manualExample:null,note:native.note,
     cohort:native.cohort,
     units:native.units.map(({id,ro,en,it})=>({
-     id,ro,en,it,focus:'',countrySpecific:true,
+     id,ro,en,it,focus:'',countrySpecific:false,countryFrameworkSpecific:true,
      lessonCount:mathCountryCourseEntries({
       country,stage:clientStage,grade,phase:alignment.phase,
       phases:alignment.phases,topic:id}).length,
