@@ -15,7 +15,7 @@ function appendCurrentLocationMap(body,record){
  mapHost.setAttribute('role','region');
  mapHost.setAttribute('aria-label',word('Harta poziției și obiectivelor din apropiere','Map of your position and nearby places'));
  panel.append(mapHost);body.append(panel);
- let disposed=false,L=null,map=null,markers=null,controller=null,places=[];
+ let disposed=false,L=null,map=null,markers=null,controller=null,places=[],lastPoiCenter=null;
  function categorySymbol(category){
   const value=String(category||'').toLowerCase();
   if(/fuel|gas_station|petrol/.test(value))return '⛽';
@@ -49,8 +49,12 @@ function appendCurrentLocationMap(body,record){
  }
  async function updatePois(){
   if(disposed||!map)return;
+  const center=map.getCenter();
+  // Opening a popup may auto-pan slightly; keep its marker and popup stable.
+  if(lastPoiCenter&&map.distance(lastPoiCenter,center)<180)return;
+  lastPoiCenter=center;
   controller?.abort();controller=new AbortController();
-  const signal=controller.signal,center=map.getCenter();
+  const signal=controller.signal;
   try{
    const response=await fetch('/api/location-pois',{
     method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},
