@@ -57,7 +57,7 @@ export function mathCurriculumReadiness(){
     const authoredPolandIV=polandIV&&PL_IV_2026_LESSONS.length>=30&&
       actual===PL_IV_2026_LESSONS.length&&plan.units.length===3&&
       ['algebra','geometry','statistics'].every(t=>PL_IV_2026_LESSONS.filter(l=>l.topic===t).length>=3);
-    const romania9=country==='RO'&&stage==='medium'&&grade==='9'&&
+    const romania9=country==='RO'&&stage==='medium'&&grade==='9-SCI'&&
       plan.units.every(x=>x.countrySpecific===true)&&
       actual===RO9_SCIENCE_2026_LESSONS.length&&plan.units.length===4;
     const partialCandidate=romania9||authoredPolandIV||authoredY34||
