@@ -139,7 +139,7 @@ assert.ok(inline.includes('o.native&&state.language===o.nativeLang'),
  'National grade picker should use language-matched local year names');
 assert.ok(inline.includes('const MATH_BULK_FIRST_LESSONS='),
  '30 national starter cards must be shipped to Android, not just Node');
-const clientBankText=inline.split('const MATH_BULK_FIRST_LESSONS=')[1]?.split(';\\n')[0];
+const clientBankText=inline.split('const MATH_BULK_FIRST_LESSONS=')[1]?.split(';\n')[0];
 assert.ok(clientBankText);
 const clientBank=JSON.parse(clientBankText);
 assert.equal(Object.keys(clientBank).length,30,
