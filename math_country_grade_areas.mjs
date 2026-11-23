@@ -54,6 +54,15 @@ export function mathCountryStudyYears({country,stage,years=[]}={}){
  const code=String(country||'').toUpperCase(),st=String(stage||'');
  if(code==='IT'&&ITALY_MATH_YEARS[st])return ITALY_MATH_YEARS[st].map(x=>({...x}));
  if(code==='ES'&&SPAIN_MATH_YEARS[st])return SPAIN_MATH_YEARS[st].map(x=>({...x}));
+ if(code==='RO'&&st==='medium'){
+  const national=mathCountryYearSequence({country:code,stage:st,years});
+  return national.flatMap(y=>String(y.id)==='9'?
+   [{...y,ro:'Clasa a IX-a · alege profilul școlar',
+     en:'Grade 9 · choose your school profile',nationalYearVerified:true},
+    {id:'9-SCI',ro:'Clasa a IX-a · Științe ale naturii (TC+CS)',
+     en:'Grade 9 · Natural Sciences (TC+CS)',nationalYearVerified:true,
+     curriculumVerified:false,countryFrameworkSpecific:true}]:[y]);
+ }
  if(st!=='advanced'){
   const national=mathCountryYearSequence({country:code,stage:st,years});
   return finalMathStudyYears({country:code,stage:st,years:national})||
@@ -215,7 +224,7 @@ export function mathCountryGradeAreas({country,stage,grade,years}={}){
     curriculumUnitCount:ro678GradeSummary(selected).length,
     countrySpecific:true,curriculumCompletion:'under-review'}))};
  }
- if(country==='RO'&&st==='medium'&&String(grade)==='9'){
+ if(country==='RO'&&st==='medium'&&String(grade)==='9-SCI'){
   return {status:'general-learning',country,stage:st,grade,
    source:RO9_SCIENCE_2026_SOURCES.syllabus,
    manualExample:RO9_SCIENCE_2026_SOURCES.manual,
