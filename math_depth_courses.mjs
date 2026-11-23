@@ -241,8 +241,9 @@ export function mathCountryCourseEntries({country,stage,grade,phase,phases,topic
   return (RO678_MATH_LESSONS[String(grade)]||[]).filter(item=>item.topic===topic);
  const selected=Array.isArray(phases)&&phases.length?phases:[phase];
  const valid=[...new Set(selected.map(Number).filter(p=>Number.isInteger(p)&&p>=1&&p<=6))];
- return [...bulkMathFirstLessons({country,stage,grade,topic}),
-  ...valid.flatMap(p=>mathInDepthEntries({stage,phase:p,topic}))];
+ const localSupplement=typeof bulkMathFirstLessons==='function'
+  ?bulkMathFirstLessons({country,stage,grade,topic}):[];
+ return [...localSupplement,...valid.flatMap(p=>mathInDepthEntries({stage,phase:p,topic}))];
 }
 export function mathInDepthMaterial(entry){
  if(!entry?.title||!entry?.statement||!entry?.worked)return '';
