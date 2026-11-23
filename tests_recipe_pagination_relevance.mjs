@@ -61,7 +61,7 @@ assert.match(RECIPE_READER_PAGES_UI_SCRIPT,/Următoarea/);
 const html=readFileSync(new URL('./index.js',import.meta.url),'utf8');
 assert.match(html,/RECIPE_READER_PAGES_UI_SCRIPT/);
 assert.match(html,/recipePaged=renderRecipePages/);
-assert.match(html,/let running=!recipePaged/);
+assert.match(html,/let running=!geoRecord&&!recipePaged/,'Location map and recipe pagination must both disable automatic reader scrolling');
 const backend=readFileSync(new URL('./backend.js',import.meta.url),'utf8');
 assert.match(backend,/recipeSpeciesCompatible\(request,title\)/);
 assert.match(backend,/openEnded:culinaryRequest\.openEnded/);
