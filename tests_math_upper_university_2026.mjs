@@ -52,7 +52,11 @@ for(const country of EDUCATION_EUROPE_COUNTRIES){
    assert.equal(plan.status,'general-learning','Do not claim official national approval from advisory lessons');
    assert.ok(plan.units.length>=3,'Every selected year needs several mathematical branches');
    assert.ok(plan.units.every(x=>x.lessonCount>=3),'No empty chapter branch');
-   assert.ok(plan.units.every(x=>x.countrySpecific!==true),
+   if(country==='RO'&&stage==='medium'&&String(year.id)==='9'){
+    assert.ok(plan.units.every(x=>x.countrySpecific===true),
+     'Romanian IX 2026 science-track must route its 35 original, source-unit-mapped chapters');
+    assert.equal(plan.units.reduce((n,x)=>n+x.lessonCount,0),35);
+   }else assert.ok(plan.units.every(x=>x.countrySpecific!==true),
     'The shared multi-country bank must not pretend to be a country-specific textbook');
    actualCountryYears++;
   }
