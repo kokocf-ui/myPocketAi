@@ -20,7 +20,8 @@ for(const unit of plan.units){
  const app=mathCountryCourseEntries({country:'HU',stage:'lower',grade:'5',topic:unit.id});
  assert.equal(lessons.length,expected[unit.id]);
  assert.equal(unit.lessonCount,lessons.length);
- assert.deepEqual(app.map(x=>x.id),lessons.map(x=>x.id));
+ assert.deepEqual(app.slice(0,lessons.length).map(x=>x.id),lessons.map(x=>x.id));
+ assert.ok(app.length>=lessons.length,'The existing 13 local lessons must not disappear when the full country route is added');
  for(const lesson of app){
   ids.push(lesson.id);
   assert.equal(lesson.grade,'5');
