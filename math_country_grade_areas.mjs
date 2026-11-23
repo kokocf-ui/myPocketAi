@@ -3,6 +3,7 @@ import {ro5TopicLessons,RO5_MATH_UNITS} from './math_ro5_curriculum.mjs';
 import {ro678TopicLessons,ro678GradeSummary} from './math_ro678_curriculum.mjs';
 import {ENGLAND_Y6_MATH_LESSONS} from './math_england_y6_curriculum.mjs';
 import {ENGLAND_Y34_REFERENCE,englandY34TopicLessons} from './math_england_year3_year4_2026.mjs';
+import {PL_CLASS4_2026_SOURCES,polandClass4Lessons} from './math_poland_class4_2026_lessons.mjs';
 import {mathUpperCohortGuidance} from './math_ro_upper_cohort_policy.mjs';
 import {mathCountryYearSequence,mathCountryPhasePlan,mathCountryEvidence} from './math_country_year_alignment_2026.mjs';
 import {franceGrade5eLessons} from './math_france_5e_2026.mjs';
@@ -106,6 +107,25 @@ export function mathCountryGradeAreas({country,stage,grade,years}={}){
      curriculumSource:native.source,manualExample:null
     }))};
   }
+ }
+ if(country==='PL'&&st==='lower'&&String(grade)==='IV'){
+  const branches=[
+   ['algebra','Numere, operații, fracții și zecimale','Numbers, calculation, fractions and decimals'],
+   ['geometry','Geometrie, măsurări și corpuri','Geometry, measurement and solids'],
+   ['statistics','Date și raționament matematic','Data, reasoning and word problems']
+  ];
+  return {status:'general-learning',country,stage:st,grade,
+   source:PL_CLASS4_2026_SOURCES.law,
+   manualExample:PL_CLASS4_2026_SOURCES.approvedManual,
+   externalUnitSequence:PL_CLASS4_2026_SOURCES.independentScheme,
+   note:'Polonia, klasa IV, anul 2026/27. Programa matematicii introdusă în clasa IV prin Dz.U. 2026, poz. 378; lecții originale corelate cu domeniile oficiale, registrul ministerial al manualelor și cuprinsul editorului independent GWO. Clasele V–VIII nu trec retroactiv la noua programă. Nu sunt texte copiate din manuale și nu afirmăm acoperirea anuală exhaustivă.',
+   units:branches.map(([id,ro,en])=>({
+    id,ro,en,focus:'',countrySpecific:true,
+    lessonCount:polandClass4Lessons(id).length,
+    curriculumCompletion:'partial-source-review',
+    curriculumSource:PL_CLASS4_2026_SOURCES.law,
+    manualExample:PL_CLASS4_2026_SOURCES.approvedManual
+   }))};
  }
  if(country==='GB-ENG'&&st==='beginner'&&['Y3','Y4'].includes(String(grade))){
   const g=String(grade);
