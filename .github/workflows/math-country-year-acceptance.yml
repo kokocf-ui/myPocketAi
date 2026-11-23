@@ -62,6 +62,8 @@ jobs:
           node --check math_ro5_geometry.mjs
           node --check math_ro5_curriculum.mjs
           node --check math_curriculum_readiness.mjs
+          node --check math_reader_locale_ui.mjs
+          node --check tests_math_reader_locale_2026.mjs
           node --check math_ro6_curriculum.mjs
           node --check math_ro6_data.mjs
           node --check math_ro7_core.mjs
@@ -109,6 +111,7 @@ jobs:
           npm install --no-save --no-package-lock playwright@1.56.1
           npx playwright install --with-deps chromium
           node tests_math_real_browser.mjs
+          node tests_math_reader_locale_2026.mjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:
