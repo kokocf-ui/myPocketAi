@@ -6167,7 +6167,7 @@ export default {
         const reply = lang === "en"
           ? "I received GPS coordinates, but the map service could not convert them to a place name right now. Please try again shortly."
           : "Am primit coordonatele GPS, dar serviciul de hărți nu a putut transforma coordonatele într-un nume de localitate momentan. Încearcă din nou puțin mai târziu.";
-        return json({ app: "Pocket AI", version: API_VERSION, status: "success", language: lang, message_received: message, reply, location_received: true, reverse_geocode_ok: false, ai_connected: Boolean(env.AI) });
+        return json({ app: "Pocket AI", version: API_VERSION, status: "success", language: lang, message_received: message, reply, location_received: true, current_location:true, reverse_geocode_ok: false, ai_connected: Boolean(env.AI) });
       }
     }
     const matchedPlaceCategory = activePlaceRequest?.category || null;
