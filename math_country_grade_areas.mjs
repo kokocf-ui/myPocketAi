@@ -5,6 +5,7 @@ import {ENGLAND_Y6_MATH_LESSONS} from './math_england_y6_curriculum.mjs';
 import {mathUpperCohortGuidance} from './math_ro_upper_cohort_policy.mjs';
 import {mathCountryYearSequence,mathCountryPhasePlan,mathCountryEvidence} from './math_country_year_alignment_2026.mjs';
 import {franceGrade5eLessons} from './math_france_5e_2026.mjs';
+import {ITALY_MATH_YEARS,italyMathGradeProfile} from './math_italy_framework_2026.mjs';
 import {portugalMath2026Lessons,PORTUGAL_MATH_2026_SOURCE} from './math_portugal_2026.mjs';
 // Mathematics learning paths for every European country in the Education picker.
 // A progression is *advisory* unless an official country/grade source is attached.
@@ -44,6 +45,7 @@ const PATHS=Object.freeze({
 // labelled advisory; users can select the phase of their own course.
 export function mathCountryStudyYears({country,stage,years=[]}={}){
  const code=String(country||'').toUpperCase(),st=String(stage||'');
+ if(code==='IT'&&ITALY_MATH_YEARS[st])return ITALY_MATH_YEARS[st].map(x=>({...x}));
  if(st!=='advanced')return mathCountryYearSequence({country:code,stage:st,years});
  if(Array.isArray(years)&&years.length>=3)return years;
  const count=({'RO':3,'GB-ENG':3,'GB-WLS':3,'GB-NIR':3,'GB-SCT':4})[code]||4;
@@ -59,6 +61,24 @@ export function mathCountryGradeAreas({country,stage,grade,years}={}){
  const yearList=Array.isArray(years)?years:[];
  const index=yearList.findIndex(x=>String(x.id)===String(grade));
  if(!PATHS[st]||index<0)return {status:'invalid-selection',country,stage:st,grade,units:[]};
+ if(country==='IT'){
+  const native=italyMathGradeProfile(grade);
+  if(native&&native.stage===st){
+   const alignment=mathCountryPhasePlan({country,stage:st,grade,years:yearList});
+   const clientStage=st==='beginner'?'primary':st==='medium'?'intermediate':st;
+   return {status:'general-learning',country,stage:st,grade,
+    source:native.source,manualExample:null,note:native.note,
+    cohort:native.cohort,
+    units:native.units.map(({id,ro,en,it})=>({
+     id,ro,en,it,focus:'',countrySpecific:false,countryFrameworkSpecific:true,
+     lessonCount:mathCountryCourseEntries({
+      country,stage:clientStage,grade,phase:alignment.phase,
+      phases:alignment.phases,topic:id}).length,
+     curriculumCompletion:'partial-source-review',
+     curriculumSource:native.source,manualExample:null
+    }))};
+  }
+ }
  if(country==='PT'&&st==='lower'&&['5','6'].includes(String(grade))){
   // Official DGE 2026 references are per grade; Year 5 and Year 6 must not
   // share the same generic phase just because both belong to the 2nd cycle.
