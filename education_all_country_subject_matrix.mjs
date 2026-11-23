@@ -131,7 +131,7 @@ export function educationSubjectSchoolPlan({country,stage,grade,subject,track=''
   // ES Mathematics choices for ESO 4/Bachillerato must specify A/B or
   // the correct Bachillerato modality. Other subjects retain the original
   // national school-year IDs without any changes to their existing picker.
-  !(key==='mathematics'&&['ES','MT','VA'].includes(code)&&
+  !(key==='mathematics'&&['ES','MT','VA','RO'].includes(code)&&
     !mathsYears.some(x=>x.id===g));
  if(!valid)return {country:code,stage:st,grade:g,subject:key,status:'invalid-selection',
   units:[],schoolYear:EDUCATION_SCHOOL_YEAR,gradeStatus:school.status,verifiedManual:false};
@@ -169,7 +169,7 @@ export function educationCoverageTotals(){
  for(const code of EDUCATION_EUROPE_COUNTRIES)for(const stage of EDUCATION_SCHOOL_STAGES){
   const years=educationCountrySchoolYears(code,stage);
   if(years.status==='grade-unmapped')totals.unmappedStages++;
-  const separateMathYears=['ES','MT','VA'].includes(code);
+  const separateMathYears=['ES','MT','VA','RO'].includes(code);
   const mathYears=separateMathYears?
    mathCountryStudyYears({country:code,stage,years:years.years}):[];
   const canonicalIds=new Set(years.years.map(x=>String(x.id)));
