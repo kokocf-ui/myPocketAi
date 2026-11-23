@@ -1,0 +1,63 @@
+import assert from 'node:assert/strict';
+import vm from 'node:vm';
+import frontend from './index.js';
+import {PL_CLASS4_2026_SOURCES,PL_IV_2026_LESSONS,polandClass4Lessons,polandClass4Crosswalk} from './math_poland_class4_2026_lessons.mjs';
+import {mathCountryCourseEntries,mathInDepthMaterial} from './math_depth_courses.mjs';
+import {mathCountryGradeAreas,mathCountryStudyYears} from './math_country_grade_areas.mjs';
+import {educationCountrySchoolYears,educationSubjectSchoolPlan} from './education_all_country_subject_matrix.mjs';
+import {mathCurriculumReadiness} from './math_curriculum_readiness.mjs';
+assert.equal(PL_IV_2026_LESSONS.length,37,'37 original Polish Grade IV chapters');
+assert.equal(new Set(PL_IV_2026_LESSONS.map(x=>x.id)).size,37);
+assert.equal(new Set(PL_IV_2026_LESSONS.map(x=>x.title)).size,37,'Distinct topics instead of repeated European phase bank');
+assert.equal(PL_IV_2026_LESSONS.filter(x=>x.topic==='algebra').length,24);
+assert.equal(PL_IV_2026_LESSONS.filter(x=>x.topic==='geometry').length,10);
+assert.equal(PL_IV_2026_LESSONS.filter(x=>x.topic==='statistics').length,3);
+assert.ok(PL_IV_2026_LESSONS.every(x=>x.country==='PL'&&x.grade==='IV'&&x.native&&x.title&&
+ x.statement.length>80&&x.worked.length>50&&x.formula&&x.practice&&x.answers));
+assert.ok(PL_CLASS4_2026_SOURCES.law.includes('2026/378'));
+assert.ok(PL_CLASS4_2026_SOURCES.approvedManual.includes('4531/show'));
+assert.ok(PL_CLASS4_2026_SOURCES.independentScheme.includes('gwo.pl'));
+assert.ok(PL_IV_2026_LESSONS.every(x=>mathInDepthMaterial(x).includes('Polonia, clasa IV')));
+const years=mathCountryStudyYears({
+ country:'PL',stage:'lower',years:educationCountrySchoolYears('PL','lower').years
+});
+assert.deepEqual(years.map(x=>x.id),['IV','V','VI','VII','VIII']);
+const p=mathCountryGradeAreas({country:'PL',stage:'lower',grade:'IV',years});
+assert.equal(p.status,'general-learning');
+assert.equal(p.source,PL_CLASS4_2026_SOURCES.law);
+assert.equal(p.manualExample,PL_CLASS4_2026_SOURCES.approvedManual);
+assert.equal(p.externalUnitSequence,PL_CLASS4_2026_SOURCES.independentScheme);
+assert.deepEqual(p.units.map(x=>x.lessonCount),[24,10,3]);
+assert.ok(p.units.every(x=>x.countrySpecific&&x.curriculumCompletion==='partial-source-review'));
+const matrix=educationSubjectSchoolPlan({country:'PL',stage:'lower',grade:'IV',subject:'mathematics'});
+assert.deepEqual(matrix.units.map(x=>x.lessonCount),[24,10,3]);
+assert.equal(matrix.verifiedManual,false);
+for(const unit of p.units){
+ const cards=mathCountryCourseEntries({country:'PL',stage:'lower',grade:'IV',topic:unit.id,phase:1});
+ assert.deepEqual(cards,polandClass4Lessons(unit.id));
+ assert.ok(cards.every(x=>x.practice&&x.answers&&x.source===PL_CLASS4_2026_SOURCES.law));
+}
+assert.equal(polandClass4Crosswalk().complete,false);
+assert.equal(educationSubjectSchoolPlan({country:'PL',stage:'beginner',grade:'IV',subject:'mathematics'}).status,'invalid-selection');
+const v=mathCountryGradeAreas({country:'PL',stage:'lower',grade:'V',years});
+assert.ok(v.units.every(x=>x.curriculumCompletion!=='partial-source-review'));
+assert.ok(!v.note.includes('2026/27. Programa matematicii introdusă în clasa IV'));
+const audit=mathCurriculumReadiness();
+const row=audit.rows.find(x=>x.country==='PL'&&x.stage==='lower'&&x.grade==='IV');
+assert.ok(row?.officialYearSourceMapped&&!row.complete);
+assert.equal(row.lessonCount,37);
+const html=await(await frontend.fetch(new Request('https://math-pl-2026.test/'))).text();
+const inline=html.match(/<script[^>]*>([\s\S]*?)<\/script>/)?.[1];
+assert.ok(inline);new vm.Script(inline);
+const cardsRaw=inline.split('const PL_IV_2026_LESSONS=')[1]?.split(';\n')[0];
+assert.ok(cardsRaw,'All 37 Poland Grade IV lessons must exist on actual Android');
+const cardBank=JSON.parse(cardsRaw);
+assert.equal(cardBank.length,37);
+assert.ok(inline.includes('function polandClass4Lessons(topic)'));
+assert.ok(cardBank.some(x=>x.title==='Împărțirea cu rest'));
+assert.ok(cardBank.some(x=>x.title==='Volumul paralelipipedului'));
+assert.ok(cardBank.some(x=>x.title==='Descoperirea greșelilor din rezolvare'));
+const areasRaw=inline.split('const EDU_MATH_GRADE_AREAS=')[1].split(';\n')[0];
+const areas=JSON.parse(areasRaw);
+assert.deepEqual(areas['PL|lower|IV'].map(x=>x.lessonCount),[24,10,3]);
+console.log('PASS Poland 2026 law class IV with 37 nationally source-mapped original worked chapters and registered official textbook, Android all embedded, older Polish cohorts untouched');
