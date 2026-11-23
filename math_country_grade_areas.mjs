@@ -4,6 +4,7 @@ import {ro678TopicLessons,ro678GradeSummary} from './math_ro678_curriculum.mjs';
 import {ENGLAND_Y6_MATH_LESSONS} from './math_england_y6_curriculum.mjs';
 import {mathUpperCohortGuidance} from './math_ro_upper_cohort_policy.mjs';
 import {mathCountryYearSequence,mathCountryPhasePlan,mathCountryEvidence} from './math_country_year_alignment_2026.mjs';
+import {franceGrade5eLessons} from './math_france_5e_2026.mjs';
 // Mathematics learning paths for every European country in the Education picker.
 // A progression is *advisory* unless an official country/grade source is attached.
 // Stage years are supplied by the shared school-year mapping, never inferred from
@@ -57,6 +58,21 @@ export function mathCountryGradeAreas({country,stage,grade,years}={}){
  const yearList=Array.isArray(years)?years:[];
  const index=yearList.findIndex(x=>String(x.id)===String(grade));
  if(!PATHS[st]||index<0)return {status:'invalid-selection',country,stage:st,grade,units:[]};
+ if(country==='FR'&&st==='lower'&&String(grade)==='5e'){
+  const evidence=mathCountryEvidence({country,stage:st,grade});
+  const units=[
+   ['algebra','Numere, calcul și ecuații','Numbers, calculations and equations'],
+   ['geometry','Geometrie plană și în spațiu','Plane and spatial geometry'],
+   ['statistics','Statistică și probabilități','Statistics and probability'],
+   ['functions','Proporționalitate și primele funcții','Proportionality and first functions']
+  ].map(([id,ro,en])=>({id,ro,en,focus:'',
+    lessonCount:franceGrade5eLessons(id).length,countrySpecific:true,
+    curriculumCompletion:'partial-source-review',curriculumSource:evidence.source,
+    manualExample:evidence.manualExample}));
+  return {status:'general-learning',country,stage:st,grade,units,
+   note:'Franța 5e (2026/27): 19 lecții originale grupate după capitolele manualului 2026; corelare tematică, fără validarea integrală a programei.',
+   source:evidence.source,manualExample:evidence.manualExample};
+ }
  const sequence=PATHS[st];
  const alignment=mathCountryPhasePlan({country,stage:st,grade,years:yearList});
  const phase=Math.max(0,Math.min(sequence.length-1,alignment.phase-1));
