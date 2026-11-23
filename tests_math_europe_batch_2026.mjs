@@ -11,6 +11,7 @@ import {mathCountryPhasePlan,MATH_EUROPE_SOURCE_REGISTRY,MATH_COUNTRY_STAGE_LABE
 import {mathCountryCourseEntries,mathInDepthMaterial} from './math_depth_courses.mjs';
 import {educationCountrySchoolYears,educationSubjectSchoolPlan}
  from './education_all_country_subject_matrix.mjs';
+import {HUNGARY_MATH_SOURCES} from './math_hungary_full_track_2026.mjs';
 
 const EXPECTED={
  FI:[6,3,3],SE:[6,3,3],NO:[7,3,3],DK:[6,3,3],NL:[8,3,3],
@@ -55,8 +56,10 @@ for(const country of MATH_BULK_CODES){
    assert.equal(integrated.status,'general-learning',
     'Official framework != verified annual textbook');
    const plIV=country==='PL'&&stage==='lower'&&String(grade)==='IV';
-   assert.equal(plan.source,plIV?'https://eli.gov.pl/eli/DU/2026/378/ogl/pol':src);
-   assert.equal(integrated.source,plIV?'https://eli.gov.pl/eli/DU/2026/378/ogl/pol':src);
+   const expectedSrc=plIV?'https://eli.gov.pl/eli/DU/2026/378/ogl/pol':
+    country==='HU'?HUNGARY_MATH_SOURCES[stage==='beginner'?'primary':stage==='lower'?'lower':'upper']:src;
+   assert.equal(plan.source,expectedSrc);
+   assert.equal(integrated.source,expectedSrc);
    assert.ok(plIV?plan.note.includes('Nu sunt texte copiate din manuale'):
     plan.note.includes('nu o listă oficială'),
     'All jurisdictions need transparent coverage warnings');

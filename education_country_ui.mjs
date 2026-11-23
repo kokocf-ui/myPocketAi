@@ -13,6 +13,11 @@ import {MATH_READER_LOCALE_UI_SCRIPT} from './math_reader_locale_ui.mjs';
 import {RO9_SCIENCE_2026_LESSONS} from './math_ro9_science_2026.mjs';
 import {ENGLAND_Y34_LESSONS} from './math_england_year3_year4_2026.mjs';
 import {PL_IV_2026_LESSONS} from './math_poland_class4_2026_lessons.mjs';
+import {HUNGARY_MATH_GRADES,hungaryMathOriginalLessons} from './math_hungary_full_track_2026.mjs';
+import {hungaryGrade5Lessons} from './math_hungary_grade5_2026.mjs';
+import {spainMathOriginalEntries} from './math_spain_lomloe_2026.mjs';
+import {italyMathFocalLessons} from './math_italy_framework_2026.mjs';
+import {portugalMath2026Lessons} from './math_portugal_2026.mjs';
 const EDU_MATH_COUNTRY_YEARS={};
 const EDU_MATH_GRADE_AREAS={};
 const EDU_MATH_GRADE_NOTES={};
@@ -24,6 +29,25 @@ const EDU_MATH_SECOND_BATCH_EXAMPLES={};
 const EDU_MATH_SECOND_BATCH_SET=new Set(MATH_SECOND_BATCH_COUNTRIES);
 const EDU_MATH_FINAL_EXAMPLES={};
 const EDU_MATH_FINAL_SET=new Set(MATH_FINAL_COUNTRIES);
+const EDU_HUNGARY_GRADE_META=Object.fromEntries(
+ Object.entries(HUNGARY_MATH_GRADES).map(([grade,entry])=>[grade,{stage:entry.stage,phase:entry.phase}])
+);
+const EDU_HUNGARY_G5_LESSONS={
+ algebra:hungaryGrade5Lessons('algebra'),
+ geometry:hungaryGrade5Lessons('geometry'),
+ statistics:hungaryGrade5Lessons('statistics')
+};
+const EDU_HUNGARY_ORIGINAL_LESSONS={};
+for(const [grade,entry] of Object.entries(HUNGARY_MATH_GRADES)){
+ if(grade==='5')continue;
+ for(const [topic] of entry.units){
+  const items=hungaryMathOriginalLessons({grade,topic});
+  if(items.length)EDU_HUNGARY_ORIGINAL_LESSONS[grade+'|'+topic]=items;
+ }
+}
+const EDU_SPAIN_ORIGINAL_LESSONS={};
+const EDU_ITALY_FOCAL_LESSONS={};
+const EDU_PORTUGAL_2026_LESSONS={};
 for(const code of EDUCATION_EUROPE_COUNTRIES)for(const stage of EDUCATION_SCHOOL_STAGES){
  const years=mathCountryStudyYears({country:code,stage,years:educationCountrySchoolYears(code,stage).years});
  EDU_MATH_COUNTRY_YEARS[code+'|'+stage]=years.map(({id,ro,en,it,es,native,nativeLang})=>({id,ro,en,...(it?{it}:{}),...(es?{es}:{}),...(native?{native,nativeLang}:{})}));
@@ -32,6 +56,22 @@ for(const code of EDUCATION_EUROPE_COUNTRIES)for(const stage of EDUCATION_SCHOOL
   // The existing UI reads only id, ro, and en. Keep complete pedagogical
   // metadata in the server-side plan rather than duplicating it in Android HTML.
   EDU_MATH_GRADE_AREAS[code+'|'+stage+'|'+year.id]=path.units.map(({id,ro,en,it,es,native,nativeLang})=>({id,ro,en,...(it?{it}:{}),...(es?{es}:{}),...(native?{native,nativeLang}:{})}));
+  if(code==='ES'){
+   for(const unit of path.units){
+    const items=spainMathOriginalEntries({grade:year.id,topic:unit.id});
+    if(items.length)EDU_SPAIN_ORIGINAL_LESSONS[year.id+'|'+unit.id]=items;
+   }
+  }else if(code==='IT'){
+   for(const unit of path.units){
+    const items=italyMathFocalLessons({grade:year.id,topic:unit.id});
+    if(items.length)EDU_ITALY_FOCAL_LESSONS[year.id+'|'+unit.id]=items;
+   }
+  }else if(code==='PT'&&stage==='lower'){
+   for(const unit of path.units){
+    const items=portugalMath2026Lessons({grade:year.id,topic:unit.id});
+    if(items.length)EDU_PORTUGAL_2026_LESSONS[year.id+'|'+unit.id]=items;
+   }
+  }
   const {phase,phases}=mathCountryPhasePlan({country:code,stage,grade:year.id,years});
   EDU_MATH_GRADE_PHASES[code+'|'+stage+'|'+year.id]={phase,phases};
   if(EDU_MATH_BULK_SET.has(code)&&stage!=='advanced'){
@@ -101,6 +141,17 @@ export const EDUCATION_COUNTRY_UI_SCRIPT=
  'const EDU_MATH_GRADE_NOTES='+JSON.stringify(EDU_MATH_GRADE_NOTES)+';\n'+
   'const PL_IV_2026_LESSONS='+JSON.stringify(PL_IV_2026_LESSONS)+';\n'+
  'function polandClass4Lessons(topic){return PL_IV_2026_LESSONS.filter(x=>x.topic===String(topic||\'\')).map(x=>state.language===\'pl\'?{...x,enTitle:x.native}:x);}\n'+
+ 'const HUNGARY_MATH_GRADES='+JSON.stringify(EDU_HUNGARY_GRADE_META)+';\n'+
+ 'const HUNGARY_G5_LESSONS='+JSON.stringify(EDU_HUNGARY_G5_LESSONS)+';\n'+
+ 'function hungaryGrade5Lessons(topic){return HUNGARY_G5_LESSONS[String(topic||\'\')]||[];}\n'+
+ 'const HUNGARY_ORIGINAL_LESSONS='+JSON.stringify(EDU_HUNGARY_ORIGINAL_LESSONS)+';\n'+
+ 'function hungaryMathOriginalLessons({grade,topic}={}){return HUNGARY_ORIGINAL_LESSONS[String(grade||\'\')+\'|\'+String(topic||\'\')]||[];}\n'+
+ 'const SPAIN_MATH_ORIGINAL_LESSONS='+JSON.stringify(EDU_SPAIN_ORIGINAL_LESSONS)+';\n'+
+ 'function spainMathOriginalEntries({grade,topic}={}){return SPAIN_MATH_ORIGINAL_LESSONS[String(grade||\'\')+\'|\'+String(topic||\'\')]||[];}\n'+
+ 'const ITALY_MATH_FOCAL_LESSONS='+JSON.stringify(EDU_ITALY_FOCAL_LESSONS)+';\n'+
+ 'function italyMathFocalLessons({grade,topic}={}){return ITALY_MATH_FOCAL_LESSONS[String(grade||\'\')+\'|\'+String(topic||\'\')]||[];}\n'+
+ 'const PORTUGAL_MATH_2026_LESSONS='+JSON.stringify(EDU_PORTUGAL_2026_LESSONS)+';\n'+
+ 'function portugalMath2026Lessons({grade,topic}={}){return PORTUGAL_MATH_2026_LESSONS[String(grade||\'\')+\'|\'+String(topic||\'\')]||[];}\n'+
  'const ENGLAND_Y34_COURSES='+JSON.stringify(ENGLAND_Y34_LESSONS)+';\n'+
  'function englandY34TopicLessons(grade,topic){return (ENGLAND_Y34_COURSES[String(grade||\'\')]||[]).filter(row=>row.topic===String(topic||\'\'));}\n'+
  'const ENGLAND_KS4_LESSONS='+JSON.stringify(ENGLAND_KS4_LESSONS)+';\n'+

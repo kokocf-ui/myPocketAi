@@ -1,4 +1,6 @@
 import assert from 'node:assert/strict';
+import vm from 'node:vm';
+import app from './index.js';
 import {HUNGARY_MATH_GRADES,HUNGARY_MATH_SOURCES,HUNGARY_MATH_UNIVERSITY_YEARS,
  hungaryMathOriginalLessons} from './math_hungary_full_track_2026.mjs';
 import {hungaryGrade5Lessons} from './math_hungary_grade5_2026.mjs';
@@ -65,5 +67,20 @@ assert.match(techYears.find(x=>String(x.id)==='13').ro,/numai technikum/);
 assert.ok(!techYears.find(x=>String(x.id)==='12').ro.includes('technikum'));
 const oldRomanian=mathCountryCourseEntries({country:'RO',stage:'lower',grade:'5',topic:'algebra'});
 assert.ok(oldRomanian.length>0,'Romania must not regress');
+const renderedHtml=await(await app.fetch(new Request('https://test.local/'))).text();
+const clientScript=renderedHtml.match(/<script[^>]*>([\s\S]*?)<\/script>/)?.[1];
+assert.ok(clientScript,'Frontend HTML must include inline script');
+new vm.Script(clientScript);
+for(const requiredClientBinding of [
+ 'const HUNGARY_MATH_GRADES=',
+ 'function hungaryGrade5Lessons(',
+ 'function hungaryMathOriginalLessons(',
+ 'function spainMathOriginalEntries(',
+ 'function italyMathFocalLessons(',
+ 'function portugalMath2026Lessons('
+]){
+ assert.ok(clientScript.includes(requiredClientBinding),
+  'Android/browser bundle missing '+requiredClientBinding);
+}
 console.log('PASS Hungary: 18 real study selections, 30 dedicated original lessons, '+total+
  ' displayed lesson cards including existing advisory bank. No full-year certification.');

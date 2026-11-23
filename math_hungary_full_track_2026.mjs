@@ -116,23 +116,45 @@ export const HUNGARY_MATH_GRADES=Object.freeze({
   'MSc anul II: parcurs orientativ, nu o programă națională unică.')
 });
 export const HUNGARY_MATH_UNIVERSITY_YEARS=Object.freeze([
- {id:'BSC1',ro:'Matematică BSc · anul I',en:'Mathematics BSc · Year 1',native:'Matematika BSc · 1. év',curriculumVerified:false,nationalYearVerified:false},
- {id:'BSC2',ro:'Matematică BSc · anul II',en:'Mathematics BSc · Year 2',native:'Matematika BSc · 2. év',curriculumVerified:false,nationalYearVerified:false},
- {id:'BSC3',ro:'Matematică BSc · anul III',en:'Mathematics BSc · Year 3',native:'Matematika BSc · 3. év',curriculumVerified:false,nationalYearVerified:false},
- {id:'MSC1',ro:'Matematică MSc · anul I (după BSc)',en:'Mathematics MSc · Year 1',native:'Matematika MSc · 1. év',curriculumVerified:false,nationalYearVerified:false},
- {id:'MSC2',ro:'Matematică MSc · anul II (după BSc)',en:'Mathematics MSc · Year 2',native:'Matematika MSc · 2. év',curriculumVerified:false,nationalYearVerified:false}
+ {id:'BSC1',ro:'Matematică BSc · anul I',en:'Mathematics BSc · Year 1',native:'Matematika BSc · 1. év',nativeLang:'hu',curriculumVerified:false,nationalYearVerified:false},
+ {id:'BSC2',ro:'Matematică BSc · anul II',en:'Mathematics BSc · Year 2',native:'Matematika BSc · 2. év',nativeLang:'hu',curriculumVerified:false,nationalYearVerified:false},
+ {id:'BSC3',ro:'Matematică BSc · anul III',en:'Mathematics BSc · Year 3',native:'Matematika BSc · 3. év',nativeLang:'hu',curriculumVerified:false,nationalYearVerified:false},
+ {id:'MSC1',ro:'Matematică MSc · anul I (după BSc)',en:'Mathematics MSc · Year 1',native:'Matematika MSc · 1. év',nativeLang:'hu',curriculumVerified:false,nationalYearVerified:false},
+ {id:'MSC2',ro:'Matematică MSc · anul II (după BSc)',en:'Mathematics MSc · Year 2',native:'Matematika MSc · 2. év',nativeLang:'hu',curriculumVerified:false,nationalYearVerified:false}
 ]);
+const HUNGARY_NATIVE_TOPICS=Object.freeze({
+ arithmetic:'Számok és műveletek',
+ geometry:'Geometria',
+ measurement:'Mérés és mértékegységek',
+ statistics:'Statisztika és valószínűség',
+ algebra:'Algebra és egyenletek',
+ functions:'Függvények',
+ trigonometry:'Trigonometria',
+ analysis:'Analízis',
+ 'linear-algebra':'Lineáris algebra',
+ discrete:'Diszkrét matematika',
+ differential:'Differenciálegyenletek'
+});
 export function hungaryMathStudyYears({stage,years=[]}={}){
  if(stage==='advanced')return HUNGARY_MATH_UNIVERSITY_YEARS.map(y=>({...y}));
- if(stage==='medium')return years.map(y=>({
-  ...y,
-  ro:String(y.id)==='13'?'Clasa 13 · numai technikum':y.ro,
-  en:String(y.id)==='13'?'Grade 13 · technikum only':y.en,
-  native:String(y.id)==='13'?'Technikum · 13. évfolyam':y.native,
-  trackRequired:String(y.id)==='13'?'technikum':undefined,
-  curriculumVerified:false
- }));
- return years;
+ const needsStream=stage==='medium';
+ return years.map(y=>{
+  const id=String(y.id),tech=stage==='medium'&&id==='13';
+  const defaultNative=stage==='beginner'||stage==='lower'
+   ?'Általános iskola · '+id+'. évfolyam'
+   :'Gimnázium/technikum · '+id+'. évfolyam'+(tech?' (technikum)':'');
+  return {
+   ...y,
+   ro:tech?'Clasa 13 · numai technikum':y.ro,
+   en:tech?'Grade 13 · technikum only':y.en,
+   native:tech?'Technikum · 13. évfolyam (csak technikum)':(y.native||defaultNative),
+   nativeLang:y.nativeLang||'hu',
+   trackRequired:tech?'technikum':undefined,
+   nationalYearVerified:y.nationalYearVerified===false?false:!needsStream,
+   curriculumVerified:false,
+   countryFrameworkSpecific:true
+  };
+ });
 }
 export function hungaryMathPhase({stage,grade}={}){
  const p=HUNGARY_MATH_GRADES[String(grade||'')];
@@ -233,15 +255,16 @@ export function hungaryMathGradeProfile({stage,grade,lessonCount}={}){
  const advanced=stage==='advanced',tech=code==='13';
  const source=advanced?HUNGARY_MATH_SOURCES.university:
   HUNGARY_MATH_SOURCES[stage==='beginner'?'primary':stage==='lower'?'lower':'upper'];
- const note=(advanced?'Programă universitară orientativă, instituțională; nu există un curriculum național de licență/master identic în toate universitățile. ':
-  tech?'Anul 13 există doar pentru trasee technikum selectate; nu se afișează ca anul 13 al gimnázium general. ':
-  'NAT 2020 definește competențe pe cicluri multianuale; alocarea exactă a lecțiilor la o anumită clasă aparține și programei școlii. ')+
-  p.focus+' Lecții suplimentare originale, corelate cu domeniile oficiale, alături de o bancă generală. Nu certificăm acoperirea completă a programei anuale ori a cuprinsului manualelor.';
+ const note=(advanced?'Ungaria: programă universitară orientativă, instituțională; nu există un curriculum național de licență/master identic în toate universitățile. ':
+  tech?'Ungaria: NAT 2020; anul 13 există doar pentru trasee technikum selectate și nu se afișează ca anul 13 al gimnázium general. ':
+  'Ungaria: NAT 2020 definește competențe pe cicluri multianuale; alocarea exactă a lecțiilor la o anumită clasă aparține și programei școlii. ')+
+  p.focus+' Lecții suplimentare originale, corelate cu domeniile oficiale, alături de o bancă generală, nu o listă oficială de manual pe fiecare an. Nu certificăm acoperirea completă a programei anuale ori a cuprinsului manualelor.';
  return {status:'general-learning',country:'HU',stage,grade:code,source,
   manualExample:code==='5'?'https://www.tankonyvkatalogus.hu/tankonyv/OH-MAT05TA':null,
   requires:advanced?'Universitatea, specializarea și anul':tech?'Traseul technikum':'Școala și programa locală',
   note,units:p.units.map(([id,ro,en])=>({
-   id,ro,en,focus:p.focus,lessonCount:lessonCount?lessonCount(id,p.phase):0,
+   id,ro,en,native:HUNGARY_NATIVE_TOPICS[id]||en||ro,nativeLang:'hu',
+   focus:p.focus,lessonCount:lessonCount?lessonCount(id,p.phase):0,
    countrySpecific:false,countryFrameworkSpecific:true,
    curriculumCompletion:'unverified-advisory',curriculumSource:source
   }))};
