@@ -46,7 +46,7 @@ for(const [stage,year] of Italy){
  assert.equal(p.source,italyMathGradeProfile(g).source);
  assert.equal(plan.source,p.source);
  assert.ok(p.units.length>=3,'Every Italian year has multiple national year areas '+g);
- assert.ok(p.units.every(x=>x.it&&x.ro&&x.en&&x.countrySpecific));
+ assert.ok(p.units.every(x=>x.it&&x.ro&&x.en&&x.countryFrameworkSpecific&&!x.countrySpecific));
  assert.ok(p.units.every(x=>x.curriculumCompletion==='partial-source-review'));
  for(const u of p.units){
   const actual=mathCountryCourseEntries({
