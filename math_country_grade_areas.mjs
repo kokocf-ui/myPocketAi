@@ -9,6 +9,7 @@ import {ITALY_MATH_YEARS,italyMathGradeProfile} from './math_italy_framework_202
 import {SPAIN_MATH_YEARS,spainMathGradeProfile} from './math_spain_lomloe_2026.mjs';
 import {bulkMathYearLabels,bulkMathNationalProfile} from './math_europe_batch_2026.mjs';
 import {secondBatchMathStudyYears,secondBatchMathGradeProfile} from './math_europe_second_batch_2026.mjs';
+import {finalMathStudyYears,finalMathGradeProfile} from './math_europe_final_systems_2026.mjs';
 import {portugalMath2026Lessons,PORTUGAL_MATH_2026_SOURCE} from './math_portugal_2026.mjs';
 // Mathematics learning paths for every European country in the Education picker.
 // A progression is *advisory* unless an official country/grade source is attached.
@@ -52,7 +53,8 @@ export function mathCountryStudyYears({country,stage,years=[]}={}){
  if(code==='ES'&&SPAIN_MATH_YEARS[st])return SPAIN_MATH_YEARS[st].map(x=>({...x}));
  if(st!=='advanced'){
   const national=mathCountryYearSequence({country:code,stage:st,years});
-  return secondBatchMathStudyYears({country:code,stage:st,years:national})||
+  return finalMathStudyYears({country:code,stage:st,years:national})||
+   secondBatchMathStudyYears({country:code,stage:st,years:national})||
    bulkMathYearLabels({country:code,stage:st,years:national})||national;
  }
  if(Array.isArray(years)&&years.length>=3)return years;
@@ -210,6 +212,20 @@ export function mathCountryGradeAreas({country,stage,grade,years}={}){
     lessonCount:mathInDepthEntries({stage:'primary',phase:6,topic:id}).length+
       ENGLAND_Y6_MATH_LESSONS.filter(lesson=>lesson.topic===id).length,
     countrySpecific:false,curriculumCompletion:'partial-source-review'}))};
+ }
+ const finalPath=finalMathGradeProfile({
+  country,stage:st,grade,years:yearList,topics:row
+ });
+ if(finalPath){
+  return {status:'general-learning',country,stage:st,grade,
+   source:finalPath.source,note:finalPath.note,
+   requires:finalPath.requires,manualExample:null,
+   units:finalPath.units.map(unit=>({
+    ...unit,lessonCount:mathCountryCourseEntries({
+     country,stage:clientStage,grade,phase:alignment.phase,
+     phases:alignment.phases,topic:unit.id
+    }).length
+   }))};
  }
  const second=secondBatchMathGradeProfile({
   country,stage:st,grade,years:yearList,topics:row
