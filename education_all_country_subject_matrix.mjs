@@ -126,7 +126,8 @@ export function educationSubjectSchoolPlan({country,stage,grade,subject,track=''
  const school=educationCountrySchoolYears(code,st);
  const mathsYears=key==='mathematics'?mathCountryStudyYears({country:code,stage:st,years:school.years}):[];
  const valid=allowedCountries.has(code)&&allowedSubjects.has(key)&&
-  (key==='mathematics'?mathsYears.some(x=>x.id===g):school.years.some(x=>x.id===g));
+  (school.years.some(x=>x.id===g)||mathsYears.some(x=>x.id===g))&&
+  !(key==='mathematics'&&code==='PL'&&st==='beginner'&&g==='IV');
  if(!valid)return {country:code,stage:st,grade:g,subject:key,status:'invalid-selection',
   units:[],schoolYear:EDUCATION_SCHOOL_YEAR,gradeStatus:school.status,verifiedManual:false};
  const data=subjectInventory(key,{country:code,stage:st,grade:g,track});
