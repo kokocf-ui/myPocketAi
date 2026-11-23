@@ -33,7 +33,7 @@ for(const row of RO9_SCIENCE_2026_LESSONS){
  }
  assert.ok(row.statement.length>=75,'Too-short authored explanation: '+row.id);
  assert.equal(row.country,'RO');
- assert.equal(row.grade,'9');
+ assert.equal(row.grade,'9-SCI');
  assert.equal(row.sourceStatus,'official-unit-and-publisher-toc-reviewed');
  assert.ok(row.source.includes('edu.ro'));
  assert.ok(mathInDepthMaterial(row).includes(row.worked));
@@ -41,7 +41,12 @@ for(const row of RO9_SCIENCE_2026_LESSONS){
 }
 const years=mathCountryStudyYears({country:'RO',stage:'medium',
  years:educationCountrySchoolYears('RO','medium').years});
-const plan=mathCountryGradeAreas({country:'RO',stage:'medium',grade:'9',years});
+assert.equal(years.length,5);
+assert.equal(years.find(y=>y.id==='9-SCI')?.ro,'Clasa a IX-a · Științe ale naturii (TC+CS)');
+const unspecified=mathCountryGradeAreas({country:'RO',stage:'medium',grade:'9',years});
+assert.ok(!unspecified.textbookUnits&&unspecified.units.every(x=>x.countrySpecific===false),
+ 'Do not give the science-track textbook to a ninth-grader who has not chosen a profile');
+const plan=mathCountryGradeAreas({country:'RO',stage:'medium',grade:'9-SCI',years});
 assert.equal(plan.status,'general-learning','Individual approved textbooks cannot certify every track');
 assert.equal(plan.schoolTrack,'științe-ale-naturii-TC-CS');
 assert.equal(plan.source,RO9_SCIENCE_2026_SOURCES.syllabus);
@@ -55,13 +60,13 @@ assert.equal(plan.units.reduce((n,x)=>n+x.lessonCount,0),35,
 for(const unit of plan.units){
  assert.equal(unit.countrySpecific,true);
  assert.equal(unit.curriculumCompletion,'source-unit-reviewed-not-full-year-certified');
- const entries=mathCountryCourseEntries({country:'RO',stage:'intermediate',grade:'9',
+ const entries=mathCountryCourseEntries({country:'RO',stage:'intermediate',grade:'9-SCI',
   topic:unit.id,phase:1,phases:[1]});
  assert.equal(entries.length,unit.lessonCount);
  assert.deepEqual(entries,ro9Science2026Lessons(unit.id));
 }
 const school=educationSubjectSchoolPlan({
- country:'RO',stage:'medium',grade:'9',subject:'mathematics'});
+ country:'RO',stage:'medium',grade:'9-SCI',subject:'mathematics'});
 assert.equal(school.units.reduce((n,x)=>n+x.lessonCount,0),35);
 assert.equal(school.verifiedManual,false);
 assert.ok(school.notes.some(x=>x.includes('științe')||x.includes('Științe')));
@@ -82,7 +87,7 @@ new vm.Script(inline);
 const raw=inline.split('const EDU_MATH_GRADE_AREAS=')[1]?.split(';\n')[0];
 assert.ok(raw);
 const android=JSON.parse(raw);
-assert.deepEqual(android['RO|medium|9'].map(x=>x.id),
+assert.deepEqual(android['RO|medium|9-SCI'].map(x=>x.id),
  ['algebra','geometry','functions','trigonometry']);
 assert.ok(inline.includes('function ro9Science2026Lessons(topic)'), 'All authored RO9 lessons must be available to real Android client');
 assert.ok(inline.includes('Polinoame cu coeficienți reali'));
