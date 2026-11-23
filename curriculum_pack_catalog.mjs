@@ -13,6 +13,7 @@ import { portugalMath2026Lessons } from './math_portugal_2026.mjs';
 import { RO_FULL_MATH_SOURCES, romaniaMathGapLessons } from './math_romania_full_2026.mjs';
 import { BATCH2_MATH_COUNTRIES, batch2MathLessons, batch2PackTextbooks } from './math_batch2_md_uk_fr_de_2026.mjs';
 import { batch3MathLessons, batch3PackTextbooks } from './math_batch3_es_it_pt_pl_2026.mjs';
+import { BATCH4_MATH_COUNTRIES, batch4MathLessons, batch4PackTextbooks } from './math_batch4_western_isles_2026.mjs';
 
 function fnv1aHash(str) {
   let hash = 2166136261;
@@ -162,6 +163,15 @@ function buildMathCountryPacks() {
       EDUCATION_SCHOOL_STAGES,
       ({ stage, grade, topic }) => batch2MathLessons({ country, stage, grade, topic }),
       (stage, grade) => batch2PackTextbooks(country, stage, grade)
+    )),
+
+    // Batch 4: AT, CH, BE, NL, LU, IE, GB-SCT, GB-WLS, GB-NIR — Grade 1 → university.
+    // NL groep 1–2 and IE Junior/Senior Infants keep their native early-years lessons.
+    ...BATCH4_MATH_COUNTRIES.flatMap(country => buildCountryStagePacks(
+      country,
+      EDUCATION_SCHOOL_STAGES,
+      ({ stage, grade, topic }) => batch4MathLessons({ country, stage, grade, topic }),
+      (stage, grade) => batch4PackTextbooks(country, stage, grade)
     ))
   ];
 }
