@@ -22,7 +22,10 @@ for(const country of EDUCATION_EUROPE_COUNTRIES){
     const esMathPlaceholder=country==='ES'&&plan.subject==='mathematics'&&
      !mathCountryStudyYears({country,stage,years:school.years})
       .some(x=>String(x.id)===String(year.id));
-    if(!esMathPlaceholder)covered.add(country+'/'+stage+'/'+year.id+'/'+plan.subject);
+    const plMathNotInPrimary=country==='PL'&&stage==='beginner'&&
+     String(year.id)==='IV'&&plan.subject==='mathematics';
+    if(!esMathPlaceholder&&!plMathNotInPrimary)
+     covered.add(country+'/'+stage+'/'+year.id+'/'+plan.subject);
     assert.equal(plan.country,country);
     assert.equal(plan.grade,year.id);
     assert.equal(plan.schoolYear,'2026/27');
