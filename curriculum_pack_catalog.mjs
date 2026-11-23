@@ -12,6 +12,7 @@ import { italyMathFocalLessons } from './math_italy_framework_2026.mjs';
 import { portugalMath2026Lessons } from './math_portugal_2026.mjs';
 import { RO_FULL_MATH_SOURCES, romaniaMathGapLessons } from './math_romania_full_2026.mjs';
 import { BATCH2_MATH_COUNTRIES, batch2MathLessons, batch2PackTextbooks } from './math_batch2_md_uk_fr_de_2026.mjs';
+import { batch3MathLessons, batch3PackTextbooks } from './math_batch3_es_it_pt_pl_2026.mjs';
 
 function fnv1aHash(str) {
   let hash = 2166136261;
@@ -109,25 +110,47 @@ function buildMathCountryPacks() {
       }] : [])
     ),
 
-    // 3. Spain (ES) — LOMLOE Primaria, ESO, Bachillerato
+    // 3. Spain (ES) — LOMLOE Primaria, ESO, Bachillerato + university (Batch 3).
+    // Existing LOMLOE focal lessons lead; Batch 3 concept lessons follow.
     ...buildCountryStagePacks(
       'ES',
       EDUCATION_SCHOOL_STAGES,
-      ({ grade, topic }) => spainMathOriginalEntries({ grade, topic })
+      ({ stage, grade, topic }) => [
+        ...(stage === 'advanced' ? [] : spainMathOriginalEntries({ grade, topic })),
+        ...batch3MathLessons({ country: 'ES', stage, grade, topic })
+      ],
+      (stage, grade) => batch3PackTextbooks('ES', stage, grade)
     ),
 
-    // 4. Italy (IT) — Primaria, Secondaria I & II grado
+    // 4. Italy (IT) — Primaria, Secondaria I & II grado + university (Batch 3)
     ...buildCountryStagePacks(
       'IT',
       EDUCATION_SCHOOL_STAGES,
-      ({ grade, topic }) => italyMathFocalLessons({ grade, topic })
+      ({ stage, grade, topic }) => [
+        ...(stage === 'advanced' ? [] : italyMathFocalLessons({ grade, topic })),
+        ...batch3MathLessons({ country: 'IT', stage, grade, topic })
+      ],
+      (stage, grade) => batch3PackTextbooks('IT', stage, grade)
     ),
 
-    // 5. Portugal (PT) — 2.º Ciclo (5.º & 6.º ano)
+    // 5. Portugal (PT) — native 5.º & 6.º ano; Batch 3 covers 1.º–4.º, 7.º–12.º
+    // and university.
     ...buildCountryStagePacks(
       'PT',
-      ['lower'],
-      ({ grade, topic }) => portugalMath2026Lessons({ grade, topic })
+      EDUCATION_SCHOOL_STAGES,
+      ({ stage, grade, topic }) => (stage === 'lower' && ['5', '6'].includes(String(grade))
+        ? portugalMath2026Lessons({ grade, topic })
+        : batch3MathLessons({ country: 'PT', stage, grade, topic })),
+      (stage, grade) => batch3PackTextbooks('PT', stage, grade)
+    ),
+
+    // Batch 3: Poland (PL) — klasy I–III, V–VIII, liceum 1–4, university.
+    // Native klasa IV keeps its dedicated inline course (no pack).
+    ...buildCountryStagePacks(
+      'PL',
+      EDUCATION_SCHOOL_STAGES,
+      ({ stage, grade, topic }) => batch3MathLessons({ country: 'PL', stage, grade, topic }),
+      (stage, grade) => batch3PackTextbooks('PL', stage, grade)
     ),
 
     // 6–9. Batch 2: Moldova (MD), England (GB-ENG), France (FR), Germany (DE)

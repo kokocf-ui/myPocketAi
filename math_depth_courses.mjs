@@ -211,13 +211,32 @@ export function mathInDepthEntries({stage,phase,topic}={}){
 // Grade-specific source-mapped course entries take precedence over the shared
 // advisory European sequence. Do not label generic lessons as national courses.
 export function mathCountryCourseEntries({country,stage,grade,phase,phases,topic}={}){
+ // Inner helpers: this function is serialized with toString() for the client.
+ const mathPackTopicRows=function(country,stage,grade,topic){
+  const rows=typeof eduPackTopicLessons==='function'
+   ?eduPackTopicLessons('mathematics',country,grade,topic,stage)
+   :(typeof __nodeMathPackLessons==='function'
+    ?__nodeMathPackLessons('mathematics',country,stage,grade,topic):[]);
+  return Array.isArray(rows)?rows:[];
+ }
+ const mathMergeCountryRows=function(...groups){
+  const seen=new Set();
+  return groups.flat().filter(item=>{
+   const key=item?.id||item?.title;
+   if(!key||seen.has(key))return false;
+   seen.add(key);return true;
+  });
+ }
  if(String(country||'').toUpperCase()==='ES'&&['primary','lower','intermediate'].includes(stage)){
   // The national branch is specific to Spanish school/mathematics option.
   // These original topic examples supplement generic exercise skills.
   const authored=spainMathOriginalEntries({grade,topic});
   const selected=Array.isArray(phases)&&phases.length?phases:[phase];
   const valid=[...new Set(selected.map(Number).filter(p=>Number.isInteger(p)&&p>=1&&p<=6))];
-  return [...authored,...valid.flatMap(p=>mathInDepthEntries({stage,phase:p,topic}))];
+  // Batch 3 (2026/27): decoupled pack concept lessons follow the LOMLOE focal
+  // lessons and precede the generic advisory bank (deduplicated by id).
+  return mathMergeCountryRows(authored,mathPackTopicRows(country,stage,grade,topic),
+   valid.flatMap(p=>mathInDepthEntries({stage,phase:p,topic})));
  }
  if(String(country||'').toUpperCase()==='IT'&&['primary','lower','intermediate'].includes(stage)){
   // Italian 5+3+5 school structure. Source-reviewed original entry lesson
@@ -226,7 +245,8 @@ export function mathCountryCourseEntries({country,stage,grade,phase,phases,topic
   const bespoke=italyMathFocalLessons({grade,topic});
   const selected=Array.isArray(phases)&&phases.length?phases:[phase];
   const valid=[...new Set(selected.map(Number).filter(p=>Number.isInteger(p)&&p>=1&&p<=6))];
-  return [...bespoke,...valid.flatMap(p=>mathInDepthEntries({stage,phase:p,topic}))];
+  return mathMergeCountryRows(bespoke,mathPackTopicRows(country,stage,grade,topic),
+   valid.flatMap(p=>mathInDepthEntries({stage,phase:p,topic})));
  }
  if(String(country||'').toUpperCase()==='HU'&&HUNGARY_MATH_GRADES[String(grade||'')]){
   // Every Hungarian year now has an explicit study path. Source-specific

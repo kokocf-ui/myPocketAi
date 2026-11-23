@@ -81,6 +81,7 @@ jobs:
           node tests_curriculum_pack_decoupling_2026.mjs
           node tests_math_romania_full_2026.mjs
           node tests_math_batch2_md_uk_fr_de_2026.mjs
+          node tests_math_batch3_es_it_pt_pl_2026.mjs
           node --check storybook_commons_photos.mjs
           node --check storybook_history_research.mjs
           node tests_tools_six_navigation.mjs
