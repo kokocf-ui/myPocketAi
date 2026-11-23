@@ -1,4 +1,6 @@
 import {RO5_MATH_LESSONS} from './math_ro5_curriculum.mjs';
+import {mathEarlyYearEntries,MATH_EARLY_YEAR_BANK} from './math_early_years_europe.mjs';
+export {mathEarlyYearEntries,MATH_EARLY_YEAR_BANK};
 import {RO678_MATH_LESSONS} from './math_ro678_curriculum.mjs';
 import {ENGLAND_Y6_MATH_LESSONS} from './math_england_y6_curriculum.mjs';
 export {ENGLAND_Y6_MATH_LESSONS};
@@ -191,6 +193,10 @@ export function mathInDepthEntries({stage,phase,topic}={}){
 // Grade-specific source-mapped course entries take precedence over the shared
 // advisory European sequence. Do not label generic lessons as national courses.
 export function mathCountryCourseEntries({country,stage,grade,phase,phases,topic}={}){
+ if(stage==='primary'){
+  const early=mathEarlyYearEntries({country,grade,topic});
+  if(early)return early;
+ }
  if(String(country||'').toUpperCase()==='GB-ENG'&&stage==='intermediate'&&['Y10','Y11'].includes(String(grade))){
   const g=String(grade),excluded=new Set(ENGLAND_KS4_EXCLUDED_TITLES[g]||[]);
   const standard=mathInDepthEntries({stage,phase:g==='Y10'?1:2,topic})
