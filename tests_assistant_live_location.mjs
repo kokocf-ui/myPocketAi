@@ -30,7 +30,7 @@ try{
  let result=await ask('Unde mă aflu?');
  assert.equal(result.location_received,true,JSON.stringify(result).slice(0,500));
  assert.match(result.reply,/10 Mill Lane/);
- assert.match(result.reply,/South Stifford/);
+ assert.doesNotMatch(result.reply,/South Stifford/);
  assert.match(result.reply,/Grays/);
  assert.match(result.reply,/RM20 4YE/);
  assert.equal(result.house_number,'10');
@@ -49,9 +49,7 @@ try{
  assert.equal(result.street,null,'Coarse location must not assert a street');
  assert.equal(result.postcode,null,'Coarse location must not assert a postcode');
  assert.doesNotMatch(result.reply,/Mill Lane|RM20 4YE/);
- assert.match(result.reply,/South Stifford/);
- assert.match(result.reply,/Locație precisă/);
- assert.match(result.reply,/1200 m/);
+ assert.equal(result.reply,'Grays, United Kingdom');
 
  const callsBeforeStale=calls.length;
  result=await ask('Unde mă aflu?',{ageMs:120000});
