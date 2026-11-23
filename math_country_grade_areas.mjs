@@ -7,6 +7,7 @@ import {mathCountryYearSequence,mathCountryPhasePlan,mathCountryEvidence} from '
 import {franceGrade5eLessons} from './math_france_5e_2026.mjs';
 import {ITALY_MATH_YEARS,italyMathGradeProfile} from './math_italy_framework_2026.mjs';
 import {SPAIN_MATH_YEARS,spainMathGradeProfile} from './math_spain_lomloe_2026.mjs';
+import {bulkMathYearLabels,bulkMathNationalProfile} from './math_europe_batch_2026.mjs';
 import {portugalMath2026Lessons,PORTUGAL_MATH_2026_SOURCE} from './math_portugal_2026.mjs';
 // Mathematics learning paths for every European country in the Education picker.
 // A progression is *advisory* unless an official country/grade source is attached.
@@ -48,7 +49,10 @@ export function mathCountryStudyYears({country,stage,years=[]}={}){
  const code=String(country||'').toUpperCase(),st=String(stage||'');
  if(code==='IT'&&ITALY_MATH_YEARS[st])return ITALY_MATH_YEARS[st].map(x=>({...x}));
  if(code==='ES'&&SPAIN_MATH_YEARS[st])return SPAIN_MATH_YEARS[st].map(x=>({...x}));
- if(st!=='advanced')return mathCountryYearSequence({country:code,stage:st,years});
+ if(st!=='advanced'){
+  const national=mathCountryYearSequence({country:code,stage:st,years});
+  return bulkMathYearLabels({country:code,stage:st,years:national})||national;
+ }
  if(Array.isArray(years)&&years.length>=3)return years;
  const count=({'RO':3,'GB-ENG':3,'GB-WLS':3,'GB-NIR':3,'GB-SCT':4})[code]||4;
  return Array.from({length:count},(_,i)=>({
@@ -204,6 +208,21 @@ export function mathCountryGradeAreas({country,stage,grade,years}={}){
     lessonCount:mathInDepthEntries({stage:'primary',phase:6,topic:id}).length+
       ENGLAND_Y6_MATH_LESSONS.filter(lesson=>lesson.topic===id).length,
     countrySpecific:false,curriculumCompletion:'partial-source-review'}))};
+ }
+ const batch=bulkMathNationalProfile({
+  country,stage:st,grade,years:yearList,topics:row
+ });
+ if(batch){
+  const evidence=mathCountryEvidence({country,stage:st,grade});
+  return {status:'general-learning',country,stage:st,grade,
+   source:batch.source,note:batch.note,
+   manualExample:evidence.manualExample||null,
+   units:batch.units.map(unit=>({
+    ...unit,lessonCount:mathCountryCourseEntries({
+     country,stage:clientStage,grade,phase:alignment.phase,
+     phases:alignment.phases,topic:unit.id
+    }).length
+   }))};
  }
  const evidence=mathCountryEvidence({country,stage:st,grade});
  return {status:'general-learning',country,stage:st,grade,

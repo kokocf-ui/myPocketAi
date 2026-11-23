@@ -6,21 +6,30 @@ import {MATH_THEOREMS_UI_SCRIPT} from './math_theorems_ui.mjs';
 import {mathCountryGradeAreas,mathCountryStudyYears} from './math_country_grade_areas.mjs';
 import {mathCountryPhasePlan,MATH_COUNTRY_STAGE_LABELS} from './math_country_year_alignment_2026.mjs';
 import {ENGLAND_KS4_LESSONS,ENGLAND_KS4_EXCLUDED_TITLES} from './math_england_ks4_curriculum.mjs';
+import {MATH_BULK_CODES,bulkMathFirstLessons} from './math_europe_batch_2026.mjs';
 const EDU_MATH_COUNTRY_YEARS={};
 const EDU_MATH_GRADE_AREAS={};
 const EDU_MATH_GRADE_NOTES={};
 const EDU_MATH_COUNTRY_NOTES={};
 const EDU_MATH_GRADE_PHASES={};
+const EDU_MATH_BULK_EXAMPLES={};
+const EDU_MATH_BULK_SET=new Set(MATH_BULK_CODES);
 for(const code of EDUCATION_EUROPE_COUNTRIES)for(const stage of EDUCATION_SCHOOL_STAGES){
  const years=mathCountryStudyYears({country:code,stage,years:educationCountrySchoolYears(code,stage).years});
- EDU_MATH_COUNTRY_YEARS[code+'|'+stage]=years.map(({id,ro,en,it,es})=>({id,ro,en,...(it?{it}:{}),...(es?{es}:{})}));
+ EDU_MATH_COUNTRY_YEARS[code+'|'+stage]=years.map(({id,ro,en,it,es,native,nativeLang})=>({id,ro,en,...(it?{it}:{}),...(es?{es}:{}),...(native?{native,nativeLang}:{})}));
  for(const year of years){
   const path=mathCountryGradeAreas({country:code,stage,grade:year.id,years});
   // The existing UI reads only id, ro, and en. Keep complete pedagogical
   // metadata in the server-side plan rather than duplicating it in Android HTML.
-  EDU_MATH_GRADE_AREAS[code+'|'+stage+'|'+year.id]=path.units.map(({id,ro,en,it,es})=>({id,ro,en,...(it?{it}:{}),...(es?{es}:{})}));
+  EDU_MATH_GRADE_AREAS[code+'|'+stage+'|'+year.id]=path.units.map(({id,ro,en,it,es,native,nativeLang})=>({id,ro,en:native||en,...(it?{it}:{}),...(es?{es}:{}),...(native?{native,nativeLang}:{})}));
   const {phase,phases}=mathCountryPhasePlan({country:code,stage,grade:year.id,years});
   EDU_MATH_GRADE_PHASES[code+'|'+stage+'|'+year.id]={phase,phases};
+  if(EDU_MATH_BULK_SET.has(code)&&stage!=='advanced'){
+   const clientStage=stage==='beginner'?'primary':stage==='medium'?'intermediate':stage;
+   const topic=stage==='beginner'?'arithmetic':stage==='lower'?'algebra':'functions';
+   const entries=bulkMathFirstLessons({country:code,stage:clientStage,grade:year.id,topic});
+   if(entries.length)EDU_MATH_BULK_EXAMPLES[[code,clientStage,year.id,topic].join('|')]=entries;
+  }
   const note=String(path.note||'');
   const countryNoteKey=code+'|'+stage;
   if(!Object.hasOwn(EDU_MATH_COUNTRY_NOTES,countryNoteKey))EDU_MATH_COUNTRY_NOTES[countryNoteKey]=note;
@@ -57,6 +66,8 @@ export const EDUCATION_COUNTRY_UI_SCRIPT=
  'const EDU_MATH_GRADE_AREAS='+JSON.stringify(EDU_MATH_GRADE_AREAS)+';\n'+
  'const EDU_MATH_STAGE_LABELS='+JSON.stringify(MATH_COUNTRY_STAGE_LABELS)+';\n'+
  'const EDU_MATH_GRADE_PHASES='+JSON.stringify(EDU_MATH_GRADE_PHASES)+';\n'+
+ 'const MATH_BULK_FIRST_LESSONS='+JSON.stringify(EDU_MATH_BULK_EXAMPLES)+';\n'+
+ 'function bulkMathFirstLessons({country,stage,grade,topic}={}){return MATH_BULK_FIRST_LESSONS[[String(country||\'\').toUpperCase(),stage,grade,topic].join(\'|\')]||[];}\n'+
  'const EDU_MATH_COUNTRY_NOTES='+JSON.stringify(EDU_MATH_COUNTRY_NOTES)+';\n'+
  'const EDU_MATH_GRADE_NOTES='+JSON.stringify(EDU_MATH_GRADE_NOTES)+';\n'+
   'const ENGLAND_KS4_LESSONS='+JSON.stringify(ENGLAND_KS4_LESSONS)+';\n'+
@@ -446,9 +457,9 @@ function educationGradeGate(moduleKey,level,proceed,back){
  panel.append(h,context,search,list);host.append(panel);
  let page=0;function draw(){
   list.replaceChildren();const text=eduCountryFold(search.value);
-  const filtered=options.filter(o=>!text||eduCountryFold(o.ro).includes(text)||eduCountryFold(o.en).includes(text)||eduCountryFold(o.it).includes(text)||eduCountryFold(o.es).includes(text)||eduCountryFold(o.id).includes(text));
+  const filtered=options.filter(o=>!text||eduCountryFold(o.ro).includes(text)||eduCountryFold(o.en).includes(text)||eduCountryFold(o.it).includes(text)||eduCountryFold(o.es).includes(text)||eduCountryFold(o.native).includes(text)||eduCountryFold(o.id).includes(text));
   if(page>=filtered.length)page=0;
-  filtered.slice(page,page+4).forEach(o=>{const b=document.createElement('button');b.type='button';b.className='secondary-btn';b.textContent=moduleKey==='math'&&country==='IT'&&state.language==='it'&&o.it?o.it:moduleKey==='math'&&country==='ES'&&state.language==='es'&&o.es?o.es:eduUiLabel(o.ro,o.en);b.style.cssText='min-height:52px;text-align:center;width:100%;min-width:0;padding:8px;white-space:normal;overflow-wrap:anywhere;';b.onclick=()=>startYear(o.id);list.append(b)});
+  filtered.slice(page,page+4).forEach(o=>{const b=document.createElement('button');b.type='button';b.className='secondary-btn';b.textContent=moduleKey==='math'&&country==='IT'&&state.language==='it'&&o.it?o.it:moduleKey==='math'&&country==='ES'&&state.language==='es'&&o.es?o.es:moduleKey==='math'&&o.native&&state.language===o.nativeLang?o.native:eduUiLabel(o.ro,o.en);b.style.cssText='min-height:52px;text-align:center;width:100%;min-width:0;padding:8px;white-space:normal;overflow-wrap:anywhere;';b.onclick=()=>startYear(o.id);list.append(b)});
   const arithmeticGradesOnly=moduleKey==='math'&&typeof mathJourney!=='undefined'&&mathJourney.topic==='arithmetic';
   if(!filtered.length){const p=document.createElement('p');p.textContent=arithmeticGradesOnly
    ?eduUiLabel('Pentru Aritmetică, alege una dintre clasele primare disponibile.','For Arithmetic, choose one of the available primary-school grades.')
