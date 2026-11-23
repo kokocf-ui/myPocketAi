@@ -10,6 +10,7 @@ import {MATH_BULK_CODES,bulkMathFirstLessons} from './math_europe_batch_2026.mjs
 import {MATH_SECOND_BATCH_COUNTRIES,secondBatchMathStarterLessons} from './math_europe_second_batch_2026.mjs';
 import {MATH_FINAL_COUNTRIES,finalMathStarterLessons} from './math_europe_final_systems_2026.mjs';
 import {MATH_READER_LOCALE_UI_SCRIPT} from './math_reader_locale_ui.mjs';
+import {RO9_SCIENCE_2026_LESSONS} from './math_ro9_science_2026.mjs';
 import {ENGLAND_Y34_LESSONS} from './math_england_year3_year4_2026.mjs';
 import {PL_IV_2026_LESSONS} from './math_poland_class4_2026_lessons.mjs';
 const EDU_MATH_COUNTRY_YEARS={};
@@ -84,7 +85,9 @@ for(const code of EDUCATION_EUROPE_COUNTRIES)for(const stage of EDUCATION_SCHOOL
 export const EDUCATION_COUNTRY_UI_SCRIPT=
  'const EDU_EUROPE_COUNTRY_LIST='+JSON.stringify(EDUCATION_EUROPE_COUNTRIES)+';\n'+
  'const EDU_MATH_COUNTRY_YEARS='+JSON.stringify(EDU_MATH_COUNTRY_YEARS)+';\n'+
- 'const EDU_MATH_GRADE_AREAS='+JSON.stringify(EDU_MATH_GRADE_AREAS)+';\n'+
+ 'const EDU_MATH_GRADE_AREAS='+JSON.stringify(EDU_MATH_GRADE_AREAS)+';\n'+ 'const RO9_SCIENCE_2026_LESSONS='+JSON.stringify(RO9_SCIENCE_2026_LESSONS)+';\n'+
+ 'function ro9Science2026Lessons(topic){return RO9_SCIENCE_2026_LESSONS.filter(row=>row.topic===topic)}\n'+
+
  'const EDU_MATH_STAGE_LABELS='+JSON.stringify(MATH_COUNTRY_STAGE_LABELS)+';\n'+
  'const EDU_MATH_GRADE_PHASES='+JSON.stringify(EDU_MATH_GRADE_PHASES)+';\n'+
  MATH_READER_LOCALE_UI_SCRIPT+'\n'+
