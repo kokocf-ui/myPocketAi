@@ -12,6 +12,8 @@ export {franceGrade5eLessons,FRANCE_5E_MATH_UNITS};
 export {mathEarlyYearEntries,MATH_EARLY_YEAR_BANK};
 import {RO678_MATH_LESSONS} from './math_ro678_curriculum.mjs';
 import {ENGLAND_Y6_MATH_LESSONS} from './math_england_y6_curriculum.mjs';
+import {englandY34TopicLessons,ENGLAND_Y34_LESSONS} from './math_england_year3_year4_2026.mjs';
+export {ENGLAND_Y34_LESSONS};
 export {ENGLAND_Y6_MATH_LESSONS};
 export {RO678_MATH_LESSONS};
 export {RO5_MATH_LESSONS};
@@ -223,6 +225,9 @@ export function mathCountryCourseEntries({country,stage,grade,phase,phases,topic
   return portugalMath2026Lessons({grade,topic});
  if(String(country||'').toUpperCase()==='FR'&&stage==='lower'&&String(grade)==='5e')
   return franceGrade5eLessons(topic);
+ if(String(country||'').toUpperCase()==='GB-ENG'&&stage==='primary'&&
+  ['Y3','Y4'].includes(String(grade)))
+  return englandY34TopicLessons(grade,topic);
  if(stage==='primary'){
   const early=mathEarlyYearEntries({country,grade,topic});
   if(early)return early;
