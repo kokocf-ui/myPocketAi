@@ -2,7 +2,7 @@
 // Country selects the national curriculum. state.language ONLY chooses the
 // display language: changing from Italian to English must not switch systems.
 // Reuses eduTranslateMaterial's guarded/cacheable JSON translation transport.
-export const MATH_READER_LOCALE_UI_SCRIPT=String.raw\`
+export const MATH_READER_LOCALE_UI_SCRIPT=String.raw`
 (function(){
  const seen=new WeakSet();
  let queued=false,epoch=0;
@@ -98,4 +98,4 @@ export const MATH_READER_LOCALE_UI_SCRIPT=String.raw\`
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});
  else init();
 })();
-\`;
+`;
