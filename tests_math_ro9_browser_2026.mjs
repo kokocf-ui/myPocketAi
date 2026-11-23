@@ -38,7 +38,7 @@ try{
  await click(page.locator('#view-module button').filter({hasText:'Continuă'}).first());
  await click(page.locator('#view-module .math-choice-row').filter({hasText:'Liceu'}).first());
  const search=page.locator('#view-module .edu-grade-panel input');
- await search.fill('9');
+ await search.fill('Științe ale naturii');
  await click(page.locator('#view-module .edu-grade-choice-grid button').first());
  const branches=await page.locator('#view-module .math-choice-list .math-choice-row').allTextContents();
  assert.ok(branches.some(x=>x.includes('Numere reale')),
