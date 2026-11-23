@@ -257,7 +257,21 @@ export function mathCountryCourseEntries({country,stage,grade,phase,phases,topic
   const g=String(grade),excluded=new Set(ENGLAND_KS4_EXCLUDED_TITLES[g]||[]);
   const standard=mathInDepthEntries({stage,phase:g==='Y10'?1:2,topic})
    .filter(entry=>!excluded.has(entry.title));
-  return [...standard,...(ENGLAND_KS4_LESSONS[g]?.[topic]||[])];
+  // Batch 2 (2026/27): England-specific pack cards (currently Y11 trigonometry:
+  // exact values, 3D trigonometry, sine/cosine rules) lead the branch. Tier
+  // filtering stays title-based through MATH_GCSE_HIGHER_ONLY.
+  const ks4Pack=(typeof eduPackTopicLessons==='function'
+   ?eduPackTopicLessons('mathematics',country,grade,topic,stage)
+   :(typeof __nodeMathPackLessons==='function'
+    ?__nodeMathPackLessons('mathematics',country,stage,grade,topic):[]))
+   .filter(entry=>!excluded.has(entry.title));
+  const ks4Rows=[...ks4Pack,...standard,...(ENGLAND_KS4_LESSONS[g]?.[topic]||[])];
+  const ks4Titles=new Set();
+  return ks4Rows.filter(entry=>{
+   const t=entry?.title;
+   if(!t||ks4Titles.has(t))return false;
+   ks4Titles.add(t);return true;
+  });
  }
  if(String(country||'').toUpperCase()==='GB-ENG'&&String(grade)==='Y6'&&stage==='primary')
   return [...mathInDepthEntries({stage,phase:6,topic}),
@@ -307,7 +321,9 @@ export function mathInDepthMaterial(entry){
  '# Verifică răspunsurile',entry.answers,
  '# Atenție', 'Fiecare operație trebuie justificată și verificată în context. Nu deduce măsuri, valori sau ipoteze care nu au fost precizate.',
  ...(entry.mistake?['# Greșeală frecventă și prevenirea ei',entry.mistake]:[]),
- '# Încadrare curriculară',entry.country==='RO'&&entry.stage==='primary'&&['1','2','3','4'].includes(String(entry.grade))
+ '# Încadrare curriculară',typeof entry.curriculumFrame==='string'&&entry.curriculumFrame.trim()
+  ?entry.curriculumFrame
+  :entry.country==='RO'&&entry.stage==='primary'&&['1','2','3','4'].includes(String(entry.grade))
   ?'Clasa a '+entry.grade+'-a, România. Lecție originală corelată cu programa oficială (OMEN 3418/2013; OMEN 5003/2014) și manualele aprobate (manuale.edu.ro); nu reproduce un manual școlar.'
   :entry.country==='RO'&&entry.grade==='5'&&entry.sourceStatus==='curriculum-crosschecked'
   ?'Clasa a V-a, România. Lecție originală corelată cu programa MEN 3393/2017 și cuprinsul unui manual aprobat Art Klett 2022; nu reproduce manualul.'

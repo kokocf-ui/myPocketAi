@@ -410,6 +410,7 @@ jobs:
           node scripts/build_curriculum_packs.mjs --verify
           node tests_curriculum_pack_decoupling_2026.mjs
           node tests_math_romania_full_2026.mjs
+          node tests_math_batch2_md_uk_fr_de_2026.mjs
           node tests_math_europe_country_alignment_2026.mjs
           node tests_math_all_countries_2026.mjs
           node tests_math_depth_courses.mjs

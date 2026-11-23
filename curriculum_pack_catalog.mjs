@@ -11,6 +11,7 @@ import { spainMathOriginalEntries } from './math_spain_lomloe_2026.mjs';
 import { italyMathFocalLessons } from './math_italy_framework_2026.mjs';
 import { portugalMath2026Lessons } from './math_portugal_2026.mjs';
 import { RO_FULL_MATH_SOURCES, romaniaMathGapLessons } from './math_romania_full_2026.mjs';
+import { BATCH2_MATH_COUNTRIES, batch2MathLessons, batch2PackTextbooks } from './math_batch2_md_uk_fr_de_2026.mjs';
 
 function fnv1aHash(str) {
   let hash = 2166136261;
@@ -127,7 +128,18 @@ function buildMathCountryPacks() {
       'PT',
       ['lower'],
       ({ grade, topic }) => portugalMath2026Lessons({ grade, topic })
-    )
+    ),
+
+    // 6–9. Batch 2: Moldova (MD), England (GB-ENG), France (FR), Germany (DE)
+    // Grade 1 → university. Native England Y3/Y4/Y6/Y10 and France 5e packs are
+    // intentionally absent (those years keep their dedicated inline courses);
+    // England Y11 contributes only the trigonometry branch.
+    ...BATCH2_MATH_COUNTRIES.flatMap(country => buildCountryStagePacks(
+      country,
+      EDUCATION_SCHOOL_STAGES,
+      ({ stage, grade, topic }) => batch2MathLessons({ country, stage, grade, topic }),
+      (stage, grade) => batch2PackTextbooks(country, stage, grade)
+    ))
   ];
 }
 

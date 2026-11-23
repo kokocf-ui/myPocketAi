@@ -26,7 +26,13 @@ export const MATH_GCSE_HIGHER_ONLY=Object.freeze({
  'Grafice de creștere și descreștere exponențială':'A12',
  'Histograme cu clase de lățimi diferite':'S3',
  'Probabilități condiționate din tabel':'P9',
- 'Teorema sinusurilor în triunghiuri oarecare':'G22'
+ 'Teorema sinusurilor în triunghiuri oarecare':'G22',
+ // Batch 2 England Y11 trigonometry pack cards. AQA 8300: G20 applies
+ // Pythagoras and trigonometric ratios in 3D figures on Higher only; G22/G23
+ // (sine rule, cosine rule, area = ½ab sin C) are Higher only. Exact values
+ // (G21) are examined on both tiers and therefore are not listed here.
+ 'Trigonometrie și teorema lui Pitagora în spațiu':'G20',
+ 'Teorema sinusurilor, teorema cosinusului și aria cu sinus':'G22'
 });
 export const MATH_GCSE_REFERENCE=Object.freeze({
  content:'https://www.gov.uk/government/publications/gcse-mathematics-subject-content-and-assessment-objectives',
