@@ -11,6 +11,7 @@ import {MATH_SECOND_BATCH_COUNTRIES,secondBatchMathStarterLessons} from './math_
 import {MATH_FINAL_COUNTRIES,finalMathStarterLessons} from './math_europe_final_systems_2026.mjs';
 import {MATH_READER_LOCALE_UI_SCRIPT} from './math_reader_locale_ui.mjs';
 import {ENGLAND_Y34_LESSONS} from './math_england_year3_year4_2026.mjs';
+import {PL_IV_2026_LESSONS} from './math_poland_class4_2026_lessons.mjs';
 const EDU_MATH_COUNTRY_YEARS={};
 const EDU_MATH_GRADE_AREAS={};
 const EDU_MATH_GRADE_NOTES={};
@@ -95,7 +96,9 @@ export const EDUCATION_COUNTRY_UI_SCRIPT=
  'function bulkMathFirstLessons({country,stage,grade,topic}={}){return MATH_BULK_FIRST_LESSONS[[String(country||\'\').toUpperCase(),stage,grade,topic].join(\'|\')]||[];}\n'+
  'const EDU_MATH_COUNTRY_NOTES='+JSON.stringify(EDU_MATH_COUNTRY_NOTES)+';\n'+
  'const EDU_MATH_GRADE_NOTES='+JSON.stringify(EDU_MATH_GRADE_NOTES)+';\n'+
-  'const ENGLAND_Y34_COURSES='+JSON.stringify(ENGLAND_Y34_LESSONS)+';\n'+
+  'const PL_IV_2026_LESSONS='+JSON.stringify(PL_IV_2026_LESSONS)+';\n'+
+ 'function polandClass4Lessons(topic){return PL_IV_2026_LESSONS.filter(x=>x.topic===String(topic||\'\'));}\n'+
+ 'const ENGLAND_Y34_COURSES='+JSON.stringify(ENGLAND_Y34_LESSONS)+';\n'+
  'function englandY34TopicLessons(grade,topic){return (ENGLAND_Y34_COURSES[String(grade||\'\')]||[]).filter(row=>row.topic===String(topic||\'\'));}\n'+
  'const ENGLAND_KS4_LESSONS='+JSON.stringify(ENGLAND_KS4_LESSONS)+';\n'+
   'const ENGLAND_KS4_EXCLUDED_TITLES='+JSON.stringify(ENGLAND_KS4_EXCLUDED_TITLES)+';\n'+
