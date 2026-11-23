@@ -84,8 +84,7 @@ assert.ok(raw);
 const android=JSON.parse(raw);
 assert.deepEqual(android['RO|medium|9'].map(x=>x.id),
  ['algebra','geometry','functions','trigonometry']);
-const probes=['mathCountryCourseEntries','MATH_CHAPTER_BANK','mathYearPosition','mathYearTopics','mathChapterList','mathYearLessons','function mathChapter','function mathOpenDepthLesson','RO5_MATH_LESSONS'];
-for(const probe of probes){let i=inline.indexOf(probe);console.log('DIAG',probe,i,i<0?'':inline.slice(Math.max(0,i-600),i+1550));}
+assert.ok(inline.includes('function ro9Science2026Lessons(topic)'), 'All authored RO9 lessons must be available to real Android client');
 assert.ok(inline.includes('Polinoame cu coeficienți reali'));
 assert.ok(inline.includes('Teorema cosinusului și latura necunoscută'));
 console.log('PASS Romania IX 2026/27 Science TC+CS: 35 original, seven textbook-unit mapped lessons with complete steps, exercises, sourced scope; Android embedding and preserved X–XII');
