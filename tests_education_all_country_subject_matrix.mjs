@@ -19,7 +19,7 @@ for(const country of EDUCATION_EUROPE_COUNTRIES){
    assert.equal(plans.length,EDUCATION_CORE_SUBJECTS.length);
    assert.deepEqual(plans.map(x=>x.subject),EDUCATION_CORE_SUBJECTS);
    for(const plan of plans){
-    const specialMathPlaceholder=['ES','MT','VA'].includes(country)&&plan.subject==='mathematics'&&
+    const specialMathPlaceholder=['ES','MT','VA','RO'].includes(country)&&plan.subject==='mathematics'&&
      !mathCountryStudyYears({country,stage,years:school.years})
       .some(x=>String(x.id)===String(year.id));
     const plMathNotInPrimary=country==='PL'&&stage==='beginner'&&
@@ -53,7 +53,7 @@ for(const country of EDUCATION_EUROPE_COUNTRIES){
       'A general minLevel/CEFR lesson catalogue must NOT be certified as a national grade syllabus');
    }
   }
-  if(['ES','MT','VA'].includes(country)){
+  if(['ES','MT','VA','RO'].includes(country)){
    const native=mathCountryStudyYears({country,stage,years:school.years});
    for(const maths of native){
     if(school.years.some(x=>x.id===maths.id))continue;
