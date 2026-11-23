@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import {mathCountryStudyYears} from './math_country_grade_areas.mjs';
 import {EDUCATION_EUROPE_COUNTRIES,EDUCATION_CORE_SUBJECTS,EDUCATION_SCHOOL_STAGES,
  educationCountrySchoolYears,educationSubjectSchoolPlan,educationAllSubjectsForClass,
  educationCoverageTotals,educationCompletionGate} from './education_all_country_subject_matrix.mjs';
@@ -18,11 +19,20 @@ for(const country of EDUCATION_EUROPE_COUNTRIES){
    assert.equal(plans.length,EDUCATION_CORE_SUBJECTS.length);
    assert.deepEqual(plans.map(x=>x.subject),EDUCATION_CORE_SUBJECTS);
    for(const plan of plans){
-    covered.add(country+'/'+stage+'/'+year.id+'/'+plan.subject);
+    const esMathPlaceholder=country==='ES'&&plan.subject==='mathematics'&&
+     !mathCountryStudyYears({country,stage,years:school.years})
+      .some(x=>String(x.id)===String(year.id));
+    if(!esMathPlaceholder)covered.add(country+'/'+stage+'/'+year.id+'/'+plan.subject);
     assert.equal(plan.country,country);
     assert.equal(plan.grade,year.id);
     assert.equal(plan.schoolYear,'2026/27');
     assert.equal(plan.verifiedManual,false,'Never invent a verified textbook');
+    if(esMathPlaceholder){
+     assert.equal(plan.status,'invalid-selection',
+      'Spanish Maths ESO4 and Bachillerato need explicit A/B/modality options');
+     assert.equal(plan.units.length,0);
+     continue;
+    }
     if(country==='PL'&&stage==='beginner'&&String(year.id)==='IV'&&plan.subject==='mathematics'){
      assert.equal(plan.status,'invalid-selection','Polish Grade IV mathematics belongs to the separate-subject pathway');
      assert.equal(plan.units.length,0);
@@ -38,6 +48,16 @@ for(const country of EDUCATION_EUROPE_COUNTRIES){
     if(['physics','chemistry','biology','astronomy','mathematics','computing','foreign_languages'].includes(plan.subject))
      assert.equal(plan.status,'general-learning',
       'A general minLevel/CEFR lesson catalogue must NOT be certified as a national grade syllabus');
+   }
+  }
+  if(country==='ES'){
+   const native=mathCountryStudyYears({country,stage,years:school.years});
+   for(const maths of native){
+    if(school.years.some(x=>x.id===maths.id))continue;
+    const plan=educationSubjectSchoolPlan({country,stage,grade:maths.id,subject:'mathematics'});
+    assert.equal(plan.status,'general-learning');
+    assert.ok(plan.units.length>=3);
+    covered.add(country+'/'+stage+'/'+maths.id+'/mathematics');
    }
   }
  }
