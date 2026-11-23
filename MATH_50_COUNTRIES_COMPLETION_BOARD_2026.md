@@ -34,3 +34,13 @@ Architecture: **Zero-Worker-Overhead Decoupled Curriculum Packs (`./public/packs
 - Routing: `mathCountryCourseEntries` now merges pack lessons into the Spain/Italy branches (LOMLOE/Indicazioni focal lessons lead, Batch 3 lessons follow, generic bank last, deduplicated by id). Portugal 5.º/6.º and Poland klasa IV keep their native inline courses.
 - Test: `tests_math_batch3_es_it_pt_pl_2026.mjs` (wired into math acceptance, Cloudflare deploy and Android release workflows).
 - Open items: Spanish year distribution depends on the comunidad autónoma; Italian liceo content varies by liceo type; Portugal covers Matemática A only (not Matemática B / professional courses); Polish new podstawa (2026/27) applies first to klasy I and IV, other cohorts follow the previous programme. No chapter-level check against approved textbooks.
+
+## Queued after Batch 4: regional / school-type curriculum selector (decided 2026-11-23)
+
+User decision: implement **after Batch 4**, with **full coverage from the start**.
+
+- **Spain (`ES`)** — selector for all 17 comunidades autónomas (+ Ceuta/Melilla under the MEFP decree). Each variant cites its regional decree (Primaria / ESO / Bachillerato) and adjusts the year placement of the national saberes básicos.
+- **Germany (`DE`)** — selector for all 16 Länder **and** school type (Gymnasium, Realschule/Mittelschule, Gesamtschule). Structural differences must be modelled: 6-year Grundschule in Berlin/Brandenburg, G8/G9 (Abitur after year 12 or 13), Grund-/Leistungskurs. Each variant cites the Land's Lehrplan/Kerncurriculum.
+- **Italy (`IT`)** — no regional curricula. The selector is the upper-secondary school type: liceo scientifico (incl. scienze applicate), classico, linguistico, scienze umane, artistico, musicale/coreutico, istituto tecnico, istituto professionale. It follows the Licei 2010 decree and the technical/professional guidelines.
+- **Design** — reuse the GCSE tier selector pattern: the choice is asked once, saved on the phone and changeable anytime. Default is "Orientativ – comun tuturor" (today's behaviour). Variants are overlays on the base pack (year placement, added/removed lessons, regional source citation), with prose in `public/packs/` only (0 KB Worker). No variant is published without an official regional source; anything unverified stays "orientativ".
+- **Reuse** — the same mechanism will serve `CH` cantons, `BE` communities and `AT` school types (Batch 4 backfill).
