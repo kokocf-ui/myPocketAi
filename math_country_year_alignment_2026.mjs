@@ -65,9 +65,16 @@ export function mathCountryPhasePlan({country,stage,grade,years=[]}={}){
   const phase=Math.min(count,Math.floor(index*count/Math.max(count,years.length))+1);
   return {phase,phases:[phase],yearIndex:index};
  }
- // Spread an existing six/four-stage lesson sequence over the actual number of
- // school years, preserving the last-stage material for 2/3/5-year systems.
+ // Primary learning must never accelerate age 7–9 into the sixth-year
+ // fractions/percentages just because a country's primary stage is shorter.
+ // The remaining material belongs to later school years, not to grade III.
  const n=years.length;
+ if(level==='beginner'&&n<count){
+  const phase=index+1;
+  return {phase,phases:[phase],yearIndex:index};
+ }
+ // Secondary stages can offer the final two advisory phases within a shorter
+ // national stage without rewriting the already authored lesson collection.
  const start=Math.floor(index*count/n)+1;
  const end=Math.floor((index+1)*count/n);
  const phases=Array.from({length:Math.max(1,end-start+1)},(_,i)=>Math.min(count,start+i));
