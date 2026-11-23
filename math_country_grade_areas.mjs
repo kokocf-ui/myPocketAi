@@ -5,6 +5,7 @@ import {ENGLAND_Y6_MATH_LESSONS} from './math_england_y6_curriculum.mjs';
 import {mathUpperCohortGuidance} from './math_ro_upper_cohort_policy.mjs';
 import {mathCountryYearSequence,mathCountryPhasePlan,mathCountryEvidence} from './math_country_year_alignment_2026.mjs';
 import {franceGrade5eLessons} from './math_france_5e_2026.mjs';
+import {portugalMath2026Lessons,PORTUGAL_MATH_2026_SOURCE} from './math_portugal_2026.mjs';
 // Mathematics learning paths for every European country in the Education picker.
 // A progression is *advisory* unless an official country/grade source is attached.
 // Stage years are supplied by the shared school-year mapping, never inferred from
@@ -58,6 +59,28 @@ export function mathCountryGradeAreas({country,stage,grade,years}={}){
  const yearList=Array.isArray(years)?years:[];
  const index=yearList.findIndex(x=>String(x.id)===String(grade));
  if(!PATHS[st]||index<0)return {status:'invalid-selection',country,stage:st,grade,units:[]};
+ if(country==='PT'&&st==='lower'&&['5','6'].includes(String(grade))){
+  // Official DGE 2026 references are per grade; Year 5 and Year 6 must not
+  // share the same generic phase just because both belong to the 2nd cycle.
+  const g=String(grade),source=PORTUGAL_MATH_2026_SOURCE[g];
+  const branches=[
+   ['algebra','Numere, fracții și operații','Numbers, fractions and operations'],
+   ['functions',g==='5'?'Expresii numerice și raționament':'Rapoarte și proporționalitate',
+     g==='5'?'Numerical expressions and reasoning':'Ratios and proportionality'],
+   ['statistics','Date și probabilități','Data and probability'],
+   ['geometry','Geometrie și măsurători','Geometry and measures']
+  ];
+  return {status:'general-learning',country,stage:st,grade,
+   note:'Portugalia: anul '+g+
+    ', 2026/27. Lecții originale corelate tematic cu Aprendizagens Essenciais DGE (versiunea în vigoare, iulie 2018). Proiectul din consultarea publică 2026 nu este prezentat ca programă aplicabilă. Acoperirea anuală și cuprinsul unui manual concret rămân necertificate.',
+   source,manualExample:null,
+   units:branches.map(([id,ro,en])=>({
+    id,ro,en,focus:'',countrySpecific:true,
+    lessonCount:portugalMath2026Lessons({grade:g,topic:id}).length,
+    curriculumCompletion:'partial-source-review',curriculumSource:source,
+    manualExample:null
+   }))};
+ }
  if(country==='FR'&&st==='lower'&&String(grade)==='5e'){
   const evidence=mathCountryEvidence({country,stage:st,grade});
   const units=[
