@@ -1771,6 +1771,80 @@ export default {
       });
     }
 
+    // POIs for the current-position map embedded in the assistant answer.
+    // Explicit user request only; never store, log or infer the user's GPS location.
+    if(url.pathname==='/api/location-pois'){
+      if(request.method!=='POST')return json({status:'method_not_allowed'},405);
+      if(Number(request.headers.get('content-length')||0)>2000)return json({status:'request_too_large'},413);
+      const payload=await request.json().catch(()=>null);
+      const point=payload?.location;
+      const lat=Number(point?.latitude),lon=Number(point?.longitude);
+      if(!point||point.latitude===null||point.longitude===null||
+         !Number.isFinite(lat)||!Number.isFinite(lon)||Math.abs(lat)>90||Math.abs(lon)>180)
+         return json({status:'invalid_location',pois:[]},400);
+      const radius=[350,750,1500].includes(Number(payload?.radius))?Number(payload.radius):750;
+      const maxCount=150,found=[],keys=new Set();
+      const add=(item)=>{
+        const n=String(item?.name||'').trim().slice(0,110),a=Number(item?.latitude),o=Number(item?.longitude);
+        if(!n||!Number.isFinite(a)||!Number.isFinite(o)||Math.abs(a)>90||Math.abs(o)>180)return;
+        const dy=(a-lat)*111195,dx=(o-lon)*111195*Math.cos(lat*Math.PI/180),distance=Math.hypot(dx,dy);
+        if(distance>radius+40)return;
+        const key=(n.toLowerCase()+'|'+Math.round(a*10000)+'|'+Math.round(o*10000));
+        if(keys.has(key))return;keys.add(key);
+        found.push({name:n,latitude:a,longitude:o,category:String(item?.category||'poi').slice(0,70),
+          address:String(item?.address||'').trim().slice(0,180),distance_m:Math.round(distance)});
+      };
+      let source='',providerError='';
+      if(env.GEOAPIFY_API_KEY){
+        try{
+          const u=new URL('https://api.geoapify.com/v2/places');
+          u.searchParams.set('categories','commercial,catering,entertainment,leisure,tourism,healthcare,education,public_transport,service,accommodation,religion,heritage');
+          u.searchParams.set('filter','circle:'+lon+','+lat+','+radius);
+          u.searchParams.set('bias','proximity:'+lon+','+lat);
+          u.searchParams.set('limit','150');u.searchParams.set('apiKey',env.GEOAPIFY_API_KEY);
+          const response=await fetch(u.toString(),{signal:AbortSignal.timeout(7000)});
+          if(!response.ok)throw Error('provider_http_'+response.status);
+          const data=await response.json();
+          for(const feat of Array.isArray(data?.features)?data.features:[]){
+            const p=feat?.properties||{},coords=feat?.geometry?.coordinates||[];
+            add({name:p.name,latitude:coords[1],longitude:coords[0],
+              category:Array.isArray(p.categories)?p.categories[0]:'poi',
+              address:p.formatted||[p.address_line1,p.address_line2].filter(Boolean).join(', ')});
+          }
+          source='Geoapify/OpenStreetMap';
+        }catch(e){providerError='geoapify_unavailable';}
+      }
+      // Independently mapped points when the optional Geoapify service has no usable data.
+      if(!found.length){
+        try{
+          const query='[out:json][timeout:9];(nwr(around:'+radius+','+lat+','+lon+')[name][amenity];'
+            +'nwr(around:'+radius+','+lat+','+lon+')[name][shop];'
+            +'nwr(around:'+radius+','+lat+','+lon+')[name][tourism];'
+            +'nwr(around:'+radius+','+lat+','+lon+')[name][leisure];'
+            +'nwr(around:'+radius+','+lat+','+lon+')[name][public_transport];'
+            +'nwr(around:'+radius+','+lat+','+lon+')[name][historic];'
+            +'nwr(around:'+radius+','+lat+','+lon+')[name][railway];'
+            +'nwr(around:'+radius+','+lat+','+lon+')[name][office];);out center 180;';
+          const response=await fetch('https://overpass-api.de/api/interpreter',{
+            method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},
+            body:new URLSearchParams({data:query}).toString(),signal:AbortSignal.timeout(10000)});
+          if(!response.ok)throw Error('provider_http_'+response.status);
+          const data=await response.json();
+          for(const el of Array.isArray(data?.elements)?data.elements:[]){
+            const p=el.tags||{};
+            add({name:p.name,latitude:el.lat??el.center?.lat,longitude:el.lon??el.center?.lon,
+              category:p.amenity||p.shop||p.tourism||p.leisure||p.public_transport||p.railway||p.historic||p.office||'poi',
+              address:[p['addr:housenumber'],p['addr:street'],p['addr:postcode']].filter(Boolean).join(' ')});
+          }
+          source='OpenStreetMap Overpass';
+        }catch(e){providerError=providerError?'all_providers_unavailable':'overpass_unavailable';}
+      }
+      found.sort((a,b)=>a.distance_m-b.distance_m||a.name.localeCompare(b.name));
+      return json({status:source?'success':'unavailable',source:source||null,radius_m:radius,
+        pois:found.slice(0,maxCount),truncated:found.length>maxCount,
+        error:source?null:providerError||'no_poi_provider'});
+    }
+
     if (url.pathname !== "/api/chat") {
       return json({ app: "Pocket AI", version: API_VERSION, error: "Ruta nu există" }, 404);
     }
@@ -6087,7 +6161,7 @@ export default {
             : `Te afli aproximativ în apropiere de ${addressLabel}. Adresa provine din harta zonei și nu confirmă clădirea exactă.${uncertainty}`;
         }
         console.info("Pocket AI v96 location diagnostic", JSON.stringify({ diagnosticId: locationDiagnosticId, stage: "reverse_geocode_completed", coordinatesValid: hasValidLocation, timestamp: new Date().toISOString() }));
-        return json({ app: "Pocket AI", version: API_VERSION, status: "success", language: lang, message_received: message, reply, location_received: true, street: streetUsable ? street || null : null, house_number: numberUsable ? houseNumber || null : null, postcode: streetUsable ? postalCode || null : null, gps_accuracy_m: accuracyKnown ? Math.round(accuracyMeters) : null, area: place || null, reverse_geocode_ok: true, source: "OpenStreetMap Nominatim", ai_connected: Boolean(env.AI) });
+        return json({ app: "Pocket AI", version: API_VERSION, status: "success", language: lang, message_received: message, reply, location_received: true, street: streetUsable ? street || null : null, house_number: numberUsable ? houseNumber || null : null, postcode: streetUsable ? postalCode || null : null, gps_accuracy_m: accuracyKnown ? Math.round(accuracyMeters) : null, area: place || null, reverse_geocode_ok: true, source: "OpenStreetMap Nominatim", current_location:true, ai_connected: Boolean(env.AI) });
       } catch (reverseError) {
         console.warn("Pocket AI v96 reverse geocoding failed", JSON.stringify({ stage: "reverse_geocode_error", errorName: reverseError && reverseError.name ? String(reverseError.name) : "UnknownError" }));
         const reply = lang === "en"
