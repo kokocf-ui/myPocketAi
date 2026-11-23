@@ -1807,7 +1807,7 @@ export default {
           const data=await response.json();
           for(const feat of Array.isArray(data?.features)?data.features:[]){
             const p=feat?.properties||{},coords=feat?.geometry?.coordinates||[];
-            add({name:p.name,latitude:coords[1],longitude:coords[0],
+            add({name:p.name||p.brand,latitude:coords[1],longitude:coords[0],
               category:Array.isArray(p.categories)?p.categories[0]:'poi',
               address:p.formatted||[p.address_line1,p.address_line2].filter(Boolean).join(', ')});
           }
@@ -1817,8 +1817,8 @@ export default {
       // Independently mapped points when the optional Geoapify service has no usable data.
       if(!found.length){
         try{
-          const query='[out:json][timeout:9];(nwr(around:'+radius+','+lat+','+lon+')[name][amenity];'
-            +'nwr(around:'+radius+','+lat+','+lon+')[name][shop];'
+          const query='[out:json][timeout:9];(nwr(around:'+radius+','+lat+','+lon+')[amenity~"^(fuel|pharmacy|clinic|hospital|doctors|restaurant|cafe|fast_food|post_office|bank|bus_station)$"];'
+            +'nwr(around:'+radius+','+lat+','+lon+')[shop];'
             +'nwr(around:'+radius+','+lat+','+lon+')[name][tourism];'
             +'nwr(around:'+radius+','+lat+','+lon+')[name][leisure];'
             +'nwr(around:'+radius+','+lat+','+lon+')[name][public_transport];'
@@ -1839,7 +1839,7 @@ export default {
               usableResponse=true;
               for(const el of data.elements){
                 const p=el.tags||{};
-                add({name:p.name,latitude:el.lat??el.center?.lat,longitude:el.lon??el.center?.lon,
+                add({name:p.name||p.brand||p.operator||(p.amenity==='fuel'?'Fuel station':p.shop==='supermarket'?'Supermarket':p.shop?'Shop':p.amenity||''),latitude:el.lat??el.center?.lat,longitude:el.lon??el.center?.lon,
                   category:p.amenity||p.shop||p.tourism||p.leisure||p.public_transport||p.railway||p.historic||p.office||'poi',
                   address:[p['addr:housenumber'],p['addr:street'],p['addr:postcode']].filter(Boolean).join(' ')});
               }
