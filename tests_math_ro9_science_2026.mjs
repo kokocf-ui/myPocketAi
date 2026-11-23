@@ -75,7 +75,7 @@ for(const other of ['10','11','12']){
  assert.ok(!p.textbookUnits,'No 2026 science-track curriculum retroactively assigned to grade '+other);
  assert.ok(p.units.some(x=>x.countrySpecific===false));
 }
-const audit=mathCurriculumReadiness().rows.find(x=>x.country==='RO'&&x.stage==='medium'&&x.grade==='9');
+const audit=mathCurriculumReadiness().rows.find(x=>x.country==='RO'&&x.stage==='medium'&&x.grade==='9-SCI');
 assert.ok(audit);
 assert.equal(audit.scope,'source-unit-reviewed-track-specific');
 assert.equal(audit.lessonCount,35);
