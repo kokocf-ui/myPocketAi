@@ -4,6 +4,7 @@
 // Reuses eduTranslateMaterial's guarded/cacheable JSON translation transport.
 export const MATH_READER_LOCALE_UI_SCRIPT=String.raw`
 (function(){
+ if(typeof document==='undefined'||typeof MutationObserver==='undefined')return;
  const seen=new WeakSet();
  let queued=false,epoch=0;
  function inMathReader(){
