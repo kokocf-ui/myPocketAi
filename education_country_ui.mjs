@@ -4,17 +4,27 @@ import {physicsCountryGradePlan} from './physics_europe_frameworks.mjs';
 import {chemistryCountryGradePlan} from './chemistry_country_alignment.mjs';
 import {MATH_THEOREMS_UI_SCRIPT} from './math_theorems_ui.mjs';
 import {mathCountryGradeAreas,mathCountryStudyYears} from './math_country_grade_areas.mjs';
+import {mathCountryPhasePlan,MATH_COUNTRY_STAGE_LABELS} from './math_country_year_alignment_2026.mjs';
 import {ENGLAND_KS4_LESSONS,ENGLAND_KS4_EXCLUDED_TITLES} from './math_england_ks4_curriculum.mjs';
 const EDU_MATH_COUNTRY_YEARS={};
 const EDU_MATH_GRADE_AREAS={};
 const EDU_MATH_GRADE_NOTES={};
+const EDU_MATH_COUNTRY_NOTES={};
+const EDU_MATH_GRADE_PHASES={};
 for(const code of EDUCATION_EUROPE_COUNTRIES)for(const stage of EDUCATION_SCHOOL_STAGES){
  const years=mathCountryStudyYears({country:code,stage,years:educationCountrySchoolYears(code,stage).years});
- EDU_MATH_COUNTRY_YEARS[code+'|'+stage]=years;
+ EDU_MATH_COUNTRY_YEARS[code+'|'+stage]=years.map(({id,ro,en})=>({id,ro,en}));
  for(const year of years){
   const path=mathCountryGradeAreas({country:code,stage,grade:year.id,years});
-  EDU_MATH_GRADE_AREAS[code+'|'+stage+'|'+year.id]=path.units;
-  EDU_MATH_GRADE_NOTES[code+'|'+stage+'|'+year.id]=String(path.note||'');
+  // The existing UI reads only id, ro, and en. Keep complete pedagogical
+  // metadata in the server-side plan rather than duplicating it in Android HTML.
+  EDU_MATH_GRADE_AREAS[code+'|'+stage+'|'+year.id]=path.units.map(({id,ro,en})=>({id,ro,en}));
+  const {phase,phases}=mathCountryPhasePlan({country:code,stage,grade:year.id,years});
+  EDU_MATH_GRADE_PHASES[code+'|'+stage+'|'+year.id]={phase,phases};
+  const note=String(path.note||'');
+  const countryNoteKey=code+'|'+stage;
+  if(!Object.hasOwn(EDU_MATH_COUNTRY_NOTES,countryNoteKey))EDU_MATH_COUNTRY_NOTES[countryNoteKey]=note;
+  else if(note!==EDU_MATH_COUNTRY_NOTES[countryNoteKey])EDU_MATH_GRADE_NOTES[code+'|'+stage+'|'+year.id]=note;
  }
 }
 // Only positively supported curriculum claims are serialized to Android;
@@ -45,6 +55,9 @@ export const EDUCATION_COUNTRY_UI_SCRIPT=
  'const EDU_EUROPE_COUNTRY_LIST='+JSON.stringify(EDUCATION_EUROPE_COUNTRIES)+';\n'+
  'const EDU_MATH_COUNTRY_YEARS='+JSON.stringify(EDU_MATH_COUNTRY_YEARS)+';\n'+
  'const EDU_MATH_GRADE_AREAS='+JSON.stringify(EDU_MATH_GRADE_AREAS)+';\n'+
+ 'const EDU_MATH_STAGE_LABELS='+JSON.stringify(MATH_COUNTRY_STAGE_LABELS)+';\n'+
+ 'const EDU_MATH_GRADE_PHASES='+JSON.stringify(EDU_MATH_GRADE_PHASES)+';\n'+
+ 'const EDU_MATH_COUNTRY_NOTES='+JSON.stringify(EDU_MATH_COUNTRY_NOTES)+';\n'+
  'const EDU_MATH_GRADE_NOTES='+JSON.stringify(EDU_MATH_GRADE_NOTES)+';\n'+
   'const ENGLAND_KS4_LESSONS='+JSON.stringify(ENGLAND_KS4_LESSONS)+';\n'+
   'const ENGLAND_KS4_EXCLUDED_TITLES='+JSON.stringify(ENGLAND_KS4_EXCLUDED_TITLES)+';\n'+

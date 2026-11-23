@@ -3,6 +3,7 @@ import {MATH_DEPTH_STAGES, mathInDepthEntries, mathCountryCourseEntries, mathInD
 import {EDUCATION_EUROPE_COUNTRIES, educationCountrySchoolYears, educationSubjectSchoolPlan}
  from './education_all_country_subject_matrix.mjs';
 import {mathCountryStudyYears} from './math_country_grade_areas.mjs';
+import {mathCountryPhasePlan} from './math_country_year_alignment_2026.mjs';
 
 const topicIds=new Set(['arithmetic','geometry','measurement','algebra','statistics','functions',
  'trigonometry','analysis','linear-algebra','discrete','differential']);
@@ -58,13 +59,14 @@ for(const country of EDUCATION_EUROPE_COUNTRIES){
   const years=mathCountryStudyYears({country,stage,years:base});
   assert.ok(years.length>0,country+' has no maths years in '+stage);
   for(const [i,year] of years.entries()){
-   const band=schoolStage==='primary'?6:4;
-   const phase=Math.floor(i*band/Math.max(band,years.length))+1;
+   const alignment=mathCountryPhasePlan({country,stage,grade:year.id,years});
+   const phase=alignment.phase;
    const plan=educationSubjectSchoolPlan({country,stage,grade:year.id,subject:'mathematics'});
    assert.equal(plan.status,'general-learning',country+'/'+year.id+' claims unverified maths is official');
    assert.ok(plan.units.length>=3,country+'/'+year.id+' no mathematical branches');
    for(const branch of plan.units){
-    const lessons=mathCountryCourseEntries({country,stage:schoolStage,grade:year.id,phase,topic:branch.id});
+    const lessons=mathCountryCourseEntries({country,stage:schoolStage,grade:year.id,
+     phase,phases:alignment.phases,topic:branch.id});
     assert.ok(lessons.length>=3,
      country+'/'+stage+'/'+year.id+'/'+branch.id+' lacks year-appropriate detailed maths lessons');
    }

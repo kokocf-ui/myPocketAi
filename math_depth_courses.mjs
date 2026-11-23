@@ -1,4 +1,8 @@
 import {RO5_MATH_LESSONS} from './math_ro5_curriculum.mjs';
+import {mathEarlyYearEntries,MATH_EARLY_YEAR_BANK} from './math_early_years_europe.mjs';
+import {franceGrade5eLessons,FRANCE_5E_MATH_UNITS} from './math_france_5e_2026.mjs';
+export {franceGrade5eLessons,FRANCE_5E_MATH_UNITS};
+export {mathEarlyYearEntries,MATH_EARLY_YEAR_BANK};
 import {RO678_MATH_LESSONS} from './math_ro678_curriculum.mjs';
 import {ENGLAND_Y6_MATH_LESSONS} from './math_england_y6_curriculum.mjs';
 export {ENGLAND_Y6_MATH_LESSONS};
@@ -190,7 +194,13 @@ export function mathInDepthEntries({stage,phase,topic}={}){
 }
 // Grade-specific source-mapped course entries take precedence over the shared
 // advisory European sequence. Do not label generic lessons as national courses.
-export function mathCountryCourseEntries({country,stage,grade,phase,topic}={}){
+export function mathCountryCourseEntries({country,stage,grade,phase,phases,topic}={}){
+ if(String(country||'').toUpperCase()==='FR'&&stage==='lower'&&String(grade)==='5e')
+  return franceGrade5eLessons(topic);
+ if(stage==='primary'){
+  const early=mathEarlyYearEntries({country,grade,topic});
+  if(early)return early;
+ }
  if(String(country||'').toUpperCase()==='GB-ENG'&&stage==='intermediate'&&['Y10','Y11'].includes(String(grade))){
   const g=String(grade),excluded=new Set(ENGLAND_KS4_EXCLUDED_TITLES[g]||[]);
   const standard=mathInDepthEntries({stage,phase:g==='Y10'?1:2,topic})
@@ -205,7 +215,9 @@ export function mathCountryCourseEntries({country,stage,grade,phase,topic}={}){
  if(String(country||'').toUpperCase()==='RO'&&stage==='lower'
    &&['6','7','8'].includes(String(grade)))
   return (RO678_MATH_LESSONS[String(grade)]||[]).filter(item=>item.topic===topic);
- return mathInDepthEntries({stage,phase,topic});
+ const selected=Array.isArray(phases)&&phases.length?phases:[phase];
+ const valid=[...new Set(selected.map(Number).filter(p=>Number.isInteger(p)&&p>=1&&p<=6))];
+ return valid.flatMap(p=>mathInDepthEntries({stage,phase:p,topic}));
 }
 export function mathInDepthMaterial(entry){
  if(!entry?.title||!entry?.statement||!entry?.worked)return '';

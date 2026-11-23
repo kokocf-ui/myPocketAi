@@ -17,7 +17,8 @@ assert.ok(script.includes('const EDU_MATH_GRADE_AREAS='));
 let examined=0;
 for(const country of EDUCATION_EUROPE_COUNTRIES){
  for(const stage of ['beginner','lower','medium','advanced']){
-  const {years}=educationCountrySchoolYears(country,stage);
+  const nativeYears=educationCountrySchoolYears(country,stage).years;
+  const years=mathCountryStudyYears({country,stage,years:nativeYears});
   if(stage==='advanced'){
    const university=mathCountryStudyYears({country,stage,years});
    assert.ok(university.length>=3,'University maths must offer differentiated advisory years: '+country);

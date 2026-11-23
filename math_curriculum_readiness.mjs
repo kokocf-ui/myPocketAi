@@ -8,8 +8,13 @@ import {RO5_MATH_LESSONS,RO5_MATH_SOURCES} from './math_ro5_curriculum.mjs';
 import {RO678_MATH_LESSONS} from './math_ro678_curriculum.mjs';
 import {ENGLAND_Y6_MATH_LESSONS} from './math_england_y6_curriculum.mjs';
 import {ENGLISH_KS4_REFERENCE,englandKS4CardRows} from './math_england_ks4_curriculum.mjs';
+import {MATH_EUROPE_SOURCE_REGISTRY,mathCountryEvidence} from './math_country_year_alignment_2026.mjs';
 
 export const MATH_CURRICULUM_SOURCE_REGISTRY=Object.freeze({
+ ...Object.fromEntries(Object.entries(MATH_EUROPE_SOURCE_REGISTRY)
+  .filter(([code])=>!['RO','GB-ENG'].includes(code))
+  .map(([code,data])=>[code,{framework:data.curriculum,manualExample:data.manualExample||null,
+    notes:data.note,fullYearVerified:false}])),
  RO:{grades5to8:'https://www.edu.ro/Ordin_ministru_3393_2017',
      class5Manual:RO5_MATH_SOURCES.manual,
      notes:'MEN 3393/2017, grade V–VIII; original year-specific topic collections for grades V–VIII remain pedagogically incomplete'},
@@ -26,6 +31,7 @@ export function mathCurriculumReadiness(){
    for(const year of years){
     const plan=educationSubjectSchoolPlan({country,stage,grade:year.id,subject:'mathematics'});
     const grade=String(year.id);
+    const evidence=mathCountryEvidence({country,stage,grade});
     const national=country==='RO'&&stage==='lower'&&['5','6','7','8'].includes(grade);
     const englandY6=country==='GB-ENG'&&stage==='beginner'&&grade==='Y6';
     const englandKS4=country==='GB-ENG'&&stage==='medium'&&['Y10','Y11'].includes(grade);
@@ -47,10 +53,12 @@ export function mathCurriculumReadiness(){
      lessonCount:actual,units:plan.units.length,
      countryYearSpecific:candidate,
      partialSourceReview:partialCandidate,
+     evidenceStatus:evidence.status,
+     manualExample:evidence.manualExample,
      source:country==='RO'&&stage==='lower'?MATH_CURRICULUM_SOURCE_REGISTRY.RO.grades5to8:
        country==='GB-ENG'?(stage==='beginner'?MATH_CURRICULUM_SOURCE_REGISTRY['GB-ENG'].primary:
         stage==='lower'?MATH_CURRICULUM_SOURCE_REGISTRY['GB-ENG'].secondary:
-        stage==='medium'?MATH_CURRICULUM_SOURCE_REGISTRY['GB-ENG'].ks4:null):null,
+        stage==='medium'?MATH_CURRICULUM_SOURCE_REGISTRY['GB-ENG'].ks4:null):evidence.source,
      complete:false,
      blockers:candidate?
       ['Independent pedagogical validation','Verify exact full-year content against textbooks','Check progress assessment and classroom sequencing','Android device acceptance']:

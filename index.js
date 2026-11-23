@@ -28,7 +28,7 @@ import {EDUCATION_SELECTS_UI_SCRIPT} from './education_selects_ui.mjs';
 import {EDUCATION_SCOPE_UI_SCRIPT} from './education_scope_ui.mjs';
 import {EDUCATION_COUNTRY_UI_SCRIPT} from './education_country_ui.mjs';
 import {MATH_GCSE_HIGHER_ONLY,mathGcseSelectTier,mathGcseLessonTier} from './math_gcse_tier_policy.mjs';
-import {MATH_DEPTH_STAGES, MATH_DEPTH_EN_LOWER, MATH_DEPTH_EN_UNIVERSITY, RO5_MATH_LESSONS, RO678_MATH_LESSONS, ENGLAND_Y6_MATH_LESSONS, mathInDepthEntries, mathInDepthMaterial,mathCountryCourseEntries} from './math_depth_courses.mjs';
+import {MATH_DEPTH_STAGES, MATH_DEPTH_EN_LOWER, MATH_DEPTH_EN_UNIVERSITY, RO5_MATH_LESSONS, RO678_MATH_LESSONS, ENGLAND_Y6_MATH_LESSONS, MATH_EARLY_YEAR_BANK, mathEarlyYearEntries, FRANCE_5E_MATH_UNITS, franceGrade5eLessons, mathInDepthEntries, mathInDepthMaterial,mathCountryCourseEntries} from './math_depth_courses.mjs';
 import {EDUCATION_FIRST_USE_NOTICE_SCRIPT} from './education_first_use_notice.mjs';
 import {POCKET_LANGUAGES,POCKET_COUNTRY_LANGUAGES,pocketLanguageFromLocale,pocketLanguageFromCountry,pocketPreferredLanguage} from './language_first_install.mjs';
 import {EUROPEAN_UI_LOCALES} from './european_app_locales.mjs';
@@ -8802,6 +8802,10 @@ const MATH_GCSE_HIGHER_ONLY=${JSON.stringify(MATH_GCSE_HIGHER_ONLY)};
 ${mathGcseSelectTier.toString()}
 ${mathGcseLessonTier.toString()}
 let mathGcseTier='foundation';
+const MATH_EARLY_YEAR_BANK=${JSON.stringify(MATH_EARLY_YEAR_BANK)};
+${mathEarlyYearEntries.toString()}
+const FRANCE_5E_MATH_UNITS=${JSON.stringify(FRANCE_5E_MATH_UNITS)};
+${franceGrade5eLessons.toString()}
 ${mathInDepthEntries.toString()}
 ${mathCountryCourseEntries.toString()}
 ${mathInDepthMaterial.toString()}
@@ -8835,8 +8839,12 @@ function mathYearPosition(){
  const years=typeof EDU_MATH_COUNTRY_YEARS!=='undefined'?EDU_MATH_COUNTRY_YEARS[key]||[]:[];
  const index=years.findIndex(x=>String(x.id)===String(mathJourney.grade||''));
  const phases=mathJourney.schoolStage==='primary'?6:4;
+ const fallback=index<0?0:Math.min(phases,Math.floor(index*phases/Math.max(phases,years.length))+1);
+ const phaseRecord=typeof EDU_MATH_GRADE_PHASES==='undefined'?null:
+  EDU_MATH_GRADE_PHASES[key+'|'+String(mathJourney.grade||'')];
  return {index,years,progress:index<0?0:(index+1)/years.length,
-  year4:index<0?0:Math.min(phases,Math.floor(index*phases/Math.max(phases,years.length))+1)};
+  year4:phaseRecord?.phase||fallback,
+  phases:Array.isArray(phaseRecord?.phases)&&phaseRecord.phases.length?phaseRecord.phases:(fallback?[fallback]:[])};
 }
 function mathOpenDepthLesson(lesson){
  if(!lesson?.worked)return;
@@ -12772,7 +12780,7 @@ function mathSelectedYearLessons(topic){
  const country=String(educationCountrySelection.code||''),grade=String(mathJourney.grade||'');
  const stage=String(mathJourney.schoolStage||'');
  const lessons=mathCountryCourseEntries({country,grade,stage,
-  phase:mathYearPosition().year4,topic:String(topic||'')});
+  phase:mathYearPosition().year4,phases:mathYearPosition().phases,topic:String(topic||'')});
  return country==='GB-ENG'&&stage==='intermediate'&&['Y10','Y11'].includes(grade)
   ?mathGcseSelectTier(lessons,mathGcseTier):lessons;
 }
@@ -12866,11 +12874,14 @@ function mathJourneyShowChoices(stage){
   const art=document.createElement('span');art.className='math-tile-icon';
   art.setAttribute('aria-hidden','true');art.textContent=stage==='stages'?MATH_STAGE_ICONS[entry.id]||'📚':
    stage==='branches'?MATH_TILE_ICONS[entry.id]||'📘':'📖';
-  const heading=document.createElement('strong');heading.textContent=learningLabel(entry.ro,entry.en);
+  const countryStage=stage==='stages'&&typeof EDU_MATH_STAGE_LABELS!=='undefined'
+   ?EDU_MATH_STAGE_LABELS[String(educationCountrySelection.code||'')]?.[entry.id]:null;
+  const heading=document.createElement('strong');
+  heading.textContent=countryStage?learningLabel(countryStage[0],countryStage[1]):learningLabel(entry.ro,entry.en);
   if(stage==='chapters')lessonHeadings.push(heading);
   const subtitle=document.createElement('small');
   subtitle.textContent=stage==='stages'
-   ?learningLabel(entry.scopeRo||'',entry.scopeEn||''):
+   ?(countryStage?learningLabel('Selectează anul de studiu al țării.','Choose the local school year.'):learningLabel(entry.scopeRo||'',entry.scopeEn||'')):
    stage==='branches'?learningLabel(entry.topicFocus||'',entry.topicFocusEn||''):
    (isEnglandGcse&&entry.tier==='higher-only'
     ?learningLabel('Exclusiv nivelului Higher','Higher tier only')
@@ -12929,7 +12940,8 @@ function mathJourneyShowChoices(stage){
    mathJourney.schoolStage==='intermediate'?'medium':mathJourney.schoolStage;
   const countryCode=String(educationCountrySelection.code||'');
   const curriculumKey=countryCode+'|'+selectedStage+'|'+String(mathJourney.grade||'');
-  const sourceNote=typeof EDU_MATH_GRADE_NOTES==='undefined'?'':String(EDU_MATH_GRADE_NOTES[curriculumKey]||'');
+  const sourceNote=typeof EDU_MATH_GRADE_NOTES==='undefined'?'':String(
+   EDU_MATH_GRADE_NOTES[curriculumKey]||EDU_MATH_COUNTRY_NOTES[countryCode+'|'+selectedStage]||'');
   if(sourceNote){
    const sourceStatus=document.createElement('p');
    sourceStatus.className='math-curriculum-status';
