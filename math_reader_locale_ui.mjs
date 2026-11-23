@@ -6,7 +6,7 @@ export const MATH_READER_LOCALE_UI_SCRIPT=String.raw`
 (function(){
  if(typeof document==='undefined'||typeof MutationObserver==='undefined')return;
  const seen=new WeakSet();
- let queued=false,epoch=0;
+ let queued=false;
  function inMathReader(){
   try{
    return typeof state!=='undefined' &&
@@ -71,7 +71,7 @@ export const MATH_READER_LOCALE_UI_SCRIPT=String.raw`
   const issue=()=>{
    if(!group.length)return;
    const selected=group,groupKey='math:'+country+':'+grade+':'+topic+
-    ':reader:'+lang+':'+(++epoch)+':'+(n++);
+    ':reader:'+lang+':'+(n++);
    group=[];total=0;
    translateGroup(selected,root,groupKey,lang).catch(()=>{});
   };
@@ -90,6 +90,7 @@ export const MATH_READER_LOCALE_UI_SCRIPT=String.raw`
  function init(){
   if(!document.body)return;
   new MutationObserver(records=>{
+   if(!inMathReader()||!document.getElementById('educationPagedLessonDialog'))return;
    if(!records.some(r=>r.type==='childList'||r.attributeName==='style'||r.attributeName==='class'))return;
    schedule();
   }).observe(document.body,{subtree:true,childList:true,attributes:true,
