@@ -28,7 +28,7 @@ import {EDUCATION_SELECTS_UI_SCRIPT} from './education_selects_ui.mjs';
 import {EDUCATION_SCOPE_UI_SCRIPT} from './education_scope_ui.mjs';
 import {EDUCATION_COUNTRY_UI_SCRIPT} from './education_country_ui.mjs';
 import {MATH_GCSE_HIGHER_ONLY,mathGcseSelectTier,mathGcseLessonTier} from './math_gcse_tier_policy.mjs';
-import {MATH_DEPTH_STAGES, MATH_DEPTH_EN_LOWER, MATH_DEPTH_EN_UNIVERSITY, RO5_MATH_LESSONS, RO678_MATH_LESSONS, ENGLAND_Y6_MATH_LESSONS, MATH_EARLY_YEAR_BANK, mathEarlyYearEntries, mathInDepthEntries, mathInDepthMaterial,mathCountryCourseEntries} from './math_depth_courses.mjs';
+import {MATH_DEPTH_STAGES, MATH_DEPTH_EN_LOWER, MATH_DEPTH_EN_UNIVERSITY, RO5_MATH_LESSONS, RO678_MATH_LESSONS, ENGLAND_Y6_MATH_LESSONS, MATH_EARLY_YEAR_BANK, mathEarlyYearEntries, FRANCE_5E_MATH_UNITS, franceGrade5eLessons, mathInDepthEntries, mathInDepthMaterial,mathCountryCourseEntries} from './math_depth_courses.mjs';
 import {EDUCATION_FIRST_USE_NOTICE_SCRIPT} from './education_first_use_notice.mjs';
 import {POCKET_LANGUAGES,POCKET_COUNTRY_LANGUAGES,pocketLanguageFromLocale,pocketLanguageFromCountry,pocketPreferredLanguage} from './language_first_install.mjs';
 import {EUROPEAN_UI_LOCALES} from './european_app_locales.mjs';
@@ -8804,6 +8804,8 @@ ${mathGcseLessonTier.toString()}
 let mathGcseTier='foundation';
 const MATH_EARLY_YEAR_BANK=${JSON.stringify(MATH_EARLY_YEAR_BANK)};
 ${mathEarlyYearEntries.toString()}
+const FRANCE_5E_MATH_UNITS=${JSON.stringify(FRANCE_5E_MATH_UNITS)};
+${franceGrade5eLessons.toString()}
 ${mathInDepthEntries.toString()}
 ${mathCountryCourseEntries.toString()}
 ${mathInDepthMaterial.toString()}
