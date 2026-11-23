@@ -131,7 +131,8 @@ export function educationSubjectSchoolPlan({country,stage,grade,subject,track=''
   // ES Mathematics choices for ESO 4/Bachillerato must specify A/B or
   // the correct Bachillerato modality. Other subjects retain the original
   // national school-year IDs without any changes to their existing picker.
-  !(key==='mathematics'&&code==='ES'&&!mathsYears.some(x=>x.id===g));
+  !(key==='mathematics'&&['ES','MT','VA'].includes(code)&&
+    !mathsYears.some(x=>x.id===g));
  if(!valid)return {country:code,stage:st,grade:g,subject:key,status:'invalid-selection',
   units:[],schoolYear:EDUCATION_SCHOOL_YEAR,gradeStatus:school.status,verifiedManual:false};
  const data=subjectInventory(key,{country:code,stage:st,grade:g,track});
@@ -168,8 +169,9 @@ export function educationCoverageTotals(){
  for(const code of EDUCATION_EUROPE_COUNTRIES)for(const stage of EDUCATION_SCHOOL_STAGES){
   const years=educationCountrySchoolYears(code,stage);
   if(years.status==='grade-unmapped')totals.unmappedStages++;
-  const isES=code==='ES';
-  const mathYears=isES?mathCountryStudyYears({country:code,stage,years:years.years}):[];
+  const separateMathYears=['ES','MT','VA'].includes(code);
+  const mathYears=separateMathYears?
+   mathCountryStudyYears({country:code,stage,years:years.years}):[];
   const canonicalIds=new Set(years.years.map(x=>String(x.id)));
   const mathIds=new Set(mathYears.map(x=>String(x.id)));
   for(const year of years.years){
@@ -179,11 +181,11 @@ export function educationCoverageTotals(){
     // do not designate a unique mathematics course. Count the specific
     // Mathematics A/B and Bach modalities instead, never count placeholders
     // as incomplete lesson sets.
-    if(isES&&plan.subject==='mathematics'&&!mathIds.has(String(year.id)))continue;
+    if(separateMathYears&&plan.subject==='mathematics'&&!mathIds.has(String(year.id)))continue;
     recordPlan(plan);
    }
   }
-  if(isES)for(const maths of mathYears){
+  if(separateMathYears)for(const maths of mathYears){
    if(canonicalIds.has(String(maths.id)))continue;
    recordPlan(educationSubjectSchoolPlan({
     country:code,stage,grade:maths.id,subject:'mathematics'

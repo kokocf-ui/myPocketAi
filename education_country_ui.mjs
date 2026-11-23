@@ -7,6 +7,8 @@ import {mathCountryGradeAreas,mathCountryStudyYears} from './math_country_grade_
 import {mathCountryPhasePlan,MATH_COUNTRY_STAGE_LABELS} from './math_country_year_alignment_2026.mjs';
 import {ENGLAND_KS4_LESSONS,ENGLAND_KS4_EXCLUDED_TITLES} from './math_england_ks4_curriculum.mjs';
 import {MATH_BULK_CODES,bulkMathFirstLessons} from './math_europe_batch_2026.mjs';
+import {MATH_SECOND_BATCH_COUNTRIES,secondBatchMathStarterLessons} from './math_europe_second_batch_2026.mjs';
+import {MATH_FINAL_COUNTRIES,finalMathStarterLessons} from './math_europe_final_systems_2026.mjs';
 const EDU_MATH_COUNTRY_YEARS={};
 const EDU_MATH_GRADE_AREAS={};
 const EDU_MATH_GRADE_NOTES={};
@@ -14,6 +16,10 @@ const EDU_MATH_COUNTRY_NOTES={};
 const EDU_MATH_GRADE_PHASES={};
 const EDU_MATH_BULK_EXAMPLES={};
 const EDU_MATH_BULK_SET=new Set(MATH_BULK_CODES);
+const EDU_MATH_SECOND_BATCH_EXAMPLES={};
+const EDU_MATH_SECOND_BATCH_SET=new Set(MATH_SECOND_BATCH_COUNTRIES);
+const EDU_MATH_FINAL_EXAMPLES={};
+const EDU_MATH_FINAL_SET=new Set(MATH_FINAL_COUNTRIES);
 for(const code of EDUCATION_EUROPE_COUNTRIES)for(const stage of EDUCATION_SCHOOL_STAGES){
  const years=mathCountryStudyYears({country:code,stage,years:educationCountrySchoolYears(code,stage).years});
  EDU_MATH_COUNTRY_YEARS[code+'|'+stage]=years.map(({id,ro,en,it,es,native,nativeLang})=>({id,ro,en,...(it?{it}:{}),...(es?{es}:{}),...(native?{native,nativeLang}:{})}));
@@ -29,6 +35,18 @@ for(const code of EDUCATION_EUROPE_COUNTRIES)for(const stage of EDUCATION_SCHOOL
    const topic=stage==='beginner'?'arithmetic':stage==='lower'?'algebra':'functions';
    const entries=bulkMathFirstLessons({country:code,stage:clientStage,grade:year.id,topic});
    if(entries.length)EDU_MATH_BULK_EXAMPLES[[code,clientStage,year.id,topic].join('|')]=entries;
+  }
+  if(EDU_MATH_SECOND_BATCH_SET.has(code)&&stage!=='advanced'){
+   const clientStage=stage==='beginner'?'primary':stage==='medium'?'intermediate':stage;
+   const topic=stage==='beginner'?'arithmetic':stage==='lower'?'algebra':'functions';
+   const entries=secondBatchMathStarterLessons({country:code,stage:clientStage,grade:year.id,topic,years});
+   if(entries.length)EDU_MATH_SECOND_BATCH_EXAMPLES[[code,clientStage,year.id,topic].join('|')]=entries;
+  }
+  if(EDU_MATH_FINAL_SET.has(code)&&stage!=='advanced'){
+   const clientStage=stage==='beginner'?'primary':stage==='medium'?'intermediate':stage;
+   const topic=stage==='beginner'?'arithmetic':stage==='lower'?'algebra':'functions';
+   const entries=finalMathStarterLessons({country:code,stage:clientStage,grade:year.id,topic});
+   if(entries.length)EDU_MATH_FINAL_EXAMPLES[[code,clientStage,year.id,topic].join('|')]=entries;
   }
   const note=String(path.note||'');
   const countryNoteKey=code+'|'+stage;
@@ -66,6 +84,10 @@ export const EDUCATION_COUNTRY_UI_SCRIPT=
  'const EDU_MATH_GRADE_AREAS='+JSON.stringify(EDU_MATH_GRADE_AREAS)+';\n'+
  'const EDU_MATH_STAGE_LABELS='+JSON.stringify(MATH_COUNTRY_STAGE_LABELS)+';\n'+
  'const EDU_MATH_GRADE_PHASES='+JSON.stringify(EDU_MATH_GRADE_PHASES)+';\n'+
+ 'const MATH_FINAL_FIRST_LESSONS='+JSON.stringify(EDU_MATH_FINAL_EXAMPLES)+';\n'+
+ 'function finalMathStarterLessons({country,stage,grade,topic}={}){return MATH_FINAL_FIRST_LESSONS[[String(country||\'\').toUpperCase(),stage,grade,topic].join(\'|\')]||[];}\n'+
+ 'const MATH_SECOND_BATCH_FIRST_LESSONS='+JSON.stringify(EDU_MATH_SECOND_BATCH_EXAMPLES)+';\n'+
+ 'function secondBatchMathStarterLessons({country,stage,grade,topic}={}){return MATH_SECOND_BATCH_FIRST_LESSONS[[String(country||\'\').toUpperCase(),stage,grade,topic].join(\'|\')]||[];}\n'+
  'const MATH_BULK_FIRST_LESSONS='+JSON.stringify(EDU_MATH_BULK_EXAMPLES)+';\n'+
  'function bulkMathFirstLessons({country,stage,grade,topic}={}){return MATH_BULK_FIRST_LESSONS[[String(country||\'\').toUpperCase(),stage,grade,topic].join(\'|\')]||[];}\n'+
  'const EDU_MATH_COUNTRY_NOTES='+JSON.stringify(EDU_MATH_COUNTRY_NOTES)+';\n'+

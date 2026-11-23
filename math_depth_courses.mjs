@@ -5,6 +5,8 @@ import {portugalMath2026Lessons,PORTUGAL_MATH_2026} from './math_portugal_2026.m
 import {italyMathFocalLessons} from './math_italy_framework_2026.mjs';
 import {spainMathOriginalEntries} from './math_spain_lomloe_2026.mjs';
 import {bulkMathFirstLessons} from './math_europe_batch_2026.mjs';
+import {secondBatchMathStarterLessons} from './math_europe_second_batch_2026.mjs';
+import {finalMathStarterLessons} from './math_europe_final_systems_2026.mjs';
 export {portugalMath2026Lessons,PORTUGAL_MATH_2026};
 export {franceGrade5eLessons,FRANCE_5E_MATH_UNITS};
 export {mathEarlyYearEntries,MATH_EARLY_YEAR_BANK};
@@ -243,7 +245,12 @@ export function mathCountryCourseEntries({country,stage,grade,phase,phases,topic
  const valid=[...new Set(selected.map(Number).filter(p=>Number.isInteger(p)&&p>=1&&p<=6))];
  const localSupplement=typeof bulkMathFirstLessons==='function'
   ?bulkMathFirstLessons({country,stage,grade,topic}):[];
- return [...localSupplement,...valid.flatMap(p=>mathInDepthEntries({stage,phase:p,topic}))];
+ const secondSupplement=typeof secondBatchMathStarterLessons==='function'
+  ?secondBatchMathStarterLessons({country,stage,grade,topic}):[];
+ const finalSupplement=typeof finalMathStarterLessons==='function'
+  ?finalMathStarterLessons({country,stage,grade,topic}):[];
+ return [...localSupplement,...secondSupplement,...finalSupplement,
+  ...valid.flatMap(p=>mathInDepthEntries({stage,phase:p,topic}))];
 }
 export function mathInDepthMaterial(entry){
  if(!entry?.title||!entry?.statement||!entry?.worked)return '';

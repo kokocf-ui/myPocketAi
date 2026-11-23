@@ -118,8 +118,11 @@ assert.ok(mathCountryEvidence({country:'FR',grade:'5e'}).manualExample?.includes
 assert.equal(mathCountryEvidence({country:'FR',grade:'4e'}).manualExample,null,
  'Do not pretend one textbook is applicable to all grades');
 assert.ok(mathCountryEvidence({country:'HU',grade:'5'}).manualExample?.includes('tankonyvkatalogus'));
-assert.ok(mathCountryEvidence({country:'TR',grade:'9'}).source===null,
- 'Unknown verified source must remain openly advisory');
+assert.ok(mathCountryEvidence({country:'TR',grade:'9'}).source.includes('tymm.meb.gov.tr'),
+ 'Turkish 2026 cohort guidance has a ministry source');
+assert.equal(mathCountryEvidence({country:'TR',grade:'9'}).status,
+ 'framework-referenced-not-fully-verified',
+ 'A ministry framework is not a certified annual textbook');
 
 let checked=0;
 for(const country of EDUCATION_EUROPE_COUNTRIES){
