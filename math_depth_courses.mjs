@@ -1,4 +1,5 @@
 import {RO5_MATH_LESSONS} from './math_ro5_curriculum.mjs';
+import {hungaryGrade5Lessons} from './math_hungary_grade5_2026.mjs';
 import {mathEarlyYearEntries,MATH_EARLY_YEAR_BANK} from './math_early_years_europe.mjs';
 import {franceGrade5eLessons,FRANCE_5E_MATH_UNITS} from './math_france_5e_2026.mjs';
 import {portugalMath2026Lessons,PORTUGAL_MATH_2026} from './math_portugal_2026.mjs';
@@ -224,6 +225,8 @@ export function mathCountryCourseEntries({country,stage,grade,phase,phases,topic
   const valid=[...new Set(selected.map(Number).filter(p=>Number.isInteger(p)&&p>=1&&p<=6))];
   return [...bespoke,...valid.flatMap(p=>mathInDepthEntries({stage,phase:p,topic}))];
  }
+ if(String(country||'').toUpperCase()==='HU'&&stage==='lower'&&String(grade)==='5')
+  return hungaryGrade5Lessons(topic);
  if(String(country||'').toUpperCase()==='PL'&&stage==='lower'&&String(grade)==='IV')
   return polandClass4Lessons(topic);
  if(String(country||'').toUpperCase()==='PT'&&stage==='lower'&&['5','6'].includes(String(grade)))
