@@ -97,7 +97,7 @@ export const EDUCATION_COUNTRY_UI_SCRIPT=
  'const EDU_MATH_COUNTRY_NOTES='+JSON.stringify(EDU_MATH_COUNTRY_NOTES)+';\n'+
  'const EDU_MATH_GRADE_NOTES='+JSON.stringify(EDU_MATH_GRADE_NOTES)+';\n'+
   'const PL_IV_2026_LESSONS='+JSON.stringify(PL_IV_2026_LESSONS)+';\n'+
- 'function polandClass4Lessons(topic){return PL_IV_2026_LESSONS.filter(x=>x.topic===String(topic||\'\'));}\n'+
+ 'function polandClass4Lessons(topic){return PL_IV_2026_LESSONS.filter(x=>x.topic===String(topic||\'\')).map(x=>state.language===\'pl\'?{...x,enTitle:x.native}:x);}\n'+
  'const ENGLAND_Y34_COURSES='+JSON.stringify(ENGLAND_Y34_LESSONS)+';\n'+
  'function englandY34TopicLessons(grade,topic){return (ENGLAND_Y34_COURSES[String(grade||\'\')]||[]).filter(row=>row.topic===String(topic||\'\'));}\n'+
  'const ENGLAND_KS4_LESSONS='+JSON.stringify(ENGLAND_KS4_LESSONS)+';\n'+
