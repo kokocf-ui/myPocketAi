@@ -7,6 +7,7 @@ import {mathCountryStudyYears} from './math_country_grade_areas.mjs';
 import {RO5_MATH_LESSONS,RO5_MATH_SOURCES} from './math_ro5_curriculum.mjs';
 import {RO678_MATH_LESSONS} from './math_ro678_curriculum.mjs';
 import {ENGLAND_Y6_MATH_LESSONS} from './math_england_y6_curriculum.mjs';
+import {ENGLAND_Y34_LESSONS,ENGLAND_Y34_REFERENCE} from './math_england_year3_year4_2026.mjs';
 import {ENGLISH_KS4_REFERENCE,englandKS4CardRows} from './math_england_ks4_curriculum.mjs';
 import {MATH_EUROPE_SOURCE_REGISTRY,mathCountryEvidence} from './math_country_year_alignment_2026.mjs';
 
@@ -33,6 +34,7 @@ export function mathCurriculumReadiness(){
     const grade=String(year.id);
     const evidence=mathCountryEvidence({country,stage,grade});
     const national=country==='RO'&&stage==='lower'&&['5','6','7','8'].includes(grade);
+    const englandY34=country==='GB-ENG'&&stage==='beginner'&&['Y3','Y4'].includes(grade);
     const englandY6=country==='GB-ENG'&&stage==='beginner'&&grade==='Y6';
     const englandKS4=country==='GB-ENG'&&stage==='medium'&&['Y10','Y11'].includes(grade);
     const actual=plan.units.reduce((n,x)=>n+Number(x.lessonCount||0),0);
@@ -44,7 +46,13 @@ export function mathCurriculumReadiness(){
       plan.units.every(x=>x.countrySpecific===true)&&
       actual===sourceRows.length&&
       sourceRows.every(l=>l.statement&&l.formula&&l.worked&&l.practice&&l.answers);
-    const partialCandidate=(englandY6&&ENGLAND_Y6_MATH_LESSONS.length===21&&plan.units.length===5)||
+    const sourceYr34=englandY34?ENGLAND_Y34_LESSONS[grade]||[]:[];
+    const authoredY34=englandY34&&sourceYr34.length>=25&&
+      ['arithmetic','geometry','measurement','statistics'].every(topic=>
+       sourceYr34.filter(l=>l.topic===topic).length>=3)&&
+      plan.units.length===4&&actual===sourceYr34.length;
+    const partialCandidate=authoredY34||
+      (englandY6&&ENGLAND_Y6_MATH_LESSONS.length===21&&plan.units.length===5)||
       (englandKS4&&plan.units.length>=4&&
        plan.units.filter(unit=>englandKS4CardRows(grade,unit.id).length>=3).length>=3);
     rows.push({
@@ -53,6 +61,8 @@ export function mathCurriculumReadiness(){
      lessonCount:actual,units:plan.units.length,
      countryYearSpecific:candidate,
      partialSourceReview:partialCandidate,
+     officialYearSourceMapped:authoredY34,
+     independentCourseSequence:authoredY34?(grade==='Y3'?ENGLAND_Y34_REFERENCE.oak3:ENGLAND_Y34_REFERENCE.oak4):null,
      evidenceStatus:evidence.status,
      manualExample:evidence.manualExample,
      source:country==='RO'&&stage==='lower'?MATH_CURRICULUM_SOURCE_REGISTRY.RO.grades5to8:
@@ -62,6 +72,10 @@ export function mathCurriculumReadiness(){
      complete:false,
      blockers:candidate?
       ['Independent pedagogical validation','Verify exact full-year content against textbooks','Check progress assessment and classroom sequencing','Android device acceptance']:
+      authoredY34?
+      ['DfE year objectives and original worked lessons crosswalked, but the precise bullet-to-lesson coverage remains to be independently audited',
+       'Oak unit sequence is an external comparison, not an embedded or verified adopted textbook',
+       'Device test and independent pedagogical review of complete year']:
       partialCandidate?(englandKS4?
       ['KS4 is a two-year DfE key stage, not official Year 10/11 allocations',
        'Only supplementary GCSE-aligned lessons, not full statutory topic coverage',

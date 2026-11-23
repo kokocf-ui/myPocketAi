@@ -153,6 +153,32 @@ try{
  assert.ok(!branches.some(x=>x.includes('Algebră')),'England Y1 shows formal algebra');
  await page.screenshot({path:'math-browser-audit/england-year1.png'});
  await click(page.locator('#view-module .math-stage-back').first());
+ await pickGrade('Year 3');
+ branches=await page.locator('#view-module .math-choice-list .math-choice-row').allTextContents();
+ assert.ok(branches.some(x=>x.includes('Statistică')||x.includes('Date')),
+  'DfE England Year 3 must include its statutory data/statistics branch');
+ await click(page.locator('#view-module .math-choice-row').filter({hasText:'Aritmetică'}).first());
+ const y3Titles=await page.locator('#view-module .math-choice-row strong').allTextContents();
+ assert.ok(y3Titles.length>=16,'England Year 3 must expose original source-mapped numerical content');
+ assert.ok(y3Titles.some(x=>x.includes('Sute, zeci și unități')),
+  'England Year 3 must expose a DfE place-value worked lesson');
+ await click(page.locator('#view-module .math-choice-row').filter({hasText:'Sute, zeci și unități'}).first());
+ const y3Reader=page.locator('#educationPagedLessonDialog');
+ await y3Reader.waitFor({state:'visible'});
+ assert.ok((await y3Reader.innerText()).includes('476 = 400 + 70 + 6'),
+  'Year 3 reader must open the new original lesson rather than shared generic phase');
+ await click(y3Reader.locator('.education-theory-head button').first());
+ await page.screenshot({path:'math-browser-audit/england-year3-source.png'});
+ await click(page.locator('#view-module .math-stage-back').first());
+ await click(page.locator('#view-module .math-stage-back').first());
+ await pickGrade('Year 4');
+ await click(page.locator('#view-module .math-choice-row').filter({hasText:'Aritmetică'}).first());
+ const y4Titles=await page.locator('#view-module .math-choice-row strong').allTextContents();
+ assert.ok(y4Titles.length>=17,'England Year 4 must expose its own DfE-authored numeric lessons');
+ assert.ok(y4Titles.some(x=>x.includes('Numere negative și trecerea prin zero')));
+ await page.screenshot({path:'math-browser-audit/england-year4-source.png'});
+ await click(page.locator('#view-module .math-stage-back').first());
+ await click(page.locator('#view-module .math-stage-back').first());
  await pickGrade('Year 6');
  branches=await page.locator('#view-module .math-choice-list .math-choice-row').allTextContents();
  assert.ok(branches.some(x=>x.includes('Algebră')),'England Year 6 must show its DfE algebra branch');

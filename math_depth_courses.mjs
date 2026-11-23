@@ -12,6 +12,8 @@ export {franceGrade5eLessons,FRANCE_5E_MATH_UNITS};
 export {mathEarlyYearEntries,MATH_EARLY_YEAR_BANK};
 import {RO678_MATH_LESSONS} from './math_ro678_curriculum.mjs';
 import {ENGLAND_Y6_MATH_LESSONS} from './math_england_y6_curriculum.mjs';
+import {englandY34TopicLessons,ENGLAND_Y34_LESSONS} from './math_england_year3_year4_2026.mjs';
+export {ENGLAND_Y34_LESSONS};
 export {ENGLAND_Y6_MATH_LESSONS};
 export {RO678_MATH_LESSONS};
 export {RO5_MATH_LESSONS};
@@ -223,6 +225,9 @@ export function mathCountryCourseEntries({country,stage,grade,phase,phases,topic
   return portugalMath2026Lessons({grade,topic});
  if(String(country||'').toUpperCase()==='FR'&&stage==='lower'&&String(grade)==='5e')
   return franceGrade5eLessons(topic);
+ if(String(country||'').toUpperCase()==='GB-ENG'&&stage==='primary'&&
+  ['Y3','Y4'].includes(String(grade)))
+  return englandY34TopicLessons(grade,topic);
  if(stage==='primary'){
   const early=mathEarlyYearEntries({country,grade,topic});
   if(early)return early;
@@ -267,6 +272,9 @@ export function mathInDepthMaterial(entry){
   ?'Clasa a V-a, România. Lecție originală corelată cu programa MEN 3393/2017 și cuprinsul unui manual aprobat Art Klett 2022; nu reproduce manualul.'
   :entry.country==='RO'&&['6','7','8'].includes(String(entry.grade))&&entry.sourceStatus==='programme-reviewed'
   ?'Clasa a '+entry.grade+'-a, România. Lecție originală corelată cu temele din programa MEN 3393/2017 și cuprinsuri de manuale școlare. Inventarul clasei rămâne în revizie pedagogică; nu reprezintă certificarea unui curs anual complet.'
+  :entry.country==='GB-ENG'&&['Y3','Y4'].includes(String(entry.grade))&&
+    entry.sourceStatus==='official-topic-reviewed'
+  ?'England '+entry.grade+'. Lecție originală cu explicație și exercițiu, corelată tematic cu cerințele anuale DfE și verificată față de secvența Oak. Nu reproduce un manual și nu atestă acoperirea integrală a tuturor obiectivelor școlare.'
   :entry.country==='GB-ENG'&&entry.grade==='Y6'&&entry.sourceStatus==='official-topic-reviewed'
   ?'England Year 6. Lecție originală corelată cu obiectivele statutare DfE. Material suplimentar, nu un curs anual complet.'
   :entry.country==='GB-ENG'&&['Y10','Y11'].includes(String(entry.grade))&&entry.sourceStatus==='official-topic-reviewed'
