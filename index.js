@@ -12938,7 +12938,8 @@ function mathJourneyShowChoices(stage){
    mathJourney.schoolStage==='intermediate'?'medium':mathJourney.schoolStage;
   const countryCode=String(educationCountrySelection.code||'');
   const curriculumKey=countryCode+'|'+selectedStage+'|'+String(mathJourney.grade||'');
-  const sourceNote=typeof EDU_MATH_GRADE_NOTES==='undefined'?'':String(EDU_MATH_GRADE_NOTES[curriculumKey]||'');
+  const sourceNote=typeof EDU_MATH_GRADE_NOTES==='undefined'?'':String(
+   EDU_MATH_GRADE_NOTES[curriculumKey]||EDU_MATH_COUNTRY_NOTES[countryCode+'|'+selectedStage]||'');
   if(sourceNote){
    const sourceStatus=document.createElement('p');
    sourceStatus.className='math-curriculum-status';
