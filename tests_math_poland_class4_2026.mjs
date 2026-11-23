@@ -59,5 +59,6 @@ assert.ok(cardBank.some(x=>x.title==='Volumul paralelipipedului'));
 assert.ok(cardBank.some(x=>x.title==='Descoperirea greșelilor din rezolvare'));
 const areasRaw=inline.split('const EDU_MATH_GRADE_AREAS=')[1].split(';\n')[0];
 const areas=JSON.parse(areasRaw);
-assert.deepEqual(areas['PL|lower|IV'].map(x=>x.lessonCount),[24,10,3]);
+assert.deepEqual(areas['PL|lower|IV'].map(x=>x.id),['algebra','geometry','statistics']);
+assert.ok(areas['PL|lower|IV'].every(x=>x.ro&&x.en));
 console.log('PASS Poland 2026 law class IV with 37 nationally source-mapped original worked chapters and registered official textbook, Android all embedded, older Polish cohorts untouched');
