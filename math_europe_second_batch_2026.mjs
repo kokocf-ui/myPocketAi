@@ -296,10 +296,24 @@ export function secondBatchMathGradeProfile({country,stage,grade,years=[],topics
 // Original numerical worked examples for each of the 23 national entry paths.
 // These are explicitly supplementary: no claim of a government-approved annual
 // course, and not a translation or reproduction of a copyrighted school book.
+const FIRST_GRADE=Object.freeze({
+ BE:['1','S1','S4'],CH:['1','7','10'],LU:['E1','7e','4e'],
+ CZ:['1','6','10'],SK:['1','5','10'],SI:['1','7','10'],HR:['1','5','G1'],
+ GR:['1','G1','L1'],CY:['1','7','10'],MT:['1','7','12'],
+ BG:['1','5','8'],EE:['1','7','10'],LV:['1','7','10'],LT:['1','5','11'],
+ RS:['1','5','G1'],MD:['1','5','10'],AL:['1','6','10'],TR:['1','5','9'],
+ ME:['1','6','10'],BA:['1','6','S1'],
+ 'GB-SCT':['P1','S1','S4'],'GB-WLS':['Y1','Y7','Y10'],
+ 'GB-NIR':['Y1','Y8','Y11']
+});
+export const MATH_SECOND_BATCH_FIRST_GRADE=FIRST_GRADE;
 export function secondBatchMathStarterLessons({country,stage,grade,topic,years=[]}={}){
  const code=String(country||'').toUpperCase(),p=C[code],st=stageKey(stage);
- if(!p||st==='advanced'||!Array.isArray(years)||!years.length)return [];
- if(String(grade)!==String(years[0].id))return [];
+ if(!p||st==='advanced')return [];
+ const stageIndex=['beginner','lower','medium'].indexOf(st);
+ const expected=Array.isArray(years)&&years.length?String(years[0].id):
+  FIRST_GRADE[code]?.[stageIndex];
+ if(String(grade)!==String(expected))return [];
  const target=st==='beginner'?'arithmetic':st==='lower'?'algebra':'functions';
  if(String(topic)!==target)return [];
  const num=MATH_SECOND_BATCH_COUNTRIES.indexOf(code)+1;
