@@ -69,10 +69,13 @@ assert.deepEqual(plans['GB-ENG|beginner|Y3'].map(x=>x.id),
  ['arithmetic','measurement','geometry','statistics']);
 assert.deepEqual(plans['GB-ENG|beginner|Y4'].map(x=>x.id),
  ['arithmetic','measurement','geometry','statistics']);
-const mathKeys=[...inline.matchAll(/function (math[A-Za-z0-9]+)\(/g)].map(x=>x[1]).filter(s=>/Year|Chapter|Choice|Course/.test(s));
-console.log('MATH_ROUTING_FN_KEYS',mathKeys.join(','));
-for(const needle of ["function mathSelectedYearLessons(", "function mathCountryCourseEntries(", "function mathEarlyYearEntries("]){
- const i=inline.indexOf(needle);
- if(i>=0)console.log('MATH_ROUTING_DEBUG',needle,inline.slice(i,i+7500).slice(0,7500));
-}
+assert.ok(inline.includes('function englandY34TopicLessons(grade,topic)'),
+ 'Original DfE lessons must be available on the actual Android client');
+const authoredRaw=inline.split('const ENGLAND_Y34_COURSES=')[1]?.split(';\n')[0];
+assert.ok(authoredRaw,'Android client missing original Y3/Y4 cards');
+const authored=JSON.parse(authoredRaw);
+assert.equal(authored.Y3.length,27);
+assert.equal(authored.Y4.length,29);
+assert.ok(!authored.Y3.some(x=>x.grade==='Y4'));
+
 console.log('PASS 56 ORIGINAL source-aligned DfE Year 3/4 Mathematics worked chapters; four unique branches per grade; separate annual curriculum expectations, no repeated generic lesson bank, existing years intact');
