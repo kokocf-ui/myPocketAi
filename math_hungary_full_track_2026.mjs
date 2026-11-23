@@ -224,7 +224,7 @@ export function hungaryMathOriginalLessons({grade,topic}={}){
   worked:row[5],practice:row[6],answers:row[7],aliases:[],
   source:entry.stage==='advanced'?HUNGARY_MATH_SOURCES.university:HUNGARY_MATH_SOURCES.school,
   sourceStatus:'country-grade-advisory-supplement',
-  curriculumCompletion:'partial-source-review'
+  curriculumCompletion:'unverified-advisory'
  }));
 }
 export function hungaryMathGradeProfile({stage,grade,lessonCount}={}){
@@ -243,6 +243,6 @@ export function hungaryMathGradeProfile({stage,grade,lessonCount}={}){
   note,units:p.units.map(([id,ro,en])=>({
    id,ro,en,focus:p.focus,lessonCount:lessonCount?lessonCount(id,p.phase):0,
    countrySpecific:false,countryFrameworkSpecific:true,
-   curriculumCompletion:'partial-source-review',curriculumSource:source
+   curriculumCompletion:'unverified-advisory',curriculumSource:source
   }))};
 }
