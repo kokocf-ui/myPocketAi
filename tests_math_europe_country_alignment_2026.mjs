@@ -47,8 +47,8 @@ assert.deepEqual(phase('PL','beginner','III').phases,[3],
 assert.deepEqual(phase('PT','beginner','4').phases,[4]);
 assert.deepEqual(phase('IT','lower','M3').phases,[3,4],
  'Three-year lower stage should not drop its final advisory topics');
-assert.deepEqual(phase('ES','medium','B1').phases,[1,2]);
-assert.deepEqual(phase('ES','medium','B2').phases,[3,4]);
+assert.deepEqual(phase('ES','medium','B1-CYT').phases,[1,2]);
+assert.deepEqual(phase('ES','medium','B2-HCS').phases,[3,4]);
 assert.equal(phase('RO','lower','8').phase,4);
 assert.equal(phase('GB-ENG','beginner','Y6').phase,6);
 assert.equal(phase('FR','lower','5e').phase,2);
@@ -103,6 +103,11 @@ for(const country of ['FR','IT','PL','HU','ES','PT','DE','NL','IE']){
   assert.ok(sample.source.includes('gazzettaufficiale.it'));
   assert.ok(sample.units.every(x=>x.curriculumCompletion==='partial-source-review'));
   assert.ok(sample.units.every(x=>x.it),'Italian maths years must have native branch names');
+ }else if(country==='ES'){
+  assert.match(sample.note,/Spania:/);
+  assert.ok(sample.source.includes('BOE-A-2022-4975'));
+  assert.ok(sample.units.every(x=>x.curriculumCompletion==='partial-source-review'));
+  assert.ok(sample.units.every(x=>x.es),'Spanish maths years must have native subject names');
  }else{
   assert.ok(sample.note.includes(evidence.note.slice(0,12)),country+' must be clearly source-annotated');
   assert.ok(sample.units.every(x=>x.curriculumCompletion==='unverified-advisory'),
