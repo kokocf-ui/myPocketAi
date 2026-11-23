@@ -19,20 +19,20 @@ for(const country of EDUCATION_EUROPE_COUNTRIES){
    assert.equal(plans.length,EDUCATION_CORE_SUBJECTS.length);
    assert.deepEqual(plans.map(x=>x.subject),EDUCATION_CORE_SUBJECTS);
    for(const plan of plans){
-    const esMathPlaceholder=country==='ES'&&plan.subject==='mathematics'&&
+    const specialMathPlaceholder=['ES','MT'].includes(country)&&plan.subject==='mathematics'&&
      !mathCountryStudyYears({country,stage,years:school.years})
       .some(x=>String(x.id)===String(year.id));
     const plMathNotInPrimary=country==='PL'&&stage==='beginner'&&
      String(year.id)==='IV'&&plan.subject==='mathematics';
-    if(!esMathPlaceholder&&!plMathNotInPrimary)
+    if(!specialMathPlaceholder&&!plMathNotInPrimary)
      covered.add(country+'/'+stage+'/'+year.id+'/'+plan.subject);
     assert.equal(plan.country,country);
     assert.equal(plan.grade,year.id);
     assert.equal(plan.schoolYear,'2026/27');
     assert.equal(plan.verifiedManual,false,'Never invent a verified textbook');
-    if(esMathPlaceholder){
+    if(specialMathPlaceholder){
      assert.equal(plan.status,'invalid-selection',
-      'Spanish Maths ESO4 and Bachillerato need explicit A/B/modality options');
+      'Spanish maths options and Maltese Secondary/Sixth Form maths stages must be selected precisely');
      assert.equal(plan.units.length,0);
      continue;
     }
@@ -53,7 +53,7 @@ for(const country of EDUCATION_EUROPE_COUNTRIES){
       'A general minLevel/CEFR lesson catalogue must NOT be certified as a national grade syllabus');
    }
   }
-  if(country==='ES'){
+  if(['ES','MT'].includes(country)){
    const native=mathCountryStudyYears({country,stage,years:school.years});
    for(const maths of native){
     if(school.years.some(x=>x.id===maths.id))continue;
