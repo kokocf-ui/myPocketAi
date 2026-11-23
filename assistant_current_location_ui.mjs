@@ -7,12 +7,12 @@ function appendCurrentLocationMap(body,record){
  const word=(a,b)=>ro?a:b;
  const panel=document.createElement('section');
  panel.className='current-location-map-panel';
- panel.style.cssText='margin:16px 0 12px;white-space:normal;border:1px solid #3b7b90;border-radius:15px;background:#0b293c;padding:12px;color:#eaf6ff';
+ panel.style.cssText='margin:4px 0 6px;white-space:normal;border:0;border-radius:10px;background:#0b293c;padding:4px;color:#eaf6ff';
  const title=document.createElement('h3');
  title.textContent=word('Harta poziției și POI din apropiere','Your position and nearby POIs');
- title.style.cssText='margin:0 0 10px;font-size:17px;color:#ecfaff';
+ title.style.cssText='position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)';
  const toolbar=document.createElement('div');
- toolbar.style.cssText='display:flex;align-items:center;flex-wrap:wrap;gap:9px;margin-bottom:10px';
+ toolbar.style.cssText='display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin:0 0 5px';
  const radiusLabel=document.createElement('label');radiusLabel.textContent=word('Rază: ','Radius: ');
  const radiusSelect=document.createElement('select');radiusSelect.setAttribute('aria-label',word('Raza POI','POI radius'));
  for(const r of [350,750,1500]){const option=document.createElement('option');option.value=String(r);option.textContent=r<1000?r+' m':'1.5 km';radiusSelect.append(option)}
@@ -21,11 +21,11 @@ function appendCurrentLocationMap(body,record){
  radiusSelect.style.cssText=refresh.style.cssText='background:#16374b;color:#fff;border:1px solid #68aabc;border-radius:9px;min-height:40px;padding:7px;font:inherit;font-size:14px';
  toolbar.append(radiusLabel,refresh);
  const mapHost=document.createElement('div');
- mapHost.style.cssText='height:clamp(230px,39vh,340px);width:100%;border-radius:12px;overflow:hidden;background:#d9e1e5;touch-action:pan-x pan-y;white-space:normal';
+ mapHost.style.cssText='height:clamp(320px,63dvh,620px);max-height:calc(100dvh - 160px);min-height:260px;width:100%;border-radius:12px;overflow:hidden;background:#d9e1e5;touch-action:pan-x pan-y;white-space:normal';
  mapHost.setAttribute('role','region');mapHost.setAttribute('aria-label',title.textContent);
  const status=document.createElement('p');
  status.setAttribute('role','status');
- status.style.cssText='font-size:13px;line-height:1.4;color:#c6e4ed;margin:9px 0';
+ status.style.cssText='font-size:12px;line-height:1.3;color:#c6e4ed;margin:4px 0';
  status.textContent=word('Caut punctele de interes cartografiate…','Finding mapped points of interest…');
  const note=document.createElement('p');
  note.textContent=word('Poziția din momentul întrebării. Marcajele sunt aproximative; unele POI-uri pot lipsi din hartă.','Position at the time of the question. Pins are approximate; some POIs may not be mapped.');
@@ -36,6 +36,7 @@ function appendCurrentLocationMap(body,record){
  summary.style.cssText='font-weight:750;cursor:pointer;min-height:40px';
  summary.textContent=word('Puncte de interes','Points of interest');
  const list=document.createElement('div');details.append(summary,list);
+ note.hidden=true;status.hidden=true;details.open=false;
  panel.append(title,toolbar,mapHost,status,note,details);body.append(panel);
  let disposed=false,L=null,map=null,markers=null,controller=null,places=[];
  const formatDistance=v=>Number(v)<1000?Math.round(Number(v))+' m':(Number(v)/1000).toFixed(1)+' km';
@@ -74,7 +75,7 @@ function appendCurrentLocationMap(body,record){
  async function updatePois(){
   if(disposed)return;
   controller?.abort();controller=new AbortController();const signal=controller.signal;
-  refresh.disabled=true;status.textContent=word('Actualizez punctele de interes…','Refreshing points of interest…');
+  refresh.disabled=true;status.hidden=true;status.textContent=word('Actualizez punctele de interes…','Refreshing points of interest…');
   try{
    const response=await fetch('/api/location-pois',{
     method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},signal,
@@ -85,10 +86,11 @@ function appendCurrentLocationMap(body,record){
    if(disposed||signal.aborted)return;
    if(data.status!=='success')throw Error('POIs unavailable');
    places=Array.isArray(data.pois)?data.pois.slice(0,150):[];redraw();
+   status.hidden=false;
    status.textContent=places.length
     ?word('POI cartografiate: ','Mapped POIs: ')+places.length+' · '+String(data.source||'OpenStreetMap')+(data.truncated?word(' · primele 150',' · first 150'):'')
     :word('Nu s-au găsit POI cartografiate în această rază.','No mapped POIs found in this radius.');
-  }catch(e){if(disposed||signal.aborted)return;places=[];redraw();status.textContent=word('POI-urile nu pot fi încărcate momentan.','POIs cannot be loaded right now.')}
+  }catch(e){if(disposed||signal.aborted)return;places=[];redraw();status.hidden=false;status.textContent=word('POI-urile nu pot fi încărcate momentan.','POIs cannot be loaded right now.')}
   finally{if(!disposed&&!signal.aborted)refresh.disabled=false}
  }
  async function createMap(){
@@ -98,8 +100,7 @@ function appendCurrentLocationMap(body,record){
    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; OpenStreetMap contributors'}).addTo(map);
    L.marker([latitude,longitude],{title:word('Poziția mea GPS','My GPS position')}).addTo(map).bindPopup(word('Poziția mea GPS','My GPS position'));
    const accuracy=Number(point.accuracy);
-   if(Number.isFinite(accuracy)&&accuracy>0&&accuracy<3000)
-    L.circle([latitude,longitude],{radius:accuracy,color:'#1787bb',fillColor:'#3fb6e2',fillOpacity:.12,weight:1}).addTo(map);
+   // GPS accuracy circle deliberately omitted: it resembled a navigation overlay.
    markers=L.layerGroup().addTo(map);map.setView([latitude,longitude],16);
    requestAnimationFrame(()=>{if(!disposed&&map){map.invalidateSize();redraw()}});
   }catch(e){if(!disposed)mapHost.textContent=word('Harta nu poate fi încărcată momentan.','The map cannot be loaded right now.')}
