@@ -190,7 +190,7 @@ export function mathInDepthEntries({stage,phase,topic}={}){
 }
 // Grade-specific source-mapped course entries take precedence over the shared
 // advisory European sequence. Do not label generic lessons as national courses.
-export function mathCountryCourseEntries({country,stage,grade,phase,topic}={}){
+export function mathCountryCourseEntries({country,stage,grade,phase,phases,topic}={}){
  if(String(country||'').toUpperCase()==='GB-ENG'&&stage==='intermediate'&&['Y10','Y11'].includes(String(grade))){
   const g=String(grade),excluded=new Set(ENGLAND_KS4_EXCLUDED_TITLES[g]||[]);
   const standard=mathInDepthEntries({stage,phase:g==='Y10'?1:2,topic})
@@ -205,7 +205,9 @@ export function mathCountryCourseEntries({country,stage,grade,phase,topic}={}){
  if(String(country||'').toUpperCase()==='RO'&&stage==='lower'
    &&['6','7','8'].includes(String(grade)))
   return (RO678_MATH_LESSONS[String(grade)]||[]).filter(item=>item.topic===topic);
- return mathInDepthEntries({stage,phase,topic});
+ const selected=Array.isArray(phases)&&phases.length?phases:[phase];
+ const valid=[...new Set(selected.map(Number).filter(p=>Number.isInteger(p)&&p>=1&&p<=6))];
+ return valid.flatMap(p=>mathInDepthEntries({stage,phase:p,topic}));
 }
 export function mathInDepthMaterial(entry){
  if(!entry?.title||!entry?.statement||!entry?.worked)return '';
