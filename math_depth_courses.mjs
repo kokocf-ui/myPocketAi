@@ -272,6 +272,9 @@ export function mathInDepthMaterial(entry){
   ?'Clasa a V-a, România. Lecție originală corelată cu programa MEN 3393/2017 și cuprinsul unui manual aprobat Art Klett 2022; nu reproduce manualul.'
   :entry.country==='RO'&&['6','7','8'].includes(String(entry.grade))&&entry.sourceStatus==='programme-reviewed'
   ?'Clasa a '+entry.grade+'-a, România. Lecție originală corelată cu temele din programa MEN 3393/2017 și cuprinsuri de manuale școlare. Inventarul clasei rămâne în revizie pedagogică; nu reprezintă certificarea unui curs anual complet.'
+  :entry.country==='GB-ENG'&&['Y3','Y4'].includes(String(entry.grade))&&
+    entry.sourceStatus==='official-topic-reviewed'
+  ?'England '+entry.grade+'. Lecție originală cu explicație și exercițiu, corelată tematic cu cerințele anuale DfE și verificată față de secvența Oak. Nu reproduce un manual și nu atestă acoperirea integrală a tuturor obiectivelor școlare.'
   :entry.country==='GB-ENG'&&entry.grade==='Y6'&&entry.sourceStatus==='official-topic-reviewed'
   ?'England Year 6. Lecție originală corelată cu obiectivele statutare DfE. Material suplimentar, nu un curs anual complet.'
   :entry.country==='GB-ENG'&&['Y10','Y11'].includes(String(entry.grade))&&entry.sourceStatus==='official-topic-reviewed'
