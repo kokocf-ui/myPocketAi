@@ -64,6 +64,23 @@ for(const [country,grade] of [['NL','G1'],['NL','G2'],['IE','JI'],['IE','SI']]){
   assert.ok(cards.every(x=>mathInDepthMaterial(x).includes('Exemplu rezolvat')));
  }
 }
+const france5=mathCountryGradeAreas({country:'FR',stage:'lower',grade:'5e',years:yrs('FR','lower')});
+assert.deepEqual(france5.units.map(x=>x.id),['algebra','geometry','statistics','functions']);
+assert.equal(france5.units.reduce((sum,x)=>sum+x.lessonCount,0),19,
+ 'French 5e has original lesson coverage for the 14-heading 2026 textbook');
+assert.equal(france5.status,'general-learning','A real textbook is not automatic pedagogical approval');
+assert.equal(france5.manualExample,'https://www.lelivrescolaire.fr/manuels/mathematiques-5eme-2026');
+for(const branch of france5.units){
+ const lessons=mathCountryCourseEntries({country:'FR',stage:'lower',grade:'5e',topic:branch.id,phase:2});
+ assert.equal(lessons.length,branch.lessonCount);
+ assert.ok(lessons.length>=3);
+ assert.ok(lessons.every(x=>x.statement&&x.worked&&x.practice&&x.answers));
+ assert.ok(lessons.every(x=>x.curriculumCompletion==='partial-source-review'));
+}
+const plManual=mathCountryEvidence({country:'PL',stage:'lower',grade:'IV'});
+assert.ok(plManual.manualExample?.includes('podreczniki.men.gov.pl'),'Official Polish 2026 grade IV textbook listing');
+assert.equal(mathCountryEvidence({country:'PL',stage:'lower',grade:'V'}).manualExample,null,
+ 'Grade IV manual may not be presented as applicable to grade V');
 const early=mathCountryCourseEntries({country:'NL',stage:'primary',grade:'G1',topic:'arithmetic'});
 assert.ok(early.some(x=>x.title.includes('5')));
 assert.ok(!early.some(x=>/procente|fracții|derivate|ecuații pătratice/i.test(x.title)));
