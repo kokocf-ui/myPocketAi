@@ -23,6 +23,11 @@ for(const country of EDUCATION_EUROPE_COUNTRIES){
     assert.equal(plan.grade,year.id);
     assert.equal(plan.schoolYear,'2026/27');
     assert.equal(plan.verifiedManual,false,'Never invent a verified textbook');
+    if(country==='PL'&&stage==='beginner'&&String(year.id)==='IV'&&plan.subject==='mathematics'){
+     assert.equal(plan.status,'invalid-selection','Polish Grade IV mathematics belongs to the separate-subject pathway');
+     assert.equal(plan.units.length,0);
+     continue;
+    }
     assert.ok(['framework-verified','grade-content-unverified','general-learning'].includes(plan.status));
     assert.ok(Array.isArray(plan.units));
     assert.equal(new Set(plan.units.map(x=>x.id)).size,plan.units.length,
