@@ -71,7 +71,11 @@ export function bulkMathYearLabels({country,stage,years=[]}={}){
    'Liceum · klasa '+step+' (profil wymaga wyboru)';
   if(code==='HU')native=st==='beginner'||st==='lower'?'Általános iskola · '+id+'. évfolyam':
    'Gimnázium/technikum · '+id+'. évfolyam'+(n===13?' (technikum)':'');
-  return {...entry,native,nativeLang:p.lang,nationalYearVerified:entry.nationalYearVerified===false?false:true,
+  const needsStream=code==='DE'||st==='medium'&&['FI','SE','NO','DK','NL','IE','AT','HU','PL'].includes(code);
+  return {...entry,native,nativeLang:p.lang,
+   // A locally used year name is not an unconditional national programme:
+   // school track (and for Germany the Land) must be selected first.
+   nationalYearVerified:entry.nationalYearVerified===false?false:!needsStream,
    curriculumVerified:false,countryFrameworkSpecific:true};
  });
 }
