@@ -111,8 +111,13 @@ export const EDUCATION_COUNTRY_UI_SCRIPT=
  'const EDU_REMOTE_PACK_KEYS=new Set('+JSON.stringify(CURRICULUM_REMOTE_PACK_KEYS)+');\n'+
  String.raw`const EDU_LOADED_CURRICULUM_PACKS={};
 const EDU_PENDING_CURRICULUM_PACKS={};
-function eduCurriculumPackKey(subject,country,grade){
- const s=String(subject||'').trim().toLowerCase(),c=String(country||'').trim().toUpperCase(),g=String(grade||'').trim();
+function eduCanonicalPackGrade(grade,stage){
+ const g=String(grade||'').trim(),st=String(stage||'').trim().toLowerCase();
+ if(st==='advanced'&&g&&!/^(bsc|msc|univ[-_])/i.test(g))return 'univ-'+g;
+ return g;
+}
+function eduCurriculumPackKey(subject,country,grade,stage){
+ const s=String(subject||'').trim().toLowerCase(),c=String(country||'').trim().toUpperCase(),g=eduCanonicalPackGrade(grade,stage);
  if(!s||!c||!g)return '';
  return s+'|'+c+'|'+g;
 }
@@ -144,13 +149,14 @@ function eduStoreLocalCurriculumPack(key,pack,urlStr){
   }
  }catch{}
 }
-async function eduEnsureCurriculumPack(subject,country,grade){
- const key=eduCurriculumPackKey(subject,country,grade);
+async function eduEnsureCurriculumPack(subject,country,grade,stage){
+ const g=eduCanonicalPackGrade(grade,stage);
+ const key=eduCurriculumPackKey(subject,country,g);
  if(!key||!EDU_REMOTE_PACK_KEYS.has(key))return null;
  const cached=eduReadLocalCurriculumPack(key);
  if(cached)return cached;
  if(EDU_PENDING_CURRICULUM_PACKS[key])return EDU_PENDING_CURRICULUM_PACKS[key];
- const s=String(subject||'').trim().toLowerCase(),c=String(country||'').trim().toUpperCase(),g=String(grade||'').trim();
+ const s=String(subject||'').trim().toLowerCase(),c=String(country||'').trim().toUpperCase();
  const urlStr='/api/curriculum-pack?subject='+encodeURIComponent(s)+'&country='+encodeURIComponent(c)+'&grade='+encodeURIComponent(g)+'&v='+encodeURIComponent(EDU_CURRICULUM_PACK_VERSION);
  const job=(async()=>{
   try{
@@ -180,20 +186,20 @@ async function eduEnsureCurriculumPack(subject,country,grade){
  EDU_PENDING_CURRICULUM_PACKS[key]=job;
  return job;
 }
-function eduRunWithCurriculumPack(subject,country,grade,proceed){
- const key=eduCurriculumPackKey(subject,country,grade);
+function eduRunWithCurriculumPack(subject,country,grade,proceed,stage){
+ const key=eduCurriculumPackKey(subject,country,grade,stage);
  if(!key||!EDU_REMOTE_PACK_KEYS.has(key)||eduReadLocalCurriculumPack(key)){
   proceed();return;
  }
- eduEnsureCurriculumPack(subject,country,grade).finally(()=>proceed());
+ eduEnsureCurriculumPack(subject,country,grade,stage).finally(()=>proceed());
 }
-function eduPackTopicLessons(subject,country,grade,topic){
- const key=eduCurriculumPackKey(subject,country,grade);
+function eduPackTopicLessons(subject,country,grade,topic,stage){
+ const key=eduCurriculumPackKey(subject,country,grade,stage);
  const pack=eduReadLocalCurriculumPack(key);
  return pack?.lessonsByTopic?.[String(topic||'')]||[];
 }
-function eduPackMetadata(subject,country,grade){
- const key=eduCurriculumPackKey(subject,country,grade);
+function eduPackMetadata(subject,country,grade,stage){
+ const key=eduCurriculumPackKey(subject,country,grade,stage);
  return eduReadLocalCurriculumPack(key)||null;
 }
 if(typeof window!=='undefined'){
@@ -549,6 +555,12 @@ function educationGradeGate(moduleKey,level,proceed,back){
  if(!root||!host)return;
  const country=educationCountrySelection.code;
  const options=eduYearOptions(country,level,moduleKey);
+ try{
+  const prefSubj=eduActiveSubjectCode(moduleKey);
+  for(const opt of (options||[]).slice(0,8)){
+   if(opt?.id)eduEnsureCurriculumPack(prefSubj,country,opt.id,level);
+  }
+ }catch{}
  const startYear=id=>{
   const subject=eduActiveSubjectCode(moduleKey);
   const status=eduCurriculumEvidence(country,level,id,moduleKey);
@@ -557,13 +569,13 @@ function educationGradeGate(moduleKey,level,proceed,back){
    schoolYear:'2026/27',status,verifiedTextbook:false
   };
   eduRunWithCurriculumPack(subject,country,id,()=>{
-   const packMeta=eduPackMetadata(subject,country,id);
+   const packMeta=eduPackMetadata(subject,country,id,level);
    if(packMeta&&educationCountrySelection.curriculum){
     educationCountrySelection.curriculum.packLoaded=true;
     educationCountrySelection.curriculum.textbooks=packMeta.textbooks||[];
    }
    proceed(id);
-  });
+  },level);
  };
  if(options.length===1){startYear(options[0].id);return}
  if(moduleKey==='computing'){

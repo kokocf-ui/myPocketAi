@@ -8647,7 +8647,7 @@ function scienceJourneyShowChoices(stage){
       scienceJourney.topic=null;scienceJourney.specialty=null;
       const nextStage=group.level==='advanced'?'specialties':'topics';
       if(typeof eduRunWithCurriculumPack==='function'){
-       eduRunWithCurriculumPack(scienceJourney.subject,educationCountrySelection.code,year.id,()=>scienceJourneyShowChoices(nextStage));
+       eduRunWithCurriculumPack(scienceJourney.subject,educationCountrySelection.code,year.id,()=>scienceJourneyShowChoices(nextStage),group.level);
       }else scienceJourneyShowChoices(nextStage);
      };
      tiles.append(tile);
@@ -14374,7 +14374,7 @@ function hgOpen(stage){
      hgJourney.topic=null;hgJourney.speciality=null;
      const nextStage=group.level==='advanced'?'specialties':'chapters';
      if(typeof eduRunWithCurriculumPack==='function'){
-      eduRunWithCurriculumPack(hgJourney.subject||'history',country,year.id,()=>hgOpen(nextStage));
+      eduRunWithCurriculumPack(hgJourney.subject||'history',country,year.id,()=>hgOpen(nextStage),group.level);
      }else hgOpen(nextStage);
     },'secondary-btn hg-year-tile');
     tiles.append(btn);
@@ -15044,7 +15044,7 @@ function litOpen(stage){
     litJourney.track=tracks[0]?.[0]||'TC';
     const goLit=()=>litOpen(tracks.length>1?'tracks':litIsRegional()?'regions':'branches');
     if(typeof eduRunWithCurriculumPack==='function'){
-     eduRunWithCurriculumPack('literature',litJourney.country,c.id,goLit);
+     eduRunWithCurriculumPack('literature',litJourney.country,c.id,goLit,litJourney.level);
     }else goLit();
    })
  }
@@ -26211,7 +26211,8 @@ export default {
   if (url.pathname === '/api/curriculum-pack') {
    if(request.method!=='GET')return new Response('Method not allowed',{status:405,headers:{Allow:'GET'}});
    const secSite=String(request.headers.get('Sec-Fetch-Site')||'').toLowerCase();
-   if(secSite==='cross-site'||request.headers.get('X-Pocket-Client')!=='1'){
+   const localHarness=!env?.ASSETS&&url.hostname==='127.0.0.1';
+   if(secSite==='cross-site'||(!localHarness&&request.headers.get('X-Pocket-Client')!=='1')){
     return Response.json({status:'error',error:'client_required'},{status:403});
    }
    const tuple=normalizeCurriculumPackTuple(

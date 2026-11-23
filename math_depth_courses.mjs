@@ -1,4 +1,6 @@
 import {RO5_MATH_LESSONS} from './math_ro5_curriculum.mjs';
+import {readNodeCurriculumPackLessons} from './curriculum_pack_protocol.mjs';
+const __nodeMathPackLessons = readNodeCurriculumPackLessons;
 import {hungaryGrade5Lessons} from './math_hungary_grade5_2026.mjs';
 import {hungaryMathOriginalLessons,HUNGARY_MATH_GRADES} from './math_hungary_full_track_2026.mjs';
 import {mathEarlyYearEntries,MATH_EARLY_YEAR_BANK} from './math_early_years_europe.mjs';
@@ -271,7 +273,13 @@ export function mathCountryCourseEntries({country,stage,grade,phase,phases,topic
  const selected=Array.isArray(phases)&&phases.length?phases:[phase];
  const valid=[...new Set(selected.map(Number).filter(p=>Number.isInteger(p)&&p>=1&&p<=6))];
  const decoupledPackLessons=typeof eduPackTopicLessons==='function'
-  ?eduPackTopicLessons('mathematics',country,grade,topic):[];
+  ?eduPackTopicLessons('mathematics',country,grade,topic,stage)
+  :(typeof __nodeMathPackLessons==='function'
+   ?__nodeMathPackLessons('mathematics',country,stage,grade,topic):[]);
+ if(String(country||'').toUpperCase()==='RO'&&stage==='primary'&&
+   ['1','2','3','4'].includes(String(grade))&&decoupledPackLessons.length){
+  return decoupledPackLessons;
+ }
  const localSupplement=typeof bulkMathFirstLessons==='function'
   ?bulkMathFirstLessons({country,stage,grade,topic}):[];
  const secondSupplement=typeof secondBatchMathStarterLessons==='function'
@@ -299,10 +307,18 @@ export function mathInDepthMaterial(entry){
  '# Verifică răspunsurile',entry.answers,
  '# Atenție', 'Fiecare operație trebuie justificată și verificată în context. Nu deduce măsuri, valori sau ipoteze care nu au fost precizate.',
  ...(entry.mistake?['# Greșeală frecventă și prevenirea ei',entry.mistake]:[]),
- '# Încadrare curriculară',entry.country==='RO'&&entry.grade==='5'&&entry.sourceStatus==='curriculum-crosschecked'
+ '# Încadrare curriculară',entry.country==='RO'&&entry.stage==='primary'&&['1','2','3','4'].includes(String(entry.grade))
+  ?'Clasa a '+entry.grade+'-a, România. Lecție originală corelată cu programa oficială (OMEN 3418/2013; OMEN 5003/2014) și manualele aprobate (manuale.edu.ro); nu reproduce un manual școlar.'
+  :entry.country==='RO'&&entry.grade==='5'&&entry.sourceStatus==='curriculum-crosschecked'
   ?'Clasa a V-a, România. Lecție originală corelată cu programa MEN 3393/2017 și cuprinsul unui manual aprobat Art Klett 2022; nu reproduce manualul.'
   :entry.country==='RO'&&['6','7','8'].includes(String(entry.grade))&&entry.sourceStatus==='programme-reviewed'
   ?'Clasa a '+entry.grade+'-a, România. Lecție originală corelată cu temele din programa MEN 3393/2017 și cuprinsuri de manuale școlare. Inventarul clasei rămâne în revizie pedagogică; nu reprezintă certificarea unui curs anual complet.'
+  :entry.country==='RO'&&entry.stage==='intermediate'&&String(entry.grade)==='9'
+  ?'Clasa a IX-a, România. Lecție originală corelată cu noua programă liceală (OMEC 6930/2025, aplicabilă din 2026/27) și manualele de referință; diferențierea pe filiere/profiluri se face conform planului-cadru.'
+  :entry.country==='RO'&&entry.stage==='intermediate'&&['10','11','12'].includes(String(entry.grade))
+  ?'Clasa a '+entry.grade+'-a, România (M1/M2 & pregătire Bacalaureat). Lecție originală corelată cu programa liceală în vigoare (OMECI 5099/2009) pentru cohortele curente; nu reproduce manualele.'
+  :entry.country==='RO'&&entry.stage==='advanced'&&['1','2','3'].includes(String(entry.grade))
+  ?'Universitate Anul '+entry.grade+', România (Licență Matematică — referință ARACIS / Bologna). Sinteză universitară originală; fișa disciplinei diferă între universități.'
   :entry.country==='PL'&&String(entry.grade)==='IV'&&entry.sourceStatus==='official-topic-reviewed'
   ?'Polonia, clasa IV, 2026/27: capitol original corelat cu noua programă MEN 2026 (Dz.U. 378), cu un manual înscris în registrul ministerial și ordonarea temelor unui editor independent. Explicațiile nu copiază manualele și inventarul nu reprezintă încă certificarea integrală a programei anuale.'
   :entry.country==='GB-ENG'&&['Y3','Y4'].includes(String(entry.grade))&&

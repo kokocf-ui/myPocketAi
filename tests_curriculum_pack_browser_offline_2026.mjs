@@ -38,8 +38,11 @@ const click = async loc => {
 };
 
 try {
-  // Phase 1: Online load of decoupled packs across HU (school + BSc), ES, IT, PT
+  // Phase 1: Online load of decoupled packs across RO (Primary + Lycée + Univ), HU, ES, IT, PT
   for (const [countryName, stageIdx, gradeQuery, branchQuery, expectedTitle] of [
+    ['România', 0, '4', 'Aritmetică', '1.000.000'],
+    ['România', 2, '12', 'Analiză', 'Leibniz-Newton'],
+    ['România', 3, '1', 'Analiză', 'Banach'],
     ['Ungaria', 1, '5', 'Algebră', 'Valoarea pozițională și ordonarea numerelor naturale'],
     ['Ungaria', 3, 'BSc · anul I', 'Algebră liniară', 'Subspații vectoriale și condițiile de închidere'],
     ['Spania', 1, 'ESO4-A', 'Algebră', 'Presupuesto y porcentaje de descuento'],
