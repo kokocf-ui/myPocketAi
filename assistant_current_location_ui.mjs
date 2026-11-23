@@ -86,7 +86,7 @@ function appendCurrentLocationMap(body,record){
    if(disposed||signal.aborted)return;
    if(data.status!=='success')throw Error('POIs unavailable');
    places=Array.isArray(data.pois)?data.pois.slice(0,150):[];redraw();
-   status.hidden=false;
+   status.hidden=places.length>0;
    status.textContent=places.length
     ?word('POI cartografiate: ','Mapped POIs: ')+places.length+' · '+String(data.source||'OpenStreetMap')+(data.truncated?word(' · primele 150',' · first 150'):'')
     :word('Nu s-au găsit POI cartografiate în această rază.','No mapped POIs found in this radius.');
