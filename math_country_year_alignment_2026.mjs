@@ -14,6 +14,7 @@ export const MATH_EUROPE_SOURCE_REGISTRY=Object.freeze({
  },
  PL:{
   curriculum:'https://www.gov.pl/web/edukacja/nowe-podstawy-programowe-wychowania-przedszkolnego-i-ksztalcenia-ogolnego-dla-szkoly-podstawowej-wraz-ze-zmianami-w-ramowych-planach-nauczania-dla-publicznych-szkol-podstawowych--rozporzadzenia-podpisane',
+  manualExample:'https://podreczniki.men.gov.pl/podreczniki/4531/show',
   note:'Polonia: matematica este disciplină distinctă în clasele IV–VIII; în I–III este parte a educației integrate. Reforma din septembrie 2026 începe la clasele I și IV, nu se aplică automat tuturor cohortelor.'
  },
  HU:{
@@ -95,7 +96,7 @@ export function mathCountryEvidence({country,stage,grade}={}){
  const code=String(country||'').toUpperCase(),g=String(grade||'');
  const base=MATH_EUROPE_SOURCE_REGISTRY[code];
  if(!base)return {source:null,manualExample:null,note:'Parcurs matematic orientativ. Programa națională și manualul clasei trebuie confruntate înainte de validare.',status:'unverified-advisory'};
- const manualApplicable=(code==='FR'&&g==='5e')||(code==='HU'&&g==='5');
+ const manualApplicable=(code==='FR'&&g==='5e')||(code==='HU'&&g==='5')||(code==='PL'&&g==='IV');
  return {source:base.curriculum,manualExample:manualApplicable?base.manualExample||null:null,
   note:base.note,status:'framework-referenced-not-fully-verified'};
 }
