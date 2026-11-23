@@ -86,4 +86,7 @@ assert.ok(ASSISTANT_CURRENT_LOCATION_UI_SCRIPT.includes("fetch('/api/location-po
 assert.ok(ASSISTANT_CURRENT_LOCATION_UI_SCRIPT.includes('loadRouteMapLibrary()'));
 assert.ok(ASSISTANT_CURRENT_LOCATION_UI_SCRIPT.includes('offerAssistantLocalityTravelMode'));
 assert.ok(ASSISTANT_CURRENT_LOCATION_UI_SCRIPT.includes('controller?.abort()'));
+assert.ok(ASSISTANT_CURRENT_LOCATION_UI_SCRIPT.includes('63dvh'),'Map must occupy most of screen');
+assert.ok(ASSISTANT_CURRENT_LOCATION_UI_SCRIPT.includes('note.hidden=true'),'Do not clutter the location answer');
+assert.ok(!ASSISTANT_CURRENT_LOCATION_UI_SCRIPT.includes('L.circle([latitude,longitude]'),'Do not draw confusing accuracy circles');
 console.log('PASS GPS current location mapped postcode, all-category POI request, map reader wiring and route handoff');
