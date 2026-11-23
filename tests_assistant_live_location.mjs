@@ -46,8 +46,11 @@ try{
 
  result=await ask('Unde mă aflu?',{accuracy:1200});
  assert.equal(result.house_number,null,'Coarse Android location must not assert a precise building number');
- assert.doesNotMatch(result.reply,/10 Mill Lane/);
- assert.match(result.reply,/Mill Lane/);
+ assert.equal(result.street,null,'Coarse location must not assert a street');
+ assert.equal(result.postcode,null,'Coarse location must not assert a postcode');
+ assert.doesNotMatch(result.reply,/Mill Lane|RM20 4YE/);
+ assert.match(result.reply,/South Stifford/);
+ assert.match(result.reply,/Locație precisă/);
  assert.match(result.reply,/1200 m/);
 
  const callsBeforeStale=calls.length;
