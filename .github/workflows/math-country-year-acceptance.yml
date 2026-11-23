@@ -32,6 +32,8 @@ jobs:
       - name: Validate mathematics and country code
         run: |
           node --check index.js
+          node --check math_country_year_alignment_2026.mjs
+          node --check math_early_years_europe.mjs
           node --check math_country_grade_areas.mjs
           node --check math_depth_courses.mjs
           node --check math_depth_primary.mjs
@@ -70,6 +72,7 @@ jobs:
           node --check tests_math_real_browser.mjs
       - name: Check country-by-year coverage and theorems
         run: |
+          node tests_math_europe_country_alignment_2026.mjs
           node tests_math_all_countries_2026.mjs
           node tests_math_depth_courses.mjs
           node tests_math_upper_university_2026.mjs
