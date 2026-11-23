@@ -4,7 +4,7 @@ import worker from './backend.js';
 import {ASSISTANT_CURRENT_LOCATION_UI_SCRIPT} from './assistant_current_location_ui.mjs';
 
 const originalFetch=globalThis.fetch;
-let geoCalls=0,reverseCalls=0,reverseFails=false;
+let geoCalls=0,reverseCalls=0,reverseFails=false,geoFails=false,overpassCalls=0;
 globalThis.fetch=async(input,options={})=>{
  const url=new URL(typeof input==='string'?input:input.url||String(input));
  if(url.hostname==='nominatim.openstreetmap.org'){
@@ -15,6 +15,7 @@ globalThis.fetch=async(input,options={})=>{
  }
  if(url.hostname==='api.geoapify.com'){
   geoCalls++;
+  if(geoFails)throw Error('Temporary Geoapify outage');
   assert.equal(url.pathname,'/v2/places');
   assert.ok(url.searchParams.get('categories').includes('commercial'));
   assert.ok(url.searchParams.get('categories').includes('tourism'));
@@ -30,6 +31,10 @@ globalThis.fetch=async(input,options={})=>{
    {geometry:{coordinates:[0.2902,51.4791]},properties:{name:'Local convenience',categories:['commercial.convenience'],formatted:'Duplicate'}}
   ]});
  }
+ if(url.hostname.includes('overpass')){
+  overpassCalls++;
+  return Response.json({elements:[{type:'node',lat:51.4791,lon:0.2901,tags:{name:'Nearby pharmacy',amenity:'pharmacy'}}]});
+ }
  throw Error('Unexpected provider '+url.hostname);
 };
 try{
@@ -43,8 +48,18 @@ try{
  assert.equal(address.current_location,true);
  assert.equal(address.postcode,'RM20 4YE');
  assert.match(address.reply,/RM20 4YE/);
- assert.match(address.reply,/10 Mill Lane/);
+ assert.equal(address.reply,'10 Mill Lane, Grays, RM20 4YE, United Kingdom');
+ assert.ok(!address.reply.includes('South Stifford'));
  assert.equal(reverseCalls,1);
+ const coarseResponse=await worker.fetch(new Request('https://example.test/api/chat',{
+  method:'POST',headers:{'content-type':'application/json'},
+  body:JSON.stringify({message:'Unde mă aflu?',module:'assistant',language:'ro',history:[],
+   location:{latitude:51.479,longitude:0.29,accuracy:250,updatedAt:Date.now()},location_requested:true})
+ }),{AI:{run:async()=>{throw Error('Location must never reach AI')}}});
+ const coarse=await coarseResponse.json();
+ assert.equal(coarse.reply,'Grays, United Kingdom');
+ assert.equal(coarse.house_number,null);
+ assert.equal(coarse.postcode,null);
  reverseFails=true;
  const noAddressResponse=await worker.fetch(new Request('https://example.test/api/chat',{
   method:'POST',headers:{'content-type':'application/json'},
@@ -69,6 +84,16 @@ try{
  assert.deepEqual(data.pois.map(x=>x.name).sort(),['Local bus stop','Local café','Local convenience'].sort());
  assert.ok(data.pois.every(x=>Number.isFinite(x.distance_m)));
  assert.ok(!JSON.stringify(data).includes('test-secret'),'Never reveal provider API key');
+ geoFails=true;
+ const fallbackResponse=await worker.fetch(new Request('https://example.test/api/location-pois',{
+  method:'POST',headers:{'content-type':'application/json'},
+  body:JSON.stringify({location:{latitude:51.479,longitude:0.29},radius:750})
+ }),{GEOAPIFY_API_KEY:'test-secret'});
+ const fallback=await fallbackResponse.json();
+ assert.equal(fallbackResponse.status,200);
+ assert.equal(fallback.status,'success');
+ assert.deepEqual(fallback.pois.map(x=>x.name),['Nearby pharmacy']);
+ assert.equal(overpassCalls,1);
  const invalid=await worker.fetch(new Request('https://example.test/api/location-pois',{
   method:'POST',headers:{'content-type':'application/json'},body:'{"location":{"latitude":999,"longitude":0}}'
  }),{});
@@ -86,7 +111,10 @@ assert.ok(ASSISTANT_CURRENT_LOCATION_UI_SCRIPT.includes("fetch('/api/location-po
 assert.ok(ASSISTANT_CURRENT_LOCATION_UI_SCRIPT.includes('loadRouteMapLibrary()'));
 assert.ok(ASSISTANT_CURRENT_LOCATION_UI_SCRIPT.includes('offerAssistantLocalityTravelMode'));
 assert.ok(ASSISTANT_CURRENT_LOCATION_UI_SCRIPT.includes('controller?.abort()'));
-assert.ok(ASSISTANT_CURRENT_LOCATION_UI_SCRIPT.includes('63dvh'),'Map must occupy most of screen');
+assert.ok(ASSISTANT_CURRENT_LOCATION_UI_SCRIPT.includes('flex:1 1 0'),'Map must occupy available reader space');
 assert.ok(ASSISTANT_CURRENT_LOCATION_UI_SCRIPT.includes('note.hidden=true'),'Do not clutter the location answer');
+assert.ok(frontend.includes("layer.classList.add('answer-reader-location')"));
+assert.ok(frontend.includes("controls.style.display='none'"));
+assert.ok(frontend.includes("address.textContent=geoRecord.reply"));
 assert.ok(!ASSISTANT_CURRENT_LOCATION_UI_SCRIPT.includes('L.circle([latitude,longitude]'),'Do not draw confusing accuracy circles');
 console.log('PASS GPS current location mapped postcode, all-category POI request, map reader wiring and route handoff');
