@@ -35,6 +35,7 @@ jobs:
           node --check math_country_year_alignment_2026.mjs
           node --check math_portugal_2026.mjs
           node --check math_italy_framework_2026.mjs
+          node --check math_spain_lomloe_2026.mjs
           node --check math_early_years_europe.mjs
           node --check math_country_grade_areas.mjs
           node --check math_depth_courses.mjs
@@ -77,6 +78,7 @@ jobs:
           node tests_math_europe_country_alignment_2026.mjs
           node tests_math_portugal_2026.mjs
           node tests_math_italy_framework_2026.mjs
+          node tests_math_spain_lomloe_2026.mjs
           node tests_math_all_countries_2026.mjs
           node tests_math_depth_courses.mjs
           node tests_math_upper_university_2026.mjs
