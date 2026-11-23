@@ -1,6 +1,7 @@
 import {MATH_BULK_SOURCE_REGISTRY,MATH_BULK_STAGE_LABELS,bulkMathPhase} from './math_europe_batch_2026.mjs';
 import {MATH_SECOND_BATCH_SOURCE_REGISTRY,MATH_SECOND_BATCH_STAGE_LABELS,secondBatchMathPhase} from './math_europe_second_batch_2026.mjs';
 import {MATH_FINAL_SOURCES,MATH_FINAL_STAGE_LABELS,finalMathPhase} from './math_europe_final_systems_2026.mjs';
+import {hungaryMathPhase} from './math_hungary_full_track_2026.mjs';
 // Mathematics-only adaptation layer for the 2026/27 European school year.
 // This file does NOT change the shared country picker or any other subject.
 // Curriculum frameworks != textbook table of contents != approved annual course.
@@ -75,6 +76,10 @@ export function mathCountryPhasePlan({country,stage,grade,years=[]}={}){
  const count={beginner:6,lower:4,medium:4,advanced:4}[level]||0;
  const index=years.findIndex(year=>String(year.id)===String(grade));
  if(index<0||!count||!years.length)return {phase:0,phases:[],yearIndex:index};
+ if(code==='HU'){
+  const p=hungaryMathPhase({stage:level,grade});
+  if(p)return {...p,yearIndex:index};
+ }
  const national=bulkMathPhase({country:code,stage:level,grade,years});
  if(national)return national;
  const second=secondBatchMathPhase({country:code,stage:level,grade,years});
