@@ -90,10 +90,18 @@ for(const country of ['FR','IT','PL','HU','ES','PT','DE','NL','IE']){
  assert.ok(evidence?.curriculum?.startsWith('https://'),country+' needs an inspectable official framework');
  const school=educationCountrySchoolYears(country,'lower');
  const sample=mathCountryGradeAreas({country,stage:'lower',grade:yrs(country,'lower')[0].id,years:yrs(country,'lower')});
- assert.ok(sample.note.includes(evidence.note.slice(0,12)),country+' must be clearly source-annotated');
  assert.equal(sample.status,'general-learning');
- assert.ok(sample.units.every(x=>x.curriculumCompletion==='unverified-advisory'),
-  'A framework URL is not proof of annual textbook completeness');
+ if(country==='PT'){
+  assert.match(sample.note,/Portugalia:/);
+  assert.match(sample.note,/iulie 2018/);
+  assert.ok(sample.source.includes('5_matematica_18julho_rev.pdf'));
+  assert.ok(sample.units.every(x=>x.curriculumCompletion==='partial-source-review'),
+   'Verified topic-level source references do not constitute full annual verification');
+ }else{
+  assert.ok(sample.note.includes(evidence.note.slice(0,12)),country+' must be clearly source-annotated');
+  assert.ok(sample.units.every(x=>x.curriculumCompletion==='unverified-advisory'),
+   'A framework URL is not proof of annual textbook completeness');
+ }
 }
 assert.ok(mathCountryEvidence({country:'FR',grade:'5e'}).manualExample?.includes('lelivrescolaire'));
 assert.equal(mathCountryEvidence({country:'FR',grade:'4e'}).manualExample,null,
