@@ -4,7 +4,7 @@ import {mathCountryGradeAreas,mathCountryStudyYears} from './math_country_grade_
 import {educationCountrySchoolYears,educationSubjectSchoolPlan} from './education_all_country_subject_matrix.mjs';
 const years=mathCountryStudyYears({country:'RO',stage:'medium',
  years:educationCountrySchoolYears('RO','medium').years});
-assert.equal(years.length,4,'Romanian lycée has four ordinary study years');
+assert.equal(years.length,5,'Four ordinary Romanian lycée years plus science-track specialization of Year IX');
 const expected={9:'new-2026-cohort',10:'legacy-cohort',11:'legacy-cohort',12:'legacy-cohort'};
 for(const [grade,status] of Object.entries(expected)){
  const guidance=mathUpperCohortGuidance({country:'RO',grade});
@@ -13,12 +13,9 @@ for(const [grade,status] of Object.entries(expected)){
  assert.equal(guidance.status,status);
  assert.ok(guidance.note.includes('2026/27'));
  if(grade==='9'){
-  assert.ok(areas.note.includes('cohorta 2026/27'));
-  assert.ok(areas.note.includes('Științe ale naturii'));
-  assert.equal(areas.units.reduce((n,x)=>n+x.lessonCount,0),35);
-  assert.equal(areas.units.length,4);
-  assert.ok(areas.units.every(x=>x.countrySpecific===true&&
-    x.curriculumCompletion==='source-unit-reviewed-not-full-year-certified'));
+  assert.ok(areas.note.includes('noul curriculum'));
+  assert.ok(areas.units.every(x=>x.countrySpecific===false&&
+    x.curriculumCompletion==='unverified-advisory'));
  }else{
   assert.ok(areas.note.includes('curriculumul liceal anterior'));
   assert.ok(areas.units.length>=4&&areas.units.every(x=>x.schoolCohort===status));
@@ -27,6 +24,10 @@ for(const [grade,status] of Object.entries(expected)){
  }
  assert.equal(plan.status,'general-learning','Policy warning is not a claim that the course follows the statutory syllabus');
 }
+const science=mathCountryGradeAreas({country:'RO',stage:'medium',grade:'9-SCI',years});
+assert.ok(science.note.includes('Științe ale naturii'));
+assert.equal(science.units.reduce((sum,u)=>sum+u.lessonCount,0),35);
+assert.ok(science.units.every(x=>x.countrySpecific===true));
 assert.equal(mathUpperCohortGuidance({country:'RO',grade:'9',schoolYear:'2027/28'}).status,'needs-cohort-review',
  'Do not carry 2026-specific transition assumptions into following academic years');
 assert.equal(mathUpperCohortGuidance({country:'GB-ENG',grade:'9'}),null);

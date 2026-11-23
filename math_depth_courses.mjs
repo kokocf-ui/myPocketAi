@@ -246,7 +246,7 @@ export function mathCountryCourseEntries({country,stage,grade,phase,phases,topic
  if(String(country||'').toUpperCase()==='GB-ENG'&&String(grade)==='Y6'&&stage==='primary')
   return [...mathInDepthEntries({stage,phase:6,topic}),
     ...ENGLAND_Y6_MATH_LESSONS.filter(item=>item.topic===topic)];
- if(String(country||'').toUpperCase()==='RO'&&String(grade)==='9'&&stage==='intermediate'){
+ if(String(country||'').toUpperCase()==='RO'&&String(grade)==='9-SCI'&&stage==='intermediate'){
   return ro9Science2026Lessons(topic);
  }
  if(String(country||'').toUpperCase()==='RO'&&String(grade)==='5'&&stage==='lower')

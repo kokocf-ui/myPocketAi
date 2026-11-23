@@ -87,7 +87,7 @@ export const RO9_SCIENCE_2026_PATHS=Object.freeze(
 export const RO9_SCIENCE_2026_LESSONS=Object.freeze(TOPICS.flatMap(([key,unit,topic,rows])=>
  rows.map(([title,statement,formula,worked,practice,answers],i)=>({
   id:'ro9-science-'+key+'-'+String(i+1).padStart(2,'0'),
-  subject:'math',country:'RO',grade:'9',stage:'intermediate',topic,
+  subject:'math',country:'RO',grade:'9-SCI',stage:'intermediate',topic,
   unit,unitId:key,level:'intermediate',title,statement,formula,worked,
   practice,answers,
   source:SYLLABUS,manualExample:MANUAL,
