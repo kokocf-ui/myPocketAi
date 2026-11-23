@@ -69,4 +69,10 @@ assert.deepEqual(plans['GB-ENG|beginner|Y3'].map(x=>x.id),
  ['arithmetic','measurement','geometry','statistics']);
 assert.deepEqual(plans['GB-ENG|beginner|Y4'].map(x=>x.id),
  ['arithmetic','measurement','geometry','statistics']);
+const mathKeys=[...inline.matchAll(/function (math[A-Za-z0-9]+)\\(/g)].map(x=>x[1]).filter(s=>/Year|Chapter|Choice|Course/.test(s));
+console.log('MATH_ROUTING_FN_KEYS',mathKeys.join(','));
+for(const needle of ["stage==='chapters'?","if(stage==='chapters')","function mathYearPosition()","function mathJourneyShowChoices("]){
+ const i=inline.indexOf(needle);
+ if(i>=0)console.log('MATH_ROUTING_DEBUG',needle,inline.slice(Math.max(0,i-1000),i+4500).slice(0,4500));
+}
 console.log('PASS 56 ORIGINAL source-aligned DfE Year 3/4 Mathematics worked chapters; four unique branches per grade; separate annual curriculum expectations, no repeated generic lesson bank, existing years intact');
