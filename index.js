@@ -12872,11 +12872,14 @@ function mathJourneyShowChoices(stage){
   const art=document.createElement('span');art.className='math-tile-icon';
   art.setAttribute('aria-hidden','true');art.textContent=stage==='stages'?MATH_STAGE_ICONS[entry.id]||'📚':
    stage==='branches'?MATH_TILE_ICONS[entry.id]||'📘':'📖';
-  const heading=document.createElement('strong');heading.textContent=learningLabel(entry.ro,entry.en);
+  const countryStage=stage==='stages'&&typeof EDU_MATH_STAGE_LABELS!=='undefined'
+   ?EDU_MATH_STAGE_LABELS[String(educationCountrySelection.code||'')]?.[entry.id]:null;
+  const heading=document.createElement('strong');
+  heading.textContent=countryStage?learningLabel(countryStage[0],countryStage[1]):learningLabel(entry.ro,entry.en);
   if(stage==='chapters')lessonHeadings.push(heading);
   const subtitle=document.createElement('small');
   subtitle.textContent=stage==='stages'
-   ?learningLabel(entry.scopeRo||'',entry.scopeEn||''):
+   ?(countryStage?learningLabel('Selectează anul de studiu al țării.','Choose the local school year.'):learningLabel(entry.scopeRo||'',entry.scopeEn||'')):
    stage==='branches'?learningLabel(entry.topicFocus||'',entry.topicFocusEn||''):
    (isEnglandGcse&&entry.tier==='higher-only'
     ?learningLabel('Exclusiv nivelului Higher','Higher tier only')
