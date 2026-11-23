@@ -32,7 +32,7 @@ assert.ok(pl4.units.every(x=>x.lessonCount>=3));
 for(const [country,stage,expected] of [
  ['RO','beginner',['1','2','3','4']],
  ['RO','lower',['5','6','7','8']],
- ['RO','medium',['9','10','11','12']],
+ ['RO','medium',['9','9-SCI','10','11','12']],
  ['GB-ENG','beginner',['Y1','Y2','Y3','Y4','Y5','Y6']],
  ['GB-ENG','lower',['Y7','Y8','Y9']],
  ['GB-ENG','medium',['Y10','Y11','Y12','Y13']]
