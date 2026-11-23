@@ -8835,8 +8835,12 @@ function mathYearPosition(){
  const years=typeof EDU_MATH_COUNTRY_YEARS!=='undefined'?EDU_MATH_COUNTRY_YEARS[key]||[]:[];
  const index=years.findIndex(x=>String(x.id)===String(mathJourney.grade||''));
  const phases=mathJourney.schoolStage==='primary'?6:4;
+ const fallback=index<0?0:Math.min(phases,Math.floor(index*phases/Math.max(phases,years.length))+1);
+ const phaseRecord=typeof EDU_MATH_GRADE_PHASES==='undefined'?null:
+  EDU_MATH_GRADE_PHASES[key+'|'+String(mathJourney.grade||'')];
  return {index,years,progress:index<0?0:(index+1)/years.length,
-  year4:index<0?0:Math.min(phases,Math.floor(index*phases/Math.max(phases,years.length))+1)};
+  year4:phaseRecord?.phase||fallback,
+  phases:Array.isArray(phaseRecord?.phases)&&phaseRecord.phases.length?phaseRecord.phases:(fallback?[fallback]:[])};
 }
 function mathOpenDepthLesson(lesson){
  if(!lesson?.worked)return;
@@ -12772,7 +12776,7 @@ function mathSelectedYearLessons(topic){
  const country=String(educationCountrySelection.code||''),grade=String(mathJourney.grade||'');
  const stage=String(mathJourney.schoolStage||'');
  const lessons=mathCountryCourseEntries({country,grade,stage,
-  phase:mathYearPosition().year4,topic:String(topic||'')});
+  phase:mathYearPosition().year4,phases:mathYearPosition().phases,topic:String(topic||'')});
  return country==='GB-ENG'&&stage==='intermediate'&&['Y10','Y11'].includes(grade)
   ?mathGcseSelectTier(lessons,mathGcseTier):lessons;
 }
