@@ -102,6 +102,7 @@ try{
 
 const frontend=readFileSync(new URL('./index.js',import.meta.url),'utf8');
 assert.ok(frontend.includes('ASSISTANT_CURRENT_LOCATION_UI_SCRIPT'));
+assert.ok(frontend.includes("'/api/location-pois':'POST'"),'Android first-party frontend must proxy POIs');
 assert.ok(frontend.includes('appendCurrentLocationMap(body,geoRecord)'));
 assert.ok(frontend.includes('data.current_location===true'));
 assert.ok(!frontend.includes('data.current_location===true&&data.location_received===true&&data.reverse_geocode_ok===true'));
