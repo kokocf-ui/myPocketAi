@@ -80,6 +80,8 @@ jobs:
           node-version: '22'
       - name: Validate JavaScript syntax
         run: npm run check
+      - name: Assistant current GPS position, street and cache regression
+        run: node tests_assistant_live_location.mjs && node tests_assistant_location_map.mjs
       - name: Romania Bilo official API regression
         run: node tests_ro_national_transit.mjs
       - name: Romanian rail result cards and details layout

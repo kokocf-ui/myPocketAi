@@ -1,6 +1,7 @@
 // Hotels preset-only; burgundy results dialog; explicit city/street query release checkpoint.
 import {EXAM_ORDERED_PATHWAYS,EXAM_GENERAL_PATHWAYS} from './exam_ordered_pathways.mjs';
 import {ASSISTANT_PLACE_RESULTS_SCRIPT} from './assistant_place_results_ui.mjs';
+import {ASSISTANT_CURRENT_LOCATION_UI_SCRIPT} from './assistant_current_location_ui.mjs';
 import {assistantBareDestinationQuery,assistantJourneyHandoff,parseJourneyExpression} from './assistant_bare_destination.mjs';
 import {ONE_FIELD_JOURNEY_SCRIPT} from './one_field_journey_ui.mjs';
 import {MIXED_TRANSPORT_COMPARISON_SCRIPT} from './mixed_transport_comparison.mjs';
@@ -3832,7 +3833,7 @@ const pocketLanguageFromCountry=${pocketLanguageFromCountry.toString()};
 const pocketPreferredLanguage=${pocketPreferredLanguage.toString()};
 
 function loadSavedLocation(){try{const v=JSON.parse(sessionStorage.getItem('mypocketai_last_location')||'null');if(v&&Number.isFinite(v.latitude)&&Number.isFinite(v.longitude)&&Math.abs(v.latitude)<=90&&Math.abs(v.longitude)<=180&&Number.isFinite(v.updatedAt)&&Date.now()-v.updatedAt>=0&&Date.now()-v.updatedAt<=600000)return v}catch{}return null}
-function saveLocation(coords){if(!coords||!Number.isFinite(coords.latitude)||!Number.isFinite(coords.longitude)||Math.abs(coords.latitude)>90||Math.abs(coords.longitude)>180)return;state.location={latitude:coords.latitude,longitude:coords.longitude,accuracy:Number.isFinite(coords.accuracy)?coords.accuracy:null,updatedAt:Date.now()};try{sessionStorage.setItem('mypocketai_last_location',JSON.stringify(state.location))}catch{}}
+function saveLocation(coords){if(!coords||!Number.isFinite(coords.latitude)||!Number.isFinite(coords.longitude)||Math.abs(coords.latitude)>90||Math.abs(coords.longitude)>180)return;if(state.location&&Number.isFinite(state.location.updatedAt)&&state.location.updatedAt>(Number.isFinite(coords.updatedAt)&&coords.updatedAt>0?coords.updatedAt:Date.now()))return;state.location={latitude:coords.latitude,longitude:coords.longitude,accuracy:Number.isFinite(coords.accuracy)?coords.accuracy:null,updatedAt:Number.isFinite(coords.updatedAt)&&coords.updatedAt>0&&coords.updatedAt<=Date.now()+1000?coords.updatedAt:Date.now()};try{sessionStorage.setItem('mypocketai_last_location',JSON.stringify(state.location))}catch{}}
 const state = { moduleSearchScrollTop:0,moduleSearchBodyScrollTop:0,location:loadSavedLocation(), locationWatchId:null, locationStarted:false, currentView:'home', currentModule:'assistant', language:'ro', conversationGeneration:0, busy:false, voiceMode:false, dictationMode:false, recognition:null, speaking:false, voiceParts:[], voiceInterim:'', voiceSilenceTimer:null, voicePendingSubmit:false, lastReply:'', history:[], messages:[], avatarTimer:null, noticeTimer:null, moduleSearchBusy:false, moduleSearchGeneration:0, moduleSearchResults:[], moduleSearchCategory:null, moduleSearchReply:'', moduleSearchReturnMode:'list',transitRefreshBusy:false,transitRefreshGeneration:0,transitRefreshAbort:null };
 const $ = id => document.getElementById(id);
  // Read the actual Android package version from the installed APK, not Cloudflare.
@@ -23051,6 +23052,7 @@ function closeAnswerReader(restoreFocus=true){
  if(restoreFocus&&reader.origin?.isConnected)reader.origin.focus({preventScroll:true});
 }
 ${RECIPE_READER_PAGES_UI_SCRIPT}
+${ASSISTANT_CURRENT_LOCATION_UI_SCRIPT}
 function openAnswerReader(text,origin){
  dismissSelectionKeyboard();
  if(state.lastTransitResponse?.reply===String(text).trim()&&Array.isArray(state.lastTransitResponse.transit)&&state.lastTransitResponse.transit.length){showTransitChoices(state.lastTransitResponse.transit);return}
@@ -23071,9 +23073,11 @@ function openAnswerReader(text,origin){
  const speed=document.createElement('select');speed.setAttribute('aria-label',t.speed);
  for(const value of [.5,1,1.5]){const option=document.createElement('option');option.value=String(value);option.textContent=String(value)+'×';speed.append(option)}speed.value='1';speedLabel.append(speed);controls.append(pause,restart,speedLabel);
  const body=document.createElement('div');body.className='answer-reader-body';body.tabIndex=0;body.setAttribute('aria-label',readerTitle);layer.append(header,controls,body);let recipePaged=false;if(!(state.lastPresentationResponse?.reply===String(text).trim()&&appendAdaptivePresentation(body,state.lastPresentationResponse))&&!(state.lastStructuredResponse?.reply===String(text).trim()&&appendStructuredCollectionTable(body,state.lastStructuredResponse))&&!(typeof appendTravelModeOverview==='function'&&appendTravelModeOverview(body,String(text)))&&!(typeof appendTransitOverview==='function'&&appendTransitOverview(body,String(text)))){if(typeof appendRouteReaderActions==='function')appendRouteReaderActions(body,String(text));recipePaged=renderRecipePages(layer,body,String(text),appendRecipeReaderText,appendAnswerText);if(!recipePaged&&!appendRecipeReaderText(body,String(text))&&!appendAnswerCodeBlocks(body,String(text)))appendAnswerText(body,String(text));}
+ const geoRecord=state.lastLocationAnswer?.reply===String(text).trim()?state.lastLocationAnswer:null;
+ const geoCleanup=geoRecord?appendCurrentLocationMap(body,geoRecord):null;
  document.body.append(layer);
- const reader={layer,origin,frame:0,cleanup:()=>{}};activeAnswerReader=reader;
- let running=!recipePaged&&!(state.lastPresentationResponse?.reply===String(text).trim()&&state.lastPresentationResponse.plan?.blocks?.[0]?.kind==='interactive_article_table')&&!(state.lastStructuredResponse?.reply===String(text).trim()&&state.lastStructuredResponse.list?.type==='news'),lastTime=null,startAt=performance.now()+800,position=0;
+ const reader={layer,origin,frame:0,cleanup:()=>{geoCleanup?.()}};activeAnswerReader=reader;
+ let running=!geoRecord&&!recipePaged&&!(state.lastPresentationResponse?.reply===String(text).trim()&&state.lastPresentationResponse.plan?.blocks?.[0]?.kind==='interactive_article_table')&&!(state.lastStructuredResponse?.reply===String(text).trim()&&state.lastStructuredResponse.list?.type==='news'),lastTime=null,startAt=performance.now()+800,position=0;
  const update=()=>{pause.textContent=running?t.pause:t.play;pause.setAttribute('aria-pressed',String(running))};
  const stop=()=>{running=false;update()};
  const play=()=>{if(body.scrollTop>=body.scrollHeight-body.clientHeight-1)body.scrollTop=0;position=body.scrollTop;running=true;lastTime=null;startAt=performance.now()+900;update()};
@@ -23099,16 +23103,17 @@ function openAnswerReader(text,origin){
   lastTime=now;reader.frame=requestAnimationFrame(tick);
  };
  document.addEventListener('keydown',keydown);document.addEventListener('visibilitychange',visibility);window.addEventListener('resize',resize);window.visualViewport?.addEventListener('resize',resize);
- reader.cleanup=()=>{document.removeEventListener('keydown',keydown);document.removeEventListener('visibilitychange',visibility);window.removeEventListener('resize',resize);window.visualViewport?.removeEventListener('resize',resize)};
+ reader.cleanup=()=>{geoCleanup?.();document.removeEventListener('keydown',keydown);document.removeEventListener('visibilitychange',visibility);window.removeEventListener('resize',resize);window.visualViewport?.removeEventListener('resize',resize)};
  resize();update();close.focus({preventScroll:true});reader.frame=requestAnimationFrame(tick);
 }
 function prepareAnswerReader(content,bubble,text,autoOpen){
  // Math teaching answers remain fully readable in the same subject, never a second popup.
  if(state.currentModule==='learning'&&activeLearningSubject?.[0]==='math'&&state.currentView==='module')return;
- if(!content.isConnected||(!answerExceedsFourLines(content)&&!(state.lastStructuredResponse?.reply===String(text).trim()&&state.lastStructuredResponse.list?.type==='news')))return;
+ const currentLocationReply=state.lastLocationAnswer?.reply===String(text).trim();
+ if(!content.isConnected||(!answerExceedsFourLines(content)&&!currentLocationReply&&!(state.lastStructuredResponse?.reply===String(text).trim()&&state.lastStructuredResponse.list?.type==='news')))return;
  content.textContent=String(text);content.className+=' answer-preview';
  const button=document.createElement('button');button.type='button';button.className='answer-reader-open';button.textContent=readerLabels().open;button.onclick=()=>openAnswerReader(text,button);bubble.append(button);
- if(autoOpen&&(state.currentView==='assistant'||state.currentView==='module'))openAnswerReader(text,button);
+ if((autoOpen||currentLocationReply)&&(state.currentView==='assistant'||state.currentView==='module'))openAnswerReader(text,button);
 }
 function offerTripAccommodation(destination){
  if(!state.travelAccommodationIntent)return;
@@ -23913,14 +23918,14 @@ function cachedCoordinates(){
 function startSharedLocation(){
  if(state.locationStarted)return;state.locationStarted=true;if(!navigator.geolocation)return;
  getCurrentCoordinates(true).catch(()=>{});
- state.locationWatchId=navigator.geolocation.watchPosition(pos=>saveLocation({latitude:pos.coords.latitude,longitude:pos.coords.longitude,accuracy:pos.coords.accuracy}),err=>{if(err.code===1)forgetSharedLocation();console.info('GPS update unavailable',err.code)},{enableHighAccuracy:true,timeout:15000,maximumAge:30000});
+ state.locationWatchId=navigator.geolocation.watchPosition(pos=>saveLocation({latitude:pos.coords.latitude,longitude:pos.coords.longitude,accuracy:pos.coords.accuracy,updatedAt:pos.timestamp}),err=>{if(err.code===1)forgetSharedLocation();console.info('GPS update unavailable',err.code)},{enableHighAccuracy:true,timeout:15000,maximumAge:30000});
 }
 window.addEventListener('pocketandroidlocation',event=>{
  if(!event.detail?.granted){setStatus('Localizarea Android nu este permisă. Traseele pot necesita activarea GPS.');return}
  getCurrentCoordinates(true).catch(()=>{});
  if(state.locationWatchId!=null&&navigator.geolocation)navigator.geolocation.clearWatch(state.locationWatchId);
  if(navigator.geolocation)state.locationWatchId=navigator.geolocation.watchPosition(
-  pos=>saveLocation({latitude:pos.coords.latitude,longitude:pos.coords.longitude,accuracy:pos.coords.accuracy}),
+  pos=>saveLocation({latitude:pos.coords.latitude,longitude:pos.coords.longitude,accuracy:pos.coords.accuracy,updatedAt:pos.timestamp}),
   err=>{if(err.code===1)forgetSharedLocation();console.info('GPS update unavailable',err.code)},
   {enableHighAccuracy:true,timeout:15000,maximumAge:30000});
 });
@@ -23930,8 +23935,8 @@ async function getCurrentCoordinates(forceRefresh=false){
  if(!navigator.geolocation)throw new Error('GPS unavailable');
  state.locationPromise=new Promise((resolve,reject)=>navigator.geolocation.getCurrentPosition(pos=>{
   const c=pos?.coords;if(!c||!Number.isFinite(c.latitude)||!Number.isFinite(c.longitude)||Math.abs(c.latitude)>90||Math.abs(c.longitude)>180){reject(new Error('Invalid GPS coordinates'));return}
-  saveLocation({latitude:c.latitude,longitude:c.longitude,accuracy:c.accuracy});resolve(cachedCoordinates());
- },err=>{if(err.code===1)forgetSharedLocation();reject(locationErrorMessage(err))},{enableHighAccuracy:true,timeout:8000,maximumAge:30000})).finally(()=>{state.locationPromise=null});
+  saveLocation({latitude:c.latitude,longitude:c.longitude,accuracy:c.accuracy,updatedAt:pos.timestamp});resolve(cachedCoordinates());
+ },err=>{if(err.code===1)forgetSharedLocation();reject(locationErrorMessage(err))},{enableHighAccuracy:true,timeout:8000,maximumAge:forceRefresh?0:30000})).finally(()=>{state.locationPromise=null});
  return state.locationPromise;
 }
 function isRecipeQuestion(text){
@@ -23969,7 +23974,8 @@ function isEvaConversationClient(value){
  if(/^(?:buna|salut|hei|hello|hey|hi|neata|good morning|multumesc|mersi|merci|thanks|thank you|la revedere|bye)\\b/.test(t))return true;
  if(/\\b(?:cum te cheama|cine esti|cum te numesti|ce fel de asistenta esti|who are you|what s your name)\\b/.test(t))return true;
  if(/^(?:nu prea m ai convins|parca vorbesti|fii mai naturala|incearca sa fii|si daca ma supar|daca ma supar|despre ce te am tachinat|ce am discutat mai devreme|ma contrazici|esti (?:cam )?(?:proasta|obraznica|nesimtita)|glumeam|glumesc)\\b/.test(core))return true;
- return /^(?:(?:buna|salut|hei|hello)\\s+)?(?:eva|evo)\\b/.test(t)
+ if(/\\b(?:unde ma aflu|unde ma gasesc|unde sunt acum|pe ce strada|adresa mea|where am i|what street am i on)\\b/.test(core))return false;
+  return /^(?:(?:buna|salut|hei|hello)\\s+)?(?:eva|evo)\\b/.test(t)
   &&!/\\b(?:traseu|ruta|tren|gara|station|underground|hotel\\w*|restaurant\\w*|farmaci\\w*|pharmacy)\\b/.test(core)
   &&/\\b(?:esti|te|tine|tie|ma|mi|m ai|mi ai|ai|iti|tachinat|contrazici|supar|impaci|obraznica|gluma|frumoaso|natural|prostie|vorbesti|your|you)\\b/.test(core);
 }
@@ -24004,14 +24010,15 @@ function requestUsesLocation(text){
 }
 async function coordinatesForRequest(text){
  const locationIntent=!isRecipeQuestion(text)&&!isCasualConversationReply(text)&&!isEvaConversationClient(text)&&(Boolean(state.pendingTravelMode)||requestUsesLocation(text)),cached=cachedCoordinates();
+  const selfQuery=/(?:unde ma aflu|unde ma gasesc|unde sunt(?: acum)?|pe ce strada|adresa mea|where am i|what street am i on|my current location)/i.test(String(text||'').normalize('NFD').replace(/[\\u0300-\\u036f]/g,''));
  if(!locationIntent)return {coordinates:cached,locationIntent:false,error:null};
- if(cached&&cached.age_ms<=30000)return {coordinates:cached,locationIntent:true,error:null};
+ if(cached&&cached.age_ms<=(selfQuery?10000:30000))return {coordinates:cached,locationIntent:true,error:null};
  let timer;try{
-  const coordinates=await Promise.race([getCurrentCoordinates(true),new Promise((_,reject)=>{timer=setTimeout(()=>reject(new Error('GPS pending')),5000)})]);
+  const coordinates=await Promise.race([getCurrentCoordinates(true),new Promise((_,reject)=>{timer=setTimeout(()=>reject(new Error('GPS pending')),8500)})]);
   return {coordinates,locationIntent:true,error:null};
- }catch(error){return {coordinates:cachedCoordinates(),locationIntent:true,error:String(error.message||error)}}finally{clearTimeout(timer)}
+ }catch(error){const fallback=cachedCoordinates();return {coordinates:selfQuery&&(!fallback||fallback.age_ms>30000)?null:fallback,locationIntent:true,error:String(error.message||error)}}finally{clearTimeout(timer)}
 }
-function needsLocation(text){return /(unde sunt|localiz\\w*|geolocaliz\\w*|locatia mea|in jurul meu|in apropiere|in apropierea mea|in zona mea|pe langa mine|aproape de mine|near me|nearby|around me|around here|near here|close to me|my location)/i.test(String(text||'').normalize('NFD').replace(/[\u0300-\u036f]/g,''));}
+function needsLocation(text){return /(unde sunt|unde ma aflu|unde ma gasesc|pe ce strada|adresa mea|where am i|what street am i on|localiz\\w*|geolocaliz\\w*|locatia mea|in jurul meu|in apropiere|in apropierea mea|in zona mea|pe langa mine|aproape de mine|near me|nearby|around me|around here|near here|close to me|my location)/i.test(String(text||'').normalize('NFD').replace(/[\u0300-\u036f]/g,''));}
 // 07 — Chat transport. Voice errors never convert a successful API response into request failure.
 // A requested count survives an Assistant → transport chooser handoff.
 function requestedTransitCountInMessage(value){
@@ -24086,7 +24093,9 @@ const newsFollowupText=String(message).normalize('NFD').replace(/[\\u0300-\\u036
 const newsContextRequested=Boolean(state.newsConversationContext)&&/(?:surs\\w*|source\\w*|link\\w*|confirmat\\w*|neclar\\w*|verificat\\w*|confirmed|unclear|unverified|original)/i.test(newsFollowupText);
 const browserNow=new Date();
 const clientLocalDay=[browserNow.getFullYear(),String(browserNow.getMonth()+1).padStart(2,'0'),String(browserNow.getDate()).padStart(2,'0')].join('-');
-const backendRequestStartedAt=performance.now();let backendResponseHeadersAt=0;const response=await fetch(CLIENT_CONFIG.apiUrl,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message,language:state.language,user_profile:window.__pocketNativeProfile||undefined,selected_entity_kind:selectedEntityKind,selected_geographic_entity:selectedGeographicEntity,history,news_context:newsContextRequested?state.newsConversationContext:null,client_local_day:clientLocalDay,module:state.currentView==='module'?state.currentModule:'assistant',route_context:state.routeSearchContext||null,travel_mode:travelMode,corner_shop_walk:cornerShopWalk,transit_count:state.requestedTransitCount||undefined,route_destination:routeDestination,transit_destination:travelMode==='transit'?routeDestination:undefined,transit_query:travelMode==='transit'?(state.routeSearchContext?.destination?.label||state.routeSearchContext?.destination_query||undefined):undefined,route_profile:routeStart?'walk':travelMode==='transit'?undefined:travelMode|| (routeDestination?(/driving|rutier|masina/i.test(message)?'drive':'walk'):undefined),route_start:routeStart,route_via_query:routeViaQuery,route_compare:routeCompare,weather_context:state.weatherSearchContext||null,place_context:state.placeSearchContext||null,distance_context:state.distanceSearchContext||null,location_requested:locationIntent,location:coordinates,coordinates,location_error:locationIntent&&!coordinates?(locationErrorText||'Nu s-au obținut coordonate GPS valide.'):undefined})});backendResponseHeadersAt=performance.now();let data;try{data=await response.json()}catch{throw new Error(dialogText('Serverul a trimis un răspuns care nu poate fi citit.','The server returned an unreadable response.'))}state.lastRequestTimings={total_ms:Math.round(performance.now()-clientRequestStartedAt),gps_ms:gpsElapsedMs,backend_round_trip_ms:Math.round(performance.now()-backendRequestStartedAt),time_to_headers_ms:Math.round(backendResponseHeadersAt-backendRequestStartedAt),response_read_ms:Math.round(performance.now()-backendResponseHeadersAt),server_total_ms:data.server_total_ms??null,backend_version:String(data.version||''),backend_latency:data.latency_breakdown||null};console.info('Pocket AI request timing',state.lastRequestTimings);if(data.error_code==='AI_QUOTA_EXCEEDED'){const quotaError=new Error(data.error||'Daily AI quota exceeded.');quotaError.code='AI_QUOTA_EXCEEDED';throw quotaError;}if(!response.ok||data.status!=='success'||typeof data.reply!=='string'||!data.reply.trim())throw new Error(data.error||data.message||('Serverul nu a returnat un răspuns utilizabil (HTTP '+response.status+').'));if(data.place_lookup)console.info('Pocket AI destination lookup',JSON.stringify(data.place_lookup));const reply=String(data.reply).trim();state.lastStructuredResponse=data.structured_list?{reply,list:data.structured_list,sources:data.sources||[]}:null;
+const backendRequestStartedAt=performance.now();let backendResponseHeadersAt=0;const response=await fetch(CLIENT_CONFIG.apiUrl,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message,language:state.language,user_profile:window.__pocketNativeProfile||undefined,selected_entity_kind:selectedEntityKind,selected_geographic_entity:selectedGeographicEntity,history,news_context:newsContextRequested?state.newsConversationContext:null,client_local_day:clientLocalDay,module:state.currentView==='module'?state.currentModule:'assistant',route_context:state.routeSearchContext||null,travel_mode:travelMode,corner_shop_walk:cornerShopWalk,transit_count:state.requestedTransitCount||undefined,route_destination:routeDestination,transit_destination:travelMode==='transit'?routeDestination:undefined,transit_query:travelMode==='transit'?(state.routeSearchContext?.destination?.label||state.routeSearchContext?.destination_query||undefined):undefined,route_profile:routeStart?'walk':travelMode==='transit'?undefined:travelMode|| (routeDestination?(/driving|rutier|masina/i.test(message)?'drive':'walk'):undefined),route_start:routeStart,route_via_query:routeViaQuery,route_compare:routeCompare,weather_context:state.weatherSearchContext||null,place_context:state.placeSearchContext||null,distance_context:state.distanceSearchContext||null,location_requested:locationIntent,location:coordinates,coordinates,location_error:locationIntent&&!coordinates?(locationErrorText||'Nu s-au obținut coordonate GPS valide.'):undefined})});backendResponseHeadersAt=performance.now();let data;try{data=await response.json()}catch{throw new Error(dialogText('Serverul a trimis un răspuns care nu poate fi citit.','The server returned an unreadable response.'))}state.lastRequestTimings={total_ms:Math.round(performance.now()-clientRequestStartedAt),gps_ms:gpsElapsedMs,backend_round_trip_ms:Math.round(performance.now()-backendRequestStartedAt),time_to_headers_ms:Math.round(backendResponseHeadersAt-backendRequestStartedAt),response_read_ms:Math.round(performance.now()-backendResponseHeadersAt),server_total_ms:data.server_total_ms??null,backend_version:String(data.version||''),backend_latency:data.latency_breakdown||null};console.info('Pocket AI request timing',state.lastRequestTimings);if(data.error_code==='AI_QUOTA_EXCEEDED'){const quotaError=new Error(data.error||'Daily AI quota exceeded.');quotaError.code='AI_QUOTA_EXCEEDED';throw quotaError;}if(!response.ok||data.status!=='success'||typeof data.reply!=='string'||!data.reply.trim())throw new Error(data.error||data.message||('Serverul nu a returnat un răspuns utilizabil (HTTP '+response.status+').'));if(data.place_lookup)console.info('Pocket AI destination lookup',JSON.stringify(data.place_lookup));const reply=String(data.reply).trim();
+ state.lastLocationAnswer=data.current_location===true&&data.location_received===true&&coordinates&&Number.isFinite(Number(coordinates.latitude))&&Number.isFinite(Number(coordinates.longitude))?{reply,coordinates:{latitude:Number(coordinates.latitude),longitude:Number(coordinates.longitude),accuracy:coordinates.accuracy,updatedAt:coordinates.updatedAt},postcode:data.postcode||null,street:data.street||null}:null;
+ state.lastStructuredResponse=data.structured_list?{reply,list:data.structured_list,sources:data.sources||[]}:null;
 if(data.structured_list?.type==='news'&&Array.isArray(data.structured_list.rows))
  state.newsConversationContext={type:'news',selected_index:null,rows:data.structured_list.rows.slice(0,12).map(row=>({
   title:String(row.title||'').slice(0,240),url:String(row.url||'').slice(0,700),
