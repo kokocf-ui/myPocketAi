@@ -4,11 +4,12 @@ import worker from './backend.js';
 import {ASSISTANT_CURRENT_LOCATION_UI_SCRIPT} from './assistant_current_location_ui.mjs';
 
 const originalFetch=globalThis.fetch;
-let geoCalls=0,reverseCalls=0;
+let geoCalls=0,reverseCalls=0,reverseFails=false;
 globalThis.fetch=async(input,options={})=>{
  const url=new URL(typeof input==='string'?input:input.url||String(input));
  if(url.hostname==='nominatim.openstreetmap.org'){
   reverseCalls++;
+  if(reverseFails)throw Error('Temporary Nominatim outage');
   return Response.json({address:{house_number:'10',road:'Mill Lane',suburb:'South Stifford',
    town:'Grays',postcode:'RM20 4YE',country:'United Kingdom'}});
  }
@@ -44,6 +45,18 @@ try{
  assert.match(address.reply,/RM20 4YE/);
  assert.match(address.reply,/10 Mill Lane/);
  assert.equal(reverseCalls,1);
+ reverseFails=true;
+ const noAddressResponse=await worker.fetch(new Request('https://example.test/api/chat',{
+  method:'POST',headers:{'content-type':'application/json'},
+  body:JSON.stringify({message:'Unde mă aflu?',module:'assistant',language:'ro',history:[],
+   location:{latitude:51.479,longitude:0.29,accuracy:12,updatedAt:Date.now()},location_requested:true})
+ }),{AI:{run:async()=>{throw Error('GPS fallback must never call AI')}}});
+ const noAddress=await noAddressResponse.json();
+ assert.equal(noAddressResponse.status,200);
+ assert.equal(noAddress.current_location,true);
+ assert.equal(noAddress.location_received,true);
+ assert.equal(noAddress.reverse_geocode_ok,false);
+ reverseFails=false;
  const poisResponse=await worker.fetch(new Request('https://example.test/api/location-pois',{
   method:'POST',headers:{'content-type':'application/json'},
   body:JSON.stringify({location:{latitude:51.479,longitude:0.29},radius:750})
@@ -66,6 +79,8 @@ const frontend=readFileSync(new URL('./index.js',import.meta.url),'utf8');
 assert.ok(frontend.includes('ASSISTANT_CURRENT_LOCATION_UI_SCRIPT'));
 assert.ok(frontend.includes('appendCurrentLocationMap(body,geoRecord)'));
 assert.ok(frontend.includes('data.current_location===true'));
+assert.ok(!frontend.includes('data.current_location===true&&data.location_received===true&&data.reverse_geocode_ok===true'));
+
 assert.ok(frontend.includes('autoOpen||currentLocationReply'));
 assert.ok(ASSISTANT_CURRENT_LOCATION_UI_SCRIPT.includes("fetch('/api/location-pois'"));
 assert.ok(ASSISTANT_CURRENT_LOCATION_UI_SCRIPT.includes('loadRouteMapLibrary()'));
