@@ -3,6 +3,7 @@ import {ro5TopicLessons,RO5_MATH_UNITS} from './math_ro5_curriculum.mjs';
 import {ro678TopicLessons,ro678GradeSummary} from './math_ro678_curriculum.mjs';
 import {ENGLAND_Y6_MATH_LESSONS} from './math_england_y6_curriculum.mjs';
 import {mathUpperCohortGuidance} from './math_ro_upper_cohort_policy.mjs';
+import {mathCountryYearSequence,mathCountryPhasePlan,mathCountryEvidence} from './math_country_year_alignment_2026.mjs';
 // Mathematics learning paths for every European country in the Education picker.
 // A progression is *advisory* unless an official country/grade source is attached.
 // Stage years are supplied by the shared school-year mapping, never inferred from
@@ -41,7 +42,7 @@ const PATHS=Object.freeze({
 // labelled advisory; users can select the phase of their own course.
 export function mathCountryStudyYears({country,stage,years=[]}={}){
  const code=String(country||'').toUpperCase(),st=String(stage||'');
- if(st!=='advanced')return Array.isArray(years)?years:[];
+ if(st!=='advanced')return mathCountryYearSequence({country:code,stage:st,years});
  if(Array.isArray(years)&&years.length>=3)return years;
  const count=({'RO':3,'GB-ENG':3,'GB-WLS':3,'GB-NIR':3,'GB-SCT':4})[code]||4;
  return Array.from({length:count},(_,i)=>({
@@ -57,7 +58,8 @@ export function mathCountryGradeAreas({country,stage,grade,years}={}){
  const index=yearList.findIndex(x=>String(x.id)===String(grade));
  if(!PATHS[st]||index<0)return {status:'invalid-selection',country,stage:st,grade,units:[]};
  const sequence=PATHS[st];
- const phase=Math.min(sequence.length-1,Math.floor(index*sequence.length/Math.max(sequence.length,yearList.length)));
+ const alignment=mathCountryPhasePlan({country,stage:st,grade,years:yearList});
+ const phase=Math.max(0,Math.min(sequence.length-1,alignment.phase-1));
  const row=sequence[phase];
  const clientStage=st==='beginner'?'primary':st==='medium'?'intermediate':st;
  if(country==='RO'&&st==='lower'&&String(grade)==='5'){
@@ -125,12 +127,18 @@ export function mathCountryGradeAreas({country,stage,grade,years}={}){
       ENGLAND_Y6_MATH_LESSONS.filter(lesson=>lesson.topic===id).length,
     countrySpecific:false,curriculumCompletion:'partial-source-review'}))};
  }
+ const evidence=mathCountryEvidence({country,stage:st,grade});
  return {status:'general-learning',country,stage:st,grade,
-  note:'Parcurs matematic orientativ, diferențiat pe etapă și an; nu reprezintă programa națională verificată.',
+  note:evidence.note+' Parcurgere orientativă; un manual ales poate avea altă ordine a capitolelor.',
+  source:evidence.source,manualExample:evidence.manualExample,
   units:row.map(([id,ro])=>({id,ro,en:({
    arithmetic:'Arithmetic',geometry:'Geometry and shapes',measurement:'Measurement',
    algebra:'Algebra',statistics:'Statistics and probability',functions:'Functions and graphs',
    trigonometry:'Trigonometry',analysis:'Mathematical analysis',
    'linear-algebra':'Linear algebra',discrete:'Discrete mathematics',
-   differential:'Differential equations'})[id]||ro,focus:'',lessonCount:mathInDepthEntries({stage:clientStage,phase:phase+1,topic:id}).length}))};
+   differential:'Differential equations'})[id]||ro,focus:'',
+   lessonCount:mathCountryCourseEntries({country,stage:clientStage,grade,
+     phase:alignment.phase,phases:alignment.phases,topic:id}).length,
+   countrySpecific:false,curriculumCompletion:'unverified-advisory',
+   curriculumSource:evidence.source||null,manualExample:evidence.manualExample||null}))};
 }
