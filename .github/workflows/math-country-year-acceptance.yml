@@ -73,6 +73,8 @@ jobs:
           node --check math_ro8_statistics.mjs
           node --check math_ro678_curriculum.mjs
           node --check math_england_y6_curriculum.mjs
+          node --check math_england_year3_year4_2026.mjs
+          node --check tests_math_england_year34_2026.mjs
           node --check math_england_ks4_curriculum.mjs
           node --check math_gcse_tier_policy.mjs
           node --check tests_math_gcse_tiers.mjs
@@ -98,6 +100,7 @@ jobs:
           node tests_math_curriculum_readiness.mjs
           node tests_math_ro678_country_curriculum.mjs
           node tests_math_england_y6.mjs
+          node tests_math_england_year34_2026.mjs
           node tests_math_england_ks4.mjs
           node tests_math_gcse_tiers.mjs
           node tests_math_ro_upper_cohort_2026.mjs
