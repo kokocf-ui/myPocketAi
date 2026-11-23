@@ -6052,7 +6052,8 @@ export default {
         const postalCode = address.postcode || '';
         const accuracyMeters=Number(location?.accuracy);
         const accuracyKnown=Number.isFinite(accuracyMeters)&&accuracyMeters>0;
-        const numberUsable=accuracyKnown&&accuracyMeters<=75;
+        const streetUsable=accuracyKnown&&accuracyMeters<=100;
+        const numberUsable=accuracyKnown&&accuracyMeters<=40;
         const placeParts=[];
         if(locality)placeParts.push(locality);
         if(town&&town!==locality)placeParts.push(town);
@@ -6061,14 +6062,14 @@ export default {
         const place=placeParts.join(', ');
         if(!place&&!street)throw new Error('No street or locality returned');
         // Reverse-geocoded house numbers belong to the nearest mapped building, not necessarily the user.
-        const streetLabel=street?(numberUsable&&houseNumber?houseNumber+' '+street:street):'';
+        const streetLabel=street&&streetUsable?(numberUsable&&houseNumber?houseNumber+' '+street:street):'';
         const addressParts=[streetLabel,...placeParts.filter(x=>x!==country)].filter(Boolean);
-        if(postalCode)addressParts.push(postalCode);
+        if(postalCode&&streetUsable)addressParts.push(postalCode);
         if(country)addressParts.push(country);
         const addressLabel=addressParts.join(', ');
         const uncertainty=accuracyKnown?(lang==='en'?` Reported GPS accuracy: approximately ${Math.round(accuracyMeters)} metres.`:` Precizia GPS raportată: aproximativ ${Math.round(accuracyMeters)} m.`):'';
         let reply;
-        if(streetIntent&&street){
+        if(streetIntent&&streetUsable&&street){
           reply=lang==='en'
             ? `You are near ${addressLabel}. This is the nearest mapped address, not confirmation of an exact building.${uncertainty}`
             : `Te afli în apropiere de ${addressLabel}. Este adresa cartografiată apropiată, nu o confirmare a clădirii exacte.${uncertainty}`;
@@ -6076,13 +6077,17 @@ export default {
           reply=lang==='en'
             ? `I identified the approximate area ${place}, but the map did not provide a reliable street name.${uncertainty}`
             : `Am identificat zona aproximativă ${place}, dar harta nu a furnizat un nume de stradă sigur.${uncertainty}`;
+        }else if(!streetUsable){
+          reply=lang==='en'
+            ? `Your approximate area is ${place}. GPS precision is insufficient to identify a street or postcode reliably. Enable precise location for myPocket AI in Android permissions and retry.${uncertainty}`
+            : `Zona ta aproximativă este ${place}. Precizia GPS este insuficientă pentru a identifica sigur strada și codul poștal. Activează «Locație precisă» pentru myPocket AI în permisiunile Android și încearcă din nou.${uncertainty}`;
         }else{
           reply=lang==='en'
             ? `Your location is approximately ${addressLabel}. This is a reverse-geocoded nearby address, not a verified building position.${uncertainty}`
             : `Te afli aproximativ în apropiere de ${addressLabel}. Adresa provine din harta zonei și nu confirmă clădirea exactă.${uncertainty}`;
         }
         console.info("Pocket AI v96 location diagnostic", JSON.stringify({ diagnosticId: locationDiagnosticId, stage: "reverse_geocode_completed", coordinatesValid: hasValidLocation, timestamp: new Date().toISOString() }));
-        return json({ app: "Pocket AI", version: API_VERSION, status: "success", language: lang, message_received: message, reply, location_received: true, street: street || null, house_number: numberUsable ? houseNumber || null : null, postcode: postalCode || null, gps_accuracy_m: accuracyKnown ? Math.round(accuracyMeters) : null, area: place || null, reverse_geocode_ok: true, source: "OpenStreetMap Nominatim", ai_connected: Boolean(env.AI) });
+        return json({ app: "Pocket AI", version: API_VERSION, status: "success", language: lang, message_received: message, reply, location_received: true, street: streetUsable ? street || null : null, house_number: numberUsable ? houseNumber || null : null, postcode: streetUsable ? postalCode || null : null, gps_accuracy_m: accuracyKnown ? Math.round(accuracyMeters) : null, area: place || null, reverse_geocode_ok: true, source: "OpenStreetMap Nominatim", ai_connected: Boolean(env.AI) });
       } catch (reverseError) {
         console.warn("Pocket AI v96 reverse geocoding failed", JSON.stringify({ stage: "reverse_geocode_error", errorName: reverseError && reverseError.name ? String(reverseError.name) : "UnknownError" }));
         const reply = lang === "en"
