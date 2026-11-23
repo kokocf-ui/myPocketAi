@@ -103,6 +103,11 @@ for(const country of ['FR','IT','PL','HU','ES','PT','DE','NL','IE']){
   assert.ok(sample.source.includes('gazzettaufficiale.it'));
   assert.ok(sample.units.every(x=>x.curriculumCompletion==='partial-source-review'));
   assert.ok(sample.units.every(x=>x.it),'Italian maths years must have native branch names');
+ }else if(country==='PL'){
+  assert.match(sample.note,/Polonia, klasa IV/);
+  assert.ok(sample.source.includes('eli.gov.pl'));
+  assert.ok(sample.manualExample?.includes('podreczniki.men.gov.pl'));
+  assert.ok(sample.units.every(x=>x.curriculumCompletion==='partial-source-review'));
  }else if(country==='ES'){
   assert.match(sample.note,/Spania:/);
   assert.ok(sample.source.includes('BOE-A-2022-4975'));

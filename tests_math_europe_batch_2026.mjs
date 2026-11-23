@@ -54,17 +54,19 @@ for(const country of MATH_BULK_CODES){
    assert.equal(plan.status,'general-learning');
    assert.equal(integrated.status,'general-learning',
     'Official framework != verified annual textbook');
-   assert.equal(plan.source,src);
-   assert.equal(integrated.source,src);
-   assert.ok(plan.note.includes('nu o listă oficială'),
+   const plIV=country==='PL'&&stage==='lower'&&String(grade)==='IV';
+   assert.equal(plan.source,plIV?'https://eli.gov.pl/eli/DU/2026/378/ogl/pol':src);
+   assert.equal(integrated.source,plIV?'https://eli.gov.pl/eli/DU/2026/378/ogl/pol':src);
+   assert.ok(plIV?plan.note.includes('Nu sunt texte copiate din manuale'):
+    plan.note.includes('nu o listă oficială'),
     'All jurisdictions need transparent coverage warnings');
    assert.ok(plan.units.length>=3,'Missing strands: '+country+'/'+stage+'/'+grade);
    const topics=new Set();
    for(const u of plan.units){
-    assert.ok(u.ro&&u.en&&u.native&&u.nativeLang);
-    assert.equal(u.countrySpecific,false);
-    assert.equal(u.countryFrameworkSpecific,true);
-    assert.equal(u.curriculumCompletion,'unverified-advisory');
+    assert.ok(u.ro&&u.en&&(plIV||u.native&&u.nativeLang));
+    assert.equal(u.countrySpecific,plIV);
+    if(!plIV)assert.equal(u.countryFrameworkSpecific,true);
+    assert.equal(u.curriculumCompletion,plIV?'partial-source-review':'unverified-advisory');
     assert.ok(!topics.has(u.id),'Duplicate topics '+country+'/'+grade);
     topics.add(u.id);
     const courseStage=stage==='beginner'?'primary':stage==='medium'?'intermediate':stage;

@@ -8,6 +8,7 @@ import {RO5_MATH_LESSONS,RO5_MATH_SOURCES} from './math_ro5_curriculum.mjs';
 import {RO678_MATH_LESSONS} from './math_ro678_curriculum.mjs';
 import {ENGLAND_Y6_MATH_LESSONS} from './math_england_y6_curriculum.mjs';
 import {ENGLAND_Y34_LESSONS,ENGLAND_Y34_REFERENCE} from './math_england_year3_year4_2026.mjs';
+import {PL_IV_2026_LESSONS,PL_CLASS4_2026_SOURCES} from './math_poland_class4_2026_lessons.mjs';
 import {ENGLISH_KS4_REFERENCE,englandKS4CardRows} from './math_england_ks4_curriculum.mjs';
 import {MATH_EUROPE_SOURCE_REGISTRY,mathCountryEvidence} from './math_country_year_alignment_2026.mjs';
 
@@ -34,6 +35,7 @@ export function mathCurriculumReadiness(){
     const grade=String(year.id);
     const evidence=mathCountryEvidence({country,stage,grade});
     const national=country==='RO'&&stage==='lower'&&['5','6','7','8'].includes(grade);
+    const polandIV=country==='PL'&&stage==='lower'&&grade==='IV';
     const englandY34=country==='GB-ENG'&&stage==='beginner'&&['Y3','Y4'].includes(grade);
     const englandY6=country==='GB-ENG'&&stage==='beginner'&&grade==='Y6';
     const englandKS4=country==='GB-ENG'&&stage==='medium'&&['Y10','Y11'].includes(grade);
@@ -51,7 +53,10 @@ export function mathCurriculumReadiness(){
       ['arithmetic','geometry','measurement','statistics'].every(topic=>
        sourceYr34.filter(l=>l.topic===topic).length>=3)&&
       plan.units.length===4&&actual===sourceYr34.length;
-    const partialCandidate=authoredY34||
+    const authoredPolandIV=polandIV&&PL_IV_2026_LESSONS.length>=30&&
+      actual===PL_IV_2026_LESSONS.length&&plan.units.length===3&&
+      ['algebra','geometry','statistics'].every(t=>PL_IV_2026_LESSONS.filter(l=>l.topic===t).length>=3);
+    const partialCandidate=authoredPolandIV||authoredY34||
       (englandY6&&ENGLAND_Y6_MATH_LESSONS.length===21&&plan.units.length===5)||
       (englandKS4&&plan.units.length>=4&&
        plan.units.filter(unit=>englandKS4CardRows(grade,unit.id).length>=3).length>=3);
@@ -61,17 +66,23 @@ export function mathCurriculumReadiness(){
      lessonCount:actual,units:plan.units.length,
      countryYearSpecific:candidate,
      partialSourceReview:partialCandidate,
-     officialYearSourceMapped:authoredY34,
-     independentCourseSequence:authoredY34?(grade==='Y3'?ENGLAND_Y34_REFERENCE.oak3:ENGLAND_Y34_REFERENCE.oak4):null,
+     officialYearSourceMapped:authoredY34||authoredPolandIV,
+     independentCourseSequence:authoredPolandIV?PL_CLASS4_2026_SOURCES.independentScheme:
+       authoredY34?(grade==='Y3'?ENGLAND_Y34_REFERENCE.oak3:ENGLAND_Y34_REFERENCE.oak4):null,
      evidenceStatus:evidence.status,
-     manualExample:evidence.manualExample,
-     source:country==='RO'&&stage==='lower'?MATH_CURRICULUM_SOURCE_REGISTRY.RO.grades5to8:
+     manualExample:authoredPolandIV?PL_CLASS4_2026_SOURCES.approvedManual:evidence.manualExample,
+     source:authoredPolandIV?PL_CLASS4_2026_SOURCES.law:
+      country==='RO'&&stage==='lower'?MATH_CURRICULUM_SOURCE_REGISTRY.RO.grades5to8:
        country==='GB-ENG'?(stage==='beginner'?MATH_CURRICULUM_SOURCE_REGISTRY['GB-ENG'].primary:
         stage==='lower'?MATH_CURRICULUM_SOURCE_REGISTRY['GB-ENG'].secondary:
         stage==='medium'?MATH_CURRICULUM_SOURCE_REGISTRY['GB-ENG'].ks4:null):evidence.source,
      complete:false,
      blockers:candidate?
       ['Independent pedagogical validation','Verify exact full-year content against textbooks','Check progress assessment and classroom sequencing','Android device acceptance']:
+      authoredPolandIV?
+      ['MEN 2026 framework and registered manual compared, but objective-by-objective exhaustiveness requires independent review',
+       'New 2026 curriculum applies to class IV, not retroactively to classes V–VIII',
+       'Review grade-specific exercises and teaching sequence before annual approval']:
       authoredY34?
       ['DfE year objectives and original worked lessons crosswalked, but the precise bullet-to-lesson coverage remains to be independently audited',
        'Oak unit sequence is an external comparison, not an embedded or verified adopted textbook',

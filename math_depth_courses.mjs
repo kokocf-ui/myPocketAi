@@ -12,6 +12,8 @@ export {franceGrade5eLessons,FRANCE_5E_MATH_UNITS};
 export {mathEarlyYearEntries,MATH_EARLY_YEAR_BANK};
 import {RO678_MATH_LESSONS} from './math_ro678_curriculum.mjs';
 import {ENGLAND_Y6_MATH_LESSONS} from './math_england_y6_curriculum.mjs';
+import {polandClass4Lessons,PL_IV_2026_LESSONS} from './math_poland_class4_2026_lessons.mjs';
+export {PL_IV_2026_LESSONS};
 import {englandY34TopicLessons,ENGLAND_Y34_LESSONS} from './math_england_year3_year4_2026.mjs';
 export {ENGLAND_Y34_LESSONS};
 export {ENGLAND_Y6_MATH_LESSONS};
@@ -221,6 +223,8 @@ export function mathCountryCourseEntries({country,stage,grade,phase,phases,topic
   const valid=[...new Set(selected.map(Number).filter(p=>Number.isInteger(p)&&p>=1&&p<=6))];
   return [...bespoke,...valid.flatMap(p=>mathInDepthEntries({stage,phase:p,topic}))];
  }
+ if(String(country||'').toUpperCase()==='PL'&&stage==='lower'&&String(grade)==='IV')
+  return polandClass4Lessons(topic);
  if(String(country||'').toUpperCase()==='PT'&&stage==='lower'&&['5','6'].includes(String(grade)))
   return portugalMath2026Lessons({grade,topic});
  if(String(country||'').toUpperCase()==='FR'&&stage==='lower'&&String(grade)==='5e')
@@ -272,6 +276,8 @@ export function mathInDepthMaterial(entry){
   ?'Clasa a V-a, România. Lecție originală corelată cu programa MEN 3393/2017 și cuprinsul unui manual aprobat Art Klett 2022; nu reproduce manualul.'
   :entry.country==='RO'&&['6','7','8'].includes(String(entry.grade))&&entry.sourceStatus==='programme-reviewed'
   ?'Clasa a '+entry.grade+'-a, România. Lecție originală corelată cu temele din programa MEN 3393/2017 și cuprinsuri de manuale școlare. Inventarul clasei rămâne în revizie pedagogică; nu reprezintă certificarea unui curs anual complet.'
+  :entry.country==='PL'&&String(entry.grade)==='IV'&&entry.sourceStatus==='official-topic-reviewed'
+  ?'Polonia, clasa IV, 2026/27: capitol original corelat cu noua programă MEN 2026 (Dz.U. 378), cu un manual înscris în registrul ministerial și ordonarea temelor unui editor independent. Explicațiile nu copiază manualele și inventarul nu reprezintă încă certificarea integrală a programei anuale.'
   :entry.country==='GB-ENG'&&['Y3','Y4'].includes(String(entry.grade))&&
     entry.sourceStatus==='official-topic-reviewed'
   ?'England '+entry.grade+'. Lecție originală cu explicație și exercițiu, corelată tematic cu cerințele anuale DfE și verificată față de secvența Oak. Nu reproduce un manual și nu atestă acoperirea integrală a tuturor obiectivelor școlare.'
