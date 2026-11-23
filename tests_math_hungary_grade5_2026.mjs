@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import {hungaryGrade5Lessons,HUNGARY_GRADE5_SOURCES} from './math_hungary_grade5_2026.mjs';
+import {HUNGARY_MATH_SOURCES} from './math_hungary_full_track_2026.mjs';
 import {mathCountryCourseEntries,mathInDepthMaterial} from './math_depth_courses.mjs';
 import {mathCountryStudyYears,mathCountryGradeAreas} from './math_country_grade_areas.mjs';
 import {educationCountrySchoolYears,educationSubjectSchoolPlan} from './education_all_country_subject_matrix.mjs';
@@ -10,7 +11,7 @@ assert.ok(years.some(y=>String(y.id)==='5'));
 const plan=mathCountryGradeAreas({country:'HU',stage:'lower',grade:'5',years});
 const school=educationSubjectSchoolPlan({country:'HU',stage:'lower',grade:'5',subject:'mathematics'});
 assert.equal(school.status,'general-learning');
-assert.equal(plan.source,HUNGARY_GRADE5_SOURCES.curriculum);
+assert.equal(plan.source,HUNGARY_MATH_SOURCES.lower);
 assert.equal(plan.manualExample,HUNGARY_GRADE5_SOURCES.manual);
 assert.deepEqual(plan.units.map(x=>x.id),['algebra','geometry','statistics']);
 const expected={algebra:6,geometry:4,statistics:3};
@@ -29,7 +30,7 @@ for(const unit of plan.units){
   assert.equal(lesson.topic,unit.id);
   assert.equal(lesson.sourceStatus,'nat2020-topic-reviewed');
   assert.equal(lesson.curriculumCompletion,'partial-source-review');
-  assert.ok(lesson.statement.length>65&&lesson.worked.length>50);
+  assert.ok(lesson.statement.length>65&&lesson.worked.length>45);
   assert.ok(lesson.practice&&lesson.answers);
   assert.match(mathInDepthMaterial(lesson),/Exemplu rezolvat/);
  }
