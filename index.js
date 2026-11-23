@@ -23969,7 +23969,7 @@ function isEvaConversationClient(value){
  if(/^(?:buna|salut|hei|hello|hey|hi|neata|good morning|multumesc|mersi|merci|thanks|thank you|la revedere|bye)\\b/.test(t))return true;
  if(/\\b(?:cum te cheama|cine esti|cum te numesti|ce fel de asistenta esti|who are you|what s your name)\\b/.test(t))return true;
  if(/^(?:nu prea m ai convins|parca vorbesti|fii mai naturala|incearca sa fii|si daca ma supar|daca ma supar|despre ce te am tachinat|ce am discutat mai devreme|ma contrazici|esti (?:cam )?(?:proasta|obraznica|nesimtita)|glumeam|glumesc)\\b/.test(core))return true;
- if(/\b(?:unde ma aflu|unde ma gasesc|unde sunt acum|pe ce strada|adresa mea|where am i|what street am i on)\b/.test(core))return false;
+ if(/\\b(?:unde ma aflu|unde ma gasesc|unde sunt acum|pe ce strada|adresa mea|where am i|what street am i on)\\b/.test(core))return false;
   return /^(?:(?:buna|salut|hei|hello)\\s+)?(?:eva|evo)\\b/.test(t)
   &&!/\\b(?:traseu|ruta|tren|gara|station|underground|hotel\\w*|restaurant\\w*|farmaci\\w*|pharmacy)\\b/.test(core)
   &&/\\b(?:esti|te|tine|tie|ma|mi|m ai|mi ai|ai|iti|tachinat|contrazici|supar|impaci|obraznica|gluma|frumoaso|natural|prostie|vorbesti|your|you)\\b/.test(core);
@@ -24005,7 +24005,7 @@ function requestUsesLocation(text){
 }
 async function coordinatesForRequest(text){
  const locationIntent=!isRecipeQuestion(text)&&!isCasualConversationReply(text)&&!isEvaConversationClient(text)&&(Boolean(state.pendingTravelMode)||requestUsesLocation(text)),cached=cachedCoordinates();
-  const selfQuery=/(?:unde ma aflu|unde ma gasesc|unde sunt(?: acum)?|pe ce strada|adresa mea|where am i|what street am i on|my current location)/i.test(String(text||'').normalize('NFD').replace(/[\u0300-\u036f]/g,''));
+  const selfQuery=/(?:unde ma aflu|unde ma gasesc|unde sunt(?: acum)?|pe ce strada|adresa mea|where am i|what street am i on|my current location)/i.test(String(text||'').normalize('NFD').replace(/[\\u0300-\\u036f]/g,''));
  if(!locationIntent)return {coordinates:cached,locationIntent:false,error:null};
  if(cached&&cached.age_ms<=(selfQuery?10000:30000))return {coordinates:cached,locationIntent:true,error:null};
  let timer;try{
