@@ -33,7 +33,7 @@ globalThis.fetch=async(input,options={})=>{
  }
  if(url.hostname.includes('overpass')){
   overpassCalls++;
-  return Response.json({elements:[{type:'node',lat:51.4791,lon:0.2901,tags:{name:'Nearby pharmacy',amenity:'pharmacy'}}]});
+  return Response.json({elements:[{type:'node',lat:51.4791,lon:0.2901,tags:{name:'Nearby pharmacy',amenity:'pharmacy'}},{type:'node',lat:51.4792,lon:0.2902,tags:{amenity:'fuel'}},{type:'node',lat:51.4793,lon:0.2903,tags:{shop:'convenience'}}]});
  }
  throw Error('Unexpected provider '+url.hostname);
 };
@@ -92,7 +92,7 @@ try{
  const fallback=await fallbackResponse.json();
  assert.equal(fallbackResponse.status,200);
  assert.equal(fallback.status,'success');
- assert.deepEqual(fallback.pois.map(x=>x.name),['Nearby pharmacy']);
+ assert.deepEqual(fallback.pois.map(x=>x.name).sort(),['Nearby pharmacy','Fuel station','Shop'].sort());
  assert.equal(overpassCalls,1);
  const invalid=await worker.fetch(new Request('https://example.test/api/location-pois',{
   method:'POST',headers:{'content-type':'application/json'},body:'{"location":{"latitude":999,"longitude":0}}'
