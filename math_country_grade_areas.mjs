@@ -8,6 +8,7 @@ import {mathUpperCohortGuidance} from './math_ro_upper_cohort_policy.mjs';
 import {mathCountryYearSequence,mathCountryPhasePlan,mathCountryEvidence} from './math_country_year_alignment_2026.mjs';
 import {franceGrade5eLessons} from './math_france_5e_2026.mjs';
 import {hungaryGrade5Lessons,HUNGARY_GRADE5_SOURCES} from './math_hungary_grade5_2026.mjs';
+import {hungaryMathStudyYears,hungaryMathGradeProfile} from './math_hungary_full_track_2026.mjs';
 import {ITALY_MATH_YEARS,italyMathGradeProfile} from './math_italy_framework_2026.mjs';
 import {SPAIN_MATH_YEARS,spainMathGradeProfile} from './math_spain_lomloe_2026.mjs';
 import {bulkMathYearLabels,bulkMathNationalProfile} from './math_europe_batch_2026.mjs';
@@ -53,6 +54,7 @@ const PATHS=Object.freeze({
 // labelled advisory; users can select the phase of their own course.
 export function mathCountryStudyYears({country,stage,years=[]}={}){
  const code=String(country||'').toUpperCase(),st=String(stage||'');
+ if(code==='HU')return hungaryMathStudyYears({stage:st,years});
  if(code==='IT'&&ITALY_MATH_YEARS[st])return ITALY_MATH_YEARS[st].map(x=>({...x}));
  if(code==='ES'&&SPAIN_MATH_YEARS[st])return SPAIN_MATH_YEARS[st].map(x=>({...x}));
  if(code==='RO'&&st==='medium'){
@@ -84,6 +86,14 @@ export function mathCountryGradeAreas({country,stage,grade,years}={}){
  const yearList=Array.isArray(years)?years:[];
  const index=yearList.findIndex(x=>String(x.id)===String(grade));
  if(!PATHS[st]||index<0)return {status:'invalid-selection',country,stage:st,grade,units:[]};
+ if(country==='HU'){
+  const p=hungaryMathGradeProfile({stage:st,grade,
+   lessonCount:(topic,phase)=>mathCountryCourseEntries({
+    country:'HU',stage:st==='beginner'?'primary':st==='medium'?'intermediate':st,
+    grade,phase,topic
+   }).length});
+  if(p)return p;
+ }
  if(country==='ES'){
   const native=spainMathGradeProfile(grade);
   if(native&&native.stage===st){
