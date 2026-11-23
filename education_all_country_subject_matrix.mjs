@@ -127,7 +127,11 @@ export function educationSubjectSchoolPlan({country,stage,grade,subject,track=''
  const mathsYears=key==='mathematics'?mathCountryStudyYears({country:code,stage:st,years:school.years}):[];
  const valid=allowedCountries.has(code)&&allowedSubjects.has(key)&&
   (school.years.some(x=>x.id===g)||mathsYears.some(x=>x.id===g))&&
-  !(key==='mathematics'&&code==='PL'&&st==='beginner'&&g==='IV');
+  !(key==='mathematics'&&code==='PL'&&st==='beginner'&&g==='IV')&&
+  // ES Mathematics choices for ESO 4/Bachillerato must specify A/B or
+  // the correct Bachillerato modality. Other subjects retain the original
+  // national school-year IDs without any changes to their existing picker.
+  !(key==='mathematics'&&code==='ES'&&!mathsYears.some(x=>x.id===g));
  if(!valid)return {country:code,stage:st,grade:g,subject:key,status:'invalid-selection',
   units:[],schoolYear:EDUCATION_SCHOOL_YEAR,gradeStatus:school.status,verifiedManual:false};
  const data=subjectInventory(key,{country:code,stage:st,grade:g,track});
