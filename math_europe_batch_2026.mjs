@@ -36,6 +36,8 @@ export const MATH_BULK_STAGE_LABELS=Object.freeze(Object.fromEntries(
 ));
 export const MATH_BULK_SOURCE_REGISTRY=Object.freeze(Object.fromEntries(
  Object.entries(DATA).map(([code,p])=>[code,{curriculum:SOURCE[code].basic,
+  ...(code==='PL'?{manualExample:'https://podreczniki.men.gov.pl/podreczniki/4531/show'}:{}),
+  ...(code==='HU'?{manualExample:'https://www.tankonyvkatalogus.hu/tankonyv/OH-MAT05TA'}:{}),
   note:p.note}])
 ));
 export function bulkMathYearLabels({country,stage,years=[]}={}){
