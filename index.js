@@ -26166,6 +26166,7 @@ export default {
    '/api/place-media':'GET',
    '/api/finance-country':'GET',
    '/api/news-article-detail':'POST',
+   '/api/location-pois':'POST',
    '/api/telegram-user-translation':'POST'
   };
   const auxiliaryMethod=auxiliaryMethods[url.pathname];
