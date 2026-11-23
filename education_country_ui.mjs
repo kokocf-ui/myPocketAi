@@ -13,12 +13,12 @@ const EDU_MATH_COUNTRY_NOTES={};
 const EDU_MATH_GRADE_PHASES={};
 for(const code of EDUCATION_EUROPE_COUNTRIES)for(const stage of EDUCATION_SCHOOL_STAGES){
  const years=mathCountryStudyYears({country:code,stage,years:educationCountrySchoolYears(code,stage).years});
- EDU_MATH_COUNTRY_YEARS[code+'|'+stage]=years.map(({id,ro,en,it,es})=>({id,ro,en,...(it?{it}:{}),...(es?{es}:{})}));
+ EDU_MATH_COUNTRY_YEARS[code+'|'+stage]=years.map(({id,ro,en,it,es,native,nativeLang})=>({id,ro,en,...(it?{it}:{}),...(es?{es}:{}),...(native?{native,nativeLang}:{})}));
  for(const year of years){
   const path=mathCountryGradeAreas({country:code,stage,grade:year.id,years});
   // The existing UI reads only id, ro, and en. Keep complete pedagogical
   // metadata in the server-side plan rather than duplicating it in Android HTML.
-  EDU_MATH_GRADE_AREAS[code+'|'+stage+'|'+year.id]=path.units.map(({id,ro,en,it,es})=>({id,ro,en,...(it?{it}:{}),...(es?{es}:{})}));
+  EDU_MATH_GRADE_AREAS[code+'|'+stage+'|'+year.id]=path.units.map(({id,ro,en,it,es,native,nativeLang})=>({id,ro,en:native||en,...(it?{it}:{}),...(es?{es}:{}),...(native?{native,nativeLang}:{})}));
   const {phase,phases}=mathCountryPhasePlan({country:code,stage,grade:year.id,years});
   EDU_MATH_GRADE_PHASES[code+'|'+stage+'|'+year.id]={phase,phases};
   const note=String(path.note||'');
@@ -446,9 +446,9 @@ function educationGradeGate(moduleKey,level,proceed,back){
  panel.append(h,context,search,list);host.append(panel);
  let page=0;function draw(){
   list.replaceChildren();const text=eduCountryFold(search.value);
-  const filtered=options.filter(o=>!text||eduCountryFold(o.ro).includes(text)||eduCountryFold(o.en).includes(text)||eduCountryFold(o.it).includes(text)||eduCountryFold(o.es).includes(text)||eduCountryFold(o.id).includes(text));
+  const filtered=options.filter(o=>!text||eduCountryFold(o.ro).includes(text)||eduCountryFold(o.en).includes(text)||eduCountryFold(o.it).includes(text)||eduCountryFold(o.es).includes(text)||eduCountryFold(o.native).includes(text)||eduCountryFold(o.id).includes(text));
   if(page>=filtered.length)page=0;
-  filtered.slice(page,page+4).forEach(o=>{const b=document.createElement('button');b.type='button';b.className='secondary-btn';b.textContent=moduleKey==='math'&&country==='IT'&&state.language==='it'&&o.it?o.it:moduleKey==='math'&&country==='ES'&&state.language==='es'&&o.es?o.es:eduUiLabel(o.ro,o.en);b.style.cssText='min-height:52px;text-align:center;width:100%;min-width:0;padding:8px;white-space:normal;overflow-wrap:anywhere;';b.onclick=()=>startYear(o.id);list.append(b)});
+  filtered.slice(page,page+4).forEach(o=>{const b=document.createElement('button');b.type='button';b.className='secondary-btn';b.textContent=moduleKey==='math'&&country==='IT'&&state.language==='it'&&o.it?o.it:moduleKey==='math'&&country==='ES'&&state.language==='es'&&o.es?o.es:moduleKey==='math'&&o.native&&state.language===o.nativeLang?o.native:eduUiLabel(o.ro,o.en);b.style.cssText='min-height:52px;text-align:center;width:100%;min-width:0;padding:8px;white-space:normal;overflow-wrap:anywhere;';b.onclick=()=>startYear(o.id);list.append(b)});
   const arithmeticGradesOnly=moduleKey==='math'&&typeof mathJourney!=='undefined'&&mathJourney.topic==='arithmetic';
   if(!filtered.length){const p=document.createElement('p');p.textContent=arithmeticGradesOnly
    ?eduUiLabel('Pentru Aritmetică, alege una dintre clasele primare disponibile.','For Arithmetic, choose one of the available primary-school grades.')
