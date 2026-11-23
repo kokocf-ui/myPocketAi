@@ -137,6 +137,16 @@ assert.ok(inline);
 new vm.Script(inline);
 assert.ok(inline.includes('o.native&&state.language===o.nativeLang'),
  'National grade picker should use language-matched local year names');
+assert.ok(inline.includes('const MATH_BULK_FIRST_LESSONS='),
+ '30 national starter cards must be shipped to Android, not just Node');
+const clientBankText=inline.split('const MATH_BULK_FIRST_LESSONS=')[1]?.split(';\\n')[0];
+assert.ok(clientBankText);
+const clientBank=JSON.parse(clientBankText);
+assert.equal(Object.keys(clientBank).length,30,
+ 'All ten countries × three levels must be reachable on device');
+assert.equal(clientBank['NO|lower|8|algebra'][0].title,'Regnerekkefølge');
+assert.equal(clientBank['NL|primary|G3|arithmetic'][0].title,'Getallen tot tien');
+assert.equal(clientBank['IE|intermediate|5Y|functions'][0].title,'Functions and representations');
 assert.ok(inline.includes('Grundskolan · årskurs 1'));
 assert.ok(inline.includes('Lukio · 1. opintovuosi'));
 assert.ok(inline.includes('Liczby i działania'));
