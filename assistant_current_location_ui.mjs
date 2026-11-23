@@ -7,7 +7,7 @@ function appendCurrentLocationMap(body,record){
  const word=(a,b)=>ro?a:b;
  const panel=document.createElement('section');
  panel.className='current-location-map-panel';
- panel.style.cssText='margin:4px 0 6px;white-space:normal;border:0;border-radius:10px;background:#0b293c;padding:4px;color:#eaf6ff';
+ panel.style.cssText='margin:0;white-space:normal;border:0;border-radius:10px;background:#0b293c;padding:2px;color:#eaf6ff;display:flex;flex:1 1 0;min-height:0;flex-direction:column';
  const title=document.createElement('h3');
  title.textContent=word('Harta poziției și POI din apropiere','Your position and nearby POIs');
  title.style.cssText='position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)';
@@ -21,7 +21,7 @@ function appendCurrentLocationMap(body,record){
  radiusSelect.style.cssText=refresh.style.cssText='background:#16374b;color:#fff;border:1px solid #68aabc;border-radius:9px;min-height:40px;padding:7px;font:inherit;font-size:14px';
  toolbar.append(radiusLabel,refresh);
  const mapHost=document.createElement('div');
- mapHost.style.cssText='height:clamp(320px,63dvh,620px);max-height:calc(100dvh - 160px);min-height:260px;width:100%;border-radius:12px;overflow:hidden;background:#d9e1e5;touch-action:pan-x pan-y;white-space:normal';
+ mapHost.style.cssText='flex:1 1 0;min-height:150px;width:100%;border-radius:12px;overflow:hidden;background:#d9e1e5;touch-action:pan-x pan-y;white-space:normal';
  mapHost.setAttribute('role','region');mapHost.setAttribute('aria-label',title.textContent);
  const status=document.createElement('p');
  status.setAttribute('role','status');
@@ -31,9 +31,9 @@ function appendCurrentLocationMap(body,record){
  note.textContent=word('Poziția din momentul întrebării. Marcajele sunt aproximative; unele POI-uri pot lipsi din hartă.','Position at the time of the question. Pins are approximate; some POIs may not be mapped.');
  note.style.cssText=status.style.cssText;
  const details=document.createElement('details');
- details.style.cssText='margin-top:10px;border-top:1px solid #365b6e;padding-top:10px';
+ details.style.cssText='margin-top:4px;border-top:1px solid #365b6e;padding-top:5px;max-height:34%;overflow:auto;flex-shrink:0';
  const summary=document.createElement('summary');
- summary.style.cssText='font-weight:750;cursor:pointer;min-height:40px';
+ summary.style.cssText='font-size:13px;font-weight:750;cursor:pointer;min-height:28px';
  summary.textContent=word('Puncte de interes','Points of interest');
  const list=document.createElement('div');details.append(summary,list);
  note.hidden=true;status.hidden=true;details.open=false;
@@ -97,10 +97,11 @@ function appendCurrentLocationMap(body,record){
   try{
    L=await loadRouteMapLibrary();if(disposed||!mapHost.isConnected)return;
    map=L.map(mapHost,{scrollWheelZoom:false});
-   L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; OpenStreetMap contributors'}).addTo(map);
+   const base=L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{maxZoom:19,attribution:'&copy; OpenStreetMap contributors &copy; CARTO'}).addTo(map);
+   let fallbackUsed=false;
+   base.on('tileerror',()=>{if(fallbackUsed||!map||disposed)return;fallbackUsed=true;map.removeLayer(base);L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; OpenStreetMap contributors'}).addTo(map)});
    L.marker([latitude,longitude],{title:word('Poziția mea GPS','My GPS position')}).addTo(map).bindPopup(word('Poziția mea GPS','My GPS position'));
-   const accuracy=Number(point.accuracy);
-   // GPS accuracy circle deliberately omitted: it resembled a navigation overlay.
+   // No route or accuracy overlay is drawn on the current location map.
    markers=L.layerGroup().addTo(map);map.setView([latitude,longitude],16);
    requestAnimationFrame(()=>{if(!disposed&&map){map.invalidateSize();redraw()}});
   }catch(e){if(!disposed)mapHost.textContent=word('Harta nu poate fi încărcată momentan.','The map cannot be loaded right now.')}
