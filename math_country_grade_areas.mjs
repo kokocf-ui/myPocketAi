@@ -65,14 +65,14 @@ export function mathCountryGradeAreas({country,stage,grade,years}={}){
   const g=String(grade),source=PORTUGAL_MATH_2026_SOURCE[g];
   const branches=[
    ['algebra','Numere, fracții și operații','Numbers, fractions and operations'],
-   ['functions',g==='5'?'Șiruri și reguli':'Rapoarte și proporționalitate',
-     g==='5'?'Patterns and rules':'Ratios and proportionality'],
+   ['functions',g==='5'?'Expresii numerice și raționament':'Rapoarte și proporționalitate',
+     g==='5'?'Numerical expressions and reasoning':'Ratios and proportionality'],
    ['statistics','Date și probabilități','Data and probability'],
    ['geometry','Geometrie și măsurători','Geometry and measures']
   ];
   return {status:'general-learning',country,stage:st,grade,
    note:'Portugalia: anul '+g+
-    ', 2026/27. Lecții originale corelate tematic cu Aprendizagens Essenciais DGE din martie 2026. Cuprinsul complet al unui manual concret nu a fost verificat.',
+    ', 2026/27. Lecții originale corelate tematic cu Aprendizagens Essenciais DGE (versiunea în vigoare, iulie 2018). Proiectul din consultarea publică 2026 nu este prezentat ca programă aplicabilă. Acoperirea anuală și cuprinsul unui manual concret rămân necertificate.',
    source,manualExample:null,
    units:branches.map(([id,ro,en])=>({
     id,ro,en,focus:'',countrySpecific:true,
