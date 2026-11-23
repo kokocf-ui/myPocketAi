@@ -72,6 +72,29 @@ export function mathCountryPhasePlan({country,stage,grade,years=[]}={}){
  const count={beginner:6,lower:4,medium:4,advanced:4}[level]||0;
  const index=years.findIndex(year=>String(year.id)===String(grade));
  if(index<0||!count||!years.length)return {phase:0,phases:[],yearIndex:index};
+ // Groep 1–2 and Junior/Senior Infants are play-based early years.
+ // Six primary course phases must begin at Groep 3 / First Class, not at
+ // the first infant year. The early-years card bank remains unchanged.
+ if(level==='beginner'&&code==='NL'&&/^G[1-8]$/.test(String(grade))){
+  const p=Math.max(1,Math.min(6,Number(String(grade).slice(1))-2));
+  return {phase:p,phases:[p],yearIndex:index};
+ }
+ if(level==='beginner'&&code==='IE'){
+  const p=/^[1-6]C$/.test(String(grade))?Number(String(grade)[0]):1;
+  return {phase:p,phases:[p],yearIndex:index};
+ }
+ // Portugal's 5.º and 6.º years have different 2026 DGE syllabi.
+ // The higher years remain explicitly advisory until reviewed.
+ if(level==='lower'&&code==='PT'&&['5','6','7','8','9'].includes(String(grade))){
+  const p=({'5':1,'6':2,'7':2,'8':3,'9':4})[String(grade)];
+  return {phase:p,phases:[p],yearIndex:index};
+ }
+ // Poland's Grade IV begins separate mathematics in 2026. Grade V must
+ // not share its first-year arithmetic/algebra phase by accidental rounding.
+ if(level==='lower'&&code==='PL'&&['IV','V','VI','VII','VIII'].includes(String(grade))){
+  const p=({IV:1,V:2,VI:2,VII:3,VIII:4})[String(grade)];
+  return {phase:p,phases:[p],yearIndex:index};
+ }
  // RO and English course collections are already worked on: keep them exact.
  if(code==='RO'||code==='GB-ENG'){
   const phase=Math.min(count,Math.floor(index*count/Math.max(count,years.length))+1);
