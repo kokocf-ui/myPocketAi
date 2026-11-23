@@ -9,6 +9,7 @@ import {ENGLAND_KS4_LESSONS,ENGLAND_KS4_EXCLUDED_TITLES} from './math_england_ks
 import {MATH_BULK_CODES,bulkMathFirstLessons} from './math_europe_batch_2026.mjs';
 import {MATH_SECOND_BATCH_COUNTRIES,secondBatchMathStarterLessons} from './math_europe_second_batch_2026.mjs';
 import {MATH_FINAL_COUNTRIES,finalMathStarterLessons} from './math_europe_final_systems_2026.mjs';
+import {MATH_READER_LOCALE_UI_SCRIPT} from './math_reader_locale_ui.mjs';
 const EDU_MATH_COUNTRY_YEARS={};
 const EDU_MATH_GRADE_AREAS={};
 const EDU_MATH_GRADE_NOTES={};
@@ -84,6 +85,7 @@ export const EDUCATION_COUNTRY_UI_SCRIPT=
  'const EDU_MATH_GRADE_AREAS='+JSON.stringify(EDU_MATH_GRADE_AREAS)+';\n'+
  'const EDU_MATH_STAGE_LABELS='+JSON.stringify(MATH_COUNTRY_STAGE_LABELS)+';\n'+
  'const EDU_MATH_GRADE_PHASES='+JSON.stringify(EDU_MATH_GRADE_PHASES)+';\n'+
+ MATH_READER_LOCALE_UI_SCRIPT+'\n'+
  'const MATH_FINAL_FIRST_LESSONS='+JSON.stringify(EDU_MATH_FINAL_EXAMPLES)+';\n'+
  'function finalMathStarterLessons({country,stage,grade,topic}={}){return MATH_FINAL_FIRST_LESSONS[[String(country||\'\').toUpperCase(),stage,grade,topic].join(\'|\')]||[];}\n'+
  'const MATH_SECOND_BATCH_FIRST_LESSONS='+JSON.stringify(EDU_MATH_SECOND_BATCH_EXAMPLES)+';\n'+
