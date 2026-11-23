@@ -1825,17 +1825,28 @@ export default {
             +'nwr(around:'+radius+','+lat+','+lon+')[name][historic];'
             +'nwr(around:'+radius+','+lat+','+lon+')[name][railway];'
             +'nwr(around:'+radius+','+lat+','+lon+')[name][office];);out center 180;';
-          const response=await fetch('https://overpass-api.de/api/interpreter',{
-            method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},
-            body:new URLSearchParams({data:query}).toString(),signal:AbortSignal.timeout(10000)});
-          if(!response.ok)throw Error('provider_http_'+response.status);
-          const data=await response.json();
-          for(const el of Array.isArray(data?.elements)?data.elements:[]){
-            const p=el.tags||{};
-            add({name:p.name,latitude:el.lat??el.center?.lat,longitude:el.lon??el.center?.lon,
-              category:p.amenity||p.shop||p.tourism||p.leisure||p.public_transport||p.railway||p.historic||p.office||'poi',
-              address:[p['addr:housenumber'],p['addr:street'],p['addr:postcode']].filter(Boolean).join(' ')});
+          // Public Overpass mirrors can rate-limit or time out independently.
+          // Fail over to a second mirror, without treating a failed request as an empty POI list.
+          let usableResponse=false;
+          for(const endpoint of ['https://overpass.kumi.systems/api/interpreter','https://overpass-api.de/api/interpreter']){
+            try{
+              const response=await fetch(endpoint,{
+                method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded','Accept':'application/json'},
+                body:new URLSearchParams({data:query}).toString(),signal:AbortSignal.timeout(8500)});
+              if(!response.ok)throw Error('provider_http_'+response.status);
+              const data=await response.json();
+              if(!Array.isArray(data?.elements))throw Error('provider_response_invalid');
+              usableResponse=true;
+              for(const el of data.elements){
+                const p=el.tags||{};
+                add({name:p.name,latitude:el.lat??el.center?.lat,longitude:el.lon??el.center?.lon,
+                  category:p.amenity||p.shop||p.tourism||p.leisure||p.public_transport||p.railway||p.historic||p.office||'poi',
+                  address:[p['addr:housenumber'],p['addr:street'],p['addr:postcode']].filter(Boolean).join(' ')});
+              }
+              if(found.length)break;
+            }catch(error){/* Try the second public mirror before reporting unavailability. */}
           }
+          if(!usableResponse)throw Error('overpass_mirrors_unavailable');
           source='OpenStreetMap Overpass';
         }catch(e){providerError=providerError?'all_providers_unavailable':'overpass_unavailable';}
       }
@@ -6137,29 +6148,14 @@ export default {
         if(!place&&!street)throw new Error('No street or locality returned');
         // Reverse-geocoded house numbers belong to the nearest mapped building, not necessarily the user.
         const streetLabel=street&&streetUsable?(numberUsable&&houseNumber?houseNumber+' '+street:street):'';
-        const addressParts=[streetLabel,...placeParts.filter(x=>x!==country)].filter(Boolean);
+        // Prefer the city, not the suburb, in the one-line address.
+        const addressParts=[streetLabel,town||locality||region].filter(Boolean);
         if(postalCode&&streetUsable)addressParts.push(postalCode);
         if(country)addressParts.push(country);
         const addressLabel=addressParts.join(', ');
-        const uncertainty=accuracyKnown?(lang==='en'?` Reported GPS accuracy: approximately ${Math.round(accuracyMeters)} metres.`:` Precizia GPS raportată: aproximativ ${Math.round(accuracyMeters)} m.`):'';
-        let reply;
-        if(streetIntent&&streetUsable&&street){
-          reply=lang==='en'
-            ? `You are near ${addressLabel}. This is the nearest mapped address, not confirmation of an exact building.${uncertainty}`
-            : `Te afli în apropiere de ${addressLabel}. Este adresa cartografiată apropiată, nu o confirmare a clădirii exacte.${uncertainty}`;
-        }else if(streetIntent){
-          reply=lang==='en'
-            ? `I identified the approximate area ${place}, but the map did not provide a reliable street name.${uncertainty}`
-            : `Am identificat zona aproximativă ${place}, dar harta nu a furnizat un nume de stradă sigur.${uncertainty}`;
-        }else if(!streetUsable){
-          reply=lang==='en'
-            ? `Your approximate area is ${place}. GPS precision is insufficient to identify a street or postcode reliably. Enable precise location for myPocket AI in Android permissions and retry.${uncertainty}`
-            : `Zona ta aproximativă este ${place}. Precizia GPS este insuficientă pentru a identifica sigur strada și codul poștal. Activează «Locație precisă» pentru myPocket AI în permisiunile Android și încearcă din nou.${uncertainty}`;
-        }else{
-          reply=lang==='en'
-            ? `Your location is approximately ${addressLabel}. This is a reverse-geocoded nearby address, not a verified building position.${uncertainty}`
-            : `Te afli aproximativ în apropiere de ${addressLabel}. Adresa provine din harta zonei și nu confirmă clădirea exactă.${uncertainty}`;
-        }
+        // Keep the response to one address line. Never invent a house number when
+        // the GPS accuracy cannot support the nearest mapped building.
+        const reply=addressLabel;
         console.info("Pocket AI v96 location diagnostic", JSON.stringify({ diagnosticId: locationDiagnosticId, stage: "reverse_geocode_completed", coordinatesValid: hasValidLocation, timestamp: new Date().toISOString() }));
         return json({ app: "Pocket AI", version: API_VERSION, status: "success", language: lang, message_received: message, reply, location_received: true, street: streetUsable ? street || null : null, house_number: numberUsable ? houseNumber || null : null, postcode: streetUsable ? postalCode || null : null, gps_accuracy_m: accuracyKnown ? Math.round(accuracyMeters) : null, area: place || null, reverse_geocode_ok: true, source: "OpenStreetMap Nominatim", current_location:true, ai_connected: Boolean(env.AI) });
       } catch (reverseError) {
