@@ -197,11 +197,12 @@ const R=[
  'Un elev a scris 367 + 185 = 442. Verificăm: 442 − 185 = 257, nu 367. Calculul corect este 367 + 185 = 552.',
  'Verifică și corectează 278 + 134 = 302.','Greșit. Corect: 412.']
 ];
+const PL_ENGLISH_TITLES=["Natural numbers and digits","Comparing and ordering numbers","The number line","Mental addition","Mental subtraction","How many more or fewer","Mental multiplication and division","How many times greater or smaller","Division with remainder","Square and cube numbers","Order of operations","Working with large numbers","Column addition","Column subtraction","Long multiplication","Long division","Fractions as parts of a whole","Improper fractions and mixed numbers","Comparing fractions","Equivalent and simplified fractions","Adding and subtracting fractions","Decimal fractions","Comparing decimals","Adding and subtracting decimal numbers","Lines rays and line segments","Parallel and perpendicular lines","Measuring angles","Rectangles squares and perimeter","Circles and disks","Scale drawings","Area of rectangles","Nets of rectangular prisms","Volume of rectangular prisms","Units of length mass and capacity","Reading and analysing data","Two-step word problems","Checking for calculation mistakes"];
 const PL_SOURCE=PL_CLASS4_2026_SOURCES;
 function item([topic,native,title,statement,formula,worked,practice,answers],index){
  return {id:'pl-2026-iv-'+topic+'-'+(index+1),
   country:'PL',grade:'IV',subject:'math',stage:'lower',level:'beginner',phase:1,topic,
-  title,enTitle:native,native,nativeLang:'pl',
+  title,enTitle:PL_ENGLISH_TITLES[index],native,nativeLang:'pl',
   statement,formula,worked,practice,answers,aliases:[],
   sourceStatus:'official-topic-reviewed',
   source:PL_SOURCE.law,manualExample:PL_SOURCE.approvedManual,
