@@ -3,6 +3,7 @@ import {mathEarlyYearEntries,MATH_EARLY_YEAR_BANK} from './math_early_years_euro
 import {franceGrade5eLessons,FRANCE_5E_MATH_UNITS} from './math_france_5e_2026.mjs';
 import {portugalMath2026Lessons,PORTUGAL_MATH_2026} from './math_portugal_2026.mjs';
 import {italyMathFocalLessons} from './math_italy_framework_2026.mjs';
+import {spainMathOriginalEntries} from './math_spain_lomloe_2026.mjs';
 export {portugalMath2026Lessons,PORTUGAL_MATH_2026};
 export {franceGrade5eLessons,FRANCE_5E_MATH_UNITS};
 export {mathEarlyYearEntries,MATH_EARLY_YEAR_BANK};
@@ -198,6 +199,14 @@ export function mathInDepthEntries({stage,phase,topic}={}){
 // Grade-specific source-mapped course entries take precedence over the shared
 // advisory European sequence. Do not label generic lessons as national courses.
 export function mathCountryCourseEntries({country,stage,grade,phase,phases,topic}={}){
+ if(String(country||'').toUpperCase()==='ES'&&['primary','lower','intermediate'].includes(stage)){
+  // The national branch is specific to Spanish school/mathematics option.
+  // These original topic examples supplement generic exercise skills.
+  const authored=spainMathOriginalEntries({grade,topic});
+  const selected=Array.isArray(phases)&&phases.length?phases:[phase];
+  const valid=[...new Set(selected.map(Number).filter(p=>Number.isInteger(p)&&p>=1&&p<=6))];
+  return [...authored,...valid.flatMap(p=>mathInDepthEntries({stage,phase:p,topic}))];
+ }
  if(String(country||'').toUpperCase()==='IT'&&['primary','lower','intermediate'].includes(stage)){
   // Italian 5+3+5 school structure. Source-reviewed original entry lesson
   // supplements advisory skills: do not claim the generic skill bank is an
