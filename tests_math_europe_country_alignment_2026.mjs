@@ -97,6 +97,12 @@ for(const country of ['FR','IT','PL','HU','ES','PT','DE','NL','IE']){
   assert.ok(sample.source.includes('5_matematica_18julho_rev.pdf'));
   assert.ok(sample.units.every(x=>x.curriculumCompletion==='partial-source-review'),
    'Verified topic-level source references do not constitute full annual verification');
+ }else if(country==='IT'){
+  assert.match(sample.note,/Italia,/);
+  assert.match(sample.note,/DM 221\/2025/);
+  assert.ok(sample.source.includes('gazzettaufficiale.it'));
+  assert.ok(sample.units.every(x=>x.curriculumCompletion==='partial-source-review'));
+  assert.ok(sample.units.every(x=>x.it),'Italian maths years must have native branch names');
  }else{
   assert.ok(sample.note.includes(evidence.note.slice(0,12)),country+' must be clearly source-annotated');
   assert.ok(sample.units.every(x=>x.curriculumCompletion==='unverified-advisory'),
