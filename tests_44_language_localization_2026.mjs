@@ -15,7 +15,9 @@ globalThis.crypto ??= webcrypto;
 const res = await frontendWorker.fetch(new Request('https://mypocketai.test/'));
 const html = await res.text();
 assert.equal(res.status, 200);
-assert.ok(html.length < 8_000_000, `Worker HTML must stay under 8,000,000 chars (got ${html.length})`);
+// The 2026 entertainment add-on contributes ~16k characters to the inlined offline UI.
+// Keep a strict size ceiling while allowing that isolated feature; no locale behavior is changed.
+assert.ok(html.length < 8_035_000, `Worker HTML must stay under 8,035,000 chars (got ${html.length})`);
 
 const allCodes = [...POCKET_LANGUAGES];
 assert.equal(allCodes.length, 44, 'Canonical POCKET_LANGUAGES must contain 44 languages');
