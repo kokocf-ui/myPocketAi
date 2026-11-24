@@ -11887,7 +11887,8 @@ function educationOpenPagedLesson(title,body){
  dialog.append(head,heading,content,footer);
  if(scienceReader)scienceAttachLessonReview(dialog);
  let dialogClosed=false;
- dialog.addEventListener('close',()=>{dialogClosed=true;stopPageAudio();if(scienceReader)window.removeEventListener('pocket-speech-state',updatePageSpeech);dialog.remove()});
+ dialog.addEventListener('close',()=>{stopPageAudio();if(scienceReader)window.removeEventListener('pocket-speech-state',updatePageSpeech);dialog.remove()});
+ dialog.addEventListener('close',()=>{dialogClosed=true});
  const proseLang=typeof eduDetectProseLang==='function'?eduDetectProseLang(raw):'ro';
  const canApiTranslate=typeof eduTranslateMaterial==='function'&&Boolean(typeof CLIENT_CONFIG!=='undefined'&&CLIENT_CONFIG?.apiUrl);
  const pendingEntries=[];
@@ -24493,10 +24494,12 @@ try{
  // Native first-install setup detects the region before the WebView begins.
  // On updates, or whenever the user has explicitly saved a language, this
  // query is absent and must never override the persisted preference.
- const firstNative=new URL(window.location.href).searchParams.get('first_setup_language');
+ const launchParams=new URL(window.location.href).searchParams;
+ const firstNative=launchParams.get('first_setup_language');
  if(!savedLanguage&&firstNative&&Object.prototype.hasOwnProperty.call(UI_TEXT,firstNative))
   initial.language=firstNative;
- state.language=initial.language;pocketFirstInstallAutoLanguage=initial.allowAutomaticDetection;
+ const qaFixedLocale=launchParams.get('mathQa')==='1'||launchParams.get('astronomyQa')==='1'||launchParams.get('chemistryQa')==='1'||launchParams.get('physicsQa')==='1';
+ state.language=initial.language;pocketFirstInstallAutoLanguage=qaFixedLocale?false:initial.allowAutomaticDetection;
  $('languageSelect').value=state.language;
 }catch{
  state.language=pocketLanguageFromLocale(pocketPhoneLocale);
