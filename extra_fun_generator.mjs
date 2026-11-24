@@ -12,101 +12,93 @@ const FUN_WORDS=[
 ['PRIETEN','Persoană de care te leagă o relație de prietenie'],['FAMILIE','Grup de oameni înrudiți'],['MAMA','Părinte de gen feminin'],['TATA','Părinte de gen masculin'],['FRATE','Fiul acelorași părinți'],['SORA','Fiica acelorași părinți'],['COPIL','Persoană aflată la vârsta copilăriei'],['BUNICA','Mama unuia dintre părinți'],['BUNIC','Tatăl unuia dintre părinți'],['VECIN','Persoană care locuiește aproape'],['ZAMBET','Expresie a feței când ne bucurăm'],['BUCURIE','Stare de mare mulțumire']
 ];
 function funPuzzleSeed(){try{const a=new Uint32Array(1);crypto.getRandomValues(a);return a[0]}catch{return (Date.now()^Math.floor(Math.random()*4294967295))>>>0}}
-function funGeneratePuzzle(mode='rebus',seed=funPuzzleSeed()){
- const isArrow=mode==='integrame',N=11;
- let best=null;
- for(let trial=0;trial<6;trial++){
-  const rand=funRng((seed+trial*2654435761)>>>0),cells=Array(N*N).fill(''),mask=Array(N*N).fill(0),hints=new Map(),entries=[];
-  const words=funShuffle(FUN_WORDS.filter(x=>x[0].length>=3&&x[0].length<=8).slice(),rand);
-  const at=(r,c)=>r*N+c;
-  function test(word,r,c,dir){
-   let n=word.length,dr=dir==='down'?1:0,dc=dir==='across'?1:0,bit=dr?2:1;
-   let hr=r-dr,hc=c-dc,tr=r+dr*n,tc=c+dc*n;
-   if(r<0||c<0||r+dr*(n-1)>=N||c+dc*(n-1)>=N)return null;
-   if(hr>=0&&hc>=0&&cells[at(hr,hc)])return null;
-   if(tr<N&&tc<N&&cells[at(tr,tc)])return null;
-   if(isArrow&&(hr<0||hc<0||cells[at(hr,hc)]||hints.has(at(hr,hc))))return null;
-   let crosses=0,newCells=0;
-   for(let i=0;i<n;i++){
-    const y=r+i*dr,x=c+i*dc,p=at(y,x),existing=cells[p];
-    if(hints.has(p))return null;
-    if(existing){
-     if(existing!==word[i]||(mask[p]&bit))return null;
-     crosses++;
-    } else {
-     newCells++;
-     for(const [sy,sx] of (dr?[[0,-1],[0,1]]:[[-1,0],[1,0]])){
-      let ny=y+sy,nx=x+sx;
-      if(ny>=0&&nx>=0&&ny<N&&nx<N&&cells[at(ny,nx)])return null;
-     }
-    }
+
+let FUN_DENSE_CACHE={};
+function funDenseProfiles(n){
+ if(FUN_DENSE_CACHE[n])return FUN_DENSE_CACHE[n];
+ const masters=FUN_WORDS.filter(w=>w[0].length===n);
+ const words4=FUN_WORDS.filter(w=>w[0].length===4),words5=FUN_WORDS.filter(w=>w[0].length===5);
+ const configs=[];
+ const feasible=opts=>{
+  const order=opts.map((o,i)=>({o,i})).sort((a,b)=>a.o.length-b.o.length),taken=new Set();
+  function go(i){
+   if(i===order.length)return true;
+   for(const item of order[i].o)if(!taken.has(item[0])){
+    taken.add(item[0]);if(go(i+1))return true;taken.delete(item[0]);
    }
-   if(entries.length&&!crosses)return null;
-   if(!newCells)return null;
-   const area=(Math.max(...entries.flatMap(e=>[e.row,e.row+(e.dir==='down'?e.word.length-1:0)]),r+dr*(n-1))-Math.min(...entries.map(e=>e.row),r)+1)*
-     (Math.max(...entries.flatMap(e=>[e.col,e.col+(e.dir==='across'?e.word.length-1:0)]),c+dc*(n-1))-Math.min(...entries.map(e=>e.col),c)+1);
-   return {crosses,score:crosses*11-area*.055+rand()*2,newCells};
+   return false;
   }
-  function add(word,clue,r,c,dir){
-   const dr=dir==='down'?1:0,dc=dir==='across'?1:0,bit=dr?2:1;
-   for(let i=0;i<word.length;i++){let p=at(r+dr*i,c+dc*i);cells[p]=word[i];mask[p]|=bit}
-   const entry={word,clue,row:r,col:c,dir};
-   if(isArrow){entry.hintRow=r-dr;entry.hintCol=c-dc;hints.set(at(entry.hintRow,entry.hintCol),entry)}
-   entries.push(entry);
-  }
-  const first=words.splice(Math.floor(rand()*Math.min(24,words.length)),1)[0];
-  const startR=4+Math.floor(rand()*3),startC=Math.min(2+Math.floor(rand()*3),N-first[0].length);
-  add(first[0],first[1],startR,startC,'across');
-  for(let iteration=0;iteration<words.length&&entries.length<20;iteration++){
-   let chosen=null,wordIndex=-1;
-   for(let wi=0;wi<words.length;wi++){
-    const [word,clue]=words[wi];
-    for(let i=0;i<word.length;i++){
-     for(let p=0;p<cells.length;p++){
-      if(cells[p]!==word[i])continue;
-      const y=Math.floor(p/N),x=p%N;
-      for(const dir of ['across','down']){
-       if(mask[p]&(dir==='across'?1:2))continue;
-       const row=y-(dir==='down'?i:0),col=x-(dir==='across'?i:0),fit=test(word,row,col,dir);
-       if(fit&&(!chosen||fit.score>chosen.score)){chosen={word,clue,row,col,dir,score:fit.score};wordIndex=wi}
-      }
-     }
-    }
+  return go(0);
+ };
+ for(const a of masters)for(const b of masters){
+  if(a===b)continue;
+  for(let li=0;li<4;li++){
+   const left=Array.from({length:n},(_,r)=>words4.filter(w=>w[0][li]===a[0][r]));
+   if(left.some(x=>!x.length)||!feasible(left))continue;
+   for(let ri=0;ri<5;ri++){
+    const right=Array.from({length:n},(_,r)=>words5.filter(w=>w[0][ri]===b[0][r]));
+    if(right.some(x=>!x.length)||!feasible(right))continue;
+    configs.push({a,b,li,ri,left,right});
    }
-   if(!chosen)break;
-   add(chosen.word,chosen.clue,chosen.row,chosen.col,chosen.dir);
-   words.splice(wordIndex,1);
   }
-  let minR=N,minC=N,maxR=-1,maxC=-1,used=0;
-  for(let p=0;p<cells.length;p++)if(cells[p]||hints.has(p)){let r=Math.floor(p/N),c=p%N;minR=Math.min(minR,r);minC=Math.min(minC,c);maxR=Math.max(maxR,r);maxC=Math.max(maxC,c);if(cells[p])used++}
-  const height=maxR-minR+1,width=maxC-minC+1,density=used/(width*height);
-  const score=entries.length*5+density*20-(width*height)*.05;
-  if(!best||score>best.score)best={score,entries:entries.map(e=>({...e})),cells:cells.slice(),minR,minC,height,width,density,seed};
-  if(entries.length>=(isArrow?13:16)&&density>=(isArrow?.40:.46))break;
  }
- if(!best||best.entries.length<3)throw Error('puzzle_generation_failed');
- const {entries,cells,minR,minC,height,width}=best;
- const normalized=entries.map(e=>({
-  ...e,row:e.row-minR,col:e.col-minC,
-  hintRow:e.hintRow===undefined?undefined:e.hintRow-minR,
-  hintCol:e.hintCol===undefined?undefined:e.hintCol-minC
- }));
- const ordered=normalized.slice().sort((a,b)=>a.row-b.row||a.col-b.col);
- const starts=new Map();
- ordered.forEach((e,i)=>{
-  const key=e.row+','+e.col;
-  if(!starts.has(key))starts.set(key,i+1);
-  e.number=starts.get(key);
- });
- const grid=Array.from({length:height*width},(_,p)=>{
-  const r=Math.floor(p/width)+minR,c=p%width+minC;
-  return {letter:cells[r*N+c]||'',hint:null};
- });
- for(const e of normalized)if(isArrow){
-  const p=e.hintRow*width+e.hintCol;
-  grid[p].hint={clue:e.clue,dir:e.dir};
+ if(!configs.length)throw Error('No dense crossword profiles for '+n);
+ return FUN_DENSE_CACHE[n]=configs;
+}
+function funDenseMatching(opts,rng){
+ const ordered=opts.map((o,i)=>({i,values:funShuffle(o.slice(),rng)}))
+  .sort((a,b)=>a.values.length-b.values.length);
+ const used=new Set(),result=Array(opts.length);
+ function rec(i){
+  if(i===ordered.length)return true;
+  const item=ordered[i];
+  for(const w of item.values)if(!used.has(w[0])){
+   used.add(w[0]);result[item.i]=w;
+   if(rec(i+1))return true;
+   used.delete(w[0]);
+  }
+  return false;
  }
- return {mode,width,height,grid,entries:normalized,seed:best.seed,density:best.density};
+ return rec(0)?result:null;
+}
+function funGeneratePuzzle(mode='rebus',seed=funPuzzleSeed(),difficulty='dificil'){
+ const arrow=mode==='integrame',n=difficulty==='mediu'?7:9,rng=funRng(seed>>>0);
+ const profiles=funShuffle(funDenseProfiles(n).slice(),rng);
+ let selected=null,leftWords=null,rightWords=null;
+ for(const p of profiles){
+  const left=funDenseMatching(p.left,rng),right=funDenseMatching(p.right,rng);
+  if(left&&right){selected=p;leftWords=left;rightWords=right;break}
+ }
+ if(!selected)throw Error('Dense puzzle matching failed');
+ const R=n+(arrow?1:0),C=arrow?11:10,first=arrow?1:0,grid=Array.from({length:R*C},()=>({letter:'',hint:null}));
+ const at=(r,c)=>grid[r*C+c];
+ if(arrow)for(let c=0;c<C;c++)at(0,c).header=true;
+ const entries=[];
+ function add(word,clue,row,col,dir,hintRow,hintCol){
+  const ent={word,clue,row,col,dir,number:entries.length+1};
+  if(arrow){ent.hintRow=hintRow;ent.hintCol=hintCol;at(hintRow,hintCol).header=false;at(hintRow,hintCol).hint={clue,dir}}
+  for(let i=0;i<word.length;i++){
+   const r=row+(dir==='down'?i:0),c=col+(dir==='across'?i:0);
+   const cell=at(r,c);
+   if(cell.letter&&cell.letter!==word[i])throw Error('Generator crossing mismatch');
+   cell.letter=word[i];
+  }
+  entries.push(ent);
+ }
+ for(let r=0;r<n;r++){
+  const row=r+first;
+  if(!arrow)at(row,4).bar=true;
+  add(leftWords[r][0],leftWords[r][1],row,arrow?1:0,'across',row,0);
+  add(rightWords[r][0],rightWords[r][1],row,arrow?6:5,'across',row,5);
+ }
+ add(selected.a[0],selected.a[1],first,arrow?1+selected.li:selected.li,'down',0,arrow?1+selected.li:selected.li);
+ add(selected.b[0],selected.b[1],first,arrow?6+selected.ri:5+selected.ri,'down',0,arrow?6+selected.ri:5+selected.ri);
+ const colA=arrow?1+selected.li:selected.li,colB=arrow?6+selected.ri:5+selected.ri;
+ for(let r=first;r<R-1;r++)for(let c=0;c<C;c++){
+  if(c!==colA&&c!==colB&&at(r,c).letter)at(r,c).barBottom=true;
+ }
+ const answered=grid.filter(cell=>cell.letter).length;
+ return {mode,seed,difficulty,width:C,height:R,grid,entries,density:answered/grid.length,style:'dense-barred'};
 }
 function funDailyMaxim(dateKey){
  const first=['Un pas mic făcut azi','O întrebare pusă cu sinceritate','O idee notată la timp','O conversație cu atenție','Un lucru învățat azi','O greșeală privită cu calm','Un plan simplu și clar','Un gest de bunătate','O clipă de liniște','O alegere curajoasă','O privire nouă asupra lucrurilor','O promisiune respectată','Un început modest','O secundă de răbdare','Un răspuns căutat cu grijă','O încercare repetată','O carte deschisă la întâmplare','O lecție primită cu umor','O zi organizată cu răbdare','Un drum parcurs cu încredere','O observație atentă','O idee împărtășită','Un gând luminos','O întrebare dificilă'];
