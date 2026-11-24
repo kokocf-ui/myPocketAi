@@ -13059,7 +13059,7 @@ function mathJourneyShowChoices(stage){
    const hasDistinctEn=Boolean(entry.en&&entry.en!==entry.ro);
    const direct=curLang!=='ro'?((typeof eduGetCachedString==='function'&&eduGetCachedString(entry.ro,curLang))||
     (typeof EDUCATION_UI_TRANSLATIONS!=='undefined'&&EDUCATION_UI_TRANSLATIONS[curLang]?.[entry.ro])||''):'';
-   if(curLang===entryLang){
+   if(curLang==='ro'||curLang===entryLang){
     heading.textContent=entry.ro;heading.setAttribute('data-edu-localized',curLang);
    }else if(curLang==='en'&&hasDistinctEn){
     heading.textContent=entry.en;heading.setAttribute('data-edu-localized','en');
