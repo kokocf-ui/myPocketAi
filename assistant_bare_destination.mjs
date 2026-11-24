@@ -62,10 +62,18 @@ export function assistantJourneyHandoff(raw){
  if(!text||text.length>240)return null;
  if(assistantBareDestinationQuery(text))return parseJourneyExpression(text);
  const fold=text.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
- if(/^(?:ce este|ce inseamna|ce reprezinta|de ce|explica|explica-mi|descrie|what is|what does|explain|define|why|que es|qu est|was ist)\b/u.test(fold))return null;
+ if(/^(?:ce\b|care\b|cat\b|cati\b|cate\b|cand\b|cine\b|de ce\b|cum\s+(?!ajung\b|pot\s+ajung|merg\b|pot\s+merg|ma\s+deplasez\b)|explica|descrie|defineste|rezuma|tradu\w*|converteste|transforma|calculeaza|rezolva|numara|scrie|compune|povesteste|spune(?:-mi)?\b|what\b|which\b|who\b|when\b|why\b|how\s+(?!do\s+i\s+get\b|can\s+i\s+get\b|to\s+get\s+to\b)|explain|define|describe|translate|convert|calculate|solve|count|write|tell\s+me\b|want\s+to\b|need\s+to\b|try\s+to\b|i\s+want\s+to\s+(?!get\s+to\b|go\s+to\b))/u.test(fold))return null;
+ if(/\b(?:traseu(?:l)?\s+(?:nerv\w*|digestiv|profesional|educational|academic|carierei|legislativ|aplicatiei)|ruta\s+(?:metabolic\w*|biochimic\w*|diplomatic\w*|comercial\w*|default|ip|statica))\b/u.test(fold))return null;
+ if(/\b\d+(?:[.,]\d+)?\s*(?:km|m|cm|mm|kg|g|mg|lb|lbs|oz|miles?|mi|l|ml|c|f|k|%|ron|lei|eur|usd|gbp|ore|hours?|minute|secunde|zile|ani|pagini)\b/u.test(fold))return null;
+ if(/^(?:de\s+la|from)\s+\d+\s+(?:la|pana\s+la|to)\s+\d+\b/u.test(fold))return null;
+ const barePairMatch=fold.match(/^([\p{L}\p{M}\p{N}' .-]{2,60})\s+(?:to|spre|pana\s+la)\s+([\p{L}\p{M}\p{N}' .-]{2,60})$/iu);
+ const validBarePair=Boolean(barePairMatch)
+   &&barePairMatch[1].trim().split(/\s+/).length<=4
+   &&barePairMatch[2].trim().split(/\s+/).length<=4
+   &&!/\b(?:cook|make|learn|know|see|buy|do|be|have|use|read|play|work|sleep|eat|speak|romana|engleza|franceza|germana|spaniola|italiana|english|french|german|spanish|italian|romanian|\d+)\b/u.test(fold);
  const intent=/\b(?:traseu(?:l|ri|e)?|ruta|rute|route\s+to|directions\s+to|navigate\s+to|navigatie|navigheaza|deplasare\s+spre|transport\s+mixt|itineraire\s+vers|percorso\s+per)\b/u.test(fold)
-   ||/^(?:du[- ]?ma|vreau sa (?:ajung|merg)|cum (?:pot )?ajung|arata[- ]?mi drumul|take me to|how (?:do|can) i get to|drive to|walk to|go to|from .+ to |de la .+ (?:la|spre|pana la) |din .+ spre )\b/u.test(fold)
+   ||/^(?:du[- ]?ma|vreau sa (?:ajung|merg)\s+(?:la|spre|in)\b|cum (?:pot )?ajung\s+(?:la|spre|in)\b|arata[- ]?mi drumul|take me to|how (?:do|can) i get to|drive to|walk to|go to|from [a-z\p{L}][\p{L}\p{M}' .-]{1,50} to [a-z\p{L}]|de la [a-z\p{L}][\p{L}\p{M}' .-]{1,50} (?:la|spre|pana la) [a-z\p{L}]|din [a-z\p{L}][\p{L}\p{M}' .-]{1,50} spre [a-z\p{L}])/iu.test(fold)
    ||/^\S.+\s*(?:→|->|➜)\s*\S/u.test(text)
-   ||/^[\p{L}\p{M}\p{N}' .-]{2,80}\s+(?:to|spre|pana\s+la)\s+[\p{L}\p{M}\p{N}' .-]{2,80}$/iu.test(fold);
+   ||validBarePair;
  return intent?parseJourneyExpression(text):null;
 }

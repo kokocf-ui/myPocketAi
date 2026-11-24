@@ -8,7 +8,7 @@ import {chromium} from 'playwright';
 fs.mkdirSync('chemistry-browser-audit',{recursive:true});
 const server=http.createServer(async(req,res)=>{
  try{
-  const answer=await frontend.fetch(new Request('http://localhost:3881'+req.url),
+  const answer=await frontend.fetch(new Request('http://localhost:3881'+req.url,{headers:req.headers}),
    {COMMUNICATION_ORACLE_ORIGIN:''});
   res.writeHead(answer.status,Object.fromEntries(answer.headers));
   res.end(Buffer.from(await answer.arrayBuffer()));
@@ -66,6 +66,7 @@ try{
   assert.ok(index>=0,'Missing Chemistry in actual Romanian grade '+grade);
   await open(tiles.nth(index));
   const chapters=page.locator('#view-module .science-choice-list > .science-choice-row');
+  await chapters.first().waitFor({state:'attached',timeout:15000});
   const chapterLabels=await chapters.allTextContents();
   assert.ok(chapterLabels.length>=3,'Chemistry must have several real chapters in grade '+grade);
   const scrollBar=await page.locator('#view-module .science-choice-list').evaluate(element=>
@@ -132,6 +133,7 @@ try{
    assert.ok(await countryTiles.count()>=2,code+' Chemistry missing school years');
    await open(countryTiles.first());
    const chapters=p.locator('#view-module .science-choice-list > .science-choice-row');
+   await chapters.first().waitFor({state:'attached',timeout:15000});
    assert.ok(await chapters.count()>=1,code+' Chemistry has no chapter in first offered school year');
    await open(chapters.first());
    assert.equal(await p.locator('#view-module .chemistry-section-tile').count(),3,
@@ -149,6 +151,7 @@ try{
  assert.deepEqual(exceptions,[],'Uncaught real Chromium errors in Chemistry');
  console.log('PASS Chemistry mobile: 50 country-to-chapter paths, four Romanian school grade lessons and practical investigations, fully paged reader and stable navigation.');
 }catch(e){
+ console.error('::error::Chemistry browser: '+String(e).replace(/\r?\n/g,' '));
  await page.screenshot({path:'chemistry-browser-audit/failure.png',fullPage:true}).catch(()=>{});
  fs.writeFileSync('chemistry-browser-audit/failure.txt',JSON.stringify({
   message:String(e),exceptions,visible:await page.locator('#view-module').innerText().catch(()=>null)

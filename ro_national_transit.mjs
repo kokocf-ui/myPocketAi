@@ -96,6 +96,7 @@ function localClock(iso){
 export function romanianNationalQuery(message,opts={}){
  const text=String(message||'');
  const normalized=normalize(text);
+ if(/(?:transport(?:ul)?\s+(?:activ|pasiv|celular|membranar|electric|de\s+electroni|termic|de\s+caldura|de\s+energie|de\s+date|aerian|maritim|fluvial|spatial)|primul\s+tren|istoria\s+(?:tren\w*|transport\w*|cailor\s+ferate)|^(?:ce\s+(?:este|inseamna|reprezinta|viteza)|cum\s+functioneaza|cand\s+a\s+aparut|cine\s+a\s+inventat|de\s+ce\b|explica\b))/.test(normalized))return null;
  const explicitCar=/(?:^|\s)(?:cu|prin)\s+(?:masina|automobilul|autoturismul|taxiul|taxi)(?:\s|$)/.test(normalized)
    ||/\b(?:driving|drive|by car|car route)\b/.test(normalized)
    ||opts.travel_mode==='car'||opts.route_profile==='drive';
@@ -109,6 +110,7 @@ export function romanianNationalQuery(message,opts={}){
  const matched=text.match(/(?:^|\s)(?:din|de\s+la)\s+(.+?)\s+(?:p[aâ]n[aă]\s+la|către|catre|spre|la)\s+(.+?)(?:[?!]|$)/iu);
  const origin=matched?cleanTown(matched[1]):cleanTown(opts.origin?.city||opts.origin?.label||'');
  const destination=matched?cleanTown(matched[2]):cleanTown(opts.destination?.city||opts.destination?.label||opts.transit_query||'');
+ if(!matched&&!destination&&opts.mixed_journey!==true&&opts.travel_mode!=='transit'&&!naturalIntercity&&!/\b(?:traseu\w*|ruta|rute|itinerar\w*|plecare|sosire|mersul\s+trenurilor|spre|pana\s+la|catre)\b/.test(normalized))return null;
  const explicitRomania=/\b(?:romania|romaniei|romanesti|romanian)\b/.test(normalized)
     ||String(opts.origin?.country_code||'').toUpperCase()==='RO'
     ||String(opts.destination?.country_code||'').toUpperCase()==='RO';

@@ -8,7 +8,7 @@ import {chromium} from 'playwright';
 fs.mkdirSync('astronomy-browser-audit',{recursive:true});
 const server=http.createServer(async(req,res)=>{
  try{
-  const response=await app.fetch(new Request('http://localhost:3879'+req.url),{COMMUNICATION_ORACLE_ORIGIN:''});
+  const response=await app.fetch(new Request('http://localhost:3879'+req.url,{headers:req.headers}),{COMMUNICATION_ORACLE_ORIGIN:''});
   res.writeHead(response.status,Object.fromEntries(response.headers));
   res.end(Buffer.from(await response.arrayBuffer()));
  }catch(error){res.writeHead(500);res.end(String(error));}
@@ -58,6 +58,7 @@ try{
   const index=all.findIndex(x=>patterns.some(rx=>rx.test(x)));
   assert.ok(index>=0,'Actual Romanian year button not rendered: '+grade+'; found: '+all.join('|'));
   await page.locator('.science-year-tile').nth(index).evaluate(el=>el.click());
+  await page.locator('.science-choice-list > .science-choice-row').first().waitFor({state:'attached',timeout:15000});
   const subject=await page.locator('.science-choice-list > .science-choice-row').count();
   assert.ok(subject>=2,'No visible science chapters in school grade '+grade);
   if(grade>=9)assert.equal(subject,({9:5,10:6,11:6,12:8})[grade],
@@ -158,6 +159,7 @@ try{
  await universityButton.waitFor({state:'attached',timeout:8000});
  await universityButton.evaluate(el=>el.click());
  const specs=page.locator('#view-module .science-choice-row');
+ await specs.first().waitFor({state:'attached',timeout:15000});
  assert.ok(await specs.count()>=5,'Missing university specialties');
  await specs.first().evaluate(el=>el.click());
  const course=page.locator('#view-module .science-choice-row').first();
@@ -185,6 +187,7 @@ try{
   ' opened lessons, '+practicals+' grade-specific practicals, '+graphs+
   ' labelled and checked school graphs, distinct university model/residual plots');
 }catch(error){
+ console.error('::error::Astronomy browser: '+String(error).replace(/\r?\n/g,' '));
  try{
   await page.screenshot({path:'astronomy-browser-audit/browser-failure.png',fullPage:true});
   fs.writeFileSync('astronomy-browser-audit/browser-failure.txt',

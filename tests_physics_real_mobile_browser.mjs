@@ -10,7 +10,7 @@ import {chromium} from 'playwright';
 fs.mkdirSync('physics-browser-audit',{recursive:true});
 const server=http.createServer(async(req,res)=>{
  try{
-  const response=await frontend.fetch(new Request('http://localhost:3880'+req.url),
+  const response=await frontend.fetch(new Request('http://localhost:3880'+req.url,{headers:req.headers}),
    {COMMUNICATION_ORACLE_ORIGIN:''});
   res.writeHead(response.status,Object.fromEntries(response.headers));
   res.end(Buffer.from(await response.arrayBuffer()));
@@ -59,6 +59,7 @@ try{
   assert.ok(found>=0,'Missing real Romanian Physics grade '+grade+' from '+all.join(' | '));
   await open(tiles.nth(found));
   const chapters=page.locator('#view-module .science-choice-list > .science-choice-row');
+  await chapters.first().waitFor({state:'attached',timeout:15000});
   const chapterTexts=await chapters.allTextContents();
   assert.ok(chapterTexts.length>=3,'Too few actual Physics chapters in Grade '+grade);
   assert.equal(new Set(chapterTexts).size,chapterTexts.length,'Repeated Physics chapter cards');
@@ -107,6 +108,7 @@ try{
   'Physics university must provide its own 3/4-year national route selector');
  await open(universityBand.locator('.science-year-tile').first());
  const specialties=page.locator('#view-module .science-choice-list > .science-choice-row');
+ await specialties.first().waitFor({state:'attached',timeout:15000});
  assert.ok(await specialties.count()>=7,'Physics university requires multiple distinct specialisations');
  await open(specialties.first());
  const universityChapters=page.locator('#view-module .science-choice-list > .science-choice-row');
@@ -171,6 +173,7 @@ try{
     code+' must have at least one school year and a university pathway');
    await open(yearTiles.first());
    const chapters=countryPage.locator('#view-module .science-choice-list > .science-choice-row');
+   await chapters.first().waitFor({state:'attached',timeout:15000});
    assert.ok(await chapters.count()>=2,
     code+' first visible Physics/integrated Science year has empty or shallow chapters');
    countryRoutes++;
@@ -184,6 +187,7 @@ try{
  assert.ok(!errors.length,'Frontend console exceptions: '+errors.slice(0,3).join('; '));
  console.log('PASS mobile Chromium Physics: grades VI–XII, seven detailed lessons, seven activity readers, paginated dialogs and navigation');
 }catch(error){
+ console.error('::error::Physics browser: '+String(error).replace(/\r?\n/g,' '));
  try{
   await page.screenshot({path:'physics-browser-audit/failure.png',fullPage:true});
   fs.writeFileSync('physics-browser-audit/failure.txt',JSON.stringify({

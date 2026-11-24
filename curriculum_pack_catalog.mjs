@@ -20,6 +20,7 @@ import { BATCH5_MATH_COUNTRIES, batch5MathLessons } from './math_batch5_nordic_b
 import { BATCH6_MATH_COUNTRIES, batch6MathLessons } from './math_batch6_central_med_2026.mjs';
 import { BATCH7_MATH_COUNTRIES, batch7MathLessons } from './math_batch7_southeast_east_2026.mjs';
 import { BATCH8_MATH_COUNTRIES, batch8MathLessons } from './math_batch8_microstates_eurasia_2026.mjs';
+import { SCIENCE_DECOUPLED_CURRICULUM_PACKS } from './science_europe_packs_2026.mjs';
 
 function fnv1aHash(str) {
   let hash = 2166136261;
@@ -205,7 +206,13 @@ function buildMathCountryPacks() {
   ];
 }
 
-export const ALL_DECOUPLED_CURRICULUM_PACKS = Object.freeze(buildMathCountryPacks());
+export const MATH_DECOUPLED_CURRICULUM_PACKS = Object.freeze(buildMathCountryPacks());
+export { SCIENCE_DECOUPLED_CURRICULUM_PACKS };
+
+export const ALL_DECOUPLED_CURRICULUM_PACKS = Object.freeze([
+  ...MATH_DECOUPLED_CURRICULUM_PACKS,
+  ...SCIENCE_DECOUPLED_CURRICULUM_PACKS
+]);
 
 export const CURRICULUM_REMOTE_PACK_KEYS = Object.freeze(
   ALL_DECOUPLED_CURRICULUM_PACKS.map(p => curriculumPackKey(p.subject, p.country, p.grade))

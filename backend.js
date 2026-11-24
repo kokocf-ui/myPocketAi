@@ -1163,17 +1163,26 @@ function routeGeometryCoordinates(geometry){
  return (Array.isArray(points)?points:[]).filter(p=>Array.isArray(p)&&Number.isFinite(p[0])&&Number.isFinite(p[1])&&Math.abs(p[0])<=180&&Math.abs(p[1])<=90);
 }
 // v108: weather intent is structured from user turns only; city changes replace, never concatenate.
-const WEATHER_WORDS=/(?:\b(?:vreme\w*|meteo\w*|prognoz\w*|temperatur\w*|grade|ploua|ninge|weather|forecast|degrees|rain|wetter|grad|regen|mogen|tempo|gradi|lluvia|tiempo|clima|graus|weer|graden|pogoda|stopni|deszcz)\b|погод|температур|градус|дожд)/iu;
+const WEATHER_WORDS=/(?:\b(?:vreme|vremea|vremii|meteo\w*|prognoz\w*|temperatur\w*|ploua|ninge|weather|forecast|rain|wetter|regen|pioggia|lluvia|clima|weer|pogoda|deszcz)\b|погод|температур|дожд)/iu;
+const WEATHER_DEGREE_WORDS=/(?:\b(?:grade|degrees|grad|gradi|graus|graden|stopni)\b|градус)/iu;
 const WEATHER_DAYS=[['poimaine','day after tomorrow','apres demain','uber morgen','ubermorgen','dopodomani','pasado manana','depois de amanha','overmorgen','послезавтра','pojutrze'],['maine','tomorrow','demain','morgen','domani','manana','amanha','завтра','jutro'],['azi','astazi','today','aujourd hui','heute','oggi','hoy','hoje','vandaag','сегодня','dzisiaj']];
 const weatherHas=(text,words)=>words.some(w=>(' '+normalizeGeoName(text)+' ').includes(' '+w+' '));
 function weatherRequest(text,previous){
- const norm=normalizeGeoName(text),explicit=WEATHER_WORDS.test(norm);
+ const norm=normalizeGeoName(text);
+ // Idiomatic Romanian time expressions ("pe vremea romanilor", "în ultima vreme") and non-meteorological
+ // science/math/cooking/economic uses ("la câte grade se coace", "prognoza inflației") are never weather lookups.
+ if(/\b(?:pe vremea|in ultima vreme|de (?:la o|multa|ceva|atata) vreme|in vreme ce|la vremea|in acea vreme|vremuri\w*|din vreme)\b/.test(norm))return null;
+ if(/\b(?:unghi\w*|triunghi\w*|cerc\w*|poligon\w*|radian\w*|ecuati\w*|polinom\w*|functi\w*|cuptor\w*|oven|fierbe\w*|ingheat\w*|topest\w*|boil\w*|freez\w*|melt\w*|corp\w* uman|body|febra|fever|arsur\w*|militar\w*|didactic\w*|universit\w*|bachelor|master|alcool\w*|econom\w*|financiar\w*|inflat\w*|burs\w*|electoral\w*|muzic\w*|allegro|andante|bpm|schimbar\w* climatic\w*|tipuri de clima|ce este clima|soare\w* are|stea\w*|planeta|procesor\w*|motor\w*)\b/.test(norm))return null;
+ const degreeWeather=WEATHER_DEGREE_WORDS.test(norm)&&(/\b(?:afara|outside|outdoors|vreme\w*|meteo\w*|weather|ploua|ninge|vant|wind|frig|cald)\b/.test(norm)||weatherHas(text,WEATHER_DAYS.flat()));
+ const explicit=WEATHER_WORDS.test(norm)||degreeWeather;
  if(/^(?:de ce|why|ce este|ce inseamna|what is|explain|explica|cum se formeaza|how does|how do|pourquoi|warum)\b/.test(norm)&&!weatherHas(text,WEATHER_DAYS.flat())&&!/\b(?:now|acum|today|azi)\b/.test(norm))return null;
  const follow=/^(?:dar|si|iar|but|and|what about|how about|et|mais|und|aber|e|ma|y|pero|en|maar|a|а)(?: |$)/u.test(norm);
  const dayOnly=WEATHER_DAYS.flat().some(w=>norm===w||norm==='dar '+w||norm==='and '+w);
  const short=norm.split(' ').length<=7;
- const topicChange=/(?:hotel|stele|restaurant|traseu|route|distance|distanta|pret|price|shopping|cumpar|benzina|flight|zbor|fotograf)/i.test(norm);
- if(!explicit&&!(previous&&!topicChange&&((follow&&short)||dayOnly||(previous.pending&&short))))return null;
+ const nonWeatherQuestion=/[?]/.test(text)&&!explicit&&!follow&&!dayOnly||/^(?:ce\b|care\b|cum\b|cand\b|cine\b|de ce\b|cat\b|cati\b|cate\b|unde\b|explica|spune|scrie|rezolva|calculeaza|tradu|cauta|gaseste|what\b|who\b|why\b|how\b|when\b|where\b|explain|write|solve|translate|find)\b/.test(norm)&&!explicit;
+ const topicChange=nonWeatherQuestion||/^(?:recomanda|sugereaza|arata|povesteste|descrie|da mi|recommend|suggest|show|tell|describe)\b/.test(norm)||/(?:hotel|stele|restaurant|traseu|route|distance|distanta|pret|price|shopping|cumpar|benzina|flight|zbor|fotograf)/i.test(norm);
+ const pendingPlace=previous?.pending&&norm.split(' ').length<=4&&!/[?!]/.test(text);
+ if(!explicit&&!(previous&&!topicChange&&((follow&&short)||dayOnly||pendingPlace)))return null;
  const inherited=(!explicit||follow)?previous:null;
  let period=inherited?.period||'daily',offset=inherited?.offset??0,date=inherited?.date||'';
  let dayFound=false;
@@ -1212,11 +1221,14 @@ const WEATHER_UI={
 // Shared semantic route detection: destination details and GPS confirmation resume the same task.
 function routeMessageSpec(text){
  const n=normalizeGeoName(text);
- if(/^(?:ce este|ce inseamna|what is|explain|explica|de ce|why)\b/.test(n)||/^(?:care|ce|what|which)\b.*(?:benefici|benefit|diferenta|difference|inseamna|mean)/.test(n))return null;
+ if(/^(?:ce este|ce inseamna|what is|explain|explica|de ce|why|cine|who|cand|when|cati|cate|how many|how much)\b/.test(n)||/^(?:care|ce|what|which)\b.*(?:benefici|benefit|diferenta|difference|inseamna|mean|rol|efect)/.test(n))return null;
+ if(/\b(?:traseu(?:l)?\s+(?:nerv\w*|digestiv|profesional|educational|academic|carierei|legislativ|aplicatiei)|ruta\s+(?:metabolic\w*|biochimic\w*|diplomatic\w*|comercial\w*|default|ip|statica))\b/.test(n))return null;
+ if(/\b(?:benefici\w*|calori\w*|sanatat\w*|slab\w*|consum\w*|asigurar\w*|impozit\w*|permis\w*|cod(?:ul)? rutier|regul\w* de circulatie)\b/.test(n)&&!/\b(?:pana la|catre|spre|cum ajung la|du[- ]?ma la|directions to|route to|navigate to|take me to)\b/.test(n))return null;
+ if(/\b(?:ajung|merg)\s+(?:sa\b|la\s+(?:o\s+concluzie|un\s+acord|un\s+rezultat|setari\w*|meniu\w*|contul\b))/.test(n))return null;
  if(/(?:distanta|distance|cati kilometri|how far|how many kilomet)/.test(n)&&!/(?:traseu|ruta|route|directions)/.test(n))return null;
  const walk=/(?:\b(?:pietonal\w*|pe jos|walking|walk to|walk me to|on foot)\b)/.test(n)||n==="walk";
  const drive=/(?:traseu rutier|ruta auto|driving route|driving directions|cu masina|by car)/.test(n)||/^(?:drive|driving|masina)$/.test(n);
- const route=walk||drive||/(?:traseu|ruta|route|directions|navigheaza|navigate|cum ajung|cum pot ajunge|vreau sa (?:ajung|merg)|du[- ]?ma|mergi (?:la|spre)|arata(?:-mi)? drumul|how (?:do|can) i get to|i want to (?:get|go) to|take me to)/.test(n);
+ const route=walk||drive||/(?:\b(?:traseu|ruta|route|directions|navigheaza|navigate)\b|cum ajung|cum pot ajunge|vreau sa (?:ajung|merg)|du[- ]?ma|mergi (?:la|spre)|arata(?:-mi)? drumul|how (?:do|can) i get to|i want to (?:get|go) to|take me to)/.test(n);
  if(!route)return null;
  const viaMatch=String(text).match(/\s+(?:via|prin|through)\s+(.+)$/i);
  const clean=cleanTravelPlace(viaMatch?String(text).slice(0,viaMatch.index):text).normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[?!.]+$/g,'').trim();
@@ -5218,7 +5230,7 @@ export default {
       for(const turn of currentRouteUserTurns){
         const spec=routeMessageSpec(turn),n=normalizeGeoName(turn);
         if(spec&&!/(?:harta|map)/.test(n))routeContext={...spec,pending:spec.destination_query?'destination_detail':'destination',candidates:[]};
-        else if(routeContext&&!/[?!]/.test(turn)&&n.split(' ').length<=8&&!/^(?:explica|scrie|cauta|what|why|de ce|cat|cate|vreme|weather|salut|multumesc|thanks)\b/.test(n)){
+        else if(routeContext&&!/[?!]/.test(turn)&&n.split(' ').length<=8&&!/^(?:explica|scrie|cauta|gaseste|spune|rezolva|calculeaza|tradu|cine|cand|cum|care|what|who|when|how|why|de ce|cat|cate|cati|vreme|weather|salut|multumesc|thanks)\b/.test(n)){
           if(!/^(?:foloseste |use )?(?:locatia mea|my location|gps|here|aici)$/.test(n))routeContext.destination_query=mergeRouteDestination(routeContext.destination_query,turn);
         }else if(!spec)routeContext=null;
       }
@@ -5236,7 +5248,7 @@ export default {
     // earlier road-route prompt (e.g. after the user selected "Mașină").
     const independentPlaceSearch=/\b(?:restauran\w*|hotel\w*|cafene\w*|pizzeri\w*|magazin\w*|supermarket\w*|farmaci\w*|baruri|puburi|parcari|zoo)\b/.test(routeWords)&&
       !/(?:\b(?:traseu|trasee|ruta|rute|navigare|navigate|directions|driving|pietonal|transport public)\b|cum ajung|vreau sa ajung|du ma|go to|drive to|walk to)/.test(routeWords);
-    const shortRouteAnswer=!independentPlaceSearch&&(routeContext?.pending||destinationRouteUpdate)&&message.length<=160&&!/[?!]/.test(message)&&!/^(?:salut|buna|hello|multumesc|thanks|ok|pa|bye|scrie|write|explica|explain|cauta|find|calculeaza|calculate|recomanda|tradu|vreme|weather|cate|cati|cat|ce|what|why|de ce)(?: |$)/.test(routeWords);
+    const shortRouteAnswer=!independentPlaceSearch&&(routeContext?.pending||destinationRouteUpdate)&&message.length<=160&&!/[?!]/.test(message)&&!/^(?:salut|buna|hello|multumesc|thanks|ok|pa|bye|scrie|write|explica|explain|cauta|gaseste|find|spune|tell|rezolva|solve|calculeaza|calculate|recomanda|tradu|translate|vreme|weather|cate|cati|cat|ce|care|cine|cand|cum|unde|what|who|when|how|why|where|de ce)(?: |$)/.test(routeWords);
     if(data.quick_place_search!==true&&(chosenTravelMode||routeSpec||selectedDestinationRequested||mapRouteRequest||shortRouteAnswer||retryRouteAnswer||viaRouteAnswer||compareRouteAnswer||(gpsRouteAnswer&&routeContext))){
       let rc=routeContext||{profile:null,destination_query:"",origin_query:"",pending:null,candidates:[]};
       const modeOnly=Boolean(chosenTravelMode)||/^(?:pe jos|pietonal|walking|walk|cu masina|masina|drive|driving)$/.test(routeWords);
@@ -5788,15 +5800,15 @@ export default {
       { key: "poi", pattern: /(?:^| )(?:puncte de interes|points of interest|poi|ce exista in apropiere|locuri din apropiere|places nearby|places around me)(?: |$)/, labelRo: "puncte de interes", labelEn: "points of interest", overpass: "__poi__" },
       { key: "market_bakery", pattern: /(?:^| )(?:marketuri si brutarii|supermarketuri si brutarii|markets and bakeries|supermarkets and bakeries)(?: |$)/, labelRo: "marketuri și brutării", labelEn: "markets and bakeries", overpass: 'shop~"^(supermarket|convenience|grocery|general|greengrocer|newsagent|bakery|pastry|confectionery)$"' },
       { key: "corner_shop", pattern: /(?:^| )(?:bacani\w*|băcăni\w*|magazine? (?:de )?(?:proximitate|cartier)|magazine? mici|small (?:grocery |corner )?shops?|corner shops?|convenience stores?|local grocer\w*)(?: |$)/, labelRo: "băcănie sau magazin de proximitate", labelEn: "corner grocery or convenience store", overpass: 'shop~"^(convenience|grocery|general|greengrocer|newsagent)$"' },
-      { key: "supermarket", pattern: /(?:^| )(?:supermarket\w*|supermarkets|supermarketuri|supermarketul|supermarketurile|marketuri|market\w*|grocery store\w*|groceries|food shop\w*|alimentar\w*|bacan\w*|băcăni\w*|convenience stores?|corner shops?)(?: |$)/, labelRo: "supermarket", labelEn: "supermarket", overpass: 'shop~"^(supermarket|convenience|grocery|general|greengrocer|newsagent)$"' },
+      { key: "supermarket", pattern: /(?:^| )(?:supermarket\w*|hypermarket\w*|hipermarket\w*|minimarket\w*|marketuri|market|grocery store\w*|groceries|food shop\w*|magazin(?:e|ul)? alimentar(?:e)?|alimentara|bacani\w*|băcăni\w*|convenience stores?|corner shops?)(?: |$)/, labelRo: "supermarket", labelEn: "supermarket", overpass: 'shop~"^(supermarket|convenience|grocery|general|greengrocer|newsagent)$"' },
       { key: "mall", pattern: /(?:^| )(?:shopping mall\w*|mall\w*|centre comerciale|centru comercial|centre comercial\w*|shopping centre\w*|shopping center\w*|retail park\w*)(?: |$)/, labelRo: "centru comercial", labelEn: "shopping centre", overpass: 'shop~"^(mall|department_store|supermarket)$"' },
       { key: "shopping_fashion", pattern: /(?:^| )(?:shopping|moda|haine|imbracaminte|incaltaminte|fashion|clothing|shoe shops?|shopping centres?)(?: |$)/, labelRo: "shopping și modă", labelEn: "shopping and fashion", overpass: 'shop~"^(mall|department_store|clothes|shoes|fashion_accessories|bag|jewelry|jewellery)$"' },
       { key: "beauty_services", pattern: /(?:^| )(?:saloane? de infrumusetare|frizerii|frizerie|coafor|beauty salons?|hairdressers?|barbers?|nail salons?|spa)(?: |$)/, labelRo: "salon de înfrumusețare", labelEn: "beauty salon", overpass: 'shop~"^(hairdresser|beauty|massage|nail_salon|cosmetics|tattoo)$"' },
       { key: "home_goods", pattern: /(?:^| )(?:articole pentru casa|articole casnice|decoratiuni|homewares?|housewares?|home goods|home decor)(?: |$)/, labelRo: "articole pentru casă", labelEn: "homewares", overpass: 'shop~"^(houseware|homeware|interior_decoration|kitchenware|bedlinen|curtain|carpet|lighting)$"' },
       { key: "appliances", pattern: /(?:^| )(?:electrocasnice|electrocasnic|appliances?|electrical shops?|electronics stores?)(?: |$)/, labelRo: "electrocasnice", labelEn: "appliances", overpass: 'shop~"^(appliance|electronics|electrical)$"' },
       { key: "furniture", pattern: /(?:^| )(?:mobilier|mobila|magazine de mobila|furniture|sofa stores?|mattress stores?)(?: |$)/, labelRo: "mobilier", labelEn: "furniture", overpass: 'shop~"^(furniture|bed|bedroom|kitchen|bathroom_furnishing)$"' },
-      { key: "diy_garden", pattern: /(?:^| )(?:bricolaj|gradinarit|gradina|diy|hardware stores?|garden cent(?:er|re)s?|building materials)(?: |$)/, labelRo: "bricolaj și grădinărit", labelEn: "DIY and gardening", overpass: 'shop~"^(doityourself|hardware|trade|building_materials|garden_centre|agrarian)$"' },
-      { key: "pharmacy", pattern: /(?:^| )(?:farmaci\w*|pharmacy|pharmacies|chemist\w*|drugstore\w*|drogheri\w*|naturist\w*)(?: |$)/, labelRo: "farmacie", labelEn: "pharmacy", overpass: 'amenity~"^(pharmacy)$"' },
+      { key: "diy_garden", pattern: /(?:^| )(?:bricolaj|magazine? de gradinarit|gradinarit|diy|hardware stores?|garden cent(?:er|re)s?|building materials)(?: |$)/, labelRo: "bricolaj și grădinărit", labelEn: "DIY and gardening", overpass: 'shop~"^(doityourself|hardware|trade|building_materials|garden_centre|agrarian)$"' },
+      { key: "pharmacy", pattern: /(?:^| )(?:farmaci\w*|pharmacy|pharmacies|chemist\w*|drugstore\w*|drogheri\w*|plafar\w*)(?: |$)/, labelRo: "farmacie", labelEn: "pharmacy", overpass: 'amenity~"^(pharmacy)$"' },
       { key: "car_dealers", pattern: /(?:^| )(?:parcuri auto|parc auto|dealeri auto|dealer auto|reprezentante auto|vanzari auto|car dealerships?|car dealers?|car sales|auto dealers?|car showrooms?)(?: |$)/, labelRo: "parcuri și dealeri auto", labelEn: "car dealerships", overpass: 'shop~"^(car|car_dealer|car_sales|motor_vehicle)$"' },
       { key: "fuel", pattern: /(?:^| )(?:benzinar\w*|benzinarii|fuel station\w*|petrol station\w*|gas station\w*|petrol pump\w*)(?: |$)/, labelRo: "benzinărie", labelEn: "fuel station", overpass: 'amenity="fuel"' },
       { key: "charging", pattern: /(?:^| )(?:charging station\w*|electric vehicle charging|ev charger\w*|incarcare electrica|statii de incarcare|statie de incarcare)(?: |$)/, labelRo: "stație de încărcare electrică", labelEn: "EV charging station", overpass: 'amenity="charging_station"' },
@@ -5804,31 +5816,31 @@ export default {
       { key: "car_wash", pattern: /(?:^| )(?:car wash\w*|spalatorie auto|spalatorii auto|spalatorie de masini)(?: |$)/, labelRo: "spălătorie auto", labelEn: "car wash", overpass: 'amenity="car_wash"' },
       { key: "car_repair", pattern: /(?:^| )(?:service auto|service-uri auto|car repair\w*|mechanic\w*|garage\w*|vulcaniz\w*)(?: |$)/, labelRo: "service auto", labelEn: "car repair shop", overpass: 'shop="car_repair"' },
       { key: "zoo", pattern: /(?:^| )(?:zoo|zoolog\w*|wildlife parks?|animal parks?)(?: |$)/, labelRo: "grădină zoologică", labelEn: "zoo", overpass: 'tourism="zoo"' },
-      { key: "park", pattern: /(?:^| )(?:parc\w*|parks|garden\w*|gradini|grădini)(?: |$)/, labelRo: "parc sau grădină", labelEn: "park or garden", overpass: 'leisure~"^(park|garden|playground|nature_reserve)$"' },
+      { key: "park", pattern: /(?:^| )(?:parc|parcul|parcuri|parcurile|parks?|gradina publica|gradini publice|gradina botanica|botanical garden\w*)(?: |$)/, labelRo: "parc sau grădină", labelEn: "park or garden", overpass: 'leisure~"^(park|garden|playground|nature_reserve)$"' },
       { key: "museum", pattern: /(?:^| )(?:muze\w*|museum\w*)(?: |$)/, labelRo: "muzeu", labelEn: "museum", overpass: 'tourism="museum"' },
       { key: "cinema", pattern: /(?:^| )(?:cinema\w*|cinematografe|cinematograf)(?: |$)/, labelRo: "cinematograf", labelEn: "cinema", overpass: 'amenity="cinema"' },
-      { key: "hospital", pattern: /(?:^| )(?:spital\w*|hospital\w*|clinic\w*|clinica\w*|clinici|doctor\w*|medic\w*|cabinet medical)(?: |$)/, labelRo: "spital, clinică sau medic", labelEn: "hospital, clinic or doctor", overpass: 'amenity~"^(hospital|clinic|doctors)$"' },
+      { key: "hospital", pattern: /(?:^| )(?:spital\w*|hospital\w*|clinica|clinici|clinic|clinics|doctor|doctori|doctorul|doctors|medic|medici|medicul|cabinet(?:e)? medical(?:e)?)(?: |$)/, labelRo: "spital, clinică sau medic", labelEn: "hospital, clinic or doctor", overpass: 'amenity~"^(hospital|clinic|doctors)$"' },
       { key: "hospital_only", pattern: /(?:^| )(?:spitale|hospitals)(?: |$)/, labelRo: "spital", labelEn: "hospital", overpass: 'amenity="hospital"' },
       { key: "medical_dental", pattern: /(?:^| )(?:cabinete? medicale?|cabinete? stomatologice?|stomatolog\w*|dentist\w*|dental clinics?|medical practices?|gp surgeries|doctor offices?)(?: |$)/, labelRo: "cabinet medical sau stomatologic", labelEn: "medical or dental practice", overpass: 'amenity~"^(clinic|doctors|dentist)$"' },
       { key: "town_hall", pattern: /(?:^| )(?:primarie\w*|town hall|city hall|council office\w*)(?: |$)/, labelRo: "primărie", labelEn: "town hall", overpass: 'amenity="townhall"' },
-      { key: "police", pattern: /(?:^| )(?:politie\w*|police station\w*)(?: |$)/, labelRo: "secție de poliție", labelEn: "police station", overpass: 'amenity="police"' },
-      { key: "fire_station", pattern: /(?:^| )(?:pompieri|fire station\w*)(?: |$)/, labelRo: "stație de pompieri", labelEn: "fire station", overpass: 'amenity="fire_station"' },
-      { key: "school", pattern: /(?:^| )(?:scoala\w*|school\w*|universit\w*|university\w*|college\w*)(?: |$)/, labelRo: "școală sau universitate", labelEn: "school or university", overpass: 'amenity~"^(school|university|college)$"' },
-      { key: "library", pattern: /(?:^| )(?:bibliotec\w*|library\w*)(?: |$)/, labelRo: "bibliotecă", labelEn: "library", overpass: 'amenity="library"' },
+      { key: "police", pattern: /(?:^| )(?:politie|sectie de politie|sectii de politie|police station\w*)(?: |$)/, labelRo: "secție de poliție", labelEn: "police station", overpass: 'amenity="police"' },
+      { key: "fire_station", pattern: /(?:^| )(?:pompieri|statie de pompieri|fire station\w*)(?: |$)/, labelRo: "stație de pompieri", labelEn: "fire station", overpass: 'amenity="fire_station"' },
+      { key: "school", pattern: /(?:^| )(?:scoala|scoli|scolile|school|schools|universitate|universitati|universitatea|university|universities|college|colleges)(?: |$)/, labelRo: "școală sau universitate", labelEn: "school or university", overpass: 'amenity~"^(school|university|college)$"' },
+      { key: "library", pattern: /(?:^| )(?:bibliotec\w*|library|libraries)(?: |$)/, labelRo: "bibliotecă", labelEn: "library", overpass: 'amenity="library"' },
       { key: "atm", pattern: /(?:^| )(?:atm|bancomat\w*|cash machine)(?: |$)/, labelRo: "bancomat", labelEn: "ATM", overpass: 'amenity="atm"' },
-      { key: "bank", pattern: /(?:^| )(?:bank\w*|banca\w*|banci)(?: |$)/, labelRo: "bancă", labelEn: "bank", overpass: 'amenity="bank"' },
+      { key: "bank", pattern: /(?:^| )(?:bank|banks|banca|banci|bancile|sucursala bancara)(?: |$)/, labelRo: "bancă", labelEn: "bank", overpass: 'amenity="bank"' },
       { key: "currency_exchange", pattern: /(?:^| )(?:case? de schimb valutar|schimb valutar|birou de schimb|currency exchange|bureau de change|money changer|foreign exchange)(?: |$)/, labelRo: "casă de schimb valutar", labelEn: "currency exchange", overpass: 'amenity="bureau_de_change"' },
-      { key: "post_office", pattern: /(?:^| )(?:post office\w*|posta\w*|oficiu postal)(?: |$)/, labelRo: "oficiu poștal", labelEn: "post office", overpass: 'amenity="post_office"' },
+      { key: "post_office", pattern: /(?:^| )(?:post office\w*|oficiu(?:l)? postal|oficii postale|posta romana|posta)(?: |$)/, labelRo: "oficiu poștal", labelEn: "post office", overpass: 'amenity="post_office"' },
       { key: "toilets", pattern: /(?:^| )(?:toilet\w*|toaleta\w*|toalete)(?: |$)/, labelRo: "toaletă publică", labelEn: "public toilet", overpass: 'amenity="toilets"' },
       { key: "hotel", pattern: /(?:^| )(?:hotel\w*|hoteluri|hostel\w*|pensiun\w*|motel\w*|guest[ -]?houses?|bed and breakfasts?|b\s*&\s*b|aparthotel\w*|apartamente? (?:de )?(?:vacanta|inchiriat)|vacation rentals?|holiday (?:home|rental|apartment)s?|cazare|accommodation|lodging|airbnb)(?: |$)/, labelRo: "cazare", labelEn: "accommodation", overpass: 'tourism~"^(hotel|hostel|guest_house|motel|apartment|chalet)$"' },
-      { key: "transport", pattern: /(?:^| )(?:gara\w*|train station\w*|railway station\w*|bus station\w*|bus stop\w*|statie de autobuz|airport\w*|aeroport\w*)(?: |$)/, labelRo: "stație sau nod de transport", labelEn: "transport stop or hub", overpass: 'public_transport="station"' },
-      { key: "confectionery", pattern: /(?:^| )(?:cofetari\w*|patiseri\w*|confectioner\w*|patisserie\w*|cake shop\w*|ice cream|gelateri\w*|sweet shop\w*|dessert\w*|brutari\w*)(?: |$)/, labelRo: "cofetărie, patiserie sau gelaterie", labelEn: "confectionery, bakery or ice cream shop", overpass: 'shop~"^(pastry|confectionery|bakery|ice_cream)$"' },
-      { key: "lounge", pattern: /(?:^| )(?:baruri|bar\w*|pub\w*|biergarten\w*|tavern\w*|taproom\w*)(?: |$)/, labelRo: "bar, pub, ceainărie sau cafenea", labelEn: "bar, pub, tea room or café", overpass: 'amenity~"^(pub|bar|biergarten|cafe)$"' },
-      { key: "stadium", pattern: /(?:^| )(?:stadion\w*|stadioane|stadium\w*|arena\w*)(?: |$)/, labelRo: "stadion", labelEn: "stadium", overpass: 'leisure="stadium"' },
-      { key: "cafe", pattern: /(?:^| )(?:cafes?|cafeteria|cafea|coffee shops?|cafene\w*|ceainari\w*|tea rooms?|tea houses?)(?: |$)/, labelRo: "cafenea sau ceainărie", labelEn: "café or tea room", overpass: 'amenity="cafe"' },
+      { key: "transport", pattern: /(?:^| )(?:gara|gari|garile|train station\w*|railway station\w*|bus station\w*|bus stop\w*|statie de autobuz|airport\w*|aeroport\w*)(?: |$)/, labelRo: "stație sau nod de transport", labelEn: "transport stop or hub", overpass: 'public_transport="station"' },
+      { key: "confectionery", pattern: /(?:^| )(?:cofetari\w*|patiseri\w*|confectioner\w*|patisserie\w*|cake shop\w*|ice cream shop\w*|gelateri\w*|sweet shop\w*|brutari\w*)(?: |$)/, labelRo: "cofetărie, patiserie sau gelaterie", labelEn: "confectionery, bakery or ice cream shop", overpass: 'shop~"^(pastry|confectionery|bakery|ice_cream)$"' },
+      { key: "lounge", pattern: /(?:^| )(?:baruri|barul|barurile|bar|bars|pub|pubul|puburi|pubs|biergarten\w*|tavern\w*|taproom\w*)(?: |$)/, labelRo: "bar, pub, ceainărie sau cafenea", labelEn: "bar, pub, tea room or café", overpass: 'amenity~"^(pub|bar|biergarten|cafe)$"' },
+      { key: "stadium", pattern: /(?:^| )(?:stadion\w*|stadioane|stadium\w*|sports arena\w*)(?: |$)/, labelRo: "stadion", labelEn: "stadium", overpass: 'leisure="stadium"' },
+      { key: "cafe", pattern: /(?:^| )(?:cafes?|cafeteria|coffee shops?|cafene\w*|ceainari\w*|tea rooms?|tea houses?)(?: |$)/, labelRo: "cafenea sau ceainărie", labelEn: "café or tea room", overpass: 'amenity="cafe"' },
       { key: "fast_food", pattern: /(?:^| )(?:fast[ -]?food\w*|takeaway\w*|takeout|burger\w*|kebab\w*|shaorm\w*|shawarm\w*|doner\w*|pizza\w*|pizzeri\w*|mancare rapida)(?: |$)/, labelRo: "fast-food sau mâncare la pachet", labelEn: "fast-food or takeaway", overpass: 'amenity="fast_food"' },
-      { key: "restaurant", pattern: /(?:^| )(?:restaurants?\w*|pubs?|bars?|biergarten\w*|taverns?|taprooms?|takeaway|takeout|food delivery|pizza\w*|pizzeri\w*|burger\w*|sushi|shaorm\w*|shawarm\w*|kebab\w*|doner\w*|comand\w*|livrare\w*|dinner|fast food\w*|fastfood\w*|cafes?|cafeteria|cafea|coffee shops?|cafene\w*|ceainari\w*|tea rooms?|tea houses?)(?: |$)/, labelRo: "restaurant, pub, bar sau cafenea", labelEn: "restaurant, pub, bar or café", overpass: 'amenity~"^(restaurant|fast_food|cafe|food_court|pub|bar|biergarten)$"' },
-      { key: "shop", pattern: /(?:^| )(?:magazin\w*|magazine\w*|shops|shop\w*|stores|store\w*|shopping|cumparaturi)(?: |$)/, labelRo: "magazin", labelEn: "shop", overpass: 'shop' }
+      { key: "restaurant", pattern: /(?:^| )(?:restaurants?\w*|pubs?|bars?|biergarten\w*|taverns?|taprooms?|takeaway|takeout|food delivery|livrare mancare|comanda mancare|pizza\w*|pizzeri\w*|burger\w*|sushi|shaorm\w*|shawarm\w*|kebab\w*|doner\w*|dinner|fast food\w*|fastfood\w*|cafes?|cafeteria|coffee shops?|cafene\w*|ceainari\w*|tea rooms?|tea houses?)(?: |$)/, labelRo: "restaurant, pub, bar sau cafenea", labelEn: "restaurant, pub, bar or café", overpass: 'amenity~"^(restaurant|fast_food|cafe|food_court|pub|bar|biergarten)$"' },
+      { key: "shop", pattern: /(?:^| )(?:magazin\w*|magazine\w*|shops|shop|stores|store|shopping|cumparaturi)(?: |$)/, labelRo: "magazin", labelEn: "shop", overpass: 'shop' }
     ];
     const starWords={one:1,two:2,three:3,four:4,five:5,una:1,doua:2,trei:3,patru:4,cinci:5};
     const hotelStarCriterion=text=>{
@@ -5836,6 +5848,13 @@ export default {
       return m?Number(starWords[m[1]]||m[1]):null;
     };
     const centralCriterion=text=>/(?:^| )(?:zona centrala|centrul|centru|city cent(?:er|re)|central|downtown)(?: |$)/.test(normalizeIntentText(text));
+    const isAbstractPlaceCandidate=value=>{
+      const q=normalizeIntentText(value);
+      if(!q)return false;
+      if(q.split(' ').length>6)return true;
+      if(/^(?:limba|sistem\w*|domeni\w*|cazul|timpul|cursul|urma|cadrul|functie|legatura|general|special|medie|mod|fel|viata|lume|istorie|literatura|matematica|fizica|chimie|biologie|astronomie|informatica|economie|medicina|drept|filosofie|psihologie|romana|engleza|franceza|germana|spaniola|italiana|anul|secolul|evul|copii|adulti|barbati|femei|pacienti|elevi|studenti|incepatori|diabet|cancer|sarcina|corp\w*|creier\w*|internet|online|aplicati\w*|telefon\w*|calculator\w*|examen\w*|\d{4})(?: |$)/.test(q))return true;
+      return /\b(?:este|sunt|era|erau|inseamna|functioneaza|putem|trebuie|exista|aparut|scris|facut|calcul\w*|rezolv\w*|invat\w*)\b/.test(q);
+    };
     const extractPlaceQuery=text=>{
       const streetTarget=parseNearbyStreetQuery(text);
       if(streetTarget)return streetTarget.query;
@@ -5848,17 +5867,28 @@ export default {
         .replace(/\s+(?:cu|with|avand|care au|under|below|sub|pentru|for|de [1-5] stele|[1-5][ -]star)\b.*$/i, "")
         .replace(/[,;]?\s*(?:please|te rog|multumesc)\b.*$/i, "").replace(/^[,\s]+|[,\s]+$/g, "")
         .replace(/^(?:the (?:city )?cent(?:er|re) of|central|centrul orasului|centrul|centru)\s+/i, "");
+      if(isAbstractPlaceCandidate(query))return "";
       return query;
     };
     const placeRequestFrom=(text,previous,overrideQuery="")=>{
       const normalized=normalizeIntentText(text);
+      const nearby=/(?:near me|nearby|around me|in apropiere|in apropierea mea|in zona mea|in jurul meu|in jurul nostru|langa mine|aproape de mine)/.test(normalized);
+      // Conceptual, encyclopaedic, academic, legal or how-to requests are never physical map POI searches.
+      if(!overrideQuery&&!nearby){
+        if(/\b(?:cauta|gaseste|arata|recomanda|find|search|show|recommend)\s+(?:mi\s+)?(?:informati\w*|detali\w*|articol\w*|carti|carte|idei|sfat\w*|regul\w*|legi|legea|definiti\w*|istori\w*|sensul|exempl\w*|exerciti\w*|cursur\w*|poezi\w*|retet\w*|citat\w*|film\w*|melodi\w*)\b/.test(normalized))return null;
+        if(/\b(?:power bank\w*|west bank|banca scolara|banca de lemn|banca de date|banca de sange)\b/.test(normalized))return null;
+        if(/^(?:ce (?:este|sunt|inseamna|reprezinta|presupune|rol|diferenta|efect\w*|benefici\w*|simptom\w*|drept\w*|acte|documente|materi\w*)|cum (?:functioneaza|se (?:face|calculeaza|obtine|scrie|spune|traduce|trateaza|foloseste|numeste|deschide|infiinteaza)|pot (?:invata|deveni|scrie|face))|de ce\b|cand (?:a aparut|s a infiintat|incepe|se termina)|cine (?:a (?:scris|inventat|fondat|construit|pictat)|este)|cati\b|cate\b|cat (?:timp|dureaza|inseamna)|explica|defineste|rezuma|tradu|calculeaza|rezolva|scrie|compune|povesteste|what (?:is|are|does|means?)\b|why\b|how (?:does|do|to|many)\b|who (?:is|wrote|invented|built)\b|when (?:was|did|does)\b|explain|define|translate|calculate|solve|write)\b/.test(normalized))return null;
+        const rawNoAccent=String(text).normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        const prepMatch=rawNoAccent.match(/(?:^|\s)(?:in apropiere de|aproape de|in|din|near|around|within|langa|la)\s+([^.!?;]{2,120})/i);
+        if(prepMatch&&!parseNearbyStreetQuery(text)&&isAbstractPlaceCandidate(prepMatch[1].trim()))return null;
+      }
       const touristCity=String(text).normalize('NFD').replace(/[\u0300-\u036f]/g,'').match(/(?:zona centrala turistica|tourist (?:city )?cent(?:re|er))\s+(?:din|in|of)\s+([\p{L} '\-]{2,80})/iu);
       const destination=overrideQuery||(touristCity?touristCity[1].trim():extractPlaceQuery(text));
-      const nearby=/(?:near me|nearby|around me|in apropiere|in apropierea mea|in zona mea|in jurul meu|in jurul nostru|langa mine|aproape de mine)/.test(normalized);
-      const follow=/^(?:dar|si|iar|atunci|totusi|what about|how about|and|but|instead)(?: |$)/.test(normalized);
+      const followRaw=/^(?:dar|si|iar|atunci|totusi|what about|how about|and|but|instead)(?: |$)/.test(normalized);
       const stars=hotelStarCriterion(text);
       const clearStars=/(?:fara (?:filtru de )?stele|fara clasificare|without (?:a )?star filter|any star)/.test(normalized);
       const explicitCategory=placeCategoryRules.find(rule=>rule.pattern.test(normalized));
+      const follow=followRaw&&(Boolean(explicitCategory||stars||clearStars||nearby||centralCriterion(text))||(normalized.split(' ').length<=6&&Boolean(destination)));
       const category=explicitCategory||(follow&&previous?.category)||(follow&&stars?placeCategoryRules.find(r=>r.key==="hotel"):null);
       if(!category)return null;
       const lookup=/(?:^| )(?:find|search|show|recommend|look for|cauta|gaseste|gasesti|arata mi|recomanda mi|unde gasesc|unde este|unde sunt|where are|where is)(?: |$)/.test(normalized);
@@ -5980,14 +6010,13 @@ export default {
         try{
           const reverse=new URL("https://nominatim.openstreetmap.org/reverse");
           reverse.searchParams.set("lat",String(latitude));reverse.searchParams.set("lon",String(longitude));
-          reverse.searchParams.set("format","jsonv2");reverse.searchParams.set("zoom","12");reverse.searchParams.set("addressdetails","1");
+          reverse.searchParams.set("format","jsonv2");reverse.searchParams.set("zoom","16");reverse.searchParams.set("addressdetails","1");
           const rr=await fetch(reverse.href,{headers:{Accept:"application/json","User-Agent":"PocketAI/105 (weather locality)"},signal:AbortSignal.timeout(3500)});
           if(rr.ok){
             const place=await rr.json(),a=place?.address||{};
             const locality=a.town||a.city||a.village||a.suburb||a.municipality||a.county;
             const district=a.suburb&&a.suburb!==locality?a.suburb:null;
-            const postcode=a.postcode||"";
-            if(locality)point.label=[district,locality,postcode].filter(Boolean).join(", ");
+            if(locality)point.label=[district,locality].filter(Boolean).join(", ");
           }
         }catch{/* Preserve GPS forecast when reverse geocoding is unavailable. */}
 
@@ -6078,7 +6107,8 @@ export default {
       }catch{return sendWeather(t[9]);}
     }
     const distanceText=message.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-    const explicitDistanceIntent=/(?:cati\s+(?:kilometri|km)|how\s+far|how\s+many\s+(?:kilomet(?:er|re)s|km)|\b(?:distanta|distance)\b)/i.test(distanceText)&&/(?:pana|\bto\b|\bfrom\b|\bbetween\b|\bintre\b|\bla\b|\bin\b)/i.test(distanceText)&&!activePlaceRequest;
+    const nonGeoDistance=/\b(?:munca la distanta|lucru(?:l)? la distanta|invatamant(?:ul)? la distanta|educati[ae] la distanta|studii la distanta|cursuri la distanta|control(?:ul)? la distanta|relati[ei] la distanta|de la distanta|pastr\w* distanta|distant\w* social\w*|long[- ]distance relationship|remote work|distance learning|distanta focala|focal distance|distanta dintre doua puncte|distanta de franare|stopping distance|braking distance|formula distantei|distance formula|unitate de distanta|soare|soarelui|luna|lunii|marte|jupiter|saturn|venus|mercur|neptun|uranus|pluto|pamant\w*|terra|earth|moon|sun|mars|stea\w*|galaxi\w*|andromeda|ani[- ]lumina|light[- ]years?|maraton\w*)\b/i.test(distanceText);
+    const explicitDistanceIntent=!nonGeoDistance&&/(?:cati\s+(?:kilometri|km)|how\s+far|how\s+many\s+(?:kilomet(?:er|re)s|km)|\b(?:distanta|distance)\b)/i.test(distanceText)&&/(?:pana\s+(?:la|in)|\bfrom\s+.+\s+to\b|\bbetween\s+.+\s+and\b|\bintre\s+.+\s+si\b|\bde\s+la\s+.+\s+(?:la|pana)\b|\bdin\s+.+\s+(?:la|pana)\b|\bhow\s+far\s+(?:is|to|from)\b|\bdistanta\s+(?:pana|intre|de\s+la|din|rutiera)\b)/i.test(distanceText)&&!activePlaceRequest;
     const validPoint=value=>value&&typeof value.label==="string"&&typeof value.query==="string"&&value.query.length<=160&&Number.isFinite(value.latitude)&&Number.isFinite(value.longitude)&&Math.abs(value.latitude)<=90&&Math.abs(value.longitude)<=180;
     const rawDistanceContext=data.distance_context;
     const pendingDistance=rawDistanceContext&&typeof rawDistanceContext==="object"&&typeof rawDistanceContext.origin_query==="string"&&rawDistanceContext.origin_query.length<=160&&typeof rawDistanceContext.destination_query==="string"&&rawDistanceContext.destination_query.length<=160?rawDistanceContext:null;
@@ -6091,7 +6121,7 @@ export default {
       else if(chosen.length>1||candidates.length&&/^[0-9]+$/.test(word)){
         const options=chosen.length?chosen:candidates;responseDistanceContext={...pendingDistance,candidates:options};
         return json({app:"Pocket AI",version:API_VERSION,status:"success",language:lang,message_received:message,reply:optionText(pendingDistance.pending_role==="origin"?pendingDistance.origin_query:pendingDistance.destination_query,options),distance_available:false,needs_location_clarification:true,destination_candidates:options,ai_connected:Boolean(env.AI)});
-      }else if(!candidates.length&&["origin_text","destination_text"].includes(pendingDistance.pending_role)&&message.length<=160&&!/[?!]/.test(message)&&!/^(?:salut|buna|hello|hi|thanks|multumesc|ok|scrie|write|explica|explain|translate|tradu|calculeaza|calculate|cauta|find|recomanda)(?: |$)/.test(normalizeIntentText(message))){
+      }else if(!candidates.length&&["origin_text","destination_text"].includes(pendingDistance.pending_role)&&message.length<=160&&!/[?!]/.test(message)&&!/^(?:salut|buna|hello|hi|thanks|multumesc|ok|scrie|write|explica|explain|translate|tradu|calculeaza|calculate|rezolva|solve|spune|tell|cauta|gaseste|find|recomanda|ce|care|cum|cand|cine|cat|cati|cate|de ce|unde|what|who|how|when|why|where)(?: |$)/.test(normalizeIntentText(message))){
         resumeDistance={...pendingDistance};resumeDistance[pendingDistance.pending_role==="origin_text"?"origin_query":"destination_query"]=message.trim().replace(/^(?:din|de la|from)\s+/i, "");
       }
     }
@@ -6176,10 +6206,10 @@ export default {
     const earlyFoodSearchIntent = Boolean(activePlaceRequest)&&!culinaryRequest.isRecipe&&!nonPlaceFeedback;
     const locationIntentText = message.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
       .toLowerCase().replace(/[șş]/g, "s").replace(/[țţ]/g, "t");
-    const locationIntent = /(?:\b(localiz\w*|locația mea|locatia mea|locația actuală|locatia actuala|locație actuală|locatie actuala|gps|coordonate|identifică locația|identifica locatia|where am i|unde ma aflu|unde ma gasesc|unde sunt acum|where exactly am i|locate me|my location|current location|current position|nearest station|closest station|nearest train station|closest train station|nearest railway station|cea mai apropiata gara|gara cea mai apropiata|cea mai apropiata statie)\b)/i.test(locationIntentText);
-    // v96: do not treat the word "road" in unrelated topics (for example "road tax") as a street lookup.
-    // Require an explicit request for a street/road name or nearby roads.
-    const streetIntent = /(?:\b(strada|străzi|strazi|străzile|strazile|străzii|strazii|străzi din jur|strazi din jur|strada din apropiere|străzi din apropiere|ce stradă|ce strada|pe ce strada|ce adresa am|care este adresa mea|numele străzii|numele strazii|street|streets|nearest street|nearby streets|what street|which street|nearest road|nearby roads|what road|which road|road name|street name)\b|\b(in jurul meu|în jurul meu|in apropiere|near me|around me)\b)/i.test(locationIntentText);
+    const locationIntent = /(?:\b(localizeaza[- ]?ma|ma poti localiza|poti sa ma localizezi|locatia mea|locatia actuala|locatie actuala|pozitia mea|pozitia actuala|coordonatele mele|identifica locatia|where am i|unde ma aflu|unde ma gasesc|unde sunt(?: acum)?|where exactly am i|locate me|my location|my current location|current location|current position|nearest station|closest station|nearest train station|closest train station|nearest railway station|cea mai apropiata gara|gara cea mai apropiata|cea mai apropiata statie)\b)/i.test(locationIntentText);
+    // v96: do not treat bare "road"/"street"/"strada" in unrelated topics as a GPS self-location lookup.
+    // Require an explicit request for the user's current street/address or nearby roads.
+    const streetIntent = /(?:\b(strada pe care ma aflu|strada actuala|strazi din jur|strada din apropiere|strazi din apropiere|ce strada|pe ce strada|ce adresa am|care este adresa mea|adresa mea|numele strazii|nearest street|nearby streets|what street|which street|on what street|nearest road|nearby roads|what road|which road|road name|street name)\b|\b(in jurul meu|in apropierea mea|near me|around me)\b)/i.test(locationIntentText);
     // Location and street questions are answered from map data, not guessed by the language model.
     // Combined restaurant requests continue into local search instead of returning from this branch.
     console.info("Pocket AI v96 intent routing", JSON.stringify({
@@ -6207,8 +6237,8 @@ export default {
       }
       try {
         // v39: zoom 10 commonly returns only a county (for example, Essex).
-        // Use a more detailed reverse lookup, then prefer neighbourhood/locality fields
-        // before falling back to a county or region.
+        // Use zoom=18, then enrich bare highway/street hits with rooftop building/UPRN
+        // lookup and authoritative unit-postcode resolution when GPS precision permits.
         const reverseZoom = 18;
         const reverseUrl = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}&zoom=${reverseZoom}&addressdetails=1`;
         const reverseResponse = await fetch(reverseUrl, {
@@ -6218,21 +6248,144 @@ export default {
         if (!reverseResponse.ok) throw new Error("Reverse geocoding HTTP " + reverseResponse.status);
         const reverseData = await reverseResponse.json();
         const address = reverseData.address || {};
-        // Prefer a small local area and then its town/city. County is a last-resort
-        // fallback, not the primary result when a more precise address component exists.
         const locality = address.neighbourhood || address.suburb || address.quarter ||
           address.city_district || address.city || address.town || address.village ||
           address.hamlet || address.municipality || address.locality || "";
-        const town = address.city || address.town || address.village || address.municipality || "";
+        let town = address.city || address.town || address.village || address.municipality || "";
         const region = address.state || address.region || address.county || "";
-        const country = address.country || "";
-        const street = address.road || address.pedestrian || address.residential || address.footway || address.path || address.cycleway || "";
-        const houseNumber = address.house_number || "";
-        const postalCode = address.postcode || '';
-        const accuracyMeters=Number(location?.accuracy);
-        const accuracyKnown=Number.isFinite(accuracyMeters)&&accuracyMeters>0;
-        const streetUsable=accuracyKnown&&accuracyMeters<=100;
-        const numberUsable=accuracyKnown&&accuracyMeters<=40;
+        let country = address.country || "";
+        let countryCode = String(address.country_code || "").trim().toLowerCase();
+        let street = address.road || address.pedestrian || address.residential || address.footway || address.path || address.cycleway || "";
+        let houseNumber = String(address.house_number || "").trim();
+        let postalCode = String(address.postcode || "").trim();
+        const accuracyMeters = Number(location?.accuracy);
+        const accuracyKnown = Number.isFinite(accuracyMeters) && accuracyMeters > 0;
+        const streetUsable = accuracyKnown && accuracyMeters <= 100;
+        const numberUsable = accuracyKnown && accuracyMeters <= 40;
+        const nomCategory = String(reverseData.category || "").toLowerCase();
+        const nomAddrType = String(reverseData.addresstype || reverseData.type || "").toLowerCase();
+        const snappedToBareRoad = nomCategory === "highway" || nomAddrType === "road" || nomAddrType === "street";
+        const reverseSources = ["OpenStreetMap Nominatim"];
+        const pointDistM = (lat1, lon1, lat2, lon2) => {
+          if (![lat1, lon1, lat2, lon2].every(Number.isFinite)) return Infinity;
+          const rad = Math.PI / 180, dLat = (lat2 - lat1) * rad, dLon = (lon2 - lon1) * rad;
+          const a = Math.sin(dLat / 2) ** 2 + Math.cos(lat1 * rad) * Math.cos(lat2 * rad) * Math.sin(dLon / 2) ** 2;
+          return 6371000 * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(Math.max(0, 1 - a)));
+        };
+        const canonicalStreet = v => String(v || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase()
+          .replace(/\b(?:strada|str\.?|soseaua|sos\.?|bulevardul|bd\.?|aleea|calea)\b/g, "")
+          .replace(/\brd\.?\b/g, "road").replace(/\bst\.?\b/g, "street").replace(/\bave\.?\b/g, "avenue")
+          .replace(/\bln\.?\b/g, "lane").replace(/\bcl\.?\b/g, "close").replace(/\bdr\.?\b/g, "drive")
+          .replace(/[^a-z0-9]+/g, " ").trim();
+        const sameStreet = (a, b) => {
+          const ca = canonicalStreet(a), cb = canonicalStreet(b);
+          return Boolean(ca && cb && (ca === cb || ca.includes(cb) || cb.includes(ca)));
+        };
+        // When Nominatim snaps to a nearby highway centreline (common at 3–10 m from the kerb),
+        // house_number is omitted and postcode reflects the whole road's centroid rather than the user's plot.
+        if (streetUsable && (Boolean(env.GEOAPIFY_API_KEY) || !houseNumber || !postalCode || snappedToBareRoad || countryCode === "gb")) {
+          const maxHouseDistM = numberUsable ? Math.min(35, Math.max(24, Math.round(accuracyMeters + 18))) : 0;
+          let bestBuilding = null;
+          let nominatimAddrPostcode = "";
+          let ukPostcodes = [];
+          const tasks = [];
+          if (env.GEOAPIFY_API_KEY) {
+            tasks.push((async () => {
+              const u = new URL("https://api.geoapify.com/v1/geocode/reverse");
+              u.searchParams.set("lat", String(latitude));
+              u.searchParams.set("lon", String(longitude));
+              u.searchParams.set("type", "building");
+              u.searchParams.set("limit", "5");
+              u.searchParams.set("format", "json");
+              u.searchParams.set("apiKey", env.GEOAPIFY_API_KEY);
+              const r = await fetch(u.href, { headers: { Accept: "application/json" }, signal: AbortSignal.timeout(3500) });
+              if (!r.ok) return;
+              const j = await r.json();
+              const rows = Array.isArray(j?.results) ? j.results : Array.isArray(j?.features) ? j.features.map(f => f?.properties || {}) : [];
+              for (const row of rows) {
+                const cLat = Number(row.lat), cLon = Number(row.lon);
+                const distM = Number.isFinite(Number(row.distance)) ? Number(row.distance) : pointDistM(latitude, longitude, cLat, cLon);
+                if (!Number.isFinite(distM)) continue;
+                if (!countryCode && row.country_code) countryCode = String(row.country_code).trim().toLowerCase();
+                if (!country && row.country) country = String(row.country).trim();
+                if (!town && (row.city || row.town || row.village)) town = String(row.city || row.town || row.village).trim();
+                if (!street && row.street && distM <= 45) street = String(row.street).trim();
+                const hn = String(row.housenumber || row.house_number || "").trim();
+                const st = String(row.street || street || "").trim();
+                const pc = String(row.postcode || "").trim();
+                if (distM <= Math.max(maxHouseDistM, 28) && (hn || pc)) {
+                  const streetOk = !street || !st || sameStreet(street, st) || distM <= 14;
+                  if (!streetOk) continue;
+                  const score = distM + (sameStreet(street, st) ? 0 : 8) + (hn ? 0 : 12);
+                  if (!bestBuilding || score < bestBuilding.score) {
+                    bestBuilding = { houseNumber: hn, street: st, postcode: pc, distM, score, provider: "Geoapify" };
+                  }
+                }
+              }
+            })());
+          }
+          if ((numberUsable && !houseNumber) || snappedToBareRoad) {
+            tasks.push((async () => {
+              const addrUrl = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}&zoom=18&layer=address&addressdetails=1`;
+              const r = await fetch(addrUrl, {
+                headers: { Accept: "application/json", "User-Agent": "PocketAI/47 (address layer lookup)" },
+                signal: AbortSignal.timeout(3500)
+              });
+              if (!r.ok) return;
+              const d = await r.json();
+              const a = d?.address || {};
+              const distM = pointDistM(latitude, longitude, Number(d?.lat), Number(d?.lon));
+              if (!Number.isFinite(distM)) return;
+              const hn = String(a.house_number || "").trim();
+              const st = String(a.road || a.pedestrian || a.residential || "").trim();
+              const pc = String(a.postcode || "").trim();
+              const streetOk = !street || !st || sameStreet(street, st) || distM <= 14;
+              if (streetOk && pc && distM <= 30) nominatimAddrPostcode = pc;
+              if (numberUsable && hn && streetOk && distM <= maxHouseDistM) {
+                const score = distM + (sameStreet(street, st) ? 0 : 8);
+                if (!bestBuilding || !bestBuilding.houseNumber || score < bestBuilding.score) {
+                  bestBuilding = { houseNumber: hn, street: st || street, postcode: pc, distM, score, provider: "OpenStreetMap Nominatim (address)" };
+                }
+              }
+            })());
+          }
+          const maybeUk = countryCode === "gb" || (!countryCode && latitude >= 49.8 && latitude <= 60.9 && longitude >= -8.7 && longitude <= 1.8 && /united kingdom|regatul unit|marea britanie/i.test(country));
+          if (maybeUk) {
+            tasks.push((async () => {
+              const r = await fetch(`https://api.postcodes.io/postcodes?lon=${encodeURIComponent(longitude)}&lat=${encodeURIComponent(latitude)}&limit=5&radius=100`, {
+                headers: { Accept: "application/json" },
+                signal: AbortSignal.timeout(3000)
+              });
+              if (!r.ok) return;
+              const j = await r.json();
+              if (Array.isArray(j?.result)) {
+                ukPostcodes = j.result
+                  .filter(x => x && typeof x.postcode === "string" && x.postcode.trim())
+                  .map(x => ({ postcode: x.postcode.trim(), distance: Number.isFinite(Number(x.distance)) ? Number(x.distance) : pointDistM(latitude, longitude, Number(x.latitude), Number(x.longitude)) }))
+                  .filter(x => Number.isFinite(x.distance) && x.distance <= 95)
+                  .sort((a, b) => a.distance - b.distance);
+              }
+            })());
+          }
+          if (tasks.length) await Promise.allSettled(tasks);
+          if (numberUsable && (!houseNumber || snappedToBareRoad) && bestBuilding?.houseNumber && bestBuilding.distM <= maxHouseDistM) {
+            houseNumber = bestBuilding.houseNumber;
+            if (bestBuilding.street && (!street || bestBuilding.distM <= 14)) street = bestBuilding.street;
+            if (bestBuilding.provider && !reverseSources.includes(bestBuilding.provider)) reverseSources.push(bestBuilding.provider);
+          }
+          const normPc = v => String(v || "").replace(/\s+/g, "").toUpperCase();
+          if (ukPostcodes.length) {
+            const buildingPc = bestBuilding?.postcode && bestBuilding.distM <= 20 ? bestBuilding.postcode : "";
+            const confirmedBuildingPc = buildingPc && ukPostcodes.some(u => normPc(u.postcode) === normPc(buildingPc) && u.distance <= 85) ? buildingPc : "";
+            postalCode = confirmedBuildingPc || ukPostcodes[0].postcode;
+            if (!reverseSources.includes("ONS Postcodes")) reverseSources.push("ONS Postcodes");
+          } else if (bestBuilding?.postcode && (snappedToBareRoad || !postalCode || bestBuilding.distM <= 22)) {
+            postalCode = bestBuilding.postcode;
+            if (bestBuilding.provider && !reverseSources.includes(bestBuilding.provider)) reverseSources.push(bestBuilding.provider);
+          } else if (nominatimAddrPostcode && (snappedToBareRoad || !postalCode)) {
+            postalCode = nominatimAddrPostcode;
+          }
+        }
         const placeParts=[];
         if(locality)placeParts.push(locality);
         if(town&&town!==locality)placeParts.push(town);
@@ -6240,7 +6393,7 @@ export default {
         if(country&&!placeParts.includes(country))placeParts.push(country);
         const place=placeParts.join(', ');
         if(!place&&!street)throw new Error('No street or locality returned');
-        // Reverse-geocoded house numbers belong to the nearest mapped building, not necessarily the user.
+        // Reverse-geocoded house numbers belong to the nearest mapped building within strict GPS range.
         const streetLabel=street&&streetUsable?(numberUsable&&houseNumber?houseNumber+' '+street:street):'';
         // Prefer the city, not the suburb, in the one-line address.
         const addressParts=[streetLabel,town||locality||region].filter(Boolean);
@@ -6251,7 +6404,7 @@ export default {
         // the GPS accuracy cannot support the nearest mapped building.
         const reply=addressLabel;
         console.info("Pocket AI v96 location diagnostic", JSON.stringify({ diagnosticId: locationDiagnosticId, stage: "reverse_geocode_completed", coordinatesValid: hasValidLocation, timestamp: new Date().toISOString() }));
-        return json({ app: "Pocket AI", version: API_VERSION, status: "success", language: lang, message_received: message, reply, location_received: true, street: streetUsable ? street || null : null, house_number: numberUsable ? houseNumber || null : null, postcode: streetUsable ? postalCode || null : null, gps_accuracy_m: accuracyKnown ? Math.round(accuracyMeters) : null, area: place || null, reverse_geocode_ok: true, source: "OpenStreetMap Nominatim", current_location:true, ai_connected: Boolean(env.AI) });
+        return json({ app: "Pocket AI", version: API_VERSION, status: "success", language: lang, message_received: message, reply, location_received: true, street: streetUsable ? street || null : null, house_number: numberUsable ? houseNumber || null : null, postcode: streetUsable ? postalCode || null : null, gps_accuracy_m: accuracyKnown ? Math.round(accuracyMeters) : null, area: place || null, reverse_geocode_ok: true, source: reverseSources.join(" + "), current_location:true, ai_connected: Boolean(env.AI) });
       } catch (reverseError) {
         console.warn("Pocket AI v96 reverse geocoding failed", JSON.stringify({ stage: "reverse_geocode_error", errorName: reverseError && reverseError.name ? String(reverseError.name) : "UnknownError" }));
         const reply = lang === "en"
