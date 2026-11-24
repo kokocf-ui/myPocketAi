@@ -34,7 +34,14 @@ assert.ok(Number.isNaN(f.funAscendantLongitude(utc,51,250)),
  'Invalid longitude must be rejected');
 assert.notEqual(f.funAscendantLongitude(utc,51.5,-0.13),
  f.funAscendantLongitude(new Date(utc.getTime()+3600000),51.5,-0.13));
-assert.ok(f.FUN_MAXIMS.length>=10&&f.FUN_JOKES.length>=10);
+assert.ok(f.FUN_MAXIMS.length>=10&&f.FUN_JOKES.length>=20,'Romanian joke collection must include more than short one-liners');
+for(const comic of f.FUN_JOKES)assert.ok(comic.length>=35);
+for(const idx of [0,1,2,3,4,5,6,7,8,9,10,11]){
+ const detailed=f.funHoroscope(idx,'2026-11-24',false,'day');
+ assert.equal(detailed.length,7,'Every zodiac sign needs seven rich sections');
+ assert.ok(detailed.join(' ').length>=650,'Reading must have adequate substance');
+ assert.ok(detailed.some(x=>x.includes('Dragoste')));
+}
 assert.equal(f.funDailyPick(f.FUN_MAXIMS,'2026-11-24'),f.funDailyPick(f.FUN_MAXIMS,'2026-11-24'),
  'Daily maxim must stay stable on one calendar date');
 assert.ok(f.funHoroscope(0,'2026-11-24',true).some(line=>line.includes('amor')),
@@ -58,10 +65,31 @@ for(const level of ['easy','medium','hard']){
  }
  assert.ok(p.puzzle.every((v,i)=>v===0||v===p.solution[i]));
 }
-for(const w of f.FUN_CROSSWORD)assert.ok(w.word&&w.clue&&w.dir);
+const board=new Map();
+for(const w of f.FUN_CROSSWORD){
+ assert.ok(w.word&&w.clue&&w.dir);
+ for(let k=0;k<w.word.length;k++){
+  const r=w.row+(w.dir==='down'?k:0),c=w.col+(w.dir==='across'?k:0),coord=r+','+c;
+  assert.ok(r>=0&&r<7&&c>=0&&c<9,'Crossword exceeds 7×9 coordinates');
+  if(board.has(coord))assert.equal(board.get(coord),w.word[k],'Crossing letters must agree');
+  board.set(coord,w.word[k]);
+ }
+}
+assert.ok([...f.FUN_CROSSWORD].some(x=>x.dir==='down'),'Vertical crossword clues required');
+assert.ok([...f.FUN_CROSSWORD].some(x=>x.dir==='across'),'Horizontal crossword clues required');
 assert.match(EXTRA_FUN_UI_SCRIPT,/fun-daily-maxim/);
 assert.match(EXTRA_FUN_UI_SCRIPT,/storage\.setItem\(key,'1'\)/,'Maxim only once per calendar date');
 assert.match(EXTRA_FUN_UI_SCRIPT,/extraFunAstrology/);
+assert.match(EXTRA_FUN_UI_SCRIPT,/extraFunPopup/,'Horoscope must open separate modal');
+assert.match(EXTRA_FUN_UI_SCRIPT,/extraFunPopupLine/,'Detailed modal sections required');
+assert.match(EXTRA_FUN_UI_SCRIPT,/extraFunCrossword/);
+assert.match(EXTRA_FUN_UI_SCRIPT,/extraFunIntegrame/,'Separate arrowword grid required');
+assert.match(EXTRA_FUN_UI_SCRIPT,/extraFunHelp/,'Beginner game rules required');
+assert.match(EXTRA_FUN_UI_SCRIPT,/extra-fun-library-layout/,'Daily card must stay pinned');
+assert.match(EXTRA_FUN_UI_STYLE,/extra-fun-modal/);
+assert.match(EXTRA_FUN_UI_STYLE,/extra-fun-library-layout/);
+assert.match(EXTRA_FUN_UI_STYLE,/extra-fun-axis/);
+assert.match(EXTRA_FUN_UI_STYLE,/extra-fun-block/);
 assert.match(EXTRA_FUN_UI_SCRIPT,/extraFunZodiacWheel/);
 assert.match(EXTRA_FUN_UI_SCRIPT,/funSolarAspect/);
 assert.match(EXTRA_FUN_UI_SCRIPT,/extraFunSudoku/);
