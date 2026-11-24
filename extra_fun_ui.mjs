@@ -175,108 +175,93 @@ function extraFunHelp(panel,title,lines){
  for(const line of lines)details.append(extraFunNode('p','',line));
  panel.append(details);return details;
 }
-function extraFunCrossword(root,setIndex=0){const set=FUN_CROSSWORD_SETS[setIndex%FUN_CROSSWORD_SETS.length];
+
+function extraFunWordGame(root,mode){
  root.replaceChildren();
- const panel=extraFunPanel(root,extraFunText('Rebus clasic · careul ','Classic crossword · puzzle ')+(setIndex%FUN_CROSSWORD_SETS.length+1));
- extraFunHelp(panel,extraFunText('Cum se rezolvă rebusul?','How to play?'),[
- 'Numerele mici arată de unde începe fiecare cuvânt; literele se completează orizontal (→) sau vertical (↓).',
- 'Căsuțele negre separă cuvintele. Literele comune din intersecții trebuie să fie aceleași.',
- 'Coloanele A–I și rândurile 1–7 te ajută să găsești poziția indicată la fiecare definiție.'
- ]);
- const R=7,C=9,letters=Array.from({length:R*C},()=>null),startNums={},wordEntries=set.slice()
- .sort((a,b)=>a.row-b.row||a.col-b.col||a.dir.localeCompare(b.dir));
- wordEntries.forEach((w,i)=>{
-  w.number=i+1;startNums[w.row+','+w.col]=(startNums[w.row+','+w.col]||[]).concat(i+1);
-  for(let t=0;t<w.word.length;t++){
-   const r=w.row+(w.dir==='down'?t:0),c=w.col+(w.dir==='across'?t:0);
-   letters[r*C+c]=w.word[t];
-  }
+ const puzzle=funGeneratePuzzle(mode);
+ const arrow=mode==='integrame',title=arrow?'Integramă generată':'Rebus generat';
+ const panel=extraFunPanel(root,title);
+ panel.classList.add('extra-fun-puzzle-panel');
+ const info=extraFunNode('div','extra-fun-game-head');
+ info.append(extraFunNode('span','',puzzle.entries.length+' cuvinte · '+puzzle.width+'×'+puzzle.height));
+ const help=extraFunButton(info,'? Reguli',()=>{
+  const pop=extraFunPopup('Cum se joacă '+(arrow?'integrama':'rebusul')+'?');
+  const rules=arrow?
+   ['Citește definițiile din căsuțele colorate. Săgeata → înseamnă scriere spre dreapta; săgeata ↓ indică scriere în jos.',
+   'Atinge definiția colorată pentru a o vedea complet. Scrie răspunsul literă cu literă în căsuțele albe și urmărește intersecțiile.',
+   'Nu se scrie în căsuțele întunecate; ele separă cuvintele sau conțin definiții.']:
+   ['Fiecare număr mic arată începutul unui cuvânt. Definițiile sunt sub careu, separate în Orizontal și Vertical.',
+   'Atinge definiția ca să activezi prima căsuță. Cuvintele se întretaie, deci literele comune trebuie să coincidă.',
+   'Pătratele negre separă cuvintele. Dacă ai greșit, folosește Verifică pentru a evidenția literele.'];
+  for(const line of rules)extraFunPopupLine(pop.content,'',line);
  });
- const grid=extraFunNode('div','extra-fun-crossword');panel.append(grid);
- grid.style.gridTemplateColumns='20px repeat('+C+',minmax(0,1fr))';
- grid.append(extraFunNode('span','extra-fun-axis',''));
- for(let c=0;c<C;c++)grid.append(extraFunNode('span','extra-fun-axis',String.fromCharCode(65+c)));
- const inputs=new Map();
- for(let r=0;r<R;r++){
-  grid.append(extraFunNode('span','extra-fun-axis',String(r+1)));
-  for(let c=0;c<C;c++){
-   const key=r+','+c,answer=letters[r*C+c],wrap=extraFunNode('div','extra-fun-cross-cell');
-   if(!answer){wrap.classList.add('extra-fun-block');grid.append(wrap);continue}
-   const nums=startNums[key];
-   if(nums)wrap.append(extraFunNode('span','extra-fun-index',nums.join('/')));
-   const el=extraFunNode('input','extra-fun-cell');el.type='text';el.maxLength=1;
-   el.inputMode='text';el.autocapitalize='characters';el.autocomplete='off';
-   el.setAttribute('aria-label',String.fromCharCode(65+c)+(r+1)+(nums?' început '+nums.join('/'):''));
-   el.addEventListener('input',()=>{
-    el.value=el.value.toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^A-Z]/g,'').slice(0,1);
-    wrap.classList.remove('incorrect');
-   });
-   wrap.append(el);grid.append(wrap);inputs.set(key,{el,wrap,answer});
+ help.classList.add('extra-fun-short-button');panel.append(info);
+ const grid=extraFunNode('div','extra-fun-generated-grid');
+ grid.style.gridTemplateColumns='repeat('+puzzle.width+',minmax(0,1fr))';
+ grid.style.setProperty('--fun-cols',puzzle.width);
+ grid.setAttribute('role','group');grid.setAttribute('aria-label',title);
+ panel.append(grid);
+ const inputs=new Map(),clueEntries=new Map();
+ for(const e of puzzle.entries)clueEntries.set(e.hintRow+','+e.hintCol,e);
+ const ordinal=new Map();
+ for(const e of puzzle.entries){const key=e.row+','+e.col;if(!ordinal.has(key))ordinal.set(key,e.number)}
+ for(let r=0;r<puzzle.height;r++)for(let c=0;c<puzzle.width;c++){
+  const cell=puzzle.grid[r*puzzle.width+c],key=r+','+c,wrap=extraFunNode('div','extra-fun-cross-cell');
+  if(cell.hint){
+   wrap.classList.add('extra-fun-clue-cell');
+   const entry=clueEntries.get(key),label=(cell.hint.dir==='across'?'→ ':'↓ ')+cell.hint.clue;
+   const b=extraFunNode('button','extra-fun-in-grid-clue',label);
+   b.type='button';b.setAttribute('aria-label',label);
+   b.onclick=()=>{
+    const pop=extraFunPopup('Definiție '+(cell.hint.dir==='across'?'→':'↓'));
+    extraFunPopupLine(pop.content,'Definiție',cell.hint.clue);
+    const first=entry&&inputs.get(entry.row+','+entry.col);
+    extraFunButton(pop.content,'Completează răspunsul',()=>{pop.close();first?.el.focus()});
+   };
+   wrap.append(b);grid.append(wrap);continue;
   }
+  if(!cell.letter){wrap.classList.add('extra-fun-block');grid.append(wrap);continue}
+  if(!arrow&&ordinal.has(key))wrap.append(extraFunNode('span','extra-fun-index',String(ordinal.get(key))));
+  const input=extraFunNode('input','extra-fun-cell');
+  input.type='text';input.maxLength=1;input.autocapitalize='characters';input.autocomplete='off';input.inputMode='text';
+  input.setAttribute('aria-label','Rând '+(r+1)+' coloana '+(c+1));
+  input.addEventListener('input',()=>{
+   input.value=input.value.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase().replace(/[^A-Z]/g,'').slice(0,1);
+   wrap.classList.remove('incorrect');
+  });
+  wrap.append(input);grid.append(wrap);inputs.set(key,{el:input,wrap,answer:cell.letter});
  }
- const clues=extraFunNode('div','extra-fun-clues');panel.append(clues);
- for(const dir of ['across','down']){
-  const h=extraFunNode('h4','',dir==='across'?'→ Orizontal':'↓ Vertical');clues.append(h);
-  for(const w of wordEntries.filter(x=>x.dir===dir)){
-   const pos=String.fromCharCode(65+w.col)+(w.row+1);
-   const b=extraFunNode('button','extra-fun-clue',w.number+'. '+w.clue+' ('+w.word.length+') · '+pos);
-   b.type='button';b.onclick=()=>inputs.get(w.row+','+w.col)?.el.focus();
-   clues.append(b);
+ if(!arrow){
+  const clueBox=extraFunNode('div','extra-fun-clues');panel.append(clueBox);
+  for(const dir of ['across','down']){
+   clueBox.append(extraFunNode('h4','',dir==='across'?'→ Orizontal':'↓ Vertical'));
+   for(const entry of puzzle.entries.filter(x=>x.dir===dir).sort((a,b)=>a.number-b.number)){
+    const button=extraFunNode('button','extra-fun-clue',entry.number+'. '+entry.clue+' ('+entry.word.length+')');
+    button.type='button';button.onclick=()=>inputs.get(entry.row+','+entry.col)?.el.focus();clueBox.append(button);
+   }
   }
+ }else{
+  panel.append(extraFunNode('p','extra-fun-note','Definițiile sunt în careu, lângă săgeți. Atinge o definiție pentru a o citi mărită.'));
  }
- const result=extraFunOutput(panel),actions=extraFunNode('div','extra-fun-buttons');panel.append(actions);
- extraFunButton(actions,extraFunText('Verifică','Check'),()=>{
-  let wrong=0,blank=0;
-  for(const x of inputs.values()){x.wrap.classList.remove('incorrect');if(!x.el.value)blank++;else if(x.el.value!==x.answer){wrong++;x.wrap.classList.add('incorrect')}}
-  result.textContent=wrong?'De corectat: '+wrong+' litere.':blank?'Corect până acum. Lipsesc '+blank+' litere.':'Felicitări, rebus completat!';
+ const status=extraFunOutput(panel),buttons=extraFunNode('div','extra-fun-buttons');panel.append(buttons);
+ const check=extraFunButton(buttons,'Verifică',()=>{
+  let bad=0,empty=0;
+  for(const item of inputs.values()){
+   item.wrap.classList.remove('incorrect');
+   if(!item.el.value)empty++;
+   else if(item.el.value!==item.answer){bad++;item.wrap.classList.add('incorrect')}
+  }
+  status.textContent=bad?'De corectat: '+bad+' litere.':empty?'Corect până acum. Mai lipsesc '+empty+' litere.':'Felicitări, ai rezolvat careul!';
  });
- extraFunButton(actions,extraFunText('Șterge','Clear'),()=>{for(const x of inputs.values()){x.el.value='';x.wrap.classList.remove('incorrect')}result.textContent=''});
- extraFunButton(actions,extraFunText('Alt careu','Another puzzle'),()=>extraFunCrossword(root,setIndex+1));
+ const clear=extraFunButton(buttons,'Șterge',()=>{
+  for(const item of inputs.values()){item.el.value='';item.wrap.classList.remove('incorrect')}
+  status.textContent='';
+ });
+ const fresh=extraFunButton(buttons,'Generează alt careu',()=>extraFunWordGame(root,mode));
+ for(const b of [check,clear,fresh])b.classList.add('extra-fun-short-button');
 }
-function extraFunIntegrame(root,setIndex=0){const set=FUN_CROSSWORD_SETS[setIndex%FUN_CROSSWORD_SETS.length];
- root.replaceChildren();
- const panel=extraFunPanel(root,extraFunText('Integramă · careul ','Arrowword · puzzle ')+(setIndex%FUN_CROSSWORD_SETS.length+1));
- extraFunHelp(panel,extraFunText('Cum se joacă integra­mele?','How do arrowwords work?'),[
- 'Definiția se află în căsuța închisă la culoare. Săgeata → indică un cuvânt scris către dreapta.',
- 'Săgeata ↓ indică un cuvânt scris de sus în jos. Literele se întâlnesc în intersecții.',
- 'Atinge o căsuță albă și scrie o literă. Verifică la final; pătratele negre nu se completează.'
- ]);
- const R=8,C=10,board=Array.from({length:R*C},()=>null),values=new Map();
- // The vertical word ROMANIA crosses all four horizontal answers.
- const across=set.filter(w=>w.dir==='across');
- for(const w of set){
-  const row=w.dir==='down'?1:w.row+1,col=w.dir==='down'?5:w.col+1;
-  for(let i=0;i<w.word.length;i++){
-   const r=row+(w.dir==='down'?i:0),c=col+(w.dir==='across'?i:0);
-   board[r*C+c]=w.word[i];
-  }
- }
- const grid=extraFunNode('div','extra-fun-arrow-grid');grid.style.gridTemplateColumns='repeat('+C+',minmax(0,1fr))';panel.append(grid);
- const rowHints=new Map(across.map(w=>[w.row+1,w.clue]));
- for(let r=0;r<R;r++)for(let c=0;c<C;c++){
-  if(r===0&&c===5){
-   const clue=extraFunNode('span','extra-fun-arrow-hint', '↓ '+set.find(w=>w.dir==='down').clue);
-   clue.style.gridColumn='6 / span 4';grid.append(clue);c+=3;continue;
-  }
-  if(rowHints.has(r)&&c===0){
-   const clue=extraFunNode('span','extra-fun-arrow-hint','→ '+rowHints.get(r));
-   clue.style.gridColumn='1 / span 3';grid.append(clue);c+=2;continue;
-  }
-  const target=board[r*C+c],wrap=extraFunNode('div','extra-fun-cross-cell');
-  if(!target){wrap.classList.add('extra-fun-block');grid.append(wrap);continue}
-  const el=extraFunNode('input','extra-fun-cell');el.type='text';el.maxLength=1;el.autocapitalize='characters';el.autocomplete='off';
-  el.setAttribute('aria-label','Rând '+r+', coloana '+(c+1));
-  el.addEventListener('input',()=>{el.value=el.value.toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^A-Z]/g,'').slice(0,1);wrap.classList.remove('incorrect')});
-  wrap.append(el);grid.append(wrap);values.set(r+','+c,{el,wrap,answer:target});
- }
- const result=extraFunOutput(panel),buttons=extraFunNode('div','extra-fun-buttons');panel.append(buttons);
- extraFunButton(buttons,'Verifică',()=>{
-  let wrong=0,empty=0;for(const x of values.values()){x.wrap.classList.remove('incorrect');if(!x.el.value)empty++;else if(x.el.value!==x.answer){wrong++;x.wrap.classList.add('incorrect')}}
-  result.textContent=wrong?'Ai '+wrong+' litere de corectat.':empty?'Mai lipsesc '+empty+' litere.':'Integramă rezolvată!';
- });
- extraFunButton(buttons,'Șterge',()=>{for(const x of values.values()){x.el.value='';x.wrap.classList.remove('incorrect')}result.textContent=''});
- extraFunButton(buttons,'Altă integramă',()=>extraFunIntegrame(root,setIndex+1));
-}
+function extraFunCrossword(root){return extraFunWordGame(root,'rebus')}
+function extraFunIntegrame(root){return extraFunWordGame(root,'integrame')}
 function extraFunGames(){
  const root=extraFunScreen('Jocuri de cuvinte și Sudoku','Word games and Sudoku');
  root.classList.add('extra-fun-game-layout');
