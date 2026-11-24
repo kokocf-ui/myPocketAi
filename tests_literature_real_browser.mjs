@@ -18,7 +18,7 @@ let html=await response.text();
 // Romanian user selected in Settings, without exposing production globals.
 assert.ok(html.includes('function litOpen(stage){'));
 html=html.replace('function litOpen(stage){',
- "window.__literatureAcceptance={setLanguage(value){state.language=value}};function litOpen(stage){");
+ "window.__literatureAcceptance={setLanguage(value){state.language=value},snapshot(){return {...litJourney}}};function litOpen(stage){");
 const server=createServer((req,res)=>{
  if(req.url==='/favicon.ico'){res.writeHead(204);res.end();return}
  res.writeHead(200,{'Content-Type':'text/html; charset=utf-8','Access-Control-Allow-Origin':'*'});res.end(html)
@@ -138,7 +138,58 @@ try{
  const reader=await js("(()=>{const r=document.querySelector('.lit-reader-overlay,[data-literature-reader]');return {text:r?.innerText?.slice(0,7000)||'',visible:!!r,status:document.querySelector('#moduleContent')?.innerText?.slice(0,500),detail:window.__pocketLiteratureReaderDetail||''}})()");
  assert.ok(reader.visible,'Theory reader did not open: '+JSON.stringify({reader,exceptions,logs}));
  assert.ok(!/Războiul stelelor|George Lucas|Star Wars/i.test(reader.text),'Grade IX automatically inserted unrelated Star Wars example');
- console.log('PASS real Chromium mobile 390x844: dictionary quality, readable full-screen definitions, grammar, abbreviations, units and grade IX theory');
+ // Exercise real navigation, stage choice, reader and Back on other systems.
+ await js("[...document.querySelectorAll('.lit-reader-overlay button')].find(b=>/Înapoi|Back/.test(b.textContent)).click()");
+ const litStage=()=>js('window.__literatureAcceptance.snapshot()');
+ async function backToLevels(){
+  for(let i=0;i<8;i++){
+   const state=await litStage();if(state.stage==='levels')return;
+   assert.ok(await js("(()=>{const b=document.querySelector('#view-module .lit-back');if(!b)return false;b.click();return true})()"),
+    'No Literature back control from '+JSON.stringify({state,buttons:await visible(),backButtons:await js("[...document.querySelectorAll('button')].filter(x=>/Înapoi/.test(x.textContent)).map(x=>[x.className,x.closest('[id]')?.id])")}));
+   await sleep(100);
+  }
+  assert.fail('Could not return to Literature levels: '+JSON.stringify(await litStage()));
+ }
+ async function chooseCountry(name,matcher){
+  await backToLevels();
+  await js("document.querySelector('#view-module .lit-back').click()");
+  const selected=await js("(()=>{const input=document.getElementById('eduCountryInput');if(!input)return false;input.value="+JSON.stringify(name)+";input.dispatchEvent(new Event('input',{bubbles:true}));const button=[...document.querySelectorAll('.edu-country-matches button')].find(x=>new RegExp("+JSON.stringify(matcher)+",'i').test(x.textContent));if(!button)return false;button.click();return true})()");
+  assert.ok(selected,'Could not select '+name+': '+JSON.stringify({buttons:await visible(),exceptions,logs}));
+  await tap(['Continuă','Continue']);
+ }
+ async function choice(regex){
+  const result=await js("(()=>{const r=new RegExp("+JSON.stringify(regex)+",'i');const cards=[...document.querySelectorAll('#moduleContent .lit-choice-card')];const b=cards.find(x=>r.test(x.textContent.trim()));if(!b)return {ok:false,cards:cards.map(x=>x.textContent)};const text=b.textContent;b.click();return {ok:true,text}})()");
+  assert.ok(result.ok,'Choice '+regex+' absent: '+JSON.stringify({result,journey:await litStage(),exceptions,logs}));
+  await sleep(100);
+ }
+ await chooseCountry('France','Fran|France');
+ await choice('Gimnaziu|lower secondary');await choice('^6e$');
+ await choice('Programa clasei|Grade syllabus');
+ const france=await litStage();assert.equal(france.level,'lower');assert.equal(france.grade,'6e');
+ await choice('Poezie|Poetry');await js("[...document.querySelectorAll('#moduleContent .lit-activity-button')].find(b=>/^(Exerciții|Exercises)$/.test(b.textContent.trim())).click()");await sleep(250);
+ const poem=await js("document.querySelector('.lit-reader-overlay')?.innerText||''");
+ assert.match(poem,/dansează ploaia|Rain dances/,'Poetry exercise must include its relevant original poem: '+JSON.stringify({journey:await litStage(),text:await js("document.querySelector('#view-module')?.innerText"),exceptions,logs}));
+ assert.ok(!/Unde s-a găsit cartea|Where was the book found/.test(poem),'Unrelated book question in poetry');
+ await js("[...document.querySelectorAll('.lit-reader-overlay button')].find(b=>/Înapoi|Back/.test(b.textContent)).click()");
+ await chooseCountry('Hungary','Ungar|Hungary');
+ await choice('Primar|Primary');await choice('^1$');await choice('Programa clasei|Grade syllabus');
+ await choice('Betűk');
+ // Simulate an unavailable online service, not a successful invented lesson.
+ await js("window.fetch=async()=>{throw new TypeError('Failed to fetch')}");
+ await js("[...document.querySelectorAll('#moduleContent .lit-activity-button')].find(b=>/^(Teorie|Theory)$/.test(b.textContent.trim())).click()");await sleep(250);
+ const fallback=await js("({reader:document.querySelector('.lit-reader-overlay')?.innerText||'',status:document.querySelector('.lit-activity-status')?.textContent||''})");
+ assert.match(fallback.reader,/NU lecția completă specifică/,'National chapter must disclose limited offline support');
+ assert.match(fallback.status,/doar sprijin general offline/);
+ await js("[...document.querySelectorAll('.lit-reader-overlay button')].find(b=>/Înapoi|Back/.test(b.textContent)).click()");
+ await backToLevels();await choice('Universitate|University');await choice('Licență.*anul I$|Bachelor.*Year 1$');
+ await choice('Programa clasei|Grade syllabus');await choice('Introducere în studiile literare');
+ await js("[...document.querySelectorAll('#moduleContent .lit-activity-button')].find(b=>/^(Teorie|Theory)$/.test(b.textContent.trim())).click()");await sleep(200);
+ const university=await js("document.querySelector('.lit-reader-overlay')?.innerText||''");
+ assert.match(university,/Obiectul studiului/,'University lesson must use its own offline material');
+ await js("[...document.querySelectorAll('.lit-reader-overlay button')].find(b=>/Următoarea/.test(b.textContent)&&!b.disabled)?.click()");
+ const universityNext=await js("document.querySelector('.lit-reader-overlay')?.innerText||''");
+ assert.match(universityNext,/Metodă de lucru/,'University reader pagination must reach the method');
+ console.log('PASS real Chromium mobile 390x844: quick reference, RO grade IX, FR year 6 poetry, HU honest offline fallback and university reader/navigation');
 }finally{
  try{ws?.close()}catch{}
  child.kill('SIGKILL');

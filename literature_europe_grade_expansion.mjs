@@ -161,8 +161,15 @@ export function expandLiteratureEuropeanGrades(programs){
    if(Object.isFrozen(profile))throw Error('Frozen literature profile lacks year catalogue: '+country);
    profile.grades={};
   }
-  for(const stage of ['beginner','lower','medium','advanced']){
-   const ids=[...new Set([...(profile.grades[stage]||[]),...studyYears(country,stage)])];
+  const stages=['beginner','lower','medium','advanced'];
+  const currentYears=Object.fromEntries(stages.map(stage=>[stage,studyYears(country,stage)]));
+  for(const stage of stages){
+   // Older profile lists sometimes assign a currently selectable year to a
+   // different stage. Generate that year under the selector's actual stage,
+   // while retaining legacy-only years and existing national chapter rows.
+   const legacy=(profile.grades[stage]||[]).filter(grade=>
+    currentYears[stage].includes(grade)||!stages.some(other=>other!==stage&&currentYears[other].includes(grade)));
+   const ids=[...new Set([...legacy,...currentYears[stage]])];
    profile.grades[stage]=ids.slice();
    const knownYears=studyYears(country,stage);
    for(const grade of ids){

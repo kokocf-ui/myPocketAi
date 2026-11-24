@@ -15,9 +15,11 @@ export function literatureClientGradeExpand(programs,journey){
  profile.grades=profile.grades||{};
  const stageList=['beginner','lower','medium','advanced'];
  const inferred=stageList.find(s=>(profile.grades[s]||[]).includes(grade));
- const stage=inferred||(
-  stageList.includes(journey.level)?journey.level:
+ // The actual selection wins over legacy grade catalogues: e.g. France's
+ // older list placed 6e in primary and 5e–3e in upper secondary.
+ const stage=stageList.includes(journey.level)?journey.level:(
   stageList.includes(journey.schoolLevel)?journey.schoolLevel:
+  inferred?inferred:
   /universit|higher.education|university/i.test(grade)?'advanced':
   'medium');
  const names={
@@ -59,10 +61,15 @@ export function literatureClientGradeExpand(programs,journey){
   advanced:['Două ediții ale poemului păstrează ideea centrală, dar modifică punctuația.',
    'O interpretare critică este confruntată cu pasajele verificabile ale operei.']
  };
- const before=profile.byGrade[grade]||[];
+ // A grade code can occur in more than one legacy stage. Discard only our
+ // previously generated rows for a different stage, never national material.
+ const prefix='eu-year-'+country.toLowerCase()+'-';
+ const currentPrefix=prefix+stage+'-';
+ const before=(profile.byGrade[grade]||[]).filter(row=>
+  !String(row[0]).startsWith(prefix)||String(row[0]).startsWith(currentPrefix));
  // Preserve the original national sequences already containing substantial
  // authored lessons (particularly the seven dedicated country packs).
- if(before.length>=15)return before;
+ if(before.length>=15){profile.byGrade[grade]=before;return before}
  const cap=country==='RO'?12:Number.POSITIVE_INFINITY;
  const ids=new Set(before.map(row=>String(row[0])));
  const titles=new Set(before.map(row=>String(row[1]).toLowerCase()));
