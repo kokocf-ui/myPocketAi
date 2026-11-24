@@ -33,7 +33,14 @@
 - **Corelare pe manuale / registre oficiale (`602 / 602` pachete școlare + `197 / 197` pachete universitare):**
   - `math_ro_textbook_correlation_2026.mjs` (manuale aprobate reale RO I–XII) + `math_textbook_correlation_all_2026.mjs` (celelalte 48 jurisdicții preuniversitare).
   - Documentat complet în `MATH_50_COUNTRIES_COMPLETION_BOARD_2026.md` și `MATH_TEXTBOOK_CURRICULUM_AUDIT_2026-11-24.md`.
-- **Ultimul APK Signed Release verificat:** [`v1.0.1820`](https://github.com/kokocf-ui/myPocketAi/releases/tag/v1.0.1820) (`myPocketAI-signed-release.apk`).
+- **Ultimul APK Signed Release verificat:** actualizat la fiecare merge pe `main` (vezi `gh release list --limit 1`).
+
+### B. Localizare completă în toate cele 44 de limbi (`POCKET_LANGUAGES`) — UI, Cont, Voce, Educație & Backend AI (24 nov 2026)
+- **Toate cele 44 de limbi din `language_first_install.mjs`** (`ro..rm`, inclusiv `hy`, `ka`, `az` în `#languageSelect` și în căutarea de limbă):
+  - **Interfață statică & Cont (`european_app_locales.mjs`, `account_settings_ui.mjs`, `index.js`):** toate cele 34 limbi europene suplimentare + top-10 au carduri, titluri, etichete Setări/Versiune/Confidențialitate, fereastra `Cont` (`POCKET_ACCOUNT_TUPLES` × 44 limbi) și locale BCP-47 pentru dictare/sinteză vocală (`POCKET_BCP47_LOCALES` + `pocketSpeechLocale`).
+  - **Educație static + cititor paginat + toate disciplinele (`education_country_ui.mjs`, `math_reader_locale_ui.mjs`, `index.js`):** pâlnie unificată `eduUiLabel` / `learningLabel` pe 44 limbi, pre-traducere pe loturi în `educationOpenPagedLesson` (`data-edu-translated`, TTS pe pagina tradusă și export PDF tradus), localizare la cerere fără pierderi (`node.__pocketOrigText`) pentru `#educationPagedLessonDialog` și `#moduleContent` pe toate materiile și verificare răspunsuri în Științe (`scienceAttachLessonReview`).
+  - **Backend AI (`backend.js`):** `POCKET_LANGUAGE_NAMES` (44 limbi), rută dedicată `education_translate` (până la `24.000` caractere, `llama-3.3-70b-instruct-fp8-fast` cu fallback, fără trunchiere la `4.000` caractere) și suport pe toate cele 44 de limbi în toate cele 8 rute (`assistant`, `learning`, `education_study`, creativ, știri).
+  - **Buget HTML Worker:** `7.915.857` caractere (`> 84 KB` sub plafonul de `8.000.000`), verificat automat prin `tests_44_language_localization_2026.mjs`.
 
 ---
 
@@ -62,6 +69,7 @@ git log -5 --oneline
 node scripts/build_curriculum_packs.mjs --verify
 node tests_math_ro_textbook_correlation_2026.mjs
 node tests_math_curriculum_readiness.mjs
+node tests_44_language_localization_2026.mjs
 node tests_education_hg_theory_coverage.mjs
 gh release list --limit 3
 ```

@@ -2157,6 +2157,57 @@ export default {
       const completions=await completionPromise;
       return json({candidates:ranked,completions,provider:'geoapify_tfl_if_applicable',exact_number_required:Boolean(num),query:raw});
     }
+    const POCKET_LANGUAGE_NAMES=Object.freeze({
+      ro:'Romanian',en:'English',fr:'French',de:'German',it:'Italian',es:'Spanish',
+      pt:'Portuguese',nl:'Dutch',ru:'Russian',pl:'Polish',hr:'Croatian',sr:'Serbian',
+      hu:'Hungarian',tr:'Turkish',cs:'Czech',sk:'Slovak',sl:'Slovenian',bg:'Bulgarian',
+      el:'Greek',fi:'Finnish',sv:'Swedish',no:'Norwegian',da:'Danish',is:'Icelandic',
+      et:'Estonian',lv:'Latvian',lt:'Lithuanian',uk:'Ukrainian',bs:'Bosnian',
+      mk:'Macedonian',sq:'Albanian',be:'Belarusian',ca:'Catalan',ga:'Irish',cy:'Welsh',
+      mt:'Maltese',eu:'Basque',gl:'Galician',lb:'Luxembourgish',fo:'Faroese',
+      hy:'Armenian',ka:'Georgian',az:'Azerbaijani',rm:'Romansh'
+    });
+    // Dedicated, bounded educational JSON translation path (never hijacked by
+    // route handoff, calculator, news, event discovery, or 4000-char chat limit).
+    if(data?.education_translate===true||data?.module==='education_translate'||
+       (data?.module==='assistant'&&typeof data.message==='string'&&
+        data.message.startsWith('Translate this educational JSON accurately from '))){
+      if(typeof data.message!=='string'||!data.message.trim()||data.message.length>24000){
+        return json({app:'Pocket AI',version:API_VERSION,error:'Mesaj invalid sau prea lung'},400);
+      }
+      if(!env.AI||typeof env.AI.run!=='function'){
+        return json({app:'Pocket AI',version:API_VERSION,status:'error',
+          error:'Serviciul AI nu este disponibil.',ai_connected:false},503);
+      }
+      const reqLang=typeof data.language==='string'?data.language.trim().toLowerCase().split(/[-_]/)[0]:'en';
+      const targetLang=POCKET_LANGUAGE_NAMES[reqLang]?reqLang:'en';
+      const targetName=POCKET_LANGUAGE_NAMES[targetLang];
+      const sysPrompt='You are a precise educational JSON localizer. Translate every human-readable string value accurately into natural, fluent '+targetName+' (language code: '+targetLang+'). Return ONLY a valid JSON object with the exact same keys and exact same array lengths. Preserve every Arabic numeral as digits, every mathematical formula, equation, chemical symbol, variable, code token, unit, negation, and quiz answer ordering. Never add markdown commentary outside the JSON object.';
+      try{
+        const translateOpts={
+          messages:[{role:'system',content:sysPrompt},{role:'user',content:data.message.trim()}],
+          max_tokens:3800,temperature:0.05
+        };
+        let rawResult=null;
+        if(evaSmartRouterEnabled){
+          rawResult=await evaTask({module:'simple_translation',forceTier:'balanced',message:data.message},translateOpts);
+        }else{
+          const preferredModel=allowedTextModels[1]||selectedAiModel;
+          try{rawResult=await env.AI.run(preferredModel,translateOpts);}
+          catch(firstErr){
+            if(preferredModel===selectedAiModel||isWorkersAiQuotaExceeded(firstErr))throw firstErr;
+            rawResult=await env.AI.run(selectedAiModel,translateOpts);
+          }
+        }
+        const reply=String(rawResult?.response||rawResult?.result?.response||'').trim();
+        if(!reply)return json({status:'unavailable',error:'education_translation_empty'},503);
+        return json({app:'Pocket AI',version:API_VERSION,status:'success',
+          language:targetLang,reply,ai_generated:true,ai_connected:true});
+      }catch(error){
+        return json({status:'unavailable',
+          error:isWorkersAiQuotaExceeded(error)?'ai_quota_exceeded':'education_translation_unavailable'},503);
+      }
+    }
     // The personal assistant must not calculate routes; a legacy client that
     // misses frontend interception is given a handoff, never an AI itinerary.
     if(data?.module==='assistant'&&typeof data.message==='string'){
@@ -2532,7 +2583,8 @@ export default {
       evaCreativeIntent({module:data.module||'assistant',message:data.message}):{requested:false};
     if(directCreativeTask.requested){
       const requestText=data.message.trim();
-      const language=['ro','en','fr','de','it','es','pt','nl','hu','pl'].includes(data.language)?data.language:'ro';
+      const reqCreativeLang=typeof data.language==='string'?data.language.trim().toLowerCase().split(/[-_]/)[0]:'ro';
+      const language=POCKET_LANGUAGE_NAMES[reqCreativeLang]?reqCreativeLang:'ro';
       let reference=null;
       if(directCreativeTask.factual){
         // A factual creative request must not silently become invented history.
@@ -2608,11 +2660,13 @@ export default {
     // Mathematics workspace uses a dedicated, bounded path. Preserve local
     // verified solvers and the existing response shape for the mobile client.
     if(data.module==='learning'){
-      const locale=['ro','en','fr','de','es','it','pt','nl','ru','pl'].includes(data.language)?data.language:'ro';
+      const reqLearnLang=typeof data.language==='string'?data.language.trim().toLowerCase().split(/[-_]/)[0]:'ro';
+      const locale=POCKET_LANGUAGE_NAMES[reqLearnLang]?reqLearnLang:'ro';
+      const localeName=POCKET_LANGUAGE_NAMES[locale]||'Romanian';
       const methodOnly=/METODA GENERALĂ|GENERAL METHOD|Predă numai METODA|Teach only the GENERAL METHOD/i.test(message);
       const activity=methodOnly?'method':'solve';
-      const system='You are a careful classroom mathematics teacher. Respond in language code '+locale+
-        '. Remain strictly within the supplied mathematics exercise and level. Do not interpret numbers as coordinates or destinations. '+
+      const system='You are a careful classroom mathematics teacher. Respond in '+localeName+' (language code '+locale+
+        '). Remain strictly within the supplied mathematics exercise and level. Do not interpret numbers as coordinates or destinations. '+
         educationDepthInstruction('math',activity);
       try{
         const response=await evaTask({module:'learning',subject:'math',activity,message},{
@@ -2629,7 +2683,9 @@ export default {
       }
     }
     if(data.module==='education_study'&&data.education_subject==='school_admission'){
-      const locale=['ro','en','hu','hr','sr','de','fr','pl','tr','it','es','pt','nl','uk'].includes(data.language)?data.language:'ro';
+      const reqAdmLang=typeof data.language==='string'?data.language.trim().toLowerCase().split(/[-_]/)[0]:'ro';
+      const locale=POCKET_LANGUAGE_NAMES[reqAdmLang]?reqAdmLang:'ro';
+      const admLocaleName=POCKET_LANGUAGE_NAMES[locale]||'Romanian';
       const activity=['lesson','examples','exercises','test','correction','analysis','write'].includes(data.education_activity)
         ?data.education_activity:'lesson';
       const instructions={
@@ -2642,7 +2698,7 @@ export default {
         write:'Prepare original Hungarian-language school writing practice with explanation in the requested response language.'
       };
       const system='You are a specialist educator for school entrance and cross-border school transfer in Hungary. '+
-        'Respond with explanations in language code '+locale+'; provide Hungarian-language questions and school vocabulary where relevant. '+
+        'Respond with explanations in '+admLocaleName+' (language code '+locale+'); provide Hungarian-language questions and school vocabulary where relevant. '+
         instructions[activity]+' Admission preparation may involve Hungarian language, reading, mathematics, and document understanding. '+
         'Hungarian 8-year gymnázium begins in grade 5, 6-year gymnázium in grade 7, and 4-year gymnázium in grade 9. '+
         'A pupil located in Romania may request Hungary as the country of intended study. '+
@@ -2665,7 +2721,9 @@ export default {
       }
     }
     if(data.module==='education_study'&&data.education_subject==='language_literature'){
-      const locale=['ro','en','fr','de','es','it','pt','nl','ru','pl','ja','zh','el','la','hu','hr','sr','tr','cs','sk','sl','bg','fi','sv','no','da','is','et','lv','lt','uk','bs','mk','sq','be','ca','ga','cy','mt'].includes(data.language)?data.language:'ro';
+      const reqLitLang=typeof data.language==='string'?data.language.trim().toLowerCase().split(/[-_]/)[0]:'ro';
+      const locale=(POCKET_LANGUAGE_NAMES[reqLitLang]||['ja','zh','la'].includes(reqLitLang))?reqLitLang:'ro';
+      const litLocaleName=POCKET_LANGUAGE_NAMES[locale]||({ja:'Japanese',zh:'Chinese',la:'Latin'}[locale]||'Romanian');
       const activity=['lesson','examples','exercises','test','define','analysis','write','study','summary','essay','correction'].includes(data.education_activity)
         ?data.education_activity:'lesson';
       const instructions={
@@ -2681,8 +2739,8 @@ export default {
         essay:'Write the entire requested essay in fluent connected paragraphs, with substantive critical interpretation, distinct developed arguments and a grounded conclusion. Respect the user\'s requested length as closely as possible; never replace the actual essay with a template or outline. Do not invent textual quotes.',
         correction:'Assess the learner answers against the exact questions supplied, identify each correct/incorrect response and explain the corrections constructively.'
       };
-      const system='You are a patient and knowledgeable language and literature teacher. Respond in language code '+locale+
-        '. This is strictly an educational task, not a travel, navigation, location, weather, business or map request. '+
+      const system='You are a patient and knowledgeable language and literature teacher. Respond in '+litLocaleName+' (language code '+locale+
+        '). This is strictly an educational task, not a travel, navigation, location, weather, business or map request. '+
         instructions[activity]+(activity==='essay'||activity==='write'?
         ' Produce the finished requested essay or writing as coherent flowing prose, with specific arguments and natural transitions. Do not present the requested finished work as a lesson, worksheet, outline or bullet-point plan. Avoid generic labels such as Teză/Argumentul I unless the user explicitly requests that structure. ':'')+
         ' Use the supplied country, school year and subject area to adapt depth without inventing an official curriculum. '+
@@ -2800,9 +2858,11 @@ export default {
     // Route a user-selected school lesson directly to a bounded tutoring response.
     if(data.module==='education_study'&&['history','geography'].includes(data.education_subject)){
       const subject=data.education_subject;
-      const locale=['ro','en','fr','de','es','it','pt'].includes(data.language)?data.language:'ro';
+      const reqHgLang=typeof data.language==='string'?data.language.trim().toLowerCase().split(/[-_]/)[0]:'ro';
+      const locale=POCKET_LANGUAGE_NAMES[reqHgLang]?reqHgLang:'ro';
+      const localeName=POCKET_LANGUAGE_NAMES[locale]||'Romanian';
       const system='You are a careful school teacher of '+(subject==='history'?'history':'geography')+
-        '. Answer the lesson request in '+locale+'. Never interpret a historical event, date or region as a geolocation, transport or nearby-place request. '+
+        '. Answer the lesson request in '+localeName+' ('+locale+'). Never interpret a historical event, date or region as a geolocation, transport or nearby-place request. '+
         'Present chronological context, causes, evidence and outcomes for history; for geography describe physical and human characteristics, using correct time and region context. '+
         'Follow the country, grade, topic and curriculum caveats from the user request. Do not invent historical maps, official syllabi, citations or factual certainty. '+
         'Do not repeat complete paragraphs, preambles or exercises. Use readable headings and paragraphs, no raw markdown characters.';
@@ -2821,12 +2881,13 @@ export default {
     if(data.module==='education_study'&&
        ['foreign_language','math','physics','chemistry','biology','astronomy','computing','practical'].includes(data.education_subject)){
       const subject=data.education_subject;
-      const allowedLocales=['ro','en','fr','de','it','es','pt','nl','ru','pl','hu','ja','zh','el','la','tr','uk'];
-      const locale=allowedLocales.includes(data.language)?data.language:'ro';
+      const reqSciLang=typeof data.language==='string'?data.language.trim().toLowerCase().split(/[-_]/)[0]:'ro';
+      const locale=(POCKET_LANGUAGE_NAMES[reqSciLang]||['ja','zh','la'].includes(reqSciLang))?reqSciLang:'ro';
+      const sciLocaleName=POCKET_LANGUAGE_NAMES[locale]||({ja:'Japanese',zh:'Chinese',la:'Latin'}[locale]||'Romanian');
       const allowedActivity=['lesson','study','method','solve','examples','analysis','review','practice','conversation','assessment','test','exercises','correction'];
       const activity=allowedActivity.includes(data.education_activity)?data.education_activity:'lesson';
-      const system='You are a qualified educational tutor for '+subject+'. Explain in user-interface language code '+locale+
-        '. For foreign languages, provide ACTUAL examples in the target language specified in the request, and explain them in the interface language. '+
+      const system='You are a qualified educational tutor for '+subject+'. Explain in '+sciLocaleName+' (user-interface language code '+locale+
+        '). For foreign languages, provide ACTUAL examples in the target language specified in the request, and explain them in the interface language. '+
         educationDepthInstruction(subject,activity);
       try{
         const maxTokens=activity==='lesson'||activity==='study'?3000:activity==='solve'||activity==='method'?2400:activity==='conversation'?900:2200;
@@ -2871,7 +2932,7 @@ export default {
     }
     const eventDiscoveryRequest=/\b(?:eveniment\w*|festival\w*|spectacol\w*|concert\w*|targ\w*|events?|shows?|performances?)\b/i.test(message.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase())
       && classifyNewsRequest(message).mode==="none"; // World affairs are reporting/analysis, not venue calendars.
-    const supportedLanguages = ["ro", "en", "fr", "de", "it", "es", "pt", "nl", "ru", "pl"];
+    const supportedLanguages = Object.keys(POCKET_LANGUAGE_NAMES);
     const requestedLanguage = typeof data.language === "string" ? data.language.trim().toLowerCase().split(/[-_]/)[0] : "ro";
     const lang = supportedLanguages.includes(requestedLanguage) ? requestedLanguage : "ro";
     // Native profile contains no email. The supplied values are treated as data, never instructions.
@@ -3284,8 +3345,8 @@ export default {
         return json({app:"Pocket AI",version:API_VERSION,status:"success",language:lang,message_received:message,reply,ai_generated:false,web_search_status:"not_needed"});
       }
     }
-    const languageNames = {ro:"Romanian",en:"English",fr:"French",de:"German",it:"Italian",es:"Spanish",pt:"Portuguese",nl:"Dutch",ru:"Russian",pl:"Polish"};
-    const responseLanguageName = languageNames[lang];
+    const languageNames = POCKET_LANGUAGE_NAMES;
+    const responseLanguageName = languageNames[lang] || "Romanian";
 
     // v150: Factual encyclopaedia summaries only for explicit information requests
     // and recognized countries/landmarks. Never mistake a nearby shop name for a country.

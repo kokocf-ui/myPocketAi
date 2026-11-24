@@ -434,6 +434,7 @@ jobs:
           node tests_math_linear_graph_proof.mjs
           node tests_math_linear_verification.mjs
           node tests_avatar_lipsync_stop.mjs
+          node tests_44_language_localization_2026.mjs
           node tests_news_contextual_translation.mjs
           node tests_extra_tools_header_layout.mjs
           node tests_extra_tools_workspace.mjs

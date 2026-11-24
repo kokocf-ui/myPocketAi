@@ -117,6 +117,7 @@ jobs:
           node tests_storybook_documentary.mjs
           node tests_storybook_commons_photos.mjs
           node tests_localization.mjs
+          node tests_44_language_localization_2026.mjs
           node tests_news_contextual_translation.mjs
           node tests_avatar_lipsync_stop.mjs
           node tests_mixed_selector_ui.mjs
