@@ -46,6 +46,14 @@ for(const mode of ['rebus','integrame']){
  }
  assert.ok(shapes.size>=8,'Regenerate must produce new layouts, not cycle through 4 fixed puzzles');
 }
+
+const normalArrow=api.funGeneratePuzzle('integrame',2,'dificil');
+const rotatedArrow=api.funGeneratePuzzle('integrame',3,'dificil');
+assert.notEqual(normalArrow.width,rotatedArrow.width,'Arrowword clues must alternate orientation for visual variety');
+for(const board of [normalArrow,rotatedArrow])for(const e of board.entries){
+ const cell=board.grid[e.hintRow*board.width+e.hintCol];
+ assert.equal(cell.hint?.dir,e.dir,'Arrow must lead toward the proper answer');
+}
 for(const mode of ['rebus','integrame']){
  const p=api.funGeneratePuzzle(mode,321,'mediu');
  assert.equal(p.entries.length,16,'Medium level must be less complex than difficult');
