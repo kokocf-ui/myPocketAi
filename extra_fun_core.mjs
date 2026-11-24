@@ -15,7 +15,20 @@ const funny={
 'pământ':['Ai organizat totul atât de bine, încât sertarul cu șosete și-a cerut concediu.','Portofelul votează pentru cumpătare. Coșul online cere renumărarea voturilor.','Dacă îți iese planul, merită o medalie. Dacă nu, fă un tabel nou.'],
 'aer':['Ai șapte idei geniale înainte de cafea. După cafea, mai trebuie găsit încărcătorul.','Ai putea convinge un semafor să-și schimbe culoarea. El preferă totuși programul lui.','Conversațiile tale au atâtea ramificații încât și navigatorul cere hartă.'],
 'apă':['Sentimentele au făcut azi ședință. Au uitat să trimită ordinea de zi.','Ai fler să ghicești cine a mâncat ultima prăjitură: indicii sunt în frigider.','Un mic moment dramatic e permis, dar nu și trei sezoane într-o singură zi.']};
-const intro=pick((humor?funny:serious)[elem]);
+const accents=[
+'Pentru Berbec, curajul e cel mai util atunci când alegi o singură provocare și îi duci planul până la capăt.',
+'Taurul câștigă din consecvență; schimbările mici pot fi mai bune decât un salt grăbit.',
+'Gemenii găsesc ușor alternative, dar merită să ducă una dintre ele la un rezultat clar.',
+'Racul poate construi apropiere dacă spune ce simte fără să presupună ce gândesc ceilalți.',
+'Leul își pune creativitatea în valoare când oferă și altora loc să strălucească.',
+'Fecioara observă detaliile, însă uneori e mai sănătos să termine decât să perfecționeze la nesfârșit.',
+'Balanța vede mai multe perspective; o alegere asumată poate fi mai bună decât amânarea.',
+'Scorpionul își poate folosi intensitatea pentru cercetare și dialog, nu pentru concluzii pripite.',
+'Săgetătorul are poftă de descoperire; un obiectiv mic și bine ales îi poate da direcție.',
+'Capricornul construiește temeinic, dar ar fi bine să nu transforme fiecare seară în încă o zi de lucru.',
+'Vărsătorul vede idei originale; ele devin utile când sunt discutate și testate în realitate.',
+'Peștii pot găsi inspirație în liniște și creativitate, păstrând totodată limite clare.'
+];const intro=accents[idx]+' '+pick((humor?funny:serious)[elem]);
 const plan=humor?'La muncă, șeful poate cere imposibilul. Cere-i măcar instrucțiuni scrise, ca să rămână dovada.':'În activitățile profesionale, stabilește un obiectiv măsurabil. O discuție bine pregătită poate debloca un detaliu care îți consumă timp.';
 const finance=humor?'La bani, stelele propun economii; aplicația de cumpărături spune că n-a fost consultată. Lasă cardul să respire.':'La capitolul financiar, verifică o cheltuială repetitivă sau o decizie amânată. Cifrele sunt mai utile decât presupunerile.';
 const love=humor?'La capitolul amor, nu te baza pe telepatie: uneori „Ce ai?” are nevoie de un răspuns, nu de încă un episod de serial. Dacă ești singur, un zâmbet autentic bate o replică memorată.':'În dragoste, spune clar ce îți dorești și oferă celuilalt spațiu să răspundă. Dacă ești într-o relație, un gest mic și atent poate conta; dacă ești singur, nu te grăbi să judeci după prima impresie.';
