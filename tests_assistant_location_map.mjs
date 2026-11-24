@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
+import vm from 'node:vm';
 import worker from './backend.js';
 import {ASSISTANT_CURRENT_LOCATION_UI_SCRIPT} from './assistant_current_location_ui.mjs';
 
@@ -126,6 +127,15 @@ assert.ok(ASSISTANT_CURRENT_LOCATION_UI_SCRIPT.includes('bindPopup(popup'),'POI 
 assert.ok(ASSISTANT_CURRENT_LOCATION_UI_SCRIPT.includes("map.on('moveend',updatePois)"),'Panning should retrieve nearby POIs');
 assert.ok(frontend.includes("layer.classList.add('answer-reader-location')"));
 assert.ok(frontend.includes("controls.style.display='none'"));
-assert.ok(frontend.includes("address.textContent=geoRecord.reply"));
+assert.ok(frontend.includes('address.textContent=currentLocationMapAddress(geoRecord.reply)'));
+assert.match(frontend,/\.answer-reader\.answer-reader-location \.answer-reader-body\{padding:8px 10px 10px!important;overflow:hidden!important;scrollbar-gutter:auto;/,
+ 'The generic reader bottom padding and scrollbar must not steal map space');
+const locationUi=vm.createContext({});
+vm.runInContext(ASSISTANT_CURRENT_LOCATION_UI_SCRIPT,locationUi);
+assert.equal(locationUi.currentLocationMapAddress('Locație aproximativă: Mill Lane, Grays, United Kingdom.\nCoduri poștale din apropiere: RM20 4YD; RM20 4YE.\nPrecizie GPS: ±7 m.'),
+ 'Locație aproximativă: Mill Lane, Grays, United Kingdom.');
+assert.equal(locationUi.currentLocationMapAddress('Approximate location: London.\r\nOther details.'),'Approximate location: London.');
+assert.equal(locationUi.currentLocationMapAddress('Single-line address'),'Single-line address');
+assert.equal(locationUi.currentLocationMapAddress(''), '');
 assert.ok(!ASSISTANT_CURRENT_LOCATION_UI_SCRIPT.includes('L.circle([latitude,longitude]'),'Do not draw confusing accuracy circles');
 console.log('PASS GPS address, clean OSM basemap, informative tap-only POI markers, same-origin POI API and map reader');

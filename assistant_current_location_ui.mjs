@@ -1,6 +1,10 @@
 // Minimal current-location map: address is rendered by the answer reader.
 // Basemap itself provides visible place labels even when external POI services fail.
 export const ASSISTANT_CURRENT_LOCATION_UI_SCRIPT=String.raw`
+// The map has room for the address only. Detailed uncertainty remains in the chat reply.
+function currentLocationMapAddress(reply){
+ return String(reply||'').split(/\r?\n/).find(line=>line.trim())?.trim()||'';
+}
 function appendCurrentLocationMap(body,record){
  const point=record&&record.coordinates;
  const latitude=Number(point&&point.latitude),longitude=Number(point&&point.longitude);

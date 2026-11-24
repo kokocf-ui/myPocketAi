@@ -1379,6 +1379,8 @@ body.long-choice-active{overflow:hidden}
 /* v1.0.131 — presentation-only: full-height scrollable recipe/event reader. */
 .answer-reader{max-height:calc(100dvh - 116px - env(safe-area-inset-top,0px));}
 .answer-reader-body{min-height:0!important;flex:1 1 0!important;overflow-y:auto!important;overflow-x:hidden!important;padding:14px 14px calc(42px + env(safe-area-inset-bottom,0px))!important;scroll-padding-bottom:30px;scrollbar-gutter:stable;overscroll-behavior-y:contain;}
+/* Location is a map, not a long scrolling article: give the map the remaining frame. */
+.answer-reader.answer-reader-location .answer-reader-body{padding:8px 10px 10px!important;overflow:hidden!important;scrollbar-gutter:auto;}
 .answer-reader-body .recipe-reader-title{margin:18px 0 12px!important;padding:13px 12px 12px!important;border:1px solid #3b8196!important;border-left:4px solid #59d2dd!important;border-radius:13px;background:linear-gradient(120deg,#123d51,#0b2639);font-size:clamp(17px,4.1vw,20px)!important;line-height:1.4!important;overflow-wrap:anywhere}
 .answer-reader-body .recipe-reader-title:first-child{margin-top:0!important}
 .answer-reader-body .recipe-reader-label{margin:15px 0 7px!important;padding:7px 10px!important;border-left:3px solid #52b9cb;border-radius:6px;background:#17394b;color:#edfaff;font-size:16px!important;line-height:1.45!important}
@@ -23470,8 +23472,8 @@ function openAnswerReader(text,origin){
   body.style.cssText='padding:8px 10px 10px;display:flex;flex:1 1 0;min-height:0;flex-direction:column;gap:6px;overflow:hidden;font-size:15px;line-height:1.3;white-space:normal';
   const address=document.createElement('p');
   address.className='current-location-address';
-  address.style.cssText='margin:0;padding:5px 4px;font-size:15px;font-weight:700;line-height:1.35;white-space:pre-line;overflow-wrap:anywhere;overflow-y:auto;max-height:40%;flex:0 1 auto';
-  address.textContent=geoRecord.reply;
+  address.style.cssText='margin:0;padding:5px 4px;font-size:15px;font-weight:700;line-height:1.35;overflow-wrap:anywhere;overflow-y:auto;max-height:30%;flex:0 1 auto';
+  address.textContent=currentLocationMapAddress(geoRecord.reply);
   body.append(address);
  }
  const geoCleanup=geoRecord?appendCurrentLocationMap(body,geoRecord):null;
