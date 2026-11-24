@@ -148,7 +148,7 @@ function extraFunMaxims(){
  const main=extraFunPanel(root,extraFunText('Maxima de astăzi · ','Today’s thought · ')+today);
  const quote=funDailyMaxim(today),show=extraFunButton(main,'📜 '+quote,()=>extraFunMaximMeaning(quote,today));
  show.classList.add('extra-fun-quote-button');
- main.append(extraFunNode('p','extra-fun-note','Atinge maxima pentru explicație. Maximele sunt compuse automat din sute de combinații și se schimbă în fiecare zi; nu se opresc după 12.'));
+
  const archive=extraFunPanel(root,extraFunText('Zilele anterioare','Previous days'));
  archive.classList.add('extra-fun-library');
  for(let offset=1;offset<=35;offset++){
@@ -158,33 +158,44 @@ function extraFunMaxims(){
   b.classList.add('extra-fun-library-item');
  }
 }
+
 function extraFunJokes(){
  const today=funLocalDateKey(new Date()),root=extraFunScreen('Bancul zilei','Joke of the day');
- root.classList.add('extra-fun-library-layout');
+ root.classList.add('extra-fun-jokes-layout');
  const panel=extraFunPanel(root,extraFunText('Bancul zilei · ','Today’s joke · ')+today);
  let index=0;
- const joke=extraFunNode('blockquote','extra-fun-quote',funDailyJoke(today));panel.append(joke);
- const more=extraFunNode('div','extra-fun-buttons');panel.append(more);
- extraFunButton(more,extraFunText('Alt banc','Another joke'),()=>{
-  ++index;const d=new Date();d.setHours(12,0,0,0);d.setDate(d.getDate()+index);
-  joke.textContent=funDailyJoke(funLocalDateKey(d));
+ const line=extraFunNode('blockquote','extra-fun-quote',funDailyJoke(today));
+ panel.append(line);
+ const actions=extraFunNode('div','extra-fun-buttons');
+ panel.append(actions);
+ const itemAt=(offset)=>{
+  const d=new Date();d.setHours(12,0,0,0);d.setDate(d.getDate()+offset);
+  return {date:funLocalDateKey(d),text:funDailyJoke(funLocalDateKey(d))};
+ };
+ extraFunButton(actions,extraFunText('Alt banc','Another joke'),()=>{
+  const item=itemAt(++index);line.textContent=item.text;
  });
- extraFunButton(more,extraFunText('Explică bancul','Explain the joke'),()=>{
-  const pop=extraFunPopup('😄 Banc');
-  extraFunPopupLine(pop.content,'Banc',joke.textContent);
-  extraFunPopupLine(pop.content,'De unde vine umorul?','Poanta vine din contrastul dintre întrebarea aparent serioasă și răspunsul neașteptat sau absurd.');
+ extraFunButton(actions,extraFunText('Colecția de bancuri','Joke collection'),()=>{
+  const pop=extraFunPopup(extraFunText('Colecția de bancuri','Joke collection'));
+  const selected=extraFunNode('blockquote','extra-fun-quote',funDailyJoke(today));
+  const list=extraFunNode('div','extra-fun-jokes-archive');
+  pop.content.append(selected,list);
+  let shown=0;
+  const appendBatch=()=>{
+   for(let i=shown;i<shown+24;i++){
+    const item=itemAt(-i);
+    const b=extraFunButton(list,item.date+' · '+item.text.slice(0,70)+(item.text.length>70?'…':''),()=>{
+     selected.textContent=item.text;
+     pop.content.scrollTop=0;
+    });
+    b.classList.add('extra-fun-library-item');
+   }
+   shown+=24;
+  };
+  const more=extraFunButton(pop.content,extraFunText('Mai multe bancuri','More jokes'),appendBatch);
+  more.classList.add('extra-fun-short-button');
+  appendBatch();
  });
- panel.append(extraFunNode('p','extra-fun-note','Bancurile nu se termină după cele din colecție: aplicația combină replici și situații offline. Unele poante se pot repeta în timp.'));
- const collection=extraFunPanel(root,extraFunText('Colecția de bancuri','Joke collection'));
- collection.classList.add('extra-fun-library');
- for(let i=0;i<35;i++){
-  const d=new Date();d.setHours(12,0,0,0);d.setDate(d.getDate()-i);
-  const key=funLocalDateKey(d),item=funDailyJoke(key);
-  const b=extraFunButton(collection,key+' · '+item.slice(0,100)+(item.length>100?'…':''),()=>{
-   const pop=extraFunPopup('😄 '+key);extraFunPopupLine(pop.content,'Banc',item);
-  });
-  b.classList.add('extra-fun-library-item');
- }
 }
 function extraFunSudoku(root){root.replaceChildren();const pane=extraFunPanel(root,'Sudoku · offline');extraFunHelp(pane,extraFunText('Cum se joacă Sudoku?','How to play Sudoku?'),['Completează fiecare rând cu cifrele 1–9, fără repetări.','Fiecare coloană trebuie să conțină 1–9 o singură dată.','Fiecare pătrat de 3×3 trebuie să conțină 1–9 o singură dată. Cifrele inițiale nu pot fi schimbate.','Alege Ușor la început, apoi verifică. Căsuțele greșite devin roșii.']);const controls=extraFunNode('div','extra-fun-buttons');pane.append(controls);const level=extraFunSelect(controls,extraFunText('Dificultate','Difficulty'),[['easy',extraFunText('Ușor','Easy')],['medium',extraFunText('Mediu','Medium')],['hard',extraFunText('Dificil','Hard')]]);const grid=extraFunNode('div','extra-fun-sudoku');pane.append(grid);const result=extraFunOutput(pane);let generated,serial=0,fields=[];function create(){generated=funSudokuGenerate(level.value,funLocalDateKey(new Date())+'-'+serial++);grid.replaceChildren();fields=[];for(let i=0;i<81;i++){const el=extraFunNode('input','extra-fun-cell');el.type='text';el.inputMode='numeric';el.maxLength=1;el.setAttribute('aria-label',extraFunText('Rândul ','Row ')+(Math.floor(i/9)+1)+', '+extraFunText('coloana ','column ')+(i%9+1));el.classList.toggle('extra-fun-box-right',i%9===2||i%9===5);el.classList.toggle('extra-fun-box-bottom',Math.floor(i/9)%3===2);if(generated.puzzle[i]){el.value=String(generated.puzzle[i]);el.readOnly=true;el.classList.add('given')}el.addEventListener('input',()=>{el.value=el.value.replace(/[^1-9]/g,'').slice(0,1);el.classList.remove('incorrect');result.replaceChildren()});fields.push(el);grid.append(el);}result.textContent=extraFunText('Completează cifrele 1–9. '+generated.clues+' indicii.','Fill in digits 1–9. '+generated.clues+' clues.');}const buttons=extraFunNode('div','extra-fun-buttons');pane.append(buttons);extraFunButton(buttons,extraFunText('Verifică','Check'),()=>{let blanks=0,wrong=0;fields.forEach((el,i)=>{if(!el.value)blanks++;else if(Number(el.value)!==generated.solution[i]){wrong++;el.classList.add('incorrect')}});result.textContent=wrong?extraFunText('Există ','There are ')+wrong+extraFunText(' cifre greșite.',' incorrect digits.'):blanks?extraFunText('Corect până acum. Mai lipsesc ','Correct so far. Still missing ')+blanks+extraFunText(' celule.',' cells.'):extraFunText('Felicitări! Sudoku este rezolvat.','Congratulations! Sudoku solved.');});extraFunButton(buttons,extraFunText('Joc nou','New puzzle'),create);extraFunButton(buttons,extraFunText('Șterge completările','Clear entries'),()=>{for(const el of fields)if(!el.readOnly){el.value='';el.classList.remove('incorrect')}result.replaceChildren();});create();}
 function extraFunHelp(panel,title,lines){
