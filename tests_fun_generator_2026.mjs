@@ -18,8 +18,9 @@ for(const mode of ['rebus','integrame']){
   assert.equal(p.mode,mode);
   assert.ok(p.width>=5&&p.height>=5&&p.width<=11&&p.height<=11);
   assert.equal(p.grid.length,p.width*p.height);
-  assert.ok(p.entries.length>=8,'Puzzle must be composed of multiple intersecting words');
-  assert.ok(p.density>=.27,'Puzzle must not consist mainly of empty space');
+  assert.equal(p.entries.length,20,'Default difficult level must contain twenty real clues');
+  assert.ok(p.density>=(mode==='rebus'?.88:.72),'Generated grids must not have large dead black areas');
+  assert.equal(p.grid.filter(x=>!x.letter&&!x.hint&&!x.bar&&!x.header).length,0,'Every square must be an answer, clue or purposeful separator');
   const occupied=new Map(),directions=new Set(),hints=new Set();
   for(const e of p.entries){
    assert.ok(e.word&&e.clue);
@@ -45,6 +46,11 @@ for(const mode of ['rebus','integrame']){
  }
  assert.ok(shapes.size>=8,'Regenerate must produce new layouts, not cycle through 4 fixed puzzles');
 }
+for(const mode of ['rebus','integrame']){
+ const p=api.funGeneratePuzzle(mode,321,'mediu');
+ assert.equal(p.entries.length,16,'Medium level must be less complex than difficult');
+ assert.ok(p.density>=(mode==='rebus'?.88:.70));
+}
 const base=new Date(2026,10,24,12),maxims=new Set(),jokes=new Set();
 for(let i=0;i<365;i++){
  const d=new Date(base);d.setDate(d.getDate()+i);
@@ -69,7 +75,11 @@ assert.match(EXTRA_FUN_UI_SCRIPT,/funDailyMaxim\(key\)/);
 assert.match(EXTRA_FUN_UI_SCRIPT,/extraFunMaximMeaning/);
 assert.match(EXTRA_FUN_UI_SCRIPT,/extra-fun-in-grid-clue/);
 assert.match(EXTRA_FUN_UI_SCRIPT,/Generează alt careu/);
-assert.match(EXTRA_FUN_UI_STYLE,/#15715e/,'Entertainment controls should be green');
+assert.match(EXTRA_FUN_UI_STYLE,/#155b59/,'Entertainment buttons should match Transport teal');
+assert.match(EXTRA_FUN_UI_STYLE,/#112f43/,'Data-entry fields must keep the dark blue input style');
+assert.doesNotMatch(EXTRA_FUN_UI_SCRIPT,/Explică bancul/,'Do not explain jokes');
+assert.doesNotMatch(EXTRA_FUN_UI_SCRIPT,/nu se opresc după 12/,'Do not display internal collection counts');
+assert.match(EXTRA_FUN_UI_SCRIPT,/extra-fun-jokes-archive/,'Joke collection must be visible within its own modal');
 assert.match(EXTRA_FUN_UI_STYLE,/extra-fun-short-button/);
 assert.ok(EXTRA_TOOLS_WORKSPACE_SCRIPT.includes('function funGeneratePuzzle'));
 console.log('PASS generated Romanian rebus and arrowword puzzles, continuous daily maxims/jokes, day-specific horoscopes and compact green controls');
