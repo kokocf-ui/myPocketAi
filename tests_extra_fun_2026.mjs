@@ -32,7 +32,7 @@ assert.notEqual(f.funAscendantLongitude(utc,51.5,-0.13),
 assert.ok(f.FUN_MAXIMS.length>=10&&f.FUN_JOKES.length>=10);
 assert.equal(f.funDailyPick(f.FUN_MAXIMS,'2026-11-24'),f.funDailyPick(f.FUN_MAXIMS,'2026-11-24'),
  'Daily maxim must stay stable on one calendar date');
-assert.ok(f.funHoroscope(0,'2026-11-24',true)[1].includes('amor'),
+assert.ok(f.funHoroscope(0,'2026-11-24',true).some(line=>line.includes('amor')),
  'Humorous horoscope must include a love-life line');
 const filled=Array.from({length:9},()=>new Set());
 for(const level of ['easy','medium','hard']){
