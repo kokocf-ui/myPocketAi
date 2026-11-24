@@ -1,5 +1,7 @@
 import {CREATOR_SITE_SCRIPT,CREATOR_SITE_STYLE} from './creator_site_ui.mjs';
 import {EXTRA_TOOLS_SIX_NAV_SCRIPT,EXTRA_TOOLS_SIX_NAV_STYLE} from './extra_tools_six_nav.mjs';
+import {FUN_ASTRO_CORE_SCRIPT} from './extra_fun_core.mjs';
+import {EXTRA_FUN_UI_SCRIPT,EXTRA_FUN_UI_STYLE} from './extra_fun_ui.mjs';
 import {CREATOR_DESIGN_SCRIPT,CREATOR_DESIGN_STYLE} from './creator_design_gallery.mjs';
 import {CREATOR_PREMIUM_SCRIPT,CREATOR_PREMIUM_STYLE} from './creator_premium_presentations.mjs';
 import {CREATOR_MANAGEMENT_SCRIPT,CREATOR_MANAGEMENT_STYLE} from './creator_management_ui.mjs';
@@ -453,7 +455,7 @@ function extraToolsOpenWorkspace(key){
  }
  area.append(result,status);panel.append(area);host.append(panel);
 }
-`+CREATOR_SITE_SCRIPT+CREATOR_DESIGN_SCRIPT+CREATOR_PREMIUM_SCRIPT+CREATOR_MANAGEMENT_SCRIPT+CREATOR_SITE_AI_SCRIPT+CREATOR_HANDOFF_SCRIPT+CREATOR_GUESTHOUSE_SCRIPT+"\nconst GUESTHOUSE_SITE_CSS="+JSON.stringify(GUESTHOUSE_SITE_CSS)+";\n"+CREATOR_HOSTING_SCRIPT+CREATOR_CLIENT_INSTALL_SCRIPT+CREATOR_IMAGE_AI_SCRIPT +EXTRA_TOOLS_SIX_NAV_SCRIPT;
+`+CREATOR_SITE_SCRIPT+CREATOR_DESIGN_SCRIPT+CREATOR_PREMIUM_SCRIPT+CREATOR_MANAGEMENT_SCRIPT+CREATOR_SITE_AI_SCRIPT+CREATOR_HANDOFF_SCRIPT+CREATOR_GUESTHOUSE_SCRIPT+"\nconst GUESTHOUSE_SITE_CSS="+JSON.stringify(GUESTHOUSE_SITE_CSS)+";\n"+CREATOR_HOSTING_SCRIPT+CREATOR_CLIENT_INSTALL_SCRIPT+CREATOR_IMAGE_AI_SCRIPT +EXTRA_TOOLS_SIX_NAV_SCRIPT+FUN_ASTRO_CORE_SCRIPT+EXTRA_FUN_UI_SCRIPT;
 export const EXTRA_TOOLS_WORKSPACE_STYLE=String.raw`/* Dedicated Tools: fixed app navigation, scrolling only within the actual workspace. */
 main.page:has(#view-module.extra-tools-workspace.active){overflow:hidden!important;min-height:0!important}
 #view-module.extra-tools-workspace #moduleLead{display:none!important}
@@ -536,4 +538,4 @@ main.page:has(#view-module.extra-tools-workspace.active){overflow:hidden!importa
 .extra-creator-overlay .extra-creator-overlay-frame{flex:1 1 auto!important;width:100%!important;min-height:0!important;border:0!important;border-radius:10px!important;background:#f7f4ee!important}
 
 #view-module.extra-tools-workspace [hidden]{display:none!important}
-`+CREATOR_SITE_STYLE+CREATOR_DESIGN_STYLE+CREATOR_PREMIUM_STYLE+CREATOR_MANAGEMENT_STYLE+CREATOR_SITE_AI_STYLE+CREATOR_HANDOFF_STYLE+CREATOR_IMAGE_AI_STYLE+CREATOR_GUESTHOUSE_STYLE+CREATOR_HOSTING_STYLE+CREATOR_CLIENT_INSTALL_STYLE+EXTRA_TOOLS_SIX_NAV_STYLE;
+`+CREATOR_SITE_STYLE+CREATOR_DESIGN_STYLE+CREATOR_PREMIUM_STYLE+CREATOR_MANAGEMENT_STYLE+CREATOR_SITE_AI_STYLE+CREATOR_HANDOFF_STYLE+CREATOR_IMAGE_AI_STYLE+CREATOR_GUESTHOUSE_STYLE+CREATOR_HOSTING_STYLE+CREATOR_CLIENT_INSTALL_STYLE+EXTRA_TOOLS_SIX_NAV_STYLE+EXTRA_FUN_UI_STYLE;
