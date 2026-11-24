@@ -114,15 +114,15 @@ function extraFunHelp(panel,title,lines){
  for(const line of lines)details.append(extraFunNode('p','',line));
  panel.append(details);return details;
 }
-function extraFunCrossword(root){
+function extraFunCrossword(root,setIndex=0){const set=FUN_CROSSWORD_SETS[setIndex%FUN_CROSSWORD_SETS.length];
  root.replaceChildren();
- const panel=extraFunPanel(root,extraFunText('Rebus clasic · offline','Classic crossword · offline'));
+ const panel=extraFunPanel(root,extraFunText('Rebus clasic · careul ','Classic crossword · puzzle ')+(setIndex%FUN_CROSSWORD_SETS.length+1));
  extraFunHelp(panel,extraFunText('Cum se rezolvă rebusul?','How to play?'),[
  'Numerele mici arată de unde începe fiecare cuvânt; literele se completează orizontal (→) sau vertical (↓).',
  'Căsuțele negre separă cuvintele. Literele comune din intersecții trebuie să fie aceleași.',
  'Coloanele A–I și rândurile 1–7 te ajută să găsești poziția indicată la fiecare definiție.'
  ]);
- const R=7,C=9,letters=Array.from({length:R*C},()=>null),startNums={},wordEntries=FUN_CROSSWORD.slice()
+ const R=7,C=9,letters=Array.from({length:R*C},()=>null),startNums={},wordEntries=set.slice()
  .sort((a,b)=>a.row-b.row||a.col-b.col||a.dir.localeCompare(b.dir));
  wordEntries.forEach((w,i)=>{
   w.number=i+1;startNums[w.row+','+w.col]=(startNums[w.row+','+w.col]||[]).concat(i+1);
@@ -170,10 +170,11 @@ function extraFunCrossword(root){
   result.textContent=wrong?'De corectat: '+wrong+' litere.':blank?'Corect până acum. Lipsesc '+blank+' litere.':'Felicitări, rebus completat!';
  });
  extraFunButton(actions,extraFunText('Șterge','Clear'),()=>{for(const x of inputs.values()){x.el.value='';x.wrap.classList.remove('incorrect')}result.textContent=''});
+ extraFunButton(actions,extraFunText('Alt careu','Another puzzle'),()=>extraFunCrossword(root,setIndex+1));
 }
-function extraFunIntegrame(root){
+function extraFunIntegrame(root,setIndex=0){const set=FUN_CROSSWORD_SETS[setIndex%FUN_CROSSWORD_SETS.length];
  root.replaceChildren();
- const panel=extraFunPanel(root,extraFunText('Integramă cu săgeți · offline','Arrow crossword · offline'));
+ const panel=extraFunPanel(root,extraFunText('Integramă · careul ','Arrowword · puzzle ')+(setIndex%FUN_CROSSWORD_SETS.length+1));
  extraFunHelp(panel,extraFunText('Cum se joacă integra­mele?','How do arrowwords work?'),[
  'Definiția se află în căsuța închisă la culoare. Săgeata → indică un cuvânt scris către dreapta.',
  'Săgeata ↓ indică un cuvânt scris de sus în jos. Literele se întâlnesc în intersecții.',
@@ -181,8 +182,8 @@ function extraFunIntegrame(root){
  ]);
  const R=8,C=10,board=Array.from({length:R*C},()=>null),values=new Map();
  // The vertical word ROMANIA crosses all four horizontal answers.
- const across=FUN_CROSSWORD.filter(w=>w.dir==='across');
- for(const w of FUN_CROSSWORD){
+ const across=set.filter(w=>w.dir==='across');
+ for(const w of set){
   const row=w.dir==='down'?1:w.row+1,col=w.dir==='down'?5:w.col+1;
   for(let i=0;i<w.word.length;i++){
    const r=row+(w.dir==='down'?i:0),c=col+(w.dir==='across'?i:0);
@@ -193,7 +194,7 @@ function extraFunIntegrame(root){
  const rowHints=new Map(across.map(w=>[w.row+1,w.clue]));
  for(let r=0;r<R;r++)for(let c=0;c<C;c++){
   if(r===0&&c===5){
-   const clue=extraFunNode('span','extra-fun-arrow-hint', '↓ '+FUN_CROSSWORD.find(w=>w.dir==='down').clue);
+   const clue=extraFunNode('span','extra-fun-arrow-hint', '↓ '+set.find(w=>w.dir==='down').clue);
    clue.style.gridColumn='6 / span 4';grid.append(clue);c+=3;continue;
   }
   if(rowHints.has(r)&&c===0){
@@ -213,6 +214,7 @@ function extraFunIntegrame(root){
   result.textContent=wrong?'Ai '+wrong+' litere de corectat.':empty?'Mai lipsesc '+empty+' litere.':'Integramă rezolvată!';
  });
  extraFunButton(buttons,'Șterge',()=>{for(const x of values.values()){x.el.value='';x.wrap.classList.remove('incorrect')}result.textContent=''});
+ extraFunButton(buttons,'Altă integramă',()=>extraFunIntegrame(root,setIndex+1));
 }
 function extraFunGames(){
  const root=extraFunScreen('Jocuri de cuvinte și Sudoku','Word games and Sudoku');
