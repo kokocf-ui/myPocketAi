@@ -35,6 +35,7 @@ assert.ok(EXTRA_TOOLS_WORKSPACE_STYLE.includes('extra-fun-viewport'),'Extra tool
 assert.doesNotMatch(EXTRA_TOOLS_WORKSPACE_SCRIPT,/panel\.scrollIntoView\(/,'Choosing a joke must never scroll the outer Tools viewport');
 assert.match(EXTRA_TOOLS_WORKSPACE_SCRIPT,/function funGeneratePuzzle/,'Rebus and integrame must be generated dynamically');
 assert.match(EXTRA_TOOLS_WORKSPACE_SCRIPT,/function funDenseProfiles/,'Dense crosswords must be built from constrained word intersections');
+assert.match(EXTRA_TOOLS_WORKSPACE_SCRIPT,/funTransposePuzzle/,'Arrowwords must support varied clue layout without dead cells');
 assert.match(EXTRA_TOOLS_WORKSPACE_SCRIPT,/extra-fun-bar-cell/,'Barred rebus must not render dead black blocks');
 assert.match(EXTRA_TOOLS_WORKSPACE_STYLE,/#112f43/,'Editable fields retain classic blue background');
 assert.match(EXTRA_TOOLS_WORKSPACE_STYLE,/#155b59/,'Fun actions use the teal styling from route choices');
