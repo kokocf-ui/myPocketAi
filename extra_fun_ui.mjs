@@ -33,6 +33,42 @@ function extraFunOutput(parent){
  const p=extraFunNode('div','extra-fun-output');p.setAttribute('role','status');p.setAttribute('aria-live','polite');parent.append(p);return p;
 }
 function extraFunLine(out,line){out.append(extraFunNode('p','',line))}
+function extraFunZodiacWheel(sunLongitude,ascLongitude){
+ const ns='http://www.w3.org/2000/svg',svg=document.createElementNS(ns,'svg');
+ svg.setAttribute('viewBox','0 0 320 320');svg.setAttribute('role','img');
+ svg.setAttribute('aria-label',extraFunText('Roata zodiacală simplificată: Soare și ascendent','Simplified zodiac wheel: Sun and ascendant'));
+ svg.classList.add('extra-fun-wheel');
+ const node=(tag,attrs,txt)=>{
+  const x=document.createElementNS(ns,tag);
+  for(const [k,v] of Object.entries(attrs||{}))x.setAttribute(k,String(v));
+  if(txt!==undefined)x.textContent=txt;
+  svg.append(x);return x;
+ };
+ node('circle',{cx:160,cy:160,r:144,fill:'#0a2636',stroke:'#74c8d8','stroke-width':3});
+ node('circle',{cx:160,cy:160,r:112,fill:'none',stroke:'#527d93','stroke-width':2});
+ node('circle',{cx:160,cy:160,r:82,fill:'none',stroke:'#38566d','stroke-width':1});
+ const symbols=['♈','♉','♊','♋','♌','♍','♎','♏','♐','♑','♒','♓'];
+ for(let i=0;i<12;i++){
+  const a=(i*30-90)*Math.PI/180,b=((i+.5)*30-90)*Math.PI/180;
+  node('path',{d:'M '+(160+112*Math.cos(a))+' '+(160+112*Math.sin(a))+
+   ' L '+(160+144*Math.cos(a))+' '+(160+144*Math.sin(a)),
+   stroke:'#638aa1','stroke-width':1.3});
+  node('text',{x:160+128*Math.cos(b),y:160+128*Math.sin(b),
+   'text-anchor':'middle','dominant-baseline':'middle',fill:'#d8e6ed','font-size':18},symbols[i]);
+ }
+ const marker=(lon,fill,label,r)=>{
+  if(!Number.isFinite(lon))return;
+  const a=(lon-90)*Math.PI/180,x=160+r*Math.cos(a),y=160+r*Math.sin(a);
+  node('circle',{cx:x,cy:y,r:8,fill,stroke:'#0c1d2c','stroke-width':2});
+  node('text',{x:x+11,y:y-9,fill,'font-size':12,'font-weight':'bold'},label);
+ };
+ marker(sunLongitude,'#edcc83','☀',98);
+ marker(ascLongitude,'#8ae2ed','ASC',98);
+ node('text',{x:160,y:156,'text-anchor':'middle',fill:'#ecf6fb','font-size':14},'Zodiac tropical');
+ node('text',{x:160,y:175,'text-anchor':'middle',fill:'#adcbd7','font-size':11},'Soare • Ascendent');
+ return svg;
+}
+
 function extraFunAstrology(){
  const root=extraFunScreen('Astrologie și zodii','Astrology and zodiac');
  const intro=extraFunPanel(root,extraFunText('Calcul astronomic, interpretare pentru divertisment','Astronomical calculation, entertainment interpretation'));
@@ -53,6 +89,8 @@ function extraFunAstrology(){
   FUN_SIGNS.map((s,i)=>[String(i),extraFunText(s[0],s[1])]));
  const partner=extraFunSelect(controls,extraFunText('A doua zodie (compatibilitate)','Second sign (compatibility)'),
   FUN_SIGNS.map((s,i)=>[String(i),extraFunText(s[0],s[1])]));
+ const period=extraFunSelect(controls,extraFunText('Perioada horoscopului','Reading period'),
+  [['day',extraFunText('Astăzi','Today')],['week',extraFunText('Săptămâna aceasta','This week')],['month',extraFunText('Luna aceasta','This month')]]);
  const actions=extraFunNode('div','extra-fun-buttons');controls.append(actions);
  const out=extraFunOutput(root);
  extraFunButton(actions,extraFunText('Calculează zodia și ascendentul','Calculate sun sign and ascendant'),()=>{
@@ -62,18 +100,38 @@ function extraFunAstrology(){
   sign.value=String(idx);
   extraFunLine(out,extraFunText('Zodie solară tropicală: ','Tropical sun sign: ')+
    extraFunText(FUN_SIGNS[idx][0],FUN_SIGNS[idx][1])+' ('+solar.toFixed(2)+'°).');
+  let rise=NaN;
   if(lat.value.trim()!==''&&lon.value.trim()!==''){
-   const asc=funAscendantLongitude(utc,lat.value,lon.value);
+   const asc=funAscendantLongitude(utc,lat.value,lon.value);rise=asc;
    if(Number.isFinite(asc))extraFunLine(out,extraFunText('Ascendent aproximativ: ','Approximate ascendant: ')+
     extraFunText(FUN_SIGNS[Math.floor(asc/30)][0],FUN_SIGNS[Math.floor(asc/30)][1])+' ('+asc.toFixed(2)+'°).');
    else extraFunLine(out,extraFunText('Coordonate în afara intervalului permis; calculul ascendentului nu este disponibil în apropierea regiunilor polare.','Coordinates outside supported range; ascendant unavailable near polar regions.'));
   }else extraFunLine(out,extraFunText('Pentru ascendent introdu și coordonatele locului nașterii.','Add birth coordinates to calculate the ascendant.'));
+  out.append(extraFunZodiacWheel(solar,rise));
+  extraFunLine(out,extraFunText('Diagramă simplificată Soare/Ascendent; nu reprezintă pozițiile tuturor planetelor sau casele astrologice.','Sun/Ascendant diagram only, not a complete planetary and house chart.'));
  });
  const renderReading=humor=>{
-  out.replaceChildren();const idx=Number(sign.value),today=funLocalDateKey(new Date());
-  extraFunLine(out,(humor?'😄 ':'☀️ ')+extraFunText('Horoscop umoristic','Humorous reading')+' — '+funSignLabel(idx)+' · '+today);
-  for(const line of funHoroscope(idx,today,humor))extraFunLine(out,line);
-  extraFunLine(out,extraFunText('Text creativ pentru divertisment, nu o prognoză astronomică.','Creative entertainment, not an astronomical forecast.'));
+  out.replaceChildren();
+  const idx=Number(sign.value),now=new Date(),today=funLocalDateKey(now);
+  const key=period.value==='month'?today.slice(0,7)+'-01':
+   period.value==='week'?funLocalDateKey(new Date(now.getFullYear(),now.getMonth(),now.getDate()-((now.getDay()+6)%7))):today;
+  const label=period.value==='month'?extraFunText('Lunar','Monthly'):
+   period.value==='week'?extraFunText('Săptămânal','Weekly'):extraFunText('Zilnic','Daily');
+  extraFunLine(out,(humor?'😄 ':'☀️ ')+
+   (humor?extraFunText('Horoscop umoristic','Humorous reading'):extraFunText('Horoscop serios','Reflective reading'))+
+   ' · '+label+' — '+funSignLabel(idx)+' · '+key);
+  const solar=funSolarLongitude(now);
+  extraFunLine(out,extraFunText('Poziția aparentă a Soarelui astăzi: ','Apparent solar longitude today: ')+solar.toFixed(2)+'°.');
+  const utc=funParseBirth(date.value,time.value||'12:00',offset.value);
+  if(utc){
+   const aspect=funSolarAspect(funSolarLongitude(utc),solar);
+   extraFunLine(out,extraFunText('Separarea solară natală–actuală: ','Natal-to-current Sun angular separation: ')+
+    aspect.separation.toFixed(2)+'°'+(aspect.name?', '+extraFunText('aspect simbolic: ','symbolic aspect: ')+aspect.name:'')+'.');
+  }else{
+   extraFunLine(out,extraFunText('Fără data nașterii: interpretare după zodia selectată, nu un tranzit natal.','Without a birth date: a sign-based reading, not a natal transit.'));
+  }
+  for(const line of funHoroscope(idx,key,humor))extraFunLine(out,line);
+  extraFunLine(out,extraFunText('Pozițiile sunt astronomice aproximative; semnificația astrologică este simbolică și nu reprezintă o predicție științifică.','Positions are astronomical approximations; the reading is symbolic entertainment, not a scientific prediction.'));
  };
  extraFunButton(actions,extraFunText('Horoscop serios · azi','Daily reading'),()=>renderReading(false));
  extraFunButton(actions,extraFunText('Horoscop umoristic · azi','Humorous daily reading'),()=>renderReading(true));
@@ -226,6 +284,7 @@ export const EXTRA_FUN_UI_STYLE=String.raw`
  border:1px solid #5b99ab;border-radius:18px;
  background:linear-gradient(160deg,#15384d,#0c2435);color:#f2f9fd;min-width:0;
 }
+.extra-fun-wheel{display:block;width:min(100%,320px);height:auto;margin:12px auto;border-radius:50%;}
 #view-module.extra-tools-v2 .extra-fun-panel h3{font-size:18px;margin:0 0 4px}
 #view-module.extra-tools-v2 .extra-fun-panel p{line-height:1.45;margin:2px 0}
 #view-module.extra-tools-v2 .extra-fun-note{font-size:12px;color:#c4d7df}
