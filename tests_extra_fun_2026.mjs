@@ -10,7 +10,7 @@ for(const [name,script] of [['astro',FUN_ASTRO_CORE_SCRIPT],['fun ui',EXTRA_FUN_
  ['navigation',EXTRA_TOOLS_SIX_NAV_SCRIPT],['tools bundle',EXTRA_TOOLS_WORKSPACE_SCRIPT]]){
  assert.doesNotThrow(()=>new vm.Script(script,{filename:name+'.js'}),name+' must parse as JS');
 }
-const f=new Function(FUN_ASTRO_CORE_SCRIPT+';return {funParseBirth,funSunSign,funSolarLongitude,funAscendantLongitude,funChineseZodiac,funSolarAspect,funSudokuGenerate,funSudokuUnique,funDailyPick,funHoroscope,FUN_MAXIMS,FUN_JOKES,FUN_CROSSWORD,FUN_CROSSWORD_SETS};')();
+const f=new Function(FUN_ASTRO_CORE_SCRIPT+';return {funParseBirth,funSunSign,funSolarLongitude,funAscendantLongitude,funChineseZodiac,funSolarAspect,funSudokuGenerate,funSudokuUnique,funDailyPick,funHoroscope,FUN_MAXIMS,FUN_JOKES};')();
 assert.equal(f.funParseBirth('2026-02-30','12:00',0),null,'Invalid leap date must not normalize');
 assert.equal(f.funParseBirth('2024-02-29','12:00',2).toISOString(),'2024-02-29T10:00:00.000Z');
 assert.equal(f.funParseBirth('1899-01-01','12:00',0),null);
@@ -65,21 +65,7 @@ for(const level of ['easy','medium','hard']){
  }
  assert.ok(p.puzzle.every((v,i)=>v===0||v===p.solution[i]));
 }
-assert.equal(f.FUN_CROSSWORD_SETS.length,4,'Provide multiple offline rebuses rather than one sample');
-for(const puzzle of f.FUN_CROSSWORD_SETS){
-const board=new Map();
-for(const w of puzzle){
- assert.ok(w.word&&w.clue&&w.dir);
- for(let k=0;k<w.word.length;k++){
-  const r=w.row+(w.dir==='down'?k:0),c=w.col+(w.dir==='across'?k:0),coord=r+','+c;
-  assert.ok(r>=0&&r<7&&c>=0&&c<9,'Crossword exceeds 7×9 coordinates');
-  if(board.has(coord))assert.equal(board.get(coord),w.word[k],'Crossing letters must agree');
-  board.set(coord,w.word[k]);
- }
-}
-assert.ok([...puzzle].some(x=>x.dir==='down'),'Vertical crossword clues required');
-assert.ok([...puzzle].some(x=>x.dir==='across'),'Horizontal crossword clues required');
-}
+// Rebus and integrame now use a procedural generator, independently tested in tests_fun_generator_2026.mjs.
 assert.match(EXTRA_FUN_UI_SCRIPT,/fun-daily-maxim/);
 assert.match(EXTRA_FUN_UI_SCRIPT,/storage\.setItem\(key,'1'\)/,'Maxim only once per calendar date');
 assert.match(EXTRA_FUN_UI_SCRIPT,/extraFunAstrology/);
@@ -87,12 +73,12 @@ assert.match(EXTRA_FUN_UI_SCRIPT,/extraFunPopup/,'Horoscope must open separate m
 assert.match(EXTRA_FUN_UI_SCRIPT,/extraFunPopupLine/,'Detailed modal sections required');
 assert.match(EXTRA_FUN_UI_SCRIPT,/extraFunCrossword/);
 assert.match(EXTRA_FUN_UI_SCRIPT,/extraFunIntegrame/,'Separate arrowword grid required');
-assert.match(EXTRA_FUN_UI_SCRIPT,/FUN_CROSSWORD_SETS/,'Both games must support more than one board');
+assert.match(EXTRA_FUN_UI_SCRIPT,/funGeneratePuzzle\(mode\)/,'Both games must generate a fresh board on demand');
 assert.match(EXTRA_FUN_UI_SCRIPT,/extraFunHelp/,'Beginner game rules required');
 assert.match(EXTRA_FUN_UI_SCRIPT,/extra-fun-library-layout/,'Daily card must stay pinned');
 assert.match(EXTRA_FUN_UI_STYLE,/extra-fun-modal/);
 assert.match(EXTRA_FUN_UI_STYLE,/extra-fun-library-layout/);
-assert.match(EXTRA_FUN_UI_STYLE,/extra-fun-axis/);
+assert.match(EXTRA_FUN_UI_STYLE,/extra-fun-generated-grid/);
 assert.match(EXTRA_FUN_UI_STYLE,/extra-fun-block/);
 assert.match(EXTRA_FUN_UI_SCRIPT,/extraFunZodiacWheel/);
 assert.match(FUN_ASTRO_CORE_SCRIPT,/funSolarAspect/);
