@@ -100,6 +100,10 @@ function extraFunAstrology(){
   sign.value=String(idx);
   extraFunLine(out,extraFunText('Zodie solară tropicală: ','Tropical sun sign: ')+
    extraFunText(FUN_SIGNS[idx][0],FUN_SIGNS[idx][1])+' ('+solar.toFixed(2)+'°).');
+  const chinese=funChineseZodiac(utc);
+  if(chinese)extraFunLine(out,extraFunText('Zodiac chinezesc (an lunar): ','Chinese zodiac (lunar year): ')+
+   chinese.animal+' ('+chinese.year+').');
+  else extraFunLine(out,extraFunText('Calendarul chinezesc nu este disponibil pe acest dispozitiv.','Chinese lunar calendar is unavailable on this device.'));
   let rise=NaN;
   if(lat.value.trim()!==''&&lon.value.trim()!==''){
    const asc=funAscendantLongitude(utc,lat.value,lon.value);rise=asc;
@@ -112,7 +116,10 @@ function extraFunAstrology(){
  });
  const renderReading=humor=>{
   out.replaceChildren();
-  const idx=Number(sign.value),now=new Date(),today=funLocalDateKey(now);
+  const now=new Date(),today=funLocalDateKey(now);
+  const birthInstant=funParseBirth(date.value,time.value||'12:00',offset.value);
+  const idx=birthInstant?funSunSign(birthInstant):Number(sign.value);
+  if(birthInstant)sign.value=String(idx);
   const key=period.value==='month'?today.slice(0,7)+'-01':
    period.value==='week'?funLocalDateKey(new Date(now.getFullYear(),now.getMonth(),now.getDate()-((now.getDay()+6)%7))):today;
   const label=period.value==='month'?extraFunText('Lunar','Monthly'):
@@ -122,7 +129,7 @@ function extraFunAstrology(){
    ' · '+label+' — '+funSignLabel(idx)+' · '+key);
   const solar=funSolarLongitude(now);
   extraFunLine(out,extraFunText('Poziția aparentă a Soarelui astăzi: ','Apparent solar longitude today: ')+solar.toFixed(2)+'°.');
-  const utc=funParseBirth(date.value,time.value||'12:00',offset.value);
+  const utc=birthInstant;
   if(utc){
    const aspect=funSolarAspect(funSolarLongitude(utc),solar);
    extraFunLine(out,extraFunText('Separarea solară natală–actuală: ','Natal-to-current Sun angular separation: ')+
