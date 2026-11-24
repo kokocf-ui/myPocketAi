@@ -10,7 +10,7 @@ for(const [name,script] of [['astro',FUN_ASTRO_CORE_SCRIPT],['fun ui',EXTRA_FUN_
  ['navigation',EXTRA_TOOLS_SIX_NAV_SCRIPT],['tools bundle',EXTRA_TOOLS_WORKSPACE_SCRIPT]]){
  assert.doesNotThrow(()=>new vm.Script(script,{filename:name+'.js'}),name+' must parse as JS');
 }
-const f=new Function(FUN_ASTRO_CORE_SCRIPT+';return {funParseBirth,funSunSign,funSolarLongitude,funAscendantLongitude,funSudokuGenerate,funSudokuUnique,funDailyPick,funHoroscope,FUN_MAXIMS,FUN_JOKES,FUN_CROSSWORD};')();
+const f=new Function(FUN_ASTRO_CORE_SCRIPT+';return {funParseBirth,funSunSign,funSolarLongitude,funAscendantLongitude,funChineseZodiac,funSolarAspect,funSudokuGenerate,funSudokuUnique,funDailyPick,funHoroscope,FUN_MAXIMS,FUN_JOKES,FUN_CROSSWORD};')();
 assert.equal(f.funParseBirth('2026-02-30','12:00',0),null,'Invalid leap date must not normalize');
 assert.equal(f.funParseBirth('2024-02-29','12:00',2).toISOString(),'2024-02-29T10:00:00.000Z');
 assert.equal(f.funParseBirth('1899-01-01','12:00',0),null);
@@ -23,6 +23,11 @@ for(const [date,sign] of [
 }
 const utc=f.funParseBirth('1990-08-20','12:00',2);
 assert.ok(Number.isFinite(f.funAscendantLongitude(utc,51.5,-0.13)));
+assert.equal(f.funChineseZodiac(new Date('2026-01-15T12:00:00Z')).animal,'Șarpe',
+ 'Chinese zodiac must use Lunar New Year, not 1 January');
+assert.equal(f.funChineseZodiac(new Date('2026-03-15T12:00:00Z')).animal,'Cal');
+assert.equal(f.funSolarAspect(0,120).name,'trigon');
+assert.equal(f.funSolarAspect(0,180).name,'opoziție');
 assert.ok(Number.isNaN(f.funAscendantLongitude(utc,90,-0.13)),
  'Unsupported polar coordinates must not invent a rising sign');
 assert.ok(Number.isNaN(f.funAscendantLongitude(utc,51,250)),
@@ -57,6 +62,8 @@ for(const w of f.FUN_CROSSWORD)assert.ok(w.word&&w.clue&&w.dir);
 assert.match(EXTRA_FUN_UI_SCRIPT,/fun-daily-maxim/);
 assert.match(EXTRA_FUN_UI_SCRIPT,/storage\.setItem\(key,'1'\)/,'Maxim only once per calendar date');
 assert.match(EXTRA_FUN_UI_SCRIPT,/extraFunAstrology/);
+assert.match(EXTRA_FUN_UI_SCRIPT,/extraFunZodiacWheel/);
+assert.match(EXTRA_FUN_UI_SCRIPT,/funSolarAspect/);
 assert.match(EXTRA_FUN_UI_SCRIPT,/extraFunSudoku/);
 assert.match(EXTRA_TOOLS_SIX_NAV_SCRIPT,/if\(key\.startsWith\('fun-'\)\)return extraFunOpen\(key\)/);
 assert.match(EXTRA_TOOLS_SIX_NAV_STYLE,/grid-template-columns:minmax\(0,1fr\)!important/);
@@ -67,7 +74,7 @@ const script=html.match(/<script>([\s\S]*?)<\/script>/)?.[1];
 assert.ok(script,'New tools must be injected into Android frontend');
 assert.doesNotThrow(()=>new vm.Script(script),'Android frontend must compile');
 for(const name of ['extraFunAstrology','extraFunMaxims','extraFunJokes','extraFunGames',
- 'funSolarLongitude','funAscendantLongitude','extraToolsV2Icon']){
+ 'funSolarLongitude','funAscendantLongitude','funChineseZodiac','extraFunZodiacWheel','extraToolsV2Icon']){
  assert.ok(script.includes(name),'Missing in bundled frontend: '+name);
 }
 console.log('PASS: Tools illustrated single-column UX, astrology calculations, 4 fun screens, daily content, unique Sudoku and crossword');
