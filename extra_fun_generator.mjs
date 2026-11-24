@@ -55,7 +55,7 @@ function funGeneratePuzzle(mode='rebus',seed=funPuzzleSeed()){
    entries.push(entry);
   }
   const first=words.splice(Math.floor(rand()*Math.min(24,words.length)),1)[0];
-  const startR=4+Math.floor(rand()*3),startC=2+Math.floor(rand()*3);
+  const startR=4+Math.floor(rand()*3),startC=Math.min(2+Math.floor(rand()*3),N-first[0].length);
   add(first[0],first[1],startR,startC,'across');
   for(let iteration=0;iteration<words.length&&entries.length<20;iteration++){
    let chosen=null,wordIndex=-1;
