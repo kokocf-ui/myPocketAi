@@ -205,6 +205,8 @@ jobs:
   apk-signed-release:
     # Only the single approved main branch may produce an installable release.
     if: ${{ github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch') }}
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
@@ -413,6 +415,11 @@ jobs:
           node tests_math_batch2_md_uk_fr_de_2026.mjs
           node tests_math_batch3_es_it_pt_pl_2026.mjs
           node tests_math_batch4_western_isles_2026.mjs
+          node tests_math_batch5_nordic_baltic_2026.mjs
+          node tests_math_batch6_central_med_2026.mjs
+          node tests_math_batch7_southeast_east_2026.mjs
+          node tests_math_batch8_microstates_eurasia_2026.mjs
+          node tests_math_ro_textbook_correlation_2026.mjs
           node tests_math_europe_country_alignment_2026.mjs
           node tests_math_all_countries_2026.mjs
           node tests_math_depth_courses.mjs
@@ -465,6 +472,17 @@ jobs:
           path: android/app/build/outputs/apk/release/app-release.apk
           if-no-files-found: error
           retention-days: 30
+      - name: Publish direct mobile APK to GitHub Releases
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          TAG="v1.0.${GITHUB_RUN_NUMBER}"
+          cp android/app/build/outputs/apk/release/app-release.apk myPocketAI-signed-release.apk
+          gh release create "$TAG" myPocketAI-signed-release.apk \
+            --title "myPocketAI Signed Release (${TAG})" \
+            --notes "Signed Android production APK built from main (${GITHUB_SHA}). Direct mobile download: tap myPocketAI-signed-release.apk below." \
+            --latest
       - name: Remove temporary private signing key
         if: always()
         run: rm -f "$RUNNER_TEMP/pocket-release.jks"
