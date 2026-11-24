@@ -42,6 +42,8 @@ function extraFunAstrology(){
   const lead=period.value==='day'?'Zilnic':period.value==='week'?'Săptămânal':'Lunar';
   pop.content.append(extraFunNode('p','extra-fun-note',lead+' · '+key+' · '+extraFunText(
    'Previziune simbolică, nu informație științifică despre viitor.','A symbolic reading, not a scientific prediction.')));
+  const sun=funSolarLongitude(now),aspect=funSolarAspect(idx*30+15,sun);
+  extraFunPopupLine(pop.content,'☀️ Context astronomic','Longitudinea tropicală aproximativă a Soarelui astăzi: '+sun.toFixed(1)+'°. Distanța unghiulară față de mijlocul zodiei selectate: '+aspect.separation.toFixed(1)+'°. Sunt valori astronomice; interpretarea de mai jos rămâne simbolică.');
   const lines=funHoroscope(idx,key,humor,period.value);
   for(const line of lines){
    const split=line.indexOf(' — ');
