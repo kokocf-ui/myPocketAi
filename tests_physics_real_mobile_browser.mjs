@@ -59,6 +59,7 @@ try{
   assert.ok(found>=0,'Missing real Romanian Physics grade '+grade+' from '+all.join(' | '));
   await open(tiles.nth(found));
   const chapters=page.locator('#view-module .science-choice-list > .science-choice-row');
+  await chapters.first().waitFor({state:'attached',timeout:15000});
   const chapterTexts=await chapters.allTextContents();
   assert.ok(chapterTexts.length>=3,'Too few actual Physics chapters in Grade '+grade);
   assert.equal(new Set(chapterTexts).size,chapterTexts.length,'Repeated Physics chapter cards');
@@ -171,6 +172,7 @@ try{
     code+' must have at least one school year and a university pathway');
    await open(yearTiles.first());
    const chapters=countryPage.locator('#view-module .science-choice-list > .science-choice-row');
+   await chapters.first().waitFor({state:'attached',timeout:15000});
    assert.ok(await chapters.count()>=2,
     code+' first visible Physics/integrated Science year has empty or shallow chapters');
    countryRoutes++;

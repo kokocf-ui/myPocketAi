@@ -66,6 +66,7 @@ try{
   assert.ok(index>=0,'Missing Chemistry in actual Romanian grade '+grade);
   await open(tiles.nth(index));
   const chapters=page.locator('#view-module .science-choice-list > .science-choice-row');
+  await chapters.first().waitFor({state:'attached',timeout:15000});
   const chapterLabels=await chapters.allTextContents();
   assert.ok(chapterLabels.length>=3,'Chemistry must have several real chapters in grade '+grade);
   const scrollBar=await page.locator('#view-module .science-choice-list').evaluate(element=>
@@ -132,6 +133,7 @@ try{
    assert.ok(await countryTiles.count()>=2,code+' Chemistry missing school years');
    await open(countryTiles.first());
    const chapters=p.locator('#view-module .science-choice-list > .science-choice-row');
+   await chapters.first().waitFor({state:'attached',timeout:15000});
    assert.ok(await chapters.count()>=1,code+' Chemistry has no chapter in first offered school year');
    await open(chapters.first());
    assert.equal(await p.locator('#view-module .chemistry-section-tile').count(),3,

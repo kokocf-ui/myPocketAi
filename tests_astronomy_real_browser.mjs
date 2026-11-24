@@ -58,6 +58,7 @@ try{
   const index=all.findIndex(x=>patterns.some(rx=>rx.test(x)));
   assert.ok(index>=0,'Actual Romanian year button not rendered: '+grade+'; found: '+all.join('|'));
   await page.locator('.science-year-tile').nth(index).evaluate(el=>el.click());
+  await page.locator('.science-choice-list > .science-choice-row').first().waitFor({state:'attached',timeout:15000});
   const subject=await page.locator('.science-choice-list > .science-choice-row').count();
   assert.ok(subject>=2,'No visible science chapters in school grade '+grade);
   if(grade>=9)assert.equal(subject,({9:5,10:6,11:6,12:8})[grade],
