@@ -39,7 +39,7 @@ export const MATH_READER_LOCALE_UI_SCRIPT=`(function(){
   const host=document.getElementById('view-module');
   if(dialog)roots.push({el:dialog,sel:'h1,h2,h3,h4,p,li,summary,blockquote,figcaption,td,th'});
   if(host&&EDUCATION_VIEW_CLASSES.some(c=>host.classList.contains(c))){
-   roots.push({el:host,sel:'h1,h2,h3,h4,p,li,summary,blockquote,figcaption,td,th,.education-card strong,.education-card span,.education-toolbar button,.math-stage-back'});
+   roots.push({el:host,sel:'h1,h2,h3,h4,p,li,summary,blockquote,figcaption,td,th,small,button.secondary-btn,button strong,button small,.education-card strong,.education-card span,.education-toolbar button,.math-stage-back'});
   }
   const seen=new Set();
   const rawNodes=[];
@@ -47,15 +47,16 @@ export const MATH_READER_LOCALE_UI_SCRIPT=`(function(){
    for(const el of r.el.querySelectorAll(r.sel)){
     if(seen.has(el))continue;
     seen.add(el);
-    if(el.closest('[data-edu-no-translate],[data-edu-translated],code,pre,svg,math,.katex,.math-formula'))continue;
-    if(el.closest('[data-edu-localized]')===dialog&&dialog?.dataset?.eduLocalized===lang)continue;
+    if(el.closest('[data-edu-no-translate],[data-edu-translated],[data-edu-pending],code,pre,svg,math,.katex,.math-formula'))continue;
+    const locAncestor=el.closest('[data-edu-localized]');
+    if(locAncestor&&locAncestor.dataset?.eduLocalized===lang)continue;
     if(el.dataset?.eduTranslated===lang)continue;
     if(el.querySelector('button,input,select,textarea,svg,canvas'))continue;
-    if(el.children.length>0&&el.matches('p,li,td,th,div'))continue;
+    if(el.children.length>0&&el.matches('p,li,td,th,div,button'))continue;
     const text=(el.__pocketOrigText||el.dataset?.eduSourceText||el.textContent||'').trim();
-    if(!text||text.length>900||formulaOnly(text))continue;
-    const staticHit=syncStaticTranslate(text);
-    if(staticHit){
+    if(!text||text===('…')||text.length>900||formulaOnly(text))continue;
+    const staticHit=syncStaticTranslate(text)||(typeof eduGetCachedString==='function'?eduGetCachedString(text,lang):'');
+    if(staticHit&&staticHit!==text){
      if(!el.__pocketOrigText)el.__pocketOrigText=text;
      el.textContent=staticHit;
      el.dataset.eduTranslated=lang;
@@ -84,7 +85,7 @@ export const MATH_READER_LOCALE_UI_SCRIPT=`(function(){
     });
     const key='edu-dom-v3-'+lang+'-'+(typeof mathJourney!=='undefined'&&mathJourney?.grade||'g')+'-'+(typeof mathJourney!=='undefined'&&mathJourney?.topic||'t')+'-'+start+'-'+slice.map(x=>(x.dataset.eduSourceText||'').slice(0,18)).join('|').slice(0,110);
     if(typeof eduReadCachedTranslation==='function'){
-     const cached=eduReadCachedTranslation(key,original);
+     const cached=eduReadCachedTranslation(original,key,'mixed');
      if(cached){
       slice.forEach((el,idx)=>{
        const next=cached['n'+idx];
