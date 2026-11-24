@@ -115,15 +115,114 @@ for (const code of allCodes) {
     assert.notEqual(checkBtn, '✓ Verifică răspunsul', `${code} must not return Romanian '✓ Verifică răspunsul'`);
     assert.notEqual(grade5, 'Clasa 5', `${code} must localize 'Clasa 5' (got ${grade5})`);
   }
+
+  // Screen 1: Education Home title + all 8 subject titles & descriptions across all 44 languages
+  const eduHome = labelBox.learningLabel('Învățare și educație', 'Learning and education');
+  if (code !== 'ro') assert.notEqual(eduHome, 'Învățare și educație', `${code} must localize Education header`);
+  if (code !== 'en') assert.notEqual(eduHome, 'Learning and education', `${code} must not fall back to English 'Learning and education'`);
+  for (const [roT, enT, roD, enD] of [
+    ['Limbi străine', 'Languages', 'Vocabular, pronunție și conversație.', 'Vocabulary, pronunciation and conversation.'],
+    ['Matematică', 'Mathematics', 'Calcule, ecuații și geometrie.', 'Calculations, equations and geometry.'],
+    ['Științe', 'Sciences', 'Fizică, chimie, biologie și astronomie.', 'Physics, chemistry, biology and astronomy.'],
+    ['Istorie și geografie', 'History and geography', 'Civilizații, țări și hărți.', 'Civilizations, countries and maps.'],
+    ['Limbă și literatură', 'Language and literature', 'Gramatică, lectură și exprimare.', 'Grammar, reading and writing.'],
+    ['Informatică', 'Computing', 'Programare și competențe digitale.', 'Programming and digital skills.'],
+    ['Pregătire examene', 'Exam preparation', 'Teste, simulări și recapitulări.', 'Tests, mock exams and revision.'],
+    ['Cursuri practice', 'Practical courses', 'Finanțe, meserii și antreprenoriat.', 'Finance, careers and enterprise.']
+  ]) {
+    const t = labelBox.learningLabel(roT, enT);
+    const d = labelBox.learningLabel(roD, enD);
+    assert.ok(t && d, `${code} subject card '${roT}' must be localized`);
+    if (code !== 'ro') {
+      assert.notEqual(t, roT, `${code} subject title '${roT}' must not leak Romanian`);
+      assert.notEqual(d, roD, `${code} subject desc '${roD}' must not leak Romanian`);
+    }
+    if (code !== 'en') {
+      assert.notEqual(d, enD, `${code} subject desc '${enD}' must not leak English`);
+    }
+  }
+
+  // Screen 2 & 3 & 4 chrome + structural lesson headings across all 44 languages
+  const chooseStage = labelBox.learningLabel('Alege etapa de studiu', 'Choose your study stage');
+  const lawsBtn = labelBox.learningLabel('📚 Legi și teoreme', '📚 Laws and theorems');
+  const chooseLesson = labelBox.learningLabel('Alege lecția', 'Choose a lesson');
+  const pageWord = labelBox.learningLabel('Pagina ', 'Page ');
+  if (code !== 'ro') {
+    assert.notEqual(chooseStage, 'Alege etapa de studiu', `${code} stage heading must not leak Romanian`);
+    assert.notEqual(lawsBtn, '📚 Legi și teoreme', `${code} laws button must not leak Romanian`);
+    assert.notEqual(chooseLesson, 'Alege lecția', `${code} lesson heading must not leak Romanian`);
+    if (!['it', 'nl', 'rm'].includes(code)) {
+      assert.notEqual(pageWord, 'Pagina ', `${code} page counter must not leak Romanian`);
+    }
+    if (code !== 'en' && code !== 'fr') {
+      assert.notEqual(pageWord, 'Page ', `${code} page counter must not leak English`);
+    }
+  }
+  if (code !== 'en') {
+    assert.notEqual(chooseStage, 'Choose your study stage', `${code} stage heading must not leak English`);
+    assert.notEqual(lawsBtn, '📚 Laws and theorems', `${code} laws button must not leak English`);
+    assert.notEqual(chooseLesson, 'Choose a lesson', `${code} lesson heading must not leak English`);
+  }
 }
 
-// 6. Verify eduValidateTranslation handles prose numeral formatting & Roman numerals while guarding quizzes
+// 5b. Verify Spain LOMLOE + Spanish UI (Screens 1–4 regression check)
+labelBox.state.language = 'es';
+assert.equal(labelBox.learningLabel('Învățare și educație', 'Learning and education'), 'Aprendizaje y educación');
+assert.equal(labelBox.learningLabel('Matematică', 'Mathematics'), 'Matemáticas');
+assert.equal(labelBox.learningLabel('📚 Legi și teoreme', '📚 Laws and theorems'), '📚 Leyes y teoremas');
+assert.equal(labelBox.eduFormatCountryStageLabel('ES', 'primary', 'Primar', 'Primary'), 'Educación Primaria · 3 ciclos, 6 cursos');
+assert.equal(labelBox.eduFormatCountryStageLabel('ES', 'lower', 'Gimnaziu', 'Lower secondary'), 'ESO · 4 cursos, Matemáticas A/B en 4.º');
+assert.equal(labelBox.eduFormatCountryStageLabel('ES', 'intermediate', 'Liceu', 'Upper secondary'), 'Bachillerato · 2 cursos, según modalidad');
+assert.equal(
+  labelBox.eduDetectLessonSourceLang({
+    id: 'math-es-lomloe-eso4a-algebra-1',
+    title: 'Presupuesto y porcentaje de descuento',
+    enTitle: 'Discount percentages in a budget',
+    definition: 'Un descuento del p% reduce el precio inicial.'
+  }),
+  'es'
+);
+const sampleLessonRaw = [
+  '# Definiție și explicație',
+  'Definición: Un descuento del 15% sobre 80 € deja un precio final de 68 €.',
+  '# Formula și notațiile',
+  'Nu este necesară o formulă separată pentru acest concept.',
+  '# Exemplu rezolvat, pas cu pas',
+  'Ejemplo resuelto: 80 × (1 - 0,15) = 68 €.',
+  '# Exersează singur',
+  '1) Calcula el 20% de descuento sobre 50 €.',
+  '# Atenție',
+  'Fiecare operație trebuie justificată și verificată în context. Nu deduce măsuri, valori sau ipoteze care nu au fost precizate.',
+  '# Încadrare curriculară',
+  'Material orientativ de învățare; repartizarea oficială diferă după țară, instituție și an școlar.',
+  'Țară, clasă/an, ramură: ES, ESO4-A · Algebră.'
+].join('\n');
+const localizedEsLesson = labelBox.educationLocalizeLessonStructure(sampleLessonRaw, 'es');
+assert.ok(localizedEsLesson.includes('# Definición y explicación'));
+assert.ok(localizedEsLesson.includes('# Fórmula y notación'));
+assert.ok(localizedEsLesson.includes('No se necesita una fórmula aparte para este concepto.'));
+assert.ok(localizedEsLesson.includes('# Ejemplo resuelto paso a paso'));
+assert.ok(localizedEsLesson.includes('# Practica por tu cuenta'));
+assert.ok(localizedEsLesson.includes('# Atención'));
+assert.ok(localizedEsLesson.includes('# Marco curricular'));
+assert.ok(localizedEsLesson.includes('País: ES, ESO4-A · Álgebra.'));
+assert.ok(!localizedEsLesson.includes('Definiție și explicație'));
+assert.ok(!localizedEsLesson.includes('Formula și notațiile'));
+assert.equal(labelBox.eduDetectProseLang(localizedEsLesson), 'es');
+
+// 6. Verify eduValidateTranslation handles prose numeral formatting, trailing decimal zeros, equations & Roman numerals while guarding quizzes
 const validateProseDec = labelBox.eduValidateTranslation(
-  {body: 'Viteza medie este 2,5 m/s pe o distanță de 1 000 m în Clasa a V-a (secolul al XIX-lea).'},
-  {body: 'The average speed is 2.5 m/s over a distance of 1,000 m in Grade 5 (19th century).'},
+  {body: 'Viteza medie este 2,50 m/s (0,20 km) pe o distanță de 1 000 m în Clasa a V-a (secolul al XIX-lea), iar 2 + 3 = 5 în un pas simplu.'},
+  {body: 'The average speed is 2.5 m/s (0.2 km) over a distance of 1,000 m in Grade 5 (19th century), and 2 + 3 = 5 in 1 simple step.'},
   'mixed'
 );
-assert.equal(validateProseDec, true, 'Prose validation must accept 2,5 -> 2.5, 1 000 -> 1,000, and RO Roman numerals -> Arabic');
+assert.equal(validateProseDec, true, 'Prose validation must accept 2,50 -> 2.5, 0,20 -> 0.2, 1 000 -> 1,000, equations, and RO Roman numerals -> Arabic');
+
+const validateRomanTitle = labelBox.eduValidateTranslation(
+  {titles: ['Ecuații și inecuații de gradul I și al II-lea']},
+  {titles: ['Ecuaciones e inecuaciones de 1.º y 2.º grado']}
+);
+assert.equal(validateRomanTitle, true, 'Roman-numeral title gradul I și al II-lea -> 1.º y 2.º must validate');
 
 const validateQuizReject = labelBox.eduValidateTranslation(
   {question: 'Cât face 6 + 6?', choices: ['10', '12', '14']},
