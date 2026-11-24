@@ -1,208 +1,121 @@
-// Localises visible authored Education content and the paged lesson reader on demand
-// across all 44 supported app languages while keeping national curriculum selection
-// (educationCountrySelection.code) strictly independent from state.language.
-export const MATH_READER_LOCALE_UI_SCRIPT=String.raw`
-(function(){
- if(typeof document==='undefined'||typeof MutationObserver==='undefined')return;
- const seenLang=new WeakMap();
- let queued=false,enReverseMap=null;
- const EDU_ACTIVE_CLASSES='.learning-choose,.learning-foreign,.learning-math,.learning-science,.learning-hg,.learning-literature,.learning-computing,.learning-exams,.learning-practical,.learning-active';
+// Universal Education & Lesson Reader DOM Localization (all 44 languages).
+// Preserves formulas, numbers, symbols, and layout while localizing any remaining
+// Romanian or mixed-language prose across Education views & Paged Lesson Readers.
+export const MATH_READER_LOCALE_UI_SCRIPT=`(function(){
+ let translating=false,queued=false;
+ const EDUCATION_VIEW_CLASSES=['learning-home','learning-math','learning-science','learning-foreign','learning-hg','learning-literature','learning-computing','learning-admissions'];
  function inMathReader(){
-  try{
-   if(typeof state==='undefined'||!state.language||state.language==='ro')return false;
-   if(typeof eduTranslateMaterial!=='function')return false;
-   if(state.currentModule==='learning'||document.getElementById('educationPagedLessonDialog'))return true;
-   return !!document.querySelector('#view-module'+EDU_ACTIVE_CLASSES.split(',').join(',#view-module'));
-  }catch{return false}
- }
- function getEnReverseMap(){
-  if(enReverseMap)return enReverseMap;
-  enReverseMap=Object.create(null);
-  const enDict=typeof EDUCATION_UI_TRANSLATIONS!=='undefined'?EDUCATION_UI_TRANSLATIONS.en:null;
-  if(enDict){
-   for(const [ro,en] of Object.entries(enDict)){
-    if(en&&!enReverseMap[en])enReverseMap[en]=ro;
-   }
-  }
-  return enReverseMap;
- }
- function syncStaticTranslate(text,lang){
-  if(!text||!lang||lang==='ro')return null;
-  const dict=typeof EDUCATION_UI_TRANSLATIONS!=='undefined'?EDUCATION_UI_TRANSLATIONS[lang]:null;
-  if(dict?.[text])return dict[text];
-  const words=typeof UI_TEXT!=='undefined'?UI_TEXT[lang]?.wordTranslations:null;
-  if(words?.[text])return words[text];
-  if(lang!=='en'&&dict){
-   const roKey=getEnReverseMap()[text];
-   if(roKey&&dict[roKey])return dict[roKey];
-  }
-  return null;
+  const host=document.getElementById('view-module');
+  const dialog=document.getElementById('educationPagedLessonDialog');
+  const hasEduHost=Boolean(host&&EDUCATION_VIEW_CLASSES.some(c=>host.classList.contains(c)));
+  const hasOpenDialog=Boolean(dialog&&(dialog.open||dialog.offsetParent!==null||dialog.style.display==='block'||dialog.hasAttribute('open')));
+  return hasEduHost||hasOpenDialog;
  }
  function formulaOnly(text){
-  const str=String(text||'').trim();
-  // Do not put mathematical expressions through generative translation.
-  return /^[0-9\s+\-=*×÷\/^(),.:π√∫∑≤≥<>%°²³{}[\]xya-z_]+$/i.test(str) &&
-   /[=+×÷√∫∑≤≥^]/.test(str);
+  const s=String(text||'').trim();
+  if(!s)return true;
+  if(s.length<=2&&!/[A-Za-zĂÂÎȘȚăâîșț]/.test(s))return true;
+  if(!/[A-Za-zĂÂÎȘȚăâîșț]{3,}/.test(s))return true;
+  if(/^[0-9xXyYzZaAbBcCmMnNkKpPqQrRsStTuUvVwW+\\-*/=().,:^√π≤≥≠≈%°\\s]+$/.test(s)&&!/[A-Za-zĂÂÎȘȚăâîșț]{4,}/.test(s))return true;
+  return false;
  }
- function restoreRomanianNodes(root){
-  if(!root||!root.isConnected)return;
-  const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);
-  while(walker.nextNode()){
-   const n=walker.currentNode;
-   if(typeof n.__pocketOrigText==='string'&&seenLang.get(n)&&seenLang.get(n)!=='ro'){
-    n.nodeValue=n.__pocketOrigText;
-    seenLang.set(n,'ro');
-   }
-  }
+ function syncStaticTranslate(raw){
+  if(typeof eduUiText!=='function')return null;
+  const trimmed=String(raw||'').trim();
+  if(!trimmed)return null;
+  const direct=eduUiText(trimmed);
+  if(direct&&direct!==trimmed)return direct;
+  return null;
  }
- function eligible(node,root,isDialog){
-  const parent=node?.parentElement;
-  if(!parent||!root.contains(parent))return false;
-  const lang=state?.language||'ro';
-  if(seenLang.get(node)===lang)return false;
-  const baseText=typeof node.__pocketOrigText==='string'?node.__pocketOrigText:String(node?.nodeValue||'');
-  const text=baseText.trim();
-  if(text.length<3||text.length>4200||formulaOnly(text))return false;
-  if(/^[0-9\s.,:;+\-*/=()[\]%°•·←→↑↓✓✗○🔊■📷🖼️🎙️📄🎓📚📝🛠️✅🔗]+$/.test(text))return false;
-  if(parent.closest('[data-edu-translated="'+lang+'"],[data-edu-localized="'+lang+'"]'))return false;
-  if(isDialog){
-   if(parent.closest('button,a,input,textarea,select,script,style,svg,pre,code,[role="button"],[contenteditable="true"],[aria-hidden="true"]'))return false;
-   if(parent.closest('.math-practice-entry,.education-theory-head button'))return false;
-  }else{
-   if(parent.closest('input,textarea,select,option,script,style,svg,pre,code,[contenteditable="true"],[aria-hidden="true"]'))return false;
-   if(parent.closest('.education-toolbar,.lit-toolbar,.module-actions-row,.edu-country-panel,.edu-grade-panel,.math-practice-entry'))return false;
-   const btn=parent.closest('button,[role="button"]');
-   if(btn&&!btn.matches('.chapter-item,.math-choice-row,.science-inline-theory-item,.hg-topic-btn,.hg-chapter-card,.math-lesson-btn,.lit-card,.computing-topic-card,.computing-chapter-btn,.practical-card,.exam-topic-btn')&&
-    text.length<22&&/^[←→＋✓✗○🔊■📷🖼️🎙️📄]/.test(text))return false;
-  }
-  if(!parent.getClientRects().length)return false;
-  const style=getComputedStyle(parent);
-  if(style.display==='none'||style.visibility==='hidden')return false;
-  return true;
- }
- function applyNodeText(n,translatedText){
-  const source=String(n.__pocketOrigText||n.nodeValue||'');
-  const start=source.match(/^\s*/)?.[0]||'',end=source.match(/\s*$/)?.[0]||'';
-  n.nodeValue=start+translatedText.trim()+end;
- }
- async function translateGroup(nodes,root,key,language){
-  const original={};
-  nodes.forEach((n,i)=>{
-   if(typeof n.__pocketOrigText!=='string')n.__pocketOrigText=String(n.nodeValue||'');
-   let clean=n.__pocketOrigText.trim();
-   if(n.parentElement?.closest?.('.science-inline-theory-item')){
-    clean=clean.replace(/\s*·\s*(?:RO source|EN reference)\s*$/i,'').trim();
-   }
-   original['t'+i]=clean;
-  });
-  if(typeof eduReadCachedTranslation==='function'){
-   const hit=eduReadCachedTranslation(original,key,'mixed');
-   if(hit){
-    nodes.forEach((n,i)=>{
-     if(!n.isConnected||!root.contains(n))return;
-     const text=hit['t'+i];
-     if(typeof text==='string'&&text.trim())applyNodeText(n,text);
-     else seenLang.delete(n);
-    });
-    return;
-   }
-  }
-  const translated=await eduTranslateMaterial(original,key,'mixed');
-  if(!translated||!root.isConnected||state.language!==language||!inMathReader()){
-   nodes.forEach(nd=>seenLang.delete(nd));
-   return;
-  }
-  nodes.forEach((n,i)=>{
-   if(!n.isConnected||!root.contains(n))return;
-   const text=translated['t'+i];
-   if(typeof text!=='string'||!text.trim()){seenLang.delete(n);return;}
-   applyNodeText(n,text);
-  });
- }
- function activeEduIdentity(){
-  const root=document.getElementById('view-module');
-  const cls=String(root?.className||'');
-  const mod=cls.match(/learning-(choose|foreign|math|science|hg|literature|computing|exams|practical)/)?.[1]||'edu';
-  const country=String(typeof educationCountrySelection!=='undefined'?educationCountrySelection?.code||'':'');
-  let grade='',topic='';
-  try{
-   if(mod==='math'&&typeof mathJourney!=='undefined'){grade=mathJourney.grade||'';topic=mathJourney.topic||'';}
-   else if(mod==='science'&&typeof scienceJourney!=='undefined'){grade=scienceJourney.grade||'';topic=(scienceJourney.subject||'')+'-'+(scienceJourney.topic||'');}
-   else if(mod==='hg'&&typeof hgJourney!=='undefined'){grade=hgJourney.grade||'';topic=(hgJourney.subject||'')+'-'+(hgJourney.topic||'');}
-   else if(mod==='literature'&&typeof litJourney!=='undefined'){grade=litJourney.grade||'';topic=litJourney.topic||litJourney.branch||'';}
-   else if(mod==='computing'&&typeof computingJourney!=='undefined'){grade=computingJourney.grade||'';topic=computingJourney.topic||computingJourney.path||'';}
-   else if(mod==='exams'&&typeof examJourney!=='undefined'){grade=examJourney.grade||'';topic=(examJourney.subject||'')+'-'+(examJourney.topic||'');}
-   else if(mod==='practical'&&typeof practicalJourney!=='undefined'){topic=(practicalJourney.course||'')+'-'+(practicalJourney.chapter||'');}
-  }catch{}
-  return [mod,country,grade,topic].map(x=>String(x||'')).join(':');
- }
- function scanRoot(root,isDialog){
-  if(!root||!root.isConnected||!root.getClientRects().length)return;
-  const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);
-  const nodes=[];
-  const lang=state.language;
-  const cap=isDialog?90:140;
-  while(walker.nextNode()&&nodes.length<cap){
-   const node=walker.currentNode;
-   if(!eligible(node,root,isDialog))continue;
-   if(typeof node.__pocketOrigText!=='string')node.__pocketOrigText=String(node.nodeValue||'');
-   const clean=node.__pocketOrigText.trim();
-   const instant=syncStaticTranslate(clean,lang);
-   if(instant){
-    applyNodeText(node,instant);
-    seenLang.set(node,lang);
-    continue;
-   }
-   nodes.push(node);
-  }
-  if(!nodes.length)return;
-  nodes.forEach(node=>seenLang.set(node,lang));
-  const ident=activeEduIdentity();
-  let group=[],total=0,n=0;
-  const issue=()=>{
-   if(!group.length)return;
-   const selected=group,groupKey=ident+(isDialog?':reader:':':view:')+lang+':'+(n++);
-   group=[];total=0;
-   translateGroup(selected,root,groupKey,lang).catch(()=>{selected.forEach(nd=>seenLang.delete(nd))});
-  };
-  for(const node of nodes){
-   const length=(node.nodeValue||'').length;
-   if(group.length>=12||total+length>3400)issue();
-   group.push(node);total+=length;
-  }
-  issue();
- }
- function scan(){
-  queued=false;
-  const dialog=document.getElementById('educationPagedLessonDialog');
-  const modContent=document.getElementById('moduleContent');
-  if(typeof state!=='undefined'&&state.language==='ro'){
-   if(dialog)restoreRomanianNodes(dialog);
-   if(modContent)restoreRomanianNodes(modContent);
-   return;
-  }
+ async function translateVisibleReader(){
+  if(typeof state==='undefined'||!state||!state.language||state.language==='ro')return;
+  if(typeof eduTranslateMaterial!=='function'&&typeof eduUiText!=='function')return;
   if(!inMathReader())return;
-  if(dialog)scanRoot(dialog,true);
-  if(modContent)scanRoot(modContent,false);
+  if(translating){queued=true;return}
+  const lang=String(state.language);
+  const roots=[];
+  const dialog=document.getElementById('educationPagedLessonDialog');
+  const host=document.getElementById('view-module');
+  if(dialog)roots.push({el:dialog,sel:'h1,h2,h3,h4,p,li,summary,blockquote,figcaption,td,th'});
+  if(host&&EDUCATION_VIEW_CLASSES.some(c=>host.classList.contains(c))){
+   roots.push({el:host,sel:'h1,h2,h3,h4,p,li,summary,blockquote,figcaption,td,th,.education-card strong,.education-card span,.education-toolbar button,.math-stage-back'});
+  }
+  const seen=new Set();
+  const rawNodes=[];
+  for(const r of roots){
+   for(const el of r.el.querySelectorAll(r.sel)){
+    if(seen.has(el))continue;
+    seen.add(el);
+    if(el.closest('[data-edu-no-translate],[data-edu-translated],code,pre,svg,math,.katex,.math-formula'))continue;
+    if(el.closest('[data-edu-localized]')===dialog&&dialog?.dataset?.eduLocalized===lang)continue;
+    if(el.dataset?.eduTranslated===lang)continue;
+    if(el.querySelector('button,input,select,textarea,svg,canvas'))continue;
+    if(el.children.length>0&&el.matches('p,li,td,th,div'))continue;
+    const text=(el.__pocketOrigText||el.dataset?.eduSourceText||el.textContent||'').trim();
+    if(!text||text.length>900||formulaOnly(text))continue;
+    const staticHit=syncStaticTranslate(text);
+    if(staticHit){
+     if(!el.__pocketOrigText)el.__pocketOrigText=text;
+     el.textContent=staticHit;
+     el.dataset.eduTranslated=lang;
+     continue;
+    }
+    if(typeof eduDetectProseLang==='function'&&eduDetectProseLang(text)===lang){
+     el.dataset.eduTranslated=lang;
+     continue;
+    }
+    rawNodes.push(el);
+   }
+  }
+  if(!rawNodes.length||typeof eduTranslateMaterial!=='function')return;
+  translating=true;
+  try{
+   const BATCH_SIZE=12;
+   for(let start=0;start<rawNodes.length;start+=BATCH_SIZE){
+    if(String(state.language)!==lang)break;
+    const slice=rawNodes.slice(start,start+BATCH_SIZE);
+    const original={};
+    slice.forEach((el,idx)=>{
+     const src=(el.__pocketOrigText||el.dataset.eduSourceText||el.textContent||'').trim();
+     el.__pocketOrigText=src;
+     el.dataset.eduSourceText=src;
+     original['n'+idx]=src;
+    });
+    const key='edu-dom-v3-'+lang+'-'+(typeof mathJourney!=='undefined'&&mathJourney?.grade||'g')+'-'+(typeof mathJourney!=='undefined'&&mathJourney?.topic||'t')+'-'+start+'-'+slice.map(x=>(x.dataset.eduSourceText||'').slice(0,18)).join('|').slice(0,110);
+    if(typeof eduReadCachedTranslation==='function'){
+     const cached=eduReadCachedTranslation(key,original);
+     if(cached){
+      slice.forEach((el,idx)=>{
+       const next=cached['n'+idx];
+       if(typeof next==='string'&&next.trim()){
+        el.textContent=next;
+        el.dataset.eduTranslated=lang;
+       }
+      });
+      continue;
+     }
+    }
+    const translated=await eduTranslateMaterial(original,key,'mixed');
+    if(!translated||String(state.language)!==lang)continue;
+    slice.forEach((el,idx)=>{
+     const next=translated['n'+idx];
+     if(typeof next==='string'&&next.trim()){
+      el.textContent=next;
+      el.dataset.eduTranslated=lang;
+     }
+    });
+   }
+  }finally{
+   translating=false;
+   if(queued){queued=false;setTimeout(translateVisibleReader,60)}
+  }
  }
- function schedule(){
-  if(queued)return;
-  queued=true;
-  requestAnimationFrame(scan);
+ if(typeof window!=='undefined')window.pocketScheduleEducationLocaleScan=()=>setTimeout(translateVisibleReader,30);
+ const observer=typeof MutationObserver!=='undefined'?new MutationObserver(()=>{if(typeof state!=='undefined'&&state?.language&&state.language!=='ro'&&inMathReader())setTimeout(translateVisibleReader,40)}):null;
+ if(observer&&typeof document!=='undefined'&&document.body)observer.observe(document.body,{childList:true,subtree:true});
+ else if(observer&&typeof addEventListener==='function')addEventListener('DOMContentLoaded',()=>observer.observe(document.body,{childList:true,subtree:true}));
+ if(typeof addEventListener==='function'){
+  addEventListener('click',()=>setTimeout(translateVisibleReader,90),true);
+  addEventListener('change',()=>setTimeout(translateVisibleReader,90),true);
  }
- if(typeof window!=='undefined')window.pocketScheduleEducationLocaleScan=schedule;
- function init(){
-  if(!document.body)return;
-  new MutationObserver(records=>{
-   if(!inMathReader())return;
-   if(!document.getElementById('educationPagedLessonDialog')&&!document.getElementById('moduleContent'))return;
-   if(!records.some(r=>r.type==='childList'||r.attributeName==='style'||r.attributeName==='class'))return;
-   schedule();
-  }).observe(document.body,{subtree:true,childList:true,attributes:true,
-   attributeFilter:['style','class']});
-  schedule();
- }
- if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});
- else init();
-})();
-`;
+})();`;
