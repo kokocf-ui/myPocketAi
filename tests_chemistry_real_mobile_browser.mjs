@@ -149,6 +149,7 @@ try{
  assert.deepEqual(exceptions,[],'Uncaught real Chromium errors in Chemistry');
  console.log('PASS Chemistry mobile: 50 country-to-chapter paths, four Romanian school grade lessons and practical investigations, fully paged reader and stable navigation.');
 }catch(e){
+ console.error('::error::Chemistry browser: '+String(e).replace(/\r?\n/g,' '));
  await page.screenshot({path:'chemistry-browser-audit/failure.png',fullPage:true}).catch(()=>{});
  fs.writeFileSync('chemistry-browser-audit/failure.txt',JSON.stringify({
   message:String(e),exceptions,visible:await page.locator('#view-module').innerText().catch(()=>null)

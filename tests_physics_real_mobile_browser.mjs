@@ -10,7 +10,7 @@ import {chromium} from 'playwright';
 fs.mkdirSync('physics-browser-audit',{recursive:true});
 const server=http.createServer(async(req,res)=>{
  try{
-  const response=await frontend.fetch(new Request('http://localhost:3880'+req.url),
+  const response=await frontend.fetch(new Request('http://localhost:3880'+req.url,{headers:req.headers}),
    {COMMUNICATION_ORACLE_ORIGIN:''});
   res.writeHead(response.status,Object.fromEntries(response.headers));
   res.end(Buffer.from(await response.arrayBuffer()));

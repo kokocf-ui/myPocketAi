@@ -185,6 +185,7 @@ try{
   ' opened lessons, '+practicals+' grade-specific practicals, '+graphs+
   ' labelled and checked school graphs, distinct university model/residual plots');
 }catch(error){
+ console.error('::error::Astronomy browser: '+String(error).replace(/\r?\n/g,' '));
  try{
   await page.screenshot({path:'astronomy-browser-audit/browser-failure.png',fullPage:true});
   fs.writeFileSync('astronomy-browser-audit/browser-failure.txt',
