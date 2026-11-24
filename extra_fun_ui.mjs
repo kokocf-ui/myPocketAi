@@ -205,14 +205,17 @@ function extraFunHelp(panel,title,lines){
  panel.append(details);return details;
 }
 
-function extraFunWordGame(root,mode){
+function extraFunWordGame(root,mode,difficulty='dificil'){
  root.replaceChildren();
- const puzzle=funGeneratePuzzle(mode);
+ const puzzle=funGeneratePuzzle(mode,funPuzzleSeed(),difficulty);
  const arrow=mode==='integrame',title=arrow?'Integramă generată':'Rebus generat';
  const panel=extraFunPanel(root,title);
  panel.classList.add('extra-fun-puzzle-panel');
  const info=extraFunNode('div','extra-fun-game-head');
- info.append(extraFunNode('span','',puzzle.entries.length+' cuvinte · '+puzzle.width+'×'+puzzle.height));
+ info.append(extraFunNode('span','',puzzle.entries.length+' definiții · '+puzzle.width+'×'+puzzle.height));
+ const level=extraFunSelect(info,'Complexitate',[['mediu','Mediu · 16 definiții'],['dificil','Dificil · 20 definiții']]);
+ level.value=difficulty;
+ level.onchange=()=>extraFunWordGame(root,mode,level.value);
  const help=extraFunButton(info,'? Reguli',()=>{
   const pop=extraFunPopup('Cum se joacă '+(arrow?'integrama':'rebusul')+'?');
   const rules=arrow?
@@ -226,7 +229,8 @@ function extraFunWordGame(root,mode){
  });
  help.classList.add('extra-fun-short-button');panel.append(info);
  const grid=extraFunNode('div','extra-fun-generated-grid');
- grid.style.gridTemplateColumns='repeat('+puzzle.width+',minmax(0,1fr))';
+ grid.classList.add(arrow?'extra-fun-arrow-layout':'extra-fun-barred-layout');
+ grid.style.gridTemplateColumns=arrow?'repeat('+puzzle.width+',minmax(0,1fr))':'repeat(4,minmax(0,1fr)) 5px repeat(5,minmax(0,1fr))';
  grid.style.setProperty('--fun-cols',puzzle.width);
  grid.setAttribute('role','group');grid.setAttribute('aria-label',title);
  panel.append(grid);
@@ -239,7 +243,7 @@ function extraFunWordGame(root,mode){
   if(cell.hint){
    wrap.classList.add('extra-fun-clue-cell');
    const entry=clueEntries.get(key),label=(cell.hint.dir==='across'?'→ ':'↓ ')+cell.hint.clue;
-   const b=extraFunNode('button','extra-fun-in-grid-clue',label);
+   const b=extraFunNode('button','extra-fun-in-grid-clue',(cell.hint.dir==='across'?'→ ':'↓ ')+cell.hint.clue.slice(0,15));
    b.type='button';b.setAttribute('aria-label',label);
    b.onclick=()=>{
     const pop=extraFunPopup('Definiție '+(cell.hint.dir==='across'?'→':'↓'));
@@ -249,7 +253,8 @@ function extraFunWordGame(root,mode){
    };
    wrap.append(b);grid.append(wrap);continue;
   }
-  if(!cell.letter){wrap.classList.add('extra-fun-block');grid.append(wrap);continue}
+  if(!cell.letter){wrap.classList.add(cell.bar?'extra-fun-bar-cell':cell.header?'extra-fun-empty-header':'extra-fun-block');grid.append(wrap);continue}
+  if(cell.barBottom)wrap.classList.add('extra-fun-bar-bottom');
   if(!arrow&&ordinal.has(key))wrap.append(extraFunNode('span','extra-fun-index',String(ordinal.get(key))));
   const input=extraFunNode('input','extra-fun-cell');
   input.type='text';input.maxLength=1;input.autocapitalize='characters';input.autocomplete='off';input.inputMode='text';
@@ -286,7 +291,7 @@ function extraFunWordGame(root,mode){
   for(const item of inputs.values()){item.el.value='';item.wrap.classList.remove('incorrect')}
   status.textContent='';
  });
- const fresh=extraFunButton(buttons,'Generează alt careu',()=>extraFunWordGame(root,mode));
+ const fresh=extraFunButton(buttons,'Generează alt careu',()=>extraFunWordGame(root,mode,difficulty));
  for(const b of [check,clear,fresh])b.classList.add('extra-fun-short-button');
 }
 function extraFunCrossword(root){return extraFunWordGame(root,'rebus')}
