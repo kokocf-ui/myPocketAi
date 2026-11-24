@@ -3815,7 +3815,7 @@ ${ACCOUNT_HTML}
 <dialog id="pocketSelectDialog" class="pocket-unified-modal pocket-select-modal" aria-labelledby="pocketSelectTitle"><div class="pocket-unified-window"><header class="pocket-unified-heading"><strong id="pocketSelectTitle">Alege o opțiune</strong><button type="button" id="pocketSelectClose" class="back-btn">Revenire</button></header><div class="pocket-unified-body pocket-select-list" id="pocketSelectList"></div></div></dialog>
 <dialog id="longChoiceDialog" class="long-choice-dialog" aria-labelledby="longChoiceTitle"><section class="long-choice-window"><header class="long-choice-header"><strong id="longChoiceTitle">Opțiuni</strong><button type="button" class="long-choice-close" id="longChoiceClose" aria-label="Închide">✕</button></header><div id="longChoiceContent" class="long-choice-content"></div></section></dialog>
 <nav class="bottom-nav" aria-label="Navigare principală"><button class="nav-btn active" data-nav="home"><span class="nav-icon">⌂</span>Acasă</button><button class="nav-btn" data-nav="conversations"><span class="nav-icon">◷</span>Conversații</button><button class="nav-btn" data-nav="communication"><span class="nav-icon">✉</span>Comunicare</button><button class="nav-btn" data-nav="settings"><span class="nav-icon">⚙</span>Setări</button></nav>
-<div class="avatar-overlay" id="avatarOverlay" aria-hidden="true"><button class="avatar-close" id="avatarClose" aria-label="Închide avatarul">×</button><div class="avatar-stage"><img class="avatar-image" id="avatarImage" src="${AVATAR_DATA}" alt="Avatarul holografic myPocket AI"><iframe id="avatar3dFrame" title="Avatar 3D Pocket AI" loading="eager" aria-hidden="true" style="display:none;width:100%;height:100%;border:0;background:transparent;position:absolute;inset:0" allow="autoplay"></iframe><div class="avatar-message" id="avatarMessage">Salut! Sunt asistentul tău personal.</div><div class="voice-wave" id="voiceWave" hidden><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="avatar-status" id="avatarStatus">Bine ai venit!</div></div></div><div class="notice" id="notice" role="status" aria-live="polite"></div>
+<div class="avatar-overlay" id="avatarOverlay" aria-hidden="true"><button class="avatar-close" id="avatarClose" aria-label="Închide avatarul">×</button><div class="avatar-stage"><img class="avatar-image" id="avatarImage" alt="Avatarul holografic myPocket AI"><iframe id="avatar3dFrame" title="Avatar 3D Pocket AI" loading="eager" aria-hidden="true" style="display:none;width:100%;height:100%;border:0;background:transparent;position:absolute;inset:0" allow="autoplay"></iframe><div class="avatar-message" id="avatarMessage">Salut! Sunt asistentul tău personal.</div><div class="voice-wave" id="voiceWave" hidden><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="avatar-status" id="avatarStatus">Bine ai venit!</div></div></div><div class="notice" id="notice" role="status" aria-live="polite"></div>
 <script>
 window.POCKET_COMM_ORACLE_URL=__POCKET_COMM_ORIGIN__;
 ${ACCOUNT_SCRIPT}
@@ -3823,6 +3823,7 @@ ${COMMUNICATION_SCRIPT}
 ${ORACLE_COMMUNICATION_SCRIPT}
 (() => {
 'use strict';
+{const av=document.getElementById('avatarImage'),bm=document.querySelector('img.brand-mark,img.home-einstein');if(av&&bm?.getAttribute('src'))av.setAttribute('src',bm.getAttribute('src'));}
 // 01 — State and DOM references
 const nativeEntranceCompleted=new URLSearchParams(location.search).get('nativeLaunch')==='1';
 if(nativeEntranceCompleted)document.documentElement.classList.remove('pocket-boot');
@@ -8854,28 +8855,19 @@ function mathYearPosition(){
 }
 function mathOpenDepthLesson(lesson){
  if(!lesson?.worked)return;
- const title=learningLabel(lesson.title,lesson.enTitle||lesson.title);
+ const lang=String(state.language||'ro');
+ const srcLang=typeof eduDetectLessonSourceLang==='function'?eduDetectLessonSourceLang(lesson):'ro';
+ const title=lang===srcLang?lesson.title:
+  lang==='en'?(lesson.enTitle||lesson.title):
+  lang==='ro'?(lesson.roTitle||lesson.title):
+  ((typeof EDUCATION_UI_TRANSLATIONS!=='undefined'&&EDUCATION_UI_TRANSLATIONS[lang]?.[lesson.title])||lesson.title);
  const content=mathInDepthMaterial(lesson);
  const chosenCountry=String(educationCountrySelection.code||'');
  const chosenYear=String(mathJourney.grade||'');
  const note=mathCurriculumNotice();
  const original=content+'\\n\\n# Contextul de studiu\\n'+chosenCountry+' · '+chosenYear+' · '+note;
- // The offline Romanian original remains available when translation is
- // unavailable. For other languages, use the existing cached educational
- // translator; never change formulas, numbers or solved answers.
- if((state.language||'ro')==='ro'||typeof eduTranslateMaterial!=='function'){
-  educationOpenPagedLesson(title,original);return;
- }
- educationOpenPagedLesson(title,original);
- const token=String(lesson.id);
- const dialog=document.getElementById('educationPagedLessonDialog');
- if(dialog)dialog.dataset.mathLessonId=token;
- eduTranslateMaterial({text:content},'math-depth:'+token,'ro').then(result=>{
-  if(!result?.text||document.getElementById('educationPagedLessonDialog')?.dataset.mathLessonId!==token)return;
-  educationOpenPagedLesson(title,result.text+'\\n\\n'+chosenCountry+' · '+chosenYear);
-  const updated=document.getElementById('educationPagedLessonDialog');
-  if(updated)updated.dataset.mathLessonId=token;
- }).catch(()=>{});
+ const dialog=educationOpenPagedLesson(title,original);
+ if(dialog)dialog.dataset.mathLessonId=String(lesson.id||'');
 }
 function mathChaptersForSelection(){
  const topic=String(mathJourney.topic||''),stage=String(mathJourney.schoolStage||'');
@@ -8883,6 +8875,7 @@ function mathChaptersForSelection(){
  const phase=mathYearPosition().year4;
  const course=mathSelectedYearLessons(topic);
  if(course.length)return course.map(x=>({id:x.id,ro:x.title,en:x.enTitle||x.title,depth:true,
+  sourceLang:typeof eduDetectLessonSourceLang==='function'?eduDetectLessonSourceLang(x):'ro',
   unit:x.unit||null,tier:mathGcseLessonTier(x)}));
  // Use the relative year within the *selected country's stage*, not a
  // Romanian class number extracted from another country's year identifier.
@@ -11751,7 +11744,8 @@ function scienceAttachLessonReview(dialog){
 
 function educationOpenPagedLesson(title,body){
  document.getElementById('educationPagedLessonDialog')?.remove();
- const raw=educationNumberLessonAnswers(String(body||'').replaceAll(String.fromCharCode(13),'').trim());
+ const rawBase=educationNumberLessonAnswers(String(body||'').replaceAll(String.fromCharCode(13),'').trim());
+ const raw=typeof educationLocalizeLessonStructure==='function'?educationLocalizeLessonStructure(rawBase):rawBase;
  const nl=String.fromCharCode(10),limit=window.innerWidth<560?720:1100,pages=[];
  for(let start=0;start<raw.length;){
   let end=Math.min(raw.length,start+limit);
@@ -11859,26 +11853,61 @@ function educationOpenPagedLesson(title,body){
  prev.onclick=()=>{if(page>0){stopPageAudio();page--;paint()}};
  next.onclick=()=>{if(page<pages.length-1){stopPageAudio();page++;paint()}};
  footer.append(prev,count,next);footer.hidden=pages.length===1;
+ const statusNote=document.createElement('span');
+ statusNote.className='education-paged-translate-status';
+ statusNote.style.cssText='font-size:12px;opacity:.82;';
+ statusNote.hidden=true;
+ head.append(statusNote);
  dialog.append(head,heading,content,footer);
  if(scienceReader)scienceAttachLessonReview(dialog);
  dialog.addEventListener('close',()=>{stopPageAudio();if(scienceReader)window.removeEventListener('pocket-speech-state',updatePageSpeech);dialog.remove()});
+ const reqLang=typeof state!=='undefined'&&state.language?String(state.language):'ro';
+ const proseLang=typeof eduDetectProseLang==='function'?eduDetectProseLang(raw):'ro';
+ const pendingBatches=[];
+ if(reqLang!=='ro'){
+  if(proseLang===reqLang){
+   for(let i=0;i<pages.length;i++)pageTranslatedLang[i]=reqLang;
+   heading.setAttribute('data-edu-localized',reqLang);
+   head.eduPrintableMaterial=()=>({title:currentCleanTitle,text:educationCleanLessonText(pages.join(nl+nl))});
+  }else if(typeof eduTranslateMaterial==='function'){
+   const baseTitleKey=currentCleanTitle.slice(0,40);
+   const batches=[];let curIdx=[],curLen=0;
+   pages.forEach((p,idx)=>{
+    if(curIdx.length&&(curLen+p.length)>3000){batches.push(curIdx);curIdx=[];curLen=0;}
+    curIdx.push(idx);curLen+=p.length;
+   });
+   if(curIdx.length)batches.push(curIdx);
+   batches.forEach((idxs,bIdx)=>{
+    const cacheId='paged-reader:'+baseTitleKey+':b'+bIdx;
+    const payload={...(bIdx===0?{title:currentCleanTitle}:{}),pages:idxs.map(i=>pages[i])};
+    const hit=typeof eduReadCachedTranslation==='function'?eduReadCachedTranslation(payload,cacheId,'mixed'):null;
+    if(hit&&Array.isArray(hit.pages)){
+     if(bIdx===0&&typeof hit.title==='string'&&hit.title.trim()){
+      currentCleanTitle=hit.title.trim();heading.textContent=currentCleanTitle;heading.title=currentCleanTitle;
+      heading.setAttribute('data-edu-localized',reqLang);
+     }
+     idxs.forEach((pIdx,k)=>{
+      if(typeof hit.pages[k]==='string'&&hit.pages[k].trim()){pages[pIdx]=hit.pages[k];pageTranslatedLang[pIdx]=reqLang;}
+     });
+     head.eduPrintableMaterial=()=>({title:currentCleanTitle,text:educationCleanLessonText(pages.join(nl+nl))});
+    }else pendingBatches.push({idxs,bIdx,cacheId,payload});
+   });
+  }
+ }
  document.body.append(dialog);
  try{dialog.showModal()}catch{dialog.setAttribute('open','')}
  paint();
- if(typeof state!=='undefined'&&state.language&&state.language!=='ro'&&typeof eduTranslateMaterial==='function'){
-  const reqLang=state.language;
-  const batches=[];let curIdx=[],curLen=0;
-  pages.forEach((p,idx)=>{
-   if(curIdx.length&&(curLen+p.length)>3000){batches.push(curIdx);curIdx=[];curLen=0;}
-   curIdx.push(idx);curLen+=p.length;
-  });
-  if(curIdx.length)batches.push(curIdx);
-  batches.forEach((idxs,bIdx)=>{
-   const payload={...(bIdx===0?{title:currentCleanTitle}:{}),pages:idxs.map(i=>pages[i])};
-   eduTranslateMaterial(payload,'paged-reader:'+currentCleanTitle.slice(0,40)+':b'+bIdx,'mixed').then(res=>{
+ if(pendingBatches.length){
+  statusNote.textContent=learningLabel('Se traduce lecția…','Translating the lesson…');
+  statusNote.setAttribute('data-edu-localized',reqLang);
+  statusNote.hidden=false;
+  let remaining=pendingBatches.length;
+  pendingBatches.forEach(({idxs,bIdx,cacheId,payload})=>{
+   eduTranslateMaterial(payload,cacheId,'mixed').then(res=>{
     if(!res||!Array.isArray(res.pages)||state.language!==reqLang)return;
     if(bIdx===0&&typeof res.title==='string'&&res.title.trim()){
      currentCleanTitle=res.title.trim();heading.textContent=currentCleanTitle;heading.title=currentCleanTitle;
+     heading.setAttribute('data-edu-localized',reqLang);
     }
     let repaint=false;
     idxs.forEach((pIdx,k)=>{
@@ -11889,7 +11918,9 @@ function educationOpenPagedLesson(title,body){
     });
     if(repaint)paint();
     head.eduPrintableMaterial=()=>({title:currentCleanTitle,text:educationCleanLessonText(pages.join(nl+nl))});
-   }).catch(()=>{});
+   }).catch(()=>{}).finally(()=>{
+    if(--remaining<=0)statusNote.hidden=true;
+   });
   });
  }
  return dialog;
@@ -12850,7 +12881,9 @@ function mathYearTopics(){
   return {...topic,
    ro:stage==='beginner'&&area.id==='geometry'?'Forme geometrice':topic.ro,
    en:stage==='beginner'&&area.id==='geometry'?'Shapes and space':topic.en,
-   topicFocus:area.ro,topicFocusEn:area.en};
+   topicFocus:area.ro,topicFocusEn:area.en,
+   topicFocusEs:area.es||'',topicFocusIt:area.it||'',
+   topicFocusNative:area.native||'',topicFocusNativeLang:area.nativeLang||''};
  }).filter(Boolean);
 }
 function mathJourneyShowChoices(stage){
@@ -12886,10 +12919,12 @@ function mathJourneyShowChoices(stage){
  const bar=document.createElement('div');bar.className='education-toolbar';
  bar.append(back);host.append(bar);
  const panel=document.createElement('div');panel.className='math-choice-panel';
+ const curLang=String(state.language||'ro');
  const title=document.createElement('h2');
  title.textContent=stage==='stages'?learningLabel('Alege etapa de studiu','Choose your study stage'):
   stage==='branches'?learningLabel('Alege ramura matematicii','Choose a mathematics branch'):
   learningLabel('Alege lecția','Choose a lesson');
+ title.setAttribute('data-edu-localized',curLang);
  const note=document.createElement('p');
  const topic=MATH_TOPICS.find(x=>x.id===mathJourney.topic);
  const isEnglandGcse=String(educationCountrySelection.code||'')==='GB-ENG'&&
@@ -12900,6 +12935,7 @@ function mathJourneyShowChoices(stage){
   ?educationCountrySelection.label+' · '+learningLabel('Clasa / anul: ','Grade / year: ')+(mathJourney.grade||''):
    educationCountrySelection.label+' · '+learningLabel('Clasa / anul: ','Grade / year: ')+
    (mathJourney.grade||'')+' · '+learningLabel(topic?.ro||'',topic?.en||'');
+ note.setAttribute('data-edu-localized',curLang);
  const items=document.createElement('div');items.className='math-choice-list';
  const lessonHeadings=[];
  let shownUnit='';
@@ -12928,15 +12964,43 @@ function mathJourneyShowChoices(stage){
   const countryStage=stage==='stages'&&typeof EDU_MATH_STAGE_LABELS!=='undefined'
    ?EDU_MATH_STAGE_LABELS[String(educationCountrySelection.code||'')]?.[entry.id]:null;
   const heading=document.createElement('strong');
-  heading.textContent=countryStage?learningLabel(countryStage[0],countryStage[1]):learningLabel(entry.ro,entry.en);
-  if(stage==='chapters')lessonHeadings.push(heading);
+  if(stage==='stages'){
+   heading.textContent=typeof eduFormatCountryStageLabel==='function'
+    ?eduFormatCountryStageLabel(educationCountrySelection.code,entry.id,entry.ro,entry.en)
+    :(countryStage?learningLabel(countryStage[0],countryStage[1]):learningLabel(entry.ro,entry.en));
+   heading.setAttribute('data-edu-localized',curLang);
+  }else if(stage==='chapters'){
+   const entryLang=entry.sourceLang||'ro';
+   if(curLang===entryLang){
+    heading.textContent=entry.ro;heading.setAttribute('data-edu-localized',curLang);
+   }else if(curLang==='en'){
+    heading.textContent=entry.en||entry.ro;heading.setAttribute('data-edu-localized','en');
+   }else{
+    const direct=typeof EDUCATION_UI_TRANSLATIONS!=='undefined'?EDUCATION_UI_TRANSLATIONS[curLang]?.[entry.ro]:null;
+    heading.textContent=direct||entry.ro;
+    if(direct)heading.setAttribute('data-edu-localized',curLang);
+   }
+   lessonHeadings.push(heading);
+  }else{
+   heading.textContent=learningLabel(entry.ro,entry.en);
+   heading.setAttribute('data-edu-localized',curLang);
+  }
   const subtitle=document.createElement('small');
-  subtitle.textContent=stage==='stages'
-   ?(countryStage?learningLabel('Selectează anul de studiu al țării.','Choose the local school year.'):learningLabel(entry.scopeRo||'',entry.scopeEn||'')):
-   stage==='branches'?learningLabel(entry.topicFocus||'',entry.topicFocusEn||''):
-   (isEnglandGcse&&entry.tier==='higher-only'
+  if(stage==='stages'){
+   subtitle.textContent=countryStage?learningLabel('Selectează anul de studiu al țării.','Choose the local school year.'):learningLabel(entry.scopeRo||'',entry.scopeEn||'');
+   subtitle.setAttribute('data-edu-localized',curLang);
+  }else if(stage==='branches'){
+   if(curLang==='es'&&entry.topicFocusEs){subtitle.textContent=entry.topicFocusEs;subtitle.setAttribute('data-edu-localized','es');}
+   else if(curLang==='it'&&entry.topicFocusIt){subtitle.textContent=entry.topicFocusIt;subtitle.setAttribute('data-edu-localized','it');}
+   else if(entry.topicFocusNativeLang&&curLang===entry.topicFocusNativeLang&&entry.topicFocusNative){subtitle.textContent=entry.topicFocusNative;subtitle.setAttribute('data-edu-localized',curLang);}
+   else if(curLang==='ro'||curLang==='en'){subtitle.textContent=learningLabel(entry.topicFocus||'',entry.topicFocusEn||'');subtitle.setAttribute('data-edu-localized',curLang);}
+   else subtitle.textContent=entry.topicFocus||entry.topicFocusEn||'';
+  }else{
+   subtitle.textContent=isEnglandGcse&&entry.tier==='higher-only'
     ?learningLabel('Exclusiv nivelului Higher','Higher tier only')
-    :learningLabel('Deschide lecția','Open lesson'));
+    :learningLabel('Deschide lecția','Open lesson');
+   subtitle.setAttribute('data-edu-localized',curLang);
+  }
   button.append(art,heading,subtitle);
   button.onclick=()=>{
    if(stage==='stages'){
@@ -13016,15 +13080,25 @@ function mathJourneyShowChoices(stage){
  // European app languages translate the visible list as a cached batch;
  // discarded selections never overwrite the next school's chapter list.
  const lang=String(state.language||'ro');
- if(stage==='chapters'&&lang!=='ro'&&lang!=='en'&&lessonHeadings.length&&
-    typeof eduTranslateMaterial==='function'){
-  const country=String(educationCountrySelection.code||''),grade=String(mathJourney.grade||'');
-  const selectedTopic=String(mathJourney.topic||''),chapterKey=country+':'+grade+':'+selectedTopic;
-  eduTranslateMaterial({titles:candidates.map(x=>x.ro)},'math:chapter-titles:'+chapterKey,'ro').then(result=>{
-   if(!result?.titles||mathJourney.stage!=='chapters'||mathJourney.grade!==grade||
-       mathJourney.topic!==selectedTopic||educationCountrySelection.code!==country)return;
-   result.titles.forEach((name,i)=>{if(lessonHeadings[i]&&name)lessonHeadings[i].textContent=name});
-  }).catch(()=>{});
+ if(stage==='chapters'&&lang!=='en'&&lessonHeadings.length&&typeof eduTranslateMaterial==='function'){
+  const pending=candidates.map((x,i)=>({i,text:x.ro,el:lessonHeadings[i],src:x.sourceLang||'ro'}))
+   .filter(p=>p.el&&p.el.getAttribute('data-edu-localized')!==lang&&p.src!==lang);
+  if(pending.length){
+   const country=String(educationCountrySelection.code||''),grade=String(mathJourney.grade||'');
+   const selectedTopic=String(mathJourney.topic||''),chapterKey=country+':'+grade+':'+selectedTopic;
+   const cacheId='math:chapter-titles:'+chapterKey;
+   const payload={titles:pending.map(p=>p.text)};
+   const hit=typeof eduReadCachedTranslation==='function'?eduReadCachedTranslation(payload,cacheId,'mixed'):null;
+   if(hit&&Array.isArray(hit.titles)){
+    pending.forEach((p,k)=>{if(hit.titles[k]){p.el.textContent=hit.titles[k];p.el.setAttribute('data-edu-localized',lang);}});
+   }else{
+    eduTranslateMaterial(payload,cacheId,'mixed').then(result=>{
+     if(!result?.titles||state.language!==lang||mathJourney.stage!=='chapters'||mathJourney.grade!==grade||
+        mathJourney.topic!==selectedTopic||educationCountrySelection.code!==country)return;
+     pending.forEach((p,k)=>{if(result.titles[k]){p.el.textContent=result.titles[k];p.el.setAttribute('data-edu-localized',lang);}});
+    }).catch(()=>{});
+   }
+  }
  }
  requestAnimationFrame(mathFitViewport);
 }
@@ -24302,7 +24376,7 @@ pt:{travel:'Encontra hotéis, restaurantes e outros locais nas proximidades.',ma
 ru:{travel:'Найдите отели, рестораны и другие места поблизости.',maps:'Планируйте маршруты и проверяйте общественный транспорт.',learning:'Учитесь шаг за шагом и получайте понятные объяснения.',organize:'Ведите списки, бюджеты, проекты и цели.',tools:'Изучайте анализ, идеи, документы и другие инструменты.'},
 pl:{travel:'Znajdź hotele, restauracje i inne miejsca w pobliżu.',maps:'Planuj trasy i sprawdzaj transport publiczny.',learning:'Ucz się krok po kroku i otrzymuj jasne wyjaśnienia.',organize:'Organizuj listy, budżety, projekty i cele.',tools:'Odkrywaj analizy, pomysły, dokumenty i dodatkowe narzędzia.'},
 nl:{travel:'Vind hotels, restaurants en andere plaatsen in de buurt.',maps:'Plan routes en bekijk informatie over het openbaar vervoer.',learning:'Leer stap voor stap en krijg duidelijke uitleg.',organize:'Organiseer lijsten, budgetten, projecten en doelen.',tools:'Ontdek analyses, ideeën, documenten en extra hulpmiddelen.'}};return (leads[lang]||leads.en)[key]||MODULES[key]?.lead||''}
-function applyUiLanguage(){closeAnswerReader(false);document.querySelectorAll('.answer-reader-open').forEach(b=>b.textContent=readerLabels().open);const d=UI_TEXT[state.language]||UI_TEXT.en;window.pocketCommunicationSetLanguage?.(state.language);window.pocketAccountApplyLanguage?.();document.documentElement.lang=state.language;$('home-title').textContent=d.homeTitle;document.querySelector('#view-home>.lead').textContent=d.homeLead;document.querySelector('.brand-sub').textContent=d.subtitle;const plan=document.querySelector('.plan-pill');if(plan)plan.textContent=state.language==='ro'?'GRATUIT ♛':state.language==='fr'?'GRATUIT ♛':state.language==='de'?'KOSTENLOS ♛':state.language==='it'?'GRATUITO ♛':state.language==='es'?'GRATIS ♛':state.language==='pt'?'GRÁTIS ♛':state.language==='nl'?'GRATIS ♛':state.language==='ru'?'БЕСПЛАТНО ♛':state.language==='pl'?'BEZPŁATNIE ♛':'FREE ♛';if(d.freeLabel&&plan)plan.textContent=d.freeLabel;document.querySelectorAll('#view-home .feature-card').forEach((card,i)=>{if(d.cards[i]){card.querySelector('.card-title').textContent=d.cards[i][0];card.querySelector('.card-description').textContent=d.cards[i][1]}});document.querySelectorAll('.bottom-nav [data-nav]').forEach(b=>{const label=b.dataset.nav==='home'?d.home:b.dataset.nav==='conversations'?d.conversations:b.dataset.nav==='communication'?window.pocketCommunicationLabel(state.language):d.settings;const icon=b.querySelector('.nav-icon');b.replaceChildren(icon,document.createTextNode(label))});document.querySelectorAll('[data-back]').forEach(b=>b.textContent=d.back);$('newChatBtn').textContent=d.newChat;$('moduleLayerTitle').textContent=d.quickTitle;$('moduleLayerBack').textContent=state.language==='en'?'← Back':state.language==='fr'?'← Retour':state.language==='de'?'← Zurück':state.language==='it'?'← Indietro':state.language==='es'?'← Volver':state.language==='pt'?'← Voltar':state.language==='nl'?'← Terug':state.language==='ru'?'← Назад':state.language==='pl'?'← Wstecz':(d.backShort||'← Înapoi');document.querySelector('#sharedChatShell .chat-top strong').textContent=d.conversation;const empty=messagesEl.querySelector('.empty-state');if(empty){empty.replaceChildren(document.createTextNode(d.empty));const hint=document.createElement('span');hint.className='small';hint.textContent=d.emptyHint;empty.append(document.createElement('br'),hint)}if(!state.messages.length)setStatus(d.ready);$('languageSelect').setAttribute('aria-label',d.settingsLanguage);const settings=$('view-settings');settings.querySelector('h2').textContent=d.settings;settings.querySelector('.module-panel h3').textContent=d.settingsLanguage;settings.querySelector('.module-panel p').textContent=d.settingsLanguageHint;settings.querySelector('.module-panel .small').textContent=d.speechHint;settings.querySelectorAll('.module-panel')[1].querySelector('h3').textContent=d.about;const verEl=$('pocketInterfaceVersion');if(verEl){const vPref=state.language==='ro'?'Versiunea interfeței':state.language==='fr'?'Version de l’interface':state.language==='de'?'Oberflächenversion':state.language==='it'?'Versione interfaccia':state.language==='es'?'Versión de la interfaz':state.language==='pt'?'Versão da interface':state.language==='nl'?'Interfaceversie':(d.versionPrefix||'Interface version');verEl.textContent='myPocket AI · '+vPref+' '+'${APP.version}';}settings.querySelectorAll('.module-panel')[1].querySelectorAll('p')[1].textContent=state.language==='en'?'Local conversations can be deleted in the Conversations section.':state.language==='fr'?'Les conversations locales peuvent être supprimées dans la section Conversations.':state.language==='de'?'Lokale Gespräche können im Bereich Gespräche gelöscht werden.':state.language==='it'?'Le conversazioni locali possono essere eliminate nella sezione Conversazioni.':state.language==='es'?'Las conversaciones locales se pueden borrar en la sección Conversaciones.':state.language==='pt'?'As conversas locais podem ser apagadas na secção Conversas.':state.language==='nl'?'Lokale gesprekken kunnen worden verwijderd in het onderdeel Gesprekken.':'Conversațiile locale pot fi șterse din secțiunea Conversații.';if(d.localPrivacy)settings.querySelectorAll('.module-panel')[1].querySelectorAll('p')[1].textContent=d.localPrivacy;const conversations=$('view-conversations');conversations.querySelector('h2').textContent=d.conversations;conversations.querySelector('.section-lead').textContent=d.localHistory;$('clearHistoryBtn').textContent=d.clearHistory;const toolsView=$('view-tools');toolsView.querySelector('h2').textContent=d.tools;toolsView.querySelector('.section-lead').textContent=d.chooseDomain;if(window.__pocketToolsReady===true)refreshToolTranslations();if((state.currentModule==='maps'||state.currentModule==='travel')&&$('view-module').classList.contains('module-landing'))renderModuleLandingChoices();document.querySelector('#view-assistant>.section-title').textContent=d.cards[0][0];document.querySelector('#view-assistant .section-lead').textContent=state.language==='en'?'Type or speak with myPocket AI.':state.language==='fr'?'Écrivez ou parlez avec myPocket AI.':state.language==='de'?'Schreibe oder sprich mit myPocket AI.':state.language==='it'?'Scrivi o parla con myPocket AI.':state.language==='es'?'Escribe o habla con myPocket AI.':state.language==='pt'?'Escreve ou fala com myPocket AI.':state.language==='nl'?'Typ of praat com myPocket AI.'.replace(' com ',' met '):'Scrie sau vorbește cu myPocket AI.';if(d.assistantLead)document.querySelector('#view-assistant .section-lead').textContent=d.assistantLead;inputEl.setAttribute('aria-label',d.send);$('sendBtn').setAttribute('aria-label',d.send);$('dictationBtn').setAttribute('aria-label',d.dictation);$('dictationBtn').title=d.dictation;$('voiceBtn').setAttribute('aria-label',d.voice);$('voiceBtn').title=d.voice;$('listenBtn').setAttribute('aria-label',d.listen);$('listenBtn').title=d.listen;if(state.currentModule==='learning'&&$('view-module')?.classList.contains('learning-choose')&&typeof renderLearningSubjects==='function')renderLearningSubjects();if(typeof window.pocketScheduleEducationLocaleScan==='function')window.pocketScheduleEducationLocaleScan();if(state.currentView==='module'){const m=MODULES[state.currentModule];if(m){$('moduleTitle').textContent=(state.currentModule==='learning'&&activeLearningSubject)?learningLabel(activeLearningSubject[2],activeLearningSubject[3]):(d.moduleTitle[state.currentModule]||m.title);$('moduleLead').textContent=(state.currentModule==='learning'&&activeLearningSubject)?'':localizedModuleLead(state.currentModule)}}const quickLayer=$('moduleQuickLayer');if(quickLayer?.classList.contains('open')){if(state.moduleSearchResults?.length&&state.moduleSearchCategory?.kind==='places'){renderModulePlaces(state.moduleSearchResults)}else if(state.moduleSearchCategory){$('moduleLayerTitle').textContent=localizedQuickChoiceTitle(state.moduleSearchCategory);if(state.moduleSearchBusy)moduleStatus(quickUiText().searching+' '+localizedQuickChoiceTitle(state.moduleSearchCategory).toLowerCase()+' '+quickUiText().nearby)}else{ $('moduleLayerTitle').textContent=d.quickTitle;}}try{localStorage.setItem('mypocketai.language',state.language)}catch{}}
+function applyUiLanguage(){closeAnswerReader(false);document.querySelectorAll('.answer-reader-open').forEach(b=>b.textContent=readerLabels().open);const d=UI_TEXT[state.language]||UI_TEXT.en;window.pocketCommunicationSetLanguage?.(state.language);window.pocketAccountApplyLanguage?.();document.documentElement.lang=state.language;$('home-title').textContent=d.homeTitle;document.querySelector('#view-home>.lead').textContent=d.homeLead;document.querySelector('.brand-sub').textContent=d.subtitle;const plan=document.querySelector('.plan-pill');if(plan)plan.textContent=state.language==='ro'?'GRATUIT ♛':state.language==='fr'?'GRATUIT ♛':state.language==='de'?'KOSTENLOS ♛':state.language==='it'?'GRATUITO ♛':state.language==='es'?'GRATIS ♛':state.language==='pt'?'GRÁTIS ♛':state.language==='nl'?'GRATIS ♛':state.language==='ru'?'БЕСПЛАТНО ♛':state.language==='pl'?'BEZPŁATNIE ♛':'FREE ♛';if(d.freeLabel&&plan)plan.textContent=d.freeLabel;document.querySelectorAll('#view-home .feature-card').forEach((card,i)=>{if(d.cards[i]){card.querySelector('.card-title').textContent=d.cards[i][0];card.querySelector('.card-description').textContent=d.cards[i][1]}});document.querySelectorAll('.bottom-nav [data-nav]').forEach(b=>{const label=b.dataset.nav==='home'?d.home:b.dataset.nav==='conversations'?d.conversations:b.dataset.nav==='communication'?window.pocketCommunicationLabel(state.language):d.settings;const icon=b.querySelector('.nav-icon');b.replaceChildren(icon,document.createTextNode(label))});document.querySelectorAll('[data-back]').forEach(b=>b.textContent=d.back);$('newChatBtn').textContent=d.newChat;$('moduleLayerTitle').textContent=d.quickTitle;$('moduleLayerBack').textContent=state.language==='en'?'← Back':state.language==='fr'?'← Retour':state.language==='de'?'← Zurück':state.language==='it'?'← Indietro':state.language==='es'?'← Volver':state.language==='pt'?'← Voltar':state.language==='nl'?'← Terug':state.language==='ru'?'← Назад':state.language==='pl'?'← Wstecz':(d.backShort||'← Înapoi');document.querySelector('#sharedChatShell .chat-top strong').textContent=d.conversation;const empty=messagesEl.querySelector('.empty-state');if(empty){empty.replaceChildren(document.createTextNode(d.empty));const hint=document.createElement('span');hint.className='small';hint.textContent=d.emptyHint;empty.append(document.createElement('br'),hint)}if(!state.messages.length)setStatus(d.ready);$('languageSelect').setAttribute('aria-label',d.settingsLanguage);const settings=$('view-settings');settings.querySelector('h2').textContent=d.settings;settings.querySelector('.module-panel h3').textContent=d.settingsLanguage;settings.querySelector('.module-panel p').textContent=d.settingsLanguageHint;settings.querySelector('.module-panel .small').textContent=d.speechHint;settings.querySelectorAll('.module-panel')[1].querySelector('h3').textContent=d.about;const verEl=$('pocketInterfaceVersion');if(verEl){const vPref=state.language==='ro'?'Versiunea interfeței':state.language==='fr'?'Version de l’interface':state.language==='de'?'Oberflächenversion':state.language==='it'?'Versione interfaccia':state.language==='es'?'Versión de la interfaz':state.language==='pt'?'Versão da interface':state.language==='nl'?'Interfaceversie':(d.versionPrefix||'Interface version');verEl.textContent='myPocket AI · '+vPref+' '+'${APP.version}';}settings.querySelectorAll('.module-panel')[1].querySelectorAll('p')[1].textContent=state.language==='en'?'Local conversations can be deleted in the Conversations section.':state.language==='fr'?'Les conversations locales peuvent être supprimées dans la section Conversations.':state.language==='de'?'Lokale Gespräche können im Bereich Gespräche gelöscht werden.':state.language==='it'?'Le conversazioni locali possono essere eliminate nella sezione Conversazioni.':state.language==='es'?'Las conversaciones locales se pueden borrar en la sección Conversaciones.':state.language==='pt'?'As conversas locais podem ser apagadas na secção Conversas.':state.language==='nl'?'Lokale gesprekken kunnen worden verwijderd in het onderdeel Gesprekken.':'Conversațiile locale pot fi șterse din secțiunea Conversații.';if(d.localPrivacy)settings.querySelectorAll('.module-panel')[1].querySelectorAll('p')[1].textContent=d.localPrivacy;const conversations=$('view-conversations');conversations.querySelector('h2').textContent=d.conversations;conversations.querySelector('.section-lead').textContent=d.localHistory;$('clearHistoryBtn').textContent=d.clearHistory;const toolsView=$('view-tools');toolsView.querySelector('h2').textContent=d.tools;toolsView.querySelector('.section-lead').textContent=d.chooseDomain;if(window.__pocketToolsReady===true)refreshToolTranslations();if((state.currentModule==='maps'||state.currentModule==='travel')&&$('view-module').classList.contains('module-landing'))renderModuleLandingChoices();document.querySelector('#view-assistant>.section-title').textContent=d.cards[0][0];document.querySelector('#view-assistant .section-lead').textContent=state.language==='en'?'Type or speak with myPocket AI.':state.language==='fr'?'Écrivez ou parlez avec myPocket AI.':state.language==='de'?'Schreibe oder sprich mit myPocket AI.':state.language==='it'?'Scrivi o parla con myPocket AI.':state.language==='es'?'Escribe o habla con myPocket AI.':state.language==='pt'?'Escreve ou fala com myPocket AI.':state.language==='nl'?'Typ of praat com myPocket AI.'.replace(' com ',' met '):'Scrie sau vorbește cu myPocket AI.';if(d.assistantLead)document.querySelector('#view-assistant .section-lead').textContent=d.assistantLead;inputEl.setAttribute('aria-label',d.send);$('sendBtn').setAttribute('aria-label',d.send);$('dictationBtn').setAttribute('aria-label',d.dictation);$('dictationBtn').title=d.dictation;$('voiceBtn').setAttribute('aria-label',d.voice);$('voiceBtn').title=d.voice;$('listenBtn').setAttribute('aria-label',d.listen);$('listenBtn').title=d.listen;if(state.currentModule==='learning'&&$('view-module')?.classList.contains('learning-choose')&&typeof renderLearningSubjects==='function')renderLearningSubjects();else if(state.currentModule==='learning'&&$('view-module')?.classList.contains('math-choice-stage')&&typeof mathJourneyShowChoices==='function'&&mathJourney?.stage)mathJourneyShowChoices(mathJourney.stage);if(typeof window.pocketScheduleEducationLocaleScan==='function')window.pocketScheduleEducationLocaleScan();if(state.currentView==='module'){const m=MODULES[state.currentModule];if(m){$('moduleTitle').textContent=(state.currentModule==='learning'&&activeLearningSubject)?learningLabel(activeLearningSubject[2],activeLearningSubject[3]):(d.moduleTitle[state.currentModule]||m.title);$('moduleLead').textContent=(state.currentModule==='learning'&&activeLearningSubject)?'':localizedModuleLead(state.currentModule)}}const quickLayer=$('moduleQuickLayer');if(quickLayer?.classList.contains('open')){if(state.moduleSearchResults?.length&&state.moduleSearchCategory?.kind==='places'){renderModulePlaces(state.moduleSearchResults)}else if(state.moduleSearchCategory){$('moduleLayerTitle').textContent=localizedQuickChoiceTitle(state.moduleSearchCategory);if(state.moduleSearchBusy)moduleStatus(quickUiText().searching+' '+localizedQuickChoiceTitle(state.moduleSearchCategory).toLowerCase()+' '+quickUiText().nearby)}else{ $('moduleLayerTitle').textContent=d.quickTitle;}}try{localStorage.setItem('mypocketai.language',state.language)}catch{}}
 // A saved value from any earlier installation always has priority, including
 // the language previously chosen explicitly in Settings. Only an actual new
 // installation may be auto-detected by device region / location.

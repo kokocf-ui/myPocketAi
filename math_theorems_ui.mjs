@@ -108,11 +108,21 @@ function mathTheoryQuickReference(){
    btn.onclick=()=>openItem(item);options.append(btn);buttons.push(btn);
   }
   if(state.language!=='ro'&&buttons.length&&typeof eduTranslateMaterial==='function'){
-   eduTranslateMaterial({titles:currentPage.map(x=>x.title)},
-    'math:reference-titles:'+group.value+':'+normalize(query.value),'ro').then(translated=>{
+   for(let startIdx=0;startIdx<currentPage.length;startIdx+=20){
+    const slice=currentPage.slice(startIdx,startIdx+20);
+    const sliceBtns=buttons.slice(startIdx,startIdx+20);
+    const cacheId='math:reference-titles:'+group.value+':'+normalize(query.value)+':'+startIdx;
+    const payload={titles:slice.map(x=>x.title)};
+    const cached=typeof eduReadCachedTranslation==='function'?eduReadCachedTranslation(payload,cacheId,'ro'):null;
+    if(cached&&Array.isArray(cached.titles)){
+     sliceBtns.forEach((btn,i)=>{if(cached.titles[i]){btn.textContent=cached.titles[i];btn.setAttribute('data-edu-localized',state.language);}});
+     continue;
+    }
+    eduTranslateMaterial(payload,cacheId,'ro').then(translated=>{
      if(!mathTheoryQuickReferenceOpen||token!==listToken||!Array.isArray(translated?.titles))return;
-     buttons.forEach((btn,i)=>{if(translated.titles[i])btn.textContent=translated.titles[i]});
+     sliceBtns.forEach((btn,i)=>{if(translated.titles[i]){btn.textContent=translated.titles[i];btn.setAttribute('data-edu-localized',state.language);}});
     }).catch(()=>{});
+   }
   }
   if(!entries.length){const empty=document.createElement('p');
    empty.textContent=learningLabel('Nu există rezultate.','No matching entries.');options.append(empty);}

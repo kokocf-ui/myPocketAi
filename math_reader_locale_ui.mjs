@@ -5,15 +5,38 @@ export const MATH_READER_LOCALE_UI_SCRIPT=String.raw`
 (function(){
  if(typeof document==='undefined'||typeof MutationObserver==='undefined')return;
  const seenLang=new WeakMap();
- let queued=false;
- const EDU_ACTIVE_CLASSES='.learning-math,.learning-science,.learning-hg,.learning-literature,.learning-computing,.learning-exams,.learning-practical,.learning-active';
+ let queued=false,enReverseMap=null;
+ const EDU_ACTIVE_CLASSES='.learning-choose,.learning-foreign,.learning-math,.learning-science,.learning-hg,.learning-literature,.learning-computing,.learning-exams,.learning-practical,.learning-active';
  function inMathReader(){
   try{
-   return typeof state!=='undefined' &&
-    state.language && state.language!=='ro' &&
-    !!document.querySelector('#view-module'+EDU_ACTIVE_CLASSES.split(',').join(',#view-module')) &&
-    typeof eduTranslateMaterial==='function';
+   if(typeof state==='undefined'||!state.language||state.language==='ro')return false;
+   if(typeof eduTranslateMaterial!=='function')return false;
+   if(state.currentModule==='learning'||document.getElementById('educationPagedLessonDialog'))return true;
+   return !!document.querySelector('#view-module'+EDU_ACTIVE_CLASSES.split(',').join(',#view-module'));
   }catch{return false}
+ }
+ function getEnReverseMap(){
+  if(enReverseMap)return enReverseMap;
+  enReverseMap=Object.create(null);
+  const enDict=typeof EDUCATION_UI_TRANSLATIONS!=='undefined'?EDUCATION_UI_TRANSLATIONS.en:null;
+  if(enDict){
+   for(const [ro,en] of Object.entries(enDict)){
+    if(en&&!enReverseMap[en])enReverseMap[en]=ro;
+   }
+  }
+  return enReverseMap;
+ }
+ function syncStaticTranslate(text,lang){
+  if(!text||!lang||lang==='ro')return null;
+  const dict=typeof EDUCATION_UI_TRANSLATIONS!=='undefined'?EDUCATION_UI_TRANSLATIONS[lang]:null;
+  if(dict?.[text])return dict[text];
+  const words=typeof UI_TEXT!=='undefined'?UI_TEXT[lang]?.wordTranslations:null;
+  if(words?.[text])return words[text];
+  if(lang!=='en'&&dict){
+   const roKey=getEnReverseMap()[text];
+   if(roKey&&dict[roKey])return dict[roKey];
+  }
+  return null;
  }
  function formulaOnly(text){
   const str=String(text||'').trim();
@@ -39,24 +62,28 @@ export const MATH_READER_LOCALE_UI_SCRIPT=String.raw`
   if(seenLang.get(node)===lang)return false;
   const baseText=typeof node.__pocketOrigText==='string'?node.__pocketOrigText:String(node?.nodeValue||'');
   const text=baseText.trim();
-  if(text.length<4||text.length>4200||formulaOnly(text))return false;
+  if(text.length<3||text.length>4200||formulaOnly(text))return false;
   if(/^[0-9\s.,:;+\-*/=()[\]%°•·←→↑↓✓✗○🔊■📷🖼️🎙️📄🎓📚📝🛠️✅🔗]+$/.test(text))return false;
+  if(parent.closest('[data-edu-translated="'+lang+'"],[data-edu-localized="'+lang+'"]'))return false;
   if(isDialog){
-   if(parent.closest('[data-edu-translated="'+lang+'"]'))return false;
    if(parent.closest('button,a,input,textarea,select,script,style,svg,pre,code,[role="button"],[contenteditable="true"],[aria-hidden="true"]'))return false;
    if(parent.closest('.math-practice-entry,.education-theory-head button'))return false;
   }else{
    if(parent.closest('input,textarea,select,option,script,style,svg,pre,code,[contenteditable="true"],[aria-hidden="true"]'))return false;
    if(parent.closest('.education-toolbar,.lit-toolbar,.module-actions-row,.edu-country-panel,.edu-grade-panel,.math-practice-entry'))return false;
-   // Do not translate pure action buttons that have no curriculum title text
    const btn=parent.closest('button,[role="button"]');
-   if(btn&&!btn.matches('.science-inline-theory-item,.hg-topic-btn,.hg-chapter-card,.math-lesson-btn,.lit-card,.computing-topic-card,.computing-chapter-btn,.practical-card,.exam-topic-btn')&&
+   if(btn&&!btn.matches('.chapter-item,.math-choice-row,.science-inline-theory-item,.hg-topic-btn,.hg-chapter-card,.math-lesson-btn,.lit-card,.computing-topic-card,.computing-chapter-btn,.practical-card,.exam-topic-btn')&&
     text.length<22&&/^[←→＋✓✗○🔊■📷🖼️🎙️📄]/.test(text))return false;
   }
   if(!parent.getClientRects().length)return false;
   const style=getComputedStyle(parent);
   if(style.display==='none'||style.visibility==='hidden')return false;
   return true;
+ }
+ function applyNodeText(n,translatedText){
+  const source=String(n.__pocketOrigText||n.nodeValue||'');
+  const start=source.match(/^\s*/)?.[0]||'',end=source.match(/\s*$/)?.[0]||'';
+  n.nodeValue=start+translatedText.trim()+end;
  }
  async function translateGroup(nodes,root,key,language){
   const original={};
@@ -68,21 +95,34 @@ export const MATH_READER_LOCALE_UI_SCRIPT=String.raw`
    }
    original['t'+i]=clean;
   });
+  if(typeof eduReadCachedTranslation==='function'){
+   const hit=eduReadCachedTranslation(original,key,'mixed');
+   if(hit){
+    nodes.forEach((n,i)=>{
+     if(!n.isConnected||!root.contains(n))return;
+     const text=hit['t'+i];
+     if(typeof text==='string'&&text.trim())applyNodeText(n,text);
+     else seenLang.delete(n);
+    });
+    return;
+   }
+  }
   const translated=await eduTranslateMaterial(original,key,'mixed');
-  if(!translated||!root.isConnected||state.language!==language||!inMathReader())return;
+  if(!translated||!root.isConnected||state.language!==language||!inMathReader()){
+   nodes.forEach(nd=>seenLang.delete(nd));
+   return;
+  }
   nodes.forEach((n,i)=>{
    if(!n.isConnected||!root.contains(n))return;
    const text=translated['t'+i];
    if(typeof text!=='string'||!text.trim()){seenLang.delete(n);return;}
-   const source=String(n.__pocketOrigText||n.nodeValue||'');
-   const start=source.match(/^\s*/)?.[0]||'',end=source.match(/\s*$/)?.[0]||'';
-   n.nodeValue=start+text.trim()+end;
+   applyNodeText(n,text);
   });
  }
  function activeEduIdentity(){
   const root=document.getElementById('view-module');
   const cls=String(root?.className||'');
-  const mod=cls.match(/learning-(math|science|hg|literature|computing|exams|practical)/)?.[1]||'edu';
+  const mod=cls.match(/learning-(choose|foreign|math|science|hg|literature|computing|exams|practical)/)?.[1]||'edu';
   const country=String(typeof educationCountrySelection!=='undefined'?educationCountrySelection?.code||'':'');
   let grade='',topic='';
   try{
@@ -100,13 +140,22 @@ export const MATH_READER_LOCALE_UI_SCRIPT=String.raw`
   if(!root||!root.isConnected||!root.getClientRects().length)return;
   const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);
   const nodes=[];
-  const cap=isDialog?90:120;
+  const lang=state.language;
+  const cap=isDialog?90:140;
   while(walker.nextNode()&&nodes.length<cap){
    const node=walker.currentNode;
-   if(eligible(node,root,isDialog))nodes.push(node);
+   if(!eligible(node,root,isDialog))continue;
+   if(typeof node.__pocketOrigText!=='string')node.__pocketOrigText=String(node.nodeValue||'');
+   const clean=node.__pocketOrigText.trim();
+   const instant=syncStaticTranslate(clean,lang);
+   if(instant){
+    applyNodeText(node,instant);
+    seenLang.set(node,lang);
+    continue;
+   }
+   nodes.push(node);
   }
   if(!nodes.length)return;
-  const lang=state.language;
   nodes.forEach(node=>seenLang.set(node,lang));
   const ident=activeEduIdentity();
   let group=[],total=0,n=0;

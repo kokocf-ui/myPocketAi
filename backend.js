@@ -2182,21 +2182,35 @@ export default {
       const reqLang=typeof data.language==='string'?data.language.trim().toLowerCase().split(/[-_]/)[0]:'en';
       const targetLang=POCKET_LANGUAGE_NAMES[reqLang]?reqLang:'en';
       const targetName=POCKET_LANGUAGE_NAMES[targetLang];
-      const sysPrompt='You are a precise educational JSON localizer. Translate every human-readable string value accurately into natural, fluent '+targetName+' (language code: '+targetLang+'). Return ONLY a valid JSON object with the exact same keys and exact same array lengths. Preserve every Arabic numeral as digits, every mathematical formula, equation, chemical symbol, variable, code token, unit, negation, and quiz answer ordering. Never add markdown commentary outside the JSON object.';
+      const sysPrompt='You are a precise educational JSON localizer. Translate every human-readable string value (whatever its source language) accurately into natural, fluent '+targetName+' (language code: '+targetLang+'). Return ONLY a valid JSON object with the exact same keys and exact same array lengths. Preserve every Arabic numeral as digits, every mathematical formula, equation, chemical symbol, variable, code token, unit, negation, and quiz answer ordering. Never add markdown commentary outside the JSON object.';
       try{
         const translateOpts={
           messages:[{role:'system',content:sysPrompt},{role:'user',content:data.message.trim()}],
           max_tokens:3800,temperature:0.05
         };
+        const hasValidJsonReply=res=>{
+          const txt=String(res?.response||res?.result?.response||'').trim().replace(/^```(?:json)?\s*|\s*```$/gi,'');
+          if(!txt)return false;
+          try{const p=JSON.parse(txt);return !!p&&typeof p==='object';}catch{
+            const a=txt.indexOf('{'),b=txt.lastIndexOf('}');
+            if(a>=0&&b>a){try{const p=JSON.parse(txt.slice(a,b+1));return !!p&&typeof p==='object';}catch{}}
+            return false;
+          }
+        };
         let rawResult=null;
         if(evaSmartRouterEnabled){
-          rawResult=await evaTask({module:'simple_translation',forceTier:'balanced',message:data.message},translateOpts);
+          rawResult=await evaTask({module:'simple_translation',forceTier:'fast',message:data.message},translateOpts);
         }else{
-          const preferredModel=allowedTextModels[1]||selectedAiModel;
-          try{rawResult=await env.AI.run(preferredModel,translateOpts);}
-          catch(firstErr){
-            if(preferredModel===selectedAiModel||isWorkersAiQuotaExceeded(firstErr))throw firstErr;
-            rawResult=await env.AI.run(selectedAiModel,translateOpts);
+          const fastModel=selectedAiModel;
+          const fallbackModel=allowedTextModels[1]&&allowedTextModels[1]!==fastModel?allowedTextModels[1]:null;
+          try{
+            rawResult=await env.AI.run(fastModel,translateOpts);
+            if(!hasValidJsonReply(rawResult)&&fallbackModel){
+              rawResult=await env.AI.run(fallbackModel,translateOpts);
+            }
+          }catch(firstErr){
+            if(!fallbackModel||isWorkersAiQuotaExceeded(firstErr))throw firstErr;
+            rawResult=await env.AI.run(fallbackModel,translateOpts);
           }
         }
         const reply=String(rawResult?.response||rawResult?.result?.response||'').trim();

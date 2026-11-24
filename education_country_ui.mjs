@@ -13,6 +13,7 @@ import {MATH_READER_LOCALE_UI_SCRIPT} from './math_reader_locale_ui.mjs';
 import {RO9_SCIENCE_2026_LESSONS} from './math_ro9_science_2026.mjs';
 import {ENGLAND_Y34_LESSONS} from './math_england_year3_year4_2026.mjs';
 import {PL_IV_2026_LESSONS} from './math_poland_class4_2026_lessons.mjs';
+import {EDU_I18N_44_KEYS,EDU_I18N_44_ROWS,EDU_NATIVE_STAGE_LABELS} from './education_i18n_44.mjs';
 import {
  CURRICULUM_REMOTE_PACK_KEYS,
  CURRICULUM_PACK_BUNDLE_VERSION,
@@ -273,15 +274,102 @@ function eduUiLabel(ro,en){
  }
  return typeof learningLabel==='function'?learningLabel(ro,en):(en||ro);
 }
+`+
+ '(()=>{const __ks='+JSON.stringify(EDU_I18N_44_KEYS)+',__rs='+JSON.stringify(EDU_I18N_44_ROWS)+';for(const [__l,__vs] of Object.entries(__rs)){const __m=EDUCATION_UI_TRANSLATIONS[__l]||(EDUCATION_UI_TRANSLATIONS[__l]={});for(let __i=0;__i<__ks.length;__i++)if(__vs[__i])__m[__ks[__i]]=__vs[__i];}})();\n'+
+ 'const EDU_NATIVE_STAGE_LABELS='+JSON.stringify(EDU_NATIVE_STAGE_LABELS)+';\n'+
+ String.raw`
+function eduFormatCountryStageLabel(countryCode,stageId,fallbackRo,fallbackEn){
+ const lang=state.language||'ro';
+ const code=String(countryCode||'').trim().toUpperCase();
+ const pair=typeof EDU_MATH_STAGE_LABELS!=='undefined'?EDU_MATH_STAGE_LABELS[code]?.[stageId]:null;
+ if(lang==='ro')return pair?.[0]||fallbackRo;
+ if(lang==='en')return pair?.[1]||fallbackEn;
+ const nativeOverride=EDU_NATIVE_STAGE_LABELS[code]?.[lang]?.[stageId];
+ if(nativeOverride)return nativeOverride;
+ const stageTranslated=eduUiLabel(fallbackRo,fallbackEn);
+ if(pair?.[0]){
+  const inst=String(pair[0]).split(' · ')[0].trim();
+  if(inst&&!/^(Primar|Gimnaziu|Liceu|Universitate|Clasele\b)/i.test(inst)){
+   if(inst.toLowerCase()===String(stageTranslated||'').toLowerCase())return inst;
+   return inst+' · '+stageTranslated;
+  }
+ }
+ return stageTranslated;
+}
+function eduDetectLessonSourceLang(lesson){
+ if(!lesson||typeof lesson!=='object')return 'ro';
+ const id=String(lesson.id||'');
+ if(id.startsWith('math-es-lomloe-'))return 'es';
+ if(id.startsWith('math-england-')||id.startsWith('eng-'))return 'en';
+ const t=String(lesson.title||''),d=String(lesson.definition||lesson.summary||'');
+ if(/[ăâîșțĂÂÎȘȚ]/.test(t)||/[ăâîșțĂÂÎȘȚ]/.test(d))return 'ro';
+ if(/[¿¡ñÑ]|\b(porcentaje|presupuesto|ecuaci[oó]n|fracci[oó]n|tri[aá]ngulo|funci[oó]n|n[uú]meros|c[aá]lculo)\b/i.test(t+' '+d))return 'es';
+ if(lesson.enTitle&&t===lesson.enTitle&&!/[ăâîșțĂÂÎȘȚ]/.test(d))return 'en';
+ return 'ro';
+}
+function eduDetectProseLang(text){
+ const s=String(text||'').replace(/^#[^\n]*$/gm,'');
+ if(/[ăâîșțĂÂÎȘȚ]/.test(s)||/\b(sunt|pentru|dacă|atunci|obținem|calculăm|rezultă|adică|astfel|fiindcă|deoarece)\b/i.test(s))return 'ro';
+ if(/[¿¡ñÑ]|\b(definici[oó]n|ejemplo|resuelto|descuento|porcentaje|ecuaci[oó]n|calculamos|entonces|porque|comprueba|seg[uú]n|concepto|operaci[oó]n)\b/i.test(s))return 'es';
+ if(/\b(the|and|with|calculate|therefore|example|check|answer|because|value)\b/i.test(s))return 'en';
+ return 'ro';
+}
+function educationLocalizeLessonStructure(raw,forceLang){
+ const lang=forceLang||state.language||'ro';
+ const src=String(raw||'');
+ if(!src||lang==='ro')return src;
+ const dict=EDUCATION_UI_TRANSLATIONS[lang]||{};
+ const tr=(ro,en)=>dict[ro]||eduUiLabel(ro,en);
+ return src.split('\n').map(line=>{
+  const trimmed=line.trim();
+  if(!trimmed)return line;
+  if(trimmed.startsWith('# ')){
+   const h=trimmed.slice(2).trim();
+   if(dict[h])return '# '+dict[h];
+   for(const sep of [' — ',' · ',': ']){
+    const idx=h.indexOf(sep);
+    if(idx>0){
+     const left=h.slice(0,idx).trim(),right=h.slice(idx+sep.length).trim();
+     if(dict[left])return '# '+dict[left]+sep+(dict[right]||right);
+    }
+   }
+   return line;
+  }
+  if(dict[trimmed])return dict[trimmed];
+  if(trimmed.startsWith('Capitol: ')){
+   const rest=trimmed.slice('Capitol: '.length);
+   return tr('Capitol: ','Chapter: ')+rest;
+  }
+  if(trimmed.startsWith('Țară, clasă/an, ramură: ')){
+   const rest=trimmed.slice('Țară, clasă/an, ramură: '.length);
+   const parts=rest.replace(/\.$/,'').split(' · ');
+   const left=parts[0]||'',branch=parts.slice(1).join(' · ');
+   const trBranch=dict[branch]||branch;
+   return tr('Țara: ','Country: ')+left+(trBranch?(' · '+trBranch):'')+'.';
+  }
+  const exMatch=trimmed.match(/^(Exercițiul\s+)(\d+)(\s*:\s*)(.*)$/);
+  if(exMatch){
+   return (dict['Exercițiul ']||tr('Exercițiu: ','Exercise: ').replace(/:\s*$/,' '))+exMatch[2]+exMatch[3]+exMatch[4];
+  }
+  return line;
+ }).join('\n');
+}
 const EDU_UK_COUNTRY_NAMES={"GB-ENG":{"ro":"Anglia","en":"England","fr":"Angleterre","de":"England","it":"Inghilterra","es":"Inglaterra","pt":"Inglaterra","nl":"Engeland","ru":"Англия","pl":"Anglia","uk":"Англія","hu":"Anglia","tr":"İngiltere","cs":"Anglie","sk":"Anglicko","bg":"Англия","el":"Αγγλία","sr":"Енглеска","hr":"Engleska","fi":"Englanti","sv":"England","no":"England","da":"England","ca":"Anglaterra","ga":"Sasana","cy":"Lloegr","hy":"Անգլիա","ka":"ინგლისი","az":"İngiltərə"},"GB-SCT":{"ro":"Scoția","en":"Scotland","fr":"Écosse","de":"Schottland","it":"Scozia","es":"Escocia","pt":"Escócia","nl":"Schotland","ru":"Шотландия","pl":"Szkocja","uk":"Шотландія","hu":"Skócia","tr":"İskoçya","cs":"Skotsko","sk":"Škótsko","bg":"Шотландия","el":"Σκωτία","sr":"Шкотска","hr":"Škotska","fi":"Skotlanti","sv":"Skottland","no":"Skottland","da":"Skotland","ca":"Escòcia","ga":"Albain","cy":"Yr Alban","hy":"Շոտլանդիա","ka":"შოტლანდია","az":"Şotlandiya"},"GB-WLS":{"ro":"Țara Galilor","en":"Wales","fr":"Pays de Galles","de":"Wales","it":"Galles","es":"Gales","pt":"País de Gales","nl":"Wales","ru":"Уэльс","pl":"Walia","uk":"Уельс","hu":"Wales","tr":"Galler","cs":"Wales","sk":"Wales","bg":"Уелс","el":"Ουαλία","sr":"Велс","hr":"Wales","fi":"Wales","sv":"Wales","no":"Wales","da":"Wales","ca":"Gal·les","ga":"An Bhreatain Bheag","cy":"Cymru","hy":"Ուելս","ka":"უელსი","az":"Uels"},"GB-NIR":{"ro":"Irlanda de Nord","en":"Northern Ireland","fr":"Irlande du Nord","de":"Nordirland","it":"Irlanda del Nord","es":"Irlanda del Norte","pt":"Irlanda do Norte","nl":"Noord-Ierland","ru":"Северная Ирландия","pl":"Irlandia Północna","uk":"Північна Ірландія","hu":"Észak-Írország","tr":"Kuzey İrlanda","cs":"Severní Irsko","sk":"Severné Írsko","bg":"Северна Ирландия","el":"Βόρεια Ιρλανδία","sr":"Северна Ирска","hr":"Sjeverna Irska","fi":"Pohjois-Irlanti","sv":"Nordirland","no":"Nord-Irland","da":"Nordirland","ca":"Irlanda del Nord","ga":"Tuaisceart Éireann","cy":"Gogledd Iwerddon","hy":"Հյուսիսային Իռլանդիա","ka":"ჩრდილოეთი ირლანდია","az":"Şimali İrlandiya"}};
 // Translate requested educational content through the dedicated translation pathway.
 // Cache by source fingerprint and language; quiz answer indices never change.
 function eduNormalizeNumberTokens(value){
  let s=String(value||'');
  const romanMap={I:1,II:2,III:3,IV:4,V:5,VI:6,VII:7,VIII:8,IX:9,X:10,XI:11,XII:12,XIII:13,XIV:14,XV:15,XVI:16,XVII:17,XVIII:18,XIX:19,XX:20,XXI:21};
- s=s.replace(/\b(?:a\s+|al\s+|clasa\s+|anul\s+|secolul\s+|sec\.?\s+|capitolul\s+|partea\s+)([IVX]{1,5})(?:-[a-z]+|\b)/gi,(m,r)=>romanMap[r.toUpperCase()]?' '+romanMap[r.toUpperCase()]+' ':m);
+ s=s.replace(/\b(?:a\s+|al\s+|clasa\s+|anul\s+|gradul\s+|ordinul\s+|ciclul\s+|secolul\s+|sec\.?\s+|capitolul\s+|partea\s+|etapa\s+|nivelul\s+)(?:a\s+|al\s+)?([IVX]{1,5})(?:-[a-z]+|\b)/gi,(m,r)=>romanMap[r.toUpperCase()]?' '+romanMap[r.toUpperCase()]+' ':m);
  for(let pass=0;pass<3;pass++)s=s.replace(/(\d)[\u0020\u00A0\u202F'](?=\d{3}(?!\d))/g,'$1');
- return (s.match(/[0-9]+(?:[.,][0-9]+)*/g)||[]).map(tok=>tok.replace(/[.,]/g,'').replace(/^0+(?=\d)/,''));
+ for(let pass=0;pass<3;pass++)s=s.replace(/\b([1-9]\d{0,2})[.,](\d{3})(?=(?:[.,]\d{3})*(?!\d))/g,'$1$2');
+ return (s.match(/[0-9]+(?:[.,][0-9]+)*/g)||[]).map(tok=>{
+  if(/^\d+[.,]\d+$/.test(tok)){
+   const norm=tok.replace(',','.').replace(/(\.\d*?[1-9])0+$/,'$1').replace(/\.0+$/,'');
+   return norm.replace('.','').replace(/^0+(?=\d)/,'');
+  }
+  return tok.replace(/[.,]/g,'').replace(/^0+(?=\d)/,'');
+ });
 }
 function eduTranslationNumbers(value){
  return eduNormalizeNumberTokens(value).sort().join('|');
@@ -294,11 +382,11 @@ function eduNumbersCompatible(value,next,strict){
  if(a===b)return true;
  if(strict)return false;
  const sv=String(value||'');
- if(sv.length<80||sv.includes('='))return false;
+ if(sv.length<60)return false;
  if(eduSignificantNumbers(value)!==eduSignificantNumbers(next))return false;
  const singlesA=eduNormalizeNumberTokens(value).filter(tok=>tok.length===1);
  const singlesB=eduNormalizeNumberTokens(next).filter(tok=>tok.length===1);
- return Math.abs(singlesA.length-singlesB.length)<=2;
+ return Math.abs(singlesA.length-singlesB.length)<=3;
 }
 function eduValidateTranslation(original,translated){
  if(!original||!translated||typeof translated!=='object'||Array.isArray(translated))return false;
@@ -308,7 +396,7 @@ function eduValidateTranslation(original,translated){
   if(Array.isArray(value)){
    if(!Array.isArray(next)||next.length!==value.length)return false;
    for(let i=0;i<value.length;i++){
-    const strictItem=isQuiz||key==='choices'||String(value[i]||'').length<80;
+    const strictItem=isQuiz||key==='choices'||String(value[i]||'').length<60;
     if(typeof next[i]!=='string'||!next[i].trim()||next[i].length>6000||
      !eduNumbersCompatible(value[i],next[i],strictItem))return false;
    }
@@ -317,10 +405,30 @@ function eduValidateTranslation(original,translated){
  }
  return true;
 }
+function eduTranslationCacheKey(original,identity,sourceLanguage='ro',targetLang){
+ const lang=targetLang||state.language||'ro';
+ const serialized=JSON.stringify(original);
+ if(serialized.length>16000)return null;
+ let checksum=2166136261;
+ for(let i=0;i<serialized.length;i++)checksum=Math.imul(checksum^serialized.charCodeAt(i),16777619)>>>0;
+ return 'pocket-education-translations-v2-'+sourceLanguage+'-'+lang+'-'+String(identity||'lesson').replace(/[^a-z0-9:_-]/gi,'').slice(0,90)+'-'+checksum.toString(16);
+}
+function eduReadCachedTranslation(original,identity,sourceLanguage='ro'){
+ const lang=state.language||'ro';
+ if(lang===sourceLanguage)return original;
+ if(!original||typeof original!=='object')return null;
+ const key=eduTranslationCacheKey(original,identity,sourceLanguage,lang);
+ if(!key)return null;
+ try{
+  const saved=JSON.parse(localStorage.getItem(key)||'null');
+  if(eduValidateTranslation(original,saved))return saved;
+ }catch{}
+ return null;
+}
 const EDU_INFLIGHT_TRANSLATIONS={};
 async function eduTranslateMaterial(original,identity,sourceLanguage='ro'){
  const lang=state.language||'ro';
- if(lang==='ro'&&sourceLanguage==='ro')return original;
+ if(lang===sourceLanguage)return original;
  if(!original||typeof original!=='object'||!CLIENT_CONFIG?.apiUrl)return null;
  const origKeys=Object.keys(original);
  if(origKeys.length===1&&origKeys[0]==='text'&&typeof original.text==='string'&&original.text.length>4200){
@@ -339,9 +447,8 @@ async function eduTranslateMaterial(original,identity,sourceLanguage='ro'){
  }
  const serialized=JSON.stringify(original);
  if(serialized.length>16000)return null;
- let checksum=2166136261;
- for(let i=0;i<serialized.length;i++)checksum=Math.imul(checksum^serialized.charCodeAt(i),16777619)>>>0;
- const key='pocket-education-translations-v2-'+sourceLanguage+'-'+lang+'-'+String(identity||'lesson').replace(/[^a-z0-9:_-]/gi,'').slice(0,90)+'-'+checksum.toString(16);
+ const key=eduTranslationCacheKey(original,identity,sourceLanguage,lang);
+ if(!key)return null;
  try{
   const saved=JSON.parse(localStorage.getItem(key)||'null');
   if(eduValidateTranslation(original,saved))return saved;
