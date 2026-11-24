@@ -20,7 +20,11 @@ import {
   ALL_SCHOOL_TEXTBOOK_COUNTRIES,
   mathTextbookCorrelationEntry
 } from './math_textbook_correlation_all_2026.mjs';
-import { ALL_DECOUPLED_CURRICULUM_PACKS } from './curriculum_pack_catalog.mjs';
+import {
+  MATH_DECOUPLED_CURRICULUM_PACKS,
+  SCIENCE_DECOUPLED_CURRICULUM_PACKS,
+  ALL_DECOUPLED_CURRICULUM_PACKS
+} from './curriculum_pack_catalog.mjs';
 import { mathCurriculumReadiness } from './math_curriculum_readiness.mjs';
 
 const ALLOWED_META_KEYS = new Set([
@@ -77,12 +81,17 @@ for (const country of ALL_SCHOOL_TEXTBOOK_COUNTRIES) {
     `${country} university stage must not return a school textbook`);
 }
 
-// 3. Verify all 799 decoupled packs across 50/50 countries: 602/602 school + 197/197 university
-assert.equal(ALL_DECOUPLED_CURRICULUM_PACKS.length, 799, 'Total decoupled packs must equal 799 across all 50 countries');
+// 3. Verify all 799 Mathematics decoupled packs across 50/50 countries (602 school + 197 university)
+//    plus textbook & university invariants across ALL decoupled packs (Math + Sciences).
+assert.equal(MATH_DECOUPLED_CURRICULUM_PACKS.length, 799, 'Total Mathematics decoupled packs must equal 799 across all 50 countries');
+const mathSchoolPacks = MATH_DECOUPLED_CURRICULUM_PACKS.filter(p => p.stage !== 'advanced');
+const mathUnivPacks = MATH_DECOUPLED_CURRICULUM_PACKS.filter(p => p.stage === 'advanced');
+assert.equal(mathSchoolPacks.length, 602, 'Expected 602 Mathematics school packs across the 49 school systems (RO + 48)');
+assert.equal(mathUnivPacks.length, 197, 'Expected 197 Mathematics university packs across all 50 European jurisdictions');
+assert.equal(ALL_DECOUPLED_CURRICULUM_PACKS.length, MATH_DECOUPLED_CURRICULUM_PACKS.length + SCIENCE_DECOUPLED_CURRICULUM_PACKS.length);
+
 const schoolPacks = ALL_DECOUPLED_CURRICULUM_PACKS.filter(p => p.stage !== 'advanced');
 const univPacks = ALL_DECOUPLED_CURRICULUM_PACKS.filter(p => p.stage === 'advanced');
-assert.equal(schoolPacks.length, 602, 'Expected 602 school packs across the 49 school systems (RO + 48)');
-assert.equal(univPacks.length, 197, 'Expected 197 university packs across all 50 European jurisdictions');
 
 for (const pack of schoolPacks) {
   assert.ok(

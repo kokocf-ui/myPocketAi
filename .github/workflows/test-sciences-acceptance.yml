@@ -48,6 +48,11 @@ jobs:
           node --check science_extended_theory.mjs
           node --check science_university_track_guides.mjs
           node --check science_university_chapters.mjs
+          node --check astronomy_laws_reference.mjs
+          node --check science_textbook_correlation_2026.mjs
+          node --check science_europe_packs_2026.mjs
+          node --check science_curriculum_readiness.mjs
+          node tests_science_europe_packs_and_laws_2026.mjs
           node tests_education_all_country_subject_matrix.mjs
           node tests_science_grade_progression.mjs
           node tests_science_university_complete.mjs
