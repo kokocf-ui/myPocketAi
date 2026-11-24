@@ -48,7 +48,9 @@ try{
  assert.equal(address.current_location,true);
  assert.equal(address.postcode,'RM20 4YE');
  assert.match(address.reply,/RM20 4YE/);
- assert.equal(address.reply,'10 Mill Lane, Grays, RM20 4YE, United Kingdom');
+ assert.match(address.reply,/Locație aproximativă: 10 Mill Lane, Grays, United Kingdom/);
+ assert.match(address.reply,/Coduri poștale din apropiere \(neconfirmate\): RM20 4YE/);
+ assert.match(address.reply,/estimări/);
  assert.ok(!address.reply.includes('South Stifford'));
  assert.equal(reverseCalls,1);
  const coarseResponse=await worker.fetch(new Request('https://example.test/api/chat',{
@@ -57,7 +59,8 @@ try{
    location:{latitude:51.479,longitude:0.29,accuracy:250,updatedAt:Date.now()},location_requested:true})
  }),{AI:{run:async()=>{throw Error('Location must never reach AI')}}});
  const coarse=await coarseResponse.json();
- assert.equal(coarse.reply,'Grays, United Kingdom');
+ assert.match(coarse.reply,/Locație aproximativă: Grays, United Kingdom/);
+ assert.match(coarse.reply,/Nu pot confirma numărul clădirii/);
  assert.equal(coarse.house_number,null);
  assert.equal(coarse.postcode,null);
  reverseFails=true;

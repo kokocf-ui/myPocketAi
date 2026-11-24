@@ -49,7 +49,8 @@ try{
  assert.equal(result.street,null,'Coarse location must not assert a street');
  assert.equal(result.postcode,null,'Coarse location must not assert a postcode');
  assert.doesNotMatch(result.reply,/Mill Lane|RM20 4YE/);
- assert.equal(result.reply,'Grays, United Kingdom');
+ assert.match(result.reply,/Locație aproximativă: Grays, United Kingdom/);
+ assert.match(result.reply,/Nu pot confirma numărul clădirii/);
 
  const callsBeforeStale=calls.length;
  result=await ask('Unde mă aflu?',{ageMs:120000});

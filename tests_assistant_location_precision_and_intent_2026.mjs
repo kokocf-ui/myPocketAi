@@ -9,7 +9,8 @@ const originalFetch = globalThis.fetch;
 
 try {
   // 1. Issue #1a: At ±4 m GPS accuracy, when Nominatim snaps to a bare highway way (no house_number
-  // and wrong road-centroid postcode), Geoapify building UPRN + ONS postcodes.io recover exact house + postcode.
+  // and road-centroid postcode), Geoapify, Nominatim and postcodes.io can suggest nearby candidates,
+  // but cannot confirm the user's building or postal address.
   let scenario = 'uk_rooftop_and_postcode';
   let requests = [];
   globalThis.fetch = async (input) => {
@@ -133,9 +134,12 @@ try {
   };
 
   const precise = await askLocation(4, true);
-  assert.equal(precise.house_number, '42', 'Exact nearby rooftop building number must be recovered at ±4 m GPS');
-  assert.equal(precise.postcode, 'RM17 6JL', 'Authoritative unit postcode must replace road-centroid postcode');
-  assert.equal(precise.reply, '42 London Road, Grays, RM17 6JL, United Kingdom');
+  assert.equal(precise.house_number, '42', 'Nearby mapped building can be offered as an estimate');
+  assert.equal(precise.postcode, 'RM17 6JL', 'Nearby postcode candidate should be retained as an estimate');
+  assert.match(precise.reply, /Locație aproximativă: 42 London Road, Grays, United Kingdom/);
+  assert.match(precise.reply, /Coduri poștale din apropiere \(neconfirmate\): RM17 6JL/);
+  assert.match(precise.reply, /estimări/);
+  assert.equal(precise.address_is_estimate, true);
 
   // Even without GEOAPIFY_API_KEY, Nominatim layer=address + postcodes.io still recover house number & postcode
   const osmAndOnsOnly = await askLocation(5, false);
@@ -155,7 +159,7 @@ try {
   scenario = 'uk_far_building_no_hallucination';
   const unnumberedSpot = await askLocation(4, true);
   assert.equal(unnumberedSpot.house_number, null, 'Must never borrow a house number 84 m away');
-  assert.equal(unnumberedSpot.postcode, 'RM16 6AB', 'Official nearby ONS postcode still resolves accurately');
+  assert.equal(unnumberedSpot.postcode, 'RM16 6AB', 'Nearby postcode candidate may be shown only as unconfirmed');
 
   // 2. Issue #2: Non-location questions must NEVER trigger "nu am putut identifica / precizează localitatea sau țara"
   scenario = 'non_location_ai';
@@ -278,4 +282,4 @@ for (const realGps of [
   assert.equal(ctx.requestUsesLocation(realGps), true, 'Frontend must still attach GPS for: ' + realGps);
 }
 
-console.log(`PASS Asistent Personal rooftop house/postcode precision & zero false-positive geolocation hijacks (HTML=${html.length})`);
+console.log(`PASS nearby-address estimates, precision guards and sampled non-location queries (HTML=${html.length})`);

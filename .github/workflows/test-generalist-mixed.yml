@@ -8,6 +8,8 @@ on:
       - 'tests_ro_national_transit.mjs'
       - 'assistant_bare_destination.mjs'
       - 'tests_assistant_location_precision_and_intent_2026.mjs'
+      - 'assistant_self_location.mjs'
+      - 'tests_assistant_current_address_2026.mjs'
       - 'tests_ro_rail_cards_ui.mjs'
       - 'index.js'
       - 'literature_task_ui.mjs'
@@ -83,7 +85,7 @@ jobs:
       - name: Validate JavaScript syntax
         run: npm run check
       - name: Assistant current GPS position, street and cache regression
-        run: node tests_assistant_live_location.mjs && node tests_assistant_location_map.mjs && node tests_assistant_location_precision_and_intent_2026.mjs
+        run: node tests_assistant_live_location.mjs && node tests_assistant_location_map.mjs && node tests_assistant_location_precision_and_intent_2026.mjs && node tests_assistant_current_address_2026.mjs
       - name: Romania Bilo official API regression
         run: node tests_ro_national_transit.mjs
       - name: Romanian rail result cards and details layout
