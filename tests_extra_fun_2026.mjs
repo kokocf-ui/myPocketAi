@@ -73,7 +73,7 @@ assert.match(EXTRA_FUN_UI_SCRIPT,/extraFunPopup/,'Horoscope must open separate m
 assert.match(EXTRA_FUN_UI_SCRIPT,/extraFunPopupLine/,'Detailed modal sections required');
 assert.match(EXTRA_FUN_UI_SCRIPT,/extraFunCrossword/);
 assert.match(EXTRA_FUN_UI_SCRIPT,/extraFunIntegrame/,'Separate arrowword grid required');
-assert.match(EXTRA_FUN_UI_SCRIPT,/funGeneratePuzzle\(mode\)/,'Both games must generate a fresh board on demand');
+assert.match(EXTRA_FUN_UI_SCRIPT,/funGeneratePuzzle\(mode,funPuzzleSeed\(\),difficulty\)/,'Both games must generate a fresh board on demand');
 assert.match(EXTRA_FUN_UI_SCRIPT,/extraFunHelp/,'Beginner game rules required');
 assert.match(EXTRA_FUN_UI_SCRIPT,/extra-fun-library-layout/,'Daily card must stay pinned');
 assert.match(EXTRA_FUN_UI_STYLE,/extra-fun-modal/);
