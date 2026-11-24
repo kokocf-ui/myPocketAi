@@ -108,6 +108,7 @@ try{
   'Physics university must provide its own 3/4-year national route selector');
  await open(universityBand.locator('.science-year-tile').first());
  const specialties=page.locator('#view-module .science-choice-list > .science-choice-row');
+ await specialties.first().waitFor({state:'attached',timeout:15000});
  assert.ok(await specialties.count()>=7,'Physics university requires multiple distinct specialisations');
  await open(specialties.first());
  const universityChapters=page.locator('#view-module .science-choice-list > .science-choice-row');

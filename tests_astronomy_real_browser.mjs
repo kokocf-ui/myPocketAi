@@ -159,6 +159,7 @@ try{
  await universityButton.waitFor({state:'attached',timeout:8000});
  await universityButton.evaluate(el=>el.click());
  const specs=page.locator('#view-module .science-choice-row');
+ await specs.first().waitFor({state:'attached',timeout:15000});
  assert.ok(await specs.count()>=5,'Missing university specialties');
  await specs.first().evaluate(el=>el.click());
  const course=page.locator('#view-module .science-choice-row').first();
