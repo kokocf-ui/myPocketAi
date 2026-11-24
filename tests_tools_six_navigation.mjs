@@ -34,6 +34,9 @@ assert.ok(EXTRA_TOOLS_WORKSPACE_STYLE.includes('extra-fun-modal'),'Horoscope rea
 assert.ok(EXTRA_TOOLS_WORKSPACE_STYLE.includes('extra-fun-viewport'),'Extra tools must scroll inside a fixed frame');
 assert.doesNotMatch(EXTRA_TOOLS_WORKSPACE_SCRIPT,/panel\.scrollIntoView\(/,'Choosing a joke must never scroll the outer Tools viewport');
 assert.match(EXTRA_TOOLS_WORKSPACE_SCRIPT,/function funGeneratePuzzle/,'Rebus and integrame must be generated dynamically');
+assert.match(EXTRA_TOOLS_WORKSPACE_SCRIPT,/function funDenseProfiles/,'Dense crosswords must be built from constrained word intersections');
+assert.match(EXTRA_TOOLS_WORKSPACE_SCRIPT,/extra-fun-jokes-archive/,'Joke archive must be reachable through a scrollable dialog');
+assert.doesNotMatch(EXTRA_TOOLS_WORKSPACE_SCRIPT,/Explică bancul/,'No unwanted jokes explanation action');
 assert.doesNotMatch(EXTRA_TOOLS_WORKSPACE_SCRIPT,/const FUN_CROSSWORD_SETS=/,'No legacy four-board puzzle rotation remains');
 assert.match(EXTRA_TOOLS_WORKSPACE_SCRIPT,/funDailyForecast\(idx,dateKey,humor\)/,'Weekly and monthly horoscope must provide a forecast for each date');
 assert.match(EXTRA_TOOLS_WORKSPACE_STYLE,/#15715e/,'Entertainment actions are green, leaving Home and Back unchanged');
