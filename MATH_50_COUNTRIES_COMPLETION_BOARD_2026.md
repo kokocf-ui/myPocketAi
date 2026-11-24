@@ -44,6 +44,12 @@ Architecture: **Zero-Worker-Overhead Decoupled Curriculum Packs (`./public/packs
 - Test: `tests_math_batch4_western_isles_2026.mjs` (wired into math acceptance, Cloudflare deploy and Android release workflows).
 - Open items: CH content depends on the canton/language region, BE on the community, AT upper years on the school type (AHS vs BHS) — to be covered by the regional selector. No chapter-level check against approved textbooks.
 
+## Textbook & official reference correlation — all 19 implemented countries (2026-11-24)
+
+- Modules: `math_ro_textbook_correlation_2026.mjs` (`RO` Grades I–XII approved manuals: E.D.P. Pițilă/Mihăilescu, Art Klett Perianu et al., Paralela 45 Zaharia, Intuitext Ciupală/Dumitrescu/Gherghe OMEC 5779/2026, Carminis Burtea CNEE) + `math_textbook_correlation_all_2026.mjs` (the other 18 implemented countries: `HU`, `ES`, `IT`, `PT`, `PL`, `MD`, `GB-ENG`, `FR`, `DE`, `AT`, `CH`, `BE`, `NL`, `LU`, `IE`, `GB-SCT`, `GB-WLS`, `GB-NIR`), storing bibliographic/ministerial metadata only (`0` copied prose, `0 KB` added to Worker JS).
+- Coverage across decoupled packs (`ALL_DECOUPLED_CURRICULUM_PACKS`, 305 total): **232 / 232 school packs** carry `manualExample` + structured `textbooks[]`; **73 / 73 university packs** keep `manualExample: null` (ARACIS / Bologna / EHEA / QAA standards).
+- Test & audit: `tests_math_ro_textbook_correlation_2026.mjs`, `MATH_TEXTBOOK_CURRICULUM_AUDIT_2026-11-24.md`.
+
 ## Queued after Batch 4: regional / school-type curriculum selector (decided 2026-11-23)
 
 User decision: implement **after Batch 4**, with **full coverage from the start**.

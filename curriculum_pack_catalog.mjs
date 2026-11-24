@@ -10,10 +10,12 @@ import { hungaryGrade5Lessons } from './math_hungary_grade5_2026.mjs';
 import { spainMathOriginalEntries } from './math_spain_lomloe_2026.mjs';
 import { italyMathFocalLessons } from './math_italy_framework_2026.mjs';
 import { portugalMath2026Lessons } from './math_portugal_2026.mjs';
-import { RO_FULL_MATH_SOURCES, romaniaMathGapLessons } from './math_romania_full_2026.mjs';
-import { BATCH2_MATH_COUNTRIES, batch2MathLessons, batch2PackTextbooks } from './math_batch2_md_uk_fr_de_2026.mjs';
-import { batch3MathLessons, batch3PackTextbooks } from './math_batch3_es_it_pt_pl_2026.mjs';
-import { BATCH4_MATH_COUNTRIES, batch4MathLessons, batch4PackTextbooks } from './math_batch4_western_isles_2026.mjs';
+import { romaniaMathGapLessons } from './math_romania_full_2026.mjs';
+import { roMathManualExample, roMathPackTextbooks } from './math_ro_textbook_correlation_2026.mjs';
+import { mathSchoolManualExample, mathCorrelatedPackTextbooks } from './math_textbook_correlation_all_2026.mjs';
+import { BATCH2_MATH_COUNTRIES, batch2MathLessons } from './math_batch2_md_uk_fr_de_2026.mjs';
+import { batch3MathLessons } from './math_batch3_es_it_pt_pl_2026.mjs';
+import { BATCH4_MATH_COUNTRIES, batch4MathLessons } from './math_batch4_western_isles_2026.mjs';
 
 function fnv1aHash(str) {
   let hash = 2166136261;
@@ -23,7 +25,13 @@ function fnv1aHash(str) {
   return (hash >>> 0).toString(36);
 }
 
-function buildCountryStagePacks(country, stages, lessonResolver, textbooksForGrade = () => []) {
+function buildCountryStagePacks(
+  country,
+  stages,
+  lessonResolver,
+  textbooksForGrade = () => [],
+  manualExampleForGrade = (_stage, _rawGrade, profile) => profile.manualExample || null
+) {
   const packs = [];
   for (const stage of stages) {
     const baseYears = educationCountrySchoolYears(country, stage).years;
@@ -52,7 +60,9 @@ function buildCountryStagePacks(country, stages, lessonResolver, textbooksForGra
           displayGrade: rawGrade,
           status: profile.status,
           source: profile.source || null,
-          manualExample: profile.manualExample || null,
+          manualExample: stage === 'advanced'
+            ? null
+            : (manualExampleForGrade(stage, rawGrade, profile) || profile.manualExample || null),
           textbooks: textbooksForGrade(stage, rawGrade, profile),
           lessonsByTopic
         });
@@ -69,33 +79,8 @@ function buildMathCountryPacks() {
       'RO',
       ['beginner', 'medium', 'advanced'],
       ({ stage, grade, topic }) => romaniaMathGapLessons({ stage, grade, topic }),
-      (stage, grade) => {
-        if (stage === 'beginner') {
-          return [{
-            id: `ro-manuale-primar-${grade}`,
-            labelRo: `Manuale aprobate MEN (manuale.edu.ro) · Clasa a ${grade}-a`,
-            labelEn: `MEN approved textbooks (manuale.edu.ro) · Grade ${grade}`,
-            url: RO_FULL_MATH_SOURCES.manualsPortal
-          }];
-        }
-        if (stage === 'medium' && grade !== '9-SCI') {
-          return [{
-            id: `ro-manuale-liceu-${grade}`,
-            labelRo: `Programa liceală România & manuale de referință · Clasa a ${grade}-a`,
-            labelEn: `Romanian upper-secondary syllabus & reference textbooks · Grade ${grade}`,
-            url: grade === '9' ? RO_FULL_MATH_SOURCES.lycee9_2026 : RO_FULL_MATH_SOURCES.lycee10_12
-          }];
-        }
-        if (stage === 'advanced') {
-          return [{
-            id: `ro-univ-bologna-${grade}`,
-            labelRo: `Standarde ARACIS / Bologna · Licență Matematică Anul ${grade}`,
-            labelEn: `ARACIS / Bologna reference · Mathematics BSc Year ${grade}`,
-            url: RO_FULL_MATH_SOURCES.universityBologna
-          }];
-        }
-        return [];
-      }
+      (stage, grade) => roMathPackTextbooks(stage, grade),
+      (stage, grade) => roMathManualExample(stage, grade)
     ),
 
     // 2. Hungary (HU) — Grades 1..13 + BSc 1..3 + MSc 1..2
@@ -103,12 +88,8 @@ function buildMathCountryPacks() {
       'HU',
       EDUCATION_SCHOOL_STAGES,
       ({ grade, topic }) => (grade === '5' ? hungaryGrade5Lessons(topic) : hungaryMathOriginalLessons({ grade, topic })),
-      (_stage, _grade, profile) => (profile.manualExample ? [{
-        id: 'oh-mat05ta',
-        labelRo: 'Referință Oktatási Hivatal · OH-MAT05TA (NAT 2020)',
-        labelEn: 'Oktatási Hivatal reference · OH-MAT05TA (NAT 2020)',
-        url: profile.manualExample
-      }] : [])
+      (stage, grade) => mathCorrelatedPackTextbooks('HU', stage, grade),
+      (stage, grade) => mathSchoolManualExample('HU', stage, grade)
     ),
 
     // 3. Spain (ES) — LOMLOE Primaria, ESO, Bachillerato + university (Batch 3).
@@ -120,7 +101,8 @@ function buildMathCountryPacks() {
         ...(stage === 'advanced' ? [] : spainMathOriginalEntries({ grade, topic })),
         ...batch3MathLessons({ country: 'ES', stage, grade, topic })
       ],
-      (stage, grade) => batch3PackTextbooks('ES', stage, grade)
+      (stage, grade) => mathCorrelatedPackTextbooks('ES', stage, grade),
+      (stage, grade) => mathSchoolManualExample('ES', stage, grade)
     ),
 
     // 4. Italy (IT) — Primaria, Secondaria I & II grado + university (Batch 3)
@@ -131,7 +113,8 @@ function buildMathCountryPacks() {
         ...(stage === 'advanced' ? [] : italyMathFocalLessons({ grade, topic })),
         ...batch3MathLessons({ country: 'IT', stage, grade, topic })
       ],
-      (stage, grade) => batch3PackTextbooks('IT', stage, grade)
+      (stage, grade) => mathCorrelatedPackTextbooks('IT', stage, grade),
+      (stage, grade) => mathSchoolManualExample('IT', stage, grade)
     ),
 
     // 5. Portugal (PT) — native 5.º & 6.º ano; Batch 3 covers 1.º–4.º, 7.º–12.º
@@ -142,7 +125,8 @@ function buildMathCountryPacks() {
       ({ stage, grade, topic }) => (stage === 'lower' && ['5', '6'].includes(String(grade))
         ? portugalMath2026Lessons({ grade, topic })
         : batch3MathLessons({ country: 'PT', stage, grade, topic })),
-      (stage, grade) => batch3PackTextbooks('PT', stage, grade)
+      (stage, grade) => mathCorrelatedPackTextbooks('PT', stage, grade),
+      (stage, grade) => mathSchoolManualExample('PT', stage, grade)
     ),
 
     // Batch 3: Poland (PL) — klasy I–III, V–VIII, liceum 1–4, university.
@@ -151,7 +135,8 @@ function buildMathCountryPacks() {
       'PL',
       EDUCATION_SCHOOL_STAGES,
       ({ stage, grade, topic }) => batch3MathLessons({ country: 'PL', stage, grade, topic }),
-      (stage, grade) => batch3PackTextbooks('PL', stage, grade)
+      (stage, grade) => mathCorrelatedPackTextbooks('PL', stage, grade),
+      (stage, grade) => mathSchoolManualExample('PL', stage, grade)
     ),
 
     // 6–9. Batch 2: Moldova (MD), England (GB-ENG), France (FR), Germany (DE)
@@ -162,7 +147,8 @@ function buildMathCountryPacks() {
       country,
       EDUCATION_SCHOOL_STAGES,
       ({ stage, grade, topic }) => batch2MathLessons({ country, stage, grade, topic }),
-      (stage, grade) => batch2PackTextbooks(country, stage, grade)
+      (stage, grade) => mathCorrelatedPackTextbooks(country, stage, grade),
+      (stage, grade) => mathSchoolManualExample(country, stage, grade)
     )),
 
     // Batch 4: AT, CH, BE, NL, LU, IE, GB-SCT, GB-WLS, GB-NIR — Grade 1 → university.
@@ -171,7 +157,8 @@ function buildMathCountryPacks() {
       country,
       EDUCATION_SCHOOL_STAGES,
       ({ stage, grade, topic }) => batch4MathLessons({ country, stage, grade, topic }),
-      (stage, grade) => batch4PackTextbooks(country, stage, grade)
+      (stage, grade) => mathCorrelatedPackTextbooks(country, stage, grade),
+      (stage, grade) => mathSchoolManualExample(country, stage, grade)
     ))
   ];
 }
