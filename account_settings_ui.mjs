@@ -52,13 +52,14 @@ const ACCOUNT_TUPLES = {
 
 export const ACCOUNT_SCRIPT=`
 const POCKET_ACCOUNT_TUPLES=${JSON.stringify(ACCOUNT_TUPLES)};
-function pocketAccountPack(){
- const lang=typeof state!=='undefined'&&state.language?state.language:'ro';
+function pocketAccountPack(explicitLang){
+ const raw=explicitLang||(typeof state!=='undefined'&&state?.language)||(typeof document!=='undefined'&&document.documentElement?.lang)||(typeof localStorage!=='undefined'&&(()=>{try{return localStorage.getItem('mypocketai.language')}catch{return ''}})())||'ro';
+ const lang=String(raw||'ro').trim().toLowerCase().split(/[-_]/)[0]||'ro';
  const t=POCKET_ACCOUNT_TUPLES[lang]||POCKET_ACCOUNT_TUPLES.en;
  return {title:t[0],back:t[1],note:t[2],email:t[3],name:t[4],dob:t[5],sex:t[6],male:t[7],female:t[8],undisclosed:t[9],bday:t[10],bdayNote:t[11],save:t[12],saved:t[13],savedLocal:t[14],saving:t[15],errLen:t[16],errDob:t[17],errDobReq:t[18],errSave:t[19]};
 }
-function pocketAccountApplyLanguage(){
- const p=pocketAccountPack();
+function pocketAccountApplyLanguage(explicitLang){
+ const p=pocketAccountPack(explicitLang);
  const open=document.getElementById('pocketAccountOpen');if(open)open.textContent=p.title;
  const title=document.getElementById('pocketAccountTitle');if(title)title.textContent=p.title;
  const close=document.getElementById('pocketAccountClose');if(close){close.textContent=p.back;close.setAttribute('aria-label',p.back.replace(/^←\\s*/,''));}

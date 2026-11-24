@@ -7,6 +7,7 @@ import {POCKET_LANGUAGES} from './language_first_install.mjs';
 import {EUROPEAN_UI_LOCALES, EUROPEAN_UI_TEXT_EXPRESSION} from './european_app_locales.mjs';
 import {ACCOUNT_SCRIPT} from './account_settings_ui.mjs';
 import {EDUCATION_COUNTRY_UI_SCRIPT} from './education_country_ui.mjs';
+import {MATH_THEOREMS_UI_SCRIPT} from './math_theorems_ui.mjs';
 import {MATH_READER_LOCALE_UI_SCRIPT} from './math_reader_locale_ui.mjs';
 
 globalThis.crypto ??= webcrypto;
@@ -307,4 +308,347 @@ for (const testCase of [
   if (testCase.expectSys) assert.match(aiCalls.at(-1).opts.messages[0].content, testCase.expectSys);
 }
 
-console.log(`PASS 44-language localization suite: all ${allCodes.length} languages verified across UI, Account, Speech, Education & Backend (HTML=${html.length} chars)`);
+// 9. Verify Settings DOM (#pocketLocalPrivacyNote + outside-IIFE #pocketAccountOpen) across all 44 languages
+assert.match(html, /<p id="pocketLocalPrivacyNote" class="small">/, 'Settings privacy note must have #pocketLocalPrivacyNote');
+assert.ok(mainScript.includes('window.pocketAccountApplyLanguage?.(state.language)'), 'applyUiLanguage must pass state.language into pocketAccountApplyLanguage');
+assert.ok(mainScript.includes("const privEl=$('pocketLocalPrivacyNote')"), 'applyUiLanguage must target #pocketLocalPrivacyNote');
+
+{
+  // Outside-IIFE simulation: lexical `state` is intentionally NOT defined!
+  const elStore = new Map();
+  const getEl = (id) => {
+    if (!elStore.has(id)) {
+      elStore.set(id, {
+        id,
+        textContent: id === 'pocketAccountOpen' ? 'Cont' : '',
+        placeholder: '',
+        hidden: false,
+        options: [{textContent: ''}, {textContent: ''}, {textContent: ''}],
+        dataset: {},
+        style: {},
+        classList: {add() {}, remove() {}, toggle() {}, contains: () => false},
+        setAttribute() {},
+        addEventListener() {},
+        querySelector: () => null,
+        querySelectorAll: () => []
+      });
+    }
+    return elStore.get(id);
+  };
+  const acctBox = {
+    window: {},
+    document: {
+      documentElement: {lang: 'ro'},
+      getElementById: getEl,
+      querySelector: () => null,
+      querySelectorAll: () => [],
+      addEventListener() {}
+    },
+    localStorage: {getItem: () => null, setItem() {}, removeItem() {}},
+    fetch: async () => ({ok: false}),
+    CustomEvent: class { constructor(t) { this.type = t; } },
+    setTimeout: () => 0,
+    clearTimeout() {}
+  };
+  acctBox.window.document = acctBox.document;
+  acctBox.window.localStorage = acctBox.localStorage;
+  vm.runInNewContext(ACCOUNT_SCRIPT, acctBox);
+  for (const code of allCodes) {
+    acctBox.document.documentElement.lang = code;
+    acctBox.window.pocketAccountApplyLanguage(code);
+    const label = getEl('pocketAccountOpen').textContent;
+    assert.ok(label && label.trim().length > 0, `Account button label empty for ${code}`);
+    if (code !== 'ro') {
+      assert.notEqual(label, 'Cont', `#pocketAccountOpen must not remain Romanian 'Cont' in ${code}`);
+    }
+  }
+  acctBox.window.pocketAccountApplyLanguage('nl');
+  assert.equal(getEl('pocketAccountOpen').textContent, 'Account');
+  acctBox.window.pocketAccountApplyLanguage('it');
+  assert.equal(getEl('pocketAccountOpen').textContent, 'Account');
+}
+
+// 10. Verify backend education_translate runs fast 8B directly AND repairs unescaped 0x0A newlines without 70B fallback
+{
+  const newlineCalls = [];
+  const rawNewlineEnv = {
+    AI: {
+      run: async (model, opts) => {
+        newlineCalls.push({model, opts});
+        // Simulate Llama 8B returning literal 0x0A newline inside JSON string value
+        return {
+          response: '{\n  "title": "Bewerkingen met machten",\n  "lines": ["Regel 1:\nZelfde grondtal telt exponenten op.", "Voorbeeld: 2, 3, 2, 4"]\n}'
+        };
+      }
+    }
+  };
+  const r = await backendWorker.fetch(
+    new Request('https://unit.test/api/chat', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        module: 'assistant',
+        education_translate: true,
+        language: 'nl',
+        message: 'Translate JSON: {"title":"Operații cu puteri","lines":["Regula 1","Exemplu: 2,3,2,4"]}',
+        history: []
+      })
+    }),
+    rawNewlineEnv
+  );
+  const j = await r.json();
+  assert.equal(r.status, 200);
+  assert.equal(j.status, 'success');
+  assert.equal(newlineCalls.length, 1, 'Loose JSON control-char repair must avoid slow 70B fallback');
+  assert.equal(newlineCalls[0].model, '@cf/meta/llama-3.1-8b-instruct-fast');
+  const parsedReply = JSON.parse(j.reply);
+  assert.equal(parsedReply.title, 'Bewerkingen met machten');
+  assert.equal(parsedReply.lines.length, 2);
+}
+
+// 11. Verify NL/IT validator & language detector edge cases (multi-comma lists, ordinals, hybrid IT lesson, Revenire)
+for (const code of allCodes) {
+  labelBox.state.language = code;
+  const rev = labelBox.eduUiLabel('Revenire', 'Back');
+  assert.ok(rev && rev.trim().length > 0);
+  if (code !== 'ro') assert.notEqual(rev, 'Revenire', `${code} must localize 'Revenire'`);
+}
+labelBox.state.language = 'nl';
+assert.equal(labelBox.eduUiLabel('Revenire', 'Back'), 'Terug');
+labelBox.state.language = 'it';
+assert.equal(labelBox.eduUiLabel('Revenire', 'Back'), 'Indietro');
+
+assert.equal(
+  labelBox.eduValidateTranslation(
+    {lines: ['Într-un șir de date 2,3,2,4 modul este valoarea cea mai frecventă.']},
+    {lines: ['In een reeks gegevens 2, 3, 2, 4 is de modus de meest voorkomende waarde.']}
+  ),
+  true,
+  'Multi-comma data list 2,3,2,4 -> 2, 3, 2, 4 must validate'
+);
+assert.equal(
+  labelBox.eduValidateTranslation(
+    {titles: ['Ecuații diferențiale liniare de ordinul al doilea']},
+    {titles: ['Equazioni differenziali lineari del 2° ordine']}
+  ),
+  true,
+  'Word ordinal al doilea -> 2° in title must validate'
+);
+
+const hybridItLesson = {
+  id: 'it-m1-stat-1',
+  title: 'Raccogliamo e leggiamo i dati',
+  definition: 'Un tabel sau grafic arată câte obiecte sunt în fiecare grup și ne ajută să comparăm rapid.'
+};
+assert.equal(labelBox.eduDetectLessonSourceLang(hybridItLesson), 'it', 'Italian lesson title detected as it');
+const hybridLocalizedBody = labelBox.educationLocalizeLessonStructure(
+  '## 1. Definiție și explicație\n' + hybridItLesson.definition + '\n\n# Contextul de studiu\nIT · M1',
+  'it'
+);
+assert.ok(hybridLocalizedBody.includes('## 1. Definizione e spiegazione'));
+assert.ok(hybridLocalizedBody.includes('# Contesto di studio'));
+assert.equal(labelBox.eduDetectProseLang(hybridLocalizedBody), 'ro', 'Hybrid Italian-heading + Romanian-body must still detect Romanian prose so body translates');
+
+// 12. Verify Laws & Theorems (math_theorems_ui.mjs) + Paged Lesson Reader (educationOpenPagedLesson) in NL & IT
+{
+  function makeElem(tag) {
+    const attrs = new Map();
+    return {
+      tagName: String(tag || 'div').toUpperCase(),
+      id: '',
+      className: '',
+      type: '',
+      value: '',
+      title: '',
+      hidden: false,
+      disabled: false,
+      scrollTop: 0,
+      dataset: {},
+      style: {cssText: ''},
+      children: [],
+      parentNode: null,
+      isConnected: true,
+      onclick: null,
+      onchange: null,
+      _text: '',
+      get textContent() {
+        if (this.children.length === 0) return this._text;
+        return (this._text || '') + this.children.map((c) => c.textContent).join('');
+      },
+      set textContent(v) {
+        this._text = String(v ?? '');
+        this.children = [];
+      },
+      append(...nodes) {
+        for (const n of nodes) {
+          if (n && typeof n === 'object') {
+            n.parentNode = this;
+            this.children.push(n);
+          }
+        }
+      },
+      prepend(...nodes) {
+        for (let i = nodes.length - 1; i >= 0; i--) {
+          const n = nodes[i];
+          if (n && typeof n === 'object') {
+            n.parentNode = this;
+            this.children.unshift(n);
+          }
+        }
+      },
+      replaceChildren(...nodes) {
+        this.children = [];
+        this._text = '';
+        this.append(...nodes);
+      },
+      remove() {
+        this.isConnected = false;
+        if (this.parentNode) {
+          this.parentNode.children = this.parentNode.children.filter((x) => x !== this);
+        }
+      },
+      setAttribute(k, v) {
+        attrs.set(k, String(v));
+        if (k.startsWith('data-')) {
+          const camel = k.slice(5).replace(/-([a-z])/g, (_, c) => c.toUpperCase());
+          this.dataset[camel] = String(v);
+        }
+      },
+      getAttribute(k) { return attrs.has(k) ? attrs.get(k) : null; },
+      hasAttribute(k) { return attrs.has(k); },
+      removeAttribute(k) { attrs.delete(k); },
+      addEventListener() {},
+      removeEventListener() {},
+      scrollIntoView() {},
+      showModal() { attrs.set('open', ''); },
+      close() { attrs.delete('open'); this.isConnected = false; },
+      classList: {add() {}, remove() {}, contains: () => true},
+      querySelector: () => null,
+      querySelectorAll: () => []
+    };
+  }
+
+  const store = new Map();
+  const moduleContent = makeElem('div');
+  moduleContent.id = 'moduleContent';
+  const viewModule = makeElem('section');
+  viewModule.id = 'view-module';
+  const bodyEl = makeElem('body');
+  bodyEl.append(viewModule, moduleContent);
+
+  let fetchCalls = 0;
+  let pendingFetchResolvers = [];
+  const domBox = {
+    state: {language: 'nl', speaking: false},
+    CLIENT_CONFIG: {apiUrl: 'https://api.mypocketai.test/api/chat'},
+    mathJourney: {stage: 'stages', grade: 'V2', topic: 'algebra'},
+    window: {innerWidth: 390, __pocketEuropeanUiText: euroUi, addEventListener() {}, removeEventListener() {}},
+    localStorage: {
+      getItem: (k) => store.get(k) ?? null,
+      setItem: (k, v) => store.set(k, String(v)),
+      removeItem: (k) => store.delete(k)
+    },
+    document: {
+      body: bodyEl,
+      documentElement: {lang: 'nl'},
+      createElement: makeElem,
+      getElementById: (id) => {
+        if (id === 'moduleContent') return moduleContent;
+        if (id === 'view-module') return viewModule;
+        return bodyEl.children.find((c) => c.id === id) || null;
+      },
+      querySelector: () => null,
+      querySelectorAll: () => [],
+      addEventListener() {}
+    },
+    MutationObserver: class { observe() {} disconnect() {} },
+    AbortController,
+    setTimeout: (fn) => { fn(); return 1; },
+    clearTimeout() {},
+    requestAnimationFrame: (fn) => { fn(); return 1; },
+    eduAttachPrintAction() {},
+    stopSpeech() {},
+    speakText: () => false,
+    scienceAttachLessonReview() {},
+    fetch: async (_url, init) => {
+      fetchCalls++;
+      const reqBody = JSON.parse(init.body);
+      const marker = 'Input JSON: ';
+      const idx = reqBody.message.indexOf(marker);
+      const inputObj = JSON.parse(reqBody.message.slice(idx + marker.length));
+      const langPrefix = reqBody.language === 'it' ? 'IT' : 'NL';
+      const out = {};
+      for (const [k, v] of Object.entries(inputObj)) {
+        if (Array.isArray(v)) out[k] = v.map((s) => `${langPrefix}: ${s}`);
+        else out[k] = `${langPrefix}: ${v}`;
+      }
+      await new Promise((resolve) => pendingFetchResolvers.push(resolve));
+      return {ok: true, json: async () => ({status: 'success', reply: JSON.stringify(out)})};
+    }
+  };
+  domBox.globalThis = domBox;
+
+  vm.runInNewContext(EDUCATION_COUNTRY_UI_SCRIPT, domBox);
+  vm.runInNewContext(mainScript.slice(learnStart, learnEnd), domBox);
+  const cleanStart = mainScript.indexOf('function educationCleanLessonLine(');
+  const pagedEnd = mainScript.indexOf('function scienceChemistryUpperLessonEntries(');
+  assert.ok(cleanStart > 0 && pagedEnd > cleanStart, 'Found educationCleanLessonLine..educationOpenPagedLesson slice');
+  vm.runInNewContext(mainScript.slice(cleanStart, pagedEnd), domBox);
+
+  // 12a. Open Laws & Theorems in Dutch ('nl'): zero raw Romanian before OR after fetch!
+  domBox.mathTheoryQuickReference();
+  const panel = moduleContent.children[1];
+  const optionsList = panel.children[4];
+  assert.ok(optionsList.children.length >= 200, 'All 211 theorem buttons rendered');
+  assert.ok(
+    optionsList.children.every((b) => b.textContent === '…'),
+    'Uncached theorem buttons in NL must show ellipsis placeholder, never raw Romanian'
+  );
+  assert.equal(fetchCalls, 1, 'Only 1 priority batch of 15 visible theorems fires initially (no 11-batch stampede)');
+
+  // Flush first priority slice + sequential background slices
+  while (pendingFetchResolvers.length) {
+    const batch = pendingFetchResolvers.splice(0);
+    batch.forEach((r) => r());
+    await new Promise((r) => setImmediate(r));
+  }
+  await new Promise((r) => setImmediate(r));
+  assert.ok(
+    optionsList.children.slice(0, 15).every((b) => b.textContent.startsWith('NL: ')),
+    'Visible theorem titles translated into Dutch'
+  );
+
+  // Reopen Laws & Theorems in Dutch: 0ms instant from per-string cache with 0 network calls!
+  const beforeReopenCalls = fetchCalls;
+  domBox.mathTheoryQuickReference();
+  const reopenedList = moduleContent.children[1].children[4];
+  assert.equal(fetchCalls, beforeReopenCalls, 'Reopening Laws & Theorems uses 0ms per-string cache');
+  assert.ok(reopenedList.children[0].textContent.startsWith('NL: '));
+
+  // 12b. Open Paged Lesson Reader on hybrid Italian lesson ('it') — Italian title kept, Romanian body hidden until translated!
+  domBox.state.language = 'it';
+  const dialog = domBox.educationOpenPagedLesson(
+    'Raccogliamo e leggiamo i dati',
+    '# Raccogliamo e leggiamo i dati\n\n# Definiție și explicație\nUn tabel arată frecvențele din șirul 2,3,2,4.\n\na + b = c'
+  );
+  const headingEl = dialog.children[1];
+  const contentEl = dialog.children[2];
+  assert.equal(headingEl.textContent, 'Raccogliamo e leggiamo i dati', 'Native Italian lesson title shown immediately');
+  assert.equal(
+    contentEl.textContent,
+    'Traduzione della lezione…',
+    'While translating Page 0, reader shows localized Italian loading message instead of raw Romanian'
+  );
+  while (pendingFetchResolvers.length) {
+    const batch = pendingFetchResolvers.splice(0);
+    batch.forEach((r) => r());
+    await new Promise((r) => setImmediate(r));
+  }
+  await new Promise((r) => setImmediate(r));
+  assert.ok(contentEl.textContent.includes('Definizione e spiegazione'), 'Section heading localized in Italian');
+  assert.ok(contentEl.textContent.includes('IT: Un tabel arată frecvențele din șirul 2,3,2,4.'), 'Romanian prose line translated into Italian');
+  assert.ok(contentEl.textContent.includes('a + b = c'), 'Mathematical formula preserved untouched');
+  assert.ok(!contentEl.textContent.includes('Traduzione della lezione…'), 'Reader never stays stuck on Traduzione della lezione…');
+}
+
+console.log(`PASS 44-language localization suite: all ${allCodes.length} languages verified across UI, Settings, Account, Theorems, Paged Reader & Backend (HTML=${html.length} chars)`);

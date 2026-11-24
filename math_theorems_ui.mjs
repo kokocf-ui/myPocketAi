@@ -63,66 +63,107 @@ function mathTheoryQuickReference(){
  function openItem(item){
   // Each law/theorem/definition opens in its own full-screen paged study window
   // (statement, formula, interpretation, worked steps, mistakes, checks), as before.
+  const displayTitle=(state.language!=='ro'&&((typeof eduGetCachedString==='function'&&eduGetCachedString(item.title,state.language))||item.__locTitle))||item.title;
   if(typeof educationOpenPagedLesson==='function'&&typeof educationMathTheoryMaterial==='function'){
    ++selectionToken;details.replaceChildren();
-   educationOpenPagedLesson(item.title,educationMathTheoryMaterial(item));
+   educationOpenPagedLesson(displayTitle,educationMathTheoryMaterial(item));
    return;
   }
   const token=++selectionToken;
   details.replaceChildren();
-  const name=document.createElement('h3');name.textContent=item.title;
-  const statement=document.createElement('p');statement.textContent=item.statement;
+  const name=document.createElement('h3');name.textContent=state.language==='ro'?item.title:(displayTitle!==item.title?displayTitle:'…');
+  const statement=document.createElement('p');statement.textContent=state.language==='ro'?item.statement:learningLabel('Se traduce definiția…','Translating the definition…');
   details.append(name,statement);
   if(item.formula){const formula=document.createElement('p');
    formula.style.cssText='font-size:1.15em;font-weight:600;white-space:pre-wrap;overflow-wrap:anywhere;';
    formula.textContent=item.formula;details.append(formula)}
   details.scrollIntoView({block:'nearest'});
-  // Full mathematical statements remain offline. For non-Romanian app languages,
-  // translate only the selected statement using the already-cached Education
-  // translation service; keep the original mathematical formula unchanged.
   if(state.language!=='ro'&&typeof eduTranslateMaterial==='function'){
-   const info=document.createElement('small');info.textContent=learningLabel('Se traduce definiția…','Translating the definition…');
-   details.append(info);
-   eduTranslateMaterial({title:item.title,statement:item.statement},'math:reference:'+item.id,'ro').then(translated=>{
+   eduTranslateMaterial({title:item.title,statement:item.statement},'math:reference:'+item.id,'ro',{priority:true}).then(translated=>{
     if(!mathTheoryQuickReferenceOpen||token!==selectionToken)return;
     if(translated?.title&&translated?.statement){
+     item.__locTitle=translated.title;
      name.textContent=translated.title;statement.textContent=translated.statement;
-     info.remove();
-    }else info.textContent=learningLabel('Este afișată definiția originală (română).','Original Romanian statement shown.');
-   }).catch(()=>{if(token===selectionToken)info.textContent=learningLabel('Traducerea nu este disponibilă.','Translation is unavailable.');});
+    }else{
+     name.textContent=displayTitle;statement.textContent=item.statement;
+    }
+   }).catch(()=>{if(token===selectionToken){name.textContent=displayTitle;statement.textContent=item.statement;}});
   }
  }
  function draw(){
   options.replaceChildren();
+  const lang=state.language||'ro';
   const term=normalize(query.value).trim(),section=group.value;
-  const entries=MATH_THEOREM_ITEMS.filter(x=>
-   (!section||x.topic===section)&&
-   (!term||normalize([x.title,...x.aliases,x.statement].join(' ')).includes(term)))
-   .sort((a,b)=>a.title.localeCompare(b.title,'ro'));
+  const entries=MATH_THEOREM_ITEMS.filter(x=>{
+   if(section&&x.topic!==section)return false;
+   if(!term)return true;
+   const loc=lang!=='ro'?((typeof eduGetCachedString==='function'&&eduGetCachedString(x.title,lang))||x.__locTitle||''):'';
+   return normalize([loc,x.title,...x.aliases,x.statement].join(' ')).includes(term);
+  }).sort((a,b)=>a.title.localeCompare(b.title,'ro'));
   const currentPage=entries,buttons=[];
   const token=++listToken;
-  for(const item of currentPage){
+  const pendingRows=[];
+  for(let idx=0;idx<currentPage.length;idx++){
+   const item=currentPage[idx];
    const btn=document.createElement('button');btn.type='button';
-   btn.className='secondary-btn';btn.textContent=item.title;
+   btn.className='secondary-btn';
    btn.style.cssText='width:100%;text-align:left;min-height:42px;white-space:normal;';
+   if(lang==='ro'){
+    btn.textContent=item.title;
+   }else{
+    const cachedStr=(typeof eduGetCachedString==='function'&&eduGetCachedString(item.title,lang))||'';
+    if(cachedStr){
+     item.__locTitle=cachedStr;
+     btn.textContent=cachedStr;
+     btn.setAttribute('data-edu-localized',lang);
+    }else{
+     btn.textContent='…';
+     btn.setAttribute('data-edu-pending','1');
+     pendingRows.push({idx,item,btn});
+    }
+   }
    btn.onclick=()=>openItem(item);options.append(btn);buttons.push(btn);
   }
-  if(state.language!=='ro'&&buttons.length&&typeof eduTranslateMaterial==='function'){
-   for(let startIdx=0;startIdx<currentPage.length;startIdx+=20){
-    const slice=currentPage.slice(startIdx,startIdx+20);
-    const sliceBtns=buttons.slice(startIdx,startIdx+20);
-    const cacheId='math:reference-titles:'+group.value+':'+normalize(query.value)+':'+startIdx;
-    const payload={titles:slice.map(x=>x.title)};
-    const cached=typeof eduReadCachedTranslation==='function'?eduReadCachedTranslation(payload,cacheId,'ro'):null;
-    if(cached&&Array.isArray(cached.titles)){
-     sliceBtns.forEach((btn,i)=>{if(cached.titles[i]){btn.textContent=cached.titles[i];btn.setAttribute('data-edu-localized',state.language);}});
-     continue;
+  if(lang!=='ro'&&pendingRows.length&&typeof eduTranslateMaterial==='function'){
+   (async()=>{
+    const firstSlice=pendingRows.slice(0,15);
+    const restSlices=[];
+    for(let s=15;s<pendingRows.length;s+=20)restSlices.push(pendingRows.slice(s,s+20));
+    async function runSlice(rows,isPriority,sliceIdx){
+     if(!rows.length||!mathTheoryQuickReferenceOpen||token!==listToken||state.language!==lang)return;
+     const stillNeed=rows.filter(r=>{
+      const hit=typeof eduGetCachedString==='function'?eduGetCachedString(r.item.title,lang):'';
+      if(hit){
+       r.item.__locTitle=hit;r.btn.textContent=hit;
+       r.btn.removeAttribute('data-edu-pending');r.btn.setAttribute('data-edu-localized',lang);
+       return false;
+      }
+      return true;
+     });
+     if(!stillNeed.length)return;
+     const cacheId='math:ref-v3:'+section+':'+sliceIdx+':'+stillNeed.length;
+     const payload={titles:stillNeed.map(r=>r.item.title)};
+     const cached=typeof eduReadCachedTranslation==='function'?eduReadCachedTranslation(payload,cacheId,'ro'):null;
+     const out=cached||await eduTranslateMaterial(payload,cacheId,'ro',{priority:isPriority});
+     if(!mathTheoryQuickReferenceOpen||token!==listToken||state.language!==lang)return;
+     if(Array.isArray(out?.titles)){
+      stillNeed.forEach((r,i)=>{
+       const val=out.titles[i]||r.item.title;
+       r.item.__locTitle=val;r.btn.textContent=val;
+       r.btn.removeAttribute('data-edu-pending');r.btn.setAttribute('data-edu-localized',lang);
+      });
+     }else{
+      stillNeed.forEach(r=>{r.btn.textContent=r.item.title;r.btn.removeAttribute('data-edu-pending');});
+     }
     }
-    eduTranslateMaterial(payload,cacheId,'ro').then(translated=>{
-     if(!mathTheoryQuickReferenceOpen||token!==listToken||!Array.isArray(translated?.titles))return;
-     sliceBtns.forEach((btn,i)=>{if(translated.titles[i]){btn.textContent=translated.titles[i];btn.setAttribute('data-edu-localized',state.language);}});
-    }).catch(()=>{});
-   }
+    await runSlice(firstSlice,true,0);
+    for(let k=0;k<restSlices.length;k++){
+     if(!mathTheoryQuickReferenceOpen||token!==listToken||state.language!==lang)break;
+     await runSlice(restSlices[k],false,k+1);
+    }
+   })().catch(()=>{});
+  }else if(lang!=='ro'&&pendingRows.length){
+   pendingRows.forEach(r=>{r.btn.textContent=r.item.title;r.btn.removeAttribute('data-edu-pending');});
   }
   if(!entries.length){const empty=document.createElement('p');
    empty.textContent=learningLabel('Nu există rezultate.','No matching entries.');options.append(empty);}

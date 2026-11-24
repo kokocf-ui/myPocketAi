@@ -3795,7 +3795,7 @@ main.page:has(#view-module.my-documents-active.active){
 <section class="view" id="view-conversations"><button class="back-btn" data-back>← Acasă</button><h2 class="section-title">Conversații</h2><p class="section-lead">Istoricul salvat pe acest dispozitiv.</p><div id="historyList" class="simple-list"></div><button class="secondary-btn" id="clearHistoryBtn">Șterge istoricul</button></section>
 ${COMMUNICATION_HTML}
 <section class="view" id="view-tools"><button class="back-btn" data-back>← Acasă</button><h2 class="section-title">Instrumente</h2><p class="section-lead">Alege un domeniu pentru a începe.</p><div class="simple-list" id="toolsList"></div></section>
-<section class="view" id="view-settings"><button class="back-btn" data-back>← Acasă</button><div class="pocket-settings-top"><h2 class="section-title">Setări</h2><button type="button" class="pocket-account-open" id="pocketAccountOpen">Cont</button></div><div class="module-panel"><h3>Limba conversației</h3><p>Limba folosită pentru solicitările către asistent.</p><select class="text-field" id="languageSelect" aria-label="Limba conversației"><option value="ro">Română</option><option value="en">English</option><option value="fr">Français</option><option value="de">Deutsch</option><option value="it">Italiano</option><option value="es">Español</option><option value="pt">Português</option><option value="nl">Nederlands</option><option value="ru">Русский</option><option value="pl">Polski</option><option value="hr">Hrvatski</option><option value="sr">Српски</option><option value="hu">Magyar</option><option value="tr">Türkçe</option><option value="cs">Čeština</option><option value="sk">Slovenčina</option><option value="sl">Slovenščina</option><option value="bg">Български</option><option value="el">Ελληνικά</option><option value="fi">Suomi</option><option value="sv">Svenska</option><option value="no">Norsk</option><option value="da">Dansk</option><option value="is">Íslenska</option><option value="et">Eesti</option><option value="lv">Latviešu</option><option value="lt">Lietuvių</option><option value="uk">Українська</option><option value="bs">Bosanski</option><option value="mk">Македонски</option><option value="sq">Shqip</option><option value="be">Беларуская</option><option value="ca">Català</option><option value="ga">Gaeilge</option><option value="cy">Cymraeg</option><option value="mt">Malti</option><option value="eu">Euskara</option><option value="gl">Galego</option><option value="lb">Lëtzebuergesch</option><option value="fo">Føroyskt</option><option value="hy">Հայերեն</option><option value="ka">ქართული</option><option value="az">Azərbaycanca</option><option value="rm">Rumantsch</option></select><p class="small">Recunoașterea vorbirii și vocile disponibile depind de browserul și dispozitivul folosit.</p></div><div class="module-panel"><h3>Despre aplicație</h3><p id="pocketInterfaceVersion">myPocket AI · Versiunea interfeței ${APP.version}</p><p id="pocketNativeVersion" class="small" hidden></p><p class="small">Conversațiile locale pot fi șterse din secțiunea Conversații.</p></div></section>
+<section class="view" id="view-settings"><button class="back-btn" data-back>← Acasă</button><div class="pocket-settings-top"><h2 class="section-title">Setări</h2><button type="button" class="pocket-account-open" id="pocketAccountOpen">Cont</button></div><div class="module-panel"><h3>Limba conversației</h3><p>Limba folosită pentru solicitările către asistent.</p><select class="text-field" id="languageSelect" aria-label="Limba conversației"><option value="ro">Română</option><option value="en">English</option><option value="fr">Français</option><option value="de">Deutsch</option><option value="it">Italiano</option><option value="es">Español</option><option value="pt">Português</option><option value="nl">Nederlands</option><option value="ru">Русский</option><option value="pl">Polski</option><option value="hr">Hrvatski</option><option value="sr">Српски</option><option value="hu">Magyar</option><option value="tr">Türkçe</option><option value="cs">Čeština</option><option value="sk">Slovenčina</option><option value="sl">Slovenščina</option><option value="bg">Български</option><option value="el">Ελληνικά</option><option value="fi">Suomi</option><option value="sv">Svenska</option><option value="no">Norsk</option><option value="da">Dansk</option><option value="is">Íslenska</option><option value="et">Eesti</option><option value="lv">Latviešu</option><option value="lt">Lietuvių</option><option value="uk">Українська</option><option value="bs">Bosanski</option><option value="mk">Македонски</option><option value="sq">Shqip</option><option value="be">Беларуская</option><option value="ca">Català</option><option value="ga">Gaeilge</option><option value="cy">Cymraeg</option><option value="mt">Malti</option><option value="eu">Euskara</option><option value="gl">Galego</option><option value="lb">Lëtzebuergesch</option><option value="fo">Føroyskt</option><option value="hy">Հայերեն</option><option value="ka">ქართული</option><option value="az">Azərbaycanca</option><option value="rm">Rumantsch</option></select><p class="small">Recunoașterea vorbirii și vocile disponibile depind de browserul și dispozitivul folosit.</p></div><div class="module-panel"><h3>Despre aplicație</h3><p id="pocketInterfaceVersion">myPocket AI · Versiunea interfeței ${APP.version}</p><p id="pocketNativeVersion" class="small" hidden></p><p id="pocketLocalPrivacyNote" class="small">Conversațiile locale pot fi șterse din secțiunea Conversații.</p></div></section>
 </main>
 ${ACCOUNT_HTML}
 <div class="module-quick-layer" id="moduleQuickLayer" aria-hidden="true">
@@ -8857,7 +8857,9 @@ function mathOpenDepthLesson(lesson){
  if(!lesson?.worked)return;
  const lang=String(state.language||'ro');
  const srcLang=typeof eduDetectLessonSourceLang==='function'?eduDetectLessonSourceLang(lesson):'ro';
+ const cachedTitle=lang!=='ro'&&typeof eduGetCachedString==='function'?eduGetCachedString(lesson.title,lang):'';
  const title=lang===srcLang?lesson.title:
+  cachedTitle?cachedTitle:
   lang==='en'?(lesson.enTitle||lesson.title):
   lang==='ro'?(lesson.roTitle||lesson.title):
   ((typeof EDUCATION_UI_TRANSLATIONS!=='undefined'&&EDUCATION_UI_TRANSLATIONS[lang]?.[lesson.title])||lesson.title);
@@ -11744,9 +11746,18 @@ function scienceAttachLessonReview(dialog){
 
 function educationOpenPagedLesson(title,body){
  document.getElementById('educationPagedLessonDialog')?.remove();
- const rawBase=educationNumberLessonAnswers(String(body||'').replaceAll(String.fromCharCode(13),'').trim());
+ const reqLang=typeof state!=='undefined'&&state?.language?String(state.language):'ro';
+ const nl=String.fromCharCode(10);
+ let rawBase=educationNumberLessonAnswers(String(body||'').replaceAll(String.fromCharCode(13),'').trim());
+ if(reqLang!=='ro'&&rawBase.startsWith('# ')){
+  const firstNl=rawBase.indexOf(nl);
+  if(firstNl>2){
+   const restAfter=rawBase.slice(firstNl).trimStart();
+   if(restAfter.startsWith('## ')||restAfter.startsWith('# ')||educationCleanLessonLine(rawBase.slice(0,firstNl))===educationCleanLessonLine(title))rawBase=restAfter;
+  }
+ }
  const raw=typeof educationLocalizeLessonStructure==='function'?educationLocalizeLessonStructure(rawBase):rawBase;
- const nl=String.fromCharCode(10),limit=window.innerWidth<560?720:1100,pages=[];
+ const limit=window.innerWidth<560?720:1100,pages=[];
  for(let start=0;start<raw.length;){
   let end=Math.min(raw.length,start+limit);
   if(end<raw.length){
@@ -11766,8 +11777,9 @@ function educationOpenPagedLesson(title,body){
  head.style.cssText='display:flex;align-items:center;justify-content:space-between;gap:9px;flex:0 0 auto;min-height:48px;';
  const back=document.createElement('button');back.type='button';back.className='secondary-btn';
  back.textContent=learningLabel('← Înapoi','← Back');back.onclick=()=>dialog.close();head.append(back);
- let currentCleanTitle=educationCleanLessonLine(title);
- const pageTranslatedLang=[];
+ const origCleanTitle=educationCleanLessonLine(title);
+ let currentCleanTitle=origCleanTitle;
+ const pageTranslatedLang=[],pageReady=pages.map(()=>reqLang==='ro');
  head.eduPrintableMaterial=()=>({title:educationCleanLessonLine(title),text:educationCleanLessonText(raw)});
  eduAttachPrintAction(head);
  // Only voice-enabled Sciences show this control. Speak the current page,
@@ -11802,7 +11814,7 @@ function educationOpenPagedLesson(title,body){
   window.addEventListener('pocket-speech-state',updatePageSpeech);
   head.append(readPageButton);
  }
- const heading=document.createElement('h2');heading.textContent=educationCleanLessonLine(title);
+ const heading=document.createElement('h2');heading.textContent=origCleanTitle;
  heading.className='education-paged-title';heading.title=heading.textContent;
  heading.style.cssText='margin:0;text-align:center;font-size:clamp(16px,3.6vw,21px);font-weight:750;line-height:1.25;overflow-wrap:anywhere;flex:0 0 auto;max-height:3.75em;overflow-y:auto;';
  const content=document.createElement('div');content.className='education-paged-text';
@@ -11815,8 +11827,22 @@ function educationOpenPagedLesson(title,body){
  const count=document.createElement('span');count.setAttribute('aria-live','polite');count.style.cssText='text-align:center;font-size:clamp(13px,3.5vw,16px);min-width:64px;';
  const next=document.createElement('button');next.type='button';next.className='secondary-btn education-page-step';next.textContent=learningLabel('Următor →','Next →');next.style.cssText=lessonPageNavStyle;
  let page=0;
+ const pendingByPage={};
+ let runPageEntry=null;
  const paint=()=>{
-  content.replaceChildren();let list=null,listType='';
+  content.replaceChildren();
+  if(reqLang!=='ro'&&!pageReady[page]){
+   const waitEl=document.createElement('p');
+   waitEl.textContent=learningLabel('Se traduce lecția…','Translating the lesson…');
+   waitEl.setAttribute('data-edu-translated',reqLang);
+   waitEl.style.cssText='font-size:15px;opacity:.88;margin:18px 4px;text-align:center;';
+   content.append(waitEl);
+   if(pendingByPage[page]&&runPageEntry)runPageEntry(pendingByPage[page],true);
+   prev.disabled=page===0;next.disabled=page===pages.length-1;
+   count.textContent=learningLabel('Pagina ','Page ')+(page+1)+' / '+pages.length;
+   return;
+  }
+  let list=null,listType='';
   for(const source of pages[page].split(nl)){
    const line=String(source||'').trim();
    if(!line){list=null;listType='';continue}
@@ -11860,68 +11886,116 @@ function educationOpenPagedLesson(title,body){
  head.append(statusNote);
  dialog.append(head,heading,content,footer);
  if(scienceReader)scienceAttachLessonReview(dialog);
- dialog.addEventListener('close',()=>{stopPageAudio();if(scienceReader)window.removeEventListener('pocket-speech-state',updatePageSpeech);dialog.remove()});
- const reqLang=typeof state!=='undefined'&&state.language?String(state.language):'ro';
+ let dialogClosed=false;
+ dialog.addEventListener('close',()=>{dialogClosed=true;stopPageAudio();if(scienceReader)window.removeEventListener('pocket-speech-state',updatePageSpeech);dialog.remove()});
  const proseLang=typeof eduDetectProseLang==='function'?eduDetectProseLang(raw):'ro';
- const pendingBatches=[];
+ const canApiTranslate=typeof eduTranslateMaterial==='function'&&Boolean(typeof CLIENT_CONFIG!=='undefined'&&CLIENT_CONFIG?.apiUrl);
+ const pendingEntries=[];
  if(reqLang!=='ro'){
+  let titleReady=false;
+  const syncTitle=(typeof eduUiText==='function'&&eduUiText(origCleanTitle)!==origCleanTitle?eduUiText(origCleanTitle):'')||
+   (typeof eduGetCachedString==='function'?eduGetCachedString(origCleanTitle,reqLang):'');
+  if(syncTitle){currentCleanTitle=syncTitle;titleReady=true;}
+  else if(proseLang===reqLang||(typeof eduDetectProseLang==='function'&&eduDetectProseLang(origCleanTitle)===reqLang))titleReady=true;
+  else if(!canApiTranslate)titleReady=true;
+  const isFormulaOnly=s=>{
+   if(!s||s.length<=2)return true;
+   if(!/[A-Za-zĂÂÎȘȚăâîșț]{3,}/.test(s))return true;
+   if(/^[0-9xXyYzZaAbBcCmMnNkKpPqQrRsStTuUvVwW+*/=().,:^√π≤≥≠≈%° -]+$/.test(s)&&!/[A-Za-zĂÂÎȘȚăâîșț]{4,}/.test(s))return true;
+   return false;
+  };
   if(proseLang===reqLang){
-   for(let i=0;i<pages.length;i++)pageTranslatedLang[i]=reqLang;
-   heading.setAttribute('data-edu-localized',reqLang);
-   head.eduPrintableMaterial=()=>({title:currentCleanTitle,text:educationCleanLessonText(pages.join(nl+nl))});
-  }else if(typeof eduTranslateMaterial==='function'){
-   const baseTitleKey=currentCleanTitle.slice(0,40);
-   const batches=[];let curIdx=[],curLen=0;
-   pages.forEach((p,idx)=>{
-    if(curIdx.length&&(curLen+p.length)>3000){batches.push(curIdx);curIdx=[];curLen=0;}
-    curIdx.push(idx);curLen+=p.length;
-   });
-   if(curIdx.length)batches.push(curIdx);
-   batches.forEach((idxs,bIdx)=>{
-    const cacheId='paged-reader:'+baseTitleKey+':b'+bIdx;
-    const payload={...(bIdx===0?{title:currentCleanTitle}:{}),pages:idxs.map(i=>pages[i])};
+   for(let i=0;i<pages.length;i++){pageReady[i]=true;pageTranslatedLang[i]=reqLang;}
+  }else{
+   const baseKey=origCleanTitle.slice(0,36);
+   for(let pIdx=0;pIdx<pages.length;pIdx++){
+    const rawLines=pages[pIdx].split(nl),needLines=[];
+    for(let li=0;li<rawLines.length;li++){
+     const trimmed=String(rawLines[li]||'').trim();
+     if(!trimmed||trimmed.startsWith(String.fromCharCode(96,96,96)))continue;
+     const m=trimmed.match(/^(#{1,4}[ ]+|[*][ ]+|-[ ]+|•[ ]+|[0-9]{1,3}[.)][ ]+)/);
+     const prefix=m?m[1]:'';
+     const core=educationCleanLessonLine(prefix?trimmed.slice(prefix.length):trimmed);
+     if(isFormulaOnly(core))continue;
+     const sHit=(typeof eduUiText==='function'&&eduUiText(core)!==core?eduUiText(core):'')||
+      (typeof eduGetCachedString==='function'?eduGetCachedString(core,reqLang):'');
+     if(sHit){rawLines[li]=prefix+sHit;continue;}
+     if(typeof eduDetectProseLang==='function'&&eduDetectProseLang(core)===reqLang)continue;
+     needLines.push({li,prefix,core});
+    }
+    pages[pIdx]=rawLines.join(nl);
+    const includeTitle=pIdx===0&&!titleReady;
+    if((!needLines.length&&!includeTitle)||!canApiTranslate){
+     pageReady[pIdx]=true;pageTranslatedLang[pIdx]=reqLang;
+     if(includeTitle)titleReady=true;
+     continue;
+    }
+    const cacheId='paged-v3:'+baseKey+':p'+pIdx;
+    const payload={...(includeTitle?{title:origCleanTitle}:{}),...(needLines.length?{lines:needLines.map(x=>x.core)}:{})};
     const hit=typeof eduReadCachedTranslation==='function'?eduReadCachedTranslation(payload,cacheId,'mixed'):null;
-    if(hit&&Array.isArray(hit.pages)){
-     if(bIdx===0&&typeof hit.title==='string'&&hit.title.trim()){
-      currentCleanTitle=hit.title.trim();heading.textContent=currentCleanTitle;heading.title=currentCleanTitle;
-      heading.setAttribute('data-edu-localized',reqLang);
+    if(hit){
+     if(includeTitle&&typeof hit.title==='string'&&hit.title.trim()){currentCleanTitle=hit.title.trim();titleReady=true;}
+     if(Array.isArray(hit.lines)){
+      needLines.forEach((item,k)=>{if(typeof hit.lines[k]==='string'&&hit.lines[k].trim())rawLines[item.li]=item.prefix+hit.lines[k].trim();});
+      pages[pIdx]=rawLines.join(nl);
      }
-     idxs.forEach((pIdx,k)=>{
-      if(typeof hit.pages[k]==='string'&&hit.pages[k].trim()){pages[pIdx]=hit.pages[k];pageTranslatedLang[pIdx]=reqLang;}
-     });
-     head.eduPrintableMaterial=()=>({title:currentCleanTitle,text:educationCleanLessonText(pages.join(nl+nl))});
-    }else pendingBatches.push({idxs,bIdx,cacheId,payload});
-   });
+     pageReady[pIdx]=true;pageTranslatedLang[pIdx]=reqLang;
+    }else{
+     const entry={pIdx,rawLines,needLines,includeTitle,cacheId,payload,started:false};
+     pendingEntries.push(entry);pendingByPage[pIdx]=entry;
+    }
+   }
+   if(!titleReady&&!pendingEntries.some(e=>e.includeTitle)&&canApiTranslate){
+    const entry={pIdx:0,rawLines:pages[0].split(nl),needLines:[],includeTitle:true,cacheId:'paged-v3:'+baseKey+':title',payload:{title:origCleanTitle},started:false};
+    pageReady[0]=false;pendingEntries.unshift(entry);pendingByPage[0]=entry;
+   }
   }
+  heading.textContent=titleReady?currentCleanTitle:learningLabel('Se traduce lecția…','Translating the lesson…');
+  heading.title=heading.textContent;
+  heading.setAttribute('data-edu-localized',reqLang);
+  dialog.dataset.eduLocalized=reqLang;
+  head.eduPrintableMaterial=()=>({title:currentCleanTitle,text:educationCleanLessonText(pages.join(nl+nl))});
  }
  document.body.append(dialog);
  try{dialog.showModal()}catch{dialog.setAttribute('open','')}
+ runPageEntry=(entry,isPriority)=>{
+  if(!entry||entry.started)return entry?.promise;
+  entry.started=true;
+  entry.promise=eduTranslateMaterial(entry.payload,entry.cacheId,'mixed',{priority:Boolean(isPriority)}).then(res=>{
+   if(dialogClosed||state.language!==reqLang)return;
+   if(entry.includeTitle){
+    if(typeof res?.title==='string'&&res.title.trim())currentCleanTitle=res.title.trim();
+    heading.textContent=currentCleanTitle;heading.title=currentCleanTitle;
+    heading.setAttribute('data-edu-localized',reqLang);
+   }
+   if(Array.isArray(res?.lines)&&entry.needLines.length){
+    entry.needLines.forEach((item,k)=>{if(typeof res.lines[k]==='string'&&res.lines[k].trim())entry.rawLines[item.li]=item.prefix+res.lines[k].trim();});
+    pages[entry.pIdx]=entry.rawLines.join(nl);
+   }
+   pageTranslatedLang[entry.pIdx]=reqLang;
+   head.eduPrintableMaterial=()=>({title:currentCleanTitle,text:educationCleanLessonText(pages.join(nl+nl))});
+  }).catch(()=>{}).finally(()=>{
+   pageReady[entry.pIdx]=true;
+   delete pendingByPage[entry.pIdx];
+   if(!dialogClosed&&state.language===reqLang){
+    if(entry.includeTitle&&heading.textContent!==currentCleanTitle){heading.textContent=currentCleanTitle;heading.title=currentCleanTitle;}
+    if(entry.pIdx===page)paint();
+    if(Object.keys(pendingByPage).length===0)statusNote.hidden=true;
+   }
+  });
+  return entry.promise;
+ };
  paint();
- if(pendingBatches.length){
+ if(pendingEntries.length){
   statusNote.textContent=learningLabel('Se traduce lecția…','Translating the lesson…');
   statusNote.setAttribute('data-edu-localized',reqLang);
   statusNote.hidden=false;
-  let remaining=pendingBatches.length;
-  pendingBatches.forEach(({idxs,bIdx,cacheId,payload})=>{
-   eduTranslateMaterial(payload,cacheId,'mixed').then(res=>{
-    if(!res||!Array.isArray(res.pages)||state.language!==reqLang)return;
-    if(bIdx===0&&typeof res.title==='string'&&res.title.trim()){
-     currentCleanTitle=res.title.trim();heading.textContent=currentCleanTitle;heading.title=currentCleanTitle;
-     heading.setAttribute('data-edu-localized',reqLang);
-    }
-    let repaint=false;
-    idxs.forEach((pIdx,k)=>{
-     if(typeof res.pages[k]==='string'&&res.pages[k].trim()){
-      pages[pIdx]=res.pages[k];pageTranslatedLang[pIdx]=reqLang;
-      if(pIdx===page)repaint=true;
-     }
-    });
-    if(repaint)paint();
-    head.eduPrintableMaterial=()=>({title:currentCleanTitle,text:educationCleanLessonText(pages.join(nl+nl))});
-   }).catch(()=>{}).finally(()=>{
-    if(--remaining<=0)statusNote.hidden=true;
-   });
-  });
+  (async()=>{
+   for(let i=0;i<pendingEntries.length;i++){
+    if(dialogClosed||state.language!==reqLang)break;
+    await runPageEntry(pendingEntries[i],i===0||pendingEntries[i].pIdx===page);
+   }
+  })().catch(()=>{});
  }
  return dialog;
 }
@@ -12937,7 +13011,8 @@ function mathJourneyShowChoices(stage){
    (mathJourney.grade||'')+' · '+learningLabel(topic?.ro||'',topic?.en||'');
  note.setAttribute('data-edu-localized',curLang);
  const items=document.createElement('div');items.className='math-choice-list';
- const lessonHeadings=[];
+ const canBatchTranslate=curLang!=='ro'&&typeof eduTranslateMaterial==='function'&&Boolean(typeof CLIENT_CONFIG!=='undefined'&&CLIENT_CONFIG?.apiUrl);
+ const pendingTexts=[];
  let shownUnit='';
  const candidates=stage==='stages'?MATH_SCHOOL_STAGES:
   stage==='branches'?mathYearTopics():
@@ -12951,9 +13026,18 @@ function mathJourneyShowChoices(stage){
   if(stage==='chapters'&&entry.unit&&entry.unit!==shownUnit){
    shownUnit=entry.unit;
    const subheading=document.createElement('h3');subheading.className='math-lesson-unit-heading';
-   subheading.textContent=entry.unit;
    subheading.style.cssText='font-size:16px;font-weight:700;margin:12px 2px 3px;'+
     'text-align:left;color:#d7f4ff;width:100%;';
+   const unitLang=typeof eduDetectProseLang==='function'?eduDetectProseLang(entry.unit):'ro';
+   const unitCached=curLang!=='ro'?((typeof eduUiText==='function'&&eduUiText(entry.unit)!==entry.unit?eduUiText(entry.unit):'')||(typeof eduGetCachedString==='function'?eduGetCachedString(entry.unit,curLang):'')):'';
+   if(curLang==='ro'||unitLang===curLang){
+    subheading.textContent=entry.unit;subheading.setAttribute('data-edu-localized',curLang);
+   }else if(unitCached){
+    subheading.textContent=unitCached;subheading.setAttribute('data-edu-localized',curLang);
+   }else if(canBatchTranslate){
+    subheading.textContent='…';subheading.setAttribute('data-edu-pending','1');
+    pendingTexts.push({el:subheading,text:entry.unit,fallback:entry.unit});
+   }else subheading.textContent=entry.unit;
    items.append(subheading);
   }
   const button=document.createElement('button');button.type='button';
@@ -12971,16 +13055,21 @@ function mathJourneyShowChoices(stage){
    heading.setAttribute('data-edu-localized',curLang);
   }else if(stage==='chapters'){
    const entryLang=entry.sourceLang||'ro';
+   const hasDistinctEn=Boolean(entry.en&&entry.en!==entry.ro);
+   const direct=curLang!=='ro'?((typeof eduGetCachedString==='function'&&eduGetCachedString(entry.ro,curLang))||
+    (typeof EDUCATION_UI_TRANSLATIONS!=='undefined'&&EDUCATION_UI_TRANSLATIONS[curLang]?.[entry.ro])||''):'';
    if(curLang===entryLang){
     heading.textContent=entry.ro;heading.setAttribute('data-edu-localized',curLang);
-   }else if(curLang==='en'){
-    heading.textContent=entry.en||entry.ro;heading.setAttribute('data-edu-localized','en');
+   }else if(curLang==='en'&&hasDistinctEn){
+    heading.textContent=entry.en;heading.setAttribute('data-edu-localized','en');
+   }else if(direct){
+    heading.textContent=direct;heading.setAttribute('data-edu-localized',curLang);
+   }else if(canBatchTranslate){
+    heading.textContent='…';heading.setAttribute('data-edu-pending','1');
+    pendingTexts.push({el:heading,text:entry.ro,fallback:hasDistinctEn?entry.en:entry.ro});
    }else{
-    const direct=typeof EDUCATION_UI_TRANSLATIONS!=='undefined'?EDUCATION_UI_TRANSLATIONS[curLang]?.[entry.ro]:null;
-    heading.textContent=direct||entry.ro;
-    if(direct)heading.setAttribute('data-edu-localized',curLang);
+    heading.textContent=hasDistinctEn?entry.en:entry.ro;
    }
-   lessonHeadings.push(heading);
   }else{
    heading.textContent=learningLabel(entry.ro,entry.en);
    heading.setAttribute('data-edu-localized',curLang);
@@ -12994,7 +13083,16 @@ function mathJourneyShowChoices(stage){
    else if(curLang==='it'&&entry.topicFocusIt){subtitle.textContent=entry.topicFocusIt;subtitle.setAttribute('data-edu-localized','it');}
    else if(entry.topicFocusNativeLang&&curLang===entry.topicFocusNativeLang&&entry.topicFocusNative){subtitle.textContent=entry.topicFocusNative;subtitle.setAttribute('data-edu-localized',curLang);}
    else if(curLang==='ro'||curLang==='en'){subtitle.textContent=learningLabel(entry.topicFocus||'',entry.topicFocusEn||'');subtitle.setAttribute('data-edu-localized',curLang);}
-   else subtitle.textContent=entry.topicFocus||entry.topicFocusEn||'';
+   else{
+    const srcFocus=entry.topicFocusEn||entry.topicFocus||'';
+    const focusHit=srcFocus&&typeof eduGetCachedString==='function'?eduGetCachedString(srcFocus,curLang):'';
+    if(!srcFocus){subtitle.textContent='';subtitle.setAttribute('data-edu-localized',curLang);}
+    else if(focusHit){subtitle.textContent=focusHit;subtitle.setAttribute('data-edu-localized',curLang);}
+    else if(canBatchTranslate){
+     subtitle.textContent='…';subtitle.setAttribute('data-edu-pending','1');
+     pendingTexts.push({el:subtitle,text:srcFocus,fallback:entry.topicFocusEn||srcFocus});
+    }else subtitle.textContent=entry.topicFocusEn||srcFocus;
+   }
   }else{
    subtitle.textContent=isEnglandGcse&&entry.tier==='higher-only'
     ?learningLabel('Exclusiv nivelului Higher','Higher tier only')
@@ -13080,25 +13178,32 @@ function mathJourneyShowChoices(stage){
  // European app languages translate the visible list as a cached batch;
  // discarded selections never overwrite the next school's chapter list.
  const lang=String(state.language||'ro');
- if(stage==='chapters'&&lang!=='en'&&lessonHeadings.length&&typeof eduTranslateMaterial==='function'){
-  const pending=candidates.map((x,i)=>({i,text:x.ro,el:lessonHeadings[i],src:x.sourceLang||'ro'}))
-   .filter(p=>p.el&&p.el.getAttribute('data-edu-localized')!==lang&&p.src!==lang);
-  if(pending.length){
-   const country=String(educationCountrySelection.code||''),grade=String(mathJourney.grade||'');
-   const selectedTopic=String(mathJourney.topic||''),chapterKey=country+':'+grade+':'+selectedTopic;
-   const cacheId='math:chapter-titles:'+chapterKey;
-   const payload={titles:pending.map(p=>p.text)};
-   const hit=typeof eduReadCachedTranslation==='function'?eduReadCachedTranslation(payload,cacheId,'mixed'):null;
-   if(hit&&Array.isArray(hit.titles)){
-    pending.forEach((p,k)=>{if(hit.titles[k]){p.el.textContent=hit.titles[k];p.el.setAttribute('data-edu-localized',lang);}});
-   }else{
-    eduTranslateMaterial(payload,cacheId,'mixed').then(result=>{
-     if(!result?.titles||state.language!==lang||mathJourney.stage!=='chapters'||mathJourney.grade!==grade||
-        mathJourney.topic!==selectedTopic||educationCountrySelection.code!==country)return;
-     pending.forEach((p,k)=>{if(result.titles[k]){p.el.textContent=result.titles[k];p.el.setAttribute('data-edu-localized',lang);}});
-    }).catch(()=>{});
+ if(pendingTexts.length&&canBatchTranslate){
+  const country=String(educationCountrySelection.code||''),grade=String(mathJourney.grade||'');
+  const selectedTopic=String(mathJourney.topic||''),listScope=stage+':'+country+':'+grade+':'+selectedTopic;
+  (async()=>{
+   for(let s=0;s<pendingTexts.length;s+=14){
+    if(state.language!==lang||mathJourney.stage!==stage||String(mathJourney.grade||'')!==grade||
+       String(mathJourney.topic||'')!==selectedTopic||String(educationCountrySelection.code||'')!==country)break;
+    const slice=pendingTexts.slice(s,s+14);
+    const cacheId='math:list-v3:'+listScope+':'+s;
+    const payload={titles:slice.map(p=>p.text)};
+    const hit=typeof eduReadCachedTranslation==='function'?eduReadCachedTranslation(payload,cacheId,'mixed'):null;
+    const result=hit||await eduTranslateMaterial(payload,cacheId,'mixed',{priority:s===0});
+    if(state.language!==lang||mathJourney.stage!==stage||String(mathJourney.grade||'')!==grade||
+       String(mathJourney.topic||'')!==selectedTopic||String(educationCountrySelection.code||'')!==country)break;
+    if(Array.isArray(result?.titles)){
+     slice.forEach((p,k)=>{
+      p.el.textContent=result.titles[k]||p.fallback;
+      p.el.removeAttribute('data-edu-pending');p.el.setAttribute('data-edu-localized',lang);
+     });
+    }else{
+     slice.forEach(p=>{p.el.textContent=p.fallback;p.el.removeAttribute('data-edu-pending');});
+    }
    }
-  }
+  })().catch(()=>{
+   pendingTexts.forEach(p=>{if(p.el.hasAttribute('data-edu-pending')){p.el.textContent=p.fallback;p.el.removeAttribute('data-edu-pending');}});
+  });
  }
  requestAnimationFrame(mathFitViewport);
 }
@@ -24376,7 +24481,7 @@ pt:{travel:'Encontra hotéis, restaurantes e outros locais nas proximidades.',ma
 ru:{travel:'Найдите отели, рестораны и другие места поблизости.',maps:'Планируйте маршруты и проверяйте общественный транспорт.',learning:'Учитесь шаг за шагом и получайте понятные объяснения.',organize:'Ведите списки, бюджеты, проекты и цели.',tools:'Изучайте анализ, идеи, документы и другие инструменты.'},
 pl:{travel:'Znajdź hotele, restauracje i inne miejsca w pobliżu.',maps:'Planuj trasy i sprawdzaj transport publiczny.',learning:'Ucz się krok po kroku i otrzymuj jasne wyjaśnienia.',organize:'Organizuj listy, budżety, projekty i cele.',tools:'Odkrywaj analizy, pomysły, dokumenty i dodatkowe narzędzia.'},
 nl:{travel:'Vind hotels, restaurants en andere plaatsen in de buurt.',maps:'Plan routes en bekijk informatie over het openbaar vervoer.',learning:'Leer stap voor stap en krijg duidelijke uitleg.',organize:'Organiseer lijsten, budgetten, projecten en doelen.',tools:'Ontdek analyses, ideeën, documenten en extra hulpmiddelen.'}};return (leads[lang]||leads.en)[key]||MODULES[key]?.lead||''}
-function applyUiLanguage(){closeAnswerReader(false);document.querySelectorAll('.answer-reader-open').forEach(b=>b.textContent=readerLabels().open);const d=UI_TEXT[state.language]||UI_TEXT.en;window.pocketCommunicationSetLanguage?.(state.language);window.pocketAccountApplyLanguage?.();document.documentElement.lang=state.language;$('home-title').textContent=d.homeTitle;document.querySelector('#view-home>.lead').textContent=d.homeLead;document.querySelector('.brand-sub').textContent=d.subtitle;const plan=document.querySelector('.plan-pill');if(plan)plan.textContent=state.language==='ro'?'GRATUIT ♛':state.language==='fr'?'GRATUIT ♛':state.language==='de'?'KOSTENLOS ♛':state.language==='it'?'GRATUITO ♛':state.language==='es'?'GRATIS ♛':state.language==='pt'?'GRÁTIS ♛':state.language==='nl'?'GRATIS ♛':state.language==='ru'?'БЕСПЛАТНО ♛':state.language==='pl'?'BEZPŁATNIE ♛':'FREE ♛';if(d.freeLabel&&plan)plan.textContent=d.freeLabel;document.querySelectorAll('#view-home .feature-card').forEach((card,i)=>{if(d.cards[i]){card.querySelector('.card-title').textContent=d.cards[i][0];card.querySelector('.card-description').textContent=d.cards[i][1]}});document.querySelectorAll('.bottom-nav [data-nav]').forEach(b=>{const label=b.dataset.nav==='home'?d.home:b.dataset.nav==='conversations'?d.conversations:b.dataset.nav==='communication'?window.pocketCommunicationLabel(state.language):d.settings;const icon=b.querySelector('.nav-icon');b.replaceChildren(icon,document.createTextNode(label))});document.querySelectorAll('[data-back]').forEach(b=>b.textContent=d.back);$('newChatBtn').textContent=d.newChat;$('moduleLayerTitle').textContent=d.quickTitle;$('moduleLayerBack').textContent=state.language==='en'?'← Back':state.language==='fr'?'← Retour':state.language==='de'?'← Zurück':state.language==='it'?'← Indietro':state.language==='es'?'← Volver':state.language==='pt'?'← Voltar':state.language==='nl'?'← Terug':state.language==='ru'?'← Назад':state.language==='pl'?'← Wstecz':(d.backShort||'← Înapoi');document.querySelector('#sharedChatShell .chat-top strong').textContent=d.conversation;const empty=messagesEl.querySelector('.empty-state');if(empty){empty.replaceChildren(document.createTextNode(d.empty));const hint=document.createElement('span');hint.className='small';hint.textContent=d.emptyHint;empty.append(document.createElement('br'),hint)}if(!state.messages.length)setStatus(d.ready);$('languageSelect').setAttribute('aria-label',d.settingsLanguage);const settings=$('view-settings');settings.querySelector('h2').textContent=d.settings;settings.querySelector('.module-panel h3').textContent=d.settingsLanguage;settings.querySelector('.module-panel p').textContent=d.settingsLanguageHint;settings.querySelector('.module-panel .small').textContent=d.speechHint;settings.querySelectorAll('.module-panel')[1].querySelector('h3').textContent=d.about;const verEl=$('pocketInterfaceVersion');if(verEl){const vPref=state.language==='ro'?'Versiunea interfeței':state.language==='fr'?'Version de l’interface':state.language==='de'?'Oberflächenversion':state.language==='it'?'Versione interfaccia':state.language==='es'?'Versión de la interfaz':state.language==='pt'?'Versão da interface':state.language==='nl'?'Interfaceversie':(d.versionPrefix||'Interface version');verEl.textContent='myPocket AI · '+vPref+' '+'${APP.version}';}settings.querySelectorAll('.module-panel')[1].querySelectorAll('p')[1].textContent=state.language==='en'?'Local conversations can be deleted in the Conversations section.':state.language==='fr'?'Les conversations locales peuvent être supprimées dans la section Conversations.':state.language==='de'?'Lokale Gespräche können im Bereich Gespräche gelöscht werden.':state.language==='it'?'Le conversazioni locali possono essere eliminate nella sezione Conversazioni.':state.language==='es'?'Las conversaciones locales se pueden borrar en la sección Conversaciones.':state.language==='pt'?'As conversas locais podem ser apagadas na secção Conversas.':state.language==='nl'?'Lokale gesprekken kunnen worden verwijderd in het onderdeel Gesprekken.':'Conversațiile locale pot fi șterse din secțiunea Conversații.';if(d.localPrivacy)settings.querySelectorAll('.module-panel')[1].querySelectorAll('p')[1].textContent=d.localPrivacy;const conversations=$('view-conversations');conversations.querySelector('h2').textContent=d.conversations;conversations.querySelector('.section-lead').textContent=d.localHistory;$('clearHistoryBtn').textContent=d.clearHistory;const toolsView=$('view-tools');toolsView.querySelector('h2').textContent=d.tools;toolsView.querySelector('.section-lead').textContent=d.chooseDomain;if(window.__pocketToolsReady===true)refreshToolTranslations();if((state.currentModule==='maps'||state.currentModule==='travel')&&$('view-module').classList.contains('module-landing'))renderModuleLandingChoices();document.querySelector('#view-assistant>.section-title').textContent=d.cards[0][0];document.querySelector('#view-assistant .section-lead').textContent=state.language==='en'?'Type or speak with myPocket AI.':state.language==='fr'?'Écrivez ou parlez avec myPocket AI.':state.language==='de'?'Schreibe oder sprich mit myPocket AI.':state.language==='it'?'Scrivi o parla con myPocket AI.':state.language==='es'?'Escribe o habla con myPocket AI.':state.language==='pt'?'Escreve ou fala com myPocket AI.':state.language==='nl'?'Typ of praat com myPocket AI.'.replace(' com ',' met '):'Scrie sau vorbește cu myPocket AI.';if(d.assistantLead)document.querySelector('#view-assistant .section-lead').textContent=d.assistantLead;inputEl.setAttribute('aria-label',d.send);$('sendBtn').setAttribute('aria-label',d.send);$('dictationBtn').setAttribute('aria-label',d.dictation);$('dictationBtn').title=d.dictation;$('voiceBtn').setAttribute('aria-label',d.voice);$('voiceBtn').title=d.voice;$('listenBtn').setAttribute('aria-label',d.listen);$('listenBtn').title=d.listen;if(state.currentModule==='learning'&&$('view-module')?.classList.contains('learning-choose')&&typeof renderLearningSubjects==='function')renderLearningSubjects();else if(state.currentModule==='learning'&&$('view-module')?.classList.contains('math-choice-stage')&&typeof mathJourneyShowChoices==='function'&&mathJourney?.stage)mathJourneyShowChoices(mathJourney.stage);if(typeof window.pocketScheduleEducationLocaleScan==='function')window.pocketScheduleEducationLocaleScan();if(state.currentView==='module'){const m=MODULES[state.currentModule];if(m){$('moduleTitle').textContent=(state.currentModule==='learning'&&activeLearningSubject)?learningLabel(activeLearningSubject[2],activeLearningSubject[3]):(d.moduleTitle[state.currentModule]||m.title);$('moduleLead').textContent=(state.currentModule==='learning'&&activeLearningSubject)?'':localizedModuleLead(state.currentModule)}}const quickLayer=$('moduleQuickLayer');if(quickLayer?.classList.contains('open')){if(state.moduleSearchResults?.length&&state.moduleSearchCategory?.kind==='places'){renderModulePlaces(state.moduleSearchResults)}else if(state.moduleSearchCategory){$('moduleLayerTitle').textContent=localizedQuickChoiceTitle(state.moduleSearchCategory);if(state.moduleSearchBusy)moduleStatus(quickUiText().searching+' '+localizedQuickChoiceTitle(state.moduleSearchCategory).toLowerCase()+' '+quickUiText().nearby)}else{ $('moduleLayerTitle').textContent=d.quickTitle;}}try{localStorage.setItem('mypocketai.language',state.language)}catch{}}
+function applyUiLanguage(){closeAnswerReader(false);document.querySelectorAll('.answer-reader-open').forEach(b=>b.textContent=readerLabels().open);const d=UI_TEXT[state.language]||UI_TEXT.en;window.pocketCommunicationSetLanguage?.(state.language);window.pocketAccountApplyLanguage?.(state.language);document.documentElement.lang=state.language;$('home-title').textContent=d.homeTitle;document.querySelector('#view-home>.lead').textContent=d.homeLead;document.querySelector('.brand-sub').textContent=d.subtitle;const plan=document.querySelector('.plan-pill');if(plan)plan.textContent=state.language==='ro'?'GRATUIT ♛':state.language==='fr'?'GRATUIT ♛':state.language==='de'?'KOSTENLOS ♛':state.language==='it'?'GRATUITO ♛':state.language==='es'?'GRATIS ♛':state.language==='pt'?'GRÁTIS ♛':state.language==='nl'?'GRATIS ♛':state.language==='ru'?'БЕСПЛАТНО ♛':state.language==='pl'?'BEZPŁATNIE ♛':'FREE ♛';if(d.freeLabel&&plan)plan.textContent=d.freeLabel;document.querySelectorAll('#view-home .feature-card').forEach((card,i)=>{if(d.cards[i]){card.querySelector('.card-title').textContent=d.cards[i][0];card.querySelector('.card-description').textContent=d.cards[i][1]}});document.querySelectorAll('.bottom-nav [data-nav]').forEach(b=>{const label=b.dataset.nav==='home'?d.home:b.dataset.nav==='conversations'?d.conversations:b.dataset.nav==='communication'?window.pocketCommunicationLabel(state.language):d.settings;const icon=b.querySelector('.nav-icon');b.replaceChildren(icon,document.createTextNode(label))});document.querySelectorAll('[data-back]').forEach(b=>b.textContent=d.back);$('newChatBtn').textContent=d.newChat;$('moduleLayerTitle').textContent=d.quickTitle;$('moduleLayerBack').textContent=state.language==='en'?'← Back':state.language==='fr'?'← Retour':state.language==='de'?'← Zurück':state.language==='it'?'← Indietro':state.language==='es'?'← Volver':state.language==='pt'?'← Voltar':state.language==='nl'?'← Terug':state.language==='ru'?'← Назад':state.language==='pl'?'← Wstecz':(d.backShort||'← Înapoi');document.querySelector('#sharedChatShell .chat-top strong').textContent=d.conversation;const empty=messagesEl.querySelector('.empty-state');if(empty){empty.replaceChildren(document.createTextNode(d.empty));const hint=document.createElement('span');hint.className='small';hint.textContent=d.emptyHint;empty.append(document.createElement('br'),hint)}if(!state.messages.length)setStatus(d.ready);$('languageSelect').setAttribute('aria-label',d.settingsLanguage);const settings=$('view-settings');settings.querySelector('h2').textContent=d.settings;settings.querySelector('.module-panel h3').textContent=d.settingsLanguage;settings.querySelector('.module-panel p').textContent=d.settingsLanguageHint;settings.querySelector('.module-panel .small').textContent=d.speechHint;settings.querySelectorAll('.module-panel')[1].querySelector('h3').textContent=d.about;const verEl=$('pocketInterfaceVersion');if(verEl){const vPref=state.language==='ro'?'Versiunea interfeței':state.language==='fr'?'Version de l’interface':state.language==='de'?'Oberflächenversion':state.language==='it'?'Versione interfaccia':state.language==='es'?'Versión de la interfaz':state.language==='pt'?'Versão da interface':state.language==='nl'?'Interfaceversie':(d.versionPrefix||'Interface version');verEl.textContent='myPocket AI · '+vPref+' '+'${APP.version}';}const privEl=$('pocketLocalPrivacyNote');if(privEl)privEl.textContent=d.localPrivacy||(state.language==='en'?'Local conversations can be deleted in the Conversations section.':state.language==='fr'?'Les conversations locales peuvent être supprimées dans la section Conversations.':state.language==='de'?'Lokale Gespräche können im Bereich Gespräche gelöscht werden.':state.language==='it'?'Le conversazioni locali possono essere eliminate nella sezione Conversazioni.':state.language==='es'?'Las conversaciones locales se pueden borrar en la sección Conversaciones.':state.language==='pt'?'As conversas locais podem ser apagadas na secção Conversas.':state.language==='nl'?'Lokale gesprekken kunnen worden verwijderd in het onderdeel Gesprekken.':'Conversațiile locale pot fi șterse din secțiunea Conversații.');const conversations=$('view-conversations');conversations.querySelector('h2').textContent=d.conversations;conversations.querySelector('.section-lead').textContent=d.localHistory;$('clearHistoryBtn').textContent=d.clearHistory;const toolsView=$('view-tools');toolsView.querySelector('h2').textContent=d.tools;toolsView.querySelector('.section-lead').textContent=d.chooseDomain;if(window.__pocketToolsReady===true)refreshToolTranslations();if((state.currentModule==='maps'||state.currentModule==='travel')&&$('view-module').classList.contains('module-landing'))renderModuleLandingChoices();document.querySelector('#view-assistant>.section-title').textContent=d.cards[0][0];document.querySelector('#view-assistant .section-lead').textContent=state.language==='en'?'Type or speak with myPocket AI.':state.language==='fr'?'Écrivez ou parlez avec myPocket AI.':state.language==='de'?'Schreibe oder sprich mit myPocket AI.':state.language==='it'?'Scrivi o parla con myPocket AI.':state.language==='es'?'Escribe o habla con myPocket AI.':state.language==='pt'?'Escreve ou fala com myPocket AI.':state.language==='nl'?'Typ of praat com myPocket AI.'.replace(' com ',' met '):'Scrie sau vorbește cu myPocket AI.';if(d.assistantLead)document.querySelector('#view-assistant .section-lead').textContent=d.assistantLead;inputEl.setAttribute('aria-label',d.send);$('sendBtn').setAttribute('aria-label',d.send);$('dictationBtn').setAttribute('aria-label',d.dictation);$('dictationBtn').title=d.dictation;$('voiceBtn').setAttribute('aria-label',d.voice);$('voiceBtn').title=d.voice;$('listenBtn').setAttribute('aria-label',d.listen);$('listenBtn').title=d.listen;if(state.currentModule==='learning'&&$('view-module')?.classList.contains('learning-choose')&&typeof renderLearningSubjects==='function')renderLearningSubjects();else if(state.currentModule==='learning'&&typeof mathTheoryQuickReferenceOpen!=='undefined'&&mathTheoryQuickReferenceOpen&&typeof mathTheoryQuickReference==='function')mathTheoryQuickReference();else if(state.currentModule==='learning'&&$('view-module')?.classList.contains('math-choice-stage')&&typeof mathJourneyShowChoices==='function'&&mathJourney?.stage&&mathJourney.stage!=='reference')mathJourneyShowChoices(mathJourney.stage);if(typeof window.pocketScheduleEducationLocaleScan==='function')window.pocketScheduleEducationLocaleScan();if(state.currentView==='module'){const m=MODULES[state.currentModule];if(m){$('moduleTitle').textContent=(state.currentModule==='learning'&&activeLearningSubject)?learningLabel(activeLearningSubject[2],activeLearningSubject[3]):(d.moduleTitle[state.currentModule]||m.title);$('moduleLead').textContent=(state.currentModule==='learning'&&activeLearningSubject)?'':localizedModuleLead(state.currentModule)}}const quickLayer=$('moduleQuickLayer');if(quickLayer?.classList.contains('open')){if(state.moduleSearchResults?.length&&state.moduleSearchCategory?.kind==='places'){renderModulePlaces(state.moduleSearchResults)}else if(state.moduleSearchCategory){$('moduleLayerTitle').textContent=localizedQuickChoiceTitle(state.moduleSearchCategory);if(state.moduleSearchBusy)moduleStatus(quickUiText().searching+' '+localizedQuickChoiceTitle(state.moduleSearchCategory).toLowerCase()+' '+quickUiText().nearby)}else{ $('moduleLayerTitle').textContent=d.quickTitle;}}try{localStorage.setItem('mypocketai.language',state.language)}catch{}}
 // A saved value from any earlier installation always has priority, including
 // the language previously chosen explicitly in Settings. Only an actual new
 // installation may be auto-detected by device region / location.

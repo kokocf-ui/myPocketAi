@@ -2182,38 +2182,57 @@ export default {
       const reqLang=typeof data.language==='string'?data.language.trim().toLowerCase().split(/[-_]/)[0]:'en';
       const targetLang=POCKET_LANGUAGE_NAMES[reqLang]?reqLang:'en';
       const targetName=POCKET_LANGUAGE_NAMES[targetLang];
-      const sysPrompt='You are a precise educational JSON localizer. Translate every human-readable string value (whatever its source language) accurately into natural, fluent '+targetName+' (language code: '+targetLang+'). Return ONLY a valid JSON object with the exact same keys and exact same array lengths. Preserve every Arabic numeral as digits, every mathematical formula, equation, chemical symbol, variable, code token, unit, negation, and quiz answer ordering. Never add markdown commentary outside the JSON object.';
+      const sysPrompt='You are a precise educational JSON localizer. Translate every human-readable string value (whatever its source language) accurately into natural, fluent '+targetName+' (language code: '+targetLang+'). Return ONLY a single-line valid JSON object with the exact same keys and exact same array lengths (escape any newlines as \\n). Preserve every Arabic numeral as digits, every mathematical formula, equation, chemical symbol, variable, code token, unit, negation, and quiz answer ordering. Never add markdown commentary outside the JSON object.';
       try{
+        const dynMaxTokens=Math.min(2800,Math.max(512,Math.ceil(data.message.length*0.9)+256));
         const translateOpts={
           messages:[{role:'system',content:sysPrompt},{role:'user',content:data.message.trim()}],
-          max_tokens:3800,temperature:0.05
+          max_tokens:dynMaxTokens,temperature:0.05
         };
-        const hasValidJsonReply=res=>{
-          const txt=String(res?.response||res?.result?.response||'').trim().replace(/^```(?:json)?\s*|\s*```$/gi,'');
-          if(!txt)return false;
-          try{const p=JSON.parse(txt);return !!p&&typeof p==='object';}catch{
-            const a=txt.indexOf('{'),b=txt.lastIndexOf('}');
-            if(a>=0&&b>a){try{const p=JSON.parse(txt.slice(a,b+1));return !!p&&typeof p==='object';}catch{}}
-            return false;
-          }
-        };
-        let rawResult=null;
-        if(evaSmartRouterEnabled){
-          rawResult=await evaTask({module:'simple_translation',forceTier:'fast',message:data.message},translateOpts);
-        }else{
-          const fastModel=selectedAiModel;
-          const fallbackModel=allowedTextModels[1]&&allowedTextModels[1]!==fastModel?allowedTextModels[1]:null;
-          try{
-            rawResult=await env.AI.run(fastModel,translateOpts);
-            if(!hasValidJsonReply(rawResult)&&fallbackModel){
-              rawResult=await env.AI.run(fallbackModel,translateOpts);
+        const parseLooseEducationalJson=res=>{
+          let txt=String(res?.response||res?.result?.response||res?.choices?.[0]?.message?.content||'').trim();
+          txt=txt.replace(/^```(?:json)?\s*|\s*```$/gi,'').trim();
+          const a=txt.indexOf('{'),b=txt.lastIndexOf('}');
+          if(a<0||b<=a)return null;
+          const slice=txt.slice(a,b+1);
+          try{const p=JSON.parse(slice);if(p&&typeof p==='object'&&!Array.isArray(p))return p;}catch{}
+          let fixed='',inStr=false,esc=false;
+          for(let i=0;i<slice.length;i++){
+            const ch=slice[i],code=slice.charCodeAt(i);
+            if(inStr){
+              if(esc){fixed+=ch;esc=false;}
+              else if(ch==='\\'){fixed+=ch;esc=true;}
+              else if(ch==='"'){fixed+=ch;inStr=false;}
+              else if(code===10)fixed+='\\n';
+              else if(code===13)fixed+='\\r';
+              else if(code===9)fixed+='\\t';
+              else if(code<32)fixed+=' ';
+              else fixed+=ch;
+            }else{
+              if(ch==='"')inStr=true;
+              fixed+=ch;
             }
-          }catch(firstErr){
-            if(!fallbackModel||isWorkersAiQuotaExceeded(firstErr))throw firstErr;
-            rawResult=await env.AI.run(fallbackModel,translateOpts);
           }
+          fixed=fixed.replace(/,(\s*[}\]])/g,'$1');
+          try{const p=JSON.parse(fixed);if(p&&typeof p==='object'&&!Array.isArray(p))return p;}catch{}
+          return null;
+        };
+        const fastModel=selectedAiModel;
+        const fallbackModel=allowedTextModels[1]&&allowedTextModels[1]!==fastModel?allowedTextModels[1]:null;
+        let parsed=null,rawResult=null;
+        try{
+          rawResult=await env.AI.run(fastModel,translateOpts);
+          parsed=parseLooseEducationalJson(rawResult);
+          if(!parsed&&fallbackModel){
+            rawResult=await env.AI.run(fallbackModel,translateOpts);
+            parsed=parseLooseEducationalJson(rawResult);
+          }
+        }catch(firstErr){
+          if(!fallbackModel||isWorkersAiQuotaExceeded(firstErr))throw firstErr;
+          rawResult=await env.AI.run(fallbackModel,translateOpts);
+          parsed=parseLooseEducationalJson(rawResult);
         }
-        const reply=String(rawResult?.response||rawResult?.result?.response||'').trim();
+        const reply=parsed?JSON.stringify(parsed):String(rawResult?.response||rawResult?.result?.response||'').trim();
         if(!reply)return json({status:'unavailable',error:'education_translation_empty'},503);
         return json({app:'Pocket AI',version:API_VERSION,status:'success',
           language:targetLang,reply,ai_generated:true,ai_connected:true});
