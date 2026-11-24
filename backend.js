@@ -8,6 +8,7 @@ import {classifyEvaTurn,evaConversationHistory,evaDialogueSystem,cleanEvaReply} 
 import {recallFromSuppliedHistory,groundedHistorySummary} from "./eva_history_recall.mjs";
 import {parseNearbyStreetQuery,geocodeNearbyStreet} from "./nearby_street_geocode.mjs";
 import {assistantBareDestinationQuery,assistantJourneyHandoff} from "./assistant_bare_destination.mjs";
+import {assistantSelfLocationQuery} from "./assistant_self_location.mjs";
 import {isStreetOnlyPlace,parseNamedBusinessInformation,researchNamedBusiness,businessResearchReply} from "./local_business_evidence.mjs";
 import {nearbyUkRegisteredRetailers,nearbyUkRegisteredTakeaways} from "./uk_food_retailers.mjs";
 import {foodCategoryAccepts,reconcileNearbyPlaces} from "./food_location_quality.mjs";
@@ -1168,6 +1169,7 @@ const WEATHER_DEGREE_WORDS=/(?:\b(?:grade|degrees|grad|gradi|graus|graden|stopni
 const WEATHER_DAYS=[['poimaine','day after tomorrow','apres demain','uber morgen','ubermorgen','dopodomani','pasado manana','depois de amanha','overmorgen','послезавтра','pojutrze'],['maine','tomorrow','demain','morgen','domani','manana','amanha','завтра','jutro'],['azi','astazi','today','aujourd hui','heute','oggi','hoy','hoje','vandaag','сегодня','dzisiaj']];
 const weatherHas=(text,words)=>words.some(w=>(' '+normalizeGeoName(text)+' ').includes(' '+w+' '));
 function weatherRequest(text,previous){
+ if(assistantSelfLocationQuery(text))return null;
  const norm=normalizeGeoName(text);
  // Idiomatic Romanian time expressions ("pe vremea romanilor", "în ultima vreme") and non-meteorological
  // science/math/cooking/economic uses ("la câte grade se coace", "prognoza inflației") are never weather lookups.
@@ -5248,7 +5250,7 @@ export default {
     // earlier road-route prompt (e.g. after the user selected "Mașină").
     const independentPlaceSearch=/\b(?:restauran\w*|hotel\w*|cafene\w*|pizzeri\w*|magazin\w*|supermarket\w*|farmaci\w*|baruri|puburi|parcari|zoo)\b/.test(routeWords)&&
       !/(?:\b(?:traseu|trasee|ruta|rute|navigare|navigate|directions|driving|pietonal|transport public)\b|cum ajung|vreau sa ajung|du ma|go to|drive to|walk to)/.test(routeWords);
-    const shortRouteAnswer=!independentPlaceSearch&&(routeContext?.pending||destinationRouteUpdate)&&message.length<=160&&!/[?!]/.test(message)&&!/^(?:salut|buna|hello|multumesc|thanks|ok|pa|bye|scrie|write|explica|explain|cauta|gaseste|find|spune|tell|rezolva|solve|calculeaza|calculate|recomanda|tradu|translate|vreme|weather|cate|cati|cat|ce|care|cine|cand|cum|unde|what|who|when|how|why|where|de ce)(?: |$)/.test(routeWords);
+    const shortRouteAnswer=!assistantSelfLocationQuery(message)&&!independentPlaceSearch&&(routeContext?.pending||destinationRouteUpdate)&&message.length<=160&&!/[?!]/.test(message)&&!/^(?:salut|buna|hello|multumesc|thanks|ok|pa|bye|scrie|write|explica|explain|cauta|gaseste|find|spune|tell|rezolva|solve|calculeaza|calculate|recomanda|tradu|translate|vreme|weather|cate|cati|cat|ce|care|cine|cand|cum|unde|what|who|when|how|why|where|de ce)(?: |$)/.test(routeWords);
     if(data.quick_place_search!==true&&(chosenTravelMode||routeSpec||selectedDestinationRequested||mapRouteRequest||shortRouteAnswer||retryRouteAnswer||viaRouteAnswer||compareRouteAnswer||(gpsRouteAnswer&&routeContext))){
       let rc=routeContext||{profile:null,destination_query:"",origin_query:"",pending:null,candidates:[]};
       const modeOnly=Boolean(chosenTravelMode)||/^(?:pe jos|pietonal|walking|walk|cu masina|masina|drive|driving)$/.test(routeWords);
@@ -6206,7 +6208,7 @@ export default {
     const earlyFoodSearchIntent = Boolean(activePlaceRequest)&&!culinaryRequest.isRecipe&&!nonPlaceFeedback;
     const locationIntentText = message.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
       .toLowerCase().replace(/[șş]/g, "s").replace(/[țţ]/g, "t");
-    const locationIntent = /(?:\b(localizeaza[- ]?ma|ma poti localiza|poti sa ma localizezi|locatia mea|locatia actuala|locatie actuala|pozitia mea|pozitia actuala|coordonatele mele|identifica locatia|where am i|unde ma aflu|unde ma gasesc|unde sunt(?: acum)?|where exactly am i|locate me|my location|my current location|current location|current position|nearest station|closest station|nearest train station|closest train station|nearest railway station|cea mai apropiata gara|gara cea mai apropiata|cea mai apropiata statie)\b)/i.test(locationIntentText);
+    const locationIntent = assistantSelfLocationQuery(message) || /(?:\b(localizeaza[- ]?ma|ma poti localiza|poti sa ma localizezi|locatia mea|locatia actuala|locatie actuala|pozitia mea|pozitia actuala|coordonatele mele|identifica locatia|where am i|unde ma aflu|unde ma gasesc|unde sunt(?: acum)?|where exactly am i|locate me|my location|my current location|current location|current position|nearest station|closest station|nearest train station|closest train station|nearest railway station|cea mai apropiata gara|gara cea mai apropiata|cea mai apropiata statie)\b)/i.test(locationIntentText);
     // v96: do not treat bare "road"/"street"/"strada" in unrelated topics as a GPS self-location lookup.
     // Require an explicit request for the user's current street/address or nearby roads.
     const streetIntent = /(?:\b(strada pe care ma aflu|strada actuala|strazi din jur|strada din apropiere|strazi din apropiere|ce strada|pe ce strada|ce adresa am|care este adresa mea|adresa mea|numele strazii|nearest street|nearby streets|what street|which street|on what street|nearest road|nearby roads|what road|which road|road name|street name)\b|\b(in jurul meu|in apropierea mea|near me|around me)\b)/i.test(locationIntentText);
@@ -6237,8 +6239,8 @@ export default {
       }
       try {
         // v39: zoom 10 commonly returns only a county (for example, Essex).
-        // Use zoom=18, then enrich bare highway/street hits with rooftop building/UPRN
-        // lookup and authoritative unit-postcode resolution when GPS precision permits.
+        // Use zoom=18, then seek nearby mapped buildings and postcode centroids
+        // when GPS precision permits; neither confirms the user's exact address.
         const reverseZoom = 18;
         const reverseUrl = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}&zoom=${reverseZoom}&addressdetails=1`;
         const reverseResponse = await fetch(reverseUrl, {
@@ -6258,6 +6260,8 @@ export default {
         let street = address.road || address.pedestrian || address.residential || address.footway || address.path || address.cycleway || "";
         let houseNumber = String(address.house_number || "").trim();
         let postalCode = String(address.postcode || "").trim();
+        const originalPostcode = postalCode;
+        let nearbyPostcodes = [];
         const accuracyMeters = Number(location?.accuracy);
         const accuracyKnown = Number.isFinite(accuracyMeters) && accuracyMeters > 0;
         const streetUsable = accuracyKnown && accuracyMeters <= 100;
@@ -6266,12 +6270,15 @@ export default {
         const nomAddrType = String(reverseData.addresstype || reverseData.type || "").toLowerCase();
         const snappedToBareRoad = nomCategory === "highway" || nomAddrType === "road" || nomAddrType === "street";
         const reverseSources = ["OpenStreetMap Nominatim"];
+        let nearbyAddresses = [];
         const pointDistM = (lat1, lon1, lat2, lon2) => {
           if (![lat1, lon1, lat2, lon2].every(Number.isFinite)) return Infinity;
           const rad = Math.PI / 180, dLat = (lat2 - lat1) * rad, dLon = (lon2 - lon1) * rad;
           const a = Math.sin(dLat / 2) ** 2 + Math.cos(lat1 * rad) * Math.cos(lat2 * rad) * Math.sin(dLon / 2) ** 2;
           return 6371000 * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(Math.max(0, 1 - a)));
         };
+        const primaryDistance=pointDistM(latitude,longitude,Number(reverseData.lat),Number(reverseData.lon));
+        if(numberUsable&&Number.isFinite(primaryDistance)&&primaryDistance>Math.min(35,Math.max(24,Math.round(accuracyMeters+18))))houseNumber='';
         const canonicalStreet = v => String(v || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase()
           .replace(/\b(?:strada|str\.?|soseaua|sos\.?|bulevardul|bd\.?|aleea|calea)\b/g, "")
           .replace(/\brd\.?\b/g, "road").replace(/\bst\.?\b/g, "street").replace(/\bave\.?\b/g, "avenue")
@@ -6349,6 +6356,27 @@ export default {
               }
             })());
           }
+          // Nominatim may snap to the road even if individual house addresses are mapped.
+          // Search nearby OSM address points as candidates only: proximity is not proof of occupancy.
+          if (numberUsable && (!houseNumber || snappedToBareRoad)) {
+            tasks.push((async () => {
+              const q=`[out:json][timeout:3];(node["addr:housenumber"](around:35,${latitude},${longitude});way["addr:housenumber"](around:35,${latitude},${longitude}););out center 25;`;
+              const r=await fetch('https://overpass.kumi.systems/api/interpreter',{
+                method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},
+                body:'data='+encodeURIComponent(q),signal:AbortSignal.timeout(3500)
+              });
+              if(!r.ok)return;
+              const j=await r.json();
+              nearbyAddresses=(Array.isArray(j?.elements)?j.elements:[]).slice(0,25).flatMap(el=>{
+                const tags=el?.tags||{},hn=String(tags['addr:housenumber']||'').trim().slice(0,32);
+                const st=String(tags['addr:street']||'').trim().slice(0,120);
+                const lat=Number(el.lat??el.center?.lat),lon=Number(el.lon??el.center?.lon);
+                const d=pointDistM(latitude,longitude,lat,lon);
+                if(!hn||!st||!Number.isFinite(d)||d>35)return [];
+                return [{houseNumber:hn,street:st,postcode:String(tags['addr:postcode']||'').trim().slice(0,32),distance_m:Math.round(d)}];
+              }).sort((a,b)=>a.distance_m-b.distance_m).filter((v,i,a)=>a.findIndex(x=>x.houseNumber===v.houseNumber&&x.street===v.street)===i).slice(0,3);
+            })());
+          }
           const maybeUk = countryCode === "gb" || (!countryCode && latitude >= 49.8 && latitude <= 60.9 && longitude >= -8.7 && longitude <= 1.8 && /united kingdom|regatul unit|marea britanie/i.test(country));
           if (maybeUk) {
             tasks.push((async () => {
@@ -6375,6 +6403,7 @@ export default {
           }
           const normPc = v => String(v || "").replace(/\s+/g, "").toUpperCase();
           if (ukPostcodes.length) {
+            nearbyPostcodes=ukPostcodes.slice(0,3);
             const buildingPc = bestBuilding?.postcode && bestBuilding.distM <= 20 ? bestBuilding.postcode : "";
             const confirmedBuildingPc = buildingPc && ukPostcodes.some(u => normPc(u.postcode) === normPc(buildingPc) && u.distance <= 85) ? buildingPc : "";
             postalCode = confirmedBuildingPc || ukPostcodes[0].postcode;
@@ -6397,14 +6426,28 @@ export default {
         const streetLabel=street&&streetUsable?(numberUsable&&houseNumber?houseNumber+' '+street:street):'';
         // Prefer the city, not the suburb, in the one-line address.
         const addressParts=[streetLabel,town||locality||region].filter(Boolean);
-        if(postalCode&&streetUsable)addressParts.push(postalCode);
         if(country)addressParts.push(country);
         const addressLabel=addressParts.join(', ');
-        // Keep the response to one address line. Never invent a house number when
-        // the GPS accuracy cannot support the nearest mapped building.
-        const reply=addressLabel;
+        // Reverse geocoders and postcode centroids identify nearby map features, not
+        // the occupied building or a verified postal address. Present them as estimates.
+        const ro=lang!=='en';
+        const lines=[(ro?'Locație aproximativă: ':'Approximate location: ')+addressLabel+'.'];
+        if(streetUsable&&(postalCode||nearbyPostcodes.length)){
+          const codes=nearbyPostcodes.map(p=>p.postcode+' (~'+Math.round(p.distance)+' m)');
+          const existing=new Set(nearbyPostcodes.map(p=>p.postcode.replace(/\s+/g,'').toUpperCase()));
+          for(const p of [postalCode,originalPostcode])if(p&&!existing.has(p.replace(/\s+/g,'').toUpperCase())){codes.push(p);existing.add(p.replace(/\s+/g,'').toUpperCase())}
+          lines.push((ro?'Coduri poștale din apropiere (neconfirmate): ':'Nearby postcodes (unconfirmed): ')+codes.join('; ')+'.');
+        }
+        if(numberUsable&&nearbyAddresses.length){
+          lines.push((ro?'Adrese cartografiate în apropiere (nu pot confirma care este a ta): ':'Nearby mapped addresses (I cannot confirm which is yours): ')+nearbyAddresses.map(a=>a.houseNumber+' '+a.street+' (~'+a.distance_m+' m)').join('; ')+'.');
+        }
+        lines.push(houseNumber&&numberUsable
+          ?(ro?'Numărul și codul poștal sunt estimări; verifică adresa exactă.':'The building number and postcode are estimates; verify the exact address.')
+          :(ro?'Nu pot confirma numărul clădirii sau adresa exactă din poziția GPS.':'I cannot confirm the building number or exact address from GPS.'));
+        if(accuracyKnown)lines.push((ro?'Precizie GPS: ±':'GPS accuracy: ±')+Math.round(accuracyMeters)+' m.');
+        const reply=lines.join('\n');
         console.info("Pocket AI v96 location diagnostic", JSON.stringify({ diagnosticId: locationDiagnosticId, stage: "reverse_geocode_completed", coordinatesValid: hasValidLocation, timestamp: new Date().toISOString() }));
-        return json({ app: "Pocket AI", version: API_VERSION, status: "success", language: lang, message_received: message, reply, location_received: true, street: streetUsable ? street || null : null, house_number: numberUsable ? houseNumber || null : null, postcode: streetUsable ? postalCode || null : null, gps_accuracy_m: accuracyKnown ? Math.round(accuracyMeters) : null, area: place || null, reverse_geocode_ok: true, source: reverseSources.join(" + "), current_location:true, ai_connected: Boolean(env.AI) });
+        return json({ app: "Pocket AI", version: API_VERSION, status: "success", language: lang, message_received: message, reply, location_received: true, street: streetUsable ? street || null : null, house_number: numberUsable ? houseNumber || null : null, postcode: streetUsable ? postalCode || null : null, gps_accuracy_m: accuracyKnown ? Math.round(accuracyMeters) : null, address_is_estimate:true, nearby_addresses:nearbyAddresses, nearby_postcodes:nearbyPostcodes, area: place || null, reverse_geocode_ok: true, source: reverseSources.join(" + "), current_location:true, ai_connected: Boolean(env.AI) });
       } catch (reverseError) {
         console.warn("Pocket AI v96 reverse geocoding failed", JSON.stringify({ stage: "reverse_geocode_error", errorName: reverseError && reverseError.name ? String(reverseError.name) : "UnknownError" }));
         const reply = lang === "en"

@@ -3,6 +3,7 @@ import {EXAM_ORDERED_PATHWAYS,EXAM_GENERAL_PATHWAYS} from './exam_ordered_pathwa
 import {ASSISTANT_PLACE_RESULTS_SCRIPT} from './assistant_place_results_ui.mjs';
 import {ASSISTANT_CURRENT_LOCATION_UI_SCRIPT} from './assistant_current_location_ui.mjs';
 import {assistantBareDestinationQuery,assistantJourneyHandoff,parseJourneyExpression} from './assistant_bare_destination.mjs';
+import {assistantSelfLocationQuery} from './assistant_self_location.mjs';
 import {ONE_FIELD_JOURNEY_SCRIPT} from './one_field_journey_ui.mjs';
 import {MIXED_TRANSPORT_COMPARISON_SCRIPT} from './mixed_transport_comparison.mjs';
 import {NATIONAL_PUBLIC_TRANSPORT_SCRIPT} from './national_public_transport_ui.mjs';
@@ -19777,6 +19778,7 @@ const QUICK_SEARCH_ENGLISH={
 // esbuild __name(...) wrappers. The serialized function executes in the
 // Android WebView, where Wrangler's server-side helper is NOT otherwise present.
 const __name=(target,value)=>Object.defineProperty(target,'name',{value,configurable:true});
+${assistantSelfLocationQuery.toString()}
 ${assistantBareDestinationQuery.toString()}
 ${parseJourneyExpression.toString()}
 ${assistantJourneyHandoff.toString()}
@@ -23468,7 +23470,7 @@ function openAnswerReader(text,origin){
   body.style.cssText='padding:8px 10px 10px;display:flex;flex:1 1 0;min-height:0;flex-direction:column;gap:6px;overflow:hidden;font-size:15px;line-height:1.3;white-space:normal';
   const address=document.createElement('p');
   address.className='current-location-address';
-  address.style.cssText='margin:0;padding:5px 4px;font-size:16px;font-weight:700;line-height:1.35;overflow-wrap:anywhere;flex-shrink:0';
+  address.style.cssText='margin:0;padding:5px 4px;font-size:15px;font-weight:700;line-height:1.35;white-space:pre-line;overflow-wrap:anywhere;overflow-y:auto;max-height:40%;flex:0 1 auto';
   address.textContent=geoRecord.reply;
   body.append(address);
  }
@@ -24355,6 +24357,7 @@ function isEvaExitCommandClient(value){
  return /^(?:(?:vreau|as vrea|doresc)\\s+sa\\s+(?:inchid|ies din|parasesc|opresc)|(?:te rog sa\\s+)?(?:inchide|opreste)|(?:i want to|please)\\s+(?:close|exit)|(?:close|exit))\\s+(?:acum\\s+)?(?:aplicatia|app|the app|application|mypocket ai|my pocket ai)(?:\\s+te rog)?$/.test(t);
 }
 function isEvaConversationClient(value){
+ if(typeof assistantSelfLocationQuery==='function'&&assistantSelfLocationQuery(value))return false;
  const t=evaClientNormalize(value);
  if(!t)return false;
  if(t==='eva'||t==='evo')return true;
@@ -24386,6 +24389,7 @@ function isCasualConversationReply(value){
  return /^(?:(?:eu )?(?:sunt|ma simt) (?:(?:foarte|destul de|chiar) )?(?:bine|ok|okay|excelent|grozav|in regula)(?: (?:multumesc|mersi))?|(?:(?:foarte|destul de) )?bine(?: (?:multumesc|mersi))?|(?:multumesc|mersi) sunt bine|nu (?:prea )?(?:sunt|ma simt) bine|(?:sunt|ma simt) (?:rau|trist|trista|obosit|obosita|ingrijorat|ingrijorata)|(?:i am|i'm) (?:fine|good|okay|ok|great|not well|not okay|sad|tired|worried)(?: thanks)?|(?:fine|good|great) thanks)(?: (?:si tu|and you))?$/.test(text);
 }
 function requestUsesLocation(text){
+ if(typeof assistantSelfLocationQuery==='function'&&assistantSelfLocationQuery(text))return true;
  if(isEvaConversationClient(text))return false;
  if(typeof state!=='undefined'&&state?.currentView==='assistant'&&typeof assistantBareDestinationQuery==='function'&&assistantBareDestinationQuery(text))return true;
  const value=String(text||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim();
@@ -24411,7 +24415,7 @@ function requestUsesLocation(text){
 }
 async function coordinatesForRequest(text){
  const locationIntent=!isRecipeQuestion(text)&&!isCasualConversationReply(text)&&!isEvaConversationClient(text)&&(Boolean(state.pendingTravelMode)||requestUsesLocation(text)),cached=cachedCoordinates();
-  const selfQuery=/(?:unde ma aflu|unde ma gasesc|unde sunt(?: acum)?|pe ce strada|adresa mea|where am i|what street am i on|my current location)/i.test(String(text||'').normalize('NFD').replace(/[\\u0300-\\u036f]/g,''));
+  const selfQuery=(typeof assistantSelfLocationQuery==='function'&&assistantSelfLocationQuery(text))||/(?:unde ma aflu|unde ma gasesc|unde sunt(?: acum)?|pe ce strada|adresa mea|where am i|what street am i on|my current location)/i.test(String(text||'').normalize('NFD').replace(/[\\u0300-\\u036f]/g,''));
  if(!locationIntent)return {coordinates:cached,locationIntent:false,error:null};
  if(cached&&cached.age_ms<=(selfQuery?10000:30000))return {coordinates:cached,locationIntent:true,error:null};
  let timer;try{
