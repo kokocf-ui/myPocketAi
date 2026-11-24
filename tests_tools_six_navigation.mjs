@@ -1,3 +1,4 @@
+import './tests_extra_fun_2026.mjs';
 import assert from 'node:assert/strict';
 import vm from 'node:vm';
 import {EXTRA_TOOLS_SIX_NAV_SCRIPT,EXTRA_TOOLS_SIX_NAV_STYLE} from './extra_tools_six_nav.mjs';
