@@ -1,7 +1,7 @@
 // Offline daily entertainment and solar/ascendant calculations.
 // Astronomical calculations are approximate; horoscope prose is entertainment,
 // never a scientific forecast or a claim of planetary prediction.
-export const FUN_ASTRO_CORE_SCRIPT=String.raw\`
+export const FUN_ASTRO_CORE_SCRIPT=String.raw`
 const FUN_SIGNS=[
  ['Berbec','Aries','foc'],['Taur','Taurus','pământ'],['Gemeni','Gemini','aer'],
  ['Rac','Cancer','apă'],['Leu','Leo','foc'],['Fecioară','Virgo','pământ'],
@@ -41,8 +41,8 @@ function funLocalDateKey(d){const p=x=>String(x).padStart(2,'0');return d.getFul
 function funDayNumber(key){const ms=Date.parse(key+'T12:00:00Z');return Number.isFinite(ms)?Math.floor(ms/86400000):0}
 function funDailyPick(bank,dateKey){return bank[funModulo(funDayNumber(dateKey),bank.length)]}
 function funParseBirth(dateText,timeText='12:00',offsetHours=0){
- const match=/^(\\d{4})-(\\d{2})-(\\d{2})$/.exec(String(dateText||''));
- const time=/^(\\d{2}):(\\d{2})$/.exec(String(timeText||''));
+ const match=/^(\d{4})-(\d{2})-(\d{2})$/.exec(String(dateText||''));
+ const time=/^(\d{2}):(\d{2})$/.exec(String(timeText||''));
  const offset=Number(offsetHours);
  if(!match||!time||!Number.isFinite(offset)||offset< -12||offset>14)return null;
  const y=Number(match[1]),m=Number(match[2]),d=Number(match[3]);
@@ -148,4 +148,4 @@ const FUN_CROSSWORD=[
  {word:'ERA',row:3,col:1,dir:'across',clue:'Perioadă întinsă din istorie'},
  {word:'SARE',row:0,col:1,dir:'down',clue:'Condiment alb folosit în bucătărie'}
 ];
-\`;
+`;
