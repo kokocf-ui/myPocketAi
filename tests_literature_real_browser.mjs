@@ -173,13 +173,27 @@ try{
  await js("[...document.querySelectorAll('.lit-reader-overlay button')].find(b=>/Înapoi|Back/.test(b.textContent)).click()");
  await chooseCountry('Hungary','Ungar|Hungary');
  await choice('Primar|Primary');await choice('^1$');await choice('Programa clasei|Grade syllabus');
- await choice('Betűk');
+ // The three year-focused HU lessons must work without any network request.
+ await choice('Betűk');await js("window.fetch=async()=>{throw new TypeError('Failed to fetch')}");
+ await js("[...document.querySelectorAll('#moduleContent .lit-activity-button')].find(b=>/^(Teorie|Theory)$/.test(b.textContent.trim())).click()");await sleep(200);
+ const hungarian=await js("document.querySelector('.lit-reader-overlay')?.innerText||''");
+ assert.match(hungarian,/szem/,'Grade 1 Hungary lesson must contain actual Hungarian examples');
+ assert.ok(!/NU lecția completă specifică/.test(hungarian),'A dedicated chapter must not use the general fallback');
+ await js("[...document.querySelectorAll('.lit-reader-overlay button')].find(b=>/Înapoi|Back/.test(b.textContent)).click()");
+ await js("document.querySelector('#view-module .lit-back').click()");await sleep(100);
+ await choice('Hangtan');
  // Simulate an unavailable online service, not a successful invented lesson.
- await js("window.fetch=async()=>{throw new TypeError('Failed to fetch')}");
  await js("[...document.querySelectorAll('#moduleContent .lit-activity-button')].find(b=>/^(Teorie|Theory)$/.test(b.textContent.trim())).click()");await sleep(250);
  const fallback=await js("({reader:document.querySelector('.lit-reader-overlay')?.innerText||'',status:document.querySelector('.lit-activity-status')?.textContent||''})");
  assert.match(fallback.reader,/NU lecția completă specifică/,'National chapter must disclose limited offline support');
  assert.match(fallback.status,/doar sprijin general offline/);
+ await js("[...document.querySelectorAll('.lit-reader-overlay button')].find(b=>/Înapoi|Back/.test(b.textContent)).click()");
+ await backToLevels();await choice('Primar|Primary');await choice('^2$');
+ await choice('Programa clasei|Grade syllabus');await choice('Szövegértés és eseményrend');
+ await js("[...document.querySelectorAll('#moduleContent .lit-activity-button')].find(b=>/^(Teorie|Theory)$/.test(b.textContent.trim())).click()");await sleep(200);
+ const secondGrade=await js("document.querySelector('.lit-reader-overlay')?.innerText||''");
+ assert.match(secondGrade,/Bence/,'Hungary grade 2 must use its own offline passage');
+ assert.ok(!/NU lecția completă specifică/.test(secondGrade),'Grade 2 authored chapter must not show generic fallback');
  await js("[...document.querySelectorAll('.lit-reader-overlay button')].find(b=>/Înapoi|Back/.test(b.textContent)).click()");
  await backToLevels();await choice('Universitate|University');await choice('Licență.*anul I$|Bachelor.*Year 1$');
  await choice('Programa clasei|Grade syllabus');await choice('Introducere în studiile literare');

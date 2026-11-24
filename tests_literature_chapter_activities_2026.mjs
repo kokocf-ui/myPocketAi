@@ -62,11 +62,11 @@ for(const year of LIT_UNIVERSITY_YEARS){
 // Exercise the actual serialized generate function: the general fallback is
 // offered only after the chapter-specific online request fails, never for
 // correction, unsupported languages, or unrelated branches.
-const journey={country:'HU',level:'beginner',grade:'1',branch:'program',topic:'hu-beginner-1-year-focus-0',track:'TC',region:'',language:'hu',busy:false};
-const unit={id:journey.topic,topic:'genres',ro:'Chapter',en:'Chapter',focus:'Focus'};
+const journey={country:'HU',level:'beginner',grade:'1',branch:'program',topic:'hu-beginner-1-language-1-3',track:'TC',region:'',language:'hu',busy:false};
+const unit={id:journey.topic,topic:'grammar',ro:'Chapter',en:'Chapter',focus:'Focus'};
 const cfg={
  litJourney:journey,state:{language:'ro'},
- litProgram:()=>({verified:false,units:[unit]}),litCurrentTopic:()=>['hu-beginner-1-year-focus','Chapter','Chapter','Focus'],
+ litProgram:()=>({verified:false,units:[unit]}),litCurrentTopic:()=>['hu-beginner-1-language-1','Chapter','Chapter','Focus'],
  LIT_LANGUAGES:[['ro','Română','Romanian'],['hu','Maghiară','Hungarian']],LIT_OFFLINE_THEORY_DATA:{},
  learningLabel:(ro,en)=>ro,educationCountrySelection:{label:'Hungary'},CLIENT_CONFIG:{apiUrl:'/api'},
  document:{createElement:tag=>({tagName:tag.toUpperCase(),textContent:''})},

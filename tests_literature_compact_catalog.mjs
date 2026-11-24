@@ -1,0 +1,14 @@
+import assert from 'node:assert/strict';
+import vm from 'node:vm';
+import {LIT_EU_PROGRAMS} from './literature_curriculum_europe.mjs';
+import {serializeCompactLiteratureCatalog} from './literature_compact_catalog.mjs';
+const original=JSON.stringify(LIT_EU_PROGRAMS);
+const expression=serializeCompactLiteratureCatalog(LIT_EU_PROGRAMS);
+assert.equal(JSON.stringify(vm.runInNewContext(expression)),original,'Every embedded country, grade and source must round-trip unchanged');
+assert.ok(expression.length<original.length-50000,'Compact encoding must save meaningful HTML space');
+const fixture=JSON.parse('{"__proto__":{"safe":true},"one":"§literal","two":"§literal","script":"</script>","list":[null,false,0,"x","x",["very long repeated","very long repeated"]]}');
+const encoded=serializeCompactLiteratureCatalog(fixture);
+assert.ok(!encoded.includes('</script>'),'Do not terminate an inline script');
+assert.equal(JSON.stringify(vm.runInNewContext(encoded)),JSON.stringify(fixture),'Marker values and hostile-looking keys round-trip');
+assert.equal(serializeCompactLiteratureCatalog(fixture),encoded,'Encoding must be deterministic');
+console.log(`PASS lossless compact Literature catalog, saved ${original.length-expression.length} characters`);
