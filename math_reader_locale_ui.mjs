@@ -118,4 +118,5 @@ export const MATH_READER_LOCALE_UI_SCRIPT=`(function(){
   addEventListener('click',()=>setTimeout(translateVisibleReader,90),true);
   addEventListener('change',()=>setTimeout(translateVisibleReader,90),true);
  }
+ if(typeof setTimeout==='function')setTimeout(translateVisibleReader,20);
 })();`;
