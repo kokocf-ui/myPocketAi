@@ -7,8 +7,10 @@ import app from './index.js';
 new vm.Script(EXTRA_TOOLS_SIX_NAV_SCRIPT);
 new vm.Script(EXTRA_TOOLS_WORKSPACE_SCRIPT);
 const groups=new Function(EXTRA_TOOLS_SIX_NAV_SCRIPT+';return EXTRA_TOOLS_V2_GROUPS;')();
-assert.equal(groups.length,3);
-assert.deepEqual(groups.map(x=>x.id),['docs','creator','ideas']);
+assert.equal(groups.length,4);
+assert.deepEqual(groups.map(x=>x.id),['docs','creator','ideas','fun']);
+assert.deepEqual(groups.find(x=>x.id==='fun').items.map(x=>x[0]),
+ ['fun-astro','fun-maxim','fun-jokes','fun-puzzles']);
 assert.deepEqual(groups.find(x=>x.id==='docs').items.map(x=>x[0]),['documents','ocr','my-documents']);
 assert.ok(!groups.some(x=>x.items.some(item=>item[0]==='storybook')),
  'Failed mini-book must not appear in any user-visible Tools group');
@@ -23,7 +25,8 @@ assert.match(EXTRA_TOOLS_WORKSPACE_SCRIPT,/if\(key==='storybook'\)return;/,
  'Retired mini-book must not reopen through a stale action');
 assert.doesNotMatch(EXTRA_TOOLS_WORKSPACE_SCRIPT,/extraToolsV2Storybook|STORYBOOK_MOTION/);
 assert.doesNotMatch(EXTRA_TOOLS_SIX_NAV_SCRIPT,/function extraToolsV2Storybook|extraStorybookMotionAttach/);
-assert.match(EXTRA_TOOLS_SIX_NAV_STYLE,/grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/);
+assert.match(EXTRA_TOOLS_SIX_NAV_STYLE,/grid-template-columns:minmax\(0,1fr\)!important/,
+ 'More tools must use full-width journey-style cards, not two columns');
 assert.ok(EXTRA_TOOLS_WORKSPACE_STYLE.includes('extra-tools-v2'));
 assert.match(EXTRA_TOOLS_SIX_NAV_STYLE,/align-items:center!important/);
 const html=await (await app.fetch(new Request('https://tool-menu.test/'))).text();
@@ -34,4 +37,4 @@ assert.ok(embedded.includes('extraToolsV2Main'));
 assert.ok(embedded.includes('extraToolsV2OpenGroup'));
 assert.ok(!embedded.includes('extraToolsV2Storybook'));
 assert.ok(!embedded.includes('extraStorybookMotionAttach'));
-console.log('PASS three Tools categories, removed entries hidden, remaining tools preserved');
+console.log('PASS four Tools categories, full-width illustrated cards, removed entries hidden');
