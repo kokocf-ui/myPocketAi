@@ -1,8 +1,10 @@
 // Verification for Mathematics school textbook & curriculum reference correlation (2026/27):
 // 1. Romania Grades I–XII (math_ro_textbook_correlation_2026.mjs)
-// 2. All 18 other implemented countries (math_textbook_correlation_all_2026.mjs)
-// 3. Decoupled curriculum packs (232/232 school packs carry manualExample + textbooks[];
-//    73/73 university packs stay manualExample === null; total = 305)
+// 2. All 48 other school-pack jurisdictions across Batches 1–8 (math_textbook_correlation_all_2026.mjs)
+// 3. Decoupled curriculum packs across all 50 / 50 European countries:
+//    602/602 school packs carry manualExample + textbooks[];
+//    197/197 university packs (including VA univ-1..univ-4) stay manualExample === null;
+//    total = 799 decoupled packs.
 // 4. Zero copied textbook prose & honest readiness (fullyApproved === 0).
 
 import assert from 'node:assert/strict';
@@ -15,6 +17,7 @@ import {
 } from './math_ro_textbook_correlation_2026.mjs';
 import {
   IMPLEMENTED_18_TEXTBOOK_COUNTRIES,
+  ALL_SCHOOL_TEXTBOOK_COUNTRIES,
   mathTextbookCorrelationEntry
 } from './math_textbook_correlation_all_2026.mjs';
 import { ALL_DECOUPLED_CURRICULUM_PACKS } from './curriculum_pack_catalog.mjs';
@@ -43,14 +46,12 @@ for (const grade of roGrades) {
   assert.match(entry.syllabus, /OM/i, `RO grade ${grade} must cite national syllabus order`);
   assert.match(entry.url, /^https:\/\//, `RO grade ${grade} URL must be https`);
 
-  // Ensure no copied prose / exercises / formulas / worked examples are stored
   for (const key of Object.keys(entry)) {
     assert.ok(ALLOWED_META_KEYS.has(key), `Forbidden content key "${key}" in RO textbook metadata for grade ${grade}`);
     assert.ok(String(entry[key]).length <= 220, `Metadata field "${key}" too long on RO grade ${grade} (no copied prose allowed)`);
   }
 }
 
-// Specific verified Romanian editions cited in audit
 assert.match(RO_TEXTBOOK_CORRELATION_2026['1'].authors, /Pițilă.*Mihăilescu|Mihăilescu.*Pițilă/);
 assert.match(RO_TEXTBOOK_CORRELATION_2026['4'].approvalOrder, /5348/);
 assert.match(RO_TEXTBOOK_CORRELATION_2026['5'].authors, /Perianu/);
@@ -67,19 +68,21 @@ for (const grade of ['1', '2', '3', '4', '9', '10', '11', '12']) {
   assert.notEqual(tb[0].url, 'https://manuale.edu.ro/', `RO grade ${grade} pack must not fall back to generic portal root`);
 }
 
-// 2. Verify all 18 non-RO implemented countries store metadata-only correlation
+// 2. Verify all 48 non-RO school-pack countries store metadata-only correlation (and VA stays null)
 assert.equal(IMPLEMENTED_18_TEXTBOOK_COUNTRIES.length, 18);
-for (const country of IMPLEMENTED_18_TEXTBOOK_COUNTRIES) {
+assert.equal(ALL_SCHOOL_TEXTBOOK_COUNTRIES.length, 48);
+assert.equal(mathTextbookCorrelationEntry('VA', 'beginner', 'external-curriculum'), null);
+for (const country of ALL_SCHOOL_TEXTBOOK_COUNTRIES) {
   assert.equal(mathTextbookCorrelationEntry(country, 'advanced', '1'), null,
     `${country} university stage must not return a school textbook`);
 }
 
-// 3. Verify all 305 decoupled packs: 232/232 school packs correlated, 73/73 university without manualExample
-assert.equal(ALL_DECOUPLED_CURRICULUM_PACKS.length, 305, 'Total decoupled packs must remain 305');
+// 3. Verify all 799 decoupled packs across 50/50 countries: 602/602 school + 197/197 university
+assert.equal(ALL_DECOUPLED_CURRICULUM_PACKS.length, 799, 'Total decoupled packs must equal 799 across all 50 countries');
 const schoolPacks = ALL_DECOUPLED_CURRICULUM_PACKS.filter(p => p.stage !== 'advanced');
 const univPacks = ALL_DECOUPLED_CURRICULUM_PACKS.filter(p => p.stage === 'advanced');
-assert.equal(schoolPacks.length, 232, 'Expected 232 school packs across the 19 implemented countries');
-assert.equal(univPacks.length, 73, 'Expected 73 university packs across the 19 implemented countries');
+assert.equal(schoolPacks.length, 602, 'Expected 602 school packs across the 49 school systems (RO + 48)');
+assert.equal(univPacks.length, 197, 'Expected 197 university packs across all 50 European jurisdictions');
 
 for (const pack of schoolPacks) {
   assert.ok(
@@ -111,5 +114,5 @@ const readiness = mathCurriculumReadiness();
 assert.equal(readiness.fullyApproved, 0, 'Textbook reference correlation must not claim certified annual completion');
 
 console.log(
-  `PASS tests_math_ro_textbook_correlation_2026: RO I–XII + 18 countries correlated (${schoolPacks.length}/${schoolPacks.length} school packs have manualExample + textbooks; ${univPacks.length} university packs without textbook; total=${ALL_DECOUPLED_CURRICULUM_PACKS.length}; fullyApproved=${readiness.fullyApproved}).`
+  `PASS tests_math_ro_textbook_correlation_2026: 50/50 European countries correlated (${schoolPacks.length}/${schoolPacks.length} school packs have manualExample + textbooks; ${univPacks.length} university packs without textbook; total=${ALL_DECOUPLED_CURRICULUM_PACKS.length}; fullyApproved=${readiness.fullyApproved}).`
 );

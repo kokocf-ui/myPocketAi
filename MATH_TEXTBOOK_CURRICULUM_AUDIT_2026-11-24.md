@@ -68,6 +68,22 @@ Exemple reale corelate în România:
 - Clasa a IX-a: Gabriel Ciupală, Dan Dumitrescu, Cătălin Gherghe — Intuitext (OMEC 5779/2026, locul 1 MEC 2026);
 - Clasele X–XII: Marius Burtea, Georgeta Burtea — Carminis (lista CNEE manuale aprobate în uz, M1/M2).
 
-**Rezultat actual:** **232 / 232 pachete școlare** au `manualExample` + `textbooks[]` (diferența până la **305** = cele **73 pachete universitare**, corect fără manual școlar).
+**Rezultat intermediar (după Secțiunea 6):** **232 / 232 pachete școlare** au `manualExample` + `textbooks[]` (diferența până la **305** = cele **73 pachete universitare**, corect fără manual școlar).
 
-**Următor:** **Batch 5–8 (31 țări lipsă complet)** — Nordic/Baltic (`DK`, `FI`, `IS`, `NO`, `SE`, `EE`, `LV`, `LT`), Central/Med, SE & Est Europe, Caucasus/Microstate — construind de la bun început pachetele decuplate + corelarea pe manual/cadru oficial.
+## 7. Finalizare 50 / 50 jurisdicții europene (Batch 5–8 + corelare completă pe manuale/registre oficiale — 24 nov 2026)
+
+Au fost implementate integral și verificate toate cele **31 de jurisdicții europene rămase** din `EDUCATION_EUROPE_COUNTRIES` (`50 / 50` în total), cu pachete decuplate în `./public/packs/` (`0 KB` adăugați în bundle-ul Worker JS) și corelare nativă de la bun început în `math_textbook_correlation_all_2026.mjs`:
+
+- **Bancă comună extinsă de concepte originale:** `math_batch5_8_bank_2026.mjs` (16 concepte noi cu exemplu rezolvat pas cu pas, exerciții, răspunsuri și prevenirea greșelilor frecvente pentru ciclurile primare de 7 ani `IS`/`NO`, ciclurile gimnaziale de 6 ani `LT`/`MT` și liceele de 5 ani `BG`/`SM`) + generatorul determinist `scripts/generate_math_batch5_8_plans.mjs` (0 concepte reutilizate în interiorul aceleiași țări; ≥ 3 lecții originale per an/arie).
+- **Batch 5 — Nordic & Baltic (`DK`, `FI`, `IS`, `NO`, `SE`, `EE`, `LV`, `LT`):** `math_batch5_nordic_baltic_2026.mjs` + `math_batch5_plan_2026.mjs` (**1.899 lecții**, **449 sloturi an/arie**; include nota pentru reforma suedeză *Gy25*, *LK20* Norvegia, *LOPS 2019* Finlanda, *Skola2030* Letonia, *UTA* Lituania).
+- **Batch 6 — Europa Centrală & Mediteraneană (`CZ`, `SK`, `SI`, `HR`, `BG`, `GR`, `CY`, `MT`):** `math_batch6_central_med_2026.mjs` + `math_batch6_plan_2026.mjs` (**1.901 lecții**, **461 sloturi an/arie**; corelare cu `ebooks.edu.gr` Διόφαντος Grecia, `edicnyportal.iedu.sk` Slovacia, doložka MŠMT Cehia, cataloagele MZOM Croația, ZRSŠ Slovenia, МОН Bulgaria, ΥΠΑΝ Cipru, MATSEC Malta).
+- **Batch 7 — Europa de Sud-Est & de Est (`BA`, `ME`, `MK`, `RS`, `AL`, `XK`, `UA`, `BY`):** `math_batch7_southeast_east_2026.mjs` + `math_batch7_plan_2026.mjs` (**1.888 lecții**, **452 sloturi an/arie**; include nota onestă pentru **clasa a 12-a din Ucraina — regim pilot în 2026/27** înainte de lansarea generală din 1 septembrie 2027, nucleul comun APOSO BiH și registrele `lib.imzo.gov.ua`, `e-padruchnik.adu.by`, `e-ucebnici.mon.gov.mk`, ЗУОВ Serbia, ZUNS Muntenegru, ASCAP Albania, MASHTI Kosovo).
+- **Batch 8 — Turcia, Rusia & Microstate (`TR`, `RU`, `AD`, `LI`, `MC`, `SM`, `VA`):** `math_batch8_microstates_eurasia_2026.mjs` + `math_batch8_plan_2026.mjs` (**1.423 lecții**, **348 sloturi an/arie**; include tranziția pe cohorte **TYMM 2024–2026** vs programa MEB 2018 la clasele 4/8/12 în Turcia, *Escola Andorrana* + sistemele ES/FR în Andorra, *LiLe / Lehrplan 21* în Liechtenstein, alinierea franco-monegască în Monaco, San Marino și **excepția onestă pentru Cetatea Vaticanului (`VA`)**: stagiile preuniversitare rămân `external-curriculum` fără inventarea unei programe școlare vaticane K–12, iar pachetele decuplate acoperă ciclul universitar `univ-1..univ-4`).
+
+### Bilanț final verificat automat (`tests_math_ro_textbook_correlation_2026.mjs` + `tests_math_batch5..8_*.mjs`)
+- **Jurisdicții europene acoperite în `ALL_DECOUPLED_CURRICULUM_PACKS`:** **50 / 50 (100%)**
+- **Total pachete decuplate în `public/packs/`:** **799 pachete** (`21.176,0 KB`, versiune `13n6kwc`, `0 KB` în Worker JS)
+- **Pachete școlare corelate cu manual/cadru oficial (`manualExample` + `textbooks[]`):** **602 / 602 (100%)**
+- **Pachete universitare (`manualExample: null`, standarde ARACIS / Bologna / EHEA):** **197 / 197 (100%)**
+- **Onestitate de readiness (`mathCurriculumReadiness().fullyApproved`):** **0** (nicio lecție nu copiază manuale protejate și nu pretinde certificare ministerială integrală).
+

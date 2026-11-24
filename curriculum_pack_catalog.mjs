@@ -16,6 +16,10 @@ import { mathSchoolManualExample, mathCorrelatedPackTextbooks } from './math_tex
 import { BATCH2_MATH_COUNTRIES, batch2MathLessons } from './math_batch2_md_uk_fr_de_2026.mjs';
 import { batch3MathLessons } from './math_batch3_es_it_pt_pl_2026.mjs';
 import { BATCH4_MATH_COUNTRIES, batch4MathLessons } from './math_batch4_western_isles_2026.mjs';
+import { BATCH5_MATH_COUNTRIES, batch5MathLessons } from './math_batch5_nordic_baltic_2026.mjs';
+import { BATCH6_MATH_COUNTRIES, batch6MathLessons } from './math_batch6_central_med_2026.mjs';
+import { BATCH7_MATH_COUNTRIES, batch7MathLessons } from './math_batch7_southeast_east_2026.mjs';
+import { BATCH8_MATH_COUNTRIES, batch8MathLessons } from './math_batch8_microstates_eurasia_2026.mjs';
 
 function fnv1aHash(str) {
   let hash = 2166136261;
@@ -157,6 +161,44 @@ function buildMathCountryPacks() {
       country,
       EDUCATION_SCHOOL_STAGES,
       ({ stage, grade, topic }) => batch4MathLessons({ country, stage, grade, topic }),
+      (stage, grade) => mathCorrelatedPackTextbooks(country, stage, grade),
+      (stage, grade) => mathSchoolManualExample(country, stage, grade)
+    )),
+
+    // Batch 5: DK, FI, IS, NO, SE, EE, LV, LT — Grade 1 → university.
+    ...BATCH5_MATH_COUNTRIES.flatMap(country => buildCountryStagePacks(
+      country,
+      EDUCATION_SCHOOL_STAGES,
+      ({ stage, grade, topic }) => batch5MathLessons({ country, stage, grade, topic }),
+      (stage, grade) => mathCorrelatedPackTextbooks(country, stage, grade),
+      (stage, grade) => mathSchoolManualExample(country, stage, grade)
+    )),
+
+    // Batch 6: CZ, SK, SI, HR, BG, GR, CY, MT — Grade 1 → university.
+    ...BATCH6_MATH_COUNTRIES.flatMap(country => buildCountryStagePacks(
+      country,
+      EDUCATION_SCHOOL_STAGES,
+      ({ stage, grade, topic }) => batch6MathLessons({ country, stage, grade, topic }),
+      (stage, grade) => mathCorrelatedPackTextbooks(country, stage, grade),
+      (stage, grade) => mathSchoolManualExample(country, stage, grade)
+    )),
+
+    // Batch 7: BA, ME, MK, RS, AL, XK, UA, BY — Grade 1 → university.
+    ...BATCH7_MATH_COUNTRIES.flatMap(country => buildCountryStagePacks(
+      country,
+      EDUCATION_SCHOOL_STAGES,
+      ({ stage, grade, topic }) => batch7MathLessons({ country, stage, grade, topic }),
+      (stage, grade) => mathCorrelatedPackTextbooks(country, stage, grade),
+      (stage, grade) => mathSchoolManualExample(country, stage, grade)
+    )),
+
+    // Batch 8: TR, RU, AD, LI, MC, SM, VA — completing 50 / 50 European systems.
+    // VA preserves external-curriculum on school stages (no invented K-12 Vatican syllabus)
+    // and emits decoupled university packs on advanced (univ-1..univ-4).
+    ...BATCH8_MATH_COUNTRIES.flatMap(country => buildCountryStagePacks(
+      country,
+      country === 'VA' ? ['advanced'] : EDUCATION_SCHOOL_STAGES,
+      ({ stage, grade, topic }) => batch8MathLessons({ country, stage, grade, topic }),
       (stage, grade) => mathCorrelatedPackTextbooks(country, stage, grade),
       (stage, grade) => mathSchoolManualExample(country, stage, grade)
     ))
