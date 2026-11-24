@@ -31,6 +31,7 @@ assert.match(EXTRA_TOOLS_SIX_NAV_STYLE,/grid-template-columns:minmax\(0,1fr\)!im
 assert.ok(EXTRA_TOOLS_WORKSPACE_STYLE.includes('extra-tools-v2'));
 assert.ok(EXTRA_TOOLS_WORKSPACE_STYLE.includes('extra-fun-modal'),'Horoscope reading must use its own overlay');
 assert.ok(EXTRA_TOOLS_WORKSPACE_STYLE.includes('extra-fun-viewport'),'Extra tools must scroll inside a fixed frame');
+assert.doesNotMatch(EXTRA_TOOLS_WORKSPACE_SCRIPT,/panel\.scrollIntoView\(/,'Choosing a joke must never scroll the outer Tools viewport');
 assert.match(EXTRA_TOOLS_SIX_NAV_STYLE,/align-items:center!important/);
 const html=await (await app.fetch(new Request('https://tool-menu.test/'))).text();
 const embedded=html.match(/<script>([\s\S]*?)<\/script>/)?.[1];
