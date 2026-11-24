@@ -15,7 +15,7 @@ function funPuzzleSeed(){try{const a=new Uint32Array(1);crypto.getRandomValues(a
 function funGeneratePuzzle(mode='rebus',seed=funPuzzleSeed()){
  const isArrow=mode==='integrame',N=11;
  let best=null;
- for(let trial=0;trial<14;trial++){
+ for(let trial=0;trial<6;trial++){
   const rand=funRng((seed+trial*2654435761)>>>0),cells=Array(N*N).fill(''),mask=Array(N*N).fill(0),hints=new Map(),entries=[];
   const words=funShuffle(FUN_WORDS.filter(x=>x[0].length>=3&&x[0].length<=8).slice(),rand);
   const at=(r,c)=>r*N+c;
@@ -82,7 +82,7 @@ function funGeneratePuzzle(mode='rebus',seed=funPuzzleSeed()){
   const height=maxR-minR+1,width=maxC-minC+1,density=used/(width*height);
   const score=entries.length*5+density*20-(width*height)*.05;
   if(!best||score>best.score)best={score,entries:entries.map(e=>({...e})),cells:cells.slice(),minR,minC,height,width,density,seed};
-  if(entries.length>=12&&density>=.54)break;
+  if(entries.length>=(isArrow?13:16)&&density>=(isArrow?.40:.46))break;
  }
  if(!best||best.entries.length<3)throw Error('puzzle_generation_failed');
  const {entries,cells,minR,minC,height,width}=best;
