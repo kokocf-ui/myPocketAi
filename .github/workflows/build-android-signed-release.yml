@@ -5,6 +5,8 @@ on:
   pull_request:
     branches: [main]
     paths:
+      - 'literature_*.mjs'
+      - 'tests_literature_*.mjs'
       - 'literature_quick_reference*.mjs'
       - 'literature_dictionary_*.mjs'
       - 'literature_reference_catalog.mjs'
@@ -70,6 +72,8 @@ on:
     paths:
       - 'math_*.mjs'
       - 'tests_math_*.mjs'
+      - 'literature_*.mjs'
+      - 'tests_literature_*.mjs'
       - 'literature_quick_reference*.mjs'
       - 'literature_dictionary_*.mjs'
       - 'literature_reference_catalog.mjs'

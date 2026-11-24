@@ -1,6 +1,7 @@
 // Offline, original lesson bodies for the 50-system literature year sequence.
 // Never attribute the practice examples to a named writer or reproduce a book.
 // Other UI languages continue through the existing translation/AI route.
+import {literatureEuropeanPractice} from './literature_europe_practice.mjs';
 export function literatureEuropeanAuthoredMaterial({
  topicKey='',title='',focus='',grade='',language='ro',mode='lesson'
 }={}){
@@ -12,15 +13,9 @@ export function literatureEuropeanAuthoredMaterial({
  const ro=language==='ro',g=String(grade||'');
  const years=stage==='beginner'?(ro?'primar':'primary'):stage==='lower'?(ro?'gimnazial':'lower secondary'):
   stage==='medium'?(ro?'liceal':'upper secondary'):(ro?'universitar':'university');
- const exampleRO=(String(focus).match(/Fragment original creat pentru exercițiu: „([^”]+)”/)||[])[1]||
-  'Un personaj a descoperit o carte veche și a început să citească.';
- const englishSamples={
-  beginner:'Mara found a yellow leaf on the path. She took it home and described it to her friend.',
-  lower:'At first nobody believed the traveller, but a forgotten letter changed their minds.',
-  medium:'The narrator returned to the same street years later, uncertain which memories were reliable.',
-  advanced:'Two editions of the poem present different punctuation, so the scholar compares their meaning.'
- };
- const sample=ro?exampleRO:englishSamples[stage];
+ const practice=literatureEuropeanPractice(part,language,stage);
+ if(!practice)return null;
+ const sample=practice.sample;
 
  // Young pupils need short concrete sentences, not the academic template.
  // The same safety applies to every European system, not only Romania.
@@ -37,28 +32,14 @@ export function literatureEuropeanAuthoredMaterial({
    interpretare:['După ce citesc o poveste, pot spune ce mi-a plăcut și de ce. Dau un exemplu din poveste.','After a story, say what you liked and why. Give one detail from the story.'],
    verificare:['Citesc, răspund și verific. Dacă nu știu, mai citesc o dată. Învăț și din greșeli.','Read, answer and check. If you do not know, read once more. Mistakes can help you learn.']
   };
-  const sampleText=ro?exampleRO:englishSamples.beginner;
   const explanation=primary[part]?.[ro?0:1]||primary.intelegere[ro?0:1];
-  const sentence=ro?'Mara a găsit o carte în parc. A dus-o acasă și a citit-o.':
-   'Mara found a book in the park. She took it home and read it.';
-  const example=sampleText+' '+sentence;
+  const example=practice.sample;
   const year=String(grade||'');
-  const older=Number((year.match(/\d+/)||[])[0])>=3;
-  const shortTask=older?
-   (ro?'Spune ce s-a întâmplat mai întâi și cum s-a încheiat întâmplarea.':
-    'Say what happened first and how the events ended.'):
-   (ro?'Spune cine apare în poveste și ce face.':
-    'Say who is in the story and what they do.');
-  const questions=ro?[
-   'Cine apare în întâmplare?','Unde s-a găsit cartea?','Ce face personajul?',
-   'Spune un cuvânt care arată un lucru din poveste.',
-   'Scrie o propoziție scurtă despre o carte.',shortTask
-  ]:[
-   'Who is in the story?','Where was the book found?','What does the person do?',
-   'Find one word naming a thing in the story.',
-   'Write one short sentence about a book.',shortTask
-  ];
-  const header=String(title||part),yearLine=ro?'Clasa / anul: '+year+'.':'Class / year: '+year+'.';
+  const questions=practice.questions;
+  const shortTask=questions[0];
+  const header=String(title||part),yearLine=ro?
+   'Clasa / anul: '+year+'. Exemplu original în limba română, orientativ; nu este probă oficială.':
+   'Class / year: '+year+'. Original example in English for practice, not an official examination.';
   const reminder=ro?'Nu trebuie să folosești cuvinte grele. Important este să înțelegi și să explici cu vocea ta.':
    'You do not need difficult words. What matters is understanding the story and saying it in your own words.';
   const next=ro?'Mai întâi citesc exemplul. Apoi răspund. La sfârșit recitesc pentru a verifica.':
@@ -67,18 +48,16 @@ export function literatureEuropeanAuthoredMaterial({
   let body='';
   if(mode==='lesson')body='# '+header+'\n\n'+yearLine+'\n\n'+
    (ro?'## Ce învățăm':'## What we learn')+'\n'+explanation+'\n\n'+
-   (ro?'## Exemplu de poveste':'## Story example')+'\n'+example+'\n\n'+
+   (ro?'## Exemplu original':'## Original example')+'\n'+example+'\n'+practice.worked+'\n\n'+
    (ro?'## Încerc și eu':'## Your turn')+'\n'+shortTask+'\n\n'+
    (ro?'## Pașii mei':'## My steps')+'\n'+next+'\n'+reminder+'\n\n'+
    (ro?'## Greșeli de evitat':'## Common mistakes')+'\n'+
    (ro?'Dacă nu îmi amintesc o întâmplare, nu o inventez. Revin la propoziție și o citesc încă o dată.':
     'If you cannot remember an event, do not invent it. Read the sentence again.');
   else if(mode==='examples')body='# '+header+'\n\n'+yearLine+'\n\n'+
-   (ro?'## Exemplul 1':'## Example 1')+'\n'+example+'\n'+explanation+'\n\n'+
-   (ro?'## Exemplul 2':'## Example 2')+'\n'+sentence+'\n'+shortTask+'\n\n'+
-   (ro?'## Exemplul 3':'## Example 3')+'\n'+
-   (ro?'Ana citește o poveste. Ea îi spune fratelui ce s-a întâmplat. Citește și tu povestea cu voce tare.':
-    'Anna reads a story. She tells her brother what happened. Now read the story aloud.')+
+   (ro?'## Exemplu original':'## Original example')+'\n'+example+'\n\n'+
+   (ro?'## Explicație':'## Explanation')+'\n'+practice.worked+'\n'+explanation+'\n\n'+
+   (ro?'## Încearcă și tu':'## Your turn')+'\n'+questions.slice(0,3).map((q,i)=>(i+1)+'. '+q).join('\n')+
    '\n\n'+reminder+'\n'+next;
   else body='# '+header+'\n\n'+yearLine+'\n\n'+
    (mode==='test'?(ro?'## Test de antrenament':'## Practice test'):
@@ -178,28 +157,15 @@ export function literatureEuropeanAuthoredMaterial({
   }
  };
  const section=bank[part],words=section[ro?'ro':'en'];
- const heading=String(title||part),intro=ro?'Lecție originală · nivel '+years+' · clasa/anul '+g:
-  'Original practice lesson · '+years+' · school year '+g;
+ const heading=String(title||part),intro=ro?
+  'Lecție orientativă originală · nivel '+years+' · clasa/anul '+g+'. Exemplul este în română și nu este o probă oficială.':
+  'Original advisory lesson · '+years+' · school year '+g+'. The example is in English and is not an official examination.';
  const objective=(ro?'Obiectiv de învățare: ':'Learning objective: ')+goal+'.';
  const result=(ro?'La final pot: ':'By the end I can: ')+target+'.';
- const analyse=ro?
-  'Exemplu comentat: Fragmentul este creat pentru exercițiu. Identifică informația explicită, propune o interpretare și susține-o prin detaliile disponibile. Nu atribui fragmentul unui autor sau unei opere reale.':
-  'Worked example: This is an original practice passage. Identify an explicit detail, make a supported inference and explain why the wording matters. Do not attribute this passage to a real book or writer.';
- const checks=ro?[
-  'Identifică ideea principală a fragmentului și justific-o printr-un detaliu.',
-  'Explică un cuvânt sau o formulare în contextul fragmentului.',
-  'Arată ce se schimbă în text și cum influențează sensul.',
-  'Scrie trei sau patru enunțuri proprii folosind ideea studiată.',
-  'Corectează un răspuns neclar și explică îmbunătățirea.',
-  'Formulează o întrebare de interpretare și răspunde cu dovezi.'
- ]:[
-  'Identify the central idea and support it with a textual detail.',
-  'Explain a word or expression in the context of the passage.',
-  'Describe a meaningful change in the passage and its effect.',
-  'Write three or four original sentences applying the new skill.',
-  'Improve a vague answer and explain what changed.',
-  'Ask an interpretive question and answer with evidence.'
- ];
+ const analyse=practice.worked+' '+(ro?
+  'Fragment original creat pentru exercițiu, fără atribuire unei opere sau unui autor real.':
+  'An original practice passage, not attributed to a real book or writer.');
+ const checks=practice.questions;
  const exerciseHeader=mode==='test'?(ro?'# Test de antrenament':'# Practice test'):
   (ro?'# Exerciții de aplicare':'# Applied exercises');
  const exercises=checks.map((q,i)=>(i+1)+'. '+q).join('\n');
@@ -214,9 +180,9 @@ export function literatureEuropeanAuthoredMaterial({
    (ro?'## Verificare rapidă':'## Quick check')+'\n'+checks.slice(0,3).map((q,i)=>(i+1)+'. '+q).join('\n');
  }else if(mode==='examples'){
   text='# '+heading+'\n\n'+intro+'\n\n'+passage+'\n\n'+
-   (ro?'## Exemplul 1 — observă':'## Example 1 — observe')+'\n'+words[0]+'\n\n'+
-   (ro?'## Exemplul 2 — explică':'## Example 2 — explain')+'\n'+words[1]+'\n\n'+
-   (ro?'## Exemplul 3 — corectează':'## Example 3 — improve')+'\n'+words[2]+'\n\n'+result;
+   (ro?'## Exemplu explicat':'## Worked example')+'\n'+analyse+'\n\n'+
+   (ro?'## Metodă':'## Method')+'\n'+words[1]+'\n\n'+
+   (ro?'## De evitat':'## Avoid')+'\n'+words[2]+'\n\n'+result;
  }else{
   text='# '+heading+'\n\n'+intro+'\n\n'+exerciseHeader+'\n'+passage+'\n\n'+
    objective+'\n\n'+exercises+'\n\n'+
