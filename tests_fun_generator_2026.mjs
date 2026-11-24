@@ -67,7 +67,7 @@ for(let i=0;i<31;i++){
  readings.add(response.join('|'));
 }
 assert.ok(readings.size>=26,'Daily/monthly sections must not be identical between dates');
-assert.match(EXTRA_FUN_UI_SCRIPT,/funGeneratePuzzle\(mode\)/);
+assert.match(EXTRA_FUN_UI_SCRIPT,/funGeneratePuzzle\(mode,funPuzzleSeed\(\),difficulty\)/);
 assert.match(EXTRA_FUN_UI_SCRIPT,/funDailyMaxim\(today\)/);
 assert.match(EXTRA_FUN_UI_SCRIPT,/funDailyJoke\(today\)/);
 assert.match(EXTRA_FUN_UI_SCRIPT,/funDailyForecast\(idx,dateKey,humor\)/);
