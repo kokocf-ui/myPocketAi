@@ -93,6 +93,12 @@ function funGeneratePuzzle(mode='rebus',seed=funPuzzleSeed(),difficulty='dificil
  }
  add(selected.a[0],selected.a[1],first,arrow?1+selected.li:selected.li,'down',0,arrow?1+selected.li:selected.li);
  add(selected.b[0],selected.b[1],first,arrow?6+selected.ri:5+selected.ri,'down',0,arrow?6+selected.ri:5+selected.ri);
+ const numbered=new Map();
+ entries.slice().sort((x,y)=>x.row-y.row||x.col-y.col||(x.dir==='across'?-1:1)).forEach(e=>{
+  const k=e.row+','+e.col;
+  if(!numbered.has(k))numbered.set(k,numbered.size+1);
+  e.number=numbered.get(k);
+ });
  const colA=arrow?1+selected.li:selected.li,colB=arrow?6+selected.ri:5+selected.ri;
  for(let r=first;r<R-1;r++)for(let c=0;c<C;c++){
   if(c!==colA&&c!==colB&&at(r,c).letter)at(r,c).barBottom=true;
