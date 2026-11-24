@@ -18,6 +18,15 @@ import {
  CURRICULUM_PACK_BUNDLE_VERSION,
  HUNGARY_CLIENT_GRADE_META
 } from './curriculum_pack_manifest.mjs';
+const COMPACT_REMOTE_PACK_KEYS=(()=>{
+ const grouped={};
+ for(const key of CURRICULUM_REMOTE_PACK_KEYS){
+  const [s,c,g]=String(key).split('|');
+  if(!s||!c||!g)continue;
+  ((grouped[s]??={})[c]??=[]).push(g);
+ }
+ return Object.fromEntries(Object.entries(grouped).map(([s,cs])=>[s,Object.fromEntries(Object.entries(cs).map(([c,gs])=>[c,gs.join(',')]))]));
+})();
 const EDU_MATH_COUNTRY_YEARS={};
 const EDU_MATH_GRADE_AREAS={};
 const EDU_MATH_GRADE_NOTES={};
@@ -108,7 +117,7 @@ export const EDUCATION_COUNTRY_UI_SCRIPT=
  'function polandClass4Lessons(topic){return PL_IV_2026_LESSONS.filter(x=>x.topic===String(topic||\'\')).map(x=>state.language===\'pl\'?{...x,enTitle:x.native}:x);}\n'+
  'const HUNGARY_MATH_GRADES='+JSON.stringify(HUNGARY_CLIENT_GRADE_META)+';\n'+
  'const EDU_CURRICULUM_PACK_VERSION='+JSON.stringify(CURRICULUM_PACK_BUNDLE_VERSION)+';\n'+
- 'const EDU_REMOTE_PACK_KEYS=new Set('+JSON.stringify(CURRICULUM_REMOTE_PACK_KEYS)+');\n'+
+ 'const EDU_REMOTE_PACK_KEYS=new Set(Object.entries('+JSON.stringify(COMPACT_REMOTE_PACK_KEYS)+').flatMap(([s,cs])=>Object.entries(cs).flatMap(([c,gs])=>gs.split(",").map(g=>s+"|"+c+"|"+g))));\n'+
  String.raw`const EDU_LOADED_CURRICULUM_PACKS={};
 const EDU_PENDING_CURRICULUM_PACKS={};
 function eduCanonicalPackGrade(grade,stage){
