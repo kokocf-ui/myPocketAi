@@ -61,6 +61,28 @@ function funDenseMatching(opts,rng){
  }
  return rec(0)?result:null;
 }
+
+function funTransposePuzzle(p){
+ const h=p.height,w=p.width,grid=Array.from({length:p.grid.length},()=>({letter:'',hint:null}));
+ for(let r=0;r<h;r++)for(let c=0;c<w;c++){
+  const x=p.grid[r*w+c],y={...x};
+  if(x.hint)y.hint={...x.hint,dir:x.hint.dir==='across'?'down':'across'};
+  delete y.barBottom;delete y.barRight;
+  if(x.barBottom)y.barRight=true;
+  if(x.barRight)y.barBottom=true;
+  grid[c*h+r]=y;
+ }
+ const entries=p.entries.map(e=>{
+  const x={...e,row:e.col,col:e.row,dir:e.dir==='across'?'down':'across'};
+  if(e.hintRow!==undefined){x.hintRow=e.hintCol;x.hintCol=e.hintRow}
+  return x;
+ });
+ const map=new Map();
+ entries.slice().sort((a,b)=>a.row-b.row||a.col-b.col).forEach(e=>{
+  const k=e.row+','+e.col;if(!map.has(k))map.set(k,map.size+1);e.number=map.get(k);
+ });
+ return {...p,height:w,width:h,grid,entries};
+}
 function funGeneratePuzzle(mode='rebus',seed=funPuzzleSeed(),difficulty='dificil'){
  const arrow=mode==='integrame',n=difficulty==='mediu'?7:9,rng=funRng(seed>>>0);
  const profiles=funShuffle(funDenseProfiles(n).slice(),rng);
@@ -104,7 +126,8 @@ function funGeneratePuzzle(mode='rebus',seed=funPuzzleSeed(),difficulty='dificil
   if(c!==colA&&c!==colB&&at(r,c).letter)at(r,c).barBottom=true;
  }
  const answered=grid.filter(cell=>cell.letter).length;
- return {mode,seed,difficulty,width:C,height:R,grid,entries,density:answered/grid.length,style:'dense-barred'};
+ const board={mode,seed,difficulty,width:C,height:R,grid,entries,density:answered/grid.length,style:'dense-barred'};
+ return arrow&&funModulo(seed,2)===1?funTransposePuzzle(board):board;
 }
 function funDailyMaxim(dateKey){
  const first=['Un pas mic făcut azi','O întrebare pusă cu sinceritate','O idee notată la timp','O conversație cu atenție','Un lucru învățat azi','O greșeală privită cu calm','Un plan simplu și clar','Un gest de bunătate','O clipă de liniște','O alegere curajoasă','O privire nouă asupra lucrurilor','O promisiune respectată','Un început modest','O secundă de răbdare','Un răspuns căutat cu grijă','O încercare repetată','O carte deschisă la întâmplare','O lecție primită cu umor','O zi organizată cu răbdare','Un drum parcurs cu încredere','O observație atentă','O idee împărtășită','Un gând luminos','O întrebare dificilă'];
