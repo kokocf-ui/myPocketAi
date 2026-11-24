@@ -83,7 +83,6 @@ function extraToolsV2Action(key,groupId){
  }
  extraToolsOpenWorkspace(key);
 }
-// Upgrade the existing Tools entry screen after all global app functions have been declared.
 queueMicrotask(()=>{
  if(typeof openModule!=='function'||typeof renderExtraToolsChoices!=='function')return;
  const nativeOpenModule=openModule;
