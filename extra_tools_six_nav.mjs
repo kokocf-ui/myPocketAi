@@ -99,73 +99,8 @@ queueMicrotask(()=>{
  };
 });
 `;
-export const EXTRA_TOOLS_SIX_NAV_STYLE=String.raw`
-/* Unified, screen-centred category selectors: do not change active navigation. */
-#view-module.extra-tools-v2 .extra-tools-v2-choices{
- display:flex!important;flex-direction:column!important;align-items:center!important;
- justify-content:safe center!important;width:100%!important;max-width:100%!important;
- min-height:0!important;max-height:100%!important;overflow-y:auto!important;
- padding:clamp(8px,2dvh,24px) 7px!important;box-sizing:border-box!important;
-}
-#view-module.extra-tools-v2 .extra-tools-v2-grid{
- display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
- grid-template-rows:none!important;grid-auto-rows:minmax(112px,auto)!important;
- align-content:center!important;justify-content:center!important;
- align-items:stretch!important;gap:clamp(9px,1.4dvh,16px)!important;
- width:min(100%,720px)!important;height:auto!important;min-height:0!important;
- margin:auto!important;padding:6px!important;overflow:visible!important;box-sizing:border-box!important;
-}
-#view-module.extra-tools-v2 .extra-tools-v2-card{
- display:flex!important;flex-direction:column!important;align-items:center!important;
- justify-content:center!important;text-align:center!important;width:100%!important;height:auto!important;
- min-width:0!important;min-height:112px!important;max-height:none!important;
- padding:12px 10px!important;gap:5px!important;
- border:1px solid #a46a80!important;border-radius:15px!important;
- background:linear-gradient(160deg,#173747,#102835)!important;
- box-shadow:0 3px 9px #0004!important;color:#f5fcff!important;
-}
-#view-module.extra-tools-v2 .extra-tools-v2-card:last-child:nth-child(odd){
- grid-column:1/-1!important;justify-self:center!important;width:calc(50% - 6px)!important;
-}
-#view-module.extra-tools-v2 .extra-tools-v2-card .education-art{
- display:block!important;align-self:center!important;margin:0!important;
- font-size:clamp(22px,3.6dvh,29px)!important;line-height:1.1!important;
-}
-#view-module.extra-tools-v2 .extra-tools-v2-card strong{
- display:block!important;min-width:0!important;
- font-size:clamp(13px,3.8vw,17px)!important;line-height:1.2!important;
- text-align:center!important;overflow-wrap:anywhere!important;
-}
-#view-module.extra-tools-v2 .extra-tools-v2-card small{
- display:block!important;color:#b5d2db!important;font-size:clamp(11px,2.7vw,13px)!important;
- line-height:1.26!important;text-align:center!important;
-}
-
-/* Only More tools adopts the large cards from the journey selector. */
-#view-module.extra-tools-v2 .extra-tools-v2-choices{justify-content:flex-start!important;overflow-y:auto!important;overscroll-behavior:contain!important;padding:12px 9px 22px!important}
-#view-module.extra-tools-v2 .extra-tools-v2-grid{
- display:grid!important;grid-template-columns:minmax(0,1fr)!important;grid-auto-rows:auto!important;
- align-content:start!important;width:min(100%,680px)!important;margin:0 auto!important;
- padding:5px 4px 20px!important;gap:15px!important;
-}
-#view-module.extra-tools-v2 .extra-tools-v2-card,
-#view-module.extra-tools-v2 .extra-tools-v2-card:last-child:nth-child(odd){
- width:100%!important;min-height:183px!important;max-height:none!important;
- grid-column:auto!important;justify-self:stretch!important;display:flex!important;
- flex-direction:column!important;align-items:center!important;justify-content:center!important;
- margin:0!important;padding:14px!important;gap:6px!important;text-align:center!important;
- border:2px solid #a46d83!important;border-radius:24px!important;
- background:linear-gradient(145deg,#193c50,#122c3b)!important;color:#f6fbff!important;
- box-shadow:0 5px 0 #061522,0 10px 15px #0007!important;
-}
-#view-module.extra-tools-v2 .extra-tools-v2-card:active{transform:scale(.985)}
-#view-module.extra-tools-v2 .extra-tools-v2-card:focus-visible{outline:3px solid #91dce5!important;outline-offset:2px}
-#view-module.extra-tools-v2 .extra-tools-v2-artwork{display:flex!important;align-items:center!important;justify-content:center!important;height:97px!important;width:114px!important}
-#view-module.extra-tools-v2 .extra-tools-v2-artwork svg{height:100%;max-width:100%}
-#view-module.extra-tools-v2 .extra-tools-v2-card strong{font-size:clamp(19px,5.3vw,24px)!important;line-height:1.15!important}
-#view-module.extra-tools-v2 .extra-tools-v2-card small{font-size:clamp(12px,3vw,15px)!important;max-width:95%!important}
-@media(max-height:620px){#view-module.extra-tools-v2 .extra-tools-v2-card{min-height:155px!important}#view-module.extra-tools-v2 .extra-tools-v2-grid{grid-auto-rows:auto!important}}
-/* Reuse central alignment for Education / Organisation selection cards too. */
+export const EXTRA_TOOLS_SIX_NAV_STYLE=String.raw`#view-module.extra-tools-v2 .extra-tools-v2-choices{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:flex-start!important;width:100%!important;max-height:100%!important;min-height:0!important;overflow-y:auto!important;padding:12px 9px 22px!important;box-sizing:border-box!important;overscroll-behavior:contain!important}#view-module.extra-tools-v2 .extra-tools-v2-grid{display:grid!important;grid-template-columns:minmax(0,1fr)!important;grid-auto-rows:auto!important;align-content:start!important;gap:15px!important;width:min(100%,680px)!important;height:auto!important;min-height:0!important;margin:0 auto!important;padding:5px 4px 20px!important;overflow:visible!important;box-sizing:border-box!important}#view-module.extra-tools-v2 .extra-tools-v2-card{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;text-align:center!important;width:100%!important;min-width:0!important;min-height:183px!important;max-height:none!important;margin:0!important;padding:14px!important;gap:6px!important;grid-column:auto!important;justify-self:stretch!important;border:2px solid #a46d83!important;border-radius:24px!important;background:linear-gradient(145deg,#193c50,#122c3b)!important;color:#f6fbff!important;box-shadow:0 5px 0 #061522,0 10px 15px #0007!important;}#view-module.extra-tools-v2 .extra-tools-v2-card:active{transform:scale(.985)}#view-module.extra-tools-v2 .extra-tools-v2-card:focus-visible{outline:3px solid #91dce5!important;outline-offset:2px}#view-module.extra-tools-v2 .extra-tools-v2-artwork{display:flex!important;align-items:center!important;justify-content:center!important;height:97px!important;width:114px!important}#view-module.extra-tools-v2 .extra-tools-v2-artwork svg{height:100%;max-width:100%}#view-module.extra-tools-v2 .extra-tools-v2-card strong{font-size:clamp(19px,5.3vw,24px)!important;line-height:1.15!important}#view-module.extra-tools-v2 .extra-tools-v2-card small{color:#b5d2db!important;font-size:clamp(12px,3vw,15px)!important;line-height:1.3!important;max-width:95%!important}@media(max-height:620px){#view-module.extra-tools-v2 .extra-tools-v2-card{min-height:155px!important}}
+/* Preserve existing Education and Organisation alignment, unchanged. */
 #view-module.learning-choose .education-card,
 #view-module.organize-choose .education-card{
  align-items:center!important;justify-content:center!important;text-align:center!important;
@@ -175,11 +110,4 @@ export const EXTRA_TOOLS_SIX_NAV_STYLE=String.raw`
 #view-module.organize-choose .education-card strong,
 #view-module.organize-choose .education-card small{text-align:center!important;width:100%!important}
 #view-module.learning-choose .education-grid{max-width:820px!important;margin-left:auto!important;margin-right:auto!important}
-@media(max-height:620px){
- #view-module.extra-tools-v2 .extra-tools-v2-choices{justify-content:flex-start!important}
- #view-module.extra-tools-v2 .extra-tools-v2-grid{margin:0 auto!important;grid-auto-rows:minmax(104px,auto)!important}
- #view-module.extra-tools-v2 .extra-tools-v2-card{min-height:104px!important}
-}
-
-
 `;
