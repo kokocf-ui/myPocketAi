@@ -63,6 +63,16 @@ function funSolarLongitude(utc){
  return funModulo(L0+C-0.00569-0.00478*Math.sin((125.04-1934.136*T)*rad),360);
 }
 function funSunSign(utc){const lon=funSolarLongitude(utc);return Number.isFinite(lon)?Math.floor(lon/30):null}
+function funSolarAspect(natalLongitude,currentLongitude){
+ const a=Number(natalLongitude),b=Number(currentLongitude);
+ if(!Number.isFinite(a)||!Number.isFinite(b))return null;
+ const separation=Math.abs(funModulo(b-a+180,360)-180);
+ const aspects=[[0,'conjuncție'],[60,'sextil'],[90,'cuadratură'],[120,'trigon'],[180,'opoziție']];
+ let closest=aspects[0];
+ for(const x of aspects)if(Math.abs(x[0]-separation)<Math.abs(closest[0]-separation))closest=x;
+ return {separation,orb:Math.abs(closest[0]-separation),name:Math.abs(closest[0]-separation)<=6?closest[1]:null};
+}
+
 function funAscendantLongitude(utc,lat,lon){
  if(!(utc instanceof Date)||!Number.isFinite(utc.getTime()))return NaN;
  lat=Number(lat);lon=Number(lon);
