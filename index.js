@@ -32,7 +32,7 @@ import {MATH_GCSE_HIGHER_ONLY,mathGcseSelectTier,mathGcseLessonTier} from './mat
 import {MATH_DEPTH_STAGES, MATH_DEPTH_EN_LOWER, MATH_DEPTH_EN_UNIVERSITY, RO5_MATH_LESSONS, RO678_MATH_LESSONS, ENGLAND_Y6_MATH_LESSONS, MATH_EARLY_YEAR_BANK, mathEarlyYearEntries, FRANCE_5E_MATH_UNITS, franceGrade5eLessons, mathInDepthEntries, mathInDepthMaterial,mathCountryCourseEntries} from './math_depth_courses.mjs';
 import {EDUCATION_FIRST_USE_NOTICE_SCRIPT} from './education_first_use_notice.mjs';
 import {POCKET_LANGUAGES,POCKET_COUNTRY_LANGUAGES,pocketLanguageFromLocale,pocketLanguageFromCountry,pocketPreferredLanguage} from './language_first_install.mjs';
-import {EUROPEAN_UI_LOCALES} from './european_app_locales.mjs';
+import {EUROPEAN_UI_LOCALES,EUROPEAN_UI_TEXT_EXPRESSION} from './european_app_locales.mjs';
 import {EDUCATION_SCHOOL_YEARS,HG_SCHOOL_PLANS,HG_SCHOOL_GENERAL,HG_SCHOOL_SOURCES} from './education_school_paths.mjs';
 import {EDUCATION_WORLDWIDE_SCHEMES,EDUCATION_WORLDWIDE_FALLBACK,worldwideSchoolYears,worldwideSchoolNotice,worldwideStudyChapters} from './education_worldwide_paths.mjs';
 import {COMPUTING_LEVELS,COMPUTING_PATHS,COMPUTING_TOPICS} from './computing_curriculum.mjs';
@@ -3795,7 +3795,7 @@ main.page:has(#view-module.my-documents-active.active){
 <section class="view" id="view-conversations"><button class="back-btn" data-back>← Acasă</button><h2 class="section-title">Conversații</h2><p class="section-lead">Istoricul salvat pe acest dispozitiv.</p><div id="historyList" class="simple-list"></div><button class="secondary-btn" id="clearHistoryBtn">Șterge istoricul</button></section>
 ${COMMUNICATION_HTML}
 <section class="view" id="view-tools"><button class="back-btn" data-back>← Acasă</button><h2 class="section-title">Instrumente</h2><p class="section-lead">Alege un domeniu pentru a începe.</p><div class="simple-list" id="toolsList"></div></section>
-<section class="view" id="view-settings"><button class="back-btn" data-back>← Acasă</button><div class="pocket-settings-top"><h2 class="section-title">Setări</h2><button type="button" class="pocket-account-open" id="pocketAccountOpen">Cont</button></div><div class="module-panel"><h3>Limba conversației</h3><p>Limba folosită pentru solicitările către asistent.</p><select class="text-field" id="languageSelect" aria-label="Limba conversației"><option value="ro">Română</option><option value="en">English</option><option value="fr">Français</option><option value="de">Deutsch</option><option value="it">Italiano</option><option value="es">Español</option><option value="pt">Português</option><option value="nl">Nederlands</option><option value="ru">Русский</option><option value="pl">Polski</option><option value="hr">Hrvatski</option><option value="sr">Српски</option><option value="hu">Magyar</option><option value="tr">Türkçe</option><option value="cs">Čeština</option><option value="sk">Slovenčina</option><option value="sl">Slovenščina</option><option value="bg">Български</option><option value="el">Ελληνικά</option><option value="fi">Suomi</option><option value="sv">Svenska</option><option value="no">Norsk</option><option value="da">Dansk</option><option value="is">Íslenska</option><option value="et">Eesti</option><option value="lv">Latviešu</option><option value="lt">Lietuvių</option><option value="uk">Українська</option><option value="bs">Bosanski</option><option value="mk">Македонски</option><option value="sq">Shqip</option><option value="be">Беларуская</option><option value="ca">Català</option><option value="ga">Gaeilge</option><option value="cy">Cymraeg</option><option value="mt">Malti</option><option value="eu">Euskara</option><option value="gl">Galego</option><option value="lb">Lëtzebuergesch</option><option value="fo">Føroyskt</option><option value="rm">Rumantsch</option></select><p class="small">Recunoașterea vorbirii și vocile disponibile depind de browserul și dispozitivul folosit.</p></div><div class="module-panel"><h3>Despre aplicație</h3><p>myPocket AI · Versiunea interfeței ${APP.version}</p><p id="pocketNativeVersion" class="small" hidden></p><p class="small">Conversațiile locale pot fi șterse din secțiunea Conversații.</p></div></section>
+<section class="view" id="view-settings"><button class="back-btn" data-back>← Acasă</button><div class="pocket-settings-top"><h2 class="section-title">Setări</h2><button type="button" class="pocket-account-open" id="pocketAccountOpen">Cont</button></div><div class="module-panel"><h3>Limba conversației</h3><p>Limba folosită pentru solicitările către asistent.</p><select class="text-field" id="languageSelect" aria-label="Limba conversației"><option value="ro">Română</option><option value="en">English</option><option value="fr">Français</option><option value="de">Deutsch</option><option value="it">Italiano</option><option value="es">Español</option><option value="pt">Português</option><option value="nl">Nederlands</option><option value="ru">Русский</option><option value="pl">Polski</option><option value="hr">Hrvatski</option><option value="sr">Српски</option><option value="hu">Magyar</option><option value="tr">Türkçe</option><option value="cs">Čeština</option><option value="sk">Slovenčina</option><option value="sl">Slovenščina</option><option value="bg">Български</option><option value="el">Ελληνικά</option><option value="fi">Suomi</option><option value="sv">Svenska</option><option value="no">Norsk</option><option value="da">Dansk</option><option value="is">Íslenska</option><option value="et">Eesti</option><option value="lv">Latviešu</option><option value="lt">Lietuvių</option><option value="uk">Українська</option><option value="bs">Bosanski</option><option value="mk">Македонски</option><option value="sq">Shqip</option><option value="be">Беларуская</option><option value="ca">Català</option><option value="ga">Gaeilge</option><option value="cy">Cymraeg</option><option value="mt">Malti</option><option value="eu">Euskara</option><option value="gl">Galego</option><option value="lb">Lëtzebuergesch</option><option value="fo">Føroyskt</option><option value="hy">Հայերեն</option><option value="ka">ქართული</option><option value="az">Azərbaycanca</option><option value="rm">Rumantsch</option></select><p class="small">Recunoașterea vorbirii și vocile disponibile depind de browserul și dispozitivul folosit.</p></div><div class="module-panel"><h3>Despre aplicație</h3><p id="pocketInterfaceVersion">myPocket AI · Versiunea interfeței ${APP.version}</p><p id="pocketNativeVersion" class="small" hidden></p><p class="small">Conversațiile locale pot fi șterse din secțiunea Conversații.</p></div></section>
 </main>
 ${ACCOUNT_HTML}
 <div class="module-quick-layer" id="moduleQuickLayer" aria-hidden="true">
@@ -3827,6 +3827,8 @@ ${ORACLE_COMMUNICATION_SCRIPT}
 const nativeEntranceCompleted=new URLSearchParams(location.search).get('nativeLaunch')==='1';
 if(nativeEntranceCompleted)document.documentElement.classList.remove('pocket-boot');
 const CLIENT_CONFIG = Object.freeze({apiUrl:'/api/chat',maxMessageLength:4000,historyLimit:20,version:'1.0.132'});
+const POCKET_BCP47_LOCALES=Object.freeze({ro:'ro-RO',en:'en-GB',fr:'fr-FR',de:'de-DE',it:'it-IT',es:'es-ES',pt:'pt-PT',nl:'nl-NL',ru:'ru-RU',pl:'pl-PL',hr:'hr-HR',sr:'sr-RS',hu:'hu-HU',tr:'tr-TR',cs:'cs-CZ',sk:'sk-SK',sl:'sl-SI',bg:'bg-BG',el:'el-GR',fi:'fi-FI',sv:'sv-SE',no:'nb-NO',da:'da-DK',is:'is-IS',et:'et-EE',lv:'lv-LV',lt:'lt-LT',uk:'uk-UA',bs:'bs-BA',mk:'mk-MK',sq:'sq-AL',be:'be-BY',ca:'ca-ES',ga:'ga-IE',cy:'cy-GB',mt:'mt-MT',eu:'eu-ES',gl:'gl-ES',lb:'lb-LU',fo:'fo-FO',hy:'hy-AM',ka:'ka-GE',az:'az-AZ',rm:'rm-CH'});
+function pocketSpeechLocale(lang){const c=String(lang||state?.language||'ro').trim().toLowerCase();return POCKET_BCP47_LOCALES[c]||c||'ro-RO'}
 const POCKET_LANGUAGES=${JSON.stringify(POCKET_LANGUAGES)};
 const POCKET_COUNTRY_LANGUAGES=${JSON.stringify(POCKET_COUNTRY_LANGUAGES)};
 const pocketLanguageFromLocale=${pocketLanguageFromLocale.toString()};
@@ -6961,7 +6963,7 @@ function renderAgenda(){
  const voiceStatus=document.createElement('small');voiceStatus.className='agenda-speech-state';
  voiceStatus.setAttribute('role','status');voiceStatus.setAttribute('aria-live','polite');panel.insertBefore(voiceStatus,scroll);
  agendaSpeechStatus('');
- const locale=({ro:'ro-RO',en:'en-GB',fr:'fr-FR',de:'de-DE',it:'it-IT',es:'es-ES',pt:'pt-PT',nl:'nl-NL',ru:'ru-RU',pl:'pl-PL'})[state.language]||'ro-RO';
+ const locale=pocketSpeechLocale(state.language);
  const all=agendaRead();
  const element=(tag,cls,text)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(text!==undefined)e.textContent=text;return e};
  const button=(label,onClick,cls='secondary-btn')=>{const e=element('button',cls,label);e.type='button';e.onclick=onClick;return e};
@@ -11653,19 +11655,32 @@ let sciencePendingAssessmentSpec=null;
 function scienceAttachLessonReview(dialog){
  const spec=sciencePendingAssessmentSpec||scienceLessonReviewSpec();if(spec?.disabled||!spec?.prompt||!spec.guide)return;
  const ro=spec.lang==='ro';
+ const sl=(r,e)=>typeof eduUiLabel==='function'?eduUiLabel(r,e):typeof learningLabel==='function'?learningLabel(r,e):(ro?r:e);
  let currentIndex=0,exerciseChoiceSelect=null;
  const currentExercise=()=>spec.choices?.[currentIndex]||spec;
  const wrap=document.createElement('section');wrap.className='science-lesson-answer-check';
  wrap.style.cssText='display:flex;flex-direction:column;gap:5px;flex:0 0 auto;min-height:0;';
  const toggle=document.createElement('button');toggle.type='button';toggle.className='primary-btn';
- toggle.textContent=ro?'✓ Verifică răspunsul':'✓ Check my answer';
+ toggle.textContent=sl('✓ Verifică răspunsul','✓ Check my answer');
  const panel=document.createElement('div');panel.style.cssText='display:none;flex-direction:column;gap:6px;max-height:38dvh;overflow-y:auto;padding:7px;border:1px solid #987781;border-radius:9px;';
  const question=document.createElement('p');question.style.cssText='margin:0;font-size:14px;white-space:pre-wrap';
- question.textContent=(ro?'Exercițiu: ':'Exercise: ')+currentExercise().prompt;
+ const setQuestionText=()=>{
+  const exPrompt=currentExercise().prompt;
+  question.textContent=sl('Exercițiu: ','Exercise: ')+exPrompt;
+  if(typeof state!=='undefined'&&state.language&&state.language!=='ro'&&typeof eduTranslateMaterial==='function'){
+   const reqLang=state.language,reqIdx=currentIndex;
+   eduTranslateMaterial({prompt:exPrompt},'sci-ex:'+spec.subject+':'+spec.topic+':'+reqIdx,'mixed').then(res=>{
+    if(res?.prompt&&dialog.isConnected&&state.language===reqLang&&currentIndex===reqIdx){
+     question.textContent=sl('Exercițiu: ','Exercise: ')+res.prompt;
+    }
+   }).catch(()=>{});
+  }
+ };
+ setQuestionText();
  if(spec.choices?.length>1){
   const choose=document.createElement('select');exerciseChoiceSelect=choose;
   choose.className='science-review-exercise-choice';
-  choose.setAttribute('aria-label',ro?'Alege exercițiul universitar':'Choose university exercise');
+  choose.setAttribute('aria-label',sl('Alege exercițiul universitar','Choose university exercise'));
   for(const [index,choice] of spec.choices.entries()){
    const option=document.createElement('option');option.value=String(index);
    option.textContent=(index+1)+'. '+choice.title;choose.append(option);
@@ -11673,27 +11688,27 @@ function scienceAttachLessonReview(dialog){
   choose.onchange=()=>{
    const next=Number(choose.value);currentIndex=Number.isInteger(next)&&
     next>=0&&next<spec.choices.length?next:0;
-   question.textContent=(ro?'Exercițiu: ':'Exercise: ')+currentExercise().prompt;
+   setQuestionText();
    entry.value='';status.textContent='';
   };
   panel.append(choose);
  }
  const entry=document.createElement('textarea');entry.rows=3;entry.maxLength=2200;
  entry.style.cssText='width:100%;box-sizing:border-box;min-height:64px;max-height:22dvh;';
- entry.setAttribute('aria-label',ro?'Răspunsul elevului':'Student answer');
- entry.placeholder=ro?'Scrie răspunsul tău.':'Write your answer.';
+ entry.setAttribute('aria-label',sl('Răspunsul elevului','Student answer'));
+ entry.placeholder=sl('Scrie răspunsul tău.','Write your answer.');
  const check=document.createElement('button');check.type='button';check.className='primary-btn';
- check.textContent=ro?'Verifică':'Check answer';
+ check.textContent=sl('Verifică','Check answer');
  const status=document.createElement('p');status.setAttribute('role','status');status.setAttribute('aria-live','polite');
  status.style.cssText='margin:0;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.5;font-size:14px;';
  let controller=null;
  toggle.onclick=()=>{const show=panel.style.display==='none';panel.style.display=show?'flex':'none';
-  toggle.textContent=show?(ro?'Ascunde verificarea':'Hide answer check'):(ro?'✓ Verifică răspunsul':'✓ Check my answer');
+  toggle.textContent=show?sl('Ascunde verificarea','Hide answer check'):sl('✓ Verifică răspunsul','✓ Check my answer');
   if(show)entry.focus();
  };
  check.onclick=async()=>{
   const answer=entry.value.trim();
-  if(!answer){status.textContent=ro?'Completează răspunsul.':'Enter your answer.';return;}
+  if(!answer){status.textContent=sl('Completează răspunsul.','Enter your answer.');return;}
   if(controller)return;
   const local=spec.stage==='lower'&&spec.localVerification!==false?scienceCheckExactExercise({
    subject:spec.subject,topic:spec.topic,answer,language:spec.lang}):{status:'requires-assessment'};
@@ -11702,7 +11717,7 @@ function scienceAttachLessonReview(dialog){
   }
   controller=new AbortController();const inflight=controller;check.disabled=true;
   if(exerciseChoiceSelect)exerciseChoiceSelect.disabled=true;
-  status.textContent=ro?'Se evaluează răspunsul…':'Assessing your answer…';
+  status.textContent=sl('Se evaluează răspunsul…','Assessing your answer…');
   const selectedExercise=currentExercise();
   const message=(ro?
    'Evaluează un răspuns școlar. Începe cu verdictul Corect / Parțial corect / Incorect / Nedeterminabil, apoi explică exact ce este bine, ce este greșit și cum se corectează. Nu inventa date și nu acorda un calificativ nesusținut.':
@@ -11757,6 +11772,8 @@ function educationOpenPagedLesson(title,body){
  head.style.cssText='display:flex;align-items:center;justify-content:space-between;gap:9px;flex:0 0 auto;min-height:48px;';
  const back=document.createElement('button');back.type='button';back.className='secondary-btn';
  back.textContent=learningLabel('← Înapoi','← Back');back.onclick=()=>dialog.close();head.append(back);
+ let currentCleanTitle=educationCleanLessonLine(title);
+ const pageTranslatedLang=[];
  head.eduPrintableMaterial=()=>({title:educationCleanLessonLine(title),text:educationCleanLessonText(raw)});
  eduAttachPrintAction(head);
  // Only voice-enabled Sciences show this control. Speak the current page,
@@ -11824,6 +11841,7 @@ function educationOpenPagedLesson(title,body){
     const item=document.createElement('li');
     item.textContent=bullet?clean.slice(2):clean.replace(/^[0-9]{1,3}[.)][ ]+/,'');
     item.style.cssText='margin:0 0 5px;font-size:15px;overflow-wrap:anywhere;';
+    if(pageTranslatedLang[page])item.setAttribute('data-edu-translated',pageTranslatedLang[page]);
     list.append(item);continue;
    }
    list=null;listType='';
@@ -11831,6 +11849,7 @@ function educationOpenPagedLesson(title,body){
    el.style.cssText=headingLine?
     'font-size:17px;font-weight:750;line-height:1.35;margin:12px 0 9px;color:#f5faff;overflow-wrap:anywhere;':
     'font-size:15px;font-weight:400;line-height:1.58;margin:0 0 11px;white-space:pre-wrap;overflow-wrap:anywhere;';
+   if(pageTranslatedLang[page])el.setAttribute('data-edu-translated',pageTranslatedLang[page]);
    content.append(el);
   }
   content.scrollTop=0;
@@ -11845,7 +11864,35 @@ function educationOpenPagedLesson(title,body){
  dialog.addEventListener('close',()=>{stopPageAudio();if(scienceReader)window.removeEventListener('pocket-speech-state',updatePageSpeech);dialog.remove()});
  document.body.append(dialog);
  try{dialog.showModal()}catch{dialog.setAttribute('open','')}
- paint();return dialog;
+ paint();
+ if(typeof state!=='undefined'&&state.language&&state.language!=='ro'&&typeof eduTranslateMaterial==='function'){
+  const reqLang=state.language;
+  const batches=[];let curIdx=[],curLen=0;
+  pages.forEach((p,idx)=>{
+   if(curIdx.length&&(curLen+p.length)>3000){batches.push(curIdx);curIdx=[];curLen=0;}
+   curIdx.push(idx);curLen+=p.length;
+  });
+  if(curIdx.length)batches.push(curIdx);
+  batches.forEach((idxs,bIdx)=>{
+   const payload={...(bIdx===0?{title:currentCleanTitle}:{}),pages:idxs.map(i=>pages[i])};
+   eduTranslateMaterial(payload,'paged-reader:'+currentCleanTitle.slice(0,40)+':b'+bIdx,'mixed').then(res=>{
+    if(!res||!Array.isArray(res.pages)||state.language!==reqLang)return;
+    if(bIdx===0&&typeof res.title==='string'&&res.title.trim()){
+     currentCleanTitle=res.title.trim();heading.textContent=currentCleanTitle;heading.title=currentCleanTitle;
+    }
+    let repaint=false;
+    idxs.forEach((pIdx,k)=>{
+     if(typeof res.pages[k]==='string'&&res.pages[k].trim()){
+      pages[pIdx]=res.pages[k];pageTranslatedLang[pIdx]=reqLang;
+      if(pIdx===page)repaint=true;
+     }
+    });
+    if(repaint)paint();
+    head.eduPrintableMaterial=()=>({title:currentCleanTitle,text:educationCleanLessonText(pages.join(nl+nl))});
+   }).catch(()=>{});
+  });
+ }
+ return dialog;
 }
 
 // Single inventory for both the high-school Chemistry chapter counter and the
@@ -12993,9 +13040,16 @@ function learningLabel(ro,en){
  if(lang==='ro')return ro;
  // School navigation shares the Education translations with the country
  // picker. The chosen curriculum must never silently switch app language.
- const translated=window.__pocketEuropeanUiText?.[lang]?.wordTranslations?.[ro]||(typeof EDUCATION_UI_TRANSLATIONS!=='undefined'
+ const translated=window.__pocketEuropeanUiText?.[lang]?.wordTranslations?.[ro]||
+  (typeof EDUCATION_UI_TRANSLATIONS!=='undefined'
    ?EDUCATION_UI_TRANSLATIONS[lang]?.[ro]:null);
- return translated||en||ro;
+ if(translated)return translated;
+ const gm=String(ro||'').match(/^Clasa[ ]+([0-9]{1,2})$/i);
+ if(gm&&/^Grade[ ]+[0-9]{1,2}$/i.test(String(en||''))){
+  const gp=window.__pocketEuropeanUiText?.[lang]?.wordTranslations?.['Clasa ']||(typeof EDUCATION_UI_TRANSLATIONS!=='undefined'?EDUCATION_UI_TRANSLATIONS[lang]?.['Clasa: ']?.replace(/:[ ]*$/,' '):null);
+  if(gp)return gp+gm[1];
+ }
+ return en||ro;
 }
 function renderLearningSubjects(){
  // Discard the old page scroll inherited from the previous subject screen.
@@ -23877,11 +23931,11 @@ function speakText(text,{continuous=false}={}){stopRecognition();state.dictation
  state.speaking=true;pocketNotifySpeechState();
  showAvatar({message:'Îți citesc răspunsul…',status:'Răspund vocal…',speaking:true});
  pocketNativeSpokenText=prepareSpeechText(text);
- const ok=pocketNativeVoiceSend({action:'speak',text:pocketNativeSpokenText,language:({ro:'ro-RO',en:'en-GB',fr:'fr-FR',de:'de-DE',it:'it-IT',es:'es-ES',pt:'pt-PT',nl:'nl-NL',ru:'ru-RU',pl:'pl-PL'})[state.language]||state.language});
+ const ok=pocketNativeVoiceSend({action:'speak',text:pocketNativeSpokenText,language:pocketSpeechLocale(state.language)});
  if(!ok){state.speaking=false;hideAvatar();notify('Nu am putut porni vocea Android.');}
  return ok;
 }
-if(!('speechSynthesis'in window)||!('SpeechSynthesisUtterance'in window)){hideAvatar();notify('Redarea vocală nu este disponibilă în acest browser. Răspunsul rămâne disponibil în scris.');return false}stopSpeech();const utterance=new SpeechSynthesisUtterance(prepareSpeechText(text));utterance.lang=({ro:'ro-RO',en:'en-GB',fr:'fr-FR',de:'de-DE',it:'it-IT',es:'es-ES',pt:'pt-PT',nl:'nl-NL',ru:'ru-RU',pl:'pl-PL'})[state.language]||state.language;utterance.rate=state.language==='en'?1:0.96;utterance.pitch=state.language==='en'?1:1.04;state.speaking=true;pocketNotifySpeechState();showAvatar({message:'Îți citesc răspunsul…',status:'Răspund vocal…',speaking:true});utterance.onstart=()=>{avatar3dLoad();avatar3dSend('start',{text:utterance.text})};utterance.onboundary=event=>avatar3dSend('boundary',{charIndex:event.charIndex});utterance.onend=()=>{avatar3dSend('stop');state.speaking=false;pocketNotifySpeechState();avatarOverlay.classList.remove('speaking');voiceWave.hidden=true;hideAvatar();if(continuous&&state.voiceMode){setStatus('Te ascult…');setTimeout(()=>{if(state.voiceMode&&!state.speaking&&!state.recognition)startRecognition('voice')},120)}};utterance.onerror=()=>{avatar3dSend('stop');state.speaking=false;pocketNotifySpeechState();avatarOverlay.classList.remove('speaking');voiceWave.hidden=true;hideAvatar();if(continuous&&state.voiceMode){setStatus('Redarea vocală nu a pornit. Poți continua prin microfon sau text.')}else{notify('Răspunsul text este disponibil; redarea vocală nu a reușit.')}};const speakWhenReady=()=>{const voice=getSpeechVoice();if(voice)utterance.voice=voice;try{window.speechSynthesis.speak(utterance)}catch{state.speaking=false;hideAvatar();notify('Nu am putut porni redarea vocală. Răspunsul rămâne disponibil în scris.')}};if(refreshSpeechVoices().length)speakWhenReady();else waitForSpeechVoices().then(speakWhenReady);return true}
+if(!('speechSynthesis'in window)||!('SpeechSynthesisUtterance'in window)){hideAvatar();notify('Redarea vocală nu este disponibilă în acest browser. Răspunsul rămâne disponibil în scris.');return false}stopSpeech();const utterance=new SpeechSynthesisUtterance(prepareSpeechText(text));utterance.lang=pocketSpeechLocale(state.language);utterance.rate=state.language==='en'?1:0.96;utterance.pitch=state.language==='en'?1:1.04;state.speaking=true;pocketNotifySpeechState();showAvatar({message:'Îți citesc răspunsul…',status:'Răspund vocal…',speaking:true});utterance.onstart=()=>{avatar3dLoad();avatar3dSend('start',{text:utterance.text})};utterance.onboundary=event=>avatar3dSend('boundary',{charIndex:event.charIndex});utterance.onend=()=>{avatar3dSend('stop');state.speaking=false;pocketNotifySpeechState();avatarOverlay.classList.remove('speaking');voiceWave.hidden=true;hideAvatar();if(continuous&&state.voiceMode){setStatus('Te ascult…');setTimeout(()=>{if(state.voiceMode&&!state.speaking&&!state.recognition)startRecognition('voice')},120)}};utterance.onerror=()=>{avatar3dSend('stop');state.speaking=false;pocketNotifySpeechState();avatarOverlay.classList.remove('speaking');voiceWave.hidden=true;hideAvatar();if(continuous&&state.voiceMode){setStatus('Redarea vocală nu a pornit. Poți continua prin microfon sau text.')}else{notify('Răspunsul text este disponibil; redarea vocală nu a reușit.')}};const speakWhenReady=()=>{const voice=getSpeechVoice();if(voice)utterance.voice=voice;try{window.speechSynthesis.speak(utterance)}catch{state.speaking=false;hideAvatar();notify('Nu am putut porni redarea vocală. Răspunsul rămâne disponibil în scris.')}};if(refreshSpeechVoices().length)speakWhenReady();else waitForSpeechVoices().then(speakWhenReady);return true}
 function pocketNotifySpeechState(){window.dispatchEvent(new Event('pocket-speech-state'))}
 function stopSpeech(){const wasSpeaking=state.speaking;if(pocketNativeVoiceAvailable())pocketNativeVoiceSend({action:'stop'});avatar3dSend('stop');pocketNativeSpokenText='';if('speechSynthesis'in window)window.speechSynthesis.cancel();state.speaking=false;avatarOverlay.classList.remove('speaking');voiceWave.hidden=true;pocketNotifySpeechState();if(wasSpeaking&&avatarOverlay.classList.contains('visible')&&!pocketExitOpen)hideAvatar()}
 // 06 — Speech recognition: dictation and continuous voice are distinct modes
@@ -23930,7 +23984,7 @@ function startRecognition(mode){
   return;
  }
  hideAvatar();stopRecognition();
- const locale=({ro:'ro-RO',en:'en-GB',fr:'fr-FR',de:'de-DE',it:'it-IT',es:'es-ES',pt:'pt-PT',nl:'nl-NL',ru:'ru-RU',pl:'pl-PL'})[state.language]||state.language;
+ const locale=pocketSpeechLocale(state.language);
  setStatus(mode==='voice'?'Vorbește după deschiderea microfonului Android.':'Dictare vocală Android.');
  if(!pocketNativeVoiceSend({action:'listen',mode,language:locale})){
   notify('Nu am putut deschide microfonul Android.');
@@ -24229,12 +24283,12 @@ const UI_TEXT={
  es:{subtitle:'Tu asistente personal para cada día',homeTitle:'¿En qué puedo ayudarte?',homeLead:'Elige una herramienta de myPocket AI.',cards:[["Asistente IA","Preguntas, respuestas y ayuda rápida."],["Aprendizaje y educación","Materias, explicaciones y ejercicios."],["Hoteles","Encuentra alojamiento y estancias."],["Organización personal","Listas, presupuestos y planificación."],["Mapas","Rutas, lugares y transporte."],["Más herramientas","Documentos, ideas y otras opciones."]],home:'Inicio',conversations:'Conversaciones',tools:'Herramientas',settings:'Ajustes',back:'← Inicio',newChat:'＋ Nueva conversación',quick:'☰ Opciones rápidas',conversation:'Conversación',empty:'¿En qué puedo ayudarte?',emptyHint:'Escribe una pregunta en español.',ready:'Listo para conversar.',moduleTitle:{travel:'Hoteles y lugares',maps:'Mapas y rutas',learning:'Aprendizaje y educación',organize:'Organización personal',tools:'Más herramientas'},settingsLanguage:'Idioma de conversación',settingsLanguageHint:'Idioma usado para las solicitudes al asistente.',speechHint:'El reconocimiento de voz depende del navegador y del dispositivo.',about:'Acerca de la aplicación',localHistory:'Historial guardado en este dispositivo.',clearHistory:'Borrar historial',chooseDomain:'Elige un tema para empezar.',quickTitle:'Opciones rápidas',send:'Enviar mensaje',dictation:'Dictado por voz',voice:'Conversación por voz',listen:'Escuchar la última respuesta'},
  pt:{subtitle:'O teu assistente pessoal para todos os dias',homeTitle:'Como posso ajudar?',homeLead:'Escolhe uma ferramenta myPocket AI.',cards:[["Assistente IA","Perguntas, respostas e ajuda rápida."],["Aprendizagem e educação","Matérias, explicações e exercícios."],["Hotéis","Encontra alojamento e estadias."],["Organização pessoal","Listas, orçamentos e planeamento."],["Mapas","Percursos, locais e transportes."],["Mais ferramentas","Documentos, ideias e outras opções."]],home:'Início',conversations:'Conversas',tools:'Ferramentas',settings:'Definições',back:'← Início',newChat:'＋ Nova conversa',quick:'☰ Opções rápidas',conversation:'Conversa',empty:'Como posso ajudar?',emptyHint:'Escreve uma pergunta em português.',ready:'Pronto para conversar.',moduleTitle:{travel:'Hotéis e locais',maps:'Mapas e percursos',learning:'Aprendizagem e educação',organize:'Organização pessoal',tools:'Mais ferramentas'},settingsLanguage:'Idioma da conversa',settingsLanguageHint:'Idioma usado nos pedidos ao assistente.',speechHint:'O reconhecimento de voz depende do navegador e do dispositivo.',about:'Sobre a aplicação',localHistory:'Histórico guardado neste dispositivo.',clearHistory:'Limpar histórico',chooseDomain:'Escolhe um tema para começar.',quickTitle:'Opções rápidas',send:'Enviar mensagem',dictation:'Ditado por voz',voice:'Conversa por voz',listen:'Ouvir a última resposta'},
  nl:{subtitle:'Je persoonlijke assistent voor elke dag',homeTitle:'Waarmee kan ik je helpen?',homeLead:'Kies een myPocket AI-hulpmiddel.',cards:[["AI-assistent","Vragen, antwoorden en snelle hulp."],["Leren en onderwijs","Vakken, uitleg en oefeningen."],["Hotels","Vind accommodatie en verblijf."],["Persoonlijke organisatie","Lijsten, budgetten en planning."],["Kaarten","Routes, plaatsen en vervoer."],["Meer hulpmiddelen","Documenten, ideeën en meer opties."]],home:'Start',conversations:'Gesprekken',tools:'Hulpmiddelen',settings:'Instellingen',back:'← Start',newChat:'＋ Nieuw gesprek',quick:'☰ Snelle opties',conversation:'Gesprek',empty:'Waarmee kan ik je helpen?',emptyHint:'Typ een vraag in het Nederlands.',ready:'Klaar om te chatten.',moduleTitle:{travel:'Hotels en locaties',maps:'Kaarten en routes',learning:'Leren en onderwijs',organize:'Persoonlijke organisatie',tools:'Meer hulpmiddelen'},settingsLanguage:'Gesprekstaal',settingsLanguageHint:'Taal voor verzoeken aan de assistent.',speechHint:'Spraakherkenning hangt af van browser en apparaat.',about:'Over de app',localHistory:'Geschiedenis opgeslagen op dit apparaat.',clearHistory:'Geschiedenis wissen',chooseDomain:'Kies een onderwerp om te beginnen.',quickTitle:'Snelle opties',send:'Bericht verzenden',dictation:'Spraakdicteren',voice:'Gesproken gesprek',listen:'Laatste antwoord beluisteren'},
- ru:{subtitle:"Ваш личный помощник на каждый день",homeTitle:"Чем я могу помочь?",homeLead:"Выберите инструмент myPocket AI.",cards:[["ИИ-помощник","Вопросы, ответы и быстрая помощь."],["Обучение и образование","Предметы, объяснения и упражнения."],["Отели","Поиск жилья и мест проживания."],["Личные дела","Списки, бюджеты и планы."],["Карты","Маршруты, места и транспорт."],["Другие инструменты","Документы, идеи и другие возможности."]],home:"Главная",conversations:"Диалоги",tools:"Инструменты",settings:"Настройки",back:"← Главная",newChat:"＋ Новый диалог",quick:"☰ Быстрый выбор",conversation:"Диалог",empty:"Чем я могу помочь?",emptyHint:"Напишите вопрос по-русски.",ready:"Готов к общению.",moduleTitle:{travel:"Отели и места",maps:"Карты и маршруты",learning:"Обучение",organize:"Личные дела",tools:"Другие инструменты"},settingsLanguage:"Язык общения",settingsLanguageHint:"Язык запросов к помощнику.",speechHint:"Распознавание речи и доступные голоса зависят от браузера и устройства.",about:"О приложении",localHistory:"История хранится на этом устройстве.",clearHistory:"Очистить историю",chooseDomain:"Выберите тему для начала.",quickTitle:"Быстрый выбор",send:"Отправить сообщение",dictation:"Голосовой ввод",voice:"Голосовой разговор",listen:"Прослушать последний ответ"},
- pl:{subtitle:"Twój osobisty asystent na co dzień",homeTitle:"W czym mogę pomóc?",homeLead:"Wybierz narzędzie myPocket AI.",cards:[["Asystent AI","Pytania, odpowiedzi i szybka pomoc."],["Nauka i edukacja","Przedmioty, wyjaśnienia i ćwiczenia."],["Hotele","Znajdź nocleg i miejsce pobytu."],["Organizacja osobista","Listy, budżety i planowanie."],["Mapy","Trasy, miejsca i transport."],["Więcej narzędzi","Dokumenty, pomysły i inne opcje."]],home:"Start",conversations:"Rozmowy",tools:"Narzędzia",settings:"Ustawienia",back:"← Start",newChat:"＋ Nowa rozmowa",quick:"☰ Szybki wybór",conversation:"Rozmowa",empty:"W czym mogę pomóc?",emptyHint:"Napisz pytanie po polsku.",ready:"Gotowy do rozmowy.",moduleTitle:{travel:"Hotele i miejsca",maps:"Mapy i trasy",learning:"Nauka i edukacja",organize:"Organizacja osobista",tools:"Więcej narzędzi"},settingsLanguage:"Język rozmowy",settingsLanguageHint:"Język zapytań do asystenta.",speechHint:"Rozpoznawanie mowy i dostępne głosy zależą od przeglądarki i urządzenia.",about:"O aplikacji",localHistory:"Historia jest zapisana na tym urządzeniu.",clearHistory:"Wyczyść historię",chooseDomain:"Wybierz temat na początek.",quickTitle:"Szybki wybór",send:"Wyślij wiadomość",dictation:"Dyktowanie głosowe",voice:"Rozmowa głosowa",listen:"Odtwórz ostatnią odpowiedź"}
+ ru:{subtitle:"Ваш личный помощник на каждый день",homeTitle:"Чем я могу помочь?",homeLead:"Выберите инструмент myPocket AI.",cards:[["ИИ-помощник","Вопросы, ответы и быстрая помощь."],["Обучение и образование","Предметы, объяснения и упражнения."],["Отели","Поиск жилья и мест проживания."],["Личные дела","Списки, бюджеты и планы."],["Карты","Маршруты, места и транспорт."],["Другие инструменты","Документы, идеи и другие возможности."]],home:"Главная",conversations:"Диалоги",tools:"Инструменты",settings:"Настройки",back:"← Главная",backShort:"← Назад",freeLabel:"БЕСПЛАТНО ♛",newChat:"＋ Новый диалог",quick:"☰ Быстрый выбор",conversation:"Диалог",empty:"Чем я могу помочь?",emptyHint:"Напишите вопрос по-русски.",ready:"Готов к общению.",moduleTitle:{travel:"Отели и места",maps:"Карты и маршруты",learning:"Обучение",organize:"Личные дела",tools:"Другие инструменты"},settingsLanguage:"Язык общения",settingsLanguageHint:"Язык запросов к помощнику.",speechHint:"Распознавание речи и доступные голоса зависят от браузера и устройства.",about:"О приложении",versionPrefix:"Версия интерфейса",localHistory:"История хранится на этом устройстве.",clearHistory:"Очистить историю",localPrivacy:"Локальные диалоги можно удалить в разделе «Диалоги».",assistantLead:"Пишите или говорите с myPocket AI.",searchLanguagePlaceholder:"Поиск языка…",noLanguageMatch:"Язык не найден.",chooseDomain:"Выберите тему для начала.",quickTitle:"Быстрый выбор",send:"Отправить сообщение",dictation:"Голосовой ввод",voice:"Голосовой разговор",listen:"Прослушать последний ответ"},
+ pl:{subtitle:"Twój osobisty asystent na co dzień",homeTitle:"W czym mogę pomóc?",homeLead:"Wybierz narzędzie myPocket AI.",cards:[["Asystent AI","Pytania, odpowiedzi i szybka pomoc."],["Nauka i edukacja","Przedmioty, wyjaśnienia i ćwiczenia."],["Hotele","Znajdź nocleg i miejsce pobytu."],["Organizacja osobista","Listy, budżety i planowanie."],["Mapy","Trasy, miejsca i transport."],["Więcej narzędzi","Dokumenty, pomysły i inne opcje."]],home:"Start",conversations:"Rozmowy",tools:"Narzędzia",settings:"Ustawienia",back:"← Start",backShort:"← Wstecz",freeLabel:"BEZPŁATNIE ♛",newChat:"＋ Nowa rozmowa",quick:"☰ Szybki wybór",conversation:"Rozmowa",empty:"W czym mogę pomóc?",emptyHint:"Napisz pytanie po polsku.",ready:"Gotowy do rozmowy.",moduleTitle:{travel:"Hotele i miejsca",maps:"Mapy i trasy",learning:"Nauka i edukacja",organize:"Organizacja osobista",tools:"Więcej narzędzi"},settingsLanguage:"Język rozmowy",settingsLanguageHint:"Język zapytań do asystenta.",speechHint:"Rozpoznawanie mowy i dostępne głosy zależą od przeglądarki i urządzenia.",about:"O aplikacji",versionPrefix:"Wersja interfejsu",localHistory:"Historia jest zapisana na tym urządzeniu.",clearHistory:"Wyczyść historię",localPrivacy:"Lokalne rozmowy można usunąć w sekcji Rozmowy.",assistantLead:"Pisz lub rozmawiaj z myPocket AI.",searchLanguagePlaceholder:"Szukaj języka…",noLanguageMatch:"Nie znaleziono języka.",chooseDomain:"Wybierz temat na początek.",quickTitle:"Szybki wybór",send:"Wyślij wiadomość",dictation:"Dyktowanie głosowe",voice:"Rozmowa głosowa",listen:"Odtwórz ostatnią odpowiedź"}
 };
 // Missing niche translations keep the safe English label; core navigation
 // switches to each added European language without blocking app startup.
-const EUROPEAN_UI_TEXT=${JSON.stringify(EUROPEAN_UI_LOCALES)};
+const EUROPEAN_UI_TEXT=${EUROPEAN_UI_TEXT_EXPRESSION};
 window.__pocketEuropeanUiText=EUROPEAN_UI_TEXT;
 for(const [language,local] of Object.entries(EUROPEAN_UI_TEXT))UI_TEXT[language]={...UI_TEXT.en,...local,moduleTitle:{...UI_TEXT.en.moduleTitle,...(local.moduleTitle||{})}};
 function localizedModuleLead(key){const lang=state.language;const leads={
@@ -24248,7 +24302,7 @@ pt:{travel:'Encontra hotéis, restaurantes e outros locais nas proximidades.',ma
 ru:{travel:'Найдите отели, рестораны и другие места поблизости.',maps:'Планируйте маршруты и проверяйте общественный транспорт.',learning:'Учитесь шаг за шагом и получайте понятные объяснения.',organize:'Ведите списки, бюджеты, проекты и цели.',tools:'Изучайте анализ, идеи, документы и другие инструменты.'},
 pl:{travel:'Znajdź hotele, restauracje i inne miejsca w pobliżu.',maps:'Planuj trasy i sprawdzaj transport publiczny.',learning:'Ucz się krok po kroku i otrzymuj jasne wyjaśnienia.',organize:'Organizuj listy, budżety, projekty i cele.',tools:'Odkrywaj analizy, pomysły, dokumenty i dodatkowe narzędzia.'},
 nl:{travel:'Vind hotels, restaurants en andere plaatsen in de buurt.',maps:'Plan routes en bekijk informatie over het openbaar vervoer.',learning:'Leer stap voor stap en krijg duidelijke uitleg.',organize:'Organiseer lijsten, budgetten, projecten en doelen.',tools:'Ontdek analyses, ideeën, documenten en extra hulpmiddelen.'}};return (leads[lang]||leads.en)[key]||MODULES[key]?.lead||''}
-function applyUiLanguage(){closeAnswerReader(false);document.querySelectorAll('.answer-reader-open').forEach(b=>b.textContent=readerLabels().open);const d=UI_TEXT[state.language]||UI_TEXT.en;window.pocketCommunicationSetLanguage?.(state.language);document.documentElement.lang=state.language;$('home-title').textContent=d.homeTitle;document.querySelector('#view-home>.lead').textContent=d.homeLead;document.querySelector('.brand-sub').textContent=d.subtitle;const plan=document.querySelector('.plan-pill');if(plan)plan.textContent=state.language==='ro'?'GRATUIT ♛':state.language==='fr'?'GRATUIT ♛':state.language==='de'?'KOSTENLOS ♛':state.language==='it'?'GRATUITO ♛':state.language==='es'?'GRATIS ♛':state.language==='pt'?'GRÁTIS ♛':state.language==='nl'?'GRATIS ♛':state.language==='ru'?'БЕСПЛАТНО ♛':state.language==='pl'?'BEZPŁATNIE ♛':'FREE ♛';if(d.freeLabel&&plan)plan.textContent=d.freeLabel;document.querySelectorAll('#view-home .feature-card').forEach((card,i)=>{if(d.cards[i]){card.querySelector('.card-title').textContent=d.cards[i][0];card.querySelector('.card-description').textContent=d.cards[i][1]}});document.querySelectorAll('.bottom-nav [data-nav]').forEach(b=>{const label=b.dataset.nav==='home'?d.home:b.dataset.nav==='conversations'?d.conversations:b.dataset.nav==='communication'?window.pocketCommunicationLabel(state.language):d.settings;const icon=b.querySelector('.nav-icon');b.replaceChildren(icon,document.createTextNode(label))});document.querySelectorAll('[data-back]').forEach(b=>b.textContent=d.back);$('newChatBtn').textContent=d.newChat;$('moduleLayerTitle').textContent=d.quickTitle;$('moduleLayerBack').textContent=state.language==='en'?'← Back':state.language==='fr'?'← Retour':state.language==='de'?'← Zurück':state.language==='it'?'← Indietro':state.language==='es'?'← Volver':state.language==='pt'?'← Voltar':state.language==='nl'?'← Terug':state.language==='ru'?'← Назад':state.language==='pl'?'← Wstecz':(d.backShort||'← Înapoi');document.querySelector('#sharedChatShell .chat-top strong').textContent=d.conversation;const empty=messagesEl.querySelector('.empty-state');if(empty){empty.replaceChildren(document.createTextNode(d.empty));const hint=document.createElement('span');hint.className='small';hint.textContent=d.emptyHint;empty.append(document.createElement('br'),hint)}if(!state.messages.length)setStatus(d.ready);$('languageSelect').setAttribute('aria-label',d.settingsLanguage);const settings=$('view-settings');settings.querySelector('h2').textContent=d.settings;settings.querySelector('.module-panel h3').textContent=d.settingsLanguage;settings.querySelector('.module-panel p').textContent=d.settingsLanguageHint;settings.querySelector('.module-panel .small').textContent=d.speechHint;settings.querySelectorAll('.module-panel')[1].querySelector('h3').textContent=d.about;settings.querySelectorAll('.module-panel')[1].querySelectorAll('p')[1].textContent=state.language==='en'?'Local conversations can be deleted in the Conversations section.':state.language==='fr'?'Les conversations locales peuvent être supprimées dans la section Conversations.':state.language==='de'?'Lokale Gespräche können im Bereich Gespräche gelöscht werden.':state.language==='it'?'Le conversazioni locali possono essere eliminate nella sezione Conversazioni.':state.language==='es'?'Las conversaciones locales se pueden borrar en la sección Conversaciones.':state.language==='pt'?'As conversas locais podem ser apagadas na secção Conversas.':state.language==='nl'?'Lokale gesprekken kunnen worden verwijderd in het onderdeel Gesprekken.':'Conversațiile locale pot fi șterse din secțiunea Conversații.';if(d.localPrivacy)settings.querySelectorAll('.module-panel')[1].querySelectorAll('p')[1].textContent=d.localPrivacy;const conversations=$('view-conversations');conversations.querySelector('h2').textContent=d.conversations;conversations.querySelector('.section-lead').textContent=d.localHistory;$('clearHistoryBtn').textContent=d.clearHistory;const toolsView=$('view-tools');toolsView.querySelector('h2').textContent=d.tools;toolsView.querySelector('.section-lead').textContent=d.chooseDomain;if(window.__pocketToolsReady===true)refreshToolTranslations();if((state.currentModule==='maps'||state.currentModule==='travel')&&$('view-module').classList.contains('module-landing'))renderModuleLandingChoices();document.querySelector('#view-assistant>.section-title').textContent=d.cards[0][0];document.querySelector('#view-assistant .section-lead').textContent=state.language==='en'?'Type or speak with myPocket AI.':state.language==='fr'?'Écrivez ou parlez avec myPocket AI.':state.language==='de'?'Schreibe oder sprich mit myPocket AI.':state.language==='it'?'Scrivi o parla con myPocket AI.':state.language==='es'?'Escribe o habla con myPocket AI.':state.language==='pt'?'Escreve ou fala com myPocket AI.':state.language==='nl'?'Typ of praat met myPocket AI.':'Scrie sau vorbește cu myPocket AI.';if(d.assistantLead)document.querySelector('#view-assistant .section-lead').textContent=d.assistantLead;inputEl.setAttribute('aria-label',d.send);$('sendBtn').setAttribute('aria-label',d.send);$('dictationBtn').setAttribute('aria-label',d.dictation);$('dictationBtn').title=d.dictation;$('voiceBtn').setAttribute('aria-label',d.voice);$('voiceBtn').title=d.voice;$('listenBtn').setAttribute('aria-label',d.listen);$('listenBtn').title=d.listen;if(state.currentView==='module'){const m=MODULES[state.currentModule];if(m){$('moduleTitle').textContent=(state.currentModule==='learning'&&activeLearningSubject)?learningLabel(activeLearningSubject[2],activeLearningSubject[3]):(d.moduleTitle[state.currentModule]||m.title);$('moduleLead').textContent=(state.currentModule==='learning'&&activeLearningSubject)?'':localizedModuleLead(state.currentModule)}}const quickLayer=$('moduleQuickLayer');if(quickLayer?.classList.contains('open')){if(state.moduleSearchResults?.length&&state.moduleSearchCategory?.kind==='places'){renderModulePlaces(state.moduleSearchResults)}else if(state.moduleSearchCategory){$('moduleLayerTitle').textContent=localizedQuickChoiceTitle(state.moduleSearchCategory);if(state.moduleSearchBusy)moduleStatus(quickUiText().searching+' '+localizedQuickChoiceTitle(state.moduleSearchCategory).toLowerCase()+' '+quickUiText().nearby)}else{ $('moduleLayerTitle').textContent=d.quickTitle;}}try{localStorage.setItem('mypocketai.language',state.language)}catch{}}
+function applyUiLanguage(){closeAnswerReader(false);document.querySelectorAll('.answer-reader-open').forEach(b=>b.textContent=readerLabels().open);const d=UI_TEXT[state.language]||UI_TEXT.en;window.pocketCommunicationSetLanguage?.(state.language);window.pocketAccountApplyLanguage?.();document.documentElement.lang=state.language;$('home-title').textContent=d.homeTitle;document.querySelector('#view-home>.lead').textContent=d.homeLead;document.querySelector('.brand-sub').textContent=d.subtitle;const plan=document.querySelector('.plan-pill');if(plan)plan.textContent=state.language==='ro'?'GRATUIT ♛':state.language==='fr'?'GRATUIT ♛':state.language==='de'?'KOSTENLOS ♛':state.language==='it'?'GRATUITO ♛':state.language==='es'?'GRATIS ♛':state.language==='pt'?'GRÁTIS ♛':state.language==='nl'?'GRATIS ♛':state.language==='ru'?'БЕСПЛАТНО ♛':state.language==='pl'?'BEZPŁATNIE ♛':'FREE ♛';if(d.freeLabel&&plan)plan.textContent=d.freeLabel;document.querySelectorAll('#view-home .feature-card').forEach((card,i)=>{if(d.cards[i]){card.querySelector('.card-title').textContent=d.cards[i][0];card.querySelector('.card-description').textContent=d.cards[i][1]}});document.querySelectorAll('.bottom-nav [data-nav]').forEach(b=>{const label=b.dataset.nav==='home'?d.home:b.dataset.nav==='conversations'?d.conversations:b.dataset.nav==='communication'?window.pocketCommunicationLabel(state.language):d.settings;const icon=b.querySelector('.nav-icon');b.replaceChildren(icon,document.createTextNode(label))});document.querySelectorAll('[data-back]').forEach(b=>b.textContent=d.back);$('newChatBtn').textContent=d.newChat;$('moduleLayerTitle').textContent=d.quickTitle;$('moduleLayerBack').textContent=state.language==='en'?'← Back':state.language==='fr'?'← Retour':state.language==='de'?'← Zurück':state.language==='it'?'← Indietro':state.language==='es'?'← Volver':state.language==='pt'?'← Voltar':state.language==='nl'?'← Terug':state.language==='ru'?'← Назад':state.language==='pl'?'← Wstecz':(d.backShort||'← Înapoi');document.querySelector('#sharedChatShell .chat-top strong').textContent=d.conversation;const empty=messagesEl.querySelector('.empty-state');if(empty){empty.replaceChildren(document.createTextNode(d.empty));const hint=document.createElement('span');hint.className='small';hint.textContent=d.emptyHint;empty.append(document.createElement('br'),hint)}if(!state.messages.length)setStatus(d.ready);$('languageSelect').setAttribute('aria-label',d.settingsLanguage);const settings=$('view-settings');settings.querySelector('h2').textContent=d.settings;settings.querySelector('.module-panel h3').textContent=d.settingsLanguage;settings.querySelector('.module-panel p').textContent=d.settingsLanguageHint;settings.querySelector('.module-panel .small').textContent=d.speechHint;settings.querySelectorAll('.module-panel')[1].querySelector('h3').textContent=d.about;const verEl=$('pocketInterfaceVersion');if(verEl){const vPref=state.language==='ro'?'Versiunea interfeței':state.language==='fr'?'Version de l’interface':state.language==='de'?'Oberflächenversion':state.language==='it'?'Versione interfaccia':state.language==='es'?'Versión de la interfaz':state.language==='pt'?'Versão da interface':state.language==='nl'?'Interfaceversie':(d.versionPrefix||'Interface version');verEl.textContent='myPocket AI · '+vPref+' '+'${APP.version}';}settings.querySelectorAll('.module-panel')[1].querySelectorAll('p')[1].textContent=state.language==='en'?'Local conversations can be deleted in the Conversations section.':state.language==='fr'?'Les conversations locales peuvent être supprimées dans la section Conversations.':state.language==='de'?'Lokale Gespräche können im Bereich Gespräche gelöscht werden.':state.language==='it'?'Le conversazioni locali possono essere eliminate nella sezione Conversazioni.':state.language==='es'?'Las conversaciones locales se pueden borrar en la sección Conversaciones.':state.language==='pt'?'As conversas locais podem ser apagadas na secção Conversas.':state.language==='nl'?'Lokale gesprekken kunnen worden verwijderd in het onderdeel Gesprekken.':'Conversațiile locale pot fi șterse din secțiunea Conversații.';if(d.localPrivacy)settings.querySelectorAll('.module-panel')[1].querySelectorAll('p')[1].textContent=d.localPrivacy;const conversations=$('view-conversations');conversations.querySelector('h2').textContent=d.conversations;conversations.querySelector('.section-lead').textContent=d.localHistory;$('clearHistoryBtn').textContent=d.clearHistory;const toolsView=$('view-tools');toolsView.querySelector('h2').textContent=d.tools;toolsView.querySelector('.section-lead').textContent=d.chooseDomain;if(window.__pocketToolsReady===true)refreshToolTranslations();if((state.currentModule==='maps'||state.currentModule==='travel')&&$('view-module').classList.contains('module-landing'))renderModuleLandingChoices();document.querySelector('#view-assistant>.section-title').textContent=d.cards[0][0];document.querySelector('#view-assistant .section-lead').textContent=state.language==='en'?'Type or speak with myPocket AI.':state.language==='fr'?'Écrivez ou parlez avec myPocket AI.':state.language==='de'?'Schreibe oder sprich mit myPocket AI.':state.language==='it'?'Scrivi o parla con myPocket AI.':state.language==='es'?'Escribe o habla con myPocket AI.':state.language==='pt'?'Escreve ou fala com myPocket AI.':state.language==='nl'?'Typ of praat com myPocket AI.'.replace(' com ',' met '):'Scrie sau vorbește cu myPocket AI.';if(d.assistantLead)document.querySelector('#view-assistant .section-lead').textContent=d.assistantLead;inputEl.setAttribute('aria-label',d.send);$('sendBtn').setAttribute('aria-label',d.send);$('dictationBtn').setAttribute('aria-label',d.dictation);$('dictationBtn').title=d.dictation;$('voiceBtn').setAttribute('aria-label',d.voice);$('voiceBtn').title=d.voice;$('listenBtn').setAttribute('aria-label',d.listen);$('listenBtn').title=d.listen;if(state.currentModule==='learning'&&$('view-module')?.classList.contains('learning-choose')&&typeof renderLearningSubjects==='function')renderLearningSubjects();if(typeof window.pocketScheduleEducationLocaleScan==='function')window.pocketScheduleEducationLocaleScan();if(state.currentView==='module'){const m=MODULES[state.currentModule];if(m){$('moduleTitle').textContent=(state.currentModule==='learning'&&activeLearningSubject)?learningLabel(activeLearningSubject[2],activeLearningSubject[3]):(d.moduleTitle[state.currentModule]||m.title);$('moduleLead').textContent=(state.currentModule==='learning'&&activeLearningSubject)?'':localizedModuleLead(state.currentModule)}}const quickLayer=$('moduleQuickLayer');if(quickLayer?.classList.contains('open')){if(state.moduleSearchResults?.length&&state.moduleSearchCategory?.kind==='places'){renderModulePlaces(state.moduleSearchResults)}else if(state.moduleSearchCategory){$('moduleLayerTitle').textContent=localizedQuickChoiceTitle(state.moduleSearchCategory);if(state.moduleSearchBusy)moduleStatus(quickUiText().searching+' '+localizedQuickChoiceTitle(state.moduleSearchCategory).toLowerCase()+' '+quickUiText().nearby)}else{ $('moduleLayerTitle').textContent=d.quickTitle;}}try{localStorage.setItem('mypocketai.language',state.language)}catch{}}
 // A saved value from any earlier installation always has priority, including
 // the language previously chosen explicitly in Settings. Only an actual new
 // installation may be auto-detected by device region / location.
@@ -24335,7 +24389,7 @@ const languageAlias={
  uk:'ucraineana ukrainian',bs:'bosniaca bosnian',mk:'macedoneana macedonian',
  sq:'albaneza albanian',be:'belarusa belarusian',ca:'catalana catalan',ga:'irlandeza irish',
  cy:'galeza welsh',mt:'malteza maltese',eu:'basca basque',gl:'galiciana galician',
- lb:'luxemburgheza luxembourgish',fo:'feroeza faroese',rm:'retoromana romansh'
+ lb:'luxemburgheza luxembourgish',fo:'feroeza faroese',hy:'armeana armenian',ka:'georgiana georgian',az:'azera azerbaijani',rm:'retoromana romansh'
 };
 const languageFold=value=>String(value||'').normalize('NFD').replace(/[\\u0300-\\u036f]/g,'')
  .toLowerCase().replace(/[^\\p{L}\\p{N} ]+/gu,' ').replace(/\\s+/g,' ').trim();
@@ -24354,14 +24408,16 @@ function filterLanguageChoices(value){
  let matches=0;
  languageChoices.forEach(item=>{const show=words.every(word=>item.key.includes(word));item.button.hidden=!show;if(show)matches++});
  languageEmpty.hidden=matches!==0;
- languageEmpty.textContent=state.language==='ro'?'Nu am găsit limba căutată.':'No matching language found.';
+ const d=UI_TEXT[state.language]||UI_TEXT.en;
+ languageEmpty.textContent=state.language==='ro'?'Nu am găsit limba căutată.':(d.noLanguageMatch||'No matching language found.');
  languageDialogScroll.scrollTop=0;
 }
 languageSearch.addEventListener('input',()=>filterLanguageChoices(languageSearch.value));
 languageSearch.addEventListener('keydown',event=>{if(event.key==='Escape'){event.preventDefault();closeLanguageDialog()}});
 languageButton.addEventListener('click',()=>{
  syncLanguageMenu();languageDialog.hidden=false;languageSearch.value='';
- languageSearch.placeholder=state.language==='ro'?'Caută o limbă…':'Search languages…';
+ const d=UI_TEXT[state.language]||UI_TEXT.en;
+ languageSearch.placeholder=state.language==='ro'?'Caută o limbă…':(d.searchLanguagePlaceholder||'Search languages…');
  languageSearch.setAttribute('aria-label',languageSearch.placeholder);
  filterLanguageChoices('');
  languageSearch.focus();
