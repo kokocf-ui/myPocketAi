@@ -4,6 +4,7 @@ on:
     paths:
       - 'literature_*.mjs'
       - 'tests_literature_*.mjs'
+      - 'scripts/audit_literature_readiness.mjs'
       - 'education_all_country_subject_matrix.mjs'
       - '.github/workflows/literature-50-grade-depth.yml'
   workflow_dispatch:
@@ -26,9 +27,17 @@ jobs:
           node --check literature_europe_practice.mjs
           node --check literature_general_fallback.mjs
           node --check tests_literature_chapter_activities_2026.mjs
+          node --check literature_hungary_grade1.mjs
+          node --check tests_literature_hungary_grade1.mjs
+          node --check literature_hungary_primary_batch.mjs
+          node --check tests_literature_hungary_primary_batch.mjs
+          node --check scripts/audit_literature_readiness.mjs
+          node --check tests_literature_readiness_gate.mjs
           node --check literature_europe_authored_material.mjs
           node --check literature_europe_client_lazy.mjs
           node --check tests_literature_compact_html.mjs
+          node --check literature_compact_catalog.mjs
+          node --check tests_literature_compact_catalog.mjs
           node --check literature_quick_reference.mjs
           node --check literature_quick_reference_ui.mjs
           node --check tests_literature_quick_reference.mjs
@@ -44,8 +53,12 @@ jobs:
           node tests_literature_all_country_depth.mjs
           node tests_literature_selected_stage_2026.mjs
           node tests_literature_chapter_activities_2026.mjs
+          node tests_literature_hungary_grade1.mjs
+          node tests_literature_hungary_primary_batch.mjs
+          node tests_literature_readiness_gate.mjs
           node tests_literature_europe_authored_material.mjs
           node tests_literature_compact_html.mjs
+          node tests_literature_compact_catalog.mjs
           node tests_literature_quick_reference.mjs
           node tests_literature_android_corrections.mjs
           node tests_literature_reference_catalog.mjs

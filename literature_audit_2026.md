@@ -1,5 +1,13 @@
 # Literature audit — 2026-11-24
 
+## Current implementation in progress — release held
+
+Literature is still work in progress. The user explicitly requested an interim APK on 2026-11-24; releasing that snapshot must not be described as completion across all countries. `node scripts/audit_literature_readiness.mjs --require-complete` intentionally fails: country-specific instructional and source review are still pending. The audit counts Romanian lesson-routing paths, not curricular completion, and it must never substitute automated counts for expert review.
+
+Twelve Hungary primary year-focused chapters now have individual original lessons, Hungarian passages, explanations, five exercises and five distinct test questions in Romanian, English and Hungarian: three chapters in each of grades 1–4. They cover initial sound/letter distinctions, reading, event order, dialogue, summaries and writing. This is a partial increment, not four complete grades or a claim that all Hungarian spelling or the whole curriculum is covered. The Hungarian Education Authority's [NAT 2020 framework index](https://www.oktatas.hu/kozneveles/kerettantervek/2020_nat) links to the separate 1–4, 5–8 and secondary frameworks; independent teaching and source verification for the actual material is still required.
+
+The embedded HTML approached its size budget. The embedded national catalogue now losslessly interns repeated strings, restoring headroom without changing the catalogue or offline behavior. Before adding large numbers of lessons, move authored year content to independently versioned, reader-integrated, cacheable packs and retain explicit offline-unavailable handling. This compact representation is not pack decoupling. Do not inflate the HTML or manufacture placeholder packs and call them a complete course.
+
 ## Scope
 
 The Literature journey follows country → level → year → branch → chapter → activity. Framework links and advisory notices remain distinct from claims of a complete official curriculum. Regional requirements, prescribed books and university courses vary by jurisdiction, institution and year; this implementation does not certify them as exhaustive.

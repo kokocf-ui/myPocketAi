@@ -40,7 +40,7 @@ assert.match(ui,/stage==='grades'/,'grade selector');
 assert.match(ui,/stage==='regions'/,'regional selector');
 assert.match(ui,/stage==='tracks'/,'Romanian school track selector');
 assert.match(ui,/litJourney\.branch==='program'/,'ordered pathway');
-assert.match(ui,/const LIT_EUROPE_PROGRAMS=\$\{JSON\.stringify\(LIT_EU_PROGRAMS\)\}/,'embed source data in UI');
+assert.match(ui,/const LIT_EUROPE_PROGRAMS=\$\{serializeCompactLiteratureCatalog\(LIT_EU_PROGRAMS\)\}/,'embed compact lossless source data in UI');
 assert.match(ui,/const curriculumScope='Țară\/jurisdicție de studiu:/,'model instructions grounded to country');
 assert.ok(!ui.match(/\['zh','Chineză','Chinese'\]/),'Asia deferred from literature selection');
 console.log('European literature curriculum mapping, phased verification and UI flow passed');

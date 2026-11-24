@@ -16,6 +16,7 @@ import {EXTRA_TOOLS_WORKSPACE_SCRIPT,EXTRA_TOOLS_WORKSPACE_STYLE} from './extra_
 import {EXAM_UI_SCRIPT} from './exam_ui.mjs';
 import {RECIPE_READER_PAGES_UI_SCRIPT} from './recipe_reader_pages_ui.mjs';
 import {LITERATURE_TASK_UI_SCRIPT} from './literature_task_ui.mjs';
+import {serializeCompactLiteratureCatalog} from './literature_compact_catalog.mjs';
 import {UNIVERSITY_DOMAINS} from './university_domains.mjs';
 import {UNIVERSITY_PROGRAM_OPTIONS,UNIVERSITY_ADMISSION_ENTRIES} from './university_admissions_verified.mjs';
 import {PRACTICAL_COURSES,PRACTICAL_COUNTRIES,PRACTICAL_LEVELS} from './practical_curriculum.mjs';
@@ -15203,7 +15204,7 @@ async function hgGenerate(extra,output){
 
 
 // Country and language are separate choices; the present curriculum scope is Europe.
-const LIT_EUROPE_PROGRAMS=${JSON.stringify(LIT_EU_PROGRAMS)};
+const LIT_EUROPE_PROGRAMS=${serializeCompactLiteratureCatalog(LIT_EU_PROGRAMS)};
 const LIT_EUROPE_COMMON=${JSON.stringify(LIT_EU_COMMON)};
 const litSchoolTracksForGrade=${literatureTracksForGrade.toString()};
 const litHungaryAdmissionTopics=${hungaryAdmissionTopicsForGrade.toString()};
