@@ -63,6 +63,21 @@ function funSolarLongitude(utc){
  return funModulo(L0+C-0.00569-0.00478*Math.sin((125.04-1934.136*T)*rad),360);
 }
 function funSunSign(utc){const lon=funSolarLongitude(utc);return Number.isFinite(lon)?Math.floor(lon/30):null}
+function funChineseZodiac(utc){
+ if(!(utc instanceof Date)||!Number.isFinite(utc.getTime()))return null;
+ try{
+  // ICU Chinese calendar resolves Lunar New Year; Gregorian January 1 is NOT
+  // assumed to start the Chinese zodiac year.
+  const parts=new Intl.DateTimeFormat('en-u-ca-chinese',{
+   timeZone:'Asia/Shanghai',year:'numeric',month:'numeric',day:'numeric'
+  }).formatToParts(utc);
+  const field=parts.find(x=>x.type==='relatedYear'||x.type==='year');
+  const y=Number(field?.value);
+  if(!Number.isInteger(y)||y<1900||y>2100)return null;
+  const animals=['Șobolan','Bivol','Tigru','Iepure','Dragon','Șarpe','Cal','Capră','Maimuță','Cocoș','Câine','Porc'];
+  return {year:y,animal:animals[funModulo(y-2020,12)]};
+ }catch{return null}
+}
 function funSolarAspect(natalLongitude,currentLongitude){
  const a=Number(natalLongitude),b=Number(currentLongitude);
  if(!Number.isFinite(a)||!Number.isFinite(b))return null;
