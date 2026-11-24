@@ -91,7 +91,7 @@ assert.match(EXTRA_FUN_UI_STYLE,/extra-fun-library-layout/);
 assert.match(EXTRA_FUN_UI_STYLE,/extra-fun-axis/);
 assert.match(EXTRA_FUN_UI_STYLE,/extra-fun-block/);
 assert.match(EXTRA_FUN_UI_SCRIPT,/extraFunZodiacWheel/);
-assert.match(EXTRA_FUN_UI_SCRIPT,/funSolarAspect/);
+assert.match(FUN_ASTRO_CORE_SCRIPT,/funSolarAspect/);
 assert.match(EXTRA_FUN_UI_SCRIPT,/extraFunSudoku/);
 assert.match(EXTRA_TOOLS_SIX_NAV_SCRIPT,/if\(key\.startsWith\('fun-'\)\)return extraFunOpen\(key\)/);
 assert.match(EXTRA_TOOLS_SIX_NAV_STYLE,/grid-template-columns:minmax\(0,1fr\)!important/);
