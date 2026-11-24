@@ -5,6 +5,7 @@ export const MATH_READER_LOCALE_UI_SCRIPT=`(function(){
  let translating=false,queued=false;
  const EDUCATION_VIEW_CLASSES=['learning-home','learning-math','learning-science','learning-foreign','learning-hg','learning-literature','learning-computing','learning-admissions'];
  function inMathReader(){
+  if(typeof document==='undefined'||!document)return false;
   const host=document.getElementById('view-module');
   const dialog=document.getElementById('educationPagedLessonDialog');
   const hasEduHost=Boolean(host&&EDUCATION_VIEW_CLASSES.some(c=>host.classList.contains(c)));
