@@ -184,6 +184,7 @@ try{
  assert.ok(!errors.length,'Frontend console exceptions: '+errors.slice(0,3).join('; '));
  console.log('PASS mobile Chromium Physics: grades VI–XII, seven detailed lessons, seven activity readers, paginated dialogs and navigation');
 }catch(error){
+ console.error('::error::Physics browser: '+String(error).replace(/\r?\n/g,' '));
  try{
   await page.screenshot({path:'physics-browser-audit/failure.png',fullPage:true});
   fs.writeFileSync('physics-browser-audit/failure.txt',JSON.stringify({

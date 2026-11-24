@@ -8,7 +8,7 @@ import {chromium} from 'playwright';
 fs.mkdirSync('astronomy-browser-audit',{recursive:true});
 const server=http.createServer(async(req,res)=>{
  try{
-  const response=await app.fetch(new Request('http://localhost:3879'+req.url),{COMMUNICATION_ORACLE_ORIGIN:''});
+  const response=await app.fetch(new Request('http://localhost:3879'+req.url,{headers:req.headers}),{COMMUNICATION_ORACLE_ORIGIN:''});
   res.writeHead(response.status,Object.fromEntries(response.headers));
   res.end(Buffer.from(await response.arrayBuffer()));
  }catch(error){res.writeHead(500);res.end(String(error));}

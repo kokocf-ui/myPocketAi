@@ -8,7 +8,7 @@ import {chromium} from 'playwright';
 fs.mkdirSync('chemistry-browser-audit',{recursive:true});
 const server=http.createServer(async(req,res)=>{
  try{
-  const answer=await frontend.fetch(new Request('http://localhost:3881'+req.url),
+  const answer=await frontend.fetch(new Request('http://localhost:3881'+req.url,{headers:req.headers}),
    {COMMUNICATION_ORACLE_ORIGIN:''});
   res.writeHead(answer.status,Object.fromEntries(answer.headers));
   res.end(Buffer.from(await answer.arrayBuffer()));
