@@ -1,0 +1,1213 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "RO",
+ "stage": "lower",
+ "grade": "7",
+ "version": "1b873982ca28be8998b73976f9fa817e26d0f0a24c2f26a9130601593ff2ce19",
+ "source": "https://programe.ise.ro/",
+ "sourceTitle": "Ministerul Educației — Programa școlară Limba și literatura română, clasele a V-a – a VIII-a (OMEN 3393/2017): comunicare orală, lectură, redactare, elemente de construcție a comunicării, elemente de interculturalitate; clasa a VII-a în ordinea obișnuită a manualelor aprobate (perspectiva narativă, textul memorialistic, romanul, portretul literar, textul publicitar și de presă, balada populară, pastelul, doina și lirica populară, comedia, figurile de stil: inversiunea, antiteza, aliterația, textul argumentativ, verbele predicative și nepredicative, diatezele, pronumele relativ, interogativ, nehotărât și negativ, funcțiile substantivului, prepoziția și cazul, complementul de agent, locuțiunile, complementele circumstanțiale de loc, timp și mod, coordonarea și subordonarea, propoziția atributivă, completivă directă și indirectă, virgula, neologismele, arhaismele, regionalismele, polisemia, paronimele și pleonasmul, recenzia, prezentarea orală, identitate și diversitate culturală); lecții originale, fără text copiat din manuale",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "ro",
+ "labels": [
+  "Activitate originală · România · clasa a VII-a",
+  "Teorie pe înțeles",
+  "Exemplu original",
+  "Analiză explicată",
+  "Exerciții",
+  "Verifică-te",
+  "Exerciții originale, nu o evaluare oficială și nici text din manual.",
+  "Dacă nu ai înțeles: pe înțelesul tău, pas cu pas",
+  "Răspunsuri (verifică după ce termini)"
+ ],
+ "units": [
+  {
+   "title": "Textul narativ: perspectivă și roman",
+   "keys": [
+    "eu-year-ro-lower-7-l01",
+    "eu-year-ro-lower-7-l02",
+    "eu-year-ro-lower-7-l03",
+    "eu-year-ro-lower-7-l04"
+   ]
+  },
+  {
+   "title": "Literatura populară",
+   "keys": [
+    "eu-year-ro-lower-7-l05",
+    "eu-year-ro-lower-7-l06"
+   ]
+  },
+  {
+   "title": "Textul liric: pastelul și figurile de stil",
+   "keys": [
+    "eu-year-ro-lower-7-l07",
+    "eu-year-ro-lower-7-l08",
+    "eu-year-ro-lower-7-l09"
+   ]
+  },
+  {
+   "title": "Textul dramatic și argumentativ",
+   "keys": [
+    "eu-year-ro-lower-7-l10",
+    "eu-year-ro-lower-7-l11",
+    "eu-year-ro-lower-7-l12"
+   ]
+  },
+  {
+   "title": "Morfologia: verbul și pronumele",
+   "keys": [
+    "eu-year-ro-lower-7-l13",
+    "eu-year-ro-lower-7-l14",
+    "eu-year-ro-lower-7-l15",
+    "eu-year-ro-lower-7-l16",
+    "eu-year-ro-lower-7-l17",
+    "eu-year-ro-lower-7-l18",
+    "eu-year-ro-lower-7-l19",
+    "eu-year-ro-lower-7-l20"
+   ]
+  },
+  {
+   "title": "Sintaxa propoziției și a frazei",
+   "keys": [
+    "eu-year-ro-lower-7-l21",
+    "eu-year-ro-lower-7-l22",
+    "eu-year-ro-lower-7-l23",
+    "eu-year-ro-lower-7-l24",
+    "eu-year-ro-lower-7-l25",
+    "eu-year-ro-lower-7-l26"
+   ]
+  },
+  {
+   "title": "Vocabular, redactare, interculturalitate",
+   "keys": [
+    "eu-year-ro-lower-7-l27",
+    "eu-year-ro-lower-7-l28",
+    "eu-year-ro-lower-7-l29",
+    "eu-year-ro-lower-7-l30",
+    "eu-year-ro-lower-7-l31",
+    "eu-year-ro-lower-7-l32"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-ro-lower-7-l01": {
+   "ro": {
+    "title": "Recapitulare: momentele subiectului și caracterizarea",
+    "theory": "Ne amintim: acțiunea are expozițiune, intrigă, desfășurare, punct culminant și deznodământ; personajele se caracterizează direct (spus în text) și indirect (din fapte, vorbe, gânduri). Fiecare trăsătură are nevoie de o dovadă din text.",
+    "sample": "Elena venise de puțin timp în oraș (expozițiune). Într-o zi, a găsit un portofel plin pe stradă (intrigă). L-a dus la poliție, deși prietena ei îi spunea să-l păstreze (desfășurare). Proprietarul, un bătrân, plângea de bucurie (punct culminant). Elena a primit o diplomă de onoare (deznodământ).",
+    "worked": "Momentele sunt marcate în paranteze. Elena este cinstită: o arată indirect fapta de a duce portofelul la poliție, chiar dacă prietena o îndemna altfel. Diploma confirmă direct cinstea ei.",
+    "exercises": [
+     "Identifică momentele subiectului într-un text din manual.",
+     "Găsește o trăsătură indirectă a Elenei.",
+     "Scrie o intrigă diferită pentru exemplu.",
+     "Caracterizează prietena Elenei.",
+     "Explică de ce reacția bătrânului este punctul culminant."
+    ],
+    "test": [
+     "Ce moment este găsirea portofelului?",
+     "Ce trăsătură are Elena?",
+     "Ce modalitate de caracterizare arată fapta Elenei?",
+     "Ce este deznodământul?",
+     "Ce primește Elena la final?"
+    ],
+    "steps": [
+     "Împarte textul după momentele subiectului.",
+     "Pentru personaj, caută fapte și vorbe.",
+     "Formulează trăsătura și sprijin-o cu dovada.",
+     "Greșeala frecventă: să confunzi desfășurarea cu intriga."
+    ],
+    "answers": [
+     "Intriga.",
+     "Cinstea.",
+     "Caracterizarea indirectă.",
+     "Felul în care se încheie acțiunea.",
+     "O diplomă de onoare."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l02": {
+   "ro": {
+    "title": "Perspectiva narativă: narator obiectiv și subiectiv",
+    "theory": "Perspectiva narativă este punctul de vedere din care se povestește. Naratorul obiectiv (de obicei la persoana a III-a) relatează imparțial, fără să-și spună părerea. Naratorul subiectiv își exprimă sentimentele și opiniile despre întâmplări; poate fi la persoana I (narator-personaj) sau la persoana a III-a cu comentarii.",
+    "sample": "Varianta A: Trenul a plecat la ora opt. Ion a rămas pe peron. / Varianta B: Trenul a plecat la ora opt, iar eu, nefericitul, am rămas pe peron, privind cum îmi fuge visul.",
+    "worked": "A: narator obiectiv, prezintă faptele fără emoții. B: narator subiectiv, la persoana I, își exprimă tristețea (nefericitul, îmi fuge visul). Aceeași întâmplare transmite altceva după perspectivă.",
+    "exercises": [
+     "Transformă varianta A într-o relatare subiectivă.",
+     "Găsește mărcile subiectivității din B.",
+     "Identifică perspectiva unui text din manual.",
+     "Scrie o întâmplare cu narator obiectiv.",
+     "Spune un avantaj al naratorului subiectiv."
+    ],
+    "test": [
+     "Ce este perspectiva narativă?",
+     "Cum relatează naratorul obiectiv?",
+     "Ce face naratorul subiectiv?",
+     "Ce perspectivă are varianta A?",
+     "Ce cuvinte arată subiectivitatea în B?"
+    ],
+    "steps": [
+     "Uită-te la persoana verbelor.",
+     "Caută cuvinte care exprimă păreri și sentimente ale naratorului.",
+     "Dacă există, perspectiva este subiectivă; dacă nu, obiectivă.",
+     "Greșeala frecventă: să crezi că orice narator la persoana a III-a este obiectiv. Poate comenta și judeca."
+    ],
+    "answers": [
+     "Punctul de vedere din care se povestește.",
+     "Imparțial, fără păreri.",
+     "Își exprimă sentimentele și opiniile.",
+     "Obiectivă.",
+     "Nefericitul, îmi fuge visul."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l03": {
+   "ro": {
+    "title": "Textul memorialistic",
+    "theory": "Textul memorialistic (amintirile, memoriile, jurnalul) prezintă întâmplări trăite cu adevărat de autor. Autorul, naratorul și personajul principal sunt aceeași persoană, iar povestirea se face la persoana I. Amintirile îmbină faptele cu sentimentele de acum ale celui care își amintește, adesea cu nostalgie.",
+    "sample": "Îmi amintesc și acum vara în care bunicul m-a învățat să înot în râul din spatele casei. Aveam opt ani și tremuram de frică. Astăzi, când trec pe acolo, mi se pare că râul e mai mic, dar amintirea e la fel de mare.",
+    "worked": "Narator la persoana I, care este și personaj. Întâmplarea este reală, din copilărie. Se observă două planuri: trecutul (aveam opt ani) și prezentul celui care își amintește (astăzi). Antiteza râul mai mic / amintirea mare exprimă nostalgia.",
+    "exercises": [
+     "Scrie o amintire din copilărie de un paragraf.",
+     "Găsește cele două planuri temporale din exemplu.",
+     "Spune ce sentiment domină exemplul.",
+     "Compară textul memorialistic cu basmul.",
+     "Găsește mărcile persoanei I."
+    ],
+    "test": [
+     "Ce prezintă textul memorialistic?",
+     "Cine este naratorul în textul memorialistic?",
+     "La ce persoană se povestește?",
+     "Ce sentiment exprimă exemplul?",
+     "Ce figură este: râul e mai mic, dar amintirea e mare?"
+    ],
+    "steps": [
+     "Verifică dacă întâmplările sunt trăite de autor.",
+     "Caută persoana I și cele două momente: atunci și acum.",
+     "Identifică sentimentul celui care își amintește.",
+     "Greșeala frecventă: să confunzi textul memorialistic cu ficțiunea. Aici întâmplările sunt reale."
+    ],
+    "answers": [
+     "Întâmplări trăite cu adevărat de autor.",
+     "Autorul însuși, ca personaj.",
+     "La persoana I.",
+     "Nostalgia.",
+     "Antiteză."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l04": {
+   "ro": {
+    "title": "Romanul: trăsături și fragment",
+    "theory": "Romanul este o specie narativă amplă, în proză, cu acțiune complexă desfășurată pe mai multe planuri, cu multe personaje și conflicte, pe o durată lungă. Personajele sunt urmărite în evoluție. Exemple din literatura română: Baltagul de Mihail Sadoveanu, Ion de Liviu Rebreanu.",
+    "sample": "Rezumat original: Un tânăr dintr-un sat de câmpie pleacă la studii la oraș; urmărim pe sute de pagini familia lui rămasă acasă, prietenii din oraș, iubirea, războiul și întoarcerea, după douăzeci de ani, într-un sat schimbat.",
+    "worked": "Acțiunea este amplă și durează douăzeci de ani. Există mai multe planuri (satul și orașul) și multe personaje. Personajul principal evoluează. Acestea sunt trăsăturile romanului, diferit de schiță și nuvelă.",
+    "exercises": [
+     "Spune trei trăsături ale romanului.",
+     "Compară romanul cu nuvela.",
+     "Identifică planurile acțiunii în rezumatul din exemplu.",
+     "Prezintă un roman citit, în cinci propoziții.",
+     "Găsește personajele dintr-un fragment de roman din manual."
+    ],
+    "test": [
+     "Ce este romanul?",
+     "Câte planuri poate avea acțiunea unui roman?",
+     "Ce durată poate avea acțiunea?",
+     "Prin ce diferă romanul de schiță?",
+     "Ce planuri are exemplul?"
+    ],
+    "steps": [
+     "Observă întinderea textului și durata acțiunii.",
+     "Numără personajele și planurile.",
+     "Compară cu speciile cunoscute: schița, nuvela.",
+     "Greșeala frecventă: să numești roman orice text lung. Contează complexitatea acțiunii și a personajelor."
+    ],
+    "answers": [
+     "O specie narativă amplă, cu acțiune complexă.",
+     "Mai multe.",
+     "Lungă, chiar ani.",
+     "Romanul este amplu, schița are o singură întâmplare.",
+     "Satul și orașul."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l05": {
+   "ro": {
+    "title": "Balada populară",
+    "theory": "Balada populară este o specie a genului epic, în versuri, creație anonimă, transmisă oral. Prezintă fapte eroice sau dramatice, cu personaje idealizate, pe un fond de elemente fabuloase. Folosește repetiția, enumerația, hiperbola, antiteza. Exemple cunoscute: Miorița, Toma Alimoș.",
+    "sample": "Fragment original în stil popular: Pe-o vale-nflorită, / Lângă-o apă-albită, / Vine un voinic / Cu murgul cel mic, / Murgul mi-l grăiește: / — Stăpâne, te păzește!",
+    "worked": "Versurile sunt scurte, cu rimă împerecheată (înflorită – albită). Calul vorbește: element fabulos. Voinicul este eroul. Diminutivul și apelativul stăpâne sunt tipice stilului popular. Acțiunea este anunțată prin avertismentul calului.",
+    "exercises": [
+     "Găsește elementele fabuloase din exemplu.",
+     "Spune trăsăturile baladei populare.",
+     "Explică rolul animalului năzdrăvan.",
+     "Identifică rima versurilor din exemplu.",
+     "Prezintă oral o baladă populară cunoscută."
+    ],
+    "test": [
+     "Ce fel de creație este balada populară?",
+     "Este balada în proză sau în versuri?",
+     "Cine vorbește în exemplu?",
+     "Ce fel de fapte prezintă balada?",
+     "Numește o baladă populară românească."
+    ],
+    "steps": [
+     "Observă că textul este în versuri și povestește o întâmplare.",
+     "Caută eroul, faptele lui și elementele fabuloase.",
+     "Găsește figurile de stil și mărcile stilului popular.",
+     "Greșeala frecventă: confuzia dintre baladă și doină. Balada povestește, doina exprimă sentimente."
+    ],
+    "answers": [
+     "Anonimă, populară, transmisă oral.",
+     "În versuri.",
+     "Calul, murgul.",
+     "Eroice sau dramatice.",
+     "Miorița."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l06": {
+   "ro": {
+    "title": "Doina și lirica populară",
+    "theory": "Doina este specia cea mai reprezentativă a liricii populare: exprimă direct sentimente (dor, jale, iubire, revoltă, dragoste de natură). Are versuri scurte, de 5–8 silabe, rimă împerecheată, refren, apelative și interjecții. Se clasifică după sentiment: doina de dor, de jale, de haiducie, de înstrăinare.",
+    "sample": "Fragment original în stil popular: Frunzuliță de cireș, / Dorule, de ce mă cerți? / Că mi-e casa departe / Și n-am vești de la frate.",
+    "worked": "Versul de început, frunzuliță de cireș, este formula tipică. Dorul este personificat și apostrofat (Dorule). Sentimentul este dorul de casă și de familie: doină de înstrăinare. Versurile sunt scurte, specifice liricii populare.",
+    "exercises": [
+     "Găsește apelativul din exemplu.",
+     "Spune ce sentiment exprimă exemplul.",
+     "Scrie două versuri în stil popular despre bucurie.",
+     "Compară doina cu balada.",
+     "Găsește diminutivele din exemplu."
+    ],
+    "test": [
+     "Ce exprimă doina?",
+     "Ce fel de versuri are doina?",
+     "Ce sentiment domină exemplul?",
+     "Cum începe adesea o doină?",
+     "Ce figură este: Dorule, de ce mă cerți?"
+    ],
+    "steps": [
+     "Citește textul și întreabă-te: povestește sau exprimă sentimente?",
+     "Dacă exprimă sentimente, caută care este sentimentul dominant.",
+     "Găsește formulele populare, apelativele și versurile scurte.",
+     "Greșeala frecventă: să cauți o acțiune în doină: ea transmite trăiri."
+    ],
+    "answers": [
+     "Sentimente: dor, jale, iubire, revoltă.",
+     "Versuri scurte, de 5–8 silabe.",
+     "Dorul de casă.",
+     "Cu o formulă precum frunzuliță de...",
+     "Personificare și invocație retorică."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l07": {
+   "ro": {
+    "title": "Portretul literar",
+    "theory": "Portretul literar prezintă un personaj prin trăsături fizice și morale, alese astfel încât să sugereze caracterul lui. Detaliile fizice pot exprima interiorul: ochii vii arată inteligență, mâinile aspre arată munca. Portretul poate fi realizat de narator, de alte personaje sau de personajul însuși.",
+    "sample": "Moș Vasile era mărunt și uscat, cu o barbă căruntă ca fumul. Ochii lui mici, dar sprinteni, nu scăpau nimic din ce se petrecea în sat. Mâinile, noduroase ca rădăcinile, povesteau o viață de muncă.",
+    "worked": "Trăsături fizice: mărunt, barbă căruntă, mâini noduroase. Ochii sprinteni sugerează isteția; mâinile noduroase, munca grea. Comparațiile ca fumul, ca rădăcinile fac portretul expresiv. Fizicul sugerează moralul.",
+    "exercises": [
+     "Fă portretul unei persoane dragi, cu două detalii care sugerează caracterul.",
+     "Găsește comparațiile din exemplu.",
+     "Spune ce trăsătură morală sugerează ochii sprinteni.",
+     "Găsește un portret într-un text din manual.",
+     "Scrie un autoportret în trei propoziții."
+    ],
+    "test": [
+     "Ce prezintă portretul literar?",
+     "Ce sugerează mâinile noduroase?",
+     "Cine poate realiza portretul?",
+     "Ce figură este: barbă căruntă ca fumul?",
+     "Ce trăsătură sugerează ochii sprinteni?"
+    ],
+    "steps": [
+     "Notează trăsăturile fizice.",
+     "Întreabă-te ce spune fiecare detaliu despre caracter.",
+     "Formulează trăsătura morală sugerată.",
+     "Greșeala frecventă: să înșiri trăsături fizice fără legătură cu caracterul personajului."
+    ],
+    "answers": [
+     "Trăsăturile fizice și morale ale unui personaj.",
+     "O viață de muncă.",
+     "Naratorul, alte personaje sau personajul însuși.",
+     "Comparație.",
+     "Isteția, atenția."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l08": {
+   "ro": {
+    "title": "Pastelul",
+    "theory": "Pastelul este o poezie lirică în care este descris un tablou din natură, de obicei un anotimp sau un moment al zilei, iar eul liric își exprimă sentimentele față de acesta. Poetul folosește imagini vizuale, auditive, epitete, comparații, personificări. Vasile Alecsandri este cunoscut ca autor de pasteluri.",
+    "sample": "Strofă originală: Pe câmpul de argint al iernii / Răsare luna, rece far, / Iar eu, privind cum cad fulgii, / Simt pacea ca un dar.",
+    "worked": "Este descris un tablou de iarnă (câmpul, luna, fulgii). Eul liric apare (eu, simt). Metafore: câmpul de argint, luna – rece far. Comparație: pacea ca un dar. Sentimentul este liniștea. Așadar, textul are trăsăturile pastelului.",
+    "exercises": [
+     "Găsește tabloul descris în exemplu.",
+     "Identifică mărcile eului liric.",
+     "Scrie o strofă-pastel despre primăvară.",
+     "Găsește metaforele din exemplu.",
+     "Analizează un pastel din manual."
+    ],
+    "test": [
+     "Ce este pastelul?",
+     "Ce descrie de obicei un pastel?",
+     "Ce poet român este cunoscut pentru pasteluri?",
+     "Ce sentiment exprimă exemplul?",
+     "Ce figură este: luna, rece far?"
+    ],
+    "steps": [
+     "Identifică tabloul din natură: anotimp, moment al zilei.",
+     "Găsește imaginile și figurile.",
+     "Caută eul liric și sentimentul lui față de natură.",
+     "Greșeala frecventă: să analizezi pastelul ca pe o descriere nonliterară, fără eul liric și sentimente."
+    ],
+    "answers": [
+     "O poezie lirică ce descrie un tablou din natură.",
+     "Un anotimp sau un moment al zilei.",
+     "Vasile Alecsandri.",
+     "Liniște, pace.",
+     "Metaforă."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l09": {
+   "ro": {
+    "title": "Inversiunea, antiteza și aliterația",
+    "theory": "Inversiunea schimbă ordinea obișnuită a cuvintelor pentru a evidenția un cuvânt: albastrul cer în loc de cerul albastru. Antiteza pune față în față două idei, imagini sau personaje opuse: bogat și sărac, lumină și întuneric. Aliterația repetă aceeași consoană pentru a sugera un sunet: vântul vâjâie, vuiește, vâră frig.",
+    "sample": "Ale codrului adânci taine se ascund. El era bogat în aur, ea bogată în suflet. Sună surd, sec, săgeata pe scut.",
+    "worked": "Ale codrului adânci taine: inversiune (taine adânci ale codrului), evidențiază misterul. Bogat în aur / bogată în suflet: antiteză între bogăția materială și cea sufletească. Repetarea lui s în sună surd, sec, săgeata, scut: aliterație care sugerează șuieratul.",
+    "exercises": [
+     "Găsește inversiunea din exemplu și refă ordinea obișnuită.",
+     "Scrie o antiteză despre zi și noapte.",
+     "Scrie un vers cu aliterație care sugerează ploaia.",
+     "Explică efectul antitezei din exemplu.",
+     "Găsește o inversiune într-o poezie din manual."
+    ],
+    "test": [
+     "Ce este inversiunea?",
+     "Ce este antiteza?",
+     "Ce este aliterația?",
+     "Ce figură este: lumină și întuneric?",
+     "Ce sunet se repetă în: sună surd, sec?"
+    ],
+    "steps": [
+     "Verifică ordinea cuvintelor: dacă este neobișnuită, este inversiune.",
+     "Caută termeni opuși: antiteză.",
+     "Caută consoane repetate care imită un sunet: aliterație.",
+     "Greșeala frecventă: să confunzi antiteza cu antonimele simple. Antiteza este o construcție expresivă de idei opuse."
+    ],
+    "answers": [
+     "Schimbarea ordinii obișnuite a cuvintelor.",
+     "Opunerea a două idei, imagini sau personaje.",
+     "Repetarea unei consoane pentru a sugera un sunet.",
+     "Antiteză.",
+     "S."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l10": {
+   "ro": {
+    "title": "Comedia",
+    "theory": "Comedia este o specie dramatică în care sunt prezentate defecte omenești sau moravuri ridicole, cu scopul de a provoca râsul și de a critica. Comicul poate fi de situație, de limbaj, de caracter sau de nume. I. L. Caragiale este cel mai cunoscut autor român de comedii.",
+    "sample": "Scenă originală: DOMNUL POPESCU (intrând): Am venit cu o veste mare! / DOAMNA POPESCU: Ce s-a întâmplat? / DOMNUL POPESCU (solemn): Mi-am pierdut... ochelarii pe care îi am pe nas!",
+    "worked": "Comicul de situație: personajul își caută ochelarii pe care îi poartă. Solemnitatea anunțului (veste mare) contrastează cu banalitatea problemei: efect comic. Comedia critică distragerea și exagerarea.",
+    "exercises": [
+     "Găsește tipul de comic din exemplu.",
+     "Scrie o scenă scurtă cu comic de limbaj.",
+     "Numește o comedie de I. L. Caragiale.",
+     "Explică rolul indicației scenice (solemn).",
+     "Joacă scena cu un coleg."
+    ],
+    "test": [
+     "Ce este comedia?",
+     "Ce urmărește comedia?",
+     "Ce tipuri de comic există?",
+     "Ce tip de comic apare în exemplu?",
+     "Ce autor român este cunoscut pentru comedii?"
+    ],
+    "steps": [
+     "Caută ce provoacă râsul: o situație, un cuvânt, un defect.",
+     "Numește tipul de comic.",
+     "Spune ce defect sau moravuri critică textul.",
+     "Greșeala frecventă: să crezi că scopul comediei este doar amuzamentul. Ea și critică defecte."
+    ],
+    "answers": [
+     "O specie dramatică ce provoacă râsul și critică defecte.",
+     "Să critice prin râs.",
+     "De situație, de limbaj, de caracter, de nume.",
+     "De situație.",
+     "I. L. Caragiale."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l11": {
+   "ro": {
+    "title": "Textul publicitar și textul de presă",
+    "theory": "Textul publicitar vrea să convingă publicul să cumpere un produs sau să adopte un comportament; folosește sloganuri, imagini, cuvinte emoționale și repetiții. Textul de presă (știrea, reportajul, interviul) informează despre evenimente reale. Un cititor atent deosebește informația de reclamă și verifică sursele.",
+    "sample": "Reclamă: Suc Soare – energie pentru o zi întreagă! Bea Soare și zâmbește! / Știre: Primăria a inaugurat ieri un parc nou de 2 hectare în cartierul Nord.",
+    "worked": "Reclama folosește un slogan scurt, repetiția numelui Soare și o promisiune emoțională (zâmbește). Știrea dă informații verificabile: ce, cine, când, unde, cât. Scopurile sunt diferite: convingere și informare.",
+    "exercises": [
+     "Analizează o reclamă: slogan, imagine, public-țintă.",
+     "Scrie un slogan pentru o campanie de reciclare.",
+     "Transformă reclama din exemplu într-o informație neutră.",
+     "Scrie o știre despre un eveniment din școală.",
+     "Spune de ce trebuie verificată sursa unei știri."
+    ],
+    "test": [
+     "Ce urmărește textul publicitar?",
+     "Ce este un slogan?",
+     "Ce urmărește textul de presă?",
+     "Ce informații dă știrea din exemplu?",
+     "Ce procedeu se repetă în reclamă?"
+    ],
+    "steps": [
+     "Află scopul textului: convinge sau informează?",
+     "Caută procedeele de convingere: slogan, emoție, repetiție.",
+     "Verifică informațiile și sursa.",
+     "Greșeala frecventă: să iei promisiunile unei reclame drept informații sigure."
+    ],
+    "answers": [
+     "Să convingă publicul.",
+     "O formulă scurtă, ușor de ținut minte.",
+     "Să informeze despre evenimente reale.",
+     "Ce, cine, când, unde și cât.",
+     "Repetiția numelui Soare."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l12": {
+   "ro": {
+    "title": "Textul argumentativ",
+    "theory": "Textul argumentativ susține o opinie (teza) prin argumente și exemple, pentru a convinge cititorul. Structura: ipoteza (formularea opiniei), argumentele (cel puțin două, cu exemple), concluzia (reformularea opiniei). Folosim conectori: în primul rând, de asemenea, pe de altă parte, prin urmare, în concluzie.",
+    "sample": "Consider că lectura este importantă pentru tineri. În primul rând, citind, ne îmbogățim vocabularul. De asemenea, cărțile ne învață să înțelegem oameni diferiți de noi, cum se întâmplă când citim despre copiii din alte epoci. Prin urmare, lectura ne ajută să creștem.",
+    "worked": "Ipoteza: lectura este importantă. Argumentul 1: vocabularul. Argumentul 2: empatia, cu exemplu. Concluzia: Prin urmare... Conectorii leagă logic ideile.",
+    "exercises": [
+     "Scrie un text argumentativ despre utilizarea telefonului la școală.",
+     "Găsește conectorii din exemplu.",
+     "Adaugă un al treilea argument la exemplu.",
+     "Scrie un contraargument și răspunde la el.",
+     "Transformă o opinie fără argumente într-una argumentată."
+    ],
+    "test": [
+     "Ce este teza?",
+     "Câte argumente sunt necesare?",
+     "Ce rol au conectorii?",
+     "Ce conector introduce concluzia în exemplu?",
+     "Ce trebuie să însoțească un argument?"
+    ],
+    "steps": [
+     "Formulează clar opinia.",
+     "Scrie argumentele, fiecare cu un exemplu, legate prin conectori.",
+     "Încheie reluând opinia într-o concluzie.",
+     "Greșeala frecventă: argumentele care repetă opinia în alte cuvinte, fără motiv nou."
+    ],
+    "answers": [
+     "Opinia susținută în text.",
+     "Cel puțin două.",
+     "Leagă logic ideile.",
+     "Prin urmare.",
+     "Un exemplu."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l13": {
+   "ro": {
+    "title": "Substantivul: funcții sintactice",
+    "theory": "Substantivul poate avea mai multe funcții, după caz și rol. În nominativ: subiect (Copilul citește), nume predicativ (El este copil). În acuzativ: complement direct (Văd copilul), circumstanțial (Merg la școală). În genitiv: atribut (cartea copilului). În dativ: complement indirect (Dau copilului). În vocativ nu are funcție sintactică.",
+    "sample": "Mihai, fratele Anei este medic. Bunicul i-a dăruit nepotului o carte despre stele.",
+    "worked": "Mihai (vocativ, fără funcție). Fratele: subiect. Anei: atribut în genitiv. Medic: nume predicativ. Bunicul: subiect. Nepotului: complement indirect (dativ). O carte: complement direct. Despre stele: atribut prepozițional.",
+    "exercises": [
+     "Analizează substantivele din exemplu (caz și funcție).",
+     "Scrie o propoziție în care un substantiv este nume predicativ.",
+     "Scrie o propoziție cu un substantiv în dativ.",
+     "Găsește funcția: casa bunicilor.",
+     "Spune de ce vocativul nu are funcție sintactică."
+    ],
+    "test": [
+     "Ce funcție are substantivul în genitiv de obicei?",
+     "Ce funcție are medic în: El este medic?",
+     "Ce funcție are nepotului?",
+     "Are vocativul funcție sintactică?",
+     "Ce funcție are cartea în: Citesc cartea?"
+    ],
+    "steps": [
+     "Găsește cazul substantivului cu întrebarea potrivită.",
+     "Vezi de ce cuvânt depinde.",
+     "Stabilește funcția: subiect, nume predicativ, atribut, complement.",
+     "Greșeala frecventă: să crezi că un caz are o singură funcție. Nominativul poate fi subiect sau nume predicativ."
+    ],
+    "answers": [
+     "Atribut.",
+     "Nume predicativ.",
+     "Complement indirect.",
+     "Nu.",
+     "Complement direct."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l14": {
+   "ro": {
+    "title": "Prepoziția și cazul cerut",
+    "theory": "Prepozițiile cer un anumit caz. Cele mai multe cer acuzativul: cu, de, la, pe, în, pentru, despre. Unele cer genitivul: asupra, contra, deasupra, împotriva, în fața, în jurul. Altele cer dativul: datorită, grație, mulțumită, conform, potrivit. Datorită se folosește doar pentru cauze pozitive.",
+    "sample": "Am reușit datorită ajutorului tău. Am întârziat din cauza ploii. Echipa a jucat împotriva campionilor.",
+    "worked": "Datorită ajutorului: prepoziție cu dativ, cauză pozitivă. Din cauza ploii: locuțiune prepozițională cu genitiv, potrivită pentru o cauză negativă. Împotriva campionilor: prepoziție cu genitiv.",
+    "exercises": [
+     "Alege: Am căzut (datorită / din cauza) gheții.",
+     "Scrie o propoziție cu prepoziția deasupra.",
+     "Scrie o propoziție cu mulțumită.",
+     "Precizează cazul: conform regulamentului.",
+     "Corectează: Am luat notă mică datorită lenei."
+    ],
+    "test": [
+     "Ce caz cer cele mai multe prepoziții?",
+     "Ce caz cere prepoziția asupra?",
+     "Ce caz cere datorită?",
+     "Când folosim datorită?",
+     "Ce caz cere împotriva?"
+    ],
+    "steps": [
+     "Găsește prepoziția din propoziție.",
+     "Amintește-ți ce caz cere: acuzativ, genitiv sau dativ.",
+     "Pentru cauze negative, folosește din cauza, nu datorită.",
+     "Greșeala frecventă: folosirea lui datorită pentru o cauză negativă: datorită ploii am întârziat."
+    ],
+    "answers": [
+     "Acuzativul.",
+     "Genitivul.",
+     "Dativul.",
+     "Pentru cauze pozitive.",
+     "Genitivul."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l15": {
+   "ro": {
+    "title": "Verbele predicative și nepredicative",
+    "theory": "Verbele predicative pot forma singure predicatul verbal: Copilul doarme. Verbele nepredicative nu pot forma singure predicatul: auxiliarele (a avea, a fi, a vrea în formarea timpurilor: am citit, voi citi) și copulativele (a fi, a deveni, a ajunge, a rămâne, a părea, a însemna) care, cu un nume predicativ, formează predicatul nominal.",
+    "sample": "Am citit cartea. Mihai a devenit medic. Ei sunt în parc. Planul pare bun.",
+    "worked": "Am citit: am este auxiliar (formează perfectul compus). A devenit medic: a deveni copulativ, predicat nominal. Sunt în parc: a fi predicativ (a se afla). Pare bun: a părea copulativ, predicat nominal.",
+    "exercises": [
+     "Găsește verbele auxiliare din exemplu.",
+     "Deosebește: Ea este profesoară. / Ea este la școală.",
+     "Scrie o propoziție cu verbul a rămâne copulativ.",
+     "Precizează felul verbului a avea: Am o carte. / Am citit.",
+     "Găsește verbele copulative dintr-un text."
+    ],
+    "test": [
+     "Ce sunt verbele predicative?",
+     "Ce rol au verbele auxiliare?",
+     "Ce verbe copulative cunoști?",
+     "Ce fel de verb este a fi în: Ei sunt în parc?",
+     "Ce fel de verb este a fi în: Ea este profesoară?"
+    ],
+    "steps": [
+     "Vezi dacă verbul are singur sens deplin: atunci este predicativ.",
+     "Dacă ajută la formarea unui timp, este auxiliar.",
+     "Dacă este urmat de un nume predicativ (cum este? ce este?), este copulativ.",
+     "Greșeala frecventă: să crezi că a fi este mereu copulativ. Când înseamnă a exista sau a se afla, este predicativ."
+    ],
+    "answers": [
+     "Verbele care formează singure predicatul verbal.",
+     "Ajută la formarea timpurilor și modurilor.",
+     "A fi, a deveni, a ajunge, a rămâne, a părea, a însemna.",
+     "Predicativ.",
+     "Copulativ."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l16": {
+   "ro": {
+    "title": "Diatezele verbului: activă, pasivă, reflexivă",
+    "theory": "Diateza arată raportul dintre acțiune și subiect. La diateza activă, subiectul face acțiunea: Elevul citește cartea. La diateza pasivă, subiectul suportă acțiunea făcută de altcineva (verbul a fi + participiu): Cartea este citită de elev. La diateza reflexivă, verbul are pronume reflexiv: Copilul se spală.",
+    "sample": "Pictorul a terminat tabloul. Tabloul a fost terminat de pictor. Pictorul se pregătește de expoziție.",
+    "worked": "A terminat: diateză activă (pictorul face acțiunea). A fost terminat de pictor: diateză pasivă (tabloul suportă acțiunea; pictorul este complement de agent). Se pregătește: diateză reflexivă, cu pronumele se.",
+    "exercises": [
+     "Trece la diateza pasivă: Vântul a rupt crengile.",
+     "Trece la diateza activă: Scrisoarea a fost trimisă de Ana.",
+     "Precizează diateza: Ne pregătim de examen.",
+     "Scrie o propoziție la diateza pasivă.",
+     "Găsește verbele reflexive dintr-un text."
+    ],
+    "test": [
+     "Ce arată diateza?",
+     "Cum se formează diateza pasivă?",
+     "Ce diateză are: Copilul se spală?",
+     "Ce diateză are: Cartea este citită?",
+     "La ce diateză subiectul face acțiunea?"
+    ],
+    "steps": [
+     "Întreabă: subiectul face acțiunea sau o suportă?",
+     "Dacă o suportă și ai a fi + participiu, diateza este pasivă.",
+     "Dacă verbul are pronume reflexiv, diateza este reflexivă.",
+     "Greșeala frecventă: să confunzi predicatul nominal cu diateza pasivă. Ușa este deschisă (stare) poate fi predicat nominal; Ușa este deschisă de portar este pasivă."
+    ],
+    "answers": [
+     "Raportul dintre acțiune și subiect.",
+     "Cu a fi + participiul verbului.",
+     "Reflexivă.",
+     "Pasivă.",
+     "Activă."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l17": {
+   "ro": {
+    "title": "Complementul de agent",
+    "theory": "Complementul de agent apare lângă un verb la diateza pasivă și arată cine face, de fapt, acțiunea. Se exprimă prin substantiv sau pronume precedat de prepoziția de (sau de către) și răspunde la întrebarea de cine? de către cine?",
+    "sample": "Poezia a fost recitată de Ioana. Scrisoarea a fost scrisă de mine. Parcul este îngrijit de către voluntari.",
+    "worked": "De Ioana, de mine, de către voluntari sunt complemente de agent: ei fac acțiunea, deși subiectele gramaticale sunt poezia, scrisoarea, parcul. Verbele sunt la diateza pasivă.",
+    "exercises": [
+     "Găsește complementele de agent din exemplu.",
+     "Trece la pasiv și găsește agentul: Vântul a doborât copacul.",
+     "Trece la activ: Tortul a fost făcut de bunica.",
+     "Scrie o propoziție cu complement de agent exprimat prin pronume.",
+     "Pune întrebarea pentru: de către profesor."
+    ],
+    "test": [
+     "Unde apare complementul de agent?",
+     "Ce arată el?",
+     "Prin ce prepoziție este introdus?",
+     "Ce întrebare are?",
+     "Ce funcție are de Ioana?"
+    ],
+    "steps": [
+     "Verifică dacă verbul este la diateza pasivă.",
+     "Întreabă: de cine? de către cine?",
+     "Răspunsul este complementul de agent.",
+     "Greșeala frecventă: să cauți agentul la diateza activă. El apare doar la pasiv."
+    ],
+    "answers": [
+     "Lângă un verb la diateza pasivă.",
+     "Cine face acțiunea.",
+     "De sau de către.",
+     "De cine? de către cine?",
+     "Complement de agent."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l18": {
+   "ro": {
+    "title": "Pronumele relativ și interogativ",
+    "theory": "Pronumele interogativ ajută la formularea unei întrebări: cine?, ce?, care?, cât?, al câtelea?. Pronumele relativ are aceleași forme, dar leagă o propoziție secundară de alt cuvânt, fără să întrebe: Cartea pe care o citesc e nouă. Știu cine a venit. Cine și care pot fi și adjective interogative sau relative.",
+    "sample": "Cine a câștigat concursul? Elevul care a câștigat este din clasa noastră. Nu știu ce s-a întâmplat.",
+    "worked": "Cine?: pronume interogativ (întrebare directă). Care a câștigat: pronume relativ, leagă propoziția de substantivul elevul. Ce s-a întâmplat: pronume relativ într-o întrebare indirectă, fără semnul întrebării.",
+    "exercises": [
+     "Găsește pronumele interogative din exemplu.",
+     "Găsește pronumele relative din exemplu.",
+     "Scrie o frază cu pronumele relativ care.",
+     "Transformă întrebarea Cine vine? în întrebare indirectă.",
+     "Scrie corect: Cartea pe (care / care o) citesc."
+    ],
+    "test": [
+     "Ce face pronumele interogativ?",
+     "Ce face pronumele relativ?",
+     "Ce fel de pronume este care în: Elevul care a câștigat?",
+     "Ce semn urmează după pronumele interogativ?",
+     "Ce fel de pronume este cine în: Știu cine a venit?"
+    ],
+    "steps": [
+     "Vezi dacă propoziția se termină cu semnul întrebării: pronumele este interogativ.",
+     "Dacă pronumele leagă o propoziție secundară, este relativ.",
+     "Verifică dacă stă lângă un substantiv: atunci este adjectiv.",
+     "Greșeala frecventă: omiterea dublării: Cartea pe care am citit. Corect: Cartea pe care am citit-o."
+    ],
+    "answers": [
+     "Ajută la formularea unei întrebări.",
+     "Leagă o propoziție secundară de alt cuvânt.",
+     "Relativ.",
+     "Semnul întrebării.",
+     "Relativ."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l19": {
+   "ro": {
+    "title": "Pronumele nehotărât și negativ",
+    "theory": "Pronumele nehotărât arată persoane sau lucruri neprecizate: cineva, ceva, oricine, fiecare, unii, alții, mulți, toți. Pronumele negativ neagă existența: nimeni, nimic, niciunul, niciuna. În română, propoziția cu pronume negativ are și verbul negativ: Nimeni nu a venit.",
+    "sample": "Cineva a bătut la ușă, dar nimeni nu a deschis. Fiecare elev are un rol; unii cântă, alții dansează. Niciunul nu a lipsit.",
+    "worked": "Cineva, unii, alții: pronume nehotărâte. Fiecare elev: adjectiv nehotărât (lângă elev). Nimeni, niciunul: pronume negative, cu verbul la negativ (nu a deschis, nu a lipsit).",
+    "exercises": [
+     "Găsește pronumele nehotărâte din exemplu.",
+     "Găsește pronumele negative din exemplu.",
+     "Scrie o propoziție cu nimic.",
+     "Scrie corect: (niciun / nici un) elev.",
+     "Scrie o propoziție cu adjectivul nehotărât fiecare."
+    ],
+    "test": [
+     "Ce arată pronumele nehotărât?",
+     "Ce arată pronumele negativ?",
+     "Ce fel de pronume este nimeni?",
+     "Ce fel de cuvânt este fiecare în: fiecare elev?",
+     "Cum este verbul lângă un pronume negativ?"
+    ],
+    "steps": [
+     "Vezi dacă pronumele arată ceva neprecizat (nehotărât) sau neagă (negativ).",
+     "Verifică dacă stă lângă un substantiv: adjectiv.",
+     "La pronumele negativ, verifică să existe negația verbului.",
+     "Greșeala frecventă: scrierea nici un pentru pronumele și adjectivul negativ. Conform DOOM 3, se scrie niciun, niciunul."
+    ],
+    "answers": [
+     "Persoane sau lucruri neprecizate.",
+     "Neagă existența.",
+     "Negativ.",
+     "Adjectiv nehotărât.",
+     "Tot la negativ."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l20": {
+   "ro": {
+    "title": "Locuțiunile",
+    "theory": "Locuțiunea este un grup de cuvinte cu un singur înțeles, care se comportă ca o singură parte de vorbire. Locuțiuni verbale: a-și aduce aminte (a-și aminti), a lua parte (a participa). Locuțiuni adverbiale: din când în când, pe neașteptate. Locuțiuni prepoziționale: în fața, din cauza. Locuțiuni conjuncționale: pentru că, din moment ce.",
+    "sample": "Mi-am adus aminte de vacanță din când în când. Am întârziat din cauza ploii, pentru că nu aveam umbrelă.",
+    "worked": "Mi-am adus aminte: locuțiune verbală (mi-am amintit). Din când în când: locuțiune adverbială (uneori). Din cauza: locuțiune prepozițională. Pentru că: locuțiune conjuncțională. Fiecare grup are un singur sens.",
+    "exercises": [
+     "Găsește locuțiunile din exemplu și felul lor.",
+     "Înlocuiește cu un verb: a lua parte.",
+     "Scrie o propoziție cu locuțiunea adverbială pe dinafară.",
+     "Scrie o frază cu locuțiunea conjuncțională pentru că.",
+     "Explică sensul: a băga de seamă."
+    ],
+    "test": [
+     "Ce este o locuțiune?",
+     "Ce fel de locuțiune este a-și aduce aminte?",
+     "Ce fel de locuțiune este din cauza?",
+     "Ce înseamnă a lua parte?",
+     "Ce fel de locuțiune este pentru că?"
+    ],
+    "steps": [
+     "Găsește grupul de cuvinte cu un singur sens.",
+     "Încearcă să-l înlocuiești cu un singur cuvânt: amintesc, uneori.",
+     "Spune ce parte de vorbire înlocuiește.",
+     "Greșeala frecventă: analizarea separată a cuvintelor din locuțiune. Ea se analizează ca un tot."
+    ],
+    "answers": [
+     "Un grup de cuvinte cu un singur înțeles.",
+     "Verbală.",
+     "Prepozițională.",
+     "A participa.",
+     "Conjuncțională."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l21": {
+   "ro": {
+    "title": "Complementele circumstanțiale de loc, timp și mod",
+    "theory": "Complementul circumstanțial arată împrejurarea acțiunii. Cel de loc răspunde la unde? de unde? până unde? (în parc, acasă). Cel de timp răspunde la când? de când? până când? (ieri, la ora opt). Cel de mod răspunde la cum? (repede, cu atenție). Se exprimă prin adverbe, substantive cu prepoziție sau locuțiuni.",
+    "sample": "Ieri dimineață, am alergat ușor în jurul lacului. De la școală până acasă am mers pe jos.",
+    "worked": "Ieri dimineață: complement circumstanțial de timp (când?). Ușor: de mod (cum?). În jurul lacului: de loc (unde?). De la școală, până acasă: de loc. Pe jos: de mod (cum am mers?).",
+    "exercises": [
+     "Găsește complementele circumstanțiale din exemplu.",
+     "Adaugă un complement de timp: Vom pleca.",
+     "Scrie o propoziție cu un complement de mod exprimat prin locuțiune.",
+     "Pune întrebarea pentru: de dimineață până seara.",
+     "Precizează felul: cu bucurie."
+    ],
+    "test": [
+     "La ce întrebare răspunde complementul de loc?",
+     "La ce întrebare răspunde complementul de timp?",
+     "Ce fel de complement este ușor în exemplu?",
+     "Ce fel de complement este acasă?",
+     "Prin ce se poate exprima complementul circumstanțial?"
+    ],
+    "steps": [
+     "Găsește predicatul propoziției.",
+     "Întreabă-l: unde?, când?, cum?",
+     "Răspunsul este complementul circumstanțial de loc, timp sau mod.",
+     "Greșeala frecventă: confuzia cu atributul: casa din sat (atribut, care casă?) / locuiesc în sat (complement de loc)."
+    ],
+    "answers": [
+     "Unde? de unde? până unde?",
+     "Când? de când? până când?",
+     "De mod.",
+     "De loc.",
+     "Adverb, substantiv cu prepoziție, locuțiune."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l22": {
+   "ro": {
+    "title": "Virgula în propoziție și în frază",
+    "theory": "Punem virgulă: între termenii unei enumerații; după vocativ și interjecție; înainte de conjuncțiile adversative dar, însă, ci; pentru a izola apoziția și construcțiile explicative; după o subordonată așezată înaintea regentei (Când am ajuns, plecaseră.). NU punem virgulă între subiect și predicat, între predicat și complementul direct sau înaintea completivei directe.",
+    "sample": "Ana, colega mea, a adus mere, pere și struguri. Când a sunat clopoțelul, elevii au ieșit. Am vrut să vin, dar am întârziat. Știu că ai dreptate.",
+    "worked": "Ana, colega mea: apoziție izolată. Mere, pere și struguri: enumerație. Virgula după clopoțelul desparte subordonata așezată înaintea regentei. Virgula dinaintea lui dar marchează conjuncția adversativă. Știu că ai dreptate: fără virgulă înaintea completivei directe.",
+    "exercises": [
+     "Pune virgulele: Dacă plouă rămânem acasă.",
+     "Corectează: Elevii clasei noastre, au câștigat.",
+     "Pune virgulele: Vai ce frumos e!",
+     "Pune virgulele: Bucureștiul capitala țării este un oraș mare.",
+     "Corectează: Cred, că vom reuși."
+    ],
+    "test": [
+     "Punem virgulă între subiect și predicat?",
+     "Unde punem virgula când subordonata stă înaintea regentei?",
+     "Ce conjuncții sunt precedate de virgulă?",
+     "Cum izolăm apoziția?",
+     "Punem virgulă înaintea completivei directe?"
+    ],
+    "steps": [
+     "Citește fraza și găsește enumerațiile, vocativele, apozițiile.",
+     "Verifică ordinea propozițiilor: subordonata pusă înainte se desparte prin virgulă.",
+     "Nu pune virgulă între subiect și predicat sau înaintea completivei directe.",
+     "Greșeala frecventă: virgula după un subiect lung: Elevii clasei noastre, au câștigat."
+    ],
+    "answers": [
+     "Nu.",
+     "După subordonată, înaintea regentei.",
+     "Dar, însă, ci.",
+     "Între virgule.",
+     "Nu."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l23": {
+   "ro": {
+    "title": "Coordonarea și subordonarea în frază",
+    "theory": "În frază, propozițiile se leagă în două feluri. Prin coordonare, propozițiile sunt egale, nu depind una de alta: legate prin juxtapunere (virgulă) sau prin conjuncții coordonatoare (și, dar, sau, ci, deci). Prin subordonare, o propoziție depinde de alta: legată prin conjuncții subordonatoare (că, să, dacă, deși, pentru că) sau prin pronume și adverbe relative (care, cine, unde, când).",
+    "sample": "Ploua, dar copiii s-au jucat afară. Am aflat că echipa a câștigat. Locul unde ne-am întâlnit era liniștit.",
+    "worked": "Prima frază: două propoziții coordonate prin dar. A doua: am aflat (principală) + că echipa a câștigat (secundară, prin subordonare, cu conjuncția că). A treia: unde ne-am întâlnit este subordonată introdusă prin adverbul relativ unde.",
+    "exercises": [
+     "Spune cum sunt legate propozițiile: Am învățat și am luat notă mare.",
+     "Scrie o frază cu două propoziții coordonate prin sau.",
+     "Scrie o frază cu o propoziție subordonată introdusă prin deși.",
+     "Desparte în propoziții: Cine se scoală de dimineață departe ajunge.",
+     "Găsește elementele de relație din exemplu."
+    ],
+    "test": [
+     "Ce este coordonarea?",
+     "Ce este subordonarea?",
+     "Ce conjuncții coordonatoare cunoști?",
+     "Ce relație este între propozițiile legate prin că?",
+     "Ce fel de cuvânt este unde în exemplu?"
+    ],
+    "steps": [
+     "Delimitează propozițiile după predicate.",
+     "Caută cuvântul de legătură dintre ele.",
+     "Dacă propozițiile sunt egale, este coordonare; dacă una depinde de alta, este subordonare.",
+     "Greșeala frecventă: să crezi că virgula arată mereu coordonarea. Uneori o subordonată este și ea despărțită prin virgulă."
+    ],
+    "answers": [
+     "Legarea unor propoziții egale.",
+     "Legarea în care o propoziție depinde de alta.",
+     "Și, dar, sau, ci, deci.",
+     "Subordonare.",
+     "Adverb relativ."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l24": {
+   "ro": {
+    "title": "Propoziția subordonată atributivă",
+    "theory": "Propoziția atributivă îndeplinește în frază rolul unui atribut: determină un substantiv sau un pronume din propoziția regentă. Este introdusă de obicei prin pronume relative (care, ce, cine) sau adverbe relative (unde, când, cum) și răspunde la întrebările care? ce fel de?",
+    "sample": "Cartea pe care mi-ai dat-o este minunată. Îmi amintesc ziua când am primit-o. Am vizitat orașul unde s-a născut bunicul.",
+    "worked": "Pe care mi-ai dat-o determină substantivul cartea (care carte?): atributivă. Când am primit-o determină ziua (care zi?): atributivă. Unde s-a născut bunicul determină orașul: atributivă.",
+    "exercises": [
+     "Găsește propozițiile atributive din exemplu.",
+     "Transformă atributul în propoziție atributivă: elevul silitor.",
+     "Scrie o frază cu o atributivă introdusă prin unde.",
+     "Spune ce substantiv determină atributiva din a doua frază.",
+     "Pune virgulele: Prietenul meu care locuiește la Cluj vine mâine."
+    ],
+    "test": [
+     "Ce rol are propoziția atributivă?",
+     "Ce determină atributiva?",
+     "Prin ce este introdusă?",
+     "Ce întrebări are atributiva?",
+     "Ce determină propoziția pe care mi-ai dat-o?"
+    ],
+    "steps": [
+     "Găsește propoziția secundară.",
+     "Vezi ce cuvânt determină: dacă este un substantiv sau pronume, poate fi atributivă.",
+     "Pune întrebarea care? ce fel de? de la substantiv la propoziție.",
+     "Greșeala frecventă: confuzia cu circumstanțiala: Unde locuiești? Orașul unde locuiești (atributivă) / Merg unde locuiești (circumstanțială de loc)."
+    ],
+    "answers": [
+     "Rolul unui atribut în frază.",
+     "Un substantiv sau un pronume.",
+     "Prin pronume sau adverbe relative.",
+     "Care? ce fel de?",
+     "Substantivul cartea."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l25": {
+   "ro": {
+    "title": "Propoziția subordonată completivă directă",
+    "theory": "Propoziția completivă directă îndeplinește în frază rolul unui complement direct: determină un verb din regentă și răspunde la întrebările pe cine? ce? Este introdusă prin conjuncții (că, să, dacă) sau prin pronume și adverbe relative (cine, ce, unde, cum).",
+    "sample": "Știu că ai muncit mult. Vreau să citesc o carte nouă. Nu-mi amintesc unde am pus cheile.",
+    "worked": "Ce știu? că ai muncit mult: completivă directă introdusă prin că. Ce vreau? să citesc o carte nouă: completivă directă prin să. Ce nu-mi amintesc? unde am pus cheile: completivă directă prin adverbul relativ unde.",
+    "exercises": [
+     "Găsește completivele directe din exemplu.",
+     "Transformă complementul direct în propoziție: Aștept venirea ta.",
+     "Scrie o frază cu o completivă directă introdusă prin dacă.",
+     "Pune întrebarea de la regentă: Am auzit cine a câștigat.",
+     "Desparte fraza: Mama a spus că plecăm devreme."
+    ],
+    "test": [
+     "Ce rol are completiva directă?",
+     "Ce întrebări are?",
+     "Prin ce cuvinte este introdusă?",
+     "Ce determină completiva directă?",
+     "Ce propoziție este: să citesc o carte nouă?"
+    ],
+    "steps": [
+     "Găsește verbul din propoziția regentă.",
+     "Întreabă de la el: pe cine? ce?",
+     "Dacă răspunsul este o propoziție, aceasta este completivă directă.",
+     "Greșeala frecventă: virgula pusă înaintea completivei directe: Știu, că ai muncit. Corect: Știu că ai muncit."
+    ],
+    "answers": [
+     "Rolul unui complement direct.",
+     "Pe cine? ce?",
+     "Că, să, dacă, cine, ce, unde, cum.",
+     "Un verb din regentă.",
+     "Completivă directă."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l26": {
+   "ro": {
+    "title": "Propoziția subordonată completivă indirectă",
+    "theory": "Propoziția completivă indirectă îndeplinește rolul unui complement indirect: determină un verb din regentă și răspunde la întrebări precum cui? despre ce? la ce? de ce? cu cine? Este introdusă prin conjuncții (că, să, dacă) sau prin pronume relative, adesea cu prepoziție (la ce, despre cine).",
+    "sample": "Mă gândesc la ce mi-ai spus. Îmi amintesc de cine m-a ajutat. Se teme să nu întârzie.",
+    "worked": "La ce mi-ai spus: la ce mă gândesc? completivă indirectă. De cine m-a ajutat: de cine îmi amintesc? completivă indirectă. Să nu întârzie: de ce se teme? completivă indirectă introdusă prin să.",
+    "exercises": [
+     "Găsește completivele indirecte din exemplu.",
+     "Transformă complementul indirect în propoziție: Mă bucur de reușita ta.",
+     "Scrie o frază cu o completivă indirectă introdusă prin despre ce.",
+     "Deosebește: Știu că vii. / Mă bucur că vii.",
+     "Pune întrebarea de la regentă: Ne-am gândit la ce vom face."
+    ],
+    "test": [
+     "Ce rol are completiva indirectă?",
+     "Ce întrebări are?",
+     "Ce propoziție este: la ce mi-ai spus?",
+     "Prin ce cuvinte este introdusă?",
+     "Ce fel de completivă este: că vii, în Mă bucur că vii?"
+    ],
+    "steps": [
+     "Găsește verbul din regentă.",
+     "Pune întrebarea complementului indirect: de ce? la ce? despre ce? cui?",
+     "Dacă răspunsul este o propoziție, este completivă indirectă.",
+     "Greșeala frecventă: confuzia cu completiva directă. Știu că vii (ce știu?) este directă; Mă bucur că vii (de ce mă bucur?) este indirectă."
+    ],
+    "answers": [
+     "Rolul unui complement indirect.",
+     "Cui? despre ce? la ce? de ce? cu cine?",
+     "Completivă indirectă.",
+     "Că, să, dacă, pronume relative cu prepoziție.",
+     "Indirectă."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l27": {
+   "ro": {
+    "title": "Neologismele, arhaismele și regionalismele",
+    "theory": "Neologismele sunt cuvinte noi, împrumutate recent din alte limbi (computer, a accesa, eficient). Arhaismele sunt cuvinte vechi, ieșite din uz, care denumesc realități dispărute (logofăt, ban, ișlic). Regionalismele sunt cuvinte folosite doar într-o anumită zonă (păpușoi = porumb, în Moldova; cucuruz, în Banat și Transilvania).",
+    "sample": "În vechime, logofătul scria hrisoave domnești. Azi, funcționarii accesează documente pe computer. Bunica din Moldova pune păpușoi în coș.",
+    "worked": "Logofăt, hrisoave: arhaisme, denumesc funcții și acte vechi. A accesa, computer: neologisme. Păpușoi: regionalism moldovenesc pentru porumb. Fiecare tip de cuvânt ne spune ceva despre epocă sau loc.",
+    "exercises": [
+     "Găsește în exemplu câte un neologism, un arhaism și un regionalism.",
+     "Scrie trei neologisme legate de tehnologie.",
+     "Caută sensul arhaismului paharnic.",
+     "Găsește un regionalism din zona ta.",
+     "Înlocuiește regionalismul cu un cuvânt literar: păpușoi."
+    ],
+    "test": [
+     "Ce sunt neologismele?",
+     "Ce sunt arhaismele?",
+     "Ce sunt regionalismele?",
+     "Ce fel de cuvânt este logofăt?",
+     "Ce înseamnă păpușoi?"
+    ],
+    "steps": [
+     "Întreabă-te dacă cuvântul este nou, vechi sau specific unei zone.",
+     "Verifică în dicționar sensul și originea.",
+     "Folosește în texte literare arhaismele și regionalismele doar cu rost expresiv.",
+     "Greșeala frecventă: folosirea greșită a neologismelor, cu sens schimbat: a excela în loc de a exista."
+    ],
+    "answers": [
+     "Cuvinte noi, împrumutate recent.",
+     "Cuvinte vechi, ieșite din uz.",
+     "Cuvinte folosite doar într-o anumită zonă.",
+     "Arhaism.",
+     "Porumb."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l28": {
+   "ro": {
+    "title": "Cuvântul polisemantic și sensurile lui",
+    "theory": "Un cuvânt polisemantic are mai multe sensuri înrudite: sensul de bază, sensuri secundare și sensuri figurate. De exemplu, a deschide: a deschide ușa (de bază), a deschide o ședință (a începe), a deschide ochii cuiva (figurat, a-l lămuri). Polisemia se deosebește de omonimie, unde sensurile nu au legătură.",
+    "sample": "Rădăcina copacului e adâncă. Rădăcina cuvântului e partea comună. Rădăcina răului este lenea.",
+    "worked": "Rădăcina copacului: sens de bază. Rădăcina cuvântului: sens secundar, legat de ideea de bază, origine. Rădăcina răului: sens figurat, cauza. Toate sensurile sunt înrudite: cuvânt polisemantic.",
+    "exercises": [
+     "Scrie trei propoziții cu sensuri diferite ale cuvântului a prinde.",
+     "Explică sensul figurat al expresiei a deschide ochii cuiva.",
+     "Deosebește polisemia de omonimie printr-un exemplu.",
+     "Găsește sensurile cuvântului ochi în dicționar.",
+     "Spune ce sens are cuvântul rădăcină în a treia propoziție."
+    ],
+    "test": [
+     "Ce este un cuvânt polisemantic?",
+     "Ce sens are rădăcina în: rădăcina răului?",
+     "Prin ce diferă polisemia de omonimie?",
+     "Ce sens are a deschide o ședință?",
+     "Ce sens este primul în dicționar, de obicei?"
+    ],
+    "steps": [
+     "Găsește sensul de bază al cuvântului.",
+     "Compară sensul din context cu cel de bază.",
+     "Dacă sensurile sunt înrudite, cuvântul este polisemantic.",
+     "Greșeala frecventă: să crezi că sensurile figurate sunt cuvinte diferite. Ele țin de același cuvânt."
+    ],
+    "answers": [
+     "Un cuvânt cu mai multe sensuri înrudite.",
+     "Figurat: cauza.",
+     "La omonimie sensurile nu au legătură între ele.",
+     "A începe ședința.",
+     "Sensul de bază."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l29": {
+   "ro": {
+    "title": "Paronimele și pleonasmul",
+    "theory": "Paronimele sunt cuvinte cu formă asemănătoare și sens diferit, care se confundă ușor: original (autentic) – originar (care provine de undeva), a emigra (a pleca din țară) – a imigra (a veni în țară), familiar – familial. Pleonasmul este repetarea inutilă a unei idei: a urca sus, a coborî jos, mai preferabil.",
+    "sample": "Bunicul este originar din Maramureș, iar tabloul din casa lui este original. Corect: Am urcat pe deal. Greșit: Am urcat sus pe deal.",
+    "worked": "Originar arată proveniența (din Maramureș). Original înseamnă autentic, nu copie. A urca sus este pleonasm, pentru că a urca înseamnă deja a merge în sus. Corectarea elimină cuvântul inutil.",
+    "exercises": [
+     "Folosește corect în propoziții: familiar și familial.",
+     "Corectează pleonasmul: a reveni înapoi.",
+     "Explică diferența dintre a emigra și a imigra.",
+     "Găsește pleonasmul: Fiecare zi este o nouă zi, iar eu revin din nou.",
+     "Alege: Este o lucrare (originală / originară)."
+    ],
+    "test": [
+     "Ce sunt paronimele?",
+     "Ce este pleonasmul?",
+     "Ce înseamnă originar?",
+     "Corectează: a coborî jos.",
+     "Ce înseamnă a imigra?"
+    ],
+    "steps": [
+     "Când două cuvinte seamănă, verifică sensul fiecăruia în dicționar.",
+     "Alege cuvântul potrivit pentru context.",
+     "Pentru pleonasm, întreabă-te dacă un cuvânt repetă ideea altuia și elimină-l.",
+     "Greșeala frecventă: expresiile pleonastice folosite des: a avansa înainte, mai preferabil, prima premieră."
+    ],
+    "answers": [
+     "Cuvinte cu formă asemănătoare și sens diferit.",
+     "Repetarea inutilă a unei idei.",
+     "Care provine dintr-un anumit loc.",
+     "A coborî.",
+     "A veni într-o țară pentru a locui acolo."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l30": {
+   "ro": {
+    "title": "Recenzia unei cărți",
+    "theory": "Recenzia prezintă pe scurt o carte și oferă o opinie argumentată despre ea. Cuprinde: datele cărții (titlu, autor, editură, an), un rezumat scurt, fără a dezvălui finalul, aprecieri despre personaje, temă și stil, și o recomandare pentru cititori.",
+    "sample": "Recenzie originală: Cartea Grădina de sub deal (autor imaginar, 2024) urmărește o vară în care trei copii îngrijesc o grădină părăsită. Mi-au plăcut descrierile pline de culoare și prietenia dintre personaje. O recomand elevilor de 12–14 ani care iubesc natura.",
+    "worked": "Recenzia prezintă datele cărții, rezumatul fără final, aprecieri argumentate (descrieri, prietenie) și recomandarea pentru un anumit public. Este scurtă și convingătoare.",
+    "exercises": [
+     "Scrie recenzia unei cărți citite în vacanță.",
+     "Găsește recomandarea din exemplu.",
+     "Scrie un rezumat de recenzie care nu dezvăluie finalul.",
+     "Adaugă un argument despre stil.",
+     "Citește o recenzie online și identifică părțile ei."
+    ],
+    "test": [
+     "Ce este recenzia?",
+     "Ce date ale cărții apar?",
+     "Dezvăluim finalul în recenzie?",
+     "Ce i-a plăcut autorului recenziei?",
+     "Cui îi recomandă cartea?"
+    ],
+    "steps": [
+     "Notează datele cărții.",
+     "Scrie un rezumat scurt, fără final.",
+     "Spune ce ți-a plăcut sau nu, cu argumente, și cui o recomanzi.",
+     "Greșeala frecventă: recenzia care doar povestește cartea, fără opinie."
+    ],
+    "answers": [
+     "Prezentarea unei cărți cu o opinie argumentată.",
+     "Titlul, autorul, editura, anul.",
+     "Nu.",
+     "Descrierile și prietenia dintre personaje.",
+     "Elevilor de 12–14 ani care iubesc natura."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l31": {
+   "ro": {
+    "title": "Prezentarea orală și identitatea culturală",
+    "theory": "O prezentare orală are: salut și anunțarea temei, conținut organizat în 2–3 idei, cu exemple sau imagini, și încheiere cu mulțumire și întrebări. Vorbim clar, privim publicul, folosim un ritm potrivit. O temă potrivită este identitatea culturală: cum ne definesc limba, tradițiile și istoria și cum respectăm identitatea celorlalți.",
+    "sample": "Bună ziua! Astăzi vă prezint portul popular din Oltenia. Mai întâi, voi vorbi despre culori; apoi, despre motivele cusute; la final, despre ocaziile în care se poartă. Vă mulțumesc! Aveți întrebări?",
+    "worked": "Prezentarea începe cu salut și tema, anunță planul (mai întâi, apoi, la final) și se încheie cu mulțumire și invitația la întrebări. Tema arată un element al identității culturale regionale.",
+    "exercises": [
+     "Pregătește o prezentare de trei minute despre o tradiție din zona ta.",
+     "Scrie planul prezentării din exemplu.",
+     "Exersează prezentarea cu un coleg și cere-i părerea.",
+     "Compară portul popular din două regiuni.",
+     "Formulează două întrebări pentru un prezentator."
+    ],
+    "test": [
+     "Cum începe o prezentare orală?",
+     "Câte idei principale are de obicei?",
+     "Cum se încheie?",
+     "Ce temă are exemplul?",
+     "Ce este identitatea culturală?"
+    ],
+    "steps": [
+     "Alege tema și scrie 2–3 idei principale.",
+     "Pregătește exemple sau imagini și exersează cu voce tare.",
+     "La prezentare, privește publicul, vorbește clar și încheie cu mulțumire.",
+     "Greșeala frecventă: citirea întregului text de pe foaie, fără a privi publicul."
+    ],
+    "answers": [
+     "Cu salut și anunțarea temei.",
+     "Două-trei.",
+     "Cu mulțumire și întrebări.",
+     "Portul popular din Oltenia.",
+     "Ceea ce ne definește prin limbă, tradiții și istorie."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l32": {
+   "ro": {
+    "title": "Recapitulare: clasa a VII-a",
+    "theory": "La finalul clasei a VII-a citim un text și arătăm tot ce am învățat: perspectiva narativă, specia (roman, baladă, doină, pastel, comedie), figurile de stil, verbele predicative și nepredicative, diatezele, pronumele, complementele circumstanțiale și fraza.",
+    "sample": "Pădurea fusese tăiată de oameni lacomi. Eu, care crescusem printre arborii ei, simțeam că mi s-a rupt o parte din suflet. Bătrânii spuneau că odinioară codrul cânta.",
+    "worked": "Fusese tăiată de oameni: diateză pasivă. Narator subiectiv, la persoana I (eu, simțeam). Care crescusem printre arborii ei: atributivă. Că odinioară codrul cânta: completivă directă. Codrul cânta: personificare. Odinioară: complement circumstanțial de timp.",
+    "exercises": [
+     "Găsește verbul la diateza pasivă.",
+     "Identifică perspectiva narativă.",
+     "Găsește propoziția atributivă.",
+     "Găsește personificarea.",
+     "Precizează felul complementului odinioară."
+    ],
+    "test": [
+     "Ce diateză are fusese tăiată?",
+     "Ce fel de narator are textul?",
+     "Ce fel de propoziție este: că odinioară codrul cânta?",
+     "Ce sentiment exprimă naratorul?",
+     "Ce figură este: codrul cânta?"
+    ],
+    "steps": [
+     "Citește textul și identifică naratorul și perspectiva.",
+     "Delimitează propozițiile și găsește-le felul.",
+     "Analizează verbele, complementele și figurile cu întrebările învățate.",
+     "Greșeala frecventă: răspunsuri fără justificare din text."
+    ],
+    "answers": [
+     "Pasivă.",
+     "Narator subiectiv, la persoana I.",
+     "Completivă directă.",
+     "Tristețe, durere.",
+     "Personificare."
+    ]
+   }
+  }
+ }
+}
