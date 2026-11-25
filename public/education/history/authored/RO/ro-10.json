@@ -3,7 +3,7 @@
  "country": "RO",
  "stage": "medium",
  "grade": "10",
- "version": "0e79bbf97cc1e02a8c77225f9360d2d6df1f1461514499f241a33b674c0b9ff5",
+ "version": "a83901d97ab1a96ab5237a752e15f37a659bf1f9e48cd04333c4060a81edc943",
  "source": "https://lrturda.ro/wp-content/uploads/2024/07/PROGRAMA_ISTORIE_X.pdf",
  "sourceTitle": "Programa școlară Istorie, clasa a X-a, ciclul inferior al liceului (Anexa 2 la OMEC nr. 4598/31.08.2004, în vigoare până la aplicarea noii programe din 2027–2028): Popoare și spații istorice; Oamenii, societatea și lumea ideilor; Statul și politica; Religia și viața religioasă; Relațiile internaționale — teme tratate în ordine cronologică, ca în manualele aprobate. Lecții originale, fără text copiat",
  "status": "partial-original-material-independent-review-pending",
@@ -925,7 +925,7 @@
   "eu-year-ro-medium-10-l25": {
    "ro": {
     "title": "Reconstrucția economică și revoluția tehnico-științifică",
-    "theory": "Planul Marshall (1948–1952) a ajutat 16 state vest-europene. Au urmat „cele treizeci de ani glorioși” (1945–1975): creștere economică, ocupare deplină, societate de consum, stat al bunăstării. Germania Federală a cunoscut „miracolul economic”, iar Japonia a devenit a doua economie a lumii. Revoluția tehnico-științifică a adus energia nucleară, calculatorul electronic, tranzistorul, sateliții și zborurile spațiale (Sputnik 1957, Gagarin 1961, Apollo 11 1969), antibioticele și vaccinurile, „revoluția verde” în agricultură. Criza petrolului (1973) a încheiat perioada de creștere rapidă. În Est, economia planificată a dat rezultate inițiale, dar a rămas în urmă.",
+    "theory": "Planul Marshall (1948–1952) a ajutat 16 state vest-europene. Au urmat „cei treizeci de ani glorioși” (1945–1975): creștere economică, ocupare deplină, societate de consum, stat al bunăstării. Germania Federală a cunoscut „miracolul economic”, iar Japonia a devenit a doua economie a lumii. Revoluția tehnico-științifică a adus energia nucleară, calculatorul electronic, tranzistorul, sateliții și zborurile spațiale (Sputnik 1957, Gagarin 1961, Apollo 11 1969), antibioticele și vaccinurile, „revoluția verde” în agricultură. Criza petrolului (1973) a încheiat perioada de creștere rapidă. În Est, economia planificată a dat rezultate inițiale, dar a rămas în urmă.",
     "sample": "Iuri Gagarin a fost primul om în spațiu (12 aprilie 1961), iar Neil Armstrong primul om pe Lună (20 iulie 1969).",
     "worked": "Competiția spațială a fost o componentă a Războiului Rece și a grăbit progresul științific și tehnic.",
     "exercises": [

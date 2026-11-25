@@ -78,7 +78,7 @@ Utilizatorul a testat APK-ul signed intermediar și a raportat că textul apare 
 
 ## Istorie: pachete naționale pe an (motorul Literaturii)
 
-- RO: clasa a IV-a (`public/education/history/authored/RO/ro-4.json`, 33 lecții, 10 unități, OMEN 5003/2014). Urmează V–XII și Licență I–III (ARACIS). Revizuire independentă în așteptare.
+- RO: clasele IV–XII (`public/education/history/authored/RO/ro-4.json` … `ro-12.json`, 9 pachete / 273 lecții): IV OMEN 5003/2014; V–VIII OMEN 3393/2017; IX OMEC 6930/2025; X OMEC 4598/2004; XI–XII OMECI 5099/2009. Urmează Licență I–III (ARACIS, verificat pe UB/UBB/UAIC). Revizuire independentă în așteptare; nu se declară aprobare completă.
 
 ## Literatură: pachete naționale pe an (ramura `arena/430ec340-mypocketai`)
 
