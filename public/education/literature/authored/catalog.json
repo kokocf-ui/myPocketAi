@@ -1,6 +1,6 @@
 {
  "schema": "mypocket-literature-authored-catalog/v1",
- "version": "dcaacc50a990baa4995377416f0973001bf547de48b0581966082798e5e419c7",
+ "version": "39ed04644fe6748bcb2dc8774f745555d74bc31d6644a8bf756da6f45717a311",
  "years": [
   {
    "country": "AD",
@@ -37,13 +37,19 @@
      "lang": "bs",
      "name": "Bosanski",
      "file": "bs-1",
-     "version": "6b3c932c2bea015ee66b459dc9dbe5b667b648b50449b936bb2e42190c376d7e"
+     "version": "bbdb9685d85a9c74df70be6c749f97d190a973a3d7f2d7e74be5f308efeca546"
     },
     {
      "lang": "hr",
      "name": "Hrvatski",
      "file": "hr-1",
      "version": "cd345caed6dd465b000e141d2607ecede434f18cc5f03f89f9676a40fe611308"
+    },
+    {
+     "lang": "sr",
+     "name": "Српски",
+     "file": "sr-1",
+     "version": "925551ed3f4048933b67402074719b527936cba296c95011ab91a4b81b45e577"
     }
    ]
   },
@@ -326,6 +332,25 @@
      "name": "Română",
      "file": "ro-1",
      "version": "d758ede37abe099602f1f2de4a852a5827555b10017fa5afc8911605e757e5c9"
+    }
+   ]
+  },
+  {
+   "country": "ME",
+   "stage": "beginner",
+   "grade": "1",
+   "languages": [
+    {
+     "lang": "cnr",
+     "name": "Crnogorski",
+     "file": "cnr-1",
+     "version": "846162d8eb2a13dec8e0312f9e75e7cc09d182d1217bcfed8446dbd4d830cede"
+    },
+    {
+     "lang": "sr",
+     "name": "Српски",
+     "file": "sr-1",
+     "version": "ca4a982e9353c26ea8f55aac04449f7f206f3035a8a3332bff07f7867de4df00"
     }
    ]
   },

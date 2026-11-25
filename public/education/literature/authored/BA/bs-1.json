@@ -3,7 +3,7 @@
  "country": "BA",
  "stage": "beginner",
  "grade": "1",
- "version": "6b3c932c2bea015ee66b459dc9dbe5b667b648b50449b936bb2e42190c376d7e",
+ "version": "bbdb9685d85a9c74df70be6c749f97d190a973a3d7f2d7e74be5f308efeca546",
  "source": "https://www.fmon.gov.ba/",
  "sourceTitle": "Nastavni plan i program za devetogodišnju osnovnu školu u Federaciji Bosne i Hercegovine, Bosanski jezik i književnost, 1. razred: početno čitanje i pisanje (štampana i pisana slova latinice), književnost, jezik, izražavanje, medijska kultura; redoslijed kao u odobrenim početnicama; vlastiti materijali, ne tekst iz početnice",
  "status": "partial-original-material-independent-review-pending",
@@ -896,10 +896,10 @@
    "bs": {
     "title": "Riječi i značenje; mjesni govor",
     "theory": "Kad ne razumijemo riječ, pitamo za njezino značenje ili je potražimo u dječjem rječniku. U rječniku su riječi poredane abecednim redom. Neke riječi u našem mjesnom govoru zvuče drukčije nego u bosanskom standardnom jeziku.",
-    "sample": "Baka je rekla: Donesi mi pjat! Lucija nije znala što je pjat. Mama joj je objasnila da je to tanjur.",
-    "worked": "Riječ pjat dolazi iz mjesnoga govora, a u standardnom jeziku kažemo tanjur. Lucija je pitala za značenje, i to je dobro. U rječniku bismo riječ tanjur tražili pod slovom t. Abeceda počinje ovako: a, b, c, č, ć, d.",
+    "sample": "Baka je rekla: Donesi mi šćap! Lucija nije znala šta je šćap. Mama joj je objasnila da je to štap.",
+    "worked": "Riječ šćap dolazi iz mjesnoga govora, a u standardnom jeziku kažemo štap. Lucija je pitala za značenje, i to je dobro. U rječniku bismo riječ štap tražili pod slovom š. Abeceda počinje ovako: a, b, c, č, ć, d.",
     "exercises": [
-     "Šta znači riječ pjat?",
+     "Šta znači riječ šćap?",
      "Koju riječ koristimo u standardnom jeziku?",
      "Poredaj abecednim redom: mama, baka, tata.",
      "Pod kojim bismo slovom u rječniku tražili riječ sok?",
