@@ -1,6 +1,6 @@
 {
  "schema": "mypocket-literature-authored-catalog/v1",
- "version": "047d390ed9d9784b5b12536b56a8c0f065e41ac6429516d39b83df7a73af0885",
+ "version": "e77d18a704699b40576c608c21d7c77dc18c881e7c67ef0ce705220927bc8da1",
  "years": [
   {
    "country": "AT",
@@ -36,7 +36,7 @@
      "lang": "nl",
      "name": "Nederlands",
      "file": "nl-1",
-     "version": "8b99f4de1469870930f1037132dcb3c372424df1531d69f7629a58a058b34123"
+     "version": "9d451652eb23a42c7980c04ba5494727c9b996bd1f343be9708aa1903b3a0185"
     }
    ]
   },

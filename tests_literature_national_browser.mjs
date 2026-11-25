@@ -140,17 +140,18 @@ try{
  assert.deepEqual(served,['catalog.json','BE/nl-1.json']);
  await choice('Programa clasei|Grade syllabus');
  const beCards=await cards();
- assert.equal(beCards.length,10,'Year 1 must list the ten national chapters');
- assert.equal(beCards[0],'1. Klanken, letters en klankgroepen','Cards use the pack titles in the language of instruction');
- await choice('^1\\.');
+ assert.equal(beCards.length,34,'Year 1 must list the 34 lessons of the textbook sequence');
+ assert.equal(beCards[1],'2. Klanken hakken en plakken','Cards use the pack titles in the language of instruction');
+ await choice('^2\\.');
  let view=await openTheory('nl');
- assert.match(view.reader,/Klanken, letters en klankgroepen/);
- assert.match(view.reader,/m-aa-n wordt maan/);
+ assert.match(view.reader,/Klanken hakken en plakken/);
+ assert.match(view.reader,/v-i-s wordt vis/);
+ assert.match(view.reader,/Begrijp je het niet\? Stap voor stap/,'Textbook lessons include the step-by-step tutor section');
  assert.match(view.reader,/België \(Vlaanderen\)/);
  assert.ok(!/NU lecția completă specifică/.test(view.reader),'A national pack lesson must not use the general fallback');
  await closeReader();
  await js("window.__literatureAcceptance.setLanguage('nl');[...document.querySelectorAll('#moduleContent .lit-activity-button')].find(b=>/^(Exerciții|Exercises)$/.test(b.textContent.trim())).click()");await sleep(400);
- assert.match(await js("document.querySelector('.lit-reader-overlay')?.innerText||''"),/Hak het woord maan in klanken/);
+ assert.match(await js("document.querySelector('.lit-reader-overlay')?.innerText||''"),/Hak: b-u-s/);
  await closeReader();
  // 2. Offline: the remembered language is offered first and opens from cache.
  await js("window.__literatureOnlineFetch=window.fetch.bind(window);window.fetch=async()=>{throw new TypeError('Failed to fetch')}");
