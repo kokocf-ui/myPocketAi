@@ -3,9 +3,9 @@
  "country": "FI",
  "stage": "beginner",
  "grade": "1",
- "version": "8a69c34bd88de56f5ac91980f5a704190bc9203d5b3c56ec64c6f62d0db6777c",
+ "version": "95ad42763e319c3e254a41123b8de021b950e6efa695ecf3f2fce94c92652270",
  "source": "https://www.oph.fi/en/education-and-qualifications/national-core-curriculum-primary-and-lower-secondary-basic-education",
- "sourceTitle": "Utbildningsstyrelsen: Grunderna för läroplanen för den grundläggande utbildningen, modersmål och litteratur (svenska), årskurs 1–2 (endast ram; egna övningar)",
+ "sourceTitle": "Utbildningsstyrelsen: Grunderna för läroplanen för den grundläggande utbildningen 2014, modersmål och litteratur – svenska och litteratur, årskurs 1–2 (interaktion, tolka texter, producera texter, förstå språket, litteratur); årskurs 1 enligt vanlig ordning i finlandssvenska läseböcker (ljud och bokstäver, ljudenliga ord, korta och långa vokaler, sj- och tj-ljud, de första texterna); egna övningar, ingen text kopierad ur en lärobok",
  "status": "partial-original-material-independent-review-pending",
  "sourceLanguage": "sv",
  "labels": [
@@ -15,226 +15,1279 @@
   "Förklaring",
   "Övningar",
   "Testa dig själv",
-  "Egna övningar, inte ett officiellt prov. Läs dem tillsammans med en vuxen om det behövs."
+  "Egna övningar, inte ett officiellt prov. Läs dem tillsammans med en vuxen om det behövs.",
+  "Förstod du inte? Steg för steg",
+  "Facit (titta först när du är klar)"
+ ],
+ "units": [
+  {
+   "title": "Skolstart: tala, lyssna och ljud",
+   "keys": [
+    "eu-year-fi-beginner-1-l01",
+    "eu-year-fi-beginner-1-l02",
+    "eu-year-fi-beginner-1-l03"
+   ]
+  },
+  {
+   "title": "Vokalerna",
+   "keys": [
+    "eu-year-fi-beginner-1-l04",
+    "eu-year-fi-beginner-1-l05"
+   ]
+  },
+  {
+   "title": "Konsonanter och ljudenliga ord",
+   "keys": [
+    "eu-year-fi-beginner-1-l06",
+    "eu-year-fi-beginner-1-l07",
+    "eu-year-fi-beginner-1-l08",
+    "eu-year-fi-beginner-1-l09",
+    "eu-year-fi-beginner-1-l10"
+   ]
+  },
+  {
+   "title": "Korta och långa ljud",
+   "keys": [
+    "eu-year-fi-beginner-1-l11",
+    "eu-year-fi-beginner-1-l12",
+    "eu-year-fi-beginner-1-l13"
+   ]
+  },
+  {
+   "title": "Svåra ljud",
+   "keys": [
+    "eu-year-fi-beginner-1-l14",
+    "eu-year-fi-beginner-1-l15",
+    "eu-year-fi-beginner-1-l16",
+    "eu-year-fi-beginner-1-l17",
+    "eu-year-fi-beginner-1-l18"
+   ]
+  },
+  {
+   "title": "Ord och meningar",
+   "keys": [
+    "eu-year-fi-beginner-1-l19",
+    "eu-year-fi-beginner-1-l20",
+    "eu-year-fi-beginner-1-l21"
+   ]
+  },
+  {
+   "title": "Läsning och litteratur",
+   "keys": [
+    "eu-year-fi-beginner-1-l22",
+    "eu-year-fi-beginner-1-l23",
+    "eu-year-fi-beginner-1-l24",
+    "eu-year-fi-beginner-1-l25",
+    "eu-year-fi-beginner-1-l26",
+    "eu-year-fi-beginner-1-l27",
+    "eu-year-fi-beginner-1-l28"
+   ]
+  },
+  {
+   "title": "Skriva och berätta",
+   "keys": [
+    "eu-year-fi-beginner-1-l29",
+    "eu-year-fi-beginner-1-l30",
+    "eu-year-fi-beginner-1-l31",
+    "eu-year-fi-beginner-1-l32",
+    "eu-year-fi-beginner-1-l33"
+   ]
+  },
+  {
+   "title": "Avslutning på årskurs 1",
+   "keys": [
+    "eu-year-fi-beginner-1-l34"
+   ]
+  }
  ],
  "chapters": {
-  "eu-year-fi-beginner-1-parcurs": {
+  "eu-year-fi-beginner-1-l01": {
    "sv": {
-    "title": "Förljud, bokstäver och stavelser",
-    "theory": "Varje ord består av ljud. Det första ljudet kallas förljud: båt börjar med b. Vissa ljud skrivs med flera bokstäver: sj, stj, ng. Långa ord delar vi i stavelser: skär-går-den. Vi klappar för varje stavelse.",
-    "sample": "Linnea åker båt i skärgården. Hon ser en säl på en sten.",
-    "worked": "Skär-går-den har tre stavelser. Båt har en stavelse. Förljudet i säl är s. I ordet skärgården skriver vi både ä och å. Vi sätter ihop ljuden och läser ordet.",
+    "title": "Hej, jag heter …: vi lär känna varandra",
+    "theory": "De första dagarna lär vi känna varandra. Vi säger vårt namn i en hel mening: Jag heter … Vi kommer överens om klassens regler: vi räcker upp handen, vi lyssnar på varandra, vi låter den andra prata klart och vi talar tydligt.",
+    "sample": "Jag heter Elsa. Jag är sju år. Jag tycker om att rita hästar. Bredvid mig sitter Ture.",
+    "worked": "Elsa presenterar sig med fyra korta meningar: sitt namn, sin ålder, vad hon tycker om och vem som sitter bredvid henne. Medan hon pratar tittar hon på klassen. Varje mening börjar med stor bokstav och slutar med punkt.",
     "exercises": [
-     "Klappa stavelserna i skärgården.",
-     "Vilket är förljudet i båt?",
-     "Dela i stavelser: Linnea, stenen, sälen.",
-     "Hitta ett ord i texten med å.",
-     "Läs högt: la, le, li, lo, lu."
+     "Presentera dig själv med två meningar.",
+     "Säg vad du tycker om att göra.",
+     "Säg namnet på din bänkkamrat.",
+     "Visa hur du räcker upp handen.",
+     "Upprepa vad en klasskamrat berättade."
     ],
     "test": [
-     "Hur många stavelser har skärgården?",
-     "Vad ser Linnea på stenen?",
-     "Hur åker Linnea?",
-     "Skriv ett ord med förljudet m.",
-     "Sätt ihop stavelserna: ö-ga."
+     "Hur gammal är Elsa?",
+     "Vad gör vi när vi vill säga något?",
+     "Varför låter vi den andra prata klart?",
+     "Vad tycker du om att göra?",
+     "Vem sitter bredvid Elsa?"
+    ],
+    "steps": [
+     "Säg först ditt namn: Jag heter …",
+     "Säg sedan hur gammal du är och vad du tycker om.",
+     "När någon annan pratar lyssnar du och avbryter inte.",
+     "Tänk på: Svara med en hel mening, inte bara med ett ord."
+    ],
+    "answers": [
+     "Sju år.",
+     "Vi räcker upp handen och väntar på vår tur.",
+     "Så att alla får prata och vi förstår varandra.",
+     "Ditt svar. Till exempel: Jag tycker om att spela fotboll.",
+     "Ture."
     ]
    }
   },
-  "eu-year-fi-beginner-1-intelegere": {
+  "eu-year-fi-beginner-1-l02": {
    "sv": {
-    "title": "Läsa noga och svara på frågor",
-    "theory": "Vi läser långsamt och ställer frågor: Vem? Vad? Var? Med vad? Svaren hittar vi i texten. Om något inte står i texten säger vi: Det står inte där.",
-    "sample": "Axel cyklar till torget med sin moster. Han har en blå keps. På torget köper de jordgubbar tillsammans med Ronja.",
-    "worked": "Vem? Axel. Med vem? Med sin moster. Vart cyklar de? Till torget. Vad har Axel? En blå keps. Vad köper de? Jordgubbar. Vad jordgubbarna kostar står inte i texten.",
+    "title": "Ord består av ljud, och vissa ord rimmar",
+    "theory": "Ord består av ljud. När vi säger varje ljud för sig delar vi ordet: k-o. När vi sätter ihop ljuden får vi ordet igen: ko. Två ord rimmar när de slutar likadant: hus och mus, sol och stol.",
+    "sample": "ko, sko, hus, mus, sol, stol, bil, pil",
+    "worked": "Sol har tre ljud: s-o-l. Hus och mus rimmar, eftersom båda slutar på -us. Sol och stol slutar på -ol. Bil börjar med ljudet b, pil med ljudet p.",
     "exercises": [
-     "Vem cyklar Axel med?",
-     "Vilken färg har kepsen?",
-     "Vad köper de på torget?",
-     "Vem köper de jordgubbar tillsammans med?",
-     "Stryk under meningen som berättar vad Axel har."
+     "Dela ordet i ljud: m-u-s. Hur många ljud hör du?",
+     "Sätt ihop ljuden: s-o-l.",
+     "Hitta ett ord som rimmar på ko.",
+     "Vilket ljud börjar bil med?",
+     "Hitta något i klassrummet som börjar med ljudet b."
     ],
     "test": [
-     "Står det i texten vad jordgubbarna kostar?",
-     "Är kepsen röd? Hur vet du det?",
-     "Vad är ett torg?",
-     "Hitta ett ord för en person i familjen.",
-     "Rita texten och skriv ett ord under bilden."
+     "Hur många ljud har sol?",
+     "Rimmar bil och pil?",
+     "Sätt ihop ljuden: h-u-s.",
+     "Vilket ljud börjar mus med?",
+     "Vilket ord rimmar inte: hus, mus, bil?"
+    ],
+    "steps": [
+     "Säg ordet långsamt, som om du drar ut det.",
+     "Dela det i ljud och räkna dem på fingrarna.",
+     "Sätt snabbt ihop ljuden igen.",
+     "Tänk på: Lyssna på ljudet, inte på bilden; säg alltid ordet högt."
+    ],
+    "answers": [
+     "Tre: s-o-l.",
+     "Ja.",
+     "hus.",
+     "m.",
+     "bil."
     ]
    }
   },
-  "eu-year-fi-beginner-1-narativ": {
+  "eu-year-fi-beginner-1-l03": {
    "sv": {
-    "title": "Personer och ordningsföljd",
-    "theory": "En berättelse har personer och händelser. Personerna gör saker, och händelserna kommer efter varandra. Ord som först, sedan, efter det och till sist visar ordningen.",
-    "sample": "Först bygger Ella och Max en koja i skogen. Sedan börjar det regna. Efter det kryper de in i kojan och äter äpplen. Till sist kommer solen fram igen.",
-    "worked": "Personerna är Ella och Max. Först: De bygger en koja. Sedan: Det börjar regna. Efter det: De äter äpplen i kojan. Till sist: Solen kommer fram.",
+    "title": "Stavelser: vi klappar orden",
+    "theory": "Långa ord kan delas i stavelser. Vi klappar en gång för varje stavelse: sko-la har två stavelser, ba-na-ner har tre. Varje stavelse har en vokal. Att klappa hjälper oss när vi ska läsa och skriva långa ord.",
+    "sample": "skol-väs-ka / ba-na-ner / a-pel-sin / bok",
+    "worked": "Skolväska har tre klapp: skol-väs-ka. Bananer och apelsin har också tre. Bok har bara ett klapp: det är en stavelse. Vi klappar och säger ordet samtidigt.",
     "exercises": [
-     "Vilka är personerna?",
-     "Vad bygger barnen?",
-     "Vad händer sedan?",
-     "Berätta med först, sedan, efter det, till sist.",
-     "Vad äter barnen i kojan?"
+     "Klappa ordet: fotboll.",
+     "Klappa ditt eget namn.",
+     "Hur många stavelser har is?",
+     "Hitta ett ord med tre stavelser.",
+     "Klappa ordet: elefant."
     ],
     "test": [
-     "Var bygger barnen kojan?",
-     "Vad händer till sist?",
-     "Varför kryper barnen in i kojan?",
-     "Sätt i ordning: solen kommer fram / de bygger en koja / det regnar.",
-     "Rita kojan."
+     "Hur många stavelser har skola?",
+     "Klappa: banan.",
+     "Hur många stavelser har bok?",
+     "Vad har varje stavelse?",
+     "Klappa: apelsin."
+    ],
+    "steps": [
+     "Säg ordet långsamt och klappa samtidigt.",
+     "Räkna hur många gånger du klappade.",
+     "Varje klapp är en stavelse, och varje stavelse har en vokal.",
+     "Tänk på: Klappa inte för varje ljud; klappa för varje del av ordet."
+    ],
+    "answers": [
+     "Två: sko-la.",
+     "ba-nan.",
+     "En.",
+     "En vokal.",
+     "a-pel-sin."
     ]
    }
   },
-  "eu-year-fi-beginner-1-poezie": {
+  "eu-year-fi-beginner-1-l04": {
    "sv": {
-    "title": "Dikter och rimord",
-    "theory": "Dikter har rader och en klang. Ofta rimmar orden i slutet av raderna: mus och hus, sten och ben. Vi läser dikten långsamt och tydligt.",
-    "sample": "Ute på havet seglar en båt,\nvågorna skvätter, nu är jag våt!\nEn mås på klippan ropar: Hej!\nJag vinkar glatt, den ser på mig.",
-    "worked": "Båt och våt rimmar, båda slutar på -åt. Hej och mig rimmar också, eftersom mig uttalas mej. Dikten har fyra rader. Vi gör en liten paus i slutet av varje rad.",
+    "title": "De hårda vokalerna: a, o, u och å",
+    "theory": "Vokalerna är ljud som vi kan sjunga länge. Svenskan har nio vokaler. A, o, u och å kallas hårda vokaler. Varje ord har minst en vokal.",
+    "sample": "katt, ko, hus, båt / En katt och en ko. / Båten är vid huset.",
+    "worked": "Katt har ett a, ko har ett o, hus har ett u och båt har ett å. Försök sjunga vokalen: aaa. Utan vokal kan vi inte läsa ett ord.",
     "exercises": [
-     "Hitta rimordet till båt.",
-     "Vem ropar på klippan?",
-     "Hur många rader har dikten?",
-     "Hitta ett ord som rimmar på sten.",
-     "Läs dikten och gör en paus efter varje rad."
+     "Sjung de fyra hårda vokalerna.",
+     "Skriv ett litet a och ett stort A.",
+     "Vilken vokal hör du i hus?",
+     "Hitta ett ord med å.",
+     "Gör en rund mun och säg: o."
     ],
     "test": [
-     "Rimmar mus och hus?",
-     "Varför blir barnet vått?",
-     "Hitta ett ord som rimmar på vind.",
-     "Var sitter måsen?",
-     "Skriv två ord som rimmar."
+     "Vilka är de hårda vokalerna?",
+     "Vilken vokal hör du i ko?",
+     "Har alla ord en vokal?",
+     "Vilken vokal hör du i båt?",
+     "Läs: katt, ko, hus."
+    ],
+    "steps": [
+     "De hårda vokalerna är a, o, u, å: säg dem i ordning.",
+     "Titta i en spegel: vid o blir munnen rund.",
+     "Säg ordet långsamt för att hitta vokalen.",
+     "Tänk på: Glöm inte ringen över å, annars blir det ett a."
+    ],
+    "answers": [
+     "a, o, u och å.",
+     "o.",
+     "Ja.",
+     "å.",
+     "katt, ko, hus."
     ]
    }
   },
-  "eu-year-fi-beginner-1-dialog": {
+  "eu-year-fi-beginner-1-l05": {
    "sv": {
-    "title": "Vi pratar med varandra",
-    "theory": "När vi pratar med varandra turas vi om. Vi tittar på den som pratar och lyssnar noga. Vi säger hej, tack och hej då. Efter en fråga kommer ett frågetecken.",
-    "sample": "Wilma: Hej! Får jag köpa en glass?\nFörsäljaren: Hej, Wilma. Vill du ha jordgubb eller choklad?\nWilma: Choklad, tack.\nFörsäljaren: Varsågod. Det blir två euro.\nWilma: Tack, hej då!",
-    "worked": "Wilma hälsar först. Försäljaren ställer en fråga, och meningen slutar med frågetecken. Wilma svarar och säger tack. Hon betalar två euro och säger hej då. Var och en pratar när den andra är klar.",
+    "title": "De mjuka vokalerna: e, i, y, ä och ö",
+    "theory": "E, i, y, ä och ö kallas mjuka vokaler. E som i en, i som i is, y som i by, ä som i äpple och ö som i ö. Nu kan vi alla nio vokaler: a o u å e i y ä ö.",
+    "sample": "Äpplet ligger i gräset. / Vi bor i en by vid en sjö. / Isen är vit.",
+    "worked": "Äpplet och gräset har ä. By har y, sjö har ö och isen och vit har i. Ä och ö har två prickar. Å, ä och ö står sist i alfabetet.",
     "exercises": [
-     "Hur hälsar Wilma?",
-     "Vilken smak väljer Wilma?",
-     "Hitta meningen med frågetecken.",
-     "Vilka artiga ord använder Wilma?",
-     "Spela samtalet två och två."
+     "Säg: e, i, y, ä, ö.",
+     "Skriv ett ö.",
+     "Hitta ett ord med ä.",
+     "Vilken vokal hör du i by?",
+     "Säg alla nio vokaler."
     ],
     "test": [
-     "Vem ställer en fråga?",
-     "Vad kostar glassen?",
-     "Hur säger Wilma adjö?",
-     "Skriv en fråga till en kompis.",
-     "Varför tittar vi på den som pratar?"
+     "Var ligger äpplet?",
+     "Var ligger byn?",
+     "Vilken färg har isen?",
+     "Hur många vokaler har svenskan?",
+     "Läs: hö, sy, fem."
+    ],
+    "steps": [
+     "Vid y formar du munnen som till u men säger i.",
+     "Vid ö formar du munnen som till o men säger e.",
+     "Ä och ö skrivs med två prickar.",
+     "Tänk på: Glöm inte prickarna, annars blir ä ett a och ö ett o."
+    ],
+    "answers": [
+     "I gräset.",
+     "Vid en sjö.",
+     "Vit.",
+     "Nio.",
+     "hö, sy, fem."
     ]
    }
   },
-  "eu-year-fi-beginner-1-vocabular": {
+  "eu-year-fi-beginner-1-l06": {
    "sv": {
-    "title": "Ordgrupper, motsatser och plural",
-    "theory": "Ord som hör ihop bildar en grupp: frukt, kläder, fordon. Motsatser betyder det omvända: snabb – långsam, uppe – nere. Substantiv finns i singular och plural: en båt – två båtar, en mössa – två mössor.",
-    "sample": "I hallen hänger en jacka, två mössor och tre halsdukar. Uppe på backen står en stuga, nere vid stranden ligger två båtar.",
-    "worked": "Jacka, mössa och halsduk hör till gruppen kläder. En mössa, två mössor: a blir -or. En båt, två båtar: -ar kommer till. Uppe och nere är motsatser.",
+    "title": "m, s, l och r: mor, sol och is",
+    "theory": "Konsonanter behöver en vokal för att bli ett ord. M säger vi med stängda läppar, s väser som en orm och l säger vi med tungan bakom tänderna. R säger vi med tungspetsen. Nya ord: mor, sol, is, ris, mus, lus.",
+    "sample": "Mor har en is. / Sol och is. / Musen äter ris.",
+    "worked": "Mor och musen har m. Sol, is och ris har s. Sol har också ett l. Mor och ris har ett r. Vi läser varje ljud och sätter ihop dem: m-o-r blir mor.",
     "exercises": [
-     "Sortera: äpple, buss, päron, tåg, banan, båt.",
-     "Hitta motsatsen till snabb.",
-     "Skriv i plural: en jacka.",
-     "Vilket fordon finns i texten?",
-     "Nämn tre klädesplagg."
+     "Läs: mor, sol, is.",
+     "Väs som en orm: sss.",
+     "Dela i ljud: r-i-s.",
+     "Skriv ett stort M.",
+     "Hitta ett ord med l."
     ],
     "test": [
-     "Vad är motsatsen till uppe?",
-     "Skriv i plural: en båt.",
-     "Vilket ord passar inte: byxor, mössa, gaffel, jacka?",
-     "Hur många halsdukar hänger i hallen?",
-     "Skriv två sorters frukt."
+     "Vem har en is?",
+     "Vad äter musen?",
+     "Läs: lus, mus, ris.",
+     "Vilket ljud börjar sol med?",
+     "Hur säger vi m?"
+    ],
+    "steps": [
+     "Säg konsonantens ljud och direkt vokalen efter: m-o.",
+     "Sätt ihop ljuden till ett ord: mor.",
+     "Läs alltid från vänster till höger.",
+     "Tänk på: m och n liknar varandra; m har två bågar, n har en."
+    ],
+    "answers": [
+     "Mor.",
+     "Ris.",
+     "lus, mus, ris.",
+     "s.",
+     "Med stängda läppar."
     ]
    }
   },
-  "eu-year-fi-beginner-1-exprimare": {
+  "eu-year-fi-beginner-1-l07": {
    "sv": {
-    "title": "Stor bokstav, punkt och å, ä, ö",
-    "theory": "Meningen börjar med stor bokstav och slutar med punkt. Namn skriver vi alltid med stor bokstav: Wilma, Åbo, Vasa. Bokstäverna å, ä och ö är egna bokstäver i alfabetet: åra, älg, ö.",
-    "sample": "Hugo bor i Vasa. På sommaren badar han i havet. Han såg en älg i skogen.",
-    "worked": "Hugo, På och Han står först i meningen och har stor bokstav. Hugo och Vasa är namn och skrivs med stor bokstav. Varje mening slutar med punkt. I älg skriver vi ä, i såg skriver vi å.",
+    "title": "t, p och k: tak, pil och katt",
+    "theory": "T, p och k är korta ljud. Vid p öppnar vi läpparna, vid t slår tungan mot tänderna och k säger vi längst bak i munnen. Nya ord: tak, tåg, pil, pappa, katt, kopp.",
+    "sample": "Katten sitter på taket. / Pappa dricker ur en kopp. / Ida har en pil och en tröja.",
+    "worked": "Katten och kopp har k. Taket och sitter har t. Pil och pappa har p. Vi läser först långsamt och sedan snabbare. Ida är ett namn och har stor bokstav.",
     "exercises": [
-     "Skriv rätt: emma bor i åbo",
-     "Hitta namnen i texten.",
-     "Sätt punkt: Vi går till stranden",
-     "Skriv ordet älg och ringa in ä.",
+     "Läs: tak, tåg, tolv.",
+     "Läs: pil, pappa, pump.",
+     "Läs: katt, kopp, kul.",
+     "Skriv ordet pil.",
+     "Hitta ett ord med t."
+    ],
+    "test": [
+     "Var sitter katten?",
+     "Vad dricker pappa ur?",
+     "Vad har Ida?",
+     "Läs: tok, pip, kort.",
+     "Vilken bokstav börjar kopp med?"
+    ],
+    "steps": [
+     "Vid p öppnar du läpparna med en liten pust.",
+     "Vid t slår tungan lätt mot tänderna.",
+     "Läs först långsamt, sedan snabbare.",
+     "Tänk på: p och b liknar varandra; p har magen uppe till höger."
+    ],
+    "answers": [
+     "På taket.",
+     "Ur en kopp.",
+     "En pil och en tröja.",
+     "tok, pip, kort.",
+     "k."
+    ]
+   }
+  },
+  "eu-year-fi-beginner-1-l08": {
+   "sv": {
+    "title": "n, d och b: nos, dörr och bil",
+    "theory": "N säger vi genom näsan. D och b är mjuka ljud. Nya ord: nos, nål, dörr, duva, bil, buss.",
+    "sample": "Bussen kör genom staden. / Duvan sitter på dörren. / Bo har en blå bil.",
+    "worked": "Bussen, Bo, blå och bil börjar med b. Duvan, dörren och staden har d. Nos och nål börjar med n. Bo är ett namn och skrivs med stor bokstav.",
+    "exercises": [
+     "Läs: nos, nål, nio.",
+     "Läs: dörr, duva, dans.",
+     "Läs: bil, buss, boll.",
+     "Skriv ordet buss.",
+     "Hitta ett ord med b."
+    ],
+    "test": [
+     "Var kör bussen?",
+     "Var sitter duvan?",
+     "Vilken färg har Bos bil?",
+     "Läs: nu, bad, din.",
+     "Vilken bokstav börjar dörr med?"
+    ],
+    "steps": [
+     "N säger du med tungan uppe och luften genom näsan.",
+     "D och b säger du mjukt.",
+     "Läs ordet ljud för ljud och sätt ihop det.",
+     "Tänk på: b och d liknar varandra; b har magen till höger, d till vänster."
+    ],
+    "answers": [
+     "Genom staden.",
+     "På dörren.",
+     "Blå.",
+     "nu, bad, din.",
+     "d."
+    ]
+   }
+  },
+  "eu-year-fi-beginner-1-l09": {
+   "sv": {
+    "title": "f, v, g, h och j: fisk, väg och jul",
+    "theory": "F och v säger vi med de övre tänderna mot underläppen. G säger vi längst bak i munnen. H är en liten suck. J säger j som i ja. Nya ord: fisk, far, väg, vatten, gås, hus, jul, jacka.",
+    "sample": "Far fångar en fisk. / Gåsen går över vägen. / Till jul får Johan en ny jacka.",
+    "worked": "Far, fångar och fisk börjar med f. Vägen har v. Gåsen och går börjar med g. Jul, Johan och jacka börjar med j. Johan är ett namn och har stor bokstav.",
+    "exercises": [
+     "Läs: fisk, far, fem.",
+     "Läs: väg, vatten, vind.",
+     "Läs: gås, hus, jul.",
+     "Skriv ordet fisk.",
+     "Sucka mot din hand: hhh."
+    ],
+    "test": [
+     "Vad fångar far?",
+     "Var går gåsen?",
+     "Vad får Johan till jul?",
+     "Läs: hatt, jord, gul.",
+     "Vilken bokstav börjar vatten med?"
+    ],
+    "steps": [
+     "Till f och v sätter du de övre tänderna mot underläppen.",
+     "Vid f blåser du bara, vid v surrar det lite.",
+     "H är en suck, j låter som i ja.",
+     "Tänk på: f och v låter nästan lika; lyssna noga: fin, vin."
+    ],
+    "answers": [
+     "En fisk.",
+     "Över vägen.",
+     "En ny jacka.",
+     "hatt, jord, gul.",
+     "v."
+    ]
+   }
+  },
+  "eu-year-fi-beginner-1-l10": {
+   "sv": {
+    "title": "Ljudenliga ord: vi läser och skriver",
+    "theory": "Ett ljudenligt ord skriver vi precis som vi säger det: varje ljud har sin bokstav. Sol, mus, bil, fisk och lampa är ljudenliga ord. Dem kan vi läsa genom att säga ljuden och skriva genom att lyssna.",
+    "sample": "Ida ser en sol. / Ola har en mus och en fisk. / Lampan lyser på bordet.",
+    "worked": "Sol, mus, fisk, lampan och lyser är ljudenliga: vi hör alla bokstäverna. Vi kan skriva dem själva genom att säga ordet långsamt och skriva ett ljud i taget.",
+    "exercises": [
+     "Skriv: sol.",
+     "Skriv: bil.",
+     "Skriv: mus.",
+     "Läs: Ola har en fisk.",
+     "Hitta själv två ljudenliga ord."
+    ],
+    "test": [
+     "Vad ser Ida?",
+     "Vad har Ola?",
+     "Var lyser lampan?",
+     "Är sol ett ljudenligt ord?",
+     "Skriv: fisk."
+    ],
+    "steps": [
+     "Säg ordet långsamt: s-o-l.",
+     "Skriv en bokstav för varje ljud du hör.",
+     "Läs ordet högt efteråt för att kontrollera.",
+     "Tänk på: Glöm inte ett ljud i mitten; i fisk hör du både s och k."
+    ],
+    "answers": [
+     "En sol.",
+     "En mus och en fisk.",
+     "På bordet.",
+     "Ja.",
+     "fisk."
+    ]
+   }
+  },
+  "eu-year-fi-beginner-1-l11": {
+   "sv": {
+    "title": "Lång eller kort vokal",
+    "theory": "En vokal kan låta lång, som i glas och tak, eller kort, som i katt och tack. Om vi lyssnar noga hör vi skillnaden. Ordet kan få en helt annan betydelse: tak och tack betyder olika saker.",
+    "sample": "Vi tittar på taket. / Tack för maten! / Glaset står bredvid glassen.",
+    "worked": "I tak och glas är a långt. I tack och glass är a kort. Om vi säger fel längd blir det ett annat ord. Därför lyssnar vi alltid på vokalen.",
+    "exercises": [
+     "Lång eller kort: sol.",
+     "Lång eller kort: katt.",
+     "Säg tak och tack. Vad är skillnaden?",
+     "Läs: glas, glass.",
+     "Hitta ett eget par med lång och kort vokal."
+    ],
+    "test": [
+     "Vad tittar vi på?",
+     "Vad säger vi efter maten?",
+     "Är a långt eller kort i glass?",
+     "Läs: vit, vitt.",
+     "Var står glaset?"
+    ],
+    "steps": [
+     "Säg ordet och lyssna på vokalen: är den lång eller kort?",
+     "Dra ut en lång vokal: taaak. En kort är snabb: tack.",
+     "Läs ordet högt igen och kontrollera.",
+     "Tänk på: Fel längd ger ett annat ord: tak – tack."
+    ],
+    "answers": [
+     "På taket.",
+     "Tack för maten!",
+     "Kort.",
+     "vit, vitt.",
+     "Bredvid glassen."
+    ]
+   }
+  },
+  "eu-year-fi-beginner-1-l12": {
+   "sv": {
+    "title": "Dubbelteckning: katt, boll och glass",
+    "theory": "Efter en kort vokal skriver vi ofta två konsonanter: katt, boll, glass, hatt. Efter en lång vokal skriver vi bara en: hat, bok, glas. K blir ck efter kort vokal: tack, säck.",
+    "sample": "Katten leker med en boll. / Tack för glassen! / Pojken har en röd hatt.",
+    "worked": "Katt, boll, glassen och hatt har kort vokal och två konsonanter. Tack har ck. Röd har lång vokal och bara ett d. Så vet vi hur många bokstäver vi ska skriva.",
+    "exercises": [
+     "Skriv: kat_ (katt eller kat?).",
+     "Skriv: bo_ (boll eller bol?).",
+     "Läs: glas, glass.",
+     "Skriv ordet tack.",
+     "Hitta ett ord med ck."
+    ],
+    "test": [
+     "Vad leker katten med?",
+     "Vad säger vi tack för?",
+     "Hur många t har katt?",
+     "Skriv ordet hatt.",
+     "Skriver vi tak eller tack när vi tackar?"
+    ],
+    "steps": [
+     "Säg ordet och lyssna: är vokalen kort?",
+     "Kort vokal: skriv två konsonanter, och skriv ck i stället för kk.",
+     "Lång vokal: skriv bara en konsonant.",
+     "Tänk på: Kat med ett t är fel; katten har kort a, alltså katt."
+    ],
+    "answers": [
+     "En boll.",
+     "För glassen.",
+     "Två.",
+     "hatt.",
+     "tack."
+    ]
+   }
+  },
+  "eu-year-fi-beginner-1-l13": {
+   "sv": {
+    "title": "Ord vi ska kunna: och, det, är, jag, de",
+    "theory": "Vissa ord står i nästan alla texter: och, det, är, jag, de, en, ett, han, hon. Flera av dem skriver vi inte som vi säger dem: vi säger å men skriver och, vi säger ja men skriver jag. Dem lär vi oss utantill.",
+    "sample": "Jag är glad. / Han och hon leker. / De har en hund och ett hus.",
+    "worked": "Jag, är, och, de och han står i nästan alla böcker. Och uttalas å och det uttalas de. När vi känner igen orden direkt läser vi snabbare och förstår mer.",
+    "exercises": [
+     "Läs: jag, är, och, det.",
+     "Skriv ordet och.",
+     "Hitta ordet och i exemplet.",
+     "Läs: han, hon, de.",
+     "Skriv en mening med jag är."
+    ],
+    "test": [
+     "Hur säger vi ordet och?",
+     "Vad har de?",
+     "Vem leker?",
+     "Skriv ordet jag.",
+     "Varför lär vi oss de vanliga orden utantill?"
+    ],
+    "steps": [
+     "Titta på ordet som en bild: o-c-h.",
+     "Säg det högt så som vi uttalar det: å.",
+     "Läs det många gånger tills du känner igen det direkt.",
+     "Tänk på: Skriv inte å eller ja; skriv och och jag."
+    ],
+    "answers": [
+     "Å.",
+     "En hund och ett hus.",
+     "Han och hon.",
+     "jag.",
+     "Så att vi kan läsa dem snabbt."
+    ]
+   }
+  },
+  "eu-year-fi-beginner-1-l14": {
+   "sv": {
+    "title": "Sj-ljudet: sju, skjorta och stjärna",
+    "theory": "Sj-ljudet kan skrivas på flera sätt: sj som i sju, skj som i skjorta, stj som i stjärna och sk före mjuk vokal som i sked och skön. Vi hör samma ljud men skriver olika.",
+    "sample": "Sju stjärnor lyser på himlen. / Sixten tar på sig en skjorta. / Vi äter med sked.",
+    "worked": "Sju har sj, stjärnor har stj, skjorta har skj och sked har sk före e. Alla låter likadant. Vi lär oss hur orden skrivs genom att läsa dem många gånger.",
+    "exercises": [
+     "Läs: sju, sjö, sjunga.",
+     "Läs: skjorta, stjärna.",
+     "Läs: sked, skön, skida.",
+     "Skriv ordet sju.",
+     "Hitta ett ord med sj-ljud."
+    ],
+    "test": [
+     "Hur många stjärnor lyser?",
+     "Vad tar Sixten på sig?",
+     "Vad äter vi med?",
+     "Hur skrivs sj-ljudet i stjärna?",
+     "Läs: sjal, skina, skjuta."
+    ],
+    "steps": [
+     "Lyssna efter sj-ljudet i ordet.",
+     "Kom ihåg: sj, skj, stj eller sk före e, i, y, ä, ö.",
+     "Om du är osäker, slå upp ordet eller fråga.",
+     "Tänk på: I sked skrivs sk, inte sj; före mjuk vokal blir sk ett sj-ljud."
+    ],
+    "answers": [
+     "Sju.",
+     "En skjorta.",
+     "Med sked.",
+     "Med stj.",
+     "sjal, ski-na, skju-ta."
+    ]
+   }
+  },
+  "eu-year-fi-beginner-1-l15": {
+   "sv": {
+    "title": "Tj-ljudet: kjol, tjugo och kör",
+    "theory": "Tj-ljudet kan skrivas tj som i tjugo, kj som i kjol och k före mjuk vokal som i kör och kind. Vi hör samma ljud men skriver olika.",
+    "sample": "Tanja har en tjock röd kjol. / Tjugo barn sjunger i kören. / Hon har röda kinder.",
+    "worked": "Tjock och tjugo har tj, kjol har kj, kören och kinder har k före mjuk vokal. Alla låter likadant. K före ö, i, e, y och ä låter alltså som tj.",
+    "exercises": [
+     "Läs: tjugo, tjock, tjära.",
+     "Läs: kjol, kör, kind.",
+     "Skriv ordet tjugo.",
+     "Hitta ett ord med tj-ljud.",
+     "Låter k likadant i katt och i kind?"
+    ],
+    "test": [
+     "Vilken färg har kjolen?",
+     "Hur många barn sjunger?",
+     "Var sjunger barnen?",
+     "Hur skrivs tj-ljudet i kjol?",
+     "Läs: kyrka, tjur, kök."
+    ],
+    "steps": [
+     "Lyssna efter tj-ljudet i ordet.",
+     "Kom ihåg: tj, kj eller k före e, i, y, ä, ö.",
+     "Läs ordet högt och titta noga på bokstäverna.",
+     "Tänk på: K före hård vokal (a, o, u, å) låter k: katt; före mjuk vokal blir det tj-ljud: kind."
+    ],
+    "answers": [
+     "Röd.",
+     "Tjugo.",
+     "I kören.",
+     "Med kj.",
+     "kyr-ka, tjur, kök."
+    ]
+   }
+  },
+  "eu-year-fi-beginner-1-l16": {
+   "sv": {
+    "title": "J-ljudet: gul, ge, djur och ljus",
+    "theory": "G före mjuk vokal låter som j: ge, göra, gäst. J-ljudet kan också skrivas dj, gj, hj och lj: djur, gjorde, hjärta, ljus. D, g, h och l säger ingenting där.",
+    "sample": "Vi ger katten mat. / Djuren sover i ladan. / Ljuset brinner på bordet.",
+    "worked": "I ger låter g som j, eftersom e är en mjuk vokal. I djuren och ljuset säger vi bara j. G i gul låter som g, eftersom u är en hård vokal.",
+    "exercises": [
+     "Läs: ge, göra, gäst.",
+     "Läs: djur, hjärta, ljus.",
+     "Läs: gul, gå, gata.",
+     "Skriv ordet djur.",
+     "Låter g likadant i gul och i ge?"
+    ],
+    "test": [
+     "Vad ger vi katten?",
+     "Var sover djuren?",
+     "Var brinner ljuset?",
+     "Vilken bokstav hör vi inte i hjärta?",
+     "Läs: gemensam, hjälm, ljud."
+    ],
+    "steps": [
+     "Titta på vokalen efter g: är den mjuk, låter g som j.",
+     "Dj, gj, hj och lj låter också som j.",
+     "Läs ordet högt och lyssna.",
+     "Tänk på: Skriv inte jur och jus; skriv djur och ljus."
+    ],
+    "answers": [
+     "Mat.",
+     "I ladan.",
+     "På bordet.",
+     "h.",
+     "ge-men-sam, hjälm, ljud."
+    ]
+   }
+  },
+  "eu-year-fi-beginner-1-l17": {
+   "sv": {
+    "title": "ng och nk: sång, ring och bänk",
+    "theory": "Ng är ett enda ljud längst bak i munnen, som i sång och ring. Nk låter som ng med ett k efter, som i bänk och tänka. Vi skriver ng och nk, aldrig nng.",
+    "sample": "Vi sjunger en sång. / Mormor har en ring. / Pojken sitter på en bänk i parken.",
+    "worked": "Sång, ring och sjunger har ng. Bänk har nk. I nk hör vi ett k på slutet.",
+    "exercises": [
+     "Läs: sång, ring, lång.",
+     "Läs: bänk, tänka, blank.",
+     "Skriv ordet ring.",
+     "Hitta ett ord med nk.",
+     "Hör du ett k i ring?"
+    ],
+    "test": [
+     "Vad sjunger vi?",
+     "Vad har mormor?",
+     "Var sitter pojken?",
+     "Hör du ett k i bänk?",
+     "Läs: kung, tanke, gunga."
+    ],
+    "steps": [
+     "Ng är ett enda ljud längst bak i munnen.",
+     "I nk hör du ng och sedan ett k.",
+     "Läs ordet högt och lyssna på slutet.",
+     "Tänk på: Skriv inte nkg eller ngk; det är ng eller nk."
+    ],
+    "answers": [
+     "En sång.",
+     "En ring.",
+     "På en bänk i parken.",
+     "Ja.",
+     "kung, tan-ke, gun-ga."
+    ]
+   }
+  },
+  "eu-year-fi-beginner-1-l18": {
+   "sv": {
+    "title": "Konsonanter tillsammans: krona, blomma och strand",
+    "theory": "Ibland står två eller tre konsonanter tillsammans: kr i krona, bl i blomma, str i strand. Vi säger varje ljud snabbt efter varandra.",
+    "sample": "Prinsessan har en krona. / En blå blomma växer på stranden. / Stina bygger ett slott av sand.",
+    "worked": "Krona, blomma, blå, stranden, Stina och slott har konsonanter som står tillsammans. Om vi glömmer ett ljud blir det ett annat ord eller ett ord som inte finns.",
+    "exercises": [
+     "Läs: krona, tre, fru.",
+     "Läs: blomma, glas, klapp.",
+     "Läs: strand, streck, sprang.",
+     "Skriv ordet tre.",
+     "Dela i ljud: b-l-å."
+    ],
+    "test": [
+     "Vad har prinsessan?",
+     "Var växer blomman?",
+     "Vad bygger Stina?",
+     "Hur många ljud har tre?",
+     "Läs: planta, frö, skratt."
+    ],
+    "steps": [
+     "Hitta konsonanterna som står tillsammans.",
+     "Säg varje ljud snabbt efter varandra: b-l.",
+     "Sätt sedan ihop hela ordet: blomma.",
+     "Tänk på: Lägg inte till en vokal mellan konsonanterna; det är blå, inte belå."
+    ],
+    "answers": [
+     "En krona.",
+     "På stranden.",
+     "Ett slott av sand.",
+     "Tre: t-r-e.",
+     "plan-ta, frö, skratt."
+    ]
+   }
+  },
+  "eu-year-fi-beginner-1-l19": {
+   "sv": {
+    "title": "Stor bokstav: namn och meningens början",
+    "theory": "Vi skriver stor bokstav i början av en mening och i namn: namn på människor, djur, städer, sjöar och länder. Vanliga ord skriver vi med liten bokstav. Dagar och månader skriver vi med liten bokstav.",
+    "sample": "Alva och hennes hund Sigge bor i Vasa i Österbotten.",
+    "worked": "Alva, Sigge, Vasa och Österbotten är namn: de får stor bokstav. Hund är ett vanligt ord: det får liten bokstav. Meningen börjar med stor bokstav.",
+    "exercises": [
+     "Hitta namnen i exemplet.",
+     "Skriv namnet på din ort.",
+     "Skriv namnet på en kompis.",
+     "Rätta: vi bor i åbo.",
+     "Ska hund ha stor bokstav?"
+    ],
+    "test": [
+     "Vad heter Alvas hund?",
+     "Var bor de?",
+     "I vilket landskap bor de?",
+     "Skriv rätt: leo bor i borgå",
+     "När skriver vi stor bokstav?"
+    ],
+    "steps": [
+     "Fråga dig själv: är det namnet på en bestämd person, ett djur eller en plats?",
+     "Om ja, skriv stor bokstav.",
+     "Skriv också stor bokstav i början av varje mening.",
+     "Tänk på: måndag och januari skrivs med liten bokstav."
+    ],
+    "answers": [
+     "Sigge.",
+     "I Vasa.",
+     "I Österbotten.",
+     "Leo bor i Borgå.",
+     "I början av en mening och i namn."
+    ]
+   }
+  },
+  "eu-year-fi-beginner-1-l20": {
+   "sv": {
+    "title": "En och ett: en katt, ett hus",
+    "theory": "Framför ett substantiv står ofta en eller ett. Vissa ord heter en: en katt, en bil, en flicka. Andra heter ett: ett hus, ett äpple, ett träd. Vi lär oss vilket som passar genom att säga det högt.",
+    "sample": "En katt sover i ett hus. / Jag äter ett äpple. / En flicka leker med en boll.",
+    "worked": "Katt, flicka och boll är en-ord. Hus och äpple är ett-ord. Vi säger ordet med en och med ett och hör vad som låter rätt.",
+    "exercises": [
+     "Sätt en eller ett: ___ bil.",
+     "Sätt en eller ett: ___ träd.",
+     "Sätt en eller ett: ___ hund.",
+     "Hitta substantiven i exemplet.",
+     "Skriv tre djur med en eller ett."
+    ],
+    "test": [
+     "Var sover katten?",
+     "Vad äter jag?",
+     "Heter det en hus eller ett hus?",
+     "Vad leker flickan med?",
+     "Sätt en eller ett: ___ bord."
+    ],
+    "steps": [
+     "Hitta substantivet: en människa, ett djur eller en sak.",
+     "Säg det högt med en och med ett: vad låter rätt?",
+     "Lär dig ett-orden väl: ett hus, ett äpple, ett träd.",
+     "Tänk på: Det heter ett äpple, inte en äpple."
+    ],
+    "answers": [
+     "I ett hus.",
+     "Ett äpple.",
+     "Ett hus.",
+     "En boll.",
+     "ett."
+    ]
+   }
+  },
+  "eu-year-fi-beginner-1-l21": {
+   "sv": {
+    "title": "En eller flera: bil, bilar och katter",
+    "theory": "När det finns fler än en använder vi plural. Ofta lägger vi till -ar, -or eller -er: bil – bilar, flicka – flickor, katt – katter. Vissa ord ändras inte: ett hus – två hus.",
+    "sample": "En katt sover. Två katter leker. På vägen kör tre bilar.",
+    "worked": "Katt blir katter med -er. Bil blir bilar med -ar. Flicka blir flickor med -or. Hus heter hus, både i singular och plural.",
+    "exercises": [
+     "Skriv plural av hund.",
+     "Skriv plural av bil.",
+     "Skriv plural av flicka.",
+     "Är katter singular eller plural?",
+     "Skriv plural av pojke."
+    ],
+    "test": [
+     "Vad är plural av katt?",
+     "Hur många bilar kör?",
+     "Vad är plural av hus?",
+     "Skriv plural av gata.",
+     "Skriv plural av bok."
+    ],
+    "steps": [
+     "Fråga dig själv: en eller flera?",
+     "Flera: lägg till -ar, -or eller -er.",
+     "Säg ordet högt för att höra om det låter rätt.",
+     "Tänk på: Vissa ord ändras: en bok – många böcker."
+    ],
+    "answers": [
+     "Katter.",
+     "Tre.",
+     "Hus.",
+     "Gator.",
+     "Böcker."
+    ]
+   }
+  },
+  "eu-year-fi-beginner-1-l22": {
+   "sv": {
+    "title": "Ramsor och rim: vi läser och säger dem högt",
+    "theory": "En ramsa är en kort text med rytm och rim som är rolig att säga högt. En dikt består av rader. Ofta rimmar orden i slutet av raderna. Vi säger ramsan lugnt och gör en liten paus efter varje rad.",
+    "sample": "Egen ramsa: / Solen tittar in i vårt hus, / katten jagar en liten mus. / Fågeln sjunger högt sin sång, / sommardagen är varm och lång.",
+    "worked": "Ramsan har fyra rader. Hus rimmar på mus, sång rimmar på lång. När vi säger den högt läser vi lugnt och gör en liten paus i slutet av varje rad.",
+    "exercises": [
+     "Läs ramsan högt.",
+     "Hitta rimordet till hus.",
+     "Lär dig de två första raderna utantill.",
+     "Rita katten och musen.",
+     "Hitta ett ord som rimmar på bok."
+    ],
+    "test": [
+     "Hur många rader har ramsan?",
+     "Vad jagar katten?",
+     "Vad är en rad i en dikt?",
+     "Hur är sommardagen?",
+     "Hitta ett ord som rimmar på boll."
+    ],
+    "steps": [
+     "Läs ramsan rad för rad.",
+     "Titta på det sista ordet i varje rad och hitta ord som låter likadant.",
+     "För att lära dig den upprepar du två rader i taget.",
+     "Tänk på: Läs lugnt och med pauser; det är ingen tävling."
+    ],
+    "answers": [
+     "Fyra.",
+     "En liten mus.",
+     "En rad med ord i en dikt.",
+     "Varm och lång.",
+     "Ditt svar. Till exempel: troll, noll."
+    ]
+   }
+  },
+  "eu-year-fi-beginner-1-l23": {
+   "sv": {
+    "title": "Tove Jansson: Mumintrollen",
+    "theory": "Tove Jansson var en finlandssvensk författare och konstnär. Hon föddes i Helsingfors. Hon skrev och ritade böckerna om Mumintrollen, som i dag läses över hela världen.",
+    "sample": "Med våra egna ord: Mumintrollet bor med Muminmamman och Muminpappan i ett blått hus i Mumindalen. Hans bästa vän är Snusmumriken, som vandrar och spelar munspel. Tillsammans med Lilla My och Sniff är de med om många äventyr.",
+    "worked": "Personerna är Mumintrollet, Muminmamman, Muminpappan, Snusmumriken, Lilla My och Sniff. I Mumindalen är alla välkomna, och vänskap är viktig. Berättelserna visar att man kan vara olika och ändå höra ihop.",
+    "exercises": [
+     "Berätta vad du vet om Mumintrollen.",
+     "Rita Muminhuset.",
+     "Hur är Lilla My som person?",
+     "Vem är din favorit i Mumindalen?",
+     "Hitta på ett eget äventyr i Mumindalen."
+    ],
+    "test": [
+     "Vem skrev böckerna om Mumintrollen?",
+     "Vilken färg har Muminhuset?",
+     "Vem är Mumintrollets bästa vän?",
+     "Vad spelar Snusmumriken?",
+     "I vilken stad föddes Tove Jansson?"
+    ],
+    "steps": [
+     "Hitta personerna: vem är med i berättelsen?",
+     "Säg hur de olika figurerna är: modiga, nyfikna, snälla.",
+     "Säg vad berättelserna visar oss.",
+     "Tänk på: Mumintrollen är påhittade figurer; det som händer i boken är på låtsas."
+    ],
+    "answers": [
+     "Tove Jansson.",
+     "Blått.",
+     "Snusmumriken.",
+     "Munspel.",
+     "I Helsingfors."
+    ]
+   }
+  },
+  "eu-year-fi-beginner-1-l24": {
+   "sv": {
+    "title": "En folksaga: Bockarna Bruse",
+    "theory": "Folksagor är gamla berättelser som människor har berättat i hundratals år. Ofta händer saker tre gånger. Sagan om Bockarna Bruse kommer från Norge och berättas också i Finland.",
+    "sample": "Med våra egna ord: Tre bockar vill gå över en bro för att äta gräs. Under bron bor ett troll. Den lilla bocken och den mellersta bocken säger att trollet ska vänta på en större bock. Den stora bocken är så stark att han knuffar trollet i vattnet. Sedan kan alla tre äta gräs.",
+    "worked": "Personerna är de tre bockarna och trollet. Saker händer tre gånger: tre bockar går över bron. De små bockarna är kloka och den stora är stark. Till slut blir trollet besegrat.",
+    "exercises": [
+     "Berätta sagan med egna ord.",
+     "Rita bron och trollet.",
+     "Hur många gånger går en bock över bron?",
+     "Hur är den lilla bocken klok?",
+     "Hitta på ett annat slut."
+    ],
+    "test": [
+     "Vart vill bockarna gå?",
+     "Vem bor under bron?",
+     "Vad gör den stora bocken?",
+     "Var kommer sagan ifrån?",
+     "Vad är en folksaga?"
+    ],
+    "steps": [
+     "Hitta personerna: de tre bockarna och trollet.",
+     "Berätta vad som händer varje gång en bock går över bron.",
+     "Titta på hur sagan slutar.",
+     "Tänk på: I folksagor händer saker ofta tre gånger; kom ihåg alla tre."
+    ],
+    "answers": [
+     "Över bron för att äta gräs.",
+     "Ett troll.",
+     "Han knuffar trollet i vattnet.",
+     "Från Norge.",
+     "En gammal berättelse som människor har berättat i många år."
+    ]
+   }
+  },
+  "eu-year-fi-beginner-1-l25": {
+   "sv": {
+    "title": "En fabel: Haren och sköldpaddan",
+    "theory": "En fabel är en kort berättelse med djur som pratar och beter sig som människor. I slutet finns en lärdom: sensmoralen. Många gamla fabler kommer från Aisopos.",
+    "sample": "Med våra egna ord: Haren skrattar åt sköldpaddan för att hon är så långsam. De springer i kapp. Haren springer långt före och lägger sig och sover under ett träd. Sköldpaddan går lugnt vidare utan att stanna och kommer först i mål.",
+    "worked": "Haren är snabb men skrytsam. Sköldpaddan är långsam men ger inte upp. Sensmoralen är att den som håller ut når målet och att man inte ska skratta åt andra.",
+    "exercises": [
+     "Berätta fabeln med egna ord.",
+     "Rita den sovande haren.",
+     "Hur är sköldpaddan?",
+     "Säg sensmoralen med egna ord.",
+     "Hitta på ett annat slut."
+    ],
+    "test": [
+     "Vilka är med i fabeln?",
+     "Varför skrattar haren åt sköldpaddan?",
+     "Vad gör haren under kapplöpningen?",
+     "Vem vinner?",
+     "Vad är en sensmoral?"
+    ],
+    "steps": [
+     "Hitta personerna: haren och sköldpaddan.",
+     "Berätta vad var och en gjorde under kapplöpningen.",
+     "Hitta sensmoralen: vad lär fabeln oss?",
+     "Tänk på: I en fabel pratar djuren, men de visar hur människor beter sig."
+    ],
+    "answers": [
+     "Haren och sköldpaddan.",
+     "För att hon är så långsam.",
+     "Han lägger sig och sover under ett träd.",
+     "Sköldpaddan.",
+     "Fabelns lärdom."
+    ]
+   }
+  },
+  "eu-year-fi-beginner-1-l26": {
+   "sv": {
+    "title": "Gåtor och tungvrickare",
+    "theory": "En gåta beskriver något utan att säga namnet. Vi lyssnar på alla ledtrådar och hittar svaret. En tungvrickare är en mening som är svår att säga snabbt: vi försöker säga den utan fel.",
+    "sample": "Egen gåta: Jag har visare men pekar inte, jag säger tick-tack hela dagen. (en klocka) / Egen tungvrickare: Fem feta flugor flög förbi fars fina fönster.",
+    "worked": "Ledtrådarna är visarna och tick-tack: svaret är en klocka. Tungvrickaren är svår eftersom många ord börjar med f. Vi säger den först långsamt och sedan snabbare.",
+    "exercises": [
+     "Gissa: Den har tänder men äter inte. (en kam)",
+     "Säg tungvrickaren tre gånger.",
+     "Hitta på en gåta om solen.",
+     "Vilket ljud kommer tillbaka i tungvrickaren?",
+     "Ge en gåta till en klasskamrat."
+    ],
+    "test": [
+     "Vad är en gåta?",
+     "Vad är svaret på gåtan i exemplet?",
+     "Varför är tungvrickaren svår?",
+     "Hitta på en gåta om månen.",
+     "Vilken bokstav börjar fem och flugor med?"
+    ],
+    "steps": [
+     "Lyssna på alla ledtrådar.",
+     "Fråga dig själv: vilken sak har allt detta?",
+     "Kontrollera ditt svar med varje ledtråd.",
+     "Tänk på: Svara inte efter första ledtråden; lyssna på allt."
+    ],
+    "answers": [
+     "En beskrivning av något utan att säga namnet.",
+     "En klocka.",
+     "Eftersom många ord börjar med f.",
+     "Ditt svar. Till exempel: Jag lyser på natten, ibland rund och ibland smal. (månen)",
+     "f."
+    ]
+   }
+  },
+  "eu-year-fi-beginner-1-l27": {
+   "sv": {
+    "title": "En faktatext: igelkotten",
+    "theory": "En faktatext ger riktig kunskap om ett ämne. Den berättar inte en påhittad historia. Vi läser noga och hittar svaren i texten.",
+    "sample": "Igelkotten har taggar på ryggen. På natten letar den efter skalbaggar och maskar. På vintern sover den under en hög med löv.",
+    "worked": "Texten berättar hur igelkotten ser ut, när den letar efter mat, vad den äter och vad den gör på vintern. Det är riktig kunskap. Igelkotten sover på vintern: den går i ide.",
+    "exercises": [
+     "Läs texten två gånger.",
+     "Stryk under vad igelkotten äter.",
+     "Rita en igelkott under löven.",
+     "Förklara ordet ide tillsammans med en vuxen.",
+     "Ställ en fråga om igelkotten."
+    ],
+    "test": [
+     "Vad har igelkotten på ryggen?",
+     "När letar den efter mat?",
+     "Vad äter igelkotten?",
+     "Är en faktatext påhittad?",
      "Hur många meningar har texten?"
     ],
-    "test": [
-     "Varför skrivs Vasa med stor bokstav?",
-     "Vad står sist i en mening?",
-     "Skriv rätt: leo åker till borgå",
-     "Hitta ett ord i texten med å.",
-     "Hitta felet: min hund heter Rufus."
+    "steps": [
+     "Läs frågan och hitta det viktigaste ordet, till exempel äter.",
+     "Hitta det ordet eller ett liknande ord i texten.",
+     "Svaret står ofta i samma mening.",
+     "Tänk på: Svara med det som står i texten; hitta inte på något."
+    ],
+    "answers": [
+     "Taggar.",
+     "På natten.",
+     "Skalbaggar och maskar.",
+     "Nej, den ger riktig kunskap.",
+     "Tre."
     ]
    }
   },
-  "eu-year-fi-beginner-1-redactare": {
+  "eu-year-fi-beginner-1-l28": {
    "sv": {
-    "title": "Skriva till en bild",
-    "theory": "Först tittar vi på bilden och säger vad vi ser. Sedan skriver vi en mening: Vem gör vad, och var? Meningen börjar med stor bokstav och slutar med punkt. Till sist kontrollerar vi varje ord.",
-    "sample": "Bild: En flicka plockar svamp i skogen.\nMening: Flickan plockar svamp i skogen.",
-    "worked": "Vem? Flickan. Vad gör hon? Hon plockar svamp. Var? I skogen. Meningen börjar med stort F och slutar med punkt. Till sist läser vi den högt.",
+    "title": "Bilderboken: bilder och text berättar tillsammans",
+    "theory": "I en bilderbok berättar bilderna och texten historien tillsammans. Bilderna visar saker som texten inte säger. Vi tittar på omslaget, läser titeln och gissar vad boken handlar om.",
+    "sample": "Eget exempel: Omslaget visar en liten flicka med ett paraply och en stor, blöt hund. Titeln är: Regnvädersdagen.",
+    "worked": "Utifrån bilden och titeln kan vi gissa att boken handlar om en dag med regn då flickan och hunden går en promenad. När vi läser ser vi om vi gissade rätt. Bilden visar också att hunden är blöt, fast det inte står i titeln.",
     "exercises": [
-     "Skriv en mening: en pojke läser en bok.",
-     "Vem ser vi på bilden i exemplet?",
-     "Vad plockar flickan?",
-     "Skriv en mening om din skolväg.",
-     "Kontrollera din mening: Är början stor?"
+     "Titta på omslaget till en bok och gissa vad den handlar om.",
+     "Hitta titeln på en bok i klassrummet.",
+     "Rita ett omslag till din egen bok.",
+     "Berätta vad en bild visar.",
+     "Hitta författarens namn på en bok."
     ],
     "test": [
-     "Vad gör vi innan vi skriver?",
-     "Var plockar flickan svamp?",
-     "Skriv en mening om din favoritmat.",
-     "Vad står i slutet av en mening?",
-     "Rita en bild och skriv en mening till den."
+     "Vad visar omslaget i exemplet?",
+     "Vad är titeln?",
+     "Vad kan boken handla om?",
+     "Vad visar bilden som titeln inte säger?",
+     "Vad gör bilderna i en bilderbok?"
+    ],
+    "steps": [
+     "Titta först på omslaget och titeln.",
+     "Gissa vad boken handlar om.",
+     "Läs boken och se om du gissade rätt.",
+     "Tänk på: Hoppa inte över bilderna; de berättar också historien."
+    ],
+    "answers": [
+     "En liten flicka med ett paraply och en stor, blöt hund.",
+     "Regnvädersdagen.",
+     "Ditt svar. Till exempel: En dag med regn då flickan och hunden går en promenad.",
+     "Att hunden är blöt.",
+     "De berättar historien tillsammans med texten."
     ]
    }
   },
-  "eu-year-fi-beginner-1-interpretare": {
+  "eu-year-fi-beginner-1-l29": {
    "sv": {
-    "title": "Jag säger vad jag tycker",
-    "theory": "Jag får säga vad jag tycker och ge ett skäl: Jag tycker om ..., eftersom ... När vi jämför frågar vi: På vilket sätt är personerna lika? På vilket sätt är de olika? Vi lyssnar också på vad andra tycker.",
-    "sample": "Björnen Bruno är stark, men han delar aldrig. Musen Mimmi är liten och delar sina bär. Jag tycker om Mimmi, eftersom hon delar.",
-    "worked": "Bruno är stor och stark, Mimmi är liten: Det är olika. Båda bor i skogen: Det är lika. Med eftersom ger vi skälet. Ett annat barn får tycka mer om Bruno.",
+    "title": "Meningen: punkt, frågetecken och utropstecken",
+    "theory": "En mening är en grupp ord som betyder något tillsammans. Den börjar med stor bokstav. Berättar meningen något slutar den med punkt. Ställer den en fråga slutar den med frågetecken (?). Visar den en känsla slutar den med utropstecken (!).",
+    "sample": "I dag skiner solen. Vill du följa med till parken? Vilken härlig dag!",
+    "worked": "Den första meningen berättar något: punkt. Den andra ställer en fråga: frågetecken. Den tredje visar glädje: utropstecken. Alla meningar börjar med stor bokstav.",
     "exercises": [
-     "Hur är Bruno?",
-     "Vad delar Mimmi?",
-     "På vilket sätt är Bruno och Mimmi lika?",
-     "Skriv: Jag tycker om ..., eftersom ...",
-     "Vilken person tycker du bäst om? Säg varför."
+     "Sätt rätt tecken: Vad heter du",
+     "Sätt rätt tecken: Jag har en hund",
+     "Skriv en fråga till din lärare.",
+     "Skriv en mening med utropstecken.",
+     "Räkna meningarna i exemplet."
     ],
     "test": [
-     "På vilket sätt är Bruno och Mimmi olika?",
-     "Med vilket ord ger vi ett skäl?",
-     "Vad gör du om en kompis tycker annorlunda?",
-     "Är Mimmi stor eller liten?",
-     "Hitta på en ny person och ge den ett namn."
+     "Vilket tecken avslutar en fråga?",
+     "Vad börjar en mening med?",
+     "Skriv rätt: det regnar i dag",
+     "Vilken mening i exemplet visar glädje?",
+     "Hur många meningar finns i exemplet?"
+    ],
+    "steps": [
+     "Fråga dig själv: berättar meningen något, ställer den en fråga eller visar den en känsla?",
+     "Berättar: punkt. Fråga: ? Känsla: !",
+     "Den första bokstaven är alltid stor.",
+     "Tänk på: Även en kort fråga som Kommer du? ska ha frågetecken."
+    ],
+    "answers": [
+     "Frågetecken.",
+     "Stor bokstav.",
+     "Det regnar i dag.",
+     "Vilken härlig dag!",
+     "Tre."
     ]
    }
   },
-  "eu-year-fi-beginner-1-verificare": {
+  "eu-year-fi-beginner-1-l30": {
    "sv": {
-    "title": "Repetition: allt en gång till",
-    "theory": "Till sist övar vi allt en gång till: höra förljud, klappa stavelser, svara på frågor om texten, berätta i ordning, hitta rim, skriva stor bokstav och punkt och använda å, ä och ö.",
-    "sample": "På lördag åker Selma buss till Helsingfors. Hon besöker ett museum. Efter det äter hon glass med sin mormor.",
-    "worked": "Vem? Selma. När? På lördag. Hur åker hon? Med buss. Vad gör hon först? Hon besöker ett museum. Vad gör hon efter det? Hon äter glass. Mu-se-um har tre stavelser.",
+    "title": "Skriv till en bild",
+    "theory": "Vi tittar på en bild och frågar: Vem ser jag? Vad gör han eller hon? Var är det? När? Sedan skriver vi två eller tre meningar med stor bokstav först och punkt sist.",
+    "sample": "Bild: en flicka bygger en snögubbe. / Meningar: Flickan bygger en snögubbe. Det är vinter. Snögubben har en morot som näsa.",
+    "worked": "Vi skrev tre meningar. Den första säger vem vi ser och vad hon gör. Den andra säger när. Den tredje berättar en detalj. Då blir texten tydlig.",
     "exercises": [
-     "Klappa stavelserna i museum.",
-     "Hur åker Selma?",
-     "Vart åker Selma?",
-     "Hitta två substantiv i texten.",
-     "Hitta ett ord som rimmar på buss."
+     "Titta ut genom fönstret och skriv en mening.",
+     "Ställ de fyra frågorna till en bild.",
+     "Skriv två meningar om din klass.",
+     "Rita en bild och skriv en mening under.",
+     "Läs upp dina meningar för en klasskamrat."
     ],
     "test": [
-     "Vad gör Selma först?",
+     "Vilka frågor ställer vi till en bild?",
+     "Vad bygger flickan?",
+     "Vad har snögubben som näsa?",
+     "Vad slutar en berättande mening med?",
+     "Skriv en mening om vintern."
+    ],
+    "steps": [
+     "Titta på bilden och fråga: vem? vad gör han eller hon? var? när?",
+     "Säg meningen högt innan du skriver den.",
+     "Kontrollera: stor bokstav först, punkt sist, mellanrum mellan orden.",
+     "Tänk på: Skriv hela meningar, inte bara enstaka ord."
+    ],
+    "answers": [
+     "Vem ser jag? Vad gör han eller hon? Var är det? När?",
+     "En snögubbe.",
+     "En morot.",
+     "Punkt.",
+     "Ditt svar. Till exempel: På vintern är det kallt."
+    ]
+   }
+  },
+  "eu-year-fi-beginner-1-l31": {
+   "sv": {
+    "title": "En inbjudan och ett kort",
+    "theory": "Ett födelsedagskort har en hälsning, en önskan och ett namn. En inbjudan berättar vad vi bjuder in till, när och var. Då vet läsaren allt den behöver veta.",
+    "sample": "Kära farmor, / jag bjuder in dig till mitt födelsedagskalas. / När: lördag klockan tre. / Var: hemma hos oss. / Vi ses! / Kram från Maja",
+    "worked": "Inbjudan börjar med Kära farmor. Sedan står kalaset, dagen, tiden och platsen. Den slutar med en vänlig hälsning och namnet. Utan dag och tid vet farmor inte när hon ska komma.",
+    "exercises": [
+     "Skriv en hälsning till din morfar.",
+     "Skriv en inbjudan till att leka.",
+     "Skriv ett födelsedagskort.",
+     "Vad saknas i en inbjudan utan plats?",
+     "Skriv ditt namn under inbjudan."
+    ],
+    "test": [
+     "Vad ska stå i en inbjudan?",
+     "När är Majas kalas?",
+     "Hur börjar inbjudan?",
+     "Skriv en kort önskan till din mamma.",
+     "Vad står i slutet av inbjudan?"
+    ],
+    "steps": [
+     "Börja med en hälsning: Kära …, Hej …",
+     "Skriv vad du bjuder in till, när och var.",
+     "Avsluta med en vänlig hälsning och ditt namn.",
+     "Tänk på: Utan dag, tid och plats vet ingen när de ska komma."
+    ],
+    "answers": [
+     "Vad vi bjuder in till, när och var, med en hälsning och ett namn.",
+     "Lördag klockan tre.",
+     "Kära farmor.",
+     "Ditt svar. Till exempel: Kära mamma, grattis på födelsedagen!",
+     "Kram från Maja."
+    ]
+   }
+  },
+  "eu-year-fi-beginner-1-l32": {
+   "sv": {
+    "title": "Berätta om din helg",
+    "theory": "När vi berättar om något vi har varit med om säger vi vem som var med, var det var, vad som hände och hur det slutade. Vi använder ord som först, sedan och till sist. De andra lyssnar och får ställa frågor.",
+    "sample": "I söndags åkte jag till stranden med mina föräldrar. Först byggde vi ett sandslott. Sedan sköljde en stor våg bort det. Till sist skrattade vi och byggde ett nytt.",
+    "worked": "Berättelsen säger när (i söndags), var (på stranden), med vem (föräldrarna), vad som hände (vågen sköljde bort slottet) och hur det slutade (de byggde ett nytt). Orden först, sedan och till sist hjälper oss att följa ordningen.",
+    "exercises": [
+     "Berätta vad du gjorde i helgen.",
+     "Använd först, sedan och till sist.",
+     "Ställ en fråga om en klasskamrats berättelse.",
+     "Rita sandslottet.",
+     "Hitta på en titel till berättelsen i exemplet."
+    ],
+    "test": [
+     "Vart åkte barnet i söndags?",
+     "Med vem?",
+     "Vad sköljde bort sandslottet?",
+     "Hur slutade berättelsen?",
+     "Vilka ord hjälper oss att säga ordningen?"
+    ],
+    "steps": [
+     "Tänk: vem, var, vad hände och hur slutade det.",
+     "Berätta i ordning med först, sedan och till sist.",
+     "Prata lugnt och titta på dem som lyssnar.",
+     "Tänk på: Hoppa inte över något; den som lyssnar ska förstå vad som hände."
+    ],
+    "answers": [
+     "Till stranden.",
+     "Med sina föräldrar.",
+     "En stor våg.",
+     "De skrattade och byggde ett nytt.",
+     "Först, sedan, till sist."
+    ]
+   }
+  },
+  "eu-year-fi-beginner-1-l33": {
+   "sv": {
+    "title": "Samtal: vi frågar och lyssnar",
+    "theory": "I ett bra samtal turas vi om att prata. Vi lyssnar medan den andra pratar, och vi frågar om vi inte förstår något. Vi kan fråga med frågeord: vem, vad, var, när och varför.",
+    "sample": "Liv: Vad har du med dig till utflykten? / Noah: Jag har smörgåsar och en banan. Vad har du? / Liv: Jag har pannkakor.",
+    "worked": "Liv ställer en fråga med vad. Noah svarar och ställer själv en fråga tillbaka. De turas om att prata och lyssnar på varandra. Så blir samtalet bra.",
+    "exercises": [
+     "Ställ en fråga med vad till en klasskamrat.",
+     "Ställ en fråga med var.",
+     "Svara med en hel mening.",
+     "Fråga tillbaka när du har svarat.",
+     "Öva samtalet i exemplet med en kompis."
+    ],
+    "test": [
+     "Vad har Noah med sig?",
+     "Vad har Liv med sig?",
+     "Vilket frågeord använder Liv?",
+     "Vad gör vi i ett bra samtal?",
+     "Ställ en fråga med varför."
+    ],
+    "steps": [
+     "Lyssna medan den andra pratar.",
+     "Svara med en hel mening.",
+     "Ställ själv en fråga tillbaka så att samtalet fortsätter.",
+     "Tänk på: Prata inte i munnen på varandra; vänta tills den andra är klar."
+    ],
+    "answers": [
+     "Smörgåsar och en banan.",
+     "Pannkakor.",
+     "Vad.",
+     "Vi turas om att prata och lyssnar på varandra.",
+     "Ditt svar. Till exempel: Varför tycker du om fotboll?"
+    ]
+   }
+  },
+  "eu-year-fi-beginner-1-l34": {
+   "sv": {
+    "title": "Repetition: det här har jag lärt mig i årskurs 1",
+    "theory": "I slutet av året läser vi en kort text och visar vad vi kan: läsa och förstå, dela ord i ljud och stavelser, skriva meningar med stor bokstav och punkt, de vanliga orden och de svåra ljuden.",
+    "sample": "Varje morgon packar Viggo sin skolväska. Han lägger ner sitt häfte, sitt pennskrin och sin frukt. Sedan cyklar han till skolan med sin pappa.",
+    "worked": "Texten har tre meningar. Viggo packar först väskan och cyklar sedan till skolan. Viggo är ett namn: stor bokstav. Skolväska har tre stavelser: skol-väs-ka. I skolan hör vi sk före hård vokal, alltså ett vanligt k-ljud.",
+    "exercises": [
+     "Läs texten högt.",
+     "Hitta ordet med sk.",
+     "Klappa ordet pennskrin.",
+     "Skriv en mening om din skolväska.",
+     "Berätta vad du tyckte bäst om att lära dig i år."
+    ],
+    "test": [
+     "Vad gör Viggo först?",
      "Hur många meningar har texten?",
-     "Skriv rätt: selma äter glass",
-     "Vilket är förljudet i lördag?",
-     "Skriv en mening om en utflykt."
+     "Skriv rätt: viggo cyklar till skolan",
+     "Vem cyklar Viggo med?",
+     "Hur många stavelser har skolväska?"
+    ],
+    "steps": [
+     "Läs först långsamt och sedan snabbare.",
+     "Fråga dig själv: vem? vad gör han? med vem?",
+     "Räkna meningarna genom att titta på punkterna.",
+     "Tänk på: Namn och början av en mening får stor bokstav: Viggo."
+    ],
+    "answers": [
+     "Han packar sin skolväska.",
+     "Tre.",
+     "Viggo cyklar till skolan.",
+     "Med sin pappa.",
+     "Tre: skol-väs-ka."
     ]
    }
   }

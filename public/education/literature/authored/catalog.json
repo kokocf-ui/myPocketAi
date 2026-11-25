@@ -1,6 +1,6 @@
 {
  "schema": "mypocket-literature-authored-catalog/v1",
- "version": "726b768232996d1766b0171af82055409007f871e67f489f910b217d2867b8b7",
+ "version": "723e46bfe1deeb496072d5a5f206a3ad954ee9998f84b2fb3c6f92a50349e0e2",
  "years": [
   {
    "country": "AT",
@@ -137,7 +137,7 @@
      "lang": "sv",
      "name": "Svenska",
      "file": "sv-1",
-     "version": "8a69c34bd88de56f5ac91980f5a704190bc9203d5b3c56ec64c6f62d0db6777c"
+     "version": "95ad42763e319c3e254a41123b8de021b950e6efa695ecf3f2fce94c92652270"
     }
    ]
   },
@@ -286,7 +286,7 @@
      "lang": "sv",
      "name": "Svenska",
      "file": "sv-1",
-     "version": "c049c76f7f51faaeb663d59c5459a9571eeefb842d91974a713c2a2d525b44fe"
+     "version": "a538fd2b771d6ba6abe73095da4e263a6c9658957ecb42cd3a5929195b581a3d"
     }
    ]
   },
