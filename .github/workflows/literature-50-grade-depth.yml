@@ -56,6 +56,7 @@ jobs:
           node --check tests_literature_android_corrections.mjs
           node --check literature_reference_catalog.mjs
           node --check tests_literature_real_browser.mjs
+          node --check tests_literature_national_browser.mjs
           node --check tests_literature_reference_catalog.mjs
           node --check tests_literature_europe_authored_material.mjs
       - name: National coverage and existing literature regressions
@@ -81,6 +82,7 @@ jobs:
           node tests_literature_android_corrections.mjs
           node tests_literature_reference_catalog.mjs
           node tests_literature_real_browser.mjs
+          node tests_literature_national_browser.mjs
           node tests_literature_europe.mjs
           node tests_literature_ro_grade_progression.mjs
           node tests_seven_europe_literature.mjs

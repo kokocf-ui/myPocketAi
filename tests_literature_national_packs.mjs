@@ -93,7 +93,7 @@ assert.doesNotMatch(x.text,/The sun is up, the sky is blue/);
 
 // 6. Frontend serializes the generic loaders and the language-of-instruction step.
 const html=await(await frontend.fetch(new Request('https://lit-national.test/'))).text();
-for(const needle of ['const literatureLoadAuthoredCatalog=','const literatureLoadNationalYear=','function litWithNationalYear(proceed)',
+for(const needle of ['const literatureLoadAuthoredCatalog=','const literatureLoadNationalYear=','function litWithNationalYear(proceed)','function litNationalCatalogPrefetch()','function litNationalCatalogNow()',
  'lit-instruction-language','const LIT_NATIONAL_YEAR={pack:null}','function literatureNationalYearMaterial('])assert.ok(html.includes(needle),needle);
 assert.ok(!html.includes('The sun is up, the sky is blue'),'lesson text is not bundled in the HTML');
 const script=html.split('<script>')[1]?.split('</script>')[0];new vm.Script(script);

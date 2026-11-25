@@ -568,12 +568,17 @@ async function litSimpleGenerate(out,status,mode,request,source='',onReady=null,
     if(serial!==litSimpleSerial||controller.signal.aborted||
        snapshot!==[litJourney.country,litJourney.grade,litJourney.branch,litJourney.topic].join('|')||
        ((typeof state!=='undefined'&&state.language)||litJourney.language||'ro')!==answerLanguage)return;
-    if(!translated){
-     // Never present the original as a translation, but keep the authored
-     // lesson readable in its source language while translation is failing.
+    if(!translated&&localMaterial.origin==='authored_national_year'){
+     // Never present the original as a translation, but keep the national
+     // lesson readable in its language of instruction while translation fails.
      present(localMaterial.text,true,{translationManaged:true,translationFailed:true});
      status.textContent=litSimpleLabel('Traducerea nu este disponibilă; lecția este afișată în limba originală. Verifică internetul și apasă din nou pe activitate pentru a reîncerca.',
       'Translation is unavailable; the lesson is shown in its original language. Check your connection and select the activity again to retry.');
+     return;
+    }
+    if(!translated){
+     status.textContent=litSimpleLabel('Traducerea nu este disponibilă. Verifică internetul și apasă din nou pe activitate pentru a reîncerca.',
+      'Translation is unavailable. Check your connection and select the activity again to retry.');
      return;
     }
     present(translated,true,{translated:true,translationManaged:true});

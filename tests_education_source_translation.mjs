@@ -39,9 +39,9 @@ async function run(mode='exercises'){
 let x=await run();assert.match(x.text,/^ro translated/);assert.match(x.text,/Mila a un livre\. Elle lit avec Léo\./);assert.doesNotMatch(x.text,/__EDU_KEEP_/);assert.equal(calls,1);
 // Cached translations are language/content-specific and can be used offline.
 offline=true;x=await run();assert.match(x.text,/^ro translated/);assert.equal(calls,1);
-cfg.state.language='de';x=await run();assert.match(x.text,/Mila a un livre/);assert.doesNotMatch(x.text,/translated/);assert.match(x.status,/Traducerea nu este disponibilă; lecția este afișată în limba originală/);assert.equal(journey.busy,false);
+cfg.state.language='de';x=await run();assert.equal(x.text,'');assert.match(x.status,/Traducerea nu este disponibilă/);assert.equal(journey.busy,false);
 // Failure is never cached as success: retry works.
-offline=false;damage=true;x=await run();assert.doesNotMatch(x.text,/translated|lost/);assert.match(x.text,/Mila a un livre/);assert.match(x.status,/Traducerea nu este disponibilă/);
+offline=false;damage=true;x=await run();assert.equal(x.text,'');assert.match(x.status,/Traducerea nu este disponibilă/);
 damage=false;x=await run();assert.match(x.text,/^de translated/);assert.match(x.text,/Mila a un livre/);
 // The original language is always available without translation or network.
 const before=calls;cfg.state.language='fr';offline=true;x=await run();assert.match(x.text,/Mila a un livre/);assert.equal(calls,before);

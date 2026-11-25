@@ -15341,6 +15341,7 @@ function litStartCountryProfile(){
    const result=await literatureLoadCountryProfile(country);
    if(!active())return;
    LIT_EUROPE_PROGRAMS[country]=result.profile;
+   if(typeof litNationalCatalogPrefetch==='function')litNationalCatalogPrefetch();
    litOpen('levels');
   }catch{
    if(!active())return;
@@ -15385,21 +15386,40 @@ function litWithAuthoredYear(proceed){
 // National year packs: any country/year/language listed in the static
 // catalog. Multilingual systems offer each language of instruction as its own
 // single-source pack (never a translation of another language's lessons).
-let litNationalCatalogMemo=null;
+let litNationalCatalogMemo=null,litNationalCatalogLoading=null;
+// Background refresh once per session; never blocks year selection.
+function litNationalCatalogPrefetch(){
+ if(litNationalCatalogMemo||litNationalCatalogLoading||typeof literatureLoadAuthoredCatalog!=='function')return;
+ litNationalCatalogLoading=literatureLoadAuthoredCatalog().then(r=>{if(!r.offline)litNationalCatalogMemo=r.catalog})
+  .catch(()=>{}).finally(()=>{litNationalCatalogLoading=null});
+}
+// Synchronous view: this session's catalog, else the last validated copy.
+function litNationalCatalogNow(){
+ if(litNationalCatalogMemo)return litNationalCatalogMemo;
+ try{
+  const saved=JSON.parse(localStorage.getItem('pocketai.literature.authored.catalog.v1')||'null');
+  if(saved&&saved.schema==='mypocket-literature-authored-catalog/v1'&&Array.isArray(saved.years))return saved;
+ }catch{}
+ return null;
+}
 function litWithNationalYear(proceed){
  if(typeof LIT_NATIONAL_YEAR==='object')LIT_NATIONAL_YEAR.pack=null;
  const country=litJourney.country,stage=litJourney.level,grade=String(litJourney.grade||'');
- if(typeof literatureLoadAuthoredCatalog!=='function'||typeof LIT_NATIONAL_YEAR!=='object'||
+ if(typeof literatureLoadNationalYear!=='function'||typeof LIT_NATIONAL_YEAR!=='object'||
     stage==='advanced'||!country||country==='OTHER-EU'){proceed();return}
+ const catalog=litNationalCatalogNow();
+ litNationalCatalogPrefetch();
+ const entry=catalog?.years?.find(y=>y.country===country&&y.stage===stage&&y.grade===grade&&Array.isArray(y.languages)&&y.languages.length)||null;
+ if(!entry){proceed();return}
  litJourney.stage='loading-national-year';
  const host=$('moduleContent');host.replaceChildren();
  const panel=document.createElement('div');panel.className='math-choice-panel science-choice-panel lit-panel lit-national-year';
  const back=litBtn(learningLabel('← Înapoi','← Back'),()=>litOpen('grades'),'secondary-btn lit-back');
- const message=litText('p',learningLabel('Se verifică lecțiile disponibile pentru această clasă…','Checking the lessons available for this year…'));
+ const message=litText('p','');
  panel.append(back,message);host.append(panel);
  const active=()=>panel.isConnected&&litJourney.stage==='loading-national-year'&&litJourney.country===country&&String(litJourney.grade)===grade;
  const general=()=>{if(active()){LIT_NATIONAL_YEAR.pack=null;proceed()}};
- const openPack=async(entry,lang)=>{
+ const openPack=async lang=>{
   message.textContent=learningLabel('Se încarcă lecțiile originale ale clasei…','Loading the original lessons for this year…');
   panel.querySelectorAll('.lit-national-retry,.lit-national-general').forEach(n=>n.remove());
   try{
@@ -15411,26 +15431,17 @@ function litWithNationalYear(proceed){
   }catch{
    if(!active())return;
    message.textContent=learningLabel('Lecțiile acestei clase nu sunt disponibile offline. Conectează-te la internet și încearcă din nou sau continuă cu materialul general.','These year-specific lessons are not available offline. Connect to the internet and try again, or continue with the general material.');
-   panel.append(litBtn(learningLabel('Încearcă din nou','Try again'),()=>openPack(entry,lang),'secondary-btn lit-national-retry'),
+   panel.append(litBtn(learningLabel('Încearcă din nou','Try again'),()=>openPack(lang),'secondary-btn lit-national-retry'),
     litBtn(learningLabel('Continuă cu materialul general','Continue with general material'),general,'secondary-btn lit-national-general'));
   }
  };
- (async()=>{
-  let catalog=litNationalCatalogMemo;
-  if(!catalog){
-   try{const loaded=await literatureLoadAuthoredCatalog();catalog=loaded.catalog;if(!loaded.offline)litNationalCatalogMemo=catalog}catch{}
-  }
-  if(!active())return;
-  const entry=catalog?.years?.find(y=>y.country===country&&y.stage===stage&&y.grade===grade)||null;
-  if(!entry){general();return}
-  if(entry.languages.length===1){openPack(entry,entry.languages[0].lang);return}
-  let remembered='';try{remembered=localStorage.getItem('pocketai.literature.instruction.'+country)||''}catch{}
-  message.textContent=learningLabel('Alege limba de școlarizare. Fiecare variantă are lecții proprii, scrise direct în acea limbă.','Choose the language of instruction. Each option has its own lessons written directly in that language.');
-  const box=document.createElement('div');box.className='lit-instruction-languages';
-  const ordered=entry.languages.slice().sort((a,b)=>Number(b.lang===remembered)-Number(a.lang===remembered));
-  for(const option of ordered)box.append(litBtn(option.name+(option.lang===remembered?' ✓':''),()=>{box.remove();openPack(entry,option.lang)},'secondary-btn lit-instruction-language'));
-  panel.append(box);
- })();
+ if(entry.languages.length===1){openPack(entry.languages[0].lang);return}
+ let remembered='';try{remembered=localStorage.getItem('pocketai.literature.instruction.'+country)||''}catch{}
+ message.textContent=learningLabel('Alege limba de școlarizare. Fiecare variantă are lecții proprii, scrise direct în acea limbă.','Choose the language of instruction. Each option has its own lessons written directly in that language.');
+ const box=document.createElement('div');box.className='lit-instruction-languages';
+ const ordered=entry.languages.slice().sort((a,b)=>Number(b.lang===remembered)-Number(a.lang===remembered));
+ for(const option of ordered)box.append(litBtn(option.name+(option.lang===remembered?' ✓':''),()=>{box.remove();openPack(option.lang)},'secondary-btn lit-instruction-language'));
+ panel.append(box);
 }
 function litProgram(){
  const profile=LIT_EUROPE_PROGRAMS[litJourney.country]||null;
