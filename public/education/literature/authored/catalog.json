@@ -1,6 +1,6 @@
 {
  "schema": "mypocket-literature-authored-catalog/v1",
- "version": "b48a955800158fbc82ccc767e91931809b6080bcb463abf759e167a960d14d78",
+ "version": "96363004099672d8b0891eca63db113986bdc09e3264950b3fdceb0b48581480",
  "years": [
   {
    "country": "AD",
@@ -109,6 +109,12 @@
    "stage": "beginner",
    "grade": "1",
    "languages": [
+    {
+     "lang": "be",
+     "name": "Беларуская",
+     "file": "be-1",
+     "version": "dd4ee677fd9114f8277e0b85617b7e5f41085fe058a4123050e6cc674c02adb6"
+    },
     {
      "lang": "ru",
      "name": "Русский",
