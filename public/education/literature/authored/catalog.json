@@ -1,6 +1,6 @@
 {
  "schema": "mypocket-literature-authored-catalog/v1",
- "version": "22c4707a673d809014f47ab766342cbe56e445341270d3c38023e6bcde7217a8",
+ "version": "7d872771267b4658a9aec0368439febb44cc8fbb1f30bfb7786ad2732ce13239",
  "years": [
   {
    "country": "AD",
@@ -594,7 +594,7 @@
      "lang": "ro",
      "name": "Română",
      "file": "ro-uni-ba-1",
-     "version": "a4ef2cf4d4704a3a7e7ab67b863a409beec8c726eed77739e98f2065dd8468d4"
+     "version": "73fabff7391eaa28a6ff013d92a2eea15c093efdc71314548a84d2ebe9925cd4"
     }
    ]
   },
@@ -608,6 +608,19 @@
      "name": "Română",
      "file": "ro-uni-ba-2",
      "version": "4fa1f63194bcea8ae5acc3de5b284ee73ad8f5074e43bcd48e66fdca052960fd"
+    }
+   ]
+  },
+  {
+   "country": "RO",
+   "stage": "advanced",
+   "grade": "uni-ba-3",
+   "languages": [
+    {
+     "lang": "ro",
+     "name": "Română",
+     "file": "ro-uni-ba-3",
+     "version": "8c29d7de41e3300d1f37595d7e7b545456831cc9c5a300deda0319e63d19a736"
     }
    ]
   },

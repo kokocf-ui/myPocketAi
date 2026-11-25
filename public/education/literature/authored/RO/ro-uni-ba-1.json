@@ -3,7 +3,7 @@
  "country": "RO",
  "stage": "advanced",
  "grade": "uni-ba-1",
- "version": "a4ef2cf4d4704a3a7e7ab67b863a409beec8c726eed77739e98f2065dd8468d4",
+ "version": "73fabff7391eaa28a6ff013d92a2eea15c093efdc71314548a84d2ebe9925cd4",
  "source": "https://www.aracis.ro/",
  "sourceTitle": "Sinteză orientativă a disciplinelor fundamentale comune programelor de licență Limba și literatura română (specializarea A) din facultățile de Litere din România, conform standardelor specifice ARACIS pentru domeniul Limbă și literatură și planurilor de învățământ publicate de Universitatea din București, Universitatea Babeș-Bolyai și Universitatea „Alexandru Ioan Cuza” — anul I: introducere în teoria literaturii, folclor literar românesc, literatura română veche, literatura universală (Antichitatea), limba română contemporană (fonetică, fonologie, lexicologie), lingvistică generală, limba latină, scriere academică; fiecare facultate are planul propriu, iar ordinea și denumirile cursurilor pot diferi; lecții originale, fără text copiat din cursuri sau manuale",
  "status": "partial-original-material-independent-review-pending",
@@ -337,7 +337,7 @@
   "eu-year-ro-advanced-uni-ba-1-l08": {
    "ro": {
     "title": "Poezia obiceiurilor: colindul, descântecul, bocetul",
-    "theory": "Poezia ritualică are funcție practică în viața comunității. Obiceiurile calendaristice (colindele de iarnă, urările, Paparuda, Drăgaica) marchează anul agrar și religios; obiceiurile din ciclul vieții (nașterea, nunta, înmormântarea) au texte specifice: oraţia de nuntă, bocetul, cântecele ceremoniale funebre. Descântecul are funcție magică: alungarea bolii prin formule, enumerări și blesteme rituale.",
+    "theory": "Poezia ritualică are funcție practică în viața comunității. Obiceiurile calendaristice (colindele de iarnă, urările, Paparuda, Drăgaica) marchează anul agrar și religios; obiceiurile din ciclul vieții (nașterea, nunta, înmormântarea) au texte specifice: orația de nuntă, bocetul, cântecele ceremoniale funebre. Descântecul are funcție magică: alungarea bolii prin formule, enumerări și blesteme rituale.",
     "sample": "Formulă originală în stil de descântec: Fugi, durere, din os, din carne, din vine; du-te în pustiu, unde nu cântă cocoș și nu trage clopot.",
     "worked": "Imperativul, enumerarea părților corpului și trimiterea răului într-un loc pustiu sunt structuri tipice descântecului. Funcția este magică, nu estetică, deși textul are valoare artistică.",
     "exercises": [

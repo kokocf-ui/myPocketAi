@@ -1,0 +1,1177 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "RO",
+ "stage": "advanced",
+ "grade": "uni-ba-3",
+ "version": "8c29d7de41e3300d1f37595d7e7b545456831cc9c5a300deda0319e63d19a736",
+ "source": "https://www.aracis.ro/",
+ "sourceTitle": "Sinteză orientativă a disciplinelor fundamentale comune programelor de licență Limba și literatura română (specializarea A) din facultățile de Litere din România, conform standardelor specifice ARACIS pentru domeniul Limbă și literatură și planurilor de învățământ publicate de Universitatea din București, Universitatea Babeș-Bolyai și Universitatea „Alexandru Ioan Cuza” — anul al III-lea: literatura română interbelică, literatura română postbelică și contemporană, literatura universală modernă (realism – postmodernism), limba română contemporană (sintaxă), pragmatică și stilistică, critică și istorie literară, metodologia lucrării de licență; fiecare facultate are planul propriu, iar ordinea și denumirile cursurilor pot diferi; lecții originale, fără text copiat din cursuri sau manuale",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "ro",
+ "labels": [
+  "Activitate originală · România · Facultatea de Litere · Licență, anul al III-lea",
+  "Teorie pe înțeles",
+  "Exemplu original",
+  "Analiză explicată",
+  "Exerciții de seminar",
+  "Verifică-te",
+  "Exerciții originale; nu înlocuiesc cursul, bibliografia sau evaluarea facultății.",
+  "Dacă nu ai înțeles: pe înțelesul tău, pas cu pas",
+  "Răspunsuri (verifică după ce termini)"
+ ],
+ "units": [
+  {
+   "title": "Literatura română interbelică",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-3-l01",
+    "eu-year-ro-advanced-uni-ba-3-l02",
+    "eu-year-ro-advanced-uni-ba-3-l03",
+    "eu-year-ro-advanced-uni-ba-3-l04",
+    "eu-year-ro-advanced-uni-ba-3-l05",
+    "eu-year-ro-advanced-uni-ba-3-l06",
+    "eu-year-ro-advanced-uni-ba-3-l07",
+    "eu-year-ro-advanced-uni-ba-3-l08"
+   ]
+  },
+  {
+   "title": "Literatura română postbelică și contemporană",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-3-l09",
+    "eu-year-ro-advanced-uni-ba-3-l10",
+    "eu-year-ro-advanced-uni-ba-3-l11",
+    "eu-year-ro-advanced-uni-ba-3-l12",
+    "eu-year-ro-advanced-uni-ba-3-l13",
+    "eu-year-ro-advanced-uni-ba-3-l14"
+   ]
+  },
+  {
+   "title": "Literatura universală modernă",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-3-l15",
+    "eu-year-ro-advanced-uni-ba-3-l16",
+    "eu-year-ro-advanced-uni-ba-3-l17",
+    "eu-year-ro-advanced-uni-ba-3-l18",
+    "eu-year-ro-advanced-uni-ba-3-l19"
+   ]
+  },
+  {
+   "title": "Limba română contemporană: sintaxă",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-3-l20",
+    "eu-year-ro-advanced-uni-ba-3-l21",
+    "eu-year-ro-advanced-uni-ba-3-l22",
+    "eu-year-ro-advanced-uni-ba-3-l23"
+   ]
+  },
+  {
+   "title": "Pragmatică și stilistică",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-3-l24",
+    "eu-year-ro-advanced-uni-ba-3-l25",
+    "eu-year-ro-advanced-uni-ba-3-l26"
+   ]
+  },
+  {
+   "title": "Critică și istorie literară",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-3-l27",
+    "eu-year-ro-advanced-uni-ba-3-l28"
+   ]
+  },
+  {
+   "title": "Metodologia cercetării și lucrarea de licență",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-3-l29",
+    "eu-year-ro-advanced-uni-ba-3-l30",
+    "eu-year-ro-advanced-uni-ba-3-l31"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-ro-advanced-uni-ba-3-l01": {
+   "ro": {
+    "title": "Modernismul lovinescian și sincronismul",
+    "theory": "Eugen Lovinescu a animat cenaclul și revista Sburătorul (din 1919) și a formulat teoria sincronismului în Istoria civilizației române moderne (1924–1925): culturile mai puțin dezvoltate se modernizează prin imitarea formelor civilizației avansate, iar fondul se creează treptat. Lovinescu a susținut trecerea de la literatura rurală la cea urbană, de la poezia epică la cea lirică, de la proza subiectivă la cea obiectivă și intelectualizarea prozei. Gândirea (Nichifor Crainic) a promovat, în opoziție, tradiționalismul ortodox.",
+    "sample": "Comparație originală: Maiorescu vedea în formele fără fond un pericol; Lovinescu vede în ele un motor al modernizării. Aceeași realitate este interpretată invers.",
+    "worked": "Comparația arată că teoria sincronismului răspunde critic teoriei maioresciene. Polemica modernism–tradiționalism structurează perioada interbelică.",
+    "exercises": [
+     "Explică teoria sincronismului.",
+     "Compară Lovinescu cu Maiorescu.",
+     "Prezintă programul revistei Gândirea.",
+     "Explică ideea de intelectualizare a prozei.",
+     "Discută actualitatea dezbaterii."
+    ],
+    "test": [
+     "Ce revistă conducea Lovinescu?",
+     "În ce lucrare formulează sincronismul?",
+     "Ce susține sincronismul?",
+     "Cine conducea Gândirea?",
+     "Ce promova Gândirea?"
+    ],
+    "steps": [
+     "Formulează teza criticului.",
+     "Identifică argumentele și exemplele.",
+     "Compară cu poziția opusă.",
+     "Greșeala frecventă: să crezi că sincronismul înseamnă copierea literaturii străine fără originalitate."
+    ],
+    "answers": [
+     "Sburătorul.",
+     "În Istoria civilizației române moderne.",
+     "Modernizarea prin imitarea formelor civilizației avansate.",
+     "Nichifor Crainic.",
+     "Tradiționalismul ortodox."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l02": {
+   "ro": {
+    "title": "Liviu Rebreanu și romanul obiectiv",
+    "theory": "Liviu Rebreanu publică Ion (1920), considerat primul roman obiectiv modern al literaturii române, Pădurea spânzuraților (1922), roman psihologic despre război și conștiință, și Răscoala (1932). Ion are construcție circulară (drumul de la început și de la sfârșit), narator omniscient, compoziție pe două planuri și tema pământului; Lovinescu și Călinescu au comentat forța lui epică.",
+    "sample": "Analiză originală a simetriei: romanul se deschide cu drumul care intră în satul Pripas și se încheie cu același drum care iese din sat; viața personajelor pare cuprinsă într-un ciclu închis.",
+    "worked": "Simetria arată viziunea obiectivă și ciclică. Naratorul omniscient nu judecă, ci construiește lumea satului ca un întreg.",
+    "exercises": [
+     "Analizează simetria din Ion.",
+     "Caracterizează conflictul interior al lui Ion.",
+     "Analizează Pădurea spânzuraților ca roman psihologic.",
+     "Compară Ion cu Răscoala.",
+     "Prezintă receptarea critică a lui Rebreanu."
+    ],
+    "test": [
+     "Când apare Ion?",
+     "Ce tip de roman este Ion?",
+     "Ce simbol încadrează romanul?",
+     "Ce roman psihologic a scris Rebreanu?",
+     "Când apare Răscoala?"
+    ],
+    "steps": [
+     "Identifică tipul de narator și structura.",
+     "Analizează conflictul și personajele.",
+     "Formulează viziunea despre lume.",
+     "Greșeala frecventă: să crezi că romanul obiectiv nu are profunzime psihologică."
+    ],
+    "answers": [
+     "În 1920.",
+     "Roman obiectiv, realist.",
+     "Drumul.",
+     "Pădurea spânzuraților.",
+     "În 1932."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l03": {
+   "ro": {
+    "title": "Camil Petrescu și romanul subiectiv",
+    "theory": "Camil Petrescu scrie Ultima noapte de dragoste, întâia noapte de război (1930) și Patul lui Procust (1933), romane la persoana I, cu narator-personaj și luciditate analitică. În studiul Noua structură și opera lui Marcel Proust, el pledează pentru autenticitate: scriitorul descrie doar ceea ce cunoaște din propria conștiință. Patul lui Procust are tehnică polifonică (scrisori, jurnal, note de subsol).",
+    "sample": "Analiză originală: Ștefan Gheorghidiu analizează fiecare gest al soției și îl interpretează ca semn al trădării; cititorul vede doar ce vede el, deci adevărul rămâne incert.",
+    "worked": "Perspectiva unică și nesigură creează ambiguitate. Autenticitatea înseamnă limitarea la o conștiință, nu certitudinea faptelor.",
+    "exercises": [
+     "Analizează perspectiva narativă din Ultima noapte de dragoste, întâia noapte de război.",
+     "Explică noțiunea de autenticitate.",
+     "Analizează tehnica din Patul lui Procust.",
+     "Compară romanul subiectiv cu cel obiectiv.",
+     "Analizează experiența războiului în roman."
+    ],
+    "test": [
+     "Când apare Ultima noapte de dragoste, întâia noapte de război?",
+     "Ce tip de narator are?",
+     "Ce este autenticitatea la Camil Petrescu?",
+     "Ce tehnică folosește Patul lui Procust?",
+     "Despre ce scriitor european este studiul lui?"
+    ],
+    "steps": [
+     "Identifică naratorul și perspectiva.",
+     "Analizează monologul interior și analiza psihologică.",
+     "Explică legătura cu teoria autenticității.",
+     "Greșeala frecventă: să consideri perspectiva lui Gheorghidiu adevărul obiectiv despre soția lui."
+    ],
+    "answers": [
+     "În 1930.",
+     "Narator-personaj, la persoana I.",
+     "Descrierea doar a ceea ce cunoaște propria conștiință.",
+     "Polifonia: scrisori, jurnal, note de subsol.",
+     "Marcel Proust."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l04": {
+   "ro": {
+    "title": "Proza interbelică: Papadat-Bengescu, Călinescu, Blecher, Eliade",
+    "theory": "Hortensia Papadat-Bengescu creează ciclul Hallipilor (Concert din muzică de Bach, 1927), cu analiză psihologică și dezintegrarea unei lumi burgheze. G. Călinescu scrie Enigma Otiliei (1938), roman balzacian cu elemente moderne. Max Blecher, în Întâmplări în irealitatea imediată (1936), explorează percepția și boala. Mircea Eliade scrie Maitreyi (1933) și proză fantastică (La țigănci).",
+    "sample": "Comparație originală: în Enigma Otiliei, naratorul descrie casa înainte de a prezenta personajele, ca în romanul balzacian; la Blecher, lumea exterioară devine incertă și se dizolvă în percepția naratorului.",
+    "worked": "Diversitatea romanului interbelic merge de la realismul balzacian la proza experimentală. Comparația arată sincronizarea cu romanul european.",
+    "exercises": [
+     "Prezintă ciclul Hallipilor.",
+     "Analizează procedeele balzaciene din Enigma Otiliei.",
+     "Analizează percepția la Blecher.",
+     "Analizează fantasticul la Eliade.",
+     "Clasifică tipurile de roman interbelic."
+    ],
+    "test": [
+     "Ce ciclu a creat Hortensia Papadat-Bengescu?",
+     "Când apare Enigma Otiliei?",
+     "Ce roman a scris Max Blecher?",
+     "Ce roman exotic a scris Eliade?",
+     "Ce nuvelă fantastică a scris Eliade?"
+    ],
+    "steps": [
+     "Identifică formula romanului.",
+     "Analizează naratorul și tehnicile.",
+     "Situează romanul în panorama interbelică.",
+     "Greșeala frecventă: să crezi că proza interbelică are o singură formulă."
+    ],
+    "answers": [
+     "Ciclul Hallipilor.",
+     "În 1938.",
+     "Întâmplări în irealitatea imediată.",
+     "Maitreyi.",
+     "La țigănci."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l05": {
+   "ro": {
+    "title": "Poezia interbelică: Arghezi, Blaga, Barbu, Bacovia",
+    "theory": "Tudor Arghezi (Cuvinte potrivite, 1927) aduce estetica urâtului (Flori de mucigai), poezia artei poetice și a căutării divinității (Psalmii). Lucian Blaga (Poemele luminii, 1919) construiește un expresionism metafizic al misterului. Ion Barbu (Joc secund, 1930) propune o poezie ermetică, apropiată de rigoarea matematicii. George Bacovia (Plumb, 1916) creează un simbolism al angoasei și al spațiului închis.",
+    "sample": "Analiză originală a unei arte poetice: Arghezi transformă cuvintele umile în versuri, la fel cum meșteșugarul transformă materia brută; poetul este un artizan al limbii.",
+    "worked": "Fiecare poet are o viziune proprie despre poezie. Comparația artelor poetice arată diversitatea liricii interbelice.",
+    "exercises": [
+     "Compară artele poetice ale celor patru poeți.",
+     "Analizează estetica urâtului la Arghezi.",
+     "Explică misterul în poezia lui Blaga.",
+     "Analizează ermetismul lui Barbu.",
+     "Analizează simbolurile bacoviene."
+    ],
+    "test": [
+     "Când apare Cuvinte potrivite?",
+     "Ce volum de debut are Blaga?",
+     "Ce volum a publicat Barbu în 1930?",
+     "Când apare Plumb?",
+     "Ce este estetica urâtului?"
+    ],
+    "steps": [
+     "Identifică viziunea poetică.",
+     "Analizează imaginile și limbajul.",
+     "Încadrează poetul într-o direcție.",
+     "Greșeala frecventă: să-l încadrezi pe Bacovia în modernism fără a observa simbolismul."
+    ],
+    "answers": [
+     "În 1927.",
+     "Poemele luminii.",
+     "Joc secund.",
+     "În 1916.",
+     "Transformarea urâtului în materie poetică."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l06": {
+   "ro": {
+    "title": "Sadoveanu și Mateiu Caragiale",
+    "theory": "Mihail Sadoveanu scrie Hanu Ancuței (1928), povestiri în ramă cu oralitate solemnă, și Baltagul (1930), roman cu structură de anchetă și fundal mitic (Miorița). Mateiu I. Caragiale scrie Craii de Curtea-Veche (1929), roman al decadenței boierești și al rafinamentului stilistic, cu atmosferă estetizantă și personaje enigmatice (Pașadia, Pantazi, Gore Pirgu).",
+    "sample": "Analiză originală: în Baltagul, Vitoria Lipan reface drumul soțului ca o anchetă, dar fiecare etapă amintește un ritual; romanul unește epicul de tip polițist cu mitul.",
+    "worked": "Dubla lectură (anchetă realistă și ritual mitic) explică bogăția romanului. La Mateiu Caragiale, stilul devine personaj.",
+    "exercises": [
+     "Analizează structura de anchetă din Baltagul.",
+     "Explică legătura romanului cu Miorița.",
+     "Analizează rama din Hanu Ancuței.",
+     "Caracterizează personajele din Craii de Curtea-Veche.",
+     "Compară stilul lui Sadoveanu cu cel al lui Mateiu Caragiale."
+    ],
+    "test": [
+     "Când apare Baltagul?",
+     "Ce baladă se află în fundalul romanului?",
+     "Când apare Hanu Ancuței?",
+     "Ce roman a scris Mateiu Caragiale?",
+     "Numește doi crai."
+    ],
+    "steps": [
+     "Identifică formula narativă.",
+     "Analizează personajele și stilul.",
+     "Formulează viziunea despre lume.",
+     "Greșeala frecventă: să citești Baltagul doar ca roman polițist, ignorând dimensiunea mitică."
+    ],
+    "answers": [
+     "În 1930.",
+     "Miorița.",
+     "În 1928.",
+     "Craii de Curtea-Veche.",
+     "Pașadia și Pantazi."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l07": {
+   "ro": {
+    "title": "Eseul interbelic: Blaga, Eliade, Cioran, Noica",
+    "theory": "Generația interbelică a eseului discută identitatea, spiritualitatea și cultura: Lucian Blaga (Spațiul mioritic, 1936, din Trilogia culturii), Mircea Eliade (articole și eseuri, apoi istoria religiilor), Emil Cioran (Pe culmile disperării, 1934), Constantin Noica. Unele poziții politice ale epocii (adeziunea la extrema dreaptă a unor intelectuali) sunt discutate critic de istoriografia actuală.",
+    "sample": "Analiză originală: Blaga descrie un orizont spațial ondulat, deal–vale, pe care îl leagă de sensibilitatea populară; ideea este o ipoteză filozofică, nu o demonstrație empirică.",
+    "worked": "Eseul filozofic propune interpretări, nu dovezi. Lectura critică distinge ideile de context și de consecințele lor politice.",
+    "exercises": [
+     "Prezintă ideea de spațiu mioritic.",
+     "Analizează stilul eseistic al lui Cioran.",
+     "Discută tema identității naționale în eseul interbelic.",
+     "Analizează critic contextul politic al generației.",
+     "Compară eseul cu studiul științific."
+    ],
+    "test": [
+     "Când apare Spațiul mioritic?",
+     "Din ce trilogie face parte?",
+     "Ce carte a publicat Cioran în 1934?",
+     "Ce domeniu a studiat Eliade în exil?",
+     "Ce temă domină eseul interbelic?"
+    ],
+    "steps": [
+     "Identifică teza eseului.",
+     "Analizează argumentele și stilul.",
+     "Evaluează critic ideile și contextul.",
+     "Greșeala frecventă: să tratezi o ipoteză eseistică drept adevăr demonstrat."
+    ],
+    "answers": [
+     "În 1936.",
+     "Trilogia culturii.",
+     "Pe culmile disperării.",
+     "Istoria religiilor.",
+     "Identitatea și spiritualitatea."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l08": {
+   "ro": {
+    "title": "Avangarda și tradiționalismul interbelic",
+    "theory": "Avangarda românească are revistele Contimporanul (Ion Vinea), unu, Integral, 75 HP și autori precum Ilarie Voronca, Geo Bogza, Gellu Naum; Tristan Tzara a participat la fondarea dadaismului la Zürich (1916). Tradiționalismul interbelic (Gândirea) are poeți precum Vasile Voiculescu, Ion Pillat, Nichifor Crainic, cu teme ale satului, credinței și trecutului.",
+    "sample": "Comparație originală: avangardistul rupe sintaxa și proclamă noul; tradiționalistul păstrează forma și caută rădăcinile. Ambii reacționează însă la aceeași modernitate.",
+    "worked": "Cele două direcții par opuse, dar sunt răspunsuri la criza modernă. Studiul comparat evită schemele simpliste.",
+    "exercises": [
+     "Prezintă revistele avangardiste.",
+     "Explică rolul lui Tzara în dadaism.",
+     "Analizează un poem tradiționalist.",
+     "Compară avangarda cu tradiționalismul.",
+     "Discută relația avangardei cu suprarealismul."
+    ],
+    "test": [
+     "Cine conducea Contimporanul?",
+     "Unde s-a fondat dadaismul?",
+     "În ce an?",
+     "Numește doi poeți tradiționaliști.",
+     "Ce teme are tradiționalismul?"
+    ],
+    "steps": [
+     "Situează autorul în direcția lui.",
+     "Analizează procedeele specifice.",
+     "Compară cu direcția opusă.",
+     "Greșeala frecventă: să consideri avangarda doar un joc fără program estetic."
+    ],
+    "answers": [
+     "Ion Vinea.",
+     "La Zürich.",
+     "În 1916.",
+     "Vasile Voiculescu și Ion Pillat.",
+     "Satul, credința, trecutul."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l09": {
+   "ro": {
+    "title": "Realismul socialist și Cercul Literar de la Sibiu",
+    "theory": "După 1947, realismul socialist impune literatura subordonată ideologiei; mulți scriitori sunt cenzurați sau închiși. Cercul Literar de la Sibiu (Radu Stanca, Ștefan Augustin Doinaș, Ion Negoițescu) publicase în 1943 o scrisoare-manifest adresată lui Lovinescu, în apărarea autonomiei esteticului, și cultivase balada și expresia cultă. Autorii din exil (Paul Goma, Monica Lovinescu, Virgil Ierunca) au păstrat o voce critică.",
+    "sample": "Comparație originală: textul proletcultist are personaje schematice și final previzibil; balada lui Doinaș are ambiguitate și simbol.",
+    "worked": "Diferența arată că literatura de propagandă sacrifică ambiguitatea estetică. Cercul de la Sibiu apără autonomia esteticului.",
+    "exercises": [
+     "Prezintă trăsăturile realismului socialist.",
+     "Explică scrisoarea-manifest a Cercului Literar de la Sibiu.",
+     "Analizează o baladă de Doinaș.",
+     "Prezintă rolul exilului literar.",
+     "Discută cenzura în literatura postbelică."
+    ],
+    "test": [
+     "Ce impune realismul socialist?",
+     "Cine făcea parte din Cercul de la Sibiu?",
+     "Când a fost publicată scrisoarea-manifest?",
+     "Cui era adresat?",
+     "Ce specie au cultivat membrii cercului?"
+    ],
+    "steps": [
+     "Situează textul în contextul politic.",
+     "Analizează efectele ideologiei asupra formei.",
+     "Compară cu o operă autonomă estetic.",
+     "Greșeala frecventă: să judeci toți scriitorii epocii la fel, fără a distinge colaborarea de rezistență."
+    ],
+    "answers": [
+     "Literatura subordonată ideologiei.",
+     "Radu Stanca, Ștefan Augustin Doinaș, Ion Negoițescu.",
+     "În 1943.",
+     "Lui Eugen Lovinescu.",
+     "Balada."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l10": {
+   "ro": {
+    "title": "Generația șaizecistă",
+    "theory": "După relativa liberalizare din 1964–1971, generația șaizecistă revine la lirism și metaforă: Nichita Stănescu (O viziune a sentimentelor, 1964; 11 elegii, 1966), Marin Sorescu (ironie și parodie), Ana Blandiana, Ioan Alexandru, Cezar Baltag. Proza redescoperă analiza psihologică și critica prin parabolă: Marin Preda (Moromeții, I, 1955; II, 1967), Nicolae Breban, Fănuș Neagu. Tezele din iulie 1971 au marcat revenirea controlului ideologic.",
+    "sample": "Analiză originală: la Nichita Stănescu, cuvântul devine o realitate în sine, iar sentimentele sunt văzute ca obiecte; poezia devine o reflecție asupra limbajului.",
+    "worked": "Reflecția asupra limbajului și metafora reinventată marchează ruptura de proletcultism. Generația a reconectat poezia cu modernismul interbelic.",
+    "exercises": [
+     "Analizează un poem de Nichita Stănescu.",
+     "Analizează ironia la Marin Sorescu.",
+     "Explică contextul liberalizării.",
+     "Prezintă romanul Moromeții.",
+     "Explică efectul Tezelor din iulie 1971."
+    ],
+    "test": [
+     "Când apare 11 elegii?",
+     "Ce poet a folosit ironia și parodia?",
+     "Când apar cele două volume Moromeții?",
+     "Ce a marcat anul 1971?",
+     "Ce revine în poezia șaizecistă?"
+    ],
+    "steps": [
+     "Situează autorul în generație.",
+     "Analizează procedeele specifice.",
+     "Explică relația cu contextul politic.",
+     "Greșeala frecventă: să crezi că liberalizarea a însemnat libertate deplină de expresie."
+    ],
+    "answers": [
+     "În 1966.",
+     "Marin Sorescu.",
+     "În 1955 și 1967.",
+     "Tezele din iulie, revenirea controlului ideologic.",
+     "Lirismul și metafora."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l11": {
+   "ro": {
+    "title": "Onirismul și romanul obsedantului deceniu",
+    "theory": "Grupul oniric (Leonid Dimov, Dumitru Țepeneag) a propus o literatură care construiește lumi după logica visului, fără a reproduce visul. Romanul obsedantului deceniu tratează represiunea din anii 1950: Marin Preda (Cel mai iubit dintre pământeni, 1980), Augustin Buzura, Alexandru Ivasiuc, Dumitru Radu Popescu. Paul Goma a publicat în exil romane interzise în țară.",
+    "sample": "Analiză originală: în proza onirică, scenele trec una în alta fără explicații cauzale, ca într-un vis lucid; cititorul acceptă logica internă a lumii.",
+    "worked": "Onirismul este o estetică, nu o transcriere a viselor. Romanul obsedantului deceniu folosește ficțiunea pentru a vorbi despre traumele istorice.",
+    "exercises": [
+     "Explică programul onirismului.",
+     "Analizează un poem de Leonid Dimov.",
+     "Prezintă romanul obsedantului deceniu.",
+     "Analizează Cel mai iubit dintre pământeni.",
+     "Compară proza din țară cu cea din exil."
+    ],
+    "test": [
+     "Cine a fondat grupul oniric?",
+     "Ce propune onirismul?",
+     "Ce perioadă tratează romanul obsedantului deceniu?",
+     "Când apare Cel mai iubit dintre pământeni?",
+     "Ce scriitor a publicat în exil?"
+    ],
+    "steps": [
+     "Identifică estetica sau tema.",
+     "Analizează procedeele.",
+     "Leagă textul de contextul istoric.",
+     "Greșeala frecventă: să confunzi onirismul cu transcrierea viselor."
+    ],
+    "answers": [
+     "Leonid Dimov și Dumitru Țepeneag.",
+     "Lumi construite după logica visului.",
+     "Represiunea din anii 1950.",
+     "În 1980.",
+     "Paul Goma."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l12": {
+   "ro": {
+    "title": "Teatrul postbelic",
+    "theory": "Teatrul postbelic românesc se reînnoiește prin parabolă și absurd: Marin Sorescu (Iona, 1968; trilogia Setea muntelui de sare), Teodor Mazilu (comedii ale imposturii), Iosif Naghiu, D. R. Popescu; după 1990, Matei Vișniec devine unul dintre cei mai jucați dramaturgi de origine română. Parabola permitea critica indirectă în condiții de cenzură.",
+    "sample": "Analiză originală: în Iona, personajul este singur în burta peștelui și își vorbește sieși; monologul transformă mitul biblic într-o meditație despre limitele omului.",
+    "worked": "Parabola dramatică folosește un mit cunoscut pentru a pune întrebări existențiale. Monologul înlocuiește conflictul exterior cu unul interior.",
+    "exercises": [
+     "Analizează monologul din Iona.",
+     "Explică parabola ca strategie sub cenzură.",
+     "Analizează o comedie de Mazilu.",
+     "Prezintă teatrul lui Matei Vișniec.",
+     "Compară Iona cu teatrul absurdului."
+    ],
+    "test": [
+     "Când apare Iona?",
+     "Ce trilogie a scris Sorescu?",
+     "Ce satirizează Mazilu?",
+     "Ce dramaturg contemporan este foarte jucat?",
+     "Ce permitea parabola?"
+    ],
+    "steps": [
+     "Identifică specia și mitul de bază.",
+     "Analizează conflictul și monologul.",
+     "Leagă piesa de context.",
+     "Greșeala frecventă: să citești Iona doar ca repovestire biblică."
+    ],
+    "answers": [
+     "În 1968.",
+     "Setea muntelui de sare.",
+     "Impostura.",
+     "Matei Vișniec.",
+     "Critica indirectă."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l13": {
+   "ro": {
+    "title": "Optzecismul și postmodernismul românesc",
+    "theory": "Generația ’80 (Cenaclul de Luni condus de Nicolae Manolescu, Cenaclul Junimea condus de Ovid S. Crohmălniceanu) aduce postmodernismul: intertextualitate, ironie, autoreferențialitate, cotidian, biografism. Autori: Mircea Cărtărescu (Levantul, Orbitor), Florin Iaru, Traian T. Coșovei, Alexandru Mușina, Mircea Nedelciu, Gheorghe Crăciun. Cartea Postmodernismul românesc de Mircea Cărtărescu (1999) teoretizează fenomenul.",
+    "sample": "Analiză originală: în Levantul, Cărtărescu rescrie istoria poeziei românești prin pastișă, de la cronicari la moderniști; textul devine o bibliotecă vie.",
+    "worked": "Pastișa și intertextualitatea sunt procedee postmoderne. Literatura dialoghează cu tradiția prin ironie și joc.",
+    "exercises": [
+     "Prezintă cenaclurile optzeciste.",
+     "Analizează intertextualitatea din Levantul.",
+     "Explică trăsăturile postmodernismului.",
+     "Analizează un poem al cotidianului.",
+     "Discută teoria lui Cărtărescu despre postmodernism."
+    ],
+    "test": [
+     "Cine conducea Cenaclul de Luni?",
+     "Ce trăsături are postmodernismul?",
+     "Ce epopee parodică a scris Cărtărescu?",
+     "Când apare Postmodernismul românesc?",
+     "Ce procedeu folosește Levantul?"
+    ],
+    "steps": [
+     "Identifică trăsăturile postmoderne.",
+     "Analizează intertextualitatea și ironia.",
+     "Situează textul în generație.",
+     "Greșeala frecventă: să confunzi postmodernismul cu modernismul doar pentru că ambele inovează."
+    ],
+    "answers": [
+     "Nicolae Manolescu.",
+     "Intertextualitate, ironie, autoreferențialitate, cotidian.",
+     "Levantul.",
+     "În 1999.",
+     "Pastișa."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l14": {
+   "ro": {
+    "title": "Literatura după 1990",
+    "theory": "După 1990, literatura română se diversifică: memorialistica despre comunism (Jurnalul fericirii de Nicolae Steinhardt, publicat în 1991), mizerabilismul și proza autobiografică a generației 2000, poezia biografistă, romanul istoric și cel de gen, proza feminină. Autori contemporani au fost traduși în numeroase limbi. Piața de carte, festivalurile și traducerile au schimbat condiția scriitorului.",
+    "sample": "Analiză originală: Jurnalul fericirii transformă experiența închisorii într-o reflecție spirituală; suferința nu este doar narată, ci interpretată.",
+    "worked": "Memorialistica postcomunistă recuperează experiențe interzise. Literatura contemporană este definită de pluralism și de lipsa unui curent dominant.",
+    "exercises": [
+     "Prezintă direcțiile literaturii după 1990.",
+     "Analizează un fragment memorialistic.",
+     "Explică trăsăturile generației 2000.",
+     "Discută traducerea literaturii române în străinătate.",
+     "Compară poezia anilor 1980 cu cea a anilor 2000."
+    ],
+    "test": [
+     "Când a fost publicat Jurnalul fericirii?",
+     "Cine l-a scris?",
+     "Ce gen se dezvoltă după 1990?",
+     "Ce caracterizează literatura contemporană?",
+     "Ce a schimbat condiția scriitorului?"
+    ],
+    "steps": [
+     "Identifică direcția sau genul.",
+     "Analizează procedeele și temele.",
+     "Situează opera în contextul postcomunist.",
+     "Greșeala frecventă: să consideri literatura contemporană fără valoare doar pentru că nu este încă canonizată."
+    ],
+    "answers": [
+     "În 1991.",
+     "Nicolae Steinhardt.",
+     "Memorialistica.",
+     "Pluralismul, fără un curent dominant.",
+     "Piața de carte, festivalurile și traducerile."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l15": {
+   "ro": {
+    "title": "Realismul european: Balzac, Flaubert, Tolstoi, Dostoievski",
+    "theory": "Realismul secolului al XIX-lea reprezintă societatea în detaliu. Honoré de Balzac construiește Comedia umană, cu personaje reapărute și tipuri sociale; Gustave Flaubert scrie Doamna Bovary (1857), cu impersonalitate și stil indirect liber; Lev Tolstoi scrie Război și pace și Anna Karenina; F. M. Dostoievski scrie Crimă și pedeapsă și Frații Karamazov, romane ale conștiinței și ale crizei morale.",
+    "sample": "Analiză originală a stilului indirect liber: vocea naratorului preia gândurile personajului fără ghilimele, așa încât nu mai știm exact cine vorbește; distanța dispare.",
+    "worked": "Stilul indirect liber combină obiectivitatea cu interioritatea. Este un instrument important al romanului modern.",
+    "exercises": [
+     "Explică tehnica personajelor reapărute la Balzac.",
+     "Analizează stilul indirect liber.",
+     "Compară Tolstoi cu Dostoievski.",
+     "Analizează criza morală din Crimă și pedeapsă.",
+     "Compară realismul francez cu cel rus."
+    ],
+    "test": [
+     "Ce ciclu a construit Balzac?",
+     "Când apare Doamna Bovary?",
+     "Ce este stilul indirect liber?",
+     "Numește un roman de Tolstoi.",
+     "Numește un roman de Dostoievski."
+    ],
+    "steps": [
+     "Situează autorul în realism.",
+     "Analizează tehnicile narative.",
+     "Formulează viziunea despre om și societate.",
+     "Greșeala frecventă: să crezi că realismul înseamnă copierea fotografică a realității."
+    ],
+    "answers": [
+     "Comedia umană.",
+     "În 1857.",
+     "Preluarea gândurilor personajului de vocea naratorului, fără ghilimele.",
+     "Război și pace.",
+     "Crimă și pedeapsă."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l16": {
+   "ro": {
+    "title": "Simbolismul și poezia modernă",
+    "theory": "Charles Baudelaire, cu Florile răului (1857), deschide poezia modernă: estetica urâtului, corespondențele dintre simțuri, spleen-ul. Simbolismul (Verlaine, Rimbaud, Mallarmé) caută sugestia, muzicalitatea, simbolul. Hugo Friedrich, în Structura liricii moderne, descrie dezintegrarea formelor tradiționale. În România, Alexandru Macedonski, Ion Minulescu, George Bacovia preiau și transformă simbolismul.",
+    "sample": "Analiză originală a corespondențelor: un parfum este perceput ca un sunet, iar o culoare ca o emoție; simțurile se amestecă, iar realitatea devine o pădure de simboluri.",
+    "worked": "Sinestezia este procedeul corespondențelor. Sugestia înlocuiește descrierea directă.",
+    "exercises": [
+     "Explică poemul Corespondențe.",
+     "Analizează estetica urâtului la Baudelaire.",
+     "Explică principiile simbolismului.",
+     "Compară Baudelaire cu Bacovia.",
+     "Prezintă ideile lui Hugo Friedrich."
+    ],
+    "test": [
+     "Când apare Florile răului?",
+     "Ce este sinestezia?",
+     "Numește trei simboliști francezi.",
+     "Cine a scris Structura liricii moderne?",
+     "Numește doi simboliști români."
+    ],
+    "steps": [
+     "Identifică procedeele simboliste.",
+     "Analizează sugestia și muzicalitatea.",
+     "Compară cu un poet român.",
+     "Greșeala frecventă: să confunzi simbolul cu metafora izolată; simbolul are sensuri multiple și deschise."
+    ],
+    "answers": [
+     "În 1857.",
+     "Amestecul senzațiilor diferite.",
+     "Verlaine, Rimbaud, Mallarmé.",
+     "Hugo Friedrich.",
+     "Macedonski și Bacovia."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l17": {
+   "ro": {
+    "title": "Romanul modernist: Proust, Joyce, Kafka, Woolf",
+    "theory": "Romanul modernist experimentează cu timpul și conștiința. Marcel Proust, În căutarea timpului pierdut, folosește memoria involuntară; James Joyce, Ulise (1922), folosește fluxul conștiinței și mitul homeric; Franz Kafka, Procesul, creează lumi absurde și angoasante; Virginia Woolf, Doamna Dalloway (1925), urmărește conștiința personajelor într-o singură zi.",
+    "sample": "Analiză originală a memoriei involuntare: un gust banal readuce brusc o lume întreagă din copilărie; trecutul nu se reconstituie prin voință, ci se întoarce singur.",
+    "worked": "Memoria involuntară schimbă construcția romanului: ordinea nu mai e cronologică, ci afectivă. Modernismul mută centrul pe conștiință.",
+    "exercises": [
+     "Explică memoria involuntară la Proust.",
+     "Analizează fluxul conștiinței la Joyce.",
+     "Analizează absurdul la Kafka.",
+     "Compară Doamna Dalloway cu Ulise.",
+     "Compară romanul modernist cu romanul realist."
+    ],
+    "test": [
+     "Ce procedeu folosește Proust?",
+     "Când apare Ulise?",
+     "Ce mit structurează Ulise?",
+     "Ce roman absurd a scris Kafka?",
+     "Câtă vreme durează acțiunea din Doamna Dalloway?"
+    ],
+    "steps": [
+     "Identifică tehnica modernistă.",
+     "Analizează efectul asupra timpului narativ.",
+     "Compară cu romanul tradițional.",
+     "Greșeala frecventă: să crezi că romanul modernist nu are structură; structura lui este doar diferită."
+    ],
+    "answers": [
+     "Memoria involuntară.",
+     "În 1922.",
+     "Odiseea lui Homer.",
+     "Procesul.",
+     "O singură zi."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l18": {
+   "ro": {
+    "title": "Romanul secolului XX: Faulkner, Bulgakov, García Márquez",
+    "theory": "William Faulkner (Zgomotul și furia, 1929) folosește perspective multiple și flux al conștiinței; Mihail Bulgakov (Maestrul și Margareta, publicat postum în 1966–1967) amestecă satira, fantasticul și mitul; Gabriel García Márquez (Un veac de singurătate, 1967) este reprezentantul realismului magic, în care miraculosul este narat ca firesc.",
+    "sample": "Analiză originală a realismului magic: o întâmplare imposibilă este povestită cu tonul calm al unei cronici de familie; naratorul nu se miră, deci nici cititorul.",
+    "worked": "Tonul neutru transformă miraculosul în parte a realității. Diferența față de fantastic: fantasticul produce ezitare, realismul magic o elimină.",
+    "exercises": [
+     "Analizează perspectivele multiple la Faulkner.",
+     "Analizează satira din Maestrul și Margareta.",
+     "Explică realismul magic.",
+     "Compară realismul magic cu fantasticul.",
+     "Găsește ecouri ale acestor romane în proza românească."
+    ],
+    "test": [
+     "Când apare Zgomotul și furia?",
+     "Când a fost publicat Maestrul și Margareta?",
+     "Cine a scris Un veac de singurătate?",
+     "Ce este realismul magic?",
+     "Ce produce fantasticul spre deosebire de realismul magic?"
+    ],
+    "steps": [
+     "Identifică tehnica narativă.",
+     "Analizează efectul asupra cititorului.",
+     "Compară cu alte formule.",
+     "Greșeala frecventă: să confunzi realismul magic cu fantasticul."
+    ],
+    "answers": [
+     "În 1929.",
+     "Postum, în 1966–1967.",
+     "Gabriel García Márquez.",
+     "Narare a miraculosului ca firesc.",
+     "Ezitarea."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l19": {
+   "ro": {
+    "title": "Teatrul absurdului și postmodernismul universal",
+    "theory": "Teatrul absurdului (anii 1950) dezvăluie lipsa de sens și golirea limbajului: Eugen Ionescu (Cântăreața cheală, 1950; Rinocerii), Samuel Beckett (Așteptându-l pe Godot). Postmodernismul universal (Jorge Luis Borges, Umberto Eco – Numele trandafirului, 1980, Italo Calvino) cultivă intertextualitatea, metaficțiunea și jocul cu genurile.",
+    "sample": "Analiză originală: în Cântăreața cheală, personajele schimbă replici automate, împrumutate din manualele de conversație; limbajul nu mai comunică, ci se învârte în gol.",
+    "worked": "Absurdul pune la îndoială comunicarea. Eugen Ionescu, scriitor născut în România, arată legătura dintre literatura română și cea universală.",
+    "exercises": [
+     "Analizează limbajul în Cântăreața cheală.",
+     "Analizează așteptarea în Așteptându-l pe Godot.",
+     "Explică metaficțiunea la Borges.",
+     "Analizează intertextualitatea din Numele trandafirului.",
+     "Compară absurdul cu postmodernismul."
+    ],
+    "test": [
+     "Când apare Cântăreața cheală?",
+     "Ce piesă a scris Beckett?",
+     "Ce roman a scris Umberto Eco în 1980?",
+     "Ce este metaficțiunea?",
+     "Ce dezvăluie teatrul absurdului?"
+    ],
+    "steps": [
+     "Identifică trăsăturile absurdului sau postmoderne.",
+     "Analizează procedeele.",
+     "Formulează viziunea despre om și limbaj.",
+     "Greșeala frecventă: să crezi că absurdul înseamnă lipsă de construcție dramatică."
+    ],
+    "answers": [
+     "În 1950.",
+     "Așteptându-l pe Godot.",
+     "Numele trandafirului.",
+     "Ficțiunea care reflectează asupra propriei construcții.",
+     "Lipsa de sens și golirea limbajului."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l20": {
+   "ro": {
+    "title": "Sintaxa propoziției: predicatul și subiectul",
+    "theory": "Sintaxa studiază relațiile dintre cuvinte în propoziție și frază. Predicatul este verbal (exprimat printr-un verb predicativ) sau nominal (verb copulativ + nume predicativ). Subiectul poate fi exprimat, inclus (recunoscut din desinență: Citesc.) sau subînțeles; există și propoziții fără subiect (Plouă.). Acordul subiectului cu predicatul se face în număr și persoană. GALR descrie și alte funcții, de exemplu predicativul suplimentar și complementul secundar.",
+    "sample": "Analiză originală: Mama este profesoară. — este: verb copulativ; profesoară: nume predicativ. Plouă. — propoziție fără subiect.",
+    "worked": "Verbul copulativ leagă subiectul de o însușire, iar verbele impersonale nu au subiect. Identificarea predicatului începe analiza.",
+    "exercises": [
+     "Identifică predicatele verbale și nominale.",
+     "Găsește subiecte incluse și subînțelese.",
+     "Explică propozițiile fără subiect.",
+     "Analizează acordul în cazuri dificile.",
+     "Compară terminologia GALR cu cea școlară."
+    ],
+    "test": [
+     "Din ce se compune predicatul nominal?",
+     "Ce este subiectul inclus?",
+     "Dă un exemplu de propoziție fără subiect.",
+     "În ce se face acordul?",
+     "Ce funcții noi descrie GALR?"
+    ],
+    "steps": [
+     "Identifică verbul și tipul lui.",
+     "Găsește subiectul și verifică acordul.",
+     "Numește funcțiile și justifică fiecare răspuns prin întrebare și exprimare.",
+     "Greșeala frecventă: să confunzi verbul a fi predicativ (Ea este acasă) cu cel copulativ."
+    ],
+    "answers": [
+     "Verb copulativ și nume predicativ.",
+     "Subiectul recunoscut din desinența verbului.",
+     "Plouă.",
+     "În număr și persoană.",
+     "Predicativul suplimentar și complementul secundar."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l21": {
+   "ro": {
+    "title": "Complementele și circumstanțialele",
+    "theory": "Complementele completează sensul verbului: direct (în acuzativ: citește o carte), indirect (în dativ sau cu prepoziție: dă copilului), prepozițional (se gândește la vacanță), de agent (la pasiv: scris de autor). Circumstanțialele (de loc, timp, mod, cauză, scop, condiție, concesie) precizează împrejurările. Atributul determină un substantiv și poate fi adjectival, substantival, pronominal, verbal sau adverbial.",
+    "sample": "Analiză originală: Din cauza ploii, copiii au rămas acasă. — din cauza ploii: circumstanțial de cauză; acasă: circumstanțial de loc.",
+    "worked": "Fiecare funcție răspunde la o întrebare și are expresii specifice. Prepoziția și cazul ajută la identificare.",
+    "exercises": [
+     "Identifică toate complementele dintr-un text.",
+     "Clasifică circumstanțialele.",
+     "Distinge complementul indirect de cel prepozițional.",
+     "Analizează atributele după exprimare.",
+     "Construiește enunțuri cu complemente de agent."
+    ],
+    "test": [
+     "În ce caz este complementul direct?",
+     "Ce exprimă complementul de agent?",
+     "Ce determină atributul?",
+     "Ce circumstanțial apare în: din cauza ploii?",
+     "Ce este complementul prepozițional?"
+    ],
+    "steps": [
+     "Identifică regentul.",
+     "Stabilește întrebarea și exprimarea.",
+     "Numește funcția și verifică răspunsul printr-o substituție.",
+     "Greșeala frecventă: să confunzi complementul indirect cu atributul substantival în genitiv."
+    ],
+    "answers": [
+     "În acuzativ.",
+     "Autorul acțiunii la diateza pasivă.",
+     "Un substantiv.",
+     "Circumstanțial de cauză.",
+     "Un complement introdus de prepoziția cerută de verb."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l22": {
+   "ro": {
+    "title": "Sintaxa frazei: coordonare și subordonare",
+    "theory": "Fraza conține cel puțin două propoziții. Coordonarea leagă propoziții independente: copulativă (și), adversativă (dar, însă), disjunctivă (sau), conclusivă (deci). Subordonarea leagă o propoziție dependentă de regentă prin conjuncții subordonatoare (că, să, dacă), pronume și adverbe relative (care, unde, când). Propozițiile subordonate corespund funcțiilor din propoziție: subiectivă, predicativă, atributivă, completivă directă și indirectă, circumstanțiale.",
+    "sample": "Analiză originală: Știu că vei veni, dar nu știu când. — prima și a treia propoziție sunt principale coordonate adversativ, iar că vei veni este completivă directă.",
+    "worked": "Analiza începe cu numărarea verbelor la moduri personale și cu identificarea elementelor de relație. Fiecare subordonată îndeplinește o funcție față de regentă.",
+    "exercises": [
+     "Delimitează propozițiile din fraze complexe.",
+     "Identifică raporturile de coordonare.",
+     "Clasifică subordonatele.",
+     "Transformă propoziții subordonate în părți de propoziție.",
+     "Analizează o frază dintr-un text literar."
+    ],
+    "test": [
+     "Câte propoziții are fraza minim?",
+     "Ce conjuncție exprimă coordonarea adversativă?",
+     "Ce este propoziția regentă?",
+     "Ce funcție are că vei veni?",
+     "Ce elemente introduc subordonatele?"
+    ],
+    "steps": [
+     "Numără predicatele exprimate prin verbe la moduri personale.",
+     "Identifică elementele de relație.",
+     "Stabilește raporturile și funcțiile.",
+     "Greșeala frecventă: să confunzi pronumele relativ care cu conjuncția, deși are funcție în subordonată."
+    ],
+    "answers": [
+     "Două.",
+     "Dar sau însă.",
+     "Propoziția de care depinde subordonata.",
+     "Completivă directă.",
+     "Conjuncții subordonatoare și pronume sau adverbe relative."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l23": {
+   "ro": {
+    "title": "Topica și punctuația",
+    "theory": "Topica este ordinea cuvintelor. Româna are topică relativ liberă, dar ordinea marchează informația nouă și accentul (Ion a venit vs A venit Ion). Punctuația urmează reguli sintactice: virgula separă coordonatele fără conjuncție, apozițiile, vocativul și subordonatele antepuse; nu se pune virgulă între subiect și predicat sau între predicat și complementul direct.",
+    "sample": "Analiză originală: Dacă plouă, rămânem acasă. — virgula marchează subordonata antepusă. Rămânem acasă dacă plouă. — fără virgulă, subordonata stă în poziția obișnuită.",
+    "worked": "Virgula urmează structura sintactică. Poziția subordonatei modifică regula.",
+    "exercises": [
+     "Corectează punctuația unui text.",
+     "Explică regulile pentru subordonatele antepuse.",
+     "Analizează efectul topicii asupra sensului.",
+     "Găsește virgule greșite între subiect și predicat.",
+     "Compară regulile de punctuație cu DOOM."
+    ],
+    "test": [
+     "Ce este topica?",
+     "Unde nu se pune virgulă?",
+     "Când se pune virgulă înaintea subordonatei?",
+     "Ce marchează ordinea cuvintelor?",
+     "Ce separă virgula în coordonare?"
+    ],
+    "steps": [
+     "Analizează structura sintactică a frazei.",
+     "Aplică regulile de punctuație.",
+     "Verifică efectul stilistic.",
+     "Greșeala frecventă: să pui virgulă între subiect și predicat."
+    ],
+    "answers": [
+     "Ordinea cuvintelor în propoziție și frază.",
+     "Între subiect și predicat sau între predicat și complementul direct.",
+     "Când subordonata este antepusă (în multe cazuri).",
+     "Informația nouă și accentul.",
+     "Coordonatele fără conjuncție."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l24": {
+   "ro": {
+    "title": "Acte de vorbire și implicaturi",
+    "theory": "Pragmatica studiază limbajul în uz. John L. Austin și John R. Searle au dezvoltat teoria actelor de vorbire: a spune înseamnă a face (a promite, a cere, a declara). Searle clasifică actele în asertive, directive, comisive, expresive și declarative. Paul Grice a propus principiul cooperării și maximele (cantitate, calitate, relevanță, manieră); încălcarea aparentă a unei maxime generează implicaturi.",
+    "sample": "Analiză originală: Aici e cam frig. — formal este o afirmație, dar în context poate fi o cerere indirectă (închide fereastra).",
+    "worked": "Actul indirect folosește o formă pentru o altă funcție. Contextul și cooperarea permit interpretarea corectă.",
+    "exercises": [
+     "Clasifică zece acte de vorbire.",
+     "Identifică acte indirecte în dialoguri.",
+     "Explică maximele lui Grice.",
+     "Analizează implicaturile dintr-un dialog literar.",
+     "Compară politețea directă cu cea indirectă."
+    ],
+    "test": [
+     "Ce studiază pragmatica?",
+     "Cine a dezvoltat teoria actelor de vorbire?",
+     "Ce tip de act este o promisiune?",
+     "Care sunt maximele lui Grice?",
+     "Ce este o implicatură?"
+    ],
+    "steps": [
+     "Identifică forma enunțului.",
+     "Stabilește funcția în context.",
+     "Explică inferența ascultătorului.",
+     "Greșeala frecventă: să interpretezi enunțul doar după forma gramaticală."
+    ],
+    "answers": [
+     "Limbajul în uz.",
+     "Austin și Searle.",
+     "Comisiv.",
+     "Cantitate, calitate, relevanță, manieră.",
+     "Un sens dedus, nespus explicit."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l25": {
+   "ro": {
+    "title": "Deixis, polifonie și analiza discursului",
+    "theory": "Deixisul ancorează enunțul în situație: personal (eu, tu), spațial (aici, acolo), temporal (acum, ieri), social (dumneavoastră). Analiza discursului studiază textul ca practică socială: argumentarea, polifonia enunțiativă (Oswald Ducrot: mai multe voci într-un enunț), negația polemică, conectorii argumentativi (dar, totuși, deci). Polifonia apare și în ironie și în discursul raportat.",
+    "sample": "Analiză originală: Nu e deloc frig. — negația evocă o voce (cineva a spus că e frig) și o respinge; enunțul conține două puncte de vedere.",
+    "worked": "Negația polemică arată polifonia. Analiza discursului identifică vocile și strategiile argumentative.",
+    "exercises": [
+     "Identifică deicticele într-un dialog.",
+     "Analizează polifonia unei negații.",
+     "Analizează conectorii argumentativi dintr-un discurs.",
+     "Analizează discursul raportat într-un text literar.",
+     "Compară discursul politic cu cel publicistic."
+    ],
+    "test": [
+     "Ce este deixisul?",
+     "Ce deictic temporal cunoști?",
+     "Cine a dezvoltat teoria polifoniei enunțiative?",
+     "Ce evocă negația polemică?",
+     "Ce conector argumentativ cunoști?"
+    ],
+    "steps": [
+     "Identifică indicii situației și vocile.",
+     "Analizează conectorii și strategiile.",
+     "Formulează funcția discursului.",
+     "Greșeala frecventă: să atribui toate vocile unui enunț vorbitorului."
+    ],
+    "answers": [
+     "Ancorarea enunțului în situația de comunicare.",
+     "Acum sau ieri.",
+     "Oswald Ducrot.",
+     "O voce opusă, respinsă.",
+     "Dar, totuși, deci."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l26": {
+   "ro": {
+    "title": "Stilistica: figuri și funcțiile stilurilor",
+    "theory": "Stilistica studiază expresivitatea limbii. Figurile de stil sunt de sunet (aliterație), de construcție (inversiune, repetiție, chiasm), semantice (metaforă, metonimie, sinecdocă) și de gândire (ironie, antiteză). Stilurile funcționale ale limbii sunt: artistic, științific, juridico-administrativ, publicistic și colocvial. Tudor Vianu a descris dubla intenționalitate a limbajului (reflexivă și tranzitivă).",
+    "sample": "Analiză originală a chiasmului: Trăim ca să muncim sau muncim ca să trăim? — termenii se încrucișează, iar inversarea produce o opoziție de valori.",
+    "worked": "Chiasmul este o figură de construcție cu efect semantic. Analiza stilistică leagă forma de sens.",
+    "exercises": [
+     "Identifică figurile dintr-un poem.",
+     "Analizează metonimia și sinecdoca.",
+     "Compară stilurile funcționale pe același subiect.",
+     "Explică dubla intenționalitate a limbajului.",
+     "Analizează o figură de construcție rară."
+    ],
+    "test": [
+     "Ce studiază stilistica?",
+     "Ce tip de figură este chiasmul?",
+     "Numește trei stiluri funcționale.",
+     "Ce critic a descris dubla intenționalitate?",
+     "Ce este sinecdoca?"
+    ],
+    "steps": [
+     "Identifică figura și tipul ei.",
+     "Explică efectul asupra sensului.",
+     "Leagă de stilul sau viziunea textului.",
+     "Greșeala frecventă: să numești figura fără a explica efectul."
+    ],
+    "answers": [
+     "Expresivitatea limbii.",
+     "Figură de construcție.",
+     "Științific, publicistic, juridico-administrativ.",
+     "Tudor Vianu.",
+     "Folosirea părții pentru întreg sau invers."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l27": {
+   "ro": {
+    "title": "G. Călinescu și Istoria literaturii române",
+    "theory": "G. Călinescu a publicat Istoria literaturii române de la origini până în prezent (1941), o sinteză monumentală, cu portrete, citate și judecăți de valoare. A susținut critica estetică, intuitivă și creatoare, apropiată de literatură. A scris și monografii (Viața lui Mihai Eminescu, 1932; Opera lui Mihai Eminescu, 1934–1936; Viața lui Ion Creangă).",
+    "sample": "Analiză originală: Călinescu descrie scriitorii prin portrete literare, cu detalii vii și comparații; istoria literaturii devine ea însăși o operă literară.",
+    "worked": "Critica creatoare este o metodă subiectivă și artistică. Valoarea lucrării stă în judecata estetică și în stil.",
+    "exercises": [
+     "Prezintă structura Istoriei literaturii române.",
+     "Analizează un portret critic călinescian.",
+     "Compară Călinescu cu Lovinescu.",
+     "Prezintă monografiile lui Călinescu.",
+     "Discută metoda criticii creatoare."
+    ],
+    "test": [
+     "Când apare Istoria literaturii române?",
+     "Ce metodă susține Călinescu?",
+     "Ce monografie a scris despre Eminescu?",
+     "Când apare Viața lui Mihai Eminescu?",
+     "Ce tip de critică practică?"
+    ],
+    "steps": [
+     "Identifică metoda criticului.",
+     "Analizează un fragment critic.",
+     "Compară cu alte metode.",
+     "Greșeala frecventă: să citești critica doar ca sursă de informații, nu ca text cu metodă proprie."
+    ],
+    "answers": [
+     "În 1941.",
+     "Critica estetică, creatoare.",
+     "Viața lui Mihai Eminescu.",
+     "În 1932.",
+     "Critică estetică, intuitivă, creatoare."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l28": {
+   "ro": {
+    "title": "Critica postbelică și canonul",
+    "theory": "Critica postbelică include Nicolae Manolescu (Arca lui Noe, Istoria critică a literaturii române, 2008), Eugen Simion (Scriitori români de azi), Ion Negoițescu, Matei Călinescu (Cinci fețe ale modernității). Canonul literar este ansamblul operelor considerate reprezentative; dezbaterea despre canon (inclusiv despre revizuirea canonului după 1990) pune întrebarea cine și după ce criterii decide valoarea.",
+    "sample": "Argument original într-o dezbatere: canonul nu este fix, ci reflectă alegerile unei epoci; totuși, revizuirea lui trebuie argumentată cu analize, nu cu motive politice.",
+    "worked": "Canonul se construiește și se revizuiește prin critica argumentată. Criteriile estetice și istorice trebuie explicitate.",
+    "exercises": [
+     "Prezintă contribuțiile a trei critici postbelici.",
+     "Explică noțiunea de canon.",
+     "Analizează dezbaterea despre revizuirea canonului.",
+     "Compară Istoria lui Manolescu cu cea a lui Călinescu.",
+     "Formulează propriile criterii de valoare."
+    ],
+    "test": [
+     "Când apare Istoria critică a literaturii române?",
+     "Cine a scris-o?",
+     "Ce este canonul literar?",
+     "Cine a scris Cinci fețe ale modernității?",
+     "Ce criterii se discută în dezbaterea despre canon?"
+    ],
+    "steps": [
+     "Identifică metoda și criteriile criticului.",
+     "Analizează un argument critic.",
+     "Formulează o poziție argumentată.",
+     "Greșeala frecventă: să consideri canonul imuabil sau, invers, complet arbitrar."
+    ],
+    "answers": [
+     "În 2008.",
+     "Nicolae Manolescu.",
+     "Ansamblul operelor considerate reprezentative.",
+     "Matei Călinescu.",
+     "Criteriile estetice și istorice."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l29": {
+   "ro": {
+    "title": "Tema, bibliografia și planul lucrării",
+    "theory": "Lucrarea de licență este o cercetare originală: are o temă precisă, o întrebare de cercetare, un corpus, o metodă și o bibliografie critică. Planul tipic: introducere (motivație, obiective, metodă), capitole teoretice și analitice, concluzii, bibliografie, eventual anexe. Tema trebuie să fie suficient de restrânsă pentru a fi tratată în profunzime și verificată cu coordonatorul.",
+    "sample": "Exemplu original de restrângere: tema prea largă „Romanul interbelic” devine „Perspectiva narativă în romanele lui Camil Petrescu”, cu o întrebare clară despre autenticitate.",
+    "worked": "Restrângerea temei permite o analiză profundă și originală. Întrebarea de cercetare orientează planul.",
+    "exercises": [
+     "Restrânge trei teme prea largi.",
+     "Formulează o întrebare de cercetare.",
+     "Construiește o bibliografie de zece titluri.",
+     "Redactează planul unei lucrări de licență.",
+     "Scrie introducerea unei lucrări."
+    ],
+    "test": [
+     "Ce conține o lucrare de licență?",
+     "De ce trebuie restrânsă tema?",
+     "Ce conține introducerea?",
+     "Ce rol are coordonatorul?",
+     "Ce orientează planul lucrării?"
+    ],
+    "steps": [
+     "Alege o temă și restrânge-o.",
+     "Formulează întrebarea și metoda.",
+     "Construiește planul și bibliografia.",
+     "Greșeala frecventă: să alegi o temă prea largă pentru a fi tratată în profunzime."
+    ],
+    "answers": [
+     "Temă, întrebare, corpus, metodă, bibliografie.",
+     "Pentru a fi tratată în profunzime.",
+     "Motivație, obiective, metodă.",
+     "Verifică tema, planul și metoda.",
+     "Întrebarea de cercetare."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l30": {
+   "ro": {
+    "title": "Analiza corpusului și redactarea capitolelor",
+    "theory": "Capitolul analitic aplică metoda pe corpus: fiecare secțiune are o teză, analize de text, citate scurte comentate și o concluzie parțială. Capitolul teoretic nu este un rezumat al bibliografiei, ci o selecție a conceptelor folosite, cu poziționare critică. Concluziile răspund la întrebarea de cercetare și indică limitele și direcțiile viitoare.",
+    "sample": "Paragraf analitic original: Teza secțiunii: perspectiva unică produce incertitudine. Exemplul: scena balului este văzută doar prin gelozia naratorului. Comentariu: detaliile alese de el arată mai mult despre el decât despre soție. Concluzie parțială: ambiguitatea este construită deliberat.",
+    "worked": "Structura teză–exemplu–comentariu–concluzie face analiza verificabilă. Citatul nu ține locul comentariului.",
+    "exercises": [
+     "Scrie o secțiune analitică pe modelul teză–exemplu–comentariu–concluzie.",
+     "Transformă un rezumat bibliografic în cadru teoretic.",
+     "Redactează concluziile unei lucrări.",
+     "Verifică proporția dintre citate și comentariu.",
+     "Revizuiește un capitol cu o listă de control."
+    ],
+    "test": [
+     "Ce conține o secțiune analitică?",
+     "Ce nu trebuie să fie capitolul teoretic?",
+     "La ce răspund concluziile?",
+     "Ce rol are citatul?",
+     "Ce indică concluziile pe lângă rezultate?"
+    ],
+    "steps": [
+     "Formulează teza secțiunii.",
+     "Alege exemplele și comentează-le.",
+     "Leagă concluzia parțială de întrebarea de cercetare.",
+     "Greșeala frecventă: să înșiri citate fără comentariu propriu."
+    ],
+    "answers": [
+     "Teză, analize, citate comentate, concluzie parțială.",
+     "Un simplu rezumat al bibliografiei.",
+     "La întrebarea de cercetare.",
+     "Susține comentariul, nu îl înlocuiește.",
+     "Limitele și direcțiile viitoare."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l31": {
+   "ro": {
+    "title": "Etica cercetării, plagiatul și susținerea",
+    "theory": "Plagiatul înseamnă preluarea ideilor sau textului altcuiva fără indicarea sursei; legea română și regulamentele universitare îl sancționează, iar lucrările sunt verificate cu programe antiplagiat. Parafraza corectă reformulează și indică sursa, iar citatul este marcat cu ghilimele. Instrumentele de inteligență artificială se folosesc doar conform regulilor facultății și cu transparență. Susținerea publică are prezentare, întrebări din partea comisiei și răspuns argumentat.",
+    "sample": "Exemplu original de parafrază corectă: în locul copierii frazei unui critic, studentul scrie: Potrivit lui X (2010, p. 45), perspectiva unică produce ambiguitate — o idee reformulată și citată.",
+    "worked": "Parafraza păstrează ideea, schimbă formularea și indică sursa. Citarea protejează onestitatea academică.",
+    "exercises": [
+     "Transformă trei citate în parafraze corecte.",
+     "Identifică plagiatul într-un text dat.",
+     "Pregătește o prezentare de zece minute.",
+     "Formulează răspunsuri la întrebări posibile ale comisiei.",
+     "Explică regulile privind folosirea instrumentelor AI."
+    ],
+    "test": [
+     "Ce este plagiatul?",
+     "Cum se verifică lucrările?",
+     "Ce este parafraza corectă?",
+     "Cum se marchează citatul?",
+     "Ce conține susținerea publică?"
+    ],
+    "steps": [
+     "Notează sursa pentru fiecare idee preluată.",
+     "Citează sau parafrazează corect.",
+     "Verifică lucrarea și pregătește susținerea.",
+     "Greșeala frecventă: să crezi că reformularea fără indicarea sursei nu este plagiat."
+    ],
+    "answers": [
+     "Preluarea ideilor sau textului altcuiva fără indicarea sursei.",
+     "Cu programe antiplagiat.",
+     "Reformularea ideii cu indicarea sursei.",
+     "Cu ghilimele și trimitere.",
+     "Prezentare, întrebări, răspuns argumentat."
+    ]
+   }
+  }
+ }
+}
