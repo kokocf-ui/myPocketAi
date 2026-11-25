@@ -72,6 +72,10 @@ Utilizatorul a testat APK-ul signed intermediar și a raportat că textul apare 
 3. Asigură versionare și publicare independentă, integrarea reală a cititorilor, compatibilitate, lipsa sau invaliditatea pachetului, actualizări și mesaje clare offline. Nu confunda un fallback general cu o lecție completă și nu garanta păstrarea permanentă în cache.
 4. Testează paritatea conținutului și navigarea, browserul mobil, Android, prima încărcare, cache-ul offline, publicarea reală și regresiile. Măsoară din nou HTML-ul și bundle-ul. Continuă Literatura în pachete, pe surse și cu revizuire curriculară/lingvistică, în paralel cu decuplarea rămasă.
 
+## Regulă generală pentru toate materiile
+
+**Regulă generală pentru toate materiile (decizia utilizatorului, nov. 2026):** regulile stabilite la Literatură se aplică la orice materie din Educație: programa oficială + manualele țării ca surse (fără teme inventate, fără text copiat din manuale), limba națională de școlarizare ca sursă unică, toate limbile oficiale la țările multilingve, densitate după manual (~30–36 lecții pe an, grupate pe unitățile manualului/programei), rol de „dascăl înțelegător” (explicație pas cu pas + greșeala frecventă la fiecare lecție, răspunsuri la test). Ordinea: întâi se termină Literatura, apoi Geografie, Istorie, Informatică.
+
 ## Literatură: pachete naționale pe an (ramura `arena/430ec340-mypocketai`)
 
 Decizii ale utilizatorului (nov. 2026): lecții în **limba națională de școlarizare**, o singură sursă per limbă; ordine **pe lățime** (întâi primar pentru toate țările, apoi gimnaziu, apoi liceu); pentru țările multilingve, **toate limbile oficiale de predare**; doar commit + push, **fără PR/merge și fără APK** până la alt semnal.
