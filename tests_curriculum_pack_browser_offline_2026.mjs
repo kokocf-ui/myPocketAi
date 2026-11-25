@@ -6,6 +6,7 @@ import { chromium } from 'playwright';
 
 const origin = 'http://127.0.0.1:4396';
 let packRequests = 0;
+let updatedPT = false;
 
 const server = http.createServer(async (req, res) => {
   try {
@@ -15,8 +16,16 @@ const server = http.createServer(async (req, res) => {
     const result = await app.fetch(new Request(origin + req.url, { headers: req.headers }), {
       COMMUNICATION_ORACLE_ORIGIN: ''
     });
+    let body=Buffer.from(await result.arrayBuffer());
+    const query=new URL(origin+req.url).searchParams;
+    if(updatedPT&&req.url.startsWith('/api/curriculum-pack')&&query.get('subject')==='mathematics'&&query.get('country')==='PT'&&query.get('grade')==='5'){
+      const pack=JSON.parse(body.toString());
+      const row=pack.lessonsByTopic.algebra.find(x=>x.title.includes('Multiplii și divizorii unui număr'));
+      assert.ok(row);row.title='Actualizare independentă: '+row.title;pack.packVersion='test-independent-update';
+      body=Buffer.from(JSON.stringify(pack));
+    }
     res.writeHead(result.status, Object.fromEntries(result.headers));
-    res.end(Buffer.from(await result.arrayBuffer()));
+    res.end(body);
   } catch (err) {
     res.writeHead(500);
     res.end(String(err));
@@ -81,6 +90,22 @@ try {
   await reader.waitFor({ state: 'visible', timeout: 10000 });
   assert.ok((await reader.innerText()).includes('Definiție și explicație'));
   await click(reader.locator('.education-theory-head button').first());
+
+  // Republish just one asset while the exact same frontend is running.
+  updatedPT=true;
+  await page.goto(origin+'/?nativeLaunch=1&mathQa=1',{waitUntil:'domcontentloaded'});
+  await click(page.locator('[data-module="learning"]').first());
+  await click(page.locator('#view-module .education-card').filter({hasText:'Matematică'}).first());
+  if(await page.locator('#eduCountryInput').isVisible()){
+    await page.locator('#eduCountryInput').fill('Portugalia');
+    await click(page.locator('#view-module .edu-country-matches button').filter({hasText:'Portugalia'}).first());
+    await click(page.locator('#view-module button').filter({hasText:'Continuă'}).first());
+  }
+  await click(page.locator('#view-module .math-choice-row').nth(1));
+  await page.locator('#view-module .edu-grade-panel input').fill('5');
+  await click(page.locator('#view-module .edu-grade-choice-grid button').first());
+  await click(page.locator('#view-module .math-choice-row').filter({hasText:'Algebră'}).first());
+  assert.ok((await page.locator('#view-module .math-choice-row strong').allTextContents()).some(t=>t.includes('Actualizare independentă: Multiplii și divizorii')),'Reader navigation must use the updated pack without changing the frontend');
 
   // Phase 2: Disconnect network completely (airplane mode) and verify cached HU Grade 5 works 100% offline!
   const beforeOfflinePackRequests = packRequests;

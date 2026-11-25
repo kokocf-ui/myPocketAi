@@ -124,6 +124,7 @@ export const EDUCATION_COUNTRY_UI_SCRIPT=
  'const EDU_REMOTE_PACK_KEYS=new Set(Object.entries('+JSON.stringify(COMPACT_REMOTE_PACK_KEYS[1])+').flatMap(([s,cs])=>Object.entries(cs).flatMap(([c,i])=>EDU_REMOTE_PACK_POOL[i].split(",").map(g=>s+"|"+c+"|"+g))));\n'+
  String.raw`const EDU_LOADED_CURRICULUM_PACKS={};
 const EDU_PENDING_CURRICULUM_PACKS={};
+let EDU_CURRICULUM_NAVIGATION_SERIAL=0;
 function eduCanonicalPackGrade(grade,stage){
  const g=String(grade||'').trim(),st=String(stage||'').trim().toLowerCase();
  if(st==='advanced'&&g&&!/^(bsc|msc|univ[-_])/i.test(g))return 'univ-'+g;
@@ -134,14 +135,22 @@ function eduCurriculumPackKey(subject,country,grade,stage){
  if(!s||!c||!g)return '';
  return s+'|'+c+'|'+g;
 }
+function eduValidCurriculumPack(key,pack){
+ if(!key||!pack||pack.schema!=='mypocketai-curriculum-pack/v1'||typeof pack.packVersion!=='string'||!pack.packVersion)return false;
+ const [subject,country,grade]=key.split('|');
+ if(pack.subject!==subject||pack.country!==country||String(pack.grade)!==grade)return false;
+ const topics=pack.lessonsByTopic;
+ return !!topics&&typeof topics==='object'&&!Array.isArray(topics)&&Object.keys(topics).length>0&&
+  Object.values(topics).every(rows=>Array.isArray(rows)&&rows.every(row=>row&&typeof row==='object'&&!Array.isArray(row)));
+}
 function eduReadLocalCurriculumPack(key){
  if(!key)return null;
- if(Object.hasOwn(EDU_LOADED_CURRICULUM_PACKS,key))return EDU_LOADED_CURRICULUM_PACKS[key];
+ if(eduValidCurriculumPack(key,EDU_LOADED_CURRICULUM_PACKS[key]))return EDU_LOADED_CURRICULUM_PACKS[key];
  try{
   const raw=typeof localStorage!=='undefined'?localStorage.getItem('pocketai.pack.v1.'+key):null;
   if(!raw)return null;
   const parsed=JSON.parse(raw);
-  if(parsed&&parsed.packVersion===EDU_CURRICULUM_PACK_VERSION){
+  if(eduValidCurriculumPack(key,parsed)){
    EDU_LOADED_CURRICULUM_PACKS[key]=parsed;
    return parsed;
   }
@@ -166,31 +175,37 @@ async function eduEnsureCurriculumPack(subject,country,grade,stage){
  const g=eduCanonicalPackGrade(grade,stage);
  const key=eduCurriculumPackKey(subject,country,g);
  if(!key||!EDU_REMOTE_PACK_KEYS.has(key))return null;
- const cached=eduReadLocalCurriculumPack(key);
- if(cached)return cached;
  if(EDU_PENDING_CURRICULUM_PACKS[key])return EDU_PENDING_CURRICULUM_PACKS[key];
  const s=String(subject||'').trim().toLowerCase(),c=String(country||'').trim().toUpperCase();
+ // The bundle version stays in the URL for compatibility with existing cached requests;
+ // it must not pin content: a compatible pack may be updated independently.
  const urlStr='/api/curriculum-pack?subject='+encodeURIComponent(s)+'&country='+encodeURIComponent(c)+'&grade='+encodeURIComponent(g)+'&v='+encodeURIComponent(EDU_CURRICULUM_PACK_VERSION);
  const job=(async()=>{
+  try{
+   if(typeof fetch==='function'){
+    const controller=typeof AbortController==='function'?new AbortController():null;
+    const timer=controller?setTimeout(()=>controller.abort(),8000):null;
+    try{
+     const res=await fetch(urlStr,{headers:{'X-Pocket-Client':'1'},cache:'no-store',...(controller?{signal:controller.signal}:{})});
+     if(res.ok){
+      const data=await res.json();
+      if(eduValidCurriculumPack(key,data)){
+       eduStoreLocalCurriculumPack(key,data,urlStr);
+       return data;
+      }
+     }
+    }finally{if(timer)clearTimeout(timer)}
+   }
+  }catch{}
+  const cached=eduReadLocalCurriculumPack(key);
+  if(cached)return cached;
   try{
    if(typeof caches!=='undefined'){
     const cache=await caches.open('pocketai-curriculum-packs-v1');
     const hit=await cache.match(urlStr);
     if(hit){
      const data=await hit.json();
-     if(data&&data.lessonsByTopic){EDU_LOADED_CURRICULUM_PACKS[key]=data;return data;}
-    }
-   }
-  }catch{}
-  try{
-   if(typeof fetch==='function'){
-    const res=await fetch(urlStr,{headers:{'X-Pocket-Client':'1'}});
-    if(res.ok){
-     const data=await res.json();
-     if(data&&data.lessonsByTopic){
-      eduStoreLocalCurriculumPack(key,data,urlStr);
-      return data;
-     }
+     if(eduValidCurriculumPack(key,data)){eduStoreLocalCurriculumPack(key,data);return data;}
     }
    }
   }catch{}
@@ -200,11 +215,21 @@ async function eduEnsureCurriculumPack(subject,country,grade,stage){
  return job;
 }
 function eduRunWithCurriculumPack(subject,country,grade,proceed,stage){
+ const serial=++EDU_CURRICULUM_NAVIGATION_SERIAL;
  const key=eduCurriculumPackKey(subject,country,grade,stage);
- if(!key||!EDU_REMOTE_PACK_KEYS.has(key)||eduReadLocalCurriculumPack(key)){
+ if(!key||!EDU_REMOTE_PACK_KEYS.has(key)){
   proceed();return;
  }
- eduEnsureCurriculumPack(subject,country,grade,stage).finally(()=>proceed());
+ const host=typeof document!=='undefined'?document.getElementById('moduleContent'):null;
+ const first=host?.firstElementChild;
+ const root=typeof document!=='undefined'?document.getElementById('view-module'):null;
+ const wasActive=!!root?.classList?.contains('active');
+ eduEnsureCurriculumPack(subject,country,grade,stage).finally(()=>{
+  if(serial!==EDU_CURRICULUM_NAVIGATION_SERIAL)return;
+  if(host&&host.firstElementChild!==first)return;
+  if(wasActive&&!root.classList.contains('active'))return;
+  proceed();
+ });
 }
 function eduPackTopicLessons(subject,country,grade,topic,stage){
  const key=eduCurriculumPackKey(subject,country,grade,stage);
@@ -836,7 +861,8 @@ function educationGradeGate(moduleKey,level,proceed,back){
  try{
   const prefSubj=eduActiveSubjectCode(moduleKey);
   for(const opt of (options||[]).slice(0,8)){
-   if(opt?.id)eduEnsureCurriculumPack(prefSubj,country,opt.id,level);
+   if(opt?.id&&!eduReadLocalCurriculumPack(eduCurriculumPackKey(prefSubj,country,opt.id,level)))
+    eduEnsureCurriculumPack(prefSubj,country,opt.id,level);
   }
  }catch{}
  const startYear=id=>{
