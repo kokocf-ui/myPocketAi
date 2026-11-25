@@ -5,6 +5,8 @@ on:
       - 'literature_*.mjs'
       - 'tests_literature_*.mjs'
       - 'scripts/audit_literature_readiness.mjs'
+      - 'scripts/build_literature_profiles.mjs'
+      - 'public/education/literature/profiles/**'
       - 'education_all_country_subject_matrix.mjs'
       - '.github/workflows/literature-50-grade-depth.yml'
   workflow_dispatch:
@@ -50,6 +52,8 @@ jobs:
           node --check tests_literature_europe_authored_material.mjs
       - name: National coverage and existing literature regressions
         run: |
+          node scripts/build_literature_profiles.mjs --verify
+          node tests_literature_country_profiles.mjs
           node tests_literature_all_country_depth.mjs
           node tests_literature_selected_stage_2026.mjs
           node tests_literature_chapter_activities_2026.mjs

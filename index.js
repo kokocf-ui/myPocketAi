@@ -16,7 +16,7 @@ import {EXTRA_TOOLS_WORKSPACE_SCRIPT,EXTRA_TOOLS_WORKSPACE_STYLE} from './extra_
 import {EXAM_UI_SCRIPT} from './exam_ui.mjs';
 import {RECIPE_READER_PAGES_UI_SCRIPT} from './recipe_reader_pages_ui.mjs';
 import {LITERATURE_TASK_UI_SCRIPT} from './literature_task_ui.mjs';
-import {serializeCompactLiteratureCatalog} from './literature_compact_catalog.mjs';
+import {literatureLoadCountryProfile} from './literature_profile_loader.mjs';
 import {UNIVERSITY_DOMAINS} from './university_domains.mjs';
 import {UNIVERSITY_PROGRAM_OPTIONS,UNIVERSITY_ADMISSION_ENTRIES} from './university_admissions_verified.mjs';
 import {PRACTICAL_COURSES,PRACTICAL_COUNTRIES,PRACTICAL_LEVELS} from './practical_curriculum.mjs';
@@ -39,7 +39,7 @@ import {EDUCATION_SCHOOL_YEARS,HG_SCHOOL_PLANS,HG_SCHOOL_GENERAL,HG_SCHOOL_SOURC
 import {EDUCATION_WORLDWIDE_SCHEMES,EDUCATION_WORLDWIDE_FALLBACK,worldwideSchoolYears,worldwideSchoolNotice,worldwideStudyChapters} from './education_worldwide_paths.mjs';
 import {COMPUTING_LEVELS,COMPUTING_PATHS,COMPUTING_TOPICS} from './computing_curriculum.mjs';
 import {COMPUTING_UI_SCRIPT} from './computing_ui.mjs';
-import {LIT_EU_COMMON,LIT_EU_PROGRAMS} from './literature_curriculum_europe.mjs';
+import {LIT_EU_COMMON} from './literature_common_program.mjs';
 import {literatureTracksForGrade,hungaryAdmissionTopicsForGrade,HUNGARY_ADMISSION_REFERENCES} from './literature_school_streams.mjs';
 import {LIT_OFFLINE_THEORY} from './literature_offline_theory.mjs';
 import {VERIFIED_LITERARY_AUTHORS} from './literature_verified_authors.mjs';
@@ -15203,8 +15203,9 @@ async function hgGenerate(extra,output){
 }
 
 
-// Country and language are separate choices; the present curriculum scope is Europe.
-const LIT_EUROPE_PROGRAMS=${serializeCompactLiteratureCatalog(LIT_EU_PROGRAMS)};
+// Country programmes are independent static assets, loaded on country entry.
+const LIT_EUROPE_PROGRAMS=Object.create(null);
+const literatureLoadCountryProfile=${literatureLoadCountryProfile.toString()};
 const LIT_EUROPE_COMMON=${JSON.stringify(LIT_EU_COMMON)};
 const litSchoolTracksForGrade=${literatureTracksForGrade.toString()};
 const litHungaryAdmissionTopics=${hungaryAdmissionTopicsForGrade.toString()};
@@ -15252,6 +15253,34 @@ const LIT_TOPICS={
  writing:[['essay','Eseu argumentativ sau literar','Argumentative or literary essay'],['composition','Compunere creativă','Creative composition'],['commentary','Comentariu și analiză de text','Commentary and close reading'],['summary','Rezumat și sinteză','Summary and synthesis'],['review','Recenzie și prezentare','Review and presentation'],['work-summary','Rezumat și sinteză de operă','Work summary and synthesis'],['research','Lucrare academică','Academic paper']]
 };
 let litJourney={stage:'countries',country:'RO',language:'ro',level:'beginner',grade:'',track:'TC',region:'',branch:'program',topic:'',targetSchool:'',busy:false};
+function litStartCountryProfile(){
+ const country=litJourney.country;
+ litJourney.stage='loading-profile';
+ const root=$('view-module'),host=$('moduleContent');
+ root.classList.remove('learning-choose','learning-math','learning-science','learning-languages','learning-hg','learning-country-gate');
+ root.classList.add('learning-active','learning-literature');
+ $('moduleTitle').textContent=learningLabel('Limbă și literatură','Language and literature');
+ $('moduleLead').textContent='';host.replaceChildren();
+ const panel=document.createElement('div');panel.className='math-choice-panel science-choice-panel lit-panel';
+ const back=litBtn(learningLabel('← Înapoi','← Back'),()=>educationCountryGate('literature',()=>openLearningSubjectAfterCountry('literature')),'secondary-btn lit-back');
+ const message=litText('p',learningLabel('Se încarcă programa pentru țara selectată…','Loading the selected country programme…'));
+ panel.append(back,message);host.append(panel);
+ const active=()=>panel.isConnected&&litJourney.stage==='loading-profile'&&litJourney.country===country;
+ const load=async()=>{
+  message.textContent=learningLabel('Se încarcă programa pentru țara selectată…','Loading the selected country programme…');
+  try{
+   const result=await literatureLoadCountryProfile(country);
+   if(!active())return;
+   LIT_EUROPE_PROGRAMS[country]=result.profile;
+   litOpen('levels');
+  }catch{
+   if(!active())return;
+   message.textContent=learningLabel('Programa acestei țări nu este disponibilă offline. Conectează-te la internet și încearcă din nou.','This country programme is not available offline. Connect to the internet and try again.');
+   if(!panel.querySelector('.lit-profile-retry'))panel.append(litBtn(learningLabel('Încearcă din nou','Try again'),load,'secondary-btn lit-profile-retry'));
+  }
+ };
+ load();
+}
 function litProgram(){
  const profile=LIT_EUROPE_PROGRAMS[litJourney.country]||null;
  const effectiveLevel=litJourney.level==='lower'?'medium':litJourney.level;
@@ -15294,7 +15323,7 @@ function litBack(){
  const stage=litJourney.stage;
  try{
   if(stage==='countries'){renderLearningSubjects();return}
-  if(stage==='levels'){educationCountryGate('literature',()=>litOpen('levels'));return}
+  if(stage==='levels'){educationCountryGate('literature',()=>openLearningSubjectAfterCountry('literature'));return}
   if(stage==='languages'){litOpen('levels');return}
   if(stage==='grades'){litOpen('levels');return}
   if(stage==='regions'||stage==='tracks'){litOpen('grades');return}
@@ -15374,7 +15403,7 @@ function litOpen(stage){
    }
   }
  };
- if(stage==='countries'){list(LIT_COUNTRIES.map(x=>({id:x[0],ro:x[1],en:x[2]})),c=>{litJourney.country=c.id;const selected=LIT_COUNTRIES.find(x=>x[0]===c.id);litJourney.language=LIT_LANGUAGES.some(x=>x[0]===selected?.[3])?selected[3]:'en';litOpen('levels')},true)}
+ if(stage==='countries'){list(LIT_COUNTRIES.map(x=>({id:x[0],ro:x[1],en:x[2]})),c=>{litJourney.country=c.id;const selected=LIT_COUNTRIES.find(x=>x[0]===c.id);litJourney.language=LIT_LANGUAGES.some(x=>x[0]===selected?.[3])?selected[3]:'en';litStartCountryProfile()},true)}
  if(stage==='languages'){const choices=LIT_LANGUAGES.map(x=>({id:x[0],ro:x[1],en:x[2]}));list(choices,c=>{litJourney.language=c.id;litOpen('levels')},true)}
  if(stage==='levels'){
   const currentLanguage=LIT_LANGUAGES.find(x=>x[0]===litJourney.language);
@@ -16009,7 +16038,7 @@ function openLearningSubjectAfterCountry(key){
   if(litJourney.country!==incoming){litJourney.grade='';litJourney.level='beginner';}
   litJourney.country=incoming;
   if(selected?.[3]&&LIT_LANGUAGES.some(x=>x[0]===selected[3]))litJourney.language=selected[3];
-  litOpen('levels');return
+  litStartCountryProfile();return
  }
  if(key==='computing'){computingOpen('levels');return}
  if(key==='exams'){examOpen('grades');return}

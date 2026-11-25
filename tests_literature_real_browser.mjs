@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import frontend from './index.js';
 import {createServer} from 'node:http';
 import {spawn,spawnSync} from 'node:child_process';
-import {mkdtemp,rm} from 'node:fs/promises';
+import {mkdtemp,rm,readFile} from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 
@@ -19,8 +19,14 @@ let html=await response.text();
 assert.ok(html.includes('function litOpen(stage){'));
 html=html.replace('function litOpen(stage){',
  "window.__literatureAcceptance={setLanguage(value){state.language=value},snapshot(){return {...litJourney}}};function litOpen(stage){");
-const server=createServer((req,res)=>{
+const server=createServer(async(req,res)=>{
  if(req.url==='/favicon.ico'){res.writeHead(204);res.end();return}
+ const asset=req.url.match(/^\/education\/literature\/profiles\/([A-Z-]+)\.json$/);
+ if(asset){
+  try{const data=await readFile(new URL('./public/education/literature/profiles/'+asset[1]+'.json',import.meta.url));res.writeHead(200,{'Content-Type':'application/json'});res.end(data)}
+  catch{res.writeHead(404);res.end()}
+  return;
+ }
  res.writeHead(200,{'Content-Type':'text/html; charset=utf-8','Access-Control-Allow-Origin':'*'});res.end(html)
 });
 await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
@@ -174,7 +180,7 @@ try{
  await chooseCountry('Hungary','Ungar|Hungary');
  await choice('Primar|Primary');await choice('^1$');await choice('Programa clasei|Grade syllabus');
  // The three year-focused HU lessons must work without any network request.
- await choice('Betűk');await js("window.fetch=async()=>{throw new TypeError('Failed to fetch')}");
+ await choice('Betűk');await js("window.__literatureOnlineFetch=window.fetch.bind(window);window.fetch=async()=>{throw new TypeError('Failed to fetch')}");
  await js("[...document.querySelectorAll('#moduleContent .lit-activity-button')].find(b=>/^(Teorie|Theory)$/.test(b.textContent.trim())).click()");await sleep(200);
  const hungarian=await js("document.querySelector('.lit-reader-overlay')?.innerText||''");
  assert.match(hungarian,/szem/,'Grade 1 Hungary lesson must contain actual Hungarian examples');
@@ -203,7 +209,20 @@ try{
  await js("[...document.querySelectorAll('.lit-reader-overlay button')].find(b=>/Următoarea/.test(b.textContent)&&!b.disabled)?.click()");
  const universityNext=await js("document.querySelector('.lit-reader-overlay')?.innerText||''");
  assert.match(universityNext,/Metodă de lucru/,'University reader pagination must reach the method');
- console.log('PASS real Chromium mobile 390x844: quick reference, RO grade IX, FR year 6 poetry, HU honest offline fallback and university reader/navigation');
+ await js("[...document.querySelectorAll('.lit-reader-overlay button')].find(b=>/Înapoi|Back/.test(b.textContent)).click()");
+ // RO was loaded earlier: it must reopen from local storage during an outage.
+ await chooseCountry('Romania','Rom[aâ]n|Romania');
+ assert.equal((await litStage()).stage,'levels','Previously loaded country should open from cache offline');
+ // A never-downloaded country must not be silently substituted with a generic one.
+ await chooseCountry('Germany','German|Germany');
+ const offlineNotice=await js("document.querySelector('#moduleContent')?.textContent||''");
+ assert.match(offlineNotice,/nu este disponibilă offline|not available offline/i,JSON.stringify({journey:await litStage(),offlineNotice,exceptions,logs}));
+ const profileVisibility=await js("(()=>{const p=document.querySelector('.lit-profile-retry');const r=p?.getBoundingClientRect();return {display:p&&getComputedStyle(p).display,visibility:p&&getComputedStyle(p).visibility,width:r?.width,height:r?.height,parent:p?.parentElement?.outerHTML.slice(0,500),root:document.querySelector('#view-module')?.className}})()");
+ assert.ok(profileVisibility.width>0&&profileVisibility.height>0,'Offline retry must be visible: '+JSON.stringify(profileVisibility));
+ await js("window.fetch=window.__literatureOnlineFetch;document.querySelector('.lit-profile-retry').click()");
+ await sleep(300);
+ assert.equal((await litStage()).stage,'levels','Retry must load the real country profile');
+ console.log('PASS real Chromium mobile 390x844: RO, FR, HU, university, offline country cache, missing profile and retry');
 }finally{
  try{ws?.close()}catch{}
  child.kill('SIGKILL');
