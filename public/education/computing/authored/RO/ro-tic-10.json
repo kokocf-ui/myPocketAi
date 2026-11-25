@@ -1,0 +1,910 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "RO",
+ "stage": "medium",
+ "grade": "tic-10",
+ "version": "ab34b6a3d46857eb006c4ff5b5b793ae5b96dd75fade8fe3fde09316b8e6fdb4",
+ "source": "https://rocnee.eu/images/rocnee/fisiere/curriculum/repere%20metodologice%2022-23/REPERE_METODOLOGICE_TIC_2022_2023.pdf",
+ "sourceTitle": "Programa școlară de Tehnologia informației și a comunicațiilor, clasa a X-a, toate filierele, profilurile și specializările, aprobată prin OMECI nr. 5099/09.09.2009 (1 oră/săptămână), cu structura de conținuturi din Reperele metodologice CNPEE pentru clasa a X-a — unități: Calcul tabelar; Baze de date cu aplicații de birotică; Prezentări electronice",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "ro",
+ "labels": [
+  "Activitate originală · România · TIC · Clasa a X-a",
+  "Lecția pe înțeles",
+  "Exemplu",
+  "Ce ne arată exemplul",
+  "Exerciții",
+  "Test",
+  "Activități originale, făcute după programa școlară; nu înlocuiesc manualul sau ora de la clasă.",
+  "Dacă nu ai înțeles: pas cu pas",
+  "Răspunsuri (verifică după ce termini)"
+ ],
+ "units": [
+  {
+   "title": "Calcul tabelar: editarea și formatarea datelor",
+   "keys": [
+    "eu-year-ro-medium-tic-10-l01",
+    "eu-year-ro-medium-tic-10-l02",
+    "eu-year-ro-medium-tic-10-l03",
+    "eu-year-ro-medium-tic-10-l04",
+    "eu-year-ro-medium-tic-10-l05",
+    "eu-year-ro-medium-tic-10-l06"
+   ]
+  },
+  {
+   "title": "Calcul tabelar: obținerea rezultatelor pe baza datelor",
+   "keys": [
+    "eu-year-ro-medium-tic-10-l07",
+    "eu-year-ro-medium-tic-10-l08",
+    "eu-year-ro-medium-tic-10-l09",
+    "eu-year-ro-medium-tic-10-l10",
+    "eu-year-ro-medium-tic-10-l11",
+    "eu-year-ro-medium-tic-10-l12"
+   ]
+  },
+  {
+   "title": "Baze de date cu aplicații de birotică",
+   "keys": [
+    "eu-year-ro-medium-tic-10-l13",
+    "eu-year-ro-medium-tic-10-l14",
+    "eu-year-ro-medium-tic-10-l15",
+    "eu-year-ro-medium-tic-10-l16",
+    "eu-year-ro-medium-tic-10-l17",
+    "eu-year-ro-medium-tic-10-l18",
+    "eu-year-ro-medium-tic-10-l19",
+    "eu-year-ro-medium-tic-10-l20",
+    "eu-year-ro-medium-tic-10-l21"
+   ]
+  },
+  {
+   "title": "Prezentări electronice",
+   "keys": [
+    "eu-year-ro-medium-tic-10-l22",
+    "eu-year-ro-medium-tic-10-l23",
+    "eu-year-ro-medium-tic-10-l24"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-ro-medium-tic-10-l01": {
+   "ro": {
+    "title": "Registrul de calcul: foi, celule, vizualizare",
+    "theory": "O aplicație de calcul tabelar (Microsoft Excel, LibreOffice Calc, Google Sheets) lucrează cu registre (fișiere .xlsx sau .ods) formate din foi de calcul. O foaie este un tabel cu coloane notate cu litere (A, B, …, Z, AA, …) și rânduri numerotate (1, 2, 3, …). Intersecția unei coloane cu un rând este o celulă, identificată prin adresă: B3 înseamnă coloana B, rândul 3. Celula activă are chenar îngroșat, iar adresa ei apare în caseta de nume; bara de formule arată conținutul real al celulei. Foile pot fi adăugate, redenumite, mutate și șterse din etichetele de jos. Modurile de vizualizare: normal, aspect pagină (cum va arăta tipărit) și examinare întreruperi de pagină. Funcția Ajutor (F1) explică orice comandă. Salvăm des și alegem formatul potrivit.",
+    "sample": "Un elev își face un registru „Note_2026.xlsx” cu câte o foaie pentru fiecare materie: Matematică, Română, Fizică. În foaia Matematică, celula A1 conține „Data”, B1 „Nota”; nota din 12 octombrie este în celula B2.",
+    "worked": "Organizarea pe foi separă materiile, iar adresele celulelor permit găsirea exactă a fiecărei valori. Bara de formule arată conținutul real, chiar dacă celula afișează altceva.",
+    "exercises": [
+     "Creează un registru cu trei foi redenumite.",
+     "Scrie adresa celulei din coloana D, rândul 7.",
+     "Comută între modurile de vizualizare și descrie diferențele.",
+     "Mută și copiază o foaie în același registru.",
+     "Folosește funcția Ajutor pentru a afla ce face o comandă."
+    ],
+    "test": [
+     "Ce este un registru de calcul?",
+     "Cum se identifică o celulă?",
+     "Ce arată bara de formule?",
+     "La ce folosește vizualizarea aspect pagină?",
+     "Cum redenumim o foaie?"
+    ],
+    "steps": [
+     "Deschide aplicația și creează sau deschide registrul.",
+     "Organizează datele pe foi cu nume sugestive.",
+     "Identifică celulele după adresă și salvează des.",
+     "Greșeala frecventă: să confunzi registrul cu foaia; un registru conține mai multe foi."
+    ],
+    "answers": [
+     "Un fișier de calcul tabelar format din foi.",
+     "Prin adresă: litera coloanei și numărul rândului.",
+     "Conținutul real al celulei active.",
+     "Ca să vedem cum va arăta foaia tipărită.",
+     "Dublu clic pe eticheta foii și scriem numele nou."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-10-l02": {
+   "ro": {
+    "title": "Tipuri de date și formatarea celulelor",
+    "theory": "În celule introducem numere, text, date calendaristice, ore sau formule. Aplicația recunoaște automat tipul: numerele se aliniază implicit la dreapta, textul la stânga. Formatul celulei schimbă modul de afișare, nu valoarea: număr cu două zecimale, monedă (12,50 lei), procent (0,25 devine 25%), dată (25.11.2026), text. Un cod care începe cu zero (de exemplu 0721…) se formatează ca text, altfel zeroul dispare. Formatarea textului: font, dimensiune, stil (aldin, cursiv), culoare, orientare (text rotit). Alinierea poate fi orizontală și verticală, cu încadrarea textului pe mai multe rânduri. Bordurile (marginile celulelor) și umplerea cu culoare fac tabelul lizibil. În România separatorul zecimal implicit este virgula.",
+    "sample": "În celula C2 elevul scrie 0,19 și aplică formatul procent: celula afișează 19%. În bara de formule valoarea rămâne 0,19, iar calculele folosesc 0,19.",
+    "worked": "Formatul a schimbat doar afișarea. De aceea un preț afișat rotunjit poate avea în spate mai multe zecimale, folosite în calcule.",
+    "exercises": [
+     "Formatează o coloană de prețuri ca monedă în lei.",
+     "Formatează o coloană de procente.",
+     "Introdu numere de telefon care încep cu zero fără să se piardă zeroul.",
+     "Aplică borduri și umplere unui tabel.",
+     "Rotește textul din capul de tabel la 45 de grade."
+    ],
+    "test": [
+     "Ce tipuri de date pot fi introduse?",
+     "Schimbă formatul valoarea celulei?",
+     "Cum păstrăm zeroul de la începutul unui cod?",
+     "Ce face formatul procent?",
+     "Ce separator zecimal se folosește implicit în România?"
+    ],
+    "steps": [
+     "Stabilește tipul datelor din fiecare coloană.",
+     "Aplică formatul potrivit înainte sau după introducerea datelor.",
+     "Verifică în bara de formule valoarea reală.",
+     "Greșeala frecventă: să scrii numerele cu punct în loc de virgulă; aplicația le poate trata ca text sau ca dată."
+    ],
+    "answers": [
+     "Numere, text, date calendaristice, ore, formule.",
+     "Nu, doar afișarea.",
+     "Formatând celula ca text.",
+     "Înmulțește afișarea cu 100 și adaugă %.",
+     "Virgula."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-10-l03": {
+   "ro": {
+    "title": "Selectarea, copierea, mutarea și ștergerea datelor",
+    "theory": "Selectăm o celulă cu un clic, un grup de celule adiacente prin tragere sau cu Shift+clic (de exemplu A1:C5, adică dreptunghiul de la A1 la C5), celule neadiacente cu Ctrl+clic, un rând sau o coloană întreagă cu clic pe numărul sau pe litera lor. Copierea (Ctrl+C) și lipirea (Ctrl+V) se pot face în aceeași foaie, în altă foaie sau în alt registru; mutarea se face prin decupare (Ctrl+X) și lipire sau prin tragerea marginii selecției. Lipirea specială permite să copiem doar valorile, doar formatul sau să transpunem tabelul (rândurile devin coloane). Ștergerea conținutului (tasta Delete) golește celulele, dar le păstrează locul; ștergerea celulelor (Ștergere – Ștergere celule) le elimină și deplasează celelalte celule. Căutarea și înlocuirea (Ctrl+F, Ctrl+H) găsesc și schimbă rapid un text.",
+    "sample": "Elevul copiază tabelul de note din foaia Matematică în foaia Fizică, apoi șterge doar notele (Delete), păstrând capul de tabel și formatul. Cu Ctrl+H înlocuiește peste tot „Matem.” cu „Matematică”.",
+    "worked": "Ștergerea conținutului a păstrat structura. Înlocuirea automată a evitat zeci de corecturi manuale.",
+    "exercises": [
+     "Selectează trei coloane neadiacente.",
+     "Copiază un tabel în alt registru.",
+     "Lipește doar valorile unui tabel cu formule.",
+     "Transpune un tabel cu lipire specială.",
+     "Înlocuiește un cuvânt în toată foaia."
+    ],
+    "test": [
+     "Cum selectăm celule neadiacente?",
+     "Ce înseamnă zona A1:C5?",
+     "Ce diferență este între a șterge conținutul și a șterge celule?",
+     "Ce face lipirea specială cu valori?",
+     "Ce combinație deschide înlocuirea?"
+    ],
+    "steps": [
+     "Selectează exact zona de care ai nevoie.",
+     "Alege copiere sau mutare și lipește în locul dorit, eventual cu lipire specială.",
+     "Verifică rezultatul și folosește Anulare (Ctrl+Z) la nevoie.",
+     "Greșeala frecventă: să ștergi celule în loc să golești conținutul; datele se deplasează și tabelul se strică."
+    ],
+    "answers": [
+     "Cu Ctrl+clic.",
+     "Dreptunghiul de celule de la A1 la C5.",
+     "Prima golește celulele, a doua le elimină și deplasează celelalte celule.",
+     "Copiază rezultatele fără formule.",
+     "Ctrl+H."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-10-l04": {
+   "ro": {
+    "title": "Rânduri, coloane, îmbinări și completarea automată",
+    "theory": "Inserăm rânduri sau coloane noi unde avem nevoie (clic dreapta – Inserare); formulele existente se ajustează automat. Lățimea coloanelor și înălțimea rândurilor se modifică prin tragere sau cu dublu clic pe marginea dintre litere, care potrivește automat dimensiunea după conținut. Îmbinarea celulelor unește mai multe celule într-una, utilă pentru titlul unui tabel, dar îngreunează sortarea, deci o folosim doar la titluri. Completarea automată (autofill): tragem de colțul din dreapta-jos al selecției (mânerul de umplere) și aplicația continuă seria – 1, 2, 3…; luni, marți…; ianuarie, februarie…; 5, 10, 15… (dacă am scris primele două valori). Tot astfel se copiază o formulă pe o coloană întreagă. Înghețarea panourilor păstrează capul de tabel vizibil la derulare.",
+    "sample": "Elevul scrie „Luni” în A2 și trage mânerul de umplere până la A6: apar Marți, Miercuri, Joi, Vineri. În B2 scrie 7:30 și în B3 8:20, selectează-le și trage: apar 9:10, 10:00, 10:50, adică ore din 50 în 50 de minute.",
+    "worked": "Aplicația a recunoscut seria zilelor și pasul dintre primele două ore. Două valori de pornire sunt suficiente pentru a stabili pasul.",
+    "exercises": [
+     "Inserează o coloană nouă între două coloane existente.",
+     "Potrivește automat lățimea tuturor coloanelor.",
+     "Îmbină celulele pentru titlul tabelului și centrează-l.",
+     "Generează cu autofill numerele pare de la 2 la 40.",
+     "Îngheață primul rând al unui tabel lung."
+    ],
+    "test": [
+     "Ce se întâmplă cu formulele la inserarea unui rând?",
+     "Cum potrivim automat lățimea coloanei?",
+     "Când folosim îmbinarea celulelor?",
+     "Ce face completarea automată?",
+     "La ce folosește înghețarea panourilor?"
+    ],
+    "steps": [
+     "Scrie una sau două valori de pornire.",
+     "Selectează-le și trage mânerul de umplere cât este nevoie.",
+     "Verifică seria și ajustează dimensiunile coloanelor.",
+     "Greșeala frecventă: să îmbini celule în interiorul tabelului de date; sortarea și filtrarea nu mai funcționează corect."
+    ],
+    "answers": [
+     "Se ajustează automat.",
+     "Cu dublu clic pe marginea din dreapta literei coloanei.",
+     "Pentru titluri, nu în interiorul datelor.",
+     "Continuă o serie sau copiază o formulă.",
+     "Păstrează capul de tabel vizibil la derulare."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-10-l05": {
+   "ro": {
+    "title": "Sortarea datelor",
+    "theory": "Sortarea ordonează rândurile unui tabel după valorile uneia sau mai multor coloane: crescător (A–Z, de la mic la mare) sau descrescător. Pentru o sortare corectă selectăm tot tabelul (sau doar o celulă din el) și folosim comanda Sortare, bifând că tabelul are rând de antet. Sortarea după mai multe criterii: întâi după clasă, apoi, în cadrul aceleiași clase, după nume. Dacă selectăm o singură coloană și o sortăm separat, rândurile se „rup”: numele nu mai corespund notelor. Datele calendaristice se sortează corect doar dacă sunt recunoscute ca date, iar numerele doar dacă nu sunt memorate ca text. Sortarea modifică ordinea rândurilor; filtrarea, învățată mai târziu, doar le ascunde temporar.",
+    "sample": "Tabelul are coloanele Nume, Clasa, Media. Elevul sortează după Clasa crescător și apoi după Media descrescător. Rezultatul: clasele în ordine, iar în fiecare clasă elevii de la media cea mai mare la cea mai mică.",
+    "worked": "Al doilea criteriu a lucrat doar în interiorul grupurilor create de primul. Toate coloanele s-au mutat împreună, deci fiecare rând a rămas întreg.",
+    "exercises": [
+     "Sortează alfabetic o listă de elevi.",
+     "Sortează produsele după preț descrescător.",
+     "Sortează după clasă și apoi după nume.",
+     "Sortează o listă de date calendaristice.",
+     "Explică ce se întâmplă dacă sortezi o singură coloană."
+    ],
+    "test": [
+     "Ce face sortarea?",
+     "Ce înseamnă sortarea după mai multe criterii?",
+     "De ce selectăm tot tabelul?",
+     "Când nu se sortează corect numerele?",
+     "Ce înseamnă rând de antet?"
+    ],
+    "steps": [
+     "Plasează cursorul în tabel și verifică dacă are antet.",
+     "Alege criteriile de sortare în ordinea importanței.",
+     "Verifică pe câteva rânduri că datele au rămas corecte.",
+     "Greșeala frecventă: să sortezi o singură coloană separat; legătura dintre datele unui rând se pierde."
+    ],
+    "answers": [
+     "Ordonează rândurile după valorile unor coloane.",
+     "Ordonare după a doua coloană în interiorul grupurilor egale după prima.",
+     "Ca toate coloanele să se mute împreună.",
+     "Când sunt memorate ca text.",
+     "Primul rând, cu numele coloanelor, care nu se sortează."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-10-l06": {
+   "ro": {
+    "title": "Aspectul paginii și tipărirea",
+    "theory": "Înainte de tipărire stabilim: dimensiunea hârtiei, orientarea (portret sau peisaj, pentru tabele late), marginile, antetul și subsolul (titlu, dată, numărul paginii), scalarea (încadrarea foii pe o pagină în lățime). Zona de imprimare limitează ce se tipărește: putem tipări doar o selecție, foaia activă sau întregul registru. Rândurile de titlu repetate fac ca antetul tabelului să apară pe fiecare pagină. Liniile de grilă afișate pe ecran nu se tipăresc implicit, de aceea aplicăm borduri. Examinăm întotdeauna în previzualizare, ca să evităm pagini cu o singură coloană rătăcită. Putem exporta foaia ca PDF pentru trimitere.",
+    "sample": "Un tabel cu 9 coloane și 120 de rânduri se tipărea pe 6 pagini, cu ultima coloană separat. Elevul setează orientarea peisaj, încadrarea pe o pagină în lățime și repetarea primului rând pe fiecare pagină: rezultă 3 pagini lizibile.",
+    "worked": "Setările de pagină au redus numărul de pagini și au păstrat capul de tabel pe fiecare pagină. Previzualizarea a arătat problema înainte de a risipi hârtie.",
+    "exercises": [
+     "Setează orientarea peisaj și marginile unei foi.",
+     "Adaugă un antet cu titlul și un subsol cu numărul paginii.",
+     "Tipărește doar o selecție de celule (în PDF).",
+     "Repetă rândul de antet pe fiecare pagină.",
+     "Încadrează un tabel lat pe o pagină în lățime."
+    ],
+    "test": [
+     "Ce setăm înainte de tipărire?",
+     "Ce este zona de imprimare?",
+     "Ce fac rândurile de titlu repetate?",
+     "Se tipăresc liniile de grilă implicit?",
+     "De ce folosim previzualizarea?"
+    ],
+    "steps": [
+     "Stabilește ce trebuie tipărit: selecție, foaie sau registru.",
+     "Setează orientarea, marginile, scalarea, antetul și subsolul.",
+     "Verifică în previzualizare și abia apoi tipărește sau exportă PDF.",
+     "Greșeala frecventă: să tipărești fără previzualizare; apar pagini cu coloane rupte sau goale."
+    ],
+    "answers": [
+     "Hârtie, orientare, margini, antet și subsol, scalare.",
+     "Partea din foaie care se tipărește.",
+     "Afișează antetul tabelului pe fiecare pagină.",
+     "Nu.",
+     "Ca să vedem rezultatul înainte de tipărire."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-10-l07": {
+   "ro": {
+    "title": "Formule simple și operatori",
+    "theory": "O formulă începe întotdeauna cu semnul = și calculează un rezultat din valori și adrese de celule: =B2+C2, =B2*0,19, =(B2+C2)/2. Operatorii aritmetici: + adunare, − scădere (pe tastatură se scrie cu cratimă), * înmulțire, / împărțire, ^ putere. Ordinea operațiilor este cea din matematică: întâi puterile, apoi înmulțirile și împărțirile, apoi adunările și scăderile; parantezele schimbă ordinea. Operatorii de comparare (=, <>, <, >, <=, >=) dau rezultatul ADEVĂRAT sau FALS. Avantajul folosirii adreselor: dacă modificăm o valoare, rezultatul se recalculează automat. Erori frecvente: #DIV/0! (împărțire la zero), #VALUE! (text folosit în calcul), #NAME? (nume de funcție greșit), ##### (coloana prea îngustă).",
+    "sample": "În B2 este nota la teză 8, în C2 media notelor orale 9. Formula =(B2+3*C2)/4 dă 8,75. Fără paranteze, =B2+3*C2/4 ar da 8+6,75 = 14,75, un rezultat absurd.",
+    "worked": "Parantezele au impus ordinea dorită. Verificarea rezultatului cu bun-simț (o medie nu poate depăși 10) a arătat imediat greșeala.",
+    "exercises": [
+     "Calculează totalul unei facturi cu formule.",
+     "Calculează prețul cu TVA de 19% pentru o listă de produse.",
+     "Calculează aria unui dreptunghi din lungime și lățime.",
+     "Corectează o formulă care dă #DIV/0!.",
+     "Explică rezultatul formulei =2+3*4^2."
+    ],
+    "test": [
+     "Cu ce semn începe o formulă?",
+     "Ce operator înseamnă putere?",
+     "De ce folosim adrese în loc de numere?",
+     "Ce înseamnă eroarea #DIV/0!?",
+     "Ce rezultat dă un operator de comparare?"
+    ],
+    "steps": [
+     "Scrie = și construiește formula din adresele celulelor.",
+     "Pune paranteze acolo unde ordinea operațiilor trebuie schimbată.",
+     "Verifică rezultatul cu un calcul aproximativ.",
+     "Greșeala frecventă: să scrii valorile direct în formulă (=8+9); la modificarea datelor rezultatul nu se mai actualizează."
+    ],
+    "answers": [
+     "Cu =.",
+     "^.",
+     "Ca rezultatul să se recalculeze automat când se schimbă datele.",
+     "Împărțire la zero.",
+     "ADEVĂRAT sau FALS."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-10-l08": {
+   "ro": {
+    "title": "Funcții: SUM, AVERAGE, MIN, MAX, COUNT",
+    "theory": "O funcție este o formulă predefinită cu nume și argumente între paranteze. SUM(B2:B30) adună valorile din zonă; AVERAGE calculează media aritmetică; MIN și MAX dau cea mai mică și cea mai mare valoare; COUNT numără celulele cu numere, iar COUNTA numără celulele nevide. Argumentele pot fi zone (B2:B30), celule separate (B2;D2 – separatorul de argumente este „;” în configurația românească și „,” în cea englezească) sau numere. Butonul Însumare automată (Σ) propune zona de adunat. Celulele goale sunt ignorate de AVERAGE, dar o celulă care conține 0 intră în medie. ROUND(valoare; 2) rotunjește la două zecimale. Funcțiile se pot combina: =ROUND(AVERAGE(B2:F2); 2).",
+    "sample": "Notele unui elev sunt în B2:F2: 9, 7, 10, 8, 9. =AVERAGE(B2:F2) dă 8,6; =MAX(B2:F2) dă 10; =COUNT(B2:F2) dă 5. Dacă o notă lipsește (celulă goală), media se face din 4 note.",
+    "worked": "Funcțiile au înlocuit calcule lungi. Diferența dintre celula goală și celula cu 0 schimbă rezultatul mediei.",
+    "exercises": [
+     "Calculează totalul vânzărilor pe o lună.",
+     "Calculează media, nota minimă și maximă pentru fiecare elev.",
+     "Numără câți elevi au note introduse.",
+     "Rotunjește mediile la două zecimale.",
+     "Explică diferența dintre COUNT și COUNTA."
+    ],
+    "test": [
+     "Ce este o funcție?",
+     "Ce face AVERAGE?",
+     "Ce numără COUNT?",
+     "Cum tratează AVERAGE celulele goale?",
+     "Ce face ROUND?"
+    ],
+    "steps": [
+     "Alege funcția potrivită calculului.",
+     "Selectează corect zona argumentelor.",
+     "Verifică rezultatul pe un caz simplu calculat de mână.",
+     "Greșeala frecventă: să pui 0 în loc de celulă goală pentru o notă lipsă; media scade nejustificat."
+    ],
+    "answers": [
+     "O formulă predefinită cu nume și argumente.",
+     "Calculează media aritmetică.",
+     "Celulele care conțin numere.",
+     "Le ignoră.",
+     "Rotunjește la numărul de zecimale cerut."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-10-l09": {
+   "ro": {
+    "title": "Referințe relative, absolute și mixte",
+    "theory": "Când copiem o formulă, adresele din ea se modifică automat: o referință relativă (B2) se deplasează cu atâtea rânduri și coloane cu câte am mutat formula. Uneori o celulă trebuie să rămână fixă, de exemplu cota TVA sau cursul euro, scrisă într-o singură celulă: folosim o referință absolută, cu semnul $ (de exemplu $F$1), care nu se schimbă la copiere. Referința mixtă fixează doar coloana ($F1) sau doar rândul (F$1). Tasta F4 comută între tipuri în timp ce scriem formula. Regula practică: ne întrebăm ce trebuie să se miște când tragem formula și ce trebuie să rămână pe loc.",
+    "sample": "Prețurile sunt în B2:B10, iar cota TVA 0,19 este în F1. În C2 scriem =B2*(1+$F$1) și tragem până la C10. În C5 formula devine =B5*(1+$F$1): prețul s-a deplasat, cota a rămas fixă.",
+    "worked": "Fără $, formula din C5 ar fi devenit =B5*(1+F4), iar F4 este goală, deci rezultatul ar fi fost greșit. Referința absolută a păstrat cota.",
+    "exercises": [
+     "Calculează prețurile în euro folosind cursul dintr-o celulă fixă.",
+     "Realizează tabla înmulțirii cu referințe mixte.",
+     "Calculează procentul fiecărui produs din total.",
+     "Corectează o formulă copiată care dă rezultate greșite.",
+     "Explică ce devine =A1+$B$1 copiată un rând mai jos."
+    ],
+    "test": [
+     "Ce este o referință relativă?",
+     "Ce face semnul $?",
+     "Ce este o referință mixtă?",
+     "Ce tastă comută tipurile de referință?",
+     "Când folosim o referință absolută?"
+    ],
+    "steps": [
+     "Scrie formula pentru primul rând.",
+     "Stabilește ce adrese trebuie să rămână fixe și adaugă $.",
+     "Copiază formula și verifică formula unei celule de mai jos.",
+     "Greșeala frecventă: să uiți $ la celula cu valoarea comună; după copiere formulele indică celule goale."
+    ],
+    "answers": [
+     "O adresă care se deplasează la copierea formulei.",
+     "Fixează coloana sau rândul la copiere.",
+     "O referință care fixează doar coloana sau doar rândul.",
+     "F4.",
+     "Pentru o valoare comună, scrisă într-o singură celulă."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-10-l10": {
+   "ro": {
+    "title": "Funcția IF și funcțiile logice",
+    "theory": "Funcția IF alege un rezultat după o condiție: =IF(condiție; valoare_dacă_adevărat; valoare_dacă_fals). Exemplu: =IF(E2>=5; \"Promovat\"; \"Corigent\"). Textele din rezultat se scriu între ghilimele. Condițiile pot fi combinate cu AND (toate adevărate) și OR (cel puțin una adevărată): =IF(AND(B2>=5; C2>=5); \"Admis\"; \"Respins\"). Funcțiile IF pot fi imbricate pentru mai multe cazuri: =IF(E2>=9; \"Foarte bine\"; IF(E2>=7; \"Bine\"; \"Suficient\")). Funcțiile COUNTIF și SUMIF numără, respectiv adună doar valorile care îndeplinesc o condiție: =COUNTIF(E2:E30; \">=9\") numără elevii cu media cel puțin 9. Ordinea condițiilor în IF imbricate contează: începem cu cazul cel mai restrictiv.",
+    "sample": "Pentru media 8,40: =IF(E2>=9; \"Foarte bine\"; IF(E2>=7; \"Bine\"; \"Suficient\")) verifică întâi 8,40 ≥ 9 (fals), apoi 8,40 ≥ 7 (adevărat) și afișează „Bine”.",
+    "worked": "Condițiile au fost verificate pe rând, de la cea mai strictă. Dacă am fi început cu ≥ 7, și un elev cu 9,50 ar fi primit „Bine”.",
+    "exercises": [
+     "Afișează „Promovat” sau „Corigent” după medie.",
+     "Calculează o reducere de 10% doar pentru comenzile peste 200 de lei.",
+     "Atribuie calificative cu IF imbricate.",
+     "Numără elevii cu media cel puțin 9 cu COUNTIF.",
+     "Adună vânzările unei singure categorii cu SUMIF."
+    ],
+    "test": [
+     "Ce face funcția IF?",
+     "Cum scriem textele în rezultatul funcției?",
+     "Ce face AND?",
+     "Ce face COUNTIF?",
+     "De ce contează ordinea în IF imbricate?"
+    ],
+    "steps": [
+     "Formulează condiția în cuvinte, apoi cu operatori de comparare.",
+     "Scrie IF cu rezultatul pentru adevărat și pentru fals.",
+     "Testează formula pe valori de la limită (de exemplu exact 5).",
+     "Greșeala frecventă: să începi IF imbricate cu condiția cea mai largă; cazurile stricte nu mai sunt atinse niciodată."
+    ],
+    "answers": [
+     "Alege un rezultat după o condiție.",
+     "Între ghilimele.",
+     "Este adevărată doar dacă toate condițiile sunt adevărate.",
+     "Numără valorile care îndeplinesc o condiție.",
+     "Pentru că prima condiție adevărată decide rezultatul."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-10-l11": {
+   "ro": {
+    "title": "Diagrame și grafice",
+    "theory": "O diagramă transformă numerele în imagine și scoate în evidență comparații și tendințe. Tipuri: diagramă cu coloane sau bare (compararea unor valori: vânzări pe luni), cu linii (evoluție în timp: temperatura pe zile), circulară (părți dintr-un întreg: structura bugetului, procente care însumează 100%), prin puncte (relația dintre două mărimi). Pașii: selectăm datele împreună cu etichetele, alegem tipul, apoi adăugăm titlu, titluri de axe, legendă și etichete de date. Diagrama este legată de date: dacă modificăm o valoare, se actualizează. Putem schimba ulterior tipul diagramei, culorile, o putem muta pe o foaie separată, copia într-un document sau șterge. O diagramă bună este simplă, are titlu clar și axele pornesc, de regulă, de la zero.",
+    "sample": "Tabelul are lunile septembrie–iunie și numărul de cărți împrumutate. Elevul alege o diagramă cu linii, pentru că urmărește evoluția în timp, și adaugă titlul „Împrumuturi lunare 2025–2026” și titlurile axelor.",
+    "worked": "Tipul ales se potrivește întrebării „cum a evoluat?”. O diagramă circulară ar fi fost nepotrivită, pentru că lunile nu sunt părți ale unui întreg cu sens.",
+    "exercises": [
+     "Realizează o diagramă cu coloane pentru mediile pe clase.",
+     "Realizează o diagramă circulară pentru bugetul personal lunar.",
+     "Realizează un grafic cu linii pentru temperaturile unei săptămâni.",
+     "Schimbă tipul unei diagrame și explică ce se schimbă.",
+     "Copiază o diagramă într-un document text."
+    ],
+    "test": [
+     "Ce tip de diagramă arată evoluția în timp?",
+     "Când folosim diagrama circulară?",
+     "Ce elemente are o diagramă completă?",
+     "Ce se întâmplă cu diagrama când modificăm datele?",
+     "De ce este bine ca axa să pornească de la zero?"
+    ],
+    "steps": [
+     "Formulează întrebarea la care răspunde diagrama.",
+     "Selectează datele cu etichete și alege tipul potrivit.",
+     "Adaugă titlu, axe și legendă și verifică dacă mesajul este clar.",
+     "Greșeala frecventă: să alegi tipul după aspect; o diagramă circulară cu 20 de felii nu mai poate fi citită."
+    ],
+    "answers": [
+     "Diagrama cu linii.",
+     "Pentru părți ale unui întreg.",
+     "Titlu, titluri de axe, legendă, etichete de date.",
+     "Se actualizează automat.",
+     "Ca diferențele să nu pară exagerate."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-10-l12": {
+   "ro": {
+    "title": "Importul obiectelor și aplicații practice",
+    "theory": "În foaia de calcul putem importa imagini (o siglă), forme, diagrame sau date din alte fișiere: un fișier text cu valori separate prin virgulă sau punct și virgulă (CSV) se deschide direct ca tabel, iar un tabel dintr-un document poate fi copiat. Obiectele importate pot fi mutate, copiate și redimensionate cu mânerele de colț (ținând Shift pentru a păstra proporțiile). Aplicațiile practice reunesc tot ce s-a învățat: situația mediilor clasei, un buget personal sau de familie, un inventar, calculul dobânzii. Dobânda simplă: dobândă = sumă × rată × ani; dobânda compusă: suma finală = sumă × (1 + rată)^ani. Un tabel bun are titlu, antet clar, formate potrivite, formule cu referințe corecte și o diagramă care ilustrează concluzia.",
+    "sample": "Depui 1 000 de lei cu dobândă compusă de 5% pe an. Coloana A conține anii 0–5, iar în B2 este formula =1000*(1+$E$1)^A2, unde E1 conține 5%. După 5 ani suma este aproximativ 1 276,28 lei.",
+    "worked": "Formula cu referință absolută la rată a fost copiată pentru toți anii. Schimbarea ratei în E1 recalculează imediat tot tabelul.",
+    "exercises": [
+     "Importă un fișier CSV cu date despre elevi.",
+     "Inserează sigla școlii în antetul unui tabel.",
+     "Realizează situația mediilor clasei cu medie generală și calificative.",
+     "Realizează un buget lunar cu venituri, cheltuieli și sold.",
+     "Compară dobânda simplă și dobânda compusă pe 10 ani."
+    ],
+    "test": [
+     "Ce este un fișier CSV?",
+     "Cum redimensionăm o imagine păstrând proporțiile?",
+     "Care este formula dobânzii simple?",
+     "Care este formula sumei finale cu dobândă compusă?",
+     "Ce caracteristici are un tabel bun?"
+    ],
+    "steps": [
+     "Stabilește datele de intrare și rezultatele cerute.",
+     "Construiește tabelul cu formule, funcții și referințe corecte.",
+     "Adaugă formatare și o diagramă, apoi verifică cu valori cunoscute.",
+     "Greșeala frecventă: să scrii rezultatele de mână în loc de formule; tabelul nu se mai actualizează când se schimbă datele."
+    ],
+    "answers": [
+     "Un fișier text cu valori separate prin virgulă sau punct și virgulă.",
+     "Trăgând de colț și ținând Shift.",
+     "Dobândă = sumă × rată × ani.",
+     "Suma × (1 + rată) la puterea ani.",
+     "Titlu, antet, formate potrivite, formule corecte, diagramă."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-10-l13": {
+   "ro": {
+    "title": "Baza de date și aplicația de gestiune",
+    "theory": "O bază de date este o colecție organizată de date despre un anumit domeniu (elevii unei școli, cărțile unei biblioteci), din care putem extrage ușor informații. Aplicațiile de birotică pentru baze de date (Microsoft Access, LibreOffice Base) păstrează totul într-un singur fișier, care conține obiecte: tabele (unde stau datele), interogări (întrebări adresate datelor), formulare (ferestre pentru introducerea datelor) și rapoarte (prezentări pentru tipărire). Un tabel are câmpuri (coloane, de exemplu Nume, Clasa) și înregistrări (rânduri, câte unul pentru fiecare elev). Spre deosebire de o foaie de calcul, baza de date impune tipul fiecărui câmp, evită repetarea datelor prin tabele legate și permite căutări rapide în volume mari. Modificările din tabele se salvează automat.",
+    "sample": "Biblioteca școlii folosea o foaie de calcul în care numele și clasa cititorului se scriau la fiecare împrumut. Într-o bază de date, cititorii sunt într-un tabel, cărțile în altul, iar împrumuturile doar indică cititorul și cartea.",
+    "worked": "Separarea în tabele elimină repetarea și greșelile de scriere. Schimbarea clasei unui cititor se face într-un singur loc.",
+    "exercises": [
+     "Enumeră obiectele unei baze de date și rolul lor.",
+     "Deschide o bază de date existentă și explorează obiectele.",
+     "Identifică câmpurile și înregistrările unui tabel.",
+     "Compară o foaie de calcul cu o bază de date.",
+     "Propune tabelele pentru baza de date a unui club sportiv."
+    ],
+    "test": [
+     "Ce este o bază de date?",
+     "Ce obiecte conține o bază de date?",
+     "Ce este un câmp?",
+     "Ce este o înregistrare?",
+     "Ce avantaj are baza de date față de foaia de calcul?"
+    ],
+    "steps": [
+     "Stabilește domeniul și informațiile care trebuie păstrate.",
+     "Identifică obiectele necesare: tabele, interogări, formulare, rapoarte.",
+     "Explorează fiecare obiect și observă rolul lui.",
+     "Greșeala frecventă: să crezi că trebuie să salvezi după fiecare înregistrare; datele din tabele se salvează automat."
+    ],
+    "answers": [
+     "O colecție organizată de date despre un domeniu.",
+     "Tabele, interogări, formulare, rapoarte.",
+     "O coloană a tabelului, cu un anumit tip de date.",
+     "Un rând al tabelului, despre un element.",
+     "Impune tipurile, evită repetarea și caută rapid în volume mari."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-10-l14": {
+   "ro": {
+    "title": "Proiectarea tabelelor: câmpuri, tipuri, cheie primară, index",
+    "theory": "Un tabel se creează în modul proiectare, unde stabilim pentru fiecare câmp numele, tipul de date și proprietățile. Tipuri uzuale: text scurt, număr, dată/oră, monedă, da/nu, numerotare automată (un număr unic generat automat), text lung, atașament. Proprietățile câmpului: dimensiune, format, valoare implicită, regulă de validare (Nota între 1 și 10), câmp obligatoriu. Cheia primară este câmpul care identifică unic fiecare înregistrare (de exemplu IdElev, cu numerotare automată); nu se poate repeta și nu poate lipsi. Indexul accelerează căutarea și sortarea după un câmp folosit des (Nume). Numele câmpurilor sunt scurte, fără spații, iar fiecare câmp conține o singură informație (Nume și Prenume separat).",
+    "sample": "Tabelul Elevi: IdElev (numerotare automată, cheie primară), Nume (text scurt, 30, obligatoriu, indexat), Prenume (text scurt, 30), DataNasterii (dată/oră), Clasa (text scurt, 5), Media (număr, regulă de validare între 1 și 10).",
+    "worked": "Fiecare câmp are tipul potrivit valorilor sale. Regula de validare respinge din start o medie greșită, de exemplu 85 în loc de 8,5.",
+    "exercises": [
+     "Proiectează tabelul Cărți cu tipuri și proprietăți potrivite.",
+     "Stabilește cheia primară a unui tabel.",
+     "Adaugă o regulă de validare pentru un câmp.",
+     "Creează un index pe câmpul folosit la căutare.",
+     "Explică de ce separăm numele de prenume."
+    ],
+    "test": [
+     "Unde stabilim tipurile câmpurilor?",
+     "Ce face numerotarea automată?",
+     "Ce este cheia primară?",
+     "La ce folosește un index?",
+     "Ce este o regulă de validare?"
+    ],
+    "steps": [
+     "Enumeră informațiile și transformă-le în câmpuri cu câte o singură valoare.",
+     "Alege tipul și proprietățile fiecărui câmp.",
+     "Stabilește cheia primară și indexurile, apoi salvează tabelul.",
+     "Greșeala frecventă: să alegi tipul text pentru numere sau date; nu mai poți calcula și sorta corect."
+    ],
+    "answers": [
+     "În modul proiectare.",
+     "Generează automat un număr unic pentru fiecare înregistrare.",
+     "Câmpul care identifică unic fiecare înregistrare.",
+     "Accelerează căutarea și sortarea.",
+     "O condiție pe care trebuie să o respecte valorile introduse."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-10-l15": {
+   "ro": {
+    "title": "Introducerea, modificarea și ștergerea înregistrărilor",
+    "theory": "În modul foaie de date (vizualizare tabel) introducem înregistrări rând cu rând; ultima linie, marcată cu steluță, este pentru o înregistrare nouă. Câmpul cu numerotare automată se completează singur. Modificăm o valoare scriind peste ea; înregistrarea se salvează când trecem pe alt rând. Ștergerea unei înregistrări (selectare rând – Ștergere) este definitivă și nu poate fi anulată, de aceea aplicația cere confirmare. Pentru a găsi rapid o înregistrare folosim Căutare (Ctrl+F), iar pentru a o înlocui pe toate, Înlocuire. Putem sorta și filtra direct în foaia de date. Datele care încalcă regulile (o dată greșită, o valoare în afara validării, cheie primară repetată) sunt respinse cu un mesaj.",
+    "sample": "Elevul introduce 30 de elevi. La al 31-lea scrie media 95 din greșeală; aplicația afișează mesajul regulii de validare, iar elevul corectează în 9,5. Apoi caută „Popescu” cu Ctrl+F și modifică clasa unui elev transferat.",
+    "worked": "Validarea a oprit o greșeală de tastare. Modificarea s-a salvat automat când elevul a trecut la alt rând.",
+    "exercises": [
+     "Introdu zece înregistrări într-un tabel.",
+     "Modifică datele unei înregistrări găsite cu Căutare.",
+     "Șterge o înregistrare și observă mesajul de confirmare.",
+     "Încearcă să introduci o valoare care încalcă validarea.",
+     "Sortează înregistrările după nume în foaia de date."
+    ],
+    "test": [
+     "Unde introducem o înregistrare nouă?",
+     "Când se salvează o înregistrare?",
+     "Poate fi anulată ștergerea unei înregistrări?",
+     "Ce se întâmplă cu o valoare care încalcă validarea?",
+     "Cum găsim rapid o înregistrare?"
+    ],
+    "steps": [
+     "Deschide tabelul în foaia de date.",
+     "Introdu sau modifică valorile, respectând tipurile și regulile.",
+     "Treci pe alt rând ca să salvezi și verifică datele introduse.",
+     "Greșeala frecventă: să ștergi înregistrări fără verificare; ștergerea nu poate fi anulată."
+    ],
+    "answers": [
+     "Pe ultima linie, marcată cu steluță.",
+     "Când trecem pe alt rând.",
+     "Nu.",
+     "Este respinsă cu un mesaj.",
+     "Cu Căutare (Ctrl+F)."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-10-l16": {
+   "ro": {
+    "title": "Relații între tabele",
+    "theory": "O bază de date bine proiectată are mai multe tabele legate. Legătura se face printr-un câmp comun: cheia primară dintr-un tabel (Clase.IdClasa) apare ca cheie externă în alt tabel (Elevi.IdClasa). Cel mai frecvent tip este unu-la-mulți: o clasă are mulți elevi, un elev este într-o singură clasă. Relațiile se creează în fereastra Relații, trăgând câmpul cheie peste câmpul corespunzător. Bifăm „Impunere integritate referențială”: aplicația nu mai permite un elev într-o clasă inexistentă și nici ștergerea unei clase care are elevi. Câmpurile legate trebuie să aibă același tip de date (numerotarea automată se leagă de un câmp de tip număr). Relațiile permit apoi interogări și rapoarte cu date din mai multe tabele.",
+    "sample": "Tabelele Clase(IdClasa, Denumire, Diriginte) și Elevi(IdElev, Nume, IdClasa) se leagă unu-la-mulți prin IdClasa. Când elevul încearcă să introducă un elev cu IdClasa = 99, inexistent, aplicația refuză.",
+    "worked": "Integritatea referențială a păstrat datele coerente. Fără ea, ar fi apărut elevi legați de clase care nu există.",
+    "exercises": [
+     "Creează tabelele Clase și Elevi și leagă-le.",
+     "Impune integritatea referențială și testeaz-o.",
+     "Identifică cheile primare și externe într-o bază de date dată.",
+     "Proiectează relațiile pentru Cititori, Cărți și Împrumuturi.",
+     "Explică de ce câmpurile legate trebuie să aibă același tip."
+    ],
+    "test": [
+     "Prin ce se leagă două tabele?",
+     "Ce este cheia externă?",
+     "Ce înseamnă relația unu-la-mulți?",
+     "Ce face integritatea referențială?",
+     "Unde creăm relațiile?"
+    ],
+    "steps": [
+     "Identifică entitățile și câmpul comun care le leagă.",
+     "Creează relația în fereastra Relații, cu același tip de date la ambele capete.",
+     "Impune integritatea referențială și testează cu o valoare greșită.",
+     "Greșeala frecventă: să scrii numele clasei în fiecare elev în loc de legătură; apar repetări și greșeli de scriere."
+    ],
+    "answers": [
+     "Printr-un câmp comun: cheie primară și cheie externă.",
+     "Un câmp care conține valori ale cheii primare din alt tabel.",
+     "O înregistrare dintr-un tabel se leagă de mai multe din celălalt.",
+     "Împiedică legăturile spre înregistrări inexistente.",
+     "În fereastra Relații."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-10-l17": {
+   "ro": {
+    "title": "Formulare",
+    "theory": "Un formular este o fereastră prietenoasă prin care utilizatorul vede, introduce și modifică datele unei înregistrări odată, fără să lucreze direct în tabel. Formularul simplu se creează rapid cu expertul (asistentul): alegem tabelul, câmpurile și aspectul (coloană, tabelar). În modul aspect sau proiectare putem modifica formatarea textului, culoarea fondului, poziția și mărimea controalelor (casete text, etichete), putem adăuga un titlu, o imagine (sigla) și butoane de navigare. Formularul folosește regulile din tabel, deci validările rămân active. Butoanele de navigare din partea de jos trec la înregistrarea următoare, anterioară sau la una nouă, iar căutarea funcționează și în formular.",
+    "sample": "Secretara introduce elevii noi printr-un formular „Înscriere elev”, cu sigla școlii, câmpurile aranjate pe două coloane și o listă derulantă pentru clasă. Nu mai vede tot tabelul, deci nu poate modifica din greșeală alt elev.",
+    "worked": "Formularul a simplificat introducerea și a redus riscul de greșeli. Lista derulantă a limitat alegerea la clasele existente.",
+    "exercises": [
+     "Creează un formular simplu cu expertul.",
+     "Schimbă culoarea fondului și formatarea etichetelor.",
+     "Inserează sigla într-un formular.",
+     "Rearanjează câmpurile pe două coloane.",
+     "Introdu cinci înregistrări folosind formularul."
+    ],
+    "test": [
+     "Ce este un formular?",
+     "Cum creăm rapid un formular?",
+     "Ce putem modifica în modul proiectare?",
+     "Rămân active validările din tabel?",
+     "La ce folosesc butoanele de navigare?"
+    ],
+    "steps": [
+     "Alege tabelul și câmpurile pe care le vede utilizatorul.",
+     "Creează formularul cu expertul și ajustează aspectul.",
+     "Testează introducerea și navigarea prin înregistrări.",
+     "Greșeala frecventă: să crezi că datele sunt în formular; ele sunt păstrate în tabel, formularul doar le afișează."
+    ],
+    "answers": [
+     "O fereastră pentru vizualizarea și introducerea datelor unei înregistrări.",
+     "Cu expertul (asistentul).",
+     "Formatarea, culorile, poziția și mărimea controalelor.",
+     "Da.",
+     "La trecerea între înregistrări și la adăugarea uneia noi."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-10-l18": {
+   "ro": {
+    "title": "Filtre și interogări simple",
+    "theory": "Un filtru afișează temporar doar înregistrările care îndeplinesc o condiție (elevii din clasa a X-a B) și poate fi eliminat oricând; nu se salvează ca obiect separat. O interogare este o întrebare salvată adresată datelor. Interogarea de selecție se construiește în grila de proiectare: alegem tabelul, adăugăm câmpurile de afișat, scriem criteriile (de exemplu >=9 la Media) și ordinea de sortare. Criteriile scrise pe același rând sunt legate prin ȘI (toate trebuie îndeplinite), iar cele de pe rânduri diferite prin SAU. Operatori: =, <>, <, >, Between 7 And 9, Like \"Pop*\" (* înseamnă orice caractere). Rezultatul unei interogări se actualizează automat când datele se schimbă. Putem ascunde un câmp folosit doar în criteriu, debifând Afișare.",
+    "sample": "Interogarea „Elevi premianți”: tabelul Elevi, câmpurile Nume, Prenume, Clasa, Media; criteriul >=9 la Media, sortare descrescătoare după Media. Rezultatul afișează 12 elevi; după modificarea unei medii, rerularea afișează 13.",
+    "worked": "Interogarea a fost salvată o dată și poate fi folosită oricând. Rezultatul reflectă mereu datele actuale din tabel.",
+    "exercises": [
+     "Aplică și elimină un filtru după clasă.",
+     "Creează o interogare cu elevii din clasa a X-a A, ordonați alfabetic.",
+     "Creează o interogare cu cărțile apărute între 2000 și 2010.",
+     "Creează o interogare cu criterii legate prin SAU.",
+     "Găsește elevii al căror nume începe cu „Ion”."
+    ],
+    "test": [
+     "Ce diferență este între filtru și interogare?",
+     "Ce înseamnă criterii pe același rând?",
+     "Ce înseamnă * în Like?",
+     "Se actualizează rezultatul interogării?",
+     "Ce face debifarea opțiunii Afișare?"
+    ],
+    "steps": [
+     "Formulează întrebarea în cuvinte.",
+     "Alege tabelul, câmpurile, criteriile și sortarea în grila de proiectare.",
+     "Rulează interogarea și verifică rezultatul pe câteva înregistrări.",
+     "Greșeala frecventă: să pui criterii care trebuie legate prin SAU pe același rând; rezultatul devine gol sau prea mic."
+    ],
+    "answers": [
+     "Filtrul este temporar, interogarea este o întrebare salvată.",
+     "Sunt legate prin ȘI.",
+     "Orice succesiune de caractere.",
+     "Da, automat.",
+     "Ascunde câmpul în rezultat, dar păstrează criteriul."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-10-l19": {
+   "ro": {
+    "title": "Interogări pe mai multe tabele",
+    "theory": "Când informația este împărțită în tabele legate, interogarea multiplă le reunește. În grila de proiectare adăugăm toate tabelele necesare; relațiile apar ca linii între ele. Apoi alegem câmpuri din oricare tabel: numele elevului din Elevi, denumirea clasei și dirigintele din Clase. Pentru a lega trei tabele (Cititori, Împrumuturi, Cărți) avem nevoie de tabelul din mijloc, chiar dacă nu afișăm câmpuri din el. Dacă adăugăm două tabele fără relație între ele, rezultatul combină fiecare rând cu fiecare și devine uriaș și fără sens. Putem adăuga și câmpuri calculate (de exemplu ZileImprumut: Date()-[DataImprumut]) și totaluri (numărul de elevi pe clasă cu funcția Count din rândul Total).",
+    "sample": "Interogarea „Împrumuturi active”: tabelele Cititori, Împrumuturi, Cărți; câmpurile Nume (Cititori), Titlu (Cărți), DataImprumut (Împrumuturi); criteriul Is Null la DataReturnare. Rezultatul arată cine are cărți nereturnate și ce cărți.",
+    "worked": "Datele erau în trei tabele, iar relațiile le-au unit corect. Criteriul Is Null a selectat împrumuturile fără dată de returnare.",
+    "exercises": [
+     "Afișează elevii cu numele clasei și al dirigintelui.",
+     "Afișează împrumuturile active cu numele cititorului și titlul cărții.",
+     "Numără elevii din fiecare clasă cu rândul Total.",
+     "Adaugă un câmp calculat cu numărul de zile de împrumut.",
+     "Explică ce se întâmplă dacă tabelele nu sunt legate."
+    ],
+    "test": [
+     "Ce este o interogare multiplă?",
+     "Cum apar relațiile în grila de proiectare?",
+     "De ce adăugăm tabelul din mijloc?",
+     "Ce face criteriul Is Null?",
+     "Ce este un câmp calculat?"
+    ],
+    "steps": [
+     "Identifică tabelele în care se află informațiile cerute.",
+     "Adaugă-le în grilă împreună cu tabelele de legătură și verifică relațiile.",
+     "Alege câmpurile și criteriile, rulează și verifică rezultatul.",
+     "Greșeala frecventă: să adaugi tabele fără relație între ele; rezultatul combină fiecare rând cu fiecare."
+    ],
+    "answers": [
+     "O interogare cu date din mai multe tabele legate.",
+     "Ca linii între câmpurile legate.",
+     "Ca să facă legătura dintre celelalte două tabele.",
+     "Selectează înregistrările în care câmpul este gol.",
+     "Un câmp obținut printr-o expresie din alte câmpuri."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-10-l20": {
+   "ro": {
+    "title": "Rapoarte",
+    "theory": "Un raport prezintă datele dintr-un tabel sau dintr-o interogare într-o formă ordonată, potrivită pentru citire și tipărire: liste, situații, etichete. Expertul de rapoarte ne întreabă ce câmpuri afișăm, după ce grupăm (de exemplu pe clase), cum sortăm și ce totaluri calculăm (sumă, medie, minim, maxim). Raportul are secțiuni: antetul raportului (titlul, la început), antetul paginii (capul de tabel, pe fiecare pagină), antetul grupului, detaliile (câte un rând pentru fiecare înregistrare), subsolul grupului (subtotaluri, de exemplu media clasei), subsolul paginii (numărul paginii) și subsolul raportului (total general). În modul proiectare modificăm textele, formatele și poziția câmpurilor. Raportul nu modifică datele: le citește la fiecare deschidere.",
+    "sample": "Raportul „Situația școlară” se bazează pe o interogare cu elevi și clase, grupează pe clase, ordonează alfabetic, afișează media fiecărei clase în subsolul grupului și media școlii în subsolul raportului. Antetul paginii repetă capul de tabel.",
+    "worked": "Gruparea și totalurile au transformat o listă lungă într-o situație ușor de citit. Raportul se actualizează singur când se schimbă datele.",
+    "exercises": [
+     "Creează un raport cu lista elevilor ordonată alfabetic.",
+     "Grupează un raport pe clase și adaugă media fiecărei clase.",
+     "Modifică antetul și subsolul unui raport.",
+     "Creează etichete de adresă dintr-un tabel.",
+     "Exportă un raport în format PDF."
+    ],
+    "test": [
+     "Ce este un raport?",
+     "Ce secțiuni are un raport?",
+     "Unde apar subtotalurile?",
+     "Modifică raportul datele?",
+     "Pe ce se poate baza un raport?"
+    ],
+    "steps": [
+     "Pregătește tabelul sau interogarea cu datele necesare.",
+     "Creează raportul cu expertul, cu grupări, sortare și totaluri.",
+     "Ajustează aspectul în modul proiectare și verifică în previzualizare.",
+     "Greșeala frecventă: să faci calculele de mână și să le scrii în raport; ele nu se mai actualizează când datele se schimbă."
+    ],
+    "answers": [
+     "O prezentare ordonată a datelor pentru citire și tipărire.",
+     "Antete și subsoluri de raport, pagină și grup, plus detalii.",
+     "În subsolul grupului.",
+     "Nu, doar le citește.",
+     "Pe un tabel sau pe o interogare."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-10-l21": {
+   "ro": {
+    "title": "Aplicație practică: baza de date a clasei",
+    "theory": "Proiectul de final pune laolaltă toate etapele. 1. Stabilim ce vrem să aflăm: lista elevilor, notele pe materii, mediile, elevii cu probleme. 2. Proiectăm tabelele: Elevi (IdElev, Nume, Prenume, DataNasterii, Telefon), Materii (IdMaterie, Denumire, Profesor), Note (IdNota, IdElev, IdMaterie, Nota, Data) – tabelul Note leagă elevii de materii. 3. Stabilim cheile, tipurile, validările (Nota între 1 și 10) și relațiile cu integritate referențială. 4. Creăm formulare pentru introducerea notelor. 5. Interogări: notele unui elev, media pe materie (rândul Total cu Avg), elevii cu media sub 5. 6. Raport: situația pe elevi, cu media fiecăruia. Datele personale ale colegilor se folosesc doar cu acordul lor sau se înlocuiesc cu date fictive.",
+    "sample": "Interogarea „Medii pe materie”: tabelele Elevi, Note, Materii; câmpurile Nume, Denumire, Nota; rândul Total cu Grupare la Nume și Denumire și Medie (Avg) la Nota. Rezultatul afișează media fiecărui elev la fiecare materie.",
+    "worked": "Tabelul Note a rezolvat legătura dintre mulți elevi și multe materii. Funcția de grup a calculat mediile fără nicio formulă scrisă de mână.",
+    "exercises": [
+     "Proiectează tabelele bazei de date a clasei.",
+     "Creează relațiile cu integritate referențială.",
+     "Creează un formular pentru introducerea notelor.",
+     "Creează o interogare cu elevii care au media sub 5 la o materie.",
+     "Creează raportul cu situația școlară a clasei."
+    ],
+    "test": [
+     "De ce avem nevoie de tabelul Note?",
+     "Ce validare punem la câmpul Nota?",
+     "Cum calculăm media pe materie într-o interogare?",
+     "Ce date folosim pentru colegi?",
+     "Ce raport realizăm la final?"
+    ],
+    "steps": [
+     "Stabilește întrebările la care trebuie să răspundă baza de date.",
+     "Proiectează tabelele, cheile, validările și relațiile.",
+     "Creează formularele, interogările și raportul, apoi testează cu date fictive.",
+     "Greșeala frecventă: să pui toate notele unui elev în coloane Nota1, Nota2…; nu mai poți calcula și interoga ușor."
+    ],
+    "answers": [
+     "Pentru a lega mulți elevi de multe materii.",
+     "Valoare între 1 și 10.",
+     "Cu rândul Total: Grupare și Medie (Avg).",
+     "Date folosite cu acordul colegilor sau date fictive.",
+     "Situația școlară pe elevi, cu mediile."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-10-l22": {
+   "ro": {
+    "title": "Crearea și editarea unei prezentări",
+    "theory": "O aplicație de prezentare (Microsoft PowerPoint, LibreOffice Impress, Google Slides) creează prezentări formate din diapozitive. La o prezentare nouă alegem o temă și aspectul fiecărui diapozitiv (titlu, titlu și conținut, două coloane, necompletat). Inserăm text în casete, imagini, tabele și diagrame. Operațiile de bază – copiere, decupare, lipire, ștergere – funcționează pentru text, imagini și diapozitive întregi, în aceeași prezentare sau între prezentări. Diapozitivele se reordonează prin tragere în panoul din stânga sau în vizualizarea Sortare diapozitive și pot fi ascunse fără a fi șterse. Formatarea textului: font, dimensiune, culoare, aliniere; casetele text se mută și se redimensionează, li se pot schimba conturul și culoarea.",
+    "sample": "Un elev pregătește o prezentare despre anotimpuri: alege o temă simplă, face un diapozitiv de titlu și câte unul pentru fiecare anotimp, cu aspectul titlu și conținut. Apoi mută diapozitivul „Iarna” la final, prin tragere în panoul din stânga.",
+    "worked": "Aspectele predefinite au asigurat o așezare unitară. Reordonarea a fost rapidă, fără refacerea diapozitivelor.",
+    "exercises": [
+     "Creează o prezentare nouă cu temă și cinci diapozitive.",
+     "Schimbă aspectul unui diapozitiv.",
+     "Copiază un diapozitiv dintr-o prezentare în alta.",
+     "Reordonează și ascunde diapozitive.",
+     "Formatează conturul și culoarea unei casete text."
+    ],
+    "test": [
+     "Din ce este formată o prezentare?",
+     "Ce este aspectul unui diapozitiv?",
+     "Cum reordonăm diapozitivele?",
+     "Ce înseamnă un diapozitiv ascuns?",
+     "Cum copiem un diapozitiv în altă prezentare?"
+    ],
+    "steps": [
+     "Alege tema și creează diapozitivele cu aspectul potrivit.",
+     "Inserează conținutul și formatează-l unitar.",
+     "Reordonează și verifică succesiunea logică a diapozitivelor.",
+     "Greșeala frecventă: să scrii tot textul într-o singură casetă mare; diapozitivul devine greu de citit."
+    ],
+    "answers": [
+     "Din diapozitive.",
+     "Așezarea predefinită a casetelor pe diapozitiv.",
+     "Prin tragere în panoul din stânga sau în Sortare diapozitive.",
+     "Un diapozitiv care nu apare în expunere, dar nu este șters.",
+     "Copiem din panoul din stânga și lipim în cealaltă prezentare."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-10-l23": {
+   "ro": {
+    "title": "Elemente grafice și diagrame în prezentare",
+    "theory": "Elementele grafice fac prezentarea clară: forme (linii, săgeți, dreptunghiuri, cercuri), imagini, pictograme, diagrame SmartArt (pentru procese, ierarhii, cicluri) și grafice cu date (coloane, bare, circulare). Formele se mută, se redimensionează, li se schimbă culoarea, conturul și umbra; mai multe forme pot fi aliniate și grupate. La imagini putem decupa, ajusta luminozitatea, adăuga contur sau efecte și le putem muta pe alt diapozitiv. Graficele se creează cu un tabel de date asociat; schimbăm tipul (coloane, circular) după mesaj. Putem importa obiecte din alte aplicații: un tabel sau un grafic din foaia de calcul, un text dintr-un document. Folosim imagini cu drept de utilizare și menționăm sursa.",
+    "sample": "Pentru diapozitivul „Ciclul apei”, elevul folosește o diagramă SmartArt de tip ciclu cu patru etape: evaporare, condensare, precipitații, colectare. Pe diapozitivul următor importă din foaia de calcul graficul precipitațiilor lunare.",
+    "worked": "Diagrama de tip ciclu a redat vizual faptul că procesul se repetă. Graficul importat a adus date concrete fără a fi refăcut.",
+    "exercises": [
+     "Desenează o schemă cu forme și săgeți aliniate și grupate.",
+     "Inserează o diagramă SmartArt pentru un proces în patru pași.",
+     "Creează un grafic circular pentru structura unui buget.",
+     "Importă un tabel din foaia de calcul.",
+     "Adaugă contur și umbră unei imagini."
+    ],
+    "test": [
+     "Ce elemente grafice putem folosi?",
+     "La ce folosește SmartArt?",
+     "Cum schimbăm tipul unui grafic?",
+     "Ce putem importa din alte aplicații?",
+     "Ce trebuie să respectăm la imagini?"
+    ],
+    "steps": [
+     "Stabilește ce idee trebuie arătată vizual.",
+     "Alege elementul grafic potrivit: formă, imagine, SmartArt sau grafic.",
+     "Formatează-l unitar cu restul prezentării și verifică lizibilitatea.",
+     "Greșeala frecventă: să folosești imagini găsite oriunde fără drept de utilizare și fără sursă."
+    ],
+    "answers": [
+     "Forme, imagini, pictograme, SmartArt, grafice.",
+     "Pentru procese, ierarhii și cicluri.",
+     "Din opțiunea de schimbare a tipului de diagramă.",
+     "Tabele, grafice, texte, imagini.",
+     "Dreptul de utilizare și menționarea sursei."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-10-l24": {
+   "ro": {
+    "title": "Animații, tranziții și expunerea prezentării",
+    "theory": "Animațiile se aplică elementelor de pe diapozitiv: intrare (elementul apare), accentuare, ieșire, traiectorie. Din panoul de animații stabilim ordinea, momentul (la clic, odată cu precedenta, după precedenta), durata și putem schimba efectele alese. Tranzițiile se aplică trecerii de la un diapozitiv la altul. Folosim efecte puține și discrete, care ajută explicația (punctele apar pe rând, pe măsură ce vorbim). Expunerea începe de la primul diapozitiv (F5) sau de la cel curent (Shift+F5); în timpul expunerii navigăm cu săgețile, putem sări la un anumit diapozitiv și putem scrie pe ecran. Formatul de ieșire se alege după situație: prezentare pe ecran, fișier PDF, documente distribuite (mai multe diapozitive pe pagină, cu loc pentru notițe). Orientarea diapozitivelor poate fi orizontală sau verticală.",
+    "sample": "Elevul animează cele patru anotimpuri să apară pe rând, la clic, cu efectul „Estompare”, și aplică aceeași tranziție discretă tuturor diapozitivelor. Pentru colegi tipărește un document distribuit cu trei diapozitive pe pagină.",
+    "worked": "Apariția pe rând ține atenția publicului pe ideea explicată. Documentul distribuit lasă loc pentru notițe și economisește hârtie.",
+    "exercises": [
+     "Animează punctele unei liste să apară pe rând.",
+     "Schimbă ordinea și momentul animațiilor.",
+     "Aplică aceeași tranziție tuturor diapozitivelor.",
+     "Pornește expunerea de la diapozitivul curent.",
+     "Tipărește un document distribuit cu trei diapozitive pe pagină."
+    ],
+    "test": [
+     "Ce tipuri de animații există?",
+     "Ce diferență este între animație și tranziție?",
+     "Cum pornim expunerea de la diapozitivul curent?",
+     "Ce este un document distribuit?",
+     "Câte efecte folosim?"
+    ],
+    "steps": [
+     "Stabilește ce elemente trebuie să apară pe rând, în ritmul explicației.",
+     "Aplică animații și tranziții discrete și reglează ordinea și momentul.",
+     "Repetă prezentarea în modul expunere și alege formatul de ieșire.",
+     "Greșeala frecventă: să pui efecte diferite pe fiecare element; publicul urmărește efectele, nu mesajul."
+    ],
+    "answers": [
+     "Intrare, accentuare, ieșire, traiectorie.",
+     "Animația este pe elemente, tranziția între diapozitive.",
+     "Shift+F5.",
+     "Tipărirea mai multor diapozitive pe pagină, cu loc pentru notițe.",
+     "Puține și discrete."
+    ]
+   }
+  }
+ }
+}
