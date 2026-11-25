@@ -2,6 +2,8 @@
 
 Utilizatorul a cerut ca toate pachetele din Educație să fie independente de aplicație. Ulterior a cerut explicit să verificăm acoperirea curriculară și să continuăm implementarea Literaturii, apoi Istorie, Geografie și Informatică; continuăm decuplarea în paralel, fără a pretinde că este completă. Conținutul nou al Literaturii se creează în pachete, nu în HTML. O modificare la conținut trebuie să poată fi publicată fără reconstruirea APK-ului. Compactarea HTML-ului nu este decuplare.
 
+**Clarificarea utilizatorului:** obiectivul este nivelul general/national, fără aprofundare sau selectoare obligatorii pe landuri, cantoane sau regiuni. Nu prezenta lipsa acestor subdiviziuni ca eșec al obiectivului general. Utilizatorul dorește un motor comun care traduce în limba aleasă indiferent de țara de studiu, nu multiplicarea manuală a fiecărei lecții în trei limbi. Păstrează limba originală atunci când este ea însăși obiectul exercițiului (citare, ortografie, gramatică, fonetică), iar explicațiile se traduc; nu elimina variantele deja existente până când alternativa nu păstrează comportamentul și offline-ul disponibil. Traducerea automată prin rețea/cache nu este echivalentă cu o garanție de calitate sau cu traducere offline la prima vizită.
+
 ## Punctul de pornire
 
 - Ultimul increment de Literatură, `11e694c`, a fost integrat prin PR #551. APK-ul v1.0.1843 a fost o versiune intermediară, nu Literatura completă.
