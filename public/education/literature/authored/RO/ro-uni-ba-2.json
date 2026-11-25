@@ -1,0 +1,1136 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "RO",
+ "stage": "advanced",
+ "grade": "uni-ba-2",
+ "version": "4fa1f63194bcea8ae5acc3de5b284ee73ad8f5074e43bcd48e66fdca052960fd",
+ "source": "https://www.aracis.ro/",
+ "sourceTitle": "Sinteză orientativă a disciplinelor fundamentale comune programelor de licență Limba și literatura română (specializarea A) din facultățile de Litere din România, conform standardelor specifice ARACIS pentru domeniul Limbă și literatură și planurilor de învățământ publicate de Universitatea din București, Universitatea Babeș-Bolyai și Universitatea „Alexandru Ioan Cuza” — anul al II-lea: limba română contemporană (morfologie), istoria limbii române și filologie, literatura română modernă (secolul al XIX-lea), literatura universală (Evul Mediu – romantism), literatură comparată și teorii ale textului, scriere academică; fiecare facultate are planul propriu, iar ordinea și denumirile cursurilor pot diferi; lecții originale, fără text copiat din cursuri sau manuale",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "ro",
+ "labels": [
+  "Activitate originală · România · Facultatea de Litere · Licență, anul al II-lea",
+  "Teorie pe înțeles",
+  "Exemplu original",
+  "Analiză explicată",
+  "Exerciții de seminar",
+  "Verifică-te",
+  "Exerciții originale; nu înlocuiesc cursul, bibliografia sau evaluarea facultății.",
+  "Dacă nu ai înțeles: pe înțelesul tău, pas cu pas",
+  "Răspunsuri (verifică după ce termini)"
+ ],
+ "units": [
+  {
+   "title": "Limba română contemporană: morfologie",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-2-l01",
+    "eu-year-ro-advanced-uni-ba-2-l02",
+    "eu-year-ro-advanced-uni-ba-2-l03",
+    "eu-year-ro-advanced-uni-ba-2-l04",
+    "eu-year-ro-advanced-uni-ba-2-l05",
+    "eu-year-ro-advanced-uni-ba-2-l06"
+   ]
+  },
+  {
+   "title": "Istoria limbii române și filologie",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-2-l07",
+    "eu-year-ro-advanced-uni-ba-2-l08",
+    "eu-year-ro-advanced-uni-ba-2-l09",
+    "eu-year-ro-advanced-uni-ba-2-l10",
+    "eu-year-ro-advanced-uni-ba-2-l11"
+   ]
+  },
+  {
+   "title": "Literatura română modernă: secolul al XIX-lea",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-2-l12",
+    "eu-year-ro-advanced-uni-ba-2-l13",
+    "eu-year-ro-advanced-uni-ba-2-l14",
+    "eu-year-ro-advanced-uni-ba-2-l15",
+    "eu-year-ro-advanced-uni-ba-2-l16",
+    "eu-year-ro-advanced-uni-ba-2-l17",
+    "eu-year-ro-advanced-uni-ba-2-l18",
+    "eu-year-ro-advanced-uni-ba-2-l19",
+    "eu-year-ro-advanced-uni-ba-2-l20"
+   ]
+  },
+  {
+   "title": "Literatura universală: Ev Mediu – romantism",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-2-l21",
+    "eu-year-ro-advanced-uni-ba-2-l22",
+    "eu-year-ro-advanced-uni-ba-2-l23",
+    "eu-year-ro-advanced-uni-ba-2-l24",
+    "eu-year-ro-advanced-uni-ba-2-l25",
+    "eu-year-ro-advanced-uni-ba-2-l26"
+   ]
+  },
+  {
+   "title": "Literatură comparată și teorii ale textului",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-2-l27",
+    "eu-year-ro-advanced-uni-ba-2-l28",
+    "eu-year-ro-advanced-uni-ba-2-l29"
+   ]
+  },
+  {
+   "title": "Scriere academică",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-2-l30"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-ro-advanced-uni-ba-2-l01": {
+   "ro": {
+    "title": "Părțile de vorbire și categoriile gramaticale",
+    "theory": "Morfologia studiază formele cuvintelor. Părțile de vorbire se stabilesc după trei criterii: semantic (ce denumesc), morfologic (dacă își schimbă forma) și sintactic (ce funcții au). Flexibile: substantivul, articolul, adjectivul, pronumele, numeralul, verbul; neflexibile: adverbul, prepoziția, conjuncția, interjecția. Categoriile gramaticale (gen, număr, caz, persoană, mod, timp, diateză, grad de comparație) se exprimă prin desinențe, articole, alternanțe fonetice, auxiliare. Referințe actuale: Gramatica limbii române (GALR, Academia, 2005) și Gramatica de bază a limbii române (GBLR, 2010).",
+    "sample": "Analiză originală: în fetele, informația de plural este dată de desinența -e și de alternanța ea/e (fată – fete), iar articolul hotărât -le marchează determinarea.",
+    "worked": "Aceeași formă poate cumula mai multe mărci: desinență, alternanță, articol. Analiza morfologică le separă pentru a vedea ce categorie exprimă fiecare.",
+    "exercises": [
+     "Clasifică părțile de vorbire după cele trei criterii.",
+     "Identifică mărcile categoriilor în zece forme flexionare.",
+     "Găsește alternanțe fonetice în flexiunea substantivelor.",
+     "Compară o definiție din GALR cu una dintr-un manual școlar.",
+     "Explică de ce aceeași formă poate aparține unor părți de vorbire diferite."
+    ],
+    "test": [
+     "Ce criterii stabilesc părțile de vorbire?",
+     "Numește trei părți de vorbire neflexibile.",
+     "Ce este o categorie gramaticală?",
+     "Prin ce se exprimă categoriile?",
+     "Ce este GALR?"
+    ],
+    "steps": [
+     "Stabilește sensul lexical și funcția cuvântului în context.",
+     "Verifică dacă își schimbă forma și după ce categorii.",
+     "Numește partea de vorbire și mărcile categoriilor.",
+     "Greșeala frecventă: să analizezi cuvântul izolat, fără context."
+    ],
+    "answers": [
+     "Semantic, morfologic, sintactic.",
+     "Adverbul, prepoziția, conjuncția (și interjecția).",
+     "O trăsătură gramaticală exprimată prin forme, de exemplu numărul sau cazul.",
+     "Prin desinențe, articole, alternanțe, auxiliare.",
+     "Gramatica limbii române a Academiei (2005)."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l02": {
+   "ro": {
+    "title": "Substantivul: gen, număr, caz, determinare",
+    "theory": "Substantivul românesc are trei genuri: masculin, feminin și neutru (masculin la singular, feminin la plural: un scaun – două scaune). Numărul se marchează prin desinențe (-i, -e, -uri) și alternanțe. Cazurile: nominativ, acuzativ, genitiv, dativ, vocativ; nominativul și acuzativul au aceeași formă, ca și genitivul și dativul. Articolul hotărât este enclitic (omul), cel nehotărât proclitic (un om); articolul genitival (al, a, ai, ale) și cel demonstrativ (cel) au funcții specifice.",
+    "sample": "Test original pentru gen: un creion – două creioane (neutru); un pom – doi pomi (masculin); o carte – două cărți (feminin). Testul unul–doi arată acordul.",
+    "worked": "Acordul cu numeralele un/o și doi/două dezvăluie genul. Neutrul românesc, moștenit din latină într-o formă nouă, este o particularitate între limbile romanice.",
+    "exercises": [
+     "Stabilește genul a zece substantive cu testul unul–doi.",
+     "Declină două substantive la toate cazurile.",
+     "Identifică articolele enclitice și proclitice dintr-un text.",
+     "Explică particularitatea neutrului românesc.",
+     "Găsește substantive cu plural dublu și sensuri diferite."
+    ],
+    "test": [
+     "Câte genuri are româna?",
+     "Cum se comportă neutrul?",
+     "Unde se așază articolul hotărât?",
+     "Ce cazuri au aceeași formă?",
+     "Ce este articolul genitival?"
+    ],
+    "steps": [
+     "Aplică testul unul–doi pentru gen.",
+     "Identifică desinența și eventualele alternanțe.",
+     "Stabilește cazul după funcția din propoziție.",
+     "Greșeala frecventă: să confunzi forma de nominativ cu cea de acuzativ fără a verifica funcția sintactică."
+    ],
+    "answers": [
+     "Trei: masculin, feminin, neutru.",
+     "Ca masculin la singular și ca feminin la plural.",
+     "După substantiv, enclitic.",
+     "Nominativul cu acuzativul și genitivul cu dativul.",
+     "Al, a, ai, ale."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l03": {
+   "ro": {
+    "title": "Pronumele și formele clitice",
+    "theory": "Pronumele țin locul unor nume sau trimit la participanții comunicării. Tipuri: personal (eu, tu, el), de politețe (dumneavoastră), reflexiv (se, își), posesiv (al meu), demonstrativ (acesta, acela), relativ și interogativ (care, cine, ce), nehotărât (cineva), negativ (nimeni), de întărire (însuși). Pronumele personale și reflexive au forme accentuate (mie, pe mine) și forme neaccentuate, clitice (îmi, mă), care se leagă de verb și pot dubla complementul (pe Ana o văd).",
+    "sample": "Analiză originală: Pe Maria am întâlnit-o ieri. — o este forma clitică de acuzativ care dublează complementul direct pe Maria.",
+    "worked": "Dublarea clitică este o trăsătură specifică limbii române și unor limbi balcanice. Ea este obligatorie în anumite construcții (cu pe + nume propriu antepus).",
+    "exercises": [
+     "Clasifică pronumele dintr-un text.",
+     "Identifică formele clitice și cazul lor.",
+     "Explică dublarea clitică cu exemple.",
+     "Construiește enunțuri cu pronume de politețe la toate gradele.",
+     "Distinge pronumele de adjectivul pronominal."
+    ],
+    "test": [
+     "Ce este o formă clitică?",
+     "Ce pronume este dumneavoastră?",
+     "Ce dublează o în exemplu?",
+     "Ce este pronumele reflexiv?",
+     "Când devine un pronume adjectiv pronominal?"
+    ],
+    "steps": [
+     "Stabilește la cine trimite pronumele.",
+     "Identifică tipul și forma: accentuată sau clitică.",
+     "Precizează cazul și funcția.",
+     "Greșeala frecventă: să confunzi pronumele cu adjectivul pronominal; adjectivul însoțește un substantiv."
+    ],
+    "answers": [
+     "O formă neaccentuată care se sprijină pe verb.",
+     "De politețe.",
+     "Complementul direct pe Maria.",
+     "Pronumele care arată identitatea dintre obiect și subiect.",
+     "Când însoțește un substantiv."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l04": {
+   "ro": {
+    "title": "Verbul: moduri, timpuri, diateze, conjugări",
+    "theory": "Verbul are moduri personale (indicativ, conjunctiv, condițional-optativ, imperativ) și nepersonale (infinitiv, gerunziu, participiu, supin). Timpurile indicativului: prezent, imperfect, perfect simplu, perfect compus, mai-mult-ca-perfect, viitor (cu variante). Conjugările se stabilesc după sufixul infinitivului: I (-a), II (-ea), III (-e), IV (-i, -î). Diateza (activă, pasivă, reflexivă) arată raportul dintre subiect și acțiune. Formele compuse folosesc auxiliarele a avea, a fi, a vrea.",
+    "sample": "Exemple originale: a cânta (I), a vedea (II), a merge (III), a dormi, a hotărî (IV). Diateză pasivă: Cartea a fost citită de toți.",
+    "worked": "Sufixul infinitivului indică conjugarea. Diateza pasivă se formează cu a fi + participiu, iar agentul este introdus prin de.",
+    "exercises": [
+     "Încadrează douăzeci de verbe în conjugări.",
+     "Conjugă un verb la toate timpurile indicativului.",
+     "Transformă enunțuri active în pasive.",
+     "Identifică modurile nepersonale într-un text.",
+     "Explică diferența dintre perfectul simplu și perfectul compus în uz."
+    ],
+    "test": [
+     "Câte conjugări are româna?",
+     "Din ce conjugare face parte a vedea?",
+     "Cum se formează diateza pasivă?",
+     "Numește modurile nepersonale.",
+     "Ce auxiliar are viitorul literar?"
+    ],
+    "steps": [
+     "Găsește infinitivul verbului.",
+     "Stabilește conjugarea după sufix.",
+     "Identifică modul, timpul și diateza formei din text.",
+     "Greșeala frecventă: să încadrezi verbul în conjugare după forma de prezent, nu după infinitiv."
+    ],
+    "answers": [
+     "Patru.",
+     "A II-a.",
+     "Cu a fi + participiu.",
+     "Infinitivul, gerunziul, participiul, supinul.",
+     "A vrea."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l05": {
+   "ro": {
+    "title": "Părțile de vorbire neflexibile",
+    "theory": "Adverbul determină un verb, un adjectiv sau alt adverb și exprimă locul, timpul, modul sau cantitatea; unele adverbe au grade de comparație. Prepoziția leagă un cuvânt de regentul său și cere un anumit caz: acuzativ (cu, la, pe), genitiv (asupra, împotriva), dativ (datorită, grație). Conjuncția leagă propoziții sau părți de propoziție, prin coordonare (și, dar, sau) sau subordonare (că, să, dacă). Interjecția exprimă stări sau imită sunete.",
+    "sample": "Analiză originală: Datorită ajutorului primit, a terminat repede. — datorită: prepoziție cu dativ; repede: adverb de mod.",
+    "worked": "Prepoziția impune cazul substantivului care urmează (ajutorului este dativ). Adverbul determină verbul. Clasificarea depinde de funcție, nu doar de formă.",
+    "exercises": [
+     "Clasifică prepozițiile după cazul cerut.",
+     "Identifică adverbele și gradele lor.",
+     "Distinge conjuncțiile coordonatoare de cele subordonatoare.",
+     "Găsește interjecții onomatopeice într-un text literar.",
+     "Explică diferența dintre adverb și adjectiv în context."
+    ],
+    "test": [
+     "Ce determină adverbul?",
+     "Ce caz cere prepoziția datorită?",
+     "Ce caz cere prepoziția împotriva?",
+     "Ce fel de conjuncție este că?",
+     "Ce exprimă interjecția?"
+    ],
+    "steps": [
+     "Stabilește ce cuvânt determină sau leagă.",
+     "Verifică cazul cerut sau tipul de legătură.",
+     "Numește partea de vorbire.",
+     "Greșeala frecventă: să folosești datorită pentru o cauză negativă (datorită ploii am întârziat); pentru cauze negative se recomandă din cauza."
+    ],
+    "answers": [
+     "Un verb, un adjectiv sau alt adverb.",
+     "Dativul.",
+     "Genitivul.",
+     "Subordonatoare.",
+     "Stări sau sunete."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l06": {
+   "ro": {
+    "title": "Conversiunea și valorile morfologice",
+    "theory": "Conversiunea este trecerea unui cuvânt de la o parte de vorbire la alta fără schimbarea formei de bază: adjectiv → substantiv (frumosul), adjectiv → adverb (cântă frumos), participiu → adjectiv (cartea citită), verb la supin → substantiv (cititul), substantiv → interjecție (Doamne!). La seminar, analiza valorilor morfologice este o probă frecventă: se stabilește valoarea după context și după comportamentul gramatical.",
+    "sample": "Analiză originală: Frumosul ne atrage (substantiv, articulat). O casă frumoasă (adjectiv, acordat). Vorbește frumos (adverb, determină verbul, invariabil).",
+    "worked": "Același cuvânt are valori diferite: articularea arată substantivul, acordul arată adjectivul, invariabilitatea pe lângă verb arată adverbul.",
+    "exercises": [
+     "Stabilește valoarea morfologică a lui frumos în cinci enunțuri.",
+     "Găsește exemple de participii devenite adjective.",
+     "Explică conversiunea supinului.",
+     "Identifică interjecții provenite din substantive.",
+     "Construiește enunțuri pentru valorile lui ce."
+    ],
+    "test": [
+     "Ce este conversiunea?",
+     "Ce valoare are frumos în: vorbește frumos?",
+     "Ce valoare are frumosul?",
+     "Cum se formează substantivul cititul?",
+     "Ce arată acordul?"
+    ],
+    "steps": [
+     "Observă comportamentul cuvântului: articulare, acord, invariabilitate.",
+     "Stabilește ce cuvânt determină.",
+     "Numește valoarea și justifică.",
+     "Greșeala frecventă: să stabilești valoarea doar după forma din dicționar."
+    ],
+    "answers": [
+     "Trecerea unui cuvânt la altă parte de vorbire fără schimbarea formei de bază.",
+     "Adverb.",
+     "Substantiv.",
+     "Prin conversiunea supinului.",
+     "Valoarea de adjectiv."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l07": {
+   "ro": {
+    "title": "Romanizarea și formarea limbii române",
+    "theory": "Limba română s-a format din latina populară vorbită în provinciile dunărene (Dacia, cucerită în 106 și părăsită oficial de administrația romană în 271–275, și Moesia), prin romanizarea populației autohtone. Procesul a durat câteva secole (aproximativ secolele II–VIII), iar româna comună, înaintea despărțirii dialectelor, a fost urmată de influența slavă. Romanitatea orientală s-a dezvoltat izolat de restul lumii romanice.",
+    "sample": "Argument lingvistic original: termenii creștini fundamentali sunt latinești (biserică < basilica, Dumnezeu < Domine Deus, a boteza < baptizare), ceea ce arată creștinarea populației romanizate înainte de influența slavă.",
+    "worked": "Vocabularul religios latin dovedește vechimea creștinismului la proto-români. Argumentele lingvistice completează sursele istorice.",
+    "exercises": [
+     "Prezintă etapele formării limbii române.",
+     "Explică importanța vocabularului creștin latin.",
+     "Explică ce înseamnă româna comună.",
+     "Compară româna cu alte limbi romanice pe zece cuvinte.",
+     "Discută dezbaterea istoriografică despre continuitate."
+    ],
+    "test": [
+     "Când a fost cucerită Dacia?",
+     "Când a fost retrasă administrația romană?",
+     "Din ce latină provine româna?",
+     "Ce origine are cuvântul biserică?",
+     "Ce este româna comună?"
+    ],
+    "steps": [
+     "Situează evenimentele istorice.",
+     "Folosește dovezi lingvistice pentru fiecare etapă.",
+     "Distinge faptele de ipoteze.",
+     "Greșeala frecventă: să reduci formarea limbii la perioada stăpânirii romane din Dacia."
+    ],
+    "answers": [
+     "În 106.",
+     "În 271–275.",
+     "Din latina populară.",
+     "Lat. basilica.",
+     "Faza unitară dinaintea separării dialectelor."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l08": {
+   "ro": {
+    "title": "Dialectele limbii române",
+    "theory": "În concepția tradițională, româna are patru dialecte istorice: dacoromân (la nord de Dunăre, baza limbii literare), aromân (în Balcani: Grecia, Albania, Macedonia de Nord, Bulgaria), meglenoromân (în zona Meglen, la granița greco-macedoneană) și istroromân (în Istria, Croația, cu puțini vorbitori). Ele s-au separat după perioada românei comune și au evoluat diferit, sub influențe locale.",
+    "sample": "Comparație originală: rom. bine apare în istroromână cu rotacism, ca bire; aromâna păstrează unele forme mai apropiate de latină și are influențe grecești.",
+    "worked": "Diferențele fonetice și lexicale arată evoluțiile separate, iar asemănările dovedesc originea comună. Studiul dialectelor ajută la reconstrucția românei comune.",
+    "exercises": [
+     "Localizează pe hartă cele patru dialecte.",
+     "Explică de ce dacoromâna stă la baza limbii literare.",
+     "Compară forme din două dialecte.",
+     "Explică situația istroromânei astăzi.",
+     "Discută statutul aromânei."
+    ],
+    "test": [
+     "Câte dialecte are româna, în concepția tradițională?",
+     "Ce dialect stă la baza limbii literare?",
+     "Unde se vorbește istroromâna?",
+     "Ce trăsătură fonetică are istroromâna?",
+     "Unde se vorbește aromâna?"
+    ],
+    "steps": [
+     "Localizează dialectul.",
+     "Identifică trăsăturile lui specifice.",
+     "Compară cu dacoromâna și cu româna comună.",
+     "Greșeala frecventă: să confunzi dialectele istorice cu graiurile regionale ale dacoromânei."
+    ],
+    "answers": [
+     "Patru.",
+     "Dacoromâna.",
+     "În Istria, Croația.",
+     "Rotacismul.",
+     "În Balcani."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l09": {
+   "ro": {
+    "title": "Influențe și contacte: slavă, maghiară, greacă, turcă",
+    "theory": "După româna comună, contactul cu slavii a adus influențe importante: lexicale (a iubi, prieten, nevastă, sută), fonetice și de formare a cuvintelor (prefixul ne-, sufixe), terminologia bisericească și de cancelarie prin slavona culturală. Ulterior au urmat împrumuturi maghiare (oraș, a cheltui), grecești (mai ales în epoca fanariotă), turcești (cafea, ciorbă, dulap) și, din secolul al XIX-lea, neologismele romanice care au modernizat limba.",
+    "sample": "Analiză originală a dubletelor: a iubi (slavă) și amor (neologism romanic) sau dragoste (slavă) coexistă cu registre diferite.",
+    "worked": "Straturile succesive au creat sinonime cu nuanțe stilistice. Istoria limbii explică bogăția sinonimiei actuale.",
+    "exercises": [
+     "Grupează cuvinte după limba de origine.",
+     "Explică rolul slavonei culturale.",
+     "Analizează împrumuturile din epoca fanariotă.",
+     "Găsește dublete etimologice.",
+     "Explică reromanizarea limbii din secolul al XIX-lea."
+    ],
+    "test": [
+     "Ce origine are a iubi?",
+     "Ce prefix este de origine slavă?",
+     "Ce origine are oraș?",
+     "Ce origine are ciorbă?",
+     "Ce este reromanizarea?"
+    ],
+    "steps": [
+     "Verifică etimologia într-un dicționar.",
+     "Situează împrumutul în timp și context.",
+     "Explică registrul actual al cuvântului.",
+     "Greșeala frecventă: să crezi că influențele străine au alterat caracterul romanic al limbii; structura gramaticală a rămas romanică."
+    ],
+    "answers": [
+     "Slavă.",
+     "Ne-.",
+     "Maghiară.",
+     "Turcă.",
+     "Modernizarea limbii prin neologisme romanice în secolul al XIX-lea."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l10": {
+   "ro": {
+    "title": "Formarea limbii literare și trecerea la alfabetul latin",
+    "theory": "Limba literară s-a constituit treptat: textele religioase din secolele XVI–XVII au creat o normă scrisă; în secolul al XIX-lea, scriitorii și filologii au modernizat-o prin neologisme și au unificat-o. Alfabetul chirilic a fost înlocuit oficial cu cel latin între 1860 și 1862, după o perioadă de alfabet de tranziție. Societatea Literară Română (1866) a devenit Academia Română (1879), cu rol în stabilirea normelor ortografice.",
+    "sample": "Exemplu original de alfabet de tranziție: în perioada intermediară apăreau texte cu litere latine amestecate cu semne chirilice pentru sunete specifice, de exemplu pentru ă sau î.",
+    "worked": "Alfabetul de tranziție arată dificultatea notării sunetelor românești specifice cu litere latine. Soluțiile ortografice s-au stabilizat treptat, prin reforme succesive.",
+    "exercises": [
+     "Prezintă etapele formării limbii literare.",
+     "Explică trecerea la alfabetul latin.",
+     "Prezintă rolul Academiei Române în normare.",
+     "Compară principiul fonetic cu cel etimologic în ortografie.",
+     "Discută reformele ortografice din secolul XX."
+    ],
+    "test": [
+     "Când a fost înlocuit oficial alfabetul chirilic?",
+     "Ce era alfabetul de tranziție?",
+     "Când a fost fondată Societatea Literară Română?",
+     "Când a devenit Academia Română?",
+     "Ce principiu ortografic predomină astăzi?"
+    ],
+    "steps": [
+     "Ordonează etapele cronologic.",
+     "Leagă fiecare etapă de actorii culturali.",
+     "Explică principiile ortografice.",
+     "Greșeala frecventă: să crezi că limba literară s-a format brusc în secolul al XIX-lea."
+    ],
+    "answers": [
+     "Între 1860 și 1862.",
+     "Un alfabet latin amestecat cu semne chirilice.",
+     "În 1866.",
+     "În 1879.",
+     "Principiul fonetic."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l11": {
+   "ro": {
+    "title": "Filologie: editarea textelor vechi",
+    "theory": "Ediția critică stabilește textul cel mai apropiat de intenția autorului sau de forma originală, prin compararea martorilor (manuscrise, tipărituri), alegerea textului de bază, notarea variantelor în aparatul critic și justificarea intervențiilor. Transcrierea textelor chirilice în alfabet latin poate fi interpretativă (adaptată ortografiei actuale) sau fonetică (cât mai fidelă pronunției vechi). Glosarul și studiul introductiv completează ediția.",
+    "sample": "Notă critică originală: la rândul 12, manuscrisul A are zisă, iar tipăritura B are zise; textul de bază urmează manuscrisul A, mai vechi, iar varianta B apare în aparat.",
+    "worked": "Nota arată decizia editorului și o justifică. Aparatul critic permite cititorului să verifice alegerile și să reconstituie variantele.",
+    "exercises": [
+     "Explică ce este un martor textual.",
+     "Explică diferența dintre transcrierea interpretativă și cea fonetică.",
+     "Redactează o notă critică pentru o variantă inventată.",
+     "Analizează aparatul critic al unei ediții de Eminescu.",
+     "Explică rolul glosarului."
+    ],
+    "test": [
+     "Ce stabilește ediția critică?",
+     "Ce sunt martorii textuali?",
+     "Ce este aparatul critic?",
+     "Ce este transcrierea interpretativă?",
+     "Ce conține glosarul?"
+    ],
+    "steps": [
+     "Identifică martorii și alege textul de bază.",
+     "Compară variantele și notează-le în aparat.",
+     "Justifică fiecare intervenție.",
+     "Greșeala frecventă: să modernizezi textul fără a semnala intervențiile."
+    ],
+    "answers": [
+     "Textul cel mai apropiat de forma originală.",
+     "Manuscrisele și tipăriturile care transmit textul.",
+     "Lista variantelor și a intervențiilor editorului.",
+     "O transcriere adaptată ortografiei actuale.",
+     "Explicarea cuvintelor vechi sau rare."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l12": {
+   "ro": {
+    "title": "Pașoptismul și Costache Negruzzi",
+    "theory": "Literatura pașoptistă (aproximativ 1830–1860) are funcție națională și socială: presă, teatru, istorie, folclor. Ion Heliade Rădulescu, Grigore Alexandrescu, Dimitrie Bolintineanu, Cezar Bolliac, Vasile Alecsandri, Costache Negruzzi creează forme noi. Alexandru Lăpușneanul de Negruzzi (Dacia literară, 1840) este prima nuvelă istorică românească, cu construcție clasică, personaje romantice și surse cronicărești.",
+    "sample": "Analiză originală a construcției: nuvela are patru capitole cu motto-uri, ca patru acte ale unei tragedii; fiecare motto anunță tema capitolului și creează tensiune.",
+    "worked": "Structura dramatică, motto-urile și concentrarea acțiunii arată măiestria clasică a lui Negruzzi, iar personajul excepțional și contrastele sunt romantice.",
+    "exercises": [
+     "Prezintă trăsăturile literaturii pașoptiste.",
+     "Analizează motto-urile din Alexandru Lăpușneanul.",
+     "Caracterizează personajul principal.",
+     "Identifică trăsăturile clasice și romantice ale nuvelei.",
+     "Compară nuvela cu sursa cronicărească."
+    ],
+    "test": [
+     "Când apare Alexandru Lăpușneanul?",
+     "Ce specie inaugurează?",
+     "Câte capitole are nuvela?",
+     "Ce funcție au motto-urile?",
+     "Ce funcție are literatura pașoptistă?"
+    ],
+    "steps": [
+     "Situează opera în pașoptism.",
+     "Analizează structura și personajele.",
+     "Identifică interferențele de curente.",
+     "Greșeala frecventă: să încadrezi opera într-un singur curent fără a observa interferențele."
+    ],
+    "answers": [
+     "În 1840.",
+     "Nuvela istorică.",
+     "Patru.",
+     "Anunță tema și creează tensiune.",
+     "Națională și socială."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l13": {
+   "ro": {
+    "title": "Începuturile romanului: Ciocoii vechi și noi",
+    "theory": "Romanul românesc începe cu tentative în anii 1850–1860; Ciocoii vechi și noi de Nicolae Filimon (1863) este considerat primul roman important. Prezintă ascensiunea lui Dinu Păturică, ciocoi parvenit în epoca fanariotă, prin intrigă și servilism. Romanul are trăsături realiste (frescă socială, tipuri), romantice (antiteze, intervenții moralizatoare ale naratorului) și balzaciene.",
+    "sample": "Analiză originală a tipului: Păturică se umilește în fața celor puternici și îi strivește pe cei slabi; fiecare pas al ascensiunii lui este o lecție de oportunism.",
+    "worked": "Personajul este un tip social: parvenitul. Intervențiile moralizatoare ale naratorului și pedepsirea finală arată viziunea romantică și moralistă.",
+    "exercises": [
+     "Rezumă romanul.",
+     "Caracterizează tipul ciocoiului.",
+     "Identifică trăsăturile realiste și romantice.",
+     "Compară romanul cu un roman balzacian.",
+     "Analizează rolul naratorului."
+    ],
+    "test": [
+     "Cine a scris Ciocoii vechi și noi?",
+     "În ce an apare?",
+     "Cine este Dinu Păturică?",
+     "În ce epocă se petrece acțiunea?",
+     "Ce tip social reprezintă personajul?"
+    ],
+    "steps": [
+     "Situează romanul la începuturile speciei.",
+     "Identifică tipurile și frescă socială.",
+     "Evaluează interferențele de curente.",
+     "Greșeala frecventă: să judeci romanul după standardele romanului interbelic."
+    ],
+    "answers": [
+     "Nicolae Filimon.",
+     "1863.",
+     "Un ciocoi parvenit.",
+     "În epoca fanariotă.",
+     "Parvenitul."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l14": {
+   "ro": {
+    "title": "Vasile Alecsandri: poezie și teatru",
+    "theory": "Vasile Alecsandri a fost poet, dramaturg, culegător de folclor și om politic. A publicat balade populare culese și prelucrate, a scris Pastelurile (publicate în Convorbiri literare, 1868–1869), cu imagini ale naturii și ale ciclului anotimpurilor, a creat teatrul românesc modern (comediile cu Chirița, drama istorică Despot-Vodă, Fântâna Blanduziei, Ovidiu).",
+    "sample": "Analiză originală a unui pastel: tabloul de iarnă este construit ca un tablou pictat, cu planuri, culori și o atmosferă de liniște; eul liric privește mai mult decât mărturisește.",
+    "worked": "Pastelul este descriptiv, cu lirism obiectivat. Echilibrul clasic și tonul senin sunt specifice lui Alecsandri.",
+    "exercises": [
+     "Analizează un pastel de Alecsandri.",
+     "Prezintă contribuția lui Alecsandri la folclor.",
+     "Caracterizează-o pe Chirița.",
+     "Prezintă dramaturgia istorică a lui Alecsandri.",
+     "Compară pastelul lui Alecsandri cu poezia de natură a lui Eminescu."
+    ],
+    "test": [
+     "Ce sunt Pastelurile?",
+     "Unde au fost publicate?",
+     "Ce personaj comic a creat Alecsandri?",
+     "Ce dramă istorică a scris?",
+     "Ce fel de lirism are pastelul?"
+    ],
+    "steps": [
+     "Identifică genul și specia.",
+     "Analizează imaginile și compoziția.",
+     "Situează opera în evoluția lui Alecsandri.",
+     "Greșeala frecventă: să consideri pastelul doar descriere, fără atitudine lirică."
+    ],
+    "answers": [
+     "Poezii descriptive despre natură și anotimpuri.",
+     "În Convorbiri literare.",
+     "Chirița.",
+     "Despot-Vodă.",
+     "Lirism obiectivat."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l15": {
+   "ro": {
+    "title": "Junimea și critica lui Titu Maiorescu",
+    "theory": "Junimea (Iași, 1863) și Convorbiri literare (1867) au impus spiritul critic. Titu Maiorescu a scris: O cercetare critică asupra poeziei române de la 1867, În contra direcției de astăzi în cultura română (1868, teoria formelor fără fond), Direcția nouă în poezia și proza română (1872), Comediile d-lui Caragiale (1885), Eminescu și poeziile lui (1889). Principiul central este autonomia esteticului: arta nu trebuie judecată după criterii politice sau morale.",
+    "sample": "Argument original în spirit maiorescian: o poezie patriotică slabă nu devine bună prin tema ei; valoarea estetică se judecă după forța imaginii și a expresiei.",
+    "worked": "Separarea criteriilor estetice de cele politice este principiul autonomiei esteticului. A fost decisivă pentru profesionalizarea criticii românești.",
+    "exercises": [
+     "Explică teoria formelor fără fond.",
+     "Explică autonomia esteticului.",
+     "Analizează argumentele din Comediile d-lui Caragiale.",
+     "Prezintă portretul geniului din Eminescu și poeziile lui.",
+     "Evaluează actualitatea criticii maioresciene."
+    ],
+    "test": [
+     "Când apare Convorbiri literare?",
+     "Ce studiu formulează teoria formelor fără fond?",
+     "Ce înseamnă autonomia esteticului?",
+     "Când apare Eminescu și poeziile lui?",
+     "Despre ce scriitor este studiul din 1885?"
+    ],
+    "steps": [
+     "Identifică ideea centrală a studiului.",
+     "Analizează argumentele și exemplele.",
+     "Evaluează consecințele culturale.",
+     "Greșeala frecventă: să crezi că Maiorescu a respins orice cultură străină."
+    ],
+    "answers": [
+     "În 1867.",
+     "În contra direcției de astăzi în cultura română.",
+     "Arta se judecă după criterii estetice, nu politice sau morale.",
+     "În 1889.",
+     "Caragiale."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l16": {
+   "ro": {
+    "title": "Mihai Eminescu: poezia",
+    "theory": "Eminescu (1850–1889) debutează în revista Familia (1866) și publică în Convorbiri literare; volumul Poesii apare în decembrie 1883, îngrijit de Maiorescu. Temele: iubirea și natura, timpul și istoria, condiția geniului, cosmogonia, visul. Etape: poezia de tinerețe, marile poeme (Scrisorile, Luceafărul), lirica de maturitate (Glossă, Oda în metru antic). Postumele, editate ulterior (Perpessicius), au schimbat imaginea poetului.",
+    "sample": "Analiză originală a temei timpului: în poezia eminesciană, timpul individual (iubirea trecătoare) se oglindește în timpul cosmic (nașterea și stingerea lumilor); de aici tonul meditativ și elegiac.",
+    "worked": "Legătura dintre individual și cosmic este specifică romantismului eminescian. Temele se întrepătrund și se recunosc în motive recurente (luna, marea, codrul, steaua).",
+    "exercises": [
+     "Prezintă etapele poeziei eminesciene.",
+     "Analizează tema timpului în două poezii.",
+     "Explică importanța postumelor.",
+     "Analizează motivul lunii.",
+     "Compară Eminescu cu un romantic european."
+    ],
+    "test": [
+     "În ce revistă debutează Eminescu?",
+     "Când apare volumul Poesii?",
+     "Cine l-a îngrijit?",
+     "Cine a editat postumele în ediția de referință?",
+     "Numește trei teme eminesciene."
+    ],
+    "steps": [
+     "Situează poezia în etapa creației.",
+     "Identifică tema și motivele.",
+     "Leagă poezia de romantismul european.",
+     "Greșeala frecventă: să reduci poezia eminesciană la câteva texte școlare."
+    ],
+    "answers": [
+     "În Familia.",
+     "În decembrie 1883.",
+     "Titu Maiorescu.",
+     "Perpessicius.",
+     "Iubirea, timpul, geniul."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l17": {
+   "ro": {
+    "title": "Mihai Eminescu: proza și publicistica",
+    "theory": "Proza lui Eminescu este romantică și filozofică: Sărmanul Dionis (1872), nuvelă fantastică despre timp, vis și metempsihoză; Cezara; romanul postum Geniu pustiu; basmul cult Făt-Frumos din lacrimă. Publicistica (mai ales la ziarul Timpul, 1877–1883) tratează probleme politice, economice și culturale, cu stil polemic.",
+    "sample": "Analiză originală: în Sărmanul Dionis, personajul trece dintr-o identitate în alta și dintr-un timp în altul; granițele dintre vis și realitate dispar, iar timpul devine o construcție a minții.",
+    "worked": "Tema relativității timpului și a identității arată fundamentul filozofic al prozei eminesciene. Fantasticul este folosit pentru a pune întrebări metafizice.",
+    "exercises": [
+     "Analizează tema timpului în Sărmanul Dionis.",
+     "Prezintă basmul Făt-Frumos din lacrimă.",
+     "Explică specificul prozei romantice eminesciene.",
+     "Analizează stilul publicisticii.",
+     "Compară proza și poezia lui Eminescu."
+    ],
+    "test": [
+     "Când apare Sărmanul Dionis?",
+     "Ce specie este?",
+     "Ce roman postum a scris Eminescu?",
+     "La ce ziar a lucrat Eminescu?",
+     "Ce temă are Sărmanul Dionis?"
+    ],
+    "steps": [
+     "Identifică specia și tema.",
+     "Analizează procedeele fantastice.",
+     "Leagă proza de concepția filozofică.",
+     "Greșeala frecventă: să consideri proza secundară, fără valoare proprie."
+    ],
+    "answers": [
+     "În 1872.",
+     "Nuvelă fantastică.",
+     "Geniu pustiu.",
+     "La Timpul.",
+     "Timpul, visul, identitatea."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l18": {
+   "ro": {
+    "title": "Ion Creangă",
+    "theory": "Ion Creangă (1837–1889) este autorul Amintirilor din copilărie (primele părți publicate în Convorbiri literare, 1881–1882), al poveștilor (Capra cu trei iezi, Punguța cu doi bani, Soacra cu trei nurori, Povestea lui Harap-Alb) și al povestirii Moș Nichifor Coțcariul. Stilul: oralitate, umor, erudiție populară (proverbe, zicători), ritm, dialog. Critica (G. Călinescu, Tudor Vianu) a subliniat caracterul universal al lumii sale, de la copilul din Humulești la tipurile umane eterne.",
+    "sample": "Analiză originală a umorului: naratorul matur își privește copilăria cu ironie tandră: își dezvăluie năzbâtiile, dar și le justifică pe jumătate, ca un complice.",
+    "worked": "Dubla perspectivă (copilul care trăiește, adultul care povestește) produce umor și nostalgie. Oralitatea creează impresia unei povestiri spuse unui public.",
+    "exercises": [
+     "Analizează dubla perspectivă din Amintiri.",
+     "Găsește procedee ale oralității.",
+     "Explică umorul lui Creangă.",
+     "Compară poveștile cu basmele populare.",
+     "Prezintă interpretarea lui Călinescu."
+    ],
+    "test": [
+     "Când apar primele părți din Amintiri?",
+     "În ce revistă au apărut?",
+     "Numește trei povești de Creangă.",
+     "Ce perspective se combină în Amintiri?",
+     "Ce critici au interpretat opera lui Creangă?"
+    ],
+    "steps": [
+     "Identifică instanța narativă și perspectiva.",
+     "Găsește procedeele oralității și umorului.",
+     "Formulează viziunea despre lume.",
+     "Greșeala frecventă: să consideri opera lui Creangă literatură doar pentru copii."
+    ],
+    "answers": [
+     "În 1881–1882.",
+     "În Convorbiri literare.",
+     "Capra cu trei iezi, Punguța cu doi bani, Povestea lui Harap-Alb.",
+     "Perspectiva copilului și cea a adultului care povestește.",
+     "G. Călinescu și Tudor Vianu."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l19": {
+   "ro": {
+    "title": "I. L. Caragiale",
+    "theory": "Caragiale (1852–1912) este dramaturg (O noapte furtunoasă, 1879; O scrisoare pierdută, 1884; D-ale carnavalului, 1885; drama Năpasta, 1890), prozator (Momente și schițe, 1901; nuvelele În vreme de război, La hanul lui Mânjoală, Kir Ianulea) și publicist. Opera lui satirizează moravurile politice și sociale prin tipuri, comic de limbaj și situații, dar include și nuvele psihologice și fantastice.",
+    "sample": "Analiză originală a comicului de limbaj: personajul folosește neologisme pe care nu le înțelege, formând enunțuri pompoase și goale; râsul vine din distanța dintre pretenție și sens.",
+    "worked": "Comicul de limbaj caracterizează personajele și satirizează semidoctismul. Caragiale construiește tipuri prin vorbire.",
+    "exercises": [
+     "Analizează comicul de limbaj într-o comedie.",
+     "Prezintă tipurile caragialiene.",
+     "Analizează o schiță din Momente și schițe.",
+     "Explică dimensiunea fantastică din La hanul lui Mânjoală.",
+     "Discută actualitatea lui Caragiale."
+    ],
+    "test": [
+     "Când apare O scrisoare pierdută?",
+     "Ce dramă a scris Caragiale?",
+     "Când apare volumul Momente și schițe?",
+     "Ce satirizează Caragiale?",
+     "Ce nuvelă fantastică a scris?"
+    ],
+    "steps": [
+     "Identifică specia și tema.",
+     "Analizează tipurile și procedeele comicului.",
+     "Leagă satira de contextul social.",
+     "Greșeala frecventă: să-l reduci pe Caragiale la autor comic, ignorând nuvelele psihologice și fantastice."
+    ],
+    "answers": [
+     "În 1884.",
+     "Năpasta.",
+     "În 1901.",
+     "Moravurile politice și sociale.",
+     "La hanul lui Mânjoală."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l20": {
+   "ro": {
+    "title": "Ioan Slavici și realismul ardelean",
+    "theory": "Ioan Slavici (1848–1925) scrie nuvele realiste (volumul Novele din popor, 1881: Moara cu noroc, Popa Tanda, Budulea Taichii) și romanul Mara (1894), despre o văduvă negustoreasă din Radna și Lipova. Opera are viziune moralistă, interes pentru psihologie, pentru lumea ardeleană multietnică și pentru rolul banilor în relațiile umane.",
+    "sample": "Analiză originală a Marei: personajul principal economisește obsesiv pentru copiii ei, dar această grijă transformă iubirea maternă într-o formă de stăpânire; banii devin limbajul afecțiunii.",
+    "worked": "Slavici urmărește impactul banului asupra relațiilor, cu analiză psihologică și viziune morală. Lumea ardeleană este redată realist, cu detalii etnografice.",
+    "exercises": [
+     "Prezintă volumul Novele din popor.",
+     "Caracterizează-o pe Mara.",
+     "Analizează tema banului la Slavici.",
+     "Explică viziunea moralistă.",
+     "Compară Mara cu un roman realist european."
+    ],
+    "test": [
+     "Când apare Novele din popor?",
+     "Ce nuvelă celebră include volumul?",
+     "Când apare Mara?",
+     "Unde se petrece acțiunea din Mara?",
+     "Ce temă recurentă are Slavici?"
+    ],
+    "steps": [
+     "Identifică tema și personajele.",
+     "Analizează tehnicile realiste și psihologice.",
+     "Formulează viziunea morală.",
+     "Greșeala frecventă: să consideri viziunea moralistă o slăbiciune fără a o înțelege în contextul epocii."
+    ],
+    "answers": [
+     "În 1881.",
+     "Moara cu noroc.",
+     "În 1894.",
+     "În Radna și Lipova.",
+     "Banul și relațiile umane."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l21": {
+   "ro": {
+    "title": "Dante: Divina Comedie",
+    "theory": "Divina Comedie de Dante Alighieri (începutul secolului al XIV-lea) este un poem în trei părți (Infernul, Purgatoriul, Paradisul), 100 de cânturi, scris în terține (terza rima). Dante-personaj călătorește prin lumea de dincolo, călăuzit de Vergiliu și apoi de Beatrice. Poemul unește alegoria, teologia, politica și autobiografia și a contribuit la formarea limbii literare italiene.",
+    "sample": "Analiză originală a principiului pedepsei: în Infern, pedeapsa oglindește păcatul; cine a fost purtat de patimă în viață este purtat de vânt la nesfârșit.",
+    "worked": "Corespondența dintre vină și pedeapsă (contrapasso) organizează Infernul. Structura numerică (3, 9, 100) are semnificație simbolică.",
+    "exercises": [
+     "Prezintă structura Divinei Comedii.",
+     "Explică principiul contrapasso.",
+     "Explică rolul lui Vergiliu și al Beatricei.",
+     "Analizează un episod din Infern.",
+     "Discută influența lui Dante asupra limbii italiene."
+    ],
+    "test": [
+     "Câte părți are poemul?",
+     "Câte cânturi?",
+     "Ce strofă folosește Dante?",
+     "Cine îl călăuzește în Infern?",
+     "Ce este contrapasso?"
+    ],
+    "steps": [
+     "Situează poemul în cultura medievală.",
+     "Analizează alegoria și structura.",
+     "Interpretează un episod concret.",
+     "Greșeala frecventă: să citești poemul doar ca pe o descriere a lumii de dincolo, ignorând alegoria."
+    ],
+    "answers": [
+     "Trei.",
+     "100.",
+     "Terțina.",
+     "Vergiliu.",
+     "Corespondența dintre păcat și pedeapsă."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l22": {
+   "ro": {
+    "title": "Renașterea: Petrarca și Boccaccio",
+    "theory": "Renașterea pune omul și Antichitatea în centrul culturii. Francesco Petrarca scrie Canțonierul, poezii pentru Laura, și fixează modelul sonetului petrarchist (14 versuri: două catrene și două terține), cu antiteze și analiza sentimentului. Giovanni Boccaccio scrie Decameronul: zece tineri fug de ciuma din Florența (1348) și spun, timp de zece zile, o sută de povestiri, într-o construcție în ramă.",
+    "sample": "Antiteză originală în manieră petrarchistă: Ard în gheață și îngheț în flacără; tac când strig și strig când tac.",
+    "worked": "Antitezele exprimă contradicțiile iubirii. Petrarchismul a devenit un limbaj al iubirii în poezia europeană.",
+    "exercises": [
+     "Explică structura sonetului petrarchist.",
+     "Analizează antiteza în lirica petrarchistă.",
+     "Explică rama Decameronului.",
+     "Compară Decameronul cu Hanu Ancuței.",
+     "Prezintă idealurile Renașterii."
+    ],
+    "test": [
+     "Pentru cine scrie Petrarca?",
+     "Câte versuri are sonetul?",
+     "Câte povestiri are Decameronul?",
+     "Ce eveniment declanșează rama?",
+     "Ce pune Renașterea în centru?"
+    ],
+    "steps": [
+     "Situează opera în Renaștere.",
+     "Analizează forma și procedeele.",
+     "Urmărește influența modelului.",
+     "Greșeala frecventă: să confunzi sonetul petrarchist cu cel shakespearian (trei catrene și un distih)."
+    ],
+    "answers": [
+     "Pentru Laura.",
+     "14.",
+     "O sută.",
+     "Ciuma din Florența (1348).",
+     "Omul și Antichitatea."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l23": {
+   "ro": {
+    "title": "Cervantes și Shakespeare",
+    "theory": "Don Quijote de Miguel de Cervantes (1605 și 1615) este considerat primul roman modern: un nobil sărac, cititor pasionat de romane cavalerești, pleacă în aventuri împreună cu Sancho Panza. Parodia, perspectivele multiple și reflecția asupra ficțiunii îl fac modern. William Shakespeare (1564–1616) scrie tragedii (Hamlet, Regele Lear, Macbeth), comedii și drame istorice, cu personaje complexe și amestec de tragic și comic.",
+    "sample": "Analiză originală: Don Quijote vede uriași unde sunt mori de vânt; Sancho vede doar mori. Romanul pune față în față două moduri de a citi realitatea.",
+    "worked": "Contrastul dintre idealism și realism și reflecția asupra lecturii fac din Don Quijote un roman despre ficțiune. Shakespeare explorează, la rândul lui, conștiința și îndoiala (Hamlet).",
+    "exercises": [
+     "Explică de ce Don Quijote este roman modern.",
+     "Compară pe Don Quijote cu Sancho Panza.",
+     "Analizează îndoiala lui Hamlet.",
+     "Explică amestecul de tragic și comic la Shakespeare.",
+     "Compară Hamlet cu o tragedie antică."
+    ],
+    "test": [
+     "Când apar cele două părți din Don Quijote?",
+     "Ce citea Don Quijote?",
+     "Cine îl însoțește?",
+     "Numește trei tragedii de Shakespeare.",
+     "Ce trăsătură are teatrul shakespearian?"
+    ],
+    "steps": [
+     "Situează operele în epocă.",
+     "Analizează personajele și procedeele.",
+     "Explică modernitatea lor.",
+     "Greșeala frecventă: să citești Don Quijote doar ca pe o carte comică."
+    ],
+    "answers": [
+     "În 1605 și 1615.",
+     "Romane cavalerești.",
+     "Sancho Panza.",
+     "Hamlet, Regele Lear, Macbeth.",
+     "Amestecul de tragic și comic."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l24": {
+   "ro": {
+    "title": "Clasicismul francez",
+    "theory": "Clasicismul francez (secolul al XVII-lea) prețuiește rațiunea, măsura, imitarea Anticilor și regulile: regula celor trei unități (timp, loc, acțiune), verosimilitatea, buna-cuviință, separarea genurilor. Nicolas Boileau sistematizează principiile în Arta poetică (1674). Autori: Pierre Corneille (Cidul), Jean Racine (Fedra), Molière (Avarul, Tartuffe), Jean de La Fontaine (Fabule).",
+    "sample": "Exemplu original al regulii unităților: o piesă clasică se petrece într-o singură zi, într-un singur loc (un palat), cu o singură intrigă (conflictul dintre iubire și datorie).",
+    "worked": "Regulile concentrează conflictul și sporesc tensiunea. Conflictul dintre pasiune și datorie este tipic tragediei clasice.",
+    "exercises": [
+     "Explică regula celor trei unități.",
+     "Analizează conflictul din Cidul.",
+     "Analizează un tip comic al lui Molière.",
+     "Prezintă principiile din Arta poetică a lui Boileau.",
+     "Compară o tragedie clasică cu o dramă romantică."
+    ],
+    "test": [
+     "Ce prețuiește clasicismul?",
+     "Care sunt cele trei unități?",
+     "Cine a scris Arta poetică din 1674?",
+     "Ce comedie a scris Molière despre un avar?",
+     "Ce conflict este tipic tragediei clasice?"
+    ],
+    "steps": [
+     "Identifică regulile respectate de text.",
+     "Analizează conflictul și personajele.",
+     "Leagă opera de principiile clasice.",
+     "Greșeala frecventă: să confunzi clasicismul cu literatura clasică în sensul de valoroasă."
+    ],
+    "answers": [
+     "Rațiunea, măsura, regulile.",
+     "Timp, loc, acțiune.",
+     "Nicolas Boileau.",
+     "Avarul.",
+     "Conflictul dintre pasiune și datorie."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l25": {
+   "ro": {
+    "title": "Iluminismul european",
+    "theory": "Iluminismul (secolul al XVIII-lea) are încredere în rațiune, critică prejudecățile și absolutismul și promovează toleranța și progresul. Voltaire scrie Candid (1759), roman filozofic care satirizează optimismul naiv; Diderot coordonează Enciclopedia; Jean-Jacques Rousseau scrie Emil (despre educație) și Confesiunile. Romanul epistolar și romanul filozofic sunt forme specifice.",
+    "sample": "Analiză originală: Candid trece prin dezastre, dar profesorul lui repetă că totul este cât se poate de bine; ironia dintre teorie și realitate demontează optimismul.",
+    "worked": "Satira filozofică folosește aventura pentru a testa o idee. Finalul (să ne lucrăm grădina) propune munca practică în locul speculației.",
+    "exercises": [
+     "Prezintă valorile Iluminismului.",
+     "Analizează ironia din Candid.",
+     "Explică importanța Enciclopediei.",
+     "Prezintă ideile lui Rousseau despre educație.",
+     "Compară Iluminismul european cu Școala Ardeleană."
+    ],
+    "test": [
+     "Când apare Candid?",
+     "Ce satirizează Candid?",
+     "Cine coordonează Enciclopedia?",
+     "Ce carte despre educație a scris Rousseau?",
+     "Ce forme literare sunt specifice Iluminismului?"
+    ],
+    "steps": [
+     "Identifică ideea filozofică testată.",
+     "Analizează procedeele satirice.",
+     "Leagă opera de valorile epocii.",
+     "Greșeala frecventă: să crezi că Voltaire respinge orice speranță; el respinge optimismul naiv."
+    ],
+    "answers": [
+     "În 1759.",
+     "Optimismul naiv.",
+     "Diderot.",
+     "Emil.",
+     "Romanul filozofic și romanul epistolar."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l26": {
+   "ro": {
+    "title": "Romantismul european",
+    "theory": "Romantismul (sfârșitul secolului al XVIII-lea – prima jumătate a secolului al XIX-lea) se afirmă în Germania (Novalis, cu motivul florii albastre; frații Schlegel), Anglia (Wordsworth, Coleridge, Byron, Shelley, Keats), Franța (Victor Hugo, a cărui Prefață la Cromwell, 1827, este un manifest al dramei romantice), Italia (Leopardi). Trăsături: subiectivitate, imaginație, natură, istorie națională, folclor, amestecul genurilor, geniul.",
+    "sample": "Comparație originală: eroul byronian este un rebel solitar, mândru și melancolic; eroul romantic german caută infinitul prin vis și dor.",
+    "worked": "Romantismul are variante naționale. Comparația ajută la înțelegerea surselor romantismului eminescian (romantismul german, filozofia lui Schopenhauer).",
+    "exercises": [
+     "Prezintă romantismul în trei literaturi europene.",
+     "Explică ideile Prefeței la Cromwell.",
+     "Caracterizează eroul byronian.",
+     "Explică motivul florii albastre la Novalis.",
+     "Compară romantismul german cu cel englez."
+    ],
+    "test": [
+     "Cine a creat motivul florii albastre?",
+     "Când apare Prefața la Cromwell?",
+     "Cine este eroul byronian?",
+     "Numește doi romantici englezi.",
+     "Ce poet romantic italian cunoști?"
+    ],
+    "steps": [
+     "Situează autorul în romantismul național.",
+     "Identifică trăsăturile romantice.",
+     "Compară variantele naționale.",
+     "Greșeala frecventă: să tratezi romantismul european ca pe un curent uniform."
+    ],
+    "answers": [
+     "Novalis.",
+     "În 1827.",
+     "Un rebel solitar, mândru și melancolic.",
+     "Byron și Keats.",
+     "Leopardi."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l27": {
+   "ro": {
+    "title": "Comparatismul: influență, receptare, intertextualitate",
+    "theory": "Literatura comparată studiază relațiile dintre literaturi: influența (contact documentat), paralelismul (asemănări fără contact), receptarea (traduceri, critică, lectură), imagologia (imaginea celuilalt), circulația temelor și a motivelor. Julia Kristeva a introdus termenul intertextualitate (1966–1967), pornind de la ideile lui Mihail Bahtin: orice text este un mozaic de citate, absorbție și transformare a altor texte.",
+    "sample": "Exemplu original: un poet român citește un poet francez în traducere și preia o imagine; aceasta este influență documentată. Doi poeți care nu s-au citit, dar folosesc aceeași imagine, ilustrează paralelismul.",
+    "worked": "Distincția dintre influență și paralelism ține de dovezi. Afirmația unei influențe cere documente: lecturi, traduceri, mărturii.",
+    "exercises": [
+     "Explică diferența dintre influență și paralelism.",
+     "Studiază receptarea unui autor străin în România.",
+     "Analizează intertextualitatea într-un text postmodern.",
+     "Explică ce este imagologia.",
+     "Construiește un corpus comparativ pe o temă."
+    ],
+    "test": [
+     "Ce studiază literatura comparată?",
+     "Ce cere afirmația unei influențe?",
+     "Cine a introdus termenul intertextualitate?",
+     "Pe ideile cui s-a bazat?",
+     "Ce este imagologia?"
+    ],
+    "steps": [
+     "Stabilește tipul relației dintre texte.",
+     "Caută dovezi pentru contact.",
+     "Formulează concluzii proporționale cu dovezile.",
+     "Greșeala frecventă: să afirmi o influență doar pe baza unei asemănări."
+    ],
+    "answers": [
+     "Relațiile dintre literaturi.",
+     "Dovezi de contact.",
+     "Julia Kristeva.",
+     "Mihail Bahtin.",
+     "Studiul imaginii celuilalt în literatură."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l28": {
+   "ro": {
+    "title": "Teorii ale romanului: Lukács și Bahtin",
+    "theory": "György Lukács (Teoria romanului) vede romanul ca epopee a unei lumi părăsite de zei: eroul caută un sens pe care lumea nu i-l mai oferă. Mihail Bahtin descrie romanul ca gen dialogic și polifonic: în romanele lui Dostoievski, vocile personajelor sunt autonome, iar autorul nu le subordonează unui adevăr unic. Bahtin a propus și conceptele de cronotop (unitatea timp–spațiu) și carnavalesc.",
+    "sample": "Analiză originală a cronotopului: drumul din romanul picaresc este un cronotop al întâlnirilor întâmplătoare; salonul din romanul realist este un cronotop al conversației și al intrigii sociale.",
+    "worked": "Cronotopul arată cum timpul și spațiul organizează sensul romanului. Conceptul se poate aplica și romanelor românești.",
+    "exercises": [
+     "Explică ideea romanului ca epopee a unei lumi fără zei.",
+     "Explică polifonia la Bahtin.",
+     "Analizează un cronotop într-un roman românesc.",
+     "Explică conceptul de carnavalesc.",
+     "Compară un roman monologic cu unul polifonic."
+    ],
+    "test": [
+     "Cine a scris Teoria romanului?",
+     "Ce este polifonia?",
+     "Pe ce autor își ilustrează Bahtin teoria polifoniei?",
+     "Ce este cronotopul?",
+     "Ce cronotop are romanul picaresc?"
+    ],
+    "steps": [
+     "Definește conceptul teoretic.",
+     "Aplică-l pe un text concret.",
+     "Evaluează ce explică și ce nu explică.",
+     "Greșeala frecventă: să aplici mecanic un concept fără a-l adapta textului."
+    ],
+    "answers": [
+     "György Lukács.",
+     "Prezența unor voci autonome, nesubordonate unui adevăr unic.",
+     "Dostoievski.",
+     "Unitatea timp–spațiu în narațiune.",
+     "Drumul."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l29": {
+   "ro": {
+    "title": "Structuralism, semiotică și moartea autorului",
+    "theory": "Structuralismul analizează textul ca sistem de relații (după modelul lingvisticii lui Saussure). Semiotica studiază semnele și codurile culturale (Umberto Eco, Opera deschisă, 1962: opera admite lecturi multiple). Roland Barthes, în Moartea autorului (1967), mută accentul de pe intenția autorului pe text și cititor. Poststructuralismul și deconstrucția (Jacques Derrida) contestă stabilitatea sensului.",
+    "sample": "Exemplu original: o lectură structuralistă a unui basm construiește opozițiile sus–jos, lumină–întuneric, casă–pădure; sensul rezultă din relațiile dintre ele.",
+    "worked": "Analiza structurală caută sistemul, nu biografia. Limita ei: poate ignora contextul istoric, pe care alte metode îl recuperează.",
+    "exercises": [
+     "Fă o analiză structurală a unei balade.",
+     "Explică ideea de operă deschisă.",
+     "Discută argumentele din Moartea autorului.",
+     "Compară lectura structuralistă cu lectura biografică.",
+     "Evaluează limitele structuralismului."
+    ],
+    "test": [
+     "Ce analizează structuralismul?",
+     "Cine a scris Opera deschisă?",
+     "Când apare Moartea autorului?",
+     "Cine a scris-o?",
+     "Cine este asociat cu deconstrucția?"
+    ],
+    "steps": [
+     "Identifică elementele și relațiile dintre ele.",
+     "Construiește opozițiile semnificative.",
+     "Formulează sensul și limitele metodei.",
+     "Greșeala frecventă: să crezi că o metodă critică este singura corectă."
+    ],
+    "answers": [
+     "Textul ca sistem de relații.",
+     "Umberto Eco.",
+     "În 1967.",
+     "Roland Barthes.",
+     "Jacques Derrida."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l30": {
+   "ro": {
+    "title": "Recenzia academică și referatul de seminar",
+    "theory": "Recenzia academică prezintă și evaluează o carte de specialitate: date bibliografice, obiectivul autorului, structura, metoda, contribuția, limitele, comparația cu alte lucrări. Referatul de seminar sintetizează bibliografia despre o temă și formulează o poziție. Ambele cer citare corectă, ton argumentativ și evitarea judecăților fără dovezi.",
+    "sample": "Paragraf original de recenzie: Studiul propune o interpretare a romanului interbelic prin conceptul de autenticitate; capitolele analitice sunt solide, însă corpusul ignoră proza feminină, ceea ce limitează generalizarea concluziilor.",
+    "worked": "Paragraful prezintă obiectivul, apreciază argumentat contribuția și indică o limită precisă, cu consecința ei. Așa arată o evaluare academică echilibrată.",
+    "exercises": [
+     "Scrie o recenzie academică de o pagină.",
+     "Redactează un referat despre o temă de istorie literară.",
+     "Identifică metoda unei cărți de critică.",
+     "Formulează două limite argumentate ale unei lucrări.",
+     "Compară două recenzii ale aceleiași cărți."
+    ],
+    "test": [
+     "Ce conține o recenzie academică?",
+     "Ce face referatul de seminar?",
+     "Ce limită indică exemplul?",
+     "Ce ton are recenzia academică?",
+     "Ce trebuie să însoțească o judecată de valoare?"
+    ],
+    "steps": [
+     "Citește lucrarea și notează obiectivul și metoda.",
+     "Evaluează contribuția și limitele cu exemple.",
+     "Redactează cu citare corectă.",
+     "Greșeala frecventă: să rezumi cartea fără evaluare sau să evaluezi fără argumente."
+    ],
+    "answers": [
+     "Date, obiectiv, structură, metodă, contribuție, limite.",
+     "Sintetizează bibliografia și formulează o poziție.",
+     "Corpusul ignoră proza feminină.",
+     "Argumentativ și echilibrat.",
+     "Argumente și dovezi."
+    ]
+   }
+  }
+ }
+}
