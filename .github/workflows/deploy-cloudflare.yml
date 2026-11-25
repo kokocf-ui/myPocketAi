@@ -147,6 +147,13 @@ jobs:
       - name: Install pinned Wrangler
         run: npm install --no-save --ignore-scripts --no-audit --no-fund wrangler@4.168.0
 
+      - name: Browser functions survive the Worker bundler (no foo -> foo2 renames)
+        env:
+          WRANGLER_SEND_METRICS: "false"
+        run: |
+          npx --no-install wrangler deploy --config wrangler-frontend.toml --dry-run --outdir .bundle-check
+          node scripts/check_bundled_browser_names.mjs .bundle-check/index.js
+
       - name: Deploy frontend (retry transient Cloudflare outages only)
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}

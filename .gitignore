@@ -8,3 +8,4 @@ android/app/build/
 .env
 .env.*
 .telegram-mtproto-session
+.bundle-check/
