@@ -1,0 +1,38 @@
+import assert from 'node:assert/strict';
+import vm from 'node:vm';
+import {readFile} from 'node:fs/promises';
+import {EDUCATION_COUNTRY_UI_SCRIPT} from './education_country_ui.mjs';
+import {curriculumPackAssetName} from './curriculum_pack_protocol.mjs';
+const filename=await curriculumPackAssetName('mathematics','HU','5');
+const original=JSON.parse(await readFile(new URL('./public/packs/'+filename,import.meta.url),'utf8'));
+const start=EDUCATION_COUNTRY_UI_SCRIPT.indexOf('const EDU_CURRICULUM_PACK_VERSION=');
+const end=EDUCATION_COUNTRY_UI_SCRIPT.indexOf('function hungaryGrade5Lessons(',start);
+assert.ok(start>=0&&end>start);
+const script=EDUCATION_COUNTRY_UI_SCRIPT.slice(start,end)+'\n({ensure:eduEnsureCurriculumPack,read:eduReadLocalCurriculumPack,lessons:eduPackTopicLessons,run:eduRunWithCurriculumPack})';
+const map=new Map();const storage={getItem:k=>map.get(k)||null,setItem:(k,v)=>map.set(k,v)};
+let current=original,requests=0,offline=false;
+const context={localStorage:storage,window:{},setTimeout,clearTimeout,AbortController,fetch:async(url,opts)=>{
+ requests++;assert.match(url,/subject=mathematics&country=HU&grade=5/);assert.equal(opts.cache,'no-store');
+ if(offline)throw Error('offline');return {ok:true,json:async()=>structuredClone(current)};
+}};
+const ui=vm.runInNewContext(script,context);
+let pack=await ui.ensure('mathematics','HU','5','lower');assert.equal(pack.packVersion,original.packVersion);
+const topic=Object.keys(original.lessonsByTopic)[0];const oldTitle=original.lessonsByTopic[topic][0].title;
+const changed=structuredClone(original);changed.packVersion='independently-published-2';changed.lessonsByTopic[topic][0].title='Updated chapter';current=changed;
+pack=await ui.ensure('mathematics','HU','5','lower');assert.equal(pack.packVersion,'independently-published-2');
+assert.equal(ui.lessons('mathematics','HU','5',topic,'lower')[0].title,'Updated chapter');assert.notEqual(oldTitle,'Updated chapter');
+assert.equal(requests,2,'A second visit must refresh even with an in-memory pack');
+current={...changed,country:'RO'};assert.equal((await ui.ensure('mathematics','HU','5','lower')).packVersion,changed.packVersion,'A mismatched response must not poison cache');
+current={...changed,lessonsByTopic:{}};assert.equal((await ui.ensure('mathematics','HU','5','lower')).packVersion,changed.packVersion);
+context.window.pocketResetCurriculumMemoryCache();offline=true;
+assert.equal((await ui.ensure('mathematics','HU','5','lower')).packVersion,changed.packVersion,'A compatible cached version is usable offline even after an app update');
+map.clear();context.window.pocketResetCurriculumMemoryCache();
+assert.equal(await ui.ensure('mathematics','HU','5','lower'),null,'Uncached offline pack cannot be fabricated');
+let release;const host={firstElementChild:{}},root={classList:{contains:()=>true}};
+const navigationContext={setTimeout,clearTimeout,AbortController,window:{},document:{getElementById:id=>id==='moduleContent'?host:root},
+ fetch:()=>new Promise(resolve=>{release=()=>resolve({ok:true,json:async()=>original})})};
+const nav=vm.runInNewContext(script,navigationContext);let navigated=0;
+nav.run('mathematics','HU','5',()=>navigated++,'lower');
+host.firstElementChild={};release();await new Promise(resolve=>setTimeout(resolve,10));
+assert.equal(navigated,0,'A late response must not reopen a screen after navigation');
+console.log('PASS curriculum pack refresh: online update, identity and schema validation, cached offline, missing pack and navigation race');

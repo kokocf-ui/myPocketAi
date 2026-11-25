@@ -15,6 +15,11 @@ on:
       - 'foreign_languages_curriculum.mjs'
       - 'exam_curriculum_europe.mjs'
       - 'tests_education_all_country_subject_matrix.mjs'
+      - 'tests_education_curriculum_coverage_report.mjs'
+      - 'scripts/audit_education_curriculum_coverage.mjs'
+      - 'scripts/audit_literature_readiness.mjs'
+      - 'EDUCATION_CURRICULUM_COVERAGE_REPORT.md'
+      - 'public/education/literature/authored/**'
       - '.github/workflows/test-education-all-countries.yml'
   workflow_dispatch:
 permissions:
@@ -30,5 +35,10 @@ jobs:
       - name: Check coverage module syntax
         run: node --check education_all_country_subject_matrix.mjs && node --check education_country_ui.mjs && node --check science_grade_progression.mjs && node --check index.js
       - name: Audit all 50 systems, every class and every subject
-        run: node tests_education_all_country_subject_matrix.mjs
-          node tests_physics_country_year_entry_2026.mjs && node tests_science_grade_progression.mjs && node tests_science_year_cards.mjs && node tests_science_navigation.mjs
+        run: |
+          node tests_education_all_country_subject_matrix.mjs
+          node tests_education_curriculum_coverage_report.mjs
+          node tests_physics_country_year_entry_2026.mjs
+          node tests_science_grade_progression.mjs
+          node tests_science_year_cards.mjs
+          node tests_science_navigation.mjs

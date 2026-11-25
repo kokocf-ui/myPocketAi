@@ -1162,6 +1162,47 @@ public final class MainActivity extends ComponentActivity {
                             new java.io.ByteArrayInputStream("UI preview missing from APK".getBytes(java.nio.charset.StandardCharsets.UTF_8)));
                     }
                 }
+                // Branch preview uses a matching, immutable snapshot of Education assets.
+                // Limit interception to same-origin GETs and strict generated asset paths;
+                // never forward a missing v2 asset to the incompatible production version.
+                if(BuildConfig.TOOLS_UI_PREVIEW && !request.isForMainFrame()
+                    && "GET".equalsIgnoreCase(request.getMethod())
+                    && "https".equalsIgnoreCase(resource.getScheme())
+                    && APP_HOST.equalsIgnoreCase(resource.getHost())) {
+                    String path=resource.getPath();
+                    String asset=null;
+                    if(path!=null && path.matches("/education/(?:[A-Za-z0-9_-]+/)*[A-Za-z0-9_.-]+\\.json")) {
+                        asset="preview"+path;
+                    } else if("/api/curriculum-pack".equals(path)) {
+                        String subject=resource.getQueryParameter("subject");
+                        String country=resource.getQueryParameter("country");
+                        String grade=resource.getQueryParameter("grade");
+                        if(subject!=null && country!=null && grade!=null) {
+                            subject=subject.trim().toLowerCase(Locale.ROOT);
+                            country=country.trim().toUpperCase(Locale.ROOT);
+                            grade=grade.trim();
+                            if(subject.matches("[A-Za-z0-9._-]{1,40}") && country.matches("[A-Za-z0-9._-]{1,40}") && grade.matches("[A-Za-z0-9._-]{1,40}")) {
+                                try {
+                                    String key="mypocketai-commercial-curriculum-pack-v1:2026-11|"+subject+"|"+country+"|"+grade;
+                                    byte[] hash=java.security.MessageDigest.getInstance("SHA-256").digest(key.getBytes(java.nio.charset.StandardCharsets.UTF_8));
+                                    StringBuilder hex=new StringBuilder();
+                                    for(int i=0;i<12;i++) hex.append(String.format(Locale.ROOT,"%02x",hash[i]&0xff));
+                                    asset="preview/packs/p-"+hex+".json";
+                                } catch(java.security.NoSuchAlgorithmException ignored) { }
+                            }
+                        }
+                        if(asset==null) return new WebResourceResponse("application/json","UTF-8",400,"Bad Request",Collections.singletonMap("Cache-Control","no-store"),new java.io.ByteArrayInputStream("{}".getBytes(java.nio.charset.StandardCharsets.UTF_8)));
+                    }
+                    if(asset!=null) {
+                        try {
+                            WebResourceResponse response=new WebResourceResponse("application/json","UTF-8",getAssets().open(asset));
+                            response.setResponseHeaders(Collections.singletonMap("Cache-Control","no-store"));
+                            return response;
+                        } catch(IOException missing) {
+                            return new WebResourceResponse("application/json","UTF-8",404,"Not Found",Collections.singletonMap("Cache-Control","no-store"),new java.io.ByteArrayInputStream("{}".getBytes(java.nio.charset.StandardCharsets.UTF_8)));
+                        }
+                    }
+                }
                 if("https".equals(resource.getScheme()) && APP_HOST.equals(resource.getHost())
                     && "/avatar-production.html".equals(resource.getPath())) {
                     try {

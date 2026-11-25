@@ -6,6 +6,9 @@
 ---
 
 ## 1. Reguli permanente de lucru cu utilizatorul
+
+**Prioritatea actualizată de utilizator:** în APK-ul signed de test, problema traducerii persistă (textul apare în română). Nu considera localizarea rezolvată pe baza testelor simulate sau a secțiunii istorice de mai jos. Utilizatorul dorește să amânăm depanarea traducerii până după Educație și să continuăm acum implementarea Literaturii. Lecțiile noi rămân în pachete, cu o singură sursă; nu pretinde finalizare sau revizuire unde lipsesc. Nu oferi APK debug; numai signed release, cu aceeași cheie și fără a cere dezinstalarea aplicației existente.
+
 1. **Utilizatorul lucrează exclusiv de pe telefonul mobil:**
    - Execută direct toate verificările (`npm run check`, testele `tests_*.mjs`, `node scripts/build_curriculum_packs.mjs --verify`), commit-urile, `git push` pe ramura activă a sesiunii, deschiderea și merge-ul Pull Request-ului în `main`, precum și verificarea rulărilor GitHub Actions.
    - Când se generează un **APK Signed Release** (`.github/workflows/build-android-signed-release.yml` pe `main`), oferă linkul direct `.apk` din **GitHub Releases** (`myPocketAI-signed-release.apk`) astfel încât utilizatorul să îl poată descărca cu o singură atingere pe telefon (fără dezarhivare `.zip`).
@@ -46,7 +49,9 @@
 
 ## 3. Ce MAI ESTE DE FĂCUT (Backlog ordonat pentru sesiunile următoare)
 
-1. **Matematică — Selector regional și pe tip de școală / filieră** (planificat în `MATH_50_COUNTRIES_COMPLETION_BOARD_2026.md`):
+**Prioritate stabilită de utilizator:** verificarea acoperirii și continuarea Literaturii, în paralel cu decuplarea completă Educație; ulterior Istorie, Geografie și Informatică. Obiectivul este nivelul general/național: utilizatorul nu dorește aprofundare sau selectoare obligatorii pe landuri/cantoane/regiuni. Preferă un motor comun de traducere în limba selectată, indiferent de țara de studiu, în locul multiplicării manuale a lecțiilor în trei limbi; păstrează originale lingvistice în exerciții și explică pierderea disponibilității offline inițiale când traducerile pre-scrise sunt eliminate și asigură un înlocuitor testat. Vezi `PRIORITATE_EDUCATIE_DECOUPLARE.md` și `EDUCATION_CURRICULUM_COVERAGE_REPORT.md` pentru starea exactă. Extragerile de Literatură, Științe și Matematică sunt parțiale; pilotul serviciului separat (`EDUCATION_PACK_PUBLICATION.md`) este testat local, nu activat în producție. Nu certifică decuplarea completă sau finalizarea curriculară.
+
+1. **Matematică — Selector regional și pe tip de școală / filieră** (plan istoric în `MATH_50_COUNTRIES_COMPLETION_BOARD_2026.md`; nu este prioritar și nu trebuie implementat ca cerință a utilizatorului, care dorește acum nivelul general fără aprofundare regională):
    - **Spania (`ES`):** cele 17 comunități autonome (+ Ceuta/Melilla), cu decretele regionale LOMLOE (Primaria / ESO / Bachillerato).
    - **Germania (`DE`):** cele 16 *Länder* + tipul de școală (*Gymnasium, Realschule/Mittelschule, Gesamtschule*, Grundschule 6 ani în Berlin/Brandenburg, G8/G9, Grund-/Leistungskurs).
    - **Italia (`IT`):** tipul de școală secundară superioară (*liceo scientifico / scienze applicate / classico / linguistico / scienze umane / artistico, istituto tecnico, istituto professionale*).

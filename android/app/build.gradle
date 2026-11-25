@@ -1,4 +1,13 @@
 plugins { id 'com.android.application' }
+// A branch snapshot may only enter a release through explicit opt-in with
+// permanent signing credentials. The production workflow always disables it.
+if (System.getenv('POCKET_TOOLS_UI_PREVIEW') == 'true' &&
+    gradle.startParameter.taskNames.any { it.toLowerCase().contains('release') } &&
+    (System.getenv('POCKET_ALLOW_SIGNED_BRANCH_PREVIEW') != 'true' ||
+     !System.getenv('POCKET_KEYSTORE_PATH') || !System.getenv('POCKET_STORE_PASSWORD') ||
+     !System.getenv('POCKET_KEY_ALIAS') || !System.getenv('POCKET_KEY_PASSWORD'))) {
+    throw new GradleException('Signed branch preview requires explicit opt-in and release signing credentials')
+}
 android {
     namespace 'ai.mypocket.mobile'
     compileSdk 35
@@ -32,6 +41,13 @@ android {
         }
     }
     buildTypes {
+        debug {
+            // Isolated, disposable branch preview: can coexist with production.
+            if (System.getenv('POCKET_TOOLS_UI_PREVIEW') == 'true') {
+                applicationIdSuffix '.preview'
+                resValue 'string', 'app_name', 'myPocket AI Test'
+            }
+        }
         release {
             if (System.getenv('POCKET_KEYSTORE_PATH')) signingConfig signingConfigs.release
         }
@@ -85,4 +101,12 @@ tasks.register("bundlePocketAvatar", Copy) {
     }
 }
 android.sourceSets.main.assets.srcDir(pocketAvatarAssetDir)
+// The signed branch test explicitly opts in. Normal production releases never
+// include this frozen snapshot and continue to load the production frontend.
+if (System.getenv('POCKET_TOOLS_UI_PREVIEW') == 'true') {
+    android.sourceSets.debug.assets.srcDir(layout.buildDirectory.dir('generated/pocket-preview-assets'))
+    if (System.getenv('POCKET_ALLOW_SIGNED_BRANCH_PREVIEW') == 'true') {
+        android.sourceSets.release.assets.srcDir(layout.buildDirectory.dir('generated/pocket-preview-assets'))
+    }
+}
 tasks.matching { it.name == "preBuild" }.configureEach { dependsOn("bundlePocketAvatar") }

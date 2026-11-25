@@ -98,6 +98,9 @@ const api=vm.runInNewContext('let activeLearningSubject=null;'+
  script.slice(chemistryLessonsBegin,chemistryLessonsEnd)+
  script.slice(start,end)+
  script.slice(chemistryBegin,chemistryEnd)+
+ // Navigation-only VM fixture: actual asynchronous asset loading is covered
+ // separately in tests_science_shared_packs and real Chromium.
+ '\nscienceStartSubject=()=>scienceJourneyShowChoices("years");'+
  '\n({open:scienceJourneyShowChoices,back:scienceBack,state:scienceJourney,subjects:SCIENCE_SUBJECTS})',sandbox);
 api.open('subjects');
 let rows=()=>host.children[1]?.children[2]?.children||[];

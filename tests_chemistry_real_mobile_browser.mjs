@@ -8,6 +8,9 @@ import {chromium} from 'playwright';
 fs.mkdirSync('chemistry-browser-audit',{recursive:true});
 const server=http.createServer(async(req,res)=>{
  try{
+  const asset=req.url.match(/^\/education\/science\/shared\/(physics|chemistry|biology|astronomy)\.json$/);
+  if(asset){res.writeHead(200,{'Content-Type':'application/json'});res.end(fs.readFileSync(new URL('./public/education/science/shared/'+asset[1]+'.json',import.meta.url)));return}
+
   const answer=await frontend.fetch(new Request('http://localhost:3881'+req.url,{headers:req.headers}),
    {COMMUNICATION_ORACLE_ORIGIN:''});
   res.writeHead(answer.status,Object.fromEntries(answer.headers));
@@ -15,7 +18,7 @@ const server=http.createServer(async(req,res)=>{
  }catch(err){res.writeHead(500);res.end(String(err))}
 });
 await new Promise(resolve=>server.listen(3881,'127.0.0.1',resolve));
-const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
+const browser=await chromium.launch({headless:true,args:['--no-sandbox'],...(process.env.CHROMIUM_EXECUTABLE_PATH?{executablePath:process.env.CHROMIUM_EXECUTABLE_PATH}:{})});
 const open=async(target)=>{
  await target.waitFor({state:'attached',timeout:12000});
  await target.evaluate(element=>element.click());

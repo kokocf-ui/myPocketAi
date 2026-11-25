@@ -1,5 +1,8 @@
 node_modules/
+android/.gradle/
+android/app/build/
 .wrangler/
+.education-pack-assets/
 .dev.vars
 .dev.vars.*
 .env

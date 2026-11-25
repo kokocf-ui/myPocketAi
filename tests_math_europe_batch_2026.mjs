@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import vm from 'node:vm';
+import {readFileSync,readdirSync} from 'node:fs';
 import app from './index.js';
 import {MATH_BULK_CODES,MATH_BULK_SOURCES,MATH_BULK_STAGE_LABELS,
  bulkMathYearLabels,bulkMathNationalProfile,bulkMathPhase,bulkMathFirstLessons}
@@ -142,16 +143,12 @@ assert.ok(inline);
 new vm.Script(inline);
 assert.ok(inline.includes('o.native&&state.language===o.nativeLang'),
  'National grade picker should use language-matched local year names');
-assert.ok(inline.includes('const MATH_BULK_FIRST_LESSONS='),
- '30 national starter cards must be shipped to Android, not just Node');
-const clientBankText=inline.split('const MATH_BULK_FIRST_LESSONS=')[1]?.split(';\n')[0];
-assert.ok(clientBankText);
-const clientBank=JSON.parse(clientBankText);
-assert.equal(Object.keys(clientBank).length,30,
- 'All ten countries × three levels must be reachable on device');
-assert.equal(clientBank['NO|lower|8|algebra'][0].title,'Regnerekkefølge');
-assert.equal(clientBank['NL|primary|G3|arithmetic'][0].title,'Getallen tot tien');
-assert.equal(clientBank['IE|intermediate|5Y|functions'][0].title,'Functions and representations');
+assert.ok(inline.includes('const MATH_BULK_FIRST_LESSONS=Object.create(null)'), 'Starter bank must not be embedded');
+const bank=Object.assign({},...readdirSync(new URL('./public/education/math/supplements/',import.meta.url)).filter(name=>name.endsWith('.json')).map(name=>JSON.parse(readFileSync(new URL('./public/education/math/supplements/'+name,import.meta.url),'utf8')).banks.bulk));
+assert.equal(Object.keys(bank).length,30);
+assert.equal(bank['NO|lower|8|algebra'][0].title,'Regnerekkefølge');
+assert.equal(bank['NL|primary|G3|arithmetic'][0].title,'Getallen tot tien');
+assert.equal(bank['IE|intermediate|5Y|functions'][0].title,'Functions and representations');
 assert.ok(inline.includes('Grundskolan · årskurs 1'));
 assert.ok(inline.includes('Lukio · 1. opintovuosi'));
 assert.ok(inline.includes('Liczby i działania'));

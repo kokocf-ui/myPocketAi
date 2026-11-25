@@ -82,6 +82,7 @@ const scienceMenuEnd=script.indexOf('function scienceOpenWorkspace(){',scienceMe
 assert.ok(scienceMenuBegin>=0&&scienceMenuEnd>scienceMenuBegin);
 const api=vm.runInNewContext('let activeLearningSubject=null;'+script.slice(start,end)+
  script.slice(scienceMenuBegin,scienceMenuEnd)+
+ '\nscienceStartSubject=()=>scienceJourneyShowChoices("years");'+
  '\n({open:scienceJourneyShowChoices,back:scienceBack,state:scienceJourney})',{
  document:{createElement:tag=>new FakeEl(tag),querySelector:()=>null},
  window:{addEventListener:()=>{},visualViewport:null,innerHeight:900},

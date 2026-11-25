@@ -4,8 +4,9 @@ import {literatureOfflineActivity,LIT_PRIMARY_COMMUNICATION} from './literature_
 import {literatureEuropeanAuthoredMaterial} from './literature_europe_authored_material.mjs';
 import {literatureEuropeanPractice} from './literature_europe_practice.mjs';
 import {literatureGeneralFallback} from './literature_general_fallback.mjs';
-import {LIT_HU_GRADE1_CHAPTERS,literatureHungaryGrade1Material} from './literature_hungary_grade1.mjs';
-import {LIT_HU_PRIMARY_BATCH,literatureHungaryPrimaryMaterial} from './literature_hungary_primary_batch.mjs';
+import {literatureHungaryGrade1Material} from './literature_hungary_grade1.mjs';
+import {literatureHungaryPrimaryMaterial} from './literature_hungary_primary_batch.mjs';
+import {literatureNationalAuthoredMaterial} from './literature_national_authored_material.mjs';
 import {literatureClientGradeExpand} from './literature_europe_client_lazy.mjs';
 import {LIT_QUICK_DICTIONARY,LIT_QUICK_GRAMMAR,literatureQuickNormal,literatureQuickSuggestions,literatureQuickDefinition,literatureQuickGrammarSearch} from './literature_quick_reference.mjs';
 import {literatureQuickReferenceAttach} from './literature_quick_reference_ui_v2.mjs';
@@ -15,7 +16,7 @@ import {LIT_UNIVERSITY_YEARS,LIT_UNIVERSITY_UNITS,literatureUniversityPlan,liter
 import {LIT_RO_GRADE_LESSONS,litRomanianGradeMaterial} from './literature_ro_grade_progression.mjs';
 import {RO_SECONDARY_GRAMMAR,roGrammarTopicsForYear} from './literature_ro_grammar_path.mjs';
 import {litEssaySpec,litEssayWords,litEssayQuality} from './literature_essay_contract.mjs';
-export const LITERATURE_TASK_UI_SCRIPT=splitLiteraturePages.toString()+'\n'+paginateLiteratureByFit.toString()+'\n'+parseStudyBlocks.toString()+'\n'+renderStudyBlocks.toString()+'\nconst COMMUNICATION_G1='+JSON.stringify(LIT_PRIMARY_COMMUNICATION)+';\n'+literatureOfflineActivity.toString()+'\n'+literatureEuropeanPractice.toString()+'\n'+literatureGeneralFallback.toString()+'\nconst LIT_HU_GRADE1_CHAPTERS='+JSON.stringify(LIT_HU_GRADE1_CHAPTERS)+';\n'+literatureHungaryGrade1Material.toString()+'\nconst LIT_HU_PRIMARY_BATCH='+JSON.stringify(LIT_HU_PRIMARY_BATCH)+';\n'+literatureHungaryPrimaryMaterial.toString()+'\n'+literatureEuropeanAuthoredMaterial.toString()+'\n'+literatureClientGradeExpand.toString()+'\nconst LIT_QUICK_DICTIONARY='+JSON.stringify(LIT_QUICK_DICTIONARY)+';\nconst LIT_QUICK_GRAMMAR='+JSON.stringify(LIT_QUICK_GRAMMAR)+';\n'+literatureQuickNormal.toString()+'\n'+literatureQuickSuggestions.toString()+'\n'+literatureQuickDefinition.toString()+'\n'+literatureQuickGrammarSearch.toString()+'\nconst LIT_REFERENCE_CATALOG='+JSON.stringify(LIT_REFERENCE_CATALOG)+';\n'+literatureQuickReferenceAttach.toString()+'\nconst RO_YEAR_EXTRA='+JSON.stringify(RO_YEAR_EXTRA)+';\nconst RO_CHILD_SAFE='+JSON.stringify(RO_CHILD_SAFE)+';\n'+romanianExpandedRows.toString()+'\n'+romanianExpandedMaterial.toString()+'\nconst LIT_UNIVERSITY_YEARS='+JSON.stringify(LIT_UNIVERSITY_YEARS)+';\nconst LIT_UNIVERSITY_UNITS='+JSON.stringify(LIT_UNIVERSITY_UNITS)+';\n'+literatureUniversityPlan.toString()+'\n'+literatureUniversityMaterial.toString()+'\nconst LIT_RO_GRADE_LESSONS='+JSON.stringify(LIT_RO_GRADE_LESSONS)+';\n'+litRomanianGradeMaterial.toString()+'\nconst RO_SECONDARY_GRAMMAR='+JSON.stringify(RO_SECONDARY_GRAMMAR)+';\n'+roGrammarTopicsForYear.toString()+'\n'+litEssaySpec.toString()+'\n'+litEssayWords.toString()+'\n'+litEssayQuality.toString()+'\nconst LIT_STUDY_CSS='+JSON.stringify(STUDY_TYPOGRAPHY_CSS)+';\n'+String.raw`
+export const LITERATURE_TASK_UI_SCRIPT=splitLiteraturePages.toString()+'\n'+paginateLiteratureByFit.toString()+'\n'+parseStudyBlocks.toString()+'\n'+renderStudyBlocks.toString()+'\nconst COMMUNICATION_G1='+JSON.stringify(LIT_PRIMARY_COMMUNICATION)+';\n'+literatureOfflineActivity.toString()+'\n'+literatureEuropeanPractice.toString()+'\n'+literatureGeneralFallback.toString()+'\nconst LIT_HU_GRADE1_CHAPTERS=Object.create(null);\n'+literatureHungaryGrade1Material.toString()+'\nconst LIT_HU_PRIMARY_BATCH=Object.create(null);\n'+literatureHungaryPrimaryMaterial.toString()+'\nconst LIT_NATIONAL_AUTHORED=Object.create(null);\n'+literatureNationalAuthoredMaterial.toString()+'\n'+literatureEuropeanAuthoredMaterial.toString()+'\n'+literatureClientGradeExpand.toString()+'\nconst LIT_QUICK_DICTIONARY='+JSON.stringify(LIT_QUICK_DICTIONARY)+';\nconst LIT_QUICK_GRAMMAR='+JSON.stringify(LIT_QUICK_GRAMMAR)+';\n'+literatureQuickNormal.toString()+'\n'+literatureQuickSuggestions.toString()+'\n'+literatureQuickDefinition.toString()+'\n'+literatureQuickGrammarSearch.toString()+'\nconst LIT_REFERENCE_CATALOG='+JSON.stringify(LIT_REFERENCE_CATALOG)+';\n'+literatureQuickReferenceAttach.toString()+'\nconst RO_YEAR_EXTRA='+JSON.stringify(RO_YEAR_EXTRA)+';\nconst RO_CHILD_SAFE='+JSON.stringify(RO_CHILD_SAFE)+';\n'+romanianExpandedRows.toString()+'\n'+romanianExpandedMaterial.toString()+'\nconst LIT_UNIVERSITY_YEARS='+JSON.stringify(LIT_UNIVERSITY_YEARS)+';\nconst LIT_UNIVERSITY_UNITS='+JSON.stringify(LIT_UNIVERSITY_UNITS)+';\n'+literatureUniversityPlan.toString()+'\n'+literatureUniversityMaterial.toString()+'\nconst LIT_RO_GRADE_LESSONS='+JSON.stringify(LIT_RO_GRADE_LESSONS)+';\n'+litRomanianGradeMaterial.toString()+'\nconst RO_SECONDARY_GRAMMAR='+JSON.stringify(RO_SECONDARY_GRAMMAR)+';\n'+roGrammarTopicsForYear.toString()+'\n'+litEssaySpec.toString()+'\n'+litEssayWords.toString()+'\n'+litEssayQuality.toString()+'\nconst LIT_STUDY_CSS='+JSON.stringify(STUDY_TYPOGRAPHY_CSS)+';\n'+String.raw`
 
 
 // Bind the existing choice cards to actual Romanian grade chapters.
@@ -319,6 +320,7 @@ function litShowMaterialReader(title,text,options={}){
   back.classList.add('lit-reader-close');
   head.append(caption,back);
   const content=litSimpleNode('article',litReaderSafeText(raw),'lit-reader-scroll');
+  if(options.noAutoTranslate)content.setAttribute('data-edu-no-translate','true');
   content.style.cssText='flex:1 1 auto!important;overflow-y:auto!important;min-height:0!important;white-space:pre-wrap!important;padding:16px!important';
   const actions=litSimpleNode('div','','lit-reader-footer');
   const material={title,text:options.essayPages||options.essayDraft||options.poetry?raw:litReaderPrintableText(raw),essayPages:Number(options.essayPages)||0};
@@ -466,10 +468,13 @@ async function litSimpleGenerate(out,status,mode,request,source='',onReady=null,
  let localMaterial=gradeSpecific;
  try{
   if(!localMaterial&&litJourney.branch==='program'&&litJourney.country==='HU')
-   localMaterial=literatureHungaryGrade1Material({country:litJourney.country,
+   localMaterial=literatureHungaryGrade1Material({chapters:LIT_HU_GRADE1_CHAPTERS,country:litJourney.country,
     stage:litJourney.level,grade:litJourney.grade,topicKey:key,language:answerLanguage,mode})||
-    literatureHungaryPrimaryMaterial({country:litJourney.country,stage:litJourney.level,
+    literatureHungaryPrimaryMaterial({chapters:LIT_HU_PRIMARY_BATCH[String(litJourney.grade)],country:litJourney.country,stage:litJourney.level,
      grade:litJourney.grade,topicKey:key,language:answerLanguage,mode});
+  if(!localMaterial&&litJourney.branch==='program'&&litJourney.country==='FR')
+   localMaterial=literatureNationalAuthoredMaterial({chapters:LIT_NATIONAL_AUTHORED,country:litJourney.country,
+    stage:litJourney.level,grade:litJourney.grade,topicKey:key,language:answerLanguage,mode});
   if(!localMaterial&&key.startsWith('uni-lit-'))
    localMaterial=literatureUniversityMaterial({topicKey:key,
     title:String(currentTopic?.[1]||'Seminar'),grade:litJourney.grade,
@@ -509,8 +514,8 @@ async function litSimpleGenerate(out,status,mode,request,source='',onReady=null,
   // the independent reader and must never be mounted inside the workspace.
   out.textContent=text;
   status.textContent=local?
-   litSimpleLabel('Material local disponibil. Funcționează fără AI și fără localizare.',
-    'Local study material is available without AI or location.'):
+   (details.translated?litSimpleLabel('Materialul original a fost tradus automat. Verifică traducerea.','Original material translated automatically. Check the translation.'):
+    litSimpleLabel('Material local disponibil. Funcționează fără AI și fără localizare.','Local study material is available without AI or location.')):
    (mode==='correction'?litSimpleLabel('Răspunsurile au fost evaluate.','Answers checked.'):
    litSimpleLabel('Materialul este afișat. Poți salva PDF sau imprima.','Material displayed. You can save or print.'));
   if(typeof onReady==='function'){
@@ -549,8 +554,25 @@ async function litSimpleGenerate(out,status,mode,request,source='',onReady=null,
  // Grade I Romanian basics are authored and instantly available, independent of
  // online inference quotas. These examples are not asserted to be official tests.
  if(localMaterial&&(String(litJourney.grade)==='1'||gradeSpecific||
-   ['authored_european_grade','authored_ro_year_specific','authored_university_year','authored_hungary_grade1','authored_hungary_primary_batch'].includes(localMaterial.origin))&&mode!=='correction'){
-  try{present(localMaterial.text,true)}finally{
+   ['authored_european_grade','authored_ro_year_specific','authored_university_year','authored_hungary_grade1','authored_hungary_primary_batch','authored_france_cp'].includes(localMaterial.origin))&&mode!=='correction'){
+  try{
+   if(localMaterial.sourceLanguage&&localMaterial.sourceLanguage!==answerLanguage){
+    status.textContent=litSimpleLabel('Se traduce lecția originală…','Translating the original lesson…');
+    const translated=typeof eduTranslateSourceText==='function'?
+     await eduTranslateSourceText(localMaterial.text,
+      'literature:'+litJourney.country+':'+litJourney.grade+':'+key+':'+mode,
+      localMaterial.sourceLanguage,{targetLanguage:answerLanguage,protectedTexts:localMaterial.protectedTexts}):null;
+    if(serial!==litSimpleSerial||controller.signal.aborted||
+       snapshot!==[litJourney.country,litJourney.grade,litJourney.branch,litJourney.topic].join('|')||
+       ((typeof state!=='undefined'&&state.language)||litJourney.language||'ro')!==answerLanguage)return;
+    if(!translated){
+     status.textContent=litSimpleLabel('Traducerea nu este disponibilă. Verifică internetul și apasă din nou pe activitate pentru a reîncerca.',
+      'Translation is unavailable. Check your connection and select the activity again to retry.');
+     return;
+    }
+    present(translated,true,{translated:true,translationManaged:true});
+   }else present(localMaterial.text,true,{translationManaged:Boolean(localMaterial.sourceLanguage)});
+  }finally{
    if(serial===litSimpleSerial){litJourney.busy=false;litSimpleAbort=null}
   }
   return;
@@ -771,11 +793,11 @@ function litSimpleWorkspace(panel){
   ' Ce învăț și exersez la clasa '+litJourney.grade+': '+topic[3]+'. ':'';
  const task=title+'. '+focus+(branch==='admission'?topic[3]+school+' ':'')+
     (phrase?'Textul utilizatorului: '+phrase+'. ':'')+'Solicitare: '+mode+'.';
-  litSimpleGenerate(out,status,mode,task,'',text=>{
+  litSimpleGenerate(out,status,mode,task,'',(text,details)=>{
    // Do not expose the answer form underneath until the reader truly opens.
    const displayed=litShowMaterialReader(title+' · '+litSimpleLabel(
     mode==='lesson'?'Teorie':mode==='examples'?'Exemple':mode==='exercises'?'Exerciții':mode==='test'?'Test':mode==='define'?'Definiție':mode==='analysis'?'Analiză':'Material',
-    mode==='lesson'?'Theory':mode==='examples'?'Examples':mode==='exercises'?'Exercises':mode==='test'?'Test':mode==='define'?'Definition':mode==='analysis'?'Analysis':'Material'),text);
+    mode==='lesson'?'Theory':mode==='examples'?'Examples':mode==='exercises'?'Exercises':mode==='test'?'Test':mode==='define'?'Definition':mode==='analysis'?'Analysis':'Material'),text,{noAutoTranslate:Boolean(details?.translationManaged)});
    if((mode==='exercises'||mode==='test')&&displayed){assignmentText=text;review.hidden=false}
    return displayed;
   });
