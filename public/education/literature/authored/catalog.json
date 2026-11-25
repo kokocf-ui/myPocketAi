@@ -1,6 +1,6 @@
 {
  "schema": "mypocket-literature-authored-catalog/v1",
- "version": "d2f91581305d15892f6b9b6dc90c241795fdfce48243c1d1869ec768d8326931",
+ "version": "bb2cc1571d08d691ec6339b87360d9cb7e24d4ba2ec8c7e7f2ca091a2a39bb0f",
  "years": [
   {
    "country": "AD",
@@ -113,6 +113,19 @@
      "name": "Italiano",
      "file": "it-1",
      "version": "0dcc597fd64b7409061926f7c5e5e9b69cb437f5c2b25883824c7a9f835929b7"
+    }
+   ]
+  },
+  {
+   "country": "CZ",
+   "stage": "beginner",
+   "grade": "1",
+   "languages": [
+    {
+     "lang": "cs",
+     "name": "Čeština",
+     "file": "cs-1",
+     "version": "659f92d1c27df0db8620077466e859d591a88e6baead922570c8e2d9447fcdcd"
     }
    ]
   },
@@ -474,6 +487,19 @@
      "name": "Svenska",
      "file": "sv-1",
      "version": "a538fd2b771d6ba6abe73095da4e263a6c9658957ecb42cd3a5929195b581a3d"
+    }
+   ]
+  },
+  {
+   "country": "SK",
+   "stage": "beginner",
+   "grade": "1",
+   "languages": [
+    {
+     "lang": "sk",
+     "name": "Slovenčina",
+     "file": "sk-1",
+     "version": "4f00256b59978ac0acc2aa705faf65cb15cbe6c00c32b23271aa73ce145eabd6"
     }
    ]
   },
