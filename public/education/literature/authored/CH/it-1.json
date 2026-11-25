@@ -3,238 +3,1322 @@
  "country": "CH",
  "stage": "beginner",
  "grade": "1",
- "version": "73ca6dca44ba1b8fdd383b2446393962e2aa29240a7bb82262f7859f79aa7d16",
- "source": "https://www.edk.ch/de/bildungssystem/beschreibung/lehrplaene",
- "sourceTitle": "CDPE/EDK: Piano di studio della scuola dell'obbligo ticinese, Italiano, primo ciclo (solo quadro; esercizi originali)",
+ "version": "0dcc597fd64b7409061926f7c5e5e9b69cb437f5c2b25883824c7a9f835929b7",
+ "source": "https://pianodistudio.edu.ti.ch/",
+ "sourceTitle": "DECS Canton Ticino: Piano di studio della scuola dell’obbligo ticinese (perfezionato 2022), Italiano, primo ciclo — ascoltare e parlare, leggere, scrivere, riflettere sulla lingua (ITA.I.01–ITA.I.08), prima elementare; sequenza come nei sillabari e nei libri di prima (prerequisiti, vocali, consonanti, suoni difficili, ortografia, primi testi); attività originali, nessun testo copiato dai libri",
  "status": "partial-original-material-independent-review-pending",
  "sourceLanguage": "it",
  "labels": [
-  "Attività originale · Svizzera italiana (Ticino) · 1a elementare",
+  "Attività originale indicativa · Svizzera italiana (Ticino) · Prima elementare",
   "Impariamo",
   "Esempio originale",
   "Spiegazione",
   "Esercizi",
-  "Verifico",
-  "Esercizi originali, non una prova ufficiale. Leggili con un adulto se serve."
+  "Verifica",
+  "Attività originali, non una prova ufficiale. Leggi con un adulto, se serve.",
+  "Se non hai capito: passo dopo passo",
+  "Soluzioni (controlla solo dopo aver finito)"
+ ],
+ "units": [
+  {
+   "title": "Accoglienza e prerequisiti",
+   "keys": [
+    "eu-year-ch-beginner-1-l01",
+    "eu-year-ch-beginner-1-l02",
+    "eu-year-ch-beginner-1-l03"
+   ]
+  },
+  {
+   "title": "Le vocali e le prime consonanti",
+   "keys": [
+    "eu-year-ch-beginner-1-l04",
+    "eu-year-ch-beginner-1-l05",
+    "eu-year-ch-beginner-1-l06",
+    "eu-year-ch-beginner-1-l07",
+    "eu-year-ch-beginner-1-l08",
+    "eu-year-ch-beginner-1-l09"
+   ]
+  },
+  {
+   "title": "Altre consonanti e i caratteri",
+   "keys": [
+    "eu-year-ch-beginner-1-l10",
+    "eu-year-ch-beginner-1-l11",
+    "eu-year-ch-beginner-1-l12",
+    "eu-year-ch-beginner-1-l13"
+   ]
+  },
+  {
+   "title": "I suoni difficili",
+   "keys": [
+    "eu-year-ch-beginner-1-l14",
+    "eu-year-ch-beginner-1-l15",
+    "eu-year-ch-beginner-1-l16",
+    "eu-year-ch-beginner-1-l17",
+    "eu-year-ch-beginner-1-l18",
+    "eu-year-ch-beginner-1-l19"
+   ]
+  },
+  {
+   "title": "Scrivere senza errori",
+   "keys": [
+    "eu-year-ch-beginner-1-l20",
+    "eu-year-ch-beginner-1-l21",
+    "eu-year-ch-beginner-1-l22",
+    "eu-year-ch-beginner-1-l23",
+    "eu-year-ch-beginner-1-l24"
+   ]
+  },
+  {
+   "title": "Leggere e ascoltare testi",
+   "keys": [
+    "eu-year-ch-beginner-1-l25",
+    "eu-year-ch-beginner-1-l26",
+    "eu-year-ch-beginner-1-l27",
+    "eu-year-ch-beginner-1-l28",
+    "eu-year-ch-beginner-1-l29",
+    "eu-year-ch-beginner-1-l30"
+   ]
+  },
+  {
+   "title": "Scrivere e comunicare",
+   "keys": [
+    "eu-year-ch-beginner-1-l31",
+    "eu-year-ch-beginner-1-l32",
+    "eu-year-ch-beginner-1-l33",
+    "eu-year-ch-beginner-1-l34"
+   ]
+  },
+  {
+   "title": "Fine anno",
+   "keys": [
+    "eu-year-ch-beginner-1-l35"
+   ]
+  }
  ],
  "chapters": {
-  "eu-year-ch-beginner-1-parcurs": {
+  "eu-year-ch-beginner-1-l01": {
    "it": {
-    "title": "Suoni, lettere e sillabe",
-    "theory": "Le parole sono fatte di suoni. Alcuni suoni si scrivono con più lettere: ch, gh, gn, sc. Per leggere una parola lunga la dividiamo in sillabe: ca-sta-gna. A ogni sillaba battiamo le mani.",
-    "sample": "Gino raccoglie le castagne nel bosco. Le mette in un cesto di vimini.",
-    "worked": "Ca-sta-gne ha tre sillabe. Bo-sco ne ha due. In castagne, gn si scrive con due lettere ma è un solo suono. In cesto, ce si legge come in cena. Uniamo i suoni e leggiamo la parola.",
+    "title": "Ci presentiamo e scegliamo le regole",
+    "theory": "Nei primi giorni di scuola ci conosciamo. Diciamo il nostro nome con una frase intera: Mi chiamo… Scegliamo insieme le regole della classe: alziamo la mano per parlare, ascoltiamo gli altri, non interrompiamo e parliamo a voce chiara.",
+    "sample": "Mi chiamo Giulia. Ho sei anni. Mi piace disegnare i gatti. Vicino a me siede Marco.",
+    "worked": "Giulia si presenta con quattro frasi brevi: il nome, l’età, che cosa le piace e chi siede vicino a lei. Mentre parla guarda i compagni. Ogni frase comincia con la lettera maiuscola e finisce con il punto.",
     "exercises": [
-     "Batti le sillabe di castagne.",
-     "Trova nel testo una parola con gn.",
-     "Dividi in sillabe: Gino, cesto, bosco.",
-     "Trova una parola del testo che comincia con la c.",
-     "Leggi ad alta voce: ma, me, mi, mo, mu."
+     "Presentati con due frasi.",
+     "Di’ che cosa ti piace fare.",
+     "Ripeti il nome del tuo compagno di banco.",
+     "Mostra come alzi la mano per parlare.",
+     "Ripeti quello che ha detto un compagno."
     ],
     "test": [
-     "Quante sillabe ha castagne?",
-     "Dove raccoglie le castagne Gino?",
-     "Quali due lettere fanno un solo suono in castagne?",
-     "Scrivi una parola che comincia con ch.",
-     "Unisci le sillabe: ca-sa."
+     "Quanti anni ha Giulia?",
+     "Che cosa facciamo quando vogliamo parlare?",
+     "Perché non interrompiamo gli altri?",
+     "Che cosa ti piace fare?",
+     "Chi siede vicino a Giulia?"
+    ],
+    "steps": [
+     "Prima di’ il tuo nome: Mi chiamo…",
+     "Poi di’ quanti anni hai e che cosa ti piace.",
+     "Quando parla un altro, ascolta e non interrompere.",
+     "Attenzione: parla con frasi intere, non con una sola parola."
+    ],
+    "answers": [
+     "Sei anni.",
+     "Alziamo la mano e aspettiamo il nostro turno.",
+     "Perché tutti possano parlare con calma e capirsi.",
+     "Risposta tua. Per esempio: Mi piace giocare a pallone.",
+     "Marco."
     ]
    }
   },
-  "eu-year-ch-beginner-1-intelegere": {
+  "eu-year-ch-beginner-1-l02": {
    "it": {
-    "title": "Leggere e capire un breve testo",
-    "theory": "Dopo ogni frase ci fermiamo e chiediamo: Chi? Che cosa succede? Dove? Le risposte sono nel testo. Quello che non è scritto non lo inventiamo.",
-    "sample": "Sara va al lago con la nonna. Ha una barchetta di carta azzurra. Sulla riva la fa galleggiare con Luca.",
-    "worked": "Chi? Sara. Con chi va? Con la nonna. Che cosa ha? Una barchetta di carta azzurra. Dove gioca? Sulla riva del lago. Che giorno è non è scritto nel testo.",
+    "title": "Ascoltiamo i suoni delle parole",
+    "theory": "Le parole sono fatte di suoni. Il primo suono di una parola è il suono iniziale. Se diciamo la parola piano piano, sentiamo meglio i suoni. Due parole fanno rima quando finiscono nello stesso modo: gatto e piatto.",
+    "sample": "gatto, piatto, sole, mare, nave, ape, fiore, cuore",
+    "worked": "Gatto comincia con il suono g, sole con s, ape con a. Gatto e piatto fanno rima perché finiscono con -atto. Anche fiore e cuore fanno rima, perché finiscono con -ore.",
     "exercises": [
-     "Con chi va al lago Sara?",
-     "Di che colore è la barchetta?",
-     "Di che cosa è fatta la barchetta?",
-     "Con chi gioca Sara?",
-     "Sottolinea la frase che dice che cosa ha Sara."
+     "Di’ piano: sssole. Qual è il primo suono?",
+     "Trova una rima per gatto.",
+     "Con quale suono finisce mare?",
+     "Cerca in classe un oggetto che comincia con t.",
+     "Batti le mani se due parole fanno rima: fiore – cuore."
     ],
     "test": [
-     "Il testo dice che giorno è?",
-     "La barchetta è rossa? Come lo sai?",
-     "Che cos'è una riva?",
-     "Trova una parola che indica una persona della famiglia.",
-     "Disegna il testo e scrivi una parola sotto il disegno."
+     "Con quale suono comincia ape?",
+     "Gatto e piatto fanno rima?",
+     "Con quale suono comincia nave?",
+     "Trova una parola che comincia con m.",
+     "Quale parola non fa rima: gatto, piatto, sole?"
+    ],
+    "steps": [
+     "Di’ la parola lentamente, come se la allungassi: sss-o-l-e.",
+     "Il suono che senti per primo è il suono iniziale.",
+     "Per la rima ascolta la fine delle parole.",
+     "Attenzione: ascolta il suono, non guardare il disegno; di’ sempre la parola a voce alta."
+    ],
+    "answers": [
+     "a.",
+     "Sì.",
+     "n.",
+     "Risposta tua. Per esempio: mamma, mela, mare.",
+     "sole."
     ]
    }
   },
-  "eu-year-ch-beginner-1-narativ": {
+  "eu-year-ch-beginner-1-l03": {
    "it": {
-    "title": "Personaggi e fatti di una storia",
-    "theory": "I personaggi sono le persone o gli animali di una storia. I fatti sono quello che succede. Raccontiamo in ordine: prima, poi, dopo, alla fine.",
-    "sample": "Prima il ghiro Tobia si sveglia dopo l'inverno. Poi cerca da mangiare, ma il bosco è vuoto. Dopo una ghiandaia gli porta una nocciola. Alla fine Tobia ringrazia e fa colazione.",
-    "worked": "I personaggi sono il ghiro Tobia e la ghiandaia. Prima: Tobia si sveglia. Poi: cerca da mangiare. Dopo: la ghiandaia porta una nocciola. Alla fine: Tobia ringrazia e mangia.",
+    "title": "Pregrafismo: prepariamo la mano a scrivere",
+    "theory": "Prima delle lettere facciamo esercizi di pregrafismo: linee, onde, cerchi, ponti e riccioli. Teniamo la matita con tre dita, senza stringere. Stiamo seduti diritti, con i piedi a terra. Scriviamo da sinistra verso destra.",
+    "sample": "Riga 1: onde come il mare. / Riga 2: ponti come archi. / Riga 3: cerchi come palloncini.",
+    "worked": "Onde, ponti e cerchi si ritrovano poi nelle lettere: il cerchio nella o, il ponte nella n, l’onda nella s. Se li facciamo bene adesso, poi scriviamo più facilmente. Ogni riga comincia a sinistra.",
     "exercises": [
-     "Chi sono i personaggi?",
-     "Quando si sveglia Tobia?",
-     "Che cosa porta la ghiandaia?",
-     "Racconta la storia con prima, poi, dopo, alla fine.",
-     "Come si sente Tobia alla fine? Quale parola ti aiuta?"
+     "Disegna una riga di onde.",
+     "Disegna cinque palloncini.",
+     "Disegna nell’aria un grande ponte con il dito.",
+     "Mostra come tieni la matita.",
+     "Disegna riccioli su tutta la riga."
     ],
     "test": [
-     "Chi porta la nocciola?",
-     "Che cosa succede prima?",
-     "Che cosa fa Tobia alla fine?",
-     "Metti in ordine: ringrazia / si sveglia / cerca da mangiare.",
-     "Disegna il momento che ti piace di più."
+     "Con quante dita teniamo la matita?",
+     "Da che parte cominciamo a scrivere?",
+     "Che forma ha un palloncino?",
+     "Come stiamo seduti quando scriviamo?",
+     "Che cosa fai se la mano si stanca?"
+    ],
+    "steps": [
+     "Siediti diritto, con i piedi appoggiati a terra.",
+     "Tieni la matita con pollice, indice e medio, senza stringere troppo.",
+     "Comincia a sinistra e vai piano verso destra.",
+     "Attenzione: se la mano è stanca, scuotila un momento e poi ricomincia."
+    ],
+    "answers": [
+     "Con tre dita.",
+     "Da sinistra.",
+     "Un cerchio.",
+     "Diritti, con i piedi a terra.",
+     "La scuoto un momento e faccio una pausa."
     ]
    }
   },
-  "eu-year-ch-beginner-1-poezie": {
+  "eu-year-ch-beginner-1-l04": {
    "it": {
-    "title": "Rime e poesie",
-    "theory": "Una poesia è breve e ha un ritmo, come una canzone. Le parole in rima finiscono con lo stesso suono: sole e viole, monte e fonte. Quando diciamo la poesia ad alta voce, sentiamo le rime.",
-    "sample": "Sopra il monte splende il sole,\nnel prato crescono le viole.\nIl lago è calmo, liscio e blu,\nio lo guardo e non parlo più.",
-    "worked": "Sole e viole fanno rima: finiscono con -ole. Blu e più fanno rima con il suono u. La poesia ha quattro versi. Leggiamo piano e facciamo sentire le parole in rima alla fine dei versi.",
+    "title": "Le vocali: A, E, I, O, U",
+    "theory": "Le vocali sono cinque: a, e, i, o, u. Le pronunciamo con la bocca aperta, senza che la lingua o le labbra fermino l’aria. Ogni parola italiana ha almeno una vocale. Alcune parole sono fatte solo di vocali: io, ai, e, o.",
+    "sample": "A E I O U / io / ape, uva, oca, isola, elefante",
+    "worked": "Ape comincia con a, uva con u, oca con o, isola con i ed elefante con e. Io è una parola fatta solo di vocali. Le vocali sono come il cuore delle parole: senza di loro non possiamo leggere.",
     "exercises": [
-     "Trova la parola che fa rima con sole.",
-     "Dove crescono le viole?",
-     "Quanti versi ha la poesia?",
-     "Trova una parola che fa rima con gatto.",
-     "Di' la poesia battendo il ritmo."
+     "Di’ le cinque vocali.",
+     "Scrivi la A maiuscola e la a minuscola.",
+     "Con quale vocale comincia uva?",
+     "Trova una parola che comincia con e.",
+     "Fai la bocca rotonda e di’: o."
     ],
     "test": [
-     "Monte e fonte fanno rima?",
-     "Di che colore è il lago nella poesia?",
-     "Trova una parola che fa rima con mare.",
-     "Dove splende il sole?",
-     "Scrivi due parole che fanno rima."
+     "Quante sono le vocali?",
+     "Con quale vocale comincia oca?",
+     "Ogni parola ha almeno una vocale?",
+     "Leggi: io, ai, uva.",
+     "Con quale vocale comincia isola?"
+    ],
+    "steps": [
+     "Le vocali sono a, e, i, o, u: dille in fila.",
+     "Guarda la bocca allo specchio: con la o è rotonda, con la i sorride.",
+     "Per trovare la vocale iniziale, di’ la parola piano.",
+     "Attenzione: e ed i si confondono facilmente; pronuncia bene e ascolta."
+    ],
+    "answers": [
+     "Cinque.",
+     "o.",
+     "Sì.",
+     "io, ai, u-va.",
+     "i."
     ]
    }
   },
-  "eu-year-ch-beginner-1-dialog": {
+  "eu-year-ch-beginner-1-l05": {
    "it": {
-    "title": "Dialogo: ascoltare e parlare a turno",
-    "theory": "In una conversazione parliamo a turno. Ascoltiamo finché l'altro ha finito. Diciamo buongiorno, per favore e grazie. Una domanda finisce con il punto interrogativo.",
-    "sample": "Elia: Buongiorno! Vorrei tre mele, per favore.\nFruttivendola: Buongiorno, Elia. Rosse o gialle?\nElia: Rosse, per favore.\nFruttivendola: Ecco a te. Sono due franchi.\nElia: Grazie, arrivederci!",
-    "worked": "Prima Elia saluta. La fruttivendola fa una domanda: la frase finisce con il punto interrogativo. Elia risponde e dice per favore. Alla fine dice grazie e arrivederci. Ognuno parla quando l'altro ha finito.",
+    "title": "Le consonanti M e L: mamma, luna",
+    "theory": "Le consonanti da sole non suonano bene: hanno bisogno di una vocale. M + a fa ma, L + u fa lu. Le unioni di consonante e vocale si chiamano sillabe. Con le sillabe formiamo parole: ma-ma, lu-na, me-la.",
+    "sample": "ma me mi mo mu / la le li lo lu / mamma, mela, luna, Lola",
+    "worked": "Leggiamo da sinistra a destra: prima la consonante, poi la vocale. Ma più ma fa mama, ma in italiano diciamo mamma con due m. Lola è un nome: per questo comincia con la maiuscola.",
     "exercises": [
-     "Come saluta Elia?",
-     "Quali mele sceglie Elia?",
-     "Trova la frase con il punto interrogativo.",
-     "Quali parole gentili usa Elia?",
-     "Recitate la scena in due."
+     "Leggi: ma, me, mi, mo, mu.",
+     "Leggi: la, le, li, lo, lu.",
+     "Unisci: me + la.",
+     "Scrivi la M maiuscola.",
+     "Trova una parola con la l."
     ],
     "test": [
-     "Chi parla per primo?",
-     "Quanto costano le mele?",
-     "Perché aspettiamo che l'altro abbia finito?",
-     "Scrivi una domanda per la tua maestra o il tuo maestro.",
-     "Che cosa dici quando esci da un negozio?"
+     "Che cosa formano consonante e vocale insieme?",
+     "Unisci: lu + na.",
+     "Quante sillabe ha mela?",
+     "Perché Lola ha la maiuscola?",
+     "Leggi: lame, molla, Milo."
+    ],
+    "steps": [
+     "Di’ il suono della consonante e subito dopo la vocale: mmm-a = ma.",
+     "Unisci due sillabe e leggi la parola: me-la.",
+     "Leggi sempre da sinistra verso destra.",
+     "Attenzione: ma e am hanno le stesse lettere, ma l’ordine cambia la sillaba."
+    ],
+    "answers": [
+     "Una sillaba.",
+     "luna.",
+     "Due: me-la.",
+     "Perché è un nome di persona.",
+     "la-me, mol-la, Mi-lo."
     ]
    }
   },
-  "eu-year-ch-beginner-1-vocabular": {
+  "eu-year-ch-beginner-1-l06": {
    "it": {
-    "title": "Gruppi di parole, contrari e plurale",
-    "theory": "Possiamo ordinare le parole in gruppi: animali, colori, cose della scuola. Alcune parole sono contrari: alto – basso, pieno – vuoto. Al plurale molte parole cambiano la vocale finale: il libro, i libri; la penna, le penne.",
-    "sample": "Nello zaino ci sono un quaderno, due matite e tre libri. La borraccia è piena, il bicchiere è vuoto.",
-    "worked": "Quaderno, matita e libro sono cose della scuola. Una matita, due matite: la a diventa e. Un libro, tre libri: la o diventa i. Pieno e vuoto sono contrari.",
+    "title": "Le consonanti N e P: nonno e pane",
+    "theory": "La n si pronuncia con la lingua in alto e l’aria che esce dal naso. La p si pronuncia chiudendo e aprendo le labbra con un piccolo soffio. Nuove sillabe: na ne ni no nu, pa pe pi po pu. Parole: nonno, nave, pane, pipa, Pino.",
+    "sample": "Il nonno mangia il pane. / Pino ha una nave. / La nave è nel porto.",
+    "worked": "Leggiamo tre frasi. Ogni frase comincia con la maiuscola e finisce con il punto. Nonno ha due n in mezzo, come mamma ha due m. Pino è un nome e si scrive con la maiuscola.",
     "exercises": [
-     "Ordina: cane, giallo, quaderno, verde, gatto, matita.",
-     "Trova il contrario di alto.",
-     "Scrivi al plurale: la penna.",
-     "Trova nel testo due contrari.",
-     "Nomina tre animali della fattoria."
+     "Leggi: na, ne, ni, no, nu.",
+     "Leggi: pa, pe, pi, po, pu.",
+     "Scrivi la parola pane.",
+     "Trova una parola con la n.",
+     "Dividi in sillabe: nave."
     ],
     "test": [
-     "Qual è il contrario di caldo?",
-     "Scrivi al plurale: il quaderno.",
-     "Quale parola non è un frutto: mela, pera, martello, ciliegia?",
-     "Quante matite ci sono nello zaino?",
-     "Scrivi due colori."
+     "Che cosa mangia il nonno?",
+     "Che cosa ha Pino?",
+     "Dov’è la nave?",
+     "Leggi: pino, nano, pena.",
+     "Quante frasi ci sono nell’esempio?"
+    ],
+    "steps": [
+     "Leggi le sillabe nuove: na, ne, ni, no, nu e pa, pe, pi, po, pu.",
+     "Unisci le sillabe in parole: pa-ne.",
+     "Dopo aver letto, chiediti: chi? che cosa fa?",
+     "Attenzione: p e b si somigliano; con la p senti un piccolo soffio."
+    ],
+    "answers": [
+     "Il pane.",
+     "Una nave.",
+     "Nel porto.",
+     "pi-no, na-no, pe-na.",
+     "Tre."
     ]
    }
   },
-  "eu-year-ch-beginner-1-exprimare": {
+  "eu-year-ch-beginner-1-l07": {
    "it": {
-    "title": "Maiuscola, punto, ch e ci",
-    "theory": "Ogni frase comincia con la lettera maiuscola e finisce con il punto. Anche i nomi di persone e di città hanno la maiuscola: Elia, Lugano, Bellinzona. Attenzione: chi e che hanno il suono duro, ci e ce hanno il suono dolce.",
-    "sample": "Marta abita a Locarno. Ogni mattina va a scuola a piedi. Che bello il cielo azzurro!",
-    "worked": "Marta, Ogni e Che sono all'inizio della frase: hanno la maiuscola. Marta e Locarno sono nomi propri: maiuscola anche qui. In che il suono è duro, in cielo il suono è dolce. Le frasi finiscono con il punto o con il punto esclamativo.",
+    "title": "Le consonanti R e S: rosa e sole",
+    "theory": "La r si pronuncia facendo vibrare la punta della lingua: rrr. La s fischia come un serpente: sss. Parole: rosa, rana, sole, sale, sasso, Rosa. Iniziamo a leggere piccole frasi con le parole che conosciamo.",
+    "sample": "La rana salta sul sasso. / Il sole scalda la rosa. / Sara ama il mare.",
+    "worked": "La rana, il sasso, il sole e la rosa sono cose o animali. Sara è un nome di persona, quindi la scriviamo con la maiuscola. Sasso ha due s in mezzo: le doppie si sentono più forti.",
     "exercises": [
-     "Scrivi bene: luca gioca a calcio",
-     "Trova i nomi propri nel testo.",
-     "Metti il punto: Io mangio una mela",
-     "Completa con ch o c: _iave.",
-     "Quante frasi ha il testo?"
+     "Fai vibrare la lingua: rrr.",
+     "Leggi: ra, re, ri, ro, ru.",
+     "Leggi: sole, sale, sasso.",
+     "Scrivi la parola rosa.",
+     "Trova una parola con la s."
     ],
     "test": [
-     "Perché Locarno ha la maiuscola?",
-     "Che cosa mettiamo alla fine di una frase?",
-     "Scrivi bene: anna abita a lugano",
-     "Copia la parola cielo e cerchia ci.",
-     "Trova l'errore: il mio cane si chiama Fido."
+     "Dove salta la rana?",
+     "Che cosa scalda il sole?",
+     "Che cosa ama Sara?",
+     "Leggi: remo, seme, rasa.",
+     "Perché Sara ha la maiuscola?"
+    ],
+    "steps": [
+     "Per la r fai vibrare la punta della lingua dietro i denti.",
+     "Per la s fai uscire l’aria tra i denti, come un serpente.",
+     "Leggi la frase piano, poi più veloce.",
+     "Attenzione: r ed l sono diverse; non dire lana se vuoi dire rana."
+    ],
+    "answers": [
+     "Sul sasso.",
+     "La rosa.",
+     "Il mare.",
+     "re-mo, se-me, ra-sa.",
+     "Perché è un nome di persona."
     ]
    }
   },
-  "eu-year-ch-beginner-1-redactare": {
+  "eu-year-ch-beginner-1-l08": {
    "it": {
-    "title": "Scrivere una frase su un'immagine",
-    "theory": "Prima di scrivere guardiamo bene l'immagine: Chi vediamo? Che cosa fa? Dove si trova? Poi scriviamo una frase con la maiuscola e il punto. Infine rileggiamo la frase.",
-    "sample": "Immagine: Una bambina dà da mangiare alle anatre vicino al lago.\nFrase: La bambina dà il pane alle anatre.",
-    "worked": "Chi? La bambina. Che cosa fa? Dà il pane alle anatre. Dove? Vicino al lago. La frase comincia con La, maiuscola, e finisce con il punto. Alla fine la rileggiamo ad alta voce.",
+    "title": "Le consonanti T e D: topo e dado",
+    "theory": "T e d si pronunciano con la lingua contro i denti di sopra. La t è un suono più secco, la d più morbido. Parole: topo, torta, dado, dito, Dino. Facciamo attenzione a non confonderle.",
+    "sample": "Il topo mangia la torta. / Dino lancia il dado. / Tina ha un dito sporco.",
+    "worked": "Topo, torta e Tina cominciano con t. Dado, dito e Dino cominciano con d. Se metti la mano sulla gola mentre dici d, senti una piccola vibrazione; con la t no.",
     "exercises": [
-     "Scrivi una frase: un bambino beve il latte.",
-     "Chi vediamo nell'immagine dell'esempio?",
-     "Che cosa fa la bambina?",
-     "Scrivi una frase sul tuo animale preferito.",
-     "Rileggi la tua frase e controlla il punto."
+     "Metti la mano sulla gola e di’: t, d.",
+     "Leggi: topo, torta, dado.",
+     "Scrivi la T maiuscola.",
+     "Trova una parola con la d.",
+     "Dividi in sillabe: torta."
     ],
     "test": [
-     "Che cosa chiediamo prima, guardando un'immagine?",
-     "Dove sono le anatre?",
-     "Scrivi una frase sulla tua camera.",
-     "Con che cosa comincia ogni frase?",
-     "Disegna un'immagine e scrivi una frase."
+     "Che cosa mangia il topo?",
+     "Che cosa lancia Dino?",
+     "Chi ha un dito sporco?",
+     "Leggi: tetto, dote, dama.",
+     "Con quale lettera comincia dado?"
+    ],
+    "steps": [
+     "Appoggia la lingua dietro i denti di sopra.",
+     "Con la d senti vibrare la gola, con la t no.",
+     "Prima di scrivere, di’ la parola a voce alta.",
+     "Attenzione: d e b si scambiano facilmente; la d ha la pancia a sinistra."
+    ],
+    "answers": [
+     "La torta.",
+     "Il dado.",
+     "Tina.",
+     "tet-to, do-te, da-ma.",
+     "d."
     ]
    }
   },
-  "eu-year-ch-beginner-1-interpretare": {
+  "eu-year-ch-beginner-1-l09": {
    "it": {
-    "title": "La mia opinione: confrontare i personaggi",
-    "theory": "Possiamo dire che cosa ci piace e spiegare perché: Mi piace ..., perché ... Confrontiamo i personaggi: che cosa è uguale? Che cosa è diverso? Gli altri possono pensarla in un altro modo.",
-    "sample": "La volpe Rina è veloce, ma non aspetta mai gli amici. La lumaca Lalla è lenta e aiuta tutti. Mi piace Lalla, perché è gentile.",
-    "worked": "Rina è veloce, Lalla è lenta: è diverso. Tutte e due vivono nel bosco: è uguale. La frase con perché dà la spiegazione. Un compagno può preferire Rina.",
+    "title": "Le consonanti F e V: fata e vaso",
+    "theory": "F e v si pronunciano con i denti di sopra appoggiati sul labbro di sotto. Con la f esce solo aria, con la v si sente vibrare. Parole: fata, foca, fiore, vaso, vela, Viola.",
+    "sample": "La fata ha un fiore. / Nel vaso c’è una viola. / La foca nuota vicino alla vela.",
+    "worked": "Fata, fiore e foca cominciano con f. Vaso, viola e vela cominciano con v. In questa frase viola è un fiore e si scrive con la minuscola; Viola, come nome di bambina, si scrive con la maiuscola.",
     "exercises": [
-     "Com'è Rina?",
-     "Che cosa fa Lalla per gli altri?",
-     "Che cosa è uguale tra Rina e Lalla?",
-     "Scrivi: Mi piace ..., perché ...",
-     "Quale personaggio preferisci? Di' perché."
+     "Appoggia i denti sul labbro e di’: fff, vvv.",
+     "Leggi: fata, foca, fiore.",
+     "Leggi: vaso, vela, viola.",
+     "Scrivi la parola vela.",
+     "Trova una parola con la f."
     ],
     "test": [
-     "Che cosa è diverso tra Rina e Lalla?",
-     "Quale parola usiamo per spiegare il motivo?",
-     "Un tuo compagno può pensarla diversamente?",
-     "Lalla è veloce o lenta?",
-     "Inventa un terzo personaggio e descrivilo con una parola."
+     "Che cosa ha la fata?",
+     "Che cosa c’è nel vaso?",
+     "Dove nuota la foca?",
+     "Leggi: fumo, vino, faro.",
+     "Quando scriviamo Viola con la maiuscola?"
+    ],
+    "steps": [
+     "Appoggia i denti di sopra sul labbro di sotto.",
+     "Con la f esce solo aria, con la v senti vibrare.",
+     "Ascolta bene la parola prima di scegliere la lettera.",
+     "Attenzione: f e v si confondono; tocca la gola per sentire la vibrazione della v."
+    ],
+    "answers": [
+     "Un fiore.",
+     "Una viola.",
+     "Vicino alla vela.",
+     "fu-mo, vi-no, fa-ro.",
+     "Quando è il nome di una persona."
     ]
    }
   },
-  "eu-year-ch-beginner-1-verificare": {
+  "eu-year-ch-beginner-1-l10": {
    "it": {
-    "title": "Ripasso: leggere, capire, scrivere",
-    "theory": "Per finire ripassiamo: battere le sillabe, rispondere alle domande su un testo, dire i personaggi e l'ordine dei fatti, trovare le rime, usare la maiuscola e il punto, leggere bene ch e ci.",
-    "sample": "Al mattino Nico prepara lo zaino. Prende un panino, la borraccia e il berretto. Poi va in gita in montagna con il papà.",
-    "worked": "Chi? Nico. Che cosa fa prima? Prepara lo zaino. Che cosa prende? Un panino, la borraccia e il berretto. Che cosa fa poi? Va in gita. Bor-rac-cia ha tre sillabe, mon-ta-gna anche.",
+    "title": "Le consonanti B e Z: barca e zebra",
+    "theory": "La b si pronuncia con le labbra, come la p, ma senza soffio. La z si pronuncia come un ronzio forte. Parole: barca, bimbo, bosco, zebra, zaino, pizza.",
+    "sample": "Il bimbo va in barca. / La zebra corre nel bosco. / Nello zaino c’è una pizza.",
+    "worked": "Barca, bimbo e bosco cominciano con b. Zebra e zaino cominciano con z. Pizza ha due z in mezzo. Nello è formato da in più lo: lo scriviamo tutto attaccato.",
     "exercises": [
-     "Batti le sillabe di montagna.",
-     "Che cosa prende Nico?",
-     "Con chi va in gita Nico?",
-     "Trova due nomi di oggetti nel testo.",
-     "Trova una parola che fa rima con panino."
+     "Leggi: ba, be, bi, bo, bu.",
+     "Leggi: zebra, zaino, pizza.",
+     "Scrivi la B maiuscola.",
+     "Trova una parola con la z.",
+     "Dividi in sillabe: barca."
     ],
     "test": [
-     "Che cosa fa Nico prima?",
+     "Dove va il bimbo?",
+     "Dove corre la zebra?",
+     "Che cosa c’è nello zaino?",
+     "Leggi: zucca, bello, zero.",
+     "Quante z ha la parola pizza?"
+    ],
+    "steps": [
+     "Per la b chiudi le labbra e aprile senza soffiare.",
+     "Per la z fai un ronzio forte con la lingua sui denti.",
+     "Leggi le parole divise in sillabe: bar-ca.",
+     "Attenzione: b e d si scambiano; la b ha la pancia a destra."
+    ],
+    "answers": [
+     "In barca.",
+     "Nel bosco.",
+     "Una pizza.",
+     "zuc-ca, bel-lo, ze-ro.",
+     "Due."
+    ]
+   }
+  },
+  "eu-year-ch-beginner-1-l11": {
+   "it": {
+    "title": "C e G duri: casa e gatto",
+    "theory": "Con a, o, u la c ha un suono duro: ca, co, cu. Anche la g ha un suono duro con a, o, u: ga, go, gu. Parole: casa, cane, cuore, gatto, gonna, gufo.",
+    "sample": "Il cane dorme nella cuccia. / Il gatto gioca con la gonna. / Il gufo guarda la casa.",
+    "worked": "Cane, cuccia e casa hanno la c dura. Gatto, gonna e gufo hanno la g dura. Gioca invece ha un suono diverso: lo impareremo con le sillabe gi e ge.",
+    "exercises": [
+     "Leggi: ca, co, cu.",
+     "Leggi: ga, go, gu.",
+     "Leggi: casa, gatto, gufo.",
+     "Scrivi la parola cuore.",
+     "Trova una parola con ga."
+    ],
+    "test": [
+     "Dove dorme il cane?",
+     "Con che cosa gioca il gatto?",
+     "Che cosa guarda il gufo?",
+     "Leggi: cocco, gola, culla.",
+     "Con quali vocali la c ha il suono duro?"
+    ],
+    "steps": [
+     "Guarda la vocale dopo la c o la g.",
+     "Se c’è a, o, u, il suono è duro: ca, go, cu.",
+     "Leggi piano le parole e poi le frasi.",
+     "Attenzione: con e, i il suono cambia: ce, ci, ge, gi."
+    ],
+    "answers": [
+     "Nella cuccia.",
+     "Con la gonna.",
+     "La casa.",
+     "coc-co, go-la, cul-la.",
+     "Con a, o, u."
+    ]
+   }
+  },
+  "eu-year-ch-beginner-1-l12": {
+   "it": {
+    "title": "Q e H: quadro e ho",
+    "theory": "La q è sempre seguita dalla u: qua, que, qui, quo. La h da sola non ha suono: è una lettera muta. La usiamo nelle forme del verbo avere: io ho, tu hai, lui ha, loro hanno. Parole: quadro, acqua, quaderno.",
+    "sample": "Io ho un quaderno. / Tu hai un quadro. / Luca ha l’acqua nella borraccia.",
+    "worked": "Ho, hai e ha sono il verbo avere: la h non si legge ma si scrive. Quadro e quaderno hanno qu. Acqua si scrive con cq: è una parola da ricordare.",
+    "exercises": [
+     "Leggi: qua, que, qui, quo.",
+     "Completa: io … un libro.",
+     "Leggi: quadro, quaderno, acqua.",
+     "Scrivi la parola quadro.",
+     "Trova una frase con hai."
+    ],
+    "test": [
+     "Quale lettera segue sempre la q?",
+     "Completa: tu … un gatto.",
+     "Che cosa ha Luca nella borraccia?",
+     "La h si legge?",
+     "Leggi: quattro, questo, quindici."
+    ],
+    "steps": [
+     "Dopo la q scrivi sempre la u.",
+     "Ho, hai, ha, hanno sono forme del verbo avere e vogliono la h.",
+     "La h non si legge, ma senza h la parola cambia significato.",
+     "Attenzione: acqua si scrive con cq; impara questa parola a memoria."
+    ],
+    "answers": [
+     "La u.",
+     "hai.",
+     "L’acqua.",
+     "No, è muta.",
+     "quat-tro, que-sto, quin-di-ci."
+    ]
+   }
+  },
+  "eu-year-ch-beginner-1-l13": {
+   "it": {
+    "title": "Lo stampato minuscolo e il corsivo",
+    "theory": "Le lettere si possono scrivere in modi diversi: stampato maiuscolo (A), stampato minuscolo (a) e corsivo, in cui le lettere si legano tra loro. Impariamo a riconoscere la stessa lettera nei diversi caratteri.",
+    "sample": "STAMPATO MAIUSCOLO: MELA / stampato minuscolo: mela / corsivo: le lettere di mela unite in un solo tratto",
+    "worked": "Mela è sempre la stessa parola, anche se cambia il carattere. Nello stampato le lettere sono staccate, nel corsivo sono legate. Scrivendo in corsivo non stacchiamo la matita a metà parola.",
+    "exercises": [
+     "Scrivi il tuo nome in stampato maiuscolo.",
+     "Scrivi mela in stampato minuscolo.",
+     "Prova a scrivere la parola uno in corsivo.",
+     "Trova la stessa lettera in maiuscolo e in minuscolo: B, b.",
+     "Copia una frase breve."
+    ],
+    "test": [
+     "Quanti caratteri abbiamo imparato?",
+     "Nel corsivo le lettere sono staccate o legate?",
+     "Scrivi CASA in stampato minuscolo.",
+     "La parola cambia se cambiamo carattere?",
+     "Scrivi il tuo nome in stampato minuscolo."
+    ],
+    "steps": [
+     "Guarda la forma della lettera in ogni carattere.",
+     "Nello stampato scrivi le lettere una per una, staccate.",
+     "Nel corsivo lega le lettere senza staccare la matita.",
+     "Attenzione: la parola resta la stessa anche se cambia il carattere."
+    ],
+    "answers": [
+     "Tre: stampato maiuscolo, stampato minuscolo e corsivo.",
+     "Legate.",
+     "casa.",
+     "No.",
+     "Risposta tua. Per esempio: giulia."
+    ]
+   }
+  },
+  "eu-year-ch-beginner-1-l14": {
+   "it": {
+    "title": "CI, CE e GI, GE: cielo e gelato",
+    "theory": "Con e e i la c e la g hanno un suono dolce: ce, ci, ge, gi. Parole: cena, cielo, cinema, gelato, giraffa, gelo. Confrontiamo: casa (dura) e cena (dolce), gatto (dura) e gelato (dolce).",
+    "sample": "Il cielo è azzurro. / Gina mangia un gelato. / La giraffa ha il collo lungo.",
+    "worked": "Cielo ha il suono dolce ci, gelato e Gina hanno ge e gi, giraffa ha gi. Se cambiamo la vocale, cambia il suono: ca è duro, ci è dolce.",
+    "exercises": [
+     "Leggi: ce, ci, ge, gi.",
+     "Leggi: cena, cielo, gelato.",
+     "Scrivi la parola giraffa.",
+     "Trova una parola con ci.",
+     "Confronta: casa – cena."
+    ],
+    "test": [
+     "Com’è il cielo?",
+     "Che cosa mangia Gina?",
+     "Com’è il collo della giraffa?",
+     "Leggi: cibo, gita, cerchio.",
+     "Il suono di ce è dolce o duro?"
+    ],
+    "steps": [
+     "Guarda la vocale dopo c o g.",
+     "Con e, i il suono è dolce: ce, ci, ge, gi.",
+     "Con a, o, u il suono è duro: ca, co, cu, ga, go, gu.",
+     "Attenzione: per scrivere il suono dolce con a, o, u aggiungi la i: cia, gio (lo vedremo più avanti)."
+    ],
+    "answers": [
+     "Azzurro.",
+     "Un gelato.",
+     "Lungo.",
+     "ci-bo, gi-ta, cer-chio.",
+     "Dolce."
+    ]
+   }
+  },
+  "eu-year-ch-beginner-1-l15": {
+   "it": {
+    "title": "CHI, CHE e GHI, GHE: chiave e ghiro",
+    "theory": "Per avere il suono duro davanti a e e i, mettiamo una h: che, chi, ghe, ghi. Parole: chiave, chiesa, oche, ghiro, funghi, spaghetti.",
+    "sample": "Chiara ha la chiave. / Il ghiro dorme tutto l’inverno. / La nonna cucina i funghi e gli spaghetti.",
+    "worked": "Chiara e chiave hanno chi, ghiro e funghi hanno ghi, spaghetti ha ghe. La h non si legge, ma rende duro il suono. Senza h leggeremmo cia-ve e gi-ro.",
+    "exercises": [
+     "Leggi: che, chi, ghe, ghi.",
+     "Leggi: chiave, ghiro, funghi.",
+     "Scrivi la parola chiave.",
+     "Trova una parola con che.",
+     "Che cosa cambia tra gi e ghi?"
+    ],
+    "test": [
+     "Che cosa ha Chiara?",
+     "Quando dorme il ghiro?",
+     "Che cosa cucina la nonna?",
+     "Leggi: oche, aghi, chilo.",
+     "A che cosa serve la h in chi?"
+    ],
+    "steps": [
+     "Vuoi il suono duro davanti a e o i? Metti la h.",
+     "Che, chi, ghe, ghi si leggono duri.",
+     "Leggi la parola e chiediti: duro o dolce?",
+     "Attenzione: oca al plurale diventa oche, con la h, per tenere il suono duro."
+    ],
+    "answers": [
+     "La chiave.",
+     "Tutto l’inverno.",
+     "I funghi e gli spaghetti.",
+     "o-che, a-ghi, chi-lo.",
+     "A rendere duro il suono."
+    ]
+   }
+  },
+  "eu-year-ch-beginner-1-l16": {
+   "it": {
+    "title": "GN: gnomo e ragno",
+    "theory": "Il suono gn si scrive con due lettere: g e n. Le leggiamo insieme come un solo suono. Parole: gnomo, ragno, bagno, sogno, lavagna, montagna.",
+    "sample": "In montagna vive un piccolo gnomo. / Sulla lavagna c’è un ragno. / Stanotte ho fatto un bel sogno.",
+    "worked": "Montagna, gnomo, lavagna, ragno e sogno contengono gn. Le due lettere si leggono insieme. Nella divisione in sillabe gn resta unito: ra-gno, so-gno.",
+    "exercises": [
+     "Leggi: gna, gne, gni, gno, gnu.",
+     "Leggi: ragno, bagno, sogno.",
+     "Scrivi la parola lavagna.",
+     "Dividi in sillabe: montagna.",
+     "Trova un’altra parola con gn."
+    ],
+    "test": [
+     "Dove vive lo gnomo?",
+     "Che cosa c’è sulla lavagna?",
+     "Che cosa ho fatto stanotte?",
+     "Dividi in sillabe: ragno.",
+     "Quante lettere servono per il suono gn?"
+    ],
+    "steps": [
+     "Quando vedi g e n vicine, leggile insieme.",
+     "È un solo suono, morbido, che senti in ragno.",
+     "Quando dividi in sillabe, non separare gn.",
+     "Attenzione: non scrivere rano o ranio; la parola giusta è ragno."
+    ],
+    "answers": [
+     "In montagna.",
+     "Un ragno.",
+     "Un bel sogno.",
+     "ra-gno.",
+     "Due."
+    ]
+   }
+  },
+  "eu-year-ch-beginner-1-l17": {
+   "it": {
+    "title": "GLI: famiglia e foglia",
+    "theory": "Il suono gli si scrive con tre lettere: g, l, i. Parole: famiglia, foglia, coniglio, figlio, aglio, maglia. Davanti ad a, o, u il gruppo gl si legge duro: globo, gloria.",
+    "sample": "La mia famiglia ha un coniglio. / Una foglia cade dall’albero. / Il nonno indossa una maglia rossa.",
+    "worked": "Famiglia, coniglio, foglia e maglia contengono gli. Le tre lettere si leggono come un unico suono morbido. Nella divisione in sillabe gli resta unito: fo-glia, co-ni-glio.",
+    "exercises": [
+     "Leggi: glia, glie, gli, glio.",
+     "Leggi: foglia, coniglio, figlio.",
+     "Scrivi la parola famiglia.",
+     "Dividi in sillabe: maglia.",
+     "Trova un’altra parola con gli."
+    ],
+    "test": [
+     "Che animale ha la famiglia?",
+     "Da dove cade la foglia?",
+     "Di che colore è la maglia del nonno?",
+     "Dividi in sillabe: coniglio.",
+     "Quante lettere ha il suono gli?"
+    ],
+    "steps": [
+     "Cerca le lettere g, l, i vicine.",
+     "Leggile insieme come un suono solo, morbido.",
+     "Nella divisione in sillabe tieni unito gli.",
+     "Attenzione: non scrivere folia; la parola giusta è foglia."
+    ],
+    "answers": [
+     "Un coniglio.",
+     "Dall’albero.",
+     "Rossa.",
+     "co-ni-glio.",
+     "Tre."
+    ]
+   }
+  },
+  "eu-year-ch-beginner-1-l18": {
+   "it": {
+    "title": "SCI e SCE: sciarpa e pesce",
+    "theory": "Le lettere s e c, davanti a e e i, formano un suono nuovo: sce, sci. Parole: scimmia, sciarpa, scienza, pesce, ascensore. Davanti ad a, o, u restano dure: scarpa, scuola, sconto.",
+    "sample": "La scimmia ha una sciarpa. / Il pesce nuota nell’acqua. / Vado a scuola con le scarpe nuove.",
+    "worked": "Scimmia, sciarpa e pesce hanno il suono dolce sci, sce. Scuola e scarpe hanno sc duro, perché dopo c’è u o a. La vocale dopo sc decide il suono.",
+    "exercises": [
+     "Leggi: sce, sci.",
+     "Leggi: sca, sco, scu.",
+     "Leggi: scimmia, pesce, scuola.",
+     "Scrivi la parola sciarpa.",
+     "Trova una parola con sce."
+    ],
+    "test": [
+     "Che cosa ha la scimmia?",
+     "Dove nuota il pesce?",
+     "Con che cosa vado a scuola?",
+     "In scuola il suono sc è dolce o duro?",
+     "Leggi: scivolo, scala, uscire."
+    ],
+    "steps": [
+     "Guarda la vocale dopo sc.",
+     "Con e, i il suono è dolce: sce, sci.",
+     "Con a, o, u il suono è duro: sca, sco, scu.",
+     "Attenzione: sciarpa e scimmia vogliono la i dopo sc; impara queste parole."
+    ],
+    "answers": [
+     "Una sciarpa.",
+     "Nell’acqua.",
+     "Con le scarpe nuove.",
+     "Duro.",
+     "sci-vo-lo, sca-la, u-sci-re."
+    ]
+   }
+  },
+  "eu-year-ch-beginner-1-l19": {
+   "it": {
+    "title": "CIA, CIO, CIU e GIA, GIO, GIU: ciao e giocattolo",
+    "theory": "Per il suono dolce davanti ad a, o, u mettiamo una i: cia, cio, ciu, gia, gio, giu. Parole: ciao, ciuccio, camicia, giallo, giorno, giugno, giocattolo.",
+    "sample": "Ciao, Gianni! / Oggi è un giorno di giugno. / Il giocattolo giallo è sulla camicia.",
+    "worked": "Ciao e camicia hanno cia, giorno e giocattolo hanno gio, giugno ha giu, giallo e Gianni hanno gia. La i serve a rendere dolce il suono: senza i leggeremmo cao e gorno.",
+    "exercises": [
+     "Leggi: cia, cio, ciu.",
+     "Leggi: gia, gio, giu.",
+     "Leggi: ciao, giallo, giorno.",
+     "Scrivi la parola giocattolo.",
+     "Trova una parola con cio."
+    ],
+    "test": [
+     "Chi saluta l’esempio?",
+     "In che mese siamo nell’esempio?",
+     "Di che colore è il giocattolo?",
+     "Leggi: cioccolato, giubbotto, faccia.",
+     "Perché scriviamo la i in giallo?"
+    ],
+    "steps": [
+     "Vuoi il suono dolce davanti ad a, o, u? Metti la i.",
+     "Cia, cio, ciu, gia, gio, giu si leggono dolci.",
+     "La i qui non si sente come vocale, ma serve per il suono.",
+     "Attenzione: senza la i leggeresti duro: gallo e giallo sono parole diverse."
+    ],
+    "answers": [
+     "Gianni.",
+     "A giugno.",
+     "Giallo.",
+     "cioc-co-la-to, giub-bot-to, fac-cia.",
+     "Per avere il suono dolce."
+    ]
+   }
+  },
+  "eu-year-ch-beginner-1-l20": {
+   "it": {
+    "title": "Le doppie: palla e pala",
+    "theory": "Alcune parole hanno due consonanti uguali vicine: le doppie. Le doppie si sentono più forti e lunghe: palla, mamma, gatto, sasso. Se dimentichiamo una doppia, la parola può cambiare significato: pala e palla, caro e carro.",
+    "sample": "Luca gioca con la palla. / Il nonno scava con la pala. / Il carro porta il fieno.",
+    "worked": "Palla è il gioco, pala è l’attrezzo per scavare. Carro ha la doppia r e si sente più forte di caro. Per scrivere bene le doppie, diciamo la parola lentamente e ascoltiamo.",
+    "exercises": [
+     "Di’ forte: pal-la.",
+     "Scegli: il nonno ha una pa…a (l o ll) per scavare.",
+     "Leggi: gatto, sasso, mamma.",
+     "Scrivi la parola carro.",
+     "Trova una parola con la doppia t."
+    ],
+    "test": [
+     "Con che cosa gioca Luca?",
+     "Con che cosa scava il nonno?",
+     "Che cosa porta il carro?",
+     "Pala e palla vogliono dire la stessa cosa?",
+     "Dividi in sillabe: gatto."
+    ],
+    "steps": [
+     "Di’ la parola piano e ascolta: c’è un suono più forte?",
+     "Se sì, scrivi due lettere uguali.",
+     "Nella divisione in sillabe le doppie si separano: gat-to.",
+     "Attenzione: pala e palla sono parole diverse; la doppia cambia il significato."
+    ],
+    "answers": [
+     "Con la palla.",
+     "Con la pala.",
+     "Il fieno.",
+     "No.",
+     "gat-to."
+    ]
+   }
+  },
+  "eu-year-ch-beginner-1-l21": {
+   "it": {
+    "title": "Dividere le parole in sillabe",
+    "theory": "Le sillabe sono i pezzetti di una parola che pronunciamo con una sola emissione di voce. Ogni sillaba ha almeno una vocale. Le doppie si dividono (gat-to), mentre gn, gli, sc, ch restano uniti (ra-gno, fo-glia).",
+    "sample": "pa-ne, ca-sa, ta-vo-lo, gat-to, mon-ta-gna, fo-glia",
+    "worked": "Pane ha due sillabe, tavolo tre, montagna tre. In gatto le due t si separano. In montagna gn resta unito, in foglia gli resta unito. Battere le mani aiuta a contare.",
+    "exercises": [
+     "Batti le mani e dividi: banana.",
+     "Dividi in sillabe: tavolo.",
+     "Dividi: sasso.",
+     "Conta le sillabe di farfalla.",
+     "Dividi: lavagna."
+    ],
+    "test": [
+     "Quante sillabe ha pane?",
+     "Come si divide gatto?",
+     "Come si divide foglia?",
+     "Quante sillabe ha banana?",
+     "Ogni sillaba ha una vocale?"
+    ],
+    "steps": [
+     "Di’ la parola e batti le mani a ogni pezzetto.",
+     "Conta i battiti: sono le sillabe.",
+     "Le doppie si separano, gn e gli no.",
+     "Attenzione: una consonante da sola non fa sillaba; ci vuole sempre una vocale."
+    ],
+    "answers": [
+     "Due: pa-ne.",
+     "gat-to.",
+     "fo-glia.",
+     "Tre: ba-na-na.",
+     "Sì."
+    ]
+   }
+  },
+  "eu-year-ch-beginner-1-l22": {
+   "it": {
+    "title": "L’accento: perché e città",
+    "theory": "Alcune parole hanno un accento scritto sull’ultima vocale: città, perché, papà, caffè, più. L’accento indica che la voce batte forte sull’ultima sillaba. Se non lo scriviamo, è un errore: papa e papà sono parole diverse.",
+    "sample": "Il papà beve il caffè. / Perché la città è piena di luci? / Io voglio più gelato.",
+    "worked": "Papà, caffè, perché, città e più hanno l’accento sull’ultima vocale. Papà è il genitore, il Papa è il capo della Chiesa cattolica. L’accento cambia il significato.",
+    "exercises": [
+     "Leggi con la voce forte alla fine: papà, città.",
+     "Metti l’accento: perche.",
+     "Scrivi la parola caffè.",
+     "Trova una parola con l’accento finale.",
+     "Leggi: tribù, virtù, lunedì."
+    ],
+    "test": [
+     "Che cosa beve il papà?",
+     "Su quale sillaba batte la voce in città?",
+     "Scrivi giusto: perche.",
+     "Papa e papà sono la stessa parola?",
+     "Leggi: martedì, falò, tivù."
+    ],
+    "steps": [
+     "Di’ la parola e ascolta dove batte la voce.",
+     "Se batte sull’ultima vocale, spesso devi scrivere l’accento.",
+     "Metti l’accento sopra la vocale finale: città.",
+     "Attenzione: senza accento papà diventa papa, che vuol dire un’altra cosa."
+    ],
+    "answers": [
+     "Il caffè.",
+     "Sull’ultima: cit-tà.",
+     "perché.",
+     "No.",
+     "mar-te-dì, fa-lò, ti-vù."
+    ]
+   }
+  },
+  "eu-year-ch-beginner-1-l23": {
+   "it": {
+    "title": "L’apostrofo: l’ape e l’albero",
+    "theory": "L’apostrofo è un piccolo segno in alto (’). Si usa quando una parola perde la vocale finale davanti a un’altra parola che comincia con vocale: lo albero diventa l’albero, la ape diventa l’ape.",
+    "sample": "L’ape vola sull’albero. / L’oca nuota nello stagno. / L’uva è dolce.",
+    "worked": "L’ape viene da la ape, l’albero da lo albero, l’oca da la oca, l’uva da la uva. La vocale che cade viene sostituita dall’apostrofo. Le due parole si scrivono vicine, senza spazio.",
+    "exercises": [
+     "Scrivi con l’apostrofo: la ape.",
+     "Scrivi: lo orso.",
+     "Leggi: l’isola, l’uovo, l’erba.",
+     "Trova nella frase le parole con l’apostrofo.",
+     "Scrivi: la amica."
+    ],
+    "test": [
+     "Che cosa diventa la oca?",
+     "Dove vola l’ape?",
+     "Com’è l’uva?",
+     "Scrivi con l’apostrofo: lo elefante.",
+     "Che cosa sostituisce l’apostrofo?"
+    ],
+    "steps": [
+     "Guarda la parola dopo lo o la: comincia con una vocale?",
+     "Se sì, togli la vocale finale di lo o la e metti l’apostrofo.",
+     "Scrivi le due parole vicine, senza spazio: l’ape.",
+     "Attenzione: davanti a una consonante non si usa: la casa, non l’casa."
+    ],
+    "answers": [
+     "L’oca.",
+     "Sull’albero.",
+     "Dolce.",
+     "L’elefante.",
+     "La vocale che cade."
+    ]
+   }
+  },
+  "eu-year-ch-beginner-1-l24": {
+   "it": {
+    "title": "È ed e, ha ed a",
+    "theory": "È con l’accento è il verbo essere: il cielo è blu. E senza accento unisce due parole: pane e latte. Ha con la h è il verbo avere: Luca ha un cane. A senza h indica dove o a chi: vado a casa.",
+    "sample": "Il mare è blu e calmo. / Anna ha una bici e va a scuola.",
+    "worked": "È blu: verbo essere, con accento. Blu e calmo: e unisce due parole. Anna ha: verbo avere, con la h. Va a scuola: a senza h, indica dove va.",
+    "exercises": [
+     "Completa: Il gatto … nero (è/e).",
+     "Completa: Pane … latte (è/e).",
+     "Completa: Marta … un libro (ha/a).",
+     "Completa: Vado … casa (ha/a).",
+     "Scrivi una frase con è."
+    ],
+    "test": [
+     "Com’è il mare?",
+     "Che cosa ha Anna?",
+     "Dove va Anna?",
+     "Completa: Il sole … caldo (è/e).",
+     "Completa: Paolo … sei anni (ha/a)."
+    ],
+    "steps": [
+     "Prova a cambiare con era: se la frase ha senso, scrivi è.",
+     "Prova a cambiare con aveva: se la frase ha senso, scrivi ha.",
+     "Se non funziona, scrivi e oppure a.",
+     "Attenzione: è senza accento ed ha senza h sono errori frequenti."
+    ],
+    "answers": [
+     "Blu e calmo.",
+     "Una bici.",
+     "A scuola.",
+     "è.",
+     "ha."
+    ]
+   }
+  },
+  "eu-year-ch-beginner-1-l25": {
+   "it": {
+    "title": "La filastrocca: rime e ritmo",
+    "theory": "La filastrocca è un breve testo in versi, con rime e un ritmo che si ripete. I versi sono le righe della filastrocca. Le leggiamo a voce alta, le impariamo a memoria e possiamo inventarne di nuove.",
+    "sample": "Filastrocca originale: / Piove piove sul giardino, / si bagna il mio cappellino. / Esce il sole, tutto brilla, / canta allegra la sorella Milla.",
+    "worked": "La filastrocca ha quattro versi. Giardino fa rima con cappellino, brilla fa rima con Milla. Il ritmo si sente battendo le mani. Leggiamo lentamente, con una piccola pausa alla fine di ogni verso.",
+    "exercises": [
+     "Leggi la filastrocca a voce alta.",
+     "Trova la rima di giardino.",
+     "Impara a memoria i primi due versi.",
+     "Disegna il giardino sotto la pioggia.",
+     "Trova una rima per sole."
+    ],
+    "test": [
+     "Quanti versi ha la filastrocca?",
+     "Che cosa si bagna?",
+     "Che cos’è un verso?",
+     "Trova una rima per mare.",
+     "Chi canta allegra?"
+    ],
+    "steps": [
+     "Leggi la filastrocca una riga alla volta.",
+     "Guarda l’ultima parola di ogni verso e trova quelle che suonano uguali.",
+     "Per impararla, ripeti due versi alla volta.",
+     "Attenzione: leggi con calma e fai una pausa alla fine di ogni verso."
+    ],
+    "answers": [
+     "Quattro.",
+     "Il cappellino.",
+     "Una riga della filastrocca.",
+     "Risposta tua. Per esempio: fare, cantare.",
+     "La sorella Milla."
+    ]
+   }
+  },
+  "eu-year-ch-beginner-1-l26": {
+   "it": {
+    "title": "La fiaba: Pinocchio",
+    "theory": "La fiaba racconta storie fantastiche con personaggi buoni e cattivi e spesso con la magia. Pinocchio è un burattino di legno inventato da Carlo Collodi. Raccontiamo la storia con parole nostre: inizio, svolgimento e fine.",
+    "sample": "Raccontato con parole nostre: Geppetto costruisce un burattino di legno e lo chiama Pinocchio. Il burattino comincia a parlare e a correre. Quando dice una bugia, il suo naso si allunga. Alla fine, dopo molte avventure, diventa un bambino vero.",
+    "worked": "I personaggi sono Geppetto e Pinocchio. Pinocchio è disobbediente ma impara dai suoi errori. Il naso che si allunga è un elemento magico: ci ricorda che le bugie si scoprono.",
+    "exercises": [
+     "Racconta l’inizio della storia.",
+     "Disegna Pinocchio con il naso lungo.",
+     "Chi costruisce Pinocchio?",
+     "Racconta che cosa succede quando dice una bugia.",
+     "Inventa un’avventura di Pinocchio."
+    ],
+    "test": [
+     "Chi ha inventato Pinocchio?",
+     "Di che cosa è fatto Pinocchio?",
+     "Che cosa succede al naso quando dice una bugia?",
+     "Come finisce la storia?",
+     "Che cosa insegna la storia?"
+    ],
+    "steps": [
+     "Trova i personaggi: chi c’è nella storia?",
+     "Racconta in ordine: all’inizio, poi, alla fine.",
+     "Di’ che cosa insegna la storia.",
+     "Attenzione: non cambiare l’ordine dei fatti, altrimenti la storia non si capisce."
+    ],
+    "answers": [
+     "Carlo Collodi.",
+     "Di legno.",
+     "Si allunga.",
+     "Pinocchio diventa un bambino vero.",
+     "Che le bugie si scoprono e che bisogna imparare dai propri errori."
+    ]
+   }
+  },
+  "eu-year-ch-beginner-1-l27": {
+   "it": {
+    "title": "La favola: La volpe e l’uva",
+    "theory": "La favola è un racconto breve con animali che parlano e si comportano come persone. Alla fine c’è un insegnamento, la morale. Molte favole antiche sono di Esopo.",
+    "sample": "Raccontato con parole nostre: Una volpe affamata vede un grappolo d’uva in alto. Salta e risalta, ma non riesce a prenderlo. Allora se ne va dicendo: Tanto è acerba!",
+    "worked": "La volpe vorrebbe l’uva ma non ci arriva. Invece di ammettere che non ce la fa, dice che l’uva è acerba, cioè non matura. La morale: c’è chi disprezza quello che non riesce ad avere.",
+    "exercises": [
+     "Racconta la favola con parole tue.",
+     "Disegna la volpe che salta.",
+     "Che cosa vuol dire acerba?",
+     "Di’ la morale con parole tue.",
+     "Inventa un altro finale."
+    ],
+    "test": [
+     "Chi è il personaggio della favola?",
+     "Perché la volpe non prende l’uva?",
+     "Che cosa dice la volpe alla fine?",
+     "Che cos’è la morale?",
+     "Chi ha scritto molte favole antiche?"
+    ],
+    "steps": [
+     "Trova il personaggio: la volpe.",
+     "Racconta che cosa vuole e che cosa succede.",
+     "Cerca la morale: che cosa ci insegna?",
+     "Attenzione: nella favola gli animali parlano, ma rappresentano comportamenti delle persone."
+    ],
+    "answers": [
+     "Una volpe.",
+     "Perché è troppo in alto.",
+     "Tanto è acerba!",
+     "L’insegnamento della favola.",
+     "Esopo."
+    ]
+   }
+  },
+  "eu-year-ch-beginner-1-l28": {
+   "it": {
+    "title": "Indovinelli e giochi di parole",
+    "theory": "L’indovinello descrive qualcosa senza dirne il nome. Ascoltiamo tutti gli indizi e cerchiamo la soluzione. Gli scioglilingua sono frasi difficili da dire velocemente: si gioca a dirle senza sbagliare.",
+    "sample": "Indovinello originale: Ho le lancette ma non le mani, faccio tic tac oggi e domani. (l’orologio) / Scioglilingua popolare: Trentatré trentini entrarono a Trento tutti e trentatré trotterellando.",
+    "worked": "Gli indizi sono le lancette e il tic tac: la soluzione è l’orologio. Lo scioglilingua è difficile perché tante parole cominciano con tr. Si dice prima piano, poi sempre più veloce.",
+    "exercises": [
+     "Risolvi: Ha i denti ma non morde. (pettine)",
+     "Di’ lo scioglilingua tre volte.",
+     "Inventa un indovinello sul sole.",
+     "Quante parole dello scioglilingua cominciano con tr?",
+     "Fai un indovinello a un compagno."
+    ],
+    "test": [
+     "Che cos’è un indovinello?",
+     "Qual è la soluzione dell’indovinello?",
+     "Perché lo scioglilingua è difficile?",
+     "Inventa un indovinello sulla luna.",
+     "Quale suono si ripete nello scioglilingua?"
+    ],
+    "steps": [
+     "Ascolta tutti gli indizi.",
+     "Chiediti: che cosa ha tutte queste caratteristiche?",
+     "Controlla la soluzione con ogni indizio.",
+     "Attenzione: non rispondere al primo indizio; ascolta fino alla fine."
+    ],
+    "answers": [
+     "Una descrizione di qualcosa senza dirne il nome.",
+     "L’orologio.",
+     "Perché molte parole cominciano allo stesso modo.",
+     "Risposta tua. Per esempio: Di notte brillo in cielo, a volte sono tonda e a volte sottile. (la luna)",
+     "tr."
+    ]
+   }
+  },
+  "eu-year-ch-beginner-1-l29": {
+   "it": {
+    "title": "Il testo descrittivo: descriviamo un animale",
+    "theory": "Descrivere significa dire com’è una persona, un animale o un oggetto. Usiamo parole che indicano forma, colore, grandezza e comportamento. Rispondiamo alla domanda: com’è?",
+    "sample": "Il mio gatto si chiama Fiocco. È piccolo e bianco, con gli occhi verdi. Ha il pelo morbido e la coda lunga. Gli piace dormire al sole.",
+    "worked": "Il testo dice come è Fiocco: piccolo, bianco, con occhi verdi, pelo morbido e coda lunga. Poi dice che cosa gli piace fare. Le parole che descrivono rispondono alla domanda com’è?",
+    "exercises": [
+     "Trova nel testo le parole che descrivono Fiocco.",
+     "Descrivi una mela con due parole.",
+     "Disegna Fiocco seguendo la descrizione.",
+     "Descrivi il tuo zaino.",
+     "Che cosa piace fare a Fiocco?"
+    ],
+    "test": [
+     "Come si chiama il gatto?",
+     "Di che colore sono i suoi occhi?",
+     "Com’è il pelo di Fiocco?",
+     "A quale domanda rispondono le parole che descrivono?",
+     "Descrivi un cane in due parole."
+    ],
+    "steps": [
+     "Guarda bene la cosa da descrivere.",
+     "Di’ il colore, la forma, la grandezza.",
+     "Aggiungi che cosa fa o a che cosa serve.",
+     "Attenzione: una descrizione deve far immaginare la cosa a chi non la vede."
+    ],
+    "answers": [
+     "Fiocco.",
+     "Verdi.",
+     "Morbido.",
+     "Com’è?",
+     "Risposta tua. Per esempio: grande e marrone."
+    ]
+   }
+  },
+  "eu-year-ch-beginner-1-l30": {
+   "it": {
+    "title": "Il testo regolativo: le istruzioni",
+    "theory": "Le istruzioni spiegano come fare qualcosa, passo dopo passo. Hanno un titolo, l’elenco del materiale e le azioni in ordine. Per non sbagliare le leggiamo tutte prima di cominciare.",
+    "sample": "Come piantare un seme. / Materiale: un vasetto, terra, un seme di fagiolo, acqua. / 1. Riempi il vasetto di terra. / 2. Fai un buco con il dito e metti il seme. / 3. Copri il seme e annaffia ogni giorno.",
+    "worked": "Il titolo dice che cosa faremo. Il materiale dice che cosa serve. I numeri indicano l’ordine delle azioni. Se saltiamo un passaggio, il seme potrebbe non crescere.",
+    "exercises": [
+     "Leggi le istruzioni ad alta voce.",
+     "Elenca il materiale.",
+     "Che cosa fai dopo aver riempito il vasetto?",
+     "Scrivi le istruzioni per lavarti le mani.",
+     "Disegna i tre passaggi."
+    ],
+    "test": [
+     "Qual è il titolo delle istruzioni?",
+     "Quanti passaggi ci sono?",
+     "Che cosa serve per piantare il seme?",
+     "Quando si annaffia il seme?",
+     "Perché le azioni sono numerate?"
+    ],
+    "steps": [
+     "Leggi tutte le istruzioni prima di cominciare.",
+     "Prepara il materiale.",
+     "Esegui i passaggi nell’ordine dei numeri.",
+     "Attenzione: se salti un passaggio, il risultato può non riuscire."
+    ],
+    "answers": [
+     "Come piantare un seme.",
+     "Tre.",
+     "Un vasetto, terra, un seme di fagiolo e acqua.",
+     "Ogni giorno.",
+     "Per indicare l’ordine."
+    ]
+   }
+  },
+  "eu-year-ch-beginner-1-l31": {
+   "it": {
+    "title": "La frase e i segni di punteggiatura",
+    "theory": "La frase è un gruppo di parole che ha un senso compiuto. Comincia con la maiuscola e finisce con un segno: il punto (.) per raccontare, il punto interrogativo (?) per domandare, il punto esclamativo (!) per esprimere emozioni.",
+    "sample": "Oggi c’è il sole. Vieni al parco con me? Che bella giornata!",
+    "worked": "La prima frase racconta: punto. La seconda chiede: punto interrogativo. La terza esprime gioia: punto esclamativo. Tutte cominciano con la maiuscola.",
+    "exercises": [
+     "Metti il segno giusto: Come ti chiami",
+     "Metti il segno giusto: Ho un cane",
+     "Scrivi una domanda per la maestra.",
+     "Scrivi una frase con il punto esclamativo.",
+     "Conta le frasi dell’esempio."
+    ],
+    "test": [
+     "Con che cosa finisce una domanda?",
+     "Con quale lettera comincia una frase?",
+     "Scrivi giusto: oggi piove",
+     "Quale frase dell’esempio esprime gioia?",
+     "Quante frasi ci sono nell’esempio?"
+    ],
+    "steps": [
+     "Chiediti: la frase racconta, domanda o esprime un’emozione?",
+     "Racconta: punto. Domanda: punto interrogativo. Emozione: punto esclamativo.",
+     "La prima lettera è sempre maiuscola.",
+     "Attenzione: anche una domanda breve, come Vieni?, vuole il punto interrogativo."
+    ],
+    "answers": [
+     "Con il punto interrogativo.",
+     "Con la maiuscola.",
+     "Oggi piove.",
+     "Che bella giornata!",
+     "Tre."
+    ]
+   }
+  },
+  "eu-year-ch-beginner-1-l32": {
+   "it": {
+    "title": "Nomi comuni e nomi propri",
+    "theory": "I nomi indicano persone, animali, cose e luoghi. I nomi comuni si scrivono con la minuscola: bambino, cane, città. I nomi propri indicano una persona, un animale o un luogo preciso e si scrivono con la maiuscola: Marco, Fido, Bellinzona.",
+    "sample": "Marco ha un cane che si chiama Fido. Vivono a Bellinzona, vicino al fiume Ticino.",
+    "worked": "Marco, Fido, Bellinzona e Ticino sono nomi propri: indicano un bambino, un cane, una città e un fiume precisi. Cane e fiume sono nomi comuni. I nomi propri vogliono la maiuscola.",
+    "exercises": [
+     "Trova i nomi propri nell’esempio.",
+     "Scrivi il nome della tua città.",
+     "Scrivi tre nomi comuni di animali.",
+     "Scrivi il nome di un tuo amico.",
+     "Comune o proprio: gatto?"
+    ],
+    "test": [
+     "Come si scrivono i nomi propri?",
+     "Come si chiama il cane di Marco?",
+     "Dove vivono Marco e Fido?",
+     "Bellinzona è un nome comune o proprio?",
+     "Scrivi un nome comune di cosa."
+    ],
+    "steps": [
+     "Chiediti: indica una cosa qualsiasi o una precisa con il suo nome?",
+     "Se è qualsiasi è comune: minuscola. Se è precisa è proprio: maiuscola.",
+     "Prova: cane (qualsiasi), Fido (proprio quel cane).",
+     "Attenzione: anche i nomi di città e fiumi sono propri: Lugano, Ticino."
+    ],
+    "answers": [
+     "Con la maiuscola.",
+     "Fido.",
+     "A Bellinzona.",
+     "Proprio.",
+     "Risposta tua. Per esempio: tavolo."
+    ]
+   }
+  },
+  "eu-year-ch-beginner-1-l33": {
+   "it": {
+    "title": "Scriviamo frasi su un’immagine",
+    "theory": "Guardiamo un’immagine e ci facciamo delle domande: Chi c’è? Che cosa fa? Dove si trova? Quando? Poi scriviamo due o tre frasi. Ogni frase comincia con la maiuscola e finisce con un segno di punteggiatura.",
+    "sample": "Immagine: un bambino fa un pupazzo di neve. / Frasi: Il bambino fa un pupazzo di neve. È inverno. Il pupazzo ha una carota per naso.",
+    "worked": "Abbiamo scritto tre frasi. La prima dice chi c’è e che cosa fa. La seconda dice quando. La terza aggiunge un particolare. Così il testo è chiaro e preciso.",
+    "exercises": [
+     "Guarda fuori dalla finestra e scrivi una frase.",
+     "Fai le quattro domande su un’immagine.",
+     "Scrivi due frasi sulla tua classe.",
+     "Disegna e scrivi una frase sotto il disegno.",
+     "Leggi le tue frasi a un compagno."
+    ],
+    "test": [
+     "Quali domande ci facciamo guardando un’immagine?",
+     "Che cosa fa il bambino?",
+     "Che cosa ha il pupazzo per naso?",
+     "Con che cosa finisce una frase?",
+     "Scrivi una frase sull’inverno."
+    ],
+    "steps": [
+     "Guarda l’immagine e chiediti: chi? che cosa fa? dove? quando?",
+     "Di’ la frase a voce prima di scriverla.",
+     "Rileggi: maiuscola all’inizio, punto alla fine, spazi tra le parole.",
+     "Attenzione: scrivi frasi intere, non solo parole sparse."
+    ],
+    "answers": [
+     "Chi c’è? Che cosa fa? Dove? Quando?",
+     "Un pupazzo di neve.",
+     "Una carota.",
+     "Con un punto (o con un punto interrogativo o esclamativo).",
+     "Risposta tua. Per esempio: D’inverno fa freddo."
+    ]
+   }
+  },
+  "eu-year-ch-beginner-1-l34": {
+   "it": {
+    "title": "Il biglietto di auguri e l’invito",
+    "theory": "Il biglietto di auguri si scrive per un compleanno o una festa: c’è un saluto, l’augurio e la firma. L’invito dice a che cosa invitiamo, quando e dove. Così chi lo riceve sa tutto quello che serve.",
+    "sample": "Cara nonna, / ti invito alla mia festa di compleanno. / Quando: sabato alle 16. / Dove: a casa mia. / Ti aspetto! / La tua Sofia",
+    "worked": "L’invito comincia con Cara nonna. Poi dice la festa, il giorno, l’ora e il luogo. Alla fine c’è una frase gentile e la firma. Senza giorno e ora, la nonna non saprebbe quando venire.",
+    "exercises": [
+     "Scrivi un saluto al nonno.",
+     "Scrivi un invito a una merenda.",
+     "Scrivi un biglietto di auguri di compleanno.",
+     "Che cosa manca in un invito senza luogo?",
+     "Firma il tuo invito."
+    ],
+    "test": [
+     "Che cosa deve dire un invito?",
+     "Quando è la festa di Sofia?",
+     "Come comincia l’invito?",
+     "Scrivi un breve augurio per la mamma.",
+     "Che cosa c’è alla fine dell’invito?"
+    ],
+    "steps": [
+     "Comincia con un saluto: Caro…, Cara…",
+     "Scrivi a che cosa inviti, quando e dove.",
+     "Finisci con una frase gentile e la tua firma.",
+     "Attenzione: senza giorno, ora e luogo nessuno sa quando venire."
+    ],
+    "answers": [
+     "A che cosa invitiamo, quando e dove, con saluto e firma.",
+     "Sabato alle 16.",
+     "Cara nonna.",
+     "Risposta tua. Per esempio: Cara mamma, tanti auguri di buon compleanno!",
+     "La firma."
+    ]
+   }
+  },
+  "eu-year-ch-beginner-1-l35": {
+   "it": {
+    "title": "Ripasso: che cosa ho imparato in prima",
+    "theory": "Alla fine della prima elementare leggiamo un breve testo e mostriamo che cosa sappiamo fare: leggere e capire, dividere in sillabe, scrivere frasi con maiuscola e punto, usare i suoni difficili e l’accento.",
+    "sample": "Al mattino Tommaso prepara lo zaino. Mette il quaderno, l’astuccio e una merenda. Poi va a scuola con il papà.",
+    "worked": "Il testo ha tre frasi. Tommaso prima prepara lo zaino e poi va a scuola. L’astuccio ha l’apostrofo, papà ha l’accento, quaderno ha qu. Tommaso è un nome proprio.",
+    "exercises": [
+     "Leggi il testo a voce alta.",
+     "Trova la parola con l’apostrofo.",
+     "Trova la parola con l’accento.",
+     "Scrivi una frase sul tuo zaino.",
+     "Racconta che cosa ti è piaciuto di più quest’anno."
+    ],
+    "test": [
+     "Che cosa fa Tommaso prima di tutto?",
      "Quante frasi ha il testo?",
-     "Scrivi bene: nico va in montagna",
-     "Qual è il contrario di mattino?",
-     "Scrivi una frase su una gita."
+     "Scrivi giusto: tommaso va a scuola",
+     "Con chi va a scuola Tommaso?",
+     "Dividi in sillabe: merenda."
+    ],
+    "steps": [
+     "Leggi prima piano, poi in modo scorrevole.",
+     "Chiediti: chi? che cosa fa? con chi?",
+     "Conta le frasi guardando i punti.",
+     "Attenzione: i nomi propri e l’inizio della frase vogliono la maiuscola: Tommaso."
+    ],
+    "answers": [
+     "Prepara lo zaino.",
+     "Tre.",
+     "Tommaso va a scuola.",
+     "Con il papà.",
+     "me-ren-da."
     ]
    }
   }
