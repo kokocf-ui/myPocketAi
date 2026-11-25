@@ -5,11 +5,13 @@
 // page and every browser call fails, while unbundled Node tests still pass.
 // Usage: wrangler deploy --dry-run --outdir <dir> && node scripts/check_bundled_browser_names.mjs <dir>/index.js
 import {copyFile} from 'node:fs/promises';
+import {resolve} from 'node:path';
+import {pathToFileURL} from 'node:url';
 const bundle=process.argv[2];
 if(!bundle){console.error('usage: node scripts/check_bundled_browser_names.mjs <bundled index.js>');process.exit(2)}
-const target=bundle.replace(/\.js$/,'')+'.check.mjs';
+const target=resolve(bundle.replace(/\.js$/,'')+'.check.mjs');
 await copyFile(bundle,target);
-const mod=await import(new URL('file://'+target).href);
+const mod=await import(pathToFileURL(target).href);
 const html=await (await mod.default.fetch(new Request('https://pocket.example/?nativeLaunch=1'),{},{waitUntil(){},passThroughOnException(){}})).text();
 const esc=s=>s.replace(/\$/g,'\\$');
 const bad=[];
