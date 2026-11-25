@@ -1,0 +1,992 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "RO",
+ "stage": "advanced",
+ "grade": "uni-ba-2",
+ "version": "c926b235a3eceed596f1cde5a30198eb897e561d6112503d80035ffeb998d919",
+ "source": "https://www.aracis.ro/",
+ "sourceTitle": "Sinteză orientativă a disciplinelor fundamentale comune programelor de licență Istorie din România, conform standardelor specifice ARACIS pentru domeniul Istorie și planurilor de învățământ publicate de Universitatea din București, Universitatea Babeș-Bolyai și Universitatea „Alexandru Ioan Cuza” — anul II: istoria modernă universală, relații internaționale în secolele XVIII–XIX, istoria modernă a României, istoria Transilvaniei și a Europei de Sud-Est în epoca premodernă și modernă, limba izvoarelor (semantică politico-diplomatică); fiecare facultate are planul propriu, iar ordinea și denumirile cursurilor pot diferi; lecții originale, fără text copiat din cursuri sau manuale",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "ro",
+ "labels": [
+  "Activitate originală · România · Facultatea de Istorie · Licență, anul II",
+  "Teorie pe înțeles",
+  "Exemplu de izvor sau caz",
+  "Analiză explicată",
+  "Exerciții de seminar",
+  "Verifică-te",
+  "Exerciții originale; nu înlocuiesc cursul, bibliografia sau evaluarea facultății.",
+  "Dacă nu ai înțeles: pas cu pas",
+  "Răspunsuri (verifică după ce termini)"
+ ],
+ "units": [
+  {
+   "title": "Europa la începutul epocii moderne",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-2-l01",
+    "eu-year-ro-advanced-uni-ba-2-l02",
+    "eu-year-ro-advanced-uni-ba-2-l03",
+    "eu-year-ro-advanced-uni-ba-2-l04",
+    "eu-year-ro-advanced-uni-ba-2-l05"
+   ]
+  },
+  {
+   "title": "Revoluțiile moderne",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-2-l06",
+    "eu-year-ro-advanced-uni-ba-2-l07",
+    "eu-year-ro-advanced-uni-ba-2-l08",
+    "eu-year-ro-advanced-uni-ba-2-l09"
+   ]
+  },
+  {
+   "title": "Secolul al XIX-lea: națiuni și ideologii",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-2-l10",
+    "eu-year-ro-advanced-uni-ba-2-l11",
+    "eu-year-ro-advanced-uni-ba-2-l12",
+    "eu-year-ro-advanced-uni-ba-2-l13"
+   ]
+  },
+  {
+   "title": "Relații internaționale în secolele XVIII–XIX",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-2-l14",
+    "eu-year-ro-advanced-uni-ba-2-l15",
+    "eu-year-ro-advanced-uni-ba-2-l16"
+   ]
+  },
+  {
+   "title": "Istoria modernă a României",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-2-l17",
+    "eu-year-ro-advanced-uni-ba-2-l18",
+    "eu-year-ro-advanced-uni-ba-2-l19",
+    "eu-year-ro-advanced-uni-ba-2-l20",
+    "eu-year-ro-advanced-uni-ba-2-l21",
+    "eu-year-ro-advanced-uni-ba-2-l22"
+   ]
+  },
+  {
+   "title": "Transilvania și Europa de Sud-Est",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-2-l23",
+    "eu-year-ro-advanced-uni-ba-2-l24",
+    "eu-year-ro-advanced-uni-ba-2-l25",
+    "eu-year-ro-advanced-uni-ba-2-l26"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-ro-advanced-uni-ba-2-l01": {
+   "ro": {
+    "title": "Renașterea și Umanismul",
+    "theory": "Renașterea (secolele XIV–XVI), începută în orașele italiene (Florența, Veneția, Roma), a însemnat redescoperirea Antichității și o nouă atenție acordată omului. Umaniștii (Petrarca, Erasmus din Rotterdam) au studiat textele antice și au cerut întoarcerea la izvoare („ad fontes”), iar critica filologică a devenit o metodă. Mecenatul (familia Medici, papii) a susținut artiști ca Leonardo da Vinci, Michelangelo, Rafael. Tiparul lui Gutenberg (circa 1450) a răspândit rapid ideile. Gândirea politică s-a schimbat: Machiavelli (Principele, 1513) a analizat puterea așa cum este, nu cum ar trebui să fie. În spațiul românesc, umanismul a pătruns prin Nicolaus Olahus și prin legăturile Transilvaniei cu Europa Centrală.",
+    "sample": "Nicolaus Olahus, umanist născut la Sibiu, a scris în „Hungaria” (1536) despre originea romană a românilor.",
+    "worked": "Un umanist de origine română a transmis Europei ideea romanității, arătând circulația ideilor umaniste în Europa Centrală.",
+    "exercises": [
+     "Explică ce a însemnat „ad fontes”.",
+     "Explică rolul mecenatului.",
+     "Explică importanța tiparului.",
+     "Analizează ideile lui Machiavelli.",
+     "Explică pătrunderea umanismului în spațiul românesc."
+    ],
+    "test": [
+     "Unde a început Renașterea?",
+     "Ce umanist olandez a criticat abuzurile Bisericii?",
+     "Cine a inventat tiparul cu litere mobile în Europa?",
+     "Ce lucrare a scris Machiavelli?",
+     "Ce umanist din Sibiu a scris despre romanitatea românilor?"
+    ],
+    "steps": [
+     "Identifică ideile noi.",
+     "Leagă ideile de condițiile sociale.",
+     "Urmărește răspândirea lor.",
+     "Greșeala frecventă: să crezi că Renașterea a rupt total cu Evul Mediu; multe idei și instituții au continuat."
+    ],
+    "answers": [
+     "În orașele italiene.",
+     "Erasmus din Rotterdam.",
+     "Johannes Gutenberg.",
+     "Principele.",
+     "Nicolaus Olahus."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l02": {
+   "ro": {
+    "title": "Marile descoperiri geografice și primele imperii coloniale",
+    "theory": "În secolele XV–XVI, portughezii și spaniolii au deschis noi rute maritime: Bartolomeu Dias a ocolit Capul Bunei Speranțe (1488), Cristofor Columb a ajuns în America (1492), Vasco da Gama în India (1498), expediția lui Magellan a înconjurat Pământul (1519–1522). Cauzele: căutarea mirodeniilor și a aurului, blocarea rutelor estice, progresele tehnice (caravela, busola, astrolabul), motivația religioasă. Tratatul de la Tordesillas (1494) a împărțit lumea între Spania și Portugalia. Urmările: imperii coloniale, distrugerea civilizațiilor aztecă și incașă, „schimbul columbian” de plante, animale și boli, comerțul transatlantic cu sclavi, mutarea centrului economic spre Atlantic.",
+    "sample": "Bolile aduse de europeni au provocat moartea unei mari părți a populației americane native în secolul al XVI-lea.",
+    "worked": "Efectul demografic a fost mai devastator decât războiul și explică în parte rapiditatea cuceririi.",
+    "exercises": [
+     "Explică cauzele marilor descoperiri.",
+     "Ordonează călătoriile importante.",
+     "Explică ce a fost Tratatul de la Tordesillas.",
+     "Explică „schimbul columbian”.",
+     "Explică urmările pentru populațiile din America."
+    ],
+    "test": [
+     "Cine a ocolit Capul Bunei Speranțe în 1488?",
+     "Când a ajuns Columb în America?",
+     "Cine a ajuns în India pe mare în 1498?",
+     "Ce tratat a împărțit lumea în 1494?",
+     "Ce imperii americane au fost distruse de spanioli?"
+    ],
+    "steps": [
+     "Identifică cauzele: economice, politice, ideologice.",
+     "Ordonează călătoriile.",
+     "Evaluează urmările pentru toate părțile.",
+     "Greșeala frecventă: să privești descoperirile doar din perspectiva europeană; pentru popoarele cucerite au fost o catastrofă."
+    ],
+    "answers": [
+     "Bartolomeu Dias.",
+     "În 1492.",
+     "Vasco da Gama.",
+     "Tratatul de la Tordesillas.",
+     "Imperiul aztec și cel incaș."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l03": {
+   "ro": {
+    "title": "Reforma și Contrareforma",
+    "theory": "Martin Luther a publicat cele 95 de teze (1517) împotriva indulgențelor, susținând mântuirea prin credință, autoritatea Bibliei și preoția universală. Reforma s-a răspândit cu sprijinul principilor germani (Pacea de la Augsburg, 1555: „cuius regio, eius religio”), în variantele calvină (Geneva) și anglicană (Henric al VIII-lea). Biserica Catolică a răspuns prin Contrareformă: Conciliul de la Trento (1545–1563), ordinul iezuit, Inchiziția, Indexul. Războaiele religioase (Franța, Noaptea Sfântului Bartolomeu, 1572; Edictul de la Nantes, 1598; Războiul de 30 de ani, 1618–1648) s-au încheiat cu Pacea Westfalică. În Transilvania s-au răspândit luteranismul (sași), calvinismul și unitarianismul (maghiari), iar Dieta de la Turda (1568) a recunoscut libertatea religioasă pentru aceste confesiuni.",
+    "sample": "Principiul „cuius regio, eius religio” lăsa religia supușilor la alegerea principelui.",
+    "worked": "Pacea de la Augsburg nu a creat libertatea religioasă individuală, ci libertatea principilor de a alege confesiunea statului.",
+    "exercises": [
+     "Explică ideile lui Luther.",
+     "Compară luteranismul cu calvinismul.",
+     "Explică măsurile Contrareformei.",
+     "Explică principiul „cuius regio, eius religio”.",
+     "Explică situația religioasă din Transilvania."
+    ],
+    "test": [
+     "Când a publicat Luther cele 95 de teze?",
+     "Ce conciliu a organizat Contrareforma?",
+     "Ce ordin a fost fondat de Ignațiu de Loyola?",
+     "Ce edict a dat drepturi protestanților în Franța în 1598?",
+     "Ce dietă din 1568 a recunoscut libertatea religioasă în Transilvania?"
+    ],
+    "steps": [
+     "Identifică doctrinele.",
+     "Explică reacțiile politice.",
+     "Evaluează urmările pe termen scurt și lung.",
+     "Greșeala frecventă: să crezi că Edictul de la Turda a dat libertate tuturor; ortodoxia românilor era doar tolerată."
+    ],
+    "answers": [
+     "În 1517.",
+     "Conciliul de la Trento.",
+     "Iezuiții.",
+     "Edictul de la Nantes.",
+     "Dieta de la Turda."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l04": {
+   "ro": {
+    "title": "Absolutismul și parlamentarismul",
+    "theory": "În secolul al XVII-lea, monarhia absolută a atins apogeul în Franța lui Ludovic al XIV-lea (1643–1715): regele concentra puterea, controla nobilimea la Versailles, avea o armată permanentă și o administrație cu intendenți; teoria dreptului divin a fost formulată de Bossuet. Economia urmărea mercantilismul (Colbert). În Anglia, conflictul dintre Coroană și Parlament a dus la războiul civil (1642–1651), executarea lui Carol I (1649), republica lui Cromwell, restaurația și Revoluția Glorioasă (1688–1689). Declarația drepturilor (Bill of Rights, 1689) a limitat puterea regelui: fără consimțământul Parlamentului nu se puteau impune taxe și nu se putea menține armată în timp de pace. John Locke a justificat guvernarea prin consimțământul celor guvernați.",
+    "sample": "Bill of Rights (1689) interzicea regelui să suspende legile fără acordul Parlamentului.",
+    "worked": "Documentul a pus bazele monarhiei constituționale și a influențat revoluțiile americană și franceză.",
+    "exercises": [
+     "Descrie trăsăturile absolutismului francez.",
+     "Explică mercantilismul.",
+     "Explică etapele conflictului din Anglia.",
+     "Analizează Bill of Rights.",
+     "Compară teoria lui Bossuet cu cea a lui Locke."
+    ],
+    "test": [
+     "Ce rege francez a construit Versailles ca centru al puterii?",
+     "Cine a formulat teoria dreptului divin?",
+     "Când a fost executat Carol I al Angliei?",
+     "Ce document a limitat puterea regelui în 1689?",
+     "Ce filosof a justificat guvernarea prin consimțământ?"
+    ],
+    "steps": [
+     "Identifică sursa puterii în fiecare sistem.",
+     "Compară instituțiile.",
+     "Explică urmările pe termen lung.",
+     "Greșeala frecventă: să crezi că Revoluția Glorioasă a creat democrația; a creat monarhia parlamentară, cu vot restrâns."
+    ],
+    "answers": [
+     "Ludovic al XIV-lea.",
+     "Bossuet.",
+     "În 1649.",
+     "Bill of Rights.",
+     "John Locke."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l05": {
+   "ro": {
+    "title": "Iluminismul și despotismul luminat",
+    "theory": "Iluminismul (secolul al XVIII-lea) a pus încrederea în rațiune ca mijloc de a înțelege și schimba lumea. Montesquieu (Despre spiritul legilor, 1748) a teoretizat separarea puterilor; Voltaire a combătut intoleranța; Rousseau (Contractul social, 1762) a formulat suveranitatea poporului și voința generală; Enciclopedia (Diderot, d’Alembert) a răspândit cunoștințele. Unii monarhi au aplicat reforme „luminate” fără a renunța la putere: Frederic al II-lea al Prusiei, Ecaterina a II-a a Rusiei, Maria Tereza și Iosif al II-lea în Monarhia Habsburgică. Iosif al II-lea a dat Edictul de toleranță (1781) și a desființat șerbia personală în Transilvania (1785), după răscoala lui Horea, Cloșca și Crișan (1784).",
+    "sample": "Iosif al II-lea a vizitat Transilvania și a primit plângeri ale țăranilor români înainte de răscoala din 1784.",
+    "worked": "Contactul direct cu situația țăranilor a influențat reformele. Despotismul luminat urmărea însă și un stat mai eficient, nu doar binele supușilor.",
+    "exercises": [
+     "Explică ideile lui Montesquieu, Voltaire și Rousseau.",
+     "Explică ce a fost Enciclopedia.",
+     "Explică ce este despotismul luminat.",
+     "Explică reformele lui Iosif al II-lea.",
+     "Explică legătura dintre răscoala din 1784 și desființarea șerbiei."
+    ],
+    "test": [
+     "Cine a scris Despre spiritul legilor?",
+     "Cine a formulat ideea voinței generale?",
+     "Ce monarh habsburgic a dat Edictul de toleranță?",
+     "Când a fost răscoala lui Horea?",
+     "Când a fost desființată șerbia personală în Transilvania?"
+    ],
+    "steps": [
+     "Identifică ideea și autorul.",
+     "Explică aplicarea ei politică.",
+     "Evaluează limitele reformelor.",
+     "Greșeala frecventă: să crezi că despoții luminați erau democrați; păstrau puterea absolută."
+    ],
+    "answers": [
+     "Montesquieu.",
+     "Rousseau.",
+     "Iosif al II-lea.",
+     "În 1784.",
+     "În 1785."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l06": {
+   "ro": {
+    "title": "Revoluția americană",
+    "theory": "Coloniile britanice din America de Nord au protestat împotriva taxelor impuse fără reprezentare („No taxation without representation”): Legea timbrului (1765), Boston Tea Party (1773). Congresul continental a adoptat Declarația de Independență (4 iulie 1776), redactată în principal de Thomas Jefferson, care proclama drepturi naturale (viață, libertate, căutarea fericirii) și dreptul la revoltă împotriva tiraniei. Războiul a fost câștigat cu ajutorul Franței (Yorktown, 1781); Pacea de la Paris (1783) a recunoscut independența. Constituția din 1787 a creat o republică federală cu separarea puterilor (Congres, președinte, Curte Supremă), completată de Bill of Rights (1791). Sclavia a rămas însă legală în sud.",
+    "sample": "Declarația de Independență afirma că „toți oamenii sunt creați egali”, dar autorul ei deținea sclavi.",
+    "worked": "Contradicția arată distanța dintre principii și realitatea socială, care avea să ducă la Războiul Civil american.",
+    "exercises": [
+     "Explică cauzele revoluției americane.",
+     "Analizează principiile Declarației de Independență.",
+     "Explică rolul Franței.",
+     "Explică instituțiile Constituției din 1787.",
+     "Explică contradicția dintre principii și sclavie."
+    ],
+    "test": [
+     "Ce lozincă a protestului colonial cunoști?",
+     "Când a fost adoptată Declarația de Independență?",
+     "Cine a redactat-o în principal?",
+     "Ce tratat a recunoscut independența SUA?",
+     "Când a fost adoptată Constituția SUA?"
+    ],
+    "steps": [
+     "Identifică cauzele: economice, politice, ideologice.",
+     "Analizează documentele fondatoare.",
+     "Evaluează limitele principiilor proclamate.",
+     "Greșeala frecventă: să crezi că revoluția americană a dat drepturi tuturor; sclavii și femeile au fost excluși."
+    ],
+    "answers": [
+     "„No taxation without representation”.",
+     "La 4 iulie 1776.",
+     "Thomas Jefferson.",
+     "Pacea de la Paris (1783).",
+     "În 1787."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l07": {
+   "ro": {
+    "title": "Revoluția franceză",
+    "theory": "Criza financiară a obligat pe Ludovic al XVI-lea să convoace Stările Generale (1789). Starea a treia s-a proclamat Adunare Națională; căderea Bastiliei (14 iulie 1789) a devenit simbolul revoluției. Adunarea a desființat privilegiile feudale (4 august) și a adoptat Declarația drepturilor omului și ale cetățeanului (26 august 1789). Monarhia constituțională (1791) a fost înlocuită de republică (1792); regele a fost executat (1793). Sub iacobini (Robespierre), Teroarea (1793–1794) a eliminat adversarii. A urmat Directoratul (1795–1799), încheiat prin lovitura de stat a lui Napoleon Bonaparte. Revoluția a răspândit ideile de suveranitate națională, egalitate juridică, drepturi și națiune.",
+    "sample": "Declarația din 1789 afirma că „oamenii se nasc și rămân liberi și egali în drepturi”.",
+    "worked": "Principiul a fost aplicat inegal (femeile, coloniile), dar a devenit fundamentul constituțiilor moderne.",
+    "exercises": [
+     "Explică cauzele revoluției.",
+     "Ordonează etapele revoluției.",
+     "Analizează Declarația din 1789.",
+     "Explică Teroarea iacobină.",
+     "Explică urmările revoluției în Europa."
+    ],
+    "test": [
+     "Când a căzut Bastilia?",
+     "Când s-au desființat privilegiile feudale?",
+     "Când a fost proclamată republica?",
+     "Cine a condus Teroarea?",
+     "Ce regim a înlocuit Napoleon în 1799?"
+    ],
+    "steps": [
+     "Ordonează etapele pe o axă a timpului.",
+     "Analizează documentele.",
+     "Evaluează moștenirea.",
+     "Greșeala frecventă: să crezi că revoluția a fost un eveniment unitar; a avut etape foarte diferite."
+    ],
+    "answers": [
+     "La 14 iulie 1789.",
+     "La 4 august 1789.",
+     "În 1792.",
+     "Robespierre.",
+     "Directoratul."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l08": {
+   "ro": {
+    "title": "Napoleon și Congresul de la Viena",
+    "theory": "Napoleon a devenit prim-consul (1799) și împărat (1804). Codul civil (1804) a consolidat egalitatea juridică și proprietatea și a influențat legislații din toată Europa, inclusiv Codul civil român din 1864. Războaiele napoleoniene au răsturnat ordinea europeană (Austerlitz, 1805; Sfântul Imperiu Roman desființat, 1806; blocada continentală). Campania din Rusia (1812) și bătălia de la Leipzig (1813) au dus la abdicare; după „cele o sută de zile”, a fost învins la Waterloo (1815). Congresul de la Viena (1814–1815), dominat de Metternich, a restaurat monarhiile (principiul legitimității) și echilibrul puterilor. Sfânta Alianță (Rusia, Austria, Prusia) a încercat să reprime mișcările liberale și naționale.",
+    "sample": "Codul civil român din 1864 a fost inspirat în mare măsură de Codul Napoleon.",
+    "worked": "Influența juridică a lui Napoleon a durat mai mult decât cuceririle lui militare.",
+    "exercises": [
+     "Explică reformele lui Napoleon.",
+     "Ordonează marile bătălii napoleoniene.",
+     "Explică cauzele căderii lui Napoleon.",
+     "Explică principiile Congresului de la Viena.",
+     "Explică rolul Sfintei Alianțe."
+    ],
+    "test": [
+     "Când s-a încoronat Napoleon împărat?",
+     "Ce cod a adoptat în 1804?",
+     "Unde a fost învins definitiv în 1815?",
+     "Cine a dominat Congresul de la Viena?",
+     "Ce state au format Sfânta Alianță?"
+    ],
+    "steps": [
+     "Identifică reformele și războaiele.",
+     "Explică reorganizarea Europei.",
+     "Evaluează moștenirea.",
+     "Greșeala frecventă: să crezi că Congresul de la Viena a șters total revoluția; multe reforme napoleoniene au rămas."
+    ],
+    "answers": [
+     "În 1804.",
+     "Codul civil.",
+     "La Waterloo.",
+     "Metternich.",
+     "Rusia, Austria, Prusia."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l09": {
+   "ro": {
+    "title": "Revoluția industrială",
+    "theory": "Revoluția industrială a început în Marea Britanie în a doua jumătate a secolului al XVIII-lea, datorită capitalului, cărbunelui și fierului, imperiului colonial, revoluției agricole și inovațiilor tehnice: mașina de tors, războiul de țesut mecanic, motorul cu abur perfecționat de James Watt. Fabrica a înlocuit atelierul, iar căile ferate (Stephenson, 1825/1830) au schimbat transporturile. A doua revoluție industrială (după 1870) a adus electricitatea, oțelul, chimia, petrolul și motorul cu ardere internă. Urmările sociale: urbanizare rapidă, apariția burgheziei industriale și a proletariatului, condiții grele de muncă (inclusiv munca copiilor), sindicate și legislație socială, ideologii noi.",
+    "sample": "Prima cale ferată publică cu locomotive cu abur a fost deschisă între Stockton și Darlington în 1825.",
+    "worked": "Transportul feroviar a redus costurile și a unit piețele, accelerând industrializarea.",
+    "exercises": [
+     "Explică de ce revoluția industrială a început în Marea Britanie.",
+     "Enumeră inovațiile tehnice principale.",
+     "Compară prima și a doua revoluție industrială.",
+     "Explică urmările sociale.",
+     "Explică apariția mișcării muncitorești."
+    ],
+    "test": [
+     "Unde a început revoluția industrială?",
+     "Cine a perfecționat motorul cu abur?",
+     "Când s-a deschis prima cale ferată publică cu abur?",
+     "Ce surse noi de energie aduce a doua revoluție industrială?",
+     "Ce clasă socială nouă a apărut în fabrici?"
+    ],
+    "steps": [
+     "Identifică condițiile favorabile.",
+     "Explică inovațiile tehnice și efectul lor.",
+     "Analizează urmările economice și sociale.",
+     "Greșeala frecventă: să crezi că industrializarea a adus imediat bunăstare tuturor; prima generație de muncitori a trăit în condiții foarte grele."
+    ],
+    "answers": [
+     "În Marea Britanie.",
+     "James Watt.",
+     "În 1825.",
+     "Electricitatea și petrolul.",
+     "Proletariatul."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l10": {
+   "ro": {
+    "title": "Ideologiile secolului al XIX-lea",
+    "theory": "Liberalismul a susținut libertățile individuale, constituția, separarea puterilor, proprietatea și piața liberă; în politică, votul s-a extins treptat. Conservatorismul (Edmund Burke) a apărat tradiția, schimbarea lentă și instituțiile istorice. Naționalismul a afirmat dreptul fiecărei națiuni la stat propriu; în Europa Centrală și de Est a fost legat de emancipare, dar putea deveni exclusivist. Socialismul a criticat inegalitățile capitalismului: socialiștii utopici (Saint-Simon, Owen), apoi Marx și Engels (Manifestul Partidului Comunist, 1848) cu teoria luptei de clasă. Din socialism s-au desprins social-democrația reformistă și comunismul revoluționar. Anarhismul respingea statul.",
+    "sample": "Burke a criticat Revoluția franceză (1790), argumentând că ruperea bruscă de tradiție duce la violență.",
+    "worked": "Analiza lui Burke a devenit textul fondator al conservatorismului modern.",
+    "exercises": [
+     "Compară liberalismul cu conservatorismul.",
+     "Explică cele două fețe ale naționalismului.",
+     "Explică ideile lui Marx.",
+     "Compară social-democrația cu comunismul.",
+     "Explică ce este anarhismul."
+    ],
+    "test": [
+     "Ce ideologie susține piața liberă și constituția?",
+     "Cine a fondat conservatorismul modern?",
+     "Ce document au publicat Marx și Engels în 1848?",
+     "Ce teorie centrală are marxismul?",
+     "Ce ideologie respinge statul?"
+    ],
+    "steps": [
+     "Identifică valorile fiecărei ideologii.",
+     "Compară-le între ele, valoare cu valoare.",
+     "Leagă-le de partidele politice.",
+     "Greșeala frecventă: să crezi că naționalismul a fost doar negativ; în secolul al XIX-lea a fost și un factor de emancipare."
+    ],
+    "answers": [
+     "Liberalismul.",
+     "Edmund Burke.",
+     "Manifestul Partidului Comunist.",
+     "Lupta de clasă.",
+     "Anarhismul."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l11": {
+   "ro": {
+    "title": "Revoluțiile de la 1848 în Europa",
+    "theory": "În 1848, un val de revoluții a cuprins Europa: Franța (a doua republică, vot universal masculin), statele germane (Parlamentul de la Frankfurt), Imperiul Habsburgic (Viena, Ungaria cu Lajos Kossuth, Boemia), statele italiene, Țările Române. Cauzele: criza economică, foametea, nemulțumirea liberalilor și a națiunilor fără stat. Revendicările: constituții, libertăți, desființarea iobăgiei, unificare sau autonomie națională. Revoluțiile au fost înfrânte în 1849 (intervenția rusă în Ungaria), dar au avut urmări durabile: desființarea iobăgiei în Imperiul Habsburgic, ideea națională, experiența politică. Conflictul dintre revoluția maghiară și românii din Transilvania (Avram Iancu) a arătat ciocnirea proiectelor naționale.",
+    "sample": "Revoluția maghiară a proclamat unirea Transilvaniei cu Ungaria, la care românii transilvăneni s-au opus.",
+    "worked": "Cazul arată că revoluții cu aceleași idei liberale puteau intra în conflict din cauza obiectivelor naționale opuse.",
+    "exercises": [
+     "Enumeră țările cuprinse de revoluție.",
+     "Explică cauzele revoluțiilor.",
+     "Explică revendicările comune.",
+     "Explică cauzele înfrângerii.",
+     "Analizează conflictul româno-maghiar din 1848–1849."
+    ],
+    "test": [
+     "Ce regim a apărut în Franța în 1848?",
+     "Unde s-a întrunit parlamentul german?",
+     "Cine a condus revoluția maghiară?",
+     "Ce putere a intervenit în Ungaria în 1849?",
+     "Ce lider au avut românii din Munții Apuseni?"
+    ],
+    "steps": [
+     "Identifică revendicările.",
+     "Compară revoluțiile din mai multe țări.",
+     "Evaluează urmările pe termen scurt și lung.",
+     "Greșeala frecventă: să crezi că revoluțiile de la 1848 nu au avut niciun rezultat; multe programe au fost realizate ulterior."
+    ],
+    "answers": [
+     "A doua republică.",
+     "La Frankfurt.",
+     "Lajos Kossuth.",
+     "Rusia.",
+     "Avram Iancu."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l12": {
+   "ro": {
+    "title": "Unificarea Italiei și a Germaniei",
+    "theory": "Italia a fost unificată sub conducerea Regatului Piemont-Sardinia: contele Cavour a obținut sprijinul Franței (războiul din 1859 cu Austria), Garibaldi a cucerit Regatul celor Două Sicilii (expediția celor o mie, 1860), iar Regatul Italiei a fost proclamat în 1861; Veneția (1866) și Roma (1870) au fost anexate ulterior. Germania a fost unificată de Prusia, sub cancelarul Otto von Bismarck, prin „sânge și fier”: războaiele cu Danemarca (1864), Austria (1866) și Franța (1870–1871). Imperiul German a fost proclamat la Versailles (18 ianuarie 1871). Unificările au schimbat echilibrul european: Germania a devenit cea mai mare putere continentală, iar Franța a pierdut Alsacia și Lorena.",
+    "sample": "Bismarck spunea că marile probleme ale epocii nu se rezolvă prin discursuri și voturi, ci „prin fier și sânge”.",
+    "worked": "Formula exprimă Realpolitik-ul: unificarea germană a fost făcută de stat și armată, nu de revoluția liberală eșuată în 1848.",
+    "exercises": [
+     "Explică rolul lui Cavour și Garibaldi.",
+     "Ordonează etapele unificării Italiei.",
+     "Ordonează războaiele lui Bismarck.",
+     "Explică conceptul de Realpolitik.",
+     "Explică urmările unificării Germaniei pentru Europa."
+    ],
+    "test": [
+     "Ce stat a condus unificarea Italiei?",
+     "Când a fost proclamat Regatul Italiei?",
+     "Cine a fost cancelarul Prusiei?",
+     "Unde a fost proclamat Imperiul German?",
+     "Ce provincii a pierdut Franța în 1871?"
+    ],
+    "steps": [
+     "Identifică conducătorii și metodele.",
+     "Ordonează etapele pe o axă a timpului.",
+     "Evaluează urmările internaționale.",
+     "Greșeala frecventă: să crezi că unificările au fost doar rezultatul voinței populare; au fost conduse de state, prin diplomație și război."
+    ],
+    "answers": [
+     "Piemont-Sardinia.",
+     "În 1861.",
+     "Otto von Bismarck.",
+     "La Versailles.",
+     "Alsacia și Lorena."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l13": {
+   "ro": {
+    "title": "Imperialismul și colonialismul",
+    "theory": "În a doua jumătate a secolului al XIX-lea, puterile europene, apoi SUA și Japonia, și-au extins dominația asupra Africii și Asiei. Cauzele: nevoia de materii prime și piețe, rivalitatea dintre state, prestigiul, ideologii rasiste („misiunea civilizatoare”, darwinismul social), progresele militare și medicale. Conferința de la Berlin (1884–1885) a stabilit regulile împărțirii Africii, fără participarea africanilor. Marea Britanie a avut cel mai mare imperiu (India din 1858), urmată de Franța. Colonialismul a adus infrastructură și integrare în economia mondială, dar și exploatare, violență (Congo sub Leopold al II-lea), granițe artificiale și distrugerea structurilor locale. Rivalitățile coloniale (Fashoda, 1898; crizele marocane) au tensionat relațiile internaționale.",
+    "sample": "În Statul Liber Congo, proprietate personală a regelui belgian Leopold al II-lea, exploatarea cauciucului a provocat o catastrofă umanitară.",
+    "worked": "Cazul a dus la una dintre primele campanii internaționale pentru drepturile omului și la preluarea coloniei de statul belgian (1908).",
+    "exercises": [
+     "Explică cauzele imperialismului.",
+     "Explică rolul Conferinței de la Berlin.",
+     "Explică ideologiile care justificau colonialismul.",
+     "Evaluează urmările colonialismului.",
+     "Explică legătura dintre rivalitățile coloniale și Primul Război Mondial."
+    ],
+    "test": [
+     "Ce conferință a împărțit Africa?",
+     "Ce putere avea cel mai mare imperiu colonial?",
+     "Când a trecut India sub administrarea directă a Coroanei?",
+     "Cine stăpânea personal Congo?",
+     "Ce criză colonială a avut loc în 1898?"
+    ],
+    "steps": [
+     "Identifică motivele.",
+     "Analizează mijloacele dominației.",
+     "Evaluează urmările pentru colonizați și colonizatori.",
+     "Greșeala frecventă: să judeci colonialismul doar prin infrastructura construită; costul uman a fost enorm."
+    ],
+    "answers": [
+     "Conferința de la Berlin (1884–1885).",
+     "Marea Britanie.",
+     "În 1858.",
+     "Regele Leopold al II-lea.",
+     "Criza de la Fashoda."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l14": {
+   "ro": {
+    "title": "Echilibrul european în secolul al XVIII-lea",
+    "theory": "După Pacea Westfalică (1648), relațiile internaționale s-au bazat pe state suverane și pe echilibrul puterilor: nicio putere nu trebuia să domine continentul. Războiul de succesiune la tronul Spaniei (1701–1714; Pacea de la Utrecht) a împiedicat unirea Franței cu Spania. Rusia a devenit mare putere sub Petru cel Mare (Poltava, 1709), iar Prusia sub Frederic al II-lea (războiul de succesiune austriacă, războiul de șapte ani). Polonia a fost împărțită de trei ori (1772, 1793, 1795) între Rusia, Prusia și Austria. Pentru Țările Române, rivalitatea dintre Rusia, Austria și Imperiul Otoman a însemnat războaie și pierderi: Oltenia sub Austria (1718–1739), Bucovina anexată de Austria (1775), Basarabia de Rusia (1812).",
+    "sample": "Prin Pacea de la București (1812), Imperiul Otoman a cedat Rusiei teritoriul dintre Prut și Nistru.",
+    "worked": "Tratatul arată cum teritorii românești erau tranzacționate între marile puteri fără consultarea locuitorilor.",
+    "exercises": [
+     "Explică principiul echilibrului puterilor.",
+     "Explică ridicarea Rusiei și Prusiei.",
+     "Explică împărțirile Poloniei.",
+     "Explică pierderile teritoriale ale Moldovei în 1775 și 1812.",
+     "Explică ocupația austriacă a Olteniei."
+    ],
+    "test": [
+     "Ce pace a creat sistemul statelor suverane?",
+     "Unde l-a învins Petru cel Mare pe Carol al XII-lea?",
+     "Câte împărțiri a suferit Polonia?",
+     "Când a fost anexată Bucovina de Austria?",
+     "Ce tratat a cedat Basarabia Rusiei?"
+    ],
+    "steps": [
+     "Identifică marile puteri.",
+     "Explică interesele lor.",
+     "Leagă evenimentele de spațiul românesc.",
+     "Greșeala frecventă: să crezi că echilibrul puterilor a adus pace; a fost menținut adesea prin războaie și împărțiri."
+    ],
+    "answers": [
+     "Pacea Westfalică (1648).",
+     "La Poltava (1709).",
+     "Trei.",
+     "În 1775.",
+     "Pacea de la București (1812)."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l15": {
+   "ro": {
+    "title": "Concertul european și chestiunea orientală",
+    "theory": "După 1815, marile puteri (Austria, Rusia, Prusia, Marea Britanie, apoi Franța) au format „Concertul european”, un sistem de conferințe pentru rezolvarea crizelor. Chestiunea orientală privea soarta Imperiului Otoman în declin și rivalitatea pentru Strâmtori și Balcani. Revoluția greacă (1821–1830) a dus la independența Greciei; Tratatul de la Adrianopol (1829) a dat Principatelor libertatea comerțului și a întărit protectoratul rus. Războiul Crimeii (1853–1856) a opus Rusia Imperiului Otoman, Marii Britanii, Franței și Sardiniei; Congresul de la Paris (1856) a neutralizat Marea Neagră, a pus Principatele sub garanția colectivă și a deschis drumul unirii. Criza din 1875–1878 a dus la independența României, Serbiei și Muntenegrului.",
+    "sample": "Tratatul de la Adrianopol (1829) a desființat monopolul comercial otoman asupra Principatelor.",
+    "worked": "Libertatea comerțului a integrat Principatele în piața europeană a cerealelor și a accelerat modernizarea economică.",
+    "exercises": [
+     "Explică funcționarea Concertului european.",
+     "Definește chestiunea orientală.",
+     "Explică urmările Tratatului de la Adrianopol.",
+     "Explică importanța Congresului de la Paris pentru români.",
+     "Ordonează crizele orientale ale secolului al XIX-lea."
+    ],
+    "test": [
+     "Ce sistem de conferințe au creat marile puteri după 1815?",
+     "Când a devenit Grecia independentă?",
+     "Ce tratat din 1829 a dat libertatea comerțului?",
+     "Ce război s-a încheiat în 1856?",
+     "Ce statut a primit Marea Neagră în 1856?"
+    ],
+    "steps": [
+     "Identifică marile puteri și interesele lor.",
+     "Ordonează crizele pe o axă a timpului.",
+     "Analizează urmările pentru Principate.",
+     "Greșeala frecventă: să crezi că Principatele au fost doar spectatori; diplomația românească a folosit activ aceste crize."
+    ],
+    "answers": [
+     "Concertul european.",
+     "În 1830.",
+     "Tratatul de la Adrianopol.",
+     "Războiul Crimeii.",
+     "A fost neutralizată."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l16": {
+   "ro": {
+    "title": "Sistemele de alianțe și drumul spre Primul Război Mondial",
+    "theory": "După 1871, Bismarck a construit un sistem de alianțe pentru a izola Franța: Liga celor trei împărați, Dubla Alianță cu Austro-Ungaria (1879), Tripla Alianță cu Italia (1882), la care România a aderat secret (1883), tratatul de reasigurare cu Rusia (1887). După plecarea lui Bismarck (1890), Germania nu a reînnoit tratatul cu Rusia, care s-a apropiat de Franța (1892–1894). Marea Britanie a renunțat la „splendida izolare”: Antanta cordială cu Franța (1904), acordul cu Rusia (1907) – Tripla Înțelegere. Cursa înarmărilor navale, crizele marocane și balcanice (anexarea Bosniei, 1908; războaiele balcanice, 1912–1913) au crescut tensiunea. Asasinarea arhiducelui Franz Ferdinand la Sarajevo (28 iunie 1914) a declanșat războiul.",
+    "sample": "România a aderat secret la Tripla Alianță în 1883, tratat cunoscut doar de rege și de câțiva oameni politici.",
+    "worked": "Secretul explică de ce, în 1914, opinia publică și majoritatea politicienilor au respins intrarea în război alături de Puterile Centrale.",
+    "exercises": [
+     "Explică scopul sistemului bismarckian.",
+     "Explică formarea Antantei.",
+     "Explică rolul crizelor balcanice.",
+     "Explică aderarea României la Tripla Alianță.",
+     "Explică cum o criză locală a devenit război mondial."
+    ],
+    "test": [
+     "Ce state au format Tripla Alianță?",
+     "Când a aderat România la Tripla Alianță?",
+     "Când s-a format Antanta cordială?",
+     "Ce provincie a anexat Austro-Ungaria în 1908?",
+     "Unde a fost asasinat Franz Ferdinand?"
+    ],
+    "steps": [
+     "Ordonează formarea alianțelor.",
+     "Explică interesele fiecărei puteri.",
+     "Analizează mecanismul declanșării războiului.",
+     "Greșeala frecventă: să crezi că asasinatul de la Sarajevo a fost cauza profundă; a fost doar pretextul."
+    ],
+    "answers": [
+     "Germania, Austro-Ungaria, Italia.",
+     "În 1883.",
+     "În 1904.",
+     "Bosnia-Herțegovina.",
+     "La Sarajevo."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l17": {
+   "ro": {
+    "title": "Țările Române în secolul al XVIII-lea",
+    "theory": "În Țara Românească și Moldova, regimul fanariot (1711/1716–1821) a însemnat domni numiți de Poartă dintre grecii din Fanar, schimbați des, și obligații financiare grele. Unii domni au făcut reforme: Constantin Mavrocordat a desființat rumânia (1746) și vecinia (1749) și a introdus impozitul fix. Războaiele ruso-austro-turce au adus ocupații străine și pierderi teritoriale (Bucovina, 1775; Basarabia, 1812). Tratatul de la Kuciuk-Kainargi (1774) a dat Rusiei dreptul de a interveni în favoarea Principatelor. În Transilvania habsburgică, Unirea cu Biserica Romei (1698–1701) a creat Biserica greco-catolică, iar Inochentie Micu-Klein a cerut drepturi politice pentru români; Școala Ardeleană a dezvoltat ideea romanității și emancipării.",
+    "sample": "Inochentie Micu-Klein a cerut ca românii să fie recunoscuți ca națiune politică, egală cu celelalte din Transilvania.",
+    "worked": "Cererea a pus pentru prima dată problema națională a românilor transilvăneni pe baze moderne, în termenii dreptului.",
+    "exercises": [
+     "Explică trăsăturile regimului fanariot.",
+     "Explică reformele lui Constantin Mavrocordat.",
+     "Explică importanța Tratatului de la Kuciuk-Kainargi.",
+     "Explică urmările Unirii religioase.",
+     "Explică programul Școlii Ardelene."
+    ],
+    "test": [
+     "Când a desființat Mavrocordat rumânia?",
+     "Ce tratat din 1774 a dat drepturi Rusiei în Principate?",
+     "Când a fost anexată Bucovina?",
+     "Ce biserică a apărut prin unirea cu Roma?",
+     "Ce episcop a cerut drepturi pentru români?"
+    ],
+    "steps": [
+     "Identifică puterile care controlau spațiul românesc.",
+     "Explică reformele și limitele lor.",
+     "Leagă evoluțiile de afirmarea națională.",
+     "Greșeala frecventă: să crezi că toți domnii fanarioți au fost doar negativi; unii au făcut reforme importante."
+    ],
+    "answers": [
+     "În 1746.",
+     "Tratatul de la Kuciuk-Kainargi.",
+     "În 1775.",
+     "Biserica greco-catolică.",
+     "Inochentie Micu-Klein."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l18": {
+   "ro": {
+    "title": "1821 și epoca Regulamentelor Organice",
+    "theory": "Mișcarea condusă de Tudor Vladimirescu (1821) a combinat revendicări sociale și naționale, în contextul Eteriei; deși Tudor a fost ucis, Poarta a renunțat la domnii fanarioți și a numit domni pământeni (Ioniță Sandu Sturdza, Grigore Ghica). Convenția de la Akkerman (1826) și Tratatul de la Adrianopol (1829) au întărit autonomia și au adus protectoratul rus. Regulamentele Organice (1831–1832), elaborate sub generalul Pavel Kiseleff, au creat instituții moderne: Adunarea obștească, separarea puterilor, buget, miliție națională, carantină, organizarea orașelor. Ele au păstrat însă privilegiile boierești și au mărit obligațiile țăranilor. Pe fondul lor s-au dezvoltat școala (Gheorghe Lazăr, Gheorghe Asachi), presa (Curierul românesc, Albina românească) și o generație liberală formată în Occident.",
+    "sample": "Regulamentele Organice afirmau că unirea Principatelor ar fi firească, având aceeași origine, religie, limbă și obiceiuri.",
+    "worked": "Paradoxal, un act adoptat sub protectorat rus a pregătit ideea unirii și instituțiile care au facilitat-o.",
+    "exercises": [
+     "Explică obiectivele mișcării lui Tudor Vladimirescu.",
+     "Explică urmările mișcării din 1821.",
+     "Explică instituțiile Regulamentelor Organice.",
+     "Evaluează limitele Regulamentelor.",
+     "Explică apariția presei și a școlii românești."
+    ],
+    "test": [
+     "Când a avut loc mișcarea lui Tudor Vladimirescu?",
+     "Ce domni au urmat fanarioților?",
+     "Ce general rus a condus administrația Principatelor?",
+     "Ce ziar a apărut la București în 1829?",
+     "Cine a deschis școala de la Sf. Sava?"
+    ],
+    "steps": [
+     "Identifică revendicările.",
+     "Explică schimbările instituționale.",
+     "Evaluează efectele sociale.",
+     "Greșeala frecventă: să crezi că Regulamentele au adus democrația; au organizat un stat modern, dar oligarhic."
+    ],
+    "answers": [
+     "În 1821.",
+     "Domni pământeni.",
+     "Pavel Kiseleff.",
+     "Curierul românesc.",
+     "Gheorghe Lazăr."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l19": {
+   "ro": {
+    "title": "Revoluția de la 1848 în Țările Române",
+    "theory": "În Moldova, mișcarea din martie 1848 a fost reprimată, iar exilații au elaborat programe radicale (Dorințele partidei naționale, Mihail Kogălniceanu: unirea, desființarea clăcii). În Țara Românească, Proclamația de la Islaz (9/21 iunie 1848) a deschis revoluția: guvern provizoriu, Comisia proprietății pentru problema agrară, eliberarea robilor; intervenția otomană și rusă a încheiat-o în septembrie. În Transilvania, Adunarea de la Blaj (3/15 mai 1848) a cerut recunoașterea națiunii române și desființarea iobăgiei, iar conflictul cu revoluția maghiară a dus la război civil (Avram Iancu în Munții Apuseni); încercarea de reconciliere a lui Nicolae Bălcescu a venit prea târziu. Convenția de la Balta Liman (1849) a restrâns autonomia.",
+    "sample": "La Blaj, mulțimea a strigat „Noi vrem să ne unim cu țara!”, potrivit unor relatări ale participanților.",
+    "worked": "Formula exprimă aspirația națională, dar programul oficial cerea recunoașterea drepturilor românilor în Imperiu, nu unirea imediată.",
+    "exercises": [
+     "Compară programele din cele trei provincii.",
+     "Explică instituțiile create în Țara Românească.",
+     "Explică conflictul româno-maghiar.",
+     "Explică rolul lui Nicolae Bălcescu.",
+     "Explică urmările Convenției de la Balta Liman."
+    ],
+    "test": [
+     "Ce program a redactat Kogălniceanu în 1848?",
+     "Unde a început revoluția în Țara Românească?",
+     "Ce adunare a avut loc la Blaj?",
+     "Cine a condus rezistența din Munții Apuseni?",
+     "Ce convenție din 1849 a restrâns autonomia?"
+    ],
+    "steps": [
+     "Identifică programele.",
+     "Compară revendicările.",
+     "Explică eșecul și moștenirea.",
+     "Greșeala frecventă: să crezi că revoluția din Țara Românească a fost înfrântă de boieri; a fost înfrântă de intervenția străină."
+    ],
+    "answers": [
+     "Dorințele partidei naționale.",
+     "La Islaz.",
+     "Marea Adunare Națională.",
+     "Avram Iancu.",
+     "Convenția de la Balta Liman."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l20": {
+   "ro": {
+    "title": "Unirea Principatelor și domnia lui Cuza",
+    "theory": "Congresul de la Paris (1856) a pus Principatele sub garanția colectivă. Adunările ad-hoc (1857) au cerut unirea, prinț străin, autonomie, neutralitate și guvern reprezentativ. Convenția de la Paris (1858) a creat Principatele Unite, dar cu domni și adunări separate. Dubla alegere a lui Alexandru Ioan Cuza (5 și 24 ianuarie 1859) a realizat unirea de fapt; guvernul și Adunarea unică au fost create în 1862 (prim-ministru Barbu Catargiu). Reformele: secularizarea averilor mănăstirești (1863), lovitura de stat din 2 mai 1864 și Statutul dezvoltator, legea rurală (1864, cu Mihail Kogălniceanu), legea instrucțiunii publice, Codul civil, Codul penal, Universitățile din Iași (1860) și București (1864). Coaliția „monstruoasă” l-a obligat să abdice (11 februarie 1866).",
+    "sample": "Prin legea rurală din 1864, țăranii clăcași au devenit proprietari, cu despăgubire plătită proprietarilor.",
+    "worked": "Reforma a desființat clăcășia, dar loturile au fost mici, iar problema agrară a rămas una dintre marile probleme ale României moderne.",
+    "exercises": [
+     "Explică etapele unirii.",
+     "Analizează Convenția de la Paris.",
+     "Explică reformele lui Cuza.",
+     "Explică lovitura de stat din 1864.",
+     "Explică abdicarea lui Cuza."
+    ],
+    "test": [
+     "Când a fost ales Cuza în Moldova?",
+     "Când a fost ales în Țara Românească?",
+     "Când a avut loc secularizarea averilor mănăstirești?",
+     "Ce universitate a fost fondată în 1860?",
+     "Când a abdicat Cuza?"
+    ],
+    "steps": [
+     "Ordonează etapele pe o axă a timpului.",
+     "Analizează reformele.",
+     "Evaluează domnia: reușite și eșecuri.",
+     "Greșeala frecventă: să crezi că legea rurală a rezolvat problema agrară; loturile mici au dus la crize ulterioare, ca în 1907."
+    ],
+    "answers": [
+     "La 5 ianuarie 1859.",
+     "La 24 ianuarie 1859.",
+     "În 1863.",
+     "Universitatea din Iași.",
+     "La 11 februarie 1866."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l21": {
+   "ro": {
+    "title": "Carol I: instituții, partide și modernizare",
+    "theory": "Carol de Hohenzollern-Sigmaringen (domn 1866–1881, rege 1881–1914) a domnit în baza Constituției din 1866: monarhie constituțională, separarea puterilor, drepturi, vot cenzitar pe colegii. Viața politică a fost dominată de Partidul Național Liberal (1875; Ion C. Brătianu) și de Partidul Conservator (1880; Lascăr Catargiu, apoi P.P. Carp, Titu Maiorescu), care alternau la putere prin rotativa guvernamentală: regele numea guvernul, care organiza apoi alegerile. Modernizarea: căile ferate (afacerea Strousberg), leul (1867), Banca Națională (1880), protecționismul industrial (1886, 1887), podul de la Cernavodă (Anghel Saligny, 1895), industria petrolieră. Răscoala din 1907, reprimată sângeros, a arătat gravitatea problemei agrare.",
+    "sample": "Răscoala țărănească din 1907 a început în nordul Moldovei și s-a extins în toată țara.",
+    "worked": "Represiunea armatei a produs mii de morți și a impus reforma agrară și electorală pe agenda politică.",
+    "exercises": [
+     "Explică principiile Constituției din 1866.",
+     "Explică funcționarea rotativei guvernamentale.",
+     "Compară liberalii cu conservatorii.",
+     "Enumeră realizările modernizării economice.",
+     "Explică cauzele răscoalei din 1907."
+    ],
+    "test": [
+     "Când a fost fondat Partidul Național Liberal?",
+     "Când a fost introdus leul?",
+     "Când a fost fondată Banca Națională?",
+     "Cine a construit podul de la Cernavodă?",
+     "Unde a început răscoala din 1907?"
+    ],
+    "steps": [
+     "Identifică instituțiile.",
+     "Explică funcționarea sistemului politic.",
+     "Evaluează modernizarea și limitele ei.",
+     "Greșeala frecventă: să crezi că monarhia constituțională însemna democrație deplină; votul era cenzitar și rotativa controla alegerile."
+    ],
+    "answers": [
+     "În 1875.",
+     "În 1867.",
+     "În 1880.",
+     "Anghel Saligny.",
+     "În nordul Moldovei."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l22": {
+   "ro": {
+    "title": "Independența și Regatul României",
+    "theory": "În contextul crizei orientale (1875–1877), România a semnat convenția cu Rusia (4 aprilie 1877) pentru trecerea trupelor ruse. Războiul a început, iar Parlamentul a proclamat independența (9 mai 1877, discursul lui Mihail Kogălniceanu). Armata română a luptat alături de cea rusă la Plevna (Grivița, 30 august 1877; capitularea lui Osman Pașa, noiembrie), Rahova, Smârdan, Vidin. Tratatul de la San Stefano (1878) a fost revizuit de Congresul de la Berlin (1878): independența recunoscută cu condiția modificării articolului 7 din Constituție (cetățenia necreștinilor), Dobrogea, Delta și Insula Șerpilor atribuite României, sudul Basarabiei Rusiei. Proclamarea Regatului (1881) a încheiat procesul.",
+    "sample": "Kogălniceanu a declarat în Parlament: „suntem independenți, suntem națiune de sine stătătoare”.",
+    "worked": "Discursul exprimă decizia unilaterală a statului român; recunoașterea internațională a venit abia la Berlin, cu condiții.",
+    "exercises": [
+     "Explică contextul internațional al independenței.",
+     "Analizează convenția cu Rusia.",
+     "Ordonează bătăliile din 1877–1878.",
+     "Analizează hotărârile Congresului de la Berlin.",
+     "Explică problema articolului 7 din Constituție."
+    ],
+    "test": [
+     "Când a fost proclamată independența?",
+     "Cine a ținut discursul din Parlament?",
+     "Ce redută a fost cucerită la 30 august 1877?",
+     "Ce tratat a fost revizuit la Berlin?",
+     "Ce teritoriu a primit România în 1878?"
+    ],
+    "steps": [
+     "Ordonează evenimentele.",
+     "Analizează documentele.",
+     "Evaluează costurile și câștigurile.",
+     "Greșeala frecventă: să crezi că Dobrogea a fost un „schimb” acceptat de români cu bucurie; pierderea sudului Basarabiei a fost resimțită ca o nedreptate."
+    ],
+    "answers": [
+     "La 9 mai 1877.",
+     "Mihail Kogălniceanu.",
+     "Grivița.",
+     "Tratatul de la San Stefano.",
+     "Dobrogea."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l23": {
+   "ro": {
+    "title": "Transilvania în epoca premodernă și modernă",
+    "theory": "După 1541, Transilvania a fost principat autonom sub suzeranitate otomană, condus de principi aleși de Dietă (Báthory, Bethlen, Rákóczi), cu sistemul celor trei națiuni privilegiate și patru religii recepte (catolică, luterană, calvină, unitariană); ortodocșii români erau tolerați. Prin Diploma leopoldină (1691), Transilvania a intrat sub Habsburgi, păstrându-și instituțiile, dar cu un guvernator și o administrație tot mai centralizată. În secolul al XIX-lea, după 1848 și neoabsolutism, perioada liberală (1860–1867, Dieta de la Sibiu cu reprezentare românească) a fost urmată de dualismul austro-ungar (1867) și de încorporarea în Ungaria. Politica de maghiarizare a fost contestată de Partidul Național Român (1881) și de Memorandum (1892), al cărui proces (1894) a avut ecou european.",
+    "sample": "Dieta de la Sibiu (1863–1864) a recunoscut națiunea română și limba română ca egale cu celelalte.",
+    "worked": "Momentul a fost scurt: dualismul din 1867 a anulat aceste legi, iar transilvănenii au intrat sub administrația Budapestei.",
+    "exercises": [
+     "Explică statutul Transilvaniei după 1541.",
+     "Explică sistemul stărilor și religiilor recepte.",
+     "Explică urmările Diplomei leopoldine.",
+     "Explică importanța Dietei de la Sibiu.",
+     "Explică Memorandumul și procesul lui."
+    ],
+    "test": [
+     "Ce împărat a emis Diploma leopoldină?",
+     "Câte religii recepte erau?",
+     "Când s-a format dualismul austro-ungar?",
+     "Când s-a fondat Partidul Național Român?",
+     "Când a fost înaintat Memorandumul?"
+    ],
+    "steps": [
+     "Ordonează schimbările de statut.",
+     "Explică poziția românilor.",
+     "Analizează mișcarea națională.",
+     "Greșeala frecventă: să crezi că românii transilvăneni au acceptat pasiv dualismul; au protestat, inclusiv prin pasivism politic și Memorandum."
+    ],
+    "answers": [
+     "Leopold I.",
+     "Patru.",
+     "În 1867.",
+     "În 1881.",
+     "În 1892."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l24": {
+   "ro": {
+    "title": "Europa de Sud-Est sub dominație otomană",
+    "theory": "Imperiul Otoman a cucerit Balcanii în secolele XIV–XVI (Kosovo, 1389; Constantinopol, 1453; Belgrad, 1521; Mohács, 1526; asediul Vienei, 1529). Sistemul otoman se baza pe sultan, divan, armata ienicerilor (recrutați inițial prin devșirme), timarele (pământ dat sipahiilor în schimbul serviciului militar) și pe sistemul millet: comunitățile religioase (ortodocși, armeni, evrei) aveau autonomie internă sub conducători religioși. Țările Române au fost state tributare, nu provincii. Declinul a început după asediul eșuat al Vienei (1683) și Pacea de la Karlowitz (1699). Mișcările naționale din secolul al XIX-lea (Serbia 1804/1815, Grecia 1821, Bulgaria 1876) au dus la statele naționale balcanice.",
+    "sample": "Patriarhul ecumenic de Constantinopol conducea „milletul” ortodox, cu competențe religioase, juridice și de învățământ.",
+    "worked": "Sistemul explică rolul Bisericii în păstrarea identității popoarelor balcanice, dar și elenizarea elitelor ortodoxe.",
+    "exercises": [
+     "Ordonează etapele cuceririi otomane.",
+     "Explică instituțiile otomane.",
+     "Explică sistemul millet.",
+     "Explică statutul diferit al Țărilor Române.",
+     "Explică formarea statelor naționale balcanice."
+    ],
+    "test": [
+     "Când a avut loc bătălia de la Kosovo?",
+     "Ce erau ienicerii?",
+     "Ce era devșirme?",
+     "Ce pace din 1699 marchează declinul otoman?",
+     "Când a început revoluția greacă?"
+    ],
+    "steps": [
+     "Identifică instituțiile.",
+     "Compară statutul popoarelor supuse.",
+     "Explică declinul și emanciparea.",
+     "Greșeala frecventă: să crezi că toate popoarele balcanice au avut același statut; Țările Române au rămas autonome."
+    ],
+    "answers": [
+     "În 1389.",
+     "Corpul de infanterie de elită al sultanului.",
+     "Recrutarea forțată a copiilor creștini.",
+     "Pacea de la Karlowitz.",
+     "În 1821."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l25": {
+   "ro": {
+    "title": "Biserica Ortodoxă și identitatea modernă",
+    "theory": "În epoca modernă, Biserica Ortodoxă din Principate a trecut prin transformări profunde. Secularizarea averilor mănăstirești (1863) a trecut în proprietatea statului circa o pătrime din teritoriu, inclusiv bunurile mănăstirilor închinate Locurilor Sfinte. Cuza a decretat organizarea Bisericii independent de Patriarhia de Constantinopol, iar autocefalia a fost recunoscută în 1885; Patriarhia Română a fost creată în 1925 (Miron Cristea). În Transilvania, mitropolitul Andrei Șaguna a obținut reînființarea Mitropoliei ortodoxe (1864) și a dat Statutul organic (1868), care implica laicii în conducerea Bisericii, și a sprijinit școala românească. Biserica greco-catolică (Blaj) a format o mare parte a elitei intelectuale transilvănene.",
+    "sample": "Statutul organic al lui Andrei Șaguna prevedea participarea mirenilor alături de clerici în adunările bisericești.",
+    "worked": "Modelul a dat comunității românești din Transilvania o instituție autonomă, cu rol politic și cultural în lipsa unui stat propriu.",
+    "exercises": [
+     "Explică secularizarea averilor mănăstirești.",
+     "Explică ce înseamnă autocefalie.",
+     "Explică rolul lui Andrei Șaguna.",
+     "Explică rolul Bisericii greco-catolice.",
+     "Explică legătura dintre Biserică și identitatea națională."
+    ],
+    "test": [
+     "Când a fost recunoscută autocefalia BOR?",
+     "Când a fost creată Patriarhia Română?",
+     "Cine a fost primul patriarh?",
+     "Cine a reînființat Mitropolia ortodoxă a Transilvaniei?",
+     "Ce centru greco-catolic a format elita transilvăneană?"
+    ],
+    "steps": [
+     "Identifică schimbările instituționale.",
+     "Explică relația Biserică–stat.",
+     "Evaluează rolul cultural.",
+     "Greșeala frecventă: să crezi că autocefalia a fost acordată imediat după cererea lui Cuza; a fost recunoscută abia în 1885."
+    ],
+    "answers": [
+     "În 1885.",
+     "În 1925.",
+     "Miron Cristea.",
+     "Andrei Șaguna.",
+     "Blaj."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l26": {
+   "ro": {
+    "title": "Limba izvoarelor: lectura documentelor politico-diplomatice",
+    "theory": "Documentele diplomatice au un vocabular propriu, pe care istoricul trebuie să-l înțeleagă exact. Suzeranitatea înseamnă dominație asupra unui stat care își păstrează autonomia internă; protectoratul înseamnă protecția (și controlul) unei mari puteri; garanția colectivă înseamnă protecția comună a mai multor puteri. Capitulațiile (ahdname) erau actele prin care Poarta stabilea drepturile și obligațiile Țărilor Române; istoricii au discutat autenticitatea unora dintre ele, invocate de boieri în secolul al XVIII-lea. Un tratat cuprinde preambulul, articolele, clauzele (uneori secrete), ratificarea. Diferențele de traducere pot schimba sensul: de aceea se citește textul în limba originală (franceza era limba diplomației în secolul al XIX-lea).",
+    "sample": "Convenția de la Paris (1858) a fost redactată în franceză, limba diplomației europene a vremii.",
+    "worked": "Lectura în original permite observarea nuanțelor juridice pe care traducerile le pot pierde.",
+    "exercises": [
+     "Definește suzeranitatea, protectoratul și garanția colectivă.",
+     "Explică ce erau capitulațiile.",
+     "Explică structura unui tratat.",
+     "Explică de ce contează limba originală.",
+     "Analizează un articol de tratat dat."
+    ],
+    "test": [
+     "Ce înseamnă suzeranitate?",
+     "Ce înseamnă protectorat?",
+     "Ce statut au primit Principatele în 1856?",
+     "Ce erau capitulațiile?",
+     "În ce limbă se redactau tratatele în secolul al XIX-lea?"
+    ],
+    "steps": [
+     "Identifică termenii juridici.",
+     "Stabilește sensul lor exact în context.",
+     "Compară cu alte documente.",
+     "Greșeala frecventă: să folosești ca sinonime suzeranitate, protectorat și dominație directă; au sensuri juridice diferite."
+    ],
+    "answers": [
+     "Dominație asupra unui stat care își păstrează autonomia internă.",
+     "Protecția și controlul unei mari puteri.",
+     "Garanția colectivă a marilor puteri.",
+     "Acte care stabileau relațiile cu Poarta.",
+     "În franceză."
+    ]
+   }
+  }
+ }
+}
