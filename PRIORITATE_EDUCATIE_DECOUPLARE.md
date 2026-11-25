@@ -82,7 +82,7 @@ Utilizatorul a testat APK-ul signed intermediar și a raportat că textul apare 
 
 ## Geografie: pachete naționale pe an (motorul Literaturii)
 
-- RO: clasa a IV-a (`public/education/geography/authored/RO/ro-4.json`, 32 lecții, 4 unități, OMEN 5003/2014). Urmează V–XII și Licență I–III. Revizuire independentă în așteptare.
+- RO: clasa a IV-a (`public/education/geography/authored/RO/ro-4.json`, 32 lecții, 4 unități, OMEN 5003/2014); V (30), VI (30), VII (31), VIII (30) după OMEN 3393/2017 (`ro-5..8.json`). Urmează IX–XII și Licență I–III. Revizuire independentă în așteptare.
 
 ## Literatură: pachete naționale pe an (ramura `arena/430ec340-mypocketai`)
 
