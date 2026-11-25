@@ -1,6 +1,6 @@
 {
  "schema": "mypocket-literature-authored-catalog/v1",
- "version": "292318b26ab01c848334010b35a90dc928f1a513c203d45112fc7fafebc5f0d1",
+ "version": "05daed2e286f2fdc03235b3801a6696e597c858d6674712a6038482b85815ae3",
  "years": [
   {
    "country": "AT",
@@ -118,7 +118,7 @@
      "lang": "gl",
      "name": "Galego",
      "file": "gl-p1",
-     "version": "2163c6c3b564ee3378a67667a773507014cbe99b69809f4680adb1b244fdf6f8"
+     "version": "37949517103c0e696297d79aa829215e03ead0766779592b3f70e07641473770"
     }
    ]
   },
