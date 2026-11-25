@@ -1,0 +1,1064 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "RO",
+ "stage": "medium",
+ "grade": "10",
+ "version": "913b616a9677b44466b009595581ac1dbb9aa63062354b5a072cdbe25bfacbdb",
+ "source": "https://cni.nt.edu.ro/wp-content/uploads/2026/08/Informatica_teoretic_vocational_intensiv_clasa-a-X_a.pdf",
+ "sourceTitle": "Programa școlară de Informatică, clasa a X-a, filiera teoretică, profil real, specializarea matematică-informatică, intensiv informatică, Anexa nr. 5 la OMECI nr. 5099/09.09.2009 (în vigoare pentru clasa a X-a în anul școlar 2026–2027) — subprograme, șiruri de caractere, înregistrări, listă/stivă/coadă, alocarea dinamică și liste înlănțuite, recursivitate, metoda Divide et Impera",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "ro",
+ "labels": [
+  "Activitate originală · România · Informatică · intensiv · Clasa a X-a",
+  "Lecția pe înțeles",
+  "Exemplu",
+  "Ce ne arată exemplul",
+  "Exerciții",
+  "Test",
+  "Activități originale, făcute după programa școlară; nu înlocuiesc manualul sau ora de la clasă.",
+  "Dacă nu ai înțeles: pas cu pas",
+  "Răspunsuri (verifică după ce termini)"
+ ],
+ "units": [
+  {
+   "title": "Subprograme",
+   "keys": [
+    "eu-year-ro-medium-10-l01",
+    "eu-year-ro-medium-10-l02",
+    "eu-year-ro-medium-10-l03",
+    "eu-year-ro-medium-10-l04"
+   ]
+  },
+  {
+   "title": "Șiruri de caractere",
+   "keys": [
+    "eu-year-ro-medium-10-l05",
+    "eu-year-ro-medium-10-l06",
+    "eu-year-ro-medium-10-l07",
+    "eu-year-ro-medium-10-l08",
+    "eu-year-ro-medium-10-l09"
+   ]
+  },
+  {
+   "title": "Înregistrări (structuri)",
+   "keys": [
+    "eu-year-ro-medium-10-l10",
+    "eu-year-ro-medium-10-l11"
+   ]
+  },
+  {
+   "title": "Liste, stive, cozi și alocarea dinamică",
+   "keys": [
+    "eu-year-ro-medium-10-l12",
+    "eu-year-ro-medium-10-l13",
+    "eu-year-ro-medium-10-l14",
+    "eu-year-ro-medium-10-l15",
+    "eu-year-ro-medium-10-l16",
+    "eu-year-ro-medium-10-l17",
+    "eu-year-ro-medium-10-l18"
+   ]
+  },
+  {
+   "title": "Recursivitate",
+   "keys": [
+    "eu-year-ro-medium-10-l19",
+    "eu-year-ro-medium-10-l20",
+    "eu-year-ro-medium-10-l21",
+    "eu-year-ro-medium-10-l22"
+   ]
+  },
+  {
+   "title": "Metoda Divide et Impera",
+   "keys": [
+    "eu-year-ro-medium-10-l23",
+    "eu-year-ro-medium-10-l24",
+    "eu-year-ro-medium-10-l25",
+    "eu-year-ro-medium-10-l26",
+    "eu-year-ro-medium-10-l27",
+    "eu-year-ro-medium-10-l28"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-ro-medium-10-l01": {
+   "ro": {
+    "title": "Declararea, definirea și apelul subprogramelor",
+    "theory": "Un subprogram este o secvență de instrucțiuni cu nume, care rezolvă o subproblemă și poate fi apelată de mai multe ori. În C++ toate subprogramele sunt funcții. Antetul are forma tip nume(listă de parametri formali): int cmmdc(int a, int b). Tipul void arată că funcția nu întoarce nimic (echivalentul unei proceduri). Definirea cuprinde antetul și corpul între acolade; declararea (prototipul) este doar antetul urmat de ;, permițând apelul înainte de definire. La apel, parametrii efectivi se potrivesc ca număr, ordine și tip cu cei formali. Funcțiile cu rezultat se apelează în expresii (x = cmmdc(a, b) + 1), cele void ca instrucțiuni (afisare(v, n);). Subprogramele predefinite vin din biblioteci (<cmath>, <cstring>, <algorithm>).",
+    "sample": "int prim(int x); este prototipul. În main: for (int i = 2; i <= 30; i++) if (prim(i)) cout << i << \" \";. După main: int prim(int x) { if (x < 2) return 0; for (int d = 2; d * d <= x; d++) if (x % d == 0) return 0; return 1; }.",
+    "worked": "Prototipul a permis folosirea funcției în main înainte de definire. Funcția întoarce 1 sau 0 și poate fi folosită direct ca o condiție.",
+    "exercises": [
+     "Scrie prototipul și definiția unei funcții care întoarce suma cifrelor.",
+     "Scrie o funcție void care afișează un tablou.",
+     "Identifică parametrii formali și efectivi într-un program dat.",
+     "Folosește o funcție de primalitate pentru a număra primele dintr-un tablou.",
+     "Explică diferența dintre declarare și definire."
+    ],
+    "test": [
+     "Ce este prototipul unei funcții?",
+     "Ce înseamnă tipul void?",
+     "Cum se potrivesc parametrii efectivi cu cei formali?",
+     "Unde poate apărea apelul unei funcții cu rezultat?",
+     "Ce bibliotecă conține funcțiile pentru șiruri de caractere?"
+    ],
+    "steps": [
+     "Stabilește ce primește și ce întoarce subprogramul.",
+     "Scrie antetul și corpul, cu return pentru rezultat.",
+     "Apelează-l din main și testează-l separat pe valori cunoscute.",
+     "Greșeala frecventă: să apelezi funcția înainte de definire fără prototip; compilatorul nu o recunoaște."
+    ],
+    "answers": [
+     "Antetul funcției urmat de punct și virgulă.",
+     "Funcția nu întoarce un rezultat.",
+     "Ca număr, ordine și tip.",
+     "Într-o expresie.",
+     "<cstring>."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l02": {
+   "ro": {
+    "title": "Transferul parametrilor și returnarea valorilor",
+    "theory": "Parametrii se transmit în două moduri. Prin valoare: funcția lucrează pe o copie, iar modificările nu se văd în apelant; potrivit pentru date de intrare. Prin referință (tip &nume): parametrul formal este un alt nume pentru variabila efectivă, iar modificările se văd în apelant; potrivit pentru date de ieșire sau intrare-ieșire și pentru a evita copierea structurilor mari. Un parametru transmis prin referință trebuie să fie o variabilă la apel, nu o expresie. Tablourile se transmit prin adresa primului element, deci funcția le poate modifica (void citire(int v[], int &n)). O funcție întoarce o singură valoare cu return; pentru mai multe rezultate folosim parametri de ieșire prin referință sau o structură.",
+    "sample": "void minmax(int v[], int n, int &mn, int &mx) { mn = mx = v[0]; for (int i = 1; i < n; i++) { if (v[i] < mn) mn = v[i]; if (v[i] > mx) mx = v[i]; } } – un apel minmax(a, n, x, y) pune în x minimul și în y maximul.",
+    "worked": "Două rezultate au fost întoarse prin referință. v[] și n sunt date de intrare: v nu este copiat, iar n este transmis prin valoare.",
+    "exercises": [
+     "Scrie o funcție care interschimbă două variabile.",
+     "Scrie void citire(int v[], int &n) și void afisare(int v[], int n).",
+     "Întoarce prin referință numărul de cifre pare și impare ale unui număr.",
+     "Explică ce afișează un program care modifică un parametru transmis prin valoare.",
+     "Explică de ce apelul f(a + 1) nu merge pentru un parametru int &."
+    ],
+    "test": [
+     "Ce primește funcția la transmiterea prin valoare?",
+     "Cum se marchează transmiterea prin referință?",
+     "Cum se transmit tablourile?",
+     "Câte valori întoarce return?",
+     "Ce fel de argument cere un parametru prin referință?"
+    ],
+    "steps": [
+     "Clasifică fiecare parametru: de intrare, de ieșire sau de intrare-ieșire.",
+     "Transmite prin valoare intrările simple și prin referință ieșirile.",
+     "Verifică valorile variabilelor înainte și după apel.",
+     "Greșeala frecventă: să transmiți n prin valoare la funcția de citire; după apel n rămâne cu valoarea veche."
+    ],
+    "answers": [
+     "O copie a valorii argumentului.",
+     "Cu & după tip.",
+     "Prin adresa primului element, deci pot fi modificate.",
+     "Una singură.",
+     "O variabilă, nu o expresie."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l03": {
+   "ro": {
+    "title": "Variabile locale și globale, vizibilitate și durată",
+    "theory": "O variabilă globală se declară în afara oricărei funcții: este vizibilă din locul declarării până la sfârșitul fișierului, există pe toată durata programului și este inițializată automat cu 0. O variabilă locală se declară într-o funcție sau într-un bloc { }: este vizibilă doar acolo, se creează la intrarea în bloc și dispare la ieșire, iar valoarea inițială este nedefinită dacă nu o inițializăm. Parametrii formali sunt tot variabile locale. Dacă o variabilă locală are același nume ca una globală, o ascunde în blocul ei (globala se poate accesa cu ::nume). Variabilele locale se păstrează pe stivă, cele globale în zona de date. Bunele practici: puține variabile globale (de exemplu tablourile mari), comunicare prin parametri.",
+    "sample": "int x = 5; void f() { int x = 10; x++; cout << x << \" \" << ::x; } int main() { f(); cout << \" \" << x; } – se afișează 11 5 5.",
+    "worked": "În f, x local (11) ascunde x global; ::x accesează globala (5). Modificarea localei nu afectează globala, care rămâne 5 și în main.",
+    "exercises": [
+     "Spune ce afișează un program cu o locală care ascunde o globală.",
+     "Identifică domeniul de vizibilitate al fiecărei variabile dintr-un program.",
+     "Explică de ce o variabilă locală neinițializată este periculoasă.",
+     "Rescrie un program cu globale folosind parametri.",
+     "Explică de ce tablourile mari se declară global."
+    ],
+    "test": [
+     "Cu ce valoare se inițializează automat o globală?",
+     "Când dispare o variabilă locală?",
+     "Ce face ::x?",
+     "Unde se păstrează variabilele locale?",
+     "Sunt parametrii formali variabile locale?"
+    ],
+    "steps": [
+     "Identifică blocul în care este declarată fiecare variabilă.",
+     "Stabilește unde este vizibilă și cât timp există.",
+     "Urmărește valorile ținând cont de variabilele care se ascund una pe alta.",
+     "Greșeala frecventă: să folosești o variabilă locală neinițializată ca acumulator; poate conține orice valoare."
+    ],
+    "answers": [
+     "Cu 0.",
+     "La ieșirea din blocul în care a fost declarată.",
+     "Accesează variabila globală x.",
+     "Pe stivă.",
+     "Da."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l04": {
+   "ro": {
+    "title": "Aplicații cu subprograme: descompunerea unei probleme",
+    "theory": "Problemele de examen cer adesea scrierea unui subprogram cu antet dat și folosirea lui într-un program. Respectăm exact numele, tipul și parametrii din enunț. Exemplu de cerință: „Subprogramul divizori are un parametru n și întoarce numărul divizorilor lui n. Scrieți un program care citește un șir de numere și afișează numerele cu număr maxim de divizori, folosind apeluri utile ale subprogramului.” Rezolvarea separă: funcția (testată pe câteva valori) și programul principal (citire, calcul maxim, afișare). Funcțiile mici, cu o singură responsabilitate, se combină ușor: estePrim, sumaCifre, invers, cmmdc. Este important ca subprogramul să nu citească și să nu afișeze dacă enunțul nu o cere.",
+    "sample": "int divizori(int n) { int k = 0; for (int d = 1; d * d <= n; d++) if (n % d == 0) k += (d * d == n) ? 1 : 2; return k; }. În main calculăm o dată numărul de divizori pentru fiecare element, aflăm maximul, apoi afișăm elementele care îl ating.",
+    "worked": "Funcția respectă antetul cerut și doar calculează. Programul principal folosește apeluri utile, fără a recalcula inutil valorile.",
+    "exercises": [
+     "Scrie subprogramul invers(n) și folosește-l pentru a afișa palindromurile dintr-un șir.",
+     "Scrie subprogramul sumdiv(n) și afișează numerele perfecte până la 10.000.",
+     "Scrie subprogramul cifra_max(n) și sortează un tablou după cifra maximă.",
+     "Scrie un subprogram care verifică dacă două numere au aceleași cifre.",
+     "Descompune în subprograme o problemă dată de examen."
+    ],
+    "test": [
+     "De ce respectăm exact antetul din enunț?",
+     "Ce înseamnă un apel util al subprogramului?",
+     "Ar trebui să citească subprogramul datele dacă enunțul nu cere?",
+     "De ce testăm separat subprogramul?",
+     "Ce avantaj au funcțiile cu o singură responsabilitate?"
+    ],
+    "steps": [
+     "Scrie exact antetul cerut și implementează doar sarcina descrisă.",
+     "Testează subprogramul pe câteva valori cunoscute.",
+     "Scrie programul principal care îl apelează util și verifică rezultatul final.",
+     "Greșeala frecventă: să afișezi rezultatul în subprogram în loc să-l întorci; nu respecți cerința și nu-l poți refolosi."
+    ],
+    "answers": [
+     "Ca evaluarea să recunoască subprogramul și să poată fi folosit cum s-a cerut.",
+     "Un apel al cărui rezultat contribuie la rezolvare, fără calcule inutile.",
+     "Nu.",
+     "Ca greșelile să fie găsite înainte de a combina părțile.",
+     "Se testează și se refolosesc ușor."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l05": {
+   "ro": {
+    "title": "Reprezentarea șirurilor de caractere în C++",
+    "theory": "În C++, un șir de caractere în stil C este un tablou de char terminat cu caracterul nul \\0 (codul 0): char s[101]; poate memora până la 100 de caractere utile. Fiecare caracter are un cod ASCII: 'A' = 65, 'a' = 97, '0' = 48, spațiul = 32. Literele mari și mici diferă prin 32, iar cifra c are valoarea c − '0'. Citirea: cin >> s citește un cuvânt (până la spațiu); cin.getline(s, 101) citește un rând întreg, cu spații. Afișarea: cout << s. Accesul la caractere: s[i], de la 0. Lungimea se află cu strlen(s) din <cstring>, care numără caracterele până la \\0. Biblioteca standard are și tipul string, mai comod, dar la examen apare des tabloul de char.",
+    "sample": "char s[101]; cin.getline(s, 101); pentru textul „Ana are 3 mere” strlen(s) este 14, s[0] este A, iar s[8] este 3, cu valoarea numerică s[8] − '0' = 3.",
+    "worked": "Fiecare caracter ocupă o poziție, inclusiv spațiile. Caracterul nul de la final nu este numărat de strlen, dar ocupă loc, de aceea dimensiunea are un element în plus.",
+    "exercises": [
+     "Citește un rând și afișează lungimea lui.",
+     "Afișează codul ASCII al fiecărui caracter dintr-un cuvânt.",
+     "Numără cifrele dintr-un text.",
+     "Transformă un caracter cifră în valoarea lui numerică.",
+     "Explică diferența dintre cin >> s și cin.getline."
+    ],
+    "test": [
+     "Cu ce caracter se termină un șir în stil C?",
+     "Ce cod ASCII are litera A?",
+     "Câte caractere utile încap în char s[51]?",
+     "Ce citește cin >> s?",
+     "Cum obții valoarea numerică a caracterului cifră c?"
+    ],
+    "steps": [
+     "Declară tabloul cu un element în plus pentru \\0.",
+     "Alege citirea potrivită: un cuvânt sau un rând întreg.",
+     "Parcurge caracterele până la strlen(s) sau până la \\0.",
+     "Greșeala frecventă: să calculezi strlen(s) la fiecare pas în condiția buclei pentru texte lungi; programul devine lent."
+    ],
+    "answers": [
+     "Cu caracterul nul \\0.",
+     "65.",
+     "50.",
+     "Un singur cuvânt, până la primul spațiu.",
+     "c − '0'."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l06": {
+   "ro": {
+    "title": "Funcții pentru șiruri: strlen, strcpy, strcat, strcmp",
+    "theory": "Biblioteca <cstring> oferă funcții pentru șiruri. strlen(s) – lungimea. strcpy(d, s) – copiază s în d (atribuirea d = s nu funcționează pentru tablouri). strcat(d, s) – adaugă s la sfârșitul lui d. strcmp(a, b) – compară lexicografic (ca în dicționar, după codurile ASCII): rezultat negativ dacă a < b, 0 dacă sunt egale, pozitiv dacă a > b. strncpy, strncat lucrează cu primele n caractere. Destinația trebuie să aibă loc suficient. Compararea a două șiruri cu == compară adresele, nu conținutul, deci folosim strcmp. Deoarece literele mari au coduri mai mici decât cele mici, „Zebra” < „ana” în comparația lexicografică.",
+    "sample": "char a[50] = \"info\", b[50] = \"matica\"; strcat(a, b); → a = „informatica”; strcmp(a, \"informatica\") întoarce 0; strcmp(\"arc\", \"ac\") este pozitiv, pentru că „r” > „c”.",
+    "worked": "Comparația lexicografică se face caracter cu caracter până la prima diferență. strcat a lipit șirurile, iar a avea destul loc pentru rezultat.",
+    "exercises": [
+     "Concatenează numele și prenumele cu un spațiu între ele.",
+     "Ordonează alfabetic trei cuvinte cu strcmp.",
+     "Copiază un șir în altul și modifică copia.",
+     "Explică de ce a == b nu compară conținutul.",
+     "Compară două cuvinte ignorând literele mari și mici."
+    ],
+    "test": [
+     "Ce face strcpy?",
+     "Ce întoarce strcmp pentru șiruri egale?",
+     "Ce face strcat?",
+     "De ce „Zebra” este mai mic decât „ana”?",
+     "Putem atribui un șir C altuia cu =?"
+    ],
+    "steps": [
+     "Verifică dacă destinația are loc suficient.",
+     "Folosește funcția potrivită: copiere, concatenare, comparare.",
+     "Testează cu șiruri egale, prefixe și litere mari.",
+     "Greșeala frecventă: să compari șirurile cu ==; compari adrese, nu texte."
+    ],
+    "answers": [
+     "Copiază un șir în altul.",
+     "0.",
+     "Adaugă un șir la sfârșitul altuia.",
+     "Pentru că literele mari au coduri ASCII mai mici.",
+     "Nu, folosim strcpy."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l07": {
+   "ro": {
+    "title": "Căutare în șiruri: strchr, strstr și prelucrări la nivel de caracter",
+    "theory": "strchr(s, c) caută prima apariție a caracterului c în s și întoarce adresa ei sau NULL dacă nu există; poziția este p − s. strstr(s, t) caută prima apariție a șirului t în s. Prelucrările la nivel de caracter parcurg șirul: verificăm dacă un caracter este literă (isalpha), cifră (isdigit), literă mică (islower) sau mare (isupper), din <cctype>; îl transformăm cu toupper sau tolower; numărăm vocalele cu strchr(\"aeiouAEIOU\", s[i]). Pentru a șterge caracterul de pe poziția p mutăm restul spre stânga: strcpy(s + p, s + p + 1) – în compilatoarele noi folosim un tablou auxiliar, pentru că suprapunerea nu e garantată. Inserarea se face asemănător, prin mutare spre dreapta.",
+    "sample": "Numărăm vocalele din „Informatica”: parcurgem literele și verificăm strchr(\"aeiouAEIOU\", s[i]) != NULL: I, o, a, i, a → 5 vocale.",
+    "worked": "strchr pe șirul de vocale înlocuiește zece comparații. Includerea literelor mari asigură că și „I” de la început este numărat.",
+    "exercises": [
+     "Numără vocalele și consoanele dintr-un text.",
+     "Transformă primul caracter al fiecărui cuvânt în literă mare.",
+     "Afișează toate pozițiile unui caracter într-un șir.",
+     "Numără aparițiile unui cuvânt într-un text cu strstr.",
+     "Șterge toate spațiile dintr-un șir."
+    ],
+    "test": [
+     "Ce întoarce strchr dacă nu găsește caracterul?",
+     "Cum afli poziția din adresa întoarsă?",
+     "Ce face toupper?",
+     "Ce bibliotecă conține isdigit?",
+     "Ce caută strstr?"
+    ],
+    "steps": [
+     "Alege funcția de căutare sau testul pe caracter potrivit.",
+     "Parcurge șirul și prelucrează fiecare caracter sau fiecare apariție.",
+     "Testează cu litere mari și mici, cu spații și cu un șir gol.",
+     "Greșeala frecventă: să folosești rezultatul lui strchr fără să verifici dacă este NULL."
+    ],
+    "answers": [
+     "NULL.",
+     "Scăzând adresa de început: p − s.",
+     "Transformă o literă mică în literă mare.",
+     "<cctype>.",
+     "Prima apariție a unui șir în alt șir."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l08": {
+   "ro": {
+    "title": "Prelucrarea cuvintelor: strtok și separatori",
+    "theory": "Un text este format din cuvinte despărțite de separatori (spații, virgule, puncte). Funcția strtok(s, sep) împarte șirul în cuvinte: primul apel primește șirul, următoarele primesc NULL și întorc pe rând cuvintele, iar la final NULL. Atenție: strtok modifică șirul inițial (pune \\0 în locul separatorilor), de aceea lucrăm pe o copie dacă mai avem nevoie de text. Alternativ, parcurgem caracterele și detectăm începutul unui cuvânt: o literă precedată de un separator sau aflată pe prima poziție. Probleme tipice: numărarea cuvintelor, cel mai lung cuvânt, cuvintele palindrom, înlocuirea unui cuvânt, afișarea cuvintelor în ordine alfabetică (le copiem într-un tablou de șiruri char cuv[100][21]).",
+    "sample": "char s[] = \"Azi, la ora de informatica, lucram.\"; char *p = strtok(s, \" ,.\"); while (p) { cout << p << \"\\n\"; p = strtok(NULL, \" ,.\"); } – afișează pe rând Azi, la, ora, de, informatica, lucram.",
+    "worked": "Separatorii consecutivi (virgula urmată de spațiu) nu produc cuvinte goale, pentru că strtok îi sare. Apelurile cu NULL continuă din locul unde a rămas.",
+    "exercises": [
+     "Numără cuvintele dintr-o propoziție.",
+     "Afișează cel mai lung cuvânt.",
+     "Afișează cuvintele palindrom dintr-un text.",
+     "Memorează cuvintele într-un tablou și sortează-le alfabetic.",
+     "Numără cuvintele fără strtok, detectând începutul fiecărui cuvânt."
+    ],
+    "test": [
+     "Ce face strtok?",
+     "Ce argument primesc apelurile după primul?",
+     "Modifică strtok șirul inițial?",
+     "Ce întoarce strtok când nu mai sunt cuvinte?",
+     "Cum declari un tablou de 100 de cuvinte de cel mult 20 de litere?"
+    ],
+    "steps": [
+     "Stabilește care sunt separatorii din enunț.",
+     "Extrage cuvintele cu strtok sau prin detectarea începutului lor.",
+     "Prelucrează fiecare cuvânt și testează cu separatori consecutivi.",
+     "Greșeala frecventă: să folosești textul inițial după strtok, crezând că a rămas neschimbat."
+    ],
+    "answers": [
+     "Împarte un șir în cuvinte după separatori.",
+     "NULL.",
+     "Da, pune \\0 în locul separatorilor.",
+     "NULL.",
+     "char cuv[100][21];"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l09": {
+   "ro": {
+    "title": "Tipul string și conversii între numere și șiruri",
+    "theory": "Clasa string din <string> simplifică lucrul cu textul: atribuire cu =, comparare cu ==, <, concatenare cu +, lungime cu s.size() sau s.length(), citire de rând cu getline(cin, s). Metode utile: s.substr(poz, lung) – subșirul; s.find(t) – poziția lui t sau string::npos; s.erase(poz, lung); s.insert(poz, t); s.push_back(c). Conversii: to_string(123) dă \"123\", stoi(\"456\") dă 456, stoll pentru long long. Un număr transformat în șir permite prelucrarea cifrelor ca text (palindrom, cifre distincte); un șir de cifre transformat în număr se calculează și manual: n = n * 10 + (s[i] − '0'). Pentru numere foarte mari (sute de cifre) se folosesc șiruri și operații cifră cu cifră.",
+    "sample": "Adunăm două numere de 30 de cifre memorate ca șiruri: parcurgem de la dreapta, adunăm cifrele și transportul, construim rezultatul. „999” + „1” → cifrele 9 + 1 = 10 (scriem 0, transport 1), 9 + 1 = 10, 9 + 1 = 10, transport final 1 → „1000”.",
+    "worked": "long long nu poate păstra 30 de cifre, dar șirurile pot. Algoritmul este cel de la adunarea în scris, cu transport.",
+    "exercises": [
+     "Verifică dacă un număr este palindrom folosind to_string.",
+     "Extrage numerele dintr-un text și calculează suma lor.",
+     "Înlocuiește toate aparițiile unui cuvânt cu find și replace.",
+     "Adună două numere mari memorate ca șiruri.",
+     "Compară lucrul cu char[] și cu string pe aceeași problemă."
+    ],
+    "test": [
+     "Ce face s.substr(2, 3)?",
+     "Ce întoarce find dacă nu găsește?",
+     "Ce face stoi?",
+     "Cum citești un rând întreg într-un string?",
+     "Cum construiești un număr dintr-un șir de cifre?"
+    ],
+    "steps": [
+     "Alege între char[] și string după cerință.",
+     "Folosește metodele și conversiile potrivite.",
+     "Testează cu șiruri goale, cu numere cu zerouri și cu valori mari.",
+     "Greșeala frecventă: să folosești stoi pentru numere care depășesc int; apare o eroare la execuție."
+    ],
+    "answers": [
+     "Întoarce subșirul de 3 caractere care începe la poziția 2.",
+     "string::npos.",
+     "Transformă un șir de cifre în int.",
+     "getline(cin, s).",
+     "n = n * 10 + (s[i] − '0')."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l10": {
+   "ro": {
+    "title": "Tipul struct: definire și acces la câmpuri",
+    "theory": "O înregistrare grupează date de tipuri diferite care descriu același obiect: un elev are nume (șir), clasă (întreg) și medie (real). În C++ o definim cu struct: struct elev { char nume[31]; int clasa; double media; };. Variabilele de acest tip se declară ca oricare altele: elev e; elev v[30];. Accesul la câmpuri se face cu punct: e.media = 9.5; v[i].nume. Atribuirea e1 = e2 copiază toate câmpurile odată. Câmpurile pot fi la rândul lor structuri (struct data { int zi, luna, an; }; struct elev { … data nasterii; };), accesate cu e.nasterii.an. Structurile se transmit funcțiilor prin valoare sau prin referință (recomandat pentru structuri mari).",
+    "sample": "struct punct { double x, y; }; punct a = {0, 0}, b = {3, 4}; double d = sqrt((a.x − b.x) * (a.x − b.x) + (a.y − b.y) * (a.y − b.y)); – d = 5.",
+    "worked": "Structura punct ține împreună cele două coordonate. Codul devine mai clar decât cu patru variabile separate x1, y1, x2, y2.",
+    "exercises": [
+     "Definește o structură pentru o carte (titlu, autor, an, preț).",
+     "Citește datele unui elev și afișează-le.",
+     "Definește o structură fracție și o funcție care adună două fracții.",
+     "Folosește o structură imbricată pentru data nașterii.",
+     "Calculează distanța dintre două puncte memorate ca structuri."
+    ],
+    "test": [
+     "Ce este o înregistrare?",
+     "Cum accesăm un câmp?",
+     "Ce face atribuirea între două structuri?",
+     "Poate un câmp să fie o structură?",
+     "Cum transmitem eficient o structură mare unei funcții?"
+    ],
+    "steps": [
+     "Identifică informațiile care descriu obiectul.",
+     "Definește structura cu câmpuri de tipurile potrivite.",
+     "Declară variabile, accesează câmpurile cu punct și testează.",
+     "Greșeala frecventă: să uiți punctul și virgula după acolada de închidere a lui struct."
+    ],
+    "answers": [
+     "O grupare de date de tipuri diferite care descriu un obiect.",
+     "Cu punct: variabila.câmp.",
+     "Copiază toate câmpurile.",
+     "Da.",
+     "Prin referință."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l11": {
+   "ro": {
+    "title": "Tablouri de înregistrări: căutare, sortare, statistici",
+    "theory": "Un tablou de structuri memorează mai multe obiecte de același fel: elev v[100];. Prelucrările cunoscute se aplică pe câmpuri: maximul după medie, căutarea după nume (strcmp), numărarea elevilor dintr-o clasă, media pe clase. La sortare comparăm câmpul-cheie, dar interschimbăm structurile întregi (aux = v[i]; v[i] = v[j]; v[j] = aux;), ca datele să rămână împreună. Sortarea după mai multe criterii: întâi după clasă, iar la clasă egală după medie descrescător – comparăm al doilea criteriu doar când primul este egal. Cu sort din <algorithm> putem da o funcție de comparare: bool cmp(elev a, elev b) { … }.",
+    "sample": "Elevi: (Ana, 9, 9.20), (Dan, 10, 8.75), (Ioana, 9, 9.85). Sortare după clasă, apoi medie descrescător: (Ioana, 9, 9.85), (Ana, 9, 9.20), (Dan, 10, 8.75).",
+    "worked": "Criteriul al doilea a contat doar între Ana și Ioana, care au aceeași clasă. Interschimbarea structurilor întregi a păstrat numele lângă medii.",
+    "exercises": [
+     "Citește n elevi și afișează elevul cu media maximă.",
+     "Caută un elev după nume.",
+     "Sortează elevii alfabetic.",
+     "Sortează după clasă și apoi după medie descrescător.",
+     "Calculează media fiecărei clase."
+    ],
+    "test": [
+     "Ce interschimbăm la sortarea unui tablou de structuri?",
+     "Când comparăm al doilea criteriu?",
+     "Cum comparăm numele?",
+     "Ce întoarce funcția cmp pentru sort?",
+     "Cum declari un tablou de 100 de structuri elev?"
+    ],
+    "steps": [
+     "Stabilește câmpul sau câmpurile-cheie.",
+     "Compară pe chei, cu criteriul secundar doar la egalitate.",
+     "Interschimbă structurile întregi și verifică rezultatul afișând toate câmpurile.",
+     "Greșeala frecventă: să interschimbi doar câmpul medie; mediile ajung la alți elevi."
+    ],
+    "answers": [
+     "Structurile întregi.",
+     "Când primul criteriu este egal.",
+     "Cu strcmp (sau == pentru string).",
+     "true dacă primul element trebuie să fie înaintea celui de-al doilea.",
+     "elev v[100];"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l12": {
+   "ro": {
+    "title": "Listă, stivă și coadă implementate static",
+    "theory": "Listele liniare se pot implementa cu tablouri (alocare statică). Stiva: un tablou st și un indice vf al vârfului; push: st[++vf] = x; pop: vf--; vârful este st[vf]; stiva e goală când vf == 0 (dacă folosim indici de la 1). Coada: tabloul c și doi indici, prim și ultim; adăugare: c[++ultim] = x; scoatere: prim++; coada e goală când prim > ultim. Problema cozii statice: indicii avansează mereu, iar spațiul de la început rămâne nefolosit; soluția este coada circulară (indicii revin la început cu operația % dimensiune). Lista implementată static cu tablou are inserare și ștergere costisitoare (mutări). Alocarea înlănțuită, studiată în lecțiile următoare, evită aceste mutări.",
+    "sample": "Stiva la verificarea parantezelor „(()())”: vf crește la (, scade la ). Valorile lui vf: 1, 2, 1, 2, 1, 0. Nu devine niciodată negativ și ajunge la 0 la final – corect.",
+    "worked": "Stiva se reduce aici la un contor, pentru că avem un singur tip de paranteză. Cu mai multe tipuri, trebuie memorate chiar caracterele în tablou.",
+    "exercises": [
+     "Implementează o stivă statică cu push, pop și top.",
+     "Implementează o coadă statică cu prim și ultim.",
+     "Transformă coada într-o coadă circulară.",
+     "Evaluează o expresie în forma poloneză postfixată cu o stivă.",
+     "Simulează o coadă la un ghișeu cu sosiri și plecări."
+    ],
+    "test": [
+     "Ce indice folosește stiva statică?",
+     "Când este goală coada statică?",
+     "Ce problemă are coada statică simplă?",
+     "Ce face coada circulară?",
+     "De ce lista statică are inserare costisitoare?"
+    ],
+    "steps": [
+     "Alege structura după ordinea de servire: LIFO sau FIFO.",
+     "Implementează operațiile cu indici și verifică stările goală și plină.",
+     "Simulează pe hârtie câteva operații și compară cu programul.",
+     "Greșeala frecventă: să scoți dintr-o stivă sau coadă goală fără verificare; indicii ies din tablou."
+    ],
+    "answers": [
+     "Indicele vârfului.",
+     "Când prim > ultim.",
+     "Spațiul de la început rămâne nefolosit.",
+     "Readuce indicii la începutul tabloului cu %.",
+     "Pentru că elementele trebuie mutate."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l13": {
+   "ro": {
+    "title": "Pointeri și alocarea dinamică a memoriei",
+    "theory": "Un pointer este o variabilă care memorează o adresă de memorie. Declarare: int *p;. Operatorul & dă adresa unei variabile (p = &x), iar * accesează valoarea de la adresă (*p = 7 schimbă x). Alocarea dinamică rezervă memorie în timpul execuției, în zona heap: p = new int; sau p = new int[n]; pentru un tablou cu n elemente cunoscut abia la rulare. Memoria se eliberează cu delete p; sau delete[] p;. Un pointer care nu indică nimic are valoarea NULL (nullptr în C++ modern). Pentru structuri: nod *q = new nod; și accesul la câmpuri q->info (echivalent cu (*q).info). Memoria alocată și neeliberată rămâne ocupată (scurgere de memorie). Alocarea dinamică stă la baza listelor înlănțuite.",
+    "sample": "int n; cin >> n; int *v = new int[n]; for (int i = 0; i < n; i++) cin >> v[i]; … delete[] v; – tabloul are exact dimensiunea citită.",
+    "worked": "Dimensiunea s-a stabilit la execuție, nu la compilare. Eliberarea cu delete[] returnează memoria sistemului când nu mai este necesară.",
+    "exercises": [
+     "Declară un pointer, atribuie-i adresa unei variabile și modifică variabila prin el.",
+     "Alocă dinamic un tablou de n elemente și calculează suma.",
+     "Explică diferența dintre p și *p.",
+     "Alocă dinamic o structură și accesează câmpurile cu ->.",
+     "Explică ce este o scurgere de memorie."
+    ],
+    "test": [
+     "Ce memorează un pointer?",
+     "Ce face operatorul &?",
+     "Ce face new?",
+     "Cum eliberăm un tablou alocat dinamic?",
+     "Ce înseamnă q->info?"
+    ],
+    "steps": [
+     "Declară pointerul de tipul potrivit.",
+     "Alocă memoria cu new și verifică folosirea corectă a lui * și ->.",
+     "Eliberează memoria cu delete când nu mai este nevoie.",
+     "Greșeala frecventă: să folosești un pointer neinițializat sau după delete; programul se poate opri."
+    ],
+    "answers": [
+     "O adresă de memorie.",
+     "Dă adresa unei variabile.",
+     "Alocă memorie în timpul execuției.",
+     "Cu delete[].",
+     "Câmpul info al structurii indicate de q."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l14": {
+   "ro": {
+    "title": "Lista simplu înlănțuită: creare și parcurgere",
+    "theory": "O listă simplu înlănțuită este formată din noduri alocate dinamic; fiecare nod conține informația și adresa nodului următor: struct nod { int info; nod *urm; };. Lista este accesată prin pointerul prim (adresa primului nod); ultimul nod are urm = NULL. Crearea prin adăugare la sfârșit folosește și un pointer ultim: nodul nou q primește informația, q->urm = NULL; dacă lista este goală, prim = ultim = q, altfel ultim->urm = q; ultim = q. Crearea prin adăugare la început: q->urm = prim; prim = q (lista iese în ordine inversă). Parcurgerea: for (nod *p = prim; p != NULL; p = p->urm) cout << p->info;. Accesul la al k-lea element cere k pași, spre deosebire de tablou.",
+    "sample": "Citim 3, 7, 5 și adăugăm la sfârșit: prim → [3] → [7] → [5] → NULL. Parcurgerea afișează 3 7 5; suma calculată la parcurgere este 15.",
+    "worked": "Nodurile nu stau unul lângă altul în memorie; legăturile urm le pun în ordine. Pointerul ultim permite adăugarea la sfârșit fără a parcurge lista.",
+    "exercises": [
+     "Creează o listă prin adăugare la sfârșit și afișeaz-o.",
+     "Creează o listă prin adăugare la început și observă ordinea.",
+     "Calculează suma și maximul elementelor listei.",
+     "Numără nodurile cu informație pară.",
+     "Caută o valoare în listă și afișează poziția."
+    ],
+    "test": [
+     "Ce conține un nod?",
+     "Ce valoare are urm la ultimul nod?",
+     "Ce pointer reține începutul listei?",
+     "Cum parcurgem lista?",
+     "De ce accesul la al k-lea element este mai lent decât în tablou?"
+    ],
+    "steps": [
+     "Definește structura nodului cu informație și legătură.",
+     "Creează nodurile cu new și leagă-le corect, tratând separat lista goală.",
+     "Parcurge de la prim până la NULL și verifică afișând lista.",
+     "Greșeala frecventă: să pierzi adresa primului nod mutând prim în timpul parcurgerii; lista devine inaccesibilă."
+    ],
+    "answers": [
+     "Informația și adresa nodului următor.",
+     "NULL.",
+     "prim.",
+     "Cu un pointer p de la prim, urmând p = p->urm până la NULL.",
+     "Trebuie urmate k legături, una câte una."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l15": {
+   "ro": {
+    "title": "Lista simplu înlănțuită: inserare și ștergere",
+    "theory": "Inserarea după un nod p: creăm q, q->urm = p->urm; p->urm = q – ordinea contează, altfel pierdem restul listei. Inserarea înaintea primului nod: q->urm = prim; prim = q. Ștergerea nodului de după p: q = p->urm; p->urm = q->urm; delete q;. Ștergerea primului nod: q = prim; prim = prim->urm; delete q;. Pentru a șterge un nod cu o anumită valoare, parcurgem lista păstrând nodul anterior. Inserarea într-o listă ordonată: găsim ultimul nod cu informația mai mică decât valoarea nouă și inserăm după el. Avantajul listei înlănțuite: inserarea și ștergerea, odată găsită poziția, se fac în O(1), fără mutarea altor elemente.",
+    "sample": "Lista 2 → 5 → 9, inserăm 7 ordonat: p se oprește la 5 (p->urm->info = 9 > 7). q->info = 7; q->urm = p->urm (nodul 9); p->urm = q. Rezultat: 2 → 5 → 7 → 9.",
+    "worked": "Legătura nouă a fost făcută întâi spre nodul 9, apoi nodul 5 a fost legat de q. Inversarea celor două atribuiri ar fi pierdut nodul 9.",
+    "exercises": [
+     "Inserează o valoare după al k-lea nod.",
+     "Inserează ordonat într-o listă sortată.",
+     "Șterge primul nod cu o valoare dată.",
+     "Șterge toate nodurile cu valori pare.",
+     "Inserează după fiecare nod par un nod cu dublul valorii."
+    ],
+    "test": [
+     "În ce ordine se fac legăturile la inserarea după p?",
+     "Cum ștergi primul nod?",
+     "Ce trebuie făcut cu nodul șters?",
+     "De ce păstrăm nodul anterior la ștergere?",
+     "Ce complexitate are inserarea odată găsită poziția?"
+    ],
+    "steps": [
+     "Găsește nodul după care inserezi sau al cărui succesor îl ștergi.",
+     "Refă legăturile în ordinea corectă și tratează separat primul nod.",
+     "Eliberează memoria nodului șters și afișează lista pentru verificare.",
+     "Greșeala frecventă: să faci întâi p->urm = q la inserare; restul listei se pierde."
+    ],
+    "answers": [
+     "Întâi q->urm = p->urm, apoi p->urm = q.",
+     "prim = prim->urm, apoi delete pe vechiul prim.",
+     "Se eliberează cu delete.",
+     "Pentru că trebuie modificată legătura lui.",
+     "O(1)."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l16": {
+   "ro": {
+    "title": "Stiva și coada alocate dinamic",
+    "theory": "Stiva se implementează ușor ca listă simplu înlănțuită în care operăm doar la început: push – inserare înaintea primului nod (vf); pop – ștergerea primului nod. Coada folosește doi pointeri: prim (de unde scoatem) și ultim (unde adăugăm): adăugarea se face după ultim, scoaterea de la prim. Avantajul față de implementarea statică: nu trebuie să cunoaștem dinainte numărul maxim de elemente, iar memoria se ocupă doar cât este nevoie. Stiva goală înseamnă vf == NULL; coada goală, prim == NULL (iar după scoaterea ultimului element trebuie actualizat și ultim). Biblioteca standard are stack și queue, implementate eficient.",
+    "sample": "Coada dinamică: adăugăm 4, 8, apoi scoatem: prim → [4] → [8], ultim → [8]. Scoatem 4: prim → [8]. Scoatem 8: prim = NULL și setăm ultim = NULL.",
+    "worked": "Cazul cozii care devine goală cere actualizarea ambilor pointeri. Altfel ultim ar rămâne să indice un nod șters.",
+    "exercises": [
+     "Implementează o stivă dinamică cu push și pop.",
+     "Implementează o coadă dinamică cu prim și ultim.",
+     "Inversează ordinea elementelor unei cozi folosind o stivă.",
+     "Verifică parantezarea cu o stivă dinamică.",
+     "Tratează corect cazul cozii care devine goală."
+    ],
+    "test": [
+     "Unde operăm la stiva implementată ca listă?",
+     "Ce pointeri folosește coada dinamică?",
+     "Când este goală stiva dinamică?",
+     "Ce avantaj are implementarea dinamică?",
+     "Ce actualizăm când coada devine goală?"
+    ],
+    "steps": [
+     "Alege capătul sau capetele la care operezi.",
+     "Implementează operațiile cu inserări și ștergeri de noduri.",
+     "Testează cazurile limită: structură goală și cu un singur element.",
+     "Greșeala frecventă: să uiți să pui ultim = NULL când coada devine goală."
+    ],
+    "answers": [
+     "La începutul listei (vârf).",
+     "prim și ultim.",
+     "Când vf == NULL.",
+     "Nu trebuie cunoscut dinainte numărul maxim de elemente.",
+     "Pointerul ultim, care devine NULL."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l17": {
+   "ro": {
+    "title": "Lista dublu înlănțuită",
+    "theory": "Într-o listă dublu înlănțuită fiecare nod are două legături: spre următorul și spre anteriorul: struct nod { int info; nod *urm, *ant; };. Lista se poate parcurge în ambele sensuri: de la prim cu urm sau de la ultim cu ant. Inserarea după un nod p necesită patru legături: q->urm = p->urm; q->ant = p; dacă p->urm != NULL atunci p->urm->ant = q; p->urm = q. Ștergerea nodului p: p->ant->urm = p->urm; p->urm->ant = p->ant (cu grijă la capete), apoi delete p. Avantaj: putem șterge un nod cunoscând doar adresa lui și putem merge înapoi. Dezavantaj: memorie în plus pentru a doua legătură și mai multe atribuiri la fiecare operație.",
+    "sample": "Istoricul unui browser: fiecare pagină vizitată este un nod. Butonul Înapoi urmează legătura ant, butonul Înainte legătura urm.",
+    "worked": "Parcurgerea în ambele sensuri este exact ce cere navigarea înainte-înapoi. Într-o listă simplu înlănțuită, întoarcerea ar cere parcurgerea de la început.",
+    "exercises": [
+     "Creează o listă dublu înlănțuită și afișeaz-o în ambele sensuri.",
+     "Inserează un nod după un nod dat.",
+     "Șterge un nod cunoscând doar adresa lui.",
+     "Verifică dacă lista este palindrom, parcurgând din ambele capete.",
+     "Explică un avantaj și un dezavantaj față de lista simplă."
+    ],
+    "test": [
+     "Câte legături are un nod?",
+     "Cum parcurgi lista de la final?",
+     "Câte legături se modifică la inserarea în interior?",
+     "Ce avantaj oferă legătura ant la ștergere?",
+     "Ce dezavantaj are lista dublu înlănțuită?"
+    ],
+    "steps": [
+     "Desenează nodurile și săgețile înainte și după operație.",
+     "Refă toate legăturile afectate, verificând capetele listei.",
+     "Afișează lista în ambele sensuri pentru verificare.",
+     "Greșeala frecventă: să actualizezi doar legăturile urm; parcurgerea înapoi devine greșită."
+    ],
+    "answers": [
+     "Două: urm și ant.",
+     "De la ultim, urmând ant.",
+     "Patru.",
+     "Putem șterge un nod cunoscând doar adresa lui.",
+     "Ocupă mai multă memorie și cere mai multe atribuiri."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l18": {
+   "ro": {
+    "title": "Lista circulară",
+    "theory": "Într-o listă circulară, ultimul nod nu are NULL, ci indică primul nod, formând un cerc. Poate fi simplu sau dublu înlănțuită. Parcurgerea completă pornește de la un nod și se oprește când revenim la el: p = prim; do { … p = p->urm; } while (p != prim);. Inserarea și ștergerea seamănă cu cele din lista liniară, cu grijă la legătura ultimului nod spre primul. Aplicații: jocurile în care participanții sunt așezați în cerc (problema lui Josephus: din k în k este eliminat câte un copil), planificarea circulară a proceselor (round robin), buclele de redare a melodiilor. Atenție: o parcurgere cu condiția p != NULL nu se termină niciodată într-o listă circulară.",
+    "sample": "Josephus cu 5 copii, eliminare din 2 în 2: cercul 1-2-3-4-5. Se elimină 2, 4, 1, 5; rămâne 3.",
+    "worked": "Lista circulară modelează direct cercul: după ultimul copil vine primul. Ștergerea unui nod refă cercul fără să mute ceilalți copii.",
+    "exercises": [
+     "Creează o listă circulară și afișeaz-o o singură dată.",
+     "Simulează problema lui Josephus pentru n și k date.",
+     "Inserează un nod într-o listă circulară.",
+     "Transformă o listă liniară în listă circulară.",
+     "Explică de ce p != NULL nu oprește parcurgerea."
+    ],
+    "test": [
+     "Spre ce indică ultimul nod într-o listă circulară?",
+     "Cum oprești parcurgerea?",
+     "Ce problemă clasică folosește lista circulară?",
+     "Ce structură de buclă e potrivită pentru parcurgere?",
+     "Ce se întâmplă cu o parcurgere până la NULL?"
+    ],
+    "steps": [
+     "Leagă ultimul nod de primul la creare.",
+     "Parcurge cu do … while până revii la nodul de pornire.",
+     "La ștergere, refă cercul și tratează separat lista cu un singur nod.",
+     "Greșeala frecventă: să parcurgi cu condiția p != NULL; bucla devine infinită."
+    ],
+    "answers": [
+     "Spre primul nod.",
+     "Când revii la nodul de pornire.",
+     "Problema lui Josephus.",
+     "do … while.",
+     "Nu se termină niciodată."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l19": {
+   "ro": {
+    "title": "Mecanismul recursivității",
+    "theory": "Un subprogram este recursiv dacă se autoapelează. O definiție recursivă are două părți: cazul de bază (condiția de oprire, cu rezultat direct) și relația de recurență (problema se reduce la una de același tip, mai mică). Exemplu: n! = 1 dacă n = 0; altfel n · (n − 1)!. În C++: int fact(int n) { if (n == 0) return 1; return n * fact(n − 1); }. La fiecare apel, pe stiva programului se creează un nou context cu parametrii și variabilele locale ale apelului; la return, contextul se elimină și execuția revine în apelul anterior. Fără caz de bază, sau dacă apelurile nu se apropie de el, apelurile continuă până la umplerea stivei (stack overflow).",
+    "sample": "fact(4) → 4 · fact(3) → 3 · fact(2) → 2 · fact(1) → 1 · fact(0) = 1. La întoarcere: 1 · 1 = 1, 2 · 1 = 2, 3 · 2 = 6, 4 · 6 = 24.",
+    "worked": "Apelurile coboară până la cazul de bază, apoi rezultatele urcă înapoi. Pe stivă au existat la un moment dat cinci contexte simultan.",
+    "exercises": [
+     "Scrie o funcție recursivă pentru n!.",
+     "Desenează stiva apelurilor pentru fact(3).",
+     "Scrie recursiv suma 1 + 2 + … + n.",
+     "Scrie recursiv aⁿ.",
+     "Explică ce se întâmplă fără caz de bază."
+    ],
+    "test": [
+     "Ce este un subprogram recursiv?",
+     "Ce este cazul de bază?",
+     "Unde se păstrează contextele apelurilor?",
+     "Ce înseamnă stack overflow?",
+     "Câte contexte apar pentru fact(4)?"
+    ],
+    "steps": [
+     "Stabilește cazul de bază, cu rezultat direct.",
+     "Scrie relația de recurență care reduce problema la una mai mică.",
+     "Urmărește apelurile pe un exemplu mic, la coborâre și la întoarcere.",
+     "Greșeala frecventă: să uiți cazul de bază sau să scrii un apel care nu se apropie de el."
+    ],
+    "answers": [
+     "Un subprogram care se autoapelează.",
+     "Condiția de oprire, pentru care rezultatul se dă direct.",
+     "Pe stiva programului.",
+     "Umplerea stivei din cauza prea multor apeluri.",
+     "Cinci."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l20": {
+   "ro": {
+    "title": "Funcții recursive pentru probleme numerice",
+    "theory": "Multe prelucrări numerice au formă recursivă naturală. Suma cifrelor: sc(n) = n dacă n < 10, altfel n % 10 + sc(n / 10). Cmmdc (Euclid): cmmdc(a, b) = a dacă b = 0, altfel cmmdc(b, a % b). Numărul de cifre, cifra maximă, inversul (cu un parametru acumulator), testul de primalitate cu un divizor ca parametru. Locul operației față de autoapel contează: instrucțiunile de dinaintea apelului se execută la coborâre, cele de după, la întoarcere. Astfel, o funcție void care afișează n % 10 după apelul pe n / 10 afișează cifrele în ordinea normală; dacă afișează înainte de apel, le afișează în ordine inversă.",
+    "sample": "void af(int n) { if (n > 0) { af(n / 10); cout << n % 10; } } – pentru 472: af(472) → af(47) → af(4) → af(0) se oprește; la întoarcere se afișează 4, 7, 2.",
+    "worked": "Afișarea după autoapel se face la întoarcere, deci în ordinea inversă apelurilor, adică ordinea normală a cifrelor.",
+    "exercises": [
+     "Scrie recursiv suma cifrelor.",
+     "Scrie recursiv cmmdc.",
+     "Afișează recursiv cifrele unui număr în ordine inversă și în ordine normală.",
+     "Scrie recursiv cifra maximă.",
+     "Scrie o funcție recursivă care verifică dacă un număr este prim."
+    ],
+    "test": [
+     "Care este cazul de bază pentru suma cifrelor?",
+     "Când se execută instrucțiunile scrise după autoapel?",
+     "Ce afișează af(305) din exemplu?",
+     "Care este recurența pentru cmmdc?",
+     "Ce rol are un parametru acumulator?"
+    ],
+    "steps": [
+     "Exprimă rezultatul pentru n folosind rezultatul pentru o problemă mai mică.",
+     "Alege cazul de bază și locul prelucrării față de autoapel.",
+     "Urmărește un exemplu cu trei niveluri de apel.",
+     "Greșeala frecventă: să pui afișarea înaintea apelului când vrei ordinea normală a cifrelor."
+    ],
+    "answers": [
+     "n < 10, cu rezultatul n.",
+     "La întoarcerea din apeluri.",
+     "305.",
+     "cmmdc(a, b) = cmmdc(b, a % b), cu baza b = 0.",
+     "Transmite rezultatul parțial între apeluri."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l21": {
+   "ro": {
+    "title": "Recursivitate pe tablouri și șiruri",
+    "theory": "Un tablou poate fi prelucrat recursiv considerând o problemă de același tip pe un tablou mai scurt. Suma elementelor: suma(v, n) = 0 dacă n = 0, altfel suma(v, n − 1) + v[n − 1]. Maximul: max(v, n) = v[0] dacă n = 1, altfel maximul dintre max(v, n − 1) și v[n − 1]. Pentru șiruri: palindromul se verifică comparând primul cu ultimul caracter și apelând pentru interior (st + 1, dr − 1); cazul de bază este st ≥ dr. Afișarea inversă a unui șir: afișăm după autoapelul pe restul șirului. Recursivitatea face codul scurt, dar fiecare apel consumă memorie pe stivă; pentru tablouri foarte lungi varianta iterativă este mai sigură.",
+    "sample": "pal(s, st, dr): pentru „radar”, st = 0, dr = 4: r = r; st = 1, dr = 3: a = a; st = 2, dr = 2 – caz de bază, adevărat. Șirul este palindrom.",
+    "worked": "Problema s-a redus la șiruri din ce în ce mai scurte. Cazul de bază acoperă atât lungimea impară (st = dr), cât și pară (st > dr).",
+    "exercises": [
+     "Calculează recursiv suma elementelor unui tablou.",
+     "Află recursiv maximul unui tablou.",
+     "Verifică recursiv dacă un șir este palindrom.",
+     "Numără recursiv elementele pare.",
+     "Afișează recursiv un tablou în ordine inversă."
+    ],
+    "test": [
+     "Care este cazul de bază la suma unui tablou?",
+     "Ce compară funcția de palindrom la fiecare pas?",
+     "Când se oprește verificarea palindromului?",
+     "Ce dezavantaj are recursivitatea pe tablouri lungi?",
+     "Cum reduci problema la una mai mică?"
+    ],
+    "steps": [
+     "Stabilește parametrii care descriu subproblema (n sau st și dr).",
+     "Scrie cazul de bază și reducerea la subproblema mai mică.",
+     "Verifică pe tablouri de lungime 0, 1 și 2.",
+     "Greșeala frecventă: să nu acoperi cazul de bază pentru lungime pară; apelurile depășesc limitele."
+    ],
+    "answers": [
+     "n = 0, cu suma 0.",
+     "Primul și ultimul caracter al porțiunii curente.",
+     "Când st ≥ dr.",
+     "Consumă multă memorie pe stivă.",
+     "Prelucrez un element și apelez pentru restul tabloului."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l22": {
+   "ro": {
+    "title": "Recursiv sau iterativ: comparație și eficiență",
+    "theory": "Orice algoritm recursiv poate fi scris și iterativ, iar alegerea depinde de claritate și eficiență. Recursivitatea este naturală pentru probleme definite recursiv (Divide et Impera, arbori, backtracking), dar fiecare apel consumă timp și memorie pe stivă. Un exemplu de ineficiență: Fibonacci recursiv direct, fib(n) = fib(n − 1) + fib(n − 2), recalculează aceleași valori de foarte multe ori și are complexitate exponențială (fib(40) face sute de milioane de apeluri), în timp ce varianta iterativă este O(n). Soluția recursivă poate fi îmbunătățită prin memorare (reținem valorile calculate într-un tablou). Recursivitatea indirectă apare când f apelează g, iar g apelează f (de exemplu par și impar definite una prin alta).",
+    "sample": "fib(5) apelează fib(4) și fib(3); fib(4) apelează din nou fib(3) și fib(2)… fib(3) este calculat de 2 ori, fib(2) de 3 ori. Pentru n = 40, numărul apelurilor depășește 300 de milioane.",
+    "worked": "Arborele apelurilor crește exponențial pentru că subproblemele se suprapun. Varianta iterativă sau memorarea calculează fiecare valoare o singură dată.",
+    "exercises": [
+     "Scrie Fibonacci recursiv și iterativ și compară timpii pentru n = 35.",
+     "Adaugă memorare variantei recursive.",
+     "Numără apelurile pentru fib(10).",
+     "Scrie iterativ o funcție recursivă dată.",
+     "Scrie două funcții mutual recursive par/impar."
+    ],
+    "test": [
+     "Poate orice algoritm recursiv fi scris iterativ?",
+     "De ce Fibonacci recursiv direct este lent?",
+     "Ce este memorarea?",
+     "Ce este recursivitatea indirectă?",
+     "Pentru ce probleme este potrivită recursivitatea?"
+    ],
+    "steps": [
+     "Verifică dacă subproblemele se repetă în arborele apelurilor.",
+     "Dacă se repetă, folosește memorarea sau varianta iterativă.",
+     "Compară timpul de execuție pe date mari.",
+     "Greșeala frecventă: să folosești Fibonacci recursiv simplu pentru n mare; programul nu termină în timp util."
+    ],
+    "answers": [
+     "Da.",
+     "Recalculează de foarte multe ori aceleași valori.",
+     "Reținerea rezultatelor calculate pentru a nu le recalcula.",
+     "Când două subprograme se apelează reciproc.",
+     "Probleme definite recursiv, ca Divide et Impera și backtracking."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l23": {
+   "ro": {
+    "title": "Principiul metodei Divide et Impera",
+    "theory": "Divide et Impera („dezbină și stăpânește”) rezolvă o problemă astfel: o împarte în două sau mai multe subprobleme de același tip, independente și mai mici (divide); rezolvă subproblemele, recursiv, până devin suficient de mici pentru a fi rezolvate direct (stăpânește); combină soluțiile subproblemelor în soluția problemei inițiale. Schema pentru un tablou v[st..dr]: dacă st == dr, rezolvăm direct; altfel m = (st + dr) / 2, rezolvăm pentru [st, m] și [m + 1, dr] și combinăm. Exemple simple: suma, maximul, numărul de elemente pare dintr-un tablou. Metoda se potrivește când subproblemele nu se suprapun; dacă se suprapun, se folosește programarea dinamică.",
+    "sample": "Maximul din [3, 9, 4, 7]: împărțim în [3, 9] și [4, 7]; maximurile sunt 9 și 7; combinăm: 9. Fiecare jumătate s-a împărțit la rândul ei până la un element.",
+    "worked": "Cele trei etape sunt clare: împărțire la mijloc, rezolvare directă pe un element, combinare prin max. Subproblemele sunt independente, fără calcule repetate.",
+    "exercises": [
+     "Calculează suma unui tablou prin Divide et Impera.",
+     "Află maximul prin Divide et Impera.",
+     "Numără elementele pare prin Divide et Impera.",
+     "Desenează arborele subproblemelor pentru un tablou de 8 elemente.",
+     "Explică de ce subproblemele trebuie să fie independente."
+    ],
+    "test": [
+     "Care sunt cele trei etape ale metodei?",
+     "Când se rezolvă direct o subproblemă?",
+     "Cum se calculează mijlocul m?",
+     "Ce metodă folosim când subproblemele se suprapun?",
+     "Ce operație de combinare are maximul?"
+    ],
+    "steps": [
+     "Stabilește cum împarți problema și când este suficient de mică.",
+     "Scrie funcția recursivă cu cazul direct și cele două apeluri.",
+     "Scrie combinarea și verifică pe un tablou mic.",
+     "Greșeala frecventă: să împarți în [st, m − 1] și [m, dr] cu m = (st + dr) / 2; pentru două elemente poți cicla la nesfârșit."
+    ],
+    "answers": [
+     "Divide, stăpânește (rezolvă), combină.",
+     "Când are o dimensiune mică, de exemplu un element.",
+     "m = (st + dr) / 2.",
+     "Programarea dinamică.",
+     "Maximul dintre cele două rezultate."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l24": {
+   "ro": {
+    "title": "Căutarea binară",
+    "theory": "Căutarea binară găsește o valoare x într-un tablou sortat. Comparăm x cu elementul din mijloc: dacă este egal, am găsit; dacă x este mai mic, căutăm doar în jumătatea stângă; altfel în cea dreaptă. La fiecare pas spațiul de căutare se înjumătățește, deci complexitatea este O(log n): pentru un milion de elemente sunt suficiente aproximativ 20 de comparații, față de un milion la căutarea secvențială. Se poate scrie recursiv (Divide et Impera cu o singură subproblemă) sau iterativ (while st <= dr). Variante: prima poziție cu valoarea ≥ x, ultima poziție cu valoarea ≤ x, numărul de apariții. Condiția esențială: tabloul trebuie să fie sortat.",
+    "sample": "v = [2, 5, 8, 12, 16, 23, 38], căutăm 23. st = 0, dr = 6, m = 3: 12 < 23 → st = 4; m = 5: 23 – găsit în 2 pași.",
+    "worked": "Fiecare comparație a eliminat jumătate dintre elementele rămase. Căutarea secvențială ar fi avut nevoie de 6 comparații.",
+    "exercises": [
+     "Implementează căutarea binară iterativ.",
+     "Implementează căutarea binară recursiv.",
+     "Găsește prima poziție cu valoarea cel puțin x.",
+     "Numără aparițiile lui x într-un tablou sortat.",
+     "Compară numărul de comparații cu căutarea secvențială pentru n = 10⁶."
+    ],
+    "test": [
+     "Ce condiție trebuie să îndeplinească tabloul?",
+     "Ce complexitate are căutarea binară?",
+     "Câte comparații trebuie pentru un milion de elemente?",
+     "Când se oprește varianta iterativă dacă x nu există?",
+     "De ce este căutarea binară o aplicație a Divide et Impera?"
+    ],
+    "steps": [
+     "Verifică dacă tabloul este sortat.",
+     "Compară x cu mijlocul și păstrează doar jumătatea potrivită.",
+     "Testează cu x la capete, x lipsă și tablou cu un element.",
+     "Greșeala frecventă: să actualizezi st = m sau dr = m în loc de m + 1 și m − 1; bucla poate deveni infinită."
+    ],
+    "answers": [
+     "Să fie sortat.",
+     "O(log n).",
+     "Aproximativ 20.",
+     "Când st > dr.",
+     "Reduce problema la o subproblemă de jumătate de dimensiune."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l25": {
+   "ro": {
+    "title": "Sortarea prin interclasare (Mergesort)",
+    "theory": "Mergesort sortează un tablou prin Divide et Impera: împarte tabloul în două jumătăți, sortează recursiv fiecare jumătate și le interclasează (combină două secvențe sortate într-una sortată, cu un tablou auxiliar). Cazul de bază este secvența cu un singur element, care este deja sortată. Complexitatea este O(n log n) în orice caz: sunt log n niveluri de împărțire, iar la fiecare nivel interclasările parcurg în total n elemente. Pentru n = 10⁶ înseamnă aproximativ 2·10⁷ operații, față de 10¹² la metodele O(n²). Mergesort este stabil, dar folosește memorie suplimentară O(n) pentru tabloul auxiliar.",
+    "sample": "[38, 27, 43, 3] → [38, 27] și [43, 3] → [38], [27], [43], [3]. Interclasăm: [27, 38] și [3, 43], apoi [3, 27, 38, 43].",
+    "worked": "Toată munca de ordonare se face la interclasare. Împărțirea doar pregătește secvențe tot mai mici, până la elemente singure.",
+    "exercises": [
+     "Implementează Mergesort.",
+     "Urmărește Mergesort pe un tablou de 8 elemente.",
+     "Numără inversiunile unui tablou modificând interclasarea.",
+     "Compară timpul Mergesort cu metoda bulelor pentru 10⁵ elemente.",
+     "Explică de ce Mergesort are O(n log n)."
+    ],
+    "test": [
+     "Ce face pasul de combinare în Mergesort?",
+     "Care este cazul de bază?",
+     "Ce complexitate are Mergesort?",
+     "Ce memorie suplimentară folosește?",
+     "Este Mergesort stabil?"
+    ],
+    "steps": [
+     "Împarte secvența la mijloc până la secvențe de un element.",
+     "Interclasează jumătățile sortate într-un tablou auxiliar.",
+     "Copiază rezultatul înapoi și verifică pe un exemplu mic.",
+     "Greșeala frecventă: să uiți să copiezi elementele rămase dintr-una dintre jumătăți la interclasare."
+    ],
+    "answers": [
+     "Interclasează cele două jumătăți sortate.",
+     "Secvența cu un singur element.",
+     "O(n log n).",
+     "Un tablou auxiliar de dimensiune n.",
+     "Da."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l26": {
+   "ro": {
+    "title": "Sortarea rapidă (Quicksort)",
+    "theory": "Quicksort alege un element numit pivot și rearanjează tabloul astfel încât elementele mai mici decât pivotul să ajungă în stânga, iar cele mai mari în dreapta (partiționare); apoi sortează recursiv cele două părți. Nu are pas de combinare: după partiționare, pivotul este la locul lui definitiv. Partiționarea se face cu doi indici care pornesc din capete și se apropie, interschimbând elementele aflate în partea greșită. Complexitatea medie este O(n log n), dar în cel mai rău caz (pivot ales prost, de exemplu mereu minimul unui tablou deja sortat) devine O(n²). Alegerea pivotului din mijloc sau aleator reduce acest risc. Quicksort sortează pe loc, fără tablou auxiliar, și este foarte rapid în practică.",
+    "sample": "[7, 2, 9, 4, 3], pivot 9 (mijlocul): după partiționare [7, 2, 3, 4] și 9 la final. Continuăm recursiv pe [7, 2, 3, 4], cu pivotul 2: [2] | [7, 3, 4] și așa mai departe.",
+    "worked": "Fiecare partiționare fixează pivotul pe poziția finală. Alegerea pivotului influențează cât de echilibrate sunt părțile, deci viteza.",
+    "exercises": [
+     "Implementează Quicksort cu pivotul din mijloc.",
+     "Urmărește o partiționare pe hârtie.",
+     "Explică cel mai rău caz al Quicksort.",
+     "Compară Quicksort cu Mergesort: timp, memorie, stabilitate.",
+     "Folosește Quicksort pentru a găsi al k-lea cel mai mic element."
+    ],
+    "test": [
+     "Ce este pivotul?",
+     "Ce face partiționarea?",
+     "Are Quicksort un pas de combinare?",
+     "Care este complexitatea medie?",
+     "Când apare cel mai rău caz?"
+    ],
+    "steps": [
+     "Alege pivotul (de preferat din mijloc sau aleator).",
+     "Partiționează cu doi indici care se apropie din capete.",
+     "Aplică recursiv pe cele două părți și verifică ordinea finală.",
+     "Greșeala frecventă: să alegi mereu primul element ca pivot pe date deja sortate; algoritmul devine O(n²)."
+    ],
+    "answers": [
+     "Elementul față de care se împart celelalte.",
+     "Mută elementele mai mici în stânga și pe cele mai mari în dreapta pivotului.",
+     "Nu.",
+     "O(n log n).",
+     "Când pivotul împarte mereu foarte dezechilibrat, de exemplu pe date sortate."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l27": {
+   "ro": {
+    "title": "Turnurile din Hanoi și fractali",
+    "theory": "Problema turnurilor din Hanoi: n discuri de mărimi diferite sunt pe tija A, cel mai mare jos; trebuie mutate pe tija C, folosind tija B, mutând câte un disc și fără a pune un disc mare peste unul mic. Soluția Divide et Impera: mutăm n − 1 discuri de pe A pe B (folosind C), mutăm discul cel mai mare de pe A pe C, apoi mutăm cele n − 1 discuri de pe B pe C (folosind A). Numărul de mutări este 2ⁿ − 1. Fractalii sunt figuri care conțin copii mai mici ale lor înșiși (covorul lui Sierpinski, curba lui Koch); se desenează recursiv: desenăm figura la un nivel și apelăm pentru părțile mai mici, până la un nivel minim.",
+    "sample": "Hanoi pentru n = 3: A→C, A→B, C→B, A→C, B→A, B→C, A→C. Șapte mutări = 2³ − 1.",
+    "worked": "Primele trei mutări mută două discuri pe B, a patra mută discul mare, ultimele trei aduc cele două discuri peste el. Exact schema recursivă.",
+    "exercises": [
+     "Scrie programul pentru turnurile din Hanoi.",
+     "Calculează numărul de mutări pentru n = 10.",
+     "Urmărește mutările pentru n = 2 și n = 3.",
+     "Desenează pe hârtie primele două niveluri ale triunghiului lui Sierpinski.",
+     "Explică de ce numărul de mutări este 2ⁿ − 1."
+    ],
+    "test": [
+     "Care este regula de bază a problemei?",
+     "Câte mutări sunt pentru n discuri?",
+     "Care sunt cele trei etape ale soluției recursive?",
+     "Ce este un fractal?",
+     "Când se oprește desenarea recursivă a unui fractal?"
+    ],
+    "steps": [
+     "Reformulează problema pentru n − 1 discuri.",
+     "Scrie cele trei etape: mutare n − 1, mutarea discului mare, mutare n − 1.",
+     "Verifică pentru n = 1, 2, 3 numărul și ordinea mutărilor.",
+     "Greșeala frecventă: să inversezi tijele auxiliare în apelurile recursive; mutările devin imposibile."
+    ],
+    "answers": [
+     "Nu se pune un disc mare peste unul mic.",
+     "2ⁿ − 1.",
+     "n − 1 discuri pe tija auxiliară, discul mare pe destinație, n − 1 discuri peste el.",
+     "O figură care conține copii mai mici ale ei înseși.",
+     "La un nivel minim stabilit."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l28": {
+   "ro": {
+    "title": "Eficiența algoritmilor Divide et Impera",
+    "theory": "Eficiența unui algoritm Divide et Impera depinde de numărul de subprobleme, de dimensiunea lor și de costul împărțirii și combinării. Căutarea binară: o subproblemă de jumătate, cost constant – O(log n). Mergesort și Quicksort (mediu): două subprobleme de jumătate, cost liniar de combinare sau partiționare – O(n log n). Suma sau maximul prin Divide et Impera: două jumătăți, combinare constantă – O(n), la fel ca varianta iterativă, deci fără câștig de timp. Metoda este utilă când împărțirea reduce cu adevărat munca. Profunzimea recursivității este log n când împărțim la jumătate, deci stiva nu se umple. Pe date mici, metodele simple pot fi la fel de bune.",
+    "sample": "Pentru n = 1.000.000: căutare binară ≈ 20 de pași; Mergesort ≈ 2·10⁷ operații; sortare prin selecție ≈ 5·10¹¹ comparații – mii de ori mai lentă.",
+    "worked": "Diferența dintre O(n log n) și O(n²) devine uriașă pentru date mari. Pentru maxim, Divide et Impera nu aduce câștig față de o parcurgere simplă.",
+    "exercises": [
+     "Stabilește complexitatea a trei algoritmi Divide et Impera.",
+     "Compară experimental Mergesort cu sortarea prin selecție.",
+     "Explică de ce maximul prin Divide et Impera nu este mai rapid.",
+     "Calculează profunzimea recursivității pentru n = 10⁶.",
+     "Alege algoritmul potrivit pentru trei situații date."
+    ],
+    "test": [
+     "Ce complexitate are căutarea binară?",
+     "Ce complexitate are Mergesort?",
+     "Aduce Divide et Impera câștig pentru maxim?",
+     "Cât este profunzimea recursivității la înjumătățire?",
+     "De ce contează costul combinării?"
+    ],
+    "steps": [
+     "Identifică numărul și mărimea subproblemelor.",
+     "Estimează costul împărțirii și combinării la fiecare nivel.",
+     "Înmulțește cu numărul de niveluri și compară cu alte metode.",
+     "Greșeala frecventă: să crezi că orice algoritm recursiv Divide et Impera este automat mai rapid decât unul iterativ."
+    ],
+    "answers": [
+     "O(log n).",
+     "O(n log n).",
+     "Nu, rămâne O(n).",
+     "Aproximativ log₂ n.",
+     "Se adună la fiecare nivel și determină complexitatea totală."
+    ]
+   }
+  }
+ }
+}
