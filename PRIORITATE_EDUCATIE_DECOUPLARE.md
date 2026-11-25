@@ -72,6 +72,16 @@ Utilizatorul a testat APK-ul signed intermediar și a raportat că textul apare 
 3. Asigură versionare și publicare independentă, integrarea reală a cititorilor, compatibilitate, lipsa sau invaliditatea pachetului, actualizări și mesaje clare offline. Nu confunda un fallback general cu o lecție completă și nu garanta păstrarea permanentă în cache.
 4. Testează paritatea conținutului și navigarea, browserul mobil, Android, prima încărcare, cache-ul offline, publicarea reală și regresiile. Măsoară din nou HTML-ul și bundle-ul. Continuă Literatura în pachete, pe surse și cu revizuire curriculară/lingvistică, în paralel cu decuplarea rămasă.
 
+## Literatură: pachete naționale pe an (ramura `arena/430ec340-mypocketai`)
+
+Decizii ale utilizatorului (nov. 2026): lecții în **limba națională de școlarizare**, o singură sursă per limbă; ordine **pe lățime** (întâi primar pentru toate țările, apoi gimnaziu, apoi liceu); pentru țările multilingve, **toate limbile oficiale de predare**; doar commit + push, **fără PR/merge și fără APK** până la alt semnal.
+
+- Format: `public/education/literature/authored/<CC>/<lang>-<an>.json` (schema `mypocket-literature-authored/v2`) + `catalog.json`; `node scripts/build_literature_national_packs.mjs` verifică, `--write` setează versiunile și catalogul. La alegerea anului, `litWithNationalYear` folosește catalogul din sesiune/cache (nu blochează), oferă alegerea limbii când există mai multe și ține minte ultima alegere. Dacă traducerea eșuează, lecția națională rămâne vizibilă în limba originală, cu mențiune; FR/HU vechi păstrează comportamentul anterior.
+- Clasa 1 autorată (10 lecții originale fiecare, revizuire independentă **în așteptare**, nu certificat): GB-ENG Y1 en; IT P1 it; ES P1 es/ca/eu/gl; DE 1 de; PT 1 pt; BE 1 fr/nl/de; CH 1 de/fr/it; LI 1 de; DK 1 da; SE 1 sv; IS 1 is; NO 1 nb/nn; FI 1 fi/sv.
+- Limbi decise pentru restul: LU doar de; NO nb+nn; BA bs+hr+sr; ME cnr+sr; XK sq+sr; MK mk+sq; BY be+ru; GB-WLS en+cy; GB-SCT doar en; IE en+ga; MT mt+en.
+- **Amânate la cererea utilizatorului:** AT, HR, MD, PL, RS, TR. Profilurile lor au la clasa 1 un șablon de 16 capitole potrivit liceului (ex. AT: Grillparzer, Schnitzler, Bachmann, eseu), fără cheile `eu-year-*`; trebuie decis ulterior cum se afișează lecțiile naționale. VA P1 nu are rânduri (rămâne `external-curriculum`). FR CP și HU 1–4 au pachete vechi.
+- Test real în browser: `tests_literature_national_browser.mjs` (Chromium, 390x844): alegerea limbii BE, lecția NL, reutilizare offline din cache, fallback la original, reîncercare pentru limbă necache-uită. În sandbox, Chromium se obține din `@sparticuz/chromium` (binar + `al2023.tar.br` cu libnss/libnspr, `LD_LIBRARY_PATH`) printr-un wrapper `chromium` pe PATH; în CI se folosește Chrome din runner.
+
 ## Fișiere de pornire
 
 `curriculum_pack_catalog.mjs`, `curriculum_pack_manifest.mjs`, `curriculum_pack_protocol.mjs`, `scripts/build_curriculum_packs.mjs`, `public/packs/`, `education_country_ui.mjs`, `index.js`, `literature_task_ui.mjs`, `literature_audit_2026.md`, `wrangler-frontend.toml`, `.github/workflows/deploy-cloudflare.yml`, testele `tests_curriculum_pack_*` și `tests_literature_*.mjs`.
