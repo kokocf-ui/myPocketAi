@@ -1,0 +1,201 @@
+{
+ "schema": "mypocket-literature-authored-catalog/v1",
+ "version": "347095f2f8496ee813eaf367d502800b347f7d190e62a243112da228c5012acc",
+ "years": [
+  {
+   "country": "RO",
+   "stage": "advanced",
+   "grade": "uni-ba-1",
+   "languages": [
+    {
+     "lang": "ro",
+     "name": "Română",
+     "file": "ro-uni-ba-1",
+     "version": "d13e1bcbe5cbf36e5ace76b518d25f7b572b5e15f41c3d52e9bbe376eeb131df"
+    }
+   ]
+  },
+  {
+   "country": "RO",
+   "stage": "advanced",
+   "grade": "uni-ba-2",
+   "languages": [
+    {
+     "lang": "ro",
+     "name": "Română",
+     "file": "ro-uni-ba-2",
+     "version": "9a786fb5cd5375d085237a3081d86ed91e816279037c4aa487ca39601c391a9c"
+    }
+   ]
+  },
+  {
+   "country": "RO",
+   "stage": "advanced",
+   "grade": "uni-ba-3",
+   "languages": [
+    {
+     "lang": "ro",
+     "name": "Română",
+     "file": "ro-uni-ba-3",
+     "version": "3a80d48ab37864ec0d45e101b0b8e455e4b80de8723dc855f8ba2db8c0fab96c"
+    }
+   ]
+  },
+  {
+   "country": "RO",
+   "stage": "lower",
+   "grade": "5",
+   "languages": [
+    {
+     "lang": "ro",
+     "name": "Română",
+     "file": "ro-5",
+     "version": "81ba422936d4ac39b09ad6495f9a825c21edf94fc8b1a85fb75b9cac3529804f"
+    }
+   ]
+  },
+  {
+   "country": "RO",
+   "stage": "lower",
+   "grade": "6",
+   "languages": [
+    {
+     "lang": "ro",
+     "name": "Română",
+     "file": "ro-6",
+     "version": "aa65a2bb56148de382d29d33594edd15b450d59f1c39439c746ff134decebec6"
+    }
+   ]
+  },
+  {
+   "country": "RO",
+   "stage": "lower",
+   "grade": "7",
+   "languages": [
+    {
+     "lang": "ro",
+     "name": "Română",
+     "file": "ro-7",
+     "version": "2112a3172fbbd6b949e8afb54687b0ef00ec94b291d0fa495079c7c0f7f78d13"
+    }
+   ]
+  },
+  {
+   "country": "RO",
+   "stage": "lower",
+   "grade": "8",
+   "languages": [
+    {
+     "lang": "ro",
+     "name": "Română",
+     "file": "ro-8",
+     "version": "a16a1ea7f62cddd3cf0f21a716f1b01749a34d266f1ff83b33c6b24b02a0b651"
+    }
+   ]
+  },
+  {
+   "country": "RO",
+   "stage": "medium",
+   "grade": "9",
+   "languages": [
+    {
+     "lang": "ro",
+     "name": "Română",
+     "file": "ro-9",
+     "version": "604f6f7229484b848db53bcfb0694ba0ff89b26be6ad3b40bbc59ab655086336"
+    }
+   ]
+  },
+  {
+   "country": "RO",
+   "stage": "medium",
+   "grade": "10",
+   "languages": [
+    {
+     "lang": "ro",
+     "name": "Română",
+     "file": "ro-10",
+     "version": "913b616a9677b44466b009595581ac1dbb9aa63062354b5a072cdbe25bfacbdb"
+    }
+   ]
+  },
+  {
+   "country": "RO",
+   "stage": "medium",
+   "grade": "11",
+   "languages": [
+    {
+     "lang": "ro",
+     "name": "Română",
+     "file": "ro-11",
+     "version": "69c8bd4e88540a8aa1d7797414938bf070b177eec94502f7117b64089b22d216"
+    }
+   ]
+  },
+  {
+   "country": "RO",
+   "stage": "medium",
+   "grade": "12",
+   "languages": [
+    {
+     "lang": "ro",
+     "name": "Română",
+     "file": "ro-12",
+     "version": "ded84777b311abb319301b99a69a65dedb0c1b51addf9351e28e7f3cab31c9ca"
+    }
+   ]
+  },
+  {
+   "country": "RO",
+   "stage": "medium",
+   "grade": "tic-9",
+   "languages": [
+    {
+     "lang": "ro",
+     "name": "Română",
+     "file": "ro-tic-9",
+     "version": "181f1ea9bcb3155437b3ac33001dd71e70345258cca0c9319a99e8533fd974b8"
+    }
+   ]
+  },
+  {
+   "country": "RO",
+   "stage": "medium",
+   "grade": "tic-10",
+   "languages": [
+    {
+     "lang": "ro",
+     "name": "Română",
+     "file": "ro-tic-10",
+     "version": "ab34b6a3d46857eb006c4ff5b5b793ae5b96dd75fade8fe3fde09316b8e6fdb4"
+    }
+   ]
+  },
+  {
+   "country": "RO",
+   "stage": "medium",
+   "grade": "tic-11",
+   "languages": [
+    {
+     "lang": "ro",
+     "name": "Română",
+     "file": "ro-tic-11",
+     "version": "6a963c36886fbc054fa23c31d483b158033df2ceea8d469cba979e41b8d38914"
+    }
+   ]
+  },
+  {
+   "country": "RO",
+   "stage": "medium",
+   "grade": "tic-12",
+   "languages": [
+    {
+     "lang": "ro",
+     "name": "Română",
+     "file": "ro-tic-12",
+     "version": "990f49219a97b2ed6251b35acc3b2fcdc87e575dcc8fa6f9490ca14e3b391096"
+    }
+   ]
+  }
+ ]
+}

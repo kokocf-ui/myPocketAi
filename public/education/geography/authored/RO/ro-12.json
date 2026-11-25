@@ -1,0 +1,1131 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "RO",
+ "stage": "medium",
+ "grade": "12",
+ "version": "579608f2c591aa46c3328073e0433a238b84cea4ad57754920712b3aff9dc754",
+ "source": "https://rocnee.eu/images/rocnee/fisiere/repere_medotologice/2025/finale/REPERE_METODOLOGICE_GEOGRAFIE_2024_2025_CLS_XII.pdf",
+ "sourceTitle": "Programa școlară pentru disciplina Geografie, clasa a XII-a — Europa – România – Uniunea Europeană. Probleme fundamentale, aprobată prin OMEdC nr. 5959/22.12.2006 (în vigoare pentru clasa a XII-a până la aplicarea noii programe OMEC 6930/2025); repere metodologice ROCNEE 2024–2025: Europa și România (cadrul natural, cadrul uman și economic, mediul, regiunile); România și Uniunea Europeană; Europa, Uniunea Europeană și România în lume. Lecții originale, fără text copiat din manuale",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "ro",
+ "labels": [
+  "Activitate originală · România · Geografie · Clasa a XII-a",
+  "Lecția pe înțeles",
+  "Exemplu",
+  "Ce ne arată exemplul",
+  "Exerciții",
+  "Test",
+  "Activități originale, făcute după programa școlară; nu înlocuiesc manualul sau ora de la clasă.",
+  "Dacă nu ai înțeles: pas cu pas",
+  "Răspunsuri (verifică după ce termini)"
+ ],
+ "units": [
+  {
+   "title": "Europa și România: cadrul natural",
+   "keys": [
+    "eu-year-ro-medium-12-l01",
+    "eu-year-ro-medium-12-l02",
+    "eu-year-ro-medium-12-l03",
+    "eu-year-ro-medium-12-l04",
+    "eu-year-ro-medium-12-l05",
+    "eu-year-ro-medium-12-l06"
+   ]
+  },
+  {
+   "title": "Europa și România: cadrul uman și economic",
+   "keys": [
+    "eu-year-ro-medium-12-l07",
+    "eu-year-ro-medium-12-l08",
+    "eu-year-ro-medium-12-l09",
+    "eu-year-ro-medium-12-l10",
+    "eu-year-ro-medium-12-l11",
+    "eu-year-ro-medium-12-l12"
+   ]
+  },
+  {
+   "title": "Mediul înconjurător și regiunile Europei și României",
+   "keys": [
+    "eu-year-ro-medium-12-l13",
+    "eu-year-ro-medium-12-l14",
+    "eu-year-ro-medium-12-l15",
+    "eu-year-ro-medium-12-l16",
+    "eu-year-ro-medium-12-l17"
+   ]
+  },
+  {
+   "title": "România și Uniunea Europeană",
+   "keys": [
+    "eu-year-ro-medium-12-l18",
+    "eu-year-ro-medium-12-l19",
+    "eu-year-ro-medium-12-l20",
+    "eu-year-ro-medium-12-l21",
+    "eu-year-ro-medium-12-l22",
+    "eu-year-ro-medium-12-l23",
+    "eu-year-ro-medium-12-l24",
+    "eu-year-ro-medium-12-l25",
+    "eu-year-ro-medium-12-l26",
+    "eu-year-ro-medium-12-l27",
+    "eu-year-ro-medium-12-l28"
+   ]
+  },
+  {
+   "title": "Europa, Uniunea Europeană și România în lume",
+   "keys": [
+    "eu-year-ro-medium-12-l29",
+    "eu-year-ro-medium-12-l30"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-ro-medium-12-l01": {
+   "ro": {
+    "title": "Europa și România: poziție, limite, relief",
+    "theory": "Europa este un continent situat în emisfera nordică și estică (cu excepția unei părți din vest), legat de Asia prin limita convențională Munții Ural – râul Ural – Marea Caspică – Depresiunea Manâci – Marea Neagră. Are circa 10 milioane km², țărmuri foarte crestate, cu peninsule (Scandinavă, Iberică, Italică, Balcanică) și insule (Marea Britanie, Islanda, Irlanda, Sicilia). Relieful are altitudine medie redusă (circa 300 m): câmpii întinse (Câmpia Est-Europeană, Câmpia Germano-Polonă), podișuri și munți vechi (Masivul Central Francez, Munții Scandinaviei, Uralii) și munți tineri alpini (Alpi – Mont Blanc 4.805 m, Carpați, Pirinei, Apenini, Balcani, Caucaz). România, situată în centrul-sud-estul Europei, la intersecția paralelei de 45° N cu meridianul de 25° E, are un relief variat și armonios: munți (circa 31%), dealuri și podișuri (circa 36%), câmpii și lunci (circa 33%), dispuse concentric în jurul Carpaților.",
+    "sample": "Paralela de 45° N trece prin România, la jumătatea distanței dintre Ecuator și Polul Nord.",
+    "worked": "Poziția la latitudini medii explică clima temperată a României.",
+    "exercises": [
+     "Precizează limitele Europei.",
+     "Numește marile peninsule europene.",
+     "Clasifică munții Europei după vârstă.",
+     "Descrie poziția României în Europa.",
+     "Explică dispunerea concentrică a reliefului României."
+    ],
+    "test": [
+     "Care este cel mai înalt vârf din Alpi?",
+     "Ce munți despart convențional Europa de Asia?",
+     "Ce paralelă trece prin România?",
+     "Ce procent din teritoriul României ocupă munții?",
+     "Ce câmpie este cea mai întinsă din Europa?"
+    ],
+    "steps": [
+     "Localizează unitatea pe hartă.",
+     "Precizează tipul și altitudinea ei.",
+     "Compară cu unități din România.",
+     "Greșeala frecventă: să crezi că toți munții Europei sunt tineri; Uralii și Munții Scandinaviei sunt vechi."
+    ],
+    "answers": [
+     "Mont Blanc (4.805 m).",
+     "Munții Ural.",
+     "Paralela de 45° N.",
+     "Circa 31%.",
+     "Câmpia Est-Europeană."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l02": {
+   "ro": {
+    "title": "Relieful României: unitățile majore",
+    "theory": "Relieful României este variat și dispus aproape concentric. Carpații Românești formează un arc în centrul țării, împărțit în Carpații Orientali (cei mai lungi, cu vulcani stinși în vest – Călimani, Harghita; Vârful Pietrosu Rodnei, 2.303 m), Carpații Meridionali (cei mai înalți și masivi, cu relief glaciar – Moldoveanu, 2.544 m, Negoiu; Făgăraș, Parâng, Retezat) și Carpații Occidentali (cei mai joși și fragmentați, cu multe trecători și relief carstic – Apuseni, Banat). În interiorul arcului se află Podișul Transilvaniei, înconjurat de Subcarpați și dealuri. În exterior: Subcarpații (în est și sud), Podișul Moldovei, Podișul Getic, Câmpia Română, Câmpia de Vest, Dealurile de Vest. În sud-est se află Podișul Dobrogei (cu Munții Măcinului, cei mai vechi din țară), iar în extremitatea estică Delta Dunării – cea mai nouă unitate de relief.",
+    "sample": "Munții Măcinului sunt cei mai vechi munți din România, iar Delta Dunării este cea mai nouă formă de relief.",
+    "worked": "Pe teritoriul României se pot vedea forme de relief de vârste foarte diferite, de la munți erodați la uscat în formare.",
+    "exercises": [
+     "Numește grupele Carpaților Românești.",
+     "Compară cele trei ramuri ale Carpaților.",
+     "Localizează unitățile de relief din interiorul arcului carpatic.",
+     "Localizează unitățile de relief din exteriorul arcului.",
+     "Explică vârsta diferită a unităților de relief."
+    ],
+    "test": [
+     "Care sunt cei mai înalți Carpați?",
+     "Ce vulcani stinși se află în Carpații Orientali?",
+     "Ce podiș se află în interiorul arcului carpatic?",
+     "Care sunt cei mai vechi munți din România?",
+     "Care este cea mai nouă unitate de relief?"
+    ],
+    "steps": [
+     "Localizează unitatea de relief pe hartă.",
+     "Precizează altitudinea și formele ei specifice.",
+     "Compar-o cu unitățile vecine.",
+     "Greșeala frecventă: să confunzi Carpații Orientali (cei mai lungi) cu Carpații Meridionali (cei mai înalți)."
+    ],
+    "answers": [
+     "Carpații Meridionali.",
+     "Călimani, Gurghiu, Harghita.",
+     "Podișul Transilvaniei.",
+     "Munții Măcinului.",
+     "Delta Dunării."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l03": {
+   "ro": {
+    "title": "Clima Europei și a României",
+    "theory": "Europa are în cea mai mare parte climă temperată, datorită latitudinii, influenței Oceanului Atlantic (Curentul Golfului – Nord-Atlantic aduce ape calde) și vânturilor de vest. Tipuri de climă: oceanică (vest – ierni blânde, veri răcoroase, precipitații tot anul), continentală (est – ierni geroase, veri calde, precipitații mai puține), mediteraneană (sud – veri calde și secetoase, ierni blânde și ploioase), subpolară și polară (nord), climă montană în munți. România are climă temperat-continentală cu influențe variate: oceanice în vest, submediteraneene în sud-vest, de ariditate (continental-excesive) în est și nord-est, baltice în nord, pontice pe litoral. Temperatura medie anuală este de circa 8–11°C în câmpie și sub 0°C pe vârfurile înalte; precipitațiile scad de la peste 1.000 mm în munți la sub 400 mm în Dobrogea. Schimbările climatice aduc secete și valuri de căldură mai frecvente.",
+    "sample": "Dobrogea primește sub 400 mm de precipitații pe an, iar crestele carpatice peste 1.000 mm.",
+    "worked": "Altitudinea și distanța față de influențele umede explică repartiția precipitațiilor.",
+    "exercises": [
+     "Explică factorii climei Europei.",
+     "Compară climatul oceanic cu cel continental.",
+     "Descrie climatul mediteranean.",
+     "Enumeră influențele climatice din România.",
+     "Explică repartiția precipitațiilor în România."
+    ],
+    "test": [
+     "Ce curent cald influențează Europa de Vest?",
+     "Ce vânturi aduc umezeală dinspre Atlantic?",
+     "Ce climă are România?",
+     "Ce influență climatică există în sud-vestul României?",
+     "Unde plouă cel mai puțin în România?"
+    ],
+    "steps": [
+     "Identifică regiunea.",
+     "Stabilește tipul de climă și factorii ei.",
+     "Compară cu clima României.",
+     "Greșeala frecventă: să crezi că latitudinea explică singură clima; contează și oceanul, curenții și relieful."
+    ],
+    "answers": [
+     "Curentul Golfului (Nord-Atlantic).",
+     "Vânturile de vest.",
+     "Temperat-continentală.",
+     "Submediteraneană.",
+     "În Dobrogea."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l04": {
+   "ro": {
+    "title": "Apele Europei și ale României: Dunărea și Marea Neagră",
+    "theory": "Europa are o rețea hidrografică densă. Cel mai lung fluviu este Volga (circa 3.530 km, se varsă în Marea Caspică), urmat de Dunăre (2.860 km). Alte fluvii: Rin, Ron, Elba, Vistula, Nipru, Loara, Tamisa, Pad. Lacurile mari: Ladoga, Onega (glaciare), Geneva, Balaton. Dunărea izvorăște din Munții Pădurea Neagră (Germania), străbate sau mărginește 10 state (record mondial) și patru capitale (Viena, Bratislava, Budapesta, Belgrad) și se varsă în Marea Neagră printr-o deltă. Pe teritoriul României are 1.075 km; la Porțile de Fier formează cel mai lung defileu din Europa. Canalul Rin–Main–Dunăre leagă Marea Nordului de Marea Neagră. Marea Neagră este o mare continentală, cu salinitate redusă (circa 17‰), legată de Mediterana prin Bosfor și Dardanele; sub 150–200 m adâncime apa conține hidrogen sulfurat și este lipsită de viață. România are circa 245 km de țărm.",
+    "sample": "Dunărea traversează sau mărginește 10 state, mai multe decât orice alt fluviu.",
+    "worked": "Dunărea este o axă de legătură economică și culturală pentru Europa Centrală și de Sud-Est.",
+    "exercises": [
+     "Numește marile fluvii ale Europei.",
+     "Descrie cursul Dunării.",
+     "Explică importanța Canalului Rin–Main–Dunăre.",
+     "Descrie caracteristicile Mării Negre.",
+     "Explică de ce Marea Neagră are viață doar în stratul superficial."
+    ],
+    "test": [
+     "Care este cel mai lung fluviu al Europei?",
+     "Câte state străbate sau mărginește Dunărea?",
+     "Câți km are Dunărea în România?",
+     "Ce gaz se află în adâncul Mării Negre?",
+     "Ce strâmtori leagă Marea Neagră de Mediterana?"
+    ],
+    "steps": [
+     "Localizează apa pe hartă.",
+     "Precizează caracteristicile ei.",
+     "Explică importanța ei economică și ecologică.",
+     "Greșeala frecventă: să crezi că Dunărea este cel mai lung fluviu al Europei; Volga este mai lungă."
+    ],
+    "answers": [
+     "Volga.",
+     "Zece.",
+     "Circa 1.075 km.",
+     "Hidrogenul sulfurat.",
+     "Bosforul și Dardanelele."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l05": {
+   "ro": {
+    "title": "Delta Dunării și litoralul românesc al Mării Negre",
+    "theory": "Delta Dunării se formează la vărsarea fluviului în Marea Neagră, prin depunerea aluviunilor. Dunărea se împarte la Ceatal Izmail în brațele Chilia (cel mai lung și mai bogat în apă, granița cu Ucraina), Sulina (canalizat, navigabil pentru nave maritime) și Sfântu Gheorghe (cel mai vechi). Delta are circa 5.800 km² (cea mai mare parte în România), cu grinduri, lacuri, canale, stuf (cea mai mare suprafață compactă de stuf din lume), păduri de luncă (Letea – cea mai nordică pădure subtropicală a Europei) și peste 300 de specii de păsări (pelicani, cormorani). Este rezervație a biosferei (1990) și patrimoniu UNESCO (1991). Litoralul românesc are circa 245 km: în nord (de la Chilia la Capul Midia) țărm jos, cu lagune (complexul Razim–Sinoie) și cordoane de nisip; în sud (Capul Midia – Vama Veche) țărm cu faleze și plaje, cu stațiuni (Mamaia, Eforie, Neptun, Mangalia), portul Constanța și lacuri cu nămol terapeutic (Techirghiol).",
+    "sample": "Brațul Chilia transportă aproximativ jumătate din apele Dunării.",
+    "worked": "Brațul cu cel mai mare debit aduce și cele mai multe aluviuni, deci delta avansează cel mai repede acolo.",
+    "exercises": [
+     "Explică formarea Deltei Dunării.",
+     "Compară cele trei brațe ale Dunării.",
+     "Descrie peisajul deltei.",
+     "Compară litoralul de nord cu cel de sud.",
+     "Explică rolul turistic al litoralului."
+    ],
+    "test": [
+     "Unde se desparte Dunărea în brațe?",
+     "Care este brațul cel mai lung?",
+     "Ce braț este canalizat pentru navigație?",
+     "Ce pădure deosebită se află în deltă?",
+     "Ce lac are nămol terapeutic?"
+    ],
+    "steps": [
+     "Localizează delta și litoralul.",
+     "Precizează elementele naturale.",
+     "Explică importanța ecologică și economică.",
+     "Greșeala frecventă: să crezi că Delta Dunării este doar o zonă de mlaștini fără valoare; este una dintre cele mai valoroase zone umede ale lumii."
+    ],
+    "answers": [
+     "La Ceatal Izmail.",
+     "Brațul Chilia.",
+     "Brațul Sulina.",
+     "Pădurea Letea.",
+     "Lacul Techirghiol."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l06": {
+   "ro": {
+    "title": "Învelișul biopedogeografic și resursele naturale",
+    "theory": "Vegetația, fauna și solurile Europei se dispun zonal, de la nord la sud: tundra (nordul Scandinaviei și Rusiei – mușchi, licheni, soluri înghețate), taigaua (păduri de conifere, podzoluri), pădurile de amestec și de foioase (soluri brune), silvostepa și stepa (soluri cernoziomice foarte fertile – Ucraina, Rusia, Câmpia Română), vegetația mediteraneană (arbuști veșnic verzi – maquis). În munți apar etaje de vegetație. În România: stepă și silvostepă în câmpie și Dobrogea (cernoziomuri), păduri de stejar, apoi de fag în dealuri, păduri de conifere și pajiști alpine în munți, vegetație de luncă și deltă. Resursele naturale ale Europei: cărbune (Germania, Polonia), petrol și gaze (Marea Nordului, Rusia, România), minereuri (Suedia – fier), lemn (Scandinavia, România), soluri fertile, potențial hidroenergetic și eolian. România are resurse diverse: gaze naturale (Transilvania, Marea Neagră), petrol, cărbune, sare, ape minerale, păduri.",
+    "sample": "Cernoziomurile din Câmpia Română și din Ucraina sunt printre cele mai fertile soluri ale lumii.",
+    "worked": "Solurile fertile au făcut din aceste câmpii mari regiuni cerealiere.",
+    "exercises": [
+     "Descrie zonele de vegetație ale Europei.",
+     "Explică etajarea vegetației în munți.",
+     "Descrie vegetația României pe unități de relief.",
+     "Localizează resursele energetice ale Europei.",
+     "Enumeră resursele naturale ale României."
+    ],
+    "test": [
+     "Ce sol este foarte fertil în stepă?",
+     "Ce vegetație are taigaua?",
+     "Ce vegetație este specifică mediteranei?",
+     "Unde exploatează Suedia minereu de fier?",
+     "Unde se află gaze naturale în România?"
+    ],
+    "steps": [
+     "Identifică zona biopedogeografică.",
+     "Leagă-o de climă și de relief.",
+     "Precizează resursele și folosirea lor.",
+     "Greșeala frecventă: să crezi că vegetația actuală este cea naturală; în câmpii stepa a fost înlocuită de culturi."
+    ],
+    "answers": [
+     "Cernoziomul.",
+     "Păduri de conifere.",
+     "Arbuștii veșnic verzi (maquis).",
+     "În nordul Suediei (Kiruna).",
+     "În Transilvania și în Marea Neagră."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l07": {
+   "ro": {
+    "title": "Harta politică a Europei",
+    "theory": "Harta politică a Europei s-a schimbat mult în ultimul secol. După Primul Război Mondial au apărut state noi (Polonia, Cehoslovacia, Iugoslavia, statele baltice) și s-a realizat România Mare. După al Doilea Război Mondial, Europa a fost împărțită de „Cortina de Fier” între Vest și Est (blocul sovietic), iar Germania a fost divizată. După 1989–1991: reunificarea Germaniei (1990), destrămarea URSS (15 state, dintre care în Europa: Rusia, Ucraina, Belarus, Republica Moldova, Estonia, Letonia, Lituania), a Iugoslaviei (Slovenia, Croația, Bosnia și Herțegovina, Serbia, Muntenegru, Macedonia de Nord, Kosovo – recunoaștere parțială) și separarea pașnică a Cehoslovaciei (Cehia, Slovacia, 1993). Astăzi Europa are circa 45 de state, de la Rusia (cel mai mare) la Vatican (cel mai mic stat al lumii). Există monarhii (Marea Britanie, Spania, statele scandinave, Belgia, Țările de Jos) și republici.",
+    "sample": "Cehoslovacia s-a despărțit pașnic în 1993 în Cehia și Slovacia, fenomen numit „divorțul de catifea”.",
+    "worked": "Schimbările de frontieră pot avea loc și prin negociere, fără război.",
+    "exercises": [
+     "Ordonează schimbările hărții politice în secolul XX.",
+     "Numește statele apărute din destrămarea Iugoslaviei.",
+     "Numește statele europene apărute din URSS.",
+     "Clasifică statele după forma de guvernământ.",
+     "Localizează pe hartă cinci capitale europene."
+    ],
+    "test": [
+     "Când s-a reunificat Germania?",
+     "Cum s-a despărțit Cehoslovacia?",
+     "Care este cel mai mic stat al lumii?",
+     "Câte state are aproximativ Europa?",
+     "Ce state baltice și-au câștigat independența în 1991?"
+    ],
+    "steps": [
+     "Stabilește perioada.",
+     "Identifică schimbările de granițe.",
+     "Explică cauzele și urmările lor.",
+     "Greșeala frecventă: să crezi că harta Europei a fost stabilă; s-a schimbat de mai multe ori în ultimul secol."
+    ],
+    "answers": [
+     "În 1990.",
+     "Pașnic, în 1993 („divorțul de catifea”).",
+     "Vatican.",
+     "Circa 45.",
+     "Estonia, Letonia și Lituania."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l08": {
+   "ro": {
+    "title": "Populația Europei și a României",
+    "theory": "Europa are circa 745 de milioane de locuitori (inclusiv partea europeană a Rusiei), cu densitate mare în vest și centru (Țările de Jos, Belgia, Marea Britanie, Germania, nordul Italiei) și mică în nord (Scandinavia, Islanda) și în est. Caracteristici: natalitate scăzută, fertilitate sub nivelul de înlocuire (circa 1,4–1,5 copii pe femeie în UE), speranță de viață mare, îmbătrânire accentuată, urbanizare ridicată (circa 75%). Imigrația din afara Europei (Africa, Asia, Orientul Mijlociu) și migrația internă (din Est spre Vest) schimbă structura populației. Diversitatea etnică și lingvistică este mare (limbi romanice, germanice, slave etc.). România are circa 19 milioane de locuitori (recensământul din 2021: 19,05 milioane), în scădere din 1990 din cauza sporului natural negativ și a emigrației (milioane de români trăiesc în Italia, Spania, Germania, Marea Britanie). Densitatea medie este de circa 80 loc./km²; urbanizarea este de circa 52–54%, printre cele mai mici din UE.",
+    "sample": "România a pierdut aproape 4 milioane de locuitori între 1990 și 2021.",
+    "worked": "Scăderea se datorează în principal emigrației, dar și sporului natural negativ.",
+    "exercises": [
+     "Explică repartiția populației Europei.",
+     "Enumeră caracteristicile demografice ale Europei.",
+     "Explică efectele migrațiilor asupra Europei.",
+     "Explică scăderea populației României.",
+     "Compară urbanizarea României cu media UE."
+    ],
+    "test": [
+     "Câți locuitori are aproximativ Europa?",
+     "Ce fertilitate are UE?",
+     "Câți locuitori a înregistrat România la recensământul din 2021?",
+     "Unde au emigrat mulți români?",
+     "Ce densitate are România?"
+    ],
+    "steps": [
+     "Analizează datele demografice.",
+     "Compară Europa cu România.",
+     "Explică cauzele și urmările tendințelor.",
+     "Greșeala frecventă: să crezi că populația României scade doar din cauza natalității; emigrația are un rol foarte mare."
+    ],
+    "answers": [
+     "Circa 745 de milioane.",
+     "Circa 1,4–1,5 copii pe femeie.",
+     "Circa 19,05 milioane.",
+     "În Italia, Spania, Germania, Marea Britanie.",
+     "Circa 80 loc./km²."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l09": {
+   "ro": {
+    "title": "Orașele Europei și ale României",
+    "theory": "Europa este puternic urbanizată și are o rețea veche și densă de orașe. Metropolele principale: Londra și Paris (orașe globale, peste 10 milioane în aglomerare), Moscova, Istanbul (parțial european), Madrid, Berlin, Roma. Exemple: Londra – centru financiar mondial, port istoric pe Tamisa, sedii de companii și universități; Paris – capitală politică, culturală și turistică, cu plan radial-concentric; Berlin – reunificat în 1990, capitală politică și centru de cultură și tehnologie; Roma – „Orașul Etern”, cu patrimoniu antic și Vaticanul în interior. Axe urbane: „Banana albastră” (Londra – Randstad – Rin – Elveția – Milano). București (circa 1,7–1,8 milioane de locuitori în municipiu, peste 2 milioane în zona metropolitană) este capitala și cel mai mare oraș al României, centru politic, administrativ, economic, financiar, universitar și cultural, cu cea mai mare contribuție la PIB. Alte orașe mari: Cluj-Napoca (centru universitar și IT), Iași (centru universitar și cultural al Moldovei), Timișoara, Constanța (cel mai mare port la Marea Neagră), Brașov.",
+    "sample": "Bucureștiul produce aproximativ un sfert din PIB-ul României.",
+    "worked": "Capitala concentrează instituțiile, sediile companiilor și investițiile străine.",
+    "exercises": [
+     "Numește metropolele Europei.",
+     "Prezintă un oraș european (funcții, poziție).",
+     "Explică ce este „Banana albastră”.",
+     "Prezintă Bucureștiul.",
+     "Prezintă două orașe mari ale României."
+    ],
+    "test": [
+     "Care sunt cele două orașe globale ale Europei?",
+     "În ce an a fost reunificat Berlinul?",
+     "Ce stat se află în interiorul Romei?",
+     "Ce oraș românesc este centru IT?",
+     "Care este cel mai mare port al României?"
+    ],
+    "steps": [
+     "Localizează orașul pe hartă.",
+     "Precizează poziția, populația și funcțiile.",
+     "Compară-l cu alt oraș.",
+     "Greșeala frecventă: să crezi că un oraș are doar funcția de capitală; capitalele sunt polifuncționale."
+    ],
+    "answers": [
+     "Londra și Paris.",
+     "În 1990.",
+     "Vatican.",
+     "Cluj-Napoca.",
+     "Constanța."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l10": {
+   "ro": {
+    "title": "Economia Europei și a României",
+    "theory": "Europa este una dintre cele mai dezvoltate regiuni economice ale lumii. Agricultura este intensivă și productivă în vest (Franța – cel mai mare producător agricol al UE, Țările de Jos – mare exportator), cu cereale în câmpii, viticultură, legume și fructe în sud; Politica Agricolă Comună sprijină fermierii. Industria: Germania (automobile – Volkswagen, BMW, Mercedes; mașini, chimie), Franța (aeronautică – Airbus, nuclear), Italia (design, mașini), Suedia, Elveția (farmaceutice, precizie). Serviciile domină (peste 70% din economie): finanțe (Londra, Frankfurt, Zürich), turism (Franța, Spania, Italia), comerț, IT. Economia României s-a transformat după 1990 de la una centralizată la una de piață: industria auto (Dacia la Mioveni, Ford la Craiova), IT și servicii, agricultură (România este mare producător de porumb, grâu, floarea-soarelui), energie (gaze, hidro, nuclear la Cernavodă, eolian în Dobrogea). După aderarea la UE (2007), PIB-ul pe locuitor a crescut semnificativ, dar decalajele regionale rămân mari.",
+    "sample": "România se numără printre cei mai mari producători de porumb și floarea-soarelui din UE.",
+    "worked": "Solurile fertile din câmpii oferă României un potențial agricol important.",
+    "exercises": [
+     "Prezintă agricultura Europei.",
+     "Numește marile ramuri industriale ale Europei.",
+     "Explică rolul serviciilor în economia europeană.",
+     "Prezintă transformarea economiei României după 1990.",
+     "Numește ramurile importante ale economiei României."
+    ],
+    "test": [
+     "Ce stat este cel mai mare producător agricol al UE?",
+     "Ce companie europeană produce avioane?",
+     "Unde se află uzina Dacia?",
+     "Ce culturi produce mult România?",
+     "În ce an a aderat România la UE?"
+    ],
+    "steps": [
+     "Identifică ramura economică.",
+     "Localizează principalele centre.",
+     "Compară Europa cu România.",
+     "Greșeala frecventă: să crezi că economia României este doar agricolă; industria și serviciile au ponderi mai mari."
+    ],
+    "answers": [
+     "Franța.",
+     "Airbus.",
+     "La Mioveni.",
+     "Porumb, grâu, floarea-soarelui.",
+     "În 2007."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l11": {
+   "ro": {
+    "title": "Turismul în Europa și în România",
+    "theory": "Europa este cea mai vizitată regiune turistică a lumii (circa jumătate din sosirile internaționale). Factori: patrimoniu cultural uriaș (orașe istorice, muzee, monumente), diversitate de peisaje, infrastructură bună, siguranță, distanțe mici, libera circulație. Tipuri: litoral (Mediterana – Spania, Italia, Grecia, Croația, Turcia), montan (Alpii – schi în Austria, Elveția, Franța), cultural (Paris, Roma, Londra, Barcelona, Praga, Veneția), balnear, religios (Lourdes, Vatican). România are un potențial turistic ridicat, dar încă folosit sub posibilități: litoralul Mării Negre, munții (Prahova, Poiana Brașov, Bucegi), Delta Dunării, stațiunile balneare (Băile Herculane, Băile Felix, Sovata), patrimoniul UNESCO (mănăstirile pictate din Bucovina, bisericile de lemn din Maramureș, cetățile dacice din Munții Orăștiei, bisericile fortificate din Transilvania, Sighișoara, Hurezi), Castelul Bran și Peleș, turismul rural (Bucovina, Maramureș). Probleme: infrastructura, promovarea, calitatea serviciilor.",
+    "sample": "Mănăstirile pictate din nordul Moldovei, cu frescele lor exterioare, sunt înscrise în patrimoniul UNESCO.",
+    "worked": "Patrimoniul cultural unic este un avantaj al turismului românesc.",
+    "exercises": [
+     "Explică factorii care fac din Europa principala regiune turistică.",
+     "Clasifică formele de turism din Europa.",
+     "Numește obiective românești din patrimoniul UNESCO.",
+     "Localizează principalele zone turistice ale României.",
+     "Propune soluții pentru dezvoltarea turismului românesc."
+    ],
+    "test": [
+     "Ce regiune a lumii primește cei mai mulți turiști?",
+     "Ce munți europeni sunt importanți pentru schi?",
+     "Ce mănăstiri românești sunt în patrimoniul UNESCO?",
+     "Ce stațiune balneară se află lângă Oradea?",
+     "Ce castel este asociat cu legenda lui Dracula?"
+    ],
+    "steps": [
+     "Identifică obiectivul turistic.",
+     "Precizează tipul de turism.",
+     "Evaluează potențialul și problemele.",
+     "Greșeala frecventă: să crezi că turismul românesc înseamnă doar litoral; are și munte, deltă, balnear și cultural."
+    ],
+    "answers": [
+     "Europa.",
+     "Alpii.",
+     "Mănăstirile pictate din Bucovina.",
+     "Băile Felix.",
+     "Castelul Bran."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l12": {
+   "ro": {
+    "title": "Transporturile în Europa și în România",
+    "theory": "Europa are o rețea de transport densă și modernă. Rețeaua transeuropeană de transport (TEN-T) definește coridoare prioritare care leagă statele UE. Transportul feroviar de mare viteză: TGV (Franța), ICE (Germania), AVE (Spania), Frecciarossa (Italia), Eurostar prin Tunelul de sub Canalul Mânecii. Rețeaua de autostrăzi este foarte densă în vest. Porturi mari: Rotterdam (cel mai mare port european), Anvers, Hamburg; aeroporturi: Londra Heathrow, Paris Charles de Gaulle, Istanbul, Frankfurt, Amsterdam. Căi navigabile: Rin, Dunăre, Canalul Rin–Main–Dunăre. România are o rețea în modernizare: autostrăzile s-au extins mult după 2010 (A1, A2, A3, A7 – Autostrada Moldovei), dar rămân sub media UE; calea ferată are nevoie de modernizare; portul Constanța este cel mai mare la Marea Neagră și poartă a Coridorului Rin–Dunăre; aeroportul Henri Coandă (Otopeni) este cel mai mare din țară. Coridoarele TEN-T Rin–Dunăre și Orient/Est-Mediteranean traversează România.",
+    "sample": "Tunelul de sub Canalul Mânecii (1994), lung de circa 50 km, leagă Franța de Marea Britanie pe calea ferată.",
+    "worked": "Infrastructura mare unește regiuni separate de bariere naturale.",
+    "exercises": [
+     "Explică ce este rețeaua TEN-T.",
+     "Numește trenuri de mare viteză din Europa.",
+     "Numește marile porturi europene.",
+     "Prezintă rețeaua de transport a României.",
+     "Explică importanța portului Constanța."
+    ],
+    "test": [
+     "Care este cel mai mare port european?",
+     "Ce leagă Tunelul de sub Mânecă?",
+     "Ce tren de mare viteză circulă în Franța?",
+     "Cum se numește cel mai mare aeroport din România?",
+     "Ce coridor european leagă Marea Nordului de Marea Neagră?"
+    ],
+    "steps": [
+     "Identifică tipul de transport.",
+     "Localizează axele și nodurile.",
+     "Evaluează rolul lor pentru Europa și România.",
+     "Greșeala frecventă: să crezi că România are o rețea de autostrăzi comparabilă cu vestul; ea este încă în construcție."
+    ],
+    "answers": [
+     "Rotterdam.",
+     "Franța și Marea Britanie.",
+     "TGV.",
+     "Aeroportul Henri Coandă (Otopeni).",
+     "Coridorul Rin–Dunăre."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l13": {
+   "ro": {
+    "title": "Mediul înconjurător în Europa și în România",
+    "theory": "Europa este puternic antropizată, iar problemele de mediu sunt legate de industrie, transport, agricultură și urbanizare: poluarea aerului în marile orașe și regiuni industriale, ploile acide (care au afectat pădurile din Europa Centrală în anii 1980), poluarea râurilor și a mărilor (Marea Baltică, Marea Neagră – eutrofizare), pierderea biodiversității, schimbările climatice (valuri de căldură, secete în sud, inundații). Răspunsuri: legislația de mediu a UE (una dintre cele mai stricte din lume), rețeaua Natura 2000 (cea mai mare rețea de arii protejate din lume), Pactul Verde European (neutralitate climatică până în 2050). România are probleme legate de defrișările ilegale, de poluarea din fostele zone industriale și miniere (Copșa Mică, Baia Mare), de gestionarea deșeurilor, de eroziune și deșertificare în sud. Are și valori naturale deosebite: Delta Dunării (rezervație a biosferei, patrimoniu UNESCO), păduri virgine de fag (patrimoniu UNESCO), cea mai mare populație de urși bruni și de carnivore mari din UE.",
+    "sample": "Copșa Mică a fost considerat unul dintre cele mai poluate orașe din Europa în anii 1980–1990, din cauza fabricilor de negru de fum și metale.",
+    "worked": "Închiderea sau modernizarea industriei poluante a dus la refacerea treptată a mediului.",
+    "exercises": [
+     "Enumeră problemele de mediu ale Europei.",
+     "Explică ce este rețeaua Natura 2000.",
+     "Explică obiectivul Pactului Verde European.",
+     "Enumeră problemele de mediu ale României.",
+     "Prezintă valorile naturale ale României."
+    ],
+    "test": [
+     "Ce rețea de arii protejate are UE?",
+     "Până în ce an urmărește UE neutralitatea climatică?",
+     "Ce oraș românesc a fost foarte poluat?",
+     "Ce mare are probleme de eutrofizare?",
+     "Ce pădure românească este în patrimoniul UNESCO?"
+    ],
+    "steps": [
+     "Identifică problema de mediu.",
+     "Localizeaz-o și explică-i cauzele.",
+     "Prezintă măsurile de protecție.",
+     "Greșeala frecventă: să crezi că România are doar probleme de mediu; are și unele dintre cele mai valoroase zone naturale ale Europei."
+    ],
+    "answers": [
+     "Natura 2000.",
+     "Până în 2050.",
+     "Copșa Mică (sau Baia Mare).",
+     "Marea Neagră (sau Baltică).",
+     "Pădurile virgine de fag."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l14": {
+   "ro": {
+    "title": "Hazarde naturale și antropice în Europa și în România",
+    "theory": "Europa este afectată de hazarde variate. Cutremure și vulcani: în sud (Italia – Etna, Vezuviu; Grecia; Turcia – cutremurul din 2023; Islanda – erupții frecvente). Inundații: pe marile fluvii (Elba 2002, Dunărea 2006, Europa Centrală 2024) și inundații rapide în sud. Valuri de căldură, secete și incendii de vegetație (Grecia, Portugalia, Spania). Furtuni și avalanșe în munți. Hazarde antropice: accidente industriale și nucleare (Cernobîl, 1986), poluări. România are hazarde specifice: cutremurele din zona Vrancea, de adâncime intermediară (4 martie 1977 – magnitudine 7,2, peste 1.500 de victime, cele mai multe în București), inundațiile (2005, 2010, 2024), alunecările de teren în Subcarpați și dealuri, secetele în sud și est, avalanșele în Carpați, grindina. Măsuri: consolidarea clădirilor cu risc seismic (bulinele roșii din București), sisteme de avertizare, diguri și lacuri de acumulare, împăduriri, planuri de intervenție (ISU).",
+    "sample": "Cutremurul din 4 martie 1977 a produs cele mai multe victime în București, unde s-au prăbușit blocuri vechi.",
+    "worked": "Construcțiile nerezistente cresc riscul seismic, de aceea consolidarea clădirilor este esențială.",
+    "exercises": [
+     "Localizează hazardele naturale din Europa.",
+     "Explică particularitatea cutremurelor din Vrancea.",
+     "Dă exemple de inundații majore.",
+     "Explică riscul seismic din București.",
+     "Propune măsuri de reducere a riscului."
+    ],
+    "test": [
+     "Unde se produc cutremurele de adâncime din România?",
+     "Ce magnitudine a avut cutremurul din 1977?",
+     "Ce semnalizează bulinele roșii din București?",
+     "Unde sunt frecvente alunecările de teren?",
+     "Ce instituție intervine în situații de urgență?"
+    ],
+    "steps": [
+     "Identifică hazardul.",
+     "Localizează regiunile expuse.",
+     "Propune măsuri de prevenire și protecție.",
+     "Greșeala frecventă: să crezi că un cutremur puternic se poate prezice exact; se pot doar reduce efectele prin pregătire."
+    ],
+    "answers": [
+     "În zona Vrancea.",
+     "7,2.",
+     "Clădirile cu risc seismic ridicat.",
+     "În Subcarpați și dealuri.",
+     "Inspectoratul pentru Situații de Urgență (ISU)."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l15": {
+   "ro": {
+    "title": "Ariile protejate din Europa și din România",
+    "theory": "Ariile protejate conservă natura, peisajele și speciile rare. În Europa: parcuri naționale (Plitvice – Croația, Parcul Național Bavarian, Pădurea Bialowieza – Polonia și Belarus, cu zimbri), rețeaua Natura 2000 (circa 18% din uscatul UE). România are circa 23% din teritoriu în Natura 2000, peste media UE, și o rețea de parcuri naționale (Retezat – primul, înființat în 1935; Piatra Craiului, Ceahlău, Cheile Bicazului – Hășmaș, Domogled – Valea Cernei, Munții Măcinului, Defileul Jiului, Cozia, Semenic – Cheile Carașului etc.), parcuri naturale (Apuseni, Bucegi, Porțile de Fier, Vânători-Neamț – unde a fost reintrodus zimbrul) și trei rezervații ale biosferei (Delta Dunării, Retezat, Pietrosul Rodnei). Pădurile virgine de fag (Codrul Secular Șinca, Cheile Nerei, Domogled) fac parte din patrimoniul UNESCO. Probleme: tăierile ilegale, braconajul, construcțiile, turismul necontrolat.",
+    "sample": "Parcul Național Retezat, înființat în 1935, este primul parc național al României.",
+    "worked": "Protejarea zonelor naturale în România are o tradiție de aproape un secol.",
+    "exercises": [
+     "Explică rolul ariilor protejate.",
+     "Numește parcuri naționale din Europa.",
+     "Numește parcuri naționale din România.",
+     "Numește rezervațiile biosferei din România.",
+     "Explică problemele ariilor protejate."
+    ],
+    "test": [
+     "Care a fost primul parc național din România?",
+     "Ce procent din România este în Natura 2000?",
+     "Unde a fost reintrodus zimbrul în România?",
+     "Câte rezervații ale biosferei are România?",
+     "Ce păduri românești sunt în patrimoniul UNESCO?"
+    ],
+    "steps": [
+     "Localizează aria protejată.",
+     "Precizează ce protejează.",
+     "Evaluează amenințările și măsurile.",
+     "Greșeala frecventă: să crezi că o arie protejată interzice orice activitate umană; multe permit turism și activități tradiționale controlate."
+    ],
+    "answers": [
+     "Parcul Național Retezat (1935).",
+     "Circa 23%.",
+     "La Vânători-Neamț.",
+     "Trei.",
+     "Pădurile virgine de fag."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l16": {
+   "ro": {
+    "title": "Regiunile geografice ale Europei; Carpații",
+    "theory": "Europa poate fi împărțită în regiuni geografice: Europa de Nord (Scandinavia, Finlanda, Islanda, statele baltice), Europa de Vest (Marea Britanie, Irlanda, Franța, Benelux), Europa Centrală (Germania, Polonia, Cehia, Slovacia, Austria, Elveția, Ungaria), Europa de Sud (peninsulele Iberică, Italică, Balcanică), Europa de Est (Rusia europeană, Ucraina, Belarus, Republica Moldova), Europa de Sud-Est (statele balcanice și România). Regiunile pot fi și economice (Banana albastră, regiunile industriale vechi) sau de dezvoltare (regiunile NUTS ale UE). Carpații sunt un lanț muntos tânăr, lung de circa 1.500 km, care formează un arc prin Cehia, Slovacia, Polonia, Ungaria, Ucraina, România și Serbia. România deține circa 54% din lungimea lor. Au altitudini medii (cel mai înalt vârf: Gerlach, 2.655 m, în Tatra – Slovacia; în România Moldoveanu, 2.544 m), relief variat, păduri întinse, faună bogată, resurse (lemn, minereuri, ape minerale) și un rol de legătură culturală. Convenția Carpatică (2003) urmărește protecția lor.",
+    "sample": "Cea mai mare parte a lanțului carpatic se află pe teritoriul României.",
+    "worked": "Carpații sunt „coloana vertebrală” a teritoriului românesc și o resursă esențială.",
+    "exercises": [
+     "Delimitează regiunile Europei.",
+     "Explică ce sunt regiunile NUTS.",
+     "Descrie lanțul carpatic.",
+     "Numește statele străbătute de Carpați.",
+     "Explică importanța Carpaților pentru România."
+    ],
+    "test": [
+     "Câți km are lanțul carpatic?",
+     "Ce procent din Carpați se află în România?",
+     "Care este cel mai înalt vârf al Carpaților?",
+     "Care este cel mai înalt vârf din România?",
+     "Ce convenție protejează Carpații?"
+    ],
+    "steps": [
+     "Delimitează regiunea.",
+     "Precizează caracteristicile ei.",
+     "Compar-o cu alte regiuni.",
+     "Greșeala frecventă: să crezi că cel mai înalt vârf al Carpaților este în România; vârful Gerlach este în Slovacia."
+    ],
+    "answers": [
+     "Circa 1.500 km.",
+     "Circa 54%.",
+     "Gerlach (2.655 m).",
+     "Moldoveanu (2.544 m).",
+     "Convenția Carpatică (2003)."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l17": {
+   "ro": {
+    "title": "Statele vecine ale României",
+    "theory": "România se învecinează cu cinci state. Ucraina (în nord și est – cel mai mare stat aflat în întregime în Europa, cu resurse agricole uriașe – cernoziom, cereale, floarea-soarelui; afectată de războiul declanșat de Rusia în 2022; Dunărea și portul Izmail au căpătat importanță pentru exporturile ucrainene). Republica Moldova (în est – stat fără ieșire la mare, cu populație majoritar românofonă, limba oficială română, candidat la UE, economie bazată pe agricultură – viticultură, fructe – și servicii, cu regiunea separatistă Transnistria). Bulgaria (în sud, de-a lungul Dunării – membru UE și NATO, în spațiul Schengen din 2025 împreună cu România și în zona euro din 2026, cu Munții Balcani și Rila, litoral turistic). Serbia (în sud-vest – candidat la UE, Dunărea traversează Belgradul, defileul de la Porțile de Fier împărțit cu România). Ungaria (în vest – membru UE și NATO, Câmpia Panonică, capitala Budapesta pe Dunăre, minoritate maghiară importantă în România).",
+    "sample": "România și Serbia au construit împreună hidrocentrala de la Porțile de Fier I (1972).",
+    "worked": "Vecinătatea pe Dunăre a favorizat proiecte comune de energie și navigație.",
+    "exercises": [
+     "Numește vecinii României.",
+     "Prezintă un stat vecin (relief, populație, economie).",
+     "Explică legăturile României cu Republica Moldova.",
+     "Precizează vecinii membri ai UE și NATO.",
+     "Explică importanța Dunării pentru relațiile cu vecinii."
+    ],
+    "test": [
+     "Cu câte state se învecinează România?",
+     "Ce vecin are ieșire la Marea Neagră în sud?",
+     "Ce vecin nu are ieșire la mare?",
+     "Ce capitală vecină se află pe Dunăre în vest?",
+     "Ce hidrocentrală a construit România cu Serbia?"
+    ],
+    "steps": [
+     "Localizează statul vecin.",
+     "Prezintă caracteristicile lui naturale și economice.",
+     "Analizează relațiile cu România.",
+     "Greșeala frecventă: să crezi că toți vecinii României sunt membri UE; Ucraina, Republica Moldova și Serbia sunt candidați."
+    ],
+    "answers": [
+     "Cinci.",
+     "Bulgaria.",
+     "Republica Moldova.",
+     "Budapesta.",
+     "Porțile de Fier I."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l18": {
+   "ro": {
+    "title": "Formarea și extinderea Uniunii Europene",
+    "theory": "Construcția europeană a început după al Doilea Război Mondial, pentru a asigura pacea și prosperitatea. Robert Schuman a propus (9 mai 1950 – Ziua Europei) punerea în comun a cărbunelui și oțelului: Comunitatea Europeană a Cărbunelui și Oțelului (1951) cu șase state (Franța, Germania de Vest, Italia, Belgia, Țările de Jos, Luxemburg). Tratatul de la Roma (1957) a creat Comunitatea Economică Europeană. Extinderi: 1973 (Marea Britanie, Irlanda, Danemarca), 1981 (Grecia), 1986 (Spania, Portugalia), 1995 (Austria, Finlanda, Suedia), 2004 (zece state, majoritatea din Europa Centrală și de Est), 2007 (România, Bulgaria), 2013 (Croația). Tratatul de la Maastricht (1992) a creat Uniunea Europeană, iar Tratatul de la Lisabona (2009) i-a reformat instituțiile. Marea Britanie a ieșit în 2020 (Brexit). Astăzi UE are 27 de membri; state candidate: Ucraina, Republica Moldova, statele din Balcanii de Vest, Georgia, Turcia.",
+    "sample": "În 2004 au aderat simultan zece state, cea mai mare extindere din istoria UE.",
+    "worked": "Extinderea spre est a reunit Europa după împărțirea din timpul Războiului Rece.",
+    "exercises": [
+     "Explică motivele construcției europene.",
+     "Ordonează etapele extinderii UE.",
+     "Explică rolul Tratatului de la Maastricht.",
+     "Explică Brexitul.",
+     "Numește statele candidate."
+    ],
+    "test": [
+     "Ce zi este Ziua Europei?",
+     "Câte state au format CECO?",
+     "Ce tratat a creat CEE?",
+     "Când au aderat România și Bulgaria?",
+     "Ce stat a ieșit din UE în 2020?"
+    ],
+    "steps": [
+     "Stabilește etapa construcției europene.",
+     "Identifică statele și tratatele.",
+     "Explică semnificația etapei.",
+     "Greșeala frecventă: să crezi că UE a avut de la început 27 de membri; a început cu șase."
+    ],
+    "answers": [
+     "9 mai.",
+     "Șase.",
+     "Tratatul de la Roma (1957).",
+     "În 2007.",
+     "Marea Britanie."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l19": {
+   "ro": {
+    "title": "Caracteristicile Uniunii Europene",
+    "theory": "Uniunea Europeană are circa 4,2 milioane km² și circa 450 de milioane de locuitori. Instituțiile principale: Parlamentul European (ales direct de cetățeni, Strasbourg și Bruxelles), Consiliul European (șefii de stat sau de guvern), Consiliul UE (miniștrii), Comisia Europeană (executivul, Bruxelles), Curtea de Justiție (Luxemburg), Banca Centrală Europeană (Frankfurt). Realizări: piața unică (libera circulație a bunurilor, serviciilor, capitalurilor și persoanelor), moneda euro (21 de state din 2026), spațiul Schengen (fără controale la frontierele interne; România și Bulgaria complet din 2025), politici comune (agricolă, de coeziune, comercială, de mediu), programul Erasmus+. Fondurile europene reduc decalajele dintre regiuni. UE este una dintre cele mai mari economii ale lumii și cel mai mare bloc comercial. Provocări: diferențele de dezvoltare, migrația, energia, îmbătrânirea, euroscepticismul, securitatea.",
+    "sample": "Prin Erasmus+, milioane de studenți și elevi au studiat sau au făcut stagii în alte state europene.",
+    "worked": "Mobilitatea educațională creează o identitate europeană comună.",
+    "exercises": [
+     "Prezintă instituțiile UE.",
+     "Explică ce este piața unică.",
+     "Explică ce este spațiul Schengen.",
+     "Explică rolul fondurilor europene.",
+     "Enumeră provocările actuale ale UE."
+    ],
+    "test": [
+     "Unde se află Comisia Europeană?",
+     "Ce instituție este aleasă direct de cetățeni?",
+     "Câte state folosesc euro din 2026?",
+     "Din ce an sunt România și Bulgaria complet în Schengen?",
+     "Ce program finanțează mobilitatea studenților?"
+    ],
+    "steps": [
+     "Identifică elementul (instituție, politică, realizare).",
+     "Explică funcția lui.",
+     "Evaluează efectele pentru cetățeni.",
+     "Greșeala frecventă: să confunzi zona euro cu UE; nu toate statele UE folosesc euro."
+    ],
+    "answers": [
+     "La Bruxelles.",
+     "Parlamentul European.",
+     "21.",
+     "Din 2025.",
+     "Erasmus+."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l20": {
+   "ro": {
+    "title": "Studiu de caz: Franța",
+    "theory": "Franța (circa 550.000 km² în Europa, circa 68 de milioane de locuitori) este cel mai mare stat al UE ca suprafață. Relief: câmpii și podișuri în nord și vest (Bazinul Parizian, Bazinul Aquitaniei), munți vechi (Masivul Central, Vosgi) și munți tineri (Alpi – Mont Blanc, Pirinei, Jura). Clima este oceanică în vest, de tranziție spre continentală în est, mediteraneană în sud. Fluvii: Sena, Loara, Garonne, Ron. Economia: cel mai mare producător agricol al UE (cereale, vinuri – Bordeaux, Champagne, Burgundia, produse lactate), industrie aeronautică (Airbus la Toulouse), spațială (Ariane), nucleară (circa două treimi din electricitate), automobile (Renault, Peugeot – Stellantis), lux (parfumuri, modă), turism (cea mai vizitată țară din lume). Paris este capitala și un oraș global. Franța este membru fondator al UE, membru permanent al Consiliului de Securitate și putere nucleară. Are teritorii de peste mări (Guyana, Réunion, Martinica, Guadelupa).",
+    "sample": "Renault deține Dacia, iar uzina de la Mioveni este una dintre cele mai importante exportatoare ale României.",
+    "worked": "Investițiile franceze leagă direct economia României de cea a Franței.",
+    "exercises": [
+     "Descrie cadrul natural al Franței.",
+     "Prezintă agricultura Franței.",
+     "Prezintă industria Franței.",
+     "Explică rolul turismului.",
+     "Explică legăturile economice dintre Franța și România."
+    ],
+    "test": [
+     "Ce oraș francez este centrul industriei aeronautice?",
+     "Ce sursă produce cea mai mare parte a electricității Franței?",
+     "Ce regiune franceză produce vin spumant?",
+     "Ce companie franceză deține Dacia?",
+     "Ce teritoriu francez se află în America de Sud?"
+    ],
+    "steps": [
+     "Prezintă cadrul natural.",
+     "Analizează populația și economia.",
+     "Evaluează rolul statului în UE și relațiile cu România.",
+     "Greșeala frecventă: să crezi că Franța are doar climă oceanică; sudul are climă mediteraneană."
+    ],
+    "answers": [
+     "Toulouse.",
+     "Energia nucleară.",
+     "Champagne.",
+     "Renault.",
+     "Guyana Franceză."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l21": {
+   "ro": {
+    "title": "Studiu de caz: Germania",
+    "theory": "Germania (circa 357.000 km², circa 84 de milioane de locuitori) este cel mai populat stat al UE și cea mai mare economie europeană. Relief: Câmpia Germano-Polonă în nord, munți vechi și podișuri în centru (Harz, Pădurea Neagră, Masivul Șistos Renan), Alpii Bavarezi în sud (vârful Zugspitze, 2.962 m). Clima temperată, de tranziție între oceanic și continental. Fluvii: Rin (principala cale navigabilă a Europei), Elba, Weser, Dunăre (izvorăște în Pădurea Neagră). Economia: industrie puternică orientată spre export – automobile (Volkswagen, BMW, Mercedes-Benz, Audi, Porsche), mașini și utilaje, chimie (BASF), electrotehnică (Siemens), farmaceutice; regiuni: Ruhr (restructurată), Bavaria, Baden-Württemberg; porturi: Hamburg, Bremen. Tranziția energetică (Energiewende): renunțarea la nuclear (2023) și creșterea surselor regenerabile. Berlin este capitala; Frankfurt – centru financiar și sediul BCE. Germania a fost reunificată în 1990. Este principalul partener comercial al României și găzduiește o comunitate românească numeroasă.",
+    "sample": "Germania este cel mai mare partener comercial al României.",
+    "worked": "Industria germană folosește furnizori din România, legând cele două economii.",
+    "exercises": [
+     "Descrie cadrul natural al Germaniei.",
+     "Prezintă industria Germaniei.",
+     "Explică importanța Rinului.",
+     "Explică tranziția energetică germană.",
+     "Explică legăturile Germaniei cu România."
+    ],
+    "test": [
+     "Care este cel mai populat stat al UE?",
+     "Care este cel mai înalt vârf al Germaniei?",
+     "Ce oraș german este sediul BCE?",
+     "Când a renunțat Germania la energia nucleară?",
+     "Unde izvorăște Dunărea?"
+    ],
+    "steps": [
+     "Prezintă cadrul natural.",
+     "Analizează populația și economia.",
+     "Evaluează rolul statului în UE și relațiile cu România.",
+     "Greșeala frecventă: să crezi că Germania se bazează doar pe industria grea; azi domină industria de înaltă tehnologie și serviciile."
+    ],
+    "answers": [
+     "Germania.",
+     "Zugspitze (2.962 m).",
+     "Frankfurt pe Main.",
+     "În 2023.",
+     "În Munții Pădurea Neagră."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l22": {
+   "ro": {
+    "title": "Studiu de caz: Italia",
+    "theory": "Italia (circa 302.000 km², circa 59 de milioane de locuitori) ocupă Peninsula Italică, insulele Sicilia și Sardinia și partea sudică a Alpilor. Relief: Alpii în nord, Câmpia Padului (cea mai mare câmpie a Italiei), Munții Apenini de-a lungul peninsulei, vulcani activi (Etna, Vezuviu, Stromboli) și cutremure frecvente. Clima mediteraneană în centru și sud, temperat-continentală în Câmpia Padului. Economia are un contrast nord–sud: nordul (Lombardia, Piemont, Veneto, Emilia-Romagna – „triunghiul industrial” Milano–Torino–Genova) este foarte dezvoltat, cu industrie de automobile (Fiat, Ferrari), modă și design (Milano), mașini; sudul (Mezzogiorno) este mai puțin dezvoltat, mai agricol, cu șomaj ridicat. Agricultura mediteraneană: măsline, viță-de-vie, citrice, roșii, grâu dur. Turismul este foarte important (Roma, Veneția, Florența, Coasta Amalfi), Italia având cele mai multe situri UNESCO din lume. Italia are cea mai mare comunitate de români din străinătate (aproape 1 milion).",
+    "sample": "Italia găzduiește cea mai mare comunitate românească din străinătate.",
+    "worked": "Migrația a creat legături sociale, culturale și economice strânse între cele două state.",
+    "exercises": [
+     "Descrie cadrul natural al Italiei.",
+     "Explică contrastul nord–sud.",
+     "Prezintă industria Italiei.",
+     "Explică rolul turismului.",
+     "Explică legăturile Italiei cu România."
+    ],
+    "test": [
+     "Ce câmpie este cea mai mare din Italia?",
+     "Ce vulcan activ se află în Sicilia?",
+     "Ce orașe formează triunghiul industrial?",
+     "Cum se numește sudul mai puțin dezvoltat?",
+     "Ce stat are cea mai mare comunitate de români din străinătate?"
+    ],
+    "steps": [
+     "Prezintă cadrul natural.",
+     "Analizează populația și economia (contrastul nord–sud).",
+     "Evaluează rolul statului în UE și relațiile cu România.",
+     "Greșeala frecventă: să crezi că Italia este uniform dezvoltată; diferențele dintre nord și sud sunt mari."
+    ],
+    "answers": [
+     "Câmpia Padului.",
+     "Etna.",
+     "Milano, Torino, Genova.",
+     "Mezzogiorno.",
+     "Italia."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l23": {
+   "ro": {
+    "title": "Studiu de caz: Spania și Portugalia",
+    "theory": "Spania (circa 506.000 km², circa 48 de milioane de locuitori) ocupă cea mai mare parte a Peninsulei Iberice, plus Insulele Baleare și Canare. Relief: Podișul Meseta în centru, înconjurat de munți (Pirinei, Cordiliera Cantabrică, Sierra Nevada), câmpiile Andaluziei și Ebrului. Clima predominant mediteraneană, continentală în Meseta, oceanică în nord. Economia: turism (al doilea stat ca număr de turiști), agricultură mediteraneană (măsline – primul producător mondial de ulei de măsline, citrice, legume în sere în Almería), industrie auto, energie solară și eoliană. Madrid și Barcelona sunt metropolele. Comunități autonome cu identitate puternică (Catalonia, Țara Bascilor, Galicia). Spania are o comunitate românească numeroasă. Portugalia (circa 92.000 km², circa 10 milioane de locuitori) este în vestul peninsulei, cu insulele Azore și Madeira; are climă oceanică și mediteraneană, economie bazată pe servicii, turism, textile, plută (primul producător mondial), vinuri (Porto), energie regenerabilă. Lisabona este capitala. Ambele state au aderat la UE în 1986 și au fost mari imperii coloniale.",
+    "sample": "Portugalia este cel mai mare producător mondial de plută, obținută din scoarța stejarului de plută.",
+    "worked": "Resursele specifice climatului mediteranean pot deveni produse de export importante.",
+    "exercises": [
+     "Descrie cadrul natural al Peninsulei Iberice.",
+     "Prezintă economia Spaniei.",
+     "Prezintă economia Portugaliei.",
+     "Explică identitatea comunităților autonome spaniole.",
+     "Compară cele două state."
+    ],
+    "test": [
+     "Ce podiș ocupă centrul Spaniei?",
+     "Ce produs agricol produce Spania cel mai mult în lume?",
+     "Ce produs obține Portugalia din stejarul de plută?",
+     "Când au aderat la UE?",
+     "Ce arhipelaguri portugheze se află în Atlantic?"
+    ],
+    "steps": [
+     "Prezintă cadrul natural.",
+     "Analizează populația și economia.",
+     "Compară statele și relațiile lor cu România.",
+     "Greșeala frecventă: să crezi că toată Spania are climă mediteraneană; nordul are climă oceanică."
+    ],
+    "answers": [
+     "Meseta.",
+     "Uleiul de măsline (măslinele).",
+     "Pluta.",
+     "În 1986.",
+     "Azore și Madeira."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l24": {
+   "ro": {
+    "title": "Studiu de caz: Grecia și Austria",
+    "theory": "Grecia (circa 132.000 km², circa 10 milioane de locuitori) ocupă sudul Peninsulei Balcanice și peste 2.000 de insule (Creta, Rodos, Ciclade). Relief muntos (Munții Pind, Olimp – 2.918 m), țărm foarte crestat, climă mediteraneană. Economia: turism (patrimoniu antic – Acropole, Delfi, Olimpia – și insule), flotă comercială (una dintre cele mai mari din lume), agricultură mediteraneană (măsline, struguri, citrice). Grecia, membru UE din 1981, a trecut printr-o criză a datoriilor (2009–2018). Este destinație turistică importantă pentru români. Austria (circa 84.000 km², circa 9 milioane de locuitori) este un stat alpin fără ieșire la mare (Alpii ocupă circa două treimi; vârful Grossglockner, 3.798 m), traversat de Dunăre (Viena). Economia: turism montan (schi) și cultural (Viena, Salzburg), hidroenergie, industrie de calitate (oțel, mașini), servicii, bănci și companii cu investiții mari în România (OMV – Petrom, Erste – BCR). Austria a aderat la UE în 1995 și este stat neutru.",
+    "sample": "OMV deține Petrom, iar Erste deține BCR, două dintre cele mai mari companii din România.",
+    "worked": "Austria este unul dintre principalii investitori străini în România.",
+    "exercises": [
+     "Descrie cadrul natural al Greciei.",
+     "Prezintă economia Greciei.",
+     "Descrie cadrul natural al Austriei.",
+     "Prezintă economia Austriei.",
+     "Explică legăturile economice ale Austriei cu România."
+    ],
+    "test": [
+     "Care este cel mai înalt munte al Greciei?",
+     "Ce sector economic grec are una dintre cele mai mari flote?",
+     "Care este cel mai înalt vârf al Austriei?",
+     "Ce companie austriacă deține Petrom?",
+     "Ce statut militar are Austria?"
+    ],
+    "steps": [
+     "Prezintă cadrul natural.",
+     "Analizează populația și economia.",
+     "Compară statele și relațiile lor cu România.",
+     "Greșeala frecventă: să crezi că Austria are ieșire la mare pentru că o traversează Dunărea; este stat continental."
+    ],
+    "answers": [
+     "Olimp (2.918 m).",
+     "Transportul maritim (flota comercială).",
+     "Grossglockner (3.798 m).",
+     "OMV.",
+     "Neutru."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l25": {
+   "ro": {
+    "title": "Studiu de caz: Regatul Unit al Marii Britanii și Irlandei de Nord",
+    "theory": "Regatul Unit (circa 243.000 km², circa 68 de milioane de locuitori) cuprinde Anglia, Scoția, Țara Galilor și Irlanda de Nord, pe insulele Marea Britanie și nord-estul Irlandei. Relief: munți vechi în nord și vest (Grampieni – Ben Nevis, 1.345 m; Munții Cambrieni, Penini), câmpii și coline în sud-est. Clima oceanică, umedă, cu ierni blânde, datorită Curentului Nord-Atlantic. A fost leagănul Revoluției Industriale (cărbune, textile, oțel – Midlands, Manchester, Birmingham) și centrul celui mai mare imperiu colonial; Commonwealth-ul păstrează legăturile cu fostele colonii. Economia actuală: servicii (Londra – unul dintre cele mai mari centre financiare ale lumii), petrol și gaze din Marea Nordului, energie eoliană marină, industrie farmaceutică, aeronautică, creativă (muzică, film), universități de prestigiu (Oxford, Cambridge). Regatul Unit a fost membru UE între 1973 și 2020 (Brexit); a rămas partener important al UE și membru NATO și al Consiliului de Securitate. Găzduiește o comunitate românească mare.",
+    "sample": "După Brexit (2020), Regatul Unit a ieșit din piața unică, iar comerțul cu UE a devenit mai complicat.",
+    "worked": "Ieșirea dintr-un ansamblu economic are costuri și efecte economice pe termen lung.",
+    "exercises": [
+     "Descrie cadrul natural al Regatului Unit.",
+     "Explică rolul lui în Revoluția Industrială.",
+     "Prezintă economia actuală.",
+     "Explică cauzele și efectele Brexitului.",
+     "Explică legăturile cu România."
+    ],
+    "test": [
+     "Ce părți formează Regatul Unit?",
+     "Care este cel mai înalt vârf?",
+     "Ce curent cald influențează clima?",
+     "Ce organizație reunește fostele colonii britanice?",
+     "În ce an a ieșit Regatul Unit din UE?"
+    ],
+    "steps": [
+     "Prezintă cadrul natural.",
+     "Analizează populația și economia.",
+     "Evaluează relațiile cu UE și cu România.",
+     "Greșeala frecventă: să confunzi Anglia cu Regatul Unit; Anglia este doar o parte a lui."
+    ],
+    "answers": [
+     "Anglia, Scoția, Țara Galilor și Irlanda de Nord.",
+     "Ben Nevis (1.345 m).",
+     "Curentul Nord-Atlantic.",
+     "Commonwealth.",
+     "În 2020."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l26": {
+   "ro": {
+    "title": "România în Uniunea Europeană",
+    "theory": "România a aderat la NATO în 2004 și la Uniunea Europeană la 1 ianuarie 2007, împreună cu Bulgaria. Are circa 4% din populația UE și 33 de deputați în Parlamentul European. Efectele aderării: acces la piața unică, investiții străine, fonduri europene pentru infrastructură, agricultură și dezvoltare regională, creșterea PIB-ului pe locuitor (de la circa 40% din media UE în 2007 la peste 75% în anii 2020, la paritatea puterii de cumpărare), libera circulație a cetățenilor (dar și emigrația masivă), programe Erasmus+. România a intrat complet în spațiul Schengen în 2025. Nu face încă parte din zona euro. Provocări: decalajele dintre regiuni (București-Ilfov peste media UE, Nord-Est printre cele mai sărace regiuni), infrastructura, absorbția fondurilor, emigrația, administrația. România are opt regiuni de dezvoltare (Nord-Est, Sud-Est, Sud-Muntenia, Sud-Vest Oltenia, Vest, Nord-Vest, Centru, București-Ilfov).",
+    "sample": "Regiunea București-Ilfov are PIB pe locuitor peste media UE, iar Regiunea Nord-Est este printre cele mai sărace din UE.",
+    "worked": "Aderarea a adus creștere, dar dezvoltarea nu s-a răspândit egal pe teritoriu.",
+    "exercises": [
+     "Precizează momentele integrării euro-atlantice a României.",
+     "Explică efectele aderării la UE.",
+     "Explică rolul fondurilor europene.",
+     "Numește regiunile de dezvoltare ale României.",
+     "Explică decalajele regionale."
+    ],
+    "test": [
+     "Când a aderat România la NATO?",
+     "Când a aderat România la UE?",
+     "Câte regiuni de dezvoltare are România?",
+     "Ce regiune are PIB pe locuitor peste media UE?",
+     "Folosește România moneda euro?"
+    ],
+    "steps": [
+     "Precizează datele aderării.",
+     "Analizează efectele economice și sociale.",
+     "Evaluează decalajele și soluțiile.",
+     "Greșeala frecventă: să crezi că aderarea a rezolvat automat problemele; dezvoltarea depinde și de politicile interne."
+    ],
+    "answers": [
+     "În 2004.",
+     "La 1 ianuarie 2007.",
+     "Opt.",
+     "București-Ilfov.",
+     "Nu, încă nu."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l27": {
+   "ro": {
+    "title": "Problemele energiei și ale resurselor în România și UE",
+    "theory": "Uniunea Europeană importă o mare parte din energie (petrol, gaze, cărbune). După 2022, dependența de gazele rusești a devenit o problemă de securitate: UE a diversificat furnizorii (Norvegia, SUA – gaz natural lichefiat, Qatar, Azerbaidjan), a construit terminale LNG și interconectări și a accelerat trecerea la surse regenerabile (planul REPowerEU). Pactul Verde European urmărește neutralitatea climatică până în 2050. Mixul energetic diferă: Franța – nuclear, Polonia – cărbune (în scădere), Danemarca – eolian, Norvegia (în afara UE) – hidro. România are unul dintre cele mai diversificate mixuri energetice din UE și o dependență de importuri printre cele mai mici: hidroenergie (Hidroelectrica – Porțile de Fier, Vidraru), nuclear (Cernavodă – două reactoare, alte două planificate), gaze naturale proprii (Transilvania și Marea Neagră – proiectul Neptun Deep, producție estimată din 2027), eolian (Dobrogea), solar, cărbune (în închidere, Valea Jiului). Provocări: modernizarea rețelelor, stocarea energiei, prețurile.",
+    "sample": "Proiectul Neptun Deep din Marea Neagră ar putea face din România cel mai mare producător de gaze din UE.",
+    "worked": "Resursele proprii cresc securitatea energetică a României și a regiunii.",
+    "exercises": [
+     "Explică dependența energetică a UE.",
+     "Explică măsurile luate după 2022.",
+     "Compară mixurile energetice din statele UE.",
+     "Prezintă mixul energetic al României.",
+     "Explică importanța proiectului Neptun Deep."
+    ],
+    "test": [
+     "Ce plan a lansat UE pentru independența energetică?",
+     "Ce sursă domină electricitatea Franței?",
+     "Unde se află centrala nucleară a României?",
+     "Ce proiect de gaze se află în Marea Neagră?",
+     "Ce bazin carbonifer românesc se închide?"
+    ],
+    "steps": [
+     "Identifică sursa de energie.",
+     "Analizează rolul ei în mixul energetic.",
+     "Evaluează securitatea energetică și tranziția.",
+     "Greșeala frecventă: să crezi că România depinde total de importuri; are o dependență energetică printre cele mai mici din UE."
+    ],
+    "answers": [
+     "REPowerEU.",
+     "Energia nucleară.",
+     "La Cernavodă.",
+     "Neptun Deep.",
+     "Valea Jiului."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l28": {
+   "ro": {
+    "title": "Studii de caz: probleme ale mediului, dezvoltării și migrației în Europa și România",
+    "theory": "Studiul de caz analizează concret o problemă într-un loc anume. Mediu: Delta Dunării – rezervație a biosferei, cu peste 300 de specii de păsări, afectată în trecut de îndiguiri și de pescuitul excesiv, în prezent supusă reconstrucției ecologice (redarea unor incinte apelor). Dezvoltare: Valea Jiului – fost bazin minier, cu șomaj și depopulare după închiderea minelor, în tranziție spre turism, energie verde și servicii, cu sprijinul Fondului pentru o Tranziție Justă al UE. Migrație: emigrația românească – peste 3–4 milioane de români trăiesc în alte state (Italia, Spania, Germania, Marea Britanie). Efecte: remitențe (bani trimiși acasă), lipsa forței de muncă (medici, muncitori), sate îmbătrânite, dar și experiență adusă la întoarcere. Imigrația spre Europa din Africa și Orientul Mijlociu ridică probleme de integrare, gestionarea frontierelor și solidaritate între state. Metoda: localizare, cauze, efecte, soluții, concluzii.",
+    "sample": "Fondul pentru o Tranziție Justă finanțează reconversia regiunilor carbonifere, inclusiv Valea Jiului.",
+    "worked": "Închiderea minelor poate fi compensată prin investiții în noi activități economice.",
+    "exercises": [
+     "Realizează un studiu de caz despre Delta Dunării.",
+     "Realizează un studiu de caz despre Valea Jiului.",
+     "Analizează efectele emigrației românești.",
+     "Explică problemele imigrației în Europa.",
+     "Prezintă etapele unui studiu de caz."
+    ],
+    "test": [
+     "Ce statut are Delta Dunării?",
+     "Ce fond european sprijină regiunile carbonifere?",
+     "Ce sunt remitențele?",
+     "Ce efect are emigrația asupra satelor?",
+     "Care sunt etapele studiului de caz?"
+    ],
+    "steps": [
+     "Localizează problema.",
+     "Analizează cauzele și efectele.",
+     "Propune soluții și formulează concluzii.",
+     "Greșeala frecventă: să generalizezi concluziile unui singur caz; fiecare studiu de caz are particularități."
+    ],
+    "answers": [
+     "Rezervație a biosferei (patrimoniu UNESCO).",
+     "Fondul pentru o Tranziție Justă.",
+     "Banii trimiși acasă de emigranți.",
+     "Îmbătrânirea și depopularea.",
+     "Localizare, cauze, efecte, soluții, concluzii."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l29": {
+   "ro": {
+    "title": "Probleme globale ale omenirii și Europa; UE față de alte ansambluri",
+    "theory": "Problemele globale (schimbările climatice, sărăcia, foametea, migrațiile, pandemiile, terorismul, conflictele armate, epuizarea resurselor) nu pot fi rezolvate de un singur stat. Europa contribuie prin politicile de mediu (UE a fost printre liderii acordurilor climatice), prin ajutorul pentru dezvoltare (UE și statele membre sunt cel mai mare donator de ajutor din lume) și prin diplomație. Comparativ cu alte ansambluri, UE are cel mai înalt grad de integrare (instituții supranaționale, monedă comună, legislație comună). USMCA este o zonă de liber schimb, fără instituții politice comune; ASEAN și Mercosur sunt mai puțin integrate; APEC este un forum de cooperare. Ca putere economică, UE se compară cu SUA și China: are o economie mare și o piață bogată, dar o putere militară fragmentată și dependență energetică. UE are influență prin reglementări care devin standarde mondiale (protecția datelor – GDPR, siguranța produselor).",
+    "sample": "Regulamentul general privind protecția datelor (GDPR) al UE a influențat legislația din multe state ale lumii.",
+    "worked": "UE își exercită influența prin norme și standarde, nu doar prin economie.",
+    "exercises": [
+     "Enumeră problemele globale ale omenirii.",
+     "Explică contribuția Europei la rezolvarea lor.",
+     "Compară UE cu USMCA.",
+     "Compară puterea UE cu a SUA și a Chinei.",
+     "Explică influența normativă a UE."
+    ],
+    "test": [
+     "Ce înseamnă problemă globală?",
+     "Cine este cel mai mare donator de ajutor pentru dezvoltare?",
+     "Ce ansamblu are cel mai înalt grad de integrare?",
+     "Ce regulament UE protejează datele personale?",
+     "Ce punct slab are UE față de SUA?"
+    ],
+    "steps": [
+     "Identifică problema sau ansamblul.",
+     "Compară după criterii comune.",
+     "Evaluează rolul Europei în lume.",
+     "Greșeala frecventă: să crezi că o problemă globală poate fi rezolvată doar la nivel național; este nevoie de cooperare."
+    ],
+    "answers": [
+     "O problemă care afectează întreaga omenire.",
+     "UE și statele ei membre.",
+     "Uniunea Europeană.",
+     "GDPR.",
+     "Puterea militară fragmentată."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l30": {
+   "ro": {
+    "title": "Europa, UE și România în contextul globalizării; perspective",
+    "theory": "Globalizarea a adus Europei acces la piețe, investiții și tehnologie, dar și concurență din partea Asiei, delocalizarea unor industrii și dependența de lanțuri de aprovizionare globale (pandemia din 2020 și războiul din Ucraina au arătat vulnerabilitatea lor). UE răspunde prin „autonomie strategică”: producție proprie de cipuri, baterii, medicamente, energie curată, apărare comună. România a beneficiat de globalizare prin investiții străine (industria auto, IT, servicii), exporturi și integrarea în lanțurile de producție europene, dar și-a pierdut o parte din forța de muncă prin emigrație. Perspective: tranziția verde și digitală, extinderea UE spre est (Ucraina, Republica Moldova, Balcanii de Vest), îmbătrânirea populației și nevoia de imigrație, securitatea pe flancul estic al NATO (România are un rol strategic la Marea Neagră), aderarea României la zona euro și la OCDE. Viitorul depinde de capacitatea Europei de a rămâne unită, competitivă și sustenabilă.",
+    "sample": "România are un rol strategic pentru NATO la Marea Neagră, cu baze la Mihail Kogălniceanu și Deveselu.",
+    "worked": "Poziția geografică la granița estică a UE și a NATO crește importanța României.",
+    "exercises": [
+     "Explică efectele globalizării asupra Europei.",
+     "Explică ce înseamnă autonomia strategică a UE.",
+     "Explică efectele globalizării asupra României.",
+     "Enumeră perspectivele de dezvoltare ale UE.",
+     "Explică rolul strategic al României."
+    ],
+    "test": [
+     "Ce evenimente au arătat vulnerabilitatea lanțurilor de aprovizionare?",
+     "Ce înseamnă autonomie strategică?",
+     "Ce sectoare au atras investiții străine în România?",
+     "Ce state candidează la UE în est?",
+     "Ce bază NATO se află lângă Constanța?"
+    ],
+    "steps": [
+     "Identifică efectele globalizării.",
+     "Analizează răspunsurile Europei și ale României.",
+     "Formulează perspective argumentate.",
+     "Greșeala frecventă: să crezi că globalizarea are doar efecte pozitive sau doar negative; are ambele."
+    ],
+    "answers": [
+     "Pandemia din 2020 și războiul din Ucraina.",
+     "Capacitatea UE de a produce singură bunurile strategice.",
+     "Industria auto, IT și serviciile.",
+     "Ucraina și Republica Moldova.",
+     "Mihail Kogălniceanu."
+    ]
+   }
+  }
+ }
+}

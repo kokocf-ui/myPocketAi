@@ -1,0 +1,162 @@
+{
+ "schema": "mypocket-literature-authored-catalog/v1",
+ "version": "bda2dbbebd4f28580440c843423f49d1c9e35f211f90e4169ef8a50b1979a936",
+ "years": [
+  {
+   "country": "RO",
+   "stage": "advanced",
+   "grade": "uni-ba-1",
+   "languages": [
+    {
+     "lang": "ro",
+     "name": "Română",
+     "file": "ro-uni-ba-1",
+     "version": "7c47818e5e43257cdd7b87ec82a9c6016f86510a725941b8f6a688a20ac3a43a"
+    }
+   ]
+  },
+  {
+   "country": "RO",
+   "stage": "advanced",
+   "grade": "uni-ba-2",
+   "languages": [
+    {
+     "lang": "ro",
+     "name": "Română",
+     "file": "ro-uni-ba-2",
+     "version": "1651953bb86f623f5e0cb9ec8ec27d8adafaf41e880a8366820f971bd9897995"
+    }
+   ]
+  },
+  {
+   "country": "RO",
+   "stage": "advanced",
+   "grade": "uni-ba-3",
+   "languages": [
+    {
+     "lang": "ro",
+     "name": "Română",
+     "file": "ro-uni-ba-3",
+     "version": "76aa59fda7676eb9a7ea32dce527984bebe57324c24f4a99770ba9f90413e300"
+    }
+   ]
+  },
+  {
+   "country": "RO",
+   "stage": "beginner",
+   "grade": "4",
+   "languages": [
+    {
+     "lang": "ro",
+     "name": "Română",
+     "file": "ro-4",
+     "version": "a26c0cfd85733390726b367063dd3fd124e601c960e5de381d80a6f7350947b1"
+    }
+   ]
+  },
+  {
+   "country": "RO",
+   "stage": "lower",
+   "grade": "5",
+   "languages": [
+    {
+     "lang": "ro",
+     "name": "Română",
+     "file": "ro-5",
+     "version": "fee995353f44bd23aa774d30ce0febe0f80814dcffab05ed5fbbb4a9f219383a"
+    }
+   ]
+  },
+  {
+   "country": "RO",
+   "stage": "lower",
+   "grade": "6",
+   "languages": [
+    {
+     "lang": "ro",
+     "name": "Română",
+     "file": "ro-6",
+     "version": "cfb03b70f27ef1ac0941719c233c7a45e6ce588bc7841f56b95e610bda700e64"
+    }
+   ]
+  },
+  {
+   "country": "RO",
+   "stage": "lower",
+   "grade": "7",
+   "languages": [
+    {
+     "lang": "ro",
+     "name": "Română",
+     "file": "ro-7",
+     "version": "e9bb4c78829d341e026be317973008b6cedce36c825c990040d9ece4d5ad2ba5"
+    }
+   ]
+  },
+  {
+   "country": "RO",
+   "stage": "lower",
+   "grade": "8",
+   "languages": [
+    {
+     "lang": "ro",
+     "name": "Română",
+     "file": "ro-8",
+     "version": "6aa2e54b967b8694141d96668e925fae3f7ab10fa7ec09bc0518414261372c3e"
+    }
+   ]
+  },
+  {
+   "country": "RO",
+   "stage": "medium",
+   "grade": "9",
+   "languages": [
+    {
+     "lang": "ro",
+     "name": "Română",
+     "file": "ro-9",
+     "version": "65bb2f2a346056ee8a71dc36b856effa79fe8197c04ab9704a4a276392915689"
+    }
+   ]
+  },
+  {
+   "country": "RO",
+   "stage": "medium",
+   "grade": "10",
+   "languages": [
+    {
+     "lang": "ro",
+     "name": "Română",
+     "file": "ro-10",
+     "version": "44a4bef1c237742ef28da457bb54bf0ee2e9484b160f2600cf6b16f3637c3ae4"
+    }
+   ]
+  },
+  {
+   "country": "RO",
+   "stage": "medium",
+   "grade": "11",
+   "languages": [
+    {
+     "lang": "ro",
+     "name": "Română",
+     "file": "ro-11",
+     "version": "93e60c733b416ab10bb12dd3647ac392619b25a1122eb92c99d3ecb467846705"
+    }
+   ]
+  },
+  {
+   "country": "RO",
+   "stage": "medium",
+   "grade": "12",
+   "languages": [
+    {
+     "lang": "ro",
+     "name": "Română",
+     "file": "ro-12",
+     "version": "579608f2c591aa46c3328073e0433a238b84cea4ad57754920712b3aff9dc754"
+    }
+   ]
+  }
+ ]
+}

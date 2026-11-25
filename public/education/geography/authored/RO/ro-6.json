@@ -1,0 +1,1136 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "RO",
+ "stage": "lower",
+ "grade": "6",
+ "version": "cfb03b70f27ef1ac0941719c233c7a45e6ce588bc7841f56b95e610bda700e64",
+ "source": "https://www.ise.ro/wp-content/uploads/2017/01/Geografie.pdf",
+ "sourceTitle": "Programa școlară pentru disciplina Geografie, clasele a V-a – a VIII-a, aprobată prin OMEN nr. 3393/28.02.2017 — clasa a VI-a: Terra – elemente de geografie umană. Europa (Cunoașterea lumii în care trăim; Antroposfera – omul și activitățile umane; Europa – identitate geografică; Europa în lumea contemporană). Lecții originale, fără text copiat din manuale",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "ro",
+ "labels": [
+  "Activitate originală · România · Geografie · Clasa a VI-a",
+  "Lecția pe înțeles",
+  "Exemplu",
+  "Ce ne arată exemplul",
+  "Exerciții",
+  "Test",
+  "Activități originale, făcute după programa școlară; nu înlocuiesc manualul sau ora de la clasă.",
+  "Dacă nu ai înțeles: pas cu pas",
+  "Răspunsuri (verifică după ce termini)"
+ ],
+ "units": [
+  {
+   "title": "Cunoașterea lumii în care trăim",
+   "keys": [
+    "eu-year-ro-lower-6-l01",
+    "eu-year-ro-lower-6-l02"
+   ]
+  },
+  {
+   "title": "Antroposfera – omul și activitățile umane",
+   "keys": [
+    "eu-year-ro-lower-6-l03",
+    "eu-year-ro-lower-6-l04",
+    "eu-year-ro-lower-6-l05",
+    "eu-year-ro-lower-6-l06",
+    "eu-year-ro-lower-6-l07",
+    "eu-year-ro-lower-6-l08",
+    "eu-year-ro-lower-6-l09",
+    "eu-year-ro-lower-6-l10",
+    "eu-year-ro-lower-6-l11",
+    "eu-year-ro-lower-6-l12"
+   ]
+  },
+  {
+   "title": "Europa – mediul natural",
+   "keys": [
+    "eu-year-ro-lower-6-l13",
+    "eu-year-ro-lower-6-l14",
+    "eu-year-ro-lower-6-l15",
+    "eu-year-ro-lower-6-l16",
+    "eu-year-ro-lower-6-l17"
+   ]
+  },
+  {
+   "title": "Europa – oameni și locuri",
+   "keys": [
+    "eu-year-ro-lower-6-l18",
+    "eu-year-ro-lower-6-l19",
+    "eu-year-ro-lower-6-l20"
+   ]
+  },
+  {
+   "title": "Economia Europei și Uniunea Europeană",
+   "keys": [
+    "eu-year-ro-lower-6-l21",
+    "eu-year-ro-lower-6-l22",
+    "eu-year-ro-lower-6-l23",
+    "eu-year-ro-lower-6-l24",
+    "eu-year-ro-lower-6-l25"
+   ]
+  },
+  {
+   "title": "State europene și Europa în lumea contemporană",
+   "keys": [
+    "eu-year-ro-lower-6-l26",
+    "eu-year-ro-lower-6-l27",
+    "eu-year-ro-lower-6-l28",
+    "eu-year-ro-lower-6-l29",
+    "eu-year-ro-lower-6-l30"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-ro-lower-6-l01": {
+   "ro": {
+    "title": "Repere ale cunoașterii Pământului",
+    "theory": "Cunoașterea Pământului a crescut treptat. În Antichitate, grecii au demonstrat că Pământul e sferic, iar Eratostene i-a calculat circumferința. În Evul Mediu, călătorii ca Marco Polo au descris Asia. Marile descoperiri geografice (secolele XV–XVI) au adus în hărțile europenilor America (Columb, 1492), drumul maritim spre India (Vasco da Gama, 1498) și prima călătorie în jurul lumii (Magellan, 1519–1522). Au urmat explorarea Australiei (James Cook, secolul al XVIII-lea), a interiorului Africii (Livingstone), a polilor (Amundsen la Polul Sud, 1911). Emil Racoviță a participat la expediția belgiană în Antarctica (1897–1899) și a întemeiat biospeologia. Astăzi Pământul este studiat cu sateliți, sonde, GPS și sisteme informatice geografice (GIS).",
+    "sample": "Emil Racoviță, biolog român, a făcut parte din prima expediție care a iernat în Antarctica, la bordul navei Belgica.",
+    "worked": "Contribuția lui arată că și românii au participat la explorarea marilor necunoscute ale planetei.",
+    "exercises": [
+     "Ordonează: Columb, Vasco da Gama, Magellan, Amundsen.",
+     "Explică importanța marilor descoperiri.",
+     "Explică contribuția lui Emil Racoviță.",
+     "Explică ce este GIS.",
+     "Compară mijloacele de explorare de acum 500 de ani cu cele de azi."
+    ],
+    "test": [
+     "Cine a calculat circumferința Pământului în Antichitate?",
+     "Când a ajuns Columb în America?",
+     "Cine a condus prima expediție în jurul lumii?",
+     "Cine a ajuns primul la Polul Sud?",
+     "Ce român a participat la expediția Belgica?"
+    ],
+    "steps": [
+     "Ordonează descoperirile în timp.",
+     "Leagă fiecare descoperire de regiunea explorată.",
+     "Compară cu mijloacele moderne.",
+     "Greșeala frecventă: să crezi că Columb a știut că a descoperit un continent nou; el credea că ajunsese în Asia."
+    ],
+    "answers": [
+     "Eratostene.",
+     "În 1492.",
+     "Magellan.",
+     "Roald Amundsen.",
+     "Emil Racoviță."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l02": {
+   "ro": {
+    "title": "Continente și țări; harta politică a lumii",
+    "theory": "Harta politică arată statele lumii, granițele și capitalele lor. Un stat are teritoriu, populație, guvern și suveranitate (își conduce singur treburile). În lume există aproape 200 de state; Organizația Națiunilor Unite are 193 de membri. Statele diferă ca suprafață: Rusia este cel mai întins stat, iar Vaticanul cel mai mic. Ca populație, India și China au fiecare peste 1,4 miliarde de locuitori. Statele pot fi republici sau monarhii; unele sunt federale (Germania, SUA), altele unitare (România, Franța). Pe hartă se pot aprecia distanțe și suprafețe cu ajutorul scării, iar aplicațiile digitale le calculează automat.",
+    "sample": "Rusia se întinde pe două continente, Europa și Asia, și are 11 fusuri orare.",
+    "worked": "Suprafața foarte mare a unui stat are consecințe practice, de exemplu diferențe mari de oră între capitală și regiunile din est.",
+    "exercises": [
+     "Explică ce elemente are un stat.",
+     "Numește cel mai mare și cel mai mic stat.",
+     "Numește statele cele mai populate.",
+     "Dă exemple de monarhii europene.",
+     "Măsoară pe hartă distanța București–Paris folosind scara."
+    ],
+    "test": [
+     "Ce arată harta politică?",
+     "Câte state membre are ONU?",
+     "Care este cel mai întins stat?",
+     "Care este cel mai mic stat?",
+     "Ce formă de guvernământ are România?"
+    ],
+    "steps": [
+     "Găsește statul pe harta politică.",
+     "Identifică capitala și vecinii.",
+     "Compară suprafața și populația cu alte state.",
+     "Greșeala frecventă: să confunzi continentul cu statul; Africa este un continent cu peste 50 de state."
+    ],
+    "answers": [
+     "Statele, granițele și capitalele lor.",
+     "193.",
+     "Rusia.",
+     "Vaticanul.",
+     "Republică."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l03": {
+   "ro": {
+    "title": "Populația Terrei: evoluție numerică și răspândire",
+    "theory": "Populația lumii a crescut lent timp de mii de ani, apoi foarte rapid după anul 1800, datorită progreselor medicinei, agriculturii și igienei. Pragul de 8 miliarde de oameni a fost depășit în 2022. Creșterea depinde de natalitate (nașteri) și mortalitate (decese); diferența lor este sporul natural. Astăzi, în multe state europene, inclusiv România, populația scade, iar în Africa crește rapid. Populația este răspândită inegal: densitatea (locuitori pe kilometru pătrat) este mare în Asia de Sud și de Est, în Europa de Vest și pe coaste, și foarte mică în deșerturi, la poli și în pădurile ecuatoriale. India a devenit în 2023 cel mai populat stat.",
+    "sample": "Densitatea se calculează împărțind numărul locuitorilor la suprafață: 19 milioane : 238.000 km² ≈ 80 loc./km² pentru România.",
+    "worked": "Calculul arată câți oameni revin, în medie, pe un kilometru pătrat; în realitate, unele zone sunt mult mai populate decât altele.",
+    "exercises": [
+     "Explică de ce populația a crescut rapid după 1800.",
+     "Explică ce este sporul natural.",
+     "Calculează densitatea unui stat cu 10 milioane de locuitori și 100.000 km².",
+     "Numește regiuni foarte populate și slab populate.",
+     "Explică de ce populația României scade."
+    ],
+    "test": [
+     "Câți locuitori are Terra, aproximativ?",
+     "Ce este natalitatea?",
+     "Ce este densitatea populației?",
+     "Care este cel mai populat stat?",
+     "Unde crește cel mai rapid populația?"
+    ],
+    "steps": [
+     "Află numărul de locuitori și suprafața.",
+     "Calculează densitatea.",
+     "Explică de ce oamenii preferă sau evită o regiune.",
+     "Greșeala frecventă: să crezi că densitatea arată numărul total de locuitori; ea arată locuitorii pe un kilometru pătrat."
+    ],
+    "answers": [
+     "Peste 8 miliarde.",
+     "Numărul nașterilor.",
+     "Numărul de locuitori pe kilometru pătrat.",
+     "India.",
+     "În Africa."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l04": {
+   "ro": {
+    "title": "Diversitatea umană",
+    "theory": "Oamenii lumii sunt foarte diverși. Diversitatea etnică: popoare cu origine, istorie și cultură comune. Diversitatea lingvistică: în lume se vorbesc peste 7.000 de limbi; cele mai vorbite sunt engleza, chineza mandarină, hindi, spaniola, araba; limbile se grupează în familii (indo-europeană – din care face parte și româna, sino-tibetană, afro-asiatică). Diversitatea religioasă: creștinismul (cea mai răspândită religie), islamul, hinduismul, budismul, iudaismul și altele; mulți oameni nu sunt religioși. Diversitatea culturală se vede în tradiții, port, arhitectură, mâncare, muzică. Respectul pentru diversitate și interzicerea discriminării sunt valori fundamentale ale lumii contemporane.",
+    "sample": "Limba română face parte din ramura romanică a familiei indo-europene, ca italiana și spaniola.",
+    "worked": "Familiile de limbi arată legăturile istorice dintre popoare.",
+    "exercises": [
+     "Explică ce este un popor.",
+     "Numește cinci limbi foarte vorbite.",
+     "Explică ce este o familie de limbi.",
+     "Numește religiile principale ale lumii.",
+     "Dă exemple de diversitate culturală din România."
+    ],
+    "test": [
+     "Câte limbi se vorbesc în lume, aproximativ?",
+     "Din ce familie de limbi face parte româna?",
+     "Care este cea mai răspândită religie?",
+     "Ce religie predomină în India?",
+     "Ce înseamnă discriminare?"
+    ],
+    "steps": [
+     "Identifică tipul de diversitate: etnică, lingvistică, religioasă, culturală.",
+     "Dă exemple pentru fiecare.",
+     "Explică de ce respectul pentru diversitate este important.",
+     "Greșeala frecventă: să judeci alte culturi ca „mai bune” sau „mai rele”; ele sunt diferite."
+    ],
+    "answers": [
+     "Peste 7.000.",
+     "Familia indo-europeană (ramura romanică).",
+     "Creștinismul.",
+     "Hinduismul.",
+     "Tratarea nedreaptă a unor oameni din cauza originii, religiei sau altor trăsături."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l05": {
+   "ro": {
+    "title": "Mobilitatea populației: migrațiile",
+    "theory": "Migrația este deplasarea oamenilor dintr-un loc în altul, cu schimbarea locuinței. Migrațiile pot fi interne (în aceeași țară, de exemplu de la sat la oraș) sau externe (internaționale); temporare sau definitive. Cauze: economice (locuri de muncă, salarii mai mari), sociale (educație, familie), politice (războaie, persecuții – refugiații), naturale (secetă, dezastre, schimbări climatice). Urmări: în țara de plecare scade populația activă, dar vin bani trimiși acasă; în țara de sosire crește forța de muncă și diversitatea, dar pot apărea probleme de integrare. Milioane de români au emigrat după 1990, mai ales în Italia, Spania, Germania și Marea Britanie.",
+    "sample": "După 2022, milioane de refugiați din Ucraina au venit în statele vecine, inclusiv în România și Republica Moldova.",
+    "worked": "Migrația forțată de război este diferită de migrația pentru muncă: oamenii fug ca să-și salveze viața.",
+    "exercises": [
+     "Explică diferența dintre migrația internă și cea externă.",
+     "Enumeră cauzele migrațiilor.",
+     "Explică ce este un refugiat.",
+     "Explică urmările emigrației pentru România.",
+     "Dă un exemplu de migrație din familia sau localitatea ta."
+    ],
+    "test": [
+     "Ce este migrația?",
+     "Ce este emigrarea?",
+     "Ce este imigrarea?",
+     "Cine este refugiatul?",
+     "În ce țări au emigrat mulți români?"
+    ],
+    "steps": [
+     "Identifică locul de plecare și de sosire.",
+     "Află cauza migrației.",
+     "Analizează urmările pentru ambele locuri.",
+     "Greșeala frecventă: să confunzi emigrarea (plecarea din țară) cu imigrarea (venirea într-o țară)."
+    ],
+    "answers": [
+     "Deplasarea oamenilor cu schimbarea locuinței.",
+     "Plecarea din țara de origine.",
+     "Venirea într-o altă țară pentru a locui acolo.",
+     "O persoană obligată să fugă din cauza războiului sau persecuției.",
+     "Italia, Spania, Germania, Marea Britanie."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l06": {
+   "ro": {
+    "title": "Așezările rurale",
+    "theory": "Așezările rurale (satele) sunt locuințe grupate în care locuitorii se ocupau tradițional mai ales cu agricultura, creșterea animalelor, exploatarea pădurii sau pescuitul. Satele diferă după poziție (de câmpie, de deal, de munte, de luncă), după forma vetrei (adunate, răsfirate, risipite) și după ocupații (agricole, pastorale, pescărești, turistice). Mărimea lor variază de la câteva case la mii de locuitori. Satele moderne au drumuri asfaltate, școli, internet, dar multe se confruntă cu îmbătrânirea și plecarea tinerilor. Turismul rural și agroturismul (Bran, Maramureș, Bucovina) aduc venituri noi.",
+    "sample": "Satele din Maramureș sunt cunoscute pentru porțile și bisericile de lemn, unele în patrimoniul UNESCO.",
+    "worked": "Tradițiile satelor pot deveni o resursă economică prin turism, dacă sunt păstrate.",
+    "exercises": [
+     "Clasifică satele după forma vetrei.",
+     "Clasifică satele după ocupații.",
+     "Descrie un sat din zona ta.",
+     "Explică problemele satelor de azi.",
+     "Explică ce este agroturismul."
+    ],
+    "test": [
+     "Ce sunt așezările rurale?",
+     "Unde se găsesc satele risipite?",
+     "Ce ocupație tradițională aveau sătenii?",
+     "Ce problemă demografică au multe sate?",
+     "Ce regiune are biserici de lemn în patrimoniul UNESCO?"
+    ],
+    "steps": [
+     "Identifică poziția și forma satului.",
+     "Identifică ocupațiile principale.",
+     "Analizează problemele și oportunitățile.",
+     "Greșeala frecventă: să crezi că satele sunt la fel peste tot; ele diferă după relief și ocupații."
+    ],
+    "answers": [
+     "Satele.",
+     "La munte.",
+     "Agricultura și creșterea animalelor.",
+     "Îmbătrânirea populației.",
+     "Maramureșul."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l07": {
+   "ro": {
+    "title": "Așezările urbane",
+    "theory": "Orașele sunt așezări mari, cu populație numeroasă, clădiri dense și funcții economice diverse: industrie, comerț, servicii, administrație, cultură, transporturi. Urbanizarea este creșterea numărului și a populației orașelor; astăzi peste jumătate din omenire trăiește în orașe. Orașele mari formează aglomerări urbane (orașul și localitățile din jur); cele cu peste 10 milioane de locuitori sunt megalopolisuri sau „megaorașe” (Tokyo, Delhi, Shanghai, São Paulo, Cairo). Orașele au avantaje (locuri de muncă, școli, spitale), dar și probleme: aglomerație, trafic, poluare, prețuri mari la locuințe, cartiere sărace. Orașele inteligente folosesc tehnologia pentru transport și energie.",
+    "sample": "Aglomerarea Tokyo are aproape 37 de milioane de locuitori, mai mult decât întreaga Românie.",
+    "worked": "Comparația arată dimensiunea uriașă a megaorașelor de azi: un singur oraș poate avea mai mulți locuitori decât o țară întreagă.",
+    "exercises": [
+     "Enumeră funcțiile orașelor.",
+     "Explică ce este urbanizarea.",
+     "Numește cinci megaorașe.",
+     "Explică problemele orașelor mari.",
+     "Propune soluții pentru traficul din oraș."
+    ],
+    "test": [
+     "Ce este urbanizarea?",
+     "Ce parte din omenire trăiește în orașe?",
+     "Care este cea mai mare aglomerare urbană?",
+     "Ce este un megaoraș?",
+     "Ce problemă de mediu au orașele mari?"
+    ],
+    "steps": [
+     "Identifică funcțiile orașului.",
+     "Analizează mărimea și creșterea lui.",
+     "Evaluează avantajele și problemele.",
+     "Greșeala frecventă: să crezi că orice oraș mare este bogat; multe megaorașe au cartiere foarte sărace."
+    ],
+    "answers": [
+     "Creșterea numărului și a populației orașelor.",
+     "Peste jumătate.",
+     "Tokyo.",
+     "Un oraș sau o aglomerare cu peste 10 milioane de locuitori.",
+     "Poluarea aerului."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l08": {
+   "ro": {
+    "title": "Resursele naturale și valorificarea lor",
+    "theory": "Resursele naturale sunt elemente ale naturii folosite de om. Ele pot fi regenerabile (se refac: energia solară, eoliană, apa, pădurile, solul dacă e îngrijit) sau neregenerabile (se epuizează: petrolul, gazele naturale, cărbunele, minereurile). Resursele energetice sunt esențiale: petrolul (Orientul Mijlociu, Rusia, SUA), gazele naturale, cărbunele (China), uraniul. Resursele minerale: minereuri de fier, cupru, aur, litiu (pentru baterii). Folosirea excesivă a resurselor neregenerabile produce poluare și încălzire globală; de aceea se dezvoltă energia regenerabilă și reciclarea. Dezvoltarea durabilă înseamnă folosirea resurselor fără a compromite generațiile viitoare.",
+    "sample": "Litiul a devenit o resursă foarte căutată pentru bateriile mașinilor electrice și ale telefoanelor.",
+    "worked": "Valoarea unei resurse se schimbă odată cu tehnologia: un metal puțin folosit poate deveni esențial.",
+    "exercises": [
+     "Clasifică resursele în regenerabile și neregenerabile.",
+     "Numește regiuni bogate în petrol.",
+     "Explică de ce este căutat litiul.",
+     "Explică ce este dezvoltarea durabilă.",
+     "Propune moduri de economisire a resurselor."
+    ],
+    "test": [
+     "Ce sunt resursele naturale?",
+     "Dă exemplu de resursă regenerabilă.",
+     "Dă exemplu de resursă neregenerabilă.",
+     "Ce regiune este bogată în petrol?",
+     "Ce înseamnă dezvoltare durabilă?"
+    ],
+    "steps": [
+     "Identifică resursa naturală analizată.",
+     "Stabilește dacă se reface sau se epuizează.",
+     "Analizează folosirea ei și efectele.",
+     "Greșeala frecventă: să crezi că resursele regenerabile nu au nicio limită; pădurile și solul se pot distruge dacă sunt exploatate excesiv."
+    ],
+    "answers": [
+     "Elemente ale naturii folosite de om.",
+     "Energia solară sau eoliană.",
+     "Petrolul sau cărbunele.",
+     "Orientul Mijlociu.",
+     "Folosirea resurselor fără a afecta generațiile viitoare."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l09": {
+   "ro": {
+    "title": "Agricultura; regiuni agricole și resurse de hrană",
+    "theory": "Agricultura asigură hrana oamenilor și materii prime pentru industrie. Are două ramuri: cultura plantelor și creșterea animalelor. Cerealele principale sunt grâul (zonele temperate), orezul (Asia musonică) și porumbul (America, Europa). Alte culturi: plante tehnice (bumbac, floarea-soarelui, sfeclă de zahăr), legume, fructe, plante tropicale (cafea, cacao, banane, trestie de zahăr). Animalele: bovine, ovine, porcine, păsări. Agricultura poate fi intensivă (mecanizată, cu producții mari – SUA, Europa de Vest) sau tradițională, de subzistență (pentru hrana familiei). Problemele lumii: foametea în unele regiuni, risipa alimentară în altele, eroziunea solului, consumul mare de apă.",
+    "sample": "Orezul este hrana de bază pentru o mare parte din populația Asiei.",
+    "worked": "Cultura orezului cere multă apă și căldură, de aceea se practică în regiunile cu musoni.",
+    "exercises": [
+     "Numește cerealele principale și regiunile lor.",
+     "Compară agricultura intensivă cu cea de subzistență.",
+     "Dă exemple de plante tropicale.",
+     "Explică problema risipei alimentare.",
+     "Explică legătura dintre climă și culturi."
+    ],
+    "test": [
+     "Care sunt ramurile agriculturii?",
+     "Unde se cultivă mult orez?",
+     "Ce plantă tehnică dă ulei?",
+     "Ce este agricultura de subzistență?",
+     "Ce problemă alimentară există în unele regiuni sărace?"
+    ],
+    "steps": [
+     "Identifică cultura sau animalul.",
+     "Leagă-l de climă și relief.",
+     "Analizează tipul de agricultură.",
+     "Greșeala frecventă: să crezi că foametea apare doar din lipsă de hrană în lume; problema este și distribuția inegală."
+    ],
+    "answers": [
+     "Cultura plantelor și creșterea animalelor.",
+     "În Asia musonică.",
+     "Floarea-soarelui.",
+     "Agricultura pentru hrana familiei.",
+     "Foametea."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l10": {
+   "ro": {
+    "title": "Industria; regiuni industriale",
+    "theory": "Industria transformă materiile prime în produse. Ramuri: industria energetică (petrol, gaze, cărbune, electricitate), metalurgia, construcțiile de mașini (automobile, avioane, nave), industria chimică, electronică, textilă, alimentară. Primele regiuni industriale au apărut lângă zăcămintele de cărbune și fier (bazinul Ruhr din Germania, Anglia). Azi, industria se amplasează lângă porturi, căi de comunicație, forță de muncă calificată și centre de cercetare. Mari regiuni industriale: nord-estul SUA, Europa de Vest, Japonia, estul Chinei (azi cel mai mare producător industrial). Industria high-tech (calculatoare, telefoane, cipuri) se dezvoltă în Silicon Valley, Coreea de Sud, Taiwan. Industria poate polua aerul, apa și solul.",
+    "sample": "China produce azi mai mult de un sfert din producția industrială a lumii.",
+    "worked": "Mutarea fabricilor în Asia arată că industria caută costuri mai mici și piețe mari.",
+    "exercises": [
+     "Numește ramurile industriei.",
+     "Explică de ce primele regiuni industriale au apărut lângă cărbune.",
+     "Numește marile regiuni industriale ale lumii.",
+     "Explică ce este industria high-tech.",
+     "Explică efectele industriei asupra mediului."
+    ],
+    "test": [
+     "Ce face industria?",
+     "Ce bazin industrial german este legat de cărbune?",
+     "Care este cel mai mare producător industrial?",
+     "Unde se află Silicon Valley?",
+     "Ce produce industria high-tech?"
+    ],
+    "steps": [
+     "Identifică ramura industrială.",
+     "Explică factorii de amplasare.",
+     "Localizează regiunile pe hartă.",
+     "Greșeala frecventă: să crezi că industria se află mereu lângă materii prime; azi contează mai mult transportul și forța de muncă."
+    ],
+    "answers": [
+     "Transformă materiile prime în produse.",
+     "Bazinul Ruhr.",
+     "China.",
+     "În SUA (California).",
+     "Calculatoare, telefoane, cipuri."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l11": {
+   "ro": {
+    "title": "Serviciile; regiuni turistice",
+    "theory": "Serviciile sunt activitățile care nu produc bunuri, ci oferă ajutor sau facilități: transporturile, comerțul, telecomunicațiile, educația, sănătatea, băncile, turismul. În statele dezvoltate, majoritatea oamenilor lucrează în servicii. Transporturile pot fi terestre (rutiere, feroviare), pe apă (maritime, fluviale), aeriene și prin conducte. Turismul este una dintre cele mai mari activități economice: regiunile turistice atrag prin natură (plaje, munți, parcuri naționale) sau prin cultură (orașe istorice, muzee, monumente UNESCO). Regiuni turistice importante: Marea Mediterană, Alpii, Caraibe. Franța, Spania și SUA sunt printre cele mai vizitate țări.",
+    "sample": "Litoralul Mării Mediterane este cea mai mare regiune turistică a lumii.",
+    "worked": "Clima caldă, plajele și orașele istorice îi atrag pe turiști; turismul aduce venituri, dar și aglomerație.",
+    "exercises": [
+     "Numește cinci tipuri de servicii.",
+     "Clasifică mijloacele de transport.",
+     "Explică factorii care atrag turiștii.",
+     "Numește trei regiuni turistice ale lumii.",
+     "Propune un traseu turistic în România."
+    ],
+    "test": [
+     "Ce sunt serviciile?",
+     "În ce sector lucrează majoritatea oamenilor din statele dezvoltate?",
+     "Ce tip de transport folosește conducte?",
+     "Care este cea mai mare regiune turistică?",
+     "Ce țară este printre cele mai vizitate?"
+    ],
+    "steps": [
+     "Identifică serviciul.",
+     "Explică rolul lui în economie.",
+     "Analizează potențialul turistic al unei regiuni.",
+     "Greșeala frecventă: să crezi că turismul are doar efecte bune; poate aduce poluare și aglomerație."
+    ],
+    "answers": [
+     "Activități care oferă ajutor sau facilități, nu bunuri.",
+     "În servicii.",
+     "Transportul prin conducte (petrol, gaze).",
+     "Litoralul Mării Mediterane.",
+     "Franța."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l12": {
+   "ro": {
+    "title": "Efectele activităților umane asupra mediului",
+    "theory": "Activitățile omului schimbă mediul. Poluarea aerului (industrie, trafic, încălzire) afectează sănătatea; poluarea apei (ape uzate, îngrășăminte, plastic) distruge viața acvatică; poluarea solului (deșeuri, pesticide) reduce fertilitatea. Defrișarea pădurilor (în special în Amazonia) reduce biodiversitatea și contribuie la încălzirea globală. Emisiile de gaze cu efect de seră produc schimbări climatice: temperaturi mai mari, valuri de căldură, secete, topirea ghețarilor. Soluții: energie regenerabilă, transport public și bicicletă, reciclare, reducerea plasticului, împădurire, arii protejate. Calitatea vieții depinde de un mediu curat.",
+    "sample": "În oceane există zone uriașe în care se adună deșeuri de plastic, purtate de curenți.",
+    "worked": "Plasticul se descompune în sute de ani și ajunge, în bucăți mici, în hrana animalelor marine.",
+    "exercises": [
+     "Enumeră formele de poluare.",
+     "Explică urmările defrișărilor.",
+     "Explică ce sunt schimbările climatice.",
+     "Propune cinci acțiuni personale pentru protejarea mediului.",
+     "Explică legătura dintre mediu și calitatea vieții."
+    ],
+    "test": [
+     "Ce poluează aerul în orașe?",
+     "Ce pădure mare este afectată de defrișări?",
+     "Ce gaze produc încălzirea globală?",
+     "Cât durează descompunerea plasticului?",
+     "Ce înseamnă reciclare?"
+    ],
+    "steps": [
+     "Identifică activitatea care afectează mediul.",
+     "Descrie efectele asupra aerului, apei și solului.",
+     "Propune soluții concrete.",
+     "Greșeala frecventă: să crezi că o singură persoană nu poate face nimic; acțiunile multor oameni contează."
+    ],
+    "answers": [
+     "Traficul și industria.",
+     "Pădurea amazoniană.",
+     "Gazele cu efect de seră (de exemplu dioxidul de carbon).",
+     "Sute de ani.",
+     "Refolosirea materialelor din deșeuri."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l13": {
+   "ro": {
+    "title": "Poziția geografică și țărmurile Europei",
+    "theory": "Europa se află în emisfera nordică și în cea mai mare parte în emisfera estică; formează împreună cu Asia continentul Eurasia. Limita cu Asia urmează Munții Ural, râul Ural, Marea Caspică, Munții Caucaz (sau depresiunea Kuma–Manîci), Marea Neagră și strâmtorile Bosfor și Dardanele. Europa este scăldată de Oceanul Arctic, Oceanul Atlantic și Marea Mediterană. Țărmurile sunt foarte crestate: peninsule (Scandinavică – cea mai mare, Iberică, Italică, Balcanică, Iutlanda, Crimeea), insule (Marea Britanie – cea mai mare, Islanda, Irlanda, Sicilia, Sardinia, Corsica, Creta), golfuri (Biscaya, Botnic, Finic), strâmtori (Gibraltar, Mânecii, Bosfor). Punctele extreme: Capul Roca (vest), Capul Nordkinn (nord), Punta de Tarifa (sud), Munții Ural (est).",
+    "sample": "Strâmtoarea Gibraltar desparte Europa de Africa prin doar circa 14 km de apă.",
+    "worked": "Strâmtorile sunt locuri strategice pentru navigație și au fost mereu importante în istorie.",
+    "exercises": [
+     "Arată pe hartă limita dintre Europa și Asia.",
+     "Numește patru peninsule europene.",
+     "Numește cinci insule europene.",
+     "Numește trei strâmtori și ce despart ele.",
+     "Explică de ce țărmurile crestate au favorizat navigația."
+    ],
+    "test": [
+     "Ce munți despart Europa de Asia la est?",
+     "Care este cea mai mare peninsulă a Europei?",
+     "Care este cea mai mare insulă a Europei?",
+     "Ce strâmtoare desparte Europa de Africa?",
+     "Care este punctul extrem vestic al Europei?"
+    ],
+    "steps": [
+     "Găsește Europa pe planiglob.",
+     "Urmărește limitele: oceane, mări, munți.",
+     "Localizează peninsulele, insulele și strâmtorile.",
+     "Greșeala frecventă: să crezi că Marea Mediterană desparte Europa de Asia; ea desparte Europa de Africa."
+    ],
+    "answers": [
+     "Munții Ural.",
+     "Peninsula Scandinavică.",
+     "Marea Britanie.",
+     "Strâmtoarea Gibraltar.",
+     "Capul Roca."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l14": {
+   "ro": {
+    "title": "Relieful Europei – unități majore",
+    "theory": "Europa are un relief variat, cu altitudine medie mică (circa 300 m), dominat de câmpii. Câmpiile: Câmpia Europei de Est (cea mai mare), Câmpia Germano-Polonă, Câmpia Franceză, Câmpia Panonică, Câmpia Padului. Munți tineri, înalți, formați prin încrețire: Alpii (vârful Mont Blanc, circa 4.800 m), Pirineii, Apeninii, Carpații, Balcanii, Caucazul (Elbrus, 5.642 m, considerat de mulți geografi cel mai înalt vârf european). Munți vechi, joși și tociți: Alpii Scandinaviei, Uralii, Masivul Central Francez, munții din Marea Britanie. Podișuri: Meseta Spaniolă, Podișul Bavariei. Vulcani activi: Etna, Vezuviu, cei din Islanda. Ghețarii de altădată au modelat nordul (fiorduri în Norvegia).",
+    "sample": "Fiordurile norvegiene sunt văi glaciare adânci, invadate de mare.",
+    "worked": "Ele sunt o dovadă că ghețarii au acoperit nordul Europei în trecut și au modelat puternic relieful.",
+    "exercises": [
+     "Numește marile câmpii ale Europei.",
+     "Compară munții tineri cu munții vechi.",
+     "Numește cel mai înalt vârf al Alpilor.",
+     "Explică formarea fiordurilor.",
+     "Numește vulcani activi europeni."
+    ],
+    "test": [
+     "Care este cea mai mare câmpie europeană?",
+     "În ce munți se află Mont Blanc?",
+     "În ce munți se află Elbrus?",
+     "Ce sunt fiordurile?",
+     "Ce vulcan activ se află în Sicilia?"
+    ],
+    "steps": [
+     "Găsește pe harta fizică culorile reliefului.",
+     "Grupează munții în tineri și vechi.",
+     "Localizează câmpiile și podișurile.",
+     "Greșeala frecventă: să crezi că Europa este un continent muntos; predomină câmpiile."
+    ],
+    "answers": [
+     "Câmpia Europei de Est.",
+     "În Alpi.",
+     "În Munții Caucaz.",
+     "Văi glaciare invadate de mare.",
+     "Etna."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l15": {
+   "ro": {
+    "title": "Hidrografia Europei",
+    "theory": "Râurile Europei se varsă în Oceanul Atlantic și mările lui (Rin, Sena, Loara, Elba, Tamisa), în Oceanul Arctic (Peciora), în Marea Mediterană (Ron, Pad, Ebro), în Marea Neagră (Dunărea, Nipru, Nistru) și în Marea Caspică (Volga, cel mai lung fluviu european, circa 3.500 km). Dunărea (circa 2.860 km) este al doilea fluviu ca lungime și cel mai internațional: străbate sau mărginește zece state. Rinul este cea mai importantă cale navigabilă, legată de Dunăre prin canalul Rin–Main–Dunăre. Lacurile: Ladoga (cel mai mare lac european, fără Marea Caspică), Onega, lacurile din Finlanda, lacurile alpine (Geneva, Constanța), Balaton. Marea Caspică este cel mai mare lac al lumii.",
+    "sample": "Prin canalul Rin–Main–Dunăre, o navă poate merge de la Marea Nordului până la Marea Neagră.",
+    "worked": "Legarea fluviilor prin canale creează o cale de transport fluvial ce traversează continentul.",
+    "exercises": [
+     "Numește fluviile care se varsă în Marea Neagră.",
+     "Numește cel mai lung fluviu european.",
+     "Explică de ce Dunărea este un fluviu internațional.",
+     "Explică importanța canalului Rin–Main–Dunăre.",
+     "Numește trei lacuri europene."
+    ],
+    "test": [
+     "Care este cel mai lung fluviu al Europei?",
+     "În ce se varsă Volga?",
+     "Câte state străbate sau mărginește Dunărea?",
+     "Care este cel mai mare lac european?",
+     "Ce canal leagă Rinul de Dunăre?"
+    ],
+    "steps": [
+     "Găsește fluviul pe hartă.",
+     "Urmărește-l de la izvor la vărsare.",
+     "Precizează în ce mare sau ocean se varsă.",
+     "Greșeala frecventă: să crezi că Dunărea este cel mai lung fluviu european; Volga este mai lung."
+    ],
+    "answers": [
+     "Volga.",
+     "În Marea Caspică.",
+     "Zece.",
+     "Lacul Ladoga.",
+     "Canalul Rin–Main–Dunăre."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l16": {
+   "ro": {
+    "title": "Clima Europei",
+    "theory": "Cea mai mare parte a Europei are climă temperată, influențată de Oceanul Atlantic, de curentul cald al Golfului și de vânturile de vest. Tipuri de climă: oceanică (vest – ierni blânde, veri răcoroase, precipitații multe tot anul), continentală (est – ierni geroase, veri calde, precipitații mai puține), de tranziție (centru, inclusiv România), mediteraneană (sud – veri calde și secetoase, ierni blânde și ploioase), subpolară și polară (nord – ierni lungi, foarte reci), montană (în munții înalți). Influența oceanului scade spre est: crește amplitudinea termică (diferența dintre vară și iarnă).",
+    "sample": "La Londra diferența dintre luna cea mai caldă și cea mai rece este de circa 13°C, iar la Moscova de peste 25°C.",
+    "worked": "Diferența arată influența oceanului: apa încălzește iarna și răcorește vara regiunile apropiate.",
+    "exercises": [
+     "Numește tipurile de climă ale Europei.",
+     "Explică influența curentului Golfului.",
+     "Compară clima oceanică cu cea continentală.",
+     "Descrie clima mediteraneană.",
+     "Explică ce este amplitudinea termică."
+    ],
+    "test": [
+     "Ce curent cald influențează Europa de Vest?",
+     "Ce climă are vestul Europei?",
+     "Ce climă are sudul Europei?",
+     "Ce tip de climă are România?",
+     "Ce este amplitudinea termică?"
+    ],
+    "steps": [
+     "Localizează regiunea pe hartă.",
+     "Identifică factorii climatici: ocean, latitudine, altitudine.",
+     "Descrie temperaturile și precipitațiile.",
+     "Greșeala frecventă: să crezi că în nordul Norvegiei porturile îngheață ca în Siberia; curentul cald le ține libere."
+    ],
+    "answers": [
+     "Curentul Golfului.",
+     "Climă oceanică.",
+     "Climă mediteraneană.",
+     "Climă temperat-continentală de tranziție.",
+     "Diferența dintre temperatura verii și a iernii."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l17": {
+   "ro": {
+    "title": "Vegetația, fauna și solurile Europei",
+    "theory": "Zonele de vegetație se succed de la nord la sud, după climă. În nordul extrem este tundra (mușchi, licheni, arbuști pitici; reni). Urmează taigaua (păduri de conifere; urs brun, elan, lup). În vest și centru sunt păduri de foioase (fag, stejar; cerb, mistreț), în mare parte defrișate pentru agricultură și orașe. În est și sud-est este stepa (ierburi; soluri negre fertile, cultivate azi cu cereale). În sud este vegetația mediteraneană (măslin, stejar de plută, tufișuri – maquis). Munții au etajare a vegetației. Solurile cele mai fertile sunt cernoziomurile din stepă. Europa a pierdut o mare parte din vegetația naturală, de aceea are multe arii protejate (rețeaua Natura 2000).",
+    "sample": "Rețeaua Natura 2000 cuprinde mii de arii protejate în toate statele Uniunii Europene, inclusiv în România.",
+    "worked": "Protecția naturii se face și la nivel european, pentru că păsările și animalele nu țin cont de granițe.",
+    "exercises": [
+     "Ordonează zonele de vegetație de la nord la sud.",
+     "Leagă fiecare zonă de animale caracteristice.",
+     "Explică de ce pădurile de foioase au fost defrișate.",
+     "Descrie vegetația mediteraneană.",
+     "Explică ce este rețeaua Natura 2000."
+    ],
+    "test": [
+     "Ce vegetație are tundra?",
+     "Ce copaci formează taigaua?",
+     "Ce sol fertil este în stepă?",
+     "Ce copac este simbolul zonei mediteraneene?",
+     "Ce animal trăiește în tundră?"
+    ],
+    "steps": [
+     "Pornește din nord spre sud.",
+     "Leagă vegetația de climă.",
+     "Adaugă animalele și solurile.",
+     "Greșeala frecventă: să crezi că Europa este acoperită de păduri naturale; mare parte au fost înlocuite de culturi și orașe."
+    ],
+    "answers": [
+     "Mușchi, licheni și arbuști pitici.",
+     "Conifere (molid, pin, brad).",
+     "Cernoziomul.",
+     "Măslinul.",
+     "Renul."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l18": {
+   "ro": {
+    "title": "Harta politică a Europei; Europa contemporană",
+    "theory": "Europa are în jur de 45–50 de state, după criteriile folosite. Harta politică s-a schimbat mult în secolul XX: după cele două războaie mondiale, după căderea comunismului (1989–1991) – reunificarea Germaniei, destrămarea URSS, a Iugoslaviei și a Cehoslovaciei. Statele europene sunt foarte diferite ca suprafață: Rusia (cea mai mare, parțial în Asia), Ucraina, Franța, Spania; microstatele: Vatican, Monaco, San Marino, Liechtenstein, Andorra, Malta. Multe sunt republici; altele sunt monarhii constituționale (Marea Britanie, Spania, Suedia, Norvegia, Danemarca, Olanda, Belgia). Europa contemporană cooperează prin Uniunea Europeană, Consiliul Europei și NATO, dar are și conflicte, ca războiul din Ucraina.",
+    "sample": "Iugoslavia s-a destrămat în anii 1990 în șapte state: Slovenia, Croația, Bosnia și Herțegovina, Serbia, Muntenegru, Macedonia de Nord și Kosovo.",
+    "worked": "Exemplul arată cât de repede se poate schimba harta politică.",
+    "exercises": [
+     "Numește cinci microstate europene.",
+     "Numește statele apărute din destrămarea Iugoslaviei.",
+     "Numește monarhii europene.",
+     "Explică ce s-a schimbat pe hartă după 1989.",
+     "Găsește pe hartă capitalele a zece state."
+    ],
+    "test": [
+     "Care este cel mai mic stat european?",
+     "Ce stat s-a reunificat în 1990?",
+     "Ce stat s-a destrămat în 1991 în 15 republici?",
+     "Ce formă de guvernământ are Spania?",
+     "Care este capitala Poloniei?"
+    ],
+    "steps": [
+     "Găsește statul pe harta politică.",
+     "Află capitala, vecinii și forma de guvernământ.",
+     "Leagă schimbările de evenimentele istorice.",
+     "Greșeala frecventă: să crezi că harta politică a Europei a fost mereu aceeași; s-a schimbat mult în ultimii 100 de ani."
+    ],
+    "answers": [
+     "Vaticanul.",
+     "Germania.",
+     "URSS.",
+     "Monarhie constituțională.",
+     "Varșovia."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l19": {
+   "ro": {
+    "title": "Populația Europei și diversitatea umană",
+    "theory": "Europa are aproximativ 745 de milioane de locuitori. Densitatea este mare în vest (Țările de Jos, Belgia, Marea Britanie, Germania, nordul Italiei) și mică în nord (Scandinavia, nordul Rusiei). Populația Europei îmbătrânește: se nasc puțini copii, iar speranța de viață este mare; în multe state, populația ar scădea fără imigrație. Diversitatea etnică și lingvistică este mare: limbi romanice (italiana, franceza, spaniola, portugheza, româna), germanice (germana, engleza, olandeza, suedeza), slave (rusa, polona, cehă, sârbă, bulgara), alte limbi (maghiara, finlandeza, greaca, albaneza). Religia predominantă este creștinismul (catolic, protestant, ortodox), cu comunități musulmane și evreiești.",
+    "sample": "Uniunea Europeană are 24 de limbi oficiale, iar documentele importante se traduc în toate.",
+    "worked": "Diversitatea lingvistică este considerată o bogăție a Europei, care trebuie respectată.",
+    "exercises": [
+     "Numește regiuni dens și slab populate.",
+     "Explică îmbătrânirea populației europene.",
+     "Grupează limbile europene în familii.",
+     "Numește confesiunile creștine din Europa.",
+     "Explică de ce imigrația este importantă pentru Europa."
+    ],
+    "test": [
+     "Câți locuitori are Europa, aproximativ?",
+     "Unde este densitatea cea mai mare?",
+     "Ce familie de limbi include polona?",
+     "Câte limbi oficiale are UE?",
+     "Ce religie predomină în Europa?"
+    ],
+    "steps": [
+     "Analizează numărul și răspândirea populației.",
+     "Identifică structura pe vârste.",
+     "Descrie diversitatea etnică, lingvistică, religioasă.",
+     "Greșeala frecventă: să crezi că în Europa se vorbesc doar câteva limbi; sunt zeci de limbi."
+    ],
+    "answers": [
+     "Aproximativ 745 de milioane.",
+     "În vest: Țările de Jos, Belgia, Germania, Marea Britanie.",
+     "Familia slavă.",
+     "24.",
+     "Creștinismul."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l20": {
+   "ro": {
+    "title": "Mari orașe europene",
+    "theory": "Europa este un continent puternic urbanizat. Cele mai mari orașe și aglomerări sunt Moscova, Istanbul (parțial în Asia), Londra, Paris, Madrid, Berlin, Roma. Orașele europene au centre istorice vechi, catedrale, palate, piețe, și cartiere moderne cu clădiri de birouri. Funcții: Londra și Frankfurt sunt centre financiare; Bruxelles și Strasbourg găzduiesc instituții europene; Roma, Paris, Veneția, Praga sunt mari centre turistice; Rotterdam este cel mai mare port european. Capitalele concentrează instituții politice și culturale. Multe centre istorice sunt în patrimoniul UNESCO.",
+    "sample": "Rotterdam este cel mai mare port al Europei, aflat la vărsarea Rinului în Marea Nordului.",
+    "worked": "Poziția la gura unui mare fluviu navigabil explică importanța portului.",
+    "exercises": [
+     "Numește cinci mari orașe europene.",
+     "Explică funcțiile Londrei și Frankfurtului.",
+     "Explică de ce Rotterdam este un port mare.",
+     "Numește orașe turistice europene.",
+     "Alege un oraș european și prezintă-l."
+    ],
+    "test": [
+     "Care este cel mai mare port european?",
+     "Ce oraș găzduiește multe instituții europene?",
+     "Ce oraș italian este construit pe canale?",
+     "Pe ce râu se află Parisul?",
+     "Ce oraș mare se află pe două continente?"
+    ],
+    "steps": [
+     "Localizează orașul pe hartă.",
+     "Identifică funcțiile lui.",
+     "Descrie elementele caracteristice.",
+     "Greșeala frecventă: să crezi că toate capitalele sunt cele mai mari orașe ale țării; Berna, de exemplu, nu este cel mai mare oraș al Elveției."
+    ],
+    "answers": [
+     "Rotterdam.",
+     "Bruxelles.",
+     "Veneția.",
+     "Pe Sena.",
+     "Istanbul."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l21": {
+   "ro": {
+    "title": "Resursele naturale ale Europei",
+    "theory": "Europa are resurse variate, dar multe au fost exploatate intens de-a lungul secolelor. Petrolul și gazele naturale se extrag din Marea Nordului (Norvegia, Marea Britanie) și mai ales din Rusia; cărbunele în Polonia, Germania; minereurile de fier în Suedia; potasiu, sare, bauxită. Resursele de apă și relieful muntos permit hidrocentrale (Norvegia, Alpi). Pădurile din nord (Suedia, Finlanda) sunt importante pentru industria lemnului și a hârtiei. Solurile fertile din câmpii susțin agricultura. Europa importă multă energie; de aceea investește în energie regenerabilă (eoliană – Danemarca, Germania; solară – Spania; hidro – Norvegia) și nucleară (Franța).",
+    "sample": "Norvegia produce aproape toată energia electrică în hidrocentrale.",
+    "worked": "Relieful muntos și precipitațiile bogate fac din apă cea mai bună resursă energetică a Norvegiei.",
+    "exercises": [
+     "Numește regiuni cu petrol și gaze în Europa.",
+     "Explică de ce Europa importă energie.",
+     "Numește state cu multă energie regenerabilă.",
+     "Explică importanța pădurilor din nord.",
+     "Explică de ce Norvegia are multe hidrocentrale."
+    ],
+    "test": [
+     "Ce mare are zăcăminte de petrol și gaze?",
+     "Ce stat are multe minereuri de fier?",
+     "Ce stat produce mult cărbune?",
+     "Ce stat folosește mult energia nucleară?",
+     "Ce stat are aproape numai hidroenergie?"
+    ],
+    "steps": [
+     "Identifică resursa naturală analizată.",
+     "Localizează statele unde se găsește.",
+     "Explică folosirea și problemele ei.",
+     "Greșeala frecventă: să crezi că Europa are destulă energie proprie; importă o parte importantă."
+    ],
+    "answers": [
+     "Marea Nordului.",
+     "Suedia.",
+     "Polonia.",
+     "Franța.",
+     "Norvegia."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l22": {
+   "ro": {
+    "title": "Agricultura Europei",
+    "theory": "Agricultura europeană este în general modernă, mecanizată și productivă, deși ocupă puțini oameni în vest. Cerealele (grâu, porumb, orz) se cultivă în marile câmpii (Franța, Ucraina, Germania, România). În sud, agricultura mediteraneană produce măsline, struguri, citrice, legume. Viticultura are tradiție în Franța, Italia, Spania, Portugalia, România. Creșterea animalelor e importantă în zonele umede (bovine în Țările de Jos, Danemarca, Irlanda) și montane (ovine). Țările de Jos sunt un mare exportator de produse agricole datorită serelor și tehnologiei. Uniunea Europeană sprijină fermierii prin Politica Agricolă Comună.",
+    "sample": "Țările de Jos, deși mici, sunt printre cei mai mari exportatori de produse agricole din lume.",
+    "worked": "Tehnologia (sere, irigații controlate) poate compensa suprafața mică.",
+    "exercises": [
+     "Numește statele mari producătoare de cereale.",
+     "Descrie agricultura mediteraneană.",
+     "Numește state cu tradiție în viticultură.",
+     "Explică succesul agriculturii olandeze.",
+     "Explică ce este Politica Agricolă Comună."
+    ],
+    "test": [
+     "Ce cereale se cultivă în câmpiile europene?",
+     "Ce produse dă agricultura mediteraneană?",
+     "Unde se cresc multe bovine?",
+     "Ce stat mic exportă multe produse agricole?",
+     "Ce politică a UE sprijină fermierii?"
+    ],
+    "steps": [
+     "Identifică regiunea agricolă.",
+     "Leagă culturile de climă și sol.",
+     "Explică rolul tehnologiei.",
+     "Greșeala frecventă: să crezi că o agricultură productivă cere neapărat suprafețe mari; tehnologia contează mult."
+    ],
+    "answers": [
+     "Grâu, porumb, orz.",
+     "Măsline, struguri, citrice.",
+     "În Țările de Jos, Danemarca, Irlanda.",
+     "Țările de Jos.",
+     "Politica Agricolă Comună."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l23": {
+   "ro": {
+    "title": "Industria Europei",
+    "theory": "Europa a fost leagănul revoluției industriale (Marea Britanie, secolul al XVIII-lea). Regiunile industriale vechi, legate de cărbune și metalurgie (Ruhr, nordul Angliei, Silezia), s-au transformat. Astăzi, industriile importante sunt: construcțiile de automobile (Germania – Volkswagen, BMW, Mercedes; Franța; Italia; Cehia; Slovacia; România – Dacia, Ford), aeronautica (Airbus – Toulouse, Hamburg), chimia și farmaceutica (Germania, Elveția), electronica, industria alimentară, energetica. Germania are cea mai mare economie europeană. Industria se mută spre estul Europei, unde costurile sunt mai mici, iar cercetarea și inovarea rămân în vest.",
+    "sample": "Avioanele Airbus sunt asamblate cu părți produse în mai multe state europene.",
+    "worked": "Cooperarea industrială arată cum economiile europene sunt legate între ele.",
+    "exercises": [
+     "Explică de unde a început revoluția industrială.",
+     "Numește regiuni industriale vechi.",
+     "Numește mărci europene de automobile.",
+     "Explică cooperarea din aeronautică.",
+     "Explică de ce industria se mută spre est."
+    ],
+    "test": [
+     "Unde a început revoluția industrială?",
+     "Ce stat are cea mai mare economie europeană?",
+     "Ce companie europeană produce avioane?",
+     "Ce marcă de automobile se produce în România?",
+     "Ce stat este cunoscut pentru industria farmaceutică?"
+    ],
+    "steps": [
+     "Identifică ramura industrială.",
+     "Localizează principalele centre.",
+     "Explică schimbările din ultimele decenii.",
+     "Greșeala frecventă: să crezi că industria europeană este în declin peste tot; s-a modernizat și s-a mutat."
+    ],
+    "answers": [
+     "În Marea Britanie.",
+     "Germania.",
+     "Airbus.",
+     "Dacia.",
+     "Elveția."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l24": {
+   "ro": {
+    "title": "Serviciile în Europa: transporturi, comerț, turism",
+    "theory": "Serviciile ocupă majoritatea populației active din Europa. Transporturile sunt dezvoltate: autostrăzi, trenuri de mare viteză (TGV în Franța, ICE în Germania), tunelul de sub Canalul Mânecii (1994), porturi mari (Rotterdam, Anvers, Hamburg), aeroporturi (Londra, Paris, Frankfurt, Istanbul). Comerțul este intens, mai ales în interiorul Uniunii Europene. Europa este cea mai vizitată regiune turistică a lumii: litoralul mediteranean, Alpii pentru sporturi de iarnă, orașele istorice și muzeele (Luvru – Paris, Vatican), parcurile naționale. Serviciile financiare sunt concentrate la Londra, Frankfurt, Zürich, Luxemburg.",
+    "sample": "Tunelul de sub Canalul Mânecii leagă Franța de Marea Britanie printr-o cale ferată de circa 50 km.",
+    "worked": "Infrastructura modernă scurtează distanțele și leagă statele.",
+    "exercises": [
+     "Numește trenuri de mare viteză europene.",
+     "Explică importanța tunelului de sub Mânecii.",
+     "Numește cele mai mari porturi europene.",
+     "Explică de ce Europa atrage turiști.",
+     "Numește centre financiare europene."
+    ],
+    "test": [
+     "Ce stat are trenurile TGV?",
+     "Ce leagă tunelul de sub Mânecii?",
+     "Ce port este cel mai mare din Europa?",
+     "Ce muzeu celebru este la Paris?",
+     "Ce munți atrag turiști iarna?"
+    ],
+    "steps": [
+     "Identifică tipul de serviciu.",
+     "Localizează exemplele pe hartă.",
+     "Explică rolul lor în economie.",
+     "Greșeala frecventă: să crezi că serviciile sunt mai puțin importante decât industria; în Europa ele domină economia."
+    ],
+    "answers": [
+     "Franța.",
+     "Franța și Marea Britanie.",
+     "Rotterdam.",
+     "Luvru.",
+     "Alpii."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l25": {
+   "ro": {
+    "title": "Uniunea Europeană",
+    "theory": "Uniunea Europeană este o organizație de 27 de state europene care au ales să coopereze strâns. A pornit de la Comunitatea Europeană a Cărbunelui și Oțelului (1951) și Comunitatea Economică Europeană (Tratatele de la Roma, 1957), cu șase state; Uniunea a fost creată prin Tratatul de la Maastricht (1992). România este membră din 1 ianuarie 2007. Instituții: Parlamentul European (ales de cetățeni), Comisia Europeană (Bruxelles), Consiliul UE, Consiliul European, Curtea de Justiție (Luxemburg), Banca Centrală Europeană (Frankfurt). Realizări: piața unică (circulația liberă a bunurilor, serviciilor, capitalurilor și persoanelor), spațiul Schengen fără controale la frontieră (România membru deplin din 2025), moneda euro (folosită de peste 20 de state), programul Erasmus+, fonduri pentru dezvoltare.",
+    "sample": "Programul Erasmus+ permite elevilor și studenților să învețe o perioadă în alt stat european.",
+    "worked": "UE nu înseamnă doar economie, ci și oportunități directe pentru tineri.",
+    "exercises": [
+     "Ordonează etapele construcției europene.",
+     "Numește instituțiile UE.",
+     "Explică ce este piața unică.",
+     "Explică ce este spațiul Schengen.",
+     "Explică ce oportunități oferă UE tinerilor."
+    ],
+    "test": [
+     "Câte state are UE?",
+     "Când a aderat România?",
+     "Ce tratat a creat Uniunea Europeană?",
+     "Unde se află Comisia Europeană?",
+     "Ce program permite studiul în altă țară?"
+    ],
+    "steps": [
+     "Explică ce este UE și cum a apărut.",
+     "Prezintă instituțiile și realizările.",
+     "Leagă UE de viața ta.",
+     "Greșeala frecventă: să crezi că toate statele UE folosesc euro; unele, ca România, au încă moneda națională."
+    ],
+    "answers": [
+     "27.",
+     "La 1 ianuarie 2007.",
+     "Tratatul de la Maastricht.",
+     "La Bruxelles.",
+     "Erasmus+."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l26": {
+   "ro": {
+    "title": "Germania – caracterizare geografică",
+    "theory": "Germania se află în centrul Europei, cu ieșire la Marea Nordului și Marea Baltică, și are nouă vecini. În nord se află Câmpia Germano-Polonă, în centru munți vechi și podișuri, în sud Podișul Bavariei și Alpii (vârful Zugspitze, circa 2.960 m). Râuri: Rinul (cea mai importantă cale navigabilă), Elba, Dunărea (izvorăște din Pădurea Neagră). Clima este temperată, de tranziție. Are circa 84 de milioane de locuitori, cel mai populat stat al UE; capitala este Berlin, alte orașe: Hamburg (port), München, Köln, Frankfurt (centru financiar). Este stat federal, cu 16 landuri. Are cea mai mare economie europeană: automobile, mașini, chimie, electronică; bazinul Ruhr a fost centrul industriei grele.",
+    "sample": "Dunărea izvorăște în Pădurea Neagră din sud-vestul Germaniei.",
+    "worked": "Fluviul care se varsă în Delta noastră pornește din Germania, ceea ce leagă țările dunărene.",
+    "exercises": [
+     "Descrie poziția Germaniei.",
+     "Prezintă relieful pe trepte, de la nord la sud.",
+     "Numește râurile importante.",
+     "Prezintă populația și orașele.",
+     "Explică de ce Germania are o economie puternică."
+    ],
+    "test": [
+     "Care este capitala Germaniei?",
+     "Câți locuitori are Germania?",
+     "Unde izvorăște Dunărea?",
+     "Ce oraș german este centru financiar?",
+     "Câte landuri are Germania?"
+    ],
+    "steps": [
+     "Folosește planul: poziție, relief, climă, ape, populație, economie.",
+     "Caută datele pe hartă.",
+     "Formulează o concluzie despre importanța statului.",
+     "Greșeala frecventă: să crezi că Germania este doar un stat industrial; are și agricultură și turism dezvoltate."
+    ],
+    "answers": [
+     "Berlin.",
+     "Circa 84 de milioane.",
+     "În Pădurea Neagră.",
+     "Frankfurt.",
+     "16."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l27": {
+   "ro": {
+    "title": "Franța – caracterizare geografică",
+    "theory": "Franța se află în vestul Europei, între Oceanul Atlantic, Canalul Mânecii și Marea Mediterană. Relieful are câmpii întinse în nord și vest (Bazinul Parizian), Masivul Central în centru, munți înalți la granițe: Alpii (Mont Blanc), Pirineii, Jura. Râuri: Sena (Paris), Loara (cel mai lung râu francez), Garona, Ronul. Clima este oceanică în vest, de tranziție în est și mediteraneană în sud. Are circa 68 de milioane de locuitori; capitala Paris, alte orașe: Marsilia (port), Lyon, Toulouse (aeronautică). Franța este mare producător agricol (cereale, vinuri, brânzeturi), are energie nucleară, industrie aeronautică, auto, de lux, și este cea mai vizitată țară din lume.",
+    "sample": "Peste jumătate din energia electrică a Franței provine din centrale nucleare.",
+    "worked": "Alegerea energiei nucleare a redus dependența de petrol și emisiile de dioxid de carbon.",
+    "exercises": [
+     "Descrie poziția Franței.",
+     "Numește munții de la granițele Franței.",
+     "Numește patru râuri franceze.",
+     "Prezintă agricultura Franței.",
+     "Explică de ce Franța atrage atâția turiști."
+    ],
+    "test": [
+     "Care este capitala Franței?",
+     "Care este cel mai lung râu francez?",
+     "Ce oraș este centrul industriei aeronautice?",
+     "Ce sursă produce cea mai mare parte a electricității?",
+     "Ce munți despart Franța de Spania?"
+    ],
+    "steps": [
+     "Folosește planul de caracterizare.",
+     "Caută elementele pe hartă.",
+     "Formulează o concluzie.",
+     "Greșeala frecventă: să crezi că Sena este cel mai lung râu francez; Loara este mai lungă."
+    ],
+    "answers": [
+     "Paris.",
+     "Loara.",
+     "Toulouse.",
+     "Centralele nucleare.",
+     "Pirineii."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l28": {
+   "ro": {
+    "title": "Italia – caracterizare geografică",
+    "theory": "Italia este situată în sudul Europei, ocupând Peninsula Italică („cizma”), Câmpia Padului și insulele Sicilia și Sardinia. Are munți: Alpii în nord și Apeninii de-a lungul peninsulei, și vulcani activi: Vezuviu, Etna, Stromboli. Cea mai mare câmpie este Câmpia Padului, străbătută de râul Pad. Clima este mediteraneană în sud și pe coaste, mai continentală în Câmpia Padului și alpină în munți. Are circa 59 de milioane de locuitori; capitala Roma, alte orașe: Milano (centru industrial și al modei), Napoli, Torino (automobile), Veneția, Florența. Există contraste economice: nordul este industrializat și bogat, sudul (Mezzogiorno) este mai agricol și mai sărac. Italia are cele mai multe situri UNESCO din lume și un turism foarte dezvoltat. În interiorul ei se află Vaticanul și San Marino.",
+    "sample": "În Italia trăiesc peste un milion de români, una dintre cele mai mari comunități românești din străinătate.",
+    "worked": "Migrația leagă cele două țări, iar limbile apropiate au ușurat integrarea.",
+    "exercises": [
+     "Descrie poziția și forma Italiei.",
+     "Numește vulcanii activi ai Italiei.",
+     "Explică contrastul nord–sud.",
+     "Numește cinci orașe italiene și funcțiile lor.",
+     "Explică legăturile dintre România și Italia."
+    ],
+    "test": [
+     "Care este capitala Italiei?",
+     "Ce câmpie se află în nordul Italiei?",
+     "Ce munți străbat peninsula?",
+     "Ce oraș este centrul modei?",
+     "Ce microstate se află în Italia?"
+    ],
+    "steps": [
+     "Folosește planul de caracterizare.",
+     "Identifică contrastele regionale.",
+     "Formulează o concluzie.",
+     "Greșeala frecventă: să crezi că Italia e la fel de dezvoltată peste tot; nordul și sudul sunt foarte diferite."
+    ],
+    "answers": [
+     "Roma.",
+     "Câmpia Padului.",
+     "Apeninii.",
+     "Milano.",
+     "Vaticanul și San Marino."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l29": {
+   "ro": {
+    "title": "Republica Moldova – caracterizare geografică",
+    "theory": "Republica Moldova se află în estul Europei, între Prut (granița cu România) și Nistru, fără ieșire la mare. Relieful este format din podișuri și câmpii joase: Podișul Moldovei de Nord, Podișul Codrilor (cel mai înalt punct, Dealul Bălănești, circa 430 m), Câmpia Bălțului, Câmpia Sudului Moldovei. Clima este temperat-continentală, cu veri calde și uneori secetoase. Solurile sunt foarte fertile (cernoziomuri), de aceea agricultura este importantă: viticultură și vinuri, fructe, legume, cereale, floarea-soarelui. Are circa 2,4 milioane de locuitori (fără regiunea transnistreană); capitala este Chișinău, alte orașe: Bălți, Cahul. Limba oficială este româna. Republica Moldova este stat candidat la Uniunea Europeană din 2022.",
+    "sample": "Cramele subterane de la Mileștii Mici au galerii de zeci de kilometri pentru păstrarea vinului.",
+    "worked": "Viticultura este o tradiție și o ramură economică importantă, favorizată de climă și soluri.",
+    "exercises": [
+     "Descrie poziția Republicii Moldova.",
+     "Prezintă relieful.",
+     "Explică de ce agricultura este importantă.",
+     "Prezintă populația și orașele.",
+     "Explică legăturile cu România."
+    ],
+    "test": [
+     "Care este capitala Republicii Moldova?",
+     "Ce râu o desparte de România?",
+     "Care este cel mai înalt punct?",
+     "Ce limbă oficială are?",
+     "Din ce an este stat candidat la UE?"
+    ],
+    "steps": [
+     "Folosește planul de caracterizare.",
+     "Caută elementele pe hartă.",
+     "Leagă resursele de economie.",
+     "Greșeala frecventă: să crezi că Republica Moldova are munți; are doar dealuri și podișuri joase."
+    ],
+    "answers": [
+     "Chișinău.",
+     "Prutul.",
+     "Dealul Bălănești.",
+     "Limba română.",
+     "Din 2022."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l30": {
+   "ro": {
+    "title": "Europa în lumea contemporană: valori culturale și calitatea vieții",
+    "theory": "Europa a dat lumii valori și creații culturale importante: filosofia și democrația grecești, dreptul roman, arhitectura gotică și renascentistă, muzica clasică, științele moderne, ideile de drepturi ale omului. Aici se află un număr mare de situri din Patrimoniul Mondial UNESCO. Calitatea vieții în Europa este, în general, ridicată: speranță de viață mare, educație și sănătate accesibile, protecție socială, mediu protejat; statele nordice (Norvegia, Danemarca, Finlanda, Elveția) se află adesea pe primele locuri în clasamentele dezvoltării umane. Există însă și diferențe între vest și est, între orașe și sate, și provocări: îmbătrânirea populației, migrația, schimbările climatice, securitatea energetică.",
+    "sample": "Indicele dezvoltării umane combină speranța de viață, educația și venitul pentru a compara statele.",
+    "worked": "Un indicator compus arată mai bine calitatea vieții decât venitul singur.",
+    "exercises": [
+     "Numește cinci valori culturale europene.",
+     "Numește situri UNESCO din Europa.",
+     "Explică ce măsoară indicele dezvoltării umane.",
+     "Compară calitatea vieții în vestul și estul Europei.",
+     "Enumeră provocările Europei de azi."
+    ],
+    "test": [
+     "Ce sistem politic a apărut în Grecia antică?",
+     "Ce organizație întocmește lista Patrimoniului Mondial?",
+     "Ce state au adesea cea mai mare calitate a vieții?",
+     "Ce măsoară indicele dezvoltării umane?",
+     "Ce problemă demografică are Europa?"
+    ],
+    "steps": [
+     "Identifică valorile culturale.",
+     "Analizează indicatorii calității vieții.",
+     "Compară regiunile și formulează concluzii.",
+     "Greșeala frecventă: să crezi că toată Europa are același nivel de trai; există diferențe mari între regiuni."
+    ],
+    "answers": [
+     "Democrația.",
+     "UNESCO.",
+     "Statele nordice (Norvegia, Danemarca, Finlanda) și Elveția.",
+     "Speranța de viață, educația și venitul.",
+     "Îmbătrânirea populației."
+    ]
+   }
+  }
+ }
+}

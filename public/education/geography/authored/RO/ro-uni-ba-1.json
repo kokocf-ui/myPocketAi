@@ -1,0 +1,1141 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "RO",
+ "stage": "advanced",
+ "grade": "uni-ba-1",
+ "version": "7c47818e5e43257cdd7b87ec82a9c6016f86510a725941b8f6a688a20ac3a43a",
+ "source": "https://www.aracis.ro/",
+ "sourceTitle": "Sinteză orientativă a disciplinelor fundamentale comune programelor de licență Geografie din România, conform standardelor specifice ARACIS (Comisia de specialitate nr. 1 – Științe exacte și științe ale naturii, domeniul de licență Geografie: discipline fundamentale, de specializare și complementare) și planurilor de învățământ publicate de Universitatea din București (geo.unibuc.ro), Universitatea Babeș-Bolyai (geografie.ubbcluj.ro) și Universitatea „Alexandru Ioan Cuza” din Iași (geo.uaic.ro) — anul I: geografie generală, topografie și cartografie, geologie, meteorologie și climatologie, hidrologie și oceanografie, geografie umană și economică generală, geologia României, Marea Neagră, metode statistice, introducere în GIS și teledetecție; fiecare facultate are planul propriu, iar ordinea și denumirile cursurilor pot diferi; lecții originale, fără text copiat din cursuri sau manuale",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "ro",
+ "labels": [
+  "Activitate originală · România · Facultatea de Geografie · Licență, anul I",
+  "Teorie pe înțeles",
+  "Exemplu sau studiu de caz",
+  "Analiză explicată",
+  "Exerciții de seminar și laborator",
+  "Verifică-te",
+  "Exerciții originale; nu înlocuiesc cursul, bibliografia, lucrările practice sau evaluarea facultății.",
+  "Dacă nu ai înțeles: pas cu pas",
+  "Răspunsuri (verifică după ce termini)"
+ ],
+ "units": [
+  {
+   "title": "Introducere în geografie",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-1-l01",
+    "eu-year-ro-advanced-uni-ba-1-l02",
+    "eu-year-ro-advanced-uni-ba-1-l03"
+   ]
+  },
+  {
+   "title": "Topografie și cartografie",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-1-l04",
+    "eu-year-ro-advanced-uni-ba-1-l05",
+    "eu-year-ro-advanced-uni-ba-1-l06",
+    "eu-year-ro-advanced-uni-ba-1-l07"
+   ]
+  },
+  {
+   "title": "Geologie generală",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-1-l08",
+    "eu-year-ro-advanced-uni-ba-1-l09",
+    "eu-year-ro-advanced-uni-ba-1-l10",
+    "eu-year-ro-advanced-uni-ba-1-l11"
+   ]
+  },
+  {
+   "title": "Meteorologie și climatologie",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-1-l12",
+    "eu-year-ro-advanced-uni-ba-1-l13",
+    "eu-year-ro-advanced-uni-ba-1-l14",
+    "eu-year-ro-advanced-uni-ba-1-l15",
+    "eu-year-ro-advanced-uni-ba-1-l16"
+   ]
+  },
+  {
+   "title": "Hidrologie și oceanografie",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-1-l17",
+    "eu-year-ro-advanced-uni-ba-1-l18",
+    "eu-year-ro-advanced-uni-ba-1-l19",
+    "eu-year-ro-advanced-uni-ba-1-l20",
+    "eu-year-ro-advanced-uni-ba-1-l21",
+    "eu-year-ro-advanced-uni-ba-1-l22"
+   ]
+  },
+  {
+   "title": "Geografie umană și economică generală",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-1-l23",
+    "eu-year-ro-advanced-uni-ba-1-l24",
+    "eu-year-ro-advanced-uni-ba-1-l25",
+    "eu-year-ro-advanced-uni-ba-1-l26"
+   ]
+  },
+  {
+   "title": "Metode cantitative, GIS și teledetecție",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-1-l27",
+    "eu-year-ro-advanced-uni-ba-1-l28",
+    "eu-year-ro-advanced-uni-ba-1-l29",
+    "eu-year-ro-advanced-uni-ba-1-l30"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-ro-advanced-uni-ba-1-l01": {
+   "ro": {
+    "title": "Geografia ca știință: obiect, ramuri, metode",
+    "theory": "Geografia studiază spațiul terestru ca rezultat al interacțiunii dintre componentele naturale (relief, climă, ape, soluri, viețuitoare) și societate. Obiectul ei este învelișul geografic (geosfera), zona de contact dintre litosferă, atmosferă, hidrosferă și biosferă, în care trăiește omul. Ramurile principale sunt geografia fizică (geomorfologie, climatologie, hidrologie, biogeografie, pedogeografie), geografia umană (a populației, a așezărilor, economică, politică, socială, culturală) și geografia regională, care sintetizează pe teritorii concrete. Geografia tehnică și aplicată cuprinde cartografia, GIS, teledetecția, amenajarea teritoriului. Principiile geografice sunt: repartiția (unde?), cauzalitatea (de ce acolo?), integrarea (legături cu restul), evoluția (cum s-a schimbat?) și scara (la ce nivel analizăm). Metodele: observația pe teren, cartografierea, analiza statistică, modelarea, analiza imaginilor satelitare, chestionarul și interviul în geografia umană.",
+    "sample": "Aceeași inundație poate fi studiată de hidrolog (debitul râului), de geomorfolog (modificarea albiei) și de geograful uman (vulnerabilitatea așezărilor).",
+    "worked": "Specificul geografiei este integrarea: un fenomen este explicat prin legăturile lui cu toate componentele spațiului.",
+    "exercises": [
+     "Definește obiectul geografiei.",
+     "Clasifică ramurile geografiei.",
+     "Explică cele cinci principii geografice pe un exemplu.",
+     "Compară metodele geografiei fizice cu cele ale geografiei umane.",
+     "Explică de ce scara de analiză schimbă concluziile."
+    ],
+    "test": [
+     "Ce este învelișul geografic?",
+     "Ce ramură studiază relieful?",
+     "Ce întrebare corespunde principiului repartiției?",
+     "Ce disciplină sintetizează geografia pe teritorii concrete?",
+     "Ce metodă folosește geografia umană pentru opinii?"
+    ],
+    "steps": [
+     "Formulează problema geografică: ce, unde, de ce.",
+     "Alege scara de analiză potrivită.",
+     "Alege metodele și sursele de date.",
+     "Greșeala frecventă: să tratezi geografia ca pe o listă de denumiri; ea explică relații și procese în spațiu."
+    ],
+    "answers": [
+     "Zona de contact dintre litosferă, atmosferă, hidrosferă și biosferă, unde trăiește omul.",
+     "Geomorfologia.",
+     "Unde?",
+     "Geografia regională.",
+     "Chestionarul (și interviul)."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l02": {
+   "ro": {
+    "title": "Legitățile învelișului geografic: integralitate, zonalitate, etajare, ritmicitate",
+    "theory": "Învelișul geografic funcționează după câteva legități generale. Integralitatea: componentele sunt legate între ele, iar schimbarea uneia (de exemplu defrișarea) produce schimbări în lanț (eroziune, modificarea scurgerii, a microclimatului). Circuitele de materie și energie (al apei, al carbonului, al rocilor) asigură funcționarea sistemului. Zonalitatea latitudinală: din cauza repartiției inegale a radiației solare pe latitudini, apar zone de climă, vegetație și soluri dispuse aproximativ paralel cu Ecuatorul (ecuatorială, tropicală, temperată, polară). Azonalitatea: factori locali (relief, ocean, curenți, roci) perturbă zonalitatea (de exemplu deșertul Atacama lângă ocean). Etajarea altitudinală: în munți, temperatura scade cu altitudinea, iar vegetația și solurile se dispun în etaje (păduri de foioase, conifere, jnepeniș, pajiști alpine în Carpați). Ritmicitatea: fenomenele se repetă zilnic, anual sau pe cicluri mai lungi (anotimpurile, mareele, ciclurile solare, glaciațiunile).",
+    "sample": "Pe Kilimanjaro, aproape de Ecuator, se trece de la savană la păduri montane, pajiști alpine și gheață pe doar câțiva kilometri pe verticală.",
+    "worked": "Etajarea altitudinală reproduce pe verticală o succesiune asemănătoare zonalității latitudinale.",
+    "exercises": [
+     "Explică integralitatea pe un exemplu.",
+     "Explică cauza zonalității latitudinale.",
+     "Dă exemple de azonalitate.",
+     "Descrie etajarea în Carpați.",
+     "Clasifică ritmurile fenomenelor naturale."
+    ],
+    "test": [
+     "Ce legitate arată că schimbarea unei componente le afectează pe celelalte?",
+     "Ce produce zonalitatea latitudinală?",
+     "Ce este azonalitatea?",
+     "Ce etaj de vegetație urmează după conifere în Carpați?",
+     "Dă un exemplu de ritm anual."
+    ],
+    "steps": [
+     "Identifică legitatea implicată.",
+     "Explică mecanismul ei.",
+     "Aplică-o pe un caz concret.",
+     "Greșeala frecventă: să crezi că zonalitatea este perfectă; factorii azonali o modifică mult."
+    ],
+    "answers": [
+     "Integralitatea.",
+     "Repartiția inegală a radiației solare pe latitudini.",
+     "Abaterea de la zonalitate produsă de factori locali.",
+     "Etajul jnepenișului (subalpin).",
+     "Anotimpurile."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l03": {
+   "ro": {
+    "title": "Pământul ca sistem: forma, mișcările și consecințele lor geografice",
+    "theory": "Pământul are forma de geoid, apropiată de un elipsoid de rotație turtit la poli (raza ecuatorială circa 6.378 km, raza polară circa 6.357 km). Mișcarea de rotație (circa 24 de ore, de la vest la est) produce alternanța zi–noapte, forța Coriolis (abaterea maselor în mișcare spre dreapta în emisfera nordică și spre stânga în cea sudică) și turtirea la poli. Mișcarea de revoluție (circa 365,25 zile) împreună cu înclinarea axei (circa 23,4°) produce anotimpurile, durata variabilă a zilelor și nopților și zonele de iluminare: între tropice soarele ajunge la zenit, dincolo de cercurile polare apar ziua și noaptea polară. Solstițiile (21 iunie, 21–22 decembrie) și echinocțiile (20–21 martie, 22–23 septembrie) marchează poziții caracteristice. Coordonatele geografice (latitudine, longitudine) și fusurile orare (24, de câte 15°) organizează spațiul și timpul.",
+    "sample": "Diferența de longitudine dintre Greenwich (0°) și București (circa 26° E) corespunde unei diferențe de timp solar de circa 1 oră și 44 de minute.",
+    "worked": "Un grad de longitudine corespunde la 4 minute de timp, deci 26° × 4 = 104 minute.",
+    "exercises": [
+     "Explică de ce forma Pământului se numește geoid.",
+     "Enumeră consecințele mișcării de rotație.",
+     "Explică formarea anotimpurilor.",
+     "Calculează diferența de timp dintre două meridiane.",
+     "Explică ziua și noaptea polară."
+    ],
+    "test": [
+     "Ce formă are Pământul?",
+     "Ce forță abate vânturile în emisfera nordică spre dreapta?",
+     "Ce înclinare are axa Pământului?",
+     "Câte grade are un fus orar?",
+     "Când are loc solstițiul de vară în emisfera nordică?"
+    ],
+    "steps": [
+     "Identifică mișcarea implicată.",
+     "Stabilește consecința geografică.",
+     "Verifică printr-un calcul sau o schemă.",
+     "Greșeala frecventă: să crezi că anotimpurile apar din cauza distanței față de Soare; ele sunt produse de înclinarea axei."
+    ],
+    "answers": [
+     "Geoid (aproape un elipsoid turtit la poli).",
+     "Forța Coriolis.",
+     "Circa 23,4°.",
+     "15°.",
+     "Pe 21 iunie."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l04": {
+   "ro": {
+    "title": "Elemente de topografie: măsurători și ridicări",
+    "theory": "Topografia se ocupă cu măsurarea și reprezentarea detaliată a unor suprafețe mici de teren, unde curbura Pământului poate fi neglijată. Măsurătorile de bază sunt distanțele (cu ruleta, telemetre, stații totale cu laser), unghiurile orizontale și verticale (cu teodolitul) și diferențele de nivel (cu nivelmentul geometric – nivela și mira – sau trigonometric). Ridicarea planimetrică stabilește poziția punctelor în plan (prin radiere, intersecții, drumuiri), iar ridicarea nivelitică stabilește altitudinea lor. Rețeaua de puncte de sprijin (geodezice și topografice) asigură legarea măsurătorilor de un sistem de coordonate; în România se folosește proiecția Stereografică 1970, iar altitudinile se raportează la nivelul Mării Negre la Constanța (sistemul Marea Neagră 1975). Astăzi receptorii GNSS (GPS, Galileo) și dronele au simplificat mult ridicările.",
+    "sample": "Cu o stație totală, un topograf poate măsura deodată unghiul și distanța până la o prismă, calculând automat coordonatele punctului.",
+    "worked": "Instrumentele moderne combină funcțiile teodolitului și ale telemetrului, reducând timpul de lucru pe teren.",
+    "exercises": [
+     "Explică diferența dintre topografie și geodezie.",
+     "Enumeră instrumentele topografice și rolul lor.",
+     "Explică nivelmentul geometric.",
+     "Explică ce este o drumuire.",
+     "Explică rolul sistemului de referință național."
+    ],
+    "test": [
+     "Ce măsoară teodolitul?",
+     "Ce instrumente folosește nivelmentul geometric?",
+     "Ce proiecție se folosește în România?",
+     "La ce nivel se raportează altitudinile din România?",
+     "Ce tehnologie satelitară ajută ridicările?"
+    ],
+    "steps": [
+     "Stabilește ce trebuie măsurat: distanță, unghi sau diferență de nivel.",
+     "Alege instrumentul și metoda.",
+     "Leagă măsurătorile de rețeaua de puncte de sprijin.",
+     "Greșeala frecventă: să neglijezi erorile de măsurare; orice măsurătoare are erori care trebuie controlate și compensate."
+    ],
+    "answers": [
+     "Unghiurile orizontale și verticale.",
+     "Nivela și mira.",
+     "Proiecția Stereografică 1970.",
+     "La nivelul Mării Negre (sistemul Marea Neagră 1975).",
+     "GNSS (GPS, Galileo)."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l05": {
+   "ro": {
+    "title": "Proiecții cartografice și sisteme de coordonate",
+    "theory": "Pentru a reprezenta suprafața curbă a Pământului pe un plan se folosesc proiecții cartografice, care produc inevitabil deformări (de unghiuri, suprafețe, distanțe). După deformări, proiecțiile pot fi conforme (păstrează unghiurile și formele locale – Mercator, folosită în navigație și în hărțile web), echivalente (păstrează suprafețele – Mollweide, Lambert echivalentă, utile pentru hărți tematice mondiale), echidistante (păstrează distanțele pe anumite direcții) sau arbitrare (compromis – Robinson, Winkel Tripel). După suprafața de proiecție: cilindrice, conice (bune pentru latitudini medii), azimutale (planare, bune pentru zone polare). Sistemele de coordonate pot fi geografice (latitudine și longitudine pe elipsoid, de exemplu WGS84 folosit de GPS) sau plane/rectangulare (x, y în metri, de exemplu UTM sau Stereo 70). Transformarea corectă între sisteme este esențială în GIS.",
+    "sample": "În proiecția Mercator, Groenlanda pare la fel de mare ca Africa, deși Africa este de circa 14 ori mai mare.",
+    "worked": "Proiecția conformă mărește suprafețele spre poli, de aceea nu se folosește pentru comparații de suprafață.",
+    "exercises": [
+     "Explică de ce orice proiecție are deformări.",
+     "Clasifică proiecțiile după deformări.",
+     "Clasifică proiecțiile după suprafața de proiecție.",
+     "Compară coordonatele geografice cu cele plane.",
+     "Alege proiecția potrivită pentru o hartă a densității populației lumii."
+    ],
+    "test": [
+     "Ce păstrează o proiecție conformă?",
+     "Ce proiecție este folosită în hărțile web?",
+     "Ce tip de proiecție este potrivit pentru zonele polare?",
+     "Ce sistem de coordonate folosește GPS?",
+     "De ce Groenlanda pare uriașă pe harta Mercator?"
+    ],
+    "steps": [
+     "Stabilește scopul hărții.",
+     "Alege proprietatea care trebuie păstrată (unghiuri sau suprafețe).",
+     "Alege proiecția și sistemul de coordonate potrivite.",
+     "Greșeala frecventă: să compari suprafețe pe o hartă în proiecția Mercator; deformarea crește spre poli."
+    ],
+    "answers": [
+     "Unghiurile (formele locale).",
+     "Mercator (Web Mercator).",
+     "Proiecția azimutală.",
+     "WGS84.",
+     "Proiecția Mercator mărește suprafețele spre poli."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l06": {
+   "ro": {
+    "title": "Scara, generalizarea și conținutul hărții",
+    "theory": "Scara hărții este raportul dintre distanța pe hartă și distanța reală. Ea poate fi numerică (1:50.000 – 1 cm pe hartă = 500 m în teren), grafică sau liniară. Hărțile la scară mare (1:5.000 – 1:50.000) arată detalii pe suprafețe mici (planuri, hărți topografice), cele la scară mică (sub 1:1.000.000) arată suprafețe mari cu puține detalii. Generalizarea cartografică este procesul prin care, la scări mai mici, elementele sunt selectate, simplificate, exagerate sau grupate pentru a păstra lizibilitatea. Elementele unei hărți: titlul, cadrul, rețeaua de coordonate, scara, legenda, orientarea, sursa și data. Relieful se reprezintă prin curbe de nivel (linii care unesc puncte cu aceeași altitudine), cote, hașuri, colorit hipsometric și umbrire. Echidistanța curbelor de nivel depinde de scară; curbele dese indică pante mari.",
+    "sample": "Pe o hartă 1:25.000, două localități aflate la 8 cm distanță se găsesc în teren la 2 km.",
+    "worked": "Distanța reală = distanța pe hartă × numitorul scării: 8 cm × 25.000 = 200.000 cm = 2 km.",
+    "exercises": [
+     "Transformă o scară numerică în scară liniară.",
+     "Calculează distanțe reale pe hărți de scări diferite.",
+     "Explică ce este generalizarea cartografică.",
+     "Enumeră elementele obligatorii ale unei hărți.",
+     "Interpretează panta după desimea curbelor de nivel."
+    ],
+    "test": [
+     "Ce înseamnă scara 1:50.000?",
+     "Care hartă are scara mai mare: 1:10.000 sau 1:1.000.000?",
+     "Ce este o curbă de nivel?",
+     "Ce indică curbele de nivel dese?",
+     "Ce este generalizarea cartografică?"
+    ],
+    "steps": [
+     "Citește scara hărții.",
+     "Măsoară distanța pe hartă.",
+     "Înmulțește cu numitorul și transformă unitățile.",
+     "Greșeala frecventă: să crezi că scara „mică” înseamnă detalii multe; scara mică arată suprafețe mari cu puține detalii."
+    ],
+    "answers": [
+     "1 cm pe hartă reprezintă 50.000 cm (500 m) în teren.",
+     "1:10.000.",
+     "Linia care unește puncte cu aceeași altitudine.",
+     "Pante mari (relief abrupt).",
+     "Selectarea și simplificarea elementelor la scări mici."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l07": {
+   "ro": {
+    "title": "Cartografie tematică: metode de reprezentare",
+    "theory": "Hărțile tematice arată repartiția unui fenomen (populație, climă, economie, mediu). Metodele principale: harta cu simboluri punctuale (localizarea exactă a obiectivelor), metoda punctelor (un punct = o cantitate, pentru repartiția populației sau a culturilor), cartograma (choropleth – colorarea unităților administrative după valori relative: densitate, procente), cartodiagrama (diagrame pe unități administrative pentru valori absolute sau structuri), izoliniile (izoterme, izohiete, izobare pentru fenomene continue), metoda arealelor (zone cu aceeași caracteristică – tipuri de sol) și harta de fluxuri (săgeți cu grosimi proporționale – migrații, transporturi). Regula esențială: în cartogramă se folosesc doar valori relative (nu absolute), iar clasele se stabilesc prin metode statistice (intervale egale, cuantile, rupturi naturale). Culorile trebuie să sugereze ordinea (de la deschis la închis).",
+    "sample": "Densitatea populației pe județe se reprezintă corect prin cartogramă, dar numărul total de locuitori se reprezintă prin cercuri proporționale.",
+    "worked": "Valorile absolute într-o cartogramă ar favoriza județele mari, deformând imaginea.",
+    "exercises": [
+     "Alege metoda potrivită pentru cinci fenomene date.",
+     "Explică de ce cartograma folosește valori relative.",
+     "Compară metodele de clasificare a datelor.",
+     "Explică ce sunt izoliniile.",
+     "Construiește legenda unei cartograme."
+    ],
+    "test": [
+     "Ce metodă reprezintă densitatea pe județe?",
+     "Ce sunt izotermele?",
+     "Ce metodă arată migrațiile?",
+     "Ce metodă se folosește pentru valori absolute pe unități?",
+     "Ce este metoda punctelor?"
+    ],
+    "steps": [
+     "Stabilește tipul de date: absolute sau relative, discrete sau continue.",
+     "Alege metoda de reprezentare.",
+     "Construiește clasele și legenda.",
+     "Greșeala frecventă: să reprezinți valori absolute într-o cartogramă; folosește cercuri proporționale sau diagrame."
+    ],
+    "answers": [
+     "Cartograma.",
+     "Linii care unesc puncte cu aceeași temperatură.",
+     "Harta de fluxuri.",
+     "Cartodiagrama (sau cercurile proporționale).",
+     "Reprezentarea unei cantități prin puncte de valoare egală."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l08": {
+   "ro": {
+    "title": "Structura internă a Pământului și mineralele",
+    "theory": "Pământul are o structură în învelișuri concentrice, deduse din propagarea undelor seismice. Scoarța (crusta) este subțire: continentală (30–70 km, granitică și sedimentară) și oceanică (5–10 km, bazaltică). Discontinuitatea Mohorovičić o separă de manta (până la circa 2.900 km), formată din roci ultrabazice; partea superioară a mantalei împreună cu scoarța formează litosfera rigidă, care se sprijină pe astenosfera plastică. Nucleul extern (lichid, fier și nichel) produce câmpul magnetic, iar nucleul intern este solid. Mineralele sunt substanțe naturale solide, cu compoziție chimică și structură cristalină definite. Cele mai răspândite în scoarță sunt silicații (feldspați, cuarț, mice, piroxeni, amfiboli). Proprietăți de identificare: duritatea (scara Mohs – de la talc, 1, la diamant, 10), culoarea, urma, luciul, clivajul, densitatea.",
+    "sample": "Cuarțul are duritatea 7 și zgârie sticla, în timp ce calcitul (duritatea 3) poate fi zgâriat cu un cui.",
+    "worked": "Testul de duritate este unul dintre cele mai simple mijloace de identificare a mineralelor pe teren.",
+    "exercises": [
+     "Descrie învelișurile Pământului.",
+     "Compară scoarța continentală cu cea oceanică.",
+     "Explică diferența dintre litosferă și astenosferă.",
+     "Explică ce este un mineral.",
+     "Identifică un mineral după proprietățile lui."
+    ],
+    "test": [
+     "Ce separă scoarța de manta?",
+     "Ce grosime are scoarța oceanică?",
+     "Ce strat produce câmpul magnetic?",
+     "Care este cel mai dur mineral?",
+     "Ce minerale sunt cele mai răspândite în scoarță?"
+    ],
+    "steps": [
+     "Stabilește criteriul (fizic sau chimic).",
+     "Identifică învelișul sau mineralul.",
+     "Explică proprietățile și rolul lui.",
+     "Greșeala frecventă: să confunzi litosfera (rigidă, scoarță plus manta superioară) cu scoarța terestră."
+    ],
+    "answers": [
+     "Discontinuitatea Mohorovičić.",
+     "5–10 km.",
+     "Nucleul extern.",
+     "Diamantul.",
+     "Silicații."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l09": {
+   "ro": {
+    "title": "Rocile și ciclul rocilor",
+    "theory": "Rocile sunt asociații naturale de minerale. Rocile magmatice se formează prin răcirea magmei: intrusive (în adânc, răcire lentă, cristale mari – granit, gabrou) și efuzive sau vulcanice (la suprafață, răcire rapidă, cristale mici – bazalt, andezit, riolit). Rocile sedimentare se formează la suprafață din produsele altor roci: detritice (pietrișuri, nisipuri, gresii, argile, conglomerate), chimice (sare, gips, unele calcare) și organogene (calcare cu cochilii, cărbuni). Ele sunt dispuse în strate și conțin fosile. Rocile metamorfice provin din transformarea altor roci la temperatură și presiune mari: șisturi cristaline, gnaisuri, marmură (din calcar), cuarțit. Ciclul rocilor arată că orice rocă se poate transforma în alta prin topire, eroziune, sedimentare, metamorfism și înălțare. În România: andezite în lanțul vulcanic Călimani–Gurghiu–Harghita, granite în Munții Măcinului, calcare în Apuseni și Piatra Craiului, șisturi cristaline în Carpații Meridionali, sare la Slănic și Praid.",
+    "sample": "Marmura de Ruschița (Munții Poiana Ruscă) s-a format prin metamorfozarea unor calcare.",
+    "worked": "Rocile metamorfice păstrează compoziția rocii inițiale, dar structura lor se schimbă prin temperatură și presiune.",
+    "exercises": [
+     "Clasifică rocile după geneză.",
+     "Compară rocile intrusive cu cele efuzive.",
+     "Dă exemple de roci sedimentare de fiecare tip.",
+     "Explică formarea rocilor metamorfice.",
+     "Explică etapele ciclului rocilor."
+    ],
+    "test": [
+     "Ce rocă magmatică intrusivă este frecventă?",
+     "Ce rocă formează lanțul vulcanic din Carpații Orientali?",
+     "Din ce rocă provine marmura?",
+     "Ce rocă sedimentară se exploatează la Praid?",
+     "Ce roci conțin de obicei fosile?"
+    ],
+    "steps": [
+     "Observă textura și compoziția rocii.",
+     "Stabilește modul de formare.",
+     "Încadrează roca în ciclul rocilor.",
+     "Greșeala frecventă: să crezi că rocile sunt veșnice; ele se transformă continuu în ciclul rocilor."
+    ],
+    "answers": [
+     "Granitul.",
+     "Andezitul.",
+     "Din calcar.",
+     "Sarea.",
+     "Rocile sedimentare."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l10": {
+   "ro": {
+    "title": "Geologia României: unități structurale",
+    "theory": "Teritoriul României are o structură geologică complexă, formată din unități de vârste diferite. Unitățile de platformă (vechi, consolidate, cu fundament cristalin acoperit de sedimente orizontale): Platforma Moldovenească (parte a Platformei Est-Europene), Platforma Moesică (sub Câmpia Română și Dobrogea de Sud) și Platforma Scitică. Orogenul Nord-Dobrogean este un lanț vechi (hercinic și chimeric), puternic erodat, cu Munții Măcinului. Orogenul Carpatic s-a format în orogeneza alpină (Cretacic – Neogen): zona cristalino-mezozoică (șisturi cristaline și calcare – Carpații Meridionali, Rodnei), zona flișului (gresii și marne – Carpații Orientali externi), zona molasei (Subcarpații, cu sare și petrol) și lanțul vulcanic neogen (Oaș–Gutâi–Țibleș–Călimani–Gurghiu–Harghita, plus Apuseni). Depresiunile posttectonice (Depresiunea Transilvaniei, Depresiunea Panonică, Depresiunea Getică) s-au umplut cu sedimente, conținând gaze naturale și sare. Zona Vrancea este o zonă seismică intermediară, legată de o porțiune de litosferă care se scufundă sub curbura Carpaților.",
+    "sample": "Zăcămintele de gaz metan din Depresiunea Transilvaniei se află în domuri formate în sedimentele neogene.",
+    "worked": "Structura geologică explică direct repartiția resurselor: gaze în depresiuni, sare și petrol în zona molasei.",
+    "exercises": [
+     "Enumeră unitățile structurale ale României.",
+     "Compară unitățile de platformă cu orogenul carpatic.",
+     "Descrie zonele orogenului carpatic.",
+     "Localizează lanțul vulcanic neogen.",
+     "Leagă structura geologică de resursele minerale."
+    ],
+    "test": [
+     "Ce platformă se află sub Câmpia Română?",
+     "În ce orogeneză s-au format Carpații?",
+     "Ce roci predomină în zona flișului?",
+     "Ce resurse are zona molasei?",
+     "De ce este Vrancea o zonă seismică?"
+    ],
+    "steps": [
+     "Localizează unitatea pe harta geologică.",
+     "Precizează vârsta și rocile ei.",
+     "Explică relieful și resursele asociate.",
+     "Greșeala frecventă: să crezi că Munții Măcinului și Carpații au aceeași vârstă; Măcinul este mult mai vechi."
+    ],
+    "answers": [
+     "Platforma Moesică.",
+     "În orogeneza alpină.",
+     "Gresii și marne.",
+     "Sare și petrol.",
+     "O porțiune de litosferă se scufundă sub curbura Carpaților."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l11": {
+   "ro": {
+    "title": "Tectonica plăcilor și timpul geologic",
+    "theory": "Teoria tectonicii plăcilor (anii 1960, pornind de la ideea derivei continentelor a lui Alfred Wegener, 1912) explică faptul că litosfera este împărțită în plăci care se deplasează pe astenosferă cu câțiva centimetri pe an, mișcate de curenții de convecție din manta și de greutatea plăcilor care se scufundă. Tipuri de limite: divergente (plăcile se îndepărtează – dorsalele oceanice, riftul est-african), convergente (subducție – fose oceanice, arcuri vulcanice, cum sunt Anzii și Japonia; coliziune – Himalaya, Alpii) și transformante (alunecare laterală – falia San Andreas). La limite se concentrează cutremurele și vulcanii. Carpații s-au format în orogeneza alpină. Timpul geologic se împarte în eoni, ere, perioade: Precambrian (peste 4 miliarde de ani), Paleozoic (541–252 milioane de ani), Mezozoic (252–66 milioane de ani, era dinozaurilor), Cenozoic (din 66 milioane de ani, cu Cuaternarul și glaciațiunile). Vârsta Pământului este de circa 4,54 miliarde de ani.",
+    "sample": "Himalaya continuă să se înalțe deoarece placa Indiei împinge în continuare în placa Eurasiei.",
+    "worked": "Coliziunea dintre două plăci continentale produce cei mai înalți munți ai lumii.",
+    "exercises": [
+     "Explică mecanismul deplasării plăcilor.",
+     "Clasifică limitele dintre plăci.",
+     "Dă exemple de forme de relief pentru fiecare tip de limită.",
+     "Explică formarea Carpaților.",
+     "Ordonează erele geologice."
+    ],
+    "test": [
+     "Cine a propus deriva continentelor?",
+     "Ce tip de limită există la dorsalele oceanice?",
+     "Ce falie este transformantă?",
+     "În ce eră au trăit dinozaurii?",
+     "Ce vârstă are Pământul?"
+    ],
+    "steps": [
+     "Identifică tipul de limită dintre plăci.",
+     "Precizează procesul (îndepărtare, subducție, coliziune, alunecare).",
+     "Leagă procesul de formele de relief și de hazarde.",
+     "Greșeala frecventă: să crezi că plăcile tectonice sunt doar continentele; ele cuprind și fundul oceanelor."
+    ],
+    "answers": [
+     "Alfred Wegener.",
+     "Limită divergentă.",
+     "Falia San Andreas.",
+     "În Mezozoic.",
+     "Circa 4,54 miliarde de ani."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l12": {
+   "ro": {
+    "title": "Atmosfera: compoziție, structură, radiație și bilanț termic",
+    "theory": "Atmosfera este formată din azot (circa 78%), oxigen (circa 21%), argon și cantități mici de dioxid de carbon, vapori de apă, ozon și aerosoli. Structura pe verticală: troposfera (până la 8 km la poli și 16–18 km la Ecuator, unde au loc fenomenele meteorologice, cu scăderea temperaturii cu circa 0,65°C la 100 m), stratosfera (cu stratul de ozon, care absoarbe radiația ultravioletă), mezosfera, termosfera și exosfera. Radiația solară de undă scurtă ajunge la suprafață parțial: o parte este reflectată (albedoul – mare pentru zăpadă, circa 80–90%, mic pentru oceane și păduri), o parte absorbită. Suprafața emite radiație terestră de undă lungă, absorbită de gazele cu efect de seră (vapori de apă, CO₂, metan), care încălzesc atmosfera (efectul de seră natural ridică temperatura medie de la circa –18°C la circa +15°C). Bilanțul radiativ este pozitiv la latitudini mici și negativ la latitudini mari, iar diferența este compensată de circulația atmosferei și a oceanelor.",
+    "sample": "Zăpada proaspătă reflectă până la 90% din radiația solară, de aceea topirea ei accelerează încălzirea regiunilor polare.",
+    "worked": "Scăderea albedoului printr-o suprafață mai întunecată crește absorbția radiației, într-un mecanism de feedback pozitiv.",
+    "exercises": [
+     "Descrie compoziția atmosferei.",
+     "Descrie straturile atmosferei.",
+     "Explică ce este albedoul.",
+     "Explică efectul de seră natural.",
+     "Explică de ce bilanțul radiativ diferă cu latitudinea."
+    ],
+    "test": [
+     "Ce gaz este predominant în atmosferă?",
+     "În ce strat se produc fenomenele meteorologice?",
+     "Unde se află stratul de ozon?",
+     "Ce albedo are zăpada proaspătă?",
+     "Ce temperatură medie ar avea Pământul fără efectul de seră?"
+    ],
+    "steps": [
+     "Identifică stratul sau fluxul de energie.",
+     "Explică procesul fizic.",
+     "Leagă-l de consecințele climatice.",
+     "Greșeala frecventă: să confunzi efectul de seră (absorbția radiației terestre) cu gaura din stratul de ozon (radiația ultravioletă)."
+    ],
+    "answers": [
+     "Azotul.",
+     "În troposferă.",
+     "În stratosferă.",
+     "Circa 80–90%.",
+     "Circa –18°C."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l13": {
+   "ro": {
+    "title": "Temperatura, umezeala și precipitațiile",
+    "theory": "Temperatura aerului depinde de radiație, latitudine, altitudine, distanța față de ocean, curenții oceanici și tipul de suprafață. Indicatori: media zilnică, lunară și anuală, amplitudinea (diferența dintre maximă și minimă), inversiunile termice (aerul rece se acumulează în depresiuni). Umezeala aerului se exprimă prin umezeala absolută (g/m³) și relativă (procentul din cantitatea maximă posibilă la acea temperatură); când aerul se răcește până la punctul de rouă, vaporii condensează, formând nori, ceață, rouă sau brumă. Norii se clasifică după altitudine și formă (cirrus, stratus, cumulus, nimbostratus, cumulonimbus – norul furtunilor). Precipitațiile se formează când picăturile sau cristalele cresc suficient pentru a cădea; tipuri genetice: convective (ploi de vară, averse), frontale (la întâlnirea maselor de aer) și orografice (pe versanții expuși vânturilor umede, cu efect föhn pe versanții opuși). Se măsoară cu pluviometrul, în mm (1 mm = 1 l/m²).",
+    "sample": "Depresiunea Brașovului are frecvent inversiuni termice iarna: în depresiune este mai frig decât pe versanții din jur.",
+    "worked": "Aerul rece, mai dens, coboară și stagnează pe fundul depresiunilor, inversând scăderea normală a temperaturii cu altitudinea.",
+    "exercises": [
+     "Enumeră factorii care influențează temperatura aerului.",
+     "Explică inversiunea termică.",
+     "Compară umezeala absolută cu cea relativă.",
+     "Clasifică norii.",
+     "Explică formarea precipitațiilor orografice și a föhnului."
+    ],
+    "test": [
+     "Ce este amplitudinea termică?",
+     "Ce este punctul de rouă?",
+     "Ce nor produce furtuni?",
+     "Cu ce instrument se măsoară precipitațiile?",
+     "Cât înseamnă 1 mm de precipitații?"
+    ],
+    "steps": [
+     "Analizează datele meteorologice.",
+     "Identifică procesul (răcire, condensare, ascendență).",
+     "Explică fenomenul și repartiția lui.",
+     "Greșeala frecventă: să crezi că temperatura scade întotdeauna cu altitudinea; inversiunile termice sunt frecvente în depresiuni."
+    ],
+    "answers": [
+     "Diferența dintre temperatura maximă și cea minimă.",
+     "Temperatura la care vaporii de apă încep să condenseze.",
+     "Cumulonimbusul.",
+     "Cu pluviometrul.",
+     "1 litru de apă pe metru pătrat."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l14": {
+   "ro": {
+    "title": "Presiunea atmosferică, vântul și circulația generală a atmosferei",
+    "theory": "Presiunea atmosferică este greutatea coloanei de aer (medie la nivelul mării circa 1.013 hPa) și scade cu altitudinea. Diferențele de presiune generează vântul, care suflă de la presiune mare (anticiclon) spre presiune mică (ciclon), deviat de forța Coriolis și frânat de frecare. În emisfera nordică, aerul se rotește în sens orar în anticicloni și antiorar în cicloni. Circulația generală a atmosferei este formată din trei celule în fiecare emisferă: celula Hadley (aerul urcă la Ecuator, coboară la circa 30° formând anticiclonii subtropicali și se întoarce ca alizee), celula Ferrel (vânturile de vest la latitudini medii) și celula polară (vânturile de est polare). Zona de convergență intertropicală aduce ploi abundente și se deplasează sezonier, producând musonii. Vânturi locale: brizele (marină și terestră), brizele de munte și vale, föhnul, bora, crivățul (în estul României), austrul (în sud-vest). Curenții jet circulă la altitudini mari și influențează traseul ciclonilor.",
+    "sample": "Musonul de vară al Asiei de Sud aduce peste 80% din precipitațiile anuale ale Indiei.",
+    "worked": "Deplasarea zonei de convergență intertropicală și încălzirea uscatului inversează direcția vântului de la un anotimp la altul.",
+    "exercises": [
+     "Explică formarea vântului.",
+     "Compară ciclonul cu anticiclonul.",
+     "Descrie cele trei celule ale circulației generale.",
+     "Explică formarea musonilor.",
+     "Descrie vânturile locale din România."
+    ],
+    "test": [
+     "Care este presiunea medie la nivelul mării?",
+     "Spre ce suflă vântul?",
+     "Ce vânturi bat dinspre tropice spre Ecuator?",
+     "Ce vânturi domină latitudinile medii?",
+     "Ce vânt rece bate iarna în estul României?"
+    ],
+    "steps": [
+     "Identifică distribuția presiunii.",
+     "Stabilește direcția vântului ținând cont de forța Coriolis.",
+     "Explică tipul de vânt și efectele lui.",
+     "Greșeala frecventă: să crezi că vântul suflă direct de la anticiclon la ciclon; el este deviat de forța Coriolis."
+    ],
+    "answers": [
+     "Circa 1.013 hPa.",
+     "De la presiune mare spre presiune mică.",
+     "Alizeele.",
+     "Vânturile de vest.",
+     "Crivățul."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l15": {
+   "ro": {
+    "title": "Mase de aer, fronturi și prognoza vremii",
+    "theory": "O masă de aer este un volum mare de aer cu proprietăți relativ omogene de temperatură și umezeală, dobândite deasupra unei regiuni-sursă. Clasificare: arctice, polare, tropicale, ecuatoriale; maritime (umede) sau continentale (uscate). Frontul atmosferic este zona de separare dintre două mase de aer diferite. Frontul cald: aerul cald urcă lent peste cel rece, cu nori stratiformi și ploi de durată. Frontul rece: aerul rece pătrunde sub cel cald, ridicându-l brusc, cu nori cumulonimbus, averse, descărcări electrice și răcire. Frontul oclus apare când frontul rece ajunge frontul cald. Ciclonii de latitudini medii se formează pe frontul polar și aduc vreme schimbătoare. Prognoza meteorologică folosește observațiile de la stații, radiosondaje, radare, sateliți și modele numerice pe supercomputere; prognoza este fiabilă pentru câteva zile, iar incertitudinea crește cu timpul. Agenția Națională de Meteorologie emite coduri de avertizare (galben, portocaliu, roșu).",
+    "sample": "La trecerea unui front rece vara, temperatura poate scădea cu 10°C în câteva ore, după o furtună puternică.",
+    "worked": "Aerul rece împinge brusc aerul cald în sus, provocând nori de furtună și schimbări rapide ale vremii.",
+    "exercises": [
+     "Clasifică masele de aer.",
+     "Compară frontul cald cu frontul rece.",
+     "Explică ce este frontul oclus.",
+     "Explică formarea ciclonilor de latitudini medii.",
+     "Explică metodele prognozei meteorologice."
+    ],
+    "test": [
+     "Ce este o masă de aer?",
+     "Ce nori aduce frontul cald?",
+     "Ce fenomene însoțesc frontul rece?",
+     "Ce instituție emite avertizări meteo în România?",
+     "Ce culoare are codul de avertizare maximă?"
+    ],
+    "steps": [
+     "Identifică masele de aer și frontul.",
+     "Descrie norii și precipitațiile asociate.",
+     "Prognozează evoluția vremii.",
+     "Greșeala frecventă: să crezi că o prognoză pe două săptămâni este la fel de sigură ca una pe două zile; incertitudinea crește cu timpul."
+    ],
+    "answers": [
+     "Un volum mare de aer cu proprietăți omogene.",
+     "Nori stratiformi.",
+     "Averse, furtuni, răcire bruscă.",
+     "Agenția Națională de Meteorologie.",
+     "Roșu."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l16": {
+   "ro": {
+    "title": "Clasificarea climatelor și schimbările climatice",
+    "theory": "Climatul este regimul multianual al vremii într-un loc (de obicei pe 30 de ani). Clasificarea Köppen (folosită pe scară largă) împarte climatele după temperatură și precipitații: A – tropicale umede (ecuatorial, musonic, de savană), B – aride (deșertic, de stepă), C – temperate calde (mediteranean, subtropical umed, oceanic), D – temperate reci sau continentale (cu ierni reci), E – polare (tundră, calotă glaciară); se adaugă climatele montane. România se încadrează în principal în tipurile Cf și Df (temperat cu precipitații în tot anul). Climatograma reprezintă temperaturile (linie) și precipitațiile lunare (coloane). Schimbările climatice actuale constau în încălzirea globală (circa +1,2–1,3°C față de perioada preindustrială), cauzată în principal de emisiile de gaze cu efect de seră; efecte: topirea ghețarilor, creșterea nivelului mării, extreme termice și pluviometrice mai frecvente. În trecut, climatul s-a schimbat natural (glaciațiuni, perioade calde), dar ritmul actual este excepțional de rapid.",
+    "sample": "Pe climatograma Bucureștiului, temperatura are maxim în iulie, iar precipitațiile au maxim la începutul verii.",
+    "worked": "Climatograma permite recunoașterea rapidă a tipului de climă după forma curbei temperaturii și repartiția precipitațiilor.",
+    "exercises": [
+     "Explică diferența dintre vreme și climă.",
+     "Descrie grupele climatice Köppen.",
+     "Construiește și interpretează o climatogramă.",
+     "Încadrează clima României în clasificarea Köppen.",
+     "Explică cauzele și efectele încălzirii globale."
+    ],
+    "test": [
+     "Pe câți ani se calculează de obicei climatul?",
+     "Ce literă desemnează climatele aride în clasificarea Köppen?",
+     "Ce reprezintă coloanele dintr-o climatogramă?",
+     "Cu cât s-a încălzit Pământul față de perioada preindustrială?",
+     "Ce efect are încălzirea asupra nivelului mării?"
+    ],
+    "steps": [
+     "Citește datele de temperatură și precipitații.",
+     "Aplică criteriile clasificării.",
+     "Încadrează climatul și explică factorii lui.",
+     "Greșeala frecventă: să confunzi vremea dintr-o zi cu clima; o iarnă rece nu contrazice încălzirea globală."
+    ],
+    "answers": [
+     "30 de ani.",
+     "B.",
+     "Precipitațiile lunare.",
+     "Cu circa 1,2–1,3°C.",
+     "Nivelul mării crește."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l17": {
+   "ro": {
+    "title": "Circuitul apei și bilanțul hidrologic; apele subterane",
+    "theory": "Apa circulă continuu între ocean, atmosferă și uscat prin evaporare, transpirație, condensare, precipitații, infiltrare și scurgere. Din totalul apei de pe Pământ, circa 97,5% este sărată; din apa dulce, cea mai mare parte se află în ghețari și în subteran, iar râurile și lacurile conțin o parte foarte mică. Bilanțul hidrologic al unui bazin se exprimă prin ecuația: precipitații = evapotranspirație + scurgere ± variația rezervelor. Apele subterane se acumulează în roci permeabile (acvifere – nisipuri, pietrișuri, calcare fisurate), limitate de roci impermeabile (argile). Tipuri: freatice (aproape de suprafață, alimentate direct din precipitații, cu nivel variabil) și de adâncime (între strate impermeabile, uneori sub presiune – ape arteziene). Izvoarele apar unde stratul acvifer intersectează suprafața. Calitatea apelor subterane este amenințată de nitrați din agricultură și de poluarea industrială, iar suprapomparea poate coborî nivelul lor.",
+    "sample": "În Câmpia Română, apa freatică se află la adâncimi diferite: mică în lunci și mare pe interfluvii.",
+    "worked": "Adâncimea apei freatice depinde de relief: aproape de râuri pânza se află aproape de suprafață.",
+    "exercises": [
+     "Descrie etapele circuitului apei.",
+     "Scrie și explică ecuația bilanțului hidrologic.",
+     "Compară apele freatice cu cele de adâncime.",
+     "Explică ce este un acvifer.",
+     "Explică amenințările asupra apelor subterane."
+    ],
+    "test": [
+     "Ce procent din apa Pământului este sărată?",
+     "Unde se află cea mai mare parte a apei dulci?",
+     "Ce este un acvifer?",
+     "Ce sunt apele arteziene?",
+     "Ce poluant agricol afectează apele subterane?"
+    ],
+    "steps": [
+     "Identifică termenii bilanțului.",
+     "Calculează sau estimează valorile.",
+     "Explică rezultatul pentru bazinul analizat.",
+     "Greșeala frecventă: să crezi că apa subterană formează „râuri” sub pământ; de obicei umple porii și fisurile rocilor."
+    ],
+    "answers": [
+     "Circa 97,5%.",
+     "În ghețari (și în subteran).",
+     "Un strat de rocă permeabilă care conține apă.",
+     "Ape de adâncime sub presiune.",
+     "Nitrații."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l18": {
+   "ro": {
+    "title": "Potamologie: râurile, bazinele și regimul scurgerii",
+    "theory": "Potamologia studiază râurile. Bazinul hidrografic este suprafața de pe care un râu își adună apele, delimitată de cumpăna apelor. Rețeaua hidrografică se caracterizează prin densitate și formă (dendritică, radiară, paralelă, rectangulară); ierarhizarea râurilor se face după sistemul Horton–Strahler. Debitul (Q) este volumul de apă care trece printr-o secțiune într-o secundă (m³/s), calculat ca produs între suprafața secțiunii și viteza medie. Regimul hidrologic arată variația debitului în timp: ape mari (primăvara, din topirea zăpezii și ploi), viituri (creșteri bruște), ape mici (vara–toamna sau iarna). Tipuri de alimentare: pluvială, nivală, glaciară, subterană. Scurgerea solidă (aluviunile) depinde de eroziunea din bazin. Dunărea are un debit mediu de circa 6.500 m³/s la intrarea în deltă. Amenajările (baraje, diguri, derivații) modifică regimul natural.",
+    "sample": "Viitura din 2006 pe Dunăre a avut debite de peste 15.000 m³/s, inundând zone îndiguite din luncă.",
+    "worked": "Îndiguirea luncilor a redus spațiul de expansiune a apei, crescând nivelul apei la viituri.",
+    "exercises": [
+     "Delimitează un bazin hidrografic pe hartă.",
+     "Ierarhizează o rețea hidrografică după Strahler.",
+     "Calculează debitul dintr-o secțiune și o viteză.",
+     "Explică regimul hidrologic al unui râu din România.",
+     "Explică efectele amenajărilor asupra regimului râurilor."
+    ],
+    "test": [
+     "Ce este cumpăna apelor?",
+     "În ce unitate se măsoară debitul?",
+     "Ce este o viitură?",
+     "Ce tip de alimentare au râurile de munte primăvara?",
+     "Ce debit mediu are Dunărea la intrarea în deltă?"
+    ],
+    "steps": [
+     "Delimitează bazinul și rețeaua.",
+     "Calculează sau citește debitele.",
+     "Interpretează regimul și factorii lui.",
+     "Greșeala frecventă: să confunzi viitura (creștere bruscă și temporară) cu apele mari sezoniere."
+    ],
+    "answers": [
+     "Linia care separă două bazine hidrografice.",
+     "m³/s.",
+     "O creștere bruscă și temporară a debitului.",
+     "Alimentare nivală (din topirea zăpezii).",
+     "Circa 6.500 m³/s."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l19": {
+   "ro": {
+    "title": "Limnologie: lacurile și zonele umede",
+    "theory": "Limnologia studiază lacurile. După geneză, lacurile pot fi: tectonice (Baikal, Tanganyika – foarte adânci), glaciare (în circuri, cum sunt Bucura și Zănoaga în Retezat, sau în urma calotelor – lacurile Finlandei, Marile Lacuri), vulcanice (în cratere – Sfânta Ana), carstice (în doline), de baraj natural (Lacul Roșu, format după o alunecare de teren în 1837), fluviatile (în lunci și delte – lacurile din Delta Dunării), lagunare și limane (Razim–Sinoie, Techirghiol), antropice (de baraj – Vidraru, Porțile de Fier; iazuri; lacuri în saline). Caracteristici: stratificarea termică (vara apa caldă la suprafață, rece în adânc), circulația apei, chimismul (dulci, sărate), productivitatea biologică (oligotrofe – sărace în nutrienți, eutrofe – bogate). Lacurile evoluează spre colmatare (umplere cu aluviuni și vegetație). Zonele umede (mlaștini, turbării, delte) au rol ecologic major, protejate prin Convenția Ramsar.",
+    "sample": "Lacul Sfânta Ana, din craterul vulcanului Ciomatu, este singurul lac vulcanic bine păstrat din România.",
+    "worked": "Craterul unui vulcan stins poate reține apa din precipitații, formând un lac fără afluenți importanți.",
+    "exercises": [
+     "Clasifică lacurile după geneză.",
+     "Dă exemple de lacuri din România pentru fiecare tip.",
+     "Explică stratificarea termică.",
+     "Explică eutrofizarea.",
+     "Explică rolul zonelor umede."
+    ],
+    "test": [
+     "Ce tip de lac este Sfânta Ana?",
+     "Cum s-a format Lacul Roșu?",
+     "Ce lac glaciar se află în Retezat?",
+     "Ce convenție protejează zonele umede?",
+     "Ce este colmatarea?"
+    ],
+    "steps": [
+     "Identifică geneza lacului.",
+     "Analizează caracteristicile fizice și chimice.",
+     "Explică evoluția și protecția lui.",
+     "Greșeala frecventă: să crezi că lacurile sunt permanente; ele se colmatează și pot dispărea în timp."
+    ],
+    "answers": [
+     "Lac vulcanic.",
+     "Prin barare naturală după o alunecare de teren (1837).",
+     "Bucura (sau Zănoaga).",
+     "Convenția Ramsar.",
+     "Umplerea lacului cu aluviuni și vegetație."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l20": {
+   "ro": {
+    "title": "Criosfera: ghețarii și permafrostul",
+    "theory": "Criosfera cuprinde apa în stare solidă: calotele glaciare (Antarctica și Groenlanda – peste 99% din gheața de pe uscat), ghețarii montani, gheața marină, zăpada și permafrostul. Ghețarii se formează unde zăpada se acumulează mai mult decât se topește (deasupra limitei zăpezilor permanente), se transformă în firn și apoi în gheață, care curge lent sub propria greutate. Bilanțul glaciar compară acumularea cu ablația (topirea, sublimarea); un bilanț negativ produce retragerea ghețarului. Ghețarii modelează relieful prin eroziune (circuri, văi în formă de U, fiorduri) și acumulare (morene). În Carpații Românești nu mai există ghețari actuali, dar circurile și văile glaciare din Făgăraș, Retezat, Parâng și Rodnei arată glaciațiunile cuaternare. Permafrostul este solul înghețat permanent (în Siberia, Alaska, nordul Canadei); dezghețarea lui eliberează metan și CO₂ și distruge construcțiile. Topirea calotelor contribuie la creșterea nivelului mării.",
+    "sample": "Lacul Bucura din Retezat se află într-un circ glaciar format în timpul glaciațiunilor cuaternare.",
+    "worked": "Formele glaciare vechi dovedesc că în Carpați au existat ghețari, deși astăzi nu mai există.",
+    "exercises": [
+     "Enumeră componentele criosferei.",
+     "Explică formarea ghețarilor.",
+     "Explică bilanțul glaciar.",
+     "Descrie formele de relief glaciar.",
+     "Explică riscurile dezghețării permafrostului."
+    ],
+    "test": [
+     "Unde se află cea mai mare parte a gheții de pe uscat?",
+     "Ce este firnul?",
+     "Ce formă au văile glaciare?",
+     "Ce este permafrostul?",
+     "Ce masive românești au relief glaciar?"
+    ],
+    "steps": [
+     "Identifică forma de gheață sau relieful glaciar.",
+     "Explică procesul de formare.",
+     "Evaluează efectele schimbărilor climatice.",
+     "Greșeala frecventă: să crezi că în Carpați există azi ghețari; există doar forme de relief glaciar moștenite."
+    ],
+    "answers": [
+     "În Antarctica și Groenlanda.",
+     "Zăpada compactată, etapă intermediară spre gheață.",
+     "În formă de U.",
+     "Solul înghețat permanent.",
+     "Făgăraș, Retezat, Parâng, Rodnei."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l21": {
+   "ro": {
+    "title": "Geografia Mării Negre",
+    "theory": "Marea Neagră are circa 420.000 km² și adâncimea maximă de circa 2.200 m. Este o mare continentală, legată de Marea Mediterană prin Bosfor, Marea Marmara și Dardanele și de Marea Azov prin Strâmtoarea Kerci. Primește ape dulci abundente de la Dunăre, Nistru, Nipru, Don (prin Azov), ceea ce explică salinitatea redusă (circa 17–18‰ la suprafață). Apa mai sărată și densă intră din Mediterana pe la fund, iar apa mai dulce iese la suprafață, ceea ce produce o stratificare puternică: sub circa 150–200 m apa este lipsită de oxigen și conține hidrogen sulfurat, iar viața se concentrează în stratul superficial. Platforma continentală este largă în nord-vest (în fața României și Ucrainei) și îngustă în sud și est. Resurse: pește (șprot, hamsie, calcan), hidrocarburi pe platforma continentală (perimetrele românești, inclusiv Neptun Deep), turism, transport (porturile Constanța, Odesa, Novorossiisk, Varna, Istanbul). Probleme: eutrofizarea din nutrienții aduși de fluvii, pescuitul excesiv, specii invazive, poluarea, tensiunile geopolitice. Convenția de la București (1992) protejează Marea Neagră.",
+    "sample": "Sub circa 150–200 m adâncime, Marea Neagră conține hidrogen sulfurat și aproape nicio formă de viață animală.",
+    "worked": "Stratificarea împiedică amestecul vertical al apelor, așa că oxigenul nu ajunge în adânc.",
+    "exercises": [
+     "Descrie poziția și legăturile Mării Negre.",
+     "Explică salinitatea redusă.",
+     "Explică stratificarea apelor și lipsa oxigenului în adânc.",
+     "Enumeră resursele Mării Negre.",
+     "Explică problemele de mediu și măsurile de protecție."
+    ],
+    "test": [
+     "Ce adâncime maximă are Marea Neagră?",
+     "Prin ce strâmtori se leagă de Mediterana?",
+     "Ce salinitate are la suprafață?",
+     "Ce gaz se află în apele de adâncime?",
+     "Ce convenție protejează Marea Neagră?"
+    ],
+    "steps": [
+     "Localizează marea și legăturile ei.",
+     "Explică proprietățile apei prin bilanțul hidrologic.",
+     "Analizează resursele și problemele.",
+     "Greșeala frecventă: să crezi că lipsa vieții în adânc este cauzată de poluare; este un fenomen natural, produs de stratificare."
+    ],
+    "answers": [
+     "Circa 2.200 m.",
+     "Bosfor și Dardanele (prin Marea Marmara).",
+     "Circa 17–18‰.",
+     "Hidrogenul sulfurat.",
+     "Convenția de la București (1992)."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l22": {
+   "ro": {
+    "title": "Oceanografie: proprietățile și dinamica apelor oceanice",
+    "theory": "Oceanul Planetar acoperă circa 71% din suprafața Pământului. Proprietățile apei oceanice: salinitatea medie de circa 35‰ (mai mare în mările închise din zone calde – Marea Roșie peste 40‰ – și mai mică unde intră multă apă dulce – Marea Baltică, Marea Neagră circa 17‰), temperatura (scade cu adâncimea; sub termoclin apele sunt reci, 2–4°C), densitatea (crește cu salinitatea și scăderea temperaturii). Mișcările apei: valurile (produse de vânt; tsunami – produse de cutremure), mareele (produse de atracția Lunii și a Soarelui, cu amplitudini de peste 15 m în Golful Fundy), curenții oceanici de suprafață (produși de vânturi, formând girații – Curentul Golfului, Kuroshio, Curentul Humboldt rece) și circulația termohalină (circulația de adâncime determinată de diferențele de densitate, „banda transportoare” globală). Fenomenul El Niño modifică periodic temperatura Pacificului ecuatorial și vremea globală. Oceanul absoarbe căldură și CO₂, ceea ce duce la încălzirea și acidifierea lui.",
+    "sample": "În Golful Fundy (Canada), diferența dintre flux și reflux depășește 15 m, cea mai mare din lume.",
+    "worked": "Forma și dimensiunile golfului amplifică unda mareică prin rezonanță, iar apa urcă și coboară foarte mult.",
+    "exercises": [
+     "Explică variația salinității în ocean.",
+     "Explică formarea mareelor.",
+     "Explică formarea curenților oceanici de suprafață.",
+     "Explică circulația termohalină.",
+     "Explică fenomenul El Niño."
+    ],
+    "test": [
+     "Ce salinitate medie are oceanul?",
+     "Ce produce mareele?",
+     "Unde sunt cele mai mari maree?",
+     "Ce curent rece se află lângă coastele Americii de Sud?",
+     "Ce efect are absorbția CO₂ asupra oceanului?"
+    ],
+    "steps": [
+     "Identifică proprietatea sau mișcarea apei.",
+     "Explică factorii care o produc.",
+     "Analizează efectele asupra climei și vieții.",
+     "Greșeala frecventă: să confunzi tsunami (produs de cutremure) cu valurile obișnuite produse de vânt."
+    ],
+    "answers": [
+     "Circa 35‰.",
+     "Atracția Lunii și a Soarelui.",
+     "În Golful Fundy (Canada).",
+     "Curentul Humboldt (Peru).",
+     "Acidifierea oceanului."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l23": {
+   "ro": {
+    "title": "Geografia umană: obiect, concepte, paradigme",
+    "theory": "Geografia umană studiază modul în care societățile organizează și transformă spațiul. Concepte de bază: spațiul (absolut – coordonate, relativ – distanțe în timp sau cost), locul (spațiul cu semnificație pentru oameni), teritoriul (spațiul controlat de un grup sau stat), regiunea (spațiu cu caracteristici comune sau legături funcționale), scara, distanța și interacțiunea spațială (legea gravitației: interacțiunea dintre două locuri crește cu mărimea lor și scade cu distanța). Paradigme istorice: determinismul geografic (mediul determină societatea – secolul al XIX-lea), posibilismul (mediul oferă posibilități, omul alege – Vidal de la Blache), geografia regională clasică, revoluția cantitativă (anii 1950–1960 – modele, statistică), geografia umanistă (percepția, experiența locului), geografia radicală și critică (inegalitățile, puterea), geografia culturală nouă. Astăzi geografia umană folosește metode cantitative și calitative, GIS și date mari.",
+    "sample": "Posibilismul lui Paul Vidal de la Blache a arătat că în medii asemănătoare popoarele au dezvoltat moduri de viață diferite.",
+    "worked": "Alegerile umane, cultura și istoria contează, nu doar condițiile naturale.",
+    "exercises": [
+     "Explică diferența dintre spațiu, loc și teritoriu.",
+     "Explică ce este o regiune funcțională.",
+     "Aplică modelul gravitațional pe un exemplu.",
+     "Compară determinismul cu posibilismul.",
+     "Explică revoluția cantitativă."
+    ],
+    "test": [
+     "Ce este locul în geografia umană?",
+     "Cine a fondat posibilismul?",
+     "Cum variază interacțiunea spațială cu distanța?",
+     "În ce perioadă a avut loc revoluția cantitativă?",
+     "Ce studiază geografia umanistă?"
+    ],
+    "steps": [
+     "Identifică conceptul folosit.",
+     "Aplică-l pe un caz concret.",
+     "Discută paradigma din care provine.",
+     "Greșeala frecventă: să crezi că mediul natural determină total societatea (determinism); oamenii au opțiuni."
+    ],
+    "answers": [
+     "Un spațiu cu semnificație pentru oameni.",
+     "Paul Vidal de la Blache.",
+     "Interacțiunea scade cu distanța.",
+     "În anii 1950–1960.",
+     "Percepția și experiența locurilor."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l24": {
+   "ro": {
+    "title": "Geografia populației: indicatori și modele",
+    "theory": "Geografia populației analizează numărul, repartiția, dinamica și structura populației. Surse de date: recensămintele (în România, ultimul în 2021), registrele de stare civilă, anchetele, estimările ONU. Indicatori: densitatea (aritmetică și fiziologică – raportată la terenul agricol), rata natalității și mortalității (‰), sporul natural, rata fertilității totale, mortalitatea infantilă, speranța de viață, soldul migratoriu, rata de dependență (raportul dintre populația tânără și vârstnică și populația în vârstă de muncă). Modele: tranziția demografică (patru–cinci etape, de la natalitate și mortalitate ridicate la valori scăzute), piramida vârstelor (progresivă, staționară, regresivă), modelele migrației (legile lui Ravenstein, factorii de respingere și atracție). Teoria lui Malthus (1798) a susținut că populația crește mai rapid decât hrana; istoria a arătat rolul inovării agricole, dar problema resurselor rămâne discutată.",
+    "sample": "Rata de dependență a vârstnicilor crește în România pe măsură ce generațiile numeroase născute după 1967 se apropie de pensionare.",
+    "worked": "Structura pe vârste de azi permite prognozarea presiunii asupra pensiilor în următoarele decenii.",
+    "exercises": [
+     "Enumeră sursele de date demografice.",
+     "Calculează indicatori demografici pe date reale.",
+     "Explică etapele tranziției demografice.",
+     "Interpretează tipurile de piramide ale vârstelor.",
+     "Discută critic teoria lui Malthus."
+    ],
+    "test": [
+     "Când a avut loc ultimul recensământ în România?",
+     "Ce este densitatea fiziologică?",
+     "Ce arată rata de dependență?",
+     "Cine a formulat legile migrației?",
+     "Ce a susținut Malthus?"
+    ],
+    "steps": [
+     "Colectează datele demografice.",
+     "Calculează indicatorii.",
+     "Interpretează-i cu ajutorul modelelor.",
+     "Greșeala frecventă: să interpretezi o piramidă fără a observa efectul generațiilor istorice (războaie, decrete demografice)."
+    ],
+    "answers": [
+     "În 2021.",
+     "Populația raportată la terenul agricol.",
+     "Raportul dintre populația dependentă și cea în vârstă de muncă.",
+     "Ernst Georg Ravenstein.",
+     "Că populația crește mai rapid decât hrana."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l25": {
+   "ro": {
+    "title": "Geografia economică: sectoare și teorii ale localizării",
+    "theory": "Geografia economică studiază repartiția activităților economice și factorii care o explică. Sectoarele: primar (exploatarea resurselor naturale), secundar (industrie și construcții), terțiar (servicii), cuaternar (cunoaștere, cercetare, IT). Teorii clasice ale localizării: Johann Heinrich von Thünen (1826) – inele concentrice de utilizare agricolă în jurul unui oraș-piață, determinate de costul transportului și de renta funciară; Alfred Weber (1909) – localizarea industrială în punctul care minimizează costurile de transport al materiilor prime și produselor, ajustată de costul forței de muncă și de aglomerare; Walter Christaller (1933) – teoria locurilor centrale: orașele formează o ierarhie, cu arii de piață hexagonale, în funcție de bunurile și serviciile oferite. Teorii moderne: economiile de aglomerare și clusterele (Michael Porter), noua geografie economică (Paul Krugman), rețelele globale de producție. Factorii actuali de localizare includ tehnologia, cunoașterea, infrastructura și politicile publice.",
+    "sample": "În modelul lui von Thünen, legumele și laptele se produceau aproape de oraș, iar creșterea extensivă a animalelor departe, deoarece produsele perisabile nu suportau transportul lung.",
+    "worked": "Costul și durata transportului explică de ce utilizarea terenului se schimbă cu distanța față de piață.",
+    "exercises": [
+     "Clasifică activitățile economice pe sectoare.",
+     "Explică modelul lui von Thünen.",
+     "Explică modelul lui Weber.",
+     "Explică teoria locurilor centrale.",
+     "Explică ce sunt clusterele economice."
+    ],
+    "test": [
+     "Ce a explicat von Thünen?",
+     "Ce costuri minimizează modelul lui Weber?",
+     "Ce formă au ariile de piață la Christaller?",
+     "Cine a dezvoltat conceptul de cluster?",
+     "Ce sector cuprinde cercetarea și IT?"
+    ],
+    "steps": [
+     "Identifică activitatea și sectorul ei.",
+     "Alege modelul de localizare potrivit.",
+     "Compară modelul cu realitatea și explică abaterile.",
+     "Greșeala frecventă: să aplici modelele clasice mecanic; ele simplifică realitatea prin ipoteze (câmpie omogenă, transport uniform)."
+    ],
+    "answers": [
+     "Repartiția culturilor agricole în inele în jurul pieței.",
+     "Costurile de transport (plus forța de muncă și aglomerarea).",
+     "Hexagonală.",
+     "Michael Porter.",
+     "Sectorul cuaternar."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l26": {
+   "ro": {
+    "title": "Geografia resurselor naturale",
+    "theory": "Resursele naturale sunt elemente ale mediului utile omului, a căror valoare depinde de tehnologie, cerere și cost. Clasificare: regenerabile (energie solară, eoliană, hidraulică, biomasă, apă, păduri și pește – dacă sunt exploatate sustenabil) și neregenerabile (combustibili fosili, minereuri); după natură: energetice, minerale, de apă, de sol, biologice, peisagistice. Rezervele sunt partea resurselor cunoscute și exploatabile economic în prezent; ele cresc prin descoperiri și progres tehnic și scad prin exploatare. Indicatorul R/P (rezerve/producție) arată pentru câți ani ajung rezervele la ritmul actual. Repartiția inegală a resurselor generează comerț, dependențe și conflicte. Minereurile critice (litiu, cobalt, pământuri rare, grafit) au devenit strategice pentru tranziția energetică. Gestionarea durabilă presupune eficiență, reciclare, substituție și protecția mediului.",
+    "sample": "Dacă un stat are rezerve de gaze de 100 de miliarde m³ și produce 10 miliarde m³ pe an, indicatorul R/P este de 10 ani.",
+    "worked": "Indicatorul R/P este o estimare statică: rezervele pot crește prin descoperiri, iar producția se poate schimba.",
+    "exercises": [
+     "Clasifică resursele naturale.",
+     "Explică diferența dintre resurse și rezerve.",
+     "Calculează indicatorul R/P.",
+     "Explică importanța minereurilor critice.",
+     "Propune măsuri de gestionare durabilă a resurselor."
+    ],
+    "test": [
+     "Ce sunt rezervele?",
+     "Ce arată indicatorul R/P?",
+     "Dă exemplu de minereu critic.",
+     "Când este pădurea o resursă regenerabilă?",
+     "Ce factori schimbă valoarea unei resurse?"
+    ],
+    "steps": [
+     "Identifică resursa și tipul ei.",
+     "Evaluează rezervele și ritmul de exploatare.",
+     "Analizează implicațiile economice și de mediu.",
+     "Greșeala frecventă: să consideri indicatorul R/P o dată exactă a epuizării; el se schimbă odată cu descoperirile și consumul."
+    ],
+    "answers": [
+     "Partea resurselor cunoscute și exploatabile economic.",
+     "Pentru câți ani ajung rezervele la ritmul actual de producție.",
+     "Litiul (sau cobaltul, pământurile rare).",
+     "Când este exploatată sustenabil.",
+     "Tehnologia, cererea și costul."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l27": {
+   "ro": {
+    "title": "Metode statistice în geografie",
+    "theory": "Geografia folosește statistica pentru a descrie și compara date. Statistica descriptivă: media aritmetică, mediana (valoarea din mijlocul șirului ordonat), modul, amplitudinea, abaterea standard (cât de împrăștiate sunt valorile) și coeficientul de variație. Seriile de date se reprezintă prin histograme, grafice și diagrame. Corelația (coeficientul Pearson, între −1 și +1) arată legătura dintre două variabile (de exemplu altitudinea și temperatura au o corelație negativă puternică); corelația nu dovedește cauzalitatea. Regresia permite estimarea unei variabile din alta (gradientul termic vertical). Indicatori geografici specifici: indicele de concentrare, coeficientul de localizare, indicii de diversitate, densitatea. Datele spațiale au autocorelație (lucrurile apropiate se aseamănă mai mult – „prima lege a geografiei”, Waldo Tobler). Analiza datelor necesită atenție la sursă, la scară și la problema unității spațiale modificabile (rezultatele se schimbă dacă se schimbă limitele unităților analizate).",
+    "sample": "Corelația dintre altitudine și temperatura medie anuală în Carpați este puternic negativă: cu cât crește altitudinea, scade temperatura.",
+    "worked": "Coeficientul aproape de −1 arată o legătură inversă puternică, explicată fizic de scăderea temperaturii cu altitudinea.",
+    "exercises": [
+     "Calculează media, mediana și abaterea standard pentru o serie de date.",
+     "Interpretează un coeficient de corelație.",
+     "Explică diferența dintre corelație și cauzalitate.",
+     "Explică prima lege a geografiei.",
+     "Explică problema unității spațiale modificabile."
+    ],
+    "test": [
+     "Ce este mediana?",
+     "Între ce valori variază coeficientul Pearson?",
+     "Ce arată abaterea standard?",
+     "Cine a formulat prima lege a geografiei?",
+     "Dovedește corelația o relație cauzală?"
+    ],
+    "steps": [
+     "Organizează datele într-un tabel.",
+     "Calculează indicatorii potriviți.",
+     "Interpretează rezultatele în context geografic.",
+     "Greșeala frecventă: să tragi concluzii cauzale doar dintr-o corelație; ai nevoie de o explicație fizică sau socială."
+    ],
+    "answers": [
+     "Valoarea din mijlocul șirului ordonat.",
+     "Între −1 și +1.",
+     "Cât de împrăștiate sunt valorile față de medie.",
+     "Waldo Tobler.",
+     "Nu."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l28": {
+   "ro": {
+    "title": "Sisteme informaționale geografice: date spațiale și modele",
+    "theory": "Un Sistem Informațional Geografic (GIS) este un ansamblu de programe, date, metode și oameni care permite colectarea, stocarea, analiza și reprezentarea datelor localizate în spațiu. Datele spațiale au o componentă geometrică (unde?) și una atributivă (ce?). Modelul vectorial reprezintă obiectele prin puncte (fântâni, localități la scară mică), linii (râuri, drumuri) și poligoane (lacuri, unități administrative), cu atribute stocate în tabele. Modelul raster împarte spațiul într-o grilă de celule (pixeli), fiecare cu o valoare – potrivit pentru fenomene continue (altitudine, temperatură) și imagini satelitare; rezoluția (mărimea celulei) determină detaliul. Modelul digital al terenului (MDT/DEM) este un raster de altitudini din care se derivă panta, expoziția și rețeaua de drenaj. Datele trebuie să aibă un sistem de coordonate definit și metadate (sursa, data, precizia). Programe: QGIS (gratuit), ArcGIS. Directiva INSPIRE a UE standardizează datele spațiale publice.",
+    "sample": "Din același model digital al terenului se pot calcula automat harta pantelor, a expoziției versanților și bazinele hidrografice.",
+    "worked": "Un singur strat raster de altitudini devine sursa multor analize derivate.",
+    "exercises": [
+     "Explică componentele unui GIS.",
+     "Compară modelul vectorial cu cel raster.",
+     "Alege modelul potrivit pentru cinci tipuri de date.",
+     "Explică ce este un model digital al terenului.",
+     "Explică rolul metadatelor."
+    ],
+    "test": [
+     "Ce înseamnă GIS?",
+     "Prin ce reprezintă modelul vectorial obiectele?",
+     "Ce este un pixel?",
+     "Ce se poate deriva dintr-un DEM?",
+     "Ce directivă UE standardizează datele spațiale?"
+    ],
+    "steps": [
+     "Stabilește natura fenomenului: discret sau continuu.",
+     "Alege modelul de date și sistemul de coordonate.",
+     "Documentează datele prin metadate.",
+     "Greșeala frecventă: să combini straturi cu sisteme de coordonate diferite fără transformare; ele nu se vor suprapune corect."
+    ],
+    "answers": [
+     "Sistem Informațional Geografic.",
+     "Prin puncte, linii și poligoane.",
+     "O celulă a grilei raster.",
+     "Panta, expoziția, rețeaua de drenaj.",
+     "Directiva INSPIRE."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l29": {
+   "ro": {
+    "title": "Analize spațiale în GIS",
+    "theory": "GIS permite răspunsuri la întrebări geografice prin operații de analiză. Interogarea atributivă selectează obiecte după valori (localitățile cu peste 10.000 de locuitori), iar interogarea spațială după poziție (școlile aflate într-un anumit cartier). Zona tampon (buffer) delimitează spațiul aflat la o anumită distanță de un obiect (de exemplu 100 m de-o parte și de alta a unui râu, pentru protecție). Suprapunerea (overlay) combină straturi pentru a obține informații noi (intersecția zonelor inundabile cu zonele construite arată clădirile expuse). Algebra hărților (map algebra) combină rastere prin operații matematice (de exemplu un indice de susceptibilitate la alunecări din pantă, litologie și utilizarea terenului, cu ponderi). Analiza de rețea calculează trasee optime și arii de accesibilitate (zona deservită de o stație de ambulanță în 10 minute). Interpolarea estimează valori între puncte de măsurare (temperaturi între stații). Calitatea rezultatului depinde de calitatea datelor („garbage in, garbage out”).",
+    "sample": "Suprapunând harta zonelor inundabile cu harta clădirilor, o primărie poate număra locuințele expuse la o viitură cu probabilitate de 1%.",
+    "worked": "Analiza prin suprapunere transformă două straturi separate într-o informație direct utilă pentru decizii.",
+    "exercises": [
+     "Explică diferența dintre interogarea atributivă și cea spațială.",
+     "Construiește o zonă tampon pentru o problemă dată.",
+     "Explică analiza prin suprapunere.",
+     "Explică ce este algebra hărților.",
+     "Explică utilitatea analizei de rețea."
+    ],
+    "test": [
+     "Ce este o zonă tampon?",
+     "Ce operație combină straturi pentru informații noi?",
+     "Ce estimează interpolarea?",
+     "Ce calculează analiza de rețea?",
+     "Ce înseamnă „garbage in, garbage out”?"
+    ],
+    "steps": [
+     "Formulează întrebarea spațială.",
+     "Alege operațiile GIS potrivite și ordinea lor.",
+     "Verifică și interpretează rezultatul.",
+     "Greșeala frecventă: să ai încredere oarbă în rezultatul GIS; el depinde de calitatea și scara datelor de intrare."
+    ],
+    "answers": [
+     "Zona aflată la o anumită distanță de un obiect.",
+     "Suprapunerea (overlay).",
+     "Valori între punctele de măsurare.",
+     "Trasee optime și arii de accesibilitate.",
+     "Datele de intrare proaste produc rezultate proaste."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l30": {
+   "ro": {
+    "title": "Teledetecția: principii și aplicații",
+    "theory": "Teledetecția este obținerea de informații despre suprafața terestră de la distanță, prin senzori montați pe sateliți, avioane sau drone, care înregistrează radiația electromagnetică reflectată sau emisă. Senzorii pasivi înregistrează radiația solară reflectată (în vizibil și infraroșu – Landsat, Sentinel-2) sau emisia termică; senzorii activi emit propriul semnal (radar – Sentinel-1, care vede prin nori; LiDAR – laser, pentru modele de teren foarte precise). Fiecare suprafață are o semnătură spectrală: vegetația sănătoasă reflectă puternic în infraroșul apropiat și absoarbe roșul, apa absoarbe infraroșul. Indicele NDVI = (IRA − R) / (IRA + R) măsoară vigoarea vegetației (valori apropiate de 1 – vegetație densă, sub 0 – apă). Rezoluțiile: spațială (mărimea pixelului), spectrală (numărul benzilor), temporală (cât de des revine satelitul), radiometrică. Aplicații: utilizarea terenului, monitorizarea defrișărilor, inundațiilor, culturilor agricole, extinderii urbane. Programul european Copernicus oferă gratuit imaginile Sentinel.",
+    "sample": "Imaginile radar Sentinel-1 permit cartarea inundațiilor chiar și când cerul este acoperit de nori.",
+    "worked": "Senzorii activi nu depind de lumina solară sau de vreme, de aceea sunt esențiali în situații de urgență.",
+    "exercises": [
+     "Explică principiul teledetecției.",
+     "Compară senzorii pasivi cu cei activi.",
+     "Explică ce este semnătura spectrală.",
+     "Calculează NDVI pentru valori date.",
+     "Enumeră aplicații ale teledetecției."
+    ],
+    "test": [
+     "Ce înregistrează senzorii pasivi?",
+     "Ce satelit radar european vede prin nori?",
+     "În ce bandă reflectă puternic vegetația sănătoasă?",
+     "Ce măsoară NDVI?",
+     "Ce program european oferă gratuit imaginile Sentinel?"
+    ],
+    "steps": [
+     "Alege imaginea potrivită (rezoluție, bandă, dată).",
+     "Aplică prelucrarea sau indicele necesar.",
+     "Interpretează rezultatul și verifică-l pe teren.",
+     "Greșeala frecventă: să crezi că o culoare din imagine identifică singură obiectul; interpretarea cere semnătura spectrală și verificare."
+    ],
+    "answers": [
+     "Radiația solară reflectată (sau emisia termică).",
+     "Sentinel-1.",
+     "În infraroșul apropiat.",
+     "Vigoarea vegetației.",
+     "Copernicus."
+    ]
+   }
+  }
+ }
+}

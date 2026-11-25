@@ -1,0 +1,910 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "RO",
+ "stage": "medium",
+ "grade": "tic-12",
+ "version": "990f49219a97b2ed6251b35acc3b2fcdc87e575dcc8fa6f9490ca14e3b391096",
+ "source": "https://portal.eduhr.ro/wp-content/uploads/2021/10/tic_tehnoredactare_12.pdf",
+ "sourceTitle": "Programele școlare de Tehnologia informației și a comunicațiilor pentru clasa a XII-a (OMECI nr. 5099/09.09.2009, 1 oră/săptămână): Tehnoredactare asistată de calculator – documente hipermedia, filiera teoretică, profil umanist, specializarea filologie; Sisteme de gestiune a bazelor de date – filiera teoretică, profil real, specializarea științele naturii, și filiera vocațională, profil teologic (programa: https://portal.eduhr.ro/wp-content/uploads/2021/10/tic_baze-de-date_12.pdf) — fiecare elev parcurge unitățile specializării sale",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "ro",
+ "labels": [
+  "Activitate originală · România · TIC · Clasa a XII-a",
+  "Lecția pe înțeles",
+  "Exemplu",
+  "Ce ne arată exemplul",
+  "Exerciții",
+  "Test",
+  "Activități originale, făcute după programa școlară; nu înlocuiesc manualul sau ora de la clasă.",
+  "Dacă nu ai înțeles: pas cu pas",
+  "Răspunsuri (verifică după ce termini)"
+ ],
+ "units": [
+  {
+   "title": "Filologie · Proiectarea documentelor hipermedia",
+   "keys": [
+    "eu-year-ro-medium-tic-12-l01",
+    "eu-year-ro-medium-tic-12-l02",
+    "eu-year-ro-medium-tic-12-l03"
+   ]
+  },
+  {
+   "title": "Filologie · Realizarea documentului hipermedia",
+   "keys": [
+    "eu-year-ro-medium-tic-12-l04",
+    "eu-year-ro-medium-tic-12-l05",
+    "eu-year-ro-medium-tic-12-l06",
+    "eu-year-ro-medium-tic-12-l07",
+    "eu-year-ro-medium-tic-12-l08",
+    "eu-year-ro-medium-tic-12-l09",
+    "eu-year-ro-medium-tic-12-l10",
+    "eu-year-ro-medium-tic-12-l11"
+   ]
+  },
+  {
+   "title": "Filologie · Proiectul hipermedia",
+   "keys": [
+    "eu-year-ro-medium-tic-12-l12",
+    "eu-year-ro-medium-tic-12-l13"
+   ]
+  },
+  {
+   "title": "Științele naturii și profil teologic · Sisteme de gestiune a bazelor de date",
+   "keys": [
+    "eu-year-ro-medium-tic-12-l14",
+    "eu-year-ro-medium-tic-12-l15",
+    "eu-year-ro-medium-tic-12-l16",
+    "eu-year-ro-medium-tic-12-l17",
+    "eu-year-ro-medium-tic-12-l18",
+    "eu-year-ro-medium-tic-12-l19",
+    "eu-year-ro-medium-tic-12-l20",
+    "eu-year-ro-medium-tic-12-l21",
+    "eu-year-ro-medium-tic-12-l22",
+    "eu-year-ro-medium-tic-12-l23",
+    "eu-year-ro-medium-tic-12-l24"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-ro-medium-tic-12-l01": {
+   "ro": {
+    "title": "Hipermedia și etapele dezvoltării unei interfețe web",
+    "theory": "Un document hipermedia leagă între ele texte, imagini, sunete și videoclipuri prin hiperlegături, astfel încât cititorul alege singur drumul prin informație. Cel mai cunoscut exemplu este un site web: un set de pagini legate, scrise în limbajul HTML și afișate de browser. Dezvoltarea unei interfețe web trece prin etape: 1. analiza – scopul site-ului, publicul țintă, conținutul necesar; 2. planificarea structurii – ce pagini există și cum se leagă (harta site-ului); 3. proiectarea grafică – macheta paginilor (așezarea antetului, meniului, conținutului, subsolului), culori, fonturi; 4. realizarea – crearea paginilor și a legăturilor; 5. testarea – în mai multe browsere și pe telefon, verificarea tuturor legăturilor; 6. publicarea și întreținerea – actualizarea periodică a conținutului.",
+    "sample": "Clasa face un site despre scriitorii din județ. Analiza: public – elevi de liceu; conținut – biografii, opere, fotografii. Harta: pagina principală, câte o pagină pentru fiecare scriitor, o pagină de bibliografie. Macheta: antet cu titlul, meniu sus, conținut, subsol cu sursele.",
+    "worked": "Etapele au transformat o idee vagă într-un plan concret. Harta site-ului a arătat dinainte toate paginile și legăturile necesare.",
+    "exercises": [
+     "Explică diferența dintre un text obișnuit și un document hipermedia.",
+     "Analizează scopul și publicul unui site ales.",
+     "Desenează harta unui site cu cinci pagini.",
+     "Desenează macheta paginii principale.",
+     "Ordonează etapele dezvoltării unui site."
+    ],
+    "test": [
+     "Ce este un document hipermedia?",
+     "În ce limbaj sunt scrise paginile web?",
+     "Ce este harta site-ului?",
+     "Ce este macheta unei pagini?",
+     "De ce testăm site-ul pe telefon?"
+    ],
+    "steps": [
+     "Stabilește scopul, publicul și conținutul site-ului.",
+     "Desenează harta site-ului și macheta paginilor.",
+     "Realizează, testează și publică paginile, apoi actualizează-le.",
+     "Greșeala frecventă: să începi direct cu paginile fără hartă și machetă; structura iese încurcată și greu de navigat."
+    ],
+    "answers": [
+     "Un document care leagă texte, imagini, sunete și videoclipuri prin hiperlegături.",
+     "În HTML.",
+     "Schema paginilor site-ului și a legăturilor dintre ele.",
+     "Schița așezării elementelor pe pagină.",
+     "Pentru că mulți vizitatori folosesc telefonul."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-12-l02": {
+   "ro": {
+    "title": "Principii de proiectare a interfețelor web",
+    "theory": "O interfață web bună este ușor de folosit, clară și accesibilă. Utilizabilitatea: vizitatorul găsește ce caută în câteva clicuri; meniul este în același loc pe toate paginile; titlurile spun clar ce conține pagina. Consecvența: aceleași culori, fonturi și poziții pe tot site-ul. Lizibilitatea: contrast bun între text și fundal, fonturi simple, paragrafe scurte, spațiu alb. Accesibilitatea: text alternativ la imagini (pentru cititoarele de ecran folosite de persoanele cu deficiențe de vedere), legături cu text descriptiv („programul olimpiadei”, nu „click aici”), culori care nu sunt singurul purtător de informație. Adaptarea la ecran (design responsive): pagina se reașază pe telefon. Viteza: imaginile se optimizează, ca pagina să se încarce repede.",
+    "sample": "Pagina inițială a unui site școlar avea text galben pe fundal alb, meniul în locuri diferite pe fiecare pagină și legături „aici”. Echipa schimbă contrastul, fixează meniul sus pe toate paginile și redenumește legăturile după destinație.",
+    "worked": "Cele trei modificări au aplicat principiile de lizibilitate, consecvență și accesibilitate. Site-ul devine ușor de folosit pentru toți vizitatorii.",
+    "exercises": [
+     "Analizează un site după principiile învățate.",
+     "Rescrie cinci legături „click aici” în legături descriptive.",
+     "Adaugă text alternativ la trei imagini.",
+     "Verifică contrastul culorilor unei pagini.",
+     "Verifică dacă o pagină se reașază corect pe telefon."
+    ],
+    "test": [
+     "Ce înseamnă utilizabilitate?",
+     "De ce păstrăm meniul în același loc?",
+     "Ce este textul alternativ?",
+     "Ce înseamnă design responsive?",
+     "De ce optimizăm imaginile?"
+    ],
+    "steps": [
+     "Gândește-te la vizitator: ce caută și pe ce dispozitiv.",
+     "Aplică principiile de utilizabilitate, consecvență, lizibilitate și accesibilitate.",
+     "Testează cu un coleg care nu cunoaște site-ul și corectează.",
+     "Greșeala frecventă: să transmiți informații doar prin culoare; unii vizitatori nu disting culorile."
+    ],
+    "answers": [
+     "Ușurința cu care vizitatorul găsește ce caută.",
+     "Ca vizitatorul să nu se rătăcească.",
+     "Descrierea imaginii pentru cine nu o poate vedea.",
+     "Pagina se reașază după mărimea ecranului.",
+     "Ca pagina să se încarce repede."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-12-l03": {
+   "ro": {
+    "title": "Organizarea informației într-un document hipermedia",
+    "theory": "Informația dintr-un site se organizează după tehnicile generale ale tehnoredactării: ierarhie (titluri de niveluri diferite), grupare pe teme, ordine logică. Structuri tipice de navigare: liniară (pagină după pagină, ca într-o carte – potrivită pentru un tutorial), ierarhică (pagina principală, secțiuni, subsecțiuni – cea mai folosită), în rețea (paginile se leagă liber între ele, ca într-o enciclopedie). Navigarea se face prin meniu principal, meniu secundar, căi de navigare (Acasă > Scriitori > Eminescu), legături în text și un buton de întoarcere la început. Fiecare pagină are un titlu unic și tratează o singură temă. Textul web se scrie pentru citire rapidă: ideea principală la început, subtitluri, liste, fraze scurte.",
+    "sample": "Site-ul despre scriitori are structură ierarhică: Acasă – Scriitori (cu câte o pagină pe autor) – Bibliografie – Despre proiect. Pe pagina unui scriitor, calea de navigare arată Acasă > Scriitori > Ion Creangă, iar legăturile din text duc la paginile altor scriitori menționați.",
+    "worked": "Structura ierarhică dă ordine, iar legăturile din text adaugă conexiuni de tip rețea. Calea de navigare arată mereu unde se află vizitatorul.",
+    "exercises": [
+     "Alege structura potrivită pentru trei tipuri de site.",
+     "Organizează ierarhic conținutul unui site școlar.",
+     "Adaugă căi de navigare paginilor unui site.",
+     "Rescrie un paragraf lung pentru citire rapidă pe web.",
+     "Desenează legăturile în rețea dintre paginile unei mini-enciclopedii."
+    ],
+    "test": [
+     "Ce structuri de navigare cunoști?",
+     "Când potrivim structura liniară?",
+     "Ce este calea de navigare?",
+     "Câte teme tratează o pagină?",
+     "Cum scriem textul pentru web?"
+    ],
+    "steps": [
+     "Grupează conținutul pe teme și ordonează-l ierarhic.",
+     "Alege structura de navigare și instrumentele de navigare.",
+     "Scrie textele pentru citire rapidă și verifică legăturile dintre pagini.",
+     "Greșeala frecventă: să pui toată informația pe o singură pagină foarte lungă; vizitatorul nu mai găsește nimic."
+    ],
+    "answers": [
+     "Liniară, ierarhică, în rețea.",
+     "Pentru conținut parcurs în ordine, ca un tutorial.",
+     "Șirul de legături care arată poziția paginii în site.",
+     "Una singură.",
+     "Ideea principală la început, subtitluri, liste, fraze scurte."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-12-l04": {
+   "ro": {
+    "title": "Editorul de pagini web și structura unei pagini HTML",
+    "theory": "Paginile web se pot crea într-un editor vizual (WYSIWYG – „ce vezi aceea obții”; programa amintește FrontPage și Dreamweaver, iar astăzi se folosesc editoare precum Dreamweaver, BlueGriffon sau constructoare de site-uri online) sau direct în cod, într-un editor de text (Notepad++, Visual Studio Code). Chiar folosind un editor vizual, e bine să înțelegem codul HTML. O pagină HTML este formată din elemente marcate prin etichete (tag-uri) între paranteze unghiulare, de obicei în perechi: <p> deschide un paragraf, </p> îl închide. Structura de bază: <!DOCTYPE html>, apoi <html>, care conține <head> (informații despre pagină, ca titlul din <title>) și <body> (conținutul vizibil). Fișierele se salvează cu extensia .html, iar pagina principală se numește de obicei index.html. Aspectul se stabilește cu foi de stil CSS.",
+    "sample": "Elevul scrie: <!DOCTYPE html><html><head><title>Ion Creangă</title></head><body><h1>Ion Creangă</h1><p>Povestitor născut la Humulești.</p></body></html> și salvează fișierul creanga.html. Deschis în browser, apare un titlu mare și un paragraf, iar pe filă scrie „Ion Creangă”.",
+    "worked": "Fiecare etichetă și-a făcut rolul: title pentru filă, h1 pentru titlul vizibil, p pentru paragraf. Editorul vizual ar fi generat același cod.",
+    "exercises": [
+     "Creează o pagină HTML minimă și deschide-o în browser.",
+     "Identifică în codul unei pagini secțiunile head și body.",
+     "Creează aceeași pagină într-un editor vizual și compară codul.",
+     "Explică diferența dintre editorul vizual și cel de cod.",
+     "Salvează pagina principală a unui site cu numele potrivit."
+    ],
+    "test": [
+     "Ce înseamnă WYSIWYG?",
+     "Ce este o etichetă HTML?",
+     "Ce conține secțiunea head?",
+     "Ce conține secțiunea body?",
+     "Cum se numește de obicei pagina principală?"
+    ],
+    "steps": [
+     "Alege editorul și creează structura de bază a paginii.",
+     "Adaugă conținutul în body, cu etichetele potrivite.",
+     "Salvează cu extensia .html și verifică în browser.",
+     "Greșeala frecventă: să uiți să închizi etichetele; pagina se afișează greșit în unele browsere."
+    ],
+    "answers": [
+     "„Ce vezi aceea obții”: editare vizuală.",
+     "Un marcaj între paranteze unghiulare care delimitează un element.",
+     "Informații despre pagină, ca titlul.",
+     "Conținutul vizibil al paginii.",
+     "index.html."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-12-l05": {
+   "ro": {
+    "title": "Formatarea textului la nivel de caracter și paragraf",
+    "theory": "Textul unei pagini web se structurează cu etichete și se formatează cu CSS. Structura: titluri pe șase niveluri (<h1> cel mai important … <h6>), paragrafe (<p>), accentuare (<strong> pentru importanță, <em> pentru subliniere expresivă), citate (<blockquote>), trecere la rând nou (<br>). Aspectul se definește în CSS, de preferat într-un fișier separat (stil.css), legat în head: <link rel=\"stylesheet\" href=\"stil.css\">. O regulă CSS are selector și declarații: p { font-family: Georgia, serif; font-size: 18px; line-height: 1.5; color: #222; text-align: left; }. Un fișier CSS comun schimbă dintr-un loc aspectul tuturor paginilor. Nu folosim titlurile doar pentru a mări textul: ele arată structura, folosită și de motoarele de căutare și de cititoarele de ecran.",
+    "sample": "Toate paginile site-ului folosesc stil.css. Profesoara cere un font mai mare pentru lizibilitate. Elevul schimbă o singură linie, font-size: 18px în loc de 16px, iar toate paginile se actualizează.",
+    "worked": "Separarea structurii (HTML) de aspect (CSS) a făcut modificarea instantanee. Fără fișierul comun, ar fi trebuit modificată fiecare pagină.",
+    "exercises": [
+     "Structurează o biografie cu titluri și paragrafe.",
+     "Creează un fișier CSS și leagă-l de două pagini.",
+     "Stabilește fontul, mărimea și interlinia paragrafelor.",
+     "Formatează diferit titlurile de nivel 1 și 2.",
+     "Adaugă un citat cu blockquote și formatează-l."
+    ],
+    "test": [
+     "Câte niveluri de titlu are HTML?",
+     "Ce diferență este între strong și em?",
+     "Unde se definește aspectul paginii?",
+     "Ce conține o regulă CSS?",
+     "De ce folosim un fișier CSS comun?"
+    ],
+    "steps": [
+     "Marchează structura textului cu etichetele potrivite.",
+     "Scrie regulile de aspect într-un fișier CSS comun.",
+     "Leagă fișierul CSS de toate paginile și verifică afișarea.",
+     "Greșeala frecventă: să folosești titluri doar ca să mărești textul; structura paginii devine falsă."
+    ],
+    "answers": [
+     "Șase.",
+     "strong marchează importanța, em sublinierea expresivă.",
+     "În foile de stil CSS.",
+     "Un selector și declarații.",
+     "Ca aspectul tuturor paginilor să se schimbe dintr-un singur loc."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-12-l06": {
+   "ro": {
+    "title": "Hiperlegături",
+    "theory": "Hiperlegătura (eticheta <a>) face trecerea către altă resursă: <a href=\"eminescu.html\">Mihai Eminescu</a>. Tipuri: legătura internă, către o pagină din același site, cu adresă relativă (eminescu.html sau scriitori/eminescu.html); legătura externă, către alt site, cu adresă absolută (https://…), pe care o putem deschide într-o filă nouă (target=\"_blank\"); legătura către o secțiune a aceleiași pagini, prin ancoră (href=\"#opere\" duce la elementul cu id=\"opere\"); legătura de e-mail (mailto:adresa); legătura către un fișier de descărcat (PDF). Textul legăturii descrie destinația. Adresele relative rămân valabile când mutăm tot site-ul pe server; adresele absolute către propriul calculator (C:\\…) nu funcționează pentru vizitatori.",
+    "sample": "Pagina despre Eminescu are la început un cuprins: <a href=\"#viata\">Viața</a> și <a href=\"#opere\">Opere</a>, care duc la secțiunile <h2 id=\"viata\"> și <h2 id=\"opere\">. La final, o legătură externă duce la pagina unei biblioteci digitale.",
+    "worked": "Ancorele au ușurat navigarea într-o pagină lungă. Legătura externă a trimis vizitatorul la o sursă suplimentară.",
+    "exercises": [
+     "Leagă între ele trei pagini ale site-ului.",
+     "Creează un cuprins cu ancore într-o pagină lungă.",
+     "Adaugă o legătură externă care se deschide într-o filă nouă.",
+     "Adaugă o legătură de e-mail.",
+     "Explică de ce o adresă C:\\ nu funcționează pe server."
+    ],
+    "test": [
+     "Ce etichetă creează o hiperlegătură?",
+     "Ce este o adresă relativă?",
+     "Ce este o ancoră?",
+     "Ce face target=\"_blank\"?",
+     "Cum arată o legătură de e-mail?"
+    ],
+    "steps": [
+     "Stabilește destinația: pagină internă, secțiune, site extern, e-mail sau fișier.",
+     "Scrie legătura cu adresa potrivită și un text descriptiv.",
+     "Testează fiecare legătură după publicare.",
+     "Greșeala frecventă: să folosești adrese de pe propriul calculator (C:\\…); pe server legăturile nu mai funcționează."
+    ],
+    "answers": [
+     "Eticheta a.",
+     "O adresă scrisă față de pagina curentă.",
+     "Un punct dintr-o pagină, identificat prin id.",
+     "Deschide legătura într-o filă nouă.",
+     "<a href=\"mailto:adresa\">…</a>."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-12-l07": {
+   "ro": {
+    "title": "Liste și tabele",
+    "theory": "Listele organizează informația pe puncte. Lista neordonată (<ul>) are marcatori, pentru elemente fără ordine (temele unui scriitor); lista ordonată (<ol>) are numere, pentru pași sau clasamente; fiecare element este <li>. Listele pot fi imbricate (o listă în alt element de listă), iar meniurile site-urilor sunt de obicei liste de legături formatate cu CSS. Tabelele (<table>) prezintă date pe rânduri (<tr>) și celule (<td>), cu celule de antet (<th>); celulele se pot uni pe orizontală (colspan) sau verticală (rowspan). Tabelele se folosesc pentru date tabelare (o cronologie, un orar), nu pentru așezarea paginii, care se face cu CSS. Bordurile, spațierea și culorile alternante ale rândurilor se stabilesc în CSS.",
+    "sample": "Cronologia vieții lui Creangă este un tabel cu două coloane, An și Eveniment, cu celule de antet. Lista operelor este o listă neordonată, iar etapele unui proiect al clasei sunt o listă ordonată.",
+    "worked": "Fiecare tip de informație a primit structura potrivită. Tabelul rămâne lizibil și pentru cititoarele de ecran datorită celulelor de antet.",
+    "exercises": [
+     "Creează o listă neordonată cu operele unui scriitor.",
+     "Creează o listă ordonată cu pașii unui proiect.",
+     "Creează un meniu ca listă de legături.",
+     "Creează o cronologie într-un tabel cu antet.",
+     "Unește două celule ale unui tabel cu colspan."
+    ],
+    "test": [
+     "Când folosim lista ordonată?",
+     "Ce etichetă are un element de listă?",
+     "Ce este th?",
+     "Ce face colspan?",
+     "Pentru ce nu folosim tabelele?"
+    ],
+    "steps": [
+     "Stabilește dacă informația are ordine sau este tabelară.",
+     "Alege lista sau tabelul și scrie structura.",
+     "Formatează cu CSS și verifică afișarea pe telefon.",
+     "Greșeala frecventă: să așezi toată pagina într-un tabel; pe telefon pagina devine greu de citit."
+    ],
+    "answers": [
+     "Când ordinea elementelor contează.",
+     "li.",
+     "O celulă de antet a tabelului.",
+     "Unește celule pe orizontală.",
+     "Pentru așezarea paginii."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-12-l08": {
+   "ro": {
+    "title": "Obiecte hipermedia: imagini, audio, video",
+    "theory": "Imaginile se inserează cu <img src=\"creanga.jpg\" alt=\"Portretul lui Ion Creangă\" width=\"300\">. Formate: JPG pentru fotografii, PNG pentru grafică cu contururi clare sau transparență, SVG pentru desene vectoriale, WebP pentru fișiere mici. Imaginile se redimensionează înainte de publicare la mărimea afișată, ca pagina să se încarce repede. Atributul alt descrie imaginea. Sunetul se inserează cu <audio controls src=\"poezie.mp3\">, iar videoclipul cu <video controls src=\"interviu.mp4\">; atributul controls afișează butoanele de redare. Videoclipurile de pe platforme se pot încorpora cu codul oferit de acestea. Folosim doar materiale proprii, cu licență liberă sau cu acordul autorului și menționăm sursa; nu pornim automat sunetul, pentru că deranjează vizitatorul.",
+    "sample": "Pagina despre Eminescu are portretul (JPG, 600 px lățime, 80 KB), o înregistrare a poeziei „Lacul” recitată de un elev (MP3, cu controale) și un scurt videoclip realizat de clasă. Fotografia inițială de 6 MB a fost micșorată înainte de publicare.",
+    "worked": "Optimizarea a redus fișierul de 75 de ori fără pierdere vizibilă. Materialele proprii au evitat problemele de drepturi de autor.",
+    "exercises": [
+     "Inserează o imagine cu text alternativ și lățime stabilită.",
+     "Optimizează o fotografie pentru web.",
+     "Inserează un fișier audio cu controale.",
+     "Inserează un videoclip propriu.",
+     "Verifică licența a trei imagini găsite pe internet."
+    ],
+    "test": [
+     "Ce format folosim pentru fotografii?",
+     "Ce face atributul alt?",
+     "De ce micșorăm imaginile înainte de publicare?",
+     "Ce face atributul controls?",
+     "Ce materiale avem voie să folosim?"
+    ],
+    "steps": [
+     "Alege materialele și verifică dreptul de folosire.",
+     "Optimizează formatul și dimensiunea fișierelor.",
+     "Inserează-le cu etichetele potrivite, cu alt și controale, apoi testează.",
+     "Greșeala frecventă: să pornești automat muzica la deschiderea paginii; vizitatorii închid site-ul."
+    ],
+    "answers": [
+     "JPG.",
+     "Descrie imaginea pentru cine nu o poate vedea.",
+     "Ca pagina să se încarce repede.",
+     "Afișează butoanele de redare.",
+     "Proprii, cu licență liberă sau cu acordul autorului."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-12-l09": {
+   "ro": {
+    "title": "Maparea imaginilor și cadrele",
+    "theory": "Maparea imaginilor (image map) transformă zone dintr-o imagine în legături: pe harta județului, fiecare localitate poate trimite la pagina scriitorului născut acolo. Se folosesc etichetele <map> și <area>, cu forma zonei (dreptunghi, cerc, poligon) și coordonatele ei în pixeli; editoarele vizuale permit desenarea zonelor cu mouse-ul. Fiecare zonă are text alternativ. Cadrele (frames) împărțeau fereastra browserului în mai multe zone, fiecare cu altă pagină (de exemplu meniul stânga, conținutul dreapta). Programa din 2009 le menționează, dar elementul <frameset> este scos din standardul HTML actual, pentru că strica adresele paginilor, căutarea și accesibilitatea. Astăzi aceeași așezare se face cu CSS, iar elementul <iframe> se folosește doar pentru a încorpora o resursă externă (o hartă, un videoclip) într-o pagină.",
+    "sample": "Pe harta județului, elevul definește un cerc în jurul satului Humulești, cu legătura spre pagina lui Ion Creangă, și un poligon pe conturul orașului Botoșani, cu legătura spre pagina lui Mihai Eminescu. Pe pagina de contact încorporează harta școlii cu un iframe.",
+    "worked": "Imaginea mapată a devenit un meniu vizual. Iframe-ul a adus o resursă externă fără ca întregul site să fie construit din cadre.",
+    "exercises": [
+     "Creează o imagine mapată cu trei zone.",
+     "Desenează zone dreptunghi, cerc și poligon într-un editor vizual.",
+     "Adaugă text alternativ fiecărei zone.",
+     "Încorporează o hartă cu iframe.",
+     "Explică de ce frameset nu se mai folosește."
+    ],
+    "test": [
+     "Ce face maparea imaginilor?",
+     "Ce forme pot avea zonele?",
+     "Ce erau cadrele?",
+     "De ce frameset a fost scos din standard?",
+     "La ce folosim astăzi iframe?"
+    ],
+    "steps": [
+     "Alege imaginea și stabilește zonele care devin legături.",
+     "Definește zonele cu formă, coordonate, legătură și text alternativ.",
+     "Testează fiecare zonă, inclusiv pe telefon.",
+     "Greșeala frecventă: să construiești site-ul din cadre (frameset); adresele, căutarea și accesibilitatea au de suferit."
+    ],
+    "answers": [
+     "Transformă zone dintr-o imagine în legături.",
+     "Dreptunghi, cerc, poligon.",
+     "Zone ale ferestrei care afișau pagini diferite.",
+     "Pentru că strica adresele paginilor, căutarea și accesibilitatea.",
+     "Pentru încorporarea unei resurse externe."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-12-l10": {
+   "ro": {
+    "title": "Culori, fundaluri și modelul casetei în CSS",
+    "theory": "Aspectul paginii se construiește în CSS. Culorile se scriu prin nume (navy), cod hexazecimal (#1a3c6e) sau rgb(26, 60, 110); color este culoarea textului, background-color culoarea fundalului, iar background-image pune o imagine de fundal, care nu trebuie să încurce citirea. Fiecare element HTML este o casetă dreptunghiulară, descrisă de modelul casetei (box model): conținutul, spațiul interior (padding), bordura (border) și spațiul exterior (margin) față de elementele vecine. Lățimea și înălțimea (width, height) se pot da în pixeli sau procente; procentele și unitățile relative (em, rem) ajută adaptarea la ecrane diferite. Selectorii aleg elementele: după etichetă (h1), după clasă (.citat, pentru mai multe elemente) sau după id (#meniu, pentru un element unic). O clasă definită o dată poate fi folosită pe toate paginile.",
+    "sample": "Pentru citatele din operele scriitorilor, elevul definește clasa .citat { background-color: #f3efe6; border-left: 4px solid #8a5a2b; padding: 12px 16px; margin: 20px 0; font-style: italic; } și o aplică fiecărui citat cu <blockquote class=\"citat\">.",
+    "worked": "Clasa a dat tuturor citatelor același aspect. Padding a depărtat textul de bordură, iar margin a separat citatul de paragrafele vecine.",
+    "exercises": [
+     "Stabilește culorile textului și ale fundalului pentru tot site-ul.",
+     "Definește o clasă CSS și aplic-o mai multor elemente.",
+     "Desenează modelul casetei pentru un paragraf, cu valori date.",
+     "Adaugă o bordură și spațiu interior unei casete de anunț.",
+     "Explică diferența dintre selectorul de clasă și cel de id."
+    ],
+    "test": [
+     "Cum se pot scrie culorile în CSS?",
+     "Ce este modelul casetei?",
+     "Ce diferență este între padding și margin?",
+     "Când folosim o clasă?",
+     "De ce folosim unități relative?"
+    ],
+    "steps": [
+     "Stabilește paleta de culori și elementele care trebuie evidențiate.",
+     "Scrie regulile CSS cu selectorii potriviți și valorile modelului casetei.",
+     "Verifică aspectul în browser și contrastul dintre text și fundal.",
+     "Greșeala frecventă: să pui o imagine de fundal încărcată sub text; pagina devine greu de citit."
+    ],
+    "answers": [
+     "Prin nume, cod hexazecimal sau rgb.",
+     "Conținut, padding, border și margin ale fiecărui element.",
+     "Padding este spațiul interior, margin cel exterior.",
+     "Pentru stilul comun al mai multor elemente.",
+     "Ca pagina să se adapteze la ecrane diferite."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-12-l11": {
+   "ro": {
+    "title": "Designul general, publicarea și testarea",
+    "theory": "Designul general pune laolaltă elementele: macheta comună (antet, meniu, conținut, subsol), paleta de culori (2–3 culori de bază), fonturile, stilul imaginilor. În CSS, așezarea pe coloane se face cu Flexbox sau Grid, iar regulile media query adaptează pagina la ecrane mici. Publicarea înseamnă copierea fișierelor pe un server web (găzduire), prin încărcare din panoul de administrare sau prin FTP; există și găzduiri gratuite pentru proiecte școlare. Site-ul primește o adresă (domeniu). Testarea: în mai multe browsere și pe telefon, verificarea tuturor legăturilor și imaginilor, validarea codului HTML cu un validator online, verificarea timpului de încărcare și a textelor alternative. Corectura textelor se face înainte de publicare. Site-ul se actualizează și se verifică periodic.",
+    "sample": "Echipa publică site-ul pe o găzduire gratuită. La testare găsește două legături greșite: un fișier salvat „Eminescu.html” era legat ca „eminescu.html”. Pe server literele mari și mici contează, deși pe calculatorul propriu legătura mergea.",
+    "worked": "Testarea după publicare a prins o eroare invizibilă local. Regula sigură: nume de fișiere cu litere mici, fără spații și diacritice.",
+    "exercises": [
+     "Stabilește paleta de culori și fonturile unui site.",
+     "Așază un antet, un meniu și conținutul cu CSS.",
+     "Adaugă o regulă media query pentru telefon.",
+     "Publică un site pe o găzduire gratuită.",
+     "Validează codul unei pagini și corectează erorile."
+    ],
+    "test": [
+     "Ce cuprinde designul general?",
+     "Ce face o regulă media query?",
+     "Ce înseamnă publicarea unui site?",
+     "Ce verificăm la testare?",
+     "De ce folosim nume de fișiere cu litere mici?"
+    ],
+    "steps": [
+     "Definește macheta, culorile și fonturile comune.",
+     "Publică fișierele pe server.",
+     "Testează în browsere și pe telefon, validează codul și corectează.",
+     "Greșeala frecventă: să crezi că un site care merge pe calculatorul tău merge și pe server; testează după publicare."
+    ],
+    "answers": [
+     "Macheta, culorile, fonturile, stilul imaginilor.",
+     "Adaptează pagina la ecrane de anumite dimensiuni.",
+     "Copierea fișierelor pe un server web.",
+     "Browsere, telefon, legături, imagini, validarea codului, încărcarea.",
+     "Pentru că pe server literele mari și mici contează."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-12-l12": {
+   "ro": {
+    "title": "Proiect: realizarea și prezentarea unui site tematic",
+    "theory": "Proiectul anului este un site realizat în echipă pe o temă potrivită specializării: scriitori locali, o revistă literară online, un ghid al unui curent literar, un dicționar de termeni. Pașii: alegerea temei după interesul elevilor; regulile de lucru în echipă (roluri – coordonator, redactori, designer, responsabil cu imaginile, tester; termene; comunicare); planul de lucru; culegerea și ierarhizarea informației; realizarea paginilor; documentarea aplicației (o pagină „Despre proiect” cu autorii, sursele și licențele). Prezentarea în public: o demonstrație de câteva minute, adaptată scopului (pentru juriu – structura și realizarea tehnică; pentru colegi – conținutul și navigarea), cu un traseu pregătit prin site și răspunsuri la întrebări.",
+    "sample": "Echipa „Scriitori din Moldova” are cinci membri. Coordonatorul ține planul, redactorii scriu paginile, designerul face CSS-ul, responsabilul cu imaginile obține acordurile, iar testerul verifică totul pe telefon. La prezentare, fiecare arată partea lui în două minute, urmând un traseu prin site.",
+    "worked": "Rolurile clare au permis lucrul în paralel. Traseul pregătit a făcut prezentarea scurtă și coerentă.",
+    "exercises": [
+     "Alege tema și publicul site-ului.",
+     "Stabilește rolurile, termenele și regulile echipei.",
+     "Realizează pagina „Despre proiect”, cu surse și licențe.",
+     "Pregătește traseul unei demonstrații de cinci minute.",
+     "Adaptează prezentarea pentru juriu și pentru colegi."
+    ],
+    "test": [
+     "Ce teme pot avea proiectele?",
+     "Ce roluri există în echipă?",
+     "Ce conține pagina „Despre proiect”?",
+     "Cum adaptăm prezentarea?",
+     "De ce pregătim un traseu prin site?"
+    ],
+    "steps": [
+     "Alege tema și formează echipa cu roluri și termene.",
+     "Culege și ierarhizează informația, realizează și testează paginile.",
+     "Documentează proiectul și prezintă-l adaptat publicului.",
+     "Greșeala frecventă: să prezinți site-ul fără un traseu pregătit; pierzi timpul căutând paginile."
+    ],
+    "answers": [
+     "Scriitori locali, revistă online, ghid al unui curent literar, dicționar.",
+     "Coordonator, redactori, designer, responsabil cu imaginile, tester.",
+     "Autorii, sursele și licențele.",
+     "După scop: tehnic pentru juriu, de conținut pentru colegi.",
+     "Ca demonstrația să fie scurtă și coerentă."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-12-l13": {
+   "ro": {
+    "title": "Prezentarea în public a aplicației realizate",
+    "theory": "Prezentarea unui proiect are reguli de bază. Structura: începutul (problema și scopul aplicației, publicul căruia i se adresează), mijlocul (cum este organizată aplicația și o demonstrație pe un traseu ales dinainte), finalul (ce s-a obținut, ce limite are, ce s-ar putea adăuga) și întrebările publicului. Durata se respectă: pentru câteva minute alegem doar părțile cele mai reprezentative. Pregătim tehnic: verificăm proiectorul și conexiunea la internet și avem o copie locală a site-ului sau capturi de ecran, pentru cazul în care internetul nu merge. Vorbim liber, privind publicul, nu ecranul, și explicăm termenii tehnici. Adaptăm prezentarea scopului: la un concurs evidențiem originalitatea și realizarea tehnică, la o lecție deschisă conținutul, iar pentru părinți utilitatea. După prezentare analizăm împreună ce a mers bine și ce se poate îmbunătăți.",
+    "sample": "La prezentarea finală, internetul din sală nu funcționează. Echipa deschide copia locală a site-ului de pe stick și urmează traseul pregătit: pagina principală, o pagină de scriitor, harta mapată, pagina „Despre proiect”. Demonstrația se încheie în cinci minute.",
+    "worked": "Planul de rezervă a salvat prezentarea. Traseul ales dinainte a arătat în timp scurt toate elementele importante.",
+    "exercises": [
+     "Scrie structura unei prezentări de cinci minute pentru site.",
+     "Pregătește un plan de rezervă pentru problemele tehnice.",
+     "Adaptează aceeași prezentare pentru un juriu și pentru părinți.",
+     "Exersează prezentarea în echipă și cronometreaz-o.",
+     "Fă o fișă de analiză a prezentărilor colegilor."
+    ],
+    "test": [
+     "Ce părți are o prezentare de proiect?",
+     "De ce avem o copie locală a site-ului?",
+     "Cum adaptăm prezentarea scopului?",
+     "Unde privim când prezentăm?",
+     "Ce facem după prezentare?"
+    ],
+    "steps": [
+     "Stabilește scopul prezentării și publicul.",
+     "Alege traseul demonstrației și pregătește planul de rezervă.",
+     "Exersează cronometrat, prezintă și analizează apoi rezultatul.",
+     "Greșeala frecventă: să citești de pe ecran cu spatele la public; ascultătorii pierd firul."
+    ],
+    "answers": [
+     "Început, demonstrație, final, întrebări.",
+     "Pentru cazul în care internetul nu funcționează.",
+     "Evidențiem ce interesează publicul: tehnica, conținutul sau utilitatea.",
+     "Spre public, nu spre ecran.",
+     "Analizăm ce a mers bine și ce se poate îmbunătăți."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-12-l14": {
+   "ro": {
+    "title": "Activități care cer o bază de date",
+    "theory": "O bază de date este necesară atunci când trebuie păstrate sistematic multe date despre aceleași tipuri de lucruri, consultate și actualizate des, de mai multe persoane. Exemple: evidența cheltuielilor (dată, categorie, sumă), controlul inventarului (produse, stocuri, intrări, ieșiri), managementul evenimentelor (evenimente, participanți, înscrieri), facturarea (clienți, produse, facturi), gestionarea contactelor, urmărirea activelor (echipamentele unui laborator: cine le are, unde, în ce stare). Semne că o foaie de calcul nu mai ajunge: aceleași date se repetă pe multe rânduri, apar greșeli de scriere, mai mulți oameni modifică simultan, avem nevoie de legături între liste. Un sistem de gestiune a bazelor de date (SGBD, de exemplu Microsoft Access sau LibreOffice Base) creează, păstrează și interoghează aceste date.",
+    "sample": "Laboratorul de biologie are 40 de microscoape și 25 de truse, împrumutate claselor. Evidența pe hârtie se pierdea. O bază de date cu tabelele Echipamente, Clase și Împrumuturi arată oricând unde se află fiecare echipament și starea lui.",
+    "worked": "Activitatea avea toate semnele: multe obiecte, actualizări dese, mai mulți utilizatori, legături între liste. Baza de date a înlocuit evidența pe hârtie.",
+    "exercises": [
+     "Identifică trei activități din școală care ar avea nevoie de o bază de date.",
+     "Explică de ce o listă de contacte poate deveni bază de date.",
+     "Enumeră semnele că o foaie de calcul nu mai ajunge.",
+     "Propune tabelele pentru evidența cheltuielilor unei familii.",
+     "Compară evidența pe hârtie cu o bază de date."
+    ],
+    "test": [
+     "Când este necesară o bază de date?",
+     "Dă trei exemple de activități.",
+     "Ce face un SGBD?",
+     "Ce semne arată că foaia de calcul nu mai ajunge?",
+     "Ce tabele are evidența echipamentelor?"
+    ],
+    "steps": [
+     "Descrie activitatea și datele care se păstrează.",
+     "Verifică volumul, frecvența actualizărilor, numărul de utilizatori și legăturile.",
+     "Decide dacă e nevoie de o bază de date și schițează tabelele.",
+     "Greșeala frecventă: să creezi o bază de date pentru o listă mică, folosită rar; o foaie de calcul este suficientă."
+    ],
+    "answers": [
+     "Când păstrăm sistematic multe date, actualizate des, de mai multe persoane.",
+     "Cheltuieli, inventar, evenimente, facturare, contacte, active.",
+     "Creează, păstrează și interoghează bazele de date.",
+     "Repetări, greșeli de scriere, modificări simultane, nevoia de legături.",
+     "Echipamente, Clase, Împrumuturi."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-12-l15": {
+   "ro": {
+    "title": "Analiza datelor, relații și redundanță",
+    "theory": "Proiectarea începe cu analiza: ce informații trebuie păstrate și cum se leagă. Grupăm datele pe entități (lucruri despre care reținem informații): Participant, Eveniment, Înscriere. Fiecare entitate devine un tabel, iar informațiile ei devin câmpuri. Relațiile arată legăturile: un eveniment are mulți participanți, un participant poate merge la mai multe evenimente – relație mulți-la-mulți, rezolvată prin tabelul Înscrieri. Redundanța înseamnă repetarea inutilă a acelorași date (adresa participantului scrisă la fiecare înscriere). Ea ocupă spațiu și, mai grav, produce contradicții: dacă adresa se schimbă într-un loc și nu în altul, nu mai știm care este corectă. Soluția: fiecare informație se păstrează într-un singur loc, iar tabelele se leagă prin coduri. Desenăm un model conceptual: dreptunghiuri pentru entități, linii pentru relații.",
+    "sample": "Un tabel unic al festivalului de teatru avea coloanele Participant, Telefon, Spectacol, Data spectacolului. Telefonul Mariei apărea de patru ori, cu două valori diferite. Separarea în Participanți, Spectacole și Bilete a lăsat telefonul într-un singur loc.",
+    "worked": "Redundanța a produs o contradicție reală. Modelul cu trei tabele elimină repetarea și, odată cu ea, contradicțiile.",
+    "exercises": [
+     "Identifică entitățile pentru evidența unei biblioteci de cartier.",
+     "Găsește redundanța dintr-un tabel dat.",
+     "Rezolvă o relație mulți-la-mulți cu un tabel de legătură.",
+     "Desenează modelul conceptual pentru un concurs școlar.",
+     "Explică de ce redundanța produce contradicții."
+    ],
+    "test": [
+     "Ce este o entitate?",
+     "Ce devine o entitate în baza de date?",
+     "Ce este redundanța?",
+     "De ce este periculoasă redundanța?",
+     "Cum se rezolvă o relație mulți-la-mulți?"
+    ],
+    "steps": [
+     "Identifică entitățile și informațiile fiecăreia.",
+     "Stabilește relațiile și rezolvă relațiile mulți-la-mulți.",
+     "Verifică ca fiecare informație să apară într-un singur loc.",
+     "Greșeala frecventă: să păstrezi totul într-un singur tabel mare; apar repetări și contradicții."
+    ],
+    "answers": [
+     "Un lucru despre care reținem informații.",
+     "Un tabel.",
+     "Repetarea inutilă a acelorași date.",
+     "Pentru că produce contradicții când datele se modifică.",
+     "Printr-un tabel de legătură."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-12-l16": {
+   "ro": {
+    "title": "Tipuri de date și structura tabelelor",
+    "theory": "Fiecare câmp are un tip de date, care stabilește ce valori acceptă și ce operații se pot face: numeric (întreg sau real – cantități, măsurători), caracter (text scurt – nume; text lung – observații), dată/oră, logic (da/nu – „a plătit taxa”), monedă, numerotare automată (cod unic generat automat). Alegerea corectă permite calcule și sortări corecte și ocupă spațiul potrivit. În modul proiectare creăm structura: numele câmpurilor, tipurile, proprietățile (dimensiune, format, valoare implicită, regulă de validare, obligatoriu) și cheia primară. Structura poate fi modificată ulterior (adăugăm un câmp, schimbăm un tip), dar schimbarea tipului unui câmp cu date poate trunchia sau pierde valori, de aceea facem întâi o copie a bazei de date.",
+    "sample": "Tabelul Probe (laborator de chimie): CodProba – numerotare automată, cheie primară; DataRecoltare – dată; Locul – text scurt 50; pH – număr real, validare între 0 și 14; Analizata – da/nu. Mai târziu se adaugă câmpul Observații – text lung.",
+    "worked": "Fiecare tip corespunde valorilor reale. Validarea pH-ului respinge din start valorile imposibile, iar câmpul nou s-a adăugat fără să afecteze datele existente.",
+    "exercises": [
+     "Alege tipurile pentru zece câmpuri date.",
+     "Creează în modul proiectare tabelul unei colecții de minerale.",
+     "Adaugă o regulă de validare și o valoare implicită.",
+     "Adaugă un câmp nou unui tabel cu date.",
+     "Explică riscul schimbării tipului unui câmp cu date."
+    ],
+    "test": [
+     "Ce stabilește tipul de date?",
+     "Ce tip folosim pentru „a plătit taxa”?",
+     "Ce proprietăți poate avea un câmp?",
+     "Unde creăm structura tabelului?",
+     "Ce facem înainte de a schimba tipul unui câmp cu date?"
+    ],
+    "steps": [
+     "Enumeră câmpurile și alege tipul potrivit fiecăruia.",
+     "Stabilește proprietățile, validările și cheia primară.",
+     "Salvează structura și testează cu câteva înregistrări.",
+     "Greșeala frecventă: să schimbi tipul unui câmp plin de date fără copie de rezervă; valorile se pot pierde."
+    ],
+    "answers": [
+     "Ce valori acceptă câmpul și ce operații se pot face.",
+     "Logic (da/nu).",
+     "Dimensiune, format, valoare implicită, validare, obligatoriu.",
+     "În modul proiectare.",
+     "O copie a bazei de date."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-12-l17": {
+   "ro": {
+    "title": "Proiectarea bazei de date: chei primare și chei externe",
+    "theory": "După analiza datelor transformăm modelul conceptual în tabele legate. Fiecare tabel primește o cheie primară, câmpul care identifică unic fiecare înregistrare și nu poate fi gol: un cod cu numerotare automată (CodPlanta) sau un cod natural garantat unic. Pentru fiecare relație unu-la-mulți, cheia primară a tabelului de pe partea „unu” se copiază ca cheie externă în tabelul de pe partea „mulți”: Familii(CodFamilie, Denumire) și Plante(CodPlanta, Denumire, CodFamilie). Relația mulți-la-mulți se rezolvă cu un tabel de legătură care conține cheile ambelor tabele (Colectări(CodPlanta, CodLoc, Data)). Verificăm proiectul cu întrebări: fiecare informație apare o singură dată? putem ajunge prin legături la orice informație? Proiectul se desenează pe hârtie înainte de a fi creat în aplicație.",
+    "sample": "Herbarul digital: Familii(CodFamilie – cheie primară, Denumire), Plante(CodPlanta – cheie primară, DenumirePopulara, DenumireStiintifica, CodFamilie – cheie externă), Locuri(CodLoc, Nume, Altitudine), Colectări(CodColectare, CodPlanta, CodLoc, Data). O plantă colectată în trei locuri are trei înregistrări în Colectări, dar o singură înregistrare în Plante.",
+    "worked": "Cheile externe au legat tabelele fără a repeta informațiile. Tabelul Colectări a rezolvat relația dintre multe plante și multe locuri.",
+    "exercises": [
+     "Stabilește cheile primare ale tabelelor unei baze de date date.",
+     "Plasează cheile externe pentru trei relații unu-la-mulți.",
+     "Rezolvă o relație mulți-la-mulți cu un tabel de legătură.",
+     "Desenează pe hârtie proiectul unei baze de date pentru un club de lectură.",
+     "Verifică un proiect cu întrebările învățate."
+    ],
+    "test": [
+     "Ce este cheia primară?",
+     "Unde se pune cheia externă într-o relație unu-la-mulți?",
+     "Ce conține un tabel de legătură?",
+     "Ce întrebări de verificare punem?",
+     "De ce desenăm proiectul pe hârtie?"
+    ],
+    "steps": [
+     "Transformă fiecare entitate în tabel și alege-i cheia primară.",
+     "Adaugă cheile externe pe partea „mulți” și tabelele de legătură pentru relațiile mulți-la-mulți.",
+     "Verifică proiectul cu întrebările de control, apoi creează-l în aplicație.",
+     "Greșeala frecventă: să pui cheia externă pe partea „unu” a relației; nu poți reține mai multe legături."
+    ],
+    "answers": [
+     "Câmpul care identifică unic fiecare înregistrare.",
+     "În tabelul de pe partea „mulți”.",
+     "Cheile primare ale celor două tabele legate.",
+     "Fiecare informație apare o dată? Ajungem prin legături la orice informație?",
+     "Ca greșelile să fie corectate înainte de a crea tabelele."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-12-l18": {
+   "ro": {
+    "title": "Interfața SGBD și relaționarea tabelelor",
+    "theory": "La deschiderea aplicației creăm o bază nouă sau deschidem una existentă; panoul de navigare listează obiectele: tabele, interogări, formulare, rapoarte. Fiecare obiect are moduri de vizualizare: foaie de date (vedem și edităm datele), proiectare (modificăm structura), aspect sau previzualizare. Funcția Ajutor (F1) explică comenzile. Baza de date se păstrează într-un singur fișier, iar datele se salvează automat; salvăm explicit doar modificările de structură. Relaționarea tabelelor se face în fereastra Relații: tragem cheia primară (Spectacole.CodSpectacol) peste cheia externă (Bilete.CodSpectacol). Bifăm integritatea referențială, ca să nu existe bilete pentru spectacole inexistente. Câmpurile legate au același tip de date. După relaționare, interogările și rapoartele pot folosi date din mai multe tabele.",
+    "sample": "În baza de date a festivalului, elevul leagă Participanți – Bilete (prin CodParticipant) și Spectacole – Bilete (prin CodSpectacol), ambele unu-la-mulți, cu integritate referențială. Încercarea de a șterge un spectacol cu bilete vândute este refuzată.",
+    "worked": "Relațiile au transformat trei tabele separate într-un sistem coerent. Integritatea referențială protejează legăturile dintre date.",
+    "exercises": [
+     "Deschide o bază de date și explorează panoul de navigare.",
+     "Comută un tabel între foaie de date și proiectare.",
+     "Creează relațiile dintre trei tabele.",
+     "Impune integritatea referențială și testeaz-o.",
+     "Folosește Ajutorul pentru o comandă necunoscută."
+    ],
+    "test": [
+     "Ce listează panoul de navigare?",
+     "Ce face modul proiectare?",
+     "Când salvăm explicit?",
+     "Unde creăm relațiile?",
+     "Ce face integritatea referențială?"
+    ],
+    "steps": [
+     "Deschide baza de date și identifică obiectele.",
+     "Creează relațiile între cheile primare și externe, cu același tip de date.",
+     "Impune integritatea referențială și verifică cu date greșite.",
+     "Greșeala frecventă: să legi câmpuri de tipuri diferite; relația nu se poate crea sau nu funcționează corect."
+    ],
+    "answers": [
+     "Obiectele bazei de date.",
+     "Permite modificarea structurii.",
+     "Când modificăm structura obiectelor.",
+     "În fereastra Relații.",
+     "Împiedică legăturile spre înregistrări inexistente."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-12-l19": {
+   "ro": {
+    "title": "Culegerea datelor reale și popularea bazei de date",
+    "theory": "O bază de date este utilă doar dacă datele din ea sunt corecte și actuale. Datele reale se culeg prin mai multe tehnici: interviul (întrebări puse direct unei persoane, de exemplu bibliotecarei, pentru a afla ce informații folosește), chestionarul (aceleași întrebări pentru mai mulți respondenți, pe hârtie sau online – formularele online pot exporta răspunsurile într-un tabel), analiza documentelor primare (registre, fișe, facturi, jurnale de observații) și măsurătorile proprii. Înainte de import, datele se curăță: eliminăm dublurile, uniformizăm scrierea (aceeași denumire pentru aceeași localitate), verificăm unitățile de măsură și valorile imposibile. Datele se pot introduce manual, prin formulare, sau se pot importa dintr-o foaie de calcul ori dintr-un fișier CSV. Datele personale se culeg doar cu acordul persoanelor și se folosesc numai în scopul anunțat.",
+    "sample": "Echipa culege prin chestionar online date despre plantele din grădinile a 30 de familii. La import observă că localitatea apare scrisă „Sinaia”, „sinaia” și „Sinaia ” (cu spațiu). După uniformizare, o interogare pe localitate găsește corect toate cele 12 răspunsuri, nu doar 7.",
+    "worked": "Curățarea datelor a făcut ca interogările să dea rezultate complete. Fără ea, aceeași localitate ar fi fost tratată ca trei localități diferite.",
+    "exercises": [
+     "Pregătește întrebările unui interviu cu utilizatorul bazei de date.",
+     "Creează un chestionar online care exportă răspunsurile în tabel.",
+     "Extrage datele dintr-un document primar într-un tabel.",
+     "Curăță un set de date: dubluri, scriere neuniformă, valori imposibile.",
+     "Importă datele dintr-o foaie de calcul într-un tabel."
+    ],
+    "test": [
+     "Ce tehnici de culegere a datelor cunoști?",
+     "Ce este un document primar?",
+     "Ce înseamnă curățarea datelor?",
+     "Cum pot ajunge datele în tabele?",
+     "Cu ce condiție culegem date personale?"
+    ],
+    "steps": [
+     "Alege tehnica de culegere potrivită temei.",
+     "Culege datele și curăță-le: dubluri, scriere uniformă, unități, valori imposibile.",
+     "Importă sau introdu datele și verifică rezultatul cu câteva interogări.",
+     "Greșeala frecventă: să imporți datele necurățate; aceeași valoare scrisă diferit strică interogările."
+    ],
+    "answers": [
+     "Interviul, chestionarul, analiza documentelor primare, măsurătorile proprii.",
+     "Un document original: registru, fișă, factură, jurnal de observații.",
+     "Eliminarea dublurilor și a greșelilor, uniformizarea scrierii.",
+     "Prin introducere manuală, formulare sau import.",
+     "Doar cu acordul persoanelor."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-12-l20": {
+   "ro": {
+    "title": "Manipularea datelor și funcții standard",
+    "theory": "În foaia de date adăugăm înregistrări pe rândul nou, modificăm valori scriind peste ele și ștergem înregistrări (operația cere confirmare și nu poate fi anulată). Sortăm după un câmp (crescător sau descrescător) și filtrăm după selecție sau după formular. Funcțiile standard calculează pe datele din tabele: în rândul Totaluri al foii de date sau în interogări putem folosi Sumă, Medie, Număr, Minim, Maxim, Abatere standard. În expresii folosim funcții pentru date (Year, Month, Date() pentru data curentă, DateDiff pentru diferențe), pentru text (Left, Len, UCase) și condiționale (IIf, echivalentul lui IF). Expresiile se scriu cu numele câmpurilor între paranteze drepte: [Cantitate]*[PretUnitar].",
+    "sample": "În tabelul Probe, elevul afișează rândul Totaluri: media pH-ului este 7,3, numărul de probe 48, valoarea maximă 8,9. Apoi filtrează probele din luna mai și vede că media lor este 7,8.",
+    "worked": "Funcțiile standard au dat o imagine de ansamblu fără nicio formulă scrisă. Filtrul a permis compararea unei perioade cu întregul set.",
+    "exercises": [
+     "Adaugă, modifică și șterge înregistrări.",
+     "Sortează și filtrează un tabel după două criterii.",
+     "Afișează rândul Totaluri cu media și numărul de înregistrări.",
+     "Calculează vârsta în ani cu o expresie de dată.",
+     "Scrie o expresie cu IIf pentru a marca valorile mari."
+    ],
+    "test": [
+     "Poate fi anulată ștergerea unei înregistrări?",
+     "Ce funcții standard cunoști?",
+     "Ce face Date()?",
+     "Ce face IIf?",
+     "Cum scriem numele câmpurilor în expresii?"
+    ],
+    "steps": [
+     "Introdu și corectează datele în foaia de date.",
+     "Sortează, filtrează și afișează totalurile necesare.",
+     "Construiește expresiile cu funcții și verifică pe câteva înregistrări.",
+     "Greșeala frecventă: să ștergi înregistrări fără verificare; ștergerea nu poate fi anulată."
+    ],
+    "answers": [
+     "Nu.",
+     "Sumă, Medie, Număr, Minim, Maxim, Abatere standard.",
+     "Întoarce data curentă.",
+     "Alege un rezultat după o condiție.",
+     "Între paranteze drepte."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-12-l21": {
+   "ro": {
+    "title": "Interogarea bazei de date",
+    "theory": "Interogările răspund la întrebări despre date. Ne putem conecta și la o bază de date existentă, inclusiv legând tabele din alt fișier. Interogarea de selecție pe un tabel: alegem câmpurile, scriem criterii de căutare (>7, Between #01.05.2026# And #31.05.2026#, Like \"Ia*\", Is Null) și sortarea. Criteriile de pe același rând se leagă prin ȘI, cele de pe rânduri diferite prin SAU. Interogările pe mai multe tabele adaugă tabelele legate și preiau câmpuri din fiecare. Interogarea cu parametru cere o valoare la rulare ([Introduceți luna:]), ca aceeași interogare să servească mai multe căutări. Rezultatul interogării se poate tipări direct sau poate deveni sursa unui raport. Rezultatele se actualizează automat la fiecare rulare.",
+    "sample": "Interogarea „Probe acide pe localitate” folosește tabelele Probe și Puncte (legate prin CodPunct): câmpurile Localitate, DataRecoltare, pH; criteriul <7 la pH; parametrul [Localitatea:] la Localitate. La rulare, utilizatorul scrie „Sinaia” și primește doar probele acide de acolo.",
+    "worked": "Parametrul a făcut interogarea reutilizabilă pentru orice localitate. Legătura dintre tabele a adus numele localității lângă valorile măsurate.",
+    "exercises": [
+     "Creează o interogare cu un criteriu numeric.",
+     "Creează o interogare cu criterii ȘI și SAU.",
+     "Creează o interogare pe două tabele legate.",
+     "Creează o interogare cu parametru.",
+     "Tipărește rezultatul unei interogări."
+    ],
+    "test": [
+     "Ce face o interogare de selecție?",
+     "Cum se leagă criteriile de pe rânduri diferite?",
+     "Ce face o interogare cu parametru?",
+     "Ce condiție cer interogările pe mai multe tabele?",
+     "Se actualizează rezultatul interogării?"
+    ],
+    "steps": [
+     "Formulează întrebarea și identifică tabelele necesare.",
+     "Alege câmpurile, criteriile, parametrii și sortarea.",
+     "Rulează, verifică pe câteva înregistrări cunoscute și tipărește dacă e nevoie.",
+     "Greșeala frecventă: să creezi câte o interogare separată pentru fiecare valoare căutată; folosește un parametru."
+    ],
+    "answers": [
+     "Afișează înregistrările care respectă criteriile.",
+     "Prin SAU.",
+     "Cere o valoare la rulare.",
+     "Tabelele trebuie să fie legate.",
+     "Da, la fiecare rulare."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-12-l22": {
+   "ro": {
+    "title": "Formulare și rapoarte",
+    "theory": "Formularul este interfața prietenoasă pentru introducerea și consultarea datelor. Îl creăm cu expertul, apoi în modul proiectare sau aspect adăugăm, mutăm și redimensionăm controalele: casete text, etichete, liste derulante (pentru alegerea dintr-o listă, de exemplu localitatea), casete de selectare (pentru câmpuri da/nu), butoane (salvare, înregistrare nouă). Schimbăm caracteristicile grafice: culori, fonturi, siglă, antet. Un subformular afișează înregistrările legate (biletele unui participant). Raportul prezintă datele pentru tipărire: îl creăm cu expertul pe baza unui tabel sau a unei interogări, cu grupări și totaluri, apoi îl modificăm și formatăm (titlu, fonturi, linii, numerotarea paginilor). Înainte de tipărire îl examinăm în previzualizare, ca să verificăm paginile, și abia apoi îl imprimăm sau îl exportăm în PDF.",
+    "sample": "Formularul „Înregistrare probă” are o listă derulantă pentru punctul de recoltare, o casetă de selectare „Analizată” și un buton „Probă nouă”. Raportul „Situația probelor” grupează pe localități, afișează media pH-ului pentru fiecare și este exportat în PDF pentru profesor.",
+    "worked": "Formularul a redus greșelile de introducere, iar raportul a transformat datele într-un document ușor de citit. Ambele folosesc aceleași tabele.",
+    "exercises": [
+     "Creează un formular cu expertul și rearanjează controalele.",
+     "Adaugă o listă derulantă și o casetă de selectare.",
+     "Adaugă un subformular cu înregistrările legate.",
+     "Creează un raport grupat cu totaluri.",
+     "Examinează raportul în previzualizare și exportă-l în PDF."
+    ],
+    "test": [
+     "Ce este un formular?",
+     "Ce controale cunoști?",
+     "Ce afișează un subformular?",
+     "Pe ce se poate baza un raport?",
+     "De ce examinăm raportul înainte de imprimare?"
+    ],
+    "steps": [
+     "Creează formularul cu expertul și adaugă controalele potrivite.",
+     "Creează raportul pe baza unei interogări, cu grupări și totaluri.",
+     "Formatează, examinează în previzualizare și imprimă sau exportă.",
+     "Greșeala frecventă: să imprimi raportul fără previzualizare; pot apărea pagini goale sau coloane tăiate."
+    ],
+    "answers": [
+     "O interfață pentru introducerea și consultarea datelor.",
+     "Casete text, etichete, liste derulante, casete de selectare, butoane.",
+     "Înregistrările legate de înregistrarea curentă.",
+     "Pe un tabel sau pe o interogare.",
+     "Ca să verificăm paginile înainte de tipărire."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-12-l23": {
+   "ro": {
+    "title": "Tipărirea rezultatelor și exportul datelor",
+    "theory": "Rezultatele unei baze de date ajung la oameni tipărite sau exportate. Rezultatul unei interogări se poate tipări direct din foaia de date, dar aspectul este simplu; pentru documente îngrijite folosim un raport. Înainte de tipărire stabilim în Inițializare pagină orientarea (peisaj pentru multe coloane), marginile și coloanele, și verificăm în previzualizare numărul de pagini. Pentru a tipări doar anumite înregistrări, raportul se bazează pe o interogare cu criterii sau pe un parametru. Exportul trimite datele în alte formate: foaie de calcul (pentru calcule și grafice suplimentare), PDF (pentru citire și arhivare, cu aspect fix), text sau CSV (pentru alte programe), document text (pentru îmbinarea corespondenței). La export alegem doar câmpurile necesare și evităm să trimitem date personale inutile.",
+    "sample": "Profesorul de biologie cere probele din mai, cu media pe localități. Elevul creează raportul pe baza interogării cu parametrul [Luna:], îl previzualizează (2 pagini, orientare peisaj) și îl exportă în PDF. Pentru un grafic suplimentar, exportă rezultatul interogării într-o foaie de calcul.",
+    "worked": "Parametrul a limitat raportul la luna cerută, iar previzualizarea a evitat paginile tăiate. Fiecare format de export a servit altui scop.",
+    "exercises": [
+     "Tipărește în PDF rezultatul unei interogări.",
+     "Setează orientarea și marginile unui raport.",
+     "Creează un raport limitat printr-o interogare cu parametru.",
+     "Exportă un tabel într-o foaie de calcul și realizează un grafic.",
+     "Exportă datele în CSV pentru alt program."
+    ],
+    "test": [
+     "Când preferăm un raport în locul tipăririi directe?",
+     "Ce stabilim în Inițializare pagină?",
+     "Cum tipărim doar anumite înregistrări?",
+     "În ce formate putem exporta?",
+     "Ce evităm la exportul datelor?"
+    ],
+    "steps": [
+     "Stabilește ce înregistrări și ce câmpuri trebuie tipărite sau exportate.",
+     "Pregătește interogarea sau raportul și setările de pagină.",
+     "Previzualizează, apoi tipărește sau exportă în formatul potrivit scopului.",
+     "Greșeala frecventă: să exporți tot tabelul, cu date personale inutile; trimite doar câmpurile necesare."
+    ],
+    "answers": [
+     "Când vrem un document îngrijit, cu grupări și totaluri.",
+     "Orientarea, marginile și coloanele.",
+     "Prin interogare cu criterii sau cu parametru.",
+     "Foaie de calcul, PDF, text sau CSV, document text.",
+     "Trimiterea datelor personale inutile."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-12-l24": {
+   "ro": {
+    "title": "Proiect: aplicație de bază de date realizată în echipă",
+    "theory": "Proiectul aplică tot ce s-a învățat la o temă legată de specializare: un herbar digital, monitorizarea calității aerului, evidența unei colecții de minerale, iar la profilul teologic evidența bibliotecii parohiale sau a unui pelerinaj. Etape: tema și echipa (roluri, reguli, plan de lucru); culegerea datelor reale prin interviu, chestionar sau analiza documentelor; structurarea datelor (model conceptual, tabele, relații); realizarea aplicației (tabele, formulare, interogări, rapoarte); documentarea (o scurtă descriere a tabelelor și a modului de folosire). Prezentarea respectă regulile de bază: scopul aplicației, structura, o demonstrație cu date reale, concluzii; exersăm întâi în echipă și apoi prezentăm clasei. Datele personale se culeg doar cu acord.",
+    "sample": "Echipa realizează un herbar digital: tabelele Plante, Familii, Locuri de colectare; formular cu fotografie; interogarea „plante colectate într-un loc ales”; raport pe familii botanice. La prezentare arată cum se adaugă o plantă nouă și cum se generează raportul.",
+    "worked": "Proiectul a urmat etapele din programă, de la culegerea datelor la prezentare. Demonstrația cu date reale a arătat utilitatea aplicației.",
+    "exercises": [
+     "Alege tema și formulează cerințele aplicației.",
+     "Culege date reale printr-un chestionar sau din documente.",
+     "Realizează modelul conceptual și tabelele.",
+     "Construiește formularele, interogările și rapoartele.",
+     "Prezintă aplicația clasei."
+    ],
+    "test": [
+     "Ce teme pot avea proiectele?",
+     "Cum culegem datele?",
+     "Ce conține documentarea aplicației?",
+     "Ce cuprinde prezentarea?",
+     "Cu ce condiție culegem date personale?"
+    ],
+    "steps": [
+     "Alege tema, formează echipa și fă planul de lucru.",
+     "Culege și structurează datele, apoi realizează aplicația.",
+     "Documentează, exersează prezentarea în echipă și prezintă clasei.",
+     "Greșeala frecventă: să lași documentarea pentru final; nimeni nu mai știe ce face fiecare tabel."
+    ],
+    "answers": [
+     "Herbar digital, calitatea aerului, colecție de minerale, bibliotecă parohială.",
+     "Prin interviu, chestionar sau analiza documentelor.",
+     "Descrierea tabelelor și a modului de folosire.",
+     "Scopul, structura, demonstrația cu date reale și concluziile.",
+     "Doar cu acordul persoanelor."
+    ]
+   }
+  }
+ }
+}

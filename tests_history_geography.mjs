@@ -74,7 +74,7 @@ assert.deepEqual(byStage().map(g=>g.level),['beginner','lower','medium','advance
 assert.deepEqual(byStage()[0].ids,['4'],'Romania starts History and Geography at grade 4');
 assert.deepEqual(byStage()[1].ids,['5','6','7','8'],'Romanian lower-secondary classes');
 assert.deepEqual(byStage()[2].ids,['9','10','11','12'],'Romanian high school');
-assert.deepEqual(byStage()[3].ids,['universitate'],'Romanian university choice');
+assert.deepEqual(byStage()[3].ids,['uni-ba-1','uni-ba-2','uni-ba-3'],'Romanian university: Bachelor years I–III with national packs');
 schoolYears.country.code='GB-ENG';
 assert.deepEqual(byStage()[0].ids,['Y1','Y2','Y3','Y4','Y5','Y6'],'England primary years');
 assert.deepEqual(byStage()[1].ids,['Y7','Y8','Y9'],'England lower secondary');

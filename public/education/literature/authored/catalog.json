@@ -1,6 +1,6 @@
 {
  "schema": "mypocket-literature-authored-catalog/v1",
- "version": "7b45a05d54ee6d35fda55b35ae5c3c7b91e06a3bbd84a19f2d671108a5a79877",
+ "version": "7d872771267b4658a9aec0368439febb44cc8fbb1f30bfb7786ad2732ce13239",
  "years": [
   {
    "country": "AD",
@@ -587,6 +587,45 @@
   },
   {
    "country": "RO",
+   "stage": "advanced",
+   "grade": "uni-ba-1",
+   "languages": [
+    {
+     "lang": "ro",
+     "name": "Română",
+     "file": "ro-uni-ba-1",
+     "version": "73fabff7391eaa28a6ff013d92a2eea15c093efdc71314548a84d2ebe9925cd4"
+    }
+   ]
+  },
+  {
+   "country": "RO",
+   "stage": "advanced",
+   "grade": "uni-ba-2",
+   "languages": [
+    {
+     "lang": "ro",
+     "name": "Română",
+     "file": "ro-uni-ba-2",
+     "version": "4fa1f63194bcea8ae5acc3de5b284ee73ad8f5074e43bcd48e66fdca052960fd"
+    }
+   ]
+  },
+  {
+   "country": "RO",
+   "stage": "advanced",
+   "grade": "uni-ba-3",
+   "languages": [
+    {
+     "lang": "ro",
+     "name": "Română",
+     "file": "ro-uni-ba-3",
+     "version": "8c29d7de41e3300d1f37595d7e7b545456831cc9c5a300deda0319e63d19a736"
+    }
+   ]
+  },
+  {
+   "country": "RO",
    "stage": "beginner",
    "grade": "1",
    "languages": [
@@ -595,6 +634,149 @@
      "name": "Română",
      "file": "ro-1",
      "version": "a21f80551e5cb50720e3c17841c73e8e53f2a080d0faed622e08212b3f38faad"
+    }
+   ]
+  },
+  {
+   "country": "RO",
+   "stage": "beginner",
+   "grade": "2",
+   "languages": [
+    {
+     "lang": "ro",
+     "name": "Română",
+     "file": "ro-2",
+     "version": "8c4e201f89c7b2c53487f3db81a1bb27e911b0e59f9d1d51c503ce1cf828de6f"
+    }
+   ]
+  },
+  {
+   "country": "RO",
+   "stage": "beginner",
+   "grade": "3",
+   "languages": [
+    {
+     "lang": "ro",
+     "name": "Română",
+     "file": "ro-3",
+     "version": "4fd6dccd5b12f3028457be60c0a915387d798bf4b59c043aba805013e93d4365"
+    }
+   ]
+  },
+  {
+   "country": "RO",
+   "stage": "beginner",
+   "grade": "4",
+   "languages": [
+    {
+     "lang": "ro",
+     "name": "Română",
+     "file": "ro-4",
+     "version": "355a2511db27f71c95ab66a9fa21f2cd02712d421862390411d1128868053af2"
+    }
+   ]
+  },
+  {
+   "country": "RO",
+   "stage": "lower",
+   "grade": "5",
+   "languages": [
+    {
+     "lang": "ro",
+     "name": "Română",
+     "file": "ro-5",
+     "version": "a4c7e93ae6d941f0e6c12e948957ffe15b738f53096edbc37a6e4857f2f47c19"
+    }
+   ]
+  },
+  {
+   "country": "RO",
+   "stage": "lower",
+   "grade": "6",
+   "languages": [
+    {
+     "lang": "ro",
+     "name": "Română",
+     "file": "ro-6",
+     "version": "edcedb458e1a6b8baf678c5d55d2b463d3e09ec2e8efac14b482c796f767609d"
+    }
+   ]
+  },
+  {
+   "country": "RO",
+   "stage": "lower",
+   "grade": "7",
+   "languages": [
+    {
+     "lang": "ro",
+     "name": "Română",
+     "file": "ro-7",
+     "version": "1b873982ca28be8998b73976f9fa817e26d0f0a24c2f26a9130601593ff2ce19"
+    }
+   ]
+  },
+  {
+   "country": "RO",
+   "stage": "lower",
+   "grade": "8",
+   "languages": [
+    {
+     "lang": "ro",
+     "name": "Română",
+     "file": "ro-8",
+     "version": "ce1eefe0a923d2d2719857044aa3710499486b91961bdb885f78f3309243c54a"
+    }
+   ]
+  },
+  {
+   "country": "RO",
+   "stage": "medium",
+   "grade": "9",
+   "languages": [
+    {
+     "lang": "ro",
+     "name": "Română",
+     "file": "ro-9",
+     "version": "91ca96b731048669860d0e83ac86b64594c0af0917e8bc2bc622a0ea356193f8"
+    }
+   ]
+  },
+  {
+   "country": "RO",
+   "stage": "medium",
+   "grade": "10",
+   "languages": [
+    {
+     "lang": "ro",
+     "name": "Română",
+     "file": "ro-10",
+     "version": "1d0b62c719baa0c02375ade85489d168b88f055fb867f29e27ee30ff459be9d5"
+    }
+   ]
+  },
+  {
+   "country": "RO",
+   "stage": "medium",
+   "grade": "11",
+   "languages": [
+    {
+     "lang": "ro",
+     "name": "Română",
+     "file": "ro-11",
+     "version": "aa802223501244ac00baeb0848fb72abd2fe33df0419cde657aec7a09ef34865"
+    }
+   ]
+  },
+  {
+   "country": "RO",
+   "stage": "medium",
+   "grade": "12",
+   "languages": [
+    {
+     "lang": "ro",
+     "name": "Română",
+     "file": "ro-12",
+     "version": "35c6fb8e0ead3a3c4cdc2acbb47ac80b96dfbfb7e5b67f36d90dbb1ec4d1cdc4"
     }
    ]
   },

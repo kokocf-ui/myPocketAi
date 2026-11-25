@@ -1,0 +1,1198 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "RO",
+ "stage": "beginner",
+ "grade": "4",
+ "version": "a26c0cfd85733390726b367063dd3fd124e601c960e5de381d80a6f7350947b1",
+ "source": "https://www.edums.ro/invprimar/GEOGRAFIE%20IV%202014.pdf",
+ "sourceTitle": "Programa școlară pentru disciplina Geografie, clasa a IV-a, Anexa nr. 2 la OMEN nr. 5003/02.12.2014 — cele patru unități de învățare sugerate de programă: Orizontul local și apropiat; România – elemente de geografie generală; România – elemente de geografie regională; România în Europa și pe glob. Lecții originale, fără text copiat din manuale",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "ro",
+ "labels": [
+  "Activitate originală · România · Geografie · Clasa a IV-a",
+  "Lecția pe înțeles",
+  "Exemplu",
+  "Ce ne arată exemplul",
+  "Exerciții",
+  "Test",
+  "Activități originale, făcute după programa școlară; nu înlocuiesc manualul sau ora de la clasă.",
+  "Dacă nu ai înțeles: pas cu pas",
+  "Răspunsuri (verifică după ce termini)"
+ ],
+ "units": [
+  {
+   "title": "Orizontul local și apropiat",
+   "keys": [
+    "eu-year-ro-beginner-4-l01",
+    "eu-year-ro-beginner-4-l02",
+    "eu-year-ro-beginner-4-l03",
+    "eu-year-ro-beginner-4-l04",
+    "eu-year-ro-beginner-4-l05",
+    "eu-year-ro-beginner-4-l06",
+    "eu-year-ro-beginner-4-l07",
+    "eu-year-ro-beginner-4-l08",
+    "eu-year-ro-beginner-4-l09",
+    "eu-year-ro-beginner-4-l10"
+   ]
+  },
+  {
+   "title": "România – elemente de geografie generală",
+   "keys": [
+    "eu-year-ro-beginner-4-l11",
+    "eu-year-ro-beginner-4-l12",
+    "eu-year-ro-beginner-4-l13",
+    "eu-year-ro-beginner-4-l14",
+    "eu-year-ro-beginner-4-l15",
+    "eu-year-ro-beginner-4-l16",
+    "eu-year-ro-beginner-4-l17",
+    "eu-year-ro-beginner-4-l18",
+    "eu-year-ro-beginner-4-l19"
+   ]
+  },
+  {
+   "title": "România – elemente de geografie regională",
+   "keys": [
+    "eu-year-ro-beginner-4-l20",
+    "eu-year-ro-beginner-4-l21",
+    "eu-year-ro-beginner-4-l22",
+    "eu-year-ro-beginner-4-l23",
+    "eu-year-ro-beginner-4-l24",
+    "eu-year-ro-beginner-4-l25",
+    "eu-year-ro-beginner-4-l26"
+   ]
+  },
+  {
+   "title": "România în Europa și pe glob",
+   "keys": [
+    "eu-year-ro-beginner-4-l27",
+    "eu-year-ro-beginner-4-l28",
+    "eu-year-ro-beginner-4-l29",
+    "eu-year-ro-beginner-4-l30",
+    "eu-year-ro-beginner-4-l31",
+    "eu-year-ro-beginner-4-l32"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-ro-beginner-4-l01": {
+   "ro": {
+    "title": "Clasa, școala, cartierul, localitatea",
+    "theory": "Geografia începe chiar lângă tine. Locurile pe care le vezi direct în fiecare zi formează orizontul apropiat: clasa, școala, curtea, strada, cartierul. Ele fac parte dintr-o localitate, care poate fi un sat sau un oraș. Fiecare loc are o poziție: școala este lângă parc, în fața blocului, la colțul străzii. Ca să descrii un loc, spui ce este, unde se află și ce se găsește în jurul lui.",
+    "sample": "Școala mea se află pe strada Florilor, lângă parc, în cartierul de lângă gară.",
+    "worked": "Descrierea spune locul (strada), vecinătatea (lângă parc) și zona (cartierul). Așa poate găsi școala și cineva care n-a fost niciodată acolo.",
+    "exercises": [
+     "Descrie clasa ta în trei propoziții.",
+     "Spune ce se află lângă școala ta.",
+     "Numește cartierul sau satul în care locuiești.",
+     "Spune dacă localitatea ta este sat sau oraș.",
+     "Desenează drumul de acasă până la școală."
+    ],
+    "test": [
+     "Ce este orizontul apropiat?",
+     "Dă un exemplu de loc din orizontul apropiat.",
+     "Ce poate fi o localitate?",
+     "Ce înseamnă poziția unui loc?",
+     "Ce cuvinte folosești ca să arăți unde este ceva?"
+    ],
+    "steps": [
+     "Privește în jurul tău și numește locurile pe care le vezi zilnic.",
+     "Spune unde se află fiecare loc, folosind cuvinte ca lângă, în fața, în spatele.",
+     "Leagă locurile între ele: clasă, școală, cartier, localitate.",
+     "Greșeala frecventă: să crezi că geografia înseamnă doar țări îndepărtate; începe cu locurile din jurul tău."
+    ],
+    "answers": [
+     "Locurile pe care le vedem direct în fiecare zi.",
+     "Clasa, școala sau strada.",
+     "Un sat sau un oraș.",
+     "Locul unde se află ceva față de alte lucruri.",
+     "Lângă, în fața, în spatele, între, la dreapta, la stânga."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l02": {
+   "ro": {
+    "title": "Orientarea și distanțele în orizontul apropiat",
+    "theory": "A te orienta înseamnă a ști în ce direcție mergi. În clasă te orientezi după obiecte: tabla, ușa, fereastra. Distanța arată cât de departe este un loc. O poți măsura cu rigla, ruleta sau cu pașii tăi. Distanțele mari se măsoară în metri și kilometri: 1 kilometru are 1.000 de metri. Poți exprima distanța și prin timp: „școala este la 10 minute de mers pe jos”.",
+    "sample": "De la ușa clasei până la catedră sunt 6 pași, adică aproximativ 3 metri.",
+    "worked": "Pașii sunt o unitate nestandard, diferită de la om la om; metrul este o unitate standard, aceeași pentru toți.",
+    "exercises": [
+     "Măsoară lungimea băncii cu rigla.",
+     "Măsoară lungimea clasei în pași.",
+     "Transformă 2 kilometri în metri.",
+     "Spune cât timp îți ia drumul spre școală.",
+     "Explică de ce pașii unui copil diferă de ai unui adult."
+    ],
+    "test": [
+     "Ce înseamnă să te orientezi?",
+     "Cu ce poți măsura o distanță mică?",
+     "Câți metri are un kilometru?",
+     "Ce unitate nestandard poți folosi?",
+     "Cum poți exprima distanța prin timp?"
+    ],
+    "steps": [
+     "Alege un punct de plecare și unul de sosire.",
+     "Alege instrumentul potrivit: riglă, ruletă sau pași.",
+     "Notează rezultatul cu unitatea de măsură.",
+     "Greșeala frecventă: să scrii doar numărul, fără unitate; „5” nu spune nimic, „5 metri” spune tot."
+    ],
+    "answers": [
+     "Să știi în ce direcție mergi.",
+     "Cu rigla sau ruleta.",
+     "1.000 de metri.",
+     "Pasul.",
+     "Spunând cât durează drumul, de exemplu 10 minute."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l03": {
+   "ro": {
+    "title": "Planul clasei, al școlii și al localității",
+    "theory": "Planul este desenul unui loc văzut de sus, ca de o pasăre. Obiectele sunt desenate mai mici decât în realitate, dar păstrează aceeași formă și aceleași proporții. Scara planului arată de câte ori a fost micșorată realitatea: la scara 1:100, 1 centimetru pe plan înseamnă 100 de centimetri, adică 1 metru, în realitate. Pe plan folosim semne convenționale: dreptunghiuri pentru bănci, o linie întreruptă pentru ușă. Legenda explică semnele.",
+    "sample": "Pe planul clasei, desenat la scara 1:100, lungimea clasei este de 8 centimetri.",
+    "worked": "8 centimetri pe plan înseamnă 8 metri în realitate. Scara ne ajută să aflăm distanțele reale.",
+    "exercises": [
+     "Desenează planul camerei tale.",
+     "Calculează lungimea reală a unui perete de 5 cm pe un plan la scara 1:100.",
+     "Fă o legendă pentru planul clasei.",
+     "Explică de ce planul este desenat văzut de sus.",
+     "Compară planul clasei cu o fotografie a clasei."
+    ],
+    "test": [
+     "Ce este planul?",
+     "Ce arată scara?",
+     "Ce înseamnă scara 1:100?",
+     "Ce este legenda?",
+     "Ce sunt semnele convenționale?"
+    ],
+    "steps": [
+     "Privește locul ca de sus și desenează conturul.",
+     "Micșorează toate obiectele la fel, după scară.",
+     "Adaugă semnele și legenda.",
+     "Greșeala frecventă: să desenezi obiectele din față, ca într-un tablou; planul se desenează privind de sus."
+    ],
+    "answers": [
+     "Desenul unui loc văzut de sus.",
+     "De câte ori a fost micșorată realitatea.",
+     "1 cm pe plan reprezintă 1 metru în realitate.",
+     "Explicația semnelor folosite.",
+     "Desene simple care reprezintă obiecte reale."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l04": {
+   "ro": {
+    "title": "Orizontul, linia orizontului și punctele cardinale",
+    "theory": "Orizontul este tot spațiul pe care îl vezi în jurul tău de pe un loc deschis. Linia orizontului este locul unde cerul pare că se întâlnește cu pământul; ea se îndepărtează pe măsură ce mergi spre ea. Punctele cardinale sunt patru: Nord, Sud, Est și Vest. Dimineața Soarele răsare la Est, la amiază este spre Sud, iar seara apune la Vest. Noaptea, Steaua Polară arată Nordul. Busola are un ac magnetic care arată mereu spre Nord. Între punctele cardinale sunt punctele intermediare: Nord-Est, Sud-Est, Sud-Vest, Nord-Vest.",
+    "sample": "Dacă stai cu fața spre răsăritul Soarelui, ai Estul în față, Vestul în spate, Nordul la stânga și Sudul la dreapta.",
+    "worked": "Odată găsit un punct cardinal, le afli pe celelalte, pentru că sunt așezate mereu în aceeași ordine.",
+    "exercises": [
+     "Spune unde răsare Soarele.",
+     "Găsește Nordul în curtea școlii cu busola.",
+     "Spune ce punct cardinal se află între Nord și Est.",
+     "Explică de ce linia orizontului se îndepărtează.",
+     "Spune spre ce punct cardinal este fereastra clasei."
+    ],
+    "test": [
+     "Ce este linia orizontului?",
+     "Câte puncte cardinale sunt?",
+     "Unde apune Soarele?",
+     "Ce stea arată Nordul?",
+     "Ce instrument arată Nordul?"
+    ],
+    "steps": [
+     "Găsește Estul după locul unde răsare Soarele.",
+     "Așază-te cu fața spre Est și află celelalte puncte.",
+     "Verifică direcțiile cu busola.",
+     "Greșeala frecventă: să crezi că Soarele răsare exact în același loc tot anul; locul se schimbă puțin după anotimp, dar rămâne spre Est."
+    ],
+    "answers": [
+     "Locul unde cerul pare că se întâlnește cu pământul.",
+     "Patru: Nord, Sud, Est, Vest.",
+     "La Vest.",
+     "Steaua Polară.",
+     "Busola."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l05": {
+   "ro": {
+    "title": "Hărți ale orizontului local",
+    "theory": "Harta este o reprezentare micșorată și simplificată a unei suprafețe mari a Pământului, pe o foaie plană. Orice hartă are: titlu (ce arată), legendă (explicația semnelor și culorilor), scară (de câte ori a fost micșorată realitatea) și orientare (Nordul este de obicei sus). Semnele convenționale pot fi puncte (orașe), linii (râuri, drumuri, căi ferate) sau suprafețe colorate (păduri, lacuri). Pe harta fizică, verdele arată câmpiile, galbenul dealurile, iar maroul munții. Albastrul este pentru ape.",
+    "sample": "Pe harta localității, o linie albastră care trece prin oraș reprezintă râul, iar un pătrățel negru cu cruce reprezintă biserica.",
+    "worked": "Legenda ne spune ce înseamnă fiecare semn; fără ea, harta nu poate fi citită.",
+    "exercises": [
+     "Numește cele patru elemente ale unei hărți.",
+     "Citește legenda unei hărți a județului tău.",
+     "Spune ce culoare au munții pe harta fizică.",
+     "Găsește un râu pe harta localității.",
+     "Explică diferența dintre plan și hartă."
+    ],
+    "test": [
+     "Ce este harta?",
+     "Ce arată legenda?",
+     "Unde se află de obicei Nordul pe hartă?",
+     "Ce culoare au câmpiile pe harta fizică?",
+     "Ce culoare au apele?"
+    ],
+    "steps": [
+     "Citește titlul ca să afli ce arată harta.",
+     "Citește legenda și învață semnele.",
+     "Caută pe hartă elementele cerute.",
+     "Greșeala frecventă: să citești harta fără legendă; culorile și semnele pot însemna lucruri diferite pe hărți diferite."
+    ],
+    "answers": [
+     "O reprezentare micșorată și simplificată a unei suprafețe a Pământului.",
+     "Explicația semnelor și culorilor.",
+     "Sus.",
+     "Verde.",
+     "Albastru."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l06": {
+   "ro": {
+    "title": "Relieful și apele din orizontul local",
+    "theory": "Relieful este forma suprafeței pământului. Formele de relief sunt: munții (înalți, cu vârfuri și pante abrupte), dealurile (mai joase, rotunjite), podișurile (înalte, dar cu suprafață netedă), câmpiile (joase și netede) și văile (locurile joase pe unde curg râurile). Apele formează hidrografia: izvoare, pâraie, râuri, lacuri, bălți, ape subterane. Un râu are izvor (locul de unde pornește), albie (pe unde curge), maluri (stâng și drept, privind în sensul curgerii) și vărsare (locul unde se termină). Râurile mici se varsă în râuri mai mari, numite colectoare.",
+    "sample": "Pârâul din sat izvorăște de pe deal și se varsă în râul care trece prin oraș.",
+    "worked": "Pârâul este un afluent, iar râul este colectorul lui. Așa se formează o rețea de ape.",
+    "exercises": [
+     "Spune ce forme de relief sunt în jurul localității tale.",
+     "Compară un deal cu un munte.",
+     "Numește râul care trece prin localitatea ta sau cel mai apropiat.",
+     "Spune care este malul stâng al unui râu.",
+     "Explică ce este un afluent."
+    ],
+    "test": [
+     "Ce este relieful?",
+     "Cum sunt câmpiile?",
+     "Ce este izvorul?",
+     "Ce este vărsarea?",
+     "Ce este un afluent?"
+    ],
+    "steps": [
+     "Observă forma terenului: înalt sau jos, neted sau în pantă.",
+     "Numește forma de relief potrivită.",
+     "Găsește apele și spune încotro curg.",
+     "Greșeala frecventă: să stabilești malul stâng privind spre izvor; malurile se numesc privind în sensul curgerii apei."
+    ],
+    "answers": [
+     "Forma suprafeței pământului.",
+     "Joase și netede.",
+     "Locul de unde pornește un râu.",
+     "Locul unde râul se termină, în alt râu, lac sau mare.",
+     "Un râu care se varsă în alt râu."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l07": {
+   "ro": {
+    "title": "Vegetația și animalele din orizontul local",
+    "theory": "Vegetația cuprinde toate plantele dintr-un loc: păduri, pajiști, tufișuri, culturi. Ea depinde de relief și de climă: la munte cresc păduri de brad și molid, pe dealuri păduri de fag și stejar, iar în câmpie pajiști și culturi agricole. Animalele trăiesc acolo unde găsesc hrană și adăpost: ursul și cerbul în pădurile de munte, vulpea și iepurele pe dealuri și în câmpii, peștii în ape. Oamenii au schimbat vegetația prin defrișări și culturi. De aceea, ocrotirea naturii este importantă: rezervații, parcuri naționale, plantarea de copaci.",
+    "sample": "În jurul satului de la deal cresc păduri de fag, iar pe pajiști pasc oile.",
+    "worked": "Vegetația potrivită pentru deal (fagul) și ocupația oamenilor (creșterea oilor) sunt legate de relief și de climă.",
+    "exercises": [
+     "Numește trei plante din jurul localității tale.",
+     "Numește trei animale sălbatice din zona ta.",
+     "Explică de ce la munte cresc brazi.",
+     "Spune cum au schimbat oamenii vegetația.",
+     "Propune o acțiune de ocrotire a naturii."
+    ],
+    "test": [
+     "Ce este vegetația?",
+     "Ce copaci cresc la munte?",
+     "Ce copaci cresc pe dealuri?",
+     "Ce animal trăiește în pădurile de munte?",
+     "Ce înseamnă o rezervație naturală?"
+    ],
+    "steps": [
+     "Observă ce plante cresc în jurul tău.",
+     "Leagă plantele de relief.",
+     "Leagă animalele de locurile unde găsesc hrană.",
+     "Greșeala frecventă: să crezi că plantele cresc la întâmplare; ele depind de relief, climă și sol."
+    ],
+    "answers": [
+     "Totalitatea plantelor dintr-un loc.",
+     "Bradul și molidul.",
+     "Fagul și stejarul.",
+     "Ursul.",
+     "Un loc unde natura este ocrotită prin lege."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l08": {
+   "ro": {
+    "title": "Populația, așezările și activitățile oamenilor",
+    "theory": "Populația este numărul de oameni care locuiesc într-un loc. Oamenii trăiesc în așezări: satele sunt mai mici, iar locuitorii se ocupă mai ales cu agricultura; orașele sunt mai mari, au clădiri înalte, fabrici, magazine, spitale, școli și universități. Activitățile oamenilor se numesc activități economice: agricultura (cultivarea plantelor și creșterea animalelor), industria (fabricarea produselor), comerțul, transporturile, serviciile (școală, sănătate, turism). Activitățile depind de resursele din zonă: pământul fertil, pădurile, apele, minereurile.",
+    "sample": "În satele din câmpie, mulți oameni cultivă grâu și porumb; în orașul apropiat, alții lucrează în fabrici și magazine.",
+    "worked": "Ocupațiile depind de locul în care trăiesc oamenii și de resursele de acolo.",
+    "exercises": [
+     "Spune câți locuitori are aproximativ localitatea ta.",
+     "Compară un sat cu un oraș.",
+     "Numește trei activități ale oamenilor din zona ta.",
+     "Leagă o activitate de o resursă naturală.",
+     "Explică ce sunt serviciile."
+    ],
+    "test": [
+     "Ce este populația?",
+     "Ce este o așezare?",
+     "Cu ce se ocupă mai ales locuitorii satelor?",
+     "Ce înseamnă industrie?",
+     "Dă un exemplu de serviciu."
+    ],
+    "steps": [
+     "Identifică așezarea: sat sau oraș.",
+     "Numește ocupațiile principale ale oamenilor.",
+     "Leagă ocupațiile de resursele locului.",
+     "Greșeala frecventă: să crezi că în sate se face doar agricultură; tot mai mulți săteni lucrează în servicii sau în orașele apropiate."
+    ],
+    "answers": [
+     "Numărul de oameni care locuiesc într-un loc.",
+     "Un loc în care trăiesc oameni: sat sau oraș.",
+     "Cu agricultura.",
+     "Fabricarea produselor.",
+     "Școala, spitalul sau turismul."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l09": {
+   "ro": {
+    "title": "Modificări observabile și repere de timp",
+    "theory": "În jurul nostru, lucrurile se schimbă. Unele schimbări sunt rapide: ziua și noaptea, ploaia, vântul. Altele sunt mai lente: anotimpurile. Primăvara înfrunzesc copacii, vara este cald, toamna cad frunzele, iarna ninge. Pentru a măsura timpul folosim repere: ora (60 de minute), ziua (24 de ore), săptămâna (7 zile), luna (28–31 de zile), anul (12 luni, 365 de zile, iar o dată la patru ani 366). Calendarul ne ajută să ordonăm zilele și să știm când are loc un eveniment. Oamenii schimbă și ei locurile: construiesc case, drumuri, plantează copaci.",
+    "sample": "Ziua și noaptea se succed pentru că Pământul se rotește în jurul axei sale o dată la 24 de ore.",
+    "worked": "Observăm schimbarea zilnic, iar explicația ei este legată de mișcarea Pământului, pe care o vei învăța mai târziu.",
+    "exercises": [
+     "Numește schimbările din natură pentru fiecare anotimp.",
+     "Spune câte ore are o zi.",
+     "Spune câte zile are anul bisect.",
+     "Găsește în calendar ziua ta de naștere.",
+     "Dă un exemplu de schimbare făcută de oameni în localitatea ta."
+    ],
+    "test": [
+     "Câte minute are o oră?",
+     "Câte zile are o săptămână?",
+     "Câte luni are anul?",
+     "Ce este anul bisect?",
+     "La ce folosește calendarul?"
+    ],
+    "steps": [
+     "Observă ce se schimbă în jurul tău.",
+     "Spune dacă schimbarea este rapidă sau lentă.",
+     "Folosește reperele de timp potrivite.",
+     "Greșeala frecventă: să confunzi luna anului cu Luna de pe cer; aici luna este o unitate de timp."
+    ],
+    "answers": [
+     "60 de minute.",
+     "7 zile.",
+     "12 luni.",
+     "Un an cu 366 de zile, o dată la patru ani.",
+     "La ordonarea zilelor și la aflarea datei evenimentelor."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l10": {
+   "ro": {
+    "title": "De la orizontul local la regiune și țară",
+    "theory": "Localitatea ta face parte dintr-un spațiu mai mare. Mai multe localități formează o comună sau sunt în jurul unui oraș; mai multe comune și orașe formează un județ; toate județele formează țara, România. Regiunea înconjurătoare cuprinde locurile din jurul localității cu trăsături asemănătoare (de exemplu o depresiune, un podiș sau o câmpie). Când trecem de la localitate la regiune și apoi la țară, spunem că schimbăm scara: vedem spații tot mai mari, dar cu mai puține detalii.",
+    "sample": "Satul tău face parte dintr-o comună, comuna dintr-un județ, iar județul din România.",
+    "worked": "Fiecare spațiu este inclus în altul mai mare, ca niște cercuri unul în altul.",
+    "exercises": [
+     "Scrie numele localității, județului și țării tale.",
+     "Spune ce regiune naturală se află în jurul localității.",
+     "Desenează cercuri care arată localitate, județ, țară.",
+     "Explică ce înseamnă schimbarea scării.",
+     "Găsește pe harta României județul tău."
+    ],
+    "test": [
+     "Ce formează mai multe comune și orașe?",
+     "Din ce este formată România?",
+     "Ce este regiunea înconjurătoare?",
+     "Ce se întâmplă cu detaliile când schimbăm scara spre un spațiu mai mare?",
+     "În ce țară locuiești?"
+    ],
+    "steps": [
+     "Pornește de la localitatea ta.",
+     "Treci la județ și la regiune.",
+     "Ajungi la țară și găsește-o pe hartă.",
+     "Greșeala frecventă: să crezi că județul și regiunea naturală sunt același lucru; județul are granițe stabilite de oameni."
+    ],
+    "answers": [
+     "Un județ.",
+     "Din județe și municipiul București.",
+     "Locurile din jurul localității cu trăsături asemănătoare.",
+     "Scad.",
+     "În România."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l11": {
+   "ro": {
+    "title": "Poziția, limitele și vecinii României",
+    "theory": "România se află în sud-estul Europei Centrale, la nord de Peninsula Balcanică, pe cursul inferior al Dunării și la Marea Neagră. Are o suprafață de aproximativ 238.000 de kilometri pătrați. Vecinii sunt: Ucraina la nord și est, Republica Moldova la est, Bulgaria la sud, Serbia la sud-vest și Ungaria la vest. La sud-est, România are ieșire la Marea Neagră. Granițele sunt fie naturale (Dunărea cu Bulgaria și Serbia, Prutul cu Republica Moldova), fie trasate pe uscat.",
+    "sample": "Dunărea formează o mare parte din granița de sud a României, cu Serbia și Bulgaria.",
+    "worked": "Granița de-a lungul unui râu este o graniță naturală, ușor de recunoscut pe hartă.",
+    "exercises": [
+     "Găsește România pe harta Europei.",
+     "Numește vecinii României.",
+     "Spune ce râu formează granița cu Republica Moldova.",
+     "Spune la ce mare are ieșire România.",
+     "Arată pe hartă granița cu Ungaria."
+    ],
+    "test": [
+     "În ce parte a Europei se află România?",
+     "Ce suprafață are România, aproximativ?",
+     "Ce țară este la sud de România?",
+     "Ce țară este la vest?",
+     "Ce fluviu formează granița de sud?"
+    ],
+    "steps": [
+     "Găsește România pe harta Europei.",
+     "Urmărește granițele și numește fiecare vecin.",
+     "Precizează punctul cardinal pentru fiecare vecin.",
+     "Greșeala frecventă: să crezi că Ucraina este doar la nord; Ucraina se învecinează cu România și la est."
+    ],
+    "answers": [
+     "În sud-estul Europei Centrale.",
+     "Circa 238.000 de kilometri pătrați.",
+     "Bulgaria.",
+     "Ungaria.",
+     "Dunărea."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l12": {
+   "ro": {
+    "title": "Relieful României: trepte de relief",
+    "theory": "Relieful României are trei trepte, așezate aproape ca un amfiteatru: în centru și sus, munții Carpați; în jurul lor, dealurile și podișurile; iar mai jos, la margine, câmpiile. Carpații formează un arc în mijlocul țării, iar în interiorul lor se află Podișul Transilvaniei. Cel mai înalt vârf este Moldoveanu, de 2.544 de metri, în Munții Făgăraș. Relieful este variat și proporționat: munții, dealurile și podișurile, câmpiile ocupă suprafețe asemănătoare.",
+    "sample": "Pe harta fizică a României, maroul (munții) formează un arc, galbenul (dealurile și podișurile) îl înconjoară, iar verdele (câmpiile) este la margini.",
+    "worked": "Culorile hărții ne arată treptele de relief: cu cât culoarea este mai închisă, cu atât relieful este mai înalt.",
+    "exercises": [
+     "Numește cele trei trepte de relief.",
+     "Arată Carpații pe hartă.",
+     "Spune care este cel mai înalt vârf al României.",
+     "Explică de ce relieful României seamănă cu un amfiteatru.",
+     "Spune ce culoare are fiecare treaptă pe hartă."
+    ],
+    "test": [
+     "Care este cea mai înaltă treaptă de relief?",
+     "Ce formă au Carpații pe hartă?",
+     "Ce podiș se află în interiorul arcului carpatic?",
+     "Care este cel mai înalt vârf?",
+     "Ce înălțime are?"
+    ],
+    "steps": [
+     "Găsește pe hartă munții, după culoarea maro.",
+     "Găsește în jurul lor dealurile și podișurile.",
+     "Găsește câmpiile la margini.",
+     "Greșeala frecventă: să crezi că România are mai mult munte decât câmpie; treptele ocupă suprafețe asemănătoare."
+    ],
+    "answers": [
+     "Munții.",
+     "De arc.",
+     "Podișul Transilvaniei.",
+     "Vârful Moldoveanu.",
+     "2.544 de metri."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l13": {
+   "ro": {
+    "title": "Clima României",
+    "theory": "Clima înseamnă cum este vremea, de obicei, într-un loc, de-a lungul multor ani. România are o climă temperat-continentală, cu patru anotimpuri: veri calde, ierni reci, primăveri și toamne blânde. La munte este mai frig și plouă sau ninge mai mult; în câmpie verile sunt calde și uneori secetoase. În vest climatul este mai umed și mai blând, în est și sud-est mai uscat, cu vânturi reci iarna (Crivățul). Vremea este diferită de climă: vremea este starea atmosferei într-o zi anume.",
+    "sample": "Iarna, Crivățul aduce viscol în Câmpia Română și în Moldova.",
+    "worked": "Vântul este un element al climei; Crivățul bate dinspre nord-est, din zonele foarte reci.",
+    "exercises": [
+     "Explică diferența dintre vreme și climă.",
+     "Numește cele patru anotimpuri.",
+     "Explică de ce la munte este mai frig.",
+     "Spune ce vânt aduce viscol iarna.",
+     "Descrie clima din localitatea ta."
+    ],
+    "test": [
+     "Ce tip de climă are România?",
+     "Câte anotimpuri are?",
+     "Unde plouă mai mult: la munte sau la câmpie?",
+     "Ce vânt rece bate iarna în est?",
+     "Ce este vremea?"
+    ],
+    "steps": [
+     "Spune cum este vremea azi.",
+     "Gândește-te cum este, de obicei, în fiecare anotimp.",
+     "Leagă clima de relief: munte sau câmpie.",
+     "Greșeala frecventă: să confunzi vremea de azi cu clima; clima este media vremii pe mulți ani."
+    ],
+    "answers": [
+     "Temperat-continentală.",
+     "Patru.",
+     "La munte.",
+     "Crivățul.",
+     "Starea atmosferei într-o zi anume."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l14": {
+   "ro": {
+    "title": "Apele României: Dunărea, râurile, lacurile și Marea Neagră",
+    "theory": "Cele mai multe râuri ale României izvorăsc din Carpați și curg în toate direcțiile, ca razele unei roți, apoi ajung, direct sau prin alte râuri, în Dunăre. Dunărea, al doilea fluviu ca lungime din Europa, curge pe teritoriul și la granița României pe peste 1.000 de kilometri și se varsă în Marea Neagră prin trei brațe: Chilia, Sulina și Sfântu Gheorghe. Râuri importante: Mureșul, Oltul, Siretul, Prutul, Jiul, Argeșul, Ialomița, Someșul. Lacurile pot fi naturale (glaciare – Bâlea; vulcanic – Sfânta Ana; lagune – Razim) sau construite de om (Porțile de Fier, Vidraru). Marea Neagră are apă mai puțin sărată decât oceanul.",
+    "sample": "Lacul Sfânta Ana s-a format în craterul unui vulcan stins.",
+    "worked": "Originea lacului explică forma lui aproape rotundă. Lacurile au origini diferite, iar numele lor ne poate ajuta să le ținem minte.",
+    "exercises": [
+     "Arată Dunărea pe hartă.",
+     "Numește cele trei brațe ale Dunării.",
+     "Numește patru râuri ale României.",
+     "Dă un exemplu de lac natural și unul construit de om.",
+     "Explică de ce râurile curg în toate direcțiile din Carpați."
+    ],
+    "test": [
+     "În ce se varsă Dunărea?",
+     "Care sunt brațele Dunării?",
+     "În ce s-a format lacul Sfânta Ana?",
+     "Ce lac de baraj se află pe Dunăre?",
+     "Ce mare se află la sud-estul României?"
+    ],
+    "steps": [
+     "Găsește pe hartă Carpații și râurile care pornesc din ei.",
+     "Urmărește râurile până la Dunăre.",
+     "Urmărește Dunărea până la Marea Neagră.",
+     "Greșeala frecventă: să crezi că toate lacurile sunt naturale; multe au fost construite de oameni pentru energie și apă."
+    ],
+    "answers": [
+     "În Marea Neagră.",
+     "Chilia, Sulina și Sfântu Gheorghe.",
+     "În craterul unui vulcan stins.",
+     "Porțile de Fier.",
+     "Marea Neagră."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l15": {
+   "ro": {
+    "title": "Vegetația, animalele și solurile României",
+    "theory": "Vegetația se schimbă cu înălțimea. Sus pe munți, peste limita pădurii, sunt pajiști alpine cu jnepeni și flori ca floarea-de-colț. Mai jos sunt păduri de conifere (molid, brad), apoi păduri de fag, iar pe dealuri păduri de stejar. În câmpii a fost stepa, înlocuită azi mai ales de culturi agricole. Animalele urmează vegetația: capra neagră la munte, ursul, lupul și râsul în pădurile Carpaților, iepurele și popândăul în câmpie, pelicanul și multe păsări în Delta Dunării. Solurile cele mai fertile, cernoziomurile, se află în câmpii. România are multe parcuri naționale (Retezat, primul, din 1935).",
+    "sample": "Floarea-de-colț crește pe stâncile înalte din munți și este ocrotită prin lege.",
+    "worked": "Plantele rare sunt protejate pentru că pot dispărea dacă sunt culese.",
+    "exercises": [
+     "Ordonează de sus în jos: pajiști alpine, molid, fag, stejar, culturi.",
+     "Numește trei animale din Carpați.",
+     "Spune unde se află cele mai fertile soluri.",
+     "Numește o plantă ocrotită.",
+     "Spune care este primul parc național din România."
+    ],
+    "test": [
+     "Ce vegetație se află cel mai sus pe munți?",
+     "Ce copaci formează pădurile de conifere?",
+     "Ce animal trăiește pe stâncile înalte?",
+     "Ce sol fertil se află în câmpii?",
+     "Ce pasăre mare trăiește în Delta Dunării?"
+    ],
+    "steps": [
+     "Pornește de sus, de pe vârful muntelui.",
+     "Coboară și numește vegetația fiecărei trepte.",
+     "Adaugă animalele care trăiesc acolo.",
+     "Greșeala frecventă: să crezi că în câmpie crește azi vegetație naturală peste tot; cea mai mare parte este cultivată."
+    ],
+    "answers": [
+     "Pajiștile alpine.",
+     "Molidul și bradul.",
+     "Capra neagră.",
+     "Cernoziomul.",
+     "Pelicanul."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l16": {
+   "ro": {
+    "title": "Locuitorii României",
+    "theory": "România are aproximativ 19 milioane de locuitori. Majoritatea sunt români; trăiesc și minorități naționale: maghiari, romi, ucraineni, germani, turci, tătari, ruși-lipoveni, sârbi și alții. Limba oficială este româna, iar minoritățile au dreptul să învețe și în limba lor. Populația a scăzut în ultimii ani, pentru că se nasc mai puțini copii și mulți oameni au plecat să lucreze în alte țări. Populația nu este răspândită uniform: este mai densă în orașe și în câmpii și dealuri, mai rară la munte și în Delta Dunării.",
+    "sample": "La recensământul din 2021, România avea puțin peste 19 milioane de locuitori.",
+    "worked": "Recensământul este numărarea oficială a populației. El ne arată câți suntem și cum se schimbă populația.",
+    "exercises": [
+     "Spune câți locuitori are România, aproximativ.",
+     "Numește trei minorități naționale.",
+     "Spune care este limba oficială.",
+     "Explică de ce a scăzut populația.",
+     "Spune unde trăiesc mai mulți oameni: la munte sau la câmpie."
+    ],
+    "test": [
+     "Câți locuitori are România?",
+     "Ce este recensământul?",
+     "Care este limba oficială?",
+     "Ce drept au minoritățile la școală?",
+     "Unde este populația mai rară?"
+    ],
+    "steps": [
+     "Află numărul locuitorilor din ultimul recensământ.",
+     "Observă cine sunt locuitorii: majoritate și minorități.",
+     "Observă unde trăiesc mai mulți oameni.",
+     "Greșeala frecventă: să crezi că în România trăiesc doar români; țara are multe minorități naționale."
+    ],
+    "answers": [
+     "Aproximativ 19 milioane.",
+     "Numărarea oficială a populației.",
+     "Limba română.",
+     "Să învețe și în limba maternă.",
+     "La munte și în Delta Dunării."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l17": {
+   "ro": {
+    "title": "Așezările omenești: sate și orașe",
+    "theory": "Așezările sunt locurile în care trăiesc oamenii: satele și orașele. Satele pot fi adunate (case apropiate, în câmpie), răsfirate (case mai depărtate, pe dealuri) sau risipite (case izolate, la munte). Orașele sunt mai mari și au mai multe funcții: industriale, comerciale, administrative, culturale, turistice. Orașele mai importante se numesc municipii. Capitala României este Bucureștiul, cel mai mare oraș. Alte orașe mari: Cluj-Napoca, Iași, Timișoara, Constanța, Craiova, Brașov, Galați. Aproximativ jumătate dintre români locuiesc în orașe.",
+    "sample": "La munte, casele sunt adesea risipite pe pante, iar în câmpie sunt adunate de-a lungul drumurilor.",
+    "worked": "Forma satului depinde de relief: unde terenul este neted, casele se pot așeza strâns.",
+    "exercises": [
+     "Compară un sat de munte cu unul de câmpie.",
+     "Numește cinci orașe mari ale României.",
+     "Explică ce este un municipiu.",
+     "Spune ce funcții are orașul cel mai apropiat de tine.",
+     "Explică de ce oamenii se mută la oraș."
+    ],
+    "test": [
+     "Ce tipuri de sate există după așezarea caselor?",
+     "Ce sunt municipiile?",
+     "Care este capitala României?",
+     "Ce oraș mare este port la Marea Neagră?",
+     "Ce parte din populație trăiește la oraș?"
+    ],
+    "steps": [
+     "Observă cum sunt așezate casele.",
+     "Numește tipul de așezare.",
+     "Spune ce funcții are așezarea.",
+     "Greșeala frecventă: să crezi că orice oraș este municipiu; municipiile sunt orașele mai importante."
+    ],
+    "answers": [
+     "Adunate, răsfirate și risipite.",
+     "Orașe mai importante.",
+     "Bucureștiul.",
+     "Constanța.",
+     "Aproximativ jumătate."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l18": {
+   "ro": {
+    "title": "Resurse și activități industriale",
+    "theory": "Resursele naturale sunt bogății ale naturii folosite de oameni: petrol, gaze naturale, cărbune, sare, minereuri, lemn, apă, soluri fertile. Unele se refac (lemnul, apa), altele se pot termina (petrolul, cărbunele). Industria transformă resursele în produse. În România sunt importante industria energetică (centrale pe gaze, hidrocentrale ca Porțile de Fier, centrala nucleară de la Cernavodă, parcuri eoliene în Dobrogea), industria constructoare de mașini (automobile la Mioveni și Craiova), industria alimentară, a lemnului și cea chimică. Resursele trebuie folosite cu grijă, ca să nu poluăm mediul.",
+    "sample": "La Cernavodă funcționează singura centrală nucleară din România.",
+    "worked": "Centrala produce o parte importantă din energia electrică a țării, fără fumul centralelor pe cărbune.",
+    "exercises": [
+     "Numește trei resurse naturale ale României.",
+     "Explică diferența dintre resurse care se refac și care se termină.",
+     "Numește trei feluri de centrale electrice.",
+     "Spune unde se fabrică automobile în România.",
+     "Propune o idee pentru economisirea energiei."
+    ],
+    "test": [
+     "Ce sunt resursele naturale?",
+     "Dă un exemplu de resursă care se poate termina.",
+     "Unde este centrala nucleară?",
+     "Ce hidrocentrală mare este pe Dunăre?",
+     "În ce regiune sunt multe parcuri eoliene?"
+    ],
+    "steps": [
+     "Identifică resursa naturală folosită.",
+     "Spune ce produs se obține din ea.",
+     "Gândește-te cum poate fi protejat mediul.",
+     "Greșeala frecventă: să crezi că resursele nu se termină niciodată; petrolul și cărbunele se epuizează."
+    ],
+    "answers": [
+     "Bogății ale naturii folosite de oameni.",
+     "Petrolul sau cărbunele.",
+     "La Cernavodă.",
+     "Porțile de Fier.",
+     "În Dobrogea."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l19": {
+   "ro": {
+    "title": "Agricultura și căile de comunicație",
+    "theory": "Agricultura are două ramuri: cultivarea plantelor și creșterea animalelor. În câmpii se cultivă grâu, porumb, floarea-soarelui, legume; pe dealuri sunt livezi (meri, pruni) și vii; la munte, pajiștile sunt folosite pentru creșterea oilor și vitelor. Căile de comunicație leagă așezările: drumuri și autostrăzi, căi ferate, căi navigabile (Dunărea, Canalul Dunăre–Marea Neagră), porturi (Constanța, cel mai mare port al României la Marea Neagră), aeroporturi (Henri Coandă – Otopeni). Transporturile duc oameni și mărfuri dintr-un loc în altul.",
+    "sample": "Canalul Dunăre–Marea Neagră scurtează drumul navelor dintre Cernavodă și Constanța.",
+    "worked": "Căile de comunicație construite de oameni economisesc timp și leagă regiunile între ele.",
+    "exercises": [
+     "Numește trei plante cultivate în câmpie.",
+     "Spune ce se cultivă pe dealuri.",
+     "Explică de ce la munte se cresc oi.",
+     "Numește patru tipuri de căi de comunicație.",
+     "Spune care este cel mai mare port maritim al României."
+    ],
+    "test": [
+     "Care sunt ramurile agriculturii?",
+     "Ce se cultivă în câmpie?",
+     "Ce sunt livezile?",
+     "Ce canal leagă Dunărea de Marea Neagră?",
+     "Cum se numește aeroportul principal al Bucureștiului?"
+    ],
+    "steps": [
+     "Identifică forma de relief.",
+     "Leagă relieful de culturile sau animalele potrivite.",
+     "Găsește pe hartă căile de comunicație.",
+     "Greșeala frecventă: să crezi că porumbul crește bine pe vârfuri de munte; culturile depind de relief și de climă."
+    ],
+    "answers": [
+     "Cultivarea plantelor și creșterea animalelor.",
+     "Grâu, porumb, floarea-soarelui.",
+     "Terenuri cu pomi fructiferi.",
+     "Canalul Dunăre–Marea Neagră.",
+     "Henri Coandă (Otopeni)."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l20": {
+   "ro": {
+    "title": "Carpații",
+    "theory": "Carpații formează un arc de peste 900 de kilometri pe teritoriul României și sunt împărțiți în trei grupe. Carpații Orientali, în nord și est, sunt cei mai lungi și au și munți vulcanici (Călimani, Harghita). Carpații Meridionali, în sud, sunt cei mai înalți și au urme ale ghețarilor: lacuri glaciare și creste ascuțite (Făgăraș, Retezat, Parâng, Bucegi). Carpații Occidentali, în vest, sunt cei mai joși și cei mai fragmentați, cu peșteri (Apuseni) și bogății ale subsolului. Carpații au păduri, pajiști, ape, minereuri și sunt importanți pentru turism. Între munți se află depresiuni, unde trăiesc mulți oameni.",
+    "sample": "În Carpații Meridionali se află Lacul Bâlea, format de un ghețar demult dispărut.",
+    "worked": "Lacurile glaciare sunt o dovadă că pe munții noștri înalți au existat ghețari în trecut.",
+    "exercises": [
+     "Numește cele trei grupe ale Carpaților.",
+     "Spune care grupă este cea mai înaltă.",
+     "Dă un exemplu de munte vulcanic.",
+     "Spune unde sunt multe peșteri.",
+     "Explică ce este o depresiune."
+    ],
+    "test": [
+     "Ce lungime are arcul carpatic în România, aproximativ?",
+     "Care sunt cei mai lungi Carpați?",
+     "În ce munți se află Vârful Moldoveanu?",
+     "Ce munți din vest au multe peșteri?",
+     "Ce lac glaciar cunoști?"
+    ],
+    "steps": [
+     "Găsește pe hartă cele trei grupe.",
+     "Compară-le după înălțime și lungime.",
+     "Spune câte o trăsătură specială pentru fiecare.",
+     "Greșeala frecventă: să crezi că toți Carpații sunt la fel de înalți; Meridionalii sunt cei mai înalți, Occidentalii cei mai joși."
+    ],
+    "answers": [
+     "Peste 900 de kilometri.",
+     "Carpații Orientali.",
+     "În Munții Făgăraș.",
+     "Munții Apuseni.",
+     "Lacul Bâlea."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l21": {
+   "ro": {
+    "title": "Dealurile și podișurile",
+    "theory": "A doua treaptă de relief este formată din dealuri și podișuri. Subcarpații sunt dealuri înalte situate la exteriorul Carpaților Orientali și Meridionali, cu depresiuni, sare și petrol. Podișul Transilvaniei se află în interiorul arcului carpatic. Podișul Moldovei este în est, între Carpați și Prut. Podișul Getic se află în sud, la poalele Carpaților Meridionali. Podișul Dobrogei, în sud-est, este cel mai vechi și cuprinde Munții Măcinului, foarte vechi și tociți. Dealurile de Vest se află între Carpații Occidentali și Câmpia de Vest. Aici sunt livezi, vii, așezări multe și resurse ca sarea, gazele naturale și cărbunele.",
+    "sample": "Podișul Transilvaniei este bogat în gaze naturale.",
+    "worked": "Resursele subsolului explică dezvoltarea unor orașe industriale, cum ar fi cele din Câmpia Transilvaniei.",
+    "exercises": [
+     "Numește dealurile și podișurile României.",
+     "Spune unde se află Subcarpații.",
+     "Spune ce podiș se află în interiorul Carpaților.",
+     "Spune ce munți vechi se află în Dobrogea.",
+     "Spune ce resursă are Podișul Transilvaniei."
+    ],
+    "test": [
+     "Ce sunt Subcarpații?",
+     "Unde se află Podișul Moldovei?",
+     "Unde se află Podișul Getic?",
+     "Care este cel mai vechi podiș?",
+     "Între ce unități se află Dealurile de Vest?"
+    ],
+    "steps": [
+     "Găsește pe hartă culoarea galbenă.",
+     "Numește fiecare podiș după poziție.",
+     "Leagă fiecare podiș de o resursă sau o ocupație.",
+     "Greșeala frecventă: să crezi că un podiș este muntos; podișul este înalt, dar are suprafața netedă."
+    ],
+    "answers": [
+     "Dealuri înalte de la exteriorul Carpaților.",
+     "În est, între Carpați și Prut.",
+     "În sud, la poalele Carpaților Meridionali.",
+     "Podișul Dobrogei.",
+     "Între Carpații Occidentali și Câmpia de Vest."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l22": {
+   "ro": {
+    "title": "Câmpiile",
+    "theory": "Câmpiile sunt treapta cea mai joasă. Câmpia Română, în sudul țării, între Podișul Getic, Subcarpați, Dunăre și Podișul Dobrogei, este cea mai mare câmpie a României. Câmpia de Vest se află între Dealurile de Vest și granița cu Ungaria și Serbia. Câmpiile au soluri fertile (cernoziomuri), climă caldă în timpul verii și uneori secetă, de aceea în unele locuri se fac irigații. Sunt cele mai importante zone agricole: grâu, porumb, floarea-soarelui, legume. Aici se află și orașe mari: București, Craiova, Timișoara, Arad.",
+    "sample": "În Câmpia Română, canalele de irigații aduc apa la culturi în verile secetoase.",
+    "worked": "Irigațiile arată cum oamenii adaptează mediul pentru agricultură, dar trebuie folosite cu grijă pentru a nu strica solul.",
+    "exercises": [
+     "Arată pe hartă cele două mari câmpii.",
+     "Spune unde se află Câmpia Română.",
+     "Explică de ce câmpiile sunt bune pentru agricultură.",
+     "Explică de ce se fac irigații.",
+     "Numește trei orașe din câmpie."
+    ],
+    "test": [
+     "Care este cea mai mare câmpie a României?",
+     "Unde se află Câmpia de Vest?",
+     "Ce sol fertil au câmpiile?",
+     "Ce problemă au câmpiile vara?",
+     "Ce oraș mare din vest se află în câmpie?"
+    ],
+    "steps": [
+     "Găsește pe hartă culoarea verde.",
+     "Numește câmpiile după poziție.",
+     "Leagă câmpiile de agricultură și orașe.",
+     "Greșeala frecventă: să crezi că o câmpie nu are deloc ape; prin câmpii curg râuri mari și există lacuri."
+    ],
+    "answers": [
+     "Câmpia Română.",
+     "Între Dealurile de Vest și granița de vest.",
+     "Cernoziomul.",
+     "Seceta.",
+     "Timișoara."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l23": {
+   "ro": {
+    "title": "Delta Dunării",
+    "theory": "Delta Dunării se află în sud-estul României, acolo unde Dunărea se varsă în Marea Neagră. Este cel mai nou pământ al țării, format din aluviunile aduse de fluviu. Dunărea se desparte aici în trei brațe: Chilia (la granița cu Ucraina), Sulina (amenajat pentru nave) și Sfântu Gheorghe. Între brațe sunt lacuri, canale, bălți, stuf, grinduri (fâșii mai înalte de pământ) și păduri (Letea). Delta este casa a sute de specii de păsări (pelicanul) și pești. Este rezervație a biosferei și face parte din patrimoniul mondial UNESCO. Locuitorii se ocupă cu pescuitul și turismul.",
+    "sample": "Pădurea Letea, din Delta Dunării, are stejari printre dune de nisip.",
+    "worked": "Delta are peisaje neașteptate, care trebuie ocrotite; de aceea este rezervație a biosferei.",
+    "exercises": [
+     "Arată Delta Dunării pe hartă.",
+     "Numește cele trei brațe ale Dunării.",
+     "Explică cum s-a format Delta.",
+     "Numește trei animale din Deltă.",
+     "Explică de ce Delta este ocrotită."
+    ],
+    "test": [
+     "Unde se află Delta Dunării?",
+     "Din ce s-a format Delta?",
+     "Ce braț este amenajat pentru nave?",
+     "Ce sunt grindurile?",
+     "Ce statut internațional are Delta?"
+    ],
+    "steps": [
+     "Găsește pe hartă vărsarea Dunării.",
+     "Urmărește cele trei brațe.",
+     "Descrie peisajul și viețuitoarele.",
+     "Greșeala frecventă: să crezi că Delta este doar apă; are și grinduri, păduri și dune de nisip."
+    ],
+    "answers": [
+     "În sud-estul României, la vărsarea Dunării în Marea Neagră.",
+     "Din aluviunile aduse de Dunăre.",
+     "Brațul Sulina.",
+     "Fâșii mai înalte de pământ.",
+     "Rezervație a biosferei, în patrimoniul mondial UNESCO."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l24": {
+   "ro": {
+    "title": "Cum prezentăm o regiune",
+    "theory": "O regiune geografică este un spațiu cu trăsături asemănătoare. Pentru a o prezenta, urmăm un plan: 1) poziția (unde se află, vecinii); 2) limitele; 3) relieful; 4) clima; 5) apele; 6) vegetația și animalele; 7) resursele; 8) populația și așezările; 9) activitățile economice. În România se folosesc și numele unor regiuni istorice: Moldova, Muntenia, Oltenia, Dobrogea, Banat, Crișana, Maramureș, Transilvania, Bucovina. Fiecare are peisaje, tradiții și orașe proprii. Poți prezenta regiunea în care trăiești folosind același plan.",
+    "sample": "Dobrogea se află între Dunăre și Marea Neagră, are un podiș vechi, climă secetoasă și Delta Dunării.",
+    "worked": "Prezentarea urmează planul: poziție, relief, climă, ape. Același plan se folosește pentru orice regiune.",
+    "exercises": [
+     "Scrie planul de prezentare a unei regiuni.",
+     "Numește regiunile istorice ale României.",
+     "Prezintă regiunea ta în cinci propoziții.",
+     "Găsește pe hartă Oltenia.",
+     "Compară două regiuni după relief."
+    ],
+    "test": [
+     "Ce este o regiune geografică?",
+     "Care este primul punct din planul de prezentare?",
+     "Ce regiune istorică se află între Dunăre și Marea Neagră?",
+     "În ce regiune se află Iașiul?",
+     "În ce regiune se află Timișoara?"
+    ],
+    "steps": [
+     "Alege regiunea pe care o prezinți.",
+     "Folosește planul de prezentare, punct cu punct.",
+     "Folosește harta pentru fiecare punct.",
+     "Greșeala frecventă: să amesteci ordinea; urmând planul, nu uiți nimic important."
+    ],
+    "answers": [
+     "Un spațiu cu trăsături asemănătoare.",
+     "Poziția.",
+     "Dobrogea.",
+     "În Moldova.",
+     "În Banat."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l25": {
+   "ro": {
+    "title": "Organizarea administrativă a României",
+    "theory": "Pentru a fi condusă mai ușor, România este împărțită în unități administrative. Acestea sunt: județele (41) și municipiul București; în fiecare județ sunt municipii, orașe și comune. Comuna este formată din unul sau mai multe sate. Fiecare județ are un oraș reședință de județ, unde se află instituțiile județului (Consiliul Județean, Prefectura). Fiecare comună sau oraș are un primar și un consiliu local, aleși de locuitori. Bucureștiul este împărțit în șase sectoare. Pentru caracterizarea județului tău folosești planul de prezentare a unei regiuni, adăugând reședința și orașele principale.",
+    "sample": "Județul Cluj are reședința la Cluj-Napoca, unul dintre cele mai mari orașe ale țării.",
+    "worked": "Reședința de județ este de obicei cel mai mare oraș al județului, dar nu întotdeauna.",
+    "exercises": [
+     "Spune câte județe are România.",
+     "Numește județul tău și reședința lui.",
+     "Explică din ce este formată o comună.",
+     "Spune cine conduce o localitate.",
+     "Găsește pe hartă cinci reședințe de județ."
+    ],
+    "test": [
+     "Câte județe are România?",
+     "Ce unitate administrativă specială este Bucureștiul?",
+     "Din ce este formată o comună?",
+     "Cine conduce o comună sau un oraș?",
+     "În câte sectoare este împărțit Bucureștiul?"
+    ],
+    "steps": [
+     "Găsește județul tău pe harta administrativă.",
+     "Află reședința și orașele lui.",
+     "Folosește planul de prezentare pentru județ.",
+     "Greșeala frecventă: să crezi că un sat are primar propriu; primarul conduce comuna, care poate avea mai multe sate."
+    ],
+    "answers": [
+     "41.",
+     "Municipiul București, unitate separată de județe.",
+     "Din unul sau mai multe sate.",
+     "Primarul și consiliul local.",
+     "Șase."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l26": {
+   "ro": {
+    "title": "Orașul București",
+    "theory": "Bucureștiul este capitala României și cel mai mare oraș, cu aproape 2 milioane de locuitori. Se află în sudul țării, în Câmpia Română, pe râul Dâmbovița; prin nordul orașului curge Colentina, cu un șir de lacuri (Herăstrău, Floreasca). Este centrul politic (Parlamentul, Guvernul, Președinția), economic, cultural (universități, muzee, teatre, Ateneul Român) și de transport (aeroportul Henri Coandă, Gara de Nord, metroul). Clădiri cunoscute: Palatul Parlamentului, Arcul de Triumf, Ateneul Român. Orașul este înconjurat de județul Ilfov.",
+    "sample": "Palatul Parlamentului este una dintre cele mai mari clădiri administrative din lume.",
+    "worked": "Clădirea arată rolul Bucureștiului de capitală, centrul instituțiilor statului.",
+    "exercises": [
+     "Arată Bucureștiul pe hartă.",
+     "Numește râul care trece prin București.",
+     "Numește trei clădiri cunoscute din București.",
+     "Explică de ce Bucureștiul este capitală.",
+     "Spune ce județ înconjoară Bucureștiul."
+    ],
+    "test": [
+     "Câți locuitori are Bucureștiul, aproximativ?",
+     "În ce formă de relief se află?",
+     "Ce râu traversează orașul?",
+     "Ce mijloc de transport subteran are?",
+     "Ce județ înconjoară capitala?"
+    ],
+    "steps": [
+     "Găsește Bucureștiul pe harta României.",
+     "Descrie poziția: relief, râuri.",
+     "Prezintă funcțiile capitalei.",
+     "Greșeala frecventă: să crezi că Bucureștiul este în mijlocul țării; se află în sud, în Câmpia Română."
+    ],
+    "answers": [
+     "Aproape 2 milioane.",
+     "În Câmpia Română.",
+     "Dâmbovița.",
+     "Metroul.",
+     "Județul Ilfov."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l27": {
+   "ro": {
+    "title": "România în Europa: țările vecine și capitalele lor",
+    "theory": "România se află în sud-estul Europei Centrale. Țările vecine și capitalele lor sunt: Ucraina – Kiev; Republica Moldova – Chișinău; Bulgaria – Sofia; Serbia – Belgrad; Ungaria – Budapesta. Cu Republica Moldova avem aceeași limbă, româna. Prin Dunăre și Marea Neagră, România este legată de multe alte țări ale Europei. Țara noastră este membră a Uniunii Europene din 2007 și a NATO din 2004.",
+    "sample": "Budapesta, capitala Ungariei, este traversată de Dunăre, ca și Belgradul, capitala Serbiei.",
+    "worked": "Dunărea leagă mai multe capitale europene, de aceea este un drum important de transport.",
+    "exercises": [
+     "Numește vecinii României și capitalele lor.",
+     "Arată pe hartă Chișinăul.",
+     "Spune ce capitale vecine sunt pe Dunăre.",
+     "Spune din ce an este România în Uniunea Europeană.",
+     "Spune ce limbă se vorbește în Republica Moldova."
+    ],
+    "test": [
+     "Care este capitala Bulgariei?",
+     "Care este capitala Ucrainei?",
+     "Care este capitala Serbiei?",
+     "Care este capitala Ungariei?",
+     "Care este capitala Republicii Moldova?"
+    ],
+    "steps": [
+     "Găsește România pe harta Europei.",
+     "Numește fiecare vecin și capitala lui.",
+     "Arată pe hartă capitalele.",
+     "Greșeala frecventă: să confunzi capitala cu țara; Sofia este capitala Bulgariei, nu o țară."
+    ],
+    "answers": [
+     "Sofia.",
+     "Kiev.",
+     "Belgrad.",
+     "Budapesta.",
+     "Chișinău."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l28": {
+   "ro": {
+    "title": "Europa – scurtă caracterizare geografică",
+    "theory": "Europa este un continent din emisfera nordică, legat de Asia (împreună formează Eurasia). Limita cu Asia trece pe la Munții Ural, râul Ural, Marea Caspică, Munții Caucaz și Marea Neagră. Europa este scăldată de Oceanul Arctic la nord, Oceanul Atlantic la vest și Marea Mediterană la sud. Are peninsule (Scandinavică, Iberică, Italică, Balcanică), munți (Alpi – Mont Blanc; Carpați; Pirinei), câmpii (Câmpia Europei de Est, cea mai mare), fluvii (Volga, cel mai lung; Dunărea, al doilea; Rinul). Europa are multe state și multe limbi.",
+    "sample": "Volga este cel mai lung fluviu din Europa, iar Dunărea este al doilea.",
+    "worked": "Comparațiile ne ajută să situăm elementele României în cadrul continentului.",
+    "exercises": [
+     "Arată Europa pe planiglob.",
+     "Numește oceanele care scaldă Europa.",
+     "Numește patru peninsule ale Europei.",
+     "Spune care este cel mai lung fluviu european.",
+     "Spune ce munți despart Europa de Asia."
+    ],
+    "test": [
+     "În ce emisferă se află Europa?",
+     "Cu ce continent formează Eurasia?",
+     "Ce mare se află la sudul Europei?",
+     "Ce munți înalți se află în centrul Europei?",
+     "Care este al doilea fluviu ca lungime din Europa?"
+    ],
+    "steps": [
+     "Găsește Europa pe planiglob.",
+     "Urmărește limitele: oceane, mări, munți.",
+     "Numește elementele principale de relief și ape.",
+     "Greșeala frecventă: să crezi că Europa e despărțită de Asia printr-un ocean; cele două continente sunt unite pe uscat."
+    ],
+    "answers": [
+     "În emisfera nordică.",
+     "Cu Asia.",
+     "Marea Mediterană.",
+     "Munții Alpi.",
+     "Dunărea."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l29": {
+   "ro": {
+    "title": "Europa și România – elemente comune; Uniunea Europeană",
+    "theory": "România are multe elemente comune cu alte țări europene: Carpații continuă în Ucraina, Polonia, Slovacia; Dunărea străbate zece țări; clima temperată și pădurile de foioase sunt răspândite în Europa Centrală. Limba română face parte, ca italiana, franceza, spaniola și portugheza, din familia limbilor romanice. Uniunea Europeană este o comunitate de 27 de state care colaborează în economie, transport, mediu, educație. Cetățenii UE pot călători, învăța și lucra liber în celelalte state membre. Simbolurile UE sunt drapelul albastru cu 12 stele aurii și imnul „Oda bucuriei”. Ziua Europei este pe 9 mai.",
+    "sample": "Dunărea străbate zece țări și patru capitale: Viena, Bratislava, Budapesta și Belgrad.",
+    "worked": "Elementele comune, ca un fluviu sau o limbă, arată legăturile dintre România și restul Europei.",
+    "exercises": [
+     "Numește două elemente naturale comune României și altor țări.",
+     "Numește alte limbi romanice.",
+     "Spune câte state are Uniunea Europeană.",
+     "Descrie drapelul UE.",
+     "Spune ce drepturi au cetățenii UE."
+    ],
+    "test": [
+     "Prin câte țări curge Dunărea?",
+     "Din ce familie face parte limba română?",
+     "Câte state are UE?",
+     "Câte stele are drapelul UE?",
+     "Când este Ziua Europei?"
+    ],
+    "steps": [
+     "Găsește elementele comune pe harta Europei.",
+     "Explică ce este Uniunea Europeană.",
+     "Spune ce înseamnă UE pentru tine.",
+     "Greșeala frecventă: să crezi că toate țările Europei sunt în UE; unele, ca Serbia sau Ucraina, nu sunt membre."
+    ],
+    "answers": [
+     "Zece.",
+     "Familia limbilor romanice.",
+     "27.",
+     "12.",
+     "Pe 9 mai."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l30": {
+   "ro": {
+    "title": "Terra: formă, mărime și mișcări",
+    "theory": "Terra (Pământul) are formă aproape sferică, ușor turtită la poli. Raza ei medie este de aproximativ 6.370 de kilometri. Globul geografic este o machetă micșorată a Terrei. Terra are două mișcări: mișcarea de rotație, în jurul axei proprii, care durează 24 de ore și produce ziua și noaptea; mișcarea de revoluție, în jurul Soarelui, care durează aproximativ 365 de zile și 6 ore și, împreună cu înclinarea axei, produce anotimpurile. Linia imaginară care împarte Terra în emisfera nordică și emisfera sudică se numește Ecuator.",
+    "sample": "Cele 6 ore în plus din fiecare an se adună la patru ani într-o zi întreagă, 29 februarie.",
+    "worked": "Anul bisect este o consecință a mișcării de revoluție, nu o regulă inventată la întâmplare.",
+    "exercises": [
+     "Explică forma Pământului.",
+     "Explică ce produce mișcarea de rotație.",
+     "Explică ce produce mișcarea de revoluție.",
+     "Arată Ecuatorul pe glob.",
+     "Explică de ce avem an bisect."
+    ],
+    "test": [
+     "Ce formă are Terra?",
+     "Cât durează mișcarea de rotație?",
+     "Cât durează mișcarea de revoluție?",
+     "Ce produce alternanța zilelor și nopților?",
+     "Ce linie împarte Terra în două emisfere?"
+    ],
+    "steps": [
+     "Folosește globul și o lanternă.",
+     "Rotește globul și observă ziua și noaptea.",
+     "Mută globul în jurul lanternei și discută anotimpurile.",
+     "Greșeala frecventă: să crezi că anotimpurile apar pentru că Pământul se apropie sau se depărtează de Soare; ele apar din cauza înclinării axei."
+    ],
+    "answers": [
+     "Aproape sferică, ușor turtită la poli.",
+     "24 de ore.",
+     "Aproximativ 365 de zile și 6 ore.",
+     "Mișcarea de rotație.",
+     "Ecuatorul."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l31": {
+   "ro": {
+    "title": "Continente și oceane; planiglobul",
+    "theory": "Suprafața Terrei este acoperită în cea mai mare parte de ape (aproape trei sferturi), iar restul este uscat. Uscatul formează continentele: Asia (cel mai mare), Africa, America de Nord, America de Sud, Antarctica, Europa și Australia (cel mai mic). În unele lucrări, cele două Americi sunt socotite un singur continent. Oceanele principale sunt: Pacific (cel mai mare), Atlantic, Indian și Arctic (cel mai mic); unele hărți arată și Oceanul Sudic, în jurul Antarcticii. Planiglobul este harta întregii Terre pe o suprafață plană. Pe el, Ecuatorul și meridianul de 0° (Greenwich) ne ajută să ne orientăm.",
+    "sample": "Pe planiglob, Groenlanda pare aproape cât Africa, deși în realitate este mult mai mică.",
+    "worked": "Planiglobul deformează unele suprafețe, mai ales lângă poli; globul arată mai corect mărimile.",
+    "exercises": [
+     "Numește continentele.",
+     "Numește oceanele principale.",
+     "Arată România pe planiglob.",
+     "Spune pe ce continent se află România.",
+     "Explică de ce planiglobul deformează unele suprafețe."
+    ],
+    "test": [
+     "Ce parte din Terra este acoperită de ape?",
+     "Care este cel mai mare continent?",
+     "Care este cel mai mic continent?",
+     "Care este cel mai mare ocean?",
+     "Ce este planiglobul?"
+    ],
+    "steps": [
+     "Găsește pe planiglob uscatul și apele.",
+     "Numește continentele, de la cel mai mare.",
+     "Numește oceanele care le înconjoară.",
+     "Greșeala frecventă: să crezi că planiglobul arată mărimile exacte; globul este mai corect."
+    ],
+    "answers": [
+     "Aproape trei sferturi.",
+     "Asia.",
+     "Australia.",
+     "Oceanul Pacific.",
+     "Harta întregii Terre pe o suprafață plană."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l32": {
+   "ro": {
+    "title": "Terra – o planetă a Sistemului Solar",
+    "theory": "Terra face parte din Sistemul Solar, format din Soare și corpurile care se rotesc în jurul lui. Soarele este o stea, care produce lumină și căldură. Cele opt planete, în ordinea depărtării de Soare, sunt: Mercur, Venus, Terra, Marte, Jupiter, Saturn, Uranus și Neptun. Terra este a treia planetă și singura pe care știm că există viață, datorită apei lichide, aerului și temperaturii potrivite. Luna este satelitul natural al Terrei și se rotește în jurul ei în aproximativ o lună. Oamenii au ajuns pe Lună în 1969.",
+    "sample": "Terra este singura planetă cunoscută cu apă lichidă la suprafață în cantitate mare.",
+    "worked": "Distanța potrivită față de Soare face ca apa să nu fie nici înghețată, nici evaporată, ceea ce permite viața.",
+    "exercises": [
+     "Numește planetele în ordine.",
+     "Spune a câta planetă este Terra.",
+     "Explică de ce există viață pe Terra.",
+     "Explică ce este Luna.",
+     "Spune când au ajuns oamenii pe Lună."
+    ],
+    "test": [
+     "Ce este Soarele?",
+     "Câte planete are Sistemul Solar?",
+     "Care este cea mai apropiată planetă de Soare?",
+     "Care este cea mai mare planetă?",
+     "Care este satelitul natural al Terrei?"
+    ],
+    "steps": [
+     "Pornește de la Soare.",
+     "Numește planetele în ordine.",
+     "Explică de ce Terra este specială.",
+     "Greșeala frecventă: să crezi că Soarele se învârte în jurul Pământului; Pământul se învârte în jurul Soarelui."
+    ],
+    "answers": [
+     "O stea.",
+     "Opt.",
+     "Mercur.",
+     "Jupiter.",
+     "Luna."
+    ]
+   }
+  }
+ }
+}

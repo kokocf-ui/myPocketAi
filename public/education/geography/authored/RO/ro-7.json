@@ -1,0 +1,1167 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "RO",
+ "stage": "lower",
+ "grade": "7",
+ "version": "e9bb4c78829d341e026be317973008b6cedce36c825c990040d9ece4d5ad2ba5",
+ "source": "https://www.ise.ro/wp-content/uploads/2017/01/Geografie.pdf",
+ "sourceTitle": "Programa școlară pentru disciplina Geografie, clasele a V-a – a VIII-a, aprobată prin OMEN nr. 3393/28.02.2017 — clasa a VII-a: Geografia continentelor extraeuropene (Asia; Africa; America de Nord și America de Sud; Australia, Oceania și Antarctica; Geografia mediului). Lecții originale, fără text copiat din manuale",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "ro",
+ "labels": [
+  "Activitate originală · România · Geografie · Clasa a VII-a",
+  "Lecția pe înțeles",
+  "Exemplu",
+  "Ce ne arată exemplul",
+  "Exerciții",
+  "Test",
+  "Activități originale, făcute după programa școlară; nu înlocuiesc manualul sau ora de la clasă.",
+  "Dacă nu ai înțeles: pas cu pas",
+  "Răspunsuri (verifică după ce termini)"
+ ],
+ "units": [
+  {
+   "title": "Asia",
+   "keys": [
+    "eu-year-ro-lower-7-l01",
+    "eu-year-ro-lower-7-l02",
+    "eu-year-ro-lower-7-l03",
+    "eu-year-ro-lower-7-l04",
+    "eu-year-ro-lower-7-l05",
+    "eu-year-ro-lower-7-l06",
+    "eu-year-ro-lower-7-l07",
+    "eu-year-ro-lower-7-l08",
+    "eu-year-ro-lower-7-l09"
+   ]
+  },
+  {
+   "title": "Africa",
+   "keys": [
+    "eu-year-ro-lower-7-l10",
+    "eu-year-ro-lower-7-l11",
+    "eu-year-ro-lower-7-l12",
+    "eu-year-ro-lower-7-l13",
+    "eu-year-ro-lower-7-l14",
+    "eu-year-ro-lower-7-l15"
+   ]
+  },
+  {
+   "title": "America de Nord și America de Sud",
+   "keys": [
+    "eu-year-ro-lower-7-l16",
+    "eu-year-ro-lower-7-l17",
+    "eu-year-ro-lower-7-l18",
+    "eu-year-ro-lower-7-l19",
+    "eu-year-ro-lower-7-l20",
+    "eu-year-ro-lower-7-l21",
+    "eu-year-ro-lower-7-l22",
+    "eu-year-ro-lower-7-l23"
+   ]
+  },
+  {
+   "title": "Australia, Oceania și Antarctica",
+   "keys": [
+    "eu-year-ro-lower-7-l24",
+    "eu-year-ro-lower-7-l25",
+    "eu-year-ro-lower-7-l26",
+    "eu-year-ro-lower-7-l27"
+   ]
+  },
+  {
+   "title": "Geografia mediului",
+   "keys": [
+    "eu-year-ro-lower-7-l28",
+    "eu-year-ro-lower-7-l29",
+    "eu-year-ro-lower-7-l30",
+    "eu-year-ro-lower-7-l31"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-ro-lower-7-l01": {
+   "ro": {
+    "title": "Asia: poziție geografică, limite, țărmuri",
+    "theory": "Asia este cel mai mare continent (circa 44 milioane km², aproape o treime din uscatul planetei) și cel mai populat. Se află aproape în întregime în emisfera nordică și estică. Limite: Oceanul Arctic (nord), Oceanul Pacific (est), Oceanul Indian (sud), Europa (vest – Munții Ural, Marea Caspică, Caucazul, Marea Neagră, strâmtorile Bosfor și Dardanele) și Africa (Istmul Suez, Marea Roșie). Strâmtoarea Bering o desparte de America. Țărmurile sunt variate: peninsule mari (Arabia – cea mai mare peninsulă din lume, Hindustan, Indochina, Coreea, Kamceatka, Asia Mică), insule și arhipelaguri (Japonia, Filipine, Indonezia – cel mai mare stat-arhipelag, Sri Lanka, Taiwan).",
+    "sample": "Peninsula Arabia este cea mai mare peninsulă a lumii, cu circa 3 milioane km².",
+    "worked": "Peninsulele mari ale Asiei arată un țărm foarte crestat spre sud și est, cu mări și golfuri importante pentru navigație.",
+    "exercises": [
+     "Arată pe hartă limitele Asiei.",
+     "Numește cinci peninsule asiatice.",
+     "Numește trei arhipelaguri.",
+     "Explică ce desparte Strâmtoarea Bering.",
+     "Compară suprafața Asiei cu a Europei."
+    ],
+    "test": [
+     "Care este cel mai mare continent?",
+     "Ce oceane scaldă Asia?",
+     "Care este cea mai mare peninsulă a lumii?",
+     "Ce strâmtoare desparte Asia de America?",
+     "Ce stat este cel mai mare arhipelag?"
+    ],
+    "steps": [
+     "Găsește continentul pe planiglob.",
+     "Urmărește limitele: oceane, continente vecine.",
+     "Localizează peninsulele și insulele.",
+     "Greșeala frecventă: să crezi că Asia este despărțită de Europa printr-un ocean; limita este pe uscat, în mare parte."
+    ],
+    "answers": [
+     "Asia.",
+     "Arctic, Pacific și Indian.",
+     "Peninsula Arabia.",
+     "Strâmtoarea Bering.",
+     "Indonezia."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l02": {
+   "ro": {
+    "title": "Relieful Asiei; Himalaya – acoperișul lumii",
+    "theory": "Asia are cea mai mare altitudine medie dintre continente (circa 950 m) și cele mai mari contraste. Munții Himalaya, formați prin ciocnirea plăcii indiene cu placa eurasiatică, au cele mai înalte vârfuri ale lumii: Everest (Chomolungma, 8.849 m). Alți munți: Karakorum (K2), Hindukush, Tian Shan, Altai, Caucaz, Ural. Podișuri înalte: Tibet (cel mai înalt podiș, peste 4.000 m), Pamir, Iran, Anatolia, Arabia, Deccan. Câmpii mari: Câmpia Siberiei de Vest, Câmpia Turanului, Câmpia Indo-Gangetică, Câmpia Chinei de Est, Câmpia Mesopotamiei. Depresiunea Mării Moarte este cel mai jos punct de pe uscat (peste 400 m sub nivelul mării). Pe marginea Pacificului sunt vulcani și cutremure (Cercul de Foc).",
+    "sample": "Diferența dintre vârful Everest și țărmul Mării Moarte este de peste 9.000 de metri.",
+    "worked": "Contrastul arată că Asia are atât cel mai înalt, cât și cel mai jos punct al uscatului.",
+    "exercises": [
+     "Explică formarea Munților Himalaya.",
+     "Numește trei podișuri asiatice.",
+     "Numește patru câmpii mari.",
+     "Explică ce este Cercul de Foc al Pacificului.",
+     "Compară altitudinea medie a Asiei cu a Europei."
+    ],
+    "test": [
+     "Care este cel mai înalt vârf al lumii?",
+     "Care este cel mai înalt podiș?",
+     "Unde este cel mai jos punct de pe uscat?",
+     "Ce plăci s-au ciocnit pentru a forma Himalaya?",
+     "În ce stat sunt mulți vulcani și cutremure frecvente?"
+    ],
+    "steps": [
+     "Citește culorile hărții fizice.",
+     "Grupează formele de relief.",
+     "Explică originea lor.",
+     "Greșeala frecventă: să crezi că Everestul se află în India; el este la granița dintre Nepal și China."
+    ],
+    "answers": [
+     "Vârful Everest.",
+     "Podișul Tibet.",
+     "Țărmul Mării Moarte.",
+     "Placa indiană și placa eurasiatică.",
+     "Japonia."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l03": {
+   "ro": {
+    "title": "Clima Asiei; musonii",
+    "theory": "Asia are toate tipurile de climă, de la ecuatorială la polară, din cauza întinderii mari pe latitudine. Musonii sunt vânturi care își schimbă direcția de la un anotimp la altul: vara bat dinspre ocean spre uscat și aduc ploi torențiale; iarna bat dinspre uscat spre ocean și aduc vreme uscată. Ei afectează India, Asia de Sud-Est, China, Japonia. În Cherrapunji (India) cad unele dintre cele mai mari cantități de precipitații din lume. Interiorul continentului are climă continentală excesivă: la Oimiakon (Siberia) s-au înregistrat circa –68°C. Sud-vestul Asiei (Arabia) are climă deșertică, foarte caldă și uscată.",
+    "sample": "În India, sezonul musonic din vară aduce cea mai mare parte a ploilor anului.",
+    "worked": "Agricultura, mai ales orezul, depinde de venirea musonului; întârzierea lui poate produce secetă.",
+    "exercises": [
+     "Explică formarea musonilor.",
+     "Numește regiunile afectate de musoni.",
+     "Explică de ce interiorul Asiei are ierni geroase.",
+     "Descrie clima Arabiei.",
+     "Explică importanța musonului pentru agricultură."
+    ],
+    "test": [
+     "Ce sunt musonii?",
+     "Ce aduce musonul de vară?",
+     "Unde este polul frigului din emisfera nordică?",
+     "Ce climă are Peninsula Arabia?",
+     "Ce cultură depinde mult de muson?"
+    ],
+    "steps": [
+     "Localizează regiunea.",
+     "Identifică factorii: latitudine, ocean, relief.",
+     "Explică temperaturile și precipitațiile.",
+     "Greșeala frecventă: să crezi că musonul este o furtună; este un vânt sezonier care își schimbă direcția."
+    ],
+    "answers": [
+     "Vânturi care își schimbă direcția după anotimp.",
+     "Ploi abundente.",
+     "În Siberia (Oimiakon).",
+     "Climă deșertică.",
+     "Orezul."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l04": {
+   "ro": {
+    "title": "Ape, vegetație și faună în Asia",
+    "theory": "Asia are fluvii lungi: Yangtze (cel mai lung din Asia, circa 6.300 km), Huang He (Fluviul Galben), Mekong, Gange, Indus, Tigru și Eufrat, iar în Siberia Obi, Enisei și Lena (îngheață iarna). Lacuri: Marea Caspică (cel mai mare lac al lumii), Baikal (cel mai adânc lac, peste 1.600 m), Marea Aral (aproape secată din cauza irigațiilor). Zonele de vegetație, de la nord la sud: tundră, taiga (cea mai întinsă din lume, în Siberia), stepă, deșerturi (Gobi, Arabia), păduri subtropicale, păduri musonice, păduri ecuatoriale (Indonezia). Fauna: tigrul, panda uriaș, elefantul asiatic, rinocerul, urangutanul, iacul.",
+    "sample": "Marea Aral s-a micșorat foarte mult după ce apa râurilor care o alimentau a fost folosită pentru irigarea bumbacului.",
+    "worked": "Este unul dintre cele mai grave dezastre ecologice provocate de om.",
+    "exercises": [
+     "Numește fluviile mari ale Asiei.",
+     "Explică de ce Marea Aral a secat.",
+     "Ordonează zonele de vegetație.",
+     "Numește animale caracteristice Asiei.",
+     "Explică de ce fluviile siberiene îngheață."
+    ],
+    "test": [
+     "Care este cel mai lung fluviu al Asiei?",
+     "Care este cel mai adânc lac din lume?",
+     "Ce lac a secat aproape complet?",
+     "Ce animal trăiește în pădurile de bambus din China?",
+     "Ce deșert se află în Mongolia?"
+    ],
+    "steps": [
+     "Găsește apele pe hartă.",
+     "Leagă vegetația de climă.",
+     "Adaugă fauna caracteristică.",
+     "Greșeala frecventă: să confunzi Marea Caspică (cel mai mare lac) cu Baikal (cel mai adânc lac)."
+    ],
+    "answers": [
+     "Yangtze.",
+     "Lacul Baikal.",
+     "Marea Aral.",
+     "Panda uriaș.",
+     "Deșertul Gobi."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l05": {
+   "ro": {
+    "title": "Populația Asiei: diversitate și aglomerări urbane",
+    "theory": "Asia are aproape 60% din populația lumii, peste 4,7 miliarde de oameni. India și China au fiecare peste 1,4 miliarde de locuitori. Populația este concentrată în câmpiile și pe coastele din sud și est (Câmpia Gangelui, Câmpia Chinei de Est, Java), iar Siberia, Tibetul și deșerturile sunt aproape nelocuite. Diversitatea este foarte mare: popoare, limbi (chineza, hindi, bengali, japoneza, araba) și religii (hinduism, budism, islam, creștinism, confucianism, iudaism). Asia are cele mai mari aglomerări urbane: Tokyo, Delhi, Shanghai, Dhaka, Beijing, Mumbai, Osaka. Multe state asiatice au creștere urbană foarte rapidă.",
+    "sample": "Pe insula Java (Indonezia) trăiesc peste 150 de milioane de oameni, una dintre cele mai dens populate insule ale lumii.",
+    "worked": "Solurile vulcanice fertile și clima caldă permit hrănirea unei populații foarte numeroase.",
+    "exercises": [
+     "Explică repartiția populației în Asia.",
+     "Numește cele mai populate state.",
+     "Numește religiile apărute în Asia.",
+     "Numește cinci mari aglomerări urbane.",
+     "Explică de ce Siberia este slab populată."
+    ],
+    "test": [
+     "Ce parte din populația lumii trăiește în Asia?",
+     "Care este cel mai populat stat?",
+     "Ce religie s-a născut în India?",
+     "Care este cea mai mare aglomerare urbană?",
+     "Ce insulă indoneziană este foarte populată?"
+    ],
+    "steps": [
+     "Analizează harta densității.",
+     "Explică factorii naturali și istorici.",
+     "Compară regiunile dens și slab populate.",
+     "Greșeala frecventă: să crezi că toată Asia este suprapopulată; regiuni uriașe sunt aproape goale."
+    ],
+    "answers": [
+     "Aproape 60%.",
+     "India.",
+     "Hinduismul (și budismul).",
+     "Tokyo.",
+     "Java."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l06": {
+   "ro": {
+    "title": "Harta politică a Asiei",
+    "theory": "Asia are aproape 50 de state. Cele mai întinse: Rusia (partea asiatică, Siberia), China, India, Kazahstan, Arabia Saudită. Asia a fost în mare parte colonizată de europeni (India – britanică, Indochina – franceză, Indonezia – olandeză), iar statele și-au câștigat independența mai ales după 1945. Regiuni: Asia de Est (China, Japonia, Coreea de Sud, Coreea de Nord, Mongolia), Asia de Sud (India, Pakistan, Bangladesh), Asia de Sud-Est (Indonezia, Vietnam, Thailanda, Filipine), Asia Centrală (Kazahstan, Uzbekistan), Asia de Sud-Vest sau Orientul Mijlociu (Arabia Saudită, Iran, Irak, Turcia, Israel). Există zone de conflict (Orientul Mijlociu, Kashmir, peninsula coreeană).",
+    "sample": "Coreea este împărțită din 1945 între Coreea de Nord și Coreea de Sud, cu o graniță foarte păzită.",
+    "worked": "Exemplul arată cum războaiele și ideologiile pot despărți un popor.",
+    "exercises": [
+     "Grupează statele asiatice pe regiuni.",
+     "Numește cele mai întinse state.",
+     "Explică urmele colonialismului.",
+     "Numește capitalele Chinei, Japoniei, Indiei.",
+     "Numește zone de conflict din Asia."
+    ],
+    "test": [
+     "Care este capitala Chinei?",
+     "Care este capitala Japoniei?",
+     "Ce putere colonială a stăpânit India?",
+     "În ce regiune se află Iranul?",
+     "Ce peninsulă este împărțită în două state?"
+    ],
+    "steps": [
+     "Găsește statul pe hartă.",
+     "Încadrează-l într-o regiune.",
+     "Precizează capitala și elementele istorice.",
+     "Greșeala frecventă: să confunzi Asia de Sud (India) cu Asia de Sud-Est (Vietnam, Indonezia)."
+    ],
+    "answers": [
+     "Beijing.",
+     "Tokyo.",
+     "Marea Britanie.",
+     "În Asia de Sud-Vest (Orientul Mijlociu).",
+     "Peninsula Coreea."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l07": {
+   "ro": {
+    "title": "Resursele și economia Asiei",
+    "theory": "Asia are resurse uriașe: petrol și gaze naturale în Orientul Mijlociu (Arabia Saudită, Iran, Irak, Kuweit, Qatar, Emirate), Rusia, Kazahstan; cărbune în China, India, Indonezia; minereuri și pământuri rare (China). Agricultura: orez (China, India, Indonezia, Vietnam, Thailanda), ceai (China, India, Sri Lanka), bumbac, cauciuc natural. Economia este foarte diversă: Japonia, Coreea de Sud, Taiwan și Singapore sunt economii avansate (automobile, electronică, cipuri); China este „fabrica lumii” și a doua economie a planetei; India crește rapid (servicii IT, industrie). Statele petroliere sunt bogate, dar unele state rămân foarte sărace.",
+    "sample": "Taiwanul produce cea mai mare parte a cipurilor avansate din lume.",
+    "worked": "O insulă mică poate avea un rol uriaș în economia globală prin tehnologie.",
+    "exercises": [
+     "Numește statele producătoare de petrol.",
+     "Numește culturile tropicale ale Asiei.",
+     "Explică de ce China este numită „fabrica lumii”.",
+     "Numește economiile avansate din Asia de Est.",
+     "Explică contrastele economice din Asia."
+    ],
+    "test": [
+     "Ce regiune asiatică are cel mai mult petrol?",
+     "Ce stat asiatic este a doua economie a lumii?",
+     "Ce produce mult Taiwanul?",
+     "Ce băutură se cultivă în Sri Lanka?",
+     "În ce ramură se dezvoltă India?"
+    ],
+    "steps": [
+     "Identifică resursa sau ramura.",
+     "Localizează statele.",
+     "Explică diferențele de dezvoltare.",
+     "Greșeala frecventă: să crezi că toată Asia este săracă sau toată bogată; contrastele sunt foarte mari."
+    ],
+    "answers": [
+     "Orientul Mijlociu.",
+     "China.",
+     "Cipuri (semiconductori).",
+     "Ceaiul.",
+     "Serviciile IT."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l08": {
+   "ro": {
+    "title": "Studiu de caz: China, Japonia și India",
+    "theory": "China (circa 9,6 milioane km², peste 1,4 miliarde locuitori, capitala Beijing) are relief în trepte, de la Tibet la câmpiile din est, fluviile Yangtze și Huang He, și este a doua economie a lumii. Japonia (arhipelag de peste 6.800 de insule, circa 124 milioane locuitori, capitala Tokyo) are munți vulcanici (Fuji), cutremure și tsunami, puține resurse, dar o industrie de vârf: automobile, robotică, electronică. India (circa 3,3 milioane km², cel mai populat stat, capitala New Delhi) are Himalaya în nord, Câmpia Indo-Gangetică, Podișul Deccan, climă musonică, mare diversitate de limbi și religii, agricultură, industrie și servicii IT în creștere.",
+    "sample": "Japonia are puține resurse naturale, dar este una dintre cele mai dezvoltate economii ale lumii.",
+    "worked": "Educația, tehnologia și munca pot compensa lipsa resurselor.",
+    "exercises": [
+     "Compară suprafețele celor trei state.",
+     "Descrie relieful Chinei.",
+     "Explică riscurile naturale din Japonia.",
+     "Prezintă diversitatea Indiei.",
+     "Compară economiile celor trei state."
+    ],
+    "test": [
+     "Care este capitala Indiei?",
+     "Ce munte vulcanic este simbolul Japoniei?",
+     "Ce fluviu este cel mai lung din China?",
+     "Câte insule are Japonia, aproximativ?",
+     "Ce stat are cea mai mare populație?"
+    ],
+    "steps": [
+     "Folosește planul: poziție, relief, climă, ape, populație, economie.",
+     "Caută datele pe hartă.",
+     "Compară statele între ele.",
+     "Greșeala frecventă: să crezi că Japonia are resurse bogate; ea importă cele mai multe materii prime."
+    ],
+    "answers": [
+     "New Delhi.",
+     "Muntele Fuji.",
+     "Yangtze.",
+     "Peste 6.800.",
+     "India."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l09": {
+   "ro": {
+    "title": "Asia – continentul superlativelor",
+    "theory": "Asia deține multe recorduri: cel mai mare continent; cea mai mare populație; cel mai înalt vârf (Everest); cel mai înalt podiș (Tibet); cel mai jos punct de pe uscat (Marea Moartă); cel mai mare lac (Marea Caspică) și cel mai adânc lac (Baikal); cea mai mare peninsulă (Arabia); cea mai mare pădure de conifere (taigaua siberiană); polul frigului din emisfera nordică (Oimiakon); unul dintre cele mai ploioase locuri (Cherrapunji); cel mai mare stat-arhipelag (Indonezia); cele mai populate state (India, China); cea mai mare aglomerare urbană (Tokyo). Asia este și leagănul unor civilizații străvechi (Mesopotamia, India, China) și al marilor religii.",
+    "sample": "Mesopotamia, între Tigru și Eufrat, este una dintre primele regiuni unde au apărut orașe și scrierea.",
+    "worked": "Fluviile au oferit apă și soluri fertile, condiții pentru primele civilizații.",
+    "exercises": [
+     "Alcătuiește o listă de zece recorduri ale Asiei.",
+     "Localizează pe hartă fiecare record.",
+     "Explică de ce Asia are atâtea recorduri.",
+     "Numește civilizațiile antice ale Asiei.",
+     "Realizează un quiz despre recordurile Asiei."
+    ],
+    "test": [
+     "Care este cel mai adânc lac?",
+     "Care este cea mai mare peninsulă?",
+     "Unde este cea mai mare pădure de conifere?",
+     "Între ce fluvii era Mesopotamia?",
+     "Care este cel mai înalt podiș?"
+    ],
+    "steps": [
+     "Alege recordul pe care îl explici.",
+     "Localizează-l pe hartă.",
+     "Explică de ce există acolo.",
+     "Greșeala frecventă: să confunzi recordurile: Caspica este cel mai mare lac, Baikal cel mai adânc."
+    ],
+    "answers": [
+     "Lacul Baikal.",
+     "Peninsula Arabia.",
+     "În Siberia (taigaua).",
+     "Tigru și Eufrat.",
+     "Podișul Tibet."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l10": {
+   "ro": {
+    "title": "Africa: poziție, limite și simetria latitudinală",
+    "theory": "Africa este al doilea continent ca suprafață (circa 30 milioane km²). Este străbătută de Ecuator aproape prin mijloc și de ambele tropice, de aceea zonele climatice și de vegetație se repetă simetric la nord și la sud de Ecuator: aceasta este simetria latitudinală. Limite: Marea Mediterană (nord, despărțire de Europa prin Strâmtoarea Gibraltar), Oceanul Atlantic (vest), Oceanul Indian (est), Marea Roșie și Istmul Suez (legătura cu Asia, tăiat de Canalul Suez în 1869). Țărmurile sunt puțin crestate: puține peninsule (Somalia) și insule (Madagascar – cea mai mare, Canare, Zanzibar). Punctele extreme: Capul Agulhas în sud.",
+    "sample": "Canalul Suez a scurtat foarte mult drumul navelor între Europa și Asia, fără ocolirea Africii.",
+    "worked": "O lucrare făcută de om a schimbat traseele comerțului mondial.",
+    "exercises": [
+     "Explică simetria latitudinală.",
+     "Arată pe hartă limitele Africii.",
+     "Explică importanța Canalului Suez.",
+     "Compară țărmurile Africii cu ale Europei.",
+     "Numește insulele africane."
+    ],
+    "test": [
+     "Care este al doilea continent ca suprafață?",
+     "Ce paralelă importantă trece prin mijlocul Africii?",
+     "Ce canal leagă Marea Mediterană de Marea Roșie?",
+     "Care este cea mai mare insulă africană?",
+     "Ce strâmtoare desparte Africa de Europa?"
+    ],
+    "steps": [
+     "Găsește Ecuatorul și tropicele pe hartă.",
+     "Observă cum se repetă zonele la nord și la sud.",
+     "Localizează limitele și țărmurile.",
+     "Greșeala frecventă: să crezi că Africa este toată deșert; are și păduri ecuatoriale, savane și munți."
+    ],
+    "answers": [
+     "Africa.",
+     "Ecuatorul.",
+     "Canalul Suez.",
+     "Madagascar.",
+     "Strâmtoarea Gibraltar."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l11": {
+   "ro": {
+    "title": "Relieful Africii; Marele Rift",
+    "theory": "Africa este un continent masiv, dominat de podișuri înalte (altitudine medie circa 650 m), mai ales în est și sud. Munți: Atlas (nord-vest, munți tineri), Drakensberg (sud), Etiopiei, munții vulcanici din est: Kilimanjaro (circa 5.895 m, cel mai înalt vârf al Africii), Kenya. Marele Rift African este o mare fractură a scoarței, cu văi adânci, lacuri și vulcani, care se întinde din Asia de Sud-Vest prin Marea Roșie până în Mozambic; aici placa africană se desparte treptat. Depresiuni și bazine: Bazinul Congo, Bazinul Ciad, Kalahari. Câmpiile sunt puține, de-a lungul țărmurilor. Depresiunea Assal (Djibouti) este cel mai jos punct al Africii.",
+    "sample": "Kilimanjaro, deși aproape de Ecuator, are zăpadă și ghețari pe vârf, din cauza altitudinii.",
+    "worked": "Altitudinea poate fi mai importantă decât latitudinea pentru temperatură.",
+    "exercises": [
+     "Descrie relieful Africii.",
+     "Explică ce este Marele Rift.",
+     "Numește munții Africii.",
+     "Explică de ce pe Kilimanjaro e zăpadă.",
+     "Numește bazinele mari ale Africii."
+    ],
+    "test": [
+     "Care este cel mai înalt vârf al Africii?",
+     "Ce munți se află în nord-vest?",
+     "Ce fractură traversează estul Africii?",
+     "Ce formă de relief domină Africa?",
+     "În ce bazin curge fluviul Congo?"
+    ],
+    "steps": [
+     "Citește harta fizică.",
+     "Identifică podișurile, munții și bazinele.",
+     "Explică originea Riftului.",
+     "Greșeala frecventă: să crezi că Kilimanjaro este un munte format prin încrețire; este un vulcan."
+    ],
+    "answers": [
+     "Kilimanjaro.",
+     "Munții Atlas.",
+     "Marele Rift African.",
+     "Podișurile.",
+     "Bazinul Congo."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l12": {
+   "ro": {
+    "title": "Clima, apele și vegetația Africii; Sahara",
+    "theory": "Africa este cel mai cald continent. La Ecuator, clima ecuatorială (caldă și ploioasă tot anul) susține pădurea ecuatorială (Bazinul Congo; gorile, cimpanzei, okapi). Spre tropice urmează clima subecuatorială cu savana (ierburi înalte, baobabi; lei, girafe, zebre, elefanți), apoi clima tropical-deșertică cu deșerturile Sahara (cel mai mare deșert cald al lumii, circa 9 milioane km²), Kalahari și Namib. La extremitățile nordică și sudică este clima mediteraneană. Fluviile: Nil (circa 6.650 km, unul dintre cele mai lungi fluvii ale lumii, cu oaze și civilizația egipteană), Congo (cel mai bogat în apă din Africa), Niger, Zambezi (cascada Victoria). Lacuri: Victoria (cel mai mare), Tanganyika (în Rift, foarte adânc).",
+    "sample": "În Sahara există oaze, locuri unde apa subterană ajunge la suprafață și permite viața.",
+    "worked": "Apa decide unde pot trăi oamenii în deșert: în jurul oazelor apar culturi de curmali și așezări.",
+    "exercises": [
+     "Ordonează zonele de vegetație de la Ecuator spre nord.",
+     "Explică simetria zonelor la sud.",
+     "Numește fluviile mari ale Africii.",
+     "Descrie Sahara.",
+     "Numește animalele savanei."
+    ],
+    "test": [
+     "Care este cel mai mare deșert cald?",
+     "Ce fluviu traversează Egiptul?",
+     "Ce cascadă se află pe Zambezi?",
+     "Care este cel mai mare lac african?",
+     "Ce copac este simbolul savanei?"
+    ],
+    "steps": [
+     "Pornește de la Ecuator.",
+     "Leagă vegetația de climă.",
+     "Adaugă fauna și apele.",
+     "Greșeala frecventă: să crezi că Sahara este doar nisip; are și podișuri pietroase și munți."
+    ],
+    "answers": [
+     "Sahara.",
+     "Nilul.",
+     "Cascada Victoria.",
+     "Lacul Victoria.",
+     "Baobabul."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l13": {
+   "ro": {
+    "title": "Populația și harta politică a Africii",
+    "theory": "Africa are circa 1,5 miliarde de locuitori și cea mai rapidă creștere a populației din lume; populația este foarte tânără. Densitatea este mare în Valea Nilului, Africa de Vest (Nigeria), regiunea Marilor Lacuri, și foarte mică în deșerturi. Nigeria este cel mai populat stat (peste 220 de milioane). Aproape tot continentul a fost colonizat de europeni (Marea Britanie, Franța, Portugalia, Belgia), granițele fiind trasate adesea arbitrar, fără să țină seama de popoare. Majoritatea statelor au devenit independente în anii 1950–1970. Africa are 54 de state; cel mai întins este Algeria. Orașe mari: Lagos, Cairo, Kinshasa, Johannesburg.",
+    "sample": "Multe granițe africane sunt linii drepte, trasate de puterile coloniale pe hartă.",
+    "worked": "Granițele artificiale au despărțit popoare și au provocat conflicte după independență.",
+    "exercises": [
+     "Explică de ce populația Africii crește rapid.",
+     "Numește regiuni dens populate.",
+     "Explică urmările colonialismului.",
+     "Numește cinci state africane și capitalele lor.",
+     "Numește marile orașe ale Africii."
+    ],
+    "test": [
+     "Câți locuitori are Africa?",
+     "Care este cel mai populat stat african?",
+     "Câte state are Africa?",
+     "Care este cel mai întins stat african?",
+     "Care este capitala Egiptului?"
+    ],
+    "steps": [
+     "Analizează harta populației.",
+     "Leagă-o de condițiile naturale.",
+     "Explică istoria colonială a granițelor.",
+     "Greșeala frecventă: să crezi că Africa este o singură țară; are 54 de state foarte diferite."
+    ],
+    "answers": [
+     "Circa 1,5 miliarde.",
+     "Nigeria.",
+     "54.",
+     "Algeria.",
+     "Cairo."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l14": {
+   "ro": {
+    "title": "Resursele, economia și problemele Africii",
+    "theory": "Africa are resurse bogate: petrol (Nigeria, Algeria, Libia, Angola), aur și diamante (Africa de Sud, Botswana), cupru și cobalt (R.D. Congo, Zambia), uraniu, bauxită. Agricultura ocupă mulți oameni: culturi pentru export (cacao – Coasta de Fildeș și Ghana, cafea – Etiopia, ceai, bumbac) și agricultură de subzistență. Totuși, multe state africane sunt printre cele mai sărace ale lumii. Problemele: foamete și secete, deșertificare (Sahel), boli (malarie), lipsa apei potabile, conflicte armate, corupție, exportul de materii prime neprelucrate. Există și progrese: creștere economică în multe state, telefonie mobilă, energie solară, urbanizare.",
+    "sample": "Coasta de Fildeș și Ghana produc împreună mai mult de jumătate din cacaoa lumii.",
+    "worked": "Cacaoa este cultivată în Africa, dar ciocolata este produsă și vândută mai ales în alte continente.",
+    "exercises": [
+     "Numește resursele minerale ale Africii.",
+     "Numește culturile de export.",
+     "Explică problemele Africii.",
+     "Explică ce este deșertificarea.",
+     "Prezintă progrese recente."
+    ],
+    "test": [
+     "Ce stat african produce mult petrol?",
+     "Ce stat produce mult cacao?",
+     "Ce regiune suferă de deșertificare?",
+     "Ce boală afectează mult Africa?",
+     "Ce metal se extrage în R.D. Congo?"
+    ],
+    "steps": [
+     "Identifică resursele.",
+     "Explică de ce bogăția nu aduce automat dezvoltare.",
+     "Analizează problemele și soluțiile.",
+     "Greșeala frecventă: să crezi că Africa este săracă în resurse; este bogată, dar beneficiile sunt distribuite inegal."
+    ],
+    "answers": [
+     "Nigeria.",
+     "Coasta de Fildeș.",
+     "Sahelul.",
+     "Malaria.",
+     "Cobalt și cupru."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l15": {
+   "ro": {
+    "title": "Studiu de caz: Egipt și Africa de Sud",
+    "theory": "Egiptul se află în nord-estul Africii, are circa 110 milioane de locuitori, capitala Cairo. Aproape toată populația trăiește în Valea și Delta Nilului, restul fiind deșert. Barajul de la Assuan controlează inundațiile și produce energie. Economia: agricultură irigată (bumbac, cereale), petrol și gaze, Canalul Suez, turism (piramidele de la Giza, Luxor). Africa de Sud se află la extremitatea sudică, are circa 60 de milioane de locuitori și trei capitale (Pretoria, Cape Town, Bloemfontein). Are relief de podiș, Munții Drakensberg, climă mediteraneană în sud-vest. Este cea mai industrializată țară africană: aur, platină, diamante, cărbune. Apartheidul (segregarea rasială) a fost abolit în 1994; Nelson Mandela a devenit președinte.",
+    "sample": "Peste 90% dintre egipteni trăiesc pe mai puțin de 10% din teritoriu, de-a lungul Nilului.",
+    "worked": "Apa Nilului explică distribuția populației într-o țară aproape în întregime deșertică.",
+    "exercises": [
+     "Explică rolul Nilului pentru Egipt.",
+     "Numește sursele de venit ale Egiptului.",
+     "Explică ce a fost apartheidul.",
+     "Numește resursele Africii de Sud.",
+     "Compară cele două state."
+    ],
+    "test": [
+     "Care este capitala Egiptului?",
+     "Ce baraj se află pe Nil?",
+     "Câte capitale are Africa de Sud?",
+     "Când a fost abolit apartheidul?",
+     "Ce monumente atrag turiștii în Egipt?"
+    ],
+    "steps": [
+     "Folosește planul de caracterizare.",
+     "Caută elementele pe hartă.",
+     "Compară statele după aceleași criterii.",
+     "Greșeala frecventă: să crezi că Egiptul este în Asia; doar Peninsula Sinai este în Asia."
+    ],
+    "answers": [
+     "Cairo.",
+     "Barajul de la Assuan.",
+     "Trei.",
+     "În 1994.",
+     "Piramidele de la Giza."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l16": {
+   "ro": {
+    "title": "America: poziție, limite și țărmuri",
+    "theory": "America se află în emisfera vestică și este formată din America de Nord (cu America Centrală) și America de Sud, legate prin Istmul Panama, tăiat de Canalul Panama (1914). Se întinde de la nordul Oceanului Arctic aproape până la Antarctica. Este scăldată de Oceanul Atlantic (est), Oceanul Pacific (vest) și Oceanul Arctic (nord). America de Nord are țărmuri crestate: Groenlanda (cea mai mare insulă a lumii, aparține Danemarcei), Arhipelagul Arctic Canadian, peninsulele Labrador, Florida, California, Alaska, golfurile Hudson și Mexic. America de Sud are țărmuri puțin crestate; în sud se află Țara de Foc și Capul Horn. Insulele Antile (Cuba, Haiti) mărginesc Marea Caraibilor.",
+    "sample": "Canalul Panama permite navelor să treacă între Atlantic și Pacific fără ocolirea Americii de Sud.",
+    "worked": "Ca și Suezul, Panama este o cale de transport esențială pentru comerțul mondial.",
+    "exercises": [
+     "Arată pe hartă cele două Americi.",
+     "Numește insule și peninsule din America de Nord.",
+     "Explică importanța Canalului Panama.",
+     "Compară țărmurile celor două Americi.",
+     "Localizează Capul Horn."
+    ],
+    "test": [
+     "Ce istm leagă cele două Americi?",
+     "Care este cea mai mare insulă a lumii?",
+     "Ce oceane scaldă America?",
+     "Ce golf mare se află între SUA și Mexic?",
+     "Care este cea mai mare insulă din Antile?"
+    ],
+    "steps": [
+     "Găsește America pe planiglob.",
+     "Delimitează America de Nord, Centrală și de Sud.",
+     "Localizează insulele, peninsulele și golfurile.",
+     "Greșeala frecventă: să crezi că Groenlanda este un continent; este o insulă."
+    ],
+    "answers": [
+     "Istmul Panama.",
+     "Groenlanda.",
+     "Atlantic, Pacific, Arctic.",
+     "Golful Mexic.",
+     "Cuba."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l17": {
+   "ro": {
+    "title": "Relieful celor două Americi: Cordilieri și Anzi",
+    "theory": "Relieful celor două Americi are o structură asemănătoare: munți tineri, înalți, în vest; câmpii în centru; munți vechi și podișuri în est. În America de Nord: Cordilierii (Munții Stâncoși, Sierra Nevada, Munții Coastei; vârful Denali, circa 6.190 m), cu podișuri înalte între ei și vulcani; în centru Marile Câmpii și Câmpia Mississippi; în est Munții Appalachi (vechi) și Scutul Canadian. În America de Sud: Munții Anzi, cel mai lung lanț muntos de pe uscat (circa 7.000 km), cu vârful Aconcagua (circa 6.960 m, cel mai înalt din afara Asiei) și mulți vulcani; în centru câmpiile Amazonului, Orinoco, La Plata; în est podișurile Guyanei, Braziliei și Patagoniei. Marele Canion al râului Colorado este un exemplu spectaculos de eroziune.",
+    "sample": "Anzii se formează unde placa oceanică Nazca se scufundă sub placa sud-americană.",
+    "worked": "De aceea în Anzi sunt vulcani activi și cutremure puternice, mai ales în Chile și Peru.",
+    "exercises": [
+     "Compară structura reliefului celor două Americi.",
+     "Numește munții tineri și cei vechi.",
+     "Explică formarea Anzilor.",
+     "Descrie Marele Canion.",
+     "Numește câmpiile mari."
+    ],
+    "test": [
+     "Care este cel mai lung lanț muntos de pe uscat?",
+     "Care este cel mai înalt vârf al Americii?",
+     "Ce munți vechi se află în estul SUA?",
+     "Ce râu a format Marele Canion?",
+     "Ce munți se află în vestul Americii de Nord?"
+    ],
+    "steps": [
+     "Împarte continentul în fâșii de la vest la est.",
+     "Identifică munții, câmpiile și podișurile.",
+     "Explică originea lor.",
+     "Greșeala frecventă: să crezi că Appalachii sunt munți tineri; sunt vechi și tociți."
+    ],
+    "answers": [
+     "Munții Anzi.",
+     "Aconcagua.",
+     "Munții Appalachi.",
+     "Colorado.",
+     "Cordilierii (Munții Stâncoși)."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l18": {
+   "ro": {
+    "title": "Fluvii și lacuri în America",
+    "theory": "America de Nord: fluviul Mississippi cu afluentul Missouri formează unul dintre cele mai lungi sisteme fluviale ale lumii; Fluviul Sfântul Laurențiu leagă Marile Lacuri de Atlantic; Yukon și Mackenzie în nord; Colorado în sud-vest. Marile Lacuri (Superior, Michigan, Huron, Erie, Ontario) formează cea mai mare suprafață de apă dulce din lume; între Erie și Ontario se află Cascada Niagara. America de Sud: Amazonul este cel mai mare fluviu al lumii ca debit și bazin hidrografic (are cu mult peste 1.000 de afluenți); Parana, Orinoco. Lacul Titicaca, în Anzi, este unul dintre cele mai înalte lacuri navigabile (circa 3.800 m). Cascada Angel (Venezuela) este cea mai înaltă cascadă din lume (circa 980 m).",
+    "sample": "Amazonul duce în ocean mai multă apă decât următoarele câteva fluvii mari la un loc.",
+    "worked": "Debitul uriaș se datorează ploilor ecuatoriale abundente din bazinul său.",
+    "exercises": [
+     "Numește fluviile mari ale celor două Americi.",
+     "Numește cele cinci Mari Lacuri.",
+     "Explică de ce Amazonul are debit uriaș.",
+     "Localizează Cascada Niagara.",
+     "Descrie Lacul Titicaca."
+    ],
+    "test": [
+     "Care este cel mai mare fluviu al lumii ca debit?",
+     "Ce fluviu are afluentul Missouri?",
+     "Unde se află Cascada Niagara?",
+     "Care este cea mai înaltă cascadă din lume?",
+     "Ce lac se află în Anzi?"
+    ],
+    "steps": [
+     "Găsește fluviul pe hartă.",
+     "Urmărește-l de la izvor la vărsare.",
+     "Leagă debitul de climă.",
+     "Greșeala frecventă: să confunzi lungimea cu debitul: Nilul e foarte lung, Amazonul are cel mai mare debit."
+    ],
+    "answers": [
+     "Amazonul.",
+     "Mississippi.",
+     "Între lacurile Erie și Ontario.",
+     "Cascada Angel.",
+     "Lacul Titicaca."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l19": {
+   "ro": {
+    "title": "Clima și biogeografia celor două Americi",
+    "theory": "America de Nord se întinde de la zona polară (nordul Canadei, Groenlanda, Alaska) până la cea tropicală (America Centrală). Zonele de vegetație: tundră, taiga (Canada), păduri de foioase (estul SUA), prerii (ierburi în Marile Câmpii, azi cultivate), deșerturi (sud-vestul SUA, Mexic – cactuși), păduri tropicale. Vestul este umed, cu păduri de conifere gigantice (sequoia). America de Sud are în mare parte climă caldă: pădurea amazoniană (cea mai mare pădure ecuatorială, „plămânul planetei”, cu biodiversitate uriașă – jaguari, papagali, anaconde), savane (llanos, campos), pampa (stepa Argentinei), deșertul Atacama (unul dintre cele mai uscate locuri de pe Pământ), Patagonia rece în sud. Anzii au etajare a vegetației.",
+    "sample": "Arborii sequoia din California sunt printre cele mai mari și mai vechi organisme vii.",
+    "worked": "Clima umedă de pe coasta Pacificului permite creșterea unor păduri gigantice.",
+    "exercises": [
+     "Ordonează zonele de vegetație din America de Nord.",
+     "Descrie pădurea amazoniană.",
+     "Explică ce este pampa.",
+     "Explică de ce Atacama este foarte uscat.",
+     "Numește animale caracteristice Americii de Sud."
+    ],
+    "test": [
+     "Cum se numește stepa din Argentina?",
+     "Ce pădure este cea mai mare pădure ecuatorială?",
+     "Ce deșert din Chile este foarte uscat?",
+     "Ce copaci gigantici cresc în California?",
+     "Ce sunt preriile?"
+    ],
+    "steps": [
+     "Localizează regiunea.",
+     "Leagă vegetația de climă.",
+     "Adaugă fauna caracteristică.",
+     "Greșeala frecventă: să crezi că pădurea amazoniană produce tot oxigenul planetei; are un rol important, dar oceanele contribuie mult."
+    ],
+    "answers": [
+     "Pampa.",
+     "Pădurea amazoniană.",
+     "Deșertul Atacama.",
+     "Arborii sequoia.",
+     "Câmpii acoperite natural cu ierburi."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l20": {
+   "ro": {
+    "title": "Populația celor două Americi: diversitate și migrație",
+    "theory": "America a fost locuită de popoarele indigene (amerindieni: azteci, maya, inca, sioux, inuiți) mult înainte de sosirea europenilor (1492). Colonizarea europeană (spanioli, portughezi, britanici, francezi) și aducerea forțată a africanilor ca sclavi au creat o mare diversitate. Astăzi trăiesc aici descendenți ai indigenilor, europenilor, africanilor, asiaticilor, precum și metiși și mulatri. Limbile principale: engleza, spaniola, portugheza (Brazilia), franceza (Quebec, Haiti). America a fost și rămâne un continent de imigrație (SUA, Canada, Argentina). Populația este concentrată pe coaste și în orașe; America Latină este foarte urbanizată.",
+    "sample": "Brazilia este singurul stat mare din America de Sud unde se vorbește portugheza.",
+    "worked": "Limba arată istoria colonizării: Brazilia a fost colonie portugheză.",
+    "exercises": [
+     "Numește popoarele indigene ale Americii.",
+     "Explică cum s-a format diversitatea populației.",
+     "Numește limbile principale.",
+     "Explică de ce America este un continent de imigrație.",
+     "Explică ce înseamnă America Latină."
+    ],
+    "test": [
+     "Ce civilizație a trăit în Anzi?",
+     "Ce limbă se vorbește în Brazilia?",
+     "În ce provincie canadiană se vorbește franceza?",
+     "Când a ajuns Columb în America?",
+     "Ce civilizație a întemeiat orașul Tenochtitlan?"
+    ],
+    "steps": [
+     "Identifică grupurile de populație.",
+     "Leagă-le de istorie.",
+     "Analizează limbile și religiile.",
+     "Greșeala frecventă: să crezi că America era nelocuită înainte de 1492; avea civilizații mari."
+    ],
+    "answers": [
+     "Incașii.",
+     "Portugheza.",
+     "Quebec.",
+     "În 1492.",
+     "Aztecii."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l21": {
+   "ro": {
+    "title": "Harta politică și urbanizarea celor două Americi",
+    "theory": "America de Nord cuprinde trei state mari: Canada (al doilea stat ca suprafață din lume), SUA și Mexic, plus statele din America Centrală și Antile. America de Sud are 12 state independente; cea mai mare este Brazilia (aproape jumătate din continent). Majoritatea statelor sud-americane au devenit independente în secolul al XIX-lea (Simón Bolívar). Orașe mari: New York, Los Angeles, Chicago, Ciudad de México, Toronto, São Paulo, Buenos Aires, Rio de Janeiro, Lima, Bogotá. Megalopolisul de pe coasta de est a SUA (Boston–Washington) este una dintre cele mai mari regiuni urbane ale lumii. Multe orașe latino-americane au cartiere sărace (favelas).",
+    "sample": "Brasília, capitala Braziliei, a fost construită după un plan în anii 1950 pentru a dezvolta interiorul țării.",
+    "worked": "Mutarea capitalei poate fi o decizie de dezvoltare regională.",
+    "exercises": [
+     "Numește statele Americii de Nord.",
+     "Numește statele Americii de Sud și capitalele lor.",
+     "Explică ce este megalopolisul american.",
+     "Numește mari orașe americane.",
+     "Explică problemele orașelor latino-americane."
+    ],
+    "test": [
+     "Care este al doilea stat ca suprafață din lume?",
+     "Care este capitala Braziliei?",
+     "Care este capitala Argentinei?",
+     "Ce oraș mare este capitala Mexicului?",
+     "Cine a condus lupta de independență din America de Sud?"
+    ],
+    "steps": [
+     "Găsește statul pe harta politică.",
+     "Precizează capitala și orașele mari.",
+     "Analizează urbanizarea.",
+     "Greșeala frecventă: să crezi că Rio de Janeiro este capitala Braziliei; capitala este Brasília."
+    ],
+    "answers": [
+     "Canada.",
+     "Brasília.",
+     "Buenos Aires.",
+     "Ciudad de México.",
+     "Simón Bolívar."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l22": {
+   "ro": {
+    "title": "Economia celor două Americi; studii de caz: SUA, Brazilia",
+    "theory": "SUA (circa 9,8 milioane km², circa 335 milioane locuitori, capitala Washington) sunt cea mai mare economie a lumii: agricultură mecanizată (porumb, soia, grâu), resurse (petrol, gaze, cărbune), industrie de vârf (aeronautică, automobile, IT – Silicon Valley), servicii financiare (New York), cultură globală (Hollywood). Canada are resurse uriașe (petrol, lemn, minereuri, apă). Mexicul are petrol, industrie și turism. Brazilia (circa 8,5 milioane km², circa 215 milioane locuitori, capitala Brasília) este cea mai mare economie a Americii de Sud: soia, cafea, trestie de zahăr, carne, minereu de fier, avioane, hidrocentrale (Itaipu). Argentina: cereale și carne din pampa; Chile: cupru; Venezuela: petrol. Problemele: inegalități, defrișarea Amazonului.",
+    "sample": "Brazilia este cel mai mare producător de cafea din lume.",
+    "worked": "Clima caldă și solurile din sud-estul Braziliei favorizează plantațiile de cafea.",
+    "exercises": [
+     "Prezintă economia SUA.",
+     "Prezintă economia Braziliei.",
+     "Numește resursele Canadei.",
+     "Explică ce este Silicon Valley.",
+     "Explică problema defrișării Amazonului."
+    ],
+    "test": [
+     "Care este capitala SUA?",
+     "Ce stat produce cel mai mult cafea?",
+     "Ce resursă exportă Chile?",
+     "Ce produce pampa argentiniană?",
+     "Ce oraș american este centru financiar?"
+    ],
+    "steps": [
+     "Folosește planul de caracterizare.",
+     "Identifică ramurile economice.",
+     "Compară statele după aceleași criterii.",
+     "Greșeala frecventă: să crezi că New York este capitala SUA; capitala este Washington."
+    ],
+    "answers": [
+     "Washington.",
+     "Brazilia.",
+     "Cupru.",
+     "Cereale și carne.",
+     "New York."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l23": {
+   "ro": {
+    "title": "America de Nord și America de Sud – comparație",
+    "theory": "Cele două Americi au asemănări: relief cu munți tineri în vest, câmpii în centru și munți vechi în est; fluvii mari; colonizare europeană după 1492; populație diversă. Dar au și diferențe: America de Nord se întinde de la zona polară, America de Sud este în mare parte în zona caldă; America de Nord are țărmuri crestate, America de Sud puțin crestate; în nord s-a vorbit mai ales engleza (și franceza), în sud spaniola și portugheza; SUA și Canada sunt state foarte dezvoltate, iar America Latină are niveluri de dezvoltare mai variate. Ambele au resurse bogate, arii protejate importante (Yellowstone, primul parc național al lumii, 1872; Galápagos) și probleme de mediu.",
+    "sample": "Yellowstone (SUA), înființat în 1872, este considerat primul parc național din lume.",
+    "worked": "Ideea de parc național pentru protejarea naturii a pornit din America și s-a răspândit în lume.",
+    "exercises": [
+     "Alcătuiește un tabel de asemănări și deosebiri.",
+     "Compară clima celor două Americi.",
+     "Compară limbile vorbite.",
+     "Compară dezvoltarea economică.",
+     "Numește arii protejate celebre."
+    ],
+    "test": [
+     "Care este primul parc național al lumii?",
+     "Ce limbi se vorbesc mai ales în America de Sud?",
+     "Care America este mai crestată?",
+     "Ce insule ecuatoriene sunt celebre pentru biodiversitate?",
+     "Ce structură de relief au în comun?"
+    ],
+    "steps": [
+     "Alege criteriile de comparație.",
+     "Notează asemănările.",
+     "Notează deosebirile și explică-le.",
+     "Greșeala frecventă: să faci o comparație fără criterii; compară element cu element: relief cu relief, climă cu climă."
+    ],
+    "answers": [
+     "Yellowstone.",
+     "Spaniola și portugheza.",
+     "America de Nord.",
+     "Insulele Galápagos.",
+     "Munți tineri în vest, câmpii în centru, munți vechi în est."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l24": {
+   "ro": {
+    "title": "Australia: mediul natural și unicitatea biogeografică",
+    "theory": "Australia este cel mai mic continent (circa 7,7 milioane km²), aflat în emisfera sudică și estică, între Oceanul Indian și Oceanul Pacific. Este cel mai plat și cel mai uscat continent locuit: relief de podișuri și câmpii, cu Marea Cumpănă a Apelor (munți vechi) în est; vârful Kosciuszko are doar circa 2.230 m. Interiorul este deșertic (Marele Deșert Victoria, Marele Deșert Nisipos); stânca Uluru este un simbol. Râul principal: Murray cu Darling. Lângă coasta estică se află Marea Barieră de Corali, cel mai mare recif de corali din lume. Australia s-a desprins demult de celelalte continente, de aceea are plante și animale unice (endemice): cangurul, koala, ornitorincul, emu, eucaliptul.",
+    "sample": "Ornitorincul este un mamifer care depune ouă și are cioc asemănător cu al rațelor.",
+    "worked": "Izolarea îndelungată a continentului a permis evoluția unor animale care nu există nicăieri altundeva.",
+    "exercises": [
+     "Descrie poziția Australiei.",
+     "Explică de ce Australia este foarte uscată.",
+     "Descrie Marea Barieră de Corali.",
+     "Explică unicitatea faunei australiene.",
+     "Numește cinci animale endemice."
+    ],
+    "test": [
+     "Care este cel mai mic continent?",
+     "Ce recif mare se află lângă Australia?",
+     "Ce copac este caracteristic Australiei?",
+     "Ce stâncă este simbolul Australiei?",
+     "Care este cel mai lung râu australian?"
+    ],
+    "steps": [
+     "Localizează Australia.",
+     "Descrie relieful, clima și apele.",
+     "Explică unicitatea vieții.",
+     "Greșeala frecventă: să crezi că Australia este doar o insulă mare; este considerată continent."
+    ],
+    "answers": [
+     "Australia.",
+     "Marea Barieră de Corali.",
+     "Eucaliptul.",
+     "Uluru.",
+     "Murray."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l25": {
+   "ro": {
+    "title": "Australia: populație și economie",
+    "theory": "Australia este un stat-continent cu circa 27 de milioane de locuitori, concentrați pe coastele sud-estice și sud-vestice (Sydney, Melbourne, Brisbane, Perth); interiorul este aproape nelocuit. Capitala este Canberra. Primii locuitori au fost aborigenii, prezenți de zeci de mii de ani; colonizarea britanică a început în 1788. Australia este o monarhie constituțională în Commonwealth. Economia este dezvoltată: resurse minerale (minereu de fier, cărbune, aur, bauxită, litiu, uraniu), creșterea oilor (mare producător de lână) și a vitelor, grâu, vinuri, servicii și turism. Problemele de mediu: secete, incendii de vegetație, albirea coralilor.",
+    "sample": "Australia are mai multe oi decât oameni.",
+    "worked": "Pășunile întinse și clima permit creșterea animalelor pe scară mare.",
+    "exercises": [
+     "Explică repartiția populației.",
+     "Numește resursele minerale ale Australiei.",
+     "Explică cine sunt aborigenii.",
+     "Numește marile orașe.",
+     "Explică problemele de mediu."
+    ],
+    "test": [
+     "Care este capitala Australiei?",
+     "Care este cel mai mare oraș?",
+     "Când a început colonizarea britanică?",
+     "Ce produs animal exportă mult Australia?",
+     "Ce problemă afectează coralii?"
+    ],
+    "steps": [
+     "Analizează harta populației.",
+     "Leagă repartiția populației de climă.",
+     "Prezintă ramurile economice.",
+     "Greșeala frecventă: să crezi că Sydney este capitala Australiei; capitala este Canberra."
+    ],
+    "answers": [
+     "Canberra.",
+     "Sydney.",
+     "În 1788.",
+     "Lâna.",
+     "Albirea coralilor (din cauza încălzirii apei)."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l26": {
+   "ro": {
+    "title": "Oceania: insulele Pacificului",
+    "theory": "Oceania cuprinde mii de insule din Oceanul Pacific, grupate în trei regiuni: Melanezia („insulele negre” – Noua Guinee, Fiji, Insulele Solomon), Micronezia („insulele mici” – Guam, Insulele Marshall) și Polinezia („multe insule” – Hawaii, Samoa, Tahiti, Noua Zeelandă, Insula Paștelui). Insulele sunt de origine vulcanică (munte înalt) sau coraligenă (atoli – inele de corali în jurul unei lagune). Noua Zeelandă are două insule mari, munți (Alpii Sudici), vulcani, gheizere, ghețari; capitala Wellington; economie bazată pe creșterea animalelor și turism; poporul maori. Noua Guinee este a doua insulă ca mărime din lume. Multe atoluri sunt amenințate de creșterea nivelului mării.",
+    "sample": "Tuvalu și Kiribati sunt state formate din atoli foarte joși, amenințate de creșterea nivelului oceanului.",
+    "worked": "Pentru ele, schimbările climatice sunt o problemă de supraviețuire.",
+    "exercises": [
+     "Numește cele trei regiuni ale Oceaniei.",
+     "Explică diferența dintre insulele vulcanice și atoli.",
+     "Descrie Noua Zeelandă.",
+     "Explică amenințarea creșterii nivelului mării.",
+     "Localizează Hawaii și Insula Paștelui."
+    ],
+    "test": [
+     "Ce înseamnă Polinezia?",
+     "Ce este un atol?",
+     "Care este capitala Noii Zeelande?",
+     "Care este a doua insulă ca mărime din lume?",
+     "Ce popor indigen trăiește în Noua Zeelandă?"
+    ],
+    "steps": [
+     "Localizează insula pe harta Pacificului.",
+     "Încadreaz-o în regiune.",
+     "Explică originea și problemele ei.",
+     "Greșeala frecventă: să crezi că toate insulele Pacificului sunt vulcanice; multe sunt atoli de corali."
+    ],
+    "answers": [
+     "Multe insule.",
+     "Un inel de corali în jurul unei lagune.",
+     "Wellington.",
+     "Noua Guinee.",
+     "Maori."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l27": {
+   "ro": {
+    "title": "Antarctica – continentul de gheață",
+    "theory": "Antarctica se află în jurul Polului Sud și este al cincilea continent ca suprafață (circa 14 milioane km²). Aproape tot este acoperit de o calotă de gheață groasă în medie de circa 2 km, care conține cea mai mare parte a apei dulci a planetei. Este cel mai rece (la stația Vostok s-a măsurat circa –89°C), cel mai vânturos și, ca precipitații, un deșert polar. Nu are populație permanentă, doar cercetători în stații științifice. Viața este legată de ocean: pinguini, foci, balene, krill. Tratatul Antarcticii (1959) stabilește că teritoriul este folosit doar pașnic și pentru știință; exploatarea minieră este interzisă. România are stația Law-Racoviță. Topirea gheții ar ridica nivelul oceanului.",
+    "sample": "Dacă toată gheața din Antarctica s-ar topi, nivelul oceanului ar crește cu zeci de metri.",
+    "worked": "De aceea, cercetarea gheții antarctice este esențială pentru înțelegerea schimbărilor climatice.",
+    "exercises": [
+     "Descrie poziția Antarcticii.",
+     "Explică de ce este cel mai rece continent.",
+     "Explică prevederile Tratatului Antarcticii.",
+     "Numește animalele Antarcticii.",
+     "Explică legătura dintre Antarctica și nivelul oceanului."
+    ],
+    "test": [
+     "Ce pol se află în Antarctica?",
+     "Ce grosime medie are gheața?",
+     "Ce temperatură minimă s-a înregistrat?",
+     "Când a fost semnat Tratatul Antarcticii?",
+     "Cum se numește stația românească?"
+    ],
+    "steps": [
+     "Localizează continentul.",
+     "Descrie condițiile naturale.",
+     "Explică rolul științific și protecția.",
+     "Greșeala frecventă: să confunzi Arctica (ocean înghețat la nord) cu Antarctica (continent la sud)."
+    ],
+    "answers": [
+     "Polul Sud.",
+     "Circa 2 km.",
+     "Circa –89°C.",
+     "În 1959.",
+     "Stația Law-Racoviță."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l28": {
+   "ro": {
+    "title": "Mediul înconjurător și componentele lui",
+    "theory": "Mediul înconjurător cuprinde toate elementele naturale (aer, apă, sol, relief, plante, animale) și cele create de om (localități, drumuri, fabrici, culturi) în care trăim. Componentele naturale sunt legate între ele: clima influențează apele, vegetația și solurile; vegetația protejează solul; omul influențează toate componentele. Ecosistemul este ansamblul viețuitoarelor dintr-un loc și al condițiilor de mediu (exemple: pădurea, lacul, delta). Peisajul geografic este imaginea de ansamblu a unui loc. Mediul este considerat echilibrat când componentele lui funcționează normal; când omul intervine excesiv, echilibrul se strică.",
+    "sample": "Defrișarea unei păduri de pe o pantă duce la eroziunea solului și la viituri mai puternice.",
+    "worked": "Schimbarea unei componente (vegetația) le afectează și pe celelalte (solul, apele).",
+    "exercises": [
+     "Enumeră componentele naturale ale mediului.",
+     "Dă exemple de componente create de om.",
+     "Explică ce este un ecosistem.",
+     "Explică legăturile dintre climă, vegetație și sol.",
+     "Descrie peisajul din localitatea ta."
+    ],
+    "test": [
+     "Ce cuprinde mediul înconjurător?",
+     "Ce este un ecosistem?",
+     "Dă un exemplu de ecosistem.",
+     "Ce componentă protejează solul de eroziune?",
+     "Ce este peisajul geografic?"
+    ],
+    "steps": [
+     "Identifică componentele mediului.",
+     "Explică legăturile dintre ele.",
+     "Arată cum intervine omul.",
+     "Greșeala frecventă: să crezi că o componentă se schimbă singură, fără să le afecteze pe celelalte."
+    ],
+    "answers": [
+     "Toate elementele naturale și cele create de om.",
+     "Viețuitoarele dintr-un loc și condițiile lor de mediu.",
+     "Pădurea (sau lacul, delta).",
+     "Vegetația.",
+     "Imaginea de ansamblu a unui loc."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l29": {
+   "ro": {
+    "title": "Degradarea mediului",
+    "theory": "Degradarea mediului înseamnă înrăutățirea calității lui. Forme: poluarea aerului (fum, gaze de eșapament, praf), a apei (ape uzate, deversări de petrol, plastic), a solului (deșeuri, pesticide, îngrășăminte); defrișarea pădurilor; deșertificarea; eroziunea solului; dispariția speciilor (pierderea biodiversității); urbanizarea necontrolată; poluarea fonică și luminoasă. Exemple pe continente: secarea Mării Aral (Asia), defrișarea Amazonului (America de Sud), deșertificarea Sahelului (Africa), smogul din marile orașe asiatice, albirea coralilor (Australia). Accidentele industriale, ca cel nuclear de la Cernobîl (1986), pot avea efecte pe termen lung.",
+    "sample": "Accidentul nuclear de la Cernobîl din 1986 a contaminat regiuni întinse din Ucraina, Belarus și Rusia.",
+    "worked": "Unele forme de degradare au efecte timp de zeci sau sute de ani.",
+    "exercises": [
+     "Enumeră formele de degradare.",
+     "Dă un exemplu de degradare de pe fiecare continent.",
+     "Explică ce este deșertificarea.",
+     "Explică urmările pierderii biodiversității.",
+     "Identifică o problemă de mediu din localitatea ta."
+    ],
+    "test": [
+     "Ce înseamnă degradarea mediului?",
+     "Ce lac asiatic a secat?",
+     "Ce pădure este defrișată în America de Sud?",
+     "Ce s-a întâmplat la Cernobîl?",
+     "Ce este smogul?"
+    ],
+    "steps": [
+     "Identifică forma de degradare.",
+     "Află cauza principală a degradării.",
+     "Descrie efectele și propune soluții.",
+     "Greșeala frecventă: să crezi că degradarea mediului afectează doar natura; afectează direct sănătatea oamenilor."
+    ],
+    "answers": [
+     "Înrăutățirea calității mediului.",
+     "Marea Aral.",
+     "Pădurea amazoniană.",
+     "Un accident nuclear (1986).",
+     "Un amestec de ceață și poluare în aerul orașelor."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l30": {
+   "ro": {
+    "title": "Schimbările globale ale mediului",
+    "theory": "Unele schimbări ale mediului afectează întreaga planetă. Încălzirea globală este creșterea temperaturii medii a Pământului, produsă în principal de gazele cu efect de seră eliberate prin arderea combustibililor fosili și prin defrișări. Efecte: topirea ghețarilor și a calotelor, creșterea nivelului oceanului, fenomene extreme mai dese (valuri de căldură, secete, inundații), migrarea speciilor. Subțierea stratului de ozon, care ne protejează de radiațiile ultraviolete, a fost provocată de unele gaze (freoni); prin Protocolul de la Montreal (1987) aceste gaze au fost interzise, iar stratul se reface treptat. Acordul de la Paris (2015) are ca scop limitarea încălzirii globale.",
+    "sample": "Protocolul de la Montreal arată că statele lumii pot rezolva împreună o problemă globală.",
+    "worked": "Când s-au interzis freonii, gaura din stratul de ozon a început să se micșoreze.",
+    "exercises": [
+     "Explică ce este încălzirea globală.",
+     "Enumeră efectele încălzirii globale.",
+     "Explică rolul stratului de ozon.",
+     "Explică ce prevede Acordul de la Paris.",
+     "Propune măsuri personale pentru reducerea emisiilor."
+    ],
+    "test": [
+     "Ce produce încălzirea globală?",
+     "Ce efect are topirea ghețarilor?",
+     "Ce ne protejează de radiațiile ultraviolete?",
+     "Ce acord a interzis freonii?",
+     "În ce an a fost semnat Acordul de la Paris?"
+    ],
+    "steps": [
+     "Identifică schimbarea globală.",
+     "Explică cauzele naturale și umane.",
+     "Descrie efectele și soluțiile.",
+     "Greșeala frecventă: să confunzi efectul de seră natural (necesar vieții) cu intensificarea lui de către om."
+    ],
+    "answers": [
+     "Gazele cu efect de seră (arderea combustibililor fosili).",
+     "Creșterea nivelului oceanului.",
+     "Stratul de ozon.",
+     "Protocolul de la Montreal.",
+     "În 2015."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l31": {
+   "ro": {
+    "title": "Calitatea vieții și protecția mediului",
+    "theory": "Calitatea vieții depinde de venituri, sănătate, educație, locuință, siguranță și de un mediu curat. Ea diferă mult între continente și state: statele nordice, Australia, Canada au valori mari, iar multe state din Africa subsahariană au valori mici. Protecția mediului se realizează prin arii protejate (parcuri naționale, rezervații ale biosferei), legi, energie regenerabilă, reciclare, transport curat, consum responsabil și educație. Organizații: Programul ONU pentru Mediu, UNESCO (situri naturale), organizații neguvernamentale. Dezvoltarea durabilă înseamnă să ne satisfacem nevoile fără a compromite posibilitatea generațiilor viitoare de a și le satisface. Fiecare om poate contribui.",
+    "sample": "Reciclarea unei tone de hârtie salvează copaci și reduce consumul de apă și energie.",
+    "worked": "Acțiunile mici ale fiecăruia, adunate, produc efecte mari asupra mediului.",
+    "exercises": [
+     "Enumeră factorii calității vieții.",
+     "Compară calitatea vieții pe continente.",
+     "Explică ce sunt ariile protejate.",
+     "Explică ce este dezvoltarea durabilă.",
+     "Propune un plan de protecție a mediului pentru școala ta."
+    ],
+    "test": [
+     "De ce depinde calitatea vieții?",
+     "Ce înseamnă dezvoltare durabilă?",
+     "Ce este o rezervație a biosferei?",
+     "Ce organizație protejează situri naturale?",
+     "Dă un exemplu de acțiune personală pentru mediu."
+    ],
+    "steps": [
+     "Identifică factorii calității vieții.",
+     "Analizează legătura cu mediul.",
+     "Propune acțiuni concrete.",
+     "Greșeala frecventă: să crezi că protecția mediului este doar treaba guvernelor; fiecare om poate contribui."
+    ],
+    "answers": [
+     "De venit, sănătate, educație, locuință, siguranță și mediu.",
+     "Satisfacerea nevoilor fără a afecta generațiile viitoare.",
+     "O arie protejată cu natură valoroasă și activități umane armonizate.",
+     "UNESCO.",
+     "Reciclarea sau economisirea energiei."
+    ]
+   }
+  }
+ }
+}

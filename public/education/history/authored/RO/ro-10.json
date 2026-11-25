@@ -1,0 +1,1136 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "RO",
+ "stage": "medium",
+ "grade": "10",
+ "version": "a83901d97ab1a96ab5237a752e15f37a659bf1f9e48cd04333c4060a81edc943",
+ "source": "https://lrturda.ro/wp-content/uploads/2024/07/PROGRAMA_ISTORIE_X.pdf",
+ "sourceTitle": "Programa școlară Istorie, clasa a X-a, ciclul inferior al liceului (Anexa 2 la OMEC nr. 4598/31.08.2004, în vigoare până la aplicarea noii programe din 2027–2028): Popoare și spații istorice; Oamenii, societatea și lumea ideilor; Statul și politica; Religia și viața religioasă; Relațiile internaționale — teme tratate în ordine cronologică, ca în manualele aprobate. Lecții originale, fără text copiat",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "ro",
+ "labels": [
+  "Activitate originală · România · Istorie · Clasa a X-a",
+  "Lecția pe înțeles",
+  "Exemplu",
+  "Ce ne arată exemplul",
+  "Exerciții",
+  "Test",
+  "Activități originale, făcute după programa școlară; nu înlocuiesc manualul sau ora de la clasă.",
+  "Dacă nu ai înțeles: pas cu pas",
+  "Răspunsuri (verifică după ce termini)"
+ ],
+ "units": [
+  {
+   "title": "Nașterea lumii moderne (secolele XVII–XVIII)",
+   "keys": [
+    "eu-year-ro-medium-10-l01",
+    "eu-year-ro-medium-10-l02",
+    "eu-year-ro-medium-10-l03",
+    "eu-year-ro-medium-10-l04",
+    "eu-year-ro-medium-10-l05",
+    "eu-year-ro-medium-10-l06"
+   ]
+  },
+  {
+   "title": "Secolul al XIX-lea: națiuni, revoluții, state",
+   "keys": [
+    "eu-year-ro-medium-10-l07",
+    "eu-year-ro-medium-10-l08",
+    "eu-year-ro-medium-10-l09",
+    "eu-year-ro-medium-10-l10",
+    "eu-year-ro-medium-10-l11",
+    "eu-year-ro-medium-10-l12",
+    "eu-year-ro-medium-10-l13"
+   ]
+  },
+  {
+   "title": "Primul Război Mondial și lumea interbelică",
+   "keys": [
+    "eu-year-ro-medium-10-l14",
+    "eu-year-ro-medium-10-l15",
+    "eu-year-ro-medium-10-l16",
+    "eu-year-ro-medium-10-l17",
+    "eu-year-ro-medium-10-l18",
+    "eu-year-ro-medium-10-l19"
+   ]
+  },
+  {
+   "title": "Al Doilea Război Mondial și Holocaustul",
+   "keys": [
+    "eu-year-ro-medium-10-l20",
+    "eu-year-ro-medium-10-l21",
+    "eu-year-ro-medium-10-l22"
+   ]
+  },
+  {
+   "title": "Lumea postbelică",
+   "keys": [
+    "eu-year-ro-medium-10-l23",
+    "eu-year-ro-medium-10-l24",
+    "eu-year-ro-medium-10-l25",
+    "eu-year-ro-medium-10-l26",
+    "eu-year-ro-medium-10-l27"
+   ]
+  },
+  {
+   "title": "Lumea la începutul mileniului III",
+   "keys": [
+    "eu-year-ro-medium-10-l28",
+    "eu-year-ro-medium-10-l29",
+    "eu-year-ro-medium-10-l30"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-ro-medium-10-l01": {
+   "ro": {
+    "title": "Organizarea statelor moderne: Revoluția Glorioasă",
+    "theory": "Statul modern se bazează pe ideea că puterea trebuie limitată de lege și controlată de reprezentanții cetățenilor. Anglia a fost primul exemplu. După conflictele dintre Stuarți și Parlament (războiul civil, executarea lui Carol I în 1649, protectoratul lui Cromwell, restaurația), Iacob al II-lea a fost înlăturat în 1688 fără luptă. Wilhelm de Orania și Maria au acceptat Declarația drepturilor (1689): regele nu putea suspenda legi, impune taxe sau ține armată în timp de pace fără acordul Parlamentului; alegerile și dezbaterile parlamentare erau libere. A urmat Actul de toleranță (1689). Anglia a devenit monarhie constituțională și parlamentară, model pentru gânditori ca John Locke.",
+    "sample": "John Locke scria că guvernul există pentru a apăra viața, libertatea și proprietatea oamenilor, iar dacă le încalcă, poporul îl poate schimba.",
+    "worked": "Ideea justifica Revoluția Glorioasă și a influențat Declarația de independență americană. Ea mută sursa legitimității de la rege la popor.",
+    "exercises": [
+     "Ordonează: războiul civil, executarea lui Carol I, restaurația, 1688, 1689.",
+     "Explică prevederile Declarației drepturilor.",
+     "Explică ideile lui John Locke.",
+     "Compară monarhia constituțională cu absolutismul.",
+     "Explică de ce revoluția a fost numită „glorioasă”."
+    ],
+    "test": [
+     "Ce rege a fost executat în 1649?",
+     "Ce rege a fost înlăturat în 1688?",
+     "Ce document a fost acceptat în 1689?",
+     "Ce drepturi apăra guvernul, după Locke?",
+     "Ce formă de guvernare a devenit Anglia?"
+    ],
+    "steps": [
+     "Identifică conflictul dintre rege și Parlament.",
+     "Analizează prevederile documentului din 1689.",
+     "Explică influența asupra altor state.",
+     "Greșeala frecventă: să crezi că Anglia a devenit democrație în 1689; votul era limitat la o minoritate bogată."
+    ],
+    "answers": [
+     "Carol I.",
+     "Iacob al II-lea.",
+     "Declarația drepturilor (Bill of Rights).",
+     "Viața, libertatea și proprietatea.",
+     "Monarhie constituțională."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l02": {
+   "ro": {
+    "title": "Epoca luminilor: noi principii și valori",
+    "theory": "Iluminismul (secolul al XVIII-lea) a pus încrederea în rațiune, progres și educație. Principii noi: drepturile naturale ale omului (viață, libertate, proprietate), suveranitatea poporului (Rousseau, Contractul social), separarea puterilor în stat (Montesquieu, Despre spiritul legilor), toleranța religioasă și libertatea de exprimare (Voltaire), egalitatea în fața legii. Enciclopedia lui Diderot și d’Alembert a adunat cunoștințele epocii. Unii monarhi au aplicat reforme în spirit iluminist (absolutismul luminat: Iosif al II-lea, Frederic al II-lea, Ecaterina a II-a). În spațiul românesc, ideile au pătruns prin Școala Ardeleană și prin reformele unor domni.",
+    "sample": "Iosif al II-lea a dat Edictul de toleranță (1781) și a desființat șerbia personală în Transilvania (1785), după răscoala lui Horea.",
+    "worked": "Reformele arată absolutismul luminat: un monarh absolut aplică idei iluministe „de sus”, fără să renunțe la putere.",
+    "exercises": [
+     "Enumeră principiile Iluminismului.",
+     "Explică separarea puterilor.",
+     "Explică suveranitatea poporului.",
+     "Explică ce este absolutismul luminat.",
+     "Explică pătrunderea ideilor iluministe în spațiul românesc."
+    ],
+    "test": [
+     "Ce operă a scris Montesquieu?",
+     "Ce idee a susținut Rousseau?",
+     "Pentru ce a luptat Voltaire?",
+     "Cine a coordonat Enciclopedia?",
+     "Ce monarh habsburgic a aplicat reforme iluministe?"
+    ],
+    "steps": [
+     "Identifică ideea și autorul ei.",
+     "Explică ce problemă voia să rezolve.",
+     "Caută aplicarea ei în statele vremii și de azi.",
+     "Greșeala frecventă: să confunzi absolutismul luminat cu monarhia constituțională; monarhul luminat rămânea absolut."
+    ],
+    "answers": [
+     "Despre spiritul legilor.",
+     "Suveranitatea poporului.",
+     "Toleranță și libertatea de exprimare.",
+     "Diderot și d’Alembert.",
+     "Iosif al II-lea."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l03": {
+   "ro": {
+    "title": "Constituirea SUA",
+    "theory": "Cele 13 colonii britanice din America de Nord s-au opus taxelor impuse de Londra fără reprezentare (Legea timbrului 1765, „Partida de ceai de la Boston” 1773). Războiul de independență (1775–1783), condus de George Washington și sprijinit de Franța, s-a încheiat cu recunoașterea independenței prin Pacea de la Paris (1783). Declarația de independență (4 iulie 1776, Thomas Jefferson) proclama drepturile inalienabile și dreptul poporului de a schimba guvernul. Constituția din 1787 a creat o republică federală, cu separarea puterilor (Congres bicameral, președinte, Curte Supremă) și un sistem de control reciproc; Declarația drepturilor (1791) a adăugat libertățile fundamentale.",
+    "sample": "În Constituția SUA, președintele poate respinge o lege, dar Congresul poate trece peste veto cu o majoritate de două treimi.",
+    "worked": "Sistemul de „frâne și contrabalanțe” împiedică orice putere să domine. Este aplicarea practică a ideilor lui Montesquieu.",
+    "exercises": [
+     "Explică cauzele revoltei coloniilor.",
+     "Ordonează: 1765, 1773, 1776, 1783, 1787.",
+     "Explică ideile Declarației de independență.",
+     "Explică principiul federal și separarea puterilor în SUA.",
+     "Analizează limitele: sclavia și situația populației indigene."
+    ],
+    "test": [
+     "Ce eveniment din 1773 a protestat împotriva taxelor?",
+     "Când a fost adoptată Declarația de independență?",
+     "Ce pace a recunoscut independența?",
+     "Ce formă de stat a creat Constituția din 1787?",
+     "Ce document din 1791 a adăugat libertățile?"
+    ],
+    "steps": [
+     "Identifică cauzele conflictului.",
+     "Analizează documentele fondatoare.",
+     "Evaluează principiile și limitele lor.",
+     "Greșeala frecventă: să crezi că Constituția SUA a acordat drepturi tuturor locuitorilor; sclavii și femeile au fost excluși."
+    ],
+    "answers": [
+     "„Partida de ceai de la Boston”.",
+     "La 4 iulie 1776.",
+     "Pacea de la Paris (1783).",
+     "Republică federală.",
+     "Declarația drepturilor (Bill of Rights)."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l04": {
+   "ro": {
+    "title": "Revoluția franceză și Franța napoleoniană",
+    "theory": "Criza financiară, privilegiile clerului și nobilimii și ideile iluministe au dus la Revoluția franceză. În 1789, Statele Generale s-au transformat în Adunarea Națională; Bastilia a fost cucerită (14 iulie); privilegiile au fost abolite (4 august); s-a adoptat Declarația drepturilor omului și ale cetățeanului (26 august). Constituția din 1791 a creat monarhia constituțională, iar în 1792 s-a proclamat republica. Regele a fost executat (1793), iar iacobinii au instaurat Teroarea. Napoleon Bonaparte a preluat puterea (1799), a devenit împărat (1804), a dat Codul civil și a răspândit în Europa principiile egalității juridice, dar a fost învins în 1814–1815.",
+    "sample": "Codul civil napoleonian afirma egalitatea cetățenilor în fața legii și libertatea muncii și a proprietății.",
+    "worked": "Codul a consolidat câștigurile revoluției într-o formă durabilă și a fost model pentru multe țări, inclusiv România (1864).",
+    "exercises": [
+     "Explică cauzele Revoluției franceze.",
+     "Ordonează principalele etape ale revoluției.",
+     "Analizează Declarația drepturilor omului și ale cetățeanului.",
+     "Explică ce a fost Teroarea.",
+     "Evaluează moștenirea lui Napoleon."
+    ],
+    "test": [
+     "Când a fost cucerită Bastilia?",
+     "Ce document a fost adoptat la 26 august 1789?",
+     "Când a fost proclamată republica?",
+     "Când a devenit Napoleon împărat?",
+     "Ce cod de legi a dat Napoleon?"
+    ],
+    "steps": [
+     "Identifică cauzele economice, sociale și politice.",
+     "Ordonează fazele revoluției.",
+     "Analizează urmările pentru Franța și Europa.",
+     "Greșeala frecventă: să crezi că revoluția a dus direct la democrație stabilă; a trecut prin teroare și dictatură militară."
+    ],
+    "answers": [
+     "La 14 iulie 1789.",
+     "Declarația drepturilor omului și ale cetățeanului.",
+     "În 1792.",
+     "În 1804.",
+     "Codul civil."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l05": {
+   "ro": {
+    "title": "Revoluția industrială: știință, tehnică, economie, societate",
+    "theory": "Revoluția industrială a început în Anglia (circa 1760), datorită capitalului, cărbunelui și fierului, pieței coloniale și inovațiilor. Mașina cu abur a lui James Watt (1769), războiul de țesut mecanic, locomotiva lui George Stephenson (1825) au transformat producția și transporturile. Fabrica a înlocuit atelierul. A doua revoluție industrială (după 1870) a adus electricitatea, motorul cu combustie internă, oțelul, chimia, telefonul. Societatea s-a schimbat: urbanizare rapidă, apariția burgheziei industriale și a proletariatului, condiții grele de muncă, munca copiilor. Au apărut sindicatele și ideologiile socialiste, iar statele au adoptat primele legi sociale.",
+    "sample": "Linia ferată Liverpool–Manchester (1830) a fost prima cale ferată interurbană cu locomotive cu abur.",
+    "worked": "Căile ferate au scurtat distanțele, au ieftinit transportul și au unit piețele. Ele simbolizează epoca industrială.",
+    "exercises": [
+     "Explică de ce revoluția industrială a început în Anglia.",
+     "Compară prima și a doua revoluție industrială.",
+     "Explică urmările sociale ale industrializării.",
+     "Explică apariția sindicatelor și a socialismului.",
+     "Explică modul în care industrializarea a ajuns în spațiul românesc."
+    ],
+    "test": [
+     "Unde a început revoluția industrială?",
+     "Cine a perfecționat mașina cu abur?",
+     "Cine a construit locomotiva în 1825?",
+     "Ce surse de energie a adus a doua revoluție industrială?",
+     "Ce clasă socială nouă a apărut în fabrici?"
+    ],
+    "steps": [
+     "Identifică inovațiile tehnice.",
+     "Explică schimbările economice.",
+     "Analizează urmările sociale.",
+     "Greșeala frecventă: să crezi că revoluția industrială a avut doar efecte economice; a schimbat societatea, orașele și ideile politice."
+    ],
+    "answers": [
+     "În Anglia.",
+     "James Watt.",
+     "George Stephenson.",
+     "Electricitatea și petrolul.",
+     "Proletariatul (muncitorii industriali)."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l06": {
+   "ro": {
+    "title": "Țările Române și problema orientală",
+    "theory": "Problema orientală a fost ansamblul conflictelor și negocierilor provocate de declinul Imperiului Otoman și de rivalitatea marilor puteri (Rusia, Austria, apoi Franța și Marea Britanie) pentru teritoriile lui. Țările Române au fost afectate direct: în secolul fanariot (1711/1716–1821), au fost conduse de domni numiți de Poartă; războaiele ruso-austro-turce s-au purtat pe teritoriul lor; Austria a anexat Bucovina (1775), iar Rusia Basarabia (1812). Mișcarea lui Tudor Vladimirescu (1821) a dus la revenirea domnilor pământeni. Tratatul de la Adrianopol (1829) a adus libertatea comerțului, iar Regulamentele Organice (1831–1832) au modernizat administrația sub protectorat rus.",
+    "sample": "După pacea de la Adrianopol, cerealele din Țările Române au putut fi exportate liber pe Dunăre și Marea Neagră.",
+    "worked": "Libertatea comerțului a legat economia românească de piața europeană și a stimulat modernizarea.",
+    "exercises": [
+     "Explică ce a fost problema orientală.",
+     "Explică efectele războaielor ruso-austro-turce asupra Țărilor Române.",
+     "Explică pierderile teritoriale din 1775 și 1812.",
+     "Explică urmările mișcării din 1821.",
+     "Explică importanța Tratatului de la Adrianopol și a Regulamentelor Organice."
+    ],
+    "test": [
+     "Ce a fost problema orientală?",
+     "Ce provincie a anexat Austria în 1775?",
+     "Ce teritoriu a anexat Rusia în 1812?",
+     "Cine a condus mișcarea din 1821?",
+     "Ce tratat din 1829 a adus libertatea comerțului?"
+    ],
+    "steps": [
+     "Identifică marile puteri implicate și interesele lor.",
+     "Ordonează efectele asupra Țărilor Române.",
+     "Analizează schimbările spre modernizare.",
+     "Greșeala frecventă: să crezi că Țările Române au fost provincii otomane; au avut autonomie, chiar dacă limitată."
+    ],
+    "answers": [
+     "Rivalitatea pentru teritoriile Imperiului Otoman în declin.",
+     "Bucovina.",
+     "Basarabia.",
+     "Tudor Vladimirescu.",
+     "Tratatul de la Adrianopol."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l07": {
+   "ro": {
+    "title": "Congresul de la Viena și concertul european",
+    "theory": "După înfrângerea lui Napoleon, Congresul de la Viena (1814–1815), dominat de Metternich (Austria), Rusia, Prusia și Marea Britanie, a refăcut harta Europei pe baza principiilor legitimității (revenirea dinastiilor) și echilibrului de putere. Sfânta Alianță (Rusia, Austria, Prusia) a încercat să reprime mișcările liberale și naționale. Concertul european a fost sistemul prin care marile puteri se consultau pentru a rezolva crizele prin congrese și conferințe. A asigurat o pace relativă, dar a ignorat aspirațiile naționale, care au izbucnit în revoluțiile din 1821–1830 (Grecia, Belgia) și 1848.",
+    "sample": "Grecia și-a câștigat independența (1830) cu sprijinul Marii Britanii, Franței și Rusiei, deși revoluțiile erau condamnate de Sfânta Alianță.",
+    "worked": "Interesele marilor puteri puteau trece înaintea principiilor. Concertul european era pragmatic.",
+    "exercises": [
+     "Explică principiile Congresului de la Viena.",
+     "Explică rolul lui Metternich.",
+     "Explică ce a fost Sfânta Alianță.",
+     "Explică funcționarea concertului european.",
+     "Explică de ce sistemul a ignorat aspirațiile naționale."
+    ],
+    "test": [
+     "Când a avut loc Congresul de la Viena?",
+     "Cine a dominat Congresul?",
+     "Ce principii au stat la baza lui?",
+     "Ce state au format Sfânta Alianță?",
+     "Ce stat și-a câștigat independența în 1830?"
+    ],
+    "steps": [
+     "Identifică principiile noii ordini.",
+     "Explică funcționarea sistemului.",
+     "Evaluează rezultatele și limitele.",
+     "Greșeala frecventă: să crezi că Congresul de la Viena a ținut cont de dorințele popoarelor; a urmărit interesele dinastiilor și ale marilor puteri."
+    ],
+    "answers": [
+     "În 1814–1815.",
+     "Metternich.",
+     "Legitimitatea și echilibrul de putere.",
+     "Rusia, Austria și Prusia.",
+     "Grecia."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l08": {
+   "ro": {
+    "title": "Anul 1848 în Europa",
+    "theory": "În 1848, criza economică, foametea și dorința de libertate au provocat revoluții în Franța (proclamarea Republicii a II-a și votul universal masculin), în statele germane (Parlamentul de la Frankfurt), în statele italiene, în Imperiul Austriac (Viena, Ungaria, Boemia) și în Țările Române. Revendicări liberale: constituții, libertatea presei și întrunirilor, vot, desființarea servituților feudale. Revendicări naționale: unificarea (Germania, Italia) sau autonomia/independența (unguri, cehi, români, croați). Revoluțiile au fost înfrânte de armatele monarhiilor, dar au desființat servitutea în Austria și au pregătit unificările.",
+    "sample": "În Ungaria, revoluționarii cereau drepturi naționale, dar le refuzau românilor, slovacilor și croaților din regat.",
+    "worked": "Conflictul dintre naționalisme a slăbit revoluțiile din Imperiul Habsburgic. Dreptul cerut pentru sine nu era recunoscut altora.",
+    "exercises": [
+     "Explică cauzele revoluțiilor de la 1848.",
+     "Separă revendicările liberale de cele naționale.",
+     "Compară revoluția din Franța cu cea din statele germane.",
+     "Explică conflictul dintre naționalitățile din Imperiul Habsburgic.",
+     "Explică urmările pe termen lung."
+    ],
+    "test": [
+     "Ce a introdus Franța în 1848?",
+     "Unde s-a reunit parlamentul german?",
+     "Ce cereau liberalii?",
+     "Ce cereau mișcările naționale?",
+     "Ce s-a desființat în Austria după 1848?"
+    ],
+    "steps": [
+     "Identifică țările și revendicările.",
+     "Explică de ce revoluțiile au eșuat.",
+     "Analizează ce a rămas după ele.",
+     "Greșeala frecventă: să crezi că revoluțiile înfrânte nu au schimbat nimic; au lăsat programe realizate mai târziu."
+    ],
+    "answers": [
+     "Votul universal masculin.",
+     "La Frankfurt.",
+     "Constituții, libertăți, vot.",
+     "Unificare sau autonomie.",
+     "Servitutea țăranilor."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l09": {
+   "ro": {
+    "title": "1848 în spațiul românesc",
+    "theory": "Revoluția a avut programe asemănătoare în toate cele trei provincii. În Moldova (martie 1848), Petiția-proclamație a fost respinsă de domnul Mihail Sturdza; revoluționarii au formulat apoi programe mai radicale (Dorințele partidei naționale, Kogălniceanu) care cereau unirea. În Țara Românească, Proclamația de la Islaz (9/21 iunie) cerea egalitate în drepturi, desființarea clăcii cu despăgubire, vot, libertăți, emanciparea robilor; guvernul provizoriu a funcționat trei luni, până la intervenția otomană și rusă. În Transilvania, Adunarea de la Blaj (mai 1848) a cerut recunoașterea națiunii române și desființarea iobăgiei; Avram Iancu a apărat Munții Apuseni. Nicolae Bălcescu a încercat o înțelegere româno-maghiară (1849).",
+    "sample": "Proclamația de la Islaz cerea „emanciparea țiganilor prin despăgubire”.",
+    "worked": "Revendicarea arată spiritul liberal al pașoptiștilor. Robia romilor a fost desființată complet abia în 1855–1856.",
+    "exercises": [
+     "Compară programele revoluționare din cele trei provincii.",
+     "Explică revendicările Proclamației de la Islaz.",
+     "Explică hotărârile Adunării de la Blaj.",
+     "Explică rolul lui Avram Iancu și Nicolae Bălcescu.",
+     "Explică cum s-au realizat programele după 1848."
+    ],
+    "test": [
+     "Ce domn a respins petiția din Moldova?",
+     "Ce document s-a citit la Islaz?",
+     "Unde s-a ținut marea adunare din Transilvania?",
+     "Cine a apărat Munții Apuseni?",
+     "Cine a încercat o înțelegere româno-maghiară?"
+    ],
+    "steps": [
+     "Identifică programele din fiecare provincie.",
+     "Compară revendicările.",
+     "Explică înfrângerea și urmările.",
+     "Greșeala frecventă: să crezi că revoluția a avut un singur centru; a avut loc separat în Moldova, Țara Românească și Transilvania."
+    ],
+    "answers": [
+     "Mihail Sturdza.",
+     "Proclamația de la Islaz.",
+     "La Blaj.",
+     "Avram Iancu.",
+     "Nicolae Bălcescu."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l10": {
+   "ro": {
+    "title": "State naționale: România și Germania",
+    "theory": "În a doua jumătate a secolului al XIX-lea, ideea națională a dus la formarea de noi state. România s-a format prin Unirea Principatelor (dubla alegere a lui Alexandru Ioan Cuza, 1859), recunoscută de puterile garante; reformele lui Cuza și Constituția din 1866 (Carol I) au construit statul modern, iar independența a fost câștigată în 1877–1878. Germania s-a unificat prin politica „fierului și sângelui” a cancelarului prusac Otto von Bismarck: războaiele cu Danemarca (1864), Austria (1866) și Franța (1870–1871). Imperiul German a fost proclamat la Versailles (18 ianuarie 1871). Italia s-a unificat (1861–1870) prin acțiunea lui Cavour și Garibaldi.",
+    "sample": "Unirea Principatelor a folosit faptul că Convenția de la Paris (1858) nu interzicea alegerea aceleiași persoane în ambele țări.",
+    "worked": "Unioniștii au folosit inteligent o lacună juridică, punând marile puteri în fața faptului împlinit. Germania s-a unificat însă prin război.",
+    "exercises": [
+     "Explică cum s-a realizat unirea Principatelor.",
+     "Explică etapele unificării Germaniei.",
+     "Compară modul de formare al României și al Germaniei.",
+     "Explică rolul lui Bismarck.",
+     "Explică etapele unificării Italiei."
+    ],
+    "test": [
+     "Când s-au unit Principatele?",
+     "Ce convenție din 1858 a organizat Principatele?",
+     "Cine a condus unificarea Germaniei?",
+     "Unde a fost proclamat Imperiul German?",
+     "Ce lideri au unificat Italia?"
+    ],
+    "steps": [
+     "Identifică forțele care au condus unificarea.",
+     "Compară metodele: diplomatice sau militare.",
+     "Analizează urmările pentru Europa.",
+     "Greșeala frecventă: să crezi că statele naționale s-au format peste tot la fel; unele prin diplomație, altele prin război."
+    ],
+    "answers": [
+     "În 1859.",
+     "Convenția de la Paris.",
+     "Otto von Bismarck.",
+     "La Versailles.",
+     "Cavour și Garibaldi."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l11": {
+   "ro": {
+    "title": "State multinaționale: Austro-Ungaria",
+    "theory": "Imperiul Habsburgic era un stat multinațional: germani, maghiari, cehi, slovaci, polonezi, ucraineni, români, sârbi, croați, sloveni, italieni. După înfrângerea din 1866, compromisul austro-ungar din 1867 a creat dualismul: două state (Austria și Ungaria), cu parlamente și guverne proprii, unite prin persoana împăratului-rege Franz Joseph și prin ministerele comune (externe, război, finanțe). Transilvania a fost încorporată în Ungaria. Celelalte naționalități au fost nemulțumite; în Ungaria s-a dus o politică de maghiarizare. Românii din Transilvania au protestat prin Memorandumul din 1892, iar autorii lui au fost condamnați. Tensiunile naționale au contribuit la destrămarea imperiului în 1918.",
+    "sample": "Memorandumul (1892) a fost trimis împăratului de la Viena, dar acesta l-a înaintat guvernului de la Budapesta, care i-a judecat pe autori.",
+    "worked": "Procesul memorandiștilor a atras atenția Europei asupra situației românilor și a întărit solidaritatea națională.",
+    "exercises": [
+     "Explică ce înseamnă stat multinațional.",
+     "Explică prevederile dualismului din 1867.",
+     "Explică situația românilor din Transilvania după 1867.",
+     "Explică Memorandumul și procesul memorandiștilor.",
+     "Explică de ce tensiunile naționale au slăbit imperiul."
+    ],
+    "test": [
+     "Când s-a realizat dualismul austro-ungar?",
+     "Cine era împărat-rege?",
+     "Ce ministere erau comune?",
+     "În ce parte a monarhiei a fost inclusă Transilvania?",
+     "Când a fost redactat Memorandumul?"
+    ],
+    "steps": [
+     "Identifică naționalitățile și structura statului.",
+     "Explică organizarea dualistă.",
+     "Analizează conflictele naționale.",
+     "Greșeala frecventă: să crezi că Austro-Ungaria era un stat național; era o monarhie dualistă multinațională."
+    ],
+    "answers": [
+     "În 1867.",
+     "Franz Joseph.",
+     "Externe, război și finanțe.",
+     "În Ungaria.",
+     "În 1892."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l12": {
+   "ro": {
+    "title": "Lumea la cumpăna secolelor XIX–XX",
+    "theory": "La 1900, Europa domina lumea prin industrie, comerț, știință și imperii coloniale. Diversitatea europeană era mare: state industrializate (Marea Britanie, Germania, Franța) și state agrare (Rusia, Balcanii, România); monarhii constituționale și imperii autoritare. În Asia, Japonia s-a modernizat rapid după reforma Meiji (1868), devenind putere industrială și militară; China a fost slăbită de intervențiile străine. Africa a fost împărțită între puterile europene (Conferința de la Berlin, 1884–1885). SUA au devenit prima putere industrială a lumii, primind milioane de imigranți europeni.",
+    "sample": "Între 1880 și 1914, aproape întreaga Africă a fost împărțită între statele europene, cu excepția Etiopiei și Liberiei.",
+    "worked": "Împărțirea Africii arată dominația europeană și indiferența față de popoarele locale; granițele trasate atunci au produs conflicte până azi.",
+    "exercises": [
+     "Compară statele industrializate cu cele agrare din Europa.",
+     "Explică modernizarea Japoniei.",
+     "Explică împărțirea Africii.",
+     "Explică ascensiunea SUA.",
+     "Analizează urmările colonialismului."
+    ],
+    "test": [
+     "Ce reformă a modernizat Japonia?",
+     "În ce an a început?",
+     "Ce conferință a reglementat împărțirea Africii?",
+     "Ce state africane au rămas independente?",
+     "Ce țară a devenit prima putere industrială a lumii?"
+    ],
+    "steps": [
+     "Identifică marile puteri și caracteristicile lor.",
+     "Compară evoluțiile din Europa, Asia, Africa și America.",
+     "Analizează urmările dominației europene.",
+     "Greșeala frecventă: să crezi că modernizarea a fost doar europeană; Japonia s-a modernizat cu succes după 1868."
+    ],
+    "answers": [
+     "Reforma Meiji.",
+     "În 1868.",
+     "Conferința de la Berlin.",
+     "Etiopia și Liberia.",
+     "SUA."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l13": {
+   "ro": {
+    "title": "Sistemul de alianțe la începutul secolului XX",
+    "theory": "Unificarea Germaniei a schimbat echilibrul european. Bismarck a izolat Franța prin alianțe: Tripla Alianță (Germania, Austro-Ungaria, Italia, 1882). După demiterea lui (1890), Germania a dus o politică mondială agresivă (flotă, colonii). Franța și Rusia s-au aliat (1892–1894), Franța și Marea Britanie au încheiat Antanta Cordială (1904), iar înțelegerea anglo-rusă (1907) a completat Tripla Înțelegere (Antanta). Crizele marocane și balcanice, cursa înarmărilor și rivalitățile coloniale au împărțit Europa în două blocuri. România s-a alăturat secret Triplei Alianțe (1883), din teamă față de Rusia.",
+    "sample": "Războaiele balcanice (1912–1913) au fost numite „repetiția generală” a războiului mondial.",
+    "worked": "Conflictele locale implicau marile puteri prin alianțe și au crescut tensiunea până la izbucnirea războiului general.",
+    "exercises": [
+     "Explică politica de alianțe a lui Bismarck.",
+     "Ordonează formarea Antantei.",
+     "Explică de ce Europa s-a împărțit în blocuri.",
+     "Explică de ce România a aderat la Tripla Alianță.",
+     "Explică importanța războaielor balcanice."
+    ],
+    "test": [
+     "Când s-a format Tripla Alianță?",
+     "Ce acord au încheiat Franța și Marea Britanie în 1904?",
+     "Ce acord din 1907 a completat Antanta?",
+     "De ce a aderat România la Tripla Alianță?",
+     "Cum au fost numite războaiele balcanice?"
+    ],
+    "steps": [
+     "Ordonează alianțele.",
+     "Explică interesele fiecărei puteri.",
+     "Analizează riscurile sistemului.",
+     "Greșeala frecventă: să crezi că alianțele garantau pacea; au transformat conflictele locale în războaie generale."
+    ],
+    "answers": [
+     "În 1882.",
+     "Antanta Cordială.",
+     "Înțelegerea anglo-rusă.",
+     "Din teamă față de Rusia.",
+     "„Repetiția generală” a războiului mondial."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l14": {
+   "ro": {
+    "title": "Primul Război Mondial – un nou tip de război",
+    "theory": "Războiul (1914–1918) a fost total: au fost mobilizate economia, societatea și propaganda, iar civilii au fost afectați direct. Planul german de război rapid (Schlieffen) a eșuat pe Marna (1914), iar frontul de Vest s-a transformat în război de tranșee (Verdun, Somme, 1916). Armele noi (mitraliera, artileria grea, gazele, tancul, avionul, submarinul) au produs pierderi enorme. În 1917, SUA au intrat în război, iar Rusia a ieșit după revoluția bolșevică. Războiul s-a încheiat cu armistițiul de la Compiègne (11 noiembrie 1918). Au murit aproximativ 10 milioane de soldați și milioane de civili; patru imperii s-au prăbușit.",
+    "sample": "În prima zi a bătăliei de pe Somme (1 iulie 1916), armata britanică a avut aproape 60.000 de victime.",
+    "worked": "Cifra arată ce înseamnă războiul industrial: atacurile frontale împotriva mitralierelor erau sinucigașe.",
+    "exercises": [
+     "Explică ce înseamnă război total.",
+     "Explică eșecul planului Schlieffen.",
+     "Descrie războiul de tranșee.",
+     "Explică importanța anului 1917.",
+     "Analizează costul uman al războiului."
+    ],
+    "test": [
+     "Unde a eșuat planul german în 1914?",
+     "Ce bătălii mari au avut loc în 1916?",
+     "Ce țară a intrat în război în 1917?",
+     "Unde s-a semnat armistițiul?",
+     "Câte imperii s-au prăbușit?"
+    ],
+    "steps": [
+     "Identifică trăsăturile noi ale războiului.",
+     "Ordonează fazele lui.",
+     "Analizează urmările.",
+     "Greșeala frecventă: să crezi că războiul a fost scurt, cum se aștepta în 1914; a durat peste patru ani."
+    ],
+    "answers": [
+     "Pe Marna.",
+     "Verdun și Somme.",
+     "SUA.",
+     "La Compiègne.",
+     "Patru."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l15": {
+   "ro": {
+    "title": "România în Primul Război Mondial și Marea Unire",
+    "theory": "După neutralitate (1914–1916), România a încheiat tratatul cu Antanta (august 1916), care îi recunoștea dreptul asupra Transilvaniei, Banatului și Bucovinei. După ofensiva în Transilvania, armata a fost înfrântă, iar Bucureștiul ocupat (decembrie 1916). În 1917, armata reorganizată a câștigat la Mărăști, Mărășești și Oituz. Ieșirea Rusiei din război a impus pacea de la Buftea-București (mai 1918), nesemnată de rege. Destrămarea imperiilor a permis unirea: Basarabia (27 martie 1918), Bucovina (28 noiembrie 1918), Transilvania, Banatul, Crișana și Maramureșul (Alba Iulia, 1 decembrie 1918). Rezoluția de la Alba Iulia promitea drepturi pentru minorități, vot universal și reformă agrară.",
+    "sample": "Regele Ferdinand nu a promulgat pacea de la Buftea-București, iar România a reintrat în război la 10 noiembrie 1918.",
+    "worked": "Gestul a permis României să fie considerată stat aliat la conferința de pace și să-și apere unirea.",
+    "exercises": [
+     "Explică de ce România a intrat în război în 1916.",
+     "Explică eșecurile din 1916 și victoriile din 1917.",
+     "Explică pacea de la Buftea-București.",
+     "Ordonează unirile din 1918.",
+     "Analizează prevederile Rezoluției de la Alba Iulia."
+    ],
+    "test": [
+     "Cu cine a încheiat România tratatul din 1916?",
+     "Când a fost ocupat Bucureștiul?",
+     "Ce victorii a obținut armata în 1917?",
+     "Când s-a unit Basarabia?",
+     "Ce promitea Rezoluția de la Alba Iulia?"
+    ],
+    "steps": [
+     "Identifică obiectivele intrării în război.",
+     "Ordonează etapele războiului și ale unirii.",
+     "Analizează documentele unirii.",
+     "Greșeala frecventă: să crezi că Marea Unire a fost doar rezultatul războiului; a fost hotărâtă de adunări ale românilor din provincii."
+    ],
+    "answers": [
+     "Cu Antanta.",
+     "În decembrie 1916.",
+     "Mărăști, Mărășești și Oituz.",
+     "La 27 martie 1918.",
+     "Drepturi pentru minorități, vot universal, reformă agrară."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l16": {
+   "ro": {
+    "title": "Tratatele de pace și relațiile internaționale interbelice",
+    "theory": "Conferința de pace de la Paris (1919–1920) a creat sistemul Versailles: tratatele cu Germania (Versailles), Austria (Saint-Germain), Bulgaria (Neuilly), Ungaria (Trianon), Turcia (Sèvres). Germania a pierdut teritorii, a fost dezarmată și obligată la reparații, fiind declarată responsabilă de război. S-a creat Societatea Națiunilor (1919), dar SUA nu au intrat în ea. Noile state (Polonia, Cehoslovacia, Iugoslavia, statele baltice) și România Mare au căutat securitate prin alianțe: Mica Înțelegere (România, Cehoslovacia, Iugoslavia) și Înțelegerea Balcanică. Diplomatul român Nicolae Titulescu a fost președinte al Societății Națiunilor (1930–1931) și a apărat securitatea colectivă.",
+    "sample": "Titulescu a fost ales de două ori președinte al Adunării Generale a Societății Națiunilor.",
+    "worked": "Faptul arată prestigiul diplomației românești interbelice și eforturile ei pentru menținerea păcii și a granițelor.",
+    "exercises": [
+     "Enumeră tratatele de pace și statele învinse.",
+     "Explică prevederile pentru Germania.",
+     "Explică slăbiciunile Societății Națiunilor.",
+     "Explică alianțele regionale ale României.",
+     "Explică rolul lui Nicolae Titulescu."
+    ],
+    "test": [
+     "Ce tratat s-a semnat cu Ungaria?",
+     "Ce organizație s-a creat în 1919?",
+     "Ce mare putere nu a intrat în ea?",
+     "Ce state formau Mica Înțelegere?",
+     "Ce diplomat român a condus Societatea Națiunilor?"
+    ],
+    "steps": [
+     "Identifică prevederile tratatelor.",
+     "Analizează sistemul de securitate creat.",
+     "Explică de ce nu a rezistat.",
+     "Greșeala frecventă: să crezi că Societatea Națiunilor avea armată proprie; nu putea impune deciziile prin forță."
+    ],
+    "answers": [
+     "Tratatul de la Trianon.",
+     "Societatea Națiunilor.",
+     "SUA.",
+     "România, Cehoslovacia și Iugoslavia.",
+     "Nicolae Titulescu."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l17": {
+   "ro": {
+    "title": "Lumea interbelică: economie, viață cotidiană, mișcarea feministă",
+    "theory": "După război, economiile s-au refăcut greu; în anii 1920 au urmat prosperitatea (în SUA, „anii nebuni”), apoi Marea Criză (1929–1933), cu șomaj masiv. Viața cotidiană s-a schimbat: electricitate, radio, cinema, automobil, jazz, sport, moda scurtă și liberă. Femeile, care munciseră în timpul războiului, au cerut drepturi politice: votul a fost obținut în Marea Britanie (1918/1928), Germania (1918), SUA (1920); în România, Constituția din 1923 nu l-a acordat, femeile au primit drept de vot limitat la alegerile locale (1929) și apoi în 1938, iar votul egal în 1946. Feministe românce ca Calypso Botez și Alexandrina Cantacuzino au luptat pentru drepturile femeilor.",
+    "sample": "Calypso Botez argumenta că femeile care contribuiau la viața țării trebuie să aibă și drepturi politice.",
+    "worked": "Argumentul leagă datoriile de drepturi. Mișcarea feministă interbelică a pregătit egalitatea de mai târziu.",
+    "exercises": [
+     "Explică evoluția economiei interbelice.",
+     "Descrie viața cotidiană în anii 1920–1930.",
+     "Explică revendicările mișcării feministe.",
+     "Compară obținerea votului de către femei în diferite țări.",
+     "Prezintă o feministă româncă interbelică."
+    ],
+    "test": [
+     "Când a avut loc Marea Criză?",
+     "Cum au fost numiți anii 1920 în SUA?",
+     "Când au primit femeile din SUA drept de vot?",
+     "Când au obținut româncele votul egal?",
+     "Numește o feministă româncă."
+    ],
+    "steps": [
+     "Identifică schimbările economice.",
+     "Descrie schimbările din viața de zi cu zi.",
+     "Analizează lupta pentru drepturile femeilor.",
+     "Greșeala frecventă: să crezi că femeile au primit drept de vot imediat după război peste tot; în România votul egal a venit în 1946."
+    ],
+    "answers": [
+     "În 1929–1933.",
+     "„Anii nebuni”.",
+     "În 1920.",
+     "În 1946.",
+     "Calypso Botez."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l18": {
+   "ro": {
+    "title": "Regimuri politice interbelice: democrație, fascism, nazism, comunism",
+    "theory": "Democrațiile (Marea Britanie, Franța, SUA, Cehoslovacia) se bazau pe pluralism, alegeri libere, separarea puterilor și drepturi garantate. Regimurile totalitare au controlat toate domeniile vieții. Comunismul sovietic (Lenin, apoi Stalin): partid unic, economie planificată, colectivizare, teroare (Gulag, Marea Teroare 1936–1938). Fascismul italian (Mussolini, din 1922): partid unic, cultul șefului, corporatism, naționalism. Nazismul german (Hitler, din 1933): rasism și antisemitism, Gestapo, lagăre de concentrare, expansionism. Elementele comune ale totalitarismelor: ideologie oficială, partid unic, conducător venerat, poliție politică, propagandă, controlul economiei și al presei.",
+    "sample": "Hitler a ajuns cancelar legal, apoi Legea împuternicirii (martie 1933) i-a dat dreptul să emită legi fără Parlament.",
+    "worked": "Democrația poate fi distrusă din interior, prin mijloace aparent legale. De aceea instituțiile și drepturile trebuie apărate.",
+    "exercises": [
+     "Enumeră trăsăturile democrației.",
+     "Enumeră trăsăturile comune ale totalitarismelor.",
+     "Compară fascismul cu nazismul.",
+     "Compară nazismul cu comunismul.",
+     "Explică cum a ajuns Hitler la putere."
+    ],
+    "test": [
+     "Când a ajuns Mussolini la putere?",
+     "Când a devenit Hitler cancelar?",
+     "Ce era Gulagul?",
+     "Ce lege i-a dat lui Hitler puteri depline?",
+     "Numește o democrație interbelică."
+    ],
+    "steps": [
+     "Identifică cine deține puterea și cum.",
+     "Compară regimurile după trăsături.",
+     "Analizează urmările pentru cetățeni.",
+     "Greșeala frecventă: să crezi că regimurile totalitare au luat puterea doar prin forță; unele au profitat de alegeri și de criza democrației."
+    ],
+    "answers": [
+     "În 1922.",
+     "În 1933.",
+     "Sistemul de lagăre de muncă sovietice.",
+     "Legea împuternicirii.",
+     "Marea Britanie, Franța sau Cehoslovacia."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l19": {
+   "ro": {
+    "title": "România în 1938: societate și cultură",
+    "theory": "În 1938, România atinsese cel mai înalt nivel economic interbelic: producția industrială crescuse, iar exporturile de petrol și cereale erau importante. Societatea rămânea predominant rurală (aproape 80% din populație). Bucureștiul era un oraș modern, cu viață culturală intensă. Cultura a cunoscut o epocă strălucită: Constantin Brâncuși (Ansamblul de la Târgu Jiu, 1937–1938), George Enescu, scriitorii Liviu Rebreanu, Mihail Sadoveanu, Lucian Blaga, Tudor Arghezi, Camil Petrescu; savanți ca Nicolae Iorga, Dimitrie Gusti (monografiile sociologice). Politic, în februarie 1938 regele Carol al II-lea a instaurat regimul autoritar, cu o nouă constituție și desființarea partidelor.",
+    "sample": "Ansamblul lui Brâncuși de la Târgu Jiu (Coloana fără sfârșit, Poarta Sărutului, Masa Tăcerii) a fost inaugurat în 1938.",
+    "worked": "Opera omagiază eroii din Primul Război Mondial și arată că arta românească era în avangarda lumii.",
+    "exercises": [
+     "Descrie economia României în 1938.",
+     "Explică structura societății românești.",
+     "Prezintă trei personalități culturale ale epocii.",
+     "Descrie Ansamblul de la Târgu Jiu.",
+     "Explică schimbarea politică din februarie 1938."
+    ],
+    "test": [
+     "Ce procent din populație trăia la sate?",
+     "Ce produse exporta România?",
+     "Ce operă a inaugurat Brâncuși în 1938?",
+     "Cine a condus monografiile sociologice?",
+     "Ce regim a instaurat Carol al II-lea?"
+    ],
+    "steps": [
+     "Identifică situația economică.",
+     "Prezintă realizările culturale.",
+     "Compară cultura cu situația politică.",
+     "Greșeala frecventă: să crezi că prosperitatea din 1938 a ajuns la toți; satele rămâneau sărace."
+    ],
+    "answers": [
+     "Aproape 80%.",
+     "Petrol și cereale.",
+     "Ansamblul de la Târgu Jiu.",
+     "Dimitrie Gusti.",
+     "Un regim autoritar (dictatura regală)."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l20": {
+   "ro": {
+    "title": "Al Doilea Război Mondial",
+    "theory": "Agresiunile statelor totalitare (Manciuria, Etiopia, anexarea Austriei, Acordul de la München, ocuparea Cehoslovaciei) și Pactul Ribbentrop-Molotov (23 august 1939) au dus la atacarea Poloniei (1 septembrie 1939). Germania a ocupat o mare parte a Europei (1939–1941). Bătălia Angliei (1940) a oprit invazia Marii Britanii. Atacul asupra URSS (iunie 1941) și Pearl Harbor (decembrie 1941) au extins războiul. Stalingrad (1942–1943), El Alamein (1942) și Midway (1942) au fost puncte de cotitură. Debarcarea din Normandia (6 iunie 1944) a deschis frontul de Vest. Germania a capitulat la 8–9 mai 1945, Japonia la 2 septembrie 1945, după bombardamentele atomice.",
+    "sample": "Pactul Ribbentrop-Molotov avea un protocol adițional secret care împărțea Polonia, statele baltice și Basarabia în sfere de influență.",
+    "worked": "Protocolul secret explică ocupările sovietice din 1939–1940, inclusiv ultimatumul dat României în iunie 1940.",
+    "exercises": [
+     "Ordonează agresiunile care au precedat războiul.",
+     "Explică protocolul secret al Pactului Ribbentrop-Molotov.",
+     "Explică punctele de cotitură din 1942–1943.",
+     "Explică importanța debarcării din Normandia.",
+     "Explică sfârșitul războiului în Europa și Pacific."
+    ],
+    "test": [
+     "Când a fost semnat Pactul Ribbentrop-Molotov?",
+     "Când a fost atacată Polonia?",
+     "Ce bătălie aeriană a avut loc în 1940?",
+     "Ce bătălie a întors războiul în Est?",
+     "Când a capitulat Japonia?"
+    ],
+    "steps": [
+     "Identifică cauzele războiului.",
+     "Ordonează fazele lui.",
+     "Analizează punctele de cotitură.",
+     "Greșeala frecventă: să crezi că URSS a fost de la început de partea Aliaților; până în 1941 a colaborat cu Germania."
+    ],
+    "answers": [
+     "La 23 august 1939.",
+     "La 1 septembrie 1939.",
+     "Bătălia Angliei.",
+     "Stalingrad.",
+     "La 2 septembrie 1945."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l21": {
+   "ro": {
+    "title": "Holocaustul",
+    "theory": "Holocaustul (Shoah) este genocidul sistematic al aproximativ 6 milioane de evrei europeni de către Germania nazistă și aliații ei. Au fost persecutați și uciși și romii (Porajmos), persoanele cu dizabilități, prizonierii sovietici, opozanții politici. Etape: excluderea legală (legile de la Nürnberg, 1935), violențele (Noaptea de Cristal, 1938), ghetoizarea, execuțiile în masă prin unitățile mobile (Einsatzgruppen), „soluția finală” hotărâtă la Wannsee (1942) și lagărele de exterminare (Auschwitz-Birkenau, Treblinka, Sobibor). În România, regimul Antonescu a fost responsabil de moartea a 280.000–380.000 de evrei și a circa 11.000 de romi (Raportul Comisiei Wiesel, 2004). Au existat și salvatori, recunoscuți ca „Drepți între popoare”.",
+    "sample": "Conferința de la Wannsee (ianuarie 1942) a organizat birocratic exterminarea evreilor europeni.",
+    "worked": "Documentul arată că genocidul a fost planificat de funcționari ai statului. Crima în masă a avut nevoie de birocrație și de complicitate.",
+    "exercises": [
+     "Explică etapele Holocaustului.",
+     "Explică ce s-a hotărât la Wannsee.",
+     "Explică Holocaustul în România.",
+     "Explică cine sunt „Drepții între popoare”.",
+     "Explică de ce Holocaustul trebuie studiat și comemorat."
+    ],
+    "test": [
+     "Câți evrei au fost uciși în Holocaust?",
+     "Ce legi i-au exclus pe evrei în 1935?",
+     "Ce s-a hotărât la Wannsee?",
+     "Ce lagăr de exterminare a fost cel mai mare?",
+     "Ce comisie a studiat Holocaustul din România?"
+    ],
+    "steps": [
+     "Ordonează etapele persecuției.",
+     "Identifică victimele și responsabilii.",
+     "Reflectează asupra responsabilității și memoriei.",
+     "Greșeala frecventă: să crezi că Holocaustul a fost o consecință neprevăzută a războiului; a fost planificat și organizat de stat."
+    ],
+    "answers": [
+     "Aproximativ 6 milioane.",
+     "Legile de la Nürnberg.",
+     "„Soluția finală”, exterminarea evreilor europeni.",
+     "Auschwitz-Birkenau.",
+     "Comisia Internațională condusă de Elie Wiesel."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l22": {
+   "ro": {
+    "title": "România în cele două războaie mondiale",
+    "theory": "În Primul Război Mondial, România a luptat de partea Antantei (1916–1918) și a obținut Marea Unire, recunoscută prin tratatele de pace. În Al Doilea Război Mondial, România, izolată după prăbușirea Franței, a pierdut în 1940 Basarabia, nordul Bucovinei și ținutul Herța (ultimatumul sovietic), nord-vestul Transilvaniei (Dictatul de la Viena) și Cadrilaterul (Tratatul de la Craiova). Generalul Ion Antonescu a intrat în război alături de Germania (22 iunie 1941); armata a trecut Nistrul și a luptat până la Stalingrad. La 23 august 1944, regele Mihai I a schimbat tabăra; armata română a luptat alături de Aliați în Transilvania, Ungaria și Cehoslovacia. Tratatul de pace de la Paris (1947) a restituit nord-vestul Transilvaniei.",
+    "sample": "Armata română a avut pierderi mari atât pe frontul de Est (1941–1944), cât și pe frontul de Vest (1944–1945).",
+    "worked": "Comparația arată costul uman al războiului pentru România în ambele tabere și complexitatea alegerilor politice ale vremii.",
+    "exercises": [
+     "Compară participarea României la cele două războaie.",
+     "Explică pierderile teritoriale din 1940.",
+     "Explică decizia de a trece Nistrul.",
+     "Explică evenimentele de la 23 august 1944.",
+     "Explică prevederile tratatului de pace din 1947."
+    ],
+    "test": [
+     "De partea cui a luptat România în Primul Război Mondial?",
+     "Ce dictat a cedat nord-vestul Transilvaniei?",
+     "Ce tratat a cedat Cadrilaterul?",
+     "Când a intrat România în Al Doilea Război Mondial?",
+     "Ce teritoriu a fost restituit prin tratatul din 1947?"
+    ],
+    "steps": [
+     "Ordonează participarea la fiecare război.",
+     "Compară obiectivele și rezultatele.",
+     "Analizează urmările.",
+     "Greșeala frecventă: să crezi că România a recuperat în 1947 toate teritoriile pierdute; Basarabia și nordul Bucovinei au rămas la URSS."
+    ],
+    "answers": [
+     "De partea Antantei.",
+     "Dictatul de la Viena.",
+     "Tratatul de la Craiova.",
+     "La 22 iunie 1941.",
+     "Nord-vestul Transilvaniei."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l23": {
+   "ro": {
+    "title": "Organizații internaționale și Războiul Rece",
+    "theory": "În 1945 s-a creat ONU, cu Adunarea Generală și Consiliul de Securitate (cinci membri permanenți cu drept de veto: SUA, URSS, Marea Britanie, Franța, China). Alianța din timpul războiului s-a rupt: URSS a impus regimuri comuniste în Europa de Est. Doctrina Truman (1947) și Planul Marshall au marcat începutul Războiului Rece. Blocade și crize: blocada Berlinului (1948–1949), războiul din Coreea (1950–1953), criza rachetelor din Cuba (1962), războiul din Vietnam. Blocurile militare: NATO (1949) și Tratatul de la Varșovia (1955). Au existat perioade de destindere (Actul final de la Helsinki, 1975), dar și de tensiune (invazia Afganistanului, 1979).",
+    "sample": "În octombrie 1962, criza rachetelor din Cuba a adus lumea la un pas de războiul nuclear.",
+    "worked": "Criza a fost rezolvată prin negociere și a dus la instalarea unei linii directe între Washington și Moscova. Ea arată pericolul confruntării nucleare.",
+    "exercises": [
+     "Explică structura și rolul ONU.",
+     "Explică începutul Războiului Rece.",
+     "Ordonează principalele crize ale Războiului Rece.",
+     "Compară NATO și Tratatul de la Varșovia.",
+     "Explică importanța Actului final de la Helsinki."
+    ],
+    "test": [
+     "Câți membri permanenți are Consiliul de Securitate?",
+     "Ce doctrină a anunțat SUA în 1947?",
+     "Când a avut loc criza rachetelor din Cuba?",
+     "Când a fost creat NATO?",
+     "Ce document a semnat destinderea din 1975?"
+    ],
+    "steps": [
+     "Identifică blocurile și liderii lor.",
+     "Ordonează crizele de la Berlin la Afganistan.",
+     "Analizează alternarea tensiunii și destinderii.",
+     "Greșeala frecventă: să crezi că Războiul Rece a fost doar o confruntare verbală; a cuprins războaie reale în Coreea și Vietnam."
+    ],
+    "answers": [
+     "Cinci.",
+     "Doctrina Truman.",
+     "În octombrie 1962.",
+     "În 1949.",
+     "Actul final de la Helsinki."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l24": {
+   "ro": {
+    "title": "Regimuri politice postbelice: democratice și totalitare",
+    "theory": "În Europa de Vest, democrațiile s-au consolidat după 1945: Germania Federală (Constituția din 1949), Italia, Franța (Republica a V-a, 1958), cu alegeri libere, pluripartidism, stat de drept și economie de piață. Spania, Portugalia și Grecia au rămas dictaturi până în anii 1970. În Europa de Est, regimurile comuniste impuse de URSS aveau partid unic, poliție politică, economie planificată, cenzură. Revoltele anticomuniste au fost reprimate: Berlin (1953), Ungaria (1956), Cehoslovacia (Primăvara de la Praga, 1968), Polonia (Solidaritatea, legea marțială, 1981). În 1989, regimurile comuniste au căzut.",
+    "sample": "În 1956, revoluția maghiară a fost zdrobită de tancurile sovietice, iar premierul Imre Nagy a fost executat.",
+    "worked": "Intervenția a arătat limitele independenței statelor din blocul sovietic: orice încercare de ieșire era reprimată.",
+    "exercises": [
+     "Compară regimurile democratice cu cele comuniste postbelice.",
+     "Explică consolidarea democrației în Germania Federală.",
+     "Explică tranziția Spaniei la democrație.",
+     "Ordonează revoltele anticomuniste.",
+     "Explică de ce revoltele au fost reprimate."
+    ],
+    "test": [
+     "Când a fost adoptată Constituția Germaniei Federale?",
+     "Ce state sud-europene au rămas dictaturi până în anii 1970?",
+     "Ce revoluție a fost zdrobită în 1956?",
+     "Ce s-a întâmplat la Praga în 1968?",
+     "Ce sindicat s-a opus comunismului în Polonia?"
+    ],
+    "steps": [
+     "Identifică trăsăturile fiecărui tip de regim.",
+     "Compară evoluțiile din Vest și Est.",
+     "Analizează rezistența față de comunism.",
+     "Greșeala frecventă: să crezi că toată Europa de Vest a fost democratică după 1945; Spania și Portugalia au fost dictaturi până în anii 1970."
+    ],
+    "answers": [
+     "În 1949.",
+     "Spania, Portugalia și Grecia.",
+     "Revoluția maghiară.",
+     "Reformele au fost zdrobite de invazia Tratatului de la Varșovia.",
+     "Solidaritatea."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l25": {
+   "ro": {
+    "title": "Reconstrucția economică și revoluția tehnico-științifică",
+    "theory": "Planul Marshall (1948–1952) a ajutat 16 state vest-europene. Au urmat „cei treizeci de ani glorioși” (1945–1975): creștere economică, ocupare deplină, societate de consum, stat al bunăstării. Germania Federală a cunoscut „miracolul economic”, iar Japonia a devenit a doua economie a lumii. Revoluția tehnico-științifică a adus energia nucleară, calculatorul electronic, tranzistorul, sateliții și zborurile spațiale (Sputnik 1957, Gagarin 1961, Apollo 11 1969), antibioticele și vaccinurile, „revoluția verde” în agricultură. Criza petrolului (1973) a încheiat perioada de creștere rapidă. În Est, economia planificată a dat rezultate inițiale, dar a rămas în urmă.",
+    "sample": "Iuri Gagarin a fost primul om în spațiu (12 aprilie 1961), iar Neil Armstrong primul om pe Lună (20 iulie 1969).",
+    "worked": "Competiția spațială a fost o componentă a Războiului Rece și a grăbit progresul științific și tehnic.",
+    "exercises": [
+     "Explică rolul Planului Marshall.",
+     "Explică ce au fost „cei treizeci de ani glorioși”.",
+     "Enumeră realizări ale revoluției tehnico-științifice.",
+     "Explică urmările crizei petrolului.",
+     "Compară economia de piață cu economia planificată."
+    ],
+    "test": [
+     "Câte state au primit ajutorul Planului Marshall?",
+     "Ce țară a cunoscut „miracolul economic”?",
+     "Cine a fost primul om în spațiu?",
+     "Când a ajuns omul pe Lună?",
+     "Ce criză din 1973 a încheiat creșterea rapidă?"
+    ],
+    "steps": [
+     "Identifică factorii reconstrucției.",
+     "Enumeră progresele științifice.",
+     "Compară evoluția Vestului cu cea a Estului.",
+     "Greșeala frecventă: să crezi că progresul tehnic a fost la fel în Est și în Vest; economiile planificate au rămas în urmă."
+    ],
+    "answers": [
+     "16.",
+     "Germania Federală.",
+     "Iuri Gagarin.",
+     "La 20 iulie 1969.",
+     "Criza petrolului."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l26": {
+   "ro": {
+    "title": "Drepturile omului, minoritățile și rolul societății civile",
+    "theory": "După ororile războiului, ONU a adoptat Declarația Universală a Drepturilor Omului (1948), iar Consiliul Europei Convenția Europeană a Drepturilor Omului (1950), cu o Curte la Strasbourg la care cetățenii se pot plânge împotriva statelor. Drepturile minorităților naționale (limbă, educație, cultură) au fost protejate prin documente ca Convenția-cadru a Consiliului Europei (1995). Mișcările pentru drepturi civile (SUA, Martin Luther King), decolonizarea, lupta împotriva apartheidului (Nelson Mandela) au extins drepturile. Societatea civilă (asociații, ONG-uri, sindicate, presă liberă) controlează puterea și apără drepturile; în Est, disidenții (Carta 77, Andrei Saharov) au luptat pentru libertate.",
+    "sample": "Un cetățean român poate face plângere la Curtea Europeană a Drepturilor Omului împotriva statului român.",
+    "worked": "Mecanismul arată că drepturile omului nu sunt doar declarații: există instituții care le protejează și pot obliga statele să le respecte.",
+    "exercises": [
+     "Compară Declarația Universală cu Convenția Europeană a Drepturilor Omului.",
+     "Explică ce drepturi au minoritățile naționale.",
+     "Explică lupta împotriva segregării și a apartheidului.",
+     "Explică rolul societății civile.",
+     "Explică rolul disidenților în Est."
+    ],
+    "test": [
+     "Când a fost adoptată Declarația Universală a Drepturilor Omului?",
+     "Unde se află Curtea Europeană a Drepturilor Omului?",
+     "Cine a condus lupta împotriva apartheidului?",
+     "Ce este societatea civilă?",
+     "Ce mișcare disidentă a existat în Cehoslovacia?"
+    ],
+    "steps": [
+     "Identifică documentele și instituțiile.",
+     "Explică drepturile protejate.",
+     "Analizează rolul cetățenilor în apărarea lor.",
+     "Greșeala frecventă: să confunzi Curtea Europeană a Drepturilor Omului (Consiliul Europei) cu Curtea de Justiție a Uniunii Europene."
+    ],
+    "answers": [
+     "În 1948.",
+     "La Strasbourg.",
+     "Nelson Mandela.",
+     "Asociațiile, ONG-urile, sindicatele și presa liberă.",
+     "Carta 77."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l27": {
+   "ro": {
+    "title": "Prăbușirea comunismului în Europa",
+    "theory": "În anii 1980, economiile comuniste erau în criză, iar URSS cheltuia enorm pe înarmare. Mihail Gorbaciov (din 1985) a lansat perestroika și glasnost și a renunțat la intervenția militară în statele satelit. În 1989, regimurile au căzut: Polonia (alegeri semi-libere, iunie), Ungaria, RDG (căderea Zidului Berlinului, 9 noiembrie), Cehoslovacia (Revoluția de catifea), Bulgaria și România (revoluția din decembrie, singura sângeroasă). Germania s-a reunificat (3 octombrie 1990). Tratatul de la Varșovia și CAER s-au desființat (1991), iar URSS s-a destrămat (decembrie 1991), apărând 15 state independente, inclusiv Republica Moldova.",
+    "sample": "Republica Moldova și-a proclamat independența la 27 august 1991.",
+    "worked": "Destrămarea URSS a schimbat harta Europei de Est. Pentru români, a deschis posibilitatea relațiilor libere cu Republica Moldova.",
+    "exercises": [
+     "Explică cauzele prăbușirii comunismului.",
+     "Explică rolul lui Gorbaciov.",
+     "Ordonează căderea regimurilor în 1989.",
+     "Explică reunificarea Germaniei.",
+     "Explică urmările destrămării URSS."
+    ],
+    "test": [
+     "Când a ajuns Gorbaciov la conducerea URSS?",
+     "Când a căzut Zidul Berlinului?",
+     "Ce nume a primit revoluția din Cehoslovacia?",
+     "Când s-a reunificat Germania?",
+     "Când și-a proclamat Republica Moldova independența?"
+    ],
+    "steps": [
+     "Identifică cauzele interne și externe.",
+     "Ordonează evenimentele pe țări.",
+     "Analizează urmările pentru Europa.",
+     "Greșeala frecventă: să crezi că Gorbaciov voia să desființeze comunismul; voia să-l reformeze."
+    ],
+    "answers": [
+     "În 1985.",
+     "La 9 noiembrie 1989.",
+     "Revoluția de catifea.",
+     "La 3 octombrie 1990.",
+     "La 27 august 1991."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l28": {
+   "ro": {
+    "title": "Religia în lumea contemporană",
+    "theory": "Lumea contemporană este diversă religios: creștinismul (catolic, ortodox, protestant) este cea mai răspândită religie, urmat de islam, hinduism și budism; există și iudaismul, alte religii și mulți oameni fără religie. Ecumenismul este mișcarea de apropiere între bisericile creștine (Consiliul Mondial al Bisericilor, 1948; Conciliul Vatican II, 1962–1965; vizita papei Ioan Paul al II-lea în România, 1999, prima într-o țară majoritar ortodoxă). Dialogul interreligios promovează respectul între credințe. Libertatea religioasă este un drept al omului; prozelitismul (atragerea de credincioși de la alte religii) ridică uneori dezbateri. Fundamentalismul religios este folosit și pentru a justifica violența.",
+    "sample": "În 1999, papa Ioan Paul al II-lea și patriarhul Teoctist s-au întâlnit la București; mulțimea striga „Unitate!”.",
+    "worked": "Momentul a fost un simbol al dialogului ecumenic dintre catolici și ortodocși după secole de separare.",
+    "exercises": [
+     "Enumeră marile religii ale lumii.",
+     "Explică ce este ecumenismul.",
+     "Explică importanța vizitei papei în România.",
+     "Explică diferența dintre libertate religioasă și prozelitism.",
+     "Explică pericolul fundamentalismului."
+    ],
+    "test": [
+     "Care este cea mai răspândită religie?",
+     "Ce este ecumenismul?",
+     "Când a avut loc Conciliul Vatican II?",
+     "Când a vizitat papa Ioan Paul al II-lea România?",
+     "Ce este prozelitismul?"
+    ],
+    "steps": [
+     "Identifică religiile și răspândirea lor.",
+     "Explică formele de dialog.",
+     "Analizează problemele actuale.",
+     "Greșeala frecventă: să confunzi ecumenismul (dialogul între creștini) cu dialogul interreligios (între religii diferite)."
+    ],
+    "answers": [
+     "Creștinismul.",
+     "Mișcarea de apropiere între bisericile creștine.",
+     "În 1962–1965.",
+     "În 1999.",
+     "Atragerea de credincioși de la alte religii."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l29": {
+   "ro": {
+    "title": "România și integrarea euro-atlantică",
+    "theory": "După 1989, România și-a ales drumul integrării în structurile euro-atlantice. A semnat Parteneriatul pentru Pace (1994), a fost invitată în NATO la summitul de la Praga (2002) și a devenit membră la 29 martie 2004. A semnat Acordul de asociere cu Comunitățile Europene (1993), a depus cererea de aderare (1995), a început negocierile (2000) și a semnat Tratatul de aderare (2005), devenind membră a Uniunii Europene la 1 ianuarie 2007. Integrarea a presupus reforme ale justiției, economiei, administrației și armatei. Uniunea Europeană înseamnă parteneriat: piață comună, fonduri, libera circulație, valori comune, dar și obligații.",
+    "sample": "Bulgaria a aderat la UE în aceeași zi cu România, 1 ianuarie 2007.",
+    "worked": "Cele două țări au parcurs negocierile în paralel. Aderarea a fost condiționată de reforme monitorizate de Comisia Europeană.",
+    "exercises": [
+     "Ordonează etapele aderării la NATO.",
+     "Ordonează etapele aderării la UE.",
+     "Explică reformele necesare aderării.",
+     "Explică avantajele și obligațiile apartenenței la UE.",
+     "Explică de ce NATO este important pentru securitatea României."
+    ],
+    "test": [
+     "Când a semnat România Parteneriatul pentru Pace?",
+     "Când a devenit România membră NATO?",
+     "Când a semnat Tratatul de aderare la UE?",
+     "Când a devenit membră UE?",
+     "Ce țară a aderat odată cu România?"
+    ],
+    "steps": [
+     "Ordonează etapele integrării.",
+     "Explică condițiile și reformele.",
+     "Evaluează avantajele și obligațiile.",
+     "Greșeala frecventă: să crezi că aderarea la NATO și la UE s-a produs în același an; NATO în 2004, UE în 2007."
+    ],
+    "answers": [
+     "În 1994.",
+     "La 29 martie 2004.",
+     "În 2005.",
+     "La 1 ianuarie 2007.",
+     "Bulgaria."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l30": {
+   "ro": {
+    "title": "Societatea la începutul mileniului III: globalizare, terorism, viață cotidiană",
+    "theory": "Globalizarea înseamnă interdependența tot mai mare a economiilor, culturilor și societăților, prin comerț, investiții, transporturi și internet. Ea a adus creștere economică și acces la informație, dar și inegalități, delocalizări, crize care se propagă rapid (criza financiară din 2008, pandemia de COVID-19 din 2020). Terorismul internațional (atacurile din 11 septembrie 2001 din SUA, atentatele de la Madrid 2004, Londra 2005, Paris 2015) a schimbat politicile de securitate. Viața cotidiană s-a transformat: telefonul inteligent, rețelele sociale, munca la distanță, comerțul online, dar și dezinformarea și dependența digitală. Schimbările climatice și migrațiile sunt provocări globale.",
+    "sample": "Pandemia de COVID-19 a pornit dintr-un oraș chinez și a ajuns în câteva luni în toată lumea.",
+    "worked": "Viteza răspândirii arată cât de legată este lumea globalizată. Răspunsul eficient a necesitat cooperare internațională.",
+    "exercises": [
+     "Explică ce este globalizarea.",
+     "Analizează avantajele și dezavantajele globalizării.",
+     "Explică efectele terorismului asupra politicilor de securitate.",
+     "Descrie schimbările din viața cotidiană în ultimii 20 de ani.",
+     "Propune soluții pentru o provocare globală."
+    ],
+    "test": [
+     "Ce este globalizarea?",
+     "Ce criză financiară a izbucnit în 2008?",
+     "Ce atacuri au avut loc la 11 septembrie 2001?",
+     "Ce pandemie a început în 2020?",
+     "Numește o provocare globală actuală."
+    ],
+    "steps": [
+     "Identifică fenomenul și cauzele lui.",
+     "Analizează efectele pozitive și negative.",
+     "Leagă fenomenul de viața ta.",
+     "Greșeala frecventă: să crezi că globalizarea este un fenomen doar economic; este și cultural, social și politic."
+    ],
+    "answers": [
+     "Interdependența tot mai mare a economiilor și societăților.",
+     "Criza financiară globală.",
+     "Atacurile teroriste asupra SUA.",
+     "Pandemia de COVID-19.",
+     "Schimbările climatice sau migrațiile."
+    ]
+   }
+  }
+ }
+}

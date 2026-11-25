@@ -1,0 +1,1326 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "RO",
+ "stage": "lower",
+ "grade": "5",
+ "version": "fba7a91a95b824e2aa3de037e00b26d1a6435107bde99f3aec70ee1076792734",
+ "source": "https://www.ise.ro/wp-content/uploads/2017/01/Istorie.pdf",
+ "sourceTitle": "Programa școlară pentru disciplina Istorie, clasele a V-a – a VIII-a, aprobată prin OMEN nr. 3393/28.02.2017 — clasa a V-a (2 ore/săptămână): Alfabetul istoriei; Preistoria; Orientul Antic; Civilizația greacă; Lumea romană; Lumea geto-dacilor; Lumea islamică; Europa medievală, cu studiile de caz din programă. Lecții originale, ordonate după unitățile manualelor aprobate, fără text copiat",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "ro",
+ "labels": [
+  "Activitate originală · România · Istorie · Clasa a V-a",
+  "Lecția pe înțeles",
+  "Exemplu",
+  "Ce ne arată exemplul",
+  "Exerciții",
+  "Test",
+  "Activități originale, făcute după programa școlară; nu înlocuiesc manualul sau ora de la clasă.",
+  "Dacă nu ai înțeles: pas cu pas",
+  "Răspunsuri (verifică după ce termini)"
+ ],
+ "units": [
+  {
+   "title": "Alfabetul istoriei – reconstituirea trecutului",
+   "keys": [
+    "eu-year-ro-lower-5-l01",
+    "eu-year-ro-lower-5-l02",
+    "eu-year-ro-lower-5-l03"
+   ]
+  },
+  {
+   "title": "Preistoria",
+   "keys": [
+    "eu-year-ro-lower-5-l04",
+    "eu-year-ro-lower-5-l05",
+    "eu-year-ro-lower-5-l06"
+   ]
+  },
+  {
+   "title": "Orientul Antic",
+   "keys": [
+    "eu-year-ro-lower-5-l07",
+    "eu-year-ro-lower-5-l08",
+    "eu-year-ro-lower-5-l09",
+    "eu-year-ro-lower-5-l10",
+    "eu-year-ro-lower-5-l11"
+   ]
+  },
+  {
+   "title": "Civilizația greacă",
+   "keys": [
+    "eu-year-ro-lower-5-l12",
+    "eu-year-ro-lower-5-l13",
+    "eu-year-ro-lower-5-l14",
+    "eu-year-ro-lower-5-l15",
+    "eu-year-ro-lower-5-l16",
+    "eu-year-ro-lower-5-l17",
+    "eu-year-ro-lower-5-l18"
+   ]
+  },
+  {
+   "title": "Lumea romană",
+   "keys": [
+    "eu-year-ro-lower-5-l19",
+    "eu-year-ro-lower-5-l20",
+    "eu-year-ro-lower-5-l21",
+    "eu-year-ro-lower-5-l22",
+    "eu-year-ro-lower-5-l23",
+    "eu-year-ro-lower-5-l24"
+   ]
+  },
+  {
+   "title": "Lumea geto-dacilor",
+   "keys": [
+    "eu-year-ro-lower-5-l25",
+    "eu-year-ro-lower-5-l26"
+   ]
+  },
+  {
+   "title": "Lumea islamică",
+   "keys": [
+    "eu-year-ro-lower-5-l27"
+   ]
+  },
+  {
+   "title": "Europa medievală",
+   "keys": [
+    "eu-year-ro-lower-5-l28",
+    "eu-year-ro-lower-5-l29",
+    "eu-year-ro-lower-5-l30",
+    "eu-year-ro-lower-5-l31",
+    "eu-year-ro-lower-5-l32",
+    "eu-year-ro-lower-5-l33",
+    "eu-year-ro-lower-5-l34",
+    "eu-year-ro-lower-5-l35"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-ro-lower-5-l01": {
+   "ro": {
+    "title": "Izvoarele istorice",
+    "theory": "Istoricul nu poate vedea trecutul direct; îl reconstituie din izvoare (surse). Izvoarele sunt scrise (inscripții, cronici, documente, scrisori), nescrise sau materiale (unelte, arme, monede, clădiri, morminte), orale (tradiții, legende, mărturii) și vizuale (picturi, fotografii, filme). Izvoarele primare provin chiar din perioada studiată; cele secundare sunt lucrări scrise mai târziu despre ea. Fiecare izvor trebuie întrebat: cine l-a făcut, când, cu ce scop și cât de sigur este.",
+    "sample": "Un vas de lut găsit într-un mormânt vechi și un articol de ziar despre descoperirea lui.",
+    "worked": "Vasul este un izvor primar, nescris: provine din epoca studiată. Articolul este un izvor secundar, scris acum, despre vas. Amândouă sunt utile, dar vasul este dovada directă.",
+    "exercises": [
+     "Clasifică zece izvoare în scrise, nescrise, orale și vizuale.",
+     "Explică diferența dintre un izvor primar și unul secundar.",
+     "Formulează patru întrebări pe care le pui unui izvor.",
+     "Descrie un obiect vechi din casa ta ca izvor istoric.",
+     "Explică ce face un arheolog."
+    ],
+    "test": [
+     "Ce este un izvor istoric?",
+     "Dă un exemplu de izvor nescris.",
+     "Ce este un izvor primar?",
+     "Ce este un izvor secundar?",
+     "De ce trebuie verificate izvoarele?"
+    ],
+    "steps": [
+     "Identifică tipul izvorului: scris, nescris, oral sau vizual.",
+     "Stabilește dacă este primar sau secundar.",
+     "Întreabă-te cine l-a făcut, când și de ce.",
+     "Greșeala frecventă: să crezi că un izvor scris este întotdeauna adevărat; autorul poate fi părtinitor sau prost informat."
+    ],
+    "answers": [
+     "Orice urmă a trecutului care ne dă informații.",
+     "O unealtă sau o monedă.",
+     "Un izvor din perioada studiată.",
+     "O lucrare scrisă mai târziu despre perioada studiată.",
+     "Pentru că pot fi incomplete sau părtinitoare."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l02": {
+   "ro": {
+    "title": "Timpul în istorie: cronologie și periodizare",
+    "theory": "Cronologia așază evenimentele în ordinea în care s-au petrecut. Unitățile de măsură: anul, deceniul (10 ani), secolul (100 de ani), mileniul (1000 de ani). Numărăm anii de la nașterea lui Hristos: î.Hr. și d.Hr. Periodizarea împarte istoria în epoci: Preistoria (până la apariția scrisului, aproximativ 3200 î.Hr.), Antichitatea (până în 476 d.Hr., căderea Imperiului Roman de Apus), Evul Mediu (până la sfârșitul secolului al XV-lea – începutul celui de-al XVI-lea), Epoca modernă și Epoca contemporană.",
+    "sample": "Secolul al V-lea î.Hr. cuprinde anii 500–401 î.Hr.",
+    "worked": "Înainte de Hristos anii scad spre prezent: 500 este mai vechi decât 401. De aceea secolul începe cu anul cel mai mare și se termină cu cel mai mic.",
+    "exercises": [
+     "Stabilește secolul pentru anii 476, 1453 și 753 î.Hr.",
+     "Realizează o friză cronologică a epocilor istorice.",
+     "Calculează câți ani au trecut între 490 î.Hr. și 476 d.Hr.",
+     "Ordonează: 776 î.Hr., 1066, 44 î.Hr., 800.",
+     "Explică de ce granițele dintre epoci sunt convenții."
+    ],
+    "test": [
+     "Ce este cronologia?",
+     "Câți ani are un mileniu?",
+     "Cu ce eveniment se încheie Preistoria?",
+     "Ce eveniment marchează sfârșitul Antichității?",
+     "În ce secol este anul 476?"
+    ],
+    "steps": [
+     "Scrie anul și verifică dacă este î.Hr. sau d.Hr.",
+     "Pentru secol, împarte la 100 și adaugă 1 dacă nu e an rotund.",
+     "Așază anii pe axă: cei î.Hr. la stânga lui 1, cei d.Hr. la dreapta.",
+     "Greșeala frecventă: să calculezi diferența dintre un an î.Hr. și unul d.Hr. prin scădere; trebuie să aduni cei doi ani."
+    ],
+    "answers": [
+     "Ordonarea evenimentelor în timp.",
+     "1000 de ani.",
+     "Cu apariția scrisului.",
+     "Căderea Imperiului Roman de Apus, în 476.",
+     "În secolul al V-lea."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l03": {
+   "ro": {
+    "title": "Spațiul istoric și hărțile istorice",
+    "theory": "Spațiul istoric este teritoriul pe care s-au petrecut evenimentele. Harta istorică arată acest spațiu într-o anumită perioadă: state, orașe, drumuri, bătălii, granițe care s-au schimbat. Pentru a citi o hartă istorică privim titlul (ce și când arată), legenda (semnele folosite), scara și punctele cardinale. Granițele de pe o hartă istorică nu coincid cu cele de azi.",
+    "sample": "Harta „Grecia antică în secolul al V-lea î.Hr.” are în legendă un pătrat pentru orașe și săbii încrucișate pentru bătălii.",
+    "worked": "Titlul ne spune epoca, iar legenda ne permite să citim simbolurile. Fără legendă, harta ar fi doar un desen.",
+    "exercises": [
+     "Citește titlul și legenda unei hărți istorice din manual.",
+     "Localizează pe hartă Mesopotamia, Egiptul, Grecia și Italia.",
+     "Compară o hartă a Europei antice cu una actuală.",
+     "Desenează o hartă simplă a localității tale, cu legendă.",
+     "Explică de ce granițele s-au schimbat de-a lungul timpului."
+    ],
+    "test": [
+     "Ce este spațiul istoric?",
+     "Ce arată titlul unei hărți istorice?",
+     "La ce folosește legenda?",
+     "Coincid granițele vechi cu cele de azi?",
+     "Ce arată săbiile încrucișate pe o hartă?"
+    ],
+    "steps": [
+     "Citește titlul: ce spațiu și ce perioadă arată harta.",
+     "Citește legenda și caută simbolurile pe hartă.",
+     "Formulează o informație nouă pe care ai aflat-o din hartă.",
+     "Greșeala frecventă: să citești o hartă istorică ca pe una actuală, uitând că statele și granițele erau altele."
+    ],
+    "answers": [
+     "Teritoriul pe care s-au petrecut evenimentele.",
+     "Spațiul și perioada reprezentate.",
+     "Explică semnele de pe hartă.",
+     "Nu.",
+     "O bătălie."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l04": {
+   "ro": {
+    "title": "Primii oameni",
+    "theory": "Preistoria este cea mai lungă perioadă din istoria omenirii. Primii oameni au apărut în Africa, iar de acolo s-au răspândit pe toate continentele. În epoca pietrei vechi (paleolitic), oamenii trăiau din vânătoare, pescuit și cules; erau nomazi, se adăposteau în peșteri sau colibe și foloseau unelte din piatră cioplită, os și lemn. Au învățat să folosească focul, care le-a dat căldură, lumină, protecție și hrană gătită. Au lăsat picturi în peșteri, precum cele de la Lascaux (Franța) sau Altamira (Spania).",
+    "sample": "Picturile din peștera Altamira înfățișează zimbri desenați cu pigmenți naturali.",
+    "worked": "Picturile sunt izvoare vizuale: ne arată ce animale vânau oamenii și că aveau credințe și simț artistic, chiar fără să cunoască scrisul.",
+    "exercises": [
+     "Explică de ce oamenii paleoliticului erau nomazi.",
+     "Enumeră trei folosințe ale focului.",
+     "Descrie o unealtă din piatră cioplită.",
+     "Arată pe hartă continentul de unde au pornit primii oameni.",
+     "Explică ce ne spun picturile rupestre."
+    ],
+    "test": [
+     "Pe ce continent au apărut primii oameni?",
+     "Cum se numește epoca pietrei vechi?",
+     "Din ce trăiau oamenii paleoliticului?",
+     "Ce înseamnă nomad?",
+     "Unde se află peștera Altamira?"
+    ],
+    "steps": [
+     "Gândește-te cum își procurau oamenii hrana.",
+     "Leagă hrana de felul de viață: vânătorii se mutau după animale.",
+     "Identifică uneltele și descoperirile importante, ca focul.",
+     "Greșeala frecventă: să crezi că oamenii preistorici nu aveau nicio cultură; picturile și mormintele arată credințe și artă."
+    ],
+    "answers": [
+     "În Africa.",
+     "Paleolitic.",
+     "Din vânătoare, pescuit și cules.",
+     "Fără așezare stabilă, care se mută dintr-un loc în altul.",
+     "În Spania."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l05": {
+   "ro": {
+    "title": "Revoluția neolitică",
+    "theory": "În epoca pietrei noi (neolitic), începând cu aproximativ 10.000 de ani în urmă în Orientul Apropiat, oamenii au descoperit agricultura și au domesticit animale. Această schimbare se numește revoluția neolitică. Oamenii au devenit sedentari: și-au construit sate și case, au produs ceramică, au țesut și au șlefuit unelte de piatră. Hrana mai sigură a dus la creșterea populației. În spațiul românesc, cultura Cucuteni este cunoscută pentru ceramica ei pictată.",
+    "sample": "Un vas Cucuteni este pictat cu spirale roșii, albe și negre.",
+    "worked": "Ceramica arată că oamenii aveau o locuință stabilă (vasele grele nu se cară ușor) și păstrau provizii. Decorurile arată priceperea și gustul artistic.",
+    "exercises": [
+     "Compară viața din paleolitic cu cea din neolitic.",
+     "Explică de ce agricultura a dus la sedentarizare.",
+     "Numește trei animale domesticite.",
+     "Descrie un vas Cucuteni.",
+     "Explică de ce schimbarea se numește revoluție."
+    ],
+    "test": [
+     "Ce a descoperit omul în neolitic?",
+     "Ce înseamnă sedentar?",
+     "Unde a început revoluția neolitică?",
+     "Ce meșteșug nou a apărut?",
+     "Ce cultură neolitică din România este celebră pentru ceramică?"
+    ],
+    "steps": [
+     "Identifică noile descoperiri: agricultura și creșterea animalelor.",
+     "Explică urmările: sate, case, ceramică.",
+     "Compară cu paleoliticul.",
+     "Greșeala frecventă: să crezi că revoluția neolitică s-a petrecut peste noapte; a durat mii de ani."
+    ],
+    "answers": [
+     "Agricultura și domesticirea animalelor.",
+     "Cu locuință stabilă.",
+     "În Orientul Apropiat.",
+     "Ceramica.",
+     "Cultura Cucuteni."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l06": {
+   "ro": {
+    "title": "Inventarea metalurgiei",
+    "theory": "După epoca pietrei a urmat epoca metalelor. Oamenii au învățat să extragă și să topească metalele: mai întâi cuprul, apoi bronzul (aliaj de cupru și staniu, mai dur), iar mai târziu fierul, mai răspândit și mai rezistent. Uneltele și armele din metal au crescut productivitatea agriculturii și au schimbat războiul. Au apărut meșteșugari specializați, comerț cu metale și diferențe de avere între oameni.",
+    "sample": "Un plug cu brăzdar de fier ară pământul mai adânc decât unul de lemn.",
+    "worked": "O unealtă mai bună produce mai multă hrană. Surplusul permite unor oameni să devină meșteșugari sau negustori, iar societatea devine mai complexă.",
+    "exercises": [
+     "Ordonează metalele după momentul folosirii lor.",
+     "Explică ce este bronzul.",
+     "Explică de ce fierul a fost mai folosit decât bronzul.",
+     "Enumeră urmările metalurgiei asupra vieții oamenilor.",
+     "Explică legătura dintre metalurgie și diferențele de avere."
+    ],
+    "test": [
+     "Care a fost primul metal folosit?",
+     "Din ce se obține bronzul?",
+     "Care metal a devenit cel mai răspândit?",
+     "Ce meserie nouă a apărut?",
+     "Ce s-a schimbat în război?"
+    ],
+    "steps": [
+     "Află ce metal se folosea și ce avantaj avea.",
+     "Leagă unealta nouă de producție și comerț.",
+     "Explică schimbările din societate.",
+     "Greșeala frecventă: să crezi că bronzul este un metal din natură; este un aliaj obținut de om."
+    ],
+    "answers": [
+     "Cuprul.",
+     "Din cupru și staniu.",
+     "Fierul.",
+     "Meșteșugarul specializat în metale.",
+     "Armele de metal erau mai eficiente."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l07": {
+   "ro": {
+    "title": "Inventarea scrierii: de la pictograme la alfabet",
+    "theory": "Scrierea a apărut în jurul anului 3200 î.Hr. în Mesopotamia (Sumer) și aproape în același timp în Egipt. Sumerienii scriau pe tăblițe de lut cu semne în formă de cui (scrierea cuneiformă), iar egiptenii foloseau hieroglifele, pe papirus și pe pereții templelor. La început semnele erau desene (pictograme). Fenicienii au creat un alfabet simplu, preluat și dezvoltat de greci, de la care provine și alfabetul latin pe care îl folosim.",
+    "sample": "O pictogramă care înfățișează un cap de bou însemna „bou”; în alfabetul fenician, semnul ei a devenit o literă.",
+    "worked": "Scrierea a evoluat de la desene care arătau lucruri la semne care arată sunete. Un alfabet are puține semne, deci este ușor de învățat.",
+    "exercises": [
+     "Explică de ce scrierea marchează sfârșitul Preistoriei.",
+     "Compară scrierea cuneiformă cu hieroglifele.",
+     "Explică avantajul unui alfabet.",
+     "Urmărește drumul alfabetului de la fenicieni la noi.",
+     "Inventează trei pictograme și explică-le."
+    ],
+    "test": [
+     "Când a apărut scrierea?",
+     "Unde a apărut scrierea cuneiformă?",
+     "Pe ce scriau egiptenii?",
+     "Ce sunt pictogramele?",
+     "Ce popor a creat un alfabet preluat de greci?"
+    ],
+    "steps": [
+     "Află unde și când a apărut scrierea.",
+     "Compară tipurile de scriere și materialele.",
+     "Urmărește evoluția de la pictograme la alfabet.",
+     "Greșeala frecventă: să crezi că toate popoarele au inventat scrierea în același timp; ea a apărut întâi în Mesopotamia și Egipt."
+    ],
+    "answers": [
+     "În jurul anului 3200 î.Hr.",
+     "În Mesopotamia, la sumerieni.",
+     "Pe papirus și pe pereții templelor.",
+     "Desene care reprezintă lucruri.",
+     "Fenicienii."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l08": {
+   "ro": {
+    "title": "Epopeea lui Ghilgameș și Codul lui Hammurabi",
+    "theory": "Epopeea lui Ghilgameș este una dintre cele mai vechi opere literare: povestește aventurile regelui cetății Uruk și căutarea nemuririi. Codul lui Hammurabi, regele Babilonului (secolul al XVIII-lea î.Hr.), este un set de legi scrise pe o stelă de piatră. Multe legi aplicau principiul „ochi pentru ochi, dinte pentru dinte”, iar pedepsele depindeau de statutul social. Legile scrise arătau tuturor regulile și limitau arbitrariul judecătorilor.",
+    "sample": "O lege din cod spune că dacă o casă se prăbușește și îl omoară pe proprietar, constructorul este pedepsit.",
+    "worked": "Legea îl obligă pe constructor să lucreze bine. Ne arată că în Babilon existau meserii, proprietate și reguli de răspundere.",
+    "exercises": [
+     "Rezumă căutarea lui Ghilgameș.",
+     "Explică principiul „ochi pentru ochi”.",
+     "Explică de ce este importantă scrierea legilor.",
+     "Compară pedepsele pentru oameni de statut diferit.",
+     "Formulează o regulă a clasei după modelul codului."
+    ],
+    "test": [
+     "Cine era Ghilgameș?",
+     "Ce căuta Ghilgameș?",
+     "Cine a fost Hammurabi?",
+     "Pe ce a fost scris codul lui?",
+     "Ce principiu aplicau multe legi?"
+    ],
+    "steps": [
+     "Citește fragmentul de lege sau de epopee.",
+     "Spune ce informație îți dă despre viața oamenilor.",
+     "Compară cu prezentul.",
+     "Greșeala frecventă: să crezi că legile lui Hammurabi erau egale pentru toți; pedepsele depindeau de statutul social."
+    ],
+    "answers": [
+     "Regele cetății Uruk.",
+     "Nemurirea.",
+     "Regele Babilonului.",
+     "Pe o stelă de piatră.",
+     "„Ochi pentru ochi, dinte pentru dinte.”"
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l09": {
+   "ro": {
+    "title": "Viața cotidiană în Orientul Antic; orașul Babilon",
+    "theory": "Civilizațiile Orientului Antic s-au dezvoltat pe văile marilor fluvii: Tigru și Eufrat (Mesopotamia), Nil (Egipt), Indus, Fluviul Galben. Apele aduceau mâl fertil, iar oamenii construiau canale de irigație. Majoritatea erau țărani; existau meșteșugari, negustori, scribi, preoți și conducători. Locuințele erau din cărămidă de lut. Babilonul era un oraș mare, cu ziduri, Poarta zeiței Iștar, temple-turn numite zigurate și grădini celebre.",
+    "sample": "Fiecare an, revărsarea Nilului lăsa pe câmpuri un strat de mâl negru și fertil.",
+    "worked": "Agricultura depindea de fluviu. De aceea egiptenii au organizat munca în comun, au creat un calendar și au cinstit Nilul.",
+    "exercises": [
+     "Arată pe hartă cele patru mari văi ale fluviilor.",
+     "Explică importanța irigațiilor.",
+     "Descrie o zi din viața unui scrib.",
+     "Descrie Poarta zeiței Iștar.",
+     "Explică ce este un zigurat."
+    ],
+    "test": [
+     "Pe văile căror fluvii s-a dezvoltat Mesopotamia?",
+     "Ce aducea revărsarea Nilului?",
+     "Cine era scribul?",
+     "Din ce erau construite casele?",
+     "Ce este un zigurat?"
+    ],
+    "steps": [
+     "Localizează civilizația pe hartă.",
+     "Leagă mediul natural de ocupații.",
+     "Descrie categoriile de oameni și locuințele.",
+     "Greșeala frecventă: să crezi că în Orientul Antic toți oamenii erau sclavi; majoritatea erau țărani liberi, dar supuși regelui."
+    ],
+    "answers": [
+     "Tigru și Eufrat.",
+     "Mâl fertil.",
+     "Omul care știa să scrie și ținea evidențele.",
+     "Din cărămidă de lut.",
+     "Un templu în formă de turn în trepte."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l10": {
+   "ro": {
+    "title": "Egiptul: temple și piramide",
+    "theory": "Egiptul antic era condus de faraon, considerat fiu al zeilor. Egiptenii credeau în viața de după moarte, de aceea îmbălsămau trupurile (mumificare) și construiau morminte bogate. Piramidele de la Giza, cea mai mare fiind a lui Keops (aproximativ 2560 î.Hr.), erau morminte ale faraonilor. Templele, precum cele de la Karnak și Luxor, erau locuințe ale zeilor (Ra, Osiris, Isis). Egiptenii au avut cunoștințe de matematică, astronomie și medicină.",
+    "sample": "Pe pereții mormintelor sunt pictate scene din viața de zi cu zi: arat, pescuit, ospețe.",
+    "worked": "Picturile trebuiau să-l însoțească pe mort în lumea de dincolo, dar pentru noi sunt izvoare care arată ocupațiile și obiceiurile egiptenilor.",
+    "exercises": [
+     "Explică de ce egiptenii construiau piramide.",
+     "Descrie mumificarea.",
+     "Numește trei zei egipteni.",
+     "Explică rolul faraonului.",
+     "Descrie o pictură egipteană ca izvor istoric."
+    ],
+    "test": [
+     "Cine conducea Egiptul?",
+     "Ce erau piramidele?",
+     "Unde se află cele mai cunoscute piramide?",
+     "Ce credeau egiptenii despre moarte?",
+     "Numește un zeu egiptean."
+    ],
+    "steps": [
+     "Află credințele egiptenilor despre moarte.",
+     "Leagă credințele de construcții: piramide, temple.",
+     "Folosește picturile ca izvoare despre viața zilnică.",
+     "Greșeala frecventă: să crezi că piramidele au fost construite doar de sclavi; cercetările arată lucrători organizați și plătiți în natură."
+    ],
+    "answers": [
+     "Faraonul.",
+     "Morminte ale faraonilor.",
+     "La Giza.",
+     "Că există viață după moarte.",
+     "Ra."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l11": {
+   "ro": {
+    "title": "Popoare ale Orientului Antic: chinezii și evreii",
+    "theory": "Chinezii au creat o civilizație pe valea Fluviului Galben. Au inventat hârtia, busola, porțelanul și au produs mătase; au construit Marele Zid pentru apărare. Confucius a învățat respectul față de părinți și ordinea în stat. Evreii au trăit în Palestina; au fost primul popor care a crezut într-un singur Dumnezeu (monoteism). Cărțile lor sfinte formează Vechiul Testament. Regii David și Solomon au condus regatul cu capitala la Ierusalim, unde Solomon a construit Templul.",
+    "sample": "Drumul Mătăsii lega China de Mediterana; pe el circulau mătase, condimente și idei.",
+    "worked": "Civilizațiile nu erau izolate: comerțul le punea în legătură și răspândea invenții și credințe.",
+    "exercises": [
+     "Enumeră trei invenții chineze.",
+     "Explică rolul Marelui Zid.",
+     "Explică ce înseamnă monoteism.",
+     "Arată pe hartă Ierusalimul și Fluviul Galben.",
+     "Explică importanța Drumului Mătăsii."
+    ],
+    "test": [
+     "Ce material prețios produceau chinezii?",
+     "Ce au construit chinezii pentru apărare?",
+     "Ce a învățat Confucius?",
+     "Ce înseamnă monoteism?",
+     "Ce rege a construit Templul din Ierusalim?"
+    ],
+    "steps": [
+     "Localizează poporul pe hartă.",
+     "Identifică invențiile sau credințele lui.",
+     "Spune ce a lăsat moștenire lumii.",
+     "Greșeala frecventă: să crezi că monoteismul era obișnuit în Antichitate; majoritatea popoarelor erau politeiste."
+    ],
+    "answers": [
+     "Mătasea.",
+     "Marele Zid.",
+     "Respectul față de părinți și ordinea în stat.",
+     "Credința într-un singur Dumnezeu.",
+     "Solomon."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l12": {
+   "ro": {
+    "title": "Mediul natural, ocupațiile și ceramica grecilor",
+    "theory": "Grecia are munți mulți, câmpii mici și o coastă lungă, cu numeroase insule. De aceea grecii au cultivat măslinul și vița-de-vie, au crescut capre și oi și au devenit navigatori și negustori. Ceramica greacă era și utilă (amfore pentru ulei și vin), și artistică: vasele erau pictate cu figuri negre pe fond roșu sau cu figuri roșii pe fond negru, cu scene din mituri și din viața de zi cu zi.",
+    "sample": "O amforă pictată cu un atlet care aruncă discul.",
+    "worked": "Vasul era folosit pentru păstrarea lichidelor, dar pictura ne arată sporturile și idealul de frumusețe al grecilor. Ceramica este un izvor important.",
+    "exercises": [
+     "Explică legătura dintre relieful Greciei și ocupațiile grecilor.",
+     "Descrie o amforă grecească.",
+     "Compară tehnica figurilor negre cu cea a figurilor roșii.",
+     "Explică de ce grecii au devenit navigatori.",
+     "Desenează un vas grecesc cu o scenă din viața de zi cu zi."
+    ],
+    "test": [
+     "Ce plante cultivau grecii?",
+     "De ce au devenit grecii navigatori?",
+     "Ce este o amforă?",
+     "Ce scene apar pe vasele grecești?",
+     "Ce două tehnici de pictură pe vase cunoști?"
+    ],
+    "steps": [
+     "Privește harta reliefului.",
+     "Leagă relieful de ocupații.",
+     "Folosește ceramica drept izvor despre viața grecilor.",
+     "Greșeala frecventă: să crezi că vasele grecești erau doar decorative; cele mai multe erau folosite zilnic."
+    ],
+    "answers": [
+     "Măslinul și vița-de-vie.",
+     "Pentru că aveau coastă lungă și insule.",
+     "Un vas pentru ulei sau vin.",
+     "Mituri și viața de zi cu zi.",
+     "Figuri negre și figuri roșii."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l13": {
+   "ro": {
+    "title": "Adevăr și legendă: zeii Olimpului și războiul troian",
+    "theory": "Grecii erau politeiști: credeau în mai mulți zei, care locuiau pe muntele Olimp. Zeus era regele zeilor, Hera soția lui, Atena zeița înțelepciunii, Poseidon zeul mărilor, Apollo zeul luminii și al artelor. Poemele Iliada și Odiseea, atribuite lui Homer, povestesc războiul troian și întoarcerea lui Ulise. Arheologii au descoperit ruinele Troiei, în Turcia de azi, deci legenda are și un sâmbure de adevăr.",
+    "sample": "În legendă, grecii au cucerit Troia ascunzând soldați într-un cal de lemn.",
+    "worked": "Calul troian este legendă; săpăturile arheologice confirmă însă că Troia a existat și a fost distrusă. Istoricul separă povestea de dovezi.",
+    "exercises": [
+     "Numește cinci zei greci și ce ocroteau.",
+     "Povestește episodul calului troian.",
+     "Explică ce sunt Iliada și Odiseea.",
+     "Explică ce au descoperit arheologii la Troia.",
+     "Separă într-o legendă faptele posibile de elementele fantastice."
+    ],
+    "test": [
+     "Unde locuiau zeii greci?",
+     "Cine era regele zeilor?",
+     "Ce poeme sunt atribuite lui Homer?",
+     "Ce eroi se întorc acasă în Odiseea?",
+     "Unde se află ruinele Troiei?"
+    ],
+    "steps": [
+     "Citește legenda cu atenție, până la capăt.",
+     "Caută dovezile istorice sau arheologice.",
+     "Separă ce s-a putut întâmpla de ce este imaginar.",
+     "Greșeala frecventă: să crezi că legendele sunt complet inventate; uneori păstrează amintirea unor fapte reale."
+    ],
+    "answers": [
+     "Pe muntele Olimp.",
+     "Zeus.",
+     "Iliada și Odiseea.",
+     "Ulise.",
+     "În Turcia de azi."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l14": {
+   "ro": {
+    "title": "Polisul grec: Atena și Sparta",
+    "theory": "Polisul era un oraș-stat: un oraș cu teritoriul din jur, independent. Atena a creat democrația: cetățenii (bărbații liberi, născuți din părinți atenieni) votau legile în Adunarea Poporului; reformele lui Clistene (508 î.Hr.) și conducerea lui Pericle au dezvoltat-o. Femeile, străinii și sclavii nu votau. Sparta era condusă de doi regi și de un consiliu al bătrânilor; băieții erau educați de la 7 ani pentru a deveni soldați.",
+    "sample": "În Atena, cetățenii puteau exila un politician periculos scriindu-i numele pe un ciob de ceramică (ostracon).",
+    "worked": "Ostracismul arată că poporul controla conducătorii. Este o formă a democrației, chiar dacă doar o parte a locuitorilor erau cetățeni.",
+    "exercises": [
+     "Explică ce este un polis.",
+     "Compară Atena cu Sparta.",
+     "Explică ce înseamnă democrație.",
+     "Explică cine nu avea drept de vot în Atena.",
+     "Descrie educația unui băiat spartan."
+    ],
+    "test": [
+     "Ce este un polis?",
+     "Ce regim politic a creat Atena?",
+     "Cine putea vota în Atena?",
+     "Câți regi conduceau Sparta?",
+     "Ce era ostracismul?"
+    ],
+    "steps": [
+     "Identifică cine conducea polisul.",
+     "Află cine avea drepturi politice.",
+     "Compară Atena și Sparta după conducere și educație.",
+     "Greșeala frecventă: să crezi că democrația ateniană era ca a noastră; femeile, străinii și sclavii nu votau."
+    ],
+    "answers": [
+     "Un oraș-stat independent.",
+     "Democrația.",
+     "Bărbații liberi, născuți din părinți atenieni.",
+     "Doi.",
+     "Exilarea unui politician prin vot pe cioburi."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l15": {
+   "ro": {
+    "title": "Colonizarea greacă: Histria, Tomis și Callatis",
+    "theory": "Din secolul al VIII-lea î.Hr., grecii au întemeiat colonii pe țărmurile Mării Mediterane și ale Mării Negre, din cauza lipsei de pământ și pentru comerț. Coloniile erau orașe noi, independente, legate de cetatea-mamă prin limbă, religie și comerț. Pe țărmul dobrogean au apărut Histria (întemeiată de coloniști din Milet), Tomis și Callatis. Grecii făceau comerț cu geții: vindeau vin, ulei și ceramică și cumpărau cereale, miere și sclavi.",
+    "sample": "La Histria s-au găsit monede grecești și vase care au ajuns și în așezările getice.",
+    "worked": "Obiectele grecești descoperite la geți arată schimburile comerciale. Coloniile au fost porți de intrare pentru influențele grecești.",
+    "exercises": [
+     "Explică de ce au întemeiat grecii colonii.",
+     "Arată pe hartă Histria, Tomis și Callatis.",
+     "Explică legătura colonie – cetate-mamă.",
+     "Enumeră produsele schimbate cu geții.",
+     "Explică ce au aflat arheologii la Histria."
+    ],
+    "test": [
+     "Ce este o colonie greacă?",
+     "Din ce cetate au venit întemeietorii Histriei?",
+     "Cum se numește azi Tomis?",
+     "Ce vindeau grecii geților?",
+     "Ce cumpărau grecii de la geți?"
+    ],
+    "steps": [
+     "Află cauzele colonizării.",
+     "Localizează coloniile.",
+     "Explică relațiile cu populația locală.",
+     "Greșeala frecventă: să crezi că o colonie era condusă de cetatea-mamă; era un oraș independent."
+    ],
+    "answers": [
+     "Un oraș nou, întemeiat de greci departe de cetatea-mamă.",
+     "Din Milet.",
+     "Constanța.",
+     "Vin, ulei și ceramică.",
+     "Cereale, miere și sclavi."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l16": {
+   "ro": {
+    "title": "Războaiele grecilor: medice și peloponesiac",
+    "theory": "Războaiele medice (secolul al V-lea î.Hr.) au fost purtate de greci împotriva Imperiului Persan. La Maraton (490 î.Hr.), atenienii i-au învins pe perși; legenda spune că un mesager a alergat până la Atena să anunțe victoria. La Salamina (480 î.Hr.), flota greacă a câștigat o mare bătălie navală. Apoi, Atena și Sparta, rivale, s-au înfruntat în războiul peloponesiac (431–404 î.Hr.), câștigat de Sparta, care a slăbit lumea greacă.",
+    "sample": "Proba de maraton din atletismul de azi amintește de legenda mesagerului.",
+    "worked": "O legendă antică a dat numele unei probe sportive moderne. Ne arată cum trecutul trăiește în cultura noastră.",
+    "exercises": [
+     "Ordonează: Maraton, Salamina, războiul peloponesiac.",
+     "Explică de ce s-au unit grecii împotriva perșilor.",
+     "Explică urmările războiului peloponesiac.",
+     "Povestește legenda de la Maraton.",
+     "Compară cele două războaie."
+    ],
+    "test": [
+     "Împotriva cui au luptat grecii în războaiele medice?",
+     "Când a avut loc bătălia de la Maraton?",
+     "Ce bătălie navală au câștigat grecii în 480 î.Hr.?",
+     "Cine s-a înfruntat în războiul peloponesiac?",
+     "Cine a câștigat războiul peloponesiac?"
+    ],
+    "steps": [
+     "Identifică taberele și cauza războiului.",
+     "Ordonează bătăliile cronologic.",
+     "Explică urmările pentru învingători și pentru învinși.",
+     "Greșeala frecventă: să confunzi războaiele medice (greci contra perși) cu războiul peloponesiac (greci contra greci)."
+    ],
+    "answers": [
+     "Împotriva perșilor.",
+     "În 490 î.Hr.",
+     "Salamina.",
+     "Atena și Sparta.",
+     "Sparta."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l17": {
+   "ro": {
+    "title": "Alexandru Macedon și lumea elenistică",
+    "theory": "Alexandru cel Mare, regele Macedoniei (336–323 î.Hr.), elev al filozofului Aristotel, a cucerit Imperiul Persan, Egiptul și a ajuns până în India. A întemeiat orașe, cel mai cunoscut fiind Alexandria din Egipt, cu faimoasa bibliotecă. După moartea lui, imperiul s-a împărțit între generali. Perioada care a urmat se numește elenistică: cultura greacă s-a amestecat cu cele ale Orientului (sinteză elenistică), iar limba greacă a devenit limbă de comunicare în tot Orientul.",
+    "sample": "Biblioteca din Alexandria aduna sute de mii de suluri din toată lumea cunoscută.",
+    "worked": "Biblioteca arată că elenismul a fost și o epocă a cunoașterii: savanți din locuri diferite lucrau împreună, în greacă.",
+    "exercises": [
+     "Urmărește pe hartă campaniile lui Alexandru.",
+     "Explică ce înseamnă sinteză elenistică.",
+     "Descrie Biblioteca din Alexandria.",
+     "Explică ce s-a întâmplat cu imperiul după moartea lui Alexandru.",
+     "Explică rolul limbii grecești în epoca elenistică."
+    ],
+    "test": [
+     "Ce regat a condus Alexandru?",
+     "Cine i-a fost profesor?",
+     "Până unde a ajuns cu armata?",
+     "Ce oraș celebru a întemeiat în Egipt?",
+     "Ce înseamnă epoca elenistică?"
+    ],
+    "steps": [
+     "Urmărește cuceririle pe hartă.",
+     "Află ce s-a întâmplat după moartea lui.",
+     "Explică amestecul de culturi.",
+     "Greșeala frecventă: să crezi că imperiul lui Alexandru a rezistat mult; s-a împărțit imediat după moartea lui."
+    ],
+    "answers": [
+     "Macedonia.",
+     "Aristotel.",
+     "Până în India.",
+     "Alexandria.",
+     "Perioada în care cultura greacă s-a amestecat cu cele orientale."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l18": {
+   "ro": {
+    "title": "Frumos și cunoaștere: Acropola, teatrul, știința, Jocurile Olimpice",
+    "theory": "Grecii au lăsat o moștenire bogată. Pe Acropola Atenei se află Partenonul, templul zeiței Atena, construit în vremea lui Pericle, cu sculpturi realizate sub conducerea lui Fidias. Grecii au inventat teatrul (tragedia și comedia), au dezvoltat filozofia (Socrate, Platon, Aristotel), matematica (Pitagora, Euclid), medicina (Hipocrate) și istoria (Herodot). Jocurile Olimpice se organizau la Olimpia, în onoarea lui Zeus, începând din 776 î.Hr.; în timpul lor se oprea orice război.",
+    "sample": "Medicii de azi depun „jurământul lui Hipocrate”.",
+    "worked": "Jurământul păstrează numele unui medic grec și ideea că medicul trebuie să ajute bolnavul. Moștenirea greacă este prezentă și azi.",
+    "exercises": [
+     "Descrie Partenonul.",
+     "Numește trei savanți greci și domeniile lor.",
+     "Compară Jocurile Olimpice antice cu cele moderne.",
+     "Explică diferența dintre tragedie și comedie.",
+     "Găsește trei cuvinte românești de origine greacă."
+    ],
+    "test": [
+     "Cui era închinat Partenonul?",
+     "Ce gen literar au inventat grecii?",
+     "Ce domeniu a dezvoltat Pitagora?",
+     "Unde se organizau Jocurile Olimpice?",
+     "Din ce an se organizau Jocurile Olimpice?"
+    ],
+    "steps": [
+     "Alege domeniul: arhitectură, teatru, știință sau sport.",
+     "Află ce au creat grecii în acel domeniu.",
+     "Caută urmele în lumea de azi.",
+     "Greșeala frecventă: să crezi că la Jocurile Olimpice antice participau toți; doar bărbații greci liberi concurau."
+    ],
+    "answers": [
+     "Zeiței Atena.",
+     "Teatrul: tragedia și comedia.",
+     "Matematica.",
+     "La Olimpia.",
+     "Din 776 î.Hr."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l19": {
+   "ro": {
+    "title": "Fondarea Romei: istorie și legendă",
+    "theory": "Legenda spune că Roma a fost întemeiată în 753 î.Hr. de Romulus, care împreună cu fratele său Remus fusese alăptat de o lupoaică. Arheologii arată că pe colinele Romei existau sate mai vechi, care s-au unit treptat. Roma a fost condusă la început de regi, apoi a devenit republică (509 î.Hr.), condusă de doi consuli aleși anual și de Senat. În 27 î.Hr., Octavian Augustus a devenit primul împărat.",
+    "sample": "Lupoaica cu cei doi gemeni este și azi simbolul Romei.",
+    "worked": "Simbolul arată cât de importantă este legenda pentru identitatea unui oraș, chiar dacă istoria reală a fost diferită.",
+    "exercises": [
+     "Povestește legenda lui Romulus și Remus.",
+     "Ordonează: regalitate, republică, imperiu.",
+     "Explică cum era condusă republica romană.",
+     "Compară legenda cu dovezile arheologice.",
+     "Explică rolul Senatului."
+    ],
+    "test": [
+     "Când a fost fondată Roma, după legendă?",
+     "Cine a fost primul rege al Romei, după legendă?",
+     "Când a devenit Roma republică?",
+     "Cine conducea republica?",
+     "Cine a fost primul împărat?"
+    ],
+    "steps": [
+     "Citește legenda cu atenție, până la capăt.",
+     "Compară cu ce spun arheologii.",
+     "Ordonează formele de conducere ale Romei.",
+     "Greșeala frecventă: să crezi că Roma a fost de la început un imperiu; a fost întâi regat, apoi republică."
+    ],
+    "answers": [
+     "În 753 î.Hr.",
+     "Romulus.",
+     "În 509 î.Hr.",
+     "Doi consuli și Senatul.",
+     "Octavian Augustus."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l20": {
+   "ro": {
+    "title": "Statul roman: expansiune, armată și decădere",
+    "theory": "Roma a cucerit treptat Italia, apoi a învins Cartagina în războaiele punice și a stăpânit toată Marea Mediterană, pe care romanii o numeau „Marea noastră”. Armata romană era bine organizată în legiuni, cu soldați antrenați, disciplină, tabere fortificate (castre) și drumuri pavate. Imperiul a atins cea mai mare întindere în vremea lui Traian (secolul al II-lea). Apoi, crizele interne și atacurile popoarelor migratoare au slăbit statul; Imperiul s-a împărțit în 395, iar Imperiul Roman de Apus a căzut în 476.",
+    "sample": "Drumurile romane erau atât de bine construite încât unele se folosesc și azi.",
+    "worked": "Drumurile permiteau armatei să se deplaseze repede și ajutau comerțul. Ele arată organizarea și tehnica romanilor.",
+    "exercises": [
+     "Urmărește pe hartă extinderea statului roman.",
+     "Descrie organizarea unei legiuni.",
+     "Explică rolul drumurilor romane.",
+     "Enumeră cauzele decăderii Imperiului.",
+     "Ordonează: războaiele punice, Traian, 395, 476."
+    ],
+    "test": [
+     "Ce oraș rival a învins Roma în războaiele punice?",
+     "Cum numeau romanii Marea Mediterană?",
+     "Ce era o legiune?",
+     "Sub ce împărat a atins imperiul cea mai mare întindere?",
+     "Când a căzut Imperiul Roman de Apus?"
+    ],
+    "steps": [
+     "Urmărește cuceririle pe hartă.",
+     "Explică de ce armata romană era puternică.",
+     "Identifică cauzele decăderii.",
+     "Greșeala frecventă: să crezi că tot Imperiul Roman a căzut în 476; Imperiul de Răsărit a continuat ca Imperiul Bizantin."
+    ],
+    "answers": [
+     "Cartagina.",
+     "„Marea noastră”.",
+     "O mare unitate a armatei romane.",
+     "Traian.",
+     "În 476."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l21": {
+   "ro": {
+    "title": "Viața cotidiană la Roma: familie, educație, jocuri",
+    "theory": "Familia romană era condusă de tată (pater familias), care avea mare autoritate. Romanii prețuiau virtuțile: curajul, datoria, respectul pentru zei și patrie. Copiii învățau să citească, să scrie și să socotească; cei bogați continuau cu retorica. Romanii iubeau spectacolele: cursele de care din Circus Maximus și luptele de gladiatori din Colosseum, amfiteatrul inaugurat în anul 80 d.Hr. Gladiatorii erau adesea sclavi sau prizonieri antrenați să lupte.",
+    "sample": "Pe zidurile Pompeiului s-au găsit inscripții care laudă gladiatori celebri.",
+    "worked": "Inscripțiile sunt ca afișele de azi: arată că gladiatorii erau vedete. Izvoarele mărunte ne spun multe despre viața oamenilor obișnuiți.",
+    "exercises": [
+     "Descrie rolul lui pater familias.",
+     "Numește trei virtuți romane.",
+     "Descrie Colosseumul.",
+     "Compară spectacolele romane cu cele de azi.",
+     "Explică cine erau gladiatorii."
+    ],
+    "test": [
+     "Cine conducea familia romană?",
+     "Ce virtuți prețuiau romanii?",
+     "Unde aveau loc cursele de care?",
+     "Ce era Colosseumul?",
+     "Cine erau de obicei gladiatorii?"
+    ],
+    "steps": [
+     "Alege un aspect: familia, școala sau spectacolele.",
+     "Caută izvoare despre el.",
+     "Compară cu viața de azi.",
+     "Greșeala frecventă: să crezi că toți romanii trăiau în lux; majoritatea erau oameni simpli sau sclavi."
+    ],
+    "answers": [
+     "Tatăl, pater familias.",
+     "Curajul, datoria, respectul pentru zei și patrie.",
+     "În Circus Maximus.",
+     "Un amfiteatru pentru lupte de gladiatori.",
+     "Sclavi sau prizonieri."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l22": {
+   "ro": {
+    "title": "Orașul roman: forul, apeductele, termele; Pompei",
+    "theory": "Orașele romane aveau un for (piața centrală, cu temple, tribunal și clădiri publice), apeducte care aduceau apa de la distanță, terme (băi publice), amfiteatre, teatre și străzi pavate. Romanii foloseau betonul și arcul în construcții. Orașul Pompei a fost îngropat de cenușa vulcanului Vezuviu în anul 79 d.Hr.; săpăturile arheologice au scos la iveală case, magazine, picturi și chiar pâine carbonizată.",
+    "sample": "La Pompei s-a găsit o brutărie cu cuptorul și pâinile rămase în el.",
+    "worked": "Erupția a păstrat orașul ca într-o fotografie. Pompei este un izvor extraordinar despre viața de zi cu zi a romanilor.",
+    "exercises": [
+     "Descrie ce se afla într-un for roman.",
+     "Explică cum funcționa un apeduct.",
+     "Explică rolul termelor în viața romanilor.",
+     "Descrie descoperirile de la Pompei.",
+     "Compară un oraș roman cu orașul tău."
+    ],
+    "test": [
+     "Ce era forul?",
+     "La ce foloseau apeductele?",
+     "Ce erau termele?",
+     "Ce vulcan a acoperit Pompeiul?",
+     "În ce an?"
+    ],
+    "steps": [
+     "Identifică clădirile publice și rolul lor.",
+     "Folosește Pompei ca izvor.",
+     "Compară cu orașul de azi.",
+     "Greșeala frecventă: să crezi că apeductele duceau apa doar prin canale suspendate; o mare parte erau subterane."
+    ],
+    "answers": [
+     "Piața centrală a orașului.",
+     "Aduceau apa în oraș.",
+     "Băi publice.",
+     "Vezuviu.",
+     "În 79 d.Hr."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l23": {
+   "ro": {
+    "title": "Credința romanilor: zei, temple și creștinismul",
+    "theory": "Romanii erau politeiști și au preluat mulți zei de la greci, dându-le alte nume: Jupiter (Zeus), Junona (Hera), Minerva (Atena), Neptun (Poseidon). Le construiau temple și le aduceau sacrificii. Creștinismul a apărut în secolul I d.Hr., în Palestina, pornind de la învățătura lui Iisus Hristos, răspândită de apostoli. Creștinii au fost persecutați, dar în 313 împăratul Constantin cel Mare a dat Edictul de la Milano, care permitea libertatea creștinismului.",
+    "sample": "Panteonul din Roma, templu al tuturor zeilor, a devenit mai târziu biserică creștină.",
+    "worked": "Aceeași clădire a slujit două credințe. Transformarea arată trecerea Imperiului de la politeism la creștinism.",
+    "exercises": [
+     "Potrivește zeii romani cu cei greci.",
+     "Explică de ce creștinii au fost persecutați.",
+     "Explică importanța Edictului de la Milano.",
+     "Descrie Panteonul din Roma.",
+     "Compară politeismul cu monoteismul creștin."
+    ],
+    "test": [
+     "Ce nume avea la romani Zeus?",
+     "Unde a apărut creștinismul?",
+     "Cine a răspândit învățătura lui Hristos?",
+     "Ce împărat a dat Edictul de la Milano?",
+     "În ce an?"
+    ],
+    "steps": [
+     "Identifică zeii și practicile religioase.",
+     "Urmărește apariția și răspândirea creștinismului.",
+     "Explică schimbarea din 313.",
+     "Greșeala frecventă: să crezi că Edictul de la Milano a interzis celelalte religii; a acordat libertate creștinilor."
+    ],
+    "answers": [
+     "Jupiter.",
+     "În Palestina.",
+     "Apostolii.",
+     "Constantin cel Mare.",
+     "În 313."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l24": {
+   "ro": {
+    "title": "Romanizarea",
+    "theory": "Romanizarea este procesul prin care popoarele cucerite au preluat limba latină, obiceiurile, credințele și modul de viață roman. Ea s-a realizat prin colonizare, armată, administrație, orașe, drumuri și comerț. În Dacia, după 106, au venit coloniști din tot imperiul; s-au construit orașe (Ulpia Traiana Sarmizegetusa, Apulum, Napoca, Porolissum) și drumuri. Chiar după retragerea administrației și armatei romane (271–275, în vremea împăratului Aurelian), populația romanizată a rămas.",
+    "sample": "Inscripțiile latinești găsite la Apulum (Alba Iulia) arată nume de daci și de coloniști.",
+    "worked": "Inscripțiile sunt dovezi că limba latină se folosea în Dacia și că dacii și coloniștii trăiau împreună. Așa a început formarea poporului român.",
+    "exercises": [
+     "Explică ce este romanizarea.",
+     "Enumeră factorii romanizării.",
+     "Arată pe hartă orașele romane din Dacia.",
+     "Explică ce s-a întâmplat după retragerea aureliană.",
+     "Găsește cuvinte românești de origine latină."
+    ],
+    "test": [
+     "Ce este romanizarea?",
+     "Prin ce s-a realizat?",
+     "Numește un oraș roman din Dacia.",
+     "Ce împărat a retras administrația din Dacia?",
+     "A plecat toată populația după retragere?"
+    ],
+    "steps": [
+     "Identifică factorii romanizării.",
+     "Caută dovezi: inscripții, orașe, limbă.",
+     "Explică urmările pentru formarea poporului român.",
+     "Greșeala frecventă: să crezi că romanizarea a fost doar impunerea limbii; a fost un proces de amestec cultural, de lungă durată."
+    ],
+    "answers": [
+     "Preluarea limbii și a modului de viață roman.",
+     "Prin colonizare, armată, administrație și orașe.",
+     "Apulum sau Napoca.",
+     "Aurelian.",
+     "Nu, populația romanizată a rămas."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l25": {
+   "ro": {
+    "title": "Geții și dacii: rânduieli, obiceiuri, credințe",
+    "theory": "Geto-dacii făceau parte din neamul tracilor. Locuiau în așezări întărite (dave), se ocupau cu agricultura, creșterea animalelor, meșteșugurile (prelucrarea fierului, ceramica) și comerțul. Societatea avea nobili (tarabostes, numiți și pileați, pentru că purtau căciulă) și oameni de rând (comați, cu capul descoperit). Credeau în zeul Zalmoxis și în nemurirea sufletului. Centrul religios era la Sarmizegetusa Regia, unde se află sanctuare și un calendar de piatră.",
+    "sample": "Sanctuarul mare rotund de la Sarmizegetusa Regia este interpretat de unii cercetători ca un calendar.",
+    "worked": "Construcțiile sacre arată că dacii aveau cunoștințe de astronomie și o religie organizată. Interpretarea exactă rămâne discutată de specialiști.",
+    "exercises": [
+     "Explică diferența dintre tarabostes și comați.",
+     "Descrie o davă.",
+     "Explică credința în Zalmoxis.",
+     "Descrie Sarmizegetusa Regia.",
+     "Enumeră ocupațiile geto-dacilor."
+    ],
+    "test": [
+     "Din ce neam făceau parte geto-dacii?",
+     "Ce era o davă?",
+     "Cine erau tarabostes?",
+     "În ce zeu credeau dacii?",
+     "Unde era centrul lor religios?"
+    ],
+    "steps": [
+     "Identifică ocupațiile și așezările.",
+     "Descrie categoriile sociale.",
+     "Explică credințele și locurile sacre.",
+     "Greșeala frecventă: să crezi că dacii erau un popor fără cultură; aveau așezări, meșteșuguri, religie și relații comerciale."
+    ],
+    "answers": [
+     "Al tracilor.",
+     "O așezare întărită.",
+     "Nobilii, numiți și pileați.",
+     "Zalmoxis.",
+     "La Sarmizegetusa Regia."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l26": {
+   "ro": {
+    "title": "Burebista și Decebal; războaiele daco-romane",
+    "theory": "Burebista (82–44 î.Hr.) a unit triburile geto-dacilor într-un regat puternic, ajutat de marele preot Deceneu, și a cucerit cetățile grecești de la Marea Neagră. Decebal (87–106 d.Hr.) a învins armatele împăratului Domițian și a încheiat cu Roma o pace avantajoasă (89). Împăratul Traian a purtat două războaie împotriva lui (101–102 și 105–106). În 106, Sarmizegetusa a fost cucerită, Decebal s-a sinucis ca să nu fie prins, iar o parte a Daciei a devenit provincie romană.",
+    "sample": "Pe Columna lui Traian, Decebal este înfățișat sinucigându-se înaintea soldaților romani.",
+    "worked": "Columna a fost făcută de romani, învingătorii, dar arată respect pentru curajul regelui dac. Izvorul trebuie citit știind cine l-a făcut.",
+    "exercises": [
+     "Ordonează: Burebista, pacea din 89, primul război, al doilea război.",
+     "Explică rolul lui Deceneu.",
+     "Compară pe Burebista cu Decebal.",
+     "Explică urmările anului 106.",
+     "Descrie o scenă de pe Columna lui Traian."
+    ],
+    "test": [
+     "Ce a realizat Burebista?",
+     "Cine era Deceneu?",
+     "Ce împărat a învins Decebal?",
+     "Când au avut loc războaiele cu Traian?",
+     "Ce a devenit Dacia după 106?"
+    ],
+    "steps": [
+     "Identifică regii și realizările lor.",
+     "Ordonează războaiele pe axa timpului.",
+     "Explică urmările cuceririi.",
+     "Greșeala frecventă: să confunzi pe Burebista, unificatorul, cu Decebal, regele din războaiele cu Traian."
+    ],
+    "answers": [
+     "A unit triburile geto-dacilor într-un regat puternic.",
+     "Marele preot.",
+     "Domițian.",
+     "În 101–102 și 105–106.",
+     "O parte a ei a devenit provincie romană."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l27": {
+   "ro": {
+    "title": "Apariția și expansiunea Islamului",
+    "theory": "Islamul a apărut în Arabia, în secolul al VII-lea, prin predica profetului Mahomed. În 622, Mahomed a plecat de la Mecca la Medina (Hegira), an de la care musulmanii își numără calendarul. Credincioșii (musulmanii) cred într-un singur Dumnezeu (Allah), iar cartea sfântă este Coranul. Cei cinci stâlpi ai credinței sunt: mărturisirea credinței, rugăciunea, postul (Ramadanul), milostenia și pelerinajul la Mecca. Arabii au cucerit un imperiu întins din Spania până în India și au transmis Europei cunoștințe de matematică (cifrele „arabe”), medicină și astronomie.",
+    "sample": "Cifrele pe care le folosim (1, 2, 3…) au ajuns în Europa prin intermediul arabilor.",
+    "worked": "Cifrele au fost create în India și răspândite de arabi. Islamul a fost și o punte de cunoaștere între Orient și Europa.",
+    "exercises": [
+     "Explică ce este Hegira.",
+     "Enumeră cei cinci stâlpi ai Islamului.",
+     "Urmărește pe hartă expansiunea arabă.",
+     "Explică contribuția arabilor la știință.",
+     "Compară Islamul cu creștinismul: ce au în comun."
+    ],
+    "test": [
+     "Unde a apărut Islamul?",
+     "Cine a fost Mahomed?",
+     "Ce s-a întâmplat în 622?",
+     "Cum se numește cartea sfântă a musulmanilor?",
+     "Ce cunoștințe au transmis arabii Europei?"
+    ],
+    "steps": [
+     "Află unde și când a apărut religia.",
+     "Identifică credințele și practicile ei.",
+     "Urmărește expansiunea și influențele culturale.",
+     "Greșeala frecventă: să crezi că expansiunea Islamului a fost doar militară; a fost și culturală și comercială."
+    ],
+    "answers": [
+     "În Arabia.",
+     "Profetul Islamului.",
+     "Hegira, plecarea lui Mahomed de la Mecca la Medina.",
+     "Coranul.",
+     "Matematică, medicină, astronomie."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l28": {
+   "ro": {
+    "title": "Formarea popoarelor europene; francii și Carol cel Mare",
+    "theory": "După căderea Imperiului Roman de Apus, în Europa s-au așezat popoare migratoare (germanice, slave și altele). Din amestecul lor cu populațiile locale s-au format popoarele europene de azi. Francii au creat un regat puternic în Galia; regele lor Clovis s-a creștinat în jurul anului 500. Carol cel Mare a unit o mare parte a Europei de Vest și a fost încoronat împărat de papă în anul 800. El a sprijinit școlile și cultura.",
+    "sample": "Carol cel Mare a cerut fiecărei mănăstiri să aibă o școală.",
+    "worked": "Măsura arată că împăratul înțelegea importanța educației. Mănăstirile au păstrat și copiat cărțile vechi.",
+    "exercises": [
+     "Explică cum s-au format popoarele europene.",
+     "Explică importanța creștinării lui Clovis.",
+     "Urmărește pe hartă imperiul lui Carol cel Mare.",
+     "Explică rolul mănăstirilor în cultură.",
+     "Ordonează: 476, creștinarea lui Clovis, 800."
+    ],
+    "test": [
+     "Ce popoare s-au așezat în Europa după 476?",
+     "Unde au creat francii un regat?",
+     "Cine a fost Clovis?",
+     "Când a fost încoronat Carol cel Mare împărat?",
+     "Ce a sprijinit Carol cel Mare?"
+    ],
+    "steps": [
+     "Identifică popoarele și regiunile.",
+     "Află rolul conducătorilor.",
+     "Explică urmările pentru Europa de azi.",
+     "Greșeala frecventă: să crezi că popoarele europene existau gata formate în Antichitate; ele s-au format în Evul Mediu timpuriu."
+    ],
+    "answers": [
+     "Popoare germanice, slave și altele.",
+     "În Galia.",
+     "Regele francilor care s-a creștinat.",
+     "În anul 800.",
+     "Școlile și cultura."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l29": {
+   "ro": {
+    "title": "Imperiul Bizantin",
+    "theory": "Imperiul Roman de Răsărit, numit Imperiul Bizantin, a supraviețuit încă o mie de ani după căderea Romei. Capitala era Constantinopol (azi Istanbul). Limba oficială a devenit greaca, iar religia creștină ortodoxă. Împăratul Iustinian (secolul al VI-lea) a strâns legile romane într-un cod și a construit Biserica Sfânta Sofia. În 1054, creștinismul s-a împărțit în Biserica Ortodoxă și cea Catolică (Marea Schismă). Constantinopolul a fost cucerit de turci în 1453.",
+    "sample": "Biserica Sfânta Sofia are o cupolă uriașă care pare că plutește deasupra luminii ferestrelor.",
+    "worked": "Construcția arată tehnica și bogăția Bizanțului. Ea a devenit model pentru multe biserici ortodoxe, inclusiv în Țările Române.",
+    "exercises": [
+     "Explică de ce Bizanțul a supraviețuit căderii Romei.",
+     "Descrie Biserica Sfânta Sofia.",
+     "Explică ce a fost Marea Schismă.",
+     "Explică importanța codului lui Iustinian.",
+     "Ordonează: Iustinian, 1054, 1453."
+    ],
+    "test": [
+     "Care era capitala Imperiului Bizantin?",
+     "Ce limbă se vorbea?",
+     "Ce biserică a construit Iustinian?",
+     "Ce s-a întâmplat în 1054?",
+     "Când a fost cucerit Constantinopolul?"
+    ],
+    "steps": [
+     "Localizează imperiul și capitala.",
+     "Identifică realizările lui.",
+     "Explică influența asupra Europei de Est.",
+     "Greșeala frecventă: să crezi că Imperiul Bizantin a căzut odată cu Roma; a durat până în 1453."
+    ],
+    "answers": [
+     "Constantinopol.",
+     "Greaca.",
+     "Sfânta Sofia.",
+     "Marea Schismă, separarea Bisericii Ortodoxe de cea Catolică.",
+     "În 1453."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l30": {
+   "ro": {
+    "title": "Românii în mileniul I",
+    "theory": "Poporul român s-a format în mileniul I, din populația daco-romană, la nordul și la sudul Dunării. Românii au fost creștinați treptat, în limba latină, încă din perioada romană; de aceea cuvintele creștine de bază sunt latinești (biserică, cruce, Dumnezeu). Popoarele migratoare au trecut prin teritoriu, iar slavii au influențat limba. Străinii îi numeau pe români „vlahi”. Primele formațiuni politice românești au fost conduse de cnezi și voievozi.",
+    "sample": "Cuvântul „biserică” vine din latinescul basilica.",
+    "worked": "Vocabularul creștin latin arată că românii s-au creștinat înainte de influența slavă, în perioada romană sau imediat după.",
+    "exercises": [
+     "Explică cum s-a format poporul român.",
+     "Găsește trei cuvinte creștine de origine latină.",
+     "Explică ce înseamnă numele „vlahi”.",
+     "Explică cine erau cnezii și voievozii.",
+     "Ordonează: romanizarea, formarea poporului român, primele formațiuni politice."
+    ],
+    "test": [
+     "Din ce populație s-a format poporul român?",
+     "În ce limbă au fost creștinați românii?",
+     "Ce origine are cuvântul biserică?",
+     "Cum îi numeau străinii pe români?",
+     "Cine conducea primele formațiuni politice?"
+    ],
+    "steps": [
+     "Află din ce populație s-a format poporul.",
+     "Folosește limba ca dovadă.",
+     "Leagă formarea poporului de formațiunile politice.",
+     "Greșeala frecventă: să crezi că românii au fost creștinați de slavi; vocabularul de bază arată creștinarea în latină."
+    ],
+    "answers": [
+     "Din populația daco-romană.",
+     "În latină.",
+     "Din latinescul basilica.",
+     "Vlahi.",
+     "Cnezii și voievozii."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l31": {
+   "ro": {
+    "title": "Viața cotidiană în Evul Mediu: domeniul feudal și cavalerii",
+    "theory": "Societatea medievală era împărțită în cei care se roagă (clerul), cei care luptă (nobilii, cavalerii) și cei care muncesc (țăranii). Pământul era organizat în domenii feudale: seniorul avea castelul și pământul, iar țăranii dependenți (șerbii) munceau pentru el și îi dădeau o parte din recoltă. Seniorul primea pământ (feudă) de la un senior mai mare, căruia îi jura credință (vasalitate). Cavalerii respectau un cod de onoare: curaj, credință, apărarea celor slabi.",
+    "sample": "Un tânăr devenea cavaler printr-o ceremonie în care primea sabia și jura credință.",
+    "worked": "Ceremonia arată valorile cavalerismului și legătura de credință dintre senior și vasal.",
+    "exercises": [
+     "Explică cele trei categorii ale societății medievale.",
+     "Descrie un domeniu feudal.",
+     "Explică relația senior – vasal.",
+     "Enumeră valorile cavalerești.",
+     "Compară viața unui țăran cu a unui cavaler."
+    ],
+    "test": [
+     "Ce categorii avea societatea medievală?",
+     "Ce era un domeniu feudal?",
+     "Cine erau șerbii?",
+     "Ce era vasalitatea?",
+     "Ce valori avea un cavaler?"
+    ],
+    "steps": [
+     "Identifică categoriile sociale.",
+     "Explică relațiile de dependență.",
+     "Descrie viața de zi cu zi a fiecărei categorii.",
+     "Greșeala frecventă: să crezi că toți oamenii medievali trăiau în castele; majoritatea erau țărani în sate."
+    ],
+    "answers": [
+     "Clerul, nobilii și țăranii.",
+     "Pământul unui senior, cu castel și sate.",
+     "Țăranii dependenți de senior.",
+     "Legătura de credință dintre un senior și vasalul lui.",
+     "Curaj, credință, apărarea celor slabi."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l32": {
+   "ro": {
+    "title": "Orașul medieval; catedrale și universități",
+    "theory": "Orașele medievale au crescut datorită comerțului și meșteșugurilor. Erau înconjurate de ziduri, aveau piață, primărie, catedrală. Meșteșugarii se organizau în bresle, iar negustorii în ghilde. Orașele obțineau privilegii și autonomie, de aceea erau considerate „spații ale libertății”. Orașele italiene (Veneția, Genova, Florența) și cele germane (Liga Hanseatică) erau mari centre comerciale. Catedralele gotice (Notre-Dame din Paris) aveau ferestre mari cu vitralii, iar primele universități au apărut la Bologna, Paris și Oxford.",
+    "sample": "Un dicton medieval spunea: „Aerul orașului te face liber”.",
+    "worked": "Un șerb care trăia un timp în oraș putea deveni liber. Dictonul arată de ce orașele atrăgeau oameni.",
+    "exercises": [
+     "Descrie un oraș medieval.",
+     "Explică rolul breslelor.",
+     "Explică de ce orașul era „spațiu al libertății”.",
+     "Compară stilul romanic cu stilul gotic.",
+     "Numește trei universități medievale."
+    ],
+    "test": [
+     "Datorită căror activități au crescut orașele?",
+     "Ce era o breaslă?",
+     "Numește un oraș comercial italian.",
+     "Ce stil arhitectural au catedralele cu vitralii?",
+     "Unde au apărut primele universități?"
+    ],
+    "steps": [
+     "Identifică activitățile economice ale orașului.",
+     "Explică organizarea și privilegiile lui.",
+     "Descrie construcțiile importante.",
+     "Greșeala frecventă: să crezi că universitățile au existat dintotdeauna; ele au apărut în Evul Mediu."
+    ],
+    "answers": [
+     "Comerțului și meșteșugurilor.",
+     "O asociație de meșteșugari.",
+     "Veneția sau Genova.",
+     "Stilul gotic.",
+     "La Bologna, Paris și Oxford."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l33": {
+   "ro": {
+    "title": "Cruciadele",
+    "theory": "Cruciadele au fost expediții militare ale creștinilor din Europa de Vest, chemați de papă, pentru cucerirea Ierusalimului și a Țării Sfinte de la musulmani. Prima cruciadă (1096–1099) a cucerit Ierusalimul. Au urmat alte cruciade, cele mai multe fără succes; a patra cruciadă (1204) a jefuit chiar Constantinopolul creștin. Cruciadele au adus violență și suferință, dar și contacte comerciale și culturale între Europa și Orient.",
+    "sample": "Cruciații purtau o cruce cusută pe haine, de unde și numele de cruciați.",
+    "worked": "Simbolul arată motivația religioasă a expedițiilor. Istoricii arată însă că au contat și dorința de pământ, de bogăție și de aventură.",
+    "exercises": [
+     "Explică scopul cruciadelor.",
+     "Ordonează: prima cruciadă, cucerirea Ierusalimului, a patra cruciadă.",
+     "Explică de ce a patra cruciadă este controversată.",
+     "Enumeră urmările cruciadelor.",
+     "Analizează cruciadele din perspectiva musulmanilor."
+    ],
+    "test": [
+     "Ce erau cruciadele?",
+     "Cine chema la cruciadă?",
+     "Ce oraș a cucerit prima cruciadă?",
+     "Ce oraș creștin a jefuit a patra cruciadă?",
+     "Ce urmări pozitive au avut contactele?"
+    ],
+    "steps": [
+     "Află cine a organizat cruciadele și de ce.",
+     "Ordonează principalele expediții.",
+     "Analizează urmările din mai multe perspective.",
+     "Greșeala frecventă: să consideri cruciadele doar religioase; au contat și motive economice și politice."
+    ],
+    "answers": [
+     "Expediții militare pentru cucerirea Țării Sfinte.",
+     "Papa.",
+     "Ierusalimul.",
+     "Constantinopolul.",
+     "Comerțul și schimburile culturale."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l34": {
+   "ro": {
+    "title": "Statele medievale: Franța, Anglia, Imperiul Romano-German",
+    "theory": "În Evul Mediu s-au format statele Europei. În Franța, regii au întărit treptat puterea centrală. În Anglia, după cucerirea normandă (1066), nobilii l-au obligat pe regele Ioan fără Țară să semneze Magna Charta (1215), care limita puterea regelui; mai târziu a apărut Parlamentul. Imperiul Romano-German a fost întemeiat în 962, când Otto I a fost încoronat împărat; era format din multe state mici.",
+    "sample": "Magna Charta spunea că niciun om liber nu poate fi pedepsit fără judecată.",
+    "worked": "Documentul a limitat puterea regelui și a devenit un simbol al drepturilor și libertăților. Este o rădăcină a statului de drept.",
+    "exercises": [
+     "Explică importanța Magna Charta.",
+     "Ordonează: 962, 1066, 1215.",
+     "Compară puterea regelui în Franța și în Anglia.",
+     "Explică de ce Imperiul Romano-German era fragmentat.",
+     "Explică rolul Parlamentului englez."
+    ],
+    "test": [
+     "Când a avut loc cucerirea normandă a Angliei?",
+     "Ce document a semnat Ioan fără Țară?",
+     "În ce an?",
+     "Cine a fost încoronat împărat în 962?",
+     "Ce instituție a limitat puterea regelui englez?"
+    ],
+    "steps": [
+     "Identifică statul și conducătorii.",
+     "Află cum s-a organizat puterea.",
+     "Explică ce a rămas pentru epoca de azi.",
+     "Greșeala frecventă: să crezi că Magna Charta a dat drepturi tuturor oamenilor; la început i-a avantajat mai ales pe nobili."
+    ],
+    "answers": [
+     "În 1066.",
+     "Magna Charta.",
+     "În 1215.",
+     "Otto I.",
+     "Parlamentul."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l35": {
+   "ro": {
+    "title": "Lumea românească în secolele XIV–XV: Târgoviște, Suceava, Brașov, Cluj",
+    "theory": "În secolul al XIV-lea s-au întemeiat statele medievale românești: Țara Românească (Basarab I, Posada 1330) și Moldova (Bogdan I, în jurul anului 1359). Transilvania era un voievodat în cadrul Regatului Ungariei. Târgoviște a devenit capitala Țării Românești, iar Suceava capitala Moldovei. Orașele transilvănene Brașov și Cluj erau locuite de sași, maghiari și români, cu bresle, comerț și biserici ale mai multor confesiuni; regele Matia Corvin s-a născut la Cluj (1443).",
+    "sample": "Biserica Neagră din Brașov, construită de sași, are acest nume de la incendiul din 1689 care i-a înnegrit zidurile.",
+    "worked": "Numele unei clădiri poate păstra amintirea unui eveniment. Biserica arată și prezența comunității săsești în Brașov.",
+    "exercises": [
+     "Ordonează întemeierea Țării Românești și a Moldovei.",
+     "Arată pe hartă Târgoviște, Suceava, Brașov și Cluj.",
+     "Explică diversitatea culturală din Brașov și Cluj.",
+     "Descrie Curtea Domnească de la Târgoviște.",
+     "Explică statutul Transilvaniei în Evul Mediu."
+    ],
+    "test": [
+     "Cine a câștigat bătălia de la Posada?",
+     "Cine a întemeiat Moldova independentă?",
+     "Care era capitala Moldovei?",
+     "Ce comunități trăiau la Brașov?",
+     "Ce rege s-a născut la Cluj?"
+    ],
+    "steps": [
+     "Localizează statele și orașele.",
+     "Află cine le-a întemeiat sau condus.",
+     "Descrie viața și comunitățile din orașe.",
+     "Greșeala frecventă: să crezi că Transilvania era un stat independent ca Moldova; era voievodat în Regatul Ungariei."
+    ],
+    "answers": [
+     "Basarab I.",
+     "Bogdan I.",
+     "Suceava.",
+     "Sași, maghiari și români.",
+     "Matia Corvin."
+    ]
+   }
+  }
+ }
+}

@@ -1,0 +1,1254 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "RO",
+ "stage": "beginner",
+ "grade": "4",
+ "version": "355a2511db27f71c95ab66a9fa21f2cd02712d421862390411d1128868053af2",
+ "source": "https://programe.ise.ro/",
+ "sourceTitle": "Ministerul Educației — Programa școlară Limba și literatura română, clasele a III-a și a IV-a (OMEN 5003/2014): receptarea de mesaje orale și scrise, exprimarea orală, redactarea de mesaje, elemente de construcție a comunicării; clasa a IV-a în ordinea obișnuită a manualelor aprobate (recapitulare, succesiunea întâmplărilor, descrierea literară, comparația și personificarea, portretul personajului, legenda, fabula, poezia, articolul de revistă, textul cu imagini și tabele, exprimarea opiniei, pronumele de politețe, genul și numărul substantivului, acordul adjectivului, pronumele personal, numeralul cardinal și ordinal, persoana, numărul și timpul verbului, predicatul, subiectul, acordul predicatului cu subiectul, părțile secundare, cuvintele înrudite, ortograme, despărțirea în silabe, scrisoarea, mesajul electronic, jurnalul, rezumatul, compunerea); lecții originale, fără text copiat din manuale",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "ro",
+ "labels": [
+  "Activitate originală · România · clasa a IV-a",
+  "Învățăm",
+  "Exemplu original",
+  "Explicație",
+  "Exerciții",
+  "Verifică-te",
+  "Exerciții originale, nu o evaluare oficială și nici text din manual.",
+  "Dacă nu ai înțeles: pe înțelesul tău, pas cu pas",
+  "Răspunsuri (verifică după ce termini)"
+ ],
+ "units": [
+  {
+   "title": "Recapitulare: clasa a III-a",
+   "keys": [
+    "eu-year-ro-beginner-4-l01",
+    "eu-year-ro-beginner-4-l02"
+   ]
+  },
+  {
+   "title": "Textul literar",
+   "keys": [
+    "eu-year-ro-beginner-4-l03",
+    "eu-year-ro-beginner-4-l04",
+    "eu-year-ro-beginner-4-l05",
+    "eu-year-ro-beginner-4-l06",
+    "eu-year-ro-beginner-4-l07",
+    "eu-year-ro-beginner-4-l08"
+   ]
+  },
+  {
+   "title": "Poezie și texte informative",
+   "keys": [
+    "eu-year-ro-beginner-4-l09",
+    "eu-year-ro-beginner-4-l10",
+    "eu-year-ro-beginner-4-l11"
+   ]
+  },
+  {
+   "title": "Comunicare orală",
+   "keys": [
+    "eu-year-ro-beginner-4-l12",
+    "eu-year-ro-beginner-4-l13"
+   ]
+  },
+  {
+   "title": "Părțile de vorbire",
+   "keys": [
+    "eu-year-ro-beginner-4-l14",
+    "eu-year-ro-beginner-4-l15",
+    "eu-year-ro-beginner-4-l16",
+    "eu-year-ro-beginner-4-l17",
+    "eu-year-ro-beginner-4-l18",
+    "eu-year-ro-beginner-4-l19",
+    "eu-year-ro-beginner-4-l20"
+   ]
+  },
+  {
+   "title": "Părțile de propoziție",
+   "keys": [
+    "eu-year-ro-beginner-4-l21",
+    "eu-year-ro-beginner-4-l22",
+    "eu-year-ro-beginner-4-l23",
+    "eu-year-ro-beginner-4-l24"
+   ]
+  },
+  {
+   "title": "Vocabular și ortografie",
+   "keys": [
+    "eu-year-ro-beginner-4-l25",
+    "eu-year-ro-beginner-4-l26",
+    "eu-year-ro-beginner-4-l27"
+   ]
+  },
+  {
+   "title": "Redactare",
+   "keys": [
+    "eu-year-ro-beginner-4-l28",
+    "eu-year-ro-beginner-4-l29",
+    "eu-year-ro-beginner-4-l30",
+    "eu-year-ro-beginner-4-l31",
+    "eu-year-ro-beginner-4-l32",
+    "eu-year-ro-beginner-4-l33"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-ro-beginner-4-l01": {
+   "ro": {
+    "title": "Recapitulare: textul narativ și planul de idei",
+    "theory": "Ne amintim: textul narativ povestește o întâmplare petrecută într-un timp și un loc, cu personaje. Îl împărțim în fragmente și formulăm pentru fiecare ideea principală; lista ideilor este planul simplu de idei, după care putem povesti textul cu cuvintele noastre.",
+    "sample": "Într-o după-amiază de mai, Bogdan a găsit în pod o cutie veche. Înăuntru erau scrisori îngălbenite ale străbunicului. Seara, toată familia le-a citit împreună, emoționată.",
+    "worked": "Timpul: o după-amiază de mai, apoi seara. Locul: podul, apoi casa. Personaje: Bogdan și familia. Plan: 1. Bogdan găsește o cutie veche. 2. Descoperă scrisorile străbunicului. 3. Familia le citește împreună. Fiecare idee rezumă un fragment.",
+    "exercises": [
+     "Scrie planul de idei al unui text din manual.",
+     "Găsește timpul și locul din exemplu.",
+     "Povestește exemplul în trei propoziții.",
+     "Formulează altfel a doua idee din plan.",
+     "Scrie o întâmplare de trei paragrafe despre o descoperire."
+    ],
+    "test": [
+     "Ce povestește textul narativ?",
+     "Ce a găsit Bogdan în cutie?",
+     "Ce este planul simplu de idei?",
+     "Cum s-a simțit familia?",
+     "Unde a găsit Bogdan cutia?"
+    ],
+    "steps": [
+     "Citește textul și împarte-l în fragmente.",
+     "Pentru fiecare fragment întreabă-te: ce este cel mai important?",
+     "Scrie ideile scurt, în ordinea din text.",
+     "Greșeala frecventă: să scrii în plan detalii neimportante în locul ideii principale."
+    ],
+    "answers": [
+     "O întâmplare.",
+     "Scrisori vechi ale străbunicului.",
+     "Lista ideilor principale, în ordine.",
+     "Emoționată.",
+     "În pod."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l02": {
+   "ro": {
+    "title": "Recapitulare: substantiv, adjectiv, verb, pronume",
+    "theory": "Substantivul denumește ființe, lucruri, fenomene și noțiuni (cine? ce?). Adjectivul arată însușirile substantivului (ce fel de? cum este?). Verbul arată acțiunea, starea sau existența (ce face?). Pronumele personal ține locul unui substantiv (eu, tu, el, ea, noi, voi, ei, ele).",
+    "sample": "Bunica harnică frământă aluatul. Ea face cozonaci pufoși pentru sărbători.",
+    "worked": "Substantive: bunica, aluatul, cozonaci, sărbători. Adjective: harnică, pufoși. Verbe: frământă, face. Pronume: ea, care ține locul cuvântului bunica. Am găsit fiecare parte de vorbire punând întrebarea potrivită.",
+    "exercises": [
+     "Găsește substantivele din exemplu.",
+     "Găsește adjectivele din exemplu.",
+     "Scrie o propoziție cu un pronume personal.",
+     "Scrie trei verbe care arată ce faci acasă.",
+     "Înlocuiește substantivul cu un pronume: Copiii se joacă."
+    ],
+    "test": [
+     "Ce întrebare punem pentru substantiv?",
+     "Ce parte de vorbire este pufoși?",
+     "Ce cuvânt înlocuiește ea în exemplu?",
+     "Ce arată verbul?",
+     "Ce parte de vorbire este frământă?"
+    ],
+    "steps": [
+     "Citește propoziția cuvânt cu cuvânt.",
+     "Pune întrebările: cine? ce? (substantiv), ce fel de? (adjectiv), ce face? (verb).",
+     "Pentru pronume, verifică ce substantiv înlocuiește.",
+     "Greșeala frecventă: să crezi că adjectivul arată o acțiune. Harnică arată cum este bunica, nu ce face."
+    ],
+    "answers": [
+     "Cine? sau ce?",
+     "Adjectiv.",
+     "Bunica.",
+     "Acțiunea, starea sau existența.",
+     "Verb."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l03": {
+   "ro": {
+    "title": "Succesiunea întâmplărilor și cuvintele care o arată",
+    "theory": "Într-o povestire, întâmplările se petrec una după alta. Autorul ne arată ordinea prin cuvinte și expresii: mai întâi, apoi, după aceea, între timp, deodată, în cele din urmă. Ele ne ajută să înțelegem ce s-a întâmplat înainte și ce după.",
+    "sample": "Mai întâi, echipa a pierdut două meciuri. Apoi, antrenorul i-a încurajat. Deodată, în finală, Sara a marcat un gol. În cele din urmă, echipa a câștigat cupa.",
+    "worked": "Cuvintele mai întâi, apoi, deodată, în cele din urmă arată ordinea. Deodată ne spune că s-a întâmplat ceva neașteptat. Fără ele, textul ar fi greu de urmărit.",
+    "exercises": [
+     "Găsește cuvintele care arată ordinea în exemplu.",
+     "Așază în ordine: În cele din urmă au ajuns. / Mai întâi au pornit. / Apoi s-au rătăcit.",
+     "Scrie o întâmplare de patru propoziții folosind patru astfel de cuvinte.",
+     "Înlocuiește apoi cu o altă expresie.",
+     "Povestește-ți dimineața folosind mai întâi și apoi."
+    ],
+    "test": [
+     "La ce folosesc cuvintele mai întâi, apoi?",
+     "Ce arată cuvântul deodată?",
+     "Ce s-a întâmplat în finală?",
+     "Ce cuvânt arată sfârșitul?",
+     "Cine a marcat golul?"
+    ],
+    "steps": [
+     "Citește textul și subliniază cuvintele care arată timpul.",
+     "Numerotează întâmplările în ordinea lor.",
+     "Verifică: povestirea are sens în această ordine?",
+     "Greșeala frecventă: să repeți doar și apoi, și apoi. Folosește expresii variate."
+    ],
+    "answers": [
+     "Arată ordinea întâmplărilor.",
+     "Ceva neașteptat.",
+     "Sara a marcat un gol.",
+     "În cele din urmă.",
+     "Sara."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l04": {
+   "ro": {
+    "title": "Descrierea literară: tabloul din natură",
+    "theory": "Unele texte nu povestesc o întâmplare, ci zugrăvesc un tablou: un peisaj, un anotimp. Autorul folosește adjective, imagini vizuale (ce vedem), auditive (ce auzim) și olfactive (ce mirosim), ca să ne simțim acolo. Spunem că textul descrie.",
+    "sample": "Dimineața, lunca se trezește sub o pânză de ceață. Salcii argintii își apleacă ramurile peste apă. Se aude cântecul unei mierle, iar aerul miroase a iarbă udă.",
+    "worked": "Imagini vizuale: ceața, salciile argintii. Imagine auditivă: cântecul mierlei. Imagine olfactivă: miros de iarbă udă. Adjectivele argintii, udă colorează tabloul. Nu există o întâmplare, ci un peisaj.",
+    "exercises": [
+     "Găsește o imagine vizuală în exemplu.",
+     "Găsește imaginea auditivă din exemplu.",
+     "Descrie un parc toamna, cu o imagine pentru fiecare simț.",
+     "Găsește adjectivele din exemplu.",
+     "Desenează tabloul descris."
+    ],
+    "test": [
+     "Ce face un text descriptiv?",
+     "Ce este o imagine auditivă?",
+     "Ce arbori apar în exemplu?",
+     "A ce miroase aerul?",
+     "Există o întâmplare în exemplu?"
+    ],
+    "steps": [
+     "Citește textul și închide ochii: ce vezi, ce auzi, ce miroși?",
+     "Notează imaginile pentru fiecare simț.",
+     "Găsește adjectivele care fac tabloul viu.",
+     "Greșeala frecventă: să cauți neapărat o întâmplare. Textul descriptiv prezintă un tablou."
+    ],
+    "answers": [
+     "Zugrăvește un tablou.",
+     "Ceva ce auzim.",
+     "Salcii.",
+     "A iarbă udă.",
+     "Nu."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l05": {
+   "ro": {
+    "title": "Comparația și personificarea",
+    "theory": "Comparația apropie două lucruri care seamănă, cu ajutorul unor cuvinte ca: ca, precum, asemenea: zăpada albă ca laptele. Personificarea dă unui lucru sau unui animal însușiri omenești: vântul cântă, pădurea doarme. Ele fac textul mai expresiv.",
+    "sample": "Luna, ca un bănuț de argint, privea curioasă prin fereastră. Vântul șoptea povești copacilor.",
+    "worked": "Luna este comparată cu un bănuț de argint, cu ajutorul lui ca: comparație. Luna privea curioasă și vântul șoptea povești sunt personificări: acțiuni omenești date lunii și vântului.",
+    "exercises": [
+     "Găsește comparația din exemplu.",
+     "Găsește două personificări din exemplu.",
+     "Completează comparația: Ochii ei străluceau ca ...",
+     "Scrie o personificare despre ploaie.",
+     "Scrie o propoziție cu comparație despre soare."
+    ],
+    "test": [
+     "Ce este comparația?",
+     "Ce cuvinte ne ajută să facem comparații?",
+     "Ce este personificarea?",
+     "Ce fel de figură este: florile râd?",
+     "Cu ce este comparată luna?"
+    ],
+    "steps": [
+     "Caută cuvintele ca, precum, asemenea: acolo e de obicei o comparație.",
+     "Caută lucruri sau animale care fac ce fac oamenii: vorbesc, râd, plâng.",
+     "Spune ce imagine creează autorul.",
+     "Greșeala frecventă: să numești comparație orice propoziție cu ca. Trebuie să apropie două lucruri care seamănă."
+    ],
+    "answers": [
+     "Apropierea a două lucruri care seamănă.",
+     "Ca, precum, asemenea.",
+     "Darea de însușiri omenești unui lucru sau animal.",
+     "Personificare.",
+     "Cu un bănuț de argint."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l06": {
+   "ro": {
+    "title": "Portretul personajului și opinia despre el",
+    "theory": "Portretul unui personaj cuprinde trăsăturile fizice (cum arată) și pe cele morale (cum este). Trăsăturile morale le deducem din fapte, vorbe, gânduri și din ce spun alții despre el. Ne putem spune și opinia: Mi-a plăcut personajul pentru că...",
+    "sample": "Moș Ilie, paznicul pădurii, avea barba albă și mâini aspre. Iarna lăsa grăunțe păsărilor și fân căprioarelor. Copiii din sat spuneau că are inimă de aur.",
+    "worked": "Trăsături fizice: barbă albă, mâini aspre. Trăsături morale: grijuliu, bun la suflet, deduse din fapta de a hrăni animalele și din ce spun copiii. Opinie: Mi-a plăcut moș Ilie pentru că ajută animalele când le este greu.",
+    "exercises": [
+     "Fă portretul unui personaj din manual.",
+     "Spune o trăsătură morală a lui moș Ilie cu o dovadă.",
+     "Scrie opinia ta despre un personaj, cu un argument.",
+     "Descrie o persoană dragă în trei trăsături fizice și două morale.",
+     "Găsește în exemplu ce spun alții despre moș Ilie."
+    ],
+    "test": [
+     "Ce cuprinde portretul?",
+     "Ce înseamnă inimă de aur?",
+     "Ce face moș Ilie iarna?",
+     "Cum arată moș Ilie?",
+     "Cum îți susții opinia?"
+    ],
+    "steps": [
+     "Notează trăsăturile fizice din text.",
+     "Pentru trăsăturile morale, caută fapte și vorbe.",
+     "Spune-ți opinia și adaugă motivul: pentru că...",
+     "Greșeala frecventă: opinia fără motiv: Mi-a plăcut. Spune și de ce."
+    ],
+    "answers": [
+     "Trăsăturile fizice și morale.",
+     "Că este foarte bun la suflet.",
+     "Lasă hrană păsărilor și căprioarelor.",
+     "Cu barbă albă și mâini aspre.",
+     "Cu un argument din text: pentru că..."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l07": {
+   "ro": {
+    "title": "Legenda",
+    "theory": "Legenda este o povestire în care se explică, într-un mod fantastic, originea unui lucru, a unei plante, a unui animal sau a unui loc. Ea amestecă adevărul cu închipuirea. Adesea începe cu o întrebare: De ce...? Cum a apărut...?",
+    "sample": "Se spune că, demult, o fată a plâns atât de mult după fratele ei plecat pe mare, încât lacrimile ei s-au prefăcut în flori albastre. Așa ar fi apărut floarea de nu-mă-uita.",
+    "worked": "Textul explică originea unei flori: nu-mă-uita. Explicația este fantastică: lacrimile devin flori. Expresiile se spune că și așa ar fi apărut arată că este o legendă, nu un text științific.",
+    "exercises": [
+     "Spune ce explică legenda din exemplu.",
+     "Găsește expresia care arată că e o legendă.",
+     "Inventează o legendă scurtă despre curcubeu.",
+     "Spune o legendă pe care o știi.",
+     "Spune prin ce diferă legenda de textul informativ."
+    ],
+    "test": [
+     "Ce explică o legendă?",
+     "Este explicația dintr-o legendă științifică?",
+     "Ce s-a întâmplat cu lacrimile fetei?",
+     "De ce plângea fata?",
+     "Ce expresii sunt folosite des în legende?"
+    ],
+    "steps": [
+     "Citește textul și întreabă-te: ce lucru se explică?",
+     "Caută partea fantastică, imposibilă în realitate.",
+     "Găsește expresiile se spune că, de atunci, așa a apărut.",
+     "Greșeala frecventă: confuzia cu basmul: legenda explică originea a ceva."
+    ],
+    "answers": [
+     "Originea unui lucru, a unei plante, a unui animal sau a unui loc.",
+     "Nu, este fantastică.",
+     "S-au prefăcut în flori albastre.",
+     "După fratele plecat pe mare.",
+     "Se spune că, de atunci, așa a apărut."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l08": {
+   "ro": {
+    "title": "Fabula și morala ei",
+    "theory": "Fabula este o povestire scurtă, în versuri sau în proză, în care personajele sunt de obicei animale cu trăsături omenești. Ea critică un defect (lăcomia, lenea, lauda de sine) și se încheie cu o morală, adică o învățătură spusă direct sau ușor de dedus.",
+    "sample": "Un cocoș se lăuda în fața curții că el face soarele să răsară. Într-o dimineață a dormit mai mult, iar soarele a răsărit fără el. De atunci, găinile râd când îl aud lăudându-se. Morala: lauda de sine nu ține locul faptelor.",
+    "worked": "Personajul este cocoșul, cu un defect omenesc: lauda de sine. Întâmplarea îl dă de gol. Morala este spusă la sfârșit. Fabula ne învață să nu ne lăudăm cu ce nu facem.",
+    "exercises": [
+     "Găsește defectul criticat în exemplu.",
+     "Spune morala cu cuvintele tale.",
+     "Inventează o fabulă scurtă despre o furnică și un greier.",
+     "Spune ce animale apar des în fabule.",
+     "Desenează o scenă din fabula din exemplu."
+    ],
+    "test": [
+     "Ce este fabula?",
+     "Ce defect are cocoșul?",
+     "Ce este morala?",
+     "Ce s-a întâmplat când cocoșul a dormit?",
+     "Pot fi fabulele în versuri?"
+    ],
+    "steps": [
+     "Citește fabula și găsește personajul principal.",
+     "Întreabă-te: ce defect are? ce i se întâmplă din cauza lui?",
+     "Formulează morala ca un sfat pentru oameni.",
+     "Greșeala frecventă: să povestești din nou întâmplarea în loc să spui morala."
+    ],
+    "answers": [
+     "O povestire scurtă cu animale care critică un defect.",
+     "Lauda de sine.",
+     "Învățătura fabulei.",
+     "Soarele a răsărit fără el.",
+     "Da."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l09": {
+   "ro": {
+    "title": "Poezia: tablouri, sentimente și sensuri figurate",
+    "theory": "În poezie, cuvintele au uneori sens figurat, diferit de cel obișnuit: un cer de plumb înseamnă un cer gri și greu. Poetul creează tablouri și transmite sentimente. Pentru a înțelege o poezie, căutăm imaginile, figurile (comparația, personificarea) și sentimentul.",
+    "sample": "Toamna a venit cu pași de aur, / Pe dealuri a lăsat un vechi covor, / Copacii-și scutură podoaba rară, / Și plânge cerul, rece și ușor.",
+    "worked": "Pași de aur are sens figurat: toamna aduce culori galbene. Vechiul covor sunt frunzele căzute. Copacii își scutură podoaba și cerul plânge sunt personificări. Sentimentul este o tristețe liniștită, de sfârșit de an.",
+    "exercises": [
+     "Citește expresiv poezia din exemplu.",
+     "Explică ce înseamnă covorul de pe dealuri.",
+     "Găsește o personificare în poezie.",
+     "Spune ce sentiment transmite poezia.",
+     "Scrie o strofă despre iarnă cu o personificare."
+    ],
+    "test": [
+     "Ce înseamnă sens figurat?",
+     "Ce înseamnă pași de aur?",
+     "Ce face cerul în poezie?",
+     "Câte versuri are strofa?",
+     "Ce sentiment transmite?"
+    ],
+    "steps": [
+     "Citește poezia de două ori, rar.",
+     "Caută cuvintele care nu au sensul obișnuit și explică-le.",
+     "Spune ce tablou vezi și ce simți.",
+     "Greșeala frecventă: să iei cuvintele doar în sens propriu: toamna nu are picioare, pașii sunt o imagine."
+    ],
+    "answers": [
+     "Un sens diferit de cel obișnuit, o imagine.",
+     "Că toamna aduce culori galbene, aurii.",
+     "Plânge, adică plouă.",
+     "Patru.",
+     "O tristețe liniștită."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l10": {
+   "ro": {
+    "title": "Articolul de revistă și știrea",
+    "theory": "Știrea ne spune pe scurt un eveniment recent: ce s-a întâmplat, unde, când, cine a participat. Articolul de revistă prezintă pe larg un subiect, cu informații și, uneori, cu opinii. Ambele au titlu care atrage atenția. Verificăm dacă informațiile sunt adevărate și de unde provin.",
+    "sample": "Știre: Elevii Școlii Gimnaziale din Bucium au plantat 200 de puieți, sâmbătă, 12 aprilie, pe dealul de lângă sat. La acțiune au participat și părinții.",
+    "worked": "Ce: au plantat 200 de puieți. Unde: pe dealul de lângă sat. Când: sâmbătă, 12 aprilie. Cine: elevii și părinții. Știrea răspunde pe scurt la întrebările importante, fără povești inventate.",
+    "exercises": [
+     "Scrie o știre despre un eveniment din școala ta.",
+     "Găsește în exemplu cine a participat.",
+     "Dă un titlu știrii din exemplu.",
+     "Găsește într-o revistă pentru copii un articol.",
+     "Spune prin ce diferă știrea de basm."
+    ],
+    "test": [
+     "Ce ne spune o știre?",
+     "Câți puieți au fost plantați?",
+     "Când a avut loc acțiunea?",
+     "La ce întrebări răspunde știrea?",
+     "De ce verificăm sursa informațiilor?"
+    ],
+    "steps": [
+     "Citește titlul și ghicește subiectul.",
+     "Caută răspunsurile la: ce? unde? când? cine?",
+     "Întreabă-te dacă informația vine dintr-o sursă de încredere.",
+     "Greșeala frecventă: să crezi orice titlu senzațional fără să citești și să verifici."
+    ],
+    "answers": [
+     "Pe scurt, un eveniment recent.",
+     "200.",
+     "Sâmbătă, 12 aprilie.",
+     "Ce, unde, când, cine.",
+     "Ca să știm dacă sunt adevărate."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l11": {
+   "ro": {
+    "title": "Textul cu imagini, tabele și orare",
+    "theory": "Unele texte informative ne dau informații prin tabele, orare, hărți sau grafice. Le citim pe rânduri și pe coloane, ne uităm la titlu și la legendă. Așa găsim repede răspunsul la o întrebare: la ce oră pleacă trenul? ce temperatură a fost luni?",
+    "sample": "Orarul bibliotecii: Luni–Vineri: 9–17 / Sâmbătă: 10–14 / Duminică: închis. Activitate: Ora poveștilor — miercuri, ora 15.",
+    "worked": "Tabelul arată programul pe zile. Luni până vineri biblioteca e deschisă între 9 și 17, sâmbătă între 10 și 14, iar duminică e închisă. Ora poveștilor este miercuri la 15. Găsim răspunsul uitându-ne pe rândul zilei.",
+    "exercises": [
+     "Când este închisă biblioteca?",
+     "La ce oră este Ora poveștilor?",
+     "Fă orarul tău pentru o zi de școală.",
+     "Citește un mers al trenurilor și spune ora de plecare a unui tren.",
+     "Întocmește un tabel cu vremea dintr-o săptămână."
+    ],
+    "test": [
+     "Cum citim un tabel?",
+     "Până la ce oră e deschis sâmbătă?",
+     "În ce zi este Ora poveștilor?",
+     "Ce este legenda unei hărți?",
+     "Poți merge la bibliotecă duminică?"
+    ],
+    "steps": [
+     "Citește întâi titlul tabelului.",
+     "Găsește rândul sau coloana de care ai nevoie.",
+     "Urmărește cu degetul până la informația căutată.",
+     "Greșeala frecventă: citirea pe rândul greșit: sâmbătă în loc de vineri."
+    ],
+    "answers": [
+     "Pe rânduri și coloane, după titlu.",
+     "Până la ora 14.",
+     "Miercuri.",
+     "Explicația semnelor de pe hartă.",
+     "Nu, este închisă."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l12": {
+   "ro": {
+    "title": "Exprimarea opiniei: Eu cred că..., pentru că...",
+    "theory": "A avea o opinie înseamnă a spune ce crezi despre ceva. O opinie bună are un argument, adică un motiv, și, dacă se poate, un exemplu. Folosim: Eu cred că..., În opinia mea..., pentru că..., de exemplu... Ascultăm cu respect și opinia celuilalt.",
+    "sample": "Eu cred că animalele de companie îi fac pe copii mai responsabili, pentru că trebuie să le hrănească și să le plimbe în fiecare zi. De exemplu, de când am un câine, mă trezesc mai devreme.",
+    "worked": "Opinia: animalele îi fac pe copii mai responsabili. Argumentul: trebuie să le îngrijească zilnic. Exemplul: copilul se trezește mai devreme. Opinia are astfel un motiv și o dovadă.",
+    "exercises": [
+     "Spune-ți opinia despre temele pentru acasă, cu un argument.",
+     "Găsește argumentul din exemplu.",
+     "Adaugă un exemplu la opinia: Sportul e sănătos.",
+     "Ascultă opinia unui coleg și spune dacă ești de acord și de ce.",
+     "Scrie o opinie despre cartea preferată."
+    ],
+    "test": [
+     "Ce este o opinie?",
+     "Ce este un argument?",
+     "Ce expresii introduc o opinie?",
+     "Ce exemplu dă copilul din exemplu?",
+     "Cum ascultăm o opinie diferită?"
+    ],
+    "steps": [
+     "Spune clar ce crezi: Eu cred că...",
+     "Adaugă motivul: pentru că...",
+     "Dă un exemplu din viața ta: de exemplu...",
+     "Greșeala frecventă: să repeți opinia în loc de argument: Cred că e bine pentru că e bine."
+    ],
+    "answers": [
+     "Ce crezi despre ceva.",
+     "Un motiv pentru opinia ta.",
+     "Eu cred că, În opinia mea.",
+     "Se trezește mai devreme de când are câine.",
+     "Cu respect, fără să-l întrerupem."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l13": {
+   "ro": {
+    "title": "Pronumele de politețe și formulele de adresare",
+    "theory": "Când vorbim cu persoane mai mari sau pe care nu le cunoaștem, arătăm respect prin pronumele de politețe: dumneata (mai familiar), dumneavoastră (respect deosebit), dumnealui, dumneaei, dânsul, dânsa (despre o persoană). Verbul se pune la plural după dumneavoastră: Dumneavoastră ați citit?",
+    "sample": "Bună ziua, doamnă directoare! Dumneavoastră organizați concursul? Domnul profesor ne-a spus că dânsul va fi în juriu.",
+    "worked": "Dumneavoastră arată respect față de doamna directoare; verbul organizați este la plural. Dânsul este pronume de politețe pentru o persoană despre care vorbim: domnul profesor.",
+    "exercises": [
+     "Transformă politicos: Tu vii la ședință?",
+     "Scrie o întrebare politicoasă pentru bibliotecară.",
+     "Găsește pronumele de politețe din exemplu.",
+     "Spune cum vorbești despre un vecin în vârstă, politicos.",
+     "Scrie un mesaj politicos către un medic."
+    ],
+    "test": [
+     "Când folosim pronumele de politețe?",
+     "Cum se acordă verbul după dumneavoastră?",
+     "Ce pronume folosim despre o doamnă, cu respect?",
+     "Ce înseamnă dânsul?",
+     "Corectează: Dumneavoastră a venit?"
+    ],
+    "steps": [
+     "Gândește-te cui îi vorbești: unui coleg sau unui adult?",
+     "Pentru adulți folosește dumneavoastră și verbul la plural.",
+     "Când vorbești despre un adult, folosește dânsul, dânsa, dumnealui, dumneaei.",
+     "Greșeala frecventă: verbul la singular după dumneavoastră: Dumneavoastră a spus. Corect: Dumneavoastră ați spus."
+    ],
+    "answers": [
+     "Când vorbim cu persoane mai mari sau necunoscute.",
+     "La plural.",
+     "Dânsa sau dumneaei.",
+     "Pronume de politețe pentru el.",
+     "Dumneavoastră ați venit?"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l14": {
+   "ro": {
+    "title": "Genul substantivului: masculin, feminin, neutru",
+    "theory": "Substantivele au gen. Pentru a-l afla, numărăm: un ... doi ... = masculin (un copac, doi copaci); o ... două ... = feminin (o floare, două flori); un ... două ... = neutru (un scaun, două scaune).",
+    "sample": "Un băiat, doi băieți. O carte, două cărți. Un caiet, două caiete.",
+    "worked": "Băiat: un băiat, doi băieți, deci masculin. Carte: o carte, două cărți, deci feminin. Caiet: un caiet, două caiete, deci neutru. Proba numărării funcționează la orice substantiv.",
+    "exercises": [
+     "Află genul: munte, stea, creion.",
+     "Scrie trei substantive de gen feminin.",
+     "Scrie trei substantive de gen neutru.",
+     "Află genul substantivelor din: Copilul are un penar și o gumă.",
+     "Grupează pe genuri: pom, lună, tren, fată, câine, ou."
+    ],
+    "test": [
+     "Câte genuri are substantivul?",
+     "Ce gen are substantivul scaun?",
+     "Cum aflăm genul?",
+     "Ce gen are substantivul pisică?",
+     "Ce gen are substantivul pește?"
+    ],
+    "steps": [
+     "Spune substantivul cu un sau o înainte.",
+     "Apoi spune-l cu doi sau două.",
+     "un-doi = masculin, o-două = feminin, un-două = neutru.",
+     "Greșeala frecventă: să ghicești genul după terminație. Folosește mereu proba un/o – doi/două."
+    ],
+    "answers": [
+     "Trei: masculin, feminin, neutru.",
+     "Neutru: un scaun, două scaune.",
+     "Prin proba un/o – doi/două.",
+     "Feminin.",
+     "Masculin."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l15": {
+   "ro": {
+    "title": "Acordul adjectivului în gen și număr",
+    "theory": "Adjectivul se acordă cu substantivul pe care îl însoțește în gen și număr. Un adjectiv poate avea patru forme: frumos, frumoasă, frumoși, frumoase. Alegem forma după substantiv: băiat frumos, fată frumoasă, băieți frumoși, fete frumoase.",
+    "sample": "Un nor alb, o floare albă, doi nori albi, două flori albe. Un tren rapid, două trenuri rapide.",
+    "worked": "Alb își schimbă forma după substantiv: alb (masculin singular), albă (feminin singular), albi (masculin plural), albe (feminin plural). Rapid devine rapide lângă trenuri, la plural.",
+    "exercises": [
+     "Scrie cele patru forme ale adjectivului bun.",
+     "Completează: o zi (senin) ...",
+     "Completează: niște copii (cuminte) ...",
+     "Corectează: două mere roșu.",
+     "Scrie o propoziție cu adjectivul înalt la feminin plural."
+    ],
+    "test": [
+     "În ce se acordă adjectivul?",
+     "Ce formă are alb lângă flori?",
+     "Corectează: un câine mici.",
+     "Câte forme poate avea un adjectiv?",
+     "Cum spunem: o casă (nou)?"
+    ],
+    "steps": [
+     "Găsește substantivul pe care îl însoțește adjectivul.",
+     "Vezi genul (un/o) și numărul (unul sau mai mulți).",
+     "Alege forma potrivită a adjectivului.",
+     "Greșeala frecventă: adjectivul lăsat la forma de bază: fete frumos. Corect: fete frumoase."
+    ],
+    "answers": [
+     "În gen și număr.",
+     "Albe.",
+     "Un câine mic.",
+     "Patru.",
+     "O casă nouă."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l16": {
+   "ro": {
+    "title": "Pronumele personal: persoana și numărul",
+    "theory": "Pronumele personal are trei persoane. Persoana I este cel care vorbește: eu, noi. Persoana a II-a este cel cu care vorbim: tu, voi. Persoana a III-a este cel despre care vorbim: el, ea, ei, ele. Fiecare persoană are singular și plural.",
+    "sample": "Eu desenez, tu colorezi, iar el decupează. Noi facem un afiș. Voi l-ați văzut? Ele l-au lipit pe ușă.",
+    "worked": "Eu (pers. I sg.), tu (pers. a II-a sg.), el (pers. a III-a sg.), noi (pers. I pl.), voi (pers. a II-a pl.), ele (pers. a III-a pl.). Fiecare pronume arată cine face acțiunea.",
+    "exercises": [
+     "Scrie pronumele de persoana a III-a la plural.",
+     "Găsește persoana și numărul lui voi.",
+     "Înlocuiește cu pronume: Ana și Ion cântă.",
+     "Scrie o propoziție cu pronumele noi.",
+     "Spune ce persoană ești când vorbești despre tine."
+    ],
+    "test": [
+     "Câte persoane are pronumele personal?",
+     "Ce persoană este eu?",
+     "Ce număr are pronumele ei?",
+     "Ce pronume folosim pentru cel cu care vorbim?",
+     "Ce pronume înlocuiește: fetele?"
+    ],
+    "steps": [
+     "Întreabă-te: vorbesc eu, vorbesc cu cineva sau despre cineva?",
+     "Alege persoana: I, a II-a sau a III-a.",
+     "Vezi dacă este unul sau mai mulți: singular sau plural.",
+     "Greșeala frecventă: confuzia dintre ei și ele: ei pentru băieți sau grup mixt, ele pentru fete."
+    ],
+    "answers": [
+     "Trei.",
+     "Persoana I.",
+     "Plural.",
+     "Tu sau voi.",
+     "Ele."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l17": {
+   "ro": {
+    "title": "Numeralul cardinal",
+    "theory": "Numeralul arată un număr sau ordinea. Numeralul cardinal arată numărul obiectelor: unu, doi, cinci, zece, o sută. Se poate scrie cu cifre (12) sau cu litere (doisprezece). Unele se scriu cu atenție: paisprezece, șaisprezece, șaizeci, o mie.",
+    "sample": "În clasa noastră sunt douăzeci și doi de elevi. Avem paisprezece fete și opt băieți.",
+    "worked": "Douăzeci și doi, paisprezece, opt sunt numerale cardinale: arată câți elevi sunt. Paisprezece se scrie cu ai, fără t. Putem verifica: 14 + 8 = 22.",
+    "exercises": [
+     "Scrie cu litere: 14, 16, 60.",
+     "Găsește numeralele din exemplu.",
+     "Scrie o propoziție cu un numeral mai mare decât 100.",
+     "Scrie cu cifre: optsprezece.",
+     "Scrie câți membri are familia ta, cu litere."
+    ],
+    "test": [
+     "Ce arată numeralul cardinal?",
+     "Scrie cu litere: 16.",
+     "Scrie corect: patrusprezece sau paisprezece?",
+     "Câte fete sunt în exemplu?",
+     "Cum se scrie 60 cu litere?"
+    ],
+    "steps": [
+     "Întreabă: câți? câte? Răspunsul este numeralul cardinal.",
+     "Scrie-l cu litere și verifică ortografia.",
+     "Pentru numerele de după 20, folosește și: douăzeci și doi.",
+     "Greșeala frecventă: scrierea patrusprezece sau șasesprezece. Corect: paisprezece, șaisprezece."
+    ],
+    "answers": [
+     "Numărul obiectelor.",
+     "Șaisprezece.",
+     "Paisprezece.",
+     "Paisprezece.",
+     "Șaizeci."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l18": {
+   "ro": {
+    "title": "Numeralul ordinal",
+    "theory": "Numeralul ordinal arată locul unui obiect într-un șir: primul (întâiul), al doilea, a doua, al treilea, a treia, al zecelea. Se formează cu al pentru masculin și neutru și cu a pentru feminin.",
+    "sample": "Ionuț a ieșit primul la cros, Bianca a doua, iar Victor al treilea. Mâine este a cincea zi de concurs.",
+    "worked": "Primul, a doua, al treilea, a cincea arată locul în clasament sau în șir. Bianca este fată, deci a doua; Victor este băiat, deci al treilea. Zi este feminin, deci a cincea zi.",
+    "exercises": [
+     "Scrie numeralul ordinal pentru 4, la masculin.",
+     "Scrie numeralul ordinal pentru 7, la feminin.",
+     "Găsește numeralele ordinale din exemplu.",
+     "Scrie la ce clasă ești, cu numeral ordinal.",
+     "Completează: Aprilie este ... lună a anului."
+    ],
+    "test": [
+     "Ce arată numeralul ordinal?",
+     "Cum spunem pentru locul 2, la o fată?",
+     "Ce formă are pentru locul 1?",
+     "Scrie corect: al doi-lea sau al doilea?",
+     "Ce loc a ocupat Victor?"
+    ],
+    "steps": [
+     "Întreabă: al câtelea? a câta?",
+     "Pentru masculin și neutru folosește al, pentru feminin a.",
+     "Scrie fără cratimă: al doilea, a treia.",
+     "Greșeala frecventă: scrierea cu cratimă: al doi-lea. Corect: al doilea."
+    ],
+    "answers": [
+     "Locul într-un șir.",
+     "A doua.",
+     "Primul sau întâiul.",
+     "al doilea.",
+     "Al treilea."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l19": {
+   "ro": {
+    "title": "Verbul: persoana și numărul",
+    "theory": "Verbul se schimbă după persoana și numărul celui care face acțiunea: eu cânt, tu cânți, el cântă, noi cântăm, voi cântați, ei cântă. Schimbarea formei verbului după persoană și număr se numește conjugare.",
+    "sample": "Eu scriu o scrisoare. Tu scrii un bilet. Noi scriem un afiș. Voi scrieți compuneri.",
+    "worked": "Verbul a scrie are forme diferite: scriu (eu), scrii (tu), scriem (noi), scrieți (voi). Forma ne spune cine face acțiunea, chiar dacă nu apare pronumele.",
+    "exercises": [
+     "Conjugă verbul a citi la prezent.",
+     "Spune persoana și numărul: alergăm.",
+     "Completează: Voi ... (a desena) frumos.",
+     "Scrie verbul a merge la persoana a II-a singular.",
+     "Găsește persoana verbului din: Citiți cu atenție!"
+    ],
+    "test": [
+     "Ce înseamnă a conjuga un verb?",
+     "Ce persoană și număr are: cântați?",
+     "Cum spunem a dansa la persoana I plural?",
+     "Cum spunem a avea pentru tu?",
+     "Ce formă are a fi pentru noi?"
+    ],
+    "steps": [
+     "Pune înaintea verbului un pronume: eu, tu, el, noi, voi, ei.",
+     "Vezi dacă forma se potrivește.",
+     "Spune persoana (I, a II-a, a III-a) și numărul (singular, plural).",
+     "Greșeala frecventă: verbul care nu se potrivește cu persoana: noi cântă. Corect: noi cântăm."
+    ],
+    "answers": [
+     "A-l schimba după persoană și număr.",
+     "Persoana a II-a plural.",
+     "Noi dansăm.",
+     "Tu ai.",
+     "Noi suntem."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l20": {
+   "ro": {
+    "title": "Verbul: timpurile prezent, trecut, viitor",
+    "theory": "Verbul arată și timpul: prezent (acum: eu citesc), trecut (înainte: eu am citit), viitor (mai târziu: eu voi citi sau o să citesc). Într-un text păstrăm același timp pentru întâmplările din același moment.",
+    "sample": "Vara trecută am vizitat Delta Dunării. Acum lucrez la un proiect despre ea. La anul voi merge din nou acolo.",
+    "worked": "Am vizitat (trecut) se petrece vara trecută. Lucrez (prezent) se petrece acum. Voi merge (viitor) se va petrece la anul. Cuvintele vara trecută, acum, la anul ne ajută să alegem timpul.",
+    "exercises": [
+     "Scrie verbul a juca la cele trei timpuri, persoana I.",
+     "Găsește timpul verbelor din exemplu.",
+     "Trece la trecut: Ei construiesc o cabană.",
+     "Trece la viitor: Noi plecăm în excursie.",
+     "Scrie trei propoziții despre ieri, azi și mâine."
+    ],
+    "test": [
+     "Ce timp arată: o să plouă?",
+     "La ce timp este: am câștigat?",
+     "Cum spunem la viitor: ea cântă?",
+     "Ce cuvinte arată prezentul?",
+     "Corectează: Ieri merg la bunica."
+    ],
+    "steps": [
+     "Întreabă-te: când se petrece acțiunea?",
+     "Alege timpul: prezent, trecut, viitor.",
+     "Verifică dacă toate verbele din același moment au același timp.",
+     "Greșeala frecventă: amestecarea timpurilor: Ieri merg. Corect: Ieri am mers."
+    ],
+    "answers": [
+     "Viitor.",
+     "Trecut.",
+     "Ea va cânta sau ea o să cânte.",
+     "Acum, azi, în prezent.",
+     "Ieri am mers la bunica."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l21": {
+   "ro": {
+    "title": "Predicatul",
+    "theory": "Predicatul este partea principală de propoziție care arată ce face, ce este sau cum este subiectul. Răspunde la întrebarea ce face? Cel mai des este exprimat printr-un verb: Pisica doarme. Elevii învață.",
+    "sample": "Fluturele zboară deasupra florilor. Ana citește în bancă.",
+    "worked": "Ce face fluturele? zboară: predicat. Ce face Ana? citește: predicat. Predicatul este verbul care arată acțiunea subiectului. Fără predicat, propoziția nu ar avea sens.",
+    "exercises": [
+     "Găsește predicatul: Copiii aleargă în curte.",
+     "Găsește predicatele din exemplu.",
+     "Scrie o propoziție și subliniază predicatul.",
+     "Completează cu un predicat: Câinele ...",
+     "Găsește predicatul: Mâine vom pleca la mare."
+    ],
+    "test": [
+     "Ce este predicatul?",
+     "La ce întrebare răspunde?",
+     "Prin ce se exprimă cel mai des?",
+     "Care este predicatul din: Mama gătește?",
+     "Poate exista propoziție fără predicat?"
+    ],
+    "steps": [
+     "Găsește despre cine se vorbește.",
+     "Întreabă: ce face el? ce este?",
+     "Cuvântul care răspunde este predicatul; de obicei este un verb.",
+     "Greșeala frecventă: să alegi ca predicat un cuvânt care arată locul: în curte nu este predicat."
+    ],
+    "answers": [
+     "Partea principală care arată ce face subiectul.",
+     "Ce face?",
+     "Printr-un verb.",
+     "Gătește.",
+     "Nu."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l22": {
+   "ro": {
+    "title": "Subiectul",
+    "theory": "Subiectul este partea principală de propoziție care arată cine face acțiunea sau despre cine se spune ceva. Răspunde la întrebarea cine? sau ce? pusă predicatului: Cine citește? Ana. Se exprimă prin substantiv sau prin pronume.",
+    "sample": "Bunicul repară gardul. Ei îl ajută. Ploaia a încetat.",
+    "worked": "Cine repară? bunicul: subiect. Cine îl ajută? ei: subiect exprimat prin pronume. Ce a încetat? ploaia: subiect. Mai întâi am găsit predicatul, apoi am pus întrebarea.",
+    "exercises": [
+     "Găsește subiectul: Vântul bate tare.",
+     "Găsește subiectele din exemplu.",
+     "Scrie o propoziție în care subiectul este un pronume.",
+     "Completează cu un subiect: ... cântă frumos.",
+     "Găsește subiectul: În grădină au înflorit trandafirii."
+    ],
+    "test": [
+     "Ce este subiectul?",
+     "Ce întrebare punem predicatului?",
+     "Prin ce se exprimă subiectul?",
+     "Care este subiectul din: Ei se joacă?",
+     "Ce găsim mai întâi: predicatul sau subiectul?"
+    ],
+    "steps": [
+     "Găsește întâi predicatul.",
+     "Întreabă-l: cine? sau ce? (Cine cântă? Ce bate?).",
+     "Răspunsul este subiectul.",
+     "Greșeala frecventă: să crezi că subiectul este mereu primul cuvânt. În grădină au înflorit trandafirii: subiectul este trandafirii."
+    ],
+    "answers": [
+     "Partea principală care arată cine face acțiunea.",
+     "Cine? sau ce?",
+     "Prin substantiv sau pronume.",
+     "Ei.",
+     "Predicatul."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l23": {
+   "ro": {
+    "title": "Acordul predicatului cu subiectul",
+    "theory": "Predicatul se acordă cu subiectul în persoană și număr: dacă subiectul este la singular, predicatul este la singular; dacă este la plural, predicatul este la plural. Copilul aleargă. Copiii aleargă. Eu citesc. Noi citim.",
+    "sample": "Elevul scrie. Elevii scriu. Floarea a înflorit. Florile au înflorit. Tu desenezi. Voi desenați.",
+    "worked": "Când subiectul trece de la singular la plural, și predicatul se schimbă: scrie devine scriu, a înflorit devine au înflorit. Tu desenezi, voi desenați: persoana și numărul se potrivesc.",
+    "exercises": [
+     "Trece la plural: Pasărea cântă.",
+     "Completează: Copiii (a se juca) ...",
+     "Corectează: Fetele a plecat.",
+     "Scrie o propoziție cu subiectul noi.",
+     "Corectează: Prietenii mei vine la mine."
+    ],
+    "test": [
+     "În ce se acordă predicatul cu subiectul?",
+     "Corectează: Ei a mers.",
+     "Cum spunem la plural: Câinele latră?",
+     "Ce formă are predicatul pentru voi?",
+     "Corectează: Tu cântă frumos."
+    ],
+    "steps": [
+     "Găsește subiectul și vezi dacă este singular sau plural.",
+     "Găsește apoi predicatul, verbul.",
+     "Potrivește forma predicatului cu subiectul.",
+     "Greșeala frecventă: predicatul la singular după un subiect la plural: Copiii a venit. Corect: Copiii au venit."
+    ],
+    "answers": [
+     "În persoană și număr.",
+     "Ei au mers.",
+     "Câinii latră.",
+     "Persoana a II-a plural: desenați.",
+     "Tu cânți frumos."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l24": {
+   "ro": {
+    "title": "Părțile secundare de propoziție",
+    "theory": "Pe lângă subiect și predicat, propoziția dezvoltată are părți secundare. Ele completează înțelesul și răspund la întrebări ca: unde? când? cum? ce fel de? pe cine? ce? Exemplu: Copilul vesel citește dimineața o carte în parc.",
+    "sample": "Ana citește dimineața o poveste frumoasă în grădină.",
+    "worked": "Subiectul: Ana. Predicatul: citește. Părți secundare: dimineața (când?), o poveste (ce?), frumoasă (ce fel de?), în grădină (unde?). Ele dezvoltă propoziția simplă Ana citește.",
+    "exercises": [
+     "Dezvoltă: Pisica doarme, adăugând unde și cum.",
+     "Găsește părțile secundare din exemplu.",
+     "Pune întrebarea potrivită pentru: în curte.",
+     "Scrie o propoziție dezvoltată cu trei părți secundare.",
+     "Taie părțile secundare din: Bunicul meu citește ziarul seara."
+    ],
+    "test": [
+     "Ce fac părțile secundare?",
+     "La ce întrebare răspunde dimineața?",
+     "Ce parte secundară arată locul în exemplu?",
+     "Ce rămâne dacă tăiem părțile secundare?",
+     "Este Ana o parte secundară?"
+    ],
+    "steps": [
+     "Găsește întâi subiectul și predicatul.",
+     "Pentru celelalte cuvinte pune întrebări: unde? când? cum? ce? ce fel de?",
+     "Fiecare răspuns este o parte secundară.",
+     "Greșeala frecventă: să socotești subiectul ca parte secundară. Ana este subiect, parte principală."
+    ],
+    "answers": [
+     "Completează înțelesul propoziției.",
+     "Când?",
+     "În grădină.",
+     "Propoziția simplă: Ana citește.",
+     "Nu, este subiect."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l25": {
+   "ro": {
+    "title": "Cuvintele înrudite",
+    "theory": "Cuvintele înrudite au o parte comună și sensuri apropiate: floare, florar, florărie, înflorit. Ele formează o familie de cuvinte. Ne ajută să ne îmbogățim vocabularul și să scriem corect: dacă știm cum se scrie floare, scriem corect și florărie.",
+    "sample": "Pădure, pădurar, pădurice, împădurire. Toamna, pădurarul a început împădurirea dealului.",
+    "worked": "Toate cuvintele au partea comună pădur- și sensuri legate de pădure. Pădurar este omul care îngrijește pădurea, împădurire înseamnă plantarea de păduri. Ele sunt cuvinte înrudite.",
+    "exercises": [
+     "Scrie trei cuvinte înrudite cu școală.",
+     "Găsește partea comună din: copil, copilărie, copilăros.",
+     "Scrie cuvinte înrudite cu a scrie.",
+     "Folosește în propoziții două cuvinte înrudite cu lumină.",
+     "Găsește intrusul: pâine, brutar, pâinică, brutărie."
+    ],
+    "test": [
+     "Ce sunt cuvintele înrudite?",
+     "Care este partea comună din exemplu?",
+     "Ce înseamnă pădurar?",
+     "Este înrudit pădure cu pădurice?",
+     "Cum ne ajută cuvintele înrudite la scriere?"
+    ],
+    "steps": [
+     "Găsește partea care se repetă în cuvinte.",
+     "Verifică dacă au și sensuri apropiate.",
+     "Dacă amândouă sunt adevărate, sunt înrudite.",
+     "Greșeala frecventă: să crezi că două cuvinte care seamănă sunt mereu înrudite: mare (apă) și marinar da, dar mare (adjectiv) are alt sens."
+    ],
+    "answers": [
+     "Cuvinte cu o parte comună și sensuri apropiate.",
+     "Pădur-.",
+     "Omul care îngrijește pădurea.",
+     "Da.",
+     "Le scriem la fel ca pe cuvântul de bază."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l26": {
+   "ro": {
+    "title": "Ortograme: nu-i, ți-a, cea și ce-a",
+    "theory": "Nu-i, cu cratimă, înseamnă nu este sau nu îi: Nu-i nimeni acasă. Nu-i spune nimic. Ți-a înseamnă ție plus a: Ți-a plăcut? Cea arată ceva anume: cea mai bună. Ce-a înseamnă ce plus a: Ce-a spus mama?",
+    "sample": "Nu-i nimic grav, ți-a căzut doar penarul. Aceasta este cea mai frumoasă carte. Ce-a zis doamna?",
+    "worked": "Nu-i nimic: nu este nimic, cu cratimă. Ți-a căzut: ție ți-a căzut. Cea mai frumoasă: fără cratimă. Ce-a zis: ce a zis, cu cratimă.",
+    "exercises": [
+     "Completează: ... spus colegul? (cea/ce-a)",
+     "Completează: Ea este ... mai înaltă. (cea/ce-a)",
+     "Completează: ... adus cineva un cadou? (Ți-a/Ția)",
+     "Scrie o propoziție cu nu-i.",
+     "Scrie o propoziție cu cea."
+    ],
+    "test": [
+     "Ce înseamnă nu-i în: nu-i acasă?",
+     "Ce înseamnă ți-a?",
+     "Scrie corect: (cea/ce-a) mai lungă zi.",
+     "Scrie corect: (Cea/Ce-a) făcut fratele?",
+     "Ce semn are nu-i?"
+    ],
+    "steps": [
+     "Încearcă să desfaci: nu este, ție a, ce a.",
+     "Dacă se poate desface, scrie cu cratimă.",
+     "Dacă arată ceva anume (cea mai...), scrie fără cratimă.",
+     "Greșeala frecventă: scrierea nui sau cea spus fără cratimă."
+    ],
+    "answers": [
+     "Nu este acasă.",
+     "Ție plus a.",
+     "cea.",
+     "Ce-a.",
+     "Cratimă."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l27": {
+   "ro": {
+    "title": "Despărțirea cuvintelor în silabe: reguli",
+    "theory": "Pentru a despărți corect, folosim reguli. O consoană între două vocale trece la silaba următoare: ca-să, pe-te. Două consoane între vocale se despart: ar-bo-re, cas-tel. Excepție: grupurile cu l sau r după b, c, d, f, g, h, p, t, v trec împreună: ca-pră, co-bră. Vocalele alăturate care nu formează diftong se despart: po-e-zi-e.",
+    "sample": "Ca-să; ma-ri-nar; ar-bo-re; ca-pră; po-e-zi-e; cas-tel.",
+    "worked": "În ca-să, s este între vocale: trece la a doua silabă. În ar-bo-re, r și b se despart. În ca-pră, p și r stau împreună: excepția. În po-e-zi-e, vocalele o și e se despart.",
+    "exercises": [
+     "Desparte în silabe: pădure, carte, zebră.",
+     "Desparte: aeroport.",
+     "Desparte: castravete.",
+     "Explică de ce se desparte ca-pră.",
+     "Scrie trei cuvinte cu două consoane între vocale și desparte-le."
+    ],
+    "test": [
+     "Unde trece o consoană aflată între două vocale?",
+     "Cum se despart două consoane între vocale?",
+     "Desparte: cobră.",
+     "Desparte: poezie.",
+     "Desparte: munte."
+    ],
+    "steps": [
+     "Găsește vocalele cuvântului: fiecare silabă are una.",
+     "Uită-te la consoanele dintre vocale: una trece mai departe, două se despart.",
+     "Verifică excepția: grupurile cu l sau r după b, c, d, f, g, h, p, t, v rămân împreună.",
+     "Greșeala frecventă: despărțirea ca-pr-ă sau cap-ră. Corect: ca-pră."
+    ],
+    "answers": [
+     "La silaba următoare.",
+     "Una rămâne, cealaltă trece mai departe.",
+     "co-bră.",
+     "po-e-zi-e.",
+     "mun-te."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l28": {
+   "ro": {
+    "title": "Scrisoarea familială",
+    "theory": "Scrisoarea familială este un text adresat unei persoane apropiate. Are: locul și data (sus, în dreapta), formula de adresare (Dragă...,), cuprinsul (vești, întrebări, sentimente), formula de încheiere (Cu drag,) și semnătura. Se scrie pe paragrafe, cu un ton cald.",
+    "sample": "Iași, 20 noiembrie 2026 / Dragă verișoare, / Îți scriu ca să-ți povestesc că am câștigat locul al doilea la concursul de matematică. Tu ce mai faci? Ai început lecțiile de pian? / Te aștept de Crăciun! / Cu drag, / Maria",
+    "worked": "Locul și data sunt sus. Formula Dragă verișoare, este urmată de virgulă. Cuprinsul are o veste, întrebări și sentimente. Încheierea Cu drag și semnătura Maria închid scrisoarea.",
+    "exercises": [
+     "Scrie o scrisoare unui prieten despre vacanța de iarnă.",
+     "Găsește părțile scrisorii din exemplu.",
+     "Scrie trei formule de încheiere.",
+     "Pune trei întrebări pe care le-ai pune bunicilor într-o scrisoare.",
+     "Scrie adresa de pe plic."
+    ],
+    "test": [
+     "Cui îi adresăm scrisoarea familială?",
+     "Unde scriem locul și data?",
+     "Ce veste dă Maria?",
+     "Ce semn punem după formula de adresare?",
+     "Ce urmează după formula de încheiere?"
+    ],
+    "steps": [
+     "Scrie locul și data, apoi formula de adresare.",
+     "Scrie cuprinsul pe paragrafe: vești, întrebări, urări.",
+     "Încheie cu o formulă caldă și semnează.",
+     "Greșeala frecventă: uitarea virgulei după Dragă bunico sau a semnăturii."
+    ],
+    "answers": [
+     "Unei persoane apropiate.",
+     "Sus, în dreapta.",
+     "A câștigat locul al doilea la concurs.",
+     "Virgulă.",
+     "Semnătura."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l29": {
+   "ro": {
+    "title": "Mesajul electronic (e-mailul)",
+    "theory": "E-mailul este o scrisoare trimisă prin internet. Are: adresa destinatarului, subiectul (pe scurt, despre ce este), formula de salut, mesajul, formula de încheiere și numele. Scriem politicos, clar și verificăm adresa înainte de a trimite. Nu dăm date personale persoanelor necunoscute.",
+    "sample": "Către: biblioteca.scolii@exemplu.ro / Subiect: Împrumut carte / Bună ziua, / Aș dori să știu dacă pot împrumuta cartea Aventurile lui Tom Sawyer săptămâna viitoare. / Mulțumesc, / Andrei Popa, clasa a IV-a A",
+    "worked": "Subiectul spune pe scurt despre ce este mesajul. Salutul și încheierea sunt politicoase. Mesajul este scurt și clar. Andrei își scrie numele și clasa, ca bibliotecara să știe cine întreabă.",
+    "exercises": [
+     "Scrie un e-mail doamnei învățătoare în care întrebi despre o temă.",
+     "Găsește subiectul din exemplu.",
+     "Scrie un subiect potrivit pentru un e-mail despre o excursie.",
+     "Spune ce date nu trimiți unui necunoscut.",
+     "Corectează un e-mail fără salut."
+    ],
+    "test": [
+     "Ce este e-mailul?",
+     "Ce este subiectul unui e-mail?",
+     "Ce cere Andrei?",
+     "De ce verificăm adresa?",
+     "Ce date nu trimitem necunoscuților?"
+    ],
+    "steps": [
+     "Completează adresa și un subiect scurt.",
+     "Scrie salutul, mesajul clar și încheierea.",
+     "Recitește, verifică adresa și abia apoi trimite.",
+     "Greșeala frecventă: e-mailul fără subiect sau scris doar cu litere mari, ca și cum ai striga."
+    ],
+    "answers": [
+     "O scrisoare trimisă prin internet.",
+     "Despre ce este mesajul, pe scurt.",
+     "Să împrumute o carte.",
+     "Ca mesajul să ajungă la persoana potrivită.",
+     "Adresa, telefonul, parolele."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l30": {
+   "ro": {
+    "title": "Jurnalul",
+    "theory": "Jurnalul este un caiet în care notăm, zi de zi, întâmplări și gânduri personale. Fiecare însemnare începe cu data. Scriem la persoana I (eu), despre ce am făcut, ce am simțit și ce am învățat. Jurnalul este personal și sincer.",
+    "sample": "Joi, 6 martie / Azi am prezentat proiectul despre planete. La început îmi tremura vocea, dar apoi am prins curaj. Colegii au aplaudat și m-am simțit mândră.",
+    "worked": "Însemnarea începe cu data. Este scrisă la persoana I: am prezentat, mi-am. Spune ce s-a întâmplat (proiectul), ce a simțit (emoție, apoi mândrie) și cum a trecut prin moment.",
+    "exercises": [
+     "Scrie o însemnare de jurnal despre ziua de azi.",
+     "Găsește în exemplu sentimentele.",
+     "Spune la ce persoană este scris jurnalul.",
+     "Scrie o însemnare despre ceva ce ai învățat.",
+     "Pune data corect la o însemnare."
+    ],
+    "test": [
+     "Ce este jurnalul?",
+     "Cu ce începe fiecare însemnare?",
+     "La ce persoană se scrie?",
+     "Ce a prezentat fata?",
+     "Cum s-a simțit la sfârșit?"
+    ],
+    "steps": [
+     "Scrie sus data însemnării.",
+     "Povestește la persoana I ce ai făcut.",
+     "Adaugă ce ai simțit și ce ai învățat.",
+     "Greșeala frecventă: jurnalul fără sentimente, doar cu o listă de activități."
+    ],
+    "answers": [
+     "Un caiet cu însemnări personale zilnice.",
+     "Cu data.",
+     "La persoana I.",
+     "Un proiect despre planete.",
+     "Mândră."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l31": {
+   "ro": {
+    "title": "Rezumatul unui text",
+    "theory": "Rezumatul este prezentarea pe scurt a unui text, cu cuvintele noastre, la persoana a III-a. Pornim de la planul de idei și scriem doar întâmplările importante, fără dialog și fără detalii. Un rezumat bun este mult mai scurt decât textul.",
+    "sample": "Text: Lia a găsit un pui de vrabie... (trei paragrafe) / Rezumat: O fetiță, Lia, găsește un pui de vrabie căzut din cuib. Ea îl îngrijește o săptămână, iar puiul, vindecat, își ia zborul.",
+    "worked": "Rezumatul are două propoziții și cuprinde ideile principale: găsirea, îngrijirea, zborul. Este scris la persoana a III-a, fără dialog și fără detalii. Cine nu a citit textul înțelege totuși ce s-a întâmplat.",
+    "exercises": [
+     "Scrie rezumatul unui text din manual în cinci propoziții.",
+     "Scrie rezumatul unui film văzut recent.",
+     "Taie detaliile dintr-un paragraf ca să rămână ideea.",
+     "Spune la ce persoană se scrie rezumatul.",
+     "Compară rezumatul tău cu al unui coleg."
+    ],
+    "test": [
+     "Ce este rezumatul?",
+     "La ce persoană se scrie?",
+     "Păstrăm dialogul în rezumat?",
+     "De la ce pornim când facem rezumatul?",
+     "Ce s-a întâmplat cu puiul la sfârșit?"
+    ],
+    "steps": [
+     "Fă planul de idei al textului.",
+     "Transformă fiecare idee într-o propoziție, la persoana a III-a.",
+     "Taie detaliile și dialogul și verifică dacă rezumatul e scurt.",
+     "Greșeala frecventă: copierea unor propoziții întregi din text. Rezumatul se scrie cu cuvintele tale."
+    ],
+    "answers": [
+     "Prezentarea pe scurt a unui text.",
+     "La persoana a III-a.",
+     "Nu.",
+     "De la planul de idei.",
+     "Și-a luat zborul."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l32": {
+   "ro": {
+    "title": "Compunerea cu titlu dat sau cu început dat",
+    "theory": "Uneori primim titlul sau începutul compunerii. Ne gândim ce idei se potrivesc, facem un plan (introducere, cuprins, încheiere) și scriem pe paragrafe. Putem folosi dialog, descriere și figuri învățate: comparația și personificarea.",
+    "sample": "Titlu dat: O surpriză neașteptată. / Început: Când am deschis ușa, nu mi-a venit să cred ce am văzut... / Plan: 1. Revin acasă. 2. Găsesc un cățel în cutie. 3. Aflu că este cadoul de ziua mea.",
+    "worked": "Am ales idei potrivite cu titlul: surpriza este un cățel. Planul are trei părți. Începutul dat ne pune direct în acțiune. În cuprins putem descrie cățelul și reacția noastră.",
+    "exercises": [
+     "Scrie o compunere cu titlul O zi de neuitat.",
+     "Continuă începutul din exemplu cu un paragraf.",
+     "Fă un plan pentru titlul Prietenul meu cel mai bun.",
+     "Adaugă o comparație în compunerea ta.",
+     "Scrie o încheiere pentru compunerea din exemplu."
+    ],
+    "test": [
+     "Ce facem înainte să scriem?",
+     "Care sunt părțile compunerii?",
+     "Care este surpriza din exemplu?",
+     "Ce figuri putem folosi?",
+     "Ce rol are titlul?"
+    ],
+    "steps": [
+     "Citește titlul sau începutul și notează idei potrivite.",
+     "Fă planul: introducere, cuprins, încheiere.",
+     "Scrie pe paragrafe și recitește pentru greșeli.",
+     "Greșeala frecventă: compunerea care nu se potrivește cu titlul primit."
+    ],
+    "answers": [
+     "Facem un plan.",
+     "Introducere, cuprins, încheiere.",
+     "Un cățel, cadou de ziua lui.",
+     "Comparația și personificarea.",
+     "Ne arată despre ce trebuie să scriem."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l33": {
+   "ro": {
+    "title": "Recapitulare: ce am învățat în clasa a IV-a",
+    "theory": "La sfârșitul ciclului primar citim un text necunoscut și arătăm tot ce știm: înțelegem întâmplările și personajele, recunoaștem figurile, găsim părțile de vorbire și de propoziție, scriem corect și redactăm texte. Aceste lucruri se verifică și la evaluarea de la sfârșitul clasei a IV-a.",
+    "sample": "Pe malul râului, doi prieteni au construit o plută din crengi. Râul cânta ca un clopoțel. — Va pluti? a întrebat Mihai. — Sigur! i-a răspuns Radu.",
+    "worked": "Locul: malul râului. Personajele: Mihai și Radu. Comparație: ca un clopoțel; personificare: râul cânta. Predicat: au construit; subiect: prieteni. Numeral: doi. I-a răspuns: cratimă. Dialogul are linii de dialog.",
+    "exercises": [
+     "Găsește subiectul și predicatul din prima propoziție.",
+     "Găsește comparația din exemplu.",
+     "Găsește numeralul din exemplu.",
+     "Scrie rezumatul exemplului într-o propoziție.",
+     "Scrie o continuare de un paragraf."
+    ],
+    "test": [
+     "Cine sunt personajele?",
+     "Ce figură este: râul cânta?",
+     "Ce parte de vorbire este doi?",
+     "De ce i-a are cratimă?",
+     "Ce au construit prietenii?"
+    ],
+    "steps": [
+     "Citește textul de două ori și răspunde: cine? unde? ce?",
+     "Găsește figurile, părțile de vorbire și părțile de propoziție cu întrebările învățate.",
+     "Verifică ortografia și punctuația în răspunsurile tale.",
+     "Greșeala frecventă: grabă: răspunsuri date fără să recitești textul."
+    ],
+    "answers": [
+     "Mihai și Radu.",
+     "Personificare.",
+     "Numeral.",
+     "Înseamnă i-a răspuns lui.",
+     "O plută din crengi."
+    ]
+   }
+  }
+ }
+}

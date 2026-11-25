@@ -1,0 +1,992 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "RO",
+ "stage": "advanced",
+ "grade": "uni-ba-3",
+ "version": "818574116413f24de762c779d3c2db8979bbf63bf92283a9659603aa18dd5b58",
+ "source": "https://www.aracis.ro/",
+ "sourceTitle": "Sinteză orientativă a disciplinelor fundamentale comune programelor de licență Istorie din România, conform standardelor specifice ARACIS pentru domeniul Istorie și planurilor de învățământ publicate de Universitatea din București, Universitatea Babeș-Bolyai și Universitatea „Alexandru Ioan Cuza” — anul III (și disciplinele contemporane din anul II, unde planul le așază mai devreme): istoria contemporană universală, istoria contemporană a României, relații internaționale în secolul XX, istoria integrării europene, teoria și metodologia istoriei, istoriografie românească, scriere academică și pregătirea lucrării de licență; fiecare facultate are planul propriu, iar ordinea și denumirile cursurilor pot diferi; lecții originale, fără text copiat din cursuri sau manuale",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "ro",
+ "labels": [
+  "Activitate originală · România · Facultatea de Istorie · Licență, anul III",
+  "Teorie pe înțeles",
+  "Exemplu de izvor sau caz",
+  "Analiză explicată",
+  "Exerciții de seminar",
+  "Verifică-te",
+  "Exerciții originale; nu înlocuiesc cursul, bibliografia sau evaluarea facultății.",
+  "Dacă nu ai înțeles: pas cu pas",
+  "Răspunsuri (verifică după ce termini)"
+ ],
+ "units": [
+  {
+   "title": "Primul Război Mondial și ordinea de la Versailles",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-3-l01",
+    "eu-year-ro-advanced-uni-ba-3-l02",
+    "eu-year-ro-advanced-uni-ba-3-l03",
+    "eu-year-ro-advanced-uni-ba-3-l04"
+   ]
+  },
+  {
+   "title": "Totalitarisme și Al Doilea Război Mondial",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-3-l05",
+    "eu-year-ro-advanced-uni-ba-3-l06",
+    "eu-year-ro-advanced-uni-ba-3-l07",
+    "eu-year-ro-advanced-uni-ba-3-l08",
+    "eu-year-ro-advanced-uni-ba-3-l09"
+   ]
+  },
+  {
+   "title": "Lumea bipolară",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-3-l10",
+    "eu-year-ro-advanced-uni-ba-3-l11",
+    "eu-year-ro-advanced-uni-ba-3-l12",
+    "eu-year-ro-advanced-uni-ba-3-l13"
+   ]
+  },
+  {
+   "title": "România contemporană",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-3-l14",
+    "eu-year-ro-advanced-uni-ba-3-l15",
+    "eu-year-ro-advanced-uni-ba-3-l16",
+    "eu-year-ro-advanced-uni-ba-3-l17",
+    "eu-year-ro-advanced-uni-ba-3-l18"
+   ]
+  },
+  {
+   "title": "Integrare europeană și relații internaționale în secolul XX",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-3-l19",
+    "eu-year-ro-advanced-uni-ba-3-l20",
+    "eu-year-ro-advanced-uni-ba-3-l21"
+   ]
+  },
+  {
+   "title": "Teoria istoriei, istoriografie și cercetare",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-3-l22",
+    "eu-year-ro-advanced-uni-ba-3-l23",
+    "eu-year-ro-advanced-uni-ba-3-l24",
+    "eu-year-ro-advanced-uni-ba-3-l25",
+    "eu-year-ro-advanced-uni-ba-3-l26"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-ro-advanced-uni-ba-3-l01": {
+   "ro": {
+    "title": "Primul Război Mondial: cauze, desfășurare, urmări",
+    "theory": "Cauzele profunde ale războiului au fost rivalitățile imperialiste și coloniale, sistemele de alianțe, cursa înarmărilor, naționalismele și crizele balcanice; pretextul a fost atentatul de la Sarajevo (28 iunie 1914). Planul german Schlieffen a eșuat pe Marna (1914), iar frontul de vest a devenit un război de tranșee (Verdun și Somme, 1916). Războiul a fost total: mobilizarea economiei, propaganda, noi arme (gaze, tancuri, aviație, submarine). Intrarea SUA (1917) și ieșirea Rusiei după revoluția bolșevică (Brest-Litovsk, 1918) au schimbat echilibrul. Armistițiul din 11 noiembrie 1918 a încheiat luptele. Urmările: circa 10 milioane de militari morți, prăbușirea imperiilor german, austro-ungar, rus și otoman, apariția statelor naționale.",
+    "sample": "Bătălia de la Verdun (1916) a durat aproape zece luni și a provocat sute de mii de victime fără schimbări importante ale frontului.",
+    "worked": "Verdun a devenit simbolul războiului de uzură: tehnologia defensivă era superioară celei ofensive.",
+    "exercises": [
+     "Explică cauzele profunde și pretextul războiului.",
+     "Explică de ce a eșuat planul Schlieffen.",
+     "Explică ce înseamnă război total.",
+     "Explică importanța anului 1917.",
+     "Explică urmările politice ale războiului."
+    ],
+    "test": [
+     "Când a avut loc atentatul de la Sarajevo?",
+     "Unde a fost oprit atacul german în 1914?",
+     "Ce bătălie din 1916 a devenit simbolul uzurii?",
+     "Ce tratat a scos Rusia din război?",
+     "Când a fost semnat armistițiul?"
+    ],
+    "steps": [
+     "Distinge cauzele profunde de pretext.",
+     "Ordonează etapele războiului.",
+     "Evaluează urmările pe termen scurt și lung.",
+     "Greșeala frecventă: să crezi că războiul a fost scurt, cum se aștepta în 1914; a durat patru ani."
+    ],
+    "answers": [
+     "La 28 iunie 1914.",
+     "Pe Marna.",
+     "Verdun.",
+     "Tratatul de la Brest-Litovsk.",
+     "La 11 noiembrie 1918."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l02": {
+   "ro": {
+    "title": "România în Primul Război Mondial",
+    "theory": "După neutralitatea din 1914–1916, guvernul Ion I.C. Brătianu a semnat tratatul cu Antanta (4/17 august 1916), care recunoștea dreptul României asupra Transilvaniei, Banatului și Bucovinei. Ofensiva în Transilvania a fost urmată de contraofensiva Puterilor Centrale (Turtucaia, ocuparea Bucureștiului, decembrie 1916); guvernul și regele s-au retras la Iași. În vara anului 1917, armata reorganizată a oprit ofensiva germană la Mărăști, Mărășești și Oituz. Ieșirea Rusiei din război a obligat România la Pacea de la Buftea-București (mai 1918), care nu a fost ratificată de rege. România a reintrat în război la 10 noiembrie 1918, iar prăbușirea Puterilor Centrale a permis unirea.",
+    "sample": "Regele Ferdinand nu a semnat Pacea de la București din 1918.",
+    "worked": "Nesemnarea a permis României să susțină ulterior că pacea nu a fost validă și să se prezinte la Conferința de Pace ca aliată.",
+    "exercises": [
+     "Explică condițiile tratatului cu Antanta.",
+     "Explică cauzele dezastrului din 1916.",
+     "Explică importanța luptelor din 1917.",
+     "Analizează Pacea de la Buftea-București.",
+     "Explică importanța reintrării în război din noiembrie 1918."
+    ],
+    "test": [
+     "Când a semnat România tratatul cu Antanta?",
+     "Unde a suferit armata română o grea înfrângere în 1916?",
+     "Unde s-au retras autoritățile?",
+     "Ce bătălii au oprit ofensiva germană în 1917?",
+     "Când a reintrat România în război?"
+    ],
+    "steps": [
+     "Ordonează evenimentele.",
+     "Analizează deciziile politice.",
+     "Evaluează costurile și rezultatele.",
+     "Greșeala frecventă: să crezi că România a intrat în război fără garanții; tratatul cu Antanta definea clar obiectivele."
+    ],
+    "answers": [
+     "La 4/17 august 1916.",
+     "La Turtucaia.",
+     "La Iași.",
+     "Mărăști, Mărășești și Oituz.",
+     "La 10 noiembrie 1918."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l03": {
+   "ro": {
+    "title": "Conferința de pace și sistemul de la Versailles",
+    "theory": "Conferința de pace de la Paris (1919–1920) a fost dominată de SUA (Wilson), Marea Britanie (Lloyd George), Franța (Clemenceau) și Italia. Principiile lui Wilson (cele 14 puncte, autodeterminarea) s-au ciocnit cu interesele de securitate ale Franței. Tratatele: Versailles cu Germania (1919: pierderi teritoriale, dezarmare, reparații, clauza vinovăției), Saint-Germain cu Austria, Neuilly cu Bulgaria, Trianon cu Ungaria (1920), Sèvres cu Turcia (revizuit la Lausanne, 1923). Societatea Națiunilor a fost creată pentru securitate colectivă, fără SUA. România (Brătianu, Vaida-Voevod, Titulescu) a obținut recunoașterea unirii, dar a fost obligată să semneze tratatul minorităților.",
+    "sample": "Clauza din Tratatul de la Versailles care atribuia Germaniei responsabilitatea războiului a fost exploatată de propaganda naționalistă germană.",
+    "worked": "Exemplul arată că o pace percepută ca nedreaptă poate alimenta revizionismul și noi conflicte.",
+    "exercises": [
+     "Explică principiile lui Wilson.",
+     "Analizează prevederile Tratatului de la Versailles.",
+     "Enumeră tratatele de pace și statele învinse.",
+     "Explică rolul Societății Națiunilor.",
+     "Explică poziția României la Conferință."
+    ],
+    "test": [
+     "Cine era președintele SUA la Conferință?",
+     "Ce tratat a fost semnat cu Germania?",
+     "Ce tratat a fost semnat cu Ungaria?",
+     "Ce organizație internațională a fost creată?",
+     "Ce tratat special a trebuit să semneze România?"
+    ],
+    "steps": [
+     "Identifică marile puteri și obiectivele lor.",
+     "Analizează tratatele.",
+     "Evaluează stabilitatea noii ordini.",
+     "Greșeala frecventă: să crezi că Versailles a fost singurul tratat; sistemul cuprindea cinci tratate."
+    ],
+    "answers": [
+     "Woodrow Wilson.",
+     "Tratatul de la Versailles.",
+     "Tratatul de la Trianon.",
+     "Societatea Națiunilor.",
+     "Tratatul minorităților."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l04": {
+   "ro": {
+    "title": "România Mare: integrare și probleme interbelice",
+    "theory": "După 1918, România a trebuit să integreze provincii cu tradiții administrative, juridice și economice diferite. Reformele: votul universal masculin (1918), reforma agrară (1921, cea mai amplă din Europa Centrală), Constituția din 1923, unificarea administrativă (1925), legislativă și monetară. Economia s-a dezvoltat (petrol, industrie), dar criza din 1929–1933 a lovit grav agricultura. Societatea era majoritar rurală, cu analfabetism ridicat; minoritățile reprezentau circa 28% din populație. Viața politică a fost dominată de PNL și PNȚ; extremismul legionar și autoritarismul lui Carol al II-lea au slăbit democrația. Cultura a cunoscut o epocă de aur (Blaga, Arghezi, Rebreanu, Eliade, Enescu, Brâncuși).",
+    "sample": "Recensământul din 1930 a înregistrat peste 18 milioane de locuitori, dintre care circa 28% aparțineau minorităților.",
+    "worked": "Datele arată caracterul multietnic al României Mari și explică importanța politicii față de minorități.",
+    "exercises": [
+     "Explică problemele integrării noilor provincii.",
+     "Analizează reforma agrară din 1921.",
+     "Explică principiile Constituției din 1923.",
+     "Explică efectele crizei economice.",
+     "Explică diversitatea etnică și culturală a României Mari."
+    ],
+    "test": [
+     "Când a fost introdus votul universal masculin?",
+     "Când a avut loc reforma agrară?",
+     "Când a fost adoptată Constituția?",
+     "Ce recensământ important a avut loc în 1930?",
+     "Ce sculptor român a devenit celebru în perioada interbelică?"
+    ],
+    "steps": [
+     "Identifică problemele.",
+     "Analizează soluțiile adoptate.",
+     "Evaluează rezultatele.",
+     "Greșeala frecventă: să crezi că România interbelică era omogenă; era diversă etnic, regional și social."
+    ],
+    "answers": [
+     "În 1918.",
+     "În 1921.",
+     "În 1923.",
+     "Recensământul general al populației.",
+     "Constantin Brâncuși."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l05": {
+   "ro": {
+    "title": "URSS: de la revoluție la stalinism",
+    "theory": "Revoluția din februarie 1917 a înlăturat țarismul; în octombrie (noiembrie), bolșevicii conduși de Lenin au preluat puterea. Războiul civil (1918–1921) a fost câștigat de bolșevici, cu „comunismul de război” și teroare (Ceka). Noua politică economică (NEP, 1921) a permis temporar piața. URSS a fost creată în 1922. Stalin a câștigat lupta pentru putere și a impus planurile cincinale (industrializare forțată din 1928) și colectivizarea, care a provocat foametea din Ucraina (Holodomor, 1932–1933). Marea Teroare (1936–1938) a lovit partidul, armata și societatea; sistemul Gulag a deținut milioane de oameni. Cultul personalității și controlul total au definit stalinismul.",
+    "sample": "Holodomorul a fost provocat de rechizițiile forțate de cereale în timpul colectivizării.",
+    "worked": "Exemplul arată că foametea a fost rezultatul unei politici, nu al unei calamități naturale.",
+    "exercises": [
+     "Ordonează evenimentele din 1917.",
+     "Explică politica NEP.",
+     "Explică planurile cincinale.",
+     "Explică urmările colectivizării.",
+     "Explică trăsăturile stalinismului."
+    ],
+    "test": [
+     "Cine a condus bolșevicii în 1917?",
+     "Când a fost creată URSS?",
+     "Ce politică economică a permis piața în 1921?",
+     "Ce foamete a lovit Ucraina în 1932–1933?",
+     "Când a avut loc Marea Teroare?"
+    ],
+    "steps": [
+     "Ordonează etapele pe o axă a timpului.",
+     "Identifică mijloacele controlului.",
+     "Evaluează costurile umane.",
+     "Greșeala frecventă: să crezi că teroarea a lovit doar adversarii regimului; a lovit și comuniști loiali."
+    ],
+    "answers": [
+     "Lenin.",
+     "În 1922.",
+     "NEP.",
+     "Holodomorul.",
+     "În 1936–1938."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l06": {
+   "ro": {
+    "title": "Fascismul și nazismul",
+    "theory": "Fascismul italian, condus de Benito Mussolini, a preluat puterea după Marșul asupra Romei (1922) și a construit un regim totalitar: partid unic, corporatism, cultul Ducelui, expansiune (Etiopia, 1935–1936). Nazismul german s-a născut din criza Republicii de la Weimar (umilința de la Versailles, inflația, criza din 1929). Adolf Hitler a devenit cancelar (30 ianuarie 1933), a eliminat democrația (incendierea Reichstagului, Legea depunerii puterilor) și a instaurat un stat totalitar rasist: legile de la Nürnberg (1935), Noaptea de cristal (1938), Gestapo, lagăre de concentrare, propaganda lui Goebbels. Politica externă a urmărit revizuirea Versailles-ului și „spațiul vital”: remilitarizarea Renaniei, Anschluss-ul, Acordul de la München (1938).",
+    "sample": "Legile de la Nürnberg (1935) au retras evreilor germani cetățenia și au interzis căsătoriile mixte.",
+    "worked": "Legislația arată că persecuția a fost organizată de stat, prin lege, înaintea violenței fizice în masă.",
+    "exercises": [
+     "Explică ascensiunea lui Mussolini.",
+     "Explică cauzele ascensiunii nazismului.",
+     "Explică etapele instaurării dictaturii naziste.",
+     "Analizează legile de la Nürnberg.",
+     "Explică politica externă a lui Hitler până în 1939."
+    ],
+    "test": [
+     "Când a avut loc Marșul asupra Romei?",
+     "Când a devenit Hitler cancelar?",
+     "Ce legi rasiale au fost adoptate în 1935?",
+     "Când a avut loc Noaptea de cristal?",
+     "Ce acord din 1938 a cedat Germaniei regiunea sudetă?"
+    ],
+    "steps": [
+     "Identifică factorii ascensiunii.",
+     "Ordonează etapele pe o axă a timpului.",
+     "Analizează ideologia și practicile.",
+     "Greșeala frecventă: să crezi că Hitler a luat puterea prin lovitură de stat; a fost numit legal cancelar, apoi a distrus democrația."
+    ],
+    "answers": [
+     "În 1922.",
+     "La 30 ianuarie 1933.",
+     "Legile de la Nürnberg.",
+     "În noiembrie 1938.",
+     "Acordul de la München."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l07": {
+   "ro": {
+    "title": "Al Doilea Război Mondial",
+    "theory": "Pactul Ribbentrop–Molotov (23 august 1939), cu protocolul secret de împărțire a sferelor de influență, a permis atacul asupra Poloniei (1 septembrie 1939). Germania a ocupat o mare parte a Europei (Franța, 1940); Marea Britanie a rezistat (bătălia Angliei). Atacul asupra URSS (22 iunie 1941) și cel japonez de la Pearl Harbor (7 decembrie 1941) au mondializat războiul. Punctele de cotitură: Stalingrad (1942–1943), Midway (1942), El Alamein (1942). Debarcarea din Normandia (6 iunie 1944) a deschis al doilea front. Germania a capitulat la 8/9 mai 1945, Japonia la 2 septembrie 1945, după bombele atomice de la Hiroshima și Nagasaki. Conferințele de la Teheran, Ialta și Potsdam au decis ordinea postbelică.",
+    "sample": "Protocolul secret al Pactului Ribbentrop–Molotov includea Basarabia în sfera de interes sovietică.",
+    "worked": "Documentul explică ultimatumul sovietic din iunie 1940 și pierderea Basarabiei și a nordului Bucovinei.",
+    "exercises": [
+     "Analizează Pactul Ribbentrop–Molotov.",
+     "Ordonează etapele războiului.",
+     "Explică punctele de cotitură.",
+     "Explică importanța conferințelor aliate.",
+     "Explică urmările războiului."
+    ],
+    "test": [
+     "Când a fost semnat Pactul Ribbentrop–Molotov?",
+     "Când a fost atacată Polonia?",
+     "Când a atacat Germania URSS?",
+     "Ce bătălie a marcat cotitura pe frontul de est?",
+     "Când a avut loc debarcarea din Normandia?"
+    ],
+    "steps": [
+     "Ordonează evenimentele.",
+     "Identifică punctele de cotitură.",
+     "Leagă deciziile marilor puteri de ordinea postbelică.",
+     "Greșeala frecventă: să crezi că URSS a fost de la început în tabăra aliată; între 1939 și 1941 a colaborat cu Germania."
+    ],
+    "answers": [
+     "La 23 august 1939.",
+     "La 1 septembrie 1939.",
+     "La 22 iunie 1941.",
+     "Stalingrad.",
+     "La 6 iunie 1944."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l08": {
+   "ro": {
+    "title": "Holocaustul",
+    "theory": "Holocaustul (Shoah) a fost exterminarea sistematică, organizată de statul nazist și de aliații și colaboratorii săi, a circa șase milioane de evrei europeni; au fost victime și romii (Porajmos), persoanele cu dizabilități și alte grupuri. Etapele: discriminarea legală, ghetoizarea, execuțiile în masă ale Einsatzgruppen în teritoriile sovietice ocupate, apoi „soluția finală” (Conferința de la Wannsee, 1942), cu lagărele de exterminare (Auschwitz-Birkenau, Treblinka, Sobibor). În România, regimul Antonescu a fost responsabil de pogromul de la Iași (iunie 1941), de deportările evreilor din Basarabia, Bucovina și Transnistria și de deportarea romilor în Transnistria. Comisia Internațională pentru Studierea Holocaustului în România (Raportul Wiesel, 2004) a stabilit aceste responsabilități. Evreii din nordul Transilvaniei, sub administrație maghiară, au fost deportați la Auschwitz în 1944.",
+    "sample": "Raportul Comisiei conduse de Elie Wiesel (2004) a stabilit că între 280.000 și 380.000 de evrei au fost uciși în teritoriile sub controlul României.",
+    "worked": "Raportul a încheiat negarea oficială și a dus la asumarea responsabilității de către statul român.",
+    "exercises": [
+     "Explică etapele Holocaustului.",
+     "Explică ce s-a decis la Wannsee.",
+     "Explică responsabilitatea regimului Antonescu.",
+     "Analizează importanța Raportului Wiesel.",
+     "Explică de ce studiul Holocaustului este important astăzi."
+    ],
+    "test": [
+     "Câți evrei au fost uciși în Holocaust?",
+     "Ce conferință a organizat „soluția finală”?",
+     "Ce pogrom a avut loc în iunie 1941 în România?",
+     "În ce regiune au fost deportați evreii și romii de regimul Antonescu?",
+     "Cine a condus comisia din 2004?"
+    ],
+    "steps": [
+     "Identifică etapele și responsabilii.",
+     "Folosește izvoare și cifre stabilite științific.",
+     "Evaluează asumarea memoriei.",
+     "Greșeala frecventă: să crezi că Holocaustul nu privește România; regimul Antonescu poartă responsabilitate directă."
+    ],
+    "answers": [
+     "Circa șase milioane.",
+     "Conferința de la Wannsee.",
+     "Pogromul de la Iași.",
+     "În Transnistria.",
+     "Elie Wiesel."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l09": {
+   "ro": {
+    "title": "România în Al Doilea Război Mondial",
+    "theory": "În 1940, izolată după căderea Franței, România a pierdut Basarabia și nordul Bucovinei (ultimatumul sovietic, iunie), nord-vestul Transilvaniei (Dictatul de la Viena, 30 august) și Cadrilaterul (Tratatul de la Craiova, septembrie). Carol al II-lea a abdicat; Ion Antonescu a instaurat statul național-legionar, apoi dictatura militară, și a alăturat România Axei (noiembrie 1940). La 22 iunie 1941, România a intrat în război împotriva URSS pentru eliberarea Basarabiei, apoi a continuat dincolo de Nistru (Odessa, Stalingrad). După înfrângeri, regele Mihai I a ordonat arestarea lui Antonescu la 23 august 1944, iar România a trecut de partea Națiunilor Unite, luptând până în mai 1945 (Transilvania, Ungaria, Cehoslovacia). Convenția de armistițiu (septembrie 1944) a pus țara sub controlul sovietic.",
+    "sample": "Decizia din 23 august 1944 a scurtat războiul, dar armistițiul semnat la Moscova a permis prezența sovietică în România.",
+    "worked": "Cazul arată limitele unei decizii politice curajoase într-un context în care marile puteri hotărâseră deja sferele de influență.",
+    "exercises": [
+     "Explică pierderile teritoriale din 1940.",
+     "Explică intrarea României în Axă.",
+     "Explică trecerea Nistrului și consecințele ei.",
+     "Analizează actul de la 23 august 1944.",
+     "Explică urmările armistițiului."
+    ],
+    "test": [
+     "Ce document a cedat nord-vestul Transilvaniei?",
+     "Ce tratat a cedat Cadrilaterul?",
+     "Când a intrat România în război împotriva URSS?",
+     "Cine a ordonat arestarea lui Antonescu?",
+     "Unde a fost semnată convenția de armistițiu?"
+    ],
+    "steps": [
+     "Ordonează evenimentele din 1940–1945.",
+     "Analizează deciziile politice.",
+     "Evaluează urmările pe termen scurt și lung.",
+     "Greșeala frecventă: să crezi că 23 august 1944 a adus libertatea; a adus ieșirea din război, dar și ocupația sovietică."
+    ],
+    "answers": [
+     "Dictatul de la Viena.",
+     "Tratatul de la Craiova.",
+     "La 22 iunie 1941.",
+     "Regele Mihai I.",
+     "La Moscova."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l10": {
+   "ro": {
+    "title": "Războiul Rece: origini și etape",
+    "theory": "Războiul Rece (1947–1991) a fost confruntarea dintre SUA și URSS, fără război direct între ele. Originile: împărțirea Europei („cortina de fier”, Churchill, 1946), doctrina Truman și planul Marshall (1947), blocada Berlinului (1948–1949), crearea NATO (1949) și a Tratatului de la Varșovia (1955). Etape: confruntarea (războiul din Coreea, 1950–1953), coexistența pașnică și crizele (Berlin, 1961; Cuba, 1962), destinderea (acordurile SALT, Actul final de la Helsinki, 1975), noua confruntare (Afganistan, 1979; inițiativa de apărare strategică), apoi sfârșitul (Gorbaciov, 1985–1991). Competiția a fost și ideologică, economică, tehnologică (cursa spațială) și culturală.",
+    "sample": "Criza rachetelor din Cuba (1962) a adus lumea în pragul războiului nuclear.",
+    "worked": "Rezolvarea crizei prin negocieri a dus la crearea „telefonului roșu” și la primele acorduri de limitare a armelor nucleare.",
+    "exercises": [
+     "Explică originile Războiului Rece.",
+     "Explică rolul planului Marshall.",
+     "Ordonează etapele Războiului Rece.",
+     "Analizează criza din Cuba.",
+     "Explică importanța Actului final de la Helsinki."
+    ],
+    "test": [
+     "Cine a vorbit de „cortina de fier” în 1946?",
+     "Când a fost creat NATO?",
+     "Când a fost construit Zidul Berlinului?",
+     "Când a avut loc criza rachetelor din Cuba?",
+     "Ce act din 1975 a recunoscut drepturile omului?"
+    ],
+    "steps": [
+     "Identifică cele două tabere.",
+     "Ordonează crizele și destinderile.",
+     "Analizează mecanismele de evitare a războiului.",
+     "Greșeala frecventă: să crezi că Războiul Rece a fost doar militar; a fost și ideologic, economic și cultural."
+    ],
+    "answers": [
+     "Winston Churchill.",
+     "În 1949.",
+     "În 1961.",
+     "În 1962.",
+     "Actul final de la Helsinki."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l11": {
+   "ro": {
+    "title": "Decolonizarea și lumea a treia",
+    "theory": "După 1945, imperiile coloniale s-au destrămat. Cauzele: slăbirea puterilor europene, mișcările naționale, poziția SUA, URSS și ONU. Asia: India și Pakistanul (1947; Gandhi și nesupunerea civilă nonviolentă), Indonezia, Indochina (Dien Bien Phu, 1954). Africa: Ghana (1957), „anul Africii” (1960), războiul din Algeria (1954–1962). Decolonizarea a fost uneori pașnică, alteori violentă. Noile state au format Mișcarea de nealiniere (Bandung, 1955; Belgrad, 1961), dar au rămas adesea afectate de sărăcie, granițe artificiale, conflicte și influența marilor puteri (neocolonialism). Apartheidul din Africa de Sud a durat până în 1994 (Nelson Mandela).",
+    "sample": "În 1960, 17 state africane și-au câștigat independența.",
+    "worked": "Ritmul rapid arată prăbușirea sistemului colonial, dar și lipsa de pregătire administrativă lăsată de metropole.",
+    "exercises": [
+     "Explică cauzele decolonizării.",
+     "Compară decolonizarea pașnică cu cea violentă.",
+     "Explică rolul lui Gandhi.",
+     "Explică ce a fost Mișcarea de nealiniere.",
+     "Explică problemele noilor state."
+    ],
+    "test": [
+     "Când și-a câștigat India independența?",
+     "Unde au fost învinși francezii în Indochina?",
+     "Ce an a fost numit „anul Africii”?",
+     "Unde a avut loc conferința statelor afro-asiatice din 1955?",
+     "Când s-a încheiat apartheidul?"
+    ],
+    "steps": [
+     "Identifică cauzele: economice, politice, ideologice.",
+     "Compară cazurile din Asia și Africa.",
+     "Evaluează urmările pe termen scurt și lung.",
+     "Greșeala frecventă: să crezi că independența a adus imediat stabilitate și prosperitate; multe state au trecut prin conflicte și dictaturi."
+    ],
+    "answers": [
+     "În 1947.",
+     "La Dien Bien Phu.",
+     "1960.",
+     "La Bandung.",
+     "În 1994."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l12": {
+   "ro": {
+    "title": "Blocul sovietic: crize și contestare",
+    "theory": "După 1945, URSS a impus regimuri comuniste în Europa Centrală și de Est. Moartea lui Stalin (1953) a fost urmată de revolta din RDG (1953) și de destalinizarea lui Hrușciov (raportul secret, 1956). Revoluția maghiară din 1956 a fost zdrobită de tancurile sovietice. Primăvara de la Praga (1968, Alexander Dubček, „socialismul cu față umană”) a fost oprită prin invazia Tratatului de la Varșovia (fără România); doctrina Brejnev afirma dreptul de intervenție. În Polonia, sindicatul independent Solidaritatea (1980, Lech Wałęsa) a devenit o mișcare de masă, interzisă prin legea marțială (1981), dar a supraviețuit. Disidența (Havel, Saharov, Soljenițîn) a denunțat încălcarea drepturilor.",
+    "sample": "În 1968, Nicolae Ceaușescu a condamnat public invazia Cehoslovaciei.",
+    "worked": "Gestul a crescut prestigiul extern al regimului, dar în interior nu a însemnat liberalizare.",
+    "exercises": [
+     "Explică impunerea comunismului în Europa de Est.",
+     "Explică destalinizarea.",
+     "Compară 1956 în Ungaria cu 1968 în Cehoslovacia.",
+     "Explică doctrina Brejnev.",
+     "Explică importanța Solidarității."
+    ],
+    "test": [
+     "Când a murit Stalin?",
+     "Cine a ținut raportul secret în 1956?",
+     "Cine a condus Primăvara de la Praga?",
+     "Ce sindicat independent s-a format în Polonia în 1980?",
+     "Ce stat al Tratatului de la Varșovia nu a participat la invazia din 1968?"
+    ],
+    "steps": [
+     "Identifică formele de contestare.",
+     "Compară reacțiile sovietice.",
+     "Evaluează efectele pe termen lung.",
+     "Greșeala frecventă: să crezi că societățile est-europene au acceptat pasiv comunismul; au existat revolte repetate."
+    ],
+    "answers": [
+     "În 1953.",
+     "Nikita Hrușciov.",
+     "Alexander Dubček.",
+     "Solidaritatea.",
+     "România."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l13": {
+   "ro": {
+    "title": "1989 și sfârșitul URSS",
+    "theory": "Mihail Gorbaciov (1985) a lansat perestroika (restructurarea economică) și glasnost (transparența) și a renunțat la doctrina Brejnev. În 1989, regimurile comuniste au căzut: în Polonia (alegerile semilibere din iunie), Ungaria, RDG (căderea Zidului Berlinului, 9 noiembrie), Bulgaria, Cehoslovacia („revoluția de catifea”) și România (singura revoluție violentă, cu execuția dictatorului). Germania s-a reunificat la 3 octombrie 1990. Tratatul de la Varșovia și CAER au fost desființate (1991). După puciul eșuat din august 1991, republicile sovietice și-au proclamat independența (inclusiv Republica Moldova, 27 august 1991), iar URSS a încetat să existe la 25/26 decembrie 1991.",
+    "sample": "Căderea Zidului Berlinului a pornit de la un anunț confuz despre libera trecere a frontierei.",
+    "worked": "Momentul arată că evenimentele istorice mari combină cauze profunde (criza sistemului) cu întâmplări și decizii neașteptate.",
+    "exercises": [
+     "Explică perestroika și glasnost.",
+     "Ordonează căderea regimurilor comuniste în 1989.",
+     "Explică specificul revoluției române.",
+     "Explică dizolvarea URSS.",
+     "Explică urmările pentru Europa."
+    ],
+    "test": [
+     "Când a ajuns Gorbaciov la conducere?",
+     "Când a căzut Zidul Berlinului?",
+     "Când s-a reunificat Germania?",
+     "Când și-a proclamat Republica Moldova independența?",
+     "Când a încetat să existe URSS?"
+    ],
+    "steps": [
+     "Identifică cauzele profunde.",
+     "Ordonează evenimentele.",
+     "Evaluează urmările pe termen scurt și lung.",
+     "Greșeala frecventă: să crezi că sfârșitul comunismului a fost decis doar de Gorbaciov; presiunea societăților a fost decisivă."
+    ],
+    "answers": [
+     "În 1985.",
+     "La 9 noiembrie 1989.",
+     "La 3 octombrie 1990.",
+     "La 27 august 1991.",
+     "În decembrie 1991."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l14": {
+   "ro": {
+    "title": "România 1944–1965: instaurarea și consolidarea comunismului",
+    "theory": "Prin presiunea sovietică, guvernul Petru Groza a fost impus la 6 martie 1945. Alegerile din 19 noiembrie 1946 au fost falsificate; opoziția a fost distrusă (procesul liderilor PNȚ, 1947); regele a fost obligat să abdice (30 decembrie 1947). Gheorghe Gheorghiu-Dej a condus stalinizarea: naționalizarea (1948), colectivizarea (1949–1962), Securitatea (1948), represiunea (Sighet, Aiud, Pitești, Canalul), desființarea Bisericii greco-catolice, realismul socialist. După 1958 (retragerea trupelor sovietice), regimul s-a distanțat de Moscova: respingerea planului Valev, Declarația din aprilie 1964, eliberarea deținuților politici (1964). Rezistența armată din munți a durat până la începutul anilor 1960.",
+    "sample": "Retragerea trupelor sovietice din 1958 a fost obținută după ce regimul de la București și-a dovedit loialitatea în timpul revoluției maghiare din 1956.",
+    "worked": "Paradoxul arată cum distanțarea de Moscova a fost construită pe o colaborare anterioară strânsă.",
+    "exercises": [
+     "Ordonează etapele preluării puterii.",
+     "Explică instrumentele represiunii.",
+     "Explică naționalizarea și colectivizarea.",
+     "Explică distanțarea de Moscova după 1958.",
+     "Explică rezistența anticomunistă din munți."
+    ],
+    "test": [
+     "Când a fost impus guvernul Groza?",
+     "Când a abdicat regele Mihai I?",
+     "Când a fost înființată Securitatea?",
+     "Când s-au retras trupele sovietice?",
+     "Ce declarație din 1964 a afirmat autonomia partidului?"
+    ],
+    "steps": [
+     "Ordonează etapele pe o axă a timpului.",
+     "Analizează mijloacele represiunii.",
+     "Evaluează distanțarea și limitele ei.",
+     "Greșeala frecventă: să crezi că distanțarea de Moscova a însemnat democratizare; regimul a rămas represiv."
+    ],
+    "answers": [
+     "La 6 martie 1945.",
+     "La 30 decembrie 1947.",
+     "În 1948.",
+     "În 1958.",
+     "Declarația din aprilie 1964."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l15": {
+   "ro": {
+    "title": "Regimul Ceaușescu (1965–1989)",
+    "theory": "Nicolae Ceaușescu a preluat conducerea în 1965 și a promovat inițial o relativă deschidere și o politică externă autonomă (1968). „Tezele din iulie” (1971) au reintrodus controlul ideologic. Regimul a devenit unul de tip sultanist: cultul personalității, rolul Elenei Ceaușescu, nepotismul. Politica economică (industrializare gigantică, datorie externă, apoi plata ei forțată prin raționalizări), politica demografică (decretul 770/1966 de interzicere a avortului), sistematizarea satelor și demolările din București (Casa Poporului) au adus o criză severă în anii 1980. Securitatea controla societatea prin informatori. Minoritățile (germanii, evreii) au emigrat, uneori în schimbul unor sume plătite statului român.",
+    "sample": "Decretul 770 din 1966 a interzis avortul, iar mii de femei au murit din cauza avorturilor clandestine.",
+    "worked": "Exemplul arată cum controlul statului totalitar a pătruns în viața privată, cu costuri umane enorme.",
+    "exercises": [
+     "Explică etapele regimului Ceaușescu.",
+     "Explică ce a fost „Tezele din iulie”.",
+     "Explică politica demografică.",
+     "Explică criza economică din anii 1980.",
+     "Explică rolul Securității."
+    ],
+    "test": [
+     "Când a preluat Ceaușescu conducerea?",
+     "Ce decret a interzis avortul?",
+     "Ce construcție a dus la demolarea unei părți a Bucureștiului?",
+     "Ce datorie a plătit regimul în anii 1980?",
+     "Ce minoritate a emigrat în număr mare spre RFG?"
+    ],
+    "steps": [
+     "Ordonează etapele pe o axă a timpului.",
+     "Analizează politicile și efectele lor.",
+     "Evaluează costurile umane.",
+     "Greșeala frecventă: să crezi că regimul a fost liberal în anii 1960; deschiderea a fost limitată și temporară."
+    ],
+    "answers": [
+     "În 1965.",
+     "Decretul 770/1966.",
+     "Casa Poporului.",
+     "Datoria externă.",
+     "Germanii."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l16": {
+   "ro": {
+    "title": "Securitatea, represiunea și memoria comunismului",
+    "theory": "Securitatea (Direcția Generală a Securității Poporului, 1948) a fost poliția politică a regimului comunist: arestări, anchete, tortură, supraveghere, rețele de informatori, dosare. Victimele represiunii au inclus politicieni, preoți, intelectuali, țărani, studenți, minorități. După 1989, accesul la dosare a fost reglementat prin Legea 187/1999, care a creat CNSAS (Consiliul Național pentru Studierea Arhivelor Securității). Comisia Prezidențială pentru Analiza Dictaturii Comuniste (2006) a stabilit caracterul „ilegitim și criminal” al regimului. Memorialul Sighet, IICCMER și cercetările istoricilor au contribuit la cunoașterea trecutului. Folosirea dosarelor cere critică a izvoarelor: notele informatorilor sunt surse produse de aparatul represiv.",
+    "sample": "Dosarele Securității conțin note informative care pot fi incomplete sau deformate de scopul celui care le-a redactat.",
+    "worked": "Istoricul trebuie să aplice critica internă: cine a scris, de ce, ce putea ști, ce confirmă alte surse.",
+    "exercises": [
+     "Explică rolul Securității.",
+     "Explică ce este CNSAS.",
+     "Explică importanța raportului din 2006.",
+     "Explică cum se folosesc critic dosarele Securității.",
+     "Explică rolul memoriei publice a comunismului."
+    ],
+    "test": [
+     "Când a fost înființată Securitatea?",
+     "Ce lege a reglementat accesul la dosare?",
+     "Ce instituție gestionează arhivele Securității?",
+     "Ce comisie a analizat dictatura comunistă în 2006?",
+     "Unde se află Memorialul Victimelor Comunismului?"
+    ],
+    "steps": [
+     "Identifică instituția și rolul ei.",
+     "Aplică critica izvoarelor la dosare.",
+     "Leagă cercetarea de memoria publică.",
+     "Greșeala frecventă: să crezi că tot ce scrie într-un dosar al Securității este adevărat; dosarele trebuie citite critic."
+    ],
+    "answers": [
+     "În 1948.",
+     "Legea 187/1999.",
+     "CNSAS.",
+     "Comisia Prezidențială pentru Analiza Dictaturii Comuniste din România.",
+     "La Sighet."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l17": {
+   "ro": {
+    "title": "Revoluția din 1989 și tranziția",
+    "theory": "Revoluția a început la Timișoara (16 decembrie 1989, apărarea pastorului László Tőkés) și s-a extins la București (21–22 decembrie). Represiunea a făcut victime; după fuga lui Ceaușescu (22 decembrie), puterea a fost preluată de Frontul Salvării Naționale (Ion Iliescu). Ceaușescu a fost executat la 25 decembrie. Peste 1.100 de oameni au murit, majoritatea după 22 decembrie, în circumstanțe încă cercetate (dosarul Revoluției). Tranziția a fost dificilă: conflictele din 1990 (Piața Universității, mineriada din 13–15 iunie), Constituția din 1991, privatizarea, inflația, restructurarea industriei. Alternanța la putere din 1996 (Emil Constantinescu) a consolidat democrația.",
+    "sample": "Majoritatea victimelor Revoluției au murit după fuga lui Ceaușescu, în confuzia „teroriștilor”.",
+    "worked": "Faptul ridică întrebări importante despre responsabilitate și arată de ce cercetarea istorică și juridică a continuat decenii.",
+    "exercises": [
+     "Ordonează evenimentele din decembrie 1989.",
+     "Explică rolul FSN.",
+     "Explică dezbaterea despre victimele de după 22 decembrie.",
+     "Explică mineriada din iunie 1990.",
+     "Explică importanța alternanței din 1996."
+    ],
+    "test": [
+     "Unde a început revoluția?",
+     "Ce pastor a fost apărat de credincioși?",
+     "Ce organism a preluat puterea?",
+     "Când au avut loc primele alegeri libere?",
+     "Cine a câștigat alegerile prezidențiale din 1996?"
+    ],
+    "steps": [
+     "Ordonează evenimentele.",
+     "Analizează dezbaterile istoriografice.",
+     "Evaluează tranziția.",
+     "Greșeala frecventă: să crezi că toate întrebările despre decembrie 1989 au primit răspuns; multe aspecte sunt încă cercetate."
+    ],
+    "answers": [
+     "La Timișoara.",
+     "László Tőkés.",
+     "Frontul Salvării Naționale.",
+     "La 20 mai 1990.",
+     "Emil Constantinescu."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l18": {
+   "ro": {
+    "title": "România în NATO și Uniunea Europeană",
+    "theory": "După 1989, România a ales integrarea euro-atlantică. A depus cererea de aderare la UE (1995), a intrat în Parteneriatul pentru Pace (1994) și a semnat tratatele politice cu vecinii (Ungaria, 1996; Ucraina, 1997). Invitația la NATO a venit la summitul de la Praga (2002); aderarea a avut loc la 29 martie 2004. Negocierile de aderare la UE (2000–2004) au cerut reforme în justiție, economie, administrație; România a aderat la 1 ianuarie 2007, împreună cu Bulgaria, cu Mecanismul de Cooperare și Verificare (MCV) pentru justiție, încheiat în 2023. Intrarea în spațiul Schengen s-a făcut parțial (aer și maritim, 31 martie 2024) și complet (inclusiv frontierele terestre, 1 ianuarie 2025).",
+    "sample": "Mecanismul de Cooperare și Verificare a monitorizat reforma justiției și lupta anticorupție din România timp de 16 ani.",
+    "worked": "Exemplul arată că aderarea nu a încheiat procesul de reformă, ci l-a continuat sub monitorizare europeană.",
+    "exercises": [
+     "Explică etapele integrării în NATO.",
+     "Explică etapele aderării la UE.",
+     "Explică ce a fost MCV.",
+     "Explică etapele intrării în Schengen.",
+     "Evaluează efectele integrării pentru România."
+    ],
+    "test": [
+     "Când a aderat România la NATO?",
+     "Unde a fost invitată România în NATO?",
+     "Când a aderat România la UE?",
+     "Cu ce stat a aderat simultan?",
+     "Când a devenit România membră deplină Schengen?"
+    ],
+    "steps": [
+     "Ordonează etapele pe o axă a timpului.",
+     "Explică condițiile cerute.",
+     "Evaluează rezultatele.",
+     "Greșeala frecventă: să crezi că aderarea la UE a însemnat automat intrarea în Schengen; Schengen a venit abia în 2024–2025."
+    ],
+    "answers": [
+     "La 29 martie 2004.",
+     "La summitul de la Praga (2002).",
+     "La 1 ianuarie 2007.",
+     "Bulgaria.",
+     "La 1 ianuarie 2025."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l19": {
+   "ro": {
+    "title": "Istoria integrării europene",
+    "theory": "Ideea unității europene a apărut după război, pentru a face imposibil un nou conflict franco-german. Declarația Schuman (9 mai 1950) a propus punerea în comun a cărbunelui și oțelului: CECO (Tratatul de la Paris, 1951) cu șase membri (Franța, RFG, Italia, Belgia, Olanda, Luxemburg). Tratatele de la Roma (1957) au creat CEE și Euratom. Lărgirile: 1973 (Marea Britanie, Irlanda, Danemarca), 1981 (Grecia), 1986 (Spania, Portugalia), 1995, 2004 (zece state), 2007 (România, Bulgaria), 2013 (Croația). Adâncirea: Actul Unic European (1986), Tratatul de la Maastricht (1992; Uniunea Europeană, cetățenia europeană), euro (1999/2002), Tratatul de la Lisabona (2007, în vigoare 2009). Brexit (2020) a fost prima ieșire a unui stat membru.",
+    "sample": "Jean Monnet credea că Europa se va construi „prin realizări concrete, care creează mai întâi o solidaritate de fapt”.",
+    "worked": "Metoda funcționalistă explică de ce integrarea a început cu economia, nu cu politica.",
+    "exercises": [
+     "Explică motivele integrării europene.",
+     "Explică metoda lui Jean Monnet.",
+     "Ordonează lărgirile.",
+     "Explică importanța Tratatului de la Maastricht.",
+     "Explică semnificația Brexitului."
+    ],
+    "test": [
+     "Când a fost prezentată Declarația Schuman?",
+     "Ce comunitate a fost creată în 1951?",
+     "Ce tratate au creat CEE?",
+     "Ce tratat a creat Uniunea Europeană?",
+     "Când a ieșit Marea Britanie din UE?"
+    ],
+    "steps": [
+     "Ordonează etapele pe o axă a timpului.",
+     "Distinge lărgirea de adâncire.",
+     "Evaluează rezultatele.",
+     "Greșeala frecventă: să crezi că UE a fost creată în 1957; atunci s-a creat CEE, iar UE în 1992–1993."
+    ],
+    "answers": [
+     "La 9 mai 1950.",
+     "CECO.",
+     "Tratatele de la Roma.",
+     "Tratatul de la Maastricht.",
+     "În 2020."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l20": {
+   "ro": {
+    "title": "ONU și ordinea internațională postbelică",
+    "theory": "Organizația Națiunilor Unite a fost creată prin Carta semnată la San Francisco (26 iunie 1945, intrată în vigoare la 24 octombrie). Scopurile: pacea și securitatea, cooperarea, drepturile omului. Organe: Adunarea Generală (toate statele, un vot), Consiliul de Securitate (cinci membri permanenți cu drept de veto: SUA, URSS/Rusia, Marea Britanie, Franța, China, și zece nepermanenți), Secretariatul, Curtea Internațională de Justiție. Declarația Universală a Drepturilor Omului (1948) a stabilit standarde comune. Instituțiile Bretton Woods (FMI, Banca Mondială) au organizat economia mondială. Dreptul de veto a blocat adesea Consiliul de Securitate în Războiul Rece; operațiunile de menținere a păcii au avut rezultate diferite. România a devenit membră ONU în 1955.",
+    "sample": "Dreptul de veto permite unui singur membru permanent să blocheze o rezoluție a Consiliului de Securitate.",
+    "worked": "Mecanismul a protejat interesele marilor puteri, dar a paralizat organizația în multe crize.",
+    "exercises": [
+     "Explică scopurile ONU.",
+     "Explică organele ONU.",
+     "Explică dreptul de veto.",
+     "Explică importanța Declarației Universale a Drepturilor Omului.",
+     "Explică rolul instituțiilor Bretton Woods."
+    ],
+    "test": [
+     "Unde a fost semnată Carta ONU?",
+     "Câți membri permanenți are Consiliul de Securitate?",
+     "Când a fost adoptată Declarația Universală a Drepturilor Omului?",
+     "Ce instituții financiare au fost create la Bretton Woods?",
+     "Când a devenit România membră ONU?"
+    ],
+    "steps": [
+     "Identifică instituțiile.",
+     "Explică modul de funcționare.",
+     "Evaluează eficiența.",
+     "Greșeala frecventă: să crezi că Adunarea Generală poate impune decizii obligatorii; doar Consiliul de Securitate poate."
+    ],
+    "answers": [
+     "La San Francisco.",
+     "Cinci.",
+     "În 1948.",
+     "FMI și Banca Mondială.",
+     "În 1955."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l21": {
+   "ro": {
+    "title": "Lumea după 1991: globalizare și noi conflicte",
+    "theory": "După sfârșitul Războiului Rece, SUA au rămas singura superputere. Globalizarea a accelerat comerțul, comunicarea (internetul) și migrațiile. Conflictele au continuat: războaiele din fosta Iugoslavie (1991–2001; genocidul de la Srebrenica, 1995), genocidul din Rwanda (1994), atacurile teroriste din 11 septembrie 2001, războaiele din Afganistan și Irak. Criza financiară din 2008, ascensiunea Chinei și revenirea Rusiei ca putere revizionistă (Georgia, 2008; anexarea Crimeii, 2014; invadarea Ucrainei, 24 februarie 2022) au schimbat ordinea internațională. NATO s-a extins spre est (inclusiv Finlanda, 2023, și Suedia, 2024). Problemele globale (schimbările climatice, pandemia COVID-19) cer cooperare internațională.",
+    "sample": "Invadarea Ucrainei de către Rusia (2022) a fost cel mai mare război convențional din Europa după 1945.",
+    "worked": "Evenimentul a dus la extinderea NATO în nord și la creșterea cheltuielilor de apărare, inclusiv în România.",
+    "exercises": [
+     "Explică ce este globalizarea.",
+     "Explică războaiele din fosta Iugoslavie.",
+     "Explică urmările atacurilor din 11 septembrie.",
+     "Explică schimbările aduse de invadarea Ucrainei.",
+     "Explică de ce problemele globale cer cooperare."
+    ],
+    "test": [
+     "Când a avut loc genocidul de la Srebrenica?",
+     "Când a avut loc genocidul din Rwanda?",
+     "Când a anexat Rusia Crimeea?",
+     "Când a început invadarea Ucrainei?",
+     "Ce stat nordic a intrat în NATO în 2023?"
+    ],
+    "steps": [
+     "Identifică tendințele principale.",
+     "Ordonează conflictele.",
+     "Evaluează schimbările ordinii internaționale.",
+     "Greșeala frecventă: să crezi că sfârșitul Războiului Rece a adus „sfârșitul istoriei”; conflictele au continuat."
+    ],
+    "answers": [
+     "În 1995.",
+     "În 1994.",
+     "În 2014.",
+     "La 24 februarie 2022.",
+     "Finlanda."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l22": {
+   "ro": {
+    "title": "Teoria și filosofia istoriei",
+    "theory": "Filosofia istoriei se întreabă dacă istoria are un sens. Augustin vedea istoria ca realizare a planului divin; Vico, ca un ciclu al epocilor; Hegel, ca desfășurare a Spiritului spre libertate; Marx, ca succesiune a modurilor de producție determinată de lupta de clasă (materialismul istoric). Pozitivismul (Comte) căuta legi ale societății. Teoria istoriei discută cunoașterea istorică: obiectivitate și subiectivitate, explicație (cauze) și înțelegere (intenții), rolul individului și al structurilor, contrafactualul. Postmodernismul (Hayden White) a subliniat dimensiunea narativă a scrierii istorice. Majoritatea istoricilor acceptă azi că cunoașterea istorică este construită, dar controlată de izvoare și de metodă.",
+    "sample": "Hayden White a arătat că istoricii își organizează narațiunile după modele literare (tragedie, comedie, satiră, romanță).",
+    "worked": "Ideea ne face atenți la retorica textelor istorice, dar nu anulează diferența dintre istorie și ficțiune, care rămâne controlul izvoarelor.",
+    "exercises": [
+     "Compară viziunile lui Augustin, Hegel și Marx.",
+     "Explică ce este pozitivismul.",
+     "Explică diferența dintre explicație și înțelegere.",
+     "Explică rolul individului și al structurilor.",
+     "Discută critica postmodernă."
+    ],
+    "test": [
+     "Cine a văzut istoria ca realizare a planului divin?",
+     "Ce filosof a văzut istoria ca drum spre libertate?",
+     "Ce teorie a formulat Marx?",
+     "Cine a fondat pozitivismul?",
+     "Ce autor a subliniat dimensiunea narativă a istoriei?"
+    ],
+    "steps": [
+     "Identifică teoria și autorul.",
+     "Explică conceptele-cheie.",
+     "Evaluează utilitatea pentru cercetare.",
+     "Greșeala frecventă: să crezi că, dacă istoria e construită, orice interpretare e la fel de bună; izvoarele și metoda decid."
+    ],
+    "answers": [
+     "Augustin.",
+     "Hegel.",
+     "Materialismul istoric.",
+     "Auguste Comte.",
+     "Hayden White."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l23": {
+   "ro": {
+    "title": "Școala Annales și noile istorii",
+    "theory": "Revista Annales (1929, Marc Bloch și Lucien Febvre) a criticat istoria evenimențială și politică și a propus o „istorie-problemă”, interdisciplinară, atentă la economie, societate și mentalități. Fernand Braudel a introdus cele trei durate ale timpului istoric: durata lungă (geografia, mediul), durata medie (conjuncturile economice și sociale) și timpul scurt (evenimentele). Generațiile următoare au dezvoltat istoria mentalităților (Jacques Le Goff, Philippe Ariès – atitudinile față de moarte și copilărie). Alte direcții: microistoria (Carlo Ginzburg, Brânza și viermii), istoria socială britanică (E.P. Thompson), istoria de gen, istoria culturală, istoria globală, istoria mediului. În România, influența Annales a fost evidentă la istorici ca Alexandru Duțu și Lucian Boia.",
+    "sample": "Carlo Ginzburg a reconstituit gândirea unui morar din secolul al XVI-lea, Menocchio, pe baza proceselor Inchiziției.",
+    "worked": "Microistoria arată că un caz bine studiat poate lumina o întreagă cultură populară, de obicei invizibilă în izvoare.",
+    "exercises": [
+     "Explică noutatea propusă de Annales.",
+     "Explică cele trei durate ale lui Braudel.",
+     "Explică ce studiază istoria mentalităților.",
+     "Explică ce este microistoria.",
+     "Dă exemple de noi domenii ale istoriei."
+    ],
+    "test": [
+     "Când a fost fondată revista Annales?",
+     "Cine a formulat teoria duratelor?",
+     "Ce istoric a studiat atitudinile față de moarte?",
+     "Cine a scris Brânza și viermii?",
+     "Ce istoric britanic a studiat formarea clasei muncitoare?"
+    ],
+    "steps": [
+     "Identifică inovația metodologică.",
+     "Explică întrebările noi puse trecutului.",
+     "Aplică la o temă românească.",
+     "Greșeala frecventă: să crezi că Annales a respins total evenimentul; l-a integrat în structuri de durată mai lungă."
+    ],
+    "answers": [
+     "În 1929.",
+     "Fernand Braudel.",
+     "Philippe Ariès.",
+     "Carlo Ginzburg.",
+     "E.P. Thompson."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l24": {
+   "ro": {
+    "title": "Istoriografia română",
+    "theory": "Istoriografia română modernă a început cu romantismul (Nicolae Bălcescu, Mihail Kogălniceanu, editarea izvoarelor). A.D. Xenopol a scris prima mare sinteză (Istoria românilor din Dacia Traiană) și o teorie a istoriei. „Școala critică” (Ioan Bogdan, Dimitrie Onciul, Constantin Giurescu) a impus metoda critică. Nicolae Iorga a dominat prima jumătate a secolului XX printr-o operă imensă; Vasile Pârvan a întemeiat arheologia modernă (Getica, 1926). „Noua școală” (Gheorghe I. Brătianu, P.P. Panaitescu, Constantin C. Giurescu) a criticat romantismul lui Iorga. Istoriografia comunistă a impus întâi marxismul-leninismul stalinist (Mihail Roller), apoi național-comunismul și protocronismul. După 1989, istoriografia s-a reînnoit: deschiderea arhivelor, demitizarea (Lucian Boia, Istorie și mit în conștiința românească, 1997), istoria comunismului, istoria socială.",
+    "sample": "Manualul de istorie al lui Mihail Roller (1947) a rescris istoria românilor după modelul sovietic, accentuând legăturile cu slavii.",
+    "worked": "Cazul arată cum puterea politică poate deforma istoria școlară și de ce independența cercetării este esențială.",
+    "exercises": [
+     "Explică aportul romantismului.",
+     "Explică aportul școlii critice.",
+     "Compară Iorga cu „noua școală”.",
+     "Explică deformările istoriografiei comuniste.",
+     "Explică direcțiile istoriografiei după 1989."
+    ],
+    "test": [
+     "Cine a scris Istoria românilor din Dacia Traiană?",
+     "Cine a scris Getica?",
+     "Ce istoric a dominat prima jumătate a secolului XX?",
+     "Ce manual stalinist a rescris istoria în 1947?",
+     "Cine a scris Istorie și mit în conștiința românească?"
+    ],
+    "steps": [
+     "Plasează istoricul în curentul său.",
+     "Identifică metoda și temele.",
+     "Evaluează influența politicii.",
+     "Greșeala frecventă: să crezi că istoriografia română a fost uniformă; a fost marcată de dezbateri puternice între școli."
+    ],
+    "answers": [
+     "A.D. Xenopol.",
+     "Vasile Pârvan.",
+     "Nicolae Iorga.",
+     "Manualul lui Mihail Roller.",
+     "Lucian Boia."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l25": {
+   "ro": {
+    "title": "Metodologia cercetării și scrierea academică",
+    "theory": "Cercetarea începe cu alegerea unei teme precise și formularea unei întrebări de cercetare. Urmează stadiul cercetării (ce s-a scris deja), alegerea izvoarelor (arhive, presă, memorii, interviuri, date statistice) și a metodelor (analiză de conținut, prosopografie, istorie comparată, istorie orală, metode cantitative și digitale). Lucrarea are introducere (tema, întrebarea, metoda, izvoarele), capitole argumentative, concluzii și bibliografie. Citarea corectă (note de subsol sau sistem autor-an) arată sursa fiecărei idei; plagiatul (preluarea fără citare) este o încălcare gravă a eticii academice și se sancționează, inclusiv prin retragerea diplomei. Folosirea instrumentelor digitale și a inteligenței artificiale trebuie declarată și verificată.",
+    "sample": "O lucrare de licență despre colectivizarea dintr-un sat poate combina documentele de arhivă cu interviuri cu martori.",
+    "worked": "Combinarea izvoarelor scrise cu cele orale permite verificarea reciprocă și dă voce oamenilor obișnuiți, puțin prezenți în documentele oficiale.",
+    "exercises": [
+     "Formulează o întrebare de cercetare pentru o temă aleasă.",
+     "Explică ce este stadiul cercetării.",
+     "Explică metodele principale de cercetare istorică.",
+     "Explică structura unei lucrări academice.",
+     "Explică de ce plagiatul este grav."
+    ],
+    "test": [
+     "Cu ce începe cercetarea?",
+     "Ce este stadiul cercetării?",
+     "Ce este prosopografia?",
+     "Ce cuprinde introducerea unei lucrări?",
+     "Ce este plagiatul?"
+    ],
+    "steps": [
+     "Alege o temă precisă și formulează întrebarea.",
+     "Adună bibliografia și izvoarele.",
+     "Construiește argumentul și citează corect.",
+     "Greșeala frecventă: să crezi că o lucrare înseamnă rezumarea unor cărți; trebuie să răspundă unei întrebări proprii."
+    ],
+    "answers": [
+     "Cu alegerea temei și formularea întrebării de cercetare.",
+     "Ce s-a scris deja despre temă.",
+     "Studiul colectiv al biografiilor unui grup.",
+     "Tema, întrebarea, metoda și izvoarele.",
+     "Preluarea ideilor sau textelor altora fără citare."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l26": {
+   "ro": {
+    "title": "Istoria publică, patrimoniul și memoria",
+    "theory": "Istoria nu se face doar în universitate: muzeele, arhivele, monumentele, comemorările, filmele, manualele și internetul formează „istoria publică”. Memoria colectivă (Maurice Halbwachs) și „locurile memoriei” (Pierre Nora) arată cum societățile își selectează și reinterpretează trecutul. Patrimoniul cultural (monumente, situri, obiecte, tradiții) este protejat prin lege și prin convenții UNESCO; România are situri în Patrimoniul Mondial (de exemplu bisericile pictate din Moldova, cetățile dacice din Munții Orăștiei, Roșia Montană). Istoria orală păstrează mărturiile martorilor. Istoria digitală (arhive online, baze de date, hărți) deschide noi posibilități. Istoricul are responsabilitatea de a combate falsurile și manipularea trecutului.",
+    "sample": "Conceptul de „locuri ale memoriei” al lui Pierre Nora include monumente, simboluri, sărbători și texte prin care o comunitate își amintește trecutul.",
+    "worked": "Conceptul ajută la analiza modului în care o societate își construiește identitatea prin trecut.",
+    "exercises": [
+     "Explică ce este istoria publică.",
+     "Explică diferența dintre memorie și istorie.",
+     "Explică conceptul de „locuri ale memoriei”.",
+     "Prezintă situri românești din Patrimoniul Mondial.",
+     "Explică responsabilitatea istoricului față de manipularea trecutului."
+    ],
+    "test": [
+     "Cine a formulat conceptul de memorie colectivă?",
+     "Cine a formulat conceptul de „locuri ale memoriei”?",
+     "Ce organizație gestionează lista Patrimoniului Mondial?",
+     "Ce cetăți din România sunt în Patrimoniul Mondial?",
+     "Ce metodă păstrează mărturiile martorilor?"
+    ],
+    "steps": [
+     "Identifică forma de memorie publică.",
+     "Analizează ce selectează și ce omite.",
+     "Compară cu cercetarea istorică.",
+     "Greșeala frecventă: să confunzi memoria colectivă cu istoria; memoria selectează, istoria verifică."
+    ],
+    "answers": [
+     "Maurice Halbwachs.",
+     "Pierre Nora.",
+     "UNESCO.",
+     "Cetățile dacice din Munții Orăștiei.",
+     "Istoria orală."
+    ]
+   }
+  }
+ }
+}

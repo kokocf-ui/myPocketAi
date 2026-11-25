@@ -1,0 +1,1033 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "RO",
+ "stage": "medium",
+ "grade": "12",
+ "version": "e70c18ad0ffe8cac502aec2f8e261cb30be6d4d785dc395f13e89fd6a86c137c",
+ "source": "https://programe.ise.ro/",
+ "sourceTitle": "Programa școlară Istorie, clasa a XII-a, ciclul superior al liceului (OMECI nr. 5099/09.09.2009, în vigoare până la aplicarea noii programe din 2029–2030), istoria românilor, cu temele programei de bacalaureat: Romanitatea românilor în viziunea istoricilor; Autonomii locale și instituții centrale (sec. IX–XVIII); Spațiul românesc între diplomație și conflict; Statul român modern; România și concertul european; Secolul XX între democrație și totalitarism; Constituțiile din România; România postbelică; România în Războiul Rece. Lecții originale, fără text copiat",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "ro",
+ "labels": [
+  "Activitate originală · România · Istorie · Clasa a XII-a",
+  "Lecția pe înțeles",
+  "Exemplu",
+  "Ce ne arată exemplul",
+  "Exerciții",
+  "Test",
+  "Activități originale, făcute după programa școlară; nu înlocuiesc manualul sau ora de la clasă.",
+  "Dacă nu ai înțeles: pas cu pas",
+  "Răspunsuri (verifică după ce termini)"
+ ],
+ "units": [
+  {
+   "title": "Popoare și spații istorice: romanitatea românilor",
+   "keys": [
+    "eu-year-ro-medium-12-l01",
+    "eu-year-ro-medium-12-l02",
+    "eu-year-ro-medium-12-l03"
+   ]
+  },
+  {
+   "title": "Autonomii locale și instituții centrale (secolele IX–XVIII)",
+   "keys": [
+    "eu-year-ro-medium-12-l04",
+    "eu-year-ro-medium-12-l05",
+    "eu-year-ro-medium-12-l06"
+   ]
+  },
+  {
+   "title": "Spațiul românesc între diplomație și conflict",
+   "keys": [
+    "eu-year-ro-medium-12-l07",
+    "eu-year-ro-medium-12-l08",
+    "eu-year-ro-medium-12-l09"
+   ]
+  },
+  {
+   "title": "Statul român modern",
+   "keys": [
+    "eu-year-ro-medium-12-l10",
+    "eu-year-ro-medium-12-l11",
+    "eu-year-ro-medium-12-l12",
+    "eu-year-ro-medium-12-l13",
+    "eu-year-ro-medium-12-l14"
+   ]
+  },
+  {
+   "title": "România și concertul european",
+   "keys": [
+    "eu-year-ro-medium-12-l15",
+    "eu-year-ro-medium-12-l16",
+    "eu-year-ro-medium-12-l17"
+   ]
+  },
+  {
+   "title": "Secolul XX – între democrație și totalitarism",
+   "keys": [
+    "eu-year-ro-medium-12-l18",
+    "eu-year-ro-medium-12-l19",
+    "eu-year-ro-medium-12-l20",
+    "eu-year-ro-medium-12-l21"
+   ]
+  },
+  {
+   "title": "România postbelică",
+   "keys": [
+    "eu-year-ro-medium-12-l22",
+    "eu-year-ro-medium-12-l23",
+    "eu-year-ro-medium-12-l24",
+    "eu-year-ro-medium-12-l25",
+    "eu-year-ro-medium-12-l26",
+    "eu-year-ro-medium-12-l27"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-ro-medium-12-l01": {
+   "ro": {
+    "title": "Geto-dacii și romanizarea – fundamentul romanității",
+    "theory": "Romanitatea românilor are două componente: originea daco-romană și continuitatea pe teritoriul fostei Dacii. Geto-dacii, ramura nordică a tracilor, au creat state puternice (Burebista, Decebal). Cucerirea romană (106) a transformat o parte a Daciei în provincie. Romanizarea s-a realizat prin colonizare masivă („ex toto orbe Romano”, după Eutropius), armată, administrație, urbanizare, religie și limba latină. După retragerea aureliană (271–275), populația daco-romană a rămas; dovezile arheologice (tezaure monetare, donariul de la Biertan) și lingvistice (fondul latin al limbii) susțin continuitatea. Creștinismul s-a răspândit în latină, iar vocabularul creștin de bază al românilor este latin.",
+    "sample": "Eutropius scria că Traian a adus în Dacia „mulțime nesfârșită de oameni din toată lumea romană”.",
+    "worked": "Sursa este folosită de istorici ca argument pentru colonizarea masivă, factor esențial al romanizării. Ea trebuie însă citită critic, ca orice sursă antică.",
+    "exercises": [
+     "Explică cele două componente ale romanității.",
+     "Enumeră factorii romanizării.",
+     "Analizează sursa lui Eutropius.",
+     "Prezintă dovezile continuității după 275.",
+     "Explică rolul creștinismului în romanizare."
+    ],
+    "test": [
+     "Când a devenit Dacia provincie romană?",
+     "Ce autor antic vorbește despre colonizarea Daciei?",
+     "Când a avut loc retragerea aureliană?",
+     "Ce obiect paleocreștin cu inscripție latină cunoști?",
+     "Ce origine are vocabularul creștin de bază?"
+    ],
+    "steps": [
+     "Identifică elementele originii și ale continuității.",
+     "Folosește surse diferite: scrise, arheologice, lingvistice.",
+     "Formulează o concluzie argumentată.",
+     "Greșeala frecventă: să confunzi originea (daco-romană) cu continuitatea (rămânerea populației pe loc); sunt două probleme distincte."
+    ],
+    "answers": [
+     "În 106.",
+     "Eutropius.",
+     "În 271–275.",
+     "Donariul de la Biertan.",
+     "Latină."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l02": {
+   "ro": {
+    "title": "Romanitatea românilor în viziunea istoricilor (secolele XV–XVIII)",
+    "theory": "Ideea originii romane a românilor apare întâi la umaniștii italieni (Poggio Bracciolini, Flavio Biondo, Enea Silvio Piccolomini, secolul al XV-lea), care observau asemănarea limbii române cu latina. Cronicarii moldoveni Grigore Ureche („de la Râm ne tragem”) și Miron Costin (De neamul moldovenilor) și stolnicul Constantin Cantacuzino au afirmat originea romană și unitatea românilor. Dimitrie Cantemir (Hronicul vechimii a romano-moldo-vlahilor) a susținut originea pur romană și continuitatea. Școala Ardeleană (Samuil Micu, Gheorghe Șincai, Petru Maior) a folosit romanitatea ca argument politic pentru drepturile românilor din Transilvania, exagerând uneori puritatea latină.",
+    "sample": "Grigore Ureche scria că în limba românilor „sunt multe cuvinte latinești”, dovadă că „de la Râm ne tragem”.",
+    "worked": "Cronicarul folosea argumentul lingvistic, pe care îl folosesc și lingviștii de azi, dar fără metodele științifice moderne.",
+    "exercises": [
+     "Explică argumentele umaniștilor italieni.",
+     "Compară viziunile lui Ureche, Costin și Cantemir.",
+     "Explică folosirea politică a romanității de către Școala Ardeleană.",
+     "Explică de ce Școala Ardeleană a exagerat puritatea latină.",
+     "Analizează un fragment dintr-un cronicar."
+    ],
+    "test": [
+     "Ce umaniști italieni au afirmat originea romană a românilor?",
+     "Ce expresie celebră i se atribuie lui Grigore Ureche?",
+     "Ce lucrare despre originea românilor a scris Miron Costin?",
+     "Ce lucrare a scris Cantemir despre vechimea românilor?",
+     "De ce a folosit Școala Ardeleană romanitatea?"
+    ],
+    "steps": [
+     "Identifică autorul și epoca.",
+     "Extrage argumentul folosit.",
+     "Compară viziunile și scopurile.",
+     "Greșeala frecventă: să crezi că teza romanității a fost inventată în epoca modernă; apare încă din secolul al XV-lea."
+    ],
+    "answers": [
+     "Poggio Bracciolini, Flavio Biondo, Enea Silvio Piccolomini.",
+     "„De la Râm ne tragem.”",
+     "De neamul moldovenilor.",
+     "Hronicul vechimii a romano-moldo-vlahilor.",
+     "Ca argument pentru drepturile politice ale românilor din Transilvania."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l03": {
+   "ro": {
+    "title": "Romanitatea în viziunea istoricilor moderni; teoriile imigraționiste",
+    "theory": "În secolul al XVIII-lea, Franz Joseph Sulzer și apoi Robert Roesler (Studii românești, 1871) au formulat teoria imigraționistă: românii s-ar fi format la sud de Dunăre și ar fi venit în nord abia în secolele XII–XIII. Teoria avea și scop politic: contestarea drepturilor românilor din Transilvania. Istoricii români au răspuns: A.D. Xenopol (Teoria lui Roesler, 1884) a combătut-o cu argumente istorice și lingvistice; Nicolae Iorga, Gheorghe Brătianu (O enigmă și un miracol istoric: poporul român) și Constantin C. Giurescu au argumentat continuitatea. Istoriografia actuală consideră că poporul român s-a format pe ambele maluri ale Dunării, printr-un proces îndelungat. În perioada comunistă, romanitatea a fost uneori minimalizată, iar apoi accentul a căzut pe daci (protocronism).",
+    "sample": "Gheorghe Brătianu a numit formarea poporului român „o enigmă și un miracol istoric”.",
+    "worked": "Titlul arată dificultatea problemei (puține surse scrise pentru mileniul I), dar și convingerea că poporul român a supraviețuit printre migratori.",
+    "exercises": [
+     "Explică teoria lui Roesler și scopul ei politic.",
+     "Prezintă argumentele lui Xenopol.",
+     "Explică poziția istoriografiei actuale.",
+     "Explică cum a fost folosită istoria originilor în perioada comunistă.",
+     "Construiește un argument pentru continuitate folosind trei tipuri de surse."
+    ],
+    "test": [
+     "Cine a formulat teoria imigraționistă în 1871?",
+     "Ce istoric român i-a răspuns în 1884?",
+     "Cine a scris „O enigmă și un miracol istoric”?",
+     "Unde s-a format poporul român, după istoriografia actuală?",
+     "Ce curent comunist a exagerat rolul dacilor?"
+    ],
+    "steps": [
+     "Identifică teoria și autorul.",
+     "Analizează argumentele pro și contra.",
+     "Recunoaște folosirea politică a istoriei.",
+     "Greșeala frecventă: să crezi că dezbaterile despre origini au fost doar științifice; au avut adesea și scopuri politice."
+    ],
+    "answers": [
+     "Robert Roesler.",
+     "A.D. Xenopol.",
+     "Gheorghe Brătianu.",
+     "Pe ambele maluri ale Dunării.",
+     "Protocronismul."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l04": {
+   "ro": {
+    "title": "Autonomiile locale din spațiul românesc",
+    "theory": "Primele forme de organizare politică ale românilor au fost autonomiile locale: obștile sătești, „țările” (Țara Hațegului, Țara Făgărașului, Țara Maramureșului, Țara Bârsei), cnezatele și voievodatele. Gesta Hungarorum amintește de voievodatele lui Gelu, Glad și Menumorut (secolele IX–X), iar Diploma Cavalerilor Ioaniți (1247) de cnezatele lui Ioan și Farcaș și voievodatele lui Litovoi și Seneslau. În Dobrogea, în secolul al X-lea, inscripția de la Mircea Vodă (943) amintește de jupanul Dimitrie. Din aceste formațiuni s-au format statele medievale: Țara Românească (Basarab I, 1330) și Moldova (Bogdan I, circa 1359). Transilvania a rămas voievodat autonom în Regatul Ungariei.",
+    "sample": "Diploma Cavalerilor Ioaniți (1247) arată că voievodul Litovoi avea un teritoriu mare la est de Olt și se afla sub suzeranitatea regelui Ungariei.",
+    "worked": "Documentul confirmă existența unor formațiuni politice românești structurate înainte de întemeierea statelor, dar și dependența lor externă.",
+    "exercises": [
+     "Enumeră formele de autonomie locală.",
+     "Analizează informațiile din Gesta Hungarorum.",
+     "Analizează Diploma Cavalerilor Ioaniți.",
+     "Explică trecerea de la autonomii la state.",
+     "Explică statutul Transilvaniei medievale."
+    ],
+    "test": [
+     "Ce izvor amintește de Gelu, Glad și Menumorut?",
+     "În ce an a fost emisă Diploma Cavalerilor Ioaniți?",
+     "Ce voievozi amintește diploma?",
+     "Ce inscripție dobrogeană din 943 cunoști?",
+     "Ce statut a avut Transilvania?"
+    ],
+    "steps": [
+     "Identifică formațiunea și izvorul care o amintește.",
+     "Localizează-o și datează-o.",
+     "Leagă autonomiile de formarea statelor.",
+     "Greșeala frecventă: să crezi că statele medievale s-au format pe un teren gol; ele au unificat autonomii locale mai vechi."
+    ],
+    "answers": [
+     "Gesta Hungarorum.",
+     "În 1247.",
+     "Litovoi și Seneslau.",
+     "Inscripția de la Mircea Vodă.",
+     "Voievodat autonom în Regatul Ungariei."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l05": {
+   "ro": {
+    "title": "Instituțiile centrale: domnia și Sfatul domnesc",
+    "theory": "În Țara Românească și Moldova, domnia era instituția centrală. Domnul avea puteri largi: conducea armata, administrația, justiția, emitea acte și bătea monedă; titlul „Io” și formula „din mila lui Dumnezeu” arătau originea divină a puterii. Succesiunea era ereditar-electivă: domnul era ales de boieri și cler dintre membrii familiei domnitoare („os domnesc”). Sfatul domnesc (divanul) era format din mari boieri cu dregătorii (logofăt, vornic, vistier, spătar, postelnic, paharnic, stolnic, comis) și sfătuia domnul. Adunarea țării (Marea Adunare) se convoca în situații deosebite. Biserica avea un rol important: mitropolitul ungea domnul. În Transilvania, voievodul, apoi principele (după 1541), guverna împreună cu Dieta.",
+    "sample": "Principiul ereditar-electiv a provocat lupte pentru tron între pretendenți, fiecare sprijinit de grupuri de boieri sau de puteri străine.",
+    "worked": "Sistemul dădea legitimitate domnului, dar producea instabilitate. Explică numeroasele schimbări de domni din Evul Mediu.",
+    "exercises": [
+     "Enumeră atribuțiile domnului.",
+     "Explică principiul ereditar-electiv.",
+     "Prezintă dregătoriile din Sfatul domnesc.",
+     "Explică rolul Bisericii în legitimarea domniei.",
+     "Compară instituțiile din Transilvania cu cele din Țara Românească și Moldova."
+    ],
+    "test": [
+     "Ce însemna formula „din mila lui Dumnezeu”?",
+     "Cine putea fi ales domn?",
+     "Ce era Sfatul domnesc?",
+     "Ce dregător se ocupa de cancelarie?",
+     "Ce instituție guverna Transilvania alături de principe?"
+    ],
+    "steps": [
+     "Identifică instituția și atribuțiile ei.",
+     "Explică relațiile dintre domn, boieri și Biserică.",
+     "Compară cu instituțiile altor state.",
+     "Greșeala frecventă: să crezi că domnul conducea fără limite; depindea de boieri, de Biserică și de puterile străine."
+    ],
+    "answers": [
+     "Că puterea domnului vine de la Dumnezeu.",
+     "Un membru al familiei domnitoare („os domnesc”).",
+     "Consiliul marilor boieri dregători.",
+     "Marele logofăt.",
+     "Dieta."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l06": {
+   "ro": {
+    "title": "Evoluția instituțiilor în secolele XVI–XVIII",
+    "theory": "Odată cu creșterea dominației otomane, instituțiile Țărilor Române s-au schimbat. Domnii au fost tot mai des numiți de Poartă, iar tronul a fost cumpărat. În epoca fanariotă (1711/1716–1821), domnii greci au încercat reforme administrative și fiscale (Constantin Mavrocordat: desființarea rumâniei și vecinătății, impozit unic). Transilvania a fost principat autonom sub suzeranitate otomană (1541–1688/1699), apoi a intrat sub stăpânirea Habsburgilor (Diploma leopoldină, 1691), cu un guvernator și o administrație centralizată. Statutul juridic al Țărilor Române față de Poartă a fost unul de autonomie: își păstrau instituțiile, legile și religia, dar plăteau tribut și nu aveau politică externă proprie.",
+    "sample": "Țările Române nu au devenit pașalâcuri și nu au avut moschei sau garnizoane otomane permanente în interior.",
+    "worked": "Diferența față de Bulgaria sau Serbia arată statutul special de autonomie, important pentru păstrarea instituțiilor și a identității.",
+    "exercises": [
+     "Explică schimbările instituționale din secolele XVI–XVIII.",
+     "Explică reformele lui Constantin Mavrocordat.",
+     "Explică statutul Transilvaniei după 1541 și după 1691.",
+     "Explică statutul juridic al Țărilor Române față de Poartă.",
+     "Compară situația Țărilor Române cu a statelor balcanice."
+    ],
+    "test": [
+     "Cum erau numiți domnii în epoca fanariotă?",
+     "Ce reformă socială a făcut Mavrocordat?",
+     "Când a devenit Transilvania principat autonom?",
+     "Ce document din 1691 a organizat Transilvania habsburgică?",
+     "Ce nu aveau Țările Române în relația cu Poarta?"
+    ],
+    "steps": [
+     "Identifică schimbările instituționale.",
+     "Explică cauzele lor.",
+     "Evaluează păstrarea autonomiei.",
+     "Greșeala frecventă: să crezi că Țările Române au fost pașalâcuri otomane; și-au păstrat statutul de autonomie."
+    ],
+    "answers": [
+     "Erau numiți de Poartă.",
+     "Desființarea rumâniei și vecinătății.",
+     "În 1541.",
+     "Diploma leopoldină.",
+     "Politică externă proprie."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l07": {
+   "ro": {
+    "title": "Politica externă a Țărilor Române în secolele XIV–XV",
+    "theory": "Statele românești au dus o politică externă de echilibru între Regatul Ungariei, Regatul Poloniei și Imperiul Otoman. Mircea cel Bătrân (1386–1418) a învins otomanii la Rovine (1395), a participat la cruciada de la Nicopole (1396) și a încheiat apoi pace cu tribut, păstrând autonomia. Iancu de Hunedoara (voievod al Transilvaniei, regent al Ungariei) a condus campanii antiotomane („campania cea lungă”, 1443–1444; apărarea Belgradului, 1456). Vlad Țepeș a atacat cetățile otomane și tabăra sultanului (1462). Ștefan cel Mare (1457–1504) a câștigat la Vaslui (1475), a fost învins la Războieni (1476), a pierdut Chilia și Cetatea Albă (1484) și a învins Polonia la Codrii Cosminului (1497).",
+    "sample": "Într-o scrisoare din 1475 către principii creștini, Ștefan cel Mare numea Moldova „poarta creștinătății”.",
+    "worked": "Ștefan cerea ajutor, argumentând că apărarea Moldovei este apărarea Europei. Diplomația folosea ideea de cruciadă pentru interesele țării.",
+    "exercises": [
+     "Explică politica de echilibru a Țărilor Române.",
+     "Prezintă acțiunile lui Mircea cel Bătrân.",
+     "Prezintă acțiunile lui Iancu de Hunedoara.",
+     "Analizează scrisoarea lui Ștefan cel Mare din 1475.",
+     "Ordonează: Rovine, Nicopole, Belgrad, Vaslui, Codrii Cosminului."
+    ],
+    "test": [
+     "Unde i-a învins Mircea pe otomani în 1395?",
+     "Ce oraș a apărat Iancu de Hunedoara în 1456?",
+     "Unde a câștigat Ștefan cel Mare în 1475?",
+     "Ce cetăți a pierdut Moldova în 1484?",
+     "Pe cine a învins Ștefan la Codrii Cosminului?"
+    ],
+    "steps": [
+     "Identifică marile puteri vecine.",
+     "Analizează acțiunile militare și diplomatice.",
+     "Explică rezultatele pentru autonomie.",
+     "Greșeala frecventă: să crezi că domnii români au luptat doar cu otomanii; au avut conflicte și cu Ungaria și Polonia."
+    ],
+    "answers": [
+     "La Rovine.",
+     "Belgradul.",
+     "La Vaslui.",
+     "Chilia și Cetatea Albă.",
+     "Polonia."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l08": {
+   "ro": {
+    "title": "Spațiul românesc în secolele XVI–XVIII: Mihai Viteazul, Cantemir, Brâncoveanu",
+    "theory": "După 1526 (Mohács), dominația otomană s-a întărit. Mihai Viteazul (1593–1601) a aderat la Liga Sfântă (1594), a învins otomanii la Călugăreni (1595), a obținut Transilvania (Șelimbăr, 1599) și Moldova (1600), realizând prima unire politică a celor trei țări. În secolul al XVII-lea, domnii au căutat sprijin la Habsburgi și Rusia. Constantin Brâncoveanu (1688–1714) a dus o politică de echilibru între otomani, Habsburgi și ruși, dar a fost executat. Dimitrie Cantemir s-a aliat cu Petru cel Mare (Tratatul de la Luțk, 1711), care recunoștea independența Moldovei, dar campania a eșuat la Stănilești. Au urmat domniile fanariote.",
+    "sample": "Tratatul de la Luțk prevedea ca Moldova să fie independentă, cu domnie ereditară în familia Cantemir, sub protecția Rusiei.",
+    "worked": "Tratatul arată căutarea unei alternative la dominația otomană, dar și riscul înlocuirii unei dominații cu alta.",
+    "exercises": [
+     "Explică importanța unirii lui Mihai Viteazul.",
+     "Explică politica de echilibru a lui Brâncoveanu.",
+     "Analizează prevederile Tratatului de la Luțk.",
+     "Explică urmările eșecului de la Stănilești.",
+     "Compară politica externă a lui Brâncoveanu cu cea a lui Cantemir."
+    ],
+    "test": [
+     "Ce ligă antiotomană a format Mihai Viteazul?",
+     "Când a realizat unirea celor trei țări?",
+     "Cine a fost executat la Istanbul în 1714?",
+     "Ce tratat a încheiat Cantemir cu Petru cel Mare?",
+     "Unde a eșuat campania din 1711?"
+    ],
+    "steps": [
+     "Identifică puterile implicate.",
+     "Analizează strategiile domnilor.",
+     "Evaluează rezultatele.",
+     "Greșeala frecventă: să crezi că unirea lui Mihai Viteazul a avut caracter național modern; a fost o unire politică personală."
+    ],
+    "answers": [
+     "Liga Sfântă.",
+     "În 1600.",
+     "Constantin Brâncoveanu.",
+     "Tratatul de la Luțk.",
+     "La Stănilești."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l09": {
+   "ro": {
+    "title": "Cultura medievală și Biserica în spațiul românesc",
+    "theory": "Biserica Ortodoxă a fost principala instituție culturală medievală în Țara Românească și Moldova. Mitropoliile au fost recunoscute de Patriarhia de Constantinopol (Țara Românească, 1359; Moldova, 1401). Limba de cult și de cancelarie a fost slavona, apoi, treptat, româna. Primul document păstrat în limba română este Scrisoarea lui Neacșu din Câmpulung (1521). Tipăriturile (Liturghierul lui Macarie, 1508; cărțile diaconului Coresi, secolul al XVI-lea) și Biblia de la București (1688) au contribuit la formarea limbii literare. Mănăstirile (Cozia, Putna, Voroneț, Curtea de Argeș, Hurezi) erau centre de cultură și artă. În Transilvania existau și biserici catolice, reformate, luterane și unitariene; Edictul de la Turda (1568) a proclamat toleranța religioasă.",
+    "sample": "Scrisoarea lui Neacșu (1521) îl anunța pe judele Brașovului despre o mișcare a otomanilor.",
+    "worked": "Documentul este cel mai vechi text păstrat în limba română și arată legăturile strânse dintre Țara Românească și orașele transilvănene.",
+    "exercises": [
+     "Explică rolul Bisericii în cultura medievală.",
+     "Explică trecerea de la slavonă la română.",
+     "Prezintă primele tipărituri.",
+     "Explică importanța Scrisorii lui Neacșu.",
+     "Explică semnificația Edictului de la Turda."
+    ],
+    "test": [
+     "Când a fost recunoscută Mitropolia Țării Românești?",
+     "Care este cel mai vechi document păstrat în română?",
+     "Cine a tipărit cărți românești în secolul al XVI-lea?",
+     "Când a apărut Biblia de la București?",
+     "Ce edict a proclamat toleranța religioasă în Transilvania?"
+    ],
+    "steps": [
+     "Identifică instituțiile culturale.",
+     "Urmărește evoluția limbii scrise.",
+     "Analizează diversitatea religioasă.",
+     "Greșeala frecventă: să crezi că româna a fost limba scrisă de la început; în Evul Mediu, slavona a dominat cancelaria și Biserica."
+    ],
+    "answers": [
+     "În 1359.",
+     "Scrisoarea lui Neacșu din Câmpulung (1521).",
+     "Diaconul Coresi.",
+     "În 1688.",
+     "Edictul de la Turda (1568)."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l10": {
+   "ro": {
+    "title": "Proiecte politice în secolul al XVIII-lea și la începutul secolului al XIX-lea",
+    "theory": "În secolul al XVIII-lea și la începutul celui următor, elitele românești au elaborat proiecte de reformă și emancipare. În Transilvania, Inochentie Micu-Klein a cerut drepturi pentru români ca națiune, iar Supplex Libellus Valachorum (1791) a cerut recunoașterea românilor ca a patra națiune. În Țara Românească și Moldova, memoriile boierești cereau autonomie, domni pământeni și înlăturarea fanarioților; unele propuneau unirea (proiectul din 1772, memoriile de la sfârșitul secolului). Proclamația de la Padeș (1821) a lui Tudor Vladimirescu chema la ridicarea poporului. Proiectul „Constituției cărvunarilor” (Ionică Tăutu, 1822) propunea o constituție liberală, cu separarea puterilor și drepturi.",
+    "sample": "„Constituția cărvunarilor” a fost redactată în Moldova în 1822, influențată de ideile revoluției franceze.",
+    "worked": "Proiectul arată pătrunderea ideilor liberale și cererea de a limita puterea domnului prin lege.",
+    "exercises": [
+     "Explică cererile din Supplex Libellus Valachorum.",
+     "Explică cererile memoriilor boierești.",
+     "Analizează Proclamația de la Padeș.",
+     "Analizează „Constituția cărvunarilor”.",
+     "Explică legătura dintre aceste proiecte și statul modern."
+    ],
+    "test": [
+     "Când a fost redactat Supplex Libellus Valachorum?",
+     "Ce cereau boierii prin memorii?",
+     "Ce document a dat Tudor Vladimirescu?",
+     "Cine a redactat „Constituția cărvunarilor”?",
+     "În ce an?"
+    ],
+    "steps": [
+     "Identifică proiectul și autorii.",
+     "Extrage revendicările principale.",
+     "Leagă-le de realizările ulterioare.",
+     "Greșeala frecventă: să crezi că ideea statului național a apărut abia la 1848; proiectele încep în secolul al XVIII-lea."
+    ],
+    "answers": [
+     "În 1791.",
+     "Autonomie, domni pământeni, înlăturarea fanarioților.",
+     "Proclamația de la Padeș.",
+     "Ionică Tăutu.",
+     "În 1822."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l11": {
+   "ro": {
+    "title": "Regulamentele Organice și revoluția de la 1848",
+    "theory": "Regulamentele Organice (1831–1832), adoptate sub protectorat rus, au fost primele acte cu caracter constituțional: separarea puterilor, Adunarea obștească, armata națională, buget, administrație modernă; ele afirmau că unirea Principatelor este firească. Revoluția de la 1848 a avut programe moderne: în Moldova (Petiția-proclamație; Dorințele partidei naționale, care cereau unirea), în Țara Românească (Proclamația de la Islaz: egalitate în drepturi, vot, libertăți, desființarea clăcii, emanciparea robilor), în Transilvania (Petiția națională de la Blaj: recunoașterea națiunii române, desființarea iobăgiei). Deși înfrânte, programele au fost realizate în anii următori.",
+    "sample": "Proclamația de la Islaz a fost numită de unii istorici „prima constituție democratică” a românilor.",
+    "worked": "Documentul conținea principiile unui stat modern: suveranitate națională, egalitate, libertăți. Era însă un program, nu o lege aplicată.",
+    "exercises": [
+     "Explică elementele moderne ale Regulamentelor Organice.",
+     "Compară programele revoluționare de la 1848.",
+     "Analizează Proclamația de la Islaz.",
+     "Explică cererea de unire în programele pașoptiste.",
+     "Explică ce programe au fost realizate după 1848."
+    ],
+    "test": [
+     "Când au fost adoptate Regulamentele Organice?",
+     "Sub ce protectorat?",
+     "Ce document moldovenesc cerea unirea?",
+     "Unde s-a citit programul revoluției din Țara Românească?",
+     "Unde s-a adoptat Petiția națională a românilor din Transilvania?"
+    ],
+    "steps": [
+     "Identifică elementele de modernizare.",
+     "Compară programele din cele trei provincii.",
+     "Evaluează urmările pentru statul modern.",
+     "Greșeala frecventă: să crezi că Regulamentele Organice erau constituții democratice; au păstrat privilegiile boierilor."
+    ],
+    "answers": [
+     "În 1831–1832.",
+     "Protectoratul rus.",
+     "Dorințele partidei naționale.",
+     "La Islaz.",
+     "La Blaj."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l12": {
+   "ro": {
+    "title": "Unirea Principatelor și reformele lui Cuza",
+    "theory": "După războiul Crimeii, Congresul de pace de la Paris (1856) a stabilit consultarea românilor prin adunări ad-hoc (1857), care au cerut unirea, prinț străin, autonomie, neutralitate și guvern reprezentativ. Convenția de la Paris (1858) a creat „Principatele Unite ale Moldovei și Țării Românești”, cu domni și guverne separate. Românii au ales același domn: Alexandru Ioan Cuza (5 și 24 ianuarie 1859). Recunoașterea internațională a dublei alegeri a urmat, iar în 1862 s-a format guvernul unic, cu capitala la București. Cuza a realizat reforme: secularizarea averilor mănăstirești (1863), Statutul dezvoltator (1864), reforma agrară (1864), legea instrucțiunii publice (învățământ primar gratuit și obligatoriu), Codul civil. A fost obligat să abdice în 1866.",
+    "sample": "Adunările ad-hoc din 1857 au cerut prinț străin dintr-o dinastie europeană, pentru a pune capăt luptelor pentru tron.",
+    "worked": "Cererea arată învățămintele trase din instabilitatea Evului Mediu și dorința de a lega România de Europa.",
+    "exercises": [
+     "Explică rolul Congresului de la Paris și al adunărilor ad-hoc.",
+     "Analizează prevederile Convenției de la Paris.",
+     "Explică dubla alegere a lui Cuza.",
+     "Enumeră reformele lui Cuza și importanța lor.",
+     "Explică de ce a abdicat Cuza."
+    ],
+    "test": [
+     "Ce au cerut adunările ad-hoc?",
+     "Ce document din 1858 a organizat Principatele?",
+     "În ce zile a fost ales Cuza?",
+     "Când s-a format guvernul unic?",
+     "Când a avut loc reforma agrară?"
+    ],
+    "steps": [
+     "Ordonează etapele unirii.",
+     "Analizează reformele.",
+     "Evaluează domnia lui Cuza.",
+     "Greșeala frecventă: să crezi că marile puteri au decis unirea; românii au impus-o prin dubla alegere."
+    ],
+    "answers": [
+     "Unire, prinț străin, autonomie, neutralitate, guvern reprezentativ.",
+     "Convenția de la Paris.",
+     "La 5 și 24 ianuarie 1859.",
+     "În 1862.",
+     "În 1864."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l13": {
+   "ro": {
+    "title": "Carol I: Constituția din 1866, Independența și Regatul",
+    "theory": "În 1866, Carol de Hohenzollern-Sigmaringen a devenit domn. Constituția din 1866, după modelul belgian, a stabilit monarhia constituțională ereditară, suveranitatea națională, separarea puterilor, responsabilitatea ministerială, drepturile și libertățile cetățenești, votul cenzitar (colegii electorale după avere). În 1877, România s-a aliat cu Rusia împotriva Imperiului Otoman; independența a fost proclamată la 9 mai 1877 de Mihail Kogălniceanu. Armata română a luptat la Plevna, Rahova, Smârdan. Congresul de la Berlin (1878) a recunoscut independența, cu condiții (modificarea articolului 7 din Constituție, privind cetățenia), a atribuit României Dobrogea și a dat Rusiei sudul Basarabiei. În 1881, România a devenit regat.",
+    "sample": "Congresul de la Berlin a condiționat recunoașterea independenței de acordarea cetățeniei fără deosebire de religie.",
+    "worked": "Condiția arată că marile puteri cereau respectarea principiului egalității civile. România a modificat Constituția în 1879.",
+    "exercises": [
+     "Analizează principiile Constituției din 1866.",
+     "Explică votul cenzitar.",
+     "Explică etapele câștigării independenței.",
+     "Analizează hotărârile Congresului de la Berlin.",
+     "Explică semnificația proclamării Regatului."
+    ],
+    "test": [
+     "După ce model a fost redactată Constituția din 1866?",
+     "Când a fost proclamată independența?",
+     "Ce cetate a fost cucerită în noiembrie 1877?",
+     "Ce provincie a primit România în 1878?",
+     "Când a devenit România regat?"
+    ],
+    "steps": [
+     "Identifică instituțiile statului.",
+     "Ordonează etapele independenței.",
+     "Analizează condițiile internaționale.",
+     "Greșeala frecventă: să crezi că independența a fost recunoscută fără condiții; Congresul de la Berlin a impus modificarea Constituției."
+    ],
+    "answers": [
+     "Constituția Belgiei.",
+     "La 9 mai 1877.",
+     "Plevna.",
+     "Dobrogea.",
+     "În 1881."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l14": {
+   "ro": {
+    "title": "Realizarea României Mari",
+    "theory": "La începutul secolului XX, milioane de români trăiau în Austro-Ungaria (Transilvania, Banat, Bucovina) și în Imperiul Rus (Basarabia). În Primul Război Mondial, după neutralitate, România a intrat de partea Antantei (1916), care îi recunoștea dreptul la unire. Destrămarea imperiilor și principiul autodeterminării au permis unirea: Sfatul Țării de la Chișinău a votat unirea Basarabiei (27 martie 1918); Congresul General al Bucovinei a hotărât unirea (28 noiembrie 1918); Marea Adunare Națională de la Alba Iulia a votat unirea Transilvaniei, Banatului, Crișanei și Maramureșului (1 decembrie 1918). Unirea a fost recunoscută prin tratatele de la Saint-Germain, Neuilly, Trianon (1920) și Paris (1920, pentru Basarabia).",
+    "sample": "Rezoluția de la Alba Iulia prevedea „deplină libertate națională pentru toate popoarele conlocuitoare”.",
+    "worked": "Documentul combina dreptul românilor la unire cu promisiunea de drepturi pentru minorități, conform principiilor democratice ale vremii.",
+    "exercises": [
+     "Explică situația românilor din afara granițelor înainte de 1918.",
+     "Explică importanța principiului autodeterminării.",
+     "Ordonează actele de unire din 1918.",
+     "Analizează Rezoluția de la Alba Iulia.",
+     "Explică recunoașterea internațională a unirii."
+    ],
+    "test": [
+     "Ce adunare a votat unirea Basarabiei?",
+     "Când s-a unit Bucovina?",
+     "Unde s-a votat unirea Transilvaniei?",
+     "Ce prevedea Rezoluția pentru minorități?",
+     "Ce tratat a recunoscut unirea Transilvaniei?"
+    ],
+    "steps": [
+     "Identifică contextul internațional.",
+     "Ordonează actele de unire.",
+     "Analizează documentele.",
+     "Greșeala frecventă: să crezi că unirea a fost recunoscută imediat; recunoașterea a venit prin tratatele din 1919–1920."
+    ],
+    "answers": [
+     "Sfatul Țării.",
+     "La 28 noiembrie 1918.",
+     "La Alba Iulia.",
+     "Deplină libertate națională pentru popoarele conlocuitoare.",
+     "Tratatul de la Trianon."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l15": {
+   "ro": {
+    "title": "România și „criza orientală”",
+    "theory": "Criza orientală a desemnat problemele create de declinul Imperiului Otoman și de rivalitatea marilor puteri în Balcani. Țările Române au fost afectate: războaiele ruso-turce, ocupațiile rusești, protectoratul rus (1829–1856). Războiul Crimeii (1853–1856) a înlocuit protectoratul rus cu garanția colectivă a marilor puteri, ceea ce a permis unirea. Criza orientală din 1875–1878 (răscoalele din Balcani, războiul ruso-româno-turc) a adus independența României. Congresul de la Berlin (1878) a reorganizat Balcanii: independența României, Serbiei, Muntenegrului; Bulgaria autonomă. Diplomația românească a știut să folosească rivalitățile dintre puteri pentru interesele naționale.",
+    "sample": "Tratatul de la Paris (1856) a retrocedat Moldovei sudul Basarabiei (Cahul, Bolgrad, Ismail).",
+    "worked": "Retrocedarea a îndepărtat Rusia de gurile Dunării. Sudul Basarabiei a fost pierdut din nou în 1878, la Congresul de la Berlin.",
+    "exercises": [
+     "Explică ce a fost criza orientală.",
+     "Explică efectele războiului Crimeii pentru Principate.",
+     "Explică legătura dintre criza din 1875–1878 și independență.",
+     "Analizează hotărârile Congresului de la Berlin pentru Balcani.",
+     "Explică modul în care diplomația românească a folosit rivalitățile marilor puteri."
+    ],
+    "test": [
+     "Ce a înlocuit protectoratul rus după 1856?",
+     "Ce teritoriu a fost retrocedat Moldovei în 1856?",
+     "Ce state au devenit independente în 1878?",
+     "Ce statut a primit Bulgaria?",
+     "Ce teritoriu a pierdut România în 1878?"
+    ],
+    "steps": [
+     "Identifică marile puteri și interesele lor.",
+     "Ordonează crizele orientale din 1829–1878.",
+     "Analizează urmările pentru România.",
+     "Greșeala frecventă: să crezi că Rusia a sprijinit dezinteresat independența României; a luat sudul Basarabiei."
+    ],
+    "answers": [
+     "Garanția colectivă a marilor puteri.",
+     "Sudul Basarabiei.",
+     "România, Serbia și Muntenegru.",
+     "Principat autonom.",
+     "Sudul Basarabiei."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l16": {
+   "ro": {
+    "title": "De la Tripla Alianță la Antanta",
+    "theory": "După 1878, temându-se de Rusia, România a aderat secret la Tripla Alianță (1883), tratat cunoscut doar de rege și câțiva miniștri. În războaiele balcanice, România a intervenit în al doilea (1913), iar Pacea de la București (1913) i-a dat Cadrilaterul. La izbucnirea Primului Război Mondial, Consiliul de Coroană de la Sinaia (3 august 1914) a decis neutralitatea, argumentând că Austro-Ungaria nu fusese atacată, deci tratatul nu se aplica. După doi ani de negocieri, guvernul condus de Ion I.C. Brătianu a semnat tratatul cu Antanta (4 august 1916), iar România a declarat război Austro-Ungariei pentru eliberarea Transilvaniei.",
+    "sample": "În Consiliul de Coroană din 1914, regele Carol I a cerut respectarea alianței cu Germania, dar majoritatea a votat neutralitatea.",
+    "worked": "Episodul arată că deciziile importante erau luate de factorii politici, nu doar de monarh, și că opinia publică era favorabilă Antantei.",
+    "exercises": [
+     "Explică de ce România a aderat la Tripla Alianță.",
+     "Explică participarea României la al doilea război balcanic.",
+     "Analizează decizia de neutralitate din 1914.",
+     "Explică de ce România a ales Antanta în 1916.",
+     "Explică rolul lui Ion I.C. Brătianu."
+    ],
+    "test": [
+     "Când a aderat România la Tripla Alianță?",
+     "Ce teritoriu a obținut prin Pacea de la București (1913)?",
+     "Unde s-a ținut Consiliul de Coroană din 1914?",
+     "Ce a decis acesta?",
+     "Cine conducea guvernul în 1916?"
+    ],
+    "steps": [
+     "Identifică opțiunile de politică externă.",
+     "Explică motivele fiecărei alegeri.",
+     "Evaluează rezultatele.",
+     "Greșeala frecventă: să crezi că neutralitatea din 1914 a fost trădare; tratatul era defensiv, iar Austro-Ungaria era agresorul."
+    ],
+    "answers": [
+     "În 1883.",
+     "Cadrilaterul.",
+     "La Sinaia.",
+     "Neutralitatea.",
+     "Ion I.C. Brătianu."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l17": {
+   "ro": {
+    "title": "România în relațiile internaționale interbelice și în Al Doilea Război Mondial",
+    "theory": "În perioada interbelică, România a urmărit apărarea granițelor prin alianțe: Mica Înțelegere (1920–1921, cu Cehoslovacia și Iugoslavia), alianța cu Polonia (1921), Înțelegerea Balcanică (1934), și prin Societatea Națiunilor (Nicolae Titulescu). Agresiunile Germaniei și politica de conciliere a Franței și Marii Britanii au slăbit acest sistem. În 1940, România a pierdut Basarabia, nordul Bucovinei, nord-vestul Transilvaniei și Cadrilaterul. Sub Ion Antonescu, s-a alăturat Axei și a intrat în război împotriva URSS (1941). La 23 august 1944, regele Mihai I a scos țara din alianța cu Germania. Tratatul de pace de la Paris (1947) a restituit nord-vestul Transilvaniei.",
+    "sample": "Titulescu susținea că „pacea este indivizibilă”: o agresiune undeva amenință pacea peste tot.",
+    "worked": "Principiul securității colective a fost abandonat de marile puteri în anii 1930, iar statele mici, ca România, au rămas fără protecție.",
+    "exercises": [
+     "Explică sistemul de alianțe al României interbelice.",
+     "Explică ideea de securitate colectivă a lui Titulescu.",
+     "Explică pierderile teritoriale din 1940.",
+     "Explică intrarea în război din 1941.",
+     "Analizează decizia de la 23 august 1944."
+    ],
+    "test": [
+     "Ce alianță a format România cu Cehoslovacia și Iugoslavia?",
+     "Cine a susținut că „pacea este indivizibilă”?",
+     "Ce teritorii a pierdut România în 1940?",
+     "Când a intrat România în război împotriva URSS?",
+     "Ce a decis regele Mihai la 23 august 1944?"
+    ],
+    "steps": [
+     "Identifică obiectivele politicii externe.",
+     "Analizează cauzele eșecului sistemului de alianțe.",
+     "Evaluează deciziile din timpul războiului.",
+     "Greșeala frecventă: să crezi că România a ales liber alianța cu Germania în 1940; izolarea și pierderile teritoriale au influențat decizia."
+    ],
+    "answers": [
+     "Mica Înțelegere.",
+     "Nicolae Titulescu.",
+     "Basarabia, nordul Bucovinei, nord-vestul Transilvaniei, Cadrilaterul.",
+     "În iunie 1941.",
+     "Ieșirea din alianța cu Germania."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l18": {
+   "ro": {
+    "title": "Democrația românească interbelică",
+    "theory": "După 1918, România a devenit o democrație parlamentară: vot universal masculin (1918), reforma agrară (1921), Constituția din 1923. Principalele partide au fost Partidul Național Liberal (Ion I.C. Brătianu) și Partidul Național Țărănesc (Iuliu Maniu, format în 1926). Viața politică avea și slăbiciuni: guvernele erau numite de rege și apoi câștigau alegerile, existau fraude și corupție. Mișcarea legionară (Garda de Fier), extremistă și antisemită, a folosit violența și asasinatul (prim-ministrul I.G. Duca, 1933). Carol al II-lea a slăbit partidele, iar în februarie 1938 a instaurat regimul autoritar.",
+    "sample": "Practica numirii guvernului de către rege înaintea alegerilor făcea ca partidul aflat la putere să câștige aproape întotdeauna.",
+    "worked": "Mecanismul arată limitele democrației interbelice: alegerile existau, dar nu decideau pe deplin cine guvernează.",
+    "exercises": [
+     "Explică instituțiile democratice ale României interbelice.",
+     "Compară PNL cu PNȚ.",
+     "Explică slăbiciunile democrației interbelice.",
+     "Explică natura mișcării legionare.",
+     "Explică trecerea la regimul autoritar din 1938."
+    ],
+    "test": [
+     "Când s-a introdus votul universal masculin?",
+     "Ce constituție a fost adoptată în 1923?",
+     "Cine conducea PNȚ?",
+     "Ce prim-ministru a fost asasinat de legionari în 1933?",
+     "Când a instaurat Carol al II-lea regimul autoritar?"
+    ],
+    "steps": [
+     "Identifică instituțiile și practicile democratice.",
+     "Analizează amenințările la adresa democrației.",
+     "Explică sfârșitul regimului democratic.",
+     "Greșeala frecventă: să idealizezi democrația interbelică; a avut fraude, corupție și extremism."
+    ],
+    "answers": [
+     "În 1918.",
+     "Constituția din 1923.",
+     "Iuliu Maniu.",
+     "I.G. Duca.",
+     "În februarie 1938."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l19": {
+   "ro": {
+    "title": "Regimurile autoritare din România (1938–1944)",
+    "theory": "Regimul autoritar al lui Carol al II-lea (1938–1940) a adoptat Constituția din 1938, care concentra puterea în mâinile regelui, a desființat partidele și a creat un partid unic (Frontul Renașterii Naționale). După pierderile teritoriale din 1940, Carol a abdicat în favoarea fiului său Mihai I, iar generalul Ion Antonescu a preluat puterea. Statul național-legionar (septembrie 1940 – ianuarie 1941), condus de Antonescu împreună cu legionarii (Horia Sima), s-a încheiat cu rebeliunea legionară, înfrântă de armată. A urmat dictatura militară a lui Antonescu (1941–1944), responsabilă de deportările și uciderea evreilor și romilor (Holocaustul). Regimul a fost înlăturat la 23 august 1944.",
+    "sample": "În ianuarie 1941, legionarii au declanșat o rebeliune și un pogrom la București, reprimate de armata condusă de Antonescu.",
+    "worked": "Evenimentul arată violența mișcării legionare și conflictul dintre cele două componente ale regimului instaurat în 1940.",
+    "exercises": [
+     "Explică trăsăturile regimului lui Carol al II-lea.",
+     "Explică formarea statului național-legionar.",
+     "Explică rebeliunea legionară din 1941.",
+     "Explică trăsăturile dictaturii militare a lui Antonescu.",
+     "Explică responsabilitatea regimului Antonescu pentru Holocaust."
+    ],
+    "test": [
+     "Ce partid unic a creat Carol al II-lea?",
+     "În favoarea cui a abdicat Carol al II-lea?",
+     "Cine conducea legionarii în 1940?",
+     "Când a avut loc rebeliunea legionară?",
+     "Când a fost înlăturat regimul Antonescu?"
+    ],
+    "steps": [
+     "Ordonează regimurile din 1938–1944.",
+     "Compară trăsăturile lor.",
+     "Analizează urmările pentru societate.",
+     "Greșeala frecventă: să crezi că regimul Antonescu a fost doar militar; a fost responsabil și de crime împotriva umanității."
+    ],
+    "answers": [
+     "Frontul Renașterii Naționale.",
+     "A lui Mihai I.",
+     "Horia Sima.",
+     "În ianuarie 1941.",
+     "La 23 august 1944."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l20": {
+   "ro": {
+    "title": "Ideologii și practici politice totalitare în Europa",
+    "theory": "În Europa secolului XX, regimurile totalitare au transformat ideologiile în practici politice. Comunismul (URSS): partid unic, dictatura „proletariatului”, naționalizare, colectivizare, economie planificată, teroare (Gulag, epurările lui Stalin). Fascismul italian: statul corporatist, cultul Ducelui, naționalism și expansiune. Nazismul: rasism, antisemitism, spațiul vital, Holocaustul. Elementele comune: ideologie oficială, partid unic, conducător carismatic, poliție politică, propagandă, controlul economiei și al educației, eliminarea opozanților. Practicile politice democratice opuse: pluralism, alegeri libere, separarea puterilor, drepturi, presă liberă.",
+    "sample": "Atât în URSS, cât și în Germania nazistă, organizațiile de copii și tineret erau folosite pentru îndoctrinare.",
+    "worked": "Controlul educației și al timpului liber al tinerilor arată ambiția totalitarismului de a forma un „om nou”, supus ideologiei.",
+    "exercises": [
+     "Enumeră trăsăturile comune ale regimurilor totalitare.",
+     "Compară comunismul cu nazismul.",
+     "Explică ce este statul corporatist.",
+     "Explică folosirea propagandei.",
+     "Compară practicile totalitare cu cele democratice."
+    ],
+    "test": [
+     "Ce era Gulagul?",
+     "Ce susținea ideologia nazistă despre rase?",
+     "Cum se numea conducătorul fascist italian?",
+     "Ce rol avea propaganda?",
+     "Ce trăsături au practicile democratice?"
+    ],
+    "steps": [
+     "Identifică ideologia și practicile ei.",
+     "Compară regimurile între ele.",
+     "Opune-le principiilor democratice.",
+     "Greșeala frecventă: să crezi că totalitarismele de stânga și de dreapta nu au nimic în comun; au multe practici asemănătoare."
+    ],
+    "answers": [
+     "Sistemul de lagăre de muncă forțată din URSS.",
+     "Că există rase superioare și inferioare.",
+     "Ducele (Mussolini).",
+     "Să controleze gândirea oamenilor.",
+     "Pluralism, alegeri libere, separarea puterilor, drepturi."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l21": {
+   "ro": {
+    "title": "Constituțiile din România",
+    "theory": "Istoria constituțională a României cuprinde: Statutul dezvoltator al Convenției de la Paris (1864), primul act constituțional românesc, adoptat de Cuza; Constituția din 1866 (monarhie constituțională, drepturi, vot cenzitar); Constituția din 1923 (vot universal, proprietatea ca funcție socială, drepturi fără deosebire de origine etnică, limbă sau religie); Constituția din 1938 (autoritară, puterea concentrată la rege); constituțiile comuniste din 1948, 1952 și 1965 (rolul conducător al partidului, proprietate socialistă, drepturi doar formale); Constituția din 1991, revizuită în 2003 (stat de drept, democratic și social, republică semiprezidențială, pluralism, separarea puterilor, drepturi garantate, integrare euro-atlantică).",
+    "sample": "Constituția din 1965 a proclamat România „Republica Socialistă”, iar cea din 1991 a revenit la „stat național, suveran și independent, unitar și indivizibil”.",
+    "worked": "Comparația arată că textul constituțional exprimă natura regimului: în comunism, partidul era deasupra legii; după 1989, legea este deasupra tuturor.",
+    "exercises": [
+     "Ordonează constituțiile României.",
+     "Compară Constituția din 1866 cu cea din 1923.",
+     "Explică caracterul autoritar al Constituției din 1938.",
+     "Explică de ce constituțiile comuniste nu garantau real drepturile.",
+     "Analizează principiile Constituției din 1991."
+    ],
+    "test": [
+     "Care a fost primul act constituțional românesc?",
+     "Ce constituție a introdus votul universal?",
+     "Ce constituție a concentrat puterea la rege?",
+     "Câte constituții comuniste a avut România?",
+     "Când a fost revizuită Constituția din 1991?"
+    ],
+    "steps": [
+     "Identifică regimul politic exprimat de fiecare constituție.",
+     "Compară drepturile și instituțiile.",
+     "Evaluează aplicarea lor reală.",
+     "Greșeala frecventă: să crezi că o constituție garantează automat drepturile; constituțiile comuniste le proclamau, dar nu le respectau."
+    ],
+    "answers": [
+     "Statutul dezvoltator al Convenției de la Paris (1864).",
+     "Constituția din 1923.",
+     "Constituția din 1938.",
+     "Trei.",
+     "În 2003."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l22": {
+   "ro": {
+    "title": "Instaurarea comunismului în România (1944–1947)",
+    "theory": "După 23 august 1944, România a intrat sub ocupație sovietică. Partidul Comunist, mic și fără sprijin popular, a preluat puterea treptat, cu ajutorul URSS: guvernul Petru Groza a fost impus la 6 martie 1945 sub presiunea lui Andrei Vîșinski. Alegerile din 19 noiembrie 1946 au fost falsificate în favoarea comuniștilor. Opoziția a fost eliminată: liderii PNȚ (Iuliu Maniu) au fost arestați după „înscenarea de la Tămădău” (1947) și condamnați. La 30 decembrie 1947, regele Mihai I a fost obligat să abdice, iar România a fost proclamată Republică Populară.",
+    "sample": "Reforma agrară din martie 1945, decretată de guvernul Groza, urmărea câștigarea sprijinului țăranilor pentru comuniști.",
+    "worked": "Reforma a fost un instrument politic: la scurt timp, aceiași țărani aveau să fie obligați să intre în colective.",
+    "exercises": [
+     "Ordonează etapele preluării puterii de către comuniști.",
+     "Explică rolul URSS.",
+     "Explică falsificarea alegerilor din 1946.",
+     "Explică eliminarea opoziției.",
+     "Explică abdicarea regelui Mihai I."
+    ],
+    "test": [
+     "Când a fost impus guvernul Groza?",
+     "Ce emisar sovietic a presat regele?",
+     "Când au avut loc alegerile falsificate?",
+     "Ce lider al opoziției a fost condamnat în 1947?",
+     "Când a abdicat regele Mihai I?"
+    ],
+    "steps": [
+     "Ordonează etapele din 1944–1947.",
+     "Identifică rolul factorilor interni și externi.",
+     "Analizează mijloacele folosite.",
+     "Greșeala frecventă: să crezi că comuniștii au câștigat puterea prin voință populară; au preluat-o prin presiune sovietică și fraudă."
+    ],
+    "answers": [
+     "La 6 martie 1945.",
+     "Andrei Vîșinski.",
+     "La 19 noiembrie 1946.",
+     "Iuliu Maniu.",
+     "La 30 decembrie 1947."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l23": {
+   "ro": {
+    "title": "Stalinismul în România (1948–1964)",
+    "theory": "Sub conducerea lui Gheorghe Gheorghiu-Dej, România a copiat modelul sovietic. Naționalizarea (11 iunie 1948) a trecut industria, băncile și minele în proprietatea statului. Colectivizarea agriculturii (1949–1962) s-a realizat prin presiuni, arestări și deportări. Represiunea a lovit elitele politice, intelectuale, religioase și pe țăranii care s-au opus: închisori (Sighet, Aiud, Gherla, „experimentul Pitești”), lagăre de muncă (Canalul Dunăre–Marea Neagră), deportări în Bărăgan (1951). Biserica greco-catolică a fost desființată (1948). Cultura a fost supusă realismului socialist și cenzurii. Au existat și luptele interne din partid (înlăturarea Anei Pauker, 1952).",
+    "sample": "„Experimentul Pitești” (1949–1952) a urmărit „reeducarea” deținuților politici prin tortură, obligându-i să se tortureze unii pe alții.",
+    "worked": "Este unul dintre cele mai cumplite episoade ale represiunii comuniste și arată intenția regimului de a distruge personalitatea umană.",
+    "exercises": [
+     "Explică naționalizarea din 1948.",
+     "Explică desfășurarea colectivizării.",
+     "Enumeră formele represiunii staliniste.",
+     "Explică ce a fost „experimentul Pitești”.",
+     "Explică ce este realismul socialist."
+    ],
+    "test": [
+     "Cine a condus România între 1948 și 1965?",
+     "Când a avut loc naționalizarea?",
+     "Când s-a încheiat colectivizarea?",
+     "Unde au fost deportați oameni în 1951?",
+     "Ce biserică a fost desființată în 1948?"
+    ],
+    "steps": [
+     "Identifică măsurile economice și represive.",
+     "Analizează victimele represiunii.",
+     "Evaluează urmările pentru societate.",
+     "Greșeala frecventă: să crezi că represiunea a lovit doar pe adversarii politici; a lovit și țărani, preoți, intelectuali, tineri."
+    ],
+    "answers": [
+     "Gheorghe Gheorghiu-Dej.",
+     "La 11 iunie 1948.",
+     "În 1962.",
+     "În Bărăgan.",
+     "Biserica greco-catolică."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l24": {
+   "ro": {
+    "title": "Național-comunismul și epoca Ceaușescu",
+    "theory": "Din anii 1960, regimul a îmbinat comunismul cu naționalismul. Declarația din aprilie 1964 a afirmat dreptul fiecărui partid comunist de a-și alege calea. Nicolae Ceaușescu (1965–1989) a condamnat invadarea Cehoslovaciei (1968), câștigând popularitate internă și simpatie occidentală. „Tezele din iulie” (1971) au marcat întoarcerea la controlul ideologic strict, după modelul Chinei și Coreei de Nord. Cultul personalității, rolul Elenei Ceaușescu, sistematizarea satelor, demolările din București, politica demografică, plata datoriei externe prin raționalizarea alimentelor și energiei au dus la o criză profundă în anii 1980.",
+    "sample": "În august 1968, Ceaușescu a ținut un discurs în Piața Palatului, condamnând invazia Cehoslovaciei; mulțimea l-a aclamat.",
+    "worked": "Momentul a creat iluzia unui lider independent și reformator. În realitate, regimul a devenit tot mai dur după 1971.",
+    "exercises": [
+     "Explică ce este național-comunismul.",
+     "Explică semnificația Declarației din aprilie 1964.",
+     "Analizează momentul august 1968.",
+     "Explică „Tezele din iulie” 1971.",
+     "Descrie criza din anii 1980."
+    ],
+    "test": [
+     "Ce document din 1964 a afirmat autonomia partidului român?",
+     "Când a ajuns Ceaușescu la conducere?",
+     "Ce invazie a condamnat în 1968?",
+     "Ce au fost „Tezele din iulie”?",
+     "Ce datorie a plătit regimul prin raționalizări?"
+    ],
+    "steps": [
+     "Identifică trăsăturile național-comunismului.",
+     "Ordonează etapele regimului Ceaușescu.",
+     "Analizează urmările pentru populație.",
+     "Greșeala frecventă: să crezi că opoziția lui Ceaușescu față de Moscova a însemnat liberalizare internă; regimul a rămas totalitar."
+    ],
+    "answers": [
+     "Declarația din aprilie 1964.",
+     "În 1965.",
+     "Invadarea Cehoslovaciei.",
+     "Întoarcerea la controlul ideologic strict, în 1971.",
+     "Datoria externă."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l25": {
+   "ro": {
+    "title": "Disidența și rezistența anticomunistă",
+    "theory": "Rezistența anticomunistă a avut mai multe forme. Rezistența armată din munți (1945–anii 1950): grupuri în Munții Făgăraș (Ion Gavrilă Ogoranu), Nucșoara (Arsenescu–Arnăuțoiu), Banat și Bucovina; ultimii luptători au fost prinși la începutul anilor 1960. Rezistența țăranilor împotriva colectivizării. Revoltele muncitorești: greva minerilor din Valea Jiului (1977), revolta de la Brașov (15 noiembrie 1987). Disidența intelectuală: Paul Goma (1977), Doina Cornea, Mircea Dinescu, Radu Filipescu; scrisoarea celor șase (1989), în care foști lideri comuniști îl criticau pe Ceaușescu. Spre deosebire de Polonia sau Cehoslovacia, disidența românească a fost izolată, din cauza represiunii dure a Securității.",
+    "sample": "La Brașov, în 1987, muncitorii de la Uzinele „Steagul Roșu” au ieșit în stradă strigând „Jos dictatorul!”.",
+    "worked": "Revolta a arătat nemulțumirea profundă din societate, cu doi ani înainte de revoluție, dar a fost reprimată, iar participanții au fost deportați în alte orașe.",
+    "exercises": [
+     "Prezintă rezistența armată din munți.",
+     "Explică greva din Valea Jiului (1977).",
+     "Explică revolta de la Brașov (1987).",
+     "Prezintă trei disidenți români.",
+     "Explică de ce disidența din România a fost mai slabă decât în alte țări."
+    ],
+    "test": [
+     "În ce munți a acționat Ion Gavrilă Ogoranu?",
+     "Când a avut loc greva minerilor din Valea Jiului?",
+     "Când a avut loc revolta de la Brașov?",
+     "Ce disidentă din Cluj a scris scrisori împotriva regimului?",
+     "Ce scrisoare din 1989 au semnat foști lideri comuniști?"
+    ],
+    "steps": [
+     "Identifică forma de rezistență.",
+     "Prezintă acțiunile și participanții.",
+     "Evaluează urmările pentru regim și societate.",
+     "Greșeala frecventă: să crezi că românii nu s-au opus comunismului; au existat rezistență armată, revolte și disidenți."
+    ],
+    "answers": [
+     "În Munții Făgăraș.",
+     "În 1977.",
+     "La 15 noiembrie 1987.",
+     "Doina Cornea.",
+     "Scrisoarea celor șase."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l26": {
+   "ro": {
+    "title": "România în perioada Războiului Rece",
+    "theory": "România a făcut parte din blocul sovietic: membră a CAER (1949) și a Tratatului de la Varșovia (1955). Trupele sovietice s-au retras în 1958. În anii 1960, România a refuzat planul Valev (specializarea ei agricolă în CAER), a menținut relații cu China în conflictul chino-sovietic și a stabilit relații diplomatice cu RFG (1967) și nu a rupt relațiile cu Israelul după războiul din 1967. Președinții americani Nixon (1969) și Ford (1975) au vizitat România, care a primit clauza națiunii celei mai favorizate. Politica externă „independentă” a avut limite: România nu a ieșit din Tratatul de la Varșovia, iar în anii 1980 s-a izolat atât de Vest, cât și de reformele lui Gorbaciov.",
+    "sample": "Planul Valev (1964) propunea ca o parte a României să devină zonă agricolă a unui complex economic interstatal.",
+    "worked": "Respingerea planului a fost o afirmare a suveranității economice și un pas spre politica de distanțare de Moscova.",
+    "exercises": [
+     "Explică apartenența României la blocul sovietic.",
+     "Explică respingerea planului Valev.",
+     "Explică relațiile României cu Occidentul în anii 1960–1970.",
+     "Explică limitele politicii externe „independente”.",
+     "Explică izolarea din anii 1980."
+    ],
+    "test": [
+     "Când a intrat România în CAER?",
+     "Când s-au retras trupele sovietice?",
+     "Ce plan economic a respins România?",
+     "Ce președinte american a vizitat România în 1969?",
+     "Din ce alianță nu a ieșit România?"
+    ],
+    "steps": [
+     "Identifică poziția României în blocul sovietic.",
+     "Analizează momentele de distanțare.",
+     "Evaluează limitele politicii externe.",
+     "Greșeala frecventă: să crezi că România a părăsit blocul sovietic; a rămas în CAER și în Tratatul de la Varșovia."
+    ],
+    "answers": [
+     "În 1949.",
+     "În 1958.",
+     "Planul Valev.",
+     "Richard Nixon.",
+     "Tratatul de la Varșovia."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l27": {
+   "ro": {
+    "title": "Revoluția din 1989 și construcția democrației postdecembriste",
+    "theory": "Revoluția a început la Timișoara (16 decembrie 1989) și s-a extins la București (21–22 decembrie); Ceaușescu a fugit și a fost executat (25 decembrie). Puterea a fost preluată de Frontul Salvării Naționale (Ion Iliescu). Pluripartidismul a fost reintrodus; au urmat alegerile din 20 mai 1990, mineriadele (iunie 1990), Constituția din 1991, privatizarea și restituirea proprietăților. Alternanța la putere (1996, Emil Constantinescu) a consolidat democrația. Integrarea în NATO (2004) și UE (2007) a fixat orientarea occidentală. Construcția democrației a cuprins și condamnarea oficială a regimului comunist (Raportul Tismăneanu, 2006) și deschiderea arhivelor Securității (CNSAS, 1999).",
+    "sample": "În decembrie 2006, președintele României a condamnat oficial în Parlament regimul comunist ca „ilegitim și criminal”.",
+    "worked": "Condamnarea oficială a fost un act important de asumare a trecutului, bazat pe un raport al istoricilor.",
+    "exercises": [
+     "Ordonează evenimentele din decembrie 1989.",
+     "Explică dificultățile tranziției (mineriadele, economia).",
+     "Explică importanța Constituției din 1991.",
+     "Explică importanța alternanței din 1996.",
+     "Explică importanța condamnării oficiale a comunismului."
+    ],
+    "test": [
+     "Unde a început revoluția din 1989?",
+     "Ce organism a preluat puterea în decembrie 1989?",
+     "Când au avut loc primele alegeri libere?",
+     "Când a fost înființat CNSAS?",
+     "Când a fost condamnat oficial regimul comunist?"
+    ],
+    "steps": [
+     "Ordonează etapele construcției democrației.",
+     "Identifică dificultățile și reușitele.",
+     "Evaluează rezultatul.",
+     "Greșeala frecventă: să crezi că democrația a fost construită imediat după 1989; a fost un proces lung și conflictual."
+    ],
+    "answers": [
+     "La Timișoara.",
+     "Frontul Salvării Naționale.",
+     "La 20 mai 1990.",
+     "În 1999.",
+     "În decembrie 2006."
+    ]
+   }
+  }
+ }
+}

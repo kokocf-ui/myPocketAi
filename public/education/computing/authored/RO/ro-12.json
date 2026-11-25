@@ -1,0 +1,1064 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "RO",
+ "stage": "medium",
+ "grade": "12",
+ "version": "ded84777b311abb319301b99a69a65dedb0c1b51addf9351e28e7f3cab31c9ca",
+ "source": "https://informatica.isj-db.ro/wp-content/uploads/2024/11/Programa-Informatica-si-Informatica-intensiv_teoretic_vocational_clasa-a-XII-a.pdf",
+ "sourceTitle": "Programa școlară de Informatică, clasa a XII-a, filiera teoretică, profil real, specializările matematică-informatică și matematică-informatică intensiv informatică, Anexa nr. 5 la OMECI nr. 5099/09.09.2009 (structură modulară; modulul Baze de date este obligatoriu, celelalte module se aleg) — Modulul 1 Baze de date (obligatoriu), Modulul 2A Modelarea datelor și programare SQL, Modulul 5 Programarea procedurală a bazelor de date și Modulul 4 Programare web (opționale)",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "ro",
+ "labels": [
+  "Activitate originală · România · Informatică · intensiv · Clasa a XII-a",
+  "Lecția pe înțeles",
+  "Exemplu",
+  "Ce ne arată exemplul",
+  "Exerciții",
+  "Test",
+  "Activități originale, făcute după programa școlară; nu înlocuiesc manualul sau ora de la clasă.",
+  "Dacă nu ai înțeles: pas cu pas",
+  "Răspunsuri (verifică după ce termini)"
+ ],
+ "units": [
+  {
+   "title": "Modelul conceptual al unei probleme de gestiune",
+   "keys": [
+    "eu-year-ro-medium-12-l01",
+    "eu-year-ro-medium-12-l02",
+    "eu-year-ro-medium-12-l03",
+    "eu-year-ro-medium-12-l04",
+    "eu-year-ro-medium-12-l05",
+    "eu-year-ro-medium-12-l06"
+   ]
+  },
+  {
+   "title": "Tabele și baze de date relaționale",
+   "keys": [
+    "eu-year-ro-medium-12-l07",
+    "eu-year-ro-medium-12-l08",
+    "eu-year-ro-medium-12-l09",
+    "eu-year-ro-medium-12-l10",
+    "eu-year-ro-medium-12-l11"
+   ]
+  },
+  {
+   "title": "Introducere în SQL",
+   "keys": [
+    "eu-year-ro-medium-12-l12",
+    "eu-year-ro-medium-12-l13",
+    "eu-year-ro-medium-12-l14",
+    "eu-year-ro-medium-12-l15"
+   ]
+  },
+  {
+   "title": "Dezvoltarea profesională în domeniul IT",
+   "keys": [
+    "eu-year-ro-medium-12-l16",
+    "eu-year-ro-medium-12-l17"
+   ]
+  },
+  {
+   "title": "Modelarea datelor și programare SQL (modul la alegere)",
+   "keys": [
+    "eu-year-ro-medium-12-l18",
+    "eu-year-ro-medium-12-l19",
+    "eu-year-ro-medium-12-l20",
+    "eu-year-ro-medium-12-l21",
+    "eu-year-ro-medium-12-l22",
+    "eu-year-ro-medium-12-l23",
+    "eu-year-ro-medium-12-l24",
+    "eu-year-ro-medium-12-l25"
+   ]
+  },
+  {
+   "title": "Programarea procedurală a bazelor de date și programare web (module la alegere)",
+   "keys": [
+    "eu-year-ro-medium-12-l26",
+    "eu-year-ro-medium-12-l27",
+    "eu-year-ro-medium-12-l28"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-ro-medium-12-l01": {
+   "ro": {
+    "title": "Entități, instanțe, atribute și identificator unic",
+    "theory": "O bază de date păstrează organizat informațiile unei activități (o școală, o bibliotecă, un magazin). Proiectarea începe cu modelul conceptual, care descrie ce informații contează, independent de program. O entitate este un obiect sau un concept despre care reținem date (ELEV, CARTE, ÎMPRUMUT); o instanță este un exemplar concret al entității (eleva Ana Pop). Atributele descriu entitatea (nume, data nașterii, clasa); un atribut poate fi obligatoriu sau opțional. Identificatorul unic (UID) este atributul sau combinația de atribute care deosebește orice instanță de celelalte (CNP-ul unei persoane, codul unei cărți). Când nu există un atribut natural potrivit, se introduce un cod artificial (id). Numele entităților se scriu la singular.",
+    "sample": "Pentru o bibliotecă: entitatea CARTE are atributele cod (UID), titlu, autor, an apariție, editură. Instanța: cod 1024, „Ion”, Liviu Rebreanu, 1920. Titlul nu poate fi UID, pentru că biblioteca are mai multe exemplare cu același titlu.",
+    "worked": "Identificatorul trebuie să fie unic pentru fiecare instanță. De aceea s-a ales un cod al exemplarului, nu titlul, care se repetă.",
+    "exercises": [
+     "Identifică entitățile pentru gestiunea unei școli.",
+     "Enumeră atributele entității ELEV și marchează-le pe cele obligatorii.",
+     "Alege un identificator unic pentru PROFESOR.",
+     "Explică de ce numele nu este un bun identificator.",
+     "Dă trei instanțe ale entității MATERIE."
+    ],
+    "test": [
+     "Ce este o entitate?",
+     "Ce este o instanță?",
+     "Ce este un atribut?",
+     "Ce este identificatorul unic?",
+     "Când introducem un cod artificial?"
+    ],
+    "steps": [
+     "Citește descrierea activității și subliniază substantivele importante: ele sunt candidate la entități.",
+     "Stabilește atributele fiecărei entități.",
+     "Alege pentru fiecare entitate un identificator unic sigur.",
+     "Greșeala frecventă: să alegi drept identificator un atribut care se poate repeta, ca numele sau titlul."
+    ],
+    "answers": [
+     "Un obiect sau concept despre care reținem date.",
+     "Un exemplar concret al unei entități.",
+     "O caracteristică a entității.",
+     "Atributul sau combinația care deosebește orice instanță de celelalte.",
+     "Când niciun atribut natural nu este garantat unic."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l02": {
+   "ro": {
+    "title": "Relații între entități: 1:1, 1:M, M:M",
+    "theory": "O relație arată cum sunt legate două entități. Se descrie prin cardinalitate – câte instanțe dintr-o entitate se pot lega de o instanță din cealaltă – și prin opționalitate – dacă legătura este obligatorie sau nu. Relația unu-la-unu (1:1): o instanță se leagă de cel mult una (o clasă are un singur diriginte, un diriginte are o singură clasă). Unu-la-mulți (1:M): o instanță se leagă de mai multe (o clasă are mulți elevi, un elev este într-o singură clasă). Mulți-la-mulți (M:M): ambele părți pot avea mai multe legături (un elev studiază mai multe materii, o materie este studiată de mai mulți elevi). Relația se citește în ambele sensuri: „fiecare elev trebuie să aparțină unei singure clase; fiecare clasă poate avea unul sau mai mulți elevi”.",
+    "sample": "Biblioteca: CITITOR – ÎMPRUMUTĂ – CARTE. Un cititor poate împrumuta mai multe cărți în timp, iar o carte poate fi împrumutată de mai mulți cititori. Relația este M:M.",
+    "worked": "Citind relația în ambele sensuri, am descoperit că ambele părți au „mai mulți”. Relațiile M:M vor trebui transformate înainte de implementare.",
+    "exercises": [
+     "Stabilește tipul relației dintre PROFESOR și MATERIE.",
+     "Citește în ambele sensuri relația CLASĂ – ELEV.",
+     "Dă câte un exemplu de relație 1:1, 1:M și M:M.",
+     "Stabilește opționalitatea relației dintre ELEV și TELEFON.",
+     "Desenează relațiile pentru gestiunea unui magazin."
+    ],
+    "test": [
+     "Ce este cardinalitatea?",
+     "Ce este opționalitatea?",
+     "Ce tip are relația CLASĂ – ELEV?",
+     "Ce tip are relația ELEV – MATERIE?",
+     "De ce citim relația în ambele sensuri?"
+    ],
+    "steps": [
+     "Formulează relația ca propoziție în ambele sensuri.",
+     "Stabilește pentru fiecare sens cardinalitatea și opționalitatea.",
+     "Notează tipul relației și verifică pe instanțe concrete.",
+     "Greșeala frecventă: să citești relația doar într-un sens; tipul real (de exemplu M:M) rămâne ascuns."
+    ],
+    "answers": [
+     "Numărul de instanțe care se pot lega de o instanță din cealaltă entitate.",
+     "Faptul că legătura este obligatorie sau nu.",
+     "1:M.",
+     "M:M.",
+     "Ca să aflăm corect cardinalitatea de la ambele capete."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l03": {
+   "ro": {
+    "title": "Rezolvarea relațiilor mulți-la-mulți",
+    "theory": "Bazele de date relaționale nu pot implementa direct o relație M:M. Ea se rezolvă introducând o entitate de intersecție (asociativă), care se leagă prin două relații 1:M de entitățile inițiale. Entitatea de intersecție are de obicei și atribute proprii, care descriu chiar legătura: data împrumutului, nota obținută, cantitatea comandată. Identificatorul ei este fie combinația identificatorilor celor două entități (plus, eventual, o dată), fie un cod artificial. Exemplu: ELEV – MATERIE devine ELEV 1:M SITUAȚIE M:1 MATERIE, unde SITUAȚIE are atributele media și anul școlar.",
+    "sample": "CITITOR M:M CARTE devine CITITOR 1:M ÎMPRUMUT M:1 CARTE. ÎMPRUMUT are atributele data_împrumut, data_returnare și identificatorul cod_împrumut.",
+    "worked": "Atributele datelor nu aparțineau nici cititorului, nici cărții, ci legăturii dintre ei. Entitatea de intersecție le-a oferit un loc firesc.",
+    "exercises": [
+     "Rezolvă relația COMANDĂ – PRODUS.",
+     "Rezolvă relația ELEV – ACTIVITATE EXTRAȘCOLARĂ.",
+     "Stabilește atributele entității de intersecție ÎMPRUMUT.",
+     "Alege identificatorul entității de intersecție.",
+     "Explică de ce M:M nu poate fi implementată direct."
+    ],
+    "test": [
+     "Cum se rezolvă o relație M:M?",
+     "Ce relații are entitatea de intersecție?",
+     "Ce atribute are de obicei entitatea de intersecție?",
+     "Ce identificator poate avea?",
+     "Dă un exemplu de entitate de intersecție."
+    ],
+    "steps": [
+     "Identifică relația M:M.",
+     "Introdu o entitate de intersecție legată 1:M de fiecare entitate inițială.",
+     "Mută în ea atributele care descriu legătura și stabilește-i identificatorul.",
+     "Greșeala frecventă: să pui data împrumutului în entitatea CARTE; cartea are multe împrumuturi, cu date diferite."
+    ],
+    "answers": [
+     "Prin introducerea unei entități de intersecție.",
+     "Două relații 1:M cu entitățile inițiale.",
+     "Atribute care descriu chiar legătura.",
+     "Combinația identificatorilor entităților legate sau un cod artificial.",
+     "ÎMPRUMUT între CITITOR și CARTE."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l04": {
+   "ro": {
+    "title": "Normalizarea datelor: prima formă normală",
+    "theory": "Normalizarea organizează datele astfel încât să eliminăm redundanța (repetarea inutilă) și anomaliile la adăugare, modificare și ștergere. O entitate este în prima formă normală (1FN) dacă fiecare atribut are o singură valoare pentru fiecare instanță (valori atomice) și nu există grupuri de atribute repetitive. De exemplu, atributul telefoane = „0722…, 0744…” sau coloanele materie1, materie2, materie3 încalcă 1FN. Soluția: grupul repetitiv se mută într-o entitate nouă, legată 1:M de cea inițială (ELEV 1:M TELEFON). Atributele compuse, ca adresa, se pot descompune în stradă, număr, localitate, când trebuie căutate separat.",
+    "sample": "Tabelul ELEV(id, nume, materii) cu valoarea „Matematică, Fizică, Informatică” la materii nu este în 1FN. Separăm: ELEV(id, nume) și ÎNSCRIERE(id_elev, materie), câte un rând pentru fiecare materie.",
+    "worked": "Acum căutarea elevilor care studiază Fizică este simplă și sigură. Într-o listă scrisă în aceeași celulă, căutarea ar depinde de ortografie și ordine.",
+    "exercises": [
+     "Adu în 1FN un tabel cu mai multe telefoane într-un câmp.",
+     "Elimină coloanele repetitive materie1, materie2, materie3.",
+     "Explică ce înseamnă valoare atomică.",
+     "Descompune atributul adresă când este necesar.",
+     "Identifică încălcările 1FN într-un tabel dat."
+    ],
+    "test": [
+     "Ce urmărește normalizarea?",
+     "Când este o entitate în 1FN?",
+     "Ce este un grup repetitiv?",
+     "Cum se rezolvă un atribut cu mai multe valori?",
+     "Ce este o anomalie de modificare?"
+    ],
+    "steps": [
+     "Caută atributele cu mai multe valori și grupurile de coloane repetitive.",
+     "Mută-le într-o entitate nouă, legată 1:M de cea inițială.",
+     "Verifică faptul că fiecare câmp are acum o singură valoare.",
+     "Greșeala frecventă: să rezolvi un atribut multivaloare prin coloane numerotate (telefon1, telefon2); problema rămâne."
+    ],
+    "answers": [
+     "Eliminarea redundanței și a anomaliilor.",
+     "Când fiecare atribut are o singură valoare și nu există grupuri repetitive.",
+     "Un set de atribute care se repetă pentru aceeași instanță.",
+     "Îl mutăm într-o entitate nouă, legată 1:M.",
+     "Aceeași informație trebuie modificată în mai multe locuri."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l05": {
+   "ro": {
+    "title": "A doua formă normală",
+    "theory": "O entitate este în a doua formă normală (2FN) dacă este în 1FN și fiecare atribut care nu face parte din identificator depinde de tot identificatorul, nu doar de o parte a lui. Problema apare doar când identificatorul este compus (format din mai multe atribute). Exemplu: SITUAȚIE(id_elev, id_materie, nota, nume_materie) are identificatorul (id_elev, id_materie); nota depinde de ambele, dar nume_materie depinde doar de id_materie – dependență parțială. Consecință: numele materiei se repetă pentru fiecare elev, iar schimbarea lui cere multe modificări. Soluția: atributul cu dependență parțială se mută în entitatea care are ca identificator partea de care depinde (MATERIE(id_materie, nume_materie)).",
+    "sample": "COMANDĂ_PRODUS(nr_comandă, cod_produs, cantitate, denumire_produs, preț_listă): cantitate depinde de ambele chei; denumire_produs și preț_listă depind doar de cod_produs. Le mutăm în PRODUS(cod_produs, denumire, preț_listă).",
+    "worked": "După descompunere, denumirea unui produs apare o singură dată. Modificarea prețului de listă se face într-un singur loc.",
+    "exercises": [
+     "Adu în 2FN un tabel cu identificator compus dat.",
+     "Identifică dependențele parțiale într-o entitate.",
+     "Explică de ce o entitate cu identificator simplu în 1FN este automat în 2FN.",
+     "Descompune SITUAȚIE(id_elev, id_materie, nota, nume_elev).",
+     "Descrie anomaliile unui tabel care nu este în 2FN."
+    ],
+    "test": [
+     "Când este o entitate în 2FN?",
+     "Ce este o dependență parțială?",
+     "Când poate apărea încălcarea 2FN?",
+     "Unde mutăm atributul cu dependență parțială?",
+     "Ce anomalie produce repetarea numelui materiei?"
+    ],
+    "steps": [
+     "Verifică dacă identificatorul este compus.",
+     "Pentru fiecare atribut, întreabă-te dacă depinde de tot identificatorul sau doar de o parte.",
+     "Mută atributele cu dependență parțială în entitatea părții de care depind.",
+     "Greșeala frecventă: să lași în tabelul de legătură date care descriu doar unul dintre obiectele legate."
+    ],
+    "answers": [
+     "Când este în 1FN și fiecare atribut neidentificator depinde de tot identificatorul.",
+     "Dependența unui atribut doar de o parte a identificatorului compus.",
+     "Doar când identificatorul este compus.",
+     "În entitatea al cărei identificator este partea de care depinde.",
+     "O anomalie de modificare: numele trebuie schimbat în multe rânduri."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l06": {
+   "ro": {
+    "title": "A treia formă normală",
+    "theory": "O entitate este în a treia formă normală (3FN) dacă este în 2FN și niciun atribut care nu face parte din identificator nu depinde de alt atribut neidentificator (nu există dependențe tranzitive). Exemplu: ELEV(id_elev, nume, id_clasă, nume_diriginte): nume_diriginte depinde de id_clasă, care depinde de id_elev – dependență tranzitivă. Consecință: dacă se schimbă dirigintele clasei, trebuie modificate rândurile tuturor elevilor. Soluția: CLASĂ(id_clasă, nume_diriginte), iar ELEV păstrează doar id_clasă. Regula de memorat: fiecare atribut depinde de identificator, de tot identificatorul și numai de identificator. În practică, uneori se acceptă denormalizarea controlată pentru viteză, dar în proiectarea școlară cerem 3FN.",
+    "sample": "FACTURĂ(nr, data, cod_client, nume_client, oraș_client): nume și oraș depind de cod_client, nu direct de nr. Descompunem în FACTURĂ(nr, data, cod_client) și CLIENT(cod_client, nume, oraș).",
+    "worked": "Datele clientului apar acum o singură dată, indiferent câte facturi are. Ștergerea ultimei facturi nu mai șterge și informațiile despre client.",
+    "exercises": [
+     "Adu în 3FN tabelul ELEV cu numele dirigintelui.",
+     "Identifică dependențele tranzitive într-un tabel dat.",
+     "Normalizează complet un tabel de comenzi până la 3FN.",
+     "Explică regula „identificatorul, tot identificatorul și numai identificatorul”.",
+     "Descrie anomalia de ștergere dintr-un tabel care nu este în 3FN."
+    ],
+    "test": [
+     "Când este o entitate în 3FN?",
+     "Ce este o dependență tranzitivă?",
+     "Cum se rezolvă o dependență tranzitivă?",
+     "Ce anomalie de ștergere poate apărea?",
+     "Ce este denormalizarea?"
+    ],
+    "steps": [
+     "Verifică întâi 1FN și 2FN.",
+     "Caută atribute care depind de alt atribut neidentificator.",
+     "Mută-le într-o entitate nouă, identificată de atributul de care depind.",
+     "Greșeala frecventă: să crezi că o entitate în 2FN este automat în 3FN."
+    ],
+    "answers": [
+     "Când este în 2FN și nu are dependențe tranzitive.",
+     "Dependența unui atribut neidentificator de alt atribut neidentificator.",
+     "Mutăm atributele într-o entitate nouă, identificată de atributul de care depind.",
+     "Ștergerea unui rând șterge și informații despre alt obiect.",
+     "Acceptarea controlată a unor repetări, pentru viteză."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l07": {
+   "ro": {
+    "title": "Tabele: structură, tipuri de date, înregistrări",
+    "theory": "În modelul relațional, fiecare entitate devine un tabel; atributele devin coloane (câmpuri), iar instanțele devin rânduri (înregistrări). Structura tabelului precizează pentru fiecare coloană numele, tipul de date și restricțiile. Tipuri uzuale (cu mici diferențe între sisteme): INT/INTEGER, DECIMAL(p, s) sau NUMBER pentru numere exacte (prețuri), FLOAT pentru reale aproximative, CHAR(n) pentru text de lungime fixă, VARCHAR(n)/VARCHAR2(n) pentru text de lungime variabilă, DATE pentru date calendaristice, BOOLEAN pentru adevărat/fals. Valoarea NULL înseamnă „necunoscut” sau „lipsă” și nu este nici 0, nici șirul vid. Alegerea corectă a tipului previne erori: un cod poștal cu zero la început trebuie memorat ca text.",
+    "sample": "Tabelul ELEV: id INT, nume VARCHAR(50), data_nasterii DATE, id_clasa INT, media DECIMAL(4, 2). Rândul (7, Ana Pop, 2009-03-14, 3, 9.45) este o înregistrare.",
+    "worked": "Fiecare coloană are tipul potrivit valorilor ei. DECIMAL(4, 2) păstrează exact media cu două zecimale, fără erorile numerelor reale aproximative.",
+    "exercises": [
+     "Proiectează structura tabelului CARTE.",
+     "Alege tipurile de date pentru zece atribute date.",
+     "Explică diferența dintre CHAR și VARCHAR.",
+     "Explică ce înseamnă NULL și de ce nu este 0.",
+     "Transformă o entitate din modelul conceptual în tabel."
+    ],
+    "test": [
+     "Ce devine o entitate în modelul relațional?",
+     "Ce este o înregistrare?",
+     "Ce tip folosim pentru prețuri?",
+     "Ce înseamnă NULL?",
+     "De ce memorăm un cod poștal ca text?"
+    ],
+    "steps": [
+     "Transformă fiecare entitate în tabel și fiecare atribut în coloană.",
+     "Alege tipul și dimensiunea potrivite pentru fiecare coloană.",
+     "Verifică pe câteva înregistrări de probă dacă valorile încap corect.",
+     "Greșeala frecventă: să memorezi prețurile ca FLOAT; apar erori de rotunjire la sume."
+    ],
+    "answers": [
+     "Un tabel.",
+     "Un rând al tabelului, corespunzător unei instanțe.",
+     "DECIMAL (NUMBER).",
+     "Valoare necunoscută sau lipsă.",
+     "Ca să nu se piardă zerourile de la început."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l08": {
+   "ro": {
+    "title": "Operații asupra tabelelor",
+    "theory": "Asupra datelor dintr-un tabel se fac operații de bază: adăugarea înregistrărilor noi, modificarea valorilor existente, ștergerea înregistrărilor, sortarea după una sau mai multe coloane, căutarea înregistrărilor care îndeplinesc o condiție, vizualizarea (afișarea anumitor coloane) și calculele statistice (număr de înregistrări, sumă, medie, minim, maxim). În sistemele de gestiune a bazelor de date aceste operații se fac prin interfețe vizuale sau prin comenzi SQL. Operațiile de modificare și ștergere trebuie făcute cu atenție: fără o condiție precisă, ele afectează toate înregistrările. De aceea, înainte de ștergere, se afișează întâi înregistrările care vor fi șterse.",
+    "sample": "Secretariatul vrea să șteargă elevii din clasa a XII-a A absolvită. Întâi afișează elevii cu id_clasa = 12 (34 de rânduri), verifică lista, apoi execută ștergerea cu aceeași condiție.",
+    "worked": "Afișarea prealabilă cu aceeași condiție confirmă exact ce se va șterge. Această practică previne pierderea accidentală a datelor.",
+    "exercises": [
+     "Enumeră operațiile de bază asupra unui tabel.",
+     "Sortează elevii după clasă și apoi după nume.",
+     "Caută cărțile apărute după anul 2000.",
+     "Calculează media notelor dintr-un tabel.",
+     "Explică de ce afișezi înregistrările înainte de ștergere."
+    ],
+    "test": [
+     "Ce operații de bază se fac asupra tabelelor?",
+     "Ce calcule statistice uzuale cunoști?",
+     "Ce se întâmplă cu o ștergere fără condiție?",
+     "Ce înseamnă vizualizarea unor coloane?",
+     "Ce verificăm înainte de o modificare în masă?"
+    ],
+    "steps": [
+     "Formulează condiția care selectează înregistrările dorite.",
+     "Afișează întâi rezultatul condiției și verifică-l.",
+     "Aplică operația și verifică din nou tabelul.",
+     "Greșeala frecventă: să rulezi o ștergere sau o modificare fără condiție; sunt afectate toate rândurile."
+    ],
+    "answers": [
+     "Adăugare, modificare, ștergere, sortare, căutare, vizualizare, calcule.",
+     "Număr, sumă, medie, minim, maxim.",
+     "Șterge toate înregistrările.",
+     "Afișarea doar a coloanelor dorite.",
+     "Rândurile care vor fi afectate de condiție."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l09": {
+   "ro": {
+    "title": "Modele de baze de date",
+    "theory": "O bază de date este o colecție de date organizate, împreună cu legăturile dintre ele, gestionată de un sistem de gestiune a bazelor de date (SGBD). Modelele clasice: modelul ierarhic – datele formează un arbore (fiecare înregistrare are un singur părinte), potrivit pentru structuri ca organigramele, dar rigid; modelul rețea – o înregistrare poate avea mai mulți părinți, legăturile formând un graf, flexibil dar complicat de folosit; modelul relațional (propus de E. F. Codd în 1970) – datele sunt în tabele, iar legăturile se fac prin valori comune ale coloanelor (chei). Modelul relațional este cel mai răspândit (Oracle, MySQL, SQL Server, PostgreSQL), datorită simplității și limbajului SQL. Există și baze de date NoSQL (document, cheie-valoare, graf), folosite pentru date foarte mari sau fără structură fixă.",
+    "sample": "Organigrama unei școli (director – directori adjuncți – catedre) se potrivește modelului ierarhic. Elevii care urmează mai multe cercuri, conduse de mai mulți profesori, se potrivesc mai bine modelului relațional, cu tabele legate prin chei.",
+    "worked": "Fiecare model reflectă un anumit tip de legături. Modelul relațional tratează uniform toate tipurile de relații prin tabele și chei.",
+    "exercises": [
+     "Compară modelele ierarhic, rețea și relațional.",
+     "Dă un exemplu potrivit pentru modelul ierarhic.",
+     "Explică cum se fac legăturile în modelul relațional.",
+     "Numește trei SGBD-uri relaționale.",
+     "Explică ce sunt bazele de date NoSQL."
+    ],
+    "test": [
+     "Ce este un SGBD?",
+     "Ce structură are modelul ierarhic?",
+     "Cum se fac legăturile în modelul relațional?",
+     "Cine a propus modelul relațional?",
+     "Ce model este cel mai răspândit?"
+    ],
+    "steps": [
+     "Analizează tipul legăturilor dintre date.",
+     "Compară cu structura fiecărui model.",
+     "Alege modelul potrivit și justifică alegerea.",
+     "Greșeala frecventă: să crezi că modelul relațional leagă tabelele prin adrese de memorie; legăturile se fac prin valori comune."
+    ],
+    "answers": [
+     "Un sistem care gestionează o bază de date.",
+     "Arborescentă: fiecare înregistrare are un singur părinte.",
+     "Prin valori comune ale coloanelor (chei).",
+     "E. F. Codd, în 1970.",
+     "Modelul relațional."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l10": {
+   "ro": {
+    "title": "Chei primare, chei externe și reguli de integritate",
+    "theory": "Cheia primară (PRIMARY KEY) este coloana sau combinația de coloane care identifică unic fiecare rând; nu poate fi NULL și nu se poate repeta. Ea corespunde identificatorului unic din modelul conceptual. Cheia externă (FOREIGN KEY) este o coloană care conține valori ale cheii primare din alt tabel și realizează legătura (relaționarea) dintre tabele: ELEV.id_clasă indică CLASĂ.id_clasă. Regulile de integritate păstrează datele corecte: integritatea entității (cheia primară unică și nenulă), integritatea referențială (o cheie externă are fie o valoare existentă în tabelul părinte, fie NULL, dacă este permis) și restricțiile de domeniu (valori permise: nota între 1 și 10). Integritatea referențială împiedică, de exemplu, ștergerea unei clase care încă are elevi sau introducerea unui elev într-o clasă inexistentă.",
+    "sample": "Tabelul CLASĂ are clasele 1, 2, 3. Încercarea de a adăuga un elev cu id_clasă = 9 este respinsă, pentru că nu există clasa 9. Ștergerea clasei 2, care are elevi, este de asemenea respinsă.",
+    "worked": "Regula de integritate referențială a protejat legătura dintre tabele. Fără ea, ar fi apărut elevi „orfani”, legați de clase inexistente.",
+    "exercises": [
+     "Stabilește cheile primare și externe pentru o bază de date a bibliotecii.",
+     "Explică de ce cheia primară nu poate fi NULL.",
+     "Dă un exemplu de încălcare a integrității referențiale.",
+     "Formulează o restricție de domeniu pentru note.",
+     "Explică ce se întâmplă la ștergerea unui rând părinte cu rânduri copil."
+    ],
+    "test": [
+     "Ce este cheia primară?",
+     "Ce este cheia externă?",
+     "Ce cere integritatea referențială?",
+     "Ce este o restricție de domeniu?",
+     "Poate cheia primară să se repete?"
+    ],
+    "steps": [
+     "Stabilește cheia primară a fiecărui tabel.",
+     "Pune cheile externe în tabelul de pe partea „mulți” a fiecărei relații 1:M.",
+     "Formulează regulile de integritate și testează-le cu date greșite.",
+     "Greșeala frecventă: să pui cheia externă pe partea „unu” a relației; nu poți reține mai multe legături."
+    ],
+    "answers": [
+     "Coloana sau combinația care identifică unic fiecare rând.",
+     "O coloană care conține valori ale cheii primare din alt tabel.",
+     "Ca orice cheie externă să indice un rând existent sau să fie NULL, dacă e permis.",
+     "O regulă despre valorile permise ale unei coloane.",
+     "Nu."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l11": {
+   "ro": {
+    "title": "Interogări, rapoarte și programe de validare",
+    "theory": "O interogare este o cerere de extragere a unor date din baza de date după anumite criterii (elevii cu media peste 9 dintr-o clasă), eventual din mai multe tabele legate. Rezultatul este tot un tabel, care poate fi sortat, grupat sau folosit în altă interogare. Un raport prezintă datele într-o formă potrivită pentru tipărire sau citire: cu titlu, grupări (pe clase), subtotaluri și totaluri. Formularele sunt ferestre prin care utilizatorii introduc și modifică datele comod. Programele de validare verifică datele la introducere (o dată calendaristică validă, un CNP de 13 cifre, o notă între 1 și 10), iar programele de acțiune efectuează automat operații (închiderea anului școlar, calculul mediilor). Validarea la sursă este mai ieftină decât corectarea ulterioară a datelor greșite.",
+    "sample": "Raportul „Situația la învățătură”: datele vin dintr-o interogare care leagă ELEV, CLASĂ și SITUAȚIE; raportul grupează elevii pe clase, afișează media fiecărei clase și media școlii la final.",
+    "worked": "Interogarea furnizează datele, iar raportul le organizează pentru citire. Același rezultat al interogării poate fi folosit în mai multe rapoarte diferite.",
+    "exercises": [
+     "Formulează în cuvinte trei interogări pentru baza de date a școlii.",
+     "Proiectează un raport cu grupare pe clase.",
+     "Scrie regulile de validare pentru un formular de înscriere.",
+     "Explică diferența dintre interogare și raport.",
+     "Dă un exemplu de program de acțiune."
+    ],
+    "test": [
+     "Ce este o interogare?",
+     "Ce este un raport?",
+     "La ce folosesc formularele?",
+     "Ce verifică un program de validare?",
+     "De ce validăm datele la introducere?"
+    ],
+    "steps": [
+     "Stabilește ce date sunt necesare și din ce tabele.",
+     "Construiește interogarea, apoi raportul sau formularul pe baza ei.",
+     "Adaugă validări pentru datele introduse și testează cu date greșite.",
+     "Greșeala frecventă: să lași validarea pe seama utilizatorilor; datele greșite ajung în bază și strică rapoartele."
+    ],
+    "answers": [
+     "O cerere de extragere a datelor după anumite criterii.",
+     "O prezentare a datelor pentru citire sau tipărire.",
+     "Pentru introducerea și modificarea comodă a datelor.",
+     "Corectitudinea datelor la introducere.",
+     "Pentru că este mai ieftin decât corectarea ulterioară."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l12": {
+   "ro": {
+    "title": "Limbajul SQL și interogările simple",
+    "theory": "SQL (Structured Query Language) este limbajul standard pentru bazele de date relaționale. Comenzile se împart în: DQL (SELECT – interogare), DML (INSERT, UPDATE, DELETE – manipularea datelor), DDL (CREATE, ALTER, DROP – structura), DCL (GRANT, REVOKE – drepturi) și TCL (COMMIT, ROLLBACK – tranzacții). Interogarea de bază: SELECT coloane FROM tabel WHERE condiție;. Proiecția alege coloanele (SELECT nume, media), iar selecția alege rândurile (WHERE media >= 9). SELECT * afișează toate coloanele. Condițiile folosesc =, <>, <, >, <=, >=, AND, OR, NOT, BETWEEN a AND b, IN (listă), LIKE (cu % pentru orice șir și _ pentru un caracter) și IS NULL. Textele se scriu între apostrofuri. Cuvintele cheie nu țin cont de litere mari sau mici.",
+    "sample": "SELECT nume, media FROM elev WHERE id_clasa = 3 AND media BETWEEN 9 AND 10; afișează numele și media elevilor din clasa 3 cu media între 9 și 10. SELECT nume FROM elev WHERE nume LIKE 'A%'; – elevii al căror nume începe cu A.",
+    "worked": "Proiecția a redus coloanele la două, iar selecția a păstrat doar rândurile care respectă ambele condiții. LIKE cu % caută după un model, nu după o valoare exactă.",
+    "exercises": [
+     "Afișează numele și prenumele tuturor elevilor.",
+     "Afișează cărțile apărute între 1990 și 2000.",
+     "Afișează elevii din clasele 1, 3 și 5 folosind IN.",
+     "Afișează elevii fără număr de telefon (IS NULL).",
+     "Afișează autorii al căror nume conține „escu”."
+    ],
+    "test": [
+     "Ce înseamnă SQL?",
+     "Ce face proiecția?",
+     "Ce face selecția?",
+     "Ce înseamnă % în LIKE?",
+     "Cum testăm valoarea NULL?"
+    ],
+    "steps": [
+     "Stabilește coloanele (proiecția) și tabelul.",
+     "Scrie condiția din WHERE (selecția).",
+     "Rulează și verifică rezultatul pe câteva rânduri cunoscute.",
+     "Greșeala frecventă: să scrii WHERE telefon = NULL; comparația cu NULL nu este niciodată adevărată, se folosește IS NULL."
+    ],
+    "answers": [
+     "Structured Query Language.",
+     "Alege coloanele afișate.",
+     "Alege rândurile care respectă condiția.",
+     "Orice șir de caractere, inclusiv vid.",
+     "Cu IS NULL."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l13": {
+   "ro": {
+    "title": "Sortarea rezultatelor și valorile distincte",
+    "theory": "Clauza ORDER BY sortează rezultatul: ORDER BY media DESC, nume ASC (ASC crescător, implicit; DESC descrescător). Sortarea după mai multe coloane se face în ordinea scrierii: a doua coloană contează doar la egalitate pe prima. DISTINCT elimină rândurile duplicate din rezultat: SELECT DISTINCT localitate FROM elev. Putem da nume noi coloanelor din rezultat cu AS (alias): SELECT nume AS \"Numele elevului\". Expresiile aritmetice se pot folosi în SELECT: SELECT denumire, pret * 1.19 AS pret_cu_tva. Limitarea numărului de rânduri diferă între sisteme (LIMIT în MySQL, FETCH FIRST n ROWS ONLY în Oracle și standard, TOP în SQL Server).",
+    "sample": "SELECT nume, media FROM elev ORDER BY media DESC, nume LIMIT 3; – primii trei elevi după medie; la medii egale, ordinea este alfabetică.",
+    "worked": "Criteriul al doilea a decis ordinea între elevii cu medii egale. LIMIT a păstrat doar primele trei rânduri ale rezultatului sortat.",
+    "exercises": [
+     "Afișează elevii ordonați după clasă și apoi după nume.",
+     "Afișează localitățile distincte ale elevilor.",
+     "Afișează prețurile cu TVA folosind un alias.",
+     "Afișează cele mai scumpe cinci produse.",
+     "Explică ordinea aplicării clauzelor WHERE și ORDER BY."
+    ],
+    "test": [
+     "Ce face ORDER BY?",
+     "Ce înseamnă DESC?",
+     "Ce face DISTINCT?",
+     "Ce face AS?",
+     "Când contează a doua coloană de sortare?"
+    ],
+    "steps": [
+     "Scrie interogarea cu condițiile necesare.",
+     "Adaugă ORDER BY cu criteriile în ordinea priorității.",
+     "Folosește DISTINCT sau alias-uri unde ajută și verifică rezultatul.",
+     "Greșeala frecventă: să crezi că rândurile apar sortate fără ORDER BY; ordinea nu este garantată."
+    ],
+    "answers": [
+     "Sortează rezultatul.",
+     "Ordine descrescătoare.",
+     "Elimină rândurile duplicate.",
+     "Dă un nume nou unei coloane din rezultat.",
+     "Doar la egalitate pe prima coloană."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l14": {
+   "ro": {
+    "title": "Inserarea, modificarea și ștergerea datelor",
+    "theory": "INSERT adaugă rânduri: INSERT INTO elev (id, nume, id_clasa) VALUES (31, 'Dan Ilie', 2);. Coloanele nespecificate primesc valoarea implicită sau NULL. UPDATE modifică valori: UPDATE elev SET id_clasa = 3 WHERE id = 31;. DELETE șterge rânduri: DELETE FROM elev WHERE id = 31;. Fără WHERE, UPDATE și DELETE afectează toate rândurile tabelului. Operațiile respectă constrângerile: o inserare cu cheie primară duplicată sau cu cheie externă inexistentă este respinsă. Într-un sistem cu tranzacții, modificările devin definitive abia după COMMIT și pot fi anulate cu ROLLBACK înainte de confirmare.",
+    "sample": "UPDATE produs SET pret = pret * 1.10 WHERE categorie = 'papetărie'; – mărește cu 10% prețurile produselor de papetărie. Înainte, SELECT * FROM produs WHERE categorie = 'papetărie'; arată ce rânduri vor fi modificate.",
+    "worked": "Expresia pret * 1.10 folosește valoarea veche din fiecare rând. Verificarea cu SELECT, folosind aceeași condiție, arată dinainte ce se schimbă.",
+    "exercises": [
+     "Inserează trei cărți noi într-un tabel.",
+     "Mută un elev în altă clasă cu UPDATE.",
+     "Șterge împrumuturile returnate înainte de o dată.",
+     "Mărește cu 5% salariile dintr-un departament.",
+     "Explică de ce o inserare poate fi respinsă."
+    ],
+    "test": [
+     "Ce comandă adaugă rânduri?",
+     "Ce comandă modifică valori?",
+     "Ce se întâmplă cu UPDATE fără WHERE?",
+     "Ce primesc coloanele nespecificate la INSERT?",
+     "Ce face ROLLBACK?"
+    ],
+    "steps": [
+     "Scrie întâi un SELECT cu condiția dorită și verifică rândurile.",
+     "Transformă-l în UPDATE sau DELETE păstrând exact aceeași condiție.",
+     "Verifică rezultatul și confirmă cu COMMIT, dacă sistemul folosește tranzacții.",
+     "Greșeala frecventă: să uiți WHERE la DELETE; tabelul se golește."
+    ],
+    "answers": [
+     "INSERT.",
+     "UPDATE.",
+     "Modifică toate rândurile tabelului.",
+     "Valoarea implicită sau NULL.",
+     "Anulează modificările neconfirmate."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l15": {
+   "ro": {
+    "title": "Crearea și modificarea structurii tabelelor",
+    "theory": "Comanda CREATE TABLE definește un tabel nou: CREATE TABLE clasa (id_clasa INT PRIMARY KEY, nume VARCHAR(10) NOT NULL, diriginte VARCHAR(50));. Pentru legături: CREATE TABLE elev (id INT PRIMARY KEY, nume VARCHAR(50) NOT NULL, id_clasa INT, FOREIGN KEY (id_clasa) REFERENCES clasa(id_clasa));. Tabelul părinte se creează înaintea celui copil. ALTER TABLE modifică structura: ADD (adaugă o coloană), MODIFY sau ALTER COLUMN (schimbă tipul), DROP COLUMN (șterge o coloană), ADD CONSTRAINT (adaugă o restricție). DROP TABLE șterge tabelul cu tot cu date – operație ireversibilă. TRUNCATE golește tabelul păstrând structura. Scrierea structurii într-un fișier script permite recrearea bazei de date oricând.",
+    "sample": "ALTER TABLE elev ADD email VARCHAR(80); adaugă o coloană nouă, cu NULL pentru elevii existenți. ALTER TABLE elev ADD CONSTRAINT ck_media CHECK (media BETWEEN 1 AND 10); împiedică mediile invalide.",
+    "worked": "Structura a evoluat fără pierderea datelor existente. Restricția CHECK aplică regula de domeniu direct în baza de date.",
+    "exercises": [
+     "Creează tabelele CLASĂ și ELEV cu chei primare și externă.",
+     "Adaugă o coloană nouă unui tabel existent.",
+     "Adaugă o restricție CHECK pentru note.",
+     "Explică diferența dintre DROP TABLE, TRUNCATE și DELETE.",
+     "Scrie un script care creează baza de date a bibliotecii."
+    ],
+    "test": [
+     "Ce comandă creează un tabel?",
+     "Ce tabel creăm primul: părintele sau copilul?",
+     "Ce face ALTER TABLE ADD?",
+     "Ce face DROP TABLE?",
+     "Ce face TRUNCATE?"
+    ],
+    "steps": [
+     "Stabilește ordinea creării: întâi tabelele părinte.",
+     "Scrie coloanele, tipurile și restricțiile (PRIMARY KEY, NOT NULL, FOREIGN KEY, CHECK).",
+     "Rulează scriptul și testează constrângerile cu date corecte și greșite.",
+     "Greșeala frecventă: să creezi tabelul copil înaintea părintelui; cheia externă nu are la ce să se refere."
+    ],
+    "answers": [
+     "CREATE TABLE.",
+     "Părintele.",
+     "Adaugă o coloană nouă.",
+     "Șterge tabelul cu structură și date.",
+     "Golește tabelul și păstrează structura."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l16": {
+   "ro": {
+    "title": "Aptitudini, CV și interviu",
+    "theory": "Domeniul IT cuprinde meserii variate: programator (dezvoltator), administrator de baze de date, administrator de rețele, analist de date, tester, specialist în securitate cibernetică, designer de interfețe, analist de business. Fiecare cere aptitudini diferite: gândire logică, atenție la detalii, creativitate, comunicare, răbdare la depanare. Un CV bun este clar, scurt (1–2 pagini), adevărat și adaptat postului: date de contact, educație, competențe (limbaje, instrumente, limbi străine), proiecte (cu link spre cod, de exemplu un depozit GitHub), experiență, activități (olimpiade, voluntariat). Formatul Europass este des folosit. La interviu: ne documentăm despre firmă, explicăm proiectele proprii, răspundem sincer, inclusiv „nu știu, dar aș căuta astfel…”, și punem la final întrebări despre post.",
+    "sample": "Ioana, elevă în clasa a XII-a, aplică la un stagiu de practică. În CV trece proiectul de bază de date pentru biblioteca școlii, cu link spre cod, rezultatul de la olimpiada județeană și nivelul de engleză B2.",
+    "worked": "CV-ul pune în față dovezi concrete ale competențelor. Un proiect real, verificabil, spune mai mult decât o listă de limbaje.",
+    "exercises": [
+     "Enumeră cinci meserii din IT și aptitudinile cerute.",
+     "Scrie un CV pentru un stagiu de practică.",
+     "Pregătește răspunsuri la trei întrebări frecvente de interviu.",
+     "Descrie un proiect propriu în cinci propoziții.",
+     "Alcătuiește o listă de întrebări de pus la final de interviu."
+    ],
+    "test": [
+     "Ce aptitudini sunt utile în IT?",
+     "Cât de lung ar trebui să fie un CV?",
+     "Ce secțiuni are un CV?",
+     "Ce facem înaintea unui interviu?",
+     "Cum răspundem la o întrebare la care nu știm răspunsul?"
+    ],
+    "steps": [
+     "Identifică aptitudinile proprii și meseriile potrivite.",
+     "Adaptează CV-ul la post, cu proiecte și dovezi concrete.",
+     "Pregătește interviul: documentare, explicarea proiectelor, întrebări.",
+     "Greșeala frecventă: să exagerezi competențele în CV; la interviu sau la primul proiect se vede imediat."
+    ],
+    "answers": [
+     "Gândire logică, atenție la detalii, creativitate, comunicare, răbdare.",
+     "Una sau două pagini.",
+     "Contact, educație, competențe, proiecte, experiență, activități.",
+     "Ne documentăm despre firmă și post.",
+     "Sincer, explicând cum am căuta soluția."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l17": {
+   "ro": {
+    "title": "Prelegerea și lucrul în echipă",
+    "theory": "Proiectele IT se fac aproape întotdeauna în echipă. Principii de lucru în echipă: obiectiv comun și clar, roluri stabilite (de exemplu proiectant al bazei de date, programator, tester, responsabil cu documentația), împărțirea sarcinilor și termene, comunicare deschisă, respectarea opiniilor, rezolvarea conflictelor prin argumente, instrumente comune (document partajat, sistem de versionare precum Git, listă de sarcini). Susținerea unei prelegeri (prezentarea proiectului): structură clară – problema, soluția, demonstrația, concluzii; diapozitive sobre, cu puțin text; demonstrație pregătită și testată dinainte; respectarea timpului; răspunsuri la întrebări. Repetiția prezentării în echipă evită surprizele.",
+    "sample": "Echipa de patru elevi face o aplicație de gestiune a bibliotecii. Ei folosesc un depozit Git comun, o listă de sarcini cu termene și o întâlnire scurtă săptămânală. La prezentare, fiecare explică partea lui în două minute.",
+    "worked": "Rolurile și instrumentele comune au permis lucrul în paralel fără a se încurca. Prezentarea împărțită arată contribuția fiecăruia.",
+    "exercises": [
+     "Împarte rolurile pentru un proiect de bază de date.",
+     "Alcătuiește o planificare cu sarcini și termene.",
+     "Pregătește structura unei prezentări de 8 minute.",
+     "Descrie cum rezolvi un dezacord tehnic în echipă.",
+     "Explică la ce folosește un sistem de versionare."
+    ],
+    "test": [
+     "Ce roluri pot exista într-o echipă de proiect?",
+     "Ce instrumente comune folosește o echipă?",
+     "Care este structura unei prezentări de proiect?",
+     "De ce testăm demonstrația dinainte?",
+     "Cum se rezolvă un conflict în echipă?"
+    ],
+    "steps": [
+     "Stabiliți obiectivul, rolurile, sarcinile și termenele.",
+     "Lucrați cu instrumente comune și comunicați regulat.",
+     "Pregătiți și repetați prezentarea împreună.",
+     "Greșeala frecventă: să lași integrarea părților pentru ultima zi; incompatibilitățile apar prea târziu."
+    ],
+    "answers": [
+     "Proiectant, programator, tester, responsabil cu documentația.",
+     "Document partajat, Git, listă de sarcini.",
+     "Problema, soluția, demonstrația, concluziile.",
+     "Ca să nu eșueze în fața publicului.",
+     "Prin argumente și discuție deschisă."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l18": {
+   "ro": {
+    "title": "Diagrame ERD: convenții, subtipuri, relații speciale",
+    "theory": "Diagrama entitate-relație (ERD) reprezintă grafic modelul conceptual. Convenții uzuale: entitatea este un dreptunghi cu numele la singular, cu majuscule; atributele se scriu în interior, marcate cu # pentru identificatorul unic, * pentru obligatorii și o pentru opționale; relațiile sunt linii cu nume pe fiecare capăt, linia continuă însemnând obligatoriu și cea întreruptă opțional, iar „piciorul de cioară” (trei liniuțe) arătând capătul „mulți”. Subtipurile împart o entitate (supertip) în categorii cu atribute specifice: ANGAJAT cu subtipurile PROFESOR și PERSONAL_AUXILIAR. O relație recursivă leagă o entitate de ea însăși (un angajat este șeful altor angajați). Relațiile ierarhice descriu structuri pe niveluri. Arcul exclusiv arată că o instanță participă la exact una dintre mai multe relații. Transferabilitatea arată dacă o legătură poate fi mutată la altă instanță.",
+    "sample": "ANGAJAT are relația recursivă „este șeful” – „este condus de”: un angajat poate conduce mai mulți angajați și este condus de cel mult un șef. Directorul nu are șef, deci relația este opțională la acel capăt.",
+    "worked": "Relația recursivă evită un tabel separat pentru șefi. Opționalitatea permite existența directorului, care nu are un șef deasupra.",
+    "exercises": [
+     "Desenează ERD-ul unei biblioteci cu convențiile învățate.",
+     "Modelează subtipurile entității PERSOANĂ într-o școală.",
+     "Modelează o relație recursivă pentru categoriile de produse.",
+     "Folosește un arc exclusiv pentru o plată făcută de o persoană sau de o firmă.",
+     "Citește în ambele sensuri relațiile dintr-o diagramă dată."
+    ],
+    "test": [
+     "Cum se marchează identificatorul unic?",
+     "Ce înseamnă linia întreruptă?",
+     "Ce este un subtip?",
+     "Ce este o relație recursivă?",
+     "Ce exprimă un arc exclusiv?"
+    ],
+    "steps": [
+     "Desenează entitățile cu atributele și marcajele lor.",
+     "Trasează relațiile cu nume, cardinalitate și opționalitate.",
+     "Citește fiecare relație în ambele sensuri și verifică pe instanțe.",
+     "Greșeala frecventă: să desenezi relațiile fără nume; diagrama nu mai poate fi citită corect."
+    ],
+    "answers": [
+     "Cu #.",
+     "Legătură opțională.",
+     "O categorie a unei entități, cu atribute specifice.",
+     "O relație a unei entități cu ea însăși.",
+     "Că o instanță participă la exact una dintre relațiile din arc."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l19": {
+   "ro": {
+    "title": "Expresii și funcții SQL",
+    "theory": "SQL are funcții pe un singur rând, aplicate fiecărei înregistrări. Funcții pentru text: UPPER, LOWER, LENGTH, SUBSTR/SUBSTRING, CONCAT (sau operatorul ||), TRIM, REPLACE. Funcții numerice: ROUND, TRUNC/TRUNCATE, MOD, ABS. Funcții pentru date calendaristice: data curentă (SYSDATE, CURRENT_DATE, NOW()), diferența dintre date, extragerea anului (EXTRACT(YEAR FROM data) sau YEAR(data)). Funcții de conversie: CAST, TO_CHAR, TO_DATE. Funcții pentru NULL: COALESCE(x, valoare) sau NVL înlocuiesc NULL cu o valoare. CASE WHEN condiție THEN … ELSE … END creează valori după condiții. Denumirile exacte diferă puțin între Oracle, MySQL și SQL Server, de aceea consultăm documentația sistemului folosit.",
+    "sample": "SELECT UPPER(nume), ROUND(media, 1), CASE WHEN media >= 9 THEN 'FB' WHEN media >= 7 THEN 'B' ELSE 'S' END AS calificativ FROM elev; – afișează numele cu majuscule, media rotunjită și un calificativ.",
+    "worked": "Funcțiile au transformat valorile fiecărui rând fără a modifica datele din tabel. CASE a creat o coloană nouă, calculată din medie.",
+    "exercises": [
+     "Afișează inițialele elevilor cu SUBSTR.",
+     "Calculează vârsta elevilor din data nașterii.",
+     "Înlocuiește telefoanele lipsă cu „necunoscut” folosind COALESCE.",
+     "Afișează un calificativ cu CASE.",
+     "Concatenează numele și prenumele într-o singură coloană."
+    ],
+    "test": [
+     "Ce face UPPER?",
+     "Ce face ROUND(x, 1)?",
+     "Ce face COALESCE?",
+     "Ce face CASE WHEN?",
+     "Modifică funcțiile din SELECT datele din tabel?"
+    ],
+    "steps": [
+     "Identifică transformarea cerută pentru fiecare coloană.",
+     "Alege funcția potrivită sistemului folosit.",
+     "Verifică rezultatul pe rânduri cu valori speciale (NULL, texte goale).",
+     "Greșeala frecventă: să uiți că o expresie aritmetică cu NULL dă NULL; folosește COALESCE."
+    ],
+    "answers": [
+     "Transformă textul în majuscule.",
+     "Rotunjește la o zecimală.",
+     "Înlocuiește NULL cu o valoare dată.",
+     "Alege o valoare după condiții.",
+     "Nu."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l20": {
+   "ro": {
+    "title": "Gruparea datelor: funcții de grup, GROUP BY, HAVING",
+    "theory": "Funcțiile de grup calculează o valoare dintr-un set de rânduri: COUNT (număr), SUM, AVG, MIN, MAX. COUNT(*) numără toate rândurile, COUNT(coloană) doar valorile nenule; funcțiile de grup ignoră valorile NULL. GROUP BY împarte rândurile în grupuri după una sau mai multe coloane și aplică funcția pe fiecare grup: SELECT id_clasa, AVG(media) FROM elev GROUP BY id_clasa;. Orice coloană din SELECT care nu este într-o funcție de grup trebuie să apară în GROUP BY. HAVING filtrează grupurile după aplicarea funcțiilor (HAVING AVG(media) > 8.5), pe când WHERE filtrează rândurile înainte de grupare. Ordinea logică: FROM, WHERE, GROUP BY, HAVING, SELECT, ORDER BY.",
+    "sample": "SELECT id_clasa, COUNT(*) AS nr, AVG(media) AS medie FROM elev WHERE media >= 5 GROUP BY id_clasa HAVING COUNT(*) >= 20 ORDER BY medie DESC; – clasele cu cel puțin 20 de elevi promovați, ordonate după media lor.",
+    "worked": "WHERE a eliminat întâi elevii nepromovați, GROUP BY a format clasele, HAVING a păstrat clasele mari, iar ORDER BY le-a sortat.",
+    "exercises": [
+     "Numără elevii din fiecare clasă.",
+     "Afișează media fiecărei clase.",
+     "Afișează clasele cu media peste 8.5.",
+     "Afișează numărul de cărți al fiecărui autor, doar pentru autorii cu cel puțin 3 cărți.",
+     "Explică diferența dintre WHERE și HAVING."
+    ],
+    "test": [
+     "Ce face GROUP BY?",
+     "Ce diferență este între COUNT(*) și COUNT(coloană)?",
+     "Când folosim HAVING?",
+     "Ce reguli au coloanele din SELECT la grupare?",
+     "În ce ordine logică se execută clauzele?"
+    ],
+    "steps": [
+     "Stabilește criteriul de grupare și funcția de grup.",
+     "Filtrează rândurile cu WHERE și grupurile cu HAVING.",
+     "Verifică pe un grup mic calculat de mână.",
+     "Greșeala frecventă: să pui o condiție cu funcție de grup în WHERE; se folosește HAVING."
+    ],
+    "answers": [
+     "Împarte rândurile în grupuri după valori comune.",
+     "COUNT(*) numără toate rândurile, COUNT(coloană) doar valorile nenule.",
+     "Pentru a filtra grupurile după valorile funcțiilor de grup.",
+     "Trebuie să fie în GROUP BY sau într-o funcție de grup.",
+     "FROM, WHERE, GROUP BY, HAVING, SELECT, ORDER BY."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l21": {
+   "ro": {
+    "title": "Relaționarea tabelelor: interogări multiple (JOIN)",
+    "theory": "Datele legate se află în tabele diferite, iar JOIN le combină. INNER JOIN păstrează doar rândurile care au corespondent în ambele tabele: SELECT e.nume, c.nume FROM elev e JOIN clasa c ON e.id_clasa = c.id_clasa;. LEFT JOIN păstrează toate rândurile din tabelul din stânga, cu NULL unde nu există corespondent (de exemplu clasele fără elevi, dacă CLASĂ este în stânga). RIGHT JOIN este simetric; FULL OUTER JOIN păstrează rândurile din ambele părți. Self join leagă un tabel de el însuși (angajatul și șeful lui). Produsul cartezian (CROSS JOIN sau lipsa condiției de legătură) combină fiecare rând cu fiecare – de obicei o greșeală. Aliasurile de tabel (e, c) scurtează scrierea și sunt obligatorii la self join.",
+    "sample": "Afișăm fiecare împrumut cu numele cititorului și titlul cărții: SELECT ci.nume, ca.titlu, i.data FROM imprumut i JOIN cititor ci ON i.id_cititor = ci.id JOIN carte ca ON i.id_carte = ca.id;. Pentru cărțile niciodată împrumutate: SELECT ca.titlu FROM carte ca LEFT JOIN imprumut i ON i.id_carte = ca.id WHERE i.id IS NULL;.",
+    "worked": "Prima interogare leagă trei tabele prin cheile externe. A doua folosește LEFT JOIN și IS NULL ca să găsească rândurile fără corespondent.",
+    "exercises": [
+     "Afișează elevii împreună cu numele clasei.",
+     "Afișează clasele fără niciun elev.",
+     "Afișează fiecare angajat cu numele șefului (self join).",
+     "Afișează numărul de împrumuturi al fiecărui cititor, inclusiv cei cu 0.",
+     "Explică ce se întâmplă dacă uiți condiția ON."
+    ],
+    "test": [
+     "Ce rânduri păstrează INNER JOIN?",
+     "Ce rânduri păstrează LEFT JOIN?",
+     "Ce este un self join?",
+     "Ce este produsul cartezian?",
+     "De ce folosim aliasuri de tabel?"
+    ],
+    "steps": [
+     "Identifică tabelele necesare și cheile prin care se leagă.",
+     "Alege tipul de JOIN după cum trebuie tratate rândurile fără corespondent.",
+     "Verifică numărul de rânduri din rezultat față de așteptări.",
+     "Greșeala frecventă: să uiți condiția de legătură; obții produsul cartezian, cu mii de rânduri fără sens."
+    ],
+    "answers": [
+     "Doar rândurile cu corespondent în ambele tabele.",
+     "Toate rândurile din stânga, cu NULL unde lipsește corespondentul.",
+     "Legarea unui tabel de el însuși.",
+     "Combinarea fiecărui rând cu fiecare rând din celălalt tabel.",
+     "Pentru scriere scurtă și pentru a distinge tabelele, obligatoriu la self join."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l22": {
+   "ro": {
+    "title": "Subinterogări",
+    "theory": "O subinterogare este un SELECT inclus în altă comandă SQL, între paranteze. Subinterogarea care întoarce o singură valoare se folosește cu operatori de comparare: elevii cu media peste media școlii – WHERE media > (SELECT AVG(media) FROM elev). Cea care întoarce o listă se folosește cu IN, ANY, ALL: WHERE id_clasa IN (SELECT id_clasa FROM clasa WHERE profil = 'real'). Operatorul EXISTS verifică dacă subinterogarea întoarce cel puțin un rând. O subinterogare corelată folosește valori din interogarea exterioară și se evaluează pentru fiecare rând: elevii cu media maximă din clasa lor – WHERE media = (SELECT MAX(media) FROM elev e2 WHERE e2.id_clasa = e.id_clasa). Subinterogările pot apărea și în FROM (tabel derivat) sau în INSERT și UPDATE.",
+    "sample": "SELECT nume, media FROM elev WHERE media > (SELECT AVG(media) FROM elev); – subinterogarea calculează o dată media școlii (de exemplu 8.12), iar interogarea exterioară afișează elevii peste ea.",
+    "worked": "Problema „peste medie” cere două etape: aflarea mediei, apoi compararea. Subinterogarea le pune într-o singură comandă.",
+    "exercises": [
+     "Afișează produsele mai scumpe decât media prețurilor.",
+     "Afișează elevii din clasele de profil real folosind IN.",
+     "Afișează elevul cu media maximă din fiecare clasă.",
+     "Afișează cititorii care au cel puțin un împrumut nereturnat, cu EXISTS.",
+     "Rescrie o subinterogare cu IN ca JOIN."
+    ],
+    "test": [
+     "Ce este o subinterogare?",
+     "Ce operator folosim cu o subinterogare care întoarce o listă?",
+     "Ce face EXISTS?",
+     "Ce este o subinterogare corelată?",
+     "Unde mai pot apărea subinterogările?"
+    ],
+    "steps": [
+     "Împarte problema în etape: ce trebuie calculat întâi?",
+     "Scrie subinterogarea și testeaz-o separat.",
+     "Include-o în interogarea exterioară cu operatorul potrivit (=, IN, EXISTS).",
+     "Greșeala frecventă: să folosești = cu o subinterogare care întoarce mai multe rânduri; comanda dă eroare."
+    ],
+    "answers": [
+     "Un SELECT inclus în altă comandă SQL.",
+     "IN (sau ANY, ALL).",
+     "Verifică dacă subinterogarea întoarce cel puțin un rând.",
+     "O subinterogare care folosește valori din interogarea exterioară.",
+     "În FROM, în INSERT și în UPDATE."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l23": {
+   "ro": {
+    "title": "Constrângeri, secvențe, indecși și sinonime",
+    "theory": "Constrângerile impun reguli direct în baza de date: NOT NULL (valoare obligatorie), UNIQUE (valori distincte), PRIMARY KEY, FOREIGN KEY (cu opțiuni ON DELETE CASCADE – șterge și rândurile copil, sau ON DELETE SET NULL), CHECK (condiție) și DEFAULT (valoare implicită). Le dăm nume (CONSTRAINT pk_elev PRIMARY KEY (id)), ca mesajele de eroare să fie clare. Secvențele generează automat numere unice pentru chei (CREATE SEQUENCE în Oracle; AUTO_INCREMENT în MySQL; IDENTITY în SQL Server). Indecșii accelerează căutările și sortările după o coloană, la fel ca indexul unei cărți, dar încetinesc puțin inserările și ocupă spațiu; cheile primare și coloanele UNIQUE au index automat. Sinonimele (în Oracle) sunt nume alternative pentru obiecte, utile pentru a ascunde numele lungi sau proprietarul.",
+    "sample": "CREATE INDEX idx_elev_nume ON elev(nume); face rapidă căutarea după nume într-un tabel cu un milion de elevi. Tabelul imprumut are FOREIGN KEY (id_carte) REFERENCES carte(id) ON DELETE CASCADE: ștergerea unei cărți șterge și împrumuturile ei.",
+    "worked": "Indexul schimbă căutarea dintr-o parcurgere completă într-una foarte rapidă. Opțiunea CASCADE decide ce se întâmplă automat cu rândurile copil.",
+    "exercises": [
+     "Adaugă constrângeri cu nume unui tabel existent.",
+     "Creează o secvență sau o coloană AUTO_INCREMENT pentru chei.",
+     "Creează un index pe coloana folosită des la căutare.",
+     "Alege între ON DELETE CASCADE și SET NULL pentru două situații.",
+     "Explică dezavantajele unui număr mare de indecși."
+    ],
+    "test": [
+     "Ce face constrângerea UNIQUE?",
+     "Ce face ON DELETE CASCADE?",
+     "La ce folosește o secvență?",
+     "Ce avantaj are un index?",
+     "Ce este un sinonim?"
+    ],
+    "steps": [
+     "Stabilește regulile datelor și transformă-le în constrângeri cu nume.",
+     "Generează cheile automat cu secvențe sau AUTO_INCREMENT.",
+     "Creează indecși doar pe coloanele folosite des la căutare și sortare.",
+     "Greșeala frecventă: să pui index pe fiecare coloană; inserările devin lente și spațiul crește inutil."
+    ],
+    "answers": [
+     "Impune valori distincte în coloană.",
+     "Șterge automat rândurile copil când se șterge părintele.",
+     "Generează automat numere unice, de obicei pentru chei.",
+     "Accelerează căutările și sortările.",
+     "Un nume alternativ pentru un obiect al bazei de date."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l24": {
+   "ro": {
+    "title": "Drepturi de acces și tranzacții",
+    "theory": "Într-o bază de date folosită de mai mulți utilizatori, fiecare primește doar drepturile necesare (principiul privilegiului minim). Comanda GRANT acordă drepturi: GRANT SELECT, INSERT ON elev TO secretariat;. REVOKE le retrage. Rolurile grupează drepturi și se atribuie utilizatorilor. O tranzacție este un grup de operații care trebuie executate toate sau deloc. Proprietățile ACID: atomicitate (totul sau nimic), consistență (baza trece dintr-o stare corectă în alta corectă), izolare (tranzacțiile simultane nu se încurcă) și durabilitate (după confirmare, modificările rămân chiar după o pană). COMMIT confirmă tranzacția, ROLLBACK o anulează, iar SAVEPOINT marchează un punct intermediar la care se poate reveni.",
+    "sample": "Transfer bancar de 100 lei: UPDATE cont SET sold = sold - 100 WHERE id = 1; UPDATE cont SET sold = sold + 100 WHERE id = 2; COMMIT;. Dacă a doua operație eșuează, ROLLBACK anulează și prima, iar banii nu dispar.",
+    "worked": "Atomicitatea garantează că transferul se face complet sau deloc. Fără tranzacție, o eroare între cele două comenzi ar pierde 100 de lei.",
+    "exercises": [
+     "Acordă unui utilizator doar dreptul de citire pe un tabel.",
+     "Retrage un drept acordat anterior.",
+     "Scrie o tranzacție pentru un transfer între două conturi.",
+     "Explică proprietățile ACID cu exemple.",
+     "Folosește un SAVEPOINT într-o tranzacție."
+    ],
+    "test": [
+     "Ce face GRANT?",
+     "Ce este principiul privilegiului minim?",
+     "Ce este o tranzacție?",
+     "Ce înseamnă atomicitatea?",
+     "Ce face ROLLBACK?"
+    ],
+    "steps": [
+     "Stabilește ce operații are nevoie fiecare utilizator.",
+     "Acordă doar acele drepturi, eventual prin roluri.",
+     "Grupează operațiile dependente în tranzacții, cu COMMIT sau ROLLBACK.",
+     "Greșeala frecventă: să lucrezi cu toți utilizatorii conectați ca administrator; o greșeală poate distruge toată baza."
+    ],
+    "answers": [
+     "Acordă drepturi asupra obiectelor bazei de date.",
+     "Fiecare utilizator primește doar drepturile strict necesare.",
+     "Un grup de operații executate toate sau deloc.",
+     "Tranzacția se execută complet sau deloc.",
+     "Anulează modificările tranzacției neconfirmate."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l25": {
+   "ro": {
+    "title": "Proiect: baza de date a unei biblioteci",
+    "theory": "Proiectul de an pune laolaltă toate etapele, lucrând în echipă după un plan. 1. Analiza: discutăm cu „beneficiarul” (bibliotecara) ce trebuie gestionat – cărți, exemplare, autori, cititori, împrumuturi. 2. Modelul conceptual: ERD cu entități, atribute, identificatori și relații; rezolvăm relațiile M:M (CARTE – AUTOR prin CARTE_AUTOR, CITITOR – EXEMPLAR prin ÎMPRUMUT); verificăm 3FN. 3. Harta relațiilor și scriptul DDL: tabele, chei, constrângeri, secvențe. 4. Popularea cu date de test. 5. Interogări utile: cărțile disponibile, împrumuturile întârziate, cei mai activi cititori, autorii cei mai citiți. 6. Formulare și rapoarte (sau o mică interfață). 7. Documentarea și prezentarea. Testăm regulile: un exemplar nu poate fi împrumutat de două ori simultan.",
+    "sample": "Interogarea împrumuturilor întârziate: SELECT ci.nume, ca.titlu, i.data_scadenta FROM imprumut i JOIN cititor ci ON … JOIN exemplar ex ON … JOIN carte ca ON … WHERE i.data_returnare IS NULL AND i.data_scadenta < CURRENT_DATE;.",
+    "worked": "Interogarea folosește tot ce s-a învățat: JOIN pe mai multe tabele, NULL pentru împrumuturile nereturnate și o funcție de dată.",
+    "exercises": [
+     "Realizează ERD-ul complet al bibliotecii.",
+     "Scrie scriptul de creare a tabelelor.",
+     "Populează baza cu date de test.",
+     "Scrie cinci interogări utile pentru bibliotecară.",
+     "Pregătește prezentarea proiectului."
+    ],
+    "test": [
+     "Care este prima etapă a proiectului?",
+     "Cum se rezolvă relația CARTE – AUTOR?",
+     "Ce verificăm după modelul conceptual?",
+     "Ce interogare găsește împrumuturile întârziate?",
+     "De ce testăm regulile cu date greșite?"
+    ],
+    "steps": [
+     "Analizează cerințele și desenează ERD-ul normalizat.",
+     "Implementează tabelele cu constrângeri, populează-le și scrie interogările.",
+     "Testează regulile, documentează și prezintă proiectul.",
+     "Greșeala frecventă: să începi direct cu tabelele fără model conceptual; apar redundanțe și relații greșite."
+    ],
+    "answers": [
+     "Analiza cerințelor beneficiarului.",
+     "Prin entitatea de intersecție CARTE_AUTOR.",
+     "Că modelul este în a treia formă normală.",
+     "O interogare cu data de returnare NULL și scadența trecută.",
+     "Ca să ne asigurăm că baza de date respinge datele incorecte."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l26": {
+   "ro": {
+    "title": "Programarea procedurală în baza de date",
+    "theory": "SQL este un limbaj declarativ: spunem ce date vrem, nu cum să fie obținute. Pentru prelucrări mai complexe, sistemele oferă extensii procedurale: PL/SQL (Oracle), Transact-SQL (SQL Server) și limbajul procedural din MySQL. Ele adaugă variabile, structuri alternative (IF), repetitive (LOOP, WHILE, FOR), cursoare (parcurgerea rând cu rând a rezultatului unei interogări) și tratarea excepțiilor. Codul se organizează în blocuri, proceduri stocate și funcții, păstrate în baza de date și apelate de aplicații. Declanșatorii (triggerele) sunt blocuri executate automat la INSERT, UPDATE sau DELETE, de exemplu pentru a ține un istoric al modificărilor sau a verifica o regulă complexă. Avantaje: logica stă lângă date, se execută rapid și se refolosește de toate aplicațiile.",
+    "sample": "Procedură MySQL: CREATE PROCEDURE marire(IN proc DECIMAL(5, 2)) BEGIN UPDATE produs SET pret = pret * (1 + proc / 100); END; – apelul CALL marire(5); mărește toate prețurile cu 5%.",
+    "worked": "Procedura are un parametru și poate fi apelată de orice aplicație conectată la bază. Logica stă într-un singur loc, nu copiată în fiecare program.",
+    "exercises": [
+     "Scrie o procedură stocată care mută un elev în altă clasă.",
+     "Scrie o funcție care întoarce media unui elev.",
+     "Scrie un trigger care salvează istoricul modificărilor de preț.",
+     "Parcurge cu un cursor elevii unei clase și afișează-i.",
+     "Tratează o excepție pentru o împărțire la zero."
+    ],
+    "test": [
+     "De ce SQL este numit declarativ?",
+     "Ce adaugă extensiile procedurale?",
+     "Ce este o procedură stocată?",
+     "Ce este un trigger?",
+     "Ce este un cursor?"
+    ],
+    "steps": [
+     "Stabilește operația care trebuie automatizată sau refolosită.",
+     "Scrie procedura, funcția sau triggerul cu parametrii necesari.",
+     "Testează apelul pe date de probă și tratează excepțiile.",
+     "Greșeala frecventă: să pui în trigger operații lente sau care declanșează alt trigger la nesfârșit."
+    ],
+    "answers": [
+     "Pentru că descriem ce date vrem, nu pașii de obținere.",
+     "Variabile, structuri de control, cursoare, excepții.",
+     "Un program păstrat în baza de date și apelat de aplicații.",
+     "Un bloc executat automat la o operație asupra unui tabel.",
+     "Un mecanism de parcurgere rând cu rând a rezultatului unei interogări."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l27": {
+   "ro": {
+    "title": "Modelul client-server și aplicațiile web",
+    "theory": "O aplicație web funcționează după modelul client-server: clientul (browserul) trimite o cerere prin protocolul HTTP sau HTTPS (varianta criptată) către un server web (Apache, Nginx, IIS), care o prelucrează și trimite înapoi un răspuns, de obicei o pagină HTML. Paginile statice sunt fișiere trimise neschimbate; paginile dinamice sunt generate la fiecare cerere de un program de pe server, scris într-un limbaj server-side (PHP, Python, JavaScript cu Node.js, C# cu ASP.NET), care poate citi și scrie într-o bază de date. Codul HTML, CSS și JavaScript se execută în browser (client-side), iar codul PHP se execută pe server și nu este văzut de utilizator. Mediul de dezvoltare tipic la școală este un pachet local cu server web, PHP și MySQL (de exemplu XAMPP).",
+    "sample": "Când un elev caută „Rebreanu” pe site-ul bibliotecii, browserul trimite cererea către server; scriptul PHP interoghează baza de date MySQL și construiește o pagină HTML cu lista cărților găsite, trimisă înapoi browserului.",
+    "worked": "Pagina nu exista dinainte: a fost generată pentru această căutare. Utilizatorul vede doar HTML-ul rezultat, nu codul PHP și nici baza de date.",
+    "exercises": [
+     "Explică pașii unei cereri HTTP.",
+     "Compară paginile statice cu cele dinamice.",
+     "Instalează un pachet local cu server web, PHP și MySQL.",
+     "Explică diferența dintre codul client-side și server-side.",
+     "Explică de ce HTTPS este important pentru formularele cu parole."
+    ],
+    "test": [
+     "Ce rol are clientul?",
+     "Ce protocol folosesc paginile web?",
+     "Ce este o pagină dinamică?",
+     "Unde se execută codul PHP?",
+     "Ce conține un pachet de tip XAMPP?"
+    ],
+    "steps": [
+     "Identifică ce parte rulează în browser și ce parte pe server.",
+     "Stabilește ce date vin din baza de date și cum se generează pagina.",
+     "Testează aplicația local înainte de publicare.",
+     "Greșeala frecventă: să crezi că utilizatorul poate vedea codul PHP; el vede doar rezultatul HTML."
+    ],
+    "answers": [
+     "Trimite cereri și afișează răspunsurile.",
+     "HTTP sau HTTPS.",
+     "O pagină generată la fiecare cerere de un program de pe server.",
+     "Pe server.",
+     "Un server web, PHP și MySQL."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l28": {
+   "ro": {
+    "title": "PHP și interacțiunea cu baza de date",
+    "theory": "PHP este un limbaj server-side al cărui cod se scrie între <?php și ?>, inclus în pagini HTML. Variabilele încep cu $ și nu au tip declarat; instrucțiunile se termină cu ;. Are structurile cunoscute (if, for, while, foreach), funcții (function suma($a, $b) { return $a + $b; }) și tablouri asociative ($elev[\"nume\"]). Datele trimise dintr-un formular HTML se citesc din $_GET sau $_POST. Legătura cu MySQL se face prin extensia PDO sau mysqli: ne conectăm, pregătim interogarea, o executăm și parcurgem rezultatele. Pentru securitate, datele venite de la utilizator nu se lipesc niciodată direct în textul SQL, ci se folosesc interogări pregătite cu parametri, care previn atacurile de tip SQL injection. La afișare, textele se trec prin htmlspecialchars, ca să nu poată introduce cod în pagină.",
+    "sample": "$stmt = $pdo->prepare(\"SELECT titlu FROM carte WHERE autor = ?\"); $stmt->execute([$_GET[\"autor\"]]); foreach ($stmt as $r) echo htmlspecialchars($r[\"titlu\"]), \"<br>\"; – afișează titlurile autorului căutat.",
+    "worked": "Interogarea pregătită trimite valoarea separat de comanda SQL, deci un text răuvoitor nu poate schimba interogarea. htmlspecialchars protejează afișarea.",
+    "exercises": [
+     "Scrie o pagină PHP care afișează data curentă.",
+     "Citește datele unui formular cu $_POST și afișează-le.",
+     "Afișează într-un tabel HTML elevii dintr-o bază de date.",
+     "Adaugă o carte nouă în bază dintr-un formular, cu interogare pregătită.",
+     "Explică ce este un atac SQL injection și cum îl previi."
+    ],
+    "test": [
+     "Cu ce semn încep variabilele PHP?",
+     "De unde citim datele trimise prin metoda POST?",
+     "Ce extensii PHP lucrează cu MySQL?",
+     "Ce este o interogare pregătită?",
+     "La ce folosește htmlspecialchars?"
+    ],
+    "steps": [
+     "Construiește formularul HTML și pagina PHP care îl prelucrează.",
+     "Conectează-te la baza de date și folosește interogări pregătite pentru datele utilizatorului.",
+     "Afișează rezultatele protejate cu htmlspecialchars și testează cu date neobișnuite.",
+     "Greșeala frecventă: să lipești textul introdus de utilizator direct în comanda SQL; aplicația devine vulnerabilă la SQL injection."
+    ],
+    "answers": [
+     "Cu $.",
+     "Din $_POST.",
+     "PDO și mysqli.",
+     "O interogare cu parametri trimiși separat de comanda SQL.",
+     "Împiedică interpretarea textului afișat drept cod HTML."
+    ]
+   }
+  }
+ }
+}

@@ -16,6 +16,7 @@ import {EXTRA_TOOLS_WORKSPACE_SCRIPT,EXTRA_TOOLS_WORKSPACE_STYLE} from './extra_
 import {EXAM_UI_SCRIPT} from './exam_ui.mjs';
 import {RECIPE_READER_PAGES_UI_SCRIPT} from './recipe_reader_pages_ui.mjs';
 import {LITERATURE_TASK_UI_SCRIPT} from './literature_task_ui.mjs';
+import {EDUCATION_NATIONAL_SUBJECT_PACKS_SCRIPT} from './education_national_subject_packs.mjs';
 import {literatureLoadCountryProfile} from './literature_profile_loader.mjs';
 import {literatureLoadAuthoredYear,literatureLoadAuthoredCatalog,literatureLoadNationalYear} from './literature_authored_pack_loader.mjs';
 import {mathLoadCountrySupplement} from './math_country_supplement_loader.mjs';
@@ -41,6 +42,7 @@ import {EDUCATION_SCHOOL_YEARS,HG_SCHOOL_PLANS,HG_SCHOOL_GENERAL,HG_SCHOOL_SOURC
 import {EDUCATION_WORLDWIDE_SCHEMES,EDUCATION_WORLDWIDE_FALLBACK,worldwideSchoolYears,worldwideSchoolNotice,worldwideStudyChapters} from './education_worldwide_paths.mjs';
 import {COMPUTING_LEVELS,COMPUTING_PATHS,COMPUTING_TOPICS} from './computing_curriculum.mjs';
 import {COMPUTING_UI_SCRIPT} from './computing_ui.mjs';
+import {COMPUTING_NATIONAL_PACKS_SCRIPT} from './computing_national_packs.mjs';
 import {LIT_EU_COMMON} from './literature_common_program.mjs';
 import {literatureTracksForGrade,hungaryAdmissionTopicsForGrade,HUNGARY_ADMISSION_REFERENCES} from './literature_school_streams.mjs';
 import {LIT_OFFLINE_THEORY} from './literature_offline_theory.mjs';
@@ -14675,7 +14677,10 @@ function hgYearGroups(){
    if(bounds[band.level])years=years.filter(x=>Number.isInteger(Number(x.id))&&Number(x.id)>=bounds[band.level][0]&&Number(x.id)<=bounds[band.level][1]);
    years=years.map(x=>Number.isInteger(Number(x.id))?{...x,ro:'Clasa a '+x.id+'-a'}:x);
   }
-  if(band.level==='advanced')years=years.slice(0,1);
+  // Romania: University = Bachelor years I–III (ARACIS synthesis), each with
+  // its own national pack, like Literature. Elsewhere keep the single entry.
+  if(band.level==='advanced')years=country==='RO'?
+   [1,2,3].map(n=>({id:'uni-ba-'+n,ro:'Licență · anul '+['I','II','III'][n-1],en:'Bachelor · Year '+n})):years.slice(0,1);
   years=years.filter(x=>{
    const key=String(x.id);if(seen.has(key))return false;
    seen.add(key);return true;
@@ -14686,7 +14691,7 @@ function hgYearGroups(){
 function hgBack(){
  const stage=hgJourney.stage;
  if(stage==='lesson'){hgOpen('chapters');return}
- if(stage==='chapters'){hgOpen(hgJourney.level==='advanced'?'specialties':'years');return}
+ if(stage==='chapters'){hgOpen(hgJourney.level==='advanced'&&!(typeof hgNationalPackActive==='function'&&hgNationalPackActive())?'specialties':'years');return}
  if(stage==='specialties'||stage==='levels'){hgOpen('years');return}
  if(stage==='years'){hgOpen('scope');return}
  if(stage==='scope'){hgOpen('subjects');return}
@@ -14806,9 +14811,14 @@ function hgOpen(stage){
      hgJourney.country=country;hgJourney.level=group.level;hgJourney.grade=year.id;
      hgJourney.topic=null;hgJourney.speciality=null;
      const nextStage=group.level==='advanced'?'specialties':'chapters';
-     if(typeof eduRunWithCurriculumPack==='function'){
-      eduRunWithCurriculumPack(hgJourney.subject||'history',country,year.id,()=>hgOpen(nextStage),group.level);
-     }else hgOpen(nextStage);
+     const general=()=>{
+      if(typeof eduRunWithCurriculumPack==='function'){
+       eduRunWithCurriculumPack(hgJourney.subject||'history',country,year.id,()=>hgOpen(nextStage),group.level);
+      }else hgOpen(nextStage);
+     };
+     // National year packs (same engine as Literature): official programme
+     // units and original lessons; otherwise the existing chapters stay.
+     if(typeof hgWithNationalYear==='function')hgWithNationalYear(()=>hgOpen('chapters'),general);else general();
     },'secondary-btn hg-year-tile');
     tiles.append(btn);
    }
@@ -14839,7 +14849,8 @@ function hgOpen(stage){
    hgJourney.speciality=opt.id;hgOpen('chapters');
   });
  }
- if(stage==='chapters'){
+ if(stage==='chapters'&&typeof hgNationalPackActive==='function'&&hgNationalPackActive())hgRenderNationalChapters(panel);
+ else if(stage==='chapters'){
   const region=hgJourney.scope==='world'?hgL('Universală','Global'):(hgCountry()?hgL(hgCountry().ro,hgCountry().en):(hgJourney.otherCountry||''))+(hgJourney.region?' · '+hgJourney.region:'');
   panel.append(hgText('p',region+' · '+hgL(HG_LEVEL_DATA.find(x=>x.id===hgJourney.level)?.ro||'',HG_LEVEL_DATA.find(x=>x.id===hgJourney.level)?.en||'')+' · '+(hgJourney.grade||'')));
   const plan=hgSchoolChapterSet();if(hgJourney.level!=='advanced'){
@@ -14856,7 +14867,7 @@ function hgOpen(stage){
   });
   list(opts.map(opt=>hgJourney.subject==='history'?{...opt,ro:opt.ro+'\\n'+(opt.period||''),en:opt.en+'\\n'+(opt.periodEn||opt.period||'')}:opt),opt=>{hgJourney.topic=opt.id;hgJourney.year=null;hgJourney.showSolutions=false;hgOpen('lesson')});
  }
- if(stage==='lesson')hgLesson(panel);
+ if(stage==='lesson'&&!(typeof hgRenderNationalLesson==='function'&&hgRenderNationalLesson(panel)))hgLesson(panel);
 }
 function hgLessonSections(topic){
  const manual=HG_LOCAL_GUIDES_DATA[topic.id];
@@ -15405,8 +15416,10 @@ function litNationalCatalogNow(){
 function litWithNationalYear(proceed){
  if(typeof LIT_NATIONAL_YEAR==='object')LIT_NATIONAL_YEAR.pack=null;
  const country=litJourney.country,stage=litJourney.level,grade=String(litJourney.grade||'');
+ // University study years (uni-ba-N) also open a national pack when the
+ // catalog has one (RO Faculty of Letters); otherwise the generic plan stays.
  if(typeof literatureLoadNationalYear!=='function'||typeof LIT_NATIONAL_YEAR!=='object'||
-    stage==='advanced'||!country||country==='OTHER-EU'){proceed();return}
+    !country||country==='OTHER-EU'){proceed();return}
  const catalog=litNationalCatalogNow();
  litNationalCatalogPrefetch();
  const entry=catalog?.years?.find(y=>y.country===country&&y.stage===stage&&y.grade===grade&&Array.isArray(y.languages)&&y.languages.length)||null;
@@ -16020,6 +16033,8 @@ function litWorkspace(panel){
 
 
 ${LITERATURE_TASK_UI_SCRIPT}
+${EDUCATION_NATIONAL_SUBJECT_PACKS_SCRIPT}
+${COMPUTING_NATIONAL_PACKS_SCRIPT}
 ${COMPUTING_UI_SCRIPT}
 ${EXAM_UI_SCRIPT}
 ${PRACTICAL_UI_SCRIPT}

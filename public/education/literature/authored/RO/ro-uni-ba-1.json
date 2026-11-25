@@ -1,0 +1,1213 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "RO",
+ "stage": "advanced",
+ "grade": "uni-ba-1",
+ "version": "73fabff7391eaa28a6ff013d92a2eea15c093efdc71314548a84d2ebe9925cd4",
+ "source": "https://www.aracis.ro/",
+ "sourceTitle": "Sinteză orientativă a disciplinelor fundamentale comune programelor de licență Limba și literatura română (specializarea A) din facultățile de Litere din România, conform standardelor specifice ARACIS pentru domeniul Limbă și literatură și planurilor de învățământ publicate de Universitatea din București, Universitatea Babeș-Bolyai și Universitatea „Alexandru Ioan Cuza” — anul I: introducere în teoria literaturii, folclor literar românesc, literatura română veche, literatura universală (Antichitatea), limba română contemporană (fonetică, fonologie, lexicologie), lingvistică generală, limba latină, scriere academică; fiecare facultate are planul propriu, iar ordinea și denumirile cursurilor pot diferi; lecții originale, fără text copiat din cursuri sau manuale",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "ro",
+ "labels": [
+  "Activitate originală · România · Facultatea de Litere · Licență, anul I",
+  "Teorie pe înțeles",
+  "Exemplu original",
+  "Analiză explicată",
+  "Exerciții de seminar",
+  "Verifică-te",
+  "Exerciții originale; nu înlocuiesc cursul, bibliografia sau evaluarea facultății.",
+  "Dacă nu ai înțeles: pe înțelesul tău, pas cu pas",
+  "Răspunsuri (verifică după ce termini)"
+ ],
+ "units": [
+  {
+   "title": "Introducere în teoria literaturii",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-1-l01",
+    "eu-year-ro-advanced-uni-ba-1-l02",
+    "eu-year-ro-advanced-uni-ba-1-l03",
+    "eu-year-ro-advanced-uni-ba-1-l04",
+    "eu-year-ro-advanced-uni-ba-1-l05",
+    "eu-year-ro-advanced-uni-ba-1-l06"
+   ]
+  },
+  {
+   "title": "Folclor literar românesc",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-1-l07",
+    "eu-year-ro-advanced-uni-ba-1-l08",
+    "eu-year-ro-advanced-uni-ba-1-l09",
+    "eu-year-ro-advanced-uni-ba-1-l10",
+    "eu-year-ro-advanced-uni-ba-1-l11"
+   ]
+  },
+  {
+   "title": "Literatura română veche",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-1-l12",
+    "eu-year-ro-advanced-uni-ba-1-l13",
+    "eu-year-ro-advanced-uni-ba-1-l14",
+    "eu-year-ro-advanced-uni-ba-1-l15",
+    "eu-year-ro-advanced-uni-ba-1-l16",
+    "eu-year-ro-advanced-uni-ba-1-l17"
+   ]
+  },
+  {
+   "title": "Literatura universală: Antichitatea",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-1-l18",
+    "eu-year-ro-advanced-uni-ba-1-l19",
+    "eu-year-ro-advanced-uni-ba-1-l20",
+    "eu-year-ro-advanced-uni-ba-1-l21"
+   ]
+  },
+  {
+   "title": "Limba română contemporană: fonetică, fonologie, lexicologie",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-1-l22",
+    "eu-year-ro-advanced-uni-ba-1-l23",
+    "eu-year-ro-advanced-uni-ba-1-l24",
+    "eu-year-ro-advanced-uni-ba-1-l25",
+    "eu-year-ro-advanced-uni-ba-1-l26",
+    "eu-year-ro-advanced-uni-ba-1-l27"
+   ]
+  },
+  {
+   "title": "Lingvistică generală și limba latină",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-1-l28",
+    "eu-year-ro-advanced-uni-ba-1-l29",
+    "eu-year-ro-advanced-uni-ba-1-l30"
+   ]
+  },
+  {
+   "title": "Scriere academică și comentariu de text",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-1-l31",
+    "eu-year-ro-advanced-uni-ba-1-l32"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-ro-advanced-uni-ba-1-l01": {
+   "ro": {
+    "title": "Ce este literatura: literaritate și funcția poetică",
+    "theory": "Teoria literaturii întreabă ce face ca un text să fie literar. Formaliștii ruși au numit această calitate literaritate: felul în care limbajul atrage atenția asupra lui însuși. Roman Jakobson (1960) a descris funcția poetică a limbajului: accentul cade pe mesaj ca formă (sunete, ritm, paralelisme), nu doar pe informație. Ficționalitatea (lumi posibile, pact cu cititorul) și valoarea estetică sunt alte criterii; niciunul nu funcționează singur.",
+    "sample": "Două enunțuri originale: A. Trenul pleacă la ora opt de pe linia trei. B. Pleacă trenul, pleacă anii, pleacă tot ce n-am spus.",
+    "worked": "A este referențial: transmite o informație. B repetă verbul, creează ritm și extinde sensul de la tren la viață; forma devine purtătoare de sens. Aceasta este funcția poetică, dar ea poate apărea și în reclame sau sloganuri, deci nu definește singură literatura.",
+    "exercises": [
+     "Găsește funcția poetică într-un slogan publicitar.",
+     "Explică de ce ficțiunea nu este suficientă pentru a defini literatura.",
+     "Compară un text științific cu un text literar pe aceeași temă.",
+     "Formulează propria definiție a literaturii și testeaz-o pe trei exemple.",
+     "Explică termenul literaritate cu un exemplu original."
+    ],
+    "test": [
+     "Cine a descris funcția poetică a limbajului?",
+     "Ce este literaritatea?",
+     "Pe ce pune accent funcția poetică?",
+     "Poate apărea funcția poetică în texte neliterare?",
+     "Numește alte două criterii folosite pentru a defini literatura."
+    ],
+    "steps": [
+     "Pornește de la diferența dintre informație și formă.",
+     "Aplică pe rând criteriile: funcția poetică, ficționalitatea, valoarea estetică.",
+     "Arată limitele fiecărui criteriu luat separat.",
+     "Greșeala frecventă: să crezi că o singură trăsătură (de exemplu, rima) definește literatura."
+    ],
+    "answers": [
+     "Roman Jakobson.",
+     "Calitatea care face ca un text să fie literar, prin felul în care limbajul atrage atenția asupra lui însuși.",
+     "Pe mesaj ca formă.",
+     "Da, de exemplu în sloganuri.",
+     "Ficționalitatea și valoarea estetică."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l02": {
+   "ro": {
+    "title": "Autor, text, cititor: teoriile receptării",
+    "theory": "Interpretarea poate porni de la autor (biografie, intenție), de la text (structură, limbaj) sau de la cititor. Teoria receptării (Hans Robert Jauss, Wolfgang Iser) arată că sensul se construiește în întâlnirea dintre text și cititor: orizontul de așteptare al publicului se schimbă în timp, iar textul are locuri de nedeterminare pe care cititorul le completează. Totuși, interpretarea trebuie să rămână susținută de text.",
+    "sample": "Exemplu original: o comedie despre alegeri trucate a fost primită la premieră ca satiră a epocii; un cititor de azi o poate citi ca analiză a manipulării prin presă. Ambele lecturi pornesc de la aceleași replici.",
+    "worked": "Orizontul de așteptare s-a schimbat, iar sensurile actualizate diferă. Interpretările rămân legitime pentru că se sprijină pe text, nu pe ce dorește cititorul să găsească.",
+    "exercises": [
+     "Explică ce este orizontul de așteptare.",
+     "Găsește o operă care a fost primită diferit în epoci diferite.",
+     "Identifică un loc de nedeterminare într-o povestire.",
+     "Compară o lectură biografică și una textuală a aceleiași poezii.",
+     "Formulează limitele unei interpretări libere."
+    ],
+    "test": [
+     "Cine a propus conceptul de orizont de așteptare?",
+     "Ce sunt locurile de nedeterminare?",
+     "De unde poate porni interpretarea?",
+     "Ce se schimbă în timp, după teoria receptării?",
+     "Ce limită are o interpretare?"
+    ],
+    "steps": [
+     "Stabilește din ce perspectivă interpretezi: autor, text sau cititor.",
+     "Verifică dacă interpretarea are dovezi în text.",
+     "Situează receptarea în contextul ei istoric.",
+     "Greșeala frecventă: să crezi că orice interpretare este la fel de valabilă, chiar fără sprijin în text."
+    ],
+    "answers": [
+     "Hans Robert Jauss.",
+     "Golurile textului pe care cititorul le completează.",
+     "De la autor, de la text sau de la cititor.",
+     "Orizontul de așteptare al publicului.",
+     "Trebuie să fie susținută de text."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l03": {
+   "ro": {
+    "title": "Teoria genurilor: de la Aristotel la speciile moderne",
+    "theory": "Poetica lui Aristotel tratează arta ca mimesis (imitație, reprezentare) și analizează tragedia și epopeea. Triada epic–liric–dramatic s-a fixat mai târziu, în teoria modernă. Genurile se deosebesc după modul de enunțare: narator (epic), eu liric (liric), personaje care vorbesc direct (dramatic). Speciile sunt forme istorice (nuvelă, sonet, comedie), iar literatura modernă amestecă frecvent genurile (poem în proză, roman liric).",
+    "sample": "Exemplu original: un text în versuri în care un narator povestește o luptă și personajele dialoghează; apar și confesiuni lirice ale naratorului.",
+    "worked": "Textul combină narațiunea (epic), dialogul (dramatic) și confesiunea (liric). Încadrarea se face după dominantă, nu după prezența versului; de aceea balada este epică, deși este în versuri.",
+    "exercises": [
+     "Explică ce înseamnă mimesis la Aristotel.",
+     "Încadrează trei texte de graniță și justifică dominanta.",
+     "Explică diferența dintre gen și specie.",
+     "Dă exemplu de specie modernă hibridă.",
+     "Discută de ce versul nu definește genul liric."
+    ],
+    "test": [
+     "Ce lucrare a lui Aristotel tratează tragedia?",
+     "Ce înseamnă mimesis?",
+     "După ce criteriu se deosebesc genurile?",
+     "Ce este specia literară?",
+     "De ce balada este epică?"
+    ],
+    "steps": [
+     "Identifică instanța care vorbește în text.",
+     "Stabilește modul dominant: narațiune, confesiune sau dialog.",
+     "Numește specia după trăsăturile istorice ale formei.",
+     "Greșeala frecventă: să încadrezi un text în liric doar pentru că este scris în versuri."
+    ],
+    "answers": [
+     "Poetica.",
+     "Imitație, reprezentare.",
+     "După modul de enunțare.",
+     "O formă istorică a unui gen.",
+     "Pentru că dominanta ei este narațiunea."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l04": {
+   "ro": {
+    "title": "Naratologie I: narator și focalizare",
+    "theory": "Gérard Genette (Figuri III, 1972) distinge întrebarea cine vorbește? (vocea, naratorul) de întrebarea cine vede? (perspectiva, focalizarea). Focalizarea poate fi zero (naratorul știe mai mult decât personajele), internă (prin conștiința unui personaj) sau externă (doar comportamentul vizibil). Naratorul poate fi heterodiegetic (absent din poveste) sau homodiegetic (personaj al poveștii).",
+    "sample": "Exemplu original: Ana deschise ușa. I se păru că holul e mai mic decât în copilărie. — Narațiune la persoana a III-a, dar cu focalizare internă pe Ana.",
+    "worked": "Vocea aparține unui narator heterodiegetic (persoana a III-a), dar perspectiva este a Anei (i se păru). Distincția voce–perspectivă evită confuzia dintre persoana gramaticală și punctul de vedere.",
+    "exercises": [
+     "Identifică vocea și focalizarea în trei fragmente.",
+     "Rescrie un paragraf cu focalizare externă.",
+     "Explică diferența dintre narator homodiegetic și heterodiegetic.",
+     "Găsește o schimbare de focalizare într-un roman.",
+     "Compară focalizarea zero cu cea internă."
+    ],
+    "test": [
+     "Cine a propus distincția voce–perspectivă?",
+     "Ce este focalizarea internă?",
+     "Ce este focalizarea externă?",
+     "Ce este naratorul homodiegetic?",
+     "Ce perspectivă are exemplul?"
+    ],
+    "steps": [
+     "Pune întrebarea cine vorbește?",
+     "Pune separat întrebarea cine vede?",
+     "Numește tipul de narator și de focalizare.",
+     "Greșeala frecventă: să confunzi persoana a III-a cu focalizarea zero; perspectiva poate fi a unui personaj."
+    ],
+    "answers": [
+     "Gérard Genette.",
+     "Povestea este văzută prin conștiința unui personaj.",
+     "Se vede doar comportamentul exterior.",
+     "Un narator care este personaj al poveștii.",
+     "Focalizare internă pe Ana."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l05": {
+   "ro": {
+    "title": "Naratologie II: timpul narativ",
+    "theory": "Genette analizează raportul dintre timpul poveștii (ordinea reală a întâmplărilor) și timpul discursului (ordinea în care sunt relatate). Ordinea: analepsă (întoarcere), prolepsă (anticipare). Durata: scenă (timp aproximativ egal), rezumat (accelerare), elipsă (omisiune), pauză descriptivă. Frecvența: singulativă (o dată ce s-a întâmplat o dată), iterativă (o dată ce s-a întâmplat de mai multe ori), repetitivă (de mai multe ori ce s-a întâmplat o dată).",
+    "sample": "Exemplu original: În fiecare duminică mergeau la bunici (iterativ). Zece ani au trecut fără vești (elipsă cu rezumat). Abia mult mai târziu avea să afle adevărul (prolepsă).",
+    "worked": "Fiecare propoziție manipulează timpul altfel: o relatare unică pentru repetiție, o accelerare, o anticipare. Analiza timpului arată ritmul și accentele narațiunii.",
+    "exercises": [
+     "Identifică o analepsă și o prolepsă într-un roman studiat.",
+     "Găsește o scenă și un rezumat în același capitol.",
+     "Dă exemplu de narațiune iterativă.",
+     "Rescrie o întâmplare cu ordine nonlineară.",
+     "Explică efectul unei elipse."
+    ],
+    "test": [
+     "Ce este prolepsa?",
+     "Ce este elipsa?",
+     "Ce este narațiunea iterativă?",
+     "Ce este scena?",
+     "Ce raport analizează Genette?"
+    ],
+    "steps": [
+     "Reconstituie ordinea reală a întâmplărilor.",
+     "Compară-o cu ordinea din text.",
+     "Numește procedeele de ordine, durată și frecvență și efectele lor.",
+     "Greșeala frecventă: să numești procedeele fără să explici ce efect au asupra lecturii."
+    ],
+    "answers": [
+     "Anticiparea unor întâmplări viitoare.",
+     "Omiterea unei perioade din poveste.",
+     "Relatarea o singură dată a unor fapte repetate.",
+     "Relatarea în timp aproximativ egal cu cel al întâmplării.",
+     "Raportul dintre timpul poveștii și timpul discursului."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l06": {
+   "ro": {
+    "title": "Versificație și retorică: elemente de poetică",
+    "theory": "Versificația românească este în principal accentuală: ritmul se bazează pe alternanța silabelor accentuate și neaccentuate (picioare: troheu, iamb, dactil, amfibrah, anapest). Elementele: măsura, rima (împerecheată, încrucișată, îmbrățișată, monorimă), strofa, versul liber. Retorica distinge tropii (schimbă sensul: metafora, metonimia, sinecdoca) de figurile de construcție (repetiția, paralelismul, inversiunea) și de cele de sunet (aliterația, asonanța).",
+    "sample": "Vers original: Cad frunze grele peste drum (iamb: cad FRUN-ze GRE-le PES-te DRUM — accente pe silabele pare).",
+    "worked": "Silabele 2, 4, 6, 8 sunt accentuate: ritm iambic, măsura de 8 silabe. Identificarea ritmului se face citind natural, fără a forța accentele.",
+    "exercises": [
+     "Scandează trei versuri și stabilește piciorul metric.",
+     "Identifică tipul de rimă într-o strofă.",
+     "Clasifică cinci figuri în tropi și figuri de construcție.",
+     "Analizează un text în vers liber și ritmul lui interior.",
+     "Explică diferența dintre metonimie și sinecdocă."
+    ],
+    "test": [
+     "Pe ce se bazează versificația românească?",
+     "Ce este iambul?",
+     "Ce este rima îmbrățișată?",
+     "Ce este un trop?",
+     "Ce este aliterația?"
+    ],
+    "steps": [
+     "Desparte versul în silabe și marchează accentele naturale.",
+     "Identifică piciorul care se repetă.",
+     "Leagă forma de efectul ei asupra sensului.",
+     "Greșeala frecventă: să forțezi accentele ca să obții un ritm dorit."
+    ],
+    "answers": [
+     "Pe alternanța silabelor accentuate și neaccentuate.",
+     "Picior metric cu o silabă neaccentuată urmată de una accentuată.",
+     "Rima abba.",
+     "O figură care schimbă sensul cuvântului.",
+     "Repetarea aceleiași consoane."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l07": {
+   "ro": {
+    "title": "Folclorul: caracteristici și metode de studiu",
+    "theory": "Folclorul literar este creația orală tradițională. Caracteristici: oralitatea, caracterul colectiv și anonim, tradiționalitatea, sincretismul (text, melodie, gest, ritual), existența variantelor. Textele populare au fost culese și publicate în secolul al XIX-lea (Vasile Alecsandri, Simion Florea Marian, G. Dem. Teodorescu), uneori cu intervenții ale editorilor; folcloristica modernă cere transcrieri fidele, cu date despre informator, loc și dată.",
+    "sample": "Fișă originală de teren: Text: colind de fereastră; informator: femeie, 70 de ani; localitatea X; data culegerii; observații: se cântă în grup, cu refren repetat după fiecare vers.",
+    "worked": "Fișa respectă cerințele moderne: textul fidel și contextul performării. Fără context, nu putem înțelege funcția textului și nici variația lui.",
+    "exercises": [
+     "Explică ce înseamnă sincretismul folcloric.",
+     "Compară două variante ale aceluiași text popular.",
+     "Discută intervențiile editorilor din secolul al XIX-lea.",
+     "Realizează o fișă de teren pentru un text cules din familie.",
+     "Explică de ce variantele nu sunt greșeli."
+    ],
+    "test": [
+     "Ce este folclorul literar?",
+     "Ce înseamnă caracter anonim?",
+     "Ce înseamnă sincretism?",
+     "Ce date cuprinde o fișă de teren?",
+     "Ce sunt variantele?"
+    ],
+    "steps": [
+     "Identifică trăsăturile folclorice ale textului.",
+     "Caută contextul: ocazie, funcție, performare.",
+     "Compară variantele pentru a vedea ce rămâne constant.",
+     "Greșeala frecventă: să tratezi un text folcloric ca pe un text de autor, cu formă unică și fixă."
+    ],
+    "answers": [
+     "Creația orală tradițională.",
+     "Autorul nu este cunoscut.",
+     "Unirea textului cu melodia, gestul și ritualul.",
+     "Informatorul, locul, data și contextul.",
+     "Forme diferite ale aceluiași text, firești în transmiterea orală."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l08": {
+   "ro": {
+    "title": "Poezia obiceiurilor: colindul, descântecul, bocetul",
+    "theory": "Poezia ritualică are funcție practică în viața comunității. Obiceiurile calendaristice (colindele de iarnă, urările, Paparuda, Drăgaica) marchează anul agrar și religios; obiceiurile din ciclul vieții (nașterea, nunta, înmormântarea) au texte specifice: orația de nuntă, bocetul, cântecele ceremoniale funebre. Descântecul are funcție magică: alungarea bolii prin formule, enumerări și blesteme rituale.",
+    "sample": "Formulă originală în stil de descântec: Fugi, durere, din os, din carne, din vine; du-te în pustiu, unde nu cântă cocoș și nu trage clopot.",
+    "worked": "Imperativul, enumerarea părților corpului și trimiterea răului într-un loc pustiu sunt structuri tipice descântecului. Funcția este magică, nu estetică, deși textul are valoare artistică.",
+    "exercises": [
+     "Clasifică cinci obiceiuri în calendaristice și din ciclul vieții.",
+     "Analizează structura unui colind.",
+     "Explică funcția magică a descântecului.",
+     "Compară bocetul cu elegia cultă.",
+     "Descrie un obicei din zona ta și textul asociat."
+    ],
+    "test": [
+     "Ce funcție are poezia ritualică?",
+     "Ce obicei marchează iarna?",
+     "Ce funcție are descântecul?",
+     "Ce text apare la înmormântare?",
+     "Ce structuri tipice are descântecul din exemplu?"
+    ],
+    "steps": [
+     "Stabilește ocazia și funcția textului.",
+     "Identifică structurile formulare.",
+     "Leagă textul de credințele comunității.",
+     "Greșeala frecventă: să analizezi poezia ritualică doar estetic, ignorând funcția ei."
+    ],
+    "answers": [
+     "Practică, legată de viața comunității.",
+     "Colindatul.",
+     "Magică, de vindecare.",
+     "Bocetul.",
+     "Imperativul, enumerarea, trimiterea răului în pustiu."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l09": {
+   "ro": {
+    "title": "Lirica populară: doina și cântecul",
+    "theory": "Lirica populară neritualică exprimă sentimente individuale în forme tradiționale: doina (dor, jale, înstrăinare, haiducie, cătănie, iubire) și cântecul propriu-zis (de dragoste, de leagăn, satiric). Procedee: paralelismul dintre natură și sentiment, formulele de început (Frunză verde...), repetiția, adresarea către elemente ale naturii, măsura de 7–8 silabe. UNESCO a inclus doina în patrimoniul cultural imaterial (2009).",
+    "sample": "Strofă originală în stil popular: Frunză verde de cicoare, / Dorul meu e fără zare; / Merge-n codru, merge-n vale, / Nu găsește nicio cale.",
+    "worked": "Formula vegetală de început, paralelismul (dor – drum fără capăt), măsura scurtă și rima împerecheată sunt trăsături ale liricii populare.",
+    "exercises": [
+     "Identifică procedeele liricii populare într-o doină.",
+     "Explică motivul dorului.",
+     "Clasifică doinele după temă.",
+     "Compară doina cu o poezie cultă despre dor.",
+     "Scrie o strofă în stil popular."
+    ],
+    "test": [
+     "Ce exprimă doina?",
+     "Ce formulă deschide adesea cântecul popular?",
+     "Ce este paralelismul natură–sentiment?",
+     "În ce an a fost inclusă doina în patrimoniul UNESCO?",
+     "Ce măsură au de obicei versurile populare?"
+    ],
+    "steps": [
+     "Identifică tema și sentimentul.",
+     "Caută formulele și paralelismele.",
+     "Leagă forma de transmiterea orală.",
+     "Greșeala frecventă: să crezi că formulele repetate sunt sărăcie de expresie; ele ajută memoria și performarea."
+    ],
+    "answers": [
+     "Sentimente: dor, jale, înstrăinare, iubire.",
+     "Frunză verde...",
+     "Asocierea unei imagini din natură cu o stare sufletească.",
+     "În 2009.",
+     "De 7–8 silabe."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l10": {
+   "ro": {
+    "title": "Epica populară: balada și basmul",
+    "theory": "Balada populară este o narațiune în versuri, cu subiect eroic, haiducesc, păstoresc, fantastic sau familial (Miorița, Meșterul Manole, Toma Alimoș). Basmul popular este o narațiune în proză cu fabulos; Vladimir Propp (Morfologia basmului, 1928) a arătat că basmele fantastice au o structură comună de cel mult 31 de funcții (lipsa, plecarea, încercarea, primirea obiectului magic, lupta, victoria, întoarcerea, nunta) și 7 sfere de acțiune (erou, răufăcător, donator, ajutor etc.).",
+    "sample": "Analiză originală după Propp: un fiu de împărat pleacă după apa vie (lipsa), o babă îl încearcă (donatorul), primește un cal năzdrăvan (obiect magic), învinge zmeul (lupta), se întoarce și se căsătorește (nunta).",
+    "worked": "Personajele se schimbă de la un basm la altul, dar funcțiile rămân. Modelul lui Propp ajută la compararea basmelor și la înțelegerea logicii lor narative.",
+    "exercises": [
+     "Aplică modelul lui Propp pe un basm popular românesc.",
+     "Identifică sferele de acțiune într-un basm.",
+     "Clasifică baladele după temă.",
+     "Compară o baladă cu un basm.",
+     "Explică de ce funcțiile sunt mai importante decât personajele."
+    ],
+    "test": [
+     "Cine a scris Morfologia basmului?",
+     "În ce an?",
+     "Câte funcții a identificat, cel mult?",
+     "Ce este donatorul?",
+     "Ce este balada populară?"
+    ],
+    "steps": [
+     "Rezumă basmul pe etape.",
+     "Numește funcțiile și sferele de acțiune.",
+     "Compară structura cu alt basm.",
+     "Greșeala frecventă: să aplici mecanic modelul fără să observi variațiile specifice textului."
+    ],
+    "answers": [
+     "Vladimir Propp.",
+     "1928.",
+     "31.",
+     "Personajul care încearcă eroul și îi dă obiectul magic.",
+     "O narațiune populară în versuri."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l11": {
+   "ro": {
+    "title": "Proza populară scurtă și mitologia populară",
+    "theory": "Legenda explică originea unor lucruri, nume sau fenomene (legende etiologice, istorice, religioase); snoava este o narațiune scurtă comică, satirică, adesea cu personaje-tip (Păcală, Tândală); povestirea populară relatează întâmplări extraordinare, adesea cu ființe ale mitologiei populare (ielele, strigoii, ursitoarele, zburătorul). Mircea Eliade a interpretat mitul ca poveste sacră a începuturilor, reactualizată prin ritual.",
+    "sample": "Legendă originală: De ce are rândunica coada despicată? Pentru că a încercat să fure focul pentru oameni, iar un vultur i-a smuls o bucată din coadă.",
+    "worked": "Legenda explică o trăsătură din natură printr-o întâmplare: este o legendă etiologică. Structura simplă și finalul explicativ sunt tipice.",
+    "exercises": [
+     "Clasifică trei legende după tip.",
+     "Analizează comicul dintr-o snoavă cu Păcală.",
+     "Prezintă trei ființe ale mitologiei populare românești.",
+     "Explică definiția mitului la Mircea Eliade.",
+     "Scrie o legendă etiologică originală."
+    ],
+    "test": [
+     "Ce explică legenda?",
+     "Ce este snoava?",
+     "Cine sunt Păcală și Tândală?",
+     "Ce sunt ursitoarele?",
+     "Cum definește Eliade mitul?"
+    ],
+    "steps": [
+     "Identifică scopul textului: explicativ, comic sau narativ.",
+     "Găsește personajele și structura.",
+     "Încadrează textul în specie.",
+     "Greșeala frecventă: să confunzi legenda (explicativă) cu basmul (fabulos, cu final fericit)."
+    ],
+    "answers": [
+     "Originea unor lucruri, nume sau fenomene.",
+     "O narațiune scurtă comică.",
+     "Personaje-tip ale snoavelor.",
+     "Ființe care hotărăsc destinul nou-născutului.",
+     "Ca poveste sacră a începuturilor."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l12": {
+   "ro": {
+    "title": "Începuturile scrisului în limba română",
+    "theory": "Până în secolul al XVI-lea, limba de cult și de cancelarie în Țările Române a fost slavona. Cel mai vechi text păstrat în limba română este Scrisoarea lui Neacșu din Câmpulung (1521). Textele rotacizante (traduceri religioase din nordul Transilvaniei și Maramureș, cu n intervocalic devenit r) și tipăriturile diaconului Coresi la Brașov (a doua jumătate a secolului al XVI-lea) marchează trecerea la scrisul în limba română, în alfabet chirilic.",
+    "sample": "Observație originală de istoria limbii: în textele rotacizante, cuvinte precum bine sau mână apar cu r în loc de n intervocalic, de exemplu bire sau mâră.",
+    "worked": "Rotacismul lui n intervocalic este o trăsătură regională veche. Prezența lui ajută la localizarea textelor și arată că limba scrisă nu era încă unificată.",
+    "exercises": [
+     "Explică rolul slavonei în cultura veche.",
+     "Prezintă importanța Scrisorii lui Neacșu.",
+     "Explică ce sunt textele rotacizante.",
+     "Prezintă activitatea lui Coresi.",
+     "Explică de ce primele texte românești sunt scrise cu alfabet chirilic."
+    ],
+    "test": [
+     "Ce limbă de cult se folosea înainte de secolul al XVI-lea?",
+     "Care este cel mai vechi text păstrat în limba română?",
+     "Ce este rotacismul?",
+     "Unde a tipărit Coresi?",
+     "Ce alfabet folosesc textele vechi?"
+    ],
+    "steps": [
+     "Plasează textele în ordine cronologică.",
+     "Identifică trăsăturile de limbă ale fiecărui text.",
+     "Leagă textele de contextul cultural și religios.",
+     "Greșeala frecventă: să crezi că limba română nu exista înainte de primele texte scrise; ea era vorbită de secole."
+    ],
+    "answers": [
+     "Slavona.",
+     "Scrisoarea lui Neacșu (1521).",
+     "Trecerea lui n intervocalic în r.",
+     "La Brașov.",
+     "Alfabetul chirilic."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l13": {
+   "ro": {
+    "title": "Literatura religioasă: Varlaam, Dosoftei, Antim",
+    "theory": "În secolul al XVII-lea, scrisul religios devine literatură. Cazania lui Varlaam (1643) se adresează tuturor românilor; Dosoftei realizează Psaltirea în versuri (1673), primul mare poem în limba română, adaptând psalmii la versul popular; Antim Ivireanul rostește Didahiile, predici cu valoare oratorică; Biblia de la București (1688) oferă prima traducere integrală.",
+    "sample": "Comparație originală: un psalm tradus literal păstrează ideea, dar sună străin; Dosoftei îl adaptează la ritmul și rima versului popular, astfel încât credincioșii îl pot memora și cânta.",
+    "worked": "Adaptarea prozodică arată conștiința literară a lui Dosoftei. Textele religioase au contribuit decisiv la formarea limbii literare.",
+    "exercises": [
+     "Prezintă contribuția lui Dosoftei.",
+     "Explică importanța Cazaniei lui Varlaam.",
+     "Analizează un procedeu oratoric din Didahii.",
+     "Explică rolul Bibliei de la București.",
+     "Compară traducerea literală cu adaptarea poetică."
+    ],
+    "test": [
+     "Când apare Psaltirea în versuri?",
+     "Cine a scris-o?",
+     "Ce sunt Didahiile?",
+     "Când apare Biblia de la București?",
+     "Cui se adresează Cazania lui Varlaam?"
+    ],
+    "steps": [
+     "Plasează fiecare operă în timp.",
+     "Identifică funcția și publicul fiecărui text.",
+     "Evaluează contribuția la limba literară.",
+     "Greșeala frecventă: să consideri textele religioase lipsite de valoare literară."
+    ],
+    "answers": [
+     "În 1673.",
+     "Dosoftei.",
+     "Predicile lui Antim Ivireanul.",
+     "În 1688.",
+     "Tuturor românilor."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l14": {
+   "ro": {
+    "title": "Istoriografia: cronicile moldovenești și muntenești",
+    "theory": "Cronicarii moldoveni (Grigore Ureche, Miron Costin, Ion Neculce) și cei munteni (Letopisețul Cantacuzinesc, Radu Popescu, Stolnicul Constantin Cantacuzino) scriu istoria în limba română. Teme: originea romană, unitatea de neam, rolul moral al istoriei. Valoarea literară vine din portrete, scene dramatice, reflecții și legende (O samă de cuvinte de Neculce).",
+    "sample": "Scenă originală în stil cronicăresc: Văzând domnul că oastea se risipește, a descălecat și a stat în mijlocul ostașilor, zicând că nu fuge cel ce are țară de apărat.",
+    "worked": "Scena dramatizează un moment istoric prin gest și replică. Discursul istoric folosește procedee narative care anunță proza artistică.",
+    "exercises": [
+     "Prezintă tema latinității la Miron Costin.",
+     "Analizează un portret din cronica lui Ureche.",
+     "Explică valoarea literară a legendelor lui Neculce.",
+     "Compară cronicile moldovenești cu cele muntenești.",
+     "Explică funcția morală a istoriei la cronicari."
+    ],
+    "test": [
+     "Numește trei cronicari moldoveni.",
+     "Numește un cronicar muntean.",
+     "Ce teme comune au cronicile?",
+     "Ce culegere de legende a scris Neculce?",
+     "De unde vine valoarea literară a cronicilor?"
+    ],
+    "steps": [
+     "Identifică informația istorică și procedeele literare.",
+     "Analizează portretul, scena sau reflecția.",
+     "Situează textul în contextul epocii.",
+     "Greșeala frecventă: să citești cronicile ca pe surse istorice perfect obiective."
+    ],
+    "answers": [
+     "Ureche, Costin, Neculce.",
+     "Radu Popescu sau Stolnicul Constantin Cantacuzino.",
+     "Originea romană, unitatea de neam, rolul moral al istoriei.",
+     "O samă de cuvinte.",
+     "Din portrete, scene, reflecții și legende."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l15": {
+   "ro": {
+    "title": "Dimitrie Cantemir",
+    "theory": "Dimitrie Cantemir (1673–1723), domn al Moldovei și cărturar european, membru al Academiei din Berlin, a scris: Divanul sau Gâlceava înțeleptului cu lumea (1698), dialog filozofic; Istoria ieroglifică (1705), primul roman alegoric românesc, în care partidele politice sunt reprezentate prin animale; Descrierea Moldovei (în latină, scrisă la cererea Academiei din Berlin); Hronicul vechimii a romano-moldo-vlahilor.",
+    "sample": "Alegorie originală în spiritul Istoriei ieroglifice: Leul și vulturul se ceartă pentru o pădure, iar vulpea, prefăcându-se prietena amândurora, câștigă teritoriul.",
+    "worked": "Animalele reprezintă tipuri politice și morale; alegoria permite critica fără numirea directă a persoanelor. Cantemir folosește această tehnică pentru a prezenta luptele dintre familiile boierești.",
+    "exercises": [
+     "Prezintă operele principale ale lui Cantemir.",
+     "Explică alegoria din Istoria ieroglifică.",
+     "Analizează forma de dialog din Divanul.",
+     "Explică valoarea europeană a Descrierii Moldovei.",
+     "Scrie o scurtă alegorie politică."
+    ],
+    "test": [
+     "Când apare Divanul?",
+     "Ce specie este Istoria ieroglifică?",
+     "În ce limbă a scris Descrierea Moldovei?",
+     "La cererea cărei academii?",
+     "Ce reprezintă animalele din Istoria ieroglifică?"
+    ],
+    "steps": [
+     "Situează opera în biografia și epoca autorului.",
+     "Identifică procedeul principal: dialog, alegorie, descriere.",
+     "Evaluează contribuția la cultura română și europeană.",
+     "Greșeala frecventă: să citești Istoria ieroglifică doar ca fabulă cu animale, ignorând sensul politic."
+    ],
+    "answers": [
+     "În 1698.",
+     "Roman alegoric.",
+     "În latină.",
+     "Academia din Berlin.",
+     "Tipuri politice și morale."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l16": {
+   "ro": {
+    "title": "Literatura populară de circulație",
+    "theory": "Cărțile populare sunt texte traduse și adaptate, răspândite prin manuscrise și tipărituri, citite de un public larg: Alexandria (romanul lui Alexandru cel Mare), Varlaam și Ioasaf (roman religios, cu parabole), Fiziologul (simbolica animalelor), Floarea darurilor (virtuți și vicii), Esopia. Ele au transmis motive și imagini care se regăsesc în folclor și în literatura cultă.",
+    "sample": "Motiv original urmărit: imaginea unicornului care se lasă prins doar de o fecioară, apărută în bestiarele medievale, trece în legende populare și în poezia cultă ca simbol al purității.",
+    "worked": "Circulația motivelor arată legătura dintre cultura scrisă europeană, folclor și literatura cultă. Cărțile populare sunt verigi ale acestei transmisii.",
+    "exercises": [
+     "Prezintă trei cărți populare.",
+     "Explică rolul cărților populare în cultura veche.",
+     "Urmărește un motiv din Fiziolog în literatura ulterioară.",
+     "Compară Alexandria cu o epopee antică.",
+     "Explică de ce se numesc cărți populare."
+    ],
+    "test": [
+     "Ce sunt cărțile populare?",
+     "Despre cine este Alexandria?",
+     "Ce este Fiziologul?",
+     "Ce prezintă Floarea darurilor?",
+     "Cum circulau aceste texte?"
+    ],
+    "steps": [
+     "Identifică originea și circulația textului.",
+     "Găsește motivele principale.",
+     "Urmărește motivele în folclor și în literatura cultă.",
+     "Greșeala frecventă: să crezi că sunt creații populare orale; ele sunt texte scrise, traduse și adaptate."
+    ],
+    "answers": [
+     "Texte traduse și adaptate, citite de un public larg.",
+     "Despre Alexandru cel Mare.",
+     "O carte despre simbolica animalelor.",
+     "Virtuți și vicii.",
+     "Prin manuscrise și tipărituri."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l17": {
+   "ro": {
+    "title": "Tranziția spre modernitate: Școala Ardeleană și poeții Văcărești",
+    "theory": "La sfârșitul secolului al XVIII-lea, Școala Ardeleană (Samuil Micu, Gheorghe Șincai, Petru Maior, Ion Budai-Deleanu) aduce ideile iluministe, argumentele latinității și primele proiecte de gramatică și ortografie cu litere latine. În Țara Românească, Ienăchiță Văcărescu publică o gramatică (1787) și, alături de urmașii săi (Alecu, Nicolae, Iancu Văcărescu), scrie lirică erotică influențată de poezia neogreacă și de cântecul popular.",
+    "sample": "Testament literar reformulat original: Las urmașilor creșterea limbii și cinstea patriei — idee asociată cu Ienăchiță Văcărescu.",
+    "worked": "Ideea arată conștiința rolului cultural al limbii, la începutul modernității. Poezia Văcăreștilor este o punte între lirica veche și cea modernă.",
+    "exercises": [
+     "Prezintă contribuția Școlii Ardelene.",
+     "Explică importanța gramaticii lui Ienăchiță Văcărescu.",
+     "Analizează o poezie a Văcăreștilor.",
+     "Explică ideea testamentului literar.",
+     "Compară iluminismul ardelean cu cel din Țara Românească."
+    ],
+    "test": [
+     "Numește trei reprezentanți ai Școlii Ardelene.",
+     "Când a publicat Ienăchiță Văcărescu gramatica?",
+     "Ce temă are lirica Văcăreștilor?",
+     "Ce idei aduce Școala Ardeleană?",
+     "Ce alfabet propune Școala Ardeleană?"
+    ],
+    "steps": [
+     "Situează autorii în timp și spațiu.",
+     "Identifică ideile și contribuțiile.",
+     "Leagă perioada de începutul literaturii moderne.",
+     "Greșeala frecventă: să consideri această perioadă neimportantă pentru că nu are capodopere numeroase."
+    ],
+    "answers": [
+     "Samuil Micu, Gheorghe Șincai, Petru Maior.",
+     "În 1787.",
+     "Iubirea.",
+     "Iluminismul și latinitatea.",
+     "Alfabetul latin."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l18": {
+   "ro": {
+    "title": "Homer: Iliada și Odiseea",
+    "theory": "Epopeile homerice (secolul al VIII-lea î.Hr., după tradiție) stau la baza literaturii europene. Iliada prezintă câteva săptămâni din al zecelea an al războiului troian, cu tema mâniei lui Ahile; Odiseea urmărește întoarcerea lui Ulise acasă, în Itaca. Trăsături: hexametrul dactilic, epitetele formulare (Ahile cel iute de picior), comparațiile ample, invocația către Muză, începutul in medias res.",
+    "sample": "Comparație homerică originală: Așa cum un val se ridică din larg și se sparge peste stânci, așa s-a năpustit oastea peste zidurile cetății.",
+    "worked": "Comparația amplă dezvoltă o imagine din natură pentru a sugera forța acțiunii. Procedeul este tipic epopeii și a fost imitat în literatura ulterioară.",
+    "exercises": [
+     "Rezumă tema Iliadei.",
+     "Rezumă drumul lui Ulise.",
+     "Explică începutul in medias res.",
+     "Găsește epitete formulare și explică rolul lor oral.",
+     "Compară pe Ahile cu Ulise."
+    ],
+    "test": [
+     "Ce temă are Iliada?",
+     "Unde se întoarce Ulise?",
+     "Ce vers folosește Homer?",
+     "Ce este începutul in medias res?",
+     "Ce este un epitet formular?"
+    ],
+    "steps": [
+     "Situează epopeile în contextul oral.",
+     "Identifică procedeele epice.",
+     "Compară eroii și valorile lor.",
+     "Greșeala frecventă: să citești epopeea ca pe un roman modern, cu psihologie detaliată."
+    ],
+    "answers": [
+     "Mânia lui Ahile.",
+     "În Itaca.",
+     "Hexametrul dactilic.",
+     "Începerea narațiunii din mijlocul acțiunii.",
+     "Un epitet fix asociat unui personaj."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l19": {
+   "ro": {
+    "title": "Tragedia greacă",
+    "theory": "Tragedia s-a dezvoltat la Atena, în secolul al V-lea î.Hr., în cadrul sărbătorilor lui Dionysos. Autori: Eschil (Orestia), Sofocle (Oedip rege, Antigona), Euripide (Medeea). Elemente: corul, conflictul dintre om și destin sau între legi, greșeala tragică (hamartia), răsturnarea situației și recunoașterea. Aristotel vorbește despre catharsis: purificarea spectatorului prin milă și teamă.",
+    "sample": "Analiză originală a lui Oedip: eroul caută vinovatul pentru ciuma din cetate și descoperă că el însuși este cel căutat; ancheta se întoarce împotriva anchetatorului.",
+    "worked": "Recunoașterea coincide cu răsturnarea situației, ceea ce produce efectul tragic maxim. Ironia tragică vine din faptul că spectatorul știe mai mult decât eroul.",
+    "exercises": [
+     "Prezintă trei tragici greci și o operă a fiecăruia.",
+     "Explică ce este catharsisul.",
+     "Analizează conflictul din Antigona.",
+     "Explică ironia tragică în Oedip rege.",
+     "Compară corul antic cu naratorul."
+    ],
+    "test": [
+     "Unde s-a dezvoltat tragedia?",
+     "Cine a scris Oedip rege?",
+     "Ce este hamartia?",
+     "Ce este catharsisul?",
+     "Ce conflict apare în Antigona?"
+    ],
+    "steps": [
+     "Identifică eroul și conflictul.",
+     "Găsește momentele de recunoaștere și de răsturnare.",
+     "Leagă efectul de concepția lui Aristotel.",
+     "Greșeala frecventă: să confunzi greșeala tragică cu o vină morală simplă."
+    ],
+    "answers": [
+     "La Atena.",
+     "Sofocle.",
+     "Greșeala tragică.",
+     "Purificarea spectatorului prin milă și teamă.",
+     "Între legea cetății și legea nescrisă a familiei."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l20": {
+   "ro": {
+    "title": "Literatura latină: Vergiliu, Horațiu, Ovidiu",
+    "theory": "Epoca lui Augustus este vârsta de aur a literaturii latine. Vergiliu scrie Eneida, epopeea întemeierii Romei prin Enea; Horațiu scrie ode și Arta poetică (Epistola către Pisoni), cu principii clasice (măsura, unitatea, îmbinarea utilului cu plăcutul); Ovidiu scrie Metamorfozele, culegere de mituri ale transformării, iar în exilul de la Tomis (Constanța de azi) scrie Tristele și Ponticele.",
+    "sample": "Principiu reformulat original în spirit horațian: O operă reușită învață și încântă în același timp; cine le unește pe amândouă câștigă toate voturile.",
+    "worked": "Ideea rezumă idealul clasic: utilitatea și plăcerea estetică. Principiul a influențat poetica clasicismului european.",
+    "exercises": [
+     "Prezintă tema Eneidei.",
+     "Explică principiile Artei poetice a lui Horațiu.",
+     "Prezintă un mit din Metamorfozele lui Ovidiu.",
+     "Explică legătura lui Ovidiu cu spațiul românesc.",
+     "Compară Eneida cu Odiseea."
+    ],
+    "test": [
+     "Cine a scris Eneida?",
+     "Ce idee clasică susține Horațiu?",
+     "Ce culegere de mituri a scris Ovidiu?",
+     "Unde a fost exilat Ovidiu?",
+     "Ce opere a scris în exil?"
+    ],
+    "steps": [
+     "Situează autorii în epoca lui Augustus.",
+     "Identifică specia și tema fiecărei opere.",
+     "Urmărește influența lor ulterioară.",
+     "Greșeala frecventă: să crezi că literatura latină doar imită literatura greacă, fără originalitate."
+    ],
+    "answers": [
+     "Vergiliu.",
+     "Îmbinarea utilului cu plăcutul.",
+     "Metamorfozele.",
+     "La Tomis.",
+     "Tristele și Ponticele."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l21": {
+   "ro": {
+    "title": "Mitologia greacă și receptarea ei",
+    "theory": "Miturile grecești (Prometeu, Orfeu, Narcis, Sisif, Icar, Oedip) au devenit modele culturale reluate în literatură, artă și psihanaliză. Receptarea unui mit presupune o rescriere: autorii păstrează nucleul și schimbă sensul. De exemplu, mitul lui Orfeu devine simbol al puterii artei, iar mitul lui Sisif este reinterpretat de Albert Camus ca simbol al absurdului asumat.",
+    "sample": "Rescriere originală: Icar nu cade din neatenție, ci pentru că alege să vadă soarele de aproape măcar o dată; zborul devine o opțiune, nu o greșeală.",
+    "worked": "Nucleul (zborul, căderea) rămâne, dar sensul se schimbă: de la avertisment la afirmarea libertății. Așa funcționează receptarea creatoare a miturilor.",
+    "exercises": [
+     "Prezintă trei mituri grecești și simbolismul lor.",
+     "Explică reinterpretarea lui Sisif la Camus.",
+     "Găsește un mit grecesc într-o operă românească.",
+     "Rescrie un mit cu un sens nou.",
+     "Explică ce înseamnă nucleul unui mit."
+    ],
+    "test": [
+     "Ce simbolizează Orfeu?",
+     "Cine a reinterpretat mitul lui Sisif?",
+     "Ce simbolizează Narcis?",
+     "Ce rămâne constant în rescrierea unui mit?",
+     "Ce schimbă rescrierea din exemplu?"
+    ],
+    "steps": [
+     "Identifică nucleul mitului.",
+     "Compară versiunea veche cu rescrierea.",
+     "Formulează sensul nou.",
+     "Greșeala frecventă: să confunzi mitul cu legenda istorică."
+    ],
+    "answers": [
+     "Puterea artei.",
+     "Albert Camus.",
+     "Iubirea de sine.",
+     "Nucleul narativ.",
+     "Sensul: căderea devine alegere."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l22": {
+   "ro": {
+    "title": "Fonetică și fonologie: sunet, fonem, alofon",
+    "theory": "Fonetica studiază sunetele ca realitate fizică și articulatorie; fonologia studiază funcția lor distinctivă. Fonemul este cea mai mică unitate care distinge sensuri, demonstrată prin perechi minimale (par / bar: /p/ și /b/ sunt foneme distincte). Alofonele sunt realizări diferite ale aceluiași fonem, fără schimbarea sensului. Transcrierea fonetică se notează între paranteze drepte, cea fonologică între bare oblice.",
+    "sample": "Perechi minimale originale: cal / car (/l/ – /r/), pară / bară (/p/ – /b/), masă / mesă (/a/ – /e/).",
+    "worked": "Înlocuirea unui singur sunet schimbă cuvântul, deci sunetele sunt foneme distincte. Perechea minimală este testul de bază al fonologiei.",
+    "exercises": [
+     "Găsește cinci perechi minimale în română.",
+     "Explică diferența dintre fonetică și fonologie.",
+     "Explică ce este un alofon.",
+     "Transcrie fonologic trei cuvinte scurte.",
+     "Explică de ce literele nu corespund mereu fonemelor."
+    ],
+    "test": [
+     "Ce studiază fonologia?",
+     "Ce este fonemul?",
+     "Ce este o pereche minimală?",
+     "Ce este alofonul?",
+     "Între ce semne se notează transcrierea fonologică?"
+    ],
+    "steps": [
+     "Alege două cuvinte care diferă printr-un singur sunet.",
+     "Verifică dacă sensul se schimbă.",
+     "Concluzionează dacă sunetele sunt foneme.",
+     "Greșeala frecventă: să confunzi literele cu fonemele."
+    ],
+    "answers": [
+     "Funcția distinctivă a sunetelor.",
+     "Cea mai mică unitate care distinge sensuri.",
+     "Două cuvinte care diferă printr-un singur sunet.",
+     "O realizare a unui fonem care nu schimbă sensul.",
+     "Între bare oblice."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l23": {
+   "ro": {
+    "title": "Sistemul vocalic și consonantic; semivocalele",
+    "theory": "Româna are șapte vocale (a, ă, î/â, e, i, o, u), clasificate după poziția limbii (anterioare, centrale, posterioare) și deschidere. Semivocalele [e̯, i̯, o̯, u̯] apar doar alături de o vocală în aceeași silabă. Consoanele se clasifică după locul articulării (bilabiale, labiodentale, dentale, palatale, velare, glotale), modul articulării (oclusive, fricative, africate, nazale, laterale, vibrante) și sonoritate.",
+    "sample": "Clasificare originală: /p/ – oclusivă bilabială surdă; /b/ – oclusivă bilabială sonoră; /s/ – fricativă dentală surdă; /ʧ/ (ce) – africată palatală surdă.",
+    "worked": "Fiecare consoană se descrie prin trei criterii: loc, mod și sonoritate. Perechile surdă–sonoră (p–b, t–d, s–z) diferă doar prin vibrația coardelor vocale.",
+    "exercises": [
+     "Clasifică zece consoane după cele trei criterii.",
+     "Clasifică vocalele românești.",
+     "Identifică semivocalele din cinci cuvinte.",
+     "Găsește perechi de consoane surdă–sonoră.",
+     "Explică de ce î și â notează același sunet."
+    ],
+    "test": [
+     "Câte vocale are româna?",
+     "Ce este o semivocală?",
+     "Ce este o consoană oclusivă?",
+     "Ce diferențiază /p/ de /b/?",
+     "Ce sunet notează î și â?"
+    ],
+    "steps": [
+     "Stabilește locul articulării.",
+     "Stabilește modul articulării.",
+     "Stabilește sonoritatea și formulează descrierea completă.",
+     "Greșeala frecventă: să clasifici sunetele după literă, nu după pronunțare."
+    ],
+    "answers": [
+     "Șapte.",
+     "Un sunet asemănător vocalei, care nu formează singur silaba.",
+     "Consoana produsă prin închiderea completă și deschiderea bruscă a canalului.",
+     "Sonoritatea.",
+     "Aceeași vocală centrală închisă."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l24": {
+   "ro": {
+    "title": "Silaba, accentul și intonația",
+    "theory": "Silaba are un nucleu vocalic, la care se pot adăuga semivocale și consoane. Regulile fonetice de despărțire: o consoană între vocale trece la silaba următoare (ca-să, ma-re); din două consoane între vocale, prima rămâne la silaba dinainte (ar-tă, as-tă), cu excepția grupurilor formate din b, c, d, f, g, h, p, t, v urmate de l sau r, care trec împreună la silaba următoare (co-dru, ca-pră, su-flet); vocalele în hiat se despart (po-e-zi-e). DOOM admite și despărțirea după structura cuvântului la compuse și derivate (de-za-cord sau dez-a-cord). Accentul poate distinge sensuri (cópii / copíi), iar intonația deosebește tipurile de enunțuri.",
+    "sample": "Despărțiri originale: ma-să, car-te, co-dru, a-fla, po-e-zi-e, al-co-ol. Accent distinctiv: cópii (reproduceri) / copíi (plural de la copil).",
+    "worked": "Fiecare despărțire aplică o regulă: consoană unică între vocale, grup de două consoane, grup consoană + l/r, hiat. Pentru excepțiile cu trei consoane (de exemplu, sculp-tor, punc-taj), verificăm în DOOM.",
+    "exercises": [
+     "Desparte în silabe zece cuvinte și numește regula aplicată.",
+     "Găsește trei perechi de cuvinte diferențiate prin accent.",
+     "Explică regula grupurilor consoană + l/r.",
+     "Citește același enunț cu intonație declarativă, interogativă și exclamativă.",
+     "Explică diferența dintre despărțirea fonetică și cea morfologică."
+    ],
+    "test": [
+     "Ce formează nucleul silabei?",
+     "Cum se desparte un cuvânt cu o consoană între vocale?",
+     "Cum se desparte codru?",
+     "Ce rol poate avea accentul?",
+     "Ce distinge intonația?"
+    ],
+    "steps": [
+     "Identifică vocalele și numără silabele.",
+     "Aplică regula potrivită grupului de consoane dintre vocale.",
+     "Verifică excepțiile în DOOM.",
+     "Greșeala frecventă: să desparți grupurile consoană + l/r (cod-ru în loc de co-dru)."
+    ],
+    "answers": [
+     "O vocală.",
+     "Consoana trece la silaba următoare.",
+     "Co-dru.",
+     "Poate distinge sensuri.",
+     "Tipurile de enunțuri: declarativ, interogativ, exclamativ."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l25": {
+   "ro": {
+    "title": "Lexicologie: structura și formarea cuvintelor",
+    "theory": "Cuvântul are o structură morfematică: rădăcina (purtătoarea sensului lexical), afixele (prefixe și sufixe lexicale) și desinențele (gramaticale). Mijloacele interne de îmbogățire a vocabularului sunt: derivarea (cu prefixe și sufixe: a reface, grădinar), compunerea (prin sudare, alăturare cu cratimă sau abreviere: untdelemn, floarea-soarelui, ONU) și conversiunea (schimbarea valorii gramaticale: frumosul, a mânca → mâncatul).",
+    "sample": "Analiză originală: nemulțumitor = ne- (prefix negativ) + mulțum- (rădăcină) + -itor (sufix de agent/adjectival). Floarea-soarelui = compus prin alăturare, cu cratimă.",
+    "worked": "Segmentarea arată cum se construiește sensul: prefixul neagă, rădăcina dă sensul de bază, sufixul precizează categoria. Compunerea unește cuvinte întregi.",
+    "exercises": [
+     "Segmentează în morfeme cinci cuvinte derivate.",
+     "Clasifică zece cuvinte după mijlocul de formare.",
+     "Găsește exemple de conversiune.",
+     "Formează familia lexicală a unui cuvânt.",
+     "Explică diferența dintre afix și desinență."
+    ],
+    "test": [
+     "Ce este rădăcina?",
+     "Ce este derivarea?",
+     "Ce este compunerea?",
+     "Ce este conversiunea?",
+     "Cum s-a format floarea-soarelui?"
+    ],
+    "steps": [
+     "Găsește rădăcina comună cu alte cuvinte din familie.",
+     "Separă afixele lexicale de desinențe.",
+     "Numește mijlocul de formare.",
+     "Greșeala frecventă: să consideri desinența un sufix; desinența arată forma gramaticală, nu formează cuvinte noi."
+    ],
+    "answers": [
+     "Partea care poartă sensul lexical.",
+     "Formarea cuvintelor cu prefixe sau sufixe.",
+     "Formarea cuvintelor din două sau mai multe cuvinte.",
+     "Schimbarea valorii gramaticale a unui cuvânt.",
+     "Prin compunere, alăturare cu cratimă."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l26": {
+   "ro": {
+    "title": "Semantica lexicală",
+    "theory": "Semantica studiază sensul. Ferdinand de Saussure definește semnul lingvistic ca unire dintre semnificant (forma sonoră) și semnificat (conceptul). Relațiile semantice: polisemia (un cuvânt cu mai multe sensuri înrudite: masă – mobilier, masă – mâncare), omonimia (cuvinte cu formă identică și sensuri fără legătură: lac – apă / lac – vopsea), sinonimia, antonimia, hiponimia (trandafir este hiponim al lui floare), câmpurile lexico-semantice. Sensul se analizează și în trăsături distinctive (seme).",
+    "sample": "Analiză semică originală: fotoliu = [+ mobilier] [+ pentru șezut] [+ pentru o persoană] [+ cu brațe]; scaun = [+ mobilier] [+ pentru șezut] [+ pentru o persoană] [– brațe tapițate obligatorii].",
+    "worked": "Semele comune arată că fotoliu și scaun aparțin aceluiași câmp; semele diferite le deosebesc. Analiza componențială face vizibilă structura sensului.",
+    "exercises": [
+     "Distinge polisemia de omonimie pe cinci exemple.",
+     "Construiește un câmp lexico-semantic.",
+     "Găsește hiponimele cuvântului instrument.",
+     "Fă analiza semică a două cuvinte apropiate.",
+     "Explică semnul lingvistic la Saussure."
+    ],
+    "test": [
+     "Ce este semnificantul?",
+     "Ce este polisemia?",
+     "Ce este omonimia?",
+     "Ce este un hiponim?",
+     "Ce sunt semele?"
+    ],
+    "steps": [
+     "Verifică dacă sensurile au o legătură.",
+     "Dacă au, este polisemie; dacă nu, omonimie.",
+     "Confirmă cu etimologia din dicționar.",
+     "Greșeala frecventă: să consideri omonime sensurile figurate ale aceluiași cuvânt."
+    ],
+    "answers": [
+     "Forma sonoră a semnului.",
+     "Existența mai multor sensuri înrudite ale unui cuvânt.",
+     "Cuvinte cu aceeași formă și sensuri fără legătură.",
+     "Un termen subordonat unuia mai general.",
+     "Trăsăturile distinctive ale sensului."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l27": {
+   "ro": {
+    "title": "Straturile lexicului și dicționarele",
+    "theory": "Vocabularul românesc are un fond principal (cuvinte vechi, frecvente, productive, majoritatea latinești) și o masă a vocabularului. Straturile etimologice: latin, substrat (autohton), slav, maghiar, grecesc, turcesc, neologisme romanice (francez, italian, latin savant) și englezești. Instrumente: DEX (definiții), DOOM (norma ortografică, ortoepică și morfologică; ediția a III-a, 2021), DLR (dicționarul-tezaur al Academiei), dicționare etimologice.",
+    "sample": "Etimologii originale de verificat în dicționar: cer < lat. caelum; a iubi < sl.; oraș < magh.; ciorbă < tc.; birou < fr. bureau.",
+    "worked": "Etimologiile arată stratificarea istorică. Pentru orice afirmație etimologică, sursa trebuie să fie un dicționar științific, nu presupunerea pe baza asemănării.",
+    "exercises": [
+     "Grupează douăzeci de cuvinte după strat etimologic.",
+     "Compară definiția unui cuvânt în DEX și în DLR.",
+     "Verifică trei forme îndoielnice în DOOM3.",
+     "Explică ce este fondul principal lexical.",
+     "Explică riscul etimologiilor populare."
+    ],
+    "test": [
+     "Ce conține fondul principal lexical?",
+     "Ce strat predomină în fondul principal?",
+     "Ce este DOOM?",
+     "Când a apărut ediția a III-a a DOOM?",
+     "Ce este DLR?"
+    ],
+    "steps": [
+     "Caută cuvântul într-un dicționar etimologic.",
+     "Notează sursa și eventualele etimologii multiple.",
+     "Încadrează cuvântul într-un strat.",
+     "Greșeala frecventă: să stabilești etimologia doar după asemănarea sunetelor."
+    ],
+    "answers": [
+     "Cuvinte vechi, frecvente și productive.",
+     "Stratul latin.",
+     "Dicționarul ortografic, ortoepic și morfologic.",
+     "În 2021.",
+     "Dicționarul-tezaur al limbii române."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l28": {
+   "ro": {
+    "title": "Ferdinand de Saussure și fundamentele lingvisticii",
+    "theory": "Cursul de lingvistică generală (1916), publicat de elevii lui Saussure, fondează lingvistica structurală. Distincții: limbă (sistemul social) / vorbire (folosirea individuală); sincronie (starea limbii la un moment dat) / diacronie (evoluția); semnul este arbitrar (legătura dintre formă și sens nu este naturală); relațiile sintagmatice (în lanțul vorbirii) și paradigmatice (între elemente care se pot substitui).",
+    "sample": "Exemplu original: în enunțul copilul citește, cuvântul citește intră în relație sintagmatică cu copilul și în relație paradigmatică cu scrie, desenează, care l-ar putea înlocui.",
+    "worked": "Axa sintagmatică privește combinarea, axa paradigmatică privește selecția. Distincția ajută atât în gramatică, cât și în analiza stilistică.",
+    "exercises": [
+     "Explică distincția limbă–vorbire.",
+     "Dă exemple pentru sincronie și diacronie.",
+     "Explică arbitrarul semnului cu exemple din mai multe limbi.",
+     "Construiește axe sintagmatice și paradigmatice pentru un enunț.",
+     "Explică de ce Saussure este considerat fondator al structuralismului."
+    ],
+    "test": [
+     "Când a fost publicat Cursul de lingvistică generală?",
+     "Ce este limba, pentru Saussure?",
+     "Ce este diacronia?",
+     "Ce înseamnă arbitrarul semnului?",
+     "Ce sunt relațiile paradigmatice?"
+    ],
+    "steps": [
+     "Definește fiecare termen al perechii.",
+     "Aplică distincția pe un exemplu concret.",
+     "Arată utilitatea ei în analiză.",
+     "Greșeala frecventă: să crezi că arbitrarul semnului înseamnă că vorbitorii pot schimba liber cuvintele."
+    ],
+    "answers": [
+     "În 1916.",
+     "Sistemul social al limbii.",
+     "Evoluția limbii în timp.",
+     "Legătura dintre formă și sens nu este naturală.",
+     "Relații între elemente care se pot substitui."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l29": {
+   "ro": {
+    "title": "Comunicarea și funcțiile limbajului",
+    "theory": "Roman Jakobson descrie șase factori ai comunicării (emițător, receptor, mesaj, context, cod, canal) și șase funcții corespunzătoare: emotivă (expresivă), conativă (orientată spre receptor), poetică (spre mesaj), referențială (spre context), metalingvistică (spre cod), fatică (spre canal, menținerea contactului). Într-un text domină de obicei o funcție, dar sunt prezente mai multe.",
+    "sample": "Enunțuri originale: Ce frumos! (emotivă). Închide fereastra! (conativă). Alo, mă auzi? (fatică). Ce înseamnă cuvântul efemer? (metalingvistică). Apa fierbe la 100 °C la nivelul mării (referențială).",
+    "worked": "Fiecare enunț este orientat spre alt factor al comunicării. Identificarea funcției dominante ajută la interpretarea scopului textului.",
+    "exercises": [
+     "Identifică funcția dominantă în zece enunțuri.",
+     "Analizează funcțiile dintr-o reclamă.",
+     "Găsește funcția fatică într-un dialog.",
+     "Explică funcția metalingvistică în dicționare.",
+     "Compară funcțiile dominante într-o poezie și într-un articol științific."
+    ],
+    "test": [
+     "Câți factori ai comunicării descrie Jakobson?",
+     "Spre ce este orientată funcția conativă?",
+     "Ce funcție are Alo, mă auzi??",
+     "Ce funcție este orientată spre cod?",
+     "Ce funcție domină un text științific?"
+    ],
+    "steps": [
+     "Stabilește factorul spre care este orientat enunțul.",
+     "Numește funcția corespunzătoare.",
+     "Precizează funcția dominantă și funcțiile secundare.",
+     "Greșeala frecventă: să crezi că un text are o singură funcție."
+    ],
+    "answers": [
+     "Șase.",
+     "Spre receptor.",
+     "Fatică.",
+     "Funcția metalingvistică.",
+     "Funcția referențială."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l30": {
+   "ro": {
+    "title": "Latina pentru filologi: de la latină la română",
+    "theory": "Româna continuă latina populară (vulgară), diferită de latina clasică literară. Schimbări fonetice regulate de la latină la română: l intervocalic > r (caelum > cer, solem > soare), ct > pt (lactem > lapte, noctem > noapte), cs (x) > ps (coxa > coapsă), gn > mn (lignum > lemn), qua > pa (aqua > apă, equa > iapă). Aceste corespondențe dovedesc filiația și ajută la explicarea formelor românești.",
+    "sample": "Exercițiu original: de la lat. octo, prin regula ct > pt, se ajunge la rom. opt; de la lat. pectus, la rom. piept.",
+    "worked": "Regula se aplică sistematic, nu întâmplător. Corespondențele regulate sunt baza metodei istorico-comparative.",
+    "exercises": [
+     "Explică diferența dintre latina clasică și latina populară.",
+     "Aplică regulile pe zece cuvinte latinești.",
+     "Găsește corespondențe între română și alte limbi romanice pentru același cuvânt.",
+     "Explică importanța regularității schimbărilor fonetice.",
+     "Explică evoluția lat. aqua > rom. apă."
+    ],
+    "test": [
+     "Din ce latină provine româna?",
+     "Ce devine l intervocalic?",
+     "Cum s-a format opt?",
+     "Cum s-a format lemn?",
+     "Ce dovedesc corespondențele regulate?"
+    ],
+    "steps": [
+     "Identifică grupul de sunete din cuvântul latinesc.",
+     "Aplică regula de evoluție.",
+     "Compară rezultatul cu forma românească reală.",
+     "Greșeala frecventă: să explici schimbările prin asemănări întâmplătoare, nu prin reguli."
+    ],
+    "answers": [
+     "Din latina populară.",
+     "Devine r.",
+     "Din lat. octo, prin ct > pt.",
+     "Din lat. lignum, prin gn > mn.",
+     "Filiația latină a limbii române."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l31": {
+   "ro": {
+    "title": "Scrierea academică: teză, argument, citare",
+    "theory": "Lucrarea academică are o teză clară și verificabilă, argumente susținute de texte și surse critice, structură logică (introducere, dezvoltare, concluzie) și un aparat de referințe consecvent (de exemplu, note de subsol sau sistemul autor–dată). Citatul se dă exact, cu trimitere la ediție și pagină; parafraza se semnalează și ea. Plagiatul (preluarea fără citare) este o abatere gravă de la etica universitară.",
+    "sample": "Teză slabă: Romanul este foarte interesant. Teză bună: În romanul X, alternanța focalizărilor transformă istoria unei familii într-o anchetă asupra memoriei.",
+    "worked": "Teza bună este precisă, discutabilă și verificabilă în text; cea slabă exprimă doar o impresie. Argumentarea va urmări alternanța focalizărilor, cu exemple.",
+    "exercises": [
+     "Transformă trei impresii în teze academice.",
+     "Redactează o notă de subsol pentru o carte și pentru un articol.",
+     "Parafrazează un pasaj critic și indică sursa.",
+     "Construiește planul unei lucrări de seminar.",
+     "Explică diferența dintre citat, parafrază și plagiat."
+    ],
+    "test": [
+     "Ce calități are o teză bună?",
+     "Ce conține o trimitere bibliografică?",
+     "Trebuie semnalată parafraza?",
+     "Ce este plagiatul?",
+     "Ce structură are o lucrare academică?"
+    ],
+    "steps": [
+     "Formulează o teză precisă.",
+     "Susține fiecare argument cu text și surse.",
+     "Verifică citările și consecvența sistemului de referințe.",
+     "Greșeala frecventă: să citezi din memorie sau de pe site-uri neverificate fără ediția exactă."
+    ],
+    "answers": [
+     "Este precisă, discutabilă și verificabilă.",
+     "Autorul, titlul, editura, locul, anul și pagina.",
+     "Da.",
+     "Preluarea ideilor sau a textului altcuiva fără citare.",
+     "Introducere, dezvoltare, concluzie."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l32": {
+   "ro": {
+    "title": "Comentariul de text literar",
+    "theory": "Comentariul de text (lectura apropiată) analizează un fragment scurt pentru a-i explica funcționarea: situarea fragmentului, ideea centrală, structura (mișcări ale textului), procedee (lexic, sintaxă, figuri, ritm, perspectivă) și interpretarea, în legătură cu întregul operei. Fiecare observație formală trebuie legată de sens.",
+    "sample": "Plan original de comentariu pentru o strofă: 1. Situare (poziția în poem). 2. Ideea centrală (trecerea timpului). 3. Structură (două mișcări: imaginea exterioară, reflecția). 4. Procedee (enjambament, metaforă, timpuri verbale). 5. Concluzie (rolul strofei în poem).",
+    "worked": "Planul pornește de la text și ajunge la interpretare. Procedeele nu sunt inventariate, ci explicate prin efectul lor asupra ideii centrale.",
+    "exercises": [
+     "Scrie un comentariu de o pagină pentru o strofă.",
+     "Identifică mișcările unui fragment de proză.",
+     "Leagă trei procedee de sensul fragmentului.",
+     "Compară un comentariu cu un rezumat.",
+     "Evaluează un comentariu după criteriile prezentate."
+    ],
+    "test": [
+     "Ce este comentariul de text?",
+     "Cu ce începe comentariul?",
+     "Ce sunt mișcările textului?",
+     "Cum se tratează procedeele?",
+     "Cu ce se leagă fragmentul în concluzie?"
+    ],
+    "steps": [
+     "Citește fragmentul de mai multe ori și formulează ideea centrală.",
+     "Împarte textul în mișcări și identifică procedeele.",
+     "Explică fiecare procedeu prin efectul asupra sensului.",
+     "Greșeala frecventă: să faci o listă de figuri de stil fără interpretare."
+    ],
+    "answers": [
+     "Analiza apropiată a unui fragment scurt.",
+     "Cu situarea fragmentului.",
+     "Etapele interne ale textului.",
+     "Prin efectul lor asupra sensului.",
+     "Cu întregul operei."
+    ]
+   }
+  }
+ }
+}

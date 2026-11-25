@@ -1,0 +1,1136 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "RO",
+ "stage": "lower",
+ "grade": "5",
+ "version": "fee995353f44bd23aa774d30ce0febe0f80814dcffab05ed5fbbb4a9f219383a",
+ "source": "https://www.ise.ro/wp-content/uploads/2017/01/Geografie.pdf",
+ "sourceTitle": "Programa școlară pentru disciplina Geografie, clasele a V-a – a VIII-a, aprobată prin OMEN nr. 3393/28.02.2017 — clasa a V-a: Terra – elemente de geografie fizică (Terra – o planetă a universului; Terra – o planetă în mișcare; Terra – o planetă în transformare: litosfera, atmosfera, hidrosfera, biosfera și solurile; zonele naturale). Lecții originale, fără text copiat din manuale",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "ro",
+ "labels": [
+  "Activitate originală · România · Geografie · Clasa a V-a",
+  "Lecția pe înțeles",
+  "Exemplu",
+  "Ce ne arată exemplul",
+  "Exerciții",
+  "Test",
+  "Activități originale, făcute după programa școlară; nu înlocuiesc manualul sau ora de la clasă.",
+  "Dacă nu ai înțeles: pas cu pas",
+  "Răspunsuri (verifică după ce termini)"
+ ],
+ "units": [
+  {
+   "title": "Terra – o planetă a universului",
+   "keys": [
+    "eu-year-ro-lower-5-l01",
+    "eu-year-ro-lower-5-l02",
+    "eu-year-ro-lower-5-l03"
+   ]
+  },
+  {
+   "title": "Terra – o planetă în mișcare",
+   "keys": [
+    "eu-year-ro-lower-5-l04",
+    "eu-year-ro-lower-5-l05",
+    "eu-year-ro-lower-5-l06",
+    "eu-year-ro-lower-5-l07",
+    "eu-year-ro-lower-5-l08",
+    "eu-year-ro-lower-5-l09",
+    "eu-year-ro-lower-5-l10"
+   ]
+  },
+  {
+   "title": "Litosfera",
+   "keys": [
+    "eu-year-ro-lower-5-l11",
+    "eu-year-ro-lower-5-l12",
+    "eu-year-ro-lower-5-l13",
+    "eu-year-ro-lower-5-l14",
+    "eu-year-ro-lower-5-l15",
+    "eu-year-ro-lower-5-l16"
+   ]
+  },
+  {
+   "title": "Atmosfera",
+   "keys": [
+    "eu-year-ro-lower-5-l17",
+    "eu-year-ro-lower-5-l18",
+    "eu-year-ro-lower-5-l19",
+    "eu-year-ro-lower-5-l20",
+    "eu-year-ro-lower-5-l21",
+    "eu-year-ro-lower-5-l22"
+   ]
+  },
+  {
+   "title": "Hidrosfera",
+   "keys": [
+    "eu-year-ro-lower-5-l23",
+    "eu-year-ro-lower-5-l24",
+    "eu-year-ro-lower-5-l25",
+    "eu-year-ro-lower-5-l26",
+    "eu-year-ro-lower-5-l27"
+   ]
+  },
+  {
+   "title": "Biosfera, solurile și zonele naturale",
+   "keys": [
+    "eu-year-ro-lower-5-l28",
+    "eu-year-ro-lower-5-l29",
+    "eu-year-ro-lower-5-l30"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-ro-lower-5-l01": {
+   "ro": {
+    "title": "Universul și Sistemul Solar",
+    "theory": "Universul cuprinde tot ce există: stele, planete, galaxii, gaze și praf cosmic, spațiul dintre ele. Oamenii de știință estimează că Universul are aproximativ 13,8 miliarde de ani. Stelele sunt grupate în galaxii; Soarele se află în galaxia Calea Lactee. Sistemul Solar este format din Soare (o stea, cu peste 99% din masa sistemului), opt planete, sateliții lor, planete pitice (Pluto), asteroizi și comete. Planetele telurice (Mercur, Venus, Terra, Marte) sunt mici și stâncoase; planetele gigantice (Jupiter, Saturn, Uranus, Neptun) sunt mari și formate mai ales din gaze și gheață. Distanțele sunt uriașe: lumina Soarelui ajunge la Pământ în aproximativ 8 minute.",
+    "sample": "Pluto a fost considerat planetă până în 2006, când astronomii l-au trecut între planetele pitice.",
+    "worked": "Clasificările din știință se pot schimba când apar descoperiri noi. Pluto nu s-a schimbat, s-au schimbat regulile după care numim o planetă.",
+    "exercises": [
+     "Explică ce este o galaxie.",
+     "Numește planetele telurice și planetele gigantice.",
+     "Explică de ce Soarele este o stea, iar Terra o planetă.",
+     "Calculează: dacă lumina parcurge 300.000 km pe secundă, cât parcurge într-un minut?",
+     "Explică de ce Pluto nu mai este considerată planetă."
+    ],
+    "test": [
+     "În ce galaxie se află Sistemul Solar?",
+     "Câte planete are Sistemul Solar?",
+     "Care sunt planetele telurice?",
+     "Cât îi ia luminii Soarelui să ajungă la Pământ?",
+     "Ce fel de corp ceresc este Pluto?"
+    ],
+    "steps": [
+     "Pornește de la cel mai mare: Univers, galaxie, Sistem Solar.",
+     "Identifică locul Soarelui și al planetelor.",
+     "Grupează planetele după alcătuire.",
+     "Greșeala frecventă: să crezi că stelele și planetele sunt același lucru; stelele produc lumină, planetele o reflectă."
+    ],
+    "answers": [
+     "Calea Lactee.",
+     "Opt.",
+     "Mercur, Venus, Terra și Marte.",
+     "Aproximativ 8 minute.",
+     "Planetă pitică."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l02": {
+   "ro": {
+    "title": "Terra – formă și dimensiuni",
+    "theory": "Pământul are o formă aproape sferică, turtită la poli și ușor bombată la Ecuator; această formă proprie se numește geoid. Dovezi: umbra rotundă a Pământului pe Lună în timpul eclipselor, navele care dispar treptat la orizont, fotografiile din spațiu, călătoriile în jurul lumii. Raza ecuatorială este de aproximativ 6.378 km, iar cea polară de aproximativ 6.357 km. Circumferința la Ecuator are aproape 40.000 km. Forma sferică are consecințe: razele Soarelui cad diferit pe Pământ (mai drept la Ecuator, mai oblic la poli), de aceea temperaturile scad de la Ecuator spre poli.",
+    "sample": "Expediția lui Magellan (1519–1522) a făcut prima călătorie în jurul lumii, dovedind practic forma sferică a Pământului.",
+    "worked": "Călătoria în jurul lumii este o dovadă practică: pornind spre vest, navigatorii s-au întors din est.",
+    "exercises": [
+     "Explică ce este geoidul.",
+     "Dă trei dovezi ale formei sferice.",
+     "Calculează diferența dintre raza ecuatorială și cea polară.",
+     "Explică de ce la Ecuator este mai cald decât la poli.",
+     "Explică de ce navele dispar treptat la orizont."
+    ],
+    "test": [
+     "Ce formă are Pământul?",
+     "Cum se numește forma proprie a Pământului?",
+     "Care este raza ecuatorială, aproximativ?",
+     "Ce lungime are circumferința la Ecuator?",
+     "Unde cad razele Soarelui cel mai drept?"
+    ],
+    "steps": [
+     "Observă dovezile formei Pământului.",
+     "Compară razele: ecuatorială și polară.",
+     "Leagă forma de încălzirea diferită a suprafeței.",
+     "Greșeala frecventă: să crezi că Pământul este o sferă perfectă; este ușor turtit la poli."
+    ],
+    "answers": [
+     "Aproape sferică, turtită la poli.",
+     "Geoid.",
+     "Aproximativ 6.378 km.",
+     "Aproape 40.000 km.",
+     "La Ecuator."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l03": {
+   "ro": {
+    "title": "Explorarea spațiului cosmic",
+    "theory": "Oamenii au studiat cerul de mii de ani. Telescopul, folosit de Galileo Galilei (1609), a arătat munții Lunii și sateliții lui Jupiter. Primul satelit artificial, Sputnik 1, a fost lansat în 1957; primul om în spațiu a fost Iuri Gagarin (1961), iar primii oameni pe Lună au ajuns în 1969 (Neil Armstrong și Buzz Aldrin). Dumitru Prunariu a fost primul român în spațiu (1981). Astăzi, Stația Spațială Internațională este locuită permanent, iar sondele spațiale explorează planetele. Sateliții artificiali sunt folosiți pentru meteorologie, telecomunicații, GPS și observarea Pământului, inclusiv pentru hărți.",
+    "sample": "Imaginile din satelit permit urmărirea furtunilor, a incendiilor și a topirii ghețarilor.",
+    "worked": "Explorarea spațiului are utilitate directă pentru geografie și pentru viața de zi cu zi: prognoza vremii și orientarea cu GPS.",
+    "exercises": [
+     "Ordonează: Sputnik, Gagarin, Lună, Prunariu.",
+     "Explică la ce folosesc sateliții meteorologici.",
+     "Explică ce este GPS-ul.",
+     "Spune ce a observat Galilei cu telescopul.",
+     "Imaginează o călătorie virtuală pe Marte și descrie ce ai vedea."
+    ],
+    "test": [
+     "Cine a folosit telescopul în 1609?",
+     "Când a fost lansat primul satelit artificial?",
+     "Cine a fost primul om în spațiu?",
+     "Când au ajuns oamenii pe Lună?",
+     "Cine a fost primul român în spațiu?"
+    ],
+    "steps": [
+     "Ordonează etapele explorării.",
+     "Leagă fiecare descoperire de o tehnologie.",
+     "Arată utilitatea pentru viața de zi cu zi.",
+     "Greșeala frecventă: să crezi că explorarea spațială nu are legătură cu viața ta; sateliții servesc prognoza meteo și GPS-ul."
+    ],
+    "answers": [
+     "Galileo Galilei.",
+     "În 1957.",
+     "Iuri Gagarin.",
+     "În 1969.",
+     "Dumitru Prunariu."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l04": {
+   "ro": {
+    "title": "Globul geografic și harta",
+    "theory": "Globul geografic este o machetă micșorată a Pământului; păstrează forma, proporțiile și pozițiile reale, dar nu poate arăta detalii. Harta este o reprezentare micșorată, simplificată și convențională a suprafeței terestre pe un plan. Deoarece o suprafață sferică nu poate fi întinsă perfect pe un plan, orice hartă deformează puțin forme, suprafețe sau distanțe. Elementele hărții: titlul, legenda, scara, orientarea, rețeaua de paralele și meridiane. Scara poate fi numerică (1:1.000.000 – 1 cm pe hartă = 10 km în realitate) sau grafică. Hărțile pot fi fizice, politice, tematice; azi folosim și hărți digitale.",
+    "sample": "La scara 1:1.000.000, distanța de 5 cm dintre două orașe pe hartă înseamnă 50 km în realitate.",
+    "worked": "Calculul: 5 cm × 1.000.000 = 5.000.000 cm = 50 km. Scara transformă distanța de pe hartă în distanță reală.",
+    "exercises": [
+     "Compară globul cu harta.",
+     "Calculează distanța reală pentru 8 cm la scara 1:500.000.",
+     "Explică de ce orice hartă deformează.",
+     "Numește elementele unei hărți.",
+     "Dă exemple de hărți tematice."
+    ],
+    "test": [
+     "Ce este globul geografic?",
+     "Ce este harta?",
+     "Ce arată scara?",
+     "Ce înseamnă 1 cm la scara 1:1.000.000?",
+     "Ce fel de hartă arată statele lumii?"
+    ],
+    "steps": [
+     "Citește scara hărții.",
+     "Măsoară distanța pe hartă cu rigla.",
+     "Înmulțește cu numitorul scării și transformă unitățile.",
+     "Greșeala frecventă: să uiți să transformi centimetrii în kilometri; 100.000 cm = 1 km."
+    ],
+    "answers": [
+     "O machetă micșorată a Pământului.",
+     "O reprezentare micșorată și convențională a suprafeței terestre pe un plan.",
+     "De câte ori a fost micșorată realitatea.",
+     "10 km în realitate.",
+     "Harta politică."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l05": {
+   "ro": {
+    "title": "Coordonatele geografice",
+    "theory": "Pe glob și pe hărți este desenată o rețea de linii imaginare. Paralelele sunt cercuri paralele cu Ecuatorul; Ecuatorul (paralela de 0°) este cea mai lungă și împarte Pământul în emisfera nordică și sudică. Meridianele sunt semicercuri care unesc polii; meridianul de 0° trece prin Greenwich (lângă Londra) și împarte Pământul în emisfera estică și vestică. Latitudinea este distanța în grade a unui punct față de Ecuator (0°–90° nordică sau sudică). Longitudinea este distanța în grade față de meridianul de 0° (0°–180° estică sau vestică). Latitudinea și longitudinea formează coordonatele geografice, care arată poziția exactă a oricărui punct.",
+    "sample": "Paralela de 45° latitudine nordică trece prin România, la jumătatea distanței dintre Ecuator și Polul Nord.",
+    "worked": "Coordonatele ne permit să spunem precis unde se află un loc, fără să depindem de denumiri.",
+    "exercises": [
+     "Explică diferența dintre paralele și meridiane.",
+     "Explică ce este latitudinea.",
+     "Explică ce este longitudinea.",
+     "Găsește pe hartă un punct la 45° N și 25° E.",
+     "Spune în ce emisfere se află România."
+    ],
+    "test": [
+     "Care este cea mai lungă paralelă?",
+     "Pe unde trece meridianul de 0°?",
+     "Între ce valori variază latitudinea?",
+     "Între ce valori variază longitudinea?",
+     "Ce paralelă importantă trece prin România?"
+    ],
+    "steps": [
+     "Găsește Ecuatorul și meridianul de 0°.",
+     "Citește latitudinea (N sau S) și longitudinea (E sau V).",
+     "Scrie coordonatele în ordinea: latitudine, longitudine.",
+     "Greșeala frecventă: să inversezi latitudinea cu longitudinea; latitudinea se măsoară față de Ecuator."
+    ],
+    "answers": [
+     "Ecuatorul.",
+     "Prin Greenwich, lângă Londra.",
+     "Între 0° și 90°, nordică sau sudică.",
+     "Între 0° și 180°, estică sau vestică.",
+     "Paralela de 45° latitudine nordică."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l06": {
+   "ro": {
+    "title": "Mișcarea de rotație și consecințele ei",
+    "theory": "Pământul se rotește în jurul axei sale, de la vest spre est, într-o zi (aproximativ 24 de ore). Consecințe: alternanța zilei cu noaptea; mișcarea aparentă a Soarelui pe cer, de la est la vest; diferențele de oră între locuri. Pentru a organiza timpul, Pământul a fost împărțit în 24 de fusuri orare, fiecare de câte 15° longitudine (360°:24). Ora crește spre est cu o oră la fiecare fus. România folosește ora Europei de Est: cu două ore înaintea orei de la Greenwich iarna și cu trei ore vara. Linia internațională de schimbare a datei urmează aproximativ meridianul de 180°.",
+    "sample": "Când la București este ora 12, la Londra este ora 10 (iarna).",
+    "worked": "Londra este la vest de București, cu două fusuri orare; spre vest ora scade.",
+    "exercises": [
+     "Explică ce produce mișcarea de rotație.",
+     "Explică de ce Soarele pare să se miște pe cer.",
+     "Calculează câte grade are un fus orar.",
+     "Află ora din Londra când la București este 15:00 (iarna).",
+     "Explică ce este linia de schimbare a datei."
+    ],
+    "test": [
+     "În ce sens se rotește Pământul?",
+     "Cât durează mișcarea de rotație?",
+     "Câte fusuri orare sunt?",
+     "Câte grade are un fus orar?",
+     "Cu câte ore este România înaintea Greenwich-ului iarna?"
+    ],
+    "steps": [
+     "Stabilește poziția celor două locuri: est sau vest.",
+     "Numără fusurile orare dintre ele.",
+     "Adună ore spre est, scade spre vest.",
+     "Greșeala frecventă: să crezi că Soarele se mișcă în jurul Pământului în fiecare zi; mișcarea zilnică este a Pământului."
+    ],
+    "answers": [
+     "De la vest spre est.",
+     "Aproximativ 24 de ore.",
+     "24.",
+     "15°.",
+     "Cu două ore."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l07": {
+   "ro": {
+    "title": "Mișcarea de revoluție și anotimpurile",
+    "theory": "Pământul se mișcă în jurul Soarelui pe o orbită eliptică, într-un an (365 de zile și aproape 6 ore). Axa Pământului este înclinată și își păstrează direcția; de aceea, pe parcursul anului, razele Soarelui cad diferit pe cele două emisfere, iar acest lucru produce anotimpurile și durata diferită a zilelor și nopților. Momente importante: echinocțiile (20–21 martie și 22–23 septembrie), când ziua este egală cu noaptea; solstițiul de vară (21 iunie), cu cea mai lungă zi în emisfera nordică; solstițiul de iarnă (21–22 decembrie), cu cea mai scurtă zi. Tropicele (23°27′) și cercurile polare (66°33′) delimitează zonele de iluminare. Când în emisfera nordică este vară, în cea sudică este iarnă.",
+    "sample": "De Crăciun, în Australia este vară.",
+    "worked": "Australia se află în emisfera sudică, iar anotimpurile sunt inversate față de emisfera nordică.",
+    "exercises": [
+     "Explică de ce există anotimpuri.",
+     "Explică ce sunt echinocțiile.",
+     "Explică ce se întâmplă la solstițiul de vară.",
+     "Explică de ce anotimpurile sunt inversate în emisfera sudică.",
+     "Explică ce sunt cercurile polare."
+    ],
+    "test": [
+     "Cât durează mișcarea de revoluție?",
+     "Când este solstițiul de vară?",
+     "Ce se întâmplă la echinocții?",
+     "La ce latitudine se află tropicele?",
+     "Ce anotimp este în Australia în decembrie?"
+    ],
+    "steps": [
+     "Imaginează Pământul cu axa înclinată în jurul Soarelui.",
+     "Observă care emisferă primește razele mai drepte.",
+     "Leagă poziția de anotimp și de lungimea zilei.",
+     "Greșeala frecventă: să crezi că vara e cald pentru că Pământul e mai aproape de Soare; anotimpurile vin din înclinarea axei."
+    ],
+    "answers": [
+     "Un an: 365 de zile și aproape 6 ore.",
+     "La 21 iunie.",
+     "Ziua este egală cu noaptea.",
+     "La 23°27′.",
+     "Vara."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l08": {
+   "ro": {
+    "title": "Orientarea în spațiul terestru",
+    "theory": "Pentru a ne orienta folosim puncte cardinale (N, S, E, V) și intermediare (NE, SE, SV, NV). Mijloace naturale: Soarele (la amiază, în emisfera nordică, este spre sud), Steaua Polară (indică nordul), mușchiul de pe copaci (indiciu nesigur), ciupercile și furnicarele (orientative). Instrumente clasice: busola (acul magnetic indică nordul magnetic), harta orientată. Instrumente moderne: GPS-ul (sistem de sateliți care calculează poziția), aplicațiile de hărți pe telefon. Orientarea hărții înseamnă așezarea ei astfel încât nordul hărții să corespundă nordului din teren.",
+    "sample": "Steaua Polară se găsește prelungind de cinci ori distanța dintre ultimele două stele ale Carului Mare.",
+    "worked": "Metoda este sigură noaptea, pe cer senin, în emisfera nordică.",
+    "exercises": [
+     "Găsește nordul cu ajutorul Soarelui la amiază.",
+     "Explică cum găsești Steaua Polară.",
+     "Explică de ce mușchiul de pe copaci nu este un indiciu sigur.",
+     "Explică cum funcționează GPS-ul.",
+     "Orientează o hartă cu ajutorul busolei."
+    ],
+    "test": [
+     "Unde este Soarele la amiază în emisfera nordică?",
+     "Ce stea indică nordul?",
+     "Ce indică acul busolei?",
+     "Ce sistem folosește sateliți pentru orientare?",
+     "Ce înseamnă să orientezi harta?"
+    ],
+    "steps": [
+     "Alege mijlocul potrivit: Soare, stea, busolă, GPS.",
+     "Găsește nordul cu mijlocul ales.",
+     "Află celelalte direcții.",
+     "Greșeala frecventă: să te bazezi doar pe indicii nesigure, ca mușchiul de pe copaci; verifică mereu cu un mijloc sigur."
+    ],
+    "answers": [
+     "Spre sud.",
+     "Steaua Polară.",
+     "Nordul magnetic.",
+     "GPS.",
+     "Să potrivești nordul hărții cu nordul din teren."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l09": {
+   "ro": {
+    "title": "Măsurarea timpului; calendarul",
+    "theory": "Unitățile de timp provin din mișcările Pământului și ale Lunii. Ziua (24 de ore) vine din rotație; anul (365 de zile) din revoluție; luna (aproximativ 29,5 zile) din fazele Lunii; săptămâna are 7 zile. Pentru că anul are 365 de zile și aproape 6 ore, la fiecare patru ani se adaugă o zi (29 februarie) – anul bisect. Calendarul folosit azi în majoritatea țărilor este cel gregorian (1582). Unele popoare folosesc și alte calendare (lunar, lunisolar). Anotimpurile au începuturi astronomice (solstiții și echinocții) și meteorologice (1 martie, 1 iunie, 1 septembrie, 1 decembrie).",
+    "sample": "Anul 2024 a fost bisect, iar următorul an bisect va fi 2028.",
+    "worked": "Regula: anii divizibili cu 4 sunt bisecți, cu excepția celor divizibili cu 100, dar nu cu 400 (de aceea 2000 a fost bisect, iar 1900 nu).",
+    "exercises": [
+     "Leagă fiecare unitate de timp de mișcarea care o produce.",
+     "Explică de ce există ani bisecți.",
+     "Verifică dacă 2100 va fi an bisect.",
+     "Explică diferența dintre anotimpul astronomic și cel meteorologic.",
+     "Construiește un calendar al fenomenelor naturale din localitatea ta."
+    ],
+    "test": [
+     "Din ce mișcare provine ziua?",
+     "Din ce mișcare provine anul?",
+     "Ce zi se adaugă în anul bisect?",
+     "Ce calendar folosim azi?",
+     "Când începe primăvara meteorologică?"
+    ],
+    "steps": [
+     "Identifică mișcarea care stă la baza unității de timp.",
+     "Aplică regula anului bisect.",
+     "Verifică pe calendar.",
+     "Greșeala frecventă: să crezi că orice an divizibil cu 100 este bisect; 1900 nu a fost."
+    ],
+    "answers": [
+     "Din mișcarea de rotație.",
+     "Din mișcarea de revoluție.",
+     "29 februarie.",
+     "Calendarul gregorian.",
+     "La 1 martie."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l10": {
+   "ro": {
+    "title": "Orizontul local: orientare, măsurare și reprezentare",
+    "theory": "Aplicația practică în orizontul local îți cere să folosești ce ai învățat. Orientarea: găsești punctele cardinale cu busola sau cu telefonul. Măsurarea: distanțele scurte cu ruleta sau cu pasul etalonat (măsori lungimea medie a pasului tău), distanțele lungi cu aplicații de hărți. Reprezentarea: desenezi o schiță de hartă a curții școlii sau a cartierului, alegi o scară (de exemplu 1:1.000) și semne convenționale, adaugi titlu, legendă și săgeata nordului. Poți realiza și grafice simple (de exemplu temperaturile măsurate o săptămână).",
+    "sample": "Dacă pasul tău mediu are 60 cm și ai numărat 150 de pași, distanța este de 90 m.",
+    "worked": "Pasul etalonat transformă o măsurare nestandard într-una aproximativ corectă în metri.",
+    "exercises": [
+     "Etalonează-ți pasul măsurând 10 pași cu ruleta.",
+     "Măsoară lungimea curții școlii.",
+     "Desenează schița curții la scara 1:1.000.",
+     "Construiește o legendă pentru schiță.",
+     "Reprezintă într-un grafic temperaturile unei săptămâni."
+    ],
+    "test": [
+     "Ce este pasul etalonat?",
+     "Ce scară folosești pentru curtea școlii?",
+     "Ce elemente trebuie să aibă schița?",
+     "Ce arată săgeata nordului?",
+     "Ce instrument măsoară distanțe scurte precis?"
+    ],
+    "steps": [
+     "Orientează-te în teren.",
+     "Măsoară distanțele cu ruleta sau cu pasul.",
+     "Reprezintă-le pe hârtie la scară, cu legendă.",
+     "Greșeala frecventă: să uiți săgeata nordului; fără ea, schița nu poate fi orientată."
+    ],
+    "answers": [
+     "Lungimea medie a pasului, măsurată.",
+     "O scară mare, de exemplu 1:1.000.",
+     "Titlu, legendă, scară și săgeata nordului.",
+     "Direcția nord.",
+     "Ruleta."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l11": {
+   "ro": {
+    "title": "Structura internă a Terrei",
+    "theory": "Pământul este alcătuit din învelișuri concentrice. Scoarța (crusta) este învelișul exterior, subțire: 5–10 km sub oceane și 30–70 km sub continente. Mantaua se întinde până la aproximativ 2.900 km adâncime; partea ei superioară, astenosfera, este parțial topită și permite mișcarea plăcilor. Nucleul extern este lichid, iar nucleul intern este solid, din fier și nichel, cu temperaturi de peste 5.000°C. Litosfera (scoarța împreună cu partea superioară, rigidă, a mantalei) este împărțită în plăci tectonice care se mișcă lent (câțiva centimetri pe an). La marginile plăcilor se formează munți, vulcani și se produc cutremure.",
+    "sample": "Cunoaștem interiorul Pământului mai ales din felul în care se propagă undele cutremurelor.",
+    "worked": "Nimeni nu a forat până la manta; geologii deduc structura din viteza și direcția undelor seismice.",
+    "exercises": [
+     "Numește învelișurile interne ale Pământului.",
+     "Compară grosimea scoarței oceanice și continentale.",
+     "Explică ce este litosfera.",
+     "Explică ce sunt plăcile tectonice.",
+     "Explică de unde știm cum arată interiorul Pământului."
+    ],
+    "test": [
+     "Care este învelișul exterior al Pământului?",
+     "Până la ce adâncime ajunge mantaua?",
+     "Ce stare are nucleul extern?",
+     "Din ce este format nucleul?",
+     "Cât de repede se mișcă plăcile tectonice?"
+    ],
+    "steps": [
+     "Desenează un cerc cu învelișurile, de la exterior spre centru.",
+     "Notează grosimea și starea fiecăruia.",
+     "Leagă mișcarea plăcilor de vulcani și cutremure.",
+     "Greșeala frecventă: să crezi că sub scoarță totul este lichid; mantaua este în mare parte solidă, dar plastică."
+    ],
+    "answers": [
+     "Scoarța (crusta).",
+     "Aproximativ 2.900 km.",
+     "Lichidă.",
+     "Din fier și nichel.",
+     "Câțiva centimetri pe an."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l12": {
+   "ro": {
+    "title": "Bazinele oceanice și continentele",
+    "theory": "Suprafața Terrei este formată din uscat (aproximativ 29%) și ape (71%). Uscatul formează continentele și insulele; apele formează Oceanul Planetar. Continentele: Asia, America (de Nord și de Sud), Africa, Antarctica, Europa, Australia. Bazinele oceanice au un relief variat: platforma continentală (până la circa 200 m adâncime), povârnișul continental, câmpiile abisale (3.000–6.000 m), dorsalele oceanice (lanțuri muntoase submarine) și fosele oceanice (cele mai adânci locuri – Groapa Marianelor, aproape 11.000 m). Cel mai înalt vârf de pe uscat este Everest (8.849 m), în Himalaya.",
+    "sample": "Dacă am pune Everestul în Groapa Marianelor, vârful lui ar rămâne încă la peste 2.000 m sub apă.",
+    "worked": "Comparația arată că adâncimile oceanului sunt mai mari decât înălțimile munților.",
+    "exercises": [
+     "Calculează diferența dintre adâncimea Groapei Marianelor și înălțimea Everestului.",
+     "Numește continentele.",
+     "Descrie relieful unui bazin oceanic.",
+     "Explică ce este platforma continentală.",
+     "Explică ce sunt dorsalele oceanice."
+    ],
+    "test": [
+     "Ce procent din suprafața Terrei este uscat?",
+     "Ce este platforma continentală?",
+     "Care este cel mai adânc loc al oceanului?",
+     "Care este cel mai înalt vârf de pe uscat?",
+     "Ce înălțime are Everestul?"
+    ],
+    "steps": [
+     "Pornește de la țărm spre larg.",
+     "Numește formele de relief submarin în ordine.",
+     "Compară cu relieful de pe uscat.",
+     "Greșeala frecventă: să crezi că fundul oceanului este neted; are munți, câmpii și gropi adânci."
+    ],
+    "answers": [
+     "Aproximativ 29%.",
+     "Partea din fundul mării de lângă țărm, până la circa 200 m adâncime.",
+     "Groapa Marianelor.",
+     "Everest.",
+     "8.849 m."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l13": {
+   "ro": {
+    "title": "Forme majore de relief",
+    "theory": "Relieful continentelor are patru forme majore: munții (înălțimi mari, de obicei peste 1.000 m, pante abrupte, vârfuri și creste), dealurile (200–1.000 m, rotunjite), podișurile (suprafețe înalte și relativ netede, fragmentate de văi) și câmpiile (joase, netede, de obicei sub 200 m). Munții se formează prin ciocnirea plăcilor (munți de încrețire – Alpi, Himalaya, Carpați) sau prin vulcanism. Relieful este modelat continuu de agenți externi: apa (râuri, valuri), vântul, ghețarii, temperatura, dar și de om. Munții tineri sunt înalți și ascuțiți; munții vechi sunt tociți de eroziune.",
+    "sample": "Munții Măcinului din Dobrogea sunt printre cei mai vechi munți din România și sunt foarte joși, sub 500 m.",
+    "worked": "Vârsta munților se vede în formă: eroziunea de milioane de ani i-a tocit.",
+    "exercises": [
+     "Compară munții cu dealurile.",
+     "Explică ce este un podiș.",
+     "Explică cum se formează munții de încrețire.",
+     "Numește trei agenți externi care modelează relieful.",
+     "Explică de ce munții vechi sunt mai joși."
+    ],
+    "test": [
+     "Care sunt formele majore de relief?",
+     "Ce înălțime au, de obicei, câmpiile?",
+     "Cum se formează munții de încrețire?",
+     "Ce agent formează văile râurilor?",
+     "Cum arată munții vechi?"
+    ],
+    "steps": [
+     "Observă înălțimea și forma terenului.",
+     "Numește forma de relief.",
+     "Explică cum s-a format și cum este modelată.",
+     "Greșeala frecventă: să confunzi podișul cu câmpia; podișul este mai înalt și fragmentat de văi."
+    ],
+    "answers": [
+     "Munții, dealurile, podișurile și câmpiile.",
+     "Sub 200 m.",
+     "Prin ciocnirea plăcilor tectonice.",
+     "Apa curgătoare.",
+     "Mai joși și tociți de eroziune."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l14": {
+   "ro": {
+    "title": "Vulcanii",
+    "theory": "Vulcanii sunt locuri pe unde magma din interiorul Pământului iese la suprafață. Părțile unui vulcan: camera magmatică, coșul vulcanic, craterul și conul format din lavă și cenușă. Magma ajunsă la suprafață se numește lavă. Vulcanii pot fi activi, adormiți sau stinși. Cei mai mulți se află la marginile plăcilor tectonice, de exemplu în „Cercul de foc al Pacificului” (Japonia, Indonezia, Andes). Exemple: Etna și Vezuviu (Italia), Fuji (Japonia), Kilimanjaro (Africa, stins). Erupțiile pot fi periculoase, dar solurile vulcanice sunt fertile, iar căldura internă este folosită ca energie geotermală (Islanda). În România, lanțul vulcanic Călimani–Gurghiu–Harghita este stins; Lacul Sfânta Ana este într-un crater.",
+    "sample": "Erupția Vezuviului din anul 79 a îngropat orașul roman Pompei sub cenușă.",
+    "worked": "Cazul arată pericolul vulcanilor activi lângă orașe și importanța monitorizării lor.",
+    "exercises": [
+     "Numește părțile unui vulcan.",
+     "Explică diferența dintre magmă și lavă.",
+     "Explică unde se găsesc cei mai mulți vulcani.",
+     "Explică avantajele zonelor vulcanice.",
+     "Numește vulcanii stinși din România."
+    ],
+    "test": [
+     "Ce este un vulcan?",
+     "Cum se numește magma ajunsă la suprafață?",
+     "Ce este Cercul de foc al Pacificului?",
+     "Ce oraș roman a fost îngropat de Vezuviu?",
+     "Ce lac din România se află într-un crater?"
+    ],
+    "steps": [
+     "Desenează secțiunea unui vulcan.",
+     "Explică drumul magmei spre suprafață.",
+     "Leagă vulcanii de marginile plăcilor.",
+     "Greșeala frecventă: să crezi că vulcanii din România sunt activi; ei sunt stinși."
+    ],
+    "answers": [
+     "Un loc pe unde magma iese la suprafață.",
+     "Lavă.",
+     "Zona de vulcani din jurul Oceanului Pacific.",
+     "Pompei.",
+     "Lacul Sfânta Ana."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l15": {
+   "ro": {
+    "title": "Cutremurele",
+    "theory": "Cutremurele sunt mișcări bruște ale scoarței terestre, produse de eliberarea energiei acumulate prin deplasarea plăcilor. Locul din adânc unde se produce ruptura se numește focar (hipocentru), iar punctul de la suprafață aflat deasupra lui se numește epicentru. Energia se propagă prin unde seismice, înregistrate de seismografe. Magnitudinea (scara Richter) măsoară energia; intensitatea arată efectele într-un loc. În România, cele mai puternice cutremure au focarul în zona Vrancea, la adâncimi de 70–170 km; cel din 4 martie 1977 a provocat aproape 1.600 de morți, majoritatea în București. Regula de protecție: în timpul cutremurului te adăpostești sub o masă solidă („ghemuiește-te, acoperă-te, ține-te”), departe de ferestre; nu folosești liftul și nu fugi pe scări.",
+    "sample": "Cutremurul din 1977 a avut magnitudinea de aproximativ 7,4 și focarul la circa 94 km adâncime, în Vrancea.",
+    "worked": "Cutremurele de adâncime din Vrancea se simt pe suprafețe mari, de aceea Bucureștiul, aflat departe, a fost grav afectat.",
+    "exercises": [
+     "Explică diferența dintre focar și epicentru.",
+     "Explică diferența dintre magnitudine și intensitate.",
+     "Explică de ce cutremurele din Vrancea se simt pe suprafețe mari.",
+     "Scrie regulile de comportament în timpul unui cutremur.",
+     "Alcătuiește un rucsac pentru situații de urgență."
+    ],
+    "test": [
+     "Ce produce cutremurele?",
+     "Ce este epicentrul?",
+     "Cu ce instrument se înregistrează cutremurele?",
+     "Unde se produc cele mai puternice cutremure din România?",
+     "Când a avut loc marele cutremur din București?"
+    ],
+    "steps": [
+     "Explică ce se întâmplă în scoarță.",
+     "Localizează focarul și epicentrul.",
+     "Învață și exersează regulile de protecție.",
+     "Greșeala frecventă: să fugi pe scări sau să folosești liftul în timpul cutremurului; adăpostește-te pe loc."
+    ],
+    "answers": [
+     "Eliberarea bruscă a energiei acumulate prin deplasarea plăcilor.",
+     "Punctul de la suprafață aflat deasupra focarului.",
+     "Seismograful.",
+     "În zona Vrancea.",
+     "La 4 martie 1977."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l16": {
+   "ro": {
+    "title": "Relieful orizontului local și fenomenele de risc",
+    "theory": "Relieful orizontului local poate fi studiat prin observare: formele de relief, pantele, văile, rocile. Pe lângă cutremure, alte fenomene de risc legate de relief sunt: alunecările de teren (deplasarea unor mase de pământ pe pante, după ploi multe sau după tăierea pădurilor), prăbușirile (căderi de roci de pe versanți abrupți), torenții și eroziunea solului. În România, alunecările sunt frecvente în Subcarpați și în Podișul Transilvaniei. Măsuri de protecție: plantarea de arbori pe pante, drenarea apei, interzicerea construcțiilor în zone cu risc, ziduri de sprijin. Dacă observi crăpături noi în teren sau în ziduri, anunți autoritățile.",
+    "sample": "În Subcarpați, după ploi abundente, alunecările de teren pot distruge case și drumuri.",
+    "worked": "Alunecările apar acolo unde roci moi (argile, marne) se îmbibă cu apă; pădurea le reduce riscul.",
+    "exercises": [
+     "Descrie relieful din orizontul local.",
+     "Explică ce este o alunecare de teren.",
+     "Explică de ce alunecările sunt frecvente în Subcarpați.",
+     "Propune trei măsuri de prevenire a alunecărilor.",
+     "Explică ce faci dacă observi semne de alunecare."
+    ],
+    "test": [
+     "Ce este o alunecare de teren?",
+     "Ce o favorizează?",
+     "În ce regiuni din România sunt frecvente?",
+     "Ce rol are pădurea?",
+     "Ce este o prăbușire?"
+    ],
+    "steps": [
+     "Identifică pantele și rocile din zonă.",
+     "Observă semnele de risc: crăpături, copaci înclinați.",
+     "Propune măsuri de protecție.",
+     "Greșeala frecventă: să crezi că doar cutremurele sunt periculoase; alunecările și prăbușirile pot face pagube mari."
+    ],
+    "answers": [
+     "Deplasarea unor mase de pământ pe pante.",
+     "Ploile abundente, rocile moi, tăierea pădurilor.",
+     "În Subcarpați și Podișul Transilvaniei.",
+     "Fixează solul și reduce riscul.",
+     "Căderea unor roci de pe versanți abrupți."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l17": {
+   "ro": {
+    "title": "Atmosfera – caracteristici generale",
+    "theory": "Atmosfera este învelișul de aer al Pământului, păstrat de gravitație. Aerul este un amestec de gaze: azot (aproximativ 78%), oxigen (aproximativ 21%), argon, dioxid de carbon și vapori de apă, plus praf. Atmosfera are straturi: troposfera (până la 8–18 km, unde se produc fenomenele meteorologice), stratosfera (cu stratul de ozon, care oprește o parte din razele ultraviolete), mezosfera, termosfera și exosfera. Importanța atmosferei: oferă oxigen pentru respirație, protejează de radiațiile dăunătoare și de meteoriți, păstrează căldura (efectul de seră natural) și permite circuitul apei.",
+    "sample": "Stratul de ozon a fost subțiat de unele gaze folosite în trecut în spray-uri și frigidere, iar interzicerea lor (Protocolul de la Montreal, 1987) îl ajută să se refacă.",
+    "worked": "Exemplul arată că problemele de mediu pot fi rezolvate prin cooperare internațională.",
+    "exercises": [
+     "Numește gazele principale din aer și procentele lor.",
+     "Numește straturile atmosferei.",
+     "Explică ce este stratul de ozon.",
+     "Explică efectul de seră natural.",
+     "Explică de ce atmosfera este importantă pentru viață."
+    ],
+    "test": [
+     "Ce gaz se află în cea mai mare proporție în aer?",
+     "Ce procent de oxigen are aerul?",
+     "În ce strat se produc fenomenele meteorologice?",
+     "În ce strat este stratul de ozon?",
+     "Ce protocol a interzis gazele care distrug ozonul?"
+    ],
+    "steps": [
+     "Identifică alcătuirea aerului.",
+     "Ordonează straturile de jos în sus.",
+     "Explică rolul fiecărui strat important.",
+     "Greșeala frecventă: să crezi că aerul este format mai ales din oxigen; azotul este gazul principal."
+    ],
+    "answers": [
+     "Azotul.",
+     "Aproximativ 21%.",
+     "În troposferă.",
+     "În stratosferă.",
+     "Protocolul de la Montreal (1987)."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l18": {
+   "ro": {
+    "title": "Elemente și fenomene meteorologice",
+    "theory": "Elementele meteorologice sunt: temperatura aerului (măsurată cu termometrul, în °C), presiunea atmosferică (barometrul), umiditatea (higrometrul), vântul (direcția – girueta, viteza – anemometrul), nebulozitatea (gradul de acoperire cu nori) și precipitațiile (pluviometrul). Temperatura scade cu altitudinea, cu aproximativ 6°C la 1.000 m. Vântul este aerul în mișcare, de la zonele cu presiune ridicată spre cele cu presiune scăzută. Precipitațiile pot fi ploaie, ninsoare, grindină, burniță; apa se poate depune și ca rouă, brumă, chiciură, polei. Măsurătorile se fac în stații meteorologice.",
+    "sample": "Dacă la baza muntelui sunt 20°C, la 2.000 m mai sus vor fi aproximativ 8°C.",
+    "worked": "Calculul: 2.000 m înseamnă de două ori 6°C, adică 12°C mai puțin. Asta explică de ce pe munți este mai frig.",
+    "exercises": [
+     "Leagă fiecare element de instrumentul cu care se măsoară.",
+     "Calculează temperatura la 1.500 m dacă la baza muntelui sunt 15°C.",
+     "Explică de ce bate vântul.",
+     "Numește formele de precipitații.",
+     "Explică diferența dintre rouă și brumă."
+    ],
+    "test": [
+     "Cu ce se măsoară presiunea atmosferică?",
+     "Cu ce se măsoară viteza vântului?",
+     "Cu cât scade temperatura la 1.000 m?",
+     "Spre ce zone bate vântul?",
+     "Ce precipitație este formată din bucăți de gheață?"
+    ],
+    "steps": [
+     "Identifică elementul meteorologic.",
+     "Alege instrumentul potrivit.",
+     "Interpretează valoarea măsurată.",
+     "Greșeala frecventă: să confunzi brumă cu ninsoarea; bruma se formează direct pe sol, din vaporii de apă, nu cade din nori."
+    ],
+    "answers": [
+     "Cu barometrul.",
+     "Cu anemometrul.",
+     "Cu aproximativ 6°C.",
+     "Spre zonele cu presiune scăzută.",
+     "Grindina."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l19": {
+   "ro": {
+    "title": "Vremea și clima",
+    "theory": "Vremea este starea atmosferei într-un loc și într-un moment (o zi, câteva ore): cald sau frig, ploaie, vânt. Prognoza meteo anticipează vremea pe baza măsurătorilor și a imaginilor din satelit. Clima este regimul obișnuit al vremii într-un loc, stabilit pe baza observațiilor din cel puțin 30 de ani. Factorii care influențează clima: latitudinea (unghiul razelor solare), altitudinea, depărtarea față de oceane (continentalismul), curenții oceanici, relieful (munții opresc masele de aer), vegetația și activitatea omului. Clima se reprezintă prin grafice (climograme) cu temperaturile și precipitațiile lunare.",
+    "sample": "Londra și Moscova au latitudini apropiate, dar iernile din Moscova sunt mult mai reci.",
+    "worked": "Londra este aproape de Oceanul Atlantic și de un curent cald; Moscova este departe de ocean, în interiorul continentului.",
+    "exercises": [
+     "Explică diferența dintre vreme și climă.",
+     "Enumeră factorii care influențează clima.",
+     "Explică de ce iernile sunt mai blânde lângă ocean.",
+     "Citește o climogramă dată.",
+     "Explică cum se face prognoza meteo."
+    ],
+    "test": [
+     "Ce este vremea?",
+     "Pe câți ani se stabilește clima?",
+     "Ce este continentalismul?",
+     "Cum influențează altitudinea clima?",
+     "Cum se numește graficul climei?"
+    ],
+    "steps": [
+     "Stabilește dacă vorbești despre o zi (vreme) sau despre mulți ani (climă).",
+     "Identifică factorii climatici ai locului.",
+     "Explică influența fiecăruia.",
+     "Greșeala frecventă: să spui că „clima de azi este ploioasă”; azi vorbim despre vreme."
+    ],
+    "answers": [
+     "Starea atmosferei într-un loc și într-un moment.",
+     "Pe cel puțin 30 de ani.",
+     "Influența depărtării de ocean asupra climei.",
+     "Temperatura scade cu înălțimea.",
+     "Climogramă."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l20": {
+   "ro": {
+    "title": "Zonele climatice ale Terrei",
+    "theory": "Din cauza formei sferice și a înclinării axei, Pământul primește căldură diferit, de la Ecuator spre poli, de aceea s-au format zone climatice. Zona caldă se află între tropice: temperaturi ridicate tot anul; cuprinde climatul ecuatorial (cald și umed), subecuatorial (cu anotimp ploios și secetos) și tropical (cu deșerturi). Zonele temperate, între tropice și cercurile polare, au patru anotimpuri și climate diferite: subtropical-mediteranean, temperat oceanic, temperat continental. Zonele reci, dincolo de cercurile polare, au ierni lungi și foarte geroase (climat subpolar și polar). Fiecare zonă climatică influențează apele, vegetația, animalele, solurile și viața oamenilor.",
+    "sample": "România se află în zona temperată, la jumătatea distanței dintre Ecuator și Polul Nord.",
+    "worked": "Poziția în zona temperată explică cele patru anotimpuri bine marcate și diferențele mari de temperatură dintre vară și iarnă.",
+    "exercises": [
+     "Explică de ce s-au format zone climatice.",
+     "Numește zonele climatice.",
+     "Descrie clima zonei calde.",
+     "Descrie climatul mediteranean.",
+     "Spune în ce zonă climatică se află România."
+    ],
+    "test": [
+     "Între ce linii se află zona caldă?",
+     "Ce climat are anotimp ploios și secetos?",
+     "Câte anotimpuri au zonele temperate?",
+     "Unde se află zonele reci?",
+     "În ce zonă se află România?"
+    ],
+    "steps": [
+     "Găsește pe glob tropicele și cercurile polare.",
+     "Delimitează zonele climatice.",
+     "Descrie temperaturile și precipitațiile fiecărei zone.",
+     "Greșeala frecventă: să crezi că în toată zona caldă plouă mult; aici sunt și cele mai mari deșerturi."
+    ],
+    "answers": [
+     "Între tropice.",
+     "Climatul subecuatorial.",
+     "Patru.",
+     "Dincolo de cercurile polare.",
+     "În zona temperată."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l21": {
+   "ro": {
+    "title": "Fenomene meteorologice extreme; avertizare și protecție",
+    "theory": "Fenomenele meteorologice extreme pot fi periculoase: furtunile cu descărcări electrice și grindină, tornadele (vârtejuri violente de aer), uraganele/taifunurile (cicloni tropicali uriași), viscolul, poleiul, canicula (temperaturi foarte mari mai multe zile), seceta. În România, Administrația Națională de Meteorologie emite avertizări cu coduri de culoare: galben, portocaliu, roșu (cel mai grav). Autoritățile pot trimite mesaje RO-ALERT pe telefon. Reguli: la furtună stai în interior, nu te adăposti sub copaci izolați; la caniculă bei apă și eviți soarele la amiază; la viscol nu pleci la drum; la polei mergi cu grijă.",
+    "sample": "Un mesaj RO-ALERT cu cod roșu de furtună cere oamenilor să rămână în locuințe.",
+    "worked": "Avertizările dau timp oamenilor să se protejeze; ignorarea lor pune viața în pericol.",
+    "exercises": [
+     "Numește cinci fenomene meteorologice extreme.",
+     "Explică ce înseamnă codurile de culoare.",
+     "Scrie regulile de comportament în timpul unei furtuni.",
+     "Scrie regulile pentru caniculă.",
+     "Explică ce este RO-ALERT."
+    ],
+    "test": [
+     "Ce este o tornadă?",
+     "Ce cod de culoare este cel mai grav?",
+     "Ce instituție emite avertizările meteo în România?",
+     "Unde nu trebuie să te adăpostești la furtună?",
+     "Ce este canicula?"
+    ],
+    "steps": [
+     "Află avertizarea și codul de culoare.",
+     "Identifică riscul fenomenului.",
+     "Aplică regulile de protecție.",
+     "Greșeala frecventă: să te adăpostești sub un copac izolat în timpul furtunii; trăsnetul lovește adesea copacii."
+    ],
+    "answers": [
+     "Un vârtej violent de aer.",
+     "Codul roșu.",
+     "Administrația Națională de Meteorologie.",
+     "Sub copaci izolați.",
+     "Temperaturi foarte mari timp de mai multe zile."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l22": {
+   "ro": {
+    "title": "Clima, vremea și activitatea umană în orizontul local",
+    "theory": "Vremea și clima influențează viața oamenilor: agricultura (perioadele de semănat și recoltă, seceta, înghețurile târzii), transporturile (zăpada, ceața, poleiul), construcțiile (izolarea caselor), turismul (stațiunile de iarnă și de vară), sănătatea și îmbrăcămintea. La rândul lor, oamenii influențează clima: orașele sunt mai calde decât zonele din jur („insula de căldură urbană”), poluarea aerului afectează sănătatea, iar emisiile de gaze cu efect de seră contribuie la încălzirea globală. Poți observa vremea din orizontul local notând zilnic temperatura, precipitațiile și vântul.",
+    "sample": "Vara, centrul unui oraș mare poate fi cu câteva grade mai cald decât satele din jur.",
+    "worked": "Asfaltul și clădirile absorb căldura, iar spațiile verzi puține nu răcoresc aerul.",
+    "exercises": [
+     "Notează vremea timp de o săptămână.",
+     "Explică influența vremii asupra agriculturii.",
+     "Explică ce este insula de căldură urbană.",
+     "Propune măsuri pentru reducerea căldurii în oraș.",
+     "Explică legătura dintre poluare și sănătate."
+    ],
+    "test": [
+     "Cum influențează înghețul târziu agricultura?",
+     "Ce fenomen face drumurile periculoase iarna?",
+     "Ce este insula de căldură urbană?",
+     "Ce contribuie la încălzirea globală?",
+     "Ce poți nota zilnic despre vreme?"
+    ],
+    "steps": [
+     "Observă vremea din localitate.",
+     "Leagă vremea de activitățile oamenilor.",
+     "Gândește-te cum influențează oamenii clima.",
+     "Greșeala frecventă: să crezi că omul nu poate influența clima; poluarea și orașele o schimbă."
+    ],
+    "answers": [
+     "Distruge florile și culturile abia răsărite.",
+     "Poleiul (sau zăpada, ceața).",
+     "Încălzirea mai puternică a orașelor față de zonele din jur.",
+     "Emisiile de gaze cu efect de seră.",
+     "Temperatura, precipitațiile și vântul."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l23": {
+   "ro": {
+    "title": "Hidrosfera – caracteristici generale și importanță",
+    "theory": "Hidrosfera este învelișul de apă al Pământului: oceane și mări, râuri, lacuri, ape subterane, ghețari, vapori de apă din atmosferă. Aproximativ 97% din apă este sărată (în oceane și mări), iar doar circa 3% este dulce; cea mai mare parte a apei dulci este înghețată în ghețari. Apa circulă continuu în natură (circuitul apei): se evaporă de pe oceane și uscat, formează nori, cade ca precipitații, se scurge pe râuri sau se infiltrează în sol și ajunge înapoi în ocean. Apa este esențială pentru viață, agricultură, industrie, energie, transport și turism.",
+    "sample": "Din toată apa Pământului, doar o parte foarte mică (sub 1%) este apă dulce lichidă ușor accesibilă oamenilor.",
+    "worked": "De aceea, apa potabilă este o resursă prețioasă, care trebuie economisită și protejată.",
+    "exercises": [
+     "Numește componentele hidrosferei.",
+     "Explică circuitul apei în natură.",
+     "Explică de ce apa dulce este o resursă rară.",
+     "Dă cinci exemple de folosire a apei.",
+     "Propune trei moduri de a economisi apa acasă."
+    ],
+    "test": [
+     "Ce este hidrosfera?",
+     "Ce procent din apă este sărată?",
+     "Unde se află cea mai mare parte a apei dulci?",
+     "Ce proces transformă apa în vapori?",
+     "Ce înseamnă infiltrare?"
+    ],
+    "steps": [
+     "Identifică formele în care se găsește apa.",
+     "Urmărește drumul apei în circuit.",
+     "Explică importanța ei pentru oameni.",
+     "Greșeala frecventă: să crezi că apa dulce este abundentă; cea mai mare parte este înghețată sau subterană."
+    ],
+    "answers": [
+     "Învelișul de apă al Pământului.",
+     "Aproximativ 97%.",
+     "În ghețari.",
+     "Evaporarea.",
+     "Pătrunderea apei în sol."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l24": {
+   "ro": {
+    "title": "Oceanul Planetar – componente și dinamică",
+    "theory": "Oceanul Planetar cuprinde patru oceane principale: Pacific (cel mai mare și cel mai adânc), Atlantic, Indian și Arctic (cel mai mic); unii geografi adaugă Oceanul Sudic, în jurul Antarcticii. Componentele: mări (deschise sau interioare – Marea Neagră), golfuri, strâmtori (Gibraltar, Bosfor). Apa mărilor are o salinitate medie de aproximativ 35‰ (35 g de săruri la un litru); Marea Neagră are circa 17–18‰, iar Marea Moartă depășește 300‰. Dinamica apelor: valurile (produse de vânt), mareele (creșterea și scăderea periodică a nivelului apei, produse de atracția Lunii și a Soarelui) și curenții oceanici (calzi – Golfstream; reci – Humboldt), care influențează clima.",
+    "sample": "Curentul cald al Golfului face ca porturile din nordul Norvegiei să nu înghețe iarna.",
+    "worked": "Curenții oceanici transportă căldură pe mii de kilometri și schimbă clima regiunilor de coastă.",
+    "exercises": [
+     "Numește oceanele principale.",
+     "Explică ce este o strâmtoare.",
+     "Explică diferența de salinitate dintre Marea Neagră și ocean.",
+     "Explică ce produce mareele.",
+     "Explică influența curenților asupra climei."
+    ],
+    "test": [
+     "Care este cel mai mare ocean?",
+     "Care este salinitatea medie a oceanului?",
+     "Ce strâmtoare leagă Marea Neagră de Marea Marmara?",
+     "Ce produce valurile?",
+     "Ce curent cald încălzește Europa de Vest?"
+    ],
+    "steps": [
+     "Localizează oceanul sau marea pe hartă.",
+     "Identifică componentele: mări, golfuri, strâmtori.",
+     "Explică mișcările apei.",
+     "Greșeala frecventă: să confunzi valurile cu mareele; valurile vin din vânt, mareele din atracția Lunii."
+    ],
+    "answers": [
+     "Oceanul Pacific.",
+     "Aproximativ 35‰.",
+     "Bosforul.",
+     "Vântul.",
+     "Curentul Golfului (Golfstream)."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l25": {
+   "ro": {
+    "title": "Apele continentale",
+    "theory": "Apele continentale sunt apele de pe uscat: izvoare, râuri, fluvii, lacuri, mlaștini și ape subterane. Un râu are izvor, curs (superior, mijlociu, inferior), albie, luncă, afluenți și gură de vărsare; vărsarea poate fi sub formă de deltă (Dunărea, Nil) sau estuar (Tamisa). Bazinul hidrografic este teritoriul de pe care un râu își adună apele. Fluviile cele mai lungi: Nil și Amazon (cel mai bogat în apă). Lacurile se formează în depresiuni naturale (tectonice – Baikal, cel mai adânc; glaciare; vulcanice; de baraj natural – Lacul Roșu; lagune) sau sunt create de om (lacuri de acumulare). Apele subterane se găsesc în straturi de roci permeabile și alimentează izvoarele și fântânile.",
+    "sample": "Lacul Baikal din Rusia este cel mai adânc lac din lume, de peste 1.600 m.",
+    "worked": "Lacurile tectonice se formează în fracturi ale scoarței, de aceea pot fi foarte adânci.",
+    "exercises": [
+     "Descrie părțile unui râu.",
+     "Explică diferența dintre deltă și estuar.",
+     "Explică ce este bazinul hidrografic.",
+     "Clasifică lacurile după origine.",
+     "Explică de unde provine apa fântânilor."
+    ],
+    "test": [
+     "Ce este un afluent?",
+     "Ce fluviu este cel mai bogat în apă?",
+     "Care este cel mai adânc lac?",
+     "Cum s-a format Lacul Roșu?",
+     "Ce este o deltă?"
+    ],
+    "steps": [
+     "Identifică tipul de apă continentală.",
+     "Descrie elementele și originea ei.",
+     "Localizează pe hartă exemple.",
+     "Greșeala frecventă: să confunzi lungimea cu debitul; Nilul este foarte lung, dar Amazonul transportă mult mai multă apă."
+    ],
+    "answers": [
+     "Un râu care se varsă în alt râu.",
+     "Amazonul.",
+     "Lacul Baikal.",
+     "Prin baraj natural, după o alunecare de teren.",
+     "O formă de vărsare cu brațe, formată din aluviuni."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l26": {
+   "ro": {
+    "title": "Ghețarii",
+    "theory": "Ghețarii sunt mase mari de gheață formate din zăpadă acumulată și tasată de-a lungul multor ani, care se mișcă lent. Ghețarii de calotă acoperă suprafețe uriașe: Antarctica și Groenlanda. Ghețarii montani se formează în munții înalți, deasupra limitei zăpezilor veșnice (Alpi, Himalaya, Anzi) și coboară pe văi. Ghețarii păstrează cea mai mare parte a apei dulci a planetei. În trecut, în perioadele glaciare, ghețarii au acoperit părți mari din Europa și America de Nord și au modelat relieful (circuri și văi glaciare, lacuri glaciare – în România, în Retezat și Făgăraș). Astăzi, mulți ghețari se topesc din cauza încălzirii globale, ceea ce ridică nivelul oceanului.",
+    "sample": "Topirea ghețarilor din Groenlanda și Antarctica contribuie la creșterea nivelului mării.",
+    "worked": "Creșterea nivelului mării amenință orașele și insulele joase de pe coaste.",
+    "exercises": [
+     "Explică cum se formează un ghețar.",
+     "Compară ghețarii de calotă cu cei montani.",
+     "Numește locurile cu ghețari de calotă.",
+     "Explică urmele lăsate de ghețari în Carpați.",
+     "Explică urmările topirii ghețarilor."
+    ],
+    "test": [
+     "Din ce se formează ghețarii?",
+     "Unde se află cei mai mari ghețari de calotă?",
+     "Ce urme glaciare există în Carpați?",
+     "Ce păstrează ghețarii?",
+     "Ce se întâmplă cu nivelul mării când ghețarii se topesc?"
+    ],
+    "steps": [
+     "Explică formarea gheții din zăpadă.",
+     "Clasifică ghețarul: de calotă sau montan.",
+     "Leagă ghețarii de climă și de nivelul mării.",
+     "Greșeala frecventă: să crezi că în Carpați există ghețari astăzi; au rămas doar urmele lor."
+    ],
+    "answers": [
+     "Din zăpadă acumulată și tasată.",
+     "În Antarctica și Groenlanda.",
+     "Circuri și lacuri glaciare.",
+     "Cea mai mare parte a apei dulci.",
+     "Crește."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l27": {
+   "ro": {
+    "title": "Apele din orizontul local; riscuri hidrologice și protecția apelor",
+    "theory": "Apele din orizontul local (râuri, pâraie, lacuri, fântâni) pot fi observate: debitul, culoarea, limpezimea, poluarea. Riscurile hidrologice sunt: viiturile (creșteri bruște ale nivelului râurilor), revărsările și inundațiile (după ploi torențiale sau topirea rapidă a zăpezii), podurile de gheață (blocarea râului de sloiuri), seceta hidrologică. Protecție: diguri, baraje, împăduriri, avertizări hidrologice (coduri galben, portocaliu, roșu). Reguli: urmărești avertizările, nu treci prin apă curgătoare, urci în locuri înalte, nu te apropii de malurile râurilor umflate. Apa potabilă trebuie protejată: nu aruncăm deșeuri în ape, folosim apa cu grijă, tratăm apele uzate.",
+    "sample": "În anul 2005, inundațiile din România au afectat sute de localități.",
+    "worked": "Inundațiile arată importanța digurilor, a pădurilor și a avertizărilor.",
+    "exercises": [
+     "Descrie o apă din orizontul local.",
+     "Explică ce este o viitură.",
+     "Explică ce este un pod de gheață.",
+     "Scrie regulile de comportament la inundații.",
+     "Propune măsuri pentru protejarea apelor."
+    ],
+    "test": [
+     "Ce este o inundație?",
+     "Ce provoacă viiturile?",
+     "Ce este un pod de gheață?",
+     "Ce construcții protejează de inundații?",
+     "Ce nu trebuie să faci într-o zonă inundată?"
+    ],
+    "steps": [
+     "Observă apa din localitate.",
+     "Identifică riscurile.",
+     "Aplică măsurile de protecție și de comportare.",
+     "Greșeala frecventă: să încerci să treci prin apa unei inundații; apa curgătoare poate doborî un om chiar dacă pare mică."
+    ],
+    "answers": [
+     "Acoperirea cu apă a unor terenuri de obicei uscate.",
+     "Ploile torențiale sau topirea rapidă a zăpezii.",
+     "Blocarea unui râu de sloiuri de gheață.",
+     "Digurile și barajele.",
+     "Să treci prin apă curgătoare."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l28": {
+   "ro": {
+    "title": "Plantele și animalele – factori care le influențează repartiția",
+    "theory": "Biosfera cuprinde toate viețuitoarele și mediile în care trăiesc. Plantele și animalele sunt răspândite diferit pe Pământ din cauza factorilor naturali: clima (temperatura și precipitațiile sunt cele mai importante), relieful și altitudinea (vegetația se etajează pe munți), apa, solul, dar și a omului (defrișări, agricultură, specii aduse din alte locuri, poluare). Animalele depind de vegetație pentru hrană și adăpost. Biodiversitatea (varietatea viețuitoarelor) este cea mai mare în pădurile ecuatoriale. Speciile pe cale de dispariție sunt protejate prin legi, rezervații și parcuri naționale.",
+    "sample": "Pe un munte înalt, urcând, treci prin păduri de foioase, apoi de conifere, apoi pajiști alpine, ca și cum ai merge de la Ecuator spre poli.",
+    "worked": "Etajarea vegetației pe munți se datorează scăderii temperaturii cu altitudinea.",
+    "exercises": [
+     "Enumeră factorii care influențează repartiția plantelor.",
+     "Explică etajarea vegetației pe munți.",
+     "Explică legătura dintre plante și animale.",
+     "Explică ce este biodiversitatea.",
+     "Dă exemple de acțiuni ale omului care afectează viețuitoarele."
+    ],
+    "test": [
+     "Ce este biosfera?",
+     "Care este factorul cel mai important pentru vegetație?",
+     "Unde este cea mai mare biodiversitate?",
+     "Ce este etajarea vegetației?",
+     "Cum sunt protejate speciile pe cale de dispariție?"
+    ],
+    "steps": [
+     "Identifică factorii naturali ai locului.",
+     "Leagă vegetația de climă și relief.",
+     "Adaugă animalele potrivite.",
+     "Greșeala frecventă: să crezi că omul nu influențează biosfera; defrișările și poluarea o schimbă mult."
+    ],
+    "answers": [
+     "Învelișul format din viețuitoare și mediile lor.",
+     "Clima.",
+     "În pădurile ecuatoriale.",
+     "Schimbarea vegetației cu altitudinea.",
+     "Prin legi, rezervații și parcuri naționale."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l29": {
+   "ro": {
+    "title": "Solul – resursă a vieții",
+    "theory": "Solul este stratul subțire, afânat și fertil de la suprafața uscatului, în care cresc plantele. El se formează foarte lent (câțiva centimetri în sute de ani) din rocă mărunțită, apă, aer, resturi de plante și animale descompuse (humus) și organisme vii (râme, bacterii). Fertilitatea este capacitatea solului de a hrăni plantele. Solurile diferă după climă și vegetație: cernoziomurile (negre, foarte fertile) în stepă, solurile brune în pădurile de foioase, solurile podzolice în taiga, lateritele roșii în zona caldă. Solul este afectat de eroziune, poluare, salinizare, betonare. Conservarea solului: împăduriri, agricultură corectă, arătura pe curbele de nivel, folosirea moderată a îngrășămintelor.",
+    "sample": "Un sol distrus de eroziune poate avea nevoie de sute de ani să se refacă.",
+    "worked": "De aceea solul este considerat o resursă practic neregenerabilă pe durata vieții unui om.",
+    "exercises": [
+     "Explică din ce este format solul.",
+     "Explică ce este humusul.",
+     "Compară cernoziomul cu solul de pădure.",
+     "Explică ce distruge solul.",
+     "Propune trei măsuri de conservare a solului."
+    ],
+    "test": [
+     "Ce este solul?",
+     "Ce este fertilitatea?",
+     "Cum se numesc solurile negre din stepă?",
+     "Cât de repede se formează solul?",
+     "Ce procese distrug solul?"
+    ],
+    "steps": [
+     "Identifică părțile solului.",
+     "Leagă tipul de sol de climă și vegetație.",
+     "Propune măsuri de protecție.",
+     "Greșeala frecventă: să crezi că solul se reface rapid; se formează în sute de ani."
+    ],
+    "answers": [
+     "Stratul afânat și fertil de la suprafața uscatului.",
+     "Capacitatea solului de a hrăni plantele.",
+     "Cernoziomuri.",
+     "Foarte lent: câțiva centimetri în sute de ani.",
+     "Eroziunea, poluarea, salinizarea, betonarea."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l30": {
+   "ro": {
+    "title": "Zonele naturale ale Terrei – legături între geosfere",
+    "theory": "Zonele naturale sunt regiuni mari în care relieful, clima, apele, vegetația, animalele și solurile formează un ansamblu. De la Ecuator spre poli găsim: pădurea ecuatorială (cald și umed tot anul, biodiversitate uriașă), savana (ierburi înalte, anotimp secetos, animale mari – elefanți, girafe), deșertul tropical (foarte uscat – Sahara), zona mediteraneană (veri secetoase, ierni blânde și ploioase, măslini), stepa (ierburi, soluri fertile), pădurea de foioase (patru anotimpuri), taigaua (păduri de conifere, ierni lungi), tundra (mușchi, licheni, sol înghețat permanent) și deșerturile reci (gheață). Fiecare geosferă le influențează pe celelalte: clima determină vegetația, vegetația determină solul și animalele.",
+    "sample": "România se află mai ales în zona pădurilor de foioase și a stepei, cu păduri de conifere la munte.",
+    "worked": "Zonele naturale explică de ce în țara noastră predomină fagul și stejarul, iar la munte molidul.",
+    "exercises": [
+     "Numește zonele naturale de la Ecuator spre poli.",
+     "Descrie pădurea ecuatorială.",
+     "Descrie savana.",
+     "Explică legăturile dintre climă, vegetație și sol.",
+     "Spune în ce zone naturale se află România."
+    ],
+    "test": [
+     "Ce vegetație are savana?",
+     "Care este cel mai mare deșert cald?",
+     "Ce plante cresc în tundră?",
+     "Ce copaci formează taigaua?",
+     "Ce climă are zona mediteraneană?"
+    ],
+    "steps": [
+     "Pornește de la Ecuator spre poli.",
+     "Descrie clima fiecărei zone.",
+     "Adaugă vegetația, animalele și solurile.",
+     "Greșeala frecventă: să crezi că zonele naturale sunt separate de linii exacte; ele trec treptat una în alta."
+    ],
+    "answers": [
+     "Ierburi înalte și arbori răzleți.",
+     "Sahara.",
+     "Mușchi și licheni.",
+     "Coniferele.",
+     "Veri secetoase și ierni blânde, ploioase."
+    ]
+   }
+  }
+ }
+}

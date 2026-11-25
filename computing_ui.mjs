@@ -28,7 +28,7 @@ function computingCurrent(){return COMPUTING_TOPICS_DATA.find(t=>t.id===computin
 function computingStopRequest(){computingJourney.serial++;computingJourney.request?.abort();computingJourney.request=null;computingJourney.busy=false}
 function computingStopVoice(){if(computingJourney.voice&&pocketNativeVoiceAvailable())pocketNativeVoiceSend({action:'stopListen'});computingJourney.voice=false;$('computingDictation')?.setAttribute('aria-pressed','false')}
 function computingStatus(txt){const n=$('computingStatus');if(n)n.textContent=txt}
-function computingBack(){computingStopRequest();computingStopVoice();if(state.speaking)stopSpeech();if(computingJourney.stage==='workspace')computingOpen('topics');else if(computingJourney.stage==='topics')computingOpen('paths');else if(computingJourney.stage==='paths')computingOpen('levels');else if(computingJourney.stage==='grade'||computingJourney.stage==='free-chat')computingOpen('levels');else renderLearningSubjects()}
+function computingBack(){computingStopRequest();computingStopVoice();if(state.speaking)stopSpeech();if(computingJourney.stage==='workspace')computingOpen('topics');else if(computingJourney.stage==='topics')computingOpen('paths');else if(computingJourney.stage==='national-lesson')computingOpen('national-chapters');else if(computingJourney.stage==='national-chapters')computingOpen((COMPUTING_NATIONAL.entries||[]).length>1?'national-tracks':'levels');else if(computingJourney.stage==='national-tracks')computingOpen('levels');else if(computingJourney.stage==='paths')computingOpen(COMPUTING_NATIONAL.pack?'national-chapters':'levels');else if(computingJourney.stage==='grade'||computingJourney.stage==='free-chat')computingOpen('levels');else renderLearningSubjects()}
 function computingVoiceHandleAndroid(data){
  if(data?.mode!=='computing')return false;
  if(computingJourney.stage!=='workspace')return true;
@@ -216,10 +216,10 @@ function computingOpen(stage){
  $('moduleTitle').textContent=computingLabel('Informatică','Computing');$('moduleLead').textContent='';host.replaceChildren();
  const bar=computingEl('div','','education-toolbar lit-toolbar');bar.append(computingBtn(computingLabel('← Înapoi','← Back'),computingBack));if(stage==='workspace')eduAttachPrintAction(bar);host.append(bar);
  const panel=computingEl('div','','math-choice-panel science-choice-panel lit-panel computing-panel');panel.style.cssText='min-width:0;max-width:100%;box-sizing:border-box;overflow-wrap:anywhere;';
- const titles={levels:['Alege nivelul','Choose level'],paths:['Alege ramura de studiu','Choose branch'],topics:['Capitole în ordine','Chapters in order'],workspace:['Spațiu de lucru','Workspace'],'free-chat':['Discută cu Eva','Chat with Eva']};
+ const titles={levels:['Alege nivelul','Choose level'],paths:['Alege ramura de studiu','Choose branch'],topics:['Capitole în ordine','Chapters in order'],workspace:['Spațiu de lucru','Workspace'],'free-chat':['Discută cu Eva','Chat with Eva'],'national-tracks':['Alege traseul','Choose your track'],'national-chapters':['Capitole în ordine','Chapters in order'],'national-lesson':['Lecție și activități','Lesson and activities']};
  const titleBar=computingEl('div','','computing-workspace-titlebar');
  titleBar.style.cssText='display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;min-width:0;';
- titleBar.append(computingEl('h2',computingLabel(...titles[stage])));
+ titleBar.append(computingEl('h2',computingLabel(...(stage==='national-tracks'&&computingJourney.level==='advanced'?['Alege anul de studiu','Choose your year']:titles[stage]))));
  if(stage==='workspace'){
   const fresh=computingBtn(computingLabel('＋ Conversație nouă','＋ New conversation'),()=>{
    if(state.speaking)stopSpeech();
@@ -230,8 +230,11 @@ function computingOpen(stage){
   titleBar.append(fresh);
  }
  panel.append(titleBar);host.append(panel);
- if(stage==='levels'){computingChoices(panel,COMPUTING_LEVELS_DATA.map(x=>({id:x.id,ro:x.ro,en:x.en,icon:({beginner:'🔢',lower:'🧩',medium:'💻',advanced:'🎓'})[x.id]||'📚',detailRo:computingGradeRange(x.id)[0],detailEn:computingGradeRange(x.id)[1]})),c=>{computingJourney.level=c.id;computingJourney.grade=null;computingJourney.path=null;computingJourney.topic=null;computingJourney.stage='grade';educationGradeGate('computing',c.id,grade=>{computingJourney.grade=grade;computingOpen('paths')},()=>computingOpen('levels'))});const free=computingBtn(computingLabel('💬 Discută liber cu Eva','💬 Free chat with Eva'),()=>computingOpen('free-chat'),'secondary-btn lit-option');free.id='computingFreeChatEntry';free.style.cssText='width:100%;margin-top:14px;white-space:normal;text-align:center;';panel.append(free);return}
+ if(stage==='levels'){computingChoices(panel,COMPUTING_LEVELS_DATA.map(x=>({id:x.id,ro:x.ro,en:x.en,icon:({beginner:'🔢',lower:'🧩',medium:'💻',advanced:'🎓'})[x.id]||'📚',detailRo:computingGradeRange(x.id)[0],detailEn:computingGradeRange(x.id)[1]})),c=>{computingJourney.level=c.id;computingJourney.grade=null;computingJourney.path=null;computingJourney.topic=null;computingJourney.stage='grade';educationGradeGate('computing',c.id,grade=>{computingJourney.grade=grade;computingWithNational(()=>computingOpen('paths'))},()=>computingOpen('levels'))});const free=computingBtn(computingLabel('💬 Discută liber cu Eva','💬 Free chat with Eva'),()=>computingOpen('free-chat'),'secondary-btn lit-option');free.id='computingFreeChatEntry';free.style.cssText='width:100%;margin-top:14px;white-space:normal;text-align:center;';panel.append(free);return}
  if(stage==='free-chat'){computingFreeChat(panel);return}
+ if(stage==='national-tracks'){computingRenderNationalTracks(panel);return}
+ if(stage==='national-chapters'){computingRenderNationalChapters(panel);return}
+ if(stage==='national-lesson'){computingRenderNationalLesson(panel);return}
  if(stage==='paths'){
   const lv=COMPUTING_LEVELS_DATA.find(x=>x.id===computingJourney.level);if(!lv){computingOpen('levels');return}
   computingParagraph(panel,computingLabel('Țara: ','Country: ')+educationCountrySelection.label+' · '+computingLabel('Clasa: ','Grade: ')+(computingJourney.grade||'')+'. '+computingLabel('Parcurs orientativ, ajustat nivelului școlar.','General learning adapted to the chosen school year.'));

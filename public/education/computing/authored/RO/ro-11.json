@@ -1,0 +1,1213 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "RO",
+ "stage": "medium",
+ "grade": "11",
+ "version": "69c8bd4e88540a8aa1d7797414938bf070b177eec94502f7117b64089b22d216",
+ "source": "https://rocnee.eu/images/rocnee/fisiere/programe_scolare/2023/TEHN/Informatica_teoretic_vocational_intensiv_clasa%20a%20XI-a.pdf",
+ "sourceTitle": "Programa școlară de Informatică, clasa a XI-a, filiera teoretică, profil real, specializarea matematică-informatică, intensiv informatică, Anexa nr. 5 la OMECI nr. 5099/09.09.2009 (7 ore pe săptămână) — metoda Backtracking, grafuri neorientate și orientate, arbori și arbori binari, heap-uri, metoda Greedy, programarea dinamică, analiza eficienței, elemente de programare orientată pe obiecte",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "ro",
+ "labels": [
+  "Activitate originală · România · Informatică · intensiv · Clasa a XI-a",
+  "Lecția pe înțeles",
+  "Exemplu",
+  "Ce ne arată exemplul",
+  "Exerciții",
+  "Test",
+  "Activități originale, făcute după programa școlară; nu înlocuiesc manualul sau ora de la clasă.",
+  "Dacă nu ai înțeles: pas cu pas",
+  "Răspunsuri (verifică după ce termini)"
+ ],
+ "units": [
+  {
+   "title": "Metoda Backtracking",
+   "keys": [
+    "eu-year-ro-medium-11-l01",
+    "eu-year-ro-medium-11-l02",
+    "eu-year-ro-medium-11-l03",
+    "eu-year-ro-medium-11-l04",
+    "eu-year-ro-medium-11-l05",
+    "eu-year-ro-medium-11-l06"
+   ]
+  },
+  {
+   "title": "Grafuri neorientate",
+   "keys": [
+    "eu-year-ro-medium-11-l07",
+    "eu-year-ro-medium-11-l08",
+    "eu-year-ro-medium-11-l09",
+    "eu-year-ro-medium-11-l10",
+    "eu-year-ro-medium-11-l11",
+    "eu-year-ro-medium-11-l12",
+    "eu-year-ro-medium-11-l13"
+   ]
+  },
+  {
+   "title": "Grafuri orientate",
+   "keys": [
+    "eu-year-ro-medium-11-l14",
+    "eu-year-ro-medium-11-l15",
+    "eu-year-ro-medium-11-l16",
+    "eu-year-ro-medium-11-l17"
+   ]
+  },
+  {
+   "title": "Arbori",
+   "keys": [
+    "eu-year-ro-medium-11-l18",
+    "eu-year-ro-medium-11-l19",
+    "eu-year-ro-medium-11-l20",
+    "eu-year-ro-medium-11-l21",
+    "eu-year-ro-medium-11-l22",
+    "eu-year-ro-medium-11-l23",
+    "eu-year-ro-medium-11-l24"
+   ]
+  },
+  {
+   "title": "Metoda Greedy",
+   "keys": [
+    "eu-year-ro-medium-11-l25",
+    "eu-year-ro-medium-11-l26"
+   ]
+  },
+  {
+   "title": "Programarea dinamică",
+   "keys": [
+    "eu-year-ro-medium-11-l27",
+    "eu-year-ro-medium-11-l28",
+    "eu-year-ro-medium-11-l29",
+    "eu-year-ro-medium-11-l30"
+   ]
+  },
+  {
+   "title": "Elemente de programare orientată pe obiecte",
+   "keys": [
+    "eu-year-ro-medium-11-l31",
+    "eu-year-ro-medium-11-l32"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-ro-medium-11-l01": {
+   "ro": {
+    "title": "Principiul metodei Backtracking",
+    "theory": "Backtracking se folosește când trebuie generate toate soluțiile (sau o soluție) unei probleme, iar soluția are forma unui vector x[1..n], cu fiecare x[k] ales dintr-o mulțime finită. Metoda construiește soluția pas cu pas: pe poziția k încearcă pe rând fiecare valoare posibilă; dacă valoarea este compatibilă cu alegerile anterioare (condiții de continuare), trece la poziția k + 1; dacă nu mai există valori pentru poziția k, se întoarce la poziția k − 1 și încearcă următoarea valoare acolo. Când s-au completat toate pozițiile, avem o soluție, pe care o afișăm. Implementarea recursivă: void bt(int k) { for (fiecare valoare v) { x[k] = v; if (valid(k)) { if (k == n) afis(); else bt(k + 1); } } }. Complexitatea este de obicei exponențială, de aceea condițiile de continuare trebuie să taie cât mai devreme ramurile fără soluții.",
+    "sample": "Generăm toate cuvintele de 2 litere din {a, b} fără restricții: x[1] = a, x[2] = a → aa; x[2] = b → ab; întoarcere la k = 1: x[1] = b → ba, bb. Patru soluții, în ordine lexicografică.",
+    "worked": "Metoda parcurge sistematic arborele tuturor alegerilor. Ordinea încercării valorilor dă direct ordinea lexicografică a soluțiilor.",
+    "exercises": [
+     "Descrie forma soluției pentru o problemă dată.",
+     "Scrie schema generală recursivă a metodei.",
+     "Desenează arborele de alegeri pentru cuvintele de 3 litere din {0, 1}.",
+     "Explică rolul condițiilor de continuare.",
+     "Estimează numărul de soluții pentru produsul cartezian a n mulțimi cu câte m elemente."
+    ],
+    "test": [
+     "Ce formă are soluția în Backtracking?",
+     "Ce se întâmplă când nu mai există valori pentru poziția k?",
+     "Ce sunt condițiile de continuare?",
+     "Când afișăm o soluție?",
+     "Ce complexitate are de obicei metoda?"
+    ],
+    "steps": [
+     "Stabilește forma soluției și mulțimea valorilor pentru fiecare poziție.",
+     "Scrie condițiile de continuare care verifică doar poziția nouă față de cele anterioare.",
+     "Implementează schema recursivă și verifică ordinea și numărul soluțiilor pe un caz mic.",
+     "Greșeala frecventă: să verifici validitatea abia la soluția completă; programul generează inutil milioane de variante."
+    ],
+    "answers": [
+     "Un vector x[1..n], fiecare element dintr-o mulțime finită.",
+     "Se revine la poziția k − 1 și se încearcă următoarea valoare.",
+     "Condițiile pe care trebuie să le îndeplinească alegerea curentă față de cele anterioare.",
+     "Când toate cele n poziții sunt completate valid.",
+     "Exponențială."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l02": {
+   "ro": {
+    "title": "Generarea permutărilor",
+    "theory": "O permutare a mulțimii {1, 2, …, n} este o aranjare a tuturor elementelor în altă ordine; există n! permutări. Cu Backtracking: x[k] ia valori de la 1 la n, iar condiția de continuare este ca x[k] să fie diferit de x[1], …, x[k − 1]. Optimizare: un vector folosit[v] marchează valorile deja puse în soluție, ca verificarea să fie O(1): înainte de autoapel folosit[v] = 1, după revenire folosit[v] = 0. Soluțiile apar în ordine lexicografică. Variante: permutări ale unei mulțimi oarecare (sortăm elementele și generăm pozițiile), permutări cu restricții (elementele vecine să difere prin mai mult de 1, prima valoare pară etc.) – restricțiile se adaugă în condiția de continuare.",
+    "sample": "n = 3: 123, 132, 213, 231, 312, 321 – adică 3! = 6 permutări. La 1 2 _, singura valoare liberă este 3; după afișare, revenim și încercăm 1 3 _.",
+    "worked": "Vectorul folosit împiedică repetarea valorilor. Resetarea lui folosit[v] la revenire este esențială, altfel valorile ar rămâne blocate pentru ramurile următoare.",
+    "exercises": [
+     "Generează permutările lui {1, …, n}.",
+     "Generează permutările în care elementele vecine nu sunt consecutive.",
+     "Generează permutările unei mulțimi de litere.",
+     "Numără permutările cu primul element par.",
+     "Afișează a k-a permutare în ordine lexicografică."
+    ],
+    "test": [
+     "Câte permutări are o mulțime cu n elemente?",
+     "Ce condiție de continuare au permutările?",
+     "Ce rol are vectorul folosit?",
+     "De ce resetăm folosit[v] la revenire?",
+     "În ce ordine apar soluțiile?"
+    ],
+    "steps": [
+     "Pentru fiecare poziție, încearcă valorile încă nefolosite.",
+     "Marchează valoarea înainte de autoapel și demarchează după revenire.",
+     "Verifică numărul de soluții (n!) pe un caz mic.",
+     "Greșeala frecventă: să uiți folosit[v] = 0 după revenire; programul generează doar prima permutare."
+    ],
+    "answers": [
+     "n!.",
+     "x[k] diferit de toate elementele anterioare.",
+     "Marchează valorile deja puse în soluție.",
+     "Ca valoarea să poată fi folosită în ramurile următoare.",
+     "Lexicografică."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l03": {
+   "ro": {
+    "title": "Aranjamente și combinări",
+    "theory": "Aranjamentele de n luate câte k sunt șiruri de k elemente distincte din {1, …, n}, în care ordinea contează; numărul lor este n! / (n − k)!. Se generează ca permutările, dar soluția are k poziții. Combinările de n luate câte k sunt submulțimi cu k elemente, în care ordinea nu contează; numărul lor este n! / (k! (n − k)!). Pentru a nu genera aceeași submulțime în ordini diferite, impunem ordinea crescătoare: x[i] > x[i − 1]. Astfel x[i] ia valori de la x[i − 1] + 1 la n − k + i (limita superioară lasă loc pentru elementele care urmează). Aplicații: alegerea unei echipe (combinări), stabilirea unui podium (aranjamente).",
+    "sample": "Combinări de 4 câte 2: 12, 13, 14, 23, 24, 34 – adică 6. Aranjamente de 4 câte 2: 12, 13, 14, 21, 23, 24, 31, … – adică 12, de două ori mai multe, pentru că 12 și 21 sunt diferite.",
+    "worked": "Ordinea crescătoare elimină dublurile la combinări. La aranjamente, ordinea contează, deci fiecare combinare apare în k! = 2 ordini.",
+    "exercises": [
+     "Generează aranjamentele de n luate câte k.",
+     "Generează combinările de n luate câte k.",
+     "Alege echipe de 3 elevi dintr-o clasă cu restricția ca doi elevi anume să nu fie împreună.",
+     "Generează submulțimile cu suma elementelor egală cu S.",
+     "Explică de ce limita superioară n − k + i optimizează combinările."
+    ],
+    "test": [
+     "În ce diferă aranjamentele de combinări?",
+     "Câte combinări de 5 câte 2 există?",
+     "Ce condiție elimină dublurile la combinări?",
+     "Câte aranjamente de 4 câte 2 există?",
+     "Ce limită superioară are x[i] la combinări?"
+    ],
+    "steps": [
+     "Decide dacă ordinea contează (aranjamente) sau nu (combinări).",
+     "La combinări, pornește fiecare poziție de la x[i − 1] + 1.",
+     "Verifică numărul de soluții cu formula pe un caz mic.",
+     "Greșeala frecventă: să generezi combinări fără ordinea crescătoare; fiecare submulțime apare de mai multe ori."
+    ],
+    "answers": [
+     "La aranjamente ordinea contează, la combinări nu.",
+     "10.",
+     "x[i] > x[i − 1].",
+     "12.",
+     "n − k + i."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l04": {
+   "ro": {
+    "title": "Submulțimi și produs cartezian",
+    "theory": "Submulțimile unei mulțimi cu n elemente se pot genera cu Backtracking pe un vector caracteristic: x[i] = 1 dacă elementul i aparține submulțimii, 0 altfel – adică produsul cartezian {0, 1}ⁿ, cu 2ⁿ soluții. O altă variantă generează submulțimile ca combinări de toate lungimile, în ordine crescătoare a elementelor. Produsul cartezian A₁ × A₂ × … × Aₙ generează toate tuplurile cu x[i] din Aᵢ; dacă Aᵢ are mᵢ elemente, sunt m₁ · m₂ · … · mₙ tupluri; nu există condiții de continuare, toate alegerile sunt valide. Aplicații: toate meniurile posibile (supă, fel principal, desert), toate codurile de lungime n dintr-un alfabet, toate submulțimile care respectă o condiție.",
+    "sample": "Submulțimile lui {a, b, c} prin vector caracteristic: 000 = ∅, 001 = {c}, 010 = {b}, 011 = {b, c}, 100 = {a}, … 111 = {a, b, c}. Sunt 2³ = 8.",
+    "worked": "Vectorul caracteristic transformă problema submulțimilor într-un produs cartezian simplu. Numărul de soluții se dublează cu fiecare element nou.",
+    "exercises": [
+     "Generează toate submulțimile unei mulțimi.",
+     "Generează produsul cartezian a trei mulțimi date.",
+     "Generează toate numerele de n cifre cu cifre din {1, 3, 5}.",
+     "Afișează submulțimile cu suma pară.",
+     "Generează toate meniurile dintr-o listă de feluri."
+    ],
+    "test": [
+     "Câte submulțimi are o mulțime cu n elemente?",
+     "Ce este vectorul caracteristic?",
+     "Câte elemente are A × B dacă |A| = 3 și |B| = 4?",
+     "Are produsul cartezian condiții de continuare?",
+     "Ce reprezintă 101 pentru mulțimea {a, b, c}?"
+    ],
+    "steps": [
+     "Stabilește mulțimea de valori pentru fiecare poziție.",
+     "Generează toate combinațiile poziție cu poziție.",
+     "Adaugă filtrul cerut la soluția completă sau, dacă se poate, mai devreme.",
+     "Greșeala frecventă: să generezi 2ⁿ submulțimi pentru n = 40; numărul este prea mare pentru orice calculator."
+    ],
+    "answers": [
+     "2ⁿ.",
+     "Un vector cu 1 pentru elementele incluse și 0 pentru celelalte.",
+     "12.",
+     "Nu.",
+     "Submulțimea {a, c}."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l05": {
+   "ro": {
+    "title": "Partițiile unui număr și plata unei sume",
+    "theory": "O partiție a numărului natural n este o scriere a lui n ca sumă de numere naturale nenule, fără a ține cont de ordinea termenilor: 4 = 4 = 3 + 1 = 2 + 2 = 2 + 1 + 1 = 1 + 1 + 1 + 1. Pentru a evita dublurile, generăm termenii în ordine descrescătoare (sau crescătoare). Soluția nu are lungime fixă: reținem suma parțială s, iar când s == n afișăm soluția; dacă s > n, renunțăm. Problema plății unei sume S cu bancnote de valori date (în cantități nelimitate) este asemănătoare: x[k] este bancnota aleasă, valorile în ordine nedescrescătoare, iar oprirea are loc la sumă exactă. Variante: plata cu număr minim de bancnote (păstrăm cea mai bună soluție), partiții cu termeni distincți.",
+    "sample": "Partițiile lui 5 cu termeni descrescători: 5; 4 1; 3 2; 3 1 1; 2 2 1; 2 1 1 1; 1 1 1 1 1 – 7 partiții.",
+    "worked": "Ordinea descrescătoare a termenilor garantează că 3 + 2 și 2 + 3 nu apar ca soluții diferite. Suma parțială taie ramurile care depășesc 5.",
+    "exercises": [
+     "Generează partițiile lui n.",
+     "Generează partițiile lui n cu termeni distincți.",
+     "Afișează toate modurile de a plăti o sumă cu bancnote de 1, 5 și 10.",
+     "Găsește plata cu cel mai mic număr de bancnote.",
+     "Numără partițiile lui n în cel mult k termeni."
+    ],
+    "test": [
+     "Ce este o partiție a unui număr?",
+     "Cum evităm partițiile repetate?",
+     "Când afișăm o soluție la partiții?",
+     "Ce facem dacă suma parțială depășește n?",
+     "Câte partiții are numărul 4?"
+    ],
+    "steps": [
+     "Impune o ordine a termenilor pentru a evita dublurile.",
+     "Reține suma parțială și oprește ramura când o depășește.",
+     "Afișează soluția la sumă exactă și verifică pe un număr mic.",
+     "Greșeala frecventă: să nu impui ordinea termenilor; obții 3 + 1 și 1 + 3 ca partiții diferite."
+    ],
+    "answers": [
+     "Scrierea lui n ca sumă de numere naturale nenule, fără să conteze ordinea.",
+     "Generăm termenii în ordine descrescătoare (sau crescătoare).",
+     "Când suma parțială este egală cu n.",
+     "Renunțăm la ramură (revenim).",
+     "5."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l06": {
+   "ro": {
+    "title": "Backtracking în plan: labirint și probleme pe tablă",
+    "theory": "Backtracking se aplică și pe o matrice: un labirint în care 0 este liber și 1 este zid; căutăm drumurile de la o poziție de start la ieșire. Din poziția (i, j) încercăm cele patru direcții, folosind vectorii de deplasare di = {−1, 0, 1, 0}, dj = {0, 1, 0, −1}. O mutare este validă dacă rămânem în matrice, celula este liberă și nu a fost deja vizitată pe drumul curent. Marcăm celula vizitată înainte de autoapel și o demarcăm la revenire, ca să poată fi folosită de alte drumuri. Bordarea matricei cu ziduri simplifică verificarea limitelor. Alte probleme clasice: problema celor n regine (câte o regină pe fiecare linie, fără atac pe coloane și diagonale) și săritura calului.",
+    "sample": "Problema celor 4 regine: x[k] este coloana reginei de pe linia k. Condiția: x[k] ≠ x[i] și |x[k] − x[i]| ≠ k − i. Soluțiile: 2 4 1 3 și 3 1 4 2.",
+    "worked": "Reprezentarea prin vector pune automat câte o regină pe linie. Condiția pe diagonale compară diferența de coloane cu diferența de linii.",
+    "exercises": [
+     "Afișează toate drumurile dintr-un labirint.",
+     "Găsește drumul cel mai scurt dintr-un labirint prin Backtracking.",
+     "Rezolvă problema celor n regine.",
+     "Numără soluțiile pentru 8 regine.",
+     "Explică de ce demarcăm celula la revenire."
+    ],
+    "test": [
+     "Ce vectori folosim pentru cele patru direcții?",
+     "Când este validă o mutare în labirint?",
+     "De ce bordăm matricea?",
+     "Ce condiție verifică diagonalele la regine?",
+     "De ce demarcăm celula la întoarcere?"
+    ],
+    "steps": [
+     "Stabilește pozițiile, mutările posibile și condițiile de validitate.",
+     "Marchează celula înainte de autoapel și demarchează după.",
+     "Testează pe un labirint mic desenat pe hârtie.",
+     "Greșeala frecventă: să nu demarchezi celula la revenire; drumurile alternative care trec prin ea se pierd."
+    ],
+    "answers": [
+     "di = {−1, 0, 1, 0} și dj = {0, 1, 0, −1}.",
+     "Rămâne în matrice, celula e liberă și nevizitată pe drumul curent.",
+     "Ca să nu verificăm separat limitele matricei.",
+     "|x[k] − x[i]| ≠ k − i.",
+     "Ca alte drumuri să poată trece prin ea."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l07": {
+   "ro": {
+    "title": "Grafuri neorientate: noțiuni de bază",
+    "theory": "Un graf neorientat G = (X, U) este format dintr-o mulțime de noduri (vârfuri) X și o mulțime de muchii U; o muchie [x, y] leagă două noduri, fără sens. Două noduri legate printr-o muchie sunt adiacente, iar muchia este incidentă cu ele. Gradul unui nod, d(x), este numărul de muchii incidente cu el; un nod cu grad 0 este izolat, unul cu grad 1 este terminal. Proprietate: suma gradelor tuturor nodurilor este 2m (fiecare muchie se numără la ambele capete), deci numărul nodurilor cu grad impar este par. Un lanț este o succesiune de noduri în care oricare două consecutive sunt adiacente; este elementar dacă nodurile sunt distincte. Un ciclu este un lanț închis cu muchii distincte. Lungimea unui lanț este numărul de muchii.",
+    "sample": "Graful cu nodurile 1–5 și muchiile [1,2], [1,3], [2,3], [3,4]: d(1) = 2, d(2) = 2, d(3) = 3, d(4) = 1, d(5) = 0. Suma gradelor 8 = 2 · 4 muchii. Lanțul 1, 2, 3, 4 are lungimea 3, iar 1, 2, 3, 1 este un ciclu.",
+    "worked": "Nodul 5 este izolat, nodul 4 terminal. Verificarea sumei gradelor confirmă numărarea corectă a muchiilor.",
+    "exercises": [
+     "Calculează gradele nodurilor unui graf dat.",
+     "Verifică dacă o succesiune de noduri este lanț.",
+     "Găsește un ciclu elementar de lungime 3.",
+     "Demonstrează că numărul nodurilor de grad impar este par.",
+     "Modelează prin graf prieteniile dintr-un grup."
+    ],
+    "test": [
+     "Ce este gradul unui nod?",
+     "Cât este suma gradelor într-un graf cu m muchii?",
+     "Ce este un nod izolat?",
+     "Ce este un lanț elementar?",
+     "Ce este un ciclu?"
+    ],
+    "steps": [
+     "Desenează graful din lista muchiilor.",
+     "Calculează gradele și verifică suma 2m.",
+     "Identifică lanțuri și cicluri urmărind muchiile pe desen.",
+     "Greșeala frecventă: să numeri o muchie o singură dată la suma gradelor; fiecare muchie contribuie la gradele ambelor capete."
+    ],
+    "answers": [
+     "Numărul de muchii incidente cu nodul.",
+     "2m.",
+     "Un nod cu gradul 0.",
+     "Un lanț cu noduri distincte.",
+     "Un lanț închis cu muchii distincte."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l08": {
+   "ro": {
+    "title": "Reprezentarea grafurilor",
+    "theory": "Matricea de adiacență a[n][n]: a[i][j] = 1 dacă există muchia [i, j], altfel 0; pentru grafuri neorientate este simetrică, iar suma liniei i este gradul lui i. Ocupă n² memorie și verifică o muchie în O(1). Listele de adiacență: pentru fiecare nod, lista vecinilor (vector<int> L[n] în C++); ocupă n + 2m memorie și sunt eficiente pentru parcurgeri. Lista muchiilor: un tablou de perechi (x, y), utilă la algoritmul lui Kruskal. Pentru grafuri ponderate folosim matricea costurilor (c[i][j] = costul muchiei sau infinit dacă nu există). Datele se citesc de obicei astfel: n, m, apoi m perechi de noduri. Alegerea reprezentării depinde de mărimea grafului și de operațiile necesare.",
+    "sample": "n = 4, muchiile [1,2], [1,3], [3,4]. Matricea: linia 1 = 0 1 1 0; linia 2 = 1 0 0 0; linia 3 = 1 0 0 1; linia 4 = 0 0 1 0. Listele: 1: 2, 3; 2: 1; 3: 1, 4; 4: 3.",
+    "worked": "Matricea are 16 elemente, dintre care doar 6 sunt 1; listele rețin doar vecinii. Pentru grafuri mari și rare, listele economisesc multă memorie.",
+    "exercises": [
+     "Construiește matricea de adiacență din lista muchiilor.",
+     "Construiește listele de adiacență în C++.",
+     "Calculează gradele din matrice.",
+     "Transformă matricea în listă de muchii.",
+     "Alege reprezentarea pentru un graf cu 10⁵ noduri și 2·10⁵ muchii."
+    ],
+    "test": [
+     "Ce înseamnă a[i][j] = 1?",
+     "De ce matricea unui graf neorientat este simetrică?",
+     "Câtă memorie ocupă listele de adiacență?",
+     "Ce reprezentare este utilă la Kruskal?",
+     "Ce conține matricea costurilor?"
+    ],
+    "steps": [
+     "Citește n, m și muchiile.",
+     "Completează reprezentarea, punând fiecare muchie în ambele sensuri pentru grafuri neorientate.",
+     "Verifică afișând reprezentarea și gradele.",
+     "Greșeala frecventă: să marchezi doar a[x][y], fără a[y][x], la un graf neorientat."
+    ],
+    "answers": [
+     "Există muchie între nodurile i și j.",
+     "Pentru că muchia [i, j] este aceeași cu [j, i].",
+     "n + 2m.",
+     "Lista muchiilor.",
+     "Costurile muchiilor, cu infinit unde nu există muchie."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l09": {
+   "ro": {
+    "title": "Graf parțial, subgraf și grafuri speciale",
+    "theory": "Un graf parțial se obține păstrând toate nodurile și eliminând unele muchii; un subgraf se obține eliminând unele noduri împreună cu muchiile incidente lor. Grafuri speciale: graful complet Kₙ are muchie între oricare două noduri, deci n(n − 1)/2 muchii; graful bipartit are nodurile împărțite în două mulțimi, cu muchii doar între mulțimi (verificarea se face colorând nodurile cu două culori prin parcurgere); graful regulat are toate nodurile de același grad. Numărul de grafuri neorientate cu n noduri date este 2^(n(n − 1)/2), pentru că fiecare muchie posibilă poate exista sau nu. Graful complementar are muchiile care lipsesc din graful inițial.",
+    "sample": "K₄ are 4 · 3 / 2 = 6 muchii. Dacă eliminăm muchia [1, 2], obținem un graf parțial cu 5 muchii; dacă eliminăm nodul 4, obținem subgraful K₃, cu 3 muchii.",
+    "worked": "Graful parțial păstrează nodurile și pierde muchii; subgraful pierde noduri și, odată cu ele, toate muchiile lor.",
+    "exercises": [
+     "Calculează numărul de muchii ale lui K₁₀.",
+     "Construiește un graf parțial și un subgraf dintr-un graf dat.",
+     "Verifică dacă un graf este complet.",
+     "Verifică dacă un graf este bipartit prin colorare.",
+     "Calculează numărul de grafuri neorientate cu 4 noduri."
+    ],
+    "test": [
+     "Ce este un graf parțial?",
+     "Ce este un subgraf?",
+     "Câte muchii are Kₙ?",
+     "Ce este un graf bipartit?",
+     "Ce este un graf regulat?"
+    ],
+    "steps": [
+     "Identifică ce se elimină: muchii (graf parțial) sau noduri (subgraf).",
+     "Aplică definiția și elimină și muchiile incidente nodurilor eliminate.",
+     "Verifică proprietățile speciale prin numărare sau colorare.",
+     "Greșeala frecventă: să lași în subgraf muchii care au un capăt într-un nod eliminat."
+    ],
+    "answers": [
+     "Un graf cu aceleași noduri și doar o parte dintre muchii.",
+     "Un graf obținut prin eliminarea unor noduri și a muchiilor lor.",
+     "n(n − 1)/2.",
+     "Un graf cu nodurile în două mulțimi și muchii doar între mulțimi.",
+     "Un graf cu toate nodurile de același grad."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l10": {
+   "ro": {
+    "title": "Parcurgerea în lățime (BFS)",
+    "theory": "Parcurgerea în lățime vizitează nodurile pe niveluri: întâi nodul de start, apoi toți vecinii lui, apoi vecinii vecinilor și așa mai departe. Folosește o coadă și un vector viz. Algoritmul: punem startul în coadă și îl marcăm; cât timp coada nu este goală, scoatem nodul din față și adăugăm în coadă toți vecinii lui nevizitați, marcându-i la adăugare. Complexitatea este O(n + m) cu liste de adiacență și O(n²) cu matrice. Într-un graf neponderat, BFS găsește distanța minimă (numărul minim de muchii) de la start la fiecare nod: d[vecin] = d[nod] + 1. Reținând tatăl fiecărui nod, putem reconstitui lanțul minim.",
+    "sample": "Graful 1–2, 1–3, 2–4, 3–4, 4–5, start 1: coada 1 → vizităm 2, 3 → din 2 vizităm 4 → din 3 nimic nou → din 4 vizităm 5. Ordinea: 1 2 3 4 5; distanțele: 0, 1, 1, 2, 3.",
+    "worked": "Nodurile au fost vizitate în ordinea distanței de la start. Nodul 4 a fost marcat la prima descoperire, din 2, și nu a fost adăugat a doua oară din 3.",
+    "exercises": [
+     "Implementează BFS cu liste de adiacență.",
+     "Calculează distanțele minime de la un nod la toate celelalte.",
+     "Reconstituie lanțul minim între două noduri.",
+     "Află cel mai scurt drum într-un labirint folosind BFS (algoritmul lui Lee).",
+     "Verifică dacă un graf este bipartit cu BFS."
+    ],
+    "test": [
+     "Ce structură de date folosește BFS?",
+     "În ce ordine vizitează BFS nodurile?",
+     "Ce complexitate are BFS cu liste?",
+     "Ce calculează BFS într-un graf neponderat?",
+     "Când marcăm un nod ca vizitat?"
+    ],
+    "steps": [
+     "Pune startul în coadă și marchează-l.",
+     "Scoate nodul din față și adaugă vecinii nevizitați, marcându-i imediat.",
+     "Repetă până se golește coada și verifică distanțele pe desen.",
+     "Greșeala frecventă: să marchezi nodul abia la scoaterea din coadă; același nod poate fi adăugat de mai multe ori."
+    ],
+    "answers": [
+     "O coadă.",
+     "Pe niveluri, în ordinea distanței de la start.",
+     "O(n + m).",
+     "Distanța minimă, în număr de muchii.",
+     "La adăugarea în coadă."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l11": {
+   "ro": {
+    "title": "Parcurgerea în adâncime (DFS)",
+    "theory": "Parcurgerea în adâncime pornește din nodul de start și merge cât mai departe pe un drum, trecând mereu la primul vecin nevizitat; când nodul curent nu mai are vecini nevizitați, se întoarce la nodul anterior. Implementarea naturală este recursivă: void dfs(int x) { viz[x] = 1; for (fiecare vecin y al lui x) if (!viz[y]) dfs(y); }. Poate fi scrisă și iterativ, cu o stivă. Complexitatea este O(n + m) cu liste. DFS stă la baza multor algoritmi: componente conexe, detectarea ciclurilor, sortarea topologică, componentele tare conexe. Ordinea vizitării depinde de ordinea vecinilor în reprezentare.",
+    "sample": "Același graf (1–2, 1–3, 2–4, 3–4, 4–5), start 1, vecinii în ordine crescătoare: 1 → 2 → 4 → 3 (vecin al lui 4) → întoarcere la 4 → 5. Ordinea: 1 2 4 3 5.",
+    "worked": "DFS a mers în adâncime pe 1, 2, 4, 3 înainte să viziteze 5. Comparativ, BFS dă 1 2 3 4 5: aceleași noduri, ordine diferită.",
+    "exercises": [
+     "Implementează DFS recursiv.",
+     "Implementează DFS iterativ cu o stivă.",
+     "Compară ordinea DFS și BFS pe același graf.",
+     "Detectează dacă un graf neorientat conține un ciclu.",
+     "Numără nodurile accesibile dintr-un nod dat."
+    ],
+    "test": [
+     "Ce structură folosește implicit DFS recursiv?",
+     "Ce face DFS când nodul curent nu mai are vecini nevizitați?",
+     "Ce complexitate are DFS cu liste?",
+     "Pentru ce algoritmi se folosește DFS?",
+     "De ce poate diferi ordinea DFS pentru același graf?"
+    ],
+    "steps": [
+     "Marchează nodul curent ca vizitat.",
+     "Apelează recursiv pentru fiecare vecin nevizitat.",
+     "Urmărește pe desen ordinea vizitării și întoarcerile.",
+     "Greșeala frecventă: să nu marchezi nodul înainte de a-i parcurge vecinii; recursivitatea poate cicla la nesfârșit."
+    ],
+    "answers": [
+     "Stiva apelurilor.",
+     "Se întoarce la nodul din care a venit.",
+     "O(n + m).",
+     "Componente conexe, cicluri, sortare topologică, componente tare conexe.",
+     "Depinde de ordinea vecinilor în reprezentare."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l12": {
+   "ro": {
+    "title": "Conexitate și componente conexe",
+    "theory": "Un graf neorientat este conex dacă între oricare două noduri există un lanț. O componentă conexă este un subgraf conex maximal (nu mai poate fi extins cu alte noduri păstrând conexitatea). Componentele conexe se determină prin parcurgeri: pornim o parcurgere (DFS sau BFS) din primul nod nevizitat; toate nodurile vizitate formează o componentă; repetăm cât timp mai există noduri nevizitate. Numărul de parcurgeri pornite este numărul de componente. Un graf conex cu n noduri are cel puțin n − 1 muchii. Pentru a face conex un graf cu c componente, trebuie adăugate minimum c − 1 muchii. Aplicații: rețele de calculatoare, grupuri de prieteni, insule pe o hartă (componente într-o matrice).",
+    "sample": "Graful cu nodurile 1–7 și muchiile [1,2], [2,3], [4,5], [6,7]: DFS din 1 vizitează {1, 2, 3}; din 4 – {4, 5}; din 6 – {6, 7}. Trei componente; sunt necesare 2 muchii pentru a-l face conex.",
+    "worked": "Fiecare parcurgere nouă a pornit dintr-un nod nevizitat și a descoperit o componentă întreagă. Numărul de muchii necesare este c − 1 = 2.",
+    "exercises": [
+     "Verifică dacă un graf este conex.",
+     "Numără componentele conexe și afișează nodurile fiecăreia.",
+     "Calculează numărul minim de muchii pentru a face graful conex.",
+     "Numără insulele dintr-o matrice de 0 și 1.",
+     "Găsește componenta conexă cu cele mai multe noduri."
+    ],
+    "test": [
+     "Când este un graf conex?",
+     "Ce este o componentă conexă?",
+     "Cum numărăm componentele?",
+     "Câte muchii are minimum un graf conex cu n noduri?",
+     "Câte muchii trebuie adăugate pentru c componente?"
+    ],
+    "steps": [
+     "Parcurge nodurile și pornește o parcurgere din fiecare nod nevizitat.",
+     "Notează nodurile vizitate în fiecare parcurgere ca o componentă.",
+     "Verifică pe desen că fiecare nod apare într-o singură componentă.",
+     "Greșeala frecventă: să resetezi vectorul viz între parcurgeri; componentele se numără de mai multe ori."
+    ],
+    "answers": [
+     "Când între oricare două noduri există un lanț.",
+     "Un subgraf conex maximal.",
+     "Numărăm parcurgerile pornite din noduri nevizitate.",
+     "n − 1.",
+     "c − 1."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l13": {
+   "ro": {
+    "title": "Grafuri hamiltoniene și euleriene",
+    "theory": "Un ciclu hamiltonian trece o singură dată prin fiecare nod al grafului; un graf care îl are este hamiltonian. Nu se cunoaște un algoritm eficient general pentru a-l găsi; se folosește Backtracking (generăm permutări ale nodurilor care formează ciclu). O condiție suficientă (Dirac): dacă n ≥ 3 și fiecare nod are gradul cel puțin n/2, graful este hamiltonian. Un ciclu eulerian trece o singură dată prin fiecare muchie; un graf care îl are este eulerian. Teorema lui Euler: un graf conex (fără noduri izolate) este eulerian dacă și numai dacă toate nodurile au grad par. Dacă exact două noduri au grad impar, există un lanț eulerian între ele (desenarea unei figuri „dintr-o singură trăsătură”).",
+    "sample": "Problema celor 7 poduri din Königsberg: patru zone de uscat, toate cu grad impar (3, 3, 3, 5). Conform teoremei lui Euler, nu există un traseu care să treacă o singură dată pe fiecare pod.",
+    "worked": "Condiția pe grade se verifică instantaneu, fără a încerca trasee. Pentru ciclul hamiltonian, în schimb, nu există o asemenea condiție simplă și completă.",
+    "exercises": [
+     "Verifică dacă un graf este eulerian.",
+     "Verifică dacă o figură poate fi desenată dintr-o singură trăsătură.",
+     "Găsește un ciclu hamiltonian prin Backtracking.",
+     "Aplică condiția lui Dirac pe un graf dat.",
+     "Explică diferența dintre ciclul hamiltonian și cel eulerian."
+    ],
+    "test": [
+     "Ce este un ciclu hamiltonian?",
+     "Ce este un ciclu eulerian?",
+     "Ce condiție are un graf eulerian?",
+     "Când există un lanț eulerian?",
+     "Ce metodă folosim pentru ciclul hamiltonian?"
+    ],
+    "steps": [
+     "Stabilește dacă problema privește noduri (hamiltonian) sau muchii (eulerian).",
+     "Pentru eulerian, verifică conexitatea și paritatea gradelor.",
+     "Pentru hamiltonian, folosește Backtracking sau o condiție suficientă.",
+     "Greșeala frecventă: să confunzi cele două noțiuni; hamiltonian înseamnă toate nodurile, eulerian toate muchiile."
+    ],
+    "answers": [
+     "Un ciclu care trece o singură dată prin fiecare nod.",
+     "Un ciclu care trece o singură dată prin fiecare muchie.",
+     "Să fie conex și toate nodurile să aibă grad par.",
+     "Când exact două noduri au grad impar.",
+     "Backtracking."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l14": {
+   "ro": {
+    "title": "Grafuri orientate: noțiuni și reprezentare",
+    "theory": "Într-un graf orientat, legăturile sunt arce (x, y), cu sens: de la x (extremitate inițială) la y (extremitate finală). Fiecare nod are grad exterior d⁺(x) – numărul arcelor care pleacă din el – și grad interior d⁻(x) – numărul arcelor care intră în el; suma gradelor exterioare este egală cu suma gradelor interioare și cu numărul de arce m. Un drum este o succesiune de noduri în care fiecare pereche consecutivă este un arc, respectând sensul; un circuit este un drum închis. Matricea de adiacență nu mai este simetrică: a[x][y] = 1 dacă există arcul (x, y); suma liniei x este d⁺(x), a coloanei x este d⁻(x). Graful turneu are între oricare două noduri exact un arc. Aplicații: străzi cu sens unic, relații „urmărește” în rețele sociale, dependențe între sarcini.",
+    "sample": "Arcele (1,2), (2,3), (3,1), (3,4): d⁺(3) = 2, d⁻(3) = 1; 1 → 2 → 3 → 1 este un circuit, iar din 4 nu se poate ajunge nicăieri (d⁺(4) = 0).",
+    "worked": "Sensul arcelor contează: există drum de la 1 la 4, dar nu și de la 4 la 1. Matricea are a[3][4] = 1 și a[4][3] = 0.",
+    "exercises": [
+     "Calculează gradele interioare și exterioare dintr-o matrice.",
+     "Verifică dacă o succesiune de noduri este drum.",
+     "Construiește listele de succesori.",
+     "Verifică dacă un graf orientat este turneu.",
+     "Găsește nodurile din care nu pleacă niciun arc."
+    ],
+    "test": [
+     "Ce este un arc?",
+     "Ce este gradul exterior?",
+     "Ce este un circuit?",
+     "Este simetrică matricea unui graf orientat?",
+     "Ce este un graf turneu?"
+    ],
+    "steps": [
+     "Citește arcele respectând ordinea extremităților.",
+     "Completează doar a[x][y] pentru fiecare arc (x, y).",
+     "Calculează gradele pe linii și coloane și verifică suma lor egală cu m.",
+     "Greșeala frecventă: să completezi matricea simetric, ca la grafurile neorientate."
+    ],
+    "answers": [
+     "O legătură orientată de la x la y.",
+     "Numărul arcelor care pleacă din nod.",
+     "Un drum închis.",
+     "Nu, în general.",
+     "Un graf cu exact un arc între oricare două noduri."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l15": {
+   "ro": {
+    "title": "Matricea drumurilor (Roy-Warshall) și tare conexitate",
+    "theory": "Matricea drumurilor d[i][j] = 1 dacă există drum de la i la j. Algoritmul Roy-Warshall pornește de la matricea de adiacență și, pentru fiecare nod intermediar k, actualizează: dacă d[i][k] și d[k][j], atunci d[i][j] = 1. Ordinea buclelor este esențială: k trebuie să fie bucla exterioară. Complexitatea este O(n³). Un graf orientat este tare conex dacă între oricare două noduri există drum în ambele sensuri. O componentă tare conexă este un subgraf tare conex maximal; nodurile i și j sunt în aceeași componentă dacă d[i][j] = d[j][i] = 1. Componentele se pot afla și cu două parcurgeri DFS (pe graf și pe graful transpus, cu arcele inversate) – algoritmul plus-minus sau Kosaraju.",
+    "sample": "Arcele (1,2), (2,3), (3,1), (3,4), (4,5), (5,4). Din matricea drumurilor: 1, 2, 3 se ating reciproc → o componentă; 4 și 5 → altă componentă. Graful nu este tare conex, pentru că din 4 nu se ajunge la 1.",
+    "worked": "Componentele tare conexe grupează nodurile între care se poate merge în ambele sensuri. Arcul (3, 4) leagă componentele doar într-un singur sens.",
+    "exercises": [
+     "Calculează matricea drumurilor cu Roy-Warshall.",
+     "Verifică dacă un graf orientat este tare conex.",
+     "Afișează componentele tare conexe din matricea drumurilor.",
+     "Determină componentele tare conexe cu algoritmul plus-minus.",
+     "Explică de ce k trebuie să fie bucla exterioară."
+    ],
+    "test": [
+     "Ce conține matricea drumurilor?",
+     "Ce complexitate are Roy-Warshall?",
+     "Când este un graf orientat tare conex?",
+     "Când sunt i și j în aceeași componentă tare conexă?",
+     "Ce este graful transpus?"
+    ],
+    "steps": [
+     "Pornește de la matricea de adiacență.",
+     "Pentru fiecare k, apoi fiecare i și j, adaugă drumurile prin k.",
+     "Grupează nodurile cu drum în ambele sensuri în componente.",
+     "Greșeala frecventă: să pui bucla lui k în interiorul celor pentru i și j; unele drumuri nu sunt găsite."
+    ],
+    "answers": [
+     "1 unde există drum de la i la j.",
+     "O(n³).",
+     "Când există drum în ambele sensuri între oricare două noduri.",
+     "Când d[i][j] = d[j][i] = 1.",
+     "Graful cu toate arcele inversate."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l16": {
+   "ro": {
+    "title": "Drumuri de cost minim: algoritmul Roy-Floyd",
+    "theory": "Într-un graf ponderat, fiecare arc are un cost (lungime, timp, preț). Algoritmul Roy-Floyd calculează costul minim al drumurilor între toate perechile de noduri. Pornește de la matricea costurilor: c[i][i] = 0, c[i][j] = costul arcului sau infinit (o valoare foarte mare) dacă arcul lipsește. Pentru fiecare nod intermediar k și fiecare pereche (i, j): dacă c[i][k] + c[k][j] < c[i][j], atunci c[i][j] = c[i][k] + c[k][j]. Complexitatea este O(n³), potrivită pentru grafuri mici (câteva sute de noduri). Pentru reconstituirea drumului reținem nodul intermediar sau predecesorul. Atenție: infinitul ales trebuie să nu provoace depășire la adunare.",
+    "sample": "Costuri: 1→2 = 4, 1→3 = 1, 3→2 = 2. Inițial c[1][2] = 4. Cu k = 3: c[1][3] + c[3][2] = 1 + 2 = 3 < 4, deci c[1][2] = 3.",
+    "worked": "Drumul ocolitor prin nodul 3 este mai ieftin decât arcul direct. Roy-Floyd încearcă sistematic fiecare nod ca intermediar.",
+    "exercises": [
+     "Implementează Roy-Floyd.",
+     "Reconstituie drumul minim între două noduri.",
+     "Află nodul cu suma distanțelor minime spre celelalte.",
+     "Alege o valoare potrivită pentru infinit.",
+     "Compară Roy-Floyd cu BFS pentru grafuri neponderate."
+    ],
+    "test": [
+     "Ce calculează Roy-Floyd?",
+     "Ce valoare are c[i][j] dacă arcul lipsește?",
+     "Ce complexitate are algoritmul?",
+     "Ce condiție de actualizare folosește?",
+     "Pentru ce mărime a grafului este potrivit?"
+    ],
+    "steps": [
+     "Construiește matricea costurilor cu 0 pe diagonală și infinit pentru arcele lipsă.",
+     "Aplică actualizarea pentru fiecare k, i, j, cu k în bucla exterioară.",
+     "Verifică un drum minim pe desen și reconstituie-l.",
+     "Greșeala frecventă: să alegi infinitul INT_MAX; adunarea a două valori infinite depășește capacitatea tipului."
+    ],
+    "answers": [
+     "Costurile minime ale drumurilor între toate perechile de noduri.",
+     "Infinit (o valoare foarte mare).",
+     "O(n³).",
+     "c[i][k] + c[k][j] < c[i][j].",
+     "Pentru grafuri mici, de câteva sute de noduri."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l17": {
+   "ro": {
+    "title": "Drumuri de cost minim: algoritmul lui Dijkstra",
+    "theory": "Algoritmul lui Dijkstra calculează costurile minime de la un singur nod de start la toate celelalte, într-un graf cu costuri nenegative. Reține d[x] – cel mai bun cost cunoscut – și o mulțime de noduri finalizate. La fiecare pas alege nodul nefinalizat cu d minim, îl finalizează și relaxează arcele care pleacă din el: dacă d[x] + cost(x, y) < d[y], atunci d[y] = d[x] + cost(x, y) și tata[y] = x. Varianta simplă are complexitatea O(n²); cu o coadă de priorități (heap) devine O(m log n). Algoritmul este de tip Greedy: odată finalizat, un nod are costul definitiv. Nu funcționează corect cu costuri negative.",
+    "sample": "Start 1; arce 1→2 (7), 1→3 (2), 3→2 (3), 2→4 (1). d inițial: 0, ∞, ∞, ∞. Finalizăm 1: d[2] = 7, d[3] = 2. Finalizăm 3: d[2] = min(7, 2 + 3) = 5. Finalizăm 2: d[4] = 6. Rezultat: 0, 5, 2, 6.",
+    "worked": "Nodul 2 și-a îmbunătățit costul după finalizarea lui 3. Alegerea mereu a nodului cu d minim garantează că valorile finalizate nu mai scad.",
+    "exercises": [
+     "Implementează Dijkstra în O(n²).",
+     "Implementează Dijkstra cu priority_queue.",
+     "Reconstituie drumul minim cu vectorul tata.",
+     "Explică de ce Dijkstra nu merge cu costuri negative.",
+     "Găsește cel mai scurt traseu între două localități pe o hartă dată."
+    ],
+    "test": [
+     "Ce calculează Dijkstra?",
+     "Ce condiție trebuie să îndeplinească costurile?",
+     "Ce nod se alege la fiecare pas?",
+     "Ce înseamnă relaxarea unui arc?",
+     "Ce complexitate are varianta cu heap?"
+    ],
+    "steps": [
+     "Inițializează d[start] = 0 și restul cu infinit.",
+     "Repetă: alege nodul nefinalizat cu d minim, finalizează-l și relaxează-i arcele.",
+     "Reconstituie drumul cu tata și verifică pe desen.",
+     "Greșeala frecventă: să aplici Dijkstra pe un graf cu costuri negative; rezultatele pot fi greșite."
+    ],
+    "answers": [
+     "Costurile minime de la un nod de start la toate celelalte.",
+     "Să fie nenegative.",
+     "Nodul nefinalizat cu costul d minim.",
+     "Îmbunătățirea lui d[y] printr-un drum care trece prin x.",
+     "O(m log n)."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l18": {
+   "ro": {
+    "title": "Arbori: definiție și proprietăți",
+    "theory": "Un arbore este un graf neorientat conex și fără cicluri. Proprietăți echivalente pentru un graf cu n noduri: este arbore; este conex și are n − 1 muchii; este aciclic și are n − 1 muchii; între oricare două noduri există un singur lanț elementar. Eliminarea oricărei muchii îl deconectează, iar adăugarea oricărei muchii creează exact un ciclu. Nodurile de grad 1 se numesc frunze; orice arbore cu cel puțin două noduri are cel puțin două frunze. O pădure este un graf ale cărui componente conexe sunt arbori. Un arbore parțial al unui graf conex este un graf parțial care este arbore (păstrează toate nodurile și n − 1 muchii). Verificarea că un graf este arbore: m = n − 1 și o parcurgere din nodul 1 vizitează toate nodurile.",
+    "sample": "Graful cu 5 noduri și muchiile [1,2], [1,3], [3,4], [3,5]: are 4 = n − 1 muchii și este conex, deci este arbore. Frunzele sunt 2, 4, 5. Dacă adăugăm [2,4], apare ciclul 1, 2, 4, 3, 1.",
+    "worked": "Verificarea a cerut doar numărul de muchii și conexitatea. Muchia adăugată a închis singurul lanț dintre 2 și 4, formând un ciclu.",
+    "exercises": [
+     "Verifică dacă un graf este arbore.",
+     "Numără frunzele unui arbore.",
+     "Câte muchii trebuie eliminate dintr-un graf conex pentru a obține un arbore parțial?",
+     "Demonstrează că un arbore cu n ≥ 2 noduri are cel puțin două frunze.",
+     "Determină numărul de arbori dintr-o pădure cu n noduri și m muchii."
+    ],
+    "test": [
+     "Ce este un arbore?",
+     "Câte muchii are un arbore cu n noduri?",
+     "Ce se întâmplă dacă adăugăm o muchie?",
+     "Ce este o frunză?",
+     "Ce este o pădure?"
+    ],
+    "steps": [
+     "Verifică numărul de muchii: m = n − 1.",
+     "Verifică conexitatea printr-o parcurgere.",
+     "Dacă ambele condiții sunt îndeplinite, graful este arbore.",
+     "Greșeala frecventă: să verifici doar m = n − 1; un graf cu un ciclu și un nod izolat poate avea tot n − 1 muchii."
+    ],
+    "answers": [
+     "Un graf neorientat conex și fără cicluri.",
+     "n − 1.",
+     "Se formează exact un ciclu.",
+     "Un nod de grad 1.",
+     "Un graf ale cărui componente conexe sunt arbori."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l19": {
+   "ro": {
+    "title": "Arborele parțial de cost minim: algoritmul lui Kruskal",
+    "theory": "Într-un graf conex ponderat, arborele parțial de cost minim (APM) este arborele parțial cu suma minimă a costurilor muchiilor. Aplicație tipică: conectarea unor calculatoare sau localități cu cost total minim. Algoritmul lui Kruskal (Greedy): sortăm muchiile crescător după cost; le parcurgem și adăugăm o muchie dacă nu formează ciclu cu cele deja alese, adică dacă unește două componente diferite. Ne oprim după n − 1 muchii. Pentru verificarea componentelor folosim un vector de componente (c[x] = eticheta componentei, schimbată la unire) sau, eficient, structura de mulțimi disjuncte (union-find). Complexitatea este dominată de sortare: O(m log m).",
+    "sample": "Muchii: [1,2] 1, [2,3] 2, [1,3] 3, [3,4] 4, [2,4] 5. Alegem [1,2] (1), [2,3] (2); [1,3] ar forma ciclu – o sărim; alegem [3,4] (4). Cost total 7, cu 3 = n − 1 muchii.",
+    "worked": "Muchia [1, 3] era ieftină, dar nodurile 1 și 3 erau deja în aceeași componentă. Kruskal alege mereu cea mai ieftină muchie care nu creează ciclu.",
+    "exercises": [
+     "Implementează Kruskal cu vector de componente.",
+     "Implementează Kruskal cu union-find.",
+     "Calculează costul APM pentru un graf dat pe hârtie.",
+     "Afișează muchiile APM în ordinea alegerii.",
+     "Explică de ce Kruskal este un algoritm Greedy."
+    ],
+    "test": [
+     "Ce este APM?",
+     "Cum sortăm muchiile în Kruskal?",
+     "Când respingem o muchie?",
+     "Câte muchii are APM?",
+     "Ce structură verifică eficient componentele?"
+    ],
+    "steps": [
+     "Sortează muchiile crescător după cost.",
+     "Parcurge-le și adaugă-le doar pe cele care unesc componente diferite, unind componentele.",
+     "Oprește-te la n − 1 muchii și verifică costul total.",
+     "Greșeala frecventă: să uiți să actualizezi eticheta tuturor nodurilor din componenta unită; apar cicluri."
+    ],
+    "answers": [
+     "Arborele parțial cu suma minimă a costurilor muchiilor.",
+     "Crescător după cost.",
+     "Când capetele sunt deja în aceeași componentă.",
+     "n − 1.",
+     "Mulțimile disjuncte (union-find)."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l20": {
+   "ro": {
+    "title": "Arborele parțial de cost minim: algoritmul lui Prim",
+    "theory": "Algoritmul lui Prim construiește APM pornind dintr-un nod și extinzând arborele câte un nod: la fiecare pas alege muchia de cost minim care leagă un nod din arbore de un nod din afara lui. Reținem pentru fiecare nod din afara arborelui d[y] – costul minim al unei muchii spre arbore – și tata[y]. Varianta cu matrice are O(n²), potrivită pentru grafuri dense; cu heap devine O(m log n). La fel ca Dijkstra, Prim alege nodul cu valoare minimă, dar d[y] este costul unei singure muchii, nu al unui drum întreg. Ambii algoritmi, Kruskal și Prim, dau APM de același cost (arborele poate diferi dacă există costuri egale).",
+    "sample": "Același graf, start 1: arbore {1}; muchia minimă spre exterior [1,2] (1) → {1, 2}; apoi [2,3] (2) → {1, 2, 3}; apoi [3,4] (4) → toți. Cost 7, ca la Kruskal.",
+    "worked": "Prim a crescut un singur arbore, pe când Kruskal unește componente. Rezultatul are același cost total.",
+    "exercises": [
+     "Implementează Prim în O(n²).",
+     "Rulează Prim pe hârtie din alt nod de start.",
+     "Compară Prim cu Kruskal pe un graf dens și pe unul rar.",
+     "Afișează APM cu vectorul tata.",
+     "Explică diferența dintre d[y] la Prim și la Dijkstra."
+    ],
+    "test": [
+     "Cum crește arborele în algoritmul lui Prim?",
+     "Ce reține d[y]?",
+     "Ce complexitate are varianta cu matrice?",
+     "Dau Prim și Kruskal același cost?",
+     "Pentru ce grafuri este potrivită varianta O(n²)?"
+    ],
+    "steps": [
+     "Pornește dintr-un nod și inițializează d pentru vecinii lui.",
+     "Adaugă nodul din afara arborelui cu d minim și actualizează d pentru vecinii lui.",
+     "Repetă până la n noduri și verifică costul total.",
+     "Greșeala frecventă: să aduni la d[y] costul drumului până la x, ca la Dijkstra; la Prim contează doar costul muchiei."
+    ],
+    "answers": [
+     "Câte un nod, prin muchia minimă spre exterior.",
+     "Costul minim al unei muchii de la y la arbore.",
+     "O(n²).",
+     "Da.",
+     "Pentru grafuri dense."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l21": {
+   "ro": {
+    "title": "Arbori cu rădăcină: reprezentări",
+    "theory": "Un arbore cu rădăcină are un nod special, rădăcina; fiecare alt nod are un tată (nodul de deasupra lui) și poate avea fii. Frunzele sunt nodurile fără fii. Nivelul unui nod este distanța de la rădăcină (rădăcina pe nivelul 0), iar înălțimea arborelui este nivelul maxim. Nodurile cu același tată sunt frați; un nod și toți descendenții lui formează un subarbore. Reprezentări: cu referințe ascendente – vectorul de tați t[x] (t[rădăcină] = 0); cu referințe descendente – listele fiilor fiecărui nod. Din vectorul de tați aflăm ușor rădăcina (t[x] = 0), frunzele (nodurile care nu apar ca valori în t), lanțul de la un nod la rădăcină (urmăm t).",
+    "sample": "t = [2, 0, 2, 1, 1, 3] pentru nodurile 1–6: rădăcina este 2; fiii lui 2 sunt 1 și 3; fiii lui 1 sunt 4 și 5; fiul lui 3 este 6. Frunzele: 4, 5, 6. Înălțimea: 2.",
+    "worked": "Vectorul de tați reține totul compact. Frunzele sunt nodurile care nu apar ca tată pentru niciun alt nod.",
+    "exercises": [
+     "Găsește rădăcina și frunzele din vectorul de tați.",
+     "Afișează lanțul de la un nod la rădăcină.",
+     "Calculează nivelul fiecărui nod și înălțimea arborelui.",
+     "Afișează fiii fiecărui nod.",
+     "Construiește vectorul de tați dintr-un arbore desenat."
+    ],
+    "test": [
+     "Ce este rădăcina?",
+     "Ce conține t[x]?",
+     "Ce este nivelul unui nod?",
+     "Cum găsești frunzele din vectorul de tați?",
+     "Ce este un subarbore?"
+    ],
+    "steps": [
+     "Identifică rădăcina (t[x] = 0).",
+     "Folosește vectorul de tați pentru a urca sau listele de fii pentru a coborî.",
+     "Verifică rezultatele desenând arborele.",
+     "Greșeala frecventă: să confunzi tatăl cu fiul la citirea vectorului de tați."
+    ],
+    "answers": [
+     "Nodul special, fără tată.",
+     "Tatăl nodului x.",
+     "Distanța lui de la rădăcină.",
+     "Sunt nodurile care nu apar ca valori în t.",
+     "Un nod împreună cu toți descendenții lui."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l22": {
+   "ro": {
+    "title": "Arbori binari: definiție și parcurgeri",
+    "theory": "Un arbore binar este un arbore cu rădăcină în care fiecare nod are cel mult doi fii: fiul stâng și fiul drept, ordinea lor contând. Reprezentarea cu referințe descendente: struct nod { int info; nod *st, *dr; }; sau tablourile st[x] și dr[x]. Parcurgeri recursive: preordine (RSD – rădăcină, stânga, dreapta), inordine (SRD), postordine (SDR). Un arbore binar complet are toate nivelurile pline (cu excepția, eventual, a ultimului, completat de la stânga); se reprezintă secvențial într-un tablou: fiii nodului i sunt 2i și 2i + 1, tatăl este i / 2. Un arbore binar plin de înălțime h are 2^(h+1) − 1 noduri. Înălțimea se calculează recursiv: 1 + max(înălțime(st), înălțime(dr)).",
+    "sample": "Rădăcina 1, fiii 2 (stâng) și 3 (drept); 2 are fiii 4 și 5. RSD: 1 2 4 5 3; SRD: 4 2 5 1 3; SDR: 4 5 2 3 1.",
+    "worked": "Cele trei parcurgeri diferă doar prin momentul în care se prelucrează rădăcina. Inordinea pune rădăcina între cei doi subarbori.",
+    "exercises": [
+     "Scrie cele trei parcurgeri recursive.",
+     "Calculează înălțimea unui arbore binar.",
+     "Numără frunzele unui arbore binar.",
+     "Construiește arborele dintr-o reprezentare secvențială.",
+     "Reconstruiește un arbore binar din preordine și inordine."
+    ],
+    "test": [
+     "Câți fii are cel mult un nod într-un arbore binar?",
+     "Ce ordine are parcurgerea SRD?",
+     "Unde sunt fiii nodului i în reprezentarea secvențială?",
+     "Câte noduri are un arbore binar plin de înălțime 2?",
+     "Cum calculăm înălțimea recursiv?"
+    ],
+    "steps": [
+     "Stabilește reprezentarea (pointeri sau tablouri st și dr).",
+     "Scrie funcția recursivă cu cazul de bază „nod inexistent”.",
+     "Urmărește parcurgerea pe un arbore desenat.",
+     "Greșeala frecventă: să inversezi ordinea apelurilor; obții altă parcurgere decât cea cerută."
+    ],
+    "answers": [
+     "Doi.",
+     "Stânga, rădăcină, dreapta.",
+     "La pozițiile 2i și 2i + 1.",
+     "7.",
+     "1 + maximul înălțimilor celor doi subarbori."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l23": {
+   "ro": {
+    "title": "Arborele binar de căutare",
+    "theory": "Un arbore binar de căutare (ABC) respectă regula: pentru fiecare nod, toate valorile din subarborele stâng sunt mai mici, iar cele din subarborele drept sunt mai mari decât valoarea nodului. Consecință: parcurgerea în inordine (SRD) afișează valorile sortate crescător. Căutarea: pornim de la rădăcină și mergem la stânga sau la dreapta după comparație. Inserarea: căutăm locul unde ar trebui să fie valoarea și adăugăm o frunză. Ștergerea: o frunză se elimină direct; un nod cu un fiu este înlocuit de fiul lui; un nod cu doi fii este înlocuit cu cea mai mare valoare din subarborele stâng (sau cea mai mică din cel drept), care apoi se șterge. Operațiile au complexitatea O(h); arborele echilibrat are h ≈ log n, dar inserarea unor valori deja sortate produce un „lanț” cu h = n.",
+    "sample": "Inserăm 8, 3, 10, 1, 6, 14: 8 este rădăcina; 3 la stânga; 10 la dreapta; 1 la stânga lui 3; 6 la dreapta lui 3; 14 la dreapta lui 10. Inordinea: 1 3 6 8 10 14.",
+    "worked": "Fiecare inserare a urmat comparațiile până la o poziție liberă. Inordinea a dat valorile sortate, ceea ce face ABC util pentru dicționare.",
+    "exercises": [
+     "Inserează o listă de valori într-un ABC.",
+     "Caută o valoare într-un ABC.",
+     "Afișează valorile sortate prin inordine.",
+     "Șterge un nod cu doi fii.",
+     "Explică de ce inserarea valorilor sortate dă un arbore ineficient."
+    ],
+    "test": [
+     "Ce regulă respectă un ABC?",
+     "Ce afișează inordinea unui ABC?",
+     "Ce complexitate are căutarea?",
+     "Cu ce înlocuim un nod cu doi fii la ștergere?",
+     "Când devine ABC ineficient?"
+    ],
+    "steps": [
+     "Compară valoarea cu nodul curent și mergi la stânga sau la dreapta.",
+     "Inserează ca frunză sau șterge după numărul de fii.",
+     "Verifică arborele prin inordine (trebuie să fie sortată).",
+     "Greșeala frecventă: să ștergi un nod cu doi fii doar legând unul dintre subarbori; se pierde celălalt subarbore."
+    ],
+    "answers": [
+     "Stânga mai mici, dreapta mai mari decât nodul.",
+     "Valorile sortate crescător.",
+     "O(h), unde h este înălțimea.",
+     "Cu maximul din subarborele stâng sau minimul din cel drept.",
+     "Când valorile sunt inserate deja sortate."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l24": {
+   "ro": {
+    "title": "Heap-uri și sortarea Heapsort",
+    "theory": "Un heap (ansamblu) este un arbore binar complet în care fiecare nod are valoarea mai mare sau egală decât fiii lui (max-heap) sau mai mică sau egală (min-heap); rădăcina conține maximul, respectiv minimul. Se reprezintă secvențial: h[1] este rădăcina, fiii lui i sunt 2i și 2i + 1. Inserarea: punem valoarea la final și o urcăm, interschimbând-o cu tatăl cât timp este mai mare. Extragerea maximului: luăm h[1], punem ultimul element în rădăcină și îl coborâm, interschimbându-l cu fiul mai mare cât timp este mai mic. Ambele operații au O(log n). Heapsort: construim un heap din n valori și extragem de n ori maximul, obținând sortarea în O(n log n), pe loc. Heap-ul implementează coada de priorități (priority_queue în C++), folosită la Dijkstra și Prim.",
+    "sample": "Inserăm 5, 9, 3, 12 într-un max-heap: [5]; [9, 5]; [9, 5, 3]; 12 se pune la poziția 4, tatăl este 5 → urcă; tatăl 9 → urcă: [12, 9, 3, 5].",
+    "worked": "Fiecare inserare a urcat doar pe drumul spre rădăcină, de lungime log n. Maximul este mereu în h[1].",
+    "exercises": [
+     "Inserează valori într-un max-heap.",
+     "Extrage maximul și refă heap-ul.",
+     "Implementează Heapsort.",
+     "Folosește priority_queue pentru k cele mai mari valori.",
+     "Explică de ce heap-ul se poate memora într-un tablou."
+    ],
+    "test": [
+     "Ce proprietate are un max-heap?",
+     "Unde este maximul?",
+     "Ce complexitate au inserarea și extragerea?",
+     "Ce complexitate are Heapsort?",
+     "Ce structură standard C++ folosește un heap?"
+    ],
+    "steps": [
+     "Memorează heap-ul secvențial, cu rădăcina pe poziția 1.",
+     "La inserare urcă elementul, la extragere coboară-l, comparând cu fiul mai mare.",
+     "Verifică proprietatea de heap după fiecare operație.",
+     "Greșeala frecventă: să compari la coborâre cu fiul stâng în loc de fiul mai mare; proprietatea de heap se strică."
+    ],
+    "answers": [
+     "Fiecare nod este mai mare sau egal decât fiii lui.",
+     "În rădăcină, h[1].",
+     "O(log n).",
+     "O(n log n).",
+     "priority_queue."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l25": {
+   "ro": {
+    "title": "Principiul metodei Greedy",
+    "theory": "Metoda Greedy („lacomă”) construiește soluția pas cu pas, făcând la fiecare pas alegerea care pare cea mai bună în acel moment (optimul local), fără a reveni asupra ei. Este foarte rapidă (de obicei dominată de o sortare, O(n log n)), dar nu dă întotdeauna soluția optimă: trebuie demonstrat că alegerea locală duce la optimul global. Probleme rezolvate corect prin Greedy: planificarea spectacolelor (alegem mereu spectacolul care se termină cel mai devreme), rucsacul continuu (luăm obiectele în ordinea descrescătoare a raportului valoare/greutate, ultimul putând fi fracționat), arborele parțial de cost minim (Kruskal, Prim), Dijkstra. Când Greedy nu funcționează, se folosește Backtracking sau programarea dinamică.",
+    "sample": "Spectacole (start, sfârșit): (1, 4), (3, 5), (0, 6), (5, 7), (8, 9), (5, 9). Sortăm după sfârșit și alegem: (1, 4), apoi (5, 7), apoi (8, 9) – 3 spectacole, maximul posibil.",
+    "worked": "Spectacolul care se termină primul lasă cel mai mult timp pentru restul. Această alegere locală se poate demonstra că duce la optimul global.",
+    "exercises": [
+     "Rezolvă problema spectacolelor.",
+     "Explică de ce sortăm după ora de sfârșit și nu de început.",
+     "Găsește un contraexemplu pentru alegerea celui mai scurt spectacol.",
+     "Planifică sarcini cu termene pentru a minimiza întârzierea maximă.",
+     "Explică diferența dintre Greedy și Backtracking."
+    ],
+    "test": [
+     "Ce alegere face Greedy la fiecare pas?",
+     "Revine Greedy asupra alegerilor?",
+     "Dă Greedy întotdeauna soluția optimă?",
+     "Ce criteriu folosim la problema spectacolelor?",
+     "Ce complexitate are de obicei Greedy?"
+    ],
+    "steps": [
+     "Stabilește criteriul de alegere locală.",
+     "Sortează datele după criteriu și alege pe rând elementele compatibile.",
+     "Verifică optimalitatea printr-o demonstrație sau caută contraexemple.",
+     "Greșeala frecventă: să aplici Greedy fără să verifici că alegerea locală duce la optimul global."
+    ],
+    "answers": [
+     "Alegerea care pare cea mai bună în momentul respectiv.",
+     "Nu.",
+     "Nu, doar pentru anumite probleme.",
+     "Ora de sfârșit, cea mai devreme.",
+     "O(n log n), dominată de sortare."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l26": {
+   "ro": {
+    "title": "Rucsacul continuu și plata unei sume",
+    "theory": "Problema rucsacului continuu: avem un rucsac cu capacitatea G și n obiecte cu greutăți gᵢ și valori vᵢ; obiectele pot fi fracționate. Greedy: sortăm obiectele descrescător după raportul vᵢ / gᵢ și le punem pe rând; când următorul nu mai încape întreg, punem doar fracțiunea care umple rucsacul. Soluția este optimă. Plata unei sume cu număr minim de bancnote: Greedy alege mereu cea mai mare bancnotă care încape. Pentru sistemele de bancnote obișnuite (1, 5, 10, 50, 100…) rezultatul este optim, dar pentru valori arbitrare poate greși: cu bancnote de 1, 3, 4 și suma 6, Greedy dă 4 + 1 + 1 (trei bancnote), deși optimul este 3 + 3 (două).",
+    "sample": "Rucsac G = 10; obiecte (g, v): (5, 30), (4, 28), (6, 24). Rapoarte: 6, 7, 4. Luăm (4, 28), apoi (5, 30); rămâne 1 kg din obiectul al treilea: 1/6 · 24 = 4. Valoare totală 62.",
+    "worked": "Ordinea după raport maximizează valoarea pe kilogram. Fracționarea ultimului obiect umple exact rucsacul.",
+    "exercises": [
+     "Rezolvă rucsacul continuu pentru date citite.",
+     "Plătește o sumă cu bancnotele românești cu număr minim de bancnote.",
+     "Găsește un sistem de bancnote pentru care Greedy greșește.",
+     "Explică de ce rucsacul discret nu se rezolvă prin Greedy.",
+     "Afișează ce fracțiune din fiecare obiect intră în rucsac."
+    ],
+    "test": [
+     "După ce sortăm obiectele la rucsacul continuu?",
+     "Ce facem cu obiectul care nu încape întreg?",
+     "Este Greedy optim pentru orice sistem de bancnote?",
+     "Ce dă Greedy pentru suma 6 cu bancnotele 1, 3, 4?",
+     "Ce metodă rezolvă rucsacul discret?"
+    ],
+    "steps": [
+     "Calculează raportul valoare/greutate pentru fiecare obiect.",
+     "Sortează descrescător și adaugă obiectele cât încap, fracționându-l pe ultimul.",
+     "Verifică totalul și capacitatea folosită.",
+     "Greșeala frecventă: să aplici Greedy la rucsacul discret (obiecte nefracționabile); soluția poate să nu fie optimă."
+    ],
+    "answers": [
+     "Descrescător după raportul valoare/greutate.",
+     "Punem doar fracțiunea care umple rucsacul.",
+     "Nu.",
+     "4 + 1 + 1, trei bancnote.",
+     "Programarea dinamică."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l27": {
+   "ro": {
+    "title": "Principiul programării dinamice",
+    "theory": "Programarea dinamică se aplică problemelor de optim care au două proprietăți: substructură optimă (soluția optimă se compune din soluții optime ale subproblemelor) și subprobleme suprapuse (aceleași subprobleme apar de mai multe ori). În loc să recalculăm subproblemele, ca în recursivitatea simplă, le rezolvăm o singură dată și reținem rezultatele într-un tablou. Etapele: definim starea (ce înseamnă d[i]), scriem relația de recurență, stabilim cazurile de bază, alegem ordinea de calcul (de la subproblemele mici la cele mari) și reconstituim soluția, dacă se cere. Exemple: șirul Fibonacci (d[i] = d[i − 1] + d[i − 2]), numărul de drumuri într-o grilă, suma maximă pe un drum într-o matrice.",
+    "sample": "Drum de sumă maximă într-o matrice, mergând doar dreapta sau jos: d[i][j] = a[i][j] + max(d[i − 1][j], d[i][j − 1]). Pentru matricea 1 3 / 2 5: d = 1 4 / 3 9; suma maximă este 9 (1 → 3 → 5).",
+    "worked": "Fiecare celulă folosește rezultatele deja calculate pentru celulele de sus și din stânga. Fiecare subproblemă se rezolvă o singură dată.",
+    "exercises": [
+     "Calculează Fibonacci prin programare dinamică.",
+     "Numără drumurile într-o grilă n × m mergând dreapta sau jos.",
+     "Află suma maximă pe un drum într-o matrice.",
+     "Reconstituie drumul de sumă maximă.",
+     "Explică diferența dintre programarea dinamică și Divide et Impera."
+    ],
+    "test": [
+     "Ce proprietăți trebuie să aibă o problemă pentru programare dinamică?",
+     "Ce înseamnă subprobleme suprapuse?",
+     "Ce reține tabloul d?",
+     "În ce ordine se calculează subproblemele?",
+     "Ce relație are suma maximă în matrice?"
+    ],
+    "steps": [
+     "Definește starea: ce reprezintă d[i] sau d[i][j].",
+     "Scrie recurența și cazurile de bază.",
+     "Calculează în ordinea corectă și verifică pe un exemplu mic.",
+     "Greșeala frecventă: să calculezi o stare înaintea stărilor de care depinde; folosești valori încă necalculate."
+    ],
+    "answers": [
+     "Substructură optimă și subprobleme suprapuse.",
+     "Aceleași subprobleme apar de mai multe ori.",
+     "Rezultatele subproblemelor.",
+     "De la subproblemele mici la cele mari.",
+     "d[i][j] = a[i][j] + max(d[i − 1][j], d[i][j − 1])."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l28": {
+   "ro": {
+    "title": "Subșirul crescător maximal",
+    "theory": "Problema: dintr-un șir de n numere, găsiți cel mai lung subșir (nu neapărat cu elemente consecutive) strict crescător. Starea: L[i] = lungimea celui mai lung subșir crescător care se termină cu elementul i. Recurența: L[i] = 1 + max{L[j] : j < i și a[j] < a[i]}, iar dacă nu există un asemenea j, L[i] = 1. Răspunsul este maximul dintre toate L[i]. Reconstituirea: reținem pred[i], indicele j care a dat maximul, și urmăm predecesorii de la final. Complexitatea este O(n²); există și o variantă O(n log n) cu căutare binară. Problema apare în multe forme: cea mai lungă secvență de clădiri vizibile, aranjarea cutiilor una în alta.",
+    "sample": "a = 5, 2, 8, 6, 3, 6, 9, 7. L = 1, 1, 2, 2, 2, 3, 4, 4. Lungimea maximă este 4, de exemplu subșirul 2, 3, 6, 9.",
+    "worked": "Fiecare L[i] a fost calculat din valorile anterioare. Reconstituirea de la elementul 9 prin pred dă 6, 3, 2, adică subșirul 2, 3, 6, 9.",
+    "exercises": [
+     "Calculează lungimea subșirului crescător maximal.",
+     "Reconstituie și afișează subșirul.",
+     "Adaptează pentru subșir descrescător.",
+     "Găsește subșirul crescător cu suma maximă.",
+     "Explică de ce Greedy nu rezolvă problema."
+    ],
+    "test": [
+     "Ce înseamnă L[i]?",
+     "Care este recurența?",
+     "Unde se află răspunsul?",
+     "Cum reconstituim subșirul?",
+     "Ce complexitate are varianta simplă?"
+    ],
+    "steps": [
+     "Definește L[i] ca lungimea celui mai bun subșir care se termină în i.",
+     "Calculează L[i] din toate j < i cu a[j] < a[i] și reține predecesorul.",
+     "Ia maximul L și reconstituie subșirul urmând predecesorii.",
+     "Greșeala frecventă: să consideri că răspunsul este L[n]; cel mai lung subșir nu se termină neapărat cu ultimul element."
+    ],
+    "answers": [
+     "Lungimea celui mai lung subșir crescător care se termină cu elementul i.",
+     "L[i] = 1 + max{L[j] : j < i, a[j] < a[i]}.",
+     "În maximul tuturor valorilor L[i].",
+     "Urmăm vectorul pred de la elementul final.",
+     "O(n²)."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l29": {
+   "ro": {
+    "title": "Problema rucsacului discret",
+    "theory": "În varianta discretă (0/1), fiecare obiect se ia întreg sau deloc. Greedy nu mai garantează optimul, dar programarea dinamică da. Starea: d[i][g] = valoarea maximă folosind primele i obiecte cu greutatea totală cel mult g. Recurența: d[i][g] = d[i − 1][g] (nu luăm obiectul i) sau, dacă gᵢ ≤ g, max(d[i − 1][g], d[i − 1][g − gᵢ] + vᵢ). Răspunsul este d[n][G]. Complexitatea este O(n · G). Memoria se poate reduce la un singur vector d[g], parcurs descrescător după g (ca fiecare obiect să fie folosit o singură dată). Reconstituirea: comparăm d[i][g] cu d[i − 1][g] ca să aflăm dacă obiectul i a fost luat.",
+    "sample": "G = 7; obiecte (g, v): (3, 4), (4, 5), (2, 3). Varianta optimă: obiectele 2 și 3 (greutate 6, valoare 8) sau 1 și 2 (greutate 7, valoare 9). d[3][7] = 9: obiectele 1 și 2.",
+    "worked": "Programarea dinamică a comparat toate combinațiile fără să le genereze explicit. Greedy după raport (1,5; 1,33; 1,25) ar fi ales obiectele 3 și 1 (valoare 7), mai puțin decât optimul 9.",
+    "exercises": [
+     "Implementează rucsacul discret cu matrice.",
+     "Optimizează memoria la un vector, parcurs descrescător.",
+     "Reconstituie obiectele alese.",
+     "Arată un exemplu în care Greedy greșește la rucsacul discret.",
+     "Rezolvă problema „se poate obține exact suma S din monede date?”."
+    ],
+    "test": [
+     "Ce înseamnă d[i][g]?",
+     "Care sunt cele două variante pentru obiectul i?",
+     "Ce complexitate are algoritmul?",
+     "De ce parcurgem descrescător în varianta cu un vector?",
+     "Unde este răspunsul?"
+    ],
+    "steps": [
+     "Definește d[i][g] și cazurile de bază (0 obiecte sau capacitate 0).",
+     "Pentru fiecare obiect alege maximul dintre a-l lua și a nu-l lua.",
+     "Citește răspunsul în d[n][G] și reconstituie obiectele.",
+     "Greșeala frecventă: să parcurgi crescător după g în varianta cu un vector; un obiect poate fi luat de mai multe ori."
+    ],
+    "answers": [
+     "Valoarea maximă cu primele i obiecte și greutate cel mult g.",
+     "Nu îl luăm sau îl luăm, dacă încape.",
+     "O(n · G).",
+     "Ca fiecare obiect să fie folosit cel mult o dată.",
+     "d[n][G]."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l30": {
+   "ro": {
+    "title": "Analiza eficienței: alegerea metodei de programare",
+    "theory": "Pentru aceeași problemă putem folosi metode diferite, cu eficiențe foarte diferite. Backtracking explorează toate variantele – corect, dar exponențial; potrivit pentru n mic sau când se cer toate soluțiile. Greedy alege rapid, O(n log n), dar este corect doar dacă se poate demonstra optimalitatea alegerii locale. Divide et Impera împarte în subprobleme independente. Programarea dinamică rezolvă problemele de optim cu subprobleme suprapuse, de obicei în timp polinomial (O(n²), O(n · G)). Analiza eficienței înseamnă estimarea numărului de operații și a memoriei în funcție de mărimea datelor și compararea cu restricțiile problemei: orientativ, până la 10⁸ operații simple pe secundă.",
+    "sample": "Rucsac discret cu n = 100 obiecte și G = 10.000: Backtracking ar încerca până la 2¹⁰⁰ combinații – imposibil; programarea dinamică face 100 · 10.000 = 10⁶ operații – instantaneu.",
+    "worked": "Aceeași problemă trece de la imposibilă la trivială prin alegerea metodei. Analiza dinainte economisește ore de programare inutilă.",
+    "exercises": [
+     "Alege metoda potrivită pentru cinci probleme date.",
+     "Estimează numărul de operații pentru Backtracking și programare dinamică la aceeași problemă.",
+     "Explică de ce Greedy trebuie demonstrat.",
+     "Compară experimental Fibonacci recursiv și dinamic.",
+     "Calculează memoria necesară pentru o matrice d de 1000 × 10.000 de întregi."
+    ],
+    "test": [
+     "Când folosim Backtracking?",
+     "Când este corect Greedy?",
+     "Ce condiții cere programarea dinamică?",
+     "Câte operații simple pe secundă estimăm orientativ?",
+     "Ce complexitate are de obicei Backtracking?"
+    ],
+    "steps": [
+     "Analizează tipul problemei: toate soluțiile, optim, subprobleme independente sau suprapuse.",
+     "Estimează complexitatea metodelor posibile pentru restricțiile date.",
+     "Alege metoda cea mai simplă care se încadrează în timp și memorie.",
+     "Greșeala frecventă: să alegi Backtracking pentru o problemă de optim cu n mare, când există o soluție prin programare dinamică."
+    ],
+    "answers": [
+     "Când se cer toate soluțiile sau n este mic.",
+     "Când optimalitatea alegerii locale este demonstrată.",
+     "Substructură optimă și subprobleme suprapuse.",
+     "Aproximativ 10⁸.",
+     "Exponențială."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l31": {
+   "ro": {
+    "title": "Principiile programării orientate pe obiecte",
+    "theory": "Programarea orientată pe obiecte (POO) organizează programul în jurul obiectelor, care reunesc date (atribute) și comportament (metode). Principiile ei: încapsularea – datele sunt ascunse (private), iar accesul se face prin metode publice care păstrează obiectul într-o stare corectă; abstractizarea – clasa expune doar ce este esențial pentru utilizator; moștenirea – o clasă derivată preia atributele și metodele unei clase de bază și le poate extinde (class Elev : public Persoana); polimorfismul – aceeași operație se comportă diferit în clase diferite (metode virtuale suprascrise). POO ușurează construirea programelor mari, refolosirea codului și lucrul în echipă. Structurile de date (stive, cozi, liste, grafuri) se pot implementa natural ca clase.",
+    "sample": "class Figura { public: virtual double aria() { return 0; } }; class Cerc : public Figura { double r; public: Cerc(double r) : r(r) {} double aria() { return 3.14159 * r * r; } };. Un tablou de pointeri Figura* poate conține cercuri și dreptunghiuri, iar f->aria() apelează metoda potrivită fiecăruia.",
+    "worked": "Moștenirea a refolosit interfața comună, iar polimorfismul a ales automat metoda potrivită. Codul care calculează ariile nu trebuie să știe tipul exact al fiecărei figuri.",
+    "exercises": [
+     "Explică cele patru principii POO cu exemple.",
+     "Scrie o clasă de bază Persoana și o clasă derivată Elev.",
+     "Folosește o metodă virtuală pentru aria mai multor figuri.",
+     "Implementează o stivă ca o clasă cu atribute private.",
+     "Identifică într-un program dat încapsularea și moștenirea."
+    ],
+    "test": [
+     "Ce înseamnă încapsularea?",
+     "Ce este moștenirea?",
+     "Ce este polimorfismul?",
+     "Ce cuvânt cheie C++ permite suprascrierea dinamică a metodelor?",
+     "De ce este POO utilă la programele mari?"
+    ],
+    "steps": [
+     "Identifică obiectele problemei și ce date și operații au.",
+     "Grupează comportamentul comun într-o clasă de bază și extinde-l prin moștenire.",
+     "Ascunde datele și testează obiectele prin metodele publice.",
+     "Greșeala frecventă: să faci toate atributele publice; obiectul poate fi adus într-o stare incorectă din afară."
+    ],
+    "answers": [
+     "Ascunderea datelor și accesul prin metode publice.",
+     "Preluarea atributelor și metodelor unei clase de bază de către o clasă derivată.",
+     "Aceeași operație se comportă diferit în clase diferite.",
+     "virtual.",
+     "Ușurează refolosirea codului, organizarea și lucrul în echipă."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l32": {
+   "ro": {
+    "title": "Clase și obiecte în C++: definire, utilizare, operații",
+    "theory": "O clasă C++ se definește cu class Nume { private: atribute; public: constructori și metode; };. Constructorul are numele clasei și inițializează obiectul; pot exista mai mulți constructori, cu parametri diferiți (supraîncărcare). Destructorul (~Nume()) se apelează la distrugerea obiectului și eliberează resursele (de exemplu memoria alocată dinamic). Metodele constante (double aria() const) nu modifică obiectul. Operatorii pot fi supraîncărcați: pentru o clasă Fractie putem defini operator+, ca să scriem f1 + f2. Obiectele se pot memora în tablouri sau în containere (vector<Fractie>) și se pot transmite prin referință la funcții. Separarea în fișiere .h (declarația) și .cpp (implementarea) organizează proiectele mari.",
+    "sample": "class Fractie { int a, b; public: Fractie(int x = 0, int y = 1) { int g = gcd(x, y); a = x / g; b = y / g; } Fractie operator+(const Fractie &f) const { return Fractie(a * f.b + f.a * b, b * f.b); } void afis() const { cout << a << \"/\" << b; } };. (Fractie(1, 2) + Fractie(1, 3)).afis(); afișează 5/6.",
+    "worked": "Supraîncărcarea lui + face codul natural, ca în matematică. Constructorul simplifică automat fiecare fracție nouă, deci și rezultatul adunării.",
+    "exercises": [
+     "Scrie clasa Fractie cu operatorii + și *.",
+     "Adaugă un constructor implicit și unul cu parametri.",
+     "Scrie o clasă Vector2D cu operatorii + și − și metoda lungime.",
+     "Scrie o clasă care alocă dinamic un tablou și îl eliberează în destructor.",
+     "Sortează un vector de obiecte după un atribut."
+    ],
+    "test": [
+     "Ce face destructorul?",
+     "Ce înseamnă supraîncărcarea constructorilor?",
+     "Ce garantează o metodă const?",
+     "Cum supraîncărcăm operatorul + pentru o clasă?",
+     "De ce separăm clasa în fișiere .h și .cpp?"
+    ],
+    "steps": [
+     "Definește atributele private și constructorii.",
+     "Adaugă metodele și operatorii necesari, marcând const metodele care nu modifică obiectul.",
+     "Testează obiectele în main pe cazuri cunoscute.",
+     "Greșeala frecventă: să aloci memorie dinamic în constructor și să uiți destructorul; apare o scurgere de memorie."
+    ],
+    "answers": [
+     "Eliberează resursele la distrugerea obiectului.",
+     "Existența mai multor constructori cu parametri diferiți.",
+     "Că metoda nu modifică obiectul.",
+     "Definim o metodă operator+ care întoarce rezultatul.",
+     "Pentru a organiza proiectele mari, separând declarația de implementare."
+    ]
+   }
+  }
+ }
+}

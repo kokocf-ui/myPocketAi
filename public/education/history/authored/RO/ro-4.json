@@ -1,0 +1,1264 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "RO",
+ "stage": "beginner",
+ "grade": "4",
+ "version": "5e9768e4d90abd6ec89ffc2c8ebc07cef09ee2a1868e6b972d218e9901c3c7c1",
+ "source": "https://programe.ise.ro/",
+ "sourceTitle": "Programa școlară pentru disciplina Istorie, clasa a IV-a, aprobată prin OMEN nr. 5003/02.12.2014 (anexa 2), 1 oră pe săptămână — domeniile: Trecutul și prezentul din jurul nostru; Epoci, evenimente și personalități; Cultură și patrimoniu. Lecțiile urmează ordinea unităților din manualele aprobate; explicațiile, exemplele și exercițiile sunt originale, fără text copiat din manuale",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "ro",
+ "labels": [
+  "Activitate originală · România · Istorie · Clasa a IV-a",
+  "Lecția pe înțeles",
+  "Exemplu",
+  "Ce ne arată exemplul",
+  "Exerciții",
+  "Test",
+  "Activități originale, făcute după programa școlară; nu înlocuiesc manualul sau ora de istorie.",
+  "Dacă nu ai înțeles: pas cu pas",
+  "Răspunsuri (verifică după ce termini)"
+ ],
+ "units": [
+  {
+   "title": "Noțiuni introductive",
+   "keys": [
+    "eu-year-ro-beginner-4-l01",
+    "eu-year-ro-beginner-4-l02",
+    "eu-year-ro-beginner-4-l03"
+   ]
+  },
+  {
+   "title": "Familia",
+   "keys": [
+    "eu-year-ro-beginner-4-l04",
+    "eu-year-ro-beginner-4-l05"
+   ]
+  },
+  {
+   "title": "Comunitatea locală și națională",
+   "keys": [
+    "eu-year-ro-beginner-4-l06",
+    "eu-year-ro-beginner-4-l07",
+    "eu-year-ro-beginner-4-l08"
+   ]
+  },
+  {
+   "title": "Copilăria de ieri și de azi",
+   "keys": [
+    "eu-year-ro-beginner-4-l09"
+   ]
+  },
+  {
+   "title": "Popoare de ieri și de astăzi",
+   "keys": [
+    "eu-year-ro-beginner-4-l10",
+    "eu-year-ro-beginner-4-l11",
+    "eu-year-ro-beginner-4-l12",
+    "eu-year-ro-beginner-4-l13"
+   ]
+  },
+  {
+   "title": "Cunoașterea lumii prin călători",
+   "keys": [
+    "eu-year-ro-beginner-4-l14",
+    "eu-year-ro-beginner-4-l15",
+    "eu-year-ro-beginner-4-l16"
+   ]
+  },
+  {
+   "title": "Antichitatea",
+   "keys": [
+    "eu-year-ro-beginner-4-l17",
+    "eu-year-ro-beginner-4-l18"
+   ]
+  },
+  {
+   "title": "Evul Mediu",
+   "keys": [
+    "eu-year-ro-beginner-4-l19",
+    "eu-year-ro-beginner-4-l20",
+    "eu-year-ro-beginner-4-l21",
+    "eu-year-ro-beginner-4-l22",
+    "eu-year-ro-beginner-4-l23",
+    "eu-year-ro-beginner-4-l24"
+   ]
+  },
+  {
+   "title": "Epoca modernă",
+   "keys": [
+    "eu-year-ro-beginner-4-l25",
+    "eu-year-ro-beginner-4-l26",
+    "eu-year-ro-beginner-4-l27",
+    "eu-year-ro-beginner-4-l28",
+    "eu-year-ro-beginner-4-l29"
+   ]
+  },
+  {
+   "title": "Cultură și patrimoniu",
+   "keys": [
+    "eu-year-ro-beginner-4-l30",
+    "eu-year-ro-beginner-4-l31",
+    "eu-year-ro-beginner-4-l32",
+    "eu-year-ro-beginner-4-l33"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-ro-beginner-4-l01": {
+   "ro": {
+    "title": "Trecut și prezent: deceniu, secol, mileniu",
+    "theory": "Istoria studiază ce s-a întâmplat în trecut, ca să înțelegem prezentul. Timpul se măsoară în unități tot mai mari: un an are 12 luni, un deceniu are 10 ani, un secol are 100 de ani, iar un mileniu are 1000 de ani. Secolele se scriu de obicei cu cifre romane: secolul al XXI-lea a început în anul 2001. Anii de dinaintea nașterii lui Iisus Hristos se scriu cu „î.Hr.”, iar cei de după, cu „d.Hr.”.",
+    "sample": "Bunicul s-a născut în 1955, mama în 1985, iar tu în 2016.",
+    "worked": "Între nașterea bunicului și a mamei au trecut 30 de ani, adică 3 decenii. Toți trei sunteți născuți în același mileniu? Nu: bunicul și mama în mileniul al II-lea, tu în mileniul al III-lea, care a început în 2001.",
+    "exercises": [
+     "Calculează câți ani are un secol și jumătate.",
+     "Scrie cu cifre romane secolul în care te-ai născut.",
+     "Află câte decenii au trecut de la nașterea părinților tăi.",
+     "Ordonează: mileniu, an, secol, deceniu, de la cea mai mică unitate la cea mai mare.",
+     "Scrie trei evenimente din viața ta în ordinea în care s-au petrecut."
+    ],
+    "test": [
+     "Câți ani are un deceniu?",
+     "Câți ani are un secol?",
+     "Câți ani are un mileniu?",
+     "În ce secol suntem acum?",
+     "Ce înseamnă „î.Hr.”?"
+    ],
+    "steps": [
+     "Află ce unitate de timp ți se cere: an, deceniu, secol sau mileniu.",
+     "Amintește-ți: 10 ani fac un deceniu, 100 de ani un secol, 1000 de ani un mileniu.",
+     "Pentru secol, gândește-te că anul 1900 aparține încă secolului al XIX-lea, iar secolul al XX-lea începe cu 1901.",
+     "Greșeala frecventă: să crezi că anul 2000 a deschis secolul al XXI-lea; acesta a început în 2001."
+    ],
+    "answers": [
+     "10 ani.",
+     "100 de ani.",
+     "1000 de ani.",
+     "În secolul al XXI-lea.",
+     "Înainte de nașterea lui Hristos."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l02": {
+   "ro": {
+    "title": "Epocile istorice și axa timpului",
+    "theory": "Istoricii împart trecutul în perioade mari, numite epoci istorice: Preistoria (până la apariția scrisului), Antichitatea, Evul Mediu, Epoca modernă și Epoca contemporană. Pentru a vedea ordinea evenimentelor folosim axa timpului: o linie pe care așezăm anii de la stânga (mai vechi) la dreapta (mai noi). Pe axă, anul 1 d.Hr. desparte anii „înainte de Hristos” de anii „după Hristos”.",
+    "sample": "Pe axa timpului așezăm: Unirea Principatelor (1859), Marea Unire (1918), intrarea României în Uniunea Europeană (2007).",
+    "worked": "Așezăm evenimentele de la stânga la dreapta, după an: 1859, apoi 1918, apoi 2007. Axa ne arată dintr-o privire ce s-a întâmplat mai întâi și cât timp a trecut între evenimente.",
+    "exercises": [
+     "Desenează o axă a timpului cu cinci evenimente din viața familiei tale.",
+     "Ordonează epocile istorice de la cea mai veche la cea mai nouă.",
+     "Așază pe o axă anii 1600, 1859 și 1918.",
+     "Calculează câți ani au trecut între 1859 și 1918.",
+     "Explică de ce Preistoria se termină odată cu apariția scrisului."
+    ],
+    "test": [
+     "Ce este o epocă istorică?",
+     "Care este prima epocă istorică?",
+     "În ce direcție cresc anii pe axa timpului?",
+     "Ce epocă urmează după Antichitate?",
+     "Când se încheie Preistoria?"
+    ],
+    "steps": [
+     "Scrie fiecare eveniment cu anul lui.",
+     "Ordonează anii de la cel mai mic la cel mai mare.",
+     "Desenează axa și așază evenimentele de la stânga la dreapta.",
+     "Greșeala frecventă: să așezi anii înainte de Hristos ca pe cei de după: 100 î.Hr. este mai vechi decât 50 î.Hr."
+    ],
+    "answers": [
+     "O perioadă mare din trecut, cu trăsături asemănătoare.",
+     "Preistoria.",
+     "De la stânga la dreapta.",
+     "Evul Mediu.",
+     "Odată cu apariția scrisului."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l03": {
+   "ro": {
+    "title": "Spațiul istoric și sursele istorice",
+    "theory": "Spațiul istoric este locul unde s-au petrecut evenimentele: o localitate, o țară, un continent. Îl găsim pe hărți. Ce știm despre trecut aflăm din surse istorice: surse scrise (cronici, scrisori, documente), surse nescrise (obiecte, clădiri, unelte, monede, monumente), surse orale (amintiri povestite de oameni) și surse vizuale (fotografii, picturi, filme). Fiecare sursă ne spune ceva, dar trebuie să ne întrebăm cine a făcut-o și când.",
+    "sample": "Bunica îți arată o fotografie veche, o scrisoare a străbunicului și un ceas de buzunar.",
+    "worked": "Fotografia este o sursă vizuală, scrisoarea este o sursă scrisă, iar ceasul este o sursă nescrisă (un obiect). Dacă bunica îți povestește despre ele, primești și o sursă orală.",
+    "exercises": [
+     "Găsește în casă trei obiecte vechi și spune ce fel de surse sunt.",
+     "Arată pe hartă localitatea ta și județul în care se află.",
+     "Întreabă un bunic despre copilăria lui și notează două amintiri.",
+     "Grupează: cronică, monedă, fotografie, poveste a bunicului.",
+     "Explică de ce o singură sursă nu ne spune tot adevărul."
+    ],
+    "test": [
+     "Ce este spațiul istoric?",
+     "Ce este o sursă istorică?",
+     "Dă un exemplu de sursă scrisă.",
+     "Dă un exemplu de sursă nescrisă.",
+     "Ce este o sursă orală?"
+    ],
+    "steps": [
+     "Uită-te la sursă: este scrisă, un obiect, o imagine sau o povestire?",
+     "Întreabă-te cine a făcut-o, când și de ce.",
+     "Notează ce informație îți dă despre trecut.",
+     "Greșeala frecventă: să crezi că o sursă spune mereu tot adevărul; fiecare are o perspectivă și trebuie comparată cu altele."
+    ],
+    "answers": [
+     "Locul unde s-au petrecut evenimentele.",
+     "Orice ne dă informații despre trecut.",
+     "O cronică sau o scrisoare.",
+     "O monedă sau o unealtă.",
+     "O amintire povestită de un om."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l04": {
+   "ro": {
+    "title": "Trecutul familiei: arborele genealogic",
+    "theory": "Familia ta are și ea o istorie. Arborele genealogic este un desen care arată membrii familiei pe generații: tu, părinții, bunicii, străbunicii. O generație înseamnă aproximativ 25–30 de ani. Pentru a afla trecutul familiei, folosim documente (certificate, acte), fotografii, obiecte păstrate și amintirile celor mai în vârstă.",
+    "sample": "Ana desenează: jos ea și fratele ei; deasupra, mama și tata; mai sus, cei patru bunici.",
+    "worked": "Arborele are trei generații: copiii, părinții și bunicii. Fiecare om are doi părinți și patru bunici, așa că arborele se lărgește pe măsură ce urcăm în trecut.",
+    "exercises": [
+     "Desenează arborele genealogic al familiei tale pe trei generații.",
+     "Află numele și locul nașterii a doi bunici.",
+     "Calculează câte generații încap într-un secol.",
+     "Strânge trei fotografii din familie și ordonează-le în timp.",
+     "Scrie o întrebare pe care ai vrea să o pui străbunicilor."
+    ],
+    "test": [
+     "Ce este arborele genealogic?",
+     "Câți bunici are un om?",
+     "Câți ani înseamnă aproximativ o generație?",
+     "Ce surse folosim pentru trecutul familiei?",
+     "Cine este mai sus în arbore: părinții sau bunicii?"
+    ],
+    "steps": [
+     "Începe cu tine, în partea de jos.",
+     "Adaugă deasupra părinții, apoi bunicii.",
+     "Scrie lângă fiecare nume anul și locul nașterii, dacă le afli.",
+     "Greșeala frecventă: să pui frații pe același rând cu părinții; frații sunt în aceeași generație cu tine."
+    ],
+    "answers": [
+     "Un desen care arată membrii familiei pe generații.",
+     "Patru.",
+     "Aproximativ 25–30 de ani.",
+     "Acte, fotografii, obiecte și amintiri.",
+     "Bunicii."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l05": {
+   "ro": {
+    "title": "Viața de familie ieri și azi",
+    "theory": "Viața familiilor s-a schimbat mult. Acum o sută de ani, multe familii locuiau la sat, munceau pământul, își făceau singure hainele și pâinea, iar copiii ajutau la treburi. Sărbătorile de familie (botezul, nunta, onomastica, Crăciunul, Paștele) adunau toate rudele. Astăzi avem aparate electrice, telefon și internet, mai mult timp liber, dar unele obiceiuri s-au păstrat.",
+    "sample": "Străbunica spăla rufele la râu; astăzi le punem în mașina de spălat.",
+    "worked": "Activitatea a rămas aceeași (spălatul rufelor), dar s-a schimbat felul în care o facem. Așa observăm ce s-a schimbat și ce a rămas la fel de la o epocă la alta.",
+    "exercises": [
+     "Întreabă un bunic cum își petrecea timpul liber în copilărie.",
+     "Compară o zi din viața ta cu o zi din copilăria bunicilor.",
+     "Numește trei sărbători de familie și explică ce se face la ele.",
+     "Găsește un obicei care s-a păstrat de-a lungul generațiilor.",
+     "Desenează un obiect folosit de bunici, care azi nu mai este folosit."
+    ],
+    "test": [
+     "Unde locuiau multe familii acum o sută de ani?",
+     "Numește o sărbătoare de familie.",
+     "Ce aparate ne ușurează viața astăzi?",
+     "Ce ajutau copiii să facă în trecut?",
+     "Ce s-a păstrat din viața de odinioară?"
+    ],
+    "steps": [
+     "Alege o activitate de zi cu zi.",
+     "Află cum se făcea în trecut și cum se face azi.",
+     "Notează ce s-a schimbat și ce a rămas la fel.",
+     "Greșeala frecventă: să crezi că în trecut oamenii nu aveau timp liber deloc; aveau, dar îl petreceau altfel: la șezători, hore și jocuri."
+    ],
+    "answers": [
+     "La sat.",
+     "Botezul, nunta sau onomastica.",
+     "Mașina de spălat, frigiderul, telefonul.",
+     "La treburile casei și la câmp.",
+     "Sărbătorile și unele obiceiuri."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l06": {
+   "ro": {
+    "title": "Localitatea mea: teritoriu, locuințe și viață cotidiană",
+    "theory": "Comunitatea locală este formată din oamenii care trăiesc în aceeași localitate: sat, comună sau oraș. Localitatea are un teritoriu, clădiri importante (școală, primărie, biserică, muzeu) și o istorie. Locuințele s-au schimbat: din case de lemn sau chirpici, cu acoperiș de paie sau șindrilă, s-a ajuns la case de cărămidă și blocuri. Ocupațiile oamenilor depind de loc: agricultură, meserii, comerț, fabrici.",
+    "sample": "Pe o fotografie din 1930, strada principală a orașului are case mici și căruțe; azi are blocuri și mașini.",
+    "worked": "Comparând două imagini ale aceluiași loc, la date diferite, vedem schimbările: tipul clădirilor, mijloacele de transport, ocupațiile. Fotografia veche este o sursă istorică.",
+    "exercises": [
+     "Află când a fost atestată pentru prima dată localitatea ta.",
+     "Numește trei clădiri importante din localitate.",
+     "Compară o fotografie veche cu una nouă a aceluiași loc.",
+     "Întreabă ce ocupații aveau oamenii din localitate în trecut.",
+     "Desenează o casă tradițională din zona ta."
+    ],
+    "test": [
+     "Ce este comunitatea locală?",
+     "Numește o clădire importantă a unei localități.",
+     "Din ce erau făcute casele tradiționale?",
+     "De ce depind ocupațiile oamenilor?",
+     "Ce ne arată o fotografie veche a localității?"
+    ],
+    "steps": [
+     "Alege un loc din localitatea ta.",
+     "Caută o imagine veche și una nouă a lui.",
+     "Notează trei schimbări și un lucru care a rămas la fel.",
+     "Greșeala frecventă: să crezi că localitatea ta nu are istorie dacă nu este mare; orice sat are trecut, oameni și monumente."
+    ],
+    "answers": [
+     "Oamenii care trăiesc în aceeași localitate.",
+     "Școala, primăria sau biserica.",
+     "Din lemn sau chirpici, cu acoperiș de paie sau șindrilă.",
+     "De loc, de resurse și de epocă.",
+     "Cum arăta locul în trecut."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l07": {
+   "ro": {
+    "title": "Tradiții, sărbători și monumentele eroilor",
+    "theory": "Fiecare comunitate are tradiții: obiceiuri de Crăciun (colinde, Plugușorul, Sorcova), de Paște (ouăle roșii), de primăvară (Mărțișorul). Sărbătorile religioase și cele naționale adună oamenii. Ziua Națională a României este 1 Decembrie. Monumentele eroilor ne amintesc de oamenii din localitate care au murit în războaie pentru țară; de Ziua Eroilor (de Înălțarea Domnului) se depun flori la ele.",
+    "sample": "Pe monumentul eroilor din sat sunt scrise numele a 40 de oameni căzuți în Primul Război Mondial.",
+    "worked": "Monumentul este o sursă istorică: numele ne arată că războiul a atins fiecare familie. Comunitatea îi cinstește ca să nu fie uitați.",
+    "exercises": [
+     "Descrie o tradiție de iarnă din zona ta.",
+     "Vizitează monumentul eroilor din localitate și notează ce este scris pe el.",
+     "Explică de ce sărbătorim 1 Decembrie.",
+     "Numește o sărbătoare religioasă și una națională.",
+     "Află o legendă sau o poveste legată de localitatea ta."
+    ],
+    "test": [
+     "Când este Ziua Națională a României?",
+     "Ce este un monument al eroilor?",
+     "Numește un obicei de Crăciun.",
+     "Ce simbolizează Mărțișorul?",
+     "Când se sărbătorește Ziua Eroilor?"
+    ],
+    "steps": [
+     "Alege o tradiție sau un monument.",
+     "Află când și de ce a apărut.",
+     "Explică ce înseamnă pentru comunitate astăzi.",
+     "Greșeala frecventă: să confunzi sărbătorile naționale cu cele religioase; 1 Decembrie este națională, Crăciunul este religioasă."
+    ],
+    "answers": [
+     "1 Decembrie.",
+     "Un monument care îi cinstește pe cei căzuți în războaie.",
+     "Colindatul.",
+     "Venirea primăverii.",
+     "De Înălțarea Domnului."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l08": {
+   "ro": {
+    "title": "Comunități ale minorităților din România",
+    "theory": "În România trăiesc, alături de români, și alte comunități, numite minorități naționale: maghiari, romi, germani (sași și șvabi), ucraineni, turci, tătari, ruși lipoveni, sârbi, evrei, armeni și altele. Ele au limba, tradițiile, bisericile și sărbătorile lor și au contribuit la istoria și cultura țării. Pe 18 decembrie se sărbătorește Ziua Minorităților Naționale.",
+    "sample": "În Sibiu se vorbea de secole germana (sașii), româna și maghiara; clădirile vechi păstrează urmele tuturor.",
+    "worked": "Un oraș poate avea o istorie comună a mai multor comunități. Clădirile, bisericile și numele de străzi sunt surse care ne arată această conviețuire.",
+    "exercises": [
+     "Numește trei minorități naționale din România.",
+     "Află dacă în localitatea ta trăiește o comunitate a unei minorități.",
+     "Descrie un obicei al unei minorități.",
+     "Explică de ce este important să respectăm tradițiile celorlalți.",
+     "Caută o clădire construită de o comunitate a unei minorități."
+    ],
+    "test": [
+     "Ce este o minoritate națională?",
+     "Numește două minorități din România.",
+     "Cine sunt sașii?",
+     "Când este Ziua Minorităților Naționale?",
+     "Ce au păstrat minoritățile?"
+    ],
+    "steps": [
+     "Află ce comunitate trăiește în zona ta.",
+     "Caută limba, tradițiile și clădirile ei.",
+     "Spune ce a adus în istoria locului.",
+     "Greșeala frecventă: să crezi că o comunitate mai mică are o istorie mai puțin importantă."
+    ],
+    "answers": [
+     "O comunitate cu altă origine decât majoritatea, care trăiește în țară.",
+     "Maghiarii și romii.",
+     "Germanii stabiliți în Transilvania în Evul Mediu.",
+     "Pe 18 decembrie.",
+     "Limba, tradițiile, bisericile și sărbătorile."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l09": {
+   "ro": {
+    "title": "Copilăria de ieri și de azi în comunitatea locală",
+    "theory": "Copiii de acum o sută de ani mergeau adesea pe jos la școală, scriau cu tocul cu peniță și cerneală, aveau puține jucării (multe făcute în casă: păpuși din cârpe, mingi din cârpă, fluiere din lemn) și ajutau la treburi. Mulți copii de la sat nu terminau școala. Astăzi școala este obligatorie, avem manuale, calculatoare și multe jocuri.",
+    "sample": "Bunicul se juca „de-a v-ați ascunselea” și „țurca”; tu te joci la fel de-a v-ați ascunselea, dar și pe tabletă.",
+    "worked": "Unele jocuri au trecut din generație în generație, altele sunt noi. Comparând, vedem continuitatea și schimbarea.",
+    "exercises": [
+     "Întreabă un bunic trei jocuri din copilăria lui.",
+     "Compară o sală de clasă de acum o sută de ani cu a ta.",
+     "Fă o jucărie simplă cum făceau copiii odinioară.",
+     "Scrie ce instrumente de scris foloseau copiii în trecut.",
+     "Explică o regulă a unui joc vechi."
+    ],
+    "test": [
+     "Cu ce scriau copiii de acum o sută de ani?",
+     "Din ce erau făcute jucăriile multor copii?",
+     "Ce joc s-a păstrat până azi?",
+     "Ce este obligatoriu astăzi pentru copii?",
+     "Ce ajutau copiii să facă acasă?"
+    ],
+    "steps": [
+     "Alege un aspect: școala, jocurile sau treburile.",
+     "Află cum era în copilăria bunicilor.",
+     "Compară cu copilăria ta și spune ce e diferit și ce e la fel.",
+     "Greșeala frecventă: să crezi că toți copiii din trecut trăiau la fel; viața depindea de loc și de familie."
+    ],
+    "answers": [
+     "Cu tocul cu peniță și cerneală.",
+     "Din cârpe și lemn.",
+     "De-a v-ați ascunselea.",
+     "Școala.",
+     "La treburile casei și la câmp."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l10": {
+   "ro": {
+    "title": "Dacii, romanii, românii",
+    "theory": "Dacii (numiți de greci și geți) trăiau în spațiul de azi al României. Romanii erau un popor din Italia, care a creat un imperiu uriaș. După ce romanii au cucerit o parte din Dacia (106 d.Hr.), dacii și romanii au trăit împreună, iar din amestecul lor s-a format, în timp, poporul român și limba română, o limbă latină. Ocupațiile vechi: agricultura, creșterea animalelor, meșteșugurile.",
+    "sample": "Cuvintele „apă”, „pâine” și „om” vin din latină: aqua, panis, homo.",
+    "worked": "Asemănarea cuvintelor românești cu cele latinești arată că limba română s-a format din latina vorbită de romani. Este o dovadă că românii sunt urmașii dacilor și romanilor.",
+    "exercises": [
+     "Arată pe hartă unde trăiau dacii.",
+     "Găsește încă trei cuvinte românești asemănătoare cu cele latinești.",
+     "Explică ce înseamnă că româna este o limbă latină.",
+     "Desenează un dac și un soldat roman.",
+     "Ordonează: dacii, cucerirea romană, formarea poporului român."
+    ],
+    "test": [
+     "Cum i-au numit grecii pe daci?",
+     "În ce an au cucerit romanii o parte a Daciei?",
+     "Din ce limbă provine limba română?",
+     "Din ce popoare s-a format poporul român?",
+     "Ce ocupații aveau dacii?"
+    ],
+    "steps": [
+     "Află cine trăia aici la început: dacii.",
+     "Află cine a venit: romanii, în 106 d.Hr.",
+     "Explică ce a rezultat din traiul lor împreună: poporul român și limba română.",
+     "Greșeala frecventă: să crezi că poporul român s-a format într-o singură zi; a fost un proces care a durat secole."
+    ],
+    "answers": [
+     "Geți.",
+     "În 106 d.Hr.",
+     "Din latină.",
+     "Din daci și romani.",
+     "Agricultura, creșterea animalelor, meșteșugurile."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l11": {
+   "ro": {
+    "title": "Grecii, galii și francezii",
+    "theory": "Grecii antici au trăit în Grecia și au întemeiat orașe (colonii) pe malurile mărilor, inclusiv pe malul Mării Negre, în Dobrogea: Histria, Tomis (azi Constanța) și Callatis (azi Mangalia). Ei au dat lumii Jocurile Olimpice, teatrul și filozofia. Galii trăiau pe teritoriul Franței de azi și au fost cuceriți de romani. Din amestecul lor cu romanii și cu francii s-a format poporul francez, care vorbește tot o limbă latină.",
+    "sample": "Constanța de azi este orașul grec Tomis, întemeiat acum aproximativ 2600 de ani.",
+    "worked": "Un oraș modern poate avea în spate o istorie foarte veche. Grecii au adus în Dobrogea comerțul, moneda și scrisul.",
+    "exercises": [
+     "Arată pe hartă orașele Histria, Tomis și Callatis.",
+     "Explică ce sunt Jocurile Olimpice.",
+     "Găsește asemănări între limba română și limba franceză.",
+     "Explică de ce francezii vorbesc o limbă latină.",
+     "Desenează o corabie grecească."
+    ],
+    "test": [
+     "Ce orașe grecești au fost întemeiate în Dobrogea?",
+     "Cum se numește azi Tomis?",
+     "Ce au dat grecii lumii?",
+     "Unde trăiau galii?",
+     "Ce limbă vorbesc francezii?"
+    ],
+    "steps": [
+     "Localizează poporul pe hartă.",
+     "Află ce a creat sau ce a lăsat moștenire.",
+     "Leagă trecutul de prezent: ce urme vedem azi.",
+     "Greșeala frecventă: să crezi că grecii antici au trăit în Dobrogea ca stat al lor; ei au întemeiat orașe-colonii pe țărm."
+    ],
+    "answers": [
+     "Histria, Tomis și Callatis.",
+     "Constanța.",
+     "Jocurile Olimpice, teatrul, filozofia.",
+     "Pe teritoriul Franței de azi.",
+     "O limbă latină, franceza."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l12": {
+   "ro": {
+    "title": "Slavii: rușii, sârbii, bulgarii",
+    "theory": "Slavii sunt un grup mare de popoare care au venit din estul Europei și s-au așezat în centrul și sudul Europei. Din ei se trag, printre altele, rușii, ucrainenii, sârbii și bulgarii. Sârbii și bulgarii sunt vecini ai României. Slavii au trăit o vreme alături de strămoșii românilor, iar limba română a împrumutat cuvinte slave, cum ar fi „a iubi”, „prieten”, „nevastă”.",
+    "sample": "Cuvântul „prieten” a venit în română din limba slavă.",
+    "worked": "Popoarele vecine se influențează: schimbă cuvinte, obiceiuri și tehnici. Limba noastră păstrează urmele acestor întâlniri.",
+    "exercises": [
+     "Arată pe hartă Serbia și Bulgaria.",
+     "Găsește o tradiție comună românilor și bulgarilor, de exemplu mărțișorul.",
+     "Numește trei popoare slave.",
+     "Explică ce este un cuvânt împrumutat.",
+     "Află ce alfabet folosesc rușii și bulgarii."
+    ],
+    "test": [
+     "De unde au venit slavii?",
+     "Numește două popoare slave vecine cu România.",
+     "Ce cuvânt românesc vine din slavă?",
+     "Ce alfabet folosesc bulgarii?",
+     "Ce se întâmplă când popoarele trăiesc alături?"
+    ],
+    "steps": [
+     "Află de unde a venit poporul.",
+     "Localizează-l pe hartă astăzi.",
+     "Caută ce urme a lăsat în viața și limba noastră.",
+     "Greșeala frecventă: să crezi că românii sunt slavi pentru că avem cuvinte slave; limba română este latină, cu împrumuturi."
+    ],
+    "answers": [
+     "Din estul Europei.",
+     "Sârbii și bulgarii.",
+     "Prieten sau a iubi.",
+     "Alfabetul chirilic.",
+     "Se influențează și schimbă cuvinte și obiceiuri."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l13": {
+   "ro": {
+    "title": "Germanii, ungurii, turcii",
+    "theory": "Germanii trăiesc în centrul Europei; în Evul Mediu, unii dintre ei (sașii) s-au stabilit în Transilvania, unde au construit orașe și biserici fortificate. Ungurii (maghiarii) au venit din est și s-au așezat în Câmpia Panonică în jurul anului 900, unde au întemeiat Regatul Ungariei. Turcii au creat Imperiul Otoman, care a cucerit Constantinopolul în 1453 și a fost, multă vreme, vecin și adversar al Țărilor Române.",
+    "sample": "Sighișoara, cu cetatea și turnul ei cu ceas, a fost construită de sași.",
+    "worked": "Clădirile vechi ne arată cine le-a construit și cum trăiau oamenii. Sașii au adus în Transilvania meșteșuguri și orașe bine organizate.",
+    "exercises": [
+     "Arată pe hartă Germania, Ungaria și Turcia.",
+     "Descrie o biserică fortificată săsească.",
+     "Explică ce este un imperiu.",
+     "Află ce cuvinte românești vin din turcă (de exemplu cafea, ciorbă).",
+     "Ordonează: venirea ungurilor, cucerirea Constantinopolului."
+    ],
+    "test": [
+     "Unde s-au stabilit sașii?",
+     "Când s-au așezat ungurii în Câmpia Panonică?",
+     "Ce imperiu au creat turcii?",
+     "Ce oraș au cucerit turcii în 1453?",
+     "Ce oraș transilvănean au construit sașii?"
+    ],
+    "steps": [
+     "Află de unde vine poporul și unde trăiește azi.",
+     "Află ce legătură a avut cu Țările Române.",
+     "Caută urme: clădiri, cuvinte, obiceiuri.",
+     "Greșeala frecventă: să crezi că relațiile cu vecinii au fost doar războaie; au existat și comerț, schimburi și conviețuire."
+    ],
+    "answers": [
+     "În Transilvania.",
+     "În jurul anului 900.",
+     "Imperiul Otoman.",
+     "Constantinopolul.",
+     "Sighișoara."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l14": {
+   "ro": {
+    "title": "Marco Polo, Cristofor Columb și Magellan",
+    "theory": "Marco Polo (1254–1324), un negustor din Veneția, a călătorit până în China și a povestit ce a văzut într-o carte. Cristofor Columb a plecat din Spania spre vest, crezând că ajunge în India, și în 1492 a ajuns în America. Expediția condusă de Fernando Magellan (1519–1522) a făcut prima călătorie în jurul lumii; Magellan a murit pe drum, iar călătoria a fost încheiată de echipajul său.",
+    "sample": "Columb a numit „indieni” locuitorii Americii, pentru că a crezut că ajunsese în India.",
+    "worked": "Și marii exploratori puteau greși. Numele dat atunci a rămas mult timp, deși Columb ajunsese, de fapt, pe un continent necunoscut europenilor.",
+    "exercises": [
+     "Urmărește pe hartă drumul lui Marco Polo spre China.",
+     "Desenează traseul lui Columb din 1492.",
+     "Explică de ce călătoria lui Magellan a demonstrat că Pământul este rotund.",
+     "Ordonează cronologic cele trei călătorii.",
+     "Imaginează-ți o pagină din jurnalul unui marinar."
+    ],
+    "test": [
+     "Din ce oraș era Marco Polo?",
+     "Până unde a călătorit Marco Polo?",
+     "În ce an a ajuns Columb în America?",
+     "Unde credea Columb că ajunsese?",
+     "Ce a realizat expediția lui Magellan?"
+    ],
+    "steps": [
+     "Află cine a fost exploratorul și de unde a plecat.",
+     "Urmărește pe hartă drumul lui.",
+     "Spune ce a descoperit și ce s-a schimbat după călătorie.",
+     "Greșeala frecventă: să crezi că Magellan a terminat călătoria; el a murit pe drum, iar echipajul a încheiat-o."
+    ],
+    "answers": [
+     "Din Veneția.",
+     "Până în China.",
+     "În 1492.",
+     "În India.",
+     "Prima călătorie în jurul lumii."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l15": {
+   "ro": {
+    "title": "Călători români: Spătarul Milescu și Badea Cârțan",
+    "theory": "Nicolae Milescu, numit Spătarul, a fost un cărturar moldovean care a călătorit în secolul al XVII-lea până în China, ca sol al țarului Rusiei, și a scris despre drumul său. Gheorghe Cârțan, numit Badea Cârțan, era un cioban din Transilvania care a mers pe jos până la Roma (1896), ca să vadă Columna lui Traian, monumentul care arată războaiele dintre daci și romani; a dus în Transilvania cărți românești.",
+    "sample": "Badea Cârțan a parcurs pe jos drumul până la Roma, cu traista în spinare.",
+    "worked": "Călătoria lui arată cât de mult prețuia el originea poporului român. Nu era un om bogat, dar a făcut un drum lung din dragoste pentru istorie și pentru carte.",
+    "exercises": [
+     "Urmărește pe hartă drumul de la Transilvania la Roma.",
+     "Explică ce este Columna lui Traian.",
+     "Află ce a scris Nicolae Milescu despre China.",
+     "Compară călătoria lui Milescu cu cea a lui Marco Polo.",
+     "Scrie trei întrebări pentru Badea Cârțan."
+    ],
+    "test": [
+     "Cine a fost Nicolae Milescu?",
+     "Până unde a călătorit el?",
+     "Ce meserie avea Badea Cârțan?",
+     "Unde a mers pe jos Badea Cârțan?",
+     "Ce monument voia să vadă?"
+    ],
+    "steps": [
+     "Află cine a fost călătorul.",
+     "Află unde a mers și de ce.",
+     "Spune ce a adus înapoi sau ce a lăsat scris.",
+     "Greșeala frecventă: să crezi că doar oamenii bogați au făcut călătorii importante; Badea Cârțan era cioban."
+    ],
+    "answers": [
+     "Un cărturar moldovean, numit Spătarul.",
+     "Până în China.",
+     "Cioban.",
+     "Până la Roma.",
+     "Columna lui Traian."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l16": {
+   "ro": {
+    "title": "Emil Racoviță, Csoma de Kőrös și exploratorii secolului XX",
+    "theory": "Emil Racoviță a fost un savant român care a participat la expediția navei Belgica în Antarctica (1897–1899) și a întemeiat biospeologia, știința care studiază viața din peșteri. Alexander Csoma de Kőrös, născut în Transilvania, a călătorit în Asia și a alcătuit primul dicționar tibetan–englez. În secolul XX, exploratorii au ajuns la Polul Sud (Roald Amundsen, 1911), pe vârful Everest (1953), în spațiu (Iuri Gagarin, 1961) și pe Lună (Neil Armstrong, 1969). Dumitru Prunariu a fost primul român în spațiu (1981).",
+    "sample": "Dumitru Prunariu a zburat în spațiu în 1981, la 20 de ani după Gagarin.",
+    "worked": "Explorarea a continuat de pe mări și continente până în spațiu. Și românii au participat la marile descoperiri.",
+    "exercises": [
+     "Arată Antarctica pe glob.",
+     "Explică ce studiază biospeologia.",
+     "Ordonează: Polul Sud, Everest, primul om în spațiu, primul om pe Lună.",
+     "Află un lucru despre zborul lui Dumitru Prunariu.",
+     "Scrie ce ai lua cu tine într-o expediție."
+    ],
+    "test": [
+     "Unde a călătorit Emil Racoviță?",
+     "Ce știință a întemeiat?",
+     "Ce dicționar a alcătuit Csoma de Kőrös?",
+     "Cine a ajuns primul pe Lună?",
+     "Cine a fost primul român în spațiu?"
+    ],
+    "steps": [
+     "Află cine a fost exploratorul și unde a mers.",
+     "Notează anul expediției.",
+     "Spune ce s-a descoperit sau ce s-a realizat.",
+     "Greșeala frecventă: să confunzi primul om în spațiu (Gagarin) cu primul om pe Lună (Armstrong)."
+    ],
+    "answers": [
+     "În Antarctica.",
+     "Biospeologia.",
+     "Primul dicționar tibetan–englez.",
+     "Neil Armstrong.",
+     "Dumitru Prunariu."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l17": {
+   "ro": {
+    "title": "Ce au scris anticii despre geți și daci",
+    "theory": "Despre strămoșii noștri aflăm din scrierile autorilor antici. Herodot, un istoric grec din secolul al V-lea î.Hr., i-a descris pe geți ca fiind foarte viteji și a scris că ei credeau în zeul Zalmoxis. Strabon, un geograf grec, a scris despre regele Burebista, care a unit triburile dacilor, și despre marele preot Deceneu. Cassius Dio a povestit războaiele dintre daci și romani.",
+    "sample": "Herodot a scris că geții sunt cei mai viteji și mai drepți dintre traci.",
+    "worked": "Herodot este o sursă scrisă veche. El privea geții din afară, ca grec, de aceea istoricii compară ce spune el cu descoperirile arheologice.",
+    "exercises": [
+     "Explică cine a fost Herodot.",
+     "Află ce credeau geții despre zeul Zalmoxis.",
+     "Explică de ce sursele antice trebuie verificate.",
+     "Ordonează: Herodot, Strabon, Cassius Dio.",
+     "Scrie două calități ale geților descrise de Herodot."
+    ],
+    "test": [
+     "Cine a fost Herodot?",
+     "Ce zeu venerau geții?",
+     "Despre ce rege dac a scris Strabon?",
+     "Cine era Deceneu?",
+     "Ce a povestit Cassius Dio?"
+    ],
+    "steps": [
+     "Află cine a scris sursa și când.",
+     "Citește ce spune despre daci.",
+     "Gândește-te că autorul era străin și compară cu alte surse.",
+     "Greșeala frecventă: să crezi că dacii și-au scris singuri istoria; ce știm vine mai ales de la autori greci și romani și din arheologie."
+    ],
+    "answers": [
+     "Un istoric grec din secolul al V-lea î.Hr.",
+     "Zalmoxis.",
+     "Burebista.",
+     "Marele preot al dacilor.",
+     "Războaiele dintre daci și romani."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l18": {
+   "ro": {
+    "title": "Burebista, Decebal și Traian",
+    "theory": "Burebista a fost regele care a unit triburile dacilor într-un stat puternic, în secolul I î.Hr. Decebal a fost regele dacilor care a luptat cu romanii. Împăratul roman Traian a purtat două războaie împotriva lui (101–102 și 105–106). În 106 d.Hr., romanii au cucerit capitala Sarmizegetusa Regia, iar o parte a Daciei a devenit provincie romană. Columna lui Traian din Roma arată, în imagini sculptate, aceste războaie.",
+    "sample": "Columna lui Traian are sculptate scene care se citesc ca o bandă desenată, de jos în sus.",
+    "worked": "Columna este o sursă nescrisă și vizuală: ne arată armele, hainele, cetățile dacilor și ale romanilor. A fost făcută de învingători, deci arată războiul din perspectiva lor.",
+    "exercises": [
+     "Ordonează: Burebista, primul război daco-roman, cucerirea Sarmizegetusei.",
+     "Arată pe hartă Sarmizegetusa Regia.",
+     "Descrie o scenă de pe Columna lui Traian.",
+     "Explică ce înseamnă provincie romană.",
+     "Compară pe Decebal cu Traian."
+    ],
+    "test": [
+     "Ce a realizat Burebista?",
+     "Cine a fost Decebal?",
+     "Ce împărat roman a cucerit Dacia?",
+     "În ce an a fost cucerită Sarmizegetusa?",
+     "Unde se află Columna lui Traian?"
+    ],
+    "steps": [
+     "Află cine a condus fiecare tabără.",
+     "Ordonează războaiele pe axa timpului.",
+     "Spune ce s-a schimbat după 106 d.Hr.",
+     "Greșeala frecventă: să crezi că toată Dacia a devenit provincie romană; numai o parte a fost cucerită."
+    ],
+    "answers": [
+     "A unit triburile dacilor într-un stat puternic.",
+     "Regele dacilor care a luptat cu romanii.",
+     "Traian.",
+     "În 106 d.Hr.",
+     "La Roma."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l19": {
+   "ro": {
+    "title": "Gelu, Dragoș și Basarab: legende și începuturi",
+    "theory": "Primele formațiuni românești din Evul Mediu au fost conduse de voievozi. O cronică veche îl pomenește pe Gelu, voievod în Transilvania. Legenda spune că Dragoș, venit din Maramureș, a vânat un zimbru și a ajuns în ținutul unde s-a întemeiat Moldova; de aceea capul de zimbru este pe stema Moldovei. Basarab I a fost primul domn al Țării Românești recunoscut ca independent, după victoria de la Posada (1330) împotriva regelui Ungariei.",
+    "sample": "Capul de bour (zimbru) de pe stema Moldovei amintește de legenda lui Dragoș.",
+    "worked": "Legendele amestecă fapte reale cu povești. Stema păstrează legenda, dar istoricii folosesc documente ca să afle ce s-a întâmplat de fapt.",
+    "exercises": [
+     "Povestește legenda lui Dragoș.",
+     "Desenează stema Moldovei.",
+     "Explică diferența dintre legendă și fapt istoric.",
+     "Arată pe hartă Transilvania, Moldova și Țara Românească.",
+     "Află ce s-a întâmplat la Posada."
+    ],
+    "test": [
+     "Cine era Gelu?",
+     "Ce animal a vânat Dragoș în legendă?",
+     "Ce se află pe stema Moldovei?",
+     "Cine a fost Basarab I?",
+     "În ce an a avut loc bătălia de la Posada?"
+    ],
+    "steps": [
+     "Citește legenda cu atenție, până la capăt.",
+     "Separă ce este poveste de ce se știe din documente.",
+     "Leagă legenda de un simbol sau un loc de azi.",
+     "Greșeala frecventă: să crezi că legendele sunt istorie exactă; ele păstrează amintiri, dar înfrumusețate."
+    ],
+    "answers": [
+     "Un voievod din Transilvania.",
+     "Un zimbru.",
+     "Un cap de zimbru (bour).",
+     "Primul domn al Țării Românești recunoscut ca independent.",
+     "În 1330."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l20": {
+   "ro": {
+    "title": "Mircea cel Bătrân și Iancu de Hunedoara",
+    "theory": "Mircea cel Bătrân a fost domn al Țării Românești (1386–1418). El a luptat cu turcii și i-a învins la Rovine (1395); a construit Mănăstirea Cozia, unde este îngropat. Iancu de Hunedoara a fost voievod al Transilvaniei și un mare luptător împotriva turcilor; în 1456 a apărat cetatea Belgrad. Castelul Corvinilor de la Hunedoara este legat de familia lui.",
+    "sample": "Mănăstirea Cozia, de pe Valea Oltului, a fost construită de Mircea cel Bătrân.",
+    "worked": "O ctitorie este o clădire (de obicei o biserică) construită de cineva important. Ea păstrează numele și chipul ctitorului, deci este o sursă istorică.",
+    "exercises": [
+     "Arată pe hartă Mănăstirea Cozia și Castelul Corvinilor.",
+     "Explică ce este o ctitorie.",
+     "Ordonează: Rovine, apărarea Belgradului.",
+     "Descrie Castelul Corvinilor.",
+     "Explică de ce domnii luptau împotriva turcilor."
+    ],
+    "test": [
+     "Ce țară a condus Mircea cel Bătrân?",
+     "Unde i-a învins Mircea pe turci?",
+     "Ce mănăstire a construit Mircea?",
+     "Ce cetate a apărat Iancu în 1456?",
+     "Ce castel este legat de familia lui Iancu?"
+    ],
+    "steps": [
+     "Află ce țară a condus domnitorul și când.",
+     "Notează o bătălie și o construcție legată de el.",
+     "Spune de ce este amintit și azi.",
+     "Greșeala frecventă: să confunzi Țara Românească, condusă de Mircea, cu Transilvania, condusă de Iancu ca voievod."
+    ],
+    "answers": [
+     "Țara Românească.",
+     "La Rovine.",
+     "Mănăstirea Cozia.",
+     "Belgradul.",
+     "Castelul Corvinilor de la Hunedoara."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l21": {
+   "ro": {
+    "title": "Vlad Țepeș",
+    "theory": "Vlad Țepeș a fost domn al Țării Românești în secolul al XV-lea. Era cunoscut pentru dreptatea aspră: îi pedepsea crunt pe hoți și pe trădători. În 1462 a luptat cu armata sultanului Mehmed al II-lea, cuceritorul Constantinopolului, și a dat un atac de noapte asupra taberei turcești. Mai târziu, numele lui a fost folosit pentru personajul Dracula din romane și filme, care este o ficțiune.",
+    "sample": "Legenda spune că, pe vremea lui Vlad Țepeș, o cupă de aur putea sta lângă o fântână fără să fie furată.",
+    "worked": "Legenda arată cum l-au văzut oamenii: un domn de care hoții se temeau. Nu este o dovadă exactă, ci o poveste care exprimă imaginea lui.",
+    "exercises": [
+     "Povestește legenda cupei de aur.",
+     "Explică cine a fost Mehmed al II-lea.",
+     "Explică diferența dintre Vlad Țepeș și personajul Dracula.",
+     "Află ce s-a întâmplat în atacul de noapte din 1462.",
+     "Scrie o părere despre dreptatea aspră."
+    ],
+    "test": [
+     "Ce țară a condus Vlad Țepeș?",
+     "Pentru ce era cunoscut?",
+     "Cu ce sultan a luptat în 1462?",
+     "Ce atac a dat?",
+     "Ce personaj de ficțiune poartă numele lui?"
+    ],
+    "steps": [
+     "Află faptele: domnia, luptele.",
+     "Separă faptele de legende și ficțiune.",
+     "Formulează o părere despre domnitor.",
+     "Greșeala frecventă: să crezi că Dracula din filme este Vlad Țepeș cel adevărat; personajul este inventat."
+    ],
+    "answers": [
+     "Țara Românească.",
+     "Pentru dreptatea aspră.",
+     "Cu Mehmed al II-lea.",
+     "Un atac de noapte asupra taberei turcești.",
+     "Dracula."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l22": {
+   "ro": {
+    "title": "Ștefan cel Mare",
+    "theory": "Ștefan cel Mare a domnit în Moldova aproape o jumătate de secol (1457–1504). A apărat țara de turci, tătari, unguri și polonezi. Cea mai mare victorie a lui a fost la Vaslui (1475), împotriva turcilor. După fiecare bătălie importantă, a construit o biserică sau o mănăstire; cea mai cunoscută este Mănăstirea Putna, unde este îngropat. Biserica Ortodoxă Română l-a declarat sfânt.",
+    "sample": "După victoria de la Vaslui, papa l-a numit pe Ștefan „atletul lui Hristos”.",
+    "worked": "Titlul arată că faptele lui erau cunoscute în Europa. Ștefan apăra Moldova, dar oamenii vremii vedeau în el și un apărător al creștinătății.",
+    "exercises": [
+     "Arată pe hartă Vasluiul și Putna.",
+     "Ordonează: urcarea pe tron, Vaslui, moartea lui Ștefan.",
+     "Numește două ctitorii ale lui Ștefan.",
+     "Explică de ce a construit biserici după bătălii.",
+     "Calculează câți ani a domnit."
+    ],
+    "test": [
+     "Ce țară a condus Ștefan cel Mare?",
+     "Câți ani a domnit, aproximativ?",
+     "Unde a obținut cea mai mare victorie?",
+     "În ce an?",
+     "Unde este îngropat?"
+    ],
+    "steps": [
+     "Află anii domniei și calculează cât a durat.",
+     "Notează o bătălie și o ctitorie.",
+     "Explică de ce este amintit ca mare domnitor.",
+     "Greșeala frecventă: să crezi că Ștefan a câștigat toate bătăliile; a avut și înfrângeri, dar a apărat țara."
+    ],
+    "answers": [
+     "Moldova.",
+     "Aproape 50 de ani (1457–1504).",
+     "La Vaslui.",
+     "În 1475.",
+     "La Mănăstirea Putna."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l23": {
+   "ro": {
+    "title": "Mihai Viteazul",
+    "theory": "Mihai Viteazul a fost domn al Țării Românești (1593–1601). A luptat împotriva turcilor și i-a învins la Călugăreni (1595). În 1600, a reușit să conducă în același timp Țara Românească, Transilvania și Moldova; a fost prima unire politică a celor trei țări locuite de români. Unirea a durat puțin, iar Mihai a fost ucis în 1601 lângă Turda.",
+    "sample": "Mihai a semnat: „domn al Țării Românești, al Ardealului și a toată Țara Moldovei”.",
+    "worked": "Titlul arată că el conducea toate cele trei țări. Mai târziu, oamenii au văzut în această unire un model pentru unirile din 1859 și 1918.",
+    "exercises": [
+     "Arată pe hartă cele trei țări unite în 1600.",
+     "Ordonează: Călugăreni, unirea din 1600, moartea lui Mihai.",
+     "Explică de ce unirea lui Mihai a fost importantă.",
+     "Compară unirea din 1600 cu Marea Unire din 1918.",
+     "Descrie statuia lui Mihai Viteazul din București."
+    ],
+    "test": [
+     "Ce țară a condus Mihai la început?",
+     "Unde i-a învins pe turci?",
+     "În ce an a realizat unirea?",
+     "Ce țări a unit?",
+     "Unde a fost ucis?"
+    ],
+    "steps": [
+     "Află ce țară a condus.",
+     "Află ce a reușit în 1600.",
+     "Explică de ce faptul lui a fost un model mai târziu.",
+     "Greșeala frecventă: să crezi că unirea lui Mihai a durat; ea a fost scurtă, dar a rămas un simbol."
+    ],
+    "answers": [
+     "Țara Românească.",
+     "La Călugăreni.",
+     "În 1600.",
+     "Țara Românească, Transilvania și Moldova.",
+     "Lângă Turda."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l24": {
+   "ro": {
+    "title": "Transilvania medievală: un spațiu multietnic",
+    "theory": "În Evul Mediu, în Transilvania trăiau împreună români, maghiari, sași și secui. Sașii au construit orașe precum Sibiu, Brașov, Sighișoara și Bistrița, cu ziduri, turnuri și bresle de meșteșugari. Satele aveau case, ogoare, biserică, iar țăranii munceau pământul. Orașele aveau piețe, ateliere și negustori. Mulți istorici și cronicari au scris despre personalități ale tuturor acestor comunități.",
+    "sample": "Turnurile din zidurile Sighișoarei purtau numele breslelor care le apărau: Turnul Croitorilor, Turnul Cizmarilor.",
+    "worked": "Breslele erau asociații ale meșteșugarilor. Fiecare breaslă apăra o parte a zidului orașului: numele turnurilor sunt surse care ne arată cum era organizat orașul.",
+    "exercises": [
+     "Numește comunitățile care trăiau în Transilvania medievală.",
+     "Compară un sat medieval cu un oraș medieval.",
+     "Explică ce era o breaslă.",
+     "Arată pe hartă patru orașe săsești.",
+     "Desenează zidurile unei cetăți cu turnuri."
+    ],
+    "test": [
+     "Ce comunități trăiau în Transilvania medievală?",
+     "Numește un oraș construit de sași.",
+     "Ce era o breaslă?",
+     "Ce aveau orașele medievale?",
+     "Cine apăra turnurile Sighișoarei?"
+    ],
+    "steps": [
+     "Află ce comunități trăiau în zonă.",
+     "Compară viața de la sat cu cea de la oraș.",
+     "Caută urme: ziduri, biserici, nume de turnuri.",
+     "Greșeala frecventă: să crezi că în Transilvania a trăit un singur popor; a fost un spațiu al mai multor comunități."
+    ],
+    "answers": [
+     "Români, maghiari, sași și secui.",
+     "Sibiu, Brașov sau Sighișoara.",
+     "O asociație de meșteșugari.",
+     "Piețe, ateliere, negustori și ziduri.",
+     "Breslele meșteșugarilor."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l25": {
+   "ro": {
+    "title": "Alexandru Ioan Cuza și Unirea",
+    "theory": "În 1859, Alexandru Ioan Cuza a fost ales domn al Moldovei (5 ianuarie) și apoi al Țării Românești (24 ianuarie). Așa s-au unit cele două țări, iar noul stat s-a numit, din 1862, România, cu capitala la București. Cuza a făcut reforme importante: a dat pământ țăranilor, a făcut școala primară obligatorie și gratuită și a înființat universități la Iași și București.",
+    "sample": "În fiecare an, pe 24 ianuarie, se dansează „Hora Unirii”.",
+    "worked": "Sărbătoarea păstrează amintirea Unirii. Hora, în care oamenii se țin de mână, este un simbol al unității.",
+    "exercises": [
+     "Explică de ce dubla alegere a lui Cuza a dus la unire.",
+     "Ordonează: 5 ianuarie 1859, 24 ianuarie 1859, 1862.",
+     "Numește două reforme ale lui Cuza.",
+     "Află versurile „Horei Unirii”.",
+     "Arată pe hartă cele două țări unite în 1859."
+    ],
+    "test": [
+     "Cine a fost ales domn în 1859?",
+     "Ce țări s-au unit?",
+     "Când sărbătorim Unirea?",
+     "Ce nume a primit noul stat?",
+     "Numește o reformă a lui Cuza."
+    ],
+    "steps": [
+     "Află cele două date ale alegerii.",
+     "Explică de ce un singur domn pentru două țări a însemnat unire.",
+     "Notează reformele și urmările lor.",
+     "Greșeala frecventă: să confunzi Unirea din 1859 (Moldova și Țara Românească) cu Marea Unire din 1918."
+    ],
+    "answers": [
+     "Alexandru Ioan Cuza.",
+     "Moldova și Țara Românească.",
+     "Pe 24 ianuarie.",
+     "România.",
+     "Împroprietărirea țăranilor sau școala obligatorie."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l26": {
+   "ro": {
+    "title": "Carol I, Independența și Carol Davila",
+    "theory": "În 1866, Carol I a devenit domn al României. În 1877, România și-a proclamat independența față de Imperiul Otoman (9 mai 1877) și a luptat în război alături de Rusia; soldații români au cucerit Grivița și Plevna. În 1881, România a devenit regat, iar Carol I a fost primul ei rege. Carol Davila, un medic, a organizat serviciul de sănătate al armatei și a îngrijit răniții; a fondat prima școală de medicină din România.",
+    "sample": "Ziua de 9 mai amintește și astăzi de proclamarea Independenței.",
+    "worked": "Independența înseamnă că țara nu mai ascultă de altă putere. Ea a fost câștigată prin luptă și recunoscută apoi de celelalte state.",
+    "exercises": [
+     "Explică ce înseamnă independență.",
+     "Ordonează: 1866, 1877, 1881.",
+     "Află ce s-a întâmplat la Plevna.",
+     "Descrie ce a făcut Carol Davila pentru răniți.",
+     "Explică diferența dintre principat și regat."
+    ],
+    "test": [
+     "Când a devenit Carol I domn?",
+     "Când a fost proclamată Independența?",
+     "Față de cine și-a câștigat România independența?",
+     "Când a devenit România regat?",
+     "Cine a fost Carol Davila?"
+    ],
+    "steps": [
+     "Află data și evenimentul.",
+     "Explică ce s-a schimbat pentru țară.",
+     "Leagă evenimentul de personalitățile lui.",
+     "Greșeala frecventă: să crezi că independența a fost doar proclamată; a trebuit câștigată în război."
+    ],
+    "answers": [
+     "În 1866.",
+     "Pe 9 mai 1877.",
+     "Față de Imperiul Otoman.",
+     "În 1881.",
+     "Un medic care a organizat sănătatea armatei și a îngrijit răniții."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l27": {
+   "ro": {
+    "title": "Eroi ai Primului Război Mondial",
+    "theory": "România a intrat în Primul Război Mondial în 1916, ca să elibereze teritoriile locuite de români. În 1917, armata română a obținut victorii mari la Mărăști, Mărășești și Oituz; la Mărășești s-a spus „Pe aici nu se trece!”. Printre eroi se numără Ecaterina Teodoroiu, o tânără care a luptat pe front, și mulți soldați anonimi. Regina Maria a îngrijit răniții în spitale.",
+    "sample": "Ecaterina Teodoroiu a fost asistentă medicală, apoi a cerut să lupte în prima linie.",
+    "worked": "Exemplul ei arată că în război au fost eroi și eroine. Comunitățile îi cinstesc prin monumente, străzi și școli care le poartă numele.",
+    "exercises": [
+     "Ordonează: intrarea în război, victoriile din 1917.",
+     "Explică ce înseamnă „Pe aici nu se trece!”.",
+     "Află o stradă sau o școală care poartă numele unui erou.",
+     "Descrie ce a făcut Regina Maria în timpul războiului.",
+     "Scrie o scrisoare imaginară a unui soldat către familie."
+    ],
+    "test": [
+     "În ce an a intrat România în Primul Război Mondial?",
+     "Unde a obținut armata victorii în 1917?",
+     "Cine a fost Ecaterina Teodoroiu?",
+     "Ce a făcut Regina Maria?",
+     "Ce s-a spus la Mărășești?"
+    ],
+    "steps": [
+     "Află anul și scopul intrării în război.",
+     "Notează bătăliile și eroii.",
+     "Spune cum îi cinstim azi.",
+     "Greșeala frecventă: să crezi că eroii au fost doar generali; mulți erau soldați simpli și civili."
+    ],
+    "answers": [
+     "În 1916.",
+     "La Mărăști, Mărășești și Oituz.",
+     "O tânără care a luptat pe front.",
+     "A îngrijit răniții în spitale.",
+     "„Pe aici nu se trece!”"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l28": {
+   "ro": {
+    "title": "Ferdinand și Marea Unire",
+    "theory": "La sfârșitul Primului Război Mondial, provinciile locuite de români s-au unit cu România: Basarabia (27 martie 1918), Bucovina (28 noiembrie 1918) și Transilvania (1 decembrie 1918, la Alba Iulia). Așa s-a format România Mare. Regele Ferdinand și Regina Maria au fost încoronați la Alba Iulia în 1922. Ziua Națională a României, 1 Decembrie, sărbătorește Marea Unire.",
+    "sample": "La Alba Iulia, pe 1 decembrie 1918, o mare adunare a hotărât unirea Transilvaniei cu România.",
+    "worked": "Unirea a fost hotărâtă de reprezentanții oamenilor, într-o adunare. De aceea, 1 Decembrie este Ziua Națională.",
+    "exercises": [
+     "Ordonează cele trei uniri din 1918.",
+     "Arată pe hartă Basarabia, Bucovina și Transilvania.",
+     "Explică de ce 1 Decembrie este Ziua Națională.",
+     "Află ce s-a întâmplat la Alba Iulia în 1922.",
+     "Compară unirea din 1859 cu cea din 1918."
+    ],
+    "test": [
+     "Când s-a unit Basarabia cu România?",
+     "Când s-a unit Bucovina?",
+     "Unde s-a hotărât unirea Transilvaniei?",
+     "Ce rege conducea atunci România?",
+     "Când este Ziua Națională?"
+    ],
+    "steps": [
+     "Notează fiecare provincie cu data unirii.",
+     "Ordonează datele de la cea mai veche la cea mai nouă.",
+     "Explică de ce 1918 este numit anul Marii Uniri.",
+     "Greșeala frecventă: să crezi că toate provinciile s-au unit în aceeași zi; unirile au avut loc în date diferite din 1918."
+    ],
+    "answers": [
+     "Pe 27 martie 1918.",
+     "Pe 28 noiembrie 1918.",
+     "La Alba Iulia.",
+     "Regele Ferdinand.",
+     "Pe 1 Decembrie."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l29": {
+   "ro": {
+    "title": "România la cumpăna dintre milenii",
+    "theory": "După al Doilea Război Mondial, România a fost condusă timp de peste 40 de ani de un regim comunist, în care oamenii nu aveau libertate de exprimare. În decembrie 1989, o revoluție a înlăturat acest regim. România a devenit o țară democratică, în care oamenii își aleg conducătorii prin vot liber. În 2004 a intrat în NATO, iar pe 1 ianuarie 2007 în Uniunea Europeană.",
+    "sample": "Pe 1 ianuarie 2007, România a devenit membră a Uniunii Europene.",
+    "worked": "Aderarea înseamnă că România face parte dintr-o familie de state europene care colaborează. Copiii pot studia, iar oamenii pot călători și munci mai ușor în alte țări ale Uniunii.",
+    "exercises": [
+     "Ordonează: Revoluția din 1989, intrarea în NATO, intrarea în UE.",
+     "Explică ce înseamnă democrație.",
+     "Întreabă un adult ce își amintește despre decembrie 1989.",
+     "Desenează steagul Uniunii Europene.",
+     "Explică un avantaj al apartenenței la Uniunea Europeană."
+    ],
+    "test": [
+     "Ce s-a întâmplat în decembrie 1989?",
+     "Ce înseamnă vot liber?",
+     "În ce an a intrat România în NATO?",
+     "Când a intrat România în Uniunea Europeană?",
+     "Ce lipsea în regimul comunist?"
+    ],
+    "steps": [
+     "Află evenimentul și data lui.",
+     "Explică ce s-a schimbat în viața oamenilor.",
+     "Leagă trecutul apropiat de viața ta de azi.",
+     "Greșeala frecventă: să crezi că democrația a existat mereu; ea a fost câștigată în 1989."
+    ],
+    "answers": [
+     "O revoluție a înlăturat regimul comunist.",
+     "Oamenii își aleg conducătorii fără să fie obligați.",
+     "În 2004.",
+     "Pe 1 ianuarie 2007.",
+     "Libertatea de exprimare."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l30": {
+   "ro": {
+    "title": "Locuri istorice din comunitate",
+    "theory": "În fiecare comunitate există locuri istorice: mănăstiri și biserici vechi, străzi și case istorice, monumente ale eroilor, muzee, monumente ale comunităților etnice. Ele fac parte din patrimoniu, adică din moștenirea pe care o primim de la înaintași și pe care trebuie să o păstrăm. Un monument istoric are o plăcuță care arată că este protejat.",
+    "sample": "Pe fațada unei case vechi este o plăcuță: „Monument istoric”.",
+    "worked": "Plăcuța arată că o clădire este protejată de lege și nu poate fi stricată sau schimbată după bunul plac. Așa păstrăm istoria pentru cei care vin după noi.",
+    "exercises": [
+     "Fă o listă cu trei locuri istorice din localitatea ta.",
+     "Fotografiază sau desenează un monument din apropiere.",
+     "Explică ce înseamnă patrimoniu.",
+     "Propune o regulă pentru protejarea monumentelor.",
+     "Prezintă colegilor un loc istoric ca un ghid."
+    ],
+    "test": [
+     "Ce este un loc istoric?",
+     "Ce înseamnă patrimoniu?",
+     "Ce arată plăcuța „Monument istoric”?",
+     "Numește un tip de loc istoric.",
+     "De ce trebuie să păstrăm monumentele?"
+    ],
+    "steps": [
+     "Alege un loc din comunitate.",
+     "Află când a fost construit și de cine.",
+     "Spune de ce este important și cum îl putem proteja.",
+     "Greșeala frecventă: să crezi că doar castelele sunt monumente; și o casă sau o biserică veche din sat pot fi monumente."
+    ],
+    "answers": [
+     "Un loc legat de trecutul comunității.",
+     "Moștenirea primită de la înaintași.",
+     "Că o clădire este protejată de lege.",
+     "O biserică veche sau un monument al eroilor.",
+     "Ca să păstrăm istoria pentru cei care vin după noi."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l31": {
+   "ro": {
+    "title": "Așezări dacice, grecești și romane",
+    "theory": "Pe teritoriul României se păstrează urme ale așezărilor vechi. Dacii au construit cetăți în Munții Orăștiei, cu capitala Sarmizegetusa Regia, unde se află și un sanctuar. Grecii au întemeiat orașe pe malul Mării Negre: Histria, Tomis și Callatis. Romanii au construit orașe precum Ulpia Traiana Sarmizegetusa, drumuri, castre (tabere militare) și podul de la Drobeta, peste Dunăre.",
+    "sample": "La Histria se văd și azi ruinele zidurilor, ale templelor și ale băilor publice.",
+    "worked": "Ruinele sunt surse nescrise. Arheologii le studiază ca să afle cum trăiau oamenii: ce construiau, ce credeau, cu ce făceau comerț.",
+    "exercises": [
+     "Arată pe hartă Sarmizegetusa Regia și Histria.",
+     "Explică ce este un castru roman.",
+     "Compară o cetate dacică cu un oraș grec.",
+     "Află ce era podul de la Drobeta.",
+     "Explică ce face un arheolog."
+    ],
+    "test": [
+     "Unde se află cetățile dacice?",
+     "Care era capitala dacilor?",
+     "Numește un oraș grecesc de pe malul Mării Negre.",
+     "Ce era un castru?",
+     "Peste ce râu era podul de la Drobeta?"
+    ],
+    "steps": [
+     "Află cine a construit așezarea.",
+     "Localizează-o pe hartă.",
+     "Spune ce urme au rămas și ce aflăm din ele.",
+     "Greșeala frecventă: să confunzi Sarmizegetusa Regia, capitala dacilor, cu Ulpia Traiana Sarmizegetusa, oraș roman."
+    ],
+    "answers": [
+     "În Munții Orăștiei.",
+     "Sarmizegetusa Regia.",
+     "Histria, Tomis sau Callatis.",
+     "O tabără militară romană.",
+     "Peste Dunăre."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l32": {
+   "ro": {
+    "title": "Castele, cetăți și ctitorii",
+    "theory": "Castelele și cetățile au fost martore ale evenimentelor istorice: Castelul Corvinilor, Cetatea Neamțului, Cetatea Sucevei, Castelul Bran, Cetatea Alba Iulia. Ctitoriile sunt biserici și mănăstiri construite de domnitori și cărturari: Cozia (Mircea cel Bătrân), Putna (Ștefan cel Mare), Probota (Petru Rareș), Mănăstirea Curtea de Argeș (Neagoe Basarab), Mănăstirea Antim din București (Antim Ivireanu), Hurezi (Constantin Brâncoveanu).",
+    "sample": "Pe pereții multor mănăstiri este pictat ctitorul, ținând în mâini macheta bisericii.",
+    "worked": "Tabloul votiv arată cine a construit biserica. Pictura este o sursă care ne spune cine a fost ctitorul și cum arăta, după felul în care l-a pictat artistul.",
+    "exercises": [
+     "Potrivește ctitoria cu ctitorul.",
+     "Arată pe hartă trei cetăți.",
+     "Explică ce este un tablou votiv.",
+     "Descrie o cetate pe care ai vizitat-o sau ai văzut-o în imagini.",
+     "Află legenda Mănăstirii Curtea de Argeș."
+    ],
+    "test": [
+     "Ce mănăstire a construit Ștefan cel Mare?",
+     "Cine a construit Mănăstirea Hurezi?",
+     "Ce mănăstire este legată de Neagoe Basarab?",
+     "Ce este o ctitorie?",
+     "Numește o cetate din Moldova."
+    ],
+    "steps": [
+     "Alege castelul, cetatea sau ctitoria.",
+     "Află cine a construit-o și când.",
+     "Spune ce eveniment sau ce om este legat de ea.",
+     "Greșeala frecventă: să crezi că toate castelele au fost locuințe de rege; multe erau cetăți de apărare."
+    ],
+    "answers": [
+     "Putna.",
+     "Constantin Brâncoveanu.",
+     "Mănăstirea Curtea de Argeș.",
+     "O biserică sau o mănăstire construită de cineva important.",
+     "Cetatea Neamțului sau Cetatea Sucevei."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l33": {
+   "ro": {
+    "title": "Monumente din patrimoniul UNESCO",
+    "theory": "UNESCO este o organizație internațională care protejează locurile de mare valoare pentru întreaga omenire. În România, pe lista patrimoniului mondial se află: fortificațiile dacice din Munții Orăștiei, satele cu biserici fortificate din Transilvania, centrul istoric al Sighișoarei, bisericile de lemn din Maramureș, bisericile pictate din nordul Moldovei și Mănăstirea Hurezi. Delta Dunării este și ea pe listă, ca patrimoniu natural.",
+    "sample": "Mănăstirea Voroneț, una dintre bisericile pictate din nordul Moldovei, este cunoscută pentru albastrul ei.",
+    "worked": "Bisericile pictate pe dinafară sunt unice în lume. De aceea UNESCO le protejează: ele aparțin nu doar României, ci întregii omeniri.",
+    "exercises": [
+     "Fă o listă a monumentelor UNESCO din România.",
+     "Arată-le pe hartă.",
+     "Descrie o biserică de lemn din Maramureș.",
+     "Explică de ce un monument devine patrimoniu mondial.",
+     "Pregătește un afiș despre un monument UNESCO."
+    ],
+    "test": [
+     "Ce este UNESCO?",
+     "Numește un monument UNESCO din Transilvania.",
+     "Ce biserici din Moldova sunt pe listă?",
+     "Ce oraș are centrul istoric pe listă?",
+     "Ce loc natural din România este pe listă?"
+    ],
+    "steps": [
+     "Alege un monument de pe listă.",
+     "Localizează-l și află cine l-a construit.",
+     "Explică ce îl face unic.",
+     "Greșeala frecventă: să crezi că monumentele UNESCO sunt protejate doar de UNESCO; le protejăm și noi, cei care le vizităm."
+    ],
+    "answers": [
+     "O organizație care protejează locurile de mare valoare pentru omenire.",
+     "Satele cu biserici fortificate sau Sighișoara.",
+     "Bisericile pictate din nordul Moldovei.",
+     "Sighișoara.",
+     "Delta Dunării."
+    ]
+   }
+  }
+ }
+}

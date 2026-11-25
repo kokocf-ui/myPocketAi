@@ -1,0 +1,915 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "RO",
+ "stage": "medium",
+ "grade": "tic-11",
+ "version": "6a963c36886fbc054fa23c31d483b158033df2ceea8d469cba979e41b8d38914",
+ "source": "https://portal.eduhr.ro/wp-content/uploads/2021/10/tic_tehnoredactare_11-1.pdf",
+ "sourceTitle": "Programele școlare de Tehnologia informației și a comunicațiilor pentru clasa a XI-a (OMECI nr. 5099/09.09.2009): Tehnoredactare asistată de calculator – filiera teoretică, profil umanist, specializarea filologie (1 oră/săptămână); Sisteme de gestiune a bazelor de date – filiera teoretică, profil real, specializarea științele naturii (2 ore/săptămână, programa: https://portal.eduhr.ro/wp-content/uploads/2021/10/tic_baze-de-date_11_liceu_teoretic-1.pdf) — fiecare elev parcurge unitățile specializării sale",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "ro",
+ "labels": [
+  "Activitate originală · România · TIC · Clasa a XI-a",
+  "Lecția pe înțeles",
+  "Exemplu",
+  "Ce ne arată exemplul",
+  "Exerciții",
+  "Test",
+  "Activități originale, făcute după programa școlară; nu înlocuiesc manualul sau ora de la clasă.",
+  "Dacă nu ai înțeles: pas cu pas",
+  "Răspunsuri (verifică după ce termini)"
+ ],
+ "units": [
+  {
+   "title": "Filologie · Tehnoredactare: pagina și structura lucrării",
+   "keys": [
+    "eu-year-ro-medium-tic-11-l01",
+    "eu-year-ro-medium-tic-11-l02",
+    "eu-year-ro-medium-tic-11-l03",
+    "eu-year-ro-medium-tic-11-l04",
+    "eu-year-ro-medium-tic-11-l05"
+   ]
+  },
+  {
+   "title": "Filologie · Procesoare de texte și aplicații de paginare",
+   "keys": [
+    "eu-year-ro-medium-tic-11-l06",
+    "eu-year-ro-medium-tic-11-l07",
+    "eu-year-ro-medium-tic-11-l08",
+    "eu-year-ro-medium-tic-11-l09",
+    "eu-year-ro-medium-tic-11-l10"
+   ]
+  },
+  {
+   "title": "Filologie · Proiecte de tehnoredactare",
+   "keys": [
+    "eu-year-ro-medium-tic-11-l11",
+    "eu-year-ro-medium-tic-11-l12"
+   ]
+  },
+  {
+   "title": "Științele naturii · Date, operații și liste în Word și Excel",
+   "keys": [
+    "eu-year-ro-medium-tic-11-l13",
+    "eu-year-ro-medium-tic-11-l14",
+    "eu-year-ro-medium-tic-11-l15",
+    "eu-year-ro-medium-tic-11-l16",
+    "eu-year-ro-medium-tic-11-l17",
+    "eu-year-ro-medium-tic-11-l18",
+    "eu-year-ro-medium-tic-11-l19"
+   ]
+  },
+  {
+   "title": "Științele naturii · Liste de date în Excel, securitate și proiect",
+   "keys": [
+    "eu-year-ro-medium-tic-11-l20",
+    "eu-year-ro-medium-tic-11-l21",
+    "eu-year-ro-medium-tic-11-l22",
+    "eu-year-ro-medium-tic-11-l23",
+    "eu-year-ro-medium-tic-11-l24"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-ro-medium-tic-11-l01": {
+   "ro": {
+    "title": "Spațiul de lucru, spațiul tipografic și formatele de hârtie",
+    "theory": "Tehnoredactarea înseamnă pregătirea pe calculator a unui text pentru tipar: alegem formatul, așezăm textul și imaginile, verificăm și tipărim. Spațiul de lucru este toată pagina, iar spațiul tipografic (oglinda paginii) este zona în care se așază efectiv textul și imaginile, în interiorul marginilor. Zona de imprimare depinde de imprimantă: multe imprimante nu pot tipări până la marginea foii. Formatele standard de hârtie din seria A se obțin prin înjumătățire: A4 (210 × 297 mm) pliată în două dă A5 (148 × 210 mm), iar A5 pliată dă A6. De aceea o broșură A5 se tipărește pe foi A4, câte două pagini pe fiecare față. Modalități speciale de imprimare: în oglindă (pentru transfer pe tricouri sau folii), în negativ, separații de culoare (câte o planșă pentru fiecare culoare de bază, la tipografie) și broșură (paginile sunt ordonate automat pentru pliere).",
+    "sample": "Pentru o broșură de 8 pagini A5, elevul alege tipărirea „broșură” pe A4. Programul pune pe aceeași față a primei foi paginile 8 și 1, iar pe verso paginile 2 și 7. După pliere și capsare, paginile apar în ordine.",
+    "worked": "Ordinea pe foaie pare ciudată, dar este calculată pentru pliere. Numărul de pagini al unei broșuri trebuie să fie multiplu de 4.",
+    "exercises": [
+     "Calculează dimensiunile formatului A5 pornind de la A4.",
+     "Stabilește marginile și oglinda paginii pentru o broșură.",
+     "Tipărește în PDF un document în modul broșură.",
+     "Explică la ce folosește tipărirea în oglindă.",
+     "Explică de ce o broșură are un număr de pagini multiplu de 4."
+    ],
+    "test": [
+     "Ce este oglinda paginii?",
+     "Cum se obține formatul A5?",
+     "Ce face tipărirea în modul broșură?",
+     "Ce sunt separațiile de culoare?",
+     "De ce zona de imprimare poate fi mai mică decât foaia?"
+    ],
+    "steps": [
+     "Alege formatul final al lucrării și hârtia pe care se tipărește.",
+     "Stabilește marginile și oglinda paginii.",
+     "Alege modul de imprimare potrivit și verifică pe o tipărire de probă.",
+     "Greșeala frecventă: să tipărești o broșură pagină cu pagină, în ordine; după pliere paginile ies amestecate."
+    ],
+    "answers": [
+     "Zona din interiorul marginilor în care se așază textul și imaginile.",
+     "Prin înjumătățirea formatului A4.",
+     "Ordonează paginile pentru pliere.",
+     "Planșe separate pentru fiecare culoare de bază.",
+     "Pentru că multe imprimante nu tipăresc până la marginea foii."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-11-l02": {
+   "ro": {
+    "title": "Organizarea grafică a paginii tipărite",
+    "theory": "O pagină tipărită conține elemente grafice și de structură: titluri și subtitluri, casete de text, coloane, imagini cu legende, antet și subsol, margini. Regulile de compoziție urmăresc lizibilitatea și echilibrul. Raportul vid-plin: spațiul alb nu este pierdut, el lasă textul să „respire” și ghidează privirea. Raportul text-imagine: imaginile atrag atenția, dar prea multe încarcă pagina. Echilibrul: elementele „grele” (imagini mari, titluri îngroșate) se distribuie astfel încât pagina să nu pară că se înclină. Proporțiile: titlul este vizibil mai mare decât textul, iar ierarhia se vede din mărime. Ergonomie și estetică: rânduri nici prea lungi, nici prea scurte (aproximativ 50–75 de caractere), cel mult două familii de fonturi, contrast bun, aliniere consecventă pe o grilă.",
+    "sample": "Un afiș pentru un concurs de poezie are textul scris pe toată lățimea, cu cinci fonturi și imagini în toate colțurile. Elevul îl reface: titlu mare sus, o singură imagine, textul pe două coloane, două fonturi și margini largi. Afișul devine ușor de citit de la distanță.",
+    "worked": "Spațiul alb și ierarhia au dat ordine paginii. Mai puține elemente au transmis mesajul mai bine.",
+    "exercises": [
+     "Analizează o pagină de revistă după regulile de compoziție.",
+     "Refă o pagină aglomerată folosind spațiul alb.",
+     "Așază textul și imaginile unei pagini pe o grilă cu două coloane.",
+     "Alege două fonturi potrivite pentru titluri și text.",
+     "Calculează aproximativ numărul de caractere pe rând într-un document."
+    ],
+    "test": [
+     "Ce rol are spațiul alb?",
+     "Ce înseamnă echilibrul paginii?",
+     "Câte familii de fonturi recomandăm?",
+     "Ce lungime bună are un rând?",
+     "Cum se vede ierarhia informației?"
+    ],
+    "steps": [
+     "Stabilește elementul cel mai important al paginii.",
+     "Așază elementele pe o grilă, cu ierarhie clară și spațiu alb.",
+     "Verifică echilibrul, lizibilitatea și consecvența alinierii.",
+     "Greșeala frecventă: să umpli fiecare colț al paginii; aglomerarea face pagina greu de citit."
+    ],
+    "answers": [
+     "Lasă textul să respire și ghidează privirea.",
+     "Distribuirea elementelor grele astfel încât pagina să nu pară înclinată.",
+     "Cel mult două.",
+     "Aproximativ 50–75 de caractere.",
+     "Din mărimea și grosimea titlurilor."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-11-l03": {
+   "ro": {
+    "title": "Lucrări de întindere mare: capitole, cuprins, index, glosar",
+    "theory": "O carte, o broșură sau o revistă are o structură ierarhică: părți, capitole, subcapitole, paragrafe, alineate. Structura se marchează cu stiluri de titlu, care permit generarea automată a cuprinsului și numerotarea capitolelor. Paginile se numerotează din subsol sau antet; prima pagină (coperta, pagina de titlu) de obicei nu poartă număr, iar capitolele încep adesea pe pagină impară (dreapta). Indexul este lista alfabetică a termenilor importanți, cu paginile unde apar; se construiește marcând termenii în text și generând automat lista. Glosarul explică termenii de specialitate. O revistă are în plus unitate grafică: aceeași grilă, aceleași fonturi și culori, rubrici recognoscibile. Lucrul în echipă cere etape și termene clare: plan, culegere, redactare, corectură, paginare, tipar.",
+    "sample": "Pentru o culegere de povestiri a clasei, fiecare povestire este un capitol cu stilul Titlu 1. Elevii marchează numele personajelor ca intrări de index și generează cuprinsul și indexul la final. Când o povestire se mută, cuprinsul și indexul se actualizează automat.",
+    "worked": "Marcajele și stilurile au legat structura de paginile reale. Actualizarea automată a evitat refacerea de mână a listelor.",
+    "exercises": [
+     "Construiește structura pe capitole a unei broșuri.",
+     "Generează cuprinsul și indexul unui document.",
+     "Scrie un glosar cu zece termeni.",
+     "Numerotează paginile fără număr pe copertă.",
+     "Fă un plan cu etape și termene pentru o lucrare de echipă."
+    ],
+    "test": [
+     "Ce niveluri are structura unei cărți?",
+     "Din ce se generează cuprinsul?",
+     "Ce este indexul?",
+     "Ce este glosarul?",
+     "Ce asigură unitatea grafică a unei reviste?"
+    ],
+    "steps": [
+     "Stabilește structura pe capitole și aplică stiluri de titlu.",
+     "Marchează termenii pentru index și generează cuprinsul și indexul.",
+     "Actualizează listele după fiecare modificare și verifică paginile.",
+     "Greșeala frecventă: să scrii cuprinsul și indexul de mână; la prima modificare paginile devin greșite."
+    ],
+    "answers": [
+     "Părți, capitole, subcapitole, paragrafe, alineate.",
+     "Din titlurile cu stiluri de titlu.",
+     "Lista alfabetică a termenilor, cu paginile unde apar.",
+     "Lista termenilor de specialitate cu explicațiile lor.",
+     "Aceeași grilă, aceleași fonturi și culori, rubrici recognoscibile."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-11-l04": {
+   "ro": {
+    "title": "Formatare unitară: șabloane, stiluri, paragrafe",
+    "theory": "Într-o lucrare cu mai multe module (articole scrise de colegi diferiți), aspectul unitar se obține cu un șablon: un document model care conține formatul paginii, stilurile, antetul și subsolul, culorile. Fiecare autor scrie pe baza șablonului, iar la asamblare totul se potrivește. Formatarea caracterelor: corp de literă (font), stil, mărime, culoare. Formatarea paragrafelor: aliniere, indentare, spațiere înainte și după, interlinie, marcatori și numerotare, borduri și umbrire, tabulatori. Culorile și fondurile se aleg puține și potrivite tiparului: un fond închis consumă multă cerneală și scade lizibilitatea. Spațierea dintre paragrafe se face din setările de paragraf, nu cu rânduri goale.",
+    "sample": "Redacția revistei școlare creează șablonul „Articol”: A4, două coloane, Titlu articol (Georgia 20, aldin), Autor (cursiv), Text (Calibri 11, spațiere 6 pt după). Cinci colegi scriu articole pe șablon; la asamblare nu mai e nevoie de reformatare.",
+    "worked": "Șablonul a transformat regulile grafice într-un instrument comun. Asamblarea a durat minute, nu ore.",
+    "exercises": [
+     "Creează un șablon pentru articolele unei reviste.",
+     "Definește stiluri pentru titlu, autor și text.",
+     "Setează spațierea dintre paragrafe fără rânduri goale.",
+     "Formatează o listă cu marcatori personalizați.",
+     "Aplică borduri și umbrire unui paragraf de tip „casetă”."
+    ],
+    "test": [
+     "Ce este un șablon?",
+     "Ce include formatarea paragrafelor?",
+     "De ce scriu toți autorii pe același șablon?",
+     "De ce evităm fondurile închise la tipar?",
+     "Cum facem spațiu între paragrafe?"
+    ],
+    "steps": [
+     "Stabilește regulile grafice ale lucrării.",
+     "Transformă-le într-un șablon cu stiluri.",
+     "Scrie sau importă textele pe șablon și verifică unitatea.",
+     "Greșeala frecventă: să formatezi manual fiecare articol; aspectul devine inegal și greu de corectat."
+    ],
+    "answers": [
+     "Un document model cu formatul, stilurile, antetul și subsolul.",
+     "Aliniere, indentare, spațiere, interlinie, marcatori, borduri, tabulatori.",
+     "Ca la asamblare totul să se potrivească.",
+     "Consumă multă cerneală și scad lizibilitatea.",
+     "Din setările de spațiere ale paragrafului."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-11-l05": {
+   "ro": {
+    "title": "Obiecte grafice: inserare, așezare, optimizare",
+    "theory": "Într-un document tehnoredactat inserăm imagini scanate, fotografii, scheme, desene, ecuații. Înainte de inserare, imaginile se pregătesc într-un editor grafic: decupare, corectarea luminozității, redimensionare la mărimea reală din pagină și rezoluție potrivită – aproximativ 300 de puncte pe inch (dpi) pentru tipar și mult mai puțin pentru ecran. O imagine prea mică devine pixelată la tipar, iar una mult prea mare îngreunează fișierul. Raportarea la text (încadrarea): în linie cu textul, pătrat, strâns, în spatele sau în fața textului. Imaginile se ancorează de paragraful de care țin și primesc legendă. Schemele se pot desena cu forme grupate, ca să se miște împreună.",
+    "sample": "O fotografie de 800 × 600 de pixeli trebuie tipărită pe 10 cm lățime. La 300 dpi ar fi necesari aproximativ 1 180 de pixeli în lățime (10 cm ≈ 3,94 inch × 300). Imaginea este prea mică: elevul o folosește la 6,5 cm sau caută o variantă mai mare.",
+    "worked": "Calculul a anticipat pixelarea. Rezoluția se raportează la mărimea tipărită, nu doar la numărul de pixeli.",
+    "exercises": [
+     "Pregătește o fotografie într-un editor grafic pentru tipar.",
+     "Calculează mărimea maximă de tipărire a unei imagini la 300 dpi.",
+     "Încadrează o imagine în text cu opțiunea pătrat.",
+     "Desenează și grupează o schemă din forme.",
+     "Inserează o ecuație și o legendă de figură."
+    ],
+    "test": [
+     "De ce pregătim imaginile înainte de inserare?",
+     "Ce rezoluție se recomandă la tipar?",
+     "Ce opțiuni de încadrare există?",
+     "De ce grupăm formele unei scheme?",
+     "Ce se întâmplă cu o imagine prea mică la tipar?"
+    ],
+    "steps": [
+     "Stabilește mărimea la care va apărea imaginea în pagină.",
+     "Pregătește imaginea: decupare, corecție, rezoluție potrivită.",
+     "Inserează, încadrează, ancorează și adaugă legenda.",
+     "Greșeala frecventă: să mărești în document o imagine mică; la tipar devine pixelată."
+    ],
+    "answers": [
+     "Ca să aibă calitatea și dimensiunea potrivite.",
+     "Aproximativ 300 dpi.",
+     "În linie, pătrat, strâns, în spatele sau în fața textului.",
+     "Ca să se miște împreună.",
+     "Devine pixelată."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-11-l06": {
+   "ro": {
+    "title": "Utilizarea avansată a procesorului de texte",
+    "theory": "Lucrul rapid cu procesorul de texte cere câteva instrumente avansate. Dicționarul și opțiunile de corectare: setăm limba română, adăugăm în dicționarul propriu cuvintele corecte nerecunoscute (nume proprii) și folosim corectarea automată pentru greșeli repetate. Particularizarea interfeței: adăugăm comenzile folosite des în bara de acces rapid și definim combinații de taste proprii. Macrocomenzile înregistrează o succesiune de operații și o redau cu o singură comandă, de exemplu formatarea unei poezii (font, aliniere centrată, spațiere). Macrocomenzile pot conține cod periculos, de aceea nu activăm macrocomenzi din documente primite de la surse necunoscute. Finalizarea: corectură, cuprins automat, numerotarea figurilor, pregătirea pentru tipar.",
+    "sample": "Elevul formatează zeci de poezii la fel: titlu centrat aldin, strofe centrate, spațiu de 12 pt între strofe. Înregistrează o macrocomandă „Poezie” și îi atribuie combinația Alt+P. Fiecare poezie nouă se formatează acum cu o singură apăsare.",
+    "worked": "Macrocomanda a automatizat o operație repetitivă. Rezultatul este și mai uniform decât formatarea manuală.",
+    "exercises": [
+     "Adaugă cinci comenzi în bara de acces rapid.",
+     "Definește o combinație de taste pentru un stil.",
+     "Înregistrează și rulează o macrocomandă.",
+     "Adaugă nume proprii în dicționarul personal.",
+     "Configurează corectarea automată pentru o greșeală frecventă."
+    ],
+    "test": [
+     "Ce face o macrocomandă?",
+     "De ce nu activăm macrocomenzi din surse necunoscute?",
+     "Ce este bara de acces rapid?",
+     "La ce folosește dicționarul personal?",
+     "Ce face corectarea automată?"
+    ],
+    "steps": [
+     "Identifică operațiile pe care le repeți des.",
+     "Automatizează-le prin bara de acces rapid, combinații de taste sau macrocomenzi.",
+     "Testează pe un document de probă și verifică rezultatul.",
+     "Greșeala frecventă: să activezi macrocomenzile dintr-un document primit pe e-mail de la necunoscuți; pot conține cod rău intenționat."
+    ],
+    "answers": [
+     "Înregistrează și redă o succesiune de operații.",
+     "Pentru că pot conține cod periculos.",
+     "O bară cu comenzile folosite des.",
+     "Pentru cuvinte corecte nerecunoscute, ca numele proprii.",
+     "Corectează automat greșelile frecvente în timp ce scriem."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-11-l07": {
+   "ro": {
+    "title": "Lucru în echipă, PDF și schimbul de date între aplicații",
+    "theory": "Documentele mari se scriu în echipă. Urmărirea modificărilor (Track Changes) arată cine ce a schimbat, iar autorul acceptă sau respinge fiecare modificare; comentariile permit discuția pe text. Documentul poate fi partajat în rețea sau în cloud, cu editare simultană. Formatul PDF păstrează exact aspectul paginii pe orice dispozitiv și este formatul obișnuit pentru tipografie și publicare; un PDF poate fi editat limitat cu aplicații dedicate sau poate fi deschis în unele procesoare de texte, dar aspectul se poate strica. Schimbul de date între aplicații se face prin mecanismul OLE (legare și încorporare de obiecte): un tabel din foaia de calcul poate fi încorporat (copie independentă în document) sau legat (se actualizează când se modifică fișierul sursă).",
+    "sample": "Redacția încorporează în articol un grafic din foaia de calcul cu rezultatele unui sondaj. Graficul este legat de sursă, așa că după introducerea ultimelor răspunsuri se actualizează și în articol. La final, revista este exportată în PDF pentru tipografie.",
+    "worked": "Legarea a ținut graficul la zi fără refacere. PDF-ul a garantat că tipografia primește exact paginarea aprobată.",
+    "exercises": [
+     "Corectează un articol cu urmărirea modificărilor activată.",
+     "Partajează un document pentru editare simultană.",
+     "Exportă un document în PDF și verifică aspectul.",
+     "Încorporează și apoi leagă un tabel din foaia de calcul.",
+     "Explică diferența dintre obiect încorporat și obiect legat."
+    ],
+    "test": [
+     "Ce face urmărirea modificărilor?",
+     "De ce folosim PDF pentru tipar?",
+     "Ce înseamnă OLE?",
+     "Ce diferență este între încorporare și legare?",
+     "Ce riscă un PDF deschis într-un procesor de texte?"
+    ],
+    "steps": [
+     "Stabilește cine scrie și cine corectează.",
+     "Folosește urmărirea modificărilor, comentariile și partajarea.",
+     "Integrează datele prin OLE și exportă versiunea finală în PDF.",
+     "Greșeala frecventă: să trimiți tipografiei fișierul editabil în loc de PDF; fonturile și paginarea se pot schimba."
+    ],
+    "answers": [
+     "Înregistrează modificările și autorii lor.",
+     "Pentru că păstrează exact aspectul paginii.",
+     "Legarea și încorporarea obiectelor între aplicații.",
+     "Obiectul încorporat este o copie, cel legat se actualizează din sursă.",
+     "Aspectul paginii se poate strica."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-11-l08": {
+   "ro": {
+    "title": "Aplicații profesionale de paginare",
+    "theory": "Procesoarele de texte sunt bune pentru documente cu mult text; pentru reviste, afișe și cărți cu așezare complexă se folosesc aplicații profesionale de paginare (DTP – desktop publishing). Programa numește PageMaker și QuarkXPress; astăzi aceleași principii se regăsesc în Adobe InDesign, QuarkXPress sau aplicația gratuită Scribus. Principiul de bază: totul se așază în casete (cadre) de text și de imagine, poziționate exact pe pagină. Textul se „toarnă” (place, get) dintr-un fișier într-o casetă și poate curge prin casete legate, chiar pe pagini diferite. Imaginile se potrivesc în casetă: rotire, scalare, decupare. Paginile model (master) conțin elementele comune: numerotarea, antetul, grila. Aplicația permite controlul fin al textului (spațiere între litere, rânduri) și pregătirea pentru tipar (culori, separații, margini de tăiere).",
+    "sample": "Un articol începe pe pagina 3 și continuă pe pagina 7. Elevul leagă caseta de text de pe pagina 3 de cea de pe pagina 7: textul care nu încape curge automat mai departe. Dacă articolul se scurtează, textul se retrage automat.",
+    "worked": "Casetele legate au tratat articolul ca un singur flux. În procesorul de texte, o asemenea așezare ar fi fost greu de controlat.",
+    "exercises": [
+     "Creează un document nou cu pagini model într-o aplicație de paginare.",
+     "Toarnă un text dintr-un fișier într-o casetă.",
+     "Leagă două casete de text pe pagini diferite.",
+     "Potrivește, rotește și decupează o imagine în casetă.",
+     "Realizează o foaie volantă (fluturaș)."
+    ],
+    "test": [
+     "Când folosim o aplicație de paginare în loc de procesor de texte?",
+     "Ce este o casetă?",
+     "Ce înseamnă să legi casete de text?",
+     "Ce conține o pagină model?",
+     "Ce aplicație gratuită de paginare cunoști?"
+    ],
+    "steps": [
+     "Stabilește formatul, grila și paginile model.",
+     "Creează casete și toarnă textele și imaginile.",
+     "Ajustează fluxul textului și imaginile, apoi pregătește tipărirea.",
+     "Greșeala frecventă: să muți manual textul dintr-o casetă în alta; folosește casete legate."
+    ],
+    "answers": [
+     "Pentru reviste, afișe și cărți cu așezare complexă.",
+     "Un cadru de text sau imagine poziționat exact pe pagină.",
+     "Textul curge automat dintr-o casetă în următoarea.",
+     "Elementele comune: numerotare, antet, grilă.",
+     "Scribus."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-11-l09": {
+   "ro": {
+    "title": "Controlul textului, tabele și secțiuni în aplicația de paginare",
+    "theory": "În aplicația de paginare controlăm textul mai fin decât în procesorul de texte. Instrumentul de text permite stabilirea fontului, a mărimii, a interliniei, a spațierii dintre litere (spațierea uniformă a unui cuvânt sau a unui rând) și a perechilor de litere care arată prea depărtate, precum și alinierea pe grilă a rândurilor din coloane alăturate. Formatele de paragraf se salvează ca stiluri, ca în procesorul de texte. Tabelele se pot crea direct în pagină, iar în celule se pot pune text sau imagini. Lucrările lungi se împart în capitole și secțiuni, cu numerotare proprie (de exemplu cifre romane pentru prefață). Mai multe fișiere de capitol se pot reuni într-o carte, care sincronizează stilurile, numerotarea paginilor și generează cuprinsul și indexul comun. Bibliotecile păstrează elemente refolosibile (sigla, casete tipice).",
+    "sample": "O antologie are prefață și cinci capitole realizate de echipe diferite, în fișiere separate. Fișierele sunt reunite într-o carte: prefața are pagini numerotate cu cifre romane, capitolele cu cifre arabe, iar cuprinsul se generează o singură dată pentru toată lucrarea.",
+    "worked": "Cartea a legat fișierele fără a le lipi într-unul singur. Fiecare echipă a lucrat separat, dar numerotarea și cuprinsul au rămas corecte.",
+    "exercises": [
+     "Ajustează interlinia și spațierea dintre litere într-un titlu.",
+     "Creează un tabel cu text și imagini într-o aplicație de paginare.",
+     "Împarte o lucrare în secțiuni cu numerotare diferită.",
+     "Reunește trei fișiere de capitol într-o carte.",
+     "Salvează sigla într-o bibliotecă și refolosește-o."
+    ],
+    "test": [
+     "Ce putem controla fin la text?",
+     "Ce poate conține o celulă de tabel în paginare?",
+     "De ce împărțim lucrarea în secțiuni?",
+     "Ce face funcția de carte?",
+     "La ce folosesc bibliotecile?"
+    ],
+    "steps": [
+     "Stabilește stilurile de text și regulile de spațiere.",
+     "Împarte lucrarea în capitole și secțiuni cu numerotarea potrivită.",
+     "Reunește capitolele într-o carte și generează cuprinsul și indexul.",
+     "Greșeala frecventă: să lipești toate capitolele într-un singur fișier uriaș; lucrul în echipă și corecturile devin greoaie."
+    ],
+    "answers": [
+     "Fontul, mărimea, interlinia și spațierea dintre litere.",
+     "Text sau imagini.",
+     "Ca părți diferite să aibă numerotare și setări proprii.",
+     "Reunește fișierele de capitol și sincronizează numerotarea, stilurile și cuprinsul.",
+     "Păstrează elemente refolosibile."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-11-l10": {
+   "ro": {
+    "title": "Pregătirea pentru tipar și tipărirea",
+    "theory": "Înainte de tipar verificăm: corectura finală, imaginile la rezoluție bună, fonturile încorporate în PDF, culorile potrivite tiparului. Ecranul folosește culorile RGB (roșu, verde, albastru – lumină), iar tiparul color folosește CMYK (cyan, magenta, galben, negru – cerneluri); unele culori vii de pe ecran ies mai șterse la tipar. Elementele care merg până la marginea foii au nevoie de o margine de tăiere (bleed), de obicei 3 mm în plus, care se taie după tipar. Configurații speciale: separații de culoare, tipărire în oglindă, negativ, broșură. O carte de format mic (A5 sau A6) se tipărește pe A4 prin imprimare de mai multe pagini pe foaie și pliere. Tipărim întâi un exemplar model și îl verificăm înainte de tiraj.",
+    "sample": "Coperta revistei are fotografia până la marginea foii. Fără bleed, după tăiere ar rămâne o dungă albă. Elevul extinde fotografia cu 3 mm dincolo de margine pe toate laturile și exportă PDF-ul cu semne de tăiere.",
+    "worked": "Marginea de tăiere a compensat micile abateri ale tăierii. Exemplarul model a confirmat rezultatul înainte de tiraj.",
+    "exercises": [
+     "Fă lista de verificare înainte de tipar.",
+     "Convertește o imagine din RGB în CMYK și compară.",
+     "Pregătește o copertă cu margine de tăiere.",
+     "Tipărește o carte de format A6 pe foi A4.",
+     "Exportă un PDF cu fonturile încorporate."
+    ],
+    "test": [
+     "Ce diferență este între RGB și CMYK?",
+     "Ce este marginea de tăiere?",
+     "De ce încorporăm fonturile în PDF?",
+     "Cum tipărim o carte A5 pe hârtie A4?",
+     "De ce tipărim un exemplar model?"
+    ],
+    "steps": [
+     "Fă corectura finală și verifică imaginile și culorile.",
+     "Adaugă marginile de tăiere și exportă PDF-ul pentru tipar.",
+     "Tipărește un exemplar model, verifică-l și abia apoi tirajul.",
+     "Greșeala frecventă: să trimiți la tipar fără exemplar model; greșelile se multiplică în tot tirajul."
+    ],
+    "answers": [
+     "RGB este pentru ecran (lumină), CMYK pentru tipar (cerneluri).",
+     "O zonă de câțiva milimetri în plus, tăiată după tipar.",
+     "Ca textul să arate la fel pe orice calculator.",
+     "Câte două pagini pe fiecare față a foii, apoi pliere.",
+     "Ca să găsim greșelile înainte de tiraj."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-11-l11": {
+   "ro": {
+    "title": "Proiect: revista școlară",
+    "theory": "Revista școlară este proiectul principal al anului. Colectivul de redacție are roluri: redactor-șef (coordonează și decide), redactori (scriu și culeg texte), fotoreporteri, corectori, tehnoredactori (paginează), grafician (copertă, siglă). Organizarea: tematica numărului, rubricile (interviu, creație literară, reportaj, știri, recenzii), numărul de pagini, termenele. Organizarea grafică: formatul, grila, fonturile, culorile, coperțile I și IV. Modularizarea: fiecare rubrică este paginată după șablon, apoi modulele se asamblează. Etape: plan, culegere, corectură, paginare, verificare, tipar. Respectăm drepturile de autor: textele și fotografiile au autorul menționat și acordul lui.",
+    "sample": "Redacția clasei a XI-a B face un număr de 16 pagini despre „Orașul nostru”. Fiecare rubrică are un responsabil și un termen. Tehnoredactorii folosesc același șablon, iar la asamblare corectorul găsește trei greșeli de nume în cuprins, corectate înainte de tipar.",
+    "worked": "Rolurile și șablonul au permis lucrul în paralel. Corectura dinaintea tiparului a prins greșelile care altfel ar fi ajuns la toți cititorii.",
+    "exercises": [
+     "Stabilește colectivul de redacție și rolurile.",
+     "Fă planul unui număr de revistă cu rubrici și pagini.",
+     "Creează coperta și sigla revistei.",
+     "Paginează o rubrică pe șablonul comun.",
+     "Asamblează și tipărește un exemplar model."
+    ],
+    "test": [
+     "Ce roluri are colectivul de redacție?",
+     "Ce rubrici poate avea o revistă școlară?",
+     "Ce înseamnă modularizarea paginării?",
+     "Ce sunt coperțile I și IV?",
+     "Ce respectăm privind textele și fotografiile?"
+    ],
+    "steps": [
+     "Stabilește tematica, rubricile, rolurile și termenele.",
+     "Culege și corectează textele, apoi paginează-le pe șablon.",
+     "Asamblează, verifică exemplarul model și tipărește.",
+     "Greșeala frecventă: să începi paginarea înainte de corectură; corecturile ulterioare strică așezarea paginilor."
+    ],
+    "answers": [
+     "Redactor-șef, redactori, fotoreporteri, corectori, tehnoredactori, grafician.",
+     "Interviu, creație literară, reportaj, știri, recenzii.",
+     "Fiecare rubrică se paginează separat pe șablon, apoi se asamblează.",
+     "Coperta din față și coperta din spate.",
+     "Menționarea autorului și acordul lui."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-11-l12": {
+   "ro": {
+    "title": "Proiect: cartea de format mic și ziarul",
+    "theory": "Cartea de format mic adună creații ale elevilor (poezii, proză scurtă) într-un volum A5 sau A6 tipărit pe A4. Pașii: culegerea și corectarea textelor, realizarea ilustrațiilor, alegerea aplicației, formatarea paginilor A5/A6, cuprinsul, coperta, tipărirea exemplarului model și asamblarea (pliere, capsare sau legare). Ziarul are alt ritm: articole scurte, actuale, titluri care atrag atenția, subtitluri, fotografii. Organizarea grafică a ziarului: formatul paginii, coloanele, culorile și caracterele dominante, titlul ziarului (frontispiciul) în același loc la fiecare număr. Reportajele cer documentare: întrebări, notițe, fotografii proprii prelucrate pentru tipar. Informațiile se verifică din cel puțin două surse înainte de publicare.",
+    "sample": "Clasa realizează „Gazeta liceului”, de 4 pagini A4: frontispiciu cu numele și data, pe prima pagină știrea principală cu fotografie, pe pagina 2 un reportaj de la olimpiadă, pe pagina 3 opinii, pe pagina 4 sport și anunțuri. Textele sunt pe trei coloane.",
+    "worked": "Structura pe pagini și coloane dă ziarului un aspect recognoscibil. Frontispiciul păstrat identic leagă numerele între ele.",
+    "exercises": [
+     "Culege și corectează cinci poezii pentru o carte de format mic.",
+     "Paginează o carte A6 și tipărește exemplarul model.",
+     "Creează frontispiciul unui ziar școlar.",
+     "Scrie un reportaj scurt cu fotografie proprie.",
+     "Paginează prima pagină a ziarului pe trei coloane."
+    ],
+    "test": [
+     "Ce format are o carte de format mic?",
+     "Care sunt pașii realizării cărții?",
+     "Ce este frontispiciul unui ziar?",
+     "De ce verificăm informațiile din două surse?",
+     "Prin ce diferă ziarul de revistă?"
+    ],
+    "steps": [
+     "Stabilește tipul publicației, formatul și conținutul.",
+     "Culege, documentează, corectează și ilustrează materialele.",
+     "Paginează, tipărește exemplarul model și asamblează publicația.",
+     "Greșeala frecventă: să publici o știre neverificată; o informație falsă tipărită nu mai poate fi retrasă ușor."
+    ],
+    "answers": [
+     "A5 sau A6, tipărită pe A4.",
+     "Culegere, ilustrații, formatare, cuprins, copertă, exemplar model, asamblare.",
+     "Titlul ziarului, așezat la fel în fiecare număr.",
+     "Ca să nu publicăm informații false.",
+     "Ziarul are articole mai scurte, actuale, și un ritm mai rapid."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-11-l13": {
+   "ro": {
+    "title": "Identificarea datelor de prelucrat și alegerea instrumentului",
+    "theory": "Înainte de orice prelucrare formulăm corect tema: ce vrem să aflăm, despre ce, în ce perioadă („Cum variază temperatura apei în trei puncte ale pârâului, în octombrie și noiembrie?”). Apoi analizăm datele care intervin: ce mărimi măsurăm, în ce unități, cât de des, de unde provin, ce tip are fiecare și ce prelucrări cere (medii, comparații, grafice). Stabilim și cerințele de securitate: cine introduce datele, cine are acces, unde se fac copiile de rezervă. Alegem instrumentul după operațiile necesare: procesorul de texte pentru documente cu tabele mici și calcule simple (totaluri, sortări), foaia de calcul pentru liste mari, funcții, filtre, tabele pivot și grafice, iar un sistem de gestiune a bazelor de date când avem multe tabele legate și mulți utilizatori. Denumim operațiile corect (sortare, filtrare, căutare, grupare) ca să găsim instrumentele potrivite.",
+    "sample": "Tema „Creșterea fasolei la lumină și la întuneric”: date – data, lotul, înălțimea (cm), numărul de frunze; 2 loturi × 10 plante × 20 de zile = 400 de înregistrări. Prelucrări: media pe lot și zi, grafic de evoluție. Instrumentul ales: foaia de calcul; raportul final, cu un tabel-sinteză, se scrie în procesorul de texte.",
+    "worked": "Analiza datelor a arătat volumul și prelucrările necesare, iar de aici a rezultat instrumentul potrivit. Fiecare aplicație a fost folosită pentru ceea ce face cel mai bine.",
+    "exercises": [
+     "Formulează precis tema unui experiment.",
+     "Fă lista datelor unui experiment, cu tipuri și unități.",
+     "Estimează numărul de înregistrări ale unui proiect.",
+     "Alege instrumentul potrivit pentru trei situații.",
+     "Stabilește cine are acces la datele proiectului și unde se fac copiile de rezervă."
+    ],
+    "test": [
+     "Ce conține o temă bine formulată?",
+     "Ce analizăm la datele unei probleme?",
+     "Când folosim procesorul de texte pentru tabele?",
+     "Când alegem foaia de calcul?",
+     "Când este nevoie de un sistem de gestiune a bazelor de date?"
+    ],
+    "steps": [
+     "Formulează tema: ce, despre ce, în ce perioadă.",
+     "Analizează datele: mărimi, unități, frecvență, volum, prelucrări cerute, securitate.",
+     "Alege instrumentul potrivit și denumește corect operațiile necesare.",
+     "Greșeala frecventă: să începi introducerea datelor înainte de a stabili structura tabelului; refacerea ulterioară costă mult timp."
+    ],
+    "answers": [
+     "Ce vrem să aflăm, despre ce și în ce perioadă.",
+     "Mărimile, unitățile, frecvența, volumul, tipurile și prelucrările necesare.",
+     "Pentru tabele mici cu calcule simple într-un document.",
+     "Pentru liste mari, funcții, filtre, pivot și grafice.",
+     "Când avem multe tabele legate și mulți utilizatori."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-11-l14": {
+   "ro": {
+    "title": "Tipuri de valori, codificare și validarea datelor",
+    "theory": "Orice prelucrare începe cu identificarea tipului valorilor. Date numerice: întregi sau reale, folosite și pentru codificări (codul poștal, numărul unei probe). Șiruri de caractere: nume, denumiri, observații. Dată și oră: în foile de calcul, o dată este memorată ca număr de zile față de o dată de referință, de aceea putem calcula diferențe de zile. Codificări pentru alte informații: da/nu, culori, categorii (A, B, C), coduri de specie. Validarea datelor împiedică introducerea valorilor greșite: în Excel, comanda Validare date stabilește, de exemplu, numere întregi între 0 și 100, date dintr-un interval sau o listă derulantă de valori permise, cu mesaj de eroare explicativ. Datele experimentale se notează cu unitatea de măsură în capul de tabel, nu în celulă, ca să rămână numere.",
+    "sample": "La un experiment de biologie, coloana „Înălțime plantă (cm)” acceptă doar numere între 0 și 200, iar coloana „Tratament” are o listă derulantă: control, îngrășământ A, îngrășământ B. Un coleg care scrie „12 cm” primește mesaj de eroare și scrie doar 12.",
+    "worked": "Unitatea de măsură din capul de tabel a păstrat valorile numerice, iar validarea a impus scrierea corectă. Calculele ulterioare vor funcționa fără curățarea datelor.",
+    "exercises": [
+     "Identifică tipul fiecărei coloane dintr-un tabel de date experimentale.",
+     "Calculează numărul de zile dintre două date în Excel.",
+     "Adaugă o regulă de validare pentru valori între 0 și 100.",
+     "Creează o listă derulantă de categorii.",
+     "Codifică o informație calitativă prin categorii."
+    ],
+    "test": [
+     "Ce tipuri de valori întâlnim în prelucrări?",
+     "Cum memorează Excel o dată calendaristică?",
+     "Ce face validarea datelor?",
+     "De ce scriem unitatea de măsură în capul de tabel?",
+     "Ce este o codificare?"
+    ],
+    "steps": [
+     "Identifică tipul fiecărei informații.",
+     "Alege formatul și codificarea potrivite.",
+     "Adaugă reguli de validare cu mesaje explicative și testează-le.",
+     "Greșeala frecventă: să scrii unitatea de măsură în celulă lângă număr; valoarea devine text și nu mai poate fi calculată."
+    ],
+    "answers": [
+     "Numerice, șiruri de caractere, dată și oră, codificări.",
+     "Ca număr de zile față de o dată de referință.",
+     "Împiedică introducerea valorilor greșite.",
+     "Ca valorile din celule să rămână numere.",
+     "Reprezentarea unei informații prin coduri convenite."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-11-l15": {
+   "ro": {
+    "title": "Operații elementare: intrare-ieșire, aritmetice, logice, decizii",
+    "theory": "Prelucrarea datelor folosește aceleași operații elementare ca un algoritm. Operațiile de intrare-ieșire: introducerea datelor (de la tastatură, din fișiere importate, din instrumente de măsură) și afișarea rezultatelor (tabele, grafice, rapoarte tipărite). Operațiile aritmetice: adunare, scădere, înmulțire, împărțire, putere. Operațiile logice și comparările: =, <>, <, >, cu rezultatul ADEVĂRAT sau FALS, combinate prin AND, OR, NOT. Deciziile aleg între variante după o condiție (funcția IF). Prelucrările structurate repetă aceleași operații pentru fiecare rând – în foaia de calcul, prin copierea formulei pe toată coloana; în limbajele de programare, prin structuri repetitive. Gândind astfel, o foaie de calcul devine un mic program.",
+    "sample": "Pentru temperaturile zilnice din B2:B31: în C2 =IF(B2>30; \"caniculă\"; IF(B2<0; \"îngheț\"; \"normal\")), copiată pe toată coloana. =COUNTIF(C2:C31; \"caniculă\") numără zilele caniculare.",
+    "worked": "Decizia a fost aplicată identic fiecărei zile, ca o structură repetitivă. COUNTIF a transformat clasificarea într-un rezultat numeric.",
+    "exercises": [
+     "Clasifică temperaturile zilnice cu IF imbricate.",
+     "Calculează media și abaterea maximă față de medie pentru un set de măsurători.",
+     "Folosește AND pentru a marca valorile dintr-un interval.",
+     "Numără valorile care îndeplinesc o condiție.",
+     "Descrie în pseudocod prelucrarea făcută de o coloană de formule."
+    ],
+    "test": [
+     "Ce sunt operațiile de intrare-ieșire?",
+     "Ce rezultat dă o comparare?",
+     "Ce face funcția IF?",
+     "Cum realizăm o prelucrare repetitivă în foaia de calcul?",
+     "Ce face NOT?"
+    ],
+    "steps": [
+     "Identifică datele de intrare și rezultatele cerute.",
+     "Alege operațiile: aritmetice, comparări, decizii.",
+     "Scrie formula pentru un rând, copiaz-o și verifică pe câteva cazuri.",
+     "Greșeala frecventă: să scrii condiții care se suprapun în IF imbricate fără să verifici ordinea lor."
+    ],
+    "answers": [
+     "Introducerea datelor și afișarea rezultatelor.",
+     "ADEVĂRAT sau FALS.",
+     "Alege un rezultat după o condiție.",
+     "Copiind formula pe toată coloana.",
+     "Inversează valoarea de adevăr."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-11-l16": {
+   "ro": {
+    "title": "Căutări, sortări și actualizări",
+    "theory": "Datele structurate (tabele, liste) se prelucrează prin trei tipuri de operații. Căutarea găsește o valoare: căutarea secvențială verifică elementele pe rând (merge oricând, dar e lentă pe liste mari), iar căutarea binară, pe o listă sortată, compară cu elementul din mijloc și înjumătățește la fiecare pas zona cercetată. În Excel căutăm cu Găsire sau cu funcții de căutare (VLOOKUP/XLOOKUP sau INDEX și MATCH), care aduc o valoare dintr-un tabel după o cheie. Sortarea ordonează datele; metodele clasice (selecție, inserție, bule) compară și interschimbă elemente, iar aplicațiile folosesc metode rapide automat. Actualizările sunt adăugarea, ștergerea și editarea înregistrărilor, făcute atent, ca să nu pierdem legătura dintre coloane.",
+    "sample": "Un tabel de specii are coduri în coloana A și denumiri în coloana B. Pentru a afișa denumirea codului din E2: =VLOOKUP(E2; A2:B200; 2; FALSE). Argumentul FALSE cere potrivire exactă.",
+    "worked": "Funcția a făcut automat căutarea pe care altfel am fi făcut-o cu ochii, rând cu rând. Potrivirea exactă evită rezultate greșite când codul lipsește.",
+    "exercises": [
+     "Caută o specie după cod cu VLOOKUP.",
+     "Simulează pe hârtie căutarea binară într-o listă de 16 numere.",
+     "Sortează pe hârtie cinci numere prin metoda selecției.",
+     "Adaugă, editează și șterge înregistrări într-o listă.",
+     "Compară numărul de pași ai căutării secvențiale și binare pentru 1 000 de elemente."
+    ],
+    "test": [
+     "Cum funcționează căutarea secvențială?",
+     "Ce condiție cere căutarea binară?",
+     "Ce face VLOOKUP?",
+     "Ce înseamnă argumentul FALSE în VLOOKUP?",
+     "Ce operații sunt actualizări?"
+    ],
+    "steps": [
+     "Stabilește dacă lista este sortată și cât de mare este.",
+     "Alege metoda de căutare sau funcția potrivită.",
+     "Verifică rezultatul pe o valoare cunoscută și pe una absentă.",
+     "Greșeala frecventă: să folosești căutarea binară pe o listă nesortată; rezultatul este greșit."
+    ],
+    "answers": [
+     "Verifică elementele pe rând.",
+     "Lista trebuie să fie sortată.",
+     "Aduce o valoare dintr-un tabel după o cheie.",
+     "Potrivire exactă.",
+     "Adăugarea, ștergerea și editarea înregistrărilor."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-11-l17": {
+   "ro": {
+    "title": "Liste și tabele în procesorul de texte",
+    "theory": "Și procesorul de texte poate gestiona liste mici sub formă de tabele. Rândul de titlu (header) se setează să se repete pe fiecare pagină când tabelul continuă. Tabelele din Word pot fi sortate după una sau mai multe coloane (text, număr sau dată). Formulele din tabel folosesc repere ca într-o foaie de calcul: coloanele sunt A, B, C…, rândurile 1, 2, 3…, iar cuvintele ABOVE (deasupra) și LEFT (în stânga) indică zonele: =SUM(ABOVE) adună valorile de deasupra celulei. Rezultatele formulelor din Word nu se actualizează automat: se actualizează câmpul (F9). Pentru liste mari și calcule complexe trecem în foaia de calcul; procesorul de texte rămâne potrivit pentru tabele de prezentat într-un document. Textul separat prin tabulatori se poate converti în tabel și invers.",
+    "sample": "Un raport de laborator conține un tabel cu masele a cinci probe. În ultima celulă a coloanei elevul inserează formula =SUM(ABOVE). După corectarea unei mase, selectează rezultatul și apasă F9, iar totalul se actualizează.",
+    "worked": "Formula din Word a calculat totalul, dar nu s-a actualizat singură. Pasul F9 este diferența importantă față de foaia de calcul.",
+    "exercises": [
+     "Setează repetarea rândului de titlu într-un tabel lung.",
+     "Sortează un tabel din Word după două coloane.",
+     "Calculează totalul unei coloane cu =SUM(ABOVE).",
+     "Convertește un text separat prin tabulatori în tabel.",
+     "Explică când preferi foaia de calcul unui tabel din Word."
+    ],
+    "test": [
+     "Ce face rândul de titlu repetat?",
+     "Cum sortăm un tabel în Word?",
+     "Ce înseamnă ABOVE într-o formulă?",
+     "Se actualizează automat formulele din Word?",
+     "Când trecem în foaia de calcul?"
+    ],
+    "steps": [
+     "Creează tabelul și setează rândul de titlu.",
+     "Sortează și adaugă formulele necesare.",
+     "Actualizează câmpurile (F9) după modificări și verifică totalurile.",
+     "Greșeala frecventă: să crezi că totalul din Word se recalculează singur; trebuie actualizat câmpul."
+    ],
+    "answers": [
+     "Afișează capul de tabel pe fiecare pagină.",
+     "Cu comanda Sortare din meniul tabelului.",
+     "Celulele de deasupra.",
+     "Nu, se actualizează cu F9.",
+     "Pentru liste mari și calcule complexe."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-11-l18": {
+   "ro": {
+    "title": "Nume definite și categorii de funcții în Excel",
+    "theory": "Pentru formule clare putem da nume unor celule sau zone (comanda Definire nume): în loc de =B2*$H$1 scriem =B2*densitate. Un nume este implicit o referință absolută și face formula ușor de citit. Funcțiile sunt grupate pe categorii: matematice (SUM, ROUND, SQRT, POWER), statistice (AVERAGE, MEDIAN, MODE, STDEV, MIN, MAX, COUNT), logice (IF, AND, OR), text (LEFT, LEN, CONCAT), dată și oră (TODAY, DATEDIF), căutare (VLOOKUP, INDEX, MATCH), financiare (PMT, FV, PV). Asistentul pentru funcții (butonul fx) arată argumentele fiecărei funcții, cu explicații. La datele experimentale, media trebuie însoțită de o măsură a împrăștierii: abaterea standard (STDEV) arată cât de departe de medie sunt, în general, valorile.",
+    "sample": "Două loturi de plante au aceeași înălțime medie, 20 cm. Lotul A are abaterea standard 1 cm (plante foarte asemănătoare), lotul B are 6 cm (plante foarte diferite). Concluzia nu poate fi „loturile sunt la fel”.",
+    "worked": "Media singură ascundea diferența. Funcția statistică STDEV a arătat cât de uniforme sunt rezultatele.",
+    "exercises": [
+     "Definește un nume pentru o constantă și folosește-l în formule.",
+     "Calculează media, mediana și abaterea standard ale unui set de măsurători.",
+     "Folosește asistentul pentru funcții pentru o funcție nouă.",
+     "Extrage primele trei litere dintr-un cod cu LEFT.",
+     "Calculează vârsta în ani cu funcții de dată."
+    ],
+    "test": [
+     "Ce avantaj are un nume definit?",
+     "Ce categorii de funcții cunoști?",
+     "Ce arată abaterea standard?",
+     "Ce face mediana?",
+     "La ce folosește butonul fx?"
+    ],
+    "steps": [
+     "Identifică valorile constante și dă-le nume.",
+     "Alege categoria și funcția potrivită, cu ajutorul asistentului.",
+     "Interpretează rezultatele, inclusiv împrăștierea datelor.",
+     "Greșeala frecventă: să tragi concluzii doar din medie; două seturi cu aceeași medie pot fi foarte diferite."
+    ],
+    "answers": [
+     "Formula devine ușor de citit, iar referința rămâne fixă.",
+     "Matematice, statistice, logice, text, dată și oră, căutare, financiare.",
+     "Cât de departe de medie sunt, în general, valorile.",
+     "Valoarea din mijloc a datelor ordonate.",
+     "Deschide asistentul cu argumentele funcțiilor."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-11-l19": {
+   "ro": {
+    "title": "Funcții financiare",
+    "theory": "Funcțiile financiare calculează dobânzi, rate și economii. FV (valoarea viitoare) arată cât strângem dacă depunem regulat o sumă cu o anumită dobândă. PMT calculează rata periodică a unui împrumut. PV (valoarea prezentă) arată cât valorează astăzi o serie de plăți viitoare. Argumentele principale: rata dobânzii pe perioadă, numărul de perioade, plata pe perioadă, valoarea prezentă. Atenție la unități: dacă plătim lunar, rata anuală se împarte la 12, iar numărul de ani se înmulțește cu 12. Prin convenție, banii plătiți apar cu minus, iar cei primiți cu plus. Aceste calcule ajută la decizii personale: compararea a două credite sau planificarea economiilor.",
+    "sample": "Un împrumut de 10 000 de lei pe 2 ani, cu dobândă anuală de 9%: =PMT(9%/12; 24; 10000) dă aproximativ −456,85 lei pe lună. În total se plătesc circa 10 964 de lei, deci dobânda totală este de aproximativ 964 de lei.",
+    "worked": "Împărțirea ratei la 12 și cele 24 de perioade au pus totul în luni. Semnul minus arată că rata este o plată.",
+    "exercises": [
+     "Calculează rata lunară a unui împrumut cu PMT.",
+     "Calculează suma strânsă prin depuneri lunare cu FV.",
+     "Compară două oferte de credit.",
+     "Calculează dobânda totală plătită la un împrumut.",
+     "Explică semnul minus din rezultatul funcției PMT."
+    ],
+    "test": [
+     "Ce calculează PMT?",
+     "Ce calculează FV?",
+     "Cum transformăm rata anuală pentru plăți lunare?",
+     "Ce semnifică semnul minus?",
+     "La ce decizii ne ajută funcțiile financiare?"
+    ],
+    "steps": [
+     "Stabilește perioada de plată: lunară sau anuală.",
+     "Adaptează rata și numărul de perioade la aceeași unitate.",
+     "Calculează, interpretează semnul și verifică totalul plătit.",
+     "Greșeala frecventă: să folosești rata anuală la plăți lunare; rezultatul este mult greșit."
+    ],
+    "answers": [
+     "Rata periodică a unui împrumut.",
+     "Valoarea viitoare a unor depuneri regulate.",
+     "O împărțim la 12.",
+     "Bani plătiți.",
+     "Compararea creditelor și planificarea economiilor."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-11-l20": {
+   "ro": {
+    "title": "Lista de date: formular, sortare, filtrare",
+    "theory": "În Excel, un tabel organizat ca bază de date se numește listă de date: primul rând conține numele câmpurilor, fiecare rând următor este o înregistrare, fără rânduri sau coloane goale în interior. Formatarea ca tabel adaugă automat filtre și extinde formulele la rândurile noi. Formularul de date afișează câte o înregistrare odată, pentru introducere și căutare. Sortarea se face după mai multe criterii. Filtrarea automată afișează doar rândurile care îndeplinesc condiții (o anumită specie, valori între două limite, primele 10). Filtrul avansat folosește o zonă de criterii separată: criteriile de pe același rând se leagă prin ȘI, cele de pe rânduri diferite prin SAU, iar rezultatul poate fi copiat în altă zonă. Funcțiile de baze de date (DSUM, DAVERAGE, DCOUNT) calculează doar pentru înregistrările care respectă criteriile.",
+    "sample": "Lista cu observații de păsări are câmpurile Data, Specie, Număr, Loc. Elevul filtrează Specie = „barză” și Loc = „lac”, apoi calculează cu DSUM numărul total de berze observate la lac, folosind zona de criterii.",
+    "worked": "Filtrul a arătat înregistrările, iar DSUM a calculat doar pentru ele. Zona de criterii poate fi schimbată fără a rescrie formula.",
+    "exercises": [
+     "Organizează un set de date ca listă și formatează-l ca tabel.",
+     "Introdu înregistrări prin formularul de date.",
+     "Filtrează după două condiții.",
+     "Folosește filtrul avansat cu criterii SAU.",
+     "Calculează o sumă cu DSUM pentru o zonă de criterii."
+    ],
+    "test": [
+     "Ce este o listă de date?",
+     "Ce face formularul de date?",
+     "Ce diferență este între filtrul automat și cel avansat?",
+     "Cum se leagă criteriile de pe rânduri diferite?",
+     "Ce face DAVERAGE?"
+    ],
+    "steps": [
+     "Organizează datele: un rând de nume de câmpuri, fără goluri.",
+     "Sortează sau filtrează după criteriile cerute.",
+     "Calculează cu funcții de baze de date și verifică rezultatul filtrat.",
+     "Greșeala frecventă: să lași rânduri goale în listă; sortarea și filtrarea se opresc la primul rând gol."
+    ],
+    "answers": [
+     "Un tabel organizat ca bază de date, cu nume de câmpuri pe primul rând.",
+     "Afișează câte o înregistrare odată, pentru introducere și căutare.",
+     "Filtrul avansat folosește o zonă de criterii separată.",
+     "Prin SAU.",
+     "Calculează media doar pentru înregistrările care respectă criteriile."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-11-l21": {
+   "ro": {
+    "title": "Grupări, subtotaluri și tabele pivot",
+    "theory": "Pentru a rezuma o listă mare folosim grupări și tabele pivot. Comanda Subtotaluri, aplicată unei liste sortate după un câmp, inserează după fiecare grup un rând cu suma, media sau numărul valorilor și un total general; simbolurile de schiță permit ascunderea detaliilor. Tabelul pivot (tabel dinamic) rezumă lista fără a o modifica: tragem câmpurile în zonele Rânduri, Coloane, Valori și Filtre. Putem schimba rapid perspectiva: suma observațiilor pe specii și luni, media temperaturilor pe stații. Valorile pot fi sumă, medie, număr, minim sau maxim. Tabelul pivot se reîmprospătează după modificarea datelor sursă. Din el se poate face un grafic pivot.",
+    "sample": "Lista are 2 000 de măsurători de temperatură, cu Data, Stația și Temperatura. Elevul creează un tabel pivot cu Stația la Rânduri, Luna la Coloane și media temperaturii la Valori. Rezultă un tabel de 5 stații × 12 luni.",
+    "worked": "Două mii de rânduri au devenit un tabel de sinteză. Mutarea câmpurilor între zone schimbă imediat analiza.",
+    "exercises": [
+     "Sortează o listă și aplică subtotaluri pe grupuri.",
+     "Ascunde și afișează detaliile cu simbolurile de schiță.",
+     "Creează un tabel pivot cu sume pe categorii.",
+     "Schimbă funcția din pivot din sumă în medie.",
+     "Creează un grafic pivot și reîmprospătează datele."
+    ],
+    "test": [
+     "Ce face comanda Subtotaluri?",
+     "De ce sortăm lista înainte de subtotaluri?",
+     "Ce este un tabel pivot?",
+     "Ce zone are un tabel pivot?",
+     "Ce facem după modificarea datelor sursă?"
+    ],
+    "steps": [
+     "Formulează întrebarea de sinteză: ce totalizezi și după ce criterii.",
+     "Creează subtotaluri sau un tabel pivot, cu câmpurile în zonele potrivite.",
+     "Verifică un total de mână și reîmprospătează după modificări.",
+     "Greșeala frecventă: să aplici subtotaluri pe o listă nesortată; grupurile apar fragmentate, cu multe subtotaluri."
+    ],
+    "answers": [
+     "Inserează rânduri cu totaluri după fiecare grup.",
+     "Ca fiecare grup să fie compact.",
+     "Un tabel dinamic care rezumă o listă fără a o modifica.",
+     "Rânduri, Coloane, Valori, Filtre.",
+     "Reîmprospătăm tabelul pivot."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-11-l22": {
+   "ro": {
+    "title": "Prelucrarea datelor experimentale: grafice, tendințe, simulări",
+    "theory": "La științele naturii, foaia de calcul ajută la reprezentarea și modelarea datelor experimentale. Graficul prin puncte (XY) arată relația dintre două mărimi măsurate. Linia de tendință (Trendline) potrivește o dreaptă sau o curbă prin puncte și poate afișa ecuația și coeficientul R² (cât de bine se potrivește modelul; aproape de 1 înseamnă potrivire bună); cu ea putem estima valori viitoare, cu prudență. Căutarea rezultatului (Goal Seek) găsește valoarea de intrare care produce un rezultat dorit. Tabelele de simulare (Data Table) calculează rezultatul pentru mai multe valori ale unui parametru. O corelație între două mărimi nu dovedește că una o cauzează pe cealaltă.",
+    "sample": "Elevii măsoară alungirea unui resort pentru mase de 50–300 g. Graficul XY arată puncte aproape în linie dreaptă; linia de tendință liniară are R² = 0,996 și panta 0,12 cm/g. Pentru 400 g, modelul estimează aproximativ 48 cm, dar estimarea în afara intervalului măsurat se verifică experimental.",
+    "worked": "Modelul liniar descrie bine datele măsurate. Extrapolarea este doar o ipoteză, pentru că resortul se poate deforma altfel la mase mari.",
+    "exercises": [
+     "Realizează un grafic XY pentru date experimentale.",
+     "Adaugă o linie de tendință cu ecuație și R².",
+     "Folosește Goal Seek pentru a afla o valoare de intrare.",
+     "Construiește un tabel de simulare cu un parametru.",
+     "Explică diferența dintre corelație și cauzalitate pe un exemplu."
+    ],
+    "test": [
+     "Ce grafic folosim pentru relația dintre două mărimi?",
+     "Ce arată R²?",
+     "Ce face Goal Seek?",
+     "Ce face un tabel de simulare?",
+     "De ce extrapolarea trebuie făcută cu prudență?"
+    ],
+    "steps": [
+     "Introdu datele măsurate cu unitățile în capul de tabel.",
+     "Reprezintă-le grafic și alege modelul de tendință potrivit.",
+     "Interpretează ecuația și R² și verifică experimental estimările.",
+     "Greșeala frecventă: să consideri o corelație dovadă de cauzalitate; ambele mărimi pot depinde de un al treilea factor."
+    ],
+    "answers": [
+     "Graficul prin puncte (XY).",
+     "Cât de bine se potrivește modelul cu datele.",
+     "Găsește valoarea de intrare pentru un rezultat dorit.",
+     "Calculează rezultatul pentru mai multe valori ale unui parametru.",
+     "Pentru că modelul poate să nu mai fie valabil în afara datelor măsurate."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-11-l23": {
+   "ro": {
+    "title": "Securitatea datelor: protecții și parole",
+    "theory": "Datele trebuie protejate împotriva pierderii, a modificării greșite și a accesului neautorizat. În Excel putem bloca celulele cu formule și proteja foaia, lăsând deblocate doar celulele de introducere, astfel încât colegii să nu strice formulele. Protejarea registrului împiedică adăugarea, ștergerea sau ascunderea foilor. Criptarea cu parolă la deschidere împiedică citirea fișierului de către cine nu cunoaște parola; dacă parola se pierde, datele de obicei nu mai pot fi recuperate. Protecția foii nu este o măsură puternică de securitate, ci una împotriva greșelilor. Copiile de rezervă (backup) periodice și versiunile salvate în cloud protejează împotriva pierderii. Datele personale (de exemplu ale participanților la un sondaj) se păstrează doar cât este nevoie, cu acces restrâns.",
+    "sample": "Profesorul pregătește o foaie pentru notarea observațiilor de laborator: deblochează doar coloana de introducere, blochează formulele și protejează foaia. Un elev încearcă să șteargă formula mediei și primește mesajul că celula este protejată.",
+    "worked": "Protecția a separat zona de introducere de zona de calcul. Formula a rămas intactă, iar datele se introduc în continuare normal.",
+    "exercises": [
+     "Deblochează celulele de introducere și protejează foaia.",
+     "Protejează structura unui registru.",
+     "Criptează un fișier cu parolă la deschidere.",
+     "Fă un plan de backup pentru datele unui proiect.",
+     "Explică de ce protecția foii nu este o măsură puternică de securitate."
+    ],
+    "test": [
+     "De ce protejăm o foaie de calcul?",
+     "Ce celule lăsăm deblocate?",
+     "Ce face criptarea cu parolă?",
+     "Ce se întâmplă dacă pierdem parola de criptare?",
+     "Cum ne protejăm împotriva pierderii datelor?"
+    ],
+    "steps": [
+     "Identifică ce date trebuie protejate și împotriva a ce.",
+     "Aplică protecția potrivită: blocarea celulelor, protejarea registrului, criptarea.",
+     "Fă copii de rezervă și păstrează parolele în siguranță.",
+     "Greșeala frecventă: să criptezi un fișier și să pierzi parola; datele devin de obicei irecuperabile."
+    ],
+    "answers": [
+     "Ca să nu fie stricate formulele sau datele.",
+     "Celulele în care se introduc date.",
+     "Împiedică deschiderea fișierului fără parolă.",
+     "Datele de obicei nu mai pot fi recuperate.",
+     "Prin copii de rezervă periodice și versiuni salvate."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-11-l24": {
+   "ro": {
+    "title": "Proiect de echipă cu prelucrare de date",
+    "theory": "Proiectul aplică totul pe o temă utilă specializării: monitorizarea calității apei dintr-un pârâu, creșterea plantelor în condiții diferite, observații meteo, un inventar de specii. Etape: 1. alegerea temei și formarea echipelor, cu un plan de lucru și roluri (coordonator, responsabil cu datele, cu graficele, cu prezentarea); 2. documentarea: surse, metode de măsurare, formatul tabelelor; 3. identitatea vizuală a proiectului: siglă, motto, imagine reprezentativă; 4. culegerea și validarea datelor; 5. prelucrarea: liste, filtre, funcții statistice, tabele pivot, grafice, linii de tendință; 6. finalizarea: asamblarea materialelor, sinteza concluziilor; 7. prezentarea și publicarea (prezentare, poster, pagină web). Concluziile se sprijină pe date și își recunosc limitele.",
+    "sample": "Echipa măsoară timp de 6 săptămâni pH-ul și temperatura apei în trei puncte ale unui pârâu. Datele validate intră într-o listă; un tabel pivot arată media pe puncte, iar un grafic arată evoluția. Concluzia menționează că perioada scurtă nu permite generalizări.",
+    "worked": "Proiectul a urmat drumul complet de la întrebare la concluzie. Recunoașterea limitelor face concluzia credibilă.",
+    "exercises": [
+     "Alege o temă și formulează întrebarea proiectului.",
+     "Stabilește rolurile și planul de lucru al echipei.",
+     "Proiectează tabelul de culegere a datelor, cu validări.",
+     "Prelucrează datele cu pivot și grafice.",
+     "Prezintă concluziile și limitele proiectului."
+    ],
+    "test": [
+     "Care sunt etapele proiectului?",
+     "Ce roluri poate avea echipa?",
+     "Ce este identitatea vizuală a proiectului?",
+     "Ce prelucrări folosim?",
+     "De ce menționăm limitele concluziilor?"
+    ],
+    "steps": [
+     "Alege tema, formează echipa și stabilește planul și rolurile.",
+     "Culege și validează datele, apoi prelucrează-le cu instrumentele învățate.",
+     "Asamblează, sintetizează și prezintă concluziile cu limitele lor.",
+     "Greșeala frecventă: să formulezi concluzii mai largi decât permit datele culese."
+    ],
+    "answers": [
+     "Temă și echipe, documentare, identitate vizuală, culegere, prelucrare, finalizare, prezentare.",
+     "Coordonator, responsabil cu datele, cu graficele, cu prezentarea.",
+     "Sigla, motto-ul și imaginea reprezentativă.",
+     "Liste, filtre, funcții statistice, tabele pivot, grafice, tendințe.",
+     "Ca să fie credibile și să nu generalizeze excesiv."
+    ]
+   }
+  }
+ }
+}

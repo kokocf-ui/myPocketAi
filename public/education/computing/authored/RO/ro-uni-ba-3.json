@@ -1,0 +1,1110 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "RO",
+ "stage": "advanced",
+ "grade": "uni-ba-3",
+ "version": "3a80d48ab37864ec0d45e101b0b8e455e4b80de8723dc855f8ba2db8c0fab96c",
+ "source": "https://www.aracis.ro/",
+ "sourceTitle": "Sinteză orientativă a disciplinelor comune programelor de licență Informatică din România (domeniul fundamental Matematică și științe ale naturii, domeniul de licență Informatică, 180 ECTS), conform standardelor specifice ARACIS și planurilor de învățământ publicate de Universitatea din București (fmi.unibuc.ro), Universitatea Babeș-Bolyai (cs.ubbcluj.ro – Informatică, linia română) și Universitatea „Alexandru Ioan Cuza” din Iași (info.uaic.ro) — anul III: inteligență artificială, învățare automată, securitatea informației / criptografie, programare paralelă și distribuită, calculabilitate și complexitate, calcul numeric, verificarea și validarea sistemelor soft, elaborarea lucrării de licență; disciplinele opționale diferă mult între facultăți și nu sunt acoperite aici; fiecare facultate are planul propriu, iar ordinea și denumirile cursurilor pot diferi (unele discipline apar în anul II); lecții originale, fără text copiat din cursuri sau manuale",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "ro",
+ "labels": [
+  "Activitate originală · România · Facultatea de Matematică și Informatică · Licență Informatică, anul III",
+  "Teorie pe înțeles",
+  "Exemplu rezolvat",
+  "Analiză explicată",
+  "Exerciții de seminar și laborator",
+  "Verifică-te",
+  "Exerciții originale; nu înlocuiesc cursul, laboratorul, bibliografia sau evaluarea facultății.",
+  "Dacă nu ai înțeles: pas cu pas",
+  "Răspunsuri (verifică după ce termini)"
+ ],
+ "units": [
+  {
+   "title": "Inteligență artificială",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-3-l01",
+    "eu-year-ro-advanced-uni-ba-3-l02",
+    "eu-year-ro-advanced-uni-ba-3-l03",
+    "eu-year-ro-advanced-uni-ba-3-l04"
+   ]
+  },
+  {
+   "title": "Învățare automată",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-3-l05",
+    "eu-year-ro-advanced-uni-ba-3-l06",
+    "eu-year-ro-advanced-uni-ba-3-l07",
+    "eu-year-ro-advanced-uni-ba-3-l08",
+    "eu-year-ro-advanced-uni-ba-3-l09"
+   ]
+  },
+  {
+   "title": "Securitatea informației",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-3-l10",
+    "eu-year-ro-advanced-uni-ba-3-l11",
+    "eu-year-ro-advanced-uni-ba-3-l12",
+    "eu-year-ro-advanced-uni-ba-3-l13"
+   ]
+  },
+  {
+   "title": "Programare paralelă și distribuită",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-3-l14",
+    "eu-year-ro-advanced-uni-ba-3-l15",
+    "eu-year-ro-advanced-uni-ba-3-l16"
+   ]
+  },
+  {
+   "title": "Calculabilitate și complexitate",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-3-l17",
+    "eu-year-ro-advanced-uni-ba-3-l18",
+    "eu-year-ro-advanced-uni-ba-3-l19"
+   ]
+  },
+  {
+   "title": "Calcul numeric",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-3-l20",
+    "eu-year-ro-advanced-uni-ba-3-l21",
+    "eu-year-ro-advanced-uni-ba-3-l22",
+    "eu-year-ro-advanced-uni-ba-3-l23"
+   ]
+  },
+  {
+   "title": "Verificarea și validarea sistemelor soft",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-3-l24",
+    "eu-year-ro-advanced-uni-ba-3-l25",
+    "eu-year-ro-advanced-uni-ba-3-l26"
+   ]
+  },
+  {
+   "title": "Lucrarea de licență",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-3-l27",
+    "eu-year-ro-advanced-uni-ba-3-l28",
+    "eu-year-ro-advanced-uni-ba-3-l29"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-ro-advanced-uni-ba-3-l01": {
+   "ro": {
+    "title": "Rezolvarea problemelor prin căutare: neinformată și informată (A*)",
+    "theory": "Multe probleme de inteligență artificială se formulează ca o căutare într-un spațiu de stări: o stare inițială, acțiuni care duc dintr-o stare în alta, un test de scop și un cost pentru fiecare acțiune. Căutarea neinformată nu știe cât de aproape este scopul: căutarea în lățime găsește soluția cu cele mai puține acțiuni, dar consumă multă memorie; căutarea în adâncime folosește puțină memorie, dar poate rata soluția cea mai bună; căutarea cu cost uniform extinde mereu nodul cu costul drumului g(n) cel mai mic; adâncirea iterativă combină avantajele lățimii și adâncimii. Căutarea informată folosește o euristică h(n), o estimare a costului rămas. A* extinde nodul cu f(n) = g(n) + h(n) minim. Dacă h este admisibilă (nu supraestimează niciodată costul real), A* găsește o soluție optimă; pentru căutarea pe graf cu mulțime de noduri închise se cere ca h să fie și consistentă. O euristică mai precisă (dar tot admisibilă) extinde mai puține noduri.",
+    "sample": "Un robot merge pe o grilă cu obstacole, cu pași de cost 1 pe orizontală și verticală. Euristica h = distanța Manhattan |x − x_scop| + |y − y_scop| este admisibilă, pentru că niciun drum nu poate fi mai scurt decât ea. Pe o grilă de 20 × 20, căutarea cu cost uniform extinde sute de celule în toate direcțiile, în timp ce A* extinde mai ales celulele dinspre scop și găsește același drum minim.",
+    "worked": "Euristica a orientat căutarea fără să piardă optimalitatea. Admisibilitatea este condiția care garantează că A* nu se oprește la un drum mai lung.",
+    "exercises": [
+     "Formulează problema puzzle-ului de 8 piese ca problemă de căutare.",
+     "Compară memoria folosită de căutarea în lățime și în adâncime.",
+     "Arată că numărul pieselor așezate greșit este o euristică admisibilă pentru puzzle.",
+     "Aplică A* pe un graf mic cu valorile h date.",
+     "Construiește o euristică neadmisibilă și arată cum strică optimalitatea."
+    ],
+    "test": [
+     "Din ce se compune o problemă de căutare?",
+     "Ce avantaj are căutarea în lățime?",
+     "Ce valoare minimizează A*?",
+     "Ce este o euristică admisibilă?",
+     "De ce este utilă o euristică mai precisă?"
+    ],
+    "steps": [
+     "Definește stările, acțiunile, testul de scop și costurile.",
+     "Alege algoritmul: neinformat dacă nu ai euristică, A* dacă ai una admisibilă.",
+     "Aplică algoritmul pas cu pas, notând pentru fiecare nod g, h și f.",
+     "Greșeala frecventă: să folosești o euristică care supraestimează costul și să te aștepți ca A* să rămână optim."
+    ],
+    "answers": [
+     "Stare inițială, acțiuni, test de scop și costuri.",
+     "Găsește soluția cu cele mai puține acțiuni.",
+     "f(n) = g(n) + h(n).",
+     "O euristică ce nu supraestimează niciodată costul real.",
+     "Pentru că A* extinde mai puține noduri."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l02": {
+   "ro": {
+    "title": "Căutarea adversarială: minimax și tăierea alfa-beta",
+    "theory": "În jocurile cu doi jucători, cu informație completă și sumă nulă (șah, X și 0), un jucător (MAX) vrea scorul cel mai mare, iar adversarul (MIN) scorul cel mai mic. Algoritmul minimax explorează arborele jocului: frunzele primesc valoarea finală, un nod MAX ia maximul valorilor fiilor, iar un nod MIN minimul. Astfel MAX alege mutarea cea mai bună presupunând că adversarul joacă perfect. Arborii reali sunt uriași, deci căutarea se oprește la o adâncime limită, iar pozițiile se evaluează cu o funcție euristică (de exemplu materialul la șah). Tăierea alfa-beta nu schimbă rezultatul, dar ignoră ramurile care nu pot influența decizia: alfa este cea mai bună valoare garantată pentru MAX, beta pentru MIN, iar când alfa ≥ beta ramura se abandonează. Cu ordinea ideală a mutărilor, alfa-beta poate explora aproximativ de două ori mai adânc în același timp.",
+    "sample": "Rădăcina MAX are doi fii MIN. Primul fiu MIN are frunzele 3 și 5, deci valoarea 3; acum alfa = 3. Al doilea fiu MIN are frunzele 2 și 9: după frunza 2, MIN poate obține cel mult 2, mai puțin decât 3, deci frunza 9 nu mai este evaluată. Valoarea rădăcinii este 3, iar MAX alege prima mutare.",
+    "worked": "Frunza 9 nu putea schimba decizia, pentru că MIN ar fi ales oricum cel mult 2. Tăierea a economisit evaluări fără să modifice rezultatul.",
+    "exercises": [
+     "Aplică minimax pe un arbore cu trei niveluri dat.",
+     "Aplică alfa-beta pe același arbore și marchează ramurile tăiate.",
+     "Propune o funcție de evaluare pentru X și 0.",
+     "Explică de ce ordinea mutărilor influențează numărul de tăieri.",
+     "Explică de ce minimax nu este potrivit direct pentru jocurile cu zaruri."
+    ],
+    "test": [
+     "Ce presupune minimax despre adversar?",
+     "Ce valoare primește un nod MIN?",
+     "De ce folosim o adâncime limită?",
+     "Ce reprezintă alfa și beta?",
+     "Schimbă alfa-beta rezultatul?"
+    ],
+    "steps": [
+     "Construiește arborele jocului până la adâncimea aleasă.",
+     "Evaluează frunzele și propagă valorile: maxim la MAX, minim la MIN.",
+     "Aplică tăierile alfa-beta când alfa ≥ beta.",
+     "Greșeala frecventă: să crezi că alfa-beta poate da altă mutare decât minimax; rezultatul este identic, doar mai rapid."
+    ],
+    "answers": [
+     "Că joacă perfect, în defavoarea lui MAX.",
+     "Minimul valorilor fiilor.",
+     "Pentru că arborele complet este prea mare.",
+     "Cea mai bună valoare garantată pentru MAX, respectiv pentru MIN.",
+     "Nu, doar evită explorarea ramurilor inutile."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l03": {
+   "ro": {
+    "title": "Probleme de satisfacere a constrângerilor",
+    "theory": "O problemă de satisfacere a constrângerilor (CSP) are variabile, un domeniu de valori pentru fiecare și constrângeri care limitează combinațiile permise. Exemple: colorarea hărților, sudoku, orarul unei facultăți, alocarea sălilor. O soluție dă fiecărei variabile o valoare care respectă toate constrângerile. Algoritmul de bază este backtracking-ul, îmbunătățit prin euristici: alegem variabila cu cele mai puține valori rămase (MRV – cele mai puține valori rămase), încercăm întâi valoarea care restrânge cel mai puțin vecinii și propagăm constrângerile. Verificarea înainte (forward checking) elimină, după fiecare atribuire, valorile incompatibile din domeniile vecinilor; dacă un domeniu devine gol, revenim imediat. Consistența arcelor (algoritmul AC-3) elimină din domenii valorile care nu au nicio valoare compatibilă la vecin. Aceste tehnici reduc drastic spațiul explorat.",
+    "sample": "Colorăm cu roșu, verde și albastru regiunile A, B, C, D, unde A este vecină cu B, C și D, iar B este vecină cu C. MRV alege A (cele mai multe constrângeri, la egalitate de valori): A = roșu; verificarea înainte scoate roșu din B, C și D. B = verde, deci C pierde verdele și rămâne doar cu albastru: C = albastru. D poate fi verde sau albastru: D = verde. Soluția nu a necesitat nicio revenire.",
+    "worked": "Propagarea a redus domeniile înainte de a greși. MRV a ales primele variabilele cele mai constrânse, unde erorile se văd devreme.",
+    "exercises": [
+     "Formulează orarul unei grupe ca CSP.",
+     "Rezolvă un sudoku mic cu verificare înainte.",
+     "Aplică AC-3 pe un CSP cu trei variabile.",
+     "Explică de ce MRV detectează mai devreme eșecurile.",
+     "Colorează un graf dat cu cât mai puține culori folosind backtracking."
+    ],
+    "test": [
+     "Ce componente are un CSP?",
+     "Ce este o soluție?",
+     "Ce face euristica MRV?",
+     "Ce face verificarea înainte?",
+     "Ce asigură consistența arcelor?"
+    ],
+    "steps": [
+     "Definește variabilele, domeniile și constrângerile.",
+     "Aplică backtracking cu MRV și verificare înainte.",
+     "Revino imediat când un domeniu devine gol și verifică soluția finală.",
+     "Greșeala frecventă: să alegi variabilele în ordine fixă, alfabetică; eșecurile se descoperă târziu, după multe atribuiri inutile."
+    ],
+    "answers": [
+     "Variabile, domenii și constrângeri.",
+     "O atribuire completă care respectă toate constrângerile.",
+     "Alege variabila cu cele mai puține valori rămase.",
+     "Elimină din domeniile vecinilor valorile incompatibile cu atribuirea făcută.",
+     "Orice valoare rămasă are o valoare compatibilă la fiecare vecin."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l04": {
+   "ro": {
+    "title": "Raționament în condiții de incertitudine: probabilități și teorema lui Bayes",
+    "theory": "Un agent inteligent lucrează rar cu certitudini: senzorii greșesc, iar lumea este parțial observabilă. Probabilitățile măsoară gradul de încredere. Probabilitatea condiționată P(A | B) = P(A ∧ B) / P(B) este probabilitatea lui A știind că B s-a întâmplat. Teorema lui Bayes inversează condiționarea: P(H | E) = P(E | H) · P(H) / P(E), adică actualizează credința într-o ipoteză H după observarea unei dovezi E. P(H) este probabilitatea a priori, P(H | E) cea a posteriori. Rețelele bayesiene reprezintă distribuții cu multe variabile ca un graf orientat fără cicluri, în care fiecare variabilă depinde direct doar de părinții ei; asta reduce enorm numărul de parametri. Clasificatorul naiv Bayes presupune că dovezile sunt independente dată fiind clasa și, deși simplificarea este rar adevărată, funcționează bine la filtrarea mesajelor nedorite și la clasificarea textelor.",
+    "sample": "O boală are prevalența 1%. Testul o detectează în 99% din cazuri, dar dă rezultat fals pozitiv la 5% dintre persoanele sănătoase. P(boală | pozitiv) = 0,99 · 0,01 / (0,99 · 0,01 + 0,05 · 0,99) = 0,0099 / 0,0594 ≈ 0,167. Doar aproximativ 17% dintre cei cu test pozitiv au boala.",
+    "worked": "Rezultatul surprinde pentru că boala este rară: falsurile pozitive dintre mulții sănătoși depășesc cazurile reale. Probabilitatea a priori contează enorm.",
+    "exercises": [
+     "Recalculează exemplul pentru o prevalență de 10%.",
+     "Calculează P(A | B) dintr-un tabel de frecvențe.",
+     "Desenează o rețea bayesiană pentru ploaie, stropitoare și iarbă udă.",
+     "Clasifică un mesaj cu naiv Bayes folosind probabilitățile date pentru trei cuvinte.",
+     "Explică de ce un test bun poate da multe rezultate fals pozitive."
+    ],
+    "test": [
+     "Ce este probabilitatea condiționată?",
+     "Ce spune teorema lui Bayes?",
+     "Ce este probabilitatea a priori?",
+     "Ce reprezintă o rețea bayesiană?",
+     "Ce presupune clasificatorul naiv Bayes?"
+    ],
+    "steps": [
+     "Identifică ipoteza, dovada și probabilitățile cunoscute.",
+     "Calculează P(E) prin toate căile posibile, apoi aplică formula lui Bayes.",
+     "Interpretează rezultatul în raport cu probabilitatea a priori.",
+     "Greșeala frecventă: să confunzi P(pozitiv | boală) cu P(boală | pozitiv); sunt probabilități foarte diferite."
+    ],
+    "answers": [
+     "Probabilitatea lui A știind că B s-a întâmplat.",
+     "P(H | E) = P(E | H) · P(H) / P(E).",
+     "Credința în ipoteză înainte de observarea dovezii.",
+     "O distribuție cu multe variabile, ca graf al dependențelor directe.",
+     "Că dovezile sunt independente dată fiind clasa."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l05": {
+   "ro": {
+    "title": "Învățarea supervizată și regresia liniară",
+    "theory": "Învățarea automată construiește modele din date, în loc să programăm explicit regulile. În învățarea supervizată, datele de antrenare sunt perechi (intrare, rezultat corect): regresia prezice o valoare numerică (prețul unei locuințe), clasificarea o categorie (mesaj nedorit sau nu). Învățarea nesupervizată caută structură în date fără etichete, iar învățarea prin recompensă învață din interacțiune. Regresia liniară presupune y ≈ w·x + b și caută parametrii care minimizează eroarea medie pătratică (media pătratelor diferențelor dintre predicții și valorile reale). Parametrii se pot afla prin formulă sau prin coborâre pe gradient: pornim de la valori oarecare și le actualizăm repetat în sens opus gradientului, w ← w − η · ∂L/∂w, unde η este rata de învățare. O rată prea mare face ca eroarea să crească (divergență), una prea mică face învățarea foarte lentă. Caracteristicile cu scări foarte diferite se normalizează înainte.",
+    "sample": "Datele (1, 2), (2, 4), (3, 6) sunt exact pe dreapta y = 2x. Pornind cu w = 0 și b = 0, eroarea medie pătratică este (4 + 16 + 36) / 3 ≈ 18,7. Gradientul față de w este negativ, deci w crește; după câteva zeci de pași cu η = 0,05, w se apropie de 2 și b de 0, iar eroarea de 0.",
+    "worked": "Coborârea pe gradient a mers pas cu pas spre minimul erorii. Cu η = 1, aceiași pași ar fi sărit peste minim și eroarea ar fi crescut.",
+    "exercises": [
+     "Calculează eroarea medie pătratică pentru o dreaptă dată și trei puncte.",
+     "Fă de mână doi pași de coborâre pe gradient pentru exemplul dat.",
+     "Explică ce se întâmplă cu o rată de învățare prea mare.",
+     "Normalizează două caracteristici cu scări diferite.",
+     "Clasifică cinci probleme ca regresie, clasificare sau învățare nesupervizată."
+    ],
+    "test": [
+     "Ce este învățarea supervizată?",
+     "Prin ce diferă regresia de clasificare?",
+     "Ce minimizează regresia liniară?",
+     "Ce face coborârea pe gradient?",
+     "Ce rol are rata de învățare?"
+    ],
+    "steps": [
+     "Stabilește tipul problemei și datele etichetate disponibile.",
+     "Alege modelul și funcția de eroare, apoi antrenează-l prin coborâre pe gradient.",
+     "Urmărește eroarea la fiecare pas și ajustează rata de învățare.",
+     "Greșeala frecventă: să antrenezi pe caracteristici cu scări foarte diferite fără normalizare; coborârea pe gradient devine lentă și instabilă."
+    ],
+    "answers": [
+     "Învățarea din perechi intrare–rezultat corect.",
+     "Regresia prezice valori numerice, clasificarea categorii.",
+     "Eroarea medie pătratică.",
+     "Actualizează parametrii în sens opus gradientului erorii.",
+     "Stabilește mărimea pașilor de actualizare."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l06": {
+   "ro": {
+    "title": "Clasificare: k vecini cei mai apropiați și arbori de decizie",
+    "theory": "Clasificatorul k-NN (k vecini cei mai apropiați) nu construiește un model: pentru un exemplu nou caută cele k exemple de antrenare cele mai apropiate (de obicei după distanța euclidiană) și alege clasa majoritară. Un k mic face clasificatorul sensibil la zgomot, unul mare netezește granițele. Caracteristicile trebuie aduse la aceeași scară, altfel cea cu valori mari domină distanța. Arborii de decizie pun întrebări succesive despre caracteristici (de exemplu „venit > 3000?”) până ajung la o frunză cu o clasă. La fiecare nod se alege întrebarea care separă cel mai bine clasele, măsurat prin câștigul de informație (scăderea entropiei) sau prin impuritatea Gini. Entropia unei mulțimi cu proporțiile p_i este H = −Σ p_i · log₂ p_i: 0 pentru o mulțime pură, 1 pentru două clase egale. Arborii sunt ușor de interpretat, dar cresc prea mult și învață pe de rost datele; se limitează adâncimea sau se taie ramurile (pruning). Pădurile aleatoare combină mulți arbori pentru predicții mai stabile.",
+    "sample": "O mulțime are 9 exemple pozitive și 5 negative. Entropia ei este H = −(9/14) · log₂(9/14) − (5/14) · log₂(5/14) ≈ 0,940. O întrebare care o împarte în două submulțimi mai pure scade entropia medie ponderată; diferența este câștigul de informație, iar arborele alege întrebarea cu cel mai mare câștig.",
+    "worked": "Entropia a măsurat cât de amestecate sunt clasele. Câștigul de informație a transformat alegerea întrebării într-un calcul.",
+    "exercises": [
+     "Clasifică un punct nou cu k-NN pentru k = 1 și k = 3 pe un set dat.",
+     "Arată cum schimbă scara caracteristicilor rezultatul k-NN.",
+     "Calculează entropia pentru 6 pozitive și 2 negative.",
+     "Calculează câștigul de informație al unei întrebări date.",
+     "Explică de ce un arbor foarte adânc generalizează prost."
+    ],
+    "test": [
+     "Cum clasifică k-NN?",
+     "Ce efect are un k mic?",
+     "Ce măsoară entropia?",
+     "Cum alege arborele întrebarea de la un nod?",
+     "Ce este o pădure aleatoare?"
+    ],
+    "steps": [
+     "Pregătește datele: aceeași scară pentru caracteristici, eliminarea erorilor evidente.",
+     "Antrenează clasificatorul ales: k-NN cu un k potrivit sau un arbore cu adâncime limitată.",
+     "Evaluează pe date noi și ajustează parametrii.",
+     "Greșeala frecventă: să alegi k sau adâncimea arborelui după rezultatul pe datele de antrenare; modelul pare perfect, dar greșește pe date noi."
+    ],
+    "answers": [
+     "Alege clasa majoritară dintre cei k vecini cei mai apropiați.",
+     "Clasificatorul devine sensibil la zgomot.",
+     "Cât de amestecate sunt clasele dintr-o mulțime.",
+     "Alege întrebarea cu cel mai mare câștig de informație sau cea mai mică impuritate.",
+     "O combinație de mulți arbori de decizie."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l07": {
+   "ro": {
+    "title": "Evaluarea modelelor: supraînvățare, validare și metrici",
+    "theory": "Un model bun trebuie să funcționeze pe date noi, nu doar pe cele de antrenare. Datele se împart în mulțimea de antrenare (pentru învățare), de validare (pentru alegerea parametrilor) și de test (folosită o singură dată, la final, pentru estimarea onestă a performanței). Validarea încrucișată în k părți folosește pe rând fiecare parte pentru validare, util când datele sunt puține. Supraînvățarea (overfitting) apare când modelul învață și zgomotul: eroare mică la antrenare, mare la test; subînvățarea, când modelul este prea simplu și greșește peste tot. Remedii: mai multe date, model mai simplu, regularizare, oprire timpurie. Pentru clasificare folosim matricea de confuzie (adevărat/fals pozitive și negative), acuratețea, precizia (din cele prezise pozitive, câte sunt corecte), sensibilitatea (recall – din cele pozitive reale, câte au fost găsite) și scorul F1 (media armonică a lor). La clase dezechilibrate, acuratețea singură poate înșela. Datele trebuie verificate și pentru prejudecăți care ar dezavantaja anumite grupuri.",
+    "sample": "Un filtru pentru mesaje nedorite este testat pe 1000 de mesaje: 40 adevărat pozitive, 10 fals pozitive, 20 fals negative, 930 adevărat negative. Acuratețea este 970/1000 = 97%, precizia 40/50 = 0,80, sensibilitatea 40/60 ≈ 0,67, iar F1 ≈ 0,73. Un filtru care nu marchează nimic ar avea acuratețea 94%, dar sensibilitatea 0.",
+    "worked": "Acuratețea mare ascundea faptul că o treime din mesajele nedorite trec. Precizia și sensibilitatea au arătat cele două tipuri de greșeli.",
+    "exercises": [
+     "Calculează metricile pentru o matrice de confuzie dată.",
+     "Explică de ce mulțimea de test se folosește o singură dată.",
+     "Recunoaște supraînvățarea dintr-un grafic al erorilor de antrenare și validare.",
+     "Organizează o validare încrucișată în 5 părți.",
+     "Alege între precizie și sensibilitate pentru un test medical de depistare."
+    ],
+    "test": [
+     "De ce împărțim datele în trei mulțimi?",
+     "Ce este supraînvățarea?",
+     "Ce măsoară precizia?",
+     "Ce măsoară sensibilitatea?",
+     "Când înșală acuratețea?"
+    ],
+    "steps": [
+     "Împarte datele înainte de orice antrenare, fără ca exemplele de test să ajungă în antrenare.",
+     "Alege parametrii pe validare și compară erorile de antrenare și validare.",
+     "Raportează metricile potrivite problemei, calculate pe mulțimea de test.",
+     "Greșeala frecventă: să alegi modelul după rezultatul pe mulțimea de test; estimarea finală devine prea optimistă."
+    ],
+    "answers": [
+     "Pentru antrenare, alegerea parametrilor și evaluarea finală onestă.",
+     "Modelul învață și zgomotul și greșește pe date noi.",
+     "Proporția predicțiilor pozitive care sunt corecte.",
+     "Proporția exemplelor pozitive reale găsite de model.",
+     "La clase dezechilibrate."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l08": {
+   "ro": {
+    "title": "Rețele neuronale și învățarea profundă",
+    "theory": "Un neuron artificial calculează o sumă ponderată a intrărilor plus un termen liber și aplică o funcție de activare neliniară (sigmoidă, tangentă hiperbolică, ReLU = max(0, x)). Un perceptron singur separă doar clase liniar separabile; nu poate învăța, de exemplu, funcția XOR. Rețelele cu straturi ascunse pot aproxima funcții foarte complicate. Antrenarea se face prin coborâre pe gradient: propagarea înainte calculează ieșirea și eroarea, iar propagarea înapoi (backpropagation) calculează, cu regula de derivare a funcțiilor compuse, cum influențează fiecare pondere eroarea. În practică se folosesc loturi mici de date (stochastic gradient descent) și optimizatori ca Adam. Învățarea profundă folosește multe straturi: rețelele convoluționale pentru imagini, rețelele recurente și transformerele pentru secvențe și text. Ele cer multe date și calcul, iar deciziile lor sunt greu de explicat; dropout și regularizarea reduc supraînvățarea.",
+    "sample": "Funcția XOR dă 1 doar când intrările diferă. Nicio dreaptă nu separă punctele (0, 1) și (1, 0) de (0, 0) și (1, 1). O rețea cu un strat ascuns de doi neuroni rezolvă problema: un neuron aproximează SAU, celălalt NAND, iar neuronul de ieșire face ȘI între ele, ceea ce dă exact XOR.",
+    "worked": "Stratul ascuns a transformat datele într-o reprezentare în care problema devine liniar separabilă. Aceasta este ideea de bază a rețelelor adânci.",
+    "exercises": [
+     "Calculează ieșirea unui neuron cu ponderi date și activare ReLU.",
+     "Arată grafic de ce XOR nu este liniar separabilă.",
+     "Alege ponderi pentru un perceptron care calculează ȘI.",
+     "Explică pe scurt rolul propagării înapoi.",
+     "Explică de ce rețelele convoluționale sunt potrivite pentru imagini."
+    ],
+    "test": [
+     "Ce calculează un neuron artificial?",
+     "De ce avem nevoie de activări neliniare?",
+     "Ce nu poate învăța un perceptron?",
+     "Ce face propagarea înapoi?",
+     "Ce dezavantaje are învățarea profundă?"
+    ],
+    "steps": [
+     "Stabilește intrările, ieșirea și tipul de rețea potrivit datelor.",
+     "Antrenează prin propagare înainte, calculul erorii și propagare înapoi, pe loturi.",
+     "Urmărește erorile de antrenare și validare și aplică regularizare dacă apare supraînvățarea.",
+     "Greșeala frecventă: să elimini funcțiile de activare; o rețea cu multe straturi liniare este echivalentă cu un singur strat liniar."
+    ],
+    "answers": [
+     "O sumă ponderată a intrărilor plus un termen liber, trecută printr-o activare.",
+     "Fără ele, rețeaua rămâne o funcție liniară.",
+     "Funcții care nu sunt liniar separabile, ca XOR.",
+     "Calculează contribuția fiecărei ponderi la eroare.",
+     "Cer multe date și calcul și sunt greu de explicat."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l09": {
+   "ro": {
+    "title": "Învățarea nesupervizată: grupare k-means și reducerea dimensiunii",
+    "theory": "Fără etichete, căutăm structura datelor. Gruparea (clustering) împarte exemplele în grupuri de elemente asemănătoare: segmentarea clienților, gruparea documentelor, compresia imaginilor. Algoritmul k-means alege k centre inițiale, atribuie fiecare punct celui mai apropiat centru, recalculează fiecare centru ca medie a punctelor lui și repetă până când atribuirile nu se mai schimbă. Converge întotdeauna, dar poate ajunge la un optim local, de aceea se rulează de mai multe ori cu centre inițiale diferite (sau cu inițializarea k-means++). Numărul k se alege, de exemplu, după metoda cotului. k-means presupune grupuri compacte, aproximativ sferice; pentru alte forme se folosesc gruparea ierarhică sau DBSCAN. Reducerea dimensiunii, de exemplu analiza componentelor principale (PCA), găsește direcțiile cu varianța cea mai mare și proiectează datele pe ele, pentru vizualizare sau pentru a elimina redundanța.",
+    "sample": "Punctele 1, 2, 3, 10, 11, 12 pe o axă, cu k = 2 și centrele inițiale 1 și 2. Atribuire: 1 la primul centru, restul la al doilea. Noile centre: 1 și (2 + 3 + 10 + 11 + 12) / 5 = 7,6. Noua atribuire: 1, 2, 3 la primul, 10, 11, 12 la al doilea. Centrele devin 2 și 11, iar atribuirile nu se mai schimbă.",
+    "worked": "Chiar cu centre inițiale proaste, algoritmul a găsit în trei iterații cele două grupuri evidente. Fiecare pas a micșorat suma distanțelor pătratice.",
+    "exercises": [
+     "Aplică k-means cu k = 2 pe 8 puncte din plan date.",
+     "Repetă cu alte centre inițiale și compară rezultatul.",
+     "Explică metoda cotului pentru alegerea lui k.",
+     "Dă un exemplu de date pentru care k-means grupează greșit.",
+     "Explică la ce folosește PCA înainte de vizualizarea unor date cu multe caracteristici."
+    ],
+    "test": [
+     "Ce face gruparea?",
+     "Care sunt pașii algoritmului k-means?",
+     "De ce se rulează k-means de mai multe ori?",
+     "Ce formă de grupuri presupune k-means?",
+     "Ce face PCA?"
+    ],
+    "steps": [
+     "Normalizează datele și alege valoarea lui k.",
+     "Repetă atribuirea punctelor și recalcularea centrelor până la stabilizare.",
+     "Rulează de mai multe ori și păstrează rezultatul cu suma distanțelor cea mai mică.",
+     "Greșeala frecventă: să tratezi grupurile găsite ca adevăruri sigure; ele depind de k, de scară și de centrele inițiale."
+    ],
+    "answers": [
+     "Împarte exemplele în grupuri de elemente asemănătoare.",
+     "Alegerea centrelor, atribuirea punctelor, recalcularea centrelor, repetare.",
+     "Pentru că poate ajunge la un optim local.",
+     "Grupuri compacte, aproximativ sferice.",
+     "Proiectează datele pe direcțiile cu varianța cea mai mare."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l10": {
+   "ro": {
+    "title": "Obiectivele securității și criptografia simetrică",
+    "theory": "Securitatea informației urmărește confidențialitatea (doar cine are dreptul vede datele), integritatea (datele nu sunt modificate neautorizat), disponibilitatea (sistemul funcționează când este nevoie), plus autentificarea și nerepudierea. Principiul lui Kerckhoffs spune că un sistem criptografic trebuie să rămână sigur chiar dacă algoritmul este public; secretul stă doar în cheie. În criptografia simetrică aceeași cheie criptează și decriptează. Standardul actual este AES, un cifru bloc pe 128 de biți, cu chei de 128, 192 sau 256 de biți. Un cifru bloc se folosește într-un mod de operare: ECB criptează fiecare bloc independent și lasă să se vadă tiparele (blocuri identice dau rezultate identice), de aceea nu se folosește; CBC și CTR folosesc un vector de inițializare, iar GCM oferă și autentificarea datelor. Problema principală a criptografiei simetrice este distribuirea sigură a cheii între părți.",
+    "sample": "O imagine cu zone mari de aceeași culoare este criptată cu AES în modul ECB: contururile desenului rămân vizibile în rezultat, pentru că blocurile identice dau blocuri criptate identice. Criptată cu AES-GCM, cu un nonce nou pentru fiecare mesaj, imaginea pare zgomot aleator, iar orice modificare a textului criptat este detectată la decriptare.",
+    "worked": "Algoritmul era același; modul de operare a decis securitatea. GCM a adăugat și protecția integrității.",
+    "exercises": [
+     "Clasifică cinci atacuri după obiectivul de securitate afectat.",
+     "Explică principiul lui Kerckhoffs pe un exemplu.",
+     "Explică de ce ECB nu ascunde tiparele datelor.",
+     "Explică de ce un nonce nu trebuie refolosit cu aceeași cheie.",
+     "Calculează numărul de chei posibile pentru AES-128 și explică de ce căutarea exhaustivă este imposibilă."
+    ],
+    "test": [
+     "Care sunt obiectivele securității?",
+     "Ce spune principiul lui Kerckhoffs?",
+     "Ce este criptografia simetrică?",
+     "De ce nu folosim ECB?",
+     "Care este problema principală a criptografiei simetrice?"
+    ],
+    "steps": [
+     "Stabilește ce trebuie protejat: confidențialitate, integritate sau ambele.",
+     "Alege un algoritm standard și un mod de operare autentificat.",
+     "Gestionează cheile și nonce-urile corect: generare aleatoare, păstrare sigură, fără refolosire.",
+     "Greșeala frecventă: să-ți inventezi propriul algoritm de criptare; algoritmii nepublici și neanalizați se sparg de obicei ușor."
+    ],
+    "answers": [
+     "Confidențialitate, integritate, disponibilitate, autentificare, nerepudiere.",
+     "Sistemul trebuie să rămână sigur chiar dacă algoritmul este public.",
+     "Aceeași cheie criptează și decriptează.",
+     "Pentru că blocurile identice dau rezultate identice și tiparele rămân vizibile.",
+     "Distribuirea sigură a cheii."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l11": {
+   "ro": {
+    "title": "Criptografia cu cheie publică: RSA și Diffie-Hellman",
+    "theory": "În criptografia asimetrică fiecare utilizator are o pereche de chei: una publică, pe care o poate afla oricine, și una privată, păstrată secret. Ce se criptează cu cheia publică poate fi decriptat doar cu cheia privată. RSA se bazează pe dificultatea factorizării numerelor mari: alegem prime mari p și q, n = p·q, φ(n) = (p − 1)(q − 1), un exponent public e prim cu φ(n) și exponentul privat d cu e·d ≡ 1 (mod φ(n)); criptarea este c = m^e mod n, iar decriptarea m = c^d mod n. Schimbul de chei Diffie-Hellman permite ca două părți să obțină o cheie secretă comună comunicând doar pe un canal public, pe baza dificultății logaritmului discret. Criptografia asimetrică este mult mai lentă decât cea simetrică, de aceea în practică (de exemplu în TLS) se folosește doar pentru a stabili o cheie simetrică de sesiune. Cheile publice trebuie legate de identitatea proprietarului prin certificate.",
+    "sample": "RSA cu numere mici, doar pentru înțelegere: p = 5, q = 11, n = 55, φ = 40, e = 3, d = 27 (3 · 27 = 81 = 2 · 40 + 1). Mesajul m = 7: c = 7³ mod 55 = 343 mod 55 = 13. Decriptarea 13^27 mod 55, calculată prin ridicări repetate la pătrat, dă 7. Diffie-Hellman cu p = 23, g = 5: Ana alege a = 6 și trimite 5⁶ mod 23 = 8; Bogdan alege b = 15 și trimite 5^15 mod 23 = 19; amândoi calculează cheia comună 2.",
+    "worked": "Calculele arată mecanismul, dar numerele reale au sute de cifre. Un observator vede 8 și 19, dar fără a sau b nu poate afla ușor cheia 2 când numerele sunt mari.",
+    "exercises": [
+     "Calculează cheile RSA pentru p = 3, q = 11, e = 7.",
+     "Criptează și decriptează un mesaj mic cu cheile obținute.",
+     "Calculează 5^13 mod 23 prin ridicări repetate la pătrat.",
+     "Explică de ce TLS combină criptografia asimetrică cu cea simetrică.",
+     "Explică atacul omului din mijloc asupra schimbului Diffie-Hellman neautentificat."
+    ],
+    "test": [
+     "Ce chei are un utilizator în criptografia asimetrică?",
+     "Pe ce problemă dificilă se bazează RSA?",
+     "Cum se calculează d în RSA?",
+     "Ce permite Diffie-Hellman?",
+     "De ce sunt necesare certificatele?"
+    ],
+    "steps": [
+     "Generează sau verifică parametrii: numere prime, n, φ(n), e și d.",
+     "Aplică ridicarea la putere modulară prin ridicări repetate la pătrat.",
+     "Verifică că decriptarea dă mesajul inițial și gândește-te cine autentifică cheile publice.",
+     "Greșeala frecventă: să crezi că Diffie-Hellman singur protejează de un atacator activ; fără autentificare, acesta se poate interpune."
+    ],
+    "answers": [
+     "O cheie publică și una privată.",
+     "Dificultatea factorizării numerelor mari.",
+     "Ca invers al lui e modulo φ(n).",
+     "Obținerea unei chei secrete comune pe un canal public.",
+     "Pentru a lega cheia publică de identitatea proprietarului."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l12": {
+   "ro": {
+    "title": "Funcții de dispersie criptografice, semnături digitale și certificate",
+    "theory": "O funcție de dispersie criptografică (de exemplu SHA-256) transformă un mesaj de orice lungime într-un rezumat de lungime fixă și trebuie să fie: rezistentă la preimagine (din rezumat nu se poate găsi mesajul), rezistentă la a doua preimagine și rezistentă la coliziuni (nu se pot găsi două mesaje cu același rezumat). MD5 și SHA-1 au coliziuni cunoscute și nu mai sunt sigure pentru semnături. Un cod de autentificare a mesajului (MAC, de exemplu HMAC) folosește o cheie secretă comună pentru a dovedi integritatea și originea. Semnătura digitală se face cu cheia privată și se verifică cu cheia publică; ea dovedește integritatea, autenticitatea și nerepudierea (semnatarul nu poate nega). Infrastructura cu chei publice (PKI) leagă cheile de identități prin certificate semnate de autorități de certificare, într-un lanț de încredere până la o rădăcină cunoscută de sistemul de operare sau browser. Parolele nu se păstrează cu SHA-256 simplu, ci cu funcții lente și cu sare.",
+    "sample": "Un student semnează digital lucrarea trimisă: programul calculează rezumatul SHA-256 al fișierului și îl semnează cu cheia lui privată. Secretariatul verifică semnătura cu cheia publică din certificatul studentului. Dacă se schimbă un singur caracter în fișier, rezumatul se schimbă complet, iar verificarea eșuează.",
+    "worked": "Semnătura s-a aplicat pe rezumat, nu pe tot fișierul, ceea ce o face rapidă. Proprietatea de rezistență la coliziuni împiedică înlocuirea fișierului cu altul cu același rezumat.",
+    "exercises": [
+     "Explică diferența dintre un MAC și o semnătură digitală.",
+     "Explică de ce o coliziune permite falsificarea unei semnături.",
+     "Verifică pașii validării unui certificat dintr-un lanț cu trei niveluri.",
+     "Explică de ce SHA-256 simplu nu este potrivit pentru parole.",
+     "Calculează rezumatul unui fișier cu o comandă din sistem și compară-l cu cel publicat."
+    ],
+    "test": [
+     "Ce proprietăți are o funcție de dispersie criptografică?",
+     "De ce nu mai folosim MD5 pentru semnături?",
+     "Ce dovedește un MAC?",
+     "Cu ce cheie se face semnătura digitală?",
+     "Ce este un certificat?"
+    ],
+    "steps": [
+     "Stabilește ce trebuie dovedit: integritate, origine, nerepudiere.",
+     "Alege mecanismul: rezumat, MAC sau semnătură, cu algoritmi actuali.",
+     "Verifică lanțul de certificate și valabilitatea lor înainte de a avea încredere într-o cheie publică.",
+     "Greșeala frecventă: să consideri că un rezumat publicat pe același site ca fișierul îl protejează de un atacator care controlează site-ul; atacatorul le poate schimba pe amândouă."
+    ],
+    "answers": [
+     "Rezistență la preimagine, la a doua preimagine și la coliziuni.",
+     "Pentru că are coliziuni cunoscute.",
+     "Integritatea și originea mesajului, pe baza unei chei comune.",
+     "Cu cheia privată a semnatarului.",
+     "Un document semnat care leagă o cheie publică de o identitate."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l13": {
+   "ro": {
+    "title": "Autentificare, control al accesului și securitatea software",
+    "theory": "Autentificarea verifică identitatea: ceva ce știi (parolă), ceva ce ai (telefon, cheie fizică), ceva ce ești (amprentă); autentificarea cu doi factori le combină și reduce mult riscul furtului de parole. Autorizarea stabilește ce are voie să facă un utilizator autentificat, prin modele ca listele de control al accesului sau controlul pe bază de roluri, respectând principiul privilegiului minim. Multe atacuri exploatează greșeli de programare. Depășirea de buffer apare când un program scrie în afara unui vector (de exemplu cu strcpy într-un buffer prea mic) și poate suprascrie adresa de revenire de pe stivă. Protecții: funcții cu limită de lungime, limbaje sigure pentru memorie, canare pe stivă, memorie neexecutabilă, randomizarea spațiului de adrese (ASLR). Alte vulnerabilități frecvente: injecția de comenzi, validarea insuficientă a datelor, configurările implicite nesigure, dependențele neactualizate. Dezvoltarea sigură include analiza amenințărilor, revizuirea codului, analiza statică și testarea cu date aleatoare (fuzzing).",
+    "sample": "Funcția void salut(char *nume) { char buf[16]; strcpy(buf, nume); … } primește un nume de 100 de caractere. strcpy copiază toți octeții peste buf și suprascrie datele vecine de pe stivă, inclusiv adresa de revenire; programul se oprește cu eroare sau, într-un atac pregătit, sare la codul atacatorului. Varianta sigură verifică lungimea și folosește o copiere limitată, de exemplu snprintf(buf, sizeof buf, …), care trunchiază și termină șirul corect.",
+    "worked": "Eroarea nu era în logica programului, ci în lipsa verificării lungimii. Protecțiile sistemului fac exploatarea mai grea, dar corectarea codului rămâne soluția reală.",
+    "exercises": [
+     "Compară cei trei factori de autentificare și dă exemple.",
+     "Proiectează rolurile și drepturile pentru o aplicație de note.",
+     "Găsește depășirea de buffer dintr-un fragment de cod dat și corecteaz-o.",
+     "Explică cum îngreunează ASLR exploatarea.",
+     "Planifică o testare fuzzing pentru un program care citește fișiere de imagine."
+    ],
+    "test": [
+     "Ce factori de autentificare există?",
+     "Prin ce diferă autorizarea de autentificare?",
+     "Ce este principiul privilegiului minim?",
+     "Cum apare o depășire de buffer?",
+     "Ce protecții reduc riscul ei?"
+    ],
+    "steps": [
+     "Identifică datele și operațiile sensibile și cine are voie la ele.",
+     "Aplică autentificarea puternică, autorizarea pe roluri și validarea tuturor datelor de intrare.",
+     "Verifică codul cu revizuire, analiză statică și fuzzing.",
+     "Greșeala frecventă: să te bazezi doar pe protecțiile sistemului de operare; ele îngreunează atacul, dar nu corectează eroarea din cod."
+    ],
+    "answers": [
+     "Ceva ce știi, ceva ce ai, ceva ce ești.",
+     "Autentificarea verifică identitatea, autorizarea stabilește drepturile.",
+     "Fiecare utilizator sau program primește doar drepturile strict necesare.",
+     "Când se scrie în afara limitelor unui vector.",
+     "Copieri limitate, limbaje sigure, canare, memorie neexecutabilă, ASLR."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l14": {
+   "ro": {
+    "title": "Concurență: condiții de cursă, excludere mutuală și interblocare",
+    "theory": "Când mai multe fire de execuție accesează aceleași date și cel puțin unul le modifică, rezultatul poate depinde de ordinea întâmplătoare a execuției: o condiție de cursă. Chiar o operație ca contor++ înseamnă trei pași (citire, adunare, scriere), care se pot întrepătrunde. Porțiunea de cod care accesează datele comune se numește secțiune critică și trebuie protejată prin excludere mutuală: lacăte (mutex), semafoare, monitoare sau operații atomice. Variabilele de condiție permit unui fir să aștepte eficient până când o condiție devine adevărată (de exemplu, în problema producător–consumator, coada să nu fie goală). Interblocarea apare când firele se așteaptă reciproc la nesfârșit; condițiile ei (Coffman) sunt excluderea mutuală, păstrarea resurselor în timpul așteptării, lipsa preempțiunii și așteptarea circulară. O metodă simplă de prevenire este ca toate firele să ia lacătele în aceeași ordine globală.",
+    "sample": "Două fire incrementează fiecare de 1.000.000 de ori un contor comun, fără protecție. Rezultatul final iese adesea mult sub 2.000.000 și diferă de la o rulare la alta, pentru că incrementările se suprapun și unele se pierd. Cu un mutex în jurul incrementării sau cu un contor atomic, rezultatul este mereu 2.000.000.",
+    "worked": "Eroarea nu apărea la fiecare rulare în același fel, ceea ce face condițiile de cursă greu de depistat. Protecția secțiunii critice a făcut rezultatul determinist.",
+    "exercises": [
+     "Arată o întrepătrundere a pașilor contor++ care pierde o incrementare.",
+     "Rezolvă problema producător–consumator cu mutex și variabile de condiție.",
+     "Construiește un exemplu de interblocare cu două lacăte.",
+     "Elimină interblocarea impunând o ordine a lacătelor.",
+     "Explică diferența dintre un mutex și un semafor numărător."
+    ],
+    "test": [
+     "Ce este o condiție de cursă?",
+     "Ce este o secțiune critică?",
+     "La ce folosesc variabilele de condiție?",
+     "Care sunt condițiile interblocării?",
+     "Cum se poate preveni interblocarea?"
+    ],
+    "steps": [
+     "Identifică datele partajate și locurile în care sunt modificate.",
+     "Protejează fiecare secțiune critică cu un mecanism potrivit, cât mai scurt.",
+     "Verifică ordinea lacătelor și testează cu multe fire și rulări repetate.",
+     "Greșeala frecventă: să crezi că programul este corect pentru că a mers o dată; condițiile de cursă apar întâmplător."
+    ],
+    "answers": [
+     "Situația în care rezultatul depinde de ordinea întâmplătoare a firelor.",
+     "Codul care accesează date comune și trebuie executat de un singur fir odată.",
+     "La așteptarea eficientă a unei condiții.",
+     "Excludere mutuală, păstrare și așteptare, lipsa preempțiunii, așteptare circulară.",
+     "Prin luarea lacătelor într-o ordine globală fixă."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l15": {
+   "ro": {
+    "title": "Performanța programelor paralele: accelerare și legea lui Amdahl",
+    "theory": "Paralelizarea împarte munca între mai multe nuclee sau calculatoare. Accelerarea (speedup) pe p procesoare este S(p) = T(1) / T(p), iar eficiența E(p) = S(p) / p. Legea lui Amdahl arată limita impusă de partea secvențială: dacă o fracțiune f din program poate fi paralelizată, S(p) = 1 / ((1 − f) + f/p), iar accelerarea nu poate depăși 1 / (1 − f) oricâte procesoare am avea. Legea lui Gustafson privește altfel: cu mai multe procesoare rezolvăm probleme mai mari, iar partea paralelă crește odată cu ele. Tipuri de paralelism: pe date (aceeași operație pe părți diferite ale datelor, ca la prelucrarea imaginilor sau pe plăcile grafice) și pe sarcini (operații diferite simultan). Costurile reale includ comunicarea, sincronizarea și dezechilibrul încărcării, de aceea munca se împarte în bucăți de mărime potrivită. Modele de programare: fire și OpenMP pentru memorie partajată, MPI pentru memorie distribuită, CUDA sau OpenCL pentru plăci grafice.",
+    "sample": "Un program are 90% cod paralelizabil (f = 0,9). Pe 8 nuclee: S = 1 / (0,1 + 0,9/8) = 1 / 0,2125 ≈ 4,7, deci eficiența este aproximativ 59%. Oricâte nuclee am adăuga, accelerarea nu ar trece de 1 / 0,1 = 10.",
+    "worked": "Cei 10% secvențiali au devenit factorul limitativ. Ca să câștigi mult, trebuie micșorată partea secvențială, nu doar adăugate nuclee.",
+    "exercises": [
+     "Calculează accelerarea pentru f = 0,95 pe 4, 16 și 64 de procesoare.",
+     "Calculează eficiența unui program cu T(1) = 120 s și T(8) = 20 s.",
+     "Explică diferența dintre legea lui Amdahl și legea lui Gustafson.",
+     "Împarte suma unui vector mare între 4 fire și combină rezultatele.",
+     "Explică de ce o împărțire în bucăți prea mici încetinește programul."
+    ],
+    "test": [
+     "Cum se calculează accelerarea?",
+     "Ce este eficiența?",
+     "Ce limită arată legea lui Amdahl?",
+     "Ce este paralelismul pe date?",
+     "Ce costuri reduc câștigul paralelizării?"
+    ],
+    "steps": [
+     "Măsoară timpul secvențial și identifică partea paralelizabilă.",
+     "Estimează accelerarea maximă cu legea lui Amdahl.",
+     "Paralelizează, măsoară accelerarea reală și caută cauzele diferenței.",
+     "Greșeala frecventă: să te aștepți ca un program să meargă de p ori mai repede pe p nuclee; partea secvențială și comunicarea limitează câștigul."
+    ],
+    "answers": [
+     "S(p) = T(1) / T(p).",
+     "Accelerarea împărțită la numărul de procesoare.",
+     "Accelerarea nu poate depăși 1 / (1 − f).",
+     "Aceeași operație aplicată simultan pe părți diferite ale datelor.",
+     "Comunicarea, sincronizarea și dezechilibrul încărcării."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l16": {
+   "ro": {
+    "title": "Sisteme distribuite: transmiterea mesajelor, timp logic și consistență",
+    "theory": "Un sistem distribuit este format din calculatoare independente care comunică prin rețea și apar utilizatorului ca un singur sistem. Nu există memorie comună și nici un ceas perfect sincronizat, iar mesajele pot întârzia, se pot pierde, iar nodurile pot cădea. În modelul cu transmitere de mesaje (de exemplu MPI), procesele schimbă date prin operații de trimitere și primire și prin operații colective (difuzare, reducere, adunare a rezultatelor). Ordinea evenimentelor se stabilește cu ceasuri logice: ceasurile Lamport cresc la fiecare eveniment și la primirea unui mesaj iau maximul dintre valoarea proprie și cea primită, plus 1. Datele se replică pentru disponibilitate, ceea ce ridică problema consistenței copiilor. Teorema CAP arată că, la o partiționare a rețelei, un sistem trebuie să aleagă între consistență și disponibilitate. Algoritmii de consens (Paxos, Raft) permit nodurilor să cadă de acord asupra unei valori chiar dacă unele dintre ele cad.",
+    "sample": "Suma unui vector de 100 de milioane de elemente pe 4 procese MPI: procesul 0 împarte vectorul în 4 bucăți și le trimite (MPI_Scatter), fiecare proces își calculează suma parțială, iar MPI_Reduce cu operația sumă adună cele patru rezultate la procesul 0. Comunicarea are loc doar la început și la sfârșit, deci câștigul este mare.",
+    "worked": "Operațiile colective au ascuns detaliile trimiterii mesajelor. Raportul mare dintre calcul și comunicare a făcut împărțirea eficientă.",
+    "exercises": [
+     "Scrie schema unui program MPI care găsește maximul unui vector.",
+     "Aplică ceasurile Lamport pe trei procese care schimbă mesaje.",
+     "Explică teorema CAP pe exemplul unei aplicații bancare și al unei rețele sociale.",
+     "Descrie ce se întâmplă într-un sistem replicat când un nod cade.",
+     "Explică de ce ceasurile fizice nu ajung pentru ordonarea evenimentelor."
+    ],
+    "test": [
+     "Ce este un sistem distribuit?",
+     "Ce operații oferă MPI?",
+     "Cum se actualizează un ceas Lamport la primirea unui mesaj?",
+     "Ce spune teorema CAP?",
+     "La ce folosesc algoritmii de consens?"
+    ],
+    "steps": [
+     "Stabilește cum se împart datele și ce mesaje trebuie schimbate.",
+     "Minimizează comunicarea și folosește operații colective unde se poate.",
+     "Gândește ce se întâmplă la întârzieri, pierderi de mesaje și căderi de noduri.",
+     "Greșeala frecventă: să presupui că rețeaua este sigură și instantanee; sistemul cedează la prima întârziere sau cădere."
+    ],
+    "answers": [
+     "Calculatoare independente care comunică prin rețea și apar ca un singur sistem.",
+     "Trimitere, primire și operații colective ca difuzarea și reducerea.",
+     "Ia maximul dintre valoarea proprie și cea primită, plus 1.",
+     "La o partiționare a rețelei trebuie aleasă consistența sau disponibilitatea.",
+     "La acordul nodurilor asupra unei valori, chiar dacă unele cad."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l17": {
+   "ro": {
+    "title": "Mașina Turing și teza Church-Turing",
+    "theory": "Mașina Turing este modelul matematic al calculului: o bandă infinită împărțită în celule, un cap care citește și scrie câte un simbol și se mută la stânga sau la dreapta, o mulțime finită de stări și o funcție de tranziție. Ea acceptă, respinge sau poate rula la nesfârșit. Deși foarte simplă, poate simula orice algoritm; variantele cu mai multe benzi sau nedeterministe recunosc aceleași limbaje. Teza Church-Turing afirmă că orice funcție calculabilă printr-o procedură efectivă este calculabilă de o mașină Turing; nu este o teoremă, ci o afirmație despre noțiunea intuitivă de algoritm, susținută de faptul că toate modelele propuse (funcțiile recursive, calculul lambda, limbajele de programare) s-au dovedit echivalente. Un limbaj este decidabil dacă o mașină Turing se oprește pe orice intrare cu răspunsul corect, și semidecidabil (recursiv enumerabil) dacă se oprește cu acceptare pe cuvintele din limbaj, dar poate rula la nesfârșit pe celelalte.",
+    "sample": "O mașină Turing care adună 1 la un număr binar scris pe bandă: merge la dreapta până la ultimul simbol, apoi înapoi spre stânga; transformă fiecare 1 întâlnit în 0 și continuă; la primul 0 sau la celula goală scrie 1 și se oprește. Pentru 1011 obține 1100, iar pentru 111 obține 1000.",
+    "worked": "Câteva stări și reguli simple au realizat o operație aritmetică. Orice program, oricât de complex, se poate descompune în pași de acest fel.",
+    "exercises": [
+     "Descrie o mașină Turing care recunoaște cuvintele a^n b^n.",
+     "Simulează mașina din exemplu pe intrarea 1001.",
+     "Explică de ce teza Church-Turing nu poate fi demonstrată.",
+     "Explică diferența dintre decidabil și semidecidabil.",
+     "Arată că o mașină cu două benzi poate fi simulată de una cu o bandă (ideea)."
+    ],
+    "test": [
+     "Din ce este formată o mașină Turing?",
+     "Ce afirmă teza Church-Turing?",
+     "Ce este un limbaj decidabil?",
+     "Ce este un limbaj semidecidabil?",
+     "De ce sunt echivalente modelele de calcul?"
+    ],
+    "steps": [
+     "Stabilește cum este scrisă intrarea pe bandă și ce trebuie să conțină la final.",
+     "Proiectează stările și tranzițiile pentru fiecare fază a calculului.",
+     "Simulează pe câteva intrări, inclusiv cazuri-limită.",
+     "Greșeala frecventă: să crezi că o mașină Turing nedeterministă calculează mai multe funcții; ea recunoaște aceleași limbaje, eventual mai repede."
+    ],
+    "answers": [
+     "Bandă infinită, cap de citire-scriere, stări finite și funcție de tranziție.",
+     "Orice funcție calculabilă efectiv este calculabilă de o mașină Turing.",
+     "Un limbaj pentru care o mașină se oprește pe orice intrare cu răspunsul corect.",
+     "Un limbaj pentru care mașina se oprește cu acceptare pe cuvintele lui, dar poate rula la nesfârșit pe celelalte.",
+     "Pentru că s-a demonstrat că se pot simula reciproc."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l18": {
+   "ro": {
+    "title": "Probleme nedecidabile: problema opririi și reducerile",
+    "theory": "Există probleme bine definite pe care niciun algoritm nu le poate rezolva pentru toate intrările. Cea mai cunoscută este problema opririi: dându-se un program și o intrare, se oprește programul? Demonstrația este prin reducere la absurd și diagonalizare: dacă ar exista un program H care decide oprirea, am construi programul D care, primind codul unui program P, întreabă H dacă P se oprește pe propriul cod și face opusul (ciclează dacă H spune „se oprește”, se oprește dacă H spune „ciclează”). Întrebarea dacă D se oprește pe propriul cod duce la contradicție, deci H nu există. Alte probleme se arată nedecidabile prin reducere: dacă am putea rezolva problema nouă, am putea rezolva și problema opririi. Teorema lui Rice generalizează: orice proprietate netrivială a comportamentului programelor (ce funcție calculează) este nedecidabilă. Consecință practică: instrumentele de analiză statică dau răspunsuri aproximative – fie avertismente false, fie erori ratate.",
+    "sample": "Vrem un instrument care spune dacă orice program dat afișează vreodată mesajul „gata”. Arătăm prin reducere că este imposibil: pentru un program P și o intrare x construim programul Q care rulează P pe x, apoi afișează „gata”. Q afișează „gata” exact când P se oprește pe x. Un instrument care ar decide afișarea lui „gata” ar decide deci oprirea, ceea ce este imposibil.",
+    "worked": "Reducerea a transformat orice instanță a problemei opririi într-o instanță a problemei noi. Direcția contează: de la problema cunoscută ca nedecidabilă spre cea nouă.",
+    "exercises": [
+     "Reconstruiește demonstrația problemei opririi cu propriile cuvinte.",
+     "Arată prin reducere că nu se poate decide dacă un program se oprește pe intrarea vidă.",
+     "Aplică teorema lui Rice la întrebarea „calculează programul funcția constantă 0?”.",
+     "Explică de ce un compilator poate detecta unele bucle infinite, dar nu pe toate.",
+     "Dă un exemplu de proprietate a codului (nu a comportamentului) care este decidabilă."
+    ],
+    "test": [
+     "Ce întreabă problema opririi?",
+     "Ce metodă folosește demonstrația?",
+     "Ce înseamnă reducerea unei probleme la alta?",
+     "Ce spune teorema lui Rice?",
+     "Ce consecință are pentru analiza statică?"
+    ],
+    "steps": [
+     "Presupune că există un algoritm pentru problema nouă.",
+     "Construiește, din orice instanță a problemei opririi, o instanță a problemei noi cu același răspuns.",
+     "Concluzionează că algoritmul ar decide oprirea, deci nu poate exista.",
+     "Greșeala frecventă: să faci reducerea în sens invers, de la problema nouă la problema opririi; asta nu demonstrează nimic despre problema nouă."
+    ],
+    "answers": [
+     "Dacă un program dat se oprește pe o intrare dată.",
+     "Reducerea la absurd și diagonalizarea.",
+     "Transformarea instanțelor astfel încât un algoritm pentru a doua să o rezolve pe prima.",
+     "Orice proprietate netrivială a comportamentului programelor este nedecidabilă.",
+     "Dă doar răspunsuri aproximative."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l19": {
+   "ro": {
+    "title": "Clasele P și NP și NP-completitudinea",
+    "theory": "Printre problemele decidabile, unele sunt practic imposibil de rezolvat pentru date mari. Clasa P conține problemele de decizie rezolvabile în timp polinomial (sortare, drumuri minime, arbore parțial de cost minim). Clasa NP conține problemele pentru care o soluție propusă (certificat) poate fi verificată în timp polinomial: de exemplu, dacă o formulă booleană este satisfiabilă (SAT), o atribuire dată se verifică rapid. Evident P ⊆ NP; întrebarea dacă P = NP este una dintre marile probleme deschise. O problemă este NP-dificilă dacă orice problemă din NP se reduce la ea în timp polinomial, și NP-completă dacă este și în NP. Teorema Cook-Levin arată că SAT este NP-completă; alte exemple: 3-SAT, clica, acoperirea cu vârfuri, ciclul hamiltonian, varianta de decizie a problemei comis-voiajorului, rucsacul 0/1. Pentru a arăta că o problemă nouă este NP-dificilă reducem o problemă NP-completă cunoscută la ea. În practică, pentru probleme NP-complete folosim algoritmi de aproximare, euristici, algoritmi exponențiali pe instanțe mici sau rezolvitoare SAT.",
+    "sample": "Problema acoperirii cu vârfuri (există k noduri care ating toate muchiile?) este în NP: dându-se k noduri, verificăm fiecare muchie în timp polinomial. Ea este NP-completă printr-o reducere de la clică: un graf are o clică de mărime k exact când graful complementar are o acoperire cu vârfuri de mărime n − k. Transformarea grafului în complementul lui este polinomială.",
+    "worked": "Verificarea rapidă a certificatului a arătat apartenența la NP. Reducerea polinomială de la o problemă NP-completă a arătat dificultatea.",
+    "exercises": [
+     "Arată că problema ciclului hamiltonian este în NP.",
+     "Arată că 2-SAT nu are nevoie de căutare exponențială (ideea, cu graful implicațiilor).",
+     "Aplică reducerea de la clică la acoperirea cu vârfuri pe un graf mic.",
+     "Explică de ce rucsacul 0/1 rezolvat în O(n·C) nu demonstrează P = NP.",
+     "Propune o euristică pentru problema comis-voiajorului."
+    ],
+    "test": [
+     "Ce conține clasa P?",
+     "Ce conține clasa NP?",
+     "Ce este o problemă NP-completă?",
+     "Ce afirmă teorema Cook-Levin?",
+     "În ce direcție se face reducerea pentru a arăta NP-dificultatea?"
+    ],
+    "steps": [
+     "Arată că problema este în NP, descriind certificatul și verificarea polinomială.",
+     "Alege o problemă NP-completă cunoscută și construiește o reducere polinomială de la ea la problema nouă.",
+     "Demonstrează că răspunsurile sunt aceleași în ambele sensuri.",
+     "Greșeala frecventă: să confunzi NP cu „nepolinomial”; NP înseamnă că soluțiile se verifică în timp polinomial."
+    ],
+    "answers": [
+     "Problemele de decizie rezolvabile în timp polinomial.",
+     "Problemele ale căror soluții propuse se verifică în timp polinomial.",
+     "O problemă din NP la care se reduce polinomial orice problemă din NP.",
+     "Că SAT este NP-completă.",
+     "De la o problemă NP-completă cunoscută la problema nouă."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l20": {
+   "ro": {
+    "title": "Erori în calculul numeric și condiționarea problemelor",
+    "theory": "Rezultatele numerice sunt aproximative din mai multe cauze: erorile datelor (măsurători), erorile de trunchiere (înlocuim un proces infinit cu unul finit, de exemplu o serie cu câțiva termeni) și erorile de rotunjire (numerele reale sunt reprezentate cu precizie finită; în dubla precizie, epsilonul mașinii este aproximativ 2,2 × 10^−16). Eroarea absolută este |x − x̃|, iar cea relativă |x − x̃| / |x|. Scăderea a două numere foarte apropiate produce anularea catastrofală: cifrele semnificative comune dispar și eroarea relativă crește mult. Condiționarea unei probleme arată cât de mult amplifică ea erorile datelor: o problemă prost condiționată dă rezultate foarte diferite pentru date aproape egale, indiferent de algoritm. Stabilitatea este proprietatea algoritmului: un algoritm stabil nu adaugă erori mult peste cele inevitabile. Un rezultat bun cere o problemă bine condiționată și un algoritm stabil.",
+    "sample": "Rezolvăm x² − 10⁸x + 1 = 0. Formula obișnuită pentru rădăcina mică, (10⁸ − √(10^16 − 4)) / 2, scade două numere aproape egale și poate da în dublă precizie un rezultat cu eroare relativă foarte mare sau chiar 0. Calculând întâi rădăcina mare x₁ ≈ 10⁸ și apoi x₂ = 1 / x₁ (produsul rădăcinilor este 1), obținem x₂ ≈ 10^−8 cu precizie completă.",
+    "worked": "Problema era bine condiționată; algoritmul folosit era instabil. Rescrierea formulei a evitat anularea catastrofală.",
+    "exercises": [
+     "Calculează eroarea absolută și relativă pentru aproximarea 3,14 a lui π.",
+     "Explică de ce suma unui șir lung de numere mici adunată la un număr mare pierde precizie.",
+     "Rescrie √(x + 1) − √x pentru x mare ca să eviți anularea.",
+     "Dă un exemplu de sistem liniar prost condiționat.",
+     "Explică diferența dintre condiționare și stabilitate."
+    ],
+    "test": [
+     "Ce surse de erori există?",
+     "Ce este epsilonul mașinii?",
+     "Ce este anularea catastrofală?",
+     "Ce înseamnă o problemă prost condiționată?",
+     "Ce este un algoritm stabil?"
+    ],
+    "steps": [
+     "Identifică operațiile care pot amplifica erorile, mai ales scăderile de numere apropiate.",
+     "Rescrie formulele pentru a evita anularea și alege algoritmi stabili.",
+     "Estimează eroarea rezultatului și verifică pe date perturbate.",
+     "Greșeala frecventă: să crezi că mai multe cifre afișate înseamnă un rezultat mai precis; cifrele pot fi doar zgomot de rotunjire."
+    ],
+    "answers": [
+     "Erorile datelor, de trunchiere și de rotunjire.",
+     "Cea mai mică distanță relativă dintre numere reprezentabile, aproximativ 2,2 × 10^−16 în dublă precizie.",
+     "Pierderea cifrelor semnificative la scăderea unor numere foarte apropiate.",
+     "Că amplifică mult erorile mici ale datelor.",
+     "Un algoritm care nu adaugă erori mult peste cele inevitabile."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l21": {
+   "ro": {
+    "title": "Rezolvarea sistemelor liniare: eliminarea Gauss și descompunerea LU",
+    "theory": "Multe probleme științifice și inginerești se reduc la un sistem Ax = b. Eliminarea Gauss transformă sistemul, prin operații pe linii, într-unul triunghiular superior, rezolvat apoi prin substituție înapoi; costul este aproximativ (2/3)·n³ operații. Dacă un pivot este zero sau foarte mic, împărțirea la el amplifică erorile, de aceea se folosește pivotarea parțială: la fiecare pas se aduce pe poziția pivotului elementul cu valoarea absolută cea mai mare din coloană. Descompunerea LU scrie A = L·U (L triunghiulară inferioară, U superioară), cu aceleași calcule ca eliminarea; avantajul apare când rezolvăm mai multe sisteme cu aceeași matrice și termeni liberi diferiți: fiecare sistem nou costă doar O(n²). Pentru matrice simetrice și pozitiv definite, descompunerea Cholesky este de două ori mai ieftină. Pentru sisteme foarte mari și rare se folosesc metode iterative (Jacobi, Gauss-Seidel, gradient conjugat). Inversa matricei nu se calculează pentru a rezolva un sistem.",
+    "sample": "Sistemul 2x + y = 5, 4x + 3y = 11. Scădem din a doua ecuație prima înmulțită cu 2: y = 1. Substituind, 2x + 1 = 5, deci x = 2. Factorii sunt L = [[1, 0], [2, 1]] și U = [[2, 1], [0, 1]]; pentru alt termen liber, de exemplu (3, 7), rezolvăm Ly = b și apoi Ux = y, fără să refacem eliminarea, și obținem x = 1, y = 1.",
+    "worked": "Multiplicatorul 2 a devenit elementul lui L. Păstrând factorii, sistemele următoare se rezolvă mult mai ieftin.",
+    "exercises": [
+     "Rezolvă prin eliminare Gauss un sistem 3 × 3 dat.",
+     "Aplică pivotarea parțială unui sistem cu primul pivot 0,0001.",
+     "Calculează descompunerea LU a unei matrice 3 × 3.",
+     "Rezolvă două sisteme cu aceeași matrice folosind LU.",
+     "Explică de ce nu calculăm inversa pentru a rezolva un sistem."
+    ],
+    "test": [
+     "Ce face eliminarea Gauss?",
+     "Ce cost are pentru o matrice n × n?",
+     "De ce folosim pivotarea parțială?",
+     "Când este avantajoasă descompunerea LU?",
+     "Când folosim metode iterative?"
+    ],
+    "steps": [
+     "Scrie matricea extinsă a sistemului.",
+     "Elimină coloană cu coloană, alegând de fiecare dată pivotul cel mai mare în valoare absolută.",
+     "Rezolvă prin substituție înapoi și verifică soluția în ecuațiile inițiale.",
+     "Greșeala frecventă: să împarți la un pivot foarte mic fără pivotare; erorile de rotunjire cresc enorm."
+    ],
+    "answers": [
+     "Aduce sistemul la formă triunghiulară prin operații pe linii.",
+     "Aproximativ (2/3)·n³ operații.",
+     "Pentru a evita împărțirea la numere foarte mici, care amplifică erorile.",
+     "Când rezolvăm mai multe sisteme cu aceeași matrice.",
+     "Pentru sisteme foarte mari și rare."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l22": {
+   "ro": {
+    "title": "Ecuații neliniare: bisecția și metoda lui Newton",
+    "theory": "Pentru ecuații f(x) = 0 fără formulă de rezolvare folosim metode iterative. Metoda bisecției pornește de la un interval [a, b] pe care f schimbă semnul (deci, pentru f continuă, conține o rădăcină), îl înjumătățește și păstrează jumătatea în care semnul se schimbă; converge sigur, dar lent – fiecare pas câștigă un bit de precizie (convergență liniară). Metoda lui Newton folosește tangenta: x_{k+1} = x_k − f(x_k) / f′(x_k). Aproape de o rădăcină simplă, convergența este pătratică – numărul de cifre corecte se dublează aproximativ la fiecare pas –, dar metoda poate diverge dacă pornim departe sau dacă derivata este aproape zero. Metoda secantei înlocuiește derivata cu o diferență finită. În practică se combină: bisecția pentru apropiere sigură, Newton pentru precizie. Oprirea se face când pasul sau valoarea |f(x)| scad sub o toleranță, cu o limită a numărului de iterații.",
+    "sample": "Calculăm √2 ca rădăcină a lui f(x) = x² − 2, cu Newton: x_{k+1} = x_k − (x_k² − 2) / (2x_k). Din x₀ = 1: x₁ = 1,5; x₂ ≈ 1,416667; x₃ ≈ 1,414216; x₄ ≈ 1,41421356. Bisecția pe [1, 2] ar avea nevoie de aproximativ 27 de pași pentru aceeași precizie de 10^−8.",
+    "worked": "Cifrele corecte s-au dublat aproape la fiecare pas. Bisecția este mai sigură, dar mult mai lentă.",
+    "exercises": [
+     "Aplică cinci pași de bisecție pentru x³ − x − 2 = 0 pe [1, 2].",
+     "Aplică trei pași Newton pentru aceeași ecuație din x₀ = 1,5.",
+     "Găsește o funcție și un punct de start pentru care Newton diverge.",
+     "Scrie un program care combină bisecția cu Newton.",
+     "Calculează câți pași de bisecție sunt necesari pentru precizia 10^−6 pe un interval de lungime 1."
+    ],
+    "test": [
+     "Ce condiție cere bisecția?",
+     "Ce viteză de convergență are bisecția?",
+     "Care este formula lui Newton?",
+     "Când poate eșua metoda lui Newton?",
+     "Când oprim iterațiile?"
+    ],
+    "steps": [
+     "Localizează rădăcina: găsește un interval pe care funcția schimbă semnul.",
+     "Aplică bisecția pentru siguranță sau Newton pentru viteză, pornind aproape de rădăcină.",
+     "Oprește-te la toleranța dorită sau la numărul maxim de iterații și verifică |f(x)|.",
+     "Greșeala frecventă: să pornești metoda lui Newton dintr-un punct unde derivata este aproape zero; pasul devine uriaș și metoda se îndepărtează."
+    ],
+    "answers": [
+     "Funcția trebuie să schimbe semnul la capetele intervalului.",
+     "Liniară: un bit de precizie la fiecare pas.",
+     "x_{k+1} = x_k − f(x_k) / f′(x_k).",
+     "Dacă pornim departe de rădăcină sau derivata este aproape zero.",
+     "Când pasul sau |f(x)| scad sub toleranță ori la limita de iterații."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l23": {
+   "ro": {
+    "title": "Interpolare și integrare numerică",
+    "theory": "Interpolarea construiește o funcție care trece prin puncte date, pentru a estima valori intermediare. Prin n + 1 puncte cu abscise distincte trece un singur polinom de grad cel mult n, scris în forma Lagrange sau Newton (cu diferențe divizate, ușor de extins cu puncte noi). Polinoamele de grad mare pe puncte egal depărtate pot oscila puternic la capete (fenomenul Runge); de aceea se folosesc noduri Cebîșev sau, mai des, interpolarea pe porțiuni cu funcții spline cubice, netede și stabile. Când datele au zgomot, nu interpolăm, ci aproximăm prin metoda celor mai mici pătrate. Integrarea numerică aproximează ∫ f(x) dx prin sume ponderate de valori ale funcției: metoda trapezelor (eroare de ordinul h²) și metoda Simpson (ordinul h⁴, exactă pentru polinoame de grad cel mult 3), aplicate pe subintervale mici (formule compuse).",
+    "sample": "Polinomul care trece prin (0, 1), (1, 3), (2, 7) este p(x) = x² + x + 1: verificăm p(0) = 1, p(1) = 3, p(2) = 7. Pentru ∫ de la 0 la 1 din x² dx = 1/3, metoda trapezelor cu un singur interval dă (0 + 1) / 2 = 0,5, iar Simpson dă (1/6) · (0 + 4 · 0,25 + 1) = 1/3, exact.",
+    "worked": "Interpolarea a găsit polinomul unic de grad 2. Simpson a fost exactă pentru că integrandul este un polinom de grad 2.",
+    "exercises": [
+     "Construiește polinomul Lagrange prin trei puncte date.",
+     "Adaugă un al patrulea punct folosind forma Newton.",
+     "Aplică metoda trapezelor compusă cu 4 subintervale pentru ∫ de la 0 la 1 din eˣ dx.",
+     "Aplică Simpson pe același integral și compară erorile.",
+     "Explică de ce nu interpolăm date cu zgomot."
+    ],
+    "test": [
+     "Câte polinoame de grad cel mult n trec prin n + 1 puncte?",
+     "Ce este fenomenul Runge?",
+     "De ce sunt utile funcțiile spline?",
+     "Ce ordin de eroare are metoda trapezelor?",
+     "Pentru ce polinoame este exactă metoda Simpson?"
+    ],
+    "steps": [
+     "Stabilește dacă datele sunt exacte (interpolare) sau au zgomot (aproximare).",
+     "Alege metoda: polinom de grad mic, spline sau cele mai mici pătrate; pentru integrale, trapeze sau Simpson compuse.",
+     "Verifică rezultatul micșorând pasul și comparând valorile.",
+     "Greșeala frecventă: să folosești un polinom de grad mare prin multe puncte egal depărtate; apar oscilații mari la capete."
+    ],
+    "answers": [
+     "Exact unul.",
+     "Oscilațiile mari la capete ale polinoamelor de grad mare pe noduri egal depărtate.",
+     "Sunt netede și stabile, construite pe porțiuni.",
+     "De ordinul h².",
+     "Pentru polinoamele de grad cel mult 3."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l24": {
+   "ro": {
+    "title": "Testarea cutiei negre: partiții de echivalență și valori limită",
+    "theory": "Verificarea întreabă „construim corect produsul?” (respectă specificația), iar validarea „construim produsul corect?” (răspunde nevoilor utilizatorului). Testarea poate arăta prezența erorilor, nu absența lor, deci testele trebuie alese inteligent. Testarea cutiei negre pornește doar de la specificație. Partiționarea în clase de echivalență împarte intrările în grupuri pentru care programul ar trebui să se comporte la fel și alege câte un reprezentant din fiecare, inclusiv din clasele invalide. Analiza valorilor limită testează marginile claselor, unde apar cele mai multe erori (de exemplu < în loc de ≤). Tabelele de decizie acoperă combinațiile de condiții, iar testarea pe bază de stări verifică tranzițiile unui sistem cu stări. Fiecare test are date de intrare, rezultatul așteptat și se poate repeta automat.",
+    "sample": "Specificație: un formular acceptă vârsta între 18 și 65 de ani inclusiv. Clase: sub 18 (invalidă), 18–65 (validă), peste 65 (invalidă), plus valori care nu sunt numere. Teste: 10, 40, 80, „abc” și valorile limită 17, 18, 65, 66. O implementare cu condiția vârstă > 18 trece testul cu 40, dar pică testul cu 18.",
+    "worked": "Valoarea limită a prins eroarea pe care testul obișnuit nu o vedea. Clasele invalide au verificat și tratarea erorilor.",
+    "exercises": [
+     "Stabilește clasele și valorile limită pentru o notă între 1 și 10.",
+     "Construiește un tabel de decizie pentru o reducere de preț cu trei condiții.",
+     "Scrie testele pentru o funcție care validează data unei rezervări.",
+     "Testează tranzițiile unei comenzi: creată, plătită, livrată, anulată.",
+     "Explică diferența dintre verificare și validare."
+    ],
+    "test": [
+     "Prin ce diferă verificarea de validare?",
+     "Ce poate demonstra testarea?",
+     "Ce este o clasă de echivalență?",
+     "De ce testăm valorile limită?",
+     "Ce conține un caz de test?"
+    ],
+    "steps": [
+     "Citește specificația și identifică intrările și condițiile.",
+     "Împarte intrările în clase valide și invalide și alege reprezentanți și valori limită.",
+     "Scrie cazurile de test cu rezultatul așteptat și automatizează-le.",
+     "Greșeala frecventă: să testezi doar valorile valide din mijlocul intervalului; erorile apar mai ales la margini și la date invalide."
+    ],
+    "answers": [
+     "Verificarea compară cu specificația, validarea cu nevoile utilizatorului.",
+     "Prezența erorilor, nu absența lor.",
+     "Un grup de intrări pentru care programul ar trebui să se comporte la fel.",
+     "Pentru că la margini apar cele mai multe erori.",
+     "Date de intrare și rezultatul așteptat."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l25": {
+   "ro": {
+    "title": "Testarea cutiei albe și acoperirea codului",
+    "theory": "Testarea cutiei albe folosește structura codului. Graful de control al fluxului reprezintă instrucțiunile și ramificațiile; complexitatea ciclomatică V(G) = muchii − noduri + 2 (sau numărul de decizii simple + 1) dă numărul de drumuri independente care merită testate. Criteriile de acoperire, de la slab la puternic: acoperirea instrucțiunilor (fiecare instrucțiune executată cel puțin o dată), a ramurilor sau deciziilor (fiecare decizie ia și valoarea adevărat, și fals), a condițiilor (fiecare condiție simplă dintr-o decizie compusă ia ambele valori) și MC/DC (fiecare condiție influențează independent rezultatul, cerută în software-ul aeronautic). Instrumentele de acoperire arată liniile neexecutate de teste. O acoperire de 100% nu garantează lipsa erorilor: testele pot executa codul fără să verifice rezultatul. Testarea prin mutații introduce mici modificări în cod (mutanți); un set de teste bun trebuie să „omoare” mutanții, adică să pice pentru ei.",
+    "sample": "Funcția: if (a > 0 && b > 0) r = a + b; else r = 0; return r;. Un singur test, a = 1, b = 1, acoperă doar ramura adevărat. Pentru acoperirea ramurilor adăugăm a = −1, b = 1. Pentru acoperirea condițiilor trebuie ca și b > 0 să fie fals într-un test: a = 1, b = −1. Complexitatea ciclomatică este 3 (două condiții simple + 1).",
+    "worked": "Fiecare criteriu a cerut teste în plus. Testul cu b negativ verifică un caz pe care primele două teste nu l-ar fi atins.",
+    "exercises": [
+     "Desenează graful de control al fluxului pentru o funcție cu o buclă și un if.",
+     "Calculează complexitatea ciclomatică a unei funcții date.",
+     "Găsește teste pentru acoperirea completă a ramurilor.",
+     "Construiește un mutant și un test care îl omoară.",
+     "Explică de ce 100% acoperire nu garantează corectitudinea."
+    ],
+    "test": [
+     "Ce folosește testarea cutiei albe?",
+     "Ce arată complexitatea ciclomatică?",
+     "Ce cere acoperirea ramurilor?",
+     "Ce este MC/DC?",
+     "Ce este testarea prin mutații?"
+    ],
+    "steps": [
+     "Construiește graful de control al fluxului și calculează complexitatea ciclomatică.",
+     "Alege criteriul de acoperire potrivit riscului și scrie testele care îl ating.",
+     "Măsoară acoperirea cu un instrument și verifică puterea testelor prin mutații.",
+     "Greșeala frecventă: să urmărești doar procentul de acoperire; un test fără verificarea rezultatului crește procentul, dar nu prinde erori."
+    ],
+    "answers": [
+     "Structura internă a codului.",
+     "Numărul de drumuri independente care merită testate.",
+     "Fiecare decizie să ia și valoarea adevărat, și fals.",
+     "Criteriul în care fiecare condiție influențează independent rezultatul deciziei.",
+     "Introducerea de mici modificări în cod pentru a verifica dacă testele le detectează."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l26": {
+   "ro": {
+    "title": "Niveluri de testare și verificare formală",
+    "theory": "Testarea se face pe niveluri: testarea unitară verifică funcții sau clase izolate (dependențele se înlocuiesc cu obiecte simulate); testarea de integrare verifică interfețele dintre componente; testarea de sistem verifică aplicația întreagă, inclusiv cerințele nefuncționale (performanță, securitate, încărcare); testarea de acceptare verifică, împreună cu clientul, că sistemul răspunde nevoilor. Testarea de regresie reia testele după fiecare modificare. Verificarea formală demonstrează matematic corectitudinea: logica Hoare folosește triplete {P} S {Q} – dacă precondiția P este adevărată înainte de S și S se termină, postcondiția Q este adevărată după. Pentru bucle se găsește un invariant – o proprietate adevărată înainte de buclă și după fiecare iterație – care, împreună cu condiția de ieșire, implică postcondiția; terminarea se arată cu o variantă (o mărime naturală care scade). Verificarea modelelor (model checking) explorează automat toate stările unui model finit.",
+    "sample": "Bucla s = 0; i = 0; while (i < n) { s = s + v[i]; i = i + 1; } calculează suma vectorului. Invariantul: s este suma primelor i elemente și 0 ≤ i ≤ n. Este adevărat la început (i = 0, s = 0) și se păstrează la fiecare iterație. La ieșire i = n, deci s este suma tuturor celor n elemente. Varianta n − i scade la fiecare pas, deci bucla se termină.",
+    "worked": "Invariantul a legat starea de la fiecare pas de rezultatul final. Demonstrația acoperă toate intrările, nu doar câteva cazuri testate.",
+    "exercises": [
+     "Scrie teste unitare pentru o clasă care depinde de o bază de date, folosind un obiect simulat.",
+     "Planifică testarea de integrare pentru o aplicație cu trei module.",
+     "Găsește invariantul buclei pentru căutarea maximului într-un vector.",
+     "Demonstrează cu un invariant corectitudinea căutării binare.",
+     "Explică diferența dintre testarea de sistem și testarea de acceptare."
+    ],
+    "test": [
+     "Ce verifică testarea unitară?",
+     "Ce verifică testarea de integrare?",
+     "Ce înseamnă tripletul {P} S {Q}?",
+     "Ce este un invariant de buclă?",
+     "Cum se demonstrează terminarea unei bucle?"
+    ],
+    "steps": [
+     "Stabilește nivelurile de testare necesare și ce verifică fiecare.",
+     "Pentru codul critic, scrie precondiții, postcondiții și invarianți.",
+     "Demonstrează păstrarea invariantului și terminarea, apoi completează cu teste.",
+     "Greșeala frecventă: să alegi un invariant care nu este adevărat înainte de prima iterație; demonstrația cade de la început."
+    ],
+    "answers": [
+     "Funcții sau clase izolate.",
+     "Interfețele și colaborarea dintre componente.",
+     "Dacă P este adevărată înainte de S și S se termină, Q este adevărată după.",
+     "O proprietate adevărată înainte de buclă și după fiecare iterație.",
+     "Cu o variantă: o mărime naturală care scade la fiecare iterație."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l27": {
+   "ro": {
+    "title": "Alegerea temei și documentarea",
+    "theory": "Lucrarea de licență arată că absolventul poate aplica independent cunoștințele de informatică la o problemă concretă: o aplicație cu cerințe reale, un algoritm analizat și implementat, un studiu experimental. Tema se alege împreună cu un coordonator științific, după interesele studentului și domeniul coordonatorului; ea trebuie să fie suficient de restrânsă pentru timpul disponibil și să permită o contribuție proprie clară. Documentarea începe cu definirea problemei și continuă cu studiul surselor: articole științifice (biblioteci digitale ale asociațiilor profesionale, arhive de preprinturi), cărți, documentația tehnologiilor, soluții existente. Pentru fiecare sursă se notează referința completă și ideile principale, cu cuvinte proprii. Analiza soluțiilor existente (stadiul actual) arată ce lipsește și justifică lucrarea. Un calendar realist, cu întâlniri regulate cu coordonatorul, previne aglomerarea de la final. Regulile exacte (structură, termene, șabloane) sunt stabilite de fiecare facultate.",
+    "sample": "Un student vrea „o aplicație de inteligență artificială”, temă prea largă. Împreună cu coordonatorul o restrânge la „Recunoașterea automată a speciilor de frunze din fotografii făcute cu telefonul”. Documentarea găsește seturi de date publice și câteva articole cu rețele convoluționale; contribuția proprie devine adaptarea unui model mic pentru rularea pe telefon și evaluarea lui pe fotografii proprii.",
+    "worked": "Restrângerea a transformat o idee vagă într-o problemă rezolvabilă. Analiza surselor a arătat unde poate aduce studentul ceva propriu.",
+    "exercises": [
+     "Restrânge trei teme prea largi la teme potrivite pentru o licență.",
+     "Formulează problema, obiectivele și contribuția proprie pentru o temă aleasă.",
+     "Găsește cinci surse relevante și notează-le referințele complete.",
+     "Scrie o analiză comparativă a trei aplicații existente.",
+     "Fă un calendar al lucrării pe opt luni."
+    ],
+    "test": [
+     "Ce arată lucrarea de licență?",
+     "Cum trebuie să fie tema?",
+     "Ce surse se folosesc la documentare?",
+     "Ce este stadiul actual?",
+     "Cine stabilește regulile exacte ale lucrării?"
+    ],
+    "steps": [
+     "Alege un domeniu și discută cu un posibil coordonator.",
+     "Restrânge tema până la o problemă clară, cu o contribuție proprie realistă.",
+     "Documentează-te, notează sursele complet și fă un calendar.",
+     "Greșeala frecventă: să amâni documentarea și scrisul până în ultima lună; nu mai rămâne timp pentru corecturi și evaluare."
+    ],
+    "answers": [
+     "Că absolventul poate aplica independent cunoștințele la o problemă concretă.",
+     "Restrânsă, realizabilă în timpul disponibil și cu o contribuție proprie clară.",
+     "Articole științifice, cărți, documentații tehnice, soluții existente.",
+     "Analiza soluțiilor existente și a limitelor lor.",
+     "Fiecare facultate."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l28": {
+   "ro": {
+    "title": "Structura lucrării, citarea și integritatea academică",
+    "theory": "O lucrare de licență în informatică are de obicei: introducere (contextul, problema, obiectivele, contribuția, structura lucrării), stadiul actual și fundamentele teoretice, analiza și proiectarea soluției (cerințe, arhitectură, diagrame), implementarea (tehnologii, decizii importante, fragmente de cod relevante, nu codul întreg), testarea și evaluarea (metodologie, rezultate, comparații), concluzii (ce s-a realizat, limite, direcții viitoare) și bibliografia. Fiecare idee, figură sau fragment de cod preluat se citează după un stil consecvent (de exemplu IEEE sau APA), iar textul preluat cuvânt cu cuvânt se pune între ghilimele cu sursa. Plagiatul – prezentarea muncii altcuiva ca fiind proprie – este o încălcare gravă, iar lucrările sunt verificate cu programe de detectare a similitudinilor. Folosirea instrumentelor de inteligență artificială generativă trebuie să respecte regulile universității și să fie declarată conform acestora. Scrierea este clară, impersonală sau la persoana întâi plural, cu termeni definiți și figuri numerotate și explicate în text.",
+    "sample": "Studentul scrie capitolul de stadiu actual. În loc să copieze descrierea unui algoritm dintr-un articol, îl explică cu propriile cuvinte, adaugă o figură proprie și citează articolul [7]. Pentru o definiție importantă păstrează textul exact, între ghilimele, cu sursa și pagina. Fragmentul de cod adaptat dintr-un depozit public are în comentariu sursa și licența, iar lucrarea îl menționează.",
+    "worked": "Fiecare preluare a avut sursa ei, în forma potrivită. Explicațiile proprii arată înțelegerea, nu doar capacitatea de a copia.",
+    "exercises": [
+     "Scrie cuprinsul lucrării pentru tema aleasă.",
+     "Transformă în citări corecte, în stilul IEEE, trei surse date.",
+     "Reformulează un paragraf tehnic cu propriile cuvinte și citează sursa.",
+     "Explică diferența dintre citare, parafrazare și plagiat.",
+     "Verifică dacă o figură preluată poate fi folosită și cum se citează."
+    ],
+    "test": [
+     "Ce capitole are de obicei o lucrare de licență?",
+     "Ce conține introducerea?",
+     "Ce trebuie citat?",
+     "Ce este plagiatul?",
+     "Cum se folosesc instrumentele de inteligență artificială generativă?"
+    ],
+    "steps": [
+     "Fă un cuprins detaliat înainte de a scrie.",
+     "Scrie capitolele, citând fiecare idee, figură și fragment de cod preluat.",
+     "Recitește, verifică bibliografia și cere părerea coordonatorului.",
+     "Greșeala frecventă: să crezi că o idee reformulată nu mai trebuie citată; ideea preluată are nevoie de sursă chiar și cu alte cuvinte."
+    ],
+    "answers": [
+     "Introducere, stadiu actual, proiectare, implementare, evaluare, concluzii, bibliografie.",
+     "Contextul, problema, obiectivele, contribuția și structura lucrării.",
+     "Orice idee, figură sau fragment de cod preluat.",
+     "Prezentarea muncii altcuiva ca fiind proprie.",
+     "Conform regulilor universității, inclusiv declararea lor."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l29": {
+   "ro": {
+    "title": "Implementarea, evaluarea și susținerea lucrării",
+    "theory": "Partea practică trebuie construită ca un proiect profesionist: cod în sistem de control al versiunilor, structură clară, teste automate, instrucțiuni de instalare și rulare. Evaluarea arată cât de bine rezolvă soluția problema: pentru o aplicație – teste funcționale, măsurători de performanță, eventual un studiu cu utilizatori; pentru un algoritm sau un model – experimente repetabile pe date bine descrise, cu metrici potrivite și comparație cu o soluție de referință. Rezultatele negative sau limitele se raportează onest. Susținerea are loc în fața unei comisii, într-un timp stabilit de facultate: prezentarea urmărește problema, soluția, contribuția proprie, o demonstrație scurtă și rezultatele, apoi urmează întrebările. Diapozitivele au puțin text și figuri clare; demonstrația se pregătește și cu o înregistrare de rezervă. La întrebări, răspunsurile sincere („nu am testat acest caz, dar l-aș aborda așa…”) sunt mai bune decât improvizațiile.",
+    "sample": "Studentul cu recunoașterea frunzelor compară trei modele pe același set de test: modelul mic adaptat are acuratețea cu 3 puncte procentuale mai mică decât cel mare, dar rulează de 10 ori mai repede pe telefon. La susținere prezintă această comparație într-un singur grafic, face o demonstrație live cu o frunză adusă în sală și are pregătită o înregistrare video. La întrebarea despre fotografiile făcute noaptea recunoaște că setul nu le conținea și explică ce date ar adăuga.",
+    "worked": "Evaluarea a cuantificat compromisul dintre precizie și viteză, care era chiar contribuția lucrării. Răspunsul onest a arătat înțelegerea limitelor.",
+    "exercises": [
+     "Scrie instrucțiunile de instalare și rulare pentru proiectul tău.",
+     "Proiectează experimentul de evaluare: date, metrici, soluție de referință.",
+     "Fă un plan al prezentării, cu un diapozitiv pentru fiecare idee.",
+     "Pregătește cinci întrebări probabile ale comisiei și răspunsurile lor.",
+     "Exersează prezentarea cronometrat și cere părerea unui coleg."
+    ],
+    "test": [
+     "Cum trebuie organizată partea practică?",
+     "Ce trebuie să arate evaluarea?",
+     "Cum se raportează limitele?",
+     "Ce urmărește prezentarea la susținere?",
+     "Cum răspunzi la o întrebare la care nu știi răspunsul complet?"
+    ],
+    "steps": [
+     "Finalizează implementarea cu teste și documentație de rulare.",
+     "Fă experimentele de evaluare repetabil și raportează rezultatele cu limitele lor.",
+     "Pregătește prezentarea, demonstrația și varianta de rezervă, apoi exersează.",
+     "Greșeala frecventă: să prezinți la susținere toate detaliile tehnice în ordinea în care le-ai lucrat; comisia trebuie să vadă repede problema, contribuția și rezultatele."
+    ],
+    "answers": [
+     "Ca proiect profesionist: versiuni, structură, teste, instrucțiuni.",
+     "Cât de bine rezolvă soluția problema, cu date și metrici clare.",
+     "Onest, ca parte a rezultatelor.",
+     "Problema, soluția, contribuția proprie, demonstrația și rezultatele.",
+     "Sincer, explicând cum ai aborda problema."
+    ]
+   }
+  }
+ }
+}

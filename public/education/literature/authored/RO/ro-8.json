@@ -1,0 +1,1208 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "RO",
+ "stage": "lower",
+ "grade": "8",
+ "version": "ce1eefe0a923d2d2719857044aa3710499486b91961bdb885f78f3309243c54a",
+ "source": "https://programe.ise.ro/",
+ "sourceTitle": "Ministerul Educației — Programa școlară Limba și literatura română, clasele a V-a – a VIII-a (OMEN 3393/2017): comunicare orală, lectură, redactare, elemente de construcție a comunicării, elemente de interculturalitate; clasa a VIII-a în ordinea obișnuită a manualelor aprobate, în pregătirea Evaluării Naționale (textul epic: nuvela, romanul, perspectiva narativă, conflictul, textul liric: imaginar poetic, motivul literar, tema și ideea poetică, prozodia, textul dramatic: drama, textul argumentativ și eseul, textul nonliterar: cererea și CV-ul, comentarierea unor secvențe, recapitularea părților de vorbire, funcțiile sintactice ale modurilor nepersonale, caracterizarea personajului, compunerea narativă și descriptivă, înțelegerea textului nonliterar, recapitularea sintaxei și a vocabularului, dezbaterea, subordonatele subiectivă, predicativă, circumstanțiale de loc, timp, mod, cauză, scop, condițională și concesivă, conversiunea, împrumuturile, registrele limbii, ortografia și punctuația conform DOOM 3, literatura română în context european); lecții originale, fără text copiat din manuale",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "ro",
+ "labels": [
+  "Activitate originală · România · clasa a VIII-a",
+  "Teorie pe înțeles",
+  "Exemplu original",
+  "Analiză explicată",
+  "Exerciții",
+  "Verifică-te",
+  "Exerciții originale, nu o evaluare oficială și nici text din manual.",
+  "Dacă nu ai înțeles: pe înțelesul tău, pas cu pas",
+  "Răspunsuri (verifică după ce termini)"
+ ],
+ "units": [
+  {
+   "title": "Textul epic",
+   "keys": [
+    "eu-year-ro-lower-8-l01",
+    "eu-year-ro-lower-8-l02",
+    "eu-year-ro-lower-8-l03"
+   ]
+  },
+  {
+   "title": "Textul liric",
+   "keys": [
+    "eu-year-ro-lower-8-l04",
+    "eu-year-ro-lower-8-l05",
+    "eu-year-ro-lower-8-l06"
+   ]
+  },
+  {
+   "title": "Textul dramatic și redactare",
+   "keys": [
+    "eu-year-ro-lower-8-l07",
+    "eu-year-ro-lower-8-l08",
+    "eu-year-ro-lower-8-l09",
+    "eu-year-ro-lower-8-l10",
+    "eu-year-ro-lower-8-l11",
+    "eu-year-ro-lower-8-l12",
+    "eu-year-ro-lower-8-l13",
+    "eu-year-ro-lower-8-l14"
+   ]
+  },
+  {
+   "title": "Morfologie: recapitulare și aprofundare",
+   "keys": [
+    "eu-year-ro-lower-8-l15",
+    "eu-year-ro-lower-8-l16",
+    "eu-year-ro-lower-8-l17",
+    "eu-year-ro-lower-8-l18"
+   ]
+  },
+  {
+   "title": "Sintaxa frazei",
+   "keys": [
+    "eu-year-ro-lower-8-l19",
+    "eu-year-ro-lower-8-l20",
+    "eu-year-ro-lower-8-l21",
+    "eu-year-ro-lower-8-l22",
+    "eu-year-ro-lower-8-l23",
+    "eu-year-ro-lower-8-l24",
+    "eu-year-ro-lower-8-l25",
+    "eu-year-ro-lower-8-l26"
+   ]
+  },
+  {
+   "title": "Vocabular și interculturalitate",
+   "keys": [
+    "eu-year-ro-lower-8-l27",
+    "eu-year-ro-lower-8-l28",
+    "eu-year-ro-lower-8-l29",
+    "eu-year-ro-lower-8-l30",
+    "eu-year-ro-lower-8-l31",
+    "eu-year-ro-lower-8-l32"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-ro-lower-8-l01": {
+   "ro": {
+    "title": "Recapitulare: genurile literare",
+    "theory": "Operele literare se împart în trei genuri. Genul epic povestește întâmplări prin narator și personaje (basm, schiță, nuvelă, roman, baladă, fabulă). Genul liric exprimă direct sentimente prin eul liric (doină, pastel, poezie lirică). Genul dramatic este scris pentru scenă, prin dialog, fără narator (comedie, dramă).",
+    "sample": "Text A: Pe drumul pustiu, călătorul a zărit o lumină. / Text B: Mi-e dor de-al copilăriei sat / Și de pridvorul luminat. / Text C: MARIA (îngrijorată): Unde ai fost toată noaptea?",
+    "worked": "A: un narator povestește o întâmplare, deci genul epic. B: eul liric își exprimă dorul, deci genul liric. C: replică și indicație scenică, fără narator, deci genul dramatic.",
+    "exercises": [
+     "Încadrează în gen un text din manual și argumentează.",
+     "Numește două specii pentru fiecare gen.",
+     "Transformă textul A într-o replică dramatică.",
+     "Scrie două versuri lirice despre un loc drag.",
+     "Spune ce instanță comunică în fiecare gen."
+    ],
+    "test": [
+     "Ce face genul epic?",
+     "Ce instanță apare în genul liric?",
+     "Are genul dramatic narator?",
+     "Ce gen este fabula?",
+     "Ce gen este textul B?"
+    ],
+    "steps": [
+     "Întreabă-te: textul povestește, exprimă sentimente sau este scris pentru scenă?",
+     "Găsește instanța: narator, eu liric sau personaje care dialoghează.",
+     "Numește genul și justifică cu o trăsătură.",
+     "Greșeala frecventă: să încadrezi o poezie în genul liric doar pentru că are versuri. Balada și fabula în versuri sunt epice."
+    ],
+    "answers": [
+     "Povestește întâmplări prin narator și personaje.",
+     "Eul liric.",
+     "Nu.",
+     "Epic.",
+     "Liric."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l02": {
+   "ro": {
+    "title": "Nuvela: conflictul și construcția personajului",
+    "theory": "Nuvela este o specie epică în proză, de întindere medie, cu un singur fir narativ, un conflict puternic și puține personaje, dintre care unul este pus în centru. Conflictul poate fi exterior (între personaje sau între om și împrejurări) sau interior (în sufletul personajului). Exemple clasice: nuvelele lui Ioan Slavici, Mihail Sadoveanu, Costache Negruzzi.",
+    "sample": "Rezumat original: Un morar cinstit, ajuns sărac, primește oferta unui negustor bogat de a-l ajuta în schimbul unor servicii necinstite. Acceptă, se îmbogățește, dar își pierde liniștea și încrederea familiei; în final, își mărturisește faptele.",
+    "worked": "Un singur fir narativ: povestea morarului. Conflict exterior: morarul și negustorul. Conflict interior: dorința de bani și conștiința. Personajul evoluează de la cinste la compromis și apoi la remușcare. Acestea sunt trăsături de nuvelă.",
+    "exercises": [
+     "Identifică conflictele din exemplu.",
+     "Numește o nuvelă românească citită și autorul ei.",
+     "Explică evoluția personajului din exemplu.",
+     "Compară nuvela cu romanul.",
+     "Scrie un paragraf despre conflictul interior al unui personaj."
+    ],
+    "test": [
+     "Ce este nuvela?",
+     "Ce este conflictul interior?",
+     "Ce conflict exterior apare în exemplu?",
+     "Câte fire narative are de obicei nuvela?",
+     "Cum evoluează morarul?"
+    ],
+    "steps": [
+     "Găsește personajul central.",
+     "Identifică forțele opuse: altă persoană (conflict exterior) sau două dorințe ale aceluiași om (interior).",
+     "Urmărește cum se schimbă personajul de la început la sfârșit.",
+     "Greșeala frecventă: să confunzi conflictul cu o simplă ceartă. Conflictul este opoziția care pune în mișcare acțiunea."
+    ],
+    "answers": [
+     "O specie epică în proză, de întindere medie, cu un conflict puternic.",
+     "Lupta din sufletul personajului.",
+     "Între morar și negustor.",
+     "Unul.",
+     "De la cinste la compromis, apoi la remușcare."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l03": {
+   "ro": {
+    "title": "Romanul: planuri narative și perspectivă",
+    "theory": "Romanul are acțiune complexă, desfășurată pe mai multe planuri narative (de exemplu, planul familiei și planul social), multe personaje și conflicte. Perspectiva narativă poate fi auctorială (narator omniscient, care știe tot, la persoana a III-a) sau actorială (narator-personaj, la persoana I, care știe doar ce vede și simte el).",
+    "sample": "Fragment original A: Gheorghe nu știa că, în același ceas, fratele lui hotăra să vândă pământul. / Fragment B: Nu știam ce gândește fratele meu; vedeam doar că evită să mă privească.",
+    "worked": "A: narator omniscient: știe ce face fratele fără ca Gheorghe să știe. B: narator-personaj, cu perspectivă limitată: deduce doar din gesturi. Perspectiva schimbă ce aflăm și cum ne raportăm la personaje.",
+    "exercises": [
+     "Identifică perspectiva unui fragment de roman din manual.",
+     "Transformă fragmentul B în perspectivă auctorială.",
+     "Găsește două planuri narative într-un roman citit.",
+     "Explică ce înseamnă narator omniscient.",
+     "Spune un efect al perspectivei limitate."
+    ],
+    "test": [
+     "Ce este un plan narativ?",
+     "Ce este naratorul omniscient?",
+     "Ce perspectivă are fragmentul B?",
+     "Câte planuri are de obicei un roman?",
+     "Ce știe naratorul-personaj?"
+    ],
+    "steps": [
+     "Uită-te la persoana verbelor.",
+     "Verifică dacă naratorul știe gândurile tuturor (omniscient) sau doar ale lui (limitat).",
+     "Identifică firele de acțiune care se împletesc: planurile narative.",
+     "Greșeala frecventă: să crezi că persoana a III-a înseamnă mereu narator omniscient. Unii naratori la persoana a III-a urmăresc doar un personaj."
+    ],
+    "answers": [
+     "Un fir de acțiune, cu personajele lui.",
+     "Naratorul care știe tot, inclusiv gândurile personajelor.",
+     "Actorială, limitată, la persoana I.",
+     "Mai multe.",
+     "Doar ce vede, aude și simte el."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l04": {
+   "ro": {
+    "title": "Tema, motivul și ideea poetică",
+    "theory": "Tema este subiectul general al poeziei: natura, iubirea, copilăria, timpul, patria. Motivul literar este o imagine care se repetă și susține tema: luna, apa, codrul, fereastra. Ideea poetică este mesajul transmis despre temă. Titlul anunță adesea tema sau motivul central.",
+    "sample": "Strofă originală: Fereastra mea dă spre trecut, / Prin ea privesc copilăria, / Și-n geamul vechi, abia văzut, / Îmi râde-ncet, ca altădată, glia.",
+    "worked": "Tema: copilăria. Motivul: fereastra, prin care eul liric privește trecutul. Ideea poetică: trecutul trăiește în amintire. Metafora fereastra dă spre trecut și personificarea glia râde susțin ideea.",
+    "exercises": [
+     "Identifică tema și motivul unei poezii din manual.",
+     "Scrie ideea poetică a exemplului cu cuvintele tale.",
+     "Găsește trei motive literare legate de natură.",
+     "Explică rolul titlului într-o poezie citită.",
+     "Scrie o strofă cu motivul ploii."
+    ],
+    "test": [
+     "Ce este tema?",
+     "Ce este motivul literar?",
+     "Ce motiv apare în exemplu?",
+     "Ce este ideea poetică?",
+     "Care este tema exemplului?"
+    ],
+    "steps": [
+     "Întreabă-te: despre ce este poezia? (tema).",
+     "Caută imaginea centrală care se repetă sau are rol important (motivul).",
+     "Formulează ce spune poezia despre temă (ideea).",
+     "Greșeala frecventă: confuzia dintre temă și motiv: iubirea este temă, luna poate fi motivul care o susține."
+    ],
+    "answers": [
+     "Subiectul general al poeziei.",
+     "O imagine care se repetă și susține tema.",
+     "Fereastra.",
+     "Mesajul transmis despre temă.",
+     "Copilăria."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l05": {
+   "ro": {
+    "title": "Imaginarul poetic și figurile de stil",
+    "theory": "Imaginarul poetic este lumea creată de poet prin imagini artistice (vizuale, auditive, olfactive, tactile, motorii) și figuri de stil. La Evaluarea Națională se cere identificarea figurii și explicarea rolului ei: ce idee sau sentiment sugerează. Figurile principale: epitetul, comparația, personificarea, metafora, hiperbola, enumerația, repetiția, antiteza, inversiunea, aliterația.",
+    "sample": "Vers original: Se-aprinde-n vale-un cer de foc, / Iar râul, tăcut ca un gând, / Își duce apele pe loc, / Ca un copil adormind.",
+    "worked": "Metafora cer de foc sugerează apusul. Comparația tăcut ca un gând sugerează liniștea profundă. Personificarea râul își duce apele și comparația ca un copil adormind creează atmosferă de pace. Imaginile sunt vizuale și motorii.",
+    "exercises": [
+     "Identifică trei figuri de stil din exemplu și explică-le rolul.",
+     "Găsește imaginile vizuale din exemplu.",
+     "Scrie un enunț cu o metaforă și explică-i sensul.",
+     "Scrie rolul unei personificări dintr-o poezie din manual.",
+     "Transformă comparația tăcut ca un gând într-o metaforă."
+    ],
+    "test": [
+     "Ce este imaginarul poetic?",
+     "Ce sugerează metafora cer de foc?",
+     "Ce figură este: ca un copil adormind?",
+     "Ce trebuie să facem după ce identificăm figura?",
+     "Ce atmosferă creează exemplul?"
+    ],
+    "steps": [
+     "Identifică figura după marcă: ca (comparație), acțiune omenească (personificare), exagerare (hiperbolă).",
+     "Explică sensul imaginii: ce idee sau ce sentiment sugerează?",
+     "Leagă rolul figurii de mesajul întregii strofe.",
+     "Greșeala frecventă: să scrii doar numele figurii, fără explicarea rolului ei, cum se cere la evaluare."
+    ],
+    "answers": [
+     "Lumea creată de poet prin imagini și figuri de stil.",
+     "Apusul.",
+     "Comparație.",
+     "Explicăm rolul ei.",
+     "De pace și liniște."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l06": {
+   "ro": {
+    "title": "Prozodia: măsură, rimă, ritm (aprofundare)",
+    "theory": "Prozodia studiază versul. Măsura este numărul de silabe. Rima poate fi împerecheată (aabb), încrucișată (abab), îmbrățișată (abba) sau monorimă; poate fi masculină (accent pe ultima silabă: dor – zbor) sau feminină (accent pe penultima: floare – soare). Ritmul este succesiunea regulată de silabe accentuate și neaccentuate: trohaic (/ x), iambic (x /).",
+    "sample": "Vers trohaic: Cân-tă vân-tul prin pă-du-re (accente pe silabele impare: cân, vân, du). Vers iambic: Pe drum a-pus de stea (accente pe silabele pare: drum, pus, stea).",
+    "worked": "În primul vers, accentele cad pe silabele impare (1, 3, 7; cuvântul scurt prin, pe silaba 5, se integrează ritmului): ritm trohaic (accentuat – neaccentuat). În al doilea, accentul cade pe 2, 4, 6: ritm iambic (neaccentuat – accentuat). Floare rimează feminin cu soare; stea rimează masculin cu nea.",
+    "exercises": [
+     "Stabilește măsura și rima unei strofe din manual.",
+     "Spune ce rimă este: dor – zbor.",
+     "Marchează accentele într-un vers și stabilește ritmul.",
+     "Scrie un catren cu rimă îmbrățișată.",
+     "Explică diferența dintre rima masculină și cea feminină."
+    ],
+    "test": [
+     "Ce studiază prozodia?",
+     "Ce este măsura?",
+     "Ce rimă este abba?",
+     "Ce ritm are succesiunea accentuat – neaccentuat?",
+     "Ce rimă este floare – soare?"
+    ],
+    "steps": [
+     "Desparte versul în silabe și numără-le: măsura.",
+     "Notează rimele cu litere: schema.",
+     "Rostește versul și marchează silabele accentuate: ritmul.",
+     "Greșeala frecventă: să numeri literele sau cuvintele în loc de silabe."
+    ],
+    "answers": [
+     "Versul: măsura, rima, ritmul.",
+     "Numărul de silabe.",
+     "Îmbrățișată.",
+     "Trohaic.",
+     "Feminină."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l07": {
+   "ro": {
+    "title": "Drama și textul dramatic",
+    "theory": "Drama este o specie dramatică în care se amestecă elemente tragice și comice, cu un conflict puternic între personaje, adesea cu final trist sau deschis. Ca toate textele dramatice, are acte, scene, replici, monolog și indicații scenice. Personajele se caracterizează prin propriile replici și fapte.",
+    "sample": "Scenă originală: (Seară. O cameră săracă.) / ANA (privind pe fereastră): Nu s-a întors nici azi... / FRATELE (încercând să zâmbească): Lasă, mâine vine sigur. / ANA (în șoaptă): Așa ai spus și ieri.",
+    "worked": "Indicațiile scenice creează atmosfera tristă. Replicile arată așteptarea și speranța care se stinge. Zâmbetul forțat al fratelui și răspunsul Anei au o notă amară. Conflictul și tonul grav sunt specifice dramei.",
+    "exercises": [
+     "Găsește indicațiile scenice din exemplu și rolul lor.",
+     "Caracterizează-o pe Ana din replicile ei.",
+     "Scrie continuarea scenei în trei replici.",
+     "Spune prin ce diferă drama de comedie.",
+     "Transformă scena într-un fragment narativ."
+    ],
+    "test": [
+     "Ce este drama?",
+     "Ce rol au indicațiile scenice?",
+     "Ce simte Ana?",
+     "Ce este monologul?",
+     "Cum se caracterizează personajele în textul dramatic?"
+    ],
+    "steps": [
+     "Citește indicațiile scenice ca să-ți imaginezi locul și tonul.",
+     "Urmărește replicile: ce spun și ce ascund personajele.",
+     "Identifică conflictul și atmosfera.",
+     "Greșeala frecventă: să cauți un narator în textul dramatic."
+    ],
+    "answers": [
+     "O specie dramatică ce amestecă tragicul și comicul, cu un conflict puternic.",
+     "Arată decorul, gesturile, tonul.",
+     "Tristețe, speranță care se stinge.",
+     "Replica lungă a unui personaj care vorbește singur.",
+     "Prin replici și fapte."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l08": {
+   "ro": {
+    "title": "Eseul argumentativ: structura",
+    "theory": "Eseul argumentativ (la evaluare, de obicei 150–300 de cuvinte) are: introducere cu ipoteza (opinia), cuprins cu cel puțin două argumente susținute cu exemple din textul dat sau din experiență, încheiere cu concluzia. Se folosesc conectori (în primul rând, în al doilea rând, de exemplu, prin urmare, în concluzie) și un registru standard, fără greșeli.",
+    "sample": "Ipoteză: Consider că prietenia adevărată se vede la nevoie. / Argument 1: În primul rând, un prieten adevărat rămâne alături în momente grele, cum face fratele Anei din scena citită. / Argument 2: În al doilea rând, prietenia sinceră înseamnă să spui adevărul, chiar dacă doare. / Concluzie: Prin urmare, prietenia se măsoară prin fapte.",
+    "worked": "Ipoteza este clară. Fiecare argument are conector și exemplu. Concluzia reia ideea cu alte cuvinte. Structura este echilibrată.",
+    "exercises": [
+     "Scrie un eseu argumentativ de 150 de cuvinte despre importanța lecturii.",
+     "Găsește argumentele din exemplu.",
+     "Adaugă un exemplu din experiența ta la argumentul 2.",
+     "Scrie trei conectori pentru concluzie.",
+     "Corectează o concluzie care aduce un argument nou."
+    ],
+    "test": [
+     "Câte părți are eseul argumentativ?",
+     "Ce conține introducerea?",
+     "Câte argumente sunt necesare?",
+     "Ce face concluzia?",
+     "Ce registru folosim?"
+    ],
+    "steps": [
+     "Formulează ipoteza într-o propoziție clară.",
+     "Scrie două argumente cu conectori și exemple concrete.",
+     "Încheie reluând ipoteza și verifică lungimea și ortografia.",
+     "Greșeala frecventă: argumentele fără exemple sau exemplele fără legătură cu ipoteza."
+    ],
+    "answers": [
+     "Trei: introducere, cuprins, încheiere.",
+     "Ipoteza, adică opinia.",
+     "Cel puțin două.",
+     "Reia opinia, fără argumente noi.",
+     "Standard, corect."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l09": {
+   "ro": {
+    "title": "Textul nonliterar: cererea și CV-ul",
+    "theory": "Cererea este un text oficial prin care solicităm ceva unei instituții. Structura: formula de adresare (Doamnă Director,), conținutul (Subsemnatul/Subsemnata..., elev în clasa..., vă rog să-mi aprobați...), motivul, data și semnătura, apoi destinatarul (Doamnei Director a Școlii...). CV-ul prezintă pe scurt datele personale, studiile, competențele și activitățile unei persoane.",
+    "sample": "Doamnă Director, / Subsemnata Ionescu Maria, elevă în clasa a VIII-a B la Școala Gimnazială nr. 3, vă rog să-mi aprobați participarea la tabăra de creație din 10–15 iulie. / Menționez că am obținut premiul I la concursul județean de creație literară. / Data: 2 iunie 2026 / Semnătura / Doamnei Director a Școlii Gimnaziale nr. 3",
+    "worked": "Cererea are formula de adresare, formula Subsemnata urmată de date, solicitarea politicoasă (vă rog să-mi aprobați), motivul, data, semnătura și destinatarul la final. Limbajul este oficial, fără exprimări familiare.",
+    "exercises": [
+     "Scrie o cerere pentru înscrierea la un cerc de teatru.",
+     "Găsește în exemplu solicitarea și motivul.",
+     "Realizează un CV simplu pentru un concurs de voluntariat.",
+     "Corectează o cerere scrisă în registru familiar.",
+     "Spune ce date personale nu publicăm online."
+    ],
+    "test": [
+     "Ce este cererea?",
+     "Cu ce formulă începe conținutul cererii?",
+     "Ce apare la finalul cererii?",
+     "Ce prezintă CV-ul?",
+     "Ce registru folosim în cerere?"
+    ],
+    "steps": [
+     "Scrie formula de adresare și formula Subsemnatul/Subsemnata cu datele tale.",
+     "Formulează clar solicitarea și motivul.",
+     "Adaugă data, semnătura și destinatarul.",
+     "Greșeala frecventă: exprimarea familiară: Bună, doamna directoare, aș vrea și eu..."
+    ],
+    "answers": [
+     "Un text oficial de solicitare.",
+     "Subsemnatul sau Subsemnata.",
+     "Destinatarul instituției.",
+     "Studiile, competențele și activitățile.",
+     "Oficial."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l10": {
+   "ro": {
+    "title": "Compunerea: caracterizarea personajului",
+    "theory": "La evaluare, caracterizarea unui personaj (150–300 de cuvinte) cuprinde: prezentarea personajului (statut social, rol în acțiune), două trăsături morale, fiecare ilustrată cu o secvență sau o întâmplare din text, două modalități de caracterizare (directă și indirectă, cu exemple) și o încheiere cu opinia ta argumentată.",
+    "sample": "Plan original pentru morarul din nuvela rezumată: 1. Statut: morar sărac, cap de familie, personaj principal. 2. Trăsătură 1: ambiția, ilustrată de acceptarea ofertei negustorului. 3. Trăsătură 2: conștiința trează, ilustrată de mărturisirea finală. 4. Modalități: direct (naratorul îl numește cinstit la început); indirect (faptele și remușcarea). 5. Opinie: personajul este credibil, pentru că greșește și se îndreaptă.",
+    "worked": "Planul respectă cerințele: statut, două trăsături cu ilustrare, două modalități de caracterizare exemplificate și o opinie argumentată. Fiecare punct devine un paragraf.",
+    "exercises": [
+     "Scrie caracterizarea unui personaj dintr-o nuvelă citită.",
+     "Ilustrează o trăsătură cu o secvență din text.",
+     "Găsește în exemplu modalitățile de caracterizare.",
+     "Scrie o încheiere argumentată pentru o caracterizare.",
+     "Verifică o caracterizare după cerințele evaluării."
+    ],
+    "test": [
+     "Ce lungime are caracterizarea la evaluare?",
+     "Câte trăsături morale se cer de obicei?",
+     "Cum ilustrăm o trăsătură?",
+     "Ce modalitate de caracterizare arată faptele?",
+     "Ce conține încheierea?"
+    ],
+    "steps": [
+     "Prezintă statutul și rolul personajului.",
+     "Alege două trăsături și ilustrează fiecare cu o întâmplare.",
+     "Numește modalitățile de caracterizare cu exemple și încheie cu opinia.",
+     "Greșeala frecventă: povestirea acțiunii în locul ilustrării trăsăturilor."
+    ],
+    "answers": [
+     "150–300 de cuvinte.",
+     "Două.",
+     "Cu o secvență sau o întâmplare din text.",
+     "Caracterizarea indirectă.",
+     "Opinia argumentată despre personaj."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l11": {
+   "ro": {
+    "title": "Compunerea narativă",
+    "theory": "Compunerea narativă (de obicei 150 de cuvinte la evaluare) prezintă o întâmplare reală sau imaginară. Cerințele obișnuite: o succesiune de momente (început, desfășurare, final), personaje, timp și spațiu precizate, dialog sau descriere, un titlu potrivit, respectarea perspectivei cerute (persoana I sau a III-a).",
+    "sample": "Titlu: Cheia pierdută. Plan: 1. Într-o seară de noiembrie, Radu observă că și-a pierdut cheia. 2. Refac drumul de la școală, cu sora lui. 3. — Uite-o! strigă ea lângă poarta parcului. 4. Acasă, Radu își promite să fie mai atent.",
+    "worked": "Planul are momentele întâmplării, personaje, timp și spațiu. Dialogul (Uite-o!) aduce viață. Finalul are o concluzie. Perspectiva este la persoana a III-a, iar titlul rezumă întâmplarea.",
+    "exercises": [
+     "Scrie o compunere narativă de 150 de cuvinte cu titlul O zi neobișnuită.",
+     "Scrie aceeași întâmplare la persoana I.",
+     "Adaugă un dialog de două replici la exemplu.",
+     "Găsește timpul și spațiul din exemplu.",
+     "Dă un alt titlu compunerii din exemplu."
+    ],
+    "test": [
+     "Ce prezintă compunerea narativă?",
+     "Ce momente are?",
+     "Ce element aduce viață textului?",
+     "Ce perspectivă are exemplul?",
+     "Ce rol are titlul?"
+    ],
+    "steps": [
+     "Citește cerința: perspectivă, lungime, elemente obligatorii.",
+     "Fă planul cu momentele întâmplării, timpul, spațiul și personajele.",
+     "Scrie, adaugă dialog sau descriere și recitește.",
+     "Greșeala frecventă: ignorarea perspectivei cerute: cerința spune persoana I, dar compunerea este la persoana a III-a."
+    ],
+    "answers": [
+     "O întâmplare reală sau imaginară.",
+     "Început, desfășurare, final.",
+     "Dialogul.",
+     "Persoana a III-a.",
+     "Rezumă sau sugerează întâmplarea."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l12": {
+   "ro": {
+    "title": "Compunerea descriptivă",
+    "theory": "Compunerea descriptivă prezintă un loc, un fenomen sau o persoană. Cerințe: ordine clară (de la general la detaliu, de aproape la departe), imagini artistice pentru mai multe simțuri, cel puțin două figuri de stil, exprimarea sentimentelor față de ce descrii și un titlu.",
+    "sample": "Titlu: Piața în zori. Început: Orașul încă dormea, dar piața se trezise. Lăzile cu mere roșii străluceau ca niște felinare, iar mirosul de pâine caldă se amesteca cu glasurile negustorilor. Mă simțeam ca într-o poveste în care fiecare culoare avea vocea ei.",
+    "worked": "Ordinea merge de la ansamblu (piața) la detalii (lăzi, miros, glasuri). Imagini vizuale, olfactive, auditive. Figuri: comparația ca niște felinare, metafora fiecare culoare avea vocea ei, personificarea piața se trezise. Sentimentul este încântarea.",
+    "exercises": [
+     "Scrie o compunere descriptivă despre un loc preferat.",
+     "Găsește figurile de stil din exemplu.",
+     "Adaugă o imagine tactilă la exemplu.",
+     "Descrie o persoană prin trei detalii semnificative.",
+     "Spune ce ordine are descrierea din exemplu."
+    ],
+    "test": [
+     "Ce prezintă compunerea descriptivă?",
+     "Ce ordine poate avea descrierea?",
+     "Câte figuri de stil se cer de obicei?",
+     "Ce figură este: ca niște felinare?",
+     "Ce sentiment exprimă exemplul?"
+    ],
+    "steps": [
+     "Alege ce descrii și stabilește ordinea.",
+     "Notează imagini pentru mai multe simțuri și cel puțin două figuri.",
+     "Adaugă sentimentul tău și un titlu potrivit.",
+     "Greșeala frecventă: descrierea fără figuri de stil, doar ca un inventar."
+    ],
+    "answers": [
+     "Un loc, un fenomen sau o persoană.",
+     "De la general la detaliu sau de aproape la departe.",
+     "Cel puțin două.",
+     "Comparație.",
+     "Încântarea."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l13": {
+   "ro": {
+    "title": "Comentarea unei secvențe literare",
+    "theory": "La evaluare se cere uneori să prezinți, în 50–100 de cuvinte, semnificația unei secvențe. Pașii: încadrezi secvența (unde apare, ce se întâmplă), identifici elementele de expresivitate (figuri, imagini, cuvinte-cheie), explici ce sugerează și legi interpretarea de mesajul textului.",
+    "sample": "Secvență: Iar râul, tăcut ca un gând, / Își duce apele pe loc. / Comentariu: Secvența surprinde liniștea apusului. Comparația tăcut ca un gând sugerează o tăcere profundă, interioară, iar personificarea râul își duce apele pe loc creează impresia unui timp oprit. Astfel, natura devine un spațiu al păcii sufletești.",
+    "worked": "Comentariul încadrează secvența, numește două figuri, le explică rolul și leagă interpretarea de ideea textului (pacea sufletească). Are lungimea cerută și un registru corect.",
+    "exercises": [
+     "Comentează o strofă dintr-o poezie din manual în 70 de cuvinte.",
+     "Găsește în exemplu figura comentată.",
+     "Scrie o frază de încadrare pentru o secvență epică.",
+     "Explică o imagine vizuală dintr-un text citit.",
+     "Verifică dacă un comentariu are interpretare, nu doar identificare."
+    ],
+    "test": [
+     "Ce lungime are de obicei comentariul cerut?",
+     "Cu ce începem comentariul?",
+     "Ce sugerează comparația tăcut ca un gând?",
+     "Ce face interpretarea?",
+     "Ce efect are personificarea din exemplu?"
+    ],
+    "steps": [
+     "Încadrează secvența: unde apare și ce prezintă.",
+     "Identifică 1–2 elemente expresive și explică-le.",
+     "Leagă interpretarea de mesajul textului.",
+     "Greșeala frecventă: repovestirea secvenței fără comentarea expresivității."
+    ],
+    "answers": [
+     "50–100 de cuvinte.",
+     "Cu încadrarea secvenței.",
+     "O tăcere profundă, interioară.",
+     "Leagă expresivitatea de mesajul textului.",
+     "Impresia unui timp oprit."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l14": {
+   "ro": {
+    "title": "Înțelegerea textului nonliterar",
+    "theory": "La evaluare apare și un text nonliterar: articol, fragment de interviu, prezentare de carte, afiș, tabel. Cerințele: găsirea unei informații exacte, scopul textului, legătura cu textul literar, opinia argumentată. Citim atent, subliniem datele și răspundem cu informații din text.",
+    "sample": "Text original: Biblioteca județeană organizează, între 1 și 7 decembrie, Săptămâna lecturii. Intrarea este liberă. Elevii pot participa la ateliere de scriere în fiecare zi, de la ora 16. Înscrierile se fac la ghișeul principal.",
+    "worked": "Informații exacte: perioada 1–7 decembrie, intrare liberă, ateliere zilnice de la ora 16, înscrieri la ghișeu. Scopul: informarea și atragerea elevilor la lectură. Răspunsurile se dau cu datele din text.",
+    "exercises": [
+     "Formulează trei întrebări despre textul din exemplu și răspunde la ele.",
+     "Spune scopul textului din exemplu.",
+     "Găsește un text nonliterar într-un ziar și extrage două informații.",
+     "Leagă textul din exemplu de importanța lecturii, într-o opinie.",
+     "Transformă textul într-un afiș."
+    ],
+    "test": [
+     "Între ce date are loc Săptămâna lecturii?",
+     "La ce oră încep atelierele?",
+     "Unde se fac înscrierile?",
+     "Cât costă intrarea?",
+     "Care este scopul textului?"
+    ],
+    "steps": [
+     "Citește întrebarea, apoi caută informația în text.",
+     "Subliniază datele exacte: ore, locuri, cifre.",
+     "Răspunde scurt, cu informația din text, nu din imaginație.",
+     "Greșeala frecventă: răspunsurile date din memorie sau presupuse, fără verificare în text."
+    ],
+    "answers": [
+     "Între 1 și 7 decembrie.",
+     "La ora 16.",
+     "La ghișeul principal.",
+     "Este liberă.",
+     "Informarea și atragerea elevilor la lectură."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l15": {
+   "ro": {
+    "title": "Părțile de vorbire flexibile",
+    "theory": "Părțile de vorbire flexibile își schimbă forma: substantivul (gen, număr, caz), articolul, adjectivul (gen, număr, caz, grade de comparație), pronumele (persoană, gen, număr, caz), numeralul și verbul (mod, timp, persoană, număr, diateză). Pentru analiza morfologică precizăm partea de vorbire și categoriile ei.",
+    "sample": "Elevii noștri au primit ieri două diplome.",
+    "worked": "Elevii: substantiv comun, masculin, plural, nominativ, articulat hotărât. Noștri: adjectiv posesiv, masculin, plural. Au primit: verb, mod indicativ, timp perfect compus, persoana a III-a plural, diateza activă. Două: numeral cardinal adjectival. Diplome: substantiv, feminin, plural, acuzativ.",
+    "exercises": [
+     "Analizează morfologic toate cuvintele din exemplu.",
+     "Analizează: Bunica ne-a povestit o legendă.",
+     "Precizează categoriile verbului: vom pleca.",
+     "Găsește pronumele și precizează-le cazul: I-am dat lui o carte.",
+     "Spune ce categorii are adjectivul."
+    ],
+    "test": [
+     "Ce înseamnă parte de vorbire flexibilă?",
+     "Ce categorii are verbul?",
+     "Ce caz are elevii în exemplu?",
+     "Ce fel de numeral este două?",
+     "Ce mod și timp are au primit?"
+    ],
+    "steps": [
+     "Identifică partea de vorbire cu întrebarea potrivită.",
+     "Precizează categoriile gramaticale ale ei.",
+     "Verifică acordul și cazul după rolul din propoziție.",
+     "Greșeala frecventă: să uiți cazul substantivului sau diateza verbului la analiza completă."
+    ],
+    "answers": [
+     "Își schimbă forma.",
+     "Mod, timp, persoană, număr, diateză.",
+     "Nominativ.",
+     "Cardinal, cu valoare adjectivală.",
+     "Indicativ, perfect compus."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l16": {
+   "ro": {
+    "title": "Părțile de vorbire neflexibile și conversiunea",
+    "theory": "Părțile de vorbire neflexibile nu își schimbă forma: adverbul (cu excepția gradelor de comparație), prepoziția, conjuncția, interjecția. Conversiunea este trecerea unui cuvânt de la o parte de vorbire la alta, fără schimbarea formei: frumosul (substantiv din adjectiv), cântă frumos (adverb din adjectiv), seara (adverb din substantiv: Vin seara).",
+    "sample": "Binele învinge întotdeauna. Ea vorbește bine. Seara a fost liniștită. Ne întâlnim seara.",
+    "worked": "Binele: substantiv provenit din adverb, prin conversiune (are articol). Bine: adverb de mod. Seara (prima): substantiv, subiect. Seara (a doua): adverb de timp (când ne întâlnim?). Aceeași formă, părți de vorbire diferite.",
+    "exercises": [
+     "Precizează partea de vorbire: Răul trebuie oprit. / Mă simt rău.",
+     "Scrie două propoziții cu cuvântul dimineața, substantiv și adverb.",
+     "Găsește conversiunile din exemplu.",
+     "Formează un substantiv prin conversiune din adjectivul nou.",
+     "Spune ce parte de vorbire este iute în: aleargă iute."
+    ],
+    "test": [
+     "Care sunt părțile de vorbire neflexibile?",
+     "Ce este conversiunea?",
+     "Ce parte de vorbire este binele?",
+     "Ce parte de vorbire este seara în: Ne întâlnim seara?",
+     "Se schimbă forma cuvântului prin conversiune?"
+    ],
+    "steps": [
+     "Citește propoziția și găsește rolul cuvântului.",
+     "Pune întrebarea potrivită: cine? (substantiv), când? cum? (adverb).",
+     "Dacă forma este aceeași, dar rolul e altul, este conversiune.",
+     "Greșeala frecventă: analiza după formă, nu după rol: seara poate fi substantiv sau adverb."
+    ],
+    "answers": [
+     "Adverbul, prepoziția, conjuncția, interjecția.",
+     "Trecerea de la o parte de vorbire la alta fără schimbarea formei.",
+     "Substantiv.",
+     "Adverb de timp.",
+     "Nu."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l17": {
+   "ro": {
+    "title": "Modurile nepersonale: funcții sintactice",
+    "theory": "Modurile nepersonale pot avea diferite funcții, dar nu pot fi predicat. Infinitivul poate fi subiect (A citi este plăcut), complement direct (Știe a citi) sau atribut (dorința de a învăța). Gerunziul este de obicei complement circumstanțial (Ascultând muzică, a adormit). Participiul poate fi atribut (cartea citită) sau nume predicativ. Supinul poate fi atribut (mașină de spălat) sau complement (Am terminat de scris).",
+    "sample": "Dorința de a câștiga l-a motivat. Alergând, a ajuns primul. Medalia câștigată strălucea. Avea multe lucruri de făcut.",
+    "worked": "De a câștiga: infinitiv, atribut (ce dorință?). Alergând: gerunziu, complement circumstanțial de mod (cum a ajuns?). Câștigată: participiu, atribut (care medalie?). De făcut: supin, atribut (ce fel de lucruri?).",
+    "exercises": [
+     "Precizează modul și funcția: A învăța e important.",
+     "Precizează funcția gerunziului: Zâmbind, mi-a răspuns.",
+     "Găsește un participiu cu funcție de atribut.",
+     "Scrie o propoziție cu un supin complement direct.",
+     "Analizează verbele nepersonale din exemplu."
+    ],
+    "test": [
+     "Pot modurile nepersonale să fie predicat?",
+     "Ce funcție are de a câștiga?",
+     "Ce funcție are de obicei gerunziul?",
+     "Ce mod este de făcut?",
+     "Ce funcție are câștigată în exemplu?"
+    ],
+    "steps": [
+     "Recunoaște modul după marcă: a (infinitiv), -ând/-ind (gerunziu), participiu, de + participiu (supin).",
+     "Pune întrebarea de la cuvântul regent.",
+     "Stabilește funcția: subiect, atribut, complement.",
+     "Greșeala frecventă: să numești predicat un verb la infinitiv sau gerunziu."
+    ],
+    "answers": [
+     "Nu.",
+     "Atribut.",
+     "Complement circumstanțial.",
+     "Supin.",
+     "Atribut."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l18": {
+   "ro": {
+    "title": "Pronumele: recapitulare și ortografie",
+    "theory": "Recapitulăm felurile pronumelui: personal, de politețe, reflexiv, posesiv, demonstrativ, interogativ, relativ, nehotărât, negativ. La ortografie, atenție la: formele scurte cu cratimă (mi-a, l-am, i-au), dublarea complementului (Cartea pe care am citit-o), niciun/niciuna (conform DOOM 3), aceeași/aceiași, căruia/căreia.",
+    "sample": "Fata căreia i-am dat cartea mi-a mulțumit. Băiatul căruia i-am scris nu mi-a răspuns. Aceiași elevi au câștigat aceeași cupă.",
+    "worked": "Căreia: pronume relativ feminin (fata). Căruia: masculin (băiatul). I-am, mi-a: forme scurte cu cratimă. Aceiași (masculin plural, lângă elevi) și aceeași (feminin singular, lângă cupă) se scriu diferit.",
+    "exercises": [
+     "Completează: Prietena (căruia/căreia) i-am telefonat.",
+     "Scrie corect: Problema pe care am rezolvat (-o).",
+     "Precizează felul pronumelor din exemplu.",
+     "Scrie corect: (Niciun / Nici un) elev nu a lipsit.",
+     "Folosește aceiași și aceeași în propoziții."
+    ],
+    "test": [
+     "Ce formă are relativul pentru un substantiv feminin în dativ?",
+     "Corectează: Lucrarea pe care am scris.",
+     "Cum se scrie corect: niciun sau nici un (pronume)?",
+     "Ce fel de pronume este căruia?",
+     "Când scriem aceiași?"
+    ],
+    "steps": [
+     "Identifică felul pronumelui.",
+     "Verifică genul și numărul substantivului înlocuit.",
+     "Aplică regula de ortografie: cratimă, dublare, formă corectă.",
+     "Greșeala frecventă: confuzia căruia / căreia: fata căreia, băiatul căruia."
+    ],
+    "answers": [
+     "Căreia.",
+     "Lucrarea pe care am scris-o.",
+     "Niciun.",
+     "Relativ.",
+     "La masculin plural: aceiași elevi."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l19": {
+   "ro": {
+    "title": "Recapitulare: subiectul și predicatul",
+    "theory": "Subiectul poate fi exprimat (prin substantiv, pronume, numeral, verb la infinitiv) sau neexprimat (inclus sau subînțeles). Predicatul poate fi verbal (verb predicativ la mod personal) sau nominal (verb copulativ + nume predicativ). Acordul predicatului cu subiectul se face în persoană și număr.",
+    "sample": "A citi te îmbogățește. Doi au lipsit. Am terminat. Profesoara pare mulțumită.",
+    "worked": "A citi: subiect exprimat prin infinitiv. Doi: subiect exprimat prin numeral. Am terminat: subiect inclus (eu). Pare mulțumită: predicat nominal (a părea + nume predicativ). Te îmbogățește, au lipsit: predicate verbale.",
+    "exercises": [
+     "Găsește subiectele și precizează prin ce sunt exprimate.",
+     "Găsește predicatele nominale dintr-un text.",
+     "Scrie o propoziție cu subiect exprimat prin pronume nehotărât.",
+     "Corectează acordul: Majoritatea elevilor a plecat / au plecat.",
+     "Scrie o propoziție cu subiect subînțeles."
+    ],
+    "test": [
+     "Prin ce este exprimat subiectul în: Doi au lipsit?",
+     "Ce fel de predicat are: Profesoara pare mulțumită?",
+     "Ce subiect are: Am terminat?",
+     "Ce este predicatul nominal?",
+     "Prin ce poate fi exprimat subiectul?"
+    ],
+    "steps": [
+     "Găsește predicatul și verifică dacă e verbal sau nominal.",
+     "Întreabă: cine? ce? pentru subiect.",
+     "Precizează prin ce parte de vorbire este exprimat subiectul.",
+     "Greșeala frecventă: să consideri a fi mereu copulativ. Când înseamnă a se afla, este predicativ."
+    ],
+    "answers": [
+     "Prin numeral.",
+     "Predicat nominal.",
+     "Subiect inclus, eu.",
+     "Verb copulativ și nume predicativ.",
+     "Substantiv, pronume, numeral, infinitiv."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l20": {
+   "ro": {
+    "title": "Recapitulare: atributul și complementele",
+    "theory": "Atributul determină un substantiv: adjectival, substantival (genitival, prepozițional, apozițional), pronominal, verbal (infinitiv, supin). Complementele determină un verb: direct (pe cine? ce?), indirect (cui? despre ce?), de agent (de cine?), circumstanțiale de loc, timp, mod, cauză, scop.",
+    "sample": "Din cauza ceții, avionul a fost întârziat de controlori două ore. Pasagerii, obosiți, au primit apă de la însoțitoare.",
+    "worked": "Din cauza ceții: complement circumstanțial de cauză. De controlori: complement de agent. Două ore: complement circumstanțial de timp. Obosiți: atribut adjectival izolat. Apă: complement direct. De la însoțitoare: complement indirect.",
+    "exercises": [
+     "Analizează părțile de propoziție din exemplu.",
+     "Scrie o propoziție cu un complement circumstanțial de scop.",
+     "Scrie o propoziție cu un atribut verbal.",
+     "Găsește atributele substantivale dintr-un text.",
+     "Pune întrebarea pentru: cu ajutorul prietenilor."
+    ],
+    "test": [
+     "Ce funcție are din cauza ceții?",
+     "Ce funcție are de controlori?",
+     "Ce determină atributul?",
+     "Ce funcție are apă?",
+     "Ce fel de atribut este obosiți?"
+    ],
+    "steps": [
+     "Găsește cuvântul regent: substantiv (atribut) sau verb (complement).",
+     "Pune întrebarea potrivită.",
+     "Precizează felul exact al părții de propoziție.",
+     "Greșeala frecventă: să confunzi complementul de agent cu complementul indirect: agentul apare doar la diateza pasivă."
+    ],
+    "answers": [
+     "Complement circumstanțial de cauză.",
+     "Complement de agent.",
+     "Un substantiv.",
+     "Complement direct.",
+     "Adjectival."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l21": {
+   "ro": {
+    "title": "Propoziția subordonată subiectivă",
+    "theory": "Subordonata subiectivă îndeplinește rolul de subiect al regentei. Răspunde la întrebările cine? ce? puse predicatului din regentă. Apare des după expresii ca: e bine, e important, se pare, trebuie, e posibil. Este introdusă prin conjuncții (că, să, dacă) sau prin pronume relative (cine, ce, oricine).",
+    "sample": "Cine se scoală de dimineață departe ajunge. E important să citești zilnic. Se pare că va ploua.",
+    "worked": "Cine ajunge departe? cine se scoală de dimineață: subiectivă. Ce e important? să citești zilnic: subiectivă. Ce se pare? că va ploua: subiectivă. Regentele nu au subiect propriu, rolul lui îl îndeplinește subordonata.",
+    "exercises": [
+     "Găsește subiectivele din exemplu.",
+     "Transformă subiectul în subiectivă: Reușita ta mă bucură.",
+     "Scrie o frază cu o subiectivă după e bine.",
+     "Desparte în propoziții: Trebuie să plecăm acum.",
+     "Pune întrebarea: Mă bucură că ai venit."
+    ],
+    "test": [
+     "Ce rol are propoziția subiectivă?",
+     "Ce întrebări are?",
+     "După ce expresii apare des?",
+     "Ce propoziție este: să citești zilnic?",
+     "Prin ce poate fi introdusă?"
+    ],
+    "steps": [
+     "Găsește predicatul regentei.",
+     "Întreabă: cine? ce? Dacă răspunsul este o propoziție, ea este subiectivă.",
+     "Verifică dacă regenta nu are deja subiect.",
+     "Greșeala frecventă: confuzia cu completiva directă: E important să citești (ce e important? subiectivă) / Vreau să citești (ce vreau? completivă directă)."
+    ],
+    "answers": [
+     "Rolul de subiect.",
+     "Cine? ce?",
+     "E bine, e important, se pare, trebuie.",
+     "Subiectivă.",
+     "Că, să, dacă, cine, ce."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l22": {
+   "ro": {
+    "title": "Propoziția subordonată predicativă",
+    "theory": "Subordonata predicativă îndeplinește rolul de nume predicativ: completează un verb copulativ din regentă (a fi, a deveni, a rămâne, a părea). Răspunde la întrebările cum este? ce este? Este introdusă prin conjuncții (că, să, ca să) sau pronume și adverbe relative (cine, ce, cum).",
+    "sample": "Problema este că nu avem timp. Visul lui a rămas să devină pilot. Situația a ajuns cum nu ne așteptam.",
+    "worked": "Problema este... ce este problema? că nu avem timp: predicativă. Visul a rămas... ce? să devină pilot: predicativă. Situația a ajuns cum nu ne așteptam: predicativă. Regentele au verbe copulative fără nume predicativ.",
+    "exercises": [
+     "Găsește predicativele din exemplu.",
+     "Transformă numele predicativ în predicativă: Dorința mea este reușita.",
+     "Scrie o frază cu o predicativă după verbul a deveni.",
+     "Deosebește: Important este să înveți. / Problema este că nu înveți.",
+     "Pune întrebarea pentru predicativă: Adevărul e că am greșit."
+    ],
+    "test": [
+     "Ce rol are predicativa?",
+     "Ce verb trebuie să existe în regentă?",
+     "Ce întrebări are?",
+     "Ce propoziție este: că nu avem timp?",
+     "Ce verbe copulative cunoști?"
+    ],
+    "steps": [
+     "Caută în regentă un verb copulativ fără nume predicativ.",
+     "Întreabă: cum este? ce este?",
+     "Răspunsul-propoziție este predicativa.",
+     "Greșeala frecventă: confuzia cu subiectiva. În Important este să înveți, să înveți este subiectivă, iar important este nume predicativ."
+    ],
+    "answers": [
+     "Rolul de nume predicativ.",
+     "Un verb copulativ.",
+     "Cum este? ce este?",
+     "Predicativă.",
+     "A fi, a deveni, a rămâne, a părea."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l23": {
+   "ro": {
+    "title": "Circumstanțialele de loc, timp și mod",
+    "theory": "Subordonata circumstanțială de loc răspunde la unde? de unde? până unde? (introdusă prin unde, încotro, de unde). Cea de timp răspunde la când? de când? până când? (când, până să, după ce, înainte să, cât timp). Cea de mod răspunde la cum? (cum, precum, ca și cum, fără să).",
+    "sample": "Mergem unde ne duce drumul. Când am ajuns acasă, ploua. A plecat fără să spună nimic.",
+    "worked": "Unde ne duce drumul: circumstanțială de loc (unde mergem?). Când am ajuns acasă: circumstanțială de timp (când ploua?). Fără să spună nimic: circumstanțială de mod (cum a plecat?).",
+    "exercises": [
+     "Găsește circumstanțialele din exemplu.",
+     "Scrie o frază cu o circumstanțială de timp introdusă prin după ce.",
+     "Transformă complementul în propoziție: Te aștept la plecarea trenului.",
+     "Scrie o frază cu o circumstanțială de mod introdusă prin ca și cum.",
+     "Pune virgula: Când a început filmul am stins lumina."
+    ],
+    "test": [
+     "La ce întrebări răspunde circumstanțiala de loc?",
+     "Prin ce poate fi introdusă circumstanțiala de timp?",
+     "Ce propoziție este: fără să spună nimic?",
+     "Când punem virgulă după circumstanțiala de timp?",
+     "Ce fel de propoziție este: unde ne duce drumul?"
+    ],
+    "steps": [
+     "Găsește predicatul regentei.",
+     "Întreabă: unde?, când?, cum?",
+     "Răspunsul-propoziție este circumstanțiala corespunzătoare.",
+     "Greșeala frecventă: confuzia unde atributiv / circumstanțial: Orașul unde locuiesc (atributivă) / Merg unde locuiești (de loc)."
+    ],
+    "answers": [
+     "Unde? de unde? până unde?",
+     "Când, după ce, înainte să, până să, cât timp.",
+     "Circumstanțială de mod.",
+     "Când stă înaintea regentei.",
+     "Circumstanțială de loc."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l24": {
+   "ro": {
+    "title": "Circumstanțialele de cauză și de scop",
+    "theory": "Subordonata circumstanțială de cauză arată motivul acțiunii și răspunde la de ce? din ce cauză? Este introdusă prin pentru că, deoarece, fiindcă, întrucât, căci. Cea de scop arată intenția și răspunde la cu ce scop? pentru ce? Este introdusă prin ca să, să, pentru ca să.",
+    "sample": "Am întârziat pentru că a nins mult. Am învățat zilnic ca să iau notă mare. Deoarece era obosit, s-a culcat devreme.",
+    "worked": "Pentru că a nins mult: cauză (de ce am întârziat?). Ca să iau notă mare: scop (cu ce scop am învățat?). Deoarece era obosit: cauză, așezată înaintea regentei, despărțită prin virgulă.",
+    "exercises": [
+     "Găsește circumstanțialele din exemplu și felul lor.",
+     "Scrie o frază cu o circumstanțială de cauză introdusă prin fiindcă.",
+     "Scrie o frază cu o circumstanțială de scop.",
+     "Transformă: Din cauza ploii, am rămas acasă. (în propoziție)",
+     "Deosebește: Am venit ca să te ajut. / Am venit pentru că m-ai chemat."
+    ],
+    "test": [
+     "La ce întrebare răspunde circumstanțiala de cauză?",
+     "La ce întrebare răspunde circumstanțiala de scop?",
+     "Ce conjuncții introduc cauzala?",
+     "Ce propoziție este: ca să iau notă mare?",
+     "Unde punem virgula în: Deoarece era obosit s-a culcat?"
+    ],
+    "steps": [
+     "Găsește predicatul regentei.",
+     "Întreabă: de ce? (cauză) sau cu ce scop? (scop).",
+     "Recunoaște conectorul: pentru că, deoarece (cauză); ca să (scop).",
+     "Greșeala frecventă: confuzia cauză / scop: cauza arată motivul deja existent, scopul arată intenția viitoare."
+    ],
+    "answers": [
+     "De ce? din ce cauză?",
+     "Cu ce scop? pentru ce?",
+     "Pentru că, deoarece, fiindcă, întrucât, căci.",
+     "Circumstanțială de scop.",
+     "După obosit."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l25": {
+   "ro": {
+    "title": "Condiționala și concesiva",
+    "theory": "Subordonata condițională arată condiția de care depinde acțiunea și răspunde la în ce condiție? Este introdusă prin dacă, de, în caz că. Subordonata concesivă arată o piedică ce nu împiedică acțiunea și răspunde la în ciuda cărui fapt? Este introdusă prin deși, cu toate că, chiar dacă, măcar că.",
+    "sample": "Dacă vom avea timp, vom vizita muzeul. Deși ploua, am mers la meci. Chiar dacă e greu, nu renunț.",
+    "worked": "Dacă vom avea timp: condițională (în ce condiție vom vizita?). Deși ploua: concesivă (am mers în ciuda ploii). Chiar dacă e greu: concesivă. Ambele sunt despărțite prin virgulă când stau înaintea regentei.",
+    "exercises": [
+     "Găsește condiționalele și concesivele din exemplu.",
+     "Scrie o frază cu o condițională introdusă prin în caz că.",
+     "Scrie o frază cu o concesivă introdusă prin cu toate că.",
+     "Transformă: În ciuda oboselii, a continuat. (în propoziție)",
+     "Pune virgula: Deși era târziu am terminat tema."
+    ],
+    "test": [
+     "Ce arată condiționala?",
+     "Ce arată concesiva?",
+     "Ce conjuncții introduc concesiva?",
+     "Ce propoziție este: deși ploua?",
+     "Ce propoziție este: dacă vom avea timp?"
+    ],
+    "steps": [
+     "Găsește predicatul regentei.",
+     "Întreabă: în ce condiție? (condițională) sau în ciuda cărui fapt? (concesivă).",
+     "Recunoaște conectorul: dacă (condiție), deși, cu toate că, chiar dacă (concesie).",
+     "Greșeala frecventă: confuzia dintre dacă condițional și dacă din completivă: Nu știu dacă vine (ce nu știu? completivă directă)."
+    ],
+    "answers": [
+     "Condiția de care depinde acțiunea.",
+     "O piedică ce nu împiedică acțiunea.",
+     "Deși, cu toate că, chiar dacă, măcar că.",
+     "Concesivă.",
+     "Condițională."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l26": {
+   "ro": {
+    "title": "Analiza frazei: schema",
+    "theory": "Pentru a analiza o frază: 1. subliniezi predicatele și le numerotezi; 2. delimitezi propozițiile; 3. găsești elementele de relație (conjuncții, pronume, adverbe relative); 4. stabilești felul fiecărei propoziții (principală, secundară) și relațiile (coordonare, subordonare); 5. faci schema.",
+    "sample": "Când am ajuns acasă (1), am văzut (2) că cineva lăsase o scrisoare (3) pe care o aștepta mama (4).",
+    "worked": "P1: Când am ajuns acasă: circumstanțială de timp, subordonată lui P2. P2: am văzut: principală. P3: că cineva lăsase o scrisoare: completivă directă, subordonată lui P2. P4: pe care o aștepta mama: atributivă, subordonată lui P3 (determină scrisoare).",
+    "exercises": [
+     "Analizează fraza: Știu că vei reuși dacă vei munci.",
+     "Desparte în propoziții și precizează felul lor: Cine citește află lucruri pe care alții nu le știu.",
+     "Construiește o frază cu o principală, o atributivă și o circumstanțială de cauză.",
+     "Desenează schema frazei din exemplu.",
+     "Găsește elementele de relație din exemplu."
+    ],
+    "test": [
+     "Care este primul pas în analiza frazei?",
+     "Câte propoziții are exemplul?",
+     "Ce propoziție este P4?",
+     "Ce element de relație introduce P3?",
+     "Ce relație este între P2 și P3?"
+    ],
+    "steps": [
+     "Subliniază predicatele și numerotează propozițiile.",
+     "Găsește elementele de relație și propozițiile regente.",
+     "Pune întrebarea de la regentă la fiecare subordonată și stabilește felul.",
+     "Greșeala frecventă: să uiți că o subordonată poate fi regentă pentru alta (P3 este regentă pentru P4)."
+    ],
+    "answers": [
+     "Subliniem predicatele.",
+     "Patru.",
+     "Atributivă.",
+     "Conjuncția că.",
+     "Subordonare."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l27": {
+   "ro": {
+    "title": "Recapitulare: vocabularul",
+    "theory": "Cerințele de vocabular frecvente: sinonime și antonime în context, sensul unui cuvânt (propriu sau figurat), cuvinte polisemantice, omonime, paronime, familia lexicală, câmpul lexical, formarea cuvintelor (derivare, compunere, conversiune), expresii și locuțiuni. Contextul decide sensul.",
+    "sample": "În propoziția: Vestea l-a lovit în plin, verbul a lovit are sens figurat (l-a afectat puternic). Sinonim în context: l-a zguduit. Cuvântul vestitor face parte din familia lexicală a lui veste și s-a format prin derivare cu sufixul -itor.",
+    "worked": "Sensul figurat se deduce din context: nu este o lovitură fizică. Sinonimul trebuie să se potrivească în propoziție. Vestitor are rădăcina vest- și sufixul -itor.",
+    "exercises": [
+     "Scrie un sinonim în context pentru a lua în: a luat o notă mare.",
+     "Explică sensul figurat: a avea inimă de piatră.",
+     "Formează două cuvinte derivate de la a scrie.",
+     "Scrie familia lexicală a cuvântului drum.",
+     "Folosește corect paronimele: eminent – iminent."
+    ],
+    "test": [
+     "Ce sens are a lovit în: Vestea l-a lovit?",
+     "Ce sinonim în context are?",
+     "Cum s-a format vestitor?",
+     "Ce decide sensul unui cuvânt?",
+     "Ce înseamnă iminent?"
+    ],
+    "steps": [
+     "Citește propoziția întreagă.",
+     "Gândește-te la sensul din context și caută un sinonim care se potrivește.",
+     "Pentru formare, găsește rădăcina și ce s-a adăugat.",
+     "Greșeala frecventă: sinonimul corect ca sens general, dar nepotrivit în context: a primit o notă, nu a apucat o notă."
+    ],
+    "answers": [
+     "Sens figurat.",
+     "L-a zguduit.",
+     "Prin derivare cu sufixul -itor.",
+     "Contextul.",
+     "Care urmează să se întâmple curând."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l28": {
+   "ro": {
+    "title": "Comunicarea orală: dezbaterea",
+    "theory": "Dezbaterea este o discuție organizată în care două echipe susțin poziții opuse despre o temă (moțiune). Fiecare vorbitor prezintă argumente, răspunde contraargumentelor și respectă timpul și regulile. Ascultăm atent, notăm argumentele celorlalți și răspundem politicos, fără atacuri la persoană.",
+    "sample": "Moțiune: Uniforma școlară ar trebui să fie obligatorie. Echipa PRO: uniforma reduce diferențele sociale. Echipa CONTRA: uniforma limitează exprimarea personală. Replica: Înțeleg argumentul vostru, dar exprimarea personală se poate face și prin idei, nu doar prin haine.",
+    "worked": "Fiecare echipă are un argument clar. Replica respectă adversarul (Înțeleg argumentul vostru), apoi îl combate cu un contraargument. Nu există atac la persoană.",
+    "exercises": [
+     "Organizează o dezbatere în clasă pe tema temelor pentru acasă.",
+     "Scrie două argumente PRO și două CONTRA pentru moțiunea din exemplu.",
+     "Formulează o replică politicoasă la un contraargument.",
+     "Notează argumentele unei echipe în timpul dezbaterii.",
+     "Spune ce este un atac la persoană și de ce e interzis."
+    ],
+    "test": [
+     "Ce este dezbaterea?",
+     "Ce este moțiunea?",
+     "Ce argument are echipa PRO?",
+     "Cum începe replica din exemplu?",
+     "Ce trebuie evitat într-o dezbatere?"
+    ],
+    "steps": [
+     "Pregătește argumente și exemple pentru poziția ta.",
+     "Ascultă și notează argumentele echipei adverse.",
+     "Răspunde politicos, cu contraargumente, în timpul stabilit.",
+     "Greșeala frecventă: atacul la persoană în locul combaterii argumentului."
+    ],
+    "answers": [
+     "O discuție organizată cu poziții opuse.",
+     "Tema dezbaterii.",
+     "Uniforma reduce diferențele sociale.",
+     "Înțeleg argumentul vostru.",
+     "Atacurile la persoană."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l29": {
+   "ro": {
+    "title": "Împrumuturile și registrele limbii",
+    "theory": "Limba română a primit cuvinte din multe limbi: slavă (a iubi, nevastă), maghiară (oraș, gând), turcă (cafea, ciorbă), greacă (a folosi, drum), franceză (birou, șofer), engleză (weekend, laptop). Registrul limbii se alege după situație: standard (corect, neutru), familiar (între prieteni), oficial (cereri, documente), științific (termeni de specialitate).",
+    "sample": "Familiar: Salut, ce faci? Mergem la un suc? / Oficial: Vă rugăm să confirmați participarea până vineri. / Științific: Fotosinteza transformă energia luminoasă în energie chimică.",
+    "worked": "Primul enunț are registru familiar (salut, la un suc). Al doilea, registru oficial (formula de politețe vă rugăm). Al treilea, registru științific (termeni preciși: fotosinteza, energie chimică).",
+    "exercises": [
+     "Transformă un mesaj familiar în registru oficial.",
+     "Găsește originea cuvintelor ciorbă și birou în dicționar.",
+     "Scrie un enunț în registru științific despre apă.",
+     "Spune ce registru folosești într-o cerere.",
+     "Găsește trei anglicisme folosite azi."
+    ],
+    "test": [
+     "Din ce limbă provine cuvântul cafea?",
+     "Ce registru folosim cu prietenii?",
+     "Ce registru folosim într-un document?",
+     "Ce registru are al treilea enunț?",
+     "Ce sunt anglicismele?"
+    ],
+    "steps": [
+     "Gândește-te cui te adresezi și în ce situație.",
+     "Alege registrul: familiar, standard, oficial sau științific.",
+     "Verifică vocabularul: fără expresii familiare în texte oficiale.",
+     "Greșeala frecventă: amestecarea registrelor: Vă rog să-mi dați și mie un răspuns, că mersi."
+    ],
+    "answers": [
+     "Din turcă.",
+     "Familiar.",
+     "Oficial.",
+     "Științific.",
+     "Cuvinte împrumutate din engleză."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l30": {
+   "ro": {
+    "title": "Ortografia și punctuația conform DOOM 3",
+    "theory": "DOOM 3 este dicționarul normativ actual. Reguli frecvente: niciun, niciuna (într-un cuvânt, ca pronume și adjectiv); scrierea cu î la începutul și sfârșitul cuvântului și â în interior (în, coborî, pâine), dar în compuse se păstrează î (neîncetat); scrierea cu majusculă a sărbătorilor (Crăciunul); virgula nu desparte subiectul de predicat.",
+    "sample": "Corect: Niciun elev nu a lipsit. Am coborât neîncetat. De Crăciun, bunicii ne-au așteptat. Greșit: Nici un elev, nu a lipsit.",
+    "worked": "Niciun se scrie legat. Coborât are â în interior; neîncetat păstrează î pentru că vine din încetat. Crăciun se scrie cu majusculă. În varianta greșită, virgula desparte subiectul de predicat.",
+    "exercises": [
+     "Corectează: Nici un copil nu a venit.",
+     "Scrie corect: (neînfricat / neânfricat).",
+     "Corectează punctuația: Profesorul nostru, ne-a lăudat.",
+     "Scrie corect cu â sau î: c...nd, ...nainte, hot...rî.",
+     "Scrie corect: (Paștele / paștele) se sărbătorește primăvara."
+    ],
+    "test": [
+     "Cum se scrie corect: niciun sau nici un?",
+     "Unde scriem î?",
+     "Cum se scrie corect: neîncetat sau neâncetat?",
+     "Se scriu sărbătorile cu majusculă?",
+     "Punem virgulă între subiect și predicat?"
+    ],
+    "steps": [
+     "Verifică în DOOM 3 când ai dubii.",
+     "Aplică regulile pentru î/â, niciun, majuscule.",
+     "Recitește punctuația: fără virgulă între subiect și predicat.",
+     "Greșeala frecventă: scrierea cu â în cuvintele compuse: neâncetat. Corect: neîncetat."
+    ],
+    "answers": [
+     "Niciun.",
+     "La începutul și sfârșitul cuvântului, și în compuse.",
+     "Neîncetat.",
+     "Da.",
+     "Nu."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l31": {
+   "ro": {
+    "title": "Literatura română în context european",
+    "theory": "Literatura română dialoghează cu literaturile europene. Teme universale (iubirea, natura, timpul, destinul) apar la scriitori din multe țări. Unii autori români au scris în alte limbi sau au fost traduși larg: Mihai Eminescu, Panait Istrati, Eugen Ionescu, Mircea Eliade. Basmele românești seamănă cu cele ale fraților Grimm sau ale lui Charles Perrault.",
+    "sample": "Comparație originală: Atât în basmele românești, cât și în cele culese de frații Grimm, mezinul, considerat cel mai slab, trece probele și învinge. Personajele fabuloase diferă: zmeul românesc, uriașul sau vrăjitoarea germană.",
+    "worked": "Tema comună este triumful celui slab prin curaj și bunătate. Diferențele apar în personajele fabuloase, legate de cultura fiecărui popor. Comparația arată că literaturile au rădăcini comune, dar și identitate proprie.",
+    "exercises": [
+     "Compară un basm românesc cu unul european.",
+     "Numește un scriitor român tradus în multe limbi.",
+     "Găsește o temă comună în două poezii din culturi diferite.",
+     "Prezintă oral un autor român cunoscut în Europa.",
+     "Spune ce înseamnă temă universală."
+    ],
+    "test": [
+     "Ce sunt temele universale?",
+     "Ce autor român a scris teatru în franceză?",
+     "Ce personaj fabulos este specific basmului românesc?",
+     "Ce au în comun basmele românești și cele ale fraților Grimm?",
+     "De ce comparăm literaturile?"
+    ],
+    "steps": [
+     "Alege o temă sau o specie comună.",
+     "Găsește asemănările și deosebirile dintre texte.",
+     "Explică ce spun acestea despre culturile respective.",
+     "Greșeala frecventă: să crezi că asemănarea înseamnă copiere. Popoarele au teme comune pentru că au experiențe comune."
+    ],
+    "answers": [
+     "Teme prezente în literaturile multor popoare.",
+     "Eugen Ionescu.",
+     "Zmeul.",
+     "Mezinul trece probele și învinge.",
+     "Ca să înțelegem ce ne leagă și ce ne deosebește."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l32": {
+   "ro": {
+    "title": "Recapitulare: pregătirea pentru Evaluarea Națională",
+    "theory": "Proba de limba română are două părți. Partea întâi: înțelegerea a două texte (literar și nonliterar), cerințe de identificare, figuri de stil, comentarea unei secvențe și un text argumentativ scurt. Partea a doua: gramatică (vocabular, morfologie, sintaxă) și o compunere (narativă, descriptivă sau argumentativă). Ne organizăm timpul și recitim la final.",
+    "sample": "Exercițiu original: Citește: Deși era obosit, Andrei a terminat proiectul pe care i-l ceruse profesorul. 1. Precizează felul propozițiilor. 2. Identifică un pronume relativ. 3. Scrie un sinonim pentru obosit.",
+    "worked": "1. Deși era obosit: concesivă; a terminat proiectul: principală; pe care i-l ceruse profesorul: atributivă. 2. Care: pronume relativ. 3. Sinonim: ostenit. Răspunsurile sunt scurte, exacte și justificate.",
+    "exercises": [
+     "Rezolvă cerințele din exemplu fără să te uiți la explicație.",
+     "Scrie un text argumentativ de 150 de cuvinte despre curaj.",
+     "Analizează morfologic cuvintele din prima propoziție a exemplului.",
+     "Comentează în 50 de cuvinte o figură de stil dintr-o poezie din manual.",
+     "Fă un plan de timp pentru o probă de două ore."
+    ],
+    "test": [
+     "Câte părți are proba de limba română?",
+     "Ce fel de propoziție este: Deși era obosit?",
+     "Ce fel de pronume este care?",
+     "Ce sinonim are obosit?",
+     "Ce facem la finalul probei?"
+    ],
+    "steps": [
+     "Citește cerința de două ori și subliniază cuvintele-cheie.",
+     "Răspunde exact la ce se cere, cu justificare dacă este necesar.",
+     "Păstrează timp pentru compunere și pentru recitire.",
+     "Greșeala frecventă: să nu citești atent cerința: Precizează două figuri înseamnă exact două, cu explicație dacă se cere."
+    ],
+    "answers": [
+     "Două.",
+     "Circumstanțială concesivă.",
+     "Relativ.",
+     "Ostenit.",
+     "Recitim și corectăm."
+    ]
+   }
+  }
+ }
+}

@@ -1,0 +1,1054 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "RO",
+ "stage": "lower",
+ "grade": "7",
+ "version": "2112a3172fbbd6b949e8afb54687b0ef00ec94b291d0fa495079c7c0f7f78d13",
+ "source": "https://rocnee.eu/images/rocnee/fisiere/programe_scolare/Inv%20gimnazial/Tehnologii/informatica_tic/OMEN_3393_Informatica_Tic_5-8_gimnaziu.pdf",
+ "sourceTitle": "Programa școlară pentru disciplina Informatică și TIC, clasele a V-a – a VIII-a, aprobată prin OMEN nr. 3393/28.02.2017 — clasa a VII-a: editoare de text, editoare audio și video, aplicații colaborative și etică, mediu de programare și limbaj (date numerice, citire/scriere, structurile liniară, alternativă și repetitive)",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "ro",
+ "labels": [
+  "Activitate originală · România · Informatică și TIC · Clasa a VII-a",
+  "Lecția pe înțeles",
+  "Exemplu",
+  "Ce ne arată exemplul",
+  "Exerciții",
+  "Test",
+  "Activități originale, făcute după programa școlară; nu înlocuiesc manualul sau ora de la clasă.",
+  "Dacă nu ai înțeles: pas cu pas",
+  "Răspunsuri (verifică după ce termini)"
+ ],
+ "units": [
+  {
+   "title": "Editoare de text",
+   "keys": [
+    "eu-year-ro-lower-7-l01",
+    "eu-year-ro-lower-7-l02",
+    "eu-year-ro-lower-7-l03",
+    "eu-year-ro-lower-7-l04",
+    "eu-year-ro-lower-7-l05",
+    "eu-year-ro-lower-7-l06"
+   ]
+  },
+  {
+   "title": "Editoare audio și video",
+   "keys": [
+    "eu-year-ro-lower-7-l07",
+    "eu-year-ro-lower-7-l08",
+    "eu-year-ro-lower-7-l09"
+   ]
+  },
+  {
+   "title": "Aplicații colaborative și etică",
+   "keys": [
+    "eu-year-ro-lower-7-l10",
+    "eu-year-ro-lower-7-l11",
+    "eu-year-ro-lower-7-l12"
+   ]
+  },
+  {
+   "title": "Limbaj de programare: elemente de bază",
+   "keys": [
+    "eu-year-ro-lower-7-l13",
+    "eu-year-ro-lower-7-l14",
+    "eu-year-ro-lower-7-l15",
+    "eu-year-ro-lower-7-l16",
+    "eu-year-ro-lower-7-l17",
+    "eu-year-ro-lower-7-l18",
+    "eu-year-ro-lower-7-l19",
+    "eu-year-ro-lower-7-l20",
+    "eu-year-ro-lower-7-l21",
+    "eu-year-ro-lower-7-l22",
+    "eu-year-ro-lower-7-l23",
+    "eu-year-ro-lower-7-l24",
+    "eu-year-ro-lower-7-l25",
+    "eu-year-ro-lower-7-l26",
+    "eu-year-ro-lower-7-l27",
+    "eu-year-ro-lower-7-l28"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-ro-lower-7-l01": {
+   "ro": {
+    "title": "Editorul de text: document, interfață, salvare",
+    "theory": "Un editor (procesor) de text creează documente: compuneri, referate, cereri, afișe. Exemple: Microsoft Word, LibreOffice Writer, Google Docs. Interfața are bara de titlu cu numele fișierului, panglica cu file (Pornire, Inserare, Aspect, Referințe, Revizuire, Vizualizare), rigla, zona de lucru cu cursorul de inserare și bara de stare (pagina, numărul de cuvinte, limba). Operații cu documentul: nou, deschidere, salvare (prima dată alegem locul și numele), salvare cu alt nume, export ca PDF. Formatul nativ este .docx (Word) sau .odt (Writer). Deplasarea rapidă: Home și End pentru început și sfârșit de rând, Ctrl + Home pentru începutul documentului. Selectăm cu mouse-ul sau cu Shift + săgeți; Ctrl + Z anulează ultima operație.",
+    "sample": "Bianca scrie un referat și îl salvează la început ca „Referat_Delta_Bianca.docx” în dosarul „Școală”. La final îl exportă ca PDF ca să arate la fel pe orice calculator.",
+    "worked": "Salvarea de la început cu un nume clar previne pierderea muncii. PDF-ul păstrează aspectul documentului indiferent de aplicația cu care este deschis.",
+    "exercises": [
+     "Numește trei editoare de text.",
+     "Descrie zonele interfeței editorului de la clasă.",
+     "Salvează un document cu un nume clar și apoi exportă-l ca PDF.",
+     "Explică diferența dintre Salvare și Salvare ca.",
+     "Folosește trei combinații de taste pentru deplasare și selecție."
+    ],
+    "test": [
+     "Ce extensie are un document Word?",
+     "Unde vezi numărul de cuvinte?",
+     "Ce face Ctrl + Z?",
+     "De ce exportăm uneori ca PDF?",
+     "Ce combinație duce la începutul documentului?"
+    ],
+    "steps": [
+     "Creează documentul și salvează-l imediat cu un nume clar.",
+     "Scrie textul fără să formatezi la fiecare rând.",
+     "Salvează des și exportă la final în formatul cerut.",
+     "Greșeala frecventă: să lucrezi o oră fără să salvezi; o pană de curent șterge tot."
+    ],
+    "answers": [
+     ".docx.",
+     "În bara de stare.",
+     "Anulează ultima operație.",
+     "Ca să arate la fel pe orice dispozitiv.",
+     "Ctrl + Home."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l02": {
+   "ro": {
+    "title": "Formatarea caracterelor și a paragrafelor",
+    "theory": "Formatarea la nivel de caracter schimbă aspectul literelor: fontul, mărimea, culoarea, aldinul (Ctrl + B), cursivul (Ctrl + I), sublinierea (Ctrl + U), indicele și exponentul (H₂O, x²). Formatarea la nivel de paragraf privește un paragraf întreg: alinierea (stânga, centru, dreapta, stânga-dreapta), indentarea primului rând, spațierea dintre rânduri și dintre paragrafe, bordura și umbrirea. Un paragraf se termină când apăsăm Enter; pentru rând nou în același paragraf folosim Shift + Enter. Pictograma ¶ afișează marcajele ascunse (Enter, spații), utile când formatarea pare ciudată. Instrumentul Descriptor de formate copiază formatarea de la un text la altul.",
+    "sample": "Pentru o compunere, Andrei aliniază textul stânga-dreapta, pune indentare de 1,25 cm la primul rând și spațiere de 1,5 rânduri. Titlul este centrat, aldin, mărimea 16.",
+    "worked": "Titlul are formatare de caracter (aldin, mărime) și de paragraf (centrare). Restul textului are doar formatare de paragraf, uniformă, care îl face ușor de citit.",
+    "exercises": [
+     "Formatează un titlu: centrat, aldin, 16.",
+     "Scrie formula apei cu indice.",
+     "Aplică indentare la primul rând pentru trei paragrafe.",
+     "Afișează marcajele ascunse și explică ce vezi.",
+     "Copiază formatarea cu Descriptorul de formate."
+    ],
+    "test": [
+     "Ce combinație face textul aldin?",
+     "Ce înseamnă alinierea stânga-dreapta?",
+     "Ce tastă termină un paragraf?",
+     "Cum scrii x la pătrat?",
+     "Ce face pictograma ¶?"
+    ],
+    "steps": [
+     "Selectează textul sau poziționează cursorul în paragraf.",
+     "Alege dacă schimbi caracterele sau paragraful.",
+     "Aplică formatarea și verifică aspectul paginii.",
+     "Greșeala frecventă: să pui spații multiple sau Enter-uri goale ca să aranjezi textul în loc să folosești alinierea și spațierea."
+    ],
+    "answers": [
+     "Ctrl + B.",
+     "Textul este aliniat și la stânga, și la dreapta.",
+     "Enter.",
+     "Cu exponent: x².",
+     "Afișează marcajele ascunse (Enter, spații)."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l03": {
+   "ro": {
+    "title": "Liste și tabele",
+    "theory": "Listele organizează enumerările. Listele cu marcatori se folosesc când ordinea nu contează; listele numerotate, când contează (pașii unei rețete). Listele pot avea mai multe niveluri (Tab coboară un nivel, Shift + Tab urcă). Tabelele organizează date pe rânduri și coloane; intersecția este celula. Inserăm un tabel alegând numărul de rânduri și coloane, apoi putem adăuga sau șterge rânduri și coloane, îmbina sau scinda celule, stabili lățimea coloanelor, bordurile și umbrirea. Primul rând conține de obicei titlurile coloanelor (cap de tabel), formatat diferit. Tabelul poate fi sortat după o coloană (de exemplu alfabetic).",
+    "sample": "Pentru orarul clasei, Sara inserează un tabel de 6 coloane (ora + 5 zile) și 7 rânduri. Primul rând, cu zilele săptămânii, este aldin și umbrit.",
+    "worked": "Tabelul este alegerea potrivită: datele au două dimensiuni (zile și ore). Capul de tabel formatat diferit ajută la citire.",
+    "exercises": [
+     "Creează o listă numerotată cu pașii unei rețete.",
+     "Creează o listă pe două niveluri.",
+     "Inserează un tabel cu orarul clasei.",
+     "Îmbină două celule și explică efectul.",
+     "Sortează un tabel alfabetic după nume."
+    ],
+    "test": [
+     "Când folosim lista numerotată?",
+     "Ce tastă coboară un nivel în listă?",
+     "Ce este celula?",
+     "Ce face îmbinarea celulelor?",
+     "Ce conține de obicei primul rând al unui tabel?"
+    ],
+    "steps": [
+     "Decide: enumerare simplă (listă) sau date pe două dimensiuni (tabel).",
+     "Creează structura cu numărul potrivit de niveluri, rânduri și coloane.",
+     "Formatează capul de tabel și verifică alinierea.",
+     "Greșeala frecventă: să „desenezi” un tabel cu spații și liniuțe în loc să folosești instrumentul Tabel."
+    ],
+    "answers": [
+     "Când ordinea elementelor contează.",
+     "Tab.",
+     "Intersecția dintre un rând și o coloană.",
+     "Unește mai multe celule într-una singură.",
+     "Titlurile coloanelor."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l04": {
+   "ro": {
+    "title": "Obiecte în document: imagini, forme, WordArt, ecuații",
+    "theory": "Fila Inserare adaugă obiecte: imagini, forme, pictograme, casete text, WordArt (text decorativ), diagrame SmartArt, ecuații și simboluri. Pentru imagini contează încadrarea în text (wrap): în linie cu textul, pătrat, strâns, în spatele sau în fața textului. Imaginea se redimensionează din colțuri, ca să-și păstreze proporțiile, și se poate decupa. Legenda („Figura 1. Harta Deltei Dunării”) explică imaginea și poate fi numerotată automat. Editorul de ecuații scrie corect formule matematice (fracții, radicali, puteri). Pentru imaginile preluate notăm sursa și respectăm licența.",
+    "sample": "Matei pune o fotografie lângă un paragraf, dar textul „sare” sub ea. El schimbă încadrarea în „Pătrat”, iar textul curge acum în jurul imaginii.",
+    "worked": "Încadrarea decide cum se așază textul față de imagine. Modul „în linie cu textul” tratează imaginea ca pe o literă mare, de aceea textul nu o înconjura.",
+    "exercises": [
+     "Inserează o imagine și încearcă trei moduri de încadrare.",
+     "Adaugă o legendă numerotată sub imagine.",
+     "Scrie cu editorul de ecuații o fracție și un radical.",
+     "Creează un titlu cu WordArt.",
+     "Notează sursa unei imagini preluate."
+    ],
+    "test": [
+     "Ce este încadrarea unei imagini în text?",
+     "De unde redimensionăm o imagine fără deformare?",
+     "Ce este o legendă?",
+     "Ce instrument scrie formule matematice?",
+     "Ce este WordArt?"
+    ],
+    "steps": [
+     "Inserează obiectul în locul potrivit din text.",
+     "Alege încadrarea și redimensionează-l din colțuri.",
+     "Adaugă legenda și sursa, apoi verifică pagina.",
+     "Greșeala frecventă: să tragi imaginea de margine și să o deformezi."
+    ],
+    "answers": [
+     "Modul în care textul se așază în jurul imaginii.",
+     "Din colțuri.",
+     "Un text scurt care explică imaginea.",
+     "Editorul de ecuații.",
+     "Text decorativ."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l05": {
+   "ro": {
+    "title": "Pagina: aspect, antet, subsol, stiluri și cuprins",
+    "theory": "Aspectul paginii stabilește dimensiunea (de obicei A4), orientarea (portret sau peisaj) și marginile. Antetul și subsolul sunt zone care se repetă pe fiecare pagină: titlul lucrării, numele autorului, numărul paginii (inserat automat). Saltul de pagină (Ctrl + Enter) începe o pagină nouă fără Enter-uri goale. Stilurile (Titlu 1, Titlu 2, Normal) aplică dintr-o dată un set de formatări și dau structură documentului. Pe baza stilurilor de titlu, editorul generează automat cuprinsul, cu numerele paginilor, pe care îl actualizăm după modificări. Coloanele împart textul ca într-un ziar.",
+    "sample": "Ioana scrie un referat de 6 pagini. Aplică stilul Titlu 1 capitolelor, inserează numerotarea paginilor în subsol și generează cuprinsul pe pagina 2. După ce adaugă un capitol, actualizează cuprinsul.",
+    "worked": "Stilurile au făcut posibil cuprinsul automat. Fără ele, Ioana ar fi trebuit să scrie manual cuprinsul și să-l refacă la fiecare modificare.",
+    "exercises": [
+     "Schimbă orientarea unei pagini în peisaj.",
+     "Inserează numerotarea paginilor în subsol.",
+     "Aplică stiluri de titlu și generează un cuprins.",
+     "Folosește un salt de pagină.",
+     "Așază un text pe două coloane."
+    ],
+    "test": [
+     "Ce dimensiune de pagină folosim de obicei?",
+     "Ce conține antetul?",
+     "Ce combinație inserează un salt de pagină?",
+     "Pe ce se bazează cuprinsul automat?",
+     "Ce faci cu cuprinsul după modificări?"
+    ],
+    "steps": [
+     "Stabilește dimensiunea, orientarea și marginile.",
+     "Aplică stiluri de titlu și inserează antet, subsol, numerotare.",
+     "Generează cuprinsul și actualizează-l la final.",
+     "Greșeala frecventă: să numerotezi paginile scriind manual numerele; la orice modificare se decalează."
+    ],
+    "answers": [
+     "A4.",
+     "Informații repetate sus pe fiecare pagină.",
+     "Ctrl + Enter.",
+     "Pe stilurile de titlu.",
+     "Îl actualizăm."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l06": {
+   "ro": {
+    "title": "Verificare, revizuire și imprimare",
+    "theory": "Înainte de a preda un document îl verificăm. Corectorul ortografic subliniază cuvintele necunoscute (setăm limba română ca să verifice și diacriticele), dar nu prinde toate greșelile, deci recitim. Funcția Găsire și înlocuire schimbă un cuvânt peste tot dintr-o dată. Revizuirea permite urmărirea modificărilor (cine a schimbat ce) și comentarii, utile la lucrul cu profesorul sau colegii. Previzualizarea înaintea imprimării arată cum va ieși pagina. La imprimare alegem imprimanta, paginile (toate, curentă, interval 2–4), numărul de copii, imprimarea față-verso. Pentru a economisi hârtie, imprimăm doar ce este necesar sau trimitem PDF-ul.",
+    "sample": "Darius a scris peste tot „Dunare”. Cu Găsire și înlocuire schimbă toate aparițiile în „Dunăre” dintr-o singură operație, apoi imprimă doar paginile 2–3.",
+    "worked": "Funcția de înlocuire previne corecturile scăpate. Imprimarea unui interval de pagini economisește hârtie și timp.",
+    "exercises": [
+     "Setează limba de verificare română.",
+     "Înlocuiește un cuvânt peste tot în document.",
+     "Adaugă un comentariu și urmărește o modificare.",
+     "Previzualizează documentul înainte de imprimare.",
+     "Imprimă (sau simulează imprimarea) paginilor 2–4."
+    ],
+    "test": [
+     "Ce face corectorul ortografic?",
+     "De ce recitim chiar dacă avem corector?",
+     "Ce face Găsire și înlocuire?",
+     "La ce folosește urmărirea modificărilor?",
+     "Cum imprimăm doar paginile 2–4?"
+    ],
+    "steps": [
+     "Rulează corectorul și corectează cuvintele subliniate.",
+     "Recitește textul pentru greșelile pe care corectorul nu le vede.",
+     "Previzualizează și imprimă sau exportă doar ce este necesar.",
+     "Greșeala frecventă: să crezi că un text fără sublinieri roșii nu are greșeli."
+    ],
+    "answers": [
+     "Subliniază cuvintele scrise greșit.",
+     "Corectorul nu prinde toate greșelile, de exemplu cuvinte corecte folosite greșit.",
+     "Schimbă un cuvânt peste tot dintr-o dată.",
+     "Arată cine a schimbat ce în document.",
+     "Scriem intervalul 2-4 la pagini."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l07": {
+   "ro": {
+    "title": "Fișiere audio și video: formate și compresie",
+    "theory": "Sunetul și imaginea sunt memorate digital ca șiruri de numere. Un fișier audio poate fi necomprimat (WAV, calitate mare, mărime mare) sau comprimat (MP3, AAC, OGG – mai mic, cu o mică pierdere de calitate). Un fișier video conține imagini (cadre) și sunet; formate des întâlnite: MP4, AVI, MKV, WEBM. Proprietăți importante: durata, rezoluția (de exemplu 1920 × 1080, Full HD), numărul de cadre pe secundă (de exemplu 30 fps) și rata de biți (bitrate), care influențează calitatea și mărimea. Compresia reduce mărimea fișierului ca să poată fi trimis și stocat ușor. Un minut de video Full HD poate ocupa zeci sau sute de MB, în funcție de compresie.",
+    "sample": "Cristina are o înregistrare WAV de 50 MB. O exportă în MP3 și obține aproximativ 5 MB, iar diferența de calitate nu se aude în difuzoarele laptopului.",
+    "worked": "Compresia a micșorat fișierul de circa zece ori. Alegem formatul după scop: WAV pentru editare de calitate, MP3 pentru trimitere și ascultare.",
+    "exercises": [
+     "Clasifică fișiere după extensie: audio sau video.",
+     "Compară un fișier WAV cu unul MP3.",
+     "Explică ce înseamnă 1920 × 1080.",
+     "Găsește proprietățile unui fișier video în sistemul de operare.",
+     "Explică de ce comprimăm fișierele."
+    ],
+    "test": [
+     "Ce format audio este necomprimat?",
+     "Ce înseamnă fps?",
+     "Ce înseamnă rezoluția Full HD?",
+     "Ce influențează rata de biți?",
+     "Ce format video este foarte răspândit?"
+    ],
+    "steps": [
+     "Identifică tipul fișierului după extensie.",
+     "Verifică proprietățile: durată, rezoluție, mărime.",
+     "Alege formatul potrivit scopului: editare sau trimitere.",
+     "Greșeala frecventă: să crezi că un fișier mai mare are mereu un conținut mai lung; contează și compresia."
+    ],
+    "answers": [
+     "WAV.",
+     "Cadre pe secundă.",
+     "1920 × 1080 pixeli.",
+     "Calitatea și mărimea fișierului.",
+     "MP4."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l08": {
+   "ro": {
+    "title": "Editarea audio",
+    "theory": "Un editor audio (de exemplu Audacity) afișează sunetul ca formă de undă: axa orizontală este timpul, iar înălțimea undei arată volumul. Operații de bază: înregistrare cu microfonul, selectarea unei porțiuni, tăiere, copiere, lipire, ștergerea pauzelor sau a zgomotelor, amplificarea sau reducerea volumului, estomparea la început (fade in) și la sfârșit (fade out), reducerea zgomotului de fond. Putem lucra pe mai multe piste: vocea pe una, muzica de fundal pe alta, cu volum mai mic. Proiectul se salvează în formatul editorului, iar la final exportăm un fișier audio (MP3 sau WAV). Muzica folosită trebuie să fie proprie sau cu licență care permite folosirea.",
+    "sample": "Pentru un podcast al clasei, Luca înregistrează vocea, taie tusea de la secunda 12, adaugă muzică liberă de drepturi pe a doua pistă, cu volum scăzut, și pune fade out la final.",
+    "worked": "Fiecare operație are un scop: tăierea elimină greșeala, pista separată permite reglarea muzicii fără să afecteze vocea, iar fade out face finalul plăcut.",
+    "exercises": [
+     "Înregistrează un text de 30 de secunde.",
+     "Taie o porțiune nedorită din înregistrare.",
+     "Adaugă fade in și fade out.",
+     "Pune muzică de fundal pe o pistă separată.",
+     "Exportă proiectul ca MP3."
+    ],
+    "test": [
+     "Ce arată înălțimea formei de undă?",
+     "Ce este fade out?",
+     "De ce punem muzica pe altă pistă?",
+     "Ce diferență este între a salva proiectul și a exporta?",
+     "Ce muzică avem voie să folosim?"
+    ],
+    "steps": [
+     "Înregistrează sau importă sunetul.",
+     "Selectează și editează porțiunile, ajustează volumul.",
+     "Ascultă tot și exportă în formatul cerut.",
+     "Greșeala frecventă: să salvezi doar proiectul editorului și să trimiți fișierul acela; ceilalți nu îl pot asculta."
+    ],
+    "answers": [
+     "Volumul sunetului.",
+     "Scăderea treptată a volumului la final.",
+     "Ca să-i reglăm volumul separat de voce.",
+     "Proiectul păstrează pistele; exportul creează fișierul audio final.",
+     "Muzică proprie sau cu licență care permite folosirea."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l09": {
+   "ro": {
+    "title": "Editarea video",
+    "theory": "Un editor video (de exemplu Clipchamp, Shotcut, OpenShot) are: biblioteca de fișiere importate, fereastra de previzualizare și linia timpului (cronologia), cu piste pentru video, audio și text. Etape: importăm clipurile, imaginile și sunetele; le așezăm pe cronologie; tăiem începutul și sfârșitul clipurilor; împărțim un clip în două; adăugăm tranziții între clipuri, titluri și subtitrări, muzică și efecte. La export alegem rezoluția și formatul (de obicei MP4). Un film bun are scenariu: ce scene, în ce ordine, cât durează fiecare. Persoanele filmate trebuie să-și dea acordul, iar pentru minori, și părinții.",
+    "sample": "Clasa face un film de 2 minute despre excursie. Echipa scrie scenariul, alege 10 clipuri, le scurtează la câte 10–12 secunde, pune titlul la început și generic la final, apoi exportă în MP4, 1080p.",
+    "worked": "Scenariul și tăierea clipurilor au ținut filmul în limita de timp. Exportul în MP4 face filmul ușor de urmărit pe orice telefon sau calculator.",
+    "exercises": [
+     "Importă trei clipuri și așază-le pe cronologie.",
+     "Taie începutul unui clip.",
+     "Adaugă o tranziție și un titlu.",
+     "Adaugă muzică și reglează volumul.",
+     "Exportă filmul în MP4."
+    ],
+    "test": [
+     "Ce este cronologia?",
+     "Ce face împărțirea unui clip?",
+     "Ce sunt subtitrările?",
+     "În ce format exportăm de obicei?",
+     "Ce acord trebuie înainte de filmarea persoanelor?"
+    ],
+    "steps": [
+     "Scrie scenariul și adună materialele.",
+     "Așază, taie și ordonează clipurile pe cronologie, apoi adaugă text și sunet.",
+     "Previzualizează tot filmul și exportă.",
+     "Greșeala frecventă: să filmezi și să publici colegi fără acordul lor."
+    ],
+    "answers": [
+     "Linia timpului, unde așezăm clipurile în ordine.",
+     "Taie clipul în două părți.",
+     "Text care redă ce se spune.",
+     "MP4.",
+     "Acordul lor, iar pentru minori și al părinților."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l10": {
+   "ro": {
+    "title": "Aplicații colaborative: documente partajate și permisiuni",
+    "theory": "Aplicațiile colaborative permit mai multor persoane să lucreze în același timp la un document, o prezentare sau un tabel, de pe dispozitive diferite (Google Docs, Microsoft 365, platforme școlare). Documentul este stocat în cloud, iar modificările se salvează automat. Proprietarul îl partajează cu alte persoane și alege permisiunile: vizualizare (doar citire), comentare (pot sugera) sau editare (pot modifica). Partajarea se face prin adresă de e-mail sau prin link; un link „oricine are linkul” poate ajunge și la persoane neprevăzute, deci îl folosim cu grijă. Vedem cine lucrează în document prin cursoarele colorate.",
+    "sample": "Echipa lui Radu face un referat. Radu creează documentul, îl partajează colegilor cu permisiunea de editare și profesorului cu permisiunea de comentare.",
+    "worked": "Permisiunile diferite corespund rolurilor: colegii scriu, profesorul îndrumă. Partajarea prin adresă controlează exact cine are acces.",
+    "exercises": [
+     "Creează un document în cloud și partajează-l cu un coleg.",
+     "Explică cele trei niveluri de permisiune.",
+     "Explică riscul unui link public.",
+     "Lucrează simultan cu un coleg în același document.",
+     "Retrage accesul unei persoane."
+    ],
+    "test": [
+     "Unde este stocat un document colaborativ?",
+     "Ce permite nivelul „comentare”?",
+     "Cum se salvează modificările?",
+     "De ce folosim cu grijă linkul public?",
+     "Cum vedem cine lucrează în document?"
+    ],
+    "steps": [
+     "Creează documentul și dă-i un nume clar.",
+     "Partajează-l doar cu persoanele necesare și alege permisiunea potrivită.",
+     "Verifică periodic lista celor cu acces.",
+     "Greșeala frecventă: să dai tuturor permisiunea de editare când unii trebuie doar să citească."
+    ],
+    "answers": [
+     "În cloud.",
+     "Poți face sugestii și comentarii, fără să modifici direct.",
+     "Automat.",
+     "Poate ajunge la persoane neprevăzute.",
+     "După cursoarele colorate și numele afișate."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l11": {
+   "ro": {
+    "title": "Lucrul în echipă online: comentarii și istoric",
+    "theory": "Într-un document colaborativ comunicăm prin comentarii atașate unui fragment: întrebări, propuneri, observații. Un comentariu rezolvat se marchează ca rezolvat. Modul sugestii afișează modificările propuse fără să le aplice, iar proprietarul le acceptă sau le respinge. Istoricul versiunilor păstrează variantele anterioare, cu autor și oră, și permite revenirea la o versiune mai veche dacă cineva a șters din greșeală. Pentru un proiect de echipă împărțim sarcinile (cine scrie fiecare parte), stabilim termene și un stil comun și folosim o listă de verificare. Fiecare membru își asumă partea și respectă munca celorlalți.",
+    "sample": "Un coleg șterge din greșeală capitolul scris de Diana. Diana deschide istoricul versiunilor, găsește versiunea de dinainte cu o oră și o restaurează.",
+    "worked": "Istoricul versiunilor face lucrul în echipă sigur: nicio greșeală nu este definitivă. Comentariile și sugestiile permit discuția fără a strica textul altora.",
+    "exercises": [
+     "Adaugă un comentariu și marchează-l rezolvat.",
+     "Fă o modificare în modul sugestii.",
+     "Restaurează o versiune anterioară a unui document.",
+     "Împarte sarcinile unui proiect pentru patru colegi.",
+     "Alcătuiește o listă de verificare pentru proiect."
+    ],
+    "test": [
+     "La ce folosesc comentariile?",
+     "Ce face modul sugestii?",
+     "Ce păstrează istoricul versiunilor?",
+     "Ce faci dacă cineva șterge din greșeală un text?",
+     "De ce împărțim sarcinile?"
+    ],
+    "steps": [
+     "Stabiliți împreună sarcinile, termenele și stilul comun.",
+     "Lucrați fiecare pe partea sa și discutați prin comentarii.",
+     "Verificați împreună documentul final cu lista de verificare.",
+     "Greșeala frecventă: să modifici direct textul unui coleg fără să-i spui; folosește sugestiile și comentariile."
+    ],
+    "answers": [
+     "Pentru întrebări și observații legate de un fragment.",
+     "Afișează modificările propuse fără să le aplice.",
+     "Variantele anterioare ale documentului.",
+     "Restaurezi o versiune anterioară din istoric.",
+     "Ca fiecare să știe ce are de făcut."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l12": {
+   "ro": {
+    "title": "Etică și drepturi de autor în mediul digital",
+    "theory": "Orice creație (text, imagine, muzică, program) are un autor, iar legea drepturilor de autor îi protejează munca. Nu putem prezenta munca altcuiva ca fiind a noastră (plagiat). Când folosim informații sau imagini găsite pe Internet, cităm sursa. Licențele spun ce avem voie să facem: domeniul public (folosire liberă), licențele Creative Commons (de exemplu CC BY – citezi autorul; NC – fără scop comercial; ND – fără modificări; SA – distribui la fel), „toate drepturile rezervate” (ai nevoie de permisiune). Programele pot fi proprietare (cu licență plătită), gratuite (freeware) sau libere și open source (codul este public). Copierea programelor fără licență este piraterie. Etica înseamnă și respect în mediul online: nu publicăm date sau imagini ale altora fără acord.",
+    "sample": "Pentru un proiect, Mara folosește o fotografie cu licența CC BY-NC. Sub ea scrie autorul și licența. Proiectul este școlar, necomercial, deci respectă condițiile.",
+    "worked": "Mara a citit licența și i-a respectat ambele condiții: citarea autorului (BY) și folosirea necomercială (NC).",
+    "exercises": [
+     "Explică ce înseamnă plagiat.",
+     "Explică literele BY, NC, ND, SA.",
+     "Citează corect o imagine preluată.",
+     "Compară programele proprietare cu cele open source.",
+     "Dă un exemplu de comportament neetic online."
+    ],
+    "test": [
+     "Ce protejează drepturile de autor?",
+     "Ce este plagiatul?",
+     "Ce înseamnă CC BY?",
+     "Ce este un program open source?",
+     "Ce este pirateria software?"
+    ],
+    "steps": [
+     "Verifică licența materialului găsit.",
+     "Respectă condițiile licenței.",
+     "Citează autorul și sursa sub material.",
+     "Greșeala frecventă: să crezi că tot ce găsești pe Internet este gratuit și liber de folosit."
+    ],
+    "answers": [
+     "Creațiile și munca autorilor.",
+     "Prezentarea muncii altcuiva ca fiind a ta.",
+     "Poți folosi materialul dacă citezi autorul.",
+     "Un program al cărui cod sursă este public.",
+     "Copierea programelor fără licență."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l13": {
+   "ro": {
+    "title": "Limbaje de programare și mediul de programare",
+    "theory": "Calculatorul execută doar instrucțiuni în cod mașină (0 și 1). Noi scriem programe într-un limbaj de programare (C++, Python, C, Java), apropiat de limbajul uman, iar un program special le traduce: compilatorul traduce tot programul înainte de execuție (C, C++), interpretorul traduce și execută instrucțiune cu instrucțiune (Python). Un mediu de programare (IDE, de exemplu Code::Blocks pentru C++ sau Thonny pentru Python) reunește editorul de cod, compilatorul sau interpretorul și instrumente de depanare. Etapele: scriem codul sursă (fișier .cpp sau .py), îl compilăm, corectăm erorile semnalate și rulăm programul. În lecțiile următoare folosim C++, cu echivalentele Python acolo unde ajută.",
+    "sample": "Diana scrie primul program în Code::Blocks, apasă Build and run și vede în fereastra consolei mesajul „Salut, lume!”. Când uită un punct și virgulă, compilatorul îi arată rândul cu eroarea.",
+    "worked": "Compilatorul a verificat programul înainte de execuție și a semnalat greșeala. Mediul de programare a reunit scrierea, compilarea, execuția și afișarea erorilor.",
+    "exercises": [
+     "Explică diferența dintre compilator și interpretor.",
+     "Numește trei limbaje de programare.",
+     "Descrie componentele unui IDE.",
+     "Creează un proiect nou în IDE și rulează-l.",
+     "Explică de ce calculatorul nu înțelege direct C++."
+    ],
+    "test": [
+     "Ce înțelege direct procesorul?",
+     "Ce face compilatorul?",
+     "Ce este un IDE?",
+     "Ce extensie are un fișier sursă C++?",
+     "Ce limbaj folosește de obicei un interpretor?"
+    ],
+    "steps": [
+     "Scrie codul sursă în editorul IDE-ului.",
+     "Compilează și citește mesajele de eroare, dacă apar.",
+     "Corectează și rulează din nou până merge.",
+     "Greșeala frecventă: să ignori primul mesaj de eroare; de obicei celelalte erori vin din el."
+    ],
+    "answers": [
+     "Cod mașină (0 și 1).",
+     "Traduce tot programul în cod mașină înainte de execuție.",
+     "Mediul care reunește editorul, compilatorul și depanatorul.",
+     ".cpp.",
+     "Python."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l14": {
+   "ro": {
+    "title": "Structura unui program C++",
+    "theory": "Un program C++ simplu are: directiva #include <iostream>, care aduce instrucțiunile de citire și scriere; linia using namespace std;, ca să scriem cout în loc de std::cout; funcția principală int main() { … }, între acolade se află instrucțiunile; return 0; la final, care anunță terminarea fără erori. Fiecare instrucțiune se încheie cu punct și virgulă. Comentariile // explică codul și sunt ignorate de compilator. C++ face diferența între litere mari și mici (Main nu este main). Indentarea (deplasarea spre dreapta a instrucțiunilor din acolade) face codul ușor de citit. În Python, același program este o singură linie: print(\"Salut, lume!\").",
+    "sample": "#include <iostream> / using namespace std; / int main() { cout << \"Salut, lume!\"; return 0; } – afișează Salut, lume!",
+    "worked": "Fiecare parte are un rol: biblioteca pentru afișare, funcția main ca punct de pornire, instrucțiunea cout pentru afișare și return 0 pentru încheiere.",
+    "exercises": [
+     "Scrie un program care afișează numele tău.",
+     "Adaugă comentarii care explică fiecare linie.",
+     "Găsește trei greșeli într-un program dat.",
+     "Explică rolul funcției main.",
+     "Scrie același program în Python."
+    ],
+    "test": [
+     "Ce aduce #include <iostream>?",
+     "Cu ce se termină fiecare instrucțiune?",
+     "Ce este main?",
+     "Ce face return 0?",
+     "Ce sunt comentariile?"
+    ],
+    "steps": [
+     "Scrie scheletul: include, using, main, return 0.",
+     "Adaugă instrucțiunile între acoladele lui main, fiecare cu punct și virgulă.",
+     "Indentează, compilează și rulează.",
+     "Greșeala frecventă: să scrii Main cu majusculă sau să uiți punctul și virgula; programul nu se compilează."
+    ],
+    "answers": [
+     "Instrucțiunile de citire și scriere (cin, cout).",
+     "Cu punct și virgulă.",
+     "Funcția principală, de unde pornește programul.",
+     "Anunță terminarea programului fără erori.",
+     "Explicații ignorate de compilator."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l15": {
+   "ro": {
+    "title": "Date numerice: variabile, tipuri, constante",
+    "theory": "O variabilă este o zonă de memorie cu un nume, în care păstrăm o valoare ce se poate schimba. În C++ declarăm variabila înainte de a o folosi, precizând tipul: int pentru numere întregi (aproximativ între −2 miliarde și 2 miliarde), long long pentru întregi mai mari, float și double pentru numere reale (cu virgulă, scrisă cu punct: 3.14). Numele (identificatorul) începe cu literă sau _, conține litere, cifre, _, fără spații și fără diacritice, și nu poate fi un cuvânt rezervat (int, if). Alegem nume sugestive: varsta, suma, nrElevi. O constantă are valoare fixă (const double PI = 3.14159;). În Python nu declarăm tipul: x = 5.",
+    "sample": "int nrElevi = 28; double media = 8.75; const int ZILE = 7; – trei date: un întreg, un real și o constantă.",
+    "worked": "Tipul se alege după natura valorii: numărul de elevi este întreg, media are zecimale, iar numărul de zile din săptămână nu se schimbă, deci este constantă.",
+    "exercises": [
+     "Declară variabile pentru vârstă, înălțime și număr de frați.",
+     "Spune care identificatori sunt corecți: 2ani, suma_totala, nr elevi, x1.",
+     "Alege tipul potrivit pentru cinci date.",
+     "Declară o constantă pentru numărul de luni.",
+     "Explică de ce 3,5 se scrie 3.5 în program."
+    ],
+    "test": [
+     "Ce este o variabilă?",
+     "Ce tip folosim pentru numere întregi?",
+     "Ce tip folosim pentru numere cu zecimale?",
+     "Poate începe un identificator cu o cifră?",
+     "Ce este o constantă?"
+    ],
+    "steps": [
+     "Stabilește ce date are problema.",
+     "Alege pentru fiecare tipul potrivit (întreg sau real).",
+     "Dă nume sugestive și declară variabilele înainte de folosire.",
+     "Greșeala frecventă: să scrii numerele reale cu virgulă (3,5) în loc de punct (3.5)."
+    ],
+    "answers": [
+     "O zonă de memorie cu nume, cu o valoare care se poate schimba.",
+     "int.",
+     "double (sau float).",
+     "Nu.",
+     "O dată a cărei valoare nu se schimbă."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l16": {
+   "ro": {
+    "title": "Operatori aritmetici și expresii",
+    "theory": "Operatorii aritmetici sunt: + adunare, − scădere, * înmulțire, / împărțire, % restul împărțirii (doar pentru întregi). Atenție: în C++, dacă ambii operanzi sunt întregi, / dă câtul întreg (17 / 5 = 3), iar 17 % 5 = 2. Dacă măcar un operand este real, rezultatul este real (17.0 / 5 = 3.4). În Python, 17 / 5 = 3.4, iar câtul întreg se obține cu //. Ordinea operațiilor este cea din matematică: întâi *, /, %, apoi + și −; parantezele rotunde schimbă ordinea. O expresie combină variabile, constante și operatori și are o valoare.",
+    "sample": "int a = 17, b = 5; cout << a / b << \" \" << a % b << \" \" << (a + b) * 2; – afișează 3 2 44.",
+    "worked": "17 / 5 între întregi dă câtul 3, restul este 2, iar parantezele fac adunarea înaintea înmulțirii: (17 + 5) × 2 = 44.",
+    "exercises": [
+     "Calculează 23 / 4, 23 % 4 și 23.0 / 4 în C++.",
+     "Calculează 2 + 3 * 4 și (2 + 3) * 4.",
+     "Scrie expresia pentru media a trei numere reale.",
+     "Folosește % ca să verifici dacă un număr este par.",
+     "Transformă un număr de secunde în minute și secunde."
+    ],
+    "test": [
+     "Cât este 20 / 6 în C++, cu întregi?",
+     "Cât este 20 % 6?",
+     "Ce operator dă restul?",
+     "Ce operație se face prima în 2 + 3 * 4?",
+     "Ce operator dă câtul întreg în Python?"
+    ],
+    "steps": [
+     "Verifică tipul operanzilor: întregi sau reali.",
+     "Aplică ordinea operațiilor, cu paranteze unde este nevoie.",
+     "Calculează pe hârtie și compară cu ce afișează programul.",
+     "Greșeala frecventă: să crezi că 7 / 2 dă 3.5 când ambele numere sunt de tip int; rezultatul este 3."
+    ],
+    "answers": [
+     "3.",
+     "2.",
+     "%.",
+     "Înmulțirea.",
+     "//."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l17": {
+   "ro": {
+    "title": "Operatori relaționali și logici",
+    "theory": "Operatorii relaționali compară două valori și dau un rezultat adevărat (true, 1) sau fals (false, 0): < mai mic, <= mai mic sau egal, > mai mare, >= mai mare sau egal, == egal, != diferit. Atenție: = înseamnă atribuire, iar == înseamnă comparare. Operatorii logici combină condiții: && (și) – adevărat dacă ambele condiții sunt adevărate; || (sau) – adevărat dacă măcar una este adevărată; ! (negație) – schimbă adevărat în fals. În Python se scriu and, or, not. Exemple: un număr x este cifră dacă x >= 0 && x <= 9; un număr este par dacă x % 2 == 0.",
+    "sample": "Condiția pentru nota de trecere validă: nota >= 5 && nota <= 10. Pentru nota 7 este adevărată; pentru 12 este falsă, pentru că a doua parte (12 <= 10) este falsă.",
+    "worked": "Cu && trebuie îndeplinite ambele condiții. Așa scriem în program intervalul [5, 10], care în matematică se scrie 5 ≤ nota ≤ 10.",
+    "exercises": [
+     "Scrie condiția „x este număr par”.",
+     "Scrie condiția „x aparține intervalului [10, 20]”.",
+     "Scrie condiția „x este în afara intervalului [10, 20]”.",
+     "Evaluează: 5 > 3 && 2 > 4.",
+     "Explică diferența dintre = și ==."
+    ],
+    "test": [
+     "Ce rezultat dă un operator relațional?",
+     "Ce înseamnă !=?",
+     "Când este adevărat && ?",
+     "Când este adevărat || ?",
+     "Cum se scrie „și” în Python?"
+    ],
+    "steps": [
+     "Formulează condiția în cuvinte.",
+     "Transformă fiecare parte în comparație și leagă-le cu && sau ||.",
+     "Verifică pe valori de la capetele intervalului.",
+     "Greșeala frecventă: să scrii 5 <= x <= 10 ca în matematică; în C++ trebuie x >= 5 && x <= 10."
+    ],
+    "answers": [
+     "Adevărat sau fals.",
+     "Diferit.",
+     "Când ambele condiții sunt adevărate.",
+     "Când măcar o condiție este adevărată.",
+     "and."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l18": {
+   "ro": {
+    "title": "Citirea și scrierea datelor",
+    "theory": "Datele de intrare se citesc de la tastatură cu cin >> variabilă; putem citi mai multe valori: cin >> a >> b; (valorile se tastează separate prin spațiu sau Enter). Rezultatele se afișează cu cout <<: texte între ghilimele, valori ale variabilelor și expresiilor, endl sau \"\n\" pentru rând nou. Exemplu: cout << \"Suma este \" << a + b << endl;. Un program bun afișează un mesaj înainte de citire, ca utilizatorul să știe ce să introducă. În Python: a = int(input()) citește un întreg, iar print(\"Suma este\", a + b) afișează. Datele citite trebuie să aibă tipul declarat: dacă variabila este int și tastăm 3.7, se citește doar 3.",
+    "sample": "cout << \"Latura: \"; cin >> l; cout << \"Perimetrul: \" << 4 * l << endl << \"Aria: \" << l * l; – pentru l = 6 afișează Perimetrul: 24 și, pe rândul următor, Aria: 36.",
+    "worked": "Programul cere datele cu un mesaj, citește latura și afișează două rezultate pe rânduri separate. Expresiile 4 * l și l * l se calculează direct în cout.",
+    "exercises": [
+     "Scrie un program care citește două numere și afișează suma și produsul.",
+     "Citește vârsta și afișează anul aproximativ al nașterii.",
+     "Afișează rezultatele pe rânduri separate.",
+     "Scrie același program în Python.",
+     "Explică ce se întâmplă dacă tastezi un număr real într-o variabilă int."
+    ],
+    "test": [
+     "Ce instrucțiune citește în C++?",
+     "Ce instrucțiune afișează?",
+     "Ce face endl?",
+     "De ce afișăm un mesaj înainte de citire?",
+     "Cum citești un întreg în Python?"
+    ],
+    "steps": [
+     "Afișează un mesaj care explică ce trebuie introdus.",
+     "Citește datele în variabile de tipul potrivit.",
+     "Calculează și afișează rezultatul cu un text explicativ.",
+     "Greșeala frecventă: să inversezi săgețile: cin << sau cout >>; programul nu se compilează."
+    ],
+    "answers": [
+     "cin >>.",
+     "cout <<.",
+     "Trece pe un rând nou.",
+     "Ca utilizatorul să știe ce să introducă.",
+     "a = int(input())."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l19": {
+   "ro": {
+    "title": "Instrucțiunea de atribuire și structura liniară",
+    "theory": "Atribuirea x = expresie; calculează valoarea din dreapta și o pune în variabila din stânga, înlocuind valoarea veche. De aceea x = x + 1; are sens: noua valoare a lui x este vechea valoare plus 1 (prescurtat x++ sau x += 1). Structura liniară (secvențială) execută instrucțiunile una după alta, în ordinea scrierii: citire, calcule, afișare. Un exemplu clasic este interschimbarea a două variabile cu o variabilă auxiliară: aux = a; a = b; b = aux;. Fără aux, valoarea lui a s-ar pierde. Urmărirea valorilor într-un tabel ne arată ce face programul.",
+    "sample": "a = 3, b = 8. aux = a → aux = 3; a = b → a = 8; b = aux → b = 3. La final a = 8, b = 3: valorile s-au schimbat între ele.",
+    "worked": "Variabila auxiliară păstrează valoarea lui a înainte ca aceasta să fie suprascrisă. Ordinea celor trei atribuiri este esențială.",
+    "exercises": [
+     "Urmărește valorile: x = 5; y = x * 2; x = y - 3;.",
+     "Interschimbă două variabile folosind aux.",
+     "Scrie un program liniar pentru aria și perimetrul unui dreptunghi.",
+     "Explică ce înseamnă x = x + 1.",
+     "Scrie un program care transformă minutele în ore și minute."
+    ],
+    "test": [
+     "Ce face atribuirea?",
+     "Ce valoare are x după x = 4; x = x * 3;?",
+     "De ce folosim aux la interschimbare?",
+     "Ce înseamnă structura liniară?",
+     "Ce scriere prescurtată are x = x + 1?"
+    ],
+    "steps": [
+     "Stabilește ordinea: citire, calcule, afișare.",
+     "Scrie atribuirile în ordinea în care valorile sunt necesare.",
+     "Urmărește valorile într-un tabel pentru un exemplu.",
+     "Greșeala frecventă: să scrii a = b; b = a; pentru interschimbare; ambele variabile ajung la aceeași valoare."
+    ],
+    "answers": [
+     "Pune valoarea expresiei din dreapta în variabila din stânga.",
+     "12.",
+     "Ca să nu pierdem valoarea lui a.",
+     "Instrucțiunile se execută una după alta, în ordinea scrierii.",
+     "x++ sau x += 1."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l20": {
+   "ro": {
+    "title": "Structura alternativă: instrucțiunea if",
+    "theory": "Instrucțiunea if alege între două variante: if (condiție) instrucțiune1; else instrucțiune2;. Dacă este adevărată condiția, se execută prima instrucțiune, altfel a doua. Ramura else poate lipsi. Dacă pe o ramură avem mai multe instrucțiuni, le punem între acolade { }. Pentru mai mult de două cazuri folosim if-uri în cascadă: if (…) … else if (…) … else …. Condiția se scrie între paranteze. În Python: if conditie: … elif …: … else: …, cu indentare în loc de acolade. Exemple: paritatea unui număr, maximul a două numere, semnul unui număr (pozitiv, negativ, zero).",
+    "sample": "if (n > 0) cout << \"pozitiv\"; else if (n < 0) cout << \"negativ\"; else cout << \"zero\"; – pentru n = −4 afișează negativ.",
+    "worked": "Cascada tratează cele trei cazuri posibile, iar al treilea nu mai are nevoie de condiție: dacă numărul nu este nici pozitiv, nici negativ, este zero.",
+    "exercises": [
+     "Afișează dacă un număr este par sau impar.",
+     "Afișează maximul a două numere.",
+     "Afișează semnul unui număr.",
+     "Calculează calificativul pentru o notă (FB, B, S, I).",
+     "Verifică dacă trei numere pot fi laturile unui triunghi."
+    ],
+    "test": [
+     "Când se execută ramura else?",
+     "Când avem nevoie de acolade?",
+     "Cum tratăm trei sau mai multe cazuri?",
+     "Cum se scrie else if în Python?",
+     "Ce se întâmplă dacă lipsește else și condiția este falsă?"
+    ],
+    "steps": [
+     "Identifică toate cazurile posibile.",
+     "Scrie condiția pentru fiecare caz, în ordine.",
+     "Testează programul cu o valoare din fiecare caz și de la granițe.",
+     "Greșeala frecventă: să pui punct și virgulă imediat după if (condiție); instrucțiunea care urmează se execută mereu."
+    ],
+    "answers": [
+     "Când condiția este falsă.",
+     "Când o ramură are mai multe instrucțiuni.",
+     "Cu if-uri în cascadă (else if).",
+     "elif.",
+     "Nu se execută nimic și programul continuă."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l21": {
+   "ro": {
+    "title": "Structura repetitivă while",
+    "theory": "Instrucțiunea while (condiție) { instrucțiuni } este structura repetitivă condiționată anterior: verifică condiția și, cât timp este adevărată, execută instrucțiunile. Pașii pot să nu se execute deloc. În interior trebuie modificată o variabilă din condiție, altfel bucla este infinită (oprim programul cu Ctrl + C sau închizând fereastra). Este potrivită când nu știm numărul de repetări: prelucrarea cifrelor, citirea până la 0, aflarea primului număr care îndeplinește o condiție. În Python: while conditie:, cu instrucțiunile indentate.",
+    "sample": "int n, s = 0; cin >> n; while (n != 0) { s = s + n % 10; n = n / 10; } cout << s; – pentru 3057 afișează 15.",
+    "worked": "Bucla ia pe rând cifrele 7, 5, 0, 3 și le adună. Condiția n != 0 se verifică înaintea fiecărei repetări, iar n / 10 asigură oprirea.",
+    "exercises": [
+     "Calculează suma cifrelor unui număr.",
+     "Numără cifrele unui număr.",
+     "Citește numere până la 0 și afișează suma lor.",
+     "Afișează cea mai mare cifră a unui număr.",
+     "Găsește cel mai mic n pentru care 2 la puterea n depășește 1000."
+    ],
+    "test": [
+     "Când se verifică condiția în while?",
+     "Se pot executa de zero ori instrucțiunile din while?",
+     "Ce provoacă o buclă infinită?",
+     "Când folosim while?",
+     "Cum se scrie while în Python?"
+    ],
+    "steps": [
+     "Scrie condiția de continuare.",
+     "Pune în interior prelucrarea și modificarea variabilei din condiție.",
+     "Urmărește valorile într-un tabel până la oprire.",
+     "Greșeala frecventă: să uiți n = n / 10; programul nu se mai oprește."
+    ],
+    "answers": [
+     "Înaintea fiecărei repetări.",
+     "Da, dacă condiția este falsă de la început.",
+     "Lipsa modificării variabilei din condiție.",
+     "Când nu știm de câte ori se repetă.",
+     "while conditie: cu instrucțiunile indentate."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l22": {
+   "ro": {
+    "title": "Structura repetitivă do … while",
+    "theory": "Instrucțiunea do { instrucțiuni } while (condiție); execută întâi instrucțiunile și apoi verifică condiția; repetă cât timp condiția este adevărată. Instrucțiunile se execută cel puțin o dată. Atenție la punctul și virgula de după while (condiție). În C++ condiția este de continuare, spre deosebire de pseudocodul „repetă … până când”, unde condiția este de oprire; de aceea, la traducere, negăm condiția. Structura este potrivită pentru validarea datelor (cerem o valoare până este corectă) sau pentru meniuri. Python nu are do … while; se simulează cu while True și break.",
+    "sample": "do { cout << \"Nota (1-10): \"; cin >> nota; } while (nota < 1 || nota > 10); – citește din nou cât timp nota este invalidă.",
+    "worked": "Nota trebuie citită măcar o dată, deci do … while este potrivit. Condiția de continuare este „nota invalidă”, adică negația condiției de oprire „nota între 1 și 10”.",
+    "exercises": [
+     "Validează o notă între 1 și 10.",
+     "Traduce în C++: repetă s ← s + 2 până când s > 20.",
+     "Explică diferența dintre while și do … while.",
+     "Calculează numărul de cifre cu do … while, inclusiv pentru 0.",
+     "Scrie un meniu care se repetă până se alege opțiunea 0."
+    ],
+    "test": [
+     "De câte ori cel puțin se execută do … while?",
+     "Ce semn urmează după while (condiție) în do … while?",
+     "Ce condiție scriem în C++: de continuare sau de oprire?",
+     "Cum traducem „până când x > 5”?",
+     "Are Python do … while?"
+    ],
+    "steps": [
+     "Stabilește dacă pașii trebuie executați măcar o dată.",
+     "Scrie pașii între do { } și condiția de continuare după while.",
+     "Testează cu o valoare greșită și apoi cu una corectă.",
+     "Greșeala frecventă: să copiezi condiția de oprire din pseudocod fără să o negi."
+    ],
+    "answers": [
+     "O dată.",
+     "Punct și virgulă.",
+     "De continuare.",
+     "while (x <= 5).",
+     "Nu, se simulează cu while True și break."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l23": {
+   "ro": {
+    "title": "Structura repetitivă for",
+    "theory": "Instrucțiunea for (int i = 1; i <= n; i++) { instrucțiuni } are trei părți: inițializarea contorului, condiția de continuare și pasul (creșterea). Ordinea execuției: inițializarea o dată; apoi, cât timp condiția este adevărată, se execută instrucțiunile și pasul. Contorul poate crește din 2 în 2 (i += 2) sau poate scădea (i--). Numărul de repetări pentru i de la a la b, din 1 în 1, este b − a + 1. For este potrivit când știm numărul de repetări: suma primelor n numere, tabla înmulțirii, citirea a n numere. În Python: for i in range(1, n + 1): (capătul din dreapta nu este inclus).",
+    "sample": "int n, s = 0; cin >> n; for (int i = 1; i <= n; i++) s = s + i; cout << s; – pentru n = 10 afișează 55.",
+    "worked": "Contorul ia valorile 1, …, 10, iar fiecare se adună la s. Verificare cu formula lui Gauss: 10 × 11 / 2 = 55.",
+    "exercises": [
+     "Afișează numerele de la 1 la n.",
+     "Afișează numerele pare de la 2 la 50 cu i += 2.",
+     "Afișează numerele de la 10 la 1.",
+     "Calculează produsul 1 × 2 × … × n.",
+     "Citește n numere și afișează câte sunt negative."
+    ],
+    "test": [
+     "Care sunt cele trei părți ale lui for?",
+     "De câte ori se repetă for (i = 3; i <= 7; i++)?",
+     "Cum faci contorul să scadă?",
+     "Ce valori ia i în range(1, 5) în Python?",
+     "Când alegem for?"
+    ],
+    "steps": [
+     "Stabilește valorile de început și de sfârșit și pasul.",
+     "Scrie cele trei părți ale lui for și instrucțiunile din corp.",
+     "Verifică prima și ultima repetare și numărul total.",
+     "Greșeala frecventă: să scrii i < n în loc de i <= n și să pierzi ultima valoare."
+    ],
+    "answers": [
+     "Inițializarea, condiția și pasul.",
+     "De 5 ori.",
+     "Cu i-- sau i -= pas.",
+     "1, 2, 3, 4.",
+     "Când știm numărul de repetări."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l24": {
+   "ro": {
+    "title": "Divizibilitate: divizori, numere prime, cmmdc",
+    "theory": "Cu operatorul % verificăm divizibilitatea: d este divizor al lui n dacă n % d == 0. Divizorii lui n se găsesc parcurgând d de la 1 la n. Un număr este prim dacă are exact doi divizori (1 și el însuși); 1 nu este prim. Ca să verificăm primalitatea mai repede, căutăm divizori doar de la 2 până la d * d <= n: dacă nu găsim niciunul, n (cel puțin 2) este prim. Cel mai mare divizor comun se calculează cu algoritmul lui Euclid: cât timp b != 0, r = a % b; a = b; b = r;. La final cmmdc este a. Cel mai mic multiplu comun: cmmmc = a * b / cmmdc.",
+    "sample": "cmmdc(48, 18): r = 48 % 18 = 12 → (18, 12); r = 6 → (12, 6); r = 0 → (6, 0). Rezultat: 6. Atunci cmmmc = 48 × 18 / 6 = 144.",
+    "worked": "Algoritmul lui Euclid înlocuiește perechea cu una mai mică, cu același cmmdc, până când restul este 0. Este mult mai rapid decât încercarea tuturor divizorilor.",
+    "exercises": [
+     "Afișează divizorii lui n.",
+     "Numără divizorii lui n.",
+     "Verifică dacă n este prim.",
+     "Calculează cmmdc și cmmmc pentru două numere.",
+     "Afișează numerele prime până la 50."
+    ],
+    "test": [
+     "Când este d divizor al lui n?",
+     "Câți divizori are un număr prim?",
+     "Este 1 număr prim?",
+     "Până unde căutăm divizori la testul de primalitate?",
+     "Cum calculăm cmmmc dacă știm cmmdc?"
+    ],
+    "steps": [
+     "Scrie condiția de divizibilitate cu %.",
+     "Alege parcurgerea potrivită: toți divizorii sau doar până la rădăcina pătrată.",
+     "Verifică programul pe cazurile speciale 0, 1 și 2.",
+     "Greșeala frecventă: să declari 1 număr prim; are un singur divizor."
+    ],
+    "answers": [
+     "Când n % d == 0.",
+     "Exact doi.",
+     "Nu.",
+     "Până când d * d depășește n.",
+     "cmmmc = a * b / cmmdc."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l25": {
+   "ro": {
+    "title": "Algoritmi de bază în C++: sumă, numărare, maxim",
+    "theory": "Algoritmii de bază se scriu direct în C++. Suma: int s = 0; și, în buclă, s += x;. Produsul: long long p = 1; p *= x;. Numărarea: int k = 0; și if (condiție) k++;. Maximul: citim prima valoare în max, apoi pentru fiecare valoare următoare if (x > max) max = x;. Media: double medie = (double)s / n; – conversia (double) evită împărțirea întreagă. Valorile pot fi citite într-o buclă for (când știm câte sunt) sau while (până la o valoare de oprire, de exemplu 0). Testăm programul cu exemple mici, la care știm răspunsul.",
+    "sample": "Se citesc n = 5 și numerele 4, −2, 9, 0, 7. Programul afișează suma 18, câte sunt pozitive (3), maximul 9 și media 3.6.",
+    "worked": "Un singur parcurs calculează toate rezultatele. Media este 3.6, nu 3, pentru că am convertit suma la double înainte de împărțire.",
+    "exercises": [
+     "Citește n numere și afișează suma și media.",
+     "Numără câte numere citite sunt divizibile cu 3.",
+     "Afișează maximul și minimul a n numere.",
+     "Citește numere până la 0 și afișează câte sunt pare.",
+     "Afișează de câte ori apare maximul."
+    ],
+    "test": [
+     "Cu cât inițializăm suma?",
+     "Cu cât inițializăm produsul?",
+     "Ce instrucțiune crește contorul?",
+     "Cu ce inițializăm maximul?",
+     "De ce scriem (double)s / n?"
+    ],
+    "steps": [
+     "Inițializează variabilele de rezultat înaintea buclei.",
+     "În buclă, citește valoarea și actualizează suma, contorul sau maximul.",
+     "Afișează după buclă și verifică pe un exemplu cunoscut.",
+     "Greșeala frecventă: să calculezi media cu s / n când ambele sunt int; pierzi zecimalele."
+    ],
+    "answers": [
+     "Cu 0.",
+     "Cu 1.",
+     "k++.",
+     "Cu prima valoare citită.",
+     "Ca să obținem o medie cu zecimale."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l26": {
+   "ro": {
+    "title": "Bucle imbricate și probleme cu mai multe repetiții",
+    "theory": "O buclă poate conține o altă buclă: pentru fiecare repetare a buclei exterioare, bucla interioară se execută complet. Dacă exterioara are n pași și interioara m pași, instrucțiunile din interior se execută de n × m ori. Exemple: tabla înmulțirii completă (i de la 1 la 10, j de la 1 la 10, afișăm i * j), desenarea unui dreptunghi din caractere *, afișarea tuturor perechilor de numere. Contoarele buclelor trebuie să aibă nume diferite (i și j). O aplicație des întâlnită: pentru fiecare număr de la 1 la n, numărăm divizorii (bucla interioară) și afișăm numerele prime.",
+    "sample": "for (int i = 1; i <= 3; i++) { for (int j = 1; j <= i; j++) cout << \"*\"; cout << endl; } – afișează un triunghi: * pe primul rând, ** pe al doilea, *** pe al treilea.",
+    "worked": "Bucla interioară depinde de i: pe rândul i se afișează i stele. După fiecare rând, endl trece pe rândul următor, în afara buclei interioare.",
+    "exercises": [
+     "Afișează tabla înmulțirii de la 1 la 10.",
+     "Desenează un dreptunghi de 4 × 6 stele.",
+     "Desenează un triunghi de n rânduri.",
+     "Afișează numerele prime de la 2 la n folosind o buclă interioară pentru divizori.",
+     "Calculează de câte ori se execută instrucțiunea din interior pentru n = 5, m = 7."
+    ],
+    "test": [
+     "De câte ori se execută bucla interioară pentru o repetare a celei exterioare?",
+     "De câte ori se execută interiorul pentru n = 4 și m = 3?",
+     "De ce contoarele au nume diferite?",
+     "Unde punem endl ca să trecem la rândul următor?",
+     "Ce problemă rezolvă buclele imbricate pentru numere prime?"
+    ],
+    "steps": [
+     "Stabilește ce se repetă pe rânduri (exterior) și ce pe coloane (interior).",
+     "Folosește contoare diferite și decide dacă bucla interioară depinde de cea exterioară.",
+     "Urmărește primele două repetări exterioare pe hârtie.",
+     "Greșeala frecventă: să folosești același contor i pentru ambele bucle; bucla exterioară se strică."
+    ],
+    "answers": [
+     "Complet, de la început până la sfârșit.",
+     "De 12 ori.",
+     "Ca să nu se modifice una pe alta.",
+     "După bucla interioară, în bucla exterioară.",
+     "Pentru fiecare număr, bucla interioară numără divizorii."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l27": {
+   "ro": {
+    "title": "Proiect: un program complet cu meniu",
+    "theory": "Un program mai mare se construiește din bucățile învățate: citire, decizii, repetiții, calcule. Un exemplu este un calculator cu meniu: programul afișează opțiunile (1 – sumă, 2 – produs, 3 – cmmdc, 0 – ieșire), citește alegerea și execută operația potrivită, apoi revine la meniu până când utilizatorul alege 0. Pentru meniu se potrivește do … while, iar pentru alegere if-uri în cascadă sau instrucțiunea switch (case 1: …; break;). Etapele proiectului: înțelegerea cerinței, schițarea algoritmului, scrierea pe bucăți, testarea fiecărei opțiuni, inclusiv a unei opțiuni greșite (de exemplu 7), și scrierea de comentarii.",
+    "sample": "Andreea scrie meniul cu do { afișare; cin >> op; if (op == 1) … else if (op == 2) … else if (op != 0) cout << \"Opțiune invalidă\"; } while (op != 0);. Testează pe rând 1, 2, 3, 7 și 0.",
+    "worked": "Fiecare opțiune este testată separat, inclusiv o valoare greșită. Bucla do … while afișează meniul cel puțin o dată și se oprește doar la 0.",
+    "exercises": [
+     "Scrie un meniu cu trei operații și ieșire.",
+     "Adaugă mesajul „Opțiune invalidă” pentru alegerile greșite.",
+     "Rescrie alegerea opțiunii cu switch.",
+     "Alcătuiește lista de teste pentru program.",
+     "Adaugă comentarii care explică fiecare parte."
+    ],
+    "test": [
+     "Ce structură repetitivă se potrivește unui meniu?",
+     "Când se oprește programul cu meniu?",
+     "Ce face break într-un case?",
+     "De ce testăm și o opțiune greșită?",
+     "Care este prima etapă a unui proiect?"
+    ],
+    "steps": [
+     "Înțelege cerința și scrie lista de opțiuni.",
+     "Construiește programul pe bucăți, testând fiecare opțiune după ce o scrii.",
+     "Testează la final toate opțiunile, inclusiv valorile greșite.",
+     "Greșeala frecventă: să scrii tot programul deodată și să-l testezi abia la final; erorile se amestecă."
+    ],
+    "answers": [
+     "Do … while.",
+     "Când utilizatorul alege 0.",
+     "Iese din switch după opțiunea executată.",
+     "Ca programul să nu se comporte ciudat la date greșite.",
+     "Înțelegerea cerinței."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l28": {
+   "ro": {
+    "title": "Testarea și depanarea programelor",
+    "theory": "Un program poate avea trei feluri de erori. Erorile de sintaxă (lipsește ;, o acoladă, un nume greșit) sunt găsite de compilator, care arată rândul și un mesaj. Erorile la execuție opresc programul (de exemplu împărțirea la 0). Erorile de logică sunt cele mai greu de găsit: programul rulează, dar dă un rezultat greșit (formulă greșită, < în loc de <=, inițializare uitată). Pentru a le găsi: testăm cu date la care știm rezultatul, inclusiv cazuri limită (0, 1, numere negative, valori maxime); afișăm temporar valorile variabilelor; folosim depanatorul (puncte de oprire și execuție pas cu pas, cu urmărirea variabilelor). Corectăm o singură greșeală o dată și testăm din nou.",
+    "sample": "Programul pentru suma numerelor de la 1 la n dă 45 pentru n = 10, nu 55. Afișând i în buclă, Paul vede că ultima valoare este 9: condiția era i < n. O schimbă în i <= n și obține 55.",
+    "worked": "Eroarea era de logică: compilatorul nu avea ce să semnaleze. Testul cu rezultat cunoscut și afișarea contorului au arătat exact unde este problema.",
+    "exercises": [
+     "Clasifică cinci erori date: sintaxă, execuție sau logică.",
+     "Corectează un program cu trei erori de sintaxă.",
+     "Alege cazuri de test pentru un program de paritate.",
+     "Pune un punct de oprire și urmărește o variabilă în depanator.",
+     "Găsește eroarea de logică dintr-un program de maxim."
+    ],
+    "test": [
+     "Cine găsește erorile de sintaxă?",
+     "Ce este o eroare de logică?",
+     "Dă un exemplu de eroare la execuție.",
+     "Ce este un caz limită?",
+     "Ce face execuția pas cu pas?"
+    ],
+    "steps": [
+     "Citește mesajul compilatorului și corectează erorile de sintaxă.",
+     "Testează cu date cunoscute și cazuri limită.",
+     "Urmărește variabilele pas cu pas și corectează o greșeală o dată.",
+     "Greșeala frecventă: să crezi că un program fără erori de compilare este corect."
+    ],
+    "answers": [
+     "Compilatorul.",
+     "Programul rulează, dar dă un rezultat greșit.",
+     "Împărțirea la 0.",
+     "O valoare de la marginea datelor posibile, ca 0 sau 1.",
+     "Execută programul câte o instrucțiune și arată valorile variabilelor."
+    ]
+   }
+  }
+ }
+}

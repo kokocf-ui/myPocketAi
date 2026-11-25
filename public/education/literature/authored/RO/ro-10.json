@@ -1,0 +1,1244 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "RO",
+ "stage": "medium",
+ "grade": "10",
+ "version": "1d0b62c719baa0c02375ade85489d168b88f055fb867f29e27ee30ff459be9d5",
+ "source": "https://programe.ise.ro/",
+ "sourceTitle": "Ministerul Educației — Programa școlară Limba și literatura română, clasa a X-a, ciclul inferior al liceului (OMECI nr. 5099/09.09.2009), aplicată până la intrarea în vigoare a noii programe pentru clasa a X-a (anunțată pentru 2027–2028): Literatură — proza scurtă (basmul cult, povestirea, nuvela), romanul (acțiune și personaje, perspectivă narativă, tehnici narative, evoluția prozei), poezia (minimum 6 texte, aspecte ale genului și ale evoluției lui), textul dramatic, literatura și alte arte; Limbă și comunicare — registre stilistice, stilul direct, indirect și indirect liber, argumentarea orală și scrisă, rezumatul, caracterizarea, eseul, recenzia, norma limbii; ordinea obișnuită a manualelor aprobate; lecții originale, fără text copiat din opere sau manuale",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "ro",
+ "labels": [
+  "Activitate originală · România · clasa a X-a",
+  "Teorie pe înțeles",
+  "Exemplu original",
+  "Analiză explicată",
+  "Exerciții",
+  "Verifică-te",
+  "Exerciții originale, nu o evaluare oficială și nici text din manual.",
+  "Dacă nu ai înțeles: pe înțelesul tău, pas cu pas",
+  "Răspunsuri (verifică după ce termini)"
+ ],
+ "units": [
+  {
+   "title": "Proza scurtă",
+   "keys": [
+    "eu-year-ro-medium-10-l01",
+    "eu-year-ro-medium-10-l02",
+    "eu-year-ro-medium-10-l03",
+    "eu-year-ro-medium-10-l04",
+    "eu-year-ro-medium-10-l05",
+    "eu-year-ro-medium-10-l06",
+    "eu-year-ro-medium-10-l07"
+   ]
+  },
+  {
+   "title": "Romanul",
+   "keys": [
+    "eu-year-ro-medium-10-l08",
+    "eu-year-ro-medium-10-l09",
+    "eu-year-ro-medium-10-l10",
+    "eu-year-ro-medium-10-l11",
+    "eu-year-ro-medium-10-l12",
+    "eu-year-ro-medium-10-l13",
+    "eu-year-ro-medium-10-l14"
+   ]
+  },
+  {
+   "title": "Poezia",
+   "keys": [
+    "eu-year-ro-medium-10-l15",
+    "eu-year-ro-medium-10-l16",
+    "eu-year-ro-medium-10-l17",
+    "eu-year-ro-medium-10-l18",
+    "eu-year-ro-medium-10-l19",
+    "eu-year-ro-medium-10-l20",
+    "eu-year-ro-medium-10-l21"
+   ]
+  },
+  {
+   "title": "Textul dramatic",
+   "keys": [
+    "eu-year-ro-medium-10-l22",
+    "eu-year-ro-medium-10-l23"
+   ]
+  },
+  {
+   "title": "Literatura și alte arte",
+   "keys": [
+    "eu-year-ro-medium-10-l24",
+    "eu-year-ro-medium-10-l25"
+   ]
+  },
+  {
+   "title": "Limbă și comunicare",
+   "keys": [
+    "eu-year-ro-medium-10-l26",
+    "eu-year-ro-medium-10-l27",
+    "eu-year-ro-medium-10-l28",
+    "eu-year-ro-medium-10-l29",
+    "eu-year-ro-medium-10-l30",
+    "eu-year-ro-medium-10-l31",
+    "eu-year-ro-medium-10-l32",
+    "eu-year-ro-medium-10-l33"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-ro-medium-10-l01": {
+   "ro": {
+    "title": "Basmul cult: Povestea lui Harap-Alb — specie și structură",
+    "theory": "Povestea lui Harap-Alb de Ion Creangă (1877) este un basm cult: păstrează tiparul basmului popular (formule, motive, probe, cifre magice, fabulos, victoria binelui), dar are autor, stil personal, oralitate, umor și personaje individualizate. Structura urmează schema: situația inițială (craiul are trei feciori), lipsa (împăratul Verde nu are urmași), plecarea mezinului, încercările, ajutoarele, demascarea răufăcătorului și nunta.",
+    "sample": "Schemă originală: echilibru (o familie regală) – dezechilibru (o cerere venită de departe) – călătorie – încercări – ajutoare neobișnuite – pedepsirea falsului erou – restabilirea echilibrului.",
+    "worked": "Schema arată tiparul narativ al basmului. În Povestea lui Harap-Alb, falsul erou este Spânul, ajutoarele sunt Sfânta Duminică, calul și cei cinci tovarăși, iar finalul este nunta. Autorul umanizează fabulosul: personajele vorbesc și gândesc ca țăranii humuleșteni.",
+    "exercises": [
+     "Identifică etapele schemei în Povestea lui Harap-Alb.",
+     "Numește trei elemente preluate din basmul popular.",
+     "Numește trei elemente care țin de stilul lui Creangă.",
+     "Explică formula de început și de sfârșit a unui basm.",
+     "Compară Harap-Alb cu Făt-Frumos."
+    ],
+    "test": [
+     "Cine a scris Povestea lui Harap-Alb?",
+     "Ce specie literară este?",
+     "Cine este falsul erou?",
+     "Ce elemente țin de stilul autorului?",
+     "Cum se încheie basmul?"
+    ],
+    "steps": [
+     "Identifică tiparul basmului: situație inițială, călătorie, probe, final.",
+     "Separă elementele populare (formule, cifre magice) de cele culte (umor, oralitate, individualizare).",
+     "Arată cum fabulosul este umanizat.",
+     "Greșeala frecventă: să tratezi basmul cult ca pe unul popular, ignorând stilul autorului."
+    ],
+    "answers": [
+     "Ion Creangă.",
+     "Basm cult.",
+     "Spânul.",
+     "Oralitatea, umorul, individualizarea personajelor.",
+     "Cu nunta."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l02": {
+   "ro": {
+    "title": "Harap-Alb: drumul inițierii",
+    "theory": "Basmul poate fi citit ca un bildungsroman (roman al formării): mezinul pleacă neexperimentat, încalcă sfatul tatălui de a se feri de omul spân, ajunge slugă și primește numele Harap-Alb (oximoron: rob negru și alb). Prin probe (salățile din grădina ursului, pielea cerbului, aducerea fetei Împăratului Roș) învață ascultarea, răbdarea, prietenia și curajul. La final, devine împărat matur.",
+    "sample": "Analiză originală a unei probe: eroul nu reușește singur, ci prin ajutorul altora; câștigă încrederea prin bunătatea arătată înainte (a dat milostenie, a ajutat albinele și furnicile). Lecția: maturitatea înseamnă și să știi să primești ajutor.",
+    "worked": "Probele sunt etape ale formării. Faptele bune de la început se întorc ca ajutoare (furnicile, albinele). Numele Harap-Alb rezumă condiția lui de slugă care își păstrează noblețea. Inițierea se încheie când eroul este pregătit să conducă.",
+    "exercises": [
+     "Explică semnificația numelui Harap-Alb.",
+     "Prezintă două probe și ce învață eroul din ele.",
+     "Arată rolul tovarășilor fabuloși.",
+     "Explică de ce basmul poate fi citit ca bildungsroman.",
+     "Caracterizează-l pe Spân prin două trăsături."
+    ],
+    "test": [
+     "Ce înseamnă inițiere?",
+     "Ce figură de stil este numele Harap-Alb?",
+     "Ce sfat încalcă mezinul?",
+     "Ce învață eroul prin probe?",
+     "Cine îl ajută să treacă probele?"
+    ],
+    "steps": [
+     "Urmărește etapele drumului: plecare, greșeală, probe, maturizare.",
+     "Pentru fiecare probă, spune ce calitate exersează eroul.",
+     "Formulează concluzia: cum s-a schimbat personajul.",
+     "Greșeala frecventă: să-l vezi pe Harap-Alb ca pe un erou desăvârșit de la început; el devine matur treptat."
+    ],
+    "answers": [
+     "Formarea unui tânăr prin încercări.",
+     "Oximoron.",
+     "Să se ferească de omul spân.",
+     "Ascultarea, răbdarea, prietenia, curajul.",
+     "Calul, Sfânta Duminică, tovarășii, albinele și furnicile."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l03": {
+   "ro": {
+    "title": "Harap-Alb: oralitate și umor",
+    "theory": "Stilul lui Creangă se recunoaște prin oralitate: impresia că povestitorul vorbește unui public (adresări, interjecții, exclamații, expresii populare, proverbe și zicători introduse prin vorba ceea), și prin umor (porecle, portrete caricaturale, exagerări, ironie, diminutive cu sens ironic). Oralitatea și umorul umanizează fabulosul.",
+    "sample": "Fragment original în stil oral: Și, vorba ceea, cine se scoală de dimineață departe ajunge; numai că flăcăul nostru se sculase cam târziu, de-l luase soarele la ochi.",
+    "worked": "Expresia vorba ceea introduce un proverb (oralitate). Contrastul dintre proverb și întârzierea eroului produce umor. Adresarea flăcăul nostru creează complicitate cu ascultătorul.",
+    "exercises": [
+     "Găsește trei mărci ale oralității într-un fragment din basm.",
+     "Explică umorul din portretul unui tovarăș fabulos.",
+     "Identifică un proverb introdus prin vorba ceea.",
+     "Rescrie un pasaj neutru în stilul oral al lui Creangă.",
+     "Arată cum umanizează umorul personajele fabuloase."
+    ],
+    "test": [
+     "Ce este oralitatea stilului?",
+     "Ce introduce de obicei expresia vorba ceea?",
+     "Ce procedee de umor folosește Creangă?",
+     "Ce efect are adresarea flăcăul nostru?",
+     "Cum influențează umorul fabulosul?"
+    ],
+    "steps": [
+     "Caută adresările, exclamațiile și expresiile populare.",
+     "Găsește procedeele umorului: exagerări, porecle, ironie.",
+     "Explică efectul lor asupra lumii basmului.",
+     "Greșeala frecventă: să consideri oralitatea o greșeală de stil; ea este un procedeu artistic."
+    ],
+    "answers": [
+     "Impresia de vorbire vie către un public.",
+     "Un proverb sau o zicătoare.",
+     "Porecle, caricatură, exagerare, ironie, diminutive.",
+     "Creează complicitate cu cititorul.",
+     "Îl umanizează."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l04": {
+   "ro": {
+    "title": "Povestirea și povestirea în ramă: Hanu Ancuței",
+    "theory": "Povestirea este o specie epică în care întâmplarea este relatată de un narator-martor sau participant, adesea oral, cu accent pe arta de a povesti. Povestirea în ramă (Hanu Ancuței de Mihail Sadoveanu, 1928) are o poveste-cadru (oamenii adunați la han) în care se înșiră mai multe povestiri spuse de personaje. Atmosfera, ritualul ascultării și stilul solemn, arhaizant sunt esențiale.",
+    "sample": "Ramă originală: Seara, la han, drumeții se adună lângă vatră; gazda toarnă vin, iar un călător bătrân începe: Să vă spun ce mi s-a întâmplat în tinerețe...",
+    "worked": "Rama (hanul, seara, gazda) creează cadrul și publicul. Povestirea propriu-zisă începe când bătrânul ia cuvântul. Naratorul principal devine ascultător, iar personajul devine povestitor.",
+    "exercises": [
+     "Explică ce este povestirea în ramă.",
+     "Identifică rama în exemplu.",
+     "Numește o povestire din Hanu Ancuței și povestitorul ei.",
+     "Compară povestirea cu nuvela.",
+     "Scrie o ramă pentru trei povestiri spuse de colegi la o tabără."
+    ],
+    "test": [
+     "Ce este povestirea?",
+     "Ce este rama?",
+     "Cine a scris Hanu Ancuței?",
+     "Ce rol are hanul?",
+     "Ce stil are Sadoveanu?"
+    ],
+    "steps": [
+     "Identifică povestea-cadru și pe cei care ascultă.",
+     "Găsește momentul în care un personaj devine povestitor.",
+     "Observă atmosfera și ritualul povestirii.",
+     "Greșeala frecventă: să confunzi naratorul ramei cu povestitorul din interior."
+    ],
+    "answers": [
+     "O specie epică în care accentul cade pe arta de a povesti.",
+     "Povestea-cadru care cuprinde celelalte povestiri.",
+     "Mihail Sadoveanu.",
+     "Este spațiul în care se adună povestitorii și ascultătorii.",
+     "Solemn, arhaizant, cu atmosferă."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l05": {
+   "ro": {
+    "title": "Nuvela: tipologie",
+    "theory": "Nuvela este o specie epică în proză, de întindere medie, cu un singur fir narativ, conflict puternic și personaje puține, bine conturate. După temă și tehnică, poate fi: istorică (Alexandru Lăpușneanul de C. Negruzzi), psihologică (Moara cu noroc de I. Slavici), fantastică (La țigănci de M. Eliade), realistă, filozofică.",
+    "sample": "Clasificare originală: o nuvelă despre un domnitor crud dintr-un secol trecut (istorică); una despre transformarea interioară a unui om tentat de bani (psihologică); una despre un profesor care intră într-o casă unde timpul curge altfel (fantastică).",
+    "worked": "Fiecare nuvelă are un singur fir narativ și un conflict central. Diferența este dată de subiect (istoric), de interesul pentru interior (psihologic) sau de prezența inexplicabilului (fantastic).",
+    "exercises": [
+     "Clasifică trei nuvele citite după tip.",
+     "Spune trăsăturile nuvelei.",
+     "Compară nuvela cu romanul.",
+     "Explică ce face o nuvelă să fie psihologică.",
+     "Scrie un rezumat de nuvelă fantastică inventată."
+    ],
+    "test": [
+     "Ce este nuvela?",
+     "Ce tip de nuvelă este Alexandru Lăpușneanul?",
+     "Ce tip de nuvelă este La țigănci?",
+     "Ce urmărește nuvela psihologică?",
+     "Câte fire narative are nuvela?"
+    ],
+    "steps": [
+     "Verifică întinderea și firul narativ unic.",
+     "Identifică subiectul și conflictul central.",
+     "Stabilește tipul după temă și tehnică.",
+     "Greșeala frecventă: să crezi că o nuvelă poate avea un singur tip; uneori se îmbină istoricul cu psihologicul."
+    ],
+    "answers": [
+     "O specie epică în proză, de întindere medie, cu conflict puternic.",
+     "Istorică.",
+     "Fantastică.",
+     "Transformarea interioară a personajului.",
+     "Unul."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l06": {
+   "ro": {
+    "title": "Nuvela fantastică: La țigănci",
+    "theory": "Fantasticul apare când în lumea reală pătrunde un fapt inexplicabil, iar cititorul ezită între explicația naturală și cea supranaturală. În La țigănci de Mircea Eliade, Gavrilescu, profesor de pian, coboară din tramvai într-o zi toridă și intră la țigănci; acolo timpul curge altfel, iar când iese, lumea s-a schimbat. Finalul ambiguu îl duce spre o altă existență.",
+    "sample": "Situație originală fantastică: o femeie intră într-o librărie veche pentru zece minute; când iese, vânzătorii nu o mai recunosc, iar calendarul arată că au trecut doi ani.",
+    "worked": "Realul (librăria, ora) este invadat de inexplicabil (timpul dilatat). Nu primim explicație. Ezitarea cititorului este esența fantasticului. Spațiul închis (librăria, casa țigăncilor) funcționează ca prag între lumi.",
+    "exercises": [
+     "Explică ce este fantasticul.",
+     "Identifică pragul dintre lumi în La țigănci.",
+     "Arată cum se manifestă timpul diferit în nuvelă.",
+     "Discută finalul deschis al nuvelei.",
+     "Scrie o situație fantastică scurtă cu un spațiu-prag."
+    ],
+    "test": [
+     "Cine a scris La țigănci?",
+     "Ce meserie are Gavrilescu?",
+     "Ce este fantasticul?",
+     "Ce se întâmplă cu timpul în casa țigăncilor?",
+     "Cum este finalul?"
+    ],
+    "steps": [
+     "Identifică realul de la început.",
+     "Găsește momentul în care apare inexplicabilul.",
+     "Arată ezitarea dintre explicația naturală și cea supranaturală.",
+     "Greșeala frecventă: să cauți o explicație logică sigură; fantasticul păstrează ambiguitatea."
+    ],
+    "answers": [
+     "Mircea Eliade.",
+     "Profesor de pian.",
+     "Pătrunderea inexplicabilului în real, cu ezitarea cititorului.",
+     "Curge altfel, mai încet decât afară.",
+     "Ambiguu, deschis."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l07": {
+   "ro": {
+    "title": "Nuvela psihologică: Moara cu noroc (analiză)",
+    "theory": "Nuvela psihologică urmărește transformările interioare ale personajului. În Moara cu noroc de Ioan Slavici, analiza psihologică folosește monologul interior, stilul indirect liber, gesturile și detaliile semnificative. Ghiță trece de la dorința de a-și asigura familia la complicitate cu Lică Sămădăul, apoi la remușcare și violență; avertismentul bătrânei (mulțumirea cu puțin) încadrează simetric nuvela.",
+    "sample": "Fragment original în stil indirect liber: Ghiță se uita la bani. Ce-ar fi dacă ar mai păstra doar o lună? Nimeni n-ar afla. Și apoi, n-ar fi pentru el, ci pentru copii...",
+    "worked": "Gândurile personajului sunt redate fără verbe de declarație și fără ghilimele, la persoana a III-a, dar cu întrebările și justificările lui: stil indirect liber. Tehnica dezvăluie autoiluzionarea care pregătește căderea morală.",
+    "exercises": [
+     "Găsește un exemplu de stil indirect liber.",
+     "Urmărește etapele transformării lui Ghiță.",
+     "Explică rolul simetriei început–final.",
+     "Analizează un gest semnificativ al personajului.",
+     "Compară-l pe Ghiță cu Lică."
+    ],
+    "test": [
+     "Ce urmărește nuvela psihologică?",
+     "Ce tehnică redă gândurile personajului în exemplu?",
+     "Ce încadrează simetric nuvela?",
+     "Ce justificare își dă Ghiță?",
+     "Ce relație se formează între Ghiță și Lică?"
+    ],
+    "steps": [
+     "Identifică momentele de cumpănă ale personajului.",
+     "Caută tehnicile analizei: monolog interior, stil indirect liber, gesturi.",
+     "Formulează evoluția psihologică.",
+     "Greșeala frecventă: să rezumi acțiunea fără a analiza viața interioară."
+    ],
+    "answers": [
+     "Transformările interioare ale personajului.",
+     "Stilul indirect liber.",
+     "Avertismentul bătrânei.",
+     "Că banii ar fi pentru copii.",
+     "O relație de complicitate."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l08": {
+   "ro": {
+    "title": "Romanul: definiție și tipologie",
+    "theory": "Romanul este o specie epică amplă, cu acțiune complexă pe mai multe planuri, multe personaje și conflicte. După temă: social, istoric, psihologic, de dragoste, de aventuri. După perspectivă: obiectiv (narator omniscient, la persoana a III-a, cu impresie de realitate) sau subiectiv (narator-personaj, la persoana I, cu accent pe trăirile interioare). Romanul românesc se dezvoltă puternic în perioada interbelică.",
+    "sample": "Două începuturi originale: A. Satul se întindea de-a lungul văii, cu casele lui albe; toată lumea știa că la duminică va fi horă. B. Nu știu nici acum de ce am răspuns la scrisoarea ei; poate din orgoliu, poate din frică.",
+    "worked": "A: narator obiectiv, omniscient, frescă socială. B: narator-personaj, subiectiv, introspecție. Cele două începuturi anunță două tipuri de roman: obiectiv și subiectiv.",
+    "exercises": [
+     "Clasifică trei romane citite după temă și perspectivă.",
+     "Spune trăsăturile romanului obiectiv.",
+     "Spune trăsăturile romanului subiectiv.",
+     "Compară romanul cu nuvela.",
+     "Scrie două începuturi de roman, unul obiectiv și unul subiectiv."
+    ],
+    "test": [
+     "Ce este romanul?",
+     "Ce caracterizează romanul obiectiv?",
+     "Ce caracterizează romanul subiectiv?",
+     "Ce tip de început este B?",
+     "În ce perioadă se dezvoltă puternic romanul românesc?"
+    ],
+    "steps": [
+     "Identifică tema principală.",
+     "Stabilește perspectiva: narator omniscient sau narator-personaj.",
+     "Încadrează romanul în tipologie.",
+     "Greșeala frecventă: să crezi că persoana I garantează un roman autobiografic; naratorul este o instanță ficțională."
+    ],
+    "answers": [
+     "O specie epică amplă, cu acțiune complexă.",
+     "Narator omniscient, persoana a III-a, impresie de realitate.",
+     "Narator-personaj, persoana I, introspecție.",
+     "Subiectiv.",
+     "În perioada interbelică."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l09": {
+   "ro": {
+    "title": "Personajul de roman: tipologie și construcție",
+    "theory": "Personajele pot fi principale, secundare, episodice; tipice (reprezintă o categorie socială sau morală) sau individualizate; plate (cu o trăsătură dominantă, previzibile) sau rotunde (complexe, care evoluează și surprind). Se construiesc prin caracterizare directă, indirectă, prin relații cu alte personaje și prin evoluție.",
+    "sample": "Exemplu original: Un personaj care apare mereu doar ca avar, cu aceleași gesturi, este plat; un personaj care oscilează între ambiție și remușcare, care se schimbă și ne surprinde, este rotund.",
+    "worked": "Diferența ține de complexitate și evoluție. Personajele rotunde sunt specifice romanului modern; cele plate au rol de tip sau de fundal.",
+    "exercises": [
+     "Clasifică trei personaje de roman după tipologie.",
+     "Explică de ce Ion este un personaj complex.",
+     "Găsește un personaj plat într-o operă studiată.",
+     "Analizează evoluția unui personaj.",
+     "Compară un personaj tipic cu unul individualizat."
+    ],
+    "test": [
+     "Ce este un personaj rotund?",
+     "Ce este un personaj plat?",
+     "Ce este un personaj tipic?",
+     "Cum se construiește un personaj?",
+     "Ce fel de personaj oscilează și evoluează?"
+    ],
+    "steps": [
+     "Identifică rolul personajului în acțiune.",
+     "Verifică dacă evoluează sau rămâne la fel.",
+     "Încadrează-l în tipologie cu dovezi.",
+     "Greșeala frecventă: să confunzi personajul principal cu personajul rotund; un personaj secundar poate fi complex."
+    ],
+    "answers": [
+     "Un personaj complex, care evoluează și surprinde.",
+     "Un personaj cu o trăsătură dominantă, previzibil.",
+     "Un personaj care reprezintă o categorie socială sau morală.",
+     "Prin caracterizare, relații și evoluție.",
+     "Personajul rotund."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l10": {
+   "ro": {
+    "title": "Ion de Liviu Rebreanu: roman realist obiectiv",
+    "theory": "Ion (1920) este un roman realist, obiectiv, social. Are două părți: Glasul pământului și Glasul iubirii. Acțiunea se petrece în satul ardelean Pripas. Ion, flăcău sărac, dorește pământ și se căsătorește cu Ana, fiica bogatului Vasile Baciu, deși o iubește pe Florica. Romanul este construit circular: începe și se termină cu imaginea drumului care intră și iese din sat.",
+    "sample": "Analiză originală a simetriei: un drum care intră în sat la început și iese din sat la final închide lumea romanului ca într-o ramă; cititorul intră și iese din ficțiune pe același drum.",
+    "worked": "Simetria incipit–final (drumul) arată caracterul de frescă închisă, rotundă. Cele două glasuri sunt conflictele interioare ale lui Ion. Naratorul omniscient și detaliile concrete susțin realismul.",
+    "exercises": [
+     "Explică semnificația celor două părți ale romanului.",
+     "Interpretează simetria incipit–final.",
+     "Caracterizează-l pe Ion prin două trăsături și dovezi.",
+     "Identifică planurile narative ale romanului.",
+     "Discută conflictul dintre glasul pământului și glasul iubirii."
+    ],
+    "test": [
+     "Cine a scris Ion?",
+     "În ce an a apărut?",
+     "Cum se numesc cele două părți?",
+     "Unde se petrece acțiunea?",
+     "Ce imagine încadrează romanul?"
+    ],
+    "steps": [
+     "Identifică structura romanului și conflictele.",
+     "Urmărește personajul în relație cu pământul și cu iubirea.",
+     "Arată trăsăturile realiste: narator obiectiv, frescă socială, detalii.",
+     "Greșeala frecventă: să-l judeci pe Ion doar moral, fără a înțelege mentalitatea satului în care pământul înseamnă demnitate."
+    ],
+    "answers": [
+     "Liviu Rebreanu.",
+     "1920.",
+     "Glasul pământului și Glasul iubirii.",
+     "În satul Pripas, în Ardeal.",
+     "Drumul."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l11": {
+   "ro": {
+    "title": "Perspectiva narativă și tehnicile narative",
+    "theory": "Perspectiva narativă poate fi auctorială (narator omniscient), actorială (narator-personaj) sau neutră (narator-martor, care nu știe gândurile personajelor). Tehnicile narative organizează textul: înlănțuirea (episoade una după alta), alternanța (planuri care alternează), inserția (o poveste în alta), simetria (început și final care se oglindesc), analepsa (întoarcerea în trecut), prolepsa (anticiparea viitorului).",
+    "sample": "Text original cu alternanță: Capitolul 1: în oraș, Elena pregătește plecarea. Capitolul 2: în sat, tatăl ei se îmbolnăvește. Capitolul 3: în tren, Elena își amintește copilăria (analepsă).",
+    "worked": "Planurile orașului și satului alternează. Amintirea din tren este o analepsă. Tehnicile construiesc tensiune și dau profunzime personajului.",
+    "exercises": [
+     "Identifică perspectiva narativă într-un roman citit.",
+     "Găsește o analepsă într-un text studiat.",
+     "Explică tehnica alternanței cu un exemplu.",
+     "Construiește un plan de povestire cu inserție.",
+     "Explică rolul simetriei într-un roman."
+    ],
+    "test": [
+     "Ce este perspectiva auctorială?",
+     "Ce este analepsa?",
+     "Ce este alternanța?",
+     "Ce este inserția?",
+     "Ce este simetria compozițională?"
+    ],
+    "steps": [
+     "Stabilește cine povestește și ce știe naratorul.",
+     "Urmărește ordinea episoadelor și găsește întoarcerile în timp.",
+     "Numește tehnicile și explică-le efectul.",
+     "Greșeala frecventă: să numești tehnica fără să explici efectul asupra sensului."
+    ],
+    "answers": [
+     "Perspectiva naratorului omniscient.",
+     "Întoarcerea în trecut.",
+     "Planuri narative care alternează.",
+     "Introducerea unei povești în alta.",
+     "Oglindirea începutului în final."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l12": {
+   "ro": {
+    "title": "Romanul subiectiv: Maitreyi",
+    "theory": "Maitreyi de Mircea Eliade (1933) este un roman subiectiv, al experienței și autenticității. Naratorul-personaj, Allan, un tânăr european aflat la Calcutta, își relatează iubirea pentru Maitreyi, fiica inginerului Narendra Sen, la care locuiește. Romanul folosește fragmente de jurnal, comentarii ulterioare și confesiunea, iar conflictul apare între două culturi și mentalități.",
+    "sample": "Pagină originală de jurnal: Azi am înțeles că nu înțeleg nimic; fiecare gest al ei are un sens pe care nu-l pot citi. Notez totul, ca să nu pierd adevărul acestor zile.",
+    "worked": "Persoana I, jurnalul și confesiunea dau autenticitate. Naratorul recunoaște limitele propriei înțelegeri: conflictul cultural. Scrierea devine mod de a păstra experiența trăită.",
+    "exercises": [
+     "Explică ce înseamnă roman al autenticității.",
+     "Identifică rolul jurnalului în roman.",
+     "Analizează conflictul cultural din roman.",
+     "Compară perspectiva din Maitreyi cu cea din Ion.",
+     "Scrie o pagină de jurnal despre o întâlnire importantă."
+    ],
+    "test": [
+     "Cine a scris Maitreyi?",
+     "Cine este naratorul?",
+     "Unde se petrece acțiunea?",
+     "Ce tehnică dă autenticitate?",
+     "Ce conflict apare în roman?"
+    ],
+    "steps": [
+     "Identifică naratorul și perspectiva subiectivă.",
+     "Găsește procedeele autenticității: jurnal, confesiune.",
+     "Formulează conflictul principal.",
+     "Greșeala frecventă: să confunzi naratorul cu autorul; chiar dacă există surse biografice, Allan este personaj."
+    ],
+    "answers": [
+     "Mircea Eliade.",
+     "Allan, narator-personaj.",
+     "La Calcutta, în India.",
+     "Jurnalul și confesiunea.",
+     "Un conflict între două culturi."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l13": {
+   "ro": {
+    "title": "Stilul direct, indirect și indirect liber",
+    "theory": "Stilul direct redă exact cuvintele personajului, cu linie de dialog sau ghilimele. Stilul indirect le redă prin narator, cu verb de declarație și conjuncție (a spus că...). Stilul indirect liber combină cele două: gândurile sau vorbele personajului apar în discursul naratorului, fără verb de declarație și fără semne de dialog, păstrând expresiile și emoția personajului.",
+    "sample": "Direct: — Nu mai pot! strigă Ana. / Indirect: Ana strigă că nu mai poate. / Indirect liber: Ana se opri. Nu mai putea! De ce trebuia să care ea totul?",
+    "worked": "În stilul indirect liber, persoana a III-a (putea, trebuia) aparține naratorului, dar exclamația și întrebarea aparțin Anei. Tehnica apropie cititorul de interioritatea personajului.",
+    "exercises": [
+     "Transformă un dialog în stil indirect.",
+     "Rescrie un paragraf în stil indirect liber.",
+     "Găsește stilul indirect liber într-un roman studiat.",
+     "Explică rolul stilului indirect liber în analiza psihologică.",
+     "Compară efectul celor trei stiluri pe același enunț."
+    ],
+    "test": [
+     "Ce este stilul direct?",
+     "Ce este stilul indirect?",
+     "Ce este stilul indirect liber?",
+     "Ce stil apare în: Ana strigă că nu mai poate?",
+     "De ce folosesc romancierii stilul indirect liber?"
+    ],
+    "steps": [
+     "Caută semnele dialogului: dacă există, stilul este direct.",
+     "Caută verbul de declarație cu conjuncție: stil indirect.",
+     "Dacă gândurile personajului apar fără marcaj, în vocea naratorului, stilul este indirect liber.",
+     "Greșeala frecventă: să confunzi stilul indirect liber cu monologul interior la persoana I."
+    ],
+    "answers": [
+     "Redarea exactă a cuvintelor personajului.",
+     "Redarea prin narator, cu verb de declarație și conjuncție.",
+     "Gândurile personajului în vocea naratorului, fără marcaje.",
+     "Stil indirect.",
+     "Pentru a reda interioritatea personajului."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l14": {
+   "ro": {
+    "title": "Evoluția prozei românești: repere",
+    "theory": "Proza românească evoluează de la cronicile medievale și romanul popular la nuvela romantică (1840), primul roman (1863), realismul junimist (Slavici, Caragiale), romanul interbelic obiectiv (Rebreanu) și subiectiv (Camil Petrescu, Eliade, Hortensia Papadat-Bengescu), apoi la proza postbelică (Marin Preda) și la proza contemporană (de exemplu, Mircea Cărtărescu).",
+    "sample": "Axă originală: 1840 – nuvela romantică; 1863 – primul roman; 1881 – nuvela realistă psihologică; 1920 – romanul realist modern; 1930 – romanul subiectiv; 1955 – romanul postbelic; după 1990 – proza contemporană.",
+    "worked": "Axa arată cum se schimbă formele: de la scrierea istorică la ficțiunea modernă, de la obiectivitate la subiectivitate și, apoi, la experimentul contemporan.",
+    "exercises": [
+     "Construiește o axă a evoluției prozei românești.",
+     "Așază pe axă cinci opere studiate.",
+     "Explică diferența dintre romanul interbelic obiectiv și cel subiectiv.",
+     "Prezintă un prozator contemporan român.",
+     "Compară o nuvelă romantică cu una realistă."
+    ],
+    "test": [
+     "Când apare nuvela romantică?",
+     "Când apare primul roman românesc important?",
+     "Ce tip de roman scrie Rebreanu?",
+     "Ce tip de roman scrie Camil Petrescu?",
+     "Numește un prozator contemporan român."
+    ],
+    "steps": [
+     "Așază operele în ordine cronologică.",
+     "Leagă fiecare etapă de curentul sau de formula ei.",
+     "Explică ce se schimbă de la o etapă la alta.",
+     "Greșeala frecventă: să crezi că o formulă o înlocuiește complet pe cealaltă; ele coexistă."
+    ],
+    "answers": [
+     "În 1840.",
+     "În 1863.",
+     "Roman realist obiectiv.",
+     "Roman subiectiv, psihologic.",
+     "Mircea Cărtărescu."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l15": {
+   "ro": {
+    "title": "Genul liric: eul liric, imaginar, figuri",
+    "theory": "Poezia lirică exprimă direct gânduri și sentimente prin eul liric, cu mărci ale persoanei I (eu, mă, mi) sau ale adresării (tu). Lirismul poate fi subiectiv (eul vorbește despre sine) sau obiectiv (eul se ascunde în spatele unei măști, al unui rol sau al unei descrieri). Analizăm: tema, motivele, imaginarul poetic, figurile (epitet, metaforă, comparație, personificare, oximoron, simbol, alegorie), prozodia.",
+    "sample": "Vers original: Sunt piatra care-ascultă marea / Și-o poartă-n suflet, rece, an de an.",
+    "worked": "Eul liric apare prin sunt și se identifică metaforic cu piatra. Lirismul este subiectiv (eul se definește pe sine). Metafora piatra care ascultă marea sugerează răbdarea și singurătatea.",
+    "exercises": [
+     "Identifică mărcile eului liric într-o poezie studiată.",
+     "Spune diferența dintre lirismul subiectiv și cel obiectiv.",
+     "Explică o metaforă dintr-o poezie citită.",
+     "Definește oximoronul și dă un exemplu.",
+     "Scrie două versuri cu lirism subiectiv."
+    ],
+    "test": [
+     "Ce exprimă poezia lirică?",
+     "Ce sunt mărcile eului liric?",
+     "Ce este lirismul obiectiv?",
+     "Ce este oximoronul?",
+     "Ce sugerează metafora din exemplu?"
+    ],
+    "steps": [
+     "Caută eul liric și mărcile lui.",
+     "Identifică tema și imaginile principale.",
+     "Explică figurile și leagă-le de sentiment.",
+     "Greșeala frecventă: să confunzi eul liric cu poetul real."
+    ],
+    "answers": [
+     "Gânduri și sentimente, direct.",
+     "Pronumele și verbele la persoana I sau adresarea la persoana a II-a.",
+     "Eul se ascunde în spatele unei măști sau descrieri.",
+     "Alăturarea a doi termeni contradictorii.",
+     "Răbdarea și singurătatea."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l16": {
+   "ro": {
+    "title": "Poezia epică: fabula și balada cultă",
+    "theory": "Unele poezii povestesc: fabula (de exemplu, fabulele lui Grigore Alexandrescu) are personaje-animale cu trăsături omenești și o morală; balada cultă narează în versuri un fapt eroic sau dramatic. În ele coexistă narațiunea, dialogul și elemente lirice. Le analizăm ca texte epice în versuri.",
+    "sample": "Fabulă originală în rezumat: Un câine mare se laudă că apără satul, dar fuge la primul lătrat de lup; cățelul mic, de care râdea, rămâne și dă alarma. Morala: curajul nu se măsoară după mărime.",
+    "worked": "Fabula are personaje-animale, narațiune, dialog posibil și morală explicită. Critica unui defect (lăudăroșenia) este specifică speciei.",
+    "exercises": [
+     "Analizează o fabulă studiată: personaje, defect, morală.",
+     "Explică de ce fabula aparține genului epic.",
+     "Compară fabula cu balada cultă.",
+     "Scrie o fabulă scurtă în versuri.",
+     "Găsește ironia într-o fabulă de Grigore Alexandrescu."
+    ],
+    "test": [
+     "Ce gen este fabula?",
+     "Ce are fabula la sfârșit, de obicei?",
+     "Ce critică fabula din exemplu?",
+     "Ce narează balada cultă?",
+     "Cine este un fabulist român cunoscut?"
+    ],
+    "steps": [
+     "Identifică narațiunea și personajele.",
+     "Găsește defectul criticat și morala.",
+     "Încadrează textul în genul epic, cu argumente.",
+     "Greșeala frecventă: să încadrezi fabula în genul liric pentru că este în versuri."
+    ],
+    "answers": [
+     "Genul epic.",
+     "O morală.",
+     "Lăudăroșenia.",
+     "Un fapt eroic sau dramatic.",
+     "Grigore Alexandrescu."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l17": {
+   "ro": {
+    "title": "Poezia romantică: Floare albastră",
+    "theory": "Floare albastră de Mihai Eminescu (1873) este o poezie romantică despre iubire și cunoaștere. Prima voce, a iubitei, îi reproșează eului liric că se pierde în lumea abstractă a cunoașterii; apoi, ea îl cheamă în natura plină de viață. Idila visată se încheie cu despărțirea și cu tristețea. Motivul floarea albastră, din romantismul european, simbolizează idealul de neatins.",
+    "sample": "Analiză originală: Poezia pune față în față două lumi: lumea gândului (abstractă, rece, înaltă) și lumea iubirii (concretă, caldă, în natură). Eul liric nu poate rămâne definitiv în a doua; de aici tristețea finală.",
+    "worked": "Antiteza dintre cele două lumi organizează poezia. Natura este cadru al iubirii, specific romantic. Simbolul florii albastre și finalul elegiac exprimă idealul care se pierde.",
+    "exercises": [
+     "Identifică cele două lumi din poezie.",
+     "Explică simbolul florii albastre.",
+     "Analizează rolul naturii în poezie.",
+     "Arată trăsăturile romantice ale poeziei.",
+     "Compară poezia cu o altă poezie de dragoste romantică."
+    ],
+    "test": [
+     "Cine a scris Floare albastră?",
+     "Ce simbolizează floarea albastră?",
+     "Ce reproșează iubita eului liric?",
+     "Ce rol are natura?",
+     "Cum se încheie poezia?"
+    ],
+    "steps": [
+     "Identifică vocile poeziei.",
+     "Găsește antiteza dintre lumea cunoașterii și lumea iubirii.",
+     "Leagă simbolul și finalul de viziunea romantică.",
+     "Greșeala frecventă: să citești poezia doar ca poveste de dragoste fericită; finalul este elegiac."
+    ],
+    "answers": [
+     "Mihai Eminescu.",
+     "Idealul de neatins.",
+     "Că se pierde în lumea abstractă a cunoașterii.",
+     "Este cadrul iubirii.",
+     "Cu despărțirea și tristețea."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l18": {
+   "ro": {
+    "title": "Poezia simbolistă: Plumb",
+    "theory": "Simbolismul sugerează stări prin simboluri, corespondențe, muzicalitate, culori și repetiții. Plumb de George Bacovia (1916, volumul Plumb) exprimă sentimentul de apăsare, singurătate și moarte. Plumbul este simbolul central: greu, rece, cenușiu, închis. Spațiul închis (cavoul) și repetițiile creează o atmosferă sufocantă.",
+    "sample": "Analiză originală: Repetarea aceluiași cuvânt în aproape fiecare vers face ca totul să devină greu și cenușiu; chiar și iubirea capătă greutatea metalului.",
+    "worked": "Repetiția simbolului transmite starea de apăsare, nu o descrie direct. Spațiul închis exclude ieșirea. Muzicalitatea monotonă susține sentimentul. Acestea sunt trăsături simboliste.",
+    "exercises": [
+     "Explică simbolul plumbului.",
+     "Arată rolul repetiției.",
+     "Identifică spațiul poeziei și semnificația lui.",
+     "Enumeră trăsăturile simbolismului.",
+     "Compară Plumb cu o poezie romantică."
+    ],
+    "test": [
+     "Cine a scris Plumb?",
+     "Ce curent ilustrează?",
+     "Ce sugerează plumbul?",
+     "Ce rol are repetiția?",
+     "Ce fel de spațiu apare?"
+    ],
+    "steps": [
+     "Identifică simbolul central.",
+     "Arată cum sugerează starea prin repetiție și atmosferă.",
+     "Leagă trăsăturile de simbolism.",
+     "Greșeala frecventă: să explici simbolul printr-un singur sens; el sugerează mai multe stări."
+    ],
+    "answers": [
+     "George Bacovia.",
+     "Simbolismul.",
+     "Apăsarea, singurătatea, moartea.",
+     "Intensifică atmosfera apăsătoare.",
+     "Un spațiu închis, sufocant."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l19": {
+   "ro": {
+    "title": "Poezia modernă: Testament și Eu nu strivesc corola de minuni a lumii",
+    "theory": "Modernismul aduce limbaj nou, metafore surprinzătoare, ambiguitate și interes pentru poezia însăși (arta poetică). Testament de Tudor Arghezi (1927) prezintă cartea ca moștenire spirituală pentru urmași și transformarea suferinței și a cuvintelor aspre în frumusețe (estetica urâtului). Eu nu strivesc corola de minuni a lumii de Lucian Blaga (1919) exprimă atitudinea de a păstra și adânci misterul lumii prin poezie.",
+    "sample": "Comparație originală: Arghezi transformă materia grea a vieții în artă; Blaga refuză să explice lumea până la capăt și preferă să-i mărească taina. Ambele texte sunt arte poetice moderne.",
+    "worked": "Ambele poezii vorbesc despre rostul poeziei. Arghezi pune accent pe transfigurare și moștenire; Blaga pe mister și cunoaștere poetică. Limbajul metaforic și ambiguitatea sunt moderne.",
+    "exercises": [
+     "Explică ce este o artă poetică.",
+     "Interpretează imaginea cărții ca moștenire.",
+     "Explică atitudinea față de mister la Blaga.",
+     "Compară cele două arte poetice.",
+     "Scrie un scurt text despre rostul poeziei."
+    ],
+    "test": [
+     "Ce este o artă poetică?",
+     "Cine a scris Testament?",
+     "Ce înseamnă estetica urâtului?",
+     "Ce atitudine are eul liric la Blaga față de mister?",
+     "Ce curent ilustrează cele două poezii?"
+    ],
+    "steps": [
+     "Identifică tema: poezia însăși.",
+     "Găsește metaforele centrale și explică-le.",
+     "Compară viziunile poeților despre rostul poeziei.",
+     "Greșeala frecventă: să citești metaforele literal."
+    ],
+    "answers": [
+     "O poezie despre rostul poeziei și al poetului.",
+     "Tudor Arghezi.",
+     "Transformarea urâtului în frumusețe artistică.",
+     "Îl păstrează și îl adâncește.",
+     "Modernismul."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l20": {
+   "ro": {
+    "title": "Poezia neomodernistă: Leoaică tânără, iubirea",
+    "theory": "Neomodernismul (anii 1960–1970) recuperează libertatea poeziei moderne după perioada realismului socialist: metafore îndrăznețe, imagini abstracte, joc al limbajului. Leoaică tânără, iubirea de Nichita Stănescu (1964) prezintă iubirea ca pe o leoaică ce sare asupra eului liric și îl transformă; lumea se reconfigurează, iar eul se descoperă schimbat.",
+    "sample": "Analiză originală: Iubirea nu este descrisă, ci personificată ca o fiară tânără care atacă pe neașteptate; după întâlnire, chiar și chipul eului liric îi pare străin.",
+    "worked": "Metafora centrală (iubirea – leoaică) sugerează forța, neprevăzutul și frumusețea sentimentului. Transformarea eului și a lumii arată efectul iubirii. Limbajul este nou și surprinzător.",
+    "exercises": [
+     "Explică metafora centrală.",
+     "Arată cum se transformă eul liric.",
+     "Spune trăsăturile neomodernismului.",
+     "Compară această poezie cu Floare albastră.",
+     "Scrie două versuri cu o metaforă îndrăzneață despre prietenie."
+    ],
+    "test": [
+     "Cine a scris Leoaică tânără, iubirea?",
+     "Ce curent ilustrează?",
+     "Ce sugerează leoaica?",
+     "Ce se întâmplă cu eul liric?",
+     "În ce perioadă apare neomodernismul?"
+    ],
+    "steps": [
+     "Identifică metafora centrală.",
+     "Urmărește transformările din poezie.",
+     "Leagă limbajul nou de neomodernism.",
+     "Greșeala frecventă: să cauți o poveste de dragoste concretă; poezia exprimă trăirea prin metafore."
+    ],
+    "answers": [
+     "Nichita Stănescu.",
+     "Neomodernismul.",
+     "Forța și neprevăzutul iubirii.",
+     "Se transformă și se descoperă schimbat.",
+     "În anii 1960–1970."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l21": {
+   "ro": {
+    "title": "Prozodia și figurile: tropi și simboluri",
+    "theory": "Recapitulăm prozodia (măsura, rima, ritmul, strofa, versul liber) și figurile principale. Tropii schimbă sensul cuvintelor: metafora, metonimia, sinecdoca, simbolul, alegoria, epitetul, comparația, personificarea, hiperbola, oximoronul. Versul liber, specific modernității, renunță la rimă și măsură fixă.",
+    "sample": "Exemple originale: Orașul doarme (personificare); a băut un pahar (metonimie: conținutul prin recipient); un oraș de un milion de suflete (sinecdocă); noaptea albă a gândului (oximoron).",
+    "worked": "Fiecare figură are un mecanism: personificarea umanizează, metonimia înlocuiește pe baza unei relații, sinecdoca folosește partea pentru întreg, oximoronul alătură contrarii. Explicăm mereu efectul.",
+    "exercises": [
+     "Găsește un exemplu de vers liber într-o poezie studiată.",
+     "Explică diferența dintre metaforă și metonimie.",
+     "Identifică o sinecdocă într-un text citit.",
+     "Analizează măsura și rima unei strofe clasice.",
+     "Scrie trei enunțuri cu figuri diferite."
+    ],
+    "test": [
+     "Ce este versul liber?",
+     "Ce figură este: a băut un pahar?",
+     "Ce figură este: un milion de suflete?",
+     "Ce figură este: noaptea albă?",
+     "Ce este alegoria?"
+    ],
+    "steps": [
+     "Identifică figura după mecanism.",
+     "Explică sensul figurat.",
+     "Leagă figura de efectul ei în text.",
+     "Greșeala frecventă: să confunzi metonimia cu metafora: metonimia se bazează pe relație, metafora pe asemănare."
+    ],
+    "answers": [
+     "Versul fără rimă și măsură fixă.",
+     "Metonimie.",
+     "Sinecdocă.",
+     "Oximoron.",
+     "O metaforă dezvoltată, o poveste cu sens ascuns."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l22": {
+   "ro": {
+    "title": "Comedia: O scrisoare pierdută (personaje și comic)",
+    "theory": "În O scrisoare pierdută de I. L. Caragiale, personajele sunt tipuri comice: Trahanache (încornoratul simpatic, cu vorba Ai puțintică răbdare), Cațavencu (demagogul), Farfuridi (prostul fudul), Dandanache (politicianul abject), Zoe (femeia voluntară), Tipătescu (prefectul îndrăgostit), Cetățeanul turmentat (votantul confuz). Conflictul este provocat de scrisoarea pierdută și de alegeri.",
+    "sample": "Scenă originală inspirată de comicul de limbaj: Un candidat spune că este pentru progres, dar și împotriva oricărei schimbări, pentru că așa a fost mereu.",
+    "worked": "Contradicția logică dintr-o singură frază produce comic de limbaj și arată lipsa de idei a politicianului. Așa construiește Caragiale tipurile: prin vorbe care se contrazic.",
+    "exercises": [
+     "Caracterizează două personaje ale comediei.",
+     "Găsește tipuri de comic în comedie.",
+     "Explică rolul scrisorii în conflict.",
+     "Explică semnificația finalului.",
+     "Compară un tip caragialian cu un tip comic de azi."
+    ],
+    "test": [
+     "Ce tip uman este Cațavencu?",
+     "Ce provoacă conflictul?",
+     "Ce tip de comic produce o frază contradictorie?",
+     "Cine este Cetățeanul turmentat?",
+     "Ce satirizează comedia?"
+    ],
+    "steps": [
+     "Identifică tipul uman al fiecărui personaj.",
+     "Găsește comicul în replici și situații.",
+     "Leagă comicul de critica moravurilor politice.",
+     "Greșeala frecventă: să-i vezi pe personaje doar ca indivizi, nu ca tipuri sociale."
+    ],
+    "answers": [
+     "Demagogul.",
+     "Pierderea scrisorii și alegerile.",
+     "Comic de limbaj.",
+     "Votantul confuz.",
+     "Moravurile politice."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l23": {
+   "ro": {
+    "title": "Drama modernă: Iona",
+    "theory": "Iona de Marin Sorescu (1968) este o tragedie modernă, în patru tablouri, aproape în întregime monolog. Pescarul Iona, înghițit de un pește, încearcă să iasă, dar descoperă că fiecare pește este înghițit de altul. Textul este o parabolă despre condiția umană, singurătate și căutarea libertății. Finalul este deschis și simbolic.",
+    "sample": "Analiză originală: Iona vorbește singur, dar își dedublează vocea; întrebările lui despre ieșire devin întrebări despre sensul vieții. Spațiul închis al peștelui simbolizează limitele existenței.",
+    "worked": "Monologul dramatic, spațiul simbolic și sensul parabolic sunt moderne. Lipsa unui conflict clasic între personaje mută conflictul în interiorul omului. Finalul deschis lasă cititorul să interpreteze.",
+    "exercises": [
+     "Explică ce este o parabolă.",
+     "Interpretează simbolul peștelui.",
+     "Analizează rolul monologului.",
+     "Compară Iona cu o comedie clasică.",
+     "Scrie un monolog scurt despre o căutare."
+    ],
+    "test": [
+     "Cine a scris Iona?",
+     "Câte tablouri are piesa?",
+     "Ce formă domină textul?",
+     "Ce simbolizează burta peștelui?",
+     "Ce fel de final are?"
+    ],
+    "steps": [
+     "Identifică forma (monolog) și spațiul simbolic.",
+     "Caută semnificațiile parabolice.",
+     "Formulează tema: condiția umană, libertatea.",
+     "Greșeala frecventă: să citești textul literal, ca pe o aventură marină."
+    ],
+    "answers": [
+     "Marin Sorescu.",
+     "Patru.",
+     "Monologul.",
+     "Limitele existenței, singurătatea.",
+     "Deschis, simbolic."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l24": {
+   "ro": {
+    "title": "Literatura și filmul: adaptarea",
+    "theory": "O adaptare transpune o operă literară în alt limbaj artistic (film, teatru, bandă desenată). Regizorul alege ce păstrează, ce taie și ce adaugă; imaginea, muzica și jocul actorilor înlocuiesc descrierile și comentariile naratorului. Comparăm opera și adaptarea: subiect, personaje, perspectivă, atmosferă, final.",
+    "sample": "Comparație originală: în nuvelă, frica personajului este redată prin gândurile lui; în film, prin muzică tensionată, cadre strânse și respirația accelerată a actorului.",
+    "worked": "Aceeași emoție este exprimată prin mijloace diferite. Literatura folosește cuvântul și interioritatea; filmul folosește imaginea și sunetul. Comparația ne arată specificul fiecărei arte.",
+    "exercises": [
+     "Compară o operă studiată cu ecranizarea ei.",
+     "Spune ce s-a schimbat în adaptare și de ce.",
+     "Analizează rolul muzicii într-o scenă de film.",
+     "Propune o scenă de film pentru un fragment de roman.",
+     "Dezbate: poate o adaptare fi mai bună decât cartea?"
+    ],
+    "test": [
+     "Ce este o adaptare?",
+     "Ce înlocuiește în film comentariile naratorului?",
+     "Ce comparăm între operă și adaptare?",
+     "Cum redă filmul frica personajului din exemplu?",
+     "De ce schimbă regizorii unele scene?"
+    ],
+    "steps": [
+     "Identifică elementele păstrate și schimbate.",
+     "Explică mijloacele specifice fiecărei arte.",
+     "Evaluează efectul schimbărilor.",
+     "Greșeala frecventă: să judeci adaptarea doar după fidelitate, fără a ține cont de limbajul filmului."
+    ],
+    "answers": [
+     "Transpunerea unei opere în alt limbaj artistic.",
+     "Imaginea, muzica, jocul actorilor.",
+     "Subiectul, personajele, perspectiva, atmosfera, finalul.",
+     "Prin muzică, cadre strânse și respirația actorului.",
+     "Pentru a adapta opera la limbajul filmului."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l25": {
+   "ro": {
+    "title": "Recenzia și cronica",
+    "theory": "Recenzia prezintă o carte, un film sau un spectacol și dă o apreciere argumentată, de obicei pentru un public larg. Cronica literară sau teatrală este mai amplă, scrisă de un critic, cu analiză și judecată de valoare. Ambele au: date de identificare, prezentare scurtă, analiză (personaje, temă, stil, regie), evaluare, recomandare.",
+    "sample": "Recenzie originală: Spectacolul după Iona, jucat de trupa liceului, păstrează forța monologului; actorul principal reușește să facă din fiecare întrebare o luptă. Decorul minimalist sugerează bine spațiul închis. Recomand spectacolul celor care iubesc teatrul de idei.",
+    "worked": "Recenzia are date, prezentare, analiză (actor, decor), evaluare argumentată și recomandare. Tonul este echilibrat și precis.",
+    "exercises": [
+     "Scrie recenzia unui film văzut recent.",
+     "Scrie o cronică de spectacol după o piesă studiată.",
+     "Găsește evaluarea și recomandarea din exemplu.",
+     "Compară o recenzie online cu o cronică dintr-o revistă literară.",
+     "Scrie o recenzie negativă argumentată."
+    ],
+    "test": [
+     "Ce este recenzia?",
+     "Prin ce diferă cronica?",
+     "Ce elemente are o recenzie?",
+     "Ce apreciază autorul exemplului?",
+     "Cui recomandă spectacolul?"
+    ],
+    "steps": [
+     "Notează datele și prezintă pe scurt opera.",
+     "Analizează două-trei elemente importante.",
+     "Evaluează argumentat și recomandă.",
+     "Greșeala frecventă: opinia fără argumente sau doar povestirea subiectului."
+    ],
+    "answers": [
+     "Prezentarea unei opere cu apreciere argumentată.",
+     "Este mai amplă și mai analitică, scrisă de un critic.",
+     "Date, prezentare, analiză, evaluare, recomandare.",
+     "Forța monologului și decorul minimalist.",
+     "Celor care iubesc teatrul de idei."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l26": {
+   "ro": {
+    "title": "Stilurile funcționale și registrele stilistice",
+    "theory": "Stilurile funcționale sunt variante ale limbii folosite în domenii diferite: beletristic (literatura), științific, juridico-administrativ, publicistic, colocvial. Registrele stilistice sunt nivelurile de exprimare: popular, familiar, standard, regional, arhaic, argotic, de specialitate. Alegerea depinde de situație, scop și public.",
+    "sample": "Același fapt: Științific: Precipitațiile au depășit 40 l/mp. Publicistic: Ploaia torențială a inundat orașul! Colocvial: Ce-a mai turnat azi! Beletristic: Cerul își vărsa toată tristețea peste acoperișuri.",
+    "worked": "Fiecare enunț aparține altui stil: precizie (științific), impact (publicistic), spontaneitate (colocvial), expresivitate (beletristic). Registrele diferă: de specialitate, standard, familiar, literar.",
+    "exercises": [
+     "Rescrie un fapt în patru stiluri funcționale.",
+     "Identifică registrul unui fragment de dialog dintr-un roman.",
+     "Explică de ce folosim stilul juridico-administrativ într-o cerere.",
+     "Găsește elemente de argou într-un text și explică-le efectul.",
+     "Analizează registrele din limbajul personajelor caragialiene."
+    ],
+    "test": [
+     "Ce sunt stilurile funcționale?",
+     "Ce stil folosește presa?",
+     "Ce registru este: Ce-a mai turnat azi!?",
+     "Ce stil are o lege?",
+     "De ce folosesc scriitorii registre diferite pentru personaje?"
+    ],
+    "steps": [
+     "Identifică domeniul și scopul textului.",
+     "Observă vocabularul și construcția enunțurilor.",
+     "Numește stilul și registrul.",
+     "Greșeala frecventă: să crezi că stilul beletristic folosește doar limbaj literar; el poate include toate registrele."
+    ],
+    "answers": [
+     "Variante ale limbii folosite în domenii diferite.",
+     "Stilul publicistic.",
+     "Familiar, colocvial.",
+     "Juridico-administrativ.",
+     "Ca să caracterizeze personajele."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l27": {
+   "ro": {
+    "title": "Argumentarea orală și scrisă",
+    "theory": "Argumentarea susține o teză prin argumente (logice, afective, de autoritate) și exemple. Tipuri de raționament: deductiv (de la general la particular), inductiv (de la exemple la concluzie), prin analogie. Într-o dezbatere, folosim contraargumente și respingeri politicoase. În scris, folosim structura eseului argumentativ.",
+    "sample": "Argument inductiv original: Trei elevi care citesc zilnic au rezultate mai bune la redactare; colegii lor care nu citesc au mai multe greșeli. Deci lectura zilnică ajută la redactare.",
+    "worked": "Raționamentul pornește de la exemple particulare și ajunge la o concluzie generală. Limita: trei exemple nu dovedesc o regulă sigură; un argument solid cere date mai multe sau o sursă de autoritate.",
+    "exercises": [
+     "Construiește un argument deductiv.",
+     "Construiește un argument prin analogie.",
+     "Găsește limitele unui argument inductiv.",
+     "Pregătește o intervenție de două minute într-o dezbatere.",
+     "Respinge politicos un contraargument."
+    ],
+    "test": [
+     "Ce este un argument de autoritate?",
+     "Ce este raționamentul inductiv?",
+     "Ce limită are exemplul?",
+     "Ce este un contraargument?",
+     "Ce este raționamentul deductiv?"
+    ],
+    "steps": [
+     "Formulează teza clar.",
+     "Alege tipul de argument și adaugă exemple.",
+     "Anticipează contraargumentele și răspunde-le.",
+     "Greșeala frecventă: generalizarea grăbită din prea puține exemple."
+    ],
+    "answers": [
+     "Un argument bazat pe opinia unui specialist recunoscut.",
+     "De la exemple la o concluzie generală.",
+     "Trei exemple nu dovedesc o regulă sigură.",
+     "Un argument care susține poziția opusă.",
+     "De la general la particular."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l28": {
+   "ro": {
+    "title": "Eseul despre particularitățile unui text",
+    "theory": "Eseul despre o operă (structurat) cere, de obicei: încadrarea textului într-o perioadă, curent sau specie, cu argumente; prezentarea temei și a viziunii, prin două episoade sau secvențe; analiza a două elemente de structură și de compoziție (titlu, incipit, final, relații între personaje, conflict, perspectivă, figuri etc.); respectarea normelor și o structură clară.",
+    "sample": "Plan original pentru un basm cult: 1. Încadrare: basm cult, cu două argumente (autor, stil; tipar popular). 2. Tema: inițierea, ilustrată prin două probe. 3. Elemente de structură: titlul, incipitul și finalul cu formule. 4. Concluzie.",
+    "worked": "Planul respectă cerințele: încadrare argumentată, temă cu secvențe, două elemente de structură, concluzie. Fiecare punct devine un paragraf.",
+    "exercises": [
+     "Fă planul unui eseu despre o nuvelă studiată.",
+     "Scrie încadrarea argumentată a unei poezii studiate.",
+     "Analizează titlul și finalul unei opere.",
+     "Scrie un paragraf despre tema unui roman, cu două secvențe.",
+     "Autoevaluează un eseu după cerințe."
+    ],
+    "test": [
+     "Ce cerință are, de obicei, prima parte a eseului?",
+     "Cum ilustrăm tema?",
+     "Ce elemente de structură putem analiza?",
+     "Ce respectăm la redactare?",
+     "Ce conține planul din exemplu?"
+    ],
+    "steps": [
+     "Citește atent cerințele eseului.",
+     "Fă un plan cu un paragraf pentru fiecare cerință.",
+     "Susține fiecare idee cu secvențe din text și verifică normele.",
+     "Greșeala frecventă: repovestirea operei în locul analizei cerute."
+    ],
+    "answers": [
+     "Încadrarea textului, cu argumente.",
+     "Prin episoade sau secvențe semnificative.",
+     "Titlul, incipitul, finalul, conflictul, perspectiva, relațiile dintre personaje.",
+     "Normele de ortografie, punctuație și exprimare.",
+     "Încadrarea, tema, elementele de structură, concluzia."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l29": {
+   "ro": {
+    "title": "Caracterizarea personajului (eseu)",
+    "theory": "Eseul de caracterizare cere: statutul social, psihologic, moral al personajului; o trăsătură ilustrată prin două episoade sau secvențe; un element de structură relevant (conflict, relația cu alt personaj, incipit, final); modalități de caracterizare (directă și indirectă).",
+    "sample": "Plan original pentru Ion: statut social – flăcău sărac, harnic; trăsătură – lăcomia de pământ, ilustrată prin două episoade; element de structură – conflictul dintre glasul pământului și glasul iubirii; modalități – caracterizare directă (narator, alte personaje) și indirectă (fapte, gesturi, limbaj).",
+    "worked": "Planul acoperă toate cerințele. Episoadele aleg momente semnificative pentru trăsătură. Conflictul leagă personajul de structura romanului.",
+    "exercises": [
+     "Fă planul de caracterizare pentru un personaj dintr-o nuvelă studiată.",
+     "Ilustrează o trăsătură prin două secvențe.",
+     "Analizează relația dintre două personaje.",
+     "Găsește exemple de caracterizare directă și indirectă.",
+     "Scrie concluzia unei caracterizări."
+    ],
+    "test": [
+     "Ce înseamnă statut social al personajului?",
+     "Cum ilustrăm o trăsătură?",
+     "Ce element de structură poate fi analizat?",
+     "Ce este caracterizarea indirectă?",
+     "Ce trăsătură ilustrează planul pentru Ion?"
+    ],
+    "steps": [
+     "Stabilește statutul personajului.",
+     "Alege o trăsătură și două episoade care o ilustrează.",
+     "Analizează un element de structură și modalitățile de caracterizare.",
+     "Greșeala frecventă: să înșiri multe trăsături fără ilustrare."
+    ],
+    "answers": [
+     "Poziția lui în societate.",
+     "Prin două episoade sau secvențe.",
+     "Conflictul, relația cu alt personaj, incipitul, finalul.",
+     "Trăsăturile reieșite din fapte, gesturi, limbaj.",
+     "Lăcomia de pământ."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l30": {
+   "ro": {
+    "title": "Rezumatul și sinteza",
+    "theory": "Rezumatul redă pe scurt, la persoana a III-a, conținutul unui text, fără comentarii. Sinteza adună informații din mai multe surse sau texte și le organizează pe idei, cu comparații și concluzii. La liceu, sinteza se folosește pentru teme ca: evoluția prozei, trăsăturile unui curent, imaginea unui motiv în mai multe opere.",
+    "sample": "Sinteză originală: Motivul drumului apare în Ion (simetria incipit–final), în Povestea lui Harap-Alb (drumul inițierii) și în La țigănci (drumul spre altă lume). Concluzie: drumul semnifică trecerea și transformarea.",
+    "worked": "Sinteza nu rezumă fiecare operă, ci le compară în jurul unei idei (motivul drumului) și formulează o concluzie generală.",
+    "exercises": [
+     "Scrie rezumatul unei nuvele studiate în 150 de cuvinte.",
+     "Scrie o sinteză despre motivul iubirii în trei poezii studiate.",
+     "Spune diferența dintre rezumat și sinteză.",
+     "Fă o hartă conceptuală pentru o sinteză.",
+     "Formulează concluzia unei sinteze despre romanul interbelic."
+    ],
+    "test": [
+     "Ce este rezumatul?",
+     "Ce este sinteza?",
+     "Ce motiv urmărește exemplul?",
+     "Ce concluzie formulează exemplul?",
+     "Folosim comentarii în rezumat?"
+    ],
+    "steps": [
+     "Pentru rezumat, urmează planul de idei la persoana a III-a.",
+     "Pentru sinteză, alege o idee comună și grupează informațiile.",
+     "Încheie sinteza cu o concluzie generală.",
+     "Greșeala frecventă: sinteza care doar înșiră rezumate fără comparații."
+    ],
+    "answers": [
+     "Redarea pe scurt a conținutului unui text.",
+     "Organizarea informațiilor din mai multe surse în jurul unor idei.",
+     "Motivul drumului.",
+     "Drumul semnifică trecerea și transformarea.",
+     "Nu."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l31": {
+   "ro": {
+    "title": "Lexicul: sensuri, câmpuri semantice, expresii",
+    "theory": "La liceu analizăm sensul contextual al cuvintelor: propriu și figurat, polisemie, omonimie, sinonimie, antonimie, câmpuri semantice (cuvinte legate de același domeniu de sens), expresii și locuțiuni. În analiza textelor, câmpurile semantice arată temele dominante.",
+    "sample": "Câmp semantic original al întunericului într-o poezie: noapte, umbră, negru, stins, mormânt. Câmp semantic al luminii: zori, rază, aur, aprins.",
+    "worked": "Opoziția dintre cele două câmpuri semantice sugerează antiteza tematică dintre moarte și viață. Analiza vocabularului susține interpretarea.",
+    "exercises": [
+     "Identifică un câmp semantic într-o poezie studiată.",
+     "Explică sensul figurat al unui cuvânt dintr-un text.",
+     "Găsește două expresii și explică-le.",
+     "Construiește un câmp semantic pentru tema timpului.",
+     "Arată cum susține vocabularul tema unei poezii."
+    ],
+    "test": [
+     "Ce este un câmp semantic?",
+     "Ce sugerează opoziția din exemplu?",
+     "Ce este sensul contextual?",
+     "Ce este o expresie?",
+     "Cum ajută câmpurile semantice interpretarea?"
+    ],
+    "steps": [
+     "Grupează cuvintele textului pe domenii de sens.",
+     "Observă câmpul dominant sau opozițiile.",
+     "Leagă vocabularul de temă.",
+     "Greșeala frecventă: să confunzi câmpul semantic cu familia lexicală."
+    ],
+    "answers": [
+     "Cuvinte legate de același domeniu de sens.",
+     "Antiteza dintre moarte și viață.",
+     "Sensul pe care îl are cuvântul în contextul dat.",
+     "O îmbinare stabilă de cuvinte cu sens unitar.",
+     "Arată temele dominante ale textului."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l32": {
+   "ro": {
+    "title": "Morfosintaxa: acord și dezacord",
+    "theory": "Acordul gramatical leagă forme: predicatul cu subiectul, adjectivul cu substantivul, numele predicativ cu subiectul. Greșeli frecvente: acordul cu un subiect îndepărtat, acordul cu substantive colective (majoritatea elevilor a votat), acordul pronumelui relativ (căruia/căreia), acordul numeralului (doisprezece/douăsprezece). Uneori, scriitorii folosesc expresiv dezacordul în dialogurile personajelor.",
+    "sample": "Corectări: Rezultatele testelor pe care le-am dat săptămâna trecută a fost bune → au fost bune. Douăsprezece elevi → doisprezece elevi. Fata căruia → fata căreia.",
+    "worked": "Subiectul este rezultatele (plural), deci au fost. Elevi este masculin, deci doisprezece. Fata este feminin, deci căreia. Verificarea pornește de la cuvântul regent.",
+    "exercises": [
+     "Corectează acordul: Grupul de turiști au sosit.",
+     "Corectează: Douăsprezece copii.",
+     "Găsește un dezacord expresiv în dialogul unui personaj caragialian.",
+     "Scrie trei enunțuri cu acord corect al pronumelui relativ.",
+     "Explică acordul cu subiectul îndepărtat."
+    ],
+    "test": [
+     "Cu ce se acordă predicatul?",
+     "Corectează: doisprezece fete.",
+     "Corectează: fata căruia i-am scris.",
+     "Ce este dezacordul expresiv?",
+     "Ce verificăm întâi pentru acord?"
+    ],
+    "steps": [
+     "Găsește cuvântul regent (subiect, substantiv).",
+     "Stabilește genul și numărul lui.",
+     "Potrivește forma dependentă.",
+     "Greșeala frecventă: acordul cu cel mai apropiat cuvânt, nu cu subiectul real."
+    ],
+    "answers": [
+     "Cu subiectul, în persoană și număr.",
+     "Douăsprezece fete.",
+     "Fata căreia i-am scris.",
+     "Greșeala folosită intenționat pentru a caracteriza un personaj.",
+     "Cuvântul regent."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l33": {
+   "ro": {
+    "title": "Norma limbii: ortografie, ortoepie, punctuație",
+    "theory": "Ortografia este scrierea corectă, ortoepia este pronunțarea corectă, iar punctuația este folosirea corectă a semnelor. Probleme frecvente la liceu: scrierea cu î/â, a cratimei, a lui i final (copii/copiii), acordul, pronunțarea neologismelor, accentul (caractér, nu carácter), virgula înaintea conectorilor și în incidente.",
+    "sample": "Corectări originale: Elevii s-au intâlnit → Elevii s-au întâlnit. Am văzut doi copiii → Am văzut doi copii. Profesorul, care ne-a predat ieri a plecat → Profesorul, care ne-a predat ieri, a plecat.",
+    "worked": "Î se scrie la început de cuvânt și după prefix. Copii (nearticulat) față de copiii (articulat). Incidenta (care ne-a predat ieri) se închide între virgule.",
+    "exercises": [
+     "Corectează: Copii mei sunt aici.",
+     "Pune virgulele unei construcții incidente.",
+     "Găsește trei neologisme pe care oamenii le pronunță greșit.",
+     "Corectează scrierea cu î/â într-un text.",
+     "Explică regula de scriere copii/copiii."
+    ],
+    "test": [
+     "Ce este ortoepia?",
+     "Corectează: doi copiii.",
+     "Unde punem virgule la o construcție incidentă?",
+     "Când scriem î?",
+     "Ce înseamnă ortografie?"
+    ],
+    "steps": [
+     "Recitește textul cu atenție la fiecare categorie: ortografie, punctuație, acord.",
+     "Verifică formele îndoielnice în DOOM.",
+     "Corectează și explică regula.",
+     "Greșeala frecventă: să închizi doar cu o virgulă o construcție incidentă."
+    ],
+    "answers": [
+     "Pronunțarea corectă.",
+     "Doi copii.",
+     "Înainte și după ea.",
+     "La început de cuvânt și după prefix.",
+     "Scrierea corectă."
+    ]
+   }
+  }
+ }
+}

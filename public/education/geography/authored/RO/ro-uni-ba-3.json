@@ -1,0 +1,1146 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "RO",
+ "stage": "advanced",
+ "grade": "uni-ba-3",
+ "version": "76aa59fda7676eb9a7ea32dce527984bebe57324c24f4a99770ba9f90413e300",
+ "source": "https://www.aracis.ro/",
+ "sourceTitle": "Sinteză orientativă a disciplinelor fundamentale comune programelor de licență Geografie din România, conform standardelor specifice ARACIS (Comisia de specialitate nr. 1 – Științe exacte și științe ale naturii, domeniul de licență Geografie: discipline fundamentale, de specializare și complementare) și planurilor de învățământ publicate de Universitatea din București (geo.unibuc.ro), Universitatea Babeș-Bolyai (geografie.ubbcluj.ro) și Universitatea „Alexandru Ioan Cuza” din Iași (geo.uaic.ro) — anul III: geografia fizică a României, geografia umană și economică a României, geografia regională a României, geografia continentelor, geografia turismului, organizarea spațiului geografic și planificarea teritorială, geografia mediului și a peisajului, metodologia cercetării și lucrarea de licență; fiecare facultate are planul propriu, iar ordinea și denumirile cursurilor pot diferi; lecții originale, fără text copiat din cursuri sau manuale",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "ro",
+ "labels": [
+  "Activitate originală · România · Facultatea de Geografie · Licență, anul III",
+  "Teorie pe înțeles",
+  "Exemplu sau studiu de caz",
+  "Analiză explicată",
+  "Exerciții de seminar și laborator",
+  "Verifică-te",
+  "Exerciții originale; nu înlocuiesc cursul, bibliografia, lucrările practice sau evaluarea facultății.",
+  "Dacă nu ai înțeles: pas cu pas",
+  "Răspunsuri (verifică după ce termini)"
+ ],
+ "units": [
+  {
+   "title": "Geografia fizică a României",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-3-l01",
+    "eu-year-ro-advanced-uni-ba-3-l02",
+    "eu-year-ro-advanced-uni-ba-3-l03",
+    "eu-year-ro-advanced-uni-ba-3-l04"
+   ]
+  },
+  {
+   "title": "Geografia umană și economică a României",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-3-l05",
+    "eu-year-ro-advanced-uni-ba-3-l06",
+    "eu-year-ro-advanced-uni-ba-3-l07",
+    "eu-year-ro-advanced-uni-ba-3-l08",
+    "eu-year-ro-advanced-uni-ba-3-l09"
+   ]
+  },
+  {
+   "title": "Geografia regională a României",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-3-l10",
+    "eu-year-ro-advanced-uni-ba-3-l11",
+    "eu-year-ro-advanced-uni-ba-3-l12",
+    "eu-year-ro-advanced-uni-ba-3-l13"
+   ]
+  },
+  {
+   "title": "Geografia continentelor",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-3-l14",
+    "eu-year-ro-advanced-uni-ba-3-l15",
+    "eu-year-ro-advanced-uni-ba-3-l16",
+    "eu-year-ro-advanced-uni-ba-3-l17"
+   ]
+  },
+  {
+   "title": "Geografia turismului",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-3-l18",
+    "eu-year-ro-advanced-uni-ba-3-l19",
+    "eu-year-ro-advanced-uni-ba-3-l20"
+   ]
+  },
+  {
+   "title": "Organizarea spațiului geografic și planificarea teritorială",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-3-l21",
+    "eu-year-ro-advanced-uni-ba-3-l22",
+    "eu-year-ro-advanced-uni-ba-3-l23",
+    "eu-year-ro-advanced-uni-ba-3-l24"
+   ]
+  },
+  {
+   "title": "Geografia mediului și a peisajului",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-3-l25",
+    "eu-year-ro-advanced-uni-ba-3-l26",
+    "eu-year-ro-advanced-uni-ba-3-l27"
+   ]
+  },
+  {
+   "title": "Metodologia cercetării și lucrarea de licență",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-3-l28",
+    "eu-year-ro-advanced-uni-ba-3-l29",
+    "eu-year-ro-advanced-uni-ba-3-l30"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-ro-advanced-uni-ba-3-l01": {
+   "ro": {
+    "title": "Relieful României: trăsături generale și unități",
+    "theory": "Relieful României (238.397 km²) se remarcă prin proporționalitate (circa o treime munți, o treime dealuri și podișuri, o treime câmpii și lunci), dispunere concentrică în jurul Depresiunii Transilvaniei, varietate și altitudini moderate (Moldoveanu, 2.544 m; minimul la nivelul Mării Negre). Carpații Românești (circa 27.000 km², 54% din lanțul carpatic) se împart în Orientali (cu trei fâșii: cristalino-mezozoică, a flișului și vulcanică), Meridionali (cei mai înalți, cu relief glaciar, platforme de eroziune – Borăscu, Râu Șes, Gornovița) și Occidentali (fragmentați, cu carst și depresiuni-golf). Subcarpații (circa 1.000 m, cu structuri cutate, depresiuni și alunecări), Podișul Transilvaniei (cu domuri și cute diapire), Podișul Moldovei (cueste), Podișul Getic (piemont), Podișul Dobrogei (cel mai vechi), Câmpia Română (câmpie de subsidență, terase, loess), Câmpia de Vest (de acumulare), Dealurile de Vest și Delta Dunării. Treptele de relief și platformele de eroziune arată evoluția îndelungată prin înălțări tectonice și eroziune.",
+    "sample": "Platforma Borăscu, de la circa 2.000 m în Carpații Meridionali, este o suprafață de eroziune veche, înălțată ulterior.",
+    "worked": "Suprafețele plane de la altitudini mari arată că munții au fost nivelați și apoi ridicați din nou.",
+    "exercises": [
+     "Explică trăsăturile generale ale reliefului României.",
+     "Compară cele trei ramuri ale Carpaților.",
+     "Explică ce sunt platformele de eroziune.",
+     "Descrie unitățile extracarpatice.",
+     "Explică dispunerea concentrică a reliefului."
+    ],
+    "test": [
+     "Ce suprafață are România?",
+     "Ce procent din lanțul carpatic se află în România?",
+     "Ce platformă de eroziune se află la circa 2.000 m?",
+     "Ce tip de câmpie este Câmpia Română?",
+     "Care este cea mai veche unitate de relief?"
+    ],
+    "steps": [
+     "Localizează unitatea de relief.",
+     "Analizează structura, altitudinea și formele.",
+     "Explică evoluția ei geomorfologică.",
+     "Greșeala frecventă: să confunzi proporționalitatea reliefului cu simetria; unitățile au suprafețe asemănătoare, dar forme și vârste diferite."
+    ],
+    "answers": [
+     "238.397 km².",
+     "Circa 54%.",
+     "Platforma Borăscu.",
+     "Câmpie de subsidență (cu terase și loess).",
+     "Podișul Dobrogei (Munții Măcinului)."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l02": {
+   "ro": {
+    "title": "Clima României",
+    "theory": "România are climă temperat-continentală de tranziție, determinată de poziția la latitudini medii (43°37′–48°15′ N), între influențele oceanice (vest), continentale (est), submediteraneene (sud-vest), baltice (nord) și pontice (litoral). Carpații funcționează ca barieră pentru masele de aer și creează etajare climatică. Factorii radiativi: radiația globală anuală de circa 110–135 kcal/cm², mai mare în sud-est (Dobrogea). Factorii dinamici: Anticiclonul Azoric (vara, uscat), Anticiclonul Est-European (Siberian – iarna, ger, crivăț), ciclonii mediteraneeni (precipitații abundente, mai ales în sud și sud-vest) și cei nord-atlantici. Temperatura medie anuală: peste 11°C în sud și pe litoral, 8–9°C în podișuri, sub 0°C pe vârfuri (Omu, circa −2,5°C). Extremele: +44,5°C (Ion Sion, 1951) și −38,5°C (Bod, 1942). Precipitațiile: sub 400 mm în Dobrogea și Delta Dunării, 500–700 mm în câmpii și dealuri, peste 1.200–1.400 mm pe crestele înalte. Topoclimatele (de depresiune, de oraș, de litoral) și inversiunile termice nuanțează clima. Tendințe: încălzire de peste 1°C în ultimele decenii, secete și valuri de căldură mai frecvente.",
+    "sample": "Temperatura maximă absolută a României, +44,5°C, a fost înregistrată la Ion Sion (Brăila) în 1951, iar minima de −38,5°C la Bod (Brașov) în 1942.",
+    "worked": "Extremele arată contrastul dintre câmpia expusă la mase de aer tropical și depresiunile intramontane cu inversiuni termice.",
+    "exercises": [
+     "Explică factorii climatici ai României.",
+     "Descrie influențele climatice regionale.",
+     "Explică rolul centrilor barici.",
+     "Analizează repartiția temperaturilor și precipitațiilor.",
+     "Explică tendințele climatice actuale."
+    ],
+    "test": [
+     "Ce centru baric aduce gerurile iernii?",
+     "Unde s-a înregistrat maxima absolută?",
+     "Unde s-a înregistrat minima absolută?",
+     "Unde cad cele mai puține precipitații?",
+     "Ce influență climatică există în sud-vest?"
+    ],
+    "steps": [
+     "Identifică factorii climatici.",
+     "Analizează datele de temperatură și precipitații.",
+     "Explică diferențierile regionale și tendințele.",
+     "Greșeala frecventă: să crezi că inversiunile termice sunt anomalii rare; în depresiunile carpatice sunt foarte frecvente iarna."
+    ],
+    "answers": [
+     "Anticiclonul Est-European (Siberian).",
+     "La Ion Sion (Brăila), 1951.",
+     "La Bod (Brașov), 1942.",
+     "În Dobrogea și Delta Dunării.",
+     "Influența submediteraneană."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l03": {
+   "ro": {
+    "title": "Apele României",
+    "theory": "Rețeaua hidrografică a României este aproape în întregime colectată de Dunăre (circa 97,8% din teritoriu aparține bazinului dunărean), cu dispunere radiară dinspre Carpați. Dunărea are pe teritoriul și la granița României 1.075 km, cu sectoarele: defileul de la Porțile de Fier (Baziaș – Gura Văii), sectorul cu bălți (Gura Văii – Brăila, cu lunca îndiguită în mare parte), Dunărea maritimă (Brăila – Sulina) și delta. Afluenți principali: Mureșul (cel mai lung râu interior, circa 760 km în România), Oltul (circa 615 km), Siretul (cel mai mare debit dintre afluenți – circa 250 m³/s la vărsare), Prutul (granița cu Republica Moldova), Someșul, Jiul, Argeșul, Ialomița, Crișurile, Timișul. Regimul scurgerii: ape mari primăvara, viituri de vară, ape mici toamna și iarna. Lacurile: glaciare, vulcanice, carstice, de baraj natural, lagunare (Razim–Sinoie), limane fluviatile (Snagov), antropice (Vidraru, Porțile de Fier I, Izvorul Muntelui). Apele subterane sunt bogate în câmpii; apele minerale (peste 2.000 de izvoare – Borsec, Bucovina, Tușnad) sunt o resursă importantă. Marea Neagră are la țărmul românesc circa 245 km.",
+    "sample": "Siretul are cel mai mare debit dintre afluenții românești ai Dunării, deși Mureșul este mai lung.",
+    "worked": "Debitul depinde de suprafața bazinului și de afluenții carpatici bogați în apă, nu doar de lungime.",
+    "exercises": [
+     "Explică dispunerea radiară a rețelei hidrografice.",
+     "Descrie sectoarele Dunării românești.",
+     "Compară principalii afluenți ai Dunării.",
+     "Clasifică lacurile României după geneză.",
+     "Explică importanța apelor minerale."
+    ],
+    "test": [
+     "Ce procent din teritoriu aparține bazinului Dunării?",
+     "Care este cel mai lung râu interior?",
+     "Ce afluent are cel mai mare debit?",
+     "Ce râu formează granița cu Republica Moldova?",
+     "Ce tip de lac este Snagovul?"
+    ],
+    "steps": [
+     "Localizează râul sau lacul.",
+     "Analizează bazinul, debitul și regimul.",
+     "Explică utilizările și riscurile.",
+     "Greșeala frecventă: să confunzi cel mai lung râu cu cel mai bogat în apă; Mureșul este cel mai lung, Siretul are debitul cel mai mare."
+    ],
+    "answers": [
+     "Circa 97,8%.",
+     "Mureșul.",
+     "Siretul.",
+     "Prutul.",
+     "Liman fluviatil."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l04": {
+   "ro": {
+    "title": "Vegetația, fauna, solurile și peisajele naturale ale României",
+    "theory": "Învelișul biopedogeografic al României este dispus zonal în câmpii și podișuri și etajat în munți. Zonele: stepa (Dobrogea, Bărăgan – soluri cernoziomice, azi cultivate), silvostepa (stejar pufos, brumăriu, cernoziomuri și faeoziomuri), zona pădurilor de stejar (cer, gârniță, stejar pedunculat – preluvosoluri și luvosoluri). Etajele: pădurile de fag (600–1.200 m, eutricambosoluri), pădurile de amestec și de conifere (molid, brad – 1.200–1.800 m, districambosoluri, spodisoluri), etajul subalpin (jneapăn, ienupăr, afin – 1.800–2.200 m) și alpin (pajiști, umbrisoluri, peste 2.200 m). Vegetația și solurile azonale: lunci (aluviosoluri, zăvoaie), Delta Dunării (stuf, plaur, păduri pe grinduri – Letea, Caraorman), sărături, nisipuri. Fauna: cerb carpatin, urs brun, lup, râs, capră neagră, cocoș de munte în munți; popândău, dropie în câmpii; pelicani, cormorani în deltă. România păstrează cea mai mare parte a pădurilor virgine și cvasivirgine din UE, în afara Scandinaviei, dar se confruntă cu tăieri ilegale. Peisajele naturale sunt foarte diverse, de la stepa pontică la peisajul alpin.",
+    "sample": "Pădurile virgine de fag din România fac parte din situl UNESCO transnațional „Păduri seculare și virgine de fag din Carpați și din alte regiuni ale Europei”.",
+    "worked": "Recunoașterea internațională arată valoarea ecologică excepțională a pădurilor carpatice.",
+    "exercises": [
+     "Descrie zonele de vegetație ale României.",
+     "Descrie etajele de vegetație din Carpați.",
+     "Leagă tipurile de sol de vegetație.",
+     "Descrie vegetația azonală.",
+     "Explică amenințările asupra pădurilor României."
+    ],
+    "test": [
+     "Ce sol caracterizează stepa?",
+     "Între ce altitudini se află etajul fagului?",
+     "Ce sol apare în lunci?",
+     "Ce animal mare caracteristic Carpaților este protejat?",
+     "Ce păduri românești sunt patrimoniu UNESCO?"
+    ],
+    "steps": [
+     "Localizează zona sau etajul.",
+     "Leagă vegetația de climă, relief și sol.",
+     "Evaluează transformările produse de om.",
+     "Greșeala frecventă: să crezi că limitele etajelor sunt fixe; ele variază cu expoziția versanților și cu latitudinea."
+    ],
+    "answers": [
+     "Cernoziomul.",
+     "Circa 600–1.200 m.",
+     "Aluviosolul.",
+     "Ursul brun (sau lupul, râsul, capra neagră).",
+     "Pădurile virgine de fag."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l05": {
+   "ro": {
+    "title": "Populația României: evoluție, structuri și migrații",
+    "theory": "România avea 19,05 milioane de locuitori la recensământul din 2021, față de maximul de circa 23,2 milioane (1990). Scăderea se datorează sporului natural negativ (din 1990, cu fertilitate de circa 1,6–1,8 copii pe femeie) și emigrației (după 2002 și mai ales după 2007), estimată la 3–5 milioane de persoane. Evoluția istorică include creșterea artificială a natalității după Decretul 770 din 1966 (interzicerea avortului), cu generații numeroase („decrețeii”). Structura pe vârste arată îmbătrânire: vârsta medie a crescut peste 42 de ani, iar ponderea vârstnicilor depășește 19%. Structura etnică (2021): români (circa 89% din cei care și-au declarat etnia), maghiari (circa 6%), romi (circa 3,4%, cu subdeclarare), ucraineni, germani, turci, tătari, ruși-lipoveni etc. Structura confesională: ortodocși (circa 85%), romano-catolici, reformați, penticostali, greco-catolici. Densitatea medie este de circa 80 loc./km², cu valori mari în București-Ilfov și pe Valea Prahovei și mici în Delta Dunării și în munți. Migrația internă a fost dinspre rural spre urban până în 1990, apoi și invers, iar azi dominantă este migrația spre marile orașe și periurban.",
+    "sample": "Generațiile născute în 1967–1969, după Decretul 770, sunt mult mai numeroase decât cele dinaintea și de după ele.",
+    "worked": "Piramida vârstelor păstrează urma politicilor demografice timp de multe decenii.",
+    "exercises": [
+     "Explică evoluția numerică a populației României.",
+     "Explică efectele Decretului 770.",
+     "Analizează structura pe vârste.",
+     "Descrie structura etnică și confesională.",
+     "Explică dinamica migrațiilor interne și externe."
+    ],
+    "test": [
+     "Câți locuitori a avut România în 2021?",
+     "Care a fost maximul populației?",
+     "Ce decret a interzis avortul în 1966?",
+     "Care este cea mai numeroasă minoritate?",
+     "Ce densitate medie are România?"
+    ],
+    "steps": [
+     "Analizează datele de recensământ.",
+     "Explică factorii schimbărilor demografice.",
+     "Evaluează consecințele pentru societate și economie.",
+     "Greșeala frecventă: să atribui scăderea populației doar natalității; emigrația a avut un rol la fel de mare."
+    ],
+    "answers": [
+     "Circa 19,05 milioane.",
+     "Circa 23,2 milioane (1990).",
+     "Decretul 770.",
+     "Minoritatea maghiară.",
+     "Circa 80 loc./km²."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l06": {
+   "ro": {
+    "title": "Așezările României: rețeaua urbană și rurală",
+    "theory": "România are 320 de orașe (dintre care 103 municipii) și peste 2.800 de comune cu circa 12.900 de sate. Gradul de urbanizare este de circa 52–54%, printre cele mai mici din UE. Rețeaua urbană este macrocefală: Bucureștiul (circa 1,7 milioane în municipiu) este de peste șase ori mai mare decât următoarele orașe (Cluj-Napoca, Iași, Timișoara, Constanța, Craiova, Brașov, Galați – între circa 250.000 și 320.000 de locuitori). Etapele urbanizării: orașele antice și medievale, orașele moderne din secolul al XIX-lea, urbanizarea forțată a perioadei comuniste (industrializare, orașe noi, declararea forțată a unor orașe în 2004 – mulți „orașe” cu caracter rural). După 1990: declinul orașelor mono-industriale (Motru, Victoria, Petrila), creșterea centrelor universitare și IT, periurbanizarea. Satele: adunate în câmpii, răsfirate în dealuri, risipite în munți; probleme: îmbătrânire, depopulare, infrastructură deficitară (apă, canalizare), dar și dezvoltarea agroturismului și a satelor periurbane. Ierarhia așezărilor este stabilită prin Planul de Amenajare a Teritoriului Național (PATN), secțiunea rețeaua de localități (Legea 351/2001).",
+    "sample": "Multe orașe declarate după 2003 (de exemplu unele din Moldova și Oltenia) au o majoritate a populației ocupată în agricultură.",
+    "worked": "Statutul administrativ de oraș nu reflectă întotdeauna funcțiile urbane reale.",
+    "exercises": [
+     "Descrie rețeaua urbană a României.",
+     "Explică macrocefalia urbană.",
+     "Explică etapele urbanizării.",
+     "Explică problemele orașelor mono-industriale.",
+     "Analizează problemele satelor românești."
+    ],
+    "test": [
+     "Câte orașe are România?",
+     "Ce grad de urbanizare are România?",
+     "Ce lege stabilește rețeaua de localități?",
+     "Dă un exemplu de oraș mono-industrial în declin.",
+     "Ce tip de sate predomină în munți?"
+    ],
+    "steps": [
+     "Încadrează așezarea în ierarhie.",
+     "Analizează funcțiile și dinamica ei.",
+     "Evaluează problemele și perspectivele.",
+     "Greșeala frecventă: să crezi că toate orașele mici sunt urbane prin funcții; unele sunt rurale prin ocupații și dotări."
+    ],
+    "answers": [
+     "320 (dintre care 103 municipii).",
+     "Circa 52–54%.",
+     "Legea 351/2001 (PATN – rețeaua de localități).",
+     "Motru (sau Victoria, Petrila).",
+     "Satele risipite."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l07": {
+   "ro": {
+    "title": "Agricultura României",
+    "theory": "România are circa 14,6 milioane ha de teren agricol (circa 61% din suprafață), din care circa 9 milioane ha teren arabil, plus pășuni, fânețe, vii și livezi. Condițiile naturale sunt favorabile (soluri fertile, climă temperată), dar secetele și lipsa irigațiilor (sistemele de irigații au fost în mare parte distruse după 1990 și sunt în reabilitare) limitează producțiile. Structura agrară este duală: milioane de exploatații foarte mici (cea mai mare parte a exploatațiilor din UE se află în România), de subzistență, și ferme mari comerciale. Culturile principale: porumb (România este printre primii producători din UE), grâu, floarea-soarelui (primul producător din UE în mulți ani), rapiță, orz; legume, cartofi (Depresiunea Brașovului, Suceava), viță-de-vie (Dealu Mare, Cotnari, Murfatlar, Târnave, Odobești), pomi fructiferi (pruni, meri – Subcarpați și dealuri). Creșterea animalelor: ovine (printre cele mai mari efective din UE), bovine, porcine, păsări. Probleme: fragmentarea proprietății, îmbătrânirea fermierilor, lipsa irigațiilor, exportul de materii prime neprocesate. Politica Agricolă Comună a UE aduce subvenții și fonduri de dezvoltare rurală.",
+    "sample": "România se află constant printre primii producători de floarea-soarelui și porumb din Uniunea Europeană.",
+    "worked": "Câmpiile din sud și vest, cu cernoziomuri, sunt favorabile culturilor mari de câmp.",
+    "exercises": [
+     "Descrie fondul funciar al României.",
+     "Explică structura agrară duală.",
+     "Localizează principalele culturi.",
+     "Localizează podgoriile.",
+     "Explică problemele agriculturii românești."
+    ],
+    "test": [
+     "Ce suprafață are terenul agricol al României?",
+     "La ce cultură oleaginoasă este România lider în UE?",
+     "Ce podgorie se află în Dobrogea?",
+     "Unde se cultivă mult cartoful?",
+     "Ce efective de animale sunt foarte mari în România?"
+    ],
+    "steps": [
+     "Analizează condițiile naturale și structura agrară.",
+     "Localizează culturile și ramurile.",
+     "Evaluează problemele și politicile.",
+     "Greșeala frecventă: să crezi că fertilitatea solurilor garantează producții mari; fără irigații și tehnologie, seceta reduce mult recoltele."
+    ],
+    "answers": [
+     "Circa 14,6 milioane ha.",
+     "Floarea-soarelui.",
+     "Murfatlar.",
+     "În Depresiunea Brașovului (și Suceava).",
+     "Ovinele."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l08": {
+   "ro": {
+    "title": "Industria și energia României",
+    "theory": "Industria românească a trecut prin trei etape: industrializarea timpurie (secolul al XIX-lea și interbelic – petrol pe Valea Prahovei, metalurgie la Reșița și Hunedoara), industrializarea forțată comunistă (combinate siderurgice la Galați și Călărași, petrochimie, construcții de mașini, orașe industriale) și restructurarea după 1990 (închiderea marilor întreprinderi neperformante, privatizare, investiții străine). Ramuri actuale: industria auto și componente (Dacia – Mioveni, Ford – Craiova, sute de furnizori în vest și centru), industria electrotehnică și electronică, industria alimentară, industria lemnului și a mobilei, construcțiile navale (Constanța, Mangalia, Galați, Tulcea), chimia și rafinarea petrolului (Petrobrazi, Petromidia), IT (Cluj-Napoca, București, Iași, Timișoara, Brașov). Energia: mix diversificat – hidroenergie (circa o treime din electricitate în anii ploioși: Porțile de Fier, Vidraru, Lotru), nuclear (Cernavodă, circa 18–20%), gaze naturale (Transilvania, Oltenia, Marea Neagră – Neptun Deep), eolian (Dobrogea), solar (în creștere), cărbune (Oltenia, în declin). Regiunile industriale cele mai dinamice sunt Vest, Centru și București-Ilfov.",
+    "sample": "Uzina Dacia de la Mioveni este unul dintre cei mai mari exportatori ai României.",
+    "worked": "Investițiile străine au integrat industria românească în lanțurile de producție europene.",
+    "exercises": [
+     "Ordonează etapele industrializării României.",
+     "Explică restructurarea industrială după 1990.",
+     "Localizează principalele centre industriale actuale.",
+     "Descrie mixul energetic al României.",
+     "Explică diferențele regionale ale industriei."
+    ],
+    "test": [
+     "Unde se află uzina Dacia?",
+     "Ce oraș are o uzină Ford?",
+     "Ce procent din electricitate produce centrala de la Cernavodă?",
+     "Ce rafinărie se află pe litoral?",
+     "Ce regiuni industriale sunt cele mai dinamice?"
+    ],
+    "steps": [
+     "Stabilește etapa și ramura industrială.",
+     "Localizează centrele și factorii de localizare.",
+     "Evaluează competitivitatea și efectele asupra mediului.",
+     "Greșeala frecventă: să crezi că industria României a dispărut după 1990; s-a restructurat spre ramuri noi, orientate spre export."
+    ],
+    "answers": [
+     "La Mioveni.",
+     "Craiova.",
+     "Circa 18–20%.",
+     "Petromidia (Năvodari).",
+     "Vest, Centru și București-Ilfov."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l09": {
+   "ro": {
+    "title": "Serviciile, transporturile și comerțul României",
+    "theory": "Serviciile produc peste 60% din PIB-ul României. Comerțul s-a modernizat rapid după 2000 prin lanțuri internaționale și centre comerciale; comerțul exterior este orientat spre UE (circa trei sferturi din schimburi), cu Germania ca principal partener, urmată de Italia, Ungaria, Franța; exporturi principale: mașini și echipamente, autovehicule și componente, produse agricole (cereale), metale, mobilă. Sectorul IT și serviciile pentru afaceri (externalizare, centre de servicii) sunt printre cele mai dinamice. Transporturile: rețeaua rutieră are circa 86.000 km de drumuri publice, iar autostrăzile au depășit 1.000 km și se extind rapid (A1, A2, A3, A7, A0); rețeaua feroviară are circa 10.600 km, una dintre cele mai lungi din UE, dar cu viteze reduse și nevoie de modernizare; transportul naval: portul Constanța (cel mai mare la Marea Neagră), Dunărea și Canalul Dunăre–Marea Neagră, porturile dunărene Galați, Brăila, Giurgiu; transportul aerian: Henri Coandă (Otopeni), Cluj-Napoca, Iași, Timișoara, Sibiu. Turismul și serviciile financiare se concentrează în București și marile orașe. Decalajele dintre capitală și restul țării sunt foarte mari în servicii.",
+    "sample": "Rețeaua de autostrăzi a României a depășit pragul de 1.000 km, după decenii de întârziere.",
+    "worked": "Fondurile europene și PNRR au accelerat construcția infrastructurii, dar rețeaua rămâne sub media UE.",
+    "exercises": [
+     "Explică rolul serviciilor în economia României.",
+     "Analizează structura comerțului exterior.",
+     "Descrie rețeaua de transport.",
+     "Explică importanța portului Constanța.",
+     "Explică decalajele regionale în servicii."
+    ],
+    "test": [
+     "Ce pondere au serviciile în PIB?",
+     "Care este principalul partener comercial?",
+     "Câți km are rețeaua feroviară?",
+     "Care este cel mai mare port la Marea Neagră?",
+     "Ce sector de servicii este foarte dinamic în Cluj-Napoca?"
+    ],
+    "steps": [
+     "Identifică sectorul de servicii.",
+     "Analizează repartiția și fluxurile.",
+     "Evaluează problemele și perspectivele.",
+     "Greșeala frecventă: să crezi că o rețea feroviară lungă înseamnă un transport feroviar eficient; contează viteza, calitatea și serviciile."
+    ],
+    "answers": [
+     "Peste 60%.",
+     "Germania.",
+     "Circa 10.600 km.",
+     "Constanța.",
+     "IT (tehnologia informației)."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l10": {
+   "ro": {
+    "title": "Regionarea geografică a României; Carpații și depresiunile intracarpatice",
+    "theory": "Regionarea geografică împarte teritoriul în unități cu caracteristici naturale și umane comune. Se pot delimita regiuni naturale (pe baza reliefului și a peisajului – Carpații, Subcarpații, podișurile, câmpiile, Delta Dunării), regiuni istorice (Muntenia, Oltenia, Moldova, Transilvania, Banat, Crișana, Maramureș, Dobrogea, Bucovina) și regiuni funcționale (polarizate de marile orașe) sau de dezvoltare (cele opt NUTS 2). Carpații sunt o regiune cu resurse (păduri, ape, minereuri, pajiști, peisaje), populare veche (sate până la 1.000–1.400 m, unele dintre cele mai înalte așezări permanente din Europa Centrală), activități pastorale (transhumanță, mai ales din Mărginimea Sibiului), forestiere, miniere și turistice. Depresiunile intracarpatice (Brașov, Ciuc, Giurgeu, Maramureș, Petroșani, Hațeg, Loviștea, Făgăraș) sunt „vetre” de locuire, cu orașe, agricultură și industrie. Țările (Țara Hațegului, Țara Maramureșului, Țara Bârsei, Țara Făgărașului, Țara Oașului, Țara Lăpușului) sunt regiuni tradiționale cu identitate culturală puternică.",
+    "sample": "Țara Hațegului este și geoparc UNESCO, cunoscut pentru fosilele de dinozauri pitici.",
+    "worked": "Regiunile tradiționale pot combina valoarea naturală, științifică și culturală într-un brand teritorial.",
+    "exercises": [
+     "Compară tipurile de regiuni geografice.",
+     "Explică rolul Carpaților ca regiune de locuire.",
+     "Localizează depresiunile intracarpatice.",
+     "Explică ce sunt „țările” românești.",
+     "Explică transhumanța."
+    ],
+    "test": [
+     "Câte regiuni de dezvoltare are România?",
+     "Ce depresiune este cunoscută ca Țara Bârsei?",
+     "Ce geoparc UNESCO se află în Țara Hațegului?",
+     "Ce zonă pastorală este cunoscută pentru transhumanță?",
+     "Ce este o „țară” în geografia românească?"
+    ],
+    "steps": [
+     "Stabilește criteriul de regionare.",
+     "Delimitează regiunea pe hartă.",
+     "Analizează caracteristicile naturale și umane.",
+     "Greșeala frecventă: să confunzi regiunile istorice cu regiunile de dezvoltare; limitele lor nu coincid."
+    ],
+    "answers": [
+     "Opt.",
+     "Depresiunea Brașovului.",
+     "Geoparcul Țara Hațegului.",
+     "Mărginimea Sibiului.",
+     "O regiune tradițională cu identitate culturală, de obicei o depresiune."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l11": {
+   "ro": {
+    "title": "Regiuni extracarpatice: Moldova, Dobrogea și Delta Dunării",
+    "theory": "Moldova (între Carpați și Prut) cuprinde Carpații Orientali, Subcarpații Moldovei, Podișul Moldovei (cu Podișul Sucevei, Câmpia Moldovei – Jijiei, Podișul Bârladului) și Câmpia Siretului inferior. Are climă continentală, păduri în nord, agricultură, podgorii (Cotnari, Odobești, Panciu), orașe ca Iași (centru universitar și cultural), Suceava, Bacău, Galați (siderurgie și port dunărean). Regiunea Nord-Est are cel mai mic PIB pe locuitor din țară și o emigrație ridicată. Dobrogea (între Dunăre și Marea Neagră) are cel mai vechi relief (Munții Măcinului), Podișul Dobrogei, climă secetoasă, stepă, lacuri litorale, litoral turistic, portul Constanța, energie eoliană, culturi de cereale și viță-de-vie (Murfatlar), diversitate etnică (turci, tătari, lipoveni, aromâni). Delta Dunării (circa 5.800 km² cu Razim–Sinoie în rezervație) este o regiune specială: rezervație a biosferei, cu populație puțină (Sulina, sate pescărești), turism și ecosisteme unice.",
+    "sample": "Dobrogea găzduiește cele mai multe comunități turcești și tătare din România, cu moschei la Constanța, Mangalia și Medgidia.",
+    "worked": "Istoria otomană a regiunii a lăsat o diversitate culturală vizibilă în peisaj.",
+    "exercises": [
+     "Delimitează și descrie regiunea Moldova.",
+     "Explică problemele de dezvoltare ale Moldovei.",
+     "Delimitează și descrie Dobrogea.",
+     "Explică diversitatea etnică a Dobrogei.",
+     "Explică statutul special al Deltei Dunării."
+    ],
+    "test": [
+     "Ce podgorie celebră se află lângă Iași?",
+     "Ce regiune de dezvoltare are cel mai mic PIB pe locuitor?",
+     "Ce munți din Dobrogea sunt cei mai vechi?",
+     "Ce resursă energetică se dezvoltă în Dobrogea?",
+     "Ce oraș se află la vărsarea brațului Sulina?"
+    ],
+    "steps": [
+     "Delimitează regiunea.",
+     "Analizează componentele naturale și umane.",
+     "Evaluează problemele și potențialul.",
+     "Greșeala frecventă: să crezi că Moldova istorică este identică cu regiunea Moldova din România; o parte se află în Republica Moldova și Ucraina."
+    ],
+    "answers": [
+     "Cotnari.",
+     "Nord-Est.",
+     "Munții Măcinului.",
+     "Energia eoliană.",
+     "Sulina."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l12": {
+   "ro": {
+    "title": "Regiuni extracarpatice: Muntenia, Oltenia, Banat și Crișana",
+    "theory": "Muntenia (între Carpați, Dunăre și Siret) cuprinde Carpații Curburii și Meridionali estici, Subcarpații Curburii și Getici, Podișul Getic estic și Câmpia Română estică (Bărăgan). Este polarizată de București și are axe economice pe Valea Prahovei (Ploiești – petrol, rafinării), Pitești (auto), Brăila și Galați (port, siderurgie). Bărăganul este principala regiune cerealieră. Oltenia (între Carpați, Dunăre și Olt) cuprinde Carpații Meridionali vestici, Subcarpații Olteniei, Podișul Getic și Câmpia Olteniei (cu nisipurile de la Dăbuleni); are resurse energetice (cărbune la Motru și Rovinari, hidroenergie la Porțile de Fier, gaze), industrie la Craiova și Slatina (aluminiu), dar și probleme de declin minier și deșertificare. Banatul și Crișana (vestul țării) cuprind Munții Banatului și Apuseni, Dealurile de Vest și Câmpia de Vest; au climă cu influențe oceanice și submediteraneene, agricultură productivă, orașe dinamice (Timișoara, Arad, Oradea), investiții străine și o diversitate etnică istorică (maghiari, germani – șvabi, sârbi, slovaci, bulgari bănățeni). Regiunea Vest are unul dintre cele mai ridicate PIB pe locuitor după București.",
+    "sample": "Timișoara a fost primul oraș din Europa continentală cu iluminat stradal electric public (1884).",
+    "worked": "Tradiția de inovare și poziția aproape de Europa Centrală au favorizat dezvoltarea vestului țării.",
+    "exercises": [
+     "Delimitează și descrie Muntenia.",
+     "Delimitează și descrie Oltenia.",
+     "Explică problemele Olteniei.",
+     "Delimitează și descrie Banatul și Crișana.",
+     "Compară nivelul de dezvoltare al regiunilor."
+    ],
+    "test": [
+     "Ce regiune cerealieră se află în Muntenia?",
+     "Unde se exploatează lignitul în Oltenia?",
+     "Ce oraș oltean produce aluminiu?",
+     "Ce oraș a avut primul iluminat electric stradal?",
+     "Ce regiune vestică are PIB ridicat?"
+    ],
+    "steps": [
+     "Delimitează regiunea.",
+     "Analizează resursele, așezările și economia.",
+     "Compară regiunile și explică decalajele.",
+     "Greșeala frecventă: să crezi că regiunile de câmpie sunt toate agricole; ele au și centre industriale și de servicii importante."
+    ],
+    "answers": [
+     "Bărăganul.",
+     "La Motru și Rovinari.",
+     "Slatina.",
+     "Timișoara (1884).",
+     "Regiunea Vest."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l13": {
+   "ro": {
+    "title": "Regiuni intracarpatice: Transilvania, Maramureș și Bucovina",
+    "theory": "Transilvania (în interiorul arcului carpatic) cuprinde Depresiunea Colinară a Transilvaniei (Podișul Someșan, Câmpia Transilvaniei, Podișul Târnavelor), depresiunile marginale și munții din jur. Are resurse de gaze naturale (Mediaș, Târgu Mureș), sare (Praid, Turda, Ocna Mureș), lemn, ape minerale; agricultură variată; orașe cu tradiție (Cluj-Napoca – centru universitar și IT, Brașov, Sibiu – capitală culturală europeană în 2007, Târgu Mureș, Alba Iulia – orașul Marii Uniri). Diversitatea culturală este mare: români, maghiari, secui (în Harghita și Covasna), sași (în scădere), cu biserici fortificate și centre istorice în patrimoniul UNESCO (Sighișoara, Biertan). Maramureșul (depresiunea și munții din nord) este cunoscut pentru satele tradiționale, bisericile de lemn UNESCO, porțile sculptate, Cimitirul Vesel de la Săpânța. Bucovina (nordul Moldovei) are mănăstirile pictate UNESCO (Voroneț, Humor, Moldovița, Sucevița, Arbore), păduri, turism rural. Regiunile Centru și Nord-Vest au economii dinamice, cu investiții și turism.",
+    "sample": "Sibiu a fost Capitală Culturală Europeană în 2007, împreună cu Luxemburg.",
+    "worked": "Titlul a stimulat restaurarea centrului istoric și dezvoltarea turismului cultural.",
+    "exercises": [
+     "Delimitează și descrie Transilvania.",
+     "Explică resursele Depresiunii Transilvaniei.",
+     "Explică diversitatea culturală a Transilvaniei.",
+     "Descrie specificul Maramureșului.",
+     "Descrie specificul Bucovinei."
+    ],
+    "test": [
+     "Ce resursă de gaze are Depresiunea Transilvaniei?",
+     "Ce salină turistică se află lângă Cluj?",
+     "Ce oraș a fost capitală culturală europeană în 2007?",
+     "Ce cimitir celebru se află în Maramureș?",
+     "Ce mănăstire bucovineană este faimoasă pentru albastrul ei?"
+    ],
+    "steps": [
+     "Delimitează regiunea.",
+     "Analizează componentele naturale, culturale și economice.",
+     "Evaluează potențialul turistic și economic.",
+     "Greșeala frecventă: să confunzi Transilvania istorică (cu Banat, Crișana, Maramureș în sens larg) cu Depresiunea Transilvaniei, care este doar o unitate de relief."
+    ],
+    "answers": [
+     "Gazul metan.",
+     "Salina Turda.",
+     "Sibiu.",
+     "Cimitirul Vesel de la Săpânța.",
+     "Voroneț."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l14": {
+   "ro": {
+    "title": "Asia: diversitate naturală și umană",
+    "theory": "Asia este cel mai mare continent (circa 44,5 milioane km²) și cel mai populat (peste 4,7 miliarde de locuitori, circa 60% din omenire). Relieful are contraste extreme: Himalaya (Everest, 8.849 m), Podișul Tibet („acoperișul lumii”), Marea Moartă (circa −430 m, cel mai jos punct al uscatului), câmpii aluviale imense (Indo-Gangetică, Marea Câmpie Chineză, Mesopotamia), Câmpia Siberiei de Vest, arcurile vulcanice ale Pacificului (Japonia, Indonezia, Filipine). Climatele merg de la ecuatorial la polar, cu musonul Asiei de Sud și de Est, deșerturi (Gobi, Arabia, Thar) și climat continental extrem în Siberia (Oimiakon, sub −60°C). Fluvii mari: Yangtze, Huang He, Gange, Indus, Mekong, Ob, Enisei, Lena. Regiunile umane: Asia de Est (China, Japonia, Coreea – economii puternice), Asia de Sud (India, Pakistan, Bangladesh – populație uriașă), Asia de Sud-Est (ASEAN), Asia de Sud-Vest (Orientul Mijlociu – petrol, conflicte), Asia Centrală, Siberia. Asia este leagănul marilor religii și civilizații și centrul de greutate actual al creșterii economice mondiale.",
+    "sample": "Marea Moartă, la circa 430 m sub nivelul mării, este cel mai jos punct de pe uscatul Pământului.",
+    "worked": "Contrastul cu Everestul (8.849 m) arată amplitudinea extraordinară a reliefului asiatic.",
+    "exercises": [
+     "Descrie contrastele de relief ale Asiei.",
+     "Explică musonul asiatic.",
+     "Localizează marile fluvii.",
+     "Delimitează regiunile umane ale Asiei.",
+     "Explică rolul economic actual al Asiei."
+    ],
+    "test": [
+     "Care este cel mai înalt vârf al lumii?",
+     "Care este cel mai jos punct al uscatului?",
+     "Ce procent din omenire trăiește în Asia?",
+     "Ce fluviu traversează China centrală?",
+     "Ce localitate siberiană este printre cele mai reci locuite?"
+    ],
+    "steps": [
+     "Localizează elementele pe hartă.",
+     "Analizează factorii naturali și umani.",
+     "Compară regiunile Asiei.",
+     "Greșeala frecventă: să tratezi Asia ca pe un spațiu omogen; este cel mai divers continent natural și cultural."
+    ],
+    "answers": [
+     "Everest (8.849 m).",
+     "Țărmul Mării Moarte (circa −430 m).",
+     "Circa 60%.",
+     "Yangtze.",
+     "Oimiakon."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l15": {
+   "ro": {
+    "title": "Africa: cadrul natural și provocările dezvoltării",
+    "theory": "Africa (circa 30,3 milioane km², peste 1,4 miliarde de locuitori) este un continent masiv, cu țărmuri puțin crestate, format în mare parte dintr-un scut vechi cu podișuri înalte. Elemente naturale: Riftul est-african (cu lacuri adânci – Tanganyika, Malawi – și vulcani – Kilimanjaro, 5.895 m), Munții Atlas (tineri, în nord-vest), deșerturile Sahara (cel mai mare deșert cald), Kalahari și Namib, fluviile Nil (cel mai lung din lume, circa 6.650 km), Congo (al doilea debit din lume), Niger, Zambezi (Cascada Victoria). Climatele sunt dispuse simetric față de Ecuator: ecuatorial, subecuatorial (savană), tropical deșertic, mediteranean la extremități. Populația este cea mai tânără și cu cea mai rapidă creștere din lume. Regiuni: Africa de Nord (arabă, legată de Mediterana), Sahelul, Africa de Vest, Centrală, de Est, Australă. Provocări: sărăcia, conflictele, granițele trasate colonial, dependența de exportul de materii prime (petrol, minereuri – cobalt, cupru, aur, diamante; cacao, cafea), schimbările climatice și deșertificarea; dar și creștere economică rapidă, urbanizare, tehnologie mobilă (plăți prin telefon – M-Pesa în Kenya), Zona de Liber Schimb Continentală Africană.",
+    "sample": "Prin sistemul M-Pesa, milioane de kenyeni fără cont bancar plătesc și primesc bani direct de pe telefonul mobil.",
+    "worked": "Tehnologia mobilă a permis Africii să sară peste etape ale dezvoltării infrastructurii bancare clasice.",
+    "exercises": [
+     "Descrie relieful Africii.",
+     "Explică dispunerea simetrică a climatelor.",
+     "Localizează marile fluvii și lacuri.",
+     "Explică provocările dezvoltării.",
+     "Explică rolul tehnologiei mobile în Africa."
+    ],
+    "test": [
+     "Care este cel mai lung fluviu al lumii?",
+     "Ce fluviu african are al doilea debit din lume?",
+     "Care este cel mai înalt vârf al Africii?",
+     "Ce mare structură tectonică traversează estul Africii?",
+     "Ce sistem de plăți mobile s-a dezvoltat în Kenya?"
+    ],
+    "steps": [
+     "Localizează elementele naturale.",
+     "Analizează populația și economia.",
+     "Evaluează provocările și oportunitățile.",
+     "Greșeala frecventă: să crezi că Africa este uniform săracă și deșertică; are regiuni foarte diverse și economii în creștere rapidă."
+    ],
+    "answers": [
+     "Nilul.",
+     "Congo.",
+     "Kilimanjaro (5.895 m).",
+     "Riftul est-african.",
+     "M-Pesa."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l16": {
+   "ro": {
+    "title": "America de Nord și America de Sud",
+    "theory": "America de Nord (circa 24,7 milioane km²) are în vest Cordilierii (Munții Stâncoși, Sierra Nevada, Alaska – Denali, 6.190 m), în centru Marile Câmpii și Câmpia Mississippi, în est Munții Appalachi vechi și Scutul Canadian cu Marile Lacuri (cea mai mare rezervă de apă dulce de suprafață). Climatele merg de la arctic la tropical, cu uragane în Golful Mexic și tornade în Marile Câmpii. SUA și Canada sunt state foarte dezvoltate; Mexicul și America Centrală au economii emergente; Caraibele au turism și vulnerabilitate la uragane. America de Sud (circa 17,8 milioane km²) are Anzii în vest (cel mai lung lanț muntos continental, cu Aconcagua, 6.961 m, și vulcani activi), podișurile vechi Guyanelor și Braziliei, câmpiile Amazonului (cel mai mare fluviu ca debit și bazin), Orinoco și La Plata (pampa). Pădurea amazoniană este cea mai mare pădure tropicală, cu rol global pentru climă și biodiversitate, dar este afectată de defrișări. Populația este puternic urbanizată (peste 80%), concentrată pe coaste (São Paulo, Buenos Aires, Lima, Bogotá). Economiile se bazează pe resurse (soia, carne, cafea, cupru – Chile, litiu – „triunghiul litiului”, petrol – Venezuela, Brazilia).",
+    "sample": "Amazonul transportă circa o cincime din toată apa dulce care ajunge din râuri în oceanul planetar.",
+    "worked": "Bazinul uriaș și precipitațiile ecuatoriale abundente explică debitul fără egal.",
+    "exercises": [
+     "Compară relieful celor două Americi.",
+     "Explică importanța Marilor Lacuri.",
+     "Explică rolul global al pădurii amazoniene.",
+     "Compară nivelul de dezvoltare din cele două Americi.",
+     "Localizează resursele principale ale Americii de Sud."
+    ],
+    "test": [
+     "Care este cel mai înalt vârf al Americii de Nord?",
+     "Ce lanț muntos străbate vestul Americii de Sud?",
+     "Care este cel mai înalt vârf al Americii de Sud?",
+     "Ce fluviu are cel mai mare debit din lume?",
+     "Ce state formează „triunghiul litiului”?"
+    ],
+    "steps": [
+     "Localizează unitățile naturale.",
+     "Compară componentele naturale și umane.",
+     "Evaluează resursele și problemele.",
+     "Greșeala frecventă: să crezi că America Latină este rurală; este una dintre cele mai urbanizate regiuni ale lumii."
+    ],
+    "answers": [
+     "Denali (6.190 m).",
+     "Anzii.",
+     "Aconcagua (6.961 m).",
+     "Amazonul.",
+     "Argentina, Bolivia și Chile."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l17": {
+   "ro": {
+    "title": "Australia, Oceania și Antarctica",
+    "theory": "Australia este cel mai mic continent (circa 7,7 milioane km²) și cel mai uscat continent locuit: circa două treimi sunt aride sau semiaride. Relief: Podișul Australiei de Vest (scut vechi), Câmpiile Centrale (cu Lacul Eyre, sub nivelul mării), Munții Marii Cumpene a Apelor în est. Marea Barieră de Corali (circa 2.300 km) este cel mai mare sistem de recife. Izolarea îndelungată a produs o faună unică (marsupiale – cangurul, koala; monotreme – ornitorincul). Populația (circa 27 de milioane) este concentrată pe coastele de sud-est (Sydney, Melbourne, Brisbane); economie dezvoltată bazată pe minerit (fier, cărbune, litiu, aur), agricultură, servicii și turism. Oceania cuprinde Noua Zeelandă (insule tectonice, vulcani, ghețari, Alpii Sudici), Melanezia, Micronezia și Polinezia, cu state insulare mici amenințate de creșterea nivelului mării (Tuvalu, Kiribati). Antarctica (circa 14 milioane km²) este acoperită de o calotă glaciară cu grosimea medie de circa 2 km, conține circa 70% din apa dulce a Terrei, are cele mai scăzute temperaturi înregistrate (circa −89°C la stația Vostok) și nu are populație permanentă. Tratatul Antarcticii (1959) o rezervă cercetării științifice pașnice; România are stația Law-Racoviță.",
+    "sample": "Statele insulare Tuvalu și Kiribati au altitudini maxime de doar câțiva metri și sunt amenințate de creșterea nivelului mării.",
+    "worked": "Pentru aceste state, schimbările climatice reprezintă o amenințare existențială.",
+    "exercises": [
+     "Descrie cadrul natural al Australiei.",
+     "Explică unicitatea faunei australiene.",
+     "Delimitează regiunile Oceaniei.",
+     "Descrie Antarctica.",
+     "Explică importanța Tratatului Antarcticii."
+    ],
+    "test": [
+     "Care este cel mai mic continent?",
+     "Ce sistem de recife se află lângă Australia?",
+     "Ce temperatură minimă s-a înregistrat la stația Vostok?",
+     "Ce procent din apa dulce se află în Antarctica?",
+     "Ce tratat reglementează Antarctica?"
+    ],
+    "steps": [
+     "Localizează continentul sau regiunea.",
+     "Analizează componentele naturale și umane.",
+     "Evaluează problemele de mediu și politice.",
+     "Greșeala frecventă: să crezi că Antarctica aparține unui stat; revendicările sunt înghețate prin Tratatul Antarcticii."
+    ],
+    "answers": [
+     "Australia.",
+     "Marea Barieră de Corali.",
+     "Circa −89°C.",
+     "Circa 70%.",
+     "Tratatul Antarcticii (1959)."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l18": {
+   "ro": {
+    "title": "Geografia turismului: concepte, potențial și forme",
+    "theory": "Geografia turismului studiază repartiția resurselor turistice, fluxurile de turiști și impactul turismului asupra spațiului. Potențialul turistic este ansamblul resurselor naturale (relief, climă, ape, vegetație, faună, peisaje) și antropice (monumente, muzee, patrimoniu cultural imaterial, evenimente) care pot atrage turiști. Baza tehnico-materială cuprinde structurile de cazare, alimentație, agrement, transport și infrastructura. Indicatori: numărul de sosiri și înnoptări, durata medie a sejurului, indicele de utilizare netă a capacității de cazare, densitatea turistică, funcția turistică (raportul dintre locuri de cazare și populație). Forme de turism: de litoral, montan (de iarnă și de vară), balnear, cultural, religios, rural și agroturism, ecoturism, de afaceri și congrese, de aventură, urban (city break), gastronomic. Modelul ciclului de viață al destinației (Butler, 1980) descrie etapele: explorare, implicare, dezvoltare, consolidare, stagnare, apoi declin sau reîntinerire. Turismul durabil echilibrează beneficiile economice cu protecția mediului și a comunităților locale.",
+    "sample": "Gradul de ocupare a litoralului românesc este foarte mare în iulie–august și foarte mic în restul anului.",
+    "worked": "Sezonalitatea accentuată reduce rentabilitatea și locurile de muncă stabile în turism.",
+    "exercises": [
+     "Explică ce este potențialul turistic.",
+     "Calculează indicatori turistici pe date date.",
+     "Clasifică formele de turism.",
+     "Explică ciclul de viață al destinației.",
+     "Explică principiile turismului durabil."
+    ],
+    "test": [
+     "Ce este potențialul turistic?",
+     "Ce indicator arată durata sejurului?",
+     "Cine a propus ciclul de viață al destinației?",
+     "Ce este ecoturismul?",
+     "Ce problemă are turismul de litoral?"
+    ],
+    "steps": [
+     "Inventariază resursele turistice.",
+     "Analizează infrastructura și fluxurile.",
+     "Evaluează impactul și propune măsuri de dezvoltare durabilă.",
+     "Greșeala frecventă: să crezi că un potențial turistic mare garantează dezvoltarea turismului; contează infrastructura, accesibilitatea și promovarea."
+    ],
+    "answers": [
+     "Ansamblul resurselor naturale și antropice care pot atrage turiști.",
+     "Durata medie a sejurului.",
+     "Richard Butler (1980).",
+     "Turismul în natură, responsabil față de mediu și comunitățile locale.",
+     "Sezonalitatea accentuată."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l19": {
+   "ro": {
+    "title": "Turismul internațional: fluxuri, destinații și impact",
+    "theory": "Turismul internațional a crescut de la circa 25 de milioane de sosiri în 1950 la circa 1,4–1,5 miliarde înainte de pandemia din 2020; după prăbușirea din 2020–2021, sectorul și-a revenit până în 2024 aproape de nivelul anterior. Europa primește circa jumătate din sosiri, urmată de Asia–Pacific și America. Cele mai vizitate state: Franța, Spania, SUA, Italia, Turcia, Mexic; cele mai mari venituri din turism le au SUA și Spania. Factorii creșterii: creșterea veniturilor și a timpului liber, transportul aerian ieftin (companii low-cost), digitalizarea (rezervări online, platforme de cazare), globalizarea. Fluxurile principale sunt intraregionale (în interiorul Europei, al Asiei), iar China a devenit o mare sursă de turiști. Impact: venituri, locuri de muncă, valorificarea patrimoniului, dar și supraturism (Veneția, Barcelona, Dubrovnik, Amsterdam), creșterea chiriilor prin închirieri pe termen scurt, presiune asupra apei și energiei, emisii din zboruri. Organizația Mondială a Turismului (UN Tourism) promovează turismul durabil. Răspunsuri: taxe turistice, limitarea navelor de croazieră, distribuirea fluxurilor în timp și spațiu.",
+    "sample": "Dubrovnik a limitat numărul navelor de croazieră care pot acosta zilnic, pentru a reduce aglomerația din orașul vechi.",
+    "worked": "Gestionarea capacității de primire protejează atât monumentele, cât și viața locuitorilor.",
+    "exercises": [
+     "Descrie evoluția turismului internațional.",
+     "Explică factorii creșterii turismului.",
+     "Localizează principalele destinații.",
+     "Explică fenomenul supraturismului.",
+     "Propune măsuri de gestionare a fluxurilor turistice."
+    ],
+    "test": [
+     "Câte sosiri internaționale erau înainte de pandemie?",
+     "Ce continent primește cele mai multe sosiri?",
+     "Ce stat este cel mai vizitat?",
+     "Ce este supraturismul?",
+     "Ce organizație ONU se ocupă de turism?"
+    ],
+    "steps": [
+     "Analizează datele despre fluxuri.",
+     "Identifică factorii și destinațiile.",
+     "Evaluează impactul și propune soluții.",
+     "Greșeala frecventă: să crezi că mai mulți turiști înseamnă întotdeauna mai mult beneficiu; peste capacitatea de primire apar costuri mari."
+    ],
+    "answers": [
+     "Circa 1,4–1,5 miliarde.",
+     "Europa.",
+     "Franța.",
+     "Aglomerarea excesivă a unei destinații de către turiști.",
+     "UN Tourism (Organizația Mondială a Turismului)."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l20": {
+   "ro": {
+    "title": "Turismul în România: regiuni și produse turistice",
+    "theory": "România are un potențial turistic diversificat: munți accesibili (Bucegi, Făgăraș, Retezat, Apuseni, Rarău), stațiuni de iarnă (Poiana Brașov, Sinaia, Predeal, Straja, Transalpina Ski Resort), litoralul Mării Negre (Mamaia, Eforie, Costinești, Neptun, Vama Veche), Delta Dunării, o parte importantă din izvoarele minerale ale Europei, cu stațiuni balneare (Băile Herculane – atestate din epoca romană, Băile Felix, Sovata, Covasna – cu mofete, Techirghiol – nămol sapropelic), patrimoniu UNESCO cultural (mănăstirile pictate, bisericile de lemn, cetățile dacice, bisericile fortificate, Sighișoara, Hurezi, peisajul minier Roșia Montană) și natural (Delta Dunării, pădurile de fag), castele (Peleș, Bran, Corvinilor), orașe istorice (Sibiu, Brașov, Cluj-Napoca), turism rural (Bucovina, Maramureș, Mărginimea Sibiului), drumuri panoramice (Transfăgărășan, Transalpina). Fluxurile cele mai mari se îndreaptă spre București, Brașov–Prahova, litoral și Bucovina. Turiștii străini provin mai ales din Germania, Italia, Israel, Franța, Ungaria, SUA. Probleme: infrastructura, sezonalitatea, calitatea serviciilor, promovarea, construcțiile haotice în stațiuni.",
+    "sample": "Transfăgărășanul, construit între 1970 și 1974, a devenit unul dintre cele mai cunoscute drumuri montane panoramice din lume.",
+    "worked": "Un obiectiv de infrastructură poate deveni el însuși o atracție turistică majoră.",
+    "exercises": [
+     "Localizează principalele zone turistice ale României.",
+     "Clasifică stațiunile balneare după factorii terapeutici.",
+     "Enumeră obiectivele UNESCO din România.",
+     "Analizează fluxurile turistice.",
+     "Propune soluții pentru problemele turismului românesc."
+    ],
+    "test": [
+     "Ce stațiune balneară are mofete?",
+     "Ce stațiune este atestată din epoca romană?",
+     "Ce drum montan a fost construit între 1970 și 1974?",
+     "Ce sit minier este în patrimoniul UNESCO?",
+     "Din ce țară vin mulți turiști străini?"
+    ],
+    "steps": [
+     "Identifică resursa și forma de turism.",
+     "Localizează destinația și fluxurile.",
+     "Evaluează problemele și potențialul.",
+     "Greșeala frecventă: să crezi că turismul românesc depinde doar de litoral; muntele, balneologia, patrimoniul cultural și ruralul au un potențial mare."
+    ],
+    "answers": [
+     "Covasna.",
+     "Băile Herculane.",
+     "Transfăgărășanul.",
+     "Roșia Montană.",
+     "Germania (sau Italia, Israel)."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l21": {
+   "ro": {
+    "title": "Organizarea spațiului geografic: concepte și modele",
+    "theory": "Organizarea spațiului geografic este modul în care societatea structurează teritoriul: amplasarea așezărilor, activităților, rețelelor și a zonelor funcționale. Concepte: centru și periferie (centrul concentrează puterea, capitalul și inovarea, periferia depinde de el – modelul lui John Friedmann), polarizare (orașele atrag fluxuri din aria lor de influență), axe de dezvoltare (de-a lungul căilor de comunicație), rețele, noduri și fluxuri, accesibilitate. Teoria polilor de creștere (François Perroux) a inspirat politicile de dezvoltare prin concentrarea investițiilor în anumite centre. Teoria difuziunii inovației (Torsten Hägerstrand) arată cum se răspândesc inovațiile în spațiu (de la centre spre periferii, prin ierarhia urbană). Modelele gravitaționale estimează fluxurile dintre localități. Sistemele teritoriale sunt analizate prin structură (elemente și relații), funcționalitate și dinamică. În România, organizarea spațiului este marcată de moștenirea istorică, de sistematizarea comunistă, de rolul dominant al Bucureștiului și de polii regionali de creștere (Cluj-Napoca, Iași, Timișoara, Constanța, Craiova, Brașov, Ploiești), sprijiniți prin politici publice.",
+    "sample": "Între 2007 și 2013, România a desemnat șapte poli de creștere pentru a concentra investițiile europene în marile orașe regionale.",
+    "worked": "Concentrarea investițiilor urmărește să creeze centre care să antreneze dezvoltarea regiunilor din jur.",
+    "exercises": [
+     "Explică relația centru–periferie.",
+     "Explică teoria polilor de creștere.",
+     "Explică difuziunea inovației.",
+     "Aplică modelul gravitațional pentru două localități.",
+     "Analizează organizarea spațiului României."
+    ],
+    "test": [
+     "Cine a formulat teoria polilor de creștere?",
+     "Cine a studiat difuziunea inovației?",
+     "Ce este polarizarea spațiului?",
+     "Câți poli de creștere a desemnat România în 2007–2013?",
+     "Ce este o axă de dezvoltare?"
+    ],
+    "steps": [
+     "Identifică elementele sistemului teritorial (noduri, rețele, zone).",
+     "Analizează relațiile și fluxurile.",
+     "Aplică un model și interpretează abaterile.",
+     "Greșeala frecventă: să crezi că dezvoltarea se răspândește automat de la centru spre periferie; uneori centrul absoarbe resursele periferiei."
+    ],
+    "answers": [
+     "François Perroux.",
+     "Torsten Hägerstrand.",
+     "Atragerea fluxurilor de către un centru din aria lui de influență.",
+     "Șapte.",
+     "O zonă de dezvoltare de-a lungul unei căi de comunicație."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l22": {
+   "ro": {
+    "title": "Planificarea teritorială: instrumente și practică în România",
+    "theory": "Planificarea teritorială (amenajarea teritoriului și urbanismul) urmărește dezvoltarea echilibrată și durabilă a teritoriului. În România, cadrul legal principal este Legea 350/2001 privind amenajarea teritoriului și urbanismul. Documentațiile de amenajare a teritoriului: Planul de Amenajare a Teritoriului Național (PATN, pe secțiuni: rețele de transport, ape, arii protejate, rețeaua de localități, zone de risc natural, turism, dezvoltare rurală), planurile zonale (PATZ), județene (PATJ). Documentațiile de urbanism: Planul Urbanistic General (PUG – stabilește intravilanul, zonificarea funcțională, reglementările de construire), Planul Urbanistic Zonal (PUZ) și Planul Urbanistic de Detaliu (PUD). Strategiile de dezvoltare (Strategia de Dezvoltare Teritorială a României, strategiile integrate de dezvoltare urbană, planurile de mobilitate urbană durabilă) completează planurile. Principii: dezvoltare policentrică, coeziune teritorială, protecția patrimoniului și a mediului, participarea publică. Probleme frecvente: PUG-uri depășite, derogări prin PUZ-uri, extinderea necontrolată a intravilanului, lipsa corelării între localități. Geografii contribuie prin analiza diagnostic, cartografiere GIS, studii de risc și scenarii de dezvoltare.",
+    "sample": "Multe localități din România au funcționat ani la rând cu PUG-uri expirate, iar dezvoltarea s-a făcut prin PUZ-uri punctuale.",
+    "worked": "Lipsa unei viziuni de ansamblu produce cartiere fără drumuri, școli sau spații verzi suficiente.",
+    "exercises": [
+     "Explică obiectivele planificării teritoriale.",
+     "Clasifică documentațiile de amenajare și urbanism.",
+     "Explică rolul PUG-ului.",
+     "Explică principiul dezvoltării policentrice.",
+     "Analizează problemele planificării din România."
+    ],
+    "test": [
+     "Ce lege reglementează amenajarea teritoriului în România?",
+     "Ce document stabilește intravilanul unei localități?",
+     "Ce înseamnă PATN?",
+     "Ce document reglementează o zonă restrânsă?",
+     "Ce principiu urmărește mai multe centre urbane echilibrate?"
+    ],
+    "steps": [
+     "Identifică nivelul și documentația potrivită.",
+     "Realizează analiza diagnostic a teritoriului.",
+     "Propune reglementări și măsuri coerente.",
+     "Greșeala frecventă: să confunzi amenajarea teritoriului (scară regională, națională) cu urbanismul (scară locală)."
+    ],
+    "answers": [
+     "Legea 350/2001.",
+     "Planul Urbanistic General (PUG).",
+     "Planul de Amenajare a Teritoriului Național.",
+     "Planul Urbanistic Zonal (PUZ) sau de Detaliu (PUD).",
+     "Dezvoltarea policentrică."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l23": {
+   "ro": {
+    "title": "Organizarea administrativ-teritorială și geografia electorală a României",
+    "theory": "Organizarea administrativ-teritorială a României cuprinde 41 de județe și municipiul București (cu șase sectoare), 103 municipii, 217 orașe și circa 2.860 de comune (care cuprind satele). Județele au fost reintroduse în 1968, înlocuind regiunile și raioanele de tip sovietic (1950–1968), iar limitele lor au rămas aproape neschimbate, cu excepția înființării județelor Călărași și Giurgiu (1981). Dezbaterile despre regionalizare (înființarea unor regiuni administrative cu autoritate aleasă) nu au fost finalizate. Geografia electorală analizează repartiția spațială a voturilor și factorii ei: mediul urban sau rural, nivelul de educație și venit, structura etnică, regiunea istorică, emigrația (diaspora votează masiv în străinătate, cu opțiuni diferite de cele din țară). Hărțile electorale arată contraste între marile orașe și rural, între vest și est, iar votul formațiunii etnice maghiare se concentrează în Harghita, Covasna și Mureș. Decupajul circumscripțiilor și reprezentarea teritorială pot influența rezultatele. Analiza folosește cartograme, indici de concentrare și corelații cu indicatori socio-economici.",
+    "sample": "Diaspora românească a influențat decisiv rezultatele unor alegeri prezidențiale, prin prezența foarte mare la secțiile din străinătate.",
+    "worked": "Mobilitatea geografică a populației schimbă și geografia politică a unei țări.",
+    "exercises": [
+     "Descrie organizarea administrativ-teritorială a României.",
+     "Explică evoluția istorică a organizării administrative.",
+     "Explică dezbaterea despre regionalizare.",
+     "Explică factorii repartiției voturilor.",
+     "Construiește o cartogramă electorală simplă."
+    ],
+    "test": [
+     "Câte județe are România?",
+     "Când au fost reintroduse județele?",
+     "Ce județe au fost înființate în 1981?",
+     "Câte sectoare are Bucureștiul?",
+     "Ce factori explică repartiția voturilor?"
+    ],
+    "steps": [
+     "Identifică unitățile administrative și datele electorale.",
+     "Cartografiază și analizează repartiția.",
+     "Explică factorii socio-economici și istorici.",
+     "Greșeala frecventă: să explici votul doar prin regiune; contează și mediul, vârsta, educația și migrația."
+    ],
+    "answers": [
+     "41 (plus municipiul București).",
+     "În 1968.",
+     "Călărași și Giurgiu.",
+     "Șase.",
+     "Mediul, educația, venitul, etnia, regiunea istorică, emigrația."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l24": {
+   "ro": {
+    "title": "Dezvoltarea regională și rurală",
+    "theory": "Dezvoltarea regională urmărește reducerea disparităților dintre regiuni și valorificarea potențialului fiecărei regiuni. În România, Legea 315/2004 a creat cele opt regiuni de dezvoltare și agențiile de dezvoltare regională (ADR), care gestionează programele regionale finanțate din fonduri europene. Indicatorii disparităților: PIB pe locuitor, rata șomajului, veniturile, accesul la servicii, infrastructura, indicele dezvoltării umane locale (IDUL). Disparitățile sunt mari între București-Ilfov și restul țării, între vest și est, între urban și rural, între zonele centrale și periferice ale județelor. Zonele defavorizate (miniere, izolate, cu populație îmbătrânită) au beneficiat de facilități speciale. Dezvoltarea rurală, finanțată prin Politica Agricolă Comună (Planul Național Strategic), urmărește modernizarea agriculturii, infrastructura rurală, diversificarea economiei (agroturism, procesare locală), grupurile de acțiune locală (abordarea LEADER). Tranziția justă susține regiunile carbonifere (Valea Jiului, Gorj). Dezvoltarea durabilă cere strategii integrate, parteneriate și capacitate administrativă locală.",
+    "sample": "Grupurile de acțiune locală LEADER reunesc primării, firme și asociații pentru a decide împreună proiectele finanțate în teritoriul lor.",
+    "worked": "Abordarea de jos în sus folosește cunoașterea locală pentru a alege proiecte potrivite comunității.",
+    "exercises": [
+     "Explică obiectivele dezvoltării regionale.",
+     "Prezintă cadrul instituțional din România.",
+     "Analizează disparitățile regionale cu indicatori.",
+     "Explică abordarea LEADER.",
+     "Propune măsuri pentru o zonă defavorizată."
+    ],
+    "test": [
+     "Ce lege a creat regiunile de dezvoltare?",
+     "Ce instituții gestionează programele regionale?",
+     "Ce înseamnă IDUL?",
+     "Ce abordare folosesc grupurile de acțiune locală?",
+     "Ce regiuni beneficiază de tranziția justă?"
+    ],
+    "steps": [
+     "Analizează indicatorii de dezvoltare ai teritoriului.",
+     "Identifică problemele și potențialul.",
+     "Propune măsuri și surse de finanțare.",
+     "Greșeala frecventă: să crezi că fondurile singure rezolvă disparitățile; contează și capacitatea administrativă și resursele umane."
+    ],
+    "answers": [
+     "Legea 315/2004.",
+     "Agențiile de dezvoltare regională (ADR).",
+     "Indicele dezvoltării umane locale.",
+     "Abordarea LEADER (de jos în sus).",
+     "Valea Jiului și Gorj."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l25": {
+   "ro": {
+    "title": "Geografia mediului: evaluarea stării și a impactului asupra mediului",
+    "theory": "Geografia mediului studiază relația dintre societate și mediu la diferite scări. Evaluarea stării mediului folosește indicatori de presiune, stare și răspuns (modelul DPSIR: forțe motrice – presiuni – stare – impact – răspuns). Indicatori: calitatea aerului (particule PM10, PM2,5, dioxid de azot), calitatea apelor (starea ecologică conform Directivei-Cadru Apă), calitatea solurilor, acoperirea cu păduri, suprafața ariilor protejate, cantitatea de deșeuri și rata de reciclare. Evaluarea impactului asupra mediului (EIM) este procedura obligatorie pentru proiectele mari (autostrăzi, mine, fabrici, hidrocentrale): se analizează efectele asupra aerului, apei, solului, biodiversității, peisajului, populației și patrimoniului și se propun măsuri de evitare, reducere și compensare, cu consultarea publicului. Evaluarea strategică de mediu (SEA) se aplică planurilor și programelor. Bilanțul de mediu se aplică siturilor industriale existente. În România, Agenția Națională pentru Protecția Mediului și Garda Națională de Mediu au atribuții de autorizare și control. Problemele actuale: calitatea aerului în marile orașe, deșeurile (rata de reciclare redusă), tăierile ilegale, poluarea istorică.",
+    "sample": "Construcția unei autostrăzi prin zone Natura 2000 cere ecoducte pentru ca animalele mari să poată traversa în siguranță.",
+    "worked": "Măsurile de reducere a impactului permit realizarea infrastructurii cu protejarea conectivității ecologice.",
+    "exercises": [
+     "Explică modelul DPSIR.",
+     "Enumeră indicatorii stării mediului.",
+     "Explică etapele evaluării impactului asupra mediului.",
+     "Compară EIM cu evaluarea strategică de mediu.",
+     "Analizează o problemă de mediu din localitatea ta."
+    ],
+    "test": [
+     "Ce înseamnă modelul DPSIR?",
+     "Ce este EIM?",
+     "Ce directivă UE evaluează starea apelor?",
+     "Ce instituție controlează respectarea legislației de mediu?",
+     "Ce sunt ecoductele?"
+    ],
+    "steps": [
+     "Identifică presiunea asupra mediului.",
+     "Evaluează starea și impactul cu indicatori.",
+     "Propune măsuri de evitare, reducere și compensare.",
+     "Greșeala frecventă: să consideri EIM o formalitate; ea poate schimba traseul sau soluțiile tehnice ale unui proiect."
+    ],
+    "answers": [
+     "Forțe motrice – presiuni – stare – impact – răspuns.",
+     "Evaluarea impactului asupra mediului pentru proiecte.",
+     "Directiva-Cadru Apă.",
+     "Garda Națională de Mediu.",
+     "Poduri sau pasaje pentru trecerea animalelor peste infrastructură."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l26": {
+   "ro": {
+    "title": "Schimbările climatice în România: efecte și adaptare",
+    "theory": "În România, temperatura medie a crescut cu peste 1°C față de mijlocul secolului XX, iar ultimii ani au fost printre cei mai călduroși înregistrați. Efecte observate: valuri de căldură mai frecvente și mai lungi (cu efecte asupra sănătății, mai ales în orașe – insula de căldură urbană), secete severe în sud și est (2007, 2022, 2024), cu pierderi agricole și scăderea nivelului apelor, precipitații torențiale și inundații rapide, reducerea stratului de zăpadă la altitudini medii (efecte asupra turismului de iarnă), extinderea speciilor invazive și a dăunătorilor, incendii de vegetație, scăderea debitului Dunării în anii secetoși (probleme pentru navigație și pentru răcirea centralei nucleare de la Cernavodă). Proiecțiile indică încălzire în continuare și accentuarea aridității în Câmpia Română, Dobrogea și sudul Moldovei. Adaptarea presupune: reabilitarea și extinderea sistemelor de irigații, culturi și soiuri rezistente la secetă, perdele forestiere, gestionarea apei, spații verzi și acoperișuri verzi în orașe, sisteme de avertizare, planuri de acțiune la valuri de căldură, diversificarea turismului montan. Atenuarea înseamnă reducerea emisiilor prin energie curată, eficiență energetică, transport public și împăduriri.",
+    "sample": "În verile secetoase, nivelul scăzut al Dunării a blocat temporar navigația pe unele sectoare și a pus probleme răcirii reactoarelor de la Cernavodă.",
+    "worked": "Schimbările climatice afectează simultan agricultura, transportul și energia, adică sisteme interdependente.",
+    "exercises": [
+     "Descrie tendințele climatice din România.",
+     "Explică efectele asupra agriculturii.",
+     "Explică insula de căldură urbană.",
+     "Localizează regiunile cu risc crescut de ariditate.",
+     "Propune măsuri de adaptare pentru o regiune."
+    ],
+    "test": [
+     "Cu cât a crescut temperatura medie în România?",
+     "Ce regiuni sunt cele mai expuse aridității?",
+     "Ce este insula de căldură urbană?",
+     "Ce problemă apare la Cernavodă în anii secetoși?",
+     "Ce măsură de adaptare este esențială pentru agricultura din sud?"
+    ],
+    "steps": [
+     "Analizează tendințele climatice din date.",
+     "Identifică sectoarele și regiunile vulnerabile.",
+     "Propune măsuri de adaptare și atenuare.",
+     "Greșeala frecventă: să confunzi adaptarea (protejarea împotriva efectelor) cu atenuarea (reducerea cauzelor); ambele sunt necesare."
+    ],
+    "answers": [
+     "Cu peste 1°C.",
+     "Câmpia Română, Dobrogea, sudul Moldovei.",
+     "Temperatura mai ridicată din oraș față de împrejurimi.",
+     "Debitul scăzut al Dunării pune probleme răcirii reactoarelor.",
+     "Reabilitarea și extinderea irigațiilor."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l27": {
+   "ro": {
+    "title": "Geografia peisajului",
+    "theory": "Peisajul este, conform Convenției Europene a Peisajului (Florența, 2000, ratificată de România în 2002), „o parte de teritoriu, așa cum este percepută de populație, al cărei caracter este rezultatul acțiunii și interacțiunii factorilor naturali și umani”. Geografia peisajului analizează structura (componente, unități de peisaj), funcționarea (fluxuri de materie și energie), dinamica (schimbări în timp) și percepția peisajului. Ecologia peisajului (landscape ecology) folosește concepte precum matricea (elementul dominant – de exemplu terenul agricol), petele (fragmente de habitat – păduri izolate) și coridoarele (elemente liniare – râuri, garduri vii), măsurate prin indici de fragmentare și conectivitate în GIS. Tipuri de peisaje românești: alpin, montan forestier, subcarpatic, de podiș, de câmpie agricolă, de luncă, deltaic, litoral, urban, industrial, minier. Peisajele culturale (de exemplu cele din Maramureș, Mărginimea Sibiului, satele săsești) sunt valoroase și vulnerabile la abandon sau la construcții nepotrivite. Evaluarea peisajului (Landscape Character Assessment) delimitează tipuri și unități de peisaj și ghidează planificarea și protecția.",
+    "sample": "Satele săsești din Transilvania, cu biserici fortificate, pajiști bogate în specii și livezi, formează un peisaj cultural apreciat internațional.",
+    "worked": "Peisajul rezultă din folosirea tradițională a terenului; abandonarea ei îl schimbă rapid.",
+    "exercises": [
+     "Explică definiția peisajului din Convenția Europeană a Peisajului.",
+     "Explică conceptele matrice, pată, coridor.",
+     "Clasifică peisajele României.",
+     "Explică valoarea peisajelor culturale.",
+     "Explică etapele evaluării caracterului peisajului."
+    ],
+    "test": [
+     "Când a fost adoptată Convenția Europeană a Peisajului?",
+     "Ce este matricea într-un peisaj?",
+     "Ce sunt coridoarele ecologice?",
+     "Ce peisaj cultural este specific Transilvaniei?",
+     "Ce amenință peisajele culturale?"
+    ],
+    "steps": [
+     "Delimitează unitatea de peisaj.",
+     "Analizează structura, funcționarea și dinamica.",
+     "Propune măsuri de protecție și management.",
+     "Greșeala frecventă: să crezi că doar peisajele naturale merită protejate; peisajele culturale și chiar cele cotidiene sunt importante."
+    ],
+    "answers": [
+     "În 2000, la Florența.",
+     "Elementul dominant al peisajului.",
+     "Elemente liniare care leagă habitatele.",
+     "Peisajul satelor săsești cu biserici fortificate.",
+     "Abandonul și construcțiile nepotrivite."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l28": {
+   "ro": {
+    "title": "Metodologia cercetării geografice",
+    "theory": "Cercetarea geografică pornește de la o problemă și o întrebare de cercetare clare, formulate pe baza literaturii de specialitate. Etapele: documentarea (articole științifice, cărți, rapoarte, date statistice – INS Tempo Online, Eurostat; date spațiale – Copernicus, ANCPI, OpenStreetMap), stabilirea obiectivelor și a ipotezelor, alegerea metodelor (cantitative – statistici, modele, GIS, teledetecție; calitative – interviuri, observație participativă, analiza documentelor; mixte), colectarea datelor (pe teren și în cabinet), analiza și interpretarea, validarea și discutarea rezultatelor în raport cu alte studii, formularea concluziilor și a limitelor. Munca de teren include observația, măsurătorile, cartarea, prelevarea de probe, chestionarele și interviurile (cu acordul informat al participanților). Etica cercetării cere onestitate, respectarea datelor personale (GDPR), citarea corectă a surselor și evitarea plagiatului. Reproductibilitatea (descrierea clară a datelor și metodelor) permite verificarea rezultatelor de către alți cercetători.",
+    "sample": "O cercetare despre periurbanizarea din jurul Clujului poate combina datele INS privind populația cu imagini satelitare și interviuri cu locuitorii noi.",
+    "worked": "Metodele mixte oferă atât dimensiunea cantitativă, cât și înțelegerea motivelor oamenilor.",
+    "exercises": [
+     "Formulează o întrebare de cercetare geografică.",
+     "Identifică sursele de date pentru o temă aleasă.",
+     "Compară metodele cantitative cu cele calitative.",
+     "Construiește un plan de muncă de teren.",
+     "Explică regulile etice ale cercetării."
+    ],
+    "test": [
+     "De la ce pornește o cercetare?",
+     "Ce bază de date statistice oferă INS?",
+     "Ce tip de metodă este interviul?",
+     "Ce regulament protejează datele personale?",
+     "Ce înseamnă reproductibilitate?"
+    ],
+    "steps": [
+     "Formulează problema și întrebarea.",
+     "Alege datele și metodele potrivite.",
+     "Analizează, validează și discută limitele.",
+     "Greșeala frecventă: să alegi metoda înaintea întrebării; metoda trebuie să servească întrebarea de cercetare."
+    ],
+    "answers": [
+     "De la o problemă și o întrebare de cercetare.",
+     "Tempo Online.",
+     "O metodă calitativă.",
+     "GDPR.",
+     "Posibilitatea ca alții să verifice rezultatele cu aceleași date și metode."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l29": {
+   "ro": {
+    "title": "De la date la hartă: cartografia digitală pentru lucrarea de licență",
+    "theory": "Hărțile sunt instrumentul principal de prezentare a rezultatelor geografice. Fluxul de lucru în GIS (de exemplu în QGIS) cuprinde: colectarea datelor (statistice de la INS, limite administrative, modele digitale ale terenului, imagini Sentinel, OpenStreetMap, date de teren cu GNSS), verificarea și curățarea lor (sistem de coordonate comun – Stereo 70 pentru România sau WGS84/UTM, eliminarea erorilor, legarea tabelelor de entități spațiale prin coduri – de exemplu codul SIRUTA al localităților), analiza (calcul de indicatori, interogări, zone tampon, statistici zonale), reprezentarea (alegerea metodei – cartogramă pentru valori relative, cercuri proporționale pentru valori absolute; clasificarea datelor; culori potrivite, inclusiv pentru persoanele cu deficiențe de vedere a culorilor) și compoziția hărții (titlu, legendă, scară, orientare, sursa datelor, autorul, data). Generalizarea și ierarhia vizuală asigură lizibilitatea. Hărțile trebuie să fie oneste: alegerea claselor și a culorilor poate exagera sau ascunde diferențe. Metadatele și salvarea proiectului permit reproducerea rezultatelor.",
+    "sample": "Codul SIRUTA permite legarea automată a datelor INS despre populație de stratul vectorial cu limitele unităților administrative.",
+    "worked": "Un identificator comun evită erorile de legare după denumiri, care pot avea variante de scriere.",
+    "exercises": [
+     "Descrie fluxul de lucru de la date la hartă.",
+     "Explică rolul codului SIRUTA.",
+     "Alege metoda de reprezentare pentru trei seturi de date.",
+     "Explică cum pot clasele și culorile să deformeze mesajul hărții.",
+     "Verifică o hartă după lista elementelor obligatorii."
+    ],
+    "test": [
+     "Ce program GIS gratuit este frecvent folosit?",
+     "Ce cod identifică localitățile din România?",
+     "Ce sistem de coordonate național se folosește?",
+     "Ce metodă se folosește pentru valori absolute?",
+     "De ce sunt importante metadatele?"
+    ],
+    "steps": [
+     "Colectează și verifică datele.",
+     "Analizează și alege reprezentarea potrivită.",
+     "Compune harta cu toate elementele și verifică onestitatea mesajului.",
+     "Greșeala frecventă: să legi tabelele după denumirile localităților; folosește coduri unice, precum SIRUTA."
+    ],
+    "answers": [
+     "QGIS.",
+     "Codul SIRUTA.",
+     "Stereo 70.",
+     "Cercurile proporționale (sau cartodiagrama).",
+     "Permit înțelegerea și reproducerea datelor și a hărții."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l30": {
+   "ro": {
+    "title": "Elaborarea lucrării de licență în geografie",
+    "theory": "Lucrarea de licență demonstrează capacitatea absolventului de a realiza o cercetare geografică independentă. Structura obișnuită: introducere (motivarea temei, obiective, întrebări de cercetare), stadiul cunoașterii (sinteza critică a literaturii), date și metode (zona de studiu, sursele, metodologia), rezultate (prezentate prin text, hărți, grafice, tabele), discuții (interpretare, comparație cu alte studii, limite), concluzii și bibliografie. Hărțile trebuie să aibă toate elementele cartografice (titlu, legendă, scară, orientare, sursă, sistem de coordonate). Citarea se face după un stil consecvent (APA, Harvard etc.); toate ideile, datele și figurile preluate trebuie atribuite. Universitățile verifică originalitatea prin programe antiplagiat. Susținerea publică presupune o prezentare clară, de circa 10–15 minute, și răspunsuri la întrebările comisiei. Examenul de licență are în general două probe: evaluarea cunoștințelor fundamentale și de specialitate și prezentarea lucrării. Calendarul de lucru, consultarea periodică a coordonatorului și revizuirea textului sunt esențiale.",
+    "sample": "O hartă fără scară, legendă sau sursă poate fi depunctată la susținere, chiar dacă analiza este bună.",
+    "worked": "Rigoarea cartografică face parte din competențele de bază ale unui geograf.",
+    "exercises": [
+     "Construiește structura unei lucrări de licență pe o temă aleasă.",
+     "Scrie obiectivele și întrebările de cercetare.",
+     "Verifică elementele cartografice ale unei hărți.",
+     "Citează corect trei surse într-un stil ales.",
+     "Pregătește planul unei prezentări de 10 minute."
+    ],
+    "test": [
+     "Ce conține capitolul de date și metode?",
+     "Ce elemente trebuie să aibă o hartă?",
+     "Cum se verifică originalitatea lucrării?",
+     "Câte probe are de obicei examenul de licență?",
+     "Cât durează de obicei prezentarea la susținere?"
+    ],
+    "steps": [
+     "Stabilește tema și obiectivele cu coordonatorul.",
+     "Construiește structura și calendarul de lucru.",
+     "Redactează, citează corect și revizuiește lucrarea.",
+     "Greșeala frecventă: să lași bibliografia și verificarea citărilor la final; neatribuirea surselor înseamnă plagiat."
+    ],
+    "answers": [
+     "Zona de studiu, sursele de date și metodologia.",
+     "Titlu, legendă, scară, orientare, sursă, sistem de coordonate.",
+     "Prin programe antiplagiat.",
+     "Două probe.",
+     "Circa 10–15 minute."
+    ]
+   }
+  }
+ }
+}

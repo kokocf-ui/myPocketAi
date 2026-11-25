@@ -1,0 +1,977 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "RO",
+ "stage": "medium",
+ "grade": "tic-9",
+ "version": "181f1ea9bcb3155437b3ac33001dd71e70345258cca0c9319a99e8533fd974b8",
+ "source": "https://www.edu.ro/sites/default/files/_fi%C8%99iere/Minister/2025/programe_scolare_cons_pub/Tehnologia_informatiei_si_a_comunicatiilor_TC_IX.pdf",
+ "sourceTitle": "Programa școlară pentru disciplina Tehnologia informației și a comunicațiilor, clasa a IX-a, trunchi comun (2025), 1 oră/săptămână, aplicată din anul școlar 2026–2027 conform planurilor-cadru OMEC 4350/2025 și 6873/2025 — domeniile: Societate digitală; Conținuturi digitale (birotică: documente și prezentări); Sisteme de calcul (hardware și software)",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "ro",
+ "labels": [
+  "Activitate originală · România · TIC · Clasa a IX-a",
+  "Lecția pe înțeles",
+  "Exemplu",
+  "Ce ne arată exemplul",
+  "Exerciții",
+  "Test",
+  "Activități originale, făcute după programa școlară; nu înlocuiesc manualul sau ora de la clasă.",
+  "Dacă nu ai înțeles: pas cu pas",
+  "Răspunsuri (verifică după ce termini)"
+ ],
+ "units": [
+  {
+   "title": "Societate digitală",
+   "keys": [
+    "eu-year-ro-medium-tic-9-l01",
+    "eu-year-ro-medium-tic-9-l02",
+    "eu-year-ro-medium-tic-9-l03",
+    "eu-year-ro-medium-tic-9-l04",
+    "eu-year-ro-medium-tic-9-l05",
+    "eu-year-ro-medium-tic-9-l06",
+    "eu-year-ro-medium-tic-9-l07",
+    "eu-year-ro-medium-tic-9-l08",
+    "eu-year-ro-medium-tic-9-l09"
+   ]
+  },
+  {
+   "title": "Conținuturi digitale: documente și prezentări",
+   "keys": [
+    "eu-year-ro-medium-tic-9-l10",
+    "eu-year-ro-medium-tic-9-l11",
+    "eu-year-ro-medium-tic-9-l12",
+    "eu-year-ro-medium-tic-9-l13",
+    "eu-year-ro-medium-tic-9-l14",
+    "eu-year-ro-medium-tic-9-l15",
+    "eu-year-ro-medium-tic-9-l16",
+    "eu-year-ro-medium-tic-9-l17",
+    "eu-year-ro-medium-tic-9-l18"
+   ]
+  },
+  {
+   "title": "Sisteme de calcul",
+   "keys": [
+    "eu-year-ro-medium-tic-9-l19",
+    "eu-year-ro-medium-tic-9-l20",
+    "eu-year-ro-medium-tic-9-l21",
+    "eu-year-ro-medium-tic-9-l22",
+    "eu-year-ro-medium-tic-9-l23",
+    "eu-year-ro-medium-tic-9-l24",
+    "eu-year-ro-medium-tic-9-l25",
+    "eu-year-ro-medium-tic-9-l26"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-ro-medium-tic-9-l01": {
+   "ro": {
+    "title": "Forme de comunicare și colaborare digitală",
+    "theory": "Comunicarea digitală poate fi sincronă – participanții sunt prezenți în același timp (chat, apel vocal sau video, videoconferință) – sau asincronă – mesajul este citit mai târziu (e-mail, forum, buletin informativ, site web, postare pe o rețea de socializare). Fiecare formă are un scop potrivit: e-mailul pentru mesaje oficiale și documente, chatul pentru întrebări scurte, forumul pentru discuții pe teme care rămân arhivate, videoconferința pentru întâlniri la distanță. Platformele de colaborare (de exemplu Google Workspace sau Microsoft Teams) reunesc mesaje, fișiere partajate, calendar și întâlniri. Pentru a cere păreri de la mai mulți oameni folosim formulare online, care strâng răspunsurile automat într-un tabel. Alegem forma de comunicare după urgență, după cât de oficial este mesajul și după câți oameni sunt implicați.",
+    "sample": "Clasa organizează o excursie. Dirigintele trimite programul oficial pe e-mail părinților, elevii discută detaliile pe grupul clasei, iar preferințele pentru traseu se strâng printr-un formular online cu trei variante.",
+    "worked": "Fiecare instrument a fost ales după scop. Formularul a numărat automat voturile, ceea ce pe chat ar fi fost greu de urmărit.",
+    "exercises": [
+     "Clasifică zece forme de comunicare în sincrone și asincrone.",
+     "Alege forma potrivită pentru cinci situații date.",
+     "Creează un formular online cu trei tipuri de întrebări.",
+     "Compară forumul cu grupul de chat pentru un proiect de clasă.",
+     "Descrie componentele unei platforme de colaborare folosite la școală."
+    ],
+    "test": [
+     "Ce este comunicarea sincronă?",
+     "Dă două exemple de comunicare asincronă.",
+     "Când folosim e-mailul?",
+     "La ce folosesc formularele online?",
+     "Ce reunește o platformă de colaborare?"
+    ],
+    "steps": [
+     "Stabilește scopul mesajului și cât de urgent este.",
+     "Gândește-te câți oameni sunt implicați și cât de oficial este mesajul.",
+     "Alege forma de comunicare potrivită și verifică dacă destinatarii o folosesc.",
+     "Greșeala frecventă: să trimiți informații oficiale importante doar pe un grup de chat, unde se pierd printre mesaje."
+    ],
+    "answers": [
+     "Comunicarea în care participanții sunt prezenți în același timp.",
+     "E-mailul și forumul.",
+     "Pentru mesaje oficiale și trimiterea documentelor.",
+     "Pentru a strânge automat răspunsuri și păreri.",
+     "Mesaje, fișiere partajate, calendar și întâlniri."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-9-l02": {
+   "ro": {
+    "title": "E-mailul profesional, neticheta și mesajele periculoase",
+    "theory": "Un e-mail profesional are: subiect scurt și clar, formulă de adresare potrivită („Bună ziua, doamna profesoară”), text organizat pe paragrafe, formulă de încheiere și semnătură. Tonul se adaptează destinatarului: formal pentru profesori și instituții, mai liber pentru prieteni; emoticoanele se folosesc doar în mesajele informale. Neticheta înseamnă regulile de politețe online: nu scriem cu majuscule (pare că strigăm), răspundem în timp rezonabil, nu redirecționăm mesaje private fără acord. Folosim CC pentru cei informați și BCC când destinatarii nu trebuie să își vadă adresele. Mesajele se organizează în foldere sau cu etichete. Mesajele cu risc (phishing) imită o bancă, un curier sau o platformă, cer date sau parole și creează urgență („contul se închide azi”); verificăm adresa expeditorului și nu deschidem legături sau atașamente suspecte.",
+    "sample": "Un mesaj de la „Curier-Livrare” cere 2 lei pentru „taxe vamale” printr-o legătură. Adresa expeditorului se termină într-un domeniu ciudat, iar textul are greșeli. Elevul nu apasă legătura, raportează mesajul ca phishing și verifică direct pe site-ul oficial al curierului.",
+    "worked": "Semnalele de alarmă au fost urgența, cererea de plată și adresa suspectă. Verificarea pe o cale independentă, nu prin legătura primită, este regula de siguranță.",
+    "exercises": [
+     "Scrie un e-mail către diriginte pentru a anunța o absență.",
+     "Transformă un mesaj informal într-unul formal.",
+     "Organizează căsuța de e-mail cu trei foldere sau etichete.",
+     "Identifică semnalele de phishing dintr-un mesaj dat.",
+     "Explică diferența dintre CC și BCC."
+    ],
+    "test": [
+     "Ce elemente are un e-mail profesional?",
+     "Ce este neticheta?",
+     "De ce nu scriem cu majuscule?",
+     "Ce face BCC?",
+     "Ce semne arată un mesaj de phishing?"
+    ],
+    "steps": [
+     "Scrie un subiect clar și o formulă de adresare potrivită destinatarului.",
+     "Organizează mesajul în paragrafe scurte și încheie cu semnătura.",
+     "Recitește mesajul și verifică destinatarii și atașamentele înainte de trimitere.",
+     "Greșeala frecventă: să apeși o legătură dintr-un mesaj urgent care îți cere date; verifică întâi pe site-ul oficial."
+    ],
+    "answers": [
+     "Subiect, adresare, text pe paragrafe, încheiere, semnătură.",
+     "Regulile de politețe în comunicarea online.",
+     "Pentru că pare că strigăm.",
+     "Trimite mesajul fără ca destinatarii să își vadă adresele.",
+     "Urgență, cerere de date sau bani, adresă suspectă, greșeli."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-9-l03": {
+   "ro": {
+    "title": "Crearea și partajarea resurselor digitale în echipă",
+    "theory": "În colaborarea digitală, mai multe persoane lucrează la aceleași fișiere păstrate în cloud. La partajare alegem cine are acces (anumite persoane sau oricine are legătura) și ce poate face: doar vizualizare, comentarii sau editare. Fișierele comune se organizează în foldere cu nume clare (de exemplu „Proiect_Biologie_2026/Imagini”), iar versiunile vechi pot fi recuperate din istoricul versiunilor. Pentru accesibilitate folosim titluri, text alternativ la imagini și fonturi lizibile. Feedbackul constructiv este concret, politicos și orientat spre îmbunătățire: spune ce e bine, ce se poate îmbunătăți și cum („diagrama e clară; aș adăuga sursa datelor sub ea”). Arhivăm proiectul încheiat, ca să nu încurce lucrul curent.",
+    "sample": "Echipa de patru elevi face o prezentare comună. Liderul creează folderul, dă drept de editare colegilor și drept de comentarii profesorului. Când un diapozitiv este șters din greșeală, el este recuperat din istoricul versiunilor.",
+    "worked": "Drepturile diferite au protejat lucrarea, iar istoricul versiunilor a reparat greșeala fără refacerea muncii.",
+    "exercises": [
+     "Partajează un document doar cu drept de comentarii.",
+     "Organizează folderul unui proiect de echipă.",
+     "Recuperează o versiune anterioară a unui document.",
+     "Scrie trei comentarii de feedback constructiv la lucrarea unui coleg.",
+     "Adaugă text alternativ imaginilor dintr-un document."
+    ],
+    "test": [
+     "Ce niveluri de acces poate avea un fișier partajat?",
+     "La ce folosește istoricul versiunilor?",
+     "Ce face un feedback constructiv?",
+     "Ce este textul alternativ?",
+     "De ce arhivăm proiectele încheiate?"
+    ],
+    "steps": [
+     "Creează un folder comun cu o structură clară.",
+     "Partajează-l cu drepturi potrivite fiecărei persoane.",
+     "Lucrați, comentați constructiv și folosiți istoricul versiunilor la nevoie.",
+     "Greșeala frecventă: să partajezi cu „oricine are legătura” și drept de editare un document cu date personale."
+    ],
+    "answers": [
+     "Vizualizare, comentarii, editare.",
+     "La recuperarea versiunilor anterioare.",
+     "Spune concret ce e bine, ce se poate îmbunătăți și cum.",
+     "O descriere a imaginii pentru cei care nu o pot vedea.",
+     "Ca să nu încurce lucrul curent."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-9-l04": {
+   "ro": {
+    "title": "Aplicații și platforme pentru învățare",
+    "theory": "Pentru învățare putem folosi tutoriale video, cursuri online, platforme cu exerciții, dicționare și enciclopedii digitale, aplicații de repetare cu fișe. Alegem o resursă după câteva criterii: cine o publică (autor sau instituție cunoscută), dacă este actuală, dacă se potrivește nivelului nostru, dacă are exerciții cu verificare și ce date personale cere. Învățarea online cere organizare: un plan cu obiective mici, pauze, notițe proprii și verificarea înțelegerii prin exerciții, nu doar prin vizionare. Inteligența artificială poate explica un subiect în alte cuvinte sau poate propune întrebări de verificare, dar răspunsurile ei se verifică în manual sau în surse sigure. Nu predăm drept muncă proprie textul generat de altcineva sau de un program.",
+    "sample": "Mihai nu a înțeles ecuația de gradul al doilea. Urmărește un tutorial al unui profesor, își face notițe, rezolvă zece exerciții pe o platformă cu verificare și cere unui asistent IA să îi genereze încă trei, pe care le verifică împreună cu manualul.",
+    "worked": "Mihai a combinat explicația, exercițiul și verificarea. Rezultatele produse de IA au fost controlate într-o sursă sigură.",
+    "exercises": [
+     "Evaluează două resurse online după criteriile învățate.",
+     "Fă-ți un plan de învățare de o săptămână pentru o temă.",
+     "Găsește un curs online gratuit pentru o materie.",
+     "Folosește o aplicație de repetare cu fișe pentru zece termeni.",
+     "Cere unui asistent IA întrebări de verificare și controlează răspunsurile."
+    ],
+    "test": [
+     "După ce criterii alegem o resursă de învățare?",
+     "De ce nu este suficient să vizionăm un tutorial?",
+     "Cum ne poate ajuta IA la învățare?",
+     "Ce facem cu răspunsurile IA?",
+     "Ce înseamnă să nu predăm drept munca noastră un text generat?"
+    ],
+    "steps": [
+     "Stabilește ce vrei să înveți și nivelul de la care pornești.",
+     "Alege resurse sigure și potrivite după criteriile învățate.",
+     "Exersează și verifică-ți înțelegerea cu exerciții și surse sigure.",
+     "Greșeala frecventă: să consideri că ai învățat doar pentru că ai privit un videoclip; fără exerciții nu știi dacă ai înțeles."
+    ],
+    "answers": [
+     "Autor, actualitate, nivel, exerciții cu verificare, date personale cerute.",
+     "Pentru că înțelegerea se verifică prin exercițiu.",
+     "Explică altfel și propune întrebări de verificare.",
+     "Le verificăm în manual sau în surse sigure.",
+     "Să menționăm sincer ajutorul primit și să nu ne atribuim munca altuia."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-9-l05": {
+   "ro": {
+    "title": "Ce este inteligența artificială",
+    "theory": "Inteligența artificială (IA) cuprinde sisteme informatice care îndeplinesc sarcini pe care le asociem cu inteligența: recunoașterea imaginilor sau a vorbirii, traducerea, recomandarea unor produse, prezicerea unor valori, generarea de text sau imagini. La baza lor stau algoritmi și statistică: sistemul descoperă șabloane (regularități) în multe date și le folosește pentru cazuri noi. Unele sisteme au autonomie (acționează fără comandă la fiecare pas) și adaptivitate (se îmbunătățesc cu date noi). Tipuri de sarcini: clasificare (e-mail spam sau nu), recomandare (filmul următor), predicție (vremea, traficul), generare (text, imagini), interacțiune cu mediul (roboți, mașini autonome). IA nu „înțelege” ca un om: generează cel mai probabil răspuns pe baza datelor, de aceea poate greși cu multă siguranță.",
+    "sample": "Filtrul de spam a învățat din milioane de mesaje marcate de utilizatori ce cuvinte și expeditori apar des în spam. Un mesaj nou cu „Ai câștigat! Trimite datele cardului” primește o probabilitate mare de spam și este mutat în folderul Spam.",
+    "worked": "Sistemul nu știe ce înseamnă „câștig”: recunoaște un șablon statistic. De aceea, uneori un mesaj bun ajunge din greșeală în Spam.",
+    "exercises": [
+     "Dă câte un exemplu pentru fiecare tip de sarcină a IA.",
+     "Identifică cinci aplicații cu IA de pe telefonul tău.",
+     "Explică pe un exemplu ce este un șablon în date.",
+     "Explică de ce un filtru de spam poate greși.",
+     "Compară un program cu reguli fixe cu un sistem care învață din date."
+    ],
+    "test": [
+     "Ce este inteligența artificială?",
+     "Ce sunt șabloanele în date?",
+     "Ce înseamnă adaptivitate?",
+     "Ce face un sistem de clasificare?",
+     "De ce poate greși IA cu siguranță?"
+    ],
+    "steps": [
+     "Identifică sarcina pe care o îndeplinește sistemul.",
+     "Stabilește din ce date învață și ce șabloane caută.",
+     "Gândește-te unde poate greși și cine verifică rezultatul.",
+     "Greșeala frecventă: să crezi că IA gândește și înțelege ca un om; ea calculează răspunsuri probabile din date."
+    ],
+    "answers": [
+     "Sisteme informatice care îndeplinesc sarcini asociate inteligenței.",
+     "Regularități care se repetă în multe date.",
+     "Îmbunătățirea sistemului pe baza datelor noi.",
+     "Încadrează un element într-o categorie.",
+     "Pentru că produce răspunsul cel mai probabil, nu un adevăr verificat."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-9-l06": {
+   "ro": {
+    "title": "Învățarea automată și rolul datelor",
+    "theory": "Învățarea automată este ramura IA în care sistemul nu primește reguli scrise de om, ci învață din exemple. Datele sunt fundamentul: ele trebuie colectate (din senzori, formulare, imagini, texte), etichetate (fiecare imagine cu „pisică” sau „câine”), curățate de erori și actualizate. Sistemul se antrenează pe o parte a datelor și se testează pe alte date, pe care nu le-a văzut. Calitatea rezultatelor depinde de calitatea datelor: date puține, vechi sau dezechilibrate duc la greșeli. Dacă datele de antrenare conțin prejudecăți sociale sau culturale, sistemul le preia – aceasta se numește părtinire (bias). Exemplu: un sistem de recunoaștere facială antrenat mai ales cu fotografii ale unor persoane de un anumit tip greșește mai des la ceilalți.",
+    "sample": "O aplicație învață să recunoască frunze de stejar, fag și tei din 3 000 de fotografii etichetate, toate făcute vara. Toamna, frunzele galbene sunt recunoscute greșit.",
+    "worked": "Datele nu au acoperit toate situațiile reale. Soluția este completarea setului cu fotografii din toate anotimpurile, etichetate corect.",
+    "exercises": [
+     "Descrie pașii pregătirii datelor pentru un sistem care recunoaște fructe.",
+     "Explică de ce testăm pe date nefolosite la antrenare.",
+     "Dă un exemplu de părtinire produsă de date.",
+     "Propune date suplimentare pentru a corecta un sistem greșit.",
+     "Etichetează un set mic de imagini în două categorii."
+    ],
+    "test": [
+     "Ce este învățarea automată?",
+     "Ce înseamnă etichetarea datelor?",
+     "De ce testăm pe date noi?",
+     "Ce este părtinirea (bias)?",
+     "Ce se întâmplă cu date dezechilibrate?"
+    ],
+    "steps": [
+     "Stabilește ce trebuie să învețe sistemul și ce date sunt necesare.",
+     "Colectează, etichetează și verifică datele ca să acopere toate situațiile.",
+     "Antrenează, testează pe date noi și corectează datele unde apar greșeli.",
+     "Greșeala frecventă: să crezi că sistemul este corect doar pentru că a fost antrenat pe multe date; contează cât de variate și corecte sunt."
+    ],
+    "answers": [
+     "Ramura IA în care sistemul învață din exemple.",
+     "Atașarea răspunsului corect fiecărui exemplu.",
+     "Ca să vedem dacă sistemul generalizează, nu doar memorează.",
+     "Preluarea de către sistem a prejudecăților din date.",
+     "Sistemul greșește mai des la categoriile slab reprezentate."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-9-l07": {
+   "ro": {
+    "title": "IA generativă: modele de limbaj și cum le folosim",
+    "theory": "Modelele generative creează conținut nou: text, imagini, sunet. Un model mare de limbaj (LLM) este antrenat pe cantități uriașe de text și generează răspunsul cuvânt cu cuvânt, alegând continuări probabile; de aceea scrie fluent, dar poate inventa fapte, date sau surse care nu există. Le adresăm cereri (prompturi) clare: contextul, sarcina, formatul dorit și limitele („Explică fotosinteza pentru clasa a IX-a în cinci pași, fără termeni latini”). Gândirea computațională ajută: împărțim problema mare în cereri mici și precise. Gândirea critică este obligatorie: verificăm afirmațiile în surse sigure și verificăm că sursele indicate chiar există. Creativitatea înseamnă să folosim modelul pentru idei pe care apoi le rafinăm noi.",
+    "sample": "Ana cere unui chatbot trei surse despre Unirea Principatelor. Una dintre cărțile indicate nu apare în niciun catalog de bibliotecă. Ana păstrează doar sursele găsite efectiv și o anunță pe profesoară că modelul a inventat o referință.",
+    "worked": "Modelul a generat un titlu plauzibil, dar inexistent. Verificarea fiecărei surse a împiedicat folosirea unei informații false.",
+    "exercises": [
+     "Rescrie un prompt vag într-unul clar, cu context, sarcină și format.",
+     "Verifică trei afirmații generate de un chatbot.",
+     "Împarte o temă mare în patru cereri mici.",
+     "Verifică existența surselor date de un chatbot.",
+     "Compară răspunsurile la același prompt formulat în două feluri."
+    ],
+    "test": [
+     "Ce este un model generativ?",
+     "Cum generează textul un LLM?",
+     "Ce conține un prompt bun?",
+     "De ce verificăm sursele indicate de IA?",
+     "Cum folosim creativ IA?"
+    ],
+    "steps": [
+     "Formulează cererea cu context, sarcină, format și limite.",
+     "Citește critic răspunsul și marchează afirmațiile de verificat.",
+     "Verifică afirmațiile și sursele în locuri sigure, apoi rafinează rezultatul.",
+     "Greșeala frecventă: să copiezi răspunsul unui chatbot fără verificare; poate conține fapte și surse inventate."
+    ],
+    "answers": [
+     "Un model care creează conținut nou.",
+     "Cuvânt cu cuvânt, alegând continuări probabile.",
+     "Context, sarcină, format dorit și limite.",
+     "Pentru că modelul poate inventa surse care nu există.",
+     "Pentru idei pe care apoi le verificăm și le rafinăm noi."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-9-l08": {
+   "ro": {
+    "title": "IA responsabilă: reguli, drepturi de autor, mediu",
+    "theory": "Sistemele IA sunt proiectate, alese și verificate de oameni, care rămân responsabili pentru efectele lor. Uniunea Europeană a adoptat Regulamentul privind inteligența artificială (AI Act), care împarte sistemele pe niveluri de risc și interzice unele utilizări, cerând transparență (de exemplu, să știm când vorbim cu un chatbot sau când o imagine este generată). Principii: respectarea drepturilor fundamentale, confidențialitatea datelor personale, echitatea (să nu discrimineze), auditarea și transparența. Drepturile de autor: conținutul generat poate semăna cu opere protejate, iar la școală menționăm întotdeauna folosirea IA. Imaginile și înregistrările false (deepfake) pot dezinforma, de aceea verificăm sursa. Impactul ecologic: antrenarea și folosirea modelelor mari consumă multă energie și apă pentru răcirea centrelor de date, deci folosim IA cu măsură.",
+    "sample": "Un videoclip arată un politician spunând ceva șocant. Elevii observă mișcări nefirești ale buzelor, nu găsesc știrea în nicio publicație serioasă, iar căutarea inversă a imaginii arată un videoclip original diferit. Concluzia: este un deepfake.",
+    "worked": "Verificarea pe mai multe căi a demascat conținutul fals. Responsabilitatea noastră este să nu distribuim un asemenea material.",
+    "exercises": [
+     "Explică pe scurt ideea nivelurilor de risc din AI Act.",
+     "Scrie o mențiune corectă despre folosirea IA într-un referat.",
+     "Enumeră semne care pot trăda un deepfake.",
+     "Explică de ce IA are o amprentă ecologică.",
+     "Discută un caz în care un sistem IA ar putea discrimina."
+    ],
+    "test": [
+     "Cine răspunde pentru efectele unui sistem IA?",
+     "Ce cere transparența?",
+     "Ce este un deepfake?",
+     "Cum procedăm cu drepturile de autor la școală?",
+     "De ce are IA un impact asupra mediului?"
+    ],
+    "steps": [
+     "Întreabă-te cine a creat conținutul și dacă este marcat ca generat de IA.",
+     "Verifică informația în surse independente și sigure.",
+     "Menționează folosirea IA și nu distribui conținut neverificat.",
+     "Greșeala frecventă: să distribui imediat un conținut șocant; tocmai acesta este scopul dezinformării."
+    ],
+    "answers": [
+     "Oamenii care îl proiectează, aleg și folosesc.",
+     "Să știm când interacționăm cu IA sau vedem conținut generat.",
+     "Imagine sau înregistrare falsă, generată ca să pară reală.",
+     "Menționăm întotdeauna folosirea IA.",
+     "Pentru că antrenarea și folosirea consumă multă energie și apă."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-9-l09": {
+   "ro": {
+    "title": "Tehnologii emergente: realitatea virtuală și augmentată",
+    "theory": "Tehnologiile emergente sunt tehnologii noi, în plină dezvoltare, cu impact mare asupra vieții de zi cu zi. Realitatea virtuală (VR) înlocuiește complet ceea ce vedem cu o lume generată de calculator, prin căști care urmăresc mișcarea capului; este folosită pentru simulări, instruire (piloți, chirurgi), excursii virtuale în muzee și jocuri. Realitatea augmentată (AR) adaugă elemente digitale peste lumea reală, văzută prin camera telefonului sau prin ochelari speciali: indicații de navigare, mobilă așezată virtual în cameră, informații despre monumente. Realitatea extinsă (XR) este termenul general. Beneficii: învățare prin experiență, siguranță la antrenament. Riscuri: amețeală, oboseala ochilor, izolare, colectarea datelor despre mișcările și mediul utilizatorului.",
+    "sample": "La geografie, elevii îndreaptă telefonul spre o hartă tipărită, iar o aplicație AR afișează peste ea relieful în trei dimensiuni. Apoi, cu o cască VR, „vizitează” un vulcan activ.",
+    "worked": "AR a adăugat informație peste obiectul real, iar VR a înlocuit complet mediul. Diferența dintre ele este cât din lumea reală rămâne vizibil.",
+    "exercises": [
+     "Clasifică cinci aplicații în VR sau AR.",
+     "Propune o aplicație AR pentru o materie școlară.",
+     "Enumeră riscurile folosirii îndelungate a căștilor VR.",
+     "Compară o excursie virtuală cu una reală.",
+     "Caută un exemplu de folosire a VR în medicină."
+    ],
+    "test": [
+     "Ce este o tehnologie emergentă?",
+     "Ce face realitatea virtuală?",
+     "Ce face realitatea augmentată?",
+     "Ce înseamnă XR?",
+     "Ce riscuri are VR?"
+    ],
+    "steps": [
+     "Observă dacă lumea reală rămâne vizibilă.",
+     "Stabilește dacă elementele digitale înlocuiesc sau completează realitatea.",
+     "Încadrează tehnologia și analizează beneficiile și riscurile ei.",
+     "Greșeala frecventă: să confunzi AR cu VR; în AR vezi în continuare lumea reală."
+    ],
+    "answers": [
+     "O tehnologie nouă, în dezvoltare, cu impact mare.",
+     "Înlocuiește complet mediul cu unul generat.",
+     "Adaugă elemente digitale peste lumea reală.",
+     "Realitatea extinsă, termenul general.",
+     "Amețeală, oboseala ochilor, izolare, colectarea datelor."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-9-l10": {
+   "ro": {
+    "title": "Cum este memorat textul: ASCII și Unicode",
+    "theory": "Calculatorul memorează doar numere, deci fiecare caracter primește un cod. Codul ASCII folosește 7 biți (128 de caractere: litere englezești, cifre, semne de punctuație și caractere de control); de exemplu „A” are codul 65, „a” are 97, cifra „0” are 48. ASCII nu conține diacriticele românești. Unicode atribuie un cod unic fiecărui caracter din toate scrierile lumii (inclusiv ă, â, î, ș, ț, litere grecești, chirilice, emoticoane). Unicode se memorează de obicei prin codificarea UTF-8, care folosește 1 octet pentru caracterele ASCII și 2–4 octeți pentru celelalte. Problemele apar când un fișier scris într-o codificare este citit în alta: în loc de „ș” apar semne ciudate. Literele corecte românești sunt ș și ț cu virgulă dedesubt, nu s și t cu sedilă (U+015F și U+0163), care sunt alte caractere Unicode.",
+    "sample": "Cuvântul „Ana” în ASCII: A = 65, n = 110, a = 97, deci 3 octeți. Cuvântul „ață” în UTF-8 ocupă 5 octeți: „a” un octet, „ț” doi octeți, „ă” doi octeți.",
+    "worked": "Caracterele englezești ocupă un octet, iar diacriticele mai mulți. De aceea un text cu diacritice are mai mulți octeți decât numărul de litere.",
+    "exercises": [
+     "Scrie codurile ASCII ale literelor din cuvântul „CAL”.",
+     "Explică de ce ASCII nu ajunge pentru limba română.",
+     "Calculează câți octeți ocupă în UTF-8 cuvântul „școală”.",
+     "Verifică într-un editor codificarea unui fișier text.",
+     "Explică diferența dintre ș cu virgulă (U+0219) și s cu sedilă (U+015F)."
+    ],
+    "test": [
+     "De ce primesc caracterele coduri?",
+     "Câte caractere are ASCII?",
+     "Ce este Unicode?",
+     "Ce este UTF-8?",
+     "Ce se întâmplă când un fișier este citit cu altă codificare?"
+    ],
+    "steps": [
+     "Identifică dacă textul conține doar caractere ASCII.",
+     "Pentru alte caractere, folosește Unicode, de obicei UTF-8.",
+     "Salvează și deschide fișierele cu aceeași codificare.",
+     "Greșeala frecventă: să folosești s și t cu sedilă în loc de ș și ț cu virgulă; sunt caractere diferite."
+    ],
+    "answers": [
+     "Pentru că memoria calculatorului reține doar numere.",
+     "128.",
+     "Un standard care dă cod unic fiecărui caracter din toate scrierile.",
+     "O codificare a Unicode cu 1–4 octeți pe caracter.",
+     "Apar caractere greșite în locul unor litere."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-9-l11": {
+   "ro": {
+    "title": "Formatarea profesională: stiluri, indentări, tabulatori",
+    "theory": "Un document profesional are aspect unitar, obținut cu stiluri. Un stil este un set de formatări cu nume (Titlu 1, Titlu 2, Normal); dacă modificăm stilul, se schimbă automat toate paragrafele care îl folosesc. Stilurile de titlu permit și generarea automată a cuprinsului. Indentarea este retragerea paragrafului față de margine: la stânga, la dreapta, prima linie (alineat) sau agățată (prima linie ieșită, folosită la bibliografii). Tabulatorii aliniază textul în coloane, la poziții fixe pe riglă: la stânga, la dreapta, centrat sau la virgula zecimală, eventual cu caractere de umplere (puncte de conducere). Nu aliniem textul apăsând repetat bara de spațiu sau Enter: la schimbarea fontului, alinierea se strică.",
+    "sample": "Într-un referat, toate titlurile capitolelor sunt scrise manual cu Arial 16, aldin. Profesorul cere Times New Roman. Elevul care a folosit stilul Titlu 1 schimbă stilul o singură dată; colegul care a formatat manual trebuie să modifice fiecare titlu.",
+    "worked": "Stilul leagă formatarea de rolul textului. O singură modificare actualizează întregul document.",
+    "exercises": [
+     "Aplică stilurile Titlu 1 și Titlu 2 unui referat.",
+     "Modifică un stil și urmărește schimbarea în document.",
+     "Fă un alineat de 1,25 cm la toate paragrafele.",
+     "Realizează o listă de prețuri aliniată cu tabulator zecimal și puncte de conducere.",
+     "Formatează o bibliografie cu indentare agățată."
+    ],
+    "test": [
+     "Ce este un stil?",
+     "Ce avantaj are folosirea stilurilor?",
+     "Ce este indentarea agățată?",
+     "La ce folosesc tabulatorii?",
+     "De ce nu aliniem textul cu spații?"
+    ],
+    "steps": [
+     "Stabilește rolul fiecărei părți de text: titlu, subtitlu, paragraf.",
+     "Aplică stilurile potrivite și modifică stilul, nu fiecare paragraf.",
+     "Aliniază cu indentări și tabulatori, verificând pe riglă.",
+     "Greșeala frecventă: să aliniezi textul cu multe spații; la orice schimbare de font alinierea se strică."
+    ],
+    "answers": [
+     "Un set de formatări cu nume.",
+     "O singură modificare actualizează toate paragrafele cu acel stil.",
+     "Prima linie ieșită în afară, celelalte retrase.",
+     "La alinierea textului în coloane, la poziții fixe.",
+     "Pentru că alinierea se strică la schimbarea fontului."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-9-l12": {
+   "ro": {
+    "title": "Aspectul paginii, întreruperi și coloane",
+    "theory": "Aspectul paginii cuprinde dimensiunea hârtiei (A4), orientarea (portret sau peisaj), marginile, antetul și subsolul, numerotarea paginilor. Întreruperea de pagină începe forțat o pagină nouă (de exemplu fiecare capitol); întreruperea de secțiune împarte documentul în secțiuni care pot avea setări diferite: o pagină în peisaj pentru un tabel lat, altă numerotare sau alt antet. Scrierea pe coloane, ca în ziare, se aplică unei secțiuni; întreruperea de coloană mută textul în coloana următoare. Nu începem pagini noi apăsând de multe ori Enter: la adăugarea unui rând, tot textul de după se deplasează.",
+    "sample": "Un raport are 10 pagini portret, dar pagina 6 conține un tabel lat. Elevul inserează o întrerupere de secțiune înainte și după tabel și setează doar secțiunea din mijloc pe orientare peisaj. Numerotarea paginilor continuă normal.",
+    "worked": "Secțiunile permit setări diferite în același document. Fără ele, schimbarea orientării ar afecta toate paginile.",
+    "exercises": [
+     "Setează marginile și orientarea unui document.",
+     "Adaugă antet și numerotarea paginilor.",
+     "Pune o singură pagină în orientare peisaj.",
+     "Scrie un articol pe două coloane.",
+     "Începe fiecare capitol pe pagină nouă cu întrerupere de pagină."
+    ],
+    "test": [
+     "Ce cuprinde aspectul paginii?",
+     "Ce face o întrerupere de pagină?",
+     "Ce permite o întrerupere de secțiune?",
+     "Cum scriem pe coloane doar o parte din document?",
+     "De ce nu folosim multe Enter pentru o pagină nouă?"
+    ],
+    "steps": [
+     "Stabilește setările generale ale paginii pentru tot documentul.",
+     "Inserează întreruperi de secțiune unde se schimbă setările.",
+     "Aplică setările doar secțiunii dorite și verifică în previzualizare.",
+     "Greșeala frecventă: să schimbi orientarea fără secțiuni; toate paginile devin peisaj."
+    ],
+    "answers": [
+     "Dimensiune, orientare, margini, antet și subsol, numerotare.",
+     "Începe forțat o pagină nouă.",
+     "Setări diferite pentru părți diferite ale documentului.",
+     "Introducem întreruperi de secțiune înainte și după acea parte.",
+     "Pentru că textul se deplasează la orice modificare."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-9-l13": {
+   "ro": {
+    "title": "Cuprins automat, legende și câmpuri",
+    "theory": "Funcțiile automate economisesc timp și evită greșelile. Cuprinsul automat se generează din titlurile cu stiluri de titlu și se actualizează cu o comandă după modificarea documentului. Legendele (Figura 1, Tabelul 2) se inserează la imagini și tabele și se numerotează singure; din ele se generează lista de imagini și lista de tabele. Câmpurile automate sunt texte calculate de program: numărul paginii, numărul total de pagini, data, autorul, trimiterile încrucișate („vezi Figura 3”). Ecuațiile se scriu cu editorul de ecuații, care așază corect fracțiile, puterile și radicalii, iar simbolurile speciale (°, ≤, π) se inserează din tabelul de simboluri. După modificări, câmpurile și cuprinsul se actualizează.",
+    "sample": "Elevul inserează o imagine nouă la începutul referatului. Figurile se renumerotează singure, iar după actualizare cuprinsul și lista de figuri arată paginile corecte.",
+    "worked": "Numerotarea automată a evitat zeci de corecturi manuale. Actualizarea câmpurilor este pasul final înainte de tipărire.",
+    "exercises": [
+     "Generează un cuprins automat pentru un referat.",
+     "Adaugă legende la trei imagini și generează lista de figuri.",
+     "Inserează o trimitere încrucișată la un tabel.",
+     "Scrie formula ecuației de gradul al doilea cu editorul de ecuații.",
+     "Inserează în subsol „Pagina X din Y” cu câmpuri."
+    ],
+    "test": [
+     "Din ce se generează cuprinsul automat?",
+     "Ce face o legendă?",
+     "Ce este un câmp automat?",
+     "Cum se scriu corect formulele?",
+     "Ce facem după modificarea documentului?"
+    ],
+    "steps": [
+     "Aplică stiluri de titlu și legende elementelor documentului.",
+     "Generează cuprinsul și listele automate.",
+     "După orice modificare, actualizează câmpurile și verifică paginile.",
+     "Greșeala frecventă: să scrii cuprinsul de mână; numerele paginilor devin greșite la prima modificare."
+    ],
+    "answers": [
+     "Din titlurile cu stiluri de titlu.",
+     "Numerotează automat imaginile sau tabelele.",
+     "Un text calculat automat de program.",
+     "Cu editorul de ecuații.",
+     "Actualizăm cuprinsul și câmpurile."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-9-l14": {
+   "ro": {
+    "title": "Îmbinarea corespondenței",
+    "theory": "Îmbinarea corespondenței creează automat multe documente personalizate pornind de la un document principal și o sursă de date. Documentul principal conține textul comun și câmpuri de îmbinare (de exemplu «Nume», «Clasa»). Sursa de date este un tabel (foaie de calcul, tabel de document sau bază de date) în care fiecare rând este un destinatar, iar fiecare coloană are un nume. Pașii: alegem tipul (scrisori, etichete, plicuri, e-mailuri), selectăm sursa de date, inserăm câmpurile, previzualizăm rezultatele, eventual filtrăm destinatarii (doar clasa a IX-a A) și finalizăm într-un document nou sau prin tipărire. Datele trebuie să fie corecte și complete, iar prima linie a tabelului să conțină numele coloanelor.",
+    "sample": "Școala trimite invitații la serbare pentru 120 de părinți. Documentul principal conține „Stimate părinte al elevului «Nume» din clasa «Clasa»”. Sursa este un tabel cu 120 de rânduri. După îmbinare rezultă 120 de invitații personalizate.",
+    "worked": "Textul comun a fost scris o singură dată. Datele variabile au venit din tabel, astfel s-au evitat 120 de copieri manuale și greșelile de nume.",
+    "exercises": [
+     "Pregătește o sursă de date cu nume, clasă și adresă.",
+     "Creează diplome personalizate prin îmbinare.",
+     "Creează etichete de adresă pentru plicuri.",
+     "Filtrează destinatarii după o condiție.",
+     "Explică rolul primei linii din sursa de date."
+    ],
+    "test": [
+     "Ce este îmbinarea corespondenței?",
+     "Ce conține documentul principal?",
+     "Ce este sursa de date?",
+     "Ce tipuri de documente putem crea?",
+     "De ce previzualizăm înainte de finalizare?"
+    ],
+    "steps": [
+     "Pregătește sursa de date cu numele coloanelor pe primul rând.",
+     "Scrie documentul principal și inserează câmpurile de îmbinare.",
+     "Previzualizează, filtrează dacă e nevoie și finalizează.",
+     "Greșeala frecventă: să scrii manual numele în fiecare document; apar greșeli și pierzi timp."
+    ],
+    "answers": [
+     "Crearea automată de documente personalizate din text comun și date.",
+     "Textul comun și câmpurile de îmbinare.",
+     "Un tabel în care fiecare rând este un destinatar.",
+     "Scrisori, etichete, plicuri, e-mailuri.",
+     "Ca să găsim din timp datele lipsă sau greșite."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-9-l15": {
+   "ro": {
+    "title": "Revizuirea documentelor: comentarii, modificări urmărite, verificare",
+    "theory": "Când un document este corectat de mai multe persoane, folosim instrumentele de revizuire. Comentariile sunt observații atașate unui fragment, fără a modifica textul; li se poate răspunde și pot fi marcate ca rezolvate. Urmărirea modificărilor (Track Changes) înregistrează fiecare adăugare sau ștergere, cu autorul ei; autorul documentului acceptă sau respinge fiecare modificare. Proprietățile documentului (titlu, autor, cuvinte cheie) ajută la găsire și pot conține date personale, de aceea le verificăm înainte de publicare. Verificarea ortografică și gramaticală subliniază posibilele greșeli, dar nu le prinde pe toate și poate semnala greșit nume proprii; trebuie setată limba corectă (română) și textul trebuie recitit.",
+    "sample": "Profesoara corectează referatul Mariei cu modificările urmărite activate: șterge o frază, adaugă un cuvânt și lasă un comentariu „sursa?”. Maria acceptă corecturile, adaugă sursa, răspunde la comentariu și îl marchează rezolvat.",
+    "worked": "Fiecare intervenție a rămas vizibilă și reversibilă. Maria a decis asupra fiecărei modificări, în loc să primească un text schimbat fără explicații.",
+    "exercises": [
+     "Activează urmărirea modificărilor și corectează un text.",
+     "Acceptă și respinge modificările dintr-un document revizuit.",
+     "Adaugă și rezolvă comentarii.",
+     "Completează proprietățile unui document.",
+     "Setează limba română pentru verificare și corectează greșelile semnalate."
+    ],
+    "test": [
+     "Ce este un comentariu?",
+     "Ce face urmărirea modificărilor?",
+     "Cine acceptă sau respinge modificările?",
+     "De ce verificăm proprietățile înainte de publicare?",
+     "Prinde verificarea automată toate greșelile?"
+    ],
+    "steps": [
+     "Activează urmărirea modificărilor înainte de a corecta.",
+     "Corectează și explică prin comentarii.",
+     "Acceptă sau respinge fiecare modificare și recitește textul final.",
+     "Greșeala frecventă: să te bazezi doar pe verificarea automată; ea nu prinde cuvintele corecte folosite greșit."
+    ],
+    "answers": [
+     "O observație atașată unui fragment, fără a modifica textul.",
+     "Înregistrează adăugările și ștergerile, cu autorul lor.",
+     "Autorul documentului.",
+     "Pentru că pot conține date personale.",
+     "Nu."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-9-l16": {
+   "ro": {
+    "title": "IA în prelucrarea textelor și adaptarea la public",
+    "theory": "Instrumentele IA pot ajuta la redactare (o schiță de plan), corectare (greșeli de exprimare), reformulare (un ton mai formal) și traducere. Le folosim responsabil: textul final trebuie să fie al nostru, verificat și menționând ajutorul primit; traducerile automate se recitesc, mai ales la termeni de specialitate. Un document bun este adaptat publicului țintă și scopului: un afiș pentru elevii de gimnaziu are text puțin, litere mari și imagini; un raport pentru direcțiune este sobru, cu date și tabele. Reguli de compoziție vizuală: puține fonturi (cel mult două), contrast bun între text și fundal, aliniere consecventă, spațiu liber, ierarhie clară a titlurilor. Coerența informațională înseamnă că ideile urmează o ordine logică și nu se contrazic.",
+    "sample": "Un elev cere unui asistent IA să corecteze un anunț. Asistentul schimbă „ședința de miercuri, 3 decembrie” în „ședința de joi, 3 decembrie”. Elevul verifică în calendar, observă eroarea și păstrează doar corecturile de exprimare.",
+    "worked": "IA poate introduce erori de conținut chiar când corectează forma. Verificarea faptelor rămâne responsabilitatea autorului.",
+    "exercises": [
+     "Adaptează același anunț pentru elevi și pentru părinți.",
+     "Folosește un instrument de corectare și verifică fiecare sugestie.",
+     "Tradu automat un paragraf și corectează traducerea.",
+     "Reface un afiș aglomerat respectând regulile de compoziție.",
+     "Scrie o mențiune despre folosirea IA într-un document."
+    ],
+    "test": [
+     "La ce ne poate ajuta IA în prelucrarea textelor?",
+     "Ce verificăm la o traducere automată?",
+     "Ce este publicul țintă?",
+     "Ce reguli de compoziție vizuală cunoști?",
+     "Ce este coerența informațională?"
+    ],
+    "steps": [
+     "Stabilește publicul țintă și scopul documentului.",
+     "Redactează și, dacă folosești IA, verifică fiecare sugestie.",
+     "Aplică regulile de compoziție și recitește pentru coerență.",
+     "Greșeala frecventă: să accepți toate sugestiile IA fără verificare; poate schimba date și sensuri."
+    ],
+    "answers": [
+     "Redactare, corectare, reformulare, traducere.",
+     "Sensul și termenii de specialitate.",
+     "Persoanele cărora li se adresează documentul.",
+     "Puține fonturi, contrast, aliniere, spațiu liber, ierarhie.",
+     "Ordinea logică a ideilor, fără contradicții."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-9-l17": {
+   "ro": {
+    "title": "Prezentări digitale: structură și aspect profesional",
+    "theory": "O prezentare digitală susține vorbitorul, nu îl înlocuiește. Organizatorul de diapozitive (vizualizarea sortare) arată toate diapozitivele, ca să verificăm ordinea și să le mutăm. Temele predefinite și coordonatorul de diapozitive (șablonul) asigură aspect unitar: aceleași fonturi, culori și poziții pe toate diapozitivele. Structura recomandată: titlu, cuprins, conținut, concluzii, surse. Reguli: o idee pe diapozitiv, puține cuvinte (cuvinte cheie, nu fraze lungi), font lizibil de la distanță, imagini relevante, de calitate, cu sursa menționată, contrast bun. Notele vorbitorului păstrează ce vrem să spunem, fără să fie afișate publicului. Prezentarea se adaptează publicului și timpului alocat.",
+    "sample": "O prezentare de 5 minute despre reciclare are 7 diapozitive: titlu, ce înseamnă reciclarea, ce se reciclează, cum sortăm, efecte, concluzii, surse. Pe fiecare sunt 3–4 cuvinte cheie și o imagine; explicațiile sunt în notele vorbitorului.",
+    "worked": "Numărul de diapozitive se potrivește timpului. Puținul text de pe ecran lasă publicul să asculte vorbitorul, nu să citească.",
+    "exercises": [
+     "Aplică o temă și modifică șablonul unei prezentări.",
+     "Reorganizează diapozitivele în organizatorul de diapozitive.",
+     "Transformă un diapozitiv plin de text în cuvinte cheie și imagine.",
+     "Scrie notele vorbitorului pentru trei diapozitive.",
+     "Planifică structura unei prezentări de 5 minute."
+    ],
+    "test": [
+     "Ce rol are prezentarea digitală?",
+     "La ce folosește organizatorul de diapozitive?",
+     "Ce asigură șablonul?",
+     "Care este structura recomandată?",
+     "La ce folosesc notele vorbitorului?"
+    ],
+    "steps": [
+     "Stabilește publicul, mesajul și timpul disponibil.",
+     "Construiește structura și aplică o temă unitară.",
+     "Pune puține cuvinte și imagini relevante, iar explicațiile în note.",
+     "Greșeala frecventă: să citești de pe diapozitive texte lungi; publicul se plictisește și nu mai ascultă."
+    ],
+    "answers": [
+     "Susține vorbitorul.",
+     "Verificarea și schimbarea ordinii diapozitivelor.",
+     "Aspectul unitar al tuturor diapozitivelor.",
+     "Titlu, cuprins, conținut, concluzii, surse.",
+     "Păstrează ce vrea să spună vorbitorul, fără a fi afișate."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-9-l18": {
+   "ro": {
+    "title": "Prezentări interactive și multimedia",
+    "theory": "Prezentările pot fi interactive: legăturile (hyperlinkurile) duc la alt diapozitiv, la un site sau la un fișier, iar butoanele de acțiune permit navigarea (înainte, înapoi, acasă). Astfel putem crea un chestionar sau un meniu din care publicul alege subiectul. Elementele multimedia – sunet, videoclipuri, animații – se integrează când ajută mesajul. Animațiile personalizate controlează apariția elementelor (intrare, accentuare, ieșire, traiectorie) și ordinea lor; tranzițiile apar la trecerea între diapozitive. Expunerea personalizată alege doar anumite diapozitive pentru un public anume. IA poate propune o structură sau imagini pentru prezentare, dar verificăm conținutul și drepturile de folosire. Regula de bază: efectele servesc mesajul, nu distrag atenția.",
+    "sample": "Un elev face un chestionar de geografie: diapozitivul 2 are o întrebare cu trei butoane-răspuns. Butonul corect duce la un diapozitiv „Corect!”, celelalte la „Mai încearcă”, care are un buton de întoarcere la întrebare.",
+    "worked": "Legăturile au transformat prezentarea liniară într-una interactivă. Butonul de întoarcere asigură că utilizatorul nu rămâne blocat.",
+    "exercises": [
+     "Creează un meniu cu legături spre trei secțiuni ale prezentării.",
+     "Realizează un chestionar interactiv cu butoane de acțiune.",
+     "Adaugă un videoclip scurt și setează pornirea lui.",
+     "Animează elementele unei diagrame în ordinea explicației.",
+     "Creează o expunere personalizată cu cinci diapozitive."
+    ],
+    "test": [
+     "Ce face o legătură într-o prezentare?",
+     "La ce folosesc butoanele de acțiune?",
+     "Ce controlează animațiile personalizate?",
+     "Ce este expunerea personalizată?",
+     "Când folosim efecte?"
+    ],
+    "steps": [
+     "Planifică navigarea: ce diapozitiv duce unde.",
+     "Inserează legăturile, butoanele și elementele multimedia.",
+     "Testează fiecare legătură în modul de prezentare.",
+     "Greșeala frecventă: să pui animații și sunete pe fiecare element; distrag atenția de la mesaj."
+    ],
+    "answers": [
+     "Duce la alt diapozitiv, site sau fișier.",
+     "La navigarea prin prezentare.",
+     "Apariția și ordinea elementelor.",
+     "O selecție de diapozitive pentru un anumit public.",
+     "Când ajută mesajul."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-9-l19": {
+   "ro": {
+    "title": "Tipuri de sisteme de calcul",
+    "theory": "Sistemele de calcul de tip desktop (staționare) sunt folosite pentru birou, managementul afacerilor, educație, proiectare, jocuri; au performanță mare la preț dat, pot fi ușor reparate și îmbunătățite (upgrade), dar nu se pot muta ușor și au nevoie de priză. Sistemele mobile – laptopuri, tablete, telefoane inteligente – au baterie, ecran și componente integrate, sunt ușor de transportat, dar au performanță mai mică la același preț, se încălzesc mai repede și se repară mai greu. Mai există servere (oferă servicii altor calculatoare, funcționează non-stop), sisteme încorporate (în mașini, electrocasnice) și obiecte inteligente din internetul lucrurilor (IoT). Alegem sistemul după activitate, buget, nevoia de mobilitate și durata de folosire.",
+    "sample": "Un birou de arhitectură alege stații desktop puternice cu monitoare mari pentru proiectare, iar arhitecții care merg pe șantier primesc tablete. Serverul firmei păstrează proiectele comune.",
+    "worked": "Fiecare tip de sistem a fost ales după activitate. Desktopul oferă putere, tableta mobilitate, iar serverul păstrare centrală.",
+    "exercises": [
+     "Compară un desktop cu un laptop după cinci criterii.",
+     "Alege sistemul potrivit pentru trei situații.",
+     "Dă exemple de sisteme încorporate din casă.",
+     "Explică rolul unui server.",
+     "Fă o listă de obiecte IoT."
+    ],
+    "test": [
+     "Ce avantaje are un desktop?",
+     "Ce avantaje are un sistem mobil?",
+     "Ce este un server?",
+     "Ce este un sistem încorporat?",
+     "După ce criterii alegem un sistem?"
+    ],
+    "steps": [
+     "Stabilește activitățile pentru care este nevoie de sistem.",
+     "Compară tipurile după performanță, mobilitate, preț și reparabilitate.",
+     "Alege și justifică varianta potrivită.",
+     "Greșeala frecventă: să alegi doar după preț sau aspect, fără să verifici dacă face față activității."
+    ],
+    "answers": [
+     "Performanță mare, reparare și îmbunătățire ușoară.",
+     "Mobilitatea, datorită bateriei și componentelor integrate.",
+     "Un calculator care oferă servicii altor calculatoare.",
+     "Un calculator integrat într-un alt aparat.",
+     "Activitate, buget, mobilitate, durata de folosire."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-9-l20": {
+   "ro": {
+    "title": "Arhitectura sistemului de calcul și procesorul",
+    "theory": "Calculatoarele actuale urmează în mare arhitectura von Neumann: o unitate centrală de procesare (CPU), o memorie în care stau atât programele, cât și datele, dispozitive de intrare-ieșire și magistrale care le leagă. Procesorul conține: unitatea aritmetico-logică (UAL/ALU), care face calcule și comparații; unitatea de comandă și control, care citește instrucțiunile și coordonează execuția; registrele, memorii foarte mici și foarte rapide din procesor; memoria cache, rapidă, care păstrează datele folosite des. Fiecare instrucțiune trece prin ciclul preluare – decodificare – execuție (fetch – decode – execute). Performanța depinde de numărul de nuclee (câte instrucțiuni pot rula în paralel), frecvența (cicluri pe secundă, în GHz) și mărimea memoriei cache.",
+    "sample": "La calculul 7 + 5: unitatea de comandă preia instrucțiunea din memorie, o decodifică („adună”), aduce operanzii în registre, UAL calculează 12, iar rezultatul este scris înapoi în registru sau memorie. Apoi ciclul continuă cu instrucțiunea următoare.",
+    "worked": "Fiecare componentă are un rol precis în ciclu. Un procesor de 3 GHz poate parcurge miliarde de cicluri pe secundă.",
+    "exercises": [
+     "Desenează schema arhitecturii von Neumann cu fluxul datelor.",
+     "Descrie ciclul preluare – decodificare – execuție pentru o adunare.",
+     "Compară două procesoare după nuclee, frecvență și cache.",
+     "Explică rolul memoriei cache.",
+     "Găsește caracteristicile procesorului propriului calculator."
+    ],
+    "test": [
+     "Ce face UAL?",
+     "Ce face unitatea de comandă?",
+     "Ce sunt registrele?",
+     "Care sunt etapele ciclului instrucțiunii?",
+     "Ce parametri influențează performanța procesorului?"
+    ],
+    "steps": [
+     "Identifică componentele implicate: memorie, procesor, magistrale.",
+     "Urmărește drumul instrucțiunii prin etapele ciclului.",
+     "Explică rolul fiecărei componente și parametrii care o fac mai rapidă.",
+     "Greșeala frecventă: să crezi că doar frecvența contează; numărul de nuclee și cache-ul influențează mult performanța."
+    ],
+    "answers": [
+     "Calcule și comparații.",
+     "Citește instrucțiunile și coordonează execuția.",
+     "Memorii foarte mici și rapide din procesor.",
+     "Preluare, decodificare, execuție.",
+     "Numărul de nuclee, frecvența, memoria cache."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-9-l21": {
+   "ro": {
+    "title": "Memoria internă și dispozitivele de stocare",
+    "theory": "Memoria RAM păstrează programele și datele cu care lucrăm acum; este rapidă, dar volatilă: se golește când oprim calculatorul. Mai multă memorie RAM permite rularea simultană a mai multor programe. Memoria ROM este nevolatilă și conține programe de pornire (firmware). Dispozitivele de stocare păstrează datele permanent: HDD (disc magnetic cu platane și braț mobil – capacitate mare, preț mic, dar lent și sensibil la șocuri), SSD (memorie flash fără piese mobile – foarte rapid, silențios, rezistent, mai scump pe gigaoctet), discuri optice (CD, DVD, Blu-ray – tot mai rar folosite), carduri de memorie și stick-uri USB (mici, portabile). Capacitatea se măsoară în octeți: 1 KB ≈ 1 000 octeți, 1 MB ≈ 1 000 KB, 1 GB ≈ 1 000 MB, 1 TB ≈ 1 000 GB (sistemele de operare folosesc uneori puteri ale lui 2, 1 024).",
+    "sample": "Un laptop pornește în 60 de secunde cu HDD. După înlocuirea cu un SSD pornește în 15 secunde. Când deschizi 30 de file în browser și sistemul încetinește, cauza este de obicei memoria RAM insuficientă, nu discul.",
+    "worked": "SSD-ul a accelerat citirea datelor de pe disc, iar RAM-ul limitează câte programe rulează simultan. Fiecare componentă rezolvă alt tip de lentoare.",
+    "exercises": [
+     "Compară HDD și SSD după viteză, preț, capacitate și rezistență.",
+     "Explică ce se întâmplă cu datele din RAM la oprire.",
+     "Calculează câte fotografii de 4 MB încap pe un card de 64 GB.",
+     "Alege dispozitivul de stocare pentru trei situații.",
+     "Află câtă memorie RAM și ce stocare are calculatorul tău."
+    ],
+    "test": [
+     "Ce înseamnă că RAM este volatilă?",
+     "Ce conține ROM?",
+     "Ce avantaje are SSD?",
+     "Ce avantaj are HDD?",
+     "Câți MB are aproximativ un GB?"
+    ],
+    "steps": [
+     "Stabilește dacă datele trebuie păstrate temporar sau permanent.",
+     "Compară dispozitivele după viteză, capacitate, preț și portabilitate.",
+     "Alege dispozitivul potrivit și verifică unitățile de măsură.",
+     "Greșeala frecventă: să confunzi memoria RAM cu spațiul de stocare; RAM nu păstrează fișierele după oprire."
+    ],
+    "answers": [
+     "Se golește când calculatorul este oprit.",
+     "Programe de pornire (firmware).",
+     "Viteză mare, silențios, rezistent la șocuri.",
+     "Capacitate mare la preț mic.",
+     "Aproximativ 1 000 MB."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-9-l22": {
+   "ro": {
+    "title": "Placa de bază, interfețele, alimentarea și răcirea",
+    "theory": "Placa de bază leagă toate componentele. Pe ea se află soclul procesorului, sloturile de memorie, conectorii pentru stocare și plăcile de extensie, chipsetul (care coordonează comunicarea) și firmware-ul BIOS sau, la sistemele noi, UEFI, care testează componentele la pornire și încarcă sistemul de operare. Magistralele transportă date (magistrala de date), adrese de memorie (magistrala de adrese) și semnale de control (magistrala de control). Interfețele conectează dispozitivele: placa video (imagine), placa de sunet, placa de rețea (prin cablu sau wireless), porturile USB. Sursa de alimentare transformă curentul de la priză în tensiunile necesare. Componentele produc căldură (TDP arată câtă căldură trebuie disipată), de aceea folosim răcire pasivă (radiatoare), activă (ventilatoare) sau cu lichid. Supraîncălzirea reduce performanța și poate defecta componente.",
+    "sample": "Un calculator se oprește singur în timpul jocurilor. Tehnicianul găsește ventilatorul procesorului plin de praf; după curățare și înlocuirea pastei termoconductoare temperatura scade, iar opririle încetează.",
+    "worked": "Problema nu era procesorul, ci răcirea. Protecția termică oprea sistemul ca să evite defectarea.",
+    "exercises": [
+     "Identifică pe o imagine componentele plăcii de bază.",
+     "Explică rolul celor trei magistrale.",
+     "Explică ce face UEFI la pornire.",
+     "Compară răcirea pasivă, activă și cu lichid.",
+     "Enumeră interfețele calculatorului tău."
+    ],
+    "test": [
+     "Ce rol are placa de bază?",
+     "Ce transportă magistrala de adrese?",
+     "Ce face BIOS/UEFI?",
+     "Ce arată TDP?",
+     "Ce se întâmplă la supraîncălzire?"
+    ],
+    "steps": [
+     "Identifică componenta și conexiunea ei la placa de bază.",
+     "Stabilește rolul ei în funcționarea sistemului.",
+     "Verifică alimentarea și răcirea când apar opriri sau încetiniri.",
+     "Greșeala frecventă: să ignori praful și temperatura; supraîncălzirea produce opriri și defecte."
+    ],
+    "answers": [
+     "Leagă toate componentele calculatorului.",
+     "Adresele locațiilor de memorie.",
+     "Testează componentele și încarcă sistemul de operare.",
+     "Câtă căldură trebuie disipată.",
+     "Performanța scade și componentele se pot defecta."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-9-l23": {
+   "ro": {
+    "title": "Dispozitive periferice de intrare, ieșire și intrare-ieșire",
+    "theory": "Perifericele de intrare introduc date: tastatură, mouse, microfon, cameră digitală, scanere 2D (pentru imagini, coduri de bare și coduri QR, recunoașterea optică a caracterelor – OCR, care transformă textul scanat în text editabil), scanere 3D, cititoare RFID (identificare prin unde radio, ca la cardurile de acces). Perifericele de ieșire prezintă rezultatele: monitor (caracterizat prin diagonală, rezoluție, frecvență de reîmprospătare), imprimantă (cu jet de cerneală sau laser), imprimantă 3D (construiește obiecte strat cu strat), plotter (desene mari), boxe, videoproiector. Perifericele de intrare-ieșire fac ambele: ecran tactil, controller de joc cu vibrații (feedback), dispozitive NFC (comunicare la câțiva centimetri, ca la plata cu telefonul). Alegem un periferic după scop, calitate, viteză, cost de utilizare și compatibilitate.",
+    "sample": "La bibliotecă, cititorul de coduri de bare preia codul cărții, scanerul cu OCR transformă o pagină veche în text editabil, iar cardul de cititor cu RFID deschide poarta.",
+    "worked": "Fiecare periferic de intrare transformă altă informație din lumea reală în date. OCR face din imagine text pe care îl putem căuta și edita.",
+    "exercises": [
+     "Clasifică 15 dispozitive în intrare, ieșire și intrare-ieșire.",
+     "Explică ce face OCR.",
+     "Compară imprimanta cu jet de cerneală cu cea laser.",
+     "Explică pe scurt cum funcționează o imprimantă 3D.",
+     "Alege un monitor după rezoluție, diagonală și frecvență."
+    ],
+    "test": [
+     "Ce face un dispozitiv de intrare?",
+     "Ce este OCR?",
+     "Ce este RFID?",
+     "De ce este ecranul tactil un dispozitiv de intrare-ieșire?",
+     "După ce criterii alegem un periferic?"
+    ],
+    "steps": [
+     "Stabilește sensul datelor: spre calculator, dinspre el sau în ambele sensuri.",
+     "Încadrează dispozitivul și identifică parametrii lui importanți.",
+     "Alege după scop, calitate, viteză, cost și compatibilitate.",
+     "Greșeala frecventă: să crezi că scanarea unei pagini dă direct text editabil; este nevoie de OCR."
+    ],
+    "answers": [
+     "Introduce date în calculator.",
+     "Recunoașterea optică a caracterelor din imagini.",
+     "Identificarea prin unde radio.",
+     "Pentru că afișează și preia atingeri.",
+     "Scop, calitate, viteză, cost de utilizare, compatibilitate."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-9-l24": {
+   "ro": {
+    "title": "Software și sistemul de operare",
+    "theory": "Software-ul este de două tipuri principale: software de sistem (sistemul de operare, driverele, utilitarele) și aplicații (editoare, browsere, jocuri). Sistemul de operare (SO) gestionează resursele calculatorului: procesorul (ce program rulează), memoria, fișierele, dispozitivele și utilizatorii, și oferă interfața cu utilizatorul. Există SO pentru desktop (Windows, Linux – de exemplu Ubuntu –, macOS), pentru servere, pentru dispozitive mobile (Android, iOS) și industriale. Interfețe: grafică (GUI – ferestre, pictograme, mouse), în linie de comandă (CLI – comenzi scrise, rapide și automatizabile), bazate pe dialog (asistent vocal) și pe gesturi (ecran tactil). Sistemul de fișiere stabilește cum sunt organizate datele pe disc: NTFS (Windows), FAT32 (compatibil, dar fișiere de cel mult 4 GB), ext4 (Linux), APFS (Apple).",
+    "sample": "Elevul vrea să copieze un film de 6 GB pe un stick formatat FAT32 și primește eroare, deși stick-ul are 32 GB liberi. Cauza: FAT32 nu acceptă fișiere mai mari de 4 GB. Soluția: formatarea în exFAT sau NTFS, după salvarea datelor de pe stick.",
+    "worked": "Eroarea nu ține de spațiul liber, ci de limita sistemului de fișiere. Formatarea șterge datele, de aceea întâi le salvăm.",
+    "exercises": [
+     "Clasifică zece programe în software de sistem și aplicații.",
+     "Enumeră funcțiile principale ale unui sistem de operare.",
+     "Execută aceeași operație în GUI și în CLI (de exemplu listarea unui folder).",
+     "Află ce sistem de fișiere are stick-ul tău.",
+     "Compară două sisteme de operare pentru telefoane."
+    ],
+    "test": [
+     "Ce tipuri principale de software există?",
+     "Ce resurse gestionează sistemul de operare?",
+     "Ce este o interfață CLI?",
+     "Ce limită are FAT32?",
+     "Ce sistem de fișiere folosește de obicei Linux?"
+    ],
+    "steps": [
+     "Identifică dacă programul gestionează sistemul sau rezolvă o sarcină a utilizatorului.",
+     "Stabilește ce interfață este potrivită pentru operație.",
+     "Verifică compatibilitatea cu sistemul de fișiere și cu SO.",
+     "Greșeala frecventă: să formatezi un dispozitiv fără să salvezi datele; formatarea le șterge."
+    ],
+    "answers": [
+     "Software de sistem și aplicații.",
+     "Procesorul, memoria, fișierele, dispozitivele, utilizatorii.",
+     "O interfață în care scriem comenzi.",
+     "Fișierele pot avea cel mult 4 GB.",
+     "ext4."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-9-l25": {
+   "ro": {
+    "title": "Gestionarea fișierelor, arhivarea și procesele",
+    "theory": "O organizare profesională a fișierelor este ierarhică: foldere pe domenii și subfoldere (Școală/2026–2027/Informatică/Proiect), cu nume clare, fără diacritice sau caractere speciale când fișierele se transmit altora, eventual cu data în format an-lună-zi (2026-11-25_referat), ca sortarea să fie corectă. Extensia arată tipul fișierului (.docx, .pdf, .jpg). Arhivarea (comprimarea) reduce dimensiunea și grupează mai multe fișiere într-unul (.zip, .7z), util la trimitere și la păstrare; textele se comprimă bine, fotografiile JPG aproape deloc, fiindcă sunt deja comprimate. Un proces este un program aflat în execuție. Managerul de activități (Windows) sau monitorul de sistem (Linux; comenzile top, ps) arată procesele, consumul de procesor și memorie și permite închiderea unui program blocat.",
+    "sample": "Calculatorul merge foarte greu. În managerul de activități, elevul vede că un browser cu 40 de file folosește 85% din memorie. Închide filele nefolosite, iar sistemul își revine.",
+    "worked": "Monitorizarea proceselor a arătat cauza reală. Închiderea programului vinovat a rezolvat problema fără repornire.",
+    "exercises": [
+     "Creează o structură de foldere pentru anul școlar.",
+     "Redenumește zece fișiere după o regulă cu dată.",
+     "Arhivează un folder și compară dimensiunile.",
+     "Deschide managerul de activități și identifică cele mai mari trei procese.",
+     "Închide corect o aplicație blocată."
+    ],
+    "test": [
+     "Ce înseamnă organizare ierarhică?",
+     "De ce scriem data în format an-lună-zi?",
+     "Ce face arhivarea?",
+     "De ce fotografiile JPG se comprimă puțin?",
+     "Ce este un proces?"
+    ],
+    "steps": [
+     "Stabilește o structură de foldere și o regulă de denumire.",
+     "Arhivează fișierele când le trimiți sau le păstrezi.",
+     "Când sistemul încetinește, verifică procesele și resursele folosite.",
+     "Greșeala frecventă: să salvezi totul pe desktop cu nume ca „document1”; nu mai găsești fișierele."
+    ],
+    "answers": [
+     "Foldere și subfoldere organizate pe niveluri.",
+     "Ca sortarea alfabetică să fie și cronologică.",
+     "Reduce dimensiunea și grupează fișierele.",
+     "Pentru că sunt deja comprimate.",
+     "Un program aflat în execuție."
+    ]
+   }
+  },
+  "eu-year-ro-medium-tic-9-l26": {
+   "ro": {
+    "title": "Securizarea sistemului de operare",
+    "theory": "Securitatea sistemului se construiește pe mai multe straturi. Actualizările sistemului și ale aplicațiilor repară vulnerabilități cunoscute. Antivirusul detectează și elimină programele rău intenționate (viruși, troieni, ransomware – care criptează datele și cer răscumpărare). Firewallul controlează traficul de rețea și blochează conexiunile nepermise. Gestionarea utilizatorilor: fiecare persoană are contul ei, iar contul de administrator se folosește doar pentru instalări; permisiunile stabilesc cine poate citi, modifica sau executa un fișier (principiul privilegiului minim). Parolele sunt lungi, unice pentru fiecare cont și protejate prin autentificare în doi pași. Criptarea discului face datele ilizibile fără parolă dacă laptopul este furat. Copiile de rezervă (backup) – regula 3-2-1: trei copii, pe două tipuri de suport, una în alt loc – protejează împotriva pierderii datelor.",
+    "sample": "Un elev deschide un atașament de phishing. Planul de recuperare: 1. deconectează calculatorul de la rețea; 2. rulează o scanare antivirus completă; 3. schimbă de pe alt dispozitiv parolele conturilor importante. Datele sunt refăcute din backup.",
+    "worked": "Pașii au oprit răspândirea, au curățat sistemul și au protejat conturile. Copia de rezervă a făcut ca incidentul să nu ducă la pierderi.",
+    "exercises": [
+     "Creează un cont de utilizator standard și unul de administrator.",
+     "Setează permisiunile unui folder pentru doi utilizatori.",
+     "Scrie o politică de securitate pentru laboratorul școlii.",
+     "Elaborează un plan de backup pentru datele personale.",
+     "Descrie un plan de recuperare în trei pași după un atac de phishing."
+    ],
+    "test": [
+     "Ce face firewallul?",
+     "De ce sunt importante actualizările?",
+     "Ce este ransomware?",
+     "Ce este principiul privilegiului minim?",
+     "Ce spune regula 3-2-1?"
+    ],
+    "steps": [
+     "Ține sistemul actualizat și protejat de antivirus și firewall.",
+     "Folosește conturi separate, cu drepturi minime și parole puternice.",
+     "Fă copii de rezervă regulate după regula 3-2-1 și criptează datele sensibile.",
+     "Greșeala frecventă: să lucrezi zilnic din contul de administrator; un program rău intenționat primește astfel toate drepturile."
+    ],
+    "answers": [
+     "Controlează traficul de rețea și blochează conexiunile nepermise.",
+     "Pentru că repară vulnerabilități cunoscute.",
+     "Un program care criptează datele și cere răscumpărare.",
+     "Fiecare utilizator primește doar drepturile strict necesare.",
+     "Trei copii, pe două tipuri de suport, una în alt loc."
+    ]
+   }
+  }
+ }
+}

@@ -1,0 +1,1136 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "RO",
+ "stage": "lower",
+ "grade": "8",
+ "version": "6aa2e54b967b8694141d96668e925fae3f7ab10fa7ec09bc0518414261372c3e",
+ "source": "https://www.ise.ro/wp-content/uploads/2017/01/Geografie.pdf",
+ "sourceTitle": "Programa școlară pentru disciplina Geografie, clasele a V-a – a VIII-a, aprobată prin OMEN nr. 3393/28.02.2017 — clasa a VIII-a: Geografia României (poziție; relief; climă, ape, vegetație, faună, soluri; populație și așezări; activități economice; regiuni geografice; mediul; România în Europa și în lume). Lecții originale, fără text copiat din manuale",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "ro",
+ "labels": [
+  "Activitate originală · România · Geografie · Clasa a VIII-a",
+  "Lecția pe înțeles",
+  "Exemplu",
+  "Ce ne arată exemplul",
+  "Exerciții",
+  "Test",
+  "Activități originale, făcute după programa școlară; nu înlocuiesc manualul sau ora de la clasă.",
+  "Dacă nu ai înțeles: pas cu pas",
+  "Răspunsuri (verifică după ce termini)"
+ ],
+ "units": [
+  {
+   "title": "Poziția geografică a României",
+   "keys": [
+    "eu-year-ro-lower-8-l01",
+    "eu-year-ro-lower-8-l02"
+   ]
+  },
+  {
+   "title": "Relieful României",
+   "keys": [
+    "eu-year-ro-lower-8-l03",
+    "eu-year-ro-lower-8-l04",
+    "eu-year-ro-lower-8-l05",
+    "eu-year-ro-lower-8-l06",
+    "eu-year-ro-lower-8-l07",
+    "eu-year-ro-lower-8-l08",
+    "eu-year-ro-lower-8-l09",
+    "eu-year-ro-lower-8-l10",
+    "eu-year-ro-lower-8-l11"
+   ]
+  },
+  {
+   "title": "Clima, apele, vegetația, fauna și solurile",
+   "keys": [
+    "eu-year-ro-lower-8-l12",
+    "eu-year-ro-lower-8-l13",
+    "eu-year-ro-lower-8-l14",
+    "eu-year-ro-lower-8-l15",
+    "eu-year-ro-lower-8-l16"
+   ]
+  },
+  {
+   "title": "Populația și așezările",
+   "keys": [
+    "eu-year-ro-lower-8-l17",
+    "eu-year-ro-lower-8-l18",
+    "eu-year-ro-lower-8-l19",
+    "eu-year-ro-lower-8-l20",
+    "eu-year-ro-lower-8-l21"
+   ]
+  },
+  {
+   "title": "Activitățile economice",
+   "keys": [
+    "eu-year-ro-lower-8-l22",
+    "eu-year-ro-lower-8-l23",
+    "eu-year-ro-lower-8-l24",
+    "eu-year-ro-lower-8-l25",
+    "eu-year-ro-lower-8-l26",
+    "eu-year-ro-lower-8-l27"
+   ]
+  },
+  {
+   "title": "Regiuni geografice, mediu și România în lume",
+   "keys": [
+    "eu-year-ro-lower-8-l28",
+    "eu-year-ro-lower-8-l29",
+    "eu-year-ro-lower-8-l30"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-ro-lower-8-l01": {
+   "ro": {
+    "title": "Poziția geografică, limitele și vecinii României",
+    "theory": "România se află în emisfera nordică și estică, la intersecția paralelei de 45° latitudine nordică cu meridianul de 25° longitudine estică, aproape la jumătatea distanței dintre Ecuator și Polul Nord. Este situată în sud-estul Europei Centrale. Are o suprafață de circa 238.000 km² și se numără printre statele mijlocii ale Europei. Vecinii: Ucraina (nord și est), Republica Moldova (est, granița pe Prut), Bulgaria (sud, în mare parte pe Dunăre), Serbia (sud-vest) și Ungaria (vest). La sud-est are ieșire la Marea Neagră, pe circa 245 km de țărm. Granițele au peste 3.100 km și sunt fluviale, maritime și terestre.",
+    "sample": "Paralela de 45° N trece și prin nordul Italiei și sudul Franței, deci România are aceeași latitudine cu acestea.",
+    "worked": "Latitudinea explică de ce România are patru anotimpuri și climă temperată.",
+    "exercises": [
+     "Precizează coordonatele care se intersectează pe teritoriul României.",
+     "Numește vecinii și direcția fiecăruia.",
+     "Clasifică granițele după natura lor.",
+     "Compară suprafața României cu a altor state europene.",
+     "Explică avantajele ieșirii la mare."
+    ],
+    "test": [
+     "Ce paralelă trece prin România?",
+     "Ce meridian trece prin România?",
+     "Ce suprafață are România?",
+     "Cu ce stat are cea mai lungă graniță pe Dunăre?",
+     "Ce lungime are țărmul românesc al Mării Negre?"
+    ],
+    "steps": [
+     "Găsește România pe harta Europei.",
+     "Identifică paralela, meridianul și vecinii.",
+     "Clasifică granițele.",
+     "Greșeala frecventă: să crezi că România este în Europa de Est îndepărtată; ea se află în sud-estul Europei Centrale."
+    ],
+    "answers": [
+     "Paralela de 45° latitudine nordică.",
+     "Meridianul de 25° longitudine estică.",
+     "Circa 238.000 km².",
+     "Cu Bulgaria.",
+     "Circa 245 km."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l02": {
+   "ro": {
+    "title": "România – țară carpatică, dunăreană, pontică și central-europeană",
+    "theory": "Poziția României poate fi rezumată prin patru trăsături. Este țară carpatică: Carpații (care se întind în mai multe state) au cea mai mare parte (circa 50%) pe teritoriul României, unde formează un arc care ocupă centrul țării. Este țară dunăreană: Dunărea curge pe circa 1.075 km prin sau la granița României, iar aproape toate râurile țării se varsă în ea; aici se află Delta Dunării. Este țară pontică: are ieșire la Marea Neagră (Pontus Euxinus, numele antic), cu porturi precum Constanța. Este țară central-europeană prin poziția față de extremitățile continentului și prin legăturile istorice și culturale.",
+    "sample": "Peste 95% din râurile României se varsă în Dunăre, direct sau prin alte râuri.",
+    "worked": "Rețeaua de râuri arată cât de legată este România de bazinul Dunării.",
+    "exercises": [
+     "Explică de ce România este o țară carpatică.",
+     "Explică de ce este o țară dunăreană.",
+     "Explică termenul „pontică”.",
+     "Explică poziția central-europeană.",
+     "Realizează o schemă cu cele patru trăsături."
+    ],
+    "test": [
+     "Ce parte din Carpați se află în România?",
+     "Câți km are Dunărea în România?",
+     "Ce înseamnă Pontus Euxinus?",
+     "Care este cel mai mare port românesc la Marea Negră?",
+     "În ce se varsă aproape toate râurile țării?"
+    ],
+    "steps": [
+     "Alege o trăsătură a poziției.",
+     "Găsește argumentul pe hartă.",
+     "Explică importanța ei.",
+     "Greșeala frecventă: să crezi că Carpații sunt doar în România; ei continuă și în alte state."
+    ],
+    "answers": [
+     "Circa jumătate.",
+     "Circa 1.075 km.",
+     "Numele antic al Mării Negre.",
+     "Constanța.",
+     "În Dunăre."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l03": {
+   "ro": {
+    "title": "Caracteristicile generale ale reliefului",
+    "theory": "Relieful României este variat, proporționat și dispus în trepte, aproape concentric. Munții (Carpații) ocupă circa 28% din suprafață, dealurile și podișurile circa 42%, iar câmpiile (cu Delta) circa 30%. Carpații formează un arc în centrul țării; în interiorul arcului se află Depresiunea Colinară a Transilvaniei, iar în exterior urmează Subcarpații, dealurile și podișurile, apoi câmpiile. Altitudinea scade de la peste 2.500 m (vârful Moldoveanu, 2.544 m) la 0 m pe țărmul mării. Relieful s-a format în timp îndelungat: Dobrogea de Nord și Munții Măcinului sunt foarte vechi, Carpații s-au format prin încrețire, iar Delta este cea mai nouă formă.",
+    "sample": "Relieful este proporționat: nici munții, nici câmpiile nu domină, fiecare ocupă o parte importantă.",
+    "worked": "Această proporție a favorizat diversitatea resurselor și a activităților oamenilor.",
+    "exercises": [
+     "Calculează proporțiile treptelor de relief.",
+     "Explică dispunerea concentrică a reliefului.",
+     "Numește cel mai înalt vârf.",
+     "Ordonează treptele de relief după vârstă.",
+     "Realizează un profil schematic de la munte la mare."
+    ],
+    "test": [
+     "Ce procent din suprafață ocupă munții?",
+     "Care este cel mai înalt vârf al României?",
+     "Ce se află în interiorul arcului carpatic?",
+     "Care este cea mai nouă formă de relief?",
+     "Ce munți din Dobrogea sunt foarte vechi?"
+    ],
+    "steps": [
+     "Citește harta fizică.",
+     "Identifică treptele de relief.",
+     "Explică dispunerea și proporția lor.",
+     "Greșeala frecventă: să crezi că România este o țară muntoasă; dealurile, podișurile și câmpiile ocupă mai mult."
+    ],
+    "answers": [
+     "Circa 28%.",
+     "Vârful Moldoveanu (2.544 m).",
+     "Depresiunea Colinară a Transilvaniei.",
+     "Delta Dunării.",
+     "Munții Măcinului."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l04": {
+   "ro": {
+    "title": "Carpații Orientali",
+    "theory": "Carpații Orientali se întind de la granița de nord până la Valea Prahovei. Sunt cei mai lungi și mai largi, cu altitudini în general medii; cel mai înalt vârf este Pietrosul Rodnei (2.303 m), în Munții Rodnei, care au urme glaciare. Au trei șiruri paralele: în vest un lanț vulcanic (Oaș, Gutâi, Țibleș, Călimani, Gurghiu, Harghita), în centru munți din roci cristaline, în est munți din fliș (Ceahlău, Ciucaș). Au numeroase depresiuni (Maramureș, Dornelor, Giurgeului, Ciucului, Brașovului) și trecători (Prislop, Tihuța, Bicaz – Cheile Bicazului, Oituz). Lacul Sfânta Ana este singurul lac vulcanic al țării. Resurse: lemn, ape minerale, sulf, metale în trecut; turism.",
+    "sample": "Lacul Sfânta Ana s-a format în craterul unui vulcan stins din Munții Harghita.",
+    "worked": "Prezența lacului vulcanic dovedește activitatea vulcanică trecută din vestul Carpaților Orientali.",
+    "exercises": [
+     "Delimitează Carpații Orientali.",
+     "Numește munții vulcanici.",
+     "Numește depresiunile principale.",
+     "Numește trecătorile importante.",
+     "Explică formarea Lacului Sfânta Ana."
+    ],
+    "test": [
+     "Care este cel mai înalt vârf al Carpaților Orientali?",
+     "Până unde se întind Carpații Orientali?",
+     "Care este singurul lac vulcanic?",
+     "Ce munte din fliș are formă impunătoare?",
+     "Ce chei celebre se află în Carpații Orientali?"
+    ],
+    "steps": [
+     "Localizează grupa pe hartă.",
+     "Identifică șirurile de munți, depresiunile și trecătorile.",
+     "Leagă relieful de resurse.",
+     "Greșeala frecventă: să crezi că în Carpații Orientali sunt vulcani activi; aceștia sunt stinși."
+    ],
+    "answers": [
+     "Pietrosul Rodnei (2.303 m).",
+     "Până la Valea Prahovei.",
+     "Lacul Sfânta Ana.",
+     "Ceahlăul.",
+     "Cheile Bicazului."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l05": {
+   "ro": {
+    "title": "Carpații Meridionali",
+    "theory": "Carpații Meridionali se află între Valea Prahovei și Culoarul Timiș–Cerna. Sunt cei mai înalți și mai masivi, formați mai ales din roci cristaline. Aici sunt vârfurile cele mai înalte: Moldoveanu (2.544 m) și Negoiu (2.535 m) în Munții Făgăraș. Grupe: Bucegi, Făgăraș, Parâng, Retezat–Godeanu. Au un relief glaciar bine păstrat: circuri glaciare cu lacuri (Bucura – cel mai mare lac glaciar, Zănoaga – cel mai adânc), creste ascuțite, văi glaciare. Au puține depresiuni (Loviștei, Petroșani) și trecători, unele fiind defilee ale râurilor (Oltul la Turnu Roșu–Cozia, Jiul). Transfăgărășanul și Transalpina traversează munții la altitudini mari. Parcul Național Retezat este primul parc național al României (1935).",
+    "sample": "Lacul Bucura, din Munții Retezat, este cel mai mare lac glaciar din România.",
+    "worked": "Lacurile glaciare arată că în trecut ghețarii acopereau vârfurile Carpaților Meridionali.",
+    "exercises": [
+     "Delimitează Carpații Meridionali.",
+     "Numește cele patru grupe.",
+     "Explică formarea lacurilor glaciare.",
+     "Numește drumurile alpine.",
+     "Explică importanța Parcului Național Retezat."
+    ],
+    "test": [
+     "Care este cel mai înalt vârf al României?",
+     "În ce munți se află?",
+     "Care este cel mai mare lac glaciar?",
+     "Ce râu traversează Carpații Meridionali printr-un defileu?",
+     "Care este primul parc național?"
+    ],
+    "steps": [
+     "Localizează grupa pe hartă.",
+     "Identifică vârfurile, lacurile glaciare și defileele.",
+     "Explică de ce sunt cei mai înalți.",
+     "Greșeala frecventă: să confunzi lacurile glaciare (în circuri) cu cele de baraj (în spatele unui obstacol)."
+    ],
+    "answers": [
+     "Vârful Moldoveanu.",
+     "Munții Făgăraș.",
+     "Lacul Bucura.",
+     "Oltul.",
+     "Parcul Național Retezat (1935)."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l06": {
+   "ro": {
+    "title": "Carpații Occidentali",
+    "theory": "Carpații Occidentali se află între Dunăre și Valea Someșului, la vest de Culoarul Timiș–Cerna. Sunt cei mai scunzi și cei mai fragmentați, cu multe depresiuni și văi care îi fac ușor de străbătut. Grupe: Munții Banatului (Semenic, Almăj, Locvei), Munții Poiana Ruscă și Munții Apuseni (Bihor – vârful Cucurbăta Mare/Bihor, 1.849 m, Vlădeasa, Metaliferi, Trascău, Gilău). Apusenii au cel mai bogat relief carstic: peșteri (Urșilor, Scărișoara cu ghețar subteran, Meziad), chei, avene, izbucuri. Munții Metaliferi au zăcăminte de aur și argint, exploatate din Antichitate (Roșia Montană). Dunărea formează Defileul Porțile de Fier, cel mai lung din Europa, cu Cazanele Dunării.",
+    "sample": "Peștera Scărișoara adăpostește unul dintre cei mai mari ghețari subterani din Europa.",
+    "worked": "Relieful carstic se formează prin dizolvarea calcarului de către apă și creează forme spectaculoase.",
+    "exercises": [
+     "Delimitează Carpații Occidentali.",
+     "Numește cele trei grupe.",
+     "Explică ce este relieful carstic.",
+     "Numește peșteri din Apuseni.",
+     "Descrie Defileul Dunării."
+    ],
+    "test": [
+     "Care este cel mai înalt vârf al Carpaților Occidentali?",
+     "Ce peșteră are un ghețar subteran?",
+     "Ce munți conțin aur?",
+     "Ce defileu formează Dunărea?",
+     "Ce roci formează relieful carstic?"
+    ],
+    "steps": [
+     "Localizează grupa pe hartă.",
+     "Identifică subgrupele și formele carstice.",
+     "Leagă relieful de resurse și turism.",
+     "Greșeala frecventă: să crezi că Carpații Occidentali sunt cei mai înalți; sunt cei mai joși."
+    ],
+    "answers": [
+     "Vârful Cucurbăta Mare (Bihor), 1.849 m.",
+     "Peștera Scărișoara.",
+     "Munții Metaliferi.",
+     "Defileul Porțile de Fier.",
+     "Calcarul."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l07": {
+   "ro": {
+    "title": "Depresiunea Colinară a Transilvaniei și Subcarpații",
+    "theory": "Depresiunea Colinară a Transilvaniei se află în interiorul arcului carpatic și are altitudini de 300–800 m. Cuprinde Podișul Someșan (nord), Câmpia Transilvaniei (centru – de fapt un relief de dealuri joase) și Podișul Târnavelor (sud). În subsol există gaze naturale (domuri gazeifere) și sare (Praid, Turda). Subcarpații sunt dealuri înalte situate la exteriorul Carpaților Orientali și Meridionali, de la Valea Moldovei până la Valea Motrului: Subcarpații Moldovei, ai Curburii și Getici. Ei sunt formați din roci ușor de erodat, de aceea au alunecări de teren frecvente. Au depresiuni intracolinare locuite din vechime, sare (Slănic Prahova), petrol și fenomene unice, ca Vulcanii Noroioși de la Berca.",
+    "sample": "Vulcanii Noroioși din Subcarpații Curburii sunt formați de gazele care împing la suprafață noroi.",
+    "worked": "Ei nu sunt vulcani adevărați, ci rezultatul gazelor naturale din subsol.",
+    "exercises": [
+     "Numește subunitățile Depresiunii Transilvaniei.",
+     "Explică ce sunt domurile gazeifere.",
+     "Delimitează Subcarpații.",
+     "Explică de ce Subcarpații au alunecări de teren.",
+     "Descrie Vulcanii Noroioși."
+    ],
+    "test": [
+     "Unde se află Depresiunea Transilvaniei?",
+     "Ce resursă se extrage la Praid?",
+     "Care sunt cele trei diviziuni ale Subcarpaților?",
+     "Ce fenomen se află la Berca?",
+     "Ce risc natural este frecvent în Subcarpați?"
+    ],
+    "steps": [
+     "Localizează unitatea pe hartă.",
+     "Descrie altitudinea și subdiviziunile.",
+     "Leagă relieful de resurse și riscuri.",
+     "Greșeala frecventă: să crezi că Vulcanii Noroioși sunt vulcani cu lavă; sunt formați de gaze și noroi."
+    ],
+    "answers": [
+     "În interiorul arcului carpatic.",
+     "Sarea.",
+     "Subcarpații Moldovei, ai Curburii și Getici.",
+     "Vulcanii Noroioși.",
+     "Alunecările de teren."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l08": {
+   "ro": {
+    "title": "Podișul Getic, Podișul Mehedinți, Podișul Moldovei și Podișul Dobrogei",
+    "theory": "Podișul Getic (Piemontul Getic) se află la sud de Subcarpații Getici, între Motru și Dâmbovița, format din pietrișuri și nisipuri cărate de râuri din munți; are cărbune (lignit) și petrol. Podișul Mehedinți, mic, se află la vest, cu relief carstic. Podișul Moldovei se întinde între Carpați–Subcarpați și Prut: Podișul Sucevei (nord), Câmpia Moldovei sau a Jijiei (de fapt dealuri joase), Podișul Bârladului (sud), Câmpia Covurluiului. Podișul Dobrogei, între Dunăre și Marea Neagră, este cel mai vechi: Munții Măcinului (vârful Țuțuiatu, circa 467 m), Podișul Casimcei (șisturi verzi), Podișul Babadag și Podișul Dobrogei de Sud. Clima Dobrogei este cea mai uscată din țară.",
+    "sample": "Munții Măcinului au fost cândva munți înalți, dar au fost tociți de eroziune timp de sute de milioane de ani.",
+    "worked": "Vârsta foarte mare explică altitudinea mică de azi: cu cât un munte este mai vechi, cu atât a fost erodat mai mult.",
+    "exercises": [
+     "Localizează cele patru podișuri.",
+     "Numește subunitățile Podișului Moldovei.",
+     "Explică formarea Podișului Getic.",
+     "Descrie Podișul Dobrogei.",
+     "Explică de ce Munții Măcinului sunt joși."
+    ],
+    "test": [
+     "Între ce râuri se află Podișul Getic?",
+     "Ce subunitate a Podișului Moldovei este în nord?",
+     "Care este cel mai vechi podiș?",
+     "Ce climă are Dobrogea?",
+     "Ce resursă are Podișul Getic?"
+    ],
+    "steps": [
+     "Localizează podișul.",
+     "Descrie subdiviziunile.",
+     "Leagă relieful de resurse.",
+     "Greșeala frecventă: să crezi că Câmpia Moldovei este o câmpie adevărată; este un relief de dealuri joase."
+    ],
+    "answers": [
+     "Între Motru și Dâmbovița (la sud de Subcarpații Getici).",
+     "Podișul Sucevei.",
+     "Podișul Dobrogei.",
+     "Cea mai uscată din țară.",
+     "Cărbunele (lignit) și petrolul."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l09": {
+   "ro": {
+    "title": "Câmpia Română, Câmpia de Vest și Dealurile de Vest",
+    "theory": "Câmpia Română se află în sudul țării, între Podișul Getic, Subcarpați, Podișul Moldovei și Dunăre, de la Drobeta-Turnu Severin până la Siret. Este cea mai mare câmpie a țării, cu altitudini de 20–300 m, acoperită de loess și de soluri fertile (cernoziomuri). Subunități: Câmpia Olteniei, Câmpia Găvanu-Burdea, Câmpia Burnazului, Câmpia Vlăsiei, Câmpia Bărăganului, Câmpia Siretului Inferior. Câmpia de Vest se află între Dealurile de Vest și granița vestică: Câmpia Someșului, a Crișurilor, a Mureșului, a Banatului (Câmpia Timișului). Dealurile de Vest fac trecerea între Carpații Occidentali și Câmpia de Vest. Ambele câmpii sunt principalele regiuni agricole ale țării.",
+    "sample": "Bărăganul, cu soluri foarte fertile și climă secetoasă, este numit „grânarul țării”.",
+    "worked": "Fertilitatea solului explică producția mare de cereale; irigațiile compensează seceta.",
+    "exercises": [
+     "Delimitează Câmpia Română.",
+     "Numește subunitățile Câmpiei Române.",
+     "Numește subunitățile Câmpiei de Vest.",
+     "Explică rolul Dealurilor de Vest.",
+     "Explică importanța agricolă a câmpiilor."
+    ],
+    "test": [
+     "Care este cea mai mare câmpie a României?",
+     "Ce rocă acoperă câmpia?",
+     "Ce câmpie este „grânarul țării”?",
+     "Ce câmpie se află lângă Timișoara?",
+     "Ce sol fertil predomină?"
+    ],
+    "steps": [
+     "Localizează câmpia pe harta fizică.",
+     "Descrie subunitățile și altitudinea.",
+     "Leagă relieful de agricultură.",
+     "Greșeala frecventă: să crezi că Câmpia de Vest este o continuare a Câmpiei Române; ele sunt despărțite de munți."
+    ],
+    "answers": [
+     "Câmpia Română.",
+     "Loessul.",
+     "Bărăganul.",
+     "Câmpia Timișului (Câmpia Banatului).",
+     "Cernoziomul."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l10": {
+   "ro": {
+    "title": "Delta Dunării și platforma continentală a Mării Negre",
+    "theory": "Delta Dunării este cea mai nouă formă de relief a țării, formată din aluviunile aduse de Dunăre la vărsarea în Marea Neagră. Are o suprafață de peste 4.000 km² în România (o mică parte este în Ucraina). Dunărea se împarte la Tulcea (Ceatal Ismail) în trei brațe: Chilia (cel mai lung și mai bogat în apă), Sulina (rectificat și navigabil pentru nave maritime) și Sfântu Gheorghe (cel mai vechi). Delta are grinduri, lacuri, canale, stuf (cea mai mare suprafață compactă de stuf din lume) și o faună bogată (pelicani, sute de specii de păsări, pești). Este Rezervație a Biosferei din 1990 și sit UNESCO din 1991. Platforma continentală este partea mării cu adâncimi mici (până la circa 200 m), cu zăcăminte de petrol și gaze.",
+    "sample": "Delta crește spre mare, mai ales pe brațul Chilia, prin depunerea aluviunilor.",
+    "worked": "Este o formă de relief care încă se formează sub ochii noștri.",
+    "exercises": [
+     "Explică formarea Deltei.",
+     "Numește cele trei brațe.",
+     "Explică ce sunt grindurile.",
+     "Explică importanța ecologică a Deltei.",
+     "Explică ce este platforma continentală."
+    ],
+    "test": [
+     "Care este cea mai nouă formă de relief?",
+     "Care este cel mai lung braț al Dunării?",
+     "Ce braț este navigabil pentru nave maritime?",
+     "Din ce an este Delta Rezervație a Biosferei?",
+     "Ce resurse are platforma continentală?"
+    ],
+    "steps": [
+     "Localizează Delta pe hartă.",
+     "Descrie brațele și formele de relief.",
+     "Explică valoarea ei naturală și economică.",
+     "Greșeala frecventă: să crezi că Delta este un relief vechi; este cea mai nouă formă de relief."
+    ],
+    "answers": [
+     "Delta Dunării.",
+     "Brațul Chilia.",
+     "Brațul Sulina.",
+     "Din 1990.",
+     "Petrol și gaze naturale."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l11": {
+   "ro": {
+    "title": "Riscuri naturale legate de relief; cutremurele",
+    "theory": "Relieful poate produce riscuri naturale. Alunecările de teren apar pe pante cu roci argiloase, după ploi abundente sau defrișări, mai ales în Subcarpați și în podișuri. Prăbușirile de roci și avalanșele afectează munții înalți. Eroziunea solului și torenții distrug terenurile agricole. Cutremurele sunt cel mai mare risc natural al României: zona Vrancea (curbura Carpaților) produce cutremure de adâncime intermediară, simțite pe suprafețe mari. Cutremurul din 4 martie 1977 (magnitudine 7,2) a provocat peste 1.500 de morți, majoritatea în București. Alte zone seismice: Banat, Făgăraș, Dobrogea de Sud. Măsuri: construcții antiseismice, consolidarea clădirilor vechi, exerciții de evacuare, kit de urgență.",
+    "sample": "La cutremur, adăpostește-te sub o masă solidă sau lângă un perete de rezistență, departe de geamuri.",
+    "worked": "Cunoașterea regulilor de comportament salvează vieți mai mult decât orice altă măsură.",
+    "exercises": [
+     "Explică formarea alunecărilor de teren.",
+     "Localizează zona seismică Vrancea.",
+     "Prezintă cutremurul din 1977.",
+     "Enumeră regulile de comportament la cutremur.",
+     "Propune măsuri contra alunecărilor de teren."
+    ],
+    "test": [
+     "Care este principala zonă seismică a României?",
+     "Când a avut loc marele cutremur din secolul XX?",
+     "Unde sunt frecvente alunecările de teren?",
+     "Ce risc apare iarna în munții înalți?",
+     "Ce este o clădire antiseismică?"
+    ],
+    "steps": [
+     "Identifică riscul natural analizat.",
+     "Localizează regiunile afectate.",
+     "Propune măsuri de prevenire și protecție.",
+     "Greșeala frecventă: să fugi pe scări sau să folosești liftul în timpul cutremurului; adăpostește-te pe loc."
+    ],
+    "answers": [
+     "Zona Vrancea.",
+     "La 4 martie 1977.",
+     "În Subcarpați și în podișuri.",
+     "Avalanșele.",
+     "O clădire construită să reziste la cutremure."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l12": {
+   "ro": {
+    "title": "Clima României",
+    "theory": "România are climă temperat-continentală de tranziție, cu patru anotimpuri. Factori: poziția (latitudinea de 45°), circulația maselor de aer (dinspre vest umede, dinspre est uscate), relieful (Carpații sunt o barieră și creează climă de munte). Temperatura medie anuală este de 8–11°C în câmpii și scade sub 0°C pe vârfurile înalte. Precipitațiile cresc cu altitudinea: sub 400 mm/an în Dobrogea, peste 1.200 mm în munți. Influențe climatice: oceanice (vest), de ariditate/continentale (est), submediteraneene (sud-vest), pontice (litoral), scandinavo-baltice (nord). Vânturi: Crivățul (rece, iarna, în est și sud), Austrul (cald și uscat, în sud-vest), Foehnul (cald, pe versanții munților), Băltărețul. Record de temperatură: 44,5°C (Ion Sion, 1951) și –38,5°C (Bod, 1942).",
+    "sample": "În Dobrogea cad mai puțin de 400 mm de precipitații pe an, iar în Munții Făgăraș peste 1.200 mm.",
+    "worked": "Diferența arată rolul altitudinii: aerul care urcă pe munți se răcește și produce mai multe precipitații.",
+    "exercises": [
+     "Explică factorii care influențează clima.",
+     "Localizează influențele climatice.",
+     "Descrie vânturile locale.",
+     "Explică de ce precipitațiile cresc cu altitudinea.",
+     "Citește o climatogramă a unei stații din România."
+    ],
+    "test": [
+     "Ce tip de climă are România?",
+     "Ce vânt rece bate iarna în est?",
+     "Unde cad cele mai puține precipitații?",
+     "Care este temperatura maximă înregistrată?",
+     "Ce influențe climatice are vestul țării?"
+    ],
+    "steps": [
+     "Localizează regiunea.",
+     "Identifică factorii și influențele climatice.",
+     "Descrie temperaturile, precipitațiile și vânturile.",
+     "Greșeala frecventă: să crezi că toată țara are aceeași climă; există diferențe între vest, est, munte și câmpie."
+    ],
+    "answers": [
+     "Temperat-continentală de tranziție.",
+     "Crivățul.",
+     "În Dobrogea.",
+     "44,5°C (Ion Sion, 1951).",
+     "Influențe oceanice."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l13": {
+   "ro": {
+    "title": "Dunărea",
+    "theory": "Dunărea este al doilea fluviu ca lungime din Europa (circa 2.860 km); izvorăște din Munții Pădurea Neagră (Germania) și se varsă în Marea Neagră prin Delta Dunării. Pe teritoriul sau la granița României are circa 1.075 km. Sectoare românești: Defileul Porțile de Fier (de la Baziaș la Drobeta-Turnu Severin, cel mai lung defileu din Europa, cu Cazanele); sectorul de câmpie sau al luncilor (până la Călărași), cu bălți și ostroave, multe îndiguite; sectorul bălților (Balta Ialomiței și Balta Brăilei, Insula Mare a Brăilei); sectorul maritim (Brăila–Sulina, navigabil pentru nave maritime) și Delta. Hidrocentralele Porțile de Fier I și II produc energie. Canalul Dunăre–Marea Neagră (1984) scurtează drumul spre Constanța. Porturi: Galați, Brăila, Giurgiu, Calafat.",
+    "sample": "Hidrocentrala Porțile de Fier I, construită împreună cu fosta Iugoslavie, este cea mai mare hidrocentrală a Dunării.",
+    "worked": "Fluviul este sursă de energie, cale de transport și resursă de apă și pește.",
+    "exercises": [
+     "Numește sectoarele Dunării în România.",
+     "Descrie Defileul Porțile de Fier.",
+     "Explică rolul Canalului Dunăre–Marea Neagră.",
+     "Numește porturile dunărene.",
+     "Explică importanța economică a Dunării."
+    ],
+    "test": [
+     "Câți km are Dunărea în România?",
+     "Unde izvorăște Dunărea?",
+     "Ce canal leagă Dunărea de Constanța?",
+     "Ce hidrocentrală se află la Porțile de Fier?",
+     "Între ce orașe navighează nave maritime pe Dunăre?"
+    ],
+    "steps": [
+     "Urmărește Dunărea pe hartă.",
+     "Împarte cursul în sectoare.",
+     "Explică folosirea fiecărui sector.",
+     "Greșeala frecventă: să crezi că Dunărea curge doar prin România; străbate sau mărginește zece state."
+    ],
+    "answers": [
+     "Circa 1.075 km.",
+     "În Munții Pădurea Neagră (Germania).",
+     "Canalul Dunăre–Marea Neagră.",
+     "Porțile de Fier I.",
+     "Între Brăila și Sulina."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l14": {
+   "ro": {
+    "title": "Râurile, lacurile și apele subterane",
+    "theory": "Râurile României izvorăsc mai ales din Carpați și au o rețea radiară, deoarece Carpații sunt în centru. Cele mai multe se varsă în Dunăre. Râuri importante: Mureșul (cel mai lung râu interior), Oltul, Siretul, Prutul (la graniță), Someșul, Crișurile, Jiul, Argeșul, Ialomița. Debitul depinde de precipitații și topirea zăpezii (ape mari primăvara). Lacuri naturale: glaciare (Bucura, Zănoaga), vulcanic (Sfânta Ana), carstice, de baraj natural (Lacu Roșu, format prin alunecare), lagune (Razim–Sinoe), limane fluviale (Snagov), limane maritime (Techirghiol – nămol terapeutic), lacuri sărate (în ocne vechi). Lacuri antropice: de baraj hidroenergetic (Vidraru pe Argeș, Porțile de Fier, Izvorul Muntelui pe Bistrița), iazuri. Apele subterane și cele minerale (Borsec, Slănic Moldova, Herculane) sunt o resursă importantă.",
+    "sample": "Lacu Roșu s-a format când o alunecare de teren a blocat cursul unui râu.",
+    "worked": "Tipul unui lac se stabilește după modul în care s-a format cuveta sa.",
+    "exercises": [
+     "Explică de ce rețeaua de râuri este radiară.",
+     "Numește râurile principale.",
+     "Clasifică lacurile după origine.",
+     "Numește trei lacuri de baraj antropic.",
+     "Numește stațiuni cu ape minerale."
+    ],
+    "test": [
+     "Care este cel mai lung râu interior?",
+     "Ce râu formează granița cu Republica Moldova?",
+     "Ce lac are nămol terapeutic?",
+     "Pe ce râu se află lacul Vidraru?",
+     "Ce tip de lac este Lacu Roșu?"
+    ],
+    "steps": [
+     "Identifică apa pe hartă.",
+     "Stabilește originea sau bazinul.",
+     "Precizează folosirea.",
+     "Greșeala frecventă: să crezi că toate lacurile mari sunt naturale; multe sunt de baraj construit de om."
+    ],
+    "answers": [
+     "Mureșul.",
+     "Prutul.",
+     "Lacul Techirghiol.",
+     "Pe Argeș.",
+     "Lac de baraj natural."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l15": {
+   "ro": {
+    "title": "Marea Neagră",
+    "theory": "Marea Neagră este o mare continentală, legată de Marea Mediterană prin strâmtorile Bosfor și Dardanele. Are o suprafață de circa 420.000 km² și adâncimea maximă de peste 2.200 m. Salinitatea este mică (circa 17‰ la suprafață, cam jumătate din cea a oceanului), din cauza aportului mare de apă dulce al fluviilor (Dunărea, Nistru, Nipru). O particularitate: sub circa 150–200 m adâncime apa conține hidrogen sulfurat și aproape nu are viață. Litoralul românesc are două sectoare: nordic, jos, cu lagune și Delta (până la Capul Midia), și sudic, cu faleze și plaje (Mamaia, Eforie, Costinești, Neptun, Mangalia). Resurse: pește, petrol și gaze pe platforma continentală, turism, transport (portul Constanța).",
+    "sample": "Sub circa 200 m adâncime, Marea Neagră are apă fără oxigen, cu hidrogen sulfurat.",
+    "worked": "Apa dulce de la suprafață nu se amestecă ușor cu apa sărată de jos, așa că oxigenul nu ajunge în adânc.",
+    "exercises": [
+     "Explică de ce salinitatea este mică.",
+     "Explică particularitatea apelor de adâncime.",
+     "Descrie cele două sectoare ale litoralului.",
+     "Numește stațiunile de pe litoral.",
+     "Explică importanța economică a mării."
+    ],
+    "test": [
+     "Prin ce strâmtori se leagă de Mediterana?",
+     "Ce salinitate are la suprafață?",
+     "Ce gaz se găsește în adâncuri?",
+     "Ce cap desparte sectoarele litoralului?",
+     "Care este portul principal?"
+    ],
+    "steps": [
+     "Localizează marea și strâmtorile.",
+     "Descrie caracteristicile apei.",
+     "Explică folosirea resurselor.",
+     "Greșeala frecventă: să crezi că Marea Neagră este la fel de sărată ca oceanul; are aproape jumătate din salinitate."
+    ],
+    "answers": [
+     "Bosfor și Dardanele.",
+     "Circa 17‰.",
+     "Hidrogenul sulfurat.",
+     "Capul Midia.",
+     "Constanța."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l16": {
+   "ro": {
+    "title": "Vegetația, fauna și solurile României",
+    "theory": "Vegetația României este dispusă în zone (în câmpii și podișuri) și etaje (în munți). Zonele: stepa (Bărăgan, Dobrogea – azi cultivată), silvostepa (stepă cu pâlcuri de pădure), pădurile de stejar (în câmpii și dealuri joase). Etajele: pădurile de fag (dealuri înalte și munți joși), pădurile de conifere (molid, brad – 1.200–1.800 m), etajul subalpin (jneapăn, ienupăr) și etajul alpin (pajiști, plante pitice, floarea de colț). Vegetația azonală: în lunci și Deltă (sălcii, plopi, stuf). Fauna urmează vegetația: în munți urs, capră neagră, râs, cerb carpatin (România are una dintre cele mai mari populații de urși din Europa); în stepă popândăul, dropia; în Deltă pelicanul. Solurile: cernoziomuri (stepă), luvisoluri (păduri de stejar și fag), cambisoluri și spodosoluri (munte), aluviuni (lunci).",
+    "sample": "România are una dintre cele mai mari populații de urși bruni din Europa.",
+    "worked": "Pădurile întinse ale Carpaților oferă habitat pentru animale mari dispărute din multe țări vestice.",
+    "exercises": [
+     "Ordonează etajele de vegetație.",
+     "Numește zonele de vegetație.",
+     "Leagă animalele de vegetație.",
+     "Numește tipurile de sol și unde apar.",
+     "Explică ce este vegetația azonală."
+    ],
+    "test": [
+     "Ce vegetație se găsește la cea mai mare altitudine?",
+     "Ce copac formează etajul pădurilor de conifere?",
+     "Ce sol fertil se află în stepă?",
+     "Ce animal mare trăiește în Carpați?",
+     "Ce pasăre este simbolul Deltei?"
+    ],
+    "steps": [
+     "Identifică relieful și altitudinea.",
+     "Precizează vegetația, fauna și solul.",
+     "Explică legăturile dintre ele.",
+     "Greșeala frecventă: să crezi că pădurile de conifere sunt la câmpie; ele cresc la altitudini mari, în munți."
+    ],
+    "answers": [
+     "Pajiștile alpine.",
+     "Molidul.",
+     "Cernoziomul.",
+     "Ursul brun.",
+     "Pelicanul."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l17": {
+   "ro": {
+    "title": "Populația României: număr și dinamică",
+    "theory": "La recensământul din 2021, România avea circa 19 milioane de locuitori, față de peste 23 de milioane în 1990. Scăderea se datorează sporului natural negativ (se nasc mai puțini copii decât decedează oameni) și emigrării masive după 1990 și mai ales după 2007. Natalitatea este mică, iar populația îmbătrânește. Densitatea medie este de circa 80 loc./km²; este mare în București, în zonele urbane și pe văile mari, mică în Delta Dunării și în munții înalți. Peste 5 milioane de români trăiesc în străinătate, mai ales în Italia, Spania, Germania, Marea Britanie.",
+    "sample": "Populația României a scăzut cu peste 4 milioane de locuitori între 1990 și 2021.",
+    "worked": "Scăderea are urmări: lipsa forței de muncă, sate îmbătrânite, presiune pe sistemul de pensii.",
+    "exercises": [
+     "Explică de ce populația a scăzut.",
+     "Calculează sporul natural pentru un exemplu dat.",
+     "Explică ce este îmbătrânirea demografică.",
+     "Localizează regiunile dens și slab populate.",
+     "Explică urmările emigrării."
+    ],
+    "test": [
+     "Câți locuitori avea România în 2021?",
+     "Câți locuitori avea în 1990?",
+     "Ce este sporul natural?",
+     "Care este densitatea medie?",
+     "Unde densitatea este cea mai mică?"
+    ],
+    "steps": [
+     "Analizează datele statistice.",
+     "Calculează indicatorii.",
+     "Explică cauzele și consecințele.",
+     "Greșeala frecventă: să crezi că scăderea populației se datorează doar emigrării; contează și sporul natural negativ."
+    ],
+    "answers": [
+     "Circa 19 milioane.",
+     "Peste 23 de milioane.",
+     "Diferența dintre nașteri și decese.",
+     "Circa 80 locuitori pe km².",
+     "În Delta Dunării."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l18": {
+   "ro": {
+    "title": "Structura populației",
+    "theory": "Structura populației arată cum este alcătuită aceasta după diferite criterii. Pe sexe: femeile sunt puțin mai numeroase. Pe grupe de vârstă: scade ponderea copiilor și crește ponderea vârstnicilor, iar piramida vârstelor are bază îngustă. Etnică: majoritatea sunt români (circa 89% din cei care și-au declarat etnia la recensământul din 2021); minoritățile principale sunt maghiarii (circa 6%, mai ales în Harghita, Covasna, Mureș), romii, ucrainenii, germanii, turcii, tătarii (în Dobrogea), lipovenii (în Deltă). Religioasă: majoritatea sunt ortodocși, apoi romano-catolici, reformați, penticostali, greco-catolici. Pe medii: puțin peste jumătate locuiesc în orașe. Ocupațională: crește ponderea serviciilor, scade cea a agriculturii.",
+    "sample": "În județele Harghita și Covasna, majoritatea locuitorilor sunt maghiari.",
+    "worked": "Distribuția minorităților are explicații istorice și face din România o țară multiculturală.",
+    "exercises": [
+     "Explică ce arată piramida vârstelor.",
+     "Numește minoritățile principale.",
+     "Localizează regiunile cu maghiari.",
+     "Descrie structura religioasă.",
+     "Compară populația urbană cu cea rurală."
+    ],
+    "test": [
+     "Ce etnie este majoritară?",
+     "Care este cea mai mare minoritate?",
+     "Ce religie predomină?",
+     "Unde trăiesc lipovenii?",
+     "Ce sector economic ocupă tot mai mulți oameni?"
+    ],
+    "steps": [
+     "Alege criteriul de structură.",
+     "Analizează datele sau graficul.",
+     "Formulează concluzii.",
+     "Greșeala frecventă: să crezi că România are o populație omogenă; există minorități numeroase, cu drepturi garantate."
+    ],
+    "answers": [
+     "Românii.",
+     "Maghiarii.",
+     "Ortodoxă.",
+     "În Delta Dunării.",
+     "Serviciile."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l19": {
+   "ro": {
+    "title": "Așezările rurale",
+    "theory": "Așezările rurale din România sunt satele, grupate administrativ în comune (peste 2.800). Satele s-au format din vechime în depresiuni, pe văi, la contactul dealurilor cu câmpia. Tipuri după formă: adunate (compacte – în câmpii), răsfirate (pe văi și dealuri), risipite (gospodării izolate – în munți, ca în Apuseni). După mărime: mici, mijlocii, mari (în câmpii). După funcții: agricole, pastorale, pomicole, viticole, forestiere, pescărești (Deltă), turistice (Bran, Moieciu). Problemele: îmbătrânirea, depopularea, lipsa infrastructurii (canalizare, drumuri) în unele zone. Satele tradiționale din Maramureș și Bucovina păstrează arhitectura și obiceiurile vechi.",
+    "sample": "Satele risipite din Munții Apuseni au gospodării aflate la mare distanță una de alta, pe culmi.",
+    "worked": "Forma satului se adaptează reliefului: pe culmi largi, oamenii au construit lângă terenurile lor.",
+    "exercises": [
+     "Clasifică satele după formă.",
+     "Clasifică satele după funcții.",
+     "Explică legătura dintre relief și forma satelor.",
+     "Descrie un sat din zona ta.",
+     "Explică problemele satelor românești."
+    ],
+    "test": [
+     "Câte comune are România?",
+     "Ce formă au satele din câmpie?",
+     "Unde sunt sate risipite?",
+     "Ce funcție au satele din Deltă?",
+     "Ce sat este cunoscut pentru turism în zona Brașov?"
+    ],
+    "steps": [
+     "Identifică forma și poziția satului.",
+     "Stabilește funcția principală.",
+     "Analizează problemele și perspectivele.",
+     "Greșeala frecventă: să crezi că satul și comuna sunt același lucru; o comună cuprinde unul sau mai multe sate."
+    ],
+    "answers": [
+     "Peste 2.800.",
+     "Adunată (compactă).",
+     "În Munții Apuseni.",
+     "Funcție pescărească.",
+     "Bran (sau Moieciu)."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l20": {
+   "ro": {
+    "title": "Așezările urbane; Municipiul București",
+    "theory": "România are peste 300 de orașe, dintre care circa 100 sunt municipii. Puțin peste jumătate din populație trăiește în orașe. Orașele au apărut în epoci diferite: antice (Constanța – Tomis, Mangalia – Callatis), medievale (Brașov, Sibiu, Cluj, Iași, Suceava, Târgoviște), moderne (Brăila, Galați), noi (orașele miniere și industriale din perioada comunistă). Funcții: administrative, industriale, comerciale, culturale, turistice, portuare. Cele mai mari orașe după București sunt Cluj-Napoca, Iași, Timișoara, Constanța, Craiova, Brașov, Galați. București, capitala, are circa 1,7 milioane de locuitori, pe Dâmbovița; este centru politic, economic, universitar și cultural, cu aeroportul Henri Coandă și o zonă metropolitană în creștere.",
+    "sample": "Constanța (Tomis) și Mangalia (Callatis) sunt printre cele mai vechi orașe de pe teritoriul României.",
+    "worked": "Orașele grecești de pe litoral au fost întemeiate acum circa 2.600 de ani.",
+    "exercises": [
+     "Clasifică orașele după vechime.",
+     "Clasifică orașele după funcții.",
+     "Numește cele mai mari orașe.",
+     "Prezintă Municipiul București.",
+     "Explică ce este o zonă metropolitană."
+    ],
+    "test": [
+     "Câte orașe are România, aproximativ?",
+     "Pe ce râu se află Bucureștiul?",
+     "Câți locuitori are Bucureștiul?",
+     "Ce nume antic avea Constanța?",
+     "Ce oraș este al doilea ca mărime?"
+    ],
+    "steps": [
+     "Localizează orașul pe harta României.",
+     "Precizează vechimea și funcțiile.",
+     "Analizează avantajele și problemele lui.",
+     "Greșeala frecventă: să crezi că un municipiu este altceva decât un oraș; municipiul este un oraș cu importanță mai mare."
+    ],
+    "answers": [
+     "Peste 300.",
+     "Pe Dâmbovița.",
+     "Circa 1,7 milioane.",
+     "Tomis.",
+     "Cluj-Napoca."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l21": {
+   "ro": {
+    "title": "Organizarea administrativ-teritorială",
+    "theory": "România este împărțită în 41 de județe și Municipiul București (împărțit în șase sectoare). Județele cuprind municipii, orașe și comune. Fiecare județ are un consiliu județean și un prefect, iar localitățile au primari și consilii locale. Pentru dezvoltare și fonduri europene există opt regiuni de dezvoltare (Nord-Est, Sud-Est, Sud-Muntenia, Sud-Vest Oltenia, Vest, Nord-Vest, Centru, București-Ilfov), fără rol administrativ. Regiunile istorice sunt: Moldova, Muntenia, Oltenia, Dobrogea, Transilvania, Banat, Crișana, Maramureș, Bucovina. Graficele (piramida vârstelor, diagrame) ajută la analiza datelor despre populație și localități.",
+    "sample": "Județul tău are un consiliu județean ales și un prefect numit de Guvern.",
+    "worked": "Administrația are niveluri diferite, fiecare cu atribuții proprii.",
+    "exercises": [
+     "Numește numărul de județe.",
+     "Explică diferența dintre județ și regiune de dezvoltare.",
+     "Numește regiunile istorice.",
+     "Găsește pe hartă județul tău și vecinii lui.",
+     "Realizează un grafic cu populația a cinci orașe."
+    ],
+    "test": [
+     "Câte județe are România?",
+     "În câte sectoare este împărțit Bucureștiul?",
+     "Câte regiuni de dezvoltare există?",
+     "Cine conduce administrația unui oraș?",
+     "În ce regiune istorică se află Timișoara?"
+    ],
+    "steps": [
+     "Găsește unitatea pe hartă.",
+     "Precizează nivelul administrativ.",
+     "Explică rolul ei în administrație.",
+     "Greșeala frecventă: să confunzi regiunile istorice cu județele; regiunile istorice cuprind mai multe județe."
+    ],
+    "answers": [
+     "41 de județe și Municipiul București.",
+     "Șase.",
+     "Opt.",
+     "Primarul.",
+     "În Banat."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l22": {
+   "ro": {
+    "title": "Agricultura: fondul funciar și cultura plantelor",
+    "theory": "Fondul funciar este totalitatea terenurilor țării. Suprafața agricolă reprezintă circa 60% din teritoriu: terenuri arabile (cele mai întinse), pășuni, fânețe, vii și livezi. Pădurile acoperă circa 27–30%. Cultura plantelor: cerealele (porumb, grâu – România este printre marii producători din UE) în câmpii; plante tehnice (floarea-soarelui – lider în UE, rapiță, soia, sfeclă de zahăr); cartof (Brașov, Suceava, Harghita); legume (lângă orașe, în lunci); viticultură (Cotnari, Murfatlar, Dealu Mare, Odobești, Recaș, Jidvei); pomicultură (Argeș, Vâlcea, Bistrița, Suceava – meri, pruni). Probleme: fărâmițarea terenurilor, irigații insuficiente, secete; există însă ferme mari moderne.",
+    "sample": "România este unul dintre cei mai mari producători de floarea-soarelui din Uniunea Europeană.",
+    "worked": "Solurile fertile și verile calde din câmpia de sud favorizează această cultură.",
+    "exercises": [
+     "Explică ce este fondul funciar.",
+     "Numește principalele culturi și regiunile lor.",
+     "Numește podgorii celebre.",
+     "Explică problemele agriculturii.",
+     "Leagă culturile de relief și climă."
+    ],
+    "test": [
+     "Ce procent din teritoriu este suprafața agricolă?",
+     "Ce cereale se cultivă cel mai mult?",
+     "Ce plantă tehnică dă ulei?",
+     "Ce podgorie este în Dobrogea?",
+     "Ce județe sunt cunoscute pentru cartof?"
+    ],
+    "steps": [
+     "Identifică planta cultivată.",
+     "Localizează regiunea.",
+     "Explică factorii naturali și umani.",
+     "Greșeala frecventă: să crezi că agricultura românească este doar tradițională; există și ferme mari, mecanizate."
+    ],
+    "answers": [
+     "Circa 60%.",
+     "Porumb și grâu.",
+     "Floarea-soarelui.",
+     "Murfatlar.",
+     "Brașov, Suceava, Harghita."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l23": {
+   "ro": {
+    "title": "Agricultura: creșterea animalelor; regiuni agricole",
+    "theory": "Creșterea animalelor se practică în toată țara. Bovinele (lapte, carne) se cresc în zone cu pășuni și fânețe, la munte și deal, și în ferme mari; ovinele (lână, lapte, brânză) au tradiție în Carpați și Dobrogea, cu transhumanță (mutarea turmelor între munte și câmpie); porcinele și păsările se cresc în ferme lângă zonele de cereale și orașe; apicultura și piscicultura sunt și ele importante. Regiuni agricole: Câmpia Română și Câmpia de Vest (cereale, plante tehnice, legume), Podișul Moldovei și Transilvaniei (cereale, cartof, sfeclă), regiunile subcarpatice și de deal (pomicultură, viticultură), munții (creșterea animalelor). Produse tradiționale: brânzeturi, telemea, salam de Sibiu, magiun de Topoloveni.",
+    "sample": "Transhumanța este o tradiție veche: ciobanii mutau turmele la munte vara și în câmpie iarna.",
+    "worked": "Practica arată adaptarea oamenilor la anotimpuri și la resursele de hrană pentru animale.",
+    "exercises": [
+     "Numește animalele crescute și produsele lor.",
+     "Explică ce este transhumanța.",
+     "Delimitează regiunile agricole.",
+     "Numește produse tradiționale românești.",
+     "Explică legătura dintre relief și creșterea animalelor."
+    ],
+    "test": [
+     "Ce animale dau lână?",
+     "Ce este transhumanța?",
+     "Unde se cresc multe oi?",
+     "Ce regiune este bună pentru pomicultură?",
+     "Ce produs tradițional este din Topoloveni?"
+    ],
+    "steps": [
+     "Identifică ramura zootehnică.",
+     "Localizează regiunea.",
+     "Explică factorii favorabili.",
+     "Greșeala frecventă: să crezi că creșterea animalelor se face doar la munte; există și ferme mari la câmpie."
+    ],
+    "answers": [
+     "Ovinele.",
+     "Mutarea turmelor între munte și câmpie, după anotimp.",
+     "În Carpați și Dobrogea.",
+     "Regiunea subcarpatică și de deal.",
+     "Magiunul de prune."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l24": {
+   "ro": {
+    "title": "Resursele energetice și industria energetică",
+    "theory": "România are resurse energetice variate. Petrolul se extrage din Subcarpați, Podișul Getic, Câmpia Română, Câmpia de Vest și platforma continentală a Mării Negre; prima rafinărie din lume pe scară industrială a funcționat la Ploiești (1857). Gazele naturale se află în Depresiunea Transilvaniei și în Marea Neagră (proiectul Neptun Deep). Cărbunele: huilă în Valea Jiului (în declin), lignit în Oltenia (Motru, Rovinari). Energia electrică se produce în termocentrale (pe cărbune și gaze), hidrocentrale (Porțile de Fier, Vidraru, Bicaz), centrala nucleară de la Cernavodă (două reactoare), parcuri eoliene (Dobrogea) și solare. Tendința este reducerea cărbunelui și creșterea energiei regenerabile.",
+    "sample": "Centrala nucleară de la Cernavodă produce aproximativ o cincime din electricitatea României.",
+    "worked": "Energia nucleară nu emite dioxid de carbon, dar necesită o securitate foarte strictă.",
+    "exercises": [
+     "Localizează zăcămintele de petrol și gaze.",
+     "Numește bazinele de cărbune.",
+     "Clasifică centralele electrice.",
+     "Explică importanța centralei de la Cernavodă.",
+     "Explică de ce crește energia regenerabilă."
+    ],
+    "test": [
+     "Unde se extrage huila?",
+     "Ce oraș este legat de istoria petrolului?",
+     "Unde se află centrala nucleară?",
+     "Unde sunt multe parcuri eoliene?",
+     "Ce proiect de gaze este în Marea Neagră?"
+    ],
+    "steps": [
+     "Identifică resursa energetică.",
+     "Localizează exploatarea.",
+     "Explică folosirea ei și impactul asupra mediului.",
+     "Greșeala frecventă: să crezi că România nu are resurse energetice; are petrol, gaze, cărbune și surse regenerabile."
+    ],
+    "answers": [
+     "În Valea Jiului.",
+     "Ploiești.",
+     "La Cernavodă.",
+     "În Dobrogea.",
+     "Neptun Deep."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l25": {
+   "ro": {
+    "title": "Industria prelucrătoare",
+    "theory": "Industria prelucrătoare transformă materiile prime în produse. Ramurile principale: construcțiile de mașini – industria auto (Dacia la Mioveni, Ford la Craiova; furnizori de piese în multe orașe), material rulant, nave (Constanța, Galați, Mangalia, Tulcea), aeronautică (Brașov, Craiova); metalurgia (Galați – cel mai mare combinat siderurgic, Slatina – aluminiu); industria chimică și petrochimică (Ploiești, Pitești, Năvodari); industria materialelor de construcții (ciment); industria lemnului și mobilei; industria textilă și alimentară; industria IT și a software-ului (Cluj-Napoca, București, Iași, Timișoara), aflată în creștere rapidă. După 1990, multe fabrici mari au fost închise, iar industria s-a modernizat cu investiții străine.",
+    "sample": "Dacia, cu fabrica de la Mioveni, este unul dintre cei mai mari exportatori ai României.",
+    "worked": "Industria auto aduce locuri de muncă și venituri din export.",
+    "exercises": [
+     "Numește ramurile industriei prelucrătoare.",
+     "Localizează centrele industriei auto.",
+     "Explică importanța Galațiului.",
+     "Numește centrele IT.",
+     "Explică schimbările din industrie după 1990."
+    ],
+    "test": [
+     "Unde se produc automobilele Dacia?",
+     "Ce oraș are cel mai mare combinat siderurgic?",
+     "Ce oraș produce aluminiu?",
+     "Ce oraș este centru IT?",
+     "Unde se construiesc nave?"
+    ],
+    "steps": [
+     "Identifică ramura industrială.",
+     "Localizează centrele.",
+     "Explică factorii de amplasare.",
+     "Greșeala frecventă: să crezi că industria românească a dispărut după 1990; s-a transformat și s-a modernizat."
+    ],
+    "answers": [
+     "La Mioveni.",
+     "Galați.",
+     "Slatina.",
+     "Cluj-Napoca.",
+     "La Constanța, Galați, Mangalia, Tulcea."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l26": {
+   "ro": {
+    "title": "Serviciile: transporturi și comerț",
+    "theory": "Transporturile leagă regiunile și țara de lume. Rutiere: autostrăzile (A1 București–Pitești–Sibiu–Deva–Arad, A2 București–Constanța, A3, A7 și altele în construcție) și drumurile naționale. Feroviare: rețea de peste 10.000 km, cu Bucureștiul ca principal nod. Fluviale: Dunărea și Canalul Dunăre–Marea Neagră. Maritime: portul Constanța, cel mai mare port la Marea Neagră, cu legături spre întreaga lume. Aeriene: aeroporturile Henri Coandă (București), Cluj-Napoca, Iași, Timișoara. Prin conducte: petrol și gaze. Comerțul interior se face prin magazine, piețe și online; comerțul exterior: România exportă automobile, piese, mașini, produse agricole (cereale), electronice și importă energie, utilaje, produse chimice. Principalii parteneri sunt statele UE, mai ales Germania.",
+    "sample": "Portul Constanța este cel mai mare port de la Marea Neagră.",
+    "worked": "Legătura cu Dunărea prin canal îl transformă într-o poartă de intrare spre Europa Centrală.",
+    "exercises": [
+     "Clasifică tipurile de transport.",
+     "Numește autostrăzile principale.",
+     "Explică importanța portului Constanța.",
+     "Numește produsele exportate.",
+     "Numește principalii parteneri comerciali."
+    ],
+    "test": [
+     "Ce autostradă leagă Bucureștiul de Constanța?",
+     "Care este cel mai mare port la Marea Neagră?",
+     "Ce aeroport deservește Bucureștiul?",
+     "Care este principalul partener comercial?",
+     "Ce produs important exportă România?"
+    ],
+    "steps": [
+     "Identifică tipul de transport.",
+     "Localizează principalele căi și noduri.",
+     "Explică rolul lor economic.",
+     "Greșeala frecventă: să crezi că toate autostrăzile sunt gata; rețeaua este încă în construcție."
+    ],
+    "answers": [
+     "A2.",
+     "Portul Constanța.",
+     "Aeroportul Henri Coandă.",
+     "Germania.",
+     "Automobilele."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l27": {
+   "ro": {
+    "title": "Serviciile: turismul",
+    "theory": "România are un potențial turistic mare și variat. Turismul montan: Valea Prahovei (Sinaia, Bușteni, Predeal), Poiana Brașov, Păltiniș, Ranca. Turismul de litoral: Mamaia, Eforie, Neptun, Costinești, Vama Veche. Turismul balnear: Băile Herculane, Băile Felix, Sovata, Techirghiol, Vatra Dornei, Covasna. Delta Dunării pentru natură și pescuit. Turismul cultural: mănăstirile pictate din Bucovina, bisericile de lemn din Maramureș, cetățile dacice din Munții Orăștiei, bisericile fortificate săsești, centrul istoric al Sighișoarei, Castelul Bran și Peleș – multe în patrimoniul UNESCO. Agroturismul se dezvoltă în Bran, Maramureș, Bucovina. Probleme: infrastructura, promovarea, sezonalitatea.",
+    "sample": "Castelul Bran este promovat internațional prin legenda lui Dracula, deși legătura cu Vlad Țepeș este discutabilă.",
+    "worked": "Legendele pot atrage turiști, dar e important să deosebim legenda de istorie.",
+    "exercises": [
+     "Clasifică tipurile de turism.",
+     "Numește stațiuni montane și balneare.",
+     "Numește obiective UNESCO din România.",
+     "Propune un traseu turistic de trei zile.",
+     "Explică problemele turismului românesc."
+    ],
+    "test": [
+     "Ce stațiune se află pe Valea Prahovei?",
+     "Ce stațiune balneară se află lângă Oradea?",
+     "Ce mănăstiri sunt celebre în Bucovina?",
+     "Ce oraș are o cetate locuită în patrimoniul UNESCO?",
+     "Ce lac sărat are nămol terapeutic?"
+    ],
+    "steps": [
+     "Identifică tipul de turism.",
+     "Localizează obiectivele.",
+     "Evaluează potențialul și problemele.",
+     "Greșeala frecventă: să crezi că turismul românesc înseamnă doar litoral și munte; există turism balnear, cultural, rural."
+    ],
+    "answers": [
+     "Sinaia (sau Bușteni, Predeal).",
+     "Băile Felix.",
+     "Mănăstirile pictate (Voroneț, Sucevița, Moldovița).",
+     "Sighișoara.",
+     "Lacul Techirghiol."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l28": {
+   "ro": {
+    "title": "Regiunile geografice ale României",
+    "theory": "Regiunile geografice pot fi delimitate pe baze naturale (relief, climă, vegetație) sau istorice. Pe baze naturale: Carpații (Orientali, Meridionali, Occidentali), Depresiunea Transilvaniei, Subcarpații, podișurile (Getic, Moldovei, Dobrogei), câmpiile (Română, de Vest) și Delta Dunării. Regiunile istorice, cu specific cultural propriu: Moldova, Bucovina, Muntenia, Oltenia, Dobrogea, Transilvania, Banat, Crișana, Maramureș. Caracterizarea unei regiuni urmează un plan: poziție și limite, relief, climă, ape, vegetație și faună, populație și așezări, economie, probleme și perspective. Fiecare regiune are elemente proprii: Maramureșul are tradiții și biserici de lemn, Dobrogea o populație multietnică și climă uscată, Banatul o economie dezvoltată și diversitate culturală.",
+    "sample": "Dobrogea este o regiune multietnică, unde trăiesc împreună români, turci, tătari, lipoveni și alții.",
+    "worked": "Istoria regiunii explică diversitatea ei de azi: populații diferite s-au așezat aici de-a lungul secolelor.",
+    "exercises": [
+     "Numește regiunile naturale.",
+     "Numește regiunile istorice.",
+     "Prezintă planul de caracterizare.",
+     "Caracterizează regiunea în care locuiești.",
+     "Compară două regiuni istorice."
+    ],
+    "test": [
+     "Pe ce baze se delimitează regiunile?",
+     "Ce regiune istorică are biserici de lemn?",
+     "Ce regiune este multietnică și uscată?",
+     "În ce regiune istorică se află Iașiul?",
+     "Ce regiune se află între Dunăre și mare?"
+    ],
+    "steps": [
+     "Alege regiunea pe care o caracterizezi.",
+     "Aplică planul de caracterizare.",
+     "Formulează o concluzie despre specificul ei.",
+     "Greșeala frecventă: să confunzi regiunile naturale cu cele istorice; limitele lor nu coincid mereu."
+    ],
+    "answers": [
+     "Pe baze naturale sau istorice.",
+     "Maramureșul.",
+     "Dobrogea.",
+     "În Moldova.",
+     "Dobrogea."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l29": {
+   "ro": {
+    "title": "Calitatea mediului și dezvoltarea sustenabilă în România",
+    "theory": "Mediul din România are valori mari: păduri întinse (inclusiv păduri virgine), Delta Dunării, ape minerale, o biodiversitate bogată. Există și probleme: poluarea aerului în marile orașe (trafic) și în zonele industriale, poluarea apelor, defrișările ilegale, depozitarea deșeurilor, eroziunea solului, braconajul. Protecția mediului se realizează prin arii protejate: parcuri naționale (Retezat, Piatra Craiului, Ceahlău, Munții Rodnei, Domogled – Valea Cernei etc.), parcuri naturale, rezervații ale biosferei (Delta Dunării, Retezat, Pietrosul Rodnei), situri Natura 2000. Dezvoltarea sustenabilă înseamnă energie curată, reciclare, transport public, agricultură ecologică, turism responsabil. Pădurile virgine de fag din Carpați sunt în patrimoniul UNESCO.",
+    "sample": "Pădurile virgine de fag din Carpații României sunt incluse în patrimoniul mondial UNESCO.",
+    "worked": "Recunoașterea internațională obligă la protejarea acestor păduri pentru generațiile viitoare.",
+    "exercises": [
+     "Enumeră valorile naturale ale României.",
+     "Enumeră problemele de mediu.",
+     "Numește parcuri naționale.",
+     "Explică ce este dezvoltarea sustenabilă.",
+     "Propune măsuri pentru localitatea ta."
+    ],
+    "test": [
+     "Care este primul parc național?",
+     "Ce rezervații ale biosferei are România?",
+     "Ce păduri sunt în patrimoniul UNESCO?",
+     "Ce poluează aerul în orașe?",
+     "Ce sunt siturile Natura 2000?"
+    ],
+    "steps": [
+     "Identifică valoarea sau problema de mediu.",
+     "Localizează-o pe hartă.",
+     "Propune soluții sustenabile.",
+     "Greșeala frecventă: să crezi că ariile protejate interzic orice activitate; în multe se pot face turism și activități tradiționale."
+    ],
+    "answers": [
+     "Retezat.",
+     "Delta Dunării, Retezat, Pietrosul Rodnei.",
+     "Pădurile virgine de fag din Carpați.",
+     "Traficul.",
+     "Arii protejate din rețeaua europeană."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l30": {
+   "ro": {
+    "title": "România în Europa și în lume: valori și organizații",
+    "theory": "România are valori naturale (Carpații, Delta, Dunărea) și culturale (situri UNESCO, tradiții, personalități: Brâncuși, Enescu, Eminescu, Coandă) recunoscute în lume. Este membră a unor organizații internaționale: ONU (din 1955), NATO (din 2004 – alianța de apărare), Uniunea Europeană (din 1 ianuarie 2007), Consiliul Europei, Organizația Internațională a Francofoniei. Din 2025 este membru deplin al spațiului Schengen. Apartenența la UE a adus fonduri europene, libera circulație și acces pe piața unică; apartenența la NATO garantează securitatea. România are relații speciale cu Republica Moldova și cu comunitățile de români din jurul granițelor și din diaspora.",
+    "sample": "Constantin Brâncuși, sculptor născut în Gorj, este considerat unul dintre părinții sculpturii moderne.",
+    "worked": "Personalitățile culturale fac cunoscută România în lume la fel ca valorile naturale.",
+    "exercises": [
+     "Numește valori naturale și culturale ale României.",
+     "Ordonează aderarea la organizații internaționale.",
+     "Explică avantajele aderării la UE.",
+     "Explică rolul NATO.",
+     "Prezintă o personalitate română cunoscută în lume."
+    ],
+    "test": [
+     "Când a aderat România la ONU?",
+     "Când a aderat la NATO?",
+     "Când a aderat la UE?",
+     "Din ce an este membru deplin Schengen?",
+     "Ce sculptor român este celebru în lume?"
+    ],
+    "steps": [
+     "Identifică valoarea sau organizația.",
+     "Precizează data și rolul.",
+     "Explică importanța pentru România.",
+     "Greșeala frecventă: să confunzi NATO (alianță militară) cu UE (uniune economică și politică)."
+    ],
+    "answers": [
+     "În 1955.",
+     "În 2004.",
+     "La 1 ianuarie 2007.",
+     "Din 2025.",
+     "Constantin Brâncuși."
+    ]
+   }
+  }
+ }
+}

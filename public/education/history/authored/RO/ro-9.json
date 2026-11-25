@@ -1,0 +1,1028 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "RO",
+ "stage": "medium",
+ "grade": "9",
+ "version": "17d79d20921b72aa742a664b4b949b534e7f9beddf0d68f7e2e00e3a05b5a1ce",
+ "source": "https://cdn.edupedu.ro/wp-content/uploads/2026/01/Istorie-cls-a-IX-a-Programa.pdf",
+ "sourceTitle": "Programa școlară pentru disciplina Istorie. Istorie universală, clasa a IX-a, trunchi comun (Anexa 5 la OMEC nr. 6930/19.12.2025, Monitorul Oficial nr. 4 bis/8.I.2026; aplicare din 2026–2027): Laboratorul istoriei; Zorii civilizației; Originile civilizației europene; Geneza lumii medievale; Credință, putere și cunoaștere în lumea medievală; Lumea în mișcare – tranziția spre Modernitate. Lecții originale, fără text copiat",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "ro",
+ "labels": [
+  "Activitate originală · România · Istorie · Clasa a IX-a",
+  "Lecția pe înțeles",
+  "Exemplu",
+  "Ce ne arată exemplul",
+  "Exerciții",
+  "Test",
+  "Activități originale, făcute după programa școlară; nu înlocuiesc manualul sau ora de la clasă.",
+  "Dacă nu ai înțeles: pas cu pas",
+  "Răspunsuri (verifică după ce termini)"
+ ],
+ "units": [
+  {
+   "title": "Laboratorul istoriei",
+   "keys": [
+    "eu-year-ro-medium-9-l01",
+    "eu-year-ro-medium-9-l02"
+   ]
+  },
+  {
+   "title": "Zorii civilizației",
+   "keys": [
+    "eu-year-ro-medium-9-l03",
+    "eu-year-ro-medium-9-l04",
+    "eu-year-ro-medium-9-l05",
+    "eu-year-ro-medium-9-l06"
+   ]
+  },
+  {
+   "title": "Originile civilizației europene: lumea greco-romană",
+   "keys": [
+    "eu-year-ro-medium-9-l07",
+    "eu-year-ro-medium-9-l08",
+    "eu-year-ro-medium-9-l09",
+    "eu-year-ro-medium-9-l10",
+    "eu-year-ro-medium-9-l11",
+    "eu-year-ro-medium-9-l12",
+    "eu-year-ro-medium-9-l13"
+   ]
+  },
+  {
+   "title": "Geneza lumii medievale",
+   "keys": [
+    "eu-year-ro-medium-9-l14",
+    "eu-year-ro-medium-9-l15",
+    "eu-year-ro-medium-9-l16",
+    "eu-year-ro-medium-9-l17"
+   ]
+  },
+  {
+   "title": "Credință, putere și cunoaștere în lumea medievală",
+   "keys": [
+    "eu-year-ro-medium-9-l18",
+    "eu-year-ro-medium-9-l19",
+    "eu-year-ro-medium-9-l20",
+    "eu-year-ro-medium-9-l21",
+    "eu-year-ro-medium-9-l22",
+    "eu-year-ro-medium-9-l23"
+   ]
+  },
+  {
+   "title": "Lumea în mișcare: tranziția spre Modernitate",
+   "keys": [
+    "eu-year-ro-medium-9-l24",
+    "eu-year-ro-medium-9-l25",
+    "eu-year-ro-medium-9-l26",
+    "eu-year-ro-medium-9-l27"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-ro-medium-9-l01": {
+   "ro": {
+    "title": "Timp, spațiu istoric și concepte de bază",
+    "theory": "Istoricul lucrează cu câteva concepte-cheie. Cronologia ordonează faptele în timp; procesul istoric este o schimbare de durată, formată din multe evenimente (de exemplu, romanizarea). Spațiul istoric este teritoriul în care se petrec faptele, iar spațiul cultural sau de civilizație este zona în care oamenii au în comun limbă, religie, valori (lumea greacă, lumea islamică). Cauzalitatea explică de ce s-a produs un fapt: cauze imediate și cauze profunde. Multiperspectivitatea înseamnă privirea aceluiași fapt din punctul de vedere al mai multor participanți, iar obiectivitatea este efortul de a judeca pe baza dovezilor, nu a preferințelor.",
+    "sample": "Cucerirea Daciei poate fi povestită din perspectiva lui Traian, a lui Decebal, a unui soldat roman sau a unui țăran dac.",
+    "worked": "Fiecare perspectivă scoate în evidență alte aspecte: gloria, pierderea, pericolul, supraviețuirea. Comparându-le, obținem o imagine mai completă și mai corectă.",
+    "exercises": [
+     "Explică diferența dintre eveniment și proces istoric.",
+     "Dă exemple de cauze imediate și profunde pentru un război.",
+     "Explică ce este un spațiu de civilizație.",
+     "Povestește un eveniment din două perspective diferite.",
+     "Explică de ce obiectivitatea absolută este greu de atins."
+    ],
+    "test": [
+     "Ce este un proces istoric?",
+     "Ce este spațiul de civilizație?",
+     "Ce studiază cauzalitatea?",
+     "Ce înseamnă multiperspectivitate?",
+     "Ce înseamnă obiectivitate în istorie?"
+    ],
+    "steps": [
+     "Stabilește momentul și spațiul faptului studiat.",
+     "Separă cauzele imediate de cele profunde.",
+     "Privește faptul din cel puțin două perspective.",
+     "Greșeala frecventă: să confunzi cauza imediată (declanșatorul) cu cauzele profunde, care explică de fapt conflictul."
+    ],
+    "answers": [
+     "O schimbare de durată, formată din multe evenimente.",
+     "Zona cu limbă, religie și valori comune.",
+     "De ce s-a produs un fapt.",
+     "Analiza unui fapt din punctul de vedere al mai multor participanți.",
+     "Judecata pe baza dovezilor, nu a preferințelor."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l02": {
+   "ro": {
+    "title": "Sursele istorice și analiza lor",
+    "theory": "Sursele istorice pot fi arheologice (obiecte, construcții, morminte), primare (create în epoca studiată: documente, cronici, scrisori, fotografii), secundare (lucrări ale istoricilor) și multimedia (filme, înregistrări, site-uri). Pentru a analiza o sursă, punem întrebări: cine este autorul, când și unde a creat-o, cu ce scop, cui i se adresează, ce informații conține, ce lipsește. Comparăm sursa cu altele. Sursele de pe internet și răspunsurile generate de inteligența artificială trebuie verificate la surse sigure, deoarece pot conține erori sau informații inventate.",
+    "sample": "Un comunicat de război al unei armate anunță o „mare victorie”, iar jurnalul unui soldat din aceeași bătălie descrie o retragere.",
+    "worked": "Comunicatul avea scop de propagandă, jurnalul era personal. Comparând sursele și verificând alte documente, istoricul stabilește ce s-a întâmplat de fapt.",
+    "exercises": [
+     "Clasifică zece surse în categoriile învățate.",
+     "Aplică întrebările de analiză unei surse din manual.",
+     "Compară o sursă primară cu una secundară despre același fapt.",
+     "Verifică o informație de pe internet în două surse sigure.",
+     "Explică de ce un răspuns generat de IA trebuie verificat."
+    ],
+    "test": [
+     "Ce este o sursă primară?",
+     "Ce este o sursă secundară?",
+     "Ce întrebări punem unei surse?",
+     "De ce comparăm sursele între ele?",
+     "De ce verificăm informațiile generate de IA?"
+    ],
+    "steps": [
+     "Identifică tipul sursei.",
+     "Află autorul, data și scopul ei.",
+     "Compară informația cu alte surse.",
+     "Greșeala frecventă: să crezi că o sursă primară este automat adevărată; și ea poate fi părtinitoare."
+    ],
+    "answers": [
+     "O sursă creată în epoca studiată.",
+     "O lucrare a istoricilor, scrisă mai târziu.",
+     "Cine, când, unde, cu ce scop și pentru cine.",
+     "Pentru a verifica informațiile.",
+     "Pentru că poate conține erori sau informații inventate."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l03": {
+   "ro": {
+    "title": "Repere ale Preistoriei: de la nomadism la sedentarizare",
+    "theory": "Timp de sute de mii de ani, oamenii au fost nomazi: trăiau în grupuri mici, din vânătoare și cules, mutându-se după hrană. Revoluția neolitică (începând cu aproximativ 10.000 î.Hr. în Orientul Apropiat) a adus agricultura și domesticirea animalelor; oamenii au devenit sedentari, iar populația a crescut. Apariția metalurgiei (cupru, bronz, fier) a dus la specializarea muncii, comerț, arme mai eficiente și diferențe de avere. Comunitățile s-au transformat: au apărut căpetenii, războinici, meșteșugari, iar mai târziu orașele.",
+    "sample": "Așezarea neolitică de la Çatalhöyük (Turcia) avea case lipite una de alta, în care se intra prin acoperiș.",
+    "worked": "Așezarea arată o comunitate sedentară mare, cu organizare și credințe comune, cu mii de ani înaintea orașelor.",
+    "exercises": [
+     "Compară modul de viață nomad cu cel sedentar.",
+     "Explică de ce agricultura este considerată o revoluție.",
+     "Explică legătura dintre metalurgie și diferențele sociale.",
+     "Ordonează: paleolitic, neolitic, epoca bronzului, epoca fierului.",
+     "Explică cum s-au schimbat comunitățile umane."
+    ],
+    "test": [
+     "Din ce trăiau oamenii nomazi?",
+     "Ce a adus revoluția neolitică?",
+     "Unde a început agricultura?",
+     "Ce metale s-au folosit pe rând?",
+     "Ce categorii noi au apărut în comunități?"
+    ],
+    "steps": [
+     "Identifică modul de procurare a hranei.",
+     "Leagă-l de felul de viață și de locuință.",
+     "Explică schimbările sociale.",
+     "Greșeala frecventă: să crezi că trecerea la agricultură a fost rapidă; a durat mii de ani."
+    ],
+    "answers": [
+     "Din vânătoare și cules.",
+     "Agricultura și domesticirea animalelor.",
+     "În Orientul Apropiat.",
+     "Cuprul, bronzul și fierul.",
+     "Căpetenii, războinici, meșteșugari."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l04": {
+   "ro": {
+    "title": "Mesopotamia: orașe-stat, regate și societate",
+    "theory": "Mesopotamia („țara dintre fluvii”), între Tigru și Eufrat, a fost leagănul primelor orașe. Sumerienii au creat orașe-stat independente (Ur, Uruk, Lagaș), conduse de regi-preoți. Mai târziu au apărut regate și imperii: Akkad, Babilon (Hammurabi), Asiria. Societatea era ierarhizată: regele, preoții și funcționarii, oamenii liberi (țărani, meșteșugari, negustori) și sclavii. Mesopotamienii erau politeiști; templele-turn (ziguratele) erau centrul orașului. Economia se baza pe agricultura cu irigații, meșteșuguri și comerț.",
+    "sample": "Codul lui Hammurabi prevede pedepse diferite pentru aceeași faptă, în funcție de statutul victimei.",
+    "worked": "Sursa arată că societatea babiloniană era inegală și că legea reflecta ierarhia socială.",
+    "exercises": [
+     "Explică diferența dintre oraș-stat și regat.",
+     "Realizează schema ierarhiei sociale mesopotamiene.",
+     "Explică rolul irigațiilor.",
+     "Explică rolul templelor.",
+     "Analizează un articol din Codul lui Hammurabi."
+    ],
+    "test": [
+     "Ce înseamnă Mesopotamia?",
+     "Numește un oraș-stat sumerian.",
+     "Cine conducea orașele-stat?",
+     "Ce erau ziguratele?",
+     "Pe ce se baza economia?"
+    ],
+    "steps": [
+     "Identifică forma de organizare politică.",
+     "Descrie ierarhia socială.",
+     "Leagă economia de mediul natural.",
+     "Greșeala frecventă: să crezi că Mesopotamia a fost un singur stat tot timpul; a fost întâi un spațiu de orașe-stat."
+    ],
+    "answers": [
+     "Țara dintre fluvii.",
+     "Ur sau Uruk.",
+     "Regii-preoți.",
+     "Temple-turn.",
+     "Pe agricultura cu irigații, meșteșuguri și comerț."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l05": {
+   "ro": {
+    "title": "Egiptul antic: faraonul, societatea și religia",
+    "theory": "Egiptul, „dar al Nilului”, a fost unificat în jurul anului 3100 î.Hr. Faraonul era considerat zeu pe pământ și deținea puterea absolută, ajutat de vizir, scribi și preoți. Istoria Egiptului se împarte în Regatul Vechi (epoca piramidelor), Mijlociu și Nou (expansiune, faraoni precum Ramses al II-lea). Societatea cuprindea faraonul, nobilii și preoții, scribii, meșteșugarii, țăranii (majoritari) și sclavii. Religia politeistă (Ra, Osiris, Isis, Horus) punea accent pe viața de după moarte. Agricultura depindea de revărsările Nilului.",
+    "sample": "Faraonul Akhenaton a încercat să impună cultul unui singur zeu, Aton, dar reforma lui a fost abandonată după moarte.",
+    "worked": "Episodul arată puterea faraonului, dar și rezistența preoților și a tradiției religioase.",
+    "exercises": [
+     "Explică de ce Egiptul a fost numit „dar al Nilului”.",
+     "Explică puterea faraonului.",
+     "Compară Regatul Vechi cu Regatul Nou.",
+     "Explică credința egiptenilor în viața de după moarte.",
+     "Analizează reforma lui Akhenaton."
+    ],
+    "test": [
+     "Când a fost unificat Egiptul?",
+     "Cum era considerat faraonul?",
+     "Ce perioadă este epoca piramidelor?",
+     "Cine era majoritar în societatea egipteană?",
+     "Ce faraon a încercat un cult unic?"
+    ],
+    "steps": [
+     "Identifică forma de conducere.",
+     "Descrie societatea și economia.",
+     "Explică religia și efectele ei asupra culturii.",
+     "Greșeala frecventă: să crezi că Egiptul a avut aceeași putere în toate perioadele; au existat și perioade de criză."
+    ],
+    "answers": [
+     "În jurul anului 3100 î.Hr.",
+     "Zeu pe pământ.",
+     "Regatul Vechi.",
+     "Țăranii.",
+     "Akhenaton."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l06": {
+   "ro": {
+    "title": "Cultura Orientului Antic: scriere, descoperiri, cunoaștere",
+    "theory": "Orientul Antic a creat primele sisteme de scriere: pictogramele, scrierea cuneiformă (Mesopotamia), hieroglifele (Egipt) și alfabetul fenician, din care derivă alfabetele grec și latin. Descoperiri: roata, calendarul, sistemul sexagesimal (diviziunea orei în 60 de minute vine din Mesopotamia), papirusul. În literatură se remarcă Epopeea lui Ghilgameș; în științe, astronomia, matematica și medicina; în arte, piramidele, templele, statuile și reliefurile. Hieroglifele au fost descifrate de Jean-François Champollion (1822), cu ajutorul Pietrei de la Rosetta.",
+    "sample": "Piatra de la Rosetta conține același text în hieroglife, scriere demotică și greacă.",
+    "worked": "Textul grec cunoscut a permis descifrarea hieroglifelor. Comparația dintre surse a deschis accesul la o întreagă civilizație.",
+    "exercises": [
+     "Ordonează sistemele de scriere de la pictogramă la alfabet.",
+     "Explică descoperiri din Orientul Antic folosite azi.",
+     "Explică rolul Pietrei de la Rosetta.",
+     "Prezintă o operă literară a Orientului Antic.",
+     "Explică importanța alfabetului fenician."
+    ],
+    "test": [
+     "Ce scriere au creat sumerienii?",
+     "Ce scriere foloseau egiptenii?",
+     "Ce popor a creat alfabetul preluat de greci?",
+     "Cine a descifrat hieroglifele?",
+     "Ce obiect l-a ajutat?"
+    ],
+    "steps": [
+     "Identifică sistemul de scriere și civilizația.",
+     "Enumeră descoperirile și domeniile.",
+     "Caută moștenirea lor azi.",
+     "Greșeala frecventă: să crezi că scrierea a fost inventată pentru literatură; a apărut pentru evidențe economice și administrative."
+    ],
+    "answers": [
+     "Scrierea cuneiformă.",
+     "Hieroglifele.",
+     "Fenicienii.",
+     "Jean-François Champollion.",
+     "Piatra de la Rosetta."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l07": {
+   "ro": {
+    "title": "Colonizarea greacă și polisul",
+    "theory": "Între secolele VIII–VI î.Hr., grecii au întemeiat colonii în bazinul Mării Mediterane și al Mării Negre (Massalia, Siracuza, Bizanț, Histria, Tomis, Callatis). Cauzele: lipsa pământului, creșterea populației, comerțul, conflictele interne. Polisul (cetatea-stat) era unitatea politică a lumii grecești: cuprindea orașul, cu acropola și agora, și teritoriul agricol. Formele de guvernare erau diverse: monarhia, aristocrația, oligarhia (conducerea câtorva bogați), tirania (puterea unui singur om, preluată prin forță) și democrația (conducerea cetățenilor).",
+    "sample": "Tiranul Pisistrate din Atena a sprijinit țăranii și a construit edificii publice.",
+    "worked": "La greci, „tiran” nu însemna neapărat conducător crud, ci unul care luase puterea în afara regulilor. Sensul cuvintelor se schimbă în timp.",
+    "exercises": [
+     "Explică cauzele colonizării grecești.",
+     "Arată pe hartă cinci colonii grecești.",
+     "Descrie structura unui polis.",
+     "Compară oligarhia, tirania și democrația.",
+     "Explică sensul antic al cuvântului tiran."
+    ],
+    "test": [
+     "Ce era polisul?",
+     "Ce era agora?",
+     "Ce înseamnă oligarhie?",
+     "Ce era tirania la greci?",
+     "Numește o colonie grecească de pe litoralul românesc."
+    ],
+    "steps": [
+     "Identifică cauzele colonizării.",
+     "Descrie organizarea polisului.",
+     "Compară formele de guvernare.",
+     "Greșeala frecventă: să dai cuvântului antic tiran sensul de azi, de conducător crud; inițial însemna uzurpator."
+    ],
+    "answers": [
+     "Cetatea-stat grecească.",
+     "Piața publică.",
+     "Conducerea câtorva bogați.",
+     "Puterea unui om, preluată în afara regulilor.",
+     "Histria, Tomis sau Callatis."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l08": {
+   "ro": {
+    "title": "Atena și Sparta: două modele de cetate",
+    "theory": "Atena a evoluat spre democrație prin reformele lui Solon (desființarea sclaviei pentru datorii, 594 î.Hr.) și Clistene (508 î.Hr.), atingând apogeul sub Pericle (secolul al V-lea î.Hr.). Instituții: Adunarea Poporului (Ecclesia), Sfatul celor 500 (Bule), tribunalele populare (Heliaia), strategii aleși. Cetățenii erau doar bărbații atenieni liberi. Sparta avea o constituție mixtă: doi regi, Sfatul bătrânilor (Gerusia), cinci efori și Adunarea (Apella). Societatea spartană era formată din spartani (cetățeni-soldați), perieci și hiloți (dependenți); educația era militară.",
+    "sample": "Pericle spunea că Atena este o „școală a Greciei”.",
+    "worked": "Afirmația arată mândria democrației ateniene, dar trebuie pusă alături de faptul că femeile, metecii și sclavii nu aveau drepturi politice.",
+    "exercises": [
+     "Explică reformele lui Solon și Clistene.",
+     "Enumeră instituțiile democrației ateniene.",
+     "Enumeră instituțiile Spartei.",
+     "Compară societatea ateniană cu cea spartană.",
+     "Evaluează limitele democrației ateniene."
+    ],
+    "test": [
+     "Ce a desființat Solon?",
+     "Când au avut loc reformele lui Clistene?",
+     "Ce era Ecclesia?",
+     "Câți regi avea Sparta?",
+     "Cine erau hiloții?"
+    ],
+    "steps": [
+     "Identifică instituțiile fiecărei cetăți.",
+     "Compară cine avea drepturi politice.",
+     "Evaluează modelele pe baza surselor.",
+     "Greșeala frecventă: să crezi că democrația ateniană includea toți locuitorii; doar o minoritate erau cetățeni."
+    ],
+    "answers": [
+     "Sclavia pentru datorii.",
+     "În 508 î.Hr.",
+     "Adunarea Poporului.",
+     "Doi.",
+     "Populația dependentă din Sparta."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l09": {
+   "ro": {
+    "title": "Grecii între alianțe și războaie; Alexandru Macedon și elenismul",
+    "theory": "În războaiele medice (490–479 î.Hr.), cetățile grecești conduse de Atena și Sparta au respins Imperiul Persan (Maraton, Termopile, Salamina, Plateea). Atena a condus apoi Liga de la Delos, transformată într-un imperiu maritim, ceea ce a dus la războiul peloponesiac (431–404 î.Hr.) cu Liga peloponesiacă a Spartei. Slăbite, cetățile au fost supuse de Filip al II-lea al Macedoniei (Cheroneea, 338 î.Hr.). Alexandru cel Mare a cucerit Imperiul Persan, creând un imperiu până în India. Elenismul a fost perioada (323–30 î.Hr.) de difuzare a culturii grecești în Orient, în regatele urmașilor săi.",
+    "sample": "Alexandru a încurajat căsătoriile dintre soldații macedoneni și femeile persane.",
+    "worked": "Măsura arată că Alexandru dorea o fuziune a elitelor greco-macedonene și orientale. Este un aspect al sintezei elenistice.",
+    "exercises": [
+     "Ordonează: Maraton, Salamina, Liga de la Delos, războiul peloponesiac, Cheroneea.",
+     "Explică transformarea Ligii de la Delos.",
+     "Explică urmările războiului peloponesiac.",
+     "Urmărește pe hartă campania lui Alexandru.",
+     "Explică ce este elenismul."
+    ],
+    "test": [
+     "Împotriva cui au luptat grecii în războaiele medice?",
+     "Ce ligă a condus Atena?",
+     "Cine a câștigat războiul peloponesiac?",
+     "Unde i-a învins Filip al II-lea pe greci?",
+     "Ce perioadă a urmat morții lui Alexandru?"
+    ],
+    "steps": [
+     "Ordonează conflictele.",
+     "Explică schimbările de putere.",
+     "Analizează urmările culturale ale cuceririlor.",
+     "Greșeala frecventă: să crezi că Liga de la Delos a rămas o alianță egală; a devenit instrument al dominației ateniene."
+    ],
+    "answers": [
+     "Împotriva Imperiului Persan.",
+     "Liga de la Delos.",
+     "Sparta.",
+     "La Cheroneea.",
+     "Perioada elenistică."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l10": {
+   "ro": {
+    "title": "Roma antică: de la Regalitate la Republică",
+    "theory": "Roma a fost condusă de regi (după tradiție, 753–509 î.Hr.). Republica a avut instituții care se echilibrau: magistrații aleși pe un an (doi consuli, pretori, cenzori, edili, questori; în situații grave, un dictator pe șase luni), Senatul (foști magistrați, cu mare autoritate) și adunările poporului (comițiile). Conflictul dintre patricieni și plebei a dus la tribunii plebei și la Legea celor XII Table (aproximativ 450 î.Hr.), primele legi scrise. Principiile: colegialitatea și anualitatea magistraturilor.",
+    "sample": "Fiecare consul putea bloca decizia celuilalt prin veto („interzic”).",
+    "worked": "Colegialitatea împiedica un singur om să acapareze puterea. Cuvântul veto se folosește și azi în politică.",
+    "exercises": [
+     "Enumeră instituțiile Republicii romane.",
+     "Explică principiile colegialității și anualității.",
+     "Explică conflictul dintre patricieni și plebei.",
+     "Explică importanța Legii celor XII Table.",
+     "Compară Republica romană cu democrația ateniană."
+    ],
+    "test": [
+     "Câți consuli avea Roma?",
+     "Pe cât timp erau aleși magistrații?",
+     "Cine făcea parte din Senat?",
+     "Ce magistratură au obținut plebeii pentru apărarea lor?",
+     "Care au fost primele legi scrise ale Romei?"
+    ],
+    "steps": [
+     "Identifică instituțiile și rolul fiecăreia.",
+     "Explică principiile de funcționare.",
+     "Compară cu alte forme de guvernare.",
+     "Greșeala frecventă: să crezi că Republica romană era o democrație ca a noastră; puterea reală o aveau Senatul și elitele."
+    ],
+    "answers": [
+     "Doi.",
+     "Pe un an.",
+     "Foștii magistrați.",
+     "Tribunii plebei.",
+     "Legea celor XII Table."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l11": {
+   "ro": {
+    "title": "Roma: de la Republică la Imperiu; expansiune și provincii",
+    "theory": "Prin cuceriri (Italia, războaiele punice, Grecia, Galia), Roma a stăpânit Mediterana. Teritoriile cucerite au fost organizate ca provincii, conduse de guvernatori, cu armată, taxe și drumuri. Expansiunea a adus bogății, dar și crize: conflicte sociale, armate loiale generalilor, războaie civile (Marius și Sulla, Caesar și Pompei). Iulius Caesar a devenit dictator pe viață și a fost asasinat în 44 î.Hr. Octavian, numit Augustus, a creat Principatul (27 î.Hr.): păstra aparent instituțiile republicane, dar deținea puterea reală. Imperiul a devenit apoi Dominat, o monarhie absolută (Dioclețian).",
+    "sample": "Augustus își spunea „princeps”, adică „primul dintre cetățeni”, nu rege.",
+    "worked": "Titlul ascundea o putere aproape monarhică sub forme republicane. Augustus a evitat greșeala lui Caesar, care părea să vrea coroana.",
+    "exercises": [
+     "Explică cum a organizat Roma provinciile.",
+     "Explică crizele Republicii târzii.",
+     "Explică de ce a fost asasinat Caesar.",
+     "Explică ce a fost Principatul.",
+     "Compară Principatul cu Dominatul."
+    ],
+    "test": [
+     "Cum se numeau teritoriile cucerite?",
+     "Când a fost asasinat Caesar?",
+     "Ce titlu a folosit Augustus?",
+     "În ce an a început Principatul?",
+     "Ce împărat a introdus Dominatul?"
+    ],
+    "steps": [
+     "Identifică efectele expansiunii.",
+     "Explică trecerea de la Republică la Imperiu.",
+     "Compară formele de conducere imperială.",
+     "Greșeala frecventă: să crezi că Caesar a fost primul împărat; primul împărat a fost Augustus."
+    ],
+    "answers": [
+     "Provincii.",
+     "În 44 î.Hr.",
+     "„Princeps”.",
+     "În 27 î.Hr.",
+     "Dioclețian."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l12": {
+   "ro": {
+    "title": "Procesul de romanizare",
+    "theory": "Romanizarea a fost procesul prin care populațiile din provincii au adoptat limba latină, dreptul, religia și modul de viață roman. Factori: colonizarea, armata (veteranii primeau pământ), administrația, urbanizarea, drumurile, comerțul, școala, dreptul de cetățenie (extins în 212 la toți oamenii liberi prin Edictul lui Caracalla). Romanizarea a fost mai profundă în Occident (Hispania, Galia, Dacia) și mai slabă în Orientul grecesc, unde a rămas limba greacă. Din latina populară s-au format limbile romanice: italiana, franceza, spaniola, portugheza, româna.",
+    "sample": "O inscripție de la Apulum amintește de un veteran care a primit pământ și s-a stabilit cu familia în Dacia.",
+    "worked": "Veteranii au fost un factor important de romanizare: duceau limba și obiceiurile romane în provincii și se amestecau cu localnicii.",
+    "exercises": [
+     "Enumeră factorii romanizării.",
+     "Explică rolul armatei și al veteranilor.",
+     "Explică importanța Edictului lui Caracalla.",
+     "Explică de ce romanizarea a fost slabă în Orient.",
+     "Numește limbile romanice."
+    ],
+    "test": [
+     "Ce este romanizarea?",
+     "Ce primeau veteranii?",
+     "Ce a hotărât Edictul lui Caracalla?",
+     "În ce an?",
+     "Ce limbă a rămas în Orientul grecesc?"
+    ],
+    "steps": [
+     "Identifică factorii romanizării.",
+     "Compară zonele în care romanizarea a fost puternică sau slabă.",
+     "Explică urmările pe termen lung.",
+     "Greșeala frecventă: să crezi că romanizarea a fost impusă prin forță; a fost un proces de lungă durată, de asimilare treptată."
+    ],
+    "answers": [
+     "Adoptarea limbii și modului de viață roman de către provinciali.",
+     "Pământ.",
+     "Extinderea cetățeniei la toți oamenii liberi.",
+     "În 212.",
+     "Greaca."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l13": {
+   "ro": {
+    "title": "Modele culturale în lumea greco-romană",
+    "theory": "Grecii și romanii au creat modele culturale care au influențat Europa. Educația greacă (paideia) urmărea formarea completă a omului: gramatică, retorică, muzică, gimnastică, filozofie. Filozofii (Socrate, Platon, Aristotel) au pus bazele gândirii raționale; savanții (Pitagora, Euclid, Arhimede, Hipocrate) au dezvoltat științele. Arta greacă căuta proporția, armonia și echilibrul (ordinele doric, ionic, corintic; sculpturile lui Fidias și Policlet). Arhitectura romană a îmbinat utilitarismul (apeducte, drumuri, poduri, terme, folosind betonul și arcul) cu triumfalismul (arcuri de triumf, columne, forumuri).",
+    "sample": "Arcul lui Titus din Roma celebrează cucerirea Ierusalimului (70 d.Hr.).",
+    "worked": "Monumentul triumfal transmite un mesaj politic: gloria împăratului și a Romei. Arhitectura romană era și propagandă.",
+    "exercises": [
+     "Explică ce este paideia.",
+     "Compară ordinele arhitecturale grecești.",
+     "Explică idealul artistic grec.",
+     "Explică diferența dintre arhitectura utilitară și cea triumfală la romani.",
+     "Identifică moștenirea greco-romană într-o clădire din orașul tău."
+    ],
+    "test": [
+     "Ce urmărea educația greacă?",
+     "Numește trei filozofi greci.",
+     "Ce căuta arta greacă?",
+     "Ce materiale și tehnici a folosit arhitectura romană?",
+     "Ce celebrează Arcul lui Titus?"
+    ],
+    "steps": [
+     "Identifică domeniul cultural.",
+     "Descrie trăsăturile modelului greco-roman.",
+     "Caută moștenirea lui azi.",
+     "Greșeala frecventă: să crezi că statuile grecești erau albe; inițial erau pictate în culori."
+    ],
+    "answers": [
+     "Formarea completă a omului.",
+     "Socrate, Platon, Aristotel.",
+     "Proporția, armonia, echilibrul.",
+     "Betonul și arcul.",
+     "Cucerirea Ierusalimului."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l14": {
+   "ro": {
+    "title": "Marile migrații și formarea popoarelor europene",
+    "theory": "Între secolele IV și X, Europa a fost străbătută de valuri de migratori: popoare germanice (goți, vandali, franci, longobarzi, anglo-saxoni), hunii, slavii, avarii, bulgarii, maghiarii, vikingii. Presiunea lor a contribuit la căderea Imperiului Roman de Apus (476). Migratorii au întemeiat regate pe teritoriul fostului imperiu (vizigoți în Hispania, franci în Galia, ostrogoți și apoi longobarzi în Italia). Din amestecul populațiilor romanizate cu migratorii s-au format popoarele și limbile europene: romanice, germanice, slave.",
+    "sample": "Numele Franței vine de la franci, un popor germanic, dar franceza este o limbă romanică.",
+    "worked": "Exemplul arată amestecul: migratorii au dat numele, dar populația romanizată, mai numeroasă, a păstrat limba latină transformată.",
+    "exercises": [
+     "Enumeră popoarele migratoare și zonele unde s-au așezat.",
+     "Explică legătura dintre migrații și căderea Romei.",
+     "Explică formarea limbilor romanice, germanice și slave.",
+     "Explică de ce franceza este limbă romanică.",
+     "Arată pe hartă regatele germanice."
+    ],
+    "test": [
+     "Când a căzut Imperiul Roman de Apus?",
+     "Unde s-au așezat francii?",
+     "Ce popor germanic s-a așezat în Hispania?",
+     "Ce grupe de limbi s-au format în Europa?",
+     "De unde vine numele Franței?"
+    ],
+    "steps": [
+     "Identifică popoarele și traseele lor.",
+     "Explică ce s-a întâmplat la contactul cu populația romanizată.",
+     "Explică formarea popoarelor și limbilor.",
+     "Greșeala frecventă: să crezi că migratorii au distrus complet civilizația romană; mulți au preluat dreptul, limba și creștinismul."
+    ],
+    "answers": [
+     "În 476.",
+     "În Galia.",
+     "Vizigoții.",
+     "Romanice, germanice și slave.",
+     "De la franci."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l15": {
+   "ro": {
+    "title": "Europa Apuseană: Carol cel Mare și Renovatio Imperii",
+    "theory": "Regatul francilor a devenit cel mai puternic stat germanic. Clovis s-a creștinat (în jurul anului 496–508), câștigând sprijinul Bisericii. Carol Martel i-a oprit pe arabi la Poitiers (732). Carol cel Mare a extins regatul și a fost încoronat împărat de papa Leon al III-lea la Roma, în anul 800. Încoronarea exprima ideea de Renovatio Imperii, refacerea Imperiului Roman ca imperiu creștin. Carol a organizat imperiul în comitate conduse de conți, controlați de trimiși imperiali (missi dominici), și a sprijinit „renașterea carolingiană” (școli, copierea manuscriselor). Prin Tratatul de la Verdun (843), imperiul a fost împărțit între nepoții săi.",
+    "sample": "Scrierea minusculă carolingiană, clară și ușor de citit, stă la baza literelor mici de azi.",
+    "worked": "Copiștii carolingieni au salvat multe texte antice. O reformă a scrisului a avut urmări până în tipografia modernă.",
+    "exercises": [
+     "Explică importanța creștinării lui Clovis.",
+     "Explică semnificația încoronării din anul 800.",
+     "Explică ce înseamnă Renovatio Imperii.",
+     "Explică administrarea imperiului carolingian.",
+     "Explică urmările Tratatului de la Verdun."
+    ],
+    "test": [
+     "Ce rege franc s-a creștinat?",
+     "Unde i-a oprit Carol Martel pe arabi?",
+     "Cine l-a încoronat pe Carol cel Mare?",
+     "Ce erau missi dominici?",
+     "Ce tratat a împărțit imperiul în 843?"
+    ],
+    "steps": [
+     "Ordonează momentele ascensiunii francilor.",
+     "Explică ideea politică a încoronării.",
+     "Analizează moștenirea culturală.",
+     "Greșeala frecventă: să crezi că imperiul lui Carol cel Mare a rezistat mult; s-a împărțit în 843."
+    ],
+    "answers": [
+     "Clovis.",
+     "La Poitiers.",
+     "Papa Leon al III-lea.",
+     "Trimiși imperiali care controlau administrația.",
+     "Tratatul de la Verdun."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l16": {
+   "ro": {
+    "title": "Imperiul Bizantin: instituții, religie, cultură",
+    "theory": "Imperiul Roman de Răsărit (Bizantin), cu capitala la Constantinopol, a durat până în 1453. Împăratul (basileul) avea putere absolută, considerată de origine divină, și era protector al Bisericii. Iustinian (527–565) a încercat refacerea Imperiului Roman, recucerind Italia, nordul Africii și o parte a Hispaniei; a codificat dreptul roman (Corpus Iuris Civilis) și a construit Sfânta Sofia. Limba greacă a devenit oficială. Biserica Răsăritului s-a separat de Roma în 1054. Moștenirea bizantină: dreptul, arta icoanelor și a mozaicurilor, ortodoxia răspândită la slavi și români, păstrarea textelor antice.",
+    "sample": "Codul lui Iustinian a fost redescoperit în Occident în secolul al XI-lea și studiat la Universitatea din Bologna.",
+    "worked": "Dreptul roman, păstrat de Bizanț, a influențat sistemele juridice europene, inclusiv pe cel românesc.",
+    "exercises": [
+     "Explică puterea basileului.",
+     "Explică ideea refacerii Imperiului Roman la Iustinian.",
+     "Explică importanța Corpus Iuris Civilis.",
+     "Enumeră elemente ale moștenirii bizantine.",
+     "Explică influența Bizanțului asupra românilor."
+    ],
+    "test": [
+     "Care era capitala Imperiului Bizantin?",
+     "Când a domnit Iustinian?",
+     "Cum se numește codul lui de legi?",
+     "Ce limbă a devenit oficială?",
+     "Până când a durat imperiul?"
+    ],
+    "steps": [
+     "Identifică instituțiile imperiului.",
+     "Explică proiectul lui Iustinian.",
+     "Analizează moștenirea bizantină.",
+     "Greșeala frecventă: să crezi că bizantinii se numeau pe ei înșiși bizantini; ei se considerau romani."
+    ],
+    "answers": [
+     "Constantinopol.",
+     "Între 527 și 565.",
+     "Corpus Iuris Civilis.",
+     "Greaca.",
+     "Până în 1453."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l17": {
+   "ro": {
+    "title": "Islamul și expansiunea arabă",
+    "theory": "Islamul a apărut în Arabia în secolul al VII-lea, prin predica lui Mahomed. Hegira (622), plecarea de la Mecca la Medina, marchează începutul calendarului musulman. Preceptele Islamului: credința într-un singur Dumnezeu (Allah), Coranul ca revelație, cei cinci stâlpi (mărturisirea credinței, rugăciunea de cinci ori pe zi, milostenia, postul din Ramadan, pelerinajul la Mecca). Califii (urmașii lui Mahomed) au creat Marele Califat arab (dinastiile Omeiazilor, cu capitala la Damasc, și Abbasizilor, la Bagdad), întins din Hispania până în Asia Centrală. Impactul asupra Europei: cunoștințe de matematică, medicină, astronomie, filozofie (Avicenna, Averroes), cifrele „arabe”, hârtia.",
+    "sample": "În Bagdad, „Casa Înțelepciunii” traducea în arabă lucrări grecești de filozofie și știință.",
+    "worked": "Multe texte antice au ajuns în Europa medievală prin traduceri din arabă în latină. Lumea islamică a fost o punte între Antichitate și Europa.",
+    "exercises": [
+     "Explică ce este Hegira.",
+     "Enumeră cei cinci stâlpi ai Islamului.",
+     "Compară califatul omeiad cu cel abbasid.",
+     "Explică impactul culturii arabe asupra Europei.",
+     "Explică rolul „Casei Înțelepciunii”."
+    ],
+    "test": [
+     "În ce an a avut loc Hegira?",
+     "Care este cartea sfântă a Islamului?",
+     "Cine erau califii?",
+     "Care era capitala Abbasizilor?",
+     "Ce cunoștințe au transmis arabii Europei?"
+    ],
+    "steps": [
+     "Identifică apariția și preceptele religiei.",
+     "Urmărește expansiunea pe hartă.",
+     "Analizează schimburile culturale.",
+     "Greșeala frecventă: să crezi că cifrele „arabe” au fost inventate de arabi; ele provin din India și au fost transmise de arabi."
+    ],
+    "answers": [
+     "În 622.",
+     "Coranul.",
+     "Urmașii lui Mahomed.",
+     "Bagdad.",
+     "Matematică, medicină, astronomie, filozofie."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l18": {
+   "ro": {
+    "title": "Societatea medievală și ierarhia feudală",
+    "theory": "Societatea medievală era împărțită în trei ordine: cei care se roagă (clerul), cei care luptă (nobilimea) și cei care muncesc (țăranii, majoritari). Relațiile feudo-vasalice legau nobilii între ei: seniorul acorda vasalului un feud (pământ), iar vasalul îi jura credință (omagiu) și îi datora sfat și ajutor militar. Domeniul feudal cuprindea rezerva seniorială și loturile țăranilor; țăranii dependenți (șerbi) datorau seniorului muncă (clacă) și dijme. Viața oamenilor era marcată de ritmurile naturii (anotimpuri, munci agricole) și de credință (sărbători, posturi, clopote).",
+    "sample": "Calendarul agricol era împărțit după sărbătorile religioase: semănatul, recoltatul, plata dijmei.",
+    "worked": "Timpul medieval era un timp al naturii și al Bisericii. Oamenii nu trăiau după ceas, ci după anotimpuri și sărbători.",
+    "exercises": [
+     "Explică teoria celor trei ordine.",
+     "Explică relația senior–vasal.",
+     "Descrie un domeniu feudal.",
+     "Explică obligațiile țăranilor dependenți.",
+     "Explică cum era măsurat timpul în Evul Mediu."
+    ],
+    "test": [
+     "Care erau cele trei ordine ale societății?",
+     "Ce primea vasalul?",
+     "Ce datora vasalul seniorului?",
+     "Cine erau șerbii?",
+     "Ce marca ritmul vieții?"
+    ],
+    "steps": [
+     "Identifică categoriile sociale.",
+     "Explică relațiile de dependență.",
+     "Descrie viața cotidiană.",
+     "Greșeala frecventă: să crezi că toți nobilii erau egali; existau ierarhii, de la rege la cavalerul simplu."
+    ],
+    "answers": [
+     "Clerul, nobilimea și țăranii.",
+     "Un feud (pământ).",
+     "Credință, sfat și ajutor militar.",
+     "Țăranii dependenți de senior.",
+     "Anotimpurile și sărbătorile religioase."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l19": {
+   "ro": {
+    "title": "Lumea urbană medievală",
+    "theory": "După anul 1000, orașele au renăscut datorită creșterii populației, progreselor agricole și comerțului. Orașul medieval avea ziduri, piață, catedrală, primărie. Locuitorii (burghezii) au obținut prin luptă sau cumpărare privilegii: autonomie, consilii alese, tribunale proprii (comunele urbane). Meșteșugarii erau organizați în bresle, care fixau calitatea, prețurile și numărul ucenicilor; negustorii, în ghilde. Marile centre comerciale erau orașele italiene (Veneția, Genova, Florența), cele din Flandra și Liga Hanseatică. Târgurile din Champagne legau nordul de sud.",
+    "sample": "Un regulament al breslei interzicea lucrul noaptea, la lumina lumânării.",
+    "worked": "Regula proteja calitatea produselor și concurența corectă între meșteșugari.",
+    "exercises": [
+     "Explică factorii renașterii urbane.",
+     "Descrie organizarea unui oraș medieval.",
+     "Explică rolul breslelor.",
+     "Explică cum au obținut orașele autonomie.",
+     "Arată pe hartă marile centre comerciale."
+    ],
+    "test": [
+     "Cum se numeau locuitorii orașelor?",
+     "Ce era o breaslă?",
+     "Ce era o ghildă?",
+     "Ce ligă comercială domina nordul Europei?",
+     "Ce târguri legau nordul de sud?"
+    ],
+    "steps": [
+     "Identifică factorii economici.",
+     "Descrie instituțiile urbane.",
+     "Explică rolul orașelor în societate.",
+     "Greșeala frecventă: să crezi că orașele medievale erau mari; majoritatea aveau doar câteva mii de locuitori."
+    ],
+    "answers": [
+     "Burghezi.",
+     "O asociație de meșteșugari.",
+     "O asociație de negustori.",
+     "Liga Hanseatică.",
+     "Târgurile din Champagne."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l20": {
+   "ro": {
+    "title": "Biserica în Evul Mediu: Marea Schismă și cruciadele",
+    "theory": "Biserica era cea mai importantă instituție medievală: organiza viața religioasă, avea pământuri, școli, influență politică. Diferențele dintre Biserica Romei și cea a Constantinopolului (autoritatea papei, limba liturgică, unele învățături) au dus la Marea Schismă din 1054: Biserica Catolică și Biserica Ortodoxă. Cruciadele (1096–1291) au fost expediții chemate de papi pentru recuperarea Ierusalimului. Prima cruciadă a cucerit Ierusalimul (1099); a patra a cucerit Constantinopolul (1204), adâncind ruptura dintre catolici și ortodocși. Cruciadele au intensificat comerțul și contactele culturale cu Orientul.",
+    "sample": "În 1204, cruciații au jefuit Constantinopolul și au creat Imperiul Latin de Răsărit.",
+    "worked": "Episodul arată că motivele politice și economice puteau devia o cruciadă de la scopul declarat. A lăsat o amintire amară în lumea ortodoxă.",
+    "exercises": [
+     "Explică rolul Bisericii în societatea medievală.",
+     "Explică cauzele Marii Schisme.",
+     "Ordonează cruciadele importante.",
+     "Explică de ce a patra cruciadă a adâncit schisma.",
+     "Analizează urmările cruciadelor."
+    ],
+    "test": [
+     "În ce an a avut loc Marea Schismă?",
+     "Ce biserici au rezultat?",
+     "Ce a cucerit prima cruciadă?",
+     "Ce oraș a fost jefuit în 1204?",
+     "Ce urmări economice au avut cruciadele?"
+    ],
+    "steps": [
+     "Identifică rolul Bisericii.",
+     "Explică momentele de ruptură și conflict.",
+     "Analizează urmările pe termen lung.",
+     "Greșeala frecventă: să crezi că Marea Schismă a fost doar o dispută de dogmă; au contat și rivalitățile politice și de autoritate."
+    ],
+    "answers": [
+     "În 1054.",
+     "Biserica Catolică și Biserica Ortodoxă.",
+     "Ierusalimul.",
+     "Constantinopolul.",
+     "Intensificarea comerțului cu Orientul."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l21": {
+   "ro": {
+    "title": "Timpul marilor catedrale: moștenirea culturală a Evului Mediu",
+    "theory": "Arta medievală occidentală a cunoscut două stiluri. Stilul romanic (secolele X–XII): ziduri groase, ferestre mici, bolți semicirculare, aspect masiv, de fortăreață. Stilul gotic (din secolul al XII-lea, din Franța): arcuri frânte, bolți pe nervuri, contraforți, ferestre mari cu vitralii, înălțime și lumină (Notre-Dame din Paris, Chartres, Köln). Literatura cuprindea epopei (Cântecul lui Roland), romane cavalerești, poezia trubadurilor și Divina Comedie a lui Dante. Universitățile (Bologna, Paris, Oxford, Salamanca) aveau facultăți de arte, teologie, drept și medicină și foloseau limba latină.",
+    "sample": "Vitraliile gotice erau numite „Biblia săracilor”: povesteau prin imagini scene religioase.",
+    "worked": "Majoritatea oamenilor nu știau să citească. Imaginile din catedrale transmiteau învățătura religioasă și arată funcția educativă a artei.",
+    "exercises": [
+     "Compară stilul romanic cu stilul gotic.",
+     "Explică rolul vitraliilor.",
+     "Prezintă o operă literară medievală.",
+     "Explică organizarea universităților medievale.",
+     "Identifică o clădire gotică din România."
+    ],
+    "test": [
+     "Ce trăsături are stilul romanic?",
+     "Unde a apărut stilul gotic?",
+     "Ce erau vitraliile?",
+     "Ce operă a scris Dante?",
+     "Ce limbă se folosea în universități?"
+    ],
+    "steps": [
+     "Identifică trăsăturile stilului.",
+     "Leagă arta de credința și de societatea vremii.",
+     "Analizează moștenirea culturală.",
+     "Greșeala frecventă: să crezi că Evul Mediu a fost o „epocă întunecată” fără cultură; a creat catedrale, universități și literatură."
+    ],
+    "answers": [
+     "Ziduri groase, ferestre mici, bolți semicirculare.",
+     "În Franța.",
+     "Ferestre din sticlă colorată cu imagini.",
+     "Divina Comedie.",
+     "Latina."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l22": {
+   "ro": {
+    "title": "Evoluții politice: centralizarea statală",
+    "theory": "În Evul Mediu central, regii Franței și Angliei au întărit treptat puterea centrală, în timp ce Sfântul Imperiu Roman de Națiune Germană și Italia au rămas fărâmițate politic. În Anglia, după cucerirea normandă (1066), Magna Charta (1215) a limitat puterea regelui, iar Parlamentul (1265) a devenit instituția reprezentativă. În Franța, regii Capețieni au extins domeniul regal, iar Filip al IV-lea cel Frumos a convocat Statele Generale (1302). Monarhia stărilor era forma în care regele guverna împreună cu adunări ale stărilor (cler, nobilime, orășeni). Eleonora (Alienor) de Aquitania, regină a Franței și apoi a Angliei, arată legăturile complicate dintre dinastii și teritorii.",
+    "sample": "Căsătoria Eleonorei de Aquitania cu Henric al II-lea Plantagenet a adus Angliei mari teritorii în Franța.",
+    "worked": "Moștenirile și căsătoriile dinastice puteau muta provincii întregi dintr-un regat în altul. Ele au alimentat rivalitatea franco-engleză.",
+    "exercises": [
+     "Explică ce înseamnă centralizare statală.",
+     "Explică importanța Magnei Charta.",
+     "Explică ce este monarhia stărilor.",
+     "Prezintă viața Eleonorei de Aquitania.",
+     "Compară Anglia și Franța cu Sfântul Imperiu."
+    ],
+    "test": [
+     "Când a fost semnată Magna Charta?",
+     "Când a apărut Parlamentul englez?",
+     "Ce regi au extins domeniul regal în Franța?",
+     "Ce a convocat Filip cel Frumos în 1302?",
+     "Ce state au rămas fărâmițate?"
+    ],
+    "steps": [
+     "Identifică instituțiile centrale.",
+     "Explică rolul adunărilor stărilor.",
+     "Compară statele centralizate cu cele fărâmițate.",
+     "Greșeala frecventă: să crezi că monarhia stărilor era absolutism; regele guverna împreună cu adunări reprezentative."
+    ],
+    "answers": [
+     "În 1215.",
+     "În 1265.",
+     "Capețienii.",
+     "Statele Generale.",
+     "Sfântul Imperiu și Italia."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l23": {
+   "ro": {
+    "title": "Declinul Evului Mediu: războaie, foamete, epidemii",
+    "theory": "Secolul al XIV-lea a fost o perioadă de criză. Marea foamete (1315–1317), provocată de ploi și recolte proaste, a ucis o parte importantă a populației din nordul Europei. Moartea Neagră (ciuma bubonică, 1347–1351), adusă din Asia pe corăbii, a ucis aproximativ o treime din populația Europei. Războiul de 100 de ani (1337–1453) dintre Anglia și Franța a pustiit Franța; Ioana d’Arc a condus armata franceză la eliberarea Orléansului (1429), a fost capturată și arsă pe rug (1431). Crizele au produs revolte țărănești, dar și schimbări: lipsa de brațe de muncă a crescut valoarea muncii și a slăbit șerbia în Occident.",
+    "sample": "După Moartea Neagră, salariile muncitorilor agricoli au crescut în Anglia, deși autoritățile au încercat să le blocheze prin lege.",
+    "worked": "Catastrofa demografică a schimbat raportul de forțe: forța de muncă devenise rară. O criză poate produce și transformări sociale.",
+    "exercises": [
+     "Explică cauzele marii foamete.",
+     "Explică urmările Morții Negre.",
+     "Ordonează: marea foamete, Moartea Neagră, Orléans, sfârșitul Războiului de 100 de ani.",
+     "Explică rolul Ioanei d’Arc.",
+     "Explică de ce crizele au slăbit șerbia."
+    ],
+    "test": [
+     "Când a avut loc marea foamete?",
+     "Ce boală a provocat Moartea Neagră?",
+     "Ce parte din populația Europei a ucis?",
+     "Între cine s-a purtat Războiul de 100 de ani?",
+     "Ce oraș a eliberat Ioana d’Arc?"
+    ],
+    "steps": [
+     "Identifică crizele secolului al XIV-lea.",
+     "Explică urmările demografice.",
+     "Analizează schimbările sociale produse.",
+     "Greșeala frecventă: să crezi că Războiul de 100 de ani a durat exact o sută de ani; a durat 116 ani, cu întreruperi."
+    ],
+    "answers": [
+     "În 1315–1317.",
+     "Ciuma bubonică.",
+     "Aproximativ o treime.",
+     "Între Anglia și Franța.",
+     "Orléans."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l24": {
+   "ro": {
+    "title": "Cursa pentru mirodenii: marile descoperiri geografice",
+    "theory": "Căutarea unor drumuri maritime spre Asia, pentru mirodenii, aur și mătase, a dus la marile descoperiri geografice. Portughezii au înaintat de-a lungul Africii (Henric Navigatorul, Bartolomeu Dias – 1488, Vasco da Gama – India, 1498). Columb a ajuns în America (1492), iar expediția lui Magellan–Elcano a înconjurat Pământul (1519–1522). Conchistadorii Cortés și Pizarro au distrus imperiile aztec și incaș. S-au format imperii coloniale (spaniol, portughez, apoi olandez, englez, francez), iar drumurile comerciale s-au mutat în Atlantic. Misionarii au răspândit creștinismul în noile teritorii. Tratatul de la Tordesillas (1494) a împărțit lumea extra-europeană între Spania și Portugalia.",
+    "sample": "Prin Tratatul de la Tordesillas, o linie imaginară trasată pe hartă împărțea lumea între două regate europene.",
+    "worked": "Tratatul arată mentalitatea epocii: europenii își atribuiau teritorii locuite de alte popoare, fără să le consulte.",
+    "exercises": [
+     "Explică motivele marilor descoperiri.",
+     "Ordonează călătoriile principale.",
+     "Explică urmările pentru popoarele din America.",
+     "Explică Tratatul de la Tordesillas.",
+     "Explică rolul misionarilor."
+    ],
+    "test": [
+     "Ce căutau europenii în Asia?",
+     "Cine a ajuns în India pe mare în 1498?",
+     "Cine a cucerit Imperiul Aztec?",
+     "Ce tratat a împărțit lumea între Spania și Portugalia?",
+     "Spre ce ocean s-au mutat drumurile comerciale?"
+    ],
+    "steps": [
+     "Identifică motivele și mijloacele.",
+     "Urmărește descoperirile pe hartă.",
+     "Analizează urmările din mai multe perspective.",
+     "Greșeala frecventă: să vezi marile descoperiri doar ca progres; pentru popoarele cucerite au însemnat distrugere."
+    ],
+    "answers": [
+     "Mirodenii, aur și mătase.",
+     "Vasco da Gama.",
+     "Hernán Cortés.",
+     "Tratatul de la Tordesillas.",
+     "Spre Oceanul Atlantic."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l25": {
+   "ro": {
+    "title": "Umanismul și Renașterea: omul, măsura tuturor lucrurilor",
+    "theory": "Renașterea (secolele XIV–XVI) a pornit din Italia și a redescoperit Antichitatea. Umanismul punea în centru omul, demnitatea și capacitățile lui; umaniști ca Petrarca și Erasmus din Rotterdam studiau textele antice. Idealul era omul universal, cu cunoștințe în multe domenii. Mecenatul (familia Medici, papii) a sprijinit artiștii. Tiparul lui Gutenberg (aproximativ 1450) a răspândit rapid cărțile și ideile. Artele (Leonardo, Michelangelo, Rafael), literatura (Dante, Petrarca, Shakespeare) și științele (Copernic, Galilei) au cunoscut o mare înflorire.",
+    "sample": "În aproximativ 50 de ani de la inventarea tiparului, în Europa circulau milioane de cărți tipărite.",
+    "worked": "Tiparul a făcut cunoașterea accesibilă, a ajutat Reforma și știința. Este comparat adesea cu revoluția internetului.",
+    "exercises": [
+     "Explică ce este umanismul.",
+     "Explică idealul omului universal.",
+     "Explică rolul mecenatului.",
+     "Explică urmările tiparului.",
+     "Prezintă un artist sau savant al Renașterii."
+    ],
+    "test": [
+     "De unde a pornit Renașterea?",
+     "Numește un umanist.",
+     "Ce familie a fost un mare mecena?",
+     "Cine a inventat tiparul cu litere mobile?",
+     "Numește un savant al Renașterii."
+    ],
+    "steps": [
+     "Identifică ideile umanismului.",
+     "Leagă ideile de artă, literatură și știință.",
+     "Analizează urmările pentru Europa.",
+     "Greșeala frecventă: să crezi că Renașterea a fost o ruptură totală de Evul Mediu; a continuat multe tradiții medievale."
+    ],
+    "answers": [
+     "Din Italia.",
+     "Erasmus din Rotterdam.",
+     "Familia Medici.",
+     "Johannes Gutenberg.",
+     "Copernic sau Galilei."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l26": {
+   "ro": {
+    "title": "Reforma religioasă și impactul asupra Europei",
+    "theory": "Critica abuzurilor Bisericii (vânzarea indulgențelor, bogăția clerului) a dus la Reformă. În 1517, Martin Luther a publicat cele 95 de teze. Ideile lui: mântuirea prin credință, nu prin fapte sau indulgențe; Biblia ca singură autoritate; slujba în limba poporului. Jean Calvin, la Geneva, a susținut predestinarea. Henric al VIII-lea a creat Biserica Anglicană (1534). Biserica Catolică a răspuns prin Contrareformă: Conciliul de la Trento (1545–1563), ordinul iezuiților, Inchiziția. Urmări: ruperea unității religioase a Europei, războaie religioase, dar și răspândirea alfabetizării și apariția ideii de toleranță.",
+    "sample": "Pacea de la Augsburg (1555) a stabilit principiul „a cui e țara, a aceluia e religia”.",
+    "worked": "Principiul a pus capăt unor conflicte, dar a lăsat alegerea religiei conducătorului, nu fiecărui om. Libertatea religioasă individuală a venit mult mai târziu.",
+    "exercises": [
+     "Explică ce erau indulgențele.",
+     "Explică ideile lui Luther.",
+     "Compară luteranismul, calvinismul și anglicanismul.",
+     "Explică măsurile Contrareformei.",
+     "Analizează urmările Reformei."
+    ],
+    "test": [
+     "Când a publicat Luther tezele?",
+     "Câte teze a publicat?",
+     "Unde a predicat Calvin?",
+     "Ce biserică a creat Henric al VIII-lea?",
+     "Ce conciliu a organizat Contrareforma?"
+    ],
+    "steps": [
+     "Identifică problemele care au provocat Reforma.",
+     "Compară confesiunile apărute.",
+     "Analizează urmările politice și culturale.",
+     "Greșeala frecventă: să confunzi Reforma (protestantă) cu Contrareforma (răspunsul catolic)."
+    ],
+    "answers": [
+     "În 1517.",
+     "95.",
+     "La Geneva.",
+     "Biserica Anglicană.",
+     "Conciliul de la Trento."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l27": {
+   "ro": {
+    "title": "„Statul sunt eu!”: absolutismul monarhic",
+    "theory": "Absolutismul este forma de guvernare în care regele concentrează toată puterea, considerată de drept divin, fără să fie controlat de adunări reprezentative. Statul absolutist avea o administrație centralizată, funcționari plătiți, armată permanentă și impozite generale. Filip al II-lea al Spaniei (1556–1598) a condus un imperiu „în care soarele nu apunea niciodată”, apărând catolicismul. Ludovic al XIV-lea al Franței (1643–1715) a guvernat fără Statele Generale și i-a supus pe nobili la Versailles. Petru cel Mare al Rusiei (1682–1725) a modernizat statul după modele occidentale și a centralizat puterea.",
+    "sample": "Sub Filip al II-lea, Spania a pierdut „Invincibila Armada” în fața Angliei (1588).",
+    "worked": "Nici cel mai mare imperiu nu era invincibil. Înfrângerea a marcat începutul declinului Spaniei și ascensiunea Angliei pe mare.",
+    "exercises": [
+     "Explică trăsăturile absolutismului.",
+     "Explică ce înseamnă monarhie de drept divin.",
+     "Prezintă domnia lui Filip al II-lea.",
+     "Prezintă domnia lui Ludovic al XIV-lea.",
+     "Compară pe Ludovic al XIV-lea cu Petru cel Mare."
+    ],
+    "test": [
+     "Ce înseamnă absolutism?",
+     "De unde credeau regii absolutiști că vine puterea lor?",
+     "Ce rege spaniol a condus un imperiu imens?",
+     "Ce flotă spaniolă a fost învinsă în 1588?",
+     "Ce țar a modernizat Rusia?"
+    ],
+    "steps": [
+     "Identifică trăsăturile absolutismului.",
+     "Compară monarhii studiați.",
+     "Evaluează efectele asupra statului și societății.",
+     "Greșeala frecventă: să crezi că absolutismul însemna puterea reală totală a regelui; în practică, depindea de nobili, funcționari și bani."
+    ],
+    "answers": [
+     "Concentrarea întregii puteri în mâna regelui.",
+     "De la Dumnezeu.",
+     "Filip al II-lea.",
+     "„Invincibila Armada”.",
+     "Petru cel Mare."
+    ]
+   }
+  }
+ }
+}

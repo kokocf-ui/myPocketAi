@@ -1,0 +1,1059 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "RO",
+ "stage": "lower",
+ "grade": "6",
+ "version": "aa65a2bb56148de382d29d33594edd15b450d59f1c39439c746ff134decebec6",
+ "source": "https://rocnee.eu/images/rocnee/fisiere/programe_scolare/Inv%20gimnazial/Tehnologii/informatica_tic/OMEN_3393_Informatica_Tic_5-8_gimnaziu.pdf",
+ "sourceTitle": "Programa școlară pentru disciplina Informatică și TIC, clasele a V-a – a VIII-a, aprobată prin OMEN nr. 3393/28.02.2017 — clasa a VI-a: prezentări, animații grafice și elemente de modelare 3D, algoritmi (structuri repetitive, aplicații de exersare a algoritmilor), comunicare prin Internet (poștă electronică, netichetă)",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "ro",
+ "labels": [
+  "Activitate originală · România · Informatică și TIC · Clasa a VI-a",
+  "Lecția pe înțeles",
+  "Exemplu",
+  "Ce ne arată exemplul",
+  "Exerciții",
+  "Test",
+  "Activități originale, făcute după programa școlară; nu înlocuiesc manualul sau ora de la clasă.",
+  "Dacă nu ai înțeles: pas cu pas",
+  "Răspunsuri (verifică după ce termini)"
+ ],
+ "units": [
+  {
+   "title": "Prezentări",
+   "keys": [
+    "eu-year-ro-lower-6-l01",
+    "eu-year-ro-lower-6-l02",
+    "eu-year-ro-lower-6-l03",
+    "eu-year-ro-lower-6-l04",
+    "eu-year-ro-lower-6-l05",
+    "eu-year-ro-lower-6-l06"
+   ]
+  },
+  {
+   "title": "Animații grafice",
+   "keys": [
+    "eu-year-ro-lower-6-l07",
+    "eu-year-ro-lower-6-l08",
+    "eu-year-ro-lower-6-l09",
+    "eu-year-ro-lower-6-l10",
+    "eu-year-ro-lower-6-l11"
+   ]
+  },
+  {
+   "title": "Elemente de modelare 3D",
+   "keys": [
+    "eu-year-ro-lower-6-l12",
+    "eu-year-ro-lower-6-l13",
+    "eu-year-ro-lower-6-l14"
+   ]
+  },
+  {
+   "title": "Algoritmi: structuri repetitive",
+   "keys": [
+    "eu-year-ro-lower-6-l15",
+    "eu-year-ro-lower-6-l16",
+    "eu-year-ro-lower-6-l17",
+    "eu-year-ro-lower-6-l18",
+    "eu-year-ro-lower-6-l19",
+    "eu-year-ro-lower-6-l20",
+    "eu-year-ro-lower-6-l21",
+    "eu-year-ro-lower-6-l22",
+    "eu-year-ro-lower-6-l23"
+   ]
+  },
+  {
+   "title": "Comunicare prin Internet",
+   "keys": [
+    "eu-year-ro-lower-6-l24",
+    "eu-year-ro-lower-6-l25",
+    "eu-year-ro-lower-6-l26",
+    "eu-year-ro-lower-6-l27",
+    "eu-year-ro-lower-6-l28"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-ro-lower-6-l01": {
+   "ro": {
+    "title": "Prezentarea electronică și aplicația de prezentări",
+    "theory": "O prezentare electronică este o succesiune de diapozitive (slide-uri) care susțin vizual ce spune un vorbitor: o lecție, un proiect, o expunere. Aplicații uzuale: PowerPoint, LibreOffice Impress, Google Slides, Keynote. Interfața are: panglica sau meniul cu file (Pornire, Inserare, Proiectare, Tranziții, Animații, Expunere diapozitive), panoul din stânga cu miniaturile diapozitivelor, zona de editare a diapozitivului curent, zona pentru notele vorbitorului și butoanele pentru modurile de vizualizare (Normal, Sortare diapozitive, Expunere). Un fișier de prezentare conține toate diapozitivele; de obicei are extensia .pptx sau .odp. Prezentarea nu înlocuiește vorbitorul: diapozitivele arată ideile principale, iar explicațiile le dă omul.",
+    "sample": "Pentru un proiect despre Sistemul Solar, Irina deschide aplicația, alege o temă întunecată, scrie titlul pe primul diapozitiv și notează în zona de note ce va spune la fiecare planetă.",
+    "worked": "Irina folosește corect aplicația: diapozitivele vor avea doar ideile principale, iar notele vorbitorului o ajută să explice fără să citească de pe ecran.",
+    "exercises": [
+     "Numește trei aplicații de prezentări.",
+     "Descrie zonele interfeței aplicației folosite la clasă.",
+     "Explică rolul notelor vorbitorului.",
+     "Compară modul Normal cu modul Sortare diapozitive.",
+     "Explică de ce o prezentare nu înlocuiește vorbitorul."
+    ],
+    "test": [
+     "Ce este un diapozitiv?",
+     "Unde vezi miniaturile diapozitivelor?",
+     "Ce extensie are de obicei o prezentare PowerPoint?",
+     "Ce mod de vizualizare afișează prezentarea pe tot ecranul?",
+     "La ce folosesc notele vorbitorului?"
+    ],
+    "steps": [
+     "Deschide aplicația și identifică zonele interfeței.",
+     "Găsește fila potrivită pentru operația dorită.",
+     "Salvează prezentarea de la început, cu un nume clar.",
+     "Greșeala frecventă: să scrii pe diapozitive tot textul pe care vrei să-l spui."
+    ],
+    "answers": [
+     "O pagină a prezentării electronice.",
+     "În panoul din stânga.",
+     ".pptx.",
+     "Expunerea diapozitivelor.",
+     "Te ajută să știi ce să spui, fără să apară pe ecran."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l02": {
+   "ro": {
+    "title": "Crearea diapozitivelor: aspect, temă, ordine",
+    "theory": "O prezentare nouă începe cu un diapozitiv de titlu. Adăugăm diapozitive noi și alegem pentru fiecare un aspect (layout): titlu și conținut, două coloane, doar titlu, necompletat. Aspectul are casete pregătite (substituenți) în care scriem sau inserăm. Tema (designul) dă aceleași culori, fonturi și fundaluri tuturor diapozitivelor, ca prezentarea să arate unitar. Diapozitivele pot fi duplicate, șterse, mutate (tragem miniatura în altă poziție) sau ascunse. O structură bună: titlu, cuprins, câte un diapozitiv pentru fiecare idee, concluzie, surse. Salvăm des, iar la final putem exporta prezentarea ca PDF pentru a o trimite.",
+    "sample": "Matei a pus diapozitivul „Concluzii” al doilea. El trage miniatura lui la final, apoi duplică un diapozitiv cu aspect potrivit pentru o nouă idee.",
+    "worked": "Ordinea diapozitivelor urmează firul ideilor. Duplicarea păstrează aspectul și formatarea, ceea ce economisește timp și păstrează prezentarea unitară.",
+    "exercises": [
+     "Creează o prezentare cu cinci diapozitive cu aspecte diferite.",
+     "Explică diferența dintre aspect și temă.",
+     "Mută un diapozitiv în altă poziție și descrie pașii.",
+     "Propune structura unei prezentări despre orașul tău.",
+     "Exportă prezentarea ca PDF."
+    ],
+    "test": [
+     "Ce este aspectul (layout-ul) unui diapozitiv?",
+     "Ce face tema?",
+     "Cum muți un diapozitiv?",
+     "Ce conține un substituent?",
+     "Cu ce diapozitiv se încheie de obicei o prezentare de proiect?"
+    ],
+    "steps": [
+     "Planifică întâi ideile pe hârtie.",
+     "Creează câte un diapozitiv pentru fiecare idee și alege aspectul potrivit.",
+     "Aplică o singură temă și verifică ordinea în modul Sortare diapozitive.",
+     "Greșeala frecventă: să folosești o altă temă pe fiecare diapozitiv; prezentarea devine încărcată și greu de urmărit."
+    ],
+    "answers": [
+     "Așezarea casetelor de pe diapozitiv.",
+     "Dă aceleași culori și fonturi tuturor diapozitivelor.",
+     "Tragi miniatura în noua poziție.",
+     "Text, imagine sau alt obiect pe care îl inserăm.",
+     "Cu concluziile și sursele."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l03": {
+   "ro": {
+    "title": "Textul în diapozitive: introducere și formatare",
+    "theory": "Textul se scrie în casetele de text. Îl formatăm la nivel de caracter (font, mărime, culoare, aldin, cursiv, subliniat) și la nivel de paragraf (aliniere, spațiere, liste cu marcatori sau numerotate, niveluri de listă). Pe diapozitiv scriem idei scurte, nu fraze lungi. O regulă des folosită este 6 × 6: cel mult șase rânduri și aproximativ șase cuvinte pe rând. Textul trebuie să se vadă din spatele clasei: titluri de cel puțin 32–36 puncte și text de cel puțin 24 de puncte, cu contrast bun (text închis pe fundal deschis sau invers). Folosim cel mult două fonturi și evităm sublinierea, care poate fi confundată cu un link. Verificăm ortografia, inclusiv diacriticele.",
+    "sample": "Pe un diapozitiv scrie: „Delta Dunării este o zonă foarte importantă din România pentru că acolo trăiesc multe păsări rare...”. Alex îl transformă în listă: „Rezervație a biosferei”, „Peste 300 de specii de păsări”, „Patrimoniu UNESCO din 1991”.",
+    "worked": "Lista scurtă se citește dintr-o privire, iar explicațiile le dă vorbitorul. Informațiile rămân aceleași, dar sunt mai ușor de urmărit.",
+    "exercises": [
+     "Transformă un paragraf într-o listă cu marcatori.",
+     "Explică regula 6 × 6.",
+     "Alege mărimi potrivite pentru titlu și text.",
+     "Corectează un diapozitiv cu text galben pe fundal alb.",
+     "Formatează o listă pe două niveluri."
+    ],
+    "test": [
+     "Ce înseamnă formatarea la nivel de caracter?",
+     "Câte rânduri recomandă regula 6 × 6?",
+     "Ce mărime minimă recomandăm pentru text?",
+     "De ce evităm sublinierea simplă?",
+     "Câte fonturi folosim cel mult?"
+    ],
+    "steps": [
+     "Păstrează doar cuvintele-cheie din fiecare idee.",
+     "Așază ideile într-o listă scurtă.",
+     "Verifică lizibilitatea: mărime, contrast, ortografie.",
+     "Greșeala frecventă: să lipești paragrafe întregi pe diapozitiv și să le citești cu spatele la public."
+    ],
+    "answers": [
+     "Schimbarea fontului, mărimii, culorii și stilului literelor.",
+     "Cel mult șase.",
+     "Aproximativ 24 de puncte.",
+     "Poate fi confundată cu un link.",
+     "Două."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l04": {
+   "ro": {
+    "title": "Imagini, forme, tabele și sunete în prezentare",
+    "theory": "Fila Inserare adaugă obiecte: imagini (din fișiere sau online, cu respectarea licenței), forme (săgeți, dreptunghiuri, bule de text), pictograme, tabele, diagrame, videoclipuri și sunete. Obiectele pot fi mutate, redimensionate (din colțuri, ca să păstrăm proporțiile), rotite, aliniate și așezate în față sau în spate. O imagine bună explică sau completează textul, nu doar decorează. Un tabel organizează date comparabile, iar o diagramă arată rapid diferențele dintre valori. Sunetele și videoclipurile se folosesc cu măsură și se verifică înainte de prezentare. Sub imaginile preluate notăm sursa.",
+    "sample": "Pentru a compara înălțimea a trei munți, Sofia inserează un tabel cu trei rânduri și apoi o diagramă cu bare. Publicul vede imediat care munte este cel mai înalt.",
+    "worked": "Diagrama transformă cifrele în imagini ușor de comparat. Obiectul ales depinde de mesaj: tabelul pentru valori exacte, diagrama pentru comparație rapidă.",
+    "exercises": [
+     "Inserează o imagine și redimensionează-o păstrând proporțiile.",
+     "Alege între tabel și diagramă pentru trei situații date.",
+     "Adaugă o formă cu text care explică o imagine.",
+     "Notează sursa unei imagini preluate.",
+     "Aliniază trei imagini la aceeași înălțime."
+    ],
+    "test": [
+     "Din ce filă inserăm obiecte?",
+     "De unde tragem ca să păstrăm proporțiile unei imagini?",
+     "Când folosim o diagramă?",
+     "Ce notăm sub o imagine preluată?",
+     "Ce facem cu un sunet înainte de prezentare?"
+    ],
+    "steps": [
+     "Stabilește ce mesaj trebuie să transmită obiectul.",
+     "Alege tipul de obiect potrivit mesajului.",
+     "Așază-l, aliniază-l și verifică dacă se vede bine.",
+     "Greșeala frecventă: să umpli diapozitivul cu imagini decorative care nu au legătură cu subiectul."
+    ],
+    "answers": [
+     "Din fila Inserare.",
+     "Din colțuri.",
+     "Pentru a compara rapid valori.",
+     "Sursa (autorul, site-ul).",
+     "Îl verificăm (volum, redare)."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l05": {
+   "ro": {
+    "title": "Tranziții și animații",
+    "theory": "Tranziția este efectul care apare când trecem de la un diapozitiv la următorul (estompare, împingere, deplasare). Animația se aplică unui obiect de pe diapozitiv: efecte de intrare (apariție), de evidențiere, de ieșire și trasee de mișcare. Pentru fiecare efect stabilim momentul pornirii (la clic, cu efectul anterior, după efectul anterior), durata și întârzierea. Panoul de animații arată ordinea efectelor și permite reordonarea lor. Animațiile bune ajută povestea: o listă apare punct cu punct, pe măsură ce o explicăm, sau o săgeată arată un traseu. Prea multe efecte distrag atenția; alegem puține efecte, aceleași în toată prezentarea.",
+    "sample": "Daniel explică circuitul apei în natură. El animă săgețile să apară una după alta, la clic, în ordinea etapelor: evaporare, condensare, precipitații, scurgere.",
+    "worked": "Animațiile urmează ordinea explicației și apar doar când vorbitorul ajunge la etapa respectivă. Efectul are un scop: să arate succesiunea etapelor.",
+    "exercises": [
+     "Explică diferența dintre tranziție și animație.",
+     "Aplică o tranziție tuturor diapozitivelor.",
+     "Animă o listă să apară punct cu punct.",
+     "Schimbă ordinea a două animații din panou.",
+     "Explică de ce prea multe efecte strică prezentarea."
+    ],
+    "test": [
+     "Ce este o tranziție?",
+     "Ce tipuri de efecte de animație cunoști?",
+     "Ce opțiuni de pornire are o animație?",
+     "Unde se vede ordinea animațiilor?",
+     "Ce este un traseu de mișcare?"
+    ],
+    "steps": [
+     "Stabilește ce vrei să evidențiezi.",
+     "Alege un efect simplu și momentul pornirii lui.",
+     "Rulează prezentarea și verifică ritmul animațiilor.",
+     "Greșeala frecventă: să pui efecte diferite și zgomotoase pe fiecare obiect; publicul urmărește efectele, nu ideile."
+    ],
+    "answers": [
+     "Efectul de trecere de la un diapozitiv la altul.",
+     "De intrare, de evidențiere, de ieșire și trasee de mișcare.",
+     "La clic, cu efectul anterior, după efectul anterior.",
+     "În panoul de animații.",
+     "Un drum pe care se deplasează un obiect."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l06": {
+   "ro": {
+    "title": "Susținerea unei prezentări",
+    "theory": "O prezentare reușită are trei părți: introducerea (titlul și ce vom afla), cuprinsul (ideile, cu exemple și imagini) și încheierea (concluzia și sursele). Înainte de a o susține: o repetăm cu voce tare, cronometrăm timpul, verificăm pe calculatorul din clasă că fonturile, imaginile și sunetele funcționează și păstrăm o copie (pe stick sau în cloud, eventual ca PDF). În timpul expunerii: stăm cu fața la public, vorbim clar, nu citim de pe diapozitive, folosim tastele săgeți sau clicul pentru a avansa și tasta Esc pentru a ieși. La final răspundem la întrebări. Evaluăm prezentarea după conținut, claritate, aspect și respectarea timpului.",
+    "sample": "Ilinca are 5 minute. La repetiție îi ies 9. Ea păstrează ideile principale, mută detaliile în note și ajunge la 5 minute.",
+    "worked": "Repetiția cu cronometrul a arătat problema din timp. Notele vorbitorului păstrează detaliile pentru eventuale întrebări, fără să încarce prezentarea.",
+    "exercises": [
+     "Enumeră pașii de pregătire înainte de prezentare.",
+     "Spune trei reguli de comportament în timpul expunerii.",
+     "Alcătuiește o listă de criterii de evaluare.",
+     "Susține o prezentare de trei minute în fața colegilor.",
+     "Explică de ce păstrăm o copie a prezentării ca PDF."
+    ],
+    "test": [
+     "Care sunt cele trei părți ale unei prezentări?",
+     "Ce tastă folosim pentru a ieși din expunere?",
+     "De ce repetăm cu voce tare?",
+     "Unde punem detaliile care nu încap pe diapozitiv?",
+     "Ce verificăm pe calculatorul din clasă?"
+    ],
+    "steps": [
+     "Repetă prezentarea și cronometreaz-o.",
+     "Verifică echipamentul și pregătește o copie de rezervă.",
+     "Prezintă privind publicul și folosește diapozitivele doar ca sprijin.",
+     "Greșeala frecventă: să citești textul de pe diapozitive cu spatele la colegi."
+    ],
+    "answers": [
+     "Introducere, cuprins, încheiere.",
+     "Esc.",
+     "Ca să ne încadrăm în timp și să vorbim sigur.",
+     "În notele vorbitorului.",
+     "Că fonturile, imaginile și sunetele funcționează."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l07": {
+   "ro": {
+    "title": "Ce este o animație: cadre și scenariu",
+    "theory": "O animație creează iluzia mișcării prin afișarea rapidă a unor imagini puțin diferite, numite cadre. Ochiul nostru „leagă” imaginile dacă apar destul de repede: filmele folosesc de obicei 24 de cadre pe secundă, iar animațiile simple pot folosi 8–12. Înainte de a anima, scriem scenariul: ce se întâmplă, în ce ordine, ce obiecte apar, ce durată are fiecare scenă și ce sunete folosim. Scenariul poate fi desenat ca un storyboard – o bandă de desene simple, câte unul pentru fiecare moment important. Compoziția este întregul ansamblu: fundalul, obiectele animate și ordinea scenelor. Aplicațiile de animație lucrează cu o linie a timpului (cronologie), pe care așezăm cadrele.",
+    "sample": "Iulia desenează un flipbook: în colțul fiecărei pagini a unui caiet, o minge este puțin mai jos. Când răsfoiește repede, mingea pare să cadă.",
+    "worked": "Flipbook-ul arată principiul oricărei animații: imagini puțin diferite, afișate repede. Cu cât diferențele sunt mai mici și cadrele mai multe, cu atât mișcarea pare mai lină.",
+    "exercises": [
+     "Explică cum apare iluzia mișcării.",
+     "Realizează storyboard-ul unei animații de patru cadre.",
+     "Calculează câte cadre are o animație de 3 secunde la 12 cadre pe secundă.",
+     "Explică ce este cronologia.",
+     "Scrie scenariul unei animații despre răsăritul soarelui."
+    ],
+    "test": [
+     "Ce este un cadru?",
+     "Câte cadre pe secundă folosesc de obicei filmele?",
+     "Ce este un storyboard?",
+     "Ce cuprinde compoziția unei animații?",
+     "Ce facem înainte de a începe animarea?"
+    ],
+    "steps": [
+     "Scrie scenariul: ce se întâmplă, în ce ordine, cât durează.",
+     "Desenează momentele-cheie într-un storyboard.",
+     "Abia apoi creează cadrele în aplicație.",
+     "Greșeala frecventă: să începi direct cu desenul cadrelor fără scenariu; povestea iese încurcată."
+    ],
+    "answers": [
+     "O imagine din succesiunea care formează animația.",
+     "24.",
+     "O bandă de desene care arată momentele importante.",
+     "Fundalul, obiectele animate și ordinea scenelor.",
+     "Scriem scenariul."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l08": {
+   "ro": {
+    "title": "Editarea compoziției: obiecte și cadre",
+    "theory": "Într-o aplicație de animație lucrăm cu obiecte (personaje, forme, imagini, text) și cu cadre. Operații cu obiectele: inserare (din bibliotecă, din fișier sau desenate), selectare, copiere și lipire, mutare, ștergere, aranjare în față sau în spate (straturi). Operații cu cadrele: adăugare, duplicare (copiem cadrul și modificăm puțin obiectele), mutare în altă poziție a cronologiei, ștergere. Duplicarea este foarte utilă: nu redesenăm totul, ci mutăm doar obiectul care se mișcă. Fundalul care nu se schimbă se pune pe un strat separat, ca să nu-l refacem în fiecare cadru.",
+    "sample": "Pentru o mașină care traversează strada, Paul pune strada pe stratul de fundal, desenează mașina pe alt strat, apoi duplică cadrul de 10 ori, mutând mașina puțin spre dreapta în fiecare cadru.",
+    "worked": "Separarea pe straturi și duplicarea cadrelor fac munca rapidă și ordonată: strada rămâne neschimbată, iar doar mașina se mută.",
+    "exercises": [
+     "Explică ce înseamnă duplicarea unui cadru.",
+     "Descrie avantajul straturilor.",
+     "Realizează o animație de 6 cadre prin duplicare.",
+     "Mută un cadru în altă poziție și observă efectul.",
+     "Șterge un cadru și explică ce se schimbă."
+    ],
+    "test": [
+     "Ce operații putem face cu obiectele?",
+     "De ce duplicăm cadrele?",
+     "Unde punem fundalul care nu se schimbă?",
+     "Ce înseamnă „adu în față”?",
+     "Ce se întâmplă dacă ștergem un cadru din mijloc?"
+    ],
+    "steps": [
+     "Pune elementele fixe pe un strat separat.",
+     "Creează primul cadru complet.",
+     "Duplică și modifică doar ce se mișcă, cadru cu cadru.",
+     "Greșeala frecventă: să redesenezi fundalul în fiecare cadru; apar diferențe care „tremură” în animație."
+    ],
+    "answers": [
+     "Inserare, selectare, copiere, mutare, ștergere, aranjare.",
+     "Ca să nu redesenăm totul și să modificăm doar ce se mișcă.",
+     "Pe un strat separat.",
+     "Așază obiectul deasupra celorlalte.",
+     "Animația devine mai scurtă și mișcarea sare."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l09": {
+   "ro": {
+    "title": "Proprietățile obiectelor animate",
+    "theory": "Fiecare obiect are proprietăți pe care le putem schimba de la un cadru la altul: poziția (coordonatele x și y), dimensiunea (scalare), rotirea (unghiul), transparența (opacitatea) și culoarea. Schimbând treptat o proprietate obținem un efect: poziția creează deplasare, dimensiunea face obiectul să pară că se apropie sau se depărtează, rotirea îl învârte, transparența îl face să apară sau să dispară lin. Multe aplicații calculează singure cadrele intermediare: stabilim doar cadrele-cheie (începutul și sfârșitul mișcării), iar aplicația completează pașii dintre ele (interpolare).",
+    "sample": "Un fluture apare treptat: în cadrul-cheie 1 are transparența 100% și este mic; în cadrul-cheie 2, după 2 secunde, este opac și de mărime normală. Aplicația creează cadrele dintre ele.",
+    "worked": "Exemplul combină două proprietăți, transparența și dimensiunea, și folosește cadre-cheie. Interpolarea face trecerea lină fără să desenăm fiecare cadru.",
+    "exercises": [
+     "Enumeră cinci proprietăți ale unui obiect.",
+     "Explică ce efect produce schimbarea treptată a transparenței.",
+     "Animă un obiect care se rotește o tură completă.",
+     "Explică ce sunt cadrele-cheie.",
+     "Fă un obiect să pară că se apropie de privitor."
+    ],
+    "test": [
+     "Ce proprietate schimbăm pentru deplasare?",
+     "Ce înseamnă transparență 100%?",
+     "Câte grade are o rotire completă?",
+     "Ce este interpolarea?",
+     "Ce efect dă mărirea treptată a unui obiect?"
+    ],
+    "steps": [
+     "Alege efectul dorit: deplasare, apariție, rotire.",
+     "Identifică proprietatea care produce efectul.",
+     "Stabilește valorile în cadrele-cheie și lasă aplicația să completeze.",
+     "Greșeala frecventă: să schimbi prea brusc o proprietate între două cadre; mișcarea pare că sare."
+    ],
+    "answers": [
+     "Poziția (x, y).",
+     "Obiectul este complet invizibil.",
+     "360°.",
+     "Calcularea automată a cadrelor dintre cadrele-cheie.",
+     "Pare că se apropie."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l10": {
+   "ro": {
+    "title": "Efecte de mișcare, temporizare și sunet",
+    "theory": "Temporizarea înseamnă cât durează fiecare cadru sau fiecare mișcare. O mișcare cu multe cadre scurte pare lentă și lină; una cu puține cadre pare rapidă. Putem face un obiect să accelereze sau să încetinească (de exemplu, o minge încetinește când urcă și accelerează când coboară), ceea ce face animația naturală. Efectele de mișcare pot fi deplasări pe un traseu, sărituri, rotiri, pulsații. Sunetul dă viață animației: muzică de fundal, zgomote sincronizate cu acțiunea (un „poc” când mingea atinge pământul) sau o voce care povestește. Sunetele trebuie să fie sincronizate cu imaginea și folosite legal (create de noi sau cu licență potrivită). La final exportăm animația, de exemplu ca GIF sau video MP4.",
+    "sample": "Ana animă o minge care sare. La prima variantă mingea are aceeași viteză tot timpul și pare mecanică. Ea adaugă mai multe cadre aproape de punctul cel mai înalt, unde mingea încetinește, și un sunet scurt la atingerea solului.",
+    "worked": "Schimbarea vitezei imită mișcarea reală, iar sunetul sincronizat întărește momentul impactului. Temporizarea face diferența dintre o animație rigidă și una naturală.",
+    "exercises": [
+     "Explică ce este temporizarea.",
+     "Animă o minge care încetinește când urcă.",
+     "Adaugă un sunet sincronizat cu o acțiune.",
+     "Exportă animația ca GIF și verifică rezultatul.",
+     "Explică de ce sunetele trebuie folosite legal."
+    ],
+    "test": [
+     "Ce efect are o mișcare cu multe cadre?",
+     "Unde încetinește o minge aruncată în sus?",
+     "Ce înseamnă sunet sincronizat?",
+     "În ce formate putem exporta o animație?",
+     "De unde luăm sunetele pentru proiect?"
+    ],
+    "steps": [
+     "Stabilește durata totală și a fiecărei mișcări.",
+     "Ajustează numărul de cadre sau durata lor pentru accelerare și încetinire.",
+     "Adaugă sunetele în momentele potrivite și verifică sincronizarea.",
+     "Greșeala frecventă: să lași aceeași viteză pentru orice mișcare; animația pare rigidă."
+    ],
+    "answers": [
+     "Mișcarea pare lentă și lină.",
+     "În partea de sus a traiectoriei.",
+     "Sunetul apare exact în momentul acțiunii.",
+     "GIF sau video (de exemplu MP4).",
+     "Le creăm noi sau folosim sunete cu licență potrivită."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l11": {
+   "ro": {
+    "title": "Controlul animației prin blocuri și tastatură",
+    "theory": "În mediile grafice interactive, animația poate fi controlată prin program. Structurile de control decid ce se întâmplă: „repetă de 10 ori” mută personajul de mai multe ori, „la nesfârșit” menține animația pornită, „dacă … atunci” schimbă comportamentul la o condiție. Evenimentele leagă animația de utilizator: „când este apăsată tasta săgeată dreapta” mută personajul spre dreapta, „când se face clic pe acest personaj” îl face să sară. Combinând schimbarea costumelor cu deplasarea și cu pauze scurte, obținem un personaj care merge. Astfel, animația devine interactivă: privitorul o controlează.",
+    "sample": "Script: când tasta săgeată dreapta este apăsată – orientează-te în direcția 90 – mergi 10 pași – comută la costumul următor. La fiecare apăsare, personajul face un pas și își schimbă poziția picioarelor.",
+    "worked": "Evenimentul tastei leagă animația de acțiunea utilizatorului. Schimbarea costumului la fiecare pas creează iluzia mersului, exact ca la cadrele unei animații clasice.",
+    "exercises": [
+     "Programează un personaj care se mișcă stânga-dreapta cu săgețile.",
+     "Folosește „repetă” pentru o animație de mers.",
+     "Explică diferența dintre „repetă de 10 ori” și „la nesfârșit”.",
+     "Fă un personaj să sară când se face clic pe el.",
+     "Combină două costume și o pauză pentru o animație fluentă."
+    ],
+    "test": [
+     "Ce bloc menține animația pornită?",
+     "Ce tip de bloc reacționează la apăsarea unei taste?",
+     "Cum creăm iluzia mersului?",
+     "Ce face blocul „repetă de 10 ori”?",
+     "De ce adăugăm pauze scurte?"
+    ],
+    "steps": [
+     "Stabilește ce trebuie să controleze utilizatorul.",
+     "Alege evenimentul (tastă, clic) și structura de control potrivită.",
+     "Testează mișcarea și ajustează pașii și pauzele.",
+     "Greșeala frecventă: să pui mișcarea fără pauze într-o buclă; personajul dispare instantaneu de pe scenă."
+    ],
+    "answers": [
+     "„La nesfârșit”.",
+     "Un bloc eveniment („când este apăsată tasta …”).",
+     "Schimbăm costumele în timp ce personajul se deplasează.",
+     "Execută blocurile din interior de 10 ori.",
+     "Ca mișcarea să fie vizibilă."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l12": {
+   "ro": {
+    "title": "Spațiul tridimensional și formele 3D",
+    "theory": "Desenele de pe hârtie au două dimensiuni: lățime și înălțime. Obiectele reale au trei: lățime, adâncime și înălțime. În aplicațiile de modelare 3D (de exemplu Tinkercad sau Paint 3D), spațiul are trei axe: x, y și z; de obicei z arată înălțimea. Planul de lucru este o „masă” cu grilă pe care așezăm obiectele. Formele de bază sunt solidele geometrice cunoscute de la matematică: cubul, paralelipipedul, cilindrul, sfera, conul, piramida, prisma. Le putem privi din orice unghi rotind camera de vizualizare și putem folosi vederi standard (sus, față, lateral). Modelele 3D se folosesc în arhitectură, jocuri, filme și imprimarea 3D.",
+    "sample": "Pe planul de lucru, Răzvan așază un cub de 20 × 20 × 20 mm și o piramidă deasupra lui. Rotind camera, observă că piramida nu stă exact pe cub, ci plutește puțin.",
+    "worked": "Privirea din mai multe unghiuri arată poziția reală a obiectelor în spațiu. Din față piesele păreau lipite, dar vederea laterală a arătat golul de pe axa z.",
+    "exercises": [
+     "Numește cele trei dimensiuni ale unui obiect real.",
+     "Enumeră cinci forme 3D de bază.",
+     "Explică ce arată axa z.",
+     "Rotește camera și descrie obiectul din trei vederi.",
+     "Dă trei exemple de domenii care folosesc modelarea 3D."
+    ],
+    "test": [
+     "Câte axe are spațiul 3D?",
+     "Ce reprezintă planul de lucru?",
+     "De ce rotim camera de vizualizare?",
+     "Ce formă 3D are o minge?",
+     "La ce poate folosi un model 3D?"
+    ],
+    "steps": [
+     "Așază forma pe planul de lucru.",
+     "Verifică poziția din vederile de sus, față și lateral.",
+     "Corectează poziția pe axa care nu este potrivită.",
+     "Greșeala frecventă: să verifici modelul dintr-un singur unghi; în 3D obiectele pot părea lipite fără să fie."
+    ],
+    "answers": [
+     "Trei: x, y, z.",
+     "Suprafața cu grilă pe care așezăm obiectele.",
+     "Ca să vedem obiectul din toate părțile.",
+     "Sferă.",
+     "Arhitectură, jocuri, filme, imprimare 3D."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l13": {
+   "ro": {
+    "title": "Operații de modelare 3D și text tridimensional",
+    "theory": "Modelele 3D se construiesc combinând forme simple. Operațiile de bază sunt: mutarea pe cele trei axe, rotirea în jurul unei axe, scalarea (schimbarea dimensiunilor), copierea și oglindirea. Gruparea unește mai multe forme într-un singur obiect. O formă poate fi transformată în „gaură”: când o grupăm cu un solid, ea scobește din el (de exemplu o fereastră într-un perete). Alinierea așază obiectele exact unul față de altul. Textul 3D este un text căruia i se adaugă grosime (adâncime), potrivit pentru plăcuțe cu nume sau logouri. Dimensiunile se pot introduce exact, în milimetri, ceea ce e important pentru imprimarea 3D.",
+    "sample": "Ioana face o căsuță: un cub este peretele, o prismă triunghiulară este acoperișul, iar două cuburi mici transformate în găuri devin ferestre. Grupează totul și adaugă text 3D cu numele ei pe ușă.",
+    "worked": "Modelul complex a apărut din forme simple și din operația de grupare cu găuri. Este aceeași idee ca la algoritmi: o problemă mare se rezolvă din pași mici.",
+    "exercises": [
+     "Explică ce face gruparea.",
+     "Descrie cum faci o fereastră într-un perete.",
+     "Scalează un cilindru ca să devină o monedă.",
+     "Creează o plăcuță cu numele tău în text 3D.",
+     "Aliniază trei obiecte la mijloc."
+    ],
+    "test": [
+     "Ce înseamnă scalarea?",
+     "Ce efect are o formă transformată în gaură?",
+     "În ce unitate introducem de obicei dimensiunile?",
+     "Ce este textul 3D?",
+     "De ce folosim alinierea?"
+    ],
+    "steps": [
+     "Descompune obiectul dorit în forme simple.",
+     "Așază, scalează și rotește fiecare formă.",
+     "Folosește găuri și grupează piesele la final.",
+     "Greșeala frecventă: să grupezi piesele înainte de a le poziționa exact; corecturile devin mai grele."
+    ],
+    "answers": [
+     "Schimbarea dimensiunilor unui obiect.",
+     "Scobește din solidul cu care este grupată.",
+     "În milimetri.",
+     "Un text care are și grosime.",
+     "Ca obiectele să stea exact unul față de altul."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l14": {
+   "ro": {
+    "title": "Proiect 3D: un ansamblu de clădiri",
+    "theory": "Un proiect 3D se face în etape, ca orice produs informatic. 1. Tema și schița: de exemplu, curtea școlii sau o stradă cu trei clădiri; desenăm pe hârtie vederea de sus și notăm dimensiuni aproximative. 2. Modelarea pieselor: fiecare clădire din forme simple, cu uși și ferestre făcute prin găuri. 3. Asamblarea: așezăm clădirile pe planul de lucru, la distanțe potrivite, păstrând proporțiile (o ușă trebuie să fie mai mică decât un etaj). 4. Verificarea din toate vederile și corectarea. 5. Prezentarea: capturi de ecran din mai multe unghiuri sau exportul modelului (de exemplu în format STL pentru imprimare 3D). Lucrul în echipă presupune împărțirea sarcinilor: fiecare membru modelează o clădire.",
+    "sample": "Echipa Mariei construiește o stradă: Maria face școala, Andrei magazinul, Ioana blocul. La asamblare, magazinul este mai înalt decât blocul cu patru etaje, așa că echipa îl scalează.",
+    "worked": "Asamblarea a scos la iveală o problemă de proporții. Verificarea întregului ansamblu este obligatorie, chiar dacă fiecare piesă arăta bine separat.",
+    "exercises": [
+     "Desenează schița de sus a unui ansamblu de trei clădiri.",
+     "Împarte sarcinile într-o echipă de trei.",
+     "Verifică proporțiile dintre o ușă și un etaj.",
+     "Realizează capturi din trei unghiuri.",
+     "Prezintă proiectul în două minute."
+    ],
+    "test": [
+     "Care este prima etapă a proiectului 3D?",
+     "De ce verificăm proporțiile?",
+     "Ce format se folosește des pentru imprimarea 3D?",
+     "Cum împărțim munca în echipă?",
+     "Ce arată capturile din mai multe unghiuri?"
+    ],
+    "steps": [
+     "Fă schița și stabilește dimensiunile aproximative.",
+     "Modelează piesele pe rând, apoi asamblează-le.",
+     "Verifică ansamblul din toate vederile și corectează proporțiile.",
+     "Greșeala frecventă: să verifici fiecare clădire separat, dar nu și ansamblul; proporțiile greșite apar abia împreună."
+    ],
+    "answers": [
+     "Tema și schița.",
+     "Ca obiectele să pară reale și potrivite între ele.",
+     "STL.",
+     "Fiecare membru modelează o parte.",
+     "Modelul complet, din toate părțile."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l15": {
+   "ro": {
+    "title": "Aplicații pentru exersarea algoritmilor",
+    "theory": "Pentru a exersa algoritmii folosim aplicații educaționale în care dăm comenzi unui personaj (un robot, o săgeată, o broască țestoasă care desenează) sau construim algoritmi din blocuri ori pseudocod și îi executăm pas cu pas. Interfața are de obicei: zona de lucru (labirintul, tabla de desen), setul de comenzi sau blocuri, zona în care construim algoritmul și butoanele de rulare, rulare pas cu pas și resetare. Un exercițiu algoritmic are etape: citim cerința și identificăm datele, gândim soluția, construim algoritmul, îl executăm, observăm rezultatul și, dacă nu este bun, căutăm greșeala și corectăm. Rularea pas cu pas ne arată exact unde algoritmul se abate de la ce am gândit.",
+    "sample": "Într-un labirint, robotul trebuie să ajungă la steag. Prima variantă a lui Cosmin îl duce într-un perete. Cu rularea pas cu pas, Cosmin vede că a pus „întoarce stânga” în loc de „întoarce dreapta” la al treilea pas.",
+    "worked": "Execuția pas cu pas este instrumentul principal de găsire a greșelilor. Ea compară ce face algoritmul cu ce ne-am propus, pas cu pas.",
+    "exercises": [
+     "Descrie interfața aplicației folosite la clasă.",
+     "Enumeră etapele unui exercițiu algoritmic.",
+     "Explică utilitatea rulării pas cu pas.",
+     "Rezolvă un labirint cu cel mult 8 comenzi.",
+     "Găsește greșeala într-un algoritm dat pentru robot."
+    ],
+    "test": [
+     "Ce face butonul de resetare?",
+     "Ce este rularea pas cu pas?",
+     "Care este prima etapă a unui exercițiu algoritmic?",
+     "Ce faci când rezultatul nu este cel dorit?",
+     "Ce fel de comenzi primește personajul?"
+    ],
+    "steps": [
+     "Citește cerința și stabilește punctul de pornire și ținta.",
+     "Construiește algoritmul și rulează-l pas cu pas.",
+     "Corectează pasul greșit și rulează din nou.",
+     "Greșeala frecventă: să schimbi la întâmplare mai multe comenzi deodată; nu mai știi ce a rezolvat problema."
+    ],
+    "answers": [
+     "Readuce personajul și zona de lucru la starea inițială.",
+     "Executarea algoritmului câte o comandă, cu oprire după fiecare.",
+     "Citirea și înțelegerea cerinței.",
+     "Caut greșeala, o corectez și rulez din nou.",
+     "Comenzi simple: înainte, întoarce, repetă."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l16": {
+   "ro": {
+    "title": "Reprezentarea algoritmilor: schemă logică și pseudocod",
+    "theory": "Același algoritm poate fi scris în mai multe feluri. Schema logică folosește figuri: ovalul pentru START și STOP, paralelogramul pentru citire și scriere, dreptunghiul pentru calcule și atribuiri, rombul pentru decizii; figurile sunt legate prin săgeți care arată ordinea. Pseudocodul folosește cuvinte apropiate de limba vorbită: citește, scrie, dacă … atunci … altfel, cât timp … execută, pentru … execută, repetă … până când. Pseudocodul nu este un limbaj de programare, dar se traduce ușor în orice limbaj. Recapitulăm structurile cunoscute: secvențială (pași în ordine) și alternativă (alegere după o condiție); acum le adăugăm pe cele repetitive.",
+    "sample": "Algoritmul „maximul a două numere” în pseudocod: citește a, b; dacă a > b atunci scrie a altfel scrie b. În schema logică: START – paralelogram citește a, b – romb a > b? – pe DA paralelogram scrie a, pe NU paralelogram scrie b – STOP.",
+    "worked": "Cele două reprezentări descriu același algoritm. Schema logică se vede mai ușor, iar pseudocodul se scrie mai repede și se transformă direct în program.",
+    "exercises": [
+     "Desenează schema logică pentru media a trei numere.",
+     "Scrie în pseudocod algoritmul pentru „este număr par?”.",
+     "Asociază figurile schemei logice cu rolul lor.",
+     "Transformă o schemă logică dată în pseudocod.",
+     "Explică de ce pseudocodul nu este un limbaj de programare."
+    ],
+    "test": [
+     "Ce figură înseamnă citire sau scriere?",
+     "Ce figură înseamnă decizie?",
+     "Ce figură se folosește pentru START și STOP?",
+     "Ce structuri ai învățat în clasa a V-a?",
+     "Ce arată săgețile dintr-o schemă logică?"
+    ],
+    "steps": [
+     "Stabilește datele de intrare, prelucrările și rezultatul.",
+     "Alege figura potrivită pentru fiecare pas.",
+     "Leagă figurile în ordinea execuției și verifică pe un exemplu.",
+     "Greșeala frecventă: să pui un calcul într-un romb; rombul este doar pentru condiții cu răspuns DA/NU."
+    ],
+    "answers": [
+     "Paralelogramul.",
+     "Rombul.",
+     "Ovalul.",
+     "Secvențială și alternativă.",
+     "Ordinea în care se execută pașii."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l17": {
+   "ro": {
+    "title": "Structura repetitivă cu contor (pentru)",
+    "theory": "Când un grup de pași trebuie executat de mai multe ori, nu îi scriem de fiecare dată, ci folosim o structură repetitivă. Dacă știm dinainte de câte ori se repetă, folosim structura cu contor: pentru i ← 1, n execută pași. Variabila i, numită contor, ia pe rând valorile 1, 2, 3, …, n; pentru fiecare valoare se execută o dată pașii din interior. Contorul poate fi folosit în calcule: de exemplu, putem afișa numerele de la 1 la 10 sau putem calcula 1 + 2 + … + n. În mediile grafice, echivalentul este blocul „repetă de n ori”. Numărul de repetări este n − 1 + 1 = n când contorul merge de la 1 la n.",
+    "sample": "Pseudocod: pentru i ← 1, 5 execută scrie i × i. Se afișează 1 4 9 16 25: pătratele primelor cinci numere naturale nenule.",
+    "worked": "Contorul i a luat valorile 1, 2, 3, 4, 5, iar pentru fiecare s-a executat o singură instrucțiune. În loc de cinci instrucțiuni scrise de mână, folosim una singură, repetată.",
+    "exercises": [
+     "Scrie un algoritm care afișează numerele de la 1 la 20.",
+     "Scrie un algoritm care afișează tabla înmulțirii cu 7.",
+     "Urmărește algoritmul pentru i ← 2, 6 execută scrie i și spune de câte ori se execută.",
+     "Desenează un pătrat cu un personaj folosind „repetă de 4 ori”.",
+     "Scrie un algoritm care afișează numerele pare de la 2 la 20."
+    ],
+    "test": [
+     "Când folosim structura repetitivă cu contor?",
+     "Ce este contorul?",
+     "De câte ori se execută pașii pentru i ← 1, 8?",
+     "Ce bloc din mediul grafic corespunde structurii pentru?",
+     "Ce valori ia i pentru i ← 3, 6?"
+    ],
+    "steps": [
+     "Stabilește ce trebuie repetat și de câte ori.",
+     "Alege valorile de început și de sfârșit ale contorului.",
+     "Scrie pașii din interior și urmărește primele două și ultima repetare.",
+     "Greșeala frecventă: să numeri greșit repetările; de la 3 la 6 sunt 4 repetări, nu 3."
+    ],
+    "answers": [
+     "Când știm dinainte de câte ori se repetă pașii.",
+     "Variabila care numără repetările.",
+     "De 8 ori.",
+     "„Repetă de n ori”.",
+     "3, 4, 5, 6."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l18": {
+   "ro": {
+    "title": "Structura repetitivă condiționată anterior (cât timp)",
+    "theory": "Uneori nu știm dinainte de câte ori trebuie repetat ceva, ci doar până când se îndeplinește o condiție. Structura cât timp … execută verifică întâi condiția: dacă este adevărată, execută pașii din interior și revine la verificare; când devine falsă, se oprește și algoritmul continuă cu pasul următor. Pentru că verificarea se face înainte, este posibil ca pașii să nu se execute niciodată (dacă condiția este falsă de la început). Atenție: în interior trebuie să se schimbe ceva care influențează condiția, altfel repetiția nu se mai termină (buclă infinită).",
+    "sample": "Pseudocod: n ← 1; cât timp n < 100 execută n ← n × 2; scrie n. Valorile lui n: 1, 2, 4, 8, 16, 32, 64, 128. Se afișează 128, prima putere a lui 2 mai mare sau egală cu 100.",
+    "worked": "La fiecare pas n se dublează, așa că, la un moment dat, condiția n < 100 devine falsă și repetiția se oprește. Dacă am fi uitat instrucțiunea n ← n × 2, bucla nu s-ar fi oprit niciodată.",
+    "exercises": [
+     "Urmărește algoritmul: x ← 50; cât timp x > 10 execută x ← x − 15; scrie x.",
+     "Scrie un algoritm care numără câte numere citite sunt pozitive, până se citește 0.",
+     "Explică de ce poate apărea o buclă infinită.",
+     "Dă un exemplu în care pașii nu se execută niciodată.",
+     "Scrie un algoritm care găsește cel mai mic n pentru care 1 + 2 + … + n depășește 50."
+    ],
+    "test": [
+     "Când se verifică condiția la structura cât timp?",
+     "Ce se întâmplă când condiția devine falsă?",
+     "Se pot executa de zero ori pașii din cât timp?",
+     "Ce este o buclă infinită?",
+     "Ce trebuie să conțină interiorul unei structuri cât timp?"
+    ],
+    "steps": [
+     "Scrie condiția de continuare: cât timp ce este adevărat repet?",
+     "Asigură-te că în interior se schimbă o variabilă din condiție.",
+     "Urmărește valorile într-un tabel până când condiția devine falsă.",
+     "Greșeala frecventă: să uiți să modifici variabila din condiție; algoritmul nu se mai oprește."
+    ],
+    "answers": [
+     "Înainte de fiecare execuție a pașilor.",
+     "Repetiția se oprește și se trece la pasul următor.",
+     "Da, dacă de la început condiția este falsă.",
+     "O repetiție care nu se termină niciodată.",
+     "O instrucțiune care modifică o variabilă din condiție."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l19": {
+   "ro": {
+    "title": "Structura repetitivă condiționată posterior (repetă … până când)",
+    "theory": "Structura repetă … până când condiție execută întâi pașii din interior și abia apoi verifică condiția. Dacă aceasta este falsă, repetă; când devine adevărată, se oprește. Diferența importantă față de cât timp: pașii se execută cel puțin o dată, pentru că verificarea se face la final. Observă și sensul condiției: la cât timp scriem condiția de continuare, iar la repetă … până când scriem condiția de oprire. Unele limbaje au varianta execută … cât timp, care tot verifică la final, dar cu o condiție de continuare. Structura e potrivită când trebuie să facem ceva măcar o dată, de exemplu să cerem o parolă până când este corectă.",
+    "sample": "Pseudocod: repetă citește nota până când nota ≥ 1 și nota ≤ 10. Dacă utilizatorul scrie 12, i se cere din nou nota; dacă scrie 9, algoritmul continuă.",
+    "worked": "Nota trebuie citită măcar o dată, deci structura condiționată posterior este potrivită. Condiția descrie situația de oprire: o notă validă.",
+    "exercises": [
+     "Scrie un algoritm care cere o parolă până când este corectă.",
+     "Urmărește: s ← 0; repetă s ← s + 4 până când s > 10; scrie s.",
+     "Explică diferența dintre cele două structuri condiționate.",
+     "Rescrie condiția de oprire „x = 0” ca o condiție de continuare.",
+     "Dă un exemplu din viață pentru „repetă … până când”."
+    ],
+    "test": [
+     "De câte ori se execută cel puțin pașii din repetă … până când?",
+     "Când se verifică condiția la această structură?",
+     "Ce fel de condiție scriem după „până când”?",
+     "Ce structură este potrivită pentru validarea unei note?",
+     "Ce condiție de continuare corespunde opririi „n > 5”?"
+    ],
+    "steps": [
+     "Stabilește dacă pașii trebuie executați măcar o dată.",
+     "Scrie pașii, apoi condiția de oprire.",
+     "Urmărește valorile până când condiția de oprire devine adevărată.",
+     "Greșeala frecventă: să scrii după „până când” condiția de continuare; atunci algoritmul se oprește exact când nu trebuie."
+    ],
+    "answers": [
+     "Cel puțin o dată.",
+     "La final, după executarea pașilor.",
+     "Condiția de oprire.",
+     "Repetă … până când.",
+     "n ≤ 5."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l20": {
+   "ro": {
+    "title": "Compararea structurilor repetitive",
+    "theory": "Avem trei structuri repetitive. Pentru (cu contor) – când știm numărul de repetări. Cât timp (condiționată anterior) – când repetăm cât timp o condiție este adevărată, iar pașii pot să nu se execute deloc. Repetă … până când (condiționată posterior) – când pașii trebuie executați cel puțin o dată și ne oprim când condiția devine adevărată. Orice structură pentru poate fi scrisă cu cât timp: i ← 1; cât timp i ≤ n execută pași; i ← i + 1. Alegerea structurii potrivite face algoritmul mai clar. Pentru verificare, construim un tabel de urmărire cu valorile variabilelor la fiecare pas.",
+    "sample": "„Afișează numerele de la 1 la n” cu pentru: pentru i ← 1, n execută scrie i. Cu cât timp: i ← 1; cât timp i ≤ n execută scrie i; i ← i + 1. Pentru n = 3 ambele afișează 1 2 3.",
+    "worked": "Cele două variante fac același lucru, dar varianta cu cât timp trebuie să inițializeze și să crească singură contorul. Dacă uităm i ← i + 1, obținem o buclă infinită.",
+    "exercises": [
+     "Alege structura potrivită pentru trei situații date.",
+     "Transformă pentru i ← 1, 10 într-o structură cât timp.",
+     "Construiește tabelul de urmărire pentru un algoritm cu cât timp.",
+     "Explică ce structură poate executa pașii de zero ori.",
+     "Scrie același algoritm cu toate cele trei structuri."
+    ],
+    "test": [
+     "Ce structură folosim când știm numărul de repetări?",
+     "Ce structură execută pașii cel puțin o dată?",
+     "Ce trebuie adăugat când transformi pentru în cât timp?",
+     "Ce este un tabel de urmărire?",
+     "Ce structură poate să nu execute deloc pașii?"
+    ],
+    "steps": [
+     "Întreabă-te: știu de câte ori repet? dacă da, folosește pentru.",
+     "Dacă nu, întreabă-te dacă pașii trebuie făcuți măcar o dată.",
+     "Alege cât timp sau repetă … până când și verifică cu un tabel de urmărire.",
+     "Greșeala frecventă: să uiți inițializarea sau creșterea contorului când transformi pentru în cât timp."
+    ],
+    "answers": [
+     "Pentru (cu contor).",
+     "Repetă … până când.",
+     "Inițializarea și creșterea contorului.",
+     "Un tabel cu valorile variabilelor la fiecare pas.",
+     "Cât timp."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l21": {
+   "ro": {
+    "title": "Algoritmi de bază: suma și numărarea",
+    "theory": "Doi algoritmi apar foarte des. Suma: pornim cu o variabilă s ← 0 și, pentru fiecare valoare, adăugăm valoarea la s (s ← s + x). Inițializarea cu 0 este obligatorie, pentru că 0 nu schimbă suma. Pentru produs pornim cu p ← 1. Numărarea: pornim cu un contor k ← 0 și, de fiecare dată când o valoare îndeplinește o condiție, creștem contorul (k ← k + 1). Combinăm adesea numărarea cu decizia: numărăm doar numerele pare, doar notele de 10 etc. Cu suma și numărarea putem calcula și media: medie = s / k, dacă k nu este 0.",
+    "sample": "Se citesc 5 note: 8, 10, 7, 10, 9. Algoritm: s ← 0; k ← 0; pentru i ← 1, 5 execută citește x; s ← s + x; dacă x = 10 atunci k ← k + 1. Rezultat: s = 44, k = 2 (două note de 10), media = 44 / 5 = 8,8.",
+    "worked": "În același algoritm am calculat o sumă și am numărat o proprietate. Inițializările s ← 0 și k ← 0 se fac înainte de repetiție, nu în interiorul ei.",
+    "exercises": [
+     "Scrie un algoritm pentru suma numerelor de la 1 la 100.",
+     "Numără câte numere pare sunt într-un șir de 10 numere citite.",
+     "Calculează produsul numerelor de la 1 la 5.",
+     "Calculează media notelor peste 5 dintr-un șir citit.",
+     "Găsește greșeala: pentru i ← 1, n execută s ← 0; s ← s + i."
+    ],
+    "test": [
+     "Cu ce valoare inițializăm o sumă?",
+     "Cu ce valoare inițializăm un produs?",
+     "Ce instrucțiune crește un contor?",
+     "Unde facem inițializarea: înainte sau în interiorul repetiției?",
+     "Cum calculăm media după ce avem suma și numărul de valori?"
+    ],
+    "steps": [
+     "Inițializează suma cu 0, produsul cu 1, contorul cu 0, înainte de repetiție.",
+     "În repetiție, adaugă valoarea sau crește contorul când condiția este adevărată.",
+     "Afișează rezultatul după repetiție și verifică pe un exemplu mic.",
+     "Greșeala frecventă: să pui inițializarea s ← 0 în interiorul repetiției; suma se șterge la fiecare pas."
+    ],
+    "answers": [
+     "Cu 0.",
+     "Cu 1.",
+     "k ← k + 1.",
+     "Înainte de repetiție.",
+     "Împărțim suma la numărul de valori (dacă nu este 0)."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l22": {
+   "ro": {
+    "title": "Algoritmi de bază: maximul și minimul",
+    "theory": "Pentru a afla cea mai mare valoare dintr-un șir, folosim o variabilă max. O inițializăm cu prima valoare citită (sau cu o valoare mai mică decât toate cele posibile). Apoi, pentru fiecare valoare următoare x: dacă x > max atunci max ← x. La final, max conține cea mai mare valoare. Pentru minim procedăm la fel, cu condiția x < min. Putem reține și poziția valorii maxime, sau putem număra de câte ori apare. Inițializarea cu 0 este periculoasă: dacă toate numerele sunt negative, maximul ar ieși greșit 0.",
+    "sample": "Temperaturi: −3, −1, −7, −2. Inițializăm max ← −3; −1 > −3, deci max ← −1; −7 nu; −2 nu. Maximul este −1. Dacă am fi inițializat cu 0, ar fi ieșit 0, o temperatură care nu există în șir.",
+    "worked": "Exemplul arată de ce inițializarea cu prima valoare este cea sigură: maximul trebuie să fie o valoare din șir, iar algoritmul compară fiecare valoare nouă cu cea mai bună de până atunci.",
+    "exercises": [
+     "Scrie algoritmul pentru maximul a n numere citite.",
+     "Scrie algoritmul pentru minimul a n numere citite.",
+     "Urmărește algoritmul de maxim pentru 4, 9, 2, 9, 5.",
+     "Explică de ce nu inițializăm maximul cu 0.",
+     "Modifică algoritmul ca să afișeze și poziția maximului."
+    ],
+    "test": [
+     "Cu ce inițializăm sigur variabila max?",
+     "Ce condiție folosim pentru maxim?",
+     "Ce condiție folosim pentru minim?",
+     "Ce valoare are max după un șir cu toate numerele negative, dacă e inițializat cu 0?",
+     "Unde afișăm rezultatul: în repetiție sau după?"
+    ],
+    "steps": [
+     "Citește prima valoare și pune-o în max (sau min).",
+     "Compară fiecare valoare nouă cu max și actualizează dacă e mai mare.",
+     "Afișează max după ce ai parcurs toate valorile.",
+     "Greșeala frecventă: să inițializezi maximul cu 0 fără să te gândești la numerele negative."
+    ],
+    "answers": [
+     "Cu prima valoare din șir.",
+     "x > max.",
+     "x < min.",
+     "0, adică un rezultat greșit.",
+     "După repetiție."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l23": {
+   "ro": {
+    "title": "Probleme cu cifrele unui număr",
+    "theory": "Cifrele unui număr natural se obțin cu două operații: restul împărțirii la 10 dă ultima cifră (573 rest 10 = 3), iar câtul împărțirii la 10 „taie” ultima cifră (573 : 10 = 57, cât întreg). Repetând cât timp numărul este diferit de 0, parcurgem toate cifrele, de la dreapta la stânga. Astfel putem calcula suma cifrelor, numărul de cifre, cea mai mare cifră sau putem număra cifrele pare. Pentru numărul 0 trebuie atenție: are o cifră, dar structura cât timp n ≠ 0 nu se execută niciodată; o variantă cu repetă … până când n = 0 îl tratează corect.",
+    "sample": "Suma cifrelor lui 4072: s ← 0; cât timp n ≠ 0 execută s ← s + n rest 10; n ← n : 10. Pași: s = 2, n = 407; s = 9, n = 40; s = 9, n = 4; s = 13, n = 0. Rezultat: 13.",
+    "worked": "Tabelul de urmărire arată cum, la fiecare pas, ultima cifră intră în sumă și apoi este tăiată. Cifra 0 nu schimbă suma, dar este parcursă corect.",
+    "exercises": [
+     "Calculează suma cifrelor lui 9081 urmărind algoritmul.",
+     "Scrie un algoritm care numără cifrele unui număr.",
+     "Scrie un algoritm pentru cea mai mare cifră a unui număr.",
+     "Explică de ce numărul 0 cere atenție.",
+     "Numără cifrele pare ale lui 248613."
+    ],
+    "test": [
+     "Ce operație dă ultima cifră a unui număr?",
+     "Ce operație taie ultima cifră?",
+     "Cât este 586 rest 10?",
+     "Cât este câtul întreg 586 : 10?",
+     "În ce ordine sunt parcurse cifrele?"
+    ],
+    "steps": [
+     "Ia ultima cifră cu restul împărțirii la 10 și prelucreaz-o.",
+     "Taie ultima cifră cu câtul împărțirii la 10.",
+     "Repetă până când numărul devine 0 și verifică într-un tabel.",
+     "Greșeala frecventă: să uiți să tai ultima cifră; algoritmul repetă la nesfârșit aceeași cifră."
+    ],
+    "answers": [
+     "Restul împărțirii la 10.",
+     "Câtul împărțirii la 10.",
+     "6.",
+     "58.",
+     "De la dreapta la stânga."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l24": {
+   "ro": {
+    "title": "Poșta electronică: adresă și cont",
+    "theory": "Poșta electronică (e-mailul) permite trimiterea de mesaje scrise, cu fișiere atașate, prin Internet. Ca să o folosim avem nevoie de un cont la un furnizor, care ne dă o adresă de e-mail de forma nume@domeniu, de exemplu ana.pop@exemplu.ro: înainte de @ este numele utilizatorului, după @ este domeniul furnizorului. Accesăm contul prin browser (webmail) sau printr-o aplicație de e-mail, cu nume de utilizator și parolă. Pentru siguranță folosim o parolă puternică și, unde se poate, verificarea în doi pași. Copiii sub vârsta stabilită de furnizor își fac cont doar cu acordul și sprijinul părinților; de multe ori școala oferă conturi educaționale.",
+    "sample": "Pentru un proiect, școala îi creează lui Tudor contul tudor.ionescu@scoala-exemplu.ro. Profesorul îi trimite tema, iar Tudor răspunde de pe calculatorul de acasă, din browser.",
+    "worked": "Adresa are cele două părți obișnuite: utilizatorul și domeniul. Contul educațional oferit de școală este o variantă sigură pentru elevi, gestionată de adulți.",
+    "exercises": [
+     "Identifică utilizatorul și domeniul într-o adresă de e-mail.",
+     "Explică diferența dintre webmail și o aplicație de e-mail.",
+     "Scrie trei reguli pentru parola contului.",
+     "Explică ce este verificarea în doi pași.",
+     "Spune de ce copiii își fac cont cu sprijinul părinților."
+    ],
+    "test": [
+     "Ce semn desparte utilizatorul de domeniu?",
+     "Ce este webmailul?",
+     "Ce ne trebuie pentru a intra în cont?",
+     "Ce este domeniul într-o adresă?",
+     "Ce adaugă verificarea în doi pași?"
+    ],
+    "steps": [
+     "Citește adresa și găsește semnul @.",
+     "Separă partea dinainte (utilizator) de cea de după (domeniu).",
+     "Verifică să nu existe spații sau litere greșite.",
+     "Greșeala frecventă: să scrii adresa cu spații sau cu diacritice; mesajul nu ajunge."
+    ],
+    "answers": [
+     "@.",
+     "Folosirea e-mailului prin browser.",
+     "Numele de utilizator și parola.",
+     "Partea de după @, care arată furnizorul.",
+     "Un al doilea cod de confirmare, de exemplu pe telefon."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l25": {
+   "ro": {
+    "title": "Căsuța poștală: dosare și agenda de contacte",
+    "theory": "Căsuța poștală are dosare: Mesaje primite (Inbox), Mesaje trimise, Ciorne (mesaje începute, nesalvate ca trimise), Spam sau Mesaje nedorite, Coș de gunoi. Putem crea dosare proprii (de exemplu „Școală”, „Proiecte”) și putem marca mesajele importante cu stea sau etichetă. Mesajele necitite apar îngroșat. Căutarea după expeditor sau cuvânt ne ajută să găsim un mesaj vechi. Agenda (lista de contacte) păstrează numele și adresele persoanelor cu care corespondăm, ca să nu le scriem de fiecare dată și să evităm greșelile de scriere. Ordinea în căsuța poștală ne economisește timp.",
+    "sample": "Elena primește multe mesaje de la profesori. Ea creează dosarul „Școală”, mută acolo mesajele cu teme și adaugă adresele profesorilor în agendă.",
+    "worked": "Dosarele și agenda transformă o listă lungă de mesaje într-un spațiu organizat. Adresele salvate în agendă previn trimiterea unui mesaj la o adresă greșită.",
+    "exercises": [
+     "Enumeră dosarele obișnuite ale căsuței poștale.",
+     "Explică ce este o ciornă.",
+     "Creează un dosar și mută două mesaje în el.",
+     "Adaugă un contact nou în agendă.",
+     "Caută un mesaj după numele expeditorului."
+    ],
+    "test": [
+     "Ce conține dosarul Mesaje primite?",
+     "Unde ajung mesajele nedorite?",
+     "Cum apar mesajele necitite?",
+     "La ce folosește agenda?",
+     "Ce este o etichetă sau o stea?"
+    ],
+    "steps": [
+     "Verifică dosarul Mesaje primite și citește mesajele noi.",
+     "Mută mesajele importante în dosare cu nume clare.",
+     "Salvează în agendă adresele folosite des.",
+     "Greșeala frecventă: să ștergi mesaje fără să verifici dacă mai ai nevoie de ele."
+    ],
+    "answers": [
+     "Mesajele primite de la alții.",
+     "În dosarul Spam (Mesaje nedorite).",
+     "Îngroșat.",
+     "Păstrează numele și adresele contactelor.",
+     "Un marcaj pentru mesajele importante."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l26": {
+   "ro": {
+    "title": "Operații cu mesaje: compunere, răspuns, redirecționare",
+    "theory": "Un mesaj nou are câmpurile: Către (destinatarul principal), Cc (copie pentru alte persoane, vizibilă tuturor), Bcc (copie ascunsă – ceilalți destinatari nu văd aceste adrese), Subiect (titlul scurt al mesajului) și corpul mesajului. Operații: Compunere (mesaj nou), Răspuns (Reply – răspunzi doar expeditorului), Răspuns tuturor (Reply all – răspunzi tuturor celor din mesaj), Redirecționare (Forward – trimiți mai departe mesajul primit altei persoane). Subiectul trebuie să spună clar despre ce este vorba („Tema la informatică – Popescu Ana, clasa a VI-a B”). Înainte de trimitere recitim mesajul și verificăm destinatarii.",
+    "sample": "Profesorul trimite tema către toată clasa. Maria are o întrebare doar pentru profesor și folosește Răspuns, nu Răspuns tuturor, ca să nu primească toată clasa mesajul ei.",
+    "worked": "Alegerea dintre Răspuns și Răspuns tuturor contează: un mesaj trimis greșit tuturor încarcă inutil căsuțele colegilor și poate face publică o discuție personală.",
+    "exercises": [
+     "Explică diferența dintre Cc și Bcc.",
+     "Scrie un subiect clar pentru un mesaj către profesor.",
+     "Explică când folosești Răspuns tuturor.",
+     "Redirecționează un mesaj și adaugă o propoziție de explicație.",
+     "Compune un mesaj complet către un coleg despre un proiect."
+    ],
+    "test": [
+     "Ce câmp conține destinatarul principal?",
+     "Ce face Bcc?",
+     "Ce face Redirecționarea?",
+     "Ce trebuie să conțină subiectul?",
+     "Ce verificăm înainte de trimitere?"
+    ],
+    "steps": [
+     "Alege operația potrivită: mesaj nou, răspuns sau redirecționare.",
+     "Completează destinatarii și un subiect clar.",
+     "Recitește mesajul și verifică destinatarii înainte de Trimite.",
+     "Greșeala frecventă: să apeși Răspuns tuturor când mesajul este doar pentru o persoană."
+    ],
+    "answers": [
+     "Câmpul Către.",
+     "Trimite o copie ascunsă; ceilalți nu văd adresa.",
+     "Trimite mai departe un mesaj primit.",
+     "Despre ce este mesajul, pe scurt.",
+     "Textul și destinatarii."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l27": {
+   "ro": {
+    "title": "Atașamente, spam și siguranța e-mailului",
+    "theory": "La un mesaj putem atașa fișiere: documente, imagini, prezentări. Furnizorii limitează mărimea atașamentelor (de multe ori la aproximativ 20–25 MB); pentru fișiere mari trimitem un link către un spațiu de stocare în cloud sau arhivăm fișierele. Când primim atașamente, le deschidem doar dacă știm cine le-a trimis și le așteptăm: fișierele executabile neașteptate (.exe) sau documentele care cer „activarea conținutului” pot conține viruși. Spamul este corespondența nedorită, adesea reclame sau înșelătorii; nu răspundem la el și nu dăm clic pe linkurile din el, ci îl marcăm ca spam. Programul antivirus și actualizările sistemului adaugă protecție.",
+    "sample": "Vlad primește de la o adresă necunoscută un mesaj cu subiectul „Factura ta urgentă” și atașamentul factura.exe. El nu îl deschide, îl marchează ca spam și le spune părinților.",
+    "worked": "Mesajul are semnele unei înșelătorii: expeditor necunoscut, grabă și un fișier executabil deghizat în factură. Reacția corectă este să nu deschidă nimic și să anunțe un adult.",
+    "exercises": [
+     "Atașează un document la un mesaj și trimite-l.",
+     "Explică ce faci când un fișier depășește limita de mărime.",
+     "Enumeră trei semne ale unui mesaj periculos.",
+     "Explică ce este spamul.",
+     "Marchează un mesaj ca spam și descrie efectul."
+    ],
+    "test": [
+     "Ce putem atașa la un e-mail?",
+     "Ce facem cu un fișier prea mare pentru atașare?",
+     "De ce este periculos un fișier .exe neașteptat?",
+     "Ce este spamul?",
+     "Răspundem la mesajele de tip spam?"
+    ],
+    "steps": [
+     "Verifică expeditorul și dacă așteptai mesajul.",
+     "Nu deschide atașamente sau linkuri suspecte.",
+     "Marchează mesajul ca spam și anunță un adult dacă ai dubii.",
+     "Greșeala frecventă: să deschizi un atașament doar pentru că pare să vină de la o firmă cunoscută."
+    ],
+    "answers": [
+     "Documente, imagini, prezentări și alte fișiere.",
+     "Trimitem un link din cloud sau arhivăm fișierul.",
+     "Poate conține un virus.",
+     "Corespondență nedorită, adesea reclame sau înșelătorii.",
+     "Nu."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l28": {
+   "ro": {
+    "title": "Neticheta: reguli de comunicare online",
+    "theory": "Neticheta este setul de reguli de politețe pentru comunicarea pe Internet. Într-un e-mail folosim o formulă de adresare potrivită („Bună ziua, doamna profesoară,”), un text clar, împărțit în paragrafe scurte, și o formulă de încheiere cu numele nostru („Cu respect, Ana Pop, clasa a VI-a B”). Scriem corect, cu diacritice, și nu folosim doar majuscule, care sunt percepute ca „țipat”. Emoticoanele și prescurtările sunt potrivite între prieteni, nu în mesajele oficiale. Răspundem în timp rezonabil, nu trimitem lanțuri de mesaje și nu redirecționăm mesajele altora fără acordul lor. În grupuri și pe forumuri respectăm subiectul discuției și opiniile celorlalți.",
+    "sample": "Mesajul „salut trimite tema URGENT!!!” devine: „Bună ziua, domnule profesor, vă trimit atașat tema la informatică. Vă mulțumesc, Ion Pavel, clasa a VI-a A.”",
+    "worked": "A doua variantă respectă neticheta: are adresare, explică despre ce este vorba, nu folosește majuscule agresive și se încheie politicos cu numele expeditorului.",
+    "exercises": [
+     "Rescrie politicos un mesaj scris doar cu majuscule.",
+     "Scrie un e-mail către dirigintă respectând neticheta.",
+     "Explică de ce majusculele sunt nepotrivite.",
+     "Enumeră cinci reguli de netichetă.",
+     "Compară un mesaj către un prieten cu unul către profesor."
+    ],
+    "test": [
+     "Ce este neticheta?",
+     "Ce transmite un text scris doar cu majuscule?",
+     "Cum încheiem un e-mail oficial?",
+     "Folosim prescurtări în mesajele către profesori?",
+     "Putem redirecționa mesajul altcuiva fără acord?"
+    ],
+    "steps": [
+     "Începe cu o formulă de adresare potrivită destinatarului.",
+     "Scrie clar, în paragrafe scurte, cu diacritice și fără majuscule agresive.",
+     "Încheie politicos, cu numele tău, și recitește înainte de trimitere.",
+     "Greșeala frecventă: să scrii unui profesor ca într-un mesaj rapid către un prieten."
+    ],
+    "answers": [
+     "Regulile de politețe din comunicarea online.",
+     "Impresia că „țipi”.",
+     "Cu o formulă de încheiere și numele nostru.",
+     "Nu.",
+     "Nu, nu fără acordul lui."
+    ]
+   }
+  }
+ }
+}
