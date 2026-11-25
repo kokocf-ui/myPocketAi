@@ -1,0 +1,1146 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "RO",
+ "stage": "advanced",
+ "grade": "uni-ba-2",
+ "version": "9a786fb5cd5375d085237a3081d86ed91e816279037c4aa487ca39601c391a9c",
+ "source": "https://www.aracis.ro/",
+ "sourceTitle": "Sinteză orientativă a disciplinelor comune programelor de licență Informatică din România (domeniul fundamental Matematică și științe ale naturii, domeniul de licență Informatică, 180 ECTS), conform standardelor specifice ARACIS și planurilor de învățământ publicate de Universitatea din București (fmi.unibuc.ro), Universitatea Babeș-Bolyai (cs.ubbcluj.ro – Informatică, linia română) și Universitatea „Alexandru Ioan Cuza” din Iași (info.uaic.ro) — anul II: proiectarea algoritmilor / metode avansate de programare, baze de date, sisteme de gestiune a bazelor de date, rețele de calculatoare, limbaje formale și automate, programare funcțională și logică, programare web / tehnologii web, ingineria sistemelor soft / ingineria programării; fiecare facultate are planul propriu, iar ordinea și denumirile cursurilor pot diferi (unele discipline apar în anul I sau III); lecții originale, fără text copiat din cursuri sau manuale",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "ro",
+ "labels": [
+  "Activitate originală · România · Facultatea de Matematică și Informatică · Licență Informatică, anul II",
+  "Teorie pe înțeles",
+  "Exemplu rezolvat",
+  "Analiză explicată",
+  "Exerciții de seminar și laborator",
+  "Verifică-te",
+  "Exerciții originale; nu înlocuiesc cursul, laboratorul, bibliografia sau evaluarea facultății.",
+  "Dacă nu ai înțeles: pas cu pas",
+  "Răspunsuri (verifică după ce termini)"
+ ],
+ "units": [
+  {
+   "title": "Proiectarea algoritmilor",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-2-l01",
+    "eu-year-ro-advanced-uni-ba-2-l02",
+    "eu-year-ro-advanced-uni-ba-2-l03",
+    "eu-year-ro-advanced-uni-ba-2-l04"
+   ]
+  },
+  {
+   "title": "Baze de date",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-2-l05",
+    "eu-year-ro-advanced-uni-ba-2-l06",
+    "eu-year-ro-advanced-uni-ba-2-l07",
+    "eu-year-ro-advanced-uni-ba-2-l08",
+    "eu-year-ro-advanced-uni-ba-2-l09"
+   ]
+  },
+  {
+   "title": "Sisteme de gestiune a bazelor de date",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-2-l10",
+    "eu-year-ro-advanced-uni-ba-2-l11",
+    "eu-year-ro-advanced-uni-ba-2-l12"
+   ]
+  },
+  {
+   "title": "Rețele de calculatoare",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-2-l13",
+    "eu-year-ro-advanced-uni-ba-2-l14",
+    "eu-year-ro-advanced-uni-ba-2-l15",
+    "eu-year-ro-advanced-uni-ba-2-l16"
+   ]
+  },
+  {
+   "title": "Limbaje formale și automate",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-2-l17",
+    "eu-year-ro-advanced-uni-ba-2-l18",
+    "eu-year-ro-advanced-uni-ba-2-l19",
+    "eu-year-ro-advanced-uni-ba-2-l20"
+   ]
+  },
+  {
+   "title": "Programare funcțională și programare logică",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-2-l21",
+    "eu-year-ro-advanced-uni-ba-2-l22",
+    "eu-year-ro-advanced-uni-ba-2-l23"
+   ]
+  },
+  {
+   "title": "Programare web",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-2-l24",
+    "eu-year-ro-advanced-uni-ba-2-l25",
+    "eu-year-ro-advanced-uni-ba-2-l26"
+   ]
+  },
+  {
+   "title": "Ingineria sistemelor soft",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-2-l27",
+    "eu-year-ro-advanced-uni-ba-2-l28",
+    "eu-year-ro-advanced-uni-ba-2-l29",
+    "eu-year-ro-advanced-uni-ba-2-l30"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-ro-advanced-uni-ba-2-l01": {
+   "ro": {
+    "title": "Divide et impera și teorema master",
+    "theory": "Metoda divide et impera împarte problema în subprobleme independente de același tip, le rezolvă recursiv și combină rezultatele. Exemple: căutarea binară, sortarea prin interclasare, sortarea rapidă, înmulțirea rapidă a numerelor mari (Karatsuba). Timpul se descrie printr-o recurență de forma T(n) = a·T(n/b) + f(n): a subprobleme de dimensiune n/b, plus costul f(n) al împărțirii și combinării. Teorema master compară f(n) cu n^(log_b a): dacă f(n) crește mai încet (polinomial), T(n) = Θ(n^(log_b a)); dacă au același ordin, T(n) = Θ(n^(log_b a) · log n); dacă f(n) crește mai repede (polinomial) și respectă o condiție de regularitate, T(n) = Θ(f(n)). Când subproblemele nu sunt independente, ci se repetă, divide et impera recalculează aceleași lucruri, iar metoda potrivită este programarea dinamică.",
+    "sample": "Interclasarea: T(n) = 2T(n/2) + Θ(n). Avem a = 2, b = 2, n^(log_2 2) = n, același ordin ca f(n), deci T(n) = Θ(n log n). Căutarea binară: T(n) = T(n/2) + Θ(1), n^(log_2 1) = 1, același ordin, deci Θ(log n). Karatsuba: T(n) = 3T(n/2) + Θ(n), n^(log_2 3) ≈ n^1,585 crește mai repede decât n, deci T(n) = Θ(n^1,585).",
+    "worked": "Aceeași regulă a rezolvat trei recurențe diferite. Karatsuba arată cum reducerea numărului de subprobleme de la 4 la 3 schimbă exponentul.",
+    "exercises": [
+     "Rezolvă cu teorema master T(n) = 4T(n/2) + n.",
+     "Rezolvă T(n) = 2T(n/2) + n².",
+     "Scrie un algoritm divide et impera pentru maximul unui vector și analizează-l.",
+     "Calculează a la puterea n în O(log n) prin divide et impera.",
+     "Explică de ce Fibonacci naiv nu este un bun exemplu de divide et impera."
+    ],
+    "test": [
+     "Care sunt pașii metodei divide et impera?",
+     "Ce descrie recurența T(n) = a·T(n/b) + f(n)?",
+     "Cu ce compară teorema master funcția f(n)?",
+     "Ce complexitate are căutarea binară?",
+     "Când preferăm programarea dinamică?"
+    ],
+    "steps": [
+     "Identifică împărțirea, subproblemele și combinarea.",
+     "Scrie recurența și stabilește a, b și f(n).",
+     "Compară f(n) cu n^(log_b a) și alege cazul teoremei master.",
+     "Greșeala frecventă: să aplici teorema master când subproblemele au dimensiuni foarte diferite; ea cere subprobleme de dimensiune n/b."
+    ],
+    "answers": [
+     "Împărțire, rezolvare recursivă, combinare.",
+     "Timpul pentru a subprobleme de dimensiune n/b plus costul f(n) al împărțirii și combinării.",
+     "Cu n^(log_b a).",
+     "Θ(log n).",
+     "Când subproblemele se repetă."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l02": {
+   "ro": {
+    "title": "Metoda greedy",
+    "theory": "Un algoritm greedy construiește soluția pas cu pas, alegând de fiecare dată varianta care pare cea mai bună în acel moment și fără să revină asupra alegerilor. Este rapid, dar corect doar pentru problemele care au proprietatea alegerii greedy (există o soluție optimă care începe cu alegerea locală) și substructură optimă (restul soluției este optim pentru subproblema rămasă). Corectitudinea se demonstrează de obicei printr-un argument de interschimbare: luăm o soluție optimă și arătăm că o putem modifica să conțină alegerea greedy fără să se înrăutățească. Exemple corecte: selecția activităților după cel mai devreme moment de terminare, rucsacul fracționar după raportul valoare/greutate, codurile Huffman, algoritmii Kruskal și Prim. Pentru multe probleme (rucsacul cu obiecte întregi, restul de bani cu monede oarecare) greedy dă soluții greșite.",
+    "sample": "Rest de 6 lei cu monede de 1, 3 și 4 lei. Greedy ia moneda cea mai mare: 4, apoi 1 și 1 – trei monede. Soluția optimă este 3 + 3 – două monede. Pentru activitățile [1, 4), [3, 5), [0, 6), [5, 7), [8, 9), alegerea după cel mai devreme sfârșit dă [1, 4), [5, 7), [8, 9) – maximul posibil, 3 activități.",
+    "worked": "Același tip de alegere locală a funcționat la activități și a eșuat la monede. Greedy trebuie demonstrat, nu presupus.",
+    "exercises": [
+     "Aplică selecția activităților pe un set de 8 intervale.",
+     "Rezolvă rucsacul fracționar pentru 4 obiecte date.",
+     "Construiește codul Huffman pentru frecvențele a: 45, b: 13, c: 12, d: 16, e: 9, f: 5.",
+     "Găsește un sistem de monede pentru care greedy dă rezultat greșit.",
+     "Demonstrează prin interschimbare corectitudinea selecției activităților."
+    ],
+    "test": [
+     "Cum alege un algoritm greedy?",
+     "Ce proprietăți trebuie să aibă problema?",
+     "Cum se demonstrează corectitudinea?",
+     "Dă trei exemple corecte de algoritmi greedy.",
+     "De ce greșește greedy la monedele 1, 3, 4?"
+    ],
+    "steps": [
+     "Stabilește criteriul de alegere locală.",
+     "Caută un contraexemplu mic; dacă nu găsești, încearcă o demonstrație prin interschimbare.",
+     "Implementează, de obicei după o sortare, și analizează complexitatea.",
+     "Greșeala frecventă: să consideri corect un algoritm greedy pentru că merge pe câteva exemple; un singur contraexemplu îl invalidează."
+    ],
+    "answers": [
+     "Alege varianta cea mai bună în momentul curent, fără revenire.",
+     "Proprietatea alegerii greedy și substructura optimă.",
+     "Printr-un argument de interschimbare.",
+     "Selecția activităților, Huffman, Kruskal.",
+     "Pentru că moneda cea mai mare, 4, nu face parte din soluția optimă 3 + 3."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l03": {
+   "ro": {
+    "title": "Programarea dinamică",
+    "theory": "Programarea dinamică rezolvă problemele cu subprobleme care se suprapun și substructură optimă: fiecare subproblemă se rezolvă o singură dată, iar rezultatul se păstrează într-un tabel. Pașii: definim starea (ce înseamnă dp[i] sau dp[i][j]), scriem relația de recurență, stabilim cazurile de bază și ordinea de calcul, apoi reconstituim soluția pornind de la tabel. Se poate scrie de jos în sus (iterativ, umplând tabelul) sau de sus în jos (recursiv, cu memoizare). Probleme clasice: rucsacul 0/1, cel mai lung subșir comun, distanța de editare, cel mai lung subșir crescător, drumul de cost minim într-o matrice, înmulțirea optimă a unui șir de matrice. Complexitatea este numărul de stări înmulțit cu costul calculului unei stări.",
+    "sample": "Rucsac 0/1 cu capacitatea 5 și obiectele (greutate, valoare): (2, 3), (3, 4), (4, 5), (5, 6). dp[i][c] = valoarea maximă cu primele i obiecte și capacitatea c; dp[i][c] = max(dp[i−1][c], dp[i−1][c − g_i] + v_i, când c ≥ g_i). Tabelul dă dp[4][5] = 7, obținut cu primele două obiecte (2 + 3 = 5 kg, 3 + 4 = 7). Greedy după raport ar fi ales tot primele două, dar în general nu garantează optimul.",
+    "worked": "Fiecare celulă a folosit doar două celule din rândul anterior. Complexitatea este O(n·C), adică numărul de stări.",
+    "exercises": [
+     "Calculează cel mai lung subșir comun al șirurilor ABCBDAB și BDCABA.",
+     "Calculează distanța de editare dintre „carte” și „parte”.",
+     "Găsește cel mai lung subșir crescător în O(n²).",
+     "Reconstituie obiectele alese din tabelul rucsacului.",
+     "Reduce memoria rucsacului la un singur vector și explică ordinea parcurgerii."
+    ],
+    "test": [
+     "Când se aplică programarea dinamică?",
+     "Ce trebuie definit întâi?",
+     "Ce înseamnă de jos în sus?",
+     "Cum se calculează complexitatea?",
+     "Cum se reconstituie soluția?"
+    ],
+    "steps": [
+     "Definește starea în cuvinte, precis.",
+     "Scrie recurența, cazurile de bază și ordinea de calcul.",
+     "Umple tabelul, citește rezultatul și reconstituie soluția.",
+     "Greșeala frecventă: să umpli tabelul într-o ordine în care folosești celule încă necalculate."
+    ],
+    "answers": [
+     "Când subproblemele se suprapun și există substructură optimă.",
+     "Starea: ce reprezintă fiecare celulă a tabelului.",
+     "Calcul iterativ, de la cazurile de bază spre problema finală.",
+     "Numărul de stări înmulțit cu costul unei stări.",
+     "Mergând înapoi prin tabel și verificând ce alegere a dat fiecare valoare."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l04": {
+   "ro": {
+    "title": "Backtracking și branch and bound",
+    "theory": "Backtracking-ul explorează sistematic spațiul soluțiilor construind soluția element cu element: la fiecare pas încearcă o valoare, verifică dacă soluția parțială mai poate deveni validă și, dacă nu, renunță și încearcă următoarea valoare (revenire). Este potrivit pentru generarea tuturor soluțiilor sau pentru probleme de satisfacere a constrângerilor: permutări, combinări, damele pe tabla de șah, sudoku, colorarea grafurilor. Complexitatea este în general exponențială, de aceea contează tăierea timpurie a ramurilor imposibile. Branch and bound se folosește pentru probleme de optimizare: pentru fiecare soluție parțială calculează o margine (cel mai bun rezultat pe care l-ar putea atinge) și abandonează ramurile a căror margine nu poate depăși cea mai bună soluție găsită deja.",
+    "sample": "Problema celor 4 dame: plasăm câte o damă pe fiecare linie. Linia 1, coloana 1; linia 2: coloanele 1 și 2 sunt atacate, încercăm 3; linia 3 nu are nicio coloană liberă, deci revenim. Continuând, prima soluție este (2, 4, 1, 3): dama de pe linia 1 în coloana 2, linia 2 în coloana 4, linia 3 în coloana 1, linia 4 în coloana 3. Problema are în total două soluții.",
+    "worked": "Verificarea după fiecare damă a eliminat ramuri întregi fără a le explora. Fără tăieri am fi verificat toate cele 256 de așezări cu câte o damă pe linie.",
+    "exercises": [
+     "Generează toate permutările lui {1, 2, 3} prin backtracking.",
+     "Găsește a doua soluție a problemei celor 4 dame.",
+     "Rezolvă prin backtracking colorarea unui graf cu 3 culori.",
+     "Aplică branch and bound pe rucsacul 0/1 folosind marginea dată de rucsacul fracționar.",
+     "Explică de ce ordinea încercării valorilor poate grăbi căutarea."
+    ],
+    "test": [
+     "Cum construiește backtracking-ul soluția?",
+     "Ce înseamnă revenirea?",
+     "Pentru ce probleme este potrivit?",
+     "Ce adaugă branch and bound?",
+     "De ce contează tăierea timpurie?"
+    ],
+    "steps": [
+     "Stabilește forma soluției, elementele și valorile posibile.",
+     "Scrie condiția de continuare care verifică soluția parțială.",
+     "Tratează soluția completă (afișare sau comparare cu optimul) și revino la valoarea următoare.",
+     "Greșeala frecventă: să verifici validitatea doar la soluția completă; pierzi avantajul tăierii ramurilor imposibile."
+    ],
+    "answers": [
+     "Element cu element, verificând la fiecare pas soluția parțială.",
+     "Renunțarea la ultima alegere și încercarea următoarei valori.",
+     "Generarea tuturor soluțiilor și problemele cu constrângeri.",
+     "O margine care elimină ramurile ce nu pot depăși soluția cea mai bună.",
+     "Pentru că elimină ramuri întregi din spațiul exponențial."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l05": {
+   "ro": {
+    "title": "Modelul relațional și algebra relațională",
+    "theory": "În modelul relațional datele sunt păstrate în relații (tabele): fiecare relație are o schemă (nume și atribute cu domenii), iar rândurile (tuplurile) sunt distincte și neordonate. O supercheie identifică unic orice tuplu; o cheie candidat este o supercheie minimală, iar una dintre ele devine cheie primară. Cheia externă trimite la cheia primară a altei relații și asigură integritatea referențială (nu putem avea o notă pentru un student inexistent). Algebra relațională este limbajul teoretic al interogărilor: selecția σ (păstrează tuplurile care respectă o condiție), proiecția π (păstrează anumite atribute), produsul cartezian ×, joncțiunea ⋈ (produs urmat de selecție pe atribute comune), reuniunea, diferența și intersecția (pentru relații compatibile), redenumirea ρ. Fiecare operație produce tot o relație, deci operațiile se pot compune. SQL este construit pe aceste idei, iar optimizatorul SGBD rescrie interogările ca expresii echivalente mai ieftine.",
+    "sample": "Relațiile Student(id, nume, grupa) și Nota(id_student, disciplina, nota). „Numele studenților din grupa 211 cu nota 10 la Baze de date”: π_nume(σ_grupa=211(Student) ⋈_(id = id_student) σ_(disciplina=BD ∧ nota=10)(Nota)). Selecțiile aplicate înainte de joncțiune reduc numărul de tupluri combinate.",
+    "worked": "Expresia se citește din interior spre exterior. Aplicarea selecțiilor cât mai devreme este una dintre regulile de bază ale optimizării.",
+    "exercises": [
+     "Scrie în algebră relațională disciplinele la care nu are note studentul cu id 7.",
+     "Stabilește cheile candidat ale relației Orar(zi, ora, sala, profesor, disciplina).",
+     "Explică diferența dintre selecție și proiecție.",
+     "Scrie o joncțiune naturală între două relații date și calculează rezultatul.",
+     "Dă un exemplu de încălcare a integrității referențiale."
+    ],
+    "test": [
+     "Ce este o relație?",
+     "Ce este o cheie candidat?",
+     "Ce asigură cheia externă?",
+     "Ce face proiecția?",
+     "De ce se pot compune operațiile algebrei relaționale?"
+    ],
+    "steps": [
+     "Identifică relațiile și atributele necesare.",
+     "Aplică selecțiile, apoi joncțiunile, apoi proiecția finală.",
+     "Verifică rezultatul pe un exemplu mic de tabele.",
+     "Greșeala frecventă: să faci produs cartezian fără condiție de joncțiune; obții toate combinațiile, majoritatea fără sens."
+    ],
+    "answers": [
+     "Un tabel cu schemă, cu tupluri distincte și neordonate.",
+     "O supercheie minimală.",
+     "Integritatea referențială.",
+     "Păstrează doar anumite atribute.",
+     "Pentru că rezultatul fiecărei operații este tot o relație."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l06": {
+   "ro": {
+    "title": "SQL: interogări și joncțiuni",
+    "theory": "SQL este limbajul standard al bazelor de date relaționale. Comanda SELECT are clauzele SELECT (ce coloane), FROM (din ce tabele), WHERE (condiția pe rânduri), GROUP BY, HAVING și ORDER BY. Joncțiunea internă (INNER JOIN … ON) păstrează doar perechile care se potrivesc; joncțiunea externă stângă (LEFT JOIN) păstrează toate rândurile din tabelul din stânga, completând cu NULL când nu există pereche. Valoarea NULL înseamnă necunoscut: orice comparație cu NULL dă necunoscut, de aceea testăm cu IS NULL, nu cu = NULL. DISTINCT elimină duplicatele. Comenzile de modificare sunt INSERT, UPDATE și DELETE (ultimele două aproape întotdeauna cu WHERE), iar structura se definește cu CREATE TABLE, inclusiv constrângerile PRIMARY KEY, FOREIGN KEY, UNIQUE, NOT NULL și CHECK.",
+    "sample": "Afișăm toți studenții și numărul lor de note, inclusiv cei fără note: SELECT s.nume, COUNT(n.nota) FROM Student s LEFT JOIN Nota n ON n.id_student = s.id GROUP BY s.id, s.nume. Cu INNER JOIN, studenții fără nicio notă ar fi dispărut din rezultat; COUNT(n.nota) numără doar valorile nenule, deci pentru ei afișează 0.",
+    "worked": "Joncțiunea externă a păstrat toate rândurile din stânga. COUNT pe o coloană ignoră valorile NULL, ceea ce dă 0 exact pentru studenții fără note.",
+    "exercises": [
+     "Afișează studenții din grupa 212, ordonați alfabetic.",
+     "Afișează disciplinele la care nu s-a dat nicio notă, cu LEFT JOIN și IS NULL.",
+     "Scrie CREATE TABLE pentru Nota, cu chei și o constrângere CHECK pe notă.",
+     "Mărește cu 1 notele mai mici decât 5 la o disciplină, fără a depăși 10.",
+     "Explică de ce WHERE nota = NULL nu întoarce niciun rând."
+    ],
+    "test": [
+     "Ce clauze are SELECT?",
+     "Ce păstrează LEFT JOIN?",
+     "Cum testăm valoarea NULL?",
+     "Ce face DISTINCT?",
+     "Ce constrângeri se pot defini la crearea tabelului?"
+    ],
+    "steps": [
+     "Stabilește tabelele și legăturile dintre ele.",
+     "Alege tipul de joncțiune: internă dacă vrei doar perechile, externă dacă vrei toate rândurile unei părți.",
+     "Scrie condițiile, ordonarea și verifică rezultatul pe date de test.",
+     "Greșeala frecventă: să rulezi UPDATE sau DELETE fără WHERE; comanda modifică tot tabelul."
+    ],
+    "answers": [
+     "SELECT, FROM, WHERE, GROUP BY, HAVING, ORDER BY.",
+     "Toate rândurile din stânga, cu NULL unde nu există pereche.",
+     "Cu IS NULL.",
+     "Elimină rândurile duplicate.",
+     "PRIMARY KEY, FOREIGN KEY, UNIQUE, NOT NULL, CHECK."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l07": {
+   "ro": {
+    "title": "SQL: grupări, funcții agregat și subinterogări",
+    "theory": "Funcțiile agregat (COUNT, SUM, AVG, MIN, MAX) calculează o valoare dintr-un grup de rânduri. GROUP BY formează grupurile; în SELECT pot apărea doar coloanele de grupare și funcțiile agregat. WHERE filtrează rândurile înainte de grupare, iar HAVING filtrează grupurile după calcul. Ordinea logică de execuție este FROM, WHERE, GROUP BY, HAVING, SELECT, ORDER BY. O subinterogare este un SELECT folosit în altă comandă: scalară (întoarce o valoare), cu IN (o listă), cu EXISTS (verifică existența) sau corelată (se referă la rândul curent al interogării exterioare și se reevaluează pentru fiecare rând). Clauza WITH (expresie de tabel comun) dă nume unei subinterogări și face interogările lungi mai ușor de citit; funcțiile fereastră (de exemplu RANK() OVER (PARTITION BY …)) calculează clasamente fără a restrânge rândurile.",
+    "sample": "Grupele cu media peste 8 la Baze de date: SELECT s.grupa, AVG(n.nota) AS media FROM Student s JOIN Nota n ON n.id_student = s.id WHERE n.disciplina = BD GROUP BY s.grupa HAVING AVG(n.nota) > 8. Studenții cu nota peste media disciplinei lor: SELECT … FROM Nota n1 WHERE n1.nota > (SELECT AVG(n2.nota) FROM Nota n2 WHERE n2.disciplina = n1.disciplina).",
+    "worked": "WHERE a ales disciplina înainte de grupare, iar HAVING a filtrat grupele după medie. Subinterogarea corelată calculează media pentru disciplina fiecărui rând.",
+    "exercises": [
+     "Afișează numărul de studenți din fiecare grupă.",
+     "Afișează disciplinele cu cel puțin 3 note de 10.",
+     "Găsește studenții care nu au nicio notă sub 5, cu NOT EXISTS.",
+     "Rescrie o subinterogare cu IN ca joncțiune.",
+     "Afișează primii trei studenți din fiecare grupă după medie, cu o funcție fereastră."
+    ],
+    "test": [
+     "Ce face GROUP BY?",
+     "Prin ce diferă WHERE de HAVING?",
+     "Care este ordinea logică de execuție?",
+     "Ce este o subinterogare corelată?",
+     "La ce folosește WITH?"
+    ],
+    "steps": [
+     "Stabilește ce se calculează și pentru ce grupuri.",
+     "Filtrează rândurile cu WHERE, grupează, apoi filtrează grupurile cu HAVING.",
+     "Pentru condiții care depind de alte rânduri, folosește o subinterogare sau o funcție fereastră.",
+     "Greșeala frecventă: să pui o funcție agregat în WHERE; condițiile pe agregate se scriu în HAVING."
+    ],
+    "answers": [
+     "Formează grupurile de rânduri pentru funcțiile agregat.",
+     "WHERE filtrează rânduri înainte de grupare, HAVING filtrează grupuri după.",
+     "FROM, WHERE, GROUP BY, HAVING, SELECT, ORDER BY.",
+     "O subinterogare care folosește valori din rândul curent al interogării exterioare.",
+     "Dă nume unei subinterogări și face interogarea mai ușor de citit."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l08": {
+   "ro": {
+    "title": "Dependențe funcționale și normalizare",
+    "theory": "Normalizarea elimină redundanța și anomaliile (de inserare, modificare, ștergere) pe baza dependențelor funcționale. X → Y înseamnă că valoarea lui X determină unic valoarea lui Y (id_student → nume). Închiderea X⁺ a unui set de atribute conține toate atributele determinate de X; X este supercheie dacă X⁺ conține toate atributele. Formele normale: 1FN – valori atomice; 2FN – niciun atribut neprim nu depinde parțial de o cheie; 3FN – pentru orice dependență netrivială X → A, X este supercheie sau A face parte dintr-o cheie; FNBC (Boyce-Codd) – pentru orice dependență netrivială X → Y, X este supercheie. Descompunerea trebuie să fie fără pierderi (joncțiunea părților reface relația inițială) și, de preferat, să păstreze dependențele. Orice relație poate fi adusă în 3FN păstrând dependențele, dar FNBC nu garantează întotdeauna păstrarea lor.",
+    "sample": "Relația Îndrumare(student, disciplina, profesor), cu dependențele (student, disciplina) → profesor și profesor → disciplina (fiecare profesor predă o singură disciplină). Cheile sunt (student, disciplina) și (student, profesor). Relația este în 3FN, deoarece disciplina face parte dintr-o cheie, dar nu în FNBC, pentru că profesor nu este supercheie. Descompunerea în (profesor, disciplina) și (student, profesor) este fără pierderi, dar pierde dependența (student, disciplina) → profesor.",
+    "worked": "Exemplul arată diferența fină dintre 3FN și FNBC. Proiectantul alege între eliminarea completă a redundanței și păstrarea dependențelor.",
+    "exercises": [
+     "Calculează închiderea lui {A} pentru A → B, B → C, C → D.",
+     "Găsește cheile relației R(A, B, C, D) cu AB → C, C → D, D → A.",
+     "Stabilește forma normală a relației Comandă(id_comandă, id_client, nume_client, data).",
+     "Descompune în FNBC o relație dată și verifică dacă descompunerea este fără pierderi.",
+     "Explică cele trei tipuri de anomalii pe un exemplu."
+    ],
+    "test": [
+     "Ce înseamnă X → Y?",
+     "Ce este închiderea unui set de atribute?",
+     "Ce cere FNBC?",
+     "Ce este o descompunere fără pierderi?",
+     "Ce garantează 3FN care nu garantează FNBC?"
+    ],
+    "steps": [
+     "Scrie toate dependențele funcționale date.",
+     "Găsește cheile cu ajutorul închiderilor.",
+     "Verifică fiecare dependență față de forma normală cerută și descompune unde este încălcată.",
+     "Greșeala frecventă: să descompui fără să verifici dacă joncțiunea părților reface relația; poți pierde sau inventa informații."
+    ],
+    "answers": [
+     "Valoarea lui X determină unic valoarea lui Y.",
+     "Mulțimea tuturor atributelor determinate de acel set.",
+     "Pentru orice dependență netrivială X → Y, X este supercheie.",
+     "Joncțiunea părților reface exact relația inițială.",
+     "Păstrarea dependențelor funcționale."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l09": {
+   "ro": {
+    "title": "Tranzacții, proprietățile ACID și controlul concurenței",
+    "theory": "O tranzacție este o secvență de operații tratată ca o unitate: un transfer bancar scade suma dintr-un cont și o adaugă în altul. Proprietățile ACID: atomicitate (se execută tot sau nimic; la eroare se face ROLLBACK), consistență (baza trece dintr-o stare validă în alta, respectând constrângerile), izolare (tranzacțiile simultane nu se influențează ca și cum ar rula una după alta) și durabilitate (după COMMIT, modificările rezistă chiar și la o cădere de sistem, datorită jurnalului). Fără izolare apar anomalii: actualizarea pierdută, citirea murdară (date necomise), citirea nerepetabilă și citirea fantomă (apar rânduri noi). Standardul SQL definește nivelurile de izolare READ UNCOMMITTED, READ COMMITTED, REPEATABLE READ și SERIALIZABLE. Controlul concurenței se face prin blocări (protocolul în două faze), prin versiuni multiple ale datelor (MVCC) sau optimist; blocările pot produce interblocări, pe care SGBD-ul le detectează și le rezolvă anulând una dintre tranzacții.",
+    "sample": "Două tranzacții citesc simultan soldul 100. T1 adaugă 50 și scrie 150; T2 scade 30 și scrie 70, peste scrierea lui T1. Soldul final este 70 în loc de 120: actualizare pierdută. Cu blocare exclusivă la citirea pentru modificare (SELECT … FOR UPDATE), T2 așteaptă până când T1 face COMMIT, apoi citește 150 și scrie 120.",
+    "worked": "Fără izolare, a doua scriere a șters efectul primei. Blocarea a forțat execuția echivalentă cu una serială.",
+    "exercises": [
+     "Scrie tranzacția SQL pentru un transfer între două conturi, cu ROLLBACK la sold insuficient.",
+     "Dă un exemplu de citire nerepetabilă.",
+     "Explică ce previne fiecare nivel de izolare.",
+     "Construiește un exemplu de interblocare între două tranzacții.",
+     "Explică rolul jurnalului în durabilitate."
+    ],
+    "test": [
+     "Ce este o tranzacție?",
+     "Ce înseamnă atomicitate?",
+     "Ce este o citire murdară?",
+     "Ce niveluri de izolare definește SQL?",
+     "Ce este o interblocare?"
+    ],
+    "steps": [
+     "Grupează operațiile care trebuie să reușească împreună într-o tranzacție.",
+     "Alege nivelul de izolare după anomaliile care trebuie evitate.",
+     "Tratează erorile cu ROLLBACK și reîncearcă tranzacțiile anulate din cauza interblocărilor.",
+     "Greșeala frecventă: să faci COMMIT după fiecare operație a unui transfer; o eroare la mijloc lasă banii scăzuți dintr-un cont și neadăugați în celălalt."
+    ],
+    "answers": [
+     "O secvență de operații executată ca o unitate.",
+     "Se execută toate operațiile sau niciuna.",
+     "Citirea unor date modificate de o tranzacție care nu a făcut încă COMMIT.",
+     "READ UNCOMMITTED, READ COMMITTED, REPEATABLE READ, SERIALIZABLE.",
+     "Două tranzacții se așteaptă reciproc la nesfârșit."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l10": {
+   "ro": {
+    "title": "Programare procedurală în baza de date: blocuri și cursoare",
+    "theory": "SQL descrie ce date vrem, nu cum le obținem; pentru prelucrări cu pași, condiții și bucle, SGBD-urile oferă extensii procedurale: PL/SQL (Oracle), PL/pgSQL (PostgreSQL), T-SQL (SQL Server). Un bloc PL/SQL are secțiunea de declarații (DECLARE), corpul (BEGIN … END) și tratarea excepțiilor (EXCEPTION). Variabilele pot avea tipul unei coloane (%TYPE) sau al unui rând (%ROWTYPE). O comandă SELECT … INTO întoarce exact un rând; zero rânduri produce excepția NO_DATA_FOUND, iar mai multe, TOO_MANY_ROWS. Pentru mai multe rânduri folosim un cursor: îl declarăm cu o interogare, îl deschidem, citim rând cu rând (FETCH) și îl închidem; ciclul FOR pe cursor face automat aceste operații. Prelucrarea rând cu rând este însă mai lentă decât o singură comandă SQL pe mulțimi, deci se folosește doar când logica o cere.",
+    "sample": "Un bloc parcurge cu FOR r IN (SELECT id, nume FROM Student WHERE grupa = 211) LOOP studenții din grupa 211; pentru fiecare calculează media cu SELECT AVG(nota) INTO v_media și afișează un mesaj dacă media este sub 5. Secțiunea EXCEPTION tratează cazurile neprevăzute și scrie eroarea într-un tabel de jurnal.",
+    "worked": "Ciclul FOR pe cursor a deschis, a citit și a închis cursorul automat. Aceeași listă s-ar fi putut obține și cu o singură interogare cu GROUP BY și HAVING, mai rapidă.",
+    "exercises": [
+     "Scrie un bloc care afișează numele studentului cu un id dat și tratează NO_DATA_FOUND.",
+     "Parcurge cu un cursor explicit disciplinele și numără notele fiecăreia.",
+     "Declară o variabilă cu %ROWTYPE și folosește-o.",
+     "Rescrie prelucrarea din exemplu ca o singură interogare SQL.",
+     "Explică diferența dintre un cursor implicit și unul explicit."
+    ],
+    "test": [
+     "De ce avem nevoie de extensii procedurale?",
+     "Ce secțiuni are un bloc PL/SQL?",
+     "Când apare NO_DATA_FOUND?",
+     "Ce este un cursor?",
+     "De ce preferăm, când se poate, o comandă pe mulțimi?"
+    ],
+    "steps": [
+     "Verifică dacă problema se poate rezolva cu o singură comandă SQL.",
+     "Dacă nu, scrie blocul: declarații, corp cu cursor sau SELECT INTO, excepții.",
+     "Testează cu zero, un rând și mai multe rânduri.",
+     "Greșeala frecventă: să folosești SELECT INTO pentru o interogare care poate întoarce mai multe rânduri; apare TOO_MANY_ROWS."
+    ],
+    "answers": [
+     "Pentru prelucrări cu pași, condiții și bucle.",
+     "DECLARE, BEGIN … END și EXCEPTION.",
+     "Când SELECT INTO nu găsește niciun rând.",
+     "Un mecanism de parcurgere rând cu rând a rezultatului unei interogări.",
+     "Pentru că este mult mai rapidă decât prelucrarea rând cu rând."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l11": {
+   "ro": {
+    "title": "Proceduri, funcții, pachete și declanșatori",
+    "theory": "Codul procedural se poate păstra în baza de date ca subprograme stocate. O procedură execută acțiuni și primește parametri de intrare (IN), de ieșire (OUT) sau ambele (IN OUT); o funcție întoarce o valoare și poate fi folosită în interogări, dacă nu modifică date. Pachetele grupează subprograme, tipuri și variabile înrudite, cu o specificație publică și un corp ascuns (încapsulare). Declanșatorii (triggere) se execută automat la evenimente: BEFORE sau AFTER, INSERT, UPDATE sau DELETE, o dată pe comandă sau pentru fiecare rând (FOR EACH ROW), unde valorile vechi și noi sunt accesibile prin :OLD și :NEW. Se folosesc pentru reguli de integritate complexe, jurnalizare (audit) și câmpuri calculate. Folosiți fără măsură, declanșatorii fac comportamentul bazei greu de urmărit, iar unele SGBD-uri interzic citirea tabelului modificat dintr-un declanșator la nivel de rând (eroarea de tabel mutant în Oracle).",
+    "sample": "Un declanșator BEFORE UPDATE OF nota ON Nota FOR EACH ROW verifică dacă :NEW.nota este între 1 și 10 și, dacă nu, ridică o eroare. Un al doilea, AFTER UPDATE, inserează în tabelul Istoric_note rândul (id_student, disciplina, :OLD.nota, :NEW.nota, data curentă). Orice modificare de notă, din orice aplicație, este verificată și jurnalizată.",
+    "worked": "Regula și jurnalul se aplică în baza de date, nu în fiecare aplicație. :OLD și :NEW dau acces la valoarea dinainte și de după modificare.",
+    "exercises": [
+     "Scrie o funcție care întoarce media unui student.",
+     "Scrie o procedură care mută un student în altă grupă și întoarce prin OUT numărul noii grupe.",
+     "Organizează funcțiile despre note într-un pachet cu specificație și corp.",
+     "Scrie un declanșator care împiedică ștergerea disciplinelor care au note.",
+     "Explică când este mai bine să pui o regulă într-o constrângere CHECK decât într-un declanșator."
+    ],
+    "test": [
+     "Prin ce diferă o funcție de o procedură?",
+     "Ce sunt parametrii OUT?",
+     "Ce avantaj au pachetele?",
+     "Când se execută un declanșator?",
+     "Ce reprezintă :OLD și :NEW?"
+    ],
+    "steps": [
+     "Stabilește dacă ai nevoie de o valoare (funcție), de acțiuni (procedură) sau de o reacție automată (declanșator).",
+     "Scrie subprogramul cu parametrii și tratarea erorilor.",
+     "Testează inclusiv cazurile în care regula trebuie să blocheze operația.",
+     "Greșeala frecventă: să pui în declanșatori logica aplicației; efectele ascunse devin greu de depanat."
+    ],
+    "answers": [
+     "Funcția întoarce o valoare și poate fi folosită în expresii; procedura execută acțiuni.",
+     "Parametri prin care procedura întoarce valori apelantului.",
+     "Grupează subprogramele și ascund implementarea.",
+     "Automat, la evenimentul pentru care a fost definit.",
+     "Valoarea rândului dinainte și de după modificare."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l12": {
+   "ro": {
+    "title": "Indecși și planuri de execuție",
+    "theory": "Fără index, căutarea unui rând înseamnă parcurgerea întregului tabel (scanare completă), O(n). Un index B-arbore ține cheile sortate într-un arbore echilibrat cu noduri mari, potrivit pentru disc: căutarea, căutarea pe intervale și ordonarea costă O(log n). Indecșii de dispersie sunt rapizi doar pentru egalitate. Un index compus pe (a, b) ajută condițiile pe a sau pe a și b, dar nu condițiile doar pe b. Indecșii au un cost: ocupă spațiu și încetinesc INSERT, UPDATE și DELETE, pentru că trebuie actualizați. Optimizatorul SGBD alege planul de execuție (ordinea joncțiunilor, folosirea indecșilor, algoritmul de joncțiune: bucle imbricate, dispersie, interclasare) pe baza statisticilor despre date. Comanda EXPLAIN afișează planul ales. Un index nu este folosit dacă aplicăm o funcție pe coloană în condiție sau dacă interogarea întoarce o mare parte din tabel.",
+    "sample": "Interogarea SELECT * FROM Nota WHERE id_student = 4821 pe un tabel cu 2 milioane de rânduri face o scanare completă (EXPLAIN arată acest lucru). După CREATE INDEX idx_nota_student ON Nota(id_student), planul arată o căutare în index și timpul scade de la secunde la milisecunde. Condiția WHERE UPPER(disciplina) = BD nu poate folosi un index simplu pe disciplina.",
+    "worked": "EXPLAIN a confirmat schimbarea planului. Indexul ajută doar condițiile scrise direct pe coloana indexată.",
+    "exercises": [
+     "Propune indecșii pentru interogările frecvente ale unei aplicații de note.",
+     "Explică de ce un index pe (grupa, nume) nu ajută WHERE nume = Popescu.",
+     "Citește un plan de execuție dat și găsește partea cea mai costisitoare.",
+     "Explică de ce prea mulți indecși încetinesc inserările.",
+     "Rescrie o condiție astfel încât să poată folosi indexul."
+    ],
+    "test": [
+     "Ce cost are o scanare completă?",
+     "De ce sunt potriviți B-arborii pentru disc?",
+     "Ce condiții ajută un index compus?",
+     "Ce dezavantaj au indecșii?",
+     "Ce face EXPLAIN?"
+    ],
+    "steps": [
+     "Identifică interogările frecvente și lente.",
+     "Citește planul de execuție și propune indecși pe coloanele din condiții și joncțiuni.",
+     "Măsoară din nou și verifică efectul asupra modificărilor.",
+     "Greșeala frecventă: să creezi index pe fiecare coloană; modificările devin lente, iar optimizatorul poate să nu-i folosească."
+    ],
+    "answers": [
+     "O(n), se citește tot tabelul.",
+     "Pentru că au noduri mari și înălțime mică, deci puține citiri de pe disc.",
+     "Condițiile pe prima coloană sau pe primele coloane, în ordine.",
+     "Ocupă spațiu și încetinesc modificările.",
+     "Afișează planul de execuție ales de optimizator."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l13": {
+   "ro": {
+    "title": "Modele stratificate: OSI și TCP/IP",
+    "theory": "Comunicarea în rețea este organizată pe straturi, fiecare cu un rol precis și care folosește serviciile stratului de dedesubt. Modelul de referință OSI are 7 straturi: fizic (biți pe mediu), legătură de date (cadre între vecini, adrese MAC), rețea (pachete între rețele, adrese IP, rutare), transport (comunicare între procese, porturi, fiabilitate), sesiune, prezentare și aplicație. Modelul folosit efectiv în Internet, TCP/IP, are 4 straturi: acces la rețea, internet (IP), transport (TCP, UDP) și aplicație (HTTP, DNS, SMTP etc.). La trimitere, fiecare strat adaugă un antet propriu datelor primite de sus (încapsulare); la primire, straturile îndepărtează antetele în ordine inversă. Echipamentele lucrează la straturi diferite: switch-ul la stratul legătură de date, routerul la stratul rețea. Stratificarea permite schimbarea unei tehnologii (de exemplu Wi-Fi în loc de cablu) fără a modifica straturile de deasupra.",
+    "sample": "Când browserul cere o pagină, cererea HTTP este pusă într-un segment TCP (port destinație 443 pentru HTTPS), segmentul într-un pachet IP (adresa serverului), pachetul într-un cadru Ethernet sau Wi-Fi (adresa MAC a routerului local). Fiecare router de pe drum citește doar antetul IP ca să decidă următorul pas și construiește un cadru nou pentru legătura următoare.",
+    "worked": "Încapsularea a separat responsabilitățile. Adresa IP rămâne aceeași pe tot drumul, în timp ce adresele MAC se schimbă la fiecare legătură.",
+    "exercises": [
+     "Așază protocoalele HTTP, TCP, IP, Ethernet pe straturile modelului TCP/IP.",
+     "Desenează încapsularea unui mesaj DNS.",
+     "Explică diferența dintre un switch și un router.",
+     "Compară modelul OSI cu modelul TCP/IP.",
+     "Explică de ce adresa MAC se schimbă pe drum, iar adresa IP nu."
+    ],
+    "test": [
+     "Câte straturi are modelul OSI?",
+     "Ce straturi are modelul TCP/IP?",
+     "Ce este încapsularea?",
+     "La ce strat lucrează routerul?",
+     "Ce avantaj are stratificarea?"
+    ],
+    "steps": [
+     "Identifică stratul fiecărui protocol sau echipament.",
+     "Urmărește mesajul de sus în jos la trimitere și de jos în sus la primire.",
+     "Notează ce antet și ce adrese adaugă fiecare strat.",
+     "Greșeala frecventă: să crezi că routerele citesc conținutul paginii; ele se uită doar la antetul IP."
+    ],
+    "answers": [
+     "Șapte.",
+     "Acces la rețea, internet, transport, aplicație.",
+     "Adăugarea antetului fiecărui strat peste datele primite de sus.",
+     "La stratul rețea.",
+     "O tehnologie dintr-un strat se poate schimba fără a le modifica pe celelalte."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l14": {
+   "ro": {
+    "title": "Adresarea IPv4 și împărțirea în subrețele",
+    "theory": "O adresă IPv4 are 32 de biți, scriși ca patru numere între 0 și 255 (192.168.10.100). Ea are o parte de rețea și o parte de gazdă, delimitate de masca de rețea, scrisă fie ca 255.255.255.0, fie în notația CIDR /24 (numărul de biți de rețea). Adresa de rețea are toți biții de gazdă 0, adresa de difuzare (broadcast) are toți biții de gazdă 1; adresele dintre ele se pot da gazdelor, deci o rețea cu h biți de gazdă are 2^h − 2 adrese utilizabile. Împărțirea în subrețele împrumută biți din partea de gazdă pentru a crea rețele mai mici. Intervalele 10.0.0.0/8, 172.16.0.0/12 și 192.168.0.0/16 sunt private: nu circulă în Internet și ies prin traducerea adreselor (NAT) pe adresa publică a routerului. IPv6 folosește 128 de biți tocmai pentru că adresele IPv4 s-au epuizat.",
+    "sample": "Împărțim 192.168.10.0/24 în 4 subrețele egale: împrumutăm 2 biți, deci /26, masca 255.255.255.192, câte 64 de adrese și 62 utilizabile. Subrețelele: .0–.63, .64–.127, .128–.191, .192–.255. Gazda 192.168.10.100 se află în subrețeaua 192.168.10.64/26, cu difuzarea 192.168.10.127 și gazdele utilizabile .65–.126.",
+    "worked": "Doi biți împrumutați au dat 2² = 4 subrețele. Poziția unei adrese se găsește împărțind ultimul octet la dimensiunea subrețelei.",
+    "exercises": [
+     "Calculează adresa de rețea și de difuzare pentru 10.20.30.40/20.",
+     "Împarte 172.16.0.0/16 în subrețele de cel mult 500 de gazde.",
+     "Câte gazde utilizabile are o rețea /29?",
+     "Stabilește dacă 192.168.1.130 și 192.168.1.190 sunt în aceeași subrețea /26.",
+     "Explică rolul NAT într-o rețea de acasă."
+    ],
+    "test": [
+     "Câți biți are o adresă IPv4?",
+     "Ce arată masca de rețea?",
+     "Ce adresă are toți biții de gazdă 1?",
+     "Câte adrese utilizabile are o rețea cu h biți de gazdă?",
+     "Ce sunt adresele private?"
+    ],
+    "steps": [
+     "Scrie masca în binar și află câți biți de gazdă rămân.",
+     "Calculează dimensiunea subrețelei și găsește intervalul în care cade adresa.",
+     "Notează adresa de rețea, de difuzare și intervalul gazdelor.",
+     "Greșeala frecventă: să dai unei gazde adresa de rețea sau de difuzare; ele nu sunt utilizabile."
+    ],
+    "answers": [
+     "32.",
+     "Câți biți sunt de rețea și câți de gazdă.",
+     "Adresa de difuzare.",
+     "2^h − 2.",
+     "Adrese care nu circulă în Internet și ies prin NAT."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l15": {
+   "ro": {
+    "title": "Stratul transport: TCP și UDP",
+    "theory": "Stratul transport duce datele între procese, identificate prin porturi (HTTP 80, HTTPS 443, DNS 53, SSH 22). TCP este orientat pe conexiune: conexiunea se deschide prin trei pași (SYN, SYN-ACK, ACK), datele sunt numerotate, confirmate și retransmise dacă se pierd, ajung în ordine, iar viteza se adaptează la receptor (controlul fluxului, prin fereastra glisantă) și la încărcarea rețelei (controlul congestiei). UDP trimite datagrame independente, fără conexiune, fără confirmări și fără garanția ordinii; este mai simplu și are întârziere mică, de aceea se folosește pentru DNS, transmisii audio-video în timp real și jocuri, unde o întârziere este mai rea decât un pachet pierdut. Programele folosesc rețeaua prin socket-uri: serverul TCP creează un socket, îl leagă de un port (bind), ascultă (listen) și acceptă conexiuni (accept); clientul se conectează (connect), apoi ambii trimit și primesc date.",
+    "sample": "Un apel video pierde un pachet cu 20 ms de sunet. Cu TCP, toate datele următoare ar aștepta retransmisia, iar conversația s-ar bloca o clipă; cu UDP, aplicația sare peste fragmentul lipsă și sunetul continuă aproape neobservat. La descărcarea unui fișier, însă, un singur octet lipsă strică fișierul, deci se folosește TCP.",
+    "worked": "Alegerea protocolului depinde de ce contează mai mult: completitudinea sau întârzierea mică. TCP garantează livrarea cu prețul așteptării.",
+    "exercises": [
+     "Descrie deschiderea unei conexiuni TCP.",
+     "Alege TCP sau UDP pentru cinci aplicații date și justifică.",
+     "Scrie pașii unui server TCP care trimite ora clientului.",
+     "Explică diferența dintre controlul fluxului și controlul congestiei.",
+     "Explică ce identifică perechea adresă IP și port."
+    ],
+    "test": [
+     "Ce identifică un port?",
+     "Care sunt pașii deschiderii conexiunii TCP?",
+     "Ce garantează TCP?",
+     "Când preferăm UDP?",
+     "Ce pași are un server TCP?"
+    ],
+    "steps": [
+     "Stabilește cerințele aplicației: fiabilitate, ordine, întârziere.",
+     "Alege protocolul de transport potrivit.",
+     "Proiectează comunicarea prin socket-uri și tratează erorile de rețea.",
+     "Greșeala frecventă: să crezi că UDP este „mai rău”; pentru timp real este adesea alegerea corectă."
+    ],
+    "answers": [
+     "Procesul destinație de pe o gazdă.",
+     "SYN, SYN-ACK, ACK.",
+     "Livrarea completă și în ordine a datelor.",
+     "Când întârzierea mică este mai importantă decât livrarea fiecărui pachet.",
+     "socket, bind, listen, accept, apoi trimitere și primire."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l16": {
+   "ro": {
+    "title": "Stratul aplicație: DNS, HTTP și securitatea comunicării",
+    "theory": "Sistemul numelor de domeniu (DNS) traduce nume ca www.exemplu.ro în adrese IP. Este o bază de date distribuită și ierarhică: rădăcina, domeniile de nivel superior (.ro, .com), apoi serverele autoritare ale fiecărui domeniu; răspunsurile sunt păstrate temporar (cache) un timp dat de TTL. HTTP este protocolul web: clientul trimite o cerere (metodă, cale, antete, eventual corp), serverul întoarce un răspuns cu cod de stare (200 OK, 301 mutat permanent, 404 negăsit, 500 eroare de server), antete și corp. Metodele uzuale sunt GET (citire), POST (creare), PUT (înlocuire) și DELETE (ștergere). HTTP este fără stare; sesiunile se păstrează prin cookie-uri sau jetoane. HTTPS adaugă TLS, care criptează comunicarea și autentifică serverul printr-un certificat semnat de o autoritate de certificare. Alte protocoale de aplicație: SMTP și IMAP pentru e-mail, SSH pentru acces securizat la distanță.",
+    "sample": "Tastăm o adresă web. Calculatorul întreabă resolverul DNS, care, dacă nu are răspunsul în cache, întreabă rădăcina, apoi serverul .ro, apoi serverul autoritar al domeniului și primește adresa IP. Browserul deschide o conexiune TCP pe portul 443, negociază TLS, verifică certificatul și trimite GET /. Serverul răspunde 200 OK cu documentul HTML.",
+    "worked": "O singură accesare a folosit DNS, TCP, TLS și HTTP, fiecare cu rolul lui. Cache-ul DNS face ca accesările următoare să sară peste interogările ierarhice.",
+    "exercises": [
+     "Descrie rezolvarea DNS pentru un domeniu .ro.",
+     "Explică semnificația codurilor 201, 304, 403 și 503.",
+     "Scrie o cerere HTTP POST care trimite date JSON.",
+     "Explică ce verifică browserul la certificatul unui site.",
+     "Explică de ce HTTP este fără stare și cum se păstrează autentificarea."
+    ],
+    "test": [
+     "Ce face DNS?",
+     "Ce este TTL?",
+     "Ce înseamnă codul 404?",
+     "Ce adaugă HTTPS față de HTTP?",
+     "Cum se păstrează sesiunea în HTTP?"
+    ],
+    "steps": [
+     "Identifică protocoalele implicate și ordinea lor.",
+     "Urmărește cererile și răspunsurile, cu codurile și antetele lor.",
+     "Verifică ce parte este criptată și cine este autentificat.",
+     "Greșeala frecventă: să crezi că HTTPS ascunde și numele site-ului de rețeaua locală; interogarea DNS și numele serverului pot fi încă vizibile."
+    ],
+    "answers": [
+     "Traduce nume de domenii în adrese IP.",
+     "Timpul cât un răspuns DNS poate fi păstrat în cache.",
+     "Resursa cerută nu a fost găsită.",
+     "Criptarea și autentificarea serverului prin TLS.",
+     "Prin cookie-uri sau jetoane trimise la fiecare cerere."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l17": {
+   "ro": {
+    "title": "Alfabete, limbaje, gramatici și ierarhia Chomsky",
+    "theory": "Un alfabet este o mulțime finită de simboluri; un cuvânt este o secvență finită de simboluri (cuvântul vid se notează ε), iar un limbaj este o mulțime de cuvinte. Limbajele infinite se descriu finit prin gramatici sau prin automate. O gramatică are neterminale, terminale, un simbol de start și reguli de producție de forma α → β; un cuvânt aparține limbajului dacă poate fi derivat din simbolul de start. Ierarhia Chomsky clasifică gramaticile după forma regulilor: tipul 3 – regulate (A → aB sau A → a), recunoscute de automate finite; tipul 2 – independente de context (A → orice șir), recunoscute de automate push-down; tipul 1 – dependente de context, recunoscute de automate liniar mărginite; tipul 0 – fără restricții, recunoscute de mașini Turing. Fiecare clasă o include strict pe următoarea. Limbajele de programare sunt descrise în principal cu gramatici independente de context, iar unitățile lexicale (identificatori, numere) cu limbaje regulate.",
+    "sample": "Gramatica S → aSb | ε generează cuvintele a^n b^n (n ≥ 0). Derivarea lui aabb: S ⇒ aSb ⇒ aaSbb ⇒ aabb. Regula S → aSb are în dreapta un șir oarecare, deci gramatica este independentă de context (tipul 2); limbajul a^n b^n nu este regulat, pentru că un automat finit nu poate număra oricât de mult.",
+    "worked": "Derivarea a arătat cum se construiește cuvântul. Clasa limbajului este dată de cea mai simplă gramatică posibilă, nu de prima găsită.",
+    "exercises": [
+     "Scrie o gramatică regulată pentru numerele binare care se termină în 0.",
+     "Derivă cuvântul (()()) din S → (S)S | ε.",
+     "Stabilește tipul Chomsky al unei gramatici date.",
+     "Descrie în cuvinte limbajul generat de S → aS | bS | a.",
+     "Explică de ce identificatorii unui limbaj de programare formează un limbaj regulat."
+    ],
+    "test": [
+     "Ce este un limbaj formal?",
+     "Din ce este formată o gramatică?",
+     "Ce recunoaște un automat push-down?",
+     "Ce tip au gramaticile regulate?",
+     "Ce gramatici descriu sintaxa limbajelor de programare?"
+    ],
+    "steps": [
+     "Identifică forma regulilor de producție.",
+     "Încadrează gramatica în tipul cel mai restrictiv pe care îl respectă.",
+     "Verifică prin derivări că gramatica generează exact cuvintele dorite.",
+     "Greșeala frecventă: să verifici doar că gramatica generează cuvintele bune; trebuie să nu genereze și cuvinte greșite."
+    ],
+    "answers": [
+     "O mulțime de cuvinte peste un alfabet.",
+     "Neterminale, terminale, simbol de start și reguli de producție.",
+     "Limbajele independente de context.",
+     "Tipul 3.",
+     "Gramaticile independente de context."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l18": {
+   "ro": {
+    "title": "Automate finite deterministe și nedeterministe",
+    "theory": "Un automat finit determinist (AFD) are o mulțime finită de stări, o stare inițială, stări finale și o funcție de tranziție care dă, pentru fiecare stare și simbol, exact o stare următoare. Citește cuvântul simbol cu simbol și îl acceptă dacă se oprește într-o stare finală. Automatul finit nedeterminist (AFN) poate avea mai multe tranziții pe același simbol, niciuna sau tranziții ε (fără consumarea unui simbol); acceptă dacă există cel puțin un drum spre o stare finală. Cele două modele recunosc exact aceleași limbaje, cele regulate: construcția submulțimilor transformă un AFN cu n stări într-un AFD ale cărui stări sunt mulțimi de stări ale AFN-ului (cel mult 2^n). Un AFD poate fi minimizat, unind stările echivalente. Automatele finite se folosesc la analiza lexicală, la căutarea de tipare în text și la protocoale.",
+    "sample": "AFD pentru numerele binare divizibile cu 3: starea este restul împărțirii la 3 al prefixului citit (0, 1, 2); citind bitul b, din restul r trecem în (2r + b) mod 3. Starea inițială și finală este 0. Pentru 110 (6): 0 → 1 → (2 + 1) mod 3 = 0 → (0 + 0) mod 3 = 0, deci este acceptat. Pentru 111 (7): 0 → 1 → 0 → 1, deci este respins.",
+    "worked": "Stările au reținut doar informația necesară: restul, nu tot numărul. Așa recunoaște un automat cu memorie finită un limbaj infinit.",
+    "exercises": [
+     "Construiește un AFD pentru cuvintele peste {a, b} cu număr par de a.",
+     "Construiește un AFN pentru cuvintele care se termină în ab.",
+     "Transformă AFN-ul anterior în AFD prin construcția submulțimilor.",
+     "Minimizează un AFD dat.",
+     "Construiește un AFD pentru numerele binare divizibile cu 4."
+    ],
+    "test": [
+     "Ce are un AFD?",
+     "Când acceptă un AFN un cuvânt?",
+     "Ce este o tranziție ε?",
+     "Ce limbaje recunosc automatele finite?",
+     "Câte stări poate avea AFD-ul obținut dintr-un AFN cu n stări?"
+    ],
+    "steps": [
+     "Stabilește ce trebuie să rețină automatul despre prefixul citit.",
+     "Transformă fiecare informație posibilă într-o stare și scrie tranzițiile.",
+     "Verifică pe cuvinte acceptate și respinse.",
+     "Greșeala frecventă: să lași în AFD stări fără tranziție pe unele simboluri; adaugă o stare de eroare."
+    ],
+    "answers": [
+     "Stări, stare inițială, stări finale și o funcție de tranziție completă.",
+     "Dacă există cel puțin un drum spre o stare finală.",
+     "O tranziție care nu consumă niciun simbol.",
+     "Limbajele regulate.",
+     "Cel mult 2^n."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l19": {
+   "ro": {
+    "title": "Expresii regulate și limitele limbajelor regulate",
+    "theory": "Expresiile regulate descriu limbajele regulate prin trei operații: reuniunea (a | b), concatenarea (ab) și închiderea Kleene (a*, zero sau mai multe repetări), plus parantezele. Exemple: (0 | 1)*0 – cuvintele binare terminate în 0; a*b* – oricâte a urmate de oricâte b. Teorema lui Kleene spune că expresiile regulate și automatele finite descriu exact aceeași clasă: din orice expresie se construiește un AFN (construcția Thompson), iar din orice automat se poate obține o expresie. Nu toate limbajele sunt regulate: lema de pompare spune că, pentru orice limbaj regulat, cuvintele suficient de lungi au o parte din primele p simboluri care poate fi repetată oricât, iar rezultatul rămâne în limbaj. Prin reducere la absurd, a^n b^n și limbajul parantezelor corect închise nu sunt regulate. Expresiile regulate din limbajele de programare au și extensii (referințe înapoi) care depășesc clasa regulată.",
+    "sample": "Arătăm că L = {a^n b^n} nu este regulat. Presupunem că este și fie p constanta lemei. Luăm cuvântul a^p b^p. Orice descompunere xyz cu |xy| ≤ p și y nevid are y format doar din a. Repetând y de două ori obținem mai mulți a decât b, deci un cuvânt din afara lui L. Contradicție, deci L nu este regulat.",
+    "worked": "Alegerea cuvântului a făcut ca partea repetată să conțină doar a. Lema dă o condiție necesară, de aceea se folosește doar pentru a arăta că un limbaj nu este regulat.",
+    "exercises": [
+     "Scrie o expresie regulată pentru cuvintele care conțin subcuvântul 101.",
+     "Construiește AFN-ul Thompson pentru (a | b)*abb.",
+     "Arată cu lema de pompare că limbajul palindroamelor nu este regulat.",
+     "Scrie o expresie regulată pentru adresele IPv4 scrise cu cifre și puncte, fără verificarea valorilor.",
+     "Explică de ce lema de pompare nu poate demonstra că un limbaj este regulat."
+    ],
+    "test": [
+     "Ce operații folosesc expresiile regulate?",
+     "Ce spune teorema lui Kleene?",
+     "Ce afirmă lema de pompare?",
+     "Dă un exemplu de limbaj neregulat.",
+     "De ce lema nu demonstrează regularitatea?"
+    ],
+    "steps": [
+     "Pentru o expresie, descompune limbajul în reuniuni, concatenări și repetări.",
+     "Pentru neregularitate, presupune contrariul și alege un cuvânt potrivit de lungime cel puțin p.",
+     "Arată că orice descompunere permisă duce, prin pompare, în afara limbajului.",
+     "Greșeala frecventă: să alegi tu descompunerea xyz în demonstrație; trebuie să arăți contradicția pentru orice descompunere permisă."
+    ],
+    "answers": [
+     "Reuniunea, concatenarea și închiderea Kleene.",
+     "Expresiile regulate și automatele finite descriu aceeași clasă de limbaje.",
+     "Cuvintele lungi ale unui limbaj regulat au o parte care poate fi repetată fără a ieși din limbaj.",
+     "a^n b^n.",
+     "Pentru că este doar o condiție necesară, nu suficientă."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l20": {
+   "ro": {
+    "title": "Gramatici independente de context și analiza sintactică",
+    "theory": "Gramaticile independente de context (GIC) descriu structuri imbricate: expresii cu paranteze, blocuri de instrucțiuni. O derivare se poate reprezenta printr-un arbore de derivare (arbore sintactic). O gramatică este ambiguă dacă un cuvânt are doi arbori diferiți; pentru expresii, ambiguitatea se elimină introducând niveluri de precedență: E → E + T | T, T → T * F | F, F → ( E ) | id. Automatele push-down sunt automate finite cu o stivă și recunosc exact limbajele independente de context. Compilatorul trece prin faze: analiza lexicală (transformă textul în atomi lexicali, cu automate finite), analiza sintactică (construiește arborele după gramatică), analiza semantică (tipuri, declarații), generarea de cod intermediar, optimizarea și generarea codului final. Analizoarele sintactice sunt descendente (LL, de exemplu descendent recursiv) sau ascendente (LR), construite manual sau cu generatoare.",
+    "sample": "Cu gramatica E → E + E | E * E | id, cuvântul id + id * id are doi arbori: unul care face întâi adunarea și unul care face întâi înmulțirea. Gramatica cu niveluri E, T, F produce un singur arbore, în care id * id este un T, deci înmulțirea se grupează prima, iar adunarea se aplică la final, ca în matematică.",
+    "worked": "Ambiguitatea nu era doar teoretică: cei doi arbori dau rezultate diferite. Nivelurile gramaticii au codificat precedența operatorilor.",
+    "exercises": [
+     "Desenează arborele de derivare pentru id * (id + id) cu gramatica E, T, F.",
+     "Arată că gramatica S → if c then S | if c then S else S | a este ambiguă.",
+     "Scrie o GIC pentru parantezele corect închise.",
+     "Scrie funcțiile unui analizor descendent recursiv pentru gramatica E, T, F, fără recursivitate la stânga.",
+     "Descrie fazele compilării pentru instrucțiunea x = a + 2 * b."
+    ],
+    "test": [
+     "Ce este un arbore de derivare?",
+     "Când este o gramatică ambiguă?",
+     "Ce automat recunoaște limbajele independente de context?",
+     "Care sunt fazele unui compilator?",
+     "Ce tipuri de analizoare sintactice cunoști?"
+    ],
+    "steps": [
+     "Scrie gramatica și verifică dacă un cuvânt are mai mulți arbori.",
+     "Elimină ambiguitatea prin niveluri de precedență sau reguli de asociativitate.",
+     "Construiește analizorul și testează-l pe expresii cu paranteze și operatori amestecați.",
+     "Greșeala frecventă: să scrii un analizor descendent recursiv pentru o regulă recursivă la stânga (E → E + T); funcția se apelează la infinit."
+    ],
+    "answers": [
+     "Reprezentarea grafică a unei derivări.",
+     "Când un cuvânt are doi arbori de derivare diferiți.",
+     "Automatul push-down.",
+     "Lexicală, sintactică, semantică, cod intermediar, optimizare, generare de cod.",
+     "Descendente (LL) și ascendente (LR)."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l21": {
+   "ro": {
+    "title": "Programarea funcțională: funcții pure, tipuri și recursivitate",
+    "theory": "În programarea funcțională, programul este o compunere de funcții. O funcție pură întoarce mereu același rezultat pentru aceleași argumente și nu are efecte secundare (nu modifică variabile globale, nu scrie fișiere); datele sunt imutabile. Asta face codul ușor de testat și de paralelizat și permite raționamentul ecuațional (o expresie poate fi înlocuită cu valoarea ei). În Haskell, limbajul folosit des la cursuri, tipurile sunt deduse automat (inferență de tip) și verificate la compilare; tipurile algebrice definesc date prin variante (data Forma = Cerc Double | Dreptunghi Double Double), prelucrate prin potrivirea tiparelor. Buclele sunt înlocuite de recursivitate, adesea pe structura listei: cazul listei vide [] și cazul cap:coadă (x:xs). Evaluarea leneșă calculează o expresie doar când este nevoie de ea, ceea ce permite chiar liste infinite: take 5 [1..] dă [1, 2, 3, 4, 5].",
+    "sample": "Lungimea unei liste: lungime [] = 0 și lungime (x:xs) = 1 + lungime xs. Pentru [7, 8, 9]: 1 + lungime [8, 9] = 1 + 1 + lungime [9] = 1 + 1 + 1 + lungime [] = 3. Aria unei forme: aria (Cerc r) = pi * r * r; aria (Dreptunghi l h) = l * h.",
+    "worked": "Fiecare ecuație tratează un tipar posibil al datelor. Raționamentul ecuațional a calculat rezultatul prin simple înlocuiri.",
+    "exercises": [
+     "Scrie recursiv suma elementelor unei liste.",
+     "Scrie funcția care inversează o listă și stabilește-i complexitatea.",
+     "Definește un tip algebric pentru expresii aritmetice și o funcție de evaluare.",
+     "Explică de ce o funcție care citește ora curentă nu este pură.",
+     "Folosește evaluarea leneșă pentru a lua primele 10 numere prime dintr-o listă infinită."
+    ],
+    "test": [
+     "Ce este o funcție pură?",
+     "Ce înseamnă imutabilitate?",
+     "Ce este potrivirea tiparelor?",
+     "Ce înlocuiește buclele?",
+     "Ce este evaluarea leneșă?"
+    ],
+    "steps": [
+     "Stabilește tiparele posibile ale datelor (de exemplu listă vidă și cap:coadă).",
+     "Scrie câte o ecuație pentru fiecare tipar, cu apel recursiv pe partea mai mică.",
+     "Verifică prin înlocuiri pe un exemplu mic și lasă compilatorul să verifice tipurile.",
+     "Greșeala frecventă: să uiți cazul listei vide; funcția eșuează la execuție pe lista goală."
+    ],
+    "answers": [
+     "O funcție fără efecte secundare, cu același rezultat pentru aceleași argumente.",
+     "Datele nu se modifică după creare.",
+     "Alegerea ecuației după forma datelor.",
+     "Recursivitatea.",
+     "Calculul unei expresii doar când este nevoie de rezultat."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l22": {
+   "ro": {
+    "title": "Funcții de ordin superior: map, filter, fold",
+    "theory": "O funcție de ordin superior primește funcții ca argumente sau întoarce funcții. Cele mai folosite sunt map (aplică o funcție fiecărui element: map (*2) [1, 2, 3] = [2, 4, 6]), filter (păstrează elementele care respectă o condiție: filter even [1..6] = [2, 4, 6]) și fold (reduce lista la o singură valoare: foldr (+) 0 [1, 2, 3] = 1 + (2 + (3 + 0)) = 6; foldl grupează de la stânga). Funcțiile anonime (lambda) se scriu direct în apel: \\x -> x * x. Funcțiile Haskell sunt curry: o funcție cu două argumente este de fapt o funcție care întoarce altă funcție, deci aplicarea parțială dă funcții noi ((+1) adună 1). Compunerea (f . g) aplică întâi g, apoi f. Aceleași idei există în limbajele moderne: Python, JavaScript, Java (streams), C++ (std::transform).",
+    "sample": "Suma pătratelor numerelor impare de la 1 la 10: sum (map (^2) (filter odd [1..10])). filter dă [1, 3, 5, 7, 9]; map dă [1, 9, 25, 49, 81]; sum dă 165. Aceeași prelucrare cu fold: foldr (\\x acc -> if odd x then x * x + acc else acc) 0 [1..10] = 165.",
+    "worked": "Prelucrarea s-a scris ca o compunere de pași simpli, fără variabile modificate. fold este cea mai generală dintre ele: map și filter se pot scrie cu fold.",
+    "exercises": [
+     "Scrie map cu foldr.",
+     "Numără cuvintele mai lungi de 5 litere dintr-o listă, cu filter și length.",
+     "Calculează produsul unei liste cu foldl.",
+     "Scrie cu compunere de funcții o funcție care dublează și apoi adună 3.",
+     "Rescrie exemplul în Python cu funcții de ordin superior."
+    ],
+    "test": [
+     "Ce este o funcție de ordin superior?",
+     "Ce face map?",
+     "Ce face filter?",
+     "Ce face foldr?",
+     "Ce înseamnă aplicare parțială?"
+    ],
+    "steps": [
+     "Descompune prelucrarea în transformare, filtrare și reducere.",
+     "Alege map, filter sau fold pentru fiecare pas și compune-le.",
+     "Verifică rezultatul intermediar al fiecărui pas pe o listă mică.",
+     "Greșeala frecventă: să confunzi foldr cu foldl la operații necomutative, ca scăderea; rezultatele diferă."
+    ],
+    "answers": [
+     "O funcție care primește sau întoarce funcții.",
+     "Aplică o funcție fiecărui element.",
+     "Păstrează elementele care respectă o condiție.",
+     "Reduce lista la o valoare, grupând de la dreapta.",
+     "Apelarea unei funcții cu mai puține argumente, care dă o funcție nouă."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l23": {
+   "ro": {
+    "title": "Programarea logică în Prolog",
+    "theory": "Programarea logică descrie problema prin fapte și reguli, iar sistemul caută singur soluțiile. Un program Prolog conține fapte (parinte(ion, ana).), reguli (bunic(X, Z) :- parinte(X, Y), parinte(Y, Z). – X este bunicul lui Z dacă X este părintele unui Y care este părintele lui Z) și interogări (?- bunic(ion, Z).). Variabilele încep cu literă mare. Răspunsul se obține prin unificare (găsirea valorilor care fac doi termeni identici) și prin rezoluție cu căutare în adâncime: Prolog încearcă clauzele de sus în jos și subscopurile de la stânga la dreapta, iar la eșec revine (backtracking) la ultima alegere. Listele se scriu [Cap | Coada], iar predicatele pe liste sunt recursive. Ordinea clauzelor contează pentru eficiență și chiar pentru terminare; operatorul de tăiere (!) oprește revenirea, dar trebuie folosit atent.",
+    "sample": "Faptele parinte(ion, ana), parinte(ana, mihai), parinte(ana, elena) și regula bunic. La ?- bunic(ion, Z), Prolog unifică X = ion, caută parinte(ion, Y) și găsește Y = ana, apoi parinte(ana, Z) și găsește Z = mihai. Cerând altă soluție, revine și găsește Z = elena.",
+    "worked": "Interogarea nu a descris cum se caută, ci doar ce relație trebuie să existe. Revenirea a dat toate soluțiile, una câte una.",
+    "exercises": [
+     "Definește regula frate(X, Y) și evită ca o persoană să fie propriul frate.",
+     "Scrie predicatul lungime(Lista, N).",
+     "Scrie predicatul membru(X, Lista).",
+     "Urmărește arborele de căutare pentru o interogare dată.",
+     "Explică de ce regula stramos(X, Z) :- stramos(X, Y), parinte(Y, Z). poate să nu se termine."
+    ],
+    "test": [
+     "Ce conține un program Prolog?",
+     "Ce este unificarea?",
+     "În ce ordine caută Prolog?",
+     "Ce este backtracking-ul?",
+     "Cum se scriu listele?"
+    ],
+    "steps": [
+     "Scrie faptele și relațiile de bază.",
+     "Definește regulile, cu cazul de bază înaintea cazului recursiv.",
+     "Testează interogări și urmărește ordinea în care sunt găsite soluțiile.",
+     "Greșeala frecventă: să pui apelul recursiv primul într-o regulă recursivă la stânga; Prolog poate intra într-o căutare infinită."
+    ],
+    "answers": [
+     "Fapte, reguli și interogări.",
+     "Găsirea valorilor care fac doi termeni identici.",
+     "Clauzele de sus în jos, subscopurile de la stânga la dreapta.",
+     "Revenirea la ultima alegere când un drum eșuează.",
+     "[Cap | Coada]."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l24": {
+   "ro": {
+    "title": "Pagina web în browser: HTML, CSS, JavaScript și DOM",
+    "theory": "O aplicație web are o parte care rulează în browser (client) și una pe server. În browser, HTML descrie structura și sensul conținutului (titluri, paragrafe, formulare, elemente semantice ca header, nav, main, article), CSS descrie aspectul (culori, spațieri, așezare cu flexbox și grid, adaptare la ecran cu media queries), iar JavaScript adaugă comportament. Browserul transformă HTML-ul în DOM, un arbore de obiecte pe care JavaScript îl poate citi și modifica (document.querySelector, textContent, classList, addEventListener). Evenimentele (click, input, submit) declanșează funcții. Operațiile lente, ca cererile la server, sunt asincrone: fetch întoarce o promisiune, iar cu async și await codul așteaptă rezultatul fără să blocheze pagina. Accesibilitatea (etichete pentru câmpuri, text alternativ, contrast, navigare din tastatură) face parte din calitatea unei pagini.",
+    "sample": "Un formular de căutare are un câmp text și o listă goală. La evenimentul input, o funcție async apelează fetch(/api/carti?q= + textul codificat), așteaptă răspunsul JSON și creează în listă câte un element li pentru fiecare carte, setând textContent, nu innerHTML. Pagina nu se reîncarcă, iar textul venit de la server nu poate injecta cod.",
+    "worked": "DOM-ul a fost actualizat direct din JavaScript. Folosirea lui textContent a tratat datele ca text, nu ca HTML, ceea ce previne injectarea de cod.",
+    "exercises": [
+     "Scrie structura semantică a unei pagini cu antet, meniu, conținut și subsol.",
+     "Așază trei carduri pe un rând cu flexbox și pe coloană pe ecrane mici.",
+     "Adaugă validare în JavaScript unui formular de înregistrare.",
+     "Încarcă date de la un API cu fetch și afișează-le într-un tabel.",
+     "Verifică accesibilitatea unui formular și corectează problemele."
+    ],
+    "test": [
+     "Ce rol are HTML?",
+     "Ce rol are CSS?",
+     "Ce este DOM-ul?",
+     "De ce sunt asincrone cererile la server?",
+     "De ce preferăm textContent pentru date venite din afară?"
+    ],
+    "steps": [
+     "Scrie structura HTML semantică.",
+     "Adaugă stilul CSS, începând cu ecranele mici.",
+     "Adaugă comportamentul JavaScript prin evenimente și cereri asincrone și testează în mai multe browsere.",
+     "Greșeala frecventă: să inserezi date primite de la utilizator cu innerHTML; se poate injecta cod în pagină."
+    ],
+    "answers": [
+     "Descrie structura și sensul conținutului.",
+     "Descrie aspectul paginii.",
+     "Arborele de obiecte construit de browser din HTML.",
+     "Ca pagina să nu se blocheze cât așteaptă răspunsul.",
+     "Pentru că le tratează ca text și previne injectarea de cod."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l25": {
+   "ro": {
+    "title": "Aplicația pe server: rute, API REST și persistență",
+    "theory": "Partea de server primește cereri HTTP, le prelucrează și întoarce răspunsuri. Se scrie în limbaje și cadre de lucru ca Node.js, PHP, Python (Django, Flask), Java (Spring) sau C# (ASP.NET). Fiecare rută leagă o metodă HTTP și o cale de o funcție. Un API REST tratează datele ca resurse identificate prin URL-uri și folosește metodele HTTP cu sensul lor: GET /api/studenti (lista), GET /api/studenti/7 (un student), POST /api/studenti (creare), PUT /api/studenti/7 (modificare), DELETE /api/studenti/7 (ștergere); răspunsurile sunt de obicei JSON, cu coduri de stare corecte (201 la creare, 404 dacă resursa nu există, 400 la date invalide). Serverul este fără stare între cereri; autentificarea se păstrează prin sesiuni cu cookie sau prin jetoane. Datele se păstrează într-o bază de date, accesată direct prin SQL sau printr-un ORM. Arhitectura MVC separă modelul (datele), vizualizarea și controlerul (logica cererilor).",
+    "sample": "Ruta POST /api/note primește JSON-ul {id_student: 7, disciplina: BD, nota: 9}. Controlerul validează datele (nota între 1 și 10, studentul există), le inserează în baza de date printr-o interogare parametrizată și răspunde 201 Created cu nota creată. Dacă nota este 12, răspunde 400 Bad Request cu un mesaj de eroare.",
+    "worked": "Validarea pe server este obligatorie, chiar dacă există și în browser. Codurile de stare spun clientului exact ce s-a întâmplat.",
+    "exercises": [
+     "Proiectează rutele REST pentru o aplicație de bibliotecă.",
+     "Scrie o rută GET care întoarce un student sau 404.",
+     "Explică diferența dintre PUT și POST.",
+     "Desparte o aplicație mică în model, vizualizare și controler.",
+     "Explică de ce validarea doar în browser nu este suficientă."
+    ],
+    "test": [
+     "Ce face o rută?",
+     "Ce principii are un API REST?",
+     "Ce cod întoarcem la crearea unei resurse?",
+     "Cum se păstrează autentificarea între cereri?",
+     "Ce separă arhitectura MVC?"
+    ],
+    "steps": [
+     "Identifică resursele aplicației și operațiile asupra lor.",
+     "Definește rutele, validarea și codurile de stare.",
+     "Leagă rutele de baza de date și testează fiecare caz, inclusiv erorile.",
+     "Greșeala frecventă: să întorci 200 OK cu un mesaj de eroare în corp; clientul crede că operația a reușit."
+    ],
+    "answers": [
+     "Leagă o metodă și o cale de funcția care tratează cererea.",
+     "Resurse identificate prin URL-uri, metode HTTP cu sensul lor, comunicare fără stare.",
+     "201 Created.",
+     "Prin sesiuni cu cookie sau prin jetoane.",
+     "Datele, prezentarea și logica cererilor."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l26": {
+   "ro": {
+    "title": "Securitatea aplicațiilor web",
+    "theory": "Aplicațiile web sunt expuse oricui are acces la Internet, deci securitatea face parte din proiectare. Injecția SQL apare când datele utilizatorului sunt lipite în textul interogării; se previne prin interogări parametrizate, niciodată prin concatenare. Cross-site scripting (XSS) apare când datele sunt afișate ca HTML și pot conține scripturi; se previne prin codificarea ieșirii și politici de securitate a conținutului (CSP). Falsificarea cererilor între site-uri (CSRF) face un utilizator autentificat să trimită o cerere fără să vrea; se previne prin jetoane anti-CSRF și cookie-uri SameSite. Parolele nu se păstrează niciodată în clar și nici cu o simplă funcție de dispersie rapidă, ci cu algoritmi lenți cu sare (bcrypt, scrypt, Argon2). Comunicarea se face numai prin HTTPS. Controlul accesului se verifică pe server la fiecare cerere: utilizatorul 7 nu are voie să vadă datele utilizatorului 8 doar schimbând numărul din URL. Principiul privilegiului minim și actualizarea dependențelor completează măsurile.",
+    "sample": "Codul vulnerabil construiește interogarea prin concatenare: SELECT * FROM utilizator WHERE nume = + text introdus. Un atacator introduce un text care închide ghilimelele și adaugă OR 1=1, iar condiția devine mereu adevărată, deci primește toate conturile. Varianta corectă trimite interogarea cu un parametru (WHERE nume = ?) și valoarea separat; baza de date tratează textul doar ca valoare, oricare ar fi conținutul lui.",
+    "worked": "Separarea codului SQL de date a eliminat complet atacul. Aceeași idee, să nu amesteci date cu cod, previne și XSS.",
+    "exercises": [
+     "Rescrie trei interogări vulnerabile ca interogări parametrizate.",
+     "Găsește punctul vulnerabil la XSS într-o pagină de comentarii și corectează-l.",
+     "Explică pe un exemplu cum funcționează un atac CSRF.",
+     "Explică de ce sarea face ineficiente tabelele precalculate de parole.",
+     "Verifică controlul accesului pentru ruta GET /api/note/:id."
+    ],
+    "test": [
+     "Cum se previne injecția SQL?",
+     "Ce este XSS?",
+     "Cum se păstrează parolele?",
+     "Ce este CSRF?",
+     "Unde se verifică dreptul de acces?"
+    ],
+    "steps": [
+     "Identifică toate locurile în care datele utilizatorului intră în interogări, pagini sau comenzi.",
+     "Separă datele de cod: parametri pentru SQL, codificare pentru HTML.",
+     "Verifică autentificarea și autorizarea pe server la fiecare cerere și testează cu date rău intenționate.",
+     "Greșeala frecventă: să ascunzi un buton în interfață și să crezi că acțiunea este protejată; cererea poate fi trimisă direct la server."
+    ],
+    "answers": [
+     "Prin interogări parametrizate.",
+     "Injectarea de scripturi în paginile văzute de alți utilizatori.",
+     "Cu algoritmi lenți cu sare, ca bcrypt sau Argon2.",
+     "O cerere trimisă în numele unui utilizator autentificat, fără voia lui.",
+     "Pe server, la fiecare cerere."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l27": {
+   "ro": {
+    "title": "Ciclul de viață al software-ului și metodologii de dezvoltare",
+    "theory": "Un sistem software trece prin etape: analiza cerințelor, proiectarea, implementarea, testarea, livrarea și întreținerea (care durează adesea cel mai mult). Modelul în cascadă le parcurge o singură dată, în ordine, cu documente complete la fiecare etapă; este previzibil, dar schimbările târzii sunt scumpe. Modelele iterative și incrementale livrează sistemul în bucăți, primind reacții devreme. Metodele agile pun accent pe software funcțional livrat des, colaborarea cu clientul și adaptarea la schimbări. În Scrum, echipa lucrează în sprinturi de una până la patru săptămâni; proprietarul produsului ordonează lista de cerințe (product backlog), echipa alege ce poate termina în sprint, se sincronizează zilnic (daily scrum), arată rezultatul la final (sprint review) și analizează cum poate lucra mai bine (retrospectiva). Kanban vizualizează fluxul de lucru pe un panou și limitează lucrul început simultan.",
+    "sample": "O echipă de patru studenți face o aplicație de rezervare a sălilor în 8 săptămâni. Aleg sprinturi de două săptămâni: în primul livrează autentificarea și lista sălilor, în al doilea rezervarea, în al treilea notificările, în al patrulea rapoartele și corecturile. După primul sprint, profesorul cere filtrarea după capacitate, iar cerința intră în backlog pentru sprintul următor.",
+    "worked": "Livrările dese au adus reacții devreme. Schimbarea cerinței nu a stricat planul, pentru că lista de cerințe se reordonează la fiecare sprint.",
+    "exercises": [
+     "Compară modelul în cascadă cu Scrum pentru un proiect cu cerințe instabile.",
+     "Scrie backlog-ul inițial pentru o aplicație de bibliotecă.",
+     "Planifică primul sprint al aplicației.",
+     "Organizează o retrospectivă cu trei întrebări.",
+     "Explică de ce întreținerea este de obicei cea mai lungă etapă."
+    ],
+    "test": [
+     "Care sunt etapele ciclului de viață?",
+     "Ce dezavantaj are modelul în cascadă?",
+     "Ce pun pe primul loc metodele agile?",
+     "Ce este un sprint?",
+     "Ce rol are retrospectiva?"
+    ],
+    "steps": [
+     "Analizează cât de stabile sunt cerințele și cât de des poate da clientul reacții.",
+     "Alege metodologia și organizează munca: etape sau sprinturi.",
+     "Livrează, cere reacții și ajustează planul.",
+     "Greșeala frecventă: să crezi că agil înseamnă fără planificare și fără documentație; planificarea se face des, la fiecare sprint."
+    ],
+    "answers": [
+     "Cerințe, proiectare, implementare, testare, livrare, întreținere.",
+     "Schimbările târzii sunt scumpe.",
+     "Software funcțional livrat des și colaborarea cu clientul.",
+     "O perioadă fixă, de una până la patru săptămâni, cu un rezultat livrabil.",
+     "Echipa analizează cum poate lucra mai bine."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l28": {
+   "ro": {
+    "title": "Cerințe și modelare UML",
+    "theory": "Cerințele funcționale spun ce face sistemul (un student își poate rezerva o sală), iar cele nefuncționale cum trebuie să o facă (răspuns sub 2 secunde, disponibilitate, securitate, accesibilitate). O cerință bună este clară, verificabilă și fără ambiguități. În metodele agile, cerințele se scriu adesea ca povestiri ale utilizatorului: „Ca student, vreau să rezerv o sală, ca să pot învăța în grup”, cu criterii de acceptare. UML (limbajul unificat de modelare) oferă diagrame standard: diagrama cazurilor de utilizare (actori și funcționalități), diagrama de clase (clase, atribute, metode și relații: asociere, agregare, compunere, moștenire, cu multiplicități), diagrama de secvență (mesajele dintre obiecte în timp) și diagrama de stări. Modelele ajută comunicarea în echipă și găsirea problemelor înainte de scrierea codului.",
+    "sample": "Pentru rezervarea sălilor: actorii sunt Student și Administrator. Diagrama de clase are Sala (cod, capacitate), Rezervare (data, ora_inceput, ora_sfarsit) și Student; un student are 0..* rezervări, fiecare rezervare are exact o sală. Criteriu de acceptare: dacă sala este deja rezervată în intervalul ales, sistemul refuză rezervarea și afișează intervalele libere.",
+    "worked": "Multiplicitățile au precizat regulile de afaceri. Criteriul de acceptare poate fi transformat direct într-un test.",
+    "exercises": [
+     "Scrie trei cerințe funcționale și trei nefuncționale pentru o aplicație de note.",
+     "Transformă o cerință vagă într-una verificabilă.",
+     "Desenează diagrama cazurilor de utilizare pentru o bibliotecă.",
+     "Desenează diagrama de clase pentru comenzile unui magazin online.",
+     "Desenează diagrama de secvență pentru autentificare."
+    ],
+    "test": [
+     "Ce este o cerință nefuncțională?",
+     "Ce face o cerință verificabilă?",
+     "Ce este o povestire a utilizatorului?",
+     "Ce arată diagrama de clase?",
+     "Ce arată diagrama de secvență?"
+    ],
+    "steps": [
+     "Discută cu utilizatorii și notează ce fac și ce probleme au.",
+     "Scrie cerințele clar și verificabil, cu criterii de acceptare.",
+     "Modelează cu diagramele potrivite și verifică-le împreună cu echipa și clientul.",
+     "Greșeala frecventă: să scrii cerințe ca „sistemul să fie rapid”; fără o valoare măsurabilă, nu pot fi verificate."
+    ],
+    "answers": [
+     "O cerință despre cum funcționează sistemul: performanță, securitate, disponibilitate.",
+     "Poate fi verificată printr-un test sau o măsurătoare clară.",
+     "O cerință formulată din perspectiva unui utilizator, cu scopul ei.",
+     "Clasele, atributele, metodele și relațiile lor.",
+     "Mesajele dintre obiecte, în ordinea lor în timp."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l29": {
+   "ro": {
+    "title": "Arhitectură și șabloane de proiectare",
+    "theory": "Arhitectura stabilește componentele mari ale sistemului și modul în care comunică: arhitectura pe straturi (prezentare, logică, acces la date), client-server, MVC, microservicii. Principiile de proiectare ghidează clasele: coeziune mare (o clasă face un singur lucru) și cuplare slabă (dependențe puține între componente). Principiile SOLID: responsabilitate unică, deschis pentru extindere și închis pentru modificare, substituția Liskov, segregarea interfețelor și inversarea dependențelor (modulele depind de abstracții, nu de implementări concrete). Șabloanele de proiectare sunt soluții încercate pentru probleme recurente: Strategy (algoritm interschimbabil), Observer (obiecte notificate la schimbare), Factory (crearea obiectelor fără a cunoaște clasa concretă), Adapter (potrivirea a două interfețe), Decorator (adăugarea de comportament). Un șablon se folosește când rezolvă o problemă reală, nu pentru că există.",
+    "sample": "Aplicația de rezervări trimite notificări prin e-mail, iar mai târziu și prin SMS. Cu șablonul Observer, Rezervare anunță o listă de abonați la fiecare confirmare; NotificareEmail și NotificareSMS implementează aceeași interfață Abonat. Pentru un canal nou adăugăm o clasă nouă, fără să modificăm Rezervare.",
+    "worked": "Clasa Rezervare depinde de abstracția Abonat, nu de clase concrete. Astfel sistemul este deschis pentru extindere și închis pentru modificare.",
+    "exercises": [
+     "Împarte o aplicație de note pe trei straturi.",
+     "Aplică șablonul Strategy pentru mai multe moduri de calcul al mediei.",
+     "Găsește încălcarea responsabilității unice într-o clasă dată și corecteaz-o.",
+     "Explică inversarea dependențelor pe un exemplu cu baza de date.",
+     "Alege șablonul potrivit pentru o bibliotecă externă cu altă interfață."
+    ],
+    "test": [
+     "Ce stabilește arhitectura?",
+     "Ce înseamnă cuplare slabă?",
+     "Ce cere principiul deschis-închis?",
+     "Ce problemă rezolvă Observer?",
+     "Când folosim un șablon de proiectare?"
+    ],
+    "steps": [
+     "Identifică părțile care se schimbă des și cele stabile.",
+     "Separă-le prin interfețe și alege arhitectura și șabloanele potrivite.",
+     "Verifică dacă o schimbare tipică atinge cât mai puține clase.",
+     "Greșeala frecventă: să aplici șabloane peste tot „pentru viitor”; codul devine complicat fără un câștig real."
+    ],
+    "answers": [
+     "Componentele mari ale sistemului și comunicarea dintre ele.",
+     "Componentele depind puțin unele de altele.",
+     "Extinderea comportamentului fără modificarea codului existent.",
+     "Notificarea mai multor obiecte când se schimbă starea altuia.",
+     "Când rezolvă o problemă reală de proiectare."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l30": {
+   "ro": {
+    "title": "Controlul versiunilor, testare automată și integrare continuă",
+    "theory": "Un sistem de control al versiunilor păstrează istoricul complet al codului și permite lucrul în echipă. În Git, o modificare se salvează printr-un commit, cu un mesaj care explică de ce s-a făcut. Ramurile (branches) permit lucrul în paralel la funcționalități; ele se unesc prin merge sau rebase. Pe platforme ca GitHub sau GitLab, modificările se propun prin cereri de integrare (pull/merge requests), revizuite de colegi înainte de unire. Conflictele apar când două ramuri modifică aceleași linii și se rezolvă manual. Testele automate au mai multe niveluri: unitare (o funcție sau clasă), de integrare (mai multe componente împreună) și de sistem sau end-to-end (aplicația întreagă). Integrarea continuă (CI) rulează automat compilarea și testele la fiecare modificare trimisă, iar livrarea continuă (CD) pregătește automat versiunea pentru producție. Codul care nu trece testele nu se unește în ramura principală.",
+    "sample": "Doi studenți lucrează pe ramurile rezervare și notificari. Ambii modifică funcția trimiteConfirmare. La unirea celei de-a doua ramuri apare un conflict; Git marchează cele două variante în fișier, studentul le combină, rulează testele local și face commit. Pipeline-ul CI rulează din nou testele la cererea de integrare și doar după ce trec, colegul aprobă unirea.",
+    "worked": "Conflictul nu a fost o eroare a lui Git, ci o decizie pe care doar omul o poate lua. CI a garantat că ramura principală rămâne funcțională.",
+    "exercises": [
+     "Creează o ramură, fă două commit-uri și unește-o în ramura principală.",
+     "Provoacă și rezolvă un conflict de unire.",
+     "Scrie un mesaj de commit bun pentru o corectură.",
+     "Scrie teste unitare pentru o funcție de validare a rezervărilor.",
+     "Descrie pașii unui pipeline CI pentru un proiect C++."
+    ],
+    "test": [
+     "Ce păstrează un sistem de control al versiunilor?",
+     "La ce folosesc ramurile?",
+     "Când apare un conflict?",
+     "Ce niveluri de testare cunoști?",
+     "Ce face integrarea continuă?"
+    ],
+    "steps": [
+     "Lucrează fiecare funcționalitate pe o ramură separată, cu commit-uri mici.",
+     "Propune modificarea printr-o cerere de integrare, cu teste care trec.",
+     "Rezolvă conflictele, cere revizuirea și unește doar după ce CI trece.",
+     "Greșeala frecventă: să faci commit-uri uriașe cu mesajul „modificări”; istoricul nu mai poate explica nimic."
+    ],
+    "answers": [
+     "Istoricul complet al modificărilor codului.",
+     "La lucrul în paralel, fără a strica ramura principală.",
+     "Când două ramuri modifică aceleași linii.",
+     "Unitare, de integrare, de sistem.",
+     "Rulează automat compilarea și testele la fiecare modificare."
+    ]
+   }
+  }
+ }
+}
