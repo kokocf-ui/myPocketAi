@@ -14676,7 +14676,10 @@ function hgYearGroups(){
    if(bounds[band.level])years=years.filter(x=>Number.isInteger(Number(x.id))&&Number(x.id)>=bounds[band.level][0]&&Number(x.id)<=bounds[band.level][1]);
    years=years.map(x=>Number.isInteger(Number(x.id))?{...x,ro:'Clasa a '+x.id+'-a'}:x);
   }
-  if(band.level==='advanced')years=years.slice(0,1);
+  // Romania: University = Bachelor years I–III (ARACIS synthesis), each with
+  // its own national pack, like Literature. Elsewhere keep the single entry.
+  if(band.level==='advanced')years=country==='RO'?
+   [1,2,3].map(n=>({id:'uni-ba-'+n,ro:'Licență · anul '+['I','II','III'][n-1],en:'Bachelor · Year '+n})):years.slice(0,1);
   years=years.filter(x=>{
    const key=String(x.id);if(seen.has(key))return false;
    seen.add(key);return true;

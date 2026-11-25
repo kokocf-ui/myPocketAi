@@ -1,0 +1,992 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "RO",
+ "stage": "advanced",
+ "grade": "uni-ba-1",
+ "version": "9ad8e5c04fa06a0e0b28b1eb1601d4e98b2c831186859448bb16f4a11139ef54",
+ "source": "https://www.aracis.ro/",
+ "sourceTitle": "Sinteză orientativă a disciplinelor fundamentale comune programelor de licență Istorie din România, conform standardelor specifice ARACIS pentru domeniul Istorie și planurilor de învățământ publicate de Universitatea din București (istorie.unibuc.ro), Universitatea Babeș-Bolyai (hiphi.ubbcluj.ro) și Universitatea „Alexandru Ioan Cuza” (history.uaic.ro) — anul I: introducere în istorie și științele auxiliare, preistorie și arheologie, Orientul antic și lumea greco-romană, civilizații preistorice și antice pe teritoriul României, Evul Mediu occidental și Bizanțul, stat și societate în spațiul românesc (sec. XIV–XVIII), introducere în istoriografie; fiecare facultate are planul propriu, iar ordinea și denumirile cursurilor pot diferi; lecții originale, fără text copiat din cursuri sau manuale",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "ro",
+ "labels": [
+  "Activitate originală · România · Facultatea de Istorie · Licență, anul I",
+  "Teorie pe înțeles",
+  "Exemplu de izvor sau caz",
+  "Analiză explicată",
+  "Exerciții de seminar",
+  "Verifică-te",
+  "Exerciții originale; nu înlocuiesc cursul, bibliografia sau evaluarea facultății.",
+  "Dacă nu ai înțeles: pas cu pas",
+  "Răspunsuri (verifică după ce termini)"
+ ],
+ "units": [
+  {
+   "title": "Introducere în istorie și științele auxiliare",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-1-l01",
+    "eu-year-ro-advanced-uni-ba-1-l02",
+    "eu-year-ro-advanced-uni-ba-1-l03",
+    "eu-year-ro-advanced-uni-ba-1-l04",
+    "eu-year-ro-advanced-uni-ba-1-l05"
+   ]
+  },
+  {
+   "title": "Preistorie și arheologie",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-1-l06",
+    "eu-year-ro-advanced-uni-ba-1-l07",
+    "eu-year-ro-advanced-uni-ba-1-l08",
+    "eu-year-ro-advanced-uni-ba-1-l09"
+   ]
+  },
+  {
+   "title": "Orientul antic și lumea greacă",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-1-l10",
+    "eu-year-ro-advanced-uni-ba-1-l11",
+    "eu-year-ro-advanced-uni-ba-1-l12",
+    "eu-year-ro-advanced-uni-ba-1-l13",
+    "eu-year-ro-advanced-uni-ba-1-l14"
+   ]
+  },
+  {
+   "title": "Roma, geto-dacii și Dacia romană",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-1-l15",
+    "eu-year-ro-advanced-uni-ba-1-l16",
+    "eu-year-ro-advanced-uni-ba-1-l17",
+    "eu-year-ro-advanced-uni-ba-1-l18"
+   ]
+  },
+  {
+   "title": "Evul Mediu occidental și Bizanțul",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-1-l19",
+    "eu-year-ro-advanced-uni-ba-1-l20",
+    "eu-year-ro-advanced-uni-ba-1-l21",
+    "eu-year-ro-advanced-uni-ba-1-l22"
+   ]
+  },
+  {
+   "title": "Spațiul românesc în Evul Mediu și introducerea în istoriografie",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-1-l23",
+    "eu-year-ro-advanced-uni-ba-1-l24",
+    "eu-year-ro-advanced-uni-ba-1-l25",
+    "eu-year-ro-advanced-uni-ba-1-l26"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-ro-advanced-uni-ba-1-l01": {
+   "ro": {
+    "title": "Istoria ca știință: fapt, izvor, interpretare",
+    "theory": "Istoria studiază trecutul oamenilor pe baza urmelor lăsate de ei, numite izvoare. Istoricul nu „vede” trecutul: îl reconstituie. Faptul istoric este un eveniment sau un proces stabilit pe baza izvoarelor; interpretarea este explicația dată de istoric (cauze, urmări, semnificații). De aceea, același fapt poate primi interpretări diferite, dar nu orice interpretare e valabilă: ea trebuie să respecte izvoarele și regulile metodei critice. Istoria se împarte convențional în epoci (Antichitate, Ev Mediu, Modernă, Contemporană) și în domenii (politică, economică, socială, culturală, a mentalităților). Istoricul lucrează cu întrebări: ce s-a întâmplat, cum, de ce, cu ce urmări și cum știm.",
+    "sample": "Bătălia de la Posada (1330) este un fapt stabilit din mai multe izvoare; explicația victoriei lui Basarab I (terenul, tactica, slăbiciunile armatei regale) este o interpretare.",
+    "worked": "Diferența dintre fapt și interpretare este primul lucru cerut la seminar: un istoric bun separă ce spune izvorul de ce deduce el însuși.",
+    "exercises": [
+     "Explică diferența dintre fapt istoric și interpretare.",
+     "Explică de ce istoria se bazează pe izvoare.",
+     "Dă un exemplu de periodizare convențională și critic-o.",
+     "Formulează cinci întrebări de cercetare despre un eveniment ales.",
+     "Explică de ce nu orice interpretare este valabilă."
+    ],
+    "test": [
+     "Ce studiază istoria?",
+     "Ce este un izvor istoric?",
+     "Ce este faptul istoric?",
+     "Ce este interpretarea?",
+     "Care sunt cele patru mari epoci convenționale?"
+    ],
+    "steps": [
+     "Citește izvorul și notează ce spune explicit.",
+     "Separă apoi ce deduci tu din izvor.",
+     "Verifică deducția cu alte izvoare și cu bibliografia.",
+     "Greșeala frecventă: să prezinți o interpretare ca pe un fapt; spune mereu pe ce izvor se sprijină afirmația."
+    ],
+    "answers": [
+     "Trecutul oamenilor, pe baza izvoarelor.",
+     "O urmă a trecutului care ne dă informații.",
+     "Un eveniment sau proces stabilit pe baza izvoarelor.",
+     "Explicația dată de istoric faptelor.",
+     "Antichitatea, Evul Mediu, Epoca Modernă, Epoca Contemporană."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l02": {
+   "ro": {
+    "title": "Clasificarea și critica izvoarelor",
+    "theory": "Izvoarele se clasifică în scrise (narative – cronici, memorii; documentare – acte, tratate, registre; epigrafice), nescrise (arheologice, iconografice, numismatice), orale (tradiții, interviuri) și audio-vizuale. După raportul cu evenimentul: primare (contemporane) și secundare (ulterioare, bazate pe altele). Critica externă verifică autenticitatea: materialul, scrierea, limba, data, autorul, dacă documentul e original, copie sau fals. Critica internă verifică credibilitatea: ce a putut ști autorul, ce interese avea, dacă se contrazice, dacă alte izvoare confirmă. Un exemplu clasic de falsificare dovedită prin critică este Donația lui Constantin, demonstrată ca fals de Lorenzo Valla (sec. XV) prin analiza limbii.",
+    "sample": "Lorenzo Valla a observat că Donația lui Constantin folosea expresii latine necunoscute în secolul al IV-lea.",
+    "worked": "Este un exemplu de critică externă prin limbă: anacronismul lingvistic dovedește că textul a fost scris mult mai târziu decât pretinde.",
+    "exercises": [
+     "Clasifică cinci izvoare date.",
+     "Explică diferența dintre izvor primar și secundar.",
+     "Explică ce verifică critica externă.",
+     "Explică ce verifică critica internă.",
+     "Analizează cazul Donației lui Constantin."
+    ],
+    "test": [
+     "Ce tip de izvor este o cronică?",
+     "Ce tip de izvor este un tezaur monetar?",
+     "Ce verifică critica externă?",
+     "Ce verifică critica internă?",
+     "Cine a demonstrat falsul Donației lui Constantin?"
+    ],
+    "steps": [
+     "Stabilește tipul izvorului.",
+     "Aplică critica externă: e autentic?",
+     "Aplică critica internă: e credibil?",
+     "Greșeala frecventă: să crezi că un izvor autentic spune automat adevărul; un document original poate minți."
+    ],
+    "answers": [
+     "Izvor scris narativ.",
+     "Izvor numismatic (nescris).",
+     "Autenticitatea.",
+     "Credibilitatea.",
+     "Lorenzo Valla."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l03": {
+   "ro": {
+    "title": "Cronologia și calendarele",
+    "theory": "Cronologia tehnică ajută la datarea corectă a izvoarelor. Calendarul iulian (46 î.Hr., Iulius Caesar) a fost înlocuit în Occidentul catolic de cel gregorian (1582, papa Grigore al XIII-lea); România a adoptat calendarul gregorian în stat în 1919, iar Biserica Ortodoxă Română calendarul îndreptat în 1924. Diferența dintre ele este azi de 13 zile. Documentele medievale românești datau adesea după era bizantină, de la „facerea lumii” (anul 5508 î.Hr.), cu anul începând la 1 septembrie; pentru a obține anul erei creștine se scade 5508 (pentru lunile ianuarie–august) sau 5509 (septembrie–decembrie). Indicționul este un ciclu de 15 ani folosit ca element suplimentar de datare.",
+    "sample": "Un act din Țara Românească datat „în anul 6888, luna martie” corespunde anului 1380 (6888 − 5508).",
+    "worked": "Calculul arată regula: pentru lunile septembrie–decembrie se scade 5509, deoarece anul bizantin începe la 1 septembrie.",
+    "exercises": [
+     "Transformă anul 6900 (luna mai) în era creștină.",
+     "Transformă anul 6900 (luna octombrie) în era creștină.",
+     "Explică diferența dintre calendarul iulian și cel gregorian.",
+     "Explică de ce Unirea de la 24 ianuarie 1859 a fost pe stil vechi.",
+     "Explică ce este indicționul."
+    ],
+    "test": [
+     "Când a fost introdus calendarul gregorian?",
+     "Când a adoptat România calendarul gregorian în stat?",
+     "Ce an se consideră începutul erei bizantine?",
+     "Când începe anul bizantin?",
+     "Câte zile este diferența actuală dintre calendare?"
+    ],
+    "steps": [
+     "Identifică sistemul de datare al documentului.",
+     "Verifică luna pentru a alege scăderea corectă.",
+     "Verifică rezultatul cu contextul istoric.",
+     "Greșeala frecventă: să scazi mereu 5508; pentru septembrie–decembrie scazi 5509."
+    ],
+    "answers": [
+     "În 1582.",
+     "În 1919.",
+     "Anul 5508 î.Hr.",
+     "La 1 septembrie.",
+     "13 zile."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l04": {
+   "ro": {
+    "title": "Paleografia și diplomatica",
+    "theory": "Paleografia studiază scrierile vechi: cum s-au format literele, abrevierile, tipurile de scriere, pentru a citi și data documentele. În spațiul românesc se studiază paleografia latină (Transilvania, cancelaria regală), slavo-română (chirilica folosită în actele domnești până în secolul al XVII-lea), româno-chirilică și, pentru unii specialiști, maghiară, greacă și turco-osmană. Diplomatica studiază actele (diplomele) ca formă: structura, formulele, cancelaria care le-a emis. Un act medieval are protocolul (invocația, intitulația – „Io … voievod și domn”, adresa), textul (expunerea motivelor, dispoziția, sancțiunea) și eschatocolul (data, martorii – lista boierilor din sfat, sigiliul). Lista martorilor ajută la datarea actelor nedatate.",
+    "sample": "Formula „Io Mircea, mare voievod și domn” apare în intitulația actelor domnești ale lui Mircea cel Bătrân.",
+    "worked": "Intitulația arată cine emite actul și cum își definește puterea; prin comparații cu alte acte se pot recunoaște falsurile.",
+    "exercises": [
+     "Explică obiectul paleografiei.",
+     "Explică obiectul diplomaticii.",
+     "Enumeră părțile unui act medieval.",
+     "Explică rolul listei de martori.",
+     "Explică de ce cunoașterea slavonei e necesară pentru istoria medievală românească."
+    ],
+    "test": [
+     "Ce studiază paleografia?",
+     "Ce studiază diplomatica?",
+     "În ce limbă erau scrise actele domnești până în sec. XVII?",
+     "Ce parte a actului cuprinde data și martorii?",
+     "Ce este intitulația?"
+    ],
+    "steps": [
+     "Identifică cancelaria și limba documentului.",
+     "Recunoaște părțile actului.",
+     "Folosește formulele pentru datare și autentificare.",
+     "Greșeala frecventă: să confunzi paleografia (citirea scrierii) cu diplomatica (forma și structura actului)."
+    ],
+    "answers": [
+     "Scrierile vechi.",
+     "Actele ca formă și structură.",
+     "În slavonă.",
+     "Eschatocolul.",
+     "Partea în care emitentul își declară numele și titlul."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l05": {
+   "ro": {
+    "title": "Epigrafia, numismatica, sigilografia și heraldica",
+    "theory": "Epigrafia studiază inscripțiile pe piatră, metal sau ceramică (de exemplu inscripțiile greco-romane de la Histria și Tomis sau inscripția de la Mircea Vodă din 943). Numismatica studiază monedele: tipul, metalul, emitentul, circulația; tezaurele monetare pot indica legături comerciale sau perioade de nesiguranță. Sigilografia (sfragistica) studiază sigiliile, care autentificau actele și afișau simbolurile puterii (bourul Moldovei, acvila Țării Românești). Heraldica studiază stemele, regulile lor (câmp, mobile, culori, metale) și evoluția lor; stema României reunește simboluri istorice ale provinciilor. Genealogia reconstituie familiile, utilă pentru istoria elitelor.",
+    "sample": "Descoperirea a numeroase monede romane în Dacia de după 275 este folosită ca argument pentru continuitatea legăturilor cu Imperiul.",
+    "worked": "Un tezaur nu este doar „bani vechi”: locul, data emiterii și compoziția lui ajută la reconstituirea economiei și a evenimentelor.",
+    "exercises": [
+     "Explică ce poate afla istoricul dintr-o inscripție.",
+     "Explică ce informații oferă un tezaur monetar.",
+     "Explică rolul sigiliului într-un act.",
+     "Descrie simbolurile de pe stema României.",
+     "Explică utilitatea genealogiei."
+    ],
+    "test": [
+     "Ce studiază epigrafia?",
+     "Ce studiază numismatica?",
+     "Ce simbol apare pe sigiliul Moldovei?",
+     "Ce simbol apare pe sigiliul Țării Românești?",
+     "Ce studiază heraldica?"
+    ],
+    "steps": [
+     "Identifică știința auxiliară potrivită pentru izvor.",
+     "Extrage informațiile concrete.",
+     "Integrează-le în contextul istoric.",
+     "Greșeala frecventă: să crezi că științele auxiliare sunt doar tehnice; ele schimbă uneori interpretarea istorică."
+    ],
+    "answers": [
+     "Inscripțiile.",
+     "Monedele.",
+     "Capul de bour.",
+     "Acvila (pasărea cu crucea în cioc).",
+     "Stemele."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l06": {
+   "ro": {
+    "title": "Arheologia: metode și datări",
+    "theory": "Arheologia reconstituie trecutul pe baza urmelor materiale. Cercetarea începe cu periegheza (cercetarea de suprafață) și continuă cu săpătura sistematică sau preventivă. Principiul stratigrafiei spune că straturile de jos sunt, în mod normal, mai vechi decât cele de deasupra. Datarea relativă stabilește ordinea (stratigrafie, tipologie ceramică); datarea absolută dă ani: radiocarbonul (C14, pentru materie organică până la circa 50.000 de ani), dendrocronologia (inelele copacilor), termoluminiscența. Arheologia modernă folosește și metode nedistructive: fotografie aeriană, LiDAR, prospecțiuni geofizice. În România, siturile sunt protejate prin lege, iar căutarea cu detectorul fără autorizație este ilegală.",
+    "sample": "Pe un sit, ceramica Cucuteni apare sub un strat cu ceramică din epoca bronzului.",
+    "worked": "Stratigrafia arată că așezarea Cucuteni este mai veche; anii exacți vin din datări absolute, de exemplu C14 pe cărbune sau oase.",
+    "exercises": [
+     "Explică principiul stratigrafiei.",
+     "Compară datarea relativă cu cea absolută.",
+     "Explică limitele metodei C14.",
+     "Explică utilitatea LiDAR-ului.",
+     "Explică de ce detecția neautorizată distruge informația arheologică."
+    ],
+    "test": [
+     "Ce este periegheza?",
+     "Ce spune principiul stratigrafiei?",
+     "Ce datează metoda C14?",
+     "Ce folosește dendrocronologia?",
+     "Ce tip de săpătură se face înaintea unei construcții?"
+    ],
+    "steps": [
+     "Identifică stratul și contextul obiectului.",
+     "Stabilește datarea relativă.",
+     "Confirm-o cu o datare absolută.",
+     "Greșeala frecventă: să crezi că obiectul contează singur; fără context (strat, poziție) își pierde aproape toată valoarea."
+    ],
+    "answers": [
+     "Cercetarea de suprafață.",
+     "Straturile de jos sunt, în mod normal, mai vechi.",
+     "Materia organică.",
+     "Inelele anuale ale copacilor.",
+     "Săpătura preventivă."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l07": {
+   "ro": {
+    "title": "Paleoliticul și revoluția neolitică",
+    "theory": "Paleoliticul (epoca pietrei cioplite) a fost cea mai lungă perioadă din istoria omului: vânători-culegători nomazi, unelte din piatră, stăpânirea focului, primele forme de artă (picturile de la Lascaux și Chauvet). În spațiul românesc, Peștera cu Oase (Banat) a păstrat unele dintre cele mai vechi resturi de Homo sapiens din Europa (circa 40.000 de ani). Revoluția neolitică, începută în Orientul Apropiat (Semiluna fertilă) în jur de 10.000 î.Hr., a adus agricultura, creșterea animalelor, sedentarismul, ceramica și unelte de piatră șlefuită. Schimbarea economică a produs creșterea populației, apariția satelor, diviziunea muncii și, mai târziu, a diferențelor sociale.",
+    "sample": "Termenul „revoluție neolitică” a fost propus de arheologul Vere Gordon Childe.",
+    "worked": "Termenul e util, dar procesul a durat milenii; „revoluție” se referă la profunzimea schimbării, nu la viteza ei.",
+    "exercises": [
+     "Descrie modul de viață paleolitic.",
+     "Explică importanța Peșterii cu Oase.",
+     "Explică schimbările aduse de neolitic.",
+     "Explică de ce agricultura a dus la creșterea populației.",
+     "Discută termenul de „revoluție neolitică”."
+    ],
+    "test": [
+     "Ce înseamnă paleolitic?",
+     "Unde se află Peștera cu Oase?",
+     "Unde a început revoluția neolitică?",
+     "Cine a propus termenul de revoluție neolitică?",
+     "Ce tehnologie nouă de prelucrare a pietrei apare în neolitic?"
+    ],
+    "steps": [
+     "Compară modul de viață înainte și după neolitic.",
+     "Leagă schimbarea economică de cea socială.",
+     "Localizează în timp și spațiu.",
+     "Greșeala frecventă: să crezi că revoluția neolitică a fost rapidă; s-a răspândit treptat, în mii de ani."
+    ],
+    "answers": [
+     "Epoca pietrei vechi (cioplite).",
+     "În Banat (sud-vestul României).",
+     "În Orientul Apropiat (Semiluna fertilă).",
+     "V. Gordon Childe.",
+     "Șlefuirea."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l08": {
+   "ro": {
+    "title": "Neoliticul și eneoliticul în spațiul românesc",
+    "theory": "Primele comunități neolitice din spațiul românesc aparțin culturii Starčevo-Criș (mileniul VI î.Hr.), venite din sud. Au urmat numeroase culturi: Hamangia în Dobrogea (cunoscută pentru statuetele „Gânditorul” și „Femeia șezând”), Vinča, Boian, Gumelnița. În eneolitic (epoca cuprului), cultura Cucuteni (în Moldova; Trypillia în Ucraina) a creat o ceramică pictată excepțională, în trei culori, și așezări mari. Practica incendierii intenționate a caselor („burned house horizon”) este discutată de arheologi. Sfârșitul eneoliticului a coincis cu schimbări profunde, puse de unii cercetători în legătură cu migrații din stepă, iar interpretarea este încă dezbătută.",
+    "sample": "„Gânditorul de la Hamangia” a fost descoperit într-o necropolă de la Cernavodă.",
+    "worked": "Statueta arată că neoliticul avea și o viață spirituală complexă, dar sensul exact al figurinei rămâne o ipoteză.",
+    "exercises": [
+     "Ordonează culturile Starčevo-Criș, Hamangia, Gumelnița, Cucuteni.",
+     "Descrie ceramica Cucuteni.",
+     "Explică importanța Gânditorului de la Hamangia.",
+     "Explică ce înseamnă eneolitic.",
+     "Explică de ce interpretarea sfârșitului eneoliticului este dezbătută."
+    ],
+    "test": [
+     "Care este cea mai veche cultură neolitică din spațiul românesc?",
+     "Unde a fost descoperit Gânditorul?",
+     "Ce cultură are ceramică pictată tricromă?",
+     "Ce metal apare în eneolitic?",
+     "În ce regiune era răspândită cultura Hamangia?"
+    ],
+    "steps": [
+     "Localizează cultura pe hartă.",
+     "Identifică elementele ei caracteristice.",
+     "Separă descoperirea de interpretare.",
+     "Greșeala frecventă: să prezinți ipotezele despre semnificația statuetelor drept certitudini."
+    ],
+    "answers": [
+     "Starčevo-Criș.",
+     "La Cernavodă.",
+     "Cucuteni.",
+     "Cuprul.",
+     "În Dobrogea."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l09": {
+   "ro": {
+    "title": "Epoca bronzului și a fierului; tracii",
+    "theory": "În epoca bronzului (circa 2500/2000–1200 î.Hr.), metalurgia aliajului cupru-staniu a dus la arme și podoabe noi, la elite războinice și la comerț pe distanțe mari (culturile Monteoru, Wietenberg, Otomani, Tei). Tezaurele de aur (de exemplu de la Hinova) arată bogăția elitelor. Epoca fierului începe în spațiul românesc în jurul secolului al XII-lea î.Hr.: prima perioadă, Hallstatt, apoi a doua, La Tène (din secolul al V-lea î.Hr.), când apar geto-dacii ca ramură nordică a tracilor. Herodot îi menționează pe geți în 514 î.Hr., la campania lui Darius, ca „cei mai viteji și mai drepți dintre traci”. Influențele grecești (coloniile pontice), celtice și scitice au marcat cultura geto-dacă.",
+    "sample": "Herodot scria că geții „se cred nemuritori”, legând credința lor de zeul Zalmoxis.",
+    "worked": "Fiind un autor străin, Herodot trebuie citit critic: relatează din auzite și interpretează prin categorii grecești.",
+    "exercises": [
+     "Explică importanța metalurgiei bronzului.",
+     "Enumeră culturi ale epocii bronzului din spațiul românesc.",
+     "Explică periodizarea Hallstatt–La Tène.",
+     "Analizează textul lui Herodot despre geți.",
+     "Explică influențele străine asupra geto-dacilor."
+    ],
+    "test": [
+     "Ce aliaj formează bronzul?",
+     "Ce tezaur de aur din epoca bronzului cunoști?",
+     "Care este prima perioadă a epocii fierului?",
+     "În ce an îi menționează Herodot pe geți?",
+     "Ce zeu legat de nemurire amintește Herodot?"
+    ],
+    "steps": [
+     "Ordonează epocile metalelor.",
+     "Leagă tehnologia de schimbările sociale.",
+     "Citește critic izvoarele grecești.",
+     "Greșeala frecventă: să crezi că geto-dacii au apărut brusc; s-au format din populațiile tracice ale epocii fierului."
+    ],
+    "answers": [
+     "Cupru și staniu.",
+     "Tezaurul de la Hinova.",
+     "Hallstatt.",
+     "În 514 î.Hr.",
+     "Zalmoxis."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l10": {
+   "ro": {
+    "title": "Mesopotamia: primele state și scrisul",
+    "theory": "Între Tigru și Eufrat au apărut, în mileniul IV î.Hr., primele orașe-stat sumeriene (Uruk, Ur, Lagaș). Necesitatea de a gestiona irigațiile și surplusul a dus la administrație, temple-depozit și scriere: cuneiforma, pe tăblițe de lut, folosită întâi pentru contabilitate. Au urmat imperiile: Akkad (Sargon), Babilonul (Hammurabi, sec. XVIII î.Hr., cu celebrul cod de legi), Asiria, Babilonul nou (Nabucodonosor al II-lea), apoi Persia ahemenidă (Cyrus cel Mare, Darius). Codul lui Hammurabi arată o societate împărțită în categorii, cu pedepse diferite după statut, și principiul talionului.",
+    "sample": "Codul lui Hammurabi prevedea pedepse diferite pentru aceeași faptă, după statutul victimei.",
+    "worked": "Textul nu demonstrează „egalitatea în fața legii”, ci o societate ierarhizată; e o greșeală modernă să-l citim prin valorile noastre.",
+    "exercises": [
+     "Explică legătura dintre irigații și apariția statului.",
+     "Explică originea scrisului cuneiform.",
+     "Analizează Codul lui Hammurabi.",
+     "Ordonează: Sumer, Akkad, Babilon, Asiria, Persia.",
+     "Explică organizarea Imperiului Persan."
+    ],
+    "test": [
+     "Între ce râuri se află Mesopotamia?",
+     "Cum se numește scrierea sumeriană?",
+     "Ce rege babilonian a dat un cod de legi?",
+     "Ce principiu juridic apare în cod?",
+     "Cine a fondat Imperiul Persan?"
+    ],
+    "steps": [
+     "Localizează civilizația pe hartă.",
+     "Leagă mediul de organizarea statului.",
+     "Analizează izvorul în contextul epocii.",
+     "Greșeala frecventă: să judeci izvoarele antice după valorile moderne, fără a le înțelege contextul."
+    ],
+    "answers": [
+     "Tigru și Eufrat.",
+     "Cuneiformă.",
+     "Hammurabi.",
+     "Talionul.",
+     "Cyrus cel Mare."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l11": {
+   "ro": {
+    "title": "Egiptul antic",
+    "theory": "Civilizația egipteană s-a dezvoltat pe valea Nilului, ale cărui revărsări anuale fertilizau pământul. Unificarea Egiptului de Sus și de Jos (circa 3100 î.Hr.) a deschis o istorie împărțită de istorici în Regatul Vechi (epoca piramidelor de la Giza), Regatul Mijlociu și Regatul Nou (expansiune în Asia, faraoni ca Thutmes al III-lea, Ramses al II-lea, Akhenaton și reforma religioasă). Faraonul era considerat zeu și stăpânul țării, sprijinit de scribi și preoți. Scrierea hieroglifică a fost descifrată de Jean-François Champollion (1822) cu ajutorul Pietrei de la Rosetta, care avea același text în hieroglife, demotică și greacă.",
+    "sample": "Piatra de la Rosetta conținea un decret în trei scrieri, dintre care una, greaca, era cunoscută.",
+    "worked": "Textul bilingv (trilingv) a permis compararea și descifrarea: este un exemplu clasic de metodă în istorie și lingvistică.",
+    "exercises": [
+     "Explică rolul Nilului.",
+     "Explică periodizarea istoriei Egiptului.",
+     "Explică rolul faraonului.",
+     "Explică reforma lui Akhenaton.",
+     "Explică descifrarea hieroglifelor."
+    ],
+    "test": [
+     "Când a fost unificat Egiptul?",
+     "În ce perioadă s-au construit piramidele de la Giza?",
+     "Cine a încercat o reformă religioasă monoteistă?",
+     "Cine a descifrat hieroglifele?",
+     "În ce an?"
+    ],
+    "steps": [
+     "Localizează Egiptul și Nilul.",
+     "Ordonează perioadele.",
+     "Explică instituțiile și credințele.",
+     "Greșeala frecventă: să crezi că piramidele au fost construite de sclavi; cercetările arată muncitori organizați, plătiți în natură."
+    ],
+    "answers": [
+     "Circa 3100 î.Hr.",
+     "În Regatul Vechi.",
+     "Akhenaton.",
+     "Jean-François Champollion.",
+     "În 1822."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l12": {
+   "ro": {
+    "title": "Grecia arhaică: polis și colonizare",
+    "theory": "După civilizațiile minoică și miceniană și „epoca întunecată”, în epoca arhaică (secolele VIII–VI î.Hr.) s-a format polisul, orașul-stat cu teritoriul său, cetățenii și zeii săi. Grecii au întemeiat colonii în bazinul Mediteranei și al Mării Negre, din cauza suprapopulării, a comerțului și a conflictelor interne. Pe țărmul dobrogean au apărut Histria (fondată de Milet, mijlocul secolului al VII-lea î.Hr.), Tomis și Callatis. Coloniile aveau instituții proprii, legături cu metropola și relații de comerț cu populațiile locale (geții). În această epocă au apărut alfabetul grec, Jocurile Olimpice (776 î.Hr., după tradiție) și primele forme de tiranie și reformă (Solon la Atena).",
+    "sample": "Histria, cea mai veche colonie de pe țărmul românesc, a fost fondată de coloniști din Milet.",
+    "worked": "Prin colonii, spațiul dobrogean a intrat în lumea greacă: scriere, monede, comerț, arhitectură, inscripții.",
+    "exercises": [
+     "Explică ce este polisul.",
+     "Explică cauzele colonizării grecești.",
+     "Prezintă coloniile de pe țărmul dobrogean.",
+     "Explică relațiile dintre colonii și geți.",
+     "Explică reformele lui Solon."
+    ],
+    "test": [
+     "Ce este polisul?",
+     "Ce oraș a fondat Histria?",
+     "Care sunt cele trei colonii grecești din Dobrogea?",
+     "Când au avut loc primele Jocuri Olimpice, după tradiție?",
+     "Ce reformator atenian a desființat sclavia pentru datorii?"
+    ],
+    "steps": [
+     "Definește conceptul.",
+     "Explică cauzele și urmările.",
+     "Aplică la exemplul românesc.",
+     "Greșeala frecventă: să crezi că o colonie era supusă metropolei; coloniile grecești erau de obicei independente."
+    ],
+    "answers": [
+     "Orașul-stat cu teritoriul său.",
+     "Miletul.",
+     "Histria, Tomis, Callatis.",
+     "În 776 î.Hr.",
+     "Solon."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l13": {
+   "ro": {
+    "title": "Grecia clasică: Atena, Sparta și războaiele",
+    "theory": "În secolul al V-lea î.Hr., războaiele medice (490 – Marathon; 480 – Termopile și Salamina; 479 – Plateea) au oprit expansiunea persană. Atena a devenit centrul Ligii de la Delos și a dezvoltat democrația directă: reformele lui Clistene (508/507 î.Hr.), adunarea poporului (ekklesia), sorții pentru magistraturi, ostracismul; în epoca lui Pericle, cultura a atins apogeul (Partenonul, tragedia, filosofia). Democrația ateniană excludea femeile, metecii și sclavii. Sparta avea un sistem oligarhic, cu doi regi, efori și o societate militarizată. Rivalitatea lor a dus la războiul peloponesiac (431–404 î.Hr.), descris de Tucidide, câștigat de Sparta.",
+    "sample": "Tucidide considera că „adevărata cauză” a războiului a fost teama Spartei față de creșterea puterii Atenei.",
+    "worked": "Tucidide distinge între pretexte și cauze profunde, o distincție folosită și azi în analiza conflictelor.",
+    "exercises": [
+     "Ordonează bătăliile războaielor medice.",
+     "Explică instituțiile democrației ateniene.",
+     "Explică limitele democrației ateniene.",
+     "Compară Atena cu Sparta.",
+     "Analizează explicația lui Tucidide."
+    ],
+    "test": [
+     "Când a avut loc bătălia de la Marathon?",
+     "Cine a reformat instituțiile ateniene în 508/507 î.Hr.?",
+     "Ce era ostracismul?",
+     "Cine a câștigat războiul peloponesiac?",
+     "Cine a scris istoria acestui război?"
+    ],
+    "steps": [
+     "Identifică instituțiile.",
+     "Compară sistemele politice.",
+     "Distinge cauze și pretexte.",
+     "Greșeala frecventă: să crezi că democrația ateniană includea toți locuitorii; doar bărbații cetățeni votau."
+    ],
+    "answers": [
+     "În 490 î.Hr.",
+     "Clistene.",
+     "Exilarea prin vot a unui cetățean considerat periculos.",
+     "Sparta.",
+     "Tucidide."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l14": {
+   "ro": {
+    "title": "Elenismul",
+    "theory": "Filip al II-lea al Macedoniei a supus cetățile grecești (Cheroneea, 338 î.Hr.). Fiul său, Alexandru cel Mare (336–323 î.Hr.), a cucerit Imperiul Persan până în India. După moartea lui, generalii (diadohii) au împărțit imperiul în regate: Egiptul ptolemeic, Imperiul seleucid, Macedonia antigonidă. Epoca elenistică (323–31 î.Hr.) a răspândit limba greacă (koine) și cultura greacă în Orient; Alexandria a devenit centru științific (Biblioteca, Euclid, Eratostene). În regiunea Dunării, Lysimachos, unul dintre diadohi, a fost învins și capturat de regele get Dromichaites (în jurul anului 292 î.Hr.).",
+    "sample": "Dromichaites l-a eliberat pe Lysimachos după un ospăț, cu un discurs despre pace transmis de Diodor din Sicilia.",
+    "worked": "Episodul arată că geții erau o putere politică regională; textul e însă literar și trebuie folosit cu prudență.",
+    "exercises": [
+     "Explică ascensiunea Macedoniei.",
+     "Prezintă cuceririle lui Alexandru.",
+     "Explică formarea regatelor elenistice.",
+     "Explică rolul Alexandriei.",
+     "Analizează episodul Dromichaites–Lysimachos."
+    ],
+    "test": [
+     "Unde i-a învins Filip al II-lea pe greci?",
+     "Cât a domnit Alexandru cel Mare?",
+     "Ce erau diadohii?",
+     "Ce dinastie a condus Egiptul elenistic?",
+     "Ce rege get l-a capturat pe Lysimachos?"
+    ],
+    "steps": [
+     "Ordonează evenimentele.",
+     "Explică urmările politice și culturale.",
+     "Leagă de spațiul nord-dunărean.",
+     "Greșeala frecventă: să crezi că elenismul înseamnă doar Grecia; înseamnă amestecul culturii grecești cu cele orientale."
+    ],
+    "answers": [
+     "La Cheroneea (338 î.Hr.).",
+     "Între 336 și 323 î.Hr.",
+     "Generalii urmași ai lui Alexandru.",
+     "Ptolemeii.",
+     "Dromichaites."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l15": {
+   "ro": {
+    "title": "Roma regală și republicană",
+    "theory": "După tradiție, Roma a fost fondată în 753 î.Hr. și condusă de regi până în 509 î.Hr. Republica a avut magistrați aleși anual, în perechi (consuli, pretori, edili, questori, cenzori), Senatul (fostul consiliu al aristocrației) și adunările poporului. Conflictul dintre patricieni și plebei a dus la tribunii plebei și Legea celor XII Table. Roma a cucerit Italia, apoi a învins Cartagina în războaiele punice (264–146 î.Hr.) și a dominat Mediterana. Expansiunea a adus bogăție, dar și crize: reformele Gracchilor, armata profesionistă a lui Marius, războaiele civile (Sulla, Caesar și Pompei). Asasinarea lui Caesar (44 î.Hr.) și victoria lui Octavian la Actium (31 î.Hr.) au încheiat Republica.",
+    "sample": "Consulii erau doi și aveau dreptul de veto unul asupra celuilalt.",
+    "worked": "Colegialitatea și anualitatea magistraturilor urmăreau să împiedice revenirea unui rege. Instituția a influențat teoria politică modernă.",
+    "exercises": [
+     "Explică instituțiile Republicii romane.",
+     "Explică conflictul dintre patricieni și plebei.",
+     "Explică urmările războaielor punice.",
+     "Explică criza Republicii.",
+     "Explică principiul colegialității."
+    ],
+    "test": [
+     "Când a fost fondată Roma, după tradiție?",
+     "Câți consuli erau aleși anual?",
+     "Ce lege scrisă a obținut plebea?",
+     "Pe cine a învins Roma în războaiele punice?",
+     "Când a fost asasinat Caesar?"
+    ],
+    "steps": [
+     "Identifică instituțiile și rolul lor.",
+     "Urmărește conflictele sociale.",
+     "Explică trecerea de la Republică la Imperiu.",
+     "Greșeala frecventă: să crezi că Republica romană era o democrație; era dominată de aristocrație."
+    ],
+    "answers": [
+     "În 753 î.Hr.",
+     "Doi.",
+     "Legea celor XII Table.",
+     "Cartagina.",
+     "În 44 î.Hr."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l16": {
+   "ro": {
+    "title": "Principatul și Imperiul Roman",
+    "theory": "Octavian, numit Augustus (27 î.Hr.), a creat Principatul: păstra formal instituțiile republicane, dar concentra puterea reală. Au urmat dinastiile iulio-claudiană, flaviană, antonină (Traian, Hadrian, Marcus Aurelius) și severiană. „Pax Romana” a asigurat circa două secole de stabilitate, drumuri, orașe, comerț și răspândirea dreptului roman. Constitutio Antoniniana (212, Caracalla) a dat cetățenia aproape tuturor locuitorilor liberi. Criza secolului al III-lea (împărați-soldați, invazii, inflație) a fost depășită prin Dominatul lui Dioclețian (tetrarhia) și Constantin cel Mare (Edictul de la Milano, 313; Constantinopol, 330). În 395 imperiul a fost împărțit, iar cel de Apus a dispărut în 476.",
+    "sample": "Traian a fost primul împărat originar dintr-o provincie (Hispania).",
+    "worked": "Faptul arată integrarea provinciilor în elita romană, aspect important pentru înțelegerea romanizării.",
+    "exercises": [
+     "Explică natura Principatului.",
+     "Explică ce a fost Pax Romana.",
+     "Explică importanța Constitutio Antoniniana.",
+     "Explică criza secolului al III-lea.",
+     "Explică reformele lui Dioclețian și Constantin."
+    ],
+    "test": [
+     "Ce titlu a primit Octavian în 27 î.Hr.?",
+     "Ce edict a dat cetățenie în 212?",
+     "Ce sistem de guvernare a creat Dioclețian?",
+     "Ce edict a dat libertate creștinilor în 313?",
+     "Când a dispărut Imperiul de Apus?"
+    ],
+    "steps": [
+     "Ordonează etapele Imperiului.",
+     "Explică instituțiile.",
+     "Analizează cauzele crizei.",
+     "Greșeala frecventă: să crezi că Augustus s-a proclamat rege; a păstrat aparența Republicii."
+    ],
+    "answers": [
+     "Augustus.",
+     "Constitutio Antoniniana.",
+     "Tetrarhia.",
+     "Edictul de la Milano.",
+     "În 476."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l17": {
+   "ro": {
+    "title": "Geto-dacii: Burebista, Decebal și războaiele dacice",
+    "theory": "Burebista (circa 82–44 î.Hr.) a unificat triburile geto-dace, sprijinit de marele preot Deceneu, și a creat un stat care se întindea de la Dunărea mijlocie până la Marea Neagră; a intervenit în războiul civil roman de partea lui Pompei. După moartea lui, statul s-a fărâmițat. Decebal (87–106 d.Hr.) a refăcut puterea dacică, a învins armatele lui Domițian (Tapae, 86–88) și a obținut o pace avantajoasă. Traian a purtat două războaie (101–102 și 105–106); capitala Sarmizegetusa Regia a căzut, iar Decebal s-a sinucis. Columna lui Traian de la Roma și monumentul de la Adamclisi (Tropaeum Traiani) sunt izvoare iconografice esențiale.",
+    "sample": "Columna lui Traian prezintă scene ale războaielor dacice într-o spirală de peste 150 de scene.",
+    "worked": "Columna este un izvor prețios, dar este și propagandă imperială: arată perspectiva romană.",
+    "exercises": [
+     "Explică formarea statului lui Burebista.",
+     "Explică rolul lui Deceneu.",
+     "Explică relațiile lui Decebal cu Domițian.",
+     "Ordonează războaiele dacice.",
+     "Analizează Columna lui Traian ca izvor."
+    ],
+    "test": [
+     "Cine a fost marele preot al lui Burebista?",
+     "Cu cine a încercat Burebista o alianță în războiul civil roman?",
+     "Unde i-a învins Decebal pe romani?",
+     "Când s-au purtat războaiele dacice?",
+     "Ce monument triumfal se află la Adamclisi?"
+    ],
+    "steps": [
+     "Ordonează cronologic.",
+     "Analizează izvoarele romane.",
+     "Explică urmările cuceririi.",
+     "Greșeala frecventă: să crezi că Columna e o „fotografie” obiectivă; este un monument de propagandă."
+    ],
+    "answers": [
+     "Deceneu.",
+     "Cu Pompei.",
+     "La Tapae.",
+     "În 101–102 și 105–106.",
+     "Tropaeum Traiani."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l18": {
+   "ro": {
+    "title": "Dacia romană și romanizarea",
+    "theory": "Provincia Dacia (106–271/275) cuprindea Banatul, Oltenia, Transilvania; a fost reorganizată de Hadrian și apoi de Marcus Aurelius (Daciae tres). Capitala a fost Ulpia Traiana Sarmizegetusa. Romanizarea s-a produs prin colonizare, armată (Legiunea XIII Gemina la Apulum, V Macedonica la Potaissa), urbanizare (Apulum, Napoca, Porolissum, Drobeta), drumuri, administrație, religie și limba latină. Dobrogea făcea parte din Moesia Inferior și a rămas romană până în secolul al VII-lea. După retragerea aureliană, o parte din populație a rămas: dovezi sunt descoperirile arheologice, monedele și obiectele creștine (donariul de la Biertan). Creștinismul timpuriu de la Dunăre e atestat de martirii de la Niculițel (sec. IV).",
+    "sample": "Legiunea XIII Gemina a staționat la Apulum aproape întreaga existență a provinciei.",
+    "worked": "Prezența îndelungată a legiunilor a adus veterani care s-au stabilit local, contribuind la romanizare.",
+    "exercises": [
+     "Explică organizarea provinciei Dacia.",
+     "Enumeră factorii romanizării.",
+     "Explică diferența dintre Dacia și Dobrogea romană.",
+     "Explică dovezile continuității.",
+     "Explică importanța martirilor de la Niculițel."
+    ],
+    "test": [
+     "Care a fost capitala Daciei romane?",
+     "Unde a staționat Legiunea XIII Gemina?",
+     "În ce provincie era Dobrogea?",
+     "Ce împărat a retras administrația?",
+     "Ce obiect paleocreștin s-a găsit la Biertan?"
+    ],
+    "steps": [
+     "Identifică instituțiile romane din provincie.",
+     "Explică procesul romanizării.",
+     "Argumentează continuitatea cu izvoare.",
+     "Greșeala frecventă: să crezi că romanizarea a însemnat exterminarea dacilor; a fost o integrare treptată."
+    ],
+    "answers": [
+     "Ulpia Traiana Sarmizegetusa.",
+     "La Apulum.",
+     "Moesia Inferior.",
+     "Aurelian.",
+     "Donariul de la Biertan."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l19": {
+   "ro": {
+    "title": "De la regatele germanice la Imperiul Carolingian",
+    "theory": "După 476, Occidentul a fost împărțit în regate germanice (ostrogoți, vizigoți, franci, burgunzi). Francii, convertiți la catolicism sub Clovis (circa 496–508), au devenit cel mai puternic regat. Carol Martel a oprit expansiunea arabă la Poitiers (732). Carol cel Mare a extins regatul și a fost încoronat împărat de papă la Roma (800). Imperiul a avut o administrație cu comiți și missi dominici și o „renaștere carolingiană” în școli și scriere (minuscula carolingiană). Tratatul de la Verdun (843) l-a împărțit între nepoții lui Carol, prefigurând Franța și Germania. Otto I a reînnoit titlul imperial în 962 (Sfântul Imperiu Roman).",
+    "sample": "Încoronarea din anul 800 a creat un împărat în Occident, alături de cel bizantin.",
+    "worked": "Evenimentul a provocat o rivalitate de legitimitate cu Bizanțul și a legat puterea imperială de papalitate.",
+    "exercises": [
+     "Explică formarea regatelor germanice.",
+     "Explică importanța convertirii lui Clovis.",
+     "Explică semnificația încoronării din 800.",
+     "Explică renașterea carolingiană.",
+     "Explică urmările Tratatului de la Verdun."
+    ],
+    "test": [
+     "Ce rege franc s-a convertit la catolicism?",
+     "Unde au fost opriți arabii în 732?",
+     "Când a fost încoronat Carol cel Mare?",
+     "Ce tratat a împărțit imperiul în 843?",
+     "Cine a reînnoit titlul imperial în 962?"
+    ],
+    "steps": [
+     "Ordonează evenimentele.",
+     "Explică relația dintre putere și Biserică.",
+     "Leagă de statele Europei de azi.",
+     "Greșeala frecventă: să crezi că Imperiul Carolingian a continuat neîntrerupt; s-a fragmentat rapid după 843."
+    ],
+    "answers": [
+     "Clovis.",
+     "La Poitiers.",
+     "În anul 800.",
+     "Tratatul de la Verdun.",
+     "Otto I."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l20": {
+   "ro": {
+    "title": "Feudalitatea și societatea medievală",
+    "theory": "Feudalitatea a fost un sistem de relații personale între seniori și vasali: vasalul depunea omagiu și jurământ de credință, primea un feud (de obicei pământ) și datora sfat și ajutor militar; seniorul datora protecție. Economia se baza pe domeniul (senioria) lucrat de țărani, mulți dependenți (șerbi), care datorau dijme, corvezi și taxe. Ideologia celor „trei ordine” (cei care se roagă, cei care luptă, cei care muncesc) justifica ierarhia. Din secolul al XI-lea, creșterea demografică, defrișările și comerțul au dus la renașterea orașelor, cu bresle și libertăți urbane. Istoricii discută azi termenul „feudalism”, considerat uneori prea general.",
+    "sample": "Episcopul Adalbéron de Laon descria societatea ca formată din trei ordine complementare.",
+    "worked": "Schema este o ideologie, nu o descriere exactă: ignora orășenii și negustorii, aflați în creștere.",
+    "exercises": [
+     "Explică relația senior–vasal.",
+     "Explică organizarea domeniului.",
+     "Analizează ideologia celor trei ordine.",
+     "Explică renașterea orașelor.",
+     "Discută criticile aduse conceptului de feudalism."
+    ],
+    "test": [
+     "Ce primea vasalul?",
+     "Ce datora vasalul?",
+     "Ce erau șerbii?",
+     "Care erau cele trei ordine?",
+     "Ce organizații grupau meșteșugarii din orașe?"
+    ],
+    "steps": [
+     "Definește relațiile feudo-vasalice.",
+     "Descrie economia și societatea.",
+     "Analizează ideologia epocii critic.",
+     "Greșeala frecventă: să crezi că toți țăranii erau șerbi; existau și țărani liberi."
+    ],
+    "answers": [
+     "Un feud (de obicei pământ).",
+     "Sfat și ajutor militar.",
+     "Țărani dependenți legați de pământ.",
+     "Cei care se roagă, cei care luptă, cei care muncesc.",
+     "Breslele."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l21": {
+   "ro": {
+    "title": "Biserica și papalitatea; cruciadele",
+    "theory": "Biserica occidentală, condusă de papă, a fost principala instituție culturală și spirituală a Evului Mediu. Reforma gregoriană (sec. XI) a urmărit independența Bisericii față de laici, ceea ce a dus la Cearta pentru investitură (Canossa, 1077; Concordatul de la Worms, 1122). Schisma din 1054 a separat Biserica de Apus de cea de Răsărit. Ordinele monastice (benedictinii, cistercienii, apoi franciscanii și dominicanii) au avut un rol economic și cultural. Cruciadele (1096–1291), lansate de papa Urban al II-lea, au urmărit eliberarea Ierusalimului; a patra cruciadă a cucerit Constantinopolul (1204). În secolele XII–XIII au apărut universitățile (Bologna, Paris, Oxford).",
+    "sample": "La Canossa (1077), împăratul Henric al IV-lea a cerut iertare papei Grigore al VII-lea.",
+    "worked": "Episodul simbolizează conflictul dintre puterea spirituală și cea laică pentru întâietate în Occident.",
+    "exercises": [
+     "Explică obiectivele reformei gregoriene.",
+     "Explică Cearta pentru investitură.",
+     "Explică schisma din 1054.",
+     "Explică cauzele și urmările cruciadelor.",
+     "Explică apariția universităților."
+    ],
+    "test": [
+     "Ce papă a început reforma în secolul XI?",
+     "Când a avut loc schisma?",
+     "Cine a lansat prima cruciadă?",
+     "Ce oraș a cucerit a patra cruciadă?",
+     "Ce concordat a încheiat Cearta pentru investitură?"
+    ],
+    "steps": [
+     "Identifică instituțiile Bisericii.",
+     "Analizează conflictul cu puterea laică.",
+     "Evaluează urmările cruciadelor.",
+     "Greșeala frecventă: să crezi că toate cruciadele au luptat cu musulmanii; a patra a jefuit Constantinopolul creștin."
+    ],
+    "answers": [
+     "Grigore al VII-lea.",
+     "În 1054.",
+     "Papa Urban al II-lea.",
+     "Constantinopolul.",
+     "Concordatul de la Worms (1122)."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l22": {
+   "ro": {
+    "title": "Bizanțul",
+    "theory": "Imperiul Roman de Răsărit (Bizanțul), cu capitala la Constantinopol, a continuat statul roman până în 1453. Iustinian (527–565) a recucerit părți din Occident, a construit Sfânta Sofia și a codificat dreptul roman (Corpus iuris civilis). Din secolul al VII-lea, imperiul a devenit grec ca limbă, iar organizarea în theme a întărit apărarea. Criza iconoclastă (726–843) a divizat societatea. Dinastia macedoneană (867–1056) a fost o epocă de apogeu; misiunile lui Chiril și Metodiu au răspândit creștinismul la slavi. După înfrângerea de la Manzikert (1071) și cucerirea latină din 1204, imperiul a slăbit; otomanii au cucerit Constantinopolul în 1453. Bizanțul a influențat profund Țările Române: Biserică, drept, artă, ceremonial („Bizanț după Bizanț”, Nicolae Iorga).",
+    "sample": "Nicolae Iorga a numit continuarea tradiției bizantine în Țările Române „Bizanț după Bizanț”.",
+    "worked": "Formula explică de ce domnii români au sprijinit Muntele Athos și au preluat modele imperiale bizantine după 1453.",
+    "exercises": [
+     "Explică opera lui Iustinian.",
+     "Explică organizarea în theme.",
+     "Explică criza iconoclastă.",
+     "Explică cauzele declinului Bizanțului.",
+     "Explică conceptul „Bizanț după Bizanț”."
+    ],
+    "test": [
+     "Care era capitala Bizanțului?",
+     "Ce culegere de drept a realizat Iustinian?",
+     "Când s-a încheiat criza iconoclastă?",
+     "Unde au învins selgiucizii armata bizantină în 1071?",
+     "Când a căzut Constantinopolul?"
+    ],
+    "steps": [
+     "Ordonează etapele istoriei bizantine.",
+     "Explică instituțiile.",
+     "Leagă influența bizantină de spațiul românesc.",
+     "Greșeala frecventă: să crezi că bizantinii se numeau „bizantini”; ei se considerau romani (romei)."
+    ],
+    "answers": [
+     "Constantinopol.",
+     "Corpus iuris civilis.",
+     "În 843.",
+     "La Manzikert.",
+     "În 1453."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l23": {
+   "ro": {
+    "title": "Etnogeneza românească și migrațiile",
+    "theory": "Etnogeneza românească s-a desfășurat în mileniul I, pe un teritoriu larg de la nord și sud de Dunăre, în strânsă legătură cu romanitatea orientală. Populația romanică a coexistat cu valuri de migratori: goți, huni, gepizi, avari, slavi (care au lăsat influențe în limbă, toponimie și organizare), bulgari, maghiari, pecenegi, cumani, mongoli (1241). Primele mențiuni ale românilor („vlahi”) în izvoare bizantine apar în secolele X–XI (Kekaumenos, Kinnamos). Dezbaterile despre locul și ritmul formării poporului român au fost marcate de politică (teoria lui Roesler); istoriografia științifică pune accentul pe izvoare, arheologie și lingvistică comparată.",
+    "sample": "Cronicarul bizantin Ioan Kinnamos scria, în secolul al XII-lea, că vlahii „se spune că sunt coloniști veniți din Italia”.",
+    "worked": "Mențiunea arată că originea romană a vlahilor era cunoscută de contemporani; formula „se spune” cere însă prudență critică.",
+    "exercises": [
+     "Explică ce înseamnă etnogeneză.",
+     "Explică relația dintre romanici și migratori.",
+     "Explică influența slavă.",
+     "Analizează mențiunile bizantine despre vlahi.",
+     "Explică de ce dezbaterea despre origini a fost politizată."
+    ],
+    "test": [
+     "În ce mileniu s-a desfășurat etnogeneza românească?",
+     "Ce migratori au influențat limba română?",
+     "Cum îi numeau bizantinii pe români?",
+     "Ce cronicar bizantin vorbește de originea italică a vlahilor?",
+     "Când a avut loc marea invazie mongolă?"
+    ],
+    "steps": [
+     "Definește conceptul.",
+     "Folosește izvoare arheologice, lingvistice și scrise.",
+     "Distinge știința de propagandă.",
+     "Greșeala frecventă: să crezi că migratorii au fost doar distrugători; au fost și parte a sintezei culturale."
+    ],
+    "answers": [
+     "În mileniul I.",
+     "Slavii.",
+     "Vlahi.",
+     "Ioan Kinnamos.",
+     "În 1241."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l24": {
+   "ro": {
+    "title": "Formarea statelor medievale românești",
+    "theory": "În secolele XIII–XIV, formațiunile politice românești s-au unificat. În Țara Românească, Basarab I a unit voievodatele de la sud de Carpați și a câștigat independența față de Ungaria la Posada (1330); Mitropolia a fost recunoscută în 1359. În Moldova, după „descălecatul” lui Dragoș (marcă de apărare a Ungariei), Bogdan I a obținut independența (circa 1359–1365); Mitropolia a fost recunoscută în 1401. Dobrogea a fost condusă de Balica și Dobrotici, apoi a intrat sub Mircea cel Bătrân (1388) și sub otomani (1417/1420). Transilvania a fost integrată în Regatul Ungariei ca voievodat, cu stări privilegiate (nobilimea, sașii, secuii), din care românii ortodocși au fost excluși treptat (Unio trium nationum, 1437/1438).",
+    "sample": "Tradiția „descălecatului” apare în cronicile târzii și combină amintiri reale cu elemente de legendă.",
+    "worked": "Istoricii folosesc cronicile împreună cu documentele maghiare și papale pentru a separa faptul istoric de mit.",
+    "exercises": [
+     "Explică formarea Țării Românești.",
+     "Explică formarea Moldovei.",
+     "Explică importanța recunoașterii mitropoliilor.",
+     "Explică situația Dobrogei.",
+     "Explică statutul românilor din Transilvania medievală."
+    ],
+    "test": [
+     "Unde a obținut Basarab I independența?",
+     "Cine a obținut independența Moldovei?",
+     "Când a fost recunoscută Mitropolia Moldovei?",
+     "Cine a condus Dobrogea în secolul al XIV-lea?",
+     "Ce înțelegere din 1437/1438 a exclus românii de la stări?"
+    ],
+    "steps": [
+     "Ordonează etapele formării statelor.",
+     "Folosește documentele și cronicile critic.",
+     "Compară evoluția provinciilor.",
+     "Greșeala frecventă: să crezi că Transilvania medievală era un stat românesc independent; era voievodat al Regatului Ungariei."
+    ],
+    "answers": [
+     "La Posada (1330).",
+     "Bogdan I.",
+     "În 1401.",
+     "Balica și Dobrotici.",
+     "Unio trium nationum."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l25": {
+   "ro": {
+    "title": "Stat, societate și mentalități în spațiul românesc (secolele XIV–XVIII)",
+    "theory": "Societatea medievală românească era dominată de boieri (marii boieri dregători, boierii de țară) și cler. Țăranii erau liberi (moșneni în Țara Românească, răzeși în Moldova), organizați în obști, sau dependenți (rumâni, respectiv vecini), datori cu dijmă și clacă. Orașele erau mai mici decât în Occident, dar aveau județi/șoltuzi și pârgari, negustori și meșteșugari, mulți străini (sași, armeni, evrei). Mentalitățile erau profund religioase: ctitoriile, pomelnicele, pelerinajele, frica de moarte și de Judecata de Apoi, credința în miracole. Viața privată era reglementată de Biserică și de obicei („legea țării”), iar dreptul scris a pătruns prin pravile (Cartea românească de învățătură, 1646; Îndreptarea legii, 1652).",
+    "sample": "Pravilele din secolul al XVII-lea combinau dreptul bizantin cu obiceiul pământului.",
+    "worked": "Ele arată cum Biserica și statul reglementau viața de familie, proprietatea și pedepsele.",
+    "exercises": [
+     "Descrie categoriile sociale.",
+     "Compară țăranii liberi cu cei dependenți.",
+     "Descrie orașele medievale românești.",
+     "Explică mentalitățile religioase.",
+     "Explică rolul pravilelor."
+    ],
+    "test": [
+     "Cum se numeau țăranii liberi în Moldova?",
+     "Cum se numeau țăranii dependenți în Țara Românească?",
+     "Ce conduceau județii și pârgarii?",
+     "Ce pravilă a apărut în Moldova în 1646?",
+     "Ce pravilă a apărut în Țara Românească în 1652?"
+    ],
+    "steps": [
+     "Identifică grupurile sociale.",
+     "Explică drepturile și obligațiile lor.",
+     "Leagă viața socială de mentalități.",
+     "Greșeala frecventă: să aplici mecanic modelul occidental; societatea românească avea trăsături proprii, ca obștea și legea țării."
+    ],
+    "answers": [
+     "Răzeși.",
+     "Rumâni.",
+     "Orașele.",
+     "Cartea românească de învățătură.",
+     "Îndreptarea legii."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l26": {
+   "ro": {
+    "title": "Introducere în istoriografie: de la Herodot la secolul XX",
+    "theory": "Istoriografia este istoria scrisului istoric. Herodot („părintele istoriei”) a cercetat cauzele războaielor medice; Tucidide a impus criteriul exactității și analiza cauzelor. Istoricii romani (Titus Livius, Tacitus) au scris istoria Romei cu scop moral. Cronicile medievale au interpretat istoria prin providența divină. Umanismul a introdus critica filologică, iar Iluminismul (Voltaire, Gibbon) explicațiile raționale. Secolul al XIX-lea a profesionalizat istoria: Leopold von Ranke a cerut redarea trecutului „așa cum a fost” pe baza izvoarelor critice; au apărut seminarul, colecțiile de documente, școlile naționale. Secolul XX a adus Școala Annales (Bloch, Febvre, Braudel), istoria socială, a mentalităților, gen și istoria orală.",
+    "sample": "Ranke cerea istoricului să arate trecutul „așa cum a fost de fapt”.",
+    "worked": "Formula a întemeiat istoria critică bazată pe arhive, dar mai târziu s-a arătat că orice reconstituire implică alegeri ale istoricului.",
+    "exercises": [
+     "Compară Herodot cu Tucidide.",
+     "Explică viziunea medievală asupra istoriei.",
+     "Explică aportul lui Ranke.",
+     "Explică noutatea Școlii Annales.",
+     "Explică de ce orice scriere istorică implică alegeri."
+    ],
+    "test": [
+     "Cine este numit „părintele istoriei”?",
+     "Ce istoric grec a scris despre războiul peloponesiac?",
+     "Cine a cerut redarea trecutului „așa cum a fost”?",
+     "Ce istorici au fondat revista Annales?",
+     "Ce istoric a scris despre Mediterana în epoca lui Filip al II-lea?"
+    ],
+    "steps": [
+     "Plasează istoricul în epoca lui.",
+     "Identifică metoda și scopul lui.",
+     "Evaluează influența asupra disciplinei.",
+     "Greșeala frecventă: să crezi că istoriografia este doar o listă de autori; este istoria metodelor și întrebărilor."
+    ],
+    "answers": [
+     "Herodot.",
+     "Tucidide.",
+     "Leopold von Ranke.",
+     "Marc Bloch și Lucien Febvre.",
+     "Fernand Braudel."
+    ]
+   }
+  }
+ }
+}

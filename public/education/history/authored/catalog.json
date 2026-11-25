@@ -1,7 +1,20 @@
 {
  "schema": "mypocket-literature-authored-catalog/v1",
- "version": "66c04506e1fa7aeaedbc876a982a31e0d87766f9a1a1d2cd58059e24e4859264",
+ "version": "de05b2ab34558b4a6ebc193f4f7a65d9e1d93feea9b8744bbc00d9a9c97844f8",
  "years": [
+  {
+   "country": "RO",
+   "stage": "advanced",
+   "grade": "uni-ba-1",
+   "languages": [
+    {
+     "lang": "ro",
+     "name": "Română",
+     "file": "ro-uni-ba-1",
+     "version": "9ad8e5c04fa06a0e0b28b1eb1601d4e98b2c831186859448bb16f4a11139ef54"
+    }
+   ]
+  },
   {
    "country": "RO",
    "stage": "beginner",
