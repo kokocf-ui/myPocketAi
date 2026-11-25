@@ -1,6 +1,6 @@
 {
  "schema": "mypocket-literature-authored-catalog/v1",
- "version": "05daed2e286f2fdc03235b3801a6696e597c858d6674712a6038482b85815ae3",
+ "version": "1a8ffbd30aad82f305de1a93f17fefd2a2da644008db241097bba22ce78501e0",
  "years": [
   {
    "country": "AT",
@@ -112,7 +112,7 @@
      "lang": "eu",
      "name": "Euskara",
      "file": "eu-p1",
-     "version": "82ffe3f3cf5570ebf1ebb1ceff2a9b68f1b7f15672f8208e001b237ff35b2e2f"
+     "version": "b5e4e25675fec5a41f98b5aa1a6d527c2e49aa1abb8055557603f320cfcb1d50"
     },
     {
      "lang": "gl",
