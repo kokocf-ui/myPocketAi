@@ -1,0 +1,242 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "IT",
+ "stage": "beginner",
+ "grade": "P1",
+ "version": "c5ce83facf0de4c0d221ac92762501bf7bc547ea494e9e83ab8f037c8812f4f5",
+ "source": "https://www.mim.gov.it/",
+ "sourceTitle": "Ministero dell’Istruzione e del Merito — Indicazioni nazionali per il curricolo, Italiano, classe prima della scuola primaria (solo quadro; attività originali)",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "it",
+ "labels": [
+  "Attività originale indicativa · Italia · Classe prima",
+  "Impariamo",
+  "Esempio originale",
+  "Spiegazione",
+  "Esercizi",
+  "Verifica",
+  "Attività originali, non una prova ufficiale. Leggi con un adulto, se serve."
+ ],
+ "chapters": {
+  "eu-year-it-beginner-p1-parcurs": {
+   "it": {
+    "title": "Suoni, lettere e sillabe",
+    "theory": "Le parole sono fatte di suoni. Ogni suono si scrive con una o più lettere. Le lettere si uniscono in sillabe: ma, me, mi, mo, mu. Per leggere una parola nuova, leggi una sillaba alla volta e poi uniscile: ca-sa diventa casa.",
+    "sample": "La mamma di Lia ha una casa con un melo. Sul melo c’è una mela rossa.",
+    "worked": "Ca-sa ha due sillabe. Me-lo e me-la cambiano solo l’ultima lettera, ma sono due parole diverse: il melo è l’albero, la mela è il frutto. Battendo le mani contiamo le sillabe.",
+    "exercises": [
+     "Batti le mani per ogni sillaba di mamma.",
+     "Trova nel testo due parole che iniziano con me.",
+     "Dividi in sillabe: rossa, casa, mela.",
+     "Cambia una lettera di mela e forma una nuova parola.",
+     "Leggi ad alta voce le sillabe la, le, li, lo, lu."
+    ],
+    "test": [
+     "Quante sillabe ha la parola casa?",
+     "Che cosa c’è sul melo?",
+     "Qual è la differenza tra melo e mela?",
+     "Scrivi una parola che inizia con la sillaba pa.",
+     "Unisci le sillabe: so-le."
+    ]
+   }
+  },
+  "eu-year-it-beginner-p1-intelegere": {
+   "it": {
+    "title": "Leggo e capisco un breve testo",
+    "theory": "Quando leggi, fermati a ogni punto e chiediti: di chi si parla? Che cosa succede? Dove? La risposta si trova nelle parole del testo. Se il testo non lo dice, non lo inventiamo.",
+    "sample": "Luca va al parco con il nonno. Porta un pallone giallo. Al parco gioca con Sara vicino alla fontana.",
+    "worked": "Di chi si parla? Di Luca. Con chi va al parco? Con il nonno. Che cosa porta? Un pallone giallo. Il testo non dice quanti anni ha Luca, quindi non lo sappiamo.",
+    "exercises": [
+     "Con chi va al parco Luca?",
+     "Di che colore è il pallone?",
+     "Con chi gioca Luca?",
+     "Dove gioca Luca con Sara?",
+     "Sottolinea la frase che dice che cosa porta Luca."
+    ],
+    "test": [
+     "Il testo dice quanti anni ha Luca?",
+     "Il pallone è rosso? Come lo sai?",
+     "Dove si trova la fontana?",
+     "Trova una parola che indica una persona della famiglia.",
+     "Disegna la scena e scrivi una parola."
+    ]
+   }
+  },
+  "eu-year-it-beginner-p1-narativ": {
+   "it": {
+    "title": "Personaggi e fatti di una storia",
+    "theory": "I personaggi sono le persone o gli animali della storia. I fatti sono le cose che succedono. Per raccontare usiamo le parole prima, poi, dopo, alla fine.",
+    "sample": "Prima un gattino si arrampica su un albero. Poi non riesce più a scendere. Dopo arriva una bambina con una scala. Alla fine il gattino scende e fa le fusa.",
+    "worked": "I personaggi sono il gattino e la bambina. Prima: il gattino sale. Poi: non scende. Dopo: arriva la bambina con la scala. Alla fine: il gattino scende. Le parole del tempo ci aiutano a raccontare in ordine.",
+    "exercises": [
+     "Chi sono i personaggi?",
+     "Dove sale il gattino?",
+     "Che cosa porta la bambina?",
+     "Racconta la storia con prima, poi, dopo, alla fine.",
+     "Come si sente il gattino alla fine? Quale parola del testo ti aiuta?"
+    ],
+    "test": [
+     "Che cosa succede per prima cosa?",
+     "Chi aiuta il gattino?",
+     "Metti in ordine: scende / sale / arriva la scala.",
+     "Che cosa fa il gattino alla fine?",
+     "Disegna la parte che ti piace di più."
+    ]
+   }
+  },
+  "eu-year-it-beginner-p1-poezie": {
+   "it": {
+    "title": "Filastrocche e rime",
+    "theory": "Una filastrocca è un breve testo in versi con un ritmo, come una canzone. Le parole fanno rima quando finiscono con lo stesso suono: gatto e piatto, sole e viole.",
+    "sample": "Il sole è giallo, il cielo è blu,\nil gallo canta: chicchirichì!\nSalto, ballo, corro qua e là,\ngioco con te e con papà.",
+    "worked": "Blu e chicchirichì non fanno rima. Qua e là e papà fanno rima perché finiscono con lo stesso suono: à. Nel terzo verso ci sono tre azioni: salto, ballo, corro.",
+    "exercises": [
+     "Leggi la filastrocca ad alta voce e batti il ritmo.",
+     "Trova la parola che fa rima con là.",
+     "Quali azioni ci sono nel terzo verso?",
+     "Che cosa fa il gallo?",
+     "Trova una parola che fa rima con sole."
+    ],
+    "test": [
+     "Di che colore è il cielo nella filastrocca?",
+     "Che cosa canta il gallo?",
+     "Scrivi due parole che fanno rima con gatto.",
+     "Chi gioca con il bambino?",
+     "Inventa un verso che finisce con mare."
+    ]
+   }
+  },
+  "eu-year-it-beginner-p1-dialog": {
+   "it": {
+    "title": "Parlo e ascolto",
+    "theory": "Quando parliamo con qualcuno, rispettiamo il turno: uno parla e l’altro ascolta. Guardiamo la persona e rispondiamo proprio alla domanda. Usiamo le parole gentili: per favore, grazie, prego.",
+    "sample": "Marco: Ciao, Giulia! Che cosa hai nello zaino?\nGiulia: Ciao, Marco! Ho un quaderno e una merenda.\nMarco: Mi presti una matita, per favore?\nGiulia: Certo, eccola!\nMarco: Grazie!",
+    "worked": "Marco fa una domanda e Giulia risponde con una frase completa. Poi Marco chiede gentilmente con per favore e alla fine dice grazie. I due bambini parlano a turno.",
+    "exercises": [
+     "Leggi il dialogo con un compagno.",
+     "Che cosa chiede Marco all’inizio?",
+     "Che cosa ha Giulia nello zaino?",
+     "Trova le parole gentili nel dialogo.",
+     "Inventa un dialogo: chiedi a un compagno qual è il suo gioco preferito."
+    ],
+    "test": [
+     "Chi saluta per primo?",
+     "Giulia risponde con una parola o con una frase?",
+     "Che cosa chiede in prestito Marco?",
+     "Che cosa facciamo mentre l’altro parla?",
+     "Scrivi una domanda che inizia con Che cosa."
+    ]
+   }
+  },
+  "eu-year-it-beginner-p1-vocabular": {
+   "it": {
+    "title": "Parole e significati",
+    "theory": "Le parole si possono raggruppare: animali, colori, cibi. Alcune parole hanno un contrario: grande e piccolo, caldo e freddo. Cambiando la fine della parola indichiamo uno o tanti: un cane, due cani; una gallina, due galline.",
+    "sample": "Nel cortile c’è un cane grande e ci sono due galline piccole. Il cane ha caldo e beve l’acqua fresca.",
+    "worked": "Cane e galline sono animali. Grande e piccole sono contrari. Galline indica più di una gallina: la a diventa e. Caldo e fresca sono parole che indicano la temperatura.",
+    "exercises": [
+     "Trova tutti gli animali nel testo.",
+     "Trova due parole contrarie.",
+     "Scrivi: un gatto, due …",
+     "Dividi in due gruppi: rosso, pane, verde, mela.",
+     "Qual è il contrario di caldo?"
+    ],
+    "test": [
+     "Una casa, due …?",
+     "Un fiore, tanti …?",
+     "Qual è il contrario di grande?",
+     "Quale parola è un colore: correre, giallo, tazza?",
+     "Usa la parola piccolo in una frase."
+    ]
+   }
+  },
+  "eu-year-it-beginner-p1-exprimare": {
+   "it": {
+    "title": "Digrammi, doppie e punto",
+    "theory": "Alcuni suoni si scrivono con due lettere: ch e gh davanti a e e i (chiave, ghiro), gn (gnomo), gl (foglia), sc (scena). Attenzione alle doppie: palla non è pala. La frase inizia con la lettera maiuscola e finisce con il punto.",
+    "sample": "il cane di anna gioca con la pala\nIl cane di Anna gioca con la palla.",
+    "worked": "Nella prima riga mancano la maiuscola e il punto, e c’è pala invece di palla: la pala serve per scavare, la palla per giocare. Anna è un nome di persona e vuole la maiuscola.",
+    "exercises": [
+     "Copia la frase corretta.",
+     "Trova il nome di persona nella frase.",
+     "Scrivi due parole con gn.",
+     "Leggi e spiega la differenza: pala, palla.",
+     "Correggi: oggi piove"
+    ],
+    "test": [
+     "Con che cosa inizia una frase?",
+     "Che cosa mettiamo alla fine di una frase?",
+     "Completa con ch o c: …iave, …asa.",
+     "Scrivi una parola con gl.",
+     "Perché Roma si scrive con la maiuscola?"
+    ]
+   }
+  },
+  "eu-year-it-beginner-p1-redactare": {
+   "it": {
+    "title": "Scrivo una frase su un disegno",
+    "theory": "Prima di scrivere, di’ la frase ad alta voce. Conta le parole. Poi scrivila, rileggila e controlla: maiuscola, spazi tra le parole, punto, e la frase ha senso?",
+    "sample": "Disegno: un bambino dà da mangiare a un pesce.\nDico: Il bambino dà da mangiare al pesce.\nScrivo: Il bambino dà da mangiare al pesce.\nAggiungo: Il pesce nuota veloce.",
+    "worked": "Prima abbiamo detto la frase a voce. Poi l’abbiamo scritta con la maiuscola e il punto. Rileggendo, ha senso. Abbiamo aggiunto una seconda frase per dire qualcosa in più.",
+    "exercises": [
+     "Di’ una frase su un cane al parco e conta le parole.",
+     "Scrivi la tua frase e controlla il punto.",
+     "Aggiungi una seconda frase alla tua.",
+     "Leggi la tua frase a un compagno.",
+     "Fai un disegno e scrivi due frasi."
+    ],
+    "test": [
+     "Che cosa fai prima di scrivere?",
+     "Quante parole ci sono in: Il sole è caldo.?",
+     "Che cosa controlli dopo aver scritto?",
+     "Scrivi una frase sulla tua merenda.",
+     "Allunga la frase: Io gioco."
+    ]
+   }
+  },
+  "eu-year-it-beginner-p1-interpretare": {
+   "it": {
+    "title": "Che cosa penso e perché",
+    "theory": "Dopo aver letto, possiamo dire che cosa pensiamo e spiegare perché, indicando il testo. Possiamo anche confrontare due personaggi: in che cosa sono uguali? In che cosa sono diversi?",
+    "sample": "Elena divide i suoi pastelli con Tommaso. Matteo tiene tutti i pastelli per sé. Tommaso sorride a Elena.",
+    "worked": "Elena e Matteo hanno entrambi dei pastelli: in questo sono uguali. Sono diversi perché Elena li divide e Matteo no. Penso che Elena sia generosa perché il testo dice che divide i pastelli e Tommaso sorride.",
+    "exercises": [
+     "In che cosa Elena e Matteo sono uguali?",
+     "In che cosa sono diversi?",
+     "Chi è generoso secondo te? Perché?",
+     "Perché Tommaso sorride?",
+     "Che cosa potrebbe fare Matteo la prossima volta?"
+    ],
+    "test": [
+     "Chi tiene tutti i pastelli?",
+     "Chi sorride?",
+     "Completa: Penso che Elena sia … perché …",
+     "Il testo dice che Matteo è triste?",
+     "Di’ una cosa che ti piace della storia e perché."
+    ]
+   }
+  },
+  "eu-year-it-beginner-p1-verificare": {
+   "it": {
+    "title": "Ripasso della classe prima",
+    "theory": "Controlliamo che cosa hai imparato: leggere unendo le sillabe, trovare le risposte nel testo, raccontare i fatti in ordine, sentire le rime, parlare a turno, conoscere nuove parole e scrivere frasi con maiuscola e punto.",
+    "sample": "Il cagnolino Fufi corre in giardino. Scava una buca e trova una palla. Porta la palla alla nonna. La nonna la lancia e Fufi corre veloce.",
+    "worked": "Fufi è il personaggio principale. I fatti in ordine: corre in giardino, scava, trova la palla, la porta alla nonna, la nonna la lancia. Ogni frase inizia con la maiuscola e finisce con il punto.",
+    "exercises": [
+     "Leggi il testo ad alta voce.",
+     "Chi è il personaggio principale?",
+     "Racconta i fatti in ordine.",
+     "Trova una parola con una doppia.",
+     "Scrivi una frase su che cosa fa Fufi dopo."
+    ],
+    "test": [
+     "Che cosa trova Fufi?",
+     "Chi lancia la palla?",
+     "Trova una parola con la maiuscola e spiega perché.",
+     "Qual è il contrario di veloce?",
+     "Scrivi una frase sul tuo animale preferito."
+    ]
+   }
+  }
+ }
+}

@@ -1,0 +1,242 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "ES",
+ "stage": "beginner",
+ "grade": "P1",
+ "version": "2163c6c3b564ee3378a67667a773507014cbe99b69809f4680adb1b244fdf6f8",
+ "source": "https://www.boe.es/buscar/act.php?id=BOE-A-2022-3296",
+ "sourceTitle": "Real Decreto 157/2022 e currículo de Galicia, Lingua Galega e Literatura, primeiro ciclo de Primaria — só marco; actividades orixinais",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "gl",
+ "labels": [
+  "Actividade orixinal orientativa · España · 1.º de Primaria",
+  "Aprendemos",
+  "Exemplo orixinal",
+  "Explicación",
+  "Exercicios",
+  "Comproba o que sabes",
+  "Actividades orixinais, non son unha proba oficial. Se o precisas, pide axuda a un adulto para lelas."
+ ],
+ "chapters": {
+  "eu-year-es-beginner-p1-parcurs": {
+   "gl": {
+    "title": "Sons, letras e sílabas",
+    "theory": "As palabras están feitas de sons, e os sons escríbense con letras. As letras xúntanse en sílabas: ma, me, mi, mo, mu. Para ler unha palabra nova, le sílaba a sílaba e despois únea: pe-lo-ta é pelota.",
+    "sample": "A nai de Uxía ten unha mochila. Na mochila hai unha pelota e unha mazá.",
+    "worked": "Pe-lo-ta ten tres sílabas. Ma-zá ten dúas. Mochila leva ch, dúas letras que fan un só son. Damos unha palmada por cada sílaba.",
+    "exercises": [
+     "Dá unha palmada por cada sílaba de mochila.",
+     "Busca no texto dúas palabras que comecen por m.",
+     "Separa en sílabas: pelota, mazá, nai.",
+     "Cambia unha letra de mazá e forma outra palabra.",
+     "Le en voz alta: la, le, li, lo, lu."
+    ],
+    "test": [
+     "Cantas sílabas ten pelota?",
+     "Que hai na mochila?",
+     "Que dúas letras fan un só son en mochila?",
+     "Escribe unha palabra que comece pola sílaba sa.",
+     "Une as sílabas: lú-a."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-intelegere": {
+   "gl": {
+    "title": "Leo e comprendo un texto curto",
+    "theory": "Cando leas, para en cada punto e pregúntate: de quen fala?, que pasa?, onde? A resposta está nas palabras do texto. Se o texto non o di, non o inventamos.",
+    "sample": "Brais vai á praia coa avoa. Leva un caldeiro amarelo. Na praia fai un castelo de area con Antía.",
+    "worked": "De quen fala? De Brais. Con quen vai? Coa avoa. Que leva? Un caldeiro amarelo. Que fai? Un castelo de area. O texto non di cantos anos ten Brais.",
+    "exercises": [
+     "Con quen vai Brais á praia?",
+     "De que cor é o caldeiro?",
+     "Que fai Brais na praia?",
+     "Con quen xoga?",
+     "Subliña a frase que di que leva Brais."
+    ],
+    "test": [
+     "Di o texto cantos anos ten Brais?",
+     "O caldeiro é vermello? Como o sabes?",
+     "De que está feito o castelo?",
+     "Busca unha palabra que nomee unha persoa da familia.",
+     "Debuxa a escena e escribe unha palabra."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-narativ": {
+   "gl": {
+    "title": "Personaxes e feitos dun conto",
+    "theory": "Os personaxes son as persoas ou os animais do conto. Os feitos son o que pasa. Para contar en orde usamos: primeiro, despois, logo, ao final.",
+    "sample": "Primeiro, un esquío perdeu a súa landra. Despois, un coello atopouna debaixo dunha folla. Logo, o coello devolveulla. Ao final, o esquío deulle as grazas.",
+    "worked": "Os personaxes son o esquío e o coello. Primeiro: o esquío perde a landra. Despois: o coello atópaa. Logo: devólvella. Ao final: o esquío dá as grazas.",
+    "exercises": [
+     "Quen son os personaxes?",
+     "Que perdeu o esquío?",
+     "Onde estaba a landra?",
+     "Conta o conto con primeiro, despois, logo e ao final.",
+     "Como se sente o esquío ao final? Que palabra che axuda?"
+    ],
+    "test": [
+     "Quen atopou a landra?",
+     "Que pasou primeiro?",
+     "Que fixo o esquío ao final?",
+     "Ordena: dá as grazas / perde a landra / atópaa.",
+     "Debuxa a parte que máis che gusta."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-poezie": {
+   "gl": {
+    "title": "Poemas e rimas",
+    "theory": "Un poema é un texto curto en versos, con ritmo, coma unha canción. Dúas palabras riman cando rematan cos mesmos sons: rato e prato, lúa e rúa.",
+    "sample": "O sol sae pola mañá,\na ra salta na fiestra xa.\nCanto, bailo, corro e rio,\nxogo no parque co meu tío.",
+    "worked": "Mañá e xa riman porque rematan en -á. Rio e tío tamén riman. No terceiro verso hai catro accións: canto, bailo, corro e rio.",
+    "exercises": [
+     "Le o poema en voz alta e marca o ritmo con palmas.",
+     "Busca a palabra que rima con mañá.",
+     "Que accións hai no terceiro verso?",
+     "Onde salta a ra?",
+     "Di unha palabra que rime con sol."
+    ],
+    "test": [
+     "Cando sae o sol no poema?",
+     "Con quen xogo?",
+     "Escribe dúas palabras que rimen con gato.",
+     "Que animal salta na fiestra?",
+     "Inventa un verso que remate en lúa."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-dialog": {
+   "gl": {
+    "title": "Falo e escoito",
+    "theory": "Cando falamos con alguén, respectamos a quenda: un fala e o outro escoita. Miramos a persoa e respondemos ao que nos pregunta. As preguntas escríbense con ? ao final. Usamos palabras amables: por favor, grazas, de nada.",
+    "sample": "Iago: Ola, Sabela! Que levas na mochila?\nSabela: Ola, Iago! Levo un conto e unha mandarina.\nIago: Déixasme ver o conto, por favor?\nSabela: Claro! Aquí o tes.\nIago: Grazas!",
+    "worked": "Iago fai unha pregunta e Sabela responde cunha frase completa. Iago pide con amabilidade: por favor, e ao final di grazas. Falan por quendas.",
+    "exercises": [
+     "Le o diálogo cun compañeiro.",
+     "Que pregunta Iago primeiro?",
+     "Que leva Sabela na mochila?",
+     "Busca as palabras amables do diálogo.",
+     "Inventa un diálogo: pregúntalle a un compañeiro cal é o seu xogo favorito."
+    ],
+    "test": [
+     "Quen saúda primeiro?",
+     "Sabela responde cunha palabra ou cunha frase?",
+     "Que quere ver Iago?",
+     "Que facemos mentres o outro fala?",
+     "Escribe unha pregunta que comece por Que."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-vocabular": {
+   "gl": {
+    "title": "Palabras e significados",
+    "theory": "As palabras pódense agrupar: animais, cores, comida. Algunhas teñen un contrario: grande e pequeno, frío e quente. Se engadimos -s ou -es dicimos que hai máis dun: un can, dous cans; unha vaca, dúas vacas.",
+    "sample": "Na granxa hai un cabalo grande e dous ratos pequenos. O cabalo ten calor e bebe auga fría.",
+    "worked": "Cabalo e ratos son animais. Grande e pequenos son contrarios. Ratos significa máis dun rato. Calor e fría falan da temperatura.",
+    "exercises": [
+     "Busca todos os animais do texto.",
+     "Busca dúas palabras contrarias.",
+     "Escribe: un gato, dous …",
+     "Clasifica en cores e comida: verde, pan, vermello, queixo.",
+     "Cal é o contrario de frío?"
+    ],
+    "test": [
+     "Unha árbore, dúas …?",
+     "Unha flor, moitas …?",
+     "Cal é o contrario de grande?",
+     "Que palabra é unha cor: correr, amarelo, cunca?",
+     "Escribe unha frase coa palabra pequeno."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-exprimare": {
+   "gl": {
+    "title": "Maiúscula, punto e letras especiais",
+    "theory": "A frase comeza con maiúscula e remata con punto. Os nomes de persoas e lugares levan maiúscula. Algúns sons escríbense con dúas letras: ch (chuvia), ll (ollo), rr (carro) e nh (unha). Tamén usamos a letra ñ: niño, montaña.",
+    "sample": "o can de xoana corre pola leira\nO can de Xoana corre pola leira.",
+    "worked": "Na primeira liña faltan a maiúscula e o punto. Xoana é un nome de persoa e leva maiúscula. Corre leva rr porque o son é forte entre vogais.",
+    "exercises": [
+     "Copia a frase correcta.",
+     "Busca o nome de persoa na frase.",
+     "Escribe dúas palabras con ch.",
+     "Le e explica a diferenza: caro, carro.",
+     "Corrixe: hoxe chove"
+    ],
+    "test": [
+     "Con que comeza unha frase?",
+     "Que poñemos ao final dunha frase?",
+     "Completa con r ou rr: ca…o (vehículo).",
+     "Por que Vigo se escribe con maiúscula?",
+     "Escribe unha palabra con nh."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-redactare": {
+   "gl": {
+    "title": "Escribo unha frase sobre un debuxo",
+    "theory": "Antes de escribir, di a frase en voz alta e conta as palabras. Despois escríbea, volve lela e comproba: maiúscula, espazos entre palabras, punto, e que teña sentido.",
+    "sample": "Debuxo: unha nena rega unha flor.\nDigo: A nena rega a flor.\nEscribo: A nena rega a flor.\nEngado: A flor medra moito.",
+    "worked": "Primeiro dixemos a frase en voz alta: cinco palabras. Despois escribímola con maiúscula e punto. Ao lela, ten sentido. Engadimos outra frase para contar algo máis.",
+    "exercises": [
+     "Di unha frase sobre un gato no xardín e conta as palabras.",
+     "Escribe a túa frase e comproba o punto.",
+     "Engade unha segunda frase.",
+     "Le a túa frase a un compañeiro.",
+     "Fai un debuxo e escribe dúas frases."
+    ],
+    "test": [
+     "Que fas antes de escribir?",
+     "Cantas palabras hai en: O sol quenta.?",
+     "Que comprobas despois de escribir?",
+     "Escribe unha frase sobre o teu almorzo.",
+     "Alonga a frase: Eu xogo."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-interpretare": {
+   "gl": {
+    "title": "O que penso e por que",
+    "theory": "Despois de ler podemos dicir o que pensamos e explicar por que, sinalando o texto. Tamén podemos comparar dous personaxes: en que se parecen?, en que se diferencian?",
+    "sample": "Noa comparte as súas ceras con Hugo. Martiño garda todas as súas ceras e non comparte. Hugo sorrí a Noa.",
+    "worked": "Noa e Martiño teñen ceras: niso parécense. Diferéncianse en que Noa comparte e Martiño non. Penso que Noa é xenerosa porque o texto di que comparte e Hugo sorrí.",
+    "exercises": [
+     "En que se parecen Noa e Martiño?",
+     "En que se diferencian?",
+     "Quen é xeneroso? Por que o pensas?",
+     "Por que sorrí Hugo?",
+     "Que podería facer Martiño a próxima vez?"
+    ],
+    "test": [
+     "Quen garda todas as ceras?",
+     "Quen sorrí?",
+     "Completa: Penso que Noa é … porque …",
+     "Di o texto que Martiño está triste?",
+     "Di algo que che guste do conto e por que."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-verificare": {
+   "gl": {
+    "title": "Repaso de 1.º",
+    "theory": "Comprobamos o que aprendiches: ler unindo sílabas, atopar respostas no texto, contar os feitos en orde, oír as rimas, falar por quendas, coñecer palabras novas e escribir frases con maiúscula e punto.",
+    "sample": "O canciño Lúpulo corre ao xardín. Fai un burato e atopa unha pelota. Leva a pelota ao avó. O avó lánzaa e Lúpulo corre rápido.",
+    "worked": "Lúpulo é o personaxe principal. Os feitos en orde: corre ao xardín, fai un burato, atopa a pelota, lévaa ao avó, o avó lánzaa. Cada frase comeza con maiúscula e remata con punto.",
+    "exercises": [
+     "Le o texto en voz alta.",
+     "Quen é o personaxe principal?",
+     "Conta os feitos en orde.",
+     "Busca unha palabra con til (acento).",
+     "Escribe unha frase sobre o que fai Lúpulo despois."
+    ],
+    "test": [
+     "Que atopa Lúpulo?",
+     "Quen lanza a pelota?",
+     "Busca unha palabra con maiúscula e di por que.",
+     "Cal é o contrario de rápido?",
+     "Escribe unha frase sobre o teu animal favorito."
+    ]
+   }
+  }
+ }
+}

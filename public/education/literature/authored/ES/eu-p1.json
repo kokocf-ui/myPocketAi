@@ -1,0 +1,242 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "ES",
+ "stage": "beginner",
+ "grade": "P1",
+ "version": "82ffe3f3cf5570ebf1ebb1ceff2a9b68f1b7f15672f8208e001b237ff35b2e2f",
+ "source": "https://www.boe.es/buscar/act.php?id=BOE-A-2022-3296",
+ "sourceTitle": "157/2022 Errege Dekretua eta Euskal Autonomia Erkidegoko curriculuma, Euskara eta Literatura, Lehen Hezkuntzako 1. zikloa — esparrua soilik; jarduera originalak",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "eu",
+ "labels": [
+  "Jarduera original orientagarria · Espainia · Lehen Hezkuntzako 1. maila",
+  "Ikasiko dugu",
+  "Adibide originala",
+  "Azalpena",
+  "Ariketak",
+  "Egiaztatu zer dakizun",
+  "Jarduera originalak dira, ez proba ofiziala. Irakurri heldu batekin, behar baduzu."
+ ],
+ "chapters": {
+  "eu-year-es-beginner-p1-parcurs": {
+   "eu": {
+    "title": "Soinuak, letrak eta silabak",
+    "theory": "Hitzak soinuz eginda daude, eta soinuak letrekin idazten dira. Letrak silabetan elkartzen dira: ma, me, mi, mo, mu. Hitz berri bat irakurtzeko, irakurri silabaz silaba eta gero lotu: pi-lo-ta, pilota.",
+    "sample": "Amak motxila bat du. Motxilan pilota bat eta sagar bat daude.",
+    "worked": "Pi-lo-ta hitzak hiru silaba ditu. Sa-gar hitzak bi. Motxila hitzean tx bi letra dira, baina soinu bakarra egiten dute. Silaba bakoitzeko txalo bat jotzen dugu.",
+    "exercises": [
+     "Jo txalo bat motxila hitzaren silaba bakoitzeko.",
+     "Bilatu testuan m letraz hasten diren bi hitz.",
+     "Banatu silabatan: pilota, sagar, ama.",
+     "Aldatu letra bat eta osatu beste hitz bat: ama.",
+     "Irakurri ozen: la, le, li, lo, lu."
+    ],
+    "test": [
+     "Zenbat silaba ditu pilota hitzak?",
+     "Zer dago motxilan?",
+     "Zein bi letrak egiten dute soinu bakarra motxila hitzean?",
+     "Idatzi sa silabaz hasten den hitz bat.",
+     "Lotu silabak: i-lar-gi."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-intelegere": {
+   "eu": {
+    "title": "Testu labur bat irakurri eta ulertzen dut",
+    "theory": "Irakurtzean, gelditu puntu bakoitzean eta galdetu: nori buruz ari da?, zer gertatzen da?, non? Erantzuna testuko hitzetan dago. Testuak esaten ez badu, ez dugu asmatzen.",
+    "sample": "Ander hondartzara doa amonarekin. Ontzi hori bat darama. Hondartzan harea-gaztelu bat egiten du Ainhoarekin.",
+    "worked": "Nori buruz ari da? Anderri buruz. Norekin doa? Amonarekin. Zer darama? Ontzi hori bat. Zer egiten du? Harea-gaztelu bat. Testuak ez du esaten Anderrek zenbat urte dituen.",
+    "exercises": [
+     "Norekin doa Ander hondartzara?",
+     "Zer kolore du ontziak?",
+     "Zer egiten du Anderrek hondartzan?",
+     "Norekin jolasten da?",
+     "Azpimarratu Anderrek zer daraman esaten duen esaldia."
+    ],
+    "test": [
+     "Testuak esaten du Anderrek zenbat urte dituen?",
+     "Ontzia gorria da? Nola dakizu?",
+     "Zerez egina dago gaztelua?",
+     "Bilatu familiako pertsona bat izendatzen duen hitz bat.",
+     "Marraztu eszena eta idatzi hitz bat."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-narativ": {
+   "eu": {
+    "title": "Ipuin bateko pertsonaiak eta gertaerak",
+    "theory": "Pertsonaiak ipuineko pertsonak edo animaliak dira. Gertaerak gertatzen diren gauzak dira. Ordenan kontatzeko hauek erabiltzen ditugu: lehenengo, gero, ondoren, azkenean.",
+    "sample": "Lehenengo, urtxintxa batek bere ezkurra galdu zuen. Gero, untxi batek hosto baten azpian aurkitu zuen. Ondoren, untxiak itzuli egin zion. Azkenean, urtxintxak eskerrak eman zizkion.",
+    "worked": "Pertsonaiak urtxintxa eta untxia dira. Lehenengo: urtxintxak ezkurra galtzen du. Gero: untxiak aurkitzen du. Ondoren: itzultzen dio. Azkenean: urtxintxak eskerrak ematen ditu.",
+    "exercises": [
+     "Nortzuk dira pertsonaiak?",
+     "Zer galdu zuen urtxintxak?",
+     "Non zegoen ezkurra?",
+     "Kontatu ipuina lehenengo, gero, ondoren eta azkenean erabiliz.",
+     "Nola sentitzen da urtxintxa amaieran? Zein hitzek laguntzen dizu?"
+    ],
+    "test": [
+     "Nork aurkitu zuen ezkurra?",
+     "Zer gertatu zen lehenengo?",
+     "Zer egin zuen urtxintxak azkenean?",
+     "Ordenatu: eskerrak ematen ditu / ezkurra galtzen du / aurkitzen du.",
+     "Marraztu gehien gustatzen zaizun zatia."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-poezie": {
+   "eu": {
+    "title": "Olerkiak eta errimak",
+    "theory": "Olerkia bertsotan idatzitako testu laburra da, erritmoarekin, abesti bat bezala. Bi hitzek errima egiten dute soinu berdinekin amaitzen direnean: katua eta patua, ilargia eta argia.",
+    "sample": "Eguzkia goizean atera da,\nkatua leihotik begira dago, ja!\nSaltoka, dantzan eta korrika,\nparkean jolasten naiz pozik, pozik!",
+    "worked": "Atera da eta ja errimatzen dute -a soinuarekin amaitzen direlako. Hirugarren bertsoan hiru ekintza daude: saltoka, dantzan eta korrika.",
+    "exercises": [
+     "Irakurri olerkia ozen eta markatu erritmoa txaloekin.",
+     "Zer egiten du katuak?",
+     "Zein ekintza daude hirugarren bertsoan?",
+     "Non jolasten naiz?",
+     "Esan argia hitzarekin errima egiten duen hitz bat."
+    ],
+    "test": [
+     "Noiz atera da eguzkia olerkian?",
+     "Nondik begiratzen du katuak?",
+     "Idatzi katua hitzarekin errima egiten duten bi hitz.",
+     "Nola jolasten naiz parkean?",
+     "Asmatu ilargia hitzarekin amaitzen den bertso bat."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-dialog": {
+   "eu": {
+    "title": "Hitz egiten eta entzuten dut",
+    "theory": "Norbaitekin hitz egiten dugunean, txanda errespetatzen dugu: batek hitz egiten du eta besteak entzuten. Pertsonari begiratzen diogu eta galdetzen digutenari erantzuten diogu. Hitz atseginak erabiltzen ditugu: mesedez, eskerrik asko, ez horregatik.",
+    "sample": "Iker: Kaixo, Maren! Zer daramazu motxilan?\nMaren: Kaixo, Iker! Ipuin bat eta mandarina bat daramatzat.\nIker: Ipuina ikusten utziko didazu, mesedez?\nMaren: Noski! Hemen duzu.\nIker: Eskerrik asko!",
+    "worked": "Ikerrek galdera bat egiten du eta Marenek esaldi oso batekin erantzuten du. Ikerrek atseginez eskatzen du: mesedez, eta amaieran eskerrik asko esaten du. Txandaka hitz egiten dute.",
+    "exercises": [
+     "Irakurri elkarrizketa lagun batekin.",
+     "Zer galdetzen du Ikerrek lehenengo?",
+     "Zer darama Marenek motxilan?",
+     "Bilatu elkarrizketako hitz atseginak.",
+     "Asmatu elkarrizketa bat: galdetu lagun bati zein den bere jolasik gustukoena."
+    ],
+    "test": [
+     "Nork agurtzen du lehenengo?",
+     "Marenek hitz batekin ala esaldi batekin erantzuten du?",
+     "Zer ikusi nahi du Ikerrek?",
+     "Zer egiten dugu besteak hitz egiten duen bitartean?",
+     "Idatzi Zer hitzarekin hasten den galdera bat."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-vocabular": {
+   "eu": {
+    "title": "Hitzak eta esanahiak",
+    "theory": "Hitzak taldeka antola daitezke: animaliak, koloreak, janaria. Batzuek aurkakoa dute: handia eta txikia, hotza eta beroa. Euskaraz pluralean -ak erabiltzen dugu: txakurra, txakurrak.",
+    "sample": "Baserrian zaldi handi bat dago. Saguak txikiak dira. Zaldiak beroa du eta ur hotza edaten du.",
+    "worked": "Zaldia eta saguak animaliak dira. Handi eta txiki aurkakoak dira. Saguak hitzak sagu bat baino gehiago esan nahi du: -ak amaiera du. Beroa eta hotza tenperaturaz ari dira.",
+    "exercises": [
+     "Bilatu testuko animalia guztiak.",
+     "Bilatu bi hitz aurkako.",
+     "Idatzi pluralean: katua → …",
+     "Sailkatu koloretan eta janarian: berdea, ogia, gorria, gazta.",
+     "Zein da hotza hitzaren aurkakoa?"
+    ],
+    "test": [
+     "Zuhaitza → zuhaitz…?",
+     "Lorea → lore…?",
+     "Zein da handia hitzaren aurkakoa?",
+     "Zein hitz da kolore bat: korrika, horia, katilua?",
+     "Idatzi esaldi bat txikia hitzarekin."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-exprimare": {
+   "eu": {
+    "title": "Letra larria, puntua eta letra bereziak",
+    "theory": "Esaldia letra larriz hasten da eta puntuarekin amaitzen da. Pertsonen eta lekuen izenek letra larria daramate. Soinu batzuk bi letrarekin idazten dira: tx (txori), tz (hitza), ts (atsegin) eta rr (harria).",
+    "sample": "nereren txakurra lorategian jolasten da\nNereren txakurra lorategian jolasten da.",
+    "worked": "Lehenengo lerroan letra larria eta puntua falta dira. Nerea pertsona baten izena da eta letra larria darama. Txakurra hitzean tx eta rr daude.",
+    "exercises": [
+     "Kopiatu esaldi zuzena.",
+     "Bilatu esaldian pertsonaren izena.",
+     "Idatzi tx duten bi hitz.",
+     "Irakurri eta azaldu: hitza, harria. Zein letra berezi dituzte?",
+     "Zuzendu: gaur euria ari du"
+    ],
+    "test": [
+     "Zerekin hasten da esaldia?",
+     "Zer jartzen dugu esaldiaren amaieran?",
+     "Osatu tx edo tz-rekin: …ori (hegaztia).",
+     "Zergatik idazten da Bilbo letra larriz?",
+     "Idatzi rr duen hitz bat."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-redactare": {
+   "eu": {
+    "title": "Marrazki bati buruzko esaldi bat idazten dut",
+    "theory": "Idatzi aurretik, esan esaldia ozen eta zenbatu hitzak. Gero idatzi, berriro irakurri eta egiaztatu: letra larria, hitzen arteko tarteak, puntua, eta zentzua duela.",
+    "sample": "Marrazkia: neska batek lore bat ureztatzen du.\nEsaten dut: Neskak lorea ureztatzen du.\nIdazten dut: Neskak lorea ureztatzen du.\nGehitzen dut: Lorea asko hazten da.",
+    "worked": "Lehenengo esaldia ozen esan dugu: lau hitz. Gero letra larriz eta puntuarekin idatzi dugu. Irakurtzean, zentzua du. Beste esaldi bat gehitu dugu gehiago kontatzeko.",
+    "exercises": [
+     "Esan lorategiko katu bati buruzko esaldi bat eta zenbatu hitzak.",
+     "Idatzi zure esaldia eta egiaztatu puntua.",
+     "Gehitu bigarren esaldi bat.",
+     "Irakurri zure esaldia lagun bati.",
+     "Egin marrazki bat eta idatzi bi esaldi."
+    ],
+    "test": [
+     "Zer egiten duzu idatzi aurretik?",
+     "Zenbat hitz daude: Eguzkiak berotzen du.?",
+     "Zer egiaztatzen duzu idatzi ondoren?",
+     "Idatzi esaldi bat zure gosariari buruz.",
+     "Luzatu esaldia: Ni jolasten naiz."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-interpretare": {
+   "eu": {
+    "title": "Zer pentsatzen dudan eta zergatik",
+    "theory": "Irakurri ondoren, zer pentsatzen dugun esan dezakegu eta zergatik azaldu, testua seinalatuz. Bi pertsonaia ere konpara ditzakegu: zertan dira berdinak?, zertan desberdinak?",
+    "sample": "Ainhoak bere argizariak Unairekin partekatzen ditu. Jonek argizari guztiak gordetzen ditu eta ez ditu partekatzen. Unaik irribarre egiten dio Ainhoari.",
+    "worked": "Ainhoak eta Jonek argizariak dituzte: horretan berdinak dira. Desberdinak dira Ainhoak partekatzen duelako eta Jonek ez. Ainhoa eskuzabala dela uste dut, testuak partekatzen duela dioelako eta Unaik irribarre egiten duelako.",
+    "exercises": [
+     "Zertan dira berdinak Ainhoa eta Jon?",
+     "Zertan dira desberdinak?",
+     "Nor da eskuzabala? Zergatik uste duzu?",
+     "Zergatik egiten du irribarre Unaik?",
+     "Zer egin lezake Jonek hurrengoan?"
+    ],
+    "test": [
+     "Nork gordetzen ditu argizari guztiak?",
+     "Nork egiten du irribarre?",
+     "Osatu: Ainhoa … dela uste dut, … delako.",
+     "Testuak esaten du Jon triste dagoela?",
+     "Esan ipuinetik gustatzen zaizun gauza bat eta zergatik."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-verificare": {
+   "eu": {
+    "title": "1. mailako errepasoa",
+    "theory": "Egiaztatuko dugu zer ikasi duzun: silabak lotuz irakurtzea, testuan erantzunak aurkitzea, gertaerak ordenan kontatzea, errimak entzutea, txandaka hitz egitea, hitz berriak ezagutzea eta esaldiak letra larriz eta puntuarekin idaztea.",
+    "sample": "Txiki txakurtxoa lorategira doa korrika. Zulo bat egiten du eta pilota bat aurkitzen du. Pilota aitonari eramaten dio. Aitonak bota egiten du eta Txiki azkar doa.",
+    "worked": "Txiki da pertsonaia nagusia. Gertaerak ordenan: lorategira doa, zuloa egiten du, pilota aurkitzen du, aitonari eramaten dio, aitonak botatzen du. Esaldi bakoitza letra larriz hasten da eta puntuarekin amaitzen da.",
+    "exercises": [
+     "Irakurri testua ozen.",
+     "Nor da pertsonaia nagusia?",
+     "Kontatu gertaerak ordenan.",
+     "Bilatu tx duen hitz bat.",
+     "Idatzi esaldi bat Txikik gero zer egiten duen esanez."
+    ],
+    "test": [
+     "Zer aurkitzen du Txikik?",
+     "Nork botatzen du pilota?",
+     "Bilatu letra larria duen hitz bat eta esan zergatik.",
+     "Zein da azkar hitzaren aurkakoa?",
+     "Idatzi esaldi bat zure animalia gogokoenari buruz."
+    ]
+   }
+  }
+ }
+}

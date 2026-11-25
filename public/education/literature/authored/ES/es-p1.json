@@ -1,0 +1,242 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "ES",
+ "stage": "beginner",
+ "grade": "P1",
+ "version": "92f63a52f3c22aeca22ec3b10d92ec459a7f306ff3c077428438b73836384bc1",
+ "source": "https://www.boe.es/buscar/act.php?id=BOE-A-2022-3296",
+ "sourceTitle": "Real Decreto 157/2022 (Educación Primaria), Lengua Castellana y Literatura, primer ciclo — solo marco; actividades originales",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "es",
+ "labels": [
+  "Actividad original orientativa · España · 1.º de Primaria",
+  "Aprendemos",
+  "Ejemplo original",
+  "Explicación",
+  "Ejercicios",
+  "Comprueba lo que sabes",
+  "Actividades originales, no son una prueba oficial. Léelas con un adulto si lo necesitas."
+ ],
+ "chapters": {
+  "eu-year-es-beginner-p1-parcurs": {
+   "es": {
+    "title": "Sonidos, letras y sílabas",
+    "theory": "Las palabras están hechas de sonidos y los sonidos se escriben con letras. Las letras se juntan en sílabas: ma, me, mi, mo, mu. Para leer una palabra nueva, lee sílaba a sílaba y luego únelas: pe-lo-ta es pelota.",
+    "sample": "Mi mamá tiene una maleta. En la maleta hay una pelota y un mono de peluche.",
+    "worked": "Ma-le-ta tiene tres sílabas. Pe-lo-ta también tiene tres. Mamá empieza con ma y mono con mo: cambia la vocal y cambia la sílaba. Damos una palmada por cada sílaba.",
+    "exercises": [
+     "Da una palmada por cada sílaba de maleta.",
+     "Busca en el texto dos palabras que empiecen por ma.",
+     "Separa en sílabas: pelota, mono, peluche.",
+     "Cambia una letra de mono para formar otra palabra.",
+     "Lee en voz alta: pa, pe, pi, po, pu."
+    ],
+    "test": [
+     "¿Cuántas sílabas tiene la palabra pelota?",
+     "¿Qué hay en la maleta?",
+     "Escribe una palabra que empiece por la sílaba sa.",
+     "Une las sílabas: lu-na.",
+     "¿Qué palabra del texto tiene la sílaba lu?"
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-intelegere": {
+   "es": {
+    "title": "Leo y comprendo un texto corto",
+    "theory": "Cuando leas, para en cada punto y pregúntate: ¿de quién habla?, ¿qué pasa?, ¿dónde? La respuesta está en las palabras del texto. Si el texto no lo dice, no lo inventamos.",
+    "sample": "Pablo va a la playa con su abuela. Lleva un cubo azul. En la playa hace un castillo de arena con Lucía.",
+    "worked": "¿De quién habla? De Pablo. ¿Con quién va? Con su abuela. ¿Qué lleva? Un cubo azul. ¿Qué hace? Un castillo de arena. El texto no dice cuántos años tiene Pablo.",
+    "exercises": [
+     "¿Con quién va Pablo a la playa?",
+     "¿De qué color es el cubo?",
+     "¿Qué hace Pablo en la playa?",
+     "¿Con quién juega?",
+     "Subraya la frase que dice qué lleva Pablo."
+    ],
+    "test": [
+     "¿Dice el texto cuántos años tiene Pablo?",
+     "¿El cubo es rojo? ¿Cómo lo sabes?",
+     "¿De qué está hecho el castillo?",
+     "Busca una palabra que nombre a una persona de la familia.",
+     "Dibuja la escena y escribe una palabra."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-narativ": {
+   "es": {
+    "title": "Personajes y hechos de un cuento",
+    "theory": "Los personajes son las personas o los animales del cuento. Los hechos son lo que pasa. Para contar en orden usamos: primero, después, luego, al final.",
+    "sample": "Primero, una ardilla perdió su bellota. Después, un conejo la encontró debajo de una hoja. Luego, el conejo se la devolvió. Al final, la ardilla le dio las gracias.",
+    "worked": "Los personajes son la ardilla y el conejo. Primero: la ardilla pierde la bellota. Después: el conejo la encuentra. Luego: se la devuelve. Al final: la ardilla da las gracias.",
+    "exercises": [
+     "¿Quiénes son los personajes?",
+     "¿Qué perdió la ardilla?",
+     "¿Dónde estaba la bellota?",
+     "Cuenta el cuento con primero, después, luego y al final.",
+     "¿Cómo se siente la ardilla al final? ¿Qué palabra te ayuda?"
+    ],
+    "test": [
+     "¿Quién encontró la bellota?",
+     "¿Qué pasó primero?",
+     "¿Qué hizo la ardilla al final?",
+     "Ordena: da las gracias / pierde la bellota / la encuentra.",
+     "Dibuja la parte que más te gusta."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-poezie": {
+   "es": {
+    "title": "Poemas y rimas",
+    "theory": "Un poema es un texto corto en versos, con ritmo, como una canción. Dos palabras riman cuando terminan con los mismos sonidos: ratón y botón, luna y cuna.",
+    "sample": "El sol sale por la mañana,\nla rana salta en la ventana.\nCanto, bailo, salto y río,\njuego en el parque con mi tío.",
+    "worked": "Mañana y ventana riman porque terminan en -ana. Río y tío riman porque terminan en -ío. En el tercer verso hay cuatro acciones: canto, bailo, salto y río.",
+    "exercises": [
+     "Lee el poema en voz alta y marca el ritmo con palmas.",
+     "Busca la palabra que rima con tío.",
+     "¿Qué acciones hay en el tercer verso?",
+     "¿Dónde salta la rana?",
+     "Di una palabra que rime con sol."
+    ],
+    "test": [
+     "¿Qué palabra rima con mañana?",
+     "¿Con quién juego en el parque?",
+     "Escribe dos palabras que rimen con gato.",
+     "¿Cuándo sale el sol en el poema?",
+     "Inventa un verso que termine en luna."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-dialog": {
+   "es": {
+    "title": "Hablo y escucho",
+    "theory": "Cuando hablamos con alguien, respetamos el turno: uno habla y el otro escucha. Miramos a la persona y respondemos a lo que nos preguntan. Las preguntas se escriben entre ¿ y ?. Usamos palabras amables: por favor, gracias, de nada.",
+    "sample": "Hugo: ¡Hola, Marta! ¿Qué llevas en la mochila?\nMarta: ¡Hola, Hugo! Llevo un cuento y una manzana.\nHugo: ¿Me dejas ver el cuento, por favor?\nMarta: ¡Claro! Aquí lo tienes.\nHugo: ¡Gracias!",
+    "worked": "Hugo hace una pregunta, que empieza con ¿ y termina con ?. Marta responde con una frase completa. Hugo pide con amabilidad: por favor, y al final dice gracias. Hablan por turnos.",
+    "exercises": [
+     "Lee el diálogo con un compañero.",
+     "¿Qué pregunta Hugo primero?",
+     "¿Qué lleva Marta en la mochila?",
+     "Busca las palabras amables del diálogo.",
+     "Inventa un diálogo: pregunta a un compañero cuál es su juego favorito."
+    ],
+    "test": [
+     "¿Quién saluda primero?",
+     "¿Marta responde con una palabra o con una frase?",
+     "¿Qué quiere ver Hugo?",
+     "¿Qué signos usamos para escribir una pregunta?",
+     "Escribe una pregunta que empiece por ¿Qué."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-vocabular": {
+   "es": {
+    "title": "Palabras y significados",
+    "theory": "Las palabras se pueden agrupar: animales, colores, comida. Algunas tienen un contrario: grande y pequeño, frío y caliente. Si añadimos -s o -es decimos que hay más de uno: un perro, dos perros; un ratón, dos ratones.",
+    "sample": "En la granja hay un caballo grande y dos ratones pequeños. El caballo tiene calor y bebe agua fría.",
+    "worked": "Caballo y ratones son animales. Grande y pequeños son contrarios. Ratones significa más de un ratón: añadimos -es porque ratón termina en n. Calor y fría hablan de la temperatura.",
+    "exercises": [
+     "Busca todos los animales del texto.",
+     "Busca dos palabras contrarias.",
+     "Escribe: una vaca, dos …",
+     "Clasifica en colores y comida: verde, pan, rojo, queso.",
+     "¿Cuál es el contrario de frío?"
+    ],
+    "test": [
+     "Un árbol, dos …?",
+     "Una flor, muchas …?",
+     "¿Cuál es el contrario de grande?",
+     "¿Qué palabra es un color: correr, amarillo, taza?",
+     "Escribe una frase con la palabra pequeño."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-exprimare": {
+   "es": {
+    "title": "Mayúsculas, punto y la r",
+    "theory": "La frase empieza con mayúscula y termina con punto. Los nombres de personas y lugares llevan mayúscula. La r suena suave en pera y fuerte en perro; entre vocales, el sonido fuerte se escribe rr. Antes de p y b se escribe m: campo, cambio.",
+    "sample": "el perro de sara corre por el campo\nEl perro de Sara corre por el campo.",
+    "worked": "En la primera línea faltan las mayúsculas y el punto. Sara es un nombre de persona y lleva mayúscula. Perro y corre llevan rr porque suenan fuerte entre vocales. Campo lleva m porque va antes de p.",
+    "exercises": [
+     "Copia la frase correcta.",
+     "Busca el nombre de persona en la frase.",
+     "Lee y explica la diferencia: pero, perro.",
+     "Completa con m o n: ca…po, ta…bor.",
+     "Corrige: hoy llueve"
+    ],
+    "test": [
+     "¿Con qué empieza una frase?",
+     "¿Qué ponemos al final de una frase?",
+     "Completa con r o rr: pe…o (animal), ca…o (coche).",
+     "¿Por qué Madrid se escribe con mayúscula?",
+     "Escribe una palabra con mb."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-redactare": {
+   "es": {
+    "title": "Escribo una frase sobre un dibujo",
+    "theory": "Antes de escribir, di la frase en voz alta y cuenta las palabras. Después escríbela, vuelve a leerla y comprueba: mayúscula, espacios entre palabras, punto, y que tenga sentido.",
+    "sample": "Dibujo: una niña riega una flor.\nDigo: La niña riega la flor.\nEscribo: La niña riega la flor.\nAñado: La flor crece mucho.",
+    "worked": "Primero dijimos la frase en voz alta: cinco palabras. Después la escribimos con mayúscula y punto. Al leerla, tiene sentido. Añadimos otra frase para contar algo más.",
+    "exercises": [
+     "Di una frase sobre un gato en el jardín y cuenta las palabras.",
+     "Escribe tu frase y comprueba el punto.",
+     "Añade una segunda frase.",
+     "Lee tu frase a un compañero.",
+     "Haz un dibujo y escribe dos frases."
+    ],
+    "test": [
+     "¿Qué haces antes de escribir?",
+     "¿Cuántas palabras hay en: El sol calienta.?",
+     "¿Qué compruebas después de escribir?",
+     "Escribe una frase sobre tu desayuno.",
+     "Alarga la frase: Yo juego."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-interpretare": {
+   "es": {
+    "title": "Lo que pienso y por qué",
+    "theory": "Después de leer podemos decir lo que pensamos y explicar por qué, señalando el texto. También podemos comparar dos personajes: ¿en qué se parecen?, ¿en qué se diferencian?",
+    "sample": "Inés comparte sus ceras con Álex. Leo guarda todas sus ceras y no comparte. Álex sonríe a Inés.",
+    "worked": "Inés y Leo tienen ceras: en eso se parecen. Se diferencian en que Inés comparte y Leo no. Pienso que Inés es generosa porque el texto dice que comparte y Álex sonríe.",
+    "exercises": [
+     "¿En qué se parecen Inés y Leo?",
+     "¿En qué se diferencian?",
+     "¿Quién es generoso? ¿Por qué lo piensas?",
+     "¿Por qué sonríe Álex?",
+     "¿Qué podría hacer Leo la próxima vez?"
+    ],
+    "test": [
+     "¿Quién guarda todas las ceras?",
+     "¿Quién sonríe?",
+     "Completa: Pienso que Inés es … porque …",
+     "¿Dice el texto que Leo está triste?",
+     "Di algo que te guste del cuento y por qué."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-verificare": {
+   "es": {
+    "title": "Repaso de 1.º",
+    "theory": "Comprobamos lo que has aprendido: leer uniendo sílabas, encontrar respuestas en el texto, contar los hechos en orden, oír las rimas, hablar por turnos, conocer palabras nuevas y escribir frases con mayúscula y punto.",
+    "sample": "El perrito Toby corre al jardín. Hace un hoyo y encuentra una pelota. Lleva la pelota a la abuela. La abuela la lanza y Toby corre rápido.",
+    "worked": "Toby es el personaje principal. Los hechos en orden: corre al jardín, hace un hoyo, encuentra la pelota, la lleva a la abuela, la abuela la lanza. Cada frase empieza con mayúscula y termina con punto.",
+    "exercises": [
+     "Lee el texto en voz alta.",
+     "¿Quién es el personaje principal?",
+     "Cuenta los hechos en orden.",
+     "Busca una palabra con rr.",
+     "Escribe una frase sobre lo que hace Toby después."
+    ],
+    "test": [
+     "¿Qué encuentra Toby?",
+     "¿Quién lanza la pelota?",
+     "Busca una palabra con mayúscula y di por qué.",
+     "¿Cuál es el contrario de rápido?",
+     "Escribe una frase sobre tu animal favorito."
+    ]
+   }
+  }
+ }
+}

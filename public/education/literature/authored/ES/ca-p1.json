@@ -1,0 +1,242 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "ES",
+ "stage": "beginner",
+ "grade": "P1",
+ "version": "b6ad39f8adba385ffaa08b4ee8052675ba35c4bf862a3687fefcac62725d0035",
+ "source": "https://www.boe.es/buscar/act.php?id=BOE-A-2022-3296",
+ "sourceTitle": "Real Decret 157/2022 i currículums autonòmics, Llengua Catalana i Literatura, cicle inicial — només marc; activitats originals",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "ca",
+ "labels": [
+  "Activitat original orientativa · Espanya · 1r de Primària",
+  "Aprenem",
+  "Exemple original",
+  "Explicació",
+  "Exercicis",
+  "Comprova el que saps",
+  "Activitats originals, no són una prova oficial. Llegeix-les amb un adult si cal."
+ ],
+ "chapters": {
+  "eu-year-es-beginner-p1-parcurs": {
+   "ca": {
+    "title": "Sons, lletres i síl·labes",
+    "theory": "Les paraules estan fetes de sons, i els sons s’escriuen amb lletres. Les lletres s’uneixen en síl·labes: ma, me, mi, mo, mu. Per llegir una paraula nova, llegeix síl·laba a síl·laba i després uneix-les: pi-lo-ta és pilota.",
+    "sample": "La mare de la Núria té una motxilla. A la motxilla hi ha una pilota i una poma.",
+    "worked": "Pi-lo-ta té tres síl·labes. Po-ma en té dues. Motxilla porta tx, dues lletres que fan un sol so. Fem un pic de mans per cada síl·laba.",
+    "exercises": [
+     "Fes un pic de mans per cada síl·laba de motxilla.",
+     "Busca al text dues paraules que comencin per m.",
+     "Separa en síl·labes: pilota, poma, mare.",
+     "Canvia una lletra de poma per fer una altra paraula.",
+     "Llegeix en veu alta: la, le, li, lo, lu."
+    ],
+    "test": [
+     "Quantes síl·labes té pilota?",
+     "Què hi ha a la motxilla?",
+     "Quines dues lletres fan un sol so a motxilla?",
+     "Escriu una paraula que comenci per la síl·laba sa.",
+     "Uneix les síl·labes: llu-na."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-intelegere": {
+   "ca": {
+    "title": "Llegeixo i entenc un text curt",
+    "theory": "Quan llegeixis, atura’t a cada punt i pregunta’t: de qui parla?, què passa?, on? La resposta és a les paraules del text. Si el text no ho diu, no ho inventem.",
+    "sample": "En Pau va a la platja amb l’àvia. Porta una galleda groga. A la platja fa un castell de sorra amb la Laia.",
+    "worked": "De qui parla? D’en Pau. Amb qui va? Amb l’àvia. Què porta? Una galleda groga. Què fa? Un castell de sorra. El text no diu quants anys té en Pau.",
+    "exercises": [
+     "Amb qui va en Pau a la platja?",
+     "De quin color és la galleda?",
+     "Què fa en Pau a la platja?",
+     "Amb qui juga?",
+     "Subratlla la frase que diu què porta en Pau."
+    ],
+    "test": [
+     "Diu el text quants anys té en Pau?",
+     "La galleda és vermella? Com ho saps?",
+     "De què és el castell?",
+     "Busca una paraula que anomeni una persona de la família.",
+     "Dibuixa l’escena i escriu-hi una paraula."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-narativ": {
+   "ca": {
+    "title": "Personatges i fets d’un conte",
+    "theory": "Els personatges són les persones o els animals del conte. Els fets són el que passa. Per explicar en ordre fem servir: primer, després, llavors, al final.",
+    "sample": "Primer, un esquirol va perdre la seva gla. Després, un conill la va trobar sota una fulla. Llavors el conill li va tornar. Al final, l’esquirol li va donar les gràcies.",
+    "worked": "Els personatges són l’esquirol i el conill. Primer: l’esquirol perd la gla. Després: el conill la troba. Llavors: li torna. Al final: l’esquirol dona les gràcies.",
+    "exercises": [
+     "Qui són els personatges?",
+     "Què va perdre l’esquirol?",
+     "On era la gla?",
+     "Explica el conte amb primer, després, llavors i al final.",
+     "Com se sent l’esquirol al final? Quina paraula t’ajuda?"
+    ],
+    "test": [
+     "Qui va trobar la gla?",
+     "Què va passar primer?",
+     "Què va fer l’esquirol al final?",
+     "Ordena: dona les gràcies / perd la gla / la troba.",
+     "Dibuixa la part que t’agrada més."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-poezie": {
+   "ca": {
+    "title": "Poemes i rimes",
+    "theory": "Un poema és un text curt en versos, amb ritme, com una cançó. Dues paraules rimen quan acaben amb els mateixos sons: gat i plat, lluna i bruna.",
+    "sample": "El sol surt de bon matí,\nel gall canta: quiquiriquí!\nSalto, ballo i faig un pas,\njugo al parc amb el meu nas.",
+    "worked": "Matí i quiquiriquí rimen perquè acaben en -í. Pas i nas rimen perquè acaben en -as. L’últim vers és divertit: no juguem amb el nas, però la rima fa riure.",
+    "exercises": [
+     "Llegeix el poema en veu alta i marca el ritme.",
+     "Busca la paraula que rima amb pas.",
+     "Quines accions hi ha al tercer vers?",
+     "Què canta el gall?",
+     "Digues una paraula que rimi amb sol."
+    ],
+    "test": [
+     "Quina paraula rima amb matí?",
+     "Quan surt el sol al poema?",
+     "Escriu dues paraules que rimin amb gat.",
+     "Per què l’últim vers fa riure?",
+     "Inventa un vers que acabi en lluna."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-dialog": {
+   "ca": {
+    "title": "Parlo i escolto",
+    "theory": "Quan parlem amb algú, respectem el torn: un parla i l’altre escolta. Mirem la persona i responem el que ens pregunta. Fem servir paraules amables: si us plau, gràcies, de res.",
+    "sample": "Marc: Hola, Anna! Què portes a la motxilla?\nAnna: Hola, Marc! Porto un conte i una mandarina.\nMarc: Em deixes veure el conte, si us plau?\nAnna: És clar! Aquí el tens.\nMarc: Gràcies!",
+    "worked": "En Marc fa una pregunta i l’Anna respon amb una frase completa. En Marc demana amb amabilitat: si us plau, i al final diu gràcies. Parlen per torns.",
+    "exercises": [
+     "Llegeix el diàleg amb un company.",
+     "Què pregunta en Marc primer?",
+     "Què porta l’Anna a la motxilla?",
+     "Busca les paraules amables del diàleg.",
+     "Inventa un diàleg: pregunta a un company quin és el seu joc preferit."
+    ],
+    "test": [
+     "Qui saluda primer?",
+     "L’Anna respon amb una paraula o amb una frase?",
+     "Què vol veure en Marc?",
+     "Què fem mentre l’altre parla?",
+     "Escriu una pregunta que comenci per Què."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-vocabular": {
+   "ca": {
+    "title": "Paraules i significats",
+    "theory": "Les paraules es poden agrupar: animals, colors, menjar. Algunes tenen un contrari: gran i petit, fred i calent. Si afegim -s o -os diem que n’hi ha més d’un: un gos, dos gossos; una vaca, dues vaques.",
+    "sample": "A la granja hi ha un cavall gran i dues vaques petites. El cavall té calor i beu aigua freda.",
+    "worked": "Cavall i vaques són animals. Gran i petites són contraris. Vaques vol dir més d’una vaca: la a es converteix en es. Calor i freda parlen de la temperatura.",
+    "exercises": [
+     "Busca tots els animals del text.",
+     "Busca dues paraules contràries.",
+     "Escriu: un gat, dos …",
+     "Classifica en colors i menjar: verd, pa, vermell, formatge.",
+     "Quin és el contrari de fred?"
+    ],
+    "test": [
+     "Un arbre, dos …?",
+     "Una flor, moltes …?",
+     "Quin és el contrari de gran?",
+     "Quina paraula és un color: córrer, groc, tassa?",
+     "Escriu una frase amb la paraula petit."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-exprimare": {
+   "ca": {
+    "title": "Majúscula, punt i lletres especials",
+    "theory": "La frase comença amb majúscula i acaba amb punt. Els noms de persones i llocs porten majúscula. Alguns sons s’escriuen amb dues lletres: ny (canya), ll (lluna), tx (cotxe). La ela geminada s’escriu l·l: col·legi.",
+    "sample": "el gos de la marta juga al jardí\nEl gos de la Marta juga al jardí.",
+    "worked": "A la primera línia falten la majúscula i el punt. Marta és un nom de persona i porta majúscula. Jardí porta accent a la í final.",
+    "exercises": [
+     "Copia la frase correcta.",
+     "Busca el nom de persona a la frase.",
+     "Escriu dues paraules amb ny.",
+     "Llegeix: col·legi. Quines lletres porta al mig?",
+     "Corregeix: avui plou"
+    ],
+    "test": [
+     "Amb què comença una frase?",
+     "Què posem al final d’una frase?",
+     "Completa amb ll o l: …una (al cel).",
+     "Per què Barcelona porta majúscula?",
+     "Escriu una paraula amb tx."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-redactare": {
+   "ca": {
+    "title": "Escric una frase sobre un dibuix",
+    "theory": "Abans d’escriure, digues la frase en veu alta i compta les paraules. Després escriu-la, torna-la a llegir i comprova: majúscula, espais entre paraules, punt, i que tingui sentit.",
+    "sample": "Dibuix: una nena rega una flor.\nDic: La nena rega la flor.\nEscric: La nena rega la flor.\nAfegeixo: La flor creix molt.",
+    "worked": "Primer hem dit la frase en veu alta: cinc paraules. Després l’hem escrita amb majúscula i punt. En llegir-la, té sentit. Hem afegit una altra frase per explicar-ne més.",
+    "exercises": [
+     "Digues una frase sobre un gat al jardí i compta les paraules.",
+     "Escriu la teva frase i comprova el punt.",
+     "Afegeix-hi una segona frase.",
+     "Llegeix la teva frase a un company.",
+     "Fes un dibuix i escriu-hi dues frases."
+    ],
+    "test": [
+     "Què fas abans d’escriure?",
+     "Quantes paraules hi ha a: El sol escalfa.?",
+     "Què comproves després d’escriure?",
+     "Escriu una frase sobre el teu esmorzar.",
+     "Allarga la frase: Jo jugo."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-interpretare": {
+   "ca": {
+    "title": "El que penso i per què",
+    "theory": "Després de llegir podem dir el que pensem i explicar per què, assenyalant el text. També podem comparar dos personatges: en què s’assemblen?, en què es diferencien?",
+    "sample": "L’Aina comparteix les seves ceres amb l’Àlex. En Biel es queda totes les ceres i no comparteix. L’Àlex somriu a l’Aina.",
+    "worked": "L’Aina i en Biel tenen ceres: en això s’assemblen. Es diferencien perquè l’Aina comparteix i en Biel no. Penso que l’Aina és generosa perquè el text diu que comparteix i l’Àlex somriu.",
+    "exercises": [
+     "En què s’assemblen l’Aina i en Biel?",
+     "En què es diferencien?",
+     "Qui és generós? Per què ho penses?",
+     "Per què somriu l’Àlex?",
+     "Què podria fer en Biel la propera vegada?"
+    ],
+    "test": [
+     "Qui es queda totes les ceres?",
+     "Qui somriu?",
+     "Completa: Penso que l’Aina és … perquè …",
+     "Diu el text que en Biel està trist?",
+     "Digues una cosa que t’agradi del conte i per què."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-verificare": {
+   "ca": {
+    "title": "Repàs de 1r",
+    "theory": "Comprovem el que has après: llegir unint síl·labes, trobar respostes al text, explicar els fets en ordre, sentir les rimes, parlar per torns, conèixer paraules noves i escriure frases amb majúscula i punt.",
+    "sample": "El gosset Bru corre cap al jardí. Fa un forat i troba una pilota. Porta la pilota a l’avi. L’avi la llança i en Bru corre ràpid.",
+    "worked": "En Bru és el personatge principal. Els fets en ordre: corre al jardí, fa un forat, troba la pilota, la porta a l’avi, l’avi la llança. Cada frase comença amb majúscula i acaba amb punt.",
+    "exercises": [
+     "Llegeix el text en veu alta.",
+     "Qui és el personatge principal?",
+     "Explica els fets en ordre.",
+     "Busca una paraula amb accent.",
+     "Escriu una frase sobre què fa en Bru després."
+    ],
+    "test": [
+     "Què troba en Bru?",
+     "Qui llança la pilota?",
+     "Busca una paraula amb majúscula i digues per què.",
+     "Quin és el contrari de ràpid?",
+     "Escriu una frase sobre el teu animal preferit."
+    ]
+   }
+  }
+ }
+}
