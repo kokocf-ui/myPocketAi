@@ -40,6 +40,6 @@ assert.match(COMPUTING_UI_SCRIPT,/stage==='paths'\)computingOpen\(COMPUTING_NATI
 for(const name of ['computingWithNational','computingOpenNationalYear','computingRenderNationalTracks','computingRenderNationalChapters','computingRenderNationalLesson'])
  assert.ok(COMPUTING_NATIONAL_PACKS_SCRIPT.includes('function '+name+'('));
 assert.match(COMPUTING_NATIONAL_PACKS_SCRIPT,/literatureLoadAuthoredCatalog\(\{subject:'computing'\}\)/);
-assert.match(COMPUTING_NATIONAL_PACKS_SCRIPT,/litShowMaterialReader\(row\.title,material\.text\)/,'shared reader');
+assert.match(COMPUTING_NATIONAL_PACKS_SCRIPT,/eduNationalShowMaterial\(row\.title,material\.text,out,pack\.language\)/,'shared reader');
 new Function(COMPUTING_NATIONAL_PACKS_SCRIPT);
 console.log('PASS Computing national packs:',loaded.years.map(y=>y.grade).join(', '),'— Literature engine, shared reader, generic branches kept');
