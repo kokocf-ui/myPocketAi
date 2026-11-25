@@ -121,7 +121,8 @@ for(const key of Object.keys(tr.chapters))assert.ok(literatureNationalYearMateri
 // test mode ends with the answers; the answers never leak into lesson/exercise modes.
 for(const {country,lang,pack} of packs.filter(p=>p.pack.units)){
  assert.equal(pack.labels.length,9,country+' textbook pack needs tutor labels');
- const entry=catalog.years.find(y=>y.country===country&&y.lang===lang)||catalog.years.find(y=>y.country===country);
+ // A country now has several years (RO 1, 2, ...): match stage and grade too.
+ const entry=catalog.years.find(y=>y.country===country&&y.stage===pack.stage&&y.grade===pack.grade);
  const loaded=await literatureLoadNationalYear(entry,lang,{storage:null,fetcher:ok(pack)});
  for(const [key,row] of Object.entries(pack.chapters)){
   const c=row[lang];assert.ok(c.steps.length>=3&&c.answers.length===c.test.length,country+' '+key);
