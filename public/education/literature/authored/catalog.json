@@ -1,6 +1,6 @@
 {
  "schema": "mypocket-literature-authored-catalog/v1",
- "version": "bb2cc1571d08d691ec6339b87360d9cb7e24d4ba2ec8c7e7f2ca091a2a39bb0f",
+ "version": "efd7e834ac55dea3f3927112e38e23084a640bc6c5251032dc96a20d9ef82684",
  "years": [
   {
    "country": "AD",
@@ -491,6 +491,19 @@
    ]
   },
   {
+   "country": "SI",
+   "stage": "beginner",
+   "grade": "1",
+   "languages": [
+    {
+     "lang": "sl",
+     "name": "Slovenščina",
+     "file": "sl-1",
+     "version": "2a1989583b5a4adbdefff95de4d3a92cce7dea1385b82bbdb7b70a6da2b800e9"
+    }
+   ]
+  },
+  {
    "country": "SK",
    "stage": "beginner",
    "grade": "1",
@@ -526,6 +539,19 @@
      "name": "Türkçe",
      "file": "tr-1",
      "version": "8c472cfe6815666c30d3d06f74066ed5d16c7140deaf4b5e76e79ed1775e4d49"
+    }
+   ]
+  },
+  {
+   "country": "UA",
+   "stage": "beginner",
+   "grade": "1",
+   "languages": [
+    {
+     "lang": "uk",
+     "name": "Українська",
+     "file": "uk-1",
+     "version": "4fe6e6433989311bd015beb8c65bbcf0ef725952f89cb7e647fbdc21bf62a5d2"
     }
    ]
   },
