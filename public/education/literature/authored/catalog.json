@@ -1,6 +1,6 @@
 {
  "schema": "mypocket-literature-authored-catalog/v1",
- "version": "39ed04644fe6748bcb2dc8774f745555d74bc31d6644a8bf756da6f45717a311",
+ "version": "d2f91581305d15892f6b9b6dc90c241795fdfce48243c1d1869ec768d8326931",
  "years": [
   {
    "country": "AD",
@@ -75,6 +75,19 @@
      "name": "Nederlands",
      "file": "nl-1",
      "version": "9d451652eb23a42c7980c04ba5494727c9b996bd1f343be9708aa1903b3a0185"
+    }
+   ]
+  },
+  {
+   "country": "BY",
+   "stage": "beginner",
+   "grade": "1",
+   "languages": [
+    {
+     "lang": "ru",
+     "name": "Русский",
+     "file": "ru-1",
+     "version": "bdff5bf8bc2bd91ea561f47c5752f83e17b87c0e5c2258bcfe94e600e103db7d"
     }
    ]
   },
@@ -435,6 +448,19 @@
      "name": "Српски",
      "file": "sr-1",
      "version": "341e34d5fd3ec398af3c768731e1e153943a8a2364ef88a9d21507cd0cb1a320"
+    }
+   ]
+  },
+  {
+   "country": "RU",
+   "stage": "beginner",
+   "grade": "1",
+   "languages": [
+    {
+     "lang": "ru",
+     "name": "Русский",
+     "file": "ru-1",
+     "version": "a6667e23de881d0181052588345d6a685a3f63fbfaf702e7792872e51536ec81"
     }
    ]
   },
