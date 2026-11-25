@@ -1,0 +1,905 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "RO",
+ "stage": "lower",
+ "grade": "8",
+ "version": "a16a1ea7f62cddd3cf0f21a716f1b01749a34d266f1ff83b33c6b24b02a0b651",
+ "source": "https://rocnee.eu/images/rocnee/fisiere/programe_scolare/Inv%20gimnazial/Tehnologii/informatica_tic/OMEN_3393_Informatica_Tic_5-8_gimnaziu.pdf",
+ "sourceTitle": "Programa școlară pentru disciplina Informatică și TIC, clasele a V-a – a VIII-a, aprobată prin OMEN nr. 3393/28.02.2017 — clasa a VIII-a: aplicații de calcul tabelar (formule, funcții, diagrame), pagini web, date structurate: tablouri unidimensionale și algoritmi de prelucrare",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "ro",
+ "labels": [
+  "Activitate originală · România · Informatică și TIC · Clasa a VIII-a",
+  "Lecția pe înțeles",
+  "Exemplu",
+  "Ce ne arată exemplul",
+  "Exerciții",
+  "Test",
+  "Activități originale, făcute după programa școlară; nu înlocuiesc manualul sau ora de la clasă.",
+  "Dacă nu ai înțeles: pas cu pas",
+  "Răspunsuri (verifică după ce termini)"
+ ],
+ "units": [
+  {
+   "title": "Calcul tabelar",
+   "keys": [
+    "eu-year-ro-lower-8-l01",
+    "eu-year-ro-lower-8-l02",
+    "eu-year-ro-lower-8-l03",
+    "eu-year-ro-lower-8-l04",
+    "eu-year-ro-lower-8-l05",
+    "eu-year-ro-lower-8-l06",
+    "eu-year-ro-lower-8-l07",
+    "eu-year-ro-lower-8-l08",
+    "eu-year-ro-lower-8-l09"
+   ]
+  },
+  {
+   "title": "Pagini web",
+   "keys": [
+    "eu-year-ro-lower-8-l10",
+    "eu-year-ro-lower-8-l11",
+    "eu-year-ro-lower-8-l12",
+    "eu-year-ro-lower-8-l13",
+    "eu-year-ro-lower-8-l14",
+    "eu-year-ro-lower-8-l15"
+   ]
+  },
+  {
+   "title": "Tablouri unidimensionale",
+   "keys": [
+    "eu-year-ro-lower-8-l16",
+    "eu-year-ro-lower-8-l17",
+    "eu-year-ro-lower-8-l18",
+    "eu-year-ro-lower-8-l19",
+    "eu-year-ro-lower-8-l20",
+    "eu-year-ro-lower-8-l21",
+    "eu-year-ro-lower-8-l22",
+    "eu-year-ro-lower-8-l23",
+    "eu-year-ro-lower-8-l24"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-ro-lower-8-l01": {
+   "ro": {
+    "title": "Foaia de calcul: celule, adrese, tipuri de date",
+    "theory": "O aplicație de calcul tabelar (Microsoft Excel, LibreOffice Calc, Google Sheets) organizează date în tabele și face calcule automat. Fișierul se numește registru de calcul (.xlsx, .ods) și conține foi de calcul. O foaie are coloane notate cu litere (A, B, …, Z, AA…) și rânduri numerotate (1, 2, 3…). Intersecția lor este celula, identificată prin adresă: B3 înseamnă coloana B, rândul 3. Celula activă are chenarul îngroșat, iar conținutul ei apare în bara de formule. O zonă de celule se scrie cu două puncte: A1:C4 (dreptunghiul de la A1 la C4). Tipuri de date: numere (aliniate implicit la dreapta), text (la stânga), date calendaristice, formule (încep cu =).",
+    "sample": "Florin scrie în A1 „Produs”, în B1 „Preț”, iar sub ele pâine – 5, lapte – 8. Textul se aliniază la stânga, numerele la dreapta; zona datelor este A1:B3.",
+    "worked": "Alinierea implicită arată cum a înțeles aplicația datele. Dacă un preț ar apărea aliniat la stânga, ar fi fost citit ca text și nu s-ar putea folosi în calcule.",
+    "exercises": [
+     "Identifică adresele a cinci celule dintr-un tabel dat.",
+     "Scrie zona care cuprinde coloanele A–D și rândurile 2–10.",
+     "Introdu date de trei tipuri și observă alinierea.",
+     "Adaugă și redenumește o foaie de calcul.",
+     "Explică diferența dintre registru și foaie."
+    ],
+    "test": [
+     "Ce este celula?",
+     "Ce înseamnă adresa C7?",
+     "Cum se scrie zona de la A1 la B5?",
+     "Cu ce semn începe o formulă?",
+     "Cum se aliniază implicit numerele?"
+    ],
+    "steps": [
+     "Identifică coloana (litera) și rândul (numărul).",
+     "Scrie adresa celulei sau a zonei.",
+     "Verifică în bara de formule conținutul celulei.",
+     "Greșeala frecventă: să scrii numerele cu spații sau cu punct în loc de virgulă zecimală (în setarea românească); aplicația le ia drept text."
+    ],
+    "answers": [
+     "Intersecția dintre o coloană și un rând.",
+     "Coloana C, rândul 7.",
+     "A1:B5.",
+     "Cu =.",
+     "La dreapta."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l02": {
+   "ro": {
+    "title": "Formatarea și completarea automată",
+    "theory": "Formatarea face tabelul ușor de citit: font, culoare, borduri, umbrire, alinierea în celulă, încadrarea textului pe mai multe rânduri, îmbinarea celulelor pentru titlu, lățimea coloanelor și înălțimea rândurilor. Formatul numerelor arată valoarea în moduri diferite fără să o schimbe: număr cu două zecimale, monedă (lei), procent, dată. Completarea automată (ghidajul de umplere – pătrățelul din colțul celulei) continuă serii: 1, 2, 3…; luni, marți…; ianuarie, februarie…; sau copiază formule. Formatarea condiționată colorează automat celulele care respectă o regulă, de exemplu notele sub 5 cu roșu.",
+    "sample": "Elena scrie „Luni” în A2 și trage ghidajul până la A6: apar zilele până vineri. Apoi aplică formatare condiționată pe note: valorile sub 5 devin roșii.",
+    "worked": "Completarea automată a recunoscut seria zilelor. Formatarea condiționată se actualizează singură când se schimbă notele, spre deosebire de colorarea manuală.",
+    "exercises": [
+     "Formatează capul unui tabel cu aldin și umbrire.",
+     "Creează seria numerelor de la 1 la 30 cu ghidajul.",
+     "Aplică formatul monedă unei coloane de prețuri.",
+     "Aplică formatare condiționată notelor sub 5.",
+     "Îmbină celulele pentru titlul tabelului."
+    ],
+    "test": [
+     "Schimbă formatul numerelor valoarea din celulă?",
+     "Ce este ghidajul de umplere?",
+     "Ce face formatarea condiționată?",
+     "Ce format alegem pentru prețuri?",
+     "Când îmbinăm celule?"
+    ],
+    "steps": [
+     "Formatează întâi titlul și capul tabelului.",
+     "Aplică formate de număr potrivite fiecărei coloane.",
+     "Folosește completarea automată și formatarea condiționată unde ajută.",
+     "Greșeala frecventă: să scrii manual „lei” după fiecare număr; celula devine text și nu mai poate fi adunată."
+    ],
+    "answers": [
+     "Nu, doar felul în care este afișată.",
+     "Pătrățelul din colțul celulei care continuă seriile.",
+     "Colorează automat celulele care respectă o regulă.",
+     "Formatul monedă.",
+     "Pentru un titlu deasupra mai multor coloane."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l03": {
+   "ro": {
+    "title": "Formule și operatori",
+    "theory": "O formulă începe cu = și poate conține numere, adrese de celule, operatori și funcții. Operatori aritmetici: + − * / și ^ (putere). Ordinea operațiilor este cea din matematică, iar parantezele o schimbă. Avantajul folosirii adreselor: =B2*C2 se recalculează automat când se schimbă B2 sau C2, în timp ce =5*8 rămâne fix. În celulă apare rezultatul, iar în bara de formule vedem formula. Erori frecvente afișate: #DIV/0! (împărțire la zero), #VALUE! (#VALOARE! – calcul cu text), #NAME? (nume de funcție greșit), ##### (coloana este prea îngustă pentru număr).",
+    "sample": "Într-un tabel de cumpărături, coloana B are cantitatea, C prețul unitar. În D2 Andrei scrie =B2*C2 și obține valoarea. Când schimbă cantitatea, valoarea se schimbă singură.",
+    "worked": "Formula cu adrese leagă rezultatul de date. Asta este puterea foii de calcul: modifici o dată, iar toate rezultatele dependente se actualizează.",
+    "exercises": [
+     "Calculează valoarea fiecărui produs cu o formulă.",
+     "Calculează media a trei note cu o formulă cu paranteze.",
+     "Calculează 2 la puterea 10.",
+     "Explică eroarea #DIV/0!.",
+     "Corectează formula =B2+C2/2 pentru media a două numere."
+    ],
+    "test": [
+     "Cu ce începe o formulă?",
+     "Ce operator înseamnă putere?",
+     "De ce folosim adrese în loc de numere?",
+     "Ce înseamnă #####?",
+     "Unde vedem formula unei celule?"
+    ],
+    "steps": [
+     "Pornește cu = și alege celulele care conțin datele.",
+     "Leagă-le cu operatorii potriviți, cu paranteze unde este nevoie.",
+     "Verifică rezultatul pe un caz calculat de mână.",
+     "Greșeala frecventă: să scrii valorile direct în formulă (=5*8); rezultatul nu se mai actualizează."
+    ],
+    "answers": [
+     "Cu =.",
+     "^.",
+     "Ca rezultatul să se recalculeze automat.",
+     "Coloana este prea îngustă pentru număr.",
+     "În bara de formule."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l04": {
+   "ro": {
+    "title": "Adrese relative, absolute și mixte",
+    "theory": "Când copiem o formulă în altă celulă, adresele relative (A1) se modifică în funcție de deplasare: =B2*C2 copiată un rând mai jos devine =B3*C3. Asta ne permite să scriem formula o dată și să o copiem pe toată coloana. Uneori o celulă trebuie să rămână fixă, de exemplu cursul euro sau procentul TVA scris într-o singură celulă. Atunci folosim adresa absolută, cu semnul $: $F$1 nu se schimbă la copiere. Tasta F4 adaugă rapid semnele $. Adresele mixte fixează doar coloana ($A1) sau doar rândul (A$1), utile la tabele cu două intrări, ca tabla înmulțirii.",
+    "sample": "Prețurile în lei sunt în B2:B10, iar cursul euro în F1. În C2 scriem =B2/$F$1 și copiem formula în jos. În C3 apare =B3/$F$1: prețul se schimbă, cursul rămâne același.",
+    "worked": "Fără $, formula copiată în C3 ar fi fost =B3/F2, iar F2 este goală, deci ar fi apărut #DIV/0!. Semnul $ fixează celula cursului.",
+    "exercises": [
+     "Convertește o listă de prețuri în euro folosind o adresă absolută.",
+     "Explică ce devine =A1+B1 copiată un rând mai jos.",
+     "Construiește tabla înmulțirii cu adrese mixte.",
+     "Calculează procentul fiecărui elev din totalul clasei.",
+     "Folosește F4 pentru a schimba tipul adresei."
+    ],
+    "test": [
+     "Ce se întâmplă cu o adresă relativă la copiere?",
+     "Ce semn face o adresă absolută?",
+     "Ce tastă adaugă semnele $?",
+     "Ce fixează adresa A$1?",
+     "Când folosim o adresă absolută?"
+    ],
+    "steps": [
+     "Scrie formula pentru prima celulă.",
+     "Întreabă-te: care celule trebuie să rămână fixe la copiere? Pune $ la ele.",
+     "Copiază formula și verifică formula din ultima celulă.",
+     "Greșeala frecventă: să uiți $ la celula comună; formulele copiate se referă la celule goale."
+    ],
+    "answers": [
+     "Se modifică în funcție de deplasare.",
+     "$.",
+     "F4.",
+     "Rândul 1.",
+     "Când o celulă trebuie să rămână aceeași în toate formulele copiate."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l05": {
+   "ro": {
+    "title": "Funcții uzuale: SUM, AVERAGE, MIN, MAX, COUNT",
+    "theory": "O funcție este o formulă gata făcută, cu nume și argumente între paranteze. Cele mai folosite: SUM(zonă) – suma (SUMĂ în versiunea românească), AVERAGE(zonă) – media (MEDIE), MIN și MAX – cea mai mică și cea mai mare valoare, COUNT(zonă) – câte celule conțin numere, COUNTA – câte celule nu sunt goale. Exemplu: =AVERAGE(B2:B10). Argumentele pot fi zone, celule separate prin ; sau , (în funcție de setări) sau numere. Butonul Însumare automată (Σ) inserează rapid SUM. Funcția ROUND(valoare; zecimale) rotunjește, de exemplu media la două zecimale.",
+    "sample": "Pentru notele din B2:B8: =SUM(B2:B8) dă 58, =AVERAGE(B2:B8) dă 8,29, =MAX(B2:B8) dă 10, iar =ROUND(AVERAGE(B2:B8);2) afișează media rotunjită la două zecimale.",
+    "worked": "Funcțiile înlocuiesc calcule lungi: în loc de =B2+B3+…+B8 scriem SUM. Funcțiile pot fi combinate, ca ROUND aplicat mediei.",
+    "exercises": [
+     "Calculează suma, media, minimul și maximul notelor dintr-un tabel.",
+     "Numără câți elevi au note introduse.",
+     "Rotunjește o medie la două zecimale.",
+     "Folosește butonul Σ pentru o sumă rapidă.",
+     "Explică diferența dintre COUNT și COUNTA."
+    ],
+    "test": [
+     "Ce calculează AVERAGE?",
+     "Ce face COUNT?",
+     "Cum se numește SUM în versiunea românească?",
+     "Ce face ROUND?",
+     "Ce butoane inserează rapid suma?"
+    ],
+    "steps": [
+     "Alege funcția potrivită cerinței.",
+     "Selectează zona corectă ca argument.",
+     "Verifică rezultatul cu un calcul aproximativ.",
+     "Greșeala frecventă: să incluzi în zonă și celula cu totalul; rezultatul se calculează greșit sau apare o referință circulară."
+    ],
+    "answers": [
+     "Media aritmetică.",
+     "Numără celulele care conțin numere.",
+     "SUMĂ.",
+     "Rotunjește un număr la un număr dat de zecimale.",
+     "Însumare automată (Σ)."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l06": {
+   "ro": {
+    "title": "Funcția IF și funcții condiționale",
+    "theory": "Funcția IF (DACĂ) alege între două rezultate după o condiție: =IF(condiție; valoare_dacă_adevărat; valoare_dacă_fals). Condițiile folosesc operatorii =, <>, <, <=, >, >=. Exemplu: =IF(C2>=5;\"promovat\";\"corigent\"). Textul din rezultat se pune între ghilimele. Pentru mai multe cazuri, IF-urile se pot include unul în altul (imbricate). Funcțiile COUNTIF (CONTARDACĂ) și SUMIF numără, respectiv adună, doar celulele care respectă un criteriu: =COUNTIF(C2:C30;\">=9\") numără notele de cel puțin 9. Funcțiile AND și OR combină condiții.",
+    "sample": "În D2: =IF(C2>=5;\"promovat\";\"corigent\"), copiată în jos pentru toată clasa. În F1: =COUNTIF(D2:D30;\"promovat\") arată câți elevi au promovat.",
+    "worked": "IF decide pentru fiecare elev, iar COUNTIF face statistica pe toată coloana. Ambele se actualizează când se schimbă notele.",
+    "exercises": [
+     "Afișează „promovat” sau „corigent” în funcție de medie.",
+     "Numără notele de 10 cu COUNTIF.",
+     "Adună doar cheltuielile din categoria „transport” cu SUMIF.",
+     "Scrie un IF imbricat pentru calificative.",
+     "Folosește AND pentru a verifica dacă o valoare este între 1 și 10."
+    ],
+    "test": [
+     "Câte argumente are IF?",
+     "Cum se scrie „diferit” în foaia de calcul?",
+     "Ce face COUNTIF?",
+     "Cum scriem un text în rezultatul lui IF?",
+     "Ce funcție adună doar valorile care respectă un criteriu?"
+    ],
+    "steps": [
+     "Formulează condiția și cele două rezultate posibile.",
+     "Scrie funcția IF, cu textele între ghilimele.",
+     "Copiaz-o pe coloană și verifică un caz de fiecare fel.",
+     "Greșeala frecventă: să uiți ghilimelele la text sau să scrii condiția cu ≥ în loc de >=."
+    ],
+    "answers": [
+     "Trei: condiția, rezultatul dacă e adevărată, rezultatul dacă e falsă.",
+     "<>.",
+     "Numără celulele care respectă un criteriu.",
+     "Între ghilimele.",
+     "SUMIF."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l07": {
+   "ro": {
+    "title": "Sortarea și filtrarea datelor",
+    "theory": "Sortarea ordonează rândurile unui tabel după una sau mai multe coloane: crescător (A–Z, 0–9) sau descrescător. Putem sorta după mai multe criterii: întâi după clasă, apoi, în cadrul fiecărei clase, după medie. Este important să selectăm tot tabelul (sau să lăsăm aplicația să-l detecteze), ca rândurile să rămână întregi – altfel numele se despart de note. Filtrarea afișează doar rândurile care îndeplinesc o condiție (de exemplu elevii din clasa a VIII-a B sau mediile peste 9), fără să le șteargă pe celelalte; ele sunt doar ascunse. Filtrul se pune din meniul Date, cu săgețile apărute în capul de tabel.",
+    "sample": "Profesorul are un tabel cu 60 de elevi din trei clase. Sortează după clasă și apoi după medie descrescător, apoi filtrează doar clasa a VIII-a A ca să vadă clasamentul ei.",
+    "worked": "Sortarea pe două niveluri și filtrarea au transformat o listă lungă într-un clasament clar, fără a modifica sau pierde vreun rând.",
+    "exercises": [
+     "Sortează un tabel alfabetic după nume.",
+     "Sortează după două criterii.",
+     "Filtrează rândurile cu valori peste o limită.",
+     "Explică ce se întâmplă cu rândurile filtrate.",
+     "Explică de ce selectăm tot tabelul înainte de sortare."
+    ],
+    "test": [
+     "Ce face sortarea?",
+     "Ce face filtrarea?",
+     "Se șterg rândurile ascunse de filtru?",
+     "Unde apar săgețile filtrului?",
+     "Ce se întâmplă dacă sortezi doar o coloană?"
+    ],
+    "steps": [
+     "Verifică dacă tabelul are cap de tabel și nu are rânduri goale.",
+     "Alege coloana și ordinea sau condiția filtrului.",
+     "Verifică dacă rândurile au rămas întregi.",
+     "Greșeala frecventă: să sortezi doar coloana selectată; datele de pe rânduri se amestecă."
+    ],
+    "answers": [
+     "Ordonează rândurile după o coloană.",
+     "Afișează doar rândurile care respectă o condiție.",
+     "Nu, doar sunt ascunse.",
+     "În capul de tabel.",
+     "Valorile ei se separă de restul rândului."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l08": {
+   "ro": {
+    "title": "Diagrame",
+    "theory": "O diagramă (grafic) reprezintă vizual datele dintr-un tabel. Tipuri: diagrama cu coloane sau bare – compară valori (notele la materii); diagrama cu linii – arată evoluția în timp (temperatura pe zile); diagrama circulară (radială) – arată părțile unui întreg, în procente (cum îți împarți timpul într-o zi). Pentru a crea o diagramă selectăm datele, inclusiv etichetele, și alegem tipul din Inserare. Apoi adăugăm elementele: titlul diagramei, titlurile axelor, legenda, etichetele de date. Diagrama este legată de tabel: dacă schimbăm datele, diagrama se actualizează. Alegerea greșită a tipului poate induce în eroare.",
+    "sample": "Teodora notează temperaturile maxime pe 7 zile. Alege diagrama cu linii, adaugă titlul „Temperaturi maxime – săptămâna 12” și titlurile axelor: „Ziua” și „°C”.",
+    "worked": "Diagrama cu linii arată bine evoluția în timp. Titlurile axelor spun ce reprezintă fiecare valoare, fără ele graficul ar fi greu de înțeles.",
+    "exercises": [
+     "Creează o diagramă cu coloane pentru notele la cinci materii.",
+     "Creează o diagramă cu linii pentru temperaturile unei săptămâni.",
+     "Creează o diagramă circulară pentru împărțirea unei zile.",
+     "Adaugă titlu, titluri de axe și etichete de date.",
+     "Explică de ce diagrama circulară nu se potrivește pentru evoluția în timp."
+    ],
+    "test": [
+     "Ce tip de diagramă compară valori?",
+     "Ce tip arată evoluția în timp?",
+     "Ce arată diagrama circulară?",
+     "Ce selectăm înainte de a crea diagrama?",
+     "Ce se întâmplă cu diagrama dacă schimbăm datele?"
+    ],
+    "steps": [
+     "Selectează datele împreună cu etichetele lor.",
+     "Alege tipul de diagramă potrivit mesajului.",
+     "Adaugă titlu, axe și legendă și verifică dacă se înțelege.",
+     "Greșeala frecventă: să alegi diagrama circulară pentru date care nu formează un întreg."
+    ],
+    "answers": [
+     "Diagrama cu coloane sau bare.",
+     "Diagrama cu linii.",
+     "Părțile unui întreg.",
+     "Datele și etichetele lor.",
+     "Se actualizează automat."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l09": {
+   "ro": {
+    "title": "Proiect: bugetul unei excursii",
+    "theory": "Un proiect de calcul tabelar combină tot ce am învățat. Exemplu: bugetul unei excursii a clasei. Pașii: 1. tabelul de cheltuieli (categorie, descriere, cantitate, preț unitar), cu cap de tabel formatat; 2. formule pentru valoare (cantitate × preț); 3. totalul cu SUM și costul pe elev cu o adresă absolută la celula cu numărul de elevi; 4. IF care afișează „în buget” sau „depășit” comparând totalul cu suma disponibilă; 5. SUMIF pe categorii (transport, cazare, masă); 6. o diagramă circulară cu împărțirea cheltuielilor; 7. pregătirea pentru imprimare: orientare, încadrare pe o pagină, antet cu titlul. Verificăm formulele schimbând câteva date.",
+    "sample": "Clasa are 25 de elevi și 7.500 de lei. Totalul ajunge la 7.900 de lei, iar celula de verificare afișează „depășit”. Echipa scade numărul de mese la restaurant și totalul scade la 7.300 de lei: apare „în buget”.",
+    "worked": "Formulele au permis încercarea rapidă a variantelor. Modelul răspunde la întrebarea „ce se întâmplă dacă…”, cel mai util lucru pe care îl face o foaie de calcul.",
+    "exercises": [
+     "Construiește tabelul de cheltuieli al unei excursii.",
+     "Calculează totalul și costul pe elev.",
+     "Adaugă verificarea bugetului cu IF.",
+     "Calculează totalurile pe categorii cu SUMIF.",
+     "Creează diagrama și pregătește imprimarea pe o pagină."
+    ],
+    "test": [
+     "Ce funcție calculează totalul?",
+     "De ce folosim adresă absolută la numărul de elevi?",
+     "Ce verifică funcția IF în proiect?",
+     "Ce diagramă arată împărțirea cheltuielilor?",
+     "Cum verifici că formulele sunt corecte?"
+    ],
+    "steps": [
+     "Construiește tabelul de date și formatează-l.",
+     "Adaugă formulele, funcțiile și verificarea cu IF.",
+     "Schimbă câteva date de probă și verifică dacă totul se recalculează.",
+     "Greșeala frecventă: să scrii totalurile calculate de mână; la prima modificare a datelor devin greșite."
+    ],
+    "answers": [
+     "SUM.",
+     "Ca toate formulele să folosească aceeași celulă.",
+     "Dacă totalul se încadrează în suma disponibilă.",
+     "Diagrama circulară.",
+     "Schimb datele și verific dacă rezultatele se actualizează corect."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l10": {
+   "ro": {
+    "title": "Web, browser și limbajul HTML",
+    "theory": "World Wide Web (web) este ansamblul paginilor legate între ele prin linkuri și accesibile prin Internet. Browserul (Chrome, Firefox, Edge, Safari) cere pagina de la un server și o afișează. O pagină web este un fișier text scris în limbajul HTML (HyperText Markup Language), care descrie structura conținutului prin etichete (tag-uri) între paranteze unghiulare: <p> începe un paragraf, </p> îl încheie. Aspectul se stabilește cu CSS, iar interactivitatea cu JavaScript. Pagina se poate scrie într-un editor simplu (Notepad, VS Code) și se salvează cu extensia .html; o deschidem cu dublu clic în browser. Fiecare pagină are o adresă (URL), de exemplu https://www.exemplu.ro/index.html.",
+    "sample": "Răzvan scrie într-un editor <h1>Clasa a VIII-a B</h1><p>Bine ați venit!</p>, salvează fișierul ca clasa.html și îl deschide în browser: apar un titlu mare și un paragraf.",
+    "worked": "Browserul a interpretat etichetele: h1 a devenit titlu, p a devenit paragraf. Etichetele nu se văd pe pagină; ele spun doar ce rol are fiecare bucată de text.",
+    "exercises": [
+     "Explică rolul browserului.",
+     "Scrie o pagină cu un titlu și un paragraf.",
+     "Salvează pagina cu extensia .html și deschide-o.",
+     "Identifică eticheta de început și de sfârșit într-un exemplu.",
+     "Explică ce rol au HTML, CSS și JavaScript."
+    ],
+    "test": [
+     "Ce înseamnă HTML?",
+     "Ce este o etichetă?",
+     "Ce extensie are o pagină web?",
+     "Ce este un URL?",
+     "Ce limbaj stabilește aspectul paginii?"
+    ],
+    "steps": [
+     "Scrie conținutul în editor folosind etichetele potrivite.",
+     "Salvează fișierul cu extensia .html.",
+     "Deschide-l în browser și reîncarcă pagina după fiecare modificare.",
+     "Greșeala frecventă: să salvezi fișierul ca .txt; browserul afișează codul, nu pagina."
+    ],
+    "answers": [
+     "HyperText Markup Language.",
+     "O comandă HTML între paranteze unghiulare.",
+     ".html.",
+     "Adresa unei pagini web.",
+     "CSS."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l11": {
+   "ro": {
+    "title": "Structura documentului HTML și textul",
+    "theory": "Un document HTML are structura: <!DOCTYPE html>, apoi <html lang=\"ro\">, care cuprinde <head> și <body>. În head punem informații despre pagină: <meta charset=\"UTF-8\"> (pentru diacritice) și <title>, textul din fila browserului. În body se află conținutul vizibil. Pentru text: titlurile <h1>…<h6> (h1 cel mai important), paragraful <p>, rândul nou <br>, linia orizontală <hr>, textul important <strong>, textul accentuat <em>. Etichetele se închid în ordinea inversă deschiderii (corect: <p><strong>…</strong></p>). Spațiile multiple și Enter-urile din cod nu apar în pagină. Comentariile se scriu <!-- … -->.",
+    "sample": "Ana scrie structura completă, pune în title „Pagina mea” și în body un h1, două paragrafe și un cuvânt cu strong. Diacriticele apar corect datorită meta charset UTF-8.",
+    "worked": "Fiecare parte are rolul ei: head descrie pagina, body o afișează. Fără meta charset, literele ă, î, ș ar putea apărea ca semne ciudate.",
+    "exercises": [
+     "Scrie structura completă a unui document HTML.",
+     "Folosește trei niveluri de titluri.",
+     "Evidențiază cuvinte cu strong și em.",
+     "Explică de ce Enter-urile din cod nu apar în pagină.",
+     "Corectează o închidere greșită a etichetelor."
+    ],
+    "test": [
+     "Ce conține head?",
+     "Ce conține body?",
+     "Unde apare textul din title?",
+     "La ce folosește meta charset UTF-8?",
+     "Care este cel mai important titlu?"
+    ],
+    "steps": [
+     "Scrie scheletul: doctype, html, head, body.",
+     "Adaugă conținutul în body cu etichetele potrivite.",
+     "Verifică în browser închiderea corectă și diacriticele.",
+     "Greșeala frecventă: să încerci să faci spații sau rânduri noi în pagină apăsând Enter în cod."
+    ],
+    "answers": [
+     "Informații despre pagină: titlu, setul de caractere.",
+     "Conținutul vizibil.",
+     "În fila browserului.",
+     "Pentru afișarea corectă a diacriticelor.",
+     "h1."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l12": {
+   "ro": {
+    "title": "Liste și tabele în HTML",
+    "theory": "Listele neordonate (cu marcatori) se scriu cu <ul>, iar listele ordonate (numerotate) cu <ol>; fiecare element este <li>. Listele pot fi incluse una în alta. Un tabel se scrie cu <table>; fiecare rând este <tr>, celulele de date sunt <td>, iar celulele de cap de tabel sunt <th>. Pentru a îmbina celule folosim atributele colspan (pe orizontală) și rowspan (pe verticală). Un atribut adaugă informații unei etichete și se scrie în eticheta de deschidere: <td colspan=\"2\">. Legenda tabelului se scrie cu <caption>. Tabelele se folosesc pentru date, nu pentru aranjarea paginii.",
+    "sample": "Orarul pe două zile: <table><tr><th>Ora</th><th>Luni</th><th>Marți</th></tr><tr><td>8</td><td>Română</td><td>Matematică</td></tr></table>.",
+    "worked": "Primul rând conține capul de tabel (th), al doilea datele (td). Browserul aliniază automat celulele pe coloane.",
+    "exercises": [
+     "Scrie o listă neordonată cu materiile preferate.",
+     "Scrie o listă ordonată cu pașii unei rețete.",
+     "Creează un tabel cu orarul pe trei zile.",
+     "Îmbină două celule cu colspan.",
+     "Adaugă o legendă tabelului."
+    ],
+    "test": [
+     "Ce etichetă face o listă numerotată?",
+     "Ce etichetă are fiecare element de listă?",
+     "Ce înseamnă tr?",
+     "Ce diferență este între th și td?",
+     "Ce face colspan?"
+    ],
+    "steps": [
+     "Alege tipul de structură: listă ordonată, neordonată sau tabel.",
+     "Scrie etichetele în ordine, rând cu rând.",
+     "Verifică în browser închiderea fiecărei etichete.",
+     "Greșeala frecventă: să pui text direct în tr, fără td; celulele se afișează greșit."
+    ],
+    "answers": [
+     "ol.",
+     "li.",
+     "Un rând de tabel.",
+     "th este celulă de cap de tabel, td de date.",
+     "Îmbină celule pe orizontală."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l13": {
+   "ro": {
+    "title": "Linkuri și imagini",
+    "theory": "Un link (hiperlegătură) se scrie cu <a href=\"adresă\">text</a>: textul este afișat, iar href este destinația. Adresa poate fi absolută (https://www.exemplu.ro) sau relativă, către un fișier din același site (despre.html sau poze/harta.jpg). Atributul target=\"_blank\" deschide linkul într-o filă nouă. Linkurile pot duce și la o secțiune a paginii (href=\"#contact\", cu id=\"contact\" pe secțiune) sau la e-mail (mailto:). Imaginile se inserează cu <img src=\"fisier.jpg\" alt=\"descriere\">: src este fișierul, iar alt este textul alternativ, citit de cititoarele de ecran pentru persoanele cu deficiențe de vedere și afișat dacă imaginea lipsește. width și height stabilesc dimensiunile.",
+    "sample": "<a href=\"galerie.html\"><img src=\"poze/excursie.jpg\" alt=\"Clasa noastră la Sinaia\" width=\"300\"></a> – imaginea este și link către galerie.",
+    "worked": "Linkul relativ funcționează cât timp fișierele păstrează aceeași structură de dosare. Textul alternativ face imaginea accesibilă și explică ce reprezintă.",
+    "exercises": [
+     "Creează un link către un site extern care se deschide în filă nouă.",
+     "Creează un link către altă pagină din site.",
+     "Inserează o imagine cu text alternativ.",
+     "Transformă o imagine într-un link.",
+     "Creează un link către o secțiune a aceleiași pagini."
+    ],
+    "test": [
+     "Ce atribut conține destinația unui link?",
+     "Ce este o adresă relativă?",
+     "Ce face target=\"_blank\"?",
+     "La ce folosește atributul alt?",
+     "Ce atribut conține fișierul imaginii?"
+    ],
+    "steps": [
+     "Stabilește destinația: alt site, altă pagină sau o secțiune.",
+     "Scrie eticheta a cu href corect sau img cu src și alt.",
+     "Testează fiecare link și imagine în browser.",
+     "Greșeala frecventă: să scrii în src calea de pe calculatorul tău (C:\\Users\\...); pe alt calculator imaginea nu mai apare."
+    ],
+    "answers": [
+     "href.",
+     "O adresă față de pagina curentă, din același site.",
+     "Deschide linkul într-o filă nouă.",
+     "Descrie imaginea pentru cititoarele de ecran și când imaginea lipsește.",
+     "src."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l14": {
+   "ro": {
+    "title": "Aspectul paginii cu CSS",
+    "theory": "CSS (Cascading Style Sheets) stabilește aspectul paginii: culori, fonturi, mărimi, margini, aliniere. O regulă CSS are un selector și declarații: h1 { color: navy; font-size: 32px; }. Selectorul poate fi o etichetă (p), o clasă (.important, folosită cu class=\"important\") sau un id (#antet). Stilurile se pot scrie în atributul style al unei etichete, în eticheta <style> din head sau, cel mai bine, într-un fișier separat .css legat cu <link rel=\"stylesheet\" href=\"stil.css\">. Proprietăți uzuale: color, background-color, font-family, font-size, text-align, margin, padding, border, width. Un singur fișier CSS poate da același aspect tuturor paginilor site-ului.",
+    "sample": "În stil.css: body { font-family: Arial; background-color: #f4f4f4; } h1 { color: darkgreen; text-align: center; } .nota { border: 1px solid gray; padding: 8px; }. Toate paginile legate de fișier capătă același aspect.",
+    "worked": "Separarea conținutului (HTML) de aspect (CSS) permite schimbarea designului întregului site dintr-un singur loc.",
+    "exercises": [
+     "Schimbă culoarea și fontul titlurilor.",
+     "Creează o clasă CSS și aplic-o la două paragrafe.",
+     "Leagă un fișier CSS extern de pagină.",
+     "Adaugă o bordură și spațiere interioară unui paragraf.",
+     "Explică avantajul unui fișier CSS separat."
+    ],
+    "test": [
+     "Ce înseamnă CSS?",
+     "Din ce este formată o regulă CSS?",
+     "Cum se scrie selectorul pentru o clasă?",
+     "Ce proprietate schimbă culoarea fundalului?",
+     "Cum legăm un fișier CSS de pagină?"
+    ],
+    "steps": [
+     "Scrie conținutul în HTML fără să te gândești la aspect.",
+     "Scrie regulile CSS într-un fișier separat și leagă-l.",
+     "Verifică aspectul în browser și ajustează.",
+     "Greșeala frecventă: să scrii stiluri în fiecare etichetă cu style; site-ul devine greu de modificat."
+    ],
+    "answers": [
+     "Cascading Style Sheets.",
+     "Un selector și declarații.",
+     "Cu punct: .nume.",
+     "background-color.",
+     "Cu link rel=\"stylesheet\" href=\"fișier.css\" în head."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l15": {
+   "ro": {
+    "title": "Proiect: un site de prezentare",
+    "theory": "Un mic site se planifică înainte de a fi scris. 1. Tema și publicul: de exemplu, „Clasa noastră” pentru colegi și părinți. 2. Harta site-ului: pagina principală index.html și 2–3 pagini (Despre noi, Galerie, Contact), legate printr-un meniu identic pe toate paginile. 3. Structura de dosare: un dosar pentru site, cu subdosarele poze și css. 4. Scrierea paginilor în HTML și a unui fișier CSS comun. 5. Verificarea: toate linkurile funcționează, imaginile au alt, textul se citește bine, pagina arată acceptabil și pe telefon. 6. Respectarea regulilor: imagini proprii sau cu licență și fără date personale (adrese, telefoane) ale colegilor. Site-ul poate fi publicat pe o platformă de găzduire gratuită, cu acordul profesorului.",
+    "sample": "Echipa face un site cu trei pagini. La verificare, linkul „Galerie” nu merge pentru că fișierul se numește galerie.HTML, iar linkul este galerie.html. După redenumire, totul funcționează.",
+    "worked": "Serverele web fac adesea diferența între litere mari și mici în numele fișierelor. Verificarea fiecărui link a prins problema înainte de publicare.",
+    "exercises": [
+     "Desenează harta unui site cu patru pagini.",
+     "Creează structura de dosare a site-ului.",
+     "Scrie un meniu comun pentru toate paginile.",
+     "Verifică toate linkurile și textele alternative.",
+     "Prezintă site-ul colegilor în două minute."
+    ],
+    "test": [
+     "Ce nume are de obicei pagina principală?",
+     "De ce meniul este identic pe toate paginile?",
+     "Ce verificăm înainte de publicare?",
+     "Ce date nu publicăm despre colegi?",
+     "De ce contează literele mari și mici în numele fișierelor?"
+    ],
+    "steps": [
+     "Planifică harta site-ului și structura de dosare.",
+     "Scrie paginile și fișierul CSS comun.",
+     "Testează toate linkurile și imaginile înainte de publicare.",
+     "Greșeala frecventă: să publici fotografii și date personale ale colegilor fără acordul lor."
+    ],
+    "answers": [
+     "index.html.",
+     "Ca vizitatorul să navigheze ușor între pagini.",
+     "Linkurile, imaginile, textul și aspectul pe telefon.",
+     "Adrese, telefoane, alte date personale.",
+     "Pentru că serverele pot considera nume diferite galerie.html și galerie.HTML."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l16": {
+   "ro": {
+    "title": "Ce este un tablou unidimensional",
+    "theory": "Când avem multe valori de același fel (notele a 30 de elevi), nu declarăm 30 de variabile, ci un tablou unidimensional (vector): o succesiune de elemente de același tip, memorate unul după altul, cu un singur nume. Fiecare element se accesează prin indice (poziție): v[0], v[1], …. În C++, declarația int v[100]; rezervă loc pentru 100 de întregi, cu indicii de la 0 la 99; folosim de obicei doar primele n elemente. Mulți preferă să lucreze cu indici de la 1 la n (declarând v[101]), ca în enunțurile problemelor. Accesul în afara tabloului (v[100] pentru int v[100]) este o greșeală gravă: programul poate da rezultate greșite sau se poate opri. În Python, echivalentul este lista: v = [7, 9, 10].",
+    "sample": "int note[31]; note[1] = 9; note[2] = 7; cout << note[1] + note[2]; – afișează 16. Dimensiunea 31 permite indici de la 1 la 30.",
+    "worked": "Indicele alege elementul, iar elementul se folosește ca orice variabilă. Declararea cu un element în plus permite numerotarea de la 1, ca în catalog.",
+    "exercises": [
+     "Declară un vector pentru temperaturile unei luni.",
+     "Atribuie valori primelor trei elemente și afișează-le.",
+     "Explică de ce int v[10] nu are elementul v[10].",
+     "Scrie în Python o listă cu cinci note.",
+     "Explică avantajul unui vector față de multe variabile."
+    ],
+    "test": [
+     "Ce este un vector?",
+     "Cum accesăm un element?",
+     "Ce indici are int v[5]?",
+     "Pot avea elementele unui vector tipuri diferite în C++?",
+     "Cum se numește echivalentul în Python?"
+    ],
+    "steps": [
+     "Stabilește tipul elementelor și numărul maxim de elemente.",
+     "Declară vectorul cu dimensiunea potrivită.",
+     "Folosește indici doar în intervalul declarat.",
+     "Greșeala frecventă: să folosești v[n] când vectorul a fost declarat cu exact n elemente și pornește de la 0."
+    ],
+    "answers": [
+     "O succesiune de elemente de același tip, cu un singur nume.",
+     "Prin indice: v[i].",
+     "De la 0 la 4.",
+     "Nu, toate au același tip.",
+     "Listă."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l17": {
+   "ro": {
+    "title": "Citirea și afișarea unui vector",
+    "theory": "Elementele unui vector se citesc și se afișează cu o buclă for: cin >> n; for (int i = 1; i <= n; i++) cin >> v[i];. Afișarea: for (int i = 1; i <= n; i++) cout << v[i] << \" \";. Parcurgerea înseamnă trecerea prin toate elementele, în ordine, de obicei pentru a le prelucra. Putem parcurge și invers: for (int i = n; i >= 1; i--). Datele pot veni și dintr-un fișier text, în loc de tastatură (ifstream fin(\"date.in\"); fin >> n;), ceea ce este util la date multe. În Python: v = list(map(int, input().split())) citește un rând de numere.",
+    "sample": "Date: 5 și 4 8 1 9 3. Citire cu for, apoi afișare inversă: 3 9 1 8 4.",
+    "worked": "Elementele au fost memorate toate, de aceea le putem folosi în orice ordine, de oricâte ori. Fără vector, după citire valorile s-ar pierde.",
+    "exercises": [
+     "Citește n numere într-un vector și afișează-le.",
+     "Afișează elementele în ordine inversă.",
+     "Afișează doar elementele de pe poziții pare.",
+     "Citește datele dintr-un fișier text.",
+     "Afișează elementele separate prin virgulă."
+    ],
+    "test": [
+     "Ce structură folosim pentru citirea unui vector?",
+     "Ce înseamnă parcurgerea?",
+     "Cum parcurgem invers?",
+     "De ce memorăm valorile într-un vector?",
+     "Ce citim întâi?"
+    ],
+    "steps": [
+     "Citește n, numărul de elemente.",
+     "Citește elementele cu for, de la 1 la n.",
+     "Prelucrează sau afișează elementele printr-o nouă parcurgere.",
+     "Greșeala frecventă: să citești elementele înainte de a citi n; bucla nu știe câte valori să citească."
+    ],
+    "answers": [
+     "O buclă for.",
+     "Trecerea prin toate elementele, în ordine.",
+     "for (i = n; i >= 1; i--).",
+     "Ca să le putem folosi de mai multe ori, în orice ordine.",
+     "Numărul de elemente n."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l18": {
+   "ro": {
+    "title": "Sumă, numărare și medie într-un vector",
+    "theory": "Algoritmii de bază se aplică ușor pe vectori: parcurgem elementele și actualizăm rezultatul. Suma: s = 0; for … s += v[i];. Numărarea: k = 0; for … if (condiție pentru v[i]) k++;. Media: (double)s / n. Putem lucra și cu poziția: suma elementelor de pe poziții impare sau numărul de elemente mai mari decât vecinul din dreapta (v[i] > v[i + 1], cu i până la n − 1). Avantajul vectorului: după ce am calculat media, putem face o a doua parcurgere și număra câte elemente sunt peste medie – lucru imposibil fără memorarea valorilor.",
+    "sample": "Note: 7 9 10 6 8. Suma 40, media 8. A doua parcurgere: peste medie sunt 9 și 10, deci 2 note.",
+    "worked": "Pentru „câte sunt peste medie” sunt necesare două parcurgeri: întâi aflăm media, apoi comparăm fiecare notă cu ea. Vectorul ne permite să revedem valorile.",
+    "exercises": [
+     "Calculează suma și media elementelor unui vector.",
+     "Numără elementele pare.",
+     "Numără elementele mai mari decât media.",
+     "Calculează suma elementelor de pe poziții impare.",
+     "Numără perechile de elemente vecine egale."
+    ],
+    "test": [
+     "Cu cât inițializăm suma?",
+     "Câte parcurgeri sunt necesare pentru „peste medie”?",
+     "Până unde merge i când comparăm v[i] cu v[i + 1]?",
+     "Cum obținem media cu zecimale?",
+     "Ce condiție verifică un element par?"
+    ],
+    "steps": [
+     "Inițializează rezultatul înainte de parcurgere.",
+     "Parcurge vectorul și aplică prelucrarea fiecărui element.",
+     "Dacă rezultatul depinde de un total, fă o a doua parcurgere.",
+     "Greșeala frecventă: să compari v[i] cu v[i + 1] până la i = n; ieși din vector."
+    ],
+    "answers": [
+     "Cu 0.",
+     "Două.",
+     "Până la n − 1.",
+     "Cu (double)s / n.",
+     "v[i] % 2 == 0."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l19": {
+   "ro": {
+    "title": "Maxim, minim și poziția lor",
+    "theory": "Maximul unui vector se află inițializând max = v[1] și parcurgând de la 2 la n: if (v[i] > max) max = v[i];. Pentru poziție păstrăm și indicele: if (v[i] > max) { max = v[i]; poz = i; }. Cu > obținem prima apariție a maximului; cu >= obținem ultima. Putem număra de câte ori apare maximul (o a doua parcurgere sau actualizare în aceeași parcurgere: dacă găsim o valoare mai mare, contorul revine la 1; dacă găsim una egală, crește). Minimul se află la fel, cu <. Aplicații: cea mai mare temperatură și ziua în care a fost, cea mai mică notă.",
+    "sample": "Temperaturi pe 7 zile: 18 21 25 22 25 19 17. max = 25, iar poziția primei apariții este 3; cu >= ar fi fost 5. Maximul apare de 2 ori.",
+    "worked": "Exemplul arată importanța alegerii semnului de comparare când maximul apare de mai multe ori. Cerința spune ce poziție vrem: prima sau ultima.",
+    "exercises": [
+     "Afișează maximul și poziția lui.",
+     "Afișează minimul și poziția ultimei apariții.",
+     "Numără de câte ori apare maximul.",
+     "Afișează diferența dintre maxim și minim.",
+     "Afișează toate pozițiile pe care apare minimul."
+    ],
+    "test": [
+     "Cu ce inițializăm max?",
+     "Ce semn dă prima apariție a maximului?",
+     "Ce semn dă ultima apariție?",
+     "De unde pornește parcurgerea dacă max = v[1]?",
+     "Cum aflăm minimul?"
+    ],
+    "steps": [
+     "Inițializează max și poz cu primul element.",
+     "Parcurge restul și actualizează când găsești o valoare mai bună.",
+     "Alege > sau >= după poziția cerută.",
+     "Greșeala frecventă: să schimbi doar max și să uiți să actualizezi poz."
+    ],
+    "answers": [
+     "Cu v[1].",
+     ">.",
+     ">=.",
+     "De la 2.",
+     "La fel, cu < în loc de >."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l20": {
+   "ro": {
+    "title": "Căutarea unui element",
+    "theory": "Căutarea secvențială verifică pe rând elementele vectorului până găsește valoarea căutată x. Folosim o variabilă de tip semafor: gasit = 0; for … if (v[i] == x) gasit = 1; la final afișăm „DA” sau „NU”. Ca să ne oprim la prima găsire folosim while: i = 1; while (i <= n && v[i] != x) i++; dacă i <= n, l-am găsit pe poziția i. Ordinea condițiilor contează: verificăm întâi i <= n, ca să nu accesăm un element din afara vectorului. Variante: verificăm dacă toate elementele au o proprietate (căutăm unul care nu o are) sau dacă există cel puțin unul care o are.",
+    "sample": "Vector: 4 7 2 9 5, căutăm 9. i = 1 (4), 2 (7), 3 (2), 4 (9) – oprire. Afișăm „găsit pe poziția 4”. Pentru 8, i ajunge la 6 > n: „nu există”.",
+    "worked": "Bucla while se oprește fie când găsește valoarea, fie când iese din vector. Testul i <= n de după buclă ne spune care dintre situații a avut loc.",
+    "exercises": [
+     "Verifică dacă un număr x apare în vector.",
+     "Afișează poziția primei apariții a lui x.",
+     "Verifică dacă toate elementele sunt pozitive.",
+     "Verifică dacă există cel puțin un element par.",
+     "Numără aparițiile lui x."
+    ],
+    "test": [
+     "Cum funcționează căutarea secvențială?",
+     "Ce este un semafor?",
+     "De ce verificăm întâi i <= n?",
+     "Cum aflăm după buclă dacă am găsit valoarea?",
+     "Cum verificăm că toate elementele au o proprietate?"
+    ],
+    "steps": [
+     "Stabilește ce cauți și ce trebuie afișat.",
+     "Parcurge vectorul și oprește-te la prima găsire sau folosește un semafor.",
+     "După buclă, decide rezultatul după indice sau semafor.",
+     "Greșeala frecventă: să afișezi „NU” în interiorul buclei, la fiecare element diferit de x."
+    ],
+    "answers": [
+     "Verifică elementele pe rând până găsește valoarea.",
+     "O variabilă care reține dacă s-a întâmplat ceva (0 sau 1).",
+     "Ca să nu accesăm un element din afara vectorului.",
+     "Dacă i <= n.",
+     "Căutăm un element care nu o are; dacă nu există, toate o au."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l21": {
+   "ro": {
+    "title": "Inserarea și ștergerea unui element",
+    "theory": "Ca să ștergem elementul de pe poziția p, mutăm toate elementele de după el cu o poziție spre stânga: for (i = p; i < n; i++) v[i] = v[i + 1]; apoi n--. Ca să inserăm valoarea x pe poziția p, mutăm întâi elementele de la n până la p cu o poziție spre dreapta, începând de la sfârșit: for (i = n; i >= p; i--) v[i + 1] = v[i]; apoi v[p] = x; n++. Ordinea mutărilor contează: la inserare pornim de la capăt, altfel suprascriem valorile. Vectorul trebuie să fie declarat cu loc suficient pentru elementul în plus.",
+    "sample": "v = 3 8 5 1, inserăm 7 pe poziția 2. Mutăm 1, 5, 8 spre dreapta: 3 8 8 5 1, apoi v[2] = 7: 3 7 8 5 1, n = 5.",
+    "worked": "Mutarea de la capăt spre poziția p păstrează toate valorile. Dacă am fi mutat de la p spre capăt, 8 ar fi fost copiat peste toate celelalte.",
+    "exercises": [
+     "Șterge elementul de pe poziția p.",
+     "Inserează o valoare pe poziția p.",
+     "Șterge toate aparițiile unei valori.",
+     "Inserează după fiecare element par dublul lui.",
+     "Explică de ce la inserare mutăm de la sfârșit."
+    ],
+    "test": [
+     "În ce sens mutăm elementele la ștergere?",
+     "În ce sens mutăm elementele la inserare?",
+     "Cum se modifică n după ștergere?",
+     "De unde pornim mutările la inserare?",
+     "Ce trebuie să aibă vectorul pentru inserare?"
+    ],
+    "steps": [
+     "Stabilește poziția p și operația (inserare sau ștergere).",
+     "Mută elementele în sensul și ordinea corecte.",
+     "Actualizează n și afișează vectorul pentru verificare.",
+     "Greșeala frecventă: să uiți să modifici n; ultimul element apare de două ori sau se pierde."
+    ],
+    "answers": [
+     "Spre stânga.",
+     "Spre dreapta.",
+     "Scade cu 1.",
+     "De la ultimul element.",
+     "Loc suficient pentru elementul în plus."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l22": {
+   "ro": {
+    "title": "Vectori de frecvență",
+    "theory": "Un vector de frecvență numără de câte ori apare fiecare valoare. Dacă valorile sunt numere mici (de exemplu note de la 1 la 10 sau cifre de la 0 la 9), folosim valoarea ca indice: f[x]++ la fiecare valoare citită. La început toate elementele lui f sunt 0 (int f[11] = {0};). La final f[7] arată de câte ori a apărut 7. Cu vectorul de frecvență aflăm rapid: valoarea care apare cel mai des, valorile care nu apar, valorile distincte sau putem afișa valorile ordonate crescător (parcurgem f de la valoarea cea mai mică). Metoda funcționează doar când valorile sunt într-un interval mic, ca să putem declara f.",
+    "sample": "Notele: 9 7 10 9 8 9 7. f[7] = 2, f[8] = 1, f[9] = 3, f[10] = 1. Nota cea mai frecventă este 9. Afișând de la 1 la 10 fiecare notă de f[nota] ori obținem 7 7 8 9 9 9 10 – notele ordonate.",
+    "worked": "Vectorul de frecvență a numărat totul într-o singură parcurgere și a permis chiar ordonarea, fără comparări între note.",
+    "exercises": [
+     "Numără de câte ori apare fiecare cifră a unui număr.",
+     "Afișează nota cea mai frecventă.",
+     "Afișează valorile de la 0 la 9 care nu apar.",
+     "Afișează notele ordonate crescător cu vectorul de frecvență.",
+     "Verifică dacă două numere au aceleași cifre."
+    ],
+    "test": [
+     "Ce conține f[x]?",
+     "Cu ce inițializăm vectorul de frecvență?",
+     "Când putem folosi această metodă?",
+     "Cum aflăm valoarea cea mai frecventă?",
+     "Ce dimensiune are f pentru cifre?"
+    ],
+    "steps": [
+     "Stabilește intervalul valorilor și declară f cu dimensiunea potrivită, inițializat cu 0.",
+     "La fiecare valoare citită x, crește f[x].",
+     "Parcurge f pentru a obține răspunsul cerut.",
+     "Greșeala frecventă: să folosești metoda pentru valori foarte mari (până la un miliard); vectorul nu încape în memorie."
+    ],
+    "answers": [
+     "De câte ori a apărut valoarea x.",
+     "Cu 0.",
+     "Când valorile sunt într-un interval mic.",
+     "Căutăm maximul în f.",
+     "10 elemente (indici 0–9)."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l23": {
+   "ro": {
+    "title": "Sortarea unui vector",
+    "theory": "A sorta înseamnă a ordona elementele crescător sau descrescător. Sortarea prin selecție: pentru fiecare poziție i de la 1 la n − 1, căutăm minimul dintre v[i] … v[n] și îl interschimbăm cu v[i]. Metoda bulelor: parcurgem vectorul comparând elemente vecine și le interschimbăm dacă nu sunt în ordine (v[i] > v[i + 1]); repetăm parcurgerile până când într-o parcurgere nu mai facem nicio interschimbare. Interschimbarea folosește o variabilă auxiliară. Pentru ordine descrescătoare schimbăm semnul comparației. Biblioteca C++ are sort(v + 1, v + n + 1), iar Python are v.sort(), dar algoritmii clasici ne arată cum funcționează sortarea.",
+    "sample": "Bule pe 5 3 8 1: prima trecere 3 5 1 8; a doua 3 1 5 8; a treia 1 3 5 8; a patra fără interschimbări – oprire.",
+    "worked": "După fiecare trecere, cel mai mare element rămas ajunge la locul lui la final, ca o bulă care urcă. Ultima trecere confirmă că vectorul este sortat.",
+    "exercises": [
+     "Sortează crescător prin selecție.",
+     "Sortează descrescător prin metoda bulelor.",
+     "Urmărește pe hârtie sortarea vectorului 4 2 7 1.",
+     "Sortează și afișează cele mai mari trei valori.",
+     "Explică de ce ne oprim când nu mai sunt interschimbări."
+    ],
+    "test": [
+     "Ce înseamnă a sorta?",
+     "Ce caută sortarea prin selecție la fiecare pas?",
+     "Ce compară metoda bulelor?",
+     "Când se oprește metoda bulelor?",
+     "Ce schimbăm pentru ordine descrescătoare?"
+    ],
+    "steps": [
+     "Alege metoda și ordinea cerută.",
+     "Compară și interschimbă elementele cu o variabilă auxiliară.",
+     "Urmărește trecerile pe un exemplu mic și verifică ordinea finală.",
+     "Greșeala frecventă: să interschimbi fără variabilă auxiliară (v[i] = v[j]; v[j] = v[i];); se pierde o valoare."
+    ],
+    "answers": [
+     "A ordona elementele.",
+     "Minimul din partea nesortată.",
+     "Elemente vecine.",
+     "Când o trecere nu face nicio interschimbare.",
+     "Semnul comparației."
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l24": {
+   "ro": {
+    "title": "Proiect: prelucrarea notelor unei clase",
+    "theory": "Un program mai amplu cu vectori: se citesc numărul de elevi n și media fiecăruia. Programul afișează: media clasei, cea mai mare medie și elevul (poziția) care a obținut-o, numărul elevilor cu media peste media clasei, mediile ordonate descrescător și câți elevi au media în fiecare interval (5–5,99, 6–6,99 … 9–10), cu un vector de frecvență după partea întreagă a mediei. Datele se pot citi din fișierul note.in. Pașii: scriem întâi citirea și afișarea, apoi adăugăm câte o cerință și testăm după fiecare. Folosim double pentru medii.",
+    "sample": "Pentru 6 elevi cu mediile 8.5, 9.75, 7.2, 9.75, 6.4, 8.1: media clasei 8.28, maximul 9.75 (elevul 2), peste medie 3 elevi, ordonat: 9.75 9.75 8.5 8.1 7.2 6.4.",
+    "worked": "Fiecare cerință folosește un algoritm învățat: suma, maximul cu poziția, numărarea, sortarea. Construirea pas cu pas face programul ușor de verificat.",
+    "exercises": [
+     "Scrie citirea și afișarea mediilor.",
+     "Adaugă media clasei și maximul cu poziția.",
+     "Adaugă numărarea elevilor peste medie.",
+     "Adaugă sortarea descrescătoare.",
+     "Adaugă statistica pe intervale cu vector de frecvență."
+    ],
+    "test": [
+     "Ce tip folosim pentru medii?",
+     "Ce algoritm dă elevul cu media cea mai mare?",
+     "Câte parcurgeri cere „peste media clasei”?",
+     "Ce indice folosim în vectorul de frecvență pentru media 8.5?",
+     "De ce testăm după fiecare cerință?"
+    ],
+    "steps": [
+     "Scrie și testează citirea și afișarea.",
+     "Adaugă cerințele una câte una, testând după fiecare.",
+     "Verifică rezultatele pe un exemplu calculat de mână.",
+     "Greșeala frecventă: să sortezi vectorul înainte de a afla poziția maximului; pozițiile inițiale se pierd."
+    ],
+    "answers": [
+     "double.",
+     "Maximul cu poziția.",
+     "Două.",
+     "Partea întreagă, 8.",
+     "Ca greșelile să fie găsite ușor, imediat după ce apar."
+    ]
+   }
+  }
+ }
+}
