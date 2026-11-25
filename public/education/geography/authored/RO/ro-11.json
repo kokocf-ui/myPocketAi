@@ -1,0 +1,1131 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "RO",
+ "stage": "medium",
+ "grade": "11",
+ "version": "93e60c733b416ab10bb12dd3647ac392619b25a1122eb92c99d3ecb467846705",
+ "source": "https://rocnee.eu/images/rocnee/fisiere/programe_scolare/2023/OM_SOC/Geografie_clasa%20a%20XI-a_a%20XII-a.pdf",
+ "sourceTitle": "Programa școlară pentru disciplina Geografie, clasa a XI-a — Probleme fundamentale ale lumii contemporane, aprobată prin OMEdC nr. 3252/13.02.2006 (Anexa 2; în vigoare pentru clasa a XI-a până la aplicarea noii programe OMEC 6930/2025): mediul înconjurător; regionalizarea și globalizarea; populația, resursele și dezvoltarea; sistemul economic și geopolitic; elemente de geografie socială și culturală (CD). Lecții originale, fără text copiat din manuale",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "ro",
+ "labels": [
+  "Activitate originală · România · Geografie · Clasa a XI-a",
+  "Lecția pe înțeles",
+  "Exemplu",
+  "Ce ne arată exemplul",
+  "Exerciții",
+  "Test",
+  "Activități originale, făcute după programa școlară; nu înlocuiesc manualul sau ora de la clasă.",
+  "Dacă nu ai înțeles: pas cu pas",
+  "Răspunsuri (verifică după ce termini)"
+ ],
+ "units": [
+  {
+   "title": "Mediul înconjurător – problemă fundamentală a lumii contemporane",
+   "keys": [
+    "eu-year-ro-medium-11-l01",
+    "eu-year-ro-medium-11-l02",
+    "eu-year-ro-medium-11-l03",
+    "eu-year-ro-medium-11-l04",
+    "eu-year-ro-medium-11-l05",
+    "eu-year-ro-medium-11-l06",
+    "eu-year-ro-medium-11-l07",
+    "eu-year-ro-medium-11-l08",
+    "eu-year-ro-medium-11-l09"
+   ]
+  },
+  {
+   "title": "Regionalizarea și globalizarea lumii contemporane",
+   "keys": [
+    "eu-year-ro-medium-11-l10",
+    "eu-year-ro-medium-11-l11",
+    "eu-year-ro-medium-11-l12"
+   ]
+  },
+  {
+   "title": "Populația, resursele naturale și dezvoltarea lumii contemporane",
+   "keys": [
+    "eu-year-ro-medium-11-l13",
+    "eu-year-ro-medium-11-l14",
+    "eu-year-ro-medium-11-l15",
+    "eu-year-ro-medium-11-l16",
+    "eu-year-ro-medium-11-l17"
+   ]
+  },
+  {
+   "title": "Sistemul economic și sistemul geopolitic mondial",
+   "keys": [
+    "eu-year-ro-medium-11-l18",
+    "eu-year-ro-medium-11-l19",
+    "eu-year-ro-medium-11-l20",
+    "eu-year-ro-medium-11-l21",
+    "eu-year-ro-medium-11-l22",
+    "eu-year-ro-medium-11-l23",
+    "eu-year-ro-medium-11-l24",
+    "eu-year-ro-medium-11-l25",
+    "eu-year-ro-medium-11-l26",
+    "eu-year-ro-medium-11-l27",
+    "eu-year-ro-medium-11-l28"
+   ]
+  },
+  {
+   "title": "Elemente de geografie socială și culturală",
+   "keys": [
+    "eu-year-ro-medium-11-l29",
+    "eu-year-ro-medium-11-l30"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-ro-medium-11-l01": {
+   "ro": {
+    "title": "Mediul înconjurător – aspecte generale; modificări recente",
+    "theory": "Mediul înconjurător este ansamblul elementelor naturale (aer, apă, sol, relief, viețuitoare) și al celor create de om (așezări, infrastructură, culturi) care interacționează și în care trăiesc oamenii. Mediul natural a fost transformat treptat: întâi prin agricultură și creșterea animalelor, apoi prin industrializare și urbanizare. Modificările recente ale mediului terestru, mai ales după 1950 (perioada numită uneori „Marea Accelerare”), sunt rapide și globale: creșterea concentrației de dioxid de carbon (de la circa 280 ppm în perioada preindustrială la peste 420 ppm), încălzirea globală, pierderea biodiversității, extinderea terenurilor agricole și a orașelor, poluarea cu plastic, schimbarea circuitului azotului și al apei. Unii cercetători propun denumirea de Antropocen pentru epoca în care omul devine principalul factor de schimbare a planetei.",
+    "sample": "Concentrația de dioxid de carbon din atmosferă a crescut cu circa 50% față de perioada preindustrială.",
+    "worked": "Măsurătorile continue, începute în 1958 la Mauna Loa (Hawaii), arată o creștere constantă, legată de arderea combustibililor fosili.",
+    "exercises": [
+     "Explică ce este mediul înconjurător.",
+     "Ordonează etapele transformării mediului de către om.",
+     "Enumeră modificările recente ale mediului.",
+     "Explică ce înseamnă Antropocen.",
+     "Interpretează un grafic al creșterii CO₂."
+    ],
+    "test": [
+     "Ce cuprinde mediul înconjurător?",
+     "Ce concentrație de CO₂ era în perioada preindustrială?",
+     "Ce concentrație are CO₂ astăzi?",
+     "Ce înseamnă Antropocen?",
+     "Unde se măsoară continuu CO₂ din 1958?"
+    ],
+    "steps": [
+     "Identifică componentele mediului.",
+     "Analizează schimbările produse de om.",
+     "Formulează concluzii despre ritmul acestor schimbări.",
+     "Greșeala frecventă: să crezi că schimbările mediului sunt doar locale; multe sunt globale."
+    ],
+    "answers": [
+     "Elementele naturale și cele create de om, în interacțiune.",
+     "Circa 280 ppm.",
+     "Peste 420 ppm.",
+     "Epoca în care omul devine principalul factor de schimbare a planetei.",
+     "La Mauna Loa (Hawaii)."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l02": {
+   "ro": {
+    "title": "Factorii geoecologici",
+    "theory": "Factorii geoecologici sunt componentele care condiționează viața și funcționarea mediului. Factorii abiotici: relieful (altitudine, pantă, expoziție), roca (influențează solul și apele subterane), clima (temperatură, precipitații, lumină, vânt), apa și solul. Factorii biotici: plantele, animalele, microorganismele și relațiile dintre ele (lanțuri trofice, competiție, simbioză). Factorii antropici: activitățile omului, care pot modifica toți ceilalți factori. Fiecare specie are o toleranță față de factori (legea toleranței): dacă un factor depășește limitele, specia dispare dintr-un loc. Factorul limitativ este cel care se află cel mai aproape de limita toleranței (de exemplu apa în deșert, temperatura în tundră). Factorii acționează împreună și se influențează reciproc.",
+    "sample": "În deșert, apa este factorul limitativ: chiar dacă există căldură și lumină, viața apare doar unde există apă.",
+    "worked": "Factorul aflat în cea mai mică cantitate față de nevoi decide dezvoltarea vieții.",
+    "exercises": [
+     "Clasifică factorii geoecologici.",
+     "Explică rolul reliefului ca factor geoecologic.",
+     "Explică ce este un lanț trofic.",
+     "Explică ce este factorul limitativ.",
+     "Dă exemple de factori limitativi în diferite medii."
+    ],
+    "test": [
+     "Ce sunt factorii abiotici?",
+     "Ce sunt factorii biotici?",
+     "Ce este factorul limitativ?",
+     "Care este factorul limitativ în tundră?",
+     "Ce factor poate modifica toți ceilalți factori?"
+    ],
+    "steps": [
+     "Identifică factorii dintr-un mediu.",
+     "Stabilește factorul limitativ.",
+     "Explică influența lui asupra vieții.",
+     "Greșeala frecventă: să crezi că factorii acționează separat; ei se influențează reciproc."
+    ],
+    "answers": [
+     "Componentele fizice: relief, rocă, climă, apă, sol.",
+     "Viețuitoarele și relațiile dintre ele.",
+     "Factorul cel mai apropiat de limita toleranței.",
+     "Temperatura scăzută.",
+     "Omul (factorul antropic)."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l03": {
+   "ro": {
+    "title": "Geosistemul, ecosistemul și peisajul geografic",
+    "theory": "Geosistemul este un sistem teritorial format din toate componentele mediului (relief, climă, ape, soluri, vegetație, faună, om) și din legăturile dintre ele; poate fi la scări diferite, de la un versant la o regiune. Ecosistemul este un sistem format din biocenoză (comunitatea de viețuitoare) și biotop (mediul fizic), în care circulă materia și energia: producătorii (plantele) produc materie organică prin fotosinteză, consumatorii o folosesc, descompunătorii o reciclează. Ecosistemele pot fi naturale (pădure, lac, recif de corali) sau antropizate (culturi agricole, orașe). Peisajul geografic este imaginea unui teritoriu, rezultată din combinarea componentelor lui, așa cum o percepem: natural, umanizat sau antropic. Ecosistemele au capacitate de autoreglare, dar presiunea prea mare le poate distruge echilibrul.",
+    "sample": "Într-un lac poluat cu îngrășăminte, algele se înmulțesc excesiv, consumă oxigenul și peștii mor (eutrofizare).",
+    "worked": "Perturbarea unei singure verigi a ecosistemului îi poate distruge echilibrul.",
+    "exercises": [
+     "Explică ce este un geosistem.",
+     "Explică structura unui ecosistem.",
+     "Explică circulația materiei și a energiei.",
+     "Compară ecosistemul natural cu cel antropizat.",
+     "Explică ce este peisajul geografic."
+    ],
+    "test": [
+     "Ce este biocenoza?",
+     "Ce este biotopul?",
+     "Ce rol au descompunătorii?",
+     "Ce este eutrofizarea?",
+     "Ce tipuri de peisaje există?"
+    ],
+    "steps": [
+     "Identifică sistemul studiat.",
+     "Analizează componentele și relațiile.",
+     "Explică echilibrul și perturbările lui.",
+     "Greșeala frecventă: să confunzi ecosistemul (accent pe viețuitoare) cu geosistemul (toate componentele, inclusiv omul)."
+    ],
+    "answers": [
+     "Comunitatea de viețuitoare.",
+     "Mediul fizic al ecosistemului.",
+     "Descompun materia moartă și o reciclează.",
+     "Înmulțirea excesivă a algelor într-o apă bogată în nutrienți.",
+     "Natural, umanizat și antropic."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l04": {
+   "ro": {
+    "title": "Tipurile de medii geografice",
+    "theory": "Mediile geografice sunt clasificate după gradul de intervenție umană și după zonele naturale. După intervenția omului: medii naturale (puțin modificate – Antarctica, interiorul Amazoniei, taigaua siberiană), medii umanizate (modificate parțial – agricole, pastorale, forestiere) și medii antropice (create de om – urbane, industriale). După zone: mediile zonei calde (ecuatorial, subecuatorial, tropical-umed și musonic, tropical-deșertic), ale zonei temperate (mediteranean, oceanic, continental, de stepă, de taiga), ale zonei reci (tundră, polar) și mediile montane (etajate) și azonale (deltele, luncile). Fiecare mediu are resurse și restricții specifice pentru om. Gradul de antropizare crește de la regiunile polare și deșertice la cele temperate dens populate.",
+    "sample": "Europa de Vest are aproape numai medii umanizate și antropice; pădurile naturale au dispărut aproape complet.",
+    "worked": "Locuirea veche și densă explică gradul foarte mare de antropizare.",
+    "exercises": [
+     "Clasifică mediile după intervenția omului.",
+     "Clasifică mediile după zonele naturale.",
+     "Dă exemple de medii naturale puțin modificate.",
+     "Explică ce este un mediu antropic.",
+     "Explică diferențele de antropizare dintre regiuni."
+    ],
+    "test": [
+     "Ce este un mediu natural?",
+     "Ce este un mediu umanizat?",
+     "Ce este un mediu antropic?",
+     "Ce mediu este specific deltelor?",
+     "Unde există încă medii naturale întinse?"
+    ],
+    "steps": [
+     "Identifică mediul geografic.",
+     "Stabilește gradul de intervenție umană.",
+     "Analizează resursele și restricțiile.",
+     "Greșeala frecventă: să crezi că mediile naturale sunt peste tot; ele ocupă tot mai puțin din uscat."
+    ],
+    "answers": [
+     "Un mediu puțin modificat de om.",
+     "Un mediu modificat parțial de om.",
+     "Un mediu creat de om (urban, industrial).",
+     "Mediul azonal (de deltă).",
+     "În Antarctica, Amazonia, Siberia."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l05": {
+   "ro": {
+    "title": "Tipurile de peisaje geografice; mediile zonei temperate",
+    "theory": "Peisajele geografice se clasifică după componentele dominante și după gradul de transformare. Peisaje naturale: de pădure ecuatorială, de savană, de deșert, de stepă, de taiga, de tundră, montane, litorale. Peisaje umanizate: agricole (de câmpie cerealieră, de terase, de plantații), pastorale, viticole, forestiere exploatate. Peisaje antropice: urbane, industriale, miniere, de infrastructură. Zona temperată are cea mai mare diversitate de peisaje și cel mai mare grad de transformare umană. Mediile ei: mediteranean (arbuști veșnic verzi, măslin, peisaje culturale vechi), oceanic (păduri de foioase înlocuite de pajiști și culturi, bocage), continental (păduri de foioase și amestec, câmpii cultivate), de stepă (cultivate cu cereale – „grânarele” lumii), de taiga (păduri de conifere exploatate pentru lemn), deșerturile temperate (Gobi, Patagonia). Peisajele culturale valoroase sunt protejate de UNESCO (Valea Loarei, Wachau, Tokaj).",
+    "sample": "Valea Loarei (Franța) este în patrimoniul UNESCO ca peisaj cultural, cu castele, vii și orașe istorice.",
+    "worked": "Un peisaj poate fi valoros prin felul în care omul a armonizat natura cu propriile creații.",
+    "exercises": [
+     "Clasifică peisajele geografice.",
+     "Dă exemple de peisaje umanizate.",
+     "Descrie mediile zonei temperate.",
+     "Explică de ce zona temperată este puternic transformată.",
+     "Explică ce este un peisaj cultural."
+    ],
+    "test": [
+     "Ce peisaj are vii și castele în Franța?",
+     "Ce mediu are arbuști veșnic verzi?",
+     "Ce s-a întâmplat cu stepele?",
+     "Ce peisaj are păduri de conifere?",
+     "Ce organizație protejează peisajele culturale?"
+    ],
+    "steps": [
+     "Identifică elementele dominante.",
+     "Încadrează peisajul într-un tip.",
+     "Explică relația natură–om.",
+     "Greșeala frecventă: să crezi că un peisaj umanizat este lipsit de valoare; multe sunt protejate ca patrimoniu."
+    ],
+    "answers": [
+     "Valea Loarei.",
+     "Mediul mediteranean.",
+     "Au fost cultivate cu cereale.",
+     "Peisajul de taiga.",
+     "UNESCO."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l06": {
+   "ro": {
+    "title": "Hazarde naturale și antropice",
+    "theory": "Hazardul este un fenomen natural sau provocat de om care poate produce pagube și victime; riscul este probabilitatea ca un hazard să producă pierderi, în funcție de vulnerabilitatea comunității (risc = hazard × vulnerabilitate). Hazardele naturale: endogene (cutremure, erupții vulcanice, tsunami), climatice (cicloni tropicali, tornade, secete, valuri de căldură, grindină), hidrologice (inundații), geomorfologice (alunecări, avalanșe), biologice (epidemii, invazii de lăcuste). Hazardele antropice: accidente industriale și nucleare (Bhopal 1984, Cernobîl 1986, Fukushima 2011), poluări majore (deversări de petrol), incendii provocate, ruperi de baraje, accidente de transport. Același hazard produce efecte diferite: un cutremur de aceeași magnitudine face mai multe victime într-un stat sărac decât într-unul bogat, datorită construcțiilor și pregătirii. Gestionarea riscului: prevenire, avertizare, intervenție, refacere.",
+    "sample": "Cutremurul din Haiti (2010) a produs peste 100.000 de victime, iar cutremure mai puternice din Japonia sau Chile au produs mult mai puține.",
+    "worked": "Vulnerabilitatea (construcții slabe, sărăcie, lipsa pregătirii) contează la fel de mult ca puterea hazardului.",
+    "exercises": [
+     "Explică diferența dintre hazard și risc.",
+     "Clasifică hazardele naturale.",
+     "Dă exemple de hazarde antropice.",
+     "Explică rolul vulnerabilității.",
+     "Prezintă etapele gestionării riscului."
+    ],
+    "test": [
+     "Ce este hazardul?",
+     "Cum se calculează riscul?",
+     "Ce accident industrial a avut loc la Bhopal?",
+     "Ce hazard climatic se numește taifun în Asia?",
+     "Care sunt etapele gestionării riscului?"
+    ],
+    "steps": [
+     "Identifică hazardul.",
+     "Analizează vulnerabilitatea comunității.",
+     "Propune măsuri de reducere a riscului.",
+     "Greșeala frecventă: să crezi că riscul depinde doar de puterea fenomenului; depinde și de pregătirea oamenilor."
+    ],
+    "answers": [
+     "Un fenomen care poate produce pagube și victime.",
+     "Hazard înmulțit cu vulnerabilitatea.",
+     "O scurgere de gaze toxice (1984).",
+     "Ciclonul tropical.",
+     "Prevenire, avertizare, intervenție, refacere."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l07": {
+   "ro": {
+    "title": "Despăduririle și deșertificarea",
+    "theory": "Despăduririle sunt tăierea sau arderea pădurilor pentru agricultură (culturi de soia, palmier de ulei, pășuni), lemn, minerit, drumuri și așezări. Cele mai afectate sunt pădurile tropicale din Amazonia, Bazinul Congo și Asia de Sud-Est (Indonezia, Malaysia). Efecte: pierderea biodiversității, eroziunea solului, schimbarea regimului apei, eliberarea de dioxid de carbon, afectarea popoarelor indigene. Deșertificarea este degradarea terenurilor din regiunile aride și semiaride, care devin asemenea deșertului, din cauza secetelor și a activităților umane: suprapășunat, defrișare, agricultură intensivă, irigații greșite care salinizează solul. Regiuni afectate: Sahelul (la sudul Saharei), Asia Centrală, nordul Chinei, sudul Europei; în România, sudul Olteniei („Sahara Olteniei”), Dobrogea, Bărăganul. Măsuri: împăduriri (Marele Zid Verde din Sahel), perdele forestiere, irigații eficiente, gestionarea pășunilor.",
+    "sample": "Proiectul „Marele Zid Verde” urmărește refacerea vegetației pe o fâșie care traversează Africa de la Senegal la Djibouti.",
+    "worked": "Refacerea vegetației poate opri înaintarea deșertului și reda terenuri agricole.",
+    "exercises": [
+     "Explică cauzele despăduririlor.",
+     "Enumeră efectele despăduririlor.",
+     "Explică ce este deșertificarea.",
+     "Localizează regiunile afectate de deșertificare.",
+     "Propune măsuri împotriva deșertificării."
+    ],
+    "test": [
+     "Ce pădure tropicală este cea mai afectată?",
+     "Ce cultură produce defrișări în Indonezia?",
+     "Ce regiune africană suferă de deșertificare?",
+     "Ce zonă din România este numită „Sahara Olteniei”?",
+     "Ce proiect african combate deșertificarea?"
+    ],
+    "steps": [
+     "Identifică fenomenul.",
+     "Analizează cauzele naturale și umane.",
+     "Evaluează efectele și propune soluții.",
+     "Greșeala frecventă: să crezi că deșertificarea înseamnă extinderea naturală a deșerturilor; omul are un rol important."
+    ],
+    "answers": [
+     "Pădurea amazoniană.",
+     "Palmierul de ulei.",
+     "Sahelul.",
+     "Sudul Olteniei (zona Dăbuleni).",
+     "Marele Zid Verde."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l08": {
+   "ro": {
+    "title": "Poluarea – efect al activităților umane asupra mediului",
+    "theory": "Poluarea este introducerea în mediu a unor substanțe sau forme de energie care îi afectează calitatea. Poluarea aerului: gaze și particule din industrie, transport, încălzire (smog în Delhi, Beijing; ploi acide produse de oxizii de sulf și azot, care afectează pădurile și lacurile). Poluarea apei: ape uzate netratate, îngrășăminte și pesticide, metale grele, deversări de petrol (Exxon Valdez 1989, Deepwater Horizon 2010), plastic (insule de deșeuri în Pacific, microplastice). Poluarea solului: deșeuri, pesticide, metale din minerit (accidentul de la Baia Mare din 2000 – cianuri în Tisa și Dunăre). Alte forme: fonică, luminoasă, radioactivă, termică. Poluarea este transfrontalieră: vântul și râurile o duc dincolo de granițe. Efecte asupra sănătății: boli respiratorii, cancer; OMS estimează milioane de decese anuale legate de poluarea aerului.",
+    "sample": "Accidentul de la Baia Mare (2000) a deversat cianuri care au ajuns prin Someș și Tisa până în Dunăre.",
+    "worked": "Poluarea unei ape se transmite rapid în tot bazinul hidrografic, peste granițe.",
+    "exercises": [
+     "Clasifică formele de poluare.",
+     "Explică formarea ploilor acide.",
+     "Dă exemple de mari accidente de poluare.",
+     "Explică de ce poluarea este transfrontalieră.",
+     "Propune soluții pentru reducerea poluării."
+    ],
+    "test": [
+     "Ce produce ploile acide?",
+     "Ce sunt microplasticele?",
+     "Ce accident de poluare a avut loc la Baia Mare?",
+     "Ce organizație estimează efectele poluării asupra sănătății?",
+     "Ce oraș are smog puternic?"
+    ],
+    "steps": [
+     "Identifică sursa poluării.",
+     "Precizează mediul afectat și efectele.",
+     "Propune măsuri de prevenire.",
+     "Greșeala frecventă: să crezi că poluarea rămâne în locul unde se produce; se transmite prin aer și apă."
+    ],
+    "answers": [
+     "Oxizii de sulf și de azot.",
+     "Particule foarte mici de plastic.",
+     "O deversare de cianuri (2000).",
+     "Organizația Mondială a Sănătății.",
+     "Delhi (sau Beijing)."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l09": {
+   "ro": {
+    "title": "Protecția, conservarea și ocrotirea mediului; scenarii despre evoluția mediului",
+    "theory": "Protecția mediului cuprinde măsuri legislative, tehnice, economice și educative. Ariile protejate: parcuri naționale (Yellowstone, primul, 1872), rezervații ale biosferei (programul UNESCO „Omul și biosfera”), situri Natura 2000, patrimoniul natural mondial. Acorduri internaționale: Protocolul de la Montreal (1987 – stratul de ozon), Convenția privind diversitatea biologică (1992), Protocolul de la Kyoto (1997), Acordul de la Paris (2015). Principii: „poluatorul plătește”, prevenția, economia circulară (reutilizare, reciclare). Scenariile despre evoluția mediului (de exemplu cele ale IPCC) arată că viitorul depinde de deciziile actuale: un scenariu cu emisii mari duce la încălzire de peste 3–4°C până în 2100, cu efecte grave; un scenariu cu reduceri rapide poate limita încălzirea aproape de 1,5–2°C.",
+    "sample": "Protocolul de la Montreal este considerat cel mai reușit acord de mediu: freonii au fost eliminați, iar stratul de ozon se reface.",
+    "worked": "Cooperarea internațională poate rezolva probleme globale de mediu.",
+    "exercises": [
+     "Enumeră formele de protecție a mediului.",
+     "Numește acorduri internaționale de mediu.",
+     "Explică principiul „poluatorul plătește”.",
+     "Explică ce este economia circulară.",
+     "Compară scenariile de evoluție a climei."
+    ],
+    "test": [
+     "Care a fost primul parc național?",
+     "Ce acord a protejat stratul de ozon?",
+     "Ce înseamnă economie circulară?",
+     "Ce organizație realizează scenarii climatice?",
+     "Ce încălzire urmărește să limiteze Acordul de la Paris?"
+    ],
+    "steps": [
+     "Identifică problema de mediu.",
+     "Alege instrumentele de protecție potrivite.",
+     "Evaluează scenariile și propune acțiuni.",
+     "Greșeala frecventă: să crezi că protecția mediului frânează dezvoltarea; ea asigură dezvoltarea pe termen lung."
+    ],
+    "answers": [
+     "Yellowstone (1872).",
+     "Protocolul de la Montreal.",
+     "Refolosirea și reciclarea materialelor în loc de aruncare.",
+     "IPCC (Grupul interguvernamental privind schimbările climatice).",
+     "Sub 2°C, ideal 1,5°C."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l10": {
+   "ro": {
+    "title": "Dimensiunile și domeniile regionalizării și globalizării",
+    "theory": "Regionalizarea este gruparea statelor în ansambluri regionale (UE, ASEAN, Mercosur, Uniunea Africană) și, în interiorul statelor, organizarea în regiuni cu autonomie mai mare. Globalizarea este creșterea interdependenței la nivel mondial prin circulația bunurilor, capitalurilor, informațiilor, oamenilor și ideilor. Domeniile globalizării: economic (comerț mondial, companii multinaționale, lanțuri de producție globale – un telefon are componente din zeci de țări), financiar (piețe bursiere legate), tehnologic (internet, telefonie mobilă), cultural (filme, muzică, mărci globale), politic (organizații internaționale, probleme globale). Factori: transportul ieftin (containerele), tehnologia informației, liberalizarea comerțului, sfârșitul Războiului Rece. Cele două procese coexistă: statele se grupează regional pentru a face față concurenței globale.",
+    "sample": "Criza financiară din 2008, pornită din SUA, s-a răspândit rapid în întreaga lume.",
+    "worked": "Interdependența economică face ca o problemă dintr-o țară să afecteze multe alte țări.",
+    "exercises": [
+     "Explică ce este regionalizarea.",
+     "Explică ce este globalizarea.",
+     "Enumeră domeniile globalizării.",
+     "Explică factorii globalizării.",
+     "Explică relația dintre regionalizare și globalizare."
+    ],
+    "test": [
+     "Ce este globalizarea?",
+     "Ce este o companie multinațională?",
+     "Ce invenție a ieftinit transportul maritim?",
+     "Ce criză s-a răspândit global în 2008?",
+     "Dă exemplu de ansamblu regional."
+    ],
+    "steps": [
+     "Identifică procesul (regional sau global).",
+     "Analizează domeniile și factorii lui.",
+     "Evaluează efectele pozitive și negative.",
+     "Greșeala frecventă: să crezi că globalizarea este doar economică; ea este și culturală, tehnologică și politică."
+    ],
+    "answers": [
+     "Creșterea interdependenței la nivel mondial.",
+     "O companie care produce și vinde în multe țări.",
+     "Containerul.",
+     "Criza financiară din 2008.",
+     "Uniunea Europeană (sau ASEAN, Mercosur)."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l11": {
+   "ro": {
+    "title": "Spațiul geografic și globalizarea",
+    "theory": "Globalizarea nu afectează toate spațiile la fel. Ea produce rețele și noduri: orașele globale (New York, Londra, Tokyo, Paris, Singapore, Hong Kong, Shanghai) concentrează sediile companiilor, bursele și serviciile; porturile mari și aeroporturile sunt huburi ale fluxurilor. Apar spații integrate (centrele economice ale Americii de Nord, Europei și Asiei de Est – „triada”) și spații periferice sau marginalizate (multe regiuni din Africa subsahariană, zone rurale izolate). Lanțurile de producție globale mută fabricile în state cu costuri mici (China, Vietnam, Bangladesh, Mexic), iar cercetarea rămâne în statele dezvoltate. Zonele economice speciale (Shenzhen) atrag investiții străine. Fluxurile de informații prin cablurile submarine și sateliți leagă instantaneu continentele, dar „decalajul digital” lasă unele regiuni în urmă.",
+    "sample": "Shenzhen a trecut, în circa 40 de ani, de la un orășel de pescari la o metropolă de peste 17 milioane de locuitori, după ce a devenit zonă economică specială.",
+    "worked": "Politicile de deschidere față de investiții pot transforma rapid un spațiu periferic într-un nod al globalizării.",
+    "exercises": [
+     "Explică ce sunt orașele globale.",
+     "Explică ce este triada.",
+     "Explică ce sunt lanțurile de producție globale.",
+     "Explică ce este o zonă economică specială.",
+     "Explică ce este decalajul digital."
+    ],
+    "test": [
+     "Ce oraș chinez a fost prima zonă economică specială importantă?",
+     "Ce regiuni formează triada?",
+     "Ce este un hub?",
+     "Unde se mută fabricile pentru costuri mici?",
+     "Ce leagă informațional continentele?"
+    ],
+    "steps": [
+     "Localizează nodurile și rețelele.",
+     "Analizează integrarea sau marginalizarea spațiului.",
+     "Explică factorii care le produc.",
+     "Greșeala frecventă: să crezi că globalizarea aduce dezvoltare peste tot în mod egal; ea creează și inegalități."
+    ],
+    "answers": [
+     "Shenzhen.",
+     "America de Nord, Europa și Asia de Est.",
+     "Un nod central al fluxurilor de transport.",
+     "În state cu costuri mici (China, Vietnam, Bangladesh).",
+     "Cablurile submarine și sateliții."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l12": {
+   "ro": {
+    "title": "Identitatea, uniformizarea și diversitatea lumii contemporane",
+    "theory": "Globalizarea răspândește aceleași produse, mărci, filme, muzică, rețele sociale și moduri de viață, ceea ce duce la uniformizare (uneori numită „occidentalizare” sau „mcdonaldizare”). Limba engleză a devenit limba de comunicare internațională. În același timp, popoarele își apără identitatea: limba, religia, tradițiile, bucătăria, patrimoniul. Apar reacții de afirmare identitară, regionalisme și mișcări de autonomie (Catalonia, Scoția, Quebec). Diversitatea culturală este protejată internațional: UNESCO adoptă Convenția pentru protecția și promovarea diversității expresiilor culturale (2005) și listele patrimoniului cultural imaterial (în România: Călușul, doina, colindatul de ceată bărbătesc, ceramica de Horezu, meșteșugul cămășii cu altiță). Globalizarea poate și promova culturile locale, făcându-le cunoscute în lume.",
+    "sample": "Ceramica de Horezu și cămașa cu altiță sunt înscrise de UNESCO în patrimoniul cultural imaterial al umanității.",
+    "worked": "Recunoașterea internațională ajută la păstrarea tradițiilor locale în fața uniformizării.",
+    "exercises": [
+     "Explică ce este uniformizarea culturală.",
+     "Dă exemple de mărci și produse globale.",
+     "Explică reacțiile de afirmare a identității.",
+     "Numește elemente românești din patrimoniul imaterial UNESCO.",
+     "Explică cum globalizarea poate promova culturile locale."
+    ],
+    "test": [
+     "Ce limbă a devenit limba de comunicare internațională?",
+     "Ce regiune spaniolă cere autonomie largă?",
+     "Ce organizație protejează diversitatea culturală?",
+     "Ce dans românesc este în patrimoniul UNESCO?",
+     "Ce provincie canadiană are identitate francofonă?"
+    ],
+    "steps": [
+     "Identifică elementele de uniformizare.",
+     "Identifică elementele de identitate locală.",
+     "Analizează echilibrul dintre ele.",
+     "Greșeala frecventă: să crezi că globalizarea distruge inevitabil culturile locale; ele se pot adapta și afirma."
+    ],
+    "answers": [
+     "Engleza.",
+     "Catalonia.",
+     "UNESCO.",
+     "Călușul.",
+     "Quebec."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l13": {
+   "ro": {
+    "title": "Evoluții geodemografice contemporane; diferențieri regionale",
+    "theory": "Lumea de azi are evoluții demografice foarte diferite. Africa subsahariană are natalitate și fertilitate ridicate (Niger peste 6 copii pe femeie), populație foarte tânără și creștere rapidă; până în 2050, populația Africii ar putea ajunge la circa 2,5 miliarde. Asia de Sud are încă creștere, dar fertilitatea scade (India a ajuns la circa 2 copii pe femeie). Asia de Est (China, Japonia, Coreea de Sud) și Europa au fertilitate foarte scăzută (Coreea de Sud sub 1 copil pe femeie), îmbătrânire accentuată și, în multe state, scăderea populației. America Latină trece rapid prin tranziția demografică. Migrațiile internaționale compensează parțial declinul în Europa și America de Nord. Politicile demografice pot fi pronataliste (stimularea nașterilor – Franța, Ungaria) sau antinataliste (limitarea nașterilor – fosta politică a copilului unic din China).",
+    "sample": "Coreea de Sud are una dintre cele mai scăzute fertilități din lume, sub un copil pe femeie.",
+    "worked": "O fertilitate atât de mică duce rapid la îmbătrânire și la scăderea populației active.",
+    "exercises": [
+     "Compară evoluția demografică a Africii cu a Europei.",
+     "Explică ce este fertilitatea.",
+     "Explică urmările îmbătrânirii.",
+     "Compară politicile pronataliste cu cele antinataliste.",
+     "Interpretează piramidele vârstelor pentru două state."
+    ],
+    "test": [
+     "Ce regiune are cea mai mare fertilitate?",
+     "Ce stat are fertilitate sub un copil pe femeie?",
+     "Ce este o politică pronatalistă?",
+     "Ce politică antinatalistă a aplicat China?",
+     "Ce compensează declinul demografic în Europa?"
+    ],
+    "steps": [
+     "Analizează indicatorii demografici.",
+     "Compară regiunile lumii între ele.",
+     "Explică cauzele și consecințele diferențelor.",
+     "Greșeala frecventă: să crezi că toată lumea are aceeași problemă demografică; unele regiuni cresc rapid, altele scad."
+    ],
+    "answers": [
+     "Africa subsahariană.",
+     "Coreea de Sud.",
+     "O politică de stimulare a nașterilor.",
+     "Politica copilului unic.",
+     "Migrațiile internaționale."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l14": {
+   "ro": {
+    "title": "Resursele umane și dezvoltarea",
+    "theory": "Resursele umane sunt oamenii cu cunoștințele, abilitățile și sănătatea lor, adică forța de muncă a unei societăți. Calitatea resurselor umane depinde de educație, sănătate și oportunități. Dezvoltarea nu înseamnă doar creștere economică, ci și îmbunătățirea vieții oamenilor. Indicatori: PIB pe locuitor (venitul mediu), Indicele Dezvoltării Umane – IDU (combină speranța de viață, nivelul educației și venitul; valori mari în Norvegia, Elveția, Islanda, mici în Sudanul de Sud, Somalia, Republica Centrafricană), rata alfabetizării, mortalitatea infantilă, accesul la apă și electricitate. Exodul creierelor (plecarea specialiștilor din statele sărace spre cele bogate) reduce resursele umane ale țărilor de origine. Investițiile în educație și sănătate sunt considerate cele mai eficiente pentru dezvoltare.",
+    "sample": "Coreea de Sud, săracă în anii 1950, a devenit o economie dezvoltată investind masiv în educație.",
+    "worked": "Resursele umane bine pregătite pot compensa lipsa resurselor naturale.",
+    "exercises": [
+     "Explică ce sunt resursele umane.",
+     "Compară PIB pe locuitor cu IDU.",
+     "Numește state cu IDU mare și mic.",
+     "Explică ce este exodul creierelor.",
+     "Explică rolul educației în dezvoltare."
+    ],
+    "test": [
+     "Ce combină Indicele Dezvoltării Umane?",
+     "Ce stat are IDU foarte mare?",
+     "Ce este exodul creierelor?",
+     "Ce indicator arată venitul mediu?",
+     "Ce stat asiatic s-a dezvoltat prin educație?"
+    ],
+    "steps": [
+     "Alege indicatorii de dezvoltare.",
+     "Compară statele sau regiunile.",
+     "Explică factorii diferențelor de dezvoltare.",
+     "Greșeala frecventă: să confunzi creșterea economică (mai mulți bani) cu dezvoltarea (o viață mai bună pentru oameni)."
+    ],
+    "answers": [
+     "Speranța de viață, educația și venitul.",
+     "Norvegia (sau Elveția, Islanda).",
+     "Plecarea specialiștilor din statele sărace spre cele bogate.",
+     "PIB pe locuitor.",
+     "Coreea de Sud."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l15": {
+   "ro": {
+    "title": "Raportul dintre așezări și dezvoltare; tendințele evoluției așezărilor",
+    "theory": "Așezările umane reflectă nivelul de dezvoltare. Orașele sunt motoare ale economiei: concentrează industria, serviciile, inovarea și produc cea mai mare parte a PIB-ului mondial. În statele dezvoltate, urbanizarea este veche și stabilizată; apar suburbanizarea, periurbanizarea (extinderea orașului în zonele rurale din jur) și, uneori, regenerarea centrelor. În statele în dezvoltare, urbanizarea este rapidă, cu megaorașe și cartiere informale (aproximativ un miliard de oameni trăiesc în astfel de cartiere). Satele se confruntă cu depopularea în Europa și cu suprapopularea în unele regiuni din Asia și Africa. Tendințe: creșterea megaorașelor (mai ales în Asia și Africa), orașele inteligente (smart city), orașele verzi și sustenabile, transportul public, dar și fenomenul „orașelor care se micșorează” (shrinking cities) în regiunile industriale vechi. Obiectivul ONU 11 urmărește orașe incluzive, sigure și sustenabile.",
+    "sample": "Aproape un miliard de oameni trăiesc în cartiere informale, fără acces sigur la apă, canalizare sau locuințe solide.",
+    "worked": "Urbanizarea rapidă fără planificare creează sărăcie urbană și probleme de sănătate.",
+    "exercises": [
+     "Explică rolul orașelor în economie.",
+     "Compară urbanizarea din statele dezvoltate cu cea din statele în dezvoltare.",
+     "Explică ce este periurbanizarea.",
+     "Explică ce este un oraș inteligent.",
+     "Explică ce sunt orașele care se micșorează."
+    ],
+    "test": [
+     "Ce produce cea mai mare parte a PIB-ului mondial?",
+     "Câți oameni trăiesc în cartiere informale?",
+     "Ce este periurbanizarea?",
+     "Ce obiectiv ONU se referă la orașe?",
+     "Unde cresc cel mai repede megaorașele?"
+    ],
+    "steps": [
+     "Analizează tipul de așezare și dinamica ei.",
+     "Leagă-o de nivelul de dezvoltare.",
+     "Identifică tendințele și soluțiile.",
+     "Greșeala frecventă: să crezi că orașele cresc peste tot; unele orașe industriale vechi pierd populație."
+    ],
+    "answers": [
+     "Orașele.",
+     "Aproape un miliard.",
+     "Extinderea orașului în zonele rurale din jur.",
+     "Obiectivul 11.",
+     "În Asia și Africa."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l16": {
+   "ro": {
+    "title": "Resursele naturale și agricole; impactul exploatării asupra mediului",
+    "theory": "Resursele naturale și agricole sunt baza economiei mondiale, dar sunt repartizate inegal: petrolul în Orientul Mijlociu, Rusia, America; gazele în Rusia, Iran, Qatar, SUA; minereurile critice (litiu în Chile, Australia, Argentina; cobalt în R.D. Congo; pământuri rare în China); terenurile agricole fertile în câmpiile temperate. Exploatarea lor are impact asupra mediului: mineritul la suprafață distruge peisaje și poluează apele; extracția petrolului produce scurgeri; agricultura intensivă folosește circa 70% din apa dulce consumată, produce eroziune, poluare cu nitrați și pierdere de biodiversitate; creșterea animalelor contribuie la emisiile de metan și la defrișări. Dependența de o singură resursă (de exemplu petrolul) poate face economia unui stat vulnerabilă la variațiile de preț („blestemul resurselor”).",
+    "sample": "Agricultura consumă aproximativ 70% din apa dulce folosită de om.",
+    "worked": "Irigațiile sunt esențiale pentru hrană, dar în regiunile uscate pot epuiza râurile și apele subterane.",
+    "exercises": [
+     "Localizează principalele resurse ale lumii.",
+     "Explică ce sunt minereurile critice.",
+     "Explică impactul mineritului asupra mediului.",
+     "Explică impactul agriculturii intensive.",
+     "Explică ce este „blestemul resurselor”."
+    ],
+    "test": [
+     "Unde se extrage mult cobalt?",
+     "Ce stat are rezerve mari de litiu?",
+     "Ce procent din apa dulce consumă agricultura?",
+     "Ce gaz cu efect de seră produce creșterea animalelor?",
+     "Ce stat controlează producția de pământuri rare?"
+    ],
+    "steps": [
+     "Identifică resursa și regiunea.",
+     "Analizează modul de exploatare.",
+     "Evaluează impactul și soluțiile.",
+     "Greșeala frecventă: să crezi că bogăția în resurse aduce automat dezvoltare; poate produce dependență și conflicte."
+    ],
+    "answers": [
+     "În R.D. Congo.",
+     "Chile (sau Australia, Argentina).",
+     "Circa 70%.",
+     "Metanul.",
+     "China."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l17": {
+   "ro": {
+    "title": "Gestionarea resurselor, dezvoltarea economică și dezvoltarea durabilă",
+    "theory": "Gestionarea resurselor înseamnă folosirea lor eficientă și responsabilă. Strategii: reducerea consumului și eficiența energetică, înlocuirea combustibililor fosili cu surse regenerabile, reciclarea metalelor și a materialelor (economia circulară), agricultura durabilă (irigații prin picurare, rotația culturilor, reducerea pesticidelor), gestionarea pădurilor și a pescuitului prin cote, protejarea apelor. Dezvoltarea economică trebuie decuplată de consumul de resurse și de emisii: unele state au reușit să-și crească PIB-ul reducând emisiile (de exemplu, multe state din UE). Dezvoltarea durabilă, definită în Raportul Brundtland (1987), urmărește echilibrul dintre economie, societate și mediu; Agenda 2030 a ONU cuprinde 17 Obiective de Dezvoltare Durabilă. Inegalitatea globală rămâne o provocare: statele bogate au consumat cele mai multe resurse, iar statele sărace cer dreptul la dezvoltare.",
+    "sample": "Raportul Brundtland (1987) a definit dezvoltarea durabilă ca satisfacerea nevoilor prezentului fără a compromite nevoile generațiilor viitoare.",
+    "worked": "Definiția leagă direct economia de responsabilitatea față de viitor.",
+    "exercises": [
+     "Enumeră strategii de gestionare a resurselor.",
+     "Explică ce este decuplarea dezvoltării de emisii.",
+     "Explică ce este economia circulară.",
+     "Explică definiția dezvoltării durabile.",
+     "Explică dilema dintre statele bogate și cele sărace."
+    ],
+    "test": [
+     "Ce raport a definit dezvoltarea durabilă?",
+     "În ce an?",
+     "Câte obiective are Agenda 2030?",
+     "Ce tip de irigație economisește apa?",
+     "Ce înseamnă decuplare?"
+    ],
+    "steps": [
+     "Identifică problema de gestionare.",
+     "Alege strategiile potrivite.",
+     "Evaluează echilibrul dintre economie, societate și mediu.",
+     "Greșeala frecventă: să crezi că dezvoltarea durabilă înseamnă oprirea dezvoltării; înseamnă dezvoltare responsabilă."
+    ],
+    "answers": [
+     "Raportul Brundtland.",
+     "În 1987.",
+     "17.",
+     "Irigația prin picurare.",
+     "Creșterea economiei fără creșterea emisiilor și a consumului de resurse."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l18": {
+   "ro": {
+    "title": "Evoluția economiei mondiale și sistemul economic mondial",
+    "theory": "Economia mondială a evoluat de la economii locale la un sistem global. Revoluția industrială a făcut din Europa Occidentală centrul economic al lumii în secolul al XIX-lea; în secolul XX, SUA au devenit prima putere economică. După 1945, sistemul de la Bretton Woods a creat Fondul Monetar Internațional și Banca Mondială, iar GATT (din 1995 Organizația Mondială a Comerțului) a liberalizat comerțul. Japonia, apoi „tigrii asiatici” (Coreea de Sud, Taiwan, Hong Kong, Singapore) și, după 1978, China au avut creșteri spectaculoase. Astăzi, cele mai mari economii după PIB nominal sunt SUA, China, Germania, Japonia, India. Sistemul economic mondial are un centru (statele dezvoltate), o semiperiferie (economiile emergente) și o periferie (statele sărace). Centrul de greutate economic se mută spre Asia–Pacific.",
+    "sample": "China a trecut de la o economie săracă și închisă în 1978 la a doua economie a lumii.",
+    "worked": "Reformele economice și deschiderea spre comerțul mondial pot schimba rapid poziția unui stat în sistemul global.",
+    "exercises": [
+     "Ordonează etapele evoluției economiei mondiale.",
+     "Explică rolul instituțiilor de la Bretton Woods.",
+     "Explică cine sunt „tigrii asiatici”.",
+     "Numește cele mai mari economii ale lumii.",
+     "Explică structura centru–semiperiferie–periferie."
+    ],
+    "test": [
+     "Ce stat a devenit prima putere economică în secolul XX?",
+     "Ce instituții au fost create la Bretton Woods?",
+     "Ce organizație a înlocuit GATT?",
+     "Când a început China reformele?",
+     "Spre ce regiune se mută centrul economic?"
+    ],
+    "steps": [
+     "Stabilește perioada.",
+     "Identifică centrele economice ale perioadei.",
+     "Explică schimbările și cauzele lor.",
+     "Greșeala frecventă: să crezi că ierarhia economică mondială este fixă; ea se schimbă de la o epocă la alta."
+    ],
+    "answers": [
+     "SUA.",
+     "Fondul Monetar Internațional și Banca Mondială.",
+     "Organizația Mondială a Comerțului.",
+     "În 1978.",
+     "Spre Asia–Pacific."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l19": {
+   "ro": {
+    "title": "Sistemul geopolitic mondial actual",
+    "theory": "Geopolitica studiază relația dintre spațiul geografic și puterea politică. După 1945, lumea a fost bipolară: blocul occidental (SUA, NATO) și blocul sovietic (URSS, Tratatul de la Varșovia), în Războiul Rece, cu „Cortina de Fier” care împărțea Europa. După 1991, odată cu destrămarea URSS, a urmat o perioadă unipolară, dominată de SUA. Astăzi lumea devine multipolară: SUA rămân cea mai mare putere militară și economică, China crește rapid ca putere economică, militară și tehnologică, Rusia își afirmă puterea prin forță (războiul din Ucraina), UE este o mare putere economică și normativă, iar India, Brazilia, Turcia, Arabia Saudită au roluri regionale tot mai mari. Puterea unui stat depinde de populație, teritoriu, resurse, economie, armată, tehnologie, poziție geografică și influență culturală („soft power”).",
+    "sample": "Strâmtoarea Malacca, între Malaysia și Indonezia, este traversată de o mare parte a petrolului importat de China, Japonia și Coreea de Sud.",
+    "worked": "Controlul unor locuri geografice strategice are o importanță geopolitică majoră.",
+    "exercises": [
+     "Explică ce este geopolitica.",
+     "Compară lumea bipolară cu cea unipolară.",
+     "Explică ce înseamnă lume multipolară.",
+     "Enumeră factorii puterii unui stat.",
+     "Explică importanța punctelor strategice."
+    ],
+    "test": [
+     "Ce blocuri existau în Războiul Rece?",
+     "Ce a fost Cortina de Fier?",
+     "Ce înseamnă „soft power”?",
+     "Ce strâmtoare este vitală pentru Asia de Est?",
+     "Ce stat este cea mai mare putere militară?"
+    ],
+    "steps": [
+     "Identifică perioada și actorii.",
+     "Analizează factorii puterii lor.",
+     "Explică relațiile și tensiunile.",
+     "Greșeala frecventă: să crezi că puterea unui stat înseamnă doar armata; contează și economia, tehnologia, cultura."
+    ],
+    "answers": [
+     "Blocul occidental (SUA, NATO) și blocul sovietic (URSS).",
+     "Granița care împărțea Europa între cele două blocuri.",
+     "Influența prin cultură, valori și atractivitate.",
+     "Strâmtoarea Malacca.",
+     "SUA."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l20": {
+   "ro": {
+    "title": "Ansambluri economice și geopolitice mondiale actuale",
+    "theory": "Ansamblurile economice și geopolitice organizează lumea. Uniunea Europeană (27 de state) este cea mai integrată uniune: piață unică, monedă comună (euro în 21 de state din 2026), politici comune. APEC (Cooperarea Economică Asia–Pacific, 21 de economii, inclusiv SUA, China, Japonia, Rusia, Australia) promovează comerțul liber în jurul Pacificului și reunește peste jumătate din PIB-ul mondial. Alte ansambluri: USMCA, Mercosur, ASEAN, Uniunea Africană, Uniunea Economică Eurasiatică (Rusia și foste republici sovietice), Consiliul de Cooperare al Golfului. Ansambluri geopolitice: NATO (32 de membri după aderarea Finlandei și Suediei), Organizația de Cooperare de la Shanghai, BRICS (extins după 2024), G7 și G20, ONU cu Consiliul de Securitate (membri permanenți cu drept de veto: SUA, Rusia, China, Marea Britanie, Franța).",
+    "sample": "Finlanda (2023) și Suedia (2024) au aderat la NATO după invadarea Ucrainei de către Rusia.",
+    "worked": "Evenimentele geopolitice pot schimba rapid alianțele care păreau stabile.",
+    "exercises": [
+     "Prezintă Uniunea Europeană.",
+     "Prezintă APEC.",
+     "Numește ansambluri regionale de pe alte continente.",
+     "Numește membrii permanenți ai Consiliului de Securitate.",
+     "Explică extinderea NATO."
+    ],
+    "test": [
+     "Câte economii are APEC?",
+     "Câți membri are NATO?",
+     "Ce state au aderat recent la NATO?",
+     "Ce state au drept de veto în ONU?",
+     "Ce ansamblu reunește Rusia și foste republici sovietice?"
+    ],
+    "steps": [
+     "Identifică ansamblul.",
+     "Precizează membrii, scopul și ponderea lui.",
+     "Analizează rolul în sistemul mondial.",
+     "Greșeala frecventă: să crezi că toate ansamblurile au același grad de integrare; UE este mult mai integrată decât APEC."
+    ],
+    "answers": [
+     "21.",
+     "32.",
+     "Finlanda și Suedia.",
+     "SUA, Rusia, China, Marea Britanie, Franța.",
+     "Uniunea Economică Eurasiatică."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l21": {
+   "ro": {
+    "title": "Rolul Statelor Unite ale Americii în sistemul mondial",
+    "theory": "SUA (circa 9,8 milioane km², circa 335 milioane de locuitori) sunt prima putere economică (circa un sfert din PIB-ul mondial), militară și tehnologică a lumii. Factori: teritoriu vast cu resurse diverse (petrol, gaze, cărbune, terenuri agricole fertile), populație numeroasă și diversă, alimentată de imigrație, universități și centre de cercetare de top, piețe financiare (Wall Street), companii globale (Apple, Microsoft, Google, Amazon), dolarul ca principală monedă de rezervă, armata cu baze în întreaga lume, influența culturală (Hollywood, muzică, internet). SUA au rol central în NATO, ONU, FMI și Banca Mondială. Provocări: concurența cu China, datoria publică, inegalitățile sociale, polarizarea politică, efectele schimbărilor climatice (uragane, incendii, secete).",
+    "sample": "Dolarul american este folosit în cea mai mare parte a tranzacțiilor internaționale și ca monedă de rezervă.",
+    "worked": "Rolul monedei oferă SUA o influență financiară mondială unică.",
+    "exercises": [
+     "Enumeră factorii puterii SUA.",
+     "Explică rolul economic al SUA.",
+     "Explică influența culturală a SUA.",
+     "Explică rolul SUA în organizațiile internaționale.",
+     "Enumeră provocările actuale ale SUA."
+    ],
+    "test": [
+     "Ce parte din PIB-ul mondial produc SUA?",
+     "Ce monedă este principala monedă de rezervă?",
+     "Unde se află Wall Street?",
+     "Ce industrie culturală americană are influență globală?",
+     "Cu ce stat concurează SUA pentru supremație?"
+    ],
+    "steps": [
+     "Analizează factorii puterii statului.",
+     "Precizează rolul în sistemul mondial.",
+     "Identifică provocările.",
+     "Greșeala frecventă: să crezi că puterea SUA se bazează doar pe armată; economia, tehnologia și cultura contează mult."
+    ],
+    "answers": [
+     "Circa un sfert.",
+     "Dolarul american.",
+     "La New York.",
+     "Hollywood (industria filmului).",
+     "Cu China."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l22": {
+   "ro": {
+    "title": "Rolul Federației Ruse în sistemul mondial",
+    "theory": "Federația Rusă este cel mai întins stat al lumii (circa 17 milioane km², pe două continente, 11 fusuri orare), cu circa 145 de milioane de locuitori, concentrați în partea europeană. Are resurse uriașe: gaze naturale (printre cele mai mari rezerve), petrol, cărbune, metale, lemn, apă. Economia depinde mult de exportul de hidrocarburi. Este membru permanent al Consiliului de Securitate și are cel mai mare arsenal nuclear. După destrămarea URSS (1991), Rusia a încercat să-și refacă influența asupra fostelor republici sovietice: conflicte în Georgia (2008), anexarea ilegală a Crimeii (2014), războiul împotriva Ucrainei (din 2022), care a dus la sancțiuni internaționale și la reorientarea comerțului spre China și India. Provocări: declinul demografic, dependența de resurse, izolarea față de Occident, regiunile slab populate din Siberia și Extremul Orient.",
+    "sample": "După 2022, UE a redus puternic importurile de gaze și petrol din Rusia, căutând alți furnizori.",
+    "worked": "Dependența energetică poate deveni o problemă de securitate.",
+    "exercises": [
+     "Descrie dimensiunile și resursele Rusiei.",
+     "Explică dependența economiei de hidrocarburi.",
+     "Explică politica Rusiei față de fostele republici sovietice.",
+     "Explică urmările războiului din Ucraina.",
+     "Enumeră provocările Rusiei."
+    ],
+    "test": [
+     "Ce suprafață are Rusia?",
+     "Câte fusuri orare are Rusia?",
+     "Ce resurse exportă în principal?",
+     "Ce peninsulă a anexat ilegal în 2014?",
+     "Spre ce state și-a reorientat comerțul după 2022?"
+    ],
+    "steps": [
+     "Analizează factorii puterii.",
+     "Precizează rolul în sistemul mondial.",
+     "Evaluează provocările.",
+     "Greșeala frecventă: să crezi că marea suprafață înseamnă automat putere economică; mare parte din teritoriu este slab populat."
+    ],
+    "answers": [
+     "Circa 17 milioane km².",
+     "11.",
+     "Gaze naturale și petrol.",
+     "Crimeea.",
+     "Spre China și India."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l23": {
+   "ro": {
+    "title": "Rolul Japoniei în sistemul mondial",
+    "theory": "Japonia este un arhipelag din Pacific (patru insule mari – Honshu, Hokkaido, Kyushu, Shikoku – și mii de insule mici), cu circa 124 de milioane de locuitori, relief muntos și vulcanic, cutremure și tsunami frecvente și foarte puține resurse naturale. Cu toate acestea, este a patra economie a lumii. După 1945 a avut un „miracol economic” bazat pe educație, disciplină, tehnologie, export și companii puternice (Toyota, Sony, Honda, Panasonic, Nintendo). Industria de vârf: automobile, robotică, electronice, construcții navale. Populația este concentrată pe câmpiile litorale, în megalopolisul Tokaido. Japonia importă aproape toată energia și materiile prime. Provocări: cea mai îmbătrânită populație din lume, scăderea numărului de locuitori, datoria publică foarte mare, riscurile naturale (accidentul de la Fukushima, 2011), concurența Chinei și a Coreei de Sud.",
+    "sample": "Japonia este printre liderii mondiali în robotică, folosind roboți și pentru îngrijirea vârstnicilor.",
+    "worked": "Tehnologia este folosită pentru a răspunde chiar problemelor demografice ale țării.",
+    "exercises": [
+     "Descrie cadrul natural al Japoniei.",
+     "Explică miracolul economic japonez.",
+     "Numește companii japoneze globale.",
+     "Explică dependența de importuri.",
+     "Enumeră provocările Japoniei."
+    ],
+    "test": [
+     "Câte insule mari are Japonia?",
+     "Ce megalopolis se află în Japonia?",
+     "Ce industrie de vârf are Japonia?",
+     "Ce accident nuclear a avut loc în 2011?",
+     "Ce problemă demografică are Japonia?"
+    ],
+    "steps": [
+     "Analizează factorii puterii.",
+     "Explică cum a compensat lipsa resurselor.",
+     "Evaluează provocările.",
+     "Greșeala frecventă: să crezi că lipsa resurselor împiedică dezvoltarea; Japonia arată contrariul."
+    ],
+    "answers": [
+     "Patru.",
+     "Tokaido.",
+     "Robotica (și automobilele, electronicele).",
+     "Accidentul de la Fukushima.",
+     "Îmbătrânirea și scăderea populației."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l24": {
+   "ro": {
+    "title": "Rolul Chinei în sistemul mondial",
+    "theory": "China este al treilea sau al patrulea stat ca suprafață (circa 9,6 milioane km²) și are circa 1,4 miliarde de locuitori. După reformele începute în 1978 de Deng Xiaoping (deschiderea economică, zonele economice speciale), a devenit a doua economie a lumii, cel mai mare exportator, „fabrica lumii” și cel mai mare producător industrial. Este lider mondial în producția de oțel, ciment, electronice, panouri solare, baterii și mașini electrice și controlează prelucrarea multor minereuri critice. Inițiativa „O centură, un drum” (din 2013) construiește infrastructură în Asia, Africa și Europa, crescând influența Chinei. Este membru permanent al Consiliului de Securitate și o putere militară în creștere. Provocări: îmbătrânirea populației (efect al politicii copilului unic), inegalitățile dintre estul litoral bogat și vestul interior, poluarea, dependența de importuri de energie, tensiunile cu SUA și în jurul Taiwanului.",
+    "sample": "China produce cea mai mare parte a panourilor solare și a bateriilor din lume.",
+    "worked": "Controlul tehnologiilor energiei curate îi oferă Chinei un rol central în tranziția energetică globală.",
+    "exercises": [
+     "Explică creșterea economică a Chinei.",
+     "Numește domeniile în care China este lider.",
+     "Explică inițiativa „O centură, un drum”.",
+     "Explică contrastul est–vest din China.",
+     "Enumeră provocările Chinei."
+    ],
+    "test": [
+     "Cine a început reformele din 1978?",
+     "Ce inițiativă globală de infrastructură are China?",
+     "Ce produce China în cantitate foarte mare pentru energia curată?",
+     "Ce regiune a Chinei este cea mai dezvoltată?",
+     "Ce efect a avut politica copilului unic?"
+    ],
+    "steps": [
+     "Analizează factorii puterii.",
+     "Precizează rolul în sistemul mondial.",
+     "Evaluează provocările.",
+     "Greșeala frecventă: să crezi că China este doar un producător de bunuri ieftine; este și lider tehnologic."
+    ],
+    "answers": [
+     "Deng Xiaoping.",
+     "„O centură, un drum”.",
+     "Panouri solare și baterii.",
+     "Estul litoral.",
+     "Îmbătrânirea accentuată a populației."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l25": {
+   "ro": {
+    "title": "Rolul Indiei și al Braziliei în sistemul mondial",
+    "theory": "India (circa 3,3 milioane km², peste 1,4 miliarde de locuitori, cel mai populat stat din 2023) este una dintre economiile cu cea mai rapidă creștere și a cincea economie a lumii. Puncte forte: populația tânără, serviciile IT și externalizarea (Bangalore, Hyderabad), industria farmaceutică (supranumită „farmacia lumii”), programul spațial, cea mai mare democrație a lumii. Provocări: sărăcia, inegalitățile, infrastructura, poluarea, dependența de muson. Brazilia (circa 8,5 milioane km², circa 215 milioane de locuitori) este cea mai mare economie a Americii Latine: mare exportator agricol (soia, cafea, zahăr, carne de vită, suc de portocale), minier (minereu de fier) și de petrol, cu industrie aeronautică (Embraer) și hidroenergie. Are cea mai mare parte a pădurii amazoniene, ceea ce îi dă un rol important în problemele globale de mediu. Ambele state fac parte din BRICS și G20 și cer un rol mai mare în organizațiile internaționale.",
+    "sample": "India a devenit în 2023 prima țară care a aselenizat lângă polul sud al Lunii.",
+    "worked": "Programul spațial arată creșterea capacității tehnologice a unei economii emergente.",
+    "exercises": [
+     "Prezintă punctele forte ale Indiei.",
+     "Prezintă punctele forte ale Braziliei.",
+     "Explică rolul Braziliei în protecția Amazonului.",
+     "Compară provocările celor două state.",
+     "Explică rolul lor în BRICS și G20."
+    ],
+    "test": [
+     "Ce stat este cel mai populat din 2023?",
+     "Ce oraș indian este centru IT?",
+     "Ce companie braziliană produce avioane?",
+     "Ce produs agricol exportă mult Brazilia?",
+     "Din ce grupare a economiilor emergente fac parte ambele?"
+    ],
+    "steps": [
+     "Analizează factorii puterii fiecărui stat.",
+     "Compară rolurile lor.",
+     "Evaluează provocările.",
+     "Greșeala frecventă: să crezi că economiile emergente sunt sărace; ele combină sectoare foarte avansate cu sărăcie."
+    ],
+    "answers": [
+     "India.",
+     "Bangalore (sau Hyderabad).",
+     "Embraer.",
+     "Soia (sau cafeaua, zahărul).",
+     "BRICS."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l26": {
+   "ro": {
+    "title": "Organizarea spațiului mondial; raportul Nord – Sud",
+    "theory": "Spațiul mondial poate fi împărțit după nivelul de dezvoltare. Țările dezvoltate („Nordul”: America de Nord, Europa de Vest, Japonia, Australia, Noua Zeelandă) au venituri mari, IDU ridicat, economie de servicii și tehnologie. Țările în dezvoltare („Sudul”) sunt foarte diverse: economii emergente (China, India, Brazilia, Mexic, Indonezia, Turcia), state exportatoare de petrol (Arabia Saudită, Emiratele Arabe Unite – bogate, dar dependente de o resursă), state cele mai puțin dezvoltate (majoritatea în Africa subsahariană, plus Haiti, Afganistan, Yemen). Linia simbolică Nord–Sud nu este strict geografică: Australia este „în Nord” ca dezvoltare. Raportul Nord–Sud cuprinde inegalități (venit, sănătate, educație, acces la tehnologie), dar și interdependențe: comerț, migrații, ajutor pentru dezvoltare, datorii externe, schimbări climatice (Nordul a emis istoric cele mai multe gaze, Sudul suferă multe efecte). Termenul „Sudul Global” desemnează azi statele în dezvoltare care cer o ordine mondială mai echitabilă.",
+    "sample": "Australia și Noua Zeelandă se află în emisfera sudică, dar fac parte din „Nordul” dezvoltat.",
+    "worked": "Împărțirea Nord–Sud este una economică și socială, nu strict geografică.",
+    "exercises": [
+     "Clasifică statele după nivelul de dezvoltare.",
+     "Explică de ce linia Nord–Sud nu este strict geografică.",
+     "Dă exemple de economii emergente.",
+     "Explică inegalitățile Nord–Sud.",
+     "Explică interdependențele Nord–Sud."
+    ],
+    "test": [
+     "Ce înseamnă „Nordul” în sens economic?",
+     "Dă exemplu de economie emergentă.",
+     "Unde se află cele mai multe state puțin dezvoltate?",
+     "Ce stat din emisfera sudică face parte din Nordul dezvoltat?",
+     "Ce înseamnă „Sudul Global”?"
+    ],
+    "steps": [
+     "Alege indicatorii de dezvoltare.",
+     "Clasifică statele după acești indicatori.",
+     "Analizează inegalitățile și legăturile.",
+     "Greșeala frecventă: să crezi că „Sudul” este uniform; el cuprinde state foarte bogate și foarte sărace."
+    ],
+    "answers": [
+     "Statele dezvoltate.",
+     "China (sau India, Brazilia).",
+     "În Africa subsahariană.",
+     "Australia (sau Noua Zeelandă).",
+     "Statele în dezvoltare care cer o ordine mondială mai echitabilă."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l27": {
+   "ro": {
+    "title": "Spațiul mediteranean la interfața Nord – Sud",
+    "theory": "Marea Mediterană separă și leagă trei continente: Europa (în nord), Africa (în sud) și Asia (în est). Ea este o interfață între Nordul dezvoltat (statele UE: Spania, Franța, Italia, Grecia) și Sudul în dezvoltare (Maroc, Algeria, Tunisia, Libia, Egipt) și Orientul Mijlociu (Turcia, Siria, Liban, Israel). Contrastele sunt mari: de venit (PIB pe locuitor de câteva ori mai mare în nord), demografice (populație îmbătrânită în nord, tânără în sud), politice. Fluxurile care traversează Mediterana: comerț (Canalul Suez – Gibraltar este una dintre cele mai circulate rute maritime), energie (gazoducte din Algeria și Libia spre Italia și Spania), turism (cea mai mare regiune turistică a lumii), migrații (mulți migranți și refugiați încearcă traversarea, cu numeroase victime). Mediterana a fost leagănul unor civilizații (egipteană, greacă, romană, feniciană) și are un patrimoniu cultural uriaș.",
+    "sample": "Ruta maritimă dintre Gibraltar și Canalul Suez leagă Atlanticul de Oceanul Indian prin Mediterana.",
+    "worked": "Poziția Mediteranei o face o axă majoră a comerțului mondial.",
+    "exercises": [
+     "Descrie poziția Mediteranei.",
+     "Explică contrastele dintre nord și sud.",
+     "Enumeră fluxurile care traversează Mediterana.",
+     "Explică problema migrațiilor peste Mediterana.",
+     "Explică importanța culturală a spațiului mediteranean."
+    ],
+    "test": [
+     "Ce continente mărginesc Mediterana?",
+     "Ce strâmtoare o leagă de Atlantic?",
+     "Ce canal o leagă de Marea Roșie?",
+     "Ce resursă vine prin gazoducte din Algeria?",
+     "Ce civilizații antice s-au dezvoltat aici?"
+    ],
+    "steps": [
+     "Localizează statele riverane.",
+     "Compară nordul și sudul după indicatori.",
+     "Analizează fluxurile dintre ele.",
+     "Greșeala frecventă: să crezi că Mediterana este doar o barieră; este și o punte de legătură."
+    ],
+    "answers": [
+     "Europa, Africa și Asia.",
+     "Strâmtoarea Gibraltar.",
+     "Canalul Suez.",
+     "Gazele naturale.",
+     "Egipteană, greacă, romană, feniciană."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l28": {
+   "ro": {
+    "title": "De la lumea unipolară la lumea multipolară",
+    "theory": "După 1991, SUA au rămas singura superputere: lume unipolară. Treptat, alte centre de putere s-au ridicat: China (economică, tehnologică, militară), Uniunea Europeană (economică și de reglementare), Rusia (militară și energetică), India (demografică și economică), iar puteri regionale ca Brazilia, Turcia, Arabia Saudită, Iranul, Africa de Sud au căpătat influență. Lumea devine multipolară: mai multe centre de putere care cooperează și concurează. Semne: extinderea BRICS, creșterea rolului G20 față de G7, competiția tehnologică (cipuri, inteligență artificială, 5G), rivalitatea SUA–China, războiul din Ucraina, competiția pentru Arctica și pentru minereurile critice. O lume multipolară poate fi mai echilibrată, dar și mai instabilă, cu mai multe conflicte regionale. Organizațiile internaționale (ONU, OMC) sunt puse la încercare și cer reforme.",
+    "sample": "Rivalitatea dintre SUA și China pentru cipurile avansate a devenit una dintre principalele competiții tehnologice ale lumii.",
+    "worked": "În lumea multipolară, competiția se poartă și în domeniul tehnologiei, nu doar militar sau economic.",
+    "exercises": [
+     "Explică ce este lumea unipolară.",
+     "Explică ce este lumea multipolară.",
+     "Numește noile centre de putere.",
+     "Dă exemple de competiție tehnologică.",
+     "Evaluează avantajele și riscurile multipolarității."
+    ],
+    "test": [
+     "Ce stat a dominat lumea unipolară?",
+     "Ce grupare a economiilor emergente s-a extins?",
+     "În ce domeniu tehnologic concurează SUA și China?",
+     "Ce regiune polară este disputată?",
+     "De ce organizațiile internaționale cer reforme?"
+    ],
+    "steps": [
+     "Identifică centrele de putere.",
+     "Analizează relațiile dintre ele.",
+     "Evaluează consecințele pentru stabilitatea mondială.",
+     "Greșeala frecventă: să crezi că multipolaritatea înseamnă egalitate perfectă între puteri; diferențele rămân mari."
+    ],
+    "answers": [
+     "SUA.",
+     "BRICS.",
+     "Cipurile (semiconductorii) și inteligența artificială.",
+     "Arctica.",
+     "Pentru că echilibrul de putere s-a schimbat."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l29": {
+   "ro": {
+    "title": "Viața socială și organizarea spațiului umanizat",
+    "theory": "Geografia socială studiază cum se organizează societatea în spațiu. Spațiul umanizat reflectă structurile sociale: cartiere bogate și sărace, segregarea socială sau etnică (ghetouri, comunități închise – „gated communities”), centre și periferii. Mobilitatea geografică (navetismul, migrațiile, turismul) schimbă spațiul social: apar comunități de migranți (diaspora), cartiere multiculturale, sate depopulate. Structurile de bază ale vieții sociale – familia, comunitatea locală, școala, locul de muncă – au o dimensiune spațială. Raportul dintre rasă, etnie, religie, cultură și viața socială se vede în distribuția teritorială a grupurilor și în relațiile dintre ele: coexistență, integrare, dar uneori discriminare și conflicte. Politicile publice urmăresc incluziunea socială și reducerea inegalităților teritoriale.",
+    "sample": "În multe metropole există cartiere închise, păzite, alături de cartiere informale sărace.",
+    "worked": "Inegalitățile sociale se văd direct în organizarea spațiului urban.",
+    "exercises": [
+     "Explică ce studiază geografia socială.",
+     "Explică ce este segregarea socială.",
+     "Explică influența migrațiilor asupra spațiului social.",
+     "Explică ce este diaspora.",
+     "Propune măsuri de incluziune socială."
+    ],
+    "test": [
+     "Ce este segregarea socială?",
+     "Ce sunt comunitățile închise?",
+     "Ce este diaspora?",
+     "Ce structuri sociale au dimensiune spațială?",
+     "Ce urmăresc politicile de incluziune?"
+    ],
+    "steps": [
+     "Observă organizarea spațiului social.",
+     "Identifică inegalitățile și cauzele lor.",
+     "Propune soluții de incluziune.",
+     "Greșeala frecventă: să crezi că organizarea orașului este întâmplătoare; ea reflectă structura socială."
+    ],
+    "answers": [
+     "Separarea spațială a grupurilor sociale sau etnice.",
+     "Cartiere închise și păzite.",
+     "Comunitățile unui popor trăind în afara țării de origine.",
+     "Familia, comunitatea, școala, locul de muncă.",
+     "Reducerea inegalităților și integrarea tuturor."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l30": {
+   "ro": {
+    "title": "Arii culturale, civilizații și mondializarea",
+    "theory": "O arie culturală este un teritoriu în care oamenii au trăsături culturale comune: limbă, religie, tradiții, arhitectură, mod de viață. Marile arii culturale (civilizații) ale lumii: occidentală (Europa, America de Nord, Australia), ortodoxă și slavă (Europa de Est), latino-americană, islamică (Africa de Nord, Orientul Mijlociu, Asia Centrală, Indonezia), indiană, chineză (sino-confucianistă), japoneză, africană subsahariană. Ariile culturale s-au născut în vetre de civilizație (Mesopotamia, Egipt, Valea Indusului, China, Grecia, Mezoamerica) și s-au extins prin migrații, cuceriri, comerț și religii. Mondializarea și occidentalizarea răspândesc valori și produse occidentale, dar și culturile non-occidentale devin globale (bucătăria asiatică, muzica și filmele coreene – „valul coreean”, Bollywood). Rezultatul este o lume în care uniformizarea și diversitatea coexistă.",
+    "sample": "Muzica și serialele sud-coreene au devenit populare în întreaga lume în ultimul deceniu.",
+    "worked": "Globalizarea culturală nu mai circulă doar dinspre Occident spre restul lumii.",
+    "exercises": [
+     "Explică ce este o arie culturală.",
+     "Numește marile arii culturale ale lumii.",
+     "Localizează vetrele de civilizație.",
+     "Explică ce este occidentalizarea.",
+     "Dă exemple de culturi non-occidentale devenite globale."
+    ],
+    "test": [
+     "Ce este o arie culturală?",
+     "În ce arie culturală se află Indonezia?",
+     "Ce vatră de civilizație se află între Tigru și Eufrat?",
+     "Ce industrie de film indiană este cunoscută global?",
+     "Ce înseamnă „valul coreean”?"
+    ],
+    "steps": [
+     "Identifică trăsăturile culturale comune.",
+     "Delimitează aria pe hartă.",
+     "Analizează efectele mondializării asupra ei.",
+     "Greșeala frecventă: să crezi că ariile culturale au granițe clare; ele se întrepătrund."
+    ],
+    "answers": [
+     "Un teritoriu cu trăsături culturale comune.",
+     "În aria islamică.",
+     "Mesopotamia.",
+     "Bollywood.",
+     "Răspândirea globală a culturii populare sud-coreene."
+    ]
+   }
+  }
+ }
+}
