@@ -1,0 +1,1326 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "MT",
+ "stage": "beginner",
+ "grade": "1",
+ "version": "1f750074485443b29138c12e904816eae1f3d5271a35c67d55f6e72d6450628c",
+ "source": "https://curriculum.gov.mt/",
+ "sourceTitle": "Ministry for Education, Malta — National Curriculum Framework and Learning Outcomes Framework, English, Year 1 of primary (listening, speaking, reading, writing; English is taught together with Maltese); sequence as in the systematic phonics programmes and reading schemes used in Maltese primary schools (sound revision, consonant blends, alternative spellings, first texts); British spelling; activities are original, no textbook text copied",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "en",
+ "labels": [
+  "Original practice activity · Malta · Year 1",
+  "Let’s learn",
+  "Original example",
+  "How it works",
+  "Practice",
+  "Check what you know",
+  "These are original activities, not an official test. Read them with an adult if you need help.",
+  "If you are stuck: step by step",
+  "Answers (check only when you have finished)"
+ ],
+ "units": [
+  {
+   "title": "Starting Year 1",
+   "keys": [
+    "eu-year-mt-beginner-1-l01",
+    "eu-year-mt-beginner-1-l02",
+    "eu-year-mt-beginner-1-l03",
+    "eu-year-mt-beginner-1-l04"
+   ]
+  },
+  {
+   "title": "Phase 3 sounds revisited",
+   "keys": [
+    "eu-year-mt-beginner-1-l05",
+    "eu-year-mt-beginner-1-l06",
+    "eu-year-mt-beginner-1-l07",
+    "eu-year-mt-beginner-1-l08"
+   ]
+  },
+  {
+   "title": "Sounds next to each other",
+   "keys": [
+    "eu-year-mt-beginner-1-l09",
+    "eu-year-mt-beginner-1-l10",
+    "eu-year-mt-beginner-1-l11"
+   ]
+  },
+  {
+   "title": "New ways to spell sounds",
+   "keys": [
+    "eu-year-mt-beginner-1-l12",
+    "eu-year-mt-beginner-1-l13",
+    "eu-year-mt-beginner-1-l14",
+    "eu-year-mt-beginner-1-l15",
+    "eu-year-mt-beginner-1-l16",
+    "eu-year-mt-beginner-1-l17"
+   ]
+  },
+  {
+   "title": "Spelling patterns",
+   "keys": [
+    "eu-year-mt-beginner-1-l18",
+    "eu-year-mt-beginner-1-l19",
+    "eu-year-mt-beginner-1-l20",
+    "eu-year-mt-beginner-1-l21",
+    "eu-year-mt-beginner-1-l22",
+    "eu-year-mt-beginner-1-l23",
+    "eu-year-mt-beginner-1-l24"
+   ]
+  },
+  {
+   "title": "Sentences and punctuation",
+   "keys": [
+    "eu-year-mt-beginner-1-l25",
+    "eu-year-mt-beginner-1-l26",
+    "eu-year-mt-beginner-1-l27",
+    "eu-year-mt-beginner-1-l28"
+   ]
+  },
+  {
+   "title": "Stories, poems and information",
+   "keys": [
+    "eu-year-mt-beginner-1-l29",
+    "eu-year-mt-beginner-1-l30",
+    "eu-year-mt-beginner-1-l31",
+    "eu-year-mt-beginner-1-l32",
+    "eu-year-mt-beginner-1-l33",
+    "eu-year-mt-beginner-1-l34"
+   ]
+  },
+  {
+   "title": "End of Year 1",
+   "keys": [
+    "eu-year-mt-beginner-1-l35"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-mt-beginner-1-l01": {
+   "en": {
+    "title": "Talking and listening in class",
+    "theory": "In Year 1 we listen carefully and speak in whole sentences. We take turns: one person talks and the others listen. We put a hand up to speak, look at the person who is talking and use a clear voice so everyone can hear.",
+    "sample": "My name is Ava. I am five. I like painting and riding my scooter. My best friend is Leo.",
+    "worked": "Ava tells us four things in four short sentences: her name, her age, what she likes and who her friend is. She does not use just one word, she says a whole sentence each time. While she speaks, the class listens and waits.",
+    "exercises": [
+     "Tell a partner your name in a whole sentence.",
+     "Say one thing you like doing.",
+     "Listen to a partner and say back what they told you.",
+     "Show how you put your hand up to speak.",
+     "Ask a friend one question about their weekend."
+    ],
+    "test": [
+     "How old is Ava?",
+     "What do we do when we want to speak?",
+     "Why do we not talk over other people?",
+     "What do you like doing?",
+     "Who is Ava’s best friend?"
+    ],
+    "steps": [
+     "First say who you are: My name is…",
+     "Then add one more sentence: I like…",
+     "When someone else talks, look at them and wait until they finish.",
+     "Watch out: answer with a whole sentence, not just one word."
+    ],
+    "answers": [
+     "Five.",
+     "We put a hand up and wait for our turn.",
+     "So that everyone can be heard and understood.",
+     "Your answer. For example: I like playing football.",
+     "Leo."
+    ]
+   }
+  },
+  "eu-year-mt-beginner-1-l02": {
+   "en": {
+    "title": "Blending sounds to read",
+    "theory": "Letters stand for sounds. Some sounds are written with two letters, like sh, ch, th, ng and ck. To read a word, we say each sound in order and then push the sounds together quickly. This is called blending: ch-i-p becomes chip.",
+    "sample": "Beth has a big red ship. Chad gets a chip and a long thin stick. The duck sings in the pond.",
+    "worked": "In ship, s and h make one sound, sh, so ship has three sounds: sh-i-p. In long, n and g make one sound, ng: l-o-ng. In duck, c and k make one sound at the end: d-u-ck. Say the sounds, then blend them.",
+    "exercises": [
+     "Blend: sh-o-p.",
+     "Blend: th-i-n.",
+     "Blend: r-i-ng.",
+     "Read: chop, much, back, song.",
+     "Find two words in the example with sh or ch."
+    ],
+    "test": [
+     "How many sounds are in ship?",
+     "Which two letters make one sound in duck?",
+     "Blend: ch-i-n.",
+     "What does Chad get?",
+     "Where does the duck sing?"
+    ],
+    "steps": [
+     "Look at the word and find any two letters that make one sound: sh, ch, th, ng, ck.",
+     "Say each sound in order, pointing under it with your finger.",
+     "Push the sounds together quickly to hear the word.",
+     "Watch out: s and h together say sh; do not read them as two separate sounds s-h."
+    ],
+    "answers": [
+     "Three: sh-i-p.",
+     "c and k.",
+     "chin.",
+     "A chip and a long thin stick.",
+     "In the pond."
+    ]
+   }
+  },
+  "eu-year-mt-beginner-1-l03": {
+   "en": {
+    "title": "Segmenting sounds to spell",
+    "theory": "To spell a word, we do the opposite of blending. We say the word slowly and break it into its sounds. This is called segmenting. We count the sounds on our fingers and then write one spelling for each sound.",
+    "sample": "fish: f-i-sh (3 sounds) / torch: t-or-ch (3 sounds) / chest: ch-e-s-t (4 sounds)",
+    "worked": "Fish has four letters but only three sounds, because sh is one sound. Torch has five letters and three sounds: t, or, ch. Chest has four sounds. Counting sounds on our fingers helps us not to forget any.",
+    "exercises": [
+     "Segment cat and count the sounds.",
+     "Segment shell.",
+     "Segment moth.",
+     "Write the word that has the sounds b-e-d.",
+     "Count the sounds in thing."
+    ],
+    "test": [
+     "How many sounds are in fish?",
+     "What is the opposite of blending?",
+     "Write the word with the sounds sh-o-p.",
+     "How many sounds are in chest?",
+     "How many letters are in torch?"
+    ],
+    "steps": [
+     "Say the word slowly, as if you are stretching it.",
+     "Hold up one finger for each sound you hear.",
+     "Write one spelling for each finger, from left to right.",
+     "Watch out: sh, ch, th and ng are one sound each, so they need only one finger."
+    ],
+    "answers": [
+     "Three: f-i-sh.",
+     "Segmenting.",
+     "shop.",
+     "Four: ch-e-s-t.",
+     "Five."
+    ]
+   }
+  },
+  "eu-year-mt-beginner-1-l04": {
+   "en": {
+    "title": "Handwriting: letter families",
+    "theory": "We sit up straight with our feet flat on the floor and hold the pencil between thumb and first finger, resting on the middle finger. Letters belong to families that start in the same way. Curly letters start like c: c, a, d, o, g, q, e, s, f. Long letters start at the top and go down: l, i, t, u, j, y. Bouncy letters go down and back up: r, b, n, h, m, k, p. Zigzag letters: z, v, w, x.",
+    "sample": "Curly family: c a d o g q e s f / Long family: l i t u j y / Bouncy family: r b n h m k p / Zigzag family: z v w x",
+    "worked": "The letter a starts like c, curls round, and then has a short line down. The letter n goes down, back up and over like a bridge. Practising one family at a time helps us form letters the right way.",
+    "exercises": [
+     "Write a line of c, then a line of a.",
+     "Write the long family: l i t u j y.",
+     "Write n, m and h, starting at the top.",
+     "Show how you hold your pencil.",
+     "Write the zigzag letters z v w x."
+    ],
+    "test": [
+     "Which letter does the curly family start like?",
+     "Name two letters in the long family.",
+     "Where do we start writing l?",
+     "How should your feet be when you write?",
+     "Which family is the letter n in?"
+    ],
+    "steps": [
+     "Sit up straight and put your feet flat on the floor.",
+     "Hold the pencil lightly, near the point, between thumb and first finger.",
+     "Start each letter in the right place: curly letters start like c, long letters at the top.",
+     "Watch out: if you start in the wrong place, letters like a and d come out back to front."
+    ],
+    "answers": [
+     "Like c.",
+     "Your answer. For example: l and t.",
+     "At the top.",
+     "Flat on the floor.",
+     "The bouncy family."
+    ]
+   }
+  },
+  "eu-year-mt-beginner-1-l05": {
+   "en": {
+    "title": "Vowel sounds ai, ee, oa and oo",
+    "theory": "Some vowel sounds are written with two letters. These are called digraphs. The digraph ai says the sound in rain, ee says the sound in feet, oa says the sound in boat. The digraph oo has two sounds: a long one in moon and a short one in book.",
+    "sample": "Wait for the rain to stop. / Three green sheep sleep. / The goat is in the boat. / Look at the moon from your room.",
+    "worked": "In wait and rain, a and i together make one sound. In green and sheep, ee makes one sound. In goat and boat, oa makes one sound. Moon and room have the long oo; look and book have the short oo.",
+    "exercises": [
+     "Read: rain, tail, paint.",
+     "Read: tree, need, green.",
+     "Read: coat, road, soap.",
+     "Sort into long oo and short oo: moon, book, food, foot.",
+     "Write a word with ai."
+    ],
+    "test": [
+     "What sound does ee make in feet?",
+     "Where is the goat?",
+     "Is the oo in book long or short?",
+     "How many sheep sleep?",
+     "Read: train, seed, toad."
+    ],
+    "steps": [
+     "Look for two vowels standing together: ai, ee, oa, oo.",
+     "Say them as one sound, then blend the whole word: r-ai-n.",
+     "For oo, try the long sound first; if the word sounds wrong, try the short one.",
+     "Watch out: do not say a and i separately in rain; together they make one sound."
+    ],
+    "answers": [
+     "The sound in feet, a long e.",
+     "In the boat.",
+     "Short.",
+     "Three.",
+     "tr-ai-n, s-ee-d, t-oa-d."
+    ]
+   }
+  },
+  "eu-year-mt-beginner-1-l06": {
+   "en": {
+    "title": "Sounds igh, ar, or and ur",
+    "theory": "The trigraph igh has three letters but makes one sound, as in night. The digraph ar says the sound in car, or says the sound in fork and ur says the sound in burn. Spotting these groups helps us read longer words quickly.",
+    "sample": "At night the stars are bright. / A shark swims near the park. / Turn the corn with a fork. / The surf hurts my feet.",
+    "worked": "Night and bright have igh: three letters, one sound. Stars, shark and park have ar. Corn and fork have or. Turn, surf and hurts have ur. Each group is read as one sound.",
+    "exercises": [
+     "Read: light, high, might.",
+     "Read: farm, card, dark.",
+     "Read: born, short, storm.",
+     "Read: burst, church, curl.",
+     "Write a word with igh."
+    ],
+    "test": [
+     "How many letters does igh have?",
+     "How many sounds does igh make?",
+     "What is bright at night?",
+     "Read: sight, start, sport.",
+     "Which sound do turn and burn share?"
+    ],
+    "steps": [
+     "Look for the groups igh, ar, or and ur in the word.",
+     "Read each group as one sound.",
+     "Blend all the sounds in order: n-igh-t.",
+     "Watch out: igh has three letters but only one sound; do not read the g and h."
+    ],
+    "answers": [
+     "Three.",
+     "One.",
+     "The stars.",
+     "s-igh-t, st-ar-t, sp-or-t.",
+     "ur."
+    ]
+   }
+  },
+  "eu-year-mt-beginner-1-l07": {
+   "en": {
+    "title": "Sounds ow, oi, ear, air and er",
+    "theory": "More vowel sounds use two or three letters. The digraph ow says the sound in cow, oi says the sound in coin and er says the sound at the end of letter. The trigraph ear says the sound in near and air says the sound in hair.",
+    "sample": "The brown cow sits down. / Point to the coin in the soil. / The deer is near. / Comb your hair on the chair. / My sister has a letter.",
+    "worked": "Brown, cow and down have ow. Point, coin and soil have oi. Deer and near both say the same sound, written in two ways. Hair and chair have air. Sister and letter end in er.",
+    "exercises": [
+     "Read: town, owl, crown.",
+     "Read: join, boil, foil.",
+     "Read: fear, hear, beard.",
+     "Read: fair, pair, stairs.",
+     "Read: hammer, better, ladder."
+    ],
+    "test": [
+     "What sound does oi make in coin?",
+     "What sits down?",
+     "Read: clear.",
+     "Where do you comb your hair?",
+     "What does my sister have?"
+    ],
+    "steps": [
+     "Find the group of letters that makes one sound: ow, oi, ear, air or er.",
+     "Say the group as one sound.",
+     "Blend the word from left to right.",
+     "Watch out: er at the end of a word is a quiet sound, as in letter, not a loud e-r."
+    ],
+    "answers": [
+     "The sound in coin.",
+     "The brown cow.",
+     "cl-ear.",
+     "On the chair.",
+     "A letter."
+    ]
+   }
+  },
+  "eu-year-mt-beginner-1-l08": {
+   "en": {
+    "title": "First tricky words",
+    "theory": "Some very common words have a tricky part that does not follow the sounds we know. We call them tricky words or common exception words. We read the parts we can sound out and learn the tricky part by heart. Examples: the, said, was, you, they, are, my, to, no, go.",
+    "sample": "They said, “Are you going to the park?” / “No,” said my mum. “It was raining.”",
+    "worked": "In said, the ai does not say the sound in rain; it says a short e. In was, the a sounds like o. In you, the ou does not say the sound in out. We learn these words by looking at them often.",
+    "exercises": [
+     "Read: the, to, no, go.",
+     "Read: said, was, you.",
+     "Find the tricky part in said.",
+     "Write they three times.",
+     "Make a sentence with said."
+    ],
+    "test": [
+     "What did they ask?",
+     "Why could they not go?",
+     "Which part of was is tricky?",
+     "Read: my, are, they.",
+     "What do we call words like said?"
+    ],
+    "steps": [
+     "Read the parts of the word that you can sound out.",
+     "Find the tricky part and say it the special way.",
+     "Look, say, cover, write and check the word.",
+     "Watch out: do not try to sound out said as s-ai-d; learn it as a whole word."
+    ],
+    "answers": [
+     "If they were going to the park.",
+     "It was raining.",
+     "The a, which sounds like o.",
+     "my, are, they.",
+     "Tricky words or common exception words."
+    ]
+   }
+  },
+  "eu-year-mt-beginner-1-l09": {
+   "en": {
+    "title": "Words like tent, milk and jump",
+    "theory": "Sometimes two consonants stand next to each other at the end of a word, as in tent, milk and jump. Each consonant keeps its own sound, so we must say both. These words have four sounds: t-e-n-t.",
+    "sample": "The tent is next to the pond. / Jump in the sand and help Mum find the milk.",
+    "worked": "Tent has two consonants at the end, n and t, and we say both: t-e-n-t. In jump, m and p stand together. In milk, l and k stand together. If we forget one sound, the word changes or makes no sense.",
+    "exercises": [
+     "Blend: h-a-n-d.",
+     "Blend: b-e-l-t.",
+     "Segment lamp.",
+     "Read: gift, mask, desk.",
+     "Write a word that ends in nd."
+    ],
+    "test": [
+     "How many sounds are in tent?",
+     "Which two consonants stand together in milk?",
+     "Where is the tent?",
+     "Read: wind, golf, best.",
+     "What do we help Mum find?"
+    ],
+    "steps": [
+     "Look at the end of the word and find the two consonants.",
+     "Say each sound, including both consonants.",
+     "Blend all four sounds together: m-i-l-k.",
+     "Watch out: say both end sounds; jum without the p is not a word."
+    ],
+    "answers": [
+     "Four.",
+     "l and k.",
+     "Next to the pond.",
+     "w-i-n-d, g-o-l-f, b-e-s-t.",
+     "The milk."
+    ]
+   }
+  },
+  "eu-year-mt-beginner-1-l10": {
+   "en": {
+    "title": "Words like frog, swim and splash",
+    "theory": "Two or three consonants can stand together at the start of a word, as in frog, swim and string. We say each sound quickly, one after the other. Some words have consonants together at both ends, like crisp and stamp.",
+    "sample": "A frog swims in the stream. / Splash! The crab grabs a crisp. / Stamp and clap to the drum.",
+    "worked": "Frog starts with f and r together. Swim starts with s and w. Stream and splash start with three consonants: s-t-r and s-p-l. Crisp has consonants together at both ends: c-r at the start and s-p at the end.",
+    "exercises": [
+     "Blend: f-l-a-g.",
+     "Blend: s-n-a-p.",
+     "Blend: s-t-r-i-p.",
+     "Read: plum, trip, glad.",
+     "Segment stamp."
+    ],
+    "test": [
+     "Which two letters start frog?",
+     "What does the crab grab?",
+     "How many sounds are in clap?",
+     "Read: spring, scrub, twist.",
+     "Where does the frog swim?"
+    ],
+    "steps": [
+     "Find the consonants that stand together at the start.",
+     "Say them quickly, one after the other: s-p-l.",
+     "Then blend the rest of the word.",
+     "Watch out: do not add an extra sound between them; it is frog, not f-u-rog."
+    ],
+    "answers": [
+     "f and r.",
+     "A crisp.",
+     "Four: c-l-a-p.",
+     "spr-ing, scr-u-b, tw-i-s-t.",
+     "In the stream."
+    ]
+   }
+  },
+  "eu-year-mt-beginner-1-l11": {
+   "en": {
+    "title": "Tricky words to learn by heart",
+    "theory": "Year 1 children learn a list of common exception words. Examples: said, have, like, come, some, were, there, one, once, ask, friend, school, put, push, pull, full, house, our. Some letters in them do not make the sound we expect, so we practise them until we can read and write them quickly.",
+    "sample": "My friend and I come to school. We push and pull the full box to our house. Once there were some ducks.",
+    "worked": "In friend, the ie says a short e. In come and some, the o sounds like u. In push, pull and put, the u sounds like the oo in book. In one and once, the start sounds like w. We remember these words by practising them.",
+    "exercises": [
+     "Read: have, like, some.",
+     "Read: friend, school, house.",
+     "Write our and ask.",
+     "Make a sentence with were.",
+     "Find the tricky part in come."
+    ],
+    "test": [
+     "What do we push and pull?",
+     "Which letters make a short e in friend?",
+     "Read: put, full, once.",
+     "Who comes to school?",
+     "Write a sentence with there."
+    ],
+    "steps": [
+     "Read the word and find the part that does not follow the usual sounds.",
+     "Say the word and look at the tricky part carefully.",
+     "Look, say, cover, write and check, a few times each day.",
+     "Watch out: friend is spelled with ie; frend is a common mistake."
+    ],
+    "answers": [
+     "The full box.",
+     "ie.",
+     "put, full, once.",
+     "My friend and I.",
+     "Your answer. For example: There is a cat on the wall."
+    ]
+   }
+  },
+  "eu-year-mt-beginner-1-l12": {
+   "en": {
+    "title": "New spellings ay, ou, ie and ea",
+    "theory": "Many sounds can be spelled in more than one way. The sound in rain can also be spelled ay, often at the end of a word: day, play. The digraph ou says the sound in out. The digraph ie says the sound in pie. The digraph ea says the sound in sea.",
+    "sample": "Today we play by the sea. / Shout out loud! / I tried a pie with cream and peas.",
+    "worked": "Today and play end in ay, which sounds like the ai in rain. Shout and loud have ou. Tried and pie have ie. Sea, cream and peas have ea. The same sound can have different spellings.",
+    "exercises": [
+     "Read: say, stay, tray.",
+     "Read: cloud, found, mouth.",
+     "Read: tie, lie, cried.",
+     "Read: eat, meat, beach.",
+     "Write a word with ay."
+    ],
+    "test": [
+     "Where do we play today?",
+     "What spelling of the rain sound is in play?",
+     "Read: proud, spied, treat.",
+     "What did I try?",
+     "Which spelling is in sea?"
+    ],
+    "steps": [
+     "Look for the vowel team: ay, ou, ie or ea.",
+     "Say it as one sound, then blend the word.",
+     "When you write, remember that ay often comes at the end of a word: day.",
+     "Watch out: the ai and ay spellings sound the same; usually ai sits in the middle and ay at the end."
+    ],
+    "answers": [
+     "By the sea.",
+     "ay.",
+     "pr-ou-d, sp-ie-d, tr-ea-t.",
+     "A pie with cream and peas.",
+     "ea."
+    ]
+   }
+  },
+  "eu-year-mt-beginner-1-l13": {
+   "en": {
+    "title": "New spellings oy, ir, ue and aw",
+    "theory": "The sound in coin can also be spelled oy, often at the end of a word: boy, toy. The sound in burn can be spelled ir: girl, bird. The digraph ue says the sound in blue. The digraph aw says the sound in saw.",
+    "sample": "The boy and the girl saw a bird on the lawn. / A blue toy is on the first shelf.",
+    "worked": "Boy and toy end in oy, the same sound as oi in coin. Girl, bird and first have ir, which sounds like ur in burn. Blue has ue. Saw and lawn have aw.",
+    "exercises": [
+     "Read: joy, enjoy, oyster.",
+     "Read: shirt, third, skirt.",
+     "Read: true, glue, clue.",
+     "Read: paw, draw, yawn.",
+     "Write a word with oy."
+    ],
+    "test": [
+     "What did the boy and girl see?",
+     "Where was the bird?",
+     "Read: dirt, Sue, straw.",
+     "What colour is the toy?",
+     "Which spelling is used in saw?"
+    ],
+    "steps": [
+     "Find the vowel team: oy, ir, ue or aw.",
+     "Read it as one sound and blend the word.",
+     "When you write, remember oy usually comes at the end and oi in the middle.",
+     "Watch out: bird and burn have the same sound but different spellings; learn which word uses which."
+    ],
+    "answers": [
+     "A bird.",
+     "On the lawn.",
+     "d-ir-t, S-ue, str-aw.",
+     "Blue.",
+     "aw."
+    ]
+   }
+  },
+  "eu-year-mt-beginner-1-l14": {
+   "en": {
+    "title": "New spellings wh, ph, ew, oe, au and ey",
+    "theory": "Some sounds have unusual spellings. The digraph wh says the sound in when. The digraph ph says the sound f, as in phone. The digraph ew says the sound in new. The digraph oe says the sound in toe. The digraph au says the sound in August. The digraph ey says the sound in key.",
+    "sample": "When the phone rang, Joe threw the key. In August we grew a new plant. Where is the photo of the monkey?",
+    "worked": "When and where start with wh. Phone and photo have ph, which sounds like f. Threw, grew and new have ew. Joe has oe. August has au. Key and monkey have ey.",
+    "exercises": [
+     "Read: what, which, wheel.",
+     "Read: dolphin, graph, Phil.",
+     "Read: few, blew, chew.",
+     "Read: goes, Autumn, donkey.",
+     "Write a word with ph."
+    ],
+    "test": [
+     "What sound does ph make?",
+     "What did Joe throw?",
+     "In which month did we grow a plant?",
+     "Read: whisk, flew, toe.",
+     "What is in the photo?"
+    ],
+    "steps": [
+     "Look for the unusual digraph: wh, ph, ew, oe, au or ey.",
+     "Remember its sound: ph sounds like f, ey at the end sounds like the ee in key.",
+     "Blend the whole word.",
+     "Watch out: phone is spelled with ph; fone is not the correct spelling."
+    ],
+    "answers": [
+     "The sound f.",
+     "The key.",
+     "In August.",
+     "wh-i-s-k, fl-ew, t-oe.",
+     "A monkey."
+    ]
+   }
+  },
+  "eu-year-mt-beginner-1-l15": {
+   "en": {
+    "title": "Split digraphs: cake, bike, home",
+    "theory": "In some words, two vowel letters work together even though another letter stands between them. This is called a split digraph. The e at the end makes the vowel say its long sound: a-e in cake, e-e in these, i-e in bike, o-e in home, u-e in cube.",
+    "sample": "Kate made a cake. / Mike rides his bike home. / These are huge cubes of ice.",
+    "worked": "In cake, a and e work together across the k: the a says its long sound. Compare can and cane, hop and hope: the e changes the sound. In these, e-e works the same way. Huge and cube have u-e.",
+    "exercises": [
+     "Read: game, name, late.",
+     "Read: time, five, like.",
+     "Read: rope, bone, note.",
+     "Read: tune, June, use.",
+     "Change hop into hope by adding e."
+    ],
+    "test": [
+     "What did Kate make?",
+     "Where does Mike ride?",
+     "Read: cap, cape.",
+     "What letter makes the vowel long in bike?",
+     "What are the huge cubes made of?"
+    ],
+    "steps": [
+     "Look for a vowel, then one consonant, then an e at the end.",
+     "Make the first vowel say its long sound, like its name: a in cake.",
+     "Do not say the final e; it is silent and only helps the vowel.",
+     "Watch out: kit and kite are different words; the e changes the vowel sound."
+    ],
+    "answers": [
+     "A cake.",
+     "Home.",
+     "c-a-p, c-a-pe.",
+     "The e at the end.",
+     "Ice."
+    ]
+   }
+  },
+  "eu-year-mt-beginner-1-l16": {
+   "en": {
+    "title": "One spelling, two sounds",
+    "theory": "Some spellings can make more than one sound. The ow in cow is different from the ow in snow. The ie in pie is different from the ie in field. The ea in sea is different from the ea in bread. The ch in chin is different from the ch in school. If a word sounds wrong, we try the other sound.",
+    "sample": "The cow walks in the snow. / A thief ran across the field with a pie. / The head chef made bread for the school.",
+    "worked": "Cow and snow both have ow, but they sound different. Field and thief have the ie that sounds like ee; pie has the ie in tie. Head and bread have the short ea; sea has the long ea. Chef sounds like sh and school like k.",
+    "exercises": [
+     "Read and sort: how, show, now, grow.",
+     "Read: chief, tie, shield.",
+     "Read: head, beat, spread.",
+     "Read: chop, chorus, chef.",
+     "Find two words in the example with ow."
+    ],
+    "test": [
+     "Do cow and snow have the same sound?",
+     "What did the thief have?",
+     "Read: bow (to bow your head) and bow (in your hair).",
+     "What sound does ch make in school?",
+     "Who made the bread?"
+    ],
+    "steps": [
+     "Read the word with the sound you know best.",
+     "Ask yourself: is it a real word that makes sense?",
+     "If not, try the other sound of the same spelling.",
+     "Watch out: do not stop at the first try; head is not heed, so try the short sound."
+    ],
+    "answers": [
+     "No, the ow sounds different.",
+     "A pie.",
+     "The first rhymes with cow, the second rhymes with snow.",
+     "The sound k.",
+     "The head chef."
+    ]
+   }
+  },
+  "eu-year-mt-beginner-1-l17": {
+   "en": {
+    "title": "Real words and alien words",
+    "theory": "Sometimes the teacher asks us to read a list of words. Some are real words and some are made-up words, often called alien words. The alien words show that we can blend sounds we have never seen together before, instead of guessing a word we already know.",
+    "sample": "Real words: shop, train, stamp, cloud / Alien words: vap, chom, blint, thrue",
+    "worked": "Vap is made up, but we can still read it: v-a-p. Chom has ch at the start: ch-o-m. Blint has consonants together at both ends: b-l-i-n-t. Thrue uses th, r and the ue from blue. Blending works for every word.",
+    "exercises": [
+     "Read: zan, quib, fesh.",
+     "Read: thorp, glairt, shoy.",
+     "Decide: real or alien? cloud, vap, frog, chom.",
+     "Make up your own alien word.",
+     "Read: spling, nowk, prew."
+    ],
+    "test": [
+     "Is vap a real word or an alien word?",
+     "What is an alien word?",
+     "Read: jang.",
+     "Is stamp real or alien?",
+     "Why do alien words help the teacher?"
+    ],
+    "steps": [
+     "Treat an alien word just like a real word.",
+     "Find the sounds, including digraphs like ch, ai and ue.",
+     "Blend them in order, even if the word means nothing.",
+     "Watch out: do not change an alien word into a real one you know; chom is not chop."
+    ],
+    "answers": [
+     "An alien word.",
+     "A made-up word that we can still read by blending.",
+     "j-a-ng.",
+     "Real.",
+     "They show that we can blend sounds, not just remember words."
+    ]
+   }
+  },
+  "eu-year-mt-beginner-1-l18": {
+   "en": {
+    "title": "Double letters ff, ll, ss, zz and ck",
+    "theory": "After a short vowel at the end of a short word, the sounds f, l, s and z are usually written with double letters: off, bell, kiss, buzz. The sound k after a short vowel is usually written ck: back, duck. Words ending in nk, like bank and think, keep n and k.",
+    "sample": "The bell fell off the shelf. / A bee buzzed and I missed the bus. / The duck went back to the bank.",
+    "worked": "Bell and fell end in ll after a short e. Off ends in ff. Missed has ss. Buzzed has zz. Back and duck end in ck after a short vowel. Bank ends in nk, so it does not need ck.",
+    "exercises": [
+     "Write: hill, stiff, mess.",
+     "Write: jazz, fizz, fuzz.",
+     "Write: sock, pick, luck.",
+     "Write: pink, sank, honk.",
+     "Complete: the ki_ (ss or s)."
+    ],
+    "test": [
+     "What fell off the shelf?",
+     "How do we usually write k after a short vowel?",
+     "Write the word: b-e-ll.",
+     "Where did the duck go?",
+     "Does bank end in ck?"
+    ],
+    "steps": [
+     "Say the word and listen: is the vowel short?",
+     "If the word ends in f, l, s or z after a short vowel, double the letter.",
+     "If it ends in k after a short vowel, write ck; after n write k.",
+     "Watch out: bus, yes and gas are exceptions with one s; learn them by heart."
+    ],
+    "answers": [
+     "The bell.",
+     "With ck.",
+     "bell.",
+     "Back to the bank.",
+     "No, it ends in nk."
+    ]
+   }
+  },
+  "eu-year-mt-beginner-1-l19": {
+   "en": {
+    "title": "Using k, ck, tch and ve",
+    "theory": "The sound k is spelled k before e, i and y: kit, skin, Kenny. Otherwise it is usually spelled c: cat, cot, cup. The sound ch after a short vowel is usually spelled tch: catch, fetch. English words do not end in the letter v, so we add e: have, give, love.",
+    "sample": "Kim kicks the ball. / Can you catch it and fetch the cup? / I love to give gifts and have fun.",
+    "worked": "Kim and kicks have k before i. Can and cup have c before a and u. Catch and fetch have tch after a short vowel. Love, give and have end in ve, because English words do not end in v.",
+    "exercises": [
+     "Write: kid, kettle, sky.",
+     "Write: cap, cot, cub.",
+     "Write: match, itch, hutch.",
+     "Write: live, glove, five.",
+     "Choose c or k: _ite."
+    ],
+    "test": [
+     "Which letter spells the k sound before i?",
+     "What do you catch?",
+     "Why does have end in e?",
+     "Write the word with the sounds c-a-tch.",
+     "Choose c or k: _at."
+    ],
+    "steps": [
+     "Look at the letter after the k sound: if it is e, i or y, use k; otherwise usually c.",
+     "After a short vowel, the ch sound is usually tch.",
+     "A word that ends with a v sound gets an e: ve.",
+     "Watch out: much, such, rich and which are exceptions with ch; learn them by heart."
+    ],
+    "answers": [
+     "k.",
+     "The ball.",
+     "Because English words do not end in v.",
+     "catch.",
+     "c, cat."
+    ]
+   }
+  },
+  "eu-year-mt-beginner-1-l20": {
+   "en": {
+    "title": "Adding -s and -es",
+    "theory": "When there is more than one thing, we often add s: one dog, two dogs. This is called the plural. If the word ends in s, sh, ch, x or z, we add es and hear an extra syllable: foxes, wishes. We also add s or es to some verbs: he runs, she wishes.",
+    "sample": "One cat, three cats. / One box, two boxes. / The fox catches a bus and rushes home.",
+    "worked": "Cats is the plural of cat: we add s. Box ends in x, so we add es: boxes. In catches and rushes, the verbs end in ch and sh, so we add es. We hear an extra syllable when es is added.",
+    "exercises": [
+     "Make plural: dog, hat, pen.",
+     "Make plural: bus, dish, fox.",
+     "Add s or es: she wash___.",
+     "Which word is singular: cup or cups?",
+     "Clap the syllables in boxes."
+    ],
+    "test": [
+     "What is the plural of cat?",
+     "Why do we add es to box?",
+     "Make plural: brush.",
+     "Is dishes singular or plural?",
+     "What does the fox catch?"
+    ],
+    "steps": [
+     "Ask: is it one thing or more than one?",
+     "For more than one, add s.",
+     "If the word ends in s, sh, ch, x or z, add es instead.",
+     "Watch out: say the word aloud; if you hear an extra syllable, as in fox-es, write es."
+    ],
+    "answers": [
+     "Cats.",
+     "Because box ends in x.",
+     "Brushes.",
+     "Plural.",
+     "A bus."
+    ]
+   }
+  },
+  "eu-year-mt-beginner-1-l21": {
+   "en": {
+    "title": "Adding -ing, -ed and -er",
+    "theory": "We can add endings to verbs without changing the word: jump, jumping, jumped, jumper. The ending -ing tells us something is happening now or was going on. The ending -ed tells us it has already happened. The ed can sound like t (helped), d (filled) or id (hunted), but it is always spelled ed.",
+    "sample": "Yesterday I helped Dad. We hunted for shells and filled a bucket. Now I am jumping and Dad is reading.",
+    "worked": "Helped, hunted and filled tell us what already happened, so they end in ed. Helped sounds like help-t but is spelled ed. Hunted has an extra syllable: hunt-ed. Jumping and reading tell us what is happening now.",
+    "exercises": [
+     "Add -ing: play, sing, read.",
+     "Add -ed: jump, look, kick.",
+     "Add -er: farm, sing, teach.",
+     "Clap: hunted. How many syllables?",
+     "Write a sentence with -ed."
+    ],
+    "test": [
+     "What does -ed tell us?",
+     "What did we fill?",
+     "Add -ing: help.",
+     "How does the ed in helped sound?",
+     "What is Dad doing now?"
+    ],
+    "steps": [
+     "Find the verb: the doing word.",
+     "If it happened in the past, add ed; if it is happening now, add ing.",
+     "Spell the ending ed even if it sounds like t or d.",
+     "Watch out: do not write helpt or jumpt; the past ending is always written ed."
+    ],
+    "answers": [
+     "That something has already happened.",
+     "A bucket.",
+     "Helping.",
+     "Like t.",
+     "Reading."
+    ]
+   }
+  },
+  "eu-year-mt-beginner-1-l22": {
+   "en": {
+    "title": "Adding -er, -est and un-",
+    "theory": "We add -er to compare two things: quick, quicker. We add -est when something is the most of all: quickest. The letters un at the start of a word change its meaning to the opposite: happy, unhappy; lock, unlock.",
+    "sample": "The snail is slow. The tortoise is slower. The sloth is the slowest. / I was unhappy when I could not unlock the door.",
+    "worked": "Slower compares two animals: we add er. Slowest is the most slow of all: we add est. Unhappy means not happy. Unlock means the opposite of lock. The beginning un changes the meaning.",
+    "exercises": [
+     "Add -er and -est: fast.",
+     "Add -er and -est: long.",
+     "Add un-: kind.",
+     "Add un-: do.",
+     "Write a sentence with -est."
+    ],
+    "test": [
+     "Which animal is the slowest?",
+     "What does unhappy mean?",
+     "Add -est: tall.",
+     "What is the opposite of lock?",
+     "What do we add to compare two things?"
+    ],
+    "steps": [
+     "Count how many things you compare.",
+     "Two things: add er. The most of all: add est.",
+     "To make the opposite, add un to the start.",
+     "Watch out: do not say more quicker; quicker already means more quick."
+    ],
+    "answers": [
+     "The sloth.",
+     "Not happy.",
+     "Tallest.",
+     "Unlock.",
+     "er."
+    ]
+   }
+  },
+  "eu-year-mt-beginner-1-l23": {
+   "en": {
+    "title": "Compound words",
+    "theory": "A compound word is made of two smaller words joined together. Each part keeps its spelling. We can read a long compound word by finding the two small words first.",
+    "sample": "After school we ran to the playground. Dad kicked the football into the farmyard, and we found it in a haystack.",
+    "worked": "Playground is play and ground. Football is foot and ball. Farmyard is farm and yard. Haystack is hay and stack. Finding the two small words makes the long word easy to read.",
+    "exercises": [
+     "Split: sunshine.",
+     "Split: bedroom.",
+     "Join: rain + bow.",
+     "Join: tooth + brush.",
+     "Make your own compound word."
+    ],
+    "test": [
+     "Which two words make football?",
+     "Where did the ball go?",
+     "Join: snow + man.",
+     "Split: playground.",
+     "What is a compound word?"
+    ],
+    "steps": [
+     "Look for a small word you know at the start of the long word.",
+     "Find the second small word.",
+     "Read the two words together as one word.",
+     "Watch out: when you write a compound word, do not leave a space in the middle: football, not foot ball."
+    ],
+    "answers": [
+     "Foot and ball.",
+     "Into the farmyard.",
+     "Snowman.",
+     "Play and ground.",
+     "A word made of two smaller words joined together."
+    ]
+   }
+  },
+  "eu-year-mt-beginner-1-l24": {
+   "en": {
+    "title": "The alphabet and the days of the week",
+    "theory": "The alphabet has 26 letters. Each letter has a name as well as a sound: the letter b is called bee. We use the alphabet to put words in order. The days of the week are Monday, Tuesday, Wednesday, Thursday, Friday, Saturday and Sunday. They always start with a capital letter.",
+    "sample": "On Monday we sing the alphabet song. On Wednesday we go swimming. On Saturday I visit Gran.",
+    "worked": "Monday, Wednesday and Saturday are days of the week, so they start with a capital letter. Wednesday has a d that we do not hear clearly. Saying the alphabet in order helps us find words in a dictionary.",
+    "exercises": [
+     "Say the alphabet in order.",
+     "Write the days of the week.",
+     "Which letter comes after m?",
+     "Put in alphabetical order: dog, cat, bird.",
+     "Find the silent d in Wednesday."
+    ],
+    "test": [
+     "How many letters are in the alphabet?",
+     "Which day comes after Tuesday?",
+     "What do we do on Monday?",
+     "Which letter comes before h?",
+     "Why does Sunday start with a capital?"
+    ],
+    "steps": [
+     "Sing or say the alphabet slowly, pointing to each letter.",
+     "For alphabetical order, look at the first letter of each word.",
+     "Write each day of the week with a capital letter.",
+     "Watch out: Wednesday is spelled Wed-nes-day; say it in three parts to remember the d."
+    ],
+    "answers": [
+     "26.",
+     "Wednesday.",
+     "We sing the alphabet song.",
+     "g.",
+     "Because it is the name of a day."
+    ]
+   }
+  },
+  "eu-year-mt-beginner-1-l25": {
+   "en": {
+    "title": "What is a sentence?",
+    "theory": "A sentence is a group of words that makes sense on its own. It starts with a capital letter and usually ends with a full stop. We leave a finger space between words. Before writing, we say the sentence out loud, and after writing, we read it back.",
+    "sample": "The dog ran to the gate. A bird sat on the roof.",
+    "worked": "Each sentence starts with a capital letter: The, A. Each ends with a full stop. The words have spaces between them. The dog ran to the gate makes sense on its own, so it is a sentence.",
+    "exercises": [
+     "Say a sentence about your lunch.",
+     "Write a sentence about a pet.",
+     "Put in the capital and full stop: my hat is red",
+     "Is this a sentence? on the mat.",
+     "Read your sentence back to check it."
+    ],
+    "test": [
+     "What does a sentence start with?",
+     "What does a sentence usually end with?",
+     "Where did the dog run?",
+     "Write correctly: the sun is hot",
+     "Why do we leave finger spaces?"
+    ],
+    "steps": [
+     "Say the sentence out loud and count the words.",
+     "Write it with a capital letter at the start and a finger space after each word.",
+     "Put a full stop at the end and read it back.",
+     "Watch out: a few words like on the mat are not a whole sentence; ask who or what did something."
+    ],
+    "answers": [
+     "A capital letter.",
+     "A full stop.",
+     "To the gate.",
+     "The sun is hot.",
+     "So that the reader can see where each word ends."
+    ]
+   }
+  },
+  "eu-year-mt-beginner-1-l26": {
+   "en": {
+    "title": "Question marks and exclamation marks",
+    "theory": "A question asks something and ends with a question mark (?). Questions often start with who, what, where, when, why or how. An exclamation shows a strong feeling, like surprise or excitement, and ends with an exclamation mark (!).",
+    "sample": "Where is my hat? What a windy day! How did it fly away?",
+    "worked": "Where is my hat asks something, so it ends with ?. What a windy day shows surprise, so it ends with !. How did it fly away is another question. Every sentence still starts with a capital letter.",
+    "exercises": [
+     "Add the mark: Can you swim",
+     "Add the mark: What a big cake",
+     "Write a question starting with where.",
+     "Write an exclamation about snow.",
+     "Find the question words in the example."
+    ],
+    "test": [
+     "What does a question end with?",
+     "What does an exclamation show?",
+     "Add the mark: Who is at the door",
+     "Which sentence in the example shows surprise?",
+     "Name two question words."
+    ],
+    "steps": [
+     "Ask: is the sentence asking, telling or showing a strong feeling?",
+     "Asking: ?. Strong feeling: !. Telling: full stop.",
+     "Start every sentence with a capital letter.",
+     "Watch out: a question that starts with who or where still needs the question mark at the end."
+    ],
+    "answers": [
+     "A question mark.",
+     "A strong feeling, like surprise.",
+     "Who is at the door?",
+     "What a windy day!",
+     "Your answer. For example: where, how."
+    ]
+   }
+  },
+  "eu-year-mt-beginner-1-l27": {
+   "en": {
+    "title": "Joining ideas with and",
+    "theory": "We can join two ideas into one longer sentence with the word and. This makes our writing flow better. We do not need to start a new sentence each time.",
+    "sample": "I have a kite. I fly it in the park. → I have a kite and I fly it in the park. / Mia likes apples and pears.",
+    "worked": "The two short sentences become one when we join them with and. Only the first word needs a capital letter, and there is one full stop at the end. And can also join two things: apples and pears.",
+    "exercises": [
+     "Join: I ran. I fell over.",
+     "Join: Sam has a cat. Sam has a dog.",
+     "Write a sentence with and.",
+     "List three foods using and.",
+     "Find and in the example."
+    ],
+    "test": [
+     "Which word joins two ideas?",
+     "What does Mia like?",
+     "Join: It is sunny. We go out.",
+     "How many full stops does a joined sentence have?",
+     "Where do I fly my kite?"
+    ],
+    "steps": [
+     "Read the two short sentences.",
+     "Take away the full stop after the first and the capital of the second.",
+     "Put and between them and keep one full stop at the end.",
+     "Watch out: do not join every sentence with and; too many and words make writing hard to follow."
+    ],
+    "answers": [
+     "and.",
+     "Apples and pears.",
+     "It is sunny and we go out.",
+     "One.",
+     "In the park."
+    ]
+   }
+  },
+  "eu-year-mt-beginner-1-l28": {
+   "en": {
+    "title": "Capital letters for names and I",
+    "theory": "We use capital letters for the names of people, pets, places and days of the week. The word I, when we talk about ourselves, is always a capital letter. Ordinary words like dog or town do not need a capital.",
+    "sample": "On Friday, Leo and I took our dog Rex to Valletta to see the boats.",
+    "worked": "Friday is a day. Leo is a person. Rex is a pet. Valletta is a place. I is always written as a capital. Dog does not need a capital because it is not a name.",
+    "exercises": [
+     "Find all the names in the example.",
+     "Write your name and your town.",
+     "Correct: i went to sliema.",
+     "Write the name of a pet.",
+     "Does river need a capital?"
+    ],
+    "test": [
+     "What is the name of the dog?",
+     "Where did they go?",
+     "Write correctly: on monday i saw sam.",
+     "Why does Valletta start with a capital?",
+     "Is I always a capital letter?"
+    ],
+    "steps": [
+     "Ask: is this the name of a particular person, pet, place or day?",
+     "If yes, start it with a capital letter.",
+     "Always write I as a capital when it means you.",
+     "Watch out: dog, park and school are ordinary words; they only need a capital at the start of a sentence."
+    ],
+    "answers": [
+     "Rex.",
+     "To Valletta.",
+     "On Monday I saw Sam.",
+     "Because it is the name of a place.",
+     "Yes."
+    ]
+   }
+  },
+  "eu-year-mt-beginner-1-l29": {
+   "en": {
+    "title": "A traditional tale: The Gingerbread Man",
+    "theory": "Traditional tales have been told for a very long time. Many have a phrase that repeats, so we can join in. In The Gingerbread Man, a gingerbread biscuit runs away and repeats a famous rhyme. We retell the story in order: beginning, middle and end.",
+    "sample": "Told in our own words: An old woman baked a gingerbread man. When she opened the oven, he jumped out and ran away. The old man, a cow and a horse chased him, but he shouted his rhyme and ran on. At the river, a sly fox offered to carry him across and gobbled him up.",
+    "worked": "The repeating phrase lets us join in each time a new animal chases him. The beginning is the baking, the middle is the chase, and the end is the river and the fox. The fox tricks the gingerbread man, so the story warns us about trusting strangers.",
+    "exercises": [
+     "Retell the beginning of the story.",
+     "Join in with the repeating rhyme.",
+     "Draw the fox at the river.",
+     "Name everyone who chased him.",
+     "Think of a different ending."
+    ],
+    "test": [
+     "Who baked the gingerbread man?",
+     "What did he do when the oven opened?",
+     "Who carried him across the river?",
+     "How does the story end?",
+     "What is a traditional tale?"
+    ],
+    "steps": [
+     "Find the characters: who is in the story?",
+     "Retell it in order: beginning, middle, end.",
+     "Say what the story teaches us.",
+     "Watch out: if you mix up the order, the story stops making sense; the fox comes at the end."
+    ],
+    "answers": [
+     "An old woman.",
+     "He jumped out and ran away.",
+     "A sly fox.",
+     "The fox gobbles him up.",
+     "A story that has been told for a very long time."
+    ]
+   }
+  },
+  "eu-year-mt-beginner-1-l30": {
+   "en": {
+    "title": "Characters, setting and predicting: The Little Red Hen",
+    "theory": "Characters are the people or animals in a story. The setting is where it happens. While reading, we can predict: we guess what will happen next using clues from the story. The Little Red Hen is a traditional tale about sharing the work.",
+    "sample": "Told in our own words: The little red hen found some grains of wheat. She asked the cat, the dog and the duck who would help her plant them. Each one said, “Not I!” So she planted them herself. She asked for help again at harvest time and at baking time.",
+    "worked": "The characters are the hen, the cat, the dog and the duck. The setting is a farm. Because the animals always say “Not I!”, we can predict that they will not help with the next job either. At the end, who do you think will eat the bread?",
+    "exercises": [
+     "Name the characters.",
+     "Describe the setting.",
+     "Predict what the animals will say next.",
+     "Draw the hen planting the wheat.",
+     "Say what you would do if you were the hen."
+    ],
+    "test": [
+     "What did the hen find?",
+     "What did the animals say?",
+     "What is the setting?",
+     "What is a prediction?",
+     "Who do you think eats the bread? Why?"
+    ],
+    "steps": [
+     "Find the characters: who is in the story?",
+     "Find the setting: where does it happen?",
+     "To predict, look at what has happened so far and guess the next step.",
+     "Watch out: a good prediction uses clues from the story, not just any guess."
+    ],
+    "answers": [
+     "Some grains of wheat.",
+     "“Not I!”",
+     "A farm.",
+     "A guess about what will happen next, using clues.",
+     "Your answer. For example: The hen, because she did all the work."
+    ]
+   }
+  },
+  "eu-year-mt-beginner-1-l31": {
+   "en": {
+    "title": "Rhymes and poems",
+    "theory": "A poem is written in lines. Many poems have words that rhyme, which means they end with the same sound, like blue and you. Poems have a rhythm, like a beat. We read poems aloud, join in and learn some by heart.",
+    "sample": "Original poem: / The sun is up, the sky is blue, / the birds are singing just for you. / The bees go buzzing round and round, / the daisies dance along the ground.",
+    "worked": "The poem has four lines. Blue rhymes with you, and round rhymes with ground. The poem has a steady beat, so we can clap along. Buzzing is a word that sounds like the noise bees make.",
+    "exercises": [
+     "Read the poem aloud.",
+     "Find the word that rhymes with blue.",
+     "Clap the beat of the first line.",
+     "Learn the first two lines by heart.",
+     "Find a rhyme for cat."
+    ],
+    "test": [
+     "How many lines are in the poem?",
+     "Which word rhymes with round?",
+     "What are the birds doing?",
+     "What does rhyme mean?",
+     "Find a rhyme for bee."
+    ],
+    "steps": [
+     "Read the poem one line at a time.",
+     "Look at the last word of each line and find the pairs that sound the same.",
+     "To learn it by heart, say two lines at a time again and again.",
+     "Watch out: read slowly with a pause at the end of each line; it is not a race."
+    ],
+    "answers": [
+     "Four.",
+     "Ground.",
+     "Singing.",
+     "Words that end with the same sound.",
+     "Your answer. For example: tree, see."
+    ]
+   }
+  },
+  "eu-year-mt-beginner-1-l32": {
+   "en": {
+    "title": "Information texts: hedgehogs",
+    "theory": "An information text tells us true facts about a topic. It can have a title, pictures with labels and captions. A label names part of a picture. A caption is a short sentence under a picture that explains it.",
+    "sample": "Hedgehogs / Hedgehogs are small animals with spines on their backs. They come out at night to find food. They eat beetles, worms and slugs. In winter they sleep. / Caption: A hedgehog looks for worms in the garden.",
+    "worked": "The title tells us the topic: hedgehogs. Each sentence gives a true fact. The caption explains the picture. The text does not tell a made-up story; it tells us real things about hedgehogs.",
+    "exercises": [
+     "Read the text twice.",
+     "Find what hedgehogs eat.",
+     "Draw a hedgehog and add two labels.",
+     "Write a caption for your picture.",
+     "Ask a question about hedgehogs."
+    ],
+    "test": [
+     "What do hedgehogs have on their backs?",
+     "When do hedgehogs come out?",
+     "What do hedgehogs do in winter?",
+     "What is a caption?",
+     "Is an information text made up?"
+    ],
+    "steps": [
+     "Read the question and find the key word, for example eat.",
+     "Look for that word in the text.",
+     "The answer is usually in the same sentence.",
+     "Watch out: answer with what the text says, not with a guess."
+    ],
+    "answers": [
+     "Spines.",
+     "At night.",
+     "They sleep.",
+     "A short sentence under a picture that explains it.",
+     "No, it gives true facts."
+    ]
+   }
+  },
+  "eu-year-mt-beginner-1-l33": {
+   "en": {
+    "title": "Writing a recount: my weekend",
+    "theory": "A recount tells what happened to us, in the order it happened. We use time words like first, next, then and finally. We write in the past: I went, we played. Before writing, we say each sentence aloud; afterwards, we reread to check it makes sense.",
+    "sample": "On Saturday I went to the beach with my family. First we built a sandcastle. Next a big wave knocked it down. Then we laughed and built another one. Finally we had ice cream.",
+    "worked": "The recount says when (Saturday), where (the beach) and who (my family). The time words first, next, then and finally show the order. Went, built and laughed tell us it already happened.",
+    "exercises": [
+     "Tell a partner about your weekend.",
+     "Write three sentences with first, next and then.",
+     "Underline the time words in the example.",
+     "Change to the past: I play.",
+     "Reread your recount and check the full stops."
+    ],
+    "test": [
+     "Where did they go?",
+     "What did the wave do?",
+     "Name three time words.",
+     "What happened at the end?",
+     "When did they go?"
+    ],
+    "steps": [
+     "Think: when, where, who and what happened.",
+     "Tell it in order, using first, next, then and finally.",
+     "Write each sentence with a capital letter and a full stop, then reread it.",
+     "Watch out: keep to the past: we went, not we go."
+    ],
+    "answers": [
+     "To the beach.",
+     "It knocked the sandcastle down.",
+     "Your answer. For example: first, next, then.",
+     "They had ice cream.",
+     "On Saturday."
+    ]
+   }
+  },
+  "eu-year-mt-beginner-1-l34": {
+   "en": {
+    "title": "Planning and writing my own story",
+    "theory": "A story needs characters, a setting, a problem and an ending. We can plan with a simple story map: beginning, middle and end. We say each sentence aloud before writing it, join ideas with and, and reread to check.",
+    "sample": "Story map: Beginning: Ruby the rabbit lives in a wood. Middle: She loses her red scarf in the wind. End: An owl finds it in a tree and gives it back.",
+    "worked": "The character is Ruby. The setting is a wood. The problem is the lost scarf. The ending solves the problem: the owl finds it. With a plan, we know what to write in each part.",
+    "exercises": [
+     "Choose a character for your story.",
+     "Choose a setting.",
+     "Think of a problem.",
+     "Draw a story map with three boxes.",
+     "Write one sentence for each box."
+    ],
+    "test": [
+     "Who is the character in the example?",
+     "What is the problem?",
+     "How is the problem solved?",
+     "What are the three parts of a story map?",
+     "Where does Ruby live?"
+    ],
+    "steps": [
+     "Choose a character and a setting.",
+     "Decide the problem in the middle and how it ends.",
+     "Say each sentence aloud, write it, then reread it.",
+     "Watch out: a story needs an ending; do not stop when the problem starts."
+    ],
+    "answers": [
+     "Ruby the rabbit.",
+     "She loses her red scarf.",
+     "An owl finds it and gives it back.",
+     "Beginning, middle and end.",
+     "In a wood."
+    ]
+   }
+  },
+  "eu-year-mt-beginner-1-l35": {
+   "en": {
+    "title": "Review: what I learned in Year 1",
+    "theory": "At the end of Year 1 we read a short text and show what we know: blending, tricky words, spelling patterns, capital letters, full stops, question marks and joining with and.",
+    "sample": "Every morning Noah packs his bag. He puts in his book, his lunch and a coat. Then he walks to school with his big sister.",
+    "worked": "The text has three sentences. Noah first packs his bag and then walks to school. Noah is a name, so it starts with a capital. Morning has or, lunch has ch and school is a tricky word.",
+    "exercises": [
+     "Read the text aloud.",
+     "Find a word with ch.",
+     "Find the tricky word school.",
+     "Write a sentence about your bag.",
+     "Say what you liked learning this year."
+    ],
+    "test": [
+     "What does Noah do first?",
+     "How many sentences are in the text?",
+     "Write correctly: noah walks to school",
+     "Who does Noah walk with?",
+     "Which word in the text has the sound or?"
+    ],
+    "steps": [
+     "Read the text slowly first, then again more smoothly.",
+     "Ask: who? what does he do? who with?",
+     "Count the sentences by counting the full stops.",
+     "Watch out: names and the start of each sentence need a capital letter: Noah."
+    ],
+    "answers": [
+     "He packs his bag.",
+     "Three.",
+     "Noah walks to school.",
+     "With his big sister.",
+     "Morning."
+    ]
+   }
+  }
+ }
+}

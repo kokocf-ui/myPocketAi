@@ -1,6 +1,6 @@
 {
  "schema": "mypocket-literature-authored-catalog/v1",
- "version": "1a4841b57c0569d984e8482db642a78fea65019008a6d8f91a3940bafaa1b42c",
+ "version": "cf890df14fb3530c4dfa50749c424134a0f048daae012c25e0bda3c0b0f59e8f",
  "years": [
   {
    "country": "AD",
@@ -168,6 +168,19 @@
    ]
   },
   {
+   "country": "GB-WLS",
+   "stage": "beginner",
+   "grade": "Y1",
+   "languages": [
+    {
+     "lang": "en",
+     "name": "English",
+     "file": "en-y1",
+     "version": "f9090e6b1e5729a5284aee04088c7e39fd83bc056cd162fe0b5ae90cdfc0daf0"
+    }
+   ]
+  },
+  {
    "country": "HR",
    "stage": "beginner",
    "grade": "1",
@@ -255,6 +268,19 @@
      "name": "Română",
      "file": "ro-1",
      "version": "d758ede37abe099602f1f2de4a852a5827555b10017fa5afc8911605e757e5c9"
+    }
+   ]
+  },
+  {
+   "country": "MT",
+   "stage": "beginner",
+   "grade": "1",
+   "languages": [
+    {
+     "lang": "en",
+     "name": "English",
+     "file": "en-1",
+     "version": "1f750074485443b29138c12e904816eae1f3d5271a35c67d55f6e72d6450628c"
     }
    ]
   },
