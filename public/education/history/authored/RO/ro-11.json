@@ -1,0 +1,992 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "RO",
+ "stage": "medium",
+ "grade": "11",
+ "version": "b6417ade4c6fc947fb3b19f6065adc13d15c34aebe527734814024e04b9ca3e5",
+ "source": "https://www.edu.ro/sites/default/files/_fi%C8%99iere/Minister/2023/preuniversitar_root/repere_metodologice_XI/invatamant_liceal/REPERE_METODOLOGICE_ISTORIE_2023_2024_CLS_XI.pdf",
+ "sourceTitle": "Programa școlară Istorie, clasa a XI-a, ciclul superior al liceului (OMECI nr. 5099/09.09.2009, în vigoare până la aplicarea noii programe din 2028–2029), cu unitățile din reperele metodologice MEC: Europa și lumea în secolul al XX-lea; Economie și societate în lumea postbelică; Știința și societatea; Statele în perioada contemporană; Cooperare și conflict; Religia în lumea contemporană. Lecții originale, fără text copiat",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "ro",
+ "labels": [
+  "Activitate originală · România · Istorie · Clasa a XI-a",
+  "Lecția pe înțeles",
+  "Exemplu",
+  "Ce ne arată exemplul",
+  "Exerciții",
+  "Test",
+  "Activități originale, făcute după programa școlară; nu înlocuiesc manualul sau ora de la clasă.",
+  "Dacă nu ai înțeles: pas cu pas",
+  "Răspunsuri (verifică după ce termini)"
+ ],
+ "units": [
+  {
+   "title": "Europa și lumea în secolul al XX-lea",
+   "keys": [
+    "eu-year-ro-medium-11-l01",
+    "eu-year-ro-medium-11-l02",
+    "eu-year-ro-medium-11-l03",
+    "eu-year-ro-medium-11-l04",
+    "eu-year-ro-medium-11-l05",
+    "eu-year-ro-medium-11-l06"
+   ]
+  },
+  {
+   "title": "Economie și societate în lumea postbelică",
+   "keys": [
+    "eu-year-ro-medium-11-l07",
+    "eu-year-ro-medium-11-l08",
+    "eu-year-ro-medium-11-l09",
+    "eu-year-ro-medium-11-l10",
+    "eu-year-ro-medium-11-l11",
+    "eu-year-ro-medium-11-l12"
+   ]
+  },
+  {
+   "title": "Știința și societatea",
+   "keys": [
+    "eu-year-ro-medium-11-l13",
+    "eu-year-ro-medium-11-l14",
+    "eu-year-ro-medium-11-l15"
+   ]
+  },
+  {
+   "title": "Statele în perioada contemporană",
+   "keys": [
+    "eu-year-ro-medium-11-l16",
+    "eu-year-ro-medium-11-l17",
+    "eu-year-ro-medium-11-l18",
+    "eu-year-ro-medium-11-l19"
+   ]
+  },
+  {
+   "title": "Cooperare și conflict",
+   "keys": [
+    "eu-year-ro-medium-11-l20",
+    "eu-year-ro-medium-11-l21",
+    "eu-year-ro-medium-11-l22",
+    "eu-year-ro-medium-11-l23"
+   ]
+  },
+  {
+   "title": "Religia în lumea contemporană",
+   "keys": [
+    "eu-year-ro-medium-11-l24",
+    "eu-year-ro-medium-11-l25",
+    "eu-year-ro-medium-11-l26"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-ro-medium-11-l01": {
+   "ro": {
+    "title": "Europa contemporană: unitate și diversitate",
+    "theory": "Europa este un spațiu cu o mare diversitate: zeci de limbi, mai multe confesiuni religioase, tradiții și istorii naționale diferite. În același timp, europenii au în comun moștenirea greco-romană, creștinismul, Renașterea, Iluminismul, ideile de democrație, drepturi ale omului și stat de drept. Secolul XX a adus atât cele mai mari diviziuni (două războaie mondiale, cortina de fier), cât și cel mai amplu proiect de unitate. Deviza Uniunii Europene, „Unită în diversitate”, exprimă ideea că integrarea nu înseamnă uniformizare: statele cooperează, dar își păstrează identitatea, limbile și culturile.",
+    "sample": "Uniunea Europeană are 24 de limbi oficiale, iar documentele importante se traduc în toate.",
+    "worked": "Respectul pentru limbi arată că unitatea europeană nu desființează identitățile naționale. Diversitatea este considerată o valoare, nu o piedică.",
+    "exercises": [
+     "Enumeră elementele care unesc Europa.",
+     "Enumeră elementele care fac Europa diversă.",
+     "Explică deviza „Unită în diversitate”.",
+     "Explică cum s-a divizat Europa în secolul XX.",
+     "Discută dacă unitatea și diversitatea se pot împăca."
+    ],
+    "test": [
+     "Ce moșteniri culturale au în comun europenii?",
+     "Care este deviza Uniunii Europene?",
+     "Câte limbi oficiale are UE?",
+     "Ce a împărțit Europa după 1945?",
+     "Integrarea înseamnă uniformizare?"
+    ],
+    "steps": [
+     "Identifică elementele comune.",
+     "Identifică elementele de diversitate.",
+     "Explică relația dintre ele în proiectul european.",
+     "Greșeala frecventă: să crezi că unitatea europeană cere renunțarea la identitatea națională; ea se bazează pe respectarea diversității."
+    ],
+    "answers": [
+     "Moștenirea greco-romană, creștinismul, Renașterea, Iluminismul.",
+     "„Unită în diversitate”.",
+     "24.",
+     "Cortina de fier.",
+     "Nu."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l02": {
+   "ro": {
+    "title": "Integrarea europeană: de la CECO la Uniunea Europeană",
+    "theory": "Ideea unității europene a fost formulată și înainte (planul Briand, 1929), dar s-a realizat după 1945. Declarația lui Robert Schuman (9 mai 1950) a propus punerea în comun a producției de cărbune și oțel a Franței și Germaniei, pentru ca războiul între ele să devină imposibil. Au urmat CECO (1951), Comunitatea Economică Europeană și Euratom (Tratatele de la Roma, 1957), piața comună, primul Parlament European ales direct (1979), Actul Unic European (1986), Tratatul de la Maastricht (1992, Uniunea Europeană, cetățenia europeană), moneda euro (1999/2002), extinderea spre Est (2004, 2007) și Tratatul de la Lisabona (2007). Brexitul (2020) a fost prima ieșire a unui stat membru.",
+    "sample": "Ziua de 9 mai, aniversarea Declarației Schuman, este sărbătorită ca Ziua Europei.",
+    "worked": "Proiectul european a pornit de la o idee concretă, economică, cu un scop politic: pacea. Integrarea s-a făcut pas cu pas.",
+    "exercises": [
+     "Ordonează etapele integrării europene.",
+     "Explică ideea Declarației Schuman.",
+     "Explică ce a adus Tratatul de la Maastricht.",
+     "Explică extinderea UE spre Est.",
+     "Explică ce a însemnat Brexitul."
+    ],
+    "test": [
+     "Când a fost făcută Declarația Schuman?",
+     "Ce comunitate s-a creat în 1951?",
+     "Ce tratate s-au semnat la Roma în 1957?",
+     "Ce tratat a creat Uniunea Europeană?",
+     "Ce stat a ieșit din UE în 2020?"
+    ],
+    "steps": [
+     "Ordonează etapele, de la 1950 la 2020.",
+     "Explică scopul fiecărei etape.",
+     "Analizează succesele și crizele integrării.",
+     "Greșeala frecventă: să crezi că Uniunea Europeană a fost creată dintr-odată în 1957; în 1957 s-a creat CEE, iar UE în 1992."
+    ],
+    "answers": [
+     "La 9 mai 1950.",
+     "CECO (Comunitatea Europeană a Cărbunelui și Oțelului).",
+     "Tratatele CEE și Euratom.",
+     "Tratatul de la Maastricht.",
+     "Marea Britanie."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l03": {
+   "ro": {
+    "title": "Europa și spațiile de civilizație extraeuropene",
+    "theory": "În secolul XX, relațiile Europei cu restul lumii s-au schimbat radical. Imperiile coloniale (britanic, francez, olandez, belgian, portughez) s-au destrămat prin decolonizare: India (1947), Indonezia, Algeria (1962, după un război sângeros), majoritatea statelor africane (1960, „anul Africii”). Noile state au format Mișcarea de Nealiniere (Conferința de la Bandung, 1955). Europa a pierdut poziția de centru al lumii în fața SUA și URSS, dar a păstrat legături economice și culturale cu fostele colonii. Contactele cu civilizațiile Asiei (China, India, Japonia), ale lumii islamice și ale Africii au produs atât cooperare, cât și tensiuni, inclusiv prin migrație.",
+    "sample": "Mahatma Gandhi a condus lupta pentru independența Indiei prin rezistență nonviolentă.",
+    "worked": "Exemplul arată că decolonizarea s-a putut realiza și pașnic, nu doar prin război, ca în Algeria sau Vietnam.",
+    "exercises": [
+     "Explică ce a fost decolonizarea.",
+     "Compară decolonizarea Indiei cu cea a Algeriei.",
+     "Explică ce a fost Mișcarea de Nealiniere.",
+     "Explică cum s-a schimbat poziția Europei în lume.",
+     "Analizează moștenirea colonialismului."
+    ],
+    "test": [
+     "Când și-a câștigat India independența?",
+     "Cine a condus lupta nonviolentă din India?",
+     "Ce an a fost numit „anul Africii”?",
+     "Unde a avut loc conferința statelor nealiniate din 1955?",
+     "Când și-a câștigat Algeria independența?"
+    ],
+    "steps": [
+     "Identifică fostele imperii și coloniile lor.",
+     "Compară căile spre independență.",
+     "Analizează relațiile de după decolonizare.",
+     "Greșeala frecventă: să crezi că decolonizarea s-a petrecut peste tot pașnic; în unele țări a fost precedată de războaie lungi."
+    ],
+    "answers": [
+     "În 1947.",
+     "Mahatma Gandhi.",
+     "1960.",
+     "La Bandung.",
+     "În 1962."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l04": {
+   "ro": {
+    "title": "Cultura română – cultură europeană",
+    "theory": "Cultura română s-a format în legătură cu marile curente europene, păstrându-și specificul. În secolul XX, mulți creatori români au avut recunoaștere internațională: Constantin Brâncuși în sculptura modernă, George Enescu în muzică, Mircea Eliade în istoria religiilor, Eugen Ionescu în teatrul absurdului, Emil Cioran în eseistică, Tristan Tzara în dadaism, Herta Müller (premiul Nobel pentru literatură, 2009). Unii au creat în exil, în franceză sau germană. Dezbaterile interbelice dintre tradiționaliști și moderniști (Eugen Lovinescu, revista Gândirea) au discutat raportul dintre specificul național și sincronizarea cu Europa.",
+    "sample": "Tristan Tzara, născut la Moinești, a fost unul dintre fondatorii dadaismului la Zürich, în 1916.",
+    "worked": "Exemplul arată că artiști români au contribuit direct la avangarda europeană. Granița dintre cultura română și cea europeană este permeabilă.",
+    "exercises": [
+     "Prezintă trei creatori români cu recunoaștere internațională.",
+     "Explică dezbaterea dintre tradiționaliști și moderniști.",
+     "Explică teoria sincronismului a lui Lovinescu.",
+     "Explică rolul exilului în cultura română.",
+     "Argumentează că cultura română este o cultură europeană."
+    ],
+    "test": [
+     "Ce sculptor român a revoluționat sculptura modernă?",
+     "Ce dramaturg de origine română a creat teatrul absurdului?",
+     "Ce curent a fondat Tristan Tzara?",
+     "Cine a susținut teoria sincronismului?",
+     "Ce scriitoare născută în România a primit premiul Nobel în 2009?"
+    ],
+    "steps": [
+     "Identifică personalitatea și domeniul ei.",
+     "Explică legătura cu curentele europene.",
+     "Argumentează contribuția la cultura europeană.",
+     "Greșeala frecventă: să crezi că doar creatorii care au scris în română aparțin culturii române; și exilul a creat în alte limbi."
+    ],
+    "answers": [
+     "Constantin Brâncuși.",
+     "Eugen Ionescu.",
+     "Dadaismul.",
+     "Eugen Lovinescu.",
+     "Herta Müller."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l05": {
+   "ro": {
+    "title": "România și Europa în secolul al XX-lea; Grigore Gafencu",
+    "theory": "România a fost legată de evoluțiile europene: Marea Unire a fost recunoscută în sistemul de la Versailles, iar diplomația interbelică (Nicolae Titulescu, Grigore Gafencu) a apărat securitatea colectivă și granițele. Grigore Gafencu, ministru de externe (1938–1940), a încercat să mențină neutralitatea și apoi, în exil, a promovat ideea unității europene ca soluție pentru popoarele din Est. După 1945, România a fost separată de Europa Occidentală prin cortina de fier. După 1989, România și-a reluat drumul european, culminând cu aderarea la NATO (2004) și la UE (2007).",
+    "sample": "În exil, Gafencu a sprijinit Mișcarea Europeană și ideea unei Europe unite, care să includă și statele captive ale Estului.",
+    "worked": "Un diplomat român a gândit integrarea europeană înaintea căderii comunismului. Proiectul european era văzut ca speranță pentru Est.",
+    "exercises": [
+     "Explică rolul diplomației românești interbelice.",
+     "Prezintă activitatea lui Grigore Gafencu.",
+     "Explică separarea României de Europa după 1945.",
+     "Explică revenirea României în Europa după 1989.",
+     "Ordonează: 1918, 1940, 1947, 1989, 2007."
+    ],
+    "test": [
+     "Ce funcție a avut Gafencu în 1938–1940?",
+     "Ce idee a promovat în exil?",
+     "Ce a separat România de Europa Occidentală?",
+     "Când a aderat România la NATO?",
+     "Când a aderat România la UE?"
+    ],
+    "steps": [
+     "Identifică momentele de apropiere și de separare.",
+     "Prezintă rolul personalităților.",
+     "Analizează revenirea europeană.",
+     "Greșeala frecventă: să crezi că ideea europeană a apărut în România abia după 1989; diplomații interbelici și exilul au susținut-o."
+    ],
+    "answers": [
+     "Ministru de externe.",
+     "Unitatea europeană.",
+     "Cortina de fier.",
+     "În 2004.",
+     "În 2007."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l06": {
+   "ro": {
+    "title": "Imaginea României în presa internațională după 1989",
+    "theory": "Imaginea unei țări în presa străină se formează din evenimente și din modul în care sunt relatate. În decembrie 1989, revoluția a atras simpatia lumii. Imaginile orfelinatelor (1990), mineriadele (iunie 1990) și tranziția dificilă au creat o imagine negativă. Aderarea la NATO și UE, creșterea economică, succesele sportive și culturale (Nadia Comăneci, Noul Val al filmului românesc – premiul de la Cannes pentru „4 luni, 3 săptămâni și 2 zile”, 2007), sectorul IT au îmbunătățit percepția. Stereotipurile persistă, de aceea analiza critică a presei înseamnă compararea surselor și verificarea faptelor.",
+    "sample": "În 2007, filmul lui Cristian Mungiu a câștigat Palme d’Or la Cannes.",
+    "worked": "Succesul cultural a schimbat modul în care România era prezentată în presa internațională. Imaginea unei țări poate fi influențată și de cultură.",
+    "exercises": [
+     "Explică cum se formează imaginea unei țări în presă.",
+     "Analizează impactul mineriadelor asupra imaginii României.",
+     "Prezintă evenimente care au îmbunătățit imaginea României.",
+     "Explică ce sunt stereotipurile.",
+     "Compară două articole străine despre România."
+    ],
+    "test": [
+     "Ce eveniment a atras simpatia lumii în 1989?",
+     "Ce evenimente din 1990 au afectat imaginea țării?",
+     "Ce premiu a câștigat Cristian Mungiu?",
+     "Ce sector economic a îmbunătățit imaginea României?",
+     "Cum analizăm critic presa?"
+    ],
+    "steps": [
+     "Identifică evenimentul și modul de relatare.",
+     "Compară surse diferite.",
+     "Separă faptele de stereotipuri.",
+     "Greșeala frecventă: să crezi că o singură relatare de presă reflectă realitatea completă a unei țări."
+    ],
+    "answers": [
+     "Revoluția din decembrie.",
+     "Mineriadele.",
+     "Palme d’Or la Cannes.",
+     "Sectorul IT.",
+     "Comparând sursele și verificând faptele."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l07": {
+   "ro": {
+    "title": "Ocupații și statute profesionale",
+    "theory": "După 1945, structura ocupațiilor s-a schimbat profund. În țările dezvoltate, populația ocupată în agricultură a scăzut puternic, cea din industrie a crescut până în anii 1970, apoi sectorul serviciilor (comerț, educație, sănătate, bănci, turism, IT) a devenit dominant. Au apărut profesii noi (programator, analist, specialist în marketing), iar studiile superioare au devenit tot mai importante. Femeile au intrat masiv pe piața muncii. În țările comuniste, statul planifica locurile de muncă, industrializarea forțată muta oamenii de la sat la oraș, iar statutul profesiilor depindea de ideologie (muncitorul era glorificat).",
+    "sample": "În România, ponderea populației ocupate în agricultură a scăzut de la aproape trei sferturi în 1950 la mai puțin de o treime în anii 1980.",
+    "worked": "Cifrele arată industrializarea și urbanizarea rapidă, impuse de stat, care au schimbat felul de viață al milioane de oameni.",
+    "exercises": [
+     "Explică schimbările din structura ocupațiilor după 1945.",
+     "Explică creșterea sectorului serviciilor.",
+     "Explică intrarea femeilor pe piața muncii.",
+     "Compară piața muncii din Vest cu cea din Est.",
+     "Prezintă o profesie nouă apărută după 1945."
+    ],
+    "test": [
+     "Ce sector a scăzut puternic după 1945?",
+     "Ce sector a devenit dominant în țările dezvoltate?",
+     "Cine planifica locurile de muncă în țările comuniste?",
+     "Ce categorie socială era glorificată de comuniști?",
+     "Numește o profesie nouă."
+    ],
+    "steps": [
+     "Identifică sectoarele economiei.",
+     "Urmărește evoluția lor în timp.",
+     "Compară sistemele economice.",
+     "Greșeala frecventă: să crezi că industria a rămas sectorul principal; în țările dezvoltate, serviciile au devenit dominante."
+    ],
+    "answers": [
+     "Agricultura.",
+     "Serviciile.",
+     "Statul.",
+     "Muncitorii.",
+     "Programatorul."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l08": {
+   "ro": {
+    "title": "Migrații în lumea contemporană",
+    "theory": "Migrațiile au marcat secolul XX: refugiați și deplasări de populație după războaie (milioane de germani expulzați din Est după 1945, împărțirea Indiei în 1947), migrația forței de muncă din sudul Europei, Turcia și Africa de Nord spre Europa de Vest (anii 1950–1970), exodul din blocul comunist. După 1990, libera circulație în UE a permis migrația din Est spre Vest; milioane de români lucrează în Italia, Spania, Germania, Marea Britanie. Războaiele (Siria, Ucraina 2022) au produs noi valuri de refugiați. Migrația aduce forță de muncă și diversitate, dar ridică probleme de integrare, „exod al creierelor” și depopulare în țările de origine.",
+    "sample": "În 2022, după invazia rusă, milioane de ucraineni s-au refugiat în țările vecine; România a primit și a tranzitat sute de mii.",
+    "worked": "Exemplul arată că România este nu doar țară de emigrare, ci și de tranzit și primire pentru refugiați.",
+    "exercises": [
+     "Enumeră marile migrații ale secolului XX.",
+     "Explică diferența dintre refugiat și migrant economic.",
+     "Explică emigrarea românilor după 1990.",
+     "Analizează avantajele și dezavantajele migrației.",
+     "Explică ce înseamnă „exodul creierelor”."
+    ],
+    "test": [
+     "Ce populație a fost expulzată din Est după 1945?",
+     "Spre ce țări au emigrat mulți români după 1990?",
+     "Ce război a produs refugiați în 2022?",
+     "Ce este „exodul creierelor”?",
+     "Ce aduce migrația țărilor de primire?"
+    ],
+    "steps": [
+     "Identifică tipul de migrație și cauzele ei.",
+     "Analizează efectele pentru țara de origine și cea de primire.",
+     "Leagă fenomenul de comunitatea ta.",
+     "Greșeala frecventă: să confunzi refugiatul, protejat de dreptul internațional, cu migrantul economic."
+    ],
+    "answers": [
+     "Germanii.",
+     "Italia, Spania, Germania.",
+     "Războiul din Ucraina.",
+     "Plecarea specialiștilor bine pregătiți.",
+     "Forță de muncă și diversitate."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l09": {
+   "ro": {
+    "title": "Viața privată și viața publică",
+    "theory": "În democrații, viața privată (familie, credință, opinii, corespondență) este protejată de lege, iar cetățenii participă liber la viața publică (vot, asociații, presă, proteste). În regimurile totalitare, granița dintre public și privat dispare: statul supraveghează familia, prietenii, corespondența și impune ideologia peste tot. În România comunistă, Securitatea avea rețele de informatori, iar politica demografică (Decretul 770/1966, care interzicea avortul) intervenea în viața intimă a oamenilor. După 1989, dreptul la viață privată a fost garantat de Constituție, iar arhivele Securității au fost deschise prin CNSAS. Azi, tehnologia digitală ridică noi întrebări despre protecția datelor personale.",
+    "sample": "Prin CNSAS, oamenii își pot citi dosarele întocmite de Securitate și pot afla cine i-a urmărit.",
+    "worked": "Accesul la dosare permite cunoașterea adevărului și înțelegerea mecanismelor de control ale regimului comunist.",
+    "exercises": [
+     "Explică diferența dintre viața privată și viața publică.",
+     "Explică cum interveneau regimurile totalitare în viața privată.",
+     "Analizează urmările Decretului 770/1966.",
+     "Explică rolul CNSAS.",
+     "Discută protecția datelor personale în era digitală."
+    ],
+    "test": [
+     "Ce protejează legea în viața privată?",
+     "Ce instituție supraveghea populația în România comunistă?",
+     "Ce interzicea Decretul 770/1966?",
+     "Ce instituție a deschis arhivele Securității?",
+     "Ce întrebări noi ridică tehnologia digitală?"
+    ],
+    "steps": [
+     "Identifică granița dintre privat și public.",
+     "Compară democrația cu totalitarismul.",
+     "Leagă problema de prezent.",
+     "Greșeala frecventă: să crezi că supravegherea afectează doar viața publică; în totalitarism, intra și în familie."
+    ],
+    "answers": [
+     "Familia, credința, opiniile, corespondența.",
+     "Securitatea.",
+     "Avortul.",
+     "CNSAS.",
+     "Despre protecția datelor personale."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l10": {
+   "ro": {
+    "title": "Curente economice: economii dirijate și economii liberale",
+    "theory": "Economia liberală (de piață) se bazează pe proprietatea privată, concurența, libertatea prețurilor și a inițiativei; statul intervine limitat. Keynesianismul (după Marea Criză) a susținut intervenția statului pentru a combate șomajul și crizele, iar după 1945 statul bunăstării a combinat piața cu protecția socială. Din anii 1980, neoliberalismul (Thatcher, Reagan) a redus rolul statului prin privatizări și dereglementare. Economia dirijată (planificată centralizat), aplicată în URSS și în țările comuniste, desființa proprietatea privată; statul stabilea producția, prețurile și salariile prin planuri cincinale. Ea a produs industrializare rapidă, dar și penurie, risipă și lipsă de inovație.",
+    "sample": "În economiile planificate, fabricile urmăreau îndeplinirea planului cantitativ, chiar dacă produsele erau de calitate slabă sau nu se vindeau.",
+    "worked": "Lipsa prețurilor libere și a concurenței făcea ca economia să nu răspundă nevoilor reale ale oamenilor. De aici, cozile și penuria.",
+    "exercises": [
+     "Compară economia liberală cu cea dirijată.",
+     "Explică ideile lui Keynes.",
+     "Explică politicile neoliberale din anii 1980.",
+     "Explică de ce economiile planificate au produs penurie.",
+     "Explică ce este statul bunăstării."
+    ],
+    "test": [
+     "Pe ce se bazează economia de piață?",
+     "Ce economist a susținut intervenția statului după Marea Criză?",
+     "Ce lideri au aplicat neoliberalismul?",
+     "Cine stabilea prețurile în economia planificată?",
+     "Ce erau planurile cincinale?"
+    ],
+    "steps": [
+     "Identifică cine ia deciziile economice.",
+     "Compară rezultatele sistemelor.",
+     "Analizează avantajele și dezavantajele fiecăruia.",
+     "Greșeala frecventă: să crezi că economiile de piață nu au nicio intervenție a statului; majoritatea sunt economii mixte."
+    ],
+    "answers": [
+     "Pe proprietatea privată, concurență și prețuri libere.",
+     "John Maynard Keynes.",
+     "Margaret Thatcher și Ronald Reagan.",
+     "Statul.",
+     "Planuri economice pe cinci ani."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l11": {
+   "ro": {
+    "title": "Economie rurală și economie urbană în România",
+    "theory": "În 1945, România era o țară predominant agrară. Regimul comunist a impus colectivizarea agriculturii (1949–1962): țăranii au fost obligați să-și dea pământul în cooperative agricole de producție (CAP); cei care s-au opus au fost arestați sau deportați. În paralel, industrializarea forțată a creat mari combinate (siderurgice, chimice) și orașe noi, iar milioane de oameni au migrat spre orașe, locuind în cartiere de blocuri. După 1989, pământul a fost restituit (Legea fondului funciar, 1991), dar fragmentat; multe întreprinderi industriale s-au închis. Diferențele dintre mediul rural și urban rămân importante.",
+    "sample": "Combinatul siderurgic de la Galați a devenit simbolul industrializării comuniste.",
+    "worked": "Marile combinate arată prioritatea dată industriei grele, adesea fără a ține cont de eficiență sau de nevoile reale ale economiei.",
+    "exercises": [
+     "Explică procesul de colectivizare.",
+     "Explică industrializarea forțată.",
+     "Explică urbanizarea din perioada comunistă.",
+     "Explică schimbările din agricultură după 1989.",
+     "Compară mediul rural cu cel urban azi."
+    ],
+    "test": [
+     "Când a avut loc colectivizarea?",
+     "Ce erau CAP-urile?",
+     "Ce combinat a devenit simbolul industrializării?",
+     "Ce lege din 1991 a restituit pământul?",
+     "Ce s-a întâmplat cu multe fabrici după 1989?"
+    ],
+    "steps": [
+     "Identifică politicile economice.",
+     "Analizează urmările pentru sat și oraș.",
+     "Compară perioada comunistă cu cea de după 1989.",
+     "Greșeala frecventă: să crezi că țăranii au intrat de bunăvoie în cooperative; colectivizarea a fost impusă prin presiune și represiune."
+    ],
+    "answers": [
+     "În 1949–1962.",
+     "Cooperative agricole de producție.",
+     "Combinatul siderurgic de la Galați.",
+     "Legea fondului funciar.",
+     "S-au închis."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l12": {
+   "ro": {
+    "title": "Diaspora și exilul românesc",
+    "theory": "Exilul românesc cuprinde pe cei care au părăsit țara din motive politice, mai ales după 1945–1947 și în perioada comunistă: politicieni (Grigore Gafencu, Nicolae Rădescu), intelectuali și scriitori (Mircea Eliade, Eugen Ionescu, Emil Cioran, Paul Goma, Monica Lovinescu și Virgil Ierunca). Exilul a combătut regimul comunist prin presă și radio (Radio Europa Liberă, unde emisiunile Monicăi Lovinescu erau ascultate pe ascuns în țară). Diaspora actuală, formată mai ales din emigranți economici după 1990, numără milioane de oameni; ea trimite bani acasă, participă la alegeri și contribuie la imaginea României.",
+    "sample": "Monica Lovinescu și Virgil Ierunca au vorbit la Radio Europa Liberă despre cărțile și realitățile interzise de cenzura comunistă.",
+    "worked": "Emisiunile ofereau românilor din țară informații libere și o legătură cu cultura neîngrădită. Exilul a fost o formă de rezistență.",
+    "exercises": [
+     "Explică diferența dintre exil și diaspora.",
+     "Prezintă trei personalități ale exilului românesc.",
+     "Explică rolul Radio Europa Liberă.",
+     "Explică formarea diasporei după 1990.",
+     "Explică rolul diasporei în viața României de azi."
+    ],
+    "test": [
+     "Ce înseamnă exil politic?",
+     "Ce post de radio era ascultat pe ascuns?",
+     "Cine prezenta emisiuni culturale la acest post?",
+     "Ce scriitor disident a plecat în exil în 1977?",
+     "Ce contribuie diaspora actuală?"
+    ],
+    "steps": [
+     "Identifică motivele plecării.",
+     "Prezintă activitatea din străinătate.",
+     "Analizează influența asupra țării.",
+     "Greșeala frecventă: să confunzi exilul politic din perioada comunistă cu emigrarea economică de după 1990."
+    ],
+    "answers": [
+     "Plecarea forțată din țară din motive politice.",
+     "Radio Europa Liberă.",
+     "Monica Lovinescu.",
+     "Paul Goma.",
+     "Bani trimiși acasă, vot, imagine."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l13": {
+   "ro": {
+    "title": "Impactul tehnologiei asupra vieții cotidiene și a mediului",
+    "theory": "Tehnologia a schimbat viața de zi cu zi în secolul XX: electricitatea și aparatele electrocasnice, automobilul, avionul, telefonul, radioul și televizorul, antibioticele și vaccinurile, calculatorul, internetul și telefonul mobil. Speranța de viață a crescut considerabil. În același timp, industrializarea a afectat mediul: poluarea aerului și a apei, defrișările, deșeurile, schimbările climatice. Accidente precum Cernobîl (1986) au arătat riscurile tehnologiei. Conștiința ecologică a crescut: Conferința de la Rio (1992), Protocolul de la Kyoto (1997), Acordul de la Paris (2015) privind clima.",
+    "sample": "Accidentul nuclear de la Cernobîl (1986) a răspândit radiații în mare parte din Europa, inclusiv în România.",
+    "worked": "Evenimentul arată că efectele tehnologiei nu se opresc la granițe și că problemele de mediu cer cooperare internațională.",
+    "exercises": [
+     "Enumeră inovații care au schimbat viața de zi cu zi.",
+     "Explică creșterea speranței de viață.",
+     "Explică efectele industrializării asupra mediului.",
+     "Explică importanța accidentului de la Cernobîl.",
+     "Explică obiectivele Acordului de la Paris."
+    ],
+    "test": [
+     "Ce invenții medicale au crescut speranța de viață?",
+     "Ce accident nuclear a avut loc în 1986?",
+     "Ce conferință de mediu a avut loc la Rio în 1992?",
+     "Ce acord privind clima a fost semnat în 2015?",
+     "Numește o problemă de mediu actuală."
+    ],
+    "steps": [
+     "Identifică inovația și efectele ei.",
+     "Separă efectele pozitive de cele negative.",
+     "Propune soluții responsabile.",
+     "Greșeala frecventă: să vezi tehnologia doar ca bună sau doar ca rea; efectele depind de modul în care este folosită."
+    ],
+    "answers": [
+     "Antibioticele și vaccinurile.",
+     "Accidentul de la Cernobîl.",
+     "Conferința ONU pentru mediu și dezvoltare.",
+     "Acordul de la Paris.",
+     "Schimbările climatice."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l14": {
+   "ro": {
+    "title": "Noile tehnologii și timpul liber",
+    "theory": "Timpul liber a crescut în secolul XX, datorită reducerii programului de lucru (ziua de opt ore, concediile plătite). Formele de petrecere a timpului liber s-au schimbat: cinematograful, radioul, apoi televizorul au devenit centrul divertismentului familial; turismul de masă a crescut odată cu automobilul și avionul; sportul a devenit spectacol global (Jocurile Olimpice, Campionatul Mondial de fotbal). Ultimele decenii au adus jocurile video, internetul, rețelele sociale și platformele de streaming. Ele oferă acces la cultură și comunicare, dar ridică probleme: sedentarism, dependență, izolare, dezinformare.",
+    "sample": "În anii 1980, programul TV din România era redus la două ore pe zi.",
+    "worked": "Comparația cu oferta de azi arată cât de mult s-au schimbat timpul liber și accesul la divertisment, dar și controlul regimului asupra informației.",
+    "exercises": [
+     "Explică creșterea timpului liber în secolul XX.",
+     "Descrie evoluția divertismentului de la cinema la internet.",
+     "Explică dezvoltarea turismului de masă.",
+     "Analizează riscurile divertismentului digital.",
+     "Compară timpul liber al bunicilor tăi cu al tău."
+    ],
+    "test": [
+     "Ce a permis creșterea timpului liber?",
+     "Ce aparat a devenit centrul divertismentului familial?",
+     "Ce a favorizat turismul de masă?",
+     "Câte ore de program TV aveau românii în anii 1980?",
+     "Numește un risc al divertismentului digital."
+    ],
+    "steps": [
+     "Identifică schimbările din timpul liber.",
+     "Leagă-le de tehnologie și de societate.",
+     "Analizează efectele asupra oamenilor.",
+     "Greșeala frecventă: să crezi că timpul liber a existat dintotdeauna pentru toți; a fost câștigat prin lupta pentru drepturi sociale."
+    ],
+    "answers": [
+     "Ziua de opt ore și concediile plătite.",
+     "Televizorul.",
+     "Automobilul și avionul.",
+     "Două ore pe zi.",
+     "Dependența sau izolarea."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l15": {
+   "ro": {
+    "title": "Contribuții românești la dezvoltarea științei și tehnicii",
+    "theory": "Mulți inventatori și savanți români au contribuit la progresul științei. Traian Vuia a realizat un zbor cu un aparat mai greu decât aerul, cu mijloace proprii de bord (1906). Aurel Vlaicu a construit avioane originale. Henri Coandă a descoperit „efectul Coandă”. Hermann Oberth a pus bazele teoretice ale astronauticii. Nicolae Paulescu a cercetat hormonul pancreatic (pancreina, 1921), contribuind la studiul insulinei. Victor Babeș a fost un pionier al microbiologiei, iar George Emil Palade a primit premiul Nobel pentru medicină (1974). Ana Aslan a studiat geriatria, iar Dumitru Prunariu a fost primul român în spațiu (1981).",
+    "sample": "George Emil Palade a primit premiul Nobel pentru descoperiri privind organizarea celulei.",
+    "worked": "Contribuția lui Palade arată că oamenii de știință români au fost la vârful cercetării mondiale, mulți lucrând în străinătate.",
+    "exercises": [
+     "Prezintă trei contribuții românești în aviație și astronautică.",
+     "Prezintă trei contribuții românești în medicină.",
+     "Explică „efectul Coandă”.",
+     "Explică de ce mulți savanți români au lucrat în străinătate.",
+     "Realizează o fișă despre un savant român."
+    ],
+    "test": [
+     "Ce a realizat Traian Vuia în 1906?",
+     "Ce efect fizic poartă numele unui român?",
+     "Cine a pus bazele teoretice ale astronauticii?",
+     "Ce savant român a primit premiul Nobel în 1974?",
+     "Cine a fost primul român în spațiu?"
+    ],
+    "steps": [
+     "Identifică savantul și domeniul.",
+     "Explică descoperirea în cuvinte simple.",
+     "Evaluează importanța ei.",
+     "Greșeala frecventă: să atribui unui savant român o invenție întreagă la care a contribuit doar parțial; verifică sursele."
+    ],
+    "answers": [
+     "Un zbor cu un aparat mai greu decât aerul.",
+     "Efectul Coandă.",
+     "Hermann Oberth.",
+     "George Emil Palade.",
+     "Dumitru Prunariu."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l16": {
+   "ro": {
+    "title": "Forme de organizare statală",
+    "theory": "Statele contemporane diferă după forma de guvernământ: monarhie (Marea Britanie, Spania, Suedia – monarhii constituționale) sau republică (Franța, Germania, România). După structură, pot fi unitare (Franța, România: o singură constituție, un singur parlament) sau federale (SUA, Germania, Elveția: state componente cu parlamente și guverne proprii). După relația dintre puteri, republicile pot fi parlamentare (Germania, Italia), prezidențiale (SUA) sau semiprezidențiale (Franța, România). Statele pot acorda autonomie unor regiuni (Spania, Italia). Toate statele democratice se bazează pe o constituție și pe separarea puterilor.",
+    "sample": "În Germania federală, landurile au competențe proprii în educație și poliție.",
+    "worked": "Federalismul permite adaptarea deciziilor la nevoile regiunilor, păstrând unitatea statului.",
+    "exercises": [
+     "Compară monarhia constituțională cu republica.",
+     "Compară statul unitar cu statul federal.",
+     "Compară republica parlamentară, prezidențială și semiprezidențială.",
+     "Încadrează România după toate criteriile.",
+     "Explică ce este autonomia regională."
+    ],
+    "test": [
+     "Dă exemplu de monarhie constituțională.",
+     "Dă exemplu de stat federal.",
+     "Ce tip de republică sunt SUA?",
+     "Ce tip de republică este România?",
+     "Ce este un stat unitar?"
+    ],
+    "steps": [
+     "Stabilește forma de guvernământ.",
+     "Stabilește structura statului.",
+     "Analizează relația dintre puteri.",
+     "Greșeala frecventă: să crezi că monarhiile sunt automat nedemocratice; monarhiile constituționale sunt democrații."
+    ],
+    "answers": [
+     "Marea Britanie sau Spania.",
+     "SUA, Germania sau Elveția.",
+     "Republică prezidențială.",
+     "Republică semiprezidențială.",
+     "Un stat cu o singură constituție și un singur parlament."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l17": {
+   "ro": {
+    "title": "Idei și regimuri politice",
+    "theory": "Ideologiile politice ale secolului XX au propus răspunsuri diferite. Liberalismul pune accent pe libertatea individului, proprietate, piață, drepturi. Conservatorismul apără tradiția, ordinea, schimbarea treptată. Socialismul și social-democrația urmăresc egalitatea și protecția socială prin mijloace democratice. Creștin-democrația îmbină valorile creștine cu economia socială de piață. Ideologiile totalitare (comunismul, fascismul, nazismul) au respins democrația și au impus partidul unic. Regimurile politice pot fi democratice (pluralism, alegeri libere, drepturi), autoritare (putere concentrată, opoziție limitată) sau totalitare (control total al societății).",
+    "sample": "După 1945, partidele creștin-democrate și social-democrate au guvernat alternativ în multe țări vest-europene.",
+    "worked": "Alternanța la guvernare între partide diferite este un semn al democrației funcționale.",
+    "exercises": [
+     "Compară liberalismul cu conservatorismul.",
+     "Compară socialismul democratic cu comunismul.",
+     "Explică ce este creștin-democrația.",
+     "Compară regimurile democratic, autoritar și totalitar.",
+     "Explică ce este alternanța la guvernare."
+    ],
+    "test": [
+     "Ce valoare pune pe primul loc liberalismul?",
+     "Ce apără conservatorismul?",
+     "Ce urmărește social-democrația?",
+     "Ce ideologii au respins democrația?",
+     "Ce trăsături are un regim democratic?"
+    ],
+    "steps": [
+     "Identifică valorile centrale ale ideologiei.",
+     "Compară ideologiile între ele.",
+     "Încadrează regimul politic.",
+     "Greșeala frecventă: să confunzi social-democrația, democratică, cu comunismul totalitar."
+    ],
+    "answers": [
+     "Libertatea individului.",
+     "Tradiția și ordinea.",
+     "Egalitatea și protecția socială prin mijloace democratice.",
+     "Comunismul, fascismul și nazismul.",
+     "Pluralism, alegeri libere, drepturi garantate."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l18": {
+   "ro": {
+    "title": "Statul de drept: instituții, norme și proceduri de guvernare",
+    "theory": "Într-un stat de drept, toți, inclusiv conducătorii, se supun legii. În România, Constituția stabilește instituțiile: Parlamentul (Camera Deputaților și Senatul), ales prin vot, adoptă legile și controlează Guvernul; Președintele, ales direct pentru cinci ani (maximum două mandate), reprezintă statul, este garantul Constituției și comandantul forțelor armate; Guvernul, condus de prim-ministru, aplică politica internă și externă și răspunde în fața Parlamentului (moțiunea de cenzură); instanțele judecătorești sunt independente, iar Consiliul Superior al Magistraturii le garantează independența. Cetățenii participă prin alegeri, referendum, inițiativă legislativă cetățenească (cel puțin 100.000 de semnături), petiții și asociații.",
+    "sample": "Prin moțiunea de cenzură, Parlamentul poate demite Guvernul dacă majoritatea deputaților și senatorilor votează împotriva lui.",
+    "worked": "Mecanismul arată controlul reciproc al puterilor: Guvernul nu poate guverna fără sprijinul reprezentanților aleși ai cetățenilor.",
+    "exercises": [
+     "Explică rolul Parlamentului.",
+     "Explică atribuțiile Președintelui.",
+     "Explică ce este moțiunea de cenzură.",
+     "Explică de ce justiția trebuie să fie independentă.",
+     "Enumeră formele de participare a cetățenilor."
+    ],
+    "test": [
+     "Din ce camere este format Parlamentul României?",
+     "Pe câți ani este ales Președintele?",
+     "Cine conduce Guvernul?",
+     "Ce instituție garantează independența justiției?",
+     "Câte semnături cere inițiativa legislativă cetățenească?"
+    ],
+    "steps": [
+     "Identifică instituția și rolul ei.",
+     "Explică relațiile de control dintre instituții.",
+     "Leagă instituțiile de drepturile cetățeanului.",
+     "Greșeala frecventă: să crezi că Președintele face legile; legile sunt adoptate de Parlament."
+    ],
+    "answers": [
+     "Camera Deputaților și Senatul.",
+     "Pe cinci ani.",
+     "Prim-ministrul.",
+     "Consiliul Superior al Magistraturii.",
+     "Cel puțin 100.000."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l19": {
+   "ro": {
+    "title": "România – de la statul totalitar la statul de drept",
+    "theory": "Între 1947 și 1989, România a fost un stat totalitar: partid unic (PCR), economie centralizată, poliție politică (Securitatea), cenzură, cultul personalității (Ceaușescu). Constituțiile comuniste (1948, 1952, 1965) proclamau drepturi care nu erau respectate. Revoluția din decembrie 1989 a deschis tranziția. Constituția din 1991 (revizuită în 2003) a stabilit statul de drept, democratic și social, pluralismul politic, separarea puterilor, drepturile și libertățile fundamentale, independența justiției, Curtea Constituțională și Avocatul Poporului. Tranziția a fost dificilă: mineriade, corupție, reforme întârziate, dar alternanța la putere (1996) și integrarea europeană au consolidat democrația.",
+    "sample": "În 1996, pentru prima dată după 1989, puterea s-a schimbat pașnic prin alegeri, iar președintele în funcție a pierdut.",
+    "worked": "Alternanța pașnică la putere este un test important al democrației și a arătat că România a trecut de la un regim de partid unic la unul pluralist.",
+    "exercises": [
+     "Enumeră trăsăturile statului totalitar comunist.",
+     "Explică de ce constituțiile comuniste nu protejau drepturile.",
+     "Analizează principiile Constituției din 1991.",
+     "Explică dificultățile tranziției.",
+     "Explică importanța alternanței din 1996."
+    ],
+    "test": [
+     "Ce partid conducea România înainte de 1989?",
+     "Ce instituție exercita represiunea politică?",
+     "Când a fost adoptată Constituția democratică?",
+     "Ce instituție veghează la respectarea Constituției?",
+     "Când a avut loc prima alternanță la putere?"
+    ],
+    "steps": [
+     "Identifică trăsăturile regimului totalitar.",
+     "Analizează instituțiile statului de drept.",
+     "Evaluează progresele și dificultățile.",
+     "Greșeala frecventă: să crezi că statul de drept s-a construit imediat după 1989; a fost un proces lung, cu dificultăți."
+    ],
+    "answers": [
+     "Partidul Comunist Român.",
+     "Securitatea.",
+     "În 1991.",
+     "Curtea Constituțională.",
+     "În 1996."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l20": {
+   "ro": {
+    "title": "Instituții și mecanisme de rezolvare a conflictelor",
+    "theory": "Lumea contemporană a creat instituții pentru a preveni și rezolva conflictele. ONU (1945) are Consiliul de Securitate, care poate impune sancțiuni sau autoriza intervenții, și trimite misiuni de menținere a păcii („căștile albastre”). Curtea Internațională de Justiție de la Haga judecă disputele dintre state (de exemplu, delimitarea platoului continental România–Ucraina, 2009). Curtea Penală Internațională (2002) judecă crimele de război și genocidul. OSCE monitorizează alegeri și încetări ale focului. Mecanismele includ negocierea, medierea, arbitrajul, sancțiunile economice și, în ultimă instanță, intervenția militară autorizată.",
+    "sample": "În 2009, Curtea Internațională de Justiție a hotărât delimitarea platoului continental al României și Ucrainei în Marea Neagră.",
+    "worked": "Disputa a fost rezolvată pașnic, prin drept internațional, nu prin forță. Hotărârea a adus României aproape 80% din zona disputată.",
+    "exercises": [
+     "Enumeră instituțiile internaționale de rezolvare a conflictelor.",
+     "Explică rolul Consiliului de Securitate.",
+     "Explică ce sunt misiunile de menținere a păcii.",
+     "Compară Curtea Internațională de Justiție cu Curtea Penală Internațională.",
+     "Prezintă cazul platoului continental din Marea Neagră."
+    ],
+    "test": [
+     "Ce organ al ONU poate impune sancțiuni?",
+     "Cum sunt numiți militarii misiunilor ONU?",
+     "Unde se află Curtea Internațională de Justiție?",
+     "Ce judecă Curtea Penală Internațională?",
+     "Ce dispută a câștigat România în 2009?"
+    ],
+    "steps": [
+     "Identifică instituția și rolul ei.",
+     "Explică mecanismul folosit.",
+     "Evaluează eficiența soluției.",
+     "Greșeala frecventă: să confunzi Curtea Internațională de Justiție, care judecă state, cu Curtea Penală Internațională, care judecă persoane."
+    ],
+    "answers": [
+     "Consiliul de Securitate.",
+     "„Căștile albastre”.",
+     "La Haga.",
+     "Crimele de război și genocidul.",
+     "Delimitarea platoului continental cu Ucraina."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l21": {
+   "ro": {
+    "title": "Conflicte în lumea contemporană",
+    "theory": "După 1945, conflictele au continuat sub alte forme: războaie de decolonizare, războaie din perioada Războiului Rece (Coreea, Vietnam, Afganistan), conflictul arabo-israelian (din 1948), războaiele din fosta Iugoslavie (1991–1999, cu genocidul de la Srebrenica, 1995), genocidul din Rwanda (1994), războaiele din Irak și Afganistan după 2001, războiul civil din Siria (din 2011). Invazia Ucrainei de către Rusia (2014 – Crimeea, 2022 – invazie pe scară largă) a readus războiul convențional în Europa. Cauzele: dispute teritoriale, etnice, religioase, resurse, regimuri autoritare.",
+    "sample": "La Srebrenica (1995), peste 8.000 de bărbați și băieți bosniaci au fost uciși, deși zona era declarată protejată de ONU.",
+    "worked": "Tragedia a arătat limitele mecanismelor internaționale și a dus la judecarea vinovaților de către Tribunalul Penal pentru fosta Iugoslavie.",
+    "exercises": [
+     "Clasifică conflictele de după 1945 după cauze.",
+     "Explică destrămarea Iugoslaviei.",
+     "Explică genocidul din Rwanda.",
+     "Explică importanța invaziei Ucrainei pentru securitatea europeană.",
+     "Analizează de ce comunitatea internațională nu a prevenit unele tragedii."
+    ],
+    "test": [
+     "Când a început conflictul arabo-israelian?",
+     "Ce stat s-a destrămat prin războaie în anii 1990?",
+     "Ce genocid a avut loc în 1994?",
+     "Ce s-a întâmplat la Srebrenica?",
+     "Când a început invazia pe scară largă a Ucrainei?"
+    ],
+    "steps": [
+     "Identifică părțile și cauzele conflictului.",
+     "Analizează urmările umane.",
+     "Evaluează reacția comunității internaționale.",
+     "Greșeala frecventă: să crezi că după 1945 Europa nu a mai cunoscut războaie; au existat războaiele din Iugoslavia și din Ucraina."
+    ],
+    "answers": [
+     "În 1948.",
+     "Iugoslavia.",
+     "Genocidul din Rwanda.",
+     "Un masacru al bosniacilor, în 1995.",
+     "În 2022."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l22": {
+   "ro": {
+    "title": "Cooperarea regională: organizații și inițiative",
+    "theory": "Pe lângă ONU, NATO și UE, statele cooperează în organizații regionale. Consiliul Europei (1949) apără drepturile omului, democrația și statul de drept; România este membră din 1993. OSCE, urmașa Conferinței de la Helsinki, se ocupă de securitate și monitorizarea alegerilor. Organizația Cooperării Economice a Mării Negre (1992) reunește statele din regiune. În ultimul deceniu, România a inițiat sau a sprijinit noi formate: Formatul București (B9, 2015), al statelor de pe flancul estic al NATO, și Inițiativa celor Trei Mări (2016), pentru infrastructură și energie între Marea Baltică, Marea Adriatică și Marea Neagră. Cooperarea regională completează integrarea europeană și întărește securitatea.",
+    "sample": "Formatul București (B9) a fost lansat de România și Polonia în 2015, după anexarea Crimeei de către Rusia.",
+    "worked": "Inițiativa arată că statele de pe flancul estic se coordonează pentru a-și face auzită vocea în NATO în fața noilor amenințări.",
+    "exercises": [
+     "Explică rolul Consiliului Europei.",
+     "Explică rolul OSCE.",
+     "Explică ce este Formatul București.",
+     "Explică scopul Inițiativei celor Trei Mări.",
+     "Explică de ce cooperarea regională completează integrarea europeană."
+    ],
+    "test": [
+     "Când a devenit România membră a Consiliului Europei?",
+     "Ce organizație monitorizează alegerile în Europa?",
+     "Ce organizație reunește statele Mării Negre?",
+     "Ce state au lansat Formatul București?",
+     "Ce mări leagă Inițiativa celor Trei Mări?"
+    ],
+    "steps": [
+     "Identifică organizația și scopul ei.",
+     "Explică interesele României.",
+     "Evaluează rezultatele cooperării.",
+     "Greșeala frecventă: să confunzi Consiliul Europei cu Consiliul Uniunii Europene sau cu Consiliul European."
+    ],
+    "answers": [
+     "În 1993.",
+     "OSCE.",
+     "Organizația Cooperării Economice a Mării Negre.",
+     "România și Polonia.",
+     "Marea Baltică, Marea Adriatică și Marea Neagră."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l23": {
+   "ro": {
+    "title": "România și conflictele regionale în secolul al XX-lea",
+    "theory": "În secolul XX, România a fost implicată în conflicte regionale: războaiele balcanice (1913 – România a obținut Cadrilaterul), războiul româno-ungar (1919), disputele privind Basarabia cu URSS și Transilvania cu Ungaria în perioada interbelică. Războiul de pe Nistru (1992), dintre Republica Moldova și separatiștii din Transnistria sprijiniți de armata rusă, a afectat direct interesele României. România a respectat embargoul ONU în timpul războaielor iugoslave, cu mari pierderi economice. Ca membru NATO, a participat la misiuni internaționale (Afganistan, Irak, Kosovo) și găzduiește elemente ale scutului antirachetă (Deveselu). Din 2022, sprijină Ucraina și Republica Moldova.",
+    "sample": "Baza de la Deveselu găzduiește din 2016 un sistem defensiv antirachetă al NATO.",
+    "worked": "Prezența arată rolul României în securitatea regională și angajamentul aliaților față de flancul estic.",
+    "exercises": [
+     "Prezintă conflictele regionale în care a fost implicată România.",
+     "Explică războiul de pe Nistru.",
+     "Explică efectele embargoului iugoslav asupra României.",
+     "Prezintă misiunile internaționale la care a participat armata română.",
+     "Explică rolul României pe flancul estic al NATO."
+    ],
+    "test": [
+     "Ce teritoriu a obținut România în 1913?",
+     "Ce conflict a avut loc pe Nistru în 1992?",
+     "Ce embargou a respectat România în anii 1990?",
+     "În ce țări a participat armata română la misiuni?",
+     "Ce bază găzduiește scutul antirachetă?"
+    ],
+    "steps": [
+     "Identifică conflictul și părțile implicate.",
+     "Explică interesele României.",
+     "Analizează rolul actual al României în securitatea regională.",
+     "Greșeala frecventă: să crezi că România a fost doar victimă a conflictelor regionale; a fost și actor activ, inclusiv în misiuni de pace."
+    ],
+    "answers": [
+     "Cadrilaterul.",
+     "Războiul dintre Republica Moldova și separatiștii transnistreni.",
+     "Embargoul ONU împotriva Iugoslaviei.",
+     "Afganistan, Irak, Kosovo.",
+     "Deveselu."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l24": {
+   "ro": {
+    "title": "Fundamentalismul religios",
+    "theory": "Fundamentalismul este atitudinea care cere aplicarea literală și strictă a textelor religioase în toate domeniile vieții, inclusiv în politică și legislație, respingând modernitatea, pluralismul și secularizarea. A apărut în diferite religii. Fundamentalismul islamic a influențat revoluția iraniană (1979) și mișcări extremiste violente (al-Qaida, Statul Islamic), responsabile de atentate teroriste. Trebuie făcută distincția între credincioși, care își practică pașnic religia, și extremiștii care folosesc religia pentru a justifica violența. Răspunsul democrațiilor include respectarea libertății religioase, educația și combaterea radicalizării.",
+    "sample": "După revoluția din 1979, Iranul a devenit republică islamică, condusă de clerici.",
+    "worked": "Cazul arată un stat în care religia și politica se contopesc, opusul statului laic sau neutru religios din democrațiile europene.",
+    "exercises": [
+     "Explică ce este fundamentalismul.",
+     "Explică diferența dintre credință și extremism.",
+     "Prezintă revoluția iraniană din 1979.",
+     "Explică legătura dintre fundamentalism și terorism.",
+     "Propune măsuri de prevenire a radicalizării."
+    ],
+    "test": [
+     "Ce cere fundamentalismul religios?",
+     "Ce respinge fundamentalismul?",
+     "Ce revoluție din 1979 a creat o republică islamică?",
+     "Numește o organizație extremistă.",
+     "Ce răspuns dau democrațiile?"
+    ],
+    "steps": [
+     "Definește fenomenul.",
+     "Separă credința pașnică de extremism.",
+     "Analizează efectele și soluțiile.",
+     "Greșeala frecventă: să identifici o religie întreagă cu extremiștii care pretind că o reprezintă."
+    ],
+    "answers": [
+     "Aplicarea literală și strictă a textelor religioase în toate domeniile.",
+     "Modernitatea, pluralismul și secularizarea.",
+     "Revoluția iraniană.",
+     "Al-Qaida sau Statul Islamic.",
+     "Libertate religioasă, educație, combaterea radicalizării."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l25": {
+   "ro": {
+    "title": "Arhitectura religioasă",
+    "theory": "Lăcașurile de cult exprimă credința, dar și epoca și cultura care le-au creat. În spațiul românesc se întâlnesc: bisericile de lemn din Maramureș (UNESCO), mănăstirile pictate din Bucovina (Voroneț, Sucevița, Moldovița, UNESCO), stilul brâncovenesc (Hurezi), bisericile fortificate săsești (Biertan), catedralele catolice gotice și baroce (Biserica Neagră, Catedrala Sf. Mihail din Alba Iulia), sinagogile (Templul Coral din București), moscheile din Dobrogea (Moscheea Carol I din Constanța). În secolul XX au apărut construcții moderne, iar în perioada comunistă multe biserici au fost demolate sau mutate (Mănăstirea Văcărești). Catedrala Mântuirii Neamului (sfințită în 2018) este o construcție recentă.",
+    "sample": "În anii 1980, Biserica Mihai Vodă din București a fost mutată pe șine cu 289 de metri pentru a fi ascunsă în spatele blocurilor.",
+    "worked": "Episodul arată atitudinea regimului comunist față de religie și patrimoniu, dar și eforturile inginerilor de a salva monumentele.",
+    "exercises": [
+     "Prezintă trei tipuri de arhitectură religioasă din România.",
+     "Descrie o mănăstire pictată din Bucovina.",
+     "Explică de ce bisericile de lemn din Maramureș sunt în patrimoniul UNESCO.",
+     "Explică ce s-a întâmplat cu lăcașurile de cult în perioada comunistă.",
+     "Descrie un lăcaș de cult din localitatea ta."
+    ],
+    "test": [
+     "Ce biserici din Maramureș sunt în patrimoniul UNESCO?",
+     "Numește o mănăstire pictată din Bucovina.",
+     "Ce stil arhitectural a creat Constantin Brâncoveanu?",
+     "Ce moschee se află la Constanța?",
+     "Ce biserică a fost mutată pe șine în anii 1980?"
+    ],
+    "steps": [
+     "Identifică stilul și epoca.",
+     "Leagă arhitectura de comunitatea religioasă.",
+     "Analizează valoarea de patrimoniu.",
+     "Greșeala frecventă: să crezi că patrimoniul religios al României aparține unei singure confesiuni; cuprinde lăcașuri ale multor comunități."
+    ],
+    "answers": [
+     "Bisericile de lemn.",
+     "Voroneț.",
+     "Stilul brâncovenesc.",
+     "Moscheea Carol I.",
+     "Biserica Mihai Vodă."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l26": {
+   "ro": {
+    "title": "Diversitatea religioasă în România",
+    "theory": "România este un stat cu o mare diversitate religioasă. Potrivit recensământului din 2021, majoritatea celor care și-au declarat religia sunt ortodocși; există și romano-catolici, reformați, greco-catolici, penticostali, baptiști, adventiști, unitarieni, musulmani, mozaici și alții. Statul recunoaște 18 culte religioase. Constituția garantează libertatea religioasă și autonomia cultelor; statul este neutru față de convingerile religioase. Biserica greco-catolică, interzisă de comuniști în 1948, a fost repusă în drepturi după 1989. Dialogul interconfesional și respectul reciproc sunt valori ale societății democratice.",
+    "sample": "În 1948, regimul comunist a desființat Biserica greco-catolică, iar episcopii ei au fost închiși; mai mulți au murit în detenție.",
+    "worked": "Persecutarea unei biserici arată încălcarea libertății religioase de către regimul totalitar. Repunerea ei în drepturi după 1989 a fost un act de reparație.",
+    "exercises": [
+     "Enumeră principalele culte religioase din România.",
+     "Explică ce garantează Constituția privind religia.",
+     "Explică ce s-a întâmplat cu Biserica greco-catolică în 1948.",
+     "Explică ce înseamnă neutralitatea statului.",
+     "Explică importanța dialogului interconfesional."
+    ],
+    "test": [
+     "Câte culte religioase recunoaște statul român?",
+     "Care este confesiunea majoritară?",
+     "Ce biserică a fost desființată în 1948?",
+     "Ce garantează Constituția?",
+     "Ce recensământ a măsurat recent structura religioasă?"
+    ],
+    "steps": [
+     "Identifică cultele și răspândirea lor.",
+     "Explică cadrul legal.",
+     "Reflectează asupra conviețuirii.",
+     "Greșeala frecventă: să crezi că libertatea religioasă a existat în comunism; regimul a persecutat cultele și credincioșii."
+    ],
+    "answers": [
+     "18.",
+     "Ortodoxă.",
+     "Biserica greco-catolică.",
+     "Libertatea religioasă și autonomia cultelor.",
+     "Recensământul din 2021."
+    ]
+   }
+  }
+ }
+}
