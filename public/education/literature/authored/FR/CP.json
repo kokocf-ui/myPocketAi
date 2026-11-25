@@ -3,7 +3,7 @@
   "country": "FR",
   "stage": "beginner",
   "grade": "CP",
-  "version": "98f243c7c3c7c124387f8909ae912daad72416902fad386cb5a21567e412e205",
+  "version": "cecee4df278def4b9f41bb00dce0b9f025707a5befc28bc17cdddf689a112cfe",
   "source": "https://www.education.gouv.fr/sites/default/files/document/Annexe%203%20%E2%80%93%20Programme%20de%20fran%C3%A7ais%20du%20cycle%202-403818.pdf",
   "sourceTitle": "Ministère de l’Éducation nationale, Programme de français du cycle 2 (2024), repères CP",
   "status": "partial-original-material-independent-review-pending",
@@ -115,6 +115,116 @@
           "Que fait le soleil à la fin ?",
           "Le poème indique-t-il l’heure ?",
           "Récite un vers à voix haute avec de l’aide si besoin."
+        ]
+      }
+    },
+    "eu-year-fr-beginner-cp-dialog": {
+      "fr": {
+        "title": "Écouter et prendre la parole à tour de rôle",
+        "theory": "Un dialogue est un échange entre plusieurs personnes. On écoute celui ou celle qui parle, puis on prend son tour pour répondre. Pour comprendre une réplique, regarde qui parle et à qui elle s’adresse. Tu peux demander de répéter si tu n’as pas compris.",
+        "sample": "— Peux-tu me prêter ton crayon ? demande Inès.\n— Oui, le voici, répond Adam.\n— Merci, Adam !",
+        "worked": "Inès demande un crayon. Adam répond et lui prête son crayon. La dernière réplique remercie Adam : c’est Inès qui parle dans cet échange. Les tirets aident à repérer les prises de parole.",
+        "exercises": [
+          "Qui demande un crayon ?",
+          "Qui répond à Inès ?",
+          "Que donne Adam à Inès ?",
+          "Lis les répliques avec un partenaire, chacun à son tour.",
+          "Avec un partenaire, imagine une demande polie et une réponse."
+        ],
+        "test": [
+          "Combien de prises de parole vois-tu ?",
+          "Que demande Inès ?",
+          "Qui dit « Oui, le voici » ?",
+          "Que dit Inès à la fin ?",
+          "Que peux-tu faire si tu n’as pas compris ce que dit ton partenaire ?"
+        ]
+      }
+    },
+    "eu-year-fr-beginner-cp-vocabular": {
+      "fr": {
+        "title": "Comprendre un mot grâce au contexte",
+        "theory": "Quand un mot est nouveau, on peut relire les mots autour de lui, observer la situation et demander une explication. Le contexte aide à proposer un sens, mais il ne donne pas toujours assez d’indices : dans ce cas, vérifie avec un adulte ou un dictionnaire adapté.",
+        "sample": "Nora enfile son manteau. Dehors, le vent est glacial. Elle ferme son manteau jusqu’au cou.",
+        "worked": "Le vent est dit « glacial » et Nora ferme son manteau jusqu’au cou. Ces indices suggèrent que le vent est très froid. Le texte ne dit pas quelle est la température.",
+        "exercises": [
+          "Que met Nora avant de sortir ?",
+          "Quel mot décrit le vent ?",
+          "Que fait Nora avec son manteau ?",
+          "Que peut vouloir dire « glacial » ici ?",
+          "Quel détail du texte t’aide à proposer ce sens ?"
+        ],
+        "test": [
+          "Qui ferme son manteau ?",
+          "Le vent est-il décrit comme chaud ou très froid ?",
+          "Cite un indice qui aide à comprendre « glacial ».",
+          "Le texte donne-t-il la température ?",
+          "À qui peux-tu demander de l’aide pour vérifier un mot inconnu ?"
+        ]
+      }
+    },
+    "eu-year-fr-beginner-cp-exprimare": {
+      "fr": {
+        "title": "Construire une phrase pour raconter",
+        "theory": "Une phrase peut dire qui fait une action et ce que cette personne fait. À l’écrit, les mots sont séparés par des espaces ; une phrase commence par une majuscule et peut se terminer par un point. On relit pour vérifier que l’idée est claire.",
+        "sample": "Le chat dort sur le tapis.",
+        "worked": "Dans « Le chat dort sur le tapis. », on parle du chat et on dit qu’il dort. Les mots sont séparés par des espaces. La phrase commence par une majuscule et se termine par un point.",
+        "exercises": [
+          "De quel animal parle la phrase ?",
+          "Que fait le chat ?",
+          "Où dort-il ?",
+          "Recopie la phrase en gardant les espaces et le point.",
+          "À l’oral, change le lieu où dort le chat et dis ta nouvelle phrase."
+        ],
+        "test": [
+          "Montre la majuscule au début de la phrase.",
+          "Montre le point à la fin.",
+          "Combien de mots contient la phrase ?",
+          "Quel mot indique ce que fait le chat ?",
+          "Écris avec de l’aide une phrase sur un animal, puis relis-la."
+        ]
+      }
+    },
+    "eu-year-fr-beginner-cp-interpretare": {
+      "fr": {
+        "title": "Comparer deux courts textes",
+        "theory": "Comparer deux textes, c’est chercher ce qui est pareil et ce qui change. Pour expliquer une réponse, montre les mots qui donnent l’information. Une différence que le texte ne précise pas reste inconnue.",
+        "sample": "Texte A : Lina arrose une fleur rouge.\nTexte B : Lina arrose une fleur jaune.",
+        "worked": "Dans les deux textes, Lina arrose une fleur. La couleur change : elle est rouge dans le texte A et jaune dans le texte B. Les textes ne disent pas où se trouvent les fleurs.",
+        "exercises": [
+          "Qui agit dans les deux textes ?",
+          "Que fait Lina dans le texte A ?",
+          "Quelle est la couleur de la fleur du texte B ?",
+          "Qu’est-ce qui est pareil dans les deux textes ?",
+          "Qu’est-ce qui change entre les deux textes ?"
+        ],
+        "test": [
+          "Qui arrose une fleur ?",
+          "Quelle couleur est indiquée dans le texte A ?",
+          "Quelle couleur est indiquée dans le texte B ?",
+          "Les textes disent-ils où se trouvent les fleurs ?",
+          "Montre un mot qui permet de voir la différence."
+        ]
+      }
+    },
+    "eu-year-fr-beginner-cp-verificare": {
+      "fr": {
+        "title": "Je m’entraîne à lire et à écrire",
+        "theory": "Pour t’entraîner, lis le court texte avec de l’aide si besoin, cherche les indices puis réponds aux questions. Pour écrire, dis d’abord ton idée, sépare les mots et relis la majuscule et le point. Une réponse absente du texte ne doit pas être inventée.",
+        "sample": "Milo ouvre son sac. Il sort un livre bleu et le pose sur la table.",
+        "worked": "Milo ouvre son sac, puis il sort un livre bleu et le pose sur la table. On sait que le livre est bleu, mais le texte ne dit pas qui l’a écrit.",
+        "exercises": [
+          "Qui ouvre son sac ?",
+          "Que sort Milo du sac ?",
+          "De quelle couleur est le livre ?",
+          "Où Milo pose-t-il le livre ?",
+          "Écris une phrase courte sur une autre chose que tu peux mettre dans un sac."
+        ],
+        "test": [
+          "Quel objet Milo ouvre-t-il ?",
+          "Que fait-il après avoir ouvert son sac ?",
+          "Quelle couleur le texte donne-t-il pour le livre ?",
+          "Le texte nomme-t-il l’auteur du livre ?",
+          "Recopie « Milo ouvre son sac. » puis vérifie les espaces et le point."
         ]
       }
     }

@@ -11,7 +11,7 @@ assert.equal(report.literature.schoolRoutes,624);assert.equal(report.literature.
 assert.equal(report.mathematics.countries,50);assert.equal(report.mathematics.fullyApproved,0);
 for(const data of Object.values(report.science.bySubject)){assert.equal(data.countries,50);assert.equal(data.fullyApproved,0)}
 const hu=report.countries.find(c=>c.country==='HU'),fr=report.countries.find(c=>c.country==='FR');
-assert.equal(hu.literatureRoutingRO.authored_exact,12);assert.equal(fr.literatureRoutingRO.authored_exact,5);
+assert.equal(hu.literatureRoutingRO.authored_exact,12);assert.equal(fr.literatureRoutingRO.authored_exact,10);
 assert.ok(fr.literatureRoutingRO.shared_european>0);
 for(const row of report.countries){
  assert.ok(row.literatureSchoolRoutes>0);

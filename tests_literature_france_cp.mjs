@@ -12,9 +12,18 @@ const pack=JSON.parse(await readFile(new URL('./public/education/literature/auth
 assert.equal(pack.version,createHash('sha256').update(JSON.stringify(pack.chapters)).digest('hex'));
 assert.equal(pack.status,'partial-original-material-independent-review-pending');
 assert.match(pack.source,/education\.gouv\.fr/);
-const keys=Object.keys(pack.chapters);assert.equal(keys.length,5);
+const keys=Object.keys(pack.chapters);assert.equal(keys.length,10);
 const programs=JSON.parse(JSON.stringify(LIT_EU_PROGRAMS));
 const picker=literatureClientGradeExpand(programs,{country:'FR',level:'beginner',grade:'CP'});
+assert.deepEqual(new Set(keys),new Set(picker.map(row=>row[0])),
+ 'Each currently displayed CP chapter must have its own authored material (not a claim of full curriculum coverage)');
+for(const key of keys){
+ const row=pack.chapters[key].fr;
+ assert.deepEqual(Object.keys(pack.chapters[key]),['fr'],'Do not duplicate authored translations');
+ assert.equal(row.exercises.length,5);assert.equal(row.test.length,5);
+ assert.equal(new Set([...row.exercises,...row.test]).size,10,'Exercise and test prompts are distinct');
+}
+assert.equal(new Set(keys.map(key=>pack.chapters[key].fr.sample)).size,keys.length,'Each chapter uses a distinct original passage');
 for(const key of keys){
  assert.ok(picker.some(row=>row[0]===key),'Each authored chapter must be reachable in the actual picker');
  for(const language of ['fr','ro','en'])for(const mode of ['lesson','examples','exercises','test']){
@@ -52,4 +61,4 @@ for(const language of ['fr'])for(const k of keys)for(const mode of ['lesson','ex
 assert.equal(requests,0,'Authored FR CP material must work without AI');
 const html=await(await frontend.fetch(new Request('https://test.local/'))).text();
 assert.ok(!html.includes('Mila a un livre. Elle lit avec Léo.'),'Authored text must be in the pack, not HTML');
-console.log('PASS France CP: 5 original chapters, one French source and four modes, exact routing, update, invalid response and cached offline');
+console.log('PASS France CP: 10 displayed chapters, one French source and four modes, exact routing, update, invalid response and cached offline; no curricular certification');

@@ -6,6 +6,9 @@
 ---
 
 ## 1. Reguli permanente de lucru cu utilizatorul
+
+**Prioritatea actualizată de utilizator:** în APK-ul signed de test, problema traducerii persistă (textul apare în română). Nu considera localizarea rezolvată pe baza testelor simulate sau a secțiunii istorice de mai jos. Utilizatorul dorește să amânăm depanarea traducerii până după Educație și să continuăm acum implementarea Literaturii. Lecțiile noi rămân în pachete, cu o singură sursă; nu pretinde finalizare sau revizuire unde lipsesc. Nu oferi APK debug; numai signed release, cu aceeași cheie și fără a cere dezinstalarea aplicației existente.
+
 1. **Utilizatorul lucrează exclusiv de pe telefonul mobil:**
    - Execută direct toate verificările (`npm run check`, testele `tests_*.mjs`, `node scripts/build_curriculum_packs.mjs --verify`), commit-urile, `git push` pe ramura activă a sesiunii, deschiderea și merge-ul Pull Request-ului în `main`, precum și verificarea rulărilor GitHub Actions.
    - Când se generează un **APK Signed Release** (`.github/workflows/build-android-signed-release.yml` pe `main`), oferă linkul direct `.apk` din **GitHub Releases** (`myPocketAI-signed-release.apk`) astfel încât utilizatorul să îl poată descărca cu o singură atingere pe telefon (fără dezarhivare `.zip`).

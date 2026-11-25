@@ -17,8 +17,9 @@ for(const grade of ['2','3','4']){
 const fr=report.countries.find(country=>country.country==='FR').routes.find(route=>route.stage==='lower'&&route.grade==='6e');
 assert.ok(fr.counts.shared_european>0,'Shared practice must not count as specific national teaching material');
 const franceCP=report.countries.find(country=>country.country==='FR').routes.find(route=>route.stage==='beginner'&&route.grade==='CP');
-assert.equal(franceCP.counts.authored_exact,5,'Five authored French CP chapters are specific');
-assert.ok(franceCP.counts.shared_european>0,'Other France CP chapters are not yet individually authored');
+assert.equal(franceCP.counts.authored_exact,10,'All ten currently displayed CP chapters have specific authored material');
+assert.equal(franceCP.counts.shared_european,0,'Displayed CP routes should not use generic material');
+assert.equal(franceCP.reviewed,false,'Ten displayed topics do not prove curriculum completeness or independent review');
 for(const country of report.countries)for(const route of country.routes){
  assert.equal(route.chapters,Object.values(route.counts).reduce((a,b)=>a+b,0));
  assert.equal(route.chapters,route.details.length);

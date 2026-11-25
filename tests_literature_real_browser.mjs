@@ -206,6 +206,14 @@ try{
  await js("window.__literatureAcceptance.setLanguage('fr');[...document.querySelectorAll('#moduleContent .lit-activity-button')].find(b=>/^(Teorie|Theory)$/.test(b.textContent.trim())).click()");await sleep(250);
  assert.match(await js("document.querySelector('.lit-reader-overlay')?.innerText||''"),/Lila lit/,'Cached original France CP lesson must remain available offline');
  await js("window.__literatureAcceptance.setLanguage('ro');[...document.querySelectorAll('.lit-reader-overlay button')].find(b=>/Înapoi|Back/.test(b.textContent)).click();window.fetch=window.__literatureOnlineFetch");
+ // Newly authored vocabulary chapter must also be routed from the real picker
+ // and remain available in the cached French source after going offline.
+ await backToLevels();await choice('Primar|Primary');await choice('^CP$');await choice('Programa clasei|Grade syllabus');await choice('Vocabular în context.*CP');
+ await js("window.__literatureAcceptance.setLanguage('fr');window.__literatureOnlineFetch=window.fetch.bind(window);window.fetch=async()=>{throw new TypeError('Failed to fetch')};[...document.querySelectorAll('#moduleContent .lit-activity-button')].find(b=>/^(Exerciții|Exercises)$/.test(b.textContent.trim())).click()");await sleep(250);
+ const vocabulary=await js("document.querySelector('.lit-reader-overlay')?.innerText||''");
+ assert.match(vocabulary,/Nora enfile son manteau/);assert.match(vocabulary,/Quel mot décrit le vent/);
+ assert.ok(!/NU lecția completă specifică/.test(vocabulary));
+ await js("window.__literatureAcceptance.setLanguage('ro');[...document.querySelectorAll('.lit-reader-overlay button')].find(b=>/Înapoi|Back|Retour/.test(b.textContent)).click();window.fetch=window.__literatureOnlineFetch");
  await chooseCountry('Hungary','Ungar|Hungary');
  // First visit grade 2 online so it can later be opened from the real cache.
  await choice('Primar|Primary');await choice('^2$');
