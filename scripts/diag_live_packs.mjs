@@ -4,7 +4,7 @@ import {literatureNationalYearMaterial} from '../literature_national_authored_ma
 const BASE='https://lifewise-ai-v2.kokocf.workers.dev';
 const UA='Mozilla/5.0 (Linux; Android 14; wv) AppleWebKit/537.36 Chrome/131 Mobile Safari/537.36';
 const fetcher=(p,o)=>fetch(BASE+p,{...o,headers:{'user-agent':UA}});
-for(const [subject,grade] of [['history','5'],['geography','6'],['computing','11'],['literature','9']]){
+for(const [subject,grade] of []){
  try{
   const raw=await fetcher('/education/'+subject+'/authored/catalog.json');
   console.log(subject,'catalog http',raw.status,raw.headers.get('content-type'),raw.headers.get('content-encoding'));
@@ -20,5 +20,9 @@ for(const [subject,grade] of [['history','5'],['geography','6'],['computing','11
  }catch(e){console.log(subject,'ERROR',e.message,e.cause&&e.cause.message)}
 }
 const html=await (await fetcher('/?nativeLaunch=1')).text();
-console.log('html',html.length,'eduNationalShowMaterial',html.includes('function eduNationalShowMaterial('));
-const i=html.indexOf('function literatureNationalYearMaterial(');console.log(html.slice(i,i+700));
+const local=await (await (await import('../index.js')).default.fetch(new Request(BASE+'/?nativeLaunch=1'))).text();
+console.log('html live',html.length,'local',local.length);
+for(const n of ['eduNationalShowMaterial','literatureNationalYearMaterial','Materialul nu a putut fi','educationOpenPagedLesson(title','function hgRenderNationalLesson'])console.log(n,'live',html.split(n).length-1,'local',local.split(n).length-1);
+let i=html.indexOf('Materialul nu a putut fi');console.log('CTX1',html.slice(i-900,i+50).replace(/\n/g,' '));
+i=html.indexOf('literatureNationalYearMaterial');console.log('CTX2',html.slice(i-100,i+500).replace(/\n/g,' '));
+let d=0;while(d<html.length&&html[d]===local[d])d++;console.log('first diff at',d,'LIVE',html.slice(d-80,d+200).replace(/\n/g,' '),'LOCAL',local.slice(d-80,d+200).replace(/\n/g,' '));

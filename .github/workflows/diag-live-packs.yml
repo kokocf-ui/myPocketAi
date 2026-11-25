@@ -12,5 +12,5 @@ jobs:
         with: {node-version: 22}
       - run: |
           node scripts/diag_live_packs.mjs > out.txt 2>&1 || true
-          split -l 6 out.txt part_
-          for f in part_*; do msg=$(cut -c1-400 "$f" | sed ':a;N;$!ba;s/%/%25/g;s/\n/%0A/g'); echo "::notice title=$f::$msg"; done
+          split -l 3 out.txt part_
+          for f in part_*; do msg=$(cut -c1-1500 "$f" | sed ':a;N;$!ba;s/%/%25/g;s/\n/%0A/g'); echo "::notice title=$f::$msg"; done
