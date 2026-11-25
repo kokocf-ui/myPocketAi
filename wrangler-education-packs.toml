@@ -1,0 +1,11 @@
+# Independently deployable Education content service. Run the staging script
+# before Wrangler. This service has no frontend, backend, credentials or APK.
+name = "lifewise-ai-education-packs"
+main = "education_pack_service.mjs"
+compatibility_date = "2026-10-28"
+
+[assets]
+directory = "./.education-pack-assets"
+binding = "ASSETS"
+html_handling = "none"
+run_worker_first = true

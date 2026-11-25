@@ -26712,6 +26712,17 @@ export default {
    try{return await fetch(makeRequest())}
    catch(error){console.warn('Pocket auxiliary endpoint unavailable:',url.pathname,String(error?.name||'error'));return Response.json({status:'error',error:'auxiliary_api_unavailable'},{status:502})}
   }
+  // Education assets can be served by a separately deployed content Worker.
+  // If no service is configured yet, retain the existing same-origin assets.
+  if(url.pathname.startsWith('/education/')){
+   if(request.method!=='GET'&&request.method!=='HEAD')return new Response('Method not allowed',{status:405,headers:{Allow:'GET, HEAD'}});
+   if(env?.EDUCATION_PACKS){
+    try{return await env.EDUCATION_PACKS.fetch(new Request(url,{method:request.method}))}
+    catch{return new Response('Education pack service unavailable',{status:503})}
+   }
+   if(env?.ASSETS)return env.ASSETS.fetch(request);
+   return new Response('Not found',{status:404});
+  }
   if (url.pathname === '/api/curriculum-pack') {
    if(request.method!=='GET')return new Response('Method not allowed',{status:405,headers:{Allow:'GET'}});
    const secSite=String(request.headers.get('Sec-Fetch-Site')||'').toLowerCase();
@@ -26728,9 +26739,17 @@ export default {
    const assetPath=await curriculumPackAssetPath(tuple.subject,tuple.country,tuple.grade);
    const packHeaders={
     'Content-Type':'application/json; charset=utf-8',
-    'Cache-Control':'private, max-age=3600, stale-while-revalidate=86400',
+    'Cache-Control':'no-store',
     'X-Content-Type-Options':'nosniff'
    };
+   if(env?.EDUCATION_PACKS){
+    try{
+     const assetRes=await env.EDUCATION_PACKS.fetch(new Request(new URL(assetPath,url)));
+     if(assetRes.status===200)return new Response(assetRes.body,{status:200,headers:packHeaders});
+     if(assetRes.status===404)return Response.json({status:'empty',lessonsByTopic:{}},{status:200,headers:packHeaders});
+     return Response.json({status:'error',error:'education_pack_service_unavailable'},{status:503,headers:packHeaders});
+    }catch{return Response.json({status:'error',error:'education_pack_service_unavailable'},{status:503,headers:packHeaders})}
+   }
    if(env?.ASSETS){
     const assetRes=await env.ASSETS.fetch(new Request(new URL(assetPath,url)));
     if(assetRes.status===200)return new Response(assetRes.body,{status:200,headers:packHeaders});
@@ -26752,7 +26771,12 @@ export default {
    if(!env?.ASSETS)return new Response('Avatar asset binding unavailable',{status:503});
    return env.ASSETS.fetch(new Request(new URL('/avatar-v4.html',url)));
   }
-  if (url.pathname !== '/' && url.pathname !== '/index.html') return new Response('Not found',{status:404});
+  if (url.pathname !== '/' && url.pathname !== '/index.html') {
+   // Static assets previously bypassed the Worker; preserve them when
+   // run_worker_first is enabled for Education service routing.
+   if(env?.ASSETS&&(request.method==='GET'||request.method==='HEAD'))return env.ASSETS.fetch(request);
+   return new Response('Not found',{status:404});
+  }
   const oracleOrigin=String(env?.COMMUNICATION_ORACLE_ORIGIN||'https://mypocketai.duckdns.org').replace(/\/+$/,'');
   const publicOracleOrigin=/^https:\/\/[a-z0-9.-]+(?::\d+)?$/i.test(oracleOrigin)?oracleOrigin:'';
   const html=htmlDocument()

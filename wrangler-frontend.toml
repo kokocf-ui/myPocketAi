@@ -8,6 +8,9 @@ directory = "./public"
 binding = "ASSETS"
 
 html_handling = "none"
+# The Worker routes Education content through an optional independent service.
+# Other static assets are explicitly passed through to ASSETS.
+run_worker_first = true
 
 # Calls to the API from Android stay on the frontend origin.
 [[services]]

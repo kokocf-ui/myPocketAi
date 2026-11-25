@@ -1,5 +1,6 @@
 node_modules/
 .wrangler/
+.education-pack-assets/
 .dev.vars
 .dev.vars.*
 .env
