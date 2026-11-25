@@ -47,6 +47,10 @@ on:
       - 'tests_storybook_commons_photos.mjs'
       - 'storybook_generation.mjs'
       - 'tests_tools_six_navigation.mjs'
+      - 'tests_divertisment_frontend_presence.mjs'
+      - 'extra_fun_*.mjs'
+      - 'tests_extra_fun_2026.mjs'
+      - 'tests_fun_generator_2026.mjs'
       - 'tests_storybook_generation.mjs'
       - 'tests_creation_ui.mjs'
       - 'creator_site_ui.mjs'
@@ -98,6 +102,10 @@ on:
       - 'tests_storybook_commons_photos.mjs'
       - 'storybook_generation.mjs'
       - 'tests_tools_six_navigation.mjs'
+      - 'tests_divertisment_frontend_presence.mjs'
+      - 'extra_fun_*.mjs'
+      - 'tests_extra_fun_2026.mjs'
+      - 'tests_fun_generator_2026.mjs'
       - 'tests_storybook_generation.mjs'
       - 'tests_creator_live_ui.mjs'
       - 'android/**'
@@ -443,6 +451,7 @@ jobs:
           node tests_extra_tools_header_layout.mjs
           node tests_extra_tools_workspace.mjs
           node tests_tools_six_navigation.mjs
+          node tests_divertisment_frontend_presence.mjs
           node tests_storybook_generation.mjs
           node tests_storybook_documentary.mjs
           node tests_storybook_commons_photos.mjs

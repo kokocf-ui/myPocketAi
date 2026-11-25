@@ -132,6 +132,7 @@ jobs:
         run: |
           node --check index.js
           node tests_android_ui_preview.mjs
+          node tests_divertisment_frontend_presence.mjs
           node tests_education_source_translation.mjs
           node tests_science_container_translation.mjs
           node scripts/build_android_ui_preview.mjs

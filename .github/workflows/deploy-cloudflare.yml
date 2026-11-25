@@ -107,6 +107,7 @@ jobs:
           node --check storybook_commons_photos.mjs
           node --check storybook_history_research.mjs
           node tests_tools_six_navigation.mjs
+          node tests_divertisment_frontend_presence.mjs
 
       - name: Verify contextual news translation and apply avatar lip-stop patch
         run: |
