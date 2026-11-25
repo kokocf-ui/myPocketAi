@@ -128,7 +128,9 @@ try{
  // Exercise all national entry choices in a fresh mobile profile and click
  // into a real Chemistry chapter. This catches a country with no actual
  // browser-visible lessons despite a populated server-side registry.
- for(const code of EDUCATION_EUROPE_COUNTRIES){
+ // Vatican City is no longer offered in Education (user decision); the
+ // picker hides it, so it cannot be navigated in a real browser.
+ for(const code of EDUCATION_EUROPE_COUNTRIES.filter(code=>code!=='VA')){
   const p=await browser.newPage({viewport:{width:390,height:844},deviceScaleFactor:1,
    isMobile:true,hasTouch:true,locale:'ro-RO'});
   try{
@@ -148,11 +150,11 @@ try{
     (await p.locator('#view-module').innerText().catch(()=>'')).slice(0,450));
   }finally{await p.close()}
  }
- assert.equal(checked,50);
+ assert.equal(checked,49); // 50 European systems minus Vatican City (not offered in Education)
  assert.equal(roLessons,4);
  assert.equal(roEnquiries,4);
  assert.deepEqual(exceptions,[],'Uncaught real Chromium errors in Chemistry');
- console.log('PASS Chemistry mobile: 50 country-to-chapter paths, four Romanian school grade lessons and practical investigations, fully paged reader and stable navigation.');
+ console.log('PASS Chemistry mobile: 49 country-to-chapter paths, four Romanian school grade lessons and practical investigations, fully paged reader and stable navigation.');
 }catch(e){
  console.error('::error::Chemistry browser: '+String(e).replace(/\r?\n/g,' '));
  await page.screenshot({path:'chemistry-browser-audit/failure.png',fullPage:true}).catch(()=>{});
