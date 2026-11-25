@@ -1,6 +1,6 @@
 {
  "schema": "mypocket-literature-authored-catalog/v1",
- "version": "d8d004f5f1df84898501c98f8640216995ed922c5ea43f64c98a3093fe1bc519",
+ "version": "7b45a05d54ee6d35fda55b35ae5c3c7b91e06a3bbd84a19f2d671108a5a79877",
  "years": [
   {
    "country": "AD",
@@ -100,7 +100,7 @@
      "lang": "bg",
      "name": "Български",
      "file": "bg-1",
-     "version": "735d261fc4dfc5a7bd698bbd969c5e7e0b46632ed14d41bd41c91a0399515874"
+     "version": "591ae5d92aed7e96e469436e05229a370ae3b4aa6db36e58ba6e0f6bb64feec6"
     }
    ]
   },
@@ -113,7 +113,7 @@
      "lang": "be",
      "name": "Беларуская",
      "file": "be-1",
-     "version": "dd4ee677fd9114f8277e0b85617b7e5f41085fe058a4123050e6cc674c02adb6"
+     "version": "0a103db176e6d70455442e2cfce438273dddf96b32fe4e89e8d5f75125c40288"
     },
     {
      "lang": "ru",
@@ -157,7 +157,7 @@
      "lang": "el",
      "name": "Ελληνικά",
      "file": "el-1",
-     "version": "590411f1e5dbea83f56016f669a670426f2b88cf35c6647300dbcd4181ece3f6"
+     "version": "287c8dacefea9c8f8586371978e7f39cf842e597384ad08fe8884259506fcb28"
     }
    ]
   },
@@ -308,6 +308,12 @@
    "grade": "Y1",
    "languages": [
     {
+     "lang": "cy",
+     "name": "Cymraeg",
+     "file": "cy-y1",
+     "version": "b9d1c4f21c19f95ccc4d41ce36f707b2a4daaf8a62052add8ddeaf256e8b02d8"
+    },
+    {
      "lang": "en",
      "name": "English",
      "file": "en-y1",
@@ -324,7 +330,7 @@
      "lang": "el",
      "name": "Ελληνικά",
      "file": "el-1",
-     "version": "872ea67cd7c26a07650ba92579353fa4f87c13093b51f42754b5d4a25d3a571c"
+     "version": "f7d438105e79d194ac3e53704596baca4a1cbd56979fd987a951d081a90692a5"
     }
    ]
   },
@@ -351,6 +357,12 @@
      "name": "English",
      "file": "en-ji",
      "version": "dc0bee39f7676a9055f5e6b39854c85c86a2c54af0938b7e7643d23ecf588011"
+    },
+    {
+     "lang": "ga",
+     "name": "Gaeilge",
+     "file": "ga-ji",
+     "version": "f31ef4a0b01c06abe6674f93ba2b99069508da71c3ab355815385426810cbc26"
     }
    ]
   },
@@ -506,6 +518,12 @@
      "name": "English",
      "file": "en-1",
      "version": "1f750074485443b29138c12e904816eae1f3d5271a35c67d55f6e72d6450628c"
+    },
+    {
+     "lang": "mt",
+     "name": "Malti",
+     "file": "mt-1",
+     "version": "038b7237b31ed3e433a1ff9aaa0036db315435fa40ecf7a8f68cf3218d54aa51"
     }
    ]
   },

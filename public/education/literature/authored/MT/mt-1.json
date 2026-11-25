@@ -1,0 +1,1064 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "MT",
+ "stage": "beginner",
+ "grade": "1",
+ "version": "038b7237b31ed3e433a1ff9aaa0036db315435fa40ecf7a8f68cf3218d54aa51",
+ "source": "https://curriculum.gov.mt/",
+ "sourceTitle": "Learning Outcomes Framework (Direttorat għall-Kurrikulu, Malta), Malti, Sena 1: smigħ u taħdit, ħsejjes u ittri, l-alfabett Malti, l-artiklu, qari u fehim, kitba, folklor u letteratura għat-tfal; sekwenza bħal fil-kotba tal-qari bikri; materjal oriġinali, mingħajr test minn kotba tal-iskola",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "mt",
+ "labels": [
+  "Eżerċizzju oriġinali · Malta · Sena 1",
+  "Nitgħallmu",
+  "Eżempju oriġinali",
+  "Spjegazzjoni",
+  "Eżerċizzji",
+  "Iċċekkja lilek innifsek",
+  "Eżerċizzji oriġinali, mhux test uffiċjali jew test minn ktieb tal-iskola. Jekk hemm bżonn, aqra ma' adult.",
+  "Jekk ma tifhimx: pass pass",
+  "Tweġibiet (iċċekkja meta tispiċċa)"
+ ],
+ "units": [
+  {
+   "title": "Inħejju ruħna biex naqraw u niktbu",
+   "keys": [
+    "eu-year-mt-beginner-1-l01",
+    "eu-year-mt-beginner-1-l02",
+    "eu-year-mt-beginner-1-l03",
+    "eu-year-mt-beginner-1-l04"
+   ]
+  },
+  {
+   "title": "L-ittri",
+   "keys": [
+    "eu-year-mt-beginner-1-l05",
+    "eu-year-mt-beginner-1-l06",
+    "eu-year-mt-beginner-1-l07",
+    "eu-year-mt-beginner-1-l08",
+    "eu-year-mt-beginner-1-l09",
+    "eu-year-mt-beginner-1-l10",
+    "eu-year-mt-beginner-1-l11",
+    "eu-year-mt-beginner-1-l12"
+   ]
+  },
+  {
+   "title": "Niktbu sew",
+   "keys": [
+    "eu-year-mt-beginner-1-l13",
+    "eu-year-mt-beginner-1-l14",
+    "eu-year-mt-beginner-1-l15",
+    "eu-year-mt-beginner-1-l16"
+   ]
+  },
+  {
+   "title": "Naqraw",
+   "keys": [
+    "eu-year-mt-beginner-1-l17",
+    "eu-year-mt-beginner-1-l18",
+    "eu-year-mt-beginner-1-l19",
+    "eu-year-mt-beginner-1-l20",
+    "eu-year-mt-beginner-1-l21",
+    "eu-year-mt-beginner-1-l22",
+    "eu-year-mt-beginner-1-l23"
+   ]
+  },
+  {
+   "title": "Nikkomunikaw",
+   "keys": [
+    "eu-year-mt-beginner-1-l24",
+    "eu-year-mt-beginner-1-l25",
+    "eu-year-mt-beginner-1-l26"
+   ]
+  },
+  {
+   "title": "Il-ktieb u r-reviżjoni",
+   "keys": [
+    "eu-year-mt-beginner-1-l27",
+    "eu-year-mt-beginner-1-l28"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-mt-beginner-1-l01": {
+   "mt": {
+    "title": "Nintroduċu ruħna u nitkellmu wieħed wieħed",
+    "theory": "Fl-ewwel sena nitgħallmu nisimgħu. Wieħed jitkellem u l-oħrajn jisimgħu mingħajr ma jinterrompu. Inwieġbu b'sentenza sħiħa: Jien jisimni… Nużaw kliem ta' edukazzjoni: bonġu, jekk jogħġbok, grazzi, skużani.",
+    "sample": "Jien jisimni Marija. Għandi sitt snin. Jogħġobni npinġi. Ħdejja joqgħod Luke.",
+    "worked": "Marija qalet erba' sentenzi qosra: isimha, kemm għandha snin, x'jogħġobha u min joqgħod ħdejha. Kull sentenza tibda b'ittra kbira u tispiċċa b'punt.",
+    "exercises": [
+     "Introduċi lilek innifsek f'żewġ sentenzi.",
+     "Għid x'jogħġbok tagħmel.",
+     "Għid l-isem ta' min joqgħod ħdejk.",
+     "Uri kif terfa' idek biex titkellem.",
+     "Irrepeti dak li qal sieħbek dwaru nnifsu."
+    ],
+    "test": [
+     "Kemm għandha snin Marija?",
+     "X'nagħmlu meta rridu nitkellmu?",
+     "Għaliex ma ninterrompux lil ħaddieħor?",
+     "Liema kelma tgħid meta tieħu xi ħaġa?",
+     "Min joqgħod ħdejn Marija?"
+    ],
+    "steps": [
+     "L-ewwel għid ismek: Jien jisimni…",
+     "Imbagħad għid kemm għandek snin u x'jogħġbok.",
+     "Meta jkun qed jitkellem ħaddieħor, isma' u stenna sakemm jispiċċa.",
+     "Żball komuni: tweġiba b'kelma waħda. Wieġeb b'sentenza sħiħa."
+    ],
+    "answers": [
+     "Sitt snin.",
+     "Nerfgħu idejna u nistennew it-tura tagħna.",
+     "Biex kulħadd ikun jista' jitkellem u nifhmu lil xulxin.",
+     "Grazzi.",
+     "Luke."
+    ]
+   }
+  },
+  "eu-year-mt-beginner-1-l02": {
+   "mt": {
+    "title": "Sentenza, kelma, sillaba, ħoss",
+    "theory": "Meta nitkellmu nużaw sentenzi. Sentenza hija magħmula minn kliem. Il-kliem naqsmuh f'sillabi, u nistgħu nċapċpuhom. Is-sillabi huma magħmula minn ħsejjes. Il-ħoss nisimgħuh u ngħiduh, l-ittra narawha u niktbuha.",
+    "sample": "Il-mara tkanta. / ma-ra / m-a-r-a",
+    "worked": "Fis-sentenza hemm żewġ kelmiet: Il-mara u tkanta. Fil-kelma mara hemm żewġ sillabi, ma-ra, u erba' ħsejjes, m-a-r-a. Immorru mill-kbir għaż-żgħir: sentenza, kelma, sillaba, ħoss.",
+    "exercises": [
+     "Kemm hemm kliem fis-sentenza: Sara tiġri?",
+     "Ċapċap il-kelma ballun.",
+     "Kemm hemm ħsejjes fil-kelma dar?",
+     "Għid sentenza dwar il-borża tiegħek.",
+     "X'inhu l-ewwel ħoss fil-kelma ilma?"
+    ],
+    "test": [
+     "Minn xiex hija magħmula sentenza?",
+     "Kemm hemm sillabi fil-kelma kelba?",
+     "Kemm hemm ħsejjes fil-kelma sema?",
+     "X'inhu l-aħħar ħoss fil-kelma sema?",
+     "X'inhi d-differenza bejn ħoss u ittra?"
+    ],
+    "steps": [
+     "Għid is-sentenza u għodd il-kliem fuq subgħajk.",
+     "Ċapċap il-kelma: ċapċapa waħda hija sillaba waħda.",
+     "Għid il-kelma bil-mod biex tisma' kull ħoss waħdu.",
+     "Żball komuni: tħawwad sillaba ma' ħoss. Is-sillaba nċapċpuha, il-ħoss ngħiduh waħdu."
+    ],
+    "answers": [
+     "Minn kliem.",
+     "Tnejn: kel-ba.",
+     "Erbgħa: s-e-m-a.",
+     "a.",
+     "Il-ħoss nisimgħuh u ngħiduh, l-ittra narawha u niktbuha."
+    ]
+   }
+  },
+  "eu-year-mt-beginner-1-l03": {
+   "mt": {
+    "title": "Vokali u konsonanti",
+    "theory": "Il-vokali ngħiduhom b'mod ħieles, b'ħalqna miftuħ: a, e, i, o, u. Il-konsonanti ngħiduhom b'xi xkiel: ix-xufftejn, is-snien jew l-ilsien iwaqqfu l-arja. F'kull sillaba hemm vokali.",
+    "sample": "vokali: a, e, i, o, u / konsonanti: m, n, l, s / ma-ra — żewġ vokali, żewġ sillabi",
+    "worked": "Fil-kelma sema, il-vokali huma e u a, filwaqt li s u m huma konsonanti. Kemm hemm vokali, daqshekk hemm sillabi: se-ma, żewġ sillabi.",
+    "exercises": [
+     "Semmi l-vokali kollha.",
+     "Sib il-vokali fil-kelma dar.",
+     "Għid kelma li tibda b'konsonant.",
+     "Għodd il-vokali fil-kelma banana.",
+     "Għid bil-mod: a, e, i, o, u."
+    ],
+    "test": [
+     "Kif ngħidu l-vokali?",
+     "Kemm hemm vokali fil-kelma mara?",
+     "Kemm hemm sillabi fil-kelma banana?",
+     "Hemm sillaba mingħajr vokali?",
+     "Liema ħoss tisma' fil-bidu tal-kelma omm?"
+    ],
+    "steps": [
+     "Għid il-kelma bil-mod u b'leħen għoli.",
+     "Ħoss li tista' ttawwlu b'ħalqek miftuħ huwa vokali.",
+     "Għodd il-vokali: kemm hemm vokali, daqshekk hemm sillabi.",
+     "Żball komuni: taħseb li kull ħoss huwa sillaba. Is-sillaba hija vokali flimkien mal-konsonanti."
+    ],
+    "answers": [
+     "B'mod ħieles, b'ħalqna miftuħ.",
+     "Tnejn: a u a.",
+     "Tlieta: ba-na-na.",
+     "Le, f'kull sillaba hemm vokali.",
+     "o."
+    ]
+   }
+  },
+  "eu-year-mt-beginner-1-l04": {
+   "mt": {
+    "title": "Inħejju l-id għall-kitba",
+    "theory": "Qabel niktbu, insaħħnu idejna: npinġu ċrieki, mewġ u ovali. Noqogħdu dritti, saqajna mal-art. Inżommu l-lapes ħafif bi tliet swaba' u ma nagħfsux wisq.",
+    "sample": "L-ewwel ringiela: linji dritti. / It-tieni ringiela: mewġ. / It-tielet ringiela: ovali. / Ir-raba' ringiela: ċrieki.",
+    "worked": "Dawn il-forom insibuhom fl-ittri: l-ovali f'o u a, il-linja dritta f'i u t, u ċ-ċirku fl-ittra l. Meta nipprattikawhom, l-ittri jsiru isbaħ. Niktbu mix-xellug għal-lemin.",
+    "exercises": [
+     "Pinġi ringiela ovali.",
+     "Pinġi ringiela mewġ.",
+     "Uri kif iżżomm il-lapes.",
+     "Bis-saba' pinġi ċirku fl-arja.",
+     "Sib l-ovali fl-ittra a."
+    ],
+    "test": [
+     "B'kemm swaba' nżommu l-lapes?",
+     "Kif noqogħdu meta niktbu?",
+     "Lejn liema direzzjoni niktbu?",
+     "F'liema ittra hemm ovali?",
+     "X'tagħmel meta idek tkun għajjiena?"
+    ],
+    "steps": [
+     "Oqgħod dritt u poġġi saqajk mal-art.",
+     "Żomm il-lapes bi tliet swaba' u tagħfasx.",
+     "Ikteb mix-xellug għal-lemin u żomm mal-linja.",
+     "Żball komuni: tagħfas wisq il-lapes. Meta idek tiegħja, ħawwadha u strieħ."
+    ],
+    "answers": [
+     "Bi tlieta.",
+     "Dritti, saqajna mal-art.",
+     "Mix-xellug għal-lemin.",
+     "Fl-ittri o u a.",
+     "Inħawwad idi u nistrieħ."
+    ]
+   }
+  },
+  "eu-year-mt-beginner-1-l05": {
+   "mt": {
+    "title": "Il-vokali A, E, I, O, U",
+    "theory": "L-ewwel nitgħallmu l-vokali A, E, I, O, U. Kull ittra għandha forma kbira u forma żgħira. Niktbu ittra kbira fil-bidu tas-sentenza u fl-ismijiet.",
+    "sample": "A a, E e, I i, O o, U u / a bħal f'arloġġ, o bħal f'omm, i bħal f'Ivan",
+    "worked": "Fil-bidu tal-kelma omm nisimgħu o. Fil-bidu tal-kelma Ivan nisimgħu i, u peress li huwa isem, niktbu I kbira.",
+    "exercises": [
+     "Semmi l-vokali b'ordni.",
+     "Ikteb ringiela tal-ittra o.",
+     "Liema ħoss tisma' fil-bidu ta' Ivan?",
+     "Għid kelma li tibda b'u.",
+     "Agħmel ċirku madwar il-vokali: a m o u."
+    ],
+    "test": [
+     "Liema ittri tgħallimna?",
+     "Liema ħoss hemm fil-bidu tal-kelma omm?",
+     "Liema ittra niktbu fil-bidu ta' Ivan?",
+     "Kemm-il forma għandha kull ittra?",
+     "B'liema ittra tibda l-kelma elefant?"
+    ],
+    "steps": [
+     "Għid il-kelma bil-mod u ċar.",
+     "Isma' liema vokali qed tgħid.",
+     "Sib dik l-ittra u iktibha.",
+     "Żball komuni: tikteb ittri ta' daqsijiet differenti. L-ittri kollha jkunu bejn il-linji."
+    ],
+    "answers": [
+     "A, E, I, O, U.",
+     "o.",
+     "I kbira.",
+     "Tnejn: kbira u żgħira.",
+     "e."
+    ]
+   }
+  },
+  "eu-year-mt-beginner-1-l06": {
+   "mt": {
+    "title": "L-ittri M, N, L, S, T, R: l-ewwel sillabi",
+    "theory": "Il-konsonanti M, N, L, S, T, R ngħaqqduhom mal-vokali biex nagħmlu sillabi: ma, no, lu, si, te, ra. Mis-sillabi nagħmlu kliem: ma-ra, nan-na, se-ma.",
+    "sample": "ma, me, mi, mo / na, no / la, le / sa, si / ta, te / ra, ri / mara, nanna, sema, tama / Nanna u Rita. / Sara tara.",
+    "worked": "Is-sillaba naqrawha flimkien: m u a flimkien jagħmlu ma. Fil-kelma nanna hemm żewġ sillabi: nan-na. Rita hija isem, għalhekk niktbuha b'ittra kbira.",
+    "exercises": [
+     "Aqra: ma, mo, mu.",
+     "Aqra: la, li, le.",
+     "Aqra: mara, nanna, sema.",
+     "Għaqqad il-kelma mis-sillabi: Ri-ta.",
+     "Ikteb ringiela tal-ittra m."
+    ],
+    "test": [
+     "Kif naqraw m u a flimkien?",
+     "Kemm hemm sillabi fil-kelma nanna?",
+     "Aqra: Sara tara.",
+     "Kemm hemm kliem fis-sentenza Nanna u Rita?",
+     "Għaliex niktbu Rita b'ittra kbira?"
+    ],
+    "steps": [
+     "Ħares lejn il-konsonant u mill-ewwel lejn il-vokali ta' warajh.",
+     "Aqrahom flimkien bħala sillaba waħda.",
+     "Għaqqad is-sillabi f'kelma: nan-na.",
+     "Żball komuni: taqra ittra ittra: n, a, n, n, a. Aqra sillaba sillaba: nan-na."
+    ],
+    "answers": [
+     "Ma, bħala sillaba waħda.",
+     "Tnejn: nan-na.",
+     "Sara tara.",
+     "Tlieta.",
+     "Għax huwa isem."
+    ]
+   }
+  },
+  "eu-year-mt-beginner-1-l07": {
+   "mt": {
+    "title": "L-ittri K, P, B, D, F, V, W, J: naqraw sentenzi",
+    "theory": "L-ittri ġodda huma K, P, B, D, F, V, W u J. Issa naqraw sentenzi qosra. Is-sentenza tibda b'ittra kbira u tispiċċa b'punt. Ma nħawdux ħsejjes li jixxiebhu: b u p, d u t, v u f.",
+    "sample": "kelb, papra, ballun, dar, fjura, warda / Il-kelb fid-dar. / Il-ballun kbir. / Pawlu jara l-papra.",
+    "worked": "Is-sentenza Il-kelb fid-dar tibda b'ittra kbira u tispiċċa b'punt. Fil-kelma ballun hemm żewġ sillabi: bal-lun. Il-ħsejjes b u p jixxiebhu, għalhekk ngħiduhom bil-mod u nisimgħu.",
+    "exercises": [
+     "Aqra: ka, po, bi, de, fu.",
+     "Aqra: kelb, papra, ballun.",
+     "Aqra: Il-kelb fid-dar.",
+     "Ikteb ringiela tal-ittra k.",
+     "Agħmel sentenza bil-kelma warda."
+    ],
+    "test": [
+     "Fejn hu l-kelb?",
+     "Kif inhu l-ballun?",
+     "B'xiex tispiċċa sentenza?",
+     "Kemm hemm sillabi fil-kelma ballun?",
+     "Aqra: Pawlu jara l-papra."
+    ],
+    "steps": [
+     "Aqra sillaba sillaba: bal-lun.",
+     "Aqra s-sentenza kollha sal-punt.",
+     "Wieġeb il-mistoqsija: min? fejn? x'jagħmel?",
+     "Żball komuni: tieqaf f'nofs is-sentenza. Aqra sal-punt."
+    ],
+    "answers": [
+     "Fid-dar.",
+     "Kbir.",
+     "B'punt.",
+     "Tnejn: bal-lun.",
+     "Pawlu jara l-papra."
+    ]
+   }
+  },
+  "eu-year-mt-beginner-1-l08": {
+   "mt": {
+    "title": "L-ittri b'tikka: Ċ, Ġ, Ż",
+    "theory": "Fil-Malti xi ittri għandhom tikka fuqhom: ċ, ġ, ż. It-tikka tbiddel il-ħoss: ċ bħal f'ċavetta, ġ bħal f'ġelat, ż bħal f'żarbun. Mingħajr tikka, g hija iebsa bħal f'gallina, u z tinstema' ts bħal f'zalza.",
+    "sample": "ċavetta, ġelat, żarbun, gallina, zalza / Iż-żarbun ġdid. / Ġorġ jara ċ-ċavetta.",
+    "worked": "Fil-kelma ġelat, it-tikka fuq il-ġ tagħmel ħoss artab. Fil-kelma gallina, il-g mingħajr tikka hija iebsa. Allura t-tikka tbiddel il-kelma u ma ninsewhiex.",
+    "exercises": [
+     "Aqra: ċavetta, ġelat, żarbun.",
+     "Aqra: gallina, zalza.",
+     "Aqra: Iż-żarbun ġdid.",
+     "Ikteb ringiela tal-ittra ġ.",
+     "Sib l-ittra b'tikka fil-kelma ċavetta."
+    ],
+    "test": [
+     "X'tagħmel it-tikka?",
+     "Kif inhu ż-żarbun?",
+     "Liema ħoss hemm fil-bidu ta' gallina?",
+     "Kif tinstema' z fil-kelma zalza?",
+     "Aqra: Ġorġ jara ċ-ċavetta."
+    ],
+    "steps": [
+     "Ħares jekk l-ittra għandhiex tikka fuqha.",
+     "Jekk għandha tikka, għid il-ħoss artab: ċ, ġ, ż.",
+     "Aqra l-kelma darb'oħra u ċċekkja t-tifsira.",
+     "Żball komuni: tinsa t-tikka. Mingħajr tikka, ġelat jinkiteb ħażin."
+    ],
+    "answers": [
+     "Tbiddel il-ħoss tal-ittra.",
+     "Ġdid.",
+     "g iebsa.",
+     "Bħal ts.",
+     "Ġorġ jara ċ-ċavetta."
+    ]
+   }
+  },
+  "eu-year-mt-beginner-1-l09": {
+   "mt": {
+    "title": "L-ittri Għ, Ħ u H",
+    "theory": "Għ hija ittra waħda magħmula minn żewġ sinjali. Ħafna drabi ma tinstemax waħedha, imma ttawwal il-vokali ta' ħdejha: għasfur, għalliem. Ħ għandha ħoss mill-griżmejn: ħobż, ħuta. H waħedha ġeneralment ma tinstemax: hawn, hu.",
+    "sample": "għasfur, għalliem, ħobż, ħuta, hawn / Il-ħuta tgħum. / L-għasfur fuq is-siġra.",
+    "worked": "Fil-kelma ħuta nisimgħu ħ mill-griżmejn. Fil-kelma għasfur, l-għ ma tinstemax waħedha imma tagħmel l-a twila. Għ hija ittra waħda, mhux tnejn.",
+    "exercises": [
+     "Aqra: għasfur, għalliem.",
+     "Aqra: ħobż, ħuta.",
+     "Aqra: Il-ħuta tgħum.",
+     "Ikteb ringiela tal-ittra ħ.",
+     "Għid kelma li tibda b'għ."
+    ],
+    "test": [
+     "X'tagħmel il-ħuta?",
+     "Fejn hu l-għasfur?",
+     "Kemm-il ittra hi għ?",
+     "Tinstema' l-h fil-kelma hawn?",
+     "Aqra: L-għalliem fil-klassi."
+    ],
+    "steps": [
+     "Fittex għ, ħ jew h fil-kelma.",
+     "Ftakar: għ hija ittra waħda u ħ għandha ħoss mill-griżmejn.",
+     "Aqra l-kelma bil-mod, sillaba sillaba.",
+     "Żball komuni: tħawwad ħ ma' h. Ħ għandha linja u tinstema'; h ġeneralment ma tinstemax."
+    ],
+    "answers": [
+     "Tgħum.",
+     "Fuq is-siġra.",
+     "Ittra waħda.",
+     "Ġeneralment le.",
+     "L-għalliem fil-klassi."
+    ]
+   }
+  },
+  "eu-year-mt-beginner-1-l10": {
+   "mt": {
+    "title": "L-ittri Q, X u IE",
+    "theory": "Il-q fil-Malti hija waqfa qasira fil-griżmejn: qattus, qamar. Ix-x tinstema' bħal sh: xemx, xita. Ie hija ittra waħda magħmula minn żewġ sinjali, u tinstema' twila: bieb, tieqa.",
+    "sample": "qattus, qamar, xemx, xita, bieb, tieqa / Il-qattus jorqod. / Ix-xemx tiddi.",
+    "worked": "Fil-kelma qattus, il-q tinstema' bħal waqfa qasira fil-griżmejn. Fil-kelma xemx hemm żewġ x, u t-tnejn jinstemgħu bħal sh. Fil-kelma bieb, ie hija ittra waħda u tinstema' twila.",
+    "exercises": [
+     "Aqra: qattus, qamar.",
+     "Aqra: xemx, xita.",
+     "Aqra: Il-qattus jorqod.",
+     "Ikteb ringiela tal-ittra q.",
+     "Sib ie fil-kelma tieqa."
+    ],
+    "test": [
+     "X'jagħmel il-qattus?",
+     "X'tagħmel ix-xemx?",
+     "Kif tinstema' x?",
+     "Kemm-il ittra hi ie?",
+     "Aqra: Il-bieb miftuħ."
+    ],
+    "steps": [
+     "Fittex q, x jew ie fil-kelma.",
+     "Ftakar: q hija waqfa qasira u x tinstema' bħal sh.",
+     "Aqra l-kelma bil-mod u ċċekkja.",
+     "Żball komuni: taqra q bħal k. Il-q Maltija hija waqfa qasira fil-griżmejn."
+    ],
+    "answers": [
+     "Jorqod.",
+     "Tiddi.",
+     "Bħal sh.",
+     "Ittra waħda.",
+     "Il-bieb miftuħ."
+    ]
+   }
+  },
+  "eu-year-mt-beginner-1-l11": {
+   "mt": {
+    "title": "L-alfabett Malti",
+    "theory": "L-ittri għandhom ordni partikolari: l-alfabett. Fl-alfabett Malti hemm 30 ittra: a, b, ċ, d, e, f, ġ, g, għ, h, ħ, i, ie, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, ż, z. Fid-dizzjunarju l-kliem huwa f'ordni alfabetika.",
+    "sample": "Il-bidu tal-alfabett: a, b, ċ, d, e, f, ġ, g. / Poġġi f'ordni: tuffieħa, ballun, kelb → ballun, kelb, tuffieħa.",
+    "worked": "Ballun jibda b'b, kelb b'k, u tuffieħa b't. Fl-alfabett b tiġi qabel k, u k qabel t, għalhekk l-ordni hija ballun, kelb, tuffieħa. Ftakar li ċ tiġi qabel d.",
+    "exercises": [
+     "Għid l-alfabett sal-ittra k.",
+     "Liema ittra tiġi wara m?",
+     "Poġġi f'ordni alfabetika: mara, dar, ħuta.",
+     "Fittex il-kelma qattus fid-dizzjunarju.",
+     "Semmi l-ewwel u l-aħħar ittra tal-alfabett."
+    ],
+    "test": [
+     "X'inhu l-alfabett?",
+     "Kemm hemm ittri fl-alfabett Malti?",
+     "Poġġi f'ordni: xemx, ballun, ilma.",
+     "Għal xiex jiswa l-ordni tal-alfabett?",
+     "B'liema ittra jispiċċa l-alfabett?"
+    ],
+    "steps": [
+     "Ħares lejn l-ewwel ittra ta' kull kelma.",
+     "Sib dawk l-ittri fl-alfabett.",
+     "Ikteb l-ewwel il-kelma li l-ittra tagħha hija l-eqreb lejn il-bidu.",
+     "Żball komuni: tinsa l-ittri b'tikka u l-ittri doppji. Għandhom posthom fl-alfabett ukoll."
+    ],
+    "answers": [
+     "Ittri f'ordni partikolari.",
+     "30.",
+     "ballun, ilma, xemx.",
+     "Biex insibu kliem malajr fid-dizzjunarju.",
+     "z."
+    ]
+   }
+  },
+  "eu-year-mt-beginner-1-l12": {
+   "mt": {
+    "title": "Naqraw u nifhmu",
+    "theory": "Issa nafu l-ittri kollha. Meta naqraw, ngħaqqdu l-ħsejjes fi kliem u naħsbu xi jfisser. Wara l-qari nwieġbu: min, fejn, x'qed jagħmel.",
+    "sample": "Ella u Jake qegħdin fil-ġnien. Jake qed jilgħab bil-ballun. Ella qed titma' l-papri.",
+    "worked": "Fit-test hemm tliet sentenzi. Min? Ella u Jake. Fejn? Fil-ġnien. X'qed jagħmlu? Jake qed jilgħab bil-ballun, u Ella qed titma' l-papri.",
+    "exercises": [
+     "Aqra t-test b'leħen għoli.",
+     "Uri l-punti kollha.",
+     "Għid fejn huma t-tfal.",
+     "Pinġi lil Jake bil-ballun.",
+     "Żid sentenza oħra dwar Ella."
+    ],
+    "test": [
+     "Min hemm fil-ġnien?",
+     "X'qed jagħmel Jake?",
+     "X'qed tagħmel Ella?",
+     "Kemm hemm sentenzi fit-test?",
+     "Fejn huma t-tfal?"
+    ],
+    "steps": [
+     "Aqra t-test bil-mod, sentenza sentenza.",
+     "Staqsi lilek innifsek: min? fejn? x'qed jagħmel?",
+     "Fittex it-tweġiba fit-test.",
+     "Żball komuni: twieġeb minn moħħok. Fittex it-tweġiba fit-test."
+    ],
+    "answers": [
+     "Ella u Jake.",
+     "Qed jilgħab bil-ballun.",
+     "Qed titma' l-papri.",
+     "Tlieta.",
+     "Fil-ġnien."
+    ]
+   }
+  },
+  "eu-year-mt-beginner-1-l13": {
+   "mt": {
+    "title": "L-ittra kbira fl-ismijiet",
+    "theory": "Nużaw ittra kbira fil-bidu tas-sentenza, għall-ismijiet tan-nies u tal-annimali, u għall-ismijiet tal-bliet, l-irħula u l-gżejjer. Il-kliem l-ieħor niktbuh b'ittra żgħira.",
+    "sample": "Pawlu Borg joqgħod il-Qala, f'Għawdex. Għandu kelb jismu Rex. Fis-sajf imur Marsaxlokk.",
+    "worked": "Pawlu Borg, Rex, il-Qala, Għawdex u Marsaxlokk huma ismijiet proprji, għalhekk niktbuhom b'ittra kbira. Il-kliem kelb u sajf huma kliem komuni, għalhekk niktbuhom b'ittra żgħira.",
+    "exercises": [
+     "Sib l-ismijiet proprji kollha fl-eżempju.",
+     "Ikteb ismek u kunjomok.",
+     "Ikteb isem ta' annimal.",
+     "Ikkoreġi: jien noqgħod il-mosta.",
+     "Niktbu l-kelma qattus b'ittra kbira?"
+    ],
+    "test": [
+     "X'jismu l-kelb?",
+     "F'liema gżira jgħix Pawlu?",
+     "Ikteb sew: sara tilgħab ma' rex",
+     "Meta nużaw ittra kbira?",
+     "Għawdex hija belt jew gżira?"
+    ],
+    "steps": [
+     "Staqsi: dan huwa isem ta' persuna, annimal, belt jew gżira?",
+     "Jekk iva, uża ittra kbira.",
+     "Uża ittra kbira wkoll fil-bidu ta' kull sentenza.",
+     "Żball komuni: tikteb b'ittra kbira kliem komuni: kelb, belt."
+    ],
+    "answers": [
+     "Rex.",
+     "F'Għawdex.",
+     "Sara tilgħab ma' Rex.",
+     "Fil-bidu tas-sentenza u fl-ismijiet proprji.",
+     "Gżira."
+    ]
+   }
+  },
+  "eu-year-mt-beginner-1-l14": {
+   "mt": {
+    "title": "Il-punt, il-punt interrogattiv u l-punt esklamattiv",
+    "theory": "Sentenza li tgħid xi ħaġa tispiċċa b'punt. Sentenza li tistaqsi tispiċċa b'punt interrogattiv. Sentenza li turi ferħ, sorpriża jew ordni tispiċċa b'punt esklamattiv.",
+    "sample": "Illum ix-xemx tiddi. Ġej barra? X'jum sabiħ!",
+    "worked": "L-ewwel sentenza tgħid: punt. It-tieni tistaqsi: punt interrogattiv. It-tielet turi ferħ: punt esklamattiv. Kull waħda tibda b'ittra kbira.",
+    "exercises": [
+     "Poġġi s-sinjal: X'jismek",
+     "Poġġi s-sinjal: Għandi qattus",
+     "Aħseb f'mistoqsija għall-għalliema.",
+     "Aħseb f'sentenza b'punt esklamattiv.",
+     "Għodd is-sentenzi fl-eżempju."
+    ],
+    "test": [
+     "B'xiex tispiċċa mistoqsija?",
+     "B'liema ittra tibda sentenza?",
+     "Ikteb sew: qed tagħmel ix-xita",
+     "Liema sentenza fl-eżempju turi ferħ?",
+     "Kemm hemm sentenzi fl-eżempju?"
+    ],
+    "steps": [
+     "Staqsi: is-sentenza tgħid, tistaqsi jew turi sentiment?",
+     "Tgħid — punt; tistaqsi — punt interrogattiv; sentiment — punt esklamattiv.",
+     "Iċċekkja l-ittra kbira fil-bidu.",
+     "Żball komuni: tinsa l-punt interrogattiv f'mistoqsija qasira: Ġej?"
+    ],
+    "answers": [
+     "B'punt interrogattiv.",
+     "B'ittra kbira.",
+     "Qed tagħmel ix-xita.",
+     "X'jum sabiħ!",
+     "Tlieta."
+    ]
+   }
+  },
+  "eu-year-mt-beginner-1-l15": {
+   "mt": {
+    "title": "L-artiklu: il- u l-ittri xemxin",
+    "theory": "Quddiem il-kliem inpoġġu l-artiklu il-: il-kelb, il-ballun. Imma quddiem l-ittri xemxin (ċ, d, n, r, s, t, x, ż, z) l-l tinbidel fl-istess ittra: ix-xemx, id-dar, it-tifel. Quddiem vokali niktbu l-: l-ilma.",
+    "sample": "il-kelb, il-qamar / ix-xemx, id-dar, is-siġra, it-tieqa / l-ilma, l-omm",
+    "worked": "Qamar jibda b'q, li hija ittra qamrija, għalhekk niktbu il-qamar. Xemx jibda b'x, li hija ittra xemxija, għalhekk niktbu ix-xemx. Ilma jibda b'vokali, għalhekk niktbu l-ilma.",
+    "exercises": [
+     "Poġġi l-artiklu: kelb.",
+     "Poġġi l-artiklu: dar.",
+     "Poġġi l-artiklu: ilma.",
+     "Aqra: ix-xemx u l-qamar.",
+     "Semmi tliet ittri xemxin."
+    ],
+    "test": [
+     "X'inhu l-artiklu?",
+     "Ikteb bl-artiklu: tifel",
+     "Ikteb bl-artiklu: ballun",
+     "Għaliex niktbu ix-xemx u mhux il-xemx?",
+     "Ikteb bl-artiklu: omm"
+    ],
+    "steps": [
+     "Ħares lejn l-ewwel ittra tal-kelma.",
+     "Jekk hija ittra xemxija, l-l tinbidel f'dik l-ittra: id-dar.",
+     "Jekk tibda b'vokali, ikteb l- biss: l-ilma.",
+     "Żball komuni: tikteb il-dar. Peress li d hija xemxija, niktbu id-dar."
+    ],
+    "answers": [
+     "Il-kelma żgħira il- quddiem in-nom.",
+     "it-tifel.",
+     "il-ballun.",
+     "Għax x hija ittra xemxija.",
+     "l-omm."
+    ]
+   }
+  },
+  "eu-year-mt-beginner-1-l16": {
+   "mt": {
+    "title": "Ikkopjar u dettatura",
+    "theory": "Meta nikkopjaw niktbu test mill-ktieb jew mill-pjanċa. Fid-dettatura niktbu dak li nisimgħu. Wara dejjem naqraw mill-ġdid u niċċekkjaw.",
+    "sample": "Dettatura: Sara għandha qattusa. Il-qattusa griża. Torqod fix-xemx.",
+    "worked": "Fid-dettatura hemm tliet sentenzi. Sara hija isem, għalhekk tibda b'ittra kbira. Kull sentenza tispiċċa b'punt. Wara d-dettatura niċċekkjaw l-ittri kbar, il-punti, it-tikek u l-artiklu.",
+    "exercises": [
+     "Ikkopja sentenza mill-pjanċa.",
+     "Ikteb dettatura li jaqralek adult.",
+     "Iċċekkja t-tikek fuq ċ, ġ u ż.",
+     "Għodd is-sentenzi fid-dettatura.",
+     "Agħmel linja taħt kelma li tidhirlek diffiċli."
+    ],
+    "test": [
+     "X'inhu l-ikkopjar?",
+     "X'kulur hi l-qattusa?",
+     "Kemm hemm sentenzi fid-dettatura?",
+     "X'niċċekkjaw wara d-dettatura?",
+     "Ikteb: Il-qattusa torqod."
+    ],
+    "steps": [
+     "Isma' s-sentenza kollha qabel tikteb.",
+     "Ikteb kelma kelma u għidha bil-mod f'moħħok.",
+     "Fl-aħħar iċċekkja l-ittri kbar, il-punti u t-tikek.",
+     "Żball komuni: ma tiċċekkjax it-test. Ħafna drabi nsibu l-iżbalji meta naqraw mill-ġdid."
+    ],
+    "answers": [
+     "Niktbu test mill-ktieb jew mill-pjanċa.",
+     "Griża.",
+     "Tlieta.",
+     "L-ittri kbar, il-punti, it-tikek u l-artiklu.",
+     "Il-qattusa torqod."
+    ]
+   }
+  },
+  "eu-year-mt-beginner-1-l17": {
+   "mt": {
+    "title": "Rimi tal-għadd u frażijiet diffiċli",
+    "theory": "Il-folklor huwa kanzunetti, rimi, ħwejjeġ moħġaġa u stejjer li n-nies għaddew minn fomm għal fomm għal żmien twil. Ir-rima tal-għadd tgħinna nagħżlu min joħroġ fil-logħba. Għandha ritmu u kliem li jdoqq simili.",
+    "sample": "Rima tiegħi: Wieħed, tnejn, tlieta, / qattus fuq it-tieqa! / Inti toħroġ! / Frażi diffiċli tiegħi: Sebgħa sriep sbieħ sejrin is-suq.",
+    "worked": "Fir-rima hemm ritmu u kliem li jdoqq simili: tlieta — tieqa. Il-frażi diffiċli hija hekk għax il-ħoss s jirrepeti ruħu. L-ewwel ngħiduha bil-mod, imbagħad aktar malajr.",
+    "exercises": [
+     "Għid ir-rima u agħżel min joħroġ.",
+     "Għid il-frażi tliet darbiet.",
+     "Sib il-kliem li jdoqq simili fir-rima.",
+     "Ivvinta rima tiegħek.",
+     "Għid rima li taf."
+    ],
+    "test": [
+     "X'inhu l-folklor?",
+     "Għal xiex tiswa r-rima tal-għadd?",
+     "Liema ħoss jirrepeti ruħu fil-frażi?",
+     "Liema kelma tidoqq simili għal tlieta?",
+     "Għal xiex tiswa frażi diffiċli?"
+    ],
+    "steps": [
+     "Aqra t-test bil-mod u b'leħen għoli.",
+     "Sib ir-ritmu u l-kliem li jdoqq simili.",
+     "Irrepeti aktar malajr, imma ċar.",
+     "Żball komuni: tgħid il-frażi malajr mill-ewwel. L-ewwel bil-mod u ċar."
+    ],
+    "answers": [
+     "Kanzunetti, rimi, ħwejjeġ moħġaġa u stejjer li għaddew minn fomm għal fomm.",
+     "Biex nagħżlu min joħroġ.",
+     "s.",
+     "Tieqa.",
+     "Biex nitgħallmu nitkellmu malajr u ċar."
+    ]
+   }
+  },
+  "eu-year-mt-beginner-1-l18": {
+   "mt": {
+    "title": "Kanzunetta tan-ninni",
+    "theory": "Kanzunetta tan-ninni hija kanzunetta ħelwa li l-omm jew il-missier ikantaw biex it-tarbija torqod. Il-kliem huwa kalm u spiss jirrepeti. Fiha jintuża kliem ħelu bħal ħanini u tarbija.",
+    "sample": "Kanzunetta tiegħi: / Orqod, ħanini, orqod, / il-qamar fis-sema; / orqod, ħanini, orqod, / il-kwiekeb qed iħarsu.",
+    "worked": "Fil-kanzunetta hemm erba' linji. L-ewwel linja tirrepeti: Orqod, ħanini, orqod. Il-burdata hija kalma u ħelwa, għax l-iskop tal-kanzunetta huwa li t-tarbija torqod.",
+    "exercises": [
+     "Aqra l-kanzunetta bil-kwiet.",
+     "Sib il-linja li tirrepeti.",
+     "Għid għaliex in-nies ikantaw kanzunetti tan-ninni.",
+     "Pinġi tarbija rieqda.",
+     "Għid x'hemm fis-sema fil-kanzunetta."
+    ],
+    "test": [
+     "Kemm hemm linji fil-kanzunetta?",
+     "X'inhi kanzunetta tan-ninni?",
+     "Min qed iħarsu?",
+     "Liema linja tirrepeti?",
+     "X'inhi l-burdata tal-kanzunetta?"
+    ],
+    "steps": [
+     "Aqra l-kanzunetta linja linja.",
+     "Fittex il-kliem li jirrepeti.",
+     "Għid bi kliemek dwar xiex inhi.",
+     "Żball komuni: taqra kanzunetta tan-ninni b'leħen għoli u malajr. Naqrawha bil-kwiet u bil-mod."
+    ],
+    "answers": [
+     "Erbgħa.",
+     "Kanzunetta ħelwa biex it-tarbija torqod.",
+     "Il-kwiekeb.",
+     "Orqod, ħanini, orqod.",
+     "Kalma u ħelwa."
+    ]
+   }
+  },
+  "eu-year-mt-beginner-1-l19": {
+   "mt": {
+    "title": "Poeżija: vers, rima, burdata",
+    "theory": "Il-poeżija hija magħmula minn versi. Il-kliem fl-aħħar tal-versi spiss jirrima. Il-poeżija naqrawha bil-mod u fl-aħħar ta' kull vers nieqfu ftit.",
+    "sample": "Poeżija tiegħi: / Fil-lejl fis-sema hemm il-qamar, / u d-dawl tiegħu jidħol fid-dar. / Il-qattus jorqod ħdejn il-bieb, / u jien noħlom b'ħafna ħbieb.",
+    "worked": "Fil-poeżija hemm erba' versi. Qamar jirrima ma' dar, u bieb jirrima ma' ħbieb. Il-burdata hija kalma u ta' bil-lejl. Fl-aħħar ta' kull vers nieqfu ftit.",
+    "exercises": [
+     "Aqra l-poeżija b'leħen għoli.",
+     "Sib il-kelma li tirrima ma' bieb.",
+     "Tgħallem bl-amment l-ewwel żewġ versi.",
+     "Pinġi l-qattus ħdejn il-bieb.",
+     "Aħseb f'kelma oħra li tirrima ma' dar."
+    ],
+    "test": [
+     "Kemm hemm versi fil-poeżija?",
+     "Fejn jorqod il-qattus?",
+     "X'inhu vers?",
+     "X'inhi rima?",
+     "Aħseb f'kelma li tirrima ma' ħmar."
+    ],
+    "steps": [
+     "Aqra l-poeżija vers vers.",
+     "Ħares lejn l-aħħar kelma ta' kull vers u fittex ir-rimi.",
+     "Tgħallem żewġ versi kull darba.",
+     "Żball komuni: taqra mingħajr waqfiet. Fl-aħħar ta' kull vers ieqaf ftit."
+    ],
+    "answers": [
+     "Erbgħa.",
+     "Ħdejn il-bieb.",
+     "Linja waħda tal-poeżija.",
+     "Kliem li jispiċċa bl-istess ħoss.",
+     "It-tweġiba tiegħek. Pereżempju: baħar."
+    ]
+   }
+  },
+  "eu-year-mt-beginner-1-l20": {
+   "mt": {
+    "title": "Storja ta' Ġaħan: Ġaħan u l-bieb",
+    "theory": "Ġaħan huwa karattru famuż tal-istejjer folkloristiċi Maltin. Huwa jifhem kollox kelma b'kelma, u għalhekk jagħmel affarijiet li jidħku. L-istejjer tiegħu ilhom jgħaddu minn fomm għal fomm.",
+    "sample": "Nirrakkonta bi kliemi: Omm Ġaħan kellha toħroġ u qaltlu: Meta toħroġ, iġbed il-bieb warajk. Ġaħan ħareġ, qala' l-bieb minn postu u ġarrbu fuq dahru. Il-bieb baqa' miegħu, u d-dar baqgħet miftuħa.",
+    "worked": "Il-karattri huma Ġaħan u ommu. Omm Ġaħan riedet li jagħlaq il-bieb, imma Ġaħan fehem kelma b'kelma: li jieħu l-bieb miegħu. L-istorja tidħak u turina li rridu nifhmu x'iridu jgħidulna n-nies.",
+    "exercises": [
+     "Irrakkonta l-bidu tal-istorja.",
+     "Semmi l-karattri.",
+     "Pinġi lil Ġaħan iġorr il-bieb.",
+     "Irrappreżentaw l-istorja fi gruppi.",
+     "Għid x'kienet trid tgħid omm Ġaħan."
+    ],
+    "test": [
+     "Min hu Ġaħan?",
+     "X'qaltlu ommu?",
+     "X'għamel Ġaħan bil-bieb?",
+     "Kif baqgħet id-dar?",
+     "Għaliex l-istorja tidħak?"
+    ],
+    "steps": [
+     "Sib il-karattri tal-istorja.",
+     "Irrakkonta b'ordni: fil-bidu, imbagħad, fl-aħħar.",
+     "Qabbel dak li qalet l-omm ma' dak li għamel Ġaħan.",
+     "Żball komuni: tinsa x'riedet tgħid l-omm. Id-daħka tinftiehem biss meta tqabbel il-kliem tagħha ma' dak li għamel Ġaħan."
+    ],
+    "answers": [
+     "Karattru tal-istejjer folkloristiċi Maltin.",
+     "Meta toħroġ, iġbed il-bieb warajk.",
+     "Qalgħu u ġarrbu fuq dahru.",
+     "Miftuħa.",
+     "Għax Ġaħan fehem kollox kelma b'kelma."
+    ]
+   }
+  },
+  "eu-year-mt-beginner-1-l21": {
+   "mt": {
+    "title": "Ħrafa: Il-ljun u l-ġurdien",
+    "theory": "Il-ħrafa hija storja qasira fejn l-annimali jitkellmu u jġibu ruħhom bħal nies. Fl-aħħar hemm tagħlima. Ħafna ħrejjef irrakkontahom ir-rakkontatur Grieg Esopu.",
+    "sample": "Nirrakkonta bi kliemi: Ġurdien qajjem ljun li kien rieqed. Il-ljun ried jikolu, imma ħallieh imur. Wara, il-ljun inqabad f'xibka. Il-ġurdien gerrem ix-xibka u ħeles lill-ljun.",
+    "worked": "Il-karattri huma l-ljun u l-ġurdien. Il-ljun huwa b'saħħtu u l-ġurdien żgħir, imma xorta għenu. It-tagħlima: anke ż-żgħir jista' jgħin lill-kbir, u t-tjieba terġa' lura.",
+    "exercises": [
+     "Irrakkonta l-ħrafa.",
+     "Pinġi l-ġurdien ħdejn ix-xibka.",
+     "Kif inhu l-ljun fil-bidu?",
+     "Għid it-tagħlima bi kliemek.",
+     "Ivvinta tmiem ieħor."
+    ],
+    "test": [
+     "Min huma l-karattri tal-ħrafa?",
+     "Għaliex il-ljun ħalla lill-ġurdien imur?",
+     "X'ġara lill-ljun wara?",
+     "Kif għenu l-ġurdien?",
+     "X'inhi t-tagħlima?"
+    ],
+    "steps": [
+     "Sib il-karattri: il-ljun u l-ġurdien.",
+     "Għid x'jiġri fil-bidu u fl-aħħar.",
+     "Fittex it-tagħlima: x'tgħallimna l-ħrafa?",
+     "Żball komuni: taħseb li l-ħrafa hija biss dwar l-annimali. L-annimali juruna kif iġibu ruħhom in-nies."
+    ],
+    "answers": [
+     "Il-ljun u l-ġurdien.",
+     "Għax ħassu għalih.",
+     "Inqabad f'xibka.",
+     "Gerrem ix-xibka.",
+     "Anke ż-żgħir jista' jgħin lill-kbir."
+    ]
+   }
+  },
+  "eu-year-mt-beginner-1-l22": {
+   "mt": {
+    "title": "Ħwejjeġ moħġaġa",
+    "theory": "Il-ħaġa moħġaġa tiddeskrivi xi ħaġa mingħajr ma tgħid isimha. Nisimgħu kull ħjiel u naqtgħu. Il-ħwejjeġ moħġaġa huma parti mill-folklor.",
+    "sample": "Ħaġa moħġaġa tiegħi: Għandha l-weraq, imma mhix siġra; għandha l-paġni u tgħallmek. (ktieb) / Ħaġa moħġaġa tiegħi: Għandha erba' saqajn, imma ma timxix. (mejda)",
+    "worked": "Ħjiel: weraq u paġni, imma mhux siġra, u jgħallmek — huwa ktieb. Fit-tieni: erba' saqajn, imma ma timxix — mejda. It-tweġiba niċċekkjawha ma' kull ħjiel.",
+    "exercises": [
+     "Aqta': Hija tonda, safra u tiddi fis-sema. (ix-xemx)",
+     "Ivvinta ħaġa moħġaġa dwar il-qamar.",
+     "Staqsi ħaġa moħġaġa lil sieħbek.",
+     "Pinġi t-tweġiba.",
+     "Semmi l-ħjiel tal-ħaġa moħġaġa dwar il-ktieb."
+    ],
+    "test": [
+     "X'inhi ħaġa moħġaġa?",
+     "X'inhi t-tweġiba tal-ewwel waħda?",
+     "Għaliex il-mejda ma timxix?",
+     "Kif tiċċekkja t-tweġiba?",
+     "Ivvinta ħaġa moħġaġa dwar qattus."
+    ],
+    "steps": [
+     "Isma' l-ħaġa moħġaġa sal-aħħar.",
+     "Sib kull ħjiel u semmih.",
+     "Iċċekkja t-tweġiba ma' kull ħjiel.",
+     "Żball komuni: twieġeb wara l-ewwel ħjiel. Isma' l-ħaġa moħġaġa kollha."
+    ],
+    "answers": [
+     "Deskrizzjoni ta' xi ħaġa mingħajr isimha.",
+     "Ktieb.",
+     "Għax saqajha mhumiex ta' annimal.",
+     "Ma' kull ħjiel.",
+     "It-tweġiba tiegħek. Pereżempju: Għandu dwiefer u jagħmel mjaw. (qattus)"
+    ]
+   }
+  },
+  "eu-year-mt-beginner-1-l23": {
+   "mt": {
+    "title": "Test informattiv: il-qanfud",
+    "theory": "Test informattiv jagħtina tagħrif veru. Ma jirrakkontax storja vvintata. Naqrawh bl-attenzjoni u nfittxu t-tweġibiet fit-test.",
+    "sample": "Il-qanfud huwa annimal żgħir b'xewk fuq dahru. Jgħix fl-għelieqi u fil-ġonna. Il-qanfud jiekol insetti u bebbux. Fix-xitwa jagħmel bejta tal-weraq u jorqod.",
+    "worked": "It-test jgħidilna kif jidher il-qanfud, fejn jgħix, x'jiekol u x'jagħmel fix-xitwa. Dan huwa tagħrif veru. Fix-xitwa l-qanfud jorqod għal żmien twil, u dan jissejjaħ ibernazzjoni.",
+    "exercises": [
+     "Aqra t-test darbtejn.",
+     "Agħmel linja taħt dak li jiekol il-qanfud.",
+     "Pinġi l-qanfud fil-bejta.",
+     "Spjega bi kliemek x'inhi l-ibernazzjoni.",
+     "Staqsi mistoqsija dwar il-qanfud."
+    ],
+    "test": [
+     "X'għandu fuq dahru l-qanfud?",
+     "Fejn jgħix?",
+     "X'jiekol?",
+     "X'jagħmel fix-xitwa?",
+     "It-test informattiv huwa storja vvintata?"
+    ],
+    "steps": [
+     "Aqra l-mistoqsija u sib il-kelma importanti, pereżempju xitwa.",
+     "Fittex dik il-kelma fit-test.",
+     "It-tweġiba ġeneralment tkun fl-istess sentenza.",
+     "Żball komuni: tivvinta tweġiba. Wieġeb biss b'dak li hemm miktub fit-test."
+    ],
+    "answers": [
+     "Xewk.",
+     "Fl-għelieqi u fil-ġonna.",
+     "Insetti u bebbux.",
+     "Jagħmel bejta tal-weraq u jorqod.",
+     "Le, jagħti tagħrif veru."
+    ]
+   }
+  },
+  "eu-year-mt-beginner-1-l24": {
+   "mt": {
+    "title": "Konversazzjoni edukata u telefonata",
+    "theory": "Meta nitkellmu, inħarsu lejn il-persuna l-oħra. Insellmu, nitolbu bl-edukazzjoni, nirringrazzjaw u nitolbu skuża. Fuq it-telefon l-ewwel ngħidu min qed jitkellem, u fl-aħħar insellmu.",
+    "sample": "Kurt: Bonġu, Kurt jitkellem. In-nanna d-dar, jekk jogħġbok? / Iz-zija: Issa nsejħilha. / Kurt: Grazzi, saħħa.",
+    "worked": "L-ewwel Kurt qal min hu, imbagħad staqsa bl-edukazzjoni, u fl-aħħar irringrazzja. Fuq it-telefon ma jarawniex, għalhekk ngħidu min qed iċempel.",
+    "exercises": [
+     "Sellem lill-għalliema.",
+     "Itlob lapes lil sieħbek.",
+     "Irringrazzja għal rigal.",
+     "Irrappreżenta telefonata man-nanna.",
+     "Itlob skuża jekk tolqot lil xi ħadd."
+    ],
+    "test": [
+     "Lil min qed ifittex Kurt?",
+     "X'jgħid Kurt l-ewwel?",
+     "Liema kliem ta' edukazzjoni juża?",
+     "Għaliex ngħidu min aħna fuq it-telefon?",
+     "X'tgħid meta titlaq minn xi ħadd?"
+    ],
+    "steps": [
+     "Sellem u għid min int.",
+     "Għid it-talba tiegħek b'jekk jogħġbok.",
+     "Irringrazzja u sellem qabel tagħlaq.",
+     "Żball komuni: tibda telefonata mingħajr ma ssellem u mingħajr ma tgħid min qed iċempel."
+    ],
+    "answers": [
+     "Lin-nanna.",
+     "Bonġu, Kurt jitkellem.",
+     "Bonġu, jekk jogħġbok, grazzi, saħħa.",
+     "Għax ma jarawniex.",
+     "Saħħa."
+    ]
+   }
+  },
+  "eu-year-mt-beginner-1-l25": {
+   "mt": {
+    "title": "Nirrakkontaw minn stampi",
+    "theory": "Meta nirrakkontaw minn stampi, inħarsu lejhom wara xulxin. Għal kull stampa ngħidu sentenza: min, fejn, x'jagħmel. Nużaw il-kliem l-ewwel, imbagħad, fl-aħħar.",
+    "sample": "Stampa 1: tifel jiżra' żerriegħa. Stampa 2: isqiha. Stampa 3: kibret ġirasol. / Storja: L-ewwel Matthew żera' żerriegħa. Imbagħad saqaha kuljum. Fl-aħħar kibret ġirasol kbira.",
+    "worked": "Fl-istorja hemm tliet sentenzi, waħda għal kull stampa. Il-kliem l-ewwel, imbagħad, fl-aħħar juri l-ordni. Tajna isem lit-tifel biex l-istorja tkun aktar ħajja.",
+    "exercises": [
+     "Irrakkonta fi tliet sentenzi kif tħejji ruħek għall-iskola.",
+     "Uża l-kliem l-ewwel, imbagħad, fl-aħħar.",
+     "Pinġi tliet stampi dwar il-ġurnata tiegħek.",
+     "Aħseb f'titlu għall-istorja.",
+     "Irrakkonta lil sieħbek dwar il-Ħadd tiegħek."
+    ],
+    "test": [
+     "X'żera' Matthew?",
+     "X'għamel imbagħad?",
+     "X'kiber fl-aħħar?",
+     "Liema kliem juri l-ordni?",
+     "Kemm hemm stampi?"
+    ],
+    "steps": [
+     "Ħares lejn l-istampi wara xulxin.",
+     "Għal kull stampa għid sentenza: min, x'jagħmel.",
+     "Għaqqad is-sentenzi bl-ewwel, imbagħad, fl-aħħar.",
+     "Żball komuni: tirrakkonta biss dwar l-aħħar stampa. Kull stampa hija parti mill-istorja."
+    ],
+    "answers": [
+     "Żerriegħa.",
+     "Saqaha kuljum.",
+     "Ġirasol kbira.",
+     "L-ewwel, imbagħad, fl-aħħar.",
+     "Tlieta."
+    ]
+   }
+  },
+  "eu-year-mt-beginner-1-l26": {
+   "mt": {
+    "title": "Niddeskrivu ġugarell",
+    "theory": "Meta niddeskrivu xi ħaġa, ngħidu kif inhi: il-kulur, id-daqs, il-forma u minn xiex hi magħmula. Hekk min ma jarahiex jista' jimmaġinaha. Nibdew billi ngħidu x'inhi.",
+    "sample": "Għandi ors tal-ġugarell jismu Teddy. Huwa kannella u artab. Għandu widnejn tondi u mnieħer iswed. Madwar għonqu għandu żigarella ħamra. Norqod miegħu kull lejl.",
+    "worked": "Id-deskrizzjoni tibda billi tgħid x'inhu: ors jismu Teddy. Imbagħad titkellem dwar il-kulur, il-widnejn, l-imnieħer u ż-żigarella. Fl-aħħar tgħid għaliex inħobbuh. Kull sentenza titkellem dwar ħaġa waħda.",
+    "exercises": [
+     "Iddeskrivi l-ġugarell favorit tiegħek fi tliet sentenzi.",
+     "Għid il-kulur tal-borża tiegħek.",
+     "Iddeskrivi ballun: forma u kulur.",
+     "Aqta' l-ġugarell mid-deskrizzjoni ta' sieħbek.",
+     "Pinġi lil Teddy."
+    ],
+    "test": [
+     "X'kulur hu Teddy?",
+     "X'għandu madwar għonqu?",
+     "Kif huma widnejh?",
+     "Kif tibda d-deskrizzjoni?",
+     "Iddeskrivi l-lapes tiegħek f'sentenza waħda."
+    ],
+    "steps": [
+     "L-ewwel għid x'qed tiddeskrivi.",
+     "Għid il-kulur, id-daqs, il-forma u minn xiex hu magħmul.",
+     "Fl-aħħar għid għaliex jogħġbok.",
+     "Żball komuni: tgħid biss li hu sabiħ. Iddeskrivi kif inhu, biex ħaddieħor ikun jista' jimmaġinah."
+    ],
+    "answers": [
+     "Kannella.",
+     "Żigarella ħamra.",
+     "Tondi.",
+     "Billi ngħidu x'inhu.",
+     "It-tweġiba tiegħek. Pereżempju: Il-lapes tiegħi twil u blu."
+    ]
+   }
+  },
+  "eu-year-mt-beginner-1-l27": {
+   "mt": {
+    "title": "Il-ktieb u l-librerija",
+    "theory": "Il-ktieb għandu qoxra, paġni u stampi. Fuq il-qoxra hemm isem l-awtur u t-titlu. Fil-librerija nissellfu l-kotba, nieħdu ħsiebhom u nroddhom fil-ħin.",
+    "sample": "Eżempju tiegħi: Fuq il-qoxra hemm miktub: Rita Żgħira — Stejjer tal-Bosk. Fl-istampa hemm volpi u fenek.",
+    "worked": "It-titlu jgħidilna dwar xiex hu l-ktieb: stejjer tal-bosk. Rita Żgħira hija l-awtriċi. Mill-istampa naqtgħu min hemm fil-ktieb. Il-paġni għandhom numri biex insibu fejn waqafna.",
+    "exercises": [
+     "Uri l-qoxra ta' ktieb.",
+     "Sib it-titlu ta' ktieb fil-klassi.",
+     "Sib isem l-awtur.",
+     "Pinġi l-qoxra tal-ktieb favorit tiegħek.",
+     "Għid kif tieħu ħsieb ktieb."
+    ],
+    "test": [
+     "X'hemm fuq il-qoxra?",
+     "Min hi l-awtriċi tal-ktieb fl-eżempju?",
+     "Dwar xiex hu l-ktieb?",
+     "X'hemm fl-istampa tal-qoxra?",
+     "X'nagħmlu b'ktieb li nissellfu?"
+    ],
+    "steps": [
+     "Ħares lejn il-qoxra: l-awtur u t-titlu.",
+     "Ħares lejn l-istampa u aqta' dwar xiex hu l-ktieb.",
+     "Aqra u ċċekkja jekk qtajtx tajjeb.",
+     "Żball komuni: tħawwad it-titlu mal-awtur. It-titlu huwa isem il-ktieb, l-awtur kitbu."
+    ],
+    "answers": [
+     "Isem l-awtur u t-titlu.",
+     "Rita Żgħira.",
+     "Dwar stejjer tal-bosk.",
+     "Volpi u fenek.",
+     "Nieħdu ħsiebu u nroddu fil-ħin."
+    ]
+   }
+  },
+  "eu-year-mt-beginner-1-l28": {
+   "mt": {
+    "title": "Reviżjoni: x'naf nagħmel wara s-Sena 1",
+    "theory": "Fl-aħħar tas-sena naqraw test qasir u nuru x'nafu nagħmlu: naqraw u nifhmu, naqsmu l-kliem f'sillabi, niktbu sentenzi b'ittra kbira u punt, u niktbu sew it-tikek, l-għ u l-artiklu.",
+    "sample": "Kull filgħodu Lisa tħejji l-borża tal-iskola. Iddaħħal ktieb, lapes u ħobża. Imbagħad timxi lejn l-iskola ma' ħuha, Ġorġ.",
+    "worked": "Fit-test hemm tliet sentenzi. Lisa u Ġorġ huma ismijiet, għalhekk jibdew b'ittra kbira. Fil-kelma Ġorġ hemm tikka fuq iż-żewġ ġ. Il-kelma lapes naqsmuha f'sillabi: la-pes.",
+    "exercises": [
+     "Aqra t-test b'leħen għoli.",
+     "Sib kelma b'tikka.",
+     "Aqsam f'sillabi: borża.",
+     "Ikteb sentenza dwar il-borża tiegħek.",
+     "Għid x'għoġbok l-aktar din is-sena."
+    ],
+    "test": [
+     "X'tagħmel Lisa kull filgħodu?",
+     "Kemm hemm sentenzi fit-test?",
+     "Ma' min timxi Lisa lejn l-iskola?",
+     "X'iddaħħal fil-borża?",
+     "Aqsam f'sillabi: lapes."
+    ],
+    "steps": [
+     "Aqra t-test l-ewwel bil-mod, imbagħad aktar malajr.",
+     "Staqsi: min? x'jagħmel? ma' min?",
+     "Għodd is-sentenzi mill-punti.",
+     "Żball komuni: tikteb l-ismijiet b'ittra żgħira. L-ismijiet tan-nies dejjem jibdew b'ittra kbira: Lisa."
+    ],
+    "answers": [
+     "Tħejji l-borża tal-iskola.",
+     "Tlieta.",
+     "Ma' ħuha, Ġorġ.",
+     "Ktieb, lapes u ħobża.",
+     "la-pes."
+    ]
+   }
+  }
+ }
+}

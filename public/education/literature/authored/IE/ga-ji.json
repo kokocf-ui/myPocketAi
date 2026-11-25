@@ -1,0 +1,1064 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "IE",
+ "stage": "beginner",
+ "grade": "JI",
+ "version": "f31ef4a0b01c06abe6674f93ba2b99069508da71c3ab355815385426810cbc26",
+ "source": "https://www.curriculumonline.ie/primary/curriculum-areas/primary-language/",
+ "sourceTitle": "Curaclam Teanga na Bunscoile (NCCA / An Roinn Oideachais, 2019), Gaeilge, Naíonáin Shóisearacha (Céim 1): teanga ó bhéal, feasacht fóineolaíochta, fuaimeanna agus litreacha, an síneadh fada, an séimhiú, léamh agus tuiscint, scríbhneoireacht luath, béaloideas agus litríocht pháistí; ord mar atá i léitheoirí luatha; ábhar bunaidh, gan téacs as leabhair scoile",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "ga",
+ "labels": [
+  "Cleachtadh bunaidh · Éire · Naíonáin Shóisearacha",
+  "Foghlaimímid",
+  "Sampla bunaidh",
+  "Míniú",
+  "Cleachtaí",
+  "Seiceáil tú féin",
+  "Cleachtaí bunaidh, ní scrúdú oifigiúil ná téacs as leabhar scoile. Más gá, léigh le duine fásta.",
+  "Mura dtuigeann tú: céim ar chéim",
+  "Freagraí (seiceáil nuair a bheidh tú críochnaithe)"
+ ],
+ "units": [
+  {
+   "title": "Ag ullmhú chun léamh agus scríobh",
+   "keys": [
+    "eu-year-ie-beginner-ji-l01",
+    "eu-year-ie-beginner-ji-l02",
+    "eu-year-ie-beginner-ji-l03",
+    "eu-year-ie-beginner-ji-l04"
+   ]
+  },
+  {
+   "title": "Na litreacha",
+   "keys": [
+    "eu-year-ie-beginner-ji-l05",
+    "eu-year-ie-beginner-ji-l06",
+    "eu-year-ie-beginner-ji-l07",
+    "eu-year-ie-beginner-ji-l08",
+    "eu-year-ie-beginner-ji-l09",
+    "eu-year-ie-beginner-ji-l10",
+    "eu-year-ie-beginner-ji-l11",
+    "eu-year-ie-beginner-ji-l12"
+   ]
+  },
+  {
+   "title": "Ag scríobh i gceart",
+   "keys": [
+    "eu-year-ie-beginner-ji-l13",
+    "eu-year-ie-beginner-ji-l14",
+    "eu-year-ie-beginner-ji-l15",
+    "eu-year-ie-beginner-ji-l16"
+   ]
+  },
+  {
+   "title": "Ag léamh",
+   "keys": [
+    "eu-year-ie-beginner-ji-l17",
+    "eu-year-ie-beginner-ji-l18",
+    "eu-year-ie-beginner-ji-l19",
+    "eu-year-ie-beginner-ji-l20",
+    "eu-year-ie-beginner-ji-l21",
+    "eu-year-ie-beginner-ji-l22",
+    "eu-year-ie-beginner-ji-l23"
+   ]
+  },
+  {
+   "title": "Ag cumarsáid",
+   "keys": [
+    "eu-year-ie-beginner-ji-l24",
+    "eu-year-ie-beginner-ji-l25",
+    "eu-year-ie-beginner-ji-l26"
+   ]
+  },
+  {
+   "title": "An leabhar agus athbhreithniú",
+   "keys": [
+    "eu-year-ie-beginner-ji-l27",
+    "eu-year-ie-beginner-ji-l28"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-ie-beginner-ji-l01": {
+   "ga": {
+    "title": "Cuirimis aithne ar a chéile",
+    "theory": "Sna Naíonáin Shóisearacha foghlaimímid éisteacht. Labhraíonn duine amháin agus éisteann na daoine eile gan cur isteach air. Freagraímid in abairt iomlán: Is mise… Úsáidimid focail bhéasacha: dia duit, le do thoil, go raibh maith agat, gabh mo leithscéal.",
+    "sample": "Is mise Aoife. Tá mé cúig bliana d'aois. Is maith liom pictiúir a tharraingt. Tá Cian ina shuí in aice liom.",
+    "worked": "Dúirt Aoife ceithre abairt ghearra: a hainm, a haois, an rud is maith léi agus cé atá ina shuí in aice léi. Tosaíonn gach abairt le ceannlitir agus críochnaíonn sí le lánstad.",
+    "exercises": [
+     "Cuir tú féin in aithne in dhá abairt.",
+     "Inis cad is maith leat a dhéanamh.",
+     "Abair ainm an pháiste atá in aice leat.",
+     "Taispeáin conas a chuireann tú do lámh suas chun labhairt.",
+     "Abair arís an rud a d'inis cara faoi féin nó fúithi féin."
+    ],
+    "test": [
+     "Cén aois í Aoife?",
+     "Cad a dhéanaimid nuair is mian linn labhairt?",
+     "Cén fáth nach gcuirimid isteach ar dhaoine eile?",
+     "Cén focal a deir tú nuair a fhaigheann tú rud?",
+     "Cé atá ina shuí in aice le hAoife?"
+    ],
+    "steps": [
+     "Ar dtús, abair d'ainm: Is mise…",
+     "Ansin abair d'aois agus an rud is maith leat.",
+     "Nuair a bhíonn duine eile ag caint, éist agus fan go gcríochnóidh sé.",
+     "Botún coitianta: freagra focal amháin a thabhairt. Freagair in abairt iomlán."
+    ],
+    "answers": [
+     "Cúig bliana d'aois.",
+     "Cuirimid ár lámh suas agus fanaimid ar ár seal.",
+     "Ionas gur féidir le gach duine labhairt agus a chéile a thuiscint.",
+     "Go raibh maith agat.",
+     "Cian."
+    ]
+   }
+  },
+  "eu-year-ie-beginner-ji-l02": {
+   "ga": {
+    "title": "Abairt, focal, siolla, fuaim",
+    "theory": "Nuair a labhraímid, úsáidimid abairtí. Tá abairt déanta d'fhocail. Roinnimid focail ina siollaí, agus is féidir linn bualadh bos a dhéanamh orthu. Tá siollaí déanta d'fhuaimeanna. Cloisimid agus deirimid fuaim; feicimid agus scríobhaimid litir.",
+    "sample": "Tá mála agam. / má-la / m-á-l-a",
+    "worked": "Tá trí fhocal san abairt: Tá, mála, agam. Tá dhá shiolla san fhocal mála: má-la. Agus tá ceithre fhuaim ann: m-á-l-a. Téimid ón mór go dtí an beag: abairt, focal, siolla, fuaim.",
+    "exercises": [
+     "Cé mhéad focal atá in: Tá Seán ag rith?",
+     "Déan bualadh bos ar an bhfocal bábóg.",
+     "Cé mhéad fuaim atá san fhocal mam?",
+     "Abair abairt faoi do mhála.",
+     "Cén chéad fhuaim atá san fhocal úll?"
+    ],
+    "test": [
+     "Cad as a bhfuil abairt déanta?",
+     "Cé mhéad siolla atá san fhocal bata?",
+     "Cé mhéad fuaim atá san fhocal cat?",
+     "Cén fhuaim dheireanach atá san fhocal cat?",
+     "Cad é an difríocht idir fuaim agus litir?"
+    ],
+    "steps": [
+     "Abair an abairt agus comhair na focail ar do mhéara.",
+     "Déan bualadh bos ar an bhfocal: siolla amháin le gach bualadh.",
+     "Abair an focal go mall chun gach fuaim a chloisteáil ina haonar.",
+     "Botún coitianta: siolla agus fuaim a mheascadh. Buailimid bos ar shiolla; deirimid gach fuaim ina haonar."
+    ],
+    "answers": [
+     "As focail.",
+     "Dhá cheann: ba-ta.",
+     "Trí cinn: c-a-t.",
+     "t.",
+     "Cloisimid agus deirimid fuaim; feicimid agus scríobhaimid litir."
+    ]
+   }
+  },
+  "eu-year-ie-beginner-ji-l03": {
+   "ga": {
+    "title": "Gutaí agus consain",
+    "theory": "Deirimid na gutaí go saor, agus ár mbéal oscailte: a, e, i, o, u. Deirimid na consain le bac: stopann na beola, na fiacla nó an teanga an t-aer. Tá guta i ngach siolla.",
+    "sample": "gutaí: a, e, i, o, u / consain: m, n, l, s / má-la — dhá shiolla, guta i ngach ceann",
+    "worked": "San fhocal bata, is iad a agus a na gutaí, agus is consain iad b agus t. Tá dhá shiolla ann, ba-ta, agus tá guta i ngach siolla.",
+    "exercises": [
+     "Ainmnigh na gutaí go léir.",
+     "Aimsigh an guta san fhocal cat.",
+     "Abair focal a thosaíonn le consan.",
+     "Comhair na gutaí san fhocal banana.",
+     "Abair go mall: a, e, i, o, u."
+    ],
+    "test": [
+     "Conas a deirimid na gutaí?",
+     "Cé mhéad guta atá san fhocal bata?",
+     "Cé mhéad siolla atá san fhocal banana?",
+     "An bhfuil siolla ann gan guta?",
+     "Cén fhuaim a chloiseann tú ag tús an fhocail oráiste?"
+    ],
+    "steps": [
+     "Abair an focal go mall agus os ard.",
+     "Is guta í fuaim is féidir leat a shíneadh le béal oscailte.",
+     "Cuimhnigh go bhfuil guta amháin ar a laghad i ngach siolla.",
+     "Botún coitianta: ceapadh gur siolla é gach fuaim. Is é atá i siolla ná guta in éineacht le consain."
+    ],
+    "answers": [
+     "Go saor, agus ár mbéal oscailte.",
+     "Dhá cheann: a agus a.",
+     "Trí cinn: ba-na-na.",
+     "Níl, tá guta i ngach siolla.",
+     "o."
+    ]
+   }
+  },
+  "eu-year-ie-beginner-ji-l04": {
+   "ga": {
+    "title": "Ag ullmhú na láimhe",
+    "theory": "Sula scríobhaimid, téimid an lámh: tarraingímid ciorcail, tonnta agus lúba. Suímid díreach, ár gcosa ar an urlár. Coinnímid an peann luaidhe go héadrom le trí mhéar agus ní bhrúimid go crua.",
+    "sample": "Líne 1: línte díreacha. / Líne 2: tonnta. / Líne 3: ubhchruthanna. / Líne 4: lúba.",
+    "worked": "Feicimid na cruthanna seo sna litreacha: tá ubhchruth in o agus a, líne dhíreach in i agus t, agus lúb in l. Nuair a chleachtaimid iad, éiríonn na litreacha níos néata. Scríobhaimid ó chlé go deas.",
+    "exercises": [
+     "Tarraing líne ubhchruthanna.",
+     "Tarraing líne tonnta.",
+     "Taispeáin conas a choinníonn tú an peann luaidhe.",
+     "Tarraing lúb san aer le do mhéar.",
+     "Aimsigh an t-ubhchruth sa litir a."
+    ],
+    "test": [
+     "Cé mhéad méar a úsáidimid chun an peann luaidhe a choinneáil?",
+     "Conas a shuímid nuair a scríobhaimid?",
+     "Cén treo ina scríobhaimid?",
+     "Cén litir ina bhfuil ubhchruth?",
+     "Cad a dhéanann tú nuair a bhíonn do lámh tuirseach?"
+    ],
+    "steps": [
+     "Suigh díreach agus cuir do chosa ar an urlár.",
+     "Coinnigh an peann luaidhe le trí mhéar agus ná brúigh.",
+     "Scríobh ó chlé go deas agus fan ar an líne.",
+     "Botún coitianta: an peann luaidhe a bhrú go crua. Nuair a bhíonn do lámh tuirseach, croith í agus glac sos."
+    ],
+    "answers": [
+     "Trí mhéar.",
+     "Díreach, ár gcosa ar an urlár.",
+     "Ó chlé go deas.",
+     "o agus a.",
+     "Croithim mo lámh agus glacaim sos."
+    ]
+   }
+  },
+  "eu-year-ie-beginner-ji-l05": {
+   "ga": {
+    "title": "Na gutaí agus an síneadh fada",
+    "theory": "Ar dtús foghlaimímid na gutaí a, e, i, o, u. Tá cruth mór agus cruth beag ag gach litir. Uaireanta bíonn síneadh fada ar an nguta: á, é, í, ó, ú. Déanann an fada an guta níos faide, mar atá in mála agus Tá.",
+    "sample": "A a, E e, I i, O o, U u / á, é, í, ó, ú / a mar atá in arán, o mar atá in oráiste, i mar atá in iasc",
+    "worked": "Ag tús an fhocail iasc cloisimid i. San fhocal mála tá síneadh fada ar an gcéad a, mar sin deirimid go fada é. Is ainm é Eoin, mar sin scríobhaimid E mhór ag an tús.",
+    "exercises": [
+     "Ainmnigh na gutaí in ord.",
+     "Scríobh líne den litir o.",
+     "Cén fhuaim a chloiseann tú ag tús an fhocail iasc?",
+     "Abair focal a thosaíonn le u.",
+     "Cuir ciorcal timpeall ar na gutaí: a m o u."
+    ],
+    "test": [
+     "Cé na litreacha a d'fhoghlaimíomar?",
+     "Cén fhuaim atá ag tús an fhocail oráiste?",
+     "Cén litir a scríobhaimid ag tús an ainm Eoin?",
+     "Cad a dhéanann an síneadh fada?",
+     "Cén litir a bhfuil an focal ubh ag tosú léi?"
+    ],
+    "steps": [
+     "Abair an focal go mall agus go soiléir.",
+     "Éist leis an nguta atá á rá agat, agus an bhfuil sé fada.",
+     "Aimsigh an litir sin agus scríobh í, leis an bhfada más gá.",
+     "Botún coitianta: litreacha de mhéideanna éagsúla a scríobh. Bíodh gach litir idir na línte."
+    ],
+    "answers": [
+     "a, e, i, o, u, agus an síneadh fada.",
+     "o.",
+     "E mhór.",
+     "Déanann sé an guta níos faide.",
+     "u."
+    ]
+   }
+  },
+  "eu-year-ie-beginner-ji-l06": {
+   "ga": {
+    "title": "Na litreacha m, s, l, n, t, r: na chéad siollaí",
+    "theory": "Ceanglaímid na consain m, s, l, n, t, r leis na gutaí chun siollaí a dhéanamh: ma, so, lu, ni, te, ra. Ó na siollaí déanaimid focail: ma-ta, Nó-ra, má-la.",
+    "sample": "ma, mo, mu / sa, si / la, lo / na, no / ta, te / ra, ro / mam, mata, mála, Nóra, Tom / Tá Mam ar an mata. / Tá Nóra ann.",
+    "worked": "Léimid siolla le chéile: m agus a le chéile, ma. Tá dhá shiolla san fhocal mata: ma-ta. Is ainm é Nóra, mar sin scríobhaimid le ceannlitir é.",
+    "exercises": [
+     "Léigh: ma, mo, mu.",
+     "Léigh: la, lo, lu.",
+     "Léigh: mam, mata, Nóra.",
+     "Cuir an focal le chéile ó na siollaí: Nó-ra.",
+     "Scríobh líne den litir m."
+    ],
+    "test": [
+     "Conas a léimid m agus a le chéile?",
+     "Cé mhéad siolla atá san fhocal mata?",
+     "Léigh: Tá Nóra ann.",
+     "Cá bhfuil Mam?",
+     "Cén fáth a scríobhaimid Nóra le ceannlitir?"
+    ],
+    "steps": [
+     "Féach ar an gconsan agus ansin díreach ar an nguta ina dhiaidh.",
+     "Léigh le chéile iad mar shiolla amháin.",
+     "Ceangail na siollaí le chéile mar fhocal: ma-ta.",
+     "Botún coitianta: léamh litir ar litir: m, a, t, a. Léigh siolla ar shiolla: ma-ta."
+    ],
+    "answers": [
+     "Ma, mar shiolla amháin.",
+     "Dhá cheann: ma-ta.",
+     "Tá Nóra ann.",
+     "Ar an mata.",
+     "Mar is ainm é."
+    ]
+   }
+  },
+  "eu-year-ie-beginner-ji-l07": {
+   "ga": {
+    "title": "Na litreacha c, p, b, d, g, f: ag léamh abairtí",
+    "theory": "Is iad c, p, b, d, g agus f na litreacha nua. Anois léimid abairtí gearra. Tosaíonn abairt le ceannlitir agus críochnaíonn sí le lánstad. Ní mheascaimid fuaimeanna atá cosúil le chéile: b agus p, d agus t, g agus c.",
+    "sample": "cat, peann, bata, doras, geata, fear / Tá an cat ag an doras. / Tá peann ag Pól.",
+    "worked": "Tosaíonn an abairt Tá an cat ag an doras le ceannlitir T agus críochnaíonn sí le lánstad. Tá dhá shiolla san fhocal doras: do-ras. Tá b agus p cosúil le chéile, mar sin deirimid go mall iad agus éistimid.",
+    "exercises": [
+     "Léigh: ca, po, bi, de, gu.",
+     "Léigh: cat, peann, bata.",
+     "Léigh: Tá an cat ag an doras.",
+     "Scríobh líne den litir c.",
+     "Déan abairt leis an bhfocal geata."
+    ],
+    "test": [
+     "Cá bhfuil an cat?",
+     "Cé aige a bhfuil peann?",
+     "Cad leis a gcríochnaíonn abairt?",
+     "Cé mhéad siolla atá san fhocal doras?",
+     "Léigh: Tá fear ag an ngeata."
+    ],
+    "steps": [
+     "Léigh siolla ar shiolla: do-ras.",
+     "Léigh an abairt ar fad go dtí an lánstad.",
+     "Freagair an cheist: cé? cá? cad?",
+     "Botún coitianta: stopadh i lár na habairte. Léigh go dtí an lánstad."
+    ],
+    "answers": [
+     "Ag an doras.",
+     "Ag Pól.",
+     "Le lánstad.",
+     "Dhá cheann: do-ras.",
+     "Tá fear ag an ngeata."
+    ]
+   }
+  },
+  "eu-year-ie-beginner-ji-l08": {
+   "ga": {
+    "title": "An litir h agus an séimhiú",
+    "theory": "Sa Ghaeilge cuirtear h i ndiaidh consain uaireanta. Séimhiú a thugtar air, agus athraíonn sé an fhuaim: cat → mo chat, bád → mo bhád, peann → do pheann. Tagann séimhiú i ndiaidh mo agus do.",
+    "sample": "cat → mo chat / bád → mo bhád / peann → do pheann / Seo é mo chat.",
+    "worked": "In mo chat, tháinig h i ndiaidh an c agus d'athraigh an fhuaim. In mo bhád, tháinig h i ndiaidh an b. Is é an focal céanna é fós; ní athraíonn ach an chéad fhuaim.",
+    "exercises": [
+     "Abair: cat → mo …",
+     "Abair: bád → mo …",
+     "Léigh: Seo é mo chat.",
+     "Scríobh líne den litir h.",
+     "Déan abairt le mo pheann."
+    ],
+    "test": [
+     "Cad is séimhiú ann?",
+     "Cad a tharlaíonn do c i ndiaidh mo?",
+     "Scríobh: mo + bata",
+     "Scríobh: do + teach",
+     "An athraíonn brí an fhocail i ndiaidh séimhithe?"
+    ],
+    "steps": [
+     "Féach ar an bhfocal roimh an ainmfhocal: mo nó do.",
+     "Cuir h i ndiaidh an chéad chonsain: c → ch, b → bh, p → ph.",
+     "Léigh an dá fhocal le chéile: mo chat.",
+     "Botún coitianta: mo cat a rá. I ndiaidh mo, bíonn séimhiú ann: mo chat."
+    ],
+    "answers": [
+     "h a chur i ndiaidh an chéad chonsain.",
+     "Éiríonn sé ch.",
+     "mo bhata.",
+     "do theach.",
+     "Ní athraíonn; ní athraíonn ach an chéad fhuaim."
+    ]
+   }
+  },
+  "eu-year-ie-beginner-ji-l09": {
+   "ga": {
+    "title": "Consain leathana agus caola",
+    "theory": "Sa Ghaeilge tá dhá chineál consain ann. Bíonn consan leathan in aice le a, o nó u, agus bíonn consan caol in aice le e nó i. Fuaimnítear an consan ar bhealach eile: s leathan in sú, s caol in sí. An riail: caol le caol agus leathan le leathan.",
+    "sample": "sú — s leathan / sí — s caol, cosúil le sh / bó — b leathan / béal — b caol / caol le caol: cailín / leathan le leathan: bosca",
+    "worked": "San fhocal sú tá s in aice le u, mar sin tá sé leathan. San fhocal sí tá s in aice le i, mar sin tá sé caol agus fuaimníonn sé cosúil le sh. San fhocal cailín tá l idir dhá ghuta chaola: i agus í.",
+    "exercises": [
+     "Abair: sú — sí.",
+     "Abair: bó — béal.",
+     "Aimsigh an guta in aice le s san fhocal seomra.",
+     "Léigh: cailín, bosca.",
+     "Abair focal le s caol."
+    ],
+    "test": [
+     "Cé na gutaí atá leathan?",
+     "Cé na gutaí atá caol?",
+     "An bhfuil an s caol nó leathan san fhocal sí?",
+     "Cad í an riail?",
+     "An bhfuil an b leathan nó caol san fhocal bó?"
+    ],
+    "steps": [
+     "Féach ar an nguta in aice leis an gconsan.",
+     "Má tá a, o nó u ann, tá an consan leathan; má tá e nó i ann, tá sé caol.",
+     "Abair an focal agus éist leis an difríocht.",
+     "Botún coitianta: s caol a léamh mar s leathan. In sí fuaimnímid é cosúil le sh."
+    ],
+    "answers": [
+     "a, o, u.",
+     "e, i.",
+     "Caol.",
+     "Caol le caol agus leathan le leathan.",
+     "Leathan."
+    ]
+   }
+  },
+  "eu-year-ie-beginner-ji-l10": {
+   "ga": {
+    "title": "An aibítir",
+    "theory": "Tá ord áirithe ag na litreacha: an aibítir. Tá 18 litir san aibítir Ghaelach thraidisiúnta: a, b, c, d, e, f, g, h, i, l, m, n, o, p, r, s, t, u. Úsáidtear j, k, q, v, w, x, y agus z i bhfocail iasachta. San fhoclóir tá na focail in ord aibítre.",
+    "sample": "Tús na haibítre: a, b, c, d, e, f. / Cuir in ord: madra, bosca, teach → bosca, madra, teach.",
+    "worked": "Tosaíonn bosca le b, madra le m agus teach le t. San aibítir tagann b roimh m, agus m roimh t, mar sin is é an t-ord bosca, madra, teach.",
+    "exercises": [
+     "Abair an aibítir go dtí an litir h.",
+     "Cén litir a thagann i ndiaidh m?",
+     "Cuir in ord aibítre: úll, cat, leabhar.",
+     "Aimsigh an focal cat san fhoclóir.",
+     "Ainmnigh an chéad litir agus an litir dheireanach den aibítir."
+    ],
+    "test": [
+     "Cad is aibítir ann?",
+     "Cé mhéad litir atá san aibítir Ghaelach thraidisiúnta?",
+     "Cuir in ord: teach, arán, madra.",
+     "Cén fáth a bhfuil ord na haibítre úsáideach?",
+     "Cén litir dheireanach san aibítir thraidisiúnta?"
+    ],
+    "steps": [
+     "Féach ar an gcéad litir de gach focal.",
+     "Aimsigh na litreacha sin san aibítir.",
+     "Scríobh ar dtús an focal a bhfuil a litir is gaire don tús.",
+     "Botún coitianta: ceapadh go bhfuil áit eile ag á. Nuair a chuirimid focail in ord, tá á san áit chéanna le a."
+    ],
+    "answers": [
+     "Litreacha in ord áirithe.",
+     "18.",
+     "arán, madra, teach.",
+     "Chun focail a aimsiú go tapa san fhoclóir.",
+     "u."
+    ]
+   }
+  },
+  "eu-year-ie-beginner-ji-l11": {
+   "ga": {
+    "title": "Focail choitianta a aithint",
+    "theory": "Tá focail ann a fheicimid go minic: tá, an, agus, ag, mo, is. Foghlaimímid de ghlanmheabhair iad ionas go léimid níos tapúla. Ní gá iad a léamh fuaim ar fhuaim gach uair.",
+    "sample": "Tá an madra ag rith. Tá mo mhála agus mo pheann agam.",
+    "worked": "Sna habairtí tá na focail choitianta tá, an, ag, mo agus agus. Nuair a aithnímid iad láithreach, ní gá iad a léamh fuaim ar fhuaim, agus léimid níos tapúla.",
+    "exercises": [
+     "Léigh: tá, an, agus, ag.",
+     "Aimsigh an focal agus san abairt.",
+     "Comhair cé mhéad uair atá mo sa sampla.",
+     "Scríobh an focal tá trí huaire.",
+     "Déan abairt leis an bhfocal agus."
+    ],
+    "test": [
+     "Cad atá á dhéanamh ag an madra?",
+     "Cad atá agam?",
+     "Cén fáth a bhfoghlaimímid focail choitianta?",
+     "Cé mhéad uair atá mo san abairt dheireanach?",
+     "Léigh: Tá an cat agus an madra ann."
+    ],
+    "steps": [
+     "Féach ar an bhfocal ar fad, ní ar litir amháin.",
+     "Abair é láithreach má aithníonn tú é.",
+     "Mura n-aithníonn, léigh é fuaim ar fhuaim agus abair arís é.",
+     "Botún coitianta: tá a scríobh gan an fada. Bíonn síneadh fada i gcónaí ar an bhfocal tá."
+    ],
+    "answers": [
+     "Tá sé ag rith.",
+     "Mo mhála agus mo pheann.",
+     "Ionas go léimid níos tapúla.",
+     "Dhá uair.",
+     "Tá an cat agus an madra ann."
+    ]
+   }
+  },
+  "eu-year-ie-beginner-ji-l12": {
+   "ga": {
+    "title": "Ag léamh agus ag tuiscint",
+    "theory": "Anois tá na litreacha ar eolas againn. Nuair a léimid, ceanglaímid na fuaimeanna ina bhfocail agus smaoinímid ar a gciall. Tar éis léamh, freagraímid: cé, cá, cad.",
+    "sample": "Tá Saoirse agus Darragh sa pháirc. Tá Darragh ag ciceáil liathróide. Tá Saoirse ag tabhairt bia do na lachain.",
+    "worked": "Tá trí abairt sa téacs. Cé? Saoirse agus Darragh. Cá? Sa pháirc. Cad atá ar siúl acu? Tá Darragh ag ciceáil liathróide agus tá Saoirse ag tabhairt bia do na lachain.",
+    "exercises": [
+     "Léigh an téacs os ard.",
+     "Taispeáin gach lánstad.",
+     "Abair cá bhfuil na páistí.",
+     "Tarraing pictiúr de Darragh leis an liathróid.",
+     "Cuir abairt eile faoi Shaoirse leis."
+    ],
+    "test": [
+     "Cé atá sa pháirc?",
+     "Cad atá Darragh a dhéanamh?",
+     "Cad atá Saoirse a dhéanamh?",
+     "Cé mhéad abairt atá sa téacs?",
+     "Cá bhfuil na páistí?"
+    ],
+    "steps": [
+     "Léigh an téacs go mall, abairt ar abairt.",
+     "Cuir ceist ort féin: cé? cá? cad?",
+     "Cuardaigh an freagra sa téacs.",
+     "Botún coitianta: freagra a thabhairt as do cheann. Cuardaigh an freagra sa téacs."
+    ],
+    "answers": [
+     "Saoirse agus Darragh.",
+     "Ag ciceáil liathróide.",
+     "Ag tabhairt bia do na lachain.",
+     "Trí cinn.",
+     "Sa pháirc."
+    ]
+   }
+  },
+  "eu-year-ie-beginner-ji-l13": {
+   "ga": {
+    "title": "Ceannlitreacha in ainmneacha",
+    "theory": "Úsáidimid ceannlitir ag tús abairte, d'ainmneacha daoine agus peataí, agus d'ainmneacha bailte, aibhneacha agus lochanna. Scríobhaimid focail eile le litir bheag.",
+    "sample": "Tá Seán Ó Briain ina chónaí i nGaillimh. Tá madra aige darb ainm Bran. Sa samhradh téann sé go dtí an tSionainn.",
+    "worked": "Is ainmneacha dílse iad Seán Ó Briain, Bran, Gaillimh agus an tSionainn, mar sin scríobhaimid le ceannlitir iad. Is focail choitianta iad madra agus samhradh, mar sin scríobhaimid le litir bheag iad.",
+    "exercises": [
+     "Aimsigh na hainmneacha dílse go léir sa sampla.",
+     "Scríobh d'ainm agus do shloinne.",
+     "Scríobh ainm peata.",
+     "Ceartaigh: tá mé i mo chónaí i gcorcaigh.",
+     "An scríobhaimid an focal cat le ceannlitir?"
+    ],
+    "test": [
+     "Cad is ainm don mhadra?",
+     "Cá bhfuil Seán ina chónaí?",
+     "Scríobh i gceart: tá áine ag súgradh le bran",
+     "Cathain a úsáidimid ceannlitir?",
+     "An baile nó abhainn í an tSionainn?"
+    ],
+    "steps": [
+     "Cuir ceist: an ainm duine, ainmhí, baile nó abhann é seo?",
+     "Más ea, úsáid ceannlitir.",
+     "Úsáid ceannlitir freisin ag tús gach abairte.",
+     "Botún coitianta: focail choitianta a scríobh le ceannlitir: madra, baile."
+    ],
+    "answers": [
+     "Bran.",
+     "I nGaillimh.",
+     "Tá Áine ag súgradh le Bran.",
+     "Ag tús abairte agus in ainmneacha dílse.",
+     "Abhainn."
+    ]
+   }
+  },
+  "eu-year-ie-beginner-ji-l14": {
+   "ga": {
+    "title": "Lánstad, comhartha ceiste, comhartha uaillbhreasa",
+    "theory": "Críochnaíonn abairt a insíonn rud le lánstad. Críochnaíonn abairt a chuireann ceist le comhartha ceiste. Críochnaíonn abairt a léiríonn áthas, iontas nó ordú le comhartha uaillbhreasa.",
+    "sample": "Tá an ghrian ag taitneamh inniu. An bhfuil tú ag teacht amach? Nach álainn an lá é!",
+    "worked": "Insíonn an chéad abairt rud: lánstad. Cuireann an dara ceann ceist: comhartha ceiste. Léiríonn an tríú ceann áthas: comhartha uaillbhreasa. Tosaíonn gach ceann le ceannlitir.",
+    "exercises": [
+     "Cuir an comhartha ceart: Cad is ainm duit",
+     "Cuir an comhartha ceart: Tá cat agam",
+     "Smaoinigh ar cheist don mhúinteoir.",
+     "Smaoinigh ar abairt le comhartha uaillbhreasa.",
+     "Comhair na habairtí sa sampla."
+    ],
+    "test": [
+     "Cad leis a gcríochnaíonn ceist?",
+     "Cén sórt litreach a mbíonn abairt ag tosú léi?",
+     "Scríobh i gceart: tá sé ag cur báistí",
+     "Cén abairt sa sampla a léiríonn áthas?",
+     "Cé mhéad abairt atá sa sampla?"
+    ],
+    "steps": [
+     "Cuir ceist: an insíonn an abairt rud, an gcuireann sí ceist nó an léiríonn sí mothúchán?",
+     "Insíonn — lánstad; ceist — comhartha ceiste; mothúchán — comhartha uaillbhreasa.",
+     "Seiceáil an cheannlitir ag an tús.",
+     "Botún coitianta: dearmad a dhéanamh ar an gcomhartha ceiste i gceist ghearr: Ag teacht?"
+    ],
+    "answers": [
+     "Le comhartha ceiste.",
+     "Le ceannlitir.",
+     "Tá sé ag cur báistí.",
+     "Nach álainn an lá é!",
+     "Trí cinn."
+    ]
+   }
+  },
+  "eu-year-ie-beginner-ji-l15": {
+   "ga": {
+    "title": "An síneadh fada agus brí an fhocail",
+    "theory": "Athraíonn an síneadh fada fuaim an ghuta, agus uaireanta athraíonn sé brí an fhocail freisin. Mar shampla, is duine é fear, ach is plandaí glasa é féar. Mar sin ní dhéanaimid dearmad ar an bhfada.",
+    "sample": "fear — féar / sean — Seán / Tá an fear ar an bhféar.",
+    "worked": "Is duine é fear, ach is plandaí glasa é féar. Is é an t-aon difríocht ná an síneadh fada ar an e. Ar an mbealach céanna, is ainm é Seán ach ciallaíonn sean aosta.",
+    "exercises": [
+     "Abair: fear — féar.",
+     "Léigh: Tá an fear ar an bhféar.",
+     "Aimsigh an fada san ainm Seán.",
+     "Scríobh líne den litir á.",
+     "Abair focal le ó."
+    ],
+    "test": [
+     "Cad a dhéanann an síneadh fada?",
+     "Cad é an difríocht idir fear agus féar?",
+     "Cá bhfuil an fear?",
+     "An bhfuil fada san fhocal sean, a chiallaíonn aosta?",
+     "Léigh: Tá Seán sean."
+    ],
+    "steps": [
+     "Abair an focal agus éist an bhfuil an guta fada.",
+     "Má tá, scríobh an síneadh fada.",
+     "Léigh an focal arís agus seiceáil an chiall.",
+     "Botún coitianta: dearmad a dhéanamh ar an bhfada. Ansin éiríonn féar ina fhear."
+    ],
+    "answers": [
+     "Déanann sé an guta fada agus athraíonn sé an focal uaireanta.",
+     "Is duine é fear; is plandaí glasa é féar.",
+     "Ar an bhféar.",
+     "Níl.",
+     "Tá Seán sean."
+    ]
+   }
+  },
+  "eu-year-ie-beginner-ji-l16": {
+   "ga": {
+    "title": "Cóipeáil agus deachtú",
+    "theory": "Nuair a chóipeálaimid, scríobhaimid téacs ón leabhar nó ón gclár. I ndeachtú scríobhaimid an rud a chloisimid. Ina dhiaidh sin léimid arís i gcónaí agus seiceálaimid.",
+    "sample": "Deachtú: Tá cat ag Méabh. Tá an cat liath. Codlaíonn sé faoin ngrian.",
+    "worked": "Tá trí abairt sa deachtú. Is ainm é Méabh, mar sin tosaíonn sé le ceannlitir. Críochnaíonn gach abairt le lánstad. Tar éis an deachtaithe seiceálaimid na ceannlitreacha, na lánstadanna, an síneadh fada agus an séimhiú.",
+    "exercises": [
+     "Cóipeáil abairt ón gclár.",
+     "Scríobh deachtú a léann duine fásta.",
+     "Seiceáil an síneadh fada.",
+     "Comhair na habairtí sa deachtú.",
+     "Cuir líne faoi fhocal atá deacair duit."
+    ],
+    "test": [
+     "Cad is cóipeáil ann?",
+     "Cén dath atá ar an gcat?",
+     "Cé mhéad abairt atá sa deachtú?",
+     "Cad a sheiceálaimid tar éis deachtaithe?",
+     "Scríobh: Tá an cat ina chodladh."
+    ],
+    "steps": [
+     "Éist leis an abairt ar fad sula scríobhann tú.",
+     "Scríobh focal ar fhocal agus abair go ciúin é.",
+     "Ag an deireadh, seiceáil na ceannlitreacha, an phoncaíocht agus an fada.",
+     "Botún coitianta: gan an téacs a sheiceáil. Is minic a aimsímid botúin nuair a léimid arís."
+    ],
+    "answers": [
+     "Téacs a scríobh ón leabhar nó ón gclár.",
+     "Liath.",
+     "Trí cinn.",
+     "Na ceannlitreacha, na lánstadanna, an síneadh fada agus an séimhiú.",
+     "Tá an cat ina chodladh."
+    ]
+   }
+  },
+  "eu-year-ie-beginner-ji-l17": {
+   "ga": {
+    "title": "Rainn agus rabhlóga",
+    "theory": "Is é atá i mbéaloideas ná amhráin, rainn, rabhlóga, tomhaiseanna agus scéalta a d'aistrigh daoine ó bhéal go béal le fada an lá. Cabhraíonn rann comhairimh linn duine a roghnú sa chluiche. Tá rithim agus rím ann.",
+    "sample": "Rann de mo chuid féin: A haon, a dó, a trí, / tá an cat ina luí, / amach leatsa! / Rabhlóg de mo chuid féin: Seachtar seanóirí ag siúl sa sneachta.",
+    "worked": "Tá rithim agus rím sa rann: trí — luí. Tá an rabhlóg deacair mar go dtagann an fhuaim s arís agus arís. Ar dtús deirimid go mall í, ansin níos tapúla.",
+    "exercises": [
+     "Abair an rann agus roghnaigh cé a bheidh ag tóraíocht.",
+     "Abair an rabhlóg trí huaire.",
+     "Aimsigh an rím sa rann.",
+     "Cum do rann féin.",
+     "Abair rann atá ar eolas agat."
+    ],
+    "test": [
+     "Cad is béaloideas ann?",
+     "Cad chuige a n-úsáidtear rann comhairimh?",
+     "Cén fhuaim a thagann arís sa rabhlóg?",
+     "Cén focal a bhfuil rím aige le trí?",
+     "Cad chuige an rabhlóg?"
+    ],
+    "steps": [
+     "Léigh an téacs go mall agus os ard.",
+     "Aimsigh an rithim agus na focail a bhfuil rím acu.",
+     "Abair arís é níos tapúla, ach go soiléir.",
+     "Botún coitianta: an rabhlóg a rá go tapa ón tús. Ar dtús go mall agus go soiléir."
+    ],
+    "answers": [
+     "Amhráin, rainn, tomhaiseanna agus scéalta a d'aistrigh daoine ó bhéal go béal.",
+     "Chun duine a roghnú sa chluiche.",
+     "s.",
+     "Luí.",
+     "Chun foghlaim conas labhairt go tapa agus go soiléir."
+    ]
+   }
+  },
+  "eu-year-ie-beginner-ji-l18": {
+   "ga": {
+    "title": "Suantraí",
+    "theory": "Is amhrán séimh é suantraí a chanann máthair nó athair chun leanbh a chur a chodladh. Bíonn na focail ciúin agus is minic a thagann siad arís. Tá suantraithe traidisiúnta ann, mar Sheoithín seo hó, a canadh in Éirinn le fada.",
+    "sample": "Suantraí de mo chuid féin: / Codail, a stóirín, codail, / tá an ghealach sa spéir; / codail, a stóirín, codail, / tá na réaltaí ag faire.",
+    "worked": "Tá ceithre líne sa suantraí. Tagann an chéad líne arís: Codail, a stóirín, codail. Tá an t-atmaisféar ciúin agus séimh, mar is é aidhm an amhráin an leanbh a chur a chodladh.",
+    "exercises": [
+     "Léigh an suantraí go ciúin.",
+     "Aimsigh an líne a thagann arís.",
+     "Abair cén fáth a gcanann daoine suantraithe.",
+     "Tarraing pictiúr de leanbh ina chodladh.",
+     "Abair cad atá sa spéir sa suantraí."
+    ],
+    "test": [
+     "Cé mhéad líne atá sa suantraí?",
+     "Cad is suantraí ann?",
+     "Cé atá ag faire?",
+     "Cén líne a thagann arís?",
+     "Cén sórt atmaisféir atá sa suantraí?"
+    ],
+    "steps": [
+     "Léigh an suantraí líne ar líne.",
+     "Cuardaigh na focail a thagann arís.",
+     "Abair i d'fhocail féin cad faoi a bhfuil sé.",
+     "Botún coitianta: suantraí a léamh go hard agus go tapa. Léimid go ciúin agus go mall é."
+    ],
+    "answers": [
+     "Ceithre líne.",
+     "Amhrán séimh chun leanbh a chur a chodladh.",
+     "Na réaltaí.",
+     "Codail, a stóirín, codail.",
+     "Ciúin agus séimh."
+    ]
+   }
+  },
+  "eu-year-ie-beginner-ji-l19": {
+   "ga": {
+    "title": "Dán: líne, rím, atmaisféar",
+    "theory": "Tá dán déanta de línte. Is minic a bhíonn rím ag na focail ag deireadh na línte. Léimid dán go mall agus stadaimid beagán ag deireadh gach líne.",
+    "sample": "Dán de mo chuid féin: / Tá an sneachta bán ar an sliabh, / tá na páistí ag rith go dian. / Tá fear sneachta mór ag an ngeata, / le cairéad mar shrón agus hata.",
+    "worked": "Tá ceithre líne sa dán. Tá rím ag sliabh le dian, agus ag geata le hata. Tá an t-atmaisféar sona agus geimhriúil. Ag deireadh gach líne stadaimid ar feadh soicind.",
+    "exercises": [
+     "Léigh an dán os ard.",
+     "Aimsigh an focal a bhfuil rím aige le geata.",
+     "Foghlaim an chéad dá líne de ghlanmheabhair.",
+     "Tarraing pictiúr den fhear sneachta.",
+     "Smaoinigh ar fhocal a bhfuil rím aige le cat."
+    ],
+    "test": [
+     "Cé mhéad líne atá sa dán?",
+     "Cad atá mar shrón ag an bhfear sneachta?",
+     "Cad is líne ann?",
+     "Cad is rím ann?",
+     "Smaoinigh ar fhocal a bhfuil rím aige le mata."
+    ],
+    "steps": [
+     "Léigh an dán líne ar líne.",
+     "Féach ar an bhfocal deireanach i ngach líne agus cuardaigh rímeanna.",
+     "Foghlaim dhá líne ag an am.",
+     "Botún coitianta: léamh gan stad. Stad beagán ag deireadh gach líne."
+    ],
+    "answers": [
+     "Ceithre líne.",
+     "Cairéad.",
+     "Sraith amháin focal i ndán.",
+     "Focail a chríochnaíonn leis an bhfuaim chéanna.",
+     "Do fhreagra. Mar shampla: bata."
+    ]
+   }
+  },
+  "eu-year-ie-beginner-ji-l20": {
+   "ga": {
+    "title": "Finscéal: Fionn agus an Bradán Feasa",
+    "theory": "Scéal traidisiúnta ón am fadó is ea finscéal. Sa scéal seo bhí Fionn óg ag foghlaim ó fhile darbh ainm Finnéigeas. Bhí an file ag iarraidh breith ar an mBradán Feasa, mar go bhfaigheadh an chéad duine a d'íosfadh é eolas an domhain go léir.",
+    "sample": "Athinsint i m'fhocail féin: Rug Finnéigeas ar an mBradán Feasa sa Bhóinn. Dúirt sé le Fionn é a róstadh, ach gan blaiseadh de. Dhóigh Fionn a ordóg ar chraiceann te an bhradáin agus chuir sé ina bhéal í. Ansin fuair Fionn féin an t-eolas go léir.",
+    "worked": "Is iad Fionn agus Finnéigeas na carachtair. Theastaigh an t-eolas ón bhfile, ach is chuig Fionn a chuaigh sé de thaisme. Ina dhiaidh sin, nuair a bhí ceist aige, chuireadh Fionn a ordóg ina bhéal.",
+    "exercises": [
+     "Inis tús an scéil.",
+     "Ainmnigh na carachtair.",
+     "Tarraing pictiúr den Bhradán Feasa.",
+     "Déanaigí dráma den scéal i ngrúpa.",
+     "Abair cad a tharla d'ordóg Fhinn."
+    ],
+    "test": [
+     "Cé a rug ar an mbradán?",
+     "Cad a dúirt an file le Fionn?",
+     "Conas a dhóigh Fionn a ordóg?",
+     "Cé a fuair an t-eolas?",
+     "Cad a dhéanadh Fionn nuair a bhí ceist aige?"
+    ],
+    "steps": [
+     "Aimsigh na carachtair agus an áit.",
+     "Inis in ord: ar dtús, ansin, ag an deireadh.",
+     "Abair cad a d'athraigh d'Fhionn ag deireadh an scéil.",
+     "Botún coitianta: ceapadh gur ith an file an bradán. Is é Fionn a fuair an t-eolas, de thaisme."
+    ],
+    "answers": [
+     "Finnéigeas.",
+     "É a róstadh ach gan blaiseadh de.",
+     "Ar chraiceann te an bhradáin.",
+     "Fionn.",
+     "Chuireadh sé a ordóg ina bhéal."
+    ]
+   }
+  },
+  "eu-year-ie-beginner-ji-l21": {
+   "ga": {
+    "title": "Fabhalscéal: An leon agus an luch",
+    "theory": "Is scéal gearr é fabhalscéal ina labhraíonn ainmhithe agus ina n-iompraíonn siad iad féin mar dhaoine. Ag an deireadh bíonn ceacht ann. D'inis an scéalaí Gréagach Aesóp go leor acu.",
+    "sample": "Athinsint i m'fhocail féin: Dhúisigh luch leon a bhí ina chodladh. Theastaigh ón leon í a ithe, ach lig sé di imeacht. Níos déanaí, rugadh ar an leon i líon. Chogain an luch an líon agus scaoil sí an leon saor.",
+    "worked": "Is iad an leon agus an luch na carachtair. Tá an leon láidir agus an luch beag, ach chabhraigh sí leis mar sin féin. An ceacht: is féidir leis an duine beag cabhrú leis an duine mór, agus filleann an chineáltas.",
+    "exercises": [
+     "Inis an fabhalscéal arís.",
+     "Tarraing pictiúr den luch ag an líon.",
+     "Cén sórt leoin atá ann ag an tús?",
+     "Abair an ceacht i d'fhocail féin.",
+     "Cum deireadh eile."
+    ],
+    "test": [
+     "Cé hiad carachtair an scéil?",
+     "Cén fáth ar lig an leon don luch imeacht?",
+     "Cad a tharla don leon níos déanaí?",
+     "Conas a chabhraigh an luch leis?",
+     "Cad é an ceacht?"
+    ],
+    "steps": [
+     "Aimsigh na carachtair: an leon agus an luch.",
+     "Abair cad a tharlaíonn ag an tús agus ag an deireadh.",
+     "Cuardaigh an ceacht: cad a mhúineann an scéal?",
+     "Botún coitianta: ceapadh nach mbaineann an scéal ach le hainmhithe. Taispeánann na hainmhithe conas a iompraíonn daoine iad féin."
+    ],
+    "answers": [
+     "An leon agus an luch.",
+     "Bhí trua aige di.",
+     "Rugadh air i líon.",
+     "Chogain sí an líon.",
+     "Is féidir leis an duine beag cabhrú leis an duine mór."
+    ]
+   }
+  },
+  "eu-year-ie-beginner-ji-l22": {
+   "ga": {
+    "title": "Tomhaiseanna",
+    "theory": "Déanann tomhas cur síos ar rud gan a ainm a rá. Éistimid le gach leid agus tomhaisimid. Is cuid den bhéaloideas iad na tomhaiseanna.",
+    "sample": "Tomhas de mo chuid féin: Tá snáthaidí uirthi, ach ní fhuálann sí; bíonn sí glas sa gheimhreadh. (crann giúise) / Tomhas de mo chuid féin: Tá ceithre chos air, ach ní shiúlann sé. (bord)",
+    "worked": "Leideanna: snáthaidí, glas sa gheimhreadh — crann giúise atá ann. Sa dara ceann: ceithre chos, ach gan siúl — bord. Seiceálaimid an freagra le gach leid.",
+    "exercises": [
+     "Tomhais: Bíonn sé ar chrann, dearg agus cruinn. (úll)",
+     "Cum tomhas faoin ngrian.",
+     "Cuir tomhas ar chara.",
+     "Tarraing pictiúr den fhreagra.",
+     "Ainmnigh na leideanna sa tomhas faoin gcrann giúise."
+    ],
+    "test": [
+     "Cad is tomhas ann?",
+     "Cad é freagra an chéad tomhais?",
+     "Cén fáth a mbíonn an crann giúise glas sa gheimhreadh?",
+     "Conas a sheiceálann tú an freagra?",
+     "Cum tomhas faoi chat."
+    ],
+    "steps": [
+     "Éist leis an tomhas go dtí an deireadh.",
+     "Aimsigh agus ainmnigh gach leid.",
+     "Seiceáil an freagra le gach leid.",
+     "Botún coitianta: freagra a thabhairt i ndiaidh na chéad leide. Éist leis an tomhas ar fad."
+    ],
+    "answers": [
+     "Cur síos ar rud gan a ainm a rá.",
+     "Crann giúise.",
+     "Mar nach dtiteann a snáthaidí.",
+     "Le gach leid.",
+     "Do fhreagra. Mar shampla: Tá cosa boga aige agus déanann sé crónán. (cat)"
+    ]
+   }
+  },
+  "eu-year-ie-beginner-ji-l23": {
+   "ga": {
+    "title": "Téacs faisnéise: an ghráinneog",
+    "theory": "Tugann téacs faisnéise eolas fíor dúinn. Ní insíonn sé scéal samhailteach. Léimid go cúramach é agus cuardaímid freagraí sa téacs.",
+    "sample": "Ainmhí beag é an ghráinneog a bhfuil spíonta ar a droim. Bíonn sí ina cónaí i gcoillte, i bpáirceanna agus i ngairdíní. Itheann an ghráinneog feithidí agus seilidí. Sa gheimhreadh déanann sí nead as duilleoga agus codlaíonn sí.",
+    "worked": "Insíonn an téacs cén chuma atá ar an ngráinneog, cá bhfuil sí ina cónaí, cad a itheann sí agus cad a dhéanann sí sa gheimhreadh. Is eolas fíor é seo. Sa gheimhreadh codlaíonn an ghráinneog ar feadh i bhfad: codladh geimhridh a thugtar air.",
+    "exercises": [
+     "Léigh an téacs faoi dhó.",
+     "Cuir líne faoin rud a itheann an ghráinneog.",
+     "Tarraing pictiúr den ghráinneog ina nead.",
+     "Mínigh i d'fhocail féin cad is codladh geimhridh ann.",
+     "Cuir ceist faoin ngráinneog."
+    ],
+    "test": [
+     "Cad atá ar dhroim na gráinneoige?",
+     "Cá bhfuil an ghráinneog ina cónaí?",
+     "Cad a itheann sí?",
+     "Cad a dhéanann sí sa gheimhreadh?",
+     "An scéal samhailteach é téacs faisnéise?"
+    ],
+    "steps": [
+     "Léigh an cheist agus aimsigh an focal tábhachtach, mar shampla geimhreadh.",
+     "Cuardaigh an focal sin sa téacs.",
+     "Is gnách go mbíonn an freagra san abairt chéanna.",
+     "Botún coitianta: freagra a chumadh. Ná freagair ach leis an méid atá scríofa sa téacs."
+    ],
+    "answers": [
+     "Spíonta.",
+     "I gcoillte, i bpáirceanna agus i ngairdíní.",
+     "Feithidí agus seilidí.",
+     "Déanann sí nead as duilleoga agus codlaíonn sí.",
+     "Ní hea, tugann sé eolas fíor."
+    ]
+   }
+  },
+  "eu-year-ie-beginner-ji-l24": {
+   "ga": {
+    "title": "Comhrá béasach agus comhrá ar an bhfón",
+    "theory": "I gcomhrá féachaimid ar an duine eile. Beannaímid, iarraimid go béasach, gabhaimid buíochas agus gabhaimid ár leithscéal. Ar an bhfón deirimid ar dtús cé atá ag caint, agus ag an deireadh fágaimid slán.",
+    "sample": "Oisín: Dia duit, seo Oisín ag caint. An bhfuil Mamó sa bhaile, le do thoil? / Aintín: Fan nóiméad. / Oisín: Go raibh maith agat, slán.",
+    "worked": "Ar dtús dúirt Oisín cé a bhí ann, ansin chuir sé ceist go béasach, agus ag an deireadh ghabh sé buíochas. Ní fheiceann daoine muid ar an bhfón, mar sin deirimid cé atá ag glaoch.",
+    "exercises": [
+     "Beannaigh don mhúinteoir.",
+     "Iarr peann luaidhe ar chara.",
+     "Gabh buíochas as bronntanas.",
+     "Déan comhrá fóin le Mamó.",
+     "Gabh do leithscéal má bhuail tú in aghaidh duine."
+    ],
+    "test": [
+     "Cé atá á lorg ag Oisín?",
+     "Cad a deir Oisín ar dtús?",
+     "Cé na focail bhéasacha a úsáideann sé?",
+     "Cén fáth a ndeirimid cé muid féin ar an bhfón?",
+     "Cad a deir tú nuair a fhágann tú slán?"
+    ],
+    "steps": [
+     "Beannaigh agus abair cé thú féin.",
+     "Abair d'iarratas le le do thoil.",
+     "Gabh buíochas agus fág slán.",
+     "Botún coitianta: comhrá fóin a thosú gan beannú agus gan a rá cé atá ag glaoch."
+    ],
+    "answers": [
+     "Mamó.",
+     "Dia duit, seo Oisín ag caint.",
+     "Dia duit, le do thoil, go raibh maith agat, slán.",
+     "Mar nach bhfeiceann siad muid.",
+     "Slán."
+    ]
+   }
+  },
+  "eu-year-ie-beginner-ji-l25": {
+   "ga": {
+    "title": "Scéal a insint ó phictiúir",
+    "theory": "Nuair a insímid scéal ó phictiúir, féachaimid orthu in ord. Deirimid abairt faoi gach pictiúr: cé, cá, cad atá ar siúl. Úsáidimid na focail ar dtús, ansin, ag an deireadh.",
+    "sample": "Pictiúr 1: buachaill ag cur síl. Pictiúr 2: tá sé á uisciú. Pictiúr 3: d'fhás lus na gréine. / Scéal: Ar dtús chuir Liam síol. Ansin d'uiscigh sé é gach lá. Ag an deireadh d'fhás lus na gréine mór.",
+    "worked": "Tá trí abairt sa scéal, ceann amháin do gach pictiúr. Taispeánann na focail ar dtús, ansin, ag an deireadh an t-ord. Thugamar ainm don bhuachaill chun an scéal a dhéanamh níos beoga.",
+    "exercises": [
+     "Inis i dtrí abairt conas a ullmhaíonn tú don scoil.",
+     "Úsáid na focail ar dtús, ansin, ag an deireadh.",
+     "Tarraing trí phictiúr faoi do lá.",
+     "Smaoinigh ar theideal don scéal.",
+     "Inis do chara faoi do Dhomhnach."
+    ],
+    "test": [
+     "Cad a chuir Liam?",
+     "Cad a rinne sé ansin?",
+     "Cad a d'fhás ag an deireadh?",
+     "Cé na focail a thaispeánann an t-ord?",
+     "Cé mhéad pictiúr atá ann?"
+    ],
+    "steps": [
+     "Féach ar na pictiúir in ord.",
+     "Abair abairt faoi gach pictiúr: cé, cad atá ar siúl.",
+     "Ceangail na habairtí le ar dtús, ansin, ag an deireadh.",
+     "Botún coitianta: gan insint ach faoin bpictiúr deireanach. Is cuid den scéal é gach pictiúr."
+    ],
+    "answers": [
+     "Síol.",
+     "D'uiscigh sé é gach lá.",
+     "Lus na gréine mór.",
+     "Ar dtús, ansin, ag an deireadh.",
+     "Trí cinn."
+    ]
+   }
+  },
+  "eu-year-ie-beginner-ji-l26": {
+   "ga": {
+    "title": "Cur síos ar bhréagán",
+    "theory": "Nuair a dhéanaimid cur síos ar rud, deirimid cén chuma atá air: dath, méid, cruth agus cad as a bhfuil sé déanta. Ar an mbealach sin is féidir le duine nach bhfeiceann é é a shamhlú. Tosaímid leis an rud atá ann.",
+    "sample": "Tá béirín agam darb ainm Teidí. Tá sé donn agus bog. Tá cluasa cruinne agus srón dhubh air. Tá ribín dearg timpeall a mhuiníl. Codlaím leis gach oíche.",
+    "worked": "Tosaíonn an cur síos leis an rud atá ann: béirín darb ainm Teidí. Ansin labhraíonn sé faoin dath, na cluasa, an tsrón agus an ribín. Ag an deireadh insíonn sé cén fáth a bhfuil grá againn dó. Labhraíonn gach abairt faoi rud amháin.",
+    "exercises": [
+     "Déan cur síos ar do bhréagán is fearr leat i dtrí abairt.",
+     "Abair cén dath atá ar do mhála.",
+     "Déan cur síos ar liathróid: cruth agus dath.",
+     "Tomhais an bréagán ó chur síos do charad.",
+     "Tarraing pictiúr de Theidí."
+    ],
+    "test": [
+     "Cén dath atá ar Theidí?",
+     "Cad atá timpeall a mhuiníl?",
+     "Cén sórt cluas atá air?",
+     "Conas a thosaíonn an cur síos?",
+     "Déan cur síos ar do pheann luaidhe in abairt amháin."
+    ],
+    "steps": [
+     "Ar dtús, abair cad air a bhfuil tú ag déanamh cur síos.",
+     "Abair an dath, an méid, an cruth agus cad as a bhfuil sé déanta.",
+     "Ag an deireadh, abair cén fáth ar maith leat é.",
+     "Botún coitianta: gan a rá ach go bhfuil sé go deas. Déan cur síos air ionas gur féidir le daoine eile é a shamhlú."
+    ],
+    "answers": [
+     "Donn.",
+     "Ribín dearg.",
+     "Cluasa cruinne.",
+     "Leis an rud atá ann.",
+     "Do fhreagra. Mar shampla: Tá mo pheann luaidhe fada agus gorm."
+    ]
+   }
+  },
+  "eu-year-ie-beginner-ji-l27": {
+   "ga": {
+    "title": "An leabhar agus an leabharlann",
+    "theory": "Tá clúdach, leathanaigh agus pictiúir ag leabhar. Ar an gclúdach tá ainm an údair agus an teideal. Sa leabharlann faighimid leabhair ar iasacht, tugaimid aire dóibh agus tugaimid ar ais in am iad.",
+    "sample": "Mo shampla féin: Ar an gclúdach tá scríofa: Nuala Beag — Scéalta na Coille. Sa phictiúr tá sionnach agus coinín.",
+    "worked": "Insíonn an teideal cad faoi a bhfuil an leabhar: scéalta na coille. Is í Nuala Beag an t-údar. Ón bpictiúr tomhaisimid cé atá sa leabhar. Tá uimhir ar gach leathanach ionas go n-aimsímid an áit ar stopamar.",
+    "exercises": [
+     "Taispeáin clúdach leabhair.",
+     "Aimsigh teideal leabhair sa rang.",
+     "Aimsigh ainm an údair.",
+     "Tarraing clúdach an leabhair is fearr leat.",
+     "Inis conas a thugann tú aire do leabhar."
+    ],
+    "test": [
+     "Cad atá ar an gclúdach?",
+     "Cé a scríobh an leabhar sa sampla?",
+     "Cad faoi a bhfuil an leabhar?",
+     "Cad atá sa phictiúr ar an gclúdach?",
+     "Cad a dhéanaimid le leabhar a fuaireamar ar iasacht?"
+    ],
+    "steps": [
+     "Féach ar an gclúdach: an t-údar agus an teideal.",
+     "Féach ar an bpictiúr agus tomhais cad faoi a bhfuil an leabhar.",
+     "Léigh agus seiceáil an raibh an ceart agat.",
+     "Botún coitianta: an teideal agus an t-údar a mheascadh. Is é an teideal ainm an leabhair; scríobh an t-údar é."
+    ],
+    "answers": [
+     "Ainm an údair agus an teideal.",
+     "Nuala Beag.",
+     "Scéalta na coille.",
+     "Sionnach agus coinín.",
+     "Tugaimid aire dó agus tugaimid ar ais in am é."
+    ]
+   }
+  },
+  "eu-year-ie-beginner-ji-l28": {
+   "ga": {
+    "title": "Athbhreithniú: cad is féidir liom a dhéanamh anois",
+    "theory": "Ag deireadh na bliana léimid téacs gearr agus taispeánaimid cad is féidir linn a dhéanamh: léamh agus tuiscint, focail a roinnt ina siollaí, abairtí a scríobh le ceannlitir agus lánstad, agus an síneadh fada agus an séimhiú a scríobh i gceart.",
+    "sample": "Gach maidin cuireann Clíodhna a mála scoile le chéile. Cuireann sí leabhar, peann luaidhe agus ceapaire isteach. Ansin siúlann sí ar scoil lena deartháir, Pádraig.",
+    "worked": "Tá trí abairt sa téacs. Is ainmneacha iad Clíodhna agus Pádraig, mar sin tosaíonn siad le ceannlitir. San ainm Pádraig tá síneadh fada ar an a. Roinnimid an focal maidin ina shiollaí: mai-din.",
+    "exercises": [
+     "Léigh an téacs os ard.",
+     "Aimsigh focal le síneadh fada.",
+     "Roinn ina siollaí: leabhar.",
+     "Scríobh abairt faoi do mhála.",
+     "Inis cad ba mhó a thaitin leat i mbliana."
+    ],
+    "test": [
+     "Cad a dhéanann Clíodhna gach maidin?",
+     "Cé mhéad abairt atá sa téacs?",
+     "Cé leis a siúlann Clíodhna ar scoil?",
+     "Cad a chuireann sí sa mhála?",
+     "Roinn ina siollaí: ceapaire."
+    ],
+    "steps": [
+     "Léigh an téacs go mall ar dtús, ansin níos tapúla.",
+     "Cuir ceist: cé? cad atá ar siúl? cé leis?",
+     "Comhair na habairtí de réir na lánstadanna.",
+     "Botún coitianta: ainmneacha a scríobh le litir bheag. Tosaíonn ainmneacha daoine i gcónaí le ceannlitir: Clíodhna."
+    ],
+    "answers": [
+     "Cuireann sí a mála scoile le chéile.",
+     "Trí cinn.",
+     "Lena deartháir, Pádraig.",
+     "Leabhar, peann luaidhe agus ceapaire.",
+     "cea-pai-re."
+    ]
+   }
+  }
+ }
+}

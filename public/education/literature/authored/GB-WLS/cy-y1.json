@@ -1,0 +1,1064 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "GB-WLS",
+ "stage": "beginner",
+ "grade": "Y1",
+ "version": "b9d1c4f21c19f95ccc4d41ce36f707b2a4daaf8a62052add8ddeaf256e8b02d8",
+ "source": "https://hwb.gov.wales/curriculum-for-wales/languages-literacy-and-communication/",
+ "sourceTitle": "Cwricwlwm i Gymru (Llywodraeth Cymru, 2022), Maes Dysgu a Phrofiad Ieithoedd, Llythrennedd a Chyfathrebu, cam cynnydd 1–2: gwrando a siarad, seiniau a llythrennau, yr wyddor Gymraeg, treiglo, darllen a deall, ysgrifennu, llên gwerin a llenyddiaeth plant; trefn fel mewn llyfrau darllen cynnar; deunydd gwreiddiol, heb destun gwerslyfr",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "cy",
+ "labels": [
+  "Ymarfer gwreiddiol · Cymru · Blwyddyn 1",
+  "Dysgu",
+  "Enghraifft wreiddiol",
+  "Esboniad",
+  "Ymarferion",
+  "Gwirio dy hun",
+  "Ymarferion gwreiddiol, nid prawf swyddogol na thestun gwerslyfr. Os oes angen, darllen gydag oedolyn.",
+  "Os nad wyt ti'n deall: cam wrth gam",
+  "Atebion (gwiria pan fyddi di wedi gorffen)"
+ ],
+ "units": [
+  {
+   "title": "Paratoi i ddarllen ac ysgrifennu",
+   "keys": [
+    "eu-year-gb-wls-beginner-y1-l01",
+    "eu-year-gb-wls-beginner-y1-l02",
+    "eu-year-gb-wls-beginner-y1-l03",
+    "eu-year-gb-wls-beginner-y1-l04"
+   ]
+  },
+  {
+   "title": "Llythrennau",
+   "keys": [
+    "eu-year-gb-wls-beginner-y1-l05",
+    "eu-year-gb-wls-beginner-y1-l06",
+    "eu-year-gb-wls-beginner-y1-l07",
+    "eu-year-gb-wls-beginner-y1-l08",
+    "eu-year-gb-wls-beginner-y1-l09",
+    "eu-year-gb-wls-beginner-y1-l10",
+    "eu-year-gb-wls-beginner-y1-l11",
+    "eu-year-gb-wls-beginner-y1-l12"
+   ]
+  },
+  {
+   "title": "Ysgrifennu'n gywir",
+   "keys": [
+    "eu-year-gb-wls-beginner-y1-l13",
+    "eu-year-gb-wls-beginner-y1-l14",
+    "eu-year-gb-wls-beginner-y1-l15",
+    "eu-year-gb-wls-beginner-y1-l16"
+   ]
+  },
+  {
+   "title": "Darllen",
+   "keys": [
+    "eu-year-gb-wls-beginner-y1-l17",
+    "eu-year-gb-wls-beginner-y1-l18",
+    "eu-year-gb-wls-beginner-y1-l19",
+    "eu-year-gb-wls-beginner-y1-l20",
+    "eu-year-gb-wls-beginner-y1-l21",
+    "eu-year-gb-wls-beginner-y1-l22",
+    "eu-year-gb-wls-beginner-y1-l23"
+   ]
+  },
+  {
+   "title": "Cyfathrebu",
+   "keys": [
+    "eu-year-gb-wls-beginner-y1-l24",
+    "eu-year-gb-wls-beginner-y1-l25",
+    "eu-year-gb-wls-beginner-y1-l26"
+   ]
+  },
+  {
+   "title": "Llyfrau ac adolygu",
+   "keys": [
+    "eu-year-gb-wls-beginner-y1-l27",
+    "eu-year-gb-wls-beginner-y1-l28"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-gb-wls-beginner-y1-l01": {
+   "cy": {
+    "title": "Cyflwyno a siarad yn ein tro",
+    "theory": "Ym Mlwyddyn 1 rydyn ni'n dysgu gwrando. Mae un person yn siarad ac mae'r lleill yn gwrando heb dorri ar draws. Rydyn ni'n ateb mewn brawddeg lawn: Fy enw i yw… Rydyn ni'n defnyddio geiriau cwrtais: bore da, os gwelwch yn dda, diolch, mae'n ddrwg gen i.",
+    "sample": "Fy enw i yw Cerys. Dw i'n chwech oed. Dw i'n hoffi tynnu lluniau. Mae Osian yn eistedd wrth fy ymyl i.",
+    "worked": "Dywedodd Cerys bedair brawddeg fer: ei henw, ei hoed, beth mae hi'n ei hoffi a phwy sy'n eistedd wrth ei hymyl. Mae pob brawddeg yn dechrau â phriflythyren ac yn gorffen ag atalnod llawn.",
+    "exercises": [
+     "Cyflwyna dy hun mewn dwy frawddeg.",
+     "Dywed beth rwyt ti'n hoffi ei wneud.",
+     "Dywed enw'r plentyn sy'n eistedd wrth dy ymyl.",
+     "Dangos sut rwyt ti'n codi dy law i siarad.",
+     "Ailadrodd beth ddywedodd ffrind amdano'i hun."
+    ],
+    "test": [
+     "Faint yw oed Cerys?",
+     "Beth rydyn ni'n ei wneud pan rydyn ni eisiau siarad?",
+     "Pam nad ydyn ni'n torri ar draws?",
+     "Pa air rwyt ti'n ei ddweud pan wyt ti'n cael rhywbeth?",
+     "Pwy sy'n eistedd wrth ymyl Cerys?"
+    ],
+    "steps": [
+     "Yn gyntaf, dywed dy enw: Fy enw i yw…",
+     "Yna dywed faint yw dy oed a beth rwyt ti'n ei hoffi.",
+     "Pan fydd rhywun arall yn siarad, gwranda ac aros nes iddo orffen.",
+     "Camgymeriad cyffredin: ateb ag un gair. Ateb mewn brawddeg lawn."
+    ],
+    "answers": [
+     "Chwech oed.",
+     "Codi ein llaw ac aros ein tro.",
+     "Er mwyn i bawb gael siarad a deall ei gilydd.",
+     "Diolch.",
+     "Osian."
+    ]
+   }
+  },
+  "eu-year-gb-wls-beginner-y1-l02": {
+   "cy": {
+    "title": "Brawddeg, gair, sillaf, sain",
+    "theory": "Pan fyddwn ni'n siarad, rydyn ni'n defnyddio brawddegau. Mae brawddeg wedi'i gwneud o eiriau. Rydyn ni'n rhannu geiriau yn sillafau, a gallwn ni eu clapio. Mae sillafau wedi'u gwneud o seiniau. Rydyn ni'n clywed ac yn dweud sain, ac yn gweld ac yn ysgrifennu llythyren.",
+    "sample": "Mae Mam yn canu. / ca-nu / c-a-n-u",
+    "worked": "Mae pedwar gair yn y frawddeg: Mae, Mam, yn, canu. Mae dwy sillaf yn y gair canu: ca-nu. Rydyn ni'n mynd o'r mawr i'r bach: brawddeg, gair, sillaf, sain.",
+    "exercises": [
+     "Faint o eiriau sydd yn: Mae Ben yn rhedeg?",
+     "Clapia'r gair afal.",
+     "Faint o seiniau sydd yn y gair mam?",
+     "Dywed frawddeg am dy fag.",
+     "Beth yw'r sain gyntaf yn y gair afal?"
+    ],
+    "test": [
+     "O beth mae brawddeg wedi'i gwneud?",
+     "Faint o sillafau sydd yn y gair cadair?",
+     "Faint o seiniau sydd yn y gair pen?",
+     "Beth yw'r sain olaf yn y gair pen?",
+     "Beth yw'r gwahaniaeth rhwng sain a llythyren?"
+    ],
+    "steps": [
+     "Dywed y frawddeg a chyfrifa'r geiriau ar dy fysedd.",
+     "Clapia'r gair: mae un clap yn un sillaf.",
+     "Dywed y gair yn araf i glywed pob sain ar ei phen ei hun.",
+     "Camgymeriad cyffredin: cymysgu sillaf a sain. Rydyn ni'n clapio sillaf ac yn dweud pob sain ar wahân."
+    ],
+    "answers": [
+     "O eiriau.",
+     "Dwy: ca-dair.",
+     "Tair: p-e-n.",
+     "n.",
+     "Rydyn ni'n clywed ac yn dweud sain, ac yn gweld ac yn ysgrifennu llythyren."
+    ]
+   }
+  },
+  "eu-year-gb-wls-beginner-y1-l03": {
+   "cy": {
+    "title": "Llafariaid a chytseiniaid",
+    "theory": "Yn Gymraeg mae saith llafariad: a, e, i, o, u, w, y. Rydyn ni'n eu dweud yn rhydd, â'r geg ar agor. Rydyn ni'n dweud cytseiniaid gyda rhwystr: mae'r gwefusau, y dannedd neu'r tafod yn atal yr aer. Mae llafariad ym mhob sillaf.",
+    "sample": "llafariaid: a, e, i, o, u, w, y / cytseiniaid: m, n, l, s / ca-nu — dwy sillaf, llafariad ym mhob un",
+    "worked": "Yn y gair cwm, w yw'r llafariad, ac mae c ac m yn gytseiniaid. Felly yn Gymraeg mae w yn gallu bod yn llafariad. Un sillaf sydd yn y gair cwm.",
+    "exercises": [
+     "Dywed y saith llafariad.",
+     "Dod o hyd i'r llafariad yn y gair cwch.",
+     "Dywed air sy'n dechrau â chytsain.",
+     "Cyfrifa'r llafariaid yn y gair banana.",
+     "Dywed yn araf: a, e, i, o, u, w, y."
+    ],
+    "test": [
+     "Sut rydyn ni'n dweud llafariaid?",
+     "Faint o lafariaid sydd yn Gymraeg?",
+     "Faint o sillafau sydd yn y gair banana?",
+     "Oes sillaf heb lafariad?",
+     "Pa lafariad sydd yn y gair cwm?"
+    ],
+    "steps": [
+     "Dywed y gair yn araf ac yn uchel.",
+     "Sain rwyt ti'n gallu ei hymestyn â'r geg ar agor yw llafariad.",
+     "Cofia fod llafariad o leiaf ym mhob sillaf.",
+     "Camgymeriad cyffredin: anghofio bod w ac y yn llafariaid yn Gymraeg, fel yn cwm a dyn."
+    ],
+    "answers": [
+     "Yn rhydd, â'r geg ar agor.",
+     "Saith.",
+     "Tair: ba-na-na.",
+     "Nac oes, mae llafariad ym mhob sillaf.",
+     "w."
+    ]
+   }
+  },
+  "eu-year-gb-wls-beginner-y1-l04": {
+   "cy": {
+    "title": "Paratoi'r llaw i ysgrifennu",
+    "theory": "Cyn ysgrifennu, rydyn ni'n cynhesu'r llaw: tynnu cylchoedd, tonnau a dolenni. Rydyn ni'n eistedd yn syth, gyda'n traed ar y llawr. Rydyn ni'n dal y pensil yn ysgafn â thri bys a dydyn ni ddim yn gwasgu'n galed.",
+    "sample": "Rhes 1: llinellau syth. / Rhes 2: tonnau. / Rhes 3: hirgylchoedd. / Rhes 4: dolenni.",
+    "worked": "Rydyn ni'n gweld y siapiau hyn yn y llythrennau: mae hirgylch yn o ac a, llinell syth yn i a t, a dolen yn l. Wrth eu hymarfer, mae'r llythrennau'n mynd yn daclusach. Rydyn ni'n ysgrifennu o'r chwith i'r dde.",
+    "exercises": [
+     "Tynna res o hirgylchoedd.",
+     "Tynna res o donnau.",
+     "Dangos sut rwyt ti'n dal y pensil.",
+     "Tynna ddolen yn yr awyr â dy fys.",
+     "Dod o hyd i hirgylch yn y llythyren a."
+    ],
+    "test": [
+     "Â faint o fysedd rydyn ni'n dal y pensil?",
+     "Sut rydyn ni'n eistedd wrth ysgrifennu?",
+     "I ba gyfeiriad rydyn ni'n ysgrifennu?",
+     "Ym mha lythyren mae hirgylch?",
+     "Beth rwyt ti'n ei wneud pan fydd dy law wedi blino?"
+    ],
+    "steps": [
+     "Eistedd yn syth a rho dy draed ar y llawr.",
+     "Dal y pensil â thri bys a phaid â gwasgu.",
+     "Ysgrifenna o'r chwith i'r dde a chadw at y llinell.",
+     "Camgymeriad cyffredin: gwasgu'r pensil yn galed. Pan fydd dy law wedi blino, ysgwyd hi a gorffwys."
+    ],
+    "answers": [
+     "Â thri.",
+     "Yn syth, gyda'n traed ar y llawr.",
+     "O'r chwith i'r dde.",
+     "Yn o ac a.",
+     "Ysgwyd fy llaw a gorffwys."
+    ]
+   }
+  },
+  "eu-year-gb-wls-beginner-y1-l05": {
+   "cy": {
+    "title": "Y llafariaid a, e, i, o, u, w, y",
+    "theory": "Yn gyntaf rydyn ni'n dysgu'r llafariaid. Mae gan bob llythyren ffurf fawr a ffurf fach. Rydyn ni'n ysgrifennu priflythyren ar ddechrau brawddeg ac mewn enwau.",
+    "sample": "A a, E e, I i, O o, U u, W w, Y y / a fel yn afal, o fel yn oren, i fel yn Iwan",
+    "worked": "Ar ddechrau'r gair oren rydyn ni'n clywed o. Ar ddechrau'r gair Iwan rydyn ni'n clywed i, ac am mai enw yw e, rydyn ni'n ysgrifennu I fawr.",
+    "exercises": [
+     "Dywed y llafariaid yn eu trefn.",
+     "Ysgrifenna res o'r llythyren o.",
+     "Pa sain rwyt ti'n ei chlywed ar ddechrau Iwan?",
+     "Dywed air sy'n dechrau ag e.",
+     "Rho gylch o gwmpas y llafariaid: a m o w."
+    ],
+    "test": [
+     "Pa lythrennau rydyn ni wedi'u dysgu?",
+     "Pa sain sydd ar ddechrau'r gair oren?",
+     "Pa lythyren rydyn ni'n ei hysgrifennu ar ddechrau Iwan?",
+     "Faint o ffurfiau sydd gan bob llythyren?",
+     "Â pha lythyren mae'r gair eliffant yn dechrau?"
+    ],
+    "steps": [
+     "Dywed y gair yn araf ac yn glir.",
+     "Gwranda pa lafariad rwyt ti'n ei dweud.",
+     "Dod o hyd i'r llythyren honno a'i hysgrifennu.",
+     "Camgymeriad cyffredin: ysgrifennu llythrennau o faint gwahanol. Dylai pob llythyren fod rhwng y llinellau."
+    ],
+    "answers": [
+     "a, e, i, o, u, w, y.",
+     "o.",
+     "I fawr.",
+     "Dwy: fawr a bach.",
+     "e."
+    ]
+   }
+  },
+  "eu-year-gb-wls-beginner-y1-l06": {
+   "cy": {
+    "title": "Llythrennau m, n, l, s, t, r: y sillafau cyntaf",
+    "theory": "Rydyn ni'n cysylltu'r cytseiniaid m, n, l, s, t, r â llafariaid i wneud sillafau: ma, no, lo, si, te, ra. O'r sillafau rydyn ni'n gwneud geiriau: mam, nain, lo-ri, Ma-li.",
+    "sample": "ma, me, mi, mo / na, no / la, lo / sa, si / ta, te / ra, ri / mam, nain, lori, tri, ras / Mae Mam a Nain. / Mae Mali a Sam.",
+    "worked": "Rydyn ni'n darllen sillaf gyda'i gilydd: m ac a gyda'i gilydd yw ma. Mae dwy sillaf yn y gair lori: lo-ri. Enw yw Mali, felly rydyn ni'n ei ysgrifennu â phriflythyren.",
+    "exercises": [
+     "Darllen: ma, mo, mi.",
+     "Darllen: la, li, le.",
+     "Darllen: mam, nain, lori.",
+     "Rho'r gair at ei gilydd o'r sillafau: Ma-li.",
+     "Ysgrifenna res o'r llythyren m."
+    ],
+    "test": [
+     "Sut rydyn ni'n darllen m ac a gyda'i gilydd?",
+     "Faint o sillafau sydd yn y gair lori?",
+     "Darllen: Mae Sam a Nain.",
+     "Faint o eiriau sydd yn y frawddeg Mae Mam a Nain?",
+     "Pam rydyn ni'n ysgrifennu Mali â phriflythyren?"
+    ],
+    "steps": [
+     "Edrych ar y gytsain ac yna'n syth ar y llafariad ar ei hôl.",
+     "Darllen nhw gyda'i gilydd fel un sillaf.",
+     "Cysyllta'r sillafau yn air: lo-ri.",
+     "Camgymeriad cyffredin: darllen fesul llythyren: l, o, r, i. Darllen fesul sillaf: lo-ri."
+    ],
+    "answers": [
+     "Ma, fel un sillaf.",
+     "Dwy: lo-ri.",
+     "Mae Sam a Nain.",
+     "Pedwar.",
+     "Am mai enw yw e."
+    ]
+   }
+  },
+  "eu-year-gb-wls-beginner-y1-l07": {
+   "cy": {
+    "title": "Llythrennau c, p, b, d, g: darllen brawddegau",
+    "theory": "Y llythrennau newydd yw c, p, b, d a g. Yn Gymraeg mae c bob amser yn swnio'n galed, fel yn ci a cap. Nawr rydyn ni'n darllen brawddegau byr. Mae brawddeg yn dechrau â phriflythyren ac yn gorffen ag atalnod llawn.",
+    "sample": "cap, pen, bag, bara, ci / Mae'r ci yn y parc. / Mae Dad yn bwyta bara.",
+    "worked": "Mae'r frawddeg Mae'r ci yn y parc yn dechrau â phriflythyren M ac yn gorffen ag atalnod llawn. Mae c bob amser yn galed yn Gymraeg, fel yn ci a cap. Mae dwy sillaf yn y gair bara: ba-ra.",
+    "exercises": [
+     "Darllen: ca, po, bi, de, gu.",
+     "Darllen: cap, pen, bag, bara.",
+     "Darllen: Mae'r ci yn y parc.",
+     "Ysgrifenna res o'r llythyren c.",
+     "Gwna frawddeg gyda'r gair bag."
+    ],
+    "test": [
+     "Ble mae'r ci?",
+     "Beth mae Dad yn ei fwyta?",
+     "Â beth mae brawddeg yn gorffen?",
+     "Faint o sillafau sydd yn y gair bara?",
+     "Darllen: Mae pen yn y bag."
+    ],
+    "steps": [
+     "Darllen fesul sillaf: ba-ra.",
+     "Darllen y frawddeg i gyd hyd at yr atalnod llawn.",
+     "Ateb y cwestiwn: pwy? ble? beth?",
+     "Camgymeriad cyffredin: stopio yng nghanol brawddeg. Darllen hyd at yr atalnod llawn."
+    ],
+    "answers": [
+     "Yn y parc.",
+     "Bara.",
+     "Ag atalnod llawn.",
+     "Dwy: ba-ra.",
+     "Mae pen yn y bag."
+    ]
+   }
+  },
+  "eu-year-gb-wls-beginner-y1-l08": {
+   "cy": {
+    "title": "Llythrennau dwbl ch, dd, ff, ll",
+    "theory": "Yn Gymraeg mae rhai llythrennau wedi'u gwneud o ddau nod, ond un llythyren ydyn nhw: ch, dd, ff, ll. Mae ll yn sain arbennig i'r Gymraeg: rho dy dafod y tu ôl i'r dannedd a chwytha aer heibio iddo.",
+    "sample": "chwarae, ffordd, llaw, dydd, coch / Mae Lili yn chwarae. / Mae Lowri ar y ffordd.",
+    "worked": "Yn y gair llaw, un llythyren yw ll, er bod dau nod. Felly mae tair llythyren yn y gair llaw: ll, a, w. Yn y gair ffordd mae ff a dd, ac mae pedair llythyren: ff, o, r, dd.",
+    "exercises": [
+     "Darllen: chwarae, ffordd, llaw.",
+     "Dywed y sain ll yn araf.",
+     "Darllen: Mae Lili yn chwarae.",
+     "Ysgrifenna res o'r llythyren ll.",
+     "Dywed air sy'n dechrau ag ff."
+    ],
+    "test": [
+     "Beth mae Lili yn ei wneud?",
+     "Ble mae Lowri?",
+     "Faint o lythrennau sydd yn y gair llaw?",
+     "Ai un llythyren neu ddwy yw dd?",
+     "Darllen: Mae Lowri a Lili yn chwarae."
+    ],
+    "steps": [
+     "Chwilia am ddau nod gyda'i gilydd: ch, dd, ff, ll.",
+     "Cofia: un llythyren yw pob un o'r rhain.",
+     "Dywed y gair yn araf a gwranda am y sain.",
+     "Camgymeriad cyffredin: darllen ll fel l. Mae ll yn sain wahanol, gydag aer yn chwythu heibio i'r tafod."
+    ],
+    "answers": [
+     "Chwarae.",
+     "Ar y ffordd.",
+     "Tair: ll, a, w.",
+     "Un llythyren.",
+     "Mae Lowri a Lili yn chwarae."
+    ]
+   }
+  },
+  "eu-year-gb-wls-beginner-y1-l09": {
+   "cy": {
+    "title": "Llythrennau ng, ph, rh, th",
+    "theory": "Mae ng, ph, rh a th hefyd yn llythrennau dwbl. Rydyn ni'n clywed ng ar ddiwedd y gair llong, th yn y gair cath ac rh yn y gair rhedeg. Rydyn ni'n gweld ph yn aml ar ôl treiglad, fel yn ei phen.",
+    "sample": "llong, cath, rhedeg, ei phen / Mae Rhodri yn rhedeg. / Mae'r gath yn yr ardd.",
+    "worked": "Yn y gair cath, un llythyren yw th, felly mae tair llythyren: c, a, th. Mae rh yn swnio fel r gydag anadl. Yn y gair llong mae dwy lythyren ddwbl: ll ac ng.",
+    "exercises": [
+     "Darllen: llong, cath, rhedeg.",
+     "Darllen: Mae Rhodri yn rhedeg.",
+     "Dod o hyd i'r llythyren ddwbl yn y gair cath.",
+     "Ysgrifenna res o'r llythyren th.",
+     "Dywed air sy'n dechrau ag rh."
+    ],
+    "test": [
+     "Beth mae Rhodri yn ei wneud?",
+     "Faint o lythrennau sydd yn y gair cath?",
+     "Pa lythrennau dwbl sydd yn y gair llong?",
+     "Ble rydyn ni'n gweld ph yn aml?",
+     "Darllen: Mae'r gath yn rhedeg."
+    ],
+    "steps": [
+     "Chwilia am y llythrennau dwbl ng, ph, rh a th.",
+     "Cyfrifa bob llythyren ddwbl fel un llythyren.",
+     "Darllen y gair yn araf fesul sillaf.",
+     "Camgymeriad cyffredin: cyfrif th fel dwy lythyren. Yn yr wyddor Gymraeg mae th yn un llythyren."
+    ],
+    "answers": [
+     "Rhedeg.",
+     "Tair: c, a, th.",
+     "ll ac ng.",
+     "Ar ôl treiglad, fel yn ei phen.",
+     "Mae'r gath yn rhedeg."
+    ]
+   }
+  },
+  "eu-year-gb-wls-beginner-y1-l10": {
+   "cy": {
+    "title": "Llythrennau f, h, j a'r to bach",
+    "theory": "Yn Gymraeg mae f yn swnio fel v, ac mae ff yn swnio fel f. Mae h yn ychwanegu anadl. Mae'r to bach (^) yn gwneud llafariad yn hir: tân, tŷ, dŵr. Weithiau mae'r to bach yn newid y gair: tan a tân.",
+    "sample": "afal, haf, jam, tân, tŷ, dŵr / Mae'r tân yn boeth. / Mae'r tŷ yn fawr.",
+    "worked": "Yn y gair afal, mae f yn swnio fel v. Yn y gair tân, mae'r to bach yn dweud wrthon ni am ddweud yr a yn hir. Mae tân yn llosgi, ond mae tan yn air arall, felly mae'r to bach yn bwysig.",
+    "exercises": [
+     "Darllen: afal, haf, jam.",
+     "Darllen: tân, tŷ, dŵr.",
+     "Darllen: Mae'r tŷ yn fawr.",
+     "Ysgrifenna res o'r llythyren f.",
+     "Dod o hyd i'r to bach yn y gair dŵr."
+    ],
+    "test": [
+     "Sut mae f yn swnio yn Gymraeg?",
+     "Beth mae'r to bach yn ei wneud?",
+     "Sut mae'r tân?",
+     "Pam mae'r to bach yn bwysig yn tân?",
+     "Darllen: Mae dŵr yn y jwg."
+    ],
+    "steps": [
+     "Cofia: f = sain v, ff = sain f.",
+     "Os oes to bach, dywed y llafariad yn hir.",
+     "Darllen y gair eto a gwiria ei ystyr.",
+     "Camgymeriad cyffredin: anghofio'r to bach. Heb y to bach, mae tân yn troi'n air arall."
+    ],
+    "answers": [
+     "Fel v.",
+     "Mae'n gwneud y llafariad yn hir.",
+     "Yn boeth.",
+     "Heb y to bach, mae'n air arall: tan.",
+     "Mae dŵr yn y jwg."
+    ]
+   }
+  },
+  "eu-year-gb-wls-beginner-y1-l11": {
+   "cy": {
+    "title": "Yr wyddor Gymraeg",
+    "theory": "Mae gan y llythrennau drefn arbennig: yr wyddor. Mae 29 llythyren yn yr wyddor Gymraeg: a, b, c, ch, d, dd, e, f, ff, g, ng, h, i, j, l, ll, m, n, o, p, ph, r, rh, s, t, th, u, w, y. Yn y geiriadur mae'r geiriau yn nhrefn yr wyddor.",
+    "sample": "Dechrau'r wyddor: a, b, c, ch, d, dd. / Trefna: llaw, afal, cath → afal, cath, llaw.",
+    "worked": "Mae afal yn dechrau ag a, cath ag c, a llaw ag ll. Yn yr wyddor mae a cyn c, ac c cyn ll, felly'r drefn yw afal, cath, llaw. Cofia fod ll yn dod ar ôl l.",
+    "exercises": [
+     "Dywed yr wyddor hyd at y llythyren g.",
+     "Pa lythyren sy'n dod ar ôl l?",
+     "Trefna yn ôl yr wyddor: mam, eliffant, llyfr.",
+     "Dod o hyd i'r gair cath yn y geiriadur.",
+     "Dywed lythyren gyntaf a llythyren olaf yr wyddor."
+    ],
+    "test": [
+     "Beth yw'r wyddor?",
+     "Faint o lythrennau sydd yn yr wyddor Gymraeg?",
+     "Trefna: tŷ, afal, llong.",
+     "Pam mae trefn yr wyddor yn ddefnyddiol?",
+     "Â pha lythyren mae'r wyddor yn gorffen?"
+    ],
+    "steps": [
+     "Edrych ar lythyren gyntaf pob gair.",
+     "Dod o hyd i'r llythrennau hynny yn yr wyddor.",
+     "Ysgrifenna'n gyntaf y gair sydd â'i lythyren agosaf at y dechrau.",
+     "Camgymeriad cyffredin: trin ll neu ch fel dwy lythyren. Mae gan bob llythyren ddwbl ei lle ei hun yn yr wyddor."
+    ],
+    "answers": [
+     "Llythrennau mewn trefn arbennig.",
+     "29.",
+     "afal, llong, tŷ.",
+     "Er mwyn dod o hyd i eiriau'n gyflym yn y geiriadur.",
+     "y."
+    ]
+   }
+  },
+  "eu-year-gb-wls-beginner-y1-l12": {
+   "cy": {
+    "title": "Darllen a deall",
+    "theory": "Nawr rydyn ni'n gwybod yr holl lythrennau. Wrth ddarllen, rydyn ni'n cysylltu'r seiniau yn eiriau ac yn meddwl beth maen nhw'n ei olygu. Ar ôl darllen, rydyn ni'n ateb: pwy, ble, beth.",
+    "sample": "Mae Elin a Tomos yn y parc. Mae Tomos yn cicio pêl. Mae Elin yn bwydo'r hwyaid.",
+    "worked": "Mae tair brawddeg yn y testun. Pwy? Elin a Tomos. Ble? Yn y parc. Beth maen nhw'n ei wneud? Mae Tomos yn cicio pêl ac mae Elin yn bwydo'r hwyaid.",
+    "exercises": [
+     "Darllen y testun yn uchel.",
+     "Dangos bob atalnod llawn.",
+     "Dywed ble mae'r plant.",
+     "Tynna lun o Tomos gyda'r bêl.",
+     "Ychwanega frawddeg arall am Elin."
+    ],
+    "test": [
+     "Pwy sydd yn y parc?",
+     "Beth mae Tomos yn ei wneud?",
+     "Beth mae Elin yn ei wneud?",
+     "Faint o frawddegau sydd yn y testun?",
+     "Ble mae'r plant?"
+    ],
+    "steps": [
+     "Darllen y testun yn araf, frawddeg wrth frawddeg.",
+     "Gofyn i ti dy hun: pwy? ble? beth?",
+     "Chwilia am yr ateb yn y testun.",
+     "Camgymeriad cyffredin: ateb o'r cof. Chwilia am yr ateb yn y testun."
+    ],
+    "answers": [
+     "Elin a Tomos.",
+     "Cicio pêl.",
+     "Bwydo'r hwyaid.",
+     "Tair.",
+     "Yn y parc."
+    ]
+   }
+  },
+  "eu-year-gb-wls-beginner-y1-l13": {
+   "cy": {
+    "title": "Priflythrennau mewn enwau",
+    "theory": "Rydyn ni'n defnyddio priflythyren ar ddechrau brawddeg, ar gyfer enwau pobl ac anifeiliaid anwes, ac ar gyfer trefi, afonydd a llynnoedd. Rydyn ni'n ysgrifennu geiriau eraill â llythyren fach.",
+    "sample": "Mae Gethin Jones yn byw yng Nghaerdydd. Mae ganddo gi o'r enw Mot. Yn yr haf mae'n mynd at afon Taf.",
+    "worked": "Mae Gethin Jones, Mot, Caerdydd a Taf yn enwau priod, felly rydyn ni'n eu hysgrifennu â phriflythyren. Mae ci a haf yn eiriau cyffredin, felly rydyn ni'n defnyddio llythyren fach.",
+    "exercises": [
+     "Dod o hyd i'r holl enwau priod yn yr enghraifft.",
+     "Ysgrifenna dy enw cyntaf a dy gyfenw.",
+     "Ysgrifenna enw anifail anwes.",
+     "Cywira: dw i'n byw yn abertawe.",
+     "Ydyn ni'n ysgrifennu'r gair cath â phriflythyren?"
+    ],
+    "test": [
+     "Beth yw enw'r ci?",
+     "Ym mha ddinas mae Gethin yn byw?",
+     "Ysgrifenna'n gywir: mae siân yn chwarae gyda mot",
+     "Pryd rydyn ni'n defnyddio priflythyren?",
+     "Ai tref neu afon yw Taf?"
+    ],
+    "steps": [
+     "Gofyn: ai enw person, anifail, tref neu afon yw e?",
+     "Os ydy, defnyddia briflythyren.",
+     "Defnyddia briflythyren ar ddechrau pob brawddeg hefyd.",
+     "Camgymeriad cyffredin: ysgrifennu geiriau cyffredin â phriflythyren: ci, tref."
+    ],
+    "answers": [
+     "Mot.",
+     "Yng Nghaerdydd.",
+     "Mae Siân yn chwarae gyda Mot.",
+     "Ar ddechrau brawddeg ac mewn enwau priod.",
+     "Afon."
+    ]
+   }
+  },
+  "eu-year-gb-wls-beginner-y1-l14": {
+   "cy": {
+    "title": "Atalnod llawn, marc cwestiwn, ebychnod",
+    "theory": "Mae brawddeg sy'n dweud rhywbeth yn gorffen ag atalnod llawn. Mae brawddeg sy'n gofyn yn gorffen â marc cwestiwn. Mae brawddeg sy'n dangos llawenydd, syndod neu orchymyn yn gorffen ag ebychnod.",
+    "sample": "Mae'r haul yn tywynnu heddiw. Wyt ti'n dod allan? Am ddiwrnod braf!",
+    "worked": "Mae'r frawddeg gyntaf yn dweud: atalnod llawn. Mae'r ail yn gofyn: marc cwestiwn. Mae'r drydedd yn dangos llawenydd: ebychnod. Mae pob un yn dechrau â phriflythyren.",
+    "exercises": [
+     "Rho'r marc cywir: Beth yw dy enw",
+     "Rho'r marc cywir: Mae gen i gath",
+     "Meddylia am gwestiwn i'r athro.",
+     "Meddylia am frawddeg ag ebychnod.",
+     "Cyfrifa'r brawddegau yn yr enghraifft."
+    ],
+    "test": [
+     "Â beth mae cwestiwn yn gorffen?",
+     "Â pha fath o lythyren mae brawddeg yn dechrau?",
+     "Ysgrifenna'n gywir: mae hi'n bwrw glaw",
+     "Pa frawddeg yn yr enghraifft sy'n dangos llawenydd?",
+     "Faint o frawddegau sydd yn yr enghraifft?"
+    ],
+    "steps": [
+     "Gofyn: ydy'r frawddeg yn dweud, yn gofyn neu'n dangos teimlad?",
+     "Dweud — atalnod llawn; gofyn — marc cwestiwn; teimlad — ebychnod.",
+     "Gwiria'r briflythyren ar y dechrau.",
+     "Camgymeriad cyffredin: anghofio'r marc cwestiwn mewn cwestiwn byr: Dod?"
+    ],
+    "answers": [
+     "Â marc cwestiwn.",
+     "Â phriflythyren.",
+     "Mae hi'n bwrw glaw.",
+     "Am ddiwrnod braf!",
+     "Tair."
+    ]
+   }
+  },
+  "eu-year-gb-wls-beginner-y1-l15": {
+   "cy": {
+    "title": "Treiglo ar ôl dy",
+    "theory": "Yn Gymraeg mae dechrau gair weithiau'n newid. Treiglad yw'r enw ar hyn. Ar ôl y gair dy mae treiglad meddal: c → g, p → b, t → d. Er enghraifft: cath → dy gath. Mae ystyr y gair yn aros yr un peth.",
+    "sample": "cath → dy gath / pen → dy ben / tad → dy dad / Ble mae dy gath di?",
+    "worked": "Yn dy gath, mae c wedi troi'n g. Yn dy ben, mae p wedi troi'n b. Yn dy dad, mae t wedi troi'n d. Mae'r gair yn dal i olygu'r un peth; dim ond y sain gyntaf sy'n newid.",
+    "exercises": [
+     "Dywed: cath → dy …",
+     "Dywed: pen → dy …",
+     "Dywed: tad → dy …",
+     "Darllen: Ble mae dy gath di?",
+     "Gwna frawddeg gyda dy ben."
+    ],
+    "test": [
+     "Beth yw treiglad?",
+     "Beth sy'n digwydd i c ar ôl dy?",
+     "Ysgrifenna: dy + cot",
+     "Ysgrifenna: dy + troed",
+     "Ydy ystyr y gair yn newid ar ôl treiglad?"
+    ],
+    "steps": [
+     "Edrych ar y gair sy'n dod cyn yr enw: dy.",
+     "Newid y sain gyntaf: c → g, p → b, t → d.",
+     "Darllen y ddau air gyda'i gilydd: dy gath.",
+     "Camgymeriad cyffredin: dweud dy cath. Ar ôl dy, mae angen treiglo: dy gath."
+    ],
+    "answers": [
+     "Newid i ddechrau gair.",
+     "Mae c yn troi'n g.",
+     "dy got.",
+     "dy droed.",
+     "Nac ydy, dim ond y sain gyntaf sy'n newid."
+    ]
+   }
+  },
+  "eu-year-gb-wls-beginner-y1-l16": {
+   "cy": {
+    "title": "Copïo ac arddywediad",
+    "theory": "Wrth gopïo rydyn ni'n ysgrifennu testun o'r llyfr neu o'r bwrdd. Mewn arddywediad rydyn ni'n ysgrifennu beth rydyn ni'n ei glywed. Wedyn rydyn ni bob amser yn darllen eto ac yn gwirio.",
+    "sample": "Arddywediad: Mae gan Megan gath. Mae'r gath yn llwyd. Mae hi'n cysgu yn yr haul.",
+    "worked": "Mae tair brawddeg yn yr arddywediad. Enw yw Megan, felly mae'n dechrau â phriflythyren. Mae pob brawddeg yn gorffen ag atalnod llawn. Ar ôl arddywediad rydyn ni'n gwirio priflythrennau, atalnodau llawn, y to bach a'r llythrennau dwbl.",
+    "exercises": [
+     "Copïa frawddeg o'r bwrdd.",
+     "Ysgrifenna arddywediad mae oedolyn yn ei ddarllen.",
+     "Gwiria'r llythrennau dwbl.",
+     "Cyfrifa'r brawddegau yn yr arddywediad.",
+     "Tanlinella air sy'n anodd i ti."
+    ],
+    "test": [
+     "Beth yw copïo?",
+     "Pa liw yw'r gath?",
+     "Faint o frawddegau sydd yn yr arddywediad?",
+     "Beth rydyn ni'n ei wirio ar ôl arddywediad?",
+     "Ysgrifenna: Mae'r gath yn cysgu."
+    ],
+    "steps": [
+     "Gwranda ar y frawddeg i gyd cyn ysgrifennu.",
+     "Ysgrifenna air wrth air a'i ddweud yn dawel.",
+     "Ar y diwedd, gwiria'r priflythrennau, yr atalnodau a'r llythrennau dwbl.",
+     "Camgymeriad cyffredin: peidio â gwirio'r testun. Rydyn ni'n aml yn dod o hyd i gamgymeriadau wrth ddarllen eto."
+    ],
+    "answers": [
+     "Ysgrifennu testun o'r llyfr neu o'r bwrdd.",
+     "Llwyd.",
+     "Tair.",
+     "Priflythrennau, atalnodau llawn, y to bach a'r llythrennau dwbl.",
+     "Mae'r gath yn cysgu."
+    ]
+   }
+  },
+  "eu-year-gb-wls-beginner-y1-l17": {
+   "cy": {
+    "title": "Rhigymau cyfrif a throeon tafod",
+    "theory": "Llên gwerin yw caneuon, rhigymau, troeon tafod, posau a chwedlau mae pobl wedi'u trosglwyddo ar lafar ers amser maith. Mae rhigwm cyfrif yn helpu i ddewis pwy sy'n dal. Mae ganddo rythm ac odl.",
+    "sample": "Rhigwm cyfrif fy hun: Un, dau, tri, / pwy sy'n dal? Ti! / Tro tafod fy hun: Saith sach o siwgr sy ar silff Siôn.",
+    "worked": "Mae rhythm ac odl yn y rhigwm: tri — ti. Mae'r tro tafod yn anodd am fod y sain s yn ailadrodd. Yn gyntaf rydyn ni'n ei ddweud yn araf, wedyn yn gyflymach.",
+    "exercises": [
+     "Dywed y rhigwm a dewis pwy sy'n dal.",
+     "Dywed y tro tafod dair gwaith.",
+     "Dod o hyd i'r odl yn y rhigwm.",
+     "Meddylia am dy rigwm cyfrif dy hun.",
+     "Dywed rigwm rwyt ti'n ei wybod."
+    ],
+    "test": [
+     "Beth yw llên gwerin?",
+     "I beth mae rhigwm cyfrif yn dda?",
+     "Pa sain sy'n ailadrodd yn y tro tafod?",
+     "Pa air sy'n odli â tri?",
+     "I beth mae tro tafod yn dda?"
+    ],
+    "steps": [
+     "Darllen y testun yn araf ac yn uchel.",
+     "Dod o hyd i'r rhythm a'r geiriau sy'n odli.",
+     "Ailadrodd yn gyflymach, ond yn glir.",
+     "Camgymeriad cyffredin: dweud y tro tafod yn gyflym ar unwaith. Yn gyntaf, yn araf ac yn glir."
+    ],
+    "answers": [
+     "Caneuon, rhigymau, posau a chwedlau sydd wedi'u trosglwyddo ar lafar.",
+     "I ddewis pwy sy'n dal.",
+     "s.",
+     "Ti.",
+     "I ddysgu siarad yn gyflym ac yn glir."
+    ]
+   }
+  },
+  "eu-year-gb-wls-beginner-y1-l18": {
+   "cy": {
+    "title": "Hwiangerdd",
+    "theory": "Cân dyner i blant bach yw hwiangerdd. Mae mam neu dad yn ei chanu i helpu'r plentyn i gysgu. Mae'r geiriau'n dawel ac yn aml yn ailadrodd. Mae hwiangerddi traddodiadol, fel Si hei lwli, wedi'u canu yng Nghymru ers amser maith.",
+    "sample": "Hwiangerdd fy hun: / Cwsg, fy mabi bach, / mae'r lleuad yn yr awyr; / cwsg, fy mabi bach, / mae'r sêr i gyd yn gwylio.",
+    "worked": "Mae pedair llinell yn yr hwiangerdd. Mae'r llinell gyntaf yn ailadrodd: Cwsg, fy mabi bach. Mae'r naws yn dawel ac yn dyner, am mai pwrpas y gân yw helpu'r babi i gysgu.",
+    "exercises": [
+     "Darllen yr hwiangerdd yn dawel.",
+     "Dod o hyd i'r llinell sy'n ailadrodd.",
+     "Dywed pam mae pobl yn canu hwiangerddi.",
+     "Tynna lun o fabi'n cysgu.",
+     "Dywed beth sydd yn yr awyr yn yr hwiangerdd."
+    ],
+    "test": [
+     "Faint o linellau sydd yn yr hwiangerdd?",
+     "Beth yw hwiangerdd?",
+     "Beth sy'n gwylio?",
+     "Pa linell sy'n ailadrodd?",
+     "Beth yw naws yr hwiangerdd?"
+    ],
+    "steps": [
+     "Darllen yr hwiangerdd linell wrth linell.",
+     "Chwilia am y geiriau sy'n ailadrodd.",
+     "Dywed yn dy eiriau dy hun am beth mae hi.",
+     "Camgymeriad cyffredin: darllen hwiangerdd yn uchel ac yn gyflym. Rydyn ni'n ei darllen yn dawel ac yn araf."
+    ],
+    "answers": [
+     "Pedair.",
+     "Cân dyner i helpu plentyn bach i gysgu.",
+     "Y sêr.",
+     "Cwsg, fy mabi bach.",
+     "Tawel a thyner."
+    ]
+   }
+  },
+  "eu-year-gb-wls-beginner-y1-l19": {
+   "cy": {
+    "title": "Cerdd: llinell, odl, naws",
+    "theory": "Mae cerdd wedi'i gwneud o linellau. Mae'r geiriau ar ddiwedd y llinellau yn aml yn odli. Rydyn ni'n darllen cerdd yn araf ac yn oedi am eiliad ar ddiwedd pob llinell.",
+    "sample": "Cerdd fy hun: / Mae'r eira'n wyn ar ben y bryn, / mae'r plant yn llithro lawr fan hyn. / Mae dyn eira mawr wrth y drws, / gyda moronen yn drwyn bach tlws.",
+    "worked": "Mae pedair llinell yn y gerdd. Mae bryn yn odli â hyn, a drws yn odli â tlws. Mae'r naws yn hapus ac yn aeafol. Ar ddiwedd pob llinell rydyn ni'n oedi am eiliad.",
+    "exercises": [
+     "Darllen y gerdd yn uchel.",
+     "Dod o hyd i'r gair sy'n odli â drws.",
+     "Dysga'r ddwy linell gyntaf ar dy gof.",
+     "Tynna lun o'r dyn eira.",
+     "Meddylia am air sy'n odli â tŷ."
+    ],
+    "test": [
+     "Faint o linellau sydd yn y gerdd?",
+     "Beth sydd gan y dyn eira yn drwyn?",
+     "Beth yw llinell?",
+     "Beth yw odl?",
+     "Meddylia am air sy'n odli â cath."
+    ],
+    "steps": [
+     "Darllen y gerdd linell wrth linell.",
+     "Edrych ar air olaf pob llinell a chwilia am odlau.",
+     "Dysga ddwy linell ar y tro.",
+     "Camgymeriad cyffredin: darllen heb oedi. Oeda am eiliad ar ddiwedd pob llinell."
+    ],
+    "answers": [
+     "Pedair.",
+     "Moronen.",
+     "Un rhes mewn cerdd.",
+     "Geiriau sy'n gorffen gyda'r un sain.",
+     "Dy ateb. Er enghraifft: math."
+    ]
+   }
+  },
+  "eu-year-gb-wls-beginner-y1-l20": {
+   "cy": {
+    "title": "Chwedl: Cantre'r Gwaelod",
+    "theory": "Stori draddodiadol o'r gorffennol yw chwedl, sy'n cael ei hadrodd ers amser maith. Mae chwedl Cantre'r Gwaelod yn sôn am wlad hardd lle mae Bae Ceredigion heddiw. Roedd wal fawr yn ei chadw rhag y môr, ac roedd rhaid cau'r gatiau bob nos.",
+    "sample": "Ailadrodd yn fy ngeiriau fy hun: Amser maith yn ôl roedd tir ffrwythlon lle mae'r môr heddiw. Roedd wal fawr a gatiau yn ei amddiffyn rhag y tonnau. Un noson stormus, anghofiodd y gwyliwr, Seithenyn, gau'r gatiau. Daeth y môr i mewn a boddi'r wlad i gyd. Mae rhai'n dweud eu bod yn clywed clychau o dan y dŵr.",
+    "worked": "Y prif gymeriad yw Seithenyn, y gwyliwr. Y broblem yw ei fod wedi anghofio gwneud ei waith. Mae'r chwedl yn ein dysgu bod rhaid gwneud ein dyletswydd yn ofalus, achos gall camgymeriad bach gael canlyniad mawr.",
+    "exercises": [
+     "Ailadrodd dechrau'r chwedl.",
+     "Dywed pwy oedd Seithenyn.",
+     "Tynna lun o'r clychau o dan y môr.",
+     "Actiwch y chwedl mewn grŵp.",
+     "Dywed beth mae'r chwedl yn ei ddysgu."
+    ],
+    "test": [
+     "Ble roedd Cantre'r Gwaelod?",
+     "Beth oedd yn amddiffyn y wlad?",
+     "Beth anghofiodd Seithenyn ei wneud?",
+     "Beth ddigwyddodd i'r wlad?",
+     "Beth mae rhai'n dweud eu bod yn ei glywed?"
+    ],
+    "steps": [
+     "Dod o hyd i'r cymeriadau a'r lle.",
+     "Adrodd mewn trefn: ar y dechrau, wedyn, ar y diwedd.",
+     "Dywed beth mae'r chwedl yn ei ddysgu.",
+     "Camgymeriad cyffredin: meddwl bod chwedl yn adrodd ffeithiau hanes. Stori draddodiadol yw hi."
+    ],
+    "answers": [
+     "Lle mae Bae Ceredigion heddiw.",
+     "Wal fawr a gatiau.",
+     "Cau'r gatiau.",
+     "Boddodd y môr hi.",
+     "Clychau o dan y dŵr."
+    ]
+   }
+  },
+  "eu-year-gb-wls-beginner-y1-l21": {
+   "cy": {
+    "title": "Chwedl Aesop: Y llew a'r llygoden",
+    "theory": "Stori fer yw chwedl Aesop lle mae anifeiliaid yn siarad ac yn ymddwyn fel pobl. Ar y diwedd mae gwers. Adroddodd yr hen storïwr Groegaidd Aesop lawer ohonyn nhw.",
+    "sample": "Ailadrodd yn fy ngeiriau fy hun: Deffrodd llygoden lew a oedd yn cysgu. Roedd y llew eisiau ei bwyta, ond gadawodd iddi fynd. Yn nes ymlaen cafodd y llew ei ddal mewn rhwyd. Cnodd y llygoden y rhwyd a rhyddhau'r llew.",
+    "worked": "Y cymeriadau yw'r llew a'r llygoden. Mae'r llew yn gryf a'r llygoden yn fach, ond fe wnaeth hi helpu. Y wers: gall rhywun bach helpu rhywun mawr, ac mae caredigrwydd yn dod yn ôl.",
+    "exercises": [
+     "Ailadrodd y chwedl.",
+     "Tynna lun o'r llygoden wrth y rhwyd.",
+     "Sut un yw'r llew ar y dechrau?",
+     "Dywed y wers yn dy eiriau dy hun.",
+     "Meddylia am ddiweddglo arall."
+    ],
+    "test": [
+     "Pwy yw cymeriadau'r chwedl?",
+     "Pam gadawodd y llew i'r llygoden fynd?",
+     "Beth ddigwyddodd i'r llew yn nes ymlaen?",
+     "Sut helpodd y llygoden ef?",
+     "Beth yw'r wers?"
+    ],
+    "steps": [
+     "Dod o hyd i'r cymeriadau: y llew a'r llygoden.",
+     "Dywed beth sy'n digwydd ar y dechrau ac ar y diwedd.",
+     "Chwilia am y wers: beth mae'r chwedl yn ei ddysgu?",
+     "Camgymeriad cyffredin: meddwl mai dim ond am anifeiliaid mae'r chwedl. Mae'r anifeiliaid yn dangos sut mae pobl yn ymddwyn."
+    ],
+    "answers": [
+     "Y llew a'r llygoden.",
+     "Roedd yn teimlo trueni drosti.",
+     "Cafodd ei ddal mewn rhwyd.",
+     "Cnodd y rhwyd.",
+     "Gall rhywun bach helpu rhywun mawr."
+    ]
+   }
+  },
+  "eu-year-gb-wls-beginner-y1-l22": {
+   "cy": {
+    "title": "Posau",
+    "theory": "Mae pos yn disgrifio rhywbeth heb ddweud ei enw. Rydyn ni'n gwrando ar bob cliw ac yn dyfalu. Mae posau'n rhan o lên gwerin.",
+    "sample": "Pos fy hun: Mae ganddi nodwyddau ond dydy hi ddim yn gwnïo; mae hi'n wyrdd yn y gaeaf. (pinwydden) / Pos fy hun: Mae ganddo bedair coes ond dydy e ddim yn cerdded. (bwrdd)",
+    "worked": "Cliwiau: nodwyddau, gwyrdd yn y gaeaf — pinwydden yw hi. Yn yr ail: pedair coes, ond dim cerdded — bwrdd. Rydyn ni'n gwirio'r ateb gyda phob cliw.",
+    "exercises": [
+     "Dyfala: Mae'n hongian ar goeden, yn goch ac yn grwn. (afal)",
+     "Meddylia am bos am yr haul.",
+     "Gofyn bos i ffrind.",
+     "Tynna lun o'r ateb.",
+     "Enwa'r cliwiau yn y pos am y binwydden."
+    ],
+    "test": [
+     "Beth yw pos?",
+     "Beth yw ateb y pos cyntaf?",
+     "Pam mae'r binwydden yn wyrdd yn y gaeaf?",
+     "Sut rwyt ti'n gwirio'r ateb?",
+     "Meddylia am bos am gath."
+    ],
+    "steps": [
+     "Gwranda ar y pos hyd at y diwedd.",
+     "Dod o hyd i bob cliw a'i enwi.",
+     "Gwiria'r ateb gyda phob cliw.",
+     "Camgymeriad cyffredin: ateb ar ôl y cliw cyntaf. Gwranda ar y pos i gyd."
+    ],
+    "answers": [
+     "Disgrifiad o rywbeth heb ddweud ei enw.",
+     "Pinwydden.",
+     "Achos dydy hi ddim yn colli ei nodwyddau.",
+     "Gyda phob cliw.",
+     "Dy ateb. Er enghraifft: Mae ganddi bawennau meddal ac mae hi'n canu grwndi. (cath)"
+    ]
+   }
+  },
+  "eu-year-gb-wls-beginner-y1-l23": {
+   "cy": {
+    "title": "Testun ffeithiol: y draenog",
+    "theory": "Mae testun ffeithiol yn rhoi gwybodaeth wir. Dydy e ddim yn adrodd stori ddychmygol. Rydyn ni'n ei ddarllen yn ofalus ac yn chwilio am atebion yn y testun.",
+    "sample": "Anifail bach gyda phigau ar ei gefn yw'r draenog. Mae'n byw mewn coedwigoedd, parciau a gerddi. Mae'r draenog yn bwyta pryfed a malwod. Yn y gaeaf mae'n gwneud nyth o ddail ac yn cysgu.",
+    "worked": "Mae'r testun yn dweud sut mae'r draenog yn edrych, ble mae'n byw, beth mae'n ei fwyta a beth mae'n ei wneud yn y gaeaf. Gwybodaeth wir yw hon. Yn y gaeaf mae'r draenog yn gaeafgysgu.",
+    "exercises": [
+     "Darllen y testun ddwywaith.",
+     "Tanlinella beth mae'r draenog yn ei fwyta.",
+     "Tynna lun o'r draenog yn ei nyth.",
+     "Esbonia yn dy eiriau dy hun beth yw gaeafgysgu.",
+     "Gofyn gwestiwn am y draenog."
+    ],
+    "test": [
+     "Beth sydd ar gefn y draenog?",
+     "Ble mae'r draenog yn byw?",
+     "Beth mae'n ei fwyta?",
+     "Beth mae'n ei wneud yn y gaeaf?",
+     "Ai stori ddychmygol yw testun ffeithiol?"
+    ],
+    "steps": [
+     "Darllen y cwestiwn a dod o hyd i'r gair pwysig, er enghraifft gaeaf.",
+     "Chwilia am y gair hwnnw yn y testun.",
+     "Mae'r ateb fel arfer yn yr un frawddeg.",
+     "Camgymeriad cyffredin: dyfeisio ateb. Ateb dim ond gyda'r hyn sydd wedi'i ysgrifennu yn y testun."
+    ],
+    "answers": [
+     "Pigau.",
+     "Mewn coedwigoedd, parciau a gerddi.",
+     "Pryfed a malwod.",
+     "Gwneud nyth o ddail a chysgu.",
+     "Nage, mae'n rhoi gwybodaeth wir."
+    ]
+   }
+  },
+  "eu-year-gb-wls-beginner-y1-l24": {
+   "cy": {
+    "title": "Sgwrs gwrtais a sgwrs ffôn",
+    "theory": "Mewn sgwrs rydyn ni'n edrych ar y person arall. Rydyn ni'n cyfarch, yn gofyn yn gwrtais, yn diolch ac yn ymddiheuro. Ar y ffôn rydyn ni'n dweud yn gyntaf pwy sy'n siarad, ac ar y diwedd rydyn ni'n ffarwelio.",
+    "sample": "Iolo: Helo, Iolo sy'n siarad. Ydy Mam-gu gartref, os gwelwch yn dda? / Modryb: Arhosa funud. / Iolo: Diolch, hwyl fawr.",
+    "worked": "Yn gyntaf dywedodd Iolo pwy oedd e, yna gofynnodd yn gwrtais, ac ar y diwedd diolchodd. Dydy pobl ddim yn gallu ein gweld ni ar y ffôn, felly rydyn ni'n dweud pwy sy'n galw.",
+    "exercises": [
+     "Dywed bore da wrth yr athro.",
+     "Gofyn i ffrind am bensil.",
+     "Diolcha am anrheg.",
+     "Actia sgwrs ffôn gyda Mam-gu.",
+     "Ymddiheura os wyt ti wedi taro yn erbyn rhywun."
+    ],
+    "test": [
+     "Pwy mae Iolo yn chwilio amdani?",
+     "Beth mae Iolo yn ei ddweud yn gyntaf?",
+     "Pa eiriau cwrtais mae e'n eu defnyddio?",
+     "Pam rydyn ni'n dweud pwy ydyn ni ar y ffôn?",
+     "Beth rwyt ti'n ei ddweud wrth ffarwelio?"
+    ],
+    "steps": [
+     "Cyfarcha a dywed pwy wyt ti.",
+     "Gofyn dy gwestiwn gydag os gwelwch yn dda.",
+     "Diolcha ac yna ffarwelia.",
+     "Camgymeriad cyffredin: dechrau sgwrs ffôn heb gyfarch a heb ddweud pwy sy'n galw."
+    ],
+    "answers": [
+     "Mam-gu.",
+     "Helo, Iolo sy'n siarad.",
+     "Os gwelwch yn dda, diolch, hwyl fawr.",
+     "Achos dydyn nhw ddim yn gallu ein gweld ni.",
+     "Hwyl fawr."
+    ]
+   }
+  },
+  "eu-year-gb-wls-beginner-y1-l25": {
+   "cy": {
+    "title": "Adrodd stori o luniau",
+    "theory": "Wrth adrodd stori o luniau, rydyn ni'n edrych arnyn nhw yn eu trefn. Am bob llun rydyn ni'n dweud brawddeg: pwy, ble, beth mae'n ei wneud. Rydyn ni'n defnyddio'r geiriau yn gyntaf, wedyn, yn olaf.",
+    "sample": "Llun 1: bachgen yn plannu hedyn. Llun 2: mae'n ei ddyfrio. Llun 3: mae blodyn haul wedi tyfu. / Stori: Yn gyntaf plannodd Dylan hedyn. Wedyn fe wnaeth ei ddyfrio bob dydd. Yn olaf tyfodd blodyn haul mawr.",
+    "worked": "Mae tair brawddeg yn y stori, un ar gyfer pob llun. Mae'r geiriau yn gyntaf, wedyn, yn olaf yn dangos y drefn. Rhoeson ni enw i'r bachgen i wneud y stori'n fwy byw.",
+    "exercises": [
+     "Adrodd mewn tair brawddeg sut rwyt ti'n paratoi am yr ysgol.",
+     "Defnyddia'r geiriau yn gyntaf, wedyn, yn olaf.",
+     "Tynna dri llun am dy ddiwrnod.",
+     "Meddylia am deitl i'r stori.",
+     "Adrodd wrth ffrind am dy ddydd Sul."
+    ],
+    "test": [
+     "Beth blannodd Dylan?",
+     "Beth wnaeth e wedyn?",
+     "Beth dyfodd ar y diwedd?",
+     "Pa eiriau sy'n dangos y drefn?",
+     "Faint o luniau sydd?"
+    ],
+    "steps": [
+     "Edrych ar y lluniau yn eu trefn.",
+     "Am bob llun, dywed frawddeg: pwy, beth mae'n ei wneud.",
+     "Cysyllta'r brawddegau gyda yn gyntaf, wedyn, yn olaf.",
+     "Camgymeriad cyffredin: adrodd dim ond am y llun olaf. Mae pob llun yn rhan o'r stori."
+    ],
+    "answers": [
+     "Hedyn.",
+     "Ei ddyfrio bob dydd.",
+     "Blodyn haul mawr.",
+     "Yn gyntaf, wedyn, yn olaf.",
+     "Tri."
+    ]
+   }
+  },
+  "eu-year-gb-wls-beginner-y1-l26": {
+   "cy": {
+    "title": "Disgrifio tegan",
+    "theory": "Wrth ddisgrifio rhywbeth, rydyn ni'n dweud sut un yw e: lliw, maint, siâp ac o beth mae wedi'i wneud. Felly mae rhywun sydd ddim yn ei weld yn gallu ei ddychmygu. Rydyn ni'n dechrau drwy ddweud beth yw e.",
+    "sample": "Mae gen i dedi o'r enw Twm. Mae e'n frown ac yn feddal. Mae ganddo glustiau crwn a thrwyn du. Mae rhuban coch am ei wddf. Dw i'n cysgu gyda fe bob nos.",
+    "worked": "Mae'r disgrifiad yn dechrau drwy ddweud beth yw e: tedi o'r enw Twm. Wedyn mae'n sôn am y lliw, y clustiau, y trwyn a'r rhuban. Ar y diwedd mae'n dweud pam rydyn ni'n ei garu. Mae pob brawddeg yn sôn am un peth.",
+    "exercises": [
+     "Disgrifia dy hoff degan mewn tair brawddeg.",
+     "Dywed pa liw yw dy fag.",
+     "Disgrifia bêl: siâp a lliw.",
+     "Dyfala'r tegan o ddisgrifiad ffrind.",
+     "Tynna lun o Twm y tedi."
+    ],
+    "test": [
+     "Pa liw yw Twm?",
+     "Beth sydd am ei wddf?",
+     "Sut glustiau sydd ganddo?",
+     "Sut mae'r disgrifiad yn dechrau?",
+     "Disgrifia dy bensil mewn un frawddeg."
+    ],
+    "steps": [
+     "Yn gyntaf, dywed beth rwyt ti'n ei ddisgrifio.",
+     "Dywed y lliw, y maint, y siâp ac o beth mae wedi'i wneud.",
+     "Ar y diwedd, dywed pam rwyt ti'n ei hoffi.",
+     "Camgymeriad cyffredin: dweud dim ond ei fod yn bert. Disgrifia sut un yw e, er mwyn i eraill allu ei ddychmygu."
+    ],
+    "answers": [
+     "Brown.",
+     "Rhuban coch.",
+     "Crwn.",
+     "Drwy ddweud beth yw e.",
+     "Dy ateb. Er enghraifft: Mae fy mhensil i'n hir ac yn las."
+    ]
+   }
+  },
+  "eu-year-gb-wls-beginner-y1-l27": {
+   "cy": {
+    "title": "Y llyfr a'r llyfrgell",
+    "theory": "Mae gan lyfr glawr, tudalennau a lluniau. Ar y clawr mae enw'r awdur a'r teitl. Yn y llyfrgell rydyn ni'n benthyg llyfrau, yn gofalu amdanyn nhw ac yn eu dychwelyd ar amser.",
+    "sample": "Enghraifft fy hun: Ar y clawr mae'n dweud: Nia Bach — Straeon y Goedwig. Yn y llun mae llwynog a chwningen.",
+    "worked": "Mae'r teitl yn dweud am beth mae'r llyfr: straeon y goedwig. Nia Bach yw'r awdur. O'r llun rydyn ni'n dyfalu pwy sydd yn y llyfr. Mae rhif ar bob tudalen er mwyn i ni ddod o hyd i'r lle wnaethon ni stopio.",
+    "exercises": [
+     "Dangos glawr llyfr.",
+     "Dod o hyd i deitl llyfr yn y dosbarth.",
+     "Dod o hyd i enw'r awdur.",
+     "Tynna lun o glawr dy hoff lyfr.",
+     "Dywed sut rwyt ti'n gofalu am lyfr."
+    ],
+    "test": [
+     "Beth sydd ar y clawr?",
+     "Pwy yw awdur y llyfr yn yr enghraifft?",
+     "Am beth mae'r llyfr?",
+     "Beth sydd yn y llun ar y clawr?",
+     "Beth rydyn ni'n ei wneud â llyfr wedi'i fenthyg?"
+    ],
+    "steps": [
+     "Edrych ar y clawr: yr awdur a'r teitl.",
+     "Edrych ar y llun a dyfalu am beth mae'r llyfr.",
+     "Darllen a gwiria dy ddyfaliad.",
+     "Camgymeriad cyffredin: cymysgu'r teitl a'r awdur. Enw'r llyfr yw'r teitl; yr awdur wnaeth ei ysgrifennu."
+    ],
+    "answers": [
+     "Enw'r awdur a'r teitl.",
+     "Nia Bach.",
+     "Straeon y goedwig.",
+     "Llwynog a chwningen.",
+     "Gofalu amdano a'i ddychwelyd ar amser."
+    ]
+   }
+  },
+  "eu-year-gb-wls-beginner-y1-l28": {
+   "cy": {
+    "title": "Adolygu: beth rydw i'n gallu ei wneud ar ôl Blwyddyn 1",
+    "theory": "Ar ddiwedd y flwyddyn rydyn ni'n darllen testun byr ac yn dangos beth rydyn ni'n gallu ei wneud: darllen a deall, rhannu geiriau yn sillafau, ysgrifennu brawddegau gyda phriflythyren ac atalnod llawn, ac ysgrifennu'r llythrennau dwbl a'r to bach yn gywir.",
+    "sample": "Bob bore mae Cadi yn pacio ei bag ysgol. Mae hi'n rhoi llyfr, pensiliau a brechdan yn y bag. Wedyn mae hi'n cerdded i'r ysgol gyda'i brawd, Owain.",
+    "worked": "Mae tair brawddeg yn y testun. Enwau yw Cadi ac Owain, felly maen nhw'n dechrau â phriflythyren. Yn y gair brechdan mae'r llythyren ddwbl ch. Rydyn ni'n rhannu'r gair pensiliau yn sillafau: pen-sil-iau.",
+    "exercises": [
+     "Darllen y testun yn uchel.",
+     "Dod o hyd i air gyda llythyren ddwbl.",
+     "Rhanna'n sillafau: brechdan.",
+     "Ysgrifenna frawddeg am dy fag.",
+     "Dywed beth oedd dy hoff beth eleni."
+    ],
+    "test": [
+     "Beth mae Cadi yn ei wneud bob bore?",
+     "Faint o frawddegau sydd yn y testun?",
+     "Gyda phwy mae Cadi yn cerdded i'r ysgol?",
+     "Beth mae hi'n ei roi yn y bag?",
+     "Rhanna'n sillafau: pensiliau."
+    ],
+    "steps": [
+     "Darllen y testun yn araf yn gyntaf, wedyn yn gyflymach.",
+     "Gofyn: pwy? beth mae'n ei wneud? gyda phwy?",
+     "Cyfrifa'r brawddegau wrth yr atalnodau llawn.",
+     "Camgymeriad cyffredin: ysgrifennu enwau â llythyren fach. Mae enwau pobl bob amser yn dechrau â phriflythyren: Cadi."
+    ],
+    "answers": [
+     "Pacio ei bag ysgol.",
+     "Tair.",
+     "Gyda'i brawd, Owain.",
+     "Llyfr, pensiliau a brechdan.",
+     "pen-sil-iau."
+    ]
+   }
+  }
+ }
+}
