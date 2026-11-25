@@ -41,11 +41,16 @@ function hgRenderNationalChapters(panel){
  const country=hgCountry?.();
  const where=country?hgL(country.ro,country.en):(educationCountrySelection?.label||pack.country);
  const yearLabel=(document.querySelector?.('.hg-year-tile[aria-current="true"]')?.textContent)||
-  (/^\d+$/.test(pack.grade)?hgL('Clasa a '+pack.grade+'-a','Grade '+pack.grade):pack.grade);
+  (/^\d+$/.test(pack.grade)?hgL('Clasa a '+pack.grade+'-a','Grade '+pack.grade):
+   /^uni-ba-[1-4]$/.test(pack.grade)?hgL('Licență · anul '+['I','II','III','IV'][Number(pack.grade.slice(-1))-1],'Bachelor · Year '+pack.grade.slice(-1)):pack.grade);
+ const university=/^uni-/.test(String(pack.grade));
  panel.append(hgText('p',where+' · '+yearLabel));
- panel.append(hgText('p',hgL('Lecțiile urmează programa școlară oficială și unitățile manualelor. Explicațiile sunt originale, pas cu pas, cu exerciții și teste cu răspunsuri.',
+ panel.append(hgText('p',university?
+  hgL('Lecțiile urmează disciplinele fundamentale comune ale programelor de licență (sinteză orientativă; fiecare facultate are planul propriu). Explicațiile sunt originale, pas cu pas, cu exerciții și teste cu răspunsuri.',
+   'Lessons follow the core subjects shared by bachelor programmes (advisory synthesis; each faculty has its own plan), with original step-by-step explanations, exercises and tests with answers.'):
+  hgL('Lecțiile urmează programa școlară oficială și unitățile manualelor. Explicațiile sunt originale, pas cu pas, cu exerciții și teste cu răspunsuri.',
   'Lessons follow the official curriculum and textbook units, with original step-by-step explanations, exercises and tests with answers.')));
- if(pack.source){const link=hgText('a',hgL('Programa școlară · sursă oficială','Official curriculum source'));link.href=pack.source;link.target='_blank';link.rel='noopener noreferrer';panel.append(link)}
+ if(pack.source){const link=hgText('a',university?hgL('Standarde ARACIS · sursă','ARACIS standards · source'):hgL('Programa școlară · sursă oficială','Official curriculum source'));link.href=pack.source;link.target='_blank';link.rel='noopener noreferrer';panel.append(link)}
  const units=Array.isArray(pack.units)&&pack.units.length?pack.units:[{title:hgL('Lecții','Lessons'),keys:Object.keys(pack.chapters||{})}];
  let n=0;
  for(const unit of units){
