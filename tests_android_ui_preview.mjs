@@ -35,6 +35,7 @@ assert.match(java,/mypocketai-commercial-curriculum-pack-v1:2026-11\|/, 'Preview
 assert.match(java,/preview\/packs\/p-/, 'Preview uses bundled annual packs');
 assert.match(java,/404,"Not Found"/, 'Missing preview assets do not fall through to incompatible live content');
 assert.match(gradle,/applicationIdSuffix '\.preview'/, 'Debug preview is isolated from production');
-assert.match(gradle,/Branch UI preview is for debug builds only/, 'Preview cannot be built as a release');
-assert.match(gradle,/sourceSets\.debug\.assets/, 'Only debug variant gets generated snapshot');
-console.log('PASS: production uses Cloudflare; isolated debug preview bundles its UI and Education assets');
+assert.match(gradle,/Signed branch preview requires explicit opt-in and release signing credentials/, 'Signed branch preview requires opt-in and permanent signing configuration');
+assert.match(gradle,/sourceSets\.release\.assets/, 'Explicit signed preview bundles generated snapshot');
+assert.match(gradle,/POCKET_ALLOW_SIGNED_BRANCH_PREVIEW/, 'Production release never opts into a bundled snapshot');
+console.log('PASS: production uses Cloudflare; explicitly signed branch preview bundles UI and Education assets');
