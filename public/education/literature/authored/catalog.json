@@ -1,6 +1,6 @@
 {
  "schema": "mypocket-literature-authored-catalog/v1",
- "version": "4481209ad4b86a21c3c54ca4f47f8edc1c15f02267f82596b77f9a7ddff47ad8",
+ "version": "a6ec1b463e584c4acf361ad7a844a2c39f7a892d962907994256a866c2d85cb2",
  "years": [
   {
    "country": "AT",
@@ -234,7 +234,7 @@
      "lang": "nn",
      "name": "Norsk nynorsk",
      "file": "nn-1",
-     "version": "03c92c8d151f15505c92bd7a16c4af5a05754366a1d2659f585853e1d7c9904d"
+     "version": "a4e0ee95425617def45f506f5ca87541e4344e8f62ec174d59af68890ecd5360"
     }
    ]
   },
