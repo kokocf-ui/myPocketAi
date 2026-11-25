@@ -1,6 +1,6 @@
 {
  "schema": "mypocket-literature-authored-catalog/v1",
- "version": "db834108503b21a51be021e30374b659075bf5b867b6fe974063249400bc599f",
+ "version": "8fcc5f3c5361b93c4c2a65f8c127980ce820b3fdde494ce0ca7bab830a1223d0",
  "years": [
   {
    "country": "AT",
@@ -106,7 +106,7 @@
      "lang": "es",
      "name": "Español",
      "file": "es-p1",
-     "version": "92f63a52f3c22aeca22ec3b10d92ec459a7f306ff3c077428438b73836384bc1"
+     "version": "c016bd9c20e66c71a293e3fa62cb51787fbd34149bb036f15b52062743a12762"
     },
     {
      "lang": "eu",
