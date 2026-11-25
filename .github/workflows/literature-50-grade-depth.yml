@@ -58,6 +58,7 @@ jobs:
           node scripts/build_literature_authored_packs.mjs --verify
           node tests_literature_country_profiles.mjs
           node tests_literature_authored_packs.mjs
+          node tests_literature_france_cp.mjs
           node tests_literature_all_country_depth.mjs
           node tests_literature_selected_stage_2026.mjs
           node tests_literature_chapter_activities_2026.mjs

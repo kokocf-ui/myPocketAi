@@ -46,7 +46,7 @@
 
 ## 3. Ce MAI ESTE DE FĂCUT (Backlog ordonat pentru sesiunile următoare)
 
-**Prioritate stabilită de utilizator:** decuplarea completă a conținutului pentru toate materiile Educație, apoi continuarea Literaturii. Vezi `PRIORITATE_EDUCATIE_DECOUPLARE.md` pentru starea exactă, măsurători și testele rulate. Extragerile de Literatură, Științe și Matematică sunt parțiale; pilotul serviciului separat (`EDUCATION_PACK_PUBLICATION.md`) este testat local, nu activat în producție. Nu certifică decuplarea completă sau finalizarea curriculară.
+**Prioritate stabilită de utilizator:** verificarea acoperirii și continuarea Literaturii, în paralel cu decuplarea completă Educație; ulterior Istorie, Geografie și Informatică. Vezi `PRIORITATE_EDUCATIE_DECOUPLARE.md` și `EDUCATION_CURRICULUM_COVERAGE_REPORT.md` pentru starea exactă. Extragerile de Literatură, Științe și Matematică sunt parțiale; pilotul serviciului separat (`EDUCATION_PACK_PUBLICATION.md`) este testat local, nu activat în producție. Nu certifică decuplarea completă sau finalizarea curriculară.
 
 1. **Matematică — Selector regional și pe tip de școală / filieră** (planificat în `MATH_50_COUNTRIES_COMPLETION_BOARD_2026.md`):
    - **Spania (`ES`):** cele 17 comunități autonome (+ Ceuta/Melilla), cu decretele regionale LOMLOE (Primaria / ESO / Bachillerato).

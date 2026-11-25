@@ -6,6 +6,7 @@ import {literatureEuropeanPractice} from './literature_europe_practice.mjs';
 import {literatureGeneralFallback} from './literature_general_fallback.mjs';
 import {literatureHungaryGrade1Material} from './literature_hungary_grade1.mjs';
 import {literatureHungaryPrimaryMaterial} from './literature_hungary_primary_batch.mjs';
+import {literatureNationalAuthoredMaterial} from './literature_national_authored_material.mjs';
 import {literatureClientGradeExpand} from './literature_europe_client_lazy.mjs';
 import {LIT_QUICK_DICTIONARY,LIT_QUICK_GRAMMAR,literatureQuickNormal,literatureQuickSuggestions,literatureQuickDefinition,literatureQuickGrammarSearch} from './literature_quick_reference.mjs';
 import {literatureQuickReferenceAttach} from './literature_quick_reference_ui_v2.mjs';
@@ -15,7 +16,7 @@ import {LIT_UNIVERSITY_YEARS,LIT_UNIVERSITY_UNITS,literatureUniversityPlan,liter
 import {LIT_RO_GRADE_LESSONS,litRomanianGradeMaterial} from './literature_ro_grade_progression.mjs';
 import {RO_SECONDARY_GRAMMAR,roGrammarTopicsForYear} from './literature_ro_grammar_path.mjs';
 import {litEssaySpec,litEssayWords,litEssayQuality} from './literature_essay_contract.mjs';
-export const LITERATURE_TASK_UI_SCRIPT=splitLiteraturePages.toString()+'\n'+paginateLiteratureByFit.toString()+'\n'+parseStudyBlocks.toString()+'\n'+renderStudyBlocks.toString()+'\nconst COMMUNICATION_G1='+JSON.stringify(LIT_PRIMARY_COMMUNICATION)+';\n'+literatureOfflineActivity.toString()+'\n'+literatureEuropeanPractice.toString()+'\n'+literatureGeneralFallback.toString()+'\nconst LIT_HU_GRADE1_CHAPTERS=Object.create(null);\n'+literatureHungaryGrade1Material.toString()+'\nconst LIT_HU_PRIMARY_BATCH=Object.create(null);\n'+literatureHungaryPrimaryMaterial.toString()+'\n'+literatureEuropeanAuthoredMaterial.toString()+'\n'+literatureClientGradeExpand.toString()+'\nconst LIT_QUICK_DICTIONARY='+JSON.stringify(LIT_QUICK_DICTIONARY)+';\nconst LIT_QUICK_GRAMMAR='+JSON.stringify(LIT_QUICK_GRAMMAR)+';\n'+literatureQuickNormal.toString()+'\n'+literatureQuickSuggestions.toString()+'\n'+literatureQuickDefinition.toString()+'\n'+literatureQuickGrammarSearch.toString()+'\nconst LIT_REFERENCE_CATALOG='+JSON.stringify(LIT_REFERENCE_CATALOG)+';\n'+literatureQuickReferenceAttach.toString()+'\nconst RO_YEAR_EXTRA='+JSON.stringify(RO_YEAR_EXTRA)+';\nconst RO_CHILD_SAFE='+JSON.stringify(RO_CHILD_SAFE)+';\n'+romanianExpandedRows.toString()+'\n'+romanianExpandedMaterial.toString()+'\nconst LIT_UNIVERSITY_YEARS='+JSON.stringify(LIT_UNIVERSITY_YEARS)+';\nconst LIT_UNIVERSITY_UNITS='+JSON.stringify(LIT_UNIVERSITY_UNITS)+';\n'+literatureUniversityPlan.toString()+'\n'+literatureUniversityMaterial.toString()+'\nconst LIT_RO_GRADE_LESSONS='+JSON.stringify(LIT_RO_GRADE_LESSONS)+';\n'+litRomanianGradeMaterial.toString()+'\nconst RO_SECONDARY_GRAMMAR='+JSON.stringify(RO_SECONDARY_GRAMMAR)+';\n'+roGrammarTopicsForYear.toString()+'\n'+litEssaySpec.toString()+'\n'+litEssayWords.toString()+'\n'+litEssayQuality.toString()+'\nconst LIT_STUDY_CSS='+JSON.stringify(STUDY_TYPOGRAPHY_CSS)+';\n'+String.raw`
+export const LITERATURE_TASK_UI_SCRIPT=splitLiteraturePages.toString()+'\n'+paginateLiteratureByFit.toString()+'\n'+parseStudyBlocks.toString()+'\n'+renderStudyBlocks.toString()+'\nconst COMMUNICATION_G1='+JSON.stringify(LIT_PRIMARY_COMMUNICATION)+';\n'+literatureOfflineActivity.toString()+'\n'+literatureEuropeanPractice.toString()+'\n'+literatureGeneralFallback.toString()+'\nconst LIT_HU_GRADE1_CHAPTERS=Object.create(null);\n'+literatureHungaryGrade1Material.toString()+'\nconst LIT_HU_PRIMARY_BATCH=Object.create(null);\n'+literatureHungaryPrimaryMaterial.toString()+'\nconst LIT_NATIONAL_AUTHORED=Object.create(null);\n'+literatureNationalAuthoredMaterial.toString()+'\n'+literatureEuropeanAuthoredMaterial.toString()+'\n'+literatureClientGradeExpand.toString()+'\nconst LIT_QUICK_DICTIONARY='+JSON.stringify(LIT_QUICK_DICTIONARY)+';\nconst LIT_QUICK_GRAMMAR='+JSON.stringify(LIT_QUICK_GRAMMAR)+';\n'+literatureQuickNormal.toString()+'\n'+literatureQuickSuggestions.toString()+'\n'+literatureQuickDefinition.toString()+'\n'+literatureQuickGrammarSearch.toString()+'\nconst LIT_REFERENCE_CATALOG='+JSON.stringify(LIT_REFERENCE_CATALOG)+';\n'+literatureQuickReferenceAttach.toString()+'\nconst RO_YEAR_EXTRA='+JSON.stringify(RO_YEAR_EXTRA)+';\nconst RO_CHILD_SAFE='+JSON.stringify(RO_CHILD_SAFE)+';\n'+romanianExpandedRows.toString()+'\n'+romanianExpandedMaterial.toString()+'\nconst LIT_UNIVERSITY_YEARS='+JSON.stringify(LIT_UNIVERSITY_YEARS)+';\nconst LIT_UNIVERSITY_UNITS='+JSON.stringify(LIT_UNIVERSITY_UNITS)+';\n'+literatureUniversityPlan.toString()+'\n'+literatureUniversityMaterial.toString()+'\nconst LIT_RO_GRADE_LESSONS='+JSON.stringify(LIT_RO_GRADE_LESSONS)+';\n'+litRomanianGradeMaterial.toString()+'\nconst RO_SECONDARY_GRAMMAR='+JSON.stringify(RO_SECONDARY_GRAMMAR)+';\n'+roGrammarTopicsForYear.toString()+'\n'+litEssaySpec.toString()+'\n'+litEssayWords.toString()+'\n'+litEssayQuality.toString()+'\nconst LIT_STUDY_CSS='+JSON.stringify(STUDY_TYPOGRAPHY_CSS)+';\n'+String.raw`
 
 
 // Bind the existing choice cards to actual Romanian grade chapters.
@@ -470,6 +471,9 @@ async function litSimpleGenerate(out,status,mode,request,source='',onReady=null,
     stage:litJourney.level,grade:litJourney.grade,topicKey:key,language:answerLanguage,mode})||
     literatureHungaryPrimaryMaterial({country:litJourney.country,stage:litJourney.level,
      grade:litJourney.grade,topicKey:key,language:answerLanguage,mode});
+  if(!localMaterial&&litJourney.branch==='program'&&litJourney.country==='FR')
+   localMaterial=literatureNationalAuthoredMaterial({chapters:LIT_NATIONAL_AUTHORED,country:litJourney.country,
+    stage:litJourney.level,grade:litJourney.grade,topicKey:key,language:answerLanguage,mode});
   if(!localMaterial&&key.startsWith('uni-lit-'))
    localMaterial=literatureUniversityMaterial({topicKey:key,
     title:String(currentTopic?.[1]||'Seminar'),grade:litJourney.grade,
@@ -549,7 +553,7 @@ async function litSimpleGenerate(out,status,mode,request,source='',onReady=null,
  // Grade I Romanian basics are authored and instantly available, independent of
  // online inference quotas. These examples are not asserted to be official tests.
  if(localMaterial&&(String(litJourney.grade)==='1'||gradeSpecific||
-   ['authored_european_grade','authored_ro_year_specific','authored_university_year','authored_hungary_grade1','authored_hungary_primary_batch'].includes(localMaterial.origin))&&mode!=='correction'){
+   ['authored_european_grade','authored_ro_year_specific','authored_university_year','authored_hungary_grade1','authored_hungary_primary_batch','authored_france_cp'].includes(localMaterial.origin))&&mode!=='correction'){
   try{present(localMaterial.text,true)}finally{
    if(serial===litSimpleSerial){litJourney.busy=false;litSimpleAbort=null}
   }

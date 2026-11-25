@@ -15320,7 +15320,9 @@ function litStartCountryProfile(){
 }
 function litWithAuthoredYear(proceed){
  const country=litJourney.country,stage=litJourney.level,grade=String(litJourney.grade||'');
- if(country!=='HU'||stage!=='beginner'||!['1','2','3','4'].includes(grade)){proceed();return}
+ const hungary=country==='HU'&&stage==='beginner'&&['1','2','3','4'].includes(grade);
+ const france=country==='FR'&&stage==='beginner'&&grade==='CP';
+ if(!hungary&&!france){proceed();return}
  litJourney.stage='loading-authored-year';
  const host=$('moduleContent');host.replaceChildren();
  const panel=document.createElement('div');panel.className='math-choice-panel science-choice-panel lit-panel';
@@ -15332,7 +15334,10 @@ function litWithAuthoredYear(proceed){
   try{
    const pack=await literatureLoadAuthoredYear(country,stage,grade);
    if(!active())return;
-   if(grade==='1'){
+   if(france){
+    for(const key of Object.keys(LIT_NATIONAL_AUTHORED))delete LIT_NATIONAL_AUTHORED[key];
+    Object.assign(LIT_NATIONAL_AUTHORED,pack.chapters);
+   }else if(grade==='1'){
     for(const key of Object.keys(LIT_HU_GRADE1_CHAPTERS))delete LIT_HU_GRADE1_CHAPTERS[key];
     Object.assign(LIT_HU_GRADE1_CHAPTERS,pack.chapters);
    }else LIT_HU_PRIMARY_BATCH[grade]=pack.chapters;

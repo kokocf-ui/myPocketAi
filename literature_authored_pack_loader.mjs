@@ -1,9 +1,16 @@
 export async function literatureLoadAuthoredYear(country,stage,grade,options={}){
  const c=String(country||'').toUpperCase(),s=String(stage||''),g=String(grade||'');
- if(c!=='HU'||s!=='beginner'||!['1','2','3','4'].includes(g))throw Error('unknown_authored_year');
+ const hungary=c==='HU'&&s==='beginner'&&['1','2','3','4'].includes(g);
+ const france=c==='FR'&&s==='beginner'&&g==='CP';
+ if(!hungary&&!france)throw Error('unknown_authored_year');
  const valid=x=>{
   if(!(x&&x.schema==='mypocket-literature-authored/v1'&&x.country===c&&x.stage===s&&x.grade===g&&
    typeof x.version==='string'&&/^[a-f0-9]{64}$/.test(x.version)&&x.chapters&&typeof x.chapters==='object'&&!Array.isArray(x.chapters)))return false;
+  if(france)return ['parcurs','intelegere','redactare'].every(part=>['fr','ro','en'].every(lang=>{
+   const row=x.chapters['eu-year-fr-beginner-cp-'+part]?.[lang];
+   return row&&['title','theory','sample','worked'].every(k=>typeof row[k]==='string'&&row[k].trim())&&
+    ['exercises','test'].every(k=>Array.isArray(row[k])&&row[k].length>0&&row[k].every(q=>typeof q==='string'&&q.trim()));
+  }));
   const parts=['year-focus','year-reading','year-writing'],langs=['ro','en','hu'];
   if(g==='1')return parts.every(part=>langs.every(lang=>{
    const row=x.chapters['hu-beginner-1-'+part]?.[lang];

@@ -27,9 +27,9 @@ const server=createServer(async(req,res)=>{
   catch{res.writeHead(404);res.end()}
   return;
  }
- const authored=req.url.match(/^\/education\/literature\/authored\/HU\/([1-4])\.json$/);
+ const authored=req.url.match(/^\/education\/literature\/authored\/(HU|FR)\/([A-Z0-9]+)\.json$/);
  if(authored){
-  try{const data=await readFile(new URL('./public/education/literature/authored/HU/'+authored[1]+'.json',import.meta.url));res.writeHead(200,{'Content-Type':'application/json'});res.end(data)}
+  try{const data=await readFile(new URL('./public/education/literature/authored/'+authored[1]+'/'+authored[2]+'.json',import.meta.url));res.writeHead(200,{'Content-Type':'application/json'});res.end(data)}
   catch{res.writeHead(404);res.end()}
   return;
  }
@@ -183,6 +183,20 @@ try{
  assert.match(poem,/dansează ploaia|Rain dances/,'Poetry exercise must include its relevant original poem: '+JSON.stringify({journey:await litStage(),text:await js("document.querySelector('#view-module')?.innerText"),exceptions,logs}));
  assert.ok(!/Unde s-a găsit cartea|Where was the book found/.test(poem),'Unrelated book question in poetry');
  await js("[...document.querySelectorAll('.lit-reader-overlay button')].find(b=>/Înapoi|Back/.test(b.textContent)).click()");
+ // France CP: a real French authored chapter, then a separate cached visit offline.
+ await backToLevels();await choice('Primar|Primary');await choice('^CP$');await choice('Programa clasei|Grade syllabus');
+ await choice('Înțelegerea unui text.*CP');
+ await js("window.__literatureAcceptance.setLanguage('fr');[...document.querySelectorAll('#moduleContent .lit-activity-button')].find(b=>/^(Exerciții|Exercises)$/.test(b.textContent.trim())).click()");await sleep(250);
+ const franceCP=await js("document.querySelector('.lit-reader-overlay')?.innerText||''");
+ assert.match(franceCP,/Mila a un livre/);assert.match(franceCP,/Avec qui Mila lit-elle/);
+ assert.ok(!/NU lecția completă specifică/.test(franceCP));
+ await js("window.__literatureAcceptance.setLanguage('ro');[...document.querySelectorAll('.lit-reader-overlay button')].find(b=>/Înapoi|Back|Retour/.test(b.textContent)).click()");
+ await backToLevels();
+ await js("window.__literatureOnlineFetch=window.fetch.bind(window);window.fetch=async()=>{throw new TypeError('Failed to fetch')}");
+ await choice('Primar|Primary');await choice('^CP$');await choice('Programa clasei|Grade syllabus');await choice('Compunere și revizuire.*CP');
+ await js("[...document.querySelectorAll('#moduleContent .lit-activity-button')].find(b=>/^(Teorie|Theory)$/.test(b.textContent.trim())).click()");await sleep(250);
+ assert.match(await js("document.querySelector('.lit-reader-overlay')?.innerText||''"),/Lila lit/,'Cached France CP lesson must remain available offline');
+ await js("[...document.querySelectorAll('.lit-reader-overlay button')].find(b=>/Înapoi|Back/.test(b.textContent)).click();window.fetch=window.__literatureOnlineFetch");
  await chooseCountry('Hungary','Ungar|Hungary');
  // First visit grade 2 online so it can later be opened from the real cache.
  await choice('Primar|Primary');await choice('^2$');

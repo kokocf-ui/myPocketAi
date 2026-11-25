@@ -68,6 +68,6 @@ for(const country of EDUCATION_EUROPE_COUNTRIES){
  for(const dir of ['education/literature/profiles','education/math/supplements'])
   await readFile(path.join(dest,dir,country+'.json')).catch(()=>{throw Error('Missing '+dir+'/'+country+'.json')});
 }
-for(const file of ['education/literature/profiles/OTHER-EU.json',...['1','2','3','4'].map(g=>'education/literature/authored/HU/'+g+'.json'),...['physics','chemistry','biology','astronomy'].map(s=>'education/science/shared/'+s+'.json')])
+for(const file of ['education/literature/profiles/OTHER-EU.json','education/literature/authored/FR/CP.json',...['1','2','3','4'].map(g=>'education/literature/authored/HU/'+g+'.json'),...['physics','chemistry','biology','astronomy'].map(s=>'education/science/shared/'+s+'.json')])
  await readFile(path.join(dest,file)).catch(()=>{throw Error('Missing '+file)});
 console.log(`Staged ${files} validated Education assets (${bytes} bytes). No frontend or backend deployment performed.`);
