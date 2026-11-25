@@ -1,0 +1,1018 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "RO",
+ "stage": "lower",
+ "grade": "7",
+ "version": "05a1fd56404d3afbe7098dcf5a266f81c61c130ddcd262755818105731e55230",
+ "source": "https://www.ise.ro/wp-content/uploads/2017/01/Istorie.pdf",
+ "sourceTitle": "Programa școlară pentru disciplina Istorie, clasele a V-a – a VIII-a, aprobată prin OMEN nr. 3393/28.02.2017 — clasa a VII-a (1 oră/săptămână): Lumea la sfârșitul secolului al XIX-lea și începutul secolului al XX-lea; Perioada interbelică: o lume în schimbare; Lumea în război; Lumea postbelică, cu studiile de caz din programă. Lecții originale, ordonate după unitățile manualelor aprobate, fără text copiat",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "ro",
+ "labels": [
+  "Activitate originală · România · Istorie · Clasa a VII-a",
+  "Lecția pe înțeles",
+  "Exemplu",
+  "Ce ne arată exemplul",
+  "Exerciții",
+  "Test",
+  "Activități originale, făcute după programa școlară; nu înlocuiesc manualul sau ora de la clasă.",
+  "Dacă nu ai înțeles: pas cu pas",
+  "Răspunsuri (verifică după ce termini)"
+ ],
+ "units": [
+  {
+   "title": "Lumea la sfârșitul secolului al XIX-lea și începutul secolului al XX-lea",
+   "keys": [
+    "eu-year-ro-lower-7-l01",
+    "eu-year-ro-lower-7-l02",
+    "eu-year-ro-lower-7-l03",
+    "eu-year-ro-lower-7-l04",
+    "eu-year-ro-lower-7-l05",
+    "eu-year-ro-lower-7-l06"
+   ]
+  },
+  {
+   "title": "Perioada interbelică: o lume în schimbare",
+   "keys": [
+    "eu-year-ro-lower-7-l07",
+    "eu-year-ro-lower-7-l08",
+    "eu-year-ro-lower-7-l09",
+    "eu-year-ro-lower-7-l10",
+    "eu-year-ro-lower-7-l11",
+    "eu-year-ro-lower-7-l12",
+    "eu-year-ro-lower-7-l13"
+   ]
+  },
+  {
+   "title": "Lumea în război",
+   "keys": [
+    "eu-year-ro-lower-7-l14",
+    "eu-year-ro-lower-7-l15",
+    "eu-year-ro-lower-7-l16",
+    "eu-year-ro-lower-7-l17",
+    "eu-year-ro-lower-7-l18",
+    "eu-year-ro-lower-7-l19"
+   ]
+  },
+  {
+   "title": "Lumea postbelică",
+   "keys": [
+    "eu-year-ro-lower-7-l20",
+    "eu-year-ro-lower-7-l21",
+    "eu-year-ro-lower-7-l22",
+    "eu-year-ro-lower-7-l23",
+    "eu-year-ro-lower-7-l24",
+    "eu-year-ro-lower-7-l25",
+    "eu-year-ro-lower-7-l26",
+    "eu-year-ro-lower-7-l27"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-ro-lower-7-l01": {
+   "ro": {
+    "title": "Marile alianțe politico-militare",
+    "theory": "La sfârșitul secolului al XIX-lea, marile puteri europene concurau pentru colonii, piețe și influență. Ele s-au grupat în două alianțe. Tripla Alianță (Puterile Centrale) a fost formată în 1882 de Germania, Austro-Ungaria și Italia. Antanta s-a format treptat din Franța, Rusia și Marea Britanie (Tripla Înțelegere, 1907). Cursa înarmărilor și conflictele din Balcani au făcut Europa un „butoi cu pulbere”. România a încheiat în 1883 un tratat secret cu Tripla Alianță.",
+    "sample": "Expresia „butoiul cu pulbere al Europei” era folosită pentru Balcani.",
+    "worked": "Imaginea arată că o mică scânteie putea declanșa un război mare. Rivalitățile din Balcani implicau marile puteri prin alianțe.",
+    "exercises": [
+     "Enumeră statele celor două alianțe.",
+     "Explică de ce s-au format alianțele.",
+     "Explică ce este cursa înarmărilor.",
+     "Explică de ce Balcanii erau „butoiul cu pulbere”.",
+     "Arată pe hartă cele două tabere."
+    ],
+    "test": [
+     "Ce state formau Tripla Alianță?",
+     "Ce state formau Antanta?",
+     "În ce an s-a format Tripla Alianță?",
+     "Ce regiune era numită „butoiul cu pulbere”?",
+     "Cu ce alianță avea România un tratat secret?"
+    ],
+    "steps": [
+     "Identifică marile puteri și interesele lor.",
+     "Grupează-le pe alianțe.",
+     "Explică de ce sistemul de alianțe era periculos.",
+     "Greșeala frecventă: să crezi că alianțele au rămas neschimbate; Italia a trecut de partea Antantei în 1915."
+    ],
+    "answers": [
+     "Germania, Austro-Ungaria și Italia.",
+     "Franța, Rusia și Marea Britanie.",
+     "În 1882.",
+     "Balcanii.",
+     "Cu Tripla Alianță."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l02": {
+   "ro": {
+    "title": "Primul Război Mondial: declanșare, alianțe și fronturi",
+    "theory": "Pe 28 iunie 1914, arhiducele Franz Ferdinand, moștenitorul tronului Austro-Ungariei, a fost asasinat la Sarajevo. Austro-Ungaria a declarat război Serbiei, iar prin jocul alianțelor războiul a devenit european și apoi mondial. Principalele fronturi au fost cel de Vest (Franța, Belgia), cel de Est (Rusia) și cel din Balcani. În 1917, SUA au intrat în război de partea Antantei, iar Rusia a ieșit din război după revoluție. Războiul s-a încheiat la 11 noiembrie 1918, cu victoria Antantei.",
+    "sample": "Pe frontul de Vest, bătălia de la Verdun (1916) a durat aproape zece luni.",
+    "worked": "Bătăliile foarte lungi, cu sute de mii de morți și câștiguri mici de teren, arată cât de crud și de blocat a fost războiul.",
+    "exercises": [
+     "Explică cauza imediată și cauzele profunde ale războiului.",
+     "Arată pe hartă fronturile principale.",
+     "Explică importanța intrării SUA în război.",
+     "Ordonează: Sarajevo, Verdun, intrarea SUA, armistițiul.",
+     "Explică de ce războiul a devenit mondial."
+    ],
+    "test": [
+     "Cine a fost asasinat la Sarajevo?",
+     "Când a avut loc asasinatul de la Sarajevo?",
+     "Ce țară a intrat în război în 1917 de partea Antantei?",
+     "Ce țară a ieșit din război după revoluție?",
+     "Când s-a încheiat războiul?"
+    ],
+    "steps": [
+     "Separă cauza imediată de cauzele profunde.",
+     "Urmărește fronturile pe hartă.",
+     "Ordonează principalele momente.",
+     "Greșeala frecventă: să crezi că asasinatul de la Sarajevo a fost singura cauză; rivalitățile și alianțele au fost cauzele profunde."
+    ],
+    "answers": [
+     "Arhiducele Franz Ferdinand.",
+     "La 28 iunie 1914.",
+     "SUA.",
+     "Rusia.",
+     "La 11 noiembrie 1918."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l03": {
+   "ro": {
+    "title": "Revoluția industrială și războiul: noul armament",
+    "theory": "Primul Război Mondial a fost primul război industrial: fabricile produceau în masă arme și muniție. Au apărut arme noi: mitraliera, artileria grea, tancul, avionul, submarinul și gazele toxice (folosite prima dată pe scară largă la Ypres, în 1915). Aceste arme au făcut milioane de victime. Aproximativ 10 milioane de soldați au murit, iar mulți alții au rămas răniți sau invalizi.",
+    "sample": "Măștile de gaze au devenit obiecte obișnuite în echipamentul soldaților.",
+    "worked": "Un obiect de protecție arată cât de nouă și de înfricoșătoare era arma chimică. Tehnica a făcut războiul mai distrugător.",
+    "exercises": [
+     "Enumeră armele noi din Primul Război Mondial.",
+     "Explică ce înseamnă război industrial.",
+     "Explică efectele gazelor toxice.",
+     "Explică rolul tancului în ieșirea din războiul de tranșee.",
+     "Analizează costul uman al războiului."
+    ],
+    "test": [
+     "Ce armă chimică a fost folosită în război?",
+     "Unde a fost folosită prima dată pe scară largă?",
+     "Ce vehicul blindat a apărut?",
+     "Ce armă navală subacvatică a fost folosită?",
+     "Câți soldați au murit aproximativ?"
+    ],
+    "steps": [
+     "Identifică armele noi.",
+     "Explică efectul lor pe câmpul de luptă.",
+     "Analizează urmările pentru oameni.",
+     "Greșeala frecventă: să crezi că avioanele au avut rolul principal în Primul Război Mondial; au fost mai importante artileria și mitralierele."
+    ],
+    "answers": [
+     "Gazele toxice.",
+     "La Ypres.",
+     "Tancul.",
+     "Submarinul.",
+     "Aproximativ 10 milioane."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l04": {
+   "ro": {
+    "title": "Viața în tranșee și frontul de acasă",
+    "theory": "Pe frontul de Vest, soldații au săpat tranșee lungi, unde au trăit luni întregi în noroi, frig, cu șobolani, păduchi și boli, sub focul artileriei. Între tranșeele inamice era „pământul nimănui”. Acasă, femeile au luat locul bărbaților în fabrici, în agricultură și în spitale. Alimentele erau raționalizate, iar propaganda încuraja populația să sprijine războiul.",
+    "sample": "Scrisorile soldaților descriu frigul, foamea și dorul de casă.",
+    "worked": "Scrisorile sunt izvoare personale: arată ce simțeau oamenii, nu doar ce spuneau comunicatele oficiale.",
+    "exercises": [
+     "Descrie viața în tranșee.",
+     "Explică ce era „pământul nimănui”.",
+     "Explică rolul femeilor în timpul războiului.",
+     "Explică ce înseamnă raționalizarea alimentelor.",
+     "Scrie o scrisoare imaginară de pe front."
+    ],
+    "test": [
+     "Unde trăiau soldații pe frontul de Vest?",
+     "Ce era „pământul nimănui”?",
+     "Cine a lucrat în fabrici în locul bărbaților?",
+     "Ce era raționalizarea?",
+     "Ce urmărea propaganda?"
+    ],
+    "steps": [
+     "Descrie condițiile de pe front.",
+     "Descrie viața de acasă.",
+     "Folosește scrisori și fotografii ca izvoare.",
+     "Greșeala frecventă: să crezi că războiul i-a afectat doar pe soldați; și civilii au suferit foamete și pierderi."
+    ],
+    "answers": [
+     "În tranșee.",
+     "Zona dintre tranșeele inamice.",
+     "Femeile.",
+     "Împărțirea alimentelor în cantități limitate.",
+     "Sprijinul populației pentru război."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l05": {
+   "ro": {
+    "title": "România și Primul Război Mondial",
+    "theory": "România a rămas neutră între 1914 și 1916. În august 1916, a intrat în război de partea Antantei, cu scopul de a uni Transilvania și Bucovina cu țara. Ofensiva în Transilvania a fost urmată de înfrângeri, iar Bucureștiul a fost ocupat; regele, guvernul și armata s-au retras în Moldova. În vara lui 1917, armata română a obținut victoriile de la Mărăști, Mărășești și Oituz. Ieșirea Rusiei din război a obligat România să încheie pacea de la Buftea-București (1918), dar a reintrat în război în noiembrie 1918.",
+    "sample": "La Mărășești s-a spus: „Pe aici nu se trece!”",
+    "worked": "Deviza a devenit simbolul rezistenței armatei române în 1917. Ea arată importanța acestei bătălii pentru apărarea Moldovei.",
+    "exercises": [
+     "Explică de ce România a intrat în război în 1916.",
+     "Explică retragerea în Moldova.",
+     "Descrie victoriile din vara lui 1917.",
+     "Explică de ce România a încheiat pace separată în 1918.",
+     "Ordonează: neutralitate, intrare în război, Mărășești, pacea din 1918."
+    ],
+    "test": [
+     "Când a intrat România în război?",
+     "De partea cui?",
+     "Ce oraș a fost ocupat în 1916?",
+     "Ce victorii a obținut armata română în 1917?",
+     "Ce pace a fost obligată să încheie în 1918?"
+    ],
+    "steps": [
+     "Identifică scopul intrării în război.",
+     "Ordonează etapele participării.",
+     "Explică urmările pentru unitatea națională.",
+     "Greșeala frecventă: să crezi că România a fost de la început în război; a fost neutră doi ani."
+    ],
+    "answers": [
+     "În august 1916.",
+     "De partea Antantei.",
+     "Bucureștiul.",
+     "Mărăști, Mărășești și Oituz.",
+     "Pacea de la Buftea-București."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l06": {
+   "ro": {
+    "title": "Tratatele de pace și noua hartă a Europei",
+    "theory": "Conferința de pace de la Paris (1919–1920) a încheiat tratate cu statele învinse: Tratatul de la Versailles cu Germania, Saint-Germain cu Austria, Trianon cu Ungaria. Germania a pierdut teritorii și coloniile și a trebuit să plătească despăgubiri (reparații). Imperiile Austro-Ungar, Otoman și Rus s-au destrămat, iar pe harta Europei au apărut state noi: Polonia, Cehoslovacia, Regatul Sârbilor, Croaților și Slovenilor. România Mare a fost recunoscută. S-a creat Societatea Națiunilor, pentru menținerea păcii.",
+    "sample": "Tratatul de la Versailles a fost semnat în Sala Oglinzilor, unde fusese proclamat Imperiul German în 1871.",
+    "worked": "Alegerea locului a fost simbolică: umilirea Germaniei. Mulți germani au resimțit tratatul ca nedrept, ceea ce a fost folosit mai târziu de naziști.",
+    "exercises": [
+     "Enumeră tratatele de pace și statele cu care s-au încheiat.",
+     "Explică prevederile pentru Germania.",
+     "Compară harta Europei din 1914 cu cea din 1920.",
+     "Explică rolul Societății Națiunilor.",
+     "Explică de ce tratatul de la Versailles a creat nemulțumiri."
+    ],
+    "test": [
+     "Unde a avut loc conferința de pace?",
+     "Cu cine s-a semnat Tratatul de la Versailles?",
+     "Ce tratat s-a semnat cu Ungaria?",
+     "Ce imperii s-au destrămat?",
+     "Ce organizație s-a creat pentru pace?"
+    ],
+    "steps": [
+     "Identifică tratatele și statele.",
+     "Compară hărțile de înainte și de după.",
+     "Analizează urmările pentru pace.",
+     "Greșeala frecventă: să crezi că tratatele au adus pace durabilă; nemulțumirile au contribuit la un nou război."
+    ],
+    "answers": [
+     "La Paris.",
+     "Cu Germania.",
+     "Tratatul de la Trianon.",
+     "Austro-Ungar, Otoman și Rus.",
+     "Societatea Națiunilor."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l07": {
+   "ro": {
+    "title": "Viața cotidiană: orașe, sate, invenții, divertisment",
+    "theory": "În perioada interbelică (1918–1939), orașele s-au modernizat: s-au construit blocuri, a apărut iluminatul electric pe scară largă, tramvaie și automobile. În multe case au intrat radioul, telefonul, aspiratorul și frigiderul. Satele rămâneau mai sărace și mai tradiționale. Oamenii se distrau la cinematograf, ascultau jazz la radio, practicau sport. Medicina a progresat: în 1928, Alexander Fleming a descoperit penicilina.",
+    "sample": "Radioul a adus în casele oamenilor știri, muzică și teatru radiofonic.",
+    "worked": "O invenție a schimbat felul în care oamenii primeau informații și se distrau. Radioul a fost folosit și pentru propagandă.",
+    "exercises": [
+     "Compară viața din oraș cu cea de la sat în perioada interbelică.",
+     "Enumeră invențiile intrate în casele oamenilor.",
+     "Explică importanța penicilinei.",
+     "Descrie distracțiile perioadei interbelice.",
+     "Compară viața interbelică cu cea de azi."
+    ],
+    "test": [
+     "Care sunt limitele perioadei interbelice?",
+     "Ce aparat aducea știri și muzică în case?",
+     "Cine a descoperit penicilina?",
+     "În ce an?",
+     "Ce gen muzical a devenit popular?"
+    ],
+    "steps": [
+     "Alege un aspect al vieții de zi cu zi.",
+     "Descrie schimbările față de înainte de război.",
+     "Compară orașul cu satul.",
+     "Greșeala frecventă: să crezi că toți oamenii aveau acces la invenții; la sate, multe lipseau."
+    ],
+    "answers": [
+     "1918–1939.",
+     "Radioul.",
+     "Alexander Fleming.",
+     "În 1928.",
+     "Jazzul."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l08": {
+   "ro": {
+    "title": "Femeia în viața publică",
+    "theory": "După Primul Război Mondial, rolul femeilor s-a schimbat. Ele munciseră în fabrici și spitale în timpul războiului și cereau drepturi egale. Mișcarea sufragetelor a luptat pentru dreptul de vot. Femeile au primit dreptul de vot în multe țări: Marea Britanie (1918, parțial, și 1928, egal), SUA (1920). Tot mai multe femei au studiat la universitate și au lucrat ca profesoare, medici, avocate. În România, femeile au primit drept de vot parțial abia în anii 1930 și deplin după 1946.",
+    "sample": "Sufragetele organizau marșuri și își legau mâinile de grilaje pentru a atrage atenția.",
+    "worked": "Acțiunile lor arată cât de greu s-au obținut drepturile. Dreptul de vot al femeilor a fost rezultatul unei lupte lungi.",
+    "exercises": [
+     "Explică de ce s-a schimbat rolul femeii după război.",
+     "Explică cine erau sufragetele.",
+     "Ordonează: vot în Marea Britanie, SUA, România.",
+     "Numește profesii în care femeile au început să lucreze.",
+     "Discută egalitatea între femei și bărbați azi."
+    ],
+    "test": [
+     "Ce drept cereau sufragetele?",
+     "Când au primit femeile din SUA dreptul de vot?",
+     "Ce profesii au început să practice femeile?",
+     "Ce rol au avut femeile în timpul războiului?",
+     "Când au primit româncele drept de vot deplin?"
+    ],
+    "steps": [
+     "Identifică schimbările din viața femeilor.",
+     "Explică lupta pentru drepturi.",
+     "Compară situația din țări diferite.",
+     "Greșeala frecventă: să crezi că femeile au primit drepturile peste tot în același timp; datele diferă de la o țară la alta."
+    ],
+    "answers": [
+     "Dreptul de vot.",
+     "În 1920.",
+     "Profesoare, medici, avocate.",
+     "Au lucrat în fabrici și spitale.",
+     "După 1946."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l09": {
+   "ro": {
+    "title": "Cinematograful: artă și industrie",
+    "theory": "Cinematograful, inventat la sfârșitul secolului al XIX-lea, a devenit în perioada interbelică o mare industrie. Hollywood (SUA) a devenit capitala filmului. Până în 1927 filmele erau mute, însoțite de muzică la pian; apoi a apărut filmul sonor. Charlie Chaplin a creat personajul „Vagabondul”. Walt Disney a făcut primele desene animate celebre. Filmul era o distracție ieftină pentru milioane de oameni, dar a fost folosit și pentru propagandă de regimurile totalitare.",
+    "sample": "Filmul „Timpuri noi” (1936) al lui Chaplin arată un muncitor prins în angrenajele unei fabrici.",
+    "worked": "Filmul este și o critică a industrializării. Cinematograful poate distra, dar și transmite idei despre societate.",
+    "exercises": [
+     "Explică de ce cinematograful a devenit o industrie.",
+     "Compară filmul mut cu filmul sonor.",
+     "Descrie personajul lui Charlie Chaplin.",
+     "Explică folosirea filmului pentru propagandă.",
+     "Prezintă un film vechi pe care l-ai văzut."
+    ],
+    "test": [
+     "Care a devenit capitala filmului?",
+     "Când a apărut filmul sonor?",
+     "Ce personaj a creat Chaplin?",
+     "Cine a creat desene animate celebre?",
+     "Pentru ce mai foloseau filmul regimurile totalitare?"
+    ],
+    "steps": [
+     "Identifică schimbările tehnice.",
+     "Explică rolul filmului ca distracție.",
+     "Analizează rolul lui ca mijloc de propagandă.",
+     "Greșeala frecventă: să crezi că filmele mute erau complet tăcute; erau însoțite de muzică în sală."
+    ],
+    "answers": [
+     "Hollywood.",
+     "În 1927.",
+     "„Vagabondul”.",
+     "Walt Disney.",
+     "Pentru propagandă."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l10": {
+   "ro": {
+    "title": "Crizele economice: Marea Criză din 1929–1933",
+    "theory": "În octombrie 1929, bursa din New York (Wall Street) s-a prăbușit. A urmat Marea Criză economică: băncile au dat faliment, fabricile s-au închis, iar milioane de oameni și-au pierdut locurile de muncă. Criza s-a răspândit în toată lumea, inclusiv în România. În SUA, președintele Franklin D. Roosevelt a lansat programul New Deal: lucrări publice, ajutoare sociale, reguli pentru bănci. În Germania, criza a ajutat partidul nazist să câștige voturi.",
+    "sample": "În SUA, oamenii stăteau la cozi lungi pentru o supă gratuită.",
+    "worked": "Imaginile cu cozile pentru hrană arată sărăcia provocată de criză. Disperarea i-a făcut pe unii să voteze partide extremiste.",
+    "exercises": [
+     "Explică cum a început Marea Criză.",
+     "Descrie urmările crizei pentru oameni.",
+     "Explică programul New Deal.",
+     "Explică legătura dintre criză și ascensiunea nazismului.",
+     "Explică urmările crizei în România."
+    ],
+    "test": [
+     "Când s-a prăbușit bursa din New York?",
+     "Cum se numește criza care a urmat?",
+     "Ce președinte a lansat New Deal?",
+     "Ce cuprindea New Deal?",
+     "În ce țară criza a ajutat partidul nazist?"
+    ],
+    "steps": [
+     "Identifică momentul declanșării.",
+     "Explică urmările economice și sociale.",
+     "Compară soluțiile alese de țări diferite.",
+     "Greșeala frecventă: să crezi că criza a afectat doar SUA; s-a răspândit în toată lumea."
+    ],
+    "answers": [
+     "În octombrie 1929.",
+     "Marea Criză.",
+     "Franklin D. Roosevelt.",
+     "Lucrări publice, ajutoare sociale, reguli pentru bănci.",
+     "În Germania."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l11": {
+   "ro": {
+    "title": "Cetățean și stat: modelul democratic (SUA)",
+    "theory": "Într-o democrație, puterea vine de la popor, care își alege conducătorii prin vot liber. Puterile statului sunt separate, cetățenii au drepturi și libertăți garantate de constituție (libertatea cuvântului, a presei, a religiei, de asociere), există mai multe partide și alegeri periodice. SUA erau un exemplu: președinte ales, Congres, Curte Supremă, presă liberă. În perioada interbelică, democrații existau și în Marea Britanie, Franța, Cehoslovacia și, cu limite, în România.",
+    "sample": "În 1932, americanii l-au ales pe Roosevelt în locul președintelui în funcție.",
+    "worked": "Schimbarea conducătorilor prin vot, fără violență, este o trăsătură a democrației. Cetățenii pot sancționa la alegeri un guvern nemulțumitor.",
+    "exercises": [
+     "Enumeră trăsăturile unui stat democratic.",
+     "Explică rolul alegerilor libere.",
+     "Explică cum funcționa separarea puterilor în SUA.",
+     "Numește trei libertăți cetățenești.",
+     "Explică de ce presa liberă este importantă."
+    ],
+    "test": [
+     "De la cine vine puterea într-o democrație?",
+     "Cum își aleg cetățenii conducătorii?",
+     "Ce document garantează drepturile?",
+     "Cum se numește parlamentul SUA?",
+     "Numește o democrație europeană interbelică."
+    ],
+    "steps": [
+     "Identifică cine deține puterea.",
+     "Află ce drepturi au cetățenii.",
+     "Verifică dacă puterile sunt separate.",
+     "Greșeala frecventă: să crezi că democrația înseamnă doar vot; înseamnă și drepturi, presă liberă și separarea puterilor."
+    ],
+    "answers": [
+     "De la popor.",
+     "Prin vot liber.",
+     "Constituția.",
+     "Congresul.",
+     "Marea Britanie sau Franța."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l12": {
+   "ro": {
+    "title": "Totalitarismul: comunismul",
+    "theory": "Totalitarismul este un regim în care statul controlează toate domeniile vieții, iar cetățenii nu au libertăți. În Rusia, bolșevicii conduși de Lenin au preluat puterea în 1917 și au creat Uniunea Sovietică (1922). Sub Stalin, statul a confiscat pământurile (colectivizarea), a impus planuri economice, a interzis alte partide, a controlat presa și a trimis milioane de oameni în lagărele de muncă (Gulag). Foametea din Ucraina (1932–1933) a ucis milioane de oameni.",
+    "sample": "Cultul personalității lui Stalin îl prezenta ca „părintele popoarelor”.",
+    "worked": "Propaganda transforma un dictator într-o figură venerată. Este o trăsătură a regimurilor totalitare.",
+    "exercises": [
+     "Explică ce este totalitarismul.",
+     "Explică cum au preluat bolșevicii puterea.",
+     "Explică ce a fost colectivizarea.",
+     "Explică ce era Gulagul.",
+     "Explică ce este cultul personalității."
+    ],
+    "test": [
+     "Cine a condus bolșevicii în 1917?",
+     "Când a fost creată URSS?",
+     "Cine a condus URSS după Lenin?",
+     "Ce era Gulagul?",
+     "Ce tragedie a lovit Ucraina în 1932–1933?"
+    ],
+    "steps": [
+     "Identifică cine deține puterea.",
+     "Află cum erau controlați cetățenii.",
+     "Analizează urmările pentru oameni.",
+     "Greșeala frecventă: să crezi că regimul comunist a adus egalitate și bunăstare; a adus represiune și foamete."
+    ],
+    "answers": [
+     "Lenin.",
+     "În 1922.",
+     "Stalin.",
+     "Sistemul de lagăre de muncă.",
+     "Foametea."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l13": {
+   "ro": {
+    "title": "Totalitarismul: nazismul",
+    "theory": "În Germania, Adolf Hitler, liderul Partidului Național-Socialist (nazist), a devenit cancelar în 1933. A desființat democrația, a interzis celelalte partide, a creat poliția secretă (Gestapo) și lagăre de concentrare. Ideologia nazistă era rasistă și antisemită: susținea superioritatea „rasei ariene” și i-a persecutat pe evrei. Legile de la Nürnberg (1935) le-au luat evreilor drepturile. Propaganda, condusă de Joseph Goebbels, controla presa, filmele și educația.",
+    "sample": "În 1933, naziștii au organizat arderea publică a cărților considerate „negermane”.",
+    "worked": "Arderea cărților arată că regimul voia să controleze gândirea. Un regim care distruge cărți persecută și oamenii.",
+    "exercises": [
+     "Explică cum a ajuns Hitler la putere.",
+     "Enumeră trăsăturile regimului nazist.",
+     "Explică ce au fost legile de la Nürnberg.",
+     "Compară nazismul cu comunismul.",
+     "Explică rolul propagandei."
+    ],
+    "test": [
+     "Când a devenit Hitler cancelar?",
+     "Ce era Gestapo?",
+     "Ce ideologie avea nazismul?",
+     "Ce legi au luat drepturile evreilor?",
+     "Cine conducea propaganda nazistă?"
+    ],
+    "steps": [
+     "Identifică cum a ajuns regimul la putere.",
+     "Află cum a eliminat libertățile.",
+     "Analizează ideologia și victimele ei.",
+     "Greșeala frecventă: să crezi că Hitler a luat puterea doar prin forță; a ajuns legal cancelar, apoi a distrus democrația."
+    ],
+    "answers": [
+     "În 1933.",
+     "Poliția secretă.",
+     "Rasistă și antisemită.",
+     "Legile de la Nürnberg.",
+     "Joseph Goebbels."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l14": {
+   "ro": {
+    "title": "Relațiile internaționale și agresiunea statelor totalitare",
+    "theory": "În anii 1930, statele totalitare au încălcat tratatele: Japonia a ocupat Manciuria (1931), Italia lui Mussolini a atacat Etiopia (1935), Germania a anexat Austria (1938). Prin Acordul de la München (1938), Marea Britanie și Franța au acceptat ca Germania să ia o parte din Cehoslovacia, sperând să evite războiul (politica de conciliere). În august 1939, Germania și URSS au semnat Pactul Ribbentrop-Molotov, cu un protocol secret de împărțire a Europei de Est.",
+    "sample": "Premierul britanic Chamberlain a declarat după München că a adus „pacea pentru timpul nostru”.",
+    "worked": "În mai puțin de un an a izbucnit războiul. Cedările în fața agresorului nu au oprit agresiunea.",
+    "exercises": [
+     "Ordonează agresiunile statelor totalitare.",
+     "Explică politica de conciliere.",
+     "Explică urmările Acordului de la München.",
+     "Explică protocolul secret al Pactului Ribbentrop-Molotov.",
+     "Explică de ce Societatea Națiunilor nu a oprit agresiunile."
+    ],
+    "test": [
+     "Ce țară a anexat Germania în 1938?",
+     "Ce stat a fost obligat să cedeze teritorii la München?",
+     "Ce țară a atacat Italia în 1935?",
+     "Ce pact au semnat Germania și URSS în 1939?",
+     "Ce conținea protocolul secret?"
+    ],
+    "steps": [
+     "Ordonează agresiunile.",
+     "Explică reacția democrațiilor.",
+     "Analizează de ce reacția nu a funcționat.",
+     "Greșeala frecventă: să crezi că Pactul Ribbentrop-Molotov a fost doar un tratat de neagresiune; avea un protocol secret de împărțire."
+    ],
+    "answers": [
+     "Austria.",
+     "Cehoslovacia.",
+     "Etiopia.",
+     "Pactul Ribbentrop-Molotov.",
+     "Împărțirea Europei de Est între Germania și URSS."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l15": {
+   "ro": {
+    "title": "Al Doilea Război Mondial: alianțe și fronturi",
+    "theory": "Războiul a început la 1 septembrie 1939, când Germania a atacat Polonia. În 1940, Germania a ocupat Franța. Puterile Axei erau Germania, Italia și Japonia; Aliații erau Marea Britanie, apoi URSS (după atacul german din iunie 1941) și SUA (după atacul japonez de la Pearl Harbor, decembrie 1941). Bătălia de la Stalingrad (1942–1943) a întors cursul războiului. În iunie 1944, Aliații au debarcat în Normandia. Germania a capitulat la 8–9 mai 1945, iar Japonia în septembrie 1945, după bombardamentele atomice de la Hiroshima și Nagasaki.",
+    "sample": "Debarcarea din Normandia (6 iunie 1944) a fost cea mai mare operațiune de debarcare din istorie.",
+    "worked": "Ea a deschis un al doilea front în Vest și a grăbit înfrângerea Germaniei.",
+    "exercises": [
+     "Ordonează: Polonia, Franța, Pearl Harbor, Stalingrad, Normandia.",
+     "Enumeră statele Axei și ale Aliaților.",
+     "Explică importanța bătăliei de la Stalingrad.",
+     "Explică de ce au intrat SUA în război.",
+     "Explică cum s-a încheiat războiul în Pacific."
+    ],
+    "test": [
+     "Când a început Al Doilea Război Mondial?",
+     "Ce state formau Axa?",
+     "Ce atac a adus SUA în război?",
+     "Ce bătălie a întors cursul războiului în Est?",
+     "Când a capitulat Germania?"
+    ],
+    "steps": [
+     "Identifică taberele.",
+     "Ordonează principalele bătălii.",
+     "Explică momentele de cotitură.",
+     "Greșeala frecventă: să confunzi Puterile Axei cu Puterile Centrale din Primul Război Mondial."
+    ],
+    "answers": [
+     "La 1 septembrie 1939.",
+     "Germania, Italia și Japonia.",
+     "Atacul de la Pearl Harbor.",
+     "Stalingrad.",
+     "La 8–9 mai 1945."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l16": {
+   "ro": {
+    "title": "România și Al Doilea Război Mondial",
+    "theory": "În vara lui 1940, România a pierdut Basarabia și nordul Bucovinei (ocupate de URSS), nord-vestul Transilvaniei (prin Dictatul de la Viena, cedat Ungariei) și Cadrilaterul (Bulgariei). Ion Antonescu a preluat conducerea. În iunie 1941, România a intrat în război alături de Germania, pentru recuperarea Basarabiei și a nordului Bucovinei. La 23 august 1944, regele Mihai I a ordonat arestarea lui Antonescu, iar România a trecut de partea Aliaților și a luptat pentru eliberarea nord-vestului Transilvaniei.",
+    "sample": "La 23 august 1944, regele Mihai I a anunțat la radio ieșirea României din alianța cu Germania.",
+    "worked": "Momentul a schimbat tabăra României și a scurtat războiul în această parte a Europei, dar țara a intrat sub influența sovietică.",
+    "exercises": [
+     "Enumeră pierderile teritoriale din 1940.",
+     "Explică de ce România a intrat în război în 1941.",
+     "Explică evenimentele de la 23 august 1944.",
+     "Ordonează: 1940, iunie 1941, 23 august 1944.",
+     "Explică urmările războiului pentru România."
+    ],
+    "test": [
+     "Ce teritorii a pierdut România în 1940?",
+     "Ce dictat a cedat nord-vestul Transilvaniei?",
+     "Când a intrat România în război?",
+     "Cine l-a arestat pe Antonescu?",
+     "Când a trecut România de partea Aliaților?"
+    ],
+    "steps": [
+     "Identifică pierderile teritoriale.",
+     "Ordonează etapele participării la război.",
+     "Explică schimbarea de tabără și urmările ei.",
+     "Greșeala frecventă: să crezi că România a luptat tot războiul de aceeași parte; din august 1944 a luptat alături de Aliați."
+    ],
+    "answers": [
+     "Basarabia, nordul Bucovinei, nord-vestul Transilvaniei și Cadrilaterul.",
+     "Dictatul de la Viena.",
+     "În iunie 1941.",
+     "Regele Mihai I.",
+     "La 23 august 1944."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l17": {
+   "ro": {
+    "title": "Noile mijloace de distrugere; viața pe front și acasă",
+    "theory": "Al Doilea Război Mondial a fost cel mai distrugător război din istorie: aproximativ 60–70 de milioane de morți, majoritatea civili. S-au folosit tancuri, avioane de bombardament, rachete V2, radarul și, în final, bomba atomică (Hiroshima și Nagasaki, august 1945). Orașele au fost bombardate masiv (Londra, Dresda, Varșovia). Civilii au trăit sub ocupație, au suferit foamete și deportări; mișcările de rezistență s-au opus ocupanților.",
+    "sample": "La Londra, în timpul bombardamentelor, oamenii se adăposteau noaptea în stațiile de metrou.",
+    "worked": "Imaginea arată că frontul ajunsese în casele civililor. În acest război, deosebirea dintre front și spatele frontului aproape a dispărut.",
+    "exercises": [
+     "Enumeră armele noi din Al Doilea Război Mondial.",
+     "Explică urmările bombardamentelor asupra orașelor.",
+     "Explică efectele bombei atomice.",
+     "Descrie viața civililor sub ocupație.",
+     "Explică ce erau mișcările de rezistență."
+    ],
+    "test": [
+     "Câți oameni au murit aproximativ în război?",
+     "Unde au fost aruncate bombele atomice?",
+     "Când au fost aruncate bombele atomice?",
+     "Unde se adăposteau londonezii?",
+     "Cine se opunea ocupanților?"
+    ],
+    "steps": [
+     "Identifică mijloacele de distrugere.",
+     "Descrie urmările asupra civililor.",
+     "Compară cu Primul Război Mondial.",
+     "Greșeala frecventă: să crezi că victimele au fost mai ales soldați; majoritatea au fost civili."
+    ],
+    "answers": [
+     "Aproximativ 60–70 de milioane.",
+     "La Hiroshima și Nagasaki.",
+     "În august 1945.",
+     "În stațiile de metrou.",
+     "Mișcările de rezistență."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l18": {
+   "ro": {
+    "title": "Holocaustul",
+    "theory": "Holocaustul este genocidul în care regimul nazist și aliații lui au ucis aproximativ 6 milioane de evrei, precum și romi, persoane cu dizabilități și alte victime. Evreii au fost mai întâi lipsiți de drepturi, apoi închiși în ghetouri, deportați și uciși în lagăre de exterminare, cel mai mare fiind Auschwitz-Birkenau. Și în România, sub regimul Antonescu, evreii și romii au fost deportați în Transnistria, unde mulți au murit; în nord-vestul Transilvaniei, sub ocupație maghiară, evreii au fost deportați la Auschwitz. Comemorarea victimelor ne învață să respingem ura și discriminarea.",
+    "sample": "Jurnalul Annei Frank, o fată evreică ascunsă în Amsterdam, a devenit una dintre cele mai citite cărți despre Holocaust.",
+    "worked": "Mărturia unui copil arată suferința umană din spatele cifrelor. Ea ne ajută să înțelegem de ce trebuie să ne amintim.",
+    "exercises": [
+     "Explică ce înseamnă genocid.",
+     "Explică etapele persecuției evreilor.",
+     "Explică ce s-a întâmplat la Auschwitz.",
+     "Explică Holocaustul în România.",
+     "Explică de ce comemorăm victimele Holocaustului."
+    ],
+    "test": [
+     "Câți evrei au fost uciși în Holocaust?",
+     "Ce alte grupuri au fost victime?",
+     "Care a fost cel mai mare lagăr de exterminare?",
+     "Unde au fost deportați evreii și romii din România?",
+     "Ce carte a scris Anne Frank?"
+    ],
+    "steps": [
+     "Află ce înseamnă Holocaustul.",
+     "Urmărește etapele persecuției.",
+     "Reflectează la lecția pentru prezent.",
+     "Greșeala frecventă: să crezi că Holocaustul s-a petrecut doar în Germania; a avut loc în multe țări, inclusiv România."
+    ],
+    "answers": [
+     "Aproximativ 6 milioane.",
+     "Romii, persoanele cu dizabilități și alții.",
+     "Auschwitz-Birkenau.",
+     "În Transnistria.",
+     "Un jurnal."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l19": {
+   "ro": {
+    "title": "Sfârșitul războiului și Conferința de pace",
+    "theory": "La conferințele de la Ialta și Potsdam (1945), liderii Aliaților (SUA, URSS, Marea Britanie) au hotărât soarta Germaniei, împărțită în patru zone de ocupație, și a Europei. În 1945 s-a creat Organizația Națiunilor Unite (ONU), pentru menținerea păcii. Criminalii de război naziști au fost judecați la Nürnberg. Conferința de pace de la Paris (1946–1947) a încheiat tratatele cu foștii aliați ai Germaniei; România a recuperat nord-vestul Transilvaniei, dar nu și Basarabia și nordul Bucovinei.",
+    "sample": "Procesul de la Nürnberg a stabilit că „executarea ordinelor” nu scuză crimele împotriva umanității.",
+    "worked": "Ideea că fiecare om răspunde pentru faptele lui, chiar dacă primește ordine, a devenit un principiu al dreptului internațional.",
+    "exercises": [
+     "Explică hotărârile de la Ialta și Potsdam.",
+     "Explică de ce s-a creat ONU.",
+     "Explică importanța procesului de la Nürnberg.",
+     "Explică prevederile tratatului de pace pentru România.",
+     "Compară ONU cu Societatea Națiunilor."
+    ],
+    "test": [
+     "Unde s-au întâlnit liderii Aliaților în 1945?",
+     "În câte zone a fost împărțită Germania?",
+     "Ce organizație s-a creat în 1945?",
+     "Unde au fost judecați criminalii naziști?",
+     "Ce teritoriu a recuperat România prin tratatul de pace?"
+    ],
+    "steps": [
+     "Identifică deciziile marilor puteri.",
+     "Explică noile instituții.",
+     "Analizează urmările pentru România.",
+     "Greșeala frecventă: să crezi că România a recuperat toate teritoriile pierdute în 1940; Basarabia și nordul Bucovinei au rămas la URSS."
+    ],
+    "answers": [
+     "La Ialta și Potsdam.",
+     "În patru.",
+     "ONU.",
+     "La Nürnberg.",
+     "Nord-vestul Transilvaniei."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l20": {
+   "ro": {
+    "title": "Reconstrucția și viața cotidiană după război",
+    "theory": "După 1945, Europa era distrusă. Planul Marshall (1948), oferit de SUA, a ajutat Europa de Vest să-și refacă economia. Au urmat zeci de ani de creștere economică („miracolul economic” german): oamenii aveau locuri de muncă, salarii mai mari, mașini, televizoare, concedii. Statul bunăstării a oferit sănătate, educație și pensii. Țările din Est, sub influența URSS, au refuzat Planul Marshall și s-au dezvoltat mai lent.",
+    "sample": "În anii 1950–1960, televizorul a intrat în majoritatea caselor din Europa de Vest.",
+    "worked": "Obiectele noi din casă arată trecerea de la dramele războiului la prosperitate. Ele au schimbat și timpul liber al familiilor.",
+    "exercises": [
+     "Explică rolul Planului Marshall.",
+     "Descrie „miracolul economic” german.",
+     "Explică ce este statul bunăstării.",
+     "Compară dezvoltarea Vestului cu cea a Estului.",
+     "Descrie viața de zi cu zi în anii 1960."
+    ],
+    "test": [
+     "Ce țară a oferit Planul Marshall?",
+     "În ce an?",
+     "Ce țări au refuzat planul?",
+     "Ce oferea statul bunăstării?",
+     "Ce aparat a intrat în case în anii 1950–1960?"
+    ],
+    "steps": [
+     "Identifică problemele de după război.",
+     "Explică soluțiile de reconstrucție.",
+     "Compară Vestul cu Estul.",
+     "Greșeala frecventă: să crezi că toată Europa a primit ajutorul Planului Marshall; țările din Est l-au refuzat sub presiunea URSS."
+    ],
+    "answers": [
+     "SUA.",
+     "În 1948.",
+     "Țările din Est, sub influența URSS.",
+     "Sănătate, educație și pensii.",
+     "Televizorul."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l21": {
+   "ro": {
+    "title": "Declarația Universală a Drepturilor Omului",
+    "theory": "După ororile războiului, ONU a adoptat la 10 decembrie 1948 Declarația Universală a Drepturilor Omului. Ea afirmă că toți oamenii se nasc liberi și egali în demnitate și drepturi, fără deosebire de rasă, sex, religie sau opinie. Declarația cuprinde dreptul la viață, la libertate, interzicerea sclaviei și a torturii, dreptul la educație, la muncă, libertatea de gândire și de exprimare. Ziua de 10 decembrie este Ziua Drepturilor Omului.",
+    "sample": "Articolul 26 spune că orice persoană are dreptul la educație.",
+    "worked": "Dreptul tău de a merge la școală este un drept al omului recunoscut internațional, nu doar o regulă locală.",
+    "exercises": [
+     "Explică de ce a fost adoptată Declarația.",
+     "Enumeră cinci drepturi din Declarație.",
+     "Explică ce înseamnă egalitate în drepturi.",
+     "Găsește un exemplu actual de încălcare a drepturilor omului.",
+     "Realizează un afiș despre un drept al omului."
+    ],
+    "test": [
+     "Când a fost adoptată Declarația?",
+     "Ce organizație a adoptat-o?",
+     "Ce spune primul articol?",
+     "Numește un drept din Declarație.",
+     "Ce zi este 10 decembrie?"
+    ],
+    "steps": [
+     "Identifică contextul adoptării.",
+     "Citește drepturile principale.",
+     "Leagă drepturile de viața ta.",
+     "Greșeala frecventă: să crezi că drepturile omului sunt respectate peste tot; sunt încă încălcate în multe țări."
+    ],
+    "answers": [
+     "La 10 decembrie 1948.",
+     "ONU.",
+     "Toți oamenii se nasc liberi și egali în demnitate și drepturi.",
+     "Dreptul la educație.",
+     "Ziua Drepturilor Omului."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l22": {
+   "ro": {
+    "title": "Democrație versus comunism: Războiul Rece",
+    "theory": "După 1945, lumea s-a împărțit în două blocuri: cel occidental, democratic, condus de SUA (alianța NATO, 1949), și cel comunist, condus de URSS (Tratatul de la Varșovia, 1955). Între ele a existat o „cortină de fier”. Războiul Rece (1945–1991) a fost o confruntare fără război direct între SUA și URSS: cursa înarmărilor nucleare, cursa spațială, războaie în alte țări (Coreea, Vietnam). Zidul Berlinului (1961–1989) a fost simbolul despărțirii.",
+    "sample": "În 1957, URSS a lansat Sputnik, primul satelit artificial; în 1969, americanii au ajuns pe Lună.",
+    "worked": "Cursa spațială a fost și o competiție politică: fiecare bloc voia să arate că sistemul lui este superior.",
+    "exercises": [
+     "Explică ce a fost Războiul Rece.",
+     "Compară NATO cu Tratatul de la Varșovia.",
+     "Explică ce era „cortina de fier”.",
+     "Explică semnificația Zidului Berlinului.",
+     "Explică cursa spațială."
+    ],
+    "test": [
+     "Ce blocuri s-au format după război?",
+     "Când a fost creat NATO?",
+     "Ce alianță conducea URSS?",
+     "Când a fost ridicat Zidul Berlinului?",
+     "Când s-a încheiat Războiul Rece?"
+    ],
+    "steps": [
+     "Identifică cele două blocuri.",
+     "Explică formele confruntării.",
+     "Ordonează momentele principale.",
+     "Greșeala frecventă: să crezi că în Războiul Rece nu au existat lupte; au fost războaie în Coreea, Vietnam și alte țări."
+    ],
+    "answers": [
+     "Blocul occidental și blocul comunist.",
+     "În 1949.",
+     "Tratatul de la Varșovia.",
+     "În 1961.",
+     "În 1991."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l23": {
+   "ro": {
+    "title": "Protestul tinerei generații",
+    "theory": "În anii 1960, tinerii din multe țări au protestat împotriva autorităților și a valorilor tradiționale. În SUA, mișcarea pentru drepturile civile, condusă de Martin Luther King, a luptat împotriva segregării rasiale; tinerii au protestat și împotriva războiului din Vietnam. În Franța, în mai 1968, studenții au organizat mari manifestații. La Praga, în 1968, încercarea de reformare a comunismului („Primăvara de la Praga”) a fost zdrobită de tancurile Tratatului de la Varșovia. Muzica rock a devenit vocea acestei generații.",
+    "sample": "Martin Luther King a rostit în 1963 discursul „Am un vis”, despre egalitatea dintre oameni.",
+    "worked": "Discursul a devenit simbolul luptei pașnice pentru drepturi. Protestele nonviolente au schimbat legile din SUA.",
+    "exercises": [
+     "Explică lupta pentru drepturile civile din SUA.",
+     "Explică ce s-a întâmplat în mai 1968 în Franța.",
+     "Explică „Primăvara de la Praga”.",
+     "Explică rolul muzicii în protestele tinerilor.",
+     "Compară protestele de atunci cu cele de azi."
+    ],
+    "test": [
+     "Cine a condus mișcarea pentru drepturile civile?",
+     "Ce discurs celebru a rostit?",
+     "Împotriva cărui război protestau tinerii americani?",
+     "Ce s-a întâmplat la Praga în 1968?",
+     "Ce muzică a devenit vocea generației?"
+    ],
+    "steps": [
+     "Identifică țara și cauza protestului.",
+     "Află ce cereau tinerii.",
+     "Explică rezultatele.",
+     "Greșeala frecventă: să crezi că toate protestele au reușit; Primăvara de la Praga a fost zdrobită."
+    ],
+    "answers": [
+     "Martin Luther King.",
+     "„Am un vis”.",
+     "Războiul din Vietnam.",
+     "Reformele au fost zdrobite de tancurile Tratatului de la Varșovia.",
+     "Muzica rock."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l24": {
+   "ro": {
+    "title": "Uniunea Europeană: principii și funcționare",
+    "theory": "După război, statele vest-europene au vrut să evite noi conflicte prin cooperare. În 1951 s-a creat Comunitatea Europeană a Cărbunelui și Oțelului, iar în 1957, prin Tratatul de la Roma, Comunitatea Economică Europeană. Tratatul de la Maastricht (1992) a creat Uniunea Europeană. Principiile ei: libera circulație a persoanelor, mărfurilor, serviciilor și capitalurilor; democrația; statul de drept; respectarea drepturilor omului. Instituții: Parlamentul European, Consiliul, Comisia Europeană, Curtea de Justiție. România a aderat la UE la 1 ianuarie 2007.",
+    "sample": "Cetățenii români pot studia și lucra în orice țară a Uniunii Europene.",
+    "worked": "Libera circulație este un drept concret, care schimbă viața oamenilor. Ea arată cum funcționează principiile UE.",
+    "exercises": [
+     "Ordonează: 1951, 1957, 1992, 2007.",
+     "Explică cele patru libertăți ale UE.",
+     "Enumeră instituțiile UE.",
+     "Explică de ce s-a creat Comunitatea Europeană.",
+     "Explică ce a schimbat aderarea pentru România."
+    ],
+    "test": [
+     "Ce tratat a creat Comunitatea Economică Europeană?",
+     "Ce tratat a creat Uniunea Europeană?",
+     "Când a aderat România la UE?",
+     "Numește o instituție a UE.",
+     "Care sunt cele patru libertăți?"
+    ],
+    "steps": [
+     "Identifică scopul creării comunității.",
+     "Ordonează etapele, de la 1951 la 2007.",
+     "Explică principiile și instituțiile.",
+     "Greșeala frecventă: să confunzi Uniunea Europeană cu Consiliul Europei sau cu NATO."
+    ],
+    "answers": [
+     "Tratatul de la Roma.",
+     "Tratatul de la Maastricht.",
+     "La 1 ianuarie 2007.",
+     "Parlamentul European.",
+     "Circulația persoanelor, mărfurilor, serviciilor și capitalurilor."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l25": {
+   "ro": {
+    "title": "Căderea comunismului în Europa (1989–1991)",
+    "theory": "În anii 1980, economiile comuniste erau în criză, iar oamenii doreau libertate. În URSS, Mihail Gorbaciov a încercat reforme (perestroika – restructurare, glasnost – transparență). În Polonia, sindicatul Solidaritatea, condus de Lech Wałęsa, a câștigat alegerile din 1989. În toamna lui 1989, regimurile comuniste au căzut pe rând: Ungaria, RDG (Zidul Berlinului a căzut la 9 noiembrie 1989), Cehoslovacia (Revoluția de catifea), Bulgaria și România (prin revoluția din decembrie 1989, singura violentă). În 1991, URSS s-a destrămat, iar Războiul Rece s-a încheiat.",
+    "sample": "La 9 noiembrie 1989, berlinezii au început să spargă Zidul cu ciocane.",
+    "worked": "Imaginea a devenit simbolul sfârșitului comunismului în Europa. Un zid ridicat pentru a-i ține pe oameni închiși a fost dărâmat chiar de ei.",
+    "exercises": [
+     "Explică de ce au intrat în criză regimurile comuniste.",
+     "Explică reformele lui Gorbaciov.",
+     "Ordonează căderea regimurilor comuniste în 1989.",
+     "Explică de ce revoluția română a fost diferită.",
+     "Explică urmările destrămării URSS."
+    ],
+    "test": [
+     "Ce reforme a încercat Gorbaciov?",
+     "Ce sindicat a luptat împotriva comunismului în Polonia?",
+     "Când a căzut Zidul Berlinului?",
+     "În ce țară revoluția din 1989 a fost violentă?",
+     "Când s-a destrămat URSS?"
+    ],
+    "steps": [
+     "Identifică cauzele crizei comunismului.",
+     "Ordonează evenimentele din 1989 pe țări.",
+     "Explică urmările pentru Europa.",
+     "Greșeala frecventă: să crezi că toate regimurile comuniste au căzut prin violență; în majoritatea țărilor schimbarea a fost pașnică."
+    ],
+    "answers": [
+     "Perestroika și glasnost.",
+     "Solidaritatea.",
+     "La 9 noiembrie 1989.",
+     "În România.",
+     "În 1991."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l26": {
+   "ro": {
+    "title": "Tehnologie, divertisment, terorism și migrații",
+    "theory": "În lumea de azi, jocurile video, rețelele de socializare și platformele de filme au devenit forme noi de divertisment. Ele aduc distracție, cunoaștere și comunicare, dar și riscuri: dependență, izolare, dezinformare. Terorismul folosește violența împotriva civililor pentru a răspândi frica și a obține scopuri politice; atacurile din 11 septembrie 2001 asupra SUA au schimbat politica mondială. Migrațiile au cauze diverse: războaie, sărăcie, căutarea unui loc de muncă; și milioane de români au emigrat după 1990. Societățile devin mai diverse cultural.",
+    "sample": "După 2014, războiul din Siria a determinat milioane de oameni să se refugieze în țările vecine și în Europa.",
+    "worked": "Exemplul arată legătura dintre conflicte și migrație. Refugiații fug de pericol, iar țările care îi primesc trebuie să găsească soluții de integrare.",
+    "exercises": [
+     "Analizează avantajele și dezavantajele jocurilor video.",
+     "Explică ce este terorismul.",
+     "Enumeră cauzele migrațiilor.",
+     "Explică emigrarea românilor după 1990.",
+     "Propune reguli pentru folosirea responsabilă a tehnologiei."
+    ],
+    "test": [
+     "Ce forme noi de divertisment au apărut?",
+     "Ce riscuri aduc acestea?",
+     "Ce urmărește terorismul?",
+     "Ce atac a schimbat politica mondială în 2001?",
+     "Numește o cauză a migrațiilor."
+    ],
+    "steps": [
+     "Identifică fenomenul studiat.",
+     "Explică cauzele lui.",
+     "Analizează urmările și soluțiile posibile.",
+     "Greșeala frecventă: să confunzi refugiații, care fug de război sau persecuție, cu migranții economici."
+    ],
+    "answers": [
+     "Jocurile video, rețelele de socializare, platformele de filme.",
+     "Dependența, izolarea, dezinformarea.",
+     "Să răspândească frica pentru scopuri politice.",
+     "Atacurile din 11 septembrie asupra SUA.",
+     "Războaiele sau sărăcia."
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l27": {
+   "ro": {
+    "title": "Lumea contemporană: globalizare, revoluția informațională, provocări",
+    "theory": "După căderea comunismului în Europa (1989) și destrămarea URSS (1991), lumea a devenit multipolară, cu mai multe centre de putere (SUA, UE, China, Rusia). Globalizarea leagă economiile și culturile: produsele, informațiile și oamenii circulă rapid. Revoluția informațională (calculatorul, internetul, telefonul mobil) a schimbat comunicarea, munca și divertismentul, inclusiv prin jocuri video. Lumea are și provocări: terorismul (atacurile din 11 septembrie 2001), migrațiile, schimbările climatice, dezinformarea.",
+    "sample": "Un telefon poate fi proiectat în SUA, fabricat în Asia din piese din mai multe țări și vândut în toată lumea.",
+    "worked": "Exemplul arată globalizarea: economiile lumii sunt legate între ele. Asta aduce avantaje, dar și dependență.",
+    "exercises": [
+     "Explică ce înseamnă lume multipolară.",
+     "Explică ce este globalizarea.",
+     "Explică urmările internetului.",
+     "Analizează avantajele și riscurile jocurilor video.",
+     "Explică două provocări ale lumii de azi."
+    ],
+    "test": [
+     "Când s-a destrămat URSS?",
+     "Ce este globalizarea?",
+     "Ce invenții au produs revoluția informațională?",
+     "Ce atac terorist a avut loc la 11 septembrie 2001?",
+     "Numește o provocare a lumii de azi."
+    ],
+    "steps": [
+     "Identifică schimbările de după 1991.",
+     "Explică globalizarea și revoluția informațională.",
+     "Analizează avantajele și riscurile.",
+     "Greșeala frecventă: să crezi că globalizarea are doar efecte bune sau doar efecte rele; are și avantaje, și dezavantaje."
+    ],
+    "answers": [
+     "În 1991.",
+     "Legătura economiilor și culturilor lumii.",
+     "Calculatorul, internetul, telefonul mobil.",
+     "Atacurile asupra SUA.",
+     "Terorismul, migrațiile sau schimbările climatice."
+    ]
+   }
+  }
+ }
+}
