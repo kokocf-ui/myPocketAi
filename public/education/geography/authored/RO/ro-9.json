@@ -1,0 +1,1146 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "RO",
+ "stage": "medium",
+ "grade": "9",
+ "version": "65bb2f2a346056ee8a71dc36b856effa79fe8197c04ab9704a4a276392915689",
+ "source": "https://rocnee.eu/index.php/en/dcee-oriz/curriculum-oriz/programe-scolare-front/ordin-aprobare-programe-scolare-privind-planurile-cadru-invatamant-liceal-cu-frecventa-zi",
+ "sourceTitle": "Programa școlară pentru disciplina Geografie, clasele a IX-a – a XII-a, trunchi comun, aprobată prin OMEC nr. 6930/19.12.2025 (Anexa 36), aplicată la clasa a IX-a din anul școlar 2026–2027 — Geografie fizică: spațiul geografic; Pământul corp cosmic; geologie; relief; atmosferă și schimbări climatice; hidrosferă; biosferă și soluri; mediile naturale. Lecții originale, fără text copiat din manuale",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "ro",
+ "labels": [
+  "Activitate originală · România · Geografie · Clasa a IX-a",
+  "Lecția pe înțeles",
+  "Exemplu",
+  "Ce ne arată exemplul",
+  "Exerciții",
+  "Test",
+  "Activități originale, făcute după programa școlară; nu înlocuiesc manualul sau ora de la clasă.",
+  "Dacă nu ai înțeles: pas cu pas",
+  "Răspunsuri (verifică după ce termini)"
+ ],
+ "units": [
+  {
+   "title": "Geografia – știința spațiului geografic",
+   "keys": [
+    "eu-year-ro-medium-9-l01",
+    "eu-year-ro-medium-9-l02",
+    "eu-year-ro-medium-9-l03",
+    "eu-year-ro-medium-9-l04"
+   ]
+  },
+  {
+   "title": "Pământul – corp cosmic",
+   "keys": [
+    "eu-year-ro-medium-9-l05",
+    "eu-year-ro-medium-9-l06",
+    "eu-year-ro-medium-9-l07",
+    "eu-year-ro-medium-9-l08"
+   ]
+  },
+  {
+   "title": "Elemente de geologie – dinamica internă, resurse și riscuri",
+   "keys": [
+    "eu-year-ro-medium-9-l09",
+    "eu-year-ro-medium-9-l10",
+    "eu-year-ro-medium-9-l11",
+    "eu-year-ro-medium-9-l12"
+   ]
+  },
+  {
+   "title": "Relieful – element suport al dezvoltării societății umane",
+   "keys": [
+    "eu-year-ro-medium-9-l13",
+    "eu-year-ro-medium-9-l14",
+    "eu-year-ro-medium-9-l15",
+    "eu-year-ro-medium-9-l16",
+    "eu-year-ro-medium-9-l17",
+    "eu-year-ro-medium-9-l18"
+   ]
+  },
+  {
+   "title": "Atmosfera și schimbările climatice",
+   "keys": [
+    "eu-year-ro-medium-9-l19",
+    "eu-year-ro-medium-9-l20",
+    "eu-year-ro-medium-9-l21",
+    "eu-year-ro-medium-9-l22"
+   ]
+  },
+  {
+   "title": "Hidrosfera – sistem dinamic",
+   "keys": [
+    "eu-year-ro-medium-9-l23",
+    "eu-year-ro-medium-9-l24",
+    "eu-year-ro-medium-9-l25",
+    "eu-year-ro-medium-9-l26"
+   ]
+  },
+  {
+   "title": "Biosfera și solurile – diversitate geografică",
+   "keys": [
+    "eu-year-ro-medium-9-l27",
+    "eu-year-ro-medium-9-l28"
+   ]
+  },
+  {
+   "title": "Mediile naturale ale Terrei",
+   "keys": [
+    "eu-year-ro-medium-9-l29",
+    "eu-year-ro-medium-9-l30"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-ro-medium-9-l01": {
+   "ro": {
+    "title": "Reprezentarea spațiului geografic",
+    "theory": "Geografia studiază spațiul geografic: suprafața Pământului cu elementele naturale și umane și legăturile dintre ele. Ca să-l putem studia, îl reprezentăm. Globul geografic păstrează forma, dar este greu de folosit pentru detalii. Harta este o reprezentare micșorată, generalizată și convențională a suprafeței terestre pe un plan. Pentru a „desface” suprafața curbă pe plan se folosesc proiecții cartografice (cilindrică, conică, azimutală); fiecare deformează ceva: suprafețele, unghiurile sau distanțele. Scara arată de câte ori a fost micșorată realitatea: numerică (1:100.000 – 1 cm pe hartă reprezintă 100.000 cm, adică 1 km în realitate) sau grafică. Hărțile se clasifică după scară (planuri, hărți la scară mare, medie, mică) și după conținut (generale/fizice și tematice). Alte reprezentări: imagini satelitare, fotografii aeriene, modele 3D, profile.",
+    "sample": "Pe o hartă la scara 1:50.000, un drum de 6 cm are în realitate 6 × 50.000 cm = 300.000 cm = 3 km.",
+    "worked": "Calculul se face înmulțind distanța de pe hartă cu numitorul scării, apoi transformând centimetrii în kilometri (împarți la 100.000).",
+    "exercises": [
+     "Explică ce este harta.",
+     "Calculează distanța reală pentru 4 cm pe o hartă 1:200.000.",
+     "Compară o hartă la scară mare cu una la scară mică.",
+     "Explică ce deformează proiecția Mercator.",
+     "Dă exemple de reprezentări moderne ale spațiului."
+    ],
+    "test": [
+     "Ce este harta?",
+     "Ce arată scara?",
+     "Ce înseamnă scara 1:100.000?",
+     "Ce proiecție mărește foarte mult suprafețele de la poli?",
+     "Ce hartă are mai multe detalii: 1:10.000 sau 1:1.000.000?"
+    ],
+    "steps": [
+     "Identifică scara hărții.",
+     "Măsoară distanța pe hartă.",
+     "Înmulțește cu numitorul și transformă unitățile.",
+     "Greșeala frecventă: să crezi că o hartă la „scară mică” arată detalii mici; scara mică (numitor mare) arată suprafețe mari, cu puține detalii."
+    ],
+    "answers": [
+     "O reprezentare micșorată, generalizată și convențională a suprafeței terestre pe un plan.",
+     "De câte ori a fost micșorată realitatea.",
+     "1 cm pe hartă reprezintă 1 km în realitate.",
+     "Proiecția Mercator.",
+     "Harta la scara 1:10.000."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l02": {
+   "ro": {
+    "title": "Utilizarea reprezentărilor cartografice",
+    "theory": "Pentru a citi o hartă folosim elementele ei: titlul (ce reprezintă), legenda (semnificația semnelor), scara, orientarea (nordul) și rețeaua de coordonate. Semnele convenționale pot fi punctuale (orașe, vârfuri), liniare (râuri, drumuri, granițe) și areale (păduri, lacuri, state). Relieful se reprezintă prin culori hipsometrice (verde pentru câmpie, galben-maro pentru deal și munte, albastru pentru adâncimi), prin curbe de nivel (linii care unesc puncte cu aceeași altitudine – cu cât sunt mai dese, cu atât panta este mai abruptă) și prin umbrire. Hărțile tematice arată un singur fenomen: densitatea populației (cartograme), climă, resurse. Profilul topografic este o secțiune verticală prin relief construită pe baza curbelor de nivel.",
+    "sample": "Pe o hartă topografică, curbele de nivel foarte apropiate de pe o latură a muntelui arată un versant abrupt.",
+    "worked": "Distanța dintre curbe ne spune panta: apropiate – pantă mare, depărtate – pantă lină.",
+    "exercises": [
+     "Enumeră elementele unei hărți.",
+     "Clasifică semnele convenționale.",
+     "Explică ce sunt curbele de nivel.",
+     "Interpretează o hartă a densității populației.",
+     "Construiește un profil topografic simplu."
+    ],
+    "test": [
+     "Ce rol are legenda?",
+     "Ce culoare reprezintă câmpiile?",
+     "Ce sunt curbele de nivel?",
+     "Ce arată curbele de nivel dese?",
+     "Ce este o hartă tematică?"
+    ],
+    "steps": [
+     "Citește titlul și legenda.",
+     "Identifică semnele și culorile.",
+     "Interpretează informația și formulează concluzii.",
+     "Greșeala frecventă: să citești harta fără legendă; aceeași culoare poate însemna lucruri diferite pe hărți diferite."
+    ],
+    "answers": [
+     "Explică semnificația semnelor de pe hartă.",
+     "Verde.",
+     "Linii care unesc puncte cu aceeași altitudine.",
+     "O pantă abruptă.",
+     "O hartă care reprezintă un singur fenomen."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l03": {
+   "ro": {
+    "title": "Aplicație practică: coordonatele geografice și măsurarea spațiului terestru",
+    "theory": "Poziția oricărui punct se exprimă prin coordonate geografice. Latitudinea este distanța unghiulară față de Ecuator (0°–90° N sau S), măsurată pe meridian; longitudinea este distanța unghiulară față de meridianul de 0° (Greenwich), între 0° și 180° E sau V, măsurată pe paralel. Paralelele sunt cercuri paralele cu Ecuatorul, care se micșorează spre poli; meridianele sunt semicercuri care unesc polii. Altitudinea completează poziția pe verticală. Un grad de latitudine are aproximativ 111 km pe toată suprafața, iar un grad de longitudine are 111 km la Ecuator și scade spre poli (0 km la poli). Distanța dintre două puncte de pe același meridian se calculează din diferența de latitudine.",
+    "sample": "București are coordonate aproximative 44°26′ N și 26°06′ E.",
+    "worked": "Asta înseamnă că orașul este în emisfera nordică, la est de Greenwich, aproape la jumătatea distanței dintre Ecuator și Polul Nord.",
+    "exercises": [
+     "Explică diferența dintre latitudine și longitudine.",
+     "Găsește coordonatele a trei orașe pe un atlas.",
+     "Calculează distanța dintre două puncte aflate pe același meridian la 10° diferență.",
+     "Explică de ce gradul de longitudine scade spre poli.",
+     "Localizează un punct cu coordonatele date."
+    ],
+    "test": [
+     "Ce este latitudinea?",
+     "Ce este longitudinea?",
+     "Ce meridian are 0°?",
+     "Câți km are aproximativ un grad de latitudine?",
+     "Unde gradul de longitudine are 0 km?"
+    ],
+    "steps": [
+     "Găsește paralela și meridianul punctului.",
+     "Citește valorile în grade și minute.",
+     "Precizează emisfera (N/S, E/V).",
+     "Greșeala frecventă: să inversezi latitudinea cu longitudinea; latitudinea se scrie prima și arată poziția față de Ecuator."
+    ],
+    "answers": [
+     "Distanța unghiulară față de Ecuator.",
+     "Distanța unghiulară față de meridianul de 0°.",
+     "Meridianul Greenwich.",
+     "Circa 111 km.",
+     "La poli."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l04": {
+   "ro": {
+    "title": "Sistemele informaționale geografice și poziționarea globală",
+    "theory": "Sistemele informaționale geografice (GIS) sunt programe care adună, stochează, analizează și afișează date legate de poziția pe Pământ. Datele sunt organizate în straturi (relief, râuri, drumuri, clădiri, populație) care pot fi suprapuse și analizate împreună. GIS se folosește în urbanism, protecția mediului, agricultură, gestionarea dezastrelor, transporturi. Sistemele globale de poziționare prin satelit (GNSS) determină coordonatele unui receptor: GPS (SUA), Galileo (Uniunea Europeană), GLONASS (Rusia), BeiDou (China). Receptorul primește semnale de la cel puțin patru sateliți și calculează poziția prin distanțele până la ei. Telefoanele, aplicațiile de navigație și hărțile online folosesc aceste tehnologii. Teledetecția (imaginile satelitare) arată schimbări ale mediului: defrișări, inundații, extinderea orașelor.",
+    "sample": "Un telefon află poziția folosind semnale de la mai mulți sateliți, iar aplicația de hărți o afișează pe un strat de drumuri.",
+    "worked": "GNSS dă poziția, iar GIS o pune în context pe hartă, împreună cu drumurile, clădirile și alte informații.",
+    "exercises": [
+     "Explică ce este un GIS.",
+     "Explică ce sunt straturile de date.",
+     "Numește sistemele globale de poziționare.",
+     "Explică de câți sateliți este nevoie pentru o poziție.",
+     "Dă exemple de folosire a imaginilor satelitare."
+    ],
+    "test": [
+     "Ce înseamnă GIS?",
+     "Ce sistem de poziționare aparține UE?",
+     "Câți sateliți sunt necesari pentru o poziție completă?",
+     "Ce este teledetecția?",
+     "Dă un exemplu de utilizare a GIS."
+    ],
+    "steps": [
+     "Stabilește problema geografică.",
+     "Alege straturile de date necesare.",
+     "Suprapune și analizează informația.",
+     "Greșeala frecventă: să confunzi GPS (poziționare) cu GIS (analiza datelor geografice)."
+    ],
+    "answers": [
+     "Sistem informațional geografic.",
+     "Galileo.",
+     "Cel puțin patru.",
+     "Obținerea informațiilor despre suprafața terestră de la distanță (sateliți, avioane).",
+     "Planificarea urbană sau gestionarea inundațiilor."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l05": {
+   "ro": {
+    "title": "Pământul în Univers",
+    "theory": "Universul cuprinde toată materia și energia, organizate în galaxii. Galaxia noastră, Calea Lactee, are formă de spirală și sute de miliarde de stele. Sistemul Solar se află la periferia ei și cuprinde Soarele (o stea de mărime medie, cu peste 99% din masa sistemului), opt planete, planete pitice, sateliți, asteroizi și comete. Planetele telurice (Mercur, Venus, Pământ, Marte) sunt mici, stâncoase și dense; planetele gigantice (Jupiter, Saturn, Uranus, Neptun) sunt mari, gazoase sau de gheață, cu multe sateliți și inele. Distanțele se măsoară în unități astronomice (1 UA – distanța medie Pământ–Soare, circa 150 milioane km) și ani-lumină. Pământul este a treia planetă de la Soare și singura cunoscută cu viață.",
+    "sample": "Lumina Soarelui ajunge pe Pământ în circa 8 minute și 20 de secunde.",
+    "worked": "Distanța uriașă (150 milioane km) este parcursă rapid, deoarece lumina are aproximativ 300.000 km/s.",
+    "exercises": [
+     "Explică structura Sistemului Solar.",
+     "Compară planetele telurice cu cele gigantice.",
+     "Explică ce este o unitate astronomică.",
+     "Ordonează planetele după distanța față de Soare.",
+     "Explică poziția Sistemului Solar în galaxie."
+    ],
+    "test": [
+     "Cum se numește galaxia noastră?",
+     "Ce procent din masa Sistemului Solar are Soarele?",
+     "Câte planete are Sistemul Solar?",
+     "Ce este o unitate astronomică?",
+     "Care este cea mai mare planetă?"
+    ],
+    "steps": [
+     "Pornește de la Univers la galaxie.",
+     "Coboară la Sistemul Solar și la planete.",
+     "Situează Pământul în acest sistem.",
+     "Greșeala frecventă: să crezi că Soarele este o stea foarte mare; este o stea de mărime medie."
+    ],
+    "answers": [
+     "Calea Lactee.",
+     "Peste 99%.",
+     "Opt.",
+     "Distanța medie Pământ–Soare (circa 150 milioane km).",
+     "Jupiter."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l06": {
+   "ro": {
+    "title": "Sistemul Soare – Pământ – Lună",
+    "theory": "Soarele este sursa principală de energie pentru Pământ: lumină și căldură, care pun în mișcare atmosfera, apa și viața. Activitatea solară (pete solare, erupții, vânt solar) produce aurorele polare și poate perturba comunicațiile și sateliții; câmpul magnetic al Pământului ne protejează. Luna, satelitul natural, se rotește în jurul Pământului în circa 27,3 zile și ne arată mereu aceeași față. Fazele Lunii (lună nouă, primul pătrar, lună plină, ultimul pătrar) se repetă la circa 29,5 zile, după poziția Lunii față de Soare și Pământ. Atracția Lunii (și a Soarelui) produce mareele. Eclipsele apar când Soarele, Pământul și Luna se aliniază: eclipsa de Soare (Luna între Soare și Pământ) și eclipsa de Lună (Pământul între Soare și Lună).",
+    "sample": "Mareele cele mai mari apar la lună nouă și lună plină, când Soarele și Luna trag în aceeași direcție.",
+    "worked": "Combinarea atracției Soarelui și a Lunii explică mareele de sizigii.",
+    "exercises": [
+     "Explică rolul Soarelui pentru Pământ.",
+     "Explică formarea fazelor Lunii.",
+     "Explică formarea mareelor.",
+     "Compară eclipsa de Soare cu eclipsa de Lună.",
+     "Explică de ce vedem mereu aceeași față a Lunii."
+    ],
+    "test": [
+     "Ce produce aurorele polare?",
+     "În câte zile se repetă fazele Lunii?",
+     "Ce produce mareele?",
+     "Când apare eclipsa de Soare?",
+     "Ce ne protejează de vântul solar?"
+    ],
+    "steps": [
+     "Desenează pozițiile Soarelui, Pământului și Lunii.",
+     "Identifică fenomenul (fază, eclipsă, maree).",
+     "Explică-l prin poziții și atracție.",
+     "Greșeala frecventă: să crezi că fazele Lunii sunt produse de umbra Pământului; ele depind de partea luminată pe care o vedem."
+    ],
+    "answers": [
+     "Activitatea solară (vântul solar).",
+     "La circa 29,5 zile.",
+     "Atracția Lunii și a Soarelui.",
+     "Când Luna se află între Soare și Pământ.",
+     "Câmpul magnetic al Pământului."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l07": {
+   "ro": {
+    "title": "Proprietățile fizice ale Terrei – condiții pentru viață",
+    "theory": "Pământul are formă de geoid, apropiată de o sferă ușor turtită la poli (raza ecuatorială circa 6.378 km, raza polară circa 6.357 km). Circumferința la Ecuator este de circa 40.000 km. Proprietăți importante: gravitația (reține atmosfera și apa), câmpul magnetic (ne protejează de radiațiile cosmice), densitatea medie mare (circa 5,5 g/cm³, din cauza nucleului de fier și nichel), căldura internă. Condițiile pentru viață: distanța potrivită față de Soare (apa poate exista lichidă), atmosfera (aer respirabil, efect de seră natural, protecție prin stratul de ozon), apa lichidă, temperatura medie de circa 15°C, mișcarea de rotație care distribuie căldura. Zona din jurul unei stele în care apa poate fi lichidă se numește zonă locuibilă.",
+    "sample": "Fără efectul de seră natural, temperatura medie a Pământului ar fi de circa –18°C în loc de +15°C.",
+    "worked": "Unele gaze reținute de atmosferă sunt necesare vieții; problema apare doar când omul le intensifică.",
+    "exercises": [
+     "Descrie forma și dimensiunile Pământului.",
+     "Explică rolul gravitației.",
+     "Explică rolul câmpului magnetic.",
+     "Enumeră condițiile pentru viață.",
+     "Explică ce este zona locuibilă."
+    ],
+    "test": [
+     "Ce formă are Pământul?",
+     "Ce circumferință are la Ecuator?",
+     "Ce temperatură medie are Pământul?",
+     "Ce strat ne protejează de ultraviolete?",
+     "Ce este zona locuibilă?"
+    ],
+    "steps": [
+     "Enumeră proprietățile fizice.",
+     "Leagă fiecare proprietate de o condiție a vieții.",
+     "Formulează o concluzie despre unicitatea Pământului.",
+     "Greșeala frecventă: să crezi că efectul de seră este în întregime dăunător; cel natural face posibilă viața."
+    ],
+    "answers": [
+     "Geoid (sferă ușor turtită la poli).",
+     "Circa 40.000 km.",
+     "Circa 15°C.",
+     "Stratul de ozon.",
+     "Zona din jurul unei stele în care apa poate fi lichidă."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l08": {
+   "ro": {
+    "title": "Mișcările fundamentale ale Pământului și consecințele lor geografice",
+    "theory": "Mișcarea de rotație se face în jurul axei, de la vest la est, în circa 24 de ore. Consecințe: alternanța zi–noapte; mișcarea aparentă a Soarelui de la est la vest; fusurile orare (24 de fusuri a câte 15°, ora diferă cu o oră între fusuri vecine; România are ora Europei de Est, UTC+2, vara UTC+3); devierea vânturilor și curenților (forța Coriolis: spre dreapta în emisfera nordică, spre stânga în cea sudică); turtirea la poli. Mișcarea de revoluție în jurul Soarelui durează circa 365 de zile și 6 ore (de aici anul bisect). Pentru că axa este înclinată cu circa 23°27′, unghiul razelor solare se schimbă în cursul anului: apar anotimpurile, zile și nopți inegale, zonele de iluminare (tropice și cercuri polare). Solstițiile (21 iunie, 21–22 decembrie) și echinocțiile (20–21 martie, 22–23 septembrie) marchează anotimpurile astronomice.",
+    "sample": "Când la București este ora 12, la Londra (UTC+0) este ora 10 iarna.",
+    "worked": "Diferența de două fusuri orare înseamnă două ore; ora crește spre est.",
+    "exercises": [
+     "Enumeră consecințele mișcării de rotație.",
+     "Calculează ora la Tokyo (UTC+9) când la București (UTC+2) este ora 10.",
+     "Explică formarea anotimpurilor.",
+     "Explică ce sunt solstițiile și echinocțiile.",
+     "Explică forța Coriolis."
+    ],
+    "test": [
+     "În cât timp face Pământul o rotație?",
+     "Câte fusuri orare există?",
+     "Ce înclinare are axa Pământului?",
+     "Când este solstițiul de vară?",
+     "În ce sens deviază vânturile în emisfera nordică?"
+    ],
+    "steps": [
+     "Identifică mișcarea.",
+     "Enumeră consecințele.",
+     "Aplică-le într-un calcul sau exemplu concret.",
+     "Greșeala frecventă: să crezi că anotimpurile apar din cauza distanței față de Soare; ele apar din cauza înclinării axei."
+    ],
+    "answers": [
+     "Circa 24 de ore.",
+     "24.",
+     "Circa 23°27′.",
+     "La 21 iunie.",
+     "Spre dreapta."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l09": {
+   "ro": {
+    "title": "Structura internă a Terrei",
+    "theory": "Interiorul Pământului este cunoscut mai ales prin studiul undelor seismice, care își schimbă viteza la trecerea prin materiale diferite. Pământul are trei învelișuri principale: scoarța (crusta) – subțire, de 5–10 km sub oceane (bazaltică) și 30–70 km sub continente (granitică și bazaltică); mantaua – până la circa 2.900 km, din roci fierbinți, cu partea superioară (astenosfera) parțial topită și plastică; nucleul – exterior lichid și interior solid, din fier și nichel, cu temperaturi de peste 5.000°C. Limitele dintre ele se numesc discontinuități (Mohorovičić – între scoarță și manta; Gutenberg – între manta și nucleu). Litosfera cuprinde scoarța și partea rigidă a mantalei superioare și este împărțită în plăci. Mișcarea fierului lichid din nucleul exterior produce câmpul magnetic.",
+    "sample": "Cel mai adânc foraj realizat vreodată a ajuns doar la circa 12 km, mai puțin decât grosimea medie a scoarței continentale.",
+    "worked": "Cunoaștem interiorul Pământului mai ales indirect, prin undele seismice.",
+    "exercises": [
+     "Descrie cele trei învelișuri.",
+     "Compară scoarța oceanică cu cea continentală.",
+     "Explică ce este astenosfera.",
+     "Explică ce sunt discontinuitățile.",
+     "Explică originea câmpului magnetic."
+    ],
+    "test": [
+     "Cum cunoaștem interiorul Pământului?",
+     "Ce grosime are scoarța oceanică?",
+     "Din ce este format nucleul?",
+     "Ce discontinuitate separă scoarța de manta?",
+     "Ce cuprinde litosfera?"
+    ],
+    "steps": [
+     "Pornește de la suprafață spre centru.",
+     "Precizează grosimea, starea și compoziția fiecărui înveliș.",
+     "Leagă structura de fenomenele de la suprafață.",
+     "Greșeala frecventă: să confunzi litosfera cu scoarța; litosfera include și partea rigidă a mantalei superioare."
+    ],
+    "answers": [
+     "Prin studiul undelor seismice.",
+     "5–10 km.",
+     "Din fier și nichel.",
+     "Discontinuitatea Mohorovičić.",
+     "Scoarța și partea rigidă a mantalei superioare."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l10": {
+   "ro": {
+    "title": "Minerale și roci",
+    "theory": "Mineralele sunt substanțe naturale solide, cu compoziție chimică și structură definite (cuarț, feldspat, mică, calcit, halit – sarea gemă). Rocile sunt agregate de minerale și se clasifică după origine în trei grupe. Rocile magmatice se formează prin răcirea magmei: intrusive, în adânc (granit), sau efuzive, la suprafață (bazalt, andezit – în lanțul vulcanic al Carpaților Orientali). Rocile sedimentare se formează prin depunerea și cimentarea materialelor: detritice (nisip, gresie, pietriș), chimice (sare, gips), organogene (calcar, cărbuni, petrol). Rocile metamorfice provin din transformarea altor roci la presiuni și temperaturi mari (marmura din calcar, șisturile cristaline). Rocile trec dintr-o categorie în alta prin circuitul rocilor. Ele sunt resurse: materiale de construcții, combustibili, minereuri, sare.",
+    "sample": "Marmura de Ruschița (Munții Poiana Ruscă) este o rocă metamorfică formată din calcar.",
+    "worked": "Calcarul supus presiunii și temperaturii mari se recristalizează și devine marmură.",
+    "exercises": [
+     "Explică diferența dintre mineral și rocă.",
+     "Clasifică rocile după origine.",
+     "Dă exemple de roci din fiecare grupă.",
+     "Explică circuitul rocilor.",
+     "Leagă rocile de folosirea lor ca resurse."
+    ],
+    "test": [
+     "Ce este un mineral?",
+     "Ce tip de rocă este granitul?",
+     "Ce tip de rocă este calcarul?",
+     "Din ce rocă provine marmura?",
+     "Ce rocă se folosește pentru ciment?"
+    ],
+    "steps": [
+     "Observă originea rocii.",
+     "Încadreaz-o într-o grupă.",
+     "Precizează folosirea ei.",
+     "Greșeala frecventă: să crezi că toate rocile sunt la fel de vechi; ele se formează continuu, prin circuitul rocilor."
+    ],
+    "answers": [
+     "O substanță naturală solidă, cu compoziție și structură definite.",
+     "Rocă magmatică intrusivă.",
+     "Rocă sedimentară (organogenă).",
+     "Din calcar.",
+     "Calcarul."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l11": {
+   "ro": {
+    "title": "Dinamica internă a Terrei: tectonica plăcilor",
+    "theory": "Litosfera este împărțită în plăci tectonice mari (eurasiatică, africană, nord-americană, sud-americană, pacifică, indo-australiană, antarctică) și mai mici, care se deplasează cu câțiva centimetri pe an, purtate de curenții de convecție din manta. La limitele divergente plăcile se depărtează: se formează scoarță nouă în riftul dorsalelor oceanice (Dorsala Atlantică) sau rifturi continentale (Marele Rift African). La limitele convergente plăcile se apropie: placa oceanică mai densă se scufundă sub alta (subducție), formând fose adânci și munți vulcanici (Anzii, Japonia), sau două plăci continentale se ciocnesc, formând munți înalți (Himalaya, Alpii). La limitele transformante plăcile alunecă una pe lângă alta (falia San Andreas). Mișcările plăcilor explică distribuția munților, vulcanilor și cutremurelor. Ideea a pornit de la teoria derivei continentelor a lui Alfred Wegener (1912).",
+    "sample": "Oceanul Atlantic se lărgește cu câțiva centimetri pe an, pe măsură ce plăcile se depărtează la Dorsala Atlantică.",
+    "worked": "Islanda, aflată pe dorsală, are vulcani activi și falii care se deschid treptat.",
+    "exercises": [
+     "Numește plăcile tectonice mari.",
+     "Explică cele trei tipuri de limite.",
+     "Explică formarea Himalayei.",
+     "Explică formarea Anzilor.",
+     "Explică rolul curenților de convecție."
+    ],
+    "test": [
+     "Ce este o placă tectonică?",
+     "Ce se întâmplă la o limită divergentă?",
+     "Ce este subducția?",
+     "Ce falie celebră este transformantă?",
+     "Cine a propus teoria derivei continentelor?"
+    ],
+    "steps": [
+     "Identifică plăcile implicate.",
+     "Stabilește tipul de limită.",
+     "Explică formele de relief și fenomenele rezultate.",
+     "Greșeala frecventă: să crezi că plăcile tectonice sunt continentele; o placă poate cuprinde și continent, și ocean."
+    ],
+    "answers": [
+     "Un fragment mare al litosferei care se deplasează.",
+     "Plăcile se depărtează și se formează scoarță nouă.",
+     "Scufundarea unei plăci sub alta.",
+     "Falia San Andreas.",
+     "Alfred Wegener."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l12": {
+   "ro": {
+    "title": "Hazarduri endogene: seismicitatea și vulcanismul",
+    "theory": "Hazardurile endogene sunt fenomene periculoase produse de energia internă a Pământului. Cutremurele sunt vibrații ale scoarței produse de eliberarea bruscă a energiei acumulate de-a lungul faliilor. Locul din adânc este hipocentrul (focarul), iar punctul de la suprafață de deasupra lui este epicentrul. Magnitudinea (scara Richter sau magnitudinea de moment) măsoară energia eliberată; intensitatea (scara Mercalli) arată efectele asupra oamenilor și clădirilor. Cutremurele submarine pot produce tsunami. În România, zona Vrancea produce cutremure de adâncime intermediară (60–200 km). Vulcanismul aduce magma la suprafață: lava, cenușa, gazele și curgerile piroclastice pot distruge localități. Vulcanii sunt efuzivi (lave fluide, Hawaii) sau explozivi (lave vâscoase, Vezuviu, Pinatubo). Măsuri: hărți de risc, construcții antiseismice, sisteme de avertizare, planuri de evacuare.",
+    "sample": "Cutremurul din 1977 a avut focarul în Vrancea, la circa 94 km adâncime, dar cele mai multe victime au fost la București.",
+    "worked": "Cutremurele de adâncime intermediară se resimt pe suprafețe mari, departe de epicentru.",
+    "exercises": [
+     "Explică diferența dintre hipocentru și epicentru.",
+     "Compară magnitudinea cu intensitatea.",
+     "Explică formarea unui tsunami.",
+     "Compară vulcanii efuzivi cu cei explozivi.",
+     "Propune măsuri de reducere a riscului seismic."
+    ],
+    "test": [
+     "Ce este epicentrul?",
+     "Ce măsoară magnitudinea?",
+     "Unde se află principala zonă seismică a României?",
+     "Ce poate produce un cutremur submarin?",
+     "Dă exemplu de vulcan exploziv."
+    ],
+    "steps": [
+     "Identifică hazardul.",
+     "Explică mecanismul producerii lui.",
+     "Propune măsuri de prevenire și protecție.",
+     "Greșeala frecventă: să confunzi magnitudinea (energia) cu intensitatea (efectele într-un loc)."
+    ],
+    "answers": [
+     "Punctul de la suprafață aflat deasupra hipocentrului.",
+     "Energia eliberată de cutremur.",
+     "În Vrancea.",
+     "Un tsunami.",
+     "Vezuviu (sau Pinatubo)."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l13": {
+   "ro": {
+    "title": "Formele majore ale reliefului terestru",
+    "theory": "Relieful major cuprinde marile forme ale suprafeței Pământului. Pe continente: munții (tineri, înalți, formați în orogeneza alpină – Alpi, Himalaya, Anzi, Carpați; vechi, tociți – Ural, Appalachi, Scandinavici), podișurile (suprafețe înalte relativ netede – Tibet, Deccan), câmpiile (joase, netede – Câmpia Amazonului, Câmpia Europei de Est) și depresiunile (sub nivelul mării – Marea Moartă). Sub oceane: platforma continentală (până la circa 200 m adâncime), povârnișul continental, câmpiile abisale, dorsalele oceanice (lanțuri muntoase submarine) și fosele (cele mai adânci zone – Groapa Marianelor, circa 11.000 m). Relieful se formează prin acțiunea combinată a forțelor interne (care ridică și cutează scoarța) și a celor externe (care o erodează și o nivelează).",
+    "sample": "Groapa Marianelor este mai adâncă decât înălțimea Everestului (circa 11.000 m față de 8.849 m).",
+    "worked": "Relieful submarin are contraste chiar mai mari decât cel de pe continente.",
+    "exercises": [
+     "Clasifică formele majore de relief continental.",
+     "Compară munții tineri cu munții vechi.",
+     "Descrie relieful fundului oceanic.",
+     "Explică rolul forțelor interne și externe.",
+     "Localizează cinci forme majore pe hartă."
+    ],
+    "test": [
+     "Ce munți s-au format în orogeneza alpină?",
+     "Ce este platforma continentală?",
+     "Care este cel mai adânc punct al oceanului?",
+     "Ce este o dorsală oceanică?",
+     "Ce munți vechi se află în Rusia?"
+    ],
+    "steps": [
+     "Identifică forma de relief.",
+     "Precizează altitudinea și originea.",
+     "Localizeaz-o și dă exemple.",
+     "Greșeala frecventă: să crezi că fundul oceanului este plat; are munți, câmpii și fose."
+    ],
+    "answers": [
+     "Alpii, Himalaya, Anzii, Carpații.",
+     "Partea de lângă țărm a fundului mării, până la circa 200 m adâncime.",
+     "Groapa Marianelor.",
+     "Un lanț muntos submarin.",
+     "Munții Ural."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l14": {
+   "ro": {
+    "title": "Procesele de modelare a suprafeței scoarței terestre",
+    "theory": "Agenții externi (apa, gheața, vântul, valurile, gravitația, organismele și omul) modifică relieful prin trei procese: eroziune (desprinderea și îndepărtarea materialelor), transport și acumulare (depunere). Mai întâi rocile sunt pregătite prin dezagregare (fărâmițare fizică, de exemplu prin înghețul apei în fisuri) și alterare (transformare chimică, de exemplu dizolvarea calcarului). Apa curgătoare formează văi, chei, lunci, conuri de dejecție, delte; gheața formează circuri și văi glaciare; vântul formează dune și ciuperci de piatră în deșerturi; valurile formează faleze și plaje; gravitația produce alunecări și prăbușiri. Tipul de climă controlează agenții dominanți: în deșert vântul, în regiunile reci gheața, în regiunile umede apa.",
+    "sample": "Dunele de nisip din Sahara se deplasează cu câțiva metri pe an împinse de vânt.",
+    "worked": "Vântul este agentul de modelare principal acolo unde lipsesc vegetația și apa.",
+    "exercises": [
+     "Explică diferența dintre dezagregare și alterare.",
+     "Enumeră agenții externi.",
+     "Dă exemple de forme de eroziune și de acumulare.",
+     "Leagă agenții de tipurile de climă.",
+     "Explică rolul omului în modelarea reliefului."
+    ],
+    "test": [
+     "Ce este eroziunea?",
+     "Ce agent formează dune?",
+     "Ce agent formează circuri?",
+     "Ce proces fărâmițează rocile prin îngheț?",
+     "Ce formă de acumulare apare la vărsarea unui fluviu?"
+    ],
+    "steps": [
+     "Identifică agentul extern.",
+     "Stabilește procesul (eroziune sau acumulare).",
+     "Descrie forma de relief rezultată.",
+     "Greșeala frecventă: să crezi că relieful este neschimbat; el se modifică permanent, chiar dacă lent."
+    ],
+    "answers": [
+     "Desprinderea și îndepărtarea materialelor de la suprafață.",
+     "Vântul.",
+     "Ghețarii.",
+     "Dezagregarea.",
+     "Delta."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l15": {
+   "ro": {
+    "title": "Hazardurile geomorfologice",
+    "theory": "Hazardurile geomorfologice sunt procese de modelare rapide care pun în pericol oamenii și bunurile. Alunecările de teren sunt deplasări ale unor mase de roci și sol pe pante, favorizate de rocile argiloase, ploile abundente, defrișările, construcțiile pe versanți și cutremurele. Prăbușirile și căderile de pietre apar pe versanți abrupți. Curgerile noroioase și torenții afectează versanții fără vegetație. Avalanșele sunt deplasări rapide ale zăpezii pe pante. Eroziunea solului și ravenarea distrug terenurile agricole. În România, Subcarpații și podișurile au multe alunecări de teren (de exemplu, în județele Buzău, Vrancea, Prahova). Măsuri: împădurirea, drenarea apelor, ziduri de sprijin, evitarea construcțiilor în zonele de risc, hărți de hazard, avertizare.",
+    "sample": "O alunecare de teren poate distruge drumuri și case în câteva ore, după ploi de mai multe zile.",
+    "worked": "Apa îmbibă argila, o face plastică și grea, iar panta o împinge la vale.",
+    "exercises": [
+     "Explică formarea alunecărilor de teren.",
+     "Enumeră factorii care favorizează hazardurile.",
+     "Localizează regiuni cu alunecări de teren în România.",
+     "Explică formarea avalanșelor.",
+     "Propune măsuri de prevenire."
+    ],
+    "test": [
+     "Ce este o alunecare de teren?",
+     "Ce roci favorizează alunecările?",
+     "Ce hazard apare în munți iarna?",
+     "Ce măsură reduce eroziunea pe versanți?",
+     "În ce unitate de relief sunt frecvente alunecările în România?"
+    ],
+    "steps": [
+     "Identifică hazardul.",
+     "Analizează cauzele naturale și umane.",
+     "Propune măsuri concrete.",
+     "Greșeala frecventă: să crezi că hazardurile sunt doar naturale; omul le poate provoca sau agrava."
+    ],
+    "answers": [
+     "Deplasarea unei mase de roci și sol pe o pantă.",
+     "Rocile argiloase.",
+     "Avalanșele.",
+     "Împădurirea.",
+     "În Subcarpați."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l16": {
+   "ro": {
+    "title": "Tipuri reprezentative de relief și favorabilitatea lor pentru locuire",
+    "theory": "Unele tipuri de relief sunt legate de anumite roci sau agenți. Relieful vulcanic (conuri, cratere, platouri de lavă) are soluri fertile, dar și riscuri. Relieful glaciar (circuri, văi în formă de U, morene, fiorduri) e specific munților înalți și regiunilor reci. Relieful eolian (dune, deflație) apare în deșerturi. Relieful pe granite (forme rotunjite, „căpățâni de zahăr”), pe gresii și conglomerate (Babele, Sfinxul din Bucegi), pe argile (alunecări), pe sare (lacuri sărate, doline). Favorabilitatea pentru locuire depinde de altitudine, pantă, apă, soluri, climă și riscuri: câmpiile și luncile sunt favorabile agriculturii și așezărilor, dar inundabile; depresiunile montane oferă adăpost; munții înalți au restricții (climă rece, pante), dar resurse (lemn, turism). Omul adaptează relieful prin terasare, îndiguiri, tuneluri.",
+    "sample": "Babele și Sfinxul din Bucegi s-au format prin eroziunea diferențiată a conglomeratelor de către vânt, îngheț și apă.",
+    "worked": "Părțile mai dure ale rocii rezistă, iar cele mai moi sunt îndepărtate, rezultând forme ciudate.",
+    "exercises": [
+     "Clasifică tipurile de relief după rocă și agent.",
+     "Dă exemple din România pentru fiecare tip.",
+     "Explică avantajele câmpiilor pentru locuire.",
+     "Explică restricțiile munților înalți.",
+     "Explică modurile în care omul adaptează relieful."
+    ],
+    "test": [
+     "Ce formă glaciară are profil în U?",
+     "Ce rocă formează Babele?",
+     "Ce relief apare în deșerturi?",
+     "Ce avantaj au solurile vulcanice?",
+     "Ce risc au luncile?"
+    ],
+    "steps": [
+     "Identifică tipul de relief.",
+     "Analizează avantajele și restricțiile.",
+     "Evaluează favorabilitatea pentru comunitate.",
+     "Greșeala frecventă: să crezi că un relief e doar favorabil sau doar nefavorabil; are mereu și avantaje, și riscuri."
+    ],
+    "answers": [
+     "Valea glaciară.",
+     "Conglomeratele.",
+     "Relieful eolian (dune).",
+     "Sunt fertile.",
+     "Inundațiile."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l17": {
+   "ro": {
+    "title": "Relieful fluvial, litoral și carstic",
+    "theory": "Relieful fluvial este creat de apele curgătoare: albia (patul râului), lunca (inundată la ape mari), terasele (lunci vechi, mai înalte), meandrele (bucle), chei și defilee, conuri de dejecție, delte și estuare. Relieful litoral este creat de valuri, maree și curenți: țărmuri înalte cu faleze și țărmuri joase cu plaje, cordoane litorale, lagune (Razim–Sinoe), limane (Techirghiol). Relieful carstic se formează pe calcare, prin dizolvarea rocii de către apa cu dioxid de carbon: la suprafață lapiezuri, doline, uvale, polii, chei; în adânc peșteri cu stalactite, stalagmite și coloane, avene. În România, carstul este bine dezvoltat în Munții Apuseni (Peștera Urșilor, Scărișoara, Cetățile Ponorului), Munții Banatului și Podișul Mehedinți. Aceste forme sunt resurse turistice importante.",
+    "sample": "Stalactitele cresc din tavanul peșterii, iar stalagmitele de pe podea, prin depunerea calcitului din picăturile de apă.",
+    "worked": "Când cele două se unesc, formează o coloană; procesul durează mii de ani.",
+    "exercises": [
+     "Enumeră formele de relief fluvial.",
+     "Compară țărmurile înalte cu cele joase.",
+     "Explică formarea reliefului carstic.",
+     "Compară stalactitele cu stalagmitele.",
+     "Numește regiuni carstice din România."
+    ],
+    "test": [
+     "Ce este lunca?",
+     "Ce sunt terasele?",
+     "Ce formă litorală este Razim–Sinoe?",
+     "Pe ce rocă se formează carstul?",
+     "Ce sunt dolinele?"
+    ],
+    "steps": [
+     "Identifică agentul de modelare.",
+     "Stabilește forma de relief.",
+     "Leagă forma de procesul care a creat-o.",
+     "Greșeala frecventă: să confunzi stalactitele (cresc din tavan) cu stalagmitele (cresc de pe podea)."
+    ],
+    "answers": [
+     "Partea văii inundată la ape mari.",
+     "Lunci vechi, mai înalte decât lunca actuală.",
+     "Lagună.",
+     "Pe calcar.",
+     "Adâncituri circulare formate prin dizolvarea calcarului."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l18": {
+   "ro": {
+    "title": "Aplicație practică: relieful orizontului local – favorabilitate și restricții",
+    "theory": "Orizontul local este teritoriul din jurul localității tale, pe care îl poți observa direct. Analiza reliefului local urmează câțiva pași: identificarea unității de relief (câmpie, deal, podiș, munte, depresiune, luncă) și a altitudinii; observarea pantelor, văilor, teraselor; identificarea rocilor și a solurilor; identificarea proceselor actuale (eroziune, alunecări, inundații). Apoi se evaluează favorabilitatea: terenuri pentru agricultură, locuri sigure pentru construcții, căi de comunicație, resurse (pietriș, argilă, calcar), potențial turistic; și restricțiile: zone inundabile, versanți instabili, pante prea mari. Rezultatul poate fi o hartă simplă de favorabilitate, realizată cu aplicații online (hărți topografice, imagini satelitare, GIS), care ajută comunitatea să ia decizii.",
+    "sample": "Într-un sat de pe un versant argilos, harta de favorabilitate poate arăta că noile case trebuie construite pe terasă, nu pe pantă.",
+    "worked": "Analiza reliefului local are o utilitate practică directă pentru siguranța comunității.",
+    "exercises": [
+     "Identifică unitatea de relief a localității tale.",
+     "Determină altitudinea folosind o hartă online.",
+     "Identifică procesele actuale de modelare.",
+     "Evaluează terenurile favorabile construcțiilor.",
+     "Realizează o hartă simplă de favorabilitate."
+    ],
+    "test": [
+     "Ce este orizontul local?",
+     "Ce instrument online arată altitudinea?",
+     "Ce zonă este nefavorabilă construcțiilor lângă râu?",
+     "Ce resursă poate oferi o terasă de râu?",
+     "La ce folosește harta de favorabilitate?"
+    ],
+    "steps": [
+     "Observă și descrie relieful local.",
+     "Identifică avantajele și riscurile.",
+     "Formulează recomandări pentru comunitate.",
+     "Greșeala frecventă: să evaluezi relieful doar după aspect; trebuie analizate și rocile, apele și riscurile."
+    ],
+    "answers": [
+     "Teritoriul din jurul localității, observabil direct.",
+     "Harta topografică online sau aplicațiile GIS.",
+     "Lunca inundabilă.",
+     "Pietriș și nisip.",
+     "La luarea deciziilor de amenajare și construcție."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l19": {
+   "ro": {
+    "title": "Atmosfera terestră – compoziție și structură",
+    "theory": "Atmosfera este învelișul de gaze al Pământului. Aerul uscat conține azot (circa 78%), oxigen (circa 21%), argon (circa 0,9%) și gaze în cantități mici: dioxid de carbon (circa 0,04%, în creștere), ozon, metan. Mai conține vapori de apă și particule (praf, sare, polen). Pe verticală, atmosfera are straturi: troposfera (până la 8 km la poli și 16–18 km la Ecuator), unde se produc fenomenele meteorologice și temperatura scade cu circa 0,6°C la 100 m; stratosfera (până la circa 50 km), cu stratul de ozon care absoarbe radiațiile ultraviolete; mezosfera (până la circa 85 km), unde ard meteoriții; termosfera (ionosfera), unde apar aurorele; exosfera, care trece treptat în spațiu. Atmosfera ne protejează, reține căldura și permite viața.",
+    "sample": "Pe vârful Omu (circa 2.500 m) temperatura medie anuală este cu aproximativ 13–14°C mai mică decât la București.",
+    "worked": "Scăderea temperaturii cu altitudinea (circa 0,6°C la 100 m) explică diferența.",
+    "exercises": [
+     "Enumeră componentele aerului.",
+     "Descrie straturile atmosferei.",
+     "Explică rolul stratului de ozon.",
+     "Calculează temperatura la 2.000 m dacă jos sunt 20°C.",
+     "Explică importanța atmosferei pentru viață."
+    ],
+    "test": [
+     "Ce gaz predomină în aer?",
+     "În ce strat se produc fenomenele meteorologice?",
+     "Unde se află stratul de ozon?",
+     "Cu cât scade temperatura la 100 m în troposferă?",
+     "În ce strat ard meteoriții?"
+    ],
+    "steps": [
+     "Enumeră straturile de jos în sus.",
+     "Precizează altitudinea și caracteristica fiecăruia.",
+     "Leagă-le de fenomenele pe care le cunoști.",
+     "Greșeala frecventă: să crezi că oxigenul este gazul principal al aerului; azotul este de aproape patru ori mai mult."
+    ],
+    "answers": [
+     "Azotul.",
+     "În troposferă.",
+     "În stratosferă.",
+     "Cu circa 0,6°C.",
+     "În mezosferă."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l20": {
+   "ro": {
+    "title": "Factorii genetici ai climei și elementele climatice",
+    "theory": "Clima este regimul multianual al vremii într-un loc, în timp ce vremea este starea atmosferei într-un moment. Elementele climatice sunt: temperatura aerului, presiunea atmosferică, vântul, umezeala, nebulozitatea și precipitațiile. Factorii genetici (care produc clima) sunt: radiativi (cantitatea de energie solară, dependentă de latitudine), dinamici (circulația generală a atmosferei – alizee, vânturile de vest, vânturile polare de est; centrii barici: anticicloni cu presiune mare și vreme stabilă, cicloni cu presiune mică și vreme instabilă) și geografici (relieful – altitudine, orientarea versanților; distanța față de ocean; curenții oceanici; vegetația; omul – orașele sunt insule de căldură). Vântul bate de la presiune mare spre presiune mică.",
+    "sample": "Versanții vestici ai Carpaților primesc mai multe precipitații decât cei estici, deoarece masele de aer umed vin din vest.",
+    "worked": "Relieful obligă aerul să urce și să se răcească, iar vaporii condensează pe versantul expus vântului.",
+    "exercises": [
+     "Explică diferența dintre vreme și climă.",
+     "Enumeră elementele climatice.",
+     "Clasifică factorii genetici ai climei.",
+     "Explică circulația generală a atmosferei.",
+     "Explică ce este insula de căldură urbană."
+    ],
+    "test": [
+     "Ce este clima?",
+     "Ce element climatic se măsoară cu barometrul?",
+     "Ce vânturi bat între tropice și Ecuator?",
+     "Ce vreme aduce un anticiclon?",
+     "De unde spre unde bate vântul?"
+    ],
+    "steps": [
+     "Identifică elementul climatic.",
+     "Caută factorii care îl influențează.",
+     "Explică valorile într-un loc concret.",
+     "Greșeala frecventă: să confunzi vremea (de azi) cu clima (media pe mulți ani)."
+    ],
+    "answers": [
+     "Regimul multianual al vremii într-un loc.",
+     "Presiunea atmosferică.",
+     "Alizeele.",
+     "Vreme stabilă, senină.",
+     "De la presiune mare spre presiune mică."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l21": {
+   "ro": {
+    "title": "Zone și tipuri de climă",
+    "theory": "Zonele climatice se succed de la Ecuator spre poli, după cantitatea de energie solară. Zona caldă cuprinde: clima ecuatorială (cald și ploios tot anul), subecuatorială (un anotimp ploios și unul secetos), tropical-deșertică (foarte cald și uscat), tropical-umedă și musonică (ploi abundente vara). Zona temperată cuprinde: clima mediteraneană (veri calde și secetoase, ierni blânde și ploioase), oceanică (blândă și umedă), continentală (ierni geroase, veri calde, precipitații moderate), temperat-continentală de tranziție (România) și continental-excesivă (Siberia). Zona rece cuprinde: clima subpolară și polară (temperaturi foarte scăzute, precipitații puține). În munții înalți se formează climatul montan, cu etaje climatice. Climograma reprezintă grafic temperaturile (curbă) și precipitațiile (coloane) lunare.",
+    "sample": "O climogramă cu precipitații mari iarna și foarte mici vara, cu temperaturi de 10–25°C, indică o climă mediteraneană.",
+    "worked": "Regimul precipitațiilor pe anotimpuri este cheia identificării tipului de climă.",
+    "exercises": [
+     "Enumeră zonele climatice.",
+     "Compară clima oceanică cu cea continentală.",
+     "Descrie clima mediteraneană.",
+     "Interpretează o climogramă.",
+     "Explică ce este climatul montan."
+    ],
+    "test": [
+     "Ce climă are Bazinul Congo?",
+     "Ce climă are Sahara?",
+     "Ce climă are Siberia?",
+     "Ce reprezintă coloanele unei climograme?",
+     "Ce climă are România?"
+    ],
+    "steps": [
+     "Citește temperaturile și precipitațiile.",
+     "Analizează variația lor în cursul anului.",
+     "Identifică tipul de climă și localizează-l.",
+     "Greșeala frecventă: să crezi că deșerturile sunt doar în zona caldă; există și deșerturi temperate (Gobi) și polare."
+    ],
+    "answers": [
+     "Climă ecuatorială.",
+     "Climă tropical-deșertică.",
+     "Climă continental-excesivă.",
+     "Precipitațiile lunare.",
+     "Climă temperat-continentală de tranziție."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l22": {
+   "ro": {
+    "title": "Schimbările climatice",
+    "theory": "Clima Pământului s-a schimbat mereu natural (glaciațiuni și perioade calde), dar încălzirea actuală este foarte rapidă și produsă în principal de om. Arderea cărbunelui, petrolului și gazelor, defrișările și unele activități agricole cresc concentrația gazelor cu efect de seră (dioxid de carbon, metan, protoxid de azot), care rețin mai multă căldură. Temperatura medie globală a crescut cu aproximativ 1,2–1,3°C față de perioada preindustrială. Efecte: topirea ghețarilor montani și a calotelor, creșterea nivelului oceanului, valuri de căldură, secete și incendii mai frecvente, ploi torențiale și inundații, acidifierea oceanului, migrarea speciilor. În România cresc frecvența caniculelor și a secetelor în sud și est. Răspunsurile sunt atenuarea (reducerea emisiilor: energie regenerabilă, eficiență energetică, transport curat, împădurire) și adaptarea (irigații, spații verzi în orașe, avertizare). Acordul de la Paris (2015) urmărește limitarea încălzirii la sub 2°C, ideal 1,5°C.",
+    "sample": "Ghețarii din Alpi și-au pierdut o parte importantă din volum în ultimele decenii.",
+    "worked": "Topirea ghețarilor montani reduce rezervele de apă pentru râuri și agricultură în anotimpul cald.",
+    "exercises": [
+     "Explică diferența dintre schimbările naturale și cele produse de om.",
+     "Numește gazele cu efect de seră.",
+     "Enumeră efectele schimbărilor climatice.",
+     "Compară atenuarea cu adaptarea.",
+     "Propune măsuri pentru localitatea ta."
+    ],
+    "test": [
+     "Ce cauzează încălzirea actuală?",
+     "Cu cât a crescut temperatura medie globală?",
+     "Ce acord urmărește limitarea încălzirii?",
+     "Ce înseamnă atenuare?",
+     "Ce fenomen extrem devine mai frecvent în sudul României?"
+    ],
+    "steps": [
+     "Identifică o schimbare climatică.",
+     "Explică legătura cauză–efect.",
+     "Propune măsuri de atenuare și de adaptare.",
+     "Greșeala frecventă: să confunzi vremea rece dintr-o zi cu lipsa încălzirii globale; contează tendința pe termen lung."
+    ],
+    "answers": [
+     "Creșterea gazelor cu efect de seră din activitățile umane.",
+     "Cu aproximativ 1,2–1,3°C.",
+     "Acordul de la Paris.",
+     "Reducerea emisiilor de gaze cu efect de seră.",
+     "Canicula (și seceta)."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l23": {
+   "ro": {
+    "title": "Oceanul Planetar – caracteristici și dinamică",
+    "theory": "Oceanul Planetar acoperă circa 71% din suprafața Pământului și conține circa 97% din apa planetei. Cuprinde oceanele Pacific (cel mai mare și mai adânc), Atlantic, Indian, Arctic și Austral, cu mări și golfuri. Apa oceanică are salinitate medie de circa 35‰ (grame de săruri la un litru), mai mare în mările calde și închise (Marea Roșie) și mai mică unde se varsă fluvii mari sau se topește gheața (Marea Baltică, Marea Neagră). Temperatura scade de la Ecuator spre poli și cu adâncimea. Mișcările apei: valurile (produse de vânt), mareele (produse de atracția Lunii și Soarelui), curenții oceanici calzi (Golfului, Kuroshio) și reci (Labradorului, Humboldt, Benguela), care transportă căldură și influențează clima țărmurilor. Oceanul absoarbe căldură și dioxid de carbon și oferă hrană, energie, resurse și căi de transport.",
+    "sample": "Curentul Golfului face ca porturile din nordul Norvegiei să nu înghețe iarna.",
+    "worked": "Curenții calzi transportă căldură de la tropice spre latitudini mari și modifică puternic clima.",
+    "exercises": [
+     "Numește oceanele.",
+     "Explică variația salinității.",
+     "Clasifică mișcările apei oceanice.",
+     "Explică rolul curenților oceanici.",
+     "Enumeră resursele oceanului."
+    ],
+    "test": [
+     "Ce procent din suprafață acoperă oceanul?",
+     "Care este salinitatea medie?",
+     "Care este cel mai mare ocean?",
+     "Ce produce valurile?",
+     "Dă exemplu de curent rece."
+    ],
+    "steps": [
+     "Identifică proprietatea sau mișcarea apei.",
+     "Explică-i cauza principală.",
+     "Arată consecințele asupra climei și omului.",
+     "Greșeala frecventă: să crezi că toate mările au aceeași salinitate; ea variază după evaporare și aportul de apă dulce."
+    ],
+    "answers": [
+     "Circa 71%.",
+     "Circa 35‰.",
+     "Oceanul Pacific.",
+     "Vântul.",
+     "Curentul Labradorului (sau Humboldt)."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l24": {
+   "ro": {
+    "title": "Apele continentale – resursă vitală pentru societate",
+    "theory": "Apele continentale reprezintă doar circa 3% din apa planetei și sunt în mare parte apă dulce, din care cea mai mare parte este înghețată în calote și ghețari. Ele cuprind: râurile și fluviile (cu bazin hidrografic, debit, regim – ape mari și ape mici), lacurile (naturale – tectonice, glaciare, vulcanice, carstice, lagune, de baraj natural; antropice – de acumulare), apele subterane (freatice și de adâncime, izvoare, ape minerale și termale), ghețarii și mlaștinile. Debitul unui râu este volumul de apă care trece printr-o secțiune într-o secundă (m³/s). Apele continentale asigură apă potabilă, irigații, energie hidroelectrică, transport, pescuit, turism. Peste 2 miliarde de oameni nu au acces sigur la apă potabilă, iar consumul crește.",
+    "sample": "Amazonul are cel mai mare debit din lume (în medie peste 200.000 m³/s), datorită ploilor ecuatoriale.",
+    "worked": "Debitul unui râu depinde de suprafața bazinului și de cantitatea de precipitații.",
+    "exercises": [
+     "Enumeră tipurile de ape continentale.",
+     "Explică ce este debitul.",
+     "Clasifică lacurile după origine.",
+     "Explică importanța apelor subterane.",
+     "Enumeră folosințele apei."
+    ],
+    "test": [
+     "Ce procent din apa planetei este apă continentală?",
+     "Unde se află cea mai mare parte a apei dulci?",
+     "Ce este bazinul hidrografic?",
+     "Ce unitate de măsură are debitul?",
+     "Ce fluviu are cel mai mare debit?"
+    ],
+    "steps": [
+     "Identifică tipul de apă.",
+     "Descrie caracteristicile.",
+     "Precizează folosința pentru societate.",
+     "Greșeala frecventă: să crezi că apa dulce este abundentă; doar o mică parte este accesibilă direct."
+    ],
+    "answers": [
+     "Circa 3%.",
+     "În calote și ghețari.",
+     "Teritoriul de pe care un râu își adună apele.",
+     "Metri cubi pe secundă.",
+     "Amazonul."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l25": {
+   "ro": {
+    "title": "Studiu de caz: managementul apelor continentale",
+    "theory": "Managementul apelor înseamnă folosirea, protejarea și împărțirea echitabilă a resurselor de apă. Se face pe bazine hidrografice, nu pe granițe administrative, pentru că apa curge peste ele. Măsuri: baraje și lacuri de acumulare (regularizarea debitelor, energie, apă potabilă), îndiguiri, canale de irigații, stații de tratare a apei și de epurare a apelor uzate, reducerea pierderilor din rețele, protecția zonelor umede. Exemple: Barajul Trei Defileuri pe Yangtze (cea mai mare hidrocentrală din lume, dar cu milioane de oameni strămutați); secarea Mării Aral după irigații excesive; Directiva-cadru a UE privind apa. În România, apele sunt gestionate de Administrația Națională „Apele Române” pe 11 bazine hidrografice; Dunărea este gestionată internațional prin Comisia Internațională pentru Protecția Fluviului Dunărea.",
+    "sample": "Marea Aral s-a micșorat dramatic după ce apa fluviilor Amu-Daria și Sîr-Daria a fost folosită pentru irigarea bumbacului.",
+    "worked": "Folosirea necontrolată a apei poate distruge un întreg ecosistem și economia regiunii.",
+    "exercises": [
+     "Explică de ce managementul se face pe bazine hidrografice.",
+     "Enumeră măsurile de management.",
+     "Analizează avantajele și dezavantajele unui baraj mare.",
+     "Prezintă cazul Mării Aral.",
+     "Explică rolul instituțiilor de gestionare a apelor."
+    ],
+    "test": [
+     "Ce înseamnă managementul apelor?",
+     "Pe ce fluviu se află Barajul Trei Defileuri?",
+     "Ce instituție gestionează apele în România?",
+     "Ce lac a secat din cauza irigațiilor?",
+     "Ce rol are o stație de epurare?"
+    ],
+    "steps": [
+     "Identifică problema de gestionare a apei.",
+     "Analizează soluțiile aplicate.",
+     "Evaluează efectele și propune îmbunătățiri.",
+     "Greșeala frecventă: să crezi că barajele au doar efecte bune; ele schimbă ecosistemele și pot strămuta oameni."
+    ],
+    "answers": [
+     "Folosirea, protejarea și împărțirea echitabilă a apei.",
+     "Pe Yangtze.",
+     "Administrația Națională „Apele Române”.",
+     "Marea Aral.",
+     "Curăță apele uzate înainte de a fi deversate."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l26": {
+   "ro": {
+    "title": "Hazardurile hidrologice",
+    "theory": "Hazardurile hidrologice sunt fenomene legate de apă care pun în pericol oamenii și bunurile. Inundațiile apar la ploi torențiale, topirea rapidă a zăpezii, blocaje de gheață sau ruperi de baraje și diguri; viiturile sunt creșteri rapide ale nivelului râurilor. Sunt agravate de defrișări, construcții în lunci, betonarea suprafețelor în orașe. Seceta hidrologică înseamnă scăderea debitelor și a nivelului apelor subterane. Pe țărmuri, furtunile și tsunami pot produce inundații costiere, iar creșterea nivelului oceanului amenință orașele joase. În România, inundațiile mari din 1970, 2005 și 2010 au afectat bazinele Mureșului, Siretului, Prutului și Dunării. Măsuri: hărți de risc la inundații, diguri și poldere (zone inundabile controlat), împăduriri, avertizare hidrologică (mesaje RO-ALERT), planuri de evacuare, renaturarea luncilor.",
+    "sample": "În 2005 și 2010, inundațiile pe Siret și Prut au afectat mii de gospodării din Moldova.",
+    "worked": "Inundațiile se repetă în aceleași bazine, de aceea prevenția și planificarea sunt esențiale.",
+    "exercises": [
+     "Enumeră cauzele inundațiilor.",
+     "Explică rolul omului în agravarea inundațiilor.",
+     "Explică ce este seceta hidrologică.",
+     "Explică ce sunt polderele.",
+     "Enumeră regulile de comportament la inundații."
+    ],
+    "test": [
+     "Ce este o viitură?",
+     "Ce agravează inundațiile în orașe?",
+     "Ce este un polder?",
+     "Ce sistem trimite avertizări pe telefon în România?",
+     "Ce amenință orașele de pe țărmuri joase?"
+    ],
+    "steps": [
+     "Identifică hazardul hidrologic.",
+     "Analizează cauzele naturale și umane.",
+     "Propune măsuri de prevenire și de protecție.",
+     "Greșeala frecventă: să crezi că digurile elimină complet riscul; ele pot ceda, iar zona din spatele lor rămâne vulnerabilă."
+    ],
+    "answers": [
+     "O creștere rapidă a nivelului unui râu.",
+     "Betonarea suprafețelor (apa nu se infiltrează).",
+     "O zonă inundabilă controlat, pentru a reduce viiturile.",
+     "RO-ALERT.",
+     "Creșterea nivelului oceanului."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l27": {
+   "ro": {
+    "title": "Biosfera și diferențierile ei regionale",
+    "theory": "Biosfera cuprinde toate organismele vii și mediul în care trăiesc; se întinde în partea de jos a atmosferei, în hidrosferă și în partea superioară a litosferei. Repartiția plantelor și animalelor depinde de climă (temperatură, precipitații), relief (altitudine), sol și ape. Zonele biogeografice (biomuri) se succed latitudinal: pădurea ecuatorială (cea mai mare biodiversitate), savana, deșertul, vegetația mediteraneană, pădurile de foioase, stepa, taigaua, tundra, deșertul polar. În munți apare etajarea vegetației. În oceane, viața este bogată pe platformele continentale și în apele reci, bogate în nutrienți, iar recifele de corali sunt foarte diverse. Biodiversitatea este amenințată de distrugerea habitatelor, poluare, specii invazive, schimbări climatice și supraexploatare; ariile protejate și rețelele ecologice o conservă.",
+    "sample": "Pădurea amazoniană adăpostește aproximativ o zecime din speciile cunoscute de pe Pământ.",
+    "worked": "Căldura și umezeala permanente favorizează o diversitate uriașă de viață.",
+    "exercises": [
+     "Explică ce este biosfera.",
+     "Ordonează biomurile de la Ecuator spre poli.",
+     "Explică factorii care influențează repartiția vieții.",
+     "Explică etajarea vegetației.",
+     "Enumeră amenințările la adresa biodiversității."
+    ],
+    "test": [
+     "Ce cuprinde biosfera?",
+     "Ce biom are cea mai mare biodiversitate?",
+     "Ce biom se află între pădurea ecuatorială și deșert?",
+     "Ce copaci formează taigaua?",
+     "Ce măsură protejează biodiversitatea?"
+    ],
+    "steps": [
+     "Localizează regiunea.",
+     "Leagă vegetația și fauna de climă.",
+     "Evaluează amenințările și măsurile de protecție.",
+     "Greșeala frecventă: să crezi că biodiversitatea e aceeași peste tot; scade de la Ecuator spre poli."
+    ],
+    "answers": [
+     "Toate organismele vii și mediul lor de viață.",
+     "Pădurea ecuatorială.",
+     "Savana.",
+     "Coniferele.",
+     "Ariile protejate."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l28": {
+   "ro": {
+    "title": "Solurile – resursă esențială a vieții pe Terra",
+    "theory": "Solul este stratul superior, afânat și fertil, al scoarței, format prin interacțiunea dintre rocă, climă, vegetație, organisme, relief, apă și timp. Formarea unui centimetru de sol poate dura sute de ani. Solul are orizonturi: humusul (materie organică descompusă, care dă fertilitatea), orizonturile minerale și roca mamă. Fertilitatea este capacitatea solului de a oferi plantelor apă și nutrienți. Tipuri reprezentative: cernoziomurile (stepă – foarte fertile, Câmpia Română, Ucraina), solurile de pădure (luvisoluri, cambisoluri), podzolurile (taiga – acide, sărace), solurile lateritice roșii (zona ecuatorială – sărace după defrișare), solurile de tundră (înghețate). Degradarea solurilor prin eroziune, salinizare, compactare, poluare și deșertificare reduce producția de hrană. Măsuri: arătura pe curbele de nivel, perdele forestiere, rotația culturilor, agricultură ecologică.",
+    "sample": "Solurile ecuatoriale sunt surprinzător de sărace: nutrienții se află mai ales în vegetație, nu în sol.",
+    "worked": "De aceea, după defrișare, terenurile din Amazonia devin rapid nefertile.",
+    "exercises": [
+     "Enumeră factorii de formare a solului.",
+     "Descrie orizonturile solului.",
+     "Explică ce este fertilitatea.",
+     "Compară cernoziomul cu podzolul.",
+     "Propune măsuri de protecție a solului."
+    ],
+    "test": [
+     "Ce este solul?",
+     "Ce dă fertilitatea solului?",
+     "Ce sol fertil se formează în stepă?",
+     "Ce sol acid se formează sub taiga?",
+     "Ce măsură reduce eroziunea pe pante?"
+    ],
+    "steps": [
+     "Identifică factorii de formare.",
+     "Stabilește tipul de sol.",
+     "Evaluează fertilitatea și riscurile de degradare.",
+     "Greșeala frecventă: să crezi că solul se reface repede; formarea lui durează sute sau mii de ani."
+    ],
+    "answers": [
+     "Stratul superior, afânat și fertil, al scoarței.",
+     "Humusul.",
+     "Cernoziomul.",
+     "Podzolul.",
+     "Arătura pe curbele de nivel (sau perdelele forestiere)."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l29": {
+   "ro": {
+    "title": "Componentele mediului și relațiile dintre ele",
+    "theory": "Mediul natural este un sistem format din componente legate între ele: litosfera (relief și roci), atmosfera (climă), hidrosfera (ape), biosfera (plante și animale) și pedosfera (soluri). Ele se influențează reciproc: clima determină tipul de vegetație și sol și regimul râurilor; relieful modifică clima și curgerea apei; vegetația protejează solul de eroziune și influențează umiditatea. Schimbarea unei componente produce efecte în lanț. Geosistemul este ansamblul acestor componente într-un teritoriu, iar ecosistemul accentuează relațiile dintre organisme și mediul lor. Omul este parte a mediului și îl transformă: apar medii antropizate (agricole, urbane, industriale).",
+    "sample": "Defrișarea unei păduri de pe versanți crește eroziunea, aluviunile din râuri și riscul de inundații în aval.",
+    "worked": "O singură intervenție umană poate declanșa o serie de efecte asupra mai multor componente.",
+    "exercises": [
+     "Enumeră componentele mediului natural.",
+     "Explică relațiile dintre climă, vegetație și sol.",
+     "Explică ce este un geosistem.",
+     "Analizează efectele în lanț ale unei defrișări.",
+     "Explică ce sunt mediile antropizate."
+    ],
+    "test": [
+     "Ce componente are mediul natural?",
+     "Ce componentă determină în principal vegetația?",
+     "Ce este un geosistem?",
+     "Ce protejează solul de eroziune?",
+     "Ce este un mediu antropizat?"
+    ],
+    "steps": [
+     "Alege o componentă a mediului.",
+     "Urmărește legăturile cu celelalte componente.",
+     "Explică efectele unei schimbări.",
+     "Greșeala frecventă: să studiezi componentele separat; în realitate ele funcționează împreună."
+    ],
+    "answers": [
+     "Relief, climă, ape, vegetație și faună, soluri.",
+     "Clima.",
+     "Ansamblul componentelor mediului într-un teritoriu.",
+     "Vegetația.",
+     "Un mediu transformat de om."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l30": {
+   "ro": {
+    "title": "Mediile naturale terestre",
+    "theory": "Mediile naturale terestre sunt grupate pe zone, după climă. În zona caldă: mediul ecuatorial (cald și umed, păduri dese, soluri lateritice, râuri bogate – Amazonia, Congo); mediul subecuatorial (savane, anotimp secetos și ploios); mediul tropical-deșertic (Sahara, Kalahari – ariditate, dune, oaze); mediul musonic (Asia de Sud și de Est – ploi de vară, orez). În zona temperată: mediul mediteranean (vegetație de arbuști veșnic verzi, veri secetoase), mediul oceanic (păduri de foioase, umezeală), mediul de stepă (ierburi, cernoziomuri), mediul pădurilor de conifere (taiga), mediile deșerturilor temperate. În zona rece: mediul de tundră și mediul polar (calote de gheață). Mediul montan are etaje. Fiecare mediu oferă omului resurse și restricții, iar presiunea umană (defrișări, agricultură, urbanizare) îl transformă.",
+    "sample": "Mediul mediteranean a fost modificat de om de mii de ani: pădurile au fost înlocuite de măslini, viță-de-vie și tufișuri.",
+    "worked": "Multe medii de azi nu mai sunt naturale, ci rezultatul îndelungatei interacțiuni cu omul.",
+    "exercises": [
+     "Clasifică mediile naturale pe zone.",
+     "Descrie mediul ecuatorial.",
+     "Compară mediul de stepă cu cel de taiga.",
+     "Explică etajarea mediului montan.",
+     "Analizează impactul uman asupra unui mediu."
+    ],
+    "test": [
+     "Ce mediu are pădurea amazoniană?",
+     "Ce mediu are Sahara?",
+     "Ce mediu are vegetație de ierburi și cernoziomuri?",
+     "Ce mediu are calote de gheață?",
+     "Ce mediu este specific Asiei de Sud?"
+    ],
+    "steps": [
+     "Localizează mediul pe planiglob.",
+     "Descrie componentele lui (climă, vegetație, sol, ape).",
+     "Arată resursele, restricțiile și impactul uman.",
+     "Greșeala frecventă: să crezi că mediile au limite clare; trecerea dintre ele se face treptat."
+    ],
+    "answers": [
+     "Mediul ecuatorial.",
+     "Mediul tropical-deșertic.",
+     "Mediul de stepă.",
+     "Mediul polar.",
+     "Mediul musonic."
+    ]
+   }
+  }
+ }
+}
