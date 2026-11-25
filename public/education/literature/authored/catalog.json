@@ -1,6 +1,6 @@
 {
  "schema": "mypocket-literature-authored-catalog/v1",
- "version": "d3f5532a5382064939017586b1a358ad2e0bc7209052d7aa9d511999d51c2b42",
+ "version": "829b9575a1bd75a25623e20bd13ecbbcc8f170b6be70b912f65642d9cc9ed331",
  "years": [
   {
    "country": "AT",
@@ -247,7 +247,7 @@
      "lang": "pl",
      "name": "Polski",
      "file": "pl-i",
-     "version": "da3c6c93053d66a1d21f1e5f4a01837295bc3fb8e675969c1ef4a842bad86160"
+     "version": "ba8ddaf241690dbc4ba09682ea8828ea5be4d92469e61b31dde725cc1a3356a3"
     }
    ]
   },

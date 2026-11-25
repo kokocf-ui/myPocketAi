@@ -3,9 +3,9 @@
  "country": "PL",
  "stage": "beginner",
  "grade": "I",
- "version": "da3c6c93053d66a1d21f1e5f4a01837295bc3fb8e675969c1ef4a842bad86160",
+ "version": "ba8ddaf241690dbc4ba09682ea8828ea5be4d92469e61b31dde725cc1a3356a3",
  "source": "https://www.gov.pl/web/edukacja/nowe-podstawy-programowe-wychowania-przedszkolnego-i-ksztalcenia-ogolnego-dla-szkoly-podstawowej-wraz-ze-zmianami-w-ramowych-planach-nauczania-dla-publicznych-szkol-podstawowych--rozporzadzenia-podpisane",
- "sourceTitle": "MEN — podstawa programowa 2026 (Reforma26. Kompas Jutra), edukacja wczesnoszkolna, klasa I (od 1.09.2026): edukacja polonistyczna — słuchanie, mówienie, czytanie, pisanie, kształcenie językowe; układ jak w podręcznikach do klasy I; materiały własne",
+ "sourceTitle": "MEN — podstawa programowa kształcenia ogólnego z 11 marca 2026 r. (Dz.U. 2026 poz. 378, Reforma26. Kompas Jutra), edukacja wczesnoszkolna, klasa I (od 1.09.2026): edukacja polonistyczna — słuchanie, mówienie, czytanie, pisanie, kształcenie językowe; kolejność liter i bloków jak w programach do nowej podstawy (np. GWO „Lokomotywa”: samogłoski, spółgłoski, dwuznaki, zmiękczenia, alfabet); materiały własne, nie tekst z elementarza",
  "status": "partial-original-material-independent-review-pending",
  "sourceLanguage": "pl",
  "labels": [
@@ -15,226 +15,1351 @@
   "Wyjaśnienie",
   "Ćwiczenia",
   "Sprawdź się",
-  "Własne ćwiczenia, nie oficjalny sprawdzian ani tekst z podręcznika. W razie potrzeby przeczytaj je z dorosłym."
+  "Własne ćwiczenia, nie oficjalny sprawdzian ani tekst z podręcznika. W razie potrzeby przeczytaj je z dorosłym.",
+  "Jeśli nie rozumiesz: krok po kroku",
+  "Odpowiedzi (sprawdź dopiero po skończeniu)"
+ ],
+ "units": [
+  {
+   "title": "Gdzie będziemy się uczyć i bawić?",
+   "keys": [
+    "eu-year-pl-beginner-i-l01",
+    "eu-year-pl-beginner-i-l02"
+   ]
+  },
+  {
+   "title": "Pierwsze litery: samogłoski",
+   "keys": [
+    "eu-year-pl-beginner-i-l03",
+    "eu-year-pl-beginner-i-l04",
+    "eu-year-pl-beginner-i-l05"
+   ]
+  },
+  {
+   "title": "Spółgłoski",
+   "keys": [
+    "eu-year-pl-beginner-i-l06",
+    "eu-year-pl-beginner-i-l07",
+    "eu-year-pl-beginner-i-l08",
+    "eu-year-pl-beginner-i-l09",
+    "eu-year-pl-beginner-i-l10",
+    "eu-year-pl-beginner-i-l11",
+    "eu-year-pl-beginner-i-l12",
+    "eu-year-pl-beginner-i-l13"
+   ]
+  },
+  {
+   "title": "Nowe litery: Ą, Ę, Ł, F, H",
+   "keys": [
+    "eu-year-pl-beginner-i-l14",
+    "eu-year-pl-beginner-i-l15",
+    "eu-year-pl-beginner-i-l16"
+   ]
+  },
+  {
+   "title": "Dwuznaki",
+   "keys": [
+    "eu-year-pl-beginner-i-l17",
+    "eu-year-pl-beginner-i-l18",
+    "eu-year-pl-beginner-i-l19",
+    "eu-year-pl-beginner-i-l20"
+   ]
+  },
+  {
+   "title": "Zmiękczenia",
+   "keys": [
+    "eu-year-pl-beginner-i-l21",
+    "eu-year-pl-beginner-i-l22",
+    "eu-year-pl-beginner-i-l23",
+    "eu-year-pl-beginner-i-l24"
+   ]
+  },
+  {
+   "title": "Czy znamy już wszystkie litery?",
+   "keys": [
+    "eu-year-pl-beginner-i-l25",
+    "eu-year-pl-beginner-i-l26"
+   ]
+  },
+  {
+   "title": "Czytamy, słuchamy, mówimy, piszemy",
+   "keys": [
+    "eu-year-pl-beginner-i-l27",
+    "eu-year-pl-beginner-i-l28",
+    "eu-year-pl-beginner-i-l29",
+    "eu-year-pl-beginner-i-l30",
+    "eu-year-pl-beginner-i-l31",
+    "eu-year-pl-beginner-i-l32",
+    "eu-year-pl-beginner-i-l33",
+    "eu-year-pl-beginner-i-l34",
+    "eu-year-pl-beginner-i-l35"
+   ]
+  },
+  {
+   "title": "Na koniec roku",
+   "keys": [
+    "eu-year-pl-beginner-i-l36"
+   ]
+  }
  ],
  "chapters": {
-  "eu-year-pl-beginner-i-parcurs": {
+  "eu-year-pl-beginner-i-l01": {
    "pl": {
-    "title": "Głoska, litera, sylaba",
-    "theory": "Głoskę słyszymy i wymawiamy, a literę widzimy i piszemy. Wyrazy dzielimy na sylaby: ko-tek. Samogłoski to a, ą, e, ę, i, o, ó, u, y. Niektóre głoski zapisujemy dwiema literami. To dwuznaki: sz, cz, rz, ch, dz, dź, dż.",
-    "sample": "Szymon ma kotka. Kotek je z miski.",
-    "worked": "Wyraz ko-tek ma dwie sylaby i pięć głosek: k-o-t-e-k. Samogłoski w tym wyrazie to o i e. W imieniu Szymon pierwszą głoskę sz zapisujemy dwiema literami. Imię Szymon piszemy wielką literą.",
+    "title": "Przedstawiamy się i ustalamy zasady klasy",
+    "theory": "Na początku roku poznajemy szkołę, koleżanki i kolegów. Przedstawiamy się pełnym zdaniem: Mam na imię… Ustalamy zasady klasy: zgłaszamy się, gdy chcemy coś powiedzieć, słuchamy innych i nie przerywamy. Dbamy o bezpieczeństwo na przerwie.",
+    "sample": "Mam na imię Zuzia. Mam siedem lat. Lubię rysować konie. Obok mnie siedzi Franek.",
+    "worked": "Zuzia przedstawia się w czterech krótkich zdaniach: imię, wiek, co lubi i kto siedzi obok. Każde zdanie zaczyna się wielką literą i kończy kropką. Mówimy wyraźnie i patrzymy na osoby, do których mówimy.",
     "exercises": [
-     "Podziel na sylaby: kotek.",
-     "Ile głosek ma wyraz kot?",
-     "Znajdź w tekście dwuznak.",
-     "Wskaż samogłoski w wyrazie miska.",
-     "Wyklaszcz sylaby swojego imienia."
+     "Przedstaw się w dwóch zdaniach.",
+     "Powiedz, co lubisz robić.",
+     "Wymień imię kolegi lub koleżanki z ławki.",
+     "Pokaż, jak zgłaszasz się do odpowiedzi.",
+     "Powtórz, co powiedział ktoś przed tobą."
     ],
     "test": [
-     "Czym różni się głoska od litery?",
-     "Ile sylab ma wyraz miska?",
-     "Jakimi literami zapisujemy głoskę cz?",
-     "Czy b to samogłoska?",
-     "Napisz wyraz, który zaczyna się od sz."
+     "Ile lat ma Zuzia?",
+     "Co robimy, gdy chcemy coś powiedzieć?",
+     "Dlaczego nie przerywamy innym?",
+     "Co lubisz robić?",
+     "Kto siedzi obok Zuzi?"
+    ],
+    "steps": [
+     "Najpierw powiedz imię: Mam na imię…",
+     "Potem powiedz, ile masz lat i co lubisz.",
+     "Gdy mówi ktoś inny, słuchaj i nie przerywaj.",
+     "Uwaga: mów pełnymi zdaniami, nie jednym słowem."
+    ],
+    "answers": [
+     "Siedem lat.",
+     "Podnosimy rękę i czekamy na swoją kolej.",
+     "Żeby każdy mógł spokojnie mówić i żebyśmy się rozumieli.",
+     "Twoja odpowiedź. Na przykład: Lubię grać w piłkę.",
+     "Franek."
     ]
    }
   },
-  "eu-year-pl-beginner-i-intelegere": {
+  "eu-year-pl-beginner-i-l02": {
    "pl": {
-    "title": "Czytamy ze zrozumieniem",
-    "theory": "Najpierw czytamy sylabami, potem całymi wyrazami i zdaniami. Po przeczytaniu odpowiadamy na pytania: Kto? Co robi? Gdzie? Odpowiedź znajdujemy w tekście. Jeśli czegoś w tekście nie ma, nie zmyślamy.",
-    "sample": "Ola i Kuba idą do parku. Kuba niesie latawiec. Ola ma czerwony szalik.",
-    "worked": "Kto idzie do parku? Ola i Kuba. Co niesie Kuba? Latawiec. Jaki szalik ma Ola? Czerwony. Jaka jest pogoda, tekst nie mówi, więc tego nie zmyślamy. Wyraz la-ta-wiec ma trzy sylaby.",
+    "title": "Sylaby i piktogramy: pierwsze czytanie",
+    "theory": "Zanim poznamy litery, dzielimy wyrazy na sylaby, klaszcząc: lo-ko-mo-ty-wa. Czytamy też piktogramy, czyli proste obrazki, które coś oznaczają, na przykład znak toalety albo obrazek „czytam”. Zdanie kończy się kropką.",
+    "sample": "Lo-ko-mo-ty-wa sto-i na sta-cji. / Ma-ma, kot, ba-nan: ile sylab?",
+    "worked": "Lokomotywa ma pięć sylab: lo-ko-mo-ty-wa. Słowo mama ma dwie sylaby, a kot jedną. Klaszczemy raz na każdą sylabę. Tytuł wiersza Juliana Tuwima Lokomotywa to dobre słowo do ćwiczenia sylab.",
     "exercises": [
-     "Dokąd idą Ola i Kuba?",
-     "Co niesie Kuba?",
-     "Jakiego koloru jest szalik Oli?",
-     "Podziel na sylaby: latawiec.",
-     "Przeczytaj głośno pierwsze zdanie."
+     "Wyklaszcz swoje imię.",
+     "Podziel na sylaby: banan.",
+     "Narysuj piktogram „cisza”.",
+     "Znajdź w klasie przedmiot, który ma jedną sylabę.",
+     "Ile sylab ma słowo tornister?"
     ],
     "test": [
-     "Czy w tekście jest napisane, jaka jest pogoda?",
-     "Ile zdań ma tekst?",
-     "Kto ma szalik?",
-     "Wskaż zdanie o latawcu.",
-     "Narysuj Olę i Kubę w parku."
+     "Ile sylab ma słowo lokomotywa?",
+     "Ile sylab ma słowo kot?",
+     "Co to jest piktogram?",
+     "Czym kończy się zdanie?",
+     "Podziel na sylaby: szkoła."
+    ],
+    "steps": [
+     "Powiedz słowo powoli i klaśnij przy każdej części.",
+     "Policz klaśnięcia: tyle jest sylab.",
+     "Każda sylaba ma samogłoskę: a, e, i, o, u, y.",
+     "Uwaga: nie klaszcz przy każdej literze, tylko przy każdej sylabie."
+    ],
+    "answers": [
+     "Pięć: lo-ko-mo-ty-wa.",
+     "Jedną.",
+     "Prosty obrazek, który coś oznacza.",
+     "Kropką.",
+     "szko-ła."
     ]
    }
   },
-  "eu-year-pl-beginner-i-narativ": {
+  "eu-year-pl-beginner-i-l03": {
    "pl": {
-    "title": "Historyjka obrazkowa i bohaterowie",
-    "theory": "Opowiadanie ma bohaterów i wydarzenia. Historyjkę obrazkową układamy po kolei: najpierw, potem, na końcu. Szukamy przyczyny i skutku: coś się stało, bo… Możemy ocenić zachowanie bohatera i nadać historyjce tytuł.",
-    "sample": "Najpierw Zosia zostawiła rower na deszczu. Potem łańcuch zardzewiał. Tata pokazał Zosi, jak go wyczyścić. Na końcu Zosia schowała rower do garażu.",
-    "worked": "Bohaterami są Zosia i tata. Łańcuch zardzewiał, bo rower stał na deszczu: to przyczyna i skutek. Na końcu Zosia dba o rower, więc zachowała się dobrze. Tytuł historyjki może brzmieć: Rower i deszcz.",
+    "title": "Litery O o i A a",
+    "theory": "Głoskę o wymawiamy z ustami w kształcie kółka, głoskę a z szeroko otwartą buzią. To samogłoski. Wielką literę piszemy na początku zdania i w imionach. Okrzyk „Ooo!” lub „A!” kończy się wykrzyknikiem.",
+    "sample": "Ooo! A! Oko. Ala. Ola.",
+    "worked": "Oko zaczyna się i kończy na o. Ala i Ola to imiona, dlatego piszemy je wielką literą. Wykrzyknik pokazuje, że ktoś się dziwi albo woła.",
     "exercises": [
-     "Kto zostawił rower na deszczu?",
-     "Dlaczego łańcuch zardzewiał?",
-     "Co pokazał tata?",
-     "Opowiedz historyjkę słowami: najpierw, potem, na końcu.",
-     "Wymyśl inny tytuł historyjki."
+     "Powiedz: ooo, aaa.",
+     "Napisz rząd liter o.",
+     "Znajdź słowo, które zaczyna się na a.",
+     "Zrób kółko ustami i powiedz o.",
+     "Przeczytaj: oko, Ola."
     ],
     "test": [
-     "Gdzie Zosia schowała rower na końcu?",
-     "Ułóż po kolei: Zosia chowa rower / łańcuch rdzewieje / rower stoi na deszczu.",
-     "Jak oceniasz zachowanie Zosi na końcu?",
-     "Co jest przyczyną, a co skutkiem?",
-     "Narysuj ostatni obrazek historyjki."
+     "Czy a to samogłoska?",
+     "Dlaczego Ola piszemy wielką literą?",
+     "Co pokazuje wykrzyknik?",
+     "Jaka głoska jest na początku słowa oko?",
+     "Napisz wielką literę A."
+    ],
+    "steps": [
+     "Przy o złóż usta w kółko, przy a otwórz buzię szeroko.",
+     "Popatrz na kształt litery: o jest okrągłe jak usta.",
+     "Imiona zaczynamy wielką literą.",
+     "Uwaga: małe o i wielkie O wyglądają podobnie, ale różnią się wielkością."
+    ],
+    "answers": [
+     "Tak.",
+     "Bo to imię.",
+     "Że ktoś się dziwi albo woła.",
+     "o.",
+     "A."
     ]
    }
   },
-  "eu-year-pl-beginner-i-poezie": {
+  "eu-year-pl-beginner-i-l04": {
    "pl": {
-    "title": "Wiersz, rymy i recytacja",
-    "theory": "Wiersz składa się z wersów. Wyrazy na końcu wersów, które brzmią podobnie, to rymy: kot – płot, las – czas. Wiersz możemy recytować z pamięci: głośno albo cicho, szybko albo wolno, aby pokazać nastrój.",
-    "sample": "Na płocie siedzi rudy kot,\npatrzy, jak sąsiad maluje płot.\nA wróbel ćwierka: Nie mam czasu,\nlecę po ziarnka aż do lasu!",
-    "worked": "Wiersz ma cztery wersy. Kot rymuje się z płot, a czasu z lasu. Słowa wróbla możemy powiedzieć szybciej i weselej, bo wróbel się spieszy. Kota opisujemy wolniej i spokojniej.",
+    "title": "Litery I i oraz E e",
+    "theory": "Głoskę i wymawiamy z uśmiechem, głoskę e z lekko otwartą buzią. Teraz znamy cztery samogłoski: o, a, i, e. Małe i ma kropkę. Ćwiczymy wymowę przed lusterkiem.",
+    "sample": "Ola i Ela. / Iza i Ewa. / Ela! Iza!",
+    "worked": "Słowo i łączy dwa imiona: Ola i Ela. Wszystkie imiona zaczynają się wielką literą. Ela i Ewa zaczynają się na E, Iza na I.",
     "exercises": [
+     "Uśmiechnij się i powiedz: iii.",
+     "Przeczytaj: Ola i Ela.",
+     "Napisz rząd liter i z kropką.",
+     "Wymień imię na E.",
+     "Ile samogłosek już znasz?"
+    ],
+    "test": [
+     "Ile samogłosek znasz po tej lekcji?",
+     "Na jaką literę zaczyna się Ewa?",
+     "Co łączy słowo i w zdaniu Ola i Ela?",
+     "O czym nie zapominamy, pisząc małe i?",
+     "Przeczytaj: Ala i Iza."
+    ],
+    "steps": [
+     "Przy i uśmiechnij się, przy e otwórz trochę buzię.",
+     "Czytaj powoli każde słowo.",
+     "Słowo i to krótki wyraz, który łączy dwie osoby lub rzeczy.",
+     "Uwaga: małe i zawsze ma kropkę."
+    ],
+    "answers": [
+     "Cztery: o, a, i, e.",
+     "Na E.",
+     "Dwa imiona.",
+     "O kropce.",
+     "Ala i Iza."
+    ]
+   }
+  },
+  "eu-year-pl-beginner-i-l05": {
+   "pl": {
+    "title": "Litery U u i Ó ó: ta sama głoska",
+    "theory": "Głoskę u możemy zapisać na dwa sposoby: u albo ó. Słyszymy to samo, ale piszemy inaczej. Ó z kreską często wymienia się na o: mój – moja, stół – stoły. Tak sprawdzamy, którą literę napisać.",
+    "sample": "Uwaga, ulica! / Mój stół stoi w kuchni. / Moja Ola ma lody.",
+    "worked": "Uwaga i ulica piszemy przez u. Mój piszemy przez ó, bo mamy moja. Stół piszemy przez ó, bo mamy stoły. To pierwsza zasada ortograficzna, którą poznajemy.",
+    "exercises": [
+     "Powiedz: uuu.",
+     "Przeczytaj: ulica, mój, stół.",
+     "Znajdź wymianę: stół – ?",
+     "Napisz rząd liter ó z kreską.",
+     "Wymyśl słowo z u."
+    ],
+    "test": [
+     "Ile jest sposobów zapisu głoski u?",
+     "Dlaczego mój piszemy przez ó?",
+     "Jak sprawdzisz pisownię słowa stół?",
+     "Przeczytaj: ul, góra, buty.",
+     "Napisz słowo ulica."
+    ],
+    "steps": [
+     "Słyszysz u? Może to być u albo ó.",
+     "Spróbuj zmienić słowo: jeśli pojawi się o (stół – stoły), piszesz ó.",
+     "Jeśli nie ma wymiany, zapamiętaj słowo lub sprawdź w słowniczku.",
+     "Uwaga: kreska nad ó jest bardzo ważna, bez niej to inne słowo."
+    ],
+    "answers": [
+     "Dwa: u i ó.",
+     "Bo mamy moja (ó wymienia się na o).",
+     "Zmieniam na stoły: jest o, więc piszę ó.",
+     "ul, gó-ra, bu-ty.",
+     "ulica."
+    ]
+   }
+  },
+  "eu-year-pl-beginner-i-l06": {
+   "pl": {
+    "title": "Litery M m i T t: mama i tata",
+    "theory": "Głoskę m mówimy z zamkniętymi ustami, t krótko, czubkiem języka. To spółgłoski. Łączymy je z samogłoskami w sylaby: ma, mo, mi, me, mu, ta, to, ti, te, tu. Z sylab składamy wyrazy: ma-ma, ta-ta.",
+    "sample": "Mama i tata. / Tata ma auto. / Mama ma mapę.",
+    "worked": "Każde zdanie zaczyna się wielką literą i kończy kropką. Mama i tata mają po dwie sylaby. W słowie auto mamy samogłoski a, u, o.",
+    "exercises": [
+     "Przeczytaj sylaby: ma, mo, mu, ta, to, tu.",
+     "Złóż słowo: ta + ta.",
+     "Napisz wielkie M.",
+     "Przeczytaj: Tata ma auto.",
+     "Wymyśl słowo z t."
+    ],
+    "test": [
+     "Co ma tata?",
+     "Co ma mama?",
+     "Ile sylab ma słowo mama?",
+     "Czy m to samogłoska, czy spółgłoska?",
+     "Przeczytaj: tama, mata, Tomek."
+    ],
+    "steps": [
+     "Połącz spółgłoskę z samogłoską: m + a = ma.",
+     "Połącz dwie sylaby: ma + ma = mama.",
+     "Przeczytaj całe zdanie i zatrzymaj się przy kropce.",
+     "Uwaga: czytamy od lewej do prawej, inaczej ma zmieni się w am."
+    ],
+    "answers": [
+     "Auto.",
+     "Mapę.",
+     "Dwie.",
+     "Spółgłoska.",
+     "ta-ma, ma-ta, To-mek."
+    ]
+   }
+  },
+  "eu-year-pl-beginner-i-l07": {
+   "pl": {
+    "title": "Litery D d i L l: dom i lalka",
+    "theory": "Głoskę d wymawiamy miękko, l językiem dotykającym podniebienia. Uczymy się słów: dom, dama, lody, lalka. Na końcu pytania stawiamy znak zapytania.",
+    "sample": "Ola ma dom dla lalki. / Lalka ma lody. / Czy to dom Ady?",
+    "worked": "Pierwsze dwa zdania coś mówią, więc mają kropkę. Ostatnie pyta, więc ma znak zapytania. Pytanie często zaczyna się od słowa czy.",
+    "exercises": [
+     "Przeczytaj: dom, dama, lody.",
+     "Napisz wielkie D i wielkie L.",
+     "Zadaj pytanie zaczynające się od czy.",
+     "Podziel na sylaby: lalka.",
+     "Wymyśl słowo z l."
+    ],
+    "test": [
+     "Co ma Ola?",
+     "Co ma lalka?",
+     "Jakim znakiem kończy się pytanie?",
+     "Przeczytaj: dal, dolina, Leon.",
+     "Ile sylab ma słowo lalka?"
+    ],
+    "steps": [
+     "Przeczytaj sylaby: da, do, de, la, lo, le.",
+     "Złóż z sylab słowa: la-lka, lo-dy.",
+     "Gdy zdanie pyta, postaw na końcu znak zapytania.",
+     "Uwaga: litery d i b łatwo pomylić; d ma brzuszek po lewej stronie."
+    ],
+    "answers": [
+     "Dom dla lalki.",
+     "Lody.",
+     "Znakiem zapytania.",
+     "dal, do-li-na, Le-on.",
+     "Dwie: lal-ka."
+    ]
+   }
+  },
+  "eu-year-pl-beginner-i-l08": {
+   "pl": {
+    "title": "Litery K k i Y y: kot i koty",
+    "theory": "Głoskę k wymawiamy krótko z tyłu buzi. Litera y jest samogłoską, ale polskie wyrazy prawie nigdy się od niej nie zaczynają. Y często tworzy liczbę mnogą: kot – koty, dom – domy.",
+    "sample": "Ola ma kota. / Koty lubią mleko. / Tomek ma dwa koty.",
+    "worked": "Kot to jeden zwierzak, koty to więcej niż jeden. Na końcu dodajemy y. Słowo kota ma końcówkę a, bo mówimy: ma kogo? kota.",
+    "exercises": [
+     "Przeczytaj: kot, koty, kotek.",
+     "Utwórz liczbę mnogą: dom.",
+     "Napisz rząd liter y.",
+     "Przeczytaj: Koty lubią mleko.",
+     "Wymyśl słowo z k."
+    ],
+    "test": [
+     "Ile kotów ma Tomek?",
+     "Co lubią koty?",
+     "Czy jakiś polski wyraz zaczyna się od y?",
+     "Utwórz liczbę mnogą: lis.",
+     "Przeczytaj: kakao, motyl, Kamil."
+    ],
+    "steps": [
+     "Y to samogłoska, ale stoi w środku lub na końcu słowa.",
+     "Jeśli jest więcej niż jeden, często dodajemy y: kot – koty.",
+     "Przeczytaj zdanie i zapytaj: ile?",
+     "Uwaga: i oraz y brzmią inaczej; y mówimy grubiej niż i."
+    ],
+    "answers": [
+     "Dwa.",
+     "Mleko.",
+     "Prawie żaden; y stoi zwykle w środku lub na końcu słowa.",
+     "lisy.",
+     "ka-ka-o, mo-tyl, Ka-mil."
+    ]
+   }
+  },
+  "eu-year-pl-beginner-i-l09": {
+   "pl": {
+    "title": "Litery S s i J j: sok i jajko",
+    "theory": "Głoskę s mówimy jak syczący wąż, głoskę j jak na początku słowa jajko. Poznajemy słowa: sok, ser, sala, jajko, jabłko. Układamy zdania z rozsypanki wyrazów.",
+    "sample": "Ola je jajko. / Tomek pije sok. / Mama kroi ser i jabłko.",
+    "worked": "Każde zdanie mówi, kto co robi: Ola je, Tomek pije, mama kroi. Z rozsypanki „sok pije Tomek” układamy poprawne zdanie: Tomek pije sok.",
+    "exercises": [
+     "Zasycz jak wąż: sss.",
+     "Przeczytaj: sok, ser, jajko.",
+     "Ułóż zdanie: je, Ola, jajko.",
+     "Napisz wielkie J.",
+     "Wymyśl słowo z s."
+    ],
+    "test": [
+     "Co pije Tomek?",
+     "Co je Ola?",
+     "Co kroi mama?",
+     "Ułóż zdanie: sok, lubi, Ala.",
+     "Przeczytaj: sowa, jamnik, Jasio."
+    ],
+    "steps": [
+     "Przeczytaj wszystkie wyrazy z rozsypanki.",
+     "Zacznij od tego, kto coś robi: Tomek…",
+     "Potem dodaj, co robi i z czym: …pije sok.",
+     "Uwaga: pierwszy wyraz zdania piszesz wielką literą, na końcu stawiasz kropkę."
+    ],
+    "answers": [
+     "Sok.",
+     "Jajko.",
+     "Ser i jabłko.",
+     "Ala lubi sok.",
+     "so-wa, jam-nik, Ja-sio."
+    ]
+   }
+  },
+  "eu-year-pl-beginner-i-l10": {
+   "pl": {
+    "title": "Litery W w i R r: woda i ryba",
+    "theory": "Głoskę w wymawiamy, dotykając zębami dolnej wargi. Głoskę r mówimy drżącym językiem. Poznajemy słowa: woda, wiadro, ryba, rak, rower. Szukamy rymów, czyli słów o podobnym zakończeniu.",
+    "sample": "W wodzie pływa ryba. / Rak siedzi pod kamieniem. / Ryba i rak lubią wodę.",
+    "worked": "Ryba pływa w wodzie, a rak siedzi pod kamieniem. Wodzie i wodę to formy słowa woda. Rak rymuje się z ptak, a ryba z grzyba.",
+    "exercises": [
+     "Powiedz: www, rrr.",
+     "Przeczytaj: woda, ryba, rower.",
+     "Znajdź rym do słowa rak.",
+     "Napisz wielkie R.",
+     "Podziel na sylaby: rower."
+    ],
+    "test": [
+     "Gdzie pływa ryba?",
+     "Gdzie siedzi rak?",
+     "Co lubią ryba i rak?",
+     "Znajdź rym do słowa woda.",
+     "Przeczytaj: wata, rama, Wiktor."
+    ],
+    "steps": [
+     "Przy w połóż górne zęby na dolnej wardze.",
+     "Przy r niech czubek języka drga.",
+     "Rym znajdziesz, gdy słowa mają taki sam koniec: rak – ptak.",
+     "Uwaga: r i l to różne głoski; nie mów lyba zamiast ryba."
+    ],
+    "answers": [
+     "W wodzie.",
+     "Pod kamieniem.",
+     "Wodę.",
+     "Twoja odpowiedź. Na przykład: pogoda.",
+     "wa-ta, ra-ma, Wik-tor."
+    ]
+   }
+  },
+  "eu-year-pl-beginner-i-l11": {
+   "pl": {
+    "title": "Litery P p i B b: parasol i buty",
+    "theory": "Głoski p i b wymawiamy ustami. Przy p wylatuje z buzi powietrze, przy b czujemy drganie w gardle. Litery p, b i d łatwo pomylić, dlatego dokładnie patrzymy na ich kształt. Poznajemy słowa: parasol, pada, buty, bluza.",
+    "sample": "Pada deszcz. / Basia bierze parasol. / Paweł ma nowe buty.",
+    "worked": "Pada i parasol zaczynają się na p, buty i Basia na b. Basia bierze parasol, bo pada deszcz: to przyczyna i skutek. Imiona Basia i Paweł piszemy wielką literą.",
+    "exercises": [
+     "Połóż kartkę przed ustami i powiedz: p, b.",
+     "Przeczytaj: parasol, buty, bluza.",
+     "Napisz rząd liter p i rząd liter b.",
+     "Narysuj Basię z parasolem.",
+     "Wymyśl słowo z b."
+    ],
+    "test": [
+     "Co bierze Basia?",
+     "Co ma Paweł?",
+     "Która litera ma brzuszek po prawej na dole: b czy d?",
+     "Przeczytaj: pies, balon, Piotr.",
+     "Dlaczego Basia bierze parasol?"
+    ],
+    "steps": [
+     "Przy p kartka przed ustami się porusza, przy b prawie wcale.",
+     "Popatrz na kształt: b ma brzuszek po prawej stronie, d po lewej, p ma laskę w dół.",
+     "Przeczytaj słowo powoli, zanim je napiszesz.",
+     "Uwaga: jeśli nie wiesz, czy b, czy d, przypomnij sobie słowo buty."
+    ],
+    "answers": [
+     "Parasol.",
+     "Nowe buty.",
+     "b.",
+     "pies, ba-lon, Piotr.",
+     "Bo pada deszcz."
+    ]
+   }
+  },
+  "eu-year-pl-beginner-i-l12": {
+   "pl": {
+    "title": "Litery C c i G g: cebula i góry",
+    "theory": "Głoskę c wymawiamy jak cykanie zegara: c-c-c. Głoskę g z tyłu buzi, miękko. Poznajemy słowa: cebula, cytryna, góry, góral. Rozmawiamy o zdrowiu i o polskich górach.",
+    "sample": "Cytryna jest kwaśna. / W górach mieszka góral. / Celina je cebulę na zdrowie.",
+    "worked": "Cytryna i cebula zaczynają się na c, góry i góral na g. Słowo góry piszemy przez ó i zapamiętujemy je, bo ó nie wymienia się tu na o. Kwaśna mówi, jaki smak ma cytryna.",
+    "exercises": [
+     "Powiedz: c-c-c.",
+     "Przeczytaj: cebula, cytryna, góry.",
+     "Napisz wielkie G.",
+     "Jaki smak ma cytryna?",
+     "Wymyśl słowo z c."
+    ],
+    "test": [
+     "Jaka jest cytryna?",
+     "Kto mieszka w górach?",
+     "Co je Celina?",
+     "Przeczytaj: noga, cukier, Gosia.",
+     "Ile sylab ma słowo cebula?"
+    ],
+    "steps": [
+     "Przeczytaj sylaby: ca, co, ce, ga, go, ge.",
+     "Złóż słowo z sylab: ce-bu-la.",
+     "Zapytaj: jaki? jaka? Tak znajdziesz słowa, które opisują.",
+     "Uwaga: g i k brzmią podobnie; powiedz słowo głośno i posłuchaj."
+    ],
+    "answers": [
+     "Kwaśna.",
+     "Góral.",
+     "Cebulę.",
+     "no-ga, cu-kier, Go-sia.",
+     "Trzy: ce-bu-la."
+    ]
+   }
+  },
+  "eu-year-pl-beginner-i-l13": {
+   "pl": {
+    "title": "Litery Z z i N n: zegar i noc",
+    "theory": "Głoskę z mówimy jak brzęcząca pszczoła, n przez nos. Z może być osobnym słowem: idę z mamą. Poznajemy słowa: zegar, zima, noc, nos. Rozmawiamy o porach dnia i dniach tygodnia.",
+    "sample": "Zegar tyka: tik-tak. / W nocy śpimy. / Idę z Natalią na zakupy.",
+    "worked": "Zegar odmierza czas. W nocy jest ciemno i śpimy. Z w zdaniu „Idę z Natalią” to osobne krótkie słowo, dlatego piszemy je oddzielnie.",
+    "exercises": [
+     "Zabrzęcz jak pszczoła: zzz.",
+     "Przeczytaj: zegar, zima, noc.",
+     "Napisz zdanie ze słowem z.",
+     "Wymień dni tygodnia.",
+     "Wymyśl słowo z n."
+    ],
+    "test": [
+     "Co robimy w nocy?",
+     "Jak tyka zegar?",
+     "Z kim idę na zakupy?",
+     "Przeczytaj: koza, nuty, Zenek.",
+     "Czy z w zdaniu „idę z mamą” piszemy oddzielnie?"
+    ],
+    "steps": [
+     "Przy z poczuj drganie w gardle, przy n zatkaj nos: wtedy n brzmi inaczej.",
+     "Słowo z łączy osoby lub rzeczy: idę z kimś, z czymś.",
+     "Piszemy je oddzielnie od następnego słowa.",
+     "Uwaga: nie pisz zmamą; poprawnie: z mamą."
+    ],
+    "answers": [
+     "Śpimy.",
+     "Tik-tak.",
+     "Z Natalią.",
+     "ko-za, nu-ty, Ze-nek.",
+     "Tak."
+    ]
+   }
+  },
+  "eu-year-pl-beginner-i-l14": {
+   "pl": {
+    "title": "Litery ą i ę",
+    "theory": "Ą i ę to samogłoski z ogonkiem. Prawie nie zaczynają wyrazów, więc wielkie Ą i Ę spotykamy rzadko, na przykład w napisach wielkimi literami. Słyszymy je w słowach: wąż, ząb, gęś, ręka, mięso. Na końcu wyrazu ę często brzmi prawie jak e.",
+    "sample": "Gęś ma długą szyję. / Wąż śpi pod dębem. / Idę z ręką w kieszeni.",
+    "worked": "Gęś, ręką, idę i dębem mają ę, a wąż i długą mają ą. Ogonek piszemy na dole litery. W słowie idę na końcu słyszymy cichutkie ę.",
+    "exercises": [
+     "Przeczytaj: wąż, ząb, gęś.",
+     "Napisz rząd liter ą z ogonkiem.",
+     "Znajdź w przykładzie słowa z ę.",
+     "Powiedz: idę, robię, piszę.",
+     "Wymyśl słowo z ą."
+    ],
+    "test": [
+     "Co ma długą szyję?",
+     "Gdzie śpi wąż?",
+     "Gdzie piszemy ogonek: na górze czy na dole?",
+     "Przeczytaj: mąka, pięta, ząbek.",
+     "Jakiej litery brakuje: id_ do szkoły?"
+    ],
+    "steps": [
+     "Powiedz słowo powoli i posłuchaj, czy brzmi przez nos: wąż.",
+     "Przy ą i ę dopisz ogonek na dole.",
+     "Na końcu słów takich jak idę, robię piszemy ę, choć słychać je cicho.",
+     "Uwaga: bez ogonka to inne słowo: waz nie znaczy nic, wąż to zwierzę."
+    ],
+    "answers": [
+     "Gęś.",
+     "Pod dębem.",
+     "Na dole.",
+     "mą-ka, pię-ta, zą-bek.",
+     "ę: idę."
+    ]
+   }
+  },
+  "eu-year-pl-beginner-i-l15": {
+   "pl": {
+    "title": "Litery Ł ł i F f: bałwan i foka",
+    "theory": "Ł wymawiamy jak krótkie u, z zaokrąglonymi ustami. F mówimy, dotykając zębami dolnej wargi i dmuchając. Poznajemy słowa: bałwan, łyżwy, ławka, foka, farba. Zimą lepimy bałwana.",
+    "sample": "Łucja lepi bałwana. / Foka pływa w zimnej wodzie. / Filip ma nowe łyżwy.",
+    "worked": "Łucja, bałwan i łyżwy mają ł. Foka i Filip mają f. Zimne wody to dom foki. Imiona Łucja i Filip zaczynamy wielką literą.",
+    "exercises": [
+     "Przeczytaj: bałwan, ławka, łyżwy.",
+     "Przeczytaj: foka, farba, Filip.",
+     "Napisz wielkie Ł z kreską.",
+     "Narysuj fokę w wodzie.",
+     "Wymyśl słowo z f."
+    ],
+    "test": [
+     "Kogo lepi Łucja?",
+     "Gdzie pływa foka?",
+     "Co ma Filip?",
+     "Przeczytaj: łódka, kufel, Florek.",
+     "Czym różni się l od ł?"
+    ],
+    "steps": [
+     "Ł to l z kreską; brzmi jak krótkie u.",
+     "Przy f dmuchaj, dotykając zębami dolnej wargi.",
+     "Czytaj słowo po sylabach: bał-wan.",
+     "Uwaga: nie zapominaj o kresce w ł, bo zmienia się słowo."
+    ],
+    "answers": [
+     "Bałwana.",
+     "W zimnej wodzie.",
+     "Nowe łyżwy.",
+     "łód-ka, ku-fel, Flo-rek.",
+     "Ł ma kreskę i brzmi inaczej."
+    ]
+   }
+  },
+  "eu-year-pl-beginner-i-l16": {
+   "pl": {
+    "title": "Litery H h: herbata i hulajnoga",
+    "theory": "Głoskę h wymawiamy jak lekki chuch. Tę samą głoskę możemy zapisać także jako ch. Wyrazy z h zapamiętujemy i zapisujemy w klasowym słowniczku ortograficznym: herbata, hałas, hulajnoga, Hania.",
+    "sample": "Hania pije ciepłą herbatę. / Henio jeździ na hulajnodze. / Na boisku jest hałas.",
+    "worked": "Wszystkie wyróżnione słowa piszemy przez h: Hania, herbata, Henio, hulajnoga, hałas. Nie ma reguły, która to podpowie, więc je zapamiętujemy. Hulajnoga ma cztery sylaby.",
+    "exercises": [
+     "Chuchnij na dłoń i powiedz: hhh.",
+     "Przeczytaj: herbata, hałas, Hania.",
+     "Zapisz w słowniczku ortograficznym jedno słowo z h.",
+     "Podziel na sylaby: hulajnoga.",
+     "Wymyśl zdanie z wyrazem herbata."
+    ],
+    "test": [
+     "Co pije Hania?",
+     "Na czym jeździ Henio?",
+     "Co jest na boisku?",
+     "Ile sylab ma hulajnoga?",
+     "Przeczytaj: hamak, harcerz, Hubert."
+    ],
+    "steps": [
+     "Głoska h brzmi jak chuchanie.",
+     "Wyrazy z h zapamiętujemy, bo słychać tak samo jak ch.",
+     "Zapisz trudne słowa w słowniczku i czytaj je codziennie.",
+     "Uwaga: herbata zawsze przez h; sprawdzaj w słowniczku, gdy nie wiesz."
+    ],
+    "answers": [
+     "Ciepłą herbatę.",
+     "Na hulajnodze.",
+     "Hałas.",
+     "Cztery: hu-laj-no-ga.",
+     "ha-mak, har-cerz, Hu-bert."
+    ]
+   }
+  },
+  "eu-year-pl-beginner-i-l17": {
+   "pl": {
+    "title": "Dwuznak ch: chmura i mucha",
+    "theory": "Dwuznak to dwie litery, które razem oznaczają jedną głoskę. Ch czytamy tak samo jak h. Ch często piszemy na końcu wyrazu i po literze s: dach, mech, schody. Wyrazy z ch też zapisujemy w słowniczku.",
+    "sample": "Nad domem płynie biała chmura. / Mucha siedzi na dachu. / Chłopiec idzie po schodach.",
+    "worked": "Chmura, mucha, dachu, chłopiec i schodach mają ch. Dwie litery c i h czytamy razem jako jedną głoskę. W słowie schody ch stoi po s.",
+    "exercises": [
+     "Przeczytaj: chmura, mucha, dach.",
+     "Policz litery i głoski w słowie dach.",
+     "Napisz rząd ch.",
+     "Wymyśl słowo z ch na końcu.",
+     "Przeczytaj: Chłopiec idzie po schodach."
+    ],
+    "test": [
+     "Co płynie nad domem?",
+     "Gdzie siedzi mucha?",
+     "Ile liter ma dwuznak ch?",
+     "Przeczytaj: chleb, ucho, Michał.",
+     "Ile głosek ma słowo dach?"
+    ],
+    "steps": [
+     "Gdy zobaczysz c i h obok siebie, czytaj je razem.",
+     "To jedna głoska, choć dwie litery.",
+     "Na końcu wyrazu i po s zwykle piszemy ch: dach, schody.",
+     "Uwaga: słowo dach ma cztery litery, ale tylko trzy głoski: d-a-ch."
+    ],
+    "answers": [
+     "Biała chmura.",
+     "Na dachu.",
+     "Dwie.",
+     "chleb, u-cho, Mi-chał.",
+     "Trzy."
+    ]
+   }
+  },
+  "eu-year-pl-beginner-i-l18": {
+   "pl": {
+    "title": "Dwuznaki sz i cz: szachy i czapka",
+    "theory": "Sz i cz to dwuznaki, czyli dwie litery dla jednej głoski. Sz szumi jak wiatr: szszsz. Cz brzmi jak w słowie czapka. Poznajemy słowa: szachy, szkoła, szafa, czapka, czytać, książka.",
+    "sample": "Szymon gra w szachy. / Czesia czyta książkę. / W szafie leży czapka.",
+    "worked": "Szymon, szachy i szafie mają sz. Czesia, czyta i czapka mają cz. W słowie książka słyszymy sz, ale piszemy ż, które przed k brzmi jak sz; zapamiętujemy to słowo.",
+    "exercises": [
+     "Zaszum jak wiatr: szszsz.",
+     "Przeczytaj: szachy, szafa, czapka.",
+     "Napisz rząd sz i rząd cz.",
+     "Wymyśl słowo z cz.",
+     "Ułóż zdanie ze słowem czytać."
+    ],
+    "test": [
+     "W co gra Szymon?",
+     "Co czyta Czesia?",
+     "Co leży w szafie?",
+     "Przeczytaj: kasza, beczka, Czarek.",
+     "Ile liter ma dwuznak sz?"
+    ],
+    "steps": [
+     "Sz to s i z czytane razem, cz to c i z czytane razem.",
+     "Przeczytaj słowo po sylabach: sza-chy.",
+     "Gdy czytasz, szukaj par liter, które należą do siebie.",
+     "Uwaga: nie czytaj s-z osobno; to jedna głoska."
+    ],
+    "answers": [
+     "W szachy.",
+     "Książkę.",
+     "Czapka.",
+     "ka-sza, becz-ka, Cza-rek.",
+     "Dwie."
+    ]
+   }
+  },
+  "eu-year-pl-beginner-i-l19": {
+   "pl": {
+    "title": "Ż i rz: morze i może",
+    "theory": "Głoskę ż możemy zapisać na dwa sposoby: ż albo rz. Ż często wymienia się na g lub z: książka – księga, wożę – wozić. Rz często wymienia się na r: morze – morski, dobrze – dobry. Słowa morze i może brzmią tak samo, ale znaczą co innego.",
+    "sample": "Latem jedziemy nad morze. / Może zbudujemy zamek z piasku? / Żaba skacze do rzeki.",
+    "worked": "Morze to woda, a może to słowo, którym coś przypuszczamy. Morze piszemy przez rz, bo mówimy morski. Żaba piszemy przez ż; słowo rzeka zapamiętujemy przez rz.",
+    "exercises": [
+     "Przeczytaj: żaba, żółw, rzeka.",
+     "Jakie słowo pasuje: Jedziemy nad … (morze/może).",
+     "Znajdź wymianę: morze – ?",
+     "Napisz rząd rz.",
+     "Wymyśl słowo z ż."
+    ],
+    "test": [
+     "Dokąd jedziemy latem?",
+     "Gdzie skacze żaba?",
+     "Czy morze i może znaczą to samo?",
+     "Przeczytaj: rzepa, żuk, Grzegorz.",
+     "Jakim słowem sprawdzisz rz w słowie morze?"
+    ],
+    "steps": [
+     "Słyszysz ż? Może to być ż albo rz.",
+     "Zmień słowo: jeśli pojawi się r (morze – morski), piszesz rz.",
+     "Jeśli nie ma wymiany, sprawdź słowo w słowniczku i zapamiętaj.",
+     "Uwaga: morze (woda) i może (przypuszczenie) brzmią tak samo; sens zdania podpowie pisownię."
+    ],
+    "answers": [
+     "Nad morze.",
+     "Do rzeki.",
+     "Nie.",
+     "rze-pa, żuk, Grze-gorz.",
+     "Morski."
+    ]
+   }
+  },
+  "eu-year-pl-beginner-i-l20": {
+   "pl": {
+    "title": "Dwuznaki dz i dż: dzwonek i drożdże",
+    "theory": "Dz brzmi jak w słowie dzwon, dż jak w słowie dżem. To też dwuznaki. Poznajemy słowa: dzwonek, bryndza, dżem, dżungla, drożdże. Liczymy litery i głoski: dzwon ma pięć liter i cztery głoski.",
+    "sample": "W Krakowie dzwoni wielki dzwon. / Madzia je bułkę z dżemem. / Babcia piecze ciasto na drożdżach.",
+    "worked": "Dzwon i dzwoni mają dz, dżem i drożdżach mają dż. W słowie dzwon są litery d-z-w-o-n, ale głoski dz-w-o-n, czyli cztery. Kraków piszemy wielką literą, bo to nazwa miasta.",
+    "exercises": [
+     "Przeczytaj: dzwon, dżem, dżungla.",
+     "Policz litery i głoski w słowie dżem.",
+     "Napisz rząd dz i rząd dż.",
+     "Dlaczego Kraków piszemy wielką literą?",
+     "Wymyśl zdanie ze słowem dzwonek."
+    ],
+    "test": [
+     "Co je Madzia?",
+     "Gdzie dzwoni wielki dzwon?",
+     "Na czym babcia piecze ciasto?",
+     "Ile głosek ma słowo dzwon?",
+     "Przeczytaj: kukurydza, dżokej, wiedza."
+    ],
+    "steps": [
+     "Dz i dż czytamy jako jedną głoskę.",
+     "Dż to d i ż razem, dz to d i z razem.",
+     "Litery liczysz palcami, głoski słuchając: dż-e-m to trzy głoski, ale cztery litery.",
+     "Uwaga: kropka nad ż w dż jest ważna: dzem to błąd, poprawnie dżem."
+    ],
+    "answers": [
+     "Bułkę z dżemem.",
+     "W Krakowie.",
+     "Na drożdżach.",
+     "Cztery: dz-w-o-n.",
+     "ku-ku-ry-dza, dżo-kej, wie-dza."
+    ]
+   }
+  },
+  "eu-year-pl-beginner-i-l21": {
+   "pl": {
+    "title": "Ni i ń: niebo i koń",
+    "theory": "Głoskę ń zapisujemy jako ń z kreską albo jako ni. Przed samogłoską piszemy ni: niebo, nie, niania. Na końcu wyrazu lub przed spółgłoską piszemy ń: koń, słońce. Kreska nad ń to znak zmiękczenia.",
+    "sample": "Niebo jest niebieskie. / Koń biegnie po łące. / Słońce mocno świeci.",
+    "worked": "Niebo i niebieskie mają ni, bo dalej jest samogłoska e. Koń ma ń na końcu, a słońce ma ń przed spółgłoską c. Tak samo brzmi, ale piszemy inaczej.",
+    "exercises": [
+     "Przeczytaj: niebo, nie, koń.",
+     "Uzupełnij: ko_ (ń czy ni).",
+     "Napisz rząd ń z kreską.",
+     "Znajdź ni w słowie niania.",
+     "Wymyśl słowo z ń na końcu."
+    ],
+    "test": [
+     "Jakie jest niebo?",
+     "Gdzie biegnie koń?",
+     "Kiedy piszemy ń: na końcu czy przed samogłoską?",
+     "Przeczytaj: dzień, niedźwiedź, Ania.",
+     "Uzupełnij: sło_ce."
+    ],
+    "steps": [
+     "Czy po tej głosce jest samogłoska? Jeśli tak, piszesz ni.",
+     "Jeśli głoska jest na końcu lub przed spółgłoską, piszesz ń.",
+     "Sprawdź: koń (koniec słowa) – ń; niebo (dalej e) – ni.",
+     "Uwaga: nie piszemy ńebo; przed samogłoską zawsze ni."
+    ],
+    "answers": [
+     "Niebieskie.",
+     "Po łące.",
+     "Na końcu wyrazu lub przed spółgłoską.",
+     "dzień, niedź-wiedź, A-nia.",
+     "słońce."
+    ]
+   }
+  },
+  "eu-year-pl-beginner-i-l22": {
+   "pl": {
+    "title": "Ci i ć: ciocia i ćma",
+    "theory": "Ta sama zasada co przy ń: przed samogłoską piszemy ci (ciocia, ciasto), a na końcu wyrazu lub przed spółgłoską ć (ćma, liść, być). Poznajemy też ptaki, które wiosną wracają do Polski.",
+    "sample": "Ciocia piecze ciasto. / Ćma leci do lampy. / Na liściu siedzi biedronka.",
+    "worked": "Ciocia i ciasto mają ci, bo dalej jest samogłoska. Ćma ma ć przed spółgłoską m. W słowie liściu jest ci przed u, a w słowie liść jest ć na końcu.",
+    "exercises": [
+     "Przeczytaj: ciocia, ciasto, ćma.",
+     "Uzupełnij: liś_ (ć czy ci).",
+     "Napisz rząd ć.",
+     "Zamień: liść – na liś_u.",
+     "Wymyśl słowo z ci."
+    ],
+    "test": [
+     "Co piecze ciocia?",
+     "Dokąd leci ćma?",
+     "Gdzie siedzi biedronka?",
+     "Przeczytaj: kość, cisza, Ciechocinek.",
+     "Uzupełnij: by_ (być)."
+    ],
+    "steps": [
+     "Zobacz, co jest dalej: samogłoska – piszesz ci.",
+     "Koniec słowa lub spółgłoska – piszesz ć.",
+     "Ćwicz na parach: liść – liście, kość – kości.",
+     "Uwaga: w słowie ciocia oba razy ci, bo zawsze dalej jest samogłoska."
+    ],
+    "answers": [
+     "Ciasto.",
+     "Do lampy.",
+     "Na liściu.",
+     "kość, ci-sza, Cie-cho-ci-nek.",
+     "ć: być."
+    ]
+   }
+  },
+  "eu-year-pl-beginner-i-l23": {
+   "pl": {
+    "title": "Si i ś: sikorka i ślimak",
+    "theory": "Głoskę ś piszemy przed samogłoską jako si (sikorka, siano), a na końcu wyrazu lub przed spółgłoską jako ś (ślimak, ślad, gęś). Uczymy się też czytać krótki tekst informacyjny, czyli prawdziwe wiadomości o zwierzętach.",
+    "sample": "Sikorka siedzi na gałęzi. / Ślimak niesie swój domek. / Ślimak zostawia mokry ślad.",
+    "worked": "To tekst informacyjny: mówi prawdę o zwierzętach. Sikorka ma si przed samogłoską, ślimak i ślad mają ś przed spółgłoską l. Ślimak nosi muszlę, czyli swój domek.",
+    "exercises": [
+     "Przeczytaj: sikorka, siano, ślimak.",
+     "Uzupełnij: gę_ (ś czy si).",
+     "Napisz rząd ś.",
+     "Co nosi ślimak?",
+     "Wymyśl słowo z si."
+    ],
+    "test": [
+     "Gdzie siedzi sikorka?",
+     "Co niesie ślimak?",
+     "Jaki ślad zostawia ślimak?",
+     "Przeczytaj: siostra, ściana, Kasia.",
+     "Czy to tekst zmyślony, czy informacyjny?"
+    ],
+    "steps": [
+     "Przed samogłoską piszesz si: si-kor-ka.",
+     "Na końcu lub przed spółgłoską piszesz ś: śli-mak.",
+     "Szukaj kreski: ś ma kreskę, si nie ma.",
+     "Uwaga: nie pisz śikorka; przed samogłoską zawsze si."
+    ],
+    "answers": [
+     "Na gałęzi.",
+     "Swój domek.",
+     "Mokry.",
+     "sio-stra, ścia-na, Ka-sia.",
+     "Informacyjny."
+    ]
+   }
+  },
+  "eu-year-pl-beginner-i-l24": {
+   "pl": {
+    "title": "Zi i ź, dzi i dź: zioła i źródło",
+    "theory": "Tak samo piszemy zi przed samogłoską (zima, ziarno) i ź na końcu lub przed spółgłoską (źródło, wieź). Podobnie dzi i dź: dziadek, dzień, dźwig, niedźwiedź. Rośliny potrzebują wody, światła i ziemi.",
+    "sample": "Ziarenko rośnie w ziemi. / Woda płynie ze źródła. / Dziadek patrzy na wielki dźwig.",
+    "worked": "Ziarenko i ziemi mają zi, źródła ma ź przed spółgłoską d. Dziadek ma dzi, a dźwig dź przed w. Zasada jest ta sama jak przy ni – ń, ci – ć, si – ś.",
+    "exercises": [
+     "Przeczytaj: ziemia, źródło, dziadek.",
+     "Uzupełnij: _wig (dź czy dzi).",
+     "Napisz rząd ź i rząd dź.",
+     "Czego potrzebuje roślina?",
+     "Wymyśl słowo z dzi."
+    ],
+    "test": [
+     "Gdzie rośnie ziarenko?",
+     "Skąd płynie woda?",
+     "Na co patrzy dziadek?",
+     "Przeczytaj: zielony, dzieci, gałąź.",
+     "Jaka zasada łączy ni – ń, ci – ć, si – ś, zi – ź?"
+    ],
+    "steps": [
+     "Przed samogłoską piszesz z „i”: zi, dzi.",
+     "Na końcu i przed spółgłoską piszesz z kreską: ź, dź.",
+     "Porównaj pary: ziemia – źródło, dziadek – dźwig.",
+     "Uwaga: tę jedną zasadę stosujesz do wszystkich zmiękczeń."
+    ],
+    "answers": [
+     "W ziemi.",
+     "Ze źródła.",
+     "Na wielki dźwig.",
+     "zie-lo-ny, dzie-ci, ga-łąź.",
+     "Przed samogłoską piszemy z i, a na końcu i przed spółgłoską z kreską."
+    ]
+   }
+  },
+  "eu-year-pl-beginner-i-l25": {
+   "pl": {
+    "title": "Q, V, X i alfabet",
+    "theory": "Litery q, v i x pojawiają się w słowach z innych języków i w nazwach, na przykład quiz, taxi albo nazwisko Vivaldi. Polski alfabet ma 32 litery, bez q, v, x. Kolejność liter pomaga szukać słów w słowniku. Wiersz Juliana Tuwima Abecadło bawi się literami.",
+    "sample": "Alfabet: a ą b c ć d e ę f g h i j k l ł m n ń o ó p r s ś t u w y z ź ż. / Ania, Basia, Celina – kto jest pierwszy w kolejności alfabetycznej?",
+    "worked": "Alfabet ma 32 litery. Imiona ustawiamy według pierwszej litery: Ania (a), Basia (b), Celina (c). Ania jest pierwsza. Q, v, x spotykamy rzadko, w obcych wyrazach.",
+    "exercises": [
+     "Powiedz alfabet po kawałku.",
+     "Ułóż alfabetycznie: kot, aż, lis.",
+     "Jaka litera jest po ł?",
+     "Napisz pierwszą i ostatnią literę alfabetu.",
+     "Znajdź swoje imię w liście klasy."
+    ],
+    "test": [
+     "Ile liter ma polski alfabet?",
+     "Która litera jest pierwsza?",
+     "Ułóż alfabetycznie: Tomek, Ewa, Ola.",
+     "Czy x należy do polskiego alfabetu?",
+     "Do czego przydaje się alfabet?"
+    ],
+    "steps": [
+     "Powiedz alfabet małymi kawałkami: a ą b c ć d.",
+     "Przy układaniu patrz tylko na pierwszą literę.",
+     "Jeśli pierwsze litery są takie same, porównaj drugie.",
+     "Uwaga: litery z ogonkiem lub kreską mają swoje miejsce: a, potem ą."
+    ],
+    "answers": [
+     "32.",
+     "a.",
+     "Ewa, Ola, Tomek.",
+     "Nie, pojawia się tylko w obcych wyrazach.",
+     "Do szukania słów w słowniku i porządkowania list."
+    ]
+   }
+  },
+  "eu-year-pl-beginner-i-l26": {
+   "pl": {
+    "title": "Głoski i litery, samogłoski i spółgłoski",
+    "theory": "Głoski słyszymy i wymawiamy, litery widzimy i piszemy. Samogłoski to a, ą, e, ę, i, o, ó, u, y; pozostałe głoski to spółgłoski. Dwuznak (np. sz) to dwie litery i jedna głoska. Każda sylaba ma co najmniej jedną samogłoskę.",
+    "sample": "szafa: litery s-z-a-f-a (5), głoski sz-a-f-a (4), sylaby sza-fa (2)",
+    "worked": "Szafa ma pięć liter, ale cztery głoski, bo sz to jedna głoska. Sylaby są dwie, bo ma dwie samogłoski: a i a. Tak możemy rozłożyć każde słowo na części.",
+    "exercises": [
+     "Policz litery w słowie kot.",
+     "Policz głoski w słowie szal.",
+     "Podziel na sylaby: samolot.",
+     "Wypisz samogłoski ze słowa tulipan.",
+     "Ile sylab ma słowo czekolada?"
+    ],
+    "test": [
+     "Ile głosek ma słowo szafa?",
+     "Ile liter ma słowo szafa?",
+     "Czy i to samogłoska?",
+     "Ile sylab ma słowo motyl?",
+     "Czym różni się głoska od litery?"
+    ],
+    "steps": [
+     "Litery liczysz, patrząc na słowo.",
+     "Głoski liczysz, mówiąc słowo powoli: dwuznak to jedna głoska.",
+     "Sylaby liczysz, klaszcząc albo licząc samogłoski.",
+     "Uwaga: w słowie ze zmiękczeniem, np. nie, litera i nie jest osobną głoską."
+    ],
+    "answers": [
+     "Cztery.",
+     "Pięć.",
+     "Tak.",
+     "Dwie: mo-tyl.",
+     "Głoskę słyszymy, a literę widzimy i piszemy."
+    ]
+   }
+  },
+  "eu-year-pl-beginner-i-l27": {
+   "pl": {
+    "title": "Wiersz: wers, rym i recytacja",
+    "theory": "Wiersz składa się z wersów, czyli linijek. Często słowa na końcu wersów rymują się. Uczymy się wiersza na pamięć po dwa wersy i recytujemy go wyraźnie, z przerwami na końcu wersów. Poznajemy wiersze Jana Brzechwy i Juliana Tuwima.",
+    "sample": "Własny wiersz: / Na łące tańczy biedronka, / świeci nad nią złote słonko. / Wiatr jej śpiewa cichutko, / że lato minie prędziutko.",
+    "worked": "Wiersz ma cztery wersy. Biedronka i słonko rymują się trochę, a cichutko i prędziutko bardzo dokładnie. Recytujemy spokojnie, robiąc pauzę na końcu każdego wersu.",
+    "exercises": [
+     "Przeczytaj wiersz na głos.",
+     "Znajdź rym do słowa cichutko.",
+     "Naucz się dwóch wersów na pamięć.",
+     "Narysuj biedronkę na łące.",
+     "Dobierz rym do słowa kot."
+    ],
+    "test": [
      "Ile wersów ma wiersz?",
-     "Znajdź rym do wyrazu kot.",
-     "Dokąd leci wróbel?",
-     "Dobierz rym do wyrazu dom.",
-     "Wyrecytuj wiersz raz cicho, a raz głośno."
-    ],
-    "test": [
+     "Co świeci nad biedronką?",
      "Co to jest wers?",
-     "Czy czasu rymuje się z lasu?",
-     "Co robi sąsiad?",
-     "Dobierz rym do wyrazu mama.",
-     "Jak powiesz słowa wróbla: wolno czy szybko? Dlaczego?"
+     "Dobierz rym do słowa las.",
+     "Jak recytujemy wiersz: szybko czy spokojnie?"
+    ],
+    "steps": [
+     "Przeczytaj wiersz linijka po linijce.",
+     "Popatrz na ostatnie słowa wersów i znajdź te, które brzmią podobnie.",
+     "Ucz się na pamięć po dwa wersy, potem dodaj kolejne dwa.",
+     "Uwaga: recytuj powoli i wyraźnie, to nie wyścig."
+    ],
+    "answers": [
+     "Cztery.",
+     "Złote słonko.",
+     "Jedna linijka wiersza.",
+     "Twoja odpowiedź. Na przykład: pas, czas.",
+     "Spokojnie i wyraźnie."
     ]
    }
   },
-  "eu-year-pl-beginner-i-dialog": {
+  "eu-year-pl-beginner-i-l28": {
    "pl": {
-    "title": "Rozmawiamy grzecznie",
-    "theory": "W rozmowie słuchamy uważnie i czekamy na swoją kolej. Patrzymy na rozmówcę. Używamy zwrotów grzecznościowych: dzień dobry, proszę, dziękuję, przepraszam, do widzenia. Gdy czegoś nie rozumiemy, zadajemy pytanie.",
-    "sample": "Antek: Dzień dobry, pani bibliotekarko! Czy mogę wypożyczyć tę książkę?\nBibliotekarka: Dzień dobry, Antku. Proszę bardzo, oddaj ją za tydzień.\nAntek: Dziękuję! A czy mogę też wziąć komiks?\nBibliotekarka: Tak, proszę.",
-    "worked": "Antek najpierw się wita. Potem pyta, a na końcu pytania stoi znak zapytania. Bibliotekarka odpowiada, gdy Antek skończy mówić. Antek dziękuje. Każdy mówi wtedy, gdy przyjdzie jego kolej.",
+    "title": "Baśń: Czerwony Kapturek",
+    "theory": "Baśń to opowieść, w której zdarzają się niezwykłe rzeczy, a dobro zwycięża zło. Baśń o Czerwonym Kapturku spisali bracia Grimm. Opowiadamy wydarzenia po kolei: najpierw, potem, na końcu. Zapisujemy tytuł wielką literą.",
+    "sample": "Opowiedziane naszymi słowami: Czerwony Kapturek niósł babci koszyk z jedzeniem. W lesie spotkał wilka, który zapytał, dokąd idzie. Wilk pierwszy dotarł do domu babci. Na końcu gajowy uratował babcię i dziewczynkę.",
+    "worked": "Postacie baśni to Czerwony Kapturek, babcia, wilk i gajowy. Wilk jest podstępny, gajowy odważny. Baśń uczy, żeby nie rozmawiać z nieznajomymi i słuchać rad dorosłych.",
     "exercises": [
-     "Jak wita się Antek?",
-     "Co chce wypożyczyć Antek?",
-     "Znajdź zdanie ze znakiem zapytania.",
-     "Jakie zwroty grzecznościowe są w rozmowie?",
-     "Odegrajcie rozmowę w parach."
+     "Wymień postacie baśni.",
+     "Opowiedz, co było najpierw.",
+     "Narysuj Czerwonego Kapturka z koszykiem.",
+     "Jaki jest wilk?",
+     "Opowiedz zakończenie baśni."
+    ],
+    "test": [
+     "Kto spisał baśń o Czerwonym Kapturku?",
+     "Co niosła dziewczynka babci?",
+     "Kto uratował babcię?",
+     "Co zrobisz, gdy zaczepi cię nieznajomy?",
+     "Czego uczy ta baśń?"
+    ],
+    "steps": [
+     "Najpierw wymień postacie: kto występuje?",
+     "Opowiedz po kolei: najpierw, potem, na końcu.",
+     "Powiedz, czego uczy baśń.",
+     "Uwaga: nie zmieniaj kolejności wydarzeń, bo opowieść stanie się niezrozumiała."
+    ],
+    "answers": [
+     "Bracia Grimm.",
+     "Koszyk z jedzeniem.",
+     "Gajowy.",
+     "Nie rozmawiam z nim i idę do znanego dorosłego.",
+     "Żeby nie rozmawiać z nieznajomymi i słuchać rad dorosłych."
+    ]
+   }
+  },
+  "eu-year-pl-beginner-i-l29": {
+   "pl": {
+    "title": "Legenda: O smoku wawelskim",
+    "theory": "Legenda to dawna opowieść związana z prawdziwym miejscem. Legenda o smoku wawelskim opowiada o Krakowie. Słuchamy jej i opowiadamy własnymi słowami. Nazwy miast i rzek piszemy wielką literą: Kraków, Wisła.",
+    "sample": "Opowiedziane naszymi słowami: Pod Wawelem w Krakowie mieszkał groźny smok. Mądry szewczyk podrzucił mu owcę wypchaną siarką. Smok zjadł ją i pił wodę z Wisły, aż pękł. Miasto było uratowane.",
+    "worked": "Legenda dzieje się w prawdziwym mieście: w Krakowie. Szewczyk pokonał smoka sprytem, a nie siłą. Kraków, Wawel i Wisła to nazwy własne, dlatego piszemy je wielką literą.",
+    "exercises": [
+     "Opowiedz legendę w trzech zdaniach.",
+     "Narysuj smoka wawelskiego.",
+     "Wypisz z tekstu nazwy pisane wielką literą.",
+     "Jak szewczyk pokonał smoka?",
+     "Pokaż Kraków na mapie Polski."
+    ],
+    "test": [
+     "W jakim mieście dzieje się legenda?",
+     "Kto pokonał smoka?",
+     "Z jakiej rzeki pił smok?",
+     "Czym legenda różni się od baśni?",
+     "Dlaczego Wisła piszemy wielką literą?"
+    ],
+    "steps": [
+     "Powiedz, gdzie dzieje się legenda.",
+     "Opowiedz, kto i jak pokonał smoka.",
+     "Zapamiętaj nazwy własne i pisz je wielką literą.",
+     "Uwaga: legenda jest związana z prawdziwym miejscem, ale wydarzenia są zmyślone."
+    ],
+    "answers": [
+     "W Krakowie.",
+     "Szewczyk.",
+     "Z Wisły.",
+     "Legenda wiąże się z prawdziwym miejscem.",
+     "Bo to nazwa rzeki."
+    ]
+   }
+  },
+  "eu-year-pl-beginner-i-l30": {
+   "pl": {
+    "title": "Dialog i czytanie z podziałem na role",
+    "theory": "Dialog to rozmowa co najmniej dwóch osób. W tekście każda wypowiedź zaczyna się od nowej linijki i od myślnika albo od imienia osoby. Czytamy z podziałem na role: każdy czyta słowa swojej postaci odpowiednim głosem.",
+    "sample": "– Dzień dobry, pani bibliotekarko! Czy mogę wypożyczyć tę książkę? – zapytał Antek. / – Dzień dobry. Proszę bardzo, oddaj ją za tydzień. / – Dziękuję! Do widzenia!",
+    "worked": "W dialogu mówią dwie osoby: Antek i bibliotekarka. Każda wypowiedź zaczyna się od myślnika. Antek używa grzecznych słów: dzień dobry, proszę, dziękuję, do widzenia.",
+    "exercises": [
+     "Przeczytaj dialog z kolegą z podziałem na role.",
+     "Znajdź w dialogu grzeczne słowa.",
+     "Dopisz jedną wypowiedź bibliotekarki.",
+     "Policz wypowiedzi w dialogu.",
+     "Odegraj scenkę w sklepie."
     ],
     "test": [
      "Kiedy Antek ma oddać książkę?",
-     "Kiedy mówimy przepraszam?",
-     "Co robisz, gdy czegoś nie rozumiesz?",
-     "Napisz grzeczną prośbę do kolegi.",
-     "Dlaczego czekamy na swoją kolej?"
+     "Ile osób mówi w dialogu?",
+     "Czym zaczyna się każda wypowiedź?",
+     "Jakie grzeczne słowa mówi Antek?",
+     "Kiedy mówimy przepraszam?"
+    ],
+    "steps": [
+     "Sprawdź, kto mówi: imię lub myślnik na początku linijki.",
+     "Czytaj słowa swojej postaci odpowiednim głosem.",
+     "Czekaj, aż druga osoba skończy.",
+     "Uwaga: myślnika nie czytamy na głos."
+    ],
+    "answers": [
+     "Za tydzień.",
+     "Dwie.",
+     "Myślnikiem.",
+     "Dzień dobry, dziękuję, do widzenia.",
+     "Gdy coś zrobimy źle albo komuś przeszkadzamy."
     ]
    }
   },
-  "eu-year-pl-beginner-i-vocabular": {
+  "eu-year-pl-beginner-i-l31": {
    "pl": {
-    "title": "Nazwy, czynności i wyrazy przeciwne",
-    "theory": "Wyrazy mogą nazywać ludzi, zwierzęta, rośliny i rzeczy: mama, pies, róża, stół. Inne wyrazy nazywają czynności: biega, czyta. Niektóre wyrazy mają znaczenie przeciwne: duży – mały. Mówimy o jednej rzeczy albo o wielu: kwiat – kwiaty.",
-    "sample": "Babcia podlewa róże. Pies biega po ogrodzie. Duży kot śpi, a mały kot się bawi.",
-    "worked": "Babcia to nazwa człowieka, pies i kot to zwierzęta, a róże to rośliny. Podlewa, biega, śpi i bawi się to czynności. Duży i mały mają przeciwne znaczenie. Róże to liczba mnoga, a jedna to róża.",
+    "title": "Historyjka obrazkowa: kolejność zdarzeń",
+    "theory": "Historyjka obrazkowa to kilka obrazków, które razem opowiadają historię. Ustalamy kolejność, mówimy, co dzieje się na każdym obrazku, i dodajemy zakończenie. Używamy słów: najpierw, potem, na końcu.",
+    "sample": "Obrazek 1: Kuba sadzi nasionko. / Obrazek 2: Codziennie podlewa ziemię. / Obrazek 3: Wyrósł słonecznik większy od Kuby.",
+    "worked": "Trzy obrazki pokazują, jak rośnie roślina. Najpierw Kuba sadzi, potem podlewa, na końcu wyrasta słonecznik. Słonecznik wyrósł, bo Kuba o niego dbał: to przyczyna i skutek.",
     "exercises": [
-     "Znajdź w tekście nazwę rośliny.",
-     "Jakie czynności wykonują zwierzęta?",
-     "Podaj wyraz o przeciwnym znaczeniu do duży.",
-     "Napisz liczbę mnogą: kot.",
-     "Podziel na grupy: mama, stół, tulipan, chomik."
+     "Opowiedz historyjkę słowami najpierw, potem, na końcu.",
+     "Narysuj czwarty obrazek.",
+     "Wymyśl tytuł historyjki.",
+     "Dlaczego wyrósł słonecznik?",
+     "Opowiedz historyjkę od końca."
     ],
     "test": [
-     "Co robi babcia?",
-     "Jaki wyraz ma znaczenie przeciwne do ciepły?",
-     "Napisz liczbę pojedynczą: róże.",
-     "Który wyraz nazywa czynność: pies, biega, ogród?",
-     "Nazwij trzy rzeczy w swojej klasie."
+     "Ile obrazków ma historyjka?",
+     "Co Kuba robi najpierw?",
+     "Co wyrosło na końcu?",
+     "Jakie słowa pomagają ustalić kolejność?",
+     "Jaki jest Kuba? Dlaczego tak myślisz?"
+    ],
+    "steps": [
+     "Popatrz na wszystkie obrazki.",
+     "Ustal, co było pierwsze, a co ostatnie.",
+     "Do każdego obrazka powiedz jedno zdanie.",
+     "Uwaga: każdy obrazek to jeden krok historii; nie przeskakuj żadnego."
+    ],
+    "answers": [
+     "Trzy.",
+     "Sadzi nasionko.",
+     "Słonecznik.",
+     "Najpierw, potem, na końcu.",
+     "Cierpliwy i staranny, bo codziennie podlewał."
     ]
    }
   },
-  "eu-year-pl-beginner-i-exprimare": {
+  "eu-year-pl-beginner-i-l32": {
    "pl": {
-    "title": "Zdanie, wielka litera i znaki na końcu",
-    "theory": "Zdanie zaczynamy wielką literą. Na końcu stawiamy kropkę, znak zapytania albo wykrzyknik. Wielką literą piszemy też imiona, nazwiska oraz nazwy miast, rzek i państw: Ewa Nowak, Kraków, Wisła, Polska.",
-    "sample": "Ewa Nowak mieszka w Gdańsku. Czy byłeś nad Wisłą? Ale piękna tęcza!",
-    "worked": "Tekst ma trzy zdania i każde zaczyna się wielką literą. Ewa Nowak to imię i nazwisko, Gdańsk to miasto, a Wisła to rzeka, więc piszemy je wielką literą. Pierwsze zdanie kończy się kropką, drugie znakiem zapytania, a trzecie wykrzyknikiem, bo wyraża zachwyt.",
+    "title": "Zdania: oznajmujące, pytające, wykrzyknikowe",
+    "theory": "Zdanie oznajmujące coś mówi i kończy się kropką. Zdanie pytające pyta i kończy się znakiem zapytania. Zdanie z wykrzyknikiem wyraża silne uczucie lub polecenie. Każde zdanie zaczynamy wielką literą.",
+    "sample": "Dziś jest słonecznie. Pójdziesz ze mną do parku? Jak tu pięknie!",
+    "worked": "Pierwsze zdanie informuje, więc ma kropkę. Drugie pyta, więc ma znak zapytania. Trzecie wyraża zachwyt, więc ma wykrzyknik. Wszystkie zaczynają się wielką literą.",
     "exercises": [
-     "Ile zdań jest w tekście?",
-     "Napisz poprawnie: ala mieszka w poznaniu",
-     "Postaw właściwy znak: Masz psa",
-     "Znajdź w tekście nazwę rzeki.",
-     "Napisz swoje imię i nazwisko."
+     "Postaw znak: Jak masz na imię",
+     "Postaw znak: Lubię lody",
+     "Napisz pytanie do kolegi.",
+     "Napisz zdanie z wykrzyknikiem.",
+     "Policz zdania w przykładzie."
     ],
     "test": [
      "Czym kończy się pytanie?",
-     "Dlaczego Gdańsk piszemy wielką literą?",
-     "Napisz poprawnie: dziś pada śnieg",
-     "Które zdanie wyraża zachwyt?",
-     "Napisz nazwę swojej miejscowości."
+     "Czym zaczyna się każde zdanie?",
+     "Napisz poprawnie: dziś pada deszcz",
+     "Które zdanie w przykładzie wyraża zachwyt?",
+     "Ile zdań jest w przykładzie?"
+    ],
+    "steps": [
+     "Zapytaj: czy zdanie mówi, pyta, czy woła?",
+     "Mówi – kropka. Pyta – znak zapytania. Woła lub wyraża uczucie – wykrzyknik.",
+     "Pierwszą literę zdania piszesz wielką.",
+     "Uwaga: nawet krótkie pytanie „Idziesz?” ma znak zapytania."
+    ],
+    "answers": [
+     "Znakiem zapytania.",
+     "Wielką literą.",
+     "Dziś pada deszcz.",
+     "Jak tu pięknie!",
+     "Trzy."
     ]
    }
   },
-  "eu-year-pl-beginner-i-redactare": {
+  "eu-year-pl-beginner-i-l33": {
    "pl": {
-    "title": "Piszemy zdania: podpisy, odpowiedzi, życzenia",
-    "theory": "Piszemy krótkie zdania: podpisujemy obrazki, odpowiadamy na pytania pełnym zdaniem i układamy zdania z rozsypanki wyrazowej. Na laurce piszemy krótkie życzenia. Po napisaniu czytamy tekst i sprawdzamy litery oraz znaki.",
-    "sample": "Kochana Mamo! Życzę Ci zdrowia i uśmiechu. Twoja Hania",
-    "worked": "To krótkie życzenia na laurkę. Zaczynają się od zwrotu do osoby: Kochana Mamo! Wyrazy Mamo i Ci piszemy wielką literą z szacunku. Potem są życzenia, a na końcu podpis. Na koniec Hania czyta tekst jeszcze raz.",
+    "title": "Polska: nazwy miast i rzek wielką literą",
+    "theory": "Mieszkamy w Polsce. Stolicą Polski jest Warszawa. Najdłuższa rzeka to Wisła, a na północy jest Morze Bałtyckie. Nazwy państw, miast, rzek i gór piszemy wielką literą. Symbole Polski to godło, flaga i hymn – Mazurek Dąbrowskiego.",
+    "sample": "Wisła płynie przez Kraków i Warszawę. / Do Gdańska płyną statki z Morza Bałtyckiego. / Flaga Polski jest biało-czerwona.",
+    "worked": "Wisła, Kraków, Warszawa, Gdańsk i Morze Bałtyckie to nazwy geograficzne, więc piszemy je wielką literą. Flaga ma dwa kolory: biały na górze i czerwony na dole.",
     "exercises": [
-     "Do kogo są życzenia?",
-     "Czego życzy Hania?",
-     "Ułóż zdanie z rozsypanki: lubi, Tomek, lody.",
-     "Odpowiedz pełnym zdaniem: Jak masz na imię?",
-     "Napisz krótkie życzenia dla babci."
+     "Wypisz z przykładu nazwy pisane wielką literą.",
+     "Napisz nazwę swojej miejscowości.",
+     "Narysuj flagę Polski.",
+     "Pokaż na mapie Wisłę.",
+     "Naucz się pierwszej zwrotki hymnu."
     ],
     "test": [
-     "Co jest na końcu życzeń?",
-     "Podpisz obrazek: dziewczynka czyta książkę.",
-     "Uzupełnij zdanie: Pies … kość.",
-     "Co sprawdzasz po napisaniu?",
-     "Ułóż zdanie z wyrazów: świeci, słońce."
+     "Jaka jest stolica Polski?",
+     "Jakie kolory ma flaga Polski?",
+     "Dlaczego Gdańsk piszemy wielką literą?",
+     "Jak nazywa się hymn Polski?",
+     "Przez jakie miasta płynie Wisła w przykładzie?"
+    ],
+    "steps": [
+     "Zapytaj: czy to nazwa państwa, miasta, rzeki lub gór?",
+     "Jeśli tak, piszesz ją wielką literą.",
+     "Nazwy z dwóch słów, jak Morze Bałtyckie, piszemy wielkimi literami w obu słowach.",
+     "Uwaga: zwykłe słowo rzeka piszemy małą literą, ale nazwę Wisła wielką."
+    ],
+    "answers": [
+     "Warszawa.",
+     "Biały i czerwony.",
+     "Bo to nazwa miasta.",
+     "Mazurek Dąbrowskiego.",
+     "Przez Kraków i Warszawę."
     ]
    }
   },
-  "eu-year-pl-beginner-i-interpretare": {
+  "eu-year-pl-beginner-i-l34": {
    "pl": {
-    "title": "Lektura i biblioteka: wybieram książkę",
-    "theory": "Nauczyciel czyta nam lektury, a my słuchamy i rozmawiamy o bohaterach. W bibliotece wybieramy książki według zainteresowań. Mówimy, co nam się podobało i dlaczego. Inni mogą mieć inne zdanie.",
-    "sample": "Filip wybrał w bibliotece książkę o kosmosie. Powiedział: Podoba mi się, bo są w niej zdjęcia planet. Marta wolała książkę o koniach.",
-    "worked": "Filip wybrał książkę według swoich zainteresowań i podał powód, używając słowa bo. Marta ma inne zdanie i to jest w porządku. Książkę, która nam się spodobała, możemy polecić koledze albo zrobić o niej plakat lub małą książeczkę.",
+    "title": "Życzenia i zaproszenie",
+    "theory": "Życzenia piszemy z okazji urodzin lub świąt: zaczynamy od zwrotu do osoby, piszemy, czego życzymy, i podpisujemy się. Zaproszenie mówi, na co zapraszamy, kiedy i gdzie. Zwroty do osoby w liście piszemy wielką literą: Ci, Cię.",
+    "sample": "Kochana Babciu! / Zapraszam Cię na moje urodziny. / Kiedy: w sobotę o godzinie 16. / Gdzie: u nas w domu. / Czekam na Ciebie! / Twoja Hania",
+    "worked": "Zaproszenie zaczyna się od zwrotu Kochana Babciu. Potem jest informacja: na co, kiedy i gdzie. Na końcu jest podpis. Słowa Cię i Ciebie piszemy wielką literą z szacunku do babci.",
     "exercises": [
-     "Jaką książkę wybrał Filip?",
-     "Dlaczego książka mu się podoba?",
-     "Jaką książkę wolała Marta?",
-     "Powiedz, jaką książkę ty byś wybrał lub wybrała i dlaczego.",
-     "Zrób małą książeczkę o swoim ulubionym zwierzęciu."
+     "Napisz zwrot do dziadka.",
+     "Napisz zaproszenie na zabawę.",
+     "Napisz życzenia urodzinowe.",
+     "Czego brakuje w zaproszeniu bez godziny?",
+     "Podpisz się pod zaproszeniem."
+    ],
+    "test": [
+     "Co musi być w zaproszeniu?",
+     "Kiedy są urodziny Hani?",
+     "Jak zaczyna się zaproszenie?",
+     "Napisz krótkie życzenia dla mamy.",
+     "Co jest na końcu zaproszenia?"
+    ],
+    "steps": [
+     "Zacznij od zwrotu: Kochana…, Drogi…",
+     "Napisz, na co zapraszasz, kiedy i gdzie.",
+     "Zakończ miłym zdaniem i podpisem.",
+     "Uwaga: bez daty, godziny i miejsca nikt nie wie, kiedy przyjść."
+    ],
+    "answers": [
+     "Na co, kiedy i gdzie, a także zwrot i podpis.",
+     "W sobotę o godzinie 16.",
+     "Kochana Babciu!",
+     "Twoja odpowiedź. Na przykład: Kochana Mamo, życzę Ci zdrowia i uśmiechu!",
+     "Podpis."
+    ]
+   }
+  },
+  "eu-year-pl-beginner-i-l35": {
+   "pl": {
+    "title": "Biblioteka: wybieramy i polecamy książkę",
+    "theory": "W bibliotece wypożyczamy książki. Na okładce są tytuł i autor. Tytuły książek piszemy wielką literą. Wybieramy książkę, mówimy, dlaczego nam się podoba (bo…), i polecamy ją innym.",
+    "sample": "Filip wybrał książkę o kosmosie. Powiedział: Podoba mi się, bo są w niej zdjęcia planet. Marta wolała książkę o koniach.",
+    "worked": "Filip podaje powód słowem bo. Marta lubi coś innego i to jest w porządku: każdy może mieć własne zdanie. Książki z biblioteki oddajemy w terminie i dbamy o nie.",
+    "exercises": [
+     "Pokaż tytuł i autora na okładce książki.",
+     "Powiedz, jaką książkę lubisz i dlaczego.",
+     "Narysuj zakładkę do książki.",
+     "Wymień trzy zasady dbania o książki.",
+     "Poleć książkę koledze w dwóch zdaniach."
     ],
     "test": [
      "Gdzie wypożyczamy książki?",
      "Jakim słowem podajemy powód?",
      "Czy Marta może mieć inne zdanie niż Filip?",
      "Napisz tytuł książki, którą lubisz.",
-     "Jak możesz polecić książkę koledze?"
+     "Jak dbamy o wypożyczone książki?"
+    ],
+    "steps": [
+     "Popatrz na okładkę: tytuł, autor, obrazek.",
+     "Powiedz, co ci się podoba, i dodaj: bo…",
+     "Oddaj książkę w terminie i nie zaginaj kartek.",
+     "Uwaga: tytuł książki zaczynamy wielką literą."
+    ],
+    "answers": [
+     "W bibliotece.",
+     "Bo.",
+     "Tak, każdy może mieć własne zdanie.",
+     "Twoja odpowiedź. Na przykład: Kubuś Puchatek.",
+     "Nie zaginamy kartek, nie rysujemy po nich, oddajemy w terminie."
     ]
    }
   },
-  "eu-year-pl-beginner-i-verificare": {
+  "eu-year-pl-beginner-i-l36": {
    "pl": {
     "title": "Powtórka: co już umiem",
-    "theory": "Powtarzamy: głoski, litery i sylaby, czytanie ze zrozumieniem, kolejność zdarzeń, rymy, grzeczną rozmowę, nazwy i czynności, wielką literę i znaki na końcu zdania oraz krótkie zdania i życzenia.",
+    "theory": "Na koniec klasy I czytamy krótki tekst i pokazujemy, co umiemy: czytać ze zrozumieniem, dzielić na sylaby, pisać zdania wielką literą i z kropką, rozpoznawać dwuznaki i zmiękczenia.",
     "sample": "Rano Staś pakuje plecak. Wkłada elementarz, piórnik i kanapkę. Potem idzie z dziadkiem do szkoły.",
-    "worked": "Kto? Staś. Co robi najpierw? Pakuje plecak. Co wkłada? Elementarz, piórnik i kanapkę. Co robi potem? Idzie z dziadkiem do szkoły. Wyraz ka-nap-ka ma trzy sylaby. Imię Staś piszemy wielką literą.",
+    "worked": "Tekst ma trzy zdania. Staś najpierw pakuje plecak, potem idzie do szkoły. W słowie dziadkiem jest zmiękczenie dzi, a w słowie szkoły dwuznak sz.",
     "exercises": [
-     "Podziel na sylaby: kanapka.",
-     "Co Staś wkłada do plecaka?",
-     "Z kim Staś idzie do szkoły?",
-     "Znajdź w tekście wyraz nazywający czynność.",
-     "Znajdź w tekście wyraz z dwuznakiem."
+     "Przeczytaj tekst głośno i płynnie.",
+     "Znajdź dwuznak w słowie szkoły.",
+     "Wypisz z tekstu imię.",
+     "Napisz zdanie o swoim plecaku.",
+     "Opowiedz, czego najbardziej lubiłeś lub lubiłaś się uczyć."
     ],
     "test": [
      "Co Staś robi najpierw?",
      "Ile zdań ma tekst?",
      "Napisz poprawnie: staś idzie do szkoły",
-     "Podaj wyraz o znaczeniu przeciwnym do rano.",
-     "Napisz zdanie o swoim plecaku."
+     "Z kim Staś idzie do szkoły?",
+     "Znajdź zmiękczenie w słowie dziadkiem."
+    ],
+    "steps": [
+     "Przeczytaj tekst najpierw powoli, potem płynnie.",
+     "Zapytaj: kto? co robi? z kim?",
+     "Policz zdania po kropkach.",
+     "Uwaga: imiona i początek zdania piszesz wielką literą: Staś."
+    ],
+    "answers": [
+     "Pakuje plecak.",
+     "Trzy.",
+     "Staś idzie do szkoły.",
+     "Z dziadkiem.",
+     "dzi."
     ]
    }
   }
