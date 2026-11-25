@@ -1,0 +1,1326 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "AD",
+ "stage": "beginner",
+ "grade": "1",
+ "version": "80ccd9faab84ba51e38db22a5aa842a7bde97645b541c2a330b69794fcc71c71",
+ "source": "https://www.educacio.ad/",
+ "sourceTitle": "Govern d’Andorra, Ministeri d’Educació i Ensenyament Superior — currículum de primera ensenyança de l’Escola andorrana, primer cicle, 1r curs: llengua catalana (comunicació oral, lectura, escriptura, educació literària, reflexió sobre la llengua); seqüència com als llibres de 1r (vocals, consonants, dígrafs, sons especials, accents, apòstrof, primers textos); activitats originals, sense text copiat dels llibres",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "ca",
+ "labels": [
+  "Activitat original d’orientació · Andorra · 1r de primera ensenyança",
+  "Aprenem",
+  "Exemple original",
+  "Explicació",
+  "Exercicis",
+  "Comprova què saps",
+  "Són activitats originals, no és una prova oficial. Llegeix amb un adult si ho necessites.",
+  "Si no ho has entès: pas a pas",
+  "Solucions (comprova-les només quan hagis acabat)"
+ ],
+ "units": [
+  {
+   "title": "Comencem el curs",
+   "keys": [
+    "eu-year-ad-beginner-1-l01",
+    "eu-year-ad-beginner-1-l02",
+    "eu-year-ad-beginner-1-l03"
+   ]
+  },
+  {
+   "title": "Les vocals i les primeres consonants",
+   "keys": [
+    "eu-year-ad-beginner-1-l04",
+    "eu-year-ad-beginner-1-l05",
+    "eu-year-ad-beginner-1-l06",
+    "eu-year-ad-beginner-1-l07",
+    "eu-year-ad-beginner-1-l08",
+    "eu-year-ad-beginner-1-l09"
+   ]
+  },
+  {
+   "title": "Més consonants",
+   "keys": [
+    "eu-year-ad-beginner-1-l10",
+    "eu-year-ad-beginner-1-l11",
+    "eu-year-ad-beginner-1-l12",
+    "eu-year-ad-beginner-1-l13",
+    "eu-year-ad-beginner-1-l14",
+    "eu-year-ad-beginner-1-l15"
+   ]
+  },
+  {
+   "title": "Sons especials",
+   "keys": [
+    "eu-year-ad-beginner-1-l16",
+    "eu-year-ad-beginner-1-l17",
+    "eu-year-ad-beginner-1-l18",
+    "eu-year-ad-beginner-1-l19",
+    "eu-year-ad-beginner-1-l20"
+   ]
+  },
+  {
+   "title": "Escrivim bé",
+   "keys": [
+    "eu-year-ad-beginner-1-l21",
+    "eu-year-ad-beginner-1-l22",
+    "eu-year-ad-beginner-1-l23",
+    "eu-year-ad-beginner-1-l24",
+    "eu-year-ad-beginner-1-l25"
+   ]
+  },
+  {
+   "title": "Llegim i escoltem textos",
+   "keys": [
+    "eu-year-ad-beginner-1-l26",
+    "eu-year-ad-beginner-1-l27",
+    "eu-year-ad-beginner-1-l28",
+    "eu-year-ad-beginner-1-l29",
+    "eu-year-ad-beginner-1-l30"
+   ]
+  },
+  {
+   "title": "Escrivim i ens comuniquem",
+   "keys": [
+    "eu-year-ad-beginner-1-l31",
+    "eu-year-ad-beginner-1-l32",
+    "eu-year-ad-beginner-1-l33",
+    "eu-year-ad-beginner-1-l34"
+   ]
+  },
+  {
+   "title": "Final de curs",
+   "keys": [
+    "eu-year-ad-beginner-1-l35"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-ad-beginner-1-l01": {
+   "ca": {
+    "title": "Ens presentem i pactem les normes",
+    "theory": "Els primers dies ens coneixem. Diem el nostre nom amb una frase sencera: Em dic… Pactem les normes de la classe: aixequem la mà per parlar, escoltem els altres, no interrompem i parlem amb veu clara.",
+    "sample": "Em dic Marta. Tinc sis anys. M’agrada dibuixar dofins. Al meu costat seu en Pau.",
+    "worked": "La Marta es presenta amb quatre frases curtes: el nom, l’edat, què li agrada i qui seu al seu costat. Mentre parla mira els companys. Cada frase comença amb majúscula i acaba amb punt. En català diem en Pau i la Marta davant dels noms de persona.",
+    "exercises": [
+     "Presenta’t amb dues frases.",
+     "Digues què t’agrada fer.",
+     "Digues el nom del company de taula.",
+     "Mostra com aixeques la mà.",
+     "Repeteix què ha dit un company."
+    ],
+    "test": [
+     "Quants anys té la Marta?",
+     "Què fem quan volem parlar?",
+     "Per què no interrompem els altres?",
+     "Què t’agrada fer a tu?",
+     "Qui seu al costat de la Marta?"
+    ],
+    "steps": [
+     "Primer digues el teu nom: Em dic…",
+     "Després digues quants anys tens i què t’agrada.",
+     "Quan parla una altra persona, escolta i no interrompis.",
+     "Compte: parla amb frases senceres, no només amb una paraula."
+    ],
+    "answers": [
+     "Sis anys.",
+     "Aixequem la mà i esperem el torn.",
+     "Perquè tothom pugui parlar i ens entenguem.",
+     "La teva resposta. Per exemple: M’agrada jugar a pilota.",
+     "En Pau."
+    ]
+   }
+  },
+  "eu-year-ad-beginner-1-l02": {
+   "ca": {
+    "title": "Escoltem els sons de les paraules",
+    "theory": "Les paraules estan fetes de sons. El primer so d’una paraula és el so inicial. Si diem la paraula a poc a poc, sentim millor els sons. Dues paraules rimen quan acaben igual: finestra i orquestra, gat i plat.",
+    "sample": "sol, mar, gat, plat, lluna, duna, ou, taula",
+    "worked": "Sol comença amb el so s, mar amb el so m i ou amb el so o. Gat i plat rimen perquè acaben en -at. Lluna i duna també rimen, perquè acaben en -una.",
+    "exercises": [
+     "Digues a poc a poc: sssol. Quin és el primer so?",
+     "Busca una rima per a gat.",
+     "Amb quin so acaba mar?",
+     "Busca a la classe un objecte que comenci per p.",
+     "Pica de mans si rimen: lluna – duna."
+    ],
+    "test": [
+     "Amb quin so comença ou?",
+     "Gat i plat rimen?",
+     "Amb quin so comença mar?",
+     "Digues una paraula que comenci per t.",
+     "Quina paraula no rima: lluna, duna, taula?"
+    ],
+    "steps": [
+     "Digues la paraula molt a poc a poc, com si l’estiressis: sss-o-l.",
+     "El so que sents primer és el so inicial.",
+     "Per a la rima, escolta el final de les paraules.",
+     "Compte: escolta el so, no miris només el dibuix; digues sempre la paraula en veu alta."
+    ],
+    "answers": [
+     "o.",
+     "Sí.",
+     "m.",
+     "La teva resposta. Per exemple: taula, tren, tomàquet.",
+     "taula."
+    ]
+   }
+  },
+  "eu-year-ad-beginner-1-l03": {
+   "ca": {
+    "title": "Grafismes: preparem la mà per escriure",
+    "theory": "Abans de les lletres fem grafismes: línies, ones, cercles, ponts i espirals. Agafem el llapis amb tres dits, sense estrènyer. Seiem drets, amb els peus a terra. Escrivim d’esquerra a dreta.",
+    "sample": "Línia 1: ones com el mar. / Línia 2: ponts com arcs. / Línia 3: cercles com globus.",
+    "worked": "Les ones, els ponts i els cercles apareixen després a les lletres: el cercle a la o, el pont a la n i l’ona a la s. Si ara els practiquem, després escriurem millor. Cada línia comença a l’esquerra.",
+    "exercises": [
+     "Dibuixa una línia d’ones.",
+     "Dibuixa cinc globus.",
+     "Dibuixa a l’aire un pont gran amb el dit.",
+     "Mostra com agafes el llapis.",
+     "Fes espirals a tota la línia."
+    ],
+    "test": [
+     "Amb quants dits agafem el llapis?",
+     "Per quin costat comencem a escriure?",
+     "Quina forma té un globus?",
+     "Com seiem per escriure?",
+     "Què fas si se’t cansa la mà?"
+    ],
+    "steps": [
+     "Seu dret, amb els peus recolzats a terra.",
+     "Agafa el llapis amb el polze, l’índex i el dit del mig, sense estrènyer gaire.",
+     "Comença a l’esquerra i avança a poc a poc cap a la dreta.",
+     "Compte: si se’t cansa la mà, sacseja-la una estona i torna a començar."
+    ],
+    "answers": [
+     "Amb tres dits.",
+     "Per l’esquerra.",
+     "Un cercle.",
+     "Drets, amb els peus a terra.",
+     "La sacsejo una estona i descanso."
+    ]
+   }
+  },
+  "eu-year-ad-beginner-1-l04": {
+   "ca": {
+    "title": "Les vocals: a, e, i, o, u",
+    "theory": "Les vocals són cinc: a, e, i, o, u. Les diem amb la boca oberta, sense que la llengua ni els llavis tanquin el pas de l’aire. Totes les paraules tenen almenys una vocal. La e i la o poden sonar més obertes o més tancades.",
+    "sample": "A E I O U / ou, aigua, illa, ull / ós, era, ungla",
+    "worked": "Ós comença per o, era per e, illa per i, ungla per u i aigua per a. Ou és una paraula feta només de vocals. Les vocals són el cor de les paraules: sense elles no podem llegir.",
+    "exercises": [
+     "Digues les cinc vocals.",
+     "Escriu la A majúscula i la a minúscula.",
+     "Per quina vocal comença ungla?",
+     "Busca una paraula que comenci per e.",
+     "Posa la boca rodona i digues: o."
+    ],
+    "test": [
+     "Quantes vocals hi ha?",
+     "Per quina vocal comença ós?",
+     "Totes les paraules tenen vocal?",
+     "Per quina vocal comença illa?",
+     "Llegeix: ou, ai, aigua."
+    ],
+    "steps": [
+     "Les vocals són a, e, i, o, u: digues-les en ordre.",
+     "Mira la boca al mirall: amb la o es fa rodona, amb la i somriu.",
+     "Per trobar la vocal inicial, digues la paraula a poc a poc.",
+     "Compte: la e i la i es confonen; pronuncia bé i escolta."
+    ],
+    "answers": [
+     "Cinc.",
+     "o.",
+     "Sí.",
+     "i.",
+     "ou, ai, ai-gua."
+    ]
+   }
+  },
+  "eu-year-ad-beginner-1-l05": {
+   "ca": {
+    "title": "La m i la p: mama i pipa",
+    "theory": "Les consonants necessiten una vocal per sonar bé. M + a fa ma; p + o fa po. Aquestes unions s’anomenen síl·labes. Amb síl·labes formem paraules: ma-ma, pa-pa, pi-pa, po-ma.",
+    "sample": "ma me mi mo mu / pa pe pi po pu / La mama menja una poma. / En Pep pela un pomelo.",
+    "worked": "Llegim d’esquerra a dreta: primer la consonant, després la vocal. Poma té dues síl·labes: po-ma. Pep és un nom, per això comença amb majúscula. Cada frase acaba amb punt.",
+    "exercises": [
+     "Llegeix: ma, me, mi, mo, mu.",
+     "Llegeix: pa, pe, pi, po, pu.",
+     "Ajunta: po + ma.",
+     "Escriu la P majúscula.",
+     "Busca una paraula amb m."
+    ],
+    "test": [
+     "Què formen una consonant i una vocal juntes?",
+     "Què menja la mama?",
+     "Quantes síl·labes té poma?",
+     "Llegeix: mapa, puma, mimo.",
+     "Què pela en Pep?"
+    ],
+    "steps": [
+     "Digues el so de la consonant i tot seguit la vocal: m-a = ma.",
+     "Ajunta dues síl·labes i llegeix la paraula: po-ma.",
+     "Llegeix sempre d’esquerra a dreta.",
+     "Compte: pa i ap tenen les mateixes lletres, però l’ordre canvia la síl·laba."
+    ],
+    "answers": [
+     "Una síl·laba.",
+     "Una poma.",
+     "Dues: po-ma.",
+     "ma-pa, pu-ma, mi-mo.",
+     "Un pomelo."
+    ]
+   }
+  },
+  "eu-year-ad-beginner-1-l06": {
+   "ca": {
+    "title": "La l i la t: lupa i tomàquet",
+    "theory": "La l es diu amb la llengua tocant a dalt, darrere de les dents. La t es diu amb la punta de la llengua a les dents, sense veu. Paraules: lupa, tela, tomàquet, pota, Lola, Toni.",
+    "sample": "La Lola mira amb la lupa. / En Toni té una moto. / La pilota és a la taula.",
+    "worked": "Lola i Toni són noms: comencen amb majúscula. Lupa i Lola comencen per l; Toni, té i taula per t. Llegim cada frase a poc a poc i després més de pressa.",
+    "exercises": [
+     "Llegeix: la, le, li, lo, lu.",
+     "Llegeix: ta, te, ti, to, tu.",
+     "Llegeix: lupa, tela, pota.",
+     "Escriu la paraula moto.",
+     "Busca una paraula amb t."
+    ],
+    "test": [
+     "Amb què mira la Lola?",
+     "Què té en Toni?",
+     "On és la pilota?",
+     "Llegeix: pilota, tela, Tomàs.",
+     "Per què Lola porta majúscula?"
+    ],
+    "steps": [
+     "Per a la l, posa la llengua darrere de les dents de dalt.",
+     "Per a la t, toca les dents amb la punta de la llengua.",
+     "Llegeix la frase a poc a poc i després més de pressa.",
+     "Compte: la l i la t s’assemblen escrites; la t té una ratlleta que la travessa."
+    ],
+    "answers": [
+     "Amb la lupa.",
+     "Una moto.",
+     "A la taula.",
+     "pi-lo-ta, te-la, To-màs.",
+     "Perquè és el nom d’una persona."
+    ]
+   }
+  },
+  "eu-year-ad-beginner-1-l07": {
+   "ca": {
+    "title": "La n i la s: nas i sol",
+    "theory": "La n es diu amb la llengua a dalt i l’aire sortint pel nas. La s al principi de paraula sona com un xiulet: sol, sopa. Entre vocals, una sola s sona suau, com un brunzit: casa, rosa. Per al so fort entre vocals escrivim ss: tassa, massa.",
+    "sample": "La nena té el nas pintat. / El sol surt sobre la casa. / Beu llet en una tassa.",
+    "worked": "Nena i nas comencen per n. Sol, surt i sobre comencen amb s forta. Casa té una s suau entre vocals. Tassa té ss perquè la volem forta entre vocals. Una lletra pot sonar diferent segons el lloc.",
+    "exercises": [
+     "Llegeix: na, ne, ni, no, nu.",
+     "Llegeix: sa, se, si, so, su.",
+     "Llegeix: casa, rosa, cosa.",
+     "Llegeix: tassa, massa, pas.",
+     "Escriu la paraula sol."
+    ],
+    "test": [
+     "Com té el nas la nena?",
+     "On surt el sol?",
+     "En què beu llet?",
+     "La s de casa és forta o suau?",
+     "Llegeix: nena, sopa, posa."
+    ],
+    "steps": [
+     "Mira on és la s dins la paraula.",
+     "Al principi sona forta; entre vocals, sola, sona suau.",
+     "Per al so fort entre vocals escriu ss: tassa.",
+     "Compte: casa i cassa no són iguals; escolta bé el so abans d’escriure."
+    ],
+    "answers": [
+     "Pintat.",
+     "Sobre la casa.",
+     "En una tassa.",
+     "Suau.",
+     "ne-na, so-pa, po-sa."
+    ]
+   }
+  },
+  "eu-year-ad-beginner-1-l08": {
+   "ca": {
+    "title": "La d: dau i dit",
+    "theory": "La d es diu amb la punta de la llengua tocant les dents i amb veu. Paraules: dau, dit, dona, dimarts, moneda. Al final de paraula, la d sovint sona com una t: verd, fred.",
+    "sample": "En Dani té un dau. / La dona duu una moneda. / El prat és verd.",
+    "worked": "Dani, dau, dona i duu comencen per d. Moneda té una d entre vocals, suau. Verd s’escriu amb d al final, encara que soni com una t: si pensem en verda, sentim la d.",
+    "exercises": [
+     "Llegeix: da, de, di, do, du.",
+     "Llegeix: dau, dit, dona.",
+     "Escriu la paraula moneda.",
+     "Pensa en verda: com s’escriu verd?",
+     "Busca una paraula amb d."
+    ],
+    "test": [
+     "Què té en Dani?",
+     "Què duu la dona?",
+     "De quin color és el prat?",
+     "Llegeix: dimarts, dues, nedar.",
+     "Com acaba la paraula fred?"
+    ],
+    "steps": [
+     "Posa la punta de la llengua a les dents i fes veu: d.",
+     "Llegeix les síl·labes noves i ajunta-les: mo-ne-da.",
+     "Si la paraula acaba en so de t, pensa en una paraula de la mateixa família: verd – verda.",
+     "Compte: la d i la b es confonen; la d té la panxa a l’esquerra."
+    ],
+    "answers": [
+     "Un dau.",
+     "Una moneda.",
+     "Verd.",
+     "di-marts, du-es, ne-dar.",
+     "En d: fred."
+    ]
+   }
+  },
+  "eu-year-ad-beginner-1-l09": {
+   "ca": {
+    "title": "La r: rata i cara",
+    "theory": "La r té dos sons. Al principi de paraula i després de n, l, s sona forta: rata, roda, Enric. Entre vocals, una sola r sona suau: cara, pera. Per al so fort entre vocals escrivim rr: carro, torre.",
+    "sample": "La rata roda per la roca. / L’Enric menja una pera. / El carro passa per la torre.",
+    "worked": "Rata, roda i roca comencen amb r forta. Enric té r forta després de n. Pera té r suau entre vocals. Carro i torre tenen rr: sona forta entre vocals, per això escrivim dues r.",
+    "exercises": [
+     "Digues fort: rrrata.",
+     "Digues suau: pera, cara.",
+     "Llegeix: roda, riu, Rosa.",
+     "Escriu la paraula carro.",
+     "La r de cara és forta o suau?"
+    ],
+    "test": [
+     "Per on roda la rata?",
+     "Què menja l’Enric?",
+     "Per on passa el carro?",
+     "La r de rata és forta o suau?",
+     "Llegeix: rem, mira, terra."
+    ],
+    "steps": [
+     "Mira el lloc de la r.",
+     "Al principi o després de n, l, s sona forta.",
+     "Entre vocals sona suau. Per al so fort entre vocals escriu rr: carro.",
+     "Compte: cara i carra no són iguals; escolta bé abans d’escriure."
+    ],
+    "answers": [
+     "Per la roca.",
+     "Una pera.",
+     "Per la torre.",
+     "Forta.",
+     "rem, mi-ra, ter-ra."
+    ]
+   }
+  },
+  "eu-year-ad-beginner-1-l10": {
+   "ca": {
+    "title": "La c i la qu: casa i quatre",
+    "theory": "Amb a, o, u, la c sona forta: ca, co, cu. Davant de e, i, per tenir el mateix so fort escrivim qu i la u no sona: que, qui. Paraules: casa, conill, cuina, quatre, qui, paquet.",
+    "sample": "El conill corre cap a casa. / En Quim té quatre paquets. / Qui vol cuinar?",
+    "worked": "Conill, corre, casa i cuinar tenen c forta amb o, a, u. Quim i qui tenen qui, i paquets té que: la u no es llegeix. Quatre té qua i aquí la u sí que sona.",
+    "exercises": [
+     "Llegeix: ca, co, cu.",
+     "Llegeix: que, qui.",
+     "Llegeix: casa, cuina, quilo.",
+     "Escriu la paraula paquet.",
+     "Busca una paraula amb qu."
+    ],
+    "test": [
+     "Cap a on corre el conill?",
+     "Quants paquets té en Quim?",
+     "Com s’escriu el so ca davant de e?",
+     "Sona la u a qui?",
+     "Llegeix: coca, màquina, cucut."
+    ],
+    "steps": [
+     "Mira la vocal que va després del so k.",
+     "Amb a, o, u escriu c: casa, conill, cuina.",
+     "Amb e, i escriu qu: que, qui, i la u no la llegeixis.",
+     "Compte: no s’escriu ce per dir que; la paraula correcta és paquet, no pacet."
+    ],
+    "answers": [
+     "Cap a casa.",
+     "Quatre.",
+     "Amb qu: que.",
+     "No.",
+     "co-ca, mà-qui-na, cu-cut."
+    ]
+   }
+  },
+  "eu-year-ad-beginner-1-l11": {
+   "ca": {
+    "title": "La g i la gu: gat i guitarra",
+    "theory": "Amb a, o, u, la g sona suau: ga, go, gu. Davant de e, i, per tenir aquest so escrivim gu i la u no sona: gue, gui. Paraules: gat, goma, gust, guerra, guitarra, Guillem.",
+    "sample": "El gat juga amb la goma. / En Guillem toca la guitarra. / Quin gust té la sopa?",
+    "worked": "Gat i goma tenen g amb a, o. Gust té gu i la u sí que sona. Guillem i guitarra tenen gui: la u no es llegeix, però fa que la g soni com a gat.",
+    "exercises": [
+     "Llegeix: ga, go, gu.",
+     "Llegeix: gue, gui.",
+     "Llegeix: gat, goma, guix.",
+     "Escriu la paraula guitarra.",
+     "Busca una paraula amb gui."
+    ],
+    "test": [
+     "Amb què juga el gat?",
+     "Què toca en Guillem?",
+     "Com s’escriu el so ga davant de i?",
+     "Sona la u a guitarra?",
+     "Llegeix: gota, guerra, agulla."
+    ],
+    "steps": [
+     "Mira la vocal que va després del so g.",
+     "Amb a, o, u escriu g: gat, goma.",
+     "Amb e, i escriu gu: guerra, guitarra, i no llegeixis la u.",
+     "Compte: girafa no porta u, perquè ge, gi sonen diferent; ho veurem a la lliçó de la j."
+    ],
+    "answers": [
+     "Amb la goma.",
+     "La guitarra.",
+     "Amb gu: gui.",
+     "No.",
+     "go-ta, guer-ra, a-gu-lla."
+    ]
+   }
+  },
+  "eu-year-ad-beginner-1-l12": {
+   "ca": {
+    "title": "La j i la g: jardí i girafa",
+    "theory": "Amb a, o, u escrivim j: jardí, joc, juny. Davant de e, i, el mateix so normalment s’escriu amb g: gent, gelat, girafa. Algunes paraules porten j davant de e: jersei, Jesús. Les aprenem de memòria.",
+    "sample": "La girafa menja fulles al jardí. / La gent juga al parc. / Al juny mengem gelats.",
+    "worked": "Jardí, juga i juny tenen j davant de a, u. Girafa, gent i gelats tenen g davant de e, i, i sonen igual que la j. Per escriure-les bé hem de recordar quina lletra porta cada paraula.",
+    "exercises": [
+     "Llegeix: ja, jo, ju.",
+     "Llegeix: ge, gi.",
+     "Llegeix: jardí, gelat, girafa.",
+     "Escriu la paraula joguina.",
+     "Llegeix: jersei, Jesús."
+    ],
+    "test": [
+     "Què menja la girafa?",
+     "On juga la gent?",
+     "Què mengem al juny?",
+     "Com sona la g de gelat?",
+     "Llegeix: jaqueta, regle, gimnàs."
+    ],
+    "steps": [
+     "Mira la vocal que segueix.",
+     "Amb a, o, u escriu j: jardí, joc, juny.",
+     "Amb e, i normalment escriu g: gent, girafa; recorda les excepcions com jersei.",
+     "Compte: girafa s’escriu amb g; jirafa és una falta."
+    ],
+    "answers": [
+     "Fulles.",
+     "Al parc.",
+     "Gelats.",
+     "Com la j.",
+     "ja-que-ta, re-gle, gim-nàs."
+    ]
+   }
+  },
+  "eu-year-ad-beginner-1-l13": {
+   "ca": {
+    "title": "La b i la v: barca i vaca",
+    "theory": "En molts llocs on es parla català, com a Andorra, la b i la v sonen igual, i en altres llocs la v es pronuncia amb les dents sobre el llavi. Per això cal aprendre com s’escriu cada paraula. Paraules: barca, bota, bou, vaca, vela, avi.",
+    "sample": "La vaca beu aigua. / L’avi va en barca. / La vela és blava.",
+    "worked": "Barca, bou i bota s’escriuen amb b; vaca, vela i avi amb v. Blava porta b i també v. Quan dubtem, pensem en una paraula de la mateixa família: blau – blava.",
+    "exercises": [
+     "Llegeix: ba, be, bi, bo, bu.",
+     "Llegeix: va, ve, vi, vo, vu.",
+     "Llegeix: barca, vaca, avi.",
+     "Escriu la paraula vela.",
+     "Busca una paraula amb b."
+    ],
+    "test": [
+     "Què beu la vaca?",
+     "Com va l’avi?",
+     "De quin color és la vela?",
+     "Llegeix: bici, vint, cabra.",
+     "Amb quina lletra s’escriu vaca?"
+    ],
+    "steps": [
+     "Escolta la paraula, però recorda que el so no sempre diu quina lletra és.",
+     "Pensa en paraules de la mateixa família: blau – blava.",
+     "Si tens dubtes, mira-ho al diccionari o pregunta.",
+     "Compte: no confonguis la b amb la d; la b té la panxa a la dreta."
+    ],
+    "answers": [
+     "Aigua.",
+     "En barca.",
+     "Blava.",
+     "bi-ci, vint, ca-bra.",
+     "Amb v."
+    ]
+   }
+  },
+  "eu-year-ad-beginner-1-l14": {
+   "ca": {
+    "title": "La f i la z: foca i zebra",
+    "theory": "La f es diu amb les dents de dalt sobre el llavi de baix i només surt aire. La z sona com un brunzit: zzz. Paraules: foca, fil, fada, zebra, zero, onze.",
+    "sample": "La foca neda al mar. / La zebra té ratlles. / La fada compta fins a onze.",
+    "worked": "Foca, fada i fil comencen per f. Zebra i zero comencen per z. Onze té una z entre vocals. La z sempre sona amb brunzit, com quan imitem una abella.",
+    "exercises": [
+     "Llegeix: fa, fe, fi, fo, fu.",
+     "Llegeix: za, ze, zi, zo, zu.",
+     "Llegeix: foca, zebra, zero.",
+     "Escriu la paraula fada.",
+     "Divideix en síl·labes: zebra."
+    ],
+    "test": [
+     "On neda la foca?",
+     "Què té la zebra?",
+     "Fins a quin número compta la fada?",
+     "Llegeix: fulla, dotze, fum.",
+     "Quantes síl·labes té zebra?"
+    ],
+    "steps": [
+     "Per a la f, posa les dents de dalt sobre el llavi i deixa sortir l’aire.",
+     "Per a la z, fes un brunzit com una abella.",
+     "Llegeix les paraules separades en síl·labes: ze-bra.",
+     "Compte: la s entre vocals també sona suau (casa); la z s’escriu en paraules com zero, onze, dotze."
+    ],
+    "answers": [
+     "Al mar.",
+     "Ratlles.",
+     "Fins a onze.",
+     "fu-lla, dot-ze, fum.",
+     "Dues: ze-bra."
+    ]
+   }
+  },
+  "eu-year-ad-beginner-1-l15": {
+   "ca": {
+    "title": "La h: hora i herba",
+    "theory": "La h no sona: és muda. Però l’hem d’escriure en algunes paraules: hora, home, herba, hivern, hospital. Davant de la h fem l’apòstrof com davant de vocal: l’hora, l’home.",
+    "sample": "A l’hivern l’herba és freda. / L’home mira l’hora. / L’hospital és a prop.",
+    "worked": "Hivern, herba, home, hora i hospital comencen per h, però no la diem. Escrivim l’hivern, l’herba i l’home amb apòstrof perquè la h és muda i al darrere hi ha vocal.",
+    "exercises": [
+     "Llegeix: hora, home, herba.",
+     "Escriu la paraula hivern.",
+     "Busca a l’exemple les paraules amb h.",
+     "Escriu amb apòstrof: la hora.",
+     "Sona la h a hospital?"
+    ],
+    "test": [
+     "Què mira l’home?",
+     "Com és l’herba a l’hivern?",
+     "On és l’hospital?",
+     "Llegeix: hotel, humit, ahir.",
+     "Com escrivim la + hora?"
+    ],
+    "steps": [
+     "La h no sona, però s’escriu: cal aprendre les paraules.",
+     "Davant de h fes l’apòstrof com davant de vocal: l’hora.",
+     "Mira bé la paraula escrita i copia-la diverses vegades.",
+     "Compte: ora sense h és una falta; recorda hora, home, herba."
+    ],
+    "answers": [
+     "L’hora.",
+     "Freda.",
+     "A prop.",
+     "ho-tel, hu-mit, a-hir.",
+     "L’hora."
+    ]
+   }
+  },
+  "eu-year-ad-beginner-1-l16": {
+   "ca": {
+    "title": "La ny: canya i any",
+    "theory": "La ny són dues lletres que fan un sol so, com a canya. Paraules: canya, muntanya, senyal, pinya, any, bany. Quan separem síl·labes, la ny no es parteix: ca-nya.",
+    "sample": "A la muntanya hi ha una aranya. / La nena menja pinya. / Aquest any farem un bany al mar.",
+    "worked": "Muntanya, aranya, pinya, any i bany tenen ny. Llegim les dues lletres juntes com un sol so. En separar síl·labes escrivim mun-ta-nya, a-ra-nya.",
+    "exercises": [
+     "Llegeix: nya, nye, nyi, nyo, nyu.",
+     "Llegeix: canya, pinya, bany.",
+     "Escriu la paraula muntanya.",
+     "Divideix en síl·labes: aranya.",
+     "Busca una altra paraula amb ny."
+    ],
+    "test": [
+     "On hi ha l’aranya?",
+     "Què menja la nena?",
+     "On farem un bany?",
+     "Quantes lletres té la ny?",
+     "Llegeix: banyera, senyor, castanya."
+    ],
+    "steps": [
+     "Quan vegis n i y juntes, llegeix-les com un sol so.",
+     "En separar síl·labes, deixa la ny junta: pi-nya.",
+     "Llegeix a poc a poc i després més de pressa.",
+     "Compte: no escriguis pinia; la paraula correcta és pinya."
+    ],
+    "answers": [
+     "A la muntanya.",
+     "Pinya.",
+     "Al mar.",
+     "Dues, però fan un sol so.",
+     "Ca-ta-lu-nya, ba-nye-ra, se-nyor."
+    ]
+   }
+  },
+  "eu-year-ad-beginner-1-l17": {
+   "ca": {
+    "title": "La ll i la l·l: lluna i col·legi",
+    "theory": "La ll són dues lletres que fan un sol so, com a lluna, cavall, ull. La l·l (ela geminada) és diferent: es diu com dues l separades i porta un punt volat al mig: col·legi, il·lusió, pel·lícula.",
+    "sample": "La lluna brilla sobre el cavall. / Anem al col·legi amb il·lusió. / Veiem una pel·lícula.",
+    "worked": "Lluna, brilla i cavall tenen ll: un sol so. Col·legi, il·lusió i pel·lícula tenen l·l: dues l amb el punt volat. En separar síl·labes, la ll va junta (llu-na) i la l·l es parteix (col-le-gi).",
+    "exercises": [
+     "Llegeix: lla, lle, lli, llo, llu.",
+     "Llegeix: cavall, ull, poll.",
+     "Llegeix: col·legi, il·lusió.",
+     "Escriu la paraula lluna.",
+     "Divideix en síl·labes: col·legi."
+    ],
+    "test": [
+     "On brilla la lluna?",
+     "On anem amb il·lusió?",
+     "Què veiem?",
+     "Quantes síl·labes té lluna?",
+     "Llegeix: llibre, gallina, pel·lícula."
+    ],
+    "steps": [
+     "Si veus ll, llegeix-la com un sol so: lluna.",
+     "Si veus l·l amb el punt volat, llegeix dues l: col-le-gi.",
+     "Escriu el punt volat a mitja altura, entre les dues l.",
+     "Compte: no escriguis col.legi amb un punt a baix; el punt volat va al mig."
+    ],
+    "answers": [
+     "Sobre el cavall.",
+     "Al col·legi.",
+     "Una pel·lícula.",
+     "Dues: llu-na.",
+     "lli-bre, ga-lli-na, pel-lí-cu-la."
+    ]
+   }
+  },
+  "eu-year-ad-beginner-1-l18": {
+   "ca": {
+    "title": "La x, la ix i la tx: xai, caixa i cotxe",
+    "theory": "La x al principi de paraula sona com un xiulet suau: xai, xocolata. Després de vocal escrivim ix: caixa, peix. El so més fort s’escriu tx: cotxe, cotxet. Al final de paraula, ig també fa aquest so fort: maig, roig. A taxi, la x sona ks.",
+    "sample": "El xai menja xocolata? No! / El peix és dins la caixa. / El cotxe és roig.",
+    "worked": "Xai i xocolata comencen per x. Peix i caixa tenen ix després de vocal. Cotxe té tx, que sona més fort. Roig acaba en ig i sona com tx. Cada so té la seva manera d’escriure’s.",
+    "exercises": [
+     "Llegeix: xai, xocolata, xiulet.",
+     "Llegeix: caixa, peix, coixí.",
+     "Llegeix: cotxe, cotxet.",
+     "Llegeix: maig, roig, faig.",
+     "Escriu la paraula peix."
+    ],
+    "test": [
+     "On és el peix?",
+     "De quin color és el cotxe?",
+     "Com sona la x a taxi?",
+     "Com s’escriu el so després de vocal a caixa?",
+     "Llegeix: xarop, guix, despatx."
+    ],
+    "steps": [
+     "Al principi de paraula escriu x: xai.",
+     "Després de vocal escriu ix: caixa; si és el so fort, tx: cotxe.",
+     "Al final de paraula, el so fort pot ser ig: maig.",
+     "Compte: peix s’escriu amb ix, no amb x sola ni amb tx."
+    ],
+    "answers": [
+     "Dins la caixa.",
+     "Roig.",
+     "Com ks.",
+     "Amb ix.",
+     "xa-rop, guix, des-patx."
+    ]
+   }
+  },
+  "eu-year-ad-beginner-1-l19": {
+   "ca": {
+    "title": "La ç: plaça i braç",
+    "theory": "La c davant de e, i sona com una s: cel, ciutat. Per tenir aquest so davant de a, o, u escrivim ç (ce trencada): plaça, cançó, forçut. També la trobem al final d’algunes paraules: braç, feliç, dolç.",
+    "sample": "A la plaça cantem una cançó. / El cel és clar. / La nena feliç aixeca el braç.",
+    "worked": "Plaça i cançó porten ç davant de a i o. Cel porta c davant de e: no cal ç. Feliç i braç porten ç al final. La ce trencada mai va davant de e ni de i.",
+    "exercises": [
+     "Llegeix: ce, ci.",
+     "Llegeix: ça, ço, çu.",
+     "Llegeix: plaça, cançó, braç.",
+     "Escriu la paraula feliç.",
+     "Busca una paraula amb ce."
+    ],
+    "test": [
+     "On cantem?",
+     "Què cantem?",
+     "Com és el cel?",
+     "Davant de quines vocals escrivim ç?",
+     "Llegeix: ciutat, caçador, dolç."
+    ],
+    "steps": [
+     "Mira la vocal que segueix el so s.",
+     "Amb e, i escriu c: cel, ciutat.",
+     "Amb a, o, u o al final escriu ç: plaça, cançó, braç.",
+     "Compte: mai escriguis ç davant de e o i: s’escriu cel, no çel."
+    ],
+    "answers": [
+     "A la plaça.",
+     "Una cançó.",
+     "Clar.",
+     "Davant de a, o, u.",
+     "ciu-tat, ca-ça-dor, dolç."
+    ]
+   }
+  },
+  "eu-year-ad-beginner-1-l20": {
+   "ca": {
+    "title": "La dièresi: pingüí i veïna",
+    "theory": "La dièresi són dos punts sobre la u o la i. Sobre la u, ens diu que la u sona: pingüí, aigües. Sobre la i, ens diu que la i va en una síl·laba a part: veïna, raïm.",
+    "sample": "El pingüí neda a les aigües fredes. / La veïna menja raïm.",
+    "worked": "A pingüí, sense els dos punts no llegiríem la u (com a guitarra). A veïna i raïm, la i fa síl·laba a part: ve-ï-na, ra-ïm. Els dos punts canvien com llegim la paraula.",
+    "exercises": [
+     "Llegeix: pingüí, aigües.",
+     "Llegeix: veïna, raïm, país.",
+     "Divideix en síl·labes: veïna.",
+     "Escriu la paraula pingüí.",
+     "Sona la u a guitarra?"
+    ],
+    "test": [
+     "On neda el pingüí?",
+     "Què menja la veïna?",
+     "Què ens diu la dièresi sobre la u?",
+     "Quantes síl·labes té raïm?",
+     "Llegeix: llengües, cançoneta, oïda."
+    ],
+    "steps": [
+     "Mira si hi ha dos punts sobre la u o la i.",
+     "Sobre la u: llegeix la u (pingüí).",
+     "Sobre la i: separa-la en una altra síl·laba (ve-ï-na).",
+     "Compte: sense dièresi, pinguí es llegiria pin-gui sense u."
+    ],
+    "answers": [
+     "A les aigües fredes.",
+     "Raïm.",
+     "Que la u sona.",
+     "Dues: ra-ïm.",
+     "llen-gües, can-ço-ne-ta, o-ï-da."
+    ]
+   }
+  },
+  "eu-year-ad-beginner-1-l21": {
+   "ca": {
+    "title": "Els accents: cafè i cançó",
+    "theory": "Algunes paraules porten accent. L’accent obert, o greu (`), va sobre a, e, o: mamà, cafè, això. L’accent tancat, o agut (´), va sobre e, i, o, u: també, camí, cançó, ningú. L’accent ens diu on la veu sona més forta.",
+    "sample": "La mamà beu cafè. / El camió va pel camí. / Cantem una cançó també.",
+    "worked": "Mamà i cafè porten accent obert. Camí, cançó i també porten accent tancat. Camió porta accent tancat a la o. Sense accent, algunes paraules es llegirien malament.",
+    "exercises": [
+     "Llegeix: mamà, cafè, això.",
+     "Llegeix: camí, cançó, ningú.",
+     "Posa l’accent: cafe.",
+     "Quin accent porta la a?",
+     "Escriu la paraula camió."
+    ],
+    "test": [
+     "Què beu la mamà?",
+     "Per on va el camió?",
+     "Quin accent porta cafè?",
+     "Llegeix: sofà, matí, botó.",
+     "Quin accent porta la i?"
+    ],
+    "steps": [
+     "Digues la paraula i escolta on la veu sona més forta.",
+     "A la a sempre posa accent obert (à); a la i i la u, tancat (í, ú).",
+     "A la e i la o, mira si sona oberta (è, ò) o tancada (é, ó).",
+     "Compte: sense accent la paraula pot canviar o llegir-se malament: mama i mamà no sonen igual."
+    ],
+    "answers": [
+     "Cafè.",
+     "Pel camí.",
+     "Accent obert.",
+     "so-fà, ma-tí, bo-tó.",
+     "Accent tancat."
+    ]
+   }
+  },
+  "eu-year-ad-beginner-1-l22": {
+   "ca": {
+    "title": "L’apòstrof: l’avi i l’escola",
+    "theory": "Davant d’una paraula que comença per vocal o per h, el i la sovint es fan l’ (amb apòstrof): l’avi, l’escola, l’hora. També de es fa d’: got d’aigua. L’apòstrof és una coma petita a dalt.",
+    "sample": "L’avi porta la néta a l’escola. / Bec un got d’aigua a l’hora de dinar.",
+    "worked": "L’avi i l’escola porten apòstrof perquè avi i escola comencen per vocal. L’hora porta apòstrof perquè la h no sona. D’aigua: de es fa d’ davant de vocal. La néta no porta apòstrof perquè néta comença per n.",
+    "exercises": [
+     "Escriu amb apòstrof: el avi.",
+     "Escriu amb apòstrof: la escola.",
+     "Escriu amb apòstrof: de aigua.",
+     "Porta apòstrof la taula?",
+     "Escriu amb apòstrof: el hivern."
+    ],
+    "test": [
+     "On porta l’avi la néta?",
+     "Què bec a l’hora de dinar?",
+     "Per què escrivim l’hora?",
+     "Escriu amb apòstrof: el ós.",
+     "Porta apòstrof la néta?"
+    ],
+    "steps": [
+     "Mira com comença la paraula que ve després de el, la o de.",
+     "Si comença per vocal o h, escriu l’ o d’.",
+     "Escriu l’apòstrof a dalt, com una coma petita.",
+     "Compte: davant de consonant no es fa apòstrof: la taula, no l’taula."
+    ],
+    "answers": [
+     "A l’escola.",
+     "Un got d’aigua.",
+     "Perquè la h no sona i hora comença amb so de vocal.",
+     "L’ós.",
+     "No."
+    ]
+   }
+  },
+  "eu-year-ad-beginner-1-l23": {
+   "ca": {
+    "title": "Separem les paraules en síl·labes",
+    "theory": "Les síl·labes són els trossets de paraula que diem d’un sol cop. Cada síl·laba té almenys una vocal. La ny i la ll no es parteixen (ca-nya, llu-na). La rr, la ss, la l·l i la tx sí que es parteixen: car-ro, tas-sa, col-le-gi, cot-xe.",
+    "sample": "ca-sa, po-ma, pa-pa-llo-na, car-ro, ca-nya, cot-xe",
+    "worked": "Casa té dues síl·labes, papallona en té quatre. A carro separem les dues r. A canya deixem la ny junta. A cotxe separem la t de la x. Picar de mans ens ajuda a comptar.",
+    "exercises": [
+     "Pica de mans i separa: pilota.",
+     "Separa en síl·labes: tomàquet.",
+     "Separa: tassa.",
+     "Compta les síl·labes de papallona.",
+     "Separa: gallina."
+    ],
+    "test": [
+     "Quantes síl·labes té casa?",
+     "Com se separa carro?",
+     "Com se separa canya?",
+     "Quantes síl·labes té pilota?",
+     "Totes les síl·labes tenen vocal?"
+    ],
+    "steps": [
+     "Digues la paraula i pica de mans a cada tros.",
+     "Compta els cops: són les síl·labes.",
+     "Rr, ss, l·l i tx es parteixen; ny i ll van juntes.",
+     "Compte: una consonant sola no fa síl·laba; cal una vocal."
+    ],
+    "answers": [
+     "Dues: ca-sa.",
+     "car-ro.",
+     "ca-nya.",
+     "Tres: pi-lo-ta.",
+     "Sí."
+    ]
+   }
+  },
+  "eu-year-ad-beginner-1-l24": {
+   "ca": {
+    "title": "La majúscula",
+    "theory": "Escrivim amb majúscula la primera lletra de la frase i els noms propis: noms de persones, d’animals amb nom, de ciutats, rius i països. Els noms comuns s’escriuen amb minúscula. Els dies de la setmana i els mesos van amb minúscula.",
+    "sample": "La Núria i el gos Rufus viuen a Andorra la Vella, a prop del riu Valira.",
+    "worked": "Núria, Rufus, Andorra la Vella i Valira són noms propis: porten majúscula. Gos i riu són noms comuns. La frase comença amb majúscula. Davant de la Núria posem l’article la.",
+    "exercises": [
+     "Busca els noms propis de l’exemple.",
+     "Escriu el nom del teu poble o ciutat.",
+     "Escriu el nom d’un amic.",
+     "Corregeix: encamp és una parròquia.",
+     "Gos porta majúscula?"
+    ],
+    "test": [
+     "Com es diu el gos de la Núria?",
+     "On viuen?",
+     "Quin riu hi ha a prop?",
+     "Escriu bé: en jordi viu a canillo",
+     "Quan fem servir la majúscula?"
+    ],
+    "steps": [
+     "Pregunta’t: és el nom d’algú o d’un lloc concret?",
+     "Si ho és, escriu-lo amb majúscula.",
+     "Fes servir també majúscula al començament de cada frase.",
+     "Compte: dilluns i gener s’escriuen amb minúscula en català."
+    ],
+    "answers": [
+     "Rufus.",
+     "A Andorra la Vella.",
+     "La Valira.",
+     "En Jordi viu a Canillo.",
+     "Al començament de la frase i en els noms propis."
+    ]
+   }
+  },
+  "eu-year-ad-beginner-1-l25": {
+   "ca": {
+    "title": "El nom i l’article: el gat, els gats",
+    "theory": "Els noms serveixen per anomenar persones, animals i coses. Davant del nom sovint hi ha un article: el, la, els, les, un, una. Els noms poden ser masculins (el nen) o femenins (la nena) i estar en singular (gat) o en plural (gats).",
+    "sample": "El gat dorm. Els gats dormen. La nena llegeix un llibre. Les nenes llegeixen uns llibres.",
+    "worked": "Gat està en singular i gats en plural: hi afegim s. Nena és femení i porta la; nen és masculí i porta el. En plural fem servir els i les.",
+    "exercises": [
+     "Posa l’article: ___ taula.",
+     "Escriu el plural de gos.",
+     "Escriu el femení de nen.",
+     "Posa l’article: ___ sol.",
+     "Escriu el plural de flor."
+    ],
+    "test": [
+     "Quin és el plural de gat?",
+     "Quin article va amb nena?",
+     "Gats és singular o plural?",
+     "Escriu el plural de llapis.",
+     "Quin article va amb llibres?"
+    ],
+    "steps": [
+     "Pregunta’t: és un o en són molts? Un: singular. Molts: plural.",
+     "En plural afegeix s: gats, flors. Gos fa gossos.",
+     "Tria l’article: el, la (un); els, les (molts).",
+     "Compte: l’article ha de concordar amb el nom: les flors, no els flors."
+    ],
+    "answers": [
+     "Gats.",
+     "la.",
+     "Plural.",
+     "Llapis (no canvia).",
+     "els."
+    ]
+   }
+  },
+  "eu-year-ad-beginner-1-l26": {
+   "ca": {
+    "title": "El poema i la cançó popular",
+    "theory": "Un poema està fet de versos, que són les línies. Sovint les paraules del final dels versos rimen. Les cançons i les dites populars es repeteixen per jugar i aprendre-les de memòria. Llegim a poc a poc, amb una pausa al final de cada vers.",
+    "sample": "Poema original: / Per la finestra entra el sol, / el gat s’adorm sobre el llençol. / El grill canta al jardí, / la flor s’obre només per a mi.",
+    "worked": "El poema té quatre versos. Sol rima amb llençol, i jardí rima amb mi. Per dir el poema, llegim amb calma i fem una pausa al final de cada vers.",
+    "exercises": [
+     "Llegeix el poema en veu alta.",
+     "Busca la rima de sol.",
+     "Aprèn-te els dos primers versos.",
+     "Dibuixa el jardí del poema.",
+     "Busca una rima per a mar."
+    ],
+    "test": [
+     "Quants versos té el poema?",
+     "On s’adorm el gat?",
+     "Què és un vers?",
+     "On canta el grill?",
+     "Busca una rima per a lluna."
+    ],
+    "steps": [
+     "Llegeix el poema línia a línia.",
+     "Mira l’última paraula de cada vers i busca les que sonen igual.",
+     "Per aprendre-te’l, repeteix dos versos cada vegada.",
+     "Compte: digues el poema a poc a poc i amb pauses; no és una cursa."
+    ],
+    "answers": [
+     "Quatre.",
+     "Sobre el llençol.",
+     "Una línia del poema.",
+     "Al jardí.",
+     "La teva resposta. Per exemple: duna, cap ni una."
+    ]
+   }
+  },
+  "eu-year-ad-beginner-1-l27": {
+   "ca": {
+    "title": "La rondalla tradicional: En Patufet",
+    "theory": "Les rondalles es van explicant d’avis a néts. En Patufet és una rondalla catalana molt coneguda. Expliquem la història en ordre: al principi, després, al final.",
+    "sample": "Explicada amb paraules nostres: En Patufet era tan petit que, quan anava a comprar, cantava perquè la gent no el trepitgés. Un dia de pluja es va amagar sota una col i un bou se’l va menjar. Els seus pares el buscaven cridant: Patufet, on ets? I ell va respondre que era a la panxa del bou, on no hi neva ni hi plou.",
+    "worked": "Els personatges són en Patufet, els seus pares i el bou. Al principi veiem que és molt petit, després s’amaga sota la col i el bou se’l menja, i al final els pares el troben. La història és divertida i ens parla d’un nen petit però molt valent.",
+    "exercises": [
+     "Digues els personatges de la rondalla.",
+     "Explica el principi de la història.",
+     "Dibuixa en Patufet sota la col.",
+     "Per què cantava en Patufet?",
+     "Explica el final de la història."
+    ],
+    "test": [
+     "Com era en Patufet?",
+     "On es va amagar quan plovia?",
+     "Qui se’l va menjar?",
+     "Què cridaven els pares?",
+     "Què és una rondalla?"
+    ],
+    "steps": [
+     "Busca els personatges: qui hi surt?",
+     "Explica-la en ordre: al principi, després, al final.",
+     "Digues què t’ha agradat de la història.",
+     "Compte: no canviïs l’ordre dels fets, perquè llavors la història no s’entén."
+    ],
+    "answers": [
+     "Molt petit.",
+     "Sota una col.",
+     "Un bou.",
+     "Patufet, on ets?",
+     "Una història tradicional que s’explica de generació en generació."
+    ]
+   }
+  },
+  "eu-year-ad-beginner-1-l28": {
+   "ca": {
+    "title": "La faula: La llebre i la tortuga",
+    "theory": "La faula és una història curta amb animals que parlen i es comporten com persones. Al final hi ha una lliçó, la moralitat. Moltes faules antigues són d’Isop.",
+    "sample": "Explicada amb paraules nostres: La llebre es reia de la tortuga perquè era molt lenta. Van fer una cursa. La llebre va córrer molt i, com que anava tan avançada, es va adormir sota un arbre. La tortuga va continuar a poc a poc sense parar i va arribar primer.",
+    "worked": "La llebre és ràpida però presumida. La tortuga és lenta però constant. La moralitat: qui treballa sense parar arriba lluny, i no hem de riure’ns dels altres.",
+    "exercises": [
+     "Explica la faula amb paraules teves.",
+     "Dibuixa la llebre adormida.",
+     "Com és la tortuga?",
+     "Digues la moralitat amb paraules teves.",
+     "Inventa un altre final."
+    ],
+    "test": [
+     "Qui són els personatges?",
+     "Per què es reia la llebre?",
+     "Què va fer la llebre durant la cursa?",
+     "Qui va guanyar?",
+     "Què és la moralitat?"
+    ],
+    "steps": [
+     "Busca els personatges: la llebre i la tortuga.",
+     "Explica què va fer cadascuna durant la cursa.",
+     "Busca la moralitat: què ens ensenya?",
+     "Compte: a la faula els animals parlen, però representen la manera de fer de les persones."
+    ],
+    "answers": [
+     "La llebre i la tortuga.",
+     "Perquè la tortuga era molt lenta.",
+     "Es va adormir sota un arbre.",
+     "La tortuga.",
+     "La lliçó de la faula."
+    ]
+   }
+  },
+  "eu-year-ad-beginner-1-l29": {
+   "ca": {
+    "title": "Endevinalles i embarbussaments",
+    "theory": "L’endevinalla descriu una cosa sense dir-ne el nom. Escoltem totes les pistes i busquem la resposta. Els embarbussaments són frases difícils de dir de pressa: juguem a dir-les sense equivocar-nos.",
+    "sample": "Endevinalla original: Tinc agulles però no cuso, faig tic-tac tot el dia. (el rellotge) / Embarbussament popular: Setze jutges d’un jutjat mengen fetge d’un penjat.",
+    "worked": "Les pistes són les agulles i el tic-tac: la resposta és el rellotge. L’embarbussament és difícil perquè hi ha molts sons semblants: setze, jutges, jutjat, fetge, penjat. El diem a poc a poc i després més de pressa.",
+    "exercises": [
+     "Endevina: Té dents però no menja. (la pinta)",
+     "Digues l’embarbussament tres vegades.",
+     "Inventa una endevinalla sobre el sol.",
+     "Quines paraules de l’embarbussament s’assemblen?",
+     "Fes una endevinalla a un company."
+    ],
+    "test": [
+     "Què és una endevinalla?",
+     "Quina és la resposta de l’endevinalla de l’exemple?",
+     "Per què és difícil l’embarbussament?",
+     "Inventa una endevinalla sobre la lluna.",
+     "Quantes paraules de l’embarbussament acaben en -at?"
+    ],
+    "steps": [
+     "Escolta totes les pistes.",
+     "Pregunta’t: quina cosa té tot això?",
+     "Comprova la resposta amb cada pista.",
+     "Compte: no responguis a la primera pista; escolta fins al final."
+    ],
+    "answers": [
+     "Una descripció d’una cosa sense dir-ne el nom.",
+     "El rellotge.",
+     "Perquè hi ha molts sons semblants seguits.",
+     "La teva resposta. Per exemple: Surto de nit i de vegades soc rodona i de vegades primeta. (la lluna)",
+     "Dues: jutjat i penjat."
+    ]
+   }
+  },
+  "eu-year-ad-beginner-1-l30": {
+   "ca": {
+    "title": "El text informatiu: el dofí",
+    "theory": "El text informatiu dona informació vertadera sobre un tema. No explica una història inventada. Llegim amb atenció i busquem les respostes al text.",
+    "sample": "El dofí viu al mar. No és un peix: és un mamífer i respira aire. Menja peixos i viu en grup.",
+    "worked": "El text diu on viu el dofí, què és, què menja i com viu. Són informacions vertaderes. El dofí respira aire i per això puja a la superfície de l’aigua.",
+    "exercises": [
+     "Llegeix el text dues vegades.",
+     "Subratlla què menja el dofí.",
+     "Dibuixa un dofí al mar.",
+     "Explica la paraula mamífer amb l’ajuda d’un adult.",
+     "Fes una pregunta sobre el dofí."
+    ],
+    "test": [
+     "On viu el dofí?",
+     "El dofí és un peix?",
+     "Què menja el dofí?",
+     "El text informatiu és inventat?",
+     "Quantes frases té el text?"
+    ],
+    "steps": [
+     "Llegeix la pregunta i troba la paraula més important, per exemple menja.",
+     "Busca aquesta paraula al text.",
+     "La resposta sol estar a la mateixa frase.",
+     "Compte: respon només amb el que diu el text; no t’ho inventis."
+    ],
+    "answers": [
+     "Al mar.",
+     "No, és un mamífer.",
+     "Peixos.",
+     "No, dona informació vertadera.",
+     "Tres."
+    ]
+   }
+  },
+  "eu-year-ad-beginner-1-l31": {
+   "ca": {
+    "title": "La frase i els signes de puntuació",
+    "theory": "La frase és un conjunt de paraules amb sentit. Comença amb majúscula. Si explica alguna cosa, acaba amb punt. Si pregunta, acaba amb signe d’interrogació (?). Si mostra emoció, acaba amb signe d’exclamació (!). En català només els posem al final.",
+    "sample": "Avui fa sol. Vens amb mi al parc? Quin dia més bonic!",
+    "worked": "La primera frase explica: punt. La segona pregunta: signe d’interrogació al final. La tercera mostra alegria: signe d’exclamació al final. Totes comencen amb majúscula.",
+    "exercises": [
+     "Posa el signe: Com et dius",
+     "Posa el signe: Tinc un gos",
+     "Escriu una pregunta per a la mestra.",
+     "Escriu una frase amb signe d’exclamació.",
+     "Compta les frases de l’exemple."
+    ],
+    "test": [
+     "Amb quin signe acaba una pregunta?",
+     "Amb quina lletra comença una frase?",
+     "Escriu bé: avui plou",
+     "Quina frase de l’exemple mostra alegria?",
+     "Quantes frases hi ha a l’exemple?"
+    ],
+    "steps": [
+     "Pregunta’t: la frase explica, pregunta o mostra emoció?",
+     "Explica: punt. Pregunta: ? Emoció: !",
+     "La primera lletra sempre va en majúscula.",
+     "Compte: en català no es posa el signe d’interrogació al principi, només al final."
+    ],
+    "answers": [
+     "Amb signe d’interrogació.",
+     "Amb majúscula.",
+     "Avui plou.",
+     "Quin dia més bonic!",
+     "Tres."
+    ]
+   }
+  },
+  "eu-year-ad-beginner-1-l32": {
+   "ca": {
+    "title": "Escrivim frases sobre una imatge",
+    "theory": "Mirem una imatge i fem preguntes: Qui hi surt? Què fa? On és? Quan passa? Després escrivim dues o tres frases amb majúscula al principi i un signe al final.",
+    "sample": "Imatge: un nen fa un ninot de neu. / Frases: El nen fa un ninot de neu. És hivern. El ninot té una pastanaga al nas.",
+    "worked": "Hem escrit tres frases. La primera diu qui hi surt i què fa. La segona diu quan. La tercera afegeix un detall. Així el text queda clar.",
+    "exercises": [
+     "Mira per la finestra i escriu una frase.",
+     "Fes les quatre preguntes sobre una imatge.",
+     "Escriu dues frases sobre la teva classe.",
+     "Fes un dibuix i escriu-hi una frase a sota.",
+     "Llegeix les teves frases a un company."
+    ],
+    "test": [
+     "Quines preguntes fem quan mirem una imatge?",
+     "Què fa el nen?",
+     "Què té el ninot al nas?",
+     "Com acaba una frase que explica alguna cosa?",
+     "Escriu una frase sobre l’hivern."
+    ],
+    "steps": [
+     "Mira la imatge i pregunta’t: qui? què fa? on? quan?",
+     "Digues la frase en veu alta abans d’escriure-la.",
+     "Revisa: majúscula al principi, punt al final i espais entre paraules.",
+     "Compte: escriu frases senceres, no paraules soltes."
+    ],
+    "answers": [
+     "Qui hi surt? Què fa? On és? Quan passa?",
+     "Un ninot de neu.",
+     "Una pastanaga.",
+     "Amb punt.",
+     "La teva resposta. Per exemple: A l’hivern fa fred."
+    ]
+   }
+  },
+  "eu-year-ad-beginner-1-l33": {
+   "ca": {
+    "title": "La felicitació i la invitació",
+    "theory": "Una felicitació d’aniversari té una salutació, els desitjos i la signatura. Una invitació diu per a què convidem, quan i on. Així qui la rep sap tot el que necessita.",
+    "sample": "Estimada àvia, / et convido a la meva festa d’aniversari. / Quan: dissabte, a les cinc de la tarda. / On: a casa meva. / T’espero! / La teva néta, Laia",
+    "worked": "La invitació comença amb Estimada àvia. Després diu la festa, el dia, l’hora i el lloc. Acaba amb una frase amable i la signatura. Sense el dia ni l’hora, l’àvia no sabria quan venir.",
+    "exercises": [
+     "Escriu una salutació per al teu avi.",
+     "Escriu una invitació per a un berenar.",
+     "Escriu una felicitació d’aniversari.",
+     "Què li falta a una invitació sense lloc?",
+     "Signa la teva invitació."
+    ],
+    "test": [
+     "Què ha de dir una invitació?",
+     "Quan és la festa de la Laia?",
+     "Com comença la invitació?",
+     "Escriu uns desitjos curts per a la teva mare.",
+     "Què hi ha al final de la invitació?"
+    ],
+    "steps": [
+     "Comença amb una salutació: Estimat…, Estimada…",
+     "Escriu per a què convides, quan i on.",
+     "Acaba amb una frase amable i la teva signatura.",
+     "Compte: sense dia, hora i lloc ningú no sap quan ha d’anar-hi."
+    ],
+    "answers": [
+     "Per a què convidem, quan i on, amb salutació i signatura.",
+     "Dissabte, a les cinc de la tarda.",
+     "Estimada àvia.",
+     "La teva resposta. Per exemple: Estimada mare, per molts anys!",
+     "La signatura."
+    ]
+   }
+  },
+  "eu-year-ad-beginner-1-l34": {
+   "ca": {
+    "title": "Escoltem i expliquem: la meva història",
+    "theory": "Quan expliquem una cosa que ens ha passat, diem qui hi era, on va ser, què va passar i com va acabar. Fem servir paraules com primer, després i al final. Els altres escolten i poden fer preguntes.",
+    "sample": "Diumenge vaig anar a la platja amb els meus pares. Primer vam fer un castell de sorra. Després una onada gran el va desfer. Al final vam riure i en vam fer un altre.",
+    "worked": "La història diu quan (diumenge), on (la platja), amb qui (els pares), què va passar (l’onada va desfer el castell) i com va acabar (en van fer un altre). Les paraules primer, després i al final ajuden a seguir l’ordre.",
+    "exercises": [
+     "Explica què vas fer el cap de setmana.",
+     "Fes servir primer, després i al final.",
+     "Fes una pregunta a un company sobre la seva història.",
+     "Dibuixa el castell de sorra.",
+     "Inventa un títol per a la història de l’exemple."
+    ],
+    "test": [
+     "On va anar el nen diumenge?",
+     "Amb qui hi va anar?",
+     "Què va desfer el castell?",
+     "Com va acabar la història?",
+     "Quines paraules ajuden a dir l’ordre?"
+    ],
+    "steps": [
+     "Pensa: qui, on, què va passar i com va acabar.",
+     "Explica-ho en ordre amb primer, després i al final.",
+     "Parla a poc a poc i mira qui t’escolta.",
+     "Compte: no et saltis parts; qui t’escolta ha d’entendre què va passar."
+    ],
+    "answers": [
+     "A la platja.",
+     "Amb els pares.",
+     "Una onada gran.",
+     "Van riure i en van fer un altre.",
+     "Primer, després, al final."
+    ]
+   }
+  },
+  "eu-year-ad-beginner-1-l35": {
+   "ca": {
+    "title": "Repàs: què he après a primer",
+    "theory": "Al final de primer llegim un text curt i mostrem el que sabem: llegir i entendre, separar síl·labes, escriure frases amb majúscula i punt, fer servir els dígrafs, l’apòstrof i els accents.",
+    "sample": "Cada matí, l’Arnau prepara la motxilla. Hi posa la llibreta, l’estoig i l’esmorzar. Després va a l’escola amb el seu avi.",
+    "worked": "El text té tres frases. L’Arnau primer prepara la motxilla i després va a l’escola. Arnau és un nom propi. Motxilla té tx i ll, l’estoig i l’escola porten apòstrof.",
+    "exercises": [
+     "Llegeix el text en veu alta.",
+     "Busca la paraula amb tx.",
+     "Busca les paraules amb apòstrof.",
+     "Escriu una frase sobre la teva motxilla.",
+     "Explica què t’ha agradat més aprendre aquest curs."
+    ],
+    "test": [
+     "Què fa primer l’Arnau?",
+     "Quantes frases té el text?",
+     "Escriu bé: l’arnau va a la escola",
+     "Amb qui va l’Arnau a l’escola?",
+     "Separa en síl·labes: llibreta."
+    ],
+    "steps": [
+     "Llegeix primer a poc a poc i després amb fluïdesa.",
+     "Pregunta’t: qui? què fa? amb qui?",
+     "Compta les frases pels punts.",
+     "Compte: els noms propis i el principi de la frase porten majúscula: Arnau."
+    ],
+    "answers": [
+     "Prepara la motxilla.",
+     "Tres.",
+     "L’Arnau va a l’escola.",
+     "Amb el seu avi.",
+     "lli-bre-ta."
+    ]
+   }
+  }
+ }
+}

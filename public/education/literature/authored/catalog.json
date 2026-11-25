@@ -1,7 +1,20 @@
 {
  "schema": "mypocket-literature-authored-catalog/v1",
- "version": "d24b9f133227025a54291fb8b25c0138c5c178623cb126a32eed1f19ea3fa086",
+ "version": "1a4841b57c0569d984e8482db642a78fea65019008a6d8f91a3940bafaa1b42c",
  "years": [
+  {
+   "country": "AD",
+   "stage": "beginner",
+   "grade": "1",
+   "languages": [
+    {
+     "lang": "ca",
+     "name": "Català",
+     "file": "ca-1",
+     "version": "80ccd9faab84ba51e38db22a5aa842a7bde97645b541c2a330b69794fcc71c71"
+    }
+   ]
+  },
   {
    "country": "AT",
    "stage": "beginner",
@@ -207,6 +220,32 @@
    ]
   },
   {
+   "country": "LU",
+   "stage": "beginner",
+   "grade": "E1",
+   "languages": [
+    {
+     "lang": "de",
+     "name": "Deutsch",
+     "file": "de-e1",
+     "version": "a7bd15499cbc35bbaee57b1595b85ab7b2704dc74590c9b44579f21c4ab5aeb2"
+    }
+   ]
+  },
+  {
+   "country": "MC",
+   "stage": "beginner",
+   "grade": "CP",
+   "languages": [
+    {
+     "lang": "fr",
+     "name": "Français",
+     "file": "fr-cp",
+     "version": "9bbac7166a3d1b3c3b9d411ae2e9dc2dba04b5c8676787355e730ff53fd49078"
+    }
+   ]
+  },
+  {
    "country": "MD",
    "stage": "beginner",
    "grade": "1",
@@ -300,6 +339,19 @@
      "name": "Svenska",
      "file": "sv-1",
      "version": "a538fd2b771d6ba6abe73095da4e263a6c9658957ecb42cd3a5929195b581a3d"
+    }
+   ]
+  },
+  {
+   "country": "SM",
+   "stage": "beginner",
+   "grade": "1",
+   "languages": [
+    {
+     "lang": "it",
+     "name": "Italiano",
+     "file": "it-1",
+     "version": "46e59f033bc8bde6b23c00d15960f3c31a30ef60c865f0ef7ce5cf984419b8cd"
     }
    ]
   },
