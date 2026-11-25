@@ -1,0 +1,1234 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "RO",
+ "stage": "medium",
+ "grade": "12",
+ "version": "35c6fb8e0ead3a3c4cdc2acbb47ac80b96dfbfb7e5b67f36d90dbb1ec4d1cdc4",
+ "source": "https://programe.ise.ro/",
+ "sourceTitle": "Ministerul Educației — Programa școlară Limba și literatura română, clasa a XII-a, ciclul superior al liceului (OMEdC nr. 5959/22.12.2006), în vigoare până la intrarea în vigoare a noii programe: Perioada interbelică — poezia (modernism, tradiționalism, orientări avangardiste, fronda, Bacovia, Arghezi, Blaga, Barbu, diversitatea poeziei interbelice, dezbaterea Identitate culturală în context european); Perioada postbelică — literatura aservită ideologiei comuniste, poezia generațiilor postbelice, romanul (1960–1980 și după 1980), teatrul, tipuri de roman postbelic, postmodernismul, jurnalul și memoriile după 1990, forme ale istoriei și criticii literare; Limbă și comunicare — norma și variantele libere, exprimarea corectă (anacolut, pleonasm, tautologie, cacofonie), punctuația, denotație și conotație, dezbaterea și polemica civilizată, discursul publicistic și politic, eseul structurat și liber; ordinea obișnuită a manualelor aprobate și pregătirea pentru bacalaureat; lecții originale, fără text copiat din opere sau manuale",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "ro",
+ "labels": [
+  "Activitate originală · România · clasa a XII-a",
+  "Teorie pe înțeles",
+  "Exemplu original",
+  "Analiză explicată",
+  "Exerciții",
+  "Verifică-te",
+  "Exerciții originale, nu o evaluare oficială și nici text din manual.",
+  "Dacă nu ai înțeles: pe înțelesul tău, pas cu pas",
+  "Răspunsuri (verifică după ce termini)"
+ ],
+ "units": [
+  {
+   "title": "Perioada interbelică: curente și idei",
+   "keys": [
+    "eu-year-ro-medium-12-l01",
+    "eu-year-ro-medium-12-l02",
+    "eu-year-ro-medium-12-l03",
+    "eu-year-ro-medium-12-l04",
+    "eu-year-ro-medium-12-l05"
+   ]
+  },
+  {
+   "title": "Poezia interbelică",
+   "keys": [
+    "eu-year-ro-medium-12-l06",
+    "eu-year-ro-medium-12-l07",
+    "eu-year-ro-medium-12-l08",
+    "eu-year-ro-medium-12-l09",
+    "eu-year-ro-medium-12-l10",
+    "eu-year-ro-medium-12-l11",
+    "eu-year-ro-medium-12-l12",
+    "eu-year-ro-medium-12-l13"
+   ]
+  },
+  {
+   "title": "Perioada postbelică",
+   "keys": [
+    "eu-year-ro-medium-12-l14",
+    "eu-year-ro-medium-12-l15",
+    "eu-year-ro-medium-12-l16",
+    "eu-year-ro-medium-12-l17",
+    "eu-year-ro-medium-12-l18",
+    "eu-year-ro-medium-12-l19",
+    "eu-year-ro-medium-12-l20",
+    "eu-year-ro-medium-12-l21",
+    "eu-year-ro-medium-12-l22",
+    "eu-year-ro-medium-12-l23",
+    "eu-year-ro-medium-12-l24",
+    "eu-year-ro-medium-12-l25"
+   ]
+  },
+  {
+   "title": "Limbă, comunicare și bacalaureat",
+   "keys": [
+    "eu-year-ro-medium-12-l26",
+    "eu-year-ro-medium-12-l27",
+    "eu-year-ro-medium-12-l28",
+    "eu-year-ro-medium-12-l29",
+    "eu-year-ro-medium-12-l30",
+    "eu-year-ro-medium-12-l31",
+    "eu-year-ro-medium-12-l32",
+    "eu-year-ro-medium-12-l33"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-ro-medium-12-l01": {
+   "ro": {
+    "title": "Modernismul interbelic",
+    "theory": "Modernismul interbelic românesc, teoretizat de Eugen Lovinescu (cenaclul și revista Sburătorul, teoria sincronismului), înseamnă în poezie: ruptura de tradiția clasică, intelectualizarea emoției, ambiguitatea, metafora surprinzătoare, versul liber sau tehnici noi de versificație, limbajul nepoetic (estetica urâtului), interesul pentru oraș și pentru condiția omului modern. Poeți: Tudor Arghezi, Lucian Blaga, Ion Barbu.",
+    "sample": "Două versuri originale, puse față în față: Tradițional: Pe dealuri verzi coboară seara lină. Modern: Seara își scoate ochelarii și se uită la oraș ca la o ecuație.",
+    "worked": "Al doilea vers folosește o personificare neobișnuită, legată de lumea modernă (ochelari, ecuație), și intelectualizează imaginea. Primul păstrează imaginarul tradițional, armonios.",
+    "exercises": [
+     "Enumeră cinci trăsături ale modernismului poetic.",
+     "Explică ce înseamnă intelectualizarea emoției.",
+     "Găsește un exemplu de limbaj nepoetic într-o poezie modernă.",
+     "Compară o poezie tradiționalistă cu una modernistă.",
+     "Scrie două versuri moderniste despre școală."
+    ],
+    "test": [
+     "Cine a teoretizat modernismul românesc?",
+     "Ce revistă a condus?",
+     "Ce este sincronismul?",
+     "Numește trei poeți moderniști.",
+     "Ce este estetica urâtului?"
+    ],
+    "steps": [
+     "Identifică trăsăturile formale (vers, limbaj).",
+     "Identifică trăsăturile de viziune (intelectualizare, ambiguitate).",
+     "Încadrează textul cu două argumente.",
+     "Greșeala frecventă: să încadrezi un text în modernism doar pentru că este scris în secolul XX."
+    ],
+    "answers": [
+     "Eugen Lovinescu.",
+     "Sburătorul.",
+     "Alinierea literaturii române la cea europeană.",
+     "Arghezi, Blaga, Barbu.",
+     "Folosirea artistică a cuvintelor și imaginilor urâte."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l02": {
+   "ro": {
+    "title": "Tradiționalismul interbelic",
+    "theory": "Tradiționalismul interbelic se grupează în jurul revistei Gândirea (apărută la Cluj, în 1921), care, sub conducerea lui Nichifor Crainic, promovează ortodoxismul, autohtonismul, satul ca spațiu al valorilor, credința și trecutul. Poeți: Ion Pillat, Vasile Voiculescu, Nichifor Crainic. Tradiționalismul folosește adesea forme moderne pentru teme tradiționale.",
+    "sample": "Strofă originală în spirit tradiționalist: În casa bunicilor, icoana veghează; pâinea se coace în cuptor, iar clopotul de seară adună tot satul la aceeași rugăciune.",
+    "worked": "Satul, credința, familia și continuitatea generațiilor sunt teme tradiționaliste. Tonul calm și nostalgic idealizează lumea rurală.",
+    "exercises": [
+     "Prezintă programul revistei Gândirea.",
+     "Explică ce înseamnă ortodoxism și autohtonism.",
+     "Identifică teme tradiționaliste într-o poezie de Ion Pillat.",
+     "Compară tradiționalismul cu sămănătorismul.",
+     "Scrie o strofă cu tema casei părintești."
+    ],
+    "test": [
+     "Unde a apărut revista Gândirea?",
+     "Cine a condus-o ulterior?",
+     "Ce spațiu idealizează tradiționalismul?",
+     "Numește doi poeți tradiționaliști.",
+     "Ce înseamnă autohtonism?"
+    ],
+    "steps": [
+     "Identifică temele: satul, credința, trecutul.",
+     "Observă dacă forma este modernă sau clasică.",
+     "Încadrează textul cu argumente.",
+     "Greșeala frecventă: să crezi că tradiționalismul respinge orice formă modernă de expresie."
+    ],
+    "answers": [
+     "La Cluj, în 1921.",
+     "Nichifor Crainic.",
+     "Satul.",
+     "Ion Pillat și Vasile Voiculescu.",
+     "Valorizarea specificului local, național."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l03": {
+   "ro": {
+    "title": "Orientări avangardiste",
+    "theory": "Avangarda respinge radical arta tradițională și caută noul absolut. Tristan Tzara, poet de origine română, este unul dintre fondatorii dadaismului (Zurich, 1916). În România, revistele Contimporanul (Ion Vinea), unu, integral și autori ca Geo Bogza, Ilarie Voronca promovează avangarda; suprarealismul (Gellu Naum, Gherasim Luca) valorifică visul, hazardul și asocierile libere. Manifestele avangardiste au ton provocator.",
+    "sample": "Manifest original în stil avangardist: Jos rimele obosite! Poezia nu mai locuiește în grădini, ci în fabrici, în vitezele trenurilor și în strigătul străzii!",
+    "worked": "Tonul imperativ, negarea tradiției și elogiul modernității tehnice sunt specifice manifestelor avangardiste. Scopul este șocul și ruptura.",
+    "exercises": [
+     "Prezintă trăsăturile avangardei.",
+     "Explică ce este dadaismul.",
+     "Explică ce este suprarealismul.",
+     "Numește trei reviste de avangardă românești.",
+     "Scrie un manifest avangardist pentru o revistă școlară."
+    ],
+    "test": [
+     "Cine este Tristan Tzara?",
+     "Unde și când apare dadaismul?",
+     "Ce revistă conducea Ion Vinea?",
+     "Ce valorifică suprarealismul?",
+     "Ce ton au manifestele?"
+    ],
+    "steps": [
+     "Identifică negarea tradiției.",
+     "Caută procedeele de șoc: asocieri neașteptate, imperative, colaj.",
+     "Leagă textul de curentul avangardist.",
+     "Greșeala frecventă: să confunzi avangarda cu modernismul moderat; avangarda cere ruptura totală."
+    ],
+    "answers": [
+     "Un poet de origine română, fondator al dadaismului.",
+     "La Zurich, în 1916.",
+     "Contimporanul.",
+     "Visul, hazardul, asocierile libere.",
+     "Provocator."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l04": {
+   "ro": {
+    "title": "Studiu de caz: fronda în literatura interbelică",
+    "theory": "Fronda înseamnă atitudinea de revoltă, de contestare a autorităților literare și a valorilor consacrate. Un exemplu celebru este volumul Nu (1934) al lui Eugen Ionescu, care neagă valoarea unor scriitori consacrați, apoi își contrazice propriile judecăți, pentru a arăta relativitatea criticii. Fronda apare și în manifestele avangardiste și în publicistica tinerei generații.",
+    "sample": "Paragraf original de frondă: Ni se spune că marii poeți sunt de neatins. Noi spunem că orice statuie trebuie privită și din spate. Doar așa vedem dacă e de marmură sau de ipsos.",
+    "worked": "Textul contestă autoritatea și propune o privire critică liberă. Metafora statuii arată dorința de a verifica valorile, nu de a le accepta din obișnuință.",
+    "exercises": [
+     "Explică ce este fronda.",
+     "Prezintă volumul Nu de Eugen Ionescu.",
+     "Găsește un exemplu de frondă într-un manifest avangardist.",
+     "Discută dacă fronda are valoare culturală.",
+     "Scrie un paragraf polemic civilizat despre o carte „obligatorie”."
+    ],
+    "test": [
+     "Ce înseamnă frondă?",
+     "Cine a scris volumul Nu?",
+     "În ce an a apărut?",
+     "Ce vrea să arate autorul prin contradicțiile sale?",
+     "Ce metaforă folosește exemplul?"
+    ],
+    "steps": [
+     "Identifică autoritatea contestată.",
+     "Analizează argumentele și tonul.",
+     "Evaluează efectul frondei asupra vieții literare.",
+     "Greșeala frecventă: să confunzi fronda cu insulta; fronda contestă idei și valori."
+    ],
+    "answers": [
+     "Atitudinea de revoltă față de valorile consacrate.",
+     "Eugen Ionescu.",
+     "În 1934.",
+     "Relativitatea judecăților critice.",
+     "Metafora statuii."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l05": {
+   "ro": {
+    "title": "Dezbatere: identitate culturală în context european",
+    "theory": "Programa propune dezbaterea Identitate culturală în context european, cu surse din perioada interbelică: Eugen Lovinescu (sincronismul, deschiderea spre Occident), Lucian Blaga (Spațiul mioritic, despre specificul național), G. Călinescu (specificul național), Mihail Ralea (Europeism și tradiționalism). Problema: cum ne păstrăm identitatea și, totodată, cum ne integrăm în cultura europeană?",
+    "sample": "Moțiune originală: Identitatea culturală se păstrează mai bine prin deschidere decât prin izolare. Argument pro: o cultură care dialoghează își face cunoscute valorile. Argument contra: deschiderea fără discernământ duce la imitație.",
+    "worked": "Ambele argumente sunt plauzibile. O dezbatere bună cere exemple concrete (traduceri, scriitori români recunoscuți în Europa) și respingeri civilizate.",
+    "exercises": [
+     "Formulează trei argumente pentru moțiune.",
+     "Formulează trei argumente împotriva moțiunii.",
+     "Prezintă poziția lui Lovinescu și a lui Blaga.",
+     "Găsește exemple de scriitori români cunoscuți în Europa.",
+     "Scrie un eseu reflexiv după dezbatere."
+    ],
+    "test": [
+     "Ce idee susține sincronismul?",
+     "Ce lucrare a scris Blaga despre specificul național?",
+     "Ce este o moțiune?",
+     "Ce risc are deschiderea fără discernământ?",
+     "Ce trebuie să conțină un argument bun?"
+    ],
+    "steps": [
+     "Prezintă clar pozițiile.",
+     "Susține fiecare argument cu exemple.",
+     "Încheie cu un eseu în care îți formulezi punctul de vedere.",
+     "Greșeala frecventă: să crezi că trebuie să alegi între identitate și Europa; multe argumente arată că se pot completa."
+    ],
+    "answers": [
+     "Alinierea la cultura europeană.",
+     "Spațiul mioritic.",
+     "Afirmația care se dezbate.",
+     "Imitația.",
+     "Teză, justificare și exemplu concret."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l06": {
+   "ro": {
+    "title": "George Bacovia: Plumb și Lacustră",
+    "theory": "George Bacovia este cel mai important poet simbolist român. În volumul Plumb (1916), poeziile Plumb și Lacustră sugerează angoasa, singurătatea și sentimentul morții. Plumb: spațiul închis (cavoul), simbolul plumbului, repetițiile. Lacustră: ploaia continuă, imaginea locuinței lacustre, nesiguranța și izolarea. Cromatica, repetițiile, refrenul și muzicalitatea monotonă creează atmosfera.",
+    "sample": "Analiză originală a simbolului ploii: ploaia nu este un fenomen meteorologic, ci o stare; ea dizolvă limitele timpului, iar eul liric se simte suspendat, fără sprijin, ca o casă pe piloni.",
+    "worked": "Simbolul (ploaia), repetiția și imaginea locuinței lacustre sugerează nesiguranța existenței. Sugestia, nu descrierea, este trăsătura simbolistă.",
+    "exercises": [
+     "Interpretează simbolul plumbului.",
+     "Interpretează motivul ploii în Lacustră.",
+     "Analizează rolul repetiției în cele două poezii.",
+     "Compară spațiul din Plumb cu cel din Lacustră.",
+     "Explică de ce Bacovia este simbolist, dar și modern."
+    ],
+    "test": [
+     "În ce volum apar Plumb și Lacustră?",
+     "În ce an a apărut volumul?",
+     "Ce sugerează plumbul?",
+     "Ce sugerează locuința lacustră?",
+     "Ce procedee creează atmosfera?"
+    ],
+    "steps": [
+     "Identifică simbolurile și spațiile.",
+     "Observă repetițiile și muzicalitatea.",
+     "Formulează starea dominantă și leag-o de simbolism.",
+     "Greșeala frecventă: să explici simbolurile printr-un singur sens fix."
+    ],
+    "answers": [
+     "În volumul Plumb.",
+     "1916.",
+     "Apăsarea, moartea, singurătatea.",
+     "Nesiguranța și izolarea.",
+     "Repetițiile, cromatica, muzicalitatea."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l07": {
+   "ro": {
+    "title": "Tudor Arghezi: Psalm",
+    "theory": "Psalmii lui Tudor Arghezi (din volumul Cuvinte potrivite, 1927) exprimă căutarea lui Dumnezeu, oscilația dintre credință și îndoială, dorința de a avea o dovadă concretă a divinității. Eul liric se adresează direct lui Dumnezeu, cu revoltă, rugăciune, tristețe și singurătate. Psalmul, specie religioasă, devine la Arghezi poezie modernă a neliniștii.",
+    "sample": "Analiză originală: eul liric cere un semn, dar primește tăcere; de aici vine tensiunea: vrea să creadă, dar vrea și să știe, ca un om care atinge un zid în întuneric.",
+    "worked": "Antiteza dintre nevoia de credință și nevoia de certitudine este centrul psalmilor. Adresarea directă și tonul de mărturisire dau dramatism.",
+    "exercises": [
+     "Explică tema psalmilor arghezieni.",
+     "Identifică mărcile adresării directe.",
+     "Analizează antiteza credință–îndoială.",
+     "Compară psalmul arghezian cu psalmul biblic.",
+     "Scrie un paragraf despre neliniștea omului modern."
+    ],
+    "test": [
+     "În ce volum apar psalmii?",
+     "În ce an a apărut volumul?",
+     "Cui se adresează eul liric?",
+     "Ce oscilație exprimă psalmii?",
+     "Ce cere eul liric?"
+    ],
+    "steps": [
+     "Identifică tema și adresarea.",
+     "Găsește antitezele și momentele de revoltă sau rugăciune.",
+     "Leagă textul de modernism.",
+     "Greșeala frecventă: să citești psalmii ca rugăciuni senine de credință."
+    ],
+    "answers": [
+     "Cuvinte potrivite.",
+     "1927.",
+     "Lui Dumnezeu.",
+     "Între credință și îndoială.",
+     "O dovadă concretă a divinității."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l08": {
+   "ro": {
+    "title": "Tudor Arghezi: Flori de mucigai",
+    "theory": "Volumul Flori de mucigai (1931) prezintă lumea închisorii și a marginalilor, cu un limbaj aspru, argotic, regional, transfigurat estetic. Este cea mai clară ilustrare a esteticii urâtului: din materia urâtă, poetul extrage frumusețe artistică. Poezia-program Flori de mucigai arată creația în condiții de privațiune, scrisă cu unghia pe zid.",
+    "sample": "Analiză originală: titlul alătură florile (frumusețe, viață) și mucegaiul (descompunere, urât); oximoronul anunță programul: frumosul se poate naște din urât.",
+    "worked": "Oximoronul din titlu sintetizează estetica urâtului. Limbajul aspru și lumea marginală sunt transformate în artă.",
+    "exercises": [
+     "Explică semnificația titlului.",
+     "Explică estetica urâtului cu exemple.",
+     "Analizează imaginea scrisului cu unghia.",
+     "Compară Flori de mucigai cu Testament.",
+     "Scrie un paragraf despre frumusețea din lucruri urâte."
+    ],
+    "test": [
+     "În ce an apare Flori de mucigai?",
+     "Ce lume prezintă volumul?",
+     "Ce figură este titlul?",
+     "Ce estetică ilustrează?",
+     "Cu ce scrie poetul în poezia-program?"
+    ],
+    "steps": [
+     "Interpretează titlul.",
+     "Identifică limbajul și lumea prezentată.",
+     "Leagă textul de estetica urâtului.",
+     "Greșeala frecventă: să crezi că estetica urâtului înseamnă o poezie urâtă; ea transformă urâtul în artă."
+    ],
+    "answers": [
+     "1931.",
+     "Lumea închisorii și a marginalilor.",
+     "Oximoron.",
+     "Estetica urâtului.",
+     "Cu unghia."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l09": {
+   "ro": {
+    "title": "Lucian Blaga: expresionismul și Gorunul",
+    "theory": "Lucian Blaga este poet modernist cu influențe expresioniste: tensiune, dilatare a eului, sentimentul cosmic, dorul de esențe și de absolut, interesul pentru mit, mister și moarte. În Eu nu strivesc corola de minuni a lumii (studiată anterior), poetul adâncește misterul (cunoaștere luciferică). În Gorunul (volumul Pașii profetului, 1921), liniștea pădurii și gorunul din care se va face sicriul eului liric sugerează împăcarea cu moartea.",
+    "sample": "Analiză originală: eul liric ascultă copacul și simte că lemnul lui va deveni sicriu; în loc de groază, apare o liniște adâncă, ca și cum moartea ar crește încet, firesc, odată cu copacul.",
+    "worked": "Motivul morții este tratat cu seninătate și mister, specific lui Blaga. Corespondența dintre copac și om transmite ideea integrării în natură.",
+    "exercises": [
+     "Explică trăsăturile expresionismului.",
+     "Explică diferența dintre cunoașterea luciferică și cea paradisiacă.",
+     "Analizează motivul morții în Gorunul.",
+     "Compară Gorunul cu Miorița.",
+     "Scrie două versuri despre un copac care ascultă."
+    ],
+    "test": [
+     "În ce volum apare Gorunul?",
+     "Ce motiv principal are poezia?",
+     "Ce atitudine are eul liric față de moarte?",
+     "Ce tip de cunoaștere promovează Blaga?",
+     "Ce curent influențează poezia lui Blaga?"
+    ],
+    "steps": [
+     "Identifică motivul central și imaginile.",
+     "Arată tensiunea și misterul.",
+     "Leagă textul de expresionism și de concepția blagiană.",
+     "Greșeala frecventă: să citești poezia ca pe o simplă descriere de pădure."
+    ],
+    "answers": [
+     "Pașii profetului.",
+     "Moartea.",
+     "Seninătate, împăcare.",
+     "Cunoașterea luciferică, care adâncește misterul.",
+     "Expresionismul."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l10": {
+   "ro": {
+    "title": "Ion Barbu: Riga Crypto și lapona Enigel",
+    "theory": "Ion Barbu (pseudonimul matematicianului Dan Barbilian) are trei etape: parnasiană, baladic-orientală și ermetică. Riga Crypto și lapona Enigel este un poem alegoric, o baladă cultă despre iubirea imposibilă dintre Riga Crypto, regele ciupercilor, și lapona Enigel, care caută soarele. Enigel refuză, pentru că aspiră la lumină; Crypto, expus soarelui, devine ciupercă otrăvitoare. Poemul are structura unei povești în ramă (nunta, menestrelul).",
+    "sample": "Interpretare originală: cele două personaje aparțin unor lumi incompatibile: una a umbrei și a instinctului, cealaltă a luminii și a rațiunii; iubirea lor nu poate trece peste această graniță.",
+    "worked": "Alegoria exprimă incompatibilitatea dintre două tipuri de existență. Rama (nunta, menestrelul) și forma baladei combină tradiția cu o viziune modernă.",
+    "exercises": [
+     "Rezumă poemul.",
+     "Interpretează opoziția dintre Crypto și Enigel.",
+     "Explică rolul ramei.",
+     "Prezintă cele trei etape ale creației lui Barbu.",
+     "Compară poemul cu Luceafărul."
+    ],
+    "test": [
+     "Ce pseudonim folosește Dan Barbilian?",
+     "Cine este Riga Crypto?",
+     "Ce caută Enigel?",
+     "Ce se întâmplă cu Crypto?",
+     "Ce exprimă alegoria?"
+    ],
+    "steps": [
+     "Identifică rama și povestea.",
+     "Construiește opozițiile: umbră–lumină, instinct–rațiune.",
+     "Formulează sensul alegoriei.",
+     "Greșeala frecventă: să tratezi poemul ca pe o simplă poveste cu ciuperci."
+    ],
+    "answers": [
+     "Ion Barbu.",
+     "Regele ciupercilor.",
+     "Soarele, lumina.",
+     "Devine ciupercă otrăvitoare.",
+     "Incompatibilitatea dintre două lumi."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l11": {
+   "ro": {
+    "title": "Ion Barbu: Joc secund și ermetismul",
+    "theory": "Joc secund dă titlul volumului din 1930 și este o artă poetică ermetică. Poezia este văzută ca o lume purificată, ca o imagine reflectată în apă, separată de realitatea imediată. Ermetismul presupune limbaj concentrat, sintaxă neobișnuită, sensuri ascunse, care cer o lectură atentă, apropiată de rezolvarea unei probleme.",
+    "sample": "Explicație originală a imaginii oglinzii: un munte reflectat într-un lac este același munte, dar purificat, fără zgomotul lumii; tot așa, poezia este o lume secundă, mai pură.",
+    "worked": "Imaginea reflectării sugerează ideea de joc secund: arta este o lume a esențelor. Ermetismul obligă cititorul să descifreze imaginile.",
+    "exercises": [
+     "Explică titlul Joc secund.",
+     "Explică ce este ermetismul.",
+     "Interpretează imaginea reflectării.",
+     "Compară arta poetică a lui Barbu cu cea a lui Arghezi.",
+     "Formulează propria definiție a poeziei."
+    ],
+    "test": [
+     "În ce an apare volumul Joc secund?",
+     "Ce este ermetismul?",
+     "Ce imagine ilustrează ideea de lume secundă?",
+     "Ce fel de text este Joc secund?",
+     "Ce cere poezia ermetică de la cititor?"
+    ],
+    "steps": [
+     "Identifică imaginile esențiale.",
+     "Formulează ideea despre poezie.",
+     "Leagă textul de ermetism.",
+     "Greșeala frecventă: să renunți la interpretare pentru că textul pare greu; ermetismul cere pași mici de descifrare."
+    ],
+    "answers": [
+     "1930.",
+     "Poezie cu sens ascuns, limbaj concentrat.",
+     "Reflectarea în apă.",
+     "O artă poetică.",
+     "Lectură atentă și descifrare."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l12": {
+   "ro": {
+    "title": "Ion Pillat: Aci sosi pe vremuri",
+    "theory": "Aci sosi pe vremuri de Ion Pillat (volumul Pe Argeș în sus, 1923) este o poezie tradiționalistă despre timp și iubire. În casa bunicilor, eul liric evocă povestea de dragoste a bunicilor și o repetă cu iubita sa; cele două povești se suprapun, sugerând ciclicitatea timpului și trecerea inevitabilă. Tonul este nostalgic, elegiac.",
+    "sample": "Analiză originală: ceasul oprit, casa veche și versurile citite de bunic devin legătura dintre generații; ce s-a întâmplat odată se repetă, dar fiecare generație trece.",
+    "worked": "Paralelismul celor două povești și motivul casei vechi sugerează ciclicitatea timpului. Spațiul familial și nostalgia sunt tradiționaliste.",
+    "exercises": [
+     "Identifică cele două povești de iubire.",
+     "Explică motivul timpului.",
+     "Analizează rolul casei bunicilor.",
+     "Explică încadrarea în tradiționalism.",
+     "Compară poezia cu o poezie modernistă despre iubire."
+    ],
+    "test": [
+     "Cine a scris Aci sosi pe vremuri?",
+     "În ce volum apare?",
+     "Ce povești se suprapun?",
+     "Ce idee despre timp sugerează?",
+     "Ce ton are poezia?"
+    ],
+    "steps": [
+     "Identifică planurile temporale.",
+     "Găsește paralelismele dintre generații.",
+     "Leagă textul de tradiționalism.",
+     "Greșeala frecventă: să citești poezia doar ca poveste de dragoste, ignorând tema timpului."
+    ],
+    "answers": [
+     "Ion Pillat.",
+     "Pe Argeș în sus.",
+     "Iubirea bunicilor și iubirea eului liric.",
+     "Ciclicitatea timpului.",
+     "Nostalgic, elegiac."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l13": {
+   "ro": {
+    "title": "Studiu de caz: diversitatea poeziei interbelice",
+    "theory": "Poezia interbelică este foarte diversă: Bacovia (simbolism, angoasă), Arghezi (modernism, estetica urâtului, neliniște religioasă), Blaga (expresionism, mister, metafizică), Barbu (ermetism, poezie ca joc secund), Pillat și Voiculescu (tradiționalism), avangardiștii (ruptură radicală). Studiul de caz cere compararea viziunilor, temelor și stilurilor.",
+    "sample": "Tabel original: Bacovia – ploaia și plumbul, stare de apăsare; Arghezi – cuvântul aspru transformat în artă; Blaga – lumina și misterul; Barbu – oglinda și esența; Pillat – casa bătrânească și timpul.",
+    "worked": "Fiecare poet are un imaginar propriu și o viziune distinctă. Comparația arată bogăția poeziei interbelice și ajută la încadrarea textelor la bacalaureat.",
+    "exercises": [
+     "Completează un tabel comparativ al poeților interbelici.",
+     "Alege o temă (iubirea, moartea) și compar-o la doi poeți.",
+     "Prezintă o carte de istorie literară despre poezia interbelică.",
+     "Pregătește o prezentare de cinci minute despre un poet.",
+     "Scrie o sinteză despre diversitatea poeziei interbelice."
+    ],
+    "test": [
+     "Ce curent ilustrează Bacovia?",
+     "Ce estetică ilustrează Arghezi?",
+     "Ce temă preferă Blaga?",
+     "Ce este specific lui Barbu?",
+     "Ce curent ilustrează Pillat?"
+    ],
+    "steps": [
+     "Alege criterii de comparație: temă, viziune, limbaj.",
+     "Aplică criteriile pentru fiecare poet.",
+     "Formulează o concluzie despre diversitate.",
+     "Greșeala frecventă: să înșiri poeții fără criterii de comparație."
+    ],
+    "answers": [
+     "Simbolismul.",
+     "Estetica urâtului.",
+     "Misterul și cunoașterea.",
+     "Ermetismul.",
+     "Tradiționalismul."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l14": {
+   "ro": {
+    "title": "Studiu de caz: literatura aservită ideologiei comuniste",
+    "theory": "După 1947–1948, literatura română este supusă ideologiei comuniste: realismul socialist devine obligatoriu, cenzura controlează publicarea, scriitori importanți sunt interziși, iar operele trebuie să glorifice partidul, munca și omul nou. Poezia proletcultistă (A. Toma, Dan Deșliu, Mihai Beniuc) are ton festiv, lozincard, schematic. Studiul acestei literaturi arată cum ideologia distruge valoarea estetică.",
+    "sample": "Vers original în stil lozincard, pentru analiză: Înainte, tovarăși, cu planul în mână, uzinele cântă, recolta e bună!",
+    "worked": "Versul are ton imperativ, vocabular politic (tovarăși, planul), optimism obligatoriu și lipsă de profunzime: trăsăturile literaturii aservite. Comparația cu poezia autentică arată diferența de valoare.",
+    "exercises": [
+     "Prezintă trăsăturile realismului socialist.",
+     "Explică rolul cenzurii.",
+     "Analizează un text proletcultist dat de profesor.",
+     "Compară o poezie proletcultistă cu una interbelică.",
+     "Discută consecințele aservirii literaturii."
+    ],
+    "test": [
+     "Ce este realismul socialist?",
+     "Ce rol avea cenzura?",
+     "Ce ton are poezia proletcultistă?",
+     "Numește un poet al acestei perioade.",
+     "Ce pierde literatura aservită?"
+    ],
+    "steps": [
+     "Identifică temele impuse.",
+     "Observă limbajul lozincard.",
+     "Evaluează efectul ideologiei asupra valorii estetice.",
+     "Greșeala frecventă: să judeci textele doar istoric, fără a evalua estetic."
+    ],
+    "answers": [
+     "Doctrina artistică impusă de regimul comunist.",
+     "Controla ce se publica.",
+     "Festiv, lozincard.",
+     "Dan Deșliu.",
+     "Valoarea estetică."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l15": {
+   "ro": {
+    "title": "Cercul literar de la Sibiu: neobalada",
+    "theory": "Cercul literar de la Sibiu (Ștefan Augustin Doinaș, Radu Stanca, Ion Negoițescu ș.a.) a afirmat, în anii războiului, autonomia esteticului, într-o scrisoare-manifest adresată lui Eugen Lovinescu (1943). Doinaș cultivă neobalada: în Mistrețul cu colți de argint, un prinț pornește la vânătoarea unui mistreț fabulos, refuzând avertismentele slugilor; în final, îl întâlnește, dar mistrețul îl ucide. Poemul este o alegorie a căutării idealului.",
+    "sample": "Interpretare originală: prințul vede pretutindeni semnele idealului, în timp ce slugile văd lucruri obișnuite; idealul este real pentru cel care îl caută, dar căutarea lui poate costa totul.",
+    "worked": "Opoziția prinț–slugi arată două viziuni: visătoare și practică. Finalul tragic sugerează că idealul se atinge doar prin sacrificiu.",
+    "exercises": [
+     "Prezintă programul Cercului literar de la Sibiu.",
+     "Rezumă Mistrețul cu colți de argint.",
+     "Interpretează alegoria idealului.",
+     "Compară neobalada cu balada populară.",
+     "Discută finalul poemului."
+    ],
+    "test": [
+     "Cine face parte din Cercul literar de la Sibiu?",
+     "Cui i-au adresat scrisoarea-manifest?",
+     "Ce caută prințul?",
+     "Ce văd slugile?",
+     "Ce se întâmplă în final?"
+    ],
+    "steps": [
+     "Identifică elementele baladei.",
+     "Construiește opoziția dintre personaje.",
+     "Formulează sensul alegoric.",
+     "Greșeala frecventă: să citești poemul ca pe o simplă poveste de vânătoare."
+    ],
+    "answers": [
+     "Doinaș, Radu Stanca, Ion Negoițescu.",
+     "Lui Eugen Lovinescu.",
+     "Un mistreț fabulos, cu colți de argint.",
+     "Lucruri obișnuite.",
+     "Mistrețul îl ucide pe prinț."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l16": {
+   "ro": {
+    "title": "Neomodernismul: generația anilor 60",
+    "theory": "Neomodernismul (după 1964) recuperează libertatea poeziei interbelice după proletcultism: metafora, ambiguitatea, reflecția, ironia, jocul limbajului, poezia despre poezie. Poeți: Nichita Stănescu, Marin Sorescu, Ana Blandiana, Ioan Alexandru, Cezar Baltag, Gheorghe Pituț. Poezia redevine expresie a individului, nu a ideologiei.",
+    "sample": "Comparație originală: o poezie proletcultistă spune ce trebuie să simtă toată lumea; o poezie neomodernistă îl întreabă pe cititor ce simte atunci când un cuvânt își schimbă sensul.",
+    "worked": "Neomodernismul trece de la colectiv la individual, de la lozincă la metaforă și reflecție. Libertatea expresiei este marca generației.",
+    "exercises": [
+     "Prezintă trăsăturile neomodernismului.",
+     "Numește cinci poeți neomoderniști.",
+     "Explică de ce neomodernismul este o recuperare.",
+     "Compară o poezie neomodernistă cu una proletcultistă.",
+     "Scrie două versuri reflexive despre cuvinte."
+    ],
+    "test": [
+     "Când se afirmă neomodernismul?",
+     "Ce recuperează?",
+     "Ce respinge?",
+     "Numește doi poeți neomoderniști.",
+     "Ce redevine poezia?"
+    ],
+    "steps": [
+     "Plasează curentul în context.",
+     "Identifică trăsăturile poeziei.",
+     "Compară cu literatura aservită.",
+     "Greșeala frecventă: să crezi că neomodernismul imită modernismul interbelic; el îl continuă cu un limbaj nou."
+    ],
+    "answers": [
+     "După 1964.",
+     "Libertatea poeziei interbelice.",
+     "Proletcultismul, schematismul.",
+     "Nichita Stănescu și Marin Sorescu.",
+     "Expresie a individului."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l17": {
+   "ro": {
+    "title": "Nichita Stănescu: Emoție de toamnă",
+    "theory": "Nichita Stănescu este poetul principal al neomodernismului. Emoție de toamnă (volumul O viziune a sentimentelor, 1964) exprimă teama de pierderea iubirii, legată de anotimpul toamnei: eul liric cere iubitei protecție, presimțind despărțirea și trecerea. Limbajul este simplu în aparență, dar imaginile sunt surprinzătoare și abstracte.",
+    "sample": "Analiză originală: toamna nu este doar anotimp, ci timpul în care sentimentul își simte fragilitatea; eul liric vrea să rămână aproape, pentru că presimte că totul se poate pierde.",
+    "worked": "Corespondența dintre anotimp și stare, cererea de protecție și presimțirea pierderii construiesc tema. Imaginile neașteptate arată stilul neomodernist.",
+    "exercises": [
+     "Interpretează motivul toamnei.",
+     "Identifică mărcile eului liric și ale adresării.",
+     "Explică presimțirea pierderii.",
+     "Compară poezia cu Leoaică tânără, iubirea.",
+     "Scrie un text scurt despre un anotimp care exprimă o stare."
+    ],
+    "test": [
+     "În ce volum apare Emoție de toamnă?",
+     "În ce an a apărut volumul?",
+     "Ce temă are poezia?",
+     "Ce cere eul liric iubitei?",
+     "Ce curent ilustrează?"
+    ],
+    "steps": [
+     "Identifică tema și motivul toamnei.",
+     "Găsește imaginile surprinzătoare.",
+     "Leagă textul de neomodernism.",
+     "Greșeala frecventă: să crezi că simplitatea aparentă a limbajului înseamnă un sens simplu."
+    ],
+    "answers": [
+     "O viziune a sentimentelor.",
+     "1964.",
+     "Teama de pierderea iubirii.",
+     "Protecție, apropiere.",
+     "Neomodernismul."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l18": {
+   "ro": {
+    "title": "Marin Sorescu: ironia și poezia cotidianului",
+    "theory": "Marin Sorescu aduce în neomodernism ironia, umorul, aparenta simplitate și parabola. Poezia Shakespeare (volumul Poeme, 1965) îl prezintă pe dramaturg ca pe un creator care face lumea în șapte zile, asemenea lui Dumnezeu: creează pe rând cerul, oamenii, tragedia, comedia și sentimentele lor. Comparația ironică exprimă măreția creației artistice.",
+    "sample": "Analiză originală: Sorescu tratează un subiect solemn (creația artistică) cu familiaritate și umor; zâmbetul nu micșorează tema, ci o face apropiată.",
+    "worked": "Ironia, parabola și limbajul cotidian sunt mărcile poeziei lui Sorescu. Paralela creator–Dumnezeu sugerează puterea artei de a face lumi.",
+    "exercises": [
+     "Explică paralela dintre Shakespeare și Creatorul lumii.",
+     "Identifică elementele de ironie.",
+     "Explică rolul limbajului cotidian.",
+     "Compară poezia lui Sorescu cu poezia lui Stănescu.",
+     "Scrie o poezie ironică despre un scriitor preferat."
+    ],
+    "test": [
+     "În ce volum apare Shakespeare?",
+     "Cu cine este comparat Shakespeare?",
+     "Ce trăsătură domină poezia lui Sorescu?",
+     "În câte zile creează Shakespeare lumea?",
+     "Ce sugerează paralela?"
+    ],
+    "steps": [
+     "Identifică paralela și parabola.",
+     "Găsește ironia și umorul.",
+     "Formulează sensul despre creația artistică.",
+     "Greșeala frecventă: să crezi că ironia transformă poezia într-o glumă fără sens profund."
+    ],
+    "answers": [
+     "Poeme.",
+     "Cu Dumnezeu, Creatorul lumii.",
+     "Ironia.",
+     "În șapte zile.",
+     "Puterea artei de a crea lumi."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l19": {
+   "ro": {
+    "title": "Moromeții: romanul satului postbelic",
+    "theory": "Moromeții de Marin Preda (volumul I – 1955, volumul al II-lea – 1967) prezintă destrămarea familiei țărănești a lui Ilie Moromete din Siliștea-Gumești, în anii dinaintea războiului și după. Moromete este un țăran contemplativ, ironic, care crede că timpul este răbdător; finalul primului volum anunță că timpul nu mai are răbdare. Romanul este realist, obiectiv, cu tehnici moderne (scena, dialogul, tăcerile).",
+    "sample": "Analiză originală: Moromete stă pe stănoaga podiștei și comentează ziarele cu prietenii, ca într-un teatru al satului; dar, în timp ce el contemplă, familia lui se destramă.",
+    "worked": "Contrastul dintre spiritul contemplativ al personajului și criza familiei este central. Simbolul timpului arată trecerea de la lumea tradițională la o istorie care distruge țărănimea.",
+    "exercises": [
+     "Rezumă primul volum.",
+     "Caracterizează-l pe Ilie Moromete.",
+     "Interpretează tema timpului.",
+     "Analizează conflictul dintre Moromete și fiii cei mari.",
+     "Explică semnificația scenei cinei."
+    ],
+    "test": [
+     "Cine a scris Moromeții?",
+     "Când apare primul volum?",
+     "În ce sat se petrece acțiunea?",
+     "Ce crede Moromete despre timp?",
+     "Ce temă are romanul?"
+    ],
+    "steps": [
+     "Identifică planurile: familia, satul, istoria.",
+     "Urmărește evoluția personajului principal.",
+     "Formulează tema destrămării.",
+     "Greșeala frecventă: să-l vezi pe Moromete doar ca tată autoritar; el este și contemplativ și ironic."
+    ],
+    "answers": [
+     "Marin Preda.",
+     "În 1955.",
+     "Siliștea-Gumești.",
+     "Că este răbdător.",
+     "Destrămarea familiei țărănești."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l20": {
+   "ro": {
+    "title": "Romanul după 1980: Dimineață pierdută",
+    "theory": "Dimineață pierdută de Gabriela Adameșteanu (1983) este un roman modern, polifonic: vocile mai multor personaje și două planuri temporale (anii Primului Război Mondial și anii 70) se împletesc. Vica Delcă, o femeie simplă și vorbăreață, face o vizită la Ivona, iar amintirile reconstituie destinele familiei profesorului Ioaniu. Istoria mare se reflectă în viețile mărunte.",
+    "sample": "Analiză originală: vorbăria Vicăi pare o simplă bârfă, dar, pe măsură ce vorbește, ea scoate la lumină dramele unei lumi întregi; vocea de jos devine memorie a istoriei.",
+    "worked": "Polifonia și alternanța temporală sunt tehnici moderne. Legătura dintre istoria mare și viața personală este tema principală.",
+    "exercises": [
+     "Explică ce înseamnă roman polifonic.",
+     "Identifică cele două planuri temporale.",
+     "Caracterizează-o pe Vica Delcă.",
+     "Explică legătura dintre istorie și destinele individuale.",
+     "Compară romanul cu Moromeții."
+    ],
+    "test": [
+     "Cine a scris Dimineață pierdută?",
+     "În ce an a apărut?",
+     "Ce înseamnă polifonie?",
+     "Cine este Vica Delcă?",
+     "Ce două perioade alternează?"
+    ],
+    "steps": [
+     "Identifică vocile narative.",
+     "Așază planurile temporale.",
+     "Formulează relația istorie–individ.",
+     "Greșeala frecventă: să cauți un singur narator omniscient într-un roman polifonic."
+    ],
+    "answers": [
+     "Gabriela Adameșteanu.",
+     "1983.",
+     "Prezența mai multor voci narative.",
+     "O femeie simplă, vorbăreață, care o vizitează pe Ivona.",
+     "Anii Primului Război Mondial și anii 70."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l21": {
+   "ro": {
+    "title": "Studiu de caz: tipuri de roman postbelic",
+    "theory": "Romanul postbelic este divers: realist-obiectiv (Moromeții), politic sau al obsedantului deceniu (anii 1950 ai represiunii, la Marin Preda – Cel mai iubit dintre pământeni, Augustin Buzura, Alexandru Ivasiuc), mitic și fabulos (Fănuș Neagu, Ștefan Bănulescu), oniric (Dumitru Țepeneag), textualist și postmodern (Mircea Nedelciu, Mircea Cărtărescu), polifonic (Gabriela Adameșteanu).",
+    "sample": "Clasificare originală: un roman despre un inginer anchetat în anii 50 (politic), un roman despre un sat din Bărăgan unde legendele se amestecă cu realitatea (mitic), un roman în care naratorul comentează cum își scrie cartea (postmodern).",
+    "worked": "Clasificarea se face după temă și tehnică. Același roman poate aparține mai multor tipuri, de exemplu politic și psihologic.",
+    "exercises": [
+     "Construiește un tabel cu tipurile de roman postbelic.",
+     "Explică ce înseamnă obsedantul deceniu.",
+     "Prezintă un roman mitic.",
+     "Explică ce este romanul textualist.",
+     "Scrie un paragraf de sinteză despre romanul postbelic."
+    ],
+    "test": [
+     "Ce înseamnă obsedantul deceniu?",
+     "Ce roman politic a scris Marin Preda?",
+     "Ce caracterizează romanul mitic?",
+     "Ce face naratorul în romanul postmodern din exemplu?",
+     "Numește un romancier postmodern."
+    ],
+    "steps": [
+     "Alege criteriile: temă, tehnică.",
+     "Așază romanele în tabel.",
+     "Observă că un roman poate avea mai multe încadrări.",
+     "Greșeala frecventă: să încadrezi un roman într-un singur tip fără argumente."
+    ],
+    "answers": [
+     "Anii 1950, ai represiunii comuniste.",
+     "Cel mai iubit dintre pământeni.",
+     "Amestecul de legendă și realitate.",
+     "Comentează cum își scrie cartea.",
+     "Mircea Cărtărescu."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l22": {
+   "ro": {
+    "title": "Teatrul postbelic: Rinocerii",
+    "theory": "Eugen Ionescu, scriitor de origine română stabilit în Franța, este unul dintre creatorii teatrului absurdului. În Rinocerii (1959), locuitorii unui oraș se transformă, unul câte unul, în rinoceri; doar Bérenger rezistă. Piesa este o parabolă despre conformism, fanatism și pierderea umanității sub presiunea mulțimii și a ideologiilor totalitare.",
+    "sample": "Analiză originală: la început, transformările par absurde și comice; apoi devin înspăimântătoare, pentru că oamenii găsesc argumente pentru a deveni rinoceri și pentru că a rămâne om devine un act de curaj.",
+    "worked": "Absurdul ascunde un sens grav. Parabola vizează conformismul. Bérenger, personajul obișnuit, devine eroul care refuză să-și piardă umanitatea.",
+    "exercises": [
+     "Explică ce este teatrul absurdului.",
+     "Interpretează parabola rinocerilor.",
+     "Caracterizează-l pe Bérenger.",
+     "Compară Rinocerii cu Iona de Marin Sorescu.",
+     "Discută actualitatea piesei."
+    ],
+    "test": [
+     "Cine a scris Rinocerii?",
+     "În ce an a apărut piesa?",
+     "Ce simbolizează transformarea în rinoceri?",
+     "Cine rezistă?",
+     "Ce tip de teatru ilustrează?"
+    ],
+    "steps": [
+     "Identifică situația absurdă.",
+     "Caută sensul parabolic.",
+     "Formulează mesajul despre conformism.",
+     "Greșeala frecventă: să râzi doar de absurd fără a-i înțelege sensul grav."
+    ],
+    "answers": [
+     "Eugen Ionescu.",
+     "1959.",
+     "Conformismul și pierderea umanității.",
+     "Bérenger.",
+     "Teatrul absurdului."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l23": {
+   "ro": {
+    "title": "Postmodernismul: generația 80",
+    "theory": "Postmodernismul românesc este asociat cu generația 80, formată în cenaclurile Cenaclul de Luni (condus de Nicolae Manolescu) și Junimea (condus de Ovid S. Crohmălniceanu). Trăsături: intertextualitatea, ironia, parodia, jocul, biografismul, cotidianul, amestecul de registre, relația directă cu cititorul. Autori: Mircea Cărtărescu (Levantul, 1990, epopee parodică ce rescrie istoria literaturii române), Florin Iaru, Mircea Nedelciu, Alexandru Mușina.",
+    "sample": "Fragment original postmodern: Cititorule, știu că te aștepți la un erou; îți dau, în schimb, un elev care citește această pagină în autobuz și se întreabă dacă are și el un rol în poveste.",
+    "worked": "Adresarea directă către cititor, ironia și jocul cu convențiile literare sunt trăsături postmoderne. Textul își recunoaște caracterul de construcție.",
+    "exercises": [
+     "Prezintă trăsăturile postmodernismului.",
+     "Explică ce este intertextualitatea.",
+     "Prezintă Levantul de Mircea Cărtărescu.",
+     "Compară postmodernismul cu modernismul.",
+     "Scrie un paragraf postmodern cu adresare directă către cititor."
+    ],
+    "test": [
+     "Ce generație este asociată cu postmodernismul?",
+     "Cine conducea Cenaclul de Luni?",
+     "Ce este intertextualitatea?",
+     "Ce operă de Cărtărescu rescrie istoria literaturii române?",
+     "Ce rol are cititorul în textul postmodern?"
+    ],
+    "steps": [
+     "Identifică intertextul și parodia.",
+     "Observă jocul cu convențiile și adresarea directă.",
+     "Încadrează textul cu argumente.",
+     "Greșeala frecventă: să confunzi postmodernismul cu avangarda; postmodernismul recuperează ironic tradiția, nu o neagă."
+    ],
+    "answers": [
+     "Generația 80.",
+     "Nicolae Manolescu.",
+     "Dialogul unui text cu alte texte.",
+     "Levantul.",
+     "Devine partener de joc."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l24": {
+   "ro": {
+    "title": "Studiu de caz: jurnalul și memoriile după 1990",
+    "theory": "După 1990, au apărut numeroase jurnale și memorii interzise sau imposibil de publicat înainte: Jurnalul fericirii de N. Steinhardt (publicat în 1991), Jurnalul lui Mihail Sebastian (anii 1935–1944, publicat în 1996), memoriile Monicăi Lovinescu, jurnale și amintiri din închisorile comuniste. Ele au valoare documentară și literară: arată adevărul despre epocă și forța spirituală a omului.",
+    "sample": "Pagină originală de jurnal: Azi nu s-a întâmplat nimic, adică totul: am primit o scrisoare, am citit două pagini dintr-o carte interzisă și am înțeles că libertatea începe în gând.",
+    "worked": "Jurnalul combină notația zilnică și reflecția. Tonul confesiv și sinceritatea dau autenticitate, iar contextul istoric dă valoare documentară.",
+    "exercises": [
+     "Explică diferența dintre jurnal și memorii.",
+     "Prezintă o carte de memorii apărută după 1990.",
+     "Explică valoarea documentară a jurnalului.",
+     "Scrie o pagină de jurnal despre o zi obișnuită.",
+     "Discută de ce aceste cărți nu puteau apărea înainte de 1990."
+    ],
+    "test": [
+     "Ce este jurnalul?",
+     "Ce sunt memoriile?",
+     "Cine a scris Jurnalul fericirii?",
+     "Când a fost publicat Jurnalul lui Mihail Sebastian?",
+     "Ce valoare au aceste texte?"
+    ],
+    "steps": [
+     "Stabilește tipul textului: jurnal (zilnic) sau memorii (retrospectiv).",
+     "Identifică tema și contextul istoric.",
+     "Evaluează valoarea documentară și literară.",
+     "Greșeala frecventă: să crezi că jurnalul este doar o înșiruire de fapte, fără valoare literară."
+    ],
+    "answers": [
+     "Notații zilnice ale autorului.",
+     "Amintiri scrise retrospectiv.",
+     "N. Steinhardt.",
+     "În 1996.",
+     "Documentară și literară."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l25": {
+   "ro": {
+    "title": "Forme ale istoriei și criticii literare",
+    "theory": "Critica literară evaluează operele, iar istoria literară le așază în evoluție. Specii: istoria literară, monografia, studiul critic, eseul, cronica literară, recenzia. Repere: Titu Maiorescu (critica junimistă), Eugen Lovinescu (Istoria literaturii române contemporane), G. Călinescu (Istoria literaturii române de la origini până în prezent, 1941), Tudor Vianu, Nicolae Manolescu (Istoria critică a literaturii române).",
+    "sample": "Cronică originală, pe scurt: Romanul debutantei are o voce proaspătă și dialoguri vii, dar finalul grăbit slăbește construcția; este totuși o promisiune de luat în seamă.",
+    "worked": "Cronica are o judecată de valoare argumentată, cu calități și limite. Tonul este echilibrat, iar concluzia formulează o apreciere generală.",
+    "exercises": [
+     "Prezintă trei critici literari români.",
+     "Explică diferența dintre cronica literară și istoria literară.",
+     "Scrie o cronică despre o carte citită recent.",
+     "Prezintă o monografie despre un scriitor.",
+     "Compară două opinii critice despre aceeași operă."
+    ],
+    "test": [
+     "Ce face critica literară?",
+     "Ce face istoria literară?",
+     "Cine a scris Istoria literaturii române de la origini până în prezent?",
+     "În ce an a apărut?",
+     "Ce conține o cronică?"
+    ],
+    "steps": [
+     "Identifică specia textului critic.",
+     "Găsește judecata de valoare și argumentele.",
+     "Compară opiniile critice cu propria lectură.",
+     "Greșeala frecventă: să consideri opinia criticului un adevăr absolut; criticile se pot contrazice."
+    ],
+    "answers": [
+     "Evaluează operele.",
+     "Așază operele în evoluție istorică.",
+     "G. Călinescu.",
+     "În 1941.",
+     "O judecată de valoare argumentată."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l26": {
+   "ro": {
+    "title": "Exprimarea corectă: anacolut, pleonasm, tautologie, cacofonie",
+    "theory": "Greșeli de exprimare frecvente: anacolutul (ruperea construcției sintactice), pleonasmul (repetarea sensului prin cuvinte diferite), tautologia (repetarea aceluiași cuvânt sau a unor cuvinte din aceeași familie), cacofonia (alăturarea de silabe care produc sunete neplăcute). Le evităm prin recitire și reformulare.",
+    "sample": "Corectări originale: Elevul care a câștigat concursul, i s-a dat diploma → Elevului care a câștigat concursul i s-a dat diploma (anacolut). A coborât jos → A coborât (pleonasm). Am scris o scrisoare → Am redactat o scrisoare (tautologie). Ca cadou → Drept cadou (cacofonie).",
+    "worked": "Fiecare corectare elimină o greșeală diferită: refacem construcția, eliminăm repetiția de sens, schimbăm cuvântul repetat sau evităm alăturarea de silabe neplăcute.",
+    "exercises": [
+     "Corectează cinci anacoluturi.",
+     "Corectează cinci pleonasme.",
+     "Găsește tautologii într-un text și reformulează.",
+     "Evită cacofoniile din cinci enunțuri.",
+     "Recitește un eseu propriu și corectează greșelile de exprimare."
+    ],
+    "test": [
+     "Ce este anacolutul?",
+     "Ce este pleonasmul?",
+     "Ce este tautologia?",
+     "Ce este cacofonia?",
+     "Corectează: a coborât jos."
+    ],
+    "steps": [
+     "Recitește textul cu voce tare.",
+     "Identifică tipul greșelii.",
+     "Reformulează enunțul.",
+     "Greșeala frecventă: să crezi că o singură corectare formală rezolvă un anacolut; trebuie refăcută construcția."
+    ],
+    "answers": [
+     "Ruperea construcției sintactice.",
+     "Repetarea sensului prin cuvinte diferite.",
+     "Repetarea aceluiași cuvânt sau a cuvintelor din aceeași familie.",
+     "Alăturarea de silabe care produc sunete neplăcute.",
+     "A coborât."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l27": {
+   "ro": {
+    "title": "Punctuația și justificările ei",
+    "theory": "Punctuația are justificări sintactice și stilistice. Reguli importante: nu despărțim prin virgulă subiectul de predicat sau predicatul de complementul direct; folosim virgula la vocativ, la apoziție, la construcțiile incidente, la subordonatele circumstanțiale antepuse și înaintea conjuncțiilor adversative (dar, însă, ci); linia de pauză marchează elipsa predicatului; punctul și virgula separă enunțuri lungi; două puncte anunță o enumerare sau o explicație.",
+    "sample": "Exemple originale: Ana, vino aici! (vocativ). Ion, colegul meu, a câștigat (apoziție). Eu am citit romanul, iar el – poezia (linie de pauză pentru elipsă). Am ales: istorie, română și engleză (două puncte).",
+    "worked": "Fiecare semn are o justificare: vocativul și apoziția se izolează; linia de pauză arată că verbul a fost omis; două puncte introduc o enumerare.",
+    "exercises": [
+     "Pune virgulele într-un text dat.",
+     "Corectează virgula pusă greșit între subiect și predicat.",
+     "Folosește linia de pauză pentru elipsa predicatului.",
+     "Justifică semnele de punctuație dintr-un fragment literar.",
+     "Analizează punctuația expresivă (puncte de suspensie, exclamări) într-o poezie."
+    ],
+    "test": [
+     "Punem virgulă între subiect și predicat?",
+     "Ce semn folosim la vocativ?",
+     "Ce marchează linia de pauză?",
+     "Ce anunță două puncte?",
+     "Când punem virgulă înaintea lui dar?"
+    ],
+    "steps": [
+     "Identifică părțile de propoziție și propozițiile.",
+     "Aplică regula pentru fiecare construcție.",
+     "Justifică semnele folosite.",
+     "Greșeala frecventă: să pui virgulă între subiect și predicat pentru că subiectul este lung."
+    ],
+    "answers": [
+     "Nu.",
+     "Virgula.",
+     "Elipsa predicatului.",
+     "O enumerare sau o explicație.",
+     "De regulă, când leagă două propoziții sau două părți de propoziție, fiind conjuncție adversativă."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l28": {
+   "ro": {
+    "title": "Denotație și conotație; figuri de stil",
+    "theory": "Sensul denotativ este sensul propriu, de dicționar; sensul conotativ este sensul figurat, încărcat de valori afective și estetice, specific textului literar. Figurile de stil (metafora, epitetul, comparația, personificarea, enumerația, repetiția, antiteza, hiperbola, inversiunea, oximoronul, simbolul) și procedeele de expresivitate (lexicale, morfologice, sintactice, fonetice) creează conotații.",
+    "sample": "Exemple originale: Inima pompează sânge (denotativ). Inima mea e o casă goală (conotativ, metaforă). Lumina se stingea încet în ochii orașului (conotativ, personificare).",
+    "worked": "Același cuvânt (inima) poate avea sens propriu sau figurat. În analiza literară, explicăm conotațiile și efectul lor asupra textului.",
+    "exercises": [
+     "Construiește enunțuri cu sens denotativ și conotativ pentru cuvintele: drum, lumină, piatră.",
+     "Identifică figuri de stil într-o poezie studiată.",
+     "Explică expresivitatea unei inversiuni.",
+     "Găsește un procedeu fonetic (aliterație) într-un text.",
+     "Analizează valoarea expresivă a unui timp verbal într-o poezie."
+    ],
+    "test": [
+     "Ce este sensul denotativ?",
+     "Ce este sensul conotativ?",
+     "Ce figură este: inima mea e o casă goală?",
+     "Ce este inversiunea?",
+     "Ce este aliterația?"
+    ],
+    "steps": [
+     "Stabilește dacă sensul este propriu sau figurat.",
+     "Numește figura și mecanismul ei.",
+     "Explică efectul în text.",
+     "Greșeala frecventă: să numești figura fără să explici efectul ei."
+    ],
+    "answers": [
+     "Sensul propriu, de dicționar.",
+     "Sensul figurat, cu valori afective și estetice.",
+     "Metaforă.",
+     "Schimbarea ordinii obișnuite a cuvintelor.",
+     "Repetarea aceleiași consoane."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l29": {
+   "ro": {
+    "title": "Dezbaterea și polemica civilizată",
+    "theory": "Dezbaterea poate avea loc în spațiul public (emisiuni, conferințe, rețele sociale) sau în spațiul privat (familie, prieteni). O polemică civilizată respectă reguli: ascultarea, respectul pentru interlocutor, argumentarea cu fapte, recunoașterea argumentelor bune ale celuilalt. Greșeli de argumentare de evitat: atacul la persoană (ad hominem), omul de paie (deformarea opiniei celuilalt), generalizarea grăbită, apelul la mulțime.",
+    "sample": "Replică necivilizată: Tu nu ai voie să vorbești despre poezie, că nu știi nimic! Replică civilizată: Înțeleg argumentul tău, dar exemplul ales nu susține concluzia; propun să ne uităm la text.",
+    "worked": "Prima replică este un atac la persoană. A doua recunoaște argumentul celuilalt și discută ideea, cu trimitere la dovezi.",
+    "exercises": [
+     "Identifică erori de argumentare într-un schimb de replici.",
+     "Reformulează civilizat trei replici agresive.",
+     "Organizează o dezbatere despre lectura obligatorie.",
+     "Explică ce este omul de paie.",
+     "Analizează o dezbatere televizată."
+    ],
+    "test": [
+     "Ce este atacul la persoană?",
+     "Ce este omul de paie?",
+     "Ce reguli are o polemică civilizată?",
+     "Ce este generalizarea grăbită?",
+     "Unde poate avea loc o dezbatere publică?"
+    ],
+    "steps": [
+     "Ascultă poziția celuilalt și reformuleaz-o corect.",
+     "Răspunde la argument, nu la persoană.",
+     "Susține-ți poziția cu dovezi.",
+     "Greșeala frecventă: să deformezi opinia celuilalt pentru a o combate mai ușor."
+    ],
+    "answers": [
+     "Atacarea omului în locul argumentului.",
+     "Deformarea opiniei celuilalt.",
+     "Ascultare, respect, argumente, recunoașterea ideilor bune.",
+     "Concluzie generală trasă din prea puține exemple.",
+     "În emisiuni, conferințe, rețele sociale."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l30": {
+   "ro": {
+    "title": "Tipuri de discurs: publicistic și politic",
+    "theory": "Discursul publicistic (articolul de opinie, editorialul, reportajul, interviul) informează și influențează opinia publică, cu titluri atractive și limbaj accesibil. Discursul politic urmărește persuasiunea: apelează la valori comune, la emoții și la argumente, folosind procedee retorice (repetiția, enumerația, întrebarea retorică, antiteza). Cititorul critic separă faptele de opinii și observă tehnicile de manipulare.",
+    "sample": "Fragment original de discurs: Ce vrem pentru copiii noștri? Școli bune, spitale curate, orașe sigure! Nu promisiuni, ci fapte!",
+    "worked": "Întrebarea retorică, enumerația și antiteza (promisiuni – fapte) sunt procedee persuasive. Discursul apelează la valori comune (copiii, siguranța), fără date concrete.",
+    "exercises": [
+     "Analizează procedeele retorice dintr-un discurs politic.",
+     "Separă faptele de opinii într-un articol de presă.",
+     "Scrie un editorial despre o problemă a școlii.",
+     "Identifică tehnici de manipulare într-o reclamă.",
+     "Compară un reportaj cu un articol de opinie."
+    ],
+    "test": [
+     "Ce urmărește discursul publicistic?",
+     "Ce urmărește discursul politic?",
+     "Ce procedeu este: Ce vrem pentru copiii noștri??",
+     "Ce antiteză apare în exemplu?",
+     "Ce face un cititor critic?"
+    ],
+    "steps": [
+     "Identifică scopul discursului.",
+     "Găsește procedeele retorice.",
+     "Verifică dacă afirmațiile au dovezi.",
+     "Greșeala frecventă: să accepți o afirmație doar pentru că este spusă convingător."
+    ],
+    "answers": [
+     "Să informeze și să influențeze opinia publică.",
+     "Persuasiunea.",
+     "Întrebare retorică.",
+     "Promisiuni – fapte.",
+     "Separă faptele de opinii."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l31": {
+   "ro": {
+    "title": "Sinteză: curentele literare de la romantism la postmodernism",
+    "theory": "Pentru bacalaureat, este util un tabel al curentelor: romantismul (sentiment, imaginație, antiteză – Eminescu), realismul (obiectivitate, tipuri, frescă – Slavici, Rebreanu), simbolismul (sugestie, simbol, muzicalitate – Bacovia, Macedonski), modernismul (intelectualizare, ambiguitate – Arghezi, Blaga, Barbu, Camil Petrescu), tradiționalismul (sat, credință – Pillat, Voiculescu), avangarda (ruptură – Tzara, Vinea), neomodernismul (recuperare, metaforă – Stănescu, Sorescu), postmodernismul (ironie, intertext – Cărtărescu).",
+    "sample": "Exercițiu original de încadrare: un text cu ploaie continuă, culori sumbre și repetiții (simbolism); un text cu adresare ironică către cititor și citate din alte opere (postmodernism); un text despre sat și credință (tradiționalism).",
+    "worked": "Încadrarea se face prin trăsături vizibile în text, nu doar prin numele autorului. Două trăsături argumentate sunt suficiente pentru o încadrare corectă.",
+    "exercises": [
+     "Completează tabelul curentelor literare.",
+     "Încadrează cinci fragmente necunoscute.",
+     "Explică diferența dintre modernism și postmodernism.",
+     "Explică diferența dintre romantism și simbolism.",
+     "Scrie o încadrare argumentată pentru o poezie studiată."
+    ],
+    "test": [
+     "Ce curent ilustrează Eminescu?",
+     "Ce curent ilustrează Bacovia?",
+     "Ce curent ilustrează Cărtărescu?",
+     "Ce trăsătură are tradiționalismul?",
+     "Câte trăsături argumentate folosim, de obicei, pentru încadrare?"
+    ],
+    "steps": [
+     "Identifică trăsăturile din text.",
+     "Leagă-le de un curent.",
+     "Argumentează cu exemple din text.",
+     "Greșeala frecventă: să încadrezi textul doar după numele autorului."
+    ],
+    "answers": [
+     "Romantismul.",
+     "Simbolismul.",
+     "Postmodernismul.",
+     "Satul și credința.",
+     "Două."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l32": {
+   "ro": {
+    "title": "Eseul structurat: viziunea despre lume și relația dintre personaje",
+    "theory": "La bacalaureat, eseul despre un text narativ sau dramatic cere, de obicei: încadrarea textului (curent, perioadă, specie), prezentarea temei și a viziunii despre lume prin două episoade, analiza a două elemente de structură (titlu, incipit, final, conflict, perspectivă, relații temporale și spațiale), sau, în varianta despre personaje, relația dintre două personaje prin două scene. Eseul are introducere, cuprins și concluzie, peste 400 de cuvinte.",
+    "sample": "Plan original pentru relația dintre Ilie Moromete și fiii cei mari: introducere (încadrare, autor); statutul celor două părți; două scene care ilustrează conflictul (cina, plecarea fiilor); un element de structură (simbolul timpului); concluzie.",
+    "worked": "Planul acoperă toate cerințele tipice. Scenele sunt alese pentru că arată evoluția relației. Concluzia trebuie să aducă o idee nouă, nu să repete introducerea.",
+    "exercises": [
+     "Fă planul unui eseu despre viziunea despre lume într-un roman interbelic.",
+     "Scrie introducerea unui eseu despre relația dintre două personaje.",
+     "Analizează incipitul și finalul unui roman studiat.",
+     "Scrie un eseu de 400 de cuvinte despre o operă studiată.",
+     "Autoevaluează eseul după o grilă de cerințe."
+    ],
+    "test": [
+     "Ce cere de obicei prima parte a eseului?",
+     "Câte episoade ilustrează tema?",
+     "Ce elemente de structură poți analiza?",
+     "Câte cuvinte are minimum eseul?",
+     "Ce trebuie să aducă o concluzie bună?"
+    ],
+    "steps": [
+     "Citește cerințele și fă planul.",
+     "Alege episoadele și elementele de structură potrivite.",
+     "Redactează, apoi verifică normele și numărul de cuvinte.",
+     "Greșeala frecventă: să repovestești acțiunea în locul analizei."
+    ],
+    "answers": [
+     "Încadrarea textului.",
+     "Două.",
+     "Titlul, incipitul, finalul, conflictul, perspectiva.",
+     "400 de cuvinte.",
+     "O idee nouă, nu o repetare a introducerii."
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l33": {
+   "ro": {
+    "title": "Eseul liber și documentarea",
+    "theory": "Eseul liber (nestructurat) permite o abordare personală a unei teme, cu ton reflexiv, argumente, exemple din lecturi și din experiență. Etapele redactării: documentarea (cărți, articole, surse online verificate), planul, redactarea, revizuirea. Sursele se citează corect: autor, titlu, editură, an, pagină; ideile preluate nu se prezintă ca proprii (plagiatul este interzis).",
+    "sample": "Început original de eseu liber: Există cărți pe care le citești și cărți care te citesc. Despre a doua categorie vreau să scriu, pornind de la o întrebare simplă: de ce ne schimbă unele povești?",
+    "worked": "Începutul atrage atenția printr-un paradox și formulează tema sub forma unei întrebări. Eseul va continua cu argumente și exemple din lecturi.",
+    "exercises": [
+     "Scrie un eseu liber despre rolul lecturii.",
+     "Citează corect trei surse.",
+     "Verifică o sursă online după autor, dată și instituție.",
+     "Revizuiește un eseu, eliminând repetițiile.",
+     "Explică ce este plagiatul și cum se evită."
+    ],
+    "test": [
+     "Ce este eseul liber?",
+     "Care sunt etapele redactării?",
+     "Ce date cuprinde o citare?",
+     "Ce este plagiatul?",
+     "Ce procedeu folosește începutul din exemplu?"
+    ],
+    "steps": [
+     "Documentează-te și notează sursele.",
+     "Fă un plan și redactează cu argumente și exemple.",
+     "Revizuiește textul și verifică citările.",
+     "Greșeala frecventă: să prezinți ideile altora ca fiind ale tale."
+    ],
+    "answers": [
+     "O abordare personală a unei teme.",
+     "Documentarea, planul, redactarea, revizuirea.",
+     "Autor, titlu, editură, an, pagină.",
+     "Prezentarea ideilor altora ca fiind proprii.",
+     "Paradoxul."
+    ]
+   }
+  }
+ }
+}
