@@ -219,7 +219,7 @@ function computingOpen(stage){
  const titles={levels:['Alege nivelul','Choose level'],paths:['Alege ramura de studiu','Choose branch'],topics:['Capitole în ordine','Chapters in order'],workspace:['Spațiu de lucru','Workspace'],'free-chat':['Discută cu Eva','Chat with Eva'],'national-tracks':['Alege traseul','Choose your track'],'national-chapters':['Capitole în ordine','Chapters in order'],'national-lesson':['Lecție și activități','Lesson and activities']};
  const titleBar=computingEl('div','','computing-workspace-titlebar');
  titleBar.style.cssText='display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;min-width:0;';
- titleBar.append(computingEl('h2',computingLabel(...titles[stage])));
+ titleBar.append(computingEl('h2',computingLabel(...(stage==='national-tracks'&&computingJourney.level==='advanced'?['Alege anul de studiu','Choose your year']:titles[stage]))));
  if(stage==='workspace'){
   const fresh=computingBtn(computingLabel('＋ Conversație nouă','＋ New conversation'),()=>{
    if(state.speaking)stopSpeech();
