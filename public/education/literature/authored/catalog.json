@@ -1,6 +1,6 @@
 {
  "schema": "mypocket-literature-authored-catalog/v1",
- "version": "e77d18a704699b40576c608c21d7c77dc18c881e7c67ef0ce705220927bc8da1",
+ "version": "726b768232996d1766b0171af82055409007f871e67f489f910b217d2867b8b7",
  "years": [
   {
    "country": "AT",
@@ -87,7 +87,7 @@
      "lang": "da",
      "name": "Dansk",
      "file": "da-1",
-     "version": "5028451f200087493b4c7c59a82b0a38329e34060eb3b8d2078c9622529c41e3"
+     "version": "33dbb4923dd9db4666eefc19356295fde1e1a4caafec3f47f106e7488feed96c"
     }
    ]
   },
