@@ -1,0 +1,1290 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "ES",
+ "stage": "beginner",
+ "grade": "P1",
+ "version": "b5e4e25675fec5a41f98b5aa1a6d527c2e49aa1abb8055557603f320cfcb1d50",
+ "source": "https://www.boe.es/buscar/act.php?id=BOE-A-2022-3296",
+ "sourceTitle": "157/2022 Errege Dekretua (LOMLOE) eta 77/2023 Dekretua, Oinarrizko Hezkuntzako curriculuma (Euskal Autonomia Erkidegoa): Euskara eta Literatura, Lehen Hezkuntzako lehen zikloa, 1. maila — ahozkotasuna, irakurmena, idazmena, hezkuntza literarioa, hizkuntzari buruzko hausnarketa; 1. mailako liburuen hurrenkera (bokalak, kontsonanteak, tx/tz/ts, letra larria, -a/-ak, non?/nora?, lehen testuak); jarduera originalak, liburuetako testurik kopiatu gabe",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "eu",
+ "labels": [
+  "Jarduera original orientagarria · Espainia · Lehen Hezkuntzako 1. maila (euskara)",
+  "Ikasiko dugu",
+  "Adibide originala",
+  "Azalpena",
+  "Ariketak",
+  "Egiaztatu zer dakizun",
+  "Jarduera originalak dira, ez proba ofiziala. Irakurri heldu batekin, behar baduzu.",
+  "Ez baduzu ulertu: urratsez urrats",
+  "Erantzunak (egiaztatu amaitu ondoren bakarrik)"
+ ],
+ "units": [
+  {
+   "title": "Ikasturte hasiera",
+   "keys": [
+    "eu-year-es-beginner-p1-l01",
+    "eu-year-es-beginner-p1-l02",
+    "eu-year-es-beginner-p1-l03"
+   ]
+  },
+  {
+   "title": "Bokalak eta lehen kontsonanteak",
+   "keys": [
+    "eu-year-es-beginner-p1-l04",
+    "eu-year-es-beginner-p1-l05",
+    "eu-year-es-beginner-p1-l06",
+    "eu-year-es-beginner-p1-l07",
+    "eu-year-es-beginner-p1-l08",
+    "eu-year-es-beginner-p1-l09"
+   ]
+  },
+  {
+   "title": "Kontsonante gehiago",
+   "keys": [
+    "eu-year-es-beginner-p1-l10",
+    "eu-year-es-beginner-p1-l11",
+    "eu-year-es-beginner-p1-l12",
+    "eu-year-es-beginner-p1-l13",
+    "eu-year-es-beginner-p1-l14",
+    "eu-year-es-beginner-p1-l15"
+   ]
+  },
+  {
+   "title": "Letra bikoitzak eta taldeak",
+   "keys": [
+    "eu-year-es-beginner-p1-l16",
+    "eu-year-es-beginner-p1-l17",
+    "eu-year-es-beginner-p1-l18",
+    "eu-year-es-beginner-p1-l19"
+   ]
+  },
+  {
+   "title": "Ondo idazten",
+   "keys": [
+    "eu-year-es-beginner-p1-l20",
+    "eu-year-es-beginner-p1-l21",
+    "eu-year-es-beginner-p1-l22",
+    "eu-year-es-beginner-p1-l23",
+    "eu-year-es-beginner-p1-l24"
+   ]
+  },
+  {
+   "title": "Testuak irakurri eta entzun",
+   "keys": [
+    "eu-year-es-beginner-p1-l25",
+    "eu-year-es-beginner-p1-l26",
+    "eu-year-es-beginner-p1-l27",
+    "eu-year-es-beginner-p1-l28",
+    "eu-year-es-beginner-p1-l29"
+   ]
+  },
+  {
+   "title": "Idatzi eta komunikatu",
+   "keys": [
+    "eu-year-es-beginner-p1-l30",
+    "eu-year-es-beginner-p1-l31",
+    "eu-year-es-beginner-p1-l32",
+    "eu-year-es-beginner-p1-l33"
+   ]
+  },
+  {
+   "title": "Ikasturte amaiera",
+   "keys": [
+    "eu-year-es-beginner-p1-l34"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-es-beginner-p1-l01": {
+   "eu": {
+    "title": "Aurkeztu egiten gara eta arauak adosten ditugu",
+    "theory": "Lehen egunetan elkar ezagutzen dugu. Gure izena esaldi oso batekin esaten dugu: Ni … naiz. Gelako arauak adosten ditugu: eskua altxatzen dugu hitz egiteko, besteei entzuten diegu, ez dugu inor eteten eta ahots argiz hitz egiten dugu.",
+    "sample": "Ni Ane naiz. Sei urte ditut. Izurdeak marraztea gustatzen zait. Nire ondoan Jon eserita dago.",
+    "worked": "Anek lau esaldi laburrekin aurkezten du bere burua: izena, adina, zer gustatzen zaion eta nor dagoen bere ondoan. Hitz egiten duen bitartean ikaskideei begiratzen die. Esaldi bakoitza letra larriz hasten da eta puntuz amaitzen da.",
+    "exercises": [
+     "Aurkeztu zure burua bi esaldirekin.",
+     "Esan zer gustatzen zaizun egitea.",
+     "Esan zure mahaikidearen izena.",
+     "Erakutsi nola altxatzen duzun eskua.",
+     "Errepikatu ikaskide batek esan duena."
+    ],
+    "test": [
+     "Zenbat urte ditu Anek?",
+     "Zer egiten dugu hitz egin nahi dugunean?",
+     "Zergatik ez ditugu besteak eteten?",
+     "Zer gustatzen zaizu zuri egitea?",
+     "Nor dago Aneren ondoan?"
+    ],
+    "steps": [
+     "Lehenik esan zure izena: Ni … naiz.",
+     "Gero esan zenbat urte dituzun eta zer gustatzen zaizun.",
+     "Beste norbaitek hitz egiten duenean, entzun eta ez eten.",
+     "Kontuz: hitz egin esaldi osoekin, ez hitz bakar batekin."
+    ],
+    "answers": [
+     "Sei urte.",
+     "Eskua altxatzen dugu eta gure txanda itxaroten dugu.",
+     "Denok hitz egin ahal izateko eta elkar ulertzeko.",
+     "Zure erantzuna. Adibidez: Futbolean jolastea gustatzen zait.",
+     "Jon."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-l02": {
+   "eu": {
+    "title": "Hitzen soinuak entzuten ditugu",
+    "theory": "Hitzak soinuz eginda daude. Hitz baten lehen soinua hasierako soinua da. Hitza poliki esaten badugu, hobeto entzuten ditugu soinuak. Bi hitzek errima egiten dute berdin amaitzen direnean: mendi eta handi, argi eta ilargi.",
+    "sample": "sagua, mendi, handi, ilargi, argi, ama, ura, eguzki",
+    "worked": "Sagua s soinuarekin hasten da, mendi m soinuarekin eta ama a soinuarekin. Mendi eta handi errimatzen dute -ndi amaitzen direlako. Ilargi eta argi ere errimatzen dute, -argi amaitzen direlako.",
+    "exercises": [
+     "Esan poliki: sssagua. Zein da lehen soinua?",
+     "Bilatu errima bat mendi hitzarentzat.",
+     "Zein soinurekin amaitzen da ura?",
+     "Bilatu gelan p-z hasten den objektu bat.",
+     "Txalo jo errima egiten badute: argi – ilargi."
+    ],
+    "test": [
+     "Zein soinurekin hasten da ama?",
+     "Mendi eta handi errimatzen dute?",
+     "Zein soinurekin hasten da eguzki?",
+     "Esan m-z hasten den hitz bat.",
+     "Zein hitzek ez du errimarik egiten: argi, ilargi, ura?"
+    ],
+    "steps": [
+     "Esan hitza oso poliki, luzatuko bazenu bezala: sss-a-gu-a.",
+     "Lehenik entzuten duzun soinua hasierako soinua da.",
+     "Errimarako, entzun hitzen amaiera.",
+     "Kontuz: entzun soinua, ez begiratu marrazkiari bakarrik; esan beti hitza ozen."
+    ],
+    "answers": [
+     "a.",
+     "Bai.",
+     "e.",
+     "Zure erantzuna. Adibidez: mahaia, mendia, Mikel.",
+     "ura."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-l03": {
+   "eu": {
+    "title": "Grafismoak: eskua prestatzen dugu idazteko",
+    "theory": "Letren aurretik grafismoak egiten ditugu: lerroak, olatuak, zirkuluak, zubiak eta kiribilak. Arkatza hiru hatzekin hartzen dugu, estutu gabe. Zuzen esertzen gara, oinak lurrean. Ezkerretik eskuinera idazten dugu.",
+    "sample": "1. lerroa: olatuak itsasoa bezala. / 2. lerroa: zubiak arkuak bezala. / 3. lerroa: zirkuluak puxikak bezala.",
+    "worked": "Olatuak, zubiak eta zirkuluak gero letretan agertzen dira: zirkulua o letran, zubia n letran eta olatua s letran. Orain lantzen baditugu, gero hobeto idatziko dugu. Lerro bakoitza ezkerrean hasten da.",
+    "exercises": [
+     "Marraztu olatu-lerro bat.",
+     "Marraztu bost puxika.",
+     "Marraztu airean zubi handi bat hatzarekin.",
+     "Erakutsi nola hartzen duzun arkatza.",
+     "Egin kiribilak lerro osoan."
+    ],
+    "test": [
+     "Zenbat hatzekin hartzen dugu arkatza?",
+     "Zein aldetatik hasten gara idazten?",
+     "Zer forma du puxika batek?",
+     "Nola esertzen gara idazteko?",
+     "Zer egiten duzu eskua nekatzen bazaizu?"
+    ],
+    "steps": [
+     "Eseri zuzen, oinak lurrean ondo jarrita.",
+     "Hartu arkatza erpuruarekin, erakuslearekin eta erdiko hatzarekin, gehiegi estutu gabe.",
+     "Hasi ezkerrean eta joan poliki eskuinera.",
+     "Kontuz: eskua nekatzen bazaizu, astindu pixka bat eta hasi berriro."
+    ],
+    "answers": [
+     "Hiru hatzekin.",
+     "Ezkerretik.",
+     "Zirkulu forma.",
+     "Zuzen, oinak lurrean.",
+     "Pixka bat astindu eta atseden hartzen dut."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-l04": {
+   "eu": {
+    "title": "Bokalak: a, e, i, o, u",
+    "theory": "Bokalak bost dira: a, e, i, o, u. Aho irekiarekin esaten ditugu, mihiak edo ezpainek airea itxi gabe. Hitz guztiek bokal bat dute gutxienez. Hitz batzuk bokalez bakarrik eginda daude: ai, ia, ea.",
+    "sample": "A E I O U / ai, ia / ama, etxea, ilargia, ogia, ura",
+    "worked": "Ama a-z hasten da, etxea e-z, ilargia i-z, ogia o-z eta ura u-z. Ai eta ia bokalez bakarrik eginda daude. Bokalak hitzen bihotza dira: haiek gabe ezin dugu irakurri.",
+    "exercises": [
+     "Esan bost bokalak.",
+     "Idatzi A larria eta a txikia.",
+     "Zein bokalekin hasten da ura?",
+     "Bilatu e-z hasten den hitz bat.",
+     "Jarri ahoa biribil eta esan: o."
+    ],
+    "test": [
+     "Zenbat bokal daude?",
+     "Zein bokalekin hasten da ogia?",
+     "Hitz guztiek dute bokalik?",
+     "Zein bokalekin hasten da ilargia?",
+     "Irakurri: ai, ia, ura."
+    ],
+    "steps": [
+     "Bokalak a, e, i, o, u dira: esan itzazu ordenan.",
+     "Begiratu ahoari ispiluan: o-rekin biribil jartzen da, i-rekin irribarre egiten du.",
+     "Hasierako bokala aurkitzeko, esan hitza poliki.",
+     "Kontuz: e eta i nahas daitezke; ahoskatu ondo eta entzun."
+    ],
+    "answers": [
+     "Bost.",
+     "o.",
+     "Bai.",
+     "i.",
+     "ai, i-a, u-ra."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-l05": {
+   "eu": {
+    "title": "M eta p: ama eta pipa",
+    "theory": "Kontsonanteek bokal bat behar dute ondo entzuteko. M + a ma egiten du; p + o po. Elkarketa hauei silabak deitzen zaie. Silabekin hitzak osatzen ditugu: a-ma, Mi-kel, pi-pa, ma-pa.",
+    "sample": "ma me mi mo mu / pa pe pi po pu / Amak papera du. / Mikelek mapa bat du.",
+    "worked": "Ezkerretik eskuinera irakurtzen dugu: lehenik kontsonantea, gero bokala. Mapa hitzak bi silaba ditu: ma-pa. Mikel izen bat da, beraz letra larriz hasten da. Esaldi bakoitza puntuz amaitzen da.",
+    "exercises": [
+     "Irakurri: ma, me, mi, mo, mu.",
+     "Irakurri: pa, pe, pi, po, pu.",
+     "Elkartu: ma + pa.",
+     "Idatzi P larria.",
+     "Bilatu m duen hitz bat."
+    ],
+    "test": [
+     "Zer osatzen dute kontsonante batek eta bokal batek elkarrekin?",
+     "Zer du amak?",
+     "Zenbat silaba ditu mapa hitzak?",
+     "Irakurri: puma, ama, pipa.",
+     "Zer du Mikelek?"
+    ],
+    "steps": [
+     "Esan kontsonantearen soinua eta segituan bokala: m-a = ma.",
+     "Elkartu bi silaba eta irakurri hitza: ma-pa.",
+     "Irakurri beti ezkerretik eskuinera.",
+     "Kontuz: pa eta ap letra berberak dira, baina ordenak silaba aldatzen du."
+    ],
+    "answers": [
+     "Silaba bat.",
+     "Papera.",
+     "Bi: ma-pa.",
+     "pu-ma, a-ma, pi-pa.",
+     "Mapa bat."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-l06": {
+   "eu": {
+    "title": "L eta t: lorea eta tomatea",
+    "theory": "L mihia goian jarrita esaten da, goiko hortzen atzean. T mihiaren puntarekin hortzetan esaten da, ahotsik gabe. Hitzak: lo, lore, Lur, ate, tipula, tomatea.",
+    "sample": "Lur lotan dago. / Tomasek tomate bat du. / Atea itxita dago.",
+    "worked": "Lur eta Tomas izenak dira: letra larriz hasten dira. Lur, lotan eta lore l-z hasten dira; Tomas eta tomate t-z. Esaldi bakoitza poliki irakurtzen dugu eta gero azkarrago.",
+    "exercises": [
+     "Irakurri: la, le, li, lo, lu.",
+     "Irakurri: ta, te, ti, to, tu.",
+     "Irakurri: lore, ate, tipula.",
+     "Idatzi tomate hitza.",
+     "Bilatu t duen hitz bat."
+    ],
+    "test": [
+     "Nola dago Lur?",
+     "Zer du Tomasek?",
+     "Nola dago atea?",
+     "Irakurri: pilota, tela, Leire.",
+     "Zergatik idazten da Lur letra larriz?"
+    ],
+    "steps": [
+     "L esateko, jarri mihia goiko hortzen atzean.",
+     "T esateko, ukitu hortzak mihiaren puntarekin.",
+     "Irakurri esaldia poliki eta gero azkarrago.",
+     "Kontuz: l eta t antzekoak dira idatzita; t-k marra txiki bat du zeharka."
+    ],
+    "answers": [
+     "Lotan.",
+     "Tomate bat.",
+     "Itxita.",
+     "pi-lo-ta, te-la, Lei-re.",
+     "Pertsona baten izena delako."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-l07": {
+   "eu": {
+    "title": "N eta s: Nerea eta sagua",
+    "theory": "N mihia goian jarrita esaten da, airea sudurretik ateraz. S txistu txiki bat bezala entzuten da: sagua, sei, su, esnea. Hitzak: Nerea, ni, ona, sagua, sei, mesedez.",
+    "sample": "Nerea sei urtekoa da. / Sagua etxe azpian dago. / Sua beroa da.",
+    "worked": "Nerea eta ni n-z hasten dira. Sei, sagua eta sua s-z hasten dira. Nerea izena da eta letra larriz hasten da. Sua beroa da: kontuz ibili behar dugu.",
+    "exercises": [
+     "Irakurri: na, ne, ni, no, nu.",
+     "Irakurri: sa, se, si, so, su.",
+     "Irakurri: sagua, sei, esnea.",
+     "Idatzi su hitza.",
+     "Bilatu n duen hitz bat."
+    ],
+    "test": [
+     "Zenbat urte ditu Nereak?",
+     "Non dago sagua?",
+     "Nolakoa da sua?",
+     "Irakurri: Ane, sei, mesedez.",
+     "Zein letrarekin hasten da sagua?"
+    ],
+    "steps": [
+     "N esateko, jarri mihia goian eta utzi airea sudurretik ateratzen.",
+     "S esateko, egin txistu txiki bat mihiaren puntarekin.",
+     "Irakurri silaba berriak eta elkartu: sa-gu-a.",
+     "Kontuz: n eta m nahas daitezke; m-k bi zubi ditu eta n-k bakarra."
+    ],
+    "answers": [
+     "Sei urte.",
+     "Etxe azpian.",
+     "Beroa.",
+     "A-ne, sei, me-se-dez.",
+     "s."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-l08": {
+   "eu": {
+    "title": "K: katua eta kalea",
+    "theory": "Euskaraz k soinua beti k letrarekin idazten da: ka, ke, ki, ko, ku. Ez dugu c edo q erabiltzen euskal hitzetan. Hitzak: katua, kalea, kotxea, eskola, Koldo.",
+    "sample": "Katua kalean dago. / Koldo eskolara doa. / Kotxe urdina etorri da.",
+    "worked": "Katua, kalean, Koldo eta kotxe k-z idazten dira. Eskola hitzak ere k du erdian. Euskaraz ez dugu ca edo que idazten: beti ka, ke, ki, ko, ku.",
+    "exercises": [
+     "Irakurri: ka, ke, ki, ko, ku.",
+     "Irakurri: katua, kalea, eskola.",
+     "Idatzi Koldo izena.",
+     "Bilatu k duen beste hitz bat.",
+     "Zuzendu: catua."
+    ],
+    "test": [
+     "Non dago katua?",
+     "Nora doa Koldo?",
+     "Zein koloretakoa da kotxea?",
+     "Euskaraz zein letrarekin idazten dugu k soinua?",
+     "Irakurri: kanta, kilo, makila."
+    ],
+    "steps": [
+     "Entzun k soinua hitzean.",
+     "Euskaraz idatzi beti k: katua, kalea.",
+     "Elkartu silabak eta irakurri hitza: ka-tu-a.",
+     "Kontuz: ez idatzi c edo q euskal hitzetan; katua, ez catua."
+    ],
+    "answers": [
+     "Kalean.",
+     "Eskolara.",
+     "Urdina.",
+     "k letrarekin.",
+     "kan-ta, ki-lo, ma-ki-la."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-l09": {
+   "eu": {
+    "title": "R eta rr: ura eta arraina",
+    "theory": "R letrak bi soinu ditu. Bi bokalen artean r bakarra leuna da: ura, lorea, hiru. Bi bokalen arteko soinu gogorra rr idazten dugu: arraina, gorria, txakurra. Euskal hitzak ez dira normalean r-z hasten: horregatik esaten dugu errota edo arrosa.",
+    "sample": "Arraina uretan dago. / Lore gorria polita da. / Txakurrak hiru pilota ditu.",
+    "worked": "Uretan, lore eta hiru hitzetan r bakarra dago bi bokalen artean, eta leun entzuten da. Arraina, gorria eta txakurrak hitzetan rr dago: gogor entzuten da. R bat edo bi idazteak hitza alda dezake.",
+    "exercises": [
+     "Esan leun: ura, lorea.",
+     "Esan gogor: arraina, gorria.",
+     "Irakurri: hiru, irakurri, perretxikoa.",
+     "Idatzi arraina hitza.",
+     "Gorria hitzean r bat ala bi daude?"
+    ],
+    "test": [
+     "Non dago arraina?",
+     "Nolakoa da lore gorria?",
+     "Zenbat pilota ditu txakurrak?",
+     "Lorea hitzean r leuna ala gogorra da?",
+     "Irakurri: erreka, ura, burua."
+    ],
+    "steps": [
+     "Begiratu non dagoen r letra.",
+     "Bi bokalen artean r bakarra leun entzuten da: ura.",
+     "Soinu gogorra bi bokalen artean bada, idatzi rr: arraina.",
+     "Kontuz: ezin da beti entzunda jakin; ikasi gorria eta txakurra rr-rekin idazten direla."
+    ],
+    "answers": [
+     "Uretan.",
+     "Polita.",
+     "Hiru.",
+     "Leuna.",
+     "erreka, ura, burua."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-l10": {
+   "eu": {
+    "title": "D eta b: dena eta baloia",
+    "theory": "D mihiaren puntarekin hortzetan esaten da, ahotsarekin. B ezpainekin esaten da, p bezala baina leunago. Hitzak: dena, dago, edan, ardia, bat, bi, baloia, behia.",
+    "sample": "Behiak ura edaten du. / Baloia mahai azpian dago. / Bi ardi daude mendian.",
+    "worked": "Behia, baloia eta bi b-z hasten dira. Edaten, dago eta daude hitzek d dute. Bi ardi esaten dugu, ez bi ardiak: zenbakiaren ondoren hitzak ez du -ak hartzen.",
+    "exercises": [
+     "Irakurri: da, de, di, do, du.",
+     "Irakurri: ba, be, bi, bo, bu.",
+     "Irakurri: baloia, behia, edan.",
+     "Idatzi bi hitza.",
+     "Bilatu d duen hitz bat."
+    ],
+    "test": [
+     "Zer edaten du behiak?",
+     "Non dago baloia?",
+     "Zenbat ardi daude mendian?",
+     "Irakurri: bide, dena, bost.",
+     "Zein letrarekin hasten da baloia?"
+    ],
+    "steps": [
+     "D esateko, ukitu hortzak mihiarekin eta egin ahotsa.",
+     "B esateko, itxi ezpainak eta ireki leun.",
+     "Irakurri hitza silabaka eta gero osorik.",
+     "Kontuz: b eta d nahas daitezke; b-ren sabela eskuinean dago eta d-rena ezkerrean."
+    ],
+    "answers": [
+     "Ura.",
+     "Mahai azpian.",
+     "Bi.",
+     "bi-de, de-na, bost.",
+     "b."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-l11": {
+   "eu": {
+    "title": "G eta j: gela eta jolasa",
+    "theory": "Euskaraz g beti gogorra da: ga, ge, gi, go, gu. Ez dugu u gehitu behar e edo i aurretik: gela, gizona. J letra hitz batzuetan dago: jan, jolas, Jon, jaia. Leku batzuetan modu desberdinetan ahoskatzen da.",
+    "sample": "Gizona gelan dago. / Jonek gazta jaten du. / Gaur jaia da herrian.",
+    "worked": "Gizona, gelan, gazta eta gaur g-z hasten dira, eta g beti gogor entzuten da, baita e eta i aurretik ere: gela, gizona. Jon, jaten eta jaia j-z hasten dira.",
+    "exercises": [
+     "Irakurri: ga, ge, gi, go, gu.",
+     "Irakurri: gela, gizona, gorria.",
+     "Irakurri: jan, jolas, jaia.",
+     "Idatzi gazta hitza.",
+     "Bilatu j duen hitz bat."
+    ],
+    "test": [
+     "Non dago gizona?",
+     "Zer jaten du Jonek?",
+     "Zer da gaur herrian?",
+     "Nola entzuten da g letra gela hitzean?",
+     "Irakurri: gogoa, jolastu, egia."
+    ],
+    "steps": [
+     "Euskaraz g beti gogor irakurri: ga, ge, gi, go, gu.",
+     "J ikusten baduzu, ahoskatu zure inguruan egiten den bezala: jan, jolas.",
+     "Irakurri hitza silabaka eta gero osorik.",
+     "Kontuz: ez idatzi gue edo gui euskal hitzetan; gela eta gizona g hutsarekin idazten dira."
+    ],
+    "answers": [
+     "Gelan.",
+     "Gazta.",
+     "Jaia.",
+     "Gogor.",
+     "go-go-a, jo-las-tu, e-gi-a."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-l12": {
+   "eu": {
+    "title": "Z eta s: zaldia eta sagua",
+    "theory": "Euskaraz s eta z soinu desberdinak dira. Z mihia beheko hortzen atzean jarrita esaten da: zaldia, zazpi, zuhaitza. S mihiaren punta goian jarrita esaten da: sagua, sei, su. Leku askotan antzera entzuten dira; horregatik hitzak ondo ikasi behar ditugu.",
+    "sample": "Zazpi zaldi zelaian daude. / Sei sagu sukaldean daude. / Zuhaitza oso handia da.",
+    "worked": "Zazpi, zaldi, zelaian eta zuhaitza z-z idazten dira. Sei, sagu eta sukaldean s-z idazten dira. Bi soinuak antzekoak dira, baina hitz bakoitzak bere letra du.",
+    "exercises": [
+     "Irakurri: za, ze, zi, zo, zu.",
+     "Irakurri: zaldia, zazpi, zuhaitza.",
+     "Irakurri: sei, sagua, sukaldea.",
+     "Idatzi zazpi hitza.",
+     "Zein letrarekin idazten da sei: s ala z?"
+    ],
+    "test": [
+     "Zenbat zaldi daude zelaian?",
+     "Non daude sei saguak?",
+     "Nolakoa da zuhaitza?",
+     "Zein letrarekin idazten da zaldia?",
+     "Irakurri: zapata, soka, zortzi."
+    ],
+    "steps": [
+     "Z esateko, jarri mihia beheko hortzen atzean.",
+     "S esateko, jarri mihiaren punta goian.",
+     "Zalantza baduzu, begiratu hiztegian edo galdetu.",
+     "Kontuz: zazpi z-rekin idazten da eta sei s-rekin; ez nahastu."
+    ],
+    "answers": [
+     "Zazpi.",
+     "Sukaldean.",
+     "Oso handia.",
+     "z.",
+     "za-pa-ta, so-ka, zor-tzi."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-l13": {
+   "eu": {
+    "title": "X: Xabier eta xaboia",
+    "theory": "X letra txistu lodi bat bezala entzuten da, isiltasuna eskatzeko egiten dugun soinua bezala: xxx. Hitzak: Xabier, xaboia, kaixo, xomorroa.",
+    "sample": "Kaixo, Xabier! / Xaboiarekin eskuak garbitzen ditugu. / Xomorro txiki bat lorean dago.",
+    "worked": "Kaixo, Xabier, xaboiarekin eta xomorro hitzek x dute. X soinua txistu lodi bat da. Xabier izena da eta letra larriz hasten da.",
+    "exercises": [
+     "Irakurri: xa, xe, xi, xo, xu.",
+     "Irakurri: xaboia, kaixo, xomorroa.",
+     "Idatzi Xabier izena.",
+     "Esan kaixo ikaskide bati.",
+     "Bilatu x duen beste hitz bat."
+    ],
+    "test": [
+     "Zerekin garbitzen ditugu eskuak?",
+     "Non dago xomorroa?",
+     "Nori esaten diogu kaixo adibidean?",
+     "Nola entzuten da x letra?",
+     "Irakurri: kaixo, xume, Xabier."
+    ],
+    "steps": [
+     "Jarri ezpainak pixka bat aurrera eta egin isiltasun soinua: xxx.",
+     "Irakurri x duen silaba eta gero hitza: xa-boi-a.",
+     "Esan hitza ozen eta entzun.",
+     "Kontuz: x eta tx antzekoak dira, baina tx gogorragoa da: kaixo eta etxea."
+    ],
+    "answers": [
+     "Xaboiarekin.",
+     "Lorean.",
+     "Xabierri.",
+     "Txistu lodi bat bezala.",
+     "kai-xo, xu-me, Xa-bier."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-l14": {
+   "eu": {
+    "title": "H: hiru eta haurra",
+    "theory": "H letra ez da entzuten leku gehienetan, baina idatzi egin behar da hitz askotan: hiru, hamar, haurra, herria, hondartza, ohea. Hitz hauek buruz ikasten ditugu.",
+    "sample": "Hiru haur hondartzan daude. / Herria mendi ondoan dago. / Ohea handia da.",
+    "worked": "Hiru, haur, hondartzan eta herria h-z hasten dira. Ohea hitzak h du erdian. Leku askotan ez da entzuten, baina idatzi egiten dugu.",
+    "exercises": [
+     "Irakurri: hiru, hamar, haurra.",
+     "Idatzi hondartza hitza.",
+     "Bilatu adibidean h duten hitzak.",
+     "Zuzendu: iru.",
+     "Irakurri: ohea, mahaia."
+    ],
+    "test": [
+     "Zenbat haur daude hondartzan?",
+     "Non dago herria?",
+     "Nolakoa da ohea?",
+     "Entzuten da h hitz gehienetan?",
+     "Irakurri: hegazkina, hitza, ahoa."
+    ],
+    "steps": [
+     "H ez da entzuten leku askotan, baina idatzi egin behar da.",
+     "Ikasi h duten hitzak: hiru, hamar, haurra.",
+     "Begiratu hitza idatzita eta kopiatu zenbait aldiz.",
+     "Kontuz: iru h gabe akatsa da; hiru beti h-rekin."
+    ],
+    "answers": [
+     "Hiru.",
+     "Mendi ondoan.",
+     "Handia.",
+     "Ez leku gehienetan, baina idatzi egiten da.",
+     "he-gaz-ki-na, hi-tza, a-ho-a."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-l15": {
+   "eu": {
+    "title": "F eta ñ: foka eta andereño",
+    "theory": "F goiko hortzak beheko ezpainaren gainean jarrita esaten da, airea bakarrik ateraz. Ñ letra hitz gutxi batzuetan agertzen da: andereño, ñabardura. Hitzak: afaria, foka, Fermin, kafea.",
+    "sample": "Andereñoak ipuin bat kontatzen du. / Fermin afaria prestatzen ari da. / Foka itsasoan igeri dago.",
+    "worked": "Afaria, Fermin eta foka f-z idazten dira. Andereño hitzak ñ du: eskolan irakasleari horrela deitzen zaio leku askotan. Ñ ez da letra arrunta euskaraz, baina hitz batzuetan ikusiko dugu.",
+    "exercises": [
+     "Irakurri: fa, fe, fi, fo, fu.",
+     "Irakurri: afaria, foka, kafea.",
+     "Irakurri: andereño.",
+     "Idatzi foka hitza.",
+     "Bilatu f duen beste hitz bat."
+    ],
+    "test": [
+     "Zer kontatzen du andereñoak?",
+     "Zer prestatzen ari da Fermin?",
+     "Non dago foka?",
+     "Zein letra berezi du andereño hitzak?",
+     "Irakurri: fruta, kafea, ñabardura."
+    ],
+    "steps": [
+     "F esateko, jarri goiko hortzak beheko ezpainaren gainean eta atera airea.",
+     "Ñ ikusten baduzu, irakurri andereño hitzean bezala.",
+     "Irakurri hitza silabaka eta gero osorik.",
+     "Kontuz: f eta p ez dira berdinak; f-k airea ateratzen du, p-k ezpainak ixten ditu."
+    ],
+    "answers": [
+     "Ipuin bat.",
+     "Afaria.",
+     "Itsasoan.",
+     "ñ.",
+     "fru-ta, ka-fe-a, ña-bar-du-ra."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-l16": {
+   "eu": {
+    "title": "Tx: etxea eta txakurra",
+    "theory": "Tx bi letra dira, t eta x, eta soinu bakarra egiten dute: etxea, txakurra, txoria, txokolatea. Silabak banatzean tx ez da banatzen: e-txe-a.",
+    "sample": "Txakurra etxean dago. / Txori bat leihoan dago. / Txokolatea gozoa da.",
+    "worked": "Txakurra, etxean, txori eta txokolatea hitzek tx dute. Bi letrak elkarrekin irakurtzen ditugu soinu bakar gisa. Silabak banatzean, e-txe-an idazten dugu, tx elkarrekin.",
+    "exercises": [
+     "Irakurri: txa, txe, txi, txo, txu.",
+     "Irakurri: etxea, txakurra, txoria.",
+     "Idatzi txokolatea hitza.",
+     "Banatu silabatan: etxea.",
+     "Bilatu tx duen beste hitz bat."
+    ],
+    "test": [
+     "Non dago txakurra?",
+     "Non dago txoria?",
+     "Nolakoa da txokolatea?",
+     "Zenbat soinu egiten ditu tx-k?",
+     "Irakurri: motxila, txanoa, kotxea."
+    ],
+    "steps": [
+     "T eta x elkarrekin ikusten badituzu, irakurri soinu bakar gisa.",
+     "Irakurri silabak: txa, txe, txi, txo, txu.",
+     "Silabak banatzean, utzi tx elkarrekin: e-txe-a.",
+     "Kontuz: tx eta x desberdinak dira; etxea tx-rekin idazten da, ez x-rekin."
+    ],
+    "answers": [
+     "Etxean.",
+     "Leihoan.",
+     "Gozoa.",
+     "Soinu bakarra.",
+     "mo-txi-la, txa-no-a, ko-txe-a."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-l17": {
+   "eu": {
+    "title": "Tz eta ts: zuhaitza eta itsasoa",
+    "theory": "Tz eta ts bi letra dira eta bakoitzak soinu bakarra egiten du. Tz z-ren antzekoa da baina gogorragoa: zuhaitza, hitza, hotza, gatza. Ts s-ren antzekoa da baina gogorragoa: itsasoa, ametsa, atsegina. Silabak banatzean ez ditugu banatzen.",
+    "sample": "Itsasoa urdina da. / Zuhaitza handia da. / Gaur hotz handia egiten du.",
+    "worked": "Itsasoa hitzak ts du. Zuhaitza eta hotz hitzek tz dute. Bi soinuak antzekoak dira; horregatik hitzak ondo ikasi behar ditugu: zuhaitza tz-rekin, itsasoa ts-rekin.",
+    "exercises": [
+     "Irakurri: tza, tze, tzi, tzo, tzu.",
+     "Irakurri: tsa, tse, tsi, tso, tsu.",
+     "Irakurri: zuhaitza, hitza, itsasoa.",
+     "Idatzi hotza hitza.",
+     "Banatu silabatan: zuhaitza."
+    ],
+    "test": [
+     "Zein koloretakoa da itsasoa?",
+     "Nolakoa da zuhaitza?",
+     "Zer egiten du gaur?",
+     "Zein letra bikoitz du itsasoa hitzak?",
+     "Irakurri: gatza, ametsa, bitxia."
+    ],
+    "steps": [
+     "Bilatu bi letra hauek elkarrekin: tz edo ts.",
+     "Irakurri bakoitza soinu bakar gisa.",
+     "Silabak banatzean, utzi elkarrekin: zu-hai-tza.",
+     "Kontuz: tz eta ts nahas daitezke; ikasi zuhaitza tz-rekin eta itsasoa ts-rekin."
+    ],
+    "answers": [
+     "Urdina.",
+     "Handia.",
+     "Hotz handia.",
+     "ts.",
+     "ga-tza, a-me-tsa, bi-txi-a."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-l18": {
+   "eu": {
+    "title": "Hiru soinu antzeko: tx, tz eta ts",
+    "theory": "Hiru soinu hauek antzekoak dira. Tx da lodiena (etxea), tz mihia behean jarrita esaten da (hotza) eta ts mihiaren punta goian jarrita (itsasoa). Ondo entzuten eta ikasten baditugu, ondo idatziko ditugu.",
+    "sample": "Etxe ondoan itsasoa dago, eta zuhaitz handi bat ere bai.",
+    "worked": "Etxe hitzak tx du, itsasoa hitzak ts eta zuhaitz hitzak tz. Hiru soinuak antzekoak dira, baina hiru hitz desberdin dira eta bakoitzak bere idazkera du.",
+    "exercises": [
+     "Sailkatu: etxea, hitza, itsasoa.",
+     "Irakurri: txoria, hotza, ametsa.",
+     "Idatzi hiru hitz, bakoitza soinu batekin.",
+     "Esan ozen: tx, tz, ts.",
+     "Bilatu tx duen hitz bat zure gelan."
+    ],
+    "test": [
+     "Zer dago etxe ondoan?",
+     "Zein soinu du etxe hitzak?",
+     "Zein soinu du zuhaitz hitzak?",
+     "Zein soinu du itsasoa hitzak?",
+     "Irakurri: atsegina, gatza, txanoa."
+    ],
+    "steps": [
+     "Esan hitza poliki eta entzun soinua.",
+     "Tx lodia da, tz mihia behean, ts mihiaren punta goian.",
+     "Zalantza baduzu, pentsatu hitz bera idatzita non ikusi duzun.",
+     "Kontuz: hiru soinuak oso antzekoak dira; ikasi hitz ohikoenak buruz."
+    ],
+    "answers": [
+     "Itsasoa eta zuhaitz handi bat.",
+     "tx.",
+     "tz.",
+     "ts.",
+     "a-tse-gi-na, ga-tza, txa-no-a."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-l19": {
+   "eu": {
+    "title": "Kontsonante taldeak: trena eta plaza",
+    "theory": "Batzuetan bi kontsonante elkarrekin doaz bokalaren aurretik: tr, pl, kl, pr, kr. Bi kontsonanteak segidan irakurtzen ditugu eta gero bokala: tre-na, pla-za, pra-ka.",
+    "sample": "Trena geltokira iritsi da. / Plazan bizikleta bat dago. / Amonak praka berdeak erosi ditu.",
+    "worked": "Trena hitzak tr du. Plazan hitzak pl. Bizikleta hitzak kl. Praka hitzak pr. Bi kontsonanteak silaba berean doaz: tre-na, pla-za, pra-ka.",
+    "exercises": [
+     "Irakurri: tra, tre, tri, tro, tru.",
+     "Irakurri: pla, ple, pli, plo, plu.",
+     "Irakurri: trena, plaza, klasea.",
+     "Idatzi praka hitza.",
+     "Banatu silabatan: bizikleta."
+    ],
+    "test": [
+     "Nora iritsi da trena?",
+     "Zer dago plazan?",
+     "Zer erosi du amonak?",
+     "Irakurri: kristala, platera, trikua.",
+     "Banatu silabatan: trena."
+    ],
+    "steps": [
+     "Bilatu bokalaren aurrean elkarrekin dauden bi kontsonanteak.",
+     "Esan biak segidan eta gehitu bokala: t-r-e = tre.",
+     "Gero irakurri hitz osoa: tre-na.",
+     "Kontuz: ez jarri bokalik bi kontsonanteen artean; trena da, ez terena."
+    ],
+    "answers": [
+     "Geltokira.",
+     "Bizikleta bat.",
+     "Praka berdeak.",
+     "kris-ta-la, pla-te-ra, tri-ku-a.",
+     "tre-na."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-l20": {
+   "eu": {
+    "title": "Letra larria",
+    "theory": "Letra larriz idazten dugu esaldiaren lehen letra eta izen bereziak: pertsonen izenak, izena duten animalienak, herrienak, ibaienak eta herrialdeenak. Izen arruntak letra xehez idazten dira. Asteko egunak eta hilabeteak ere letra xehez idazten dira.",
+    "sample": "Maialen eta Txuri txakurra Donostian bizi dira, Urumea ibaitik gertu.",
+    "worked": "Maialen, Txuri, Donostian eta Urumea izen bereziak dira: letra larriz idazten dira. Txakurra eta ibaia izen arruntak dira. Esaldia letra larriz hasten da.",
+    "exercises": [
+     "Bilatu adibideko izen bereziak.",
+     "Idatzi zure herriaren izena.",
+     "Idatzi lagun baten izena.",
+     "Zuzendu: bilbo hiri handia da.",
+     "Txakurra letra larriz idazten da?"
+    ],
+    "test": [
+     "Nola du izena Maialenen txakurrak?",
+     "Non bizi dira?",
+     "Zein ibaitik gertu?",
+     "Idatzi ondo: jon gasteizen bizi da",
+     "Noiz erabiltzen dugu letra larria?"
+    ],
+    "steps": [
+     "Galdetu zeure buruari: norbaiten edo leku jakin baten izena da?",
+     "Hala bada, idatzi letra larriz.",
+     "Erabili letra larria esaldi bakoitzaren hasieran ere.",
+     "Kontuz: astelehena eta urtarrila letra xehez idazten dira euskaraz."
+    ],
+    "answers": [
+     "Txuri.",
+     "Donostian.",
+     "Urumea ibaitik.",
+     "Jon Gasteizen bizi da.",
+     "Esaldiaren hasieran eta izen berezietan."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-l21": {
+   "eu": {
+    "title": "Hitzak silabatan banatzen ditugu",
+    "theory": "Silabak hitz baten zatiak dira, aldi bakarrean esaten ditugunak. Silaba bakoitzak bokal bat du gutxienez. Tx, tz eta ts ez dira banatzen: e-txe-a, zu-hai-tza.",
+    "sample": "a-ma, ka-tu-a, pi-lo-ta, e-txe-a, txi-mi-no-a",
+    "worked": "Ama hitzak bi silaba ditu, pilota hitzak hiru eta tximinoa hitzak lau. Etxea hitzean tx elkarrekin uzten dugu: e-txe-a. Txalo jotzeak silabak zenbatzen laguntzen digu.",
+    "exercises": [
+     "Txalo jo eta banatu: mahaia.",
+     "Banatu silabatan: tomatea.",
+     "Banatu: liburua.",
+     "Zenbatu tximeleta hitzaren silabak.",
+     "Banatu: kotxea."
+    ],
+    "test": [
+     "Zenbat silaba ditu ama hitzak?",
+     "Nola banatzen da etxea?",
+     "Nola banatzen da katua?",
+     "Zenbat silaba ditu pilota hitzak?",
+     "Silaba guztiek dute bokalik?"
+    ],
+    "steps": [
+     "Esan hitza eta jo txalo zati bakoitzean.",
+     "Zenbatu txaloak: horiek dira silabak.",
+     "Tx, tz eta ts elkarrekin utzi.",
+     "Kontuz: kontsonante bakar batek ez du silabarik egiten; bokal bat behar da."
+    ],
+    "answers": [
+     "Bi: a-ma.",
+     "e-txe-a.",
+     "ka-tu-a.",
+     "Hiru: pi-lo-ta.",
+     "Bai."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-l22": {
+   "eu": {
+    "title": "Hitzaren amaiera: etxea, etxeak, etxe bat",
+    "theory": "Euskaraz ez dugu hitzaren aurretik artikulurik jartzen. Hitzaren amaieran -a jartzen dugu gauza bat denean (etxea), -ak bat baino gehiago direnean (etxeak), eta bat hitzaren ondoren jartzen dugu (etxe bat). Euskarazko hitzek ez dute generorik.",
+    "sample": "Katua lotan dago. Katuak lotan daude. Mahai gainean sagar bat dago.",
+    "worked": "Katua: katu bat, -a amaierarekin. Katuak: bat baino gehiago, -ak amaierarekin; horregatik aditza ere aldatzen da: dago, daude. Sagar bat: bat hitzaren ondoren doa.",
+    "exercises": [
+     "Idatzi -a amaierarekin: liburu.",
+     "Idatzi pluralean: txakurra.",
+     "Idatzi bat hitzarekin: sagar.",
+     "Idatzi pluralean: lorea.",
+     "Katuak lotan daude: bat ala gehiago dira?"
+    ],
+    "test": [
+     "Nola idazten da katu bat baino gehiago?",
+     "Zer jartzen dugu hitzaren amaieran gauza bat denean?",
+     "Idatzi pluralean: etxea.",
+     "Non jartzen da bat hitza?",
+     "Euskarazko hitzek ba al dute generorik?"
+    ],
+    "steps": [
+     "Galdetu: bat da ala gehiago?",
+     "Bat bada, gehitu -a: etxea. Gehiago badira, gehitu -ak: etxeak.",
+     "Zenbat diren esan nahi baduzu, jarri zenbakia hitzaren ondoren edo aurretik: etxe bat, bi etxe.",
+     "Kontuz: hitza a-z amaitzen bada, ez gehitu beste a bat: alaba, ez alabaa."
+    ],
+    "answers": [
+     "Katuak.",
+     "-a.",
+     "Etxeak.",
+     "Hitzaren ondoren: sagar bat.",
+     "Ez."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-l23": {
+   "eu": {
+    "title": "Non? eta nora?: etxean eta etxera",
+    "theory": "-n amaierak non gauden esaten du: etxean, eskolan, mendian. -ra amaierak nora goazen esaten du: etxera, eskolara, mendira. Galderak hauek dira: Non? eta Nora?",
+    "sample": "Ane eskolan dago. Arratsaldean etxera doa. Larunbatean mendira joango gara.",
+    "worked": "Eskolan: non dago? eskolan. Etxera: nora doa? etxera. Mendira: nora joango gara? mendira. Hitzaren amaierak leku bat edo norabide bat adierazten du.",
+    "exercises": [
+     "Osatu: Katua etxe___ dago.",
+     "Osatu: Gaur hondartza___ goaz.",
+     "Galdetu: Non dago zure liburua?",
+     "Erantzun: Nora zoaz ostiralean?",
+     "Bilatu adibidean -ra duten hitzak."
+    ],
+    "test": [
+     "Non dago Ane?",
+     "Nora doa arratsaldean?",
+     "Nora joango gara larunbatean?",
+     "Zer galderari erantzuten dio -n amaierak?",
+     "Osatu: Liburua mahai___ dago."
+    ],
+    "steps": [
+     "Galdetu: non dago? ala nora doa?",
+     "Non bada, gehitu -n edo -an: eskolan, mahaian.",
+     "Nora bada, gehitu -ra: etxera, mendira.",
+     "Kontuz: ez nahastu: eskolan barruan zaude; eskolara bidean zoaz."
+    ],
+    "answers": [
+     "Eskolan.",
+     "Etxera.",
+     "Mendira.",
+     "Non? galderari.",
+     "Mahaian."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-l24": {
+   "eu": {
+    "title": "Asteko egunak eta zenbakiak",
+    "theory": "Asteko egunak hauek dira: astelehena, asteartea, asteazkena, osteguna, ostirala, larunbata eta igandea. Letra xehez idazten dira. Zenbakiak: bat, bi, hiru, lau, bost, sei, zazpi, zortzi, bederatzi, hamar.",
+    "sample": "Astelehenean igerilekura goaz. Ostiralean bost lagunekin jolasten dut. Igandean amonaren etxera goaz.",
+    "worked": "Astelehenean, ostiralean eta igandean asteko egunak dira: letra xehez idazten dira, esaldiaren hasieran ez badaude. Bost zenbaki bat da. -ean amaierak noiz esaten du: astelehenean.",
+    "exercises": [
+     "Esan asteko egunak ordenan.",
+     "Zenbatu hamarrera arte.",
+     "Idatzi zazpi zenbakia hitzez.",
+     "Zein egun dator asteartearen ondoren?",
+     "Idatzi gaur zein egun den."
+    ],
+    "test": [
+     "Zenbat egun ditu asteak?",
+     "Nora goaz astelehenean?",
+     "Zenbat lagunekin jolasten dut ostiralean?",
+     "Zein zenbaki dator bost eta gero?",
+     "Asteko egunak letra larriz idazten dira?"
+    ],
+    "steps": [
+     "Esan asteko egunak ordenan, astelehenetik igandera.",
+     "Zenbakietarako, zenbatu hatzekin batetik hamarrera.",
+     "Idatzi egunak letra xehez esaldiaren erdian.",
+     "Kontuz: euskal egutegian astea astelehenean hasten da eta igandean amaitzen."
+    ],
+    "answers": [
+     "Zazpi.",
+     "Igerilekura.",
+     "Bost lagunekin.",
+     "Sei.",
+     "Ez, letra xehez, esaldiaren hasieran ez badaude."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-l25": {
+   "eu": {
+    "title": "Poema eta bertsoak",
+    "theory": "Poema lerroz eginda dago; lerro horiei bertsoak deitzen zaie. Askotan bertsoen amaierako hitzek errima egiten dute. Euskal Herrian bertsolariek bertsoak bat-batean asmatzen dituzte. Poliki irakurtzen dugu, bertso bakoitzaren amaieran geldiunea eginez.",
+    "sample": "Poema originala: / Leihotik sartzen da eguzki-argia, / lotan dago katua, goxo eta garbia. / Txoria kantari zuhaitzaren gainean, / lorea irekita gure baratzean.",
+    "worked": "Poemak lau bertso ditu. Argia eta garbia errimatzen dute, eta gainean eta baratzean ere bai. Poema esateko lasai irakurtzen dugu eta bertso bakoitzaren amaieran geldiunea egiten dugu.",
+    "exercises": [
+     "Irakurri poema ozen.",
+     "Bilatu argia hitzaren errima.",
+     "Ikasi buruz lehen bi bertsoak.",
+     "Marraztu poemako baratzea.",
+     "Bilatu errima bat mendi hitzarentzat."
+    ],
+    "test": [
+     "Zenbat bertso ditu poemak?",
+     "Nolakoa da katua?",
+     "Zer da bertso bat?",
+     "Non dago txoria kantari?",
+     "Bilatu errima bat ilargi hitzarentzat."
+    ],
+    "steps": [
+     "Irakurri poema lerroz lerro.",
+     "Begiratu bertso bakoitzaren azken hitzari eta bilatu berdin entzuten direnak.",
+     "Buruz ikasteko, errepikatu bi bertso aldi bakoitzean.",
+     "Kontuz: esan poema poliki eta geldiuneekin; ez da lasterketa bat."
+    ],
+    "answers": [
+     "Lau.",
+     "Goxo eta garbia.",
+     "Poemaren lerro bat.",
+     "Zuhaitzaren gainean.",
+     "Zure erantzuna. Adibidez: argi."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-l26": {
+   "eu": {
+    "title": "Ohitura bat: Olentzero",
+    "theory": "Ohiturak eta kondairak aitona-amonek bilobei kontatu dizkiete. Olentzero Euskal Herriko pertsonaia tradizionala da. Istorioa ordenan kontatzen dugu: hasieran, gero, amaieran.",
+    "sample": "Gure hitzekin kontatuta: Olentzero ikazkina zen eta mendian bizi zen. Urte osoan ikatza egiten zuen. Gabon gauean menditik herrira jaisten zen, umeentzako opariekin. Herriko jendeak abestiekin hartzen zuen.",
+    "worked": "Pertsonaia nagusia Olentzero da. Hasieran mendian bizi da eta ikatza egiten du. Gero, Gabon gauean, herrira jaisten da. Amaieran, umeek opariak jasotzen dituzte. Gaur egun ere herri askotan Olentzeroren kalejira egiten da.",
+    "exercises": [
+     "Esan istorioko pertsonaiak.",
+     "Kontatu istorioaren hasiera.",
+     "Marraztu Olentzero mendian.",
+     "Zer egiten zuen Olentzerok urte osoan?",
+     "Kontatu istorioaren amaiera."
+    ],
+    "test": [
+     "Zer zen Olentzero?",
+     "Non bizi zen?",
+     "Noiz jaisten zen herrira?",
+     "Zer ekartzen zien umeei?",
+     "Zer da ohitura bat?"
+    ],
+    "steps": [
+     "Bilatu pertsonaiak: nor agertzen da?",
+     "Kontatu ordenan: hasieran, gero, amaieran.",
+     "Esan zer gustatu zaizun istorioan.",
+     "Kontuz: ez aldatu gertaeren ordena, bestela istorioa ez da ulertzen."
+    ],
+    "answers": [
+     "Ikazkina.",
+     "Mendian.",
+     "Gabon gauean.",
+     "Opariak.",
+     "Belaunaldiz belaunaldi egiten den zerbait."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-l27": {
+   "eu": {
+    "title": "Alegia: Lehoia eta sagua",
+    "theory": "Alegia istorio laburra da, hitz egiten duten eta pertsonak bezala jokatzen duten animaliekin. Amaieran ikasgai bat dago, morala. Alegia zahar asko Esoporenak dira.",
+    "sample": "Gure hitzekin kontatuta: Lehoia lotan zegoen eta sagu batek esnatu zuen. Lehoiak harrapatu zuen, baina saguak barkamena eskatu zion eta lehoiak askatu egin zuen. Egun batean ehiztariek lehoia sare batean harrapatu zuten. Saguak sarea hozkatu zuen eta lehoia libre geratu zen.",
+    "worked": "Lehoia indartsua da eta sagua txikia. Lehoiak sagua askatu zuen, eta gero saguak lehoiari lagundu zion. Morala: txikiek ere lagun dezakete, eta ona izateak merezi du.",
+    "exercises": [
+     "Kontatu alegia zure hitzekin.",
+     "Marraztu sagua sarea hozkatzen.",
+     "Nolakoa da lehoia?",
+     "Esan morala zure hitzekin.",
+     "Asmatu beste amaiera bat."
+    ],
+    "test": [
+     "Zein dira pertsonaiak?",
+     "Nork esnatu zuen lehoia?",
+     "Zer egin zuten ehiztariek?",
+     "Nola askatu zuen saguak lehoia?",
+     "Zer da morala?"
+    ],
+    "steps": [
+     "Bilatu pertsonaiak: lehoia eta sagua.",
+     "Kontatu zer egin zuen bakoitzak hasieran eta amaieran.",
+     "Bilatu morala: zer irakasten digu?",
+     "Kontuz: alegian animaliek hitz egiten dute, baina pertsonen jokabideak adierazten dituzte."
+    ],
+    "answers": [
+     "Lehoia eta sagua.",
+     "Sagu batek.",
+     "Lehoia sare batean harrapatu zuten.",
+     "Sarea hozkatuz.",
+     "Alegiaren ikasgaia."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-l28": {
+   "eu": {
+    "title": "Igarkizunak eta aho-korapiloak",
+    "theory": "Igarkizunak gauza bat deskribatzen du izena esan gabe. Pista guztiak entzuten ditugu eta erantzuna bilatzen dugu. Aho-korapiloak azkar esateko zailak diren esaldiak dira: huts egin gabe esaten jolasten dugu.",
+    "sample": "Igarkizun originala: Orratzak ditut baina ez dut josten, tik-tak egiten dut egun osoan. (erlojua) / Aho-korapilo originala: Zazpi zaldi zuri zubian zehar zihoazen.",
+    "worked": "Pistak orratzak eta tik-taka dira: erantzuna erlojua da. Aho-korapiloa zaila da hitz askok z dutelako. Poliki esaten dugu lehenik eta gero azkarrago.",
+    "exercises": [
+     "Asmatu: Hortzak ditu baina ez du jaten. (orrazia)",
+     "Esan aho-korapiloa hiru aldiz.",
+     "Asmatu igarkizun bat eguzkiari buruz.",
+     "Zenbat hitz hasten dira z-z aho-korapiloan?",
+     "Egin igarkizun bat ikaskide bati."
+    ],
+    "test": [
+     "Zer da igarkizun bat?",
+     "Zein da adibideko igarkizunaren erantzuna?",
+     "Zergatik da zaila aho-korapiloa?",
+     "Asmatu igarkizun bat ilargiari buruz.",
+     "Zein soinu errepikatzen da aho-korapiloan?"
+    ],
+    "steps": [
+     "Entzun pista guztiak.",
+     "Galdetu: zer gauzak ditu hauek guztiak?",
+     "Egiaztatu erantzuna pista bakoitzarekin.",
+     "Kontuz: ez erantzun lehen pistarekin; entzun amaierara arte."
+    ],
+    "answers": [
+     "Gauza baten deskribapena, izena esan gabe.",
+     "Erlojua.",
+     "Hitz askok soinu bera dutelako.",
+     "Zure erantzuna. Adibidez: Gauez ateratzen naiz, batzuetan biribila eta besteetan mehea. (ilargia)",
+     "z soinua."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-l29": {
+   "eu": {
+    "title": "Testu informatiboa: izurdea",
+    "theory": "Testu informatiboak gai bati buruzko informazio egiazkoa ematen du. Ez du istorio asmatu bat kontatzen. Arretaz irakurtzen dugu eta erantzunak testuan bilatzen ditugu.",
+    "sample": "Izurdea itsasoan bizi da. Ez da arraina: ugaztuna da eta airea arnasten du. Arrainak jaten ditu eta taldean bizi da.",
+    "worked": "Testuak esaten du non bizi den izurdea, zer den, zer jaten duen eta nola bizi den. Informazio egiazkoak dira. Izurdeak airea arnasten du, eta horregatik uraren gainera igotzen da.",
+    "exercises": [
+     "Irakurri testua bi aldiz.",
+     "Azpimarratu zer jaten duen izurdeak.",
+     "Marraztu izurde bat itsasoan.",
+     "Azaldu ugaztun hitza heldu baten laguntzarekin.",
+     "Egin galdera bat izurdeari buruz."
+    ],
+    "test": [
+     "Non bizi da izurdea?",
+     "Izurdea arraina da?",
+     "Zer jaten du izurdeak?",
+     "Testu informatiboa asmatua da?",
+     "Zenbat esaldi ditu testuak?"
+    ],
+    "steps": [
+     "Irakurri galdera eta aurkitu hitz garrantzitsuena, adibidez jaten.",
+     "Bilatu hitz hori testuan.",
+     "Erantzuna esaldi berean egon ohi da.",
+     "Kontuz: erantzun testuak dioenarekin bakarrik; ez asmatu."
+    ],
+    "answers": [
+     "Itsasoan.",
+     "Ez, ugaztuna da.",
+     "Arrainak.",
+     "Ez, informazio egiazkoa ematen du.",
+     "Hiru."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-l30": {
+   "eu": {
+    "title": "Esaldia eta puntuazio-ikurrak",
+    "theory": "Esaldia zentzua duten hitzen multzoa da. Letra larriz hasten da. Zerbait kontatzen badu, puntuz amaitzen da. Galdetzen badu, galdera-ikurrarekin (?). Emozioa erakusten badu, harridura-ikurrarekin (!). Euskaraz ikurra amaieran bakarrik jartzen dugu.",
+    "sample": "Gaur eguzkia dago. Parkera etorriko zara nirekin? Zer egun polita!",
+    "worked": "Lehen esaldiak kontatzen du: puntua. Bigarrenak galdetzen du: galdera-ikurra amaieran. Hirugarrenak poza erakusten du: harridura-ikurra amaieran. Guztiak letra larriz hasten dira.",
+    "exercises": [
+     "Jarri ikurra: Nola duzu izena",
+     "Jarri ikurra: Txakur bat daukat",
+     "Idatzi galdera bat irakaslearentzat.",
+     "Idatzi esaldi bat harridura-ikurrarekin.",
+     "Zenbatu adibideko esaldiak."
+    ],
+    "test": [
+     "Zein ikurrekin amaitzen da galdera bat?",
+     "Zein letrarekin hasten da esaldia?",
+     "Idatzi ondo: gaur euria ari du",
+     "Adibideko zein esaldik erakusten du poza?",
+     "Zenbat esaldi daude adibidean?"
+    ],
+    "steps": [
+     "Galdetu: esaldiak kontatzen du, galdetzen du ala emozioa erakusten du?",
+     "Kontatu: puntua. Galdetu: ? Emozioa: !",
+     "Lehen letra beti letra larriz.",
+     "Kontuz: euskaraz ez da galdera-ikurra hasieran jartzen, amaieran bakarrik."
+    ],
+    "answers": [
+     "Galdera-ikurrarekin.",
+     "Letra larriz.",
+     "Gaur euria ari du.",
+     "Zer egun polita!",
+     "Hiru."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-l31": {
+   "eu": {
+    "title": "Irudi bati buruzko esaldiak idazten ditugu",
+    "theory": "Irudi bati begiratu eta galderak egiten ditugu: Nor agertzen da? Zer egiten du? Non dago? Noiz? Gero bizpahiru esaldi idazten ditugu, hasieran letra larriz eta amaieran ikurrarekin.",
+    "sample": "Irudia: neska batek elur-panpina bat egiten du. / Esaldiak: Neskak elur-panpina bat egiten du. Negua da. Panpinak azenarioa du sudurrean.",
+    "worked": "Hiru esaldi idatzi ditugu. Lehenak esaten du nor agertzen den eta zer egiten duen. Bigarrenak noiz. Hirugarrenak xehetasun bat gehitzen du. Horrela testua argia da.",
+    "exercises": [
+     "Begiratu leihotik eta idatzi esaldi bat.",
+     "Egin lau galderak irudi bati buruz.",
+     "Idatzi bi esaldi zure gelari buruz.",
+     "Egin marrazki bat eta idatzi esaldi bat azpian.",
+     "Irakurri zure esaldiak ikaskide bati."
+    ],
+    "test": [
+     "Zer galdera egiten ditugu irudi bati begiratzean?",
+     "Zer egiten du neskak?",
+     "Zer du panpinak sudurrean?",
+     "Nola amaitzen da zerbait kontatzen duen esaldia?",
+     "Idatzi esaldi bat neguari buruz."
+    ],
+    "steps": [
+     "Begiratu irudiari eta galdetu: nor? zer egiten du? non? noiz?",
+     "Esan esaldia ozen idatzi aurretik.",
+     "Berrikusi: letra larria hasieran, puntua amaieran eta hutsuneak hitzen artean.",
+     "Kontuz: idatzi esaldi osoak, ez hitz solteak."
+    ],
+    "answers": [
+     "Nor agertzen da? Zer egiten du? Non dago? Noiz?",
+     "Elur-panpina bat.",
+     "Azenarioa.",
+     "Puntuz.",
+     "Zure erantzuna. Adibidez: Neguan hotz egiten du."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-l32": {
+   "eu": {
+    "title": "Zorion-txartela eta gonbidapena",
+    "theory": "Urtebetetze-txartel batek agurra, desioak eta sinadura ditu. Gonbidapenak esaten du zertarako gonbidatzen dugun, noiz eta non. Horrela, jasotzen duenak behar duen guztia daki.",
+    "sample": "Amona maitea: / nire urtebetetze-festara gonbidatzen zaitut. / Noiz: larunbatean, arratsaldeko bostetan. / Non: gure etxean. / Zure zain egongo naiz! / Zure biloba, Irati",
+    "worked": "Gonbidapena Amona maitea agurrarekin hasten da. Gero festa, eguna, ordua eta lekua esaten ditu. Esaldi atsegin batekin eta sinadurarekin amaitzen da. Egunik eta ordurik gabe, amonak ez luke jakingo noiz etorri.",
+    "exercises": [
+     "Idatzi agur bat zure aitonarentzat.",
+     "Idatzi gonbidapen bat askari baterako.",
+     "Idatzi urtebetetze-txartel bat.",
+     "Zer falta zaio lekurik gabeko gonbidapen bati?",
+     "Sinatu zure gonbidapena."
+    ],
+    "test": [
+     "Zer esan behar du gonbidapen batek?",
+     "Noiz da Iratiren festa?",
+     "Nola hasten da gonbidapena?",
+     "Idatzi desio labur batzuk zure amarentzat.",
+     "Zer dago gonbidapenaren amaieran?"
+    ],
+    "steps": [
+     "Hasi agur batekin: … maitea.",
+     "Idatzi zertarako gonbidatzen duzun, noiz eta non.",
+     "Amaitu esaldi atsegin batekin eta zure sinadurarekin.",
+     "Kontuz: egunik, ordurik eta lekurik gabe inork ez daki noiz joan."
+    ],
+    "answers": [
+     "Zertarako gonbidatzen dugun, noiz eta non, agurrarekin eta sinadurarekin.",
+     "Larunbatean, arratsaldeko bostetan.",
+     "Amona maitea.",
+     "Zure erantzuna. Adibidez: Ama maitea, zorionak!",
+     "Sinadura."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-l33": {
+   "eu": {
+    "title": "Entzun eta kontatu: nire istorioa",
+    "theory": "Gertatu zaigun zerbait kontatzen dugunean, esaten dugu nor zegoen, non izan zen, zer gertatu zen eta nola amaitu zen. Lehenik, gero eta azkenik bezalako hitzak erabiltzen ditugu. Besteek entzuten dute eta galderak egin ditzakete.",
+    "sample": "Igandean hondartzara joan nintzen gurasoekin. Lehenik hareazko gaztelu bat egin genuen. Gero olatu handi batek bota zuen. Azkenik barre egin genuen eta beste bat egin genuen.",
+    "worked": "Istorioak esaten du noiz (igandean), non (hondartzan), norekin (gurasoekin), zer gertatu zen (olatuak gaztelua bota zuen) eta nola amaitu zen (beste bat egin zuten). Lehenik, gero eta azkenik hitzek ordena jarraitzen laguntzen dute.",
+    "exercises": [
+     "Kontatu zer egin zenuen asteburuan.",
+     "Erabili lehenik, gero eta azkenik.",
+     "Egin galdera bat ikaskide bati bere istorioari buruz.",
+     "Marraztu hareazko gaztelua.",
+     "Asmatu izenburu bat adibideko istorioarentzat."
+    ],
+    "test": [
+     "Nora joan zen umea igandean?",
+     "Norekin joan zen?",
+     "Zerk bota zuen gaztelua?",
+     "Nola amaitu zen istorioa?",
+     "Zein hitzek laguntzen dute ordena esaten?"
+    ],
+    "steps": [
+     "Pentsatu: nor, non, zer gertatu zen eta nola amaitu zen.",
+     "Kontatu ordenan lehenik, gero eta azkenik erabiliz.",
+     "Hitz egin poliki eta begiratu entzuten dizunari.",
+     "Kontuz: ez saltatu zatirik; entzuten dizunak ulertu behar du zer gertatu zen."
+    ],
+    "answers": [
+     "Hondartzara.",
+     "Gurasoekin.",
+     "Olatu handi batek.",
+     "Barre egin zuten eta beste gaztelu bat egin zuten.",
+     "Lehenik, gero, azkenik."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-l34": {
+   "eu": {
+    "title": "Errepasoa: zer ikasi dut lehen mailan",
+    "theory": "Lehen mailaren amaieran testu labur bat irakurtzen dugu eta dakiguna erakusten dugu: irakurri eta ulertu, silabak banatu, esaldiak letra larriz eta puntuz idatzi, tx, tz eta ts erabili, eta -a, -ak, -n eta -ra amaierak.",
+    "sample": "Goizero, Unaik motxila prestatzen du. Koadernoa, estutxea eta hamaiketakoa sartzen ditu. Gero eskolara doa bere aitonarekin.",
+    "worked": "Testuak hiru esaldi ditu. Unaik lehenik motxila prestatzen du eta gero eskolara doa. Unai izen berezia da. Motxila hitzak tx du, eta eskolara hitzak -ra amaiera, nora doan esaten duelako.",
+    "exercises": [
+     "Irakurri testua ozen.",
+     "Bilatu tx duen hitza.",
+     "Bilatu -ra amaiera duen hitza.",
+     "Idatzi esaldi bat zure motxilari buruz.",
+     "Kontatu zer gustatu zaizun gehien ikasturte honetan."
+    ],
+    "test": [
+     "Zer egiten du Unaik lehenik?",
+     "Zenbat esaldi ditu testuak?",
+     "Idatzi ondo: unai eskolara doa",
+     "Norekin doa Unai eskolara?",
+     "Banatu silabatan: motxila."
+    ],
+    "steps": [
+     "Irakurri lehenik poliki eta gero arintasunez.",
+     "Galdetu: nor? zer egiten du? norekin?",
+     "Zenbatu esaldiak puntuen arabera.",
+     "Kontuz: izen bereziak eta esaldiaren hasiera letra larriz: Unai."
+    ],
+    "answers": [
+     "Motxila prestatzen du.",
+     "Hiru.",
+     "Unai eskolara doa.",
+     "Bere aitonarekin.",
+     "mo-txi-la."
+    ]
+   }
+  }
+ }
+}

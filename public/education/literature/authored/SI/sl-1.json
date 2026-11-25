@@ -1,0 +1,1069 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "SI",
+ "stage": "beginner",
+ "grade": "1",
+ "version": "2a1989583b5a4adbdefff95de4d3a92cce7dea1385b82bbdb7b70a6da2b800e9",
+ "source": "https://www.gov.si/teme/ucni-nacrti-v-osnovni-soli/",
+ "sourceTitle": "Učni načrt. Program osnovna šola. Slovenščina (MIZŠ, ZRSŠ, 2018), 1. vzgojno-izobraževalno obdobje, 1. razred: poslušanje, govorjenje, predopismenjevanje, velike tiskane črke, branje in pisanje, književnost (ljudsko slovstvo, pesem, pravljica); zaporedje kot v običajnih delovnih zvezkih in berilih; lastno gradivo, brez besedila iz učbenikov",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "sl",
+ "labels": [
+  "Lastna vaja · Slovenija · 1. razred",
+  "Učimo se",
+  "Lasten primer",
+  "Razlaga",
+  "Vaje",
+  "Preveri se",
+  "Lastne vaje, ne uradni test in ne besedilo iz učbenika. Po potrebi beri z odraslim.",
+  "Ko ne razumeš: korak za korakom",
+  "Odgovori (preveri, ko končaš)"
+ ],
+ "units": [
+  {
+   "title": "Poslušam in govorim",
+   "keys": [
+    "eu-year-si-beginner-1-l01",
+    "eu-year-si-beginner-1-l02",
+    "eu-year-si-beginner-1-l03"
+   ]
+  },
+  {
+   "title": "Pripravljam se na branje in pisanje",
+   "keys": [
+    "eu-year-si-beginner-1-l04",
+    "eu-year-si-beginner-1-l05",
+    "eu-year-si-beginner-1-l06"
+   ]
+  },
+  {
+   "title": "Velike tiskane črke",
+   "keys": [
+    "eu-year-si-beginner-1-l07",
+    "eu-year-si-beginner-1-l08",
+    "eu-year-si-beginner-1-l09",
+    "eu-year-si-beginner-1-l10",
+    "eu-year-si-beginner-1-l11",
+    "eu-year-si-beginner-1-l12",
+    "eu-year-si-beginner-1-l13",
+    "eu-year-si-beginner-1-l14"
+   ]
+  },
+  {
+   "title": "Pišem",
+   "keys": [
+    "eu-year-si-beginner-1-l15",
+    "eu-year-si-beginner-1-l16",
+    "eu-year-si-beginner-1-l17"
+   ]
+  },
+  {
+   "title": "Književnost",
+   "keys": [
+    "eu-year-si-beginner-1-l18",
+    "eu-year-si-beginner-1-l19",
+    "eu-year-si-beginner-1-l20",
+    "eu-year-si-beginner-1-l21",
+    "eu-year-si-beginner-1-l22",
+    "eu-year-si-beginner-1-l23",
+    "eu-year-si-beginner-1-l24"
+   ]
+  },
+  {
+   "title": "Sporazumevam se",
+   "keys": [
+    "eu-year-si-beginner-1-l25",
+    "eu-year-si-beginner-1-l26",
+    "eu-year-si-beginner-1-l27"
+   ]
+  },
+  {
+   "title": "Ponovim",
+   "keys": [
+    "eu-year-si-beginner-1-l28"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-si-beginner-1-l01": {
+   "sl": {
+    "title": "Predstavim se in pozdravim",
+    "theory": "V šoli se naučimo poslušati in govoriti po vrsti. Ko govori eden, drugi poslušajo. Odgovarjamo s celo povedjo: Ime mi je… Uporabljamo vljudne besede: dober dan, prosim, hvala, oprosti.",
+    "sample": "Ime mi je Neža. Stara sem šest let. Rada rišem. Ob meni sedi Luka.",
+    "worked": "Neža je povedala štiri kratke povedi: ime, starost, kaj rada dela in kdo sedi ob njej. Vsaka poved se začne z veliko začetnico in konča s piko.",
+    "exercises": [
+     "Predstavi se z dvema povedma.",
+     "Povej, kaj rad oziroma rada delaš.",
+     "Povej ime sošolca ob sebi.",
+     "Pokaži, kako dvigneš roko, ko želiš govoriti.",
+     "Ponovi, kaj je o sebi povedal sošolec."
+    ],
+    "test": [
+     "Koliko je stara Neža?",
+     "Kaj naredimo, ko želimo govoriti?",
+     "Zakaj ne segamo drugim v besedo?",
+     "Katero besedo rečeš, ko nekaj dobiš?",
+     "Kdo sedi ob Neži?"
+    ],
+    "steps": [
+     "Najprej povej svoje ime: Ime mi je…",
+     "Nato povej, koliko si star in kaj rad delaš.",
+     "Ko govori nekdo drug, poslušaj in počakaj, da konča.",
+     "Pogosta napaka: odgovoriti z eno besedo. Odgovori s celo povedjo."
+    ],
+    "answers": [
+     "Šest let.",
+     "Dvignemo roko in počakamo, da smo na vrsti.",
+     "Da lahko govori vsak in se razumemo.",
+     "Hvala.",
+     "Luka."
+    ]
+   }
+  },
+  "eu-year-si-beginner-1-l02": {
+   "sl": {
+    "title": "Poslušam navodila",
+    "theory": "Navodilo nam pove, kaj moramo narediti in v kakšnem zaporedju. Najprej ga poslušamo do konca, šele nato začnemo. Če česa ne razumemo, vljudno vprašamo.",
+    "sample": "Navodilo: Vzemi rdečo barvico. Nariši sonce v desni zgornji kot lista. Pod sonce nariši hišo.",
+    "worked": "Navodilo ima tri korake. Najprej izberemo rdečo barvico, nato narišemo sonce desno zgoraj in nazadnje hišo pod soncem. Če zamenjamo zaporedje, slika ni taka, kot je bilo naročeno.",
+    "exercises": [
+     "Pokaži desni zgornji kot lista.",
+     "Izvedi navodilo: dvigni levo roko in zapri oči.",
+     "Daj sošolcu navodilo s tremi koraki.",
+     "Nariši risbo po navodilu iz primera.",
+     "Povej, kaj narediš, če navodila ne razumeš."
+    ],
+    "test": [
+     "S katero barvico rišemo sonce?",
+     "Kam narišemo sonce?",
+     "Kaj narišemo pod sonce?",
+     "Kdaj začnemo delati?",
+     "Kaj narediš, če nečesa ne razumeš?"
+    ],
+    "steps": [
+     "Poslušaj navodilo do konca.",
+     "Zapomni si korake po vrsti: najprej, nato, nazadnje.",
+     "Naredi korak za korakom in preveri.",
+     "Pogosta napaka: začeti, preden je navodilo izrečeno do konca."
+    ],
+    "answers": [
+     "Z rdečo.",
+     "V desni zgornji kot.",
+     "Hišo.",
+     "Ko je navodilo izrečeno do konca.",
+     "Vljudno vprašam."
+    ]
+   }
+  },
+  "eu-year-si-beginner-1-l03": {
+   "sl": {
+    "title": "Poved, beseda, zlog, glas",
+    "theory": "Ko govorimo, uporabljamo povedi. Poved je sestavljena iz besed. Besede razdelimo na zloge, ki jih ploskamo. Besede so sestavljene iz glasov. Glas slišimo in izgovorimo, črko vidimo in zapišemo.",
+    "sample": "Mama ima kolo. / ko-lo / k-o-l-o",
+    "worked": "Poved ima tri besede: Mama, ima, kolo. Beseda kolo ima dva zloga: ko-lo. Ima štiri glasove: k-o-l-o. Gremo od velikega k malemu: poved, beseda, zlog, glas.",
+    "exercises": [
+     "Koliko besed ima poved: Ana teče?",
+     "Zaploskaj besedo miza.",
+     "Koliko glasov ima beseda nos?",
+     "Povej poved o svoji torbi.",
+     "Kateri je prvi glas v besedi avto?"
+    ],
+    "test": [
+     "Iz česa je sestavljena poved?",
+     "Koliko zlogov ima beseda žoga?",
+     "Koliko glasov ima beseda sir?",
+     "Kateri je zadnji glas v besedi dom?",
+     "V čem se glas razlikuje od črke?"
+    ],
+    "steps": [
+     "Povej poved in štej besede na prste.",
+     "Zaploskaj besedo: en plosk je en zlog.",
+     "Izgovarjaj počasi, da slišiš vsak glas posebej.",
+     "Pogosta napaka: zamenjati zlog in glas. Zlog zaploskamo, glas izgovorimo samega."
+    ],
+    "answers": [
+     "Iz besed.",
+     "Dva: žo-ga.",
+     "Tri: s-i-r.",
+     "m.",
+     "Glas slišimo in izgovorimo, črko vidimo in zapišemo."
+    ]
+   }
+  },
+  "eu-year-si-beginner-1-l04": {
+   "sl": {
+    "title": "Sprostilne vaje in pravilna drža svinčnika",
+    "theory": "Preden začnemo pisati, sprostimo roko: krožimo, rišemo valovnice in zanke. Sedimo vzravnano, stopala imamo na tleh. Svinčnik držimo sproščeno s tremi prsti in ne pritiskamo premočno.",
+    "sample": "Vrsta 1: navpične črte. / Vrsta 2: valovnice. / Vrsta 3: krogi. / Vrsta 4: zanke.",
+    "worked": "Te oblike najdemo v črkah: krog v O, ravno črto v I in T, poševne črte v A in V. Ko jih vadimo, bodo naše črke lepše. Pišemo od leve proti desni.",
+    "exercises": [
+     "Nariši vrsto krogov.",
+     "Nariši vrsto valovnic.",
+     "Pokaži, kako držiš svinčnik.",
+     "S prstom nariši zanko v zrak.",
+     "Poišči krog v črki O."
+    ],
+    "test": [
+     "S koliko prsti držimo svinčnik?",
+     "Kako sedimo pri pisanju?",
+     "V katero smer pišemo?",
+     "V kateri črki je krog?",
+     "Kaj narediš, ko te boli roka?"
+    ],
+    "steps": [
+     "Vzravnano se usedi in stopala položi na tla.",
+     "Svinčnik drži s tremi prsti in ne pritiskaj.",
+     "Piši od leve proti desni in ostani v vrstici.",
+     "Pogosta napaka: močno pritiskati na svinčnik. Ko roka boli, jo stresi in se odpočij."
+    ],
+    "answers": [
+     "S tremi.",
+     "Vzravnano, stopala na tleh.",
+     "Od leve proti desni.",
+     "V črki O.",
+     "Stresem jo in se odpočijem."
+    ]
+   }
+  },
+  "eu-year-si-beginner-1-l05": {
+   "sl": {
+    "title": "Levo, desno, zgoraj, spodaj: smer branja",
+    "theory": "Pri branju in pisanju se moramo znajti na listu. Beremo in pišemo od leve proti desni ter od zgoraj navzdol. Vedeti moramo, kje je levo in desno, zgoraj in spodaj.",
+    "sample": "Na listu je zgoraj levo zvezda, zgoraj desno luna, spodaj levo drevo in spodaj desno hiša.",
+    "worked": "Zvezda in luna sta zgoraj, drevo in hiša spodaj. Zvezda in drevo sta levo, luna in hiša desno. Ko beremo, začnemo zgoraj levo pri zvezdi.",
+    "exercises": [
+     "Pokaži levo in desno roko.",
+     "Pokaži zgornji rob lista.",
+     "Nariši zvezdo zgoraj levo.",
+     "S prstom pokaži smer branja.",
+     "Povej, kaj je spodaj desno v primeru."
+    ],
+    "test": [
+     "Kje je luna?",
+     "Kaj je spodaj levo?",
+     "Kje začnemo brati?",
+     "V katero smer beremo?",
+     "Kaj je zgoraj levo?"
+    ],
+    "steps": [
+     "Dvigni roko, s katero pišeš, in si zapomni njeno stran.",
+     "Poišči zgornji rob lista in začni levo.",
+     "Pomikaj se s prstom proti desni, nato v naslednjo vrsto.",
+     "Pogosta napaka: brati od desne proti levi. Beremo vedno od leve proti desni."
+    ],
+    "answers": [
+     "Zgoraj desno.",
+     "Drevo.",
+     "Zgoraj levo.",
+     "Od leve proti desni in od zgoraj navzdol.",
+     "Zvezda."
+    ]
+   }
+  },
+  "eu-year-si-beginner-1-l06": {
+   "sl": {
+    "title": "Prvi in zadnji glas v besedi",
+    "theory": "Preden se naučimo črke, moramo slišati glasove. Poiščemo prvi glas, zadnji glas in vse glasove po vrsti. Temu rečemo glaskovanje: m-i-z-a.",
+    "sample": "miza: prvi glas m, zadnji glas a / sok: s-o-k",
+    "worked": "Besedo izgovorimo počasi in podaljšamo prvi glas: mmmiza. Tako slišimo, da je prvi glas m. Pri besedi sok slišimo tri glasove: s, o, k.",
+    "exercises": [
+     "Povej prvi glas v besedi luna.",
+     "Povej zadnji glas v besedi lonec.",
+     "Glaskuj besedo pes.",
+     "Povej tri besede, ki se začnejo na m.",
+     "Poišči predmet v razredu, ki se začne na s."
+    ],
+    "test": [
+     "Kateri je prvi glas v besedi riba?",
+     "Kateri je zadnji glas v besedi sok?",
+     "Glaskuj besedo nos.",
+     "Koliko glasov ima beseda pes?",
+     "Kaj je glaskovanje?"
+    ],
+    "steps": [
+     "Besedo izgovori zelo počasi.",
+     "Prvi glas podaljšaj: rrriba.",
+     "Glasove štej na prste, enega za drugim.",
+     "Pogosta napaka: povedati ime črke namesto glasu. Reci m, ne em."
+    ],
+    "answers": [
+     "r.",
+     "k.",
+     "n-o-s.",
+     "Tri.",
+     "Izgovarjanje besede glas za glasom."
+    ]
+   }
+  },
+  "eu-year-si-beginner-1-l07": {
+   "sl": {
+    "title": "Samoglasniki A, E, I, O, U",
+    "theory": "Najprej se naučimo samoglasnike A, E, I, O, U. Izgovorimo jih z odprtimi usti, brez ovir. Vsak zlog ima samoglasnik. V prvem razredu pišemo z velikimi tiskanimi črkami.",
+    "sample": "A E I O U / A kot avto, E kot Ema, I kot igla, O kot osa, U kot uho",
+    "worked": "Besedo avto slišimo z glasom A na začetku, osa z O, uho z U. Vsako črko pišemo med dve črti, da so vse enako velike.",
+    "exercises": [
+     "Povej vse samoglasnike po vrsti.",
+     "Povej, kateri glas slišiš na začetku besede avto.",
+     "Napiši vrsto črke O.",
+     "Povej besedo, ki se začne na E.",
+     "Obkroži samoglasnike v vrsti: A M O U."
+    ],
+    "test": [
+     "Katere so samoglasniki?",
+     "S katerim samoglasnikom se začne beseda uho?",
+     "Koliko samoglasnikov slišiš v besedi osa?",
+     "Katera črka ima obliko kroga?",
+     "Kaj ima vsak zlog?"
+    ],
+    "steps": [
+     "Izgovori besedo počasi.",
+     "Prisluhni, kateri glas izgovoriš z odprtimi usti.",
+     "Poišči to črko in jo napiši.",
+     "Pogosta napaka: pisati črke različnih velikosti. Vse naj bodo med črtama."
+    ],
+    "answers": [
+     "A, E, I, O, U.",
+     "Z U.",
+     "Dva: O in A.",
+     "O.",
+     "Samoglasnik."
+    ]
+   }
+  },
+  "eu-year-si-beginner-1-l08": {
+   "sl": {
+    "title": "Črke M, L, S, P, T: prve besede",
+    "theory": "Soglasnike M, L, S, P in T povežemo s samoglasniki: MA, LO, SU, PE, TI. Iz glasov sestavimo besede: M-A-M-A, T-A-T-A, S-O-L.",
+    "sample": "MA ME MI MO MU / MAMA, TATA, SOL, OSA, LUPA / EMA IMA PSA.",
+    "worked": "Glasove spojimo: M in A skupaj sta MA. Beseda MAMA ima dva zloga: MA-MA. EMA je ime, zato ga pri malih črkah pišemo z veliko začetnico.",
+    "exercises": [
+     "Preberi: MA, MO, MU.",
+     "Preberi: LA, LU, LI.",
+     "Preberi: MAMA, SOL, LUPA.",
+     "Sestavi besedo iz zlogov: LU-PA.",
+     "Napiši vrsto črke M."
+    ],
+    "test": [
+     "Kako preberemo M in A skupaj?",
+     "Koliko zlogov ima beseda LOPATA?",
+     "Preberi: TATA IMA LUPO.",
+     "Kdo ima psa?",
+     "Kateri je prvi glas v besedi SOL?"
+    ],
+    "steps": [
+     "Poglej soglasnik in samoglasnik za njim.",
+     "Glasova izgovori skupaj, brez premora.",
+     "Zloge poveži v besedo: MA-MA.",
+     "Pogosta napaka: brati s premori med glasovi: M, A, M, A. Glasove spoji."
+    ],
+    "answers": [
+     "MA, skupaj.",
+     "Tri: LO-PA-TA.",
+     "TATA IMA LUPO.",
+     "EMA.",
+     "S."
+    ]
+   }
+  },
+  "eu-year-si-beginner-1-l09": {
+   "sl": {
+    "title": "Črke N, V, R, J, K: beremo povedi",
+    "theory": "Nove črke so N, V, R, J in K. Zdaj že beremo kratke povedi. Poved se začne z veliko začetnico in konča s piko.",
+    "sample": "NOS, KOLO, RAK, JAMA, VILE / VERA IMA KOLO. / RAK JE V MORJU.",
+    "worked": "Poved VERA IMA KOLO ima tri besede. Na koncu je pika. Beseda MORJE ima dva zloga: MOR-JE. Med besedami pustimo presledek.",
+    "exercises": [
+     "Preberi: NA, VO, RI, JU, KE.",
+     "Preberi: NOS, RAK, KOLO.",
+     "Preberi: RAK JE V MORJU.",
+     "Napiši vrsto črke K.",
+     "Sestavi poved z besedo KOLO."
+    ],
+    "test": [
+     "Kaj ima Vera?",
+     "Kje je rak?",
+     "S čim se konča poved?",
+     "Preberi: NINA NOSI ROLKO.",
+     "Kateri je prvi glas v besedi JAMA?"
+    ],
+    "steps": [
+     "Beri po zlogih: MOR-JE.",
+     "Preberi celo poved do pike.",
+     "Odgovori na vprašanje: kdo? kaj?",
+     "Pogosta napaka: ustaviti se sredi povedi. Beri do pike."
+    ],
+    "answers": [
+     "Kolo.",
+     "V morju.",
+     "S piko.",
+     "NINA NOSI ROLKO.",
+     "J."
+    ]
+   }
+  },
+  "eu-year-si-beginner-1-l10": {
+   "sl": {
+    "title": "Črke D, Z, B, C, G",
+    "theory": "Učimo se črke D, Z, B, C in G. Pazimo, da ne zamenjamo podobnih glasov: D in T, Z in S, B in P, G in K. Razliko slišimo, če izgovarjamo počasi.",
+    "sample": "DOM, ZIMA, BOR, CVET, GOBA / BOR JE ZELEN. / GOBA JE POD BOROM.",
+    "worked": "Besedi KOS in KOZA se razlikujeta že v prvem zlogu. V besedi GOBA slišimo G, ne K. V besedi DOM slišimo D, ne T. Pri podobnih glasih izgovarjamo počasi.",
+    "exercises": [
+     "Preberi: DOM, ZIMA, BOR.",
+     "Preberi: CVET, GOBA, CEV.",
+     "Preberi: GOBA JE POD BOROM.",
+     "Napiši vrsto črke G.",
+     "Povej besedo, ki se začne na B."
+    ],
+    "test": [
+     "Kje je goba?",
+     "Kakšen je bor?",
+     "Kateri glas slišiš na začetku besede DOM?",
+     "Preberi: ZIMA JE MRZLA.",
+     "Kateri glas je na koncu besede ZOB?"
+    ],
+    "steps": [
+     "Besedo izgovori počasi in z roko na grlu.",
+     "Pri D, Z, B, G grlo brni, pri T, S, P, K ne.",
+     "Ko slišiš glas, zapiši pravo črko.",
+     "Pogosta napaka: na koncu besede pisati P namesto B: pravilno je ZOB, čeprav slišimo bolj P."
+    ],
+    "answers": [
+     "Pod borom.",
+     "Zelen.",
+     "D.",
+     "ZIMA JE MRZLA.",
+     "B."
+    ]
+   }
+  },
+  "eu-year-si-beginner-1-l11": {
+   "sl": {
+    "title": "Črke s strešico: Č, Š, Ž",
+    "theory": "Strešica spremeni glas: C – Č, S – Š, Z – Ž. Brez strešice nastane druga beseda: KOŠ – KOS.",
+    "sample": "ČAJ, ŠOLA, ŽABA, MIŠ / KOŠ – KOS / ŽABA SKAČE V VODO.",
+    "worked": "V besedi KOŠ je Š, v besedi KOS je S. To sta dve različni besedi: koš za smeti in ptica kos. Zato strešice nikoli ne izpustimo.",
+    "exercises": [
+     "Preberi: ČAJ, ŠOLA, ŽABA.",
+     "Primerjaj: KOŠ – KOS.",
+     "Napiši vrsto črke Č.",
+     "Povej besedo, ki se začne na Ž.",
+     "Preberi: ŽABA SKAČE V VODO."
+    ],
+    "test": [
+     "Kaj je strešica?",
+     "V čem se razlikujeta KOŠ in KOS?",
+     "Kam skače žaba?",
+     "Kateri glas je na začetku besede ČEBELA?",
+     "Preberi: MIŠ JE MALA."
+    ],
+    "steps": [
+     "Prisluhni glasu: je mehak kot Š, Č, Ž?",
+     "Če je, napiši strešico.",
+     "Preberi besedo še enkrat in preveri, ali ima smisel.",
+     "Pogosta napaka: izpustiti strešico. Iz koša potem nastane kos."
+    ],
+    "answers": [
+     "Znamenje nad črko, ki spremeni glas.",
+     "Koš je za smeti, kos je ptica.",
+     "V vodo.",
+     "Č.",
+     "MIŠ JE MALA."
+    ]
+   }
+  },
+  "eu-year-si-beginner-1-l12": {
+   "sl": {
+    "title": "Črki H in F ter abeceda",
+    "theory": "Zadnji črki sta H in F. Zdaj poznamo vseh 25 črk slovenske abecede: A B C Č D E F G H I J K L M N O P R S Š T U V Z Ž. Po abecedi so urejeni slovarji in imena v imeniku.",
+    "sample": "HIŠA, MUHA, FANT, FIŽOL / MUHA JE NA HIŠI. / A B C Č D E F G H",
+    "worked": "Beseda HIŠA se začne s H, beseda FANT s F. V abecedi je F pred G in H. Ko uredimo besede po abecedi, pogledamo prvo črko: AVTO, HIŠA, MUHA.",
+    "exercises": [
+     "Preberi: HIŠA, MUHA, FANT.",
+     "Povej abecedo do črke H.",
+     "Uredi po abecedi: MIŠ, AVTO, LES.",
+     "Napiši vrsto črke H.",
+     "Katera črka je za M?"
+    ],
+    "test": [
+     "Koliko črk ima slovenska abeceda?",
+     "Katera črka je za B?",
+     "Uredi: ZOB, AVTO, HIŠA.",
+     "Kje je muha?",
+     "S katero črko se abeceda začne?"
+    ],
+    "steps": [
+     "Poglej prvo črko vsake besede.",
+     "Poišči te črke v abecedi.",
+     "Besedo, katere črka je prej, napiši prvo.",
+     "Pogosta napaka: pozabiti črke s strešico. Č je za C, Š za S, Ž za Z."
+    ],
+    "answers": [
+     "25.",
+     "C.",
+     "AVTO, HIŠA, ZOB.",
+     "Na hiši.",
+     "Z A."
+    ]
+   }
+  },
+  "eu-year-si-beginner-1-l13": {
+   "sl": {
+    "title": "Spajanje glasov v besedo",
+    "theory": "Ko poznamo črke, beremo tako, da glasove spojimo v besedo. Ne beremo črko za črko s premori, ampak glasove povežemo. Najprej beremo počasi, nato hitreje.",
+    "sample": "S-O-K → SOK / M-U-C-A → MUCA / Č-E-B-E-L-A → ČEBELA",
+    "worked": "Pri besedi SOK glasove izgovorimo enega za drugim brez premora: sssooook, in slišimo SOK. Daljše besede beremo po zlogih: ČE-BE-LA.",
+    "exercises": [
+     "Spoji: L-U-N-A.",
+     "Spoji: R-I-B-A.",
+     "Preberi po zlogih: ČE-BE-LA.",
+     "Preberi: MUCA SPI.",
+     "Glaskuj besedo ŽOGA."
+    ],
+    "test": [
+     "Kaj dobiš, ko spojiš S-O-K?",
+     "Preberi po zlogih: PO-MA-RAN-ČA.",
+     "Kaj dela muca?",
+     "Koliko zlogov ima beseda ČEBELA?",
+     "Preberi: LUNA SIJE."
+    ],
+    "steps": [
+     "Preberi prvi glas in ga podaljšaj.",
+     "Takoj dodaj naslednji glas, brez premora.",
+     "Ko prebereš besedo, se vprašaj, kaj pomeni.",
+     "Pogosta napaka: zlogovati brez razumevanja. Ko prebereš, povej, kaj beseda pomeni."
+    ],
+    "answers": [
+     "SOK.",
+     "PO-MA-RAN-ČA.",
+     "Spi.",
+     "Tri.",
+     "LUNA SIJE."
+    ]
+   }
+  },
+  "eu-year-si-beginner-1-l14": {
+   "sl": {
+    "title": "Beremo kratke povedi in odgovarjamo",
+    "theory": "Ko preberemo poved, preverimo, ali jo razumemo. Odgovorimo na vprašanja kdo, kaj, kje. Tako vemo, da smo brali z razumevanjem.",
+    "sample": "TIM IN NEŽA STA V PARKU. TIM SE GUGA. NEŽA LOVI ŽOGO.",
+    "worked": "Besedilo ima tri povedi. Kdo? Tim in Neža. Kje? V parku. Kaj delata? Tim se guga, Neža lovi žogo. Vsaka poved se konča s piko.",
+    "exercises": [
+     "Preberi besedilo na glas.",
+     "Pokaži vse pike.",
+     "Povej, kje sta otroka.",
+     "Nariši Tima na gugalnici.",
+     "Dodaj še eno poved o Neži."
+    ],
+    "test": [
+     "Kdo je v parku?",
+     "Kaj dela Tim?",
+     "Kaj lovi Neža?",
+     "Koliko povedi ima besedilo?",
+     "Kje sta otroka?"
+    ],
+    "steps": [
+     "Preberi besedilo počasi, poved za povedjo.",
+     "Vprašaj se: kdo? kje? kaj dela?",
+     "Odgovor poišči v besedilu.",
+     "Pogosta napaka: odgovarjati na pamet. Odgovor poišči v besedilu."
+    ],
+    "answers": [
+     "Tim in Neža.",
+     "Guga se.",
+     "Žogo.",
+     "Tri.",
+     "V parku."
+    ]
+   }
+  },
+  "eu-year-si-beginner-1-l15": {
+   "sl": {
+    "title": "Pišem besede in pustim presledek",
+    "theory": "Ko pišemo, pustimo med besedami presledek, velik kot ena črka. Tako bralec ve, kje se beseda konča. Vsako besedo zapišemo glas za glasom.",
+    "sample": "MAMA KUHA. / TATA BERE. / PES SPI.",
+    "worked": "V povedi MAMA KUHA sta dve besedi in presledek med njima. Na koncu je pika. Če presledka ni, dobimo MAMAKUHA, kar je težko prebrati.",
+    "exercises": [
+     "Napiši svoje ime z velikimi tiskanimi črkami.",
+     "Napiši: PES SPI.",
+     "Preštej presledke v povedi TATA BERE KNJIGO.",
+     "Napiši tri besede o šoli.",
+     "Popravi: MUCAPIJE."
+    ],
+    "test": [
+     "Koliko besed je v povedi MAMA KUHA?",
+     "Kako velik je presledek?",
+     "Popravi: TATABERE.",
+     "Kaj je na koncu povedi?",
+     "Napiši: SONCE SIJE."
+    ],
+    "steps": [
+     "Besedo izgovori in jo zapiši glas za glasom.",
+     "Po vsaki besedi pusti presledek za eno črko.",
+     "Na koncu povedi napiši piko.",
+     "Pogosta napaka: pisati besede skupaj. Med besedami vedno pustimo presledek."
+    ],
+    "answers": [
+     "Dve.",
+     "Kot ena črka.",
+     "TATA BERE.",
+     "Pika.",
+     "SONCE SIJE."
+    ]
+   }
+  },
+  "eu-year-si-beginner-1-l16": {
+   "sl": {
+    "title": "Pika, vprašaj, klicaj",
+    "theory": "Poved, ki nekaj pove, konča pika. Poved, ki sprašuje, konča vprašaj. Poved, ki izraža veselje, začudenje ali ukaz, konča klicaj. Pri glasnem branju se glas pri vprašaju dvigne.",
+    "sample": "DANES SIJE SONCE. GREŠ VEN? KAKO LEP DAN!",
+    "worked": "Prva poved pove: pika. Druga sprašuje: vprašaj. Tretja izraža veselje: klicaj. Pri vprašanju GREŠ VEN glas na koncu dvignemo.",
+    "exercises": [
+     "Dopolni znamenje: KAKO TI JE IME",
+     "Dopolni znamenje: IMAM MUCO",
+     "Izmisli si vprašanje za učiteljico.",
+     "Izmisli si poved s klicajem.",
+     "Preštej povedi v primeru."
+    ],
+    "test": [
+     "S čim se konča vprašanje?",
+     "Kaj je na koncu povedi DEŽUJE?",
+     "Katera poved v primeru izraža veselje?",
+     "Koliko povedi je v primeru?",
+     "Napiši vprašanje o vremenu."
+    ],
+    "steps": [
+     "Vprašaj se: poved pove, sprašuje ali izraža občutek?",
+     "Pove – pika, sprašuje – vprašaj, občutek – klicaj.",
+     "Pri branju vprašanja na koncu dvigni glas.",
+     "Pogosta napaka: pozabiti vprašaj pri kratkem vprašanju: PRIDEŠ?"
+    ],
+    "answers": [
+     "Z vprašajem.",
+     "Pika.",
+     "KAKO LEP DAN!",
+     "Tri.",
+     "Tvoj odgovor. Na primer: ALI BO JUTRI DEŽEVALO?"
+    ]
+   }
+  },
+  "eu-year-si-beginner-1-l17": {
+   "sl": {
+    "title": "Prepis in narek",
+    "theory": "Pri prepisu besedilo prepišemo iz zvezka ali s table. Pri nareku pišemo, kar slišimo. Potem besedilo vedno preberemo in preverimo.",
+    "sample": "Narek: LANA IMA MUCO. MUCA JE SIVA. MUCA SPI NA SONCU.",
+    "worked": "Narek ima tri povedi. Vsaka se konča s piko. Med besedami so presledki. Po nareku preverimo strešice, presledke in pike.",
+    "exercises": [
+     "Prepiši poved s table.",
+     "Napiši narek, ki ti ga prebere odrasel.",
+     "Preveri strešice.",
+     "Preštej povedi v nareku.",
+     "Podčrtaj besedo, ki je ne znaš zapisati."
+    ],
+    "test": [
+     "Kaj je prepis?",
+     "Kakšna je muca?",
+     "Koliko povedi ima narek?",
+     "Kaj preverimo po nareku?",
+     "Napiši: MUCA SPI."
+    ],
+    "steps": [
+     "Poslušaj celo poved, preden začneš pisati.",
+     "Piši besedo za besedo in si jih tiho izgovarjaj.",
+     "Na koncu preveri presledke, pike in strešice.",
+     "Pogosta napaka: besedila ne preveriti. Napake pogosto najdeš, ko ga prebereš še enkrat."
+    ],
+    "answers": [
+     "Prepisovanje besedila iz zvezka ali s table.",
+     "Siva.",
+     "Tri.",
+     "Strešice, presledke in pike.",
+     "MUCA SPI."
+    ]
+   }
+  },
+  "eu-year-si-beginner-1-l18": {
+   "sl": {
+    "title": "Izštevanke in uganke ljudskega slovstva",
+    "theory": "Ljudsko slovstvo so pesmi, izštevanke, uganke in pravljice, ki so si jih ljudje dolgo podajali ustno. Izštevanka pomaga izbrati, kdo miži. Ima ritem in rime.",
+    "sample": "Lastna izštevanka: En, dva, tri, štiri, pet, ptiček poleti v svet. / Lastna uganka: Ima zelene iglice, pozimi v gozdu zelen stoji. (smreka)",
+    "worked": "Izštevanka ima ritem in rimo: pet – svet. Uganka opiše stvar, a je ne imenuje. Iglice in zelena barva pozimi nam povedo, da je smreka.",
+    "exercises": [
+     "Povej izštevanko in izberi, kdo miži.",
+     "Poišči rimo v izštevanki.",
+     "Ugani: Visi na drevesu, je rdeče in okroglo. (jabolko)",
+     "Izmisli si izštevanko.",
+     "Povej uganko sošolcu."
+    ],
+    "test": [
+     "Kaj je ljudsko slovstvo?",
+     "Čemu je izštevanka?",
+     "Kaj se rima s pet?",
+     "Kaj je rešitev uganke o iglicah?",
+     "Kako preveriš rešitev uganke?"
+    ],
+    "steps": [
+     "Besedilo preberi počasi in na glas.",
+     "Poišči ritem in besede, ki se rimajo.",
+     "Pri uganki poslušaj vse namige in preveri rešitev z vsakim.",
+     "Pogosta napaka: pri uganki odgovoriti že po prvem namigu."
+    ],
+    "answers": [
+     "Pesmi, izštevanke, uganke in pravljice, ki so si jih ljudje podajali ustno.",
+     "Da izberemo, kdo miži.",
+     "Svet.",
+     "Smreka.",
+     "Z vsemi namigi."
+    ]
+   }
+  },
+  "eu-year-si-beginner-1-l19": {
+   "sl": {
+    "title": "Pesem: verz, rima, razpoloženje",
+    "theory": "Pesem je sestavljena iz verzov, to so vrstice. Besede na koncu verzov se pogosto rimajo. Pesem beremo počasi, s kratkim premorom na koncu verza.",
+    "sample": "Lastna pesem: / Pada, pada droben dež, / pod listjem spi majhen jež. / Kratek je jesenski dan, / veter piha v vsako stran.",
+    "worked": "Pesem ima štiri verze. Dež se rima z jež, dan s stran. Razpoloženje je mirno in jesensko. Na koncu vsakega verza naredimo kratek premor.",
+    "exercises": [
+     "Preberi pesem na glas.",
+     "Poišči besedo, ki se rima z dež.",
+     "Nauči se prva dva verza.",
+     "Nariši ježa pod listjem.",
+     "Izmisli rimo k besedi miš."
+    ],
+    "test": [
+     "Koliko verzov ima pesem?",
+     "Kdo spi pod listjem?",
+     "Kaj je verz?",
+     "Kaj je rima?",
+     "Izmisli rimo k besedi nos."
+    ],
+    "steps": [
+     "Pesem beri verz za verzom.",
+     "Poglej zadnjo besedo vsakega verza in išči rime.",
+     "Uči se po dva verza.",
+     "Pogosta napaka: brati brez premorov. Na koncu verza se za trenutek ustavi."
+    ],
+    "answers": [
+     "Štiri.",
+     "Jež.",
+     "Ena vrstica pesmi.",
+     "Podobno zveneči konci besed.",
+     "Tvoj odgovor. Na primer: kos."
+    ]
+   }
+  },
+  "eu-year-si-beginner-1-l20": {
+   "sl": {
+    "title": "Ljudska pravljica: Repa velikanka",
+    "theory": "Pravljica je izmišljena zgodba. V ljudski pravljici Repa velikanka dedek ne more sam izpuliti velike repe. Na pomoč pridejo drug za drugim in šele vsi skupaj uspejo.",
+    "sample": "Obnova s svojimi besedami: Dedek je posadil repo, ki je zrasla zelo velika. Sam je ni mogel izpuliti. Poklical je babico, nato vnukinjo, psa, muco in na koncu miško. Ko so vlekli vsi skupaj, so repo izpulili.",
+    "worked": "Osebe so dedek, babica, vnukinja, pes, muca in miška. Dogajanje se ponavlja: vsak pokliče naslednjega. Pravljica nas uči, da skupaj zmoremo več. Tudi najmanjša miška je pomagala.",
+    "exercises": [
+     "Obnovi začetek pravljice.",
+     "Naštej osebe po vrsti.",
+     "Nariši repo in vse, ki vlečejo.",
+     "Zaigrajte pravljico v skupini.",
+     "Povej, kaj nas pravljica uči."
+    ],
+    "test": [
+     "Kaj je posadil dedek?",
+     "Zakaj je dedek poklical pomoč?",
+     "Kdo je prišel zadnji?",
+     "Kako se pravljica konča?",
+     "Kaj nas pravljica uči?"
+    ],
+    "steps": [
+     "Poišči osebe pravljice.",
+     "Pripoveduj po vrsti: najprej, nato, na koncu.",
+     "Povej, kaj nas pravljica uči.",
+     "Pogosta napaka: zamenjati vrstni red oseb. V tej pravljici je vrstni red pomemben."
+    ],
+    "answers": [
+     "Repo.",
+     "Ker repe ni mogel izpuliti sam.",
+     "Miška.",
+     "Vsi skupaj izpulijo repo.",
+     "Da skupaj zmoremo več."
+    ]
+   }
+  },
+  "eu-year-si-beginner-1-l21": {
+   "sl": {
+    "title": "Basen: Lev in miška",
+    "theory": "Basen je kratka zgodba, v kateri živali govorijo in se vedejo kot ljudje. Na koncu je nauk. Veliko basni je napisal starogrški pripovedovalec Ezop.",
+    "sample": "Obnova s svojimi besedami: Miška je zbudila spečega leva. Lev jo je hotel pojesti, a jo je izpustil. Pozneje se je lev ujel v mrežo. Miška je mrežo pregrizla in ga rešila.",
+    "worked": "Osebi sta lev in miška. Lev je močan, miška majhna, pa mu je vseeno pomagala. Nauk: tudi majhen lahko pomaga velikemu, dobrota se vrne.",
+    "exercises": [
+     "Obnovi basen.",
+     "Nariši miško pri mreži.",
+     "Kakšen je lev na začetku?",
+     "Povej nauk s svojimi besedami.",
+     "Izmisli si drugačen konec."
+    ],
+    "test": [
+     "Kdo sta osebi basni?",
+     "Zakaj je lev miško izpustil?",
+     "Kaj se je levu zgodilo pozneje?",
+     "Kako mu je miška pomagala?",
+     "Kaj je nauk?"
+    ],
+    "steps": [
+     "Poišči osebi: lev in miška.",
+     "Povej, kaj se zgodi na začetku in na koncu.",
+     "Poišči nauk: kaj nas basen uči?",
+     "Pogosta napaka: misliti, da basen govori samo o živalih. Živali kažejo, kako se vedemo ljudje."
+    ],
+    "answers": [
+     "Lev in miška.",
+     "Ker se mu je zasmilila.",
+     "Ujel se je v mrežo.",
+     "Pregrizla je mrežo.",
+     "Nauk na koncu basni."
+    ]
+   }
+  },
+  "eu-year-si-beginner-1-l22": {
+   "sl": {
+    "title": "Lutke in gledališče",
+    "theory": "V gledališču zgodbo zaigrajo igralci ali lutke. Gledalci so tiho in na koncu zaploskajo. Tudi mi lahko z lutkami zaigramo kratko zgodbo.",
+    "sample": "Lutkovni prizor: / Zajček: Dober dan, ježek! Kam greš? / Ježek: V gozd po jabolka. Greš z mano? / Zajček: Rad, hvala!",
+    "worked": "Prizor ima dve osebi, zajčka in ježka. Vsak govori svoje besede. Ko igramo z lutko, govorimo glasno in razločno ter lutko premikamo, ko govori.",
+    "exercises": [
+     "Iz nogavice naredi lutko.",
+     "Zaigraj prizor s sošolcem.",
+     "Izmisli si, kaj ježek reče na koncu.",
+     "Povej, kako se vedemo v gledališču.",
+     "Nariši zajčka in ježka."
+    ],
+    "test": [
+     "Kdo sta osebi v prizoru?",
+     "Kam gre ježek?",
+     "Kaj odgovori zajček?",
+     "Kako se vedemo v gledališču?",
+     "Kdo igra v lutkovnem gledališču?"
+    ],
+    "steps": [
+     "Izberi osebo in se nauči njene besede.",
+     "Govori glasno in razločno.",
+     "Lutko premikaj, ko govori, in jo umiri, ko posluša.",
+     "Pogosta napaka: govoriti obrnjen stran od gledalcev. Glej proti njim, da te slišijo."
+    ],
+    "answers": [
+     "Zajček in ježek.",
+     "V gozd po jabolka.",
+     "Rad, hvala!",
+     "Tiho gledamo in na koncu zaploskamo.",
+     "Lutke, ki jih vodijo lutkarji."
+    ]
+   }
+  },
+  "eu-year-si-beginner-1-l23": {
+   "sl": {
+    "title": "Poučno besedilo: jež",
+    "theory": "Poučno besedilo nam da resnične podatke. Ne pripoveduje izmišljene zgodbe. Beremo ga pozorno in odgovore iščemo v besedilu.",
+    "sample": "Jež je majhna žival z bodicami na hrbtu. Živi v gozdu, parku in na vrtu. Hrani se z žuželkami in polži. Pozimi si iz listja naredi gnezdo in spi.",
+    "worked": "Besedilo pove, kako je jež videti, kje živi, s čim se hrani in kaj počne pozimi. To so resnični podatki. Jež pozimi spi zimsko spanje.",
+    "exercises": [
+     "Preberi besedilo dvakrat.",
+     "Podčrtaj, s čim se jež hrani.",
+     "Nariši ježa v gnezdu.",
+     "Z odraslim razloži, kaj je zimsko spanje.",
+     "Postavi vprašanje o ježu."
+    ],
+    "test": [
+     "Kaj ima jež na hrbtu?",
+     "Kje jež živi?",
+     "S čim se hrani?",
+     "Kaj dela pozimi?",
+     "Je poučno besedilo izmišljena zgodba?"
+    ],
+    "steps": [
+     "Preberi vprašanje in poišči pomembno besedo, na primer pozimi.",
+     "To besedo poišči v besedilu.",
+     "Odgovor je navadno v isti povedi.",
+     "Pogosta napaka: izmišljevati si odgovor. Odgovori samo s tem, kar piše v besedilu."
+    ],
+    "answers": [
+     "Bodice.",
+     "V gozdu, parku in na vrtu.",
+     "Z žuželkami in polži.",
+     "Iz listja naredi gnezdo in spi.",
+     "Ne, daje resnične podatke."
+    ]
+   }
+  },
+  "eu-year-si-beginner-1-l24": {
+   "sl": {
+    "title": "Knjiga in knjižnica",
+    "theory": "Knjiga ima naslovnico, strani in ilustracije. Na naslovnici sta ime avtorja in naslov. V knjižnici si knjige izposojamo, z njimi lepo ravnamo in jih pravočasno vrnemo.",
+    "sample": "Lasten primer: Na naslovnici piše: Eva Mali – Pravljice iz gozda. Na sliki sta lisica in zajec.",
+    "worked": "Naslov pove, o čem je knjiga: pravljice iz gozda. Eva Mali je avtorica. Po sliki ugibamo, kdo nastopa. Strani so oštevilčene, da najdemo, kje smo ostali.",
+    "exercises": [
+     "Pokaži naslovnico knjige.",
+     "Poišči naslov knjige v razredu.",
+     "Poišči ime avtorja.",
+     "Nariši naslovnico svoje najljubše knjige.",
+     "Povej, kako lepo ravnaš s knjigo."
+    ],
+    "test": [
+     "Kaj je na naslovnici?",
+     "Kdo je avtorica knjige iz primera?",
+     "O čem je knjiga?",
+     "Kaj so ilustracije?",
+     "Kaj naredimo z izposojeno knjigo?"
+    ],
+    "steps": [
+     "Poglej naslovnico: avtor in naslov.",
+     "Oglej si sliko in ugibaj, o čem je knjiga.",
+     "Beri in preveri svojo napoved.",
+     "Pogosta napaka: zamenjati naslov in avtorja. Naslov je ime knjige, avtor jo je napisal."
+    ],
+    "answers": [
+     "Ime avtorja in naslov.",
+     "Eva Mali.",
+     "O pravljicah iz gozda.",
+     "Slike v knjigi.",
+     "Lepo ravnamo z njo in jo pravočasno vrnemo."
+    ]
+   }
+  },
+  "eu-year-si-beginner-1-l25": {
+   "sl": {
+    "title": "Vljudno sporazumevanje in telefonski klic",
+    "theory": "Pri pogovoru gledamo sogovornika. Pozdravimo, prosimo, se zahvalimo in se opravičimo. Po telefonu najprej povemo, kdo smo, in na koncu pozdravimo.",
+    "sample": "Žan: Dober dan, tukaj Žan. Je babica doma, prosim? / Teta: Je, takoj jo pokličem. / Žan: Hvala, nasvidenje.",
+    "worked": "Žan se je najprej predstavil, nato vljudno vprašal in se na koncu zahvalil. Po telefonu nas sogovornik ne vidi, zato povemo, kdo smo.",
+    "exercises": [
+     "Pozdravi učiteljico.",
+     "Prosi sošolca za barvico.",
+     "Zahvali se za darilo.",
+     "Zaigraj telefonski klic babici.",
+     "Opraviči se, ko se v koga zaletiš."
+    ],
+    "test": [
+     "Koga išče Žan?",
+     "Kaj Žan pove najprej?",
+     "Katere vljudne besede je uporabil?",
+     "Zakaj se po telefonu predstavimo?",
+     "Kaj rečeš, ko se posloviš?"
+    ],
+    "steps": [
+     "Pozdravi in povej, kdo si.",
+     "Povej svojo prošnjo z besedo prosim.",
+     "Zahvali se in se poslovi.",
+     "Pogosta napaka: po telefonu začeti brez pozdrava in ne povedati, kdo kliče."
+    ],
+    "answers": [
+     "Babico.",
+     "Dober dan, tukaj Žan.",
+     "Dober dan, prosim, hvala, nasvidenje.",
+     "Ker nas sogovornik ne vidi.",
+     "Nasvidenje."
+    ]
+   }
+  },
+  "eu-year-si-beginner-1-l26": {
+   "sl": {
+    "title": "Pripovedujem po slikah",
+    "theory": "Ko pripovedujemo po slikah, jih gledamo po vrsti. K vsaki sliki povemo poved: kdo, kje, kaj dela. Uporabljamo besede najprej, nato, na koncu.",
+    "sample": "Slika 1: deček sadi seme. Slika 2: zaliva ga. Slika 3: zraste sončnica. / Pripoved: Najprej je Jakob posadil seme. Nato ga je vsak dan zalival. Na koncu je zrasla velika sončnica.",
+    "worked": "Pripoved ima tri povedi, eno za vsako sliko. Besede najprej, nato, na koncu kažejo vrstni red. Dečku smo dali ime, da je zgodba bolj živa.",
+    "exercises": [
+     "S tremi povedmi povej, kako se pripraviš za šolo.",
+     "Uporabi najprej, nato, na koncu.",
+     "Nariši tri slike o svojem dnevu.",
+     "Izmisli si naslov pripovedi.",
+     "Sošolcu povej o nedelji."
+    ],
+    "test": [
+     "Kaj je posadil Jakob?",
+     "Kaj je delal nato?",
+     "Kaj je zraslo na koncu?",
+     "Katere besede kažejo vrstni red?",
+     "Koliko je slik?"
+    ],
+    "steps": [
+     "Slike poglej po vrsti.",
+     "K vsaki povej poved: kdo, kaj dela.",
+     "Povedi poveži z najprej, nato, na koncu.",
+     "Pogosta napaka: pripovedovati samo o zadnji sliki. Vsaka slika ima svoj del zgodbe."
+    ],
+    "answers": [
+     "Seme.",
+     "Vsak dan ga je zalival.",
+     "Velika sončnica.",
+     "Najprej, nato, na koncu.",
+     "Tri."
+    ]
+   }
+  },
+  "eu-year-si-beginner-1-l27": {
+   "sl": {
+    "title": "Opišem igračo",
+    "theory": "Ko nekaj opisujemo, povemo, kako je videti: barvo, velikost, obliko, iz česa je. Tako si stvar lahko predstavlja tudi tisti, ki je ne vidi. Opis začnemo s tem, kaj opisujemo.",
+    "sample": "Imam medvedka Brundija. Rjav je in mehak. Ima okrogla ušesa in črn nos. Okoli vratu ima rdečo pentljo. Vsak večer spim z njim.",
+    "worked": "Opis se začne s tem, kaj je: medvedek Brundi. Nato pove barvo, obliko ušes, nos in pentljo. Na koncu pove, zakaj ga imamo radi. Vsaka poved pove eno stvar.",
+    "exercises": [
+     "S tremi povedmi opiši svojo igračo.",
+     "Povej barvo svoje torbe.",
+     "Opiši žogo: obliko in barvo.",
+     "Ugani igračo po sošolčevem opisu.",
+     "Nariši medvedka Brundija."
+    ],
+    "test": [
+     "Kakšne barve je Brundi?",
+     "Kaj ima okoli vratu?",
+     "Kakšna ušesa ima?",
+     "S čim se začne opis?",
+     "Z eno povedjo opiši svojo barvico."
+    ],
+    "steps": [
+     "Povej, kaj opisuješ.",
+     "Povej barvo, velikost, obliko in iz česa je.",
+     "Na koncu povej, zakaj ti je všeč.",
+     "Pogosta napaka: reči samo, da je lepa. Povej, kako je videti, da si jo drugi predstavljajo."
+    ],
+    "answers": [
+     "Rjave.",
+     "Rdečo pentljo.",
+     "Okrogla.",
+     "S tem, kaj opisujemo.",
+     "Tvoj odgovor. Na primer: Moja barvica je dolga in modra."
+    ]
+   }
+  },
+  "eu-year-si-beginner-1-l28": {
+   "sl": {
+    "title": "Ponovitev: kaj znam po 1. razredu",
+    "theory": "Ob koncu leta preberemo kratko besedilo in pokažemo, kaj znamo: brati z razumevanjem, razdeliti besede na zloge, pisati besede s presledki in povedi s piko, pravilno pisati Č, Š, Ž.",
+    "sample": "VSAKO JUTRO SI MAJA PRIPRAVI TORBO. VANJO DA ZVEZEK, PERESNICO IN MALICO. NATO GRE S ŠPELO V ŠOLO.",
+    "worked": "Besedilo ima tri povedi. V besedi ŠOLA je Š s strešico. Besedo PERESNICA razdelimo na zloge: PE-RES-NI-CA. Vsaka poved se konča s piko.",
+    "exercises": [
+     "Preberi besedilo na glas.",
+     "Poišči besede s strešico.",
+     "Razdeli na zloge: MALICA.",
+     "Napiši poved o svoji torbi.",
+     "Povej, kaj ti je bilo letos najbolj všeč."
+    ],
+    "test": [
+     "Kaj naredi Maja vsako jutro?",
+     "Koliko povedi ima besedilo?",
+     "S kom gre Maja v šolo?",
+     "Kaj da v torbo?",
+     "Razdeli na zloge: PERESNICA."
+    ],
+    "steps": [
+     "Besedilo preberi najprej počasi, nato hitreje.",
+     "Vprašaj se: kdo? kaj dela? s kom?",
+     "Preštej povedi po pikah.",
+     "Pogosta napaka: pozabiti strešico v besedi ŠOLA."
+    ],
+    "answers": [
+     "Pripravi torbo.",
+     "Tri.",
+     "S Špelo.",
+     "Zvezek, peresnico in malico.",
+     "PE-RES-NI-CA."
+    ]
+   }
+  }
+ }
+}

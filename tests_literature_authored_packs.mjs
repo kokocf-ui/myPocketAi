@@ -1,0 +1,33 @@
+import assert from 'node:assert/strict';
+import {readFile} from 'node:fs/promises';
+import {createHash} from 'node:crypto';
+import app from './index.js';
+import {literatureLoadAuthoredYear} from './literature_authored_pack_loader.mjs';
+const packs={};
+for(const grade of ['1','2','3','4']){
+ const pack=JSON.parse(await readFile(new URL('./public/education/literature/authored/HU/'+grade+'.json',import.meta.url),'utf8'));
+ assert.equal(pack.schema,'mypocket-literature-authored/v2');assert.equal(pack.country,'HU');assert.equal(pack.grade,grade);assert.equal(pack.stage,'beginner');
+ assert.ok(pack.chapters&&Object.keys(pack.chapters).length);
+ assert.equal(pack.version,createHash('sha256').update(JSON.stringify(pack.chapters)).digest('hex'));packs[grade]=pack;
+}
+const map=new Map();const storage={getItem:k=>map.get(k)||null,setItem:(k,v)=>map.set(k,v)};
+const offline=async()=>{throw Error('offline')};
+const fetcher=async(url,opts)=>{assert.equal(url,'/education/literature/authored/HU/1.json');assert.equal(opts.cache,'no-store');return {ok:true,json:async()=>packs['1']}};
+let result=await literatureLoadAuthoredYear('HU','beginner','1',{storage,fetcher});assert.equal(result.offline,false);assert.deepEqual(result.chapters,packs['1'].chapters);
+result=await literatureLoadAuthoredYear('HU','beginner','1',{storage,fetcher:offline});assert.equal(result.offline,true);assert.deepEqual(result.chapters,packs['1'].chapters);
+await assert.rejects(literatureLoadAuthoredYear('HU','beginner','2',{storage,fetcher:offline}),/literature_authored_year_unavailable/);
+await assert.rejects(literatureLoadAuthoredYear('RO','beginner','1',{storage,fetcher:offline}),/unknown_authored_year/);
+const wrong=async()=>({ok:true,json:async()=>packs['2']});
+assert.equal((await literatureLoadAuthoredYear('HU','beginner','1',{storage,fetcher:wrong})).offline,true);
+const invalid=async()=>({ok:true,json:async()=>({...packs['3'],chapters:{}})});
+await assert.rejects(literatureLoadAuthoredYear('HU','beginner','3',{storage,fetcher:invalid}),/literature_authored_year_unavailable/);
+const changed=structuredClone(packs['1']);changed.chapters['hu-beginner-1-year-focus'].hu.title='Updated title';
+changed.version=createHash('sha256').update(JSON.stringify(changed.chapters)).digest('hex');
+const updated=await literatureLoadAuthoredYear('HU','beginner','1',{storage,fetcher:async()=>({ok:true,json:async()=>changed})});
+assert.equal(updated.chapters['hu-beginner-1-year-focus'].hu.title,'Updated title');
+assert.equal((await literatureLoadAuthoredYear('HU','beginner','1',{storage,fetcher:offline})).version,changed.version);
+const html=await(await app.fetch(new Request('https://lit-authored.test/'))).text();
+assert.ok(html.includes('const LIT_HU_GRADE1_CHAPTERS=Object.create(null)'));
+assert.ok(html.includes('const LIT_HU_PRIMARY_BATCH=Object.create(null)'));
+assert.ok(!html.includes('Bence a parkban talált egy kulcsot.'),'Authored HU grade 2 material must not be embedded in HTML');
+console.log('PASS 4 HU Literature year packs: exact authored content, valid cache and missing/offline handling');

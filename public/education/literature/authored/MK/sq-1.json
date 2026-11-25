@@ -1,0 +1,1064 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "MK",
+ "stage": "beginner",
+ "grade": "1",
+ "version": "193d6a072787343e5d82fd10bd863cbec1baf137c2f81bc395fd9307d6b9ef53",
+ "source": "https://bro.gov.mk/",
+ "sourceTitle": "Byroja për Zhvillimin e Arsimit (BZHA) e Maqedonisë së Veriut — programi mësimor Gjuhë shqipe për klasën I, për shkollat me mësim në gjuhën shqipe: dëgjim dhe të folur, mësimi i shkronjave me Abetare, lexim me kuptim, shkrim, letërsi (folklor, vjershë, përrallë, fabul); radha si në abetaret e zakonshme; materiale origjinale, pa tekst nga librat",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "sq",
+ "labels": [
+  "Ushtrim origjinal · Maqedoni e Veriut (gjuha shqipe) · Klasa 1",
+  "Mësojmë",
+  "Shembull origjinal",
+  "Shpjegim",
+  "Ushtrime",
+  "Kontrollo veten",
+  "Ushtrime origjinale, jo test zyrtar dhe jo tekst nga librat. Nëse duhet, lexo me një të rritur.",
+  "Kur nuk e kupton: hap pas hapi",
+  "Përgjigjet (kontrolloji kur të mbarosh)"
+ ],
+ "units": [
+  {
+   "title": "Përgatitja për lexim dhe shkrim",
+   "keys": [
+    "eu-year-mk-beginner-1-l01",
+    "eu-year-mk-beginner-1-l02",
+    "eu-year-mk-beginner-1-l03",
+    "eu-year-mk-beginner-1-l04"
+   ]
+  },
+  {
+   "title": "Shkronjat",
+   "keys": [
+    "eu-year-mk-beginner-1-l05",
+    "eu-year-mk-beginner-1-l06",
+    "eu-year-mk-beginner-1-l07",
+    "eu-year-mk-beginner-1-l08",
+    "eu-year-mk-beginner-1-l09",
+    "eu-year-mk-beginner-1-l10",
+    "eu-year-mk-beginner-1-l11"
+   ]
+  },
+  {
+   "title": "Shkruajmë saktë",
+   "keys": [
+    "eu-year-mk-beginner-1-l12",
+    "eu-year-mk-beginner-1-l13",
+    "eu-year-mk-beginner-1-l14",
+    "eu-year-mk-beginner-1-l15",
+    "eu-year-mk-beginner-1-l16"
+   ]
+  },
+  {
+   "title": "Lexojmë",
+   "keys": [
+    "eu-year-mk-beginner-1-l17",
+    "eu-year-mk-beginner-1-l18",
+    "eu-year-mk-beginner-1-l19",
+    "eu-year-mk-beginner-1-l20",
+    "eu-year-mk-beginner-1-l21",
+    "eu-year-mk-beginner-1-l22",
+    "eu-year-mk-beginner-1-l23"
+   ]
+  },
+  {
+   "title": "Komunikojmë",
+   "keys": [
+    "eu-year-mk-beginner-1-l24",
+    "eu-year-mk-beginner-1-l25",
+    "eu-year-mk-beginner-1-l26"
+   ]
+  },
+  {
+   "title": "Libri dhe përsëritja",
+   "keys": [
+    "eu-year-mk-beginner-1-l27",
+    "eu-year-mk-beginner-1-l28"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-mk-beginner-1-l01": {
+   "sq": {
+    "title": "Njihemi dhe flasim me radhë",
+    "theory": "Në klasën e parë mësojmë të dëgjojmë. Flet një, të tjerët dëgjojnë dhe nuk ndërhyjnë. Përgjigjemi me fjali të plotë: Unë quhem… Përdorim fjalë të sjellshme: mirëdita, të lutem, faleminderit, më fal.",
+    "sample": "Unë quhem Arta. Jam gjashtë vjeç. Më pëlqen të vizatoj. Pranë meje ulet Bledi.",
+    "worked": "Arta tha katër fjali të shkurtra: emrin, moshën, çfarë i pëlqen dhe kush ulet pranë saj. Çdo fjali fillon me shkronjë të madhe dhe mbaron me pikë.",
+    "exercises": [
+     "Prezantohu me dy fjali.",
+     "Thuaj çfarë të pëlqen të bësh.",
+     "Thuaj emrin e shokut ose shoqes pranë teje.",
+     "Trego si e ngre dorën për të folur.",
+     "Përsërit çfarë tha për veten shoku yt."
+    ],
+    "test": [
+     "Sa vjeçe është Arta?",
+     "Çfarë bëjmë kur duam të flasim?",
+     "Pse nuk ndërhyjmë kur flasin të tjerët?",
+     "Cilën fjalë thua kur merr diçka?",
+     "Kush ulet pranë Artës?"
+    ],
+    "steps": [
+     "Në fillim thuaj emrin: Unë quhem…",
+     "Pastaj thuaj sa vjeç je dhe çfarë të pëlqen.",
+     "Kur flet dikush tjetër, dëgjo dhe prit sa të mbarojë.",
+     "Gabim i shpeshtë: të përgjigjesh me një fjalë. Përgjigju me fjali të plotë."
+    ],
+    "answers": [
+     "Gjashtë vjeçe.",
+     "Ngremë dorën dhe presim radhën.",
+     "Që të flasë secili dhe të kuptohemi.",
+     "Faleminderit.",
+     "Bledi."
+    ]
+   }
+  },
+  "eu-year-mk-beginner-1-l02": {
+   "sq": {
+    "title": "Fjalia, fjala, rrokja, tingulli",
+    "theory": "Kur flasim, përdorim fjali. Fjalia përbëhet nga fjalë. Fjalët i ndajmë në rrokje, që i duartrokasim. Rrokjet përbëhen nga tinguj. Tingullin e dëgjojmë dhe e shqiptojmë, shkronjën e shohim dhe e shkruajmë.",
+    "sample": "Mami ka një çantë. / ma-mi / m-a-m-i",
+    "worked": "Fjalia ka katër fjalë: Mami, ka, një, çantë. Fjala mami ka dy rrokje: ma-mi. Ka katër tinguj: m-a-m-i. Shkojmë nga e madhja te e vogla: fjali, fjalë, rrokje, tingull.",
+    "exercises": [
+     "Sa fjalë ka fjalia: Ana këndon?",
+     "Duartroko fjalën lule.",
+     "Sa tinguj ka fjala hundë?",
+     "Thuaj një fjali për çantën tënde.",
+     "Cili është tingulli i parë në fjalën autobus?"
+    ],
+    "test": [
+     "Nga se përbëhet fjalia?",
+     "Sa rrokje ka fjala dora?",
+     "Sa tinguj ka fjala mal?",
+     "Cili është tingulli i fundit në fjalën mal?",
+     "Si ndryshon tingulli nga shkronja?"
+    ],
+    "steps": [
+     "Thuaj fjalinë dhe numëro fjalët me gishta.",
+     "Duartroko fjalën: një duartrokitje është një rrokje.",
+     "Shqipto ngadalë që të dëgjosh çdo tingull veç e veç.",
+     "Gabim i shpeshtë: të ngatërrosh rrokjen me tingullin. Rrokjen e duartrokasim, tingullin e shqiptojmë vetëm."
+    ],
+    "answers": [
+     "Nga fjalët.",
+     "Dy: do-ra.",
+     "Tre: m-a-l.",
+     "l.",
+     "Tingullin e dëgjojmë dhe e shqiptojmë, shkronjën e shohim dhe e shkruajmë."
+    ]
+   }
+  },
+  "eu-year-mk-beginner-1-l03": {
+   "sq": {
+    "title": "Zanoret dhe bashkëtingëlloret",
+    "theory": "Zanoret i shqiptojmë lirshëm, me gojë të hapur: a, e, ë, i, o, u, y. Bashkëtingëlloret i shqiptojmë me pengesë: buzët, dhëmbët ose gjuha e ndalin ajrin. Në çdo rrokje ka një zanore.",
+    "sample": "zanoret: a, e, ë, i, o, u, y / bashkëtingëllore: m, n, l, s / ma-mi — dy zanore, dy rrokje",
+    "worked": "Në fjalën mal tingulli a është zanore, ndërsa m dhe l janë bashkëtingëllore. Sa zanore ka fjala, aq rrokje ka. Fjala lapsi ka dy zanore, prandaj dy rrokje: lap-si.",
+    "exercises": [
+     "Thuaj të gjitha zanoret.",
+     "Gjej zanoren në fjalën mal.",
+     "Thuaj një fjalë që fillon me bashkëtingëllore.",
+     "Numëro zanoret në fjalën lapsi.",
+     "Shqipto ngadalë: ë."
+    ],
+    "test": [
+     "Si i shqiptojmë zanoret?",
+     "Sa zanore ka fjala dora?",
+     "Sa rrokje ka fjala lapsi?",
+     "A ka rrokje pa zanore?",
+     "Sa zanore ka gjuha shqipe?"
+    ],
+    "steps": [
+     "Shqipto fjalën ngadalë.",
+     "Tingulli që e zgjat me gojë të hapur është zanore.",
+     "Numëro zanoret: sa zanore, aq rrokje.",
+     "Gabim i shpeshtë: të harrosh që ë dhe y janë zanore."
+    ],
+    "answers": [
+     "Lirshëm, me gojë të hapur.",
+     "Dy: o dhe a.",
+     "Dy: lap-si.",
+     "Jo, në çdo rrokje ka zanore.",
+     "Shtatë."
+    ]
+   }
+  },
+  "eu-year-mk-beginner-1-l04": {
+   "sq": {
+    "title": "Përgatisim dorën për shkrim",
+    "theory": "Para se të shkruajmë, lëvizim dorën: vizatojmë rrathë, valëza dhe laqe. Ulemi drejt, këmbët i kemi në dysheme. Lapsin e mbajmë lehtë me tre gishta dhe nuk shtypim fort.",
+    "sample": "Rreshti 1: vija të drejta. / Rreshti 2: valëza. / Rreshti 3: ovale. / Rreshti 4: laqe.",
+    "worked": "Këto elemente gjenden në shkronja: ovali te o dhe a, vija e drejtë te i dhe t, laku te l. Kur i ushtrojmë, shkronjat bëhen më të bukura. Shkruajmë nga e majta në të djathtë.",
+    "exercises": [
+     "Vizato një rresht ovalesh.",
+     "Vizato një rresht valëzash.",
+     "Trego si e mban lapsin.",
+     "Vizato me gisht një lak në ajër.",
+     "Gjej ovalin te shkronja a."
+    ],
+    "test": [
+     "Me sa gishta e mbajmë lapsin?",
+     "Si ulemi kur shkruajmë?",
+     "Në cilin drejtim shkruajmë?",
+     "Në cilën shkronjë ka oval?",
+     "Çfarë bën kur të dhemb dora?"
+    ],
+    "steps": [
+     "Ulu drejt dhe vendos këmbët në dysheme.",
+     "Mbaje lapsin me tre gishta dhe mos shtyp fort.",
+     "Shkruaj nga e majta në të djathtë dhe ndiq rreshtin.",
+     "Gabim i shpeshtë: ta shtypësh fort lapsin. Kur të dhemb dora, shkunde dhe pusho."
+    ],
+    "answers": [
+     "Me tre.",
+     "Drejt, me këmbët në dysheme.",
+     "Nga e majta në të djathtë.",
+     "Te o dhe a.",
+     "E shkund dhe pushoj."
+    ]
+   }
+  },
+  "eu-year-mk-beginner-1-l05": {
+   "sq": {
+    "title": "Zanoret A, E, Ë, I, O, U, Y",
+    "theory": "Së pari mësojmë zanoret: A, E, Ë, I, O, U, Y. Çdo shkronjë ka formë të madhe dhe të vogël. Të madhen e shkruajmë në fillim të fjalisë dhe te emrat.",
+    "sample": "A a, E e, Ë ë, I i, O o, U u, Y y / a si te fjala ari, o si te fjala orë, i si te emri Ilir",
+    "worked": "Te fjala orë në fillim dëgjojmë o. Te emri Ilir në fillim dëgjojmë i, dhe meqë është emër, shkruajmë shkronjë të madhe I. Shkronja ë dëgjohet shpesh në fund të fjalëve: dorë, hënë.",
+    "exercises": [
+     "Thuaj zanoret me radhë.",
+     "Shkruaj një rresht me shkronjën o.",
+     "Cilin tingull dëgjon në fillim të emrit Ilir?",
+     "Thuaj një fjalë që fillon me u.",
+     "Rretho zanoret në rreshtin: a m o y."
+    ],
+    "test": [
+     "Cilat shkronja mësuam?",
+     "Cili tingull është në fillim të fjalës orë?",
+     "Çfarë shkronje shkruajmë në fillim të emrit Ilir?",
+     "Sa forma ka çdo shkronjë?",
+     "Me cilën zanore mbaron fjala dorë?"
+    ],
+    "steps": [
+     "Shqipto fjalën ngadalë.",
+     "Dëgjo cilin tingull zanor shqipton.",
+     "Gjej atë shkronjë dhe shkruaje.",
+     "Gabim i shpeshtë: të ngatërrosh e me ë. Dëgjo me kujdes: dorë mbaron me ë."
+    ],
+    "answers": [
+     "A, E, Ë, I, O, U, Y.",
+     "o.",
+     "I të madhe.",
+     "Dy: të madhe dhe të vogël.",
+     "ë."
+    ]
+   }
+  },
+  "eu-year-mk-beginner-1-l06": {
+   "sq": {
+    "title": "Shkronjat M, N, L, T, K: rrokjet e para",
+    "theory": "Bashkëtingëlloret M, N, L, T dhe K i bashkojmë me zanore në rrokje: ma, no, lu, ti, ke. Nga rrokjet formojmë fjalë: ma-mi, lu-le, A-na.",
+    "sample": "ma, mo, mu, mi / na, no, ni / la, lu, le / ta, ti / ka, ko / mami, lule, Ana, Toni, kalë / Ana ka lule.",
+    "worked": "Rrokjen e lexojmë me një frymë: m dhe a bashkë bëjnë ma. Fjala lule ka dy rrokje lu-le. Ana dhe Toni janë emra, prandaj i shkruajmë me shkronjë të madhe.",
+    "exercises": [
+     "Lexo: ma, mo, mu.",
+     "Lexo: la, lu, le.",
+     "Lexo: mami, lule, kalë.",
+     "Formo fjalë nga rrokjet: lu-le.",
+     "Shkruaj një rresht me shkronjën m."
+    ],
+    "test": [
+     "Si i lexojmë m dhe a bashkë?",
+     "Sa rrokje ka fjala lule?",
+     "Lexo: Toni ka kalë.",
+     "Çfarë ka Ana?",
+     "Pse e shkruajmë Ana me shkronjë të madhe?"
+    ],
+    "steps": [
+     "Shiko bashkëtingëlloren dhe menjëherë zanoren pas saj.",
+     "Lexoji bashkë si një rrokje.",
+     "Bashko rrokjet në fjalë: ma-mi.",
+     "Gabim i shpeshtë: të lexosh shkronjë pas shkronje: m, a, m, i. Lexo me rrokje: ma-mi."
+    ],
+    "answers": [
+     "Ma, si një rrokje.",
+     "Dy: lu-le.",
+     "Toni ka kalë.",
+     "Lule.",
+     "Sepse është emër."
+    ]
+   }
+  },
+  "eu-year-mk-beginner-1-l07": {
+   "sq": {
+    "title": "Shkronjat R, S, P, D, B: lexojmë fjali",
+    "theory": "Shkronjat e reja janë R, S, P, D dhe B. Tani lexojmë fjali të shkurtra. Fjalia fillon me shkronjë të madhe dhe mbaron me pikë.",
+    "sample": "rosë, dorë, bukë, pemë, sapun / Toni ka bukë. / Rosa po noton.",
+    "worked": "Fjalia Toni ka bukë ka tre fjalë. Toni është emër, prandaj ka shkronjë të madhe. Fjala sapun ka dy rrokje: sa-pun. Rosa po noton tregon çfarë bën rosa tani.",
+    "exercises": [
+     "Lexo: ra, so, pu, de, bi.",
+     "Lexo: rosë, bukë, pemë.",
+     "Lexo: Rosa po noton.",
+     "Shkruaj një rresht me shkronjën b.",
+     "Formo një fjali me fjalën bukë."
+    ],
+    "test": [
+     "Çfarë ka Toni?",
+     "Çfarë bën rosa?",
+     "Me çfarë mbaron fjalia?",
+     "Sa rrokje ka fjala sapun?",
+     "Lexo: Mami dhe Toni."
+    ],
+    "steps": [
+     "Lexo me rrokje: sa-pun.",
+     "Lexo gjithë fjalinë deri te pika.",
+     "Përgjigju pyetjes: kush? çfarë bën?",
+     "Gabim i shpeshtë: të ndalesh në mes të fjalisë. Lexo deri te pika."
+    ],
+    "answers": [
+     "Bukë.",
+     "Noton.",
+     "Me pikë.",
+     "Dy: sa-pun.",
+     "Mami dhe Toni."
+    ]
+   }
+  },
+  "eu-year-mk-beginner-1-l08": {
+   "sq": {
+    "title": "Shkronjat V, Z, F, G, H, J",
+    "theory": "Mësojmë V, Z, F, G, H dhe J. Kujdes të mos ngatërrojmë tingujt e ngjashëm: v dhe f, z dhe s. Dallimin e dëgjojmë kur shqiptojmë ngadalë.",
+    "sample": "vazo, zog, fole, gur, hënë, jakë / Zogu ka fole. / Hëna del natën.",
+    "worked": "Tingujt v dhe f ngjajnë, por v është i zëshëm, ndërsa f i pazëshëm. Fjalia Zogu ka fole ka tre fjalë. Fjala hënë ka dy rrokje: hë-në.",
+    "exercises": [
+     "Lexo: va, zo, fu, ge, hi, ja.",
+     "Lexo: vazo, zog, gur.",
+     "Lexo: Zogu ka fole.",
+     "Shkruaj një rresht me shkronjën h.",
+     "Thuaj një fjalë që fillon me z."
+    ],
+    "test": [
+     "Çfarë ka zogu?",
+     "Kur del hëna?",
+     "Cili tingull është në fillim të fjalës vazo?",
+     "Lexo: Zogu fluturon.",
+     "Sa rrokje ka fjala hënë?"
+    ],
+    "steps": [
+     "Vendos dorën në fyt dhe shqipto tingullin.",
+     "Kur fyti dridhet, është v ose z; kur jo, f ose s.",
+     "Shkruaj shkronjën që dëgjon.",
+     "Gabim i shpeshtë: të ngatërrosh v me f. Shqipto ngadalë dhe dëgjo."
+    ],
+    "answers": [
+     "Fole.",
+     "Natën.",
+     "v.",
+     "Zogu fluturon.",
+     "Dy: hë-në."
+    ]
+   }
+  },
+  "eu-year-mk-beginner-1-l09": {
+   "sq": {
+    "title": "Shkronjat C, Ç, Q, GJ, X",
+    "theory": "Mësojmë C, Ç, Q, GJ dhe X. GJ shkruhet me dy shkronja, por është një tingull: gjel. Q dhe GJ janë tinguj të butë. C dhe Ç i dallojmë kur shqiptojmë ngadalë: acar, çantë.",
+    "sample": "acar, çantë, qen, gjel, Xani / Qeni fle. / Gjeli këndon.",
+    "worked": "Te fjala gjel, gj është një tingull i vetëm. Te fjala qen tingulli i parë është q. Te fjala çantë tingulli i parë është ç. Xani është emër, prandaj fillon me shkronjë të madhe.",
+    "exercises": [
+     "Lexo: acar, çantë, qen.",
+     "Lexo: gjel, Xani.",
+     "Lexo: Gjeli këndon.",
+     "Shkruaj një rresht me shkronjën ç.",
+     "Thuaj një fjalë që fillon me q."
+    ],
+    "test": [
+     "Çfarë bën qeni?",
+     "Çfarë bën gjeli?",
+     "Sa tinguj është gj?",
+     "Cili tingull është në fillim të fjalës çantë?",
+     "Lexo: Çanta e Anës."
+    ],
+    "steps": [
+     "Gjej në fjalë shkronjën që po mësojmë.",
+     "Kujto: gj shkruhet me dy shkronja, por është një tingull.",
+     "Lexo fjalën me rrokje.",
+     "Gabim i shpeshtë: të ngatërrosh q me ç. Dëgjo: qen, çantë."
+    ],
+    "answers": [
+     "Fle.",
+     "Këndon.",
+     "Një.",
+     "ç.",
+     "Çanta e Anës."
+    ]
+   }
+  },
+  "eu-year-mk-beginner-1-l10": {
+   "sq": {
+    "title": "Shkronjat dyshe: DH, TH, LL, RR, SH, ZH, XH, NJ",
+    "theory": "Disa tinguj shkruhen me dy shkronja: dh, th, ll, rr, sh, zh, xh, nj. Secila prej tyre është një tingull i vetëm dhe një shkronjë e alfabetit. Alfabeti i shqipes ka 36 shkronja.",
+    "sample": "dhelpër, thes, mollë, rrush, shtëpi, zhurmë, xhaketë, një / Dhelpra ha rrush. / Molla është e kuqe.",
+    "worked": "Te fjala mollë, ll është një tingull. Te fjala rrush, rr është një tingull dhe sh është një tingull. Fjalia Dhelpra ha rrush ka tre fjalë.",
+    "exercises": [
+     "Lexo: dhelpër, thes, mollë.",
+     "Lexo: rrush, shtëpi, zhurmë.",
+     "Lexo: Dhelpra ha rrush.",
+     "Shkruaj një rresht me shkronjën sh.",
+     "Thuaj një fjalë me nj."
+    ],
+    "test": [
+     "Çfarë ha dhelpra?",
+     "Si është molla?",
+     "Sa tinguj është sh?",
+     "Sa shkronja ka alfabeti i shqipes?",
+     "Lexo: Xhaketa është e re."
+    ],
+    "steps": [
+     "Kur sheh dy shkronja bashkë si dh ose sh, lexo një tingull.",
+     "Lexo fjalën me rrokje: dhel-për.",
+     "Kontrollo nëse fjala ka kuptim.",
+     "Gabim i shpeshtë: të lexosh s dhe h veç e veç te sh. Është një tingull."
+    ],
+    "answers": [
+     "Rrush.",
+     "E kuqe.",
+     "Një.",
+     "36.",
+     "Xhaketa është e re."
+    ]
+   }
+  },
+  "eu-year-mk-beginner-1-l11": {
+   "sq": {
+    "title": "Lexim me kuptim",
+    "theory": "Tani i njohim të gjitha shkronjat. Kur lexojmë, i bashkojmë tingujt në fjalë dhe mendojmë çfarë do të thonë. Pas leximit përgjigjemi: kush, ku, çfarë bën.",
+    "sample": "Toni dhe Ana janë në park. Toni luan me top. Ana ushqen zogjtë.",
+    "worked": "Teksti ka tri fjali. Kush? Toni dhe Ana. Ku? Në park. Çfarë bëjnë? Toni luan me top, Ana ushqen zogjtë. Çdo fjali mbaron me pikë.",
+    "exercises": [
+     "Lexo tekstin me zë.",
+     "Trego të gjitha pikat.",
+     "Thuaj ku janë fëmijët.",
+     "Vizato Tonin me top.",
+     "Shto edhe një fjali për Anën."
+    ],
+    "test": [
+     "Kush është në park?",
+     "Çfarë bën Toni?",
+     "Çfarë bën Ana?",
+     "Sa fjali ka teksti?",
+     "Ku janë fëmijët?"
+    ],
+    "steps": [
+     "Lexo tekstin ngadalë, fjali pas fjalie.",
+     "Pyet veten: kush? ku? çfarë bën?",
+     "Gjeje përgjigjen në tekst.",
+     "Gabim i shpeshtë: të përgjigjesh përmendsh. Gjeje përgjigjen në tekst."
+    ],
+    "answers": [
+     "Toni dhe Ana.",
+     "Luan me top.",
+     "Ushqen zogjtë.",
+     "Tri.",
+     "Në park."
+    ]
+   }
+  },
+  "eu-year-mk-beginner-1-l12": {
+   "sq": {
+    "title": "Shkrimi i dorës dhe lidhja e shkronjave",
+    "theory": "Në klasën e parë mësojmë edhe shkronjat e dorës. Shkronjat në një fjalë i lidhim pa e ngritur lapsin, aty ku mundemi. Kujdesemi që shkronjat të jenë të njëjtës madhësi dhe të lëmë hapësirë midis fjalëve.",
+    "sample": "Kopjo me shkronja dore: mami, lule, Ana ka lule.",
+    "worked": "Te fjala mami, shkronjën m e lidhim me a pa ndërprerje. Midis fjalëve Ana, ka dhe lule lëmë hapësirë sa një shkronjë. Pikën mbi i e vendosim pasi të mbarojmë gjithë fjalën.",
+    "exercises": [
+     "Shkruaj me shkronja dore fjalën mami.",
+     "Shkruaj emrin tënd me shkronja dore.",
+     "Kopjo fjalinë: Ana ka lule.",
+     "Kontrollo hapësirat midis fjalëve.",
+     "Rretho shkronjën më të bukur."
+    ],
+    "test": [
+     "Kur e vendosim pikën mbi i?",
+     "Sa e madhe është hapësira midis fjalëve?",
+     "Shkruaj me shkronja dore: Toni.",
+     "Pse i lidhim shkronjat?",
+     "Cilat shkronja ka fjala lule?"
+    ],
+    "steps": [
+     "Shiko modelin dhe gjej ku lidhen shkronjat.",
+     "Shkruaj ngadalë dhe gjithë fjalën njëherësh.",
+     "Në fund vendos pikat mbi i dhe shenjat mbi ë dhe ç.",
+     "Gabim i shpeshtë: të shkruash fjalët pa hapësira. Midis fjalëve lër vend për një shkronjë."
+    ],
+    "answers": [
+     "Pasi të mbarojmë gjithë fjalën.",
+     "Sa një shkronjë.",
+     "Toni.",
+     "Që të shkruajmë rrjedhshëm dhe më shpejt.",
+     "l, u, l, e."
+    ]
+   }
+  },
+  "eu-year-mk-beginner-1-l13": {
+   "sq": {
+    "title": "Shkronja e madhe te emrat",
+    "theory": "Me shkronjë të madhe shkruajmë fillimin e fjalisë, emrat dhe mbiemrat e njerëzve, emrat e kafshëve, të qyteteve, lumenjve dhe maleve. Fjalët e tjera i shkruajmë me shkronjë të vogël.",
+    "sample": "Ermal Hoxha jeton në Tetovë. Ka një qen që quhet Bubi. Në verë shkon te lumi Vardar.",
+    "worked": "Ermal Hoxha, Bubi, Tetovë dhe Vardar janë emra, prandaj kanë shkronjë të madhe. Fjalët qen dhe lumi janë fjalë të zakonshme, i shkruajmë me shkronjë të vogël.",
+    "exercises": [
+     "Gjej të gjithë emrat në shembull.",
+     "Shkruaj emrin dhe mbiemrin tënd.",
+     "Shkruaj emrin e një kafshe.",
+     "Ndreqe: jetoj në shkup.",
+     "A e shkruajmë fjalën mace me shkronjë të madhe?"
+    ],
+    "test": [
+     "Si quhet qeni?",
+     "Në cilin qytet jeton Ermali?",
+     "Shkruaje saktë: ana luan me bubin",
+     "Kur shkruajmë shkronjë të madhe?",
+     "Vardari është qytet apo lumë?"
+    ],
+    "steps": [
+     "Pyet veten: a është emër njeriu, kafshe, qyteti apo lumi?",
+     "Nëse po, shkruaj shkronjë të madhe.",
+     "Shkronjë të madhe shkruaj edhe në fillim të çdo fjalie.",
+     "Gabim i shpeshtë: të shkruash me shkronjë të madhe fjalë të zakonshme: qen, qytet."
+    ],
+    "answers": [
+     "Bubi.",
+     "Në Tetovë.",
+     "Ana luan me Bubin.",
+     "Në fillim të fjalisë dhe te emrat.",
+     "Lumë."
+    ]
+   }
+  },
+  "eu-year-mk-beginner-1-l14": {
+   "sq": {
+    "title": "Pika, pikëpyetja, pikëçuditësja",
+    "theory": "Fjalia që tregon diçka mbaron me pikë. Fjalia që pyet mbaron me pikëpyetje. Fjalia që shpreh gëzim, çudi ose thirrje mbaron me pikëçuditëse.",
+    "sample": "Sot shkëlqen dielli. Do të dalësh jashtë? Sa ditë e bukur!",
+    "worked": "Fjalia e parë tregon: pikë. E dyta pyet: pikëpyetje. E treta shpreh gëzim: pikëçuditëse. Të gjitha fillojnë me shkronjë të madhe.",
+    "exercises": [
+     "Vendos shenjën: Si quhesh",
+     "Vendos shenjën: Kam një mace",
+     "Krijo një pyetje për mësuesen.",
+     "Krijo një fjali me pikëçuditëse.",
+     "Numëro fjalitë në shembull."
+    ],
+    "test": [
+     "Me çfarë mbaron pyetja?",
+     "Me çfarë shkronje fillon fjalia?",
+     "Shkruaje saktë: bie shi",
+     "Cila fjali në shembull shpreh gëzim?",
+     "Sa fjali ka shembulli?"
+    ],
+    "steps": [
+     "Pyet veten: fjalia tregon, pyet apo shpreh ndjenjë?",
+     "Tregon — pikë, pyet — pikëpyetje, ndjenjë — pikëçuditëse.",
+     "Kontrollo shkronjën e madhe në fillim.",
+     "Gabim i shpeshtë: të harrosh pikëpyetjen në një pyetje të shkurtër: Vjen?"
+    ],
+    "answers": [
+     "Me pikëpyetje.",
+     "Me shkronjë të madhe.",
+     "Bie shi.",
+     "Sa ditë e bukur!",
+     "Tri."
+    ]
+   }
+  },
+  "eu-year-mk-beginner-1-l15": {
+   "sq": {
+    "title": "Alfabeti",
+    "theory": "Shkronjat kanë një radhë të përhershme — alfabetin. Alfabeti i shqipes ka 36 shkronja: a, b, c, ç, d, dh, e, ë, f, g, gj… Sipas alfabetit renditen fjalët në fjalor dhe emrat në regjistër.",
+    "sample": "Fillimi i alfabetit: a, b, c, ç, d, dh, e, ë, f. / Rendit: top, arë, lule → arë, lule, top.",
+    "worked": "Fjala arë fillon me a, lule me l, top me t. Në alfabet a është para l, dhe l para t, prandaj radha është arë, lule, top.",
+    "exercises": [
+     "Thuaj alfabetin deri te shkronja h.",
+     "Cila shkronjë vjen pas m?",
+     "Rendit sipas alfabetit: mal, det, lule.",
+     "Gjej në fjalor fjalën qen.",
+     "Thuaj shkronjën e parë dhe të fundit të alfabetit."
+    ],
+    "test": [
+     "Çfarë është alfabeti?",
+     "Sa shkronja ka alfabeti i shqipes?",
+     "Rendit: zog, arë, mal.",
+     "Për çfarë na shërben radha alfabetike?",
+     "Me cilën shkronjë fillon alfabeti?"
+    ],
+    "steps": [
+     "Shiko shkronjën e parë të çdo fjale.",
+     "Gjej këto shkronja në alfabet.",
+     "Fjalën me shkronjën më përpara shkruaje të parën.",
+     "Gabim i shpeshtë: të harrosh shkronjat dyshe. Edhe dh, gj, sh kanë vendin e tyre në alfabet."
+    ],
+    "answers": [
+     "Shkronjat në një radhë të përhershme.",
+     "36.",
+     "arë, mal, zog.",
+     "Për të gjetur shpejt fjalët në fjalor dhe emrat në listë.",
+     "Me a."
+    ]
+   }
+  },
+  "eu-year-mk-beginner-1-l16": {
+   "sq": {
+    "title": "Kopjimi dhe diktimi",
+    "theory": "Kur kopjojmë, shkruajmë një tekst nga fletorja ose nga tabela. Kur bëjmë diktim, shkruajmë atë që dëgjojmë. Pastaj gjithmonë e lexojmë dhe e kontrollojmë.",
+    "sample": "Diktim: Elsa ka një mace. Macja është gri. Ajo fle në diell.",
+    "worked": "Diktimi ka tri fjali. Elsa është emër, prandaj ka shkronjë të madhe. Çdo fjali mbaron me pikë. Pas diktimit kontrollojmë shkronjat e mëdha, pikat dhe hapësirat midis fjalëve.",
+    "exercises": [
+     "Kopjo një fjali nga tabela.",
+     "Shkruaj një diktim që ta lexon një i rritur.",
+     "Kontrollo shkronjat e mëdha.",
+     "Numëro fjalitë në diktim.",
+     "Nënvizo një fjalë që të duket e vështirë."
+    ],
+    "test": [
+     "Çfarë është kopjimi?",
+     "Si është macja?",
+     "Sa fjali ka diktimi?",
+     "Çfarë kontrollojmë pas diktimit?",
+     "Shkruaj: Macja fle."
+    ],
+    "steps": [
+     "Dëgjo gjithë fjalinë para se të shkruash.",
+     "Shkruaj fjalë pas fjale dhe thuaji me vete.",
+     "Në fund kontrollo shkronjat e mëdha, pikat dhe hapësirat.",
+     "Gabim i shpeshtë: të mos e kontrollosh tekstin. Gabimet shpesh duken kur e lexon përsëri."
+    ],
+    "answers": [
+     "Shkrimi i një teksti nga fletorja ose tabela.",
+     "Gri.",
+     "Tri.",
+     "Shkronjat e mëdha, pikat dhe hapësirat.",
+     "Macja fle."
+    ]
+   }
+  },
+  "eu-year-mk-beginner-1-l17": {
+   "sq": {
+    "title": "Numërtore dhe fjalë të shpejta",
+    "theory": "Folklori janë këngë, numërtore, fjalë të shpejta, gjëegjëza dhe përralla që njerëzit i kanë përcjellë gojarisht. Numërtorja na ndihmon të zgjedhim kush do të numërojë. Ka ritëm dhe rimë.",
+    "sample": "Numërtore origjinale: Një, dy, tre, katër, pesë, / bie shi e bie vesë. / Fjalë e shpejtë origjinale: Shtatë shqiponja shkojnë në shkëmb.",
+    "worked": "Numërtorja ka ritëm dhe rimë: pesë – vesë. Fjala e shpejtë është e vështirë, sepse përsëritet tingulli sh. Në fillim e themi ngadalë, pastaj më shpejt.",
+    "exercises": [
+     "Thuaj numërtoren dhe zgjidh kush numëron.",
+     "Thuaj fjalën e shpejtë tri herë.",
+     "Gjej rimën në numërtore.",
+     "Krijo një numërtore tënden.",
+     "Thuaj një numërtore që e di."
+    ],
+    "test": [
+     "Çfarë është folklori?",
+     "Për çfarë shërben numërtorja?",
+     "Cili tingull përsëritet te fjala e shpejtë?",
+     "Çfarë rimon me pesë?",
+     "Për çfarë shërben fjala e shpejtë?"
+    ],
+    "steps": [
+     "Lexo tekstin ngadalë dhe me zë.",
+     "Gjej ritmin dhe fjalët që rimojnë.",
+     "Përsërite më shpejt, por qartë.",
+     "Gabim i shpeshtë: ta thuash fjalën e shpejtë menjëherë shpejt. Në fillim ngadalë dhe qartë."
+    ],
+    "answers": [
+     "Këngë, numërtore, gjëegjëza dhe përralla të përcjella gojarisht.",
+     "Për të zgjedhur kush do të numërojë.",
+     "sh.",
+     "Vesë.",
+     "Për të mësuar të flasim shpejt dhe qartë."
+    ]
+   }
+  },
+  "eu-year-mk-beginner-1-l18": {
+   "sq": {
+    "title": "Vjersha: vargu, rima, ndjenja",
+    "theory": "Vjersha përbëhet nga vargje, domethënë rreshta. Fjalët në fund të vargjeve shpesh rimojnë. Vjershën e lexojmë ngadalë, me një pushim të shkurtër në fund të vargut.",
+    "sample": "Vjershë origjinale: / Bie borë, bie borë, / e kap fjollën me dorë. / Fëmijët dalin me vrap, / bëjnë topa, hap pas hap.",
+    "worked": "Vjersha ka katër vargje. Borë rimon me dorë, vrap me hap. Ndjenja është e gëzuar dhe dimërore. Në fund të çdo vargu bëjmë një pushim të shkurtër.",
+    "exercises": [
+     "Lexo vjershën me zë.",
+     "Gjej fjalën që rimon me borë.",
+     "Mëso dy vargjet e para.",
+     "Vizato fëmijët që luajnë me borë.",
+     "Krijo një rimë për fjalën mal."
+    ],
+    "test": [
+     "Sa vargje ka vjersha?",
+     "Me çfarë e kap fjollën?",
+     "Çfarë është vargu?",
+     "Çfarë është rima?",
+     "Krijo një rimë për fjalën top."
+    ],
+    "steps": [
+     "Lexo vjershën varg pas vargu.",
+     "Shiko fjalën e fundit të çdo vargu dhe kërko rimat.",
+     "Mëso nga dy vargje njëherësh.",
+     "Gabim i shpeshtë: të lexosh pa pushime. Në fund të vargut ndalu për një çast."
+    ],
+    "answers": [
+     "Katër.",
+     "Me dorë.",
+     "Një rresht i vjershës.",
+     "Tingëllimi i ngjashëm i fundit të fjalëve.",
+     "Përgjigjja jote. Për shembull: lot."
+    ]
+   }
+  },
+  "eu-year-mk-beginner-1-l19": {
+   "sq": {
+    "title": "Përrallë: Kësulëkuqja",
+    "theory": "Përralla është një histori e trilluar. Në përrallën Kësulëkuqja, një vajzë shkon te gjyshja dhe takon ujkun në pyll. Përralla na mëson të mos flasim me të panjohur.",
+    "sample": "Ritregim me fjalët e mia: Kësulëkuqja çoi ushqim te gjyshja e sëmurë. Në pyll takoi ujkun dhe i tregoi ku shkonte. Ujku vrapoi para saj te shtëpia e gjyshes. Një gjahtar e dëgjoi zhurmën, erdhi dhe i shpëtoi të dyja.",
+    "worked": "Personazhet janë Kësulëkuqja, gjyshja, ujku dhe gjahtari. Kësulëkuqja gaboi kur i tregoi ujkut ku shkonte. Mësimi: mos u trego të panjohurve ku po shkon dhe dëgjo prindërit.",
+    "exercises": [
+     "Ritrego fillimin e përrallës.",
+     "Emërto personazhet.",
+     "Vizato Kësulëkuqen në pyll.",
+     "Luani përrallën në grup.",
+     "Ku gaboi Kësulëkuqja?"
+    ],
+    "test": [
+     "Ku shkonte Kësulëkuqja?",
+     "Kë takoi në pyll?",
+     "Kush i shpëtoi?",
+     "Çfarë gabimi bëri Kësulëkuqja?",
+     "Çfarë na mëson përralla?"
+    ],
+    "steps": [
+     "Gjej personazhet e përrallës.",
+     "Trego me radhë: në fillim, pastaj, në fund.",
+     "Thuaj çfarë na mëson përralla.",
+     "Gabim i shpeshtë: të ngatërrosh radhën e ngjarjeve. Pa radhë, historia nuk kuptohet."
+    ],
+    "answers": [
+     "Te gjyshja e sëmurë.",
+     "Ujkun.",
+     "Gjahtari.",
+     "I tregoi ujkut ku shkonte.",
+     "Të mos u tregojmë të panjohurve ku po shkojmë."
+    ]
+   }
+  },
+  "eu-year-mk-beginner-1-l20": {
+   "sq": {
+    "title": "Fabul: Breshka dhe lepuri",
+    "theory": "Fabula është një histori e shkurtër ku kafshët flasin dhe sillen si njerëz. Në fund ka një mësim. Shumë fabula i ka treguar tregimtari i lashtë grek Ezopi.",
+    "sample": "Ritregim me fjalët e mia: Lepuri tallej me breshkën se ishte e ngadaltë. Ata bënë një garë. Lepuri vrapoi shpejt, por u ndal dhe zuri gjumë. Breshka eci pa u ndalur dhe arriti e para.",
+    "worked": "Personazhet janë lepuri dhe breshka. Lepuri është i shpejtë, por mendjemadh. Breshka është e ngadaltë, por këmbëngulëse. Mësimi: kush punon me durim, ia del.",
+    "exercises": [
+     "Ritrego fabulën.",
+     "Vizato breshkën në vijën e mbërritjes.",
+     "Si është lepuri?",
+     "Thuaj mësimin me fjalët e tua.",
+     "Krijo një fund tjetër."
+    ],
+    "test": [
+     "Kush janë personazhet e fabulës?",
+     "Pse tallej lepuri me breshkën?",
+     "Çfarë bëri lepuri gjatë garës?",
+     "Kush fitoi?",
+     "Cili është mësimi?"
+    ],
+    "steps": [
+     "Gjej personazhet: lepuri dhe breshka.",
+     "Thuaj çfarë ndodh në fillim dhe në fund.",
+     "Gjej mësimin: çfarë na mëson fabula?",
+     "Gabim i shpeshtë: të mendosh se fabula flet vetëm për kafshët. Kafshët tregojnë si sillen njerëzit."
+    ],
+    "answers": [
+     "Breshka dhe lepuri.",
+     "Sepse ishte e ngadaltë.",
+     "U ndal dhe zuri gjumë.",
+     "Breshka.",
+     "Kush punon me durim, ia del."
+    ]
+   }
+  },
+  "eu-year-mk-beginner-1-l21": {
+   "sq": {
+    "title": "Gjëegjëza",
+    "theory": "Gjëegjëza përshkruan diçka, por nuk ia thotë emrin. Dëgjojmë të gjitha të dhënat dhe e gjejmë. Gjëegjëzat janë pjesë e folklorit.",
+    "sample": "Gjëegjëzë origjinale: Ka gjilpëra, por nuk qep, në dimër në pyll e gjelbër rri. (bredhi) / Gjëegjëzë origjinale: Ka katër këmbë, por nuk ecën. (tavolina)",
+    "worked": "Të dhënat: gjilpëra, e gjelbër në dimër, rri në pyll — është bredhi. Te e dyta: katër këmbë, por nuk ecën — tavolina. Përgjigjen e kontrollojmë me të gjitha të dhënat.",
+    "exercises": [
+     "Gjeje: Varet në pemë, është e kuqe dhe e rrumbullakët. (molla)",
+     "Krijo një gjëegjëzë për diellin.",
+     "Thuaji një gjëegjëzë një shoku.",
+     "Vizato përgjigjen.",
+     "Thuaj të dhënat e gjëegjëzës për bredhin."
+    ],
+    "test": [
+     "Çfarë është gjëegjëza?",
+     "Cila është përgjigjja e gjëegjëzës së parë?",
+     "Pse bredhi është i gjelbër në dimër?",
+     "Si e kontrollon përgjigjen?",
+     "Krijo një gjëegjëzë për macen."
+    ],
+    "steps": [
+     "Dëgjoje gjëegjëzën deri në fund.",
+     "Gjej të gjitha të dhënat.",
+     "Kontrollo përgjigjen me çdo të dhënë.",
+     "Gabim i shpeshtë: të përgjigjesh pas të dhënës së parë. Dëgjoje gjithë gjëegjëzën."
+    ],
+    "answers": [
+     "Përshkrim i diçkaje pa ia thënë emrin.",
+     "Bredhi.",
+     "Sepse gjilpërat nuk i bien.",
+     "Me të gjitha të dhënat.",
+     "Përgjigjja jote. Për shembull: Ka putra të buta dhe bën mjau. (macja)"
+    ]
+   }
+  },
+  "eu-year-mk-beginner-1-l22": {
+   "sq": {
+    "title": "Teatri i kukullave",
+    "theory": "Në teatër historinë e luajnë aktorë ose kukulla. Spektatorët rrinë të qetë dhe në fund duartrokasin. Edhe ne mund të luajmë një histori të shkurtër me kukulla.",
+    "sample": "Skenë me kukulla: / Lepurushi: Mirëdita, iriq! Ku po shkon? / Iriqi: Në pyll për mollë. Vjen me mua? / Lepurushi: Me kënaqësi, faleminderit!",
+    "worked": "Skena ka dy personazhe, lepurushin dhe iriqin. Secili thotë fjalët e veta. Kur luajmë me kukull, flasim me zë të lartë dhe qartë dhe e lëvizim kukullën kur flet.",
+    "exercises": [
+     "Bëj një kukull me një çorap.",
+     "Luaje skenën me një shok.",
+     "Krijo çfarë thotë iriqi në fund.",
+     "Thuaj si sillemi në teatër.",
+     "Vizato lepurushin dhe iriqin."
+    ],
+    "test": [
+     "Kush janë personazhet e skenës?",
+     "Ku po shkon iriqi?",
+     "Çfarë përgjigjet lepurushi?",
+     "Si sillemi në teatër?",
+     "Kush luan në teatrin e kukullave?"
+    ],
+    "steps": [
+     "Zgjidh një personazh dhe mëso fjalët e tij.",
+     "Fol me zë të lartë dhe qartë.",
+     "Lëvize kukullën kur flet dhe mbaje të qetë kur dëgjon.",
+     "Gabim i shpeshtë: të flasësh me shpinë nga spektatorët. Shiko nga ata që të dëgjojnë."
+    ],
+    "answers": [
+     "Lepurushi dhe iriqi.",
+     "Në pyll për mollë.",
+     "Me kënaqësi, faleminderit!",
+     "Rrimë të qetë dhe në fund duartrokasim.",
+     "Kukullat që i lëvizin kukullistët."
+    ]
+   }
+  },
+  "eu-year-mk-beginner-1-l23": {
+   "sq": {
+    "title": "Tekst informues: iriqi",
+    "theory": "Teksti informues na jep të dhëna të vërteta. Nuk tregon një histori të trilluar. E lexojmë me kujdes dhe përgjigjet i kërkojmë në tekst.",
+    "sample": "Iriqi është një kafshë e vogël me gjemba në shpinë. Jeton në pyll, në park dhe në kopsht. Ushqehet me insekte dhe kërmij. Për dimër bën një fole me gjethe dhe fle.",
+    "worked": "Teksti tregon si duket iriqi, ku jeton, me çfarë ushqehet dhe çfarë bën në dimër. Këto janë të dhëna të vërteta. Iriqi bën gjumë dimëror.",
+    "exercises": [
+     "Lexo tekstin dy herë.",
+     "Nënvizo me çfarë ushqehet iriqi.",
+     "Vizato iriqin në fole.",
+     "Shpjego me një të rritur çfarë është gjumi dimëror.",
+     "Bëj një pyetje për iriqin."
+    ],
+    "test": [
+     "Çfarë ka iriqi në shpinë?",
+     "Ku jeton iriqi?",
+     "Me çfarë ushqehet?",
+     "Çfarë bën në dimër?",
+     "A është teksti informues histori e trilluar?"
+    ],
+    "steps": [
+     "Lexo pyetjen dhe gjej fjalën e rëndësishme, për shembull dimër.",
+     "Gjej atë fjalë në tekst.",
+     "Përgjigjja zakonisht është në të njëjtën fjali.",
+     "Gabim i shpeshtë: ta shpikësh përgjigjen. Përgjigju vetëm me atë që shkruan në tekst."
+    ],
+    "answers": [
+     "Gjemba.",
+     "Në pyll, në park dhe në kopsht.",
+     "Me insekte dhe kërmij.",
+     "Bën një fole me gjethe dhe fle.",
+     "Jo, jep të dhëna të vërteta."
+    ]
+   }
+  },
+  "eu-year-mk-beginner-1-l24": {
+   "sq": {
+    "title": "Bisedë e sjellshme dhe biseda në telefon",
+    "theory": "Kur bisedojmë, e shohim bashkëbiseduesin. Përshëndesim, lutemi, falënderojmë dhe kërkojmë falje. Në telefon fillimisht themi kush jemi, dhe në fund përshëndetemi.",
+    "sample": "Dritoni: Mirëdita, jam Dritoni. A mund të flas me gjyshen, ju lutem? / Halla: Po, po e thërras. / Dritoni: Faleminderit, mirupafshim.",
+    "worked": "Dritoni fillimisht u prezantua, pastaj kërkoi me mirësjellje dhe në fund falënderoi. Në telefon nuk na shohin, prandaj themi kush po telefonon.",
+    "exercises": [
+     "Përshëndete mësuesen.",
+     "I kërko shokut një laps.",
+     "Falënderoje dikë për një dhuratë.",
+     "Luaj një bisedë në telefon me gjyshen.",
+     "Kërko falje kur përplasesh me dikë."
+    ],
+    "test": [
+     "Me kë do të flasë Dritoni?",
+     "Çfarë thotë Dritoni në fillim?",
+     "Cilat fjalë të sjellshme përdor?",
+     "Pse prezantohemi në telefon?",
+     "Çfarë thua kur ndahesh?"
+    ],
+    "steps": [
+     "Përshëndet dhe thuaj kush je.",
+     "Thuaj kërkesën me fjalët ju lutem.",
+     "Falënderoje dhe përshëndetu.",
+     "Gabim i shpeshtë: të fillosh në telefon pa përshëndetje dhe pa thënë kush je."
+    ],
+    "answers": [
+     "Me gjyshen.",
+     "Mirëdita, jam Dritoni.",
+     "Mirëdita, ju lutem, faleminderit, mirupafshim.",
+     "Sepse nuk na shohin.",
+     "Mirupafshim."
+    ]
+   }
+  },
+  "eu-year-mk-beginner-1-l25": {
+   "sq": {
+    "title": "Tregim sipas figurave",
+    "theory": "Kur tregojmë sipas figurave, i shohim me radhë. Për çdo figurë themi një fjali: kush, ku, çfarë bën. Përdorim fjalët në fillim, pastaj, në fund.",
+    "sample": "Figura 1: një djalë mbjell një farë. Figura 2: e ujit. Figura 3: ka rritur një luledielli. / Tregim: Në fillim Arbri mbolli një farë. Pastaj e ujiste çdo ditë. Në fund u rrit një luledielli e madhe.",
+    "worked": "Tregimi ka tri fjali, një për çdo figurë. Fjalët në fillim, pastaj, në fund tregojnë radhën. Djalit i vumë emër që historia të jetë më e gjallë.",
+    "exercises": [
+     "Trego me tri fjali si përgatitesh për shkollë.",
+     "Përdor në fillim, pastaj, në fund.",
+     "Vizato tri figura për ditën tënde.",
+     "Krijo një titull për tregimin.",
+     "I trego një shoku për të dielën."
+    ],
+    "test": [
+     "Çfarë mbolli Arbri?",
+     "Çfarë bënte pastaj?",
+     "Çfarë u rrit në fund?",
+     "Cilat fjalë tregojnë radhën?",
+     "Sa figura janë?"
+    ],
+    "steps": [
+     "Shiko figurat me radhë.",
+     "Për çdo figurë thuaj një fjali: kush, çfarë bën.",
+     "Lidhi fjalitë me në fillim, pastaj, në fund.",
+     "Gabim i shpeshtë: të tregosh vetëm për figurën e fundit. Çdo figurë është pjesë e historisë."
+    ],
+    "answers": [
+     "Një farë.",
+     "E ujiste çdo ditë.",
+     "Një luledielli e madhe.",
+     "Në fillim, pastaj, në fund.",
+     "Tri."
+    ]
+   }
+  },
+  "eu-year-mk-beginner-1-l26": {
+   "sq": {
+    "title": "Përshkrimi i një lodre",
+    "theory": "Kur përshkruajmë diçka, themi si duket: ngjyrën, madhësinë, formën, nga çfarë është bërë. Kështu mund ta përfytyrojë edhe ai që nuk e sheh. Përshkrimin e fillojmë duke thënë çfarë është.",
+    "sample": "Kam një arush që quhet Bubi. Është ngjyrë kafe dhe i butë. Ka veshë të rrumbullakët dhe hundë të zezë. Në qafë ka një fjongo të kuqe. Fle me të çdo natë.",
+    "worked": "Përshkrimi fillon me atë që është: arushi Bubi. Pastaj tregon ngjyrën, veshët, hundën dhe fjongon. Në fund thotë pse e duam. Çdo fjali tregon një gjë.",
+    "exercises": [
+     "Përshkruaj me tri fjali lodrën tënde.",
+     "Thuaj ngjyrën e çantës tënde.",
+     "Përshkruaj një top: forma dhe ngjyra.",
+     "Gjej lodrën sipas përshkrimit të shokut.",
+     "Vizato arushin Bubi."
+    ],
+    "test": [
+     "Çfarë ngjyre është Bubi?",
+     "Çfarë ka në qafë?",
+     "Si i ka veshët?",
+     "Me çfarë fillon përshkrimi?",
+     "Përshkruaj me një fjali lapsin tënd."
+    ],
+    "steps": [
+     "Në fillim thuaj çfarë po përshkruan.",
+     "Thuaj ngjyrën, madhësinë, formën dhe nga çfarë është.",
+     "Në fund thuaj pse të pëlqen.",
+     "Gabim i shpeshtë: të thuash vetëm që është e bukur. Përshkruaj si duket, që ta përfytyrojnë të tjerët."
+    ],
+    "answers": [
+     "Kafe.",
+     "Një fjongo të kuqe.",
+     "Të rrumbullakët.",
+     "Me atë që po përshkruajmë.",
+     "Përgjigjja jote. Për shembull: Lapsi im është i gjatë dhe blu."
+    ]
+   }
+  },
+  "eu-year-mk-beginner-1-l27": {
+   "sq": {
+    "title": "Libri dhe biblioteka",
+    "theory": "Libri ka kapak, faqe dhe ilustrime. Në kapak janë emri i autorit dhe titulli. Në bibliotekë marrim libra hua, i ruajmë dhe i kthejmë në kohë.",
+    "sample": "Shembull origjinal: Në kapak shkruan: Elona Mali — Përralla nga pylli. Në figurë janë një dhelpër dhe një lepur.",
+    "worked": "Titulli tregon për çfarë është libri: përralla nga pylli. Elona Mali është autorja. Nga figura hamendësojmë kush merr pjesë. Faqet kanë numra që të gjejmë ku ndalëm.",
+    "exercises": [
+     "Trego kapakun e një libri.",
+     "Gjej titullin e një libri në klasë.",
+     "Gjej emrin e autorit.",
+     "Vizato kapakun e librit tënd të preferuar.",
+     "Thuaj si e ruan librin."
+    ],
+    "test": [
+     "Çfarë ka në kapak?",
+     "Kush është autorja e librit në shembull?",
+     "Për çfarë është libri?",
+     "Çfarë janë ilustrimet?",
+     "Çfarë bëjmë me librin e marrë hua?"
+    ],
+    "steps": [
+     "Shiko kapakun: autori dhe titulli.",
+     "Shiko figurën dhe hamendëso për çfarë është libri.",
+     "Lexo dhe kontrollo hamendësimin tënd.",
+     "Gabim i shpeshtë: të ngatërrosh titullin me autorin. Titulli është emri i librit, autori e ka shkruar."
+    ],
+    "answers": [
+     "Emri i autorit dhe titulli.",
+     "Elona Mali.",
+     "Për përralla nga pylli.",
+     "Figurat në libër.",
+     "E ruajmë dhe e kthejmë në kohë."
+    ]
+   }
+  },
+  "eu-year-mk-beginner-1-l28": {
+   "sq": {
+    "title": "Përsëritje: çfarë di pas klasës së parë",
+    "theory": "Në fund të vitit lexojmë një tekst të shkurtër dhe tregojmë çfarë dimë: të lexojmë me kuptim, të ndajmë fjalët në rrokje, të shkruajmë fjali me shkronjë të madhe dhe pikë, të shkruajmë saktë shkronjat dyshe.",
+    "sample": "Çdo mëngjes Ana përgatit çantën. Fut fletoren, kutinë e lapsave dhe ushqimin. Pastaj shkon në shkollë me vëllanë, Arbrin.",
+    "worked": "Teksti ka tri fjali. Ana dhe Arbri janë emra, prandaj kanë shkronjë të madhe. Fjala fletore ka tri rrokje: fle-to-re. Te fjala shkollë ka dy shkronja dyshe: sh dhe ll.",
+    "exercises": [
+     "Lexo tekstin me zë.",
+     "Gjej shkronjat dyshe në fjalën shkollë.",
+     "Ndaje në rrokje: mëngjes.",
+     "Shkruaj një fjali për çantën tënde.",
+     "Thuaj çfarë të pëlqeu më shumë këtë vit."
+    ],
+    "test": [
+     "Çfarë bën Ana çdo mëngjes?",
+     "Sa fjali ka teksti?",
+     "Me kë shkon Ana në shkollë?",
+     "Çfarë fut në çantë?",
+     "Ndaje në rrokje: fletore."
+    ],
+    "steps": [
+     "Lexo tekstin në fillim ngadalë, pastaj më shpejt.",
+     "Pyet: kush? çfarë bën? me kë?",
+     "Numëro fjalitë sipas pikave.",
+     "Gabim i shpeshtë: të shkruash emrat me shkronjë të vogël. Emrat kanë gjithmonë shkronjë të madhe: Ana."
+    ],
+    "answers": [
+     "Përgatit çantën.",
+     "Tri.",
+     "Me vëllanë, Arbrin.",
+     "Fletoren, kutinë e lapsave dhe ushqimin.",
+     "fle-to-re."
+    ]
+   }
+  }
+ }
+}

@@ -10,6 +10,9 @@ import {chromium} from 'playwright';
 fs.mkdirSync('physics-browser-audit',{recursive:true});
 const server=http.createServer(async(req,res)=>{
  try{
+  const asset=req.url.match(/^\/education\/science\/shared\/(physics|chemistry|biology|astronomy)\.json$/);
+  if(asset){res.writeHead(200,{'Content-Type':'application/json'});res.end(fs.readFileSync(new URL('./public/education/science/shared/'+asset[1]+'.json',import.meta.url)));return}
+
   const response=await frontend.fetch(new Request('http://localhost:3880'+req.url,{headers:req.headers}),
    {COMMUNICATION_ORACLE_ORIGIN:''});
   res.writeHead(response.status,Object.fromEntries(response.headers));
@@ -17,7 +20,7 @@ const server=http.createServer(async(req,res)=>{
  }catch(e){res.writeHead(500);res.end(String(e));}
 });
 await new Promise(resolve=>server.listen(3880,'127.0.0.1',resolve));
-const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
+const browser=await chromium.launch({headless:true,args:['--no-sandbox'],...(process.env.CHROMIUM_EXECUTABLE_PATH?{executablePath:process.env.CHROMIUM_EXECUTABLE_PATH}:{})});
 const page=await browser.newPage({viewport:{width:390,height:844},
  deviceScaleFactor:1,isMobile:true,hasTouch:true,locale:'ro-RO'});
 const errors=[];
@@ -149,7 +152,9 @@ try{
  // Real UI click-through for every European school system, not just an
  // isolated year-registry function. Each browser page has a fresh profile.
  let countryRoutes=0;
- for(const code of EDUCATION_EUROPE_COUNTRIES){
+ // Vatican City is no longer offered in Education (user decision); the
+ // picker hides it, so it cannot be navigated in a real browser.
+ for(const code of EDUCATION_EUROPE_COUNTRIES.filter(code=>code!=='VA')){
   const countryPage=await browser.newPage({viewport:{width:390,height:844},
    deviceScaleFactor:1,isMobile:true,hasTouch:true,locale:'ro-RO'});
   try{
@@ -183,7 +188,7 @@ try{
     (await countryPage.locator('#view-module').innerText().catch(()=>'' )).slice(0,450));
   }finally{await countryPage.close();}
  }
- assert.equal(countryRoutes,50,'All national Physics entry routes must be navigable in mobile Chromium');
+ assert.equal(countryRoutes,49,'All national Physics entry routes (49 without Vatican City) must be navigable in mobile Chromium');
  assert.ok(!errors.length,'Frontend console exceptions: '+errors.slice(0,3).join('; '));
  console.log('PASS mobile Chromium Physics: grades VI–XII, seven detailed lessons, seven activity readers, paginated dialogs and navigation');
 }catch(error){

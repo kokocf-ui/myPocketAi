@@ -1,0 +1,38 @@
+name: Publish Education content service
+
+# Manual only: publishes a separate read-only Worker, never the app or API.
+# This is not live until the frontend is explicitly bound to the service.
+on:
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: 'Type publish to deploy the Education assets from this ref'
+        required: true
+        type: string
+
+concurrency:
+  group: pocketai-education-content
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    if: ${{ inputs.confirm == 'publish' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate service and stage published assets
+        run: |
+          node tests_education_pack_service.mjs
+          node scripts/stage_education_pack_assets.mjs
+      - name: Install pinned Wrangler
+        run: npm install --no-save --no-package-lock --ignore-scripts --no-audit --no-fund wrangler@4.168.0
+      - name: Deploy only Education content
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          WRANGLER_SEND_METRICS: 'false'
+        run: npx --no-install wrangler deploy --config wrangler-education-packs.toml

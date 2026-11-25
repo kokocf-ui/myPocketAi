@@ -54,6 +54,15 @@ assert.deepEqual(await translateApi.translate(original,'computing:lesson'),trans
 assert.equal(modelRequests,1,'Successful translation is cached per language and source');
 assert.equal(translateApi.valid(original,{...translated,question:'Combien font 13 ?'}),false,'Reject changed numeric fact');
 assert.equal(translateApi.valid(original,{...translated,choices:['2','12']}),false,'Reject missing quiz answers');
+const echoOriginal={title:'Abaterea standard',statement:'Abaterea standard este rădăcina pătrată a varianței.'};
+let echoCalls=0;
+const azStore=new Map();
+const az=translateFactory({language:'az'},fallback,{apiUrl:'/api'},
+ {getItem:k=>azStore.get(k)||null,setItem:(k,v)=>azStore.set(k,v)},
+ async()=>{echoCalls++;return {ok:true,json:async()=>({status:'success',reply:JSON.stringify(echoOriginal)})}});
+assert.equal(await az.translate(echoOriginal,'math:az','ro'),null,'A verbatim Romanian response is not a valid Azerbaijani translation');
+assert.equal(await az.translate(echoOriginal,'math:az','ro'),null,'Rejected response must not be cached as success');
+assert.equal(echoCalls,2);
 assert.match(COMPUTING_UI_SCRIPT,/eduTranslateMaterial\(originals,'computing:'\+t\.id\)/,'Translate Computing lesson as a whole');
 assert.match(COMPUTING_UI_SCRIPT,/choiceButtons\.forEach\(b=>b\.disabled=true\)/,'Hold quiz while translation is pending');
 assert.match(COMPUTING_UI_SCRIPT,/localized\.choices\.forEach/,'Keep answer ordering in displayed choices');

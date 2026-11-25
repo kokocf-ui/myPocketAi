@@ -16,7 +16,9 @@ import {EXTRA_TOOLS_WORKSPACE_SCRIPT,EXTRA_TOOLS_WORKSPACE_STYLE} from './extra_
 import {EXAM_UI_SCRIPT} from './exam_ui.mjs';
 import {RECIPE_READER_PAGES_UI_SCRIPT} from './recipe_reader_pages_ui.mjs';
 import {LITERATURE_TASK_UI_SCRIPT} from './literature_task_ui.mjs';
-import {serializeCompactLiteratureCatalog} from './literature_compact_catalog.mjs';
+import {literatureLoadCountryProfile} from './literature_profile_loader.mjs';
+import {literatureLoadAuthoredYear,literatureLoadAuthoredCatalog,literatureLoadNationalYear} from './literature_authored_pack_loader.mjs';
+import {mathLoadCountrySupplement} from './math_country_supplement_loader.mjs';
 import {UNIVERSITY_DOMAINS} from './university_domains.mjs';
 import {UNIVERSITY_PROGRAM_OPTIONS,UNIVERSITY_ADMISSION_ENTRIES} from './university_admissions_verified.mjs';
 import {PRACTICAL_COURSES,PRACTICAL_COUNTRIES,PRACTICAL_LEVELS} from './practical_curriculum.mjs';
@@ -39,7 +41,7 @@ import {EDUCATION_SCHOOL_YEARS,HG_SCHOOL_PLANS,HG_SCHOOL_GENERAL,HG_SCHOOL_SOURC
 import {EDUCATION_WORLDWIDE_SCHEMES,EDUCATION_WORLDWIDE_FALLBACK,worldwideSchoolYears,worldwideSchoolNotice,worldwideStudyChapters} from './education_worldwide_paths.mjs';
 import {COMPUTING_LEVELS,COMPUTING_PATHS,COMPUTING_TOPICS} from './computing_curriculum.mjs';
 import {COMPUTING_UI_SCRIPT} from './computing_ui.mjs';
-import {LIT_EU_COMMON,LIT_EU_PROGRAMS} from './literature_curriculum_europe.mjs';
+import {LIT_EU_COMMON} from './literature_common_program.mjs';
 import {literatureTracksForGrade,hungaryAdmissionTopicsForGrade,HUNGARY_ADMISSION_REFERENCES} from './literature_school_streams.mjs';
 import {LIT_OFFLINE_THEORY} from './literature_offline_theory.mjs';
 import {VERIFIED_LITERARY_AUTHORS} from './literature_verified_authors.mjs';
@@ -83,7 +85,8 @@ import {physicsUpperYearLessons} from './physics_upper_course.mjs';
 import {PHYSICS_UPPER_CASES} from './physics_upper_cases.mjs';
 import {PHYSICS_UPPER_CASES_EN} from './physics_upper_cases_en.mjs';
 import {SCIENCE_ADVISORY_PROGRESSION,SCIENCE_PROGRESSION_SOURCES,SCIENCE_PRIMARY_LESSON_BANK,SCIENCE_PRIMARY_ENGLISH,SCIENCE_PRIMARY_DEPTH,scienceGradeTopicPlan,scienceGradeLessonFrame} from './science_grade_progression.mjs';
-import {SCIENCE_LOWER_TOPIC_LESSONS,scienceLowerTopicContent} from './science_lower_secondary_lessons.mjs';
+import {scienceLowerTopicContent} from './science_lower_secondary_lessons.mjs';
+import {scienceLoadSharedPack} from './science_shared_pack_loader.mjs';
 import {CHEMISTRY_SPECIALIZATIONS,CHEMISTRY_SPECIALTY_TOPICS,CHEMISTRY_SPECIALTY_LESSONS,CHEMISTRY_MOLECULES,chemistryVerifiedExercise} from './chemistry_advanced.mjs';
 import {BIOLOGY_TOPICS,BIOLOGY_SPECIALIZATIONS,BIOLOGY_SPECIALTY_TOPICS,biologyVerifiedExercise} from './biology_curriculum.mjs';
 import {BIOLOGY_UPPER_YEAR_TOPICS,BIOLOGY_UPPER_YEAR_BANK,biologyUpperYearLessons} from './biology_upper_course.mjs';
@@ -8445,7 +8448,7 @@ function scienceLocalizeContainer(container){
   const raw=String(attr?node.getAttribute(attr)||'':node.nodeValue||'').trim();
   if(!raw||raw.length<2||!/[A-Za-z]/.test(raw))return;
   if(typeof eduGetCachedString==='function'){
-   const hit=eduGetCachedString(lang,raw);
+   const hit=eduGetCachedString(raw,lang);
    if(hit){if(attr)node.setAttribute(attr,hit);else node.nodeValue=node.nodeValue.replace(raw,hit);return;}
   }
   targets.push({node,attr,raw});
@@ -8465,17 +8468,28 @@ function scienceLocalizeContainer(container){
  };
  walk(container);
  if(!rawList.length)return;
- eduTranslateMaterial(rawList,lang).then(translated=>{
-  if(!Array.isArray(translated)||state.language!==lang)return;
+ const showTranslationError=()=>{
+  if(state.language!==lang||!container.isConnected||container.querySelector('.science-translation-notice'))return;
+  const notice=document.createElement('div');notice.className='science-translation-notice';notice.setAttribute('role','status');
+  notice.setAttribute('data-edu-no-translate','true');
+  const text=document.createElement('span');text.textContent=learningLabel('Traducerea nu este disponibilă. Este afișat textul original.','Translation is unavailable. The original text is shown.');
+  const retry=document.createElement('button');retry.type='button';retry.className='secondary-btn';retry.textContent=learningLabel('Încearcă din nou','Try again');
+  retry.onclick=()=>{notice.remove();scienceLocalizeContainer(container)};
+  notice.append(text,retry);container.prepend(notice);
+ };
+ eduTranslateMaterial({lines:rawList},'science:container','mixed',{targetLanguage:lang}).then(translated=>{
+  if(state.language!==lang)return;
+  if(!Array.isArray(translated?.lines)){showTranslationError();return;}
+  container.querySelector('.science-translation-notice')?.remove();
   const map=new Map();
-  rawList.forEach((src,idx)=>{if(translated[idx])map.set(src,translated[idx]);});
+  rawList.forEach((src,idx)=>{if(translated.lines[idx])map.set(src,translated.lines[idx]);});
   for(const t of targets){
    const val=map.get(t.raw);
    if(!val)continue;
    if(t.attr){if(t.node?.isConnected)t.node.setAttribute(t.attr,val);}
    else if(t.node?.parentNode?.isConnected)t.node.nodeValue=t.node.nodeValue.replace(t.raw,val);
   }
- }).catch(()=>{});
+ }).catch(showTranslationError);
 }
 
 function scienceBuildPackCorrelationBanner(subjectId){
@@ -8508,6 +8522,37 @@ function scienceBuildPackCorrelationBanner(subjectId){
  return box;
 }
 
+function scienceStartSubject(subject){
+ scienceJourney.stage='loading-shared';
+ const root=$('view-module'),host=$('moduleContent');
+ root.classList.remove('learning-choose','learning-country-gate','learning-math','learning-hg','learning-languages');
+ root.classList.add('learning-active','learning-science','science-choice-stage','science-scroll-stage');
+ root.classList.remove('science-subject-stage','science-year-stage');
+ host.replaceChildren();
+ const panel=document.createElement('div');panel.className='math-choice-panel science-choice-panel';
+ const back=document.createElement('button');back.type='button';back.className='secondary-btn science-stage-back';
+ back.textContent=learningLabel('← Înapoi','← Back');back.onclick=()=>scienceJourneyShowChoices('subjects');
+ const notice=document.createElement('p');
+ panel.append(back,notice);host.append(panel);
+ const active=()=>panel.isConnected&&scienceJourney.stage==='loading-shared'&&scienceJourney.subject===subject;
+ const load=async()=>{
+  notice.textContent=learningLabel('Se încarcă materialele pentru materia aleasă…','Loading the selected subject materials…');
+  try{
+   const pack=await scienceLoadSharedPack(subject);
+   if(!active())return;
+   SCIENCE_LOWER_TOPIC_LESSONS[subject]=pack.topics;
+   scienceJourneyShowChoices('years');
+  }catch{
+   if(!active())return;
+   notice.textContent=learningLabel('Materialele acestei materii nu sunt disponibile offline. Conectează-te la internet și încearcă din nou.','This subject material is not available offline. Connect to the internet and try again.');
+   if(!panel.querySelector('.science-shared-retry')){
+    const retry=document.createElement('button');retry.type='button';retry.className='secondary-btn science-shared-retry';
+    retry.textContent=learningLabel('Încearcă din nou','Try again');retry.onclick=load;panel.append(retry);
+   }
+  }
+ };
+ load();
+}
 function scienceJourneyShowChoices(stage){
  const science=LEARNING_SUBJECTS.find(s=>s[0]==='science');
  if(!science)return;
@@ -8844,7 +8889,7 @@ function scienceJourneyShowChoices(stage){
    if(stage==='subjects'){
     scienceJourney.subject=item.id;scienceJourney.level=null;scienceJourney.schoolStage=null;scienceJourney.grade=null;scienceJourney.gradePosition=0;
     scienceJourney.specialty=null;scienceJourney.topic=null;scienceJourney.universityRoute=null;
-    scienceJourneyShowChoices('years');
+    scienceStartSubject(item.id);
    }else if(stage==='specialties'){
     scienceJourney.specialty=item.id;scienceJourney.topic=null;scienceJourneyShowChoices('topics');
    }else{
@@ -9577,7 +9622,9 @@ const SCIENCE_PROGRESSION_SOURCES=${JSON.stringify(SCIENCE_PROGRESSION_SOURCES)}
 const SCIENCE_PRIMARY_LESSON_BANK=${JSON.stringify(SCIENCE_PRIMARY_LESSON_BANK)};
 const SCIENCE_PRIMARY_ENGLISH=${JSON.stringify(SCIENCE_PRIMARY_ENGLISH)};
 const SCIENCE_PRIMARY_DEPTH=${JSON.stringify(SCIENCE_PRIMARY_DEPTH)};
-const SCIENCE_LOWER_TOPIC_LESSONS=${JSON.stringify(SCIENCE_LOWER_TOPIC_LESSONS)};
+// Supplementary notes are loaded for the selected subject, not embedded here.
+const SCIENCE_LOWER_TOPIC_LESSONS=Object.create(null);
+const scienceLoadSharedPack=${scienceLoadSharedPack.toString()};
 const scienceLowerTopicContent=${scienceLowerTopicContent.toString()};
 const SCIENCE_EXACT_REFERENCE=${JSON.stringify(SCIENCE_EXACT_REFERENCE)};
 const SCIENCE_RO_LOWER_TOPICS=${JSON.stringify(SCIENCE_RO_LOWER_TOPICS)};
@@ -11842,8 +11889,10 @@ function scienceAttachLessonReview(dialog){
 }
 
 function educationOpenPagedLesson(title,body){
+ const options=arguments[2]||{};
  document.getElementById('educationPagedLessonDialog')?.remove();
  const reqLang=typeof state!=='undefined'&&state?.language?String(state.language):'ro';
+ const translatePage=reqLang!=='ro'||(options.sourceLanguage&&options.sourceLanguage!==reqLang);
  const nl=String.fromCharCode(10);
  let rawBase=educationNumberLessonAnswers(String(body||'').replaceAll(String.fromCharCode(13),'').trim());
  if(reqLang!=='ro'&&rawBase.startsWith('# ')){
@@ -11876,7 +11925,7 @@ function educationOpenPagedLesson(title,body){
  back.textContent=learningLabel('← Înapoi','← Back');back.onclick=()=>dialog.close();head.append(back);
  const origCleanTitle=educationCleanLessonLine(title);
  let currentCleanTitle=origCleanTitle;
- const pageTranslatedLang=[],pageReady=pages.map(()=>reqLang==='ro');
+ const pageTranslatedLang=[],pageReady=pages.map(()=>!translatePage),pageFailed=[];
  head.eduPrintableMaterial=()=>({title:educationCleanLessonLine(title),text:educationCleanLessonText(raw)});
  eduAttachPrintAction(head);
  // Only voice-enabled Sciences show this control. Speak the current page,
@@ -11928,7 +11977,7 @@ function educationOpenPagedLesson(title,body){
  let runPageEntry=null;
  const paint=()=>{
   content.replaceChildren();
-  if(reqLang!=='ro'&&!pageReady[page]){
+  if(translatePage&&!pageReady[page]){
    const waitEl=document.createElement('p');
    waitEl.textContent=learningLabel('Se traduce lecția…','Translating the lesson…');
    waitEl.setAttribute('data-edu-translated',reqLang);
@@ -11986,16 +12035,16 @@ function educationOpenPagedLesson(title,body){
  let dialogClosed=false;
  dialog.addEventListener('close',()=>{stopPageAudio();if(scienceReader)window.removeEventListener('pocket-speech-state',updatePageSpeech);dialog.remove()});
  dialog.addEventListener('close',()=>{dialogClosed=true});
- const proseLang=typeof eduDetectProseLang==='function'?eduDetectProseLang(raw):'ro';
- const canApiTranslate=typeof eduTranslateMaterial==='function'&&Boolean(typeof CLIENT_CONFIG!=='undefined'&&CLIENT_CONFIG?.apiUrl);
+ const proseLang=options.sourceLanguage||(typeof eduDetectProseLang==='function'?eduDetectProseLang(raw):'ro');
+ const canApiTranslate=typeof eduTranslateMaterial==='function';
  const pendingEntries=[];
- if(reqLang!=='ro'){
+ if(translatePage){
   let titleReady=false;
+  const canUseStringCache=!(reqLang==='ro'&&options.sourceLanguage&&options.sourceLanguage!=='ro');
   const syncTitle=(typeof eduUiText==='function'&&eduUiText(origCleanTitle)!==origCleanTitle?eduUiText(origCleanTitle):'')||
-   (typeof eduGetCachedString==='function'?eduGetCachedString(origCleanTitle,reqLang):'');
+   (canUseStringCache&&typeof eduGetCachedString==='function'?eduGetCachedString(origCleanTitle,reqLang):'');
   if(syncTitle){currentCleanTitle=syncTitle;titleReady=true;}
-  else if(proseLang===reqLang||(typeof eduDetectProseLang==='function'&&eduDetectProseLang(origCleanTitle)===reqLang))titleReady=true;
-  else if(!canApiTranslate)titleReady=true;
+  else if(proseLang===reqLang||(!options.sourceLanguage&&typeof eduDetectProseLang==='function'&&eduDetectProseLang(origCleanTitle)===reqLang))titleReady=true;
   const isFormulaOnly=s=>{
    if(!s||s.length<=2)return true;
    if(!/[A-Za-zĂÂÎȘȚăâîșț]{3,}/.test(s))return true;
@@ -12016,21 +12065,25 @@ function educationOpenPagedLesson(title,body){
      const core=educationCleanLessonLine(prefix?trimmed.slice(prefix.length):trimmed);
      if(isFormulaOnly(core))continue;
      const sHit=(typeof eduUiText==='function'&&eduUiText(core)!==core?eduUiText(core):'')||
-      (typeof eduGetCachedString==='function'?eduGetCachedString(core,reqLang):'');
+      (canUseStringCache&&typeof eduGetCachedString==='function'?eduGetCachedString(core,reqLang):'');
      if(sHit){rawLines[li]=prefix+sHit;continue;}
-     if(typeof eduDetectProseLang==='function'&&eduDetectProseLang(core)===reqLang)continue;
+     if(!options.sourceLanguage&&typeof eduDetectProseLang==='function'&&eduDetectProseLang(core)===reqLang)continue;
      needLines.push({li,prefix,core});
     }
     pages[pIdx]=rawLines.join(nl);
     const includeTitle=pIdx===0&&!titleReady;
-    if((!needLines.length&&!includeTitle)||!canApiTranslate){
+    if(!needLines.length&&!includeTitle){
      pageReady[pIdx]=true;pageTranslatedLang[pIdx]=reqLang;
+     continue;
+    }
+    if(!canApiTranslate){
+     pageReady[pIdx]=true;pageFailed[pIdx]=true;
      if(includeTitle)titleReady=true;
      continue;
     }
     const cacheId='paged-v3:'+baseKey+':p'+pIdx;
     const payload={...(includeTitle?{title:origCleanTitle}:{}),...(needLines.length?{lines:needLines.map(x=>x.core)}:{})};
-    const hit=typeof eduReadCachedTranslation==='function'?eduReadCachedTranslation(payload,cacheId,'mixed'):null;
+    const hit=typeof eduReadCachedTranslation==='function'?eduReadCachedTranslation(payload,cacheId,options.sourceLanguage||'mixed'):null;
     if(hit){
      if(includeTitle&&typeof hit.title==='string'&&hit.title.trim()){currentCleanTitle=hit.title.trim();titleReady=true;}
      if(Array.isArray(hit.lines)){
@@ -12054,13 +12107,26 @@ function educationOpenPagedLesson(title,body){
   dialog.dataset.eduLocalized=reqLang;
   head.eduPrintableMaterial=()=>({title:currentCleanTitle,text:educationCleanLessonText(pages.join(nl+nl))});
  }
+ const updateTranslationStatus=()=>{
+  if(pageFailed.some(Boolean)){
+   heading.removeAttribute('data-edu-localized');
+   delete dialog.dataset.eduLocalized;
+   statusNote.textContent=learningLabel('Traducerea nu este disponibilă. Este afișat textul original.','Translation is unavailable. The original text is shown.')+' ';
+   statusNote.removeAttribute('data-edu-localized');
+   const retry=document.createElement('button');retry.type='button';retry.className='secondary-btn';
+   retry.textContent=learningLabel('Încearcă din nou','Try again');retry.onclick=()=>{dialog.close();educationOpenPagedLesson(title,body,options)};
+   statusNote.append(retry);statusNote.hidden=false;
+  }else statusNote.hidden=true;
+ };
  document.body.append(dialog);
  try{dialog.showModal()}catch{dialog.setAttribute('open','')}
  runPageEntry=(entry,isPriority)=>{
   if(!entry||entry.started)return entry?.promise;
   entry.started=true;
-  entry.promise=eduTranslateMaterial(entry.payload,entry.cacheId,'mixed',{priority:Boolean(isPriority)}).then(res=>{
+  entry.promise=eduTranslateMaterial(entry.payload,entry.cacheId,options.sourceLanguage||'mixed',{priority:Boolean(isPriority),targetLanguage:reqLang}).then(res=>{
    if(dialogClosed||state.language!==reqLang)return;
+   if(!res){pageFailed[entry.pIdx]=true;return;}
+   pageFailed[entry.pIdx]=false;
    if(entry.includeTitle){
     if(typeof res?.title==='string'&&res.title.trim())currentCleanTitle=res.title.trim();
     heading.textContent=currentCleanTitle;heading.title=currentCleanTitle;
@@ -12072,13 +12138,13 @@ function educationOpenPagedLesson(title,body){
    }
    pageTranslatedLang[entry.pIdx]=reqLang;
    head.eduPrintableMaterial=()=>({title:currentCleanTitle,text:educationCleanLessonText(pages.join(nl+nl))});
-  }).catch(()=>{}).finally(()=>{
+  }).catch(()=>{pageFailed[entry.pIdx]=true}).finally(()=>{
    pageReady[entry.pIdx]=true;
    delete pendingByPage[entry.pIdx];
    if(!dialogClosed&&state.language===reqLang){
     if(entry.includeTitle&&heading.textContent!==currentCleanTitle){heading.textContent=currentCleanTitle;heading.title=currentCleanTitle;}
     if(entry.pIdx===page)paint();
-    if(Object.keys(pendingByPage).length===0)statusNote.hidden=true;
+    if(pageFailed.some(Boolean)||Object.keys(pendingByPage).length===0)updateTranslationStatus();
    }
   });
   return entry.promise;
@@ -12094,7 +12160,7 @@ function educationOpenPagedLesson(title,body){
     await runPageEntry(pendingEntries[i],i===0||pendingEntries[i].pIdx===page);
    }
   })().catch(()=>{});
- }
+ }else updateTranslationStatus();
  return dialog;
 }
 
@@ -15203,8 +15269,12 @@ async function hgGenerate(extra,output){
 }
 
 
-// Country and language are separate choices; the present curriculum scope is Europe.
-const LIT_EUROPE_PROGRAMS=${serializeCompactLiteratureCatalog(LIT_EU_PROGRAMS)};
+// Country programmes are independent static assets, loaded on country entry.
+const LIT_EUROPE_PROGRAMS=Object.create(null);
+const literatureLoadCountryProfile=${literatureLoadCountryProfile.toString()};
+const literatureLoadAuthoredYear=${literatureLoadAuthoredYear.toString()};
+const literatureLoadAuthoredCatalog=${literatureLoadAuthoredCatalog.toString()};
+const literatureLoadNationalYear=${literatureLoadNationalYear.toString()};
 const LIT_EUROPE_COMMON=${JSON.stringify(LIT_EU_COMMON)};
 const litSchoolTracksForGrade=${literatureTracksForGrade.toString()};
 const litHungaryAdmissionTopics=${hungaryAdmissionTopicsForGrade.toString()};
@@ -15238,7 +15308,7 @@ const LIT_COUNTRIES=[
  ['FI','Finlanda','Finland','fi',null],['SE','Suedia','Sweden','sv',null],
  ['NO','Norvegia','Norway','no',null],['DK','Danemarca','Denmark','da',null],
  ['IS','Islanda','Iceland','is',null],['LU','Luxemburg','Luxembourg','fr',null],
- ['MT','Malta','Malta','mt',null],['TR','Turcia','Türkiye','tr','https://tymm.meb.gov.tr/ogretim-programlari/ders/turk-dili-ve-edebiyati-dersi'],['RU','Rusia (partea europeană)','European Russia','ru',null],['BY','Belarus','Belarus','be',null],['XK','Kosovo','Kosovo','sq',null],['AD','Andorra','Andorra','ca',null],['LI','Liechtenstein','Liechtenstein','de',null],['MC','Monaco','Monaco','fr',null],['SM','San Marino','San Marino','it',null],['VA','Vatican','Vatican City','it',null],['OTHER-EU','Altă țară europeană','Other European country','',null]
+ ['MT','Malta','Malta','mt',null],['TR','Turcia','Türkiye','tr','https://tymm.meb.gov.tr/ogretim-programlari/ders/turk-dili-ve-edebiyati-dersi'],['RU','Rusia (partea europeană)','European Russia','ru',null],['BY','Belarus','Belarus','be',null],['XK','Kosovo','Kosovo','sq',null],['AD','Andorra','Andorra','ca',null],['LI','Liechtenstein','Liechtenstein','de',null],['MC','Monaco','Monaco','fr',null],['SM','San Marino','San Marino','it',null],['OTHER-EU','Altă țară europeană','Other European country','',null]
 ];
 const LIT_LANGUAGES=[['ro','Română','Romanian'],['en','Engleză','English'],['fr','Franceză','French'],['de','Germană','German'],['it','Italiană','Italian'],['es','Spaniolă','Spanish'],['pt','Portugheză','Portuguese'],['nl','Neerlandeză','Dutch'],['pl','Poloneză','Polish'],['ru','Rusă','Russian'],['la','Latină','Latin'],['el','Greacă','Greek'],['cy','Galeză','Welsh'],['ga','Irlandeză','Irish'],['fi','Finlandeză','Finnish'],['sv','Suedeză','Swedish'],['no','Norvegiană','Norwegian'],['da','Daneză','Danish'],['is','Islandeză','Icelandic'],['cs','Cehă','Czech'],['sk','Slovacă','Slovak'],['hu','Maghiară','Hungarian'],['bg','Bulgară','Bulgarian'],['hr','Croată','Croatian'],['sl','Slovenă','Slovenian'],['sr','Sârbă','Serbian'],['bs','Bosniacă','Bosnian'],['mk','Macedoneană','Macedonian'],['sq','Albaneză','Albanian'],['uk','Ucraineană','Ukrainian'],['lt','Lituaniană','Lithuanian'],['lv','Letonă','Latvian'],['et','Estonă','Estonian'],['tr','Turcă','Turkish'],['be','Belarusă','Belarusian'],['ca','Catalană','Catalan'],['mt','Malteză','Maltese']];
 const LIT_BRANCHES=[{id:'program',ro:'📑 Programa clasei și capitole',en:'📑 Grade syllabus and chapters',noteRo:'Materii organizate după anul selectat',noteEn:'Lessons by school year'},{id:'grammar',ro:'📚 Gramatică și fonetică',en:'📚 Grammar and phonetics',noteRo:'Reguli, exemple și teste',noteEn:'Rules, examples and tests'},{id:'vocabulary',ro:'🔤 Vocabular și dicționar',en:'🔤 Vocabulary and dictionary',noteRo:'Sensuri, sinonime și definiții',noteEn:'Meanings, synonyms and definitions'},{id:'analysis',ro:'🔎 Analiză lingvistică',en:'🔎 Linguistic analysis',noteRo:'Cuvinte, propoziții și texte',noteEn:'Words, sentences and passages'},{id:'literature',ro:'📖 Literatură',en:'📖 Literature',noteRo:'Studiază, rezumat, eseu și analiză',noteEn:'Study, summary, essay and analysis'},{id:'writing',ro:'✍️ Comunicare și redactare',en:'✍️ Communication and writing',noteRo:'Texte și compuneri',noteEn:'Texts and compositions'},{id:'assessment',ro:'🎓 Pregătire evaluări',en:'🎓 Assessment practice',noteRo:'Recapitulări și teste',noteEn:'Revision and tests'}];
@@ -15252,6 +15322,127 @@ const LIT_TOPICS={
  writing:[['essay','Eseu argumentativ sau literar','Argumentative or literary essay'],['composition','Compunere creativă','Creative composition'],['commentary','Comentariu și analiză de text','Commentary and close reading'],['summary','Rezumat și sinteză','Summary and synthesis'],['review','Recenzie și prezentare','Review and presentation'],['work-summary','Rezumat și sinteză de operă','Work summary and synthesis'],['research','Lucrare academică','Academic paper']]
 };
 let litJourney={stage:'countries',country:'RO',language:'ro',level:'beginner',grade:'',track:'TC',region:'',branch:'program',topic:'',targetSchool:'',busy:false};
+function litStartCountryProfile(){
+ const country=litJourney.country;
+ litJourney.stage='loading-profile';
+ const root=$('view-module'),host=$('moduleContent');
+ root.classList.remove('learning-choose','learning-math','learning-science','learning-languages','learning-hg','learning-country-gate');
+ root.classList.add('learning-active','learning-literature');
+ $('moduleTitle').textContent=learningLabel('Limbă și literatură','Language and literature');
+ $('moduleLead').textContent='';host.replaceChildren();
+ const panel=document.createElement('div');panel.className='math-choice-panel science-choice-panel lit-panel';
+ const back=litBtn(learningLabel('← Înapoi','← Back'),()=>educationCountryGate('literature',()=>openLearningSubjectAfterCountry('literature')),'secondary-btn lit-back');
+ const message=litText('p',learningLabel('Se încarcă programa pentru țara selectată…','Loading the selected country programme…'));
+ panel.append(back,message);host.append(panel);
+ const active=()=>panel.isConnected&&litJourney.stage==='loading-profile'&&litJourney.country===country;
+ const load=async()=>{
+  message.textContent=learningLabel('Se încarcă programa pentru țara selectată…','Loading the selected country programme…');
+  try{
+   const result=await literatureLoadCountryProfile(country);
+   if(!active())return;
+   LIT_EUROPE_PROGRAMS[country]=result.profile;
+   if(typeof litNationalCatalogPrefetch==='function')litNationalCatalogPrefetch();
+   litOpen('levels');
+  }catch{
+   if(!active())return;
+   message.textContent=learningLabel('Programa acestei țări nu este disponibilă offline. Conectează-te la internet și încearcă din nou.','This country programme is not available offline. Connect to the internet and try again.');
+   if(!panel.querySelector('.lit-profile-retry'))panel.append(litBtn(learningLabel('Încearcă din nou','Try again'),load,'secondary-btn lit-profile-retry'));
+  }
+ };
+ load();
+}
+function litWithAuthoredYear(proceed){
+ const country=litJourney.country,stage=litJourney.level,grade=String(litJourney.grade||'');
+ const hungary=country==='HU'&&stage==='beginner'&&['1','2','3','4'].includes(grade);
+ const france=country==='FR'&&stage==='beginner'&&grade==='CP';
+ if(!hungary&&!france){litWithNationalYear(proceed);return}
+ litJourney.stage='loading-authored-year';
+ const host=$('moduleContent');host.replaceChildren();
+ const panel=document.createElement('div');panel.className='math-choice-panel science-choice-panel lit-panel';
+ const back=litBtn(learningLabel('← Înapoi','← Back'),()=>litOpen('grades'),'secondary-btn lit-back');
+ const message=litText('p','');panel.append(back,message);host.append(panel);
+ const active=()=>panel.isConnected&&litJourney.stage==='loading-authored-year'&&litJourney.country===country&&String(litJourney.grade)===grade;
+ const load=async()=>{
+  message.textContent=learningLabel('Se încarcă lecțiile originale ale clasei…','Loading the original lessons for this year…');
+  try{
+   const pack=await literatureLoadAuthoredYear(country,stage,grade);
+   if(!active())return;
+   if(france){
+    for(const key of Object.keys(LIT_NATIONAL_AUTHORED))delete LIT_NATIONAL_AUTHORED[key];
+    Object.assign(LIT_NATIONAL_AUTHORED,pack.chapters);
+   }else if(grade==='1'){
+    for(const key of Object.keys(LIT_HU_GRADE1_CHAPTERS))delete LIT_HU_GRADE1_CHAPTERS[key];
+    Object.assign(LIT_HU_GRADE1_CHAPTERS,pack.chapters);
+   }else LIT_HU_PRIMARY_BATCH[grade]=pack.chapters;
+   proceed();
+  }catch{
+   if(!active())return;
+   message.textContent=learningLabel('Lecțiile acestei clase nu sunt disponibile offline. Conectează-te la internet și încearcă din nou.','These year-specific lessons are not available offline. Connect to the internet and try again.');
+   if(!panel.querySelector('.lit-authored-retry'))panel.append(litBtn(learningLabel('Încearcă din nou','Try again'),load,'secondary-btn lit-authored-retry'));
+  }
+ };
+ load();
+}
+// National year packs: any country/year/language listed in the static
+// catalog. Multilingual systems offer each language of instruction as its own
+// single-source pack (never a translation of another language's lessons).
+let litNationalCatalogMemo=null,litNationalCatalogLoading=null;
+// Background refresh once per session; never blocks year selection.
+function litNationalCatalogPrefetch(){
+ if(litNationalCatalogMemo||litNationalCatalogLoading||typeof literatureLoadAuthoredCatalog!=='function')return;
+ litNationalCatalogLoading=literatureLoadAuthoredCatalog().then(r=>{if(!r.offline)litNationalCatalogMemo=r.catalog})
+  .catch(()=>{}).finally(()=>{litNationalCatalogLoading=null});
+}
+// Synchronous view: this session's catalog, else the last validated copy.
+function litNationalCatalogNow(){
+ if(litNationalCatalogMemo)return litNationalCatalogMemo;
+ try{
+  const saved=JSON.parse(localStorage.getItem('pocketai.literature.authored.catalog.v1')||'null');
+  if(saved&&saved.schema==='mypocket-literature-authored-catalog/v1'&&Array.isArray(saved.years))return saved;
+ }catch{}
+ return null;
+}
+function litWithNationalYear(proceed){
+ if(typeof LIT_NATIONAL_YEAR==='object')LIT_NATIONAL_YEAR.pack=null;
+ const country=litJourney.country,stage=litJourney.level,grade=String(litJourney.grade||'');
+ if(typeof literatureLoadNationalYear!=='function'||typeof LIT_NATIONAL_YEAR!=='object'||
+    stage==='advanced'||!country||country==='OTHER-EU'){proceed();return}
+ const catalog=litNationalCatalogNow();
+ litNationalCatalogPrefetch();
+ const entry=catalog?.years?.find(y=>y.country===country&&y.stage===stage&&y.grade===grade&&Array.isArray(y.languages)&&y.languages.length)||null;
+ if(!entry){proceed();return}
+ litJourney.stage='loading-national-year';
+ const host=$('moduleContent');host.replaceChildren();
+ const panel=document.createElement('div');panel.className='math-choice-panel science-choice-panel lit-panel lit-national-year';
+ const back=litBtn(learningLabel('← Înapoi','← Back'),()=>litOpen('grades'),'secondary-btn lit-back');
+ const message=litText('p','');
+ panel.append(back,message);host.append(panel);
+ const active=()=>panel.isConnected&&litJourney.stage==='loading-national-year'&&litJourney.country===country&&String(litJourney.grade)===grade;
+ const general=()=>{if(active()){LIT_NATIONAL_YEAR.pack=null;proceed()}};
+ const openPack=async lang=>{
+  message.textContent=learningLabel('Se încarcă lecțiile originale ale clasei…','Loading the original lessons for this year…');
+  panel.querySelectorAll('.lit-national-retry,.lit-national-general').forEach(n=>n.remove());
+  try{
+   const pack=await literatureLoadNationalYear(entry,lang);
+   if(!active())return;
+   LIT_NATIONAL_YEAR.pack=pack;litJourney.instructionLanguage=lang;litJourney.language=lang;
+   try{localStorage.setItem('pocketai.literature.instruction.'+country,lang)}catch{}
+   proceed();
+  }catch{
+   if(!active())return;
+   message.textContent=learningLabel('Lecțiile acestei clase nu sunt disponibile offline. Conectează-te la internet și încearcă din nou sau continuă cu materialul general.','These year-specific lessons are not available offline. Connect to the internet and try again, or continue with the general material.');
+   panel.append(litBtn(learningLabel('Încearcă din nou','Try again'),()=>openPack(lang),'secondary-btn lit-national-retry'),
+    litBtn(learningLabel('Continuă cu materialul general','Continue with general material'),general,'secondary-btn lit-national-general'));
+  }
+ };
+ if(entry.languages.length===1){openPack(entry.languages[0].lang);return}
+ let remembered='';try{remembered=localStorage.getItem('pocketai.literature.instruction.'+country)||''}catch{}
+ message.textContent=learningLabel('Alege limba de școlarizare. Fiecare variantă are lecții proprii, scrise direct în acea limbă.','Choose the language of instruction. Each option has its own lessons written directly in that language.');
+ const box=document.createElement('div');box.className='lit-instruction-languages';
+ const ordered=entry.languages.slice().sort((a,b)=>Number(b.lang===remembered)-Number(a.lang===remembered));
+ for(const option of ordered)box.append(litBtn(option.name+(option.lang===remembered?' ✓':''),()=>{box.remove();openPack(option.lang)},'secondary-btn lit-instruction-language'));
+ panel.append(box);
+}
 function litProgram(){
  const profile=LIT_EUROPE_PROGRAMS[litJourney.country]||null;
  const effectiveLevel=litJourney.level==='lower'?'medium':litJourney.level;
@@ -15294,7 +15485,7 @@ function litBack(){
  const stage=litJourney.stage;
  try{
   if(stage==='countries'){renderLearningSubjects();return}
-  if(stage==='levels'){educationCountryGate('literature',()=>litOpen('levels'));return}
+  if(stage==='levels'){educationCountryGate('literature',()=>openLearningSubjectAfterCountry('literature'));return}
   if(stage==='languages'){litOpen('levels');return}
   if(stage==='grades'){litOpen('levels');return}
   if(stage==='regions'||stage==='tracks'){litOpen('grades');return}
@@ -15374,7 +15565,7 @@ function litOpen(stage){
    }
   }
  };
- if(stage==='countries'){list(LIT_COUNTRIES.map(x=>({id:x[0],ro:x[1],en:x[2]})),c=>{litJourney.country=c.id;const selected=LIT_COUNTRIES.find(x=>x[0]===c.id);litJourney.language=LIT_LANGUAGES.some(x=>x[0]===selected?.[3])?selected[3]:'en';litOpen('levels')},true)}
+ if(stage==='countries'){list(LIT_COUNTRIES.map(x=>({id:x[0],ro:x[1],en:x[2]})),c=>{litJourney.country=c.id;const selected=LIT_COUNTRIES.find(x=>x[0]===c.id);litJourney.language=LIT_LANGUAGES.some(x=>x[0]===selected?.[3])?selected[3]:'en';litStartCountryProfile()},true)}
  if(stage==='languages'){const choices=LIT_LANGUAGES.map(x=>({id:x[0],ro:x[1],en:x[2]}));list(choices,c=>{litJourney.language=c.id;litOpen('levels')},true)}
  if(stage==='levels'){
   const currentLanguage=LIT_LANGUAGES.find(x=>x[0]===litJourney.language);
@@ -15410,9 +15601,11 @@ function litOpen(stage){
     }
     litJourney.track=tracks[0]?.[0]||'TC';
     const goLit=()=>litOpen(tracks.length>1?'tracks':litIsRegional()?'regions':'branches');
-    if(typeof eduRunWithCurriculumPack==='function'){
-     eduRunWithCurriculumPack('literature',litJourney.country,c.id,goLit,litJourney.level);
-    }else goLit();
+    litWithAuthoredYear(()=>{
+     if(typeof eduRunWithCurriculumPack==='function'){
+      eduRunWithCurriculumPack('literature',litJourney.country,c.id,goLit,litJourney.level);
+     }else goLit();
+    });
    })
  }
  if(stage==='tracks'){
@@ -15996,8 +16189,40 @@ function openLearningSubject(key){
  if(key==='languages')return openLearningSubjectAfterCountry(key);
  return educationCountryGate(key,()=>openLearningSubjectAfterCountry(key));
 }
-function openLearningSubjectAfterCountry(key){
+const mathLoadCountrySupplement=${mathLoadCountrySupplement.toString()};
+function mathStartCountrySupplement(country){
+ const root=$('view-module'),host=$('moduleContent');
+ root.classList.remove('learning-choose','learning-country-gate','learning-science','learning-hg','learning-literature');
+ root.classList.add('learning-active','learning-math');host.replaceChildren();
+ const panel=document.createElement('div');panel.className='math-choice-panel';
+ const back=document.createElement('button');back.type='button';back.className='secondary-btn math-supplement-back';
+ back.textContent=learningLabel('← Înapoi','← Back');back.onclick=()=>educationCountryGate('math',()=>openLearningSubjectAfterCountry('math'));
+ const notice=document.createElement('p');panel.append(back,notice);host.append(panel);
+ const active=()=>panel.isConnected&&educationCountrySelection.code===country;
+ const load=async()=>{
+  notice.textContent=learningLabel('Se încarcă materialele de matematică pentru țara aleasă…','Loading the selected country maths materials…');
+  try{
+   const result=await mathLoadCountrySupplement(country);
+   if(!active())return;
+   for(const [bank,data] of [[MATH_BULK_FIRST_LESSONS,result.banks.bulk],[MATH_SECOND_BATCH_FIRST_LESSONS,result.banks.second],[MATH_FINAL_FIRST_LESSONS,result.banks.final]]){
+    for(const key of Object.keys(bank))if(key.startsWith(country+'|'))delete bank[key];
+    Object.assign(bank,data);
+   }
+   openLearningSubjectAfterCountry('math',true);
+  }catch{
+   if(!active())return;
+   notice.textContent=learningLabel('Materialele de matematică pentru această țară nu sunt disponibile offline. Conectează-te la internet și încearcă din nou.','Maths materials for this country are not available offline. Connect to the internet and try again.');
+   if(!panel.querySelector('.math-supplement-retry')){
+    const retry=document.createElement('button');retry.type='button';retry.className='secondary-btn math-supplement-retry';
+    retry.textContent=learningLabel('Încearcă din nou','Try again');retry.onclick=load;panel.append(retry);
+   }
+  }
+ };
+ load();
+}
+function openLearningSubjectAfterCountry(key,mathSupplementReady=false){
  mathClearWorkspaceHeader();
+ if(key==='math'&&!mathSupplementReady)return mathStartCountrySupplement(educationCountrySelection.code);
  if(key==='history'){
   hgJourney.country=educationCountrySelection.code;
   hgJourney.grade=null;hgJourney.level=null;hgJourney.topic=null;hgJourney.speciality=null;
@@ -16009,7 +16234,7 @@ function openLearningSubjectAfterCountry(key){
   if(litJourney.country!==incoming){litJourney.grade='';litJourney.level='beginner';}
   litJourney.country=incoming;
   if(selected?.[3]&&LIT_LANGUAGES.some(x=>x[0]===selected[3]))litJourney.language=selected[3];
-  litOpen('levels');return
+  litStartCountryProfile();return
  }
  if(key==='computing'){computingOpen('levels');return}
  if(key==='exams'){examOpen('grades');return}
@@ -26585,6 +26810,17 @@ export default {
    try{return await fetch(makeRequest())}
    catch(error){console.warn('Pocket auxiliary endpoint unavailable:',url.pathname,String(error?.name||'error'));return Response.json({status:'error',error:'auxiliary_api_unavailable'},{status:502})}
   }
+  // Education assets can be served by a separately deployed content Worker.
+  // If no service is configured yet, retain the existing same-origin assets.
+  if(url.pathname.startsWith('/education/')){
+   if(request.method!=='GET'&&request.method!=='HEAD')return new Response('Method not allowed',{status:405,headers:{Allow:'GET, HEAD'}});
+   if(env?.EDUCATION_PACKS){
+    try{return await env.EDUCATION_PACKS.fetch(new Request(url,{method:request.method}))}
+    catch{return new Response('Education pack service unavailable',{status:503})}
+   }
+   if(env?.ASSETS)return env.ASSETS.fetch(request);
+   return new Response('Not found',{status:404});
+  }
   if (url.pathname === '/api/curriculum-pack') {
    if(request.method!=='GET')return new Response('Method not allowed',{status:405,headers:{Allow:'GET'}});
    const secSite=String(request.headers.get('Sec-Fetch-Site')||'').toLowerCase();
@@ -26601,9 +26837,17 @@ export default {
    const assetPath=await curriculumPackAssetPath(tuple.subject,tuple.country,tuple.grade);
    const packHeaders={
     'Content-Type':'application/json; charset=utf-8',
-    'Cache-Control':'private, max-age=3600, stale-while-revalidate=86400',
+    'Cache-Control':'no-store',
     'X-Content-Type-Options':'nosniff'
    };
+   if(env?.EDUCATION_PACKS){
+    try{
+     const assetRes=await env.EDUCATION_PACKS.fetch(new Request(new URL(assetPath,url)));
+     if(assetRes.status===200)return new Response(assetRes.body,{status:200,headers:packHeaders});
+     if(assetRes.status===404)return Response.json({status:'empty',lessonsByTopic:{}},{status:200,headers:packHeaders});
+     return Response.json({status:'error',error:'education_pack_service_unavailable'},{status:503,headers:packHeaders});
+    }catch{return Response.json({status:'error',error:'education_pack_service_unavailable'},{status:503,headers:packHeaders})}
+   }
    if(env?.ASSETS){
     const assetRes=await env.ASSETS.fetch(new Request(new URL(assetPath,url)));
     if(assetRes.status===200)return new Response(assetRes.body,{status:200,headers:packHeaders});
@@ -26625,7 +26869,12 @@ export default {
    if(!env?.ASSETS)return new Response('Avatar asset binding unavailable',{status:503});
    return env.ASSETS.fetch(new Request(new URL('/avatar-v4.html',url)));
   }
-  if (url.pathname !== '/' && url.pathname !== '/index.html') return new Response('Not found',{status:404});
+  if (url.pathname !== '/' && url.pathname !== '/index.html') {
+   // Static assets previously bypassed the Worker; preserve them when
+   // run_worker_first is enabled for Education service routing.
+   if(env?.ASSETS&&(request.method==='GET'||request.method==='HEAD'))return env.ASSETS.fetch(request);
+   return new Response('Not found',{status:404});
+  }
   const oracleOrigin=String(env?.COMMUNICATION_ORACLE_ORIGIN||'https://mypocketai.duckdns.org').replace(/\/+$/,'');
   const publicOracleOrigin=/^https:\/\/[a-z0-9.-]+(?::\d+)?$/i.test(oracleOrigin)?oracleOrigin:'';
   const html=htmlDocument()

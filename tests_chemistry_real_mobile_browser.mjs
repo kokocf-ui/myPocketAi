@@ -8,6 +8,9 @@ import {chromium} from 'playwright';
 fs.mkdirSync('chemistry-browser-audit',{recursive:true});
 const server=http.createServer(async(req,res)=>{
  try{
+  const asset=req.url.match(/^\/education\/science\/shared\/(physics|chemistry|biology|astronomy)\.json$/);
+  if(asset){res.writeHead(200,{'Content-Type':'application/json'});res.end(fs.readFileSync(new URL('./public/education/science/shared/'+asset[1]+'.json',import.meta.url)));return}
+
   const answer=await frontend.fetch(new Request('http://localhost:3881'+req.url,{headers:req.headers}),
    {COMMUNICATION_ORACLE_ORIGIN:''});
   res.writeHead(answer.status,Object.fromEntries(answer.headers));
@@ -15,7 +18,7 @@ const server=http.createServer(async(req,res)=>{
  }catch(err){res.writeHead(500);res.end(String(err))}
 });
 await new Promise(resolve=>server.listen(3881,'127.0.0.1',resolve));
-const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
+const browser=await chromium.launch({headless:true,args:['--no-sandbox'],...(process.env.CHROMIUM_EXECUTABLE_PATH?{executablePath:process.env.CHROMIUM_EXECUTABLE_PATH}:{})});
 const open=async(target)=>{
  await target.waitFor({state:'attached',timeout:12000});
  await target.evaluate(element=>element.click());
@@ -125,7 +128,9 @@ try{
  // Exercise all national entry choices in a fresh mobile profile and click
  // into a real Chemistry chapter. This catches a country with no actual
  // browser-visible lessons despite a populated server-side registry.
- for(const code of EDUCATION_EUROPE_COUNTRIES){
+ // Vatican City is no longer offered in Education (user decision); the
+ // picker hides it, so it cannot be navigated in a real browser.
+ for(const code of EDUCATION_EUROPE_COUNTRIES.filter(code=>code!=='VA')){
   const p=await browser.newPage({viewport:{width:390,height:844},deviceScaleFactor:1,
    isMobile:true,hasTouch:true,locale:'ro-RO'});
   try{
@@ -145,11 +150,11 @@ try{
     (await p.locator('#view-module').innerText().catch(()=>'')).slice(0,450));
   }finally{await p.close()}
  }
- assert.equal(checked,50);
+ assert.equal(checked,49); // 50 European systems minus Vatican City (not offered in Education)
  assert.equal(roLessons,4);
  assert.equal(roEnquiries,4);
  assert.deepEqual(exceptions,[],'Uncaught real Chromium errors in Chemistry');
- console.log('PASS Chemistry mobile: 50 country-to-chapter paths, four Romanian school grade lessons and practical investigations, fully paged reader and stable navigation.');
+ console.log('PASS Chemistry mobile: 49 country-to-chapter paths, four Romanian school grade lessons and practical investigations, fully paged reader and stable navigation.');
 }catch(e){
  console.error('::error::Chemistry browser: '+String(e).replace(/\r?\n/g,' '));
  await page.screenshot({path:'chemistry-browser-audit/failure.png',fullPage:true}).catch(()=>{});

@@ -4,7 +4,17 @@ on:
     paths:
       - 'literature_*.mjs'
       - 'tests_literature_*.mjs'
+      - 'tests_education_source_translation.mjs'
+      - 'education_country_ui.mjs'
+      - 'backend.js'
+      - 'index.js'
       - 'scripts/audit_literature_readiness.mjs'
+      - 'scripts/build_literature_profiles.mjs'
+      - 'scripts/build_literature_authored_packs.mjs'
+      - 'scripts/build_literature_national_packs.mjs'
+      - 'education_pack_service.mjs'
+      - 'public/education/literature/profiles/**'
+      - 'public/education/literature/authored/**'
       - 'education_all_country_subject_matrix.mjs'
       - '.github/workflows/literature-50-grade-depth.yml'
   workflow_dispatch:
@@ -46,10 +56,19 @@ jobs:
           node --check tests_literature_android_corrections.mjs
           node --check literature_reference_catalog.mjs
           node --check tests_literature_real_browser.mjs
+          node --check tests_literature_national_browser.mjs
           node --check tests_literature_reference_catalog.mjs
           node --check tests_literature_europe_authored_material.mjs
       - name: National coverage and existing literature regressions
         run: |
+          node scripts/build_literature_profiles.mjs --verify
+          node scripts/build_literature_authored_packs.mjs --verify
+          node scripts/build_literature_national_packs.mjs
+          node tests_literature_national_packs.mjs
+          node tests_literature_country_profiles.mjs
+          node tests_literature_authored_packs.mjs
+          node tests_literature_france_cp.mjs
+          node tests_education_source_translation.mjs
           node tests_literature_all_country_depth.mjs
           node tests_literature_selected_stage_2026.mjs
           node tests_literature_chapter_activities_2026.mjs
@@ -63,6 +82,7 @@ jobs:
           node tests_literature_android_corrections.mjs
           node tests_literature_reference_catalog.mjs
           node tests_literature_real_browser.mjs
+          node tests_literature_national_browser.mjs
           node tests_literature_europe.mjs
           node tests_literature_ro_grade_progression.mjs
           node tests_seven_europe_literature.mjs

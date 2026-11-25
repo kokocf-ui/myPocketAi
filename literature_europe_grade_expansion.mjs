@@ -3,6 +3,7 @@
 // Verified national frameworks and previously authored grade lessons are preserved.
 import {EDUCATION_SCHOOL_YEARS} from './education_school_paths.mjs';
 import {EDUCATION_WORLDWIDE_SCHEMES,worldwideSchoolYears} from './education_worldwide_paths.mjs';
+import {LIT_NATIONAL_PACK_YEARS} from './literature_europe_client_lazy.mjs';
 
 export const LITERATURE_50_COUNTRIES=Object.freeze(
  'AD AL AT BA BE BG BY CH CY CZ DE DK EE ES FI FR GR HR HU IE IS IT LI LT LU LV MC MD ME MK MT NL NO PL PT RO RS RU SE SI SK SM TR UA VA XK GB-ENG GB-SCT GB-WLS GB-NIR'.split(' ')
@@ -186,9 +187,13 @@ export function expandLiteratureEuropeanGrades(programs){
     // second menu duplicating grammar. Preserve the original 7–8 chapters,
     // enriching up to twelve with selected, usable activities.
     const max=country==='RO'?12:Number.POSITIVE_INFINITY;
-    const expanded=before.length>=15?before.map(row=>row.slice()):
-     mergeUnique(before,selected).slice(0,max);
-    if(!profile.byGrade[grade]||expanded.length>before.length)
+    // National-pack years of the dedicated profiles drop the generic
+    // sixteen-row sequence and expose only the national-pack chapter keys.
+    const nationalYear=(LIT_NATIONAL_PACK_YEARS[country]?.[stage]||[]).includes(grade);
+    const base=nationalYear?before.filter(row=>String(row[0]).startsWith('eu-year-')):before;
+    const expanded=!nationalYear&&before.length>=15?before.map(row=>row.slice()):
+     mergeUnique(base,selected).slice(0,max);
+    if(!profile.byGrade[grade]||nationalYear||expanded.length>before.length)
      profile.byGrade[grade]=expanded;
     coverage.yearPaths++;
     coverage.originalChapters+=expanded.length;

@@ -1,0 +1,992 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "NL",
+ "stage": "beginner",
+ "grade": "G1",
+ "version": "30901c953f1d97bce3c0df34a2ff4e37dddb917d2ba0c99a96e9594b8a981788",
+ "source": "https://www.slo.nl/thema/vakspecifieke-thema/nederlands/",
+ "sourceTitle": "SLO — kerndoelen Nederlands en leerlijnen jonge kind, groep 1 (kleuters, 4–5 jaar): mondelinge taal, woordenschat, fonologisch bewustzijn, boekoriëntatie en verhaalbegrip, beginnende geletterdheid; geen formeel leren lezen in groep 1; volgorde zoals in gangbare kleutermethodes (thema’s, kring, prentenboeken, rijmen, klanken); eigen materiaal, geen tekst uit methodes",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "nl",
+ "labels": [
+  "Eigen oefenactiviteit · Nederland · Groep 1",
+  "We leren",
+  "Eigen voorbeeld",
+  "Uitleg",
+  "Oefeningen",
+  "Test jezelf",
+  "Eigen oefeningen voor kleuters, geen officiële toets. Een volwassene leest voor en het kind antwoordt hardop.",
+  "Begrijp je het niet? Stap voor stap",
+  "Antwoorden (pas kijken als je klaar bent)"
+ ],
+ "units": [
+  {
+   "title": "Praten en luisteren",
+   "keys": [
+    "eu-year-nl-beginner-g1-l01",
+    "eu-year-nl-beginner-g1-l02",
+    "eu-year-nl-beginner-g1-l03",
+    "eu-year-nl-beginner-g1-l04",
+    "eu-year-nl-beginner-g1-l05"
+   ]
+  },
+  {
+   "title": "Woorden leren",
+   "keys": [
+    "eu-year-nl-beginner-g1-l06",
+    "eu-year-nl-beginner-g1-l07",
+    "eu-year-nl-beginner-g1-l08",
+    "eu-year-nl-beginner-g1-l09"
+   ]
+  },
+  {
+   "title": "Klanken en rijm",
+   "keys": [
+    "eu-year-nl-beginner-g1-l10",
+    "eu-year-nl-beginner-g1-l11",
+    "eu-year-nl-beginner-g1-l12",
+    "eu-year-nl-beginner-g1-l13",
+    "eu-year-nl-beginner-g1-l14",
+    "eu-year-nl-beginner-g1-l15"
+   ]
+  },
+  {
+   "title": "Boeken en verhalen",
+   "keys": [
+    "eu-year-nl-beginner-g1-l16",
+    "eu-year-nl-beginner-g1-l17",
+    "eu-year-nl-beginner-g1-l18",
+    "eu-year-nl-beginner-g1-l19",
+    "eu-year-nl-beginner-g1-l20",
+    "eu-year-nl-beginner-g1-l21"
+   ]
+  },
+  {
+   "title": "Letters en schrijven",
+   "keys": [
+    "eu-year-nl-beginner-g1-l22",
+    "eu-year-nl-beginner-g1-l23",
+    "eu-year-nl-beginner-g1-l24",
+    "eu-year-nl-beginner-g1-l25"
+   ]
+  },
+  {
+   "title": "Herhalen",
+   "keys": [
+    "eu-year-nl-beginner-g1-l26"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-nl-beginner-g1-l01": {
+   "nl": {
+    "title": "Vertellen in de kring",
+    "theory": "In de kring zitten we samen en vertellen we om de beurt. Wie praat, mag uitpraten. De anderen kijken naar de verteller en luisteren. Je steekt je vinger op als je iets wilt zeggen.",
+    "sample": "Ik heet Sem. Ik ben vier jaar. Ik heb een rode fiets. Gisteren ben ik naar opa geweest.",
+    "worked": "Sem vertelt vier korte zinnen: zijn naam, hoe oud hij is, iets over zijn fiets en wat hij gisteren deed. Zo weten de anderen precies over wie en wat het gaat.",
+    "exercises": [
+     "Vertel hoe je heet en hoe oud je bent.",
+     "Vertel over je lievelingsspeelgoed.",
+     "Steek je vinger op en wacht op je beurt.",
+     "Vertel na wat Sem zei.",
+     "Vertel wat je gisteren deed."
+    ],
+    "test": [
+     "Hoe oud is Sem?",
+     "Welke kleur heeft de fiets van Sem?",
+     "Wat doe je als je iets wilt zeggen in de kring?",
+     "Waar was Sem gisteren?",
+     "Waarom laten we iemand uitpraten?"
+    ],
+    "steps": [
+     "Kijk naar wie praat en luister.",
+     "Steek je vinger op als je iets wilt vertellen.",
+     "Vertel in een hele zin: Ik heet… Ik heb…",
+     "Let op: door elkaar heen praten. Dan kan niemand het goed horen."
+    ],
+    "answers": [
+     "Vier jaar.",
+     "Rood.",
+     "Ik steek mijn vinger op en wacht.",
+     "Bij opa.",
+     "Zodat iedereen het verhaal kan horen."
+    ]
+   }
+  },
+  "eu-year-nl-beginner-g1-l02": {
+   "nl": {
+    "title": "Luisteren naar een opdracht",
+    "theory": "Een opdracht zegt wat je moet doen. Eerst luister je tot het einde. Daarna doe je het, stap voor stap. Weet je het niet meer? Dan vraag je het vriendelijk.",
+    "sample": "Opdracht: Pak een blauw blokje. Leg het op de tafel. Ga daarna weer zitten.",
+    "worked": "Deze opdracht heeft drie stappen: eerst het blauwe blokje pakken, dan op de tafel leggen, dan gaan zitten. Wie te vroeg begint, mist een stap.",
+    "exercises": [
+     "Doe de opdracht uit het voorbeeld.",
+     "Klap twee keer en stamp één keer.",
+     "Geef een vriendje een opdracht met twee stappen.",
+     "Raak je neus aan en daarna je knie.",
+     "Vertel welke stap eerst kwam."
+    ],
+    "test": [
+     "Welke kleur heeft het blokje?",
+     "Waar leg je het blokje?",
+     "Wat doe je als laatste?",
+     "Wanneer begin je met de opdracht?",
+     "Wat doe je als je de opdracht vergeten bent?"
+    ],
+    "steps": [
+     "Luister tot de juf of meester klaar is met praten.",
+     "Onthoud de stappen: eerst, dan, als laatste.",
+     "Doe de stappen één voor één.",
+     "Let op: meteen beginnen voordat de opdracht klaar is."
+    ],
+    "answers": [
+     "Blauw.",
+     "Op de tafel.",
+     "Weer gaan zitten.",
+     "Als de opdracht helemaal gezegd is.",
+     "Ik vraag het vriendelijk."
+    ]
+   }
+  },
+  "eu-year-nl-beginner-g1-l03": {
+   "nl": {
+    "title": "Vragen stellen: wie, wat, waar",
+    "theory": "Met een vraag kom je iets te weten. Vragen beginnen vaak met wie, wat, waar of waarom. Aan het eind van een vraag gaat je stem een beetje omhoog.",
+    "sample": "Wie is dat? Dat is mijn zus. / Wat heb je in je tas? Een appel. / Waar woon je? In Utrecht.",
+    "worked": "Bij wie hoort een persoon als antwoord, bij wat een ding, bij waar een plek. Als je goed luistert naar het vraagwoord, weet je wat voor antwoord je moet geven.",
+    "exercises": [
+     "Stel een wie-vraag aan een vriendje.",
+     "Stel een wat-vraag over een tas.",
+     "Stel een waar-vraag over een knuffel.",
+     "Beantwoord: Waar slaap jij?",
+     "Speel juf en stel drie vragen."
+    ],
+    "test": [
+     "Wat voor antwoord hoort bij wie?",
+     "Wat voor antwoord hoort bij waar?",
+     "Wat zit er in de tas in het voorbeeld?",
+     "Waar woont het kind in het voorbeeld?",
+     "Wat doet je stem aan het eind van een vraag?"
+    ],
+    "steps": [
+     "Luister naar het eerste woord van de vraag.",
+     "Wie: een persoon. Wat: een ding. Waar: een plek.",
+     "Geef een antwoord dat past.",
+     "Let op: op een waar-vraag een persoon noemen. Bij waar hoort een plek."
+    ],
+    "answers": [
+     "Een persoon.",
+     "Een plek.",
+     "Een appel.",
+     "In Utrecht.",
+     "Hij gaat een beetje omhoog."
+    ]
+   }
+  },
+  "eu-year-nl-beginner-g1-l04": {
+   "nl": {
+    "title": "Vertellen in de goede volgorde",
+    "theory": "Als je iets vertelt wat je hebt meegemaakt, vertel je het in de goede volgorde. Handige woorden zijn: eerst, dan, daarna, als laatste. Zo snappen anderen je verhaal.",
+    "sample": "Eerst gingen we naar de speeltuin. Dan ging ik op de schommel. Daarna aten we een ijsje. Als laatste fietsten we naar huis.",
+    "worked": "Het verhaal heeft vier delen in de goede volgorde. Door eerst, dan, daarna en als laatste weet de luisteraar wat er na elkaar gebeurde.",
+    "exercises": [
+     "Vertel in drie stappen hoe je je tanden poetst.",
+     "Gebruik eerst, dan en als laatste.",
+     "Vertel wat je vanochtend deed.",
+     "Leg drie plaatjes in de goede volgorde.",
+     "Vertel hoe je je jas aantrekt."
+    ],
+    "test": [
+     "Waar gingen ze eerst naartoe?",
+     "Wat deed het kind op de speeltuin?",
+     "Wat aten ze daarna?",
+     "Wat deden ze als laatste?",
+     "Welke woorden helpen om de volgorde te vertellen?"
+    ],
+    "steps": [
+     "Bedenk wat er eerst gebeurde.",
+     "Vertel daarna wat er volgde.",
+     "Eindig met als laatste.",
+     "Let op: het einde eerst vertellen. Dan wordt het verhaal verwarrend."
+    ],
+    "answers": [
+     "Naar de speeltuin.",
+     "Schommelen.",
+     "Een ijsje.",
+     "Naar huis fietsen.",
+     "Eerst, dan, daarna, als laatste."
+    ]
+   }
+  },
+  "eu-year-nl-beginner-g1-l05": {
+   "nl": {
+    "title": "Beleefde woorden",
+    "theory": "Beleefde woorden maken het fijn met elkaar. We zeggen goedemorgen als we binnenkomen, alsjeblieft als we iets vragen of geven, dank je wel als we iets krijgen en sorry als we iemand per ongeluk pijn doen.",
+    "sample": "Noor: Mag ik het rode krijtje, alsjeblieft? / Daan: Alsjeblieft. / Noor: Dank je wel!",
+    "worked": "Noor vraagt met alsjeblieft. Daan geeft het krijtje en zegt ook alsjeblieft. Noor bedankt hem. Zo gaan ze vriendelijk met elkaar om.",
+    "exercises": [
+     "Zeg goedemorgen tegen de juf.",
+     "Vraag om een puzzel met alsjeblieft.",
+     "Bedank iemand voor een cadeautje.",
+     "Zeg sorry als je per ongeluk tegen iemand aanbotst.",
+     "Speel het voorbeeld na met een vriendje."
+    ],
+    "test": [
+     "Wat vraagt Noor?",
+     "Wat zegt Noor als ze het krijtje krijgt?",
+     "Wat zeg je als je binnenkomt?",
+     "Wat zeg je als je iemand per ongeluk pijn doet?",
+     "Wat zeg je als je iets geeft?"
+    ],
+    "steps": [
+     "Kijk de ander vriendelijk aan.",
+     "Gebruik alsjeblieft als je iets vraagt.",
+     "Zeg dank je wel als je iets krijgt.",
+     "Let op: iets pakken zonder te vragen. Vraag het eerst met alsjeblieft."
+    ],
+    "answers": [
+     "Het rode krijtje.",
+     "Dank je wel!",
+     "Goedemorgen.",
+     "Sorry.",
+     "Alsjeblieft."
+    ]
+   }
+  },
+  "eu-year-nl-beginner-g1-l06": {
+   "nl": {
+    "title": "Woorden van de klas",
+    "theory": "In de klas zijn veel dingen met een naam: de kring, de bouwhoek, de poppenhoek, de puzzelkast, de verfhoek. Als je de woorden kent, kun je beter vertellen waar je speelt.",
+    "sample": "In de bouwhoek bouw ik een toren van blokken. In de poppenhoek kook ik soep. In de verfhoek maak ik een schilderij.",
+    "worked": "Elke hoek heeft een eigen naam en een eigen spel. Wie de woorden kent, kan zeggen: ik wil in de bouwhoek spelen. Dan begrijpt iedereen het meteen.",
+    "exercises": [
+     "Wijs de bouwhoek aan.",
+     "Vertel wat je in de poppenhoek doet.",
+     "Noem drie dingen uit de klas.",
+     "Vertel waar de puzzels staan.",
+     "Kies een hoek en vertel waarom."
+    ],
+    "test": [
+     "Wat bouw je in de bouwhoek?",
+     "Wat kook je in de poppenhoek?",
+     "Wat maak je in de verfhoek?",
+     "Waar staan de puzzels?",
+     "Waar zitten we samen om te vertellen?"
+    ],
+    "steps": [
+     "Kijk rond in de klas.",
+     "Noem bij elk ding de naam.",
+     "Maak een zin: In de … speel ik …",
+     "Let op: zeggen daar of dinges. Noem de echte naam."
+    ],
+    "answers": [
+     "Een toren van blokken.",
+     "Soep.",
+     "Een schilderij.",
+     "In de puzzelkast.",
+     "In de kring."
+    ]
+   }
+  },
+  "eu-year-nl-beginner-g1-l07": {
+   "nl": {
+    "title": "Woorden voor gevoelens",
+    "theory": "We hebben woorden voor wat we voelen: blij, verdrietig, boos, bang. Als je je gevoel kunt zeggen, kunnen anderen je helpen. Je gezicht laat ook zien hoe je je voelt.",
+    "sample": "Lotte is blij, want ze mag naar de dierentuin. Tim is verdrietig, want zijn ballon is weg. Ayla is bang in het donker.",
+    "worked": "Bij elk kind staat waarom het zich zo voelt: want… Zo begrijp je het gevoel. Blij zie je aan een lach, verdrietig aan tranen.",
+    "exercises": [
+     "Trek een blij gezicht.",
+     "Trek een boos gezicht.",
+     "Vertel wanneer jij blij bent.",
+     "Vertel wat helpt als je bang bent.",
+     "Kijk naar een vriendje: hoe voelt hij zich?"
+    ],
+    "test": [
+     "Waarom is Lotte blij?",
+     "Waarom is Tim verdrietig?",
+     "Waar is Ayla bang?",
+     "Hoe zie je dat iemand blij is?",
+     "Wat kun je doen als een vriendje verdrietig is?"
+    ],
+    "steps": [
+     "Voel wat er in je buik en hoofd gebeurt.",
+     "Zoek het woord: blij, verdrietig, boos of bang.",
+     "Zeg het hardop: Ik ben … want …",
+     "Let op: slaan of schreeuwen als je boos bent. Zeg met woorden wat er is."
+    ],
+    "answers": [
+     "Ze mag naar de dierentuin.",
+     "Zijn ballon is weg.",
+     "In het donker.",
+     "Aan een lach.",
+     "Jouw antwoord. Bijvoorbeeld: Ik vraag wat er is en troost hem."
+    ]
+   }
+  },
+  "eu-year-nl-beginner-g1-l08": {
+   "nl": {
+    "title": "Tegenstellingen: groot en klein",
+    "theory": "Sommige woorden betekenen precies het andere: groot en klein, warm en koud, vol en leeg, hoog en laag. Dat noemen we tegenstellingen.",
+    "sample": "De olifant is groot, de muis is klein. De soep is warm, het ijsje is koud. De beker is vol, het bord is leeg.",
+    "worked": "In elke zin staan twee dingen die het tegenovergestelde zijn. Als je het ene woord weet, kun je het andere bedenken.",
+    "exercises": [
+     "Noem iets groots en iets kleins.",
+     "Wat is het tegenovergestelde van warm?",
+     "Doe hoog en laag met je armen.",
+     "Laat een volle en een lege beker zien.",
+     "Bedenk zelf een tegenstelling."
+    ],
+    "test": [
+     "Wat is de olifant?",
+     "Wat is het tegenovergestelde van vol?",
+     "Wat is koud in het voorbeeld?",
+     "Wat is het tegenovergestelde van hoog?",
+     "Wat is klein in het voorbeeld?"
+    ],
+    "steps": [
+     "Kijk naar het eerste woord.",
+     "Bedenk wat precies het andere is.",
+     "Maak er een zin mee.",
+     "Let op: een woord noemen dat erop lijkt, maar geen tegenstelling is."
+    ],
+    "answers": [
+     "Groot.",
+     "Leeg.",
+     "Het ijsje.",
+     "Laag.",
+     "De muis."
+    ]
+   }
+  },
+  "eu-year-nl-beginner-g1-l09": {
+   "nl": {
+    "title": "Woorden in groepjes sorteren",
+    "theory": "Woorden kun je in groepjes zetten: dieren, fruit, kleren, voertuigen. Zo onthoud je ze beter en leer je nadenken over wat bij elkaar hoort.",
+    "sample": "Dieren: hond, koe, eend. / Fruit: appel, banaan, peer. / Kleren: jas, broek, sok.",
+    "worked": "Hond, koe en eend zijn allemaal dieren. Appel, banaan en peer zijn fruit. Als je een nieuw woord hoort, kun je vragen: bij welk groepje hoort het?",
+    "exercises": [
+     "Noem drie dieren.",
+     "Noem drie soorten fruit.",
+     "Welk woord hoort er niet bij: appel, peer, jas?",
+     "Noem drie voertuigen.",
+     "Sorteer je speelgoed in groepjes."
+    ],
+    "test": [
+     "Bij welk groepje hoort koe?",
+     "Bij welk groepje hoort sok?",
+     "Welk woord hoort er niet bij: hond, eend, banaan?",
+     "Noem nog een stuk fruit.",
+     "Waarom zetten we woorden in groepjes?"
+    ],
+    "steps": [
+     "Luister naar het woord.",
+     "Denk na: is het een dier, fruit, kleding of iets anders?",
+     "Zet het bij het goede groepje.",
+     "Let op: een woord bij de verkeerde groep zetten omdat het dezelfde kleur heeft. Kijk naar wat het is."
+    ],
+    "answers": [
+     "Dieren.",
+     "Kleren.",
+     "Banaan.",
+     "Jouw antwoord. Bijvoorbeeld: Druif.",
+     "Dan onthoud je ze beter."
+    ]
+   }
+  },
+  "eu-year-nl-beginner-g1-l10": {
+   "nl": {
+    "title": "Rijmen",
+    "theory": "Woorden rijmen als het einde hetzelfde klinkt: kat en mat, boom en room, vis en mis. Rijmen helpt je om goed naar klanken te luisteren.",
+    "sample": "Eigen versje: / Een kat op een mat, / die wordt nooit nat. / Een vis in de sloot, / die zwemt naar de boot.",
+    "worked": "Kat, mat en nat rijmen, want ze eindigen allemaal op -at. Sloot en boot rijmen op -oot. Bij rijmen luister je alleen naar het einde van het woord.",
+    "exercises": [
+     "Zeg het versje na.",
+     "Wat rijmt op kat?",
+     "Bedenk een rijmwoord op boom.",
+     "Rijmen huis en muis?",
+     "Maak een rijmrij: bal, …"
+    ],
+    "test": [
+     "Wat rijmt op sloot in het versje?",
+     "Rijmen vis en tas?",
+     "Wat rijmt op nat?",
+     "Waar luister je naar bij rijmen?",
+     "Bedenk iets dat rijmt op muis."
+    ],
+    "steps": [
+     "Zeg het woord langzaam.",
+     "Luister naar het einde van het woord.",
+     "Zoek een ander woord met hetzelfde einde.",
+     "Let op: een woord noemen dat met dezelfde klank begint. Rijmen gaat over het einde."
+    ],
+    "answers": [
+     "Boot.",
+     "Nee.",
+     "Kat of mat.",
+     "Naar het einde van het woord.",
+     "Jouw antwoord. Bijvoorbeeld: Huis."
+    ]
+   }
+  },
+  "eu-year-nl-beginner-g1-l11": {
+   "nl": {
+    "title": "Woorden klappen",
+    "theory": "Lange woorden kun je in stukjes klappen. Elk stukje is een klap: ap-pel heeft twee klappen, o-li-fant heeft drie. Zo hoor je hoe een woord is opgebouwd.",
+    "sample": "bal (1 klap) / ap-pel (2 klappen) / o-li-fant (3 klappen) / Klap je eigen naam: Fa-ti-ma.",
+    "worked": "Bal heeft één klap. Appel heeft twee klappen. Olifant is een lang woord en heeft drie klappen. Een lang woord heeft meestal meer klappen dan een kort woord.",
+    "exercises": [
+     "Klap je eigen naam.",
+     "Klap het woord banaan.",
+     "Klap het woord vis.",
+     "Klap het woord kikker.",
+     "Wie heeft de meeste klappen in de naam?"
+    ],
+    "test": [
+     "Hoeveel klappen heeft bal?",
+     "Hoeveel klappen heeft appel?",
+     "Hoeveel klappen heeft olifant?",
+     "Hoeveel klappen heeft Fatima?",
+     "Welk woord is langer: vis of kikker?"
+    ],
+    "steps": [
+     "Zeg het woord langzaam.",
+     "Klap bij elk stukje één keer.",
+     "Tel hoeveel klappen het waren.",
+     "Let op: bij elke letter klappen. Je klapt bij elk stukje van het woord."
+    ],
+    "answers": [
+     "Eén.",
+     "Twee.",
+     "Drie.",
+     "Drie.",
+     "Kikker."
+    ]
+   }
+  },
+  "eu-year-nl-beginner-g1-l12": {
+   "nl": {
+    "title": "De eerste klank horen",
+    "theory": "Elk woord begint met een klank. Maan begint met mmm, zon begint met sss. Als je het begin langer zegt, hoor je de eerste klank beter.",
+    "sample": "mmm-aan, sss-on, vvv-is / Maan, muis en mama beginnen allemaal met m.",
+    "worked": "Als je mmmaan zegt, hoor je dat maan met m begint. Muis en mama beginnen ook met m. Zon begint met s, vis met v.",
+    "exercises": [
+     "Met welke klank begint maan?",
+     "Noem twee woorden die met m beginnen.",
+     "Met welke klank begint jouw naam?",
+     "Zoek in de klas iets dat met b begint.",
+     "Begint vis met v of met f?"
+    ],
+    "test": [
+     "Met welke klank begint zon?",
+     "Begint muis met m?",
+     "Noem iets dat met s begint.",
+     "Beginnen maan en mama met dezelfde klank?",
+     "Met welke klank begint vis?"
+    ],
+    "steps": [
+     "Zeg het woord en maak het begin lang: mmmaan.",
+     "Luister naar die eerste klank.",
+     "Zoek andere woorden met dezelfde klank.",
+     "Let op: de naam van de letter zeggen in plaats van de klank. Zeg mmm, niet em."
+    ],
+    "answers": [
+     "Met s.",
+     "Ja.",
+     "Jouw antwoord. Bijvoorbeeld: Sok.",
+     "Ja.",
+     "Met v."
+    ]
+   }
+  },
+  "eu-year-nl-beginner-g1-l13": {
+   "nl": {
+    "title": "De laatste klank horen",
+    "theory": "Elk woord eindigt ook met een klank. Bij kam hoor je aan het eind mmm, bij bus sss. Als je het eind langer zegt, hoor je die klank beter.",
+    "sample": "kammm, busss, vissss / Kam en boom eindigen allebei op m.",
+    "worked": "Als je kammm zegt, hoor je dat kam eindigt op m. Boom eindigt ook op m. Bus en vis eindigen op s.",
+    "exercises": [
+     "Op welke klank eindigt kam?",
+     "Op welke klank eindigt bus?",
+     "Noem een woord dat op m eindigt.",
+     "Eindigen vis en bus op dezelfde klank?",
+     "Op welke klank eindigt jouw naam?"
+    ],
+    "test": [
+     "Op welke klank eindigt boom?",
+     "Eindigt vis op s?",
+     "Eindigen kam en bus op dezelfde klank?",
+     "Op welke klank eindigt bal?",
+     "Noem iets dat op s eindigt."
+    ],
+    "steps": [
+     "Zeg het woord en maak het einde lang: kammm.",
+     "Luister naar die laatste klank.",
+     "Vergelijk met andere woorden.",
+     "Let op: naar het begin luisteren in plaats van naar het eind."
+    ],
+    "answers": [
+     "Op m.",
+     "Ja.",
+     "Nee.",
+     "Op l.",
+     "Jouw antwoord. Bijvoorbeeld: Muis."
+    ]
+   }
+  },
+  "eu-year-nl-beginner-g1-l14": {
+   "nl": {
+    "title": "Klanken aan elkaar plakken",
+    "theory": "Je kunt losse klanken aan elkaar plakken tot een woord. Dat heet hakken en plakken. m-aa-n wordt maan. v-i-s wordt vis.",
+    "sample": "m – aa – n → maan / v – i – s → vis / b – oo – m → boom",
+    "worked": "De juf zegt de klanken los en langzaam. Jij plakt ze aan elkaar en hoort het woord. Het werkt ook andersom: je kunt een woord hakken in klanken.",
+    "exercises": [
+     "Plak: m-aa-n.",
+     "Plak: v-i-s.",
+     "Plak: b-oo-m.",
+     "Hak het woord pop in klanken.",
+     "Speel het hakspel met je naam."
+    ],
+    "test": [
+     "Welk woord is m-aa-n?",
+     "Welk woord is v-i-s?",
+     "Welk woord is r-oo-s?",
+     "Hak het woord kat in klanken.",
+     "Hoe heet het spel waarbij je klanken plakt?"
+    ],
+    "steps": [
+     "Luister naar de losse klanken.",
+     "Zeg ze steeds sneller na elkaar.",
+     "Hoor welk woord het wordt.",
+     "Let op: een klank overslaan. Dan wordt het een ander woord."
+    ],
+    "answers": [
+     "Maan.",
+     "Vis.",
+     "Roos.",
+     "k-a-t.",
+     "Hakken en plakken."
+    ]
+   }
+  },
+  "eu-year-nl-beginner-g1-l15": {
+   "nl": {
+    "title": "Korte en lange woorden",
+    "theory": "Sommige woorden zijn kort, zoals pen en bus. Andere zijn lang, zoals fietsenrek en paraplu. Een lang woord duurt langer om te zeggen. Dat zegt niets over hoe groot het ding is.",
+    "sample": "Kort: pen, bus, koe. / Lang: paraplu, fietsenrek, regenjas. / Trein is een groot ding, maar een kort woord.",
+    "worked": "Trein is een groot voertuig, maar het woord trein is kort: één klap. Rupsje is een klein diertje, maar het woord is langer: twee klappen. We luisteren naar het woord, niet naar het ding.",
+    "exercises": [
+     "Noem een kort woord.",
+     "Noem een lang woord.",
+     "Is paraplu kort of lang?",
+     "Is koe kort of lang?",
+     "Welk woord is langer: trein of rupsje?"
+    ],
+    "test": [
+     "Is bus een kort of lang woord?",
+     "Is regenjas een kort of lang woord?",
+     "Is trein een groot ding?",
+     "Is trein een lang woord?",
+     "Waar luister je naar bij korte en lange woorden?"
+    ],
+    "steps": [
+     "Zeg het woord hardop.",
+     "Klap het: één klap is kort, veel klappen is lang.",
+     "Denk niet aan hoe groot het ding is.",
+     "Let op: denken dat een groot ding een lang woord heeft."
+    ],
+    "answers": [
+     "Kort.",
+     "Lang.",
+     "Ja.",
+     "Nee, het is kort.",
+     "Naar het woord zelf."
+    ]
+   }
+  },
+  "eu-year-nl-beginner-g1-l16": {
+   "nl": {
+    "title": "Een prentenboek bekijken",
+    "theory": "Een boek heeft een voorkant met de titel. We houden het boek goed vast, slaan de bladzijden één voor één om en kijken van links naar rechts. Op de plaatjes zie je wat er gebeurt.",
+    "sample": "Op de voorkant staat: Beer gaat naar zee. Je ziet een beer met een emmertje op het strand.",
+    "worked": "De titel vertelt waar het boek over gaat: een beer die naar zee gaat. Het plaatje laat al zien dat het op het strand speelt. Daarna slaan we de eerste bladzijde om.",
+    "exercises": [
+     "Wijs de voorkant van een boek aan.",
+     "Laat zien hoe je een bladzijde omslaat.",
+     "Wijs aan waar de titel staat.",
+     "Vertel wat je op de voorkant ziet.",
+     "Leg een boek netjes terug in de kast."
+    ],
+    "test": [
+     "Wat staat er op de voorkant?",
+     "Waar gaat de beer naartoe?",
+     "Wat heeft de beer bij zich?",
+     "In welke richting kijken we in een boek?",
+     "Hoe sla je een bladzijde om?"
+    ],
+    "steps": [
+     "Pak het boek met de voorkant naar je toe.",
+     "Kijk naar de titel en het plaatje.",
+     "Sla de bladzijden één voor één om, van links naar rechts.",
+     "Let op: veel bladzijden tegelijk omslaan. Dan mis je een stuk van het verhaal."
+    ],
+    "answers": [
+     "De titel en een plaatje.",
+     "Naar zee.",
+     "Een emmertje.",
+     "Van links naar rechts.",
+     "Eén voor één, voorzichtig."
+    ]
+   }
+  },
+  "eu-year-nl-beginner-g1-l17": {
+   "nl": {
+    "title": "Voorspellen: wat gebeurt er?",
+    "theory": "Voordat we verder lezen, kunnen we raden wat er gaat gebeuren. Dat heet voorspellen. Je kijkt naar het plaatje en denkt na. Daarna lezen we verder en kijken we of het klopt.",
+    "sample": "Op het plaatje zie je donkere wolken boven de beer op het strand. Wat gaat er gebeuren? Misschien gaat het regenen.",
+    "worked": "Donkere wolken betekenen vaak regen. Daarom voorspellen we: het gaat regenen en de beer wordt nat. Op de volgende bladzijde zien we of dat klopt.",
+    "exercises": [
+     "Kijk naar het plaatje en voorspel wat er gebeurt.",
+     "Vertel waarom je dat denkt.",
+     "Kijk op de volgende bladzijde: klopte het?",
+     "Bedenk een ander einde.",
+     "Voorspel wat een kind met een paraplu gaat doen."
+    ],
+    "test": [
+     "Wat zie je boven de beer?",
+     "Wat betekenen donkere wolken vaak?",
+     "Wat voorspellen we?",
+     "Hoe weet je of je voorspelling klopt?",
+     "Hoe heet raden wat er gaat gebeuren?"
+    ],
+    "steps": [
+     "Kijk goed naar het plaatje.",
+     "Denk na: wat gebeurt er meestal als je dit ziet?",
+     "Zeg je voorspelling en lees verder om te kijken.",
+     "Let op: denken dat je voorspelling fout is als het anders gaat. Voorspellen is raden, dat mag anders uitkomen."
+    ],
+    "answers": [
+     "Donkere wolken.",
+     "Regen.",
+     "Het gaat regenen.",
+     "We lezen verder en kijken.",
+     "Voorspellen."
+    ]
+   }
+  },
+  "eu-year-nl-beginner-g1-l18": {
+   "nl": {
+    "title": "Een verhaal navertellen",
+    "theory": "Een verhaal heeft een begin, een midden en een eind. Als je het navertelt, vertel je die drie delen in de goede volgorde, met je eigen woorden.",
+    "sample": "Begin: Beer gaat naar het strand. Midden: Het gaat regenen en Beer wordt nat. Eind: Beer schuilt onder een parasol en de zon komt terug.",
+    "worked": "Het begin vertelt wie en waar: Beer op het strand. In het midden is er een probleem: regen. Het eind vertelt hoe het afloopt: de zon komt terug.",
+    "exercises": [
+     "Vertel het begin van het verhaal.",
+     "Vertel wat het probleem was.",
+     "Vertel hoe het afliep.",
+     "Teken het begin, midden en eind.",
+     "Vertel een verhaal na dat je kent."
+    ],
+    "test": [
+     "Waar gaat Beer naartoe aan het begin?",
+     "Wat gebeurt er in het midden?",
+     "Waar schuilt Beer?",
+     "Hoe loopt het af?",
+     "Uit welke drie delen bestaat een verhaal?"
+    ],
+    "steps": [
+     "Bedenk wie er in het verhaal zit en waar het is.",
+     "Vertel wat er misging.",
+     "Vertel hoe het opgelost werd.",
+     "Let op: alleen het eind vertellen. Begin bij het begin."
+    ],
+    "answers": [
+     "Naar het strand.",
+     "Het gaat regenen.",
+     "Onder een parasol.",
+     "De zon komt terug.",
+     "Begin, midden en eind."
+    ]
+   }
+  },
+  "eu-year-nl-beginner-g1-l19": {
+   "nl": {
+    "title": "Sprookje: De drie biggetjes",
+    "theory": "Een sprookje is een oud verhaal dat al heel lang wordt verteld. In het sprookje De drie biggetjes bouwt elk biggetje een huisje. De wolf probeert de huisjes om te blazen.",
+    "sample": "Verteld in eigen woorden: Het eerste biggetje bouwt een huisje van stro, het tweede van hout en het derde van stenen. De wolf blaast het strohuisje en het houten huisje om. De biggetjes rennen naar het stenen huisje. Dat blijft staan, en de wolf moet weggaan.",
+    "worked": "De personen zijn de drie biggetjes en de wolf. Het verhaal herhaalt zich: de wolf blaast steeds. Het stenen huisje is het sterkst, omdat het derde biggetje er hard aan werkte. Les: goed je best doen loont.",
+    "exercises": [
+     "Vertel welk huisje elk biggetje bouwt.",
+     "Doe na hoe de wolf blaast.",
+     "Teken het stenen huisje.",
+     "Speel het sprookje na met drie vriendjes.",
+     "Vertel waarom het stenen huis bleef staan."
+    ],
+    "test": [
+     "Waarvan bouwt het eerste biggetje zijn huisje?",
+     "Welke huisjes blaast de wolf om?",
+     "Waar rennen de biggetjes naartoe?",
+     "Welk huisje is het sterkst?",
+     "Wat leert het sprookje ons?"
+    ],
+    "steps": [
+     "Noem de personen: drie biggetjes en een wolf.",
+     "Vertel de huisjes in volgorde: stro, hout, stenen.",
+     "Zeg wat het sprookje ons leert.",
+     "Let op: de volgorde van de huisjes door elkaar halen."
+    ],
+    "answers": [
+     "Van stro.",
+     "Het strohuisje en het houten huisje.",
+     "Naar het stenen huisje.",
+     "Het stenen huisje.",
+     "Dat goed je best doen loont."
+    ]
+   }
+  },
+  "eu-year-nl-beginner-g1-l20": {
+   "nl": {
+    "title": "Versjes en liedjes",
+    "theory": "Versjes en liedjes hebben een ritme. Vaak rijmen ze. Door ze vaak te zeggen of te zingen, leer je nieuwe woorden en ga je goed luisteren naar klanken.",
+    "sample": "Eigen versje: / Ik heb een rode bal, / die stuitert overal. / Hij rolt tot aan de deur, / wat een mooie kleur!",
+    "worked": "Bal rijmt op overal, deur rijmt op kleur. Bij elk regeltje kun je klappen op het ritme. Zo leer je het versje snel uit je hoofd.",
+    "exercises": [
+     "Zeg het versje na.",
+     "Klap het ritme mee.",
+     "Welk woord rijmt op bal?",
+     "Leer het versje uit je hoofd.",
+     "Zing een liedje dat je kent."
+    ],
+    "test": [
+     "Welke kleur heeft de bal?",
+     "Waar rolt de bal naartoe?",
+     "Wat rijmt op deur?",
+     "Wat rijmt op bal?",
+     "Waarom zeggen we versjes vaak?"
+    ],
+    "steps": [
+     "Luister eerst naar het hele versje.",
+     "Zeg het regel voor regel na.",
+     "Klap op het ritme mee.",
+     "Let op: te snel praten. Zeg het versje rustig en duidelijk."
+    ],
+    "answers": [
+     "Rood.",
+     "Tot aan de deur.",
+     "Kleur.",
+     "Overal.",
+     "Dan leer je nieuwe woorden en klanken."
+    ]
+   }
+  },
+  "eu-year-nl-beginner-g1-l21": {
+   "nl": {
+    "title": "Een informatief boek: de egel",
+    "theory": "Sommige boeken vertellen geen verzonnen verhaal, maar echte dingen. Dat zijn informatieve boeken. Je leert er iets over dieren, planten of de wereld.",
+    "sample": "De egel is een klein dier met stekels op zijn rug. Hij woont in het bos en in tuinen. Hij eet slakken en kevers. In de winter slaapt hij in een nest van bladeren.",
+    "worked": "Dit boek vertelt echte dingen over de egel: hoe hij eruitziet, waar hij woont, wat hij eet en wat hij in de winter doet. Het is geen sprookje.",
+    "exercises": [
+     "Vertel hoe een egel eruitziet.",
+     "Vertel wat een egel eet.",
+     "Teken een egel in zijn nest.",
+     "Vraag een volwassene om een boek over dieren.",
+     "Stel een vraag over de egel."
+    ],
+    "test": [
+     "Wat heeft de egel op zijn rug?",
+     "Waar woont de egel?",
+     "Wat eet de egel?",
+     "Wat doet de egel in de winter?",
+     "Is dit boek een verzonnen verhaal?"
+    ],
+    "steps": [
+     "Luister goed naar wat er wordt voorgelezen.",
+     "Onthoud de echte dingen: hoe hij eruitziet, wat hij eet.",
+     "Beantwoord de vraag met wat je hoorde.",
+     "Let op: iets verzinnen. In een informatief boek staan echte dingen."
+    ],
+    "answers": [
+     "Stekels.",
+     "In het bos en in tuinen.",
+     "Slakken en kevers.",
+     "Hij slaapt in een nest van bladeren.",
+     "Nee, het vertelt echte dingen."
+    ]
+   }
+  },
+  "eu-year-nl-beginner-g1-l22": {
+   "nl": {
+    "title": "Je eigen naam herkennen",
+    "theory": "Je naam bestaat uit letters. De eerste letter van je naam is een hoofdletter. Als je je naam kent, kun je je eigen kapstok, tekening en la vinden.",
+    "sample": "Naamkaartje: Sem. De S is de eerste letter. Sem heeft drie letters: S, e, m.",
+    "worked": "De naam Sem begint met een hoofdletter S. Als Sem zijn naam ziet, herkent hij de S. Zo vindt hij zijn kapstok tussen de andere kapstokken.",
+    "exercises": [
+     "Zoek je naamkaartje.",
+     "Wijs de eerste letter van je naam aan.",
+     "Tel de letters van je naam.",
+     "Zoek iemand wiens naam met dezelfde letter begint.",
+     "Leg je naam met letterblokjes."
+    ],
+    "test": [
+     "Met welke letter begint Sem?",
+     "Hoeveel letters heeft Sem?",
+     "Wat voor letter is de eerste letter van een naam?",
+     "Waarom is het handig je naam te herkennen?",
+     "Met welke letter begint jouw naam?"
+    ],
+    "steps": [
+     "Kijk naar je naamkaartje.",
+     "Zoek de eerste letter, die is groot.",
+     "Vergelijk met andere kaartjes.",
+     "Let op: denken dat alle namen met een S die van jou zijn. Kijk naar alle letters."
+    ],
+    "answers": [
+     "Met de S.",
+     "Drie.",
+     "Een hoofdletter.",
+     "Dan vind je je kapstok, tekening en la.",
+     "Jouw antwoord. Bijvoorbeeld: De N van Noor."
+    ]
+   }
+  },
+  "eu-year-nl-beginner-g1-l23": {
+   "nl": {
+    "title": "Letters, cijfers en tekeningen",
+    "theory": "Letters, cijfers en tekeningen zijn verschillend. Met letters schrijven we woorden, met cijfers tellen we, met tekeningen laten we iets zien. Overal om ons heen staan letters: op pakken, borden en boeken.",
+    "sample": "Op een melkpak staan letters: MELK. Er staat ook een cijfer: 1 liter. En er staat een tekening van een koe.",
+    "worked": "Op het pak zie je alle drie: de letters vormen het woord melk, het cijfer zegt hoeveel erin zit, de tekening laat de koe zien.",
+    "exercises": [
+     "Zoek letters op een pak in de keuken.",
+     "Zoek een cijfer op de klok.",
+     "Wijs een tekening aan op een verpakking.",
+     "Wijs letters aan op een bord buiten.",
+     "Sorteer kaartjes: letter, cijfer of tekening."
+    ],
+    "test": [
+     "Wat schrijven we met letters?",
+     "Waarvoor gebruiken we cijfers?",
+     "Welk woord staat op het pak?",
+     "Welk dier staat op het pak?",
+     "Waar zie je letters buiten?"
+    ],
+    "steps": [
+     "Kijk goed: is het een letter, een cijfer of een plaatje?",
+     "Letters maken woorden, cijfers tellen.",
+     "Een plaatje laat iets zien zonder letters.",
+     "Let op: een cijfer een letter noemen. Een 1 is een cijfer."
+    ],
+    "answers": [
+     "Woorden.",
+     "Om te tellen.",
+     "Melk.",
+     "Een koe.",
+     "Op borden, winkels en straatnaambordjes."
+    ]
+   }
+  },
+  "eu-year-nl-beginner-g1-l24": {
+   "nl": {
+    "title": "Doen alsof je schrijft: een lijstje",
+    "theory": "Kleuters mogen doen alsof ze schrijven. Je kunt een boodschappenlijstje maken met tekeningen en krabbels. Zo leer je dat schrijven een boodschap is voor iemand anders.",
+    "sample": "Boodschappenlijstje van Noor: een tekening van een appel, een tekening van brood, en krabbels die betekenen: melk.",
+    "worked": "Noor kan nog niet schrijven, maar haar lijstje heeft een boodschap: appel, brood, melk. Ze vertelt hardop wat er staat. Zo snapt ze dat schrijven betekent dat iemand anders het kan lezen.",
+    "exercises": [
+     "Maak een boodschappenlijstje met tekeningen.",
+     "Vertel wat er op je lijstje staat.",
+     "Schrijf of teken een kaartje voor oma.",
+     "Speel winkeltje met je lijstje.",
+     "Laat een volwassene jouw lijstje voorlezen."
+    ],
+    "test": [
+     "Wat tekent Noor op haar lijstje?",
+     "Wat betekenen de krabbels?",
+     "Kan Noor al schrijven?",
+     "Waarvoor is een boodschappenlijstje?",
+     "Voor wie maak je een kaartje?"
+    ],
+    "steps": [
+     "Bedenk wat je wilt zeggen.",
+     "Teken of krabbel het op papier.",
+     "Vertel hardop wat er staat.",
+     "Let op: denken dat je niet mag schrijven omdat je de letters nog niet kent. Doen alsof mag."
+    ],
+    "answers": [
+     "Een appel en brood.",
+     "Melk.",
+     "Nog niet.",
+     "Om te onthouden wat je moet kopen.",
+     "Jouw antwoord. Bijvoorbeeld: Voor oma."
+    ]
+   }
+  },
+  "eu-year-nl-beginner-g1-l25": {
+   "nl": {
+    "title": "Het potlood goed vasthouden",
+    "theory": "Voordat je gaat schrijven, oefen je met je hand: kleien, knippen, kleuren en lijnen trekken. Je houdt het potlood vast met drie vingers. Je zit rechtop en drukt niet te hard.",
+    "sample": "Oefenblad: Trek een lijn van de muis naar de kaas. Maak golfjes zoals de zee. Kleur een cirkel binnen de lijntjes.",
+    "worked": "Een lijn van links naar rechts lijkt op hoe we later schrijven. Golfjes en cirkels zitten later in letters. Met drie vingers heb je de meeste controle.",
+    "exercises": [
+     "Kneed een balletje klei om je vingers sterk te maken.",
+     "Trek een lijn van links naar rechts.",
+     "Maak golfjes zoals de zee.",
+     "Laat zien hoe je het potlood vasthoudt.",
+     "Kleur een cirkel binnen de lijntjes."
+    ],
+    "test": [
+     "Met hoeveel vingers houd je het potlood vast?",
+     "Hoe zit je als je tekent?",
+     "In welke richting trek je de lijn?",
+     "Waarom oefenen we golfjes?",
+     "Wat doe je als je hand moe is?"
+    ],
+    "steps": [
+     "Ga rechtop zitten met je voeten op de grond.",
+     "Houd het potlood met drie vingers vast.",
+     "Trek rustig je lijnen en druk niet te hard.",
+     "Let op: het potlood in je vuist knijpen. Gebruik drie vingers."
+    ],
+    "answers": [
+     "Drie.",
+     "Rechtop.",
+     "Van links naar rechts.",
+     "Omdat ze later in letters zitten.",
+     "Ik schud mijn hand los en rust even."
+    ]
+   }
+  },
+  "eu-year-nl-beginner-g1-l26": {
+   "nl": {
+    "title": "Herhaling: wat kan ik in groep 1?",
+    "theory": "Aan het eind van het jaar laten we zien wat we geleerd hebben: vertellen in de kring, luisteren, rijmen, woorden klappen, de eerste klank horen, een verhaal navertellen en je eigen naam herkennen.",
+    "sample": "Juf leest voor: Fenna gaat met haar hond Boef naar het park. Boef rent achter een bal aan. Daarna gaan ze samen naar huis.",
+    "worked": "Het verhaal heeft een begin (naar het park), een midden (Boef rent achter de bal) en een eind (naar huis). Fenna klap je als Fen-na: twee klappen. Boef begint met de klank b.",
+    "exercises": [
+     "Vertel het verhaal na.",
+     "Klap de naam Fenna.",
+     "Met welke klank begint Boef?",
+     "Bedenk een rijmwoord op bal.",
+     "Vertel wat je dit jaar het leukst vond."
+    ],
+    "test": [
+     "Waar gaat Fenna naartoe?",
+     "Hoe heet de hond?",
+     "Waar rent Boef achteraan?",
+     "Hoeveel klappen heeft Fenna?",
+     "Wat gebeurt er aan het eind?"
+    ],
+    "steps": [
+     "Luister goed naar het hele verhaal.",
+     "Denk aan begin, midden en eind.",
+     "Gebruik wat je leerde: klappen, klanken, rijmen.",
+     "Let op: te snel antwoorden. Denk eerst even na."
+    ],
+    "answers": [
+     "Naar het park.",
+     "Boef.",
+     "Een bal.",
+     "Twee.",
+     "Ze gaan samen naar huis."
+    ]
+   }
+  }
+ }
+}

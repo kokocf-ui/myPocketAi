@@ -6,6 +6,9 @@ on:
       - 'physics_*.mjs'
       - 'tests_physics_*.mjs'
       - 'science_grade_progression.mjs'
+      - 'science_shared_pack_loader.mjs'
+      - 'tests_science_shared_packs_browser.mjs'
+      - 'public/education/science/shared/**'
       - 'science_ro_course_plan.mjs'
       - 'education_country_ui.mjs'
       - 'index.js'
@@ -25,6 +28,7 @@ jobs:
       - run: npm install --no-save --no-package-lock playwright@1.56.1
       - run: npx playwright install --with-deps chromium
       - run: node tests_physics_real_mobile_browser.mjs
+      - run: node tests_science_shared_packs_browser.mjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:

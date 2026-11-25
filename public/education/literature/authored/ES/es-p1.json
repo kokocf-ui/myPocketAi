@@ -1,0 +1,1290 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "ES",
+ "stage": "beginner",
+ "grade": "P1",
+ "version": "c016bd9c20e66c71a293e3fa62cb51787fbd34149bb036f15b52062743a12762",
+ "source": "https://www.boe.es/buscar/act.php?id=BOE-A-2022-3296",
+ "sourceTitle": "Real Decreto 157/2022 (Educación Primaria, LOMLOE), Lengua Castellana y Literatura, primer ciclo, 1.º de Primaria: comunicación oral, lectura, escritura, educación literaria y reflexión sobre la lengua; secuencia como en las cartillas y libros de 1.º (vocales, consonantes, sílabas trabadas, ortografía básica, primeros textos); actividades originales, sin texto copiado de los libros",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "es",
+ "labels": [
+  "Actividad original orientativa · España · 1.º de Primaria",
+  "Aprendemos",
+  "Ejemplo original",
+  "Explicación",
+  "Ejercicios",
+  "Comprueba lo que sabes",
+  "Actividades originales, no son una prueba oficial. Léelas con un adulto si lo necesitas.",
+  "Si no lo has entendido: paso a paso",
+  "Soluciones (compruébalas cuando termines)"
+ ],
+ "units": [
+  {
+   "title": "Empezamos el curso",
+   "keys": [
+    "eu-year-es-beginner-p1-l01",
+    "eu-year-es-beginner-p1-l02",
+    "eu-year-es-beginner-p1-l03"
+   ]
+  },
+  {
+   "title": "Las vocales y las primeras consonantes",
+   "keys": [
+    "eu-year-es-beginner-p1-l04",
+    "eu-year-es-beginner-p1-l05",
+    "eu-year-es-beginner-p1-l06",
+    "eu-year-es-beginner-p1-l07",
+    "eu-year-es-beginner-p1-l08",
+    "eu-year-es-beginner-p1-l09"
+   ]
+  },
+  {
+   "title": "Más consonantes",
+   "keys": [
+    "eu-year-es-beginner-p1-l10",
+    "eu-year-es-beginner-p1-l11",
+    "eu-year-es-beginner-p1-l12",
+    "eu-year-es-beginner-p1-l13",
+    "eu-year-es-beginner-p1-l14",
+    "eu-year-es-beginner-p1-l15"
+   ]
+  },
+  {
+   "title": "Letras especiales",
+   "keys": [
+    "eu-year-es-beginner-p1-l16",
+    "eu-year-es-beginner-p1-l17",
+    "eu-year-es-beginner-p1-l18",
+    "eu-year-es-beginner-p1-l19"
+   ]
+  },
+  {
+   "title": "Sílabas y ortografía",
+   "keys": [
+    "eu-year-es-beginner-p1-l20",
+    "eu-year-es-beginner-p1-l21",
+    "eu-year-es-beginner-p1-l22",
+    "eu-year-es-beginner-p1-l23"
+   ]
+  },
+  {
+   "title": "Leer y escuchar textos",
+   "keys": [
+    "eu-year-es-beginner-p1-l24",
+    "eu-year-es-beginner-p1-l25",
+    "eu-year-es-beginner-p1-l26",
+    "eu-year-es-beginner-p1-l27",
+    "eu-year-es-beginner-p1-l28",
+    "eu-year-es-beginner-p1-l29"
+   ]
+  },
+  {
+   "title": "Escribir y comunicar",
+   "keys": [
+    "eu-year-es-beginner-p1-l30",
+    "eu-year-es-beginner-p1-l31",
+    "eu-year-es-beginner-p1-l32",
+    "eu-year-es-beginner-p1-l33"
+   ]
+  },
+  {
+   "title": "Final de curso",
+   "keys": [
+    "eu-year-es-beginner-p1-l34"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-es-beginner-p1-l01": {
+   "es": {
+    "title": "Nos presentamos y acordamos las normas",
+    "theory": "Los primeros días nos conocemos. Decimos nuestro nombre con una frase completa: Me llamo… Acordamos las normas de clase: levantamos la mano para hablar, escuchamos a los demás, no interrumpimos y hablamos con voz clara.",
+    "sample": "Me llamo Lucía. Tengo seis años. Me gusta dibujar caballos. A mi lado se sienta Pablo.",
+    "worked": "Lucía se presenta con cuatro frases cortas: su nombre, su edad, lo que le gusta y quién se sienta a su lado. Mientras habla, mira a sus compañeros. Cada frase empieza con mayúscula y termina con punto.",
+    "exercises": [
+     "Preséntate con dos frases.",
+     "Di qué te gusta hacer.",
+     "Di el nombre de tu compañero de mesa.",
+     "Enseña cómo levantas la mano para hablar.",
+     "Repite lo que ha dicho un compañero."
+    ],
+    "test": [
+     "¿Cuántos años tiene Lucía?",
+     "¿Qué hacemos cuando queremos hablar?",
+     "¿Por qué no interrumpimos a los demás?",
+     "¿Qué te gusta hacer a ti?",
+     "¿Quién se sienta al lado de Lucía?"
+    ],
+    "steps": [
+     "Primero di tu nombre: Me llamo…",
+     "Después di cuántos años tienes y qué te gusta.",
+     "Cuando habla otra persona, escucha y no interrumpas.",
+     "Cuidado: habla con frases completas, no con una sola palabra."
+    ],
+    "answers": [
+     "Seis años.",
+     "Levantamos la mano y esperamos nuestro turno.",
+     "Para que todos puedan hablar con calma y entendernos.",
+     "Tu respuesta. Por ejemplo: Me gusta jugar al fútbol.",
+     "Pablo."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-l02": {
+   "es": {
+    "title": "Escuchamos los sonidos de las palabras",
+    "theory": "Las palabras están formadas por sonidos. El primer sonido de una palabra es el sonido inicial. Si decimos la palabra despacio, oímos mejor sus sonidos. Dos palabras riman cuando terminan igual: ratón y camión.",
+    "sample": "ratón, camión, sol, mesa, oso, luna, cuna, pato",
+    "worked": "Ratón empieza por r, sol por s y oso por o. Ratón y camión riman porque terminan en -ón. Luna y cuna también riman, porque terminan en -una.",
+    "exercises": [
+     "Di despacio: sssol. ¿Cuál es el primer sonido?",
+     "Busca una rima para ratón.",
+     "¿Con qué sonido termina mesa?",
+     "Busca en clase un objeto que empiece por p.",
+     "Da una palmada si riman: luna – cuna."
+    ],
+    "test": [
+     "¿Por qué sonido empieza oso?",
+     "¿Riman ratón y camión?",
+     "¿Por qué sonido empieza luna?",
+     "Di una palabra que empiece por m.",
+     "¿Qué palabra no rima: luna, cuna, pato?"
+    ],
+    "steps": [
+     "Di la palabra muy despacio, como si la estiraras: sss-o-l.",
+     "El sonido que oyes primero es el sonido inicial.",
+     "Para la rima, escucha el final de las palabras.",
+     "Cuidado: escucha el sonido, no mires solo el dibujo; di siempre la palabra en voz alta."
+    ],
+    "answers": [
+     "o.",
+     "Sí.",
+     "l.",
+     "Tu respuesta. Por ejemplo: mamá, mesa, mono.",
+     "pato."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-l03": {
+   "es": {
+    "title": "Grafomotricidad: preparamos la mano",
+    "theory": "Antes de escribir letras hacemos trazos: líneas, ondas, círculos, puentes y bucles. Cogemos el lápiz con tres dedos, sin apretar. Nos sentamos rectos, con los pies en el suelo. Escribimos de izquierda a derecha.",
+    "sample": "Fila 1: ondas como el mar. / Fila 2: puentes como arcos. / Fila 3: círculos como globos.",
+    "worked": "Las ondas, los puentes y los círculos aparecen después en las letras: el círculo en la o, el puente en la n y la onda en la s. Si los practicamos ahora, luego escribimos mejor. Cada fila empieza a la izquierda.",
+    "exercises": [
+     "Dibuja una fila de ondas.",
+     "Dibuja cinco globos.",
+     "Dibuja en el aire un puente grande con el dedo.",
+     "Enseña cómo coges el lápiz.",
+     "Haz bucles en toda la fila."
+    ],
+    "test": [
+     "¿Con cuántos dedos cogemos el lápiz?",
+     "¿Por qué lado empezamos a escribir?",
+     "¿Qué forma tiene un globo?",
+     "¿Cómo nos sentamos para escribir?",
+     "¿Qué haces si se te cansa la mano?"
+    ],
+    "steps": [
+     "Siéntate recto, con los pies apoyados en el suelo.",
+     "Coge el lápiz con el pulgar, el índice y el corazón, sin apretar mucho.",
+     "Empieza a la izquierda y avanza despacio hacia la derecha.",
+     "Cuidado: si la mano se cansa, sacúdela un momento y vuelve a empezar."
+    ],
+    "answers": [
+     "Con tres dedos.",
+     "Por la izquierda.",
+     "Un círculo.",
+     "Rectos, con los pies en el suelo.",
+     "La sacudo un momento y descanso."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-l04": {
+   "es": {
+    "title": "Las vocales: a, e, i, o, u",
+    "theory": "Las vocales son cinco: a, e, i, o, u. Las decimos con la boca abierta, sin que la lengua o los labios corten el aire. Todas las palabras tienen al menos una vocal. Algunas palabras son solo vocales: o, u, e, oía.",
+    "sample": "A E I O U / ojo, uva, isla, elefante, árbol",
+    "worked": "Ojo empieza por o, uva por u, isla por i, elefante por e y árbol por a. Las vocales son el corazón de las palabras: sin ellas no podemos leer. La a de árbol lleva tilde, pero sigue siendo la vocal a.",
+    "exercises": [
+     "Di las cinco vocales.",
+     "Escribe la A mayúscula y la a minúscula.",
+     "¿Por qué vocal empieza uva?",
+     "Busca una palabra que empiece por e.",
+     "Pon la boca redonda y di: o."
+    ],
+    "test": [
+     "¿Cuántas vocales hay?",
+     "¿Por qué vocal empieza ojo?",
+     "¿Todas las palabras tienen vocal?",
+     "¿Por qué vocal empieza isla?",
+     "Lee: ojo, uva, oía."
+    ],
+    "steps": [
+     "Las vocales son a, e, i, o, u: dilas en orden.",
+     "Mira tu boca en un espejo: con la o es redonda, con la i sonríe.",
+     "Para encontrar la vocal inicial, di la palabra despacio.",
+     "Cuidado: la e y la i se confunden; pronuncia bien y escucha."
+    ],
+    "answers": [
+     "Cinco.",
+     "o.",
+     "Sí.",
+     "i.",
+     "o-jo, u-va, o-í-a."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-l05": {
+   "es": {
+    "title": "La m y la p: mamá y papá",
+    "theory": "Las consonantes necesitan una vocal para sonar bien. M + a forma ma; p + a forma pa. Estas uniones se llaman sílabas. Con sílabas formamos palabras: ma-má, pa-pá, mi-mo, pu-ma.",
+    "sample": "ma me mi mo mu / pa pe pi po pu / Mi mamá me mima. / Papá pela la pera.",
+    "worked": "Leemos de izquierda a derecha: primero la consonante y después la vocal. Mamá y papá llevan tilde en la última a: la voz suena más fuerte al final. Cada oración empieza con mayúscula y termina con punto.",
+    "exercises": [
+     "Lee: ma, me, mi, mo, mu.",
+     "Lee: pa, pe, pi, po, pu.",
+     "Une: pu + ma.",
+     "Escribe la M mayúscula.",
+     "Busca una palabra con p."
+    ],
+    "test": [
+     "¿Qué forman una consonante y una vocal juntas?",
+     "¿Qué pela papá?",
+     "¿Cuántas sílabas tiene mamá?",
+     "Lee: mapa, pomo, Pepe.",
+     "Une: mi + mo."
+    ],
+    "steps": [
+     "Di el sonido de la consonante y enseguida la vocal: mmm-a = ma.",
+     "Une dos sílabas y lee la palabra: ma-pa.",
+     "Lee siempre de izquierda a derecha.",
+     "Cuidado: ma y am tienen las mismas letras, pero el orden cambia la sílaba."
+    ],
+    "answers": [
+     "Una sílaba.",
+     "La pera.",
+     "Dos: ma-má.",
+     "ma-pa, po-mo, Pe-pe.",
+     "mimo."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-l06": {
+   "es": {
+    "title": "La l y la s: sol y sala",
+    "theory": "La l suena con la lengua tocando arriba: lll. La s silba como una serpiente: sss. Nuevas palabras: sol, sala, lupa, sopa, mesa, Lola. Empezamos a leer oraciones cortas con las letras que conocemos.",
+    "sample": "Lola usa la lupa. / Papá sala la sopa. / El sol sale.",
+    "worked": "Lola es un nombre: empieza con mayúscula. Sala aquí significa echar sal a la sopa. El sol sale por la mañana. Leemos cada oración despacio y después de corrido.",
+    "exercises": [
+     "Lee: la, le, li, lo, lu.",
+     "Lee: sa, se, si, so, su.",
+     "Lee: sol, sopa, mesa.",
+     "Escribe la palabra lupa.",
+     "Busca una palabra con s."
+    ],
+    "test": [
+     "¿Qué usa Lola?",
+     "¿Qué sala papá?",
+     "¿Qué hace el sol?",
+     "Lee: pelo, suma, Elsa.",
+     "¿Por qué Lola lleva mayúscula?"
+    ],
+    "steps": [
+     "Para la l, apoya la lengua detrás de los dientes de arriba.",
+     "Para la s, deja salir el aire entre los dientes, como una serpiente.",
+     "Lee la oración despacio y luego más rápido.",
+     "Cuidado: los nombres de personas siempre empiezan con mayúscula."
+    ],
+    "answers": [
+     "La lupa.",
+     "La sopa.",
+     "Sale.",
+     "pe-lo, su-ma, El-sa.",
+     "Porque es el nombre de una persona."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-l07": {
+   "es": {
+    "title": "La t y la n: tomate y nube",
+    "theory": "La t suena corta, con la lengua en los dientes. La n suena por la nariz. Palabras: tomate, tela, nube, nido, Nati, Toni. Leemos oraciones cada vez más largas.",
+    "sample": "Toni come un tomate. / En el nido hay tres patitos. / Nati mira la nube.",
+    "worked": "Toni y Nati son nombres. Tomate tiene tres sílabas: to-ma-te. En el nido hay tres patitos: tres es un número. Nube empieza por n, como nido.",
+    "exercises": [
+     "Lee: ta, te, ti, to, tu.",
+     "Lee: na, ne, ni, no, nu.",
+     "Separa en sílabas: tomate.",
+     "Escribe la N mayúscula.",
+     "Busca una palabra con t."
+    ],
+    "test": [
+     "¿Qué come Toni?",
+     "¿Qué hay en el nido?",
+     "¿Qué mira Nati?",
+     "Lee: nota, tina, mano.",
+     "¿Cuántas sílabas tiene tomate?"
+    ],
+    "steps": [
+     "Lee las sílabas nuevas: ta, te, ti, to, tu y na, ne, ni, no, nu.",
+     "Une las sílabas en palabras: to-ma-te.",
+     "Después de leer, pregúntate: ¿quién? ¿qué hace?",
+     "Cuidado: n y m se parecen; la m tiene dos montañas y la n una."
+    ],
+    "answers": [
+     "Un tomate.",
+     "Tres patitos.",
+     "La nube.",
+     "no-ta, ti-na, ma-no.",
+     "Tres."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-l08": {
+   "es": {
+    "title": "La d y la f: dedo y foca",
+    "theory": "La d suena suave, con la lengua en los dientes. La f suena soplando, con los dientes de arriba sobre el labio de abajo. Palabras: dedo, dado, día, foca, fuente, falda.",
+    "sample": "La foca nada en el agua. / Dani tira el dado. / Fina tiene una falda nueva.",
+    "worked": "Foca, Fina y falda empiezan por f. Dani, dado y día empiezan por d. Dani y Fina son nombres: llevan mayúscula. Cada oración cuenta una cosa distinta.",
+    "exercises": [
+     "Lee: da, de, di, do, du.",
+     "Lee: fa, fe, fi, fo, fu.",
+     "Escribe la palabra foca.",
+     "Busca una palabra con d.",
+     "Separa en sílabas: falda."
+    ],
+    "test": [
+     "¿Dónde nada la foca?",
+     "¿Qué tira Dani?",
+     "¿Qué tiene Fina?",
+     "Lee: dedo, fila, nido.",
+     "¿Por qué letra empieza foca?"
+    ],
+    "steps": [
+     "Para la d, toca con la lengua los dientes de arriba, suave.",
+     "Para la f, pon los dientes sobre el labio y sopla.",
+     "Di la palabra en voz alta antes de escribirla.",
+     "Cuidado: la d y la b se confunden; la d tiene la barriga a la izquierda."
+    ],
+    "answers": [
+     "En el agua.",
+     "El dado.",
+     "Una falda nueva.",
+     "de-do, fi-la, ni-do.",
+     "f."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-l09": {
+   "es": {
+    "title": "La r: ratón y pera",
+    "theory": "La r tiene dos sonidos. Suena fuerte al principio de la palabra (ratón, rosa) y después de n, l o s (Enrique, alrededor). Suena suave entre vocales (pera, cara, loro). Escuchamos la diferencia.",
+    "sample": "El ratón come queso. / Rosa tiene una pera. / El loro es de colores.",
+    "worked": "Ratón y Rosa empiezan con r fuerte. Pera, loro y colores tienen r suave entre vocales. Escribimos una sola r en todos estos casos; el sonido cambia según su lugar.",
+    "exercises": [
+     "Di fuerte: rrratón.",
+     "Di suave: pera, loro.",
+     "Lee: rosa, rana, río.",
+     "Escribe la palabra pera.",
+     "¿La r de cara es fuerte o suave?"
+    ],
+    "test": [
+     "¿Qué come el ratón?",
+     "¿Qué tiene Rosa?",
+     "¿Cómo es el loro?",
+     "¿La r de ratón suena fuerte o suave?",
+     "Lee: rama, toro, risa."
+    ],
+    "steps": [
+     "Mira dónde está la r.",
+     "Al principio de la palabra suena fuerte: ratón.",
+     "Entre dos vocales suena suave: pera.",
+     "Cuidado: para el sonido fuerte entre vocales necesitarás rr, como en perro; lo veremos más adelante."
+    ],
+    "answers": [
+     "Queso.",
+     "Una pera.",
+     "De colores.",
+     "Fuerte.",
+     "ra-ma, to-ro, ri-sa."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-l10": {
+   "es": {
+    "title": "La c y la q: casa y queso",
+    "theory": "Con a, o, u la c suena fuerte: ca, co, cu. Para el mismo sonido con e, i escribimos qu: que, qui. La u de que y qui no se pronuncia. Palabras: casa, cometa, cuna, queso, máquina.",
+    "sample": "En casa hay queso. / Coco vuela una cometa. / La cuna es pequeña.",
+    "worked": "Casa, Coco, cometa y cuna tienen c fuerte. Queso y pequeña tienen qu. En que y qui la u está, pero no suena: decimos keso, no ku-eso.",
+    "exercises": [
+     "Lee: ca, co, cu.",
+     "Lee: que, qui.",
+     "Lee: casa, queso, máquina.",
+     "Escribe la palabra cuna.",
+     "Busca una palabra con qui."
+    ],
+    "test": [
+     "¿Qué hay en casa?",
+     "¿Qué vuela Coco?",
+     "¿Cómo es la cuna?",
+     "¿Suena la u en queso?",
+     "Lee: poquito, cuchara, quince."
+    ],
+    "steps": [
+     "Mira la vocal que va después.",
+     "Con a, o, u escribe c: ca, co, cu.",
+     "Con e, i escribe qu: que, qui.",
+     "Cuidado: no escribas keso ni ceso; la palabra correcta es queso."
+    ],
+    "answers": [
+     "Queso.",
+     "Una cometa.",
+     "Pequeña.",
+     "No.",
+     "po-qui-to, cu-cha-ra, quin-ce."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-l11": {
+   "es": {
+    "title": "La b y la v: barco y vaca",
+    "theory": "La b y la v suenan igual en español. Por eso tenemos que fijarnos en cómo se escribe cada palabra. Palabras con b: barco, bota, bebé. Palabras con v: vaca, vaso, uva. Las aprendemos de memoria y las buscamos en el diccionario.",
+    "sample": "La vaca bebe agua. / El barco va por el mar. / Beatriz tiene un vaso de zumo de uva.",
+    "worked": "Vaca, va, vaso y uva se escriben con v. Bebe, barco y Beatriz se escriben con b. Suenan igual, así que recordamos cada palabra. Delante de r y l siempre va b: brazo, blanco.",
+    "exercises": [
+     "Lee: barco, bota, bebé.",
+     "Lee: vaca, vaso, uva.",
+     "Escribe la palabra barco.",
+     "Completa: la _aca (b o v).",
+     "Busca una palabra con bl o br."
+    ],
+    "test": [
+     "¿Qué bebe la vaca?",
+     "¿Por dónde va el barco?",
+     "¿De qué es el zumo de Beatriz?",
+     "¿Suenan distinto la b y la v?",
+     "¿Qué letra va siempre delante de r: b o v?"
+    ],
+    "steps": [
+     "La b y la v suenan igual: escucharlas no basta.",
+     "Fíjate en cómo está escrita la palabra y memorízala.",
+     "Recuerda la regla: antes de r y l siempre b (brazo, blanco).",
+     "Cuidado: si dudas, busca la palabra en el diccionario."
+    ],
+    "answers": [
+     "Agua.",
+     "Por el mar.",
+     "De uva.",
+     "No, suenan igual.",
+     "b."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-l12": {
+   "es": {
+    "title": "La g suave: gato y guitarra",
+    "theory": "Con a, o, u la g suena suave: ga, go, gu. Para el mismo sonido con e, i escribimos gu: gue, gui. La u no suena. Palabras: gato, goma, gusano, guerra, guitarra, Miguel.",
+    "sample": "El gato duerme. / Miguel toca la guitarra. / El gusano come una hoja.",
+    "worked": "Gato y gusano tienen g suave. Miguel y guitarra tienen gu antes de e, i: la u no se pronuncia. Decimos gui-ta-rra, sin decir la u.",
+    "exercises": [
+     "Lee: ga, go, gu.",
+     "Lee: gue, gui.",
+     "Lee: gato, guitarra, Miguel.",
+     "Escribe la palabra goma.",
+     "Busca una palabra con gue."
+    ],
+    "test": [
+     "¿Qué hace el gato?",
+     "¿Qué toca Miguel?",
+     "¿Qué come el gusano?",
+     "¿Suena la u en guitarra?",
+     "Lee: lago, juguete, águila."
+    ],
+    "steps": [
+     "Mira la vocal que va después de la g.",
+     "Con a, o, u escribe g: ga, go, gu.",
+     "Con e, i escribe gu para el sonido suave: gue, gui.",
+     "Cuidado: sin la u, gitarra se leería con otro sonido; escribe guitarra."
+    ],
+    "answers": [
+     "Duerme.",
+     "La guitarra.",
+     "Una hoja.",
+     "No.",
+     "la-go, ju-gue-te, á-gui-la."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-l13": {
+   "es": {
+    "title": "La j y la g fuerte: jirafa y gente",
+    "theory": "La j suena fuerte con todas las vocales: ja, je, ji, jo, ju. La g también suena así delante de e, i: ge, gi. Palabras: jirafa, jamón, ojo, gente, gigante, girasol.",
+    "sample": "La jirafa tiene el cuello largo. / El gigante come jamón. / Mucha gente mira el girasol.",
+    "worked": "Jirafa y jamón se escriben con j. Gigante, gente y girasol se escriben con g, porque ge y gi suenan como je y ji. Igual que con la b y la v, aprendemos cada palabra.",
+    "exercises": [
+     "Lee: ja, je, ji, jo, ju.",
+     "Lee: ge, gi.",
+     "Lee: jirafa, gente, girasol.",
+     "Escribe la palabra ojo.",
+     "Busca una palabra con ge."
+    ],
+    "test": [
+     "¿Cómo es el cuello de la jirafa?",
+     "¿Qué come el gigante?",
+     "¿Qué mira la gente?",
+     "¿Cómo suena la g en gente?",
+     "Lee: jugo, gimnasia, hoja."
+    ],
+    "steps": [
+     "Con a, o, u el sonido fuerte se escribe siempre con j: jamón.",
+     "Con e, i puede ser j o g: jirafa, gigante.",
+     "Recuerda las palabras más usadas y consulta el diccionario.",
+     "Cuidado: gente y gigante llevan g; jirafa y jefe llevan j."
+    ],
+    "answers": [
+     "Largo.",
+     "Jamón.",
+     "El girasol.",
+     "Fuerte, como la j.",
+     "ju-go, gim-na-sia, ho-ja."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-l14": {
+   "es": {
+    "title": "La ll y la y: llave y yoyó",
+    "theory": "La ll es una letra formada por dos l. En casi toda España suena igual que la y delante de vocal. Palabras con ll: llave, lluvia, pollito. Con y: yoyó, payaso, playa. La palabra y sola significa unir: pan y leche.",
+    "sample": "El pollito sale con la lluvia. / El payaso tiene una llave. / Yolanda juega con el yoyó en la playa.",
+    "worked": "Pollito, lluvia y llave se escriben con ll. Payaso, Yolanda, yoyó y playa se escriben con y. Suenan muy parecido, por eso las aprendemos de memoria.",
+    "exercises": [
+     "Lee: lla, lle, lli, llo, llu.",
+     "Lee: ya, ye, yi, yo, yu.",
+     "Lee: llave, payaso, playa.",
+     "Escribe la palabra lluvia.",
+     "Escribe una frase con la palabra y."
+    ],
+    "test": [
+     "¿Con qué sale el pollito?",
+     "¿Qué tiene el payaso?",
+     "¿Dónde juega Yolanda?",
+     "¿Cuántas letras l tiene la ll?",
+     "Lee: calle, rayo, gallina."
+    ],
+    "steps": [
+     "La ll se escribe con dos l, pero es un solo sonido.",
+     "La y delante de vocal suena casi igual que la ll.",
+     "Aprende las palabras: llave, lluvia con ll; playa, payaso con y.",
+     "Cuidado: cuando dudes entre ll e y, consulta el diccionario."
+    ],
+    "answers": [
+     "Con la lluvia.",
+     "Una llave.",
+     "En la playa.",
+     "Dos.",
+     "ca-lle, ra-yo, ga-lli-na."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-l15": {
+   "es": {
+    "title": "La ñ y la ch: niño y chocolate",
+    "theory": "La ñ es una letra propia del español: lleva una rayita ondulada encima. La ch se escribe con dos letras, c y h, pero es un solo sonido. Palabras: niño, araña, España, chocolate, coche, leche.",
+    "sample": "El niño bebe leche con chocolate. / Una araña sube por el coche. / Vivo en España.",
+    "worked": "Niño, araña y España tienen ñ. Leche, chocolate y coche tienen ch. España es el nombre de un país: va con mayúscula.",
+    "exercises": [
+     "Lee: ña, ñe, ñi, ño, ñu.",
+     "Lee: cha, che, chi, cho, chu.",
+     "Lee: niño, araña, coche.",
+     "Escribe la palabra España.",
+     "Busca otra palabra con ch."
+    ],
+    "test": [
+     "¿Qué bebe el niño?",
+     "¿Por dónde sube la araña?",
+     "¿Cómo se llama el país del ejemplo?",
+     "¿Cuántas letras tiene la ch?",
+     "Lee: muñeca, noche, piña."
+    ],
+    "steps": [
+     "La ñ es una n con una rayita ondulada encima: no la olvides.",
+     "La ch son dos letras que se leen juntas.",
+     "Lee despacio las sílabas: ni-ño, co-che.",
+     "Cuidado: sin la rayita, caña se convierte en cana, que es otra palabra."
+    ],
+    "answers": [
+     "Leche con chocolate.",
+     "Por el coche.",
+     "España.",
+     "Dos.",
+     "mu-ñe-ca, no-che, pi-ña."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-l16": {
+   "es": {
+    "title": "La h: una letra muda",
+    "theory": "La h no suena: es muda. Pero hay que escribirla, porque si no, la palabra está mal escrita. Palabras con h: hola, helado, huevo, hoja, búho, zanahoria. Las aprendemos de memoria.",
+    "sample": "¡Hola, Hugo! / Hugo come un helado. / El búho duerme de día.",
+    "worked": "Hola, Hugo, helado y búho se escriben con h, aunque no la oímos. Hugo es un nombre: mayúscula. Si escribimos ola sin h, es la ola del mar; hola con h es un saludo.",
+    "exercises": [
+     "Lee: hola, helado, huevo.",
+     "Escribe la palabra hoja.",
+     "Busca la h en la palabra zanahoria.",
+     "Escribe un saludo con hola.",
+     "Busca otra palabra con h."
+    ],
+    "test": [
+     "¿Suena la h?",
+     "¿Qué come Hugo?",
+     "¿Cuándo duerme el búho?",
+     "¿Qué diferencia hay entre ola y hola?",
+     "Lee: hielo, ahora, hermano."
+    ],
+    "steps": [
+     "La h no se oye: no puedes saber por el sonido si la lleva.",
+     "Aprende las palabras más usadas: hola, hoy, hay, hacer.",
+     "Haz un diccionario de clase con palabras con h.",
+     "Cuidado: ola (del mar) y hola (saludo) son palabras distintas."
+    ],
+    "answers": [
+     "No, es muda.",
+     "Un helado.",
+     "De día.",
+     "Ola es la del mar; hola es un saludo.",
+     "hie-lo, a-ho-ra, her-ma-no."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-l17": {
+   "es": {
+    "title": "La z y la c suave: zapato y cine",
+    "theory": "Con a, o, u escribimos z: za, zo, zu. Con e, i escribimos c: ce, ci. Suenan igual. Palabras: zapato, zorro, zumo, cebra, cine, cielo. En gran parte de España suenan con la lengua entre los dientes; en otros lugares suenan como s.",
+    "sample": "El zorro tiene zapatos rojos. / Vamos al cine. / La cebra bebe zumo.",
+    "worked": "Zorro, zapatos y zumo se escriben con z porque van con a, o, u. Cine y cebra se escriben con c porque van con e, i. Así podemos escribir bien sin dudar.",
+    "exercises": [
+     "Lee: za, zo, zu.",
+     "Lee: ce, ci.",
+     "Lee: zapato, cine, cebra.",
+     "Escribe la palabra zumo.",
+     "Completa: _ielo (z o c)."
+    ],
+    "test": [
+     "¿Cómo son los zapatos del zorro?",
+     "¿Adónde vamos?",
+     "¿Qué bebe la cebra?",
+     "¿Qué letra va con e, i: z o c?",
+     "Lee: taza, cereza, cocina."
+    ],
+    "steps": [
+     "Mira la vocal que viene después.",
+     "Con a, o, u escribe z: zapato.",
+     "Con e, i escribe c: cine.",
+     "Cuidado: no escribas zine; la palabra correcta es cine."
+    ],
+    "answers": [
+     "Rojos.",
+     "Al cine.",
+     "Zumo.",
+     "c.",
+     "ta-za, ce-re-za, co-ci-na."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-l18": {
+   "es": {
+    "title": "La rr: perro y pero",
+    "theory": "Para el sonido fuerte de la r entre dos vocales escribimos rr: perro, carro, torre. Con una sola r entre vocales suena suave: pero, caro. Cambiar una r por rr cambia la palabra.",
+    "sample": "El perro corre por la tierra. / Pero el gato no quiere jugar. / El carro es caro.",
+    "worked": "Perro, corre, tierra y carro tienen rr: suena fuerte entre vocales. Pero y caro tienen r: suena suave. Perro es un animal; pero es una palabra que une ideas.",
+    "exercises": [
+     "Di fuerte: perro.",
+     "Di suave: pero.",
+     "Lee: torre, carro, gorra.",
+     "Completa: el pe_o ladra (r o rr).",
+     "Separa en sílabas: perro."
+    ],
+    "test": [
+     "¿Por dónde corre el perro?",
+     "¿Qué no quiere hacer el gato?",
+     "¿Perro y pero significan lo mismo?",
+     "Separa en sílabas: carro.",
+     "Lee: burro, pera, zorro."
+    ],
+    "steps": [
+     "Escucha: ¿la r entre vocales suena fuerte o suave?",
+     "Si suena fuerte, escribe rr; si suena suave, r.",
+     "Al separar en sílabas, la rr no se separa: pe-rro.",
+     "Cuidado: al principio de palabra la r ya suena fuerte, con una sola: rosa, no rrosa."
+    ],
+    "answers": [
+     "Por la tierra.",
+     "Jugar.",
+     "No.",
+     "ca-rro.",
+     "bu-rro, pe-ra, zo-rro."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-l19": {
+   "es": {
+    "title": "La x, la k, la w y el abecedario",
+    "theory": "Algunas letras se usan poco. La x suena ks: taxi, examen. La k aparece en palabras como kilo o koala. La w aparece en palabras de otras lenguas: wifi, kiwi. Ahora conocemos todo el abecedario: 27 letras.",
+    "sample": "El koala come un kiwi en el taxi. / A B C D E F G H I J K L M N Ñ O P Q R S T U V W X Y Z",
+    "worked": "Koala y kiwi tienen k; kiwi tiene también w. Taxi tiene x. El abecedario español tiene 27 letras, con la ñ entre la n y la o. El orden alfabético sirve para buscar palabras en el diccionario.",
+    "exercises": [
+     "Di el abecedario.",
+     "Lee: taxi, koala, kiwi.",
+     "¿Qué letra va después de la n?",
+     "Ordena alfabéticamente: oso, casa, luna.",
+     "Busca tu nombre en la lista de clase."
+    ],
+    "test": [
+     "¿Cuántas letras tiene el abecedario español?",
+     "¿Cómo suena la x en taxi?",
+     "¿Qué letra va antes de la b?",
+     "¿Qué come el koala?",
+     "¿Para qué sirve el orden alfabético?"
+    ],
+    "steps": [
+     "Di el abecedario por partes: a b c d e – f g h i j.",
+     "Para ordenar palabras, mira la primera letra.",
+     "Si la primera es igual, mira la segunda.",
+     "Cuidado: la ñ va entre la n y la o; no la olvides."
+    ],
+    "answers": [
+     "27.",
+     "Como ks.",
+     "a.",
+     "Un kiwi.",
+     "Para buscar palabras en el diccionario y ordenar listas."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-l20": {
+   "es": {
+    "title": "Sílabas trabadas: plato, brazo, tren",
+    "theory": "A veces dos consonantes van juntas en la misma sílaba: pl, bl, cl, fl, gl, pr, br, tr, dr, cr, gr, fr. Son sílabas trabadas. Las leemos de un golpe: pla-to, bra-zo, tren, flor.",
+    "sample": "El tren pasa por el puente. / En el plato hay una fresa. / La flor es blanca.",
+    "worked": "Tren, plato, fresa, flor y blanca tienen sílabas trabadas. En tren las letras t y r van juntas; en plato, p y l. Leemos las dos consonantes seguidas, sin poner una vocal entre ellas.",
+    "exercises": [
+     "Lee: pla, ble, cli, flo, glu.",
+     "Lee: pra, bre, tri, dro, cru.",
+     "Lee: tren, plato, flor.",
+     "Escribe la palabra brazo.",
+     "Busca otra palabra con tr."
+    ],
+    "test": [
+     "¿Por dónde pasa el tren?",
+     "¿Qué hay en el plato?",
+     "¿De qué color es la flor?",
+     "Separa en sílabas: plato.",
+     "Lee: globo, fruta, cristal."
+    ],
+    "steps": [
+     "Busca las dos consonantes juntas: tr, pl, fl.",
+     "Léelas juntas, de un golpe, con la vocal que sigue: tre, pla.",
+     "Después lee la palabra entera.",
+     "Cuidado: no añadas una vocal en medio; es plato, no palato."
+    ],
+    "answers": [
+     "Por el puente.",
+     "Una fresa.",
+     "Blanca.",
+     "pla-to.",
+     "glo-bo, fru-ta, cris-tal."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-l21": {
+   "es": {
+    "title": "Güe y güi: pingüino y cigüeña",
+    "theory": "En gue y gui la u no suena. Si queremos que suene, le ponemos dos puntitos encima: la diéresis. Así escribimos güe y güi: pingüino, cigüeña, paragüero.",
+    "sample": "El pingüino vive en el hielo. / La cigüeña hace su nido en la torre. / Guillermo deja el paraguas en el paragüero.",
+    "worked": "En pingüino, cigüeña y paragüero la u suena, por eso lleva diéresis. En Guillermo la u no suena y no lleva diéresis. Los dos puntitos cambian la lectura.",
+    "exercises": [
+     "Lee: pingüino, cigüeña, paragüero.",
+     "Lee: guerra, guitarra, Guillermo.",
+     "Escribe la palabra pingüino.",
+     "¿Suena la u en guitarra?",
+     "Busca en el ejemplo una palabra con güe."
+    ],
+    "test": [
+     "¿Dónde vive el pingüino?",
+     "¿Dónde hace el nido la cigüeña?",
+     "¿Qué indican los dos puntitos sobre la u?",
+     "¿Lleva diéresis Guillermo?",
+     "Lee: agüita, juguete, lengüeta."
+    ],
+    "steps": [
+     "En gue y gui la u normalmente no suena.",
+     "Si al decir la palabra oyes la u, ponle dos puntitos: güe, güi.",
+     "Escucha: pin-güi-no (suena), gui-ta-rra (no suena).",
+     "Cuidado: sin diéresis leerías pinguino sin la u; escribe pingüino."
+    ],
+    "answers": [
+     "En el hielo.",
+     "En la torre.",
+     "Que la u se pronuncia.",
+     "No.",
+     "a-güi-ta, ju-gue-te, len-güe-ta."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-l22": {
+   "es": {
+    "title": "Las mayúsculas",
+    "theory": "Escribimos con mayúscula la primera letra de una oración, después de un punto, y los nombres propios: nombres de personas, de animales con nombre, de ciudades, ríos y países. Los nombres comunes van con minúscula.",
+    "sample": "Ana y su perro Toby viven en Sevilla, cerca del río Guadalquivir.",
+    "worked": "Ana, Toby, Sevilla y Guadalquivir son nombres propios: llevan mayúscula. Perro, río y cerca no son nombres propios y van con minúscula. La oración empieza con mayúscula.",
+    "exercises": [
+     "Busca los nombres propios del ejemplo.",
+     "Escribe el nombre de tu ciudad.",
+     "Escribe el nombre de una amiga o un amigo.",
+     "Corrige: madrid es una ciudad.",
+     "¿Perro va con mayúscula?"
+    ],
+    "test": [
+     "¿Cómo se llama el perro de Ana?",
+     "¿Dónde viven?",
+     "¿Qué río está cerca?",
+     "Escribe bien: luis vive en valencia",
+     "¿Cuándo se usa mayúscula?"
+    ],
+    "steps": [
+     "Pregúntate: ¿es el nombre de alguien o de un lugar concreto?",
+     "Si lo es, escribe mayúscula.",
+     "Escribe también mayúscula al empezar una oración y después de un punto.",
+     "Cuidado: los días de la semana y los meses van con minúscula: lunes, enero."
+    ],
+    "answers": [
+     "Toby.",
+     "En Sevilla.",
+     "El Guadalquivir.",
+     "Luis vive en Valencia.",
+     "Al empezar una oración, después de punto y en los nombres propios."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-l23": {
+   "es": {
+    "title": "Mp y mb: campo y hombre",
+    "theory": "Antes de p y b se escribe siempre m, nunca n: campo, bombero, hombre, siempre. Antes de las demás consonantes se escribe n: canto, mundo, invierno.",
+    "sample": "El bombero trabaja en el campo. / Siempre llevo mi sombrero en invierno.",
+    "worked": "Bombero, campo, siempre y sombrero tienen m antes de b o p. Invierno tiene n antes de v. Es una regla que no falla: delante de p y b, m.",
+    "exercises": [
+     "Completa: ca_po (m o n).",
+     "Completa: bo_bero (m o n).",
+     "Lee: tambor, lámpara, hombre.",
+     "Escribe la palabra siempre.",
+     "Busca en el ejemplo una palabra con nv."
+    ],
+    "test": [
+     "¿Dónde trabaja el bombero?",
+     "¿Qué llevo siempre en invierno?",
+     "¿Qué se escribe antes de p y b?",
+     "Completa: so_brero.",
+     "Lee: trompeta, cambio, tiempo."
+    ],
+    "steps": [
+     "Mira la letra que viene después.",
+     "Si es p o b, escribe m: campo, bombero.",
+     "Si es otra consonante, escribe n: canto, invierno.",
+     "Cuidado: no escribas canpo; la palabra correcta es campo."
+    ],
+    "answers": [
+     "En el campo.",
+     "Mi sombrero.",
+     "m.",
+     "sombrero.",
+     "trom-pe-ta, cam-bio, tiem-po."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-l24": {
+   "es": {
+    "title": "El poema: versos y rima",
+    "theory": "Un poema está formado por versos, que son las líneas. A menudo las palabras del final de los versos riman. Leemos los poemas despacio, con una pausa al final de cada verso, y los recitamos de memoria.",
+    "sample": "Poema original: / Por la ventana entra el sol, / ya se ha abierto la flor. / Canta el grillo en el jardín, / baila contento el colorín.",
+    "worked": "El poema tiene cuatro versos. Jardín rima con colorín. Sol y flor riman un poco, porque terminan en -ol y -or. Para recitar, leemos despacio y con alegría.",
+    "exercises": [
+     "Lee el poema en voz alta.",
+     "Busca la rima de jardín.",
+     "Aprende los dos primeros versos.",
+     "Dibuja el jardín del poema.",
+     "Busca una rima para luna."
+    ],
+    "test": [
+     "¿Cuántos versos tiene el poema?",
+     "¿Qué entra por la ventana?",
+     "¿Qué es un verso?",
+     "¿Dónde canta el grillo?",
+     "Busca una rima para mar."
+    ],
+    "steps": [
+     "Lee el poema línea a línea.",
+     "Fíjate en la última palabra de cada verso y busca las que suenan igual.",
+     "Para memorizarlo, repite dos versos cada vez.",
+     "Cuidado: recita despacio y con pausas; no es una carrera."
+    ],
+    "answers": [
+     "Cuatro.",
+     "El sol.",
+     "Una línea del poema.",
+     "En el jardín.",
+     "Tu respuesta. Por ejemplo: cantar, saltar."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-l25": {
+   "es": {
+    "title": "El cuento: Los tres cerditos",
+    "theory": "Un cuento tiene un inicio, un nudo con un problema y un desenlace. Los tres cerditos es un cuento popular. Lo contamos con nuestras palabras siguiendo el orden: primero, después, al final.",
+    "sample": "Contado con nuestras palabras: Tres cerditos construyen sus casas: uno de paja, otro de madera y otro de ladrillo. El lobo sopla y derriba las dos primeras. Los cerditos corren a la casa de ladrillo. El lobo no puede derribarla y se marcha.",
+    "worked": "Los personajes son los tres cerditos y el lobo. El problema es el lobo que derriba las casas. El final es feliz: la casa fuerte los protege. El cuento enseña que el trabajo bien hecho vale la pena.",
+    "exercises": [
+     "Nombra los personajes del cuento.",
+     "Cuenta el inicio.",
+     "Dibuja la casa de ladrillo.",
+     "¿Qué hace el lobo?",
+     "Cuenta el final."
+    ],
+    "test": [
+     "¿De qué son las tres casas?",
+     "¿Qué casas derriba el lobo?",
+     "¿Por qué no puede derribar la última?",
+     "¿Qué enseña el cuento?",
+     "¿Qué partes tiene un cuento?"
+    ],
+    "steps": [
+     "Busca los personajes: ¿quién aparece?",
+     "Cuenta en orden: primero, después, al final.",
+     "Di qué enseña el cuento.",
+     "Cuidado: no cambies el orden de los hechos, o el cuento no se entiende."
+    ],
+    "answers": [
+     "De paja, de madera y de ladrillo.",
+     "La de paja y la de madera.",
+     "Porque es de ladrillo, muy fuerte.",
+     "Que el trabajo bien hecho vale la pena.",
+     "Inicio, nudo y desenlace."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-l26": {
+   "es": {
+    "title": "La fábula: La liebre y la tortuga",
+    "theory": "La fábula es un relato corto con animales que hablan y actúan como personas. Al final tiene una enseñanza llamada moraleja. Muchas fábulas antiguas son de Esopo.",
+    "sample": "Contado con nuestras palabras: Una liebre se burla de una tortuga por ser lenta. Hacen una carrera. La liebre corre mucho y se echa una siesta. La tortuga sigue despacio, sin parar, y llega primero a la meta.",
+    "worked": "La liebre es rápida pero presumida. La tortuga es lenta pero constante. Gana la tortuga porque no se rinde. La moraleja: con esfuerzo y constancia se llega lejos.",
+    "exercises": [
+     "Cuenta la fábula con tus palabras.",
+     "Dibuja a la tortuga llegando a la meta.",
+     "¿Cómo es la liebre?",
+     "Di la moraleja con tus palabras.",
+     "Inventa otro final."
+    ],
+    "test": [
+     "¿Quiénes son los personajes?",
+     "¿Por qué pierde la liebre?",
+     "¿Quién gana la carrera?",
+     "¿Qué es la moraleja?",
+     "¿Quién escribió muchas fábulas antiguas?"
+    ],
+    "steps": [
+     "Busca los personajes: la liebre y la tortuga.",
+     "Cuenta qué pasa en la carrera.",
+     "Busca la moraleja: ¿qué nos enseña?",
+     "Cuidado: en la fábula los animales hablan, pero representan cómo se comportan las personas."
+    ],
+    "answers": [
+     "Una liebre y una tortuga.",
+     "Porque se echa una siesta.",
+     "La tortuga.",
+     "La enseñanza de la fábula.",
+     "Esopo."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-l27": {
+   "es": {
+    "title": "Adivinanzas y trabalenguas",
+    "theory": "Una adivinanza describe algo sin decir su nombre. Escuchamos todas las pistas y buscamos la solución. Los trabalenguas son frases difíciles de decir deprisa: jugamos a decirlos sin equivocarnos.",
+    "sample": "Adivinanza original: Tengo agujas pero no coso, doy las horas y no me paro. (el reloj) / Trabalenguas popular: Tres tristes tigres tragaban trigo en un trigal.",
+    "worked": "Las pistas son las agujas y las horas: la solución es el reloj. El trabalenguas es difícil porque muchas palabras empiezan por tr. Lo decimos primero despacio y luego más deprisa.",
+    "exercises": [
+     "Resuelve: Tiene dientes y no come. (el peine)",
+     "Di el trabalenguas tres veces.",
+     "Inventa una adivinanza sobre el sol.",
+     "¿Cuántas palabras del trabalenguas empiezan por tr?",
+     "Dile una adivinanza a un compañero."
+    ],
+    "test": [
+     "¿Qué es una adivinanza?",
+     "¿Cuál es la solución de la adivinanza del ejemplo?",
+     "¿Por qué es difícil el trabalenguas?",
+     "Inventa una adivinanza sobre la luna.",
+     "¿Qué sonido se repite en el trabalenguas?"
+    ],
+    "steps": [
+     "Escucha todas las pistas.",
+     "Pregúntate: ¿qué cosa tiene todo esto?",
+     "Comprueba la solución con cada pista.",
+     "Cuidado: no contestes con la primera pista; escucha hasta el final."
+    ],
+    "answers": [
+     "Una descripción de algo sin decir su nombre.",
+     "El reloj.",
+     "Porque muchas palabras empiezan igual.",
+     "Tu respuesta. Por ejemplo: Salgo de noche, a veces redonda y a veces delgadita. (la luna)",
+     "tr."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-l28": {
+   "es": {
+    "title": "El texto descriptivo: describimos un animal",
+    "theory": "Describir es decir cómo es una persona, un animal o una cosa. Usamos palabras que indican forma, color, tamaño y costumbres. Respondemos a la pregunta: ¿cómo es?",
+    "sample": "Mi perro se llama Rufo. Es grande y marrón. Tiene las orejas largas y el pelo suave. Le gusta correr detrás de la pelota.",
+    "worked": "El texto dice cómo es Rufo: grande, marrón, de orejas largas y pelo suave. Después cuenta lo que le gusta hacer. Las palabras que describen responden a la pregunta ¿cómo es?",
+    "exercises": [
+     "Busca las palabras que describen a Rufo.",
+     "Describe una manzana con dos palabras.",
+     "Dibuja a Rufo según la descripción.",
+     "Describe tu mochila.",
+     "¿Qué le gusta hacer a Rufo?"
+    ],
+    "test": [
+     "¿Cómo se llama el perro?",
+     "¿De qué color es?",
+     "¿Cómo son sus orejas?",
+     "¿A qué pregunta responden las palabras que describen?",
+     "Describe un gato con dos palabras."
+    ],
+    "steps": [
+     "Observa bien lo que vas a describir.",
+     "Di el color, la forma y el tamaño.",
+     "Añade qué hace o para qué sirve.",
+     "Cuidado: una descripción debe ayudar a imaginar la cosa a quien no la ve."
+    ],
+    "answers": [
+     "Rufo.",
+     "Marrón.",
+     "Largas.",
+     "¿Cómo es?",
+     "Tu respuesta. Por ejemplo: pequeño y blanco."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-l29": {
+   "es": {
+    "title": "El texto instructivo: una receta",
+    "theory": "Las instrucciones explican cómo hacer algo paso a paso. Tienen un título, una lista de materiales o ingredientes y los pasos en orden. Antes de empezar, las leemos enteras.",
+    "sample": "Macedonia de frutas. / Ingredientes: un plátano, una manzana, unas fresas, zumo de naranja. / 1. Lava la fruta. / 2. Con ayuda de un adulto, corta la fruta en trozos. / 3. Ponla en un bol y añade el zumo.",
+    "worked": "El título dice qué vamos a hacer. Los ingredientes dicen qué necesitamos. Los números marcan el orden. Cortar la fruta lo hacemos con un adulto, por seguridad.",
+    "exercises": [
+     "Lee la receta en voz alta.",
+     "Di los ingredientes.",
+     "¿Qué haces después de lavar la fruta?",
+     "Escribe las instrucciones para lavarte los dientes.",
+     "Dibuja los tres pasos."
+    ],
+    "test": [
+     "¿Cuál es el título de la receta?",
+     "¿Cuántos pasos tiene?",
+     "¿Qué ingredientes lleva?",
+     "¿Con quién cortamos la fruta?",
+     "¿Por qué los pasos van numerados?"
+    ],
+    "steps": [
+     "Lee todas las instrucciones antes de empezar.",
+     "Prepara los ingredientes o materiales.",
+     "Sigue los pasos en el orden de los números.",
+     "Cuidado: si te saltas un paso, el resultado puede salir mal."
+    ],
+    "answers": [
+     "Macedonia de frutas.",
+     "Tres.",
+     "Un plátano, una manzana, unas fresas y zumo de naranja.",
+     "Con un adulto.",
+     "Para indicar el orden."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-l30": {
+   "es": {
+    "title": "La oración y los signos: ¿? y ¡!",
+    "theory": "La oración es un grupo de palabras con sentido completo. Empieza con mayúscula. Si cuenta algo, termina con punto. Si pregunta, va entre signos de interrogación: ¿…? Si expresa emoción, va entre signos de exclamación: ¡…! En español se ponen al principio y al final.",
+    "sample": "Hoy hace sol. ¿Vienes al parque conmigo? ¡Qué día tan bonito!",
+    "worked": "La primera oración cuenta: punto. La segunda pregunta: ¿ al principio y ? al final. La tercera expresa alegría: ¡ al principio y ! al final. Todas empiezan con mayúscula.",
+    "exercises": [
+     "Pon los signos: Cómo te llamas",
+     "Pon los signos: Qué bonito",
+     "Escribe una pregunta para tu maestra.",
+     "Escribe una oración con exclamación.",
+     "Cuenta las oraciones del ejemplo."
+    ],
+    "test": [
+     "¿Qué signos lleva una pregunta?",
+     "¿Con qué letra empieza una oración?",
+     "Escribe bien: hoy llueve",
+     "¿Qué oración del ejemplo expresa alegría?",
+     "¿Cuántas oraciones hay en el ejemplo?"
+    ],
+    "steps": [
+     "Pregúntate: ¿la oración cuenta, pregunta o expresa emoción?",
+     "Cuenta: punto. Pregunta: ¿…? Emoción: ¡…!",
+     "En español, el signo se pone al principio y al final.",
+     "Cuidado: no olvides el signo de apertura: ¿Vienes?, no Vienes?"
+    ],
+    "answers": [
+     "¿ al principio y ? al final.",
+     "Con mayúscula.",
+     "Hoy llueve.",
+     "¡Qué día tan bonito!",
+     "Tres."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-l31": {
+   "es": {
+    "title": "El nombre y el artículo: el gato, los gatos",
+    "theory": "Los nombres sirven para nombrar personas, animales y cosas. Delante suele ir un artículo: el, la, los, las, un, una. Los nombres pueden ser masculinos (el niño) o femeninos (la niña), y estar en singular (gato) o en plural (gatos).",
+    "sample": "El gato duerme. Los gatos duermen. La niña lee un libro. Las niñas leen unos libros.",
+    "worked": "Gato es singular, gatos es plural: añadimos s. Niña es femenino y va con la; niño es masculino y va con el. Para el plural usamos los y las.",
+    "exercises": [
+     "Pon el artículo: ___ mesa.",
+     "Escribe el plural de perro.",
+     "Escribe el femenino de niño.",
+     "Pon el artículo: ___ sol.",
+     "Escribe el plural de flor."
+    ],
+    "test": [
+     "¿Cuál es el plural de gato?",
+     "¿Qué artículo va con niña?",
+     "¿Gatos está en singular o en plural?",
+     "Escribe el plural de árbol.",
+     "¿Qué artículo va con libros?"
+    ],
+    "steps": [
+     "Pregúntate: ¿es uno o son varios? Uno: singular. Varios: plural.",
+     "Para el plural, añade s o es: gatos, flores.",
+     "Elige el artículo: el, la (uno); los, las (varios).",
+     "Cuidado: el artículo debe concordar: las flores, no los flores."
+    ],
+    "answers": [
+     "Gatos.",
+     "la.",
+     "En plural.",
+     "Árboles.",
+     "los."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-l32": {
+   "es": {
+    "title": "Escribimos oraciones sobre un dibujo",
+    "theory": "Miramos un dibujo y nos hacemos preguntas: ¿Quién aparece? ¿Qué hace? ¿Dónde está? ¿Cuándo pasa? Después escribimos dos o tres oraciones con mayúscula al principio y punto al final.",
+    "sample": "Dibujo: una niña hace un muñeco de nieve. / Oraciones: La niña hace un muñeco de nieve. Es invierno. El muñeco tiene una zanahoria por nariz.",
+    "worked": "Hemos escrito tres oraciones. La primera dice quién aparece y qué hace. La segunda dice cuándo. La tercera añade un detalle. Así el texto queda claro y completo.",
+    "exercises": [
+     "Mira por la ventana y escribe una oración.",
+     "Hazte las cuatro preguntas ante un dibujo.",
+     "Escribe dos oraciones sobre tu clase.",
+     "Haz un dibujo y escribe una oración debajo.",
+     "Lee tus oraciones a un compañero."
+    ],
+    "test": [
+     "¿Qué preguntas nos hacemos ante un dibujo?",
+     "¿Qué hace la niña?",
+     "¿Qué tiene el muñeco por nariz?",
+     "¿Con qué termina una oración que cuenta algo?",
+     "Escribe una oración sobre el invierno."
+    ],
+    "steps": [
+     "Mira el dibujo y pregúntate: ¿quién? ¿qué hace? ¿dónde? ¿cuándo?",
+     "Di la oración en voz alta antes de escribirla.",
+     "Repasa: mayúscula al principio, punto al final y espacios entre palabras.",
+     "Cuidado: escribe oraciones completas, no palabras sueltas."
+    ],
+    "answers": [
+     "¿Quién aparece? ¿Qué hace? ¿Dónde está? ¿Cuándo pasa?",
+     "Un muñeco de nieve.",
+     "Una zanahoria.",
+     "Con punto.",
+     "Tu respuesta. Por ejemplo: En invierno hace frío."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-l33": {
+   "es": {
+    "title": "La felicitación y la invitación",
+    "theory": "Una felicitación se escribe por un cumpleaños o una fiesta: tiene un saludo, el deseo y la firma. Una invitación dice a qué invitamos, cuándo y dónde. Así quien la recibe sabe todo lo necesario.",
+    "sample": "Querida abuela: / Te invito a mi fiesta de cumpleaños. / Cuándo: el sábado a las cinco de la tarde. / Dónde: en mi casa. / ¡Te espero! / Tu nieta, Carla",
+    "worked": "La invitación empieza con Querida abuela. Después dice la fiesta, el día, la hora y el lugar. Termina con una frase amable y la firma. Sin día ni hora, la abuela no sabría cuándo venir.",
+    "exercises": [
+     "Escribe un saludo para tu abuelo.",
+     "Escribe una invitación a una merienda.",
+     "Escribe una felicitación de cumpleaños.",
+     "¿Qué falta en una invitación sin lugar?",
+     "Firma tu invitación."
+    ],
+    "test": [
+     "¿Qué debe decir una invitación?",
+     "¿Cuándo es la fiesta de Carla?",
+     "¿Cómo empieza la invitación?",
+     "Escribe una felicitación corta para tu madre.",
+     "¿Qué hay al final de la invitación?"
+    ],
+    "steps": [
+     "Empieza con un saludo: Querido…, Querida…",
+     "Escribe a qué invitas, cuándo y dónde.",
+     "Termina con una frase amable y tu firma.",
+     "Cuidado: sin día, hora y lugar nadie sabe cuándo ir."
+    ],
+    "answers": [
+     "A qué invitamos, cuándo y dónde, con saludo y firma.",
+     "El sábado a las cinco de la tarde.",
+     "Querida abuela.",
+     "Tu respuesta. Por ejemplo: Querida mamá: ¡feliz cumpleaños!",
+     "La firma."
+    ]
+   }
+  },
+  "eu-year-es-beginner-p1-l34": {
+   "es": {
+    "title": "Repaso: lo que he aprendido en 1.º",
+    "theory": "Al final de 1.º leemos un texto corto y demostramos lo que sabemos: leer y comprender, separar en sílabas, escribir oraciones con mayúscula y punto, usar los signos ¿? ¡! y las reglas de ortografía que hemos aprendido.",
+    "sample": "Por la mañana, Javier prepara la mochila. Mete el cuaderno, el estuche y un bocadillo. Después va al colegio con su abuelo.",
+    "worked": "El texto tiene tres oraciones. Javier primero prepara la mochila y después va al colegio. Javier es un nombre propio. Mochila tiene ch, bocadillo tiene ll y colegio tiene gi.",
+    "exercises": [
+     "Lee el texto en voz alta.",
+     "Busca la palabra con ch.",
+     "Busca la palabra con ll.",
+     "Escribe una oración sobre tu mochila.",
+     "Cuenta lo que más te ha gustado aprender este curso."
+    ],
+    "test": [
+     "¿Qué hace Javier primero?",
+     "¿Cuántas oraciones tiene el texto?",
+     "Escribe bien: javier va al colegio",
+     "¿Con quién va Javier al colegio?",
+     "Separa en sílabas: cuaderno."
+    ],
+    "steps": [
+     "Lee primero despacio y después de corrido.",
+     "Pregúntate: ¿quién? ¿qué hace? ¿con quién?",
+     "Cuenta las oraciones fijándote en los puntos.",
+     "Cuidado: los nombres propios y el principio de la oración llevan mayúscula: Javier."
+    ],
+    "answers": [
+     "Prepara la mochila.",
+     "Tres.",
+     "Javier va al colegio.",
+     "Con su abuelo.",
+     "cua-der-no."
+    ]
+   }
+  }
+ }
+}

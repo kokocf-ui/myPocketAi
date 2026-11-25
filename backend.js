@@ -2196,7 +2196,7 @@ export default {
       const reqLang=typeof data.language==='string'?data.language.trim().toLowerCase().split(/[-_]/)[0]:'en';
       const targetLang=POCKET_LANGUAGE_NAMES[reqLang]?reqLang:'en';
       const targetName=POCKET_LANGUAGE_NAMES[targetLang];
-      const sysPrompt='You are a precise educational JSON localizer. Translate every human-readable string value (whatever its source language) accurately into natural, fluent '+targetName+' (language code: '+targetLang+'). Return ONLY a single-line valid JSON object with the exact same keys and exact same array lengths (escape any newlines as \\n). Preserve every Arabic numeral as digits, every mathematical formula, equation, chemical symbol, variable, code token, unit, negation, and quiz answer ordering. Never add markdown commentary outside the JSON object.';
+      const sysPrompt='You are a precise educational JSON localizer. Translate every human-readable string value (whatever its source language) accurately into natural, fluent '+targetName+' (language code: '+targetLang+'). Return ONLY a single-line valid JSON object with the exact same keys and exact same array lengths (escape any newlines as \\n). Preserve every __EDU_KEEP_...__ token exactly, in order and in place: each stands for original-language material. Preserve every Arabic numeral as digits, every mathematical formula, equation, chemical symbol, variable, code token, unit, negation, and quiz answer ordering. Never add markdown commentary outside the JSON object.';
       try{
         const dynMaxTokens=Math.min(2800,Math.max(512,Math.ceil(data.message.length*0.9)+256));
         const translateOpts={

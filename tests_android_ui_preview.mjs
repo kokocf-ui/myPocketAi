@@ -29,4 +29,13 @@ assert.match(flow,/if unzip -l "\$APK" \| grep -Fq 'assets\/tools-ui-preview\.ht
  'Production APK verification must reject old UI snapshots');
 
 
-console.log('PASS: signed main APK uses Cloudflare UI and refuses obsolete bundled previews');
+assert.match(java,/BuildConfig\.TOOLS_UI_PREVIEW && !request\.isForMainFrame\(\)/, 'Pack interception is preview-only');
+assert.match(java,/APP_HOST\.equalsIgnoreCase\(resource\.getHost\(\)\)/, 'Preview assets remain same-origin');
+assert.match(java,/mypocketai-commercial-curriculum-pack-v1:2026-11\|/, 'Preview uses the production pack naming salt');
+assert.match(java,/preview\/packs\/p-/, 'Preview uses bundled annual packs');
+assert.match(java,/404,"Not Found"/, 'Missing preview assets do not fall through to incompatible live content');
+assert.match(gradle,/applicationIdSuffix '\.preview'/, 'Debug preview is isolated from production');
+assert.match(gradle,/Signed branch preview requires explicit opt-in and release signing credentials/, 'Signed branch preview requires opt-in and permanent signing configuration');
+assert.match(gradle,/sourceSets\.release\.assets/, 'Explicit signed preview bundles generated snapshot');
+assert.match(gradle,/POCKET_ALLOW_SIGNED_BRANCH_PREVIEW/, 'Production release never opts into a bundled snapshot');
+console.log('PASS: production uses Cloudflare; explicitly signed branch preview bundles UI and Education assets');

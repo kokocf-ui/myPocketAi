@@ -1,0 +1,725 @@
+{
+ "schema": "mypocket-literature-authored-catalog/v1",
+ "version": "7b45a05d54ee6d35fda55b35ae5c3c7b91e06a3bbd84a19f2d671108a5a79877",
+ "years": [
+  {
+   "country": "AD",
+   "stage": "beginner",
+   "grade": "1",
+   "languages": [
+    {
+     "lang": "ca",
+     "name": "Català",
+     "file": "ca-1",
+     "version": "80ccd9faab84ba51e38db22a5aa842a7bde97645b541c2a330b69794fcc71c71"
+    }
+   ]
+  },
+  {
+   "country": "AL",
+   "stage": "beginner",
+   "grade": "1",
+   "languages": [
+    {
+     "lang": "sq",
+     "name": "Shqip",
+     "file": "sq-1",
+     "version": "c5df1d1f2786ee8f46a21a75067f333c6ccecd172916e911057753ff4af43d35"
+    }
+   ]
+  },
+  {
+   "country": "AT",
+   "stage": "beginner",
+   "grade": "1",
+   "languages": [
+    {
+     "lang": "de",
+     "name": "Deutsch",
+     "file": "de-1",
+     "version": "a7a6ce2559916a4fc7c535ea800acc32c0c1d6c03bb58896e1f541903d3ea3eb"
+    }
+   ]
+  },
+  {
+   "country": "BA",
+   "stage": "beginner",
+   "grade": "1",
+   "languages": [
+    {
+     "lang": "bs",
+     "name": "Bosanski",
+     "file": "bs-1",
+     "version": "bbdb9685d85a9c74df70be6c749f97d190a973a3d7f2d7e74be5f308efeca546"
+    },
+    {
+     "lang": "hr",
+     "name": "Hrvatski",
+     "file": "hr-1",
+     "version": "cd345caed6dd465b000e141d2607ecede434f18cc5f03f89f9676a40fe611308"
+    },
+    {
+     "lang": "sr",
+     "name": "Српски",
+     "file": "sr-1",
+     "version": "925551ed3f4048933b67402074719b527936cba296c95011ab91a4b81b45e577"
+    }
+   ]
+  },
+  {
+   "country": "BE",
+   "stage": "beginner",
+   "grade": "1",
+   "languages": [
+    {
+     "lang": "de",
+     "name": "Deutsch",
+     "file": "de-1",
+     "version": "d4a17ba4d490043d900d2f72ca00d8a797ff88a8a7878e2190968702c321d660"
+    },
+    {
+     "lang": "fr",
+     "name": "Français",
+     "file": "fr-1",
+     "version": "f059738dfd9b1611a36a95a32226a1daa798b8548f7ce2367654d41ae55c286e"
+    },
+    {
+     "lang": "nl",
+     "name": "Nederlands",
+     "file": "nl-1",
+     "version": "9d451652eb23a42c7980c04ba5494727c9b996bd1f343be9708aa1903b3a0185"
+    }
+   ]
+  },
+  {
+   "country": "BG",
+   "stage": "beginner",
+   "grade": "1",
+   "languages": [
+    {
+     "lang": "bg",
+     "name": "Български",
+     "file": "bg-1",
+     "version": "591ae5d92aed7e96e469436e05229a370ae3b4aa6db36e58ba6e0f6bb64feec6"
+    }
+   ]
+  },
+  {
+   "country": "BY",
+   "stage": "beginner",
+   "grade": "1",
+   "languages": [
+    {
+     "lang": "be",
+     "name": "Беларуская",
+     "file": "be-1",
+     "version": "0a103db176e6d70455442e2cfce438273dddf96b32fe4e89e8d5f75125c40288"
+    },
+    {
+     "lang": "ru",
+     "name": "Русский",
+     "file": "ru-1",
+     "version": "bdff5bf8bc2bd91ea561f47c5752f83e17b87c0e5c2258bcfe94e600e103db7d"
+    }
+   ]
+  },
+  {
+   "country": "CH",
+   "stage": "beginner",
+   "grade": "1",
+   "languages": [
+    {
+     "lang": "de",
+     "name": "Deutsch",
+     "file": "de-1",
+     "version": "2da5d94940cc61fc9436dda306cdc65ef239f3fe0ac80ca05f2adfdb3ea2592d"
+    },
+    {
+     "lang": "fr",
+     "name": "Français",
+     "file": "fr-1",
+     "version": "f06d7efb32b01088d79e4670c8b2b6d6792c97e572367a933e623f95d6a04685"
+    },
+    {
+     "lang": "it",
+     "name": "Italiano",
+     "file": "it-1",
+     "version": "0dcc597fd64b7409061926f7c5e5e9b69cb437f5c2b25883824c7a9f835929b7"
+    }
+   ]
+  },
+  {
+   "country": "CY",
+   "stage": "beginner",
+   "grade": "1",
+   "languages": [
+    {
+     "lang": "el",
+     "name": "Ελληνικά",
+     "file": "el-1",
+     "version": "287c8dacefea9c8f8586371978e7f39cf842e597384ad08fe8884259506fcb28"
+    }
+   ]
+  },
+  {
+   "country": "CZ",
+   "stage": "beginner",
+   "grade": "1",
+   "languages": [
+    {
+     "lang": "cs",
+     "name": "Čeština",
+     "file": "cs-1",
+     "version": "659f92d1c27df0db8620077466e859d591a88e6baead922570c8e2d9447fcdcd"
+    }
+   ]
+  },
+  {
+   "country": "DE",
+   "stage": "beginner",
+   "grade": "1",
+   "languages": [
+    {
+     "lang": "de",
+     "name": "Deutsch",
+     "file": "de-1",
+     "version": "4682a32175cf464c94e9cdbfb43d4378287fe1a2aa337f64706b5bb4390685c3"
+    }
+   ]
+  },
+  {
+   "country": "DK",
+   "stage": "beginner",
+   "grade": "1",
+   "languages": [
+    {
+     "lang": "da",
+     "name": "Dansk",
+     "file": "da-1",
+     "version": "33dbb4923dd9db4666eefc19356295fde1e1a4caafec3f47f106e7488feed96c"
+    }
+   ]
+  },
+  {
+   "country": "EE",
+   "stage": "beginner",
+   "grade": "1",
+   "languages": [
+    {
+     "lang": "et",
+     "name": "Eesti",
+     "file": "et-1",
+     "version": "5a0bc32edd7da51f36d4b4b9590122b73fef615fd78f8558f75d172df92692b9"
+    }
+   ]
+  },
+  {
+   "country": "ES",
+   "stage": "beginner",
+   "grade": "P1",
+   "languages": [
+    {
+     "lang": "ca",
+     "name": "Català",
+     "file": "ca-p1",
+     "version": "1d18c96442de18162d761371acdf063d75e42e6268df3e6c588d318412fc6bdd"
+    },
+    {
+     "lang": "es",
+     "name": "Español",
+     "file": "es-p1",
+     "version": "c016bd9c20e66c71a293e3fa62cb51787fbd34149bb036f15b52062743a12762"
+    },
+    {
+     "lang": "eu",
+     "name": "Euskara",
+     "file": "eu-p1",
+     "version": "b5e4e25675fec5a41f98b5aa1a6d527c2e49aa1abb8055557603f320cfcb1d50"
+    },
+    {
+     "lang": "gl",
+     "name": "Galego",
+     "file": "gl-p1",
+     "version": "37949517103c0e696297d79aa829215e03ead0766779592b3f70e07641473770"
+    }
+   ]
+  },
+  {
+   "country": "FI",
+   "stage": "beginner",
+   "grade": "1",
+   "languages": [
+    {
+     "lang": "fi",
+     "name": "Suomi",
+     "file": "fi-1",
+     "version": "14a1f33a0b9e67411c236611ff8eb916fc94196d9e1d782f73057bded903a4fe"
+    },
+    {
+     "lang": "sv",
+     "name": "Svenska",
+     "file": "sv-1",
+     "version": "95ad42763e319c3e254a41123b8de021b950e6efa695ecf3f2fce94c92652270"
+    }
+   ]
+  },
+  {
+   "country": "GB-ENG",
+   "stage": "beginner",
+   "grade": "Y1",
+   "languages": [
+    {
+     "lang": "en",
+     "name": "English",
+     "file": "en-y1",
+     "version": "038f72f64541d4ec2cdfe3279954a2427db27300a1196f27df9ab2c6bbe26b67"
+    }
+   ]
+  },
+  {
+   "country": "GB-NIR",
+   "stage": "beginner",
+   "grade": "Y1",
+   "languages": [
+    {
+     "lang": "en",
+     "name": "English",
+     "file": "en-y1",
+     "version": "63446fe0033f632fb91d3232343fa2b9e9ee7a98dd4d0a52daca2fada3867dd9"
+    }
+   ]
+  },
+  {
+   "country": "GB-SCT",
+   "stage": "beginner",
+   "grade": "P1",
+   "languages": [
+    {
+     "lang": "en",
+     "name": "English",
+     "file": "en-p1",
+     "version": "cd3a7da3d7c58b3caeaab3ff3565ec9b7895fd691d39771f7eda9f25cbb1a38a"
+    }
+   ]
+  },
+  {
+   "country": "GB-WLS",
+   "stage": "beginner",
+   "grade": "Y1",
+   "languages": [
+    {
+     "lang": "cy",
+     "name": "Cymraeg",
+     "file": "cy-y1",
+     "version": "b9d1c4f21c19f95ccc4d41ce36f707b2a4daaf8a62052add8ddeaf256e8b02d8"
+    },
+    {
+     "lang": "en",
+     "name": "English",
+     "file": "en-y1",
+     "version": "f9090e6b1e5729a5284aee04088c7e39fd83bc056cd162fe0b5ae90cdfc0daf0"
+    }
+   ]
+  },
+  {
+   "country": "GR",
+   "stage": "beginner",
+   "grade": "1",
+   "languages": [
+    {
+     "lang": "el",
+     "name": "Ελληνικά",
+     "file": "el-1",
+     "version": "f7d438105e79d194ac3e53704596baca4a1cbd56979fd987a951d081a90692a5"
+    }
+   ]
+  },
+  {
+   "country": "HR",
+   "stage": "beginner",
+   "grade": "1",
+   "languages": [
+    {
+     "lang": "hr",
+     "name": "Hrvatski",
+     "file": "hr-1",
+     "version": "0330368942738c01170833a773070274c614974c03df9ec38ee5aa0bcfeefefd"
+    }
+   ]
+  },
+  {
+   "country": "IE",
+   "stage": "beginner",
+   "grade": "JI",
+   "languages": [
+    {
+     "lang": "en",
+     "name": "English",
+     "file": "en-ji",
+     "version": "dc0bee39f7676a9055f5e6b39854c85c86a2c54af0938b7e7643d23ecf588011"
+    },
+    {
+     "lang": "ga",
+     "name": "Gaeilge",
+     "file": "ga-ji",
+     "version": "f31ef4a0b01c06abe6674f93ba2b99069508da71c3ab355815385426810cbc26"
+    }
+   ]
+  },
+  {
+   "country": "IS",
+   "stage": "beginner",
+   "grade": "1",
+   "languages": [
+    {
+     "lang": "is",
+     "name": "Íslenska",
+     "file": "is-1",
+     "version": "9add13c8f63aa8417f7675c2a339906490d7af22cc6816152b73f64b3c7945b5"
+    }
+   ]
+  },
+  {
+   "country": "IT",
+   "stage": "beginner",
+   "grade": "P1",
+   "languages": [
+    {
+     "lang": "it",
+     "name": "Italiano",
+     "file": "it-p1",
+     "version": "294e6d7bf77bc67cb0da9369013788513e03f19c3e73653ffbde7cd1547bf5cd"
+    }
+   ]
+  },
+  {
+   "country": "LI",
+   "stage": "beginner",
+   "grade": "1",
+   "languages": [
+    {
+     "lang": "de",
+     "name": "Deutsch",
+     "file": "de-1",
+     "version": "eb1e50f7737b4cadba432d30fae98aee6e5eeb1e4085f29eea1214f0efc5fd3c"
+    }
+   ]
+  },
+  {
+   "country": "LT",
+   "stage": "beginner",
+   "grade": "1",
+   "languages": [
+    {
+     "lang": "lt",
+     "name": "Lietuvių",
+     "file": "lt-1",
+     "version": "bb1186e9c0acf7297eef3a988d72393099e6af7befd162bd947a38a1d54d94a1"
+    }
+   ]
+  },
+  {
+   "country": "LU",
+   "stage": "beginner",
+   "grade": "E1",
+   "languages": [
+    {
+     "lang": "de",
+     "name": "Deutsch",
+     "file": "de-e1",
+     "version": "a7bd15499cbc35bbaee57b1595b85ab7b2704dc74590c9b44579f21c4ab5aeb2"
+    }
+   ]
+  },
+  {
+   "country": "LV",
+   "stage": "beginner",
+   "grade": "1",
+   "languages": [
+    {
+     "lang": "lv",
+     "name": "Latviešu",
+     "file": "lv-1",
+     "version": "d0c877d38730f2854baf9e46e141fd1a586fc90d72274558fb35f0672cdbc88c"
+    }
+   ]
+  },
+  {
+   "country": "MC",
+   "stage": "beginner",
+   "grade": "CP",
+   "languages": [
+    {
+     "lang": "fr",
+     "name": "Français",
+     "file": "fr-cp",
+     "version": "9bbac7166a3d1b3c3b9d411ae2e9dc2dba04b5c8676787355e730ff53fd49078"
+    }
+   ]
+  },
+  {
+   "country": "MD",
+   "stage": "beginner",
+   "grade": "1",
+   "languages": [
+    {
+     "lang": "ro",
+     "name": "Română",
+     "file": "ro-1",
+     "version": "d758ede37abe099602f1f2de4a852a5827555b10017fa5afc8911605e757e5c9"
+    }
+   ]
+  },
+  {
+   "country": "ME",
+   "stage": "beginner",
+   "grade": "1",
+   "languages": [
+    {
+     "lang": "cnr",
+     "name": "Crnogorski",
+     "file": "cnr-1",
+     "version": "846162d8eb2a13dec8e0312f9e75e7cc09d182d1217bcfed8446dbd4d830cede"
+    },
+    {
+     "lang": "sr",
+     "name": "Српски",
+     "file": "sr-1",
+     "version": "ca4a982e9353c26ea8f55aac04449f7f206f3035a8a3332bff07f7867de4df00"
+    }
+   ]
+  },
+  {
+   "country": "MK",
+   "stage": "beginner",
+   "grade": "1",
+   "languages": [
+    {
+     "lang": "mk",
+     "name": "Македонски",
+     "file": "mk-1",
+     "version": "f7642a7c6430e8aaee3b2c0cd65fbb7de23419a9dac58a0a05dacfb3fa62c247"
+    },
+    {
+     "lang": "sq",
+     "name": "Shqip",
+     "file": "sq-1",
+     "version": "193d6a072787343e5d82fd10bd863cbec1baf137c2f81bc395fd9307d6b9ef53"
+    }
+   ]
+  },
+  {
+   "country": "MT",
+   "stage": "beginner",
+   "grade": "1",
+   "languages": [
+    {
+     "lang": "en",
+     "name": "English",
+     "file": "en-1",
+     "version": "1f750074485443b29138c12e904816eae1f3d5271a35c67d55f6e72d6450628c"
+    },
+    {
+     "lang": "mt",
+     "name": "Malti",
+     "file": "mt-1",
+     "version": "038b7237b31ed3e433a1ff9aaa0036db315435fa40ecf7a8f68cf3218d54aa51"
+    }
+   ]
+  },
+  {
+   "country": "NL",
+   "stage": "beginner",
+   "grade": "G1",
+   "languages": [
+    {
+     "lang": "nl",
+     "name": "Nederlands",
+     "file": "nl-g1",
+     "version": "30901c953f1d97bce3c0df34a2ff4e37dddb917d2ba0c99a96e9594b8a981788"
+    }
+   ]
+  },
+  {
+   "country": "NO",
+   "stage": "beginner",
+   "grade": "1",
+   "languages": [
+    {
+     "lang": "nb",
+     "name": "Norsk bokmål",
+     "file": "nb-1",
+     "version": "de230c233edc6e35faf7a9dcd1d5183893b033f9fded37bbe7680241a54348ec"
+    },
+    {
+     "lang": "nn",
+     "name": "Norsk nynorsk",
+     "file": "nn-1",
+     "version": "a4e0ee95425617def45f506f5ca87541e4344e8f62ec174d59af68890ecd5360"
+    }
+   ]
+  },
+  {
+   "country": "PL",
+   "stage": "beginner",
+   "grade": "I",
+   "languages": [
+    {
+     "lang": "pl",
+     "name": "Polski",
+     "file": "pl-i",
+     "version": "ba8ddaf241690dbc4ba09682ea8828ea5be4d92469e61b31dde725cc1a3356a3"
+    }
+   ]
+  },
+  {
+   "country": "PT",
+   "stage": "beginner",
+   "grade": "1",
+   "languages": [
+    {
+     "lang": "pt",
+     "name": "Português",
+     "file": "pt-1",
+     "version": "a6c114f79bf1e6592c70d6691ca57f7808ccece3fe17450596c96c33d85588b2"
+    }
+   ]
+  },
+  {
+   "country": "RO",
+   "stage": "beginner",
+   "grade": "1",
+   "languages": [
+    {
+     "lang": "ro",
+     "name": "Română",
+     "file": "ro-1",
+     "version": "a21f80551e5cb50720e3c17841c73e8e53f2a080d0faed622e08212b3f38faad"
+    }
+   ]
+  },
+  {
+   "country": "RS",
+   "stage": "beginner",
+   "grade": "1",
+   "languages": [
+    {
+     "lang": "sr",
+     "name": "Српски",
+     "file": "sr-1",
+     "version": "341e34d5fd3ec398af3c768731e1e153943a8a2364ef88a9d21507cd0cb1a320"
+    }
+   ]
+  },
+  {
+   "country": "RU",
+   "stage": "beginner",
+   "grade": "1",
+   "languages": [
+    {
+     "lang": "ru",
+     "name": "Русский",
+     "file": "ru-1",
+     "version": "a6667e23de881d0181052588345d6a685a3f63fbfaf702e7792872e51536ec81"
+    }
+   ]
+  },
+  {
+   "country": "SE",
+   "stage": "beginner",
+   "grade": "1",
+   "languages": [
+    {
+     "lang": "sv",
+     "name": "Svenska",
+     "file": "sv-1",
+     "version": "a538fd2b771d6ba6abe73095da4e263a6c9658957ecb42cd3a5929195b581a3d"
+    }
+   ]
+  },
+  {
+   "country": "SI",
+   "stage": "beginner",
+   "grade": "1",
+   "languages": [
+    {
+     "lang": "sl",
+     "name": "Slovenščina",
+     "file": "sl-1",
+     "version": "2a1989583b5a4adbdefff95de4d3a92cce7dea1385b82bbdb7b70a6da2b800e9"
+    }
+   ]
+  },
+  {
+   "country": "SK",
+   "stage": "beginner",
+   "grade": "1",
+   "languages": [
+    {
+     "lang": "sk",
+     "name": "Slovenčina",
+     "file": "sk-1",
+     "version": "4f00256b59978ac0acc2aa705faf65cb15cbe6c00c32b23271aa73ce145eabd6"
+    }
+   ]
+  },
+  {
+   "country": "SM",
+   "stage": "beginner",
+   "grade": "1",
+   "languages": [
+    {
+     "lang": "it",
+     "name": "Italiano",
+     "file": "it-1",
+     "version": "46e59f033bc8bde6b23c00d15960f3c31a30ef60c865f0ef7ce5cf984419b8cd"
+    }
+   ]
+  },
+  {
+   "country": "TR",
+   "stage": "beginner",
+   "grade": "1",
+   "languages": [
+    {
+     "lang": "tr",
+     "name": "Türkçe",
+     "file": "tr-1",
+     "version": "8c472cfe6815666c30d3d06f74066ed5d16c7140deaf4b5e76e79ed1775e4d49"
+    }
+   ]
+  },
+  {
+   "country": "UA",
+   "stage": "beginner",
+   "grade": "1",
+   "languages": [
+    {
+     "lang": "uk",
+     "name": "Українська",
+     "file": "uk-1",
+     "version": "4fe6e6433989311bd015beb8c65bbcf0ef725952f89cb7e647fbdc21bf62a5d2"
+    }
+   ]
+  },
+  {
+   "country": "XK",
+   "stage": "beginner",
+   "grade": "1",
+   "languages": [
+    {
+     "lang": "sq",
+     "name": "Shqip",
+     "file": "sq-1",
+     "version": "11a60b932489292e7f4c6aacf90268ab2c98a657edad6b8af7a99727b0d3461c"
+    },
+    {
+     "lang": "sr",
+     "name": "Српски",
+     "file": "sr-1",
+     "version": "8cadef167fe133f03d0d721dcb966ffeaf9108766420aadc06891e3564de21f1"
+    }
+   ]
+  }
+ ]
+}

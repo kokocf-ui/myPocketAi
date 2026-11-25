@@ -1,0 +1,1218 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "GB-SCT",
+ "stage": "beginner",
+ "grade": "P1",
+ "version": "cd3a7da3d7c58b3caeaab3ff3565ec9b7895fd691d39771f7eda9f25cbb1a38a",
+ "source": "https://education.gov.scot/curriculum-for-excellence/",
+ "sourceTitle": "Education Scotland — Curriculum for Excellence, Literacy and English, Early Level (listening and talking, reading, writing; experiences and outcomes and benchmarks), Primary 1; sequence as in the systematic phonics programmes and early reading books used in the first year of school (listening and rhyme, first letter sounds, blending and segmenting, tricky words, digraphs, letter formation, stories and information books); activities are original, no textbook text copied",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "en",
+ "labels": [
+  "Original practice activity · Scotland · Primary 1",
+  "Let’s learn",
+  "Original example",
+  "How it works",
+  "Practice",
+  "Check what you know",
+  "These are original activities, not an official test. Read them with an adult if you need help.",
+  "If you are stuck: step by step",
+  "Answers (check only when you have finished)"
+ ],
+ "units": [
+  {
+   "title": "Listening and talking",
+   "keys": [
+    "eu-year-gb-sct-beginner-p1-l01",
+    "eu-year-gb-sct-beginner-p1-l02",
+    "eu-year-gb-sct-beginner-p1-l03",
+    "eu-year-gb-sct-beginner-p1-l04"
+   ]
+  },
+  {
+   "title": "First letter sounds",
+   "keys": [
+    "eu-year-gb-sct-beginner-p1-l05",
+    "eu-year-gb-sct-beginner-p1-l06",
+    "eu-year-gb-sct-beginner-p1-l07",
+    "eu-year-gb-sct-beginner-p1-l08",
+    "eu-year-gb-sct-beginner-p1-l09"
+   ]
+  },
+  {
+   "title": "Reading and spelling words",
+   "keys": [
+    "eu-year-gb-sct-beginner-p1-l10",
+    "eu-year-gb-sct-beginner-p1-l11",
+    "eu-year-gb-sct-beginner-p1-l12",
+    "eu-year-gb-sct-beginner-p1-l13"
+   ]
+  },
+  {
+   "title": "More sounds",
+   "keys": [
+    "eu-year-gb-sct-beginner-p1-l14",
+    "eu-year-gb-sct-beginner-p1-l15",
+    "eu-year-gb-sct-beginner-p1-l16",
+    "eu-year-gb-sct-beginner-p1-l17",
+    "eu-year-gb-sct-beginner-p1-l18",
+    "eu-year-gb-sct-beginner-p1-l19"
+   ]
+  },
+  {
+   "title": "Handwriting and writing",
+   "keys": [
+    "eu-year-gb-sct-beginner-p1-l20",
+    "eu-year-gb-sct-beginner-p1-l21",
+    "eu-year-gb-sct-beginner-p1-l22",
+    "eu-year-gb-sct-beginner-p1-l23"
+   ]
+  },
+  {
+   "title": "Stories, rhymes and books",
+   "keys": [
+    "eu-year-gb-sct-beginner-p1-l24",
+    "eu-year-gb-sct-beginner-p1-l25",
+    "eu-year-gb-sct-beginner-p1-l26",
+    "eu-year-gb-sct-beginner-p1-l27",
+    "eu-year-gb-sct-beginner-p1-l28",
+    "eu-year-gb-sct-beginner-p1-l29"
+   ]
+  },
+  {
+   "title": "Speaking to others",
+   "keys": [
+    "eu-year-gb-sct-beginner-p1-l30",
+    "eu-year-gb-sct-beginner-p1-l31"
+   ]
+  },
+  {
+   "title": "End of the year",
+   "keys": [
+    "eu-year-gb-sct-beginner-p1-l32"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-gb-sct-beginner-p1-l01": {
+   "en": {
+    "title": "Talking and listening at school",
+    "theory": "At school we take turns to talk. When someone is speaking, we look at them and listen until they finish. Then we can answer or ask a question. We use kind words: please, thank you, sorry.",
+    "sample": "Child: My name is Isla. I like painting. / Teacher: Thank you, Isla. What do you like to paint? / Child: I like to paint the sea.",
+    "worked": "Isla says her name and one thing she likes. The teacher listens, then asks a question. Isla answers in a whole sentence. Each person waits for the other to finish.",
+    "exercises": [
+     "Say your name and one thing you like.",
+     "Ask a friend what they like.",
+     "Show how you wait for your turn.",
+     "Say thank you to someone in the class.",
+     "Tell a friend about your favourite toy."
+    ],
+    "test": [
+     "What does Isla like?",
+     "What does Isla like to paint?",
+     "What do we do when someone is talking?",
+     "Which kind word do we say when we get help?",
+     "Who asked Isla a question?"
+    ],
+    "steps": [
+     "Look at the person who is talking.",
+     "Wait until they stop before you speak.",
+     "Answer with a whole sentence, like: I like the sea.",
+     "Watch out: shouting out while someone else is talking. Put your hand up and wait."
+    ],
+    "answers": [
+     "Painting.",
+     "The sea.",
+     "We look at them and listen.",
+     "Thank you.",
+     "The teacher."
+    ]
+   }
+  },
+  "eu-year-gb-sct-beginner-p1-l02": {
+   "en": {
+    "title": "Listening to sounds around us",
+    "theory": "Before we read, we train our ears. We listen to the sounds around us: a door, a bird, rain, a clock. We say if a sound is loud or quiet, near or far. Good listening helps us hear the sounds inside words later.",
+    "sample": "Listen with your eyes closed: tick, tock goes the clock. Tap, tap goes the rain. A dog barks far away. A car goes past, very loud.",
+    "worked": "The clock and the rain make quiet, near sounds. The dog is far away. The car is loud. We can describe a sound with words like loud, quiet, near and far.",
+    "exercises": [
+     "Close your eyes and name three sounds you hear.",
+     "Make a loud sound, then a quiet one.",
+     "Clap a pattern for a friend to copy.",
+     "Guess a sound a friend makes behind your back.",
+     "Name an animal by its sound: moo."
+    ],
+    "test": [
+     "Which sound was far away?",
+     "Which sound was loud?",
+     "What sound does the clock make?",
+     "Why do we practise listening?",
+     "Which animal says moo?"
+    ],
+    "steps": [
+     "Sit still and close your eyes.",
+     "Listen for one sound at a time and name it.",
+     "Say if it is loud or quiet, near or far.",
+     "Watch out: talking while you listen. You cannot hear small sounds if you are making noise."
+    ],
+    "answers": [
+     "The dog.",
+     "The car.",
+     "Tick, tock.",
+     "So we can hear the sounds inside words.",
+     "A cow."
+    ]
+   }
+  },
+  "eu-year-gb-sct-beginner-p1-l03": {
+   "en": {
+    "title": "Rhyming words",
+    "theory": "Words rhyme when their ends sound the same: cat, hat, mat. Rhymes are in songs and nursery rhymes. Hearing rhymes helps us notice the sounds in words.",
+    "sample": "Cat and hat rhyme. / Bee and tree rhyme. / Sun and fun rhyme. / Dog and cup do not rhyme.",
+    "worked": "Cat and hat both end with at. Bee and tree both end with ee. Dog ends with og and cup ends with up, so they do not rhyme. Listen to the end of the word.",
+    "exercises": [
+     "Find a word that rhymes with cat.",
+     "Find a word that rhymes with bed.",
+     "Say three words that rhyme with pig.",
+     "Which word does not rhyme: fan, man, sock?",
+     "Make up a silly rhyme with your name."
+    ],
+    "test": [
+     "Do bee and tree rhyme?",
+     "Do dog and cup rhyme?",
+     "Say a word that rhymes with sun.",
+     "Which part of the word do we listen to for rhymes?",
+     "Which word rhymes with hop: top or hat?"
+    ],
+    "steps": [
+     "Say both words slowly.",
+     "Listen to the end of each word.",
+     "If the ends sound the same, the words rhyme.",
+     "Watch out: thinking words rhyme because they start the same. Cat and cup start the same but do not rhyme."
+    ],
+    "answers": [
+     "Yes.",
+     "No.",
+     "Your answer. For example: run.",
+     "The end.",
+     "Top."
+    ]
+   }
+  },
+  "eu-year-gb-sct-beginner-p1-l04": {
+   "en": {
+    "title": "Clapping syllables and first sounds",
+    "theory": "Words have beats called syllables. We clap them: rab-bit has two claps, el-e-phant has three. Words also have a first sound: sun starts with s, map starts with m. We say the first sound slowly: sss, mmm.",
+    "sample": "sun (1 clap) / rab-bit (2 claps) / but-ter-fly (3 claps) / Sun starts with sss. Moon starts with mmm.",
+    "worked": "Sun has one beat. Rabbit has two: rab-bit. Butterfly has three: but-ter-fly. The first sound of sun is s and the first sound of moon is m. We hear the first sound when we stretch the word.",
+    "exercises": [
+     "Clap your name.",
+     "Clap the word dinosaur.",
+     "Say the first sound of dog.",
+     "Find something in the room that starts with b.",
+     "How many claps in banana?"
+    ],
+    "test": [
+     "How many claps in rabbit?",
+     "How many claps in sun?",
+     "What is the first sound in moon?",
+     "What is the first sound in sock?",
+     "How many claps in butterfly?"
+    ],
+    "steps": [
+     "Say the word slowly.",
+     "Clap once for each beat you hear.",
+     "For the first sound, stretch the start of the word: mmmoon.",
+     "Watch out: saying the letter name instead of the sound. Moon starts with the sound mmm, not em."
+    ],
+    "answers": [
+     "Two: rab-bit.",
+     "One.",
+     "m.",
+     "s.",
+     "Three: but-ter-fly."
+    ]
+   }
+  },
+  "eu-year-gb-sct-beginner-p1-l05": {
+   "en": {
+    "title": "s, a, t, p",
+    "theory": "Letters stand for sounds. We learn the sound first: s is a snake sound, sss. A is the sound at the start of ant. T is a short tap, t. P is a little puff of air, p. With these four sounds we can already read words.",
+    "sample": "s, a, t, p / sat, pat, tap, sap / at, as",
+    "worked": "S-a-t makes sat. P-a-t makes pat. T-a-p makes tap. We say each sound, then push them together quickly. This is called blending.",
+    "exercises": [
+     "Say the sound for s.",
+     "Say the sound for p.",
+     "Blend: s-a-t.",
+     "Blend: t-a-p.",
+     "Find something that starts with p."
+    ],
+    "test": [
+     "What word is p-a-t?",
+     "What word is t-a-p?",
+     "Which letter makes a snake sound?",
+     "What is the first sound in ant?",
+     "Blend: a-t."
+    ],
+    "steps": [
+     "Look at each letter and say its sound.",
+     "Say the sounds again, a little faster.",
+     "Push them together until you hear the word.",
+     "Watch out: adding an extra uh: say t, not tuh. Short, clean sounds blend more easily."
+    ],
+    "answers": [
+     "Pat.",
+     "Tap.",
+     "s.",
+     "a.",
+     "At."
+    ]
+   }
+  },
+  "eu-year-gb-sct-beginner-p1-l06": {
+   "en": {
+    "title": "i, n, m, d",
+    "theory": "I is the sound at the start of insect. N is a humming sound through the nose, nnn. M is a humming sound with the lips closed, mmm. D is a short sound with the tongue behind the teeth, d. Now we can read many more words.",
+    "sample": "in, it, nip, tin / man, map, mad, dim / Sam is in.",
+    "worked": "T-i-n makes tin. M-a-d makes mad. D-i-m makes dim. Sam is a name, so it starts with a capital S. In and is are short words we can blend.",
+    "exercises": [
+     "Blend: t-i-n.",
+     "Blend: m-a-p.",
+     "Blend: d-i-p.",
+     "Say a word that starts with m.",
+     "Read: Sam is in."
+    ],
+    "test": [
+     "What word is m-a-n?",
+     "What word is n-i-p?",
+     "Which sound do we hum with our lips closed?",
+     "Read: dad.",
+     "What is the first sound in insect?"
+    ],
+    "steps": [
+     "Say the sound of each letter: m, a, n.",
+     "Point under each letter as you say it.",
+     "Blend the sounds into one word: man.",
+     "Watch out: mixing up d and b. D starts with a round tummy, then a tall line."
+    ],
+    "answers": [
+     "Man.",
+     "Nip.",
+     "m.",
+     "Dad.",
+     "i."
+    ]
+   }
+  },
+  "eu-year-gb-sct-beginner-p1-l07": {
+   "en": {
+    "title": "g, o, c, k",
+    "theory": "G is a sound at the back of the throat, as in gate. O is the sound at the start of octopus. C and k make the same sound, as in cat and kit. Usually we write c before a, o, u and k before i, e.",
+    "sample": "got, dog, pot / cat, cot, can / kit, kid",
+    "worked": "D-o-g makes dog. C-a-t makes cat. K-i-t makes kit. C and k sound the same: in cat we use c, in kit we use k because the next letter is i.",
+    "exercises": [
+     "Blend: d-o-g.",
+     "Blend: c-a-n.",
+     "Blend: k-i-d.",
+     "Read: a cat on a mat.",
+     "Find two things in the room that start with c."
+    ],
+    "test": [
+     "What word is g-o-t?",
+     "What word is c-o-t?",
+     "Which two letters make the same sound in cat and kit?",
+     "What is the first sound in octopus?",
+     "Read: top dog."
+    ],
+    "steps": [
+     "Say each sound: g, o, t.",
+     "Blend them together quickly: got.",
+     "When c and k sound the same, look at the next letter to choose.",
+     "Watch out: reading o like the name of the letter. In dog, o is a short sound."
+    ],
+    "answers": [
+     "Got.",
+     "Cot.",
+     "c and k.",
+     "o.",
+     "Top dog."
+    ]
+   }
+  },
+  "eu-year-gb-sct-beginner-p1-l08": {
+   "en": {
+    "title": "ck, e, u, r",
+    "theory": "When two letters make one sound, we call them a digraph. Ck makes one sound, as in sock and duck. E is the sound in egg. U is the sound in up. R is a growly sound, rrr.",
+    "sample": "sock, kick, duck / pet, red, ten / up, sun, run, rug",
+    "worked": "Sock ends with ck: s-o-ck, three sounds but four letters. Red has e in the middle: r-e-d. Sun has u: s-u-n. We blend the sounds, not the letters.",
+    "exercises": [
+     "Blend: d-u-ck.",
+     "Blend: r-e-d.",
+     "Blend: s-u-n.",
+     "How many sounds in sock?",
+     "Read: a red rug."
+    ],
+    "test": [
+     "What word is k-i-ck?",
+     "What word is t-e-n?",
+     "What sound do c and k make together?",
+     "Read: run up.",
+     "What is the first sound in egg?"
+    ],
+    "steps": [
+     "Look for two letters that make one sound, like ck.",
+     "Say ck as one sound.",
+     "Blend all the sounds in order: d-u-ck.",
+     "Watch out: saying c and k as two sounds. In duck they make one sound together."
+    ],
+    "answers": [
+     "Kick.",
+     "Ten.",
+     "One sound, as in duck.",
+     "Run up.",
+     "e."
+    ]
+   }
+  },
+  "eu-year-gb-sct-beginner-p1-l09": {
+   "en": {
+    "title": "h, b, f, l, ff, ll, ss",
+    "theory": "H is a breathy sound, as when we warm our hands. B is a bouncy sound with the lips. F is a soft blowing sound, fff. L is a long sound with the tongue up, lll. At the end of short words we often write ff, ll or ss: puff, bell, kiss.",
+    "sample": "hat, hug, bed, bus / fan, fit, leg, lip / puff, bell, hiss, doll",
+    "worked": "Hat starts with h. Bus starts with b. Leg starts with l. In bell, the two letters ll make one sound at the end: b-e-ll. Puff and hiss work the same way.",
+    "exercises": [
+     "Blend: h-a-t.",
+     "Blend: b-u-s.",
+     "Blend: b-e-ll.",
+     "Read: a fat hen.",
+     "Find a word that ends with ss."
+    ],
+    "test": [
+     "What word is f-a-n?",
+     "What word is d-o-ll?",
+     "How many sounds are in puff?",
+     "Read: a big bell.",
+     "What sound do we make when we warm our hands?"
+    ],
+    "steps": [
+     "Say each sound in order.",
+     "When you see ff, ll or ss, say one sound.",
+     "Blend the sounds into a word.",
+     "Watch out: writing bel instead of bell. Short words like bell, doll and puff end with a double letter."
+    ],
+    "answers": [
+     "Fan.",
+     "Doll.",
+     "Three: p-u-ff.",
+     "A big bell.",
+     "h."
+    ]
+   }
+  },
+  "eu-year-gb-sct-beginner-p1-l10": {
+   "en": {
+    "title": "Blending to read",
+    "theory": "To read a word we look at each letter or digraph, say its sound and blend. We do it in order, from left to right. With practice, we can blend in our head and read faster.",
+    "sample": "pig, hen, fox, mud / A pig is in the mud.",
+    "worked": "P-i-g makes pig. M-u-d makes mud. In the sentence we read each word, one after the other, from left to right. A and is are small words we read a lot.",
+    "exercises": [
+     "Read: pig, hen, fox.",
+     "Read: a hen in a pen.",
+     "Read: the pig can dig.",
+     "Blend in your head: sun.",
+     "Read a word to a friend."
+    ],
+    "test": [
+     "What is in the mud?",
+     "Read: f-o-x.",
+     "Which way do we read?",
+     "Read: h-e-n.",
+     "What do we do after saying each sound?"
+    ],
+    "steps": [
+     "Start at the left of the word.",
+     "Say each sound in order.",
+     "Blend the sounds, then check that the word makes sense.",
+     "Watch out: guessing the word from its first letter. Read all the sounds, to the end."
+    ],
+    "answers": [
+     "A pig.",
+     "Fox.",
+     "From left to right.",
+     "Hen.",
+     "We blend them."
+    ]
+   }
+  },
+  "eu-year-gb-sct-beginner-p1-l11": {
+   "en": {
+    "title": "Segmenting to spell",
+    "theory": "To spell a word we do the opposite of blending. We say the word, then break it into sounds: cat, c-a-t. We count the sounds on our fingers and write one letter or digraph for each sound.",
+    "sample": "cat: c-a-t (3 sounds) / ship: sh-i-p (3 sounds) / ten: t-e-n (3 sounds)",
+    "worked": "Cat has three sounds, so we write three letters. Ship also has three sounds, but sh is written with two letters. Counting the sounds helps us not to miss any.",
+    "exercises": [
+     "Count the sounds in dog.",
+     "Spell the word sun.",
+     "Spell the word pen.",
+     "Count the sounds in duck.",
+     "Write the word bat."
+    ],
+    "test": [
+     "How many sounds in cat?",
+     "Spell: m-a-p.",
+     "How many sounds in ship?",
+     "What is the last sound in pen?",
+     "Write the word for c-u-p."
+    ],
+    "steps": [
+     "Say the word slowly.",
+     "Tap one finger for each sound.",
+     "Write a letter or digraph for each sound, in order.",
+     "Watch out: missing the middle sound. Say the word slowly and listen: d-o-g, not dg."
+    ],
+    "answers": [
+     "Three.",
+     "Map.",
+     "Three: sh-i-p.",
+     "n.",
+     "Cup."
+    ]
+   }
+  },
+  "eu-year-gb-sct-beginner-p1-l12": {
+   "en": {
+    "title": "Tricky words",
+    "theory": "Some words cannot be blended easily. We call them tricky words and learn them by heart. The first tricky words are: the, to, I, no, go, into. We look at the tricky part, say the word and practise it often.",
+    "sample": "I go to the shop. / The cat is not into the box. / No, I can not go.",
+    "worked": "The, to, I, no, go and into appear in many sentences. In the, the letters do not make the sounds we expect, so we just remember the word. I is always a capital letter.",
+    "exercises": [
+     "Read: the, to, I.",
+     "Read: no, go, into.",
+     "Read: I go to the park.",
+     "Write the word the.",
+     "Find the in a book."
+    ],
+    "test": [
+     "Read: I go to the shop.",
+     "Is I written with a capital?",
+     "Read: no.",
+     "Which word means the opposite of yes?",
+     "Read: into the box."
+    ],
+    "steps": [
+     "Look at the whole word.",
+     "Find the tricky part and say the word.",
+     "Practise it every day until you know it at a glance.",
+     "Watch out: trying to blend the as t-h-e. It is a tricky word: just remember it."
+    ],
+    "answers": [
+     "I go to the shop.",
+     "Yes, always.",
+     "No.",
+     "No.",
+     "Into the box."
+    ]
+   }
+  },
+  "eu-year-gb-sct-beginner-p1-l13": {
+   "en": {
+    "title": "Reading captions and short sentences",
+    "theory": "A caption is a few words under a picture. It tells us what is in the picture. A sentence starts with a capital letter and ends with a full stop.",
+    "sample": "Picture of a dog in a bag. / Caption: a dog in a bag. / Sentence: The dog is in a big bag.",
+    "worked": "The caption has four words and no capital or full stop. The sentence starts with a capital T and ends with a full stop. Both tell us about the picture.",
+    "exercises": [
+     "Read: a cat on a mat.",
+     "Read: The hen is in the pen.",
+     "Draw a picture for: a red bus.",
+     "Write a caption for your drawing.",
+     "Find the full stop in a sentence."
+    ],
+    "test": [
+     "What is the dog in?",
+     "How does a sentence start?",
+     "How does a sentence end?",
+     "Read: a fox in a box.",
+     "What is a caption?"
+    ],
+    "steps": [
+     "Look at the picture first.",
+     "Blend each word in the caption.",
+     "Check that the words match the picture.",
+     "Watch out: forgetting the full stop at the end of a sentence."
+    ],
+    "answers": [
+     "A big bag.",
+     "With a capital letter.",
+     "With a full stop.",
+     "A fox in a box.",
+     "A few words under a picture."
+    ]
+   }
+  },
+  "eu-year-gb-sct-beginner-p1-l14": {
+   "en": {
+    "title": "j, v, w, x",
+    "theory": "J is the sound at the start of jam. V is a buzzing sound with the top teeth on the lip, vvv. W is the sound at the start of web. X is two sounds together, k and s, as in box.",
+    "sample": "jam, jet, jog / van, vet / wet, web, win / box, six, fox",
+    "worked": "Jam starts with j. Van starts with v. Web starts with w. Box ends with x, which sounds like k and s together.",
+    "exercises": [
+     "Blend: j-a-m.",
+     "Blend: v-a-n.",
+     "Blend: w-e-b.",
+     "Read: six fox cubs.",
+     "Find a word that starts with w."
+    ],
+    "test": [
+     "What word is j-e-t?",
+     "What word is w-i-n?",
+     "What two sounds does x make?",
+     "Read: a vet in a van.",
+     "What is the first sound in jam?"
+    ],
+    "steps": [
+     "Say each sound: j, a, m.",
+     "Blend the three sounds together: jam.",
+     "Remember: x at the end sounds like k and s.",
+     "Watch out: mixing up v and w. For v, top teeth touch the lip; for w, round lips."
+    ],
+    "answers": [
+     "Jet.",
+     "Win.",
+     "k and s.",
+     "A vet in a van.",
+     "j."
+    ]
+   }
+  },
+  "eu-year-gb-sct-beginner-p1-l15": {
+   "en": {
+    "title": "y, z, zz, qu",
+    "theory": "Y is the sound at the start of yes. Z is a buzzing bee sound, zzz. At the end of short words we write zz: buzz, fizz. Q always comes with u: qu sounds like k and w, as in queen.",
+    "sample": "yes, yet, yum / zip, zap / buzz, fizz / quiz, quick, queen",
+    "worked": "Yes starts with y. Zip starts with z. Buzz ends with zz. Quick starts with qu, which sounds like k and w.",
+    "exercises": [
+     "Blend: y-e-s.",
+     "Blend: z-i-p.",
+     "Read: buzz, fizz.",
+     "Read: a quick quiz.",
+     "Find a word with qu."
+    ],
+    "test": [
+     "What word is y-u-m?",
+     "What letter always comes after q?",
+     "Read: buzz.",
+     "What sound do bees make?",
+     "Read: the queen."
+    ],
+    "steps": [
+     "Find the sound you know: y, z or qu.",
+     "Say qu as one sound, kw.",
+     "Blend all the sounds.",
+     "Watch out: writing q without u. In English, q is almost always followed by u."
+    ],
+    "answers": [
+     "Yum.",
+     "u.",
+     "Buzz.",
+     "Zzz.",
+     "The queen."
+    ]
+   }
+  },
+  "eu-year-gb-sct-beginner-p1-l16": {
+   "en": {
+    "title": "ch, sh, th, ng",
+    "theory": "Some digraphs are made with h: ch as in chip, sh as in ship, th as in thin and this. Ng is one sound at the end of words like ring and song.",
+    "sample": "chip, chin, much / ship, shop, fish / thin, this, that / ring, sing, long",
+    "worked": "Chip starts with ch. Fish ends with sh. This starts with th. Ring ends with ng. Each digraph is one sound, so ship has three sounds: sh-i-p.",
+    "exercises": [
+     "Blend: ch-i-p.",
+     "Blend: f-i-sh.",
+     "Blend: th-i-s.",
+     "Blend: r-i-ng.",
+     "How many sounds in shop?"
+    ],
+    "test": [
+     "What word is sh-o-p?",
+     "What word is s-o-ng?",
+     "How many sounds in fish?",
+     "Read: a thin moth.",
+     "What sound is at the end of king?"
+    ],
+    "steps": [
+     "Look for two letters that make one sound: ch, sh, th, ng.",
+     "Say them as one sound.",
+     "Blend all the sounds in order.",
+     "Watch out: reading s and h separately in ship. Sh is one sound."
+    ],
+    "answers": [
+     "Shop.",
+     "Song.",
+     "Three: f-i-sh.",
+     "A thin moth.",
+     "ng."
+    ]
+   }
+  },
+  "eu-year-gb-sct-beginner-p1-l17": {
+   "en": {
+    "title": "ai, ee, igh, oa",
+    "theory": "Some sounds are written with two or three letters. Ai says the sound in rain. Ee says the sound in feet. Igh says the sound in night. Oa says the sound in boat.",
+    "sample": "rain, wait, tail / feet, see, tree / night, light, high / boat, coat, road",
+    "worked": "Rain has ai in the middle: r-ai-n. Tree ends with ee. Night has igh, three letters for one sound: n-igh-t. Boat has oa: b-oa-t.",
+    "exercises": [
+     "Blend: r-ai-n.",
+     "Blend: f-ee-t.",
+     "Blend: n-igh-t.",
+     "Blend: b-oa-t.",
+     "Read: a goat on the road."
+    ],
+    "test": [
+     "What word is t-ai-l?",
+     "What word is l-igh-t?",
+     "How many letters make the sound in night?",
+     "Read: see the tree.",
+     "Which digraph is in coat?"
+    ],
+    "steps": [
+     "Look for groups of letters: ai, ee, igh, oa.",
+     "Say each group as one sound.",
+     "Blend the sounds in order.",
+     "Watch out: reading every letter of igh separately. Igh is one sound."
+    ],
+    "answers": [
+     "Tail.",
+     "Light.",
+     "Three: i, g, h.",
+     "See the tree.",
+     "oa."
+    ]
+   }
+  },
+  "eu-year-gb-sct-beginner-p1-l18": {
+   "en": {
+    "title": "oo, ar, or, ur",
+    "theory": "Oo can say a long sound, as in moon, or a short sound, as in book. Ar says the sound in car. Or says the sound in fork. Ur says the sound in fur.",
+    "sample": "moon, food, zoo / book, look, cook / car, park, star / fork, corn / fur, burn",
+    "worked": "Moon has a long oo. Book has a short oo. Car has ar. Fork has or. Fur has ur. Each of these is one sound, written with two letters.",
+    "exercises": [
+     "Blend: m-oo-n.",
+     "Blend: b-oo-k.",
+     "Blend: c-ar.",
+     "Blend: f-or-k.",
+     "Read: a star in the dark."
+    ],
+    "test": [
+     "What word is s-t-ar?",
+     "What word is f-ur?",
+     "What two sounds can oo make?",
+     "Read: look at the moon.",
+     "Which digraph is in corn?"
+    ],
+    "steps": [
+     "Find the digraph: oo, ar, or or ur.",
+     "For oo, try the long sound; if the word sounds strange, try the short one.",
+     "Blend the sounds in order.",
+     "Watch out: using only the long oo. In book and look, oo is short."
+    ],
+    "answers": [
+     "Star.",
+     "Fur.",
+     "A long sound, as in moon, and a short sound, as in book.",
+     "Look at the moon.",
+     "or."
+    ]
+   }
+  },
+  "eu-year-gb-sct-beginner-p1-l19": {
+   "en": {
+    "title": "ow, oi, ear, air, er",
+    "theory": "Ow says the sound in cow. Oi says the sound in coin. Ear says the sound in hear. Air says the sound in hair. Er says the sound at the end of letter and sister.",
+    "sample": "cow, down, town / coin, soil, join / hear, near, ear / hair, fair, chair / letter, sister",
+    "worked": "Cow ends with ow. Coin has oi. Near ends with ear. Chair has ch and air: ch-air, two sounds. Sister ends with a soft er.",
+    "exercises": [
+     "Blend: c-ow.",
+     "Blend: c-oi-n.",
+     "Blend: n-ear.",
+     "Blend: ch-air.",
+     "Read: my sister has a coin."
+    ],
+    "test": [
+     "What word is d-ow-n?",
+     "What word is h-air?",
+     "How many sounds in chair?",
+     "Read: a cow in the town.",
+     "Which sound is at the end of letter?"
+    ],
+    "steps": [
+     "Find the digraph or trigraph: ow, oi, ear, air, er.",
+     "Say it as one sound.",
+     "Blend all the sounds in order.",
+     "Watch out: reading ear in near as e-a-r. Ear is one sound."
+    ],
+    "answers": [
+     "Down.",
+     "Hair.",
+     "Two: ch-air.",
+     "A cow in the town.",
+     "er."
+    ]
+   }
+  },
+  "eu-year-gb-sct-beginner-p1-l20": {
+   "en": {
+    "title": "Holding a pencil and making marks",
+    "theory": "Good writing starts with a good grip. We hold the pencil between the thumb and the first finger, resting on the middle finger. We sit up straight, with the paper slightly tilted, and the other hand holding the paper still.",
+    "sample": "Pattern 1: straight lines down. / Pattern 2: circles like the sun. / Pattern 3: waves like the sea. / Pattern 4: zigzags like a mountain.",
+    "worked": "These patterns are inside letters: circles in a, o, d; lines in l, t, i; waves and curves in s and c. Practising patterns helps our hands make letters.",
+    "exercises": [
+     "Draw a row of circles.",
+     "Draw a row of zigzags.",
+     "Show how you hold a pencil.",
+     "Trace a wave with your finger.",
+     "Draw lines from top to bottom."
+    ],
+    "test": [
+     "Which fingers hold the pencil?",
+     "Why do we hold the paper with the other hand?",
+     "Which letters have a circle?",
+     "Do we draw lines from top to bottom or bottom to top?",
+     "How should we sit?"
+    ],
+    "steps": [
+     "Pinch the pencil with the thumb and first finger.",
+     "Rest it on the middle finger and keep a light grip.",
+     "Hold the paper still with your other hand.",
+     "Watch out: gripping too tightly. If your hand hurts, loosen your fingers and shake your hand."
+    ],
+    "answers": [
+     "The thumb and the first finger, resting on the middle finger.",
+     "So it does not move.",
+     "a, o, d.",
+     "From top to bottom.",
+     "Up straight."
+    ]
+   }
+  },
+  "eu-year-gb-sct-beginner-p1-l21": {
+   "en": {
+    "title": "Forming letters",
+    "theory": "Each letter has a starting point and a direction. Many letters start at the top. Letters can be grouped by their shape: c, a, d, o, g start like a c; l, t, i go straight down; n, m, r, h go down and over.",
+    "sample": "c-family: c, a, d, o, g / ladder letters: l, t, i / bridge letters: n, m, r, h",
+    "worked": "A starts like c, then goes up and down. D also starts like c, then has a tall line. N goes down, back up and over like a bridge. Knowing the family helps us start in the right place.",
+    "exercises": [
+     "Write a row of c.",
+     "Write a row of a.",
+     "Write the letters l, t, i.",
+     "Write the letters n, m, r.",
+     "Write your favourite letter five times."
+    ],
+    "test": [
+     "Which letters start like a c?",
+     "Which letters go straight down?",
+     "Where do most letters start?",
+     "What shape is n like?",
+     "Write the letter d."
+    ],
+    "steps": [
+     "Find the starting point at the top.",
+     "Follow the direction of the family: like c, straight down or down and over.",
+     "Keep letters sitting on the line.",
+     "Watch out: starting letters at the bottom. Most letters start at the top."
+    ],
+    "answers": [
+     "c, a, d, o, g.",
+     "l, t, i.",
+     "At the top.",
+     "A bridge.",
+     "Your answer. For example: d."
+    ]
+   }
+  },
+  "eu-year-gb-sct-beginner-p1-l22": {
+   "en": {
+    "title": "Writing my name",
+    "theory": "Our name is important. It starts with a capital letter and the other letters are small. We learn to write our first name, then our surname. We put our name on our work so everyone knows it is ours.",
+    "sample": "Isla / Finn / Ava Brown / Leo Smith",
+    "worked": "Isla starts with a capital I and the other letters are small: s, l, a. Ava Brown has two names: both start with a capital letter.",
+    "exercises": [
+     "Write your first name.",
+     "Write your surname.",
+     "Write a friend’s name.",
+     "Find the capital letter in your name.",
+     "Count the letters in your name."
+    ],
+    "test": [
+     "How does a name start?",
+     "Are the other letters capital or small?",
+     "Which letter is capital in Finn?",
+     "Why do we put our name on our work?",
+     "How many capital letters in Ava Brown?"
+    ],
+    "steps": [
+     "Start with a capital letter.",
+     "Write the other letters small.",
+     "Check that all the letters sit on the line.",
+     "Watch out: writing a capital in the middle of a name. Only the first letter is a capital."
+    ],
+    "answers": [
+     "With a capital letter.",
+     "Small.",
+     "F.",
+     "So everyone knows it is ours.",
+     "Two."
+    ]
+   }
+  },
+  "eu-year-gb-sct-beginner-p1-l23": {
+   "en": {
+    "title": "Writing a sentence",
+    "theory": "A sentence says something and makes sense on its own. We say it out loud first, count the words, then write it. It starts with a capital letter, has finger spaces between words and ends with a full stop.",
+    "sample": "I can see a bus. / The cat is on the bed.",
+    "worked": "I can see a bus has five words. We leave a finger space between the words. It starts with a capital I and ends with a full stop. The sentence makes sense on its own.",
+    "exercises": [
+     "Say a sentence about your lunch.",
+     "Count the words in: I like dogs.",
+     "Write: I can run.",
+     "Write a sentence about your picture.",
+     "Put a full stop at the end of your sentence."
+    ],
+    "test": [
+     "How many words in: I can see a bus?",
+     "What do we leave between words?",
+     "How does a sentence end?",
+     "Write: The dog is big.",
+     "What do we do before we write?"
+    ],
+    "steps": [
+     "Say the sentence out loud and count the words.",
+     "Write it word by word, with a finger space after each word.",
+     "Start with a capital letter and finish with a full stop.",
+     "Watch out: writing words squashed together. Leave a finger space between words."
+    ],
+    "answers": [
+     "Five.",
+     "A finger space.",
+     "With a full stop.",
+     "The dog is big.",
+     "We say it out loud."
+    ]
+   }
+  },
+  "eu-year-gb-sct-beginner-p1-l24": {
+   "en": {
+    "title": "Nursery rhymes and songs",
+    "theory": "Nursery rhymes are short poems and songs that people have sung for a very long time. They have rhymes and a strong beat. Saying them helps us remember words and hear sounds.",
+    "sample": "Original rhyme: / Little red hen, / count to ten, / one, two, three, / come and see!",
+    "worked": "Hen rhymes with ten. Three rhymes with see. We can clap the beat while we say it. Saying it again and again helps us learn it by heart.",
+    "exercises": [
+     "Say the rhyme with a friend.",
+     "Clap the beat while you say it.",
+     "Find the word that rhymes with ten.",
+     "Say a nursery rhyme you know.",
+     "Make up a new last line."
+    ],
+    "test": [
+     "What colour is the hen?",
+     "What rhymes with three?",
+     "What does the hen count to?",
+     "What is a nursery rhyme?",
+     "Say a word that rhymes with hen."
+    ],
+    "steps": [
+     "Listen to the rhyme first.",
+     "Say it line by line.",
+     "Clap the beat and listen for the rhyming words.",
+     "Watch out: saying it too fast. Say it slowly so the rhymes are clear."
+    ],
+    "answers": [
+     "Red.",
+     "See.",
+     "Ten.",
+     "A short poem or song with rhymes and a strong beat.",
+     "Your answer. For example: pen."
+    ]
+   }
+  },
+  "eu-year-gb-sct-beginner-p1-l25": {
+   "en": {
+    "title": "Retelling a traditional tale: The Three Little Pigs",
+    "theory": "Traditional tales are stories told for many years. The Three Little Pigs is about three pigs who build houses. We retell it in our own words, using first, next, then and at the end.",
+    "sample": "In our own words: First, three little pigs build houses of straw, sticks and bricks. Next, a wolf blows down the straw house and the stick house. Then he cannot blow down the brick house. At the end, the pigs are safe together.",
+    "worked": "The characters are three pigs and a wolf. The brick house is the strongest. Words like first, next, then and at the end keep the story in order.",
+    "exercises": [
+     "Retell the beginning of the story.",
+     "Draw the three houses.",
+     "Say how the wolf feels at the end.",
+     "Act out the story with friends.",
+     "Tell the story to someone at home."
+    ],
+    "test": [
+     "What did the pigs build?",
+     "Which house did the wolf not blow down?",
+     "Who are the characters?",
+     "Which word starts a retelling?",
+     "How does the story end?"
+    ],
+    "steps": [
+     "Remember the characters: three pigs and a wolf.",
+     "Tell what happened first, next and then.",
+     "Finish with the end of the story.",
+     "Watch out: mixing up the order. The brick house comes last."
+    ],
+    "answers": [
+     "Houses of straw, sticks and bricks.",
+     "The brick house.",
+     "Three pigs and a wolf.",
+     "First.",
+     "The pigs are safe together."
+    ]
+   }
+  },
+  "eu-year-gb-sct-beginner-p1-l26": {
+   "en": {
+    "title": "Characters and settings",
+    "theory": "Characters are the people or animals in a story. The setting is where the story happens: a forest, a house, a beach. We can talk about what characters do and how they feel.",
+    "sample": "Original story: Mia the mouse lived in a cosy hole under a tree. One windy night, she heard a strange noise and felt scared. It was only an owl, who said hello.",
+    "worked": "Mia and the owl are the characters. The setting is a hole under a tree, at night. Mia feels scared, then safe when she meets the friendly owl.",
+    "exercises": [
+     "Name the characters in the story.",
+     "Say where the story happens.",
+     "Say how Mia feels.",
+     "Draw the setting.",
+     "Name a character from your favourite book."
+    ],
+    "test": [
+     "Who is Mia?",
+     "Where does Mia live?",
+     "How does Mia feel at first?",
+     "Who made the strange noise?",
+     "What is a setting?"
+    ],
+    "steps": [
+     "Ask: who is in the story?",
+     "Ask: where does it happen?",
+     "Ask: how do the characters feel, and why?",
+     "Watch out: mixing up character and setting. A character is a who; a setting is a where."
+    ],
+    "answers": [
+     "A mouse.",
+     "In a hole under a tree.",
+     "Scared.",
+     "An owl.",
+     "The place where a story happens."
+    ]
+   }
+  },
+  "eu-year-gb-sct-beginner-p1-l27": {
+   "en": {
+    "title": "Information books",
+    "theory": "Some books tell stories. Others give us true facts: we call them information books or non-fiction. They often have photos, labels and a contents page.",
+    "sample": "Original page: Ducks / Ducks live near ponds and rivers. They have webbed feet for swimming. Baby ducks are called ducklings.",
+    "worked": "This page gives facts, not a story. The title tells us the topic: ducks. We learn where they live, what their feet are like and what babies are called.",
+    "exercises": [
+     "Find an information book in the class.",
+     "Say one fact about ducks.",
+     "Draw a duck and add labels.",
+     "Ask a question about ducks.",
+     "Say if a book is a story or an information book."
+    ],
+    "test": [
+     "Where do ducks live?",
+     "What are baby ducks called?",
+     "Why do ducks have webbed feet?",
+     "Is this page a story?",
+     "What do information books give us?"
+    ],
+    "steps": [
+     "Look at the title to find the topic.",
+     "Read or listen to each sentence and find one fact.",
+     "Use the photos and labels to help.",
+     "Watch out: thinking all books are stories. Information books tell true facts."
+    ],
+    "answers": [
+     "Near ponds and rivers.",
+     "Ducklings.",
+     "For swimming.",
+     "No, it gives facts.",
+     "True facts."
+    ]
+   }
+  },
+  "eu-year-gb-sct-beginner-p1-l28": {
+   "en": {
+    "title": "Looking at a book: cover, title, author",
+    "theory": "A book has a front cover, a back cover and pages. On the front we find the title, the name of the author who wrote it and the illustrator who drew the pictures. We turn pages one at a time, from the front to the back.",
+    "sample": "Front cover: The Lost Kite / by Sam Green / pictures by Lily Day / a picture of a kite in a tree",
+    "worked": "The title is The Lost Kite. Sam Green is the author. Lily Day is the illustrator. The picture helps us guess what the story is about: a kite stuck in a tree.",
+    "exercises": [
+     "Show the front cover of a book.",
+     "Point to the title.",
+     "Find the author’s name.",
+     "Turn three pages carefully.",
+     "Guess what a book is about from its cover."
+    ],
+    "test": [
+     "What is the title?",
+     "Who wrote the book?",
+     "Who drew the pictures?",
+     "What is on the cover?",
+     "Which way do we turn the pages?"
+    ],
+    "steps": [
+     "Look at the front cover.",
+     "Find the title, then the author and illustrator.",
+     "Use the picture to guess what will happen.",
+     "Watch out: mixing up author and illustrator. The author writes; the illustrator draws."
+    ],
+    "answers": [
+     "The Lost Kite.",
+     "Sam Green.",
+     "Lily Day.",
+     "A kite in a tree.",
+     "From the front to the back, one at a time."
+    ]
+   }
+  },
+  "eu-year-gb-sct-beginner-p1-l29": {
+   "en": {
+    "title": "Guessing what will happen next",
+    "theory": "Good readers make predictions: they guess what will happen next using clues from the pictures and the words. Then they read on to check.",
+    "sample": "Original story: Tom put on his boots and coat. Dark clouds filled the sky. He took his big umbrella. / What will happen next?",
+    "worked": "Clues: dark clouds, boots, coat and an umbrella. A good prediction is: it will rain. We read on to see if we were right. A prediction does not have to be right; it has to use the clues.",
+    "exercises": [
+     "Predict what Tom will see outside.",
+     "Find the clues in the story.",
+     "Look at a book cover and make a prediction.",
+     "Read on and check your guess.",
+     "Make up an ending for Tom’s story."
+    ],
+    "test": [
+     "What did Tom take?",
+     "What was in the sky?",
+     "What will probably happen?",
+     "What do we use to make a prediction?",
+     "What do we do after predicting?"
+    ],
+    "steps": [
+     "Look for clues in the words and pictures.",
+     "Say what you think will happen and why.",
+     "Read on to check if you were right.",
+     "Watch out: guessing without clues. Always say why you think so."
+    ],
+    "answers": [
+     "His big umbrella.",
+     "Dark clouds.",
+     "It will rain.",
+     "Clues from the pictures and the words.",
+     "We read on to check."
+    ]
+   }
+  },
+  "eu-year-gb-sct-beginner-p1-l30": {
+   "en": {
+    "title": "Show and tell",
+    "theory": "In show and tell, we bring something to show the class and talk about it. We say what it is, where it came from and why we like it. The others listen and can ask questions.",
+    "sample": "This is my shell. I found it on the beach with my gran. I like it because it is pink and shiny inside.",
+    "worked": "The child says what it is (a shell), where it came from (the beach, with gran) and why they like it (pink and shiny). Three clear sentences are enough.",
+    "exercises": [
+     "Talk about something you like for three sentences.",
+     "Say where your object came from.",
+     "Say why you like it.",
+     "Ask a friend a question about their object.",
+     "Speak loudly enough for everyone to hear."
+    ],
+    "test": [
+     "What did the child bring?",
+     "Where was it found?",
+     "Why does the child like it?",
+     "What do the others do?",
+     "How many sentences did the child say?"
+    ],
+    "steps": [
+     "Say what your object is.",
+     "Say where it came from.",
+     "Say why you like it.",
+     "Watch out: speaking too quietly or looking at the floor. Look at the class and speak clearly."
+    ],
+    "answers": [
+     "A shell.",
+     "On the beach.",
+     "Because it is pink and shiny inside.",
+     "They listen and can ask questions.",
+     "Three."
+    ]
+   }
+  },
+  "eu-year-gb-sct-beginner-p1-l31": {
+   "en": {
+    "title": "Asking and answering questions",
+    "theory": "Questions help us find things out. Question words are who, what, where, when, why and how. When we answer, we use a whole sentence.",
+    "sample": "Who is your friend? My friend is Ava. / Where do you live? I live in a flat near the park. / What is your favourite food? My favourite food is pasta.",
+    "worked": "Who asks about a person. Where asks about a place. What asks about a thing. Each answer is a whole sentence that uses words from the question.",
+    "exercises": [
+     "Ask a friend: What is your favourite colour?",
+     "Answer: Where do you live?",
+     "Make a question with who.",
+     "Make a question with why.",
+     "Answer with a whole sentence: What is your name?"
+    ],
+    "test": [
+     "Which question word asks about a place?",
+     "Which question word asks about a person?",
+     "Answer: What is your favourite food?",
+     "What do we use to answer?",
+     "Make a question with what."
+    ],
+    "steps": [
+     "Choose the question word: who, what, where, when, why, how.",
+     "Listen to the question carefully.",
+     "Answer in a whole sentence, using words from the question.",
+     "Watch out: answering with one word. Say: My friend is Ava, not just Ava."
+    ],
+    "answers": [
+     "Where.",
+     "Who.",
+     "Your answer. For example: My favourite food is soup.",
+     "A whole sentence.",
+     "Your answer. For example: What is your pet called?"
+    ]
+   }
+  },
+  "eu-year-gb-sct-beginner-p1-l32": {
+   "en": {
+    "title": "Review: what I learned this year",
+    "theory": "At the end of the year we read a short text and show what we know: letter sounds, blending, tricky words, writing a sentence and talking about a story.",
+    "sample": "Original text: Finn has a red kite. He runs up the hill. The kite goes high in the sky. Finn is happy.",
+    "worked": "The text has four sentences. Finn is the character and the hill is the setting. Kite, red and run can be blended. High has igh. Each sentence starts with a capital and ends with a full stop.",
+    "exercises": [
+     "Read the text aloud.",
+     "Find a word with igh.",
+     "Find a tricky word in the text.",
+     "Write a sentence about a kite.",
+     "Say what you liked learning most this year."
+    ],
+    "test": [
+     "What colour is the kite?",
+     "Where does Finn run?",
+     "How does Finn feel?",
+     "How many sentences are in the text?",
+     "Where does the kite go?"
+    ],
+    "steps": [
+     "Read the text slowly, blending new words.",
+     "Ask: who, where, what happens, how do they feel?",
+     "Answer each question with a whole sentence.",
+     "Watch out: skipping small words like the and he. Every word matters."
+    ],
+    "answers": [
+     "Red.",
+     "Up the hill.",
+     "Happy.",
+     "Four.",
+     "High in the sky."
+    ]
+   }
+  }
+ }
+}

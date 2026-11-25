@@ -1,6 +1,12 @@
 // Browser-only, lazy materialization of a selected Literature school year.
 // Keeping year expansions out of the initial Android HTML reduces payload size.
 // Data remains original teaching material, never a government reading list.
+// Years of the dedicated country profiles whose generic sixteen-row sequence is
+// replaced by the national-pack chapter keys (official programme + textbooks).
+export const LIT_NATIONAL_PACK_YEARS={
+ AT:{beginner:['1']},HR:{beginner:['1']},MD:{beginner:['1']},
+ PL:{beginner:['I']},RS:{beginner:['1']},TR:{beginner:['1']}
+};
 export function literatureClientGradeExpand(programs,journey){
  if(!programs||!journey?.country||!journey?.grade)return null;
  const country=String(journey.country),grade=String(journey.grade);
@@ -69,11 +75,13 @@ export function literatureClientGradeExpand(programs,journey){
   !String(row[0]).startsWith(prefix)||String(row[0]).startsWith(currentPrefix));
  // Preserve the original national sequences already containing substantial
  // authored lessons (particularly the seven dedicated country packs).
- if(before.length>=15){profile.byGrade[grade]=before;return before}
+ const nationalYear=(LIT_NATIONAL_PACK_YEARS[country]?.[stage]||[]).includes(grade);
+ const kept=nationalYear?before.filter(row=>String(row[0]).startsWith(prefix)):before;
+ if(!nationalYear&&before.length>=15){profile.byGrade[grade]=before;return before}
  const cap=country==='RO'?12:Number.POSITIVE_INFINITY;
- const ids=new Set(before.map(row=>String(row[0])));
- const titles=new Set(before.map(row=>String(row[1]).toLowerCase()));
- const rows=before.map(row=>row.slice());
+ const ids=new Set(kept.map(row=>String(row[0])));
+ const titles=new Set(kept.map(row=>String(row[1]).toLowerCase()));
+ const rows=kept.map(row=>row.slice());
  const ordered=country==='RO'?
   ['intelegere','dialog','vocabular','interpretare','verificare',
    'poezie','narativ','redactare','parcurs','exprimare']:

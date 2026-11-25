@@ -15,7 +15,7 @@ new vm.Script(script);
 assert.ok(script.includes('function inMathReader()'),
  'Client Mathematics lesson reader must actually include dynamic localization');
 
-const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
+const browser=await chromium.launch({headless:true,args:['--no-sandbox'],...(process.env.CHROMIUM_EXECUTABLE_PATH?{executablePath:process.env.CHROMIUM_EXECUTABLE_PATH}:{})});
 try{
  const page=await browser.newPage({viewport:{width:390,height:844},locale:'it-IT'});
  const errors=[];page.on('pageerror',e=>errors.push(String(e)));

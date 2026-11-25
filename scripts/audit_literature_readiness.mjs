@@ -5,6 +5,8 @@
 // University curricula are institution-specific and cannot be certified as
 // a universal national course by this script.
 import {pathToFileURL} from 'node:url';
+import {readFileSync} from 'node:fs';
+import {literatureNationalAuthoredMaterial} from '../literature_national_authored_material.mjs';
 import {EDUCATION_EUROPE_COUNTRIES,educationCountrySchoolYears} from '../education_all_country_subject_matrix.mjs';
 import {LIT_EU_PROGRAMS} from '../literature_curriculum_europe.mjs';
 import {literatureClientGradeExpand} from '../literature_europe_client_lazy.mjs';
@@ -17,6 +19,8 @@ import {literatureGeneralFallback} from '../literature_general_fallback.mjs';
 
 export function auditLiteratureReadiness(){
  const programs=JSON.parse(JSON.stringify(LIT_EU_PROGRAMS));
+ const franceCP=JSON.parse(readFileSync(new URL('../public/education/literature/authored/FR/CP.json',import.meta.url),'utf8')).chapters;
+ const hungary=Object.fromEntries(['1','2','3','4'].map(grade=>[grade,JSON.parse(readFileSync(new URL('../public/education/literature/authored/HU/'+grade+'.json',import.meta.url),'utf8')).chapters]));
  const countries=[];
  for(const country of EDUCATION_EUROPE_COUNTRIES){
   const routes=[];
@@ -32,7 +36,8 @@ export function auditLiteratureReadiness(){
    for(const [id,title,focus,area] of rows){
     const base={country,stage,grade,topicKey:String(id),title,focus,language:'ro',mode:'lesson'};
     let kind;
-    if(literatureHungaryGrade1Material(base)||literatureHungaryPrimaryMaterial(base))kind='authored_exact';
+    if(literatureHungaryGrade1Material({...base,chapters:hungary[grade]})||literatureHungaryPrimaryMaterial({...base,chapters:hungary[grade]})||
+       literatureNationalAuthoredMaterial({...base,chapters:franceCP}))kind='authored_exact';
     else if(country==='RO'&&(litRomanianGradeMaterial(base)||romanianExpandedMaterial(base)))kind='romanian_year_material';
     else if(literatureEuropeanAuthoredMaterial(base))kind='shared_european';
     else if(literatureGeneralFallback({...base,area}))kind='general_fallback';

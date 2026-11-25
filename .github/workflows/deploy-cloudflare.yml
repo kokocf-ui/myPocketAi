@@ -20,6 +20,11 @@ jobs:
       - name: Get repository files
         uses: actions/checkout@v4
 
+      - name: Use Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
       - name: Verify generated app boot script before deployment
         run: |
           node --check index.js
@@ -78,7 +83,18 @@ jobs:
           node tests_chemistry_laws_scroll.mjs
           node tests_math_shared_workspace_layout.mjs
           node scripts/build_curriculum_packs.mjs --verify
+          node scripts/build_literature_profiles.mjs --verify
+          node scripts/build_literature_authored_packs.mjs --verify
+          node tests_literature_country_profiles.mjs
+          node tests_literature_authored_packs.mjs
+          node tests_literature_france_cp.mjs
+          node scripts/build_science_shared_packs.mjs --verify
+          node tests_science_shared_packs.mjs
+          node scripts/build_math_country_supplements.mjs --verify
+          node tests_math_country_supplements.mjs
           node tests_curriculum_pack_decoupling_2026.mjs
+          node tests_curriculum_pack_refresh.mjs
+          node tests_education_pack_service.mjs
           node tests_math_romania_full_2026.mjs
           node tests_math_batch2_md_uk_fr_de_2026.mjs
           node tests_math_batch3_es_it_pt_pl_2026.mjs
@@ -91,6 +107,7 @@ jobs:
           node --check storybook_commons_photos.mjs
           node --check storybook_history_research.mjs
           node tests_tools_six_navigation.mjs
+          node tests_divertisment_frontend_presence.mjs
 
       - name: Verify contextual news translation and apply avatar lip-stop patch
         run: |
@@ -128,7 +145,7 @@ jobs:
           node scripts/patch-avatar-lipsync.mjs public/avatar-v4.html
 
       - name: Install pinned Wrangler
-        run: npm install --no-save --ignore-scripts --no-audit --no-fund wrangler@3.90.0
+        run: npm install --no-save --ignore-scripts --no-audit --no-fund wrangler@4.168.0
 
       - name: Deploy frontend (retry transient Cloudflare outages only)
         env:

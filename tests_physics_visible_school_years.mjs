@@ -18,8 +18,11 @@ const options=vm.runInNewContext(EDUCATION_COUNTRY_UI_SCRIPT.slice(s,e)+
  HG_COUNTRY_PICKER_DATA:[{id:'RO',ro:'România',en:'Romania'}],
  Intl
 });
-assert.equal(options.length,50,'Education must not inherit missing jurisdictions from other modules');
-assert.equal(new Set(options.map(x=>x.id)).size,50);
+// Vatican City is deliberately removed from Education by user decision
+// (no school system of its own); all other 49 jurisdictions stay selectable.
+assert.equal(options.length,EDUCATION_EUROPE_COUNTRIES.length-1,'Education must not inherit missing jurisdictions from other modules');
+assert.ok(!options.some(o=>o.id==='VA'),'Vatican City must not be offered in Education');
+assert.equal(new Set(options.map(x=>x.id)).size,options.length);
 assert.equal(options.find(x=>x.id==='XK')?.ro,'Kosovo',
  'Kosovo must be selectable as a school system even if absent from world-countries metadata');
 

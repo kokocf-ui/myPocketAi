@@ -35,7 +35,7 @@ for(const token of [
  'const LIT_VERIFIED_AUTHORS=${JSON.stringify(VERIFIED_LITERARY_AUTHORS)}',
  "if(key==='literature'){",
  "if(stage==='languages'){litOpen('levels');return}",
- "if(stage==='levels'){educationCountryGate('literature',()=>litOpen('levels'));return}",
+ "if(stage==='levels'){educationCountryGate('literature',()=>openLearningSubjectAfterCountry('literature'));return}",
  "litChangeLanguageNeverExists" // temporary replaced below
 ])if(token!=='litChangeLanguageNeverExists')assert.ok(source.includes(token),'Missing literature flow: '+token);
 assert.doesNotMatch(source,/Schimbă limba studiată \(opțional\)/, 'No redundant language selection');

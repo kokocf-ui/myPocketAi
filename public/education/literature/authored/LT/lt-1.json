@@ -1,0 +1,1064 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "LT",
+ "stage": "beginner",
+ "grade": "1",
+ "version": "bb1186e9c0acf7297eef3a988d72393099e6af7befd162bd947a38a1d54d94a1",
+ "source": "https://www.emokykla.lt/bendrosios-programos/visos-bendrosios-programos",
+ "sourceTitle": "Pradinio ugdymo bendrosios programos (ŠMSM, 2022), Lietuvių kalba ir literatūra, 1–2 klasės: kalbėjimas ir klausymas, garsai ir raidės, skaitymas ir supratimas, rašymas, tautosaka ir vaikų literatūra; seka kaip įprastuose elementoriuose; savo medžiaga, be vadovėlių teksto",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "lt",
+ "labels": [
+  "Savas pratimas · Lietuva · 1 klasė",
+  "Mokomės",
+  "Savas pavyzdys",
+  "Paaiškinimas",
+  "Pratimai",
+  "Pasitikrink",
+  "Savi pratimai, o ne oficialus testas ar vadovėlio tekstas. Jei reikia, skaityk kartu su suaugusiuoju.",
+  "Jei nesupranti: žingsnis po žingsnio",
+  "Atsakymai (pasitikrink, kai baigsi)"
+ ],
+ "units": [
+  {
+   "title": "Ruošiamės skaityti ir rašyti",
+   "keys": [
+    "eu-year-lt-beginner-1-l01",
+    "eu-year-lt-beginner-1-l02",
+    "eu-year-lt-beginner-1-l03",
+    "eu-year-lt-beginner-1-l04"
+   ]
+  },
+  {
+   "title": "Raidės",
+   "keys": [
+    "eu-year-lt-beginner-1-l05",
+    "eu-year-lt-beginner-1-l06",
+    "eu-year-lt-beginner-1-l07",
+    "eu-year-lt-beginner-1-l08",
+    "eu-year-lt-beginner-1-l09",
+    "eu-year-lt-beginner-1-l10",
+    "eu-year-lt-beginner-1-l11",
+    "eu-year-lt-beginner-1-l12"
+   ]
+  },
+  {
+   "title": "Rašome taisyklingai",
+   "keys": [
+    "eu-year-lt-beginner-1-l13",
+    "eu-year-lt-beginner-1-l14",
+    "eu-year-lt-beginner-1-l15",
+    "eu-year-lt-beginner-1-l16"
+   ]
+  },
+  {
+   "title": "Skaitome",
+   "keys": [
+    "eu-year-lt-beginner-1-l17",
+    "eu-year-lt-beginner-1-l18",
+    "eu-year-lt-beginner-1-l19",
+    "eu-year-lt-beginner-1-l20",
+    "eu-year-lt-beginner-1-l21",
+    "eu-year-lt-beginner-1-l22",
+    "eu-year-lt-beginner-1-l23"
+   ]
+  },
+  {
+   "title": "Bendraujame",
+   "keys": [
+    "eu-year-lt-beginner-1-l24",
+    "eu-year-lt-beginner-1-l25",
+    "eu-year-lt-beginner-1-l26"
+   ]
+  },
+  {
+   "title": "Knyga ir kartojimas",
+   "keys": [
+    "eu-year-lt-beginner-1-l27",
+    "eu-year-lt-beginner-1-l28"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-lt-beginner-1-l01": {
+   "lt": {
+    "title": "Susipažįstame ir kalbame paeiliui",
+    "theory": "Pirmoje klasėje mokomės klausytis. Kalba vienas, kiti klauso ir nepertraukia. Atsakome visu sakiniu: Mano vardas… Vartojame mandagius žodžius: labas, prašau, ačiū, atsiprašau.",
+    "sample": "Mano vardas Ugnė. Man septyneri metai. Man patinka piešti. Šalia manęs sėdi Lukas.",
+    "worked": "Ugnė pasakė keturis trumpus sakinius: vardą, amžių, ką mėgsta ir kas sėdi šalia. Kiekvienas sakinys prasideda didžiąja raide ir baigiasi tašku.",
+    "exercises": [
+     "Prisistatyk dviem sakiniais.",
+     "Papasakok, ką mėgsti veikti.",
+     "Pasakyk savo suolo draugo vardą.",
+     "Parodyk, kaip pakeli ranką, kai nori kalbėti.",
+     "Pakartok, ką apie save papasakojo klasės draugas."
+    ],
+    "test": [
+     "Kiek metų Ugnei?",
+     "Ką darome, kai norime kalbėti?",
+     "Kodėl nepertraukiame kitų?",
+     "Kokį žodį sakai, kai ką nors gauni?",
+     "Kas sėdi šalia Ugnės?"
+    ],
+    "steps": [
+     "Pirmiausia pasakyk savo vardą: Mano vardas…",
+     "Paskui pasakyk, kiek tau metų ir kas tau patinka.",
+     "Kai kalba kitas, klausyk ir palauk, kol jis baigs.",
+     "Dažna klaida: atsakyti vienu žodžiu. Atsakyk visu sakiniu."
+    ],
+    "answers": [
+     "Septyneri metai.",
+     "Pakeliame ranką ir laukiame savo eilės.",
+     "Kad visi galėtų kalbėti ir vieni kitus suprastume.",
+     "Ačiū.",
+     "Lukas."
+    ]
+   }
+  },
+  "eu-year-lt-beginner-1-l02": {
+   "lt": {
+    "title": "Sakinys, žodis, skiemuo, garsas",
+    "theory": "Kai kalbame, vartojame sakinius. Sakinys sudarytas iš žodžių. Žodžius skirstome skiemenimis, kuriuos galime suploti. Skiemenys sudaryti iš garsų. Garsą girdime ir tariame, raidę matome ir rašome.",
+    "sample": "Mama turi rankinę. / ma-ma / m-a-m-a",
+    "worked": "Sakinyje yra trys žodžiai: Mama, turi, rankinę. Žodyje mama yra du skiemenys: ma-ma. Einame nuo didelio prie mažo: sakinys, žodis, skiemuo, garsas.",
+    "exercises": [
+     "Kiek žodžių sakinyje: Ona dainuoja?",
+     "Suplok žodį žiema.",
+     "Kiek garsų žodyje lapas?",
+     "Pasakyk sakinį apie savo kuprinę.",
+     "Koks pirmas garsas žodyje obuolys?"
+    ],
+    "test": [
+     "Iš ko sudarytas sakinys?",
+     "Kiek skiemenų žodyje ranka?",
+     "Kiek garsų žodyje sala?",
+     "Koks paskutinis garsas žodyje namas?",
+     "Kuo garsas skiriasi nuo raidės?"
+    ],
+    "steps": [
+     "Pasakyk sakinį ir suskaičiuok žodžius ant pirštų.",
+     "Suplok žodį: vienas plojimas yra vienas skiemuo.",
+     "Tark lėtai, kad išgirstum kiekvieną garsą atskirai.",
+     "Dažna klaida: painioti skiemenį su garsu. Skiemenį suplojame, garsą tariame atskirai."
+    ],
+    "answers": [
+     "Iš žodžių.",
+     "Du: ran-ka.",
+     "Keturi: s-a-l-a.",
+     "s.",
+     "Garsą girdime ir tariame, raidę matome ir rašome."
+    ]
+   }
+  },
+  "eu-year-lt-beginner-1-l03": {
+   "lt": {
+    "title": "Balsiai ir priebalsiai",
+    "theory": "Balsius tariame laisvai, atvira burna: a, e, i, o, u. Priebalsius tariame su kliūtimi: lūpos, dantys ar liežuvis sulaiko orą. Kiekviename skiemenyje yra balsis.",
+    "sample": "balsiai: a, e, i, o, u / priebalsiai: m, n, l, s / ma-ma — du balsiai, du skiemenys",
+    "worked": "Žodyje sala balsis yra a, o s ir l yra priebalsiai. Kiek balsių žodyje, tiek skiemenų: sa-la, du skiemenys.",
+    "exercises": [
+     "Išvardyk balsius.",
+     "Rask balsį žodyje sūris.",
+     "Pasakyk žodį, kuris prasideda priebalsiu.",
+     "Suskaičiuok balsius žodyje pomidoras.",
+     "Tark lėtai: a, e, i, o, u."
+    ],
+    "test": [
+     "Kaip tariame balsius?",
+     "Kiek balsių žodyje ranka?",
+     "Kiek skiemenų žodyje pomidoras?",
+     "Ar būna skiemuo be balsio?",
+     "Kokį garsą girdi žodžio obuolys pradžioje?"
+    ],
+    "steps": [
+     "Tark žodį lėtai ir garsiai.",
+     "Garsas, kurį ištempi atvira burna, yra balsis.",
+     "Suskaičiuok balsius: kiek balsių, tiek skiemenų.",
+     "Dažna klaida: manyti, kad kiekvienas garsas yra skiemuo. Skiemenį sudaro balsis su priebalsiais."
+    ],
+    "answers": [
+     "Laisvai, atvira burna.",
+     "Du: a ir a.",
+     "Keturi: po-mi-do-ras.",
+     "Ne, kiekviename skiemenyje yra balsis.",
+     "o."
+    ]
+   }
+  },
+  "eu-year-lt-beginner-1-l04": {
+   "lt": {
+    "title": "Ruošiame ranką rašyti",
+    "theory": "Prieš rašydami pamankštiname ranką: piešiame ratus, bangeles ir kilpas. Sėdime tiesiai, kojos ant grindų. Pieštuką laikome lengvai trimis pirštais ir stipriai nespaudžiame.",
+    "sample": "1 eilutė: stačios linijos. / 2 eilutė: bangelės. / 3 eilutė: ovalai. / 4 eilutė: kilpos.",
+    "worked": "Šias formas randame raidėse: ovalas yra o ir a, stačia linija i ir t, kilpa l. Kai jas lavinamės, raidės tampa gražesnės. Rašome iš kairės į dešinę.",
+    "exercises": [
+     "Nupiešk eilutę ovalų.",
+     "Nupiešk eilutę bangelių.",
+     "Parodyk, kaip laikai pieštuką.",
+     "Pirštu nupiešk ore kilpą.",
+     "Rask ovalą raidėje a."
+    ],
+    "test": [
+     "Keliais pirštais laikome pieštuką?",
+     "Kaip sėdime, kai rašome?",
+     "Kuria kryptimi rašome?",
+     "Kurioje raidėje yra ovalas?",
+     "Ką darai, kai ranka pavargsta?"
+    ],
+    "steps": [
+     "Atsisėsk tiesiai ir padėk kojas ant grindų.",
+     "Laikyk pieštuką trimis pirštais ir nespausk.",
+     "Rašyk iš kairės į dešinę ir laikykis eilutės.",
+     "Dažna klaida: stipriai spausti pieštuką. Kai ranka pavargsta, pakratyk ją ir pailsėk."
+    ],
+    "answers": [
+     "Trimis.",
+     "Tiesiai, kojos ant grindų.",
+     "Iš kairės į dešinę.",
+     "Raidėse o ir a.",
+     "Pakratau ją ir pailsiu."
+    ]
+   }
+  },
+  "eu-year-lt-beginner-1-l05": {
+   "lt": {
+    "title": "Balsės A, E, I, O, U",
+    "theory": "Pirmiausia mokomės raides A, E, I, O, U. Kiekviena raidė turi didžiąją ir mažąją formą. Didžiąją raidę rašome sakinio pradžioje ir varduose.",
+    "sample": "A a, E e, I i, O o, U u / a kaip žodyje antis, o kaip žodyje obuolys, i kaip žodyje Inga",
+    "worked": "Žodžio obuolys pradžioje girdime o. Žodžio Inga pradžioje girdime i, o kadangi tai vardas, rašome didžiąją I.",
+    "exercises": [
+     "Išvardyk balses iš eilės.",
+     "Parašyk eilutę raidės o.",
+     "Kokį garsą girdi žodžio Inga pradžioje?",
+     "Pasakyk žodį, kuris prasideda u.",
+     "Apvesk balses: a m o u."
+    ],
+    "test": [
+     "Kokias raides išmokome?",
+     "Koks garsas yra žodžio obuolys pradžioje?",
+     "Kokią raidę rašome žodžio Inga pradžioje?",
+     "Kiek formų turi kiekviena raidė?",
+     "Kokia raide prasideda žodis eglė?"
+    ],
+    "steps": [
+     "Tark žodį lėtai ir aiškiai.",
+     "Klausyk, kokią balsę tari.",
+     "Rask tą raidę ir parašyk.",
+     "Dažna klaida: rašyti skirtingo dydžio raides. Visos raidės tebūna tarp linijų."
+    ],
+    "answers": [
+     "A, E, I, O, U.",
+     "o.",
+     "Didžiąją I.",
+     "Dvi: didžiąją ir mažąją.",
+     "e."
+    ]
+   }
+  },
+  "eu-year-lt-beginner-1-l06": {
+   "lt": {
+    "title": "Raidės M, S, L, N, T, R: pirmieji skiemenys",
+    "theory": "Priebalses M, S, L, N, T, R jungiame su balsėmis į skiemenis: ma, so, lu, ni, te, ra. Iš skiemenų sudarome žodžius: ma-ma, te-tis, Ra-sa.",
+    "sample": "ma, me, mi, mo / sa, si / la, le / na, no / ta, te / ra, ri / mama, tetis, sala, namas / Mama ir tetis. / Rasa ten.",
+    "worked": "Skiemenį skaitome kartu: m ir a kartu yra ma. Žodyje namas du skiemenys: na-mas. Rasa yra vardas, todėl rašome didžiąja raide.",
+    "exercises": [
+     "Perskaityk: ma, mo, mu.",
+     "Perskaityk: la, li, le.",
+     "Perskaityk: mama, tetis, sala.",
+     "Sudėk žodį iš skiemenų: Ra-sa.",
+     "Parašyk eilutę raidės m."
+    ],
+    "test": [
+     "Kaip skaitome m ir a kartu?",
+     "Kiek skiemenų žodyje namas?",
+     "Perskaityk: Mama ir tetis.",
+     "Kur yra Rasa?",
+     "Kodėl Rasa rašome didžiąja raide?"
+    ],
+    "steps": [
+     "Pažiūrėk į priebalsę ir iškart į balsę po jos.",
+     "Perskaityk jas kartu kaip vieną skiemenį.",
+     "Sujunk skiemenis į žodį: ma-ma.",
+     "Dažna klaida: skaityti paraidžiui: m, a, m, a. Skaityk skiemenimis: ma-ma."
+    ],
+    "answers": [
+     "Ma, kaip vieną skiemenį.",
+     "Du: na-mas.",
+     "Mama ir tetis.",
+     "Ten.",
+     "Nes tai vardas."
+    ]
+   }
+  },
+  "eu-year-lt-beginner-1-l07": {
+   "lt": {
+    "title": "Raidės K, P, V, D, J, B, G, Z: skaitome sakinius",
+    "theory": "Naujos raidės yra K, P, V, D, J, B, G ir Z. Dabar skaitome trumpus sakinius. Sakinys prasideda didžiąja raide ir baigiasi tašku. Nepainiojame panašių garsų: b ir p, g ir k, d ir t, z ir s.",
+    "sample": "katinas, vilkas, bebras, gandras, zuikis / Katinas miega. / Gandras ant stogo. / Bebras plaukia.",
+    "worked": "Sakinyje Katinas miega yra du žodžiai. Jis prasideda didžiąja K ir baigiasi tašku. Garsai b ir p panašūs, bet b skardus, todėl tariame lėtai ir klausomės.",
+    "exercises": [
+     "Perskaityk: ka, po, vi, de, bu, ga.",
+     "Perskaityk: katinas, vilkas, bebras.",
+     "Perskaityk: Katinas miega.",
+     "Parašyk eilutę raidės k.",
+     "Sukurk sakinį su žodžiu zuikis."
+    ],
+    "test": [
+     "Ką veikia katinas?",
+     "Kur yra gandras?",
+     "Kuo baigiasi sakinys?",
+     "Kiek skiemenų žodyje katinas?",
+     "Perskaityk: Bebras plaukia."
+    ],
+    "steps": [
+     "Skaityk skiemenimis: ka-ti-nas.",
+     "Perskaityk visą sakinį iki taško.",
+     "Atsakyk į klausimą: kas? kur? ką veikia?",
+     "Dažna klaida: sustoti sakinio viduryje. Skaityk iki taško."
+    ],
+    "answers": [
+     "Miega.",
+     "Ant stogo.",
+     "Tašku.",
+     "Trys: ka-ti-nas.",
+     "Bebras plaukia."
+    ]
+   }
+  },
+  "eu-year-lt-beginner-1-l08": {
+   "lt": {
+    "title": "Raidės Y, Ū ir Ė: ilgieji balsiai",
+    "theory": "Ilgąjį i dažnai rašome raide y: lyja, ryte. Ilgąjį u rašome raide ū: sūris. Raidė ė žymi kitą balsį nei e: gėlė, pelė. Kada rašyti i ar y, kartais patikriname kitu žodžiu, o kartais tiesiog įsimename.",
+    "sample": "ryte, lyja, pelė, gėlė, sūris / Ryte lyja. / Gėlė graži.",
+    "worked": "Žodžiuose gėlė ir pelė girdime ilgą ė. Žodyje lyja girdime ilgą i, kurį rašome y. Žodyje sūris girdime ilgą u, kurį rašome ū.",
+    "exercises": [
+     "Perskaityk: gėlė, pelė.",
+     "Perskaityk: lyja, ryte.",
+     "Rask ilgą balsį žodyje sūris.",
+     "Parašyk eilutę raidės ė.",
+     "Pasakyk žodį su ū."
+    ],
+    "test": [
+     "Kokį balsį žymi raidė y?",
+     "Kokia balsė yra žodyje gėlė?",
+     "Kaip rašomas ilgas u žodyje sūris?",
+     "Perskaityk: Ryte lyja.",
+     "Ar ė yra tas pats kaip e?"
+    ],
+    "steps": [
+     "Tark žodį ir klausyk, ar balsį ištempi.",
+     "Prisimink, kaip žodis rašomas knygoje.",
+     "Perskaityk žodį dar kartą ir patikrink.",
+     "Dažna klaida: rašyti e vietoj ė. Gėlė be ženklo nėra teisingas žodis."
+    ],
+    "answers": [
+     "Ilgąjį i.",
+     "Ė.",
+     "ū.",
+     "Ryte lyja.",
+     "Ne, ė yra kita balsė."
+    ]
+   }
+  },
+  "eu-year-lt-beginner-1-l09": {
+   "lt": {
+    "title": "Raidės Š, Ž, Č ir dvigarsiai",
+    "theory": "Raidės š, ž ir č turi paukštelį viršuje. Paukštelis keičia garsą: s – š, z – ž, c – č. Dz ir dž rašomi dviem raidėmis, bet tai vienas garsas: dzūkas, džemas.",
+    "sample": "šuo, žuvis, čiužinys, džemas, dzūkas / Šuo loja. / Žuvis plaukia upėje.",
+    "worked": "Žodžio šuo pirmas garsas yra š. Žodžio žuvis pirmas garsas yra ž. Žodyje džemas dž yra vienas garsas, todėl skiemenys yra dže-mas.",
+    "exercises": [
+     "Perskaityk: šuo, žuvis, čiužinys.",
+     "Perskaityk: džemas, dzūkas.",
+     "Perskaityk: Šuo loja.",
+     "Parašyk eilutę raidės š.",
+     "Pasakyk žodį su č."
+    ],
+    "test": [
+     "Ką daro šuo?",
+     "Kur plaukia žuvis?",
+     "Kiek garsų yra dž?",
+     "Kas yra paukštelis?",
+     "Perskaityk: Džemas saldus."
+    ],
+    "steps": [
+     "Rask žodyje raidę su paukšteliu.",
+     "Prisimink: dz ir dž yra vienas garsas.",
+     "Perskaityk žodį skiemenimis.",
+     "Dažna klaida: pamiršti paukštelį. Be jo vietoj šuo išeina suo."
+    ],
+    "answers": [
+     "Loja.",
+     "Upėje.",
+     "Vienas.",
+     "Ženklas virš raidės, kuris keičia garsą.",
+     "Džemas saldus."
+    ]
+   }
+  },
+  "eu-year-lt-beginner-1-l10": {
+   "lt": {
+    "title": "Nosinės raidės ą, ę, į, ų",
+    "theory": "Lietuvių kalboje yra nosinės raidės ą, ę, į, ų. Jos turi uodegėlę apačioje. Šiandien jos tariamos kaip ilgos balsės, todėl jų rašybą įsimename žodis po žodžio.",
+    "sample": "žąsis, kęsti, į mokyklą, ąžuolas / Žąsis eina į kiemą. / Ąžuolas didelis.",
+    "worked": "Žodyje žąsis rašome ą su uodegėle. Žodelis į rašomas su nosine. Žodyje ąžuolas pirmoji raidė yra ą. Uodegėlę pamiršti negalima.",
+    "exercises": [
+     "Perskaityk: žąsis, ąžuolas.",
+     "Perskaityk: Žąsis eina į kiemą.",
+     "Rask nosinę raidę žodyje kiemą.",
+     "Parašyk eilutę raidės ą.",
+     "Pasakyk sakinį su žodeliu į."
+    ],
+    "test": [
+     "Kaip atrodo nosinė raidė?",
+     "Kur eina žąsis?",
+     "Koks yra ąžuolas?",
+     "Kokia raidė yra žodžio ąžuolas pradžioje?",
+     "Perskaityk: Einu į mokyklą."
+    ],
+    "steps": [
+     "Pažiūrėk, ar raidė turi uodegėlę apačioje.",
+     "Prisimink, kaip žodis rašomas knygoje.",
+     "Parašyk ir patikrink uodegėlę.",
+     "Dažna klaida: pamiršti uodegėlę. Tada vietoj į kiemą parašysi i kiema."
+    ],
+    "answers": [
+     "Su uodegėle apačioje.",
+     "Į kiemą.",
+     "Didelis.",
+     "Ą.",
+     "Einu į mokyklą."
+    ]
+   }
+  },
+  "eu-year-lt-beginner-1-l11": {
+   "lt": {
+    "title": "Raidės C, H, F, CH ir abėcėlė",
+    "theory": "Mokomės paskutines raides C, H ir F. Ch rašome dviem raidėmis, bet tai vienas garsas: choras. Raidės išdėstytos tam tikra tvarka — tai abėcėlė. Lietuvių abėcėlėje yra 32 raidės: a, ą, b, c, č, d, e, ę, ė, f, g, h, i, į, y, j, k, l, m, n, o, p, r, s, š, t, u, ų, ū, v, z, ž.",
+    "sample": "cukrus, hipopotamas, fotelis, choras / Abėcėlės pradžia: a, ą, b, c, č, d. / Surikiuok: sala, antis, katinas → antis, katinas, sala.",
+    "worked": "Žodis antis prasideda a, katinas k, sala s. Abėcėlėje a yra prieš k, o k prieš s, todėl tvarka antis, katinas, sala.",
+    "exercises": [
+     "Perskaityk: cukrus, choras, fotelis.",
+     "Pasakyk abėcėlę iki raidės k.",
+     "Kuri raidė yra po m?",
+     "Surikiuok pagal abėcėlę: namas, eglė, lapė.",
+     "Pavadink pirmą ir paskutinę abėcėlės raidę."
+    ],
+    "test": [
+     "Kas yra abėcėlė?",
+     "Kiek raidžių lietuvių abėcėlėje?",
+     "Surikiuok: zuikis, antis, lapė.",
+     "Kam reikalinga abėcėlės tvarka?",
+     "Kokia raide baigiasi abėcėlė?"
+    ],
+    "steps": [
+     "Pažiūrėk į kiekvieno žodžio pirmą raidę.",
+     "Rask tas raides abėcėlėje.",
+     "Pirmiau rašyk žodį, kurio raidė yra arčiau pradžios.",
+     "Dažna klaida: pamiršti raides su ženklais. Jos taip pat turi savo vietą abėcėlėje."
+    ],
+    "answers": [
+     "Raidės tam tikra tvarka.",
+     "32.",
+     "antis, lapė, zuikis.",
+     "Kad greitai rastume žodžius žodyne ir sąraše.",
+     "ž."
+    ]
+   }
+  },
+  "eu-year-lt-beginner-1-l12": {
+   "lt": {
+    "title": "Skaitome ir suprantame",
+    "theory": "Dabar žinome visas raides. Kai skaitome, jungiame garsus į žodžius ir galvojame, ką jie reiškia. Po skaitymo atsakome: kas, kur, ką veikia.",
+    "sample": "Austėja ir Matas yra parke. Matas spardo kamuolį. Austėja lesina antis.",
+    "worked": "Tekste yra trys sakiniai. Kas? Austėja ir Matas. Kur? Parke. Ką veikia? Matas spardo kamuolį, Austėja lesina antis. Kiekvienas sakinys baigiasi tašku.",
+    "exercises": [
+     "Garsiai perskaityk tekstą.",
+     "Parodyk visus taškus.",
+     "Pasakyk, kur yra vaikai.",
+     "Nupiešk Matą su kamuoliu.",
+     "Pridėk dar vieną sakinį apie Austėją."
+    ],
+    "test": [
+     "Kas yra parke?",
+     "Ką veikia Matas?",
+     "Ką veikia Austėja?",
+     "Kiek sakinių tekste?",
+     "Kur yra vaikai?"
+    ],
+    "steps": [
+     "Skaityk tekstą lėtai, sakinį po sakinio.",
+     "Klausk savęs: kas? kur? ką veikia?",
+     "Ieškok atsakymo tekste.",
+     "Dažna klaida: atsakyti iš galvos. Ieškok atsakymo tekste."
+    ],
+    "answers": [
+     "Austėja ir Matas.",
+     "Spardo kamuolį.",
+     "Lesina antis.",
+     "Tris.",
+     "Parke."
+    ]
+   }
+  },
+  "eu-year-lt-beginner-1-l13": {
+   "lt": {
+    "title": "Didžioji raidė tikriniuose daiktavardžiuose",
+    "theory": "Didžiąja raide rašome sakinio pradžią, žmonių vardus ir pavardes, gyvūnų vardus, miestų, upių ir ežerų pavadinimus. Kitus žodžius rašome mažąja raide.",
+    "sample": "Jonas Petraitis gyvena Kaune. Jis turi šunį Margį. Vasarą jis važiuoja prie Nemuno.",
+    "worked": "Jonas Petraitis, Margis, Kaunas ir Nemunas yra tikriniai daiktavardžiai, todėl rašomi didžiąja raide. Žodžiai šuo ir vasara yra bendriniai, juos rašome mažąja raide.",
+    "exercises": [
+     "Rask pavyzdyje visus tikrinius daiktavardžius.",
+     "Parašyk savo vardą ir pavardę.",
+     "Parašyk kokio nors gyvūno vardą.",
+     "Ištaisyk: aš gyvenu klaipėdoje.",
+     "Ar žodį katinas rašome didžiąja raide?"
+    ],
+    "test": [
+     "Kaip vadinasi šuo?",
+     "Kuriame mieste gyvena Jonas?",
+     "Parašyk teisingai: ona žaidžia su margiu",
+     "Kada rašome didžiąją raidę?",
+     "Ar Nemunas yra miestas, ar upė?"
+    ],
+    "steps": [
+     "Klausk savęs: ar tai žmogaus, gyvūno, miesto ar upės vardas?",
+     "Jei taip, rašyk didžiąją raidę.",
+     "Didžiąją raidę rašyk ir kiekvieno sakinio pradžioje.",
+     "Dažna klaida: rašyti didžiąja raide bendrinius žodžius: šuo, miestas."
+    ],
+    "answers": [
+     "Margis.",
+     "Kaune.",
+     "Ona žaidžia su Margiu.",
+     "Sakinio pradžioje ir tikriniuose daiktavardžiuose.",
+     "Upė."
+    ]
+   }
+  },
+  "eu-year-lt-beginner-1-l14": {
+   "lt": {
+    "title": "Taškas, klaustukas, šauktukas",
+    "theory": "Sakinys, kuris ką nors praneša, baigiasi tašku. Sakinys, kuris klausia, baigiasi klaustuku. Sakinys, kuris reiškia džiaugsmą, nuostabą ar liepimą, baigiasi šauktuku.",
+    "sample": "Šiandien šviečia saulė. Ar eisi į lauką? Kokia graži diena!",
+    "worked": "Pirmasis sakinys praneša: taškas. Antrasis klausia: klaustukas. Trečiasis reiškia džiaugsmą: šauktukas. Visi prasideda didžiąja raide.",
+    "exercises": [
+     "Padėk ženklą: Kuo tu vardu",
+     "Padėk ženklą: Aš turiu katiną",
+     "Sugalvok klausimą mokytojai.",
+     "Sugalvok sakinį su šauktuku.",
+     "Suskaičiuok sakinius pavyzdyje."
+    ],
+    "test": [
+     "Kuo baigiasi klausimas?",
+     "Kokia raide prasideda sakinys?",
+     "Parašyk teisingai: lauke lyja",
+     "Kuris pavyzdžio sakinys reiškia džiaugsmą?",
+     "Kiek sakinių pavyzdyje?"
+    ],
+    "steps": [
+     "Klausk savęs: sakinys praneša, klausia ar reiškia jausmą?",
+     "Praneša — taškas, klausia — klaustukas, jausmas — šauktukas.",
+     "Patikrink didžiąją raidę pradžioje.",
+     "Dažna klaida: pamiršti klaustuką trumpame klausime: Eisi?"
+    ],
+    "answers": [
+     "Klaustuku.",
+     "Didžiąja raide.",
+     "Lauke lyja.",
+     "Kokia graži diena!",
+     "Trys."
+    ]
+   }
+  },
+  "eu-year-lt-beginner-1-l15": {
+   "lt": {
+    "title": "Žodžiai su ie ir uo",
+    "theory": "Dvibalsiai ie ir uo rašomi dviem raidėmis, bet tariami kartu, viename skiemenyje. Juos girdime žodžiuose pienas, duona, šuo, miegas.",
+    "sample": "pienas, duona, šuo, miegas, ruduo / Ruduo atėjo. / Duona ant stalo.",
+    "worked": "Žodyje duona dvibalsis uo yra viename skiemenyje: duo-na. Žodyje pienas yra ie: pie-nas. Dvi raidės, bet tariame kartu.",
+    "exercises": [
+     "Perskaityk: pienas, duona.",
+     "Perskaityk: Ruduo atėjo.",
+     "Suskiemenuok: miegas.",
+     "Rask dvibalsį žodyje šuo.",
+     "Pasakyk žodį su ie."
+    ],
+    "test": [
+     "Kiek raidžių rašome dvibalsiui uo?",
+     "Kur yra duona?",
+     "Suskiemenuok: duona.",
+     "Kas atėjo?",
+     "Kokį dvibalsį girdi žodyje pienas?"
+    ],
+    "steps": [
+     "Tark žodį lėtai skiemenimis.",
+     "Jei girdi ie ar uo, tai vienas skiemuo.",
+     "Parašyk abi raides kartu.",
+     "Dažna klaida: skirti ie į du skiemenis: pi-e-nas. Teisingai: pie-nas."
+    ],
+    "answers": [
+     "Dvi.",
+     "Ant stalo.",
+     "duo-na.",
+     "Ruduo.",
+     "ie."
+    ]
+   }
+  },
+  "eu-year-lt-beginner-1-l16": {
+   "lt": {
+    "title": "Nurašymas ir diktantas",
+    "theory": "Nurašydami perrašome tekstą iš sąsiuvinio ar lentos. Diktante rašome tai, ką girdime. Paskui visada perskaitome ir patikriname.",
+    "sample": "Diktantas: Gabija turi katę. Katė pilka. Ji miega saulėje.",
+    "worked": "Diktante yra trys sakiniai. Gabija yra vardas, todėl didžiąja raide. Kiekvienas sakinys baigiasi tašku. Po diktanto tikriname didžiąsias raides, taškus, nosines ir ilgąsias balses.",
+    "exercises": [
+     "Nurašyk sakinį nuo lentos.",
+     "Parašyk diktantą, kurį skaito suaugęs žmogus.",
+     "Patikrink nosines raides.",
+     "Suskaičiuok sakinius diktante.",
+     "Pabrauk žodį, kuris tau atrodo sunkus."
+    ],
+    "test": [
+     "Kas yra nurašymas?",
+     "Kokia yra katė?",
+     "Kiek sakinių diktante?",
+     "Ką tikriname po diktanto?",
+     "Parašyk: Katė miega."
+    ],
+    "steps": [
+     "Išklausyk visą sakinį prieš rašydamas.",
+     "Rašyk žodį po žodžio ir tyliai tark.",
+     "Pabaigoje patikrink didžiąsias raides, taškus ir ženklus.",
+     "Dažna klaida: netikrinti teksto. Klaidas dažnai randame perskaitę."
+    ],
+    "answers": [
+     "Teksto perrašymas iš sąsiuvinio ar lentos.",
+     "Pilka.",
+     "Trys.",
+     "Didžiąsias raides, taškus, nosines ir ilgąsias balses.",
+     "Katė miega."
+    ]
+   }
+  },
+  "eu-year-lt-beginner-1-l17": {
+   "lt": {
+    "title": "Skaičiuotės ir greitakalbės",
+    "theory": "Tautosaka yra dainos, skaičiuotės, greitakalbės, mįslės ir pasakos, kurias žmonės ilgai perdavė iš lūpų į lūpas. Skaičiuotė padeda išsirinkti gaudytoją. Ji turi ritmą ir rimus.",
+    "sample": "Sava skaičiuotė: Vienas, du, trys, / žaisti eis visi, / tu išeik! / Sava greitakalbė: Šešios šarkos šoko šokį.",
+    "worked": "Skaičiuotė turi ritmą ir rimą: trys — visi skamba panašiai. Greitakalbė sunki, nes kartojasi garsas š. Pirmiausia sakome lėtai, paskui greičiau.",
+    "exercises": [
+     "Pasakyk skaičiuotę ir išsirink gaudytoją.",
+     "Pasakyk greitakalbę tris kartus.",
+     "Rask panašiai skambančius žodžius skaičiuotėje.",
+     "Sugalvok savo skaičiuotę.",
+     "Pasakyk skaičiuotę, kurią žinai."
+    ],
+    "test": [
+     "Kas yra tautosaka?",
+     "Kam reikalinga skaičiuotė?",
+     "Koks garsas kartojasi greitakalbėje?",
+     "Kas skamba panašiai kaip trys?",
+     "Kam reikalinga greitakalbė?"
+    ],
+    "steps": [
+     "Perskaityk tekstą lėtai ir garsiai.",
+     "Rask ritmą ir panašiai skambančius žodžius.",
+     "Pakartok greičiau, bet aiškiai.",
+     "Dažna klaida: iš karto sakyti greitakalbę greitai. Pirmiausia lėtai ir aiškiai."
+    ],
+    "answers": [
+     "Dainos, skaičiuotės, mįslės ir pasakos, perduodamos iš lūpų į lūpas.",
+     "Kad išsirinktume gaudytoją.",
+     "š.",
+     "Visi.",
+     "Kad išmoktume kalbėti greitai ir aiškiai."
+    ]
+   }
+  },
+  "eu-year-lt-beginner-1-l18": {
+   "lt": {
+    "title": "Lopšinė ir liaudies daina",
+    "theory": "Lopšinė yra švelni daina, kurią dainuoja mažam vaikui, kad jis užmigtų. Liaudies dainose dažnai yra mažybiniai žodžiai: saulutė, vaikelis. Jos kalba apie gamtą, darbą ir šeimą.",
+    "sample": "Sava lopšinė: / Miegok, vaikeli, mažas, / jau saulutė nusileido. / Užmerk akis, vaikeli, / tegu sapnas tave lydi.",
+    "worked": "Lopšinėje keturios eilutės. Vaikelis ir saulutė yra mažybiniai žodžiai, jie skamba švelniai. Lopšinė rami, nes jos tikslas užmigdyti.",
+    "exercises": [
+     "Garsiai perskaityk lopšinę.",
+     "Rask mažybinius žodžius.",
+     "Papasakok, kodėl dainuojama lopšinė.",
+     "Nupiešk miegantį vaikelį.",
+     "Pasakyk mažybinį žodį iš žodžio namas."
+    ],
+    "test": [
+     "Kiek eilučių lopšinėje?",
+     "Kas yra lopšinė?",
+     "Kas jau nusileido?",
+     "Koks mažybinis žodis iš žodžio saulė?",
+     "Kokia lopšinės nuotaika?"
+    ],
+    "steps": [
+     "Skaityk lopšinę eilutę po eilutės.",
+     "Rask žodžius, kurie baigiasi -elis ar -utė.",
+     "Papasakok savais žodžiais, apie ką lopšinė.",
+     "Dažna klaida: skaityti lopšinę garsiai ir greitai. Ji skaitoma tyliai ir ramiai."
+    ],
+    "answers": [
+     "Keturios.",
+     "Švelni daina, kad vaikas užmigtų.",
+     "Saulutė.",
+     "Saulutė.",
+     "Rami."
+    ]
+   }
+  },
+  "eu-year-lt-beginner-1-l19": {
+   "lt": {
+    "title": "Eilėraštis: eilutė, rimas, nuotaika",
+    "theory": "Eilėraštis sudarytas iš eilučių. Žodžiai eilučių gale dažnai rimuojasi. Eilėraštį skaitome lėtai, eilutės gale trumpai stabtelime.",
+    "sample": "Savas eilėraštis: / Sninga, sninga, krinta sniegas, / baigias ilgas nakties miegas. / Rogės lekia nuo kalnelio, / juokas skamba ant takelio.",
+    "worked": "Eilėraštyje keturios eilutės. Sniegas rimuojasi su miegas, kalnelio su takelio. Nuotaika linksma ir žiemiška. Kiekvienos eilutės gale trumpai stabtelime.",
+    "exercises": [
+     "Garsiai perskaityk eilėraštį.",
+     "Rask žodį, kuris rimuojasi su kalnelio.",
+     "Išmok mintinai pirmas dvi eilutes.",
+     "Nupiešk roges ant kalnelio.",
+     "Sugalvok rimą žodžiui namas."
+    ],
+    "test": [
+     "Kiek eilučių eilėraštyje?",
+     "Kas lekia nuo kalnelio?",
+     "Kas yra eilutė?",
+     "Kas yra rimas?",
+     "Sugalvok rimą žodžiui katė."
+    ],
+    "steps": [
+     "Skaityk eilėraštį eilutę po eilutės.",
+     "Pažiūrėk į kiekvienos eilutės paskutinį žodį ir ieškok rimų.",
+     "Mokykis po dvi eilutes.",
+     "Dažna klaida: skaityti be pauzių. Eilutės gale trumpai stabtelk."
+    ],
+    "answers": [
+     "Keturios.",
+     "Rogės.",
+     "Viena eilėraščio eilutė.",
+     "Panašiai skambančios žodžių pabaigos.",
+     "Tavo atsakymas. Pavyzdžiui: batė."
+    ]
+   }
+  },
+  "eu-year-lt-beginner-1-l20": {
+   "lt": {
+    "title": "Pasaka: Lapė ir gervė",
+    "theory": "Pasaka yra išgalvotas pasakojimas. Liaudies pasakoje lapė pasikviečia gervę į svečius ir patiekia košę lėkštėje. Gervė ilgu snapu jos nepasiekia. Paskui gervė pasikviečia lapę ir patiekia valgį aukštame ąsotyje.",
+    "sample": "Atpasakojimas savais žodžiais: Lapė pakvietė gervę pietų ir patiekė košę plokščioje lėkštėje. Gervė snapu nieko nepaėmė ir liko alkana. Kitą dieną gervė pakvietė lapę ir įdėjo valgį į aukštą ąsotį. Dabar alkana liko lapė.",
+    "worked": "Veikėjai yra lapė ir gervė. Lapė apgavo gervę, o gervė jai atsakė tuo pačiu. Pasaka moko: kaip tu kitiems, taip ir kiti tau.",
+    "exercises": [
+     "Atpasakok pasakos pradžią.",
+     "Įvardyk veikėjus.",
+     "Nupiešk gervę prie lėkštės.",
+     "Suvaidinkite pasaką poromis.",
+     "Pasakyk, ko pasaka moko."
+    ],
+    "test": [
+     "Kuo lapė vaišino gervę?",
+     "Kodėl gervė liko alkana?",
+     "Kur gervė įdėjo valgį?",
+     "Kas liko alkanas pabaigoje?",
+     "Ko moko pasaka?"
+    ],
+    "steps": [
+     "Rask pasakos veikėjus.",
+     "Pasakok iš eilės: pradžioje, paskui, pabaigoje.",
+     "Pasakyk, ko pasaka moko.",
+     "Dažna klaida: praleisti antrą dalį. Pasakos prasmė ten, kur gervė atsako lapei."
+    ],
+    "answers": [
+     "Koše lėkštėje.",
+     "Nes ilgu snapu negalėjo pasiekti košės.",
+     "Į aukštą ąsotį.",
+     "Lapė.",
+     "Kaip tu kitiems, taip ir kiti tau."
+    ]
+   }
+  },
+  "eu-year-lt-beginner-1-l21": {
+   "lt": {
+    "title": "Pasakėčia: Liūtas ir pelė",
+    "theory": "Pasakėčia yra trumpas pasakojimas, kuriame gyvūnai kalba ir elgiasi kaip žmonės. Pabaigoje yra pamokymas. Daug pasakėčių papasakojo senovės graikų pasakotojas Ezopas.",
+    "sample": "Atpasakojimas savais žodžiais: Pelė pažadino miegantį liūtą. Liūtas norėjo ją suėsti, bet paleido. Vėliau liūtas įsipainiojo į tinklą. Pelė pergraužė tinklą ir išlaisvino liūtą.",
+    "worked": "Veikėjai yra liūtas ir pelė. Liūtas stiprus, pelė maža, bet vis tiek padėjo. Pamokymas: ir mažas gali padėti dideliam, gerumas sugrįžta.",
+    "exercises": [
+     "Atpasakok pasakėčią.",
+     "Nupiešk pelę prie tinklo.",
+     "Koks liūtas pradžioje?",
+     "Pasakyk pamokymą savais žodžiais.",
+     "Sugalvok kitą pabaigą."
+    ],
+    "test": [
+     "Kas yra pasakėčios veikėjai?",
+     "Kodėl liūtas paleido pelę?",
+     "Kas vėliau nutiko liūtui?",
+     "Kaip pelė jam padėjo?",
+     "Koks pamokymas?"
+    ],
+    "steps": [
+     "Rask veikėjus: liūtas ir pelė.",
+     "Pasakyk, kas vyksta pradžioje ir pabaigoje.",
+     "Rask pamokymą: ko moko pasakėčia?",
+     "Dažna klaida: manyti, kad pasakėčia tik apie gyvūnus. Gyvūnai rodo, kaip elgiasi žmonės."
+    ],
+    "answers": [
+     "Liūtas ir pelė.",
+     "Nes jam pagailo pelės.",
+     "Įsipainiojo į tinklą.",
+     "Pergraužė tinklą.",
+     "Ir mažas gali padėti dideliam."
+    ]
+   }
+  },
+  "eu-year-lt-beginner-1-l22": {
+   "lt": {
+    "title": "Mįslės",
+    "theory": "Mįslė aprašo daiktą, bet nepasako jo pavadinimo. Klausomės visų užuominų ir atspėjame. Mįslės yra tautosakos dalis.",
+    "sample": "Sava mįslė: Turi spyglių, bet nesiuva, žiemą miške žalia stovi. (eglė) / Sava mįslė: Turi keturias kojas, bet nevaikšto. (stalas)",
+    "worked": "Užuominos: spygliai, žalia žiemą, stovi miške — tai eglė. Antroje: keturios kojos, bet nevaikšto — stalas. Atsakymą tikriname visomis užuominomis.",
+    "exercises": [
+     "Atspėk: Kabo medyje, raudonas ir apvalus. (obuolys)",
+     "Sugalvok mįslę apie saulę.",
+     "Užmink mįslę draugui.",
+     "Nupiešk atsakymą.",
+     "Įvardyk užuominas iš mįslės apie eglę."
+    ],
+    "test": [
+     "Kas yra mįslė?",
+     "Koks pirmos mįslės atsakymas?",
+     "Kodėl eglė žiemą žalia?",
+     "Kaip patikrini atsakymą?",
+     "Sugalvok mįslę apie katę."
+    ],
+    "steps": [
+     "Išklausyk mįslę iki galo.",
+     "Rask ir įvardyk visas užuominas.",
+     "Patikrink atsakymą kiekviena užuomina.",
+     "Dažna klaida: atsakyti po pirmos užuominos. Išklausyk visą mįslę."
+    ],
+    "answers": [
+     "Daikto aprašymas be jo pavadinimo.",
+     "Eglė.",
+     "Nes spygliai nenukrenta.",
+     "Visomis užuominomis.",
+     "Tavo atsakymas. Pavyzdžiui: Turi minkštas letenėles ir murkia. (katė)"
+    ]
+   }
+  },
+  "eu-year-lt-beginner-1-l23": {
+   "lt": {
+    "title": "Informacinis tekstas: ežys",
+    "theory": "Informacinis tekstas pateikia tikras žinias. Jis nepasakoja išgalvotos istorijos. Skaitome jį atidžiai ir ieškome atsakymų tekste.",
+    "sample": "Ežys yra mažas gyvūnas su spygliais ant nugaros. Jis gyvena miške, parke ir sode. Ežys ėda vabzdžius ir sliekus. Žiemai jis susisuka guolį iš lapų ir miega.",
+    "worked": "Tekstas pasakoja, kaip ežys atrodo, kur gyvena, ką ėda ir ką veikia žiemą. Tai tikros žinios. Žiemą ežys miega žiemos miegu.",
+    "exercises": [
+     "Perskaityk tekstą du kartus.",
+     "Pabrauk, ką ėda ežys.",
+     "Nupiešk ežį guolyje.",
+     "Paaiškink savais žodžiais, kas yra žiemos miegas.",
+     "Užduok klausimą apie ežį."
+    ],
+    "test": [
+     "Kas ežiui ant nugaros?",
+     "Kur gyvena ežys?",
+     "Ką jis ėda?",
+     "Ką jis veikia žiemą?",
+     "Ar informacinis tekstas yra išgalvota istorija?"
+    ],
+    "steps": [
+     "Perskaityk klausimą ir rask svarbų žodį, pavyzdžiui, žiema.",
+     "Rask tą žodį tekste.",
+     "Atsakymas dažniausiai yra tame pačiame sakinyje.",
+     "Dažna klaida: sugalvoti atsakymą. Atsakyk tik tuo, kas parašyta tekste."
+    ],
+    "answers": [
+     "Spygliai.",
+     "Miške, parke ir sode.",
+     "Vabzdžius ir sliekus.",
+     "Susisuka guolį iš lapų ir miega.",
+     "Ne, jis pateikia tikras žinias."
+    ]
+   }
+  },
+  "eu-year-lt-beginner-1-l24": {
+   "lt": {
+    "title": "Mandagus pokalbis ir pokalbis telefonu",
+    "theory": "Kalbėdami žiūrime į pašnekovą. Sveikinamės, prašome, dėkojame ir atsiprašome. Telefonu pirmiausia pasakome, kas kalba, o pabaigoje atsisveikiname.",
+    "sample": "Dovydas: Laba diena, čia Dovydas. Ar močiutė namie? / Teta: Tuoj pakviesiu. / Dovydas: Ačiū, viso gero.",
+    "worked": "Dovydas pirmiausia pasakė, kas jis, paskui mandagiai paklausė ir pabaigoje padėkojo. Telefonu mūsų nemato, todėl pasakome, kas skambina.",
+    "exercises": [
+     "Pasisveikink su mokytoja.",
+     "Paprašyk klasės draugo pieštuko.",
+     "Padėkok už dovaną.",
+     "Suvaidink pokalbį telefonu su močiute.",
+     "Atsiprašyk, jei kam nors užkliuvai."
+    ],
+    "test": [
+     "Ko ieško Dovydas?",
+     "Ką Dovydas sako pirmiausia?",
+     "Kokius mandagius žodžius jis vartoja?",
+     "Kodėl telefonu pasakome, kas esame?",
+     "Ką sakai atsisveikindamas?"
+    ],
+    "steps": [
+     "Pasisveikink ir pasakyk, kas tu esi.",
+     "Pasakyk savo prašymą su žodžiu prašau.",
+     "Padėkok ir atsisveikink.",
+     "Dažna klaida: pradėti pokalbį telefonu be pasisveikinimo ir nepasakyti, kas skambina."
+    ],
+    "answers": [
+     "Močiutės.",
+     "Laba diena, čia Dovydas.",
+     "Laba diena, ačiū, viso gero.",
+     "Nes mūsų nemato.",
+     "Viso gero."
+    ]
+   }
+  },
+  "eu-year-lt-beginner-1-l25": {
+   "lt": {
+    "title": "Pasakojimas pagal paveikslėlius",
+    "theory": "Kai pasakojame pagal paveikslėlius, žiūrime į juos iš eilės. Apie kiekvieną paveikslėlį sakome sakinį: kas, kur, ką veikia. Vartojame žodžius pirmiausia, paskui, pabaigoje.",
+    "sample": "1 paveikslėlis: berniukas sėja sėklą. 2 paveikslėlis: laisto ją. 3 paveikslėlis: išaugo saulėgrąža. / Pasakojimas: Pirmiausia Jokūbas pasėjo sėklą. Paskui jis ją kasdien laistė. Pabaigoje išaugo didelė saulėgrąža.",
+    "worked": "Pasakojime trys sakiniai, po vieną kiekvienam paveikslėliui. Žodžiai pirmiausia, paskui, pabaigoje rodo tvarką. Berniukui davėme vardą, kad pasakojimas būtų gyvesnis.",
+    "exercises": [
+     "Papasakok trimis sakiniais, kaip ruošiesi į mokyklą.",
+     "Vartok žodžius pirmiausia, paskui, pabaigoje.",
+     "Nupiešk tris paveikslėlius apie savo dieną.",
+     "Sugalvok pasakojimui pavadinimą.",
+     "Papasakok draugui apie savo sekmadienį."
+    ],
+    "test": [
+     "Ką pasėjo Jokūbas?",
+     "Ką jis darė paskui?",
+     "Kas išaugo pabaigoje?",
+     "Kurie žodžiai rodo tvarką?",
+     "Kiek yra paveikslėlių?"
+    ],
+    "steps": [
+     "Apžiūrėk paveikslėlius iš eilės.",
+     "Apie kiekvieną pasakyk sakinį: kas, ką veikia.",
+     "Sujunk sakinius žodžiais pirmiausia, paskui, pabaigoje.",
+     "Dažna klaida: pasakoti tik apie paskutinį paveikslėlį. Kiekvienas paveikslėlis yra pasakojimo dalis."
+    ],
+    "answers": [
+     "Sėklą.",
+     "Kasdien ją laistė.",
+     "Didelė saulėgrąža.",
+     "Pirmiausia, paskui, pabaigoje.",
+     "Trys."
+    ]
+   }
+  },
+  "eu-year-lt-beginner-1-l26": {
+   "lt": {
+    "title": "Žaislo aprašymas",
+    "theory": "Kai ką nors aprašome, sakome, koks tai yra: spalvą, dydį, formą, iš ko padaryta. Taip jį gali įsivaizduoti ir tas, kuris nemato. Aprašymą pradedame nuo to, kas tai yra.",
+    "sample": "Turiu žaislinį meškiuką Rudnosiuką. Jis rudas ir minkštas. Jis turi apvalias ausis ir juodą nosį. Ant kaklo jam raudonas kaspinas. Kiekvieną naktį miegu su juo.",
+    "worked": "Aprašymas prasideda nuo to, kas tai: meškiukas Rudnosiukas. Paskui pasakojama apie spalvą, ausis, nosį ir kaspiną. Pabaigoje pasakoma, kodėl jį mylime. Kiekvienas sakinys pasakoja apie vieną dalyką.",
+    "exercises": [
+     "Aprašyk trimis sakiniais savo žaislą.",
+     "Pasakyk savo kuprinės spalvą.",
+     "Aprašyk kamuolį: forma ir spalva.",
+     "Atspėk žaislą pagal klasės draugo aprašymą.",
+     "Nupiešk meškiuką Rudnosiuką."
+    ],
+    "test": [
+     "Kokios spalvos Rudnosiukas?",
+     "Kas jam ant kaklo?",
+     "Kokios jo ausys?",
+     "Nuo ko prasideda aprašymas?",
+     "Aprašyk vienu sakiniu savo pieštuką."
+    ],
+    "steps": [
+     "Pirmiausia pasakyk, ką aprašai.",
+     "Pasakyk spalvą, dydį, formą ir iš ko padaryta.",
+     "Pabaigoje pasakyk, kodėl tau patinka.",
+     "Dažna klaida: pasakyti tik, kad gražus. Aprašyk, koks jis, kad kiti galėtų įsivaizduoti."
+    ],
+    "answers": [
+     "Rudas.",
+     "Raudonas kaspinas.",
+     "Apvalios.",
+     "Nuo to, ką aprašome.",
+     "Tavo atsakymas. Pavyzdžiui: Mano pieštukas ilgas ir mėlynas."
+    ]
+   }
+  },
+  "eu-year-lt-beginner-1-l27": {
+   "lt": {
+    "title": "Knyga ir biblioteka",
+    "theory": "Knyga turi viršelį, puslapius ir iliustracijas. Ant viršelio yra autoriaus vardas ir pavadinimas. Bibliotekoje knygas pasiskoliname, saugome ir laiku grąžiname.",
+    "sample": "Savas pavyzdys: Ant viršelio parašyta: Ieva Mažytė — Miško pasakos. Paveikslėlyje lapė ir kiškis.",
+    "worked": "Pavadinimas pasako, apie ką knyga: miško pasakos. Ieva Mažytė yra autorė. Pagal paveikslėlį spėjame, kas knygoje veikia. Puslapiai sunumeruoti, kad rastume, kur sustojome.",
+    "exercises": [
+     "Parodyk knygos viršelį.",
+     "Rask klasėje kokios nors knygos pavadinimą.",
+     "Rask autoriaus vardą.",
+     "Nupiešk savo mėgstamos knygos viršelį.",
+     "Papasakok, kaip saugai knygą."
+    ],
+    "test": [
+     "Kas yra ant viršelio?",
+     "Kas yra pavyzdžio knygos autorė?",
+     "Apie ką knyga?",
+     "Kas yra iliustracijos?",
+     "Ką darome su pasiskolinta knyga?"
+    ],
+    "steps": [
+     "Pažiūrėk į viršelį: autorius ir pavadinimas.",
+     "Apžiūrėk paveikslėlį ir spėk, apie ką knyga.",
+     "Skaityk ir patikrink savo spėjimą.",
+     "Dažna klaida: painioti pavadinimą ir autorių. Pavadinimas yra knygos vardas, autorius ją parašė."
+    ],
+    "answers": [
+     "Autoriaus vardas ir pavadinimas.",
+     "Ieva Mažytė.",
+     "Apie miško pasakas.",
+     "Paveikslėliai knygoje.",
+     "Saugome ir laiku grąžiname."
+    ]
+   }
+  },
+  "eu-year-lt-beginner-1-l28": {
+   "lt": {
+    "title": "Kartojimas: ką moku po 1 klasės",
+    "theory": "Metų pabaigoje perskaitome trumpą tekstą ir parodome, ką mokame: skaityti suprasdami, skirstyti žodžius skiemenimis, rašyti sakinius su didžiąja raide ir tašku, rašyti nosines ir ilgąsias balses.",
+    "sample": "Kiekvieną rytą Gustė susideda kuprinę. Ji įdeda sąsiuvinį, penalą ir sumuštinį. Paskui ji eina į mokyklą su broliu Jonu.",
+    "worked": "Tekste trys sakiniai. Gustė ir Jonas yra vardai, todėl didžiąja raide. Žodyje sąsiuvinį yra nosinės ą ir į. Žodį penalas skirstome skiemenimis: pe-na-las.",
+    "exercises": [
+     "Garsiai perskaityk tekstą.",
+     "Rask žodį su nosine raide.",
+     "Suskiemenuok: sumuštinis.",
+     "Parašyk sakinį apie savo kuprinę.",
+     "Papasakok, kas tau šiais metais labiausiai patiko."
+    ],
+    "test": [
+     "Ką Gustė daro kiekvieną rytą?",
+     "Kiek sakinių tekste?",
+     "Su kuo Gustė eina į mokyklą?",
+     "Ką ji įdeda į kuprinę?",
+     "Suskiemenuok: penalas."
+    ],
+    "steps": [
+     "Pirmiausia perskaityk tekstą lėtai, paskui greičiau.",
+     "Klausk: kas? ką veikia? su kuo?",
+     "Suskaičiuok sakinius pagal taškus.",
+     "Dažna klaida: rašyti vardus mažąja raide. Žmonių vardai visada didžiąja: Gustė."
+    ],
+    "answers": [
+     "Susideda kuprinę.",
+     "Tris.",
+     "Su broliu Jonu.",
+     "Sąsiuvinį, penalą ir sumuštinį.",
+     "pe-na-las."
+    ]
+   }
+  }
+ }
+}

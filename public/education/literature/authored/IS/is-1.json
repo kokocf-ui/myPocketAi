@@ -1,0 +1,1290 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "IS",
+ "stage": "beginner",
+ "grade": "1",
+ "version": "9add13c8f63aa8417f7675c2a339906490d7af22cc6816152b73f64b3c7945b5",
+ "source": "https://op.europa.eu/en/publication-detail/-/publication/b82d1d07-abf4-11f1-b9e5-01aa75ed71a1/language-en",
+ "sourceTitle": "Mennta- og barnamálaráðuneytið: Aðalnámskrá grunnskóla, greinasvið 2013, íslenska – hæfniviðmið við lok 4. bekkjar (talað mál, hlustun og áhorf, lestur og bókmenntir, ritun, málfræði); 1. bekkur í þeirri röð sem algeng er í íslensku lestrarnámsefni (hljóð og stafir, atkvæði, sérhljóðar og broddstafir, þ og ð, tvíhljóðar, fyrstu textarnir); eigin æfingar, enginn texti afritaður úr námsbók",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "is",
+ "labels": [
+  "Eigið æfingaverkefni · Ísland · 1. bekkur",
+  "Við lærum",
+  "Eigið dæmi",
+  "Útskýring",
+  "Æfingar",
+  "Prófaðu þig",
+  "Eigin æfingar, ekki opinbert próf. Lestu þær með fullorðnum ef þú þarft.",
+  "Skildirðu þetta ekki? Skref fyrir skref",
+  "Svör (skoðaðu þau þegar þú hefur lokið við)"
+ ],
+ "units": [
+  {
+   "title": "Skólabyrjun: tala, hlusta og hljóð",
+   "keys": [
+    "eu-year-is-beginner-1-l01",
+    "eu-year-is-beginner-1-l02",
+    "eu-year-is-beginner-1-l03"
+   ]
+  },
+  {
+   "title": "Sérhljóðar",
+   "keys": [
+    "eu-year-is-beginner-1-l04",
+    "eu-year-is-beginner-1-l05",
+    "eu-year-is-beginner-1-l06"
+   ]
+  },
+  {
+   "title": "Samhljóðar",
+   "keys": [
+    "eu-year-is-beginner-1-l07",
+    "eu-year-is-beginner-1-l08",
+    "eu-year-is-beginner-1-l09",
+    "eu-year-is-beginner-1-l10",
+    "eu-year-is-beginner-1-l11"
+   ]
+  },
+  {
+   "title": "Orð, hljóð og stafsetning",
+   "keys": [
+    "eu-year-is-beginner-1-l12",
+    "eu-year-is-beginner-1-l13",
+    "eu-year-is-beginner-1-l14",
+    "eu-year-is-beginner-1-l15",
+    "eu-year-is-beginner-1-l16"
+   ]
+  },
+  {
+   "title": "Orð og setningar",
+   "keys": [
+    "eu-year-is-beginner-1-l17",
+    "eu-year-is-beginner-1-l18",
+    "eu-year-is-beginner-1-l19",
+    "eu-year-is-beginner-1-l20",
+    "eu-year-is-beginner-1-l21"
+   ]
+  },
+  {
+   "title": "Lestur og bókmenntir",
+   "keys": [
+    "eu-year-is-beginner-1-l22",
+    "eu-year-is-beginner-1-l23",
+    "eu-year-is-beginner-1-l24",
+    "eu-year-is-beginner-1-l25",
+    "eu-year-is-beginner-1-l26",
+    "eu-year-is-beginner-1-l27",
+    "eu-year-is-beginner-1-l28"
+   ]
+  },
+  {
+   "title": "Ritun og frásögn",
+   "keys": [
+    "eu-year-is-beginner-1-l29",
+    "eu-year-is-beginner-1-l30",
+    "eu-year-is-beginner-1-l31",
+    "eu-year-is-beginner-1-l32",
+    "eu-year-is-beginner-1-l33"
+   ]
+  },
+  {
+   "title": "Lok 1. bekkjar",
+   "keys": [
+    "eu-year-is-beginner-1-l34"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-is-beginner-1-l01": {
+   "is": {
+    "title": "Halló, ég heiti …: við kynnumst",
+    "theory": "Fyrstu dagana kynnumst við hvert öðru. Við segjum nafnið okkar í heilli setningu: Ég heiti … Við semjum bekkjarreglur: við réttum upp hönd, við hlustum hvert á annað, við leyfum öðrum að klára að tala og við tölum skýrt.",
+    "sample": "Ég heiti Sara. Ég er sex ára. Mér finnst gaman að teikna hesta. Við hliðina á mér situr Óli.",
+    "worked": "Sara kynnir sig með fjórum stuttum setningum: nafninu sínu, aldrinum, því sem henni finnst gaman og hver situr við hliðina á henni. Á meðan hún talar horfir hún á bekkinn. Hver setning byrjar á stórum staf og endar á punkti.",
+    "exercises": [
+     "Kynntu þig með tveimur setningum.",
+     "Segðu hvað þér finnst gaman að gera.",
+     "Segðu nafn sessunautar þíns.",
+     "Sýndu hvernig þú réttir upp hönd.",
+     "Endurtaktu það sem bekkjarfélagi sagði."
+    ],
+    "test": [
+     "Hvað er Sara gömul?",
+     "Hvað gerum við þegar við viljum segja eitthvað?",
+     "Af hverju leyfum við öðrum að klára að tala?",
+     "Hvað finnst þér gaman að gera?",
+     "Hver situr við hliðina á Söru?"
+    ],
+    "steps": [
+     "Segðu fyrst nafnið þitt: Ég heiti …",
+     "Segðu svo hvað þú ert gamall eða gömul og hvað þér finnst gaman.",
+     "Þegar annar talar hlustar þú og grípur ekki fram í.",
+     "Athugaðu: Svaraðu í heilli setningu, ekki bara með einu orði."
+    ],
+    "answers": [
+     "Sex ára.",
+     "Við réttum upp hönd og bíðum eftir að röðin komi að okkur.",
+     "Svo að allir fái að tala og við skiljum hvert annað.",
+     "Þitt svar. Til dæmis: Mér finnst gaman að spila fótbolta.",
+     "Óli."
+    ]
+   }
+  },
+  "eu-year-is-beginner-1-l02": {
+   "is": {
+    "title": "Orð eru búin til úr hljóðum, og sum orð ríma",
+    "theory": "Orð eru búin til úr hljóðum. Þegar við segjum hvert hljóð fyrir sig skiptum við orðinu: m-ú-s. Þegar við setjum hljóðin saman fáum við orðið aftur: mús. Tvö orð ríma þegar þau enda eins: mús og hús, sól og hól.",
+    "sample": "mús, hús, lús, sól, hól, kjóll, bíll, rós",
+    "worked": "Mús hefur þrjú hljóð: m-ú-s. Mús og hús ríma af því að bæði enda á -ús. Sól og hól enda á -ól. Bíll byrjar á hljóðinu b og rós á hljóðinu r.",
+    "exercises": [
+     "Skiptu orðinu í hljóð: s-ó-l. Hvað heyrir þú mörg hljóð?",
+     "Settu hljóðin saman: h-ú-s.",
+     "Finndu orð sem rímar við mús.",
+     "Á hvaða hljóði byrjar bíll?",
+     "Finndu eitthvað í stofunni sem byrjar á hljóðinu b."
+    ],
+    "test": [
+     "Hvað hefur mús mörg hljóð?",
+     "Ríma sól og hól?",
+     "Settu hljóðin saman: l-ú-s.",
+     "Á hvaða hljóði byrjar rós?",
+     "Hvaða orð rímar ekki: mús, hús, bíll?"
+    ],
+    "steps": [
+     "Segðu orðið hægt, eins og þú sért að teygja það.",
+     "Skiptu því í hljóð og teldu þau á fingrunum.",
+     "Settu hljóðin svo hratt saman aftur.",
+     "Athugaðu: Hlustaðu á hljóðið, ekki á myndina; segðu orðið alltaf upphátt."
+    ],
+    "answers": [
+     "Þrjú: m-ú-s.",
+     "Já.",
+     "lús.",
+     "r.",
+     "bíll."
+    ]
+   }
+  },
+  "eu-year-is-beginner-1-l03": {
+   "is": {
+    "title": "Atkvæði: við klöppum orðin",
+    "theory": "Löng orð má skipta í atkvæði. Við klöppum einu sinni fyrir hvert atkvæði: skó-li hefur tvö atkvæði og ba-na-ni hefur þrjú. Í hverju atkvæði er sérhljóði. Það hjálpar okkur að klappa þegar við lesum og skrifum löng orð.",
+    "sample": "skó-la-tas-ka / ba-na-ni / ap-pel-sí-na / bók",
+    "worked": "Skólataska hefur fjögur klöpp: skó-la-tas-ka. Banani hefur þrjú og appelsína fjögur. Bók hefur bara eitt klapp: það er eitt atkvæði. Við klöppum og segjum orðið um leið.",
+    "exercises": [
+     "Klappaðu orðið: fótbolti.",
+     "Klappaðu nafnið þitt.",
+     "Hvað hefur ís mörg atkvæði?",
+     "Finndu orð með þremur atkvæðum.",
+     "Klappaðu orðið: fíll."
+    ],
+    "test": [
+     "Hvað hefur skóli mörg atkvæði?",
+     "Klappaðu: kisa.",
+     "Hvað hefur bók mörg atkvæði?",
+     "Hvað er í hverju atkvæði?",
+     "Klappaðu: banani."
+    ],
+    "steps": [
+     "Segðu orðið hægt og klappaðu um leið.",
+     "Teldu hve oft þú klappaðir.",
+     "Hvert klapp er eitt atkvæði og í hverju atkvæði er sérhljóði.",
+     "Athugaðu: Ekki klappa fyrir hvert hljóð; klappaðu fyrir hvern hluta orðsins."
+    ],
+    "answers": [
+     "Tvö: skó-li.",
+     "ki-sa.",
+     "Eitt.",
+     "Sérhljóði.",
+     "ba-na-ni."
+    ]
+   }
+  },
+  "eu-year-is-beginner-1-l04": {
+   "is": {
+    "title": "Sérhljóðarnir a, e, i, o og u",
+    "theory": "Sérhljóðar eru hljóð sem við getum sungið lengi: a, e, i, o, u. Í hverju orði er að minnsta kosti einn sérhljóði.",
+    "sample": "api, epli, ilmur, ostur, ugla / Apinn borðar epli. / Uglan borðar ost.",
+    "worked": "Api byrjar á a, epli á e, ilmur á i, ostur á o og ugla á u. Reyndu að syngja sérhljóðann: aaa. Án sérhljóða getum við ekki lesið orð.",
+    "exercises": [
+     "Syngdu sérhljóðana fimm.",
+     "Skrifaðu lítið a og stórt A.",
+     "Hvaða sérhljóði er fremst í orðinu ugla?",
+     "Finndu orð sem byrjar á o.",
+     "Gerðu munninn kringlóttan og segðu: o."
+    ],
+    "test": [
+     "Hve marga sérhljóða lærðum við í dag?",
+     "Á hvaða sérhljóða byrjar api?",
+     "Er sérhljóði í hverju orði?",
+     "Á hvaða sérhljóða byrjar epli?",
+     "Lestu: api, ostur, ugla."
+    ],
+    "steps": [
+     "Sérhljóðarnir eru a, e, i, o, u: segðu þá í röð.",
+     "Horfðu í spegil: við o verður munnurinn kringlóttur.",
+     "Segðu orðið hægt til að finna sérhljóðann.",
+     "Athugaðu: e og i eru lík; talaðu skýrt og hlustaðu vel."
+    ],
+    "answers": [
+     "Fimm.",
+     "a.",
+     "Já.",
+     "e.",
+     "api, ostur, ugla."
+    ]
+   }
+  },
+  "eu-year-is-beginner-1-l05": {
+   "is": {
+    "title": "Broddstafir: á, é, í, ó, ú og ý",
+    "theory": "Sumir sérhljóðar hafa brodd yfir sér: á, é, í, ó, ú og ý. Broddurinn breytir hljóðinu: a og á eru ólík hljóð. Á eins og í ár, é eins og í ég, í eins og í ís, ó eins og í sól, ú eins og í mús og ý eins og í ýsa.",
+    "sample": "Ég borða ís. / Músin býr í húsi. / Sólin skín á ána.",
+    "worked": "Ég hefur é, ís og í hafa í, músin og húsi hafa ú, sólin hefur ó og á hefur á. Býr hefur ý. Ef broddinn vantar verður til annað orð eða orð sem er ekki til.",
+    "exercises": [
+     "Segðu: á, é, í, ó, ú, ý.",
+     "Skrifaðu á.",
+     "Finndu orð með ó.",
+     "Hvaða hljóð heyrir þú í mús?",
+     "Lestu: ár, ég, ís."
+    ],
+    "test": [
+     "Hvað borða ég?",
+     "Hvar býr músin?",
+     "Á hvað skín sólin?",
+     "Hvað breytir broddurinn?",
+     "Lestu: sól, mús, ýsa."
+    ],
+    "steps": [
+     "Leitaðu að brodd yfir stafnum.",
+     "Mundu að a og á eru ólík hljóð.",
+     "Lestu orðið upphátt og hlustaðu.",
+     "Athugaðu: Gleymdu ekki broddinum; sól án brodds er ekki rétt skrifað."
+    ],
+    "answers": [
+     "Ís.",
+     "Í húsi.",
+     "Á ána.",
+     "Hann breytir hljóðinu.",
+     "sól, mús, ýsa."
+    ]
+   }
+  },
+  "eu-year-is-beginner-1-l06": {
+   "is": {
+    "title": "Síðustu sérhljóðarnir: y, ö og æ",
+    "theory": "Við eigum líka sérhljóðana y, ö og æ. Y hljómar eins og i, til dæmis í systir. Ö eins og í önd og æ eins og í ær. Nú kunnum við alla sérhljóðana.",
+    "sample": "Öndin syndir á tjörninni. / Ærin og lambið eru úti. / Systir mín les bók.",
+    "worked": "Öndin og tjörninni hafa ö. Ærin hefur æ. Syndir og systir hafa y, sem hljómar eins og i. Hvort skrifað er i eða y þarf að læra með hverju orði.",
+    "exercises": [
+     "Segðu: y, ö, æ.",
+     "Skrifaðu ö.",
+     "Finndu orð með æ.",
+     "Hvaða sérhljóða heyrir þú í önd?",
+     "Lestu: önd, ær, systir."
+    ],
+    "test": [
+     "Hvar syndir öndin?",
+     "Hver er úti?",
+     "Hvað gerir systir mín?",
+     "Hljóma i og y eins?",
+     "Lestu: smjör, bær, lyf."
+    ],
+    "steps": [
+     "Ö hefur tvo punkta yfir sér.",
+     "Æ er skrifað eins og a og e saman.",
+     "Y hljómar eins og i, svo að við lærum hvernig orðið er skrifað.",
+     "Athugaðu: Gleymdu ekki punktunum á ö, annars verður stafurinn o."
+    ],
+    "answers": [
+     "Á tjörninni.",
+     "Ærin og lambið.",
+     "Hún les bók.",
+     "Já.",
+     "smjör, bær, lyf."
+    ]
+   }
+  },
+  "eu-year-is-beginner-1-l07": {
+   "is": {
+    "title": "m, s, l og r: mamma, sól og rós",
+    "theory": "Samhljóðar þurfa sérhljóða til að mynda orð. M segjum við með lokaðar varir, s hvæsir eins og slanga og l segjum við með tunguna aftan við tennurnar. R segjum við með tungubroddinum. Ný orð: mamma, sól, lús, rós, mús, salt.",
+    "sample": "Mamma á rós. / Músin sefur. / Sólin skín.",
+    "worked": "Mamma og músin byrja á m. Sólin, sefur og skín byrja á s. Sólin hefur líka l. Rós byrjar á r. Við lesum hvert hljóð og setjum þau saman: r-ó-s verður rós.",
+    "exercises": [
+     "Lestu: mamma, sól, rós.",
+     "Hvæstu eins og slanga: sss.",
+     "Skiptu í hljóð: l-ú-s.",
+     "Skrifaðu stórt M.",
+     "Finndu orð með l."
+    ],
+    "test": [
+     "Hvað á mamma?",
+     "Hvað gerir músin?",
+     "Lestu: lús, mús, rós.",
+     "Á hvaða hljóði byrjar sól?",
+     "Hvernig segjum við m?"
+    ],
+    "steps": [
+     "Segðu hljóð samhljóðans og strax sérhljóðann á eftir: r-ó.",
+     "Settu hljóðin saman í orð: rós.",
+     "Lestu alltaf frá vinstri til hægri.",
+     "Athugaðu: m og n eru lík; m hefur tvo boga en n einn."
+    ],
+    "answers": [
+     "Rós.",
+     "Hún sefur.",
+     "lús, mús, rós.",
+     "s.",
+     "Með lokaðar varir."
+    ]
+   }
+  },
+  "eu-year-is-beginner-1-l08": {
+   "is": {
+    "title": "t, p og k: taska, pabbi og kisa",
+    "theory": "T, p og k eru stutt hljóð. Við p opnum við varirnar, við t snertir tungan tennurnar og k segjum við aftast í munninum. Ný orð: taska, tala, pabbi, pera, kisa, kaka.",
+    "sample": "Kisa situr á þakinu. / Pabbi drekkur úr bolla. / Tinna á peru og köku.",
+    "worked": "Kisa og köku hafa k. Tinna og taska byrja á t. Pabbi og peru byrja á p. Við lesum fyrst hægt og svo hraðar. Tinna er nafn og byrjar á stórum staf.",
+    "exercises": [
+     "Lestu: taska, tala, tær.",
+     "Lestu: pabbi, pera, pottur.",
+     "Lestu: kisa, kaka, kýr.",
+     "Skrifaðu orðið kisa.",
+     "Finndu orð með t."
+    ],
+    "test": [
+     "Hvar situr kisa?",
+     "Úr hverju drekkur pabbi?",
+     "Hvað á Tinna?",
+     "Lestu: tak, pípa, kort.",
+     "Á hvaða staf byrjar kaka?"
+    ],
+    "steps": [
+     "Við p opnar þú varirnar með smá blæstri.",
+     "Við t snertir tungan létt tennurnar.",
+     "Lestu fyrst hægt og svo hraðar.",
+     "Athugaðu: p og b eru lík; p hefur magann uppi til hægri."
+    ],
+    "answers": [
+     "Á þakinu.",
+     "Úr bolla.",
+     "Peru og köku.",
+     "tak, pí-pa, kort.",
+     "k."
+    ]
+   }
+  },
+  "eu-year-is-beginner-1-l09": {
+   "is": {
+    "title": "n, d og b: nef, dúkka og bíll",
+    "theory": "N segjum við í gegnum nefið. D og b eru mjúk hljóð. Ný orð: nef, nál, dúkka, dýr, bíll, bolti.",
+    "sample": "Bíllinn ekur um bæinn. / Dúfan situr á girðingunni. / Bjarni á bláan bolta.",
+    "worked": "Bíllinn, bæinn, Bjarni, bláan og bolta byrja á b. Dúfan byrjar á d. Nef og nál byrja á n. Bjarni er nafn og er skrifað með stórum staf.",
+    "exercises": [
+     "Lestu: nef, nál, nú.",
+     "Lestu: dúkka, dýr, dós.",
+     "Lestu: bíll, bolti, bók.",
+     "Skrifaðu orðið bíll.",
+     "Finndu orð með b."
+    ],
+    "test": [
+     "Hvert ekur bíllinn?",
+     "Hvar situr dúfan?",
+     "Á hvernig bolta á Bjarni?",
+     "Lestu: nammi, dalur, bátur.",
+     "Á hvaða staf byrjar dýr?"
+    ],
+    "steps": [
+     "N segir þú með tunguna uppi og loftið fer út um nefið.",
+     "D og b segir þú mjúklega.",
+     "Lestu orðið hljóð fyrir hljóð og settu það saman.",
+     "Athugaðu: b og d eru lík; b hefur magann til hægri en d til vinstri."
+    ],
+    "answers": [
+     "Um bæinn.",
+     "Á girðingunni.",
+     "Bláan bolta.",
+     "nam-mi, da-lur, bá-tur.",
+     "d."
+    ]
+   }
+  },
+  "eu-year-is-beginner-1-l10": {
+   "is": {
+    "title": "f, v, g, h og j: fiskur, vegur og jól",
+    "theory": "F og v segjum við með efri tennurnar á neðri vörinni. G segjum við aftast í munninum. H er lítið andvarp. J hljómar eins og í já. Ný orð: fiskur, fugl, vegur, vatn, gæs, hús, jól, jakki.",
+    "sample": "Pabbi veiðir fisk. / Gæsin gengur yfir veginn. / Um jólin fær Jón nýjan jakka.",
+    "worked": "Fisk og fugl byrja á f. Veiðir og veginn byrja á v. Gæsin og gengur byrja á g. Jólin, Jón og jakka byrja á j. Jón er nafn og byrjar á stórum staf.",
+    "exercises": [
+     "Lestu: fiskur, fugl, fimm.",
+     "Lestu: vegur, vatn, vindur.",
+     "Lestu: gæs, hús, jól.",
+     "Skrifaðu orðið fiskur.",
+     "Andaðu á hendina: hhh."
+    ],
+    "test": [
+     "Hvað veiðir pabbi?",
+     "Hvert gengur gæsin?",
+     "Hvað fær Jón um jólin?",
+     "Lestu: hattur, jörð, gulur.",
+     "Á hvaða staf byrjar vatn?"
+    ],
+    "steps": [
+     "Fyrir f og v setur þú efri tennurnar á neðri vörina.",
+     "Fremst í orði blæs þú bara við f en það suðar aðeins við v.",
+     "H er andvarp og j hljómar eins og í já.",
+     "Athugaðu: f og v geta hljómað líkt; lærðu hvernig orðið er skrifað."
+    ],
+    "answers": [
+     "Fisk.",
+     "Yfir veginn.",
+     "Nýjan jakka.",
+     "hat-tur, jörð, gu-lur.",
+     "v."
+    ]
+   }
+  },
+  "eu-year-is-beginner-1-l11": {
+   "is": {
+    "title": "Sérstöku stafirnir þ og ð",
+    "theory": "Íslenska á tvo sérstaka stafi: þ og ð. Þ er oftast fremst í orði: þú, þak, þrír. Ð er aldrei fremst í orði, heldur inni í orði eða aftast: maður, glaður, bað. Við segjum báða stafina með tunguna á milli tannanna.",
+    "sample": "Þrír kettir sitja á þakinu. / Maðurinn er glaður. / Þú ferð í bað.",
+    "worked": "Þrír, þakinu og þú byrja á þ. Maðurinn, glaður og bað hafa ð inni í orðinu eða aftast. Ð getur aldrei verið fremst í orði.",
+    "exercises": [
+     "Lestu: þú, þak, þrír.",
+     "Lestu: maður, glaður, bað.",
+     "Skrifaðu stórt Þ og lítið þ.",
+     "Skrifaðu ð.",
+     "Finndu orð sem byrjar á þ."
+    ],
+    "test": [
+     "Hvað sitja margir kettir á þakinu?",
+     "Hvernig er maðurinn?",
+     "Hvert ferð þú?",
+     "Getur ð verið fremst í orði?",
+     "Lestu: þorskur, rauður, þvottur."
+    ],
+    "steps": [
+     "Settu tunguna milli tannanna og blástu fyrir þ.",
+     "Ð er mýkra og er inni í orði eða aftast.",
+     "Mundu að ð er aldrei fremst í orði.",
+     "Athugaðu: þ og p eru ólíkir stafir; þ hefur bumbu á miðjum legg."
+    ],
+    "answers": [
+     "Þrír.",
+     "Hann er glaður.",
+     "Í bað.",
+     "Nei.",
+     "þorskur, rauður, þvottur."
+    ]
+   }
+  },
+  "eu-year-is-beginner-1-l12": {
+   "is": {
+    "title": "Hljóðrétt orð: við lesum og skrifum",
+    "theory": "Hljóðrétt orð skrifum við eins og við segjum þau: hvert hljóð hefur sinn staf. Sól, mús, rós, kisa og nef eru hljóðrétt orð. Þau getum við lesið með því að segja hljóðin og skrifað með því að hlusta.",
+    "sample": "Ída sér sól. / Óli á kisu og fisk. / Rósin er rauð.",
+    "worked": "Sól, kisu og rós eru hljóðrétt: við heyrum alla stafina. Við getum skrifað þau sjálf með því að segja orðið hægt og skrifa eitt hljóð í einu.",
+    "exercises": [
+     "Skrifaðu: sól.",
+     "Skrifaðu: mús.",
+     "Skrifaðu: nef.",
+     "Lestu: Óli á kisu.",
+     "Finndu sjálf eða sjálfur tvö hljóðrétt orð."
+    ],
+    "test": [
+     "Hvað sér Ída?",
+     "Hvað á Óli?",
+     "Hvernig er rósin á litinn?",
+     "Er sól hljóðrétt orð?",
+     "Skrifaðu: rós."
+    ],
+    "steps": [
+     "Segðu orðið hægt: s-ó-l.",
+     "Skrifaðu einn staf fyrir hvert hljóð sem þú heyrir.",
+     "Lestu orðið upphátt á eftir til að athuga.",
+     "Athugaðu: Gleymdu ekki hljóði í miðjunni; í kisa heyrir þú bæði i og s."
+    ],
+    "answers": [
+     "Sól.",
+     "Kisu og fisk.",
+     "Rauð.",
+     "Já.",
+     "rós."
+    ]
+   }
+  },
+  "eu-year-is-beginner-1-l13": {
+   "is": {
+    "title": "Algeng orð: og, er, ég, það, ekki",
+    "theory": "Sum orð eru í næstum öllum textum: og, er, ég, það, hann, hún, ekki, á, í. Ef við þekkjum þau strax lesum við hraðar og skiljum meira. Þess vegna æfum við þau aftur og aftur.",
+    "sample": "Ég er glöð. / Hann og hún leika sér. / Það er ekki kalt í dag.",
+    "worked": "Ég, er, og, það, hann, hún og ekki eru í næstum öllum bókum. Þegar við þekkjum þessi orð strax þurfum við ekki að lesa þau hljóð fyrir hljóð.",
+    "exercises": [
+     "Lestu: ég, er, og, það.",
+     "Skrifaðu orðið ekki.",
+     "Finndu orðið og í dæminu.",
+     "Lestu: hann, hún, það.",
+     "Skrifaðu setningu með ég er."
+    ],
+    "test": [
+     "Hver leika sér?",
+     "Er kalt í dag?",
+     "Hvernig er ég?",
+     "Skrifaðu orðið það.",
+     "Af hverju æfum við algengu orðin?"
+    ],
+    "steps": [
+     "Horfðu á orðið eins og mynd: o-g.",
+     "Lestu það mörgum sinnum þar til þú þekkir það strax.",
+     "Skrifaðu það nokkrum sinnum.",
+     "Athugaðu: Ekki rugla saman hann og hún; hann er um strák, hún um stelpu."
+    ],
+    "answers": [
+     "Hann og hún.",
+     "Nei, það er ekki kalt.",
+     "Ég er glöð.",
+     "það.",
+     "Svo að við getum lesið þau hratt."
+    ]
+   }
+  },
+  "eu-year-is-beginner-1-l14": {
+   "is": {
+    "title": "Tvöfaldir samhljóðar: mamma, pabbi og bolli",
+    "theory": "Stundum eru tveir eins samhljóðar saman: mamma, pabbi, kassi, bolli. Á undan tvöföldum samhljóða er sérhljóðinn oftast stuttur. Tvöfalt l segjum við oft eins og tl: bolli, fjall.",
+    "sample": "Mamma og pabbi drekka úr bolla. / Kötturinn sefur í kassa. / Við sjáum fjall.",
+    "worked": "Mamma, pabbi, bolla, kassa og fjall hafa tvo eins samhljóða. Kisa hefur eitt s en kassi tvö. Í bolla og fjall heyrum við tl, en við skrifum ll.",
+    "exercises": [
+     "Lestu: mamma, pabbi, kassi.",
+     "Lestu: bolli, fjall, hella.",
+     "Skrifaðu: ma__a (mamma).",
+     "Hve mörg s eru í kassi?",
+     "Finndu orð með tvöföldu t."
+    ],
+    "test": [
+     "Úr hverju drekka mamma og pabbi?",
+     "Hvar sefur kötturinn?",
+     "Hvað sjáum við?",
+     "Skrifaðu orðið pabbi.",
+     "Hvernig segjum við ll í bolli?"
+    ],
+    "steps": [
+     "Hlustaðu: er sérhljóðinn stuttur og snöggur?",
+     "Þá eru oft tveir eins samhljóðar á eftir.",
+     "Mundu að ll hljómar oft eins og tl en er skrifað ll.",
+     "Athugaðu: Ekki skrifa botli; skrifaðu bolli."
+    ],
+    "answers": [
+     "Úr bolla.",
+     "Í kassa.",
+     "Fjall.",
+     "pabbi.",
+     "Eins og tl."
+    ]
+   }
+  },
+  "eu-year-is-beginner-1-l15": {
+   "is": {
+    "title": "Tvíhljóðar: au, ei og ey",
+    "theory": "Au eins og í auga, ei eins og í steinn og ey eins og í hey. Ei og ey hljóma eins, svo að við lærum hvernig orðið er skrifað. Við lesum tvo stafi saman sem eitt hljóð.",
+    "sample": "Ég sé með augunum. / Lambið borðar hey. / Steinninn liggur við ána.",
+    "worked": "Augunum hefur au. Hey hefur ey. Steinninn hefur ei. Ei og ey hljóma eins en eru skrifuð á ólíkan hátt.",
+    "exercises": [
+     "Lestu: auga, haust, sauður.",
+     "Lestu: steinn, eitt, leikur.",
+     "Lestu: hey, eyra, ey.",
+     "Skrifaðu orðið auga.",
+     "Hljóma ei og ey eins?"
+    ],
+    "test": [
+     "Með hverju sjáum við?",
+     "Hvað borðar lambið?",
+     "Hvar liggur steinninn?",
+     "Hvaða tvíhljóða hefur auga?",
+     "Lestu: laust, beinn, keyra."
+    ],
+    "steps": [
+     "Leitaðu að tveimur sérhljóðum saman: au, ei, ey.",
+     "Lestu þá saman sem eitt hljóð.",
+     "Lærðu hvort orð er skrifað með ei eða ey.",
+     "Athugaðu: Ekki lesa a og u sitt í hvoru lagi í auga; það er eitt hljóð."
+    ],
+    "answers": [
+     "Með augunum.",
+     "Hey.",
+     "Við ána.",
+     "au.",
+     "laust, beinn, keyra."
+    ]
+   }
+  },
+  "eu-year-is-beginner-1-l16": {
+   "is": {
+    "title": "I eða y, í eða ý",
+    "theory": "I og y hljóma eins, og líka í og ý. Hvort skrifað er i eða y þarf að læra með hverju orði: fiskur, systir, ís, ýsa, kirkja, mynd. Við lesum orðin oft og munum hvernig þau líta út.",
+    "sample": "Systir mín veiðir fisk. / Ýsan syndir í sjónum. / Ég borða ís.",
+    "worked": "Systir, syndir og ýsan eru skrifuð með y eða ý. Fisk og ís eru skrifuð með i eða í. Við heyrum ekki muninn, svo að við munum hvernig orðið lítur út.",
+    "exercises": [
+     "Lestu: fiskur, ís, kirkja.",
+     "Lestu: systir, ýsa, mynd.",
+     "Skrifaðu orðið ís.",
+     "Skrifaðu orðið ýsa.",
+     "Hljóma i og y eins?"
+    ],
+    "test": [
+     "Hvað veiðir systir mín?",
+     "Hvar syndir ýsan?",
+     "Hvað borða ég?",
+     "Er ýsa skrifuð með í eða ý?",
+     "Lestu: bíll, mýs, vinur."
+    ],
+    "steps": [
+     "Mundu að i og y hljóma eins.",
+     "Horfðu vel á orðið og reyndu að muna hvernig það lítur út.",
+     "Ef þú ert óviss skaltu fletta orðinu upp eða spyrja.",
+     "Athugaðu: Ekki skrifa sistir; orðið er systir með y."
+    ],
+    "answers": [
+     "Fisk.",
+     "Í sjónum.",
+     "Ís.",
+     "ý.",
+     "bíll, mýs, vi-nur."
+    ]
+   }
+  },
+  "eu-year-is-beginner-1-l17": {
+   "is": {
+    "title": "Stór stafur: nöfn og upphaf setningar",
+    "theory": "Við skrifum stóran staf fremst í setningu og í nöfnum: nöfnum á fólki, dýrum, bæjum, fjörðum og löndum. Venjuleg orð skrifum við með litlum staf. Daga og mánuði skrifum við með litlum staf.",
+    "sample": "Sara og hundurinn hennar, Snati, búa á Akureyri við Eyjafjörð.",
+    "worked": "Sara, Snati, Akureyri og Eyjafjörður eru nöfn: þau fá stóran staf. Hundurinn er venjulegt orð: það fær lítinn staf. Setningin byrjar á stórum staf.",
+    "exercises": [
+     "Finndu nöfnin í dæminu.",
+     "Skrifaðu nafnið á bænum þínum.",
+     "Skrifaðu nafn vinar eða vinkonu.",
+     "Leiðréttu: við búum í reykjavík.",
+     "Á hundur að vera með stórum staf?"
+    ],
+    "test": [
+     "Hvað heitir hundurinn hennar Söru?",
+     "Hvar búa þau?",
+     "Við hvaða fjörð búa þau?",
+     "Skrifaðu rétt: óli býr á selfossi",
+     "Hvenær skrifum við stóran staf?"
+    ],
+    "steps": [
+     "Spurðu þig: er þetta nafn á ákveðinni manneskju, dýri eða stað?",
+     "Ef svo er, skrifaðu stóran staf.",
+     "Skrifaðu líka stóran staf fremst í hverri setningu.",
+     "Athugaðu: mánudagur og janúar eru skrifuð með litlum staf."
+    ],
+    "answers": [
+     "Snati.",
+     "Á Akureyri.",
+     "Við Eyjafjörð.",
+     "Óli býr á Selfossi.",
+     "Fremst í setningu og í nöfnum."
+    ]
+   }
+  },
+  "eu-year-is-beginner-1-l18": {
+   "is": {
+    "title": "Hann, hún eða það: kyn orða",
+    "theory": "Nafnorð hafa kyn. Um sum orð segjum við hann: hesturinn, bíllinn. Um önnur segjum við hún: kisan, konan. Um enn önnur segjum við það: barnið, húsið. Kynið heyrum við þegar við segjum orðið með greini.",
+    "sample": "Hesturinn hleypur. Hann er brúnn. / Kisan sefur. Hún er grá. / Barnið hlær. Það er glatt.",
+    "worked": "Hestur er karlkyns orð: hann. Kisa er kvenkyns orð: hún. Barn er hvorugkyns orð: það. Við prófum að segja hann, hún eða það og heyrum hvað passar.",
+    "exercises": [
+     "Er bíll hann, hún eða það?",
+     "Er kona hann, hún eða það?",
+     "Er hús hann, hún eða það?",
+     "Finndu nafnorðin í dæminu.",
+     "Skrifaðu þrjú dýr og segðu hvort þau eru hann, hún eða það."
+    ],
+    "test": [
+     "Hvernig er hesturinn á litinn?",
+     "Hvað gerir kisan?",
+     "Er barn hann, hún eða það?",
+     "Hvernig er barnið?",
+     "Er bók hann, hún eða það?"
+    ],
+    "steps": [
+     "Finndu nafnorðið: manneskju, dýr eða hlut.",
+     "Prófaðu að segja: hann, hún eða það.",
+     "Hlustaðu á hvað hljómar rétt.",
+     "Athugaðu: Kynið fer eftir orðinu sjálfu; við segjum barnið er glatt, líka um stelpu."
+    ],
+    "answers": [
+     "Brúnn.",
+     "Hún sefur.",
+     "Það.",
+     "Það er glatt.",
+     "Hún."
+    ]
+   }
+  },
+  "eu-year-is-beginner-1-l19": {
+   "is": {
+    "title": "Eitt eða fleiri: eintala og fleirtala",
+    "theory": "Þegar eitthvað er fleira en eitt notum við fleirtölu. Oft breytist endingin: hestur – hestar, kisa – kisur, bíll – bílar. Sum orð breytast meira: barn – börn, bók – bækur. Sum orð breytast ekki: eitt hús – tvö hús.",
+    "sample": "Ein kisa sefur. Tvær kisur leika sér. Á veginum eru þrír bílar.",
+    "worked": "Kisa verður kisur. Bíll verður bílar. Hús er eins í eintölu og fleirtölu. Barn verður börn og bók verður bækur.",
+    "exercises": [
+     "Skrifaðu fleirtölu af hundur.",
+     "Skrifaðu fleirtölu af bíll.",
+     "Skrifaðu fleirtölu af stelpa.",
+     "Er kisur eintala eða fleirtala?",
+     "Skrifaðu fleirtölu af strákur."
+    ],
+    "test": [
+     "Hver er fleirtalan af kisa?",
+     "Hve margir bílar eru á veginum?",
+     "Hver er fleirtalan af hús?",
+     "Hver er fleirtalan af barn?",
+     "Hver er fleirtalan af bók?"
+    ],
+    "steps": [
+     "Spurðu þig: eitt eða fleiri?",
+     "Fleiri: breyttu endingunni, til dæmis -ar eða -ur.",
+     "Segðu orðið upphátt til að heyra hvort það hljómar rétt.",
+     "Athugaðu: Sum orð breytast mikið: bók verður bækur."
+    ],
+    "answers": [
+     "Kisur.",
+     "Þrír.",
+     "Hús.",
+     "Börn.",
+     "Bækur."
+    ]
+   }
+  },
+  "eu-year-is-beginner-1-l20": {
+   "is": {
+    "title": "Hv: hvað, hver og hvar",
+    "theory": "Spurnarorðin hvað, hver, hvar og hvenær byrja á hv. Flestir segja kv, en við skrifum alltaf hv. Önnur orð með hv eru til dæmis hvalur og hvítur.",
+    "sample": "Hvað heitir þú? / Hvar er hvíta kisan? / Hvalurinn syndir í hafinu.",
+    "worked": "Hvað, hvar, hvíta og hvalurinn byrja á hv. Þegar við segjum orðin heyrum við oft kv, en við skrifum hv.",
+    "exercises": [
+     "Lestu: hvað, hver, hvar.",
+     "Lestu: hvalur, hvítur, hvolpur.",
+     "Skrifaðu orðið hvar.",
+     "Spurðu spurningar sem byrjar á hvað.",
+     "Hvernig skrifum við orðið sem við segjum kvað?"
+    ],
+    "test": [
+     "Hvar syndir hvalurinn?",
+     "Hvernig er kisan á litinn?",
+     "Á hvaða stöfum byrjar hvalur?",
+     "Skrifaðu orðið hver.",
+     "Lestu: hvenær, hvísla, hvíld."
+    ],
+    "steps": [
+     "Spurnarorð sem byrja á kv-hljóði eru skrifuð með hv.",
+     "Mundu: hvað, hver, hvar, hvenær.",
+     "Lestu orðið upphátt og horfðu á stafina.",
+     "Athugaðu: Ekki skrifa kvað þegar þú spyrð; skrifaðu hvað."
+    ],
+    "answers": [
+     "Í hafinu.",
+     "Hvít.",
+     "hv.",
+     "hver.",
+     "hve-nær, hvísla, hvíld."
+    ]
+   }
+  },
+  "eu-year-is-beginner-1-l21": {
+   "is": {
+    "title": "Samhljóðar saman: kr, bl og str",
+    "theory": "Stundum eru tveir eða þrír samhljóðar saman: kr í krakki, bl í blóm, str í strönd. Við segjum hvert hljóð hratt hvert á eftir öðru.",
+    "sample": "Krakkarnir leika sér á ströndinni. / Blátt blóm vex við brúna. / Stína byggir kastala úr sandi.",
+    "worked": "Krakkarnir, ströndinni, blátt, blóm, brúna og Stína hafa samhljóða sem standa saman. Ef við gleymum hljóði verður til annað orð eða orð sem er ekki til.",
+    "exercises": [
+     "Lestu: krakki, kría, tré.",
+     "Lestu: blóm, glas, flugvél.",
+     "Lestu: strönd, strákur, sprengja.",
+     "Skrifaðu orðið tré.",
+     "Skiptu í hljóð: b-l-á-r."
+    ],
+    "test": [
+     "Hvar leika krakkarnir sér?",
+     "Hvar vex blómið?",
+     "Hvað byggir Stína?",
+     "Hve mörg hljóð hefur tré?",
+     "Lestu: planta, fræ, skref."
+    ],
+    "steps": [
+     "Finndu samhljóðana sem standa saman.",
+     "Segðu hvert hljóð hratt á eftir öðru: b-l.",
+     "Settu svo allt orðið saman: blóm.",
+     "Athugaðu: Ekki bæta sérhljóða á milli samhljóðanna; það er blóm, ekki belóm."
+    ],
+    "answers": [
+     "Á ströndinni.",
+     "Við brúna.",
+     "Kastala úr sandi.",
+     "Þrjú: t-r-é.",
+     "plan-ta, fræ, skref."
+    ]
+   }
+  },
+  "eu-year-is-beginner-1-l22": {
+   "is": {
+    "title": "Þulur og vísur: við lesum og förum með þær",
+    "theory": "Vísa er stuttur texti með takti og rími sem gaman er að fara með upphátt. Ljóð er búið til úr línum. Oft ríma orðin aftast í línunum. Við förum rólega með vísuna og gerum smá hlé eftir hverja línu.",
+    "sample": "Eigin vísa: / Sólin skín á gluggann minn, / kisa kemur loksins inn. / Fuglinn syngur fagurt lag, / gaman er á sumardag.",
+    "worked": "Vísan hefur fjórar línur. Minn rímar við inn og lag rímar við dag. Þegar við förum með hana upphátt lesum við rólega og gerum hlé aftast í hverri línu.",
+    "exercises": [
+     "Lestu vísuna upphátt.",
+     "Finndu orðið sem rímar við minn.",
+     "Lærðu fyrstu tvær línurnar utanbókar.",
+     "Teiknaðu kisu og fugl.",
+     "Finndu orð sem rímar við sól."
+    ],
+    "test": [
+     "Hve margar línur hefur vísan?",
+     "Hver kemur inn?",
+     "Hvað er lína í ljóði?",
+     "Hvað gerir fuglinn?",
+     "Finndu orð sem rímar við hús."
+    ],
+    "steps": [
+     "Lestu vísuna línu fyrir línu.",
+     "Horfðu á síðasta orðið í hverri línu og finndu orð sem hljóma eins.",
+     "Til að læra hana endurtekur þú tvær línur í einu.",
+     "Athugaðu: Lestu rólega og með hléum; þetta er ekki kapphlaup."
+    ],
+    "answers": [
+     "Fjórar.",
+     "Kisa.",
+     "Röð af orðum í ljóði.",
+     "Hann syngur fagurt lag.",
+     "Þitt svar. Til dæmis: mús, lús."
+    ]
+   }
+  },
+  "eu-year-is-beginner-1-l23": {
+   "is": {
+    "title": "Þjóðsaga: Búkolla",
+    "theory": "Þjóðsögur eru gamlar sögur sem fólk hefur sagt hvert öðru í mörg hundruð ár. Jón Árnason safnaði mörgum íslenskum þjóðsögum. Í sögunni um Búkollu hjálpar töfrakýr strák að komast heim.",
+    "sample": "Með okkar eigin orðum: Fjölskylda átti kú sem hét Búkolla. Dag einn hvarf hún. Strákurinn fór að leita og fann hana hjá skessum í helli. Hann tók Búkollu og flúði. Þegar skessurnar eltu sagði Búkolla honum að taka hár úr hala sínum. Hárin urðu að stóru fljóti, eldi og fjalli, og skessurnar komust ekki á eftir þeim.",
+    "worked": "Persónurnar eru strákurinn, Búkolla og skessurnar. Hlutirnir gerast þrisvar sinnum: þrjú hár verða að fljóti, eldi og fjalli. Strákurinn er hugrakkur og Búkolla er klók. Að lokum komast þau heil heim.",
+    "exercises": [
+     "Segðu söguna með þínum eigin orðum.",
+     "Teiknaðu Búkollu.",
+     "Hve oft tekur strákurinn hár úr halanum?",
+     "Hvernig er strákurinn?",
+     "Finndu upp annan endi."
+    ],
+    "test": [
+     "Hvað hét kýrin?",
+     "Hvar fann strákurinn hana?",
+     "Hvað urðu hárin að?",
+     "Hver safnaði mörgum íslenskum þjóðsögum?",
+     "Hvað er þjóðsaga?"
+    ],
+    "steps": [
+     "Finndu persónurnar: strákinn, Búkollu og skessurnar.",
+     "Segðu hvað gerist í hvert sinn sem strákurinn tekur hár.",
+     "Sjáðu hvernig sagan endar.",
+     "Athugaðu: Í þjóðsögum gerast hlutir oft þrisvar; mundu eftir öllum þremur."
+    ],
+    "answers": [
+     "Búkolla.",
+     "Hjá skessum í helli.",
+     "Fljóti, eldi og fjalli.",
+     "Jón Árnason.",
+     "Gömul saga sem fólk hefur sagt í mörg hundruð ár."
+    ]
+   }
+  },
+  "eu-year-is-beginner-1-l24": {
+   "is": {
+    "title": "Íslensku jólasveinarnir",
+    "theory": "Í íslenskum þjóðsögum eru jólasveinarnir þrettán. Þeir búa í fjöllunum hjá foreldrum sínum, Grýlu og Leppalúða. Hver jólasveinn hefur sitt nafn og sína siði.",
+    "sample": "Með okkar eigin orðum: Fyrsti jólasveinninn, Stekkjarstaur, kemur til byggða tólfta desember. Svo kemur einn á hverri nóttu. Börnin setja skó út í glugga, og jólasveinninn setur lítinn glaðning í skóinn. Síðastur kemur Kertasníkir á aðfangadag.",
+    "worked": "Jólasveinarnir eru þrettán og koma einn í einu. Fyrstur kemur Stekkjarstaur og síðastur Kertasníkir. Nöfnin segja frá því sem þeir gera, til dæmis sníkir Kertasníkir kerti.",
+    "exercises": [
+     "Segðu frá jólasveinunum með þínum eigin orðum.",
+     "Teiknaðu jólasvein.",
+     "Hvað heita foreldrar jólasveinanna?",
+     "Hvaða jólasvein þekkir þú?",
+     "Búðu til nafn á nýjan jólasvein."
+    ],
+    "test": [
+     "Hve margir eru jólasveinarnir?",
+     "Hver kemur fyrstur?",
+     "Hvenær kemur fyrsti jólasveinninn?",
+     "Hvað setja börnin út í glugga?",
+     "Hver kemur síðastur?"
+    ],
+    "steps": [
+     "Mundu töluna: jólasveinarnir eru þrettán.",
+     "Mundu röðina: Stekkjarstaur fyrstur og Kertasníkir síðastur.",
+     "Hugsaðu um hvað nöfnin segja um jólasveinana.",
+     "Athugaðu: Jólasveinarnir eru úr þjóðsögum; sögurnar um þá eru ævintýri."
+    ],
+    "answers": [
+     "Þrettán.",
+     "Stekkjarstaur.",
+     "Tólfta desember.",
+     "Skó.",
+     "Kertasníkir."
+    ]
+   }
+  },
+  "eu-year-is-beginner-1-l25": {
+   "is": {
+    "title": "Dæmisaga: Hérinn og skjaldbakan",
+    "theory": "Dæmisaga er stutt saga þar sem dýr tala og haga sér eins og fólk. Í lokin er lærdómur. Margar gamlar dæmisögur eru eftir Esóp.",
+    "sample": "Með okkar eigin orðum: Hérinn hlær að skjaldbökunni af því að hún er svo sein. Þau keppa í hlaupi. Hérinn hleypur langt á undan og leggst til svefns undir tré. Skjaldbakan heldur rólega áfram án þess að stoppa og kemur fyrst í mark.",
+    "worked": "Hérinn er fljótur en montinn. Skjaldbakan er sein en gefst ekki upp. Lærdómurinn er sá að sá sem heldur áfram nær markinu og að við eigum ekki að hlæja að öðrum.",
+    "exercises": [
+     "Segðu dæmisöguna með þínum eigin orðum.",
+     "Teiknaðu sofandi hérann.",
+     "Hvernig er skjaldbakan?",
+     "Segðu lærdóminn með þínum eigin orðum.",
+     "Finndu upp annan endi."
+    ],
+    "test": [
+     "Hver eru í dæmisögunni?",
+     "Af hverju hlær hérinn að skjaldbökunni?",
+     "Hvað gerir hérinn í hlaupinu?",
+     "Hver vinnur?",
+     "Hvað er lærdómur sögunnar?"
+    ],
+    "steps": [
+     "Finndu persónurnar: hérann og skjaldbökuna.",
+     "Segðu hvað hvort þeirra gerði í hlaupinu.",
+     "Finndu lærdóminn: hvað kennir sagan okkur?",
+     "Athugaðu: Í dæmisögu tala dýrin, en þau sýna hvernig fólk hagar sér."
+    ],
+    "answers": [
+     "Hérinn og skjaldbakan.",
+     "Af því að hún er svo sein.",
+     "Hann leggst til svefns undir tré.",
+     "Skjaldbakan.",
+     "Að sá sem heldur áfram nær markinu."
+    ]
+   }
+  },
+  "eu-year-is-beginner-1-l26": {
+   "is": {
+    "title": "Gátur og tungubrjótar",
+    "theory": "Gáta lýsir einhverju án þess að segja nafnið. Við hlustum á allar vísbendingarnar og finnum svarið. Tungubrjótur er setning sem erfitt er að segja hratt: við reynum að segja hana án villna.",
+    "sample": "Eigin gáta: Ég hef vísa en bendi ekki, ég segi tikk-takk allan daginn. (klukka) / Eigin tungubrjótur: Fimm feitar flugur flugu fram hjá fallegum fána.",
+    "worked": "Vísbendingarnar eru vísarnir og tikk-takk: svarið er klukka. Tungubrjóturinn er erfiður af því að mörg orð byrja á f. Við segjum hann fyrst hægt og svo hraðar.",
+    "exercises": [
+     "Giskaðu: Hún hefur tennur en borðar ekki. (greiða)",
+     "Segðu tungubrjótinn þrisvar.",
+     "Búðu til gátu um sólina.",
+     "Hvaða hljóð kemur aftur og aftur í tungubrjótnum?",
+     "Leggðu gátu fyrir bekkjarfélaga."
+    ],
+    "test": [
+     "Hvað er gáta?",
+     "Hvert er svarið við gátunni í dæminu?",
+     "Af hverju er tungubrjóturinn erfiður?",
+     "Búðu til gátu um tunglið.",
+     "Á hvaða staf byrja fimm og flugur?"
+    ],
+    "steps": [
+     "Hlustaðu á allar vísbendingarnar.",
+     "Spurðu þig: hvaða hlutur passar við þær allar?",
+     "Athugaðu svarið þitt við hverja vísbendingu.",
+     "Athugaðu: Ekki svara eftir fyrstu vísbendinguna; hlustaðu á allt."
+    ],
+    "answers": [
+     "Lýsing á einhverju án þess að segja nafnið.",
+     "Klukka.",
+     "Af því að mörg orð byrja á f.",
+     "Þitt svar. Til dæmis: Ég lýsi á nóttunni, stundum kringlótt og stundum mjótt. (tunglið)",
+     "f."
+    ]
+   }
+  },
+  "eu-year-is-beginner-1-l27": {
+   "is": {
+    "title": "Fræðitexti: lundinn",
+    "theory": "Fræðitexti segir frá staðreyndum um eitthvert efni. Hann segir ekki uppspunna sögu. Við lesum vandlega og finnum svörin í textanum.",
+    "sample": "Lundinn er fugl sem býr í björgum við sjóinn. Hann kafar eftir litlum fiskum. Á haustin flýgur hann út á haf og kemur aftur á vorin.",
+    "worked": "Textinn segir hvar lundinn býr, hvað hann borðar og hvað hann gerir á haustin og vorin. Þetta eru staðreyndir. Margir lundar verpa á Íslandi á sumrin.",
+    "exercises": [
+     "Lestu textann tvisvar.",
+     "Strikaðu undir það sem lundinn borðar.",
+     "Teiknaðu lunda í bjargi.",
+     "Finndu orðið bjarg og útskýrðu það með fullorðnum.",
+     "Spurðu spurningar um lundann."
+    ],
+    "test": [
+     "Hvar býr lundinn?",
+     "Eftir hverju kafar hann?",
+     "Hvert flýgur hann á haustin?",
+     "Er fræðitexti uppspunninn?",
+     "Hve margar setningar eru í textanum?"
+    ],
+    "steps": [
+     "Lestu spurninguna og finndu mikilvægasta orðið, til dæmis kafar.",
+     "Finndu það orð eða líkt orð í textanum.",
+     "Svarið er oft í sömu setningu.",
+     "Athugaðu: Svaraðu með því sem stendur í textanum; ekki búa neitt til."
+    ],
+    "answers": [
+     "Í björgum við sjóinn.",
+     "Eftir litlum fiskum.",
+     "Út á haf.",
+     "Nei, hann segir frá staðreyndum.",
+     "Þrjár."
+    ]
+   }
+  },
+  "eu-year-is-beginner-1-l28": {
+   "is": {
+    "title": "Myndabókin: myndir og texti segja söguna saman",
+    "theory": "Í myndabók segja myndirnar og textinn söguna saman. Myndirnar sýna það sem textinn segir ekki. Við skoðum forsíðuna, lesum titilinn og giskum á um hvað bókin er.",
+    "sample": "Eigið dæmi: Á forsíðunni er lítil stelpa með regnhlíf og stór, blautur hundur. Titillinn er: Rigningardagurinn.",
+    "worked": "Út frá myndinni og titlinum getum við giskað á að bókin sé um rigningardag þegar stelpan og hundurinn fara í göngutúr. Þegar við lesum sjáum við hvort við giskuðum rétt. Myndin sýnir líka að hundurinn er blautur, þótt það standi ekki í titlinum.",
+    "exercises": [
+     "Skoðaðu forsíðu bókar og giskaðu á um hvað hún er.",
+     "Finndu titil á bók í stofunni.",
+     "Teiknaðu forsíðu á þína eigin bók.",
+     "Segðu frá því sem mynd sýnir.",
+     "Finndu nafn höfundar á bók."
+    ],
+    "test": [
+     "Hvað sýnir forsíðan í dæminu?",
+     "Hver er titillinn?",
+     "Um hvað gæti bókin verið?",
+     "Hvað sýnir myndin sem titillinn segir ekki?",
+     "Hvað gera myndirnar í myndabók?"
+    ],
+    "steps": [
+     "Skoðaðu fyrst forsíðuna og titilinn.",
+     "Giskaðu á um hvað bókin er.",
+     "Lestu bókina og sjáðu hvort þú giskaðir rétt.",
+     "Athugaðu: Ekki sleppa myndunum; þær segja líka söguna."
+    ],
+    "answers": [
+     "Litla stelpu með regnhlíf og stóran, blautan hund.",
+     "Rigningardagurinn.",
+     "Þitt svar. Til dæmis: Rigningardag þegar stelpan og hundurinn fara í göngutúr.",
+     "Að hundurinn er blautur.",
+     "Þær segja söguna með textanum."
+    ]
+   }
+  },
+  "eu-year-is-beginner-1-l29": {
+   "is": {
+    "title": "Setningin: punktur, spurningarmerki og upphrópunarmerki",
+    "theory": "Setning er hópur orða sem merkja eitthvað saman. Hún byrjar á stórum staf. Ef setningin segir frá einhverju endar hún á punkti. Ef hún spyr endar hún á spurningarmerki (?). Ef hún sýnir tilfinningu endar hún á upphrópunarmerki (!).",
+    "sample": "Í dag skín sólin. Viltu koma með í garðinn? En hvað dagurinn er fallegur!",
+    "worked": "Fyrsta setningin segir frá: punktur. Önnur spyr: spurningarmerki. Sú þriðja sýnir gleði: upphrópunarmerki. Allar setningarnar byrja á stórum staf.",
+    "exercises": [
+     "Settu rétt merki: Hvað heitir þú",
+     "Settu rétt merki: Ég á hund",
+     "Skrifaðu spurningu til kennarans.",
+     "Skrifaðu setningu með upphrópunarmerki.",
+     "Teldu setningarnar í dæminu."
+    ],
+    "test": [
+     "Á hvaða merki endar spurning?",
+     "Á hverju byrjar setning?",
+     "Skrifaðu rétt: það rignir í dag",
+     "Hvaða setning í dæminu sýnir gleði?",
+     "Hve margar setningar eru í dæminu?"
+    ],
+    "steps": [
+     "Spurðu þig: segir setningin frá, spyr hún eða sýnir hún tilfinningu?",
+     "Segir frá: punktur. Spyr: ? Tilfinning: !",
+     "Fyrsti stafurinn er alltaf stór.",
+     "Athugaðu: Líka stutt spurning eins og Kemurðu? þarf spurningarmerki."
+    ],
+    "answers": [
+     "Spurningarmerki.",
+     "Stórum staf.",
+     "Það rignir í dag.",
+     "En hvað dagurinn er fallegur!",
+     "Þrjár."
+    ]
+   }
+  },
+  "eu-year-is-beginner-1-l30": {
+   "is": {
+    "title": "Skrifaðu um mynd",
+    "theory": "Við skoðum mynd og spyrjum: Hvern sé ég? Hvað er hann eða hún að gera? Hvar er þetta? Hvenær? Svo skrifum við tvær eða þrjár setningar sem byrja á stórum staf og enda á punkti.",
+    "sample": "Mynd: stelpa býr til snjókarl. / Setningar: Stelpan býr til snjókarl. Það er vetur. Snjókarlinn er með gulrót fyrir nef.",
+    "worked": "Við skrifuðum þrjár setningar. Sú fyrsta segir hvern við sjáum og hvað hún gerir. Önnur segir hvenær. Sú þriðja segir frá smáatriði. Þannig verður textinn skýr.",
+    "exercises": [
+     "Horfðu út um gluggann og skrifaðu setningu.",
+     "Spurðu spurninganna fjögurra um mynd.",
+     "Skrifaðu tvær setningar um bekkinn þinn.",
+     "Teiknaðu mynd og skrifaðu setningu undir.",
+     "Lestu setningarnar þínar fyrir bekkjarfélaga."
+    ],
+    "test": [
+     "Hvaða spurninga spyrjum við um mynd?",
+     "Hvað býr stelpan til?",
+     "Hvað er snjókarlinn með fyrir nef?",
+     "Á hverju endar setning sem segir frá?",
+     "Skrifaðu setningu um veturinn."
+    ],
+    "steps": [
+     "Skoðaðu myndina og spurðu: hver? hvað er hann eða hún að gera? hvar? hvenær?",
+     "Segðu setninguna upphátt áður en þú skrifar hana.",
+     "Athugaðu: stór stafur fremst, punktur aftast, bil á milli orða.",
+     "Athugaðu: Skrifaðu heilar setningar, ekki bara stök orð."
+    ],
+    "answers": [
+     "Hvern sé ég? Hvað er hann eða hún að gera? Hvar er þetta? Hvenær?",
+     "Snjókarl.",
+     "Gulrót.",
+     "Punkti.",
+     "Þitt svar. Til dæmis: Á veturna er kalt."
+    ]
+   }
+  },
+  "eu-year-is-beginner-1-l31": {
+   "is": {
+    "title": "Boðskort og kort",
+    "theory": "Á afmæliskorti er kveðja, ósk og nafn. Í boðskorti stendur hvað er verið að bjóða í, hvenær og hvar. Þá veit sá sem les allt sem hann eða hún þarf að vita.",
+    "sample": "Elsku amma, / ég býð þér í afmælið mitt. / Hvenær: laugardag klukkan þrjú. / Hvar: heima hjá okkur. / Sjáumst! / Kveðja, Katla",
+    "worked": "Boðskortið byrjar á Elsku amma. Svo kemur veislan, dagurinn, tíminn og staðurinn. Það endar á vinalegri kveðju og nafni. Án dags og tíma veit amma ekki hvenær hún á að koma.",
+    "exercises": [
+     "Skrifaðu kveðju til afa þíns.",
+     "Skrifaðu boðskort til að leika.",
+     "Skrifaðu afmæliskort.",
+     "Hvað vantar í boðskort ef staðinn vantar?",
+     "Skrifaðu nafnið þitt undir boðskortið."
+    ],
+    "test": [
+     "Hvað á að standa í boðskorti?",
+     "Hvenær er afmælið hennar Kötlu?",
+     "Hvernig byrjar boðskortið?",
+     "Skrifaðu stutta ósk til mömmu þinnar.",
+     "Hvað stendur aftast í boðskortinu?"
+    ],
+    "steps": [
+     "Byrjaðu á kveðju: Elsku …, Hæ …",
+     "Skrifaðu hvað þú býður í, hvenær og hvar.",
+     "Endaðu á vinalegri kveðju og nafninu þínu.",
+     "Athugaðu: Án dags, tíma og staðar veit enginn hvenær á að koma."
+    ],
+    "answers": [
+     "Hvað er verið að bjóða í, hvenær og hvar, með kveðju og nafni.",
+     "Á laugardag klukkan þrjú.",
+     "Elsku amma.",
+     "Þitt svar. Til dæmis: Elsku mamma, til hamingju með afmælið!",
+     "Kveðja, Katla."
+    ]
+   }
+  },
+  "eu-year-is-beginner-1-l32": {
+   "is": {
+    "title": "Segðu frá helginni þinni",
+    "theory": "Þegar við segjum frá einhverju sem við höfum upplifað segjum við hver var með, hvar það var, hvað gerðist og hvernig það endaði. Við notum orð eins og fyrst, svo og að lokum. Hinir hlusta og mega spyrja.",
+    "sample": "Á sunnudaginn fór ég í fjöruna með foreldrum mínum. Fyrst byggðum við sandkastala. Svo skolaði stór alda honum burt. Að lokum hlógum við og byggðum nýjan.",
+    "worked": "Frásögnin segir hvenær (á sunnudaginn), hvar (í fjörunni), með hverjum (foreldrunum), hvað gerðist (aldan skolaði kastalanum burt) og hvernig það endaði (þau byggðu nýjan). Orðin fyrst, svo og að lokum hjálpa okkur að fylgja röðinni.",
+    "exercises": [
+     "Segðu frá því sem þú gerðir um helgina.",
+     "Notaðu orðin fyrst, svo og að lokum.",
+     "Spurðu spurningar um frásögn bekkjarfélaga.",
+     "Teiknaðu sandkastalann.",
+     "Búðu til titil á frásögnina í dæminu."
+    ],
+    "test": [
+     "Hvert fór barnið á sunnudaginn?",
+     "Með hverjum?",
+     "Hvað skolaði sandkastalanum burt?",
+     "Hvernig endaði frásögnin?",
+     "Hvaða orð hjálpa okkur að segja frá í réttri röð?"
+    ],
+    "steps": [
+     "Hugsaðu: hver, hvar, hvað gerðist og hvernig endaði það.",
+     "Segðu frá í réttri röð með fyrst, svo og að lokum.",
+     "Talaðu rólega og horfðu á þá sem hlusta.",
+     "Athugaðu: Ekki sleppa neinu; sá sem hlustar þarf að skilja hvað gerðist."
+    ],
+    "answers": [
+     "Í fjöruna.",
+     "Með foreldrum sínum.",
+     "Stór alda.",
+     "Þau hlógu og byggðu nýjan.",
+     "Fyrst, svo, að lokum."
+    ]
+   }
+  },
+  "eu-year-is-beginner-1-l33": {
+   "is": {
+    "title": "Samtal: við spyrjum og hlustum",
+    "theory": "Í góðu samtali skiptumst við á að tala. Við hlustum á meðan hinn talar og spyrjum ef við skiljum ekki eitthvað. Við getum spurt með spurnarorðum: hver, hvað, hvar, hvenær og af hverju.",
+    "sample": "Embla: Hvað ertu með í nesti? / Aron: Ég er með samloku og banana. En þú? / Embla: Ég er með kleinu.",
+    "worked": "Embla spyr með orðinu hvað. Aron svarar og spyr sjálfur til baka. Þau skiptast á að tala og hlusta hvort á annað. Þannig verður samtalið gott.",
+    "exercises": [
+     "Spurðu bekkjarfélaga spurningar með hvað.",
+     "Spurðu spurningar með hvar.",
+     "Svaraðu í heilli setningu.",
+     "Spurðu til baka þegar þú hefur svarað.",
+     "Æfðu samtalið í dæminu með vini eða vinkonu."
+    ],
+    "test": [
+     "Hvað er Aron með í nesti?",
+     "Hvað er Embla með?",
+     "Hvaða spurnarorð notar Embla?",
+     "Hvað gerum við í góðu samtali?",
+     "Spurðu spurningar með af hverju."
+    ],
+    "steps": [
+     "Hlustaðu á meðan hinn talar.",
+     "Svaraðu í heilli setningu.",
+     "Spurðu sjálf eða sjálfur til baka svo að samtalið haldi áfram.",
+     "Athugaðu: Ekki tala ofan í aðra; bíddu þar til hinn hefur lokið máli sínu."
+    ],
+    "answers": [
+     "Samloku og banana.",
+     "Kleinu.",
+     "Hvað.",
+     "Við skiptumst á að tala og hlustum hvert á annað.",
+     "Þitt svar. Til dæmis: Af hverju finnst þér gaman í fótbolta?"
+    ]
+   }
+  },
+  "eu-year-is-beginner-1-l34": {
+   "is": {
+    "title": "Upprifjun: þetta hef ég lært í 1. bekk",
+    "theory": "Í lok skólaársins lesum við stuttan texta og sýnum hvað við kunnum: að lesa og skilja, að skipta orðum í hljóð og atkvæði, að skrifa setningar með stórum staf og punkti, algengu orðin og sérstöku stafina þ og ð.",
+    "sample": "Á hverjum morgni pakkar Ari í skólatöskuna sína. Hann setur bók, pennaveski og nesti í töskuna. Svo hjólar hann í skólann með pabba sínum.",
+    "worked": "Textinn hefur þrjár setningar. Ari pakkar fyrst í töskuna og hjólar svo í skólann. Ari er nafn: stór stafur. Skólataska hefur fjögur atkvæði: skó-la-tas-ka. Í pabba eru tveir eins samhljóðar.",
+    "exercises": [
+     "Lestu textann upphátt.",
+     "Finndu orð með tvöföldum samhljóða.",
+     "Klappaðu orðið pennaveski.",
+     "Skrifaðu setningu um skólatöskuna þína.",
+     "Segðu frá því sem þér fannst skemmtilegast að læra í ár."
+    ],
+    "test": [
+     "Hvað gerir Ari fyrst?",
+     "Hve margar setningar eru í textanum?",
+     "Skrifaðu rétt: ari hjólar í skólann",
+     "Með hverjum hjólar Ari?",
+     "Hve mörg atkvæði hefur skólataska?"
+    ],
+    "steps": [
+     "Lestu fyrst hægt og svo hraðar.",
+     "Spurðu þig: hver? hvað gerir hann? með hverjum?",
+     "Teldu setningarnar með því að skoða punktana.",
+     "Athugaðu: Nöfn og upphaf setningar fá stóran staf: Ari."
+    ],
+    "answers": [
+     "Hann pakkar í skólatöskuna sína.",
+     "Þrjár.",
+     "Ari hjólar í skólann.",
+     "Með pabba sínum.",
+     "Fjögur: skó-la-tas-ka."
+    ]
+   }
+  }
+ }
+}

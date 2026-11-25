@@ -8,13 +8,16 @@ import {chromium} from 'playwright';
 fs.mkdirSync('astronomy-browser-audit',{recursive:true});
 const server=http.createServer(async(req,res)=>{
  try{
+  const asset=req.url.match(/^\/education\/science\/shared\/(physics|chemistry|biology|astronomy)\.json$/);
+  if(asset){res.writeHead(200,{'Content-Type':'application/json'});res.end(fs.readFileSync(new URL('./public/education/science/shared/'+asset[1]+'.json',import.meta.url)));return}
+
   const response=await app.fetch(new Request('http://localhost:3879'+req.url,{headers:req.headers}),{COMMUNICATION_ORACLE_ORIGIN:''});
   res.writeHead(response.status,Object.fromEntries(response.headers));
   res.end(Buffer.from(await response.arrayBuffer()));
  }catch(error){res.writeHead(500);res.end(String(error));}
 });
 await new Promise(resolve=>server.listen(3879,'127.0.0.1',resolve));
-const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
+const browser=await chromium.launch({headless:true,args:['--no-sandbox'],...(process.env.CHROMIUM_EXECUTABLE_PATH?{executablePath:process.env.CHROMIUM_EXECUTABLE_PATH}:{})});
 const page=await browser.newPage({viewport:{width:390,height:844},deviceScaleFactor:1,isMobile:true,hasTouch:true,locale:'ro-RO'});
 let testedYears=0,openedLessons=0,upperLessons=0;
 let practicals=0,graphs=0;
@@ -48,6 +51,7 @@ try{
  const astro=page.locator('#view-module .science-subject-tile:has-text("Astronomie")').first();
  await astro.waitFor({state:'attached',timeout:10000});
  await astro.evaluate(el=>el.click());
+ await page.locator('#view-module .science-year-tile').first().waitFor({state:'attached',timeout:10000});
  assert.ok(await page.locator('#view-module .science-year-tile').count()>=12,
   'All 12 Romanian school-year buttons must appear in actual UI');
 

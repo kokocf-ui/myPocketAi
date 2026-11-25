@@ -1,19 +1,31 @@
 import assert from 'node:assert/strict';
 import http from 'node:http';
+import {readFile} from 'node:fs/promises';
 import app from './index.js';
 import { chromium } from 'playwright';
 
 const origin = 'http://127.0.0.1:4396';
 let packRequests = 0;
+let updatedPT = false;
 
 const server = http.createServer(async (req, res) => {
   try {
+    const asset=req.url.match(/^\/education\/math\/supplements\/([A-Z-]+)\.json$/);
+    if(asset){res.writeHead(200,{'Content-Type':'application/json'});res.end(await readFile(new URL('./public/education/math/supplements/'+asset[1]+'.json',import.meta.url)));return}
     if (req.url.startsWith('/api/curriculum-pack')) packRequests++;
     const result = await app.fetch(new Request(origin + req.url, { headers: req.headers }), {
       COMMUNICATION_ORACLE_ORIGIN: ''
     });
+    let body=Buffer.from(await result.arrayBuffer());
+    const query=new URL(origin+req.url).searchParams;
+    if(updatedPT&&req.url.startsWith('/api/curriculum-pack')&&query.get('subject')==='mathematics'&&query.get('country')==='PT'&&query.get('grade')==='5'){
+      const pack=JSON.parse(body.toString());
+      const row=pack.lessonsByTopic.algebra.find(x=>x.title.includes('Multiplii și divizorii unui număr'));
+      assert.ok(row);row.title='Actualizare independentă: '+row.title;pack.packVersion='test-independent-update';
+      body=Buffer.from(JSON.stringify(pack));
+    }
     res.writeHead(result.status, Object.fromEntries(result.headers));
-    res.end(Buffer.from(await result.arrayBuffer()));
+    res.end(body);
   } catch (err) {
     res.writeHead(500);
     res.end(String(err));
@@ -21,7 +33,7 @@ const server = http.createServer(async (req, res) => {
 });
 
 await new Promise(ok => server.listen(4396, '127.0.0.1', ok));
-const browser = await chromium.launch({ headless: true, args: ['--no-sandbox'] });
+const browser = await chromium.launch({ headless: true, args: ['--no-sandbox'], ...(process.env.CHROMIUM_EXECUTABLE_PATH?{executablePath:process.env.CHROMIUM_EXECUTABLE_PATH}:{}) });
 const context = await browser.newContext({
   viewport: { width: 390, height: 844 },
   isMobile: true,
@@ -78,6 +90,49 @@ try {
   await reader.waitFor({ state: 'visible', timeout: 10000 });
   assert.ok((await reader.innerText()).includes('Definiție și explicație'));
   await click(reader.locator('.education-theory-head button').first());
+
+  // Republish just one asset while the exact same frontend is running.
+  updatedPT=true;
+  await page.goto(origin+'/?nativeLaunch=1&mathQa=1',{waitUntil:'domcontentloaded'});
+  await click(page.locator('[data-module="learning"]').first());
+  await click(page.locator('#view-module .education-card').filter({hasText:'Matematică'}).first());
+  if(await page.locator('#eduCountryInput').isVisible()){
+    await page.locator('#eduCountryInput').fill('Portugalia');
+    await click(page.locator('#view-module .edu-country-matches button').filter({hasText:'Portugalia'}).first());
+    await click(page.locator('#view-module button').filter({hasText:'Continuă'}).first());
+  }
+  await click(page.locator('#view-module .math-choice-row').nth(1));
+  await page.locator('#view-module .edu-grade-panel input').fill('5');
+  await click(page.locator('#view-module .edu-grade-choice-grid button').first());
+  await click(page.locator('#view-module .math-choice-row').filter({hasText:'Algebră'}).first());
+  assert.ok((await page.locator('#view-module .math-choice-row strong').allTextContents()).some(t=>t.includes('Actualizare independentă: Multiplii și divizorii')),'Reader navigation must use the updated pack without changing the frontend');
+
+  // A known but missing year pack is disclosed, not silently presented as complete.
+  const missingContext=await browser.newContext({viewport:{width:390,height:844},isMobile:true,hasTouch:true,locale:'ro-RO'});
+  const missingPage=await missingContext.newPage();let blockHU=true;
+  await missingPage.route('**/api/curriculum-pack?**',async route=>{
+    const q=new URL(route.request().url()).searchParams;
+    if(blockHU&&q.get('subject')==='mathematics'&&q.get('country')==='HU'&&q.get('grade')==='5')return route.abort();
+    return route.continue();
+  });
+  await missingPage.goto(origin+'/?nativeLaunch=1&mathQa=1',{waitUntil:'domcontentloaded'});
+  await click(missingPage.locator('[data-module="learning"]').first());
+  const missingNotice=missingPage.locator('#education-first-use-notice');
+  if(await missingNotice.count()){await missingNotice.locator('button').first().click();await missingNotice.waitFor({state:'detached'})}
+  await click(missingPage.locator('#view-module .education-card').filter({hasText:'Matematică'}).first());
+  await missingPage.locator('#eduCountryInput').fill('Ungaria');
+  await click(missingPage.locator('#view-module .edu-country-matches button').filter({hasText:'Ungaria'}).first());
+  await click(missingPage.locator('#view-module button').filter({hasText:'Continuă'}).first());
+  await click(missingPage.locator('#view-module .math-choice-row').nth(1));
+  await missingPage.locator('#view-module .edu-grade-panel input').fill('5');
+  await click(missingPage.locator('#view-module .edu-grade-choice-grid button').first());
+  const missingWarning=missingPage.locator('.edu-pack-unavailable');
+  await missingWarning.waitFor({state:'visible',timeout:10000});
+  assert.match(await missingWarning.innerText(),/generale sau incomplete/);
+  blockHU=false;await click(missingWarning.locator('button'));await missingWarning.waitFor({state:'detached',timeout:10000});
+  await click(missingPage.locator('#view-module .math-choice-row').filter({hasText:'Algebră'}).first());
+  assert.ok((await missingPage.locator('#view-module .math-choice-row strong').allTextContents()).some(t=>t.includes('Valoarea pozițională și ordonarea numerelor naturale')),'Retry must restore the actual year-pack reader');
+  await missingContext.close();
 
   // Phase 2: Disconnect network completely (airplane mode) and verify cached HU Grade 5 works 100% offline!
   const beforeOfflinePackRequests = packRequests;

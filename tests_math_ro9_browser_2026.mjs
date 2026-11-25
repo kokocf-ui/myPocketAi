@@ -1,11 +1,14 @@
 import assert from 'node:assert/strict';
 import http from 'node:http';
+import {readFile} from 'node:fs/promises';
 import frontend from './index.js';
 import {chromium} from 'playwright';
 
 const origin='http://127.0.0.1:4391';
 const server=http.createServer(async(req,res)=>{
  try{
+  const asset=req.url.match(/^\/education\/math\/supplements\/([A-Z-]+)\.json$/);
+  if(asset){res.writeHead(200,{'Content-Type':'application/json'});res.end(await readFile(new URL('./public/education/math/supplements/'+asset[1]+'.json',import.meta.url)));return}
   const result=await frontend.fetch(new Request(origin+req.url),{
    COMMUNICATION_ORACLE_ORIGIN:''
   });
@@ -14,7 +17,7 @@ const server=http.createServer(async(req,res)=>{
  }catch(error){res.writeHead(500);res.end(String(error))}
 });
 await new Promise(ok=>server.listen(4391,'127.0.0.1',ok));
-const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
+const browser=await chromium.launch({headless:true,args:['--no-sandbox'],...(process.env.CHROMIUM_EXECUTABLE_PATH?{executablePath:process.env.CHROMIUM_EXECUTABLE_PATH}:{})});
 const page=await browser.newPage({viewport:{width:390,height:844},isMobile:true,
  hasTouch:true,locale:'ro-RO'});
 const errors=[];

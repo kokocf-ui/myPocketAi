@@ -1,0 +1,1064 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "SK",
+ "stage": "beginner",
+ "grade": "1",
+ "version": "4f00256b59978ac0acc2aa705faf65cb15cbe6c00c32b23271aa73ce145eabd6",
+ "source": "https://www.statpedu.sk/sk/svp/",
+ "sourceTitle": "Štátny pedagogický ústav — Štátny vzdelávací program pre základné vzdelávanie, Slovenský jazyk a literatúra, 1. cyklus, 1. ročník (komunikácia, čítanie s porozumením, písanie, jazyk, literatúra); poradie ako v bežných šlabikároch a čítankách (prípravné obdobie, písmená po skupinách, de te ne le, dvojhlásky, písanie, ľudová slovesnosť, prvé texty); vlastné materiály, žiadny text z učebníc",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "sk",
+ "labels": [
+  "Vlastné cvičenie · Slovensko · 1. ročník",
+  "Učíme sa",
+  "Vlastný príklad",
+  "Vysvetlenie",
+  "Cvičenia",
+  "Over si",
+  "Vlastné cvičenia, nie oficiálny test ani text z učebnice. Keď potrebuješ, čítaj s dospelým.",
+  "Keď nerozumieš: krok za krokom",
+  "Odpovede (skontroluj, keď skončíš)"
+ ],
+ "units": [
+  {
+   "title": "Prípravné obdobie",
+   "keys": [
+    "eu-year-sk-beginner-1-l01",
+    "eu-year-sk-beginner-1-l02",
+    "eu-year-sk-beginner-1-l03"
+   ]
+  },
+  {
+   "title": "Písmená a slabiky",
+   "keys": [
+    "eu-year-sk-beginner-1-l04",
+    "eu-year-sk-beginner-1-l05",
+    "eu-year-sk-beginner-1-l06",
+    "eu-year-sk-beginner-1-l07",
+    "eu-year-sk-beginner-1-l08",
+    "eu-year-sk-beginner-1-l09",
+    "eu-year-sk-beginner-1-l10",
+    "eu-year-sk-beginner-1-l11"
+   ]
+  },
+  {
+   "title": "Píšeme správne",
+   "keys": [
+    "eu-year-sk-beginner-1-l12",
+    "eu-year-sk-beginner-1-l13",
+    "eu-year-sk-beginner-1-l14",
+    "eu-year-sk-beginner-1-l15",
+    "eu-year-sk-beginner-1-l16"
+   ]
+  },
+  {
+   "title": "Čítame texty",
+   "keys": [
+    "eu-year-sk-beginner-1-l17",
+    "eu-year-sk-beginner-1-l18",
+    "eu-year-sk-beginner-1-l19",
+    "eu-year-sk-beginner-1-l20",
+    "eu-year-sk-beginner-1-l21",
+    "eu-year-sk-beginner-1-l22"
+   ]
+  },
+  {
+   "title": "Hovoríme a píšeme",
+   "keys": [
+    "eu-year-sk-beginner-1-l23",
+    "eu-year-sk-beginner-1-l24",
+    "eu-year-sk-beginner-1-l25",
+    "eu-year-sk-beginner-1-l26"
+   ]
+  },
+  {
+   "title": "Kniha a opakovanie",
+   "keys": [
+    "eu-year-sk-beginner-1-l27",
+    "eu-year-sk-beginner-1-l28"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-sk-beginner-1-l01": {
+   "sk": {
+    "title": "Zoznamujeme sa a hovoríme postupne",
+    "theory": "V prvom ročníku sa učíme počúvať. Hovorí jeden, ostatní počúvajú a neskáču do reči. Odpovedáme celou vetou: Volám sa… Používame zdvorilé slová: dobrý deň, prosím, ďakujem, prepáč.",
+    "sample": "Volám sa Zuzka. Mám šesť rokov. Rada kreslím. Vedľa mňa sedí Maroš.",
+    "worked": "Zuzka o sebe povedala štyri krátke vety: meno, vek, čo rada robí a kto sedí vedľa nej. Každá veta sa začína veľkým písmenom a končí bodkou.",
+    "exercises": [
+     "Predstav sa dvoma vetami.",
+     "Povedz, čo rád alebo rada robíš.",
+     "Povedz meno spolužiaka v lavici.",
+     "Ukáž, ako sa hlásiš o slovo.",
+     "Zopakuj, čo o sebe povedal spolužiak."
+    ],
+    "test": [
+     "Koľko rokov má Zuzka?",
+     "Čo urobíme, keď chceme hovoriť?",
+     "Prečo neskáčeme iným do reči?",
+     "Ktoré slovo povieš, keď niečo dostaneš?",
+     "Kto sedí vedľa Zuzky?"
+    ],
+    "steps": [
+     "Najprv povedz svoje meno: Volám sa…",
+     "Potom povedz, koľko máš rokov a čo rád robíš.",
+     "Keď hovorí niekto iný, počúvaj a neskáč do reči.",
+     "Častá chyba: odpovedať jedným slovom. Odpovedaj celou vetou."
+    ],
+    "answers": [
+     "Šesť rokov.",
+     "Prihlásime sa a počkáme, kým prídeme na rad.",
+     "Aby mohol hovoriť každý a rozumeli sme si.",
+     "Ďakujem.",
+     "Maroš."
+    ]
+   }
+  },
+  "eu-year-sk-beginner-1-l02": {
+   "sk": {
+    "title": "Veta, slovo, slabika, hláska",
+    "theory": "Keď hovoríme, používame vety. Veta sa skladá zo slov. Slová delíme na slabiky, ktoré vytlieskame. Slabiky sa skladajú z hlások. Hlásku počujeme a vyslovujeme, písmeno vidíme a píšeme.",
+    "sample": "Mama má misu. / ma-ma / m-a-m-a",
+    "worked": "Veta má tri slová: Mama, má, misu. Slovo mama má dve slabiky: ma-ma. Má štyri hlásky: m-a-m-a. Ideme od veľkého k malému: veta, slovo, slabika, hláska.",
+    "exercises": [
+     "Koľko slov má veta: Ola volá?",
+     "Vytlieskaj slovo kolo.",
+     "Koľko hlások má slovo les?",
+     "Povedz vetu o svojej taške.",
+     "Aká je prvá hláska v slove auto?"
+    ],
+    "test": [
+     "Z čoho sa skladá veta?",
+     "Koľko slabík má slovo lopta?",
+     "Koľko hlások má slovo nos?",
+     "Aká je posledná hláska v slove dom?",
+     "Čím sa líši hláska od písmena?"
+    ],
+    "steps": [
+     "Povedz vetu a počítaj slová na prstoch.",
+     "Vytlieskaj slovo: jedno tlesknutie je jedna slabika.",
+     "Vyslovuj pomaly, aby si počul každú hlásku.",
+     "Častá chyba: zamieňať slabiku a hlásku. Slabiku vytlieskame, hlásku vyslovíme samotnú."
+    ],
+    "answers": [
+     "Zo slov.",
+     "Dve: lop-ta.",
+     "Tri: n-o-s.",
+     "m.",
+     "Hlásku počujeme a vyslovujeme, písmeno vidíme a píšeme."
+    ]
+   }
+  },
+  "eu-year-sk-beginner-1-l03": {
+   "sk": {
+    "title": "Uvoľňovacie cviky a správne držanie ceruzky",
+    "theory": "Skôr ako začneme písať, uvoľníme ruku: krúžime, kreslíme vlnky a slučky. Sedíme rovno, nohy máme na zemi. Ceruzku držíme voľne tromi prstami, netlačíme.",
+    "sample": "Riadok 1: zvislé čiary. / Riadok 2: vlnky. / Riadok 3: ovály. / Riadok 4: slučky.",
+    "worked": "Tieto tvary nájdeme v písmenách: ovál v o a a, čiaru v i a t, slučku v l a e. Keď ich precvičíme, budeme písať krajšie písmená. Píšeme zľava doprava.",
+    "exercises": [
+     "Nakresli riadok oválov.",
+     "Nakresli riadok vlniek.",
+     "Ukáž, ako držíš ceruzku.",
+     "Nakresli prstom slučku do vzduchu.",
+     "Nájdi ovál v písmene a."
+    ],
+    "test": [
+     "Koľkými prstami držíme ceruzku?",
+     "Ako sedíme pri písaní?",
+     "Ktorým smerom píšeme?",
+     "V ktorom písmene je ovál?",
+     "Čo urobíš, keď ťa bolí ruka?"
+    ],
+    "steps": [
+     "Sadni si rovno a nohy daj na zem.",
+     "Drž ceruzku tromi prstami a netlač.",
+     "Píš zľava doprava a drž sa riadka.",
+     "Častá chyba: silno stláčať ceruzku. Keď ruka bolí, potras ňou a oddýchni si."
+    ],
+    "answers": [
+     "Tromi.",
+     "Rovno, nohy na zemi.",
+     "Zľava doprava.",
+     "V o a v a.",
+     "Potrasiem ňou a oddýchnem si."
+    ]
+   }
+  },
+  "eu-year-sk-beginner-1-l04": {
+   "sk": {
+    "title": "Samohlásky a, e, i, o, u, ä a dlhé samohlásky",
+    "theory": "Samohlásky sú a, ä, e, i, y, o, u. Môžu byť krátke aj dlhé: á, é, í, ý, ó, ú. Dlhé samohlásky vyslovujeme dlhšie a píšeme s dĺžňom. Rozdiel mení slovo: sud – súd.",
+    "sample": "a – á, e – é, i – í, o – ó, u – ú / sud – súd, pas – pás",
+    "worked": "Krátke a dlhé samohlásky treba počuť. V slove súd je dlhé ú, v slove sud krátke u. Písmeno ä je v slovách mäso, päť.",
+    "exercises": [
+     "Povedz krátke samohlásky.",
+     "Povedz dlhé samohlásky.",
+     "Porovnaj: sud – súd.",
+     "Nájdi slovo s ä.",
+     "Napíš riadok písmena a."
+    ],
+    "test": [
+     "Čo znamená dĺžeň nad písmenom?",
+     "Je v slove súd krátke, alebo dlhé u?",
+     "Nájdi ä v slove mäso.",
+     "Prečítaj: sud – súd.",
+     "Koľko slabík má slovo päť?"
+    ],
+    "steps": [
+     "Vyslov slovo a počúvaj, či hlásku predlžuješ.",
+     "Keď ju predlžuješ, napíš dĺžeň.",
+     "Prečítaj slovo znova a skontroluj, či dáva zmysel.",
+     "Častá chyba: zabúdať dĺžne. Bez dĺžňa sa zo súdu stane sud, iné slovo."
+    ],
+    "answers": [
+     "Že hlásku vyslovíme dlho.",
+     "Dlhé.",
+     "Mäso: písmeno ä je po m.",
+     "Sud – súd.",
+     "Jednu."
+    ]
+   }
+  },
+  "eu-year-sk-beginner-1-l05": {
+   "sk": {
+    "title": "Písmená M, L, S, P, T: prvé slabiky",
+    "theory": "Spoluhlásky M, L, S, P a T spájame so samohláskami do slabík: ma, lo, su, pe, ti. Zo slabík skladáme slová: ma-ma, lo-pa-ta, pes.",
+    "sample": "ma, me, mi, mo, mu / la, lo, lu / sa, se, si / pa, po / ta, to / mama, Ema, lupa, pes, lopata",
+    "worked": "Slabiku čítame naraz: m a a spolu je ma. Slovo mama má dve slabiky ma-ma. Slovo pes má jednu slabiku. Ema je meno, preto ho píšeme veľkým písmenom.",
+    "exercises": [
+     "Prečítaj: ma, mo, mu.",
+     "Prečítaj: la, lu, li.",
+     "Prečítaj: mama, lupa, pes.",
+     "Zlož slovo zo slabík: lu-pa.",
+     "Napíš riadok písmena m."
+    ],
+    "test": [
+     "Ako čítame m a a spolu?",
+     "Koľko slabík má slovo lopata?",
+     "Prečítaj: Ema má psa.",
+     "Prečo píšeme Ema veľkým písmenom?",
+     "Aká je prvá hláska v slove sito?"
+    ],
+    "steps": [
+     "Pozri sa na spoluhlásku a hneď na samohlásku za ňou.",
+     "Prečítaj ich spolu ako jednu slabiku.",
+     "Slabiky spoj do slova: ma-ma.",
+     "Častá chyba: čítať po písmenách: m, a, m, a. Čítaj po slabikách: ma-ma."
+    ],
+    "answers": [
+     "Ma, ako jednu slabiku.",
+     "Tri: lo-pa-ta.",
+     "Ema má psa.",
+     "Pretože je to meno.",
+     "s."
+    ]
+   }
+  },
+  "eu-year-sk-beginner-1-l06": {
+   "sk": {
+    "title": "Písmená J, N, V, D, Z, K, R: čítame vety",
+    "theory": "Nové písmená J, N, V, D, Z, K a R. Teraz už čítame krátke vety. Veta sa začína veľkým písmenom a končí bodkou.",
+    "sample": "Jana nosí vodu. / Dano je doma. / Karol má rád kolo.",
+    "worked": "Veta Jana nosí vodu sa začína veľkým písmenom a končí bodkou. Jana je meno. Slovo voda má dve slabiky: vo-da. V slove Karol je písmeno k.",
+    "exercises": [
+     "Prečítaj: ja, no, vi, du, ze, ko, ra.",
+     "Prečítaj: voda, nos, kolo, Dana.",
+     "Prečítaj: Dano je doma.",
+     "Napíš riadok písmena k.",
+     "Vymysli vetu so slovom kolo."
+    ],
+    "test": [
+     "Čo nosí Jana?",
+     "Čím sa končí veta?",
+     "Prečítaj: Dana má kolo.",
+     "Koľko slabík má slovo voda?",
+     "Aká je prvá hláska v slove raketa?"
+    ],
+    "steps": [
+     "Čítaj po slabikách: no-sí.",
+     "Prečítaj celú vetu až po bodku.",
+     "Odpovedz na otázku: kto? čo robí?",
+     "Častá chyba: zastaviť sa v strede vety. Čítaj až po bodku."
+    ],
+    "answers": [
+     "Vodu.",
+     "Bodkou.",
+     "Dana má kolo.",
+     "Dve: vo-da.",
+     "r."
+    ]
+   }
+  },
+  "eu-year-sk-beginner-1-l07": {
+   "sk": {
+    "title": "Písmená s mäkčeňom: Š, Č, Ž, Ď, Ť, Ň, Ľ",
+    "theory": "Mäkčeň mení hlásku: s – š, c – č, z – ž, d – ď, t – ť, n – ň, l – ľ. Bez mäkčeňa vznikne iné slovo: kaša – kasa, ľad – lad.",
+    "sample": "šál, čaj, žaba, ďateľ, ťava, Táňa, ľalia / kaša – kasa",
+    "worked": "V slove kaša je š, v slove kasa je s. Sú to dve rôzne slová: kaša na jedenie a kasa v obchode. Preto mäkčeň nikdy nevynechávame.",
+    "exercises": [
+     "Prečítaj: šál, čaj, žaba.",
+     "Prečítaj: ďateľ, ťava, ľalia.",
+     "Porovnaj: kaša – kasa.",
+     "Napíš riadok písmena č.",
+     "Povedz slovo, ktoré sa začína na ž."
+    ],
+    "test": [
+     "Čo je mäkčeň?",
+     "Čím sa líšia kaša a kasa?",
+     "Nájdi mäkčeň v slove ľalia.",
+     "Aká je prvá hláska v slove čap?",
+     "Prečítaj: Žaba skáče do vody."
+    ],
+    "steps": [
+     "Počúvaj hlásku: je mäkšia, ako š, č, ž, ľ?",
+     "Ak áno, napíš mäkčeň.",
+     "Prečítaj slovo znova a skontroluj, či dáva zmysel.",
+     "Častá chyba: vynechať mäkčeň. Z kaše sa potom stane kasa."
+    ],
+    "answers": [
+     "Znamienko nad písmenom, ktoré mení hlásku.",
+     "Kaša sa je, kasa je v obchode.",
+     "Nad l.",
+     "č.",
+     "Žaba skáče do vody."
+    ]
+   }
+  },
+  "eu-year-sk-beginner-1-l08": {
+   "sk": {
+    "title": "Písmená B, C, H, CH, F, G, Y, Ô",
+    "theory": "Učíme sa B, C, H, CH, F, G, tvrdé Y a Ô. CH je jedna hláska, ale píšeme ju dvoma písmenami: chata, ucho. Ô čítame ako uo: kôň, stôl.",
+    "sample": "baran, cukor, had, chata, farba, guma / ryba, my, syr / kôň, stôl, vôňa",
+    "worked": "V slove chata je jedna hláska ch. V slove ryba počujeme i, ale píšeme y. V slove kôň čítame uo: kuoň, ale píšeme ô.",
+    "exercises": [
+     "Prečítaj: baran, cukor, had.",
+     "Prečítaj: chata, ucho, chlieb.",
+     "Prečítaj: ryba, syr, my.",
+     "Prečítaj: kôň, stôl.",
+     "Napíš riadok písmena h."
+    ],
+    "test": [
+     "Koľkými písmenami píšeme ch?",
+     "Ako čítame ô?",
+     "Prečítaj: Otec chytá rybu.",
+     "Je ch jedna, alebo dve hlásky?",
+     "Nájdi slovo s písmenom f."
+    ],
+    "steps": [
+     "Keď vidíš c a h vedľa seba, čítaj jednu hlásku ch.",
+     "Y čítaj rovnako ako i, ô ako uo.",
+     "Čítaj po slabikách a skontroluj zmysel.",
+     "Častá chyba: čítať ch ako c a h zvlášť. Je to jedna hláska."
+    ],
+    "answers": [
+     "Dvoma: c a h.",
+     "Ako uo.",
+     "Otec chytá rybu.",
+     "Jedna.",
+     "Tvoja odpoveď. Napríklad: farba."
+    ]
+   }
+  },
+  "eu-year-sk-beginner-1-l09": {
+   "sk": {
+    "title": "Slabiky de, te, ne, le a di, ti, ni, li",
+    "theory": "V slabikách de, te, ne, le a di, ti, ni, li vyslovujeme d, t, n, l mäkko, ako ď, ť, ň, ľ. Mäkčeň v nich nepíšeme. Výnimky sú niektoré slová: ten, jeden, teraz sa čítajú tvrdo.",
+    "sample": "deti, teta, nebo, leto / dievča, ticho, nite, list",
+    "worked": "V slove deti počujeme ď a ť, ale píšeme de a ti bez mäkčeňov. V slove kôň mäkčeň píšeme, lebo za ň nie je e ani i.",
+    "exercises": [
+     "Prečítaj: deti, teta, nebo, leto.",
+     "Prečítaj: ticho, nite, list.",
+     "Prečítaj: kôň, ľad.",
+     "Vyslov mäkko: de, te, ne, le.",
+     "Nájdi slovo s ti."
+    ],
+    "test": [
+     "Ako vyslovujeme d v slove deti?",
+     "Píšeme v slove teta mäkčeň nad t?",
+     "Prečo píšeme mäkčeň v slove kôň?",
+     "Prečítaj: Deti idú na lúku.",
+     "Nájdi slovo s ne."
+    ],
+    "steps": [
+     "Počúvaj, či znejú d, t, n, l mäkko.",
+     "Ak je za nimi e alebo i, mäkčeň nepíšeš.",
+     "Na konci slova alebo pred inou hláskou mäkčeň napíš: kôň.",
+     "Častá chyba: písať ďeťi alebo ťeta. Mäkkosť ukazuje e alebo i: deti, teta."
+    ],
+    "answers": [
+     "Mäkko, ako ď.",
+     "Nie.",
+     "Lebo za ň nie je e ani i.",
+     "Deti idú na lúku.",
+     "Tvoja odpoveď. Napríklad: nebo."
+    ]
+   }
+  },
+  "eu-year-sk-beginner-1-l10": {
+   "sk": {
+    "title": "Slabikotvorné r, ŕ, l, ĺ",
+    "theory": "Niektoré slabiky nemajú samohlásku. Tvorí ich r, ŕ, l alebo ĺ: vlk, prst, krk, vŕba, kĺb. Aj také slabiky vytlieskame ako ostatné.",
+    "sample": "vlk, prst, krk, srna, vŕba, kĺb / Vlk beží lesom.",
+    "worked": "Slovo vlk má jednu slabiku, ktorú tvorí l. Slovo srna má dve slabiky: sr-na. Prvú slabiku tvorí r. Vo vŕbe je dlhé ŕ, preto má dĺžeň.",
+    "exercises": [
+     "Vytlieskaj: vlk, prst, srna.",
+     "Rozdeľ na slabiky: vŕba.",
+     "Prečítaj: Vlk beží lesom.",
+     "Nájdi slovo s ĺ.",
+     "Napíš slová krk a prst."
+    ],
+    "test": [
+     "Ktorá hláska tvorí slabiku v slove vlk?",
+     "Koľko slabík má slovo srna?",
+     "Rozdeľ na slabiky: tvrdý.",
+     "Prečo má vŕba dĺžeň?",
+     "Koľko slabík má slovo prst?"
+    ],
+    "steps": [
+     "Vytlieskaj slovo a počúvaj každú slabiku.",
+     "Ak v slabike nie je samohláska, slabiku tvorí r alebo l.",
+     "Ak r alebo l vyslovuješ dlho, napíš dĺžeň: ŕ, ĺ.",
+     "Častá chyba: myslieť si, že vlk nemá slabiku. Má jednu, ktorú tvorí l."
+    ],
+    "answers": [
+     "l.",
+     "Dve: sr-na.",
+     "tvr-dý.",
+     "Lebo ŕ vyslovujeme dlho.",
+     "Jednu."
+    ]
+   }
+  },
+  "eu-year-sk-beginner-1-l11": {
+   "sk": {
+    "title": "Dvojhlásky ia, ie, iu, ô",
+    "theory": "Dvojhlásky sú dve samohlásky v jednej slabike: ia, ie, iu, ô. Vyslovujeme ich spolu: piatok, mlieko, cudziu, kôň. Dvojhlásku pri delení na slabiky nerozdeľujeme.",
+    "sample": "piatok, mlieko, chlieb / tretiu, cudziu / kôň, stôl",
+    "worked": "V slove mlieko je dvojhláska ie: mlie-ko. V slove piatok je ia: pia-tok. Dvojhlásku vyslovíme v jednej slabike a nerozdelíme ju.",
+    "exercises": [
+     "Prečítaj: piatok, mlieko, chlieb.",
+     "Rozdeľ na slabiky: mlieko.",
+     "Rozdeľ na slabiky: piatok.",
+     "Nájdi slovo s ô.",
+     "Prečítaj: Mama kúpila mlieko."
+    ],
+    "test": [
+     "Čo je dvojhláska?",
+     "Rozdeľ na slabiky: chlieb.",
+     "Ktorá dvojhláska je v slove piatok?",
+     "Prečítaj: Mlieko je v chladničke.",
+     "Rozdeľujeme dvojhlásku pri delení na slabiky?"
+    ],
+    "steps": [
+     "Hľadaj dve samohlásky vedľa seba: ia, ie, iu alebo ô.",
+     "Vyslov ich spolu, v jednej slabike.",
+     "Pri delení na slabiky ich nechaj spolu.",
+     "Častá chyba: deliť ml-i-e-ko. Správne je mlie-ko."
+    ],
+    "answers": [
+     "Dve samohlásky v jednej slabike.",
+     "Jedna slabika: chlieb.",
+     "ia.",
+     "Mlieko je v chladničke.",
+     "Nie."
+    ]
+   }
+  },
+  "eu-year-sk-beginner-1-l12": {
+   "sk": {
+    "title": "Písané písmo a spájanie písmen",
+    "theory": "V škole sa učíme písať písaným písmom. Písmená v slove spájame bez dvíhania ceruzky, kde sa dá. Dbáme na rovnakú veľkosť a medzery medzi slovami.",
+    "sample": "Odpíš písaným písmom: mama, Ema, lopta, Ema má loptu.",
+    "worked": "Pri slove mama spájame m s a bez prerušenia. Medzi slovami Ema, má a loptu necháme medzeru široké ako jedno písmeno. Dĺžeň a mäkčeň dopíšeme až po celom slove.",
+    "exercises": [
+     "Napíš písaným písmom slovo mama.",
+     "Napíš svoje meno písaným písmom.",
+     "Odpíš vetu: Ema má loptu.",
+     "Skontroluj medzery medzi slovami.",
+     "Krúžkom označ najkrajšie písmeno."
+    ],
+    "test": [
+     "Kedy dopisujeme dĺžne a mäkčene?",
+     "Aká veľká je medzera medzi slovami?",
+     "Napíš písaným písmom: Ola.",
+     "Prečo spájame písmená?",
+     "Ktoré písmená sú v slove lopta?"
+    ],
+    "steps": [
+     "Pozri sa na vzor a nájdi, kde sa písmená spájajú.",
+     "Píš pomaly a celé slovo naraz.",
+     "Na konci dopíš dĺžne, mäkčene a bodky nad i.",
+     "Častá chyba: písať slová bez medzier. Medzi slovami nechaj miesto na jedno písmeno."
+    ],
+    "answers": [
+     "Až po napísaní celého slova.",
+     "Ako jedno písmeno.",
+     "Ola.",
+     "Aby sme písali plynulo a rýchlejšie.",
+     "l, o, p, t, a."
+    ]
+   }
+  },
+  "eu-year-sk-beginner-1-l13": {
+   "sk": {
+    "title": "Veľké písmeno v menách",
+    "theory": "Veľkým písmenom píšeme začiatok vety, mená a priezviská ľudí, mená zvierat, miest, riek a hôr. Ostatné slová píšeme malým písmenom.",
+    "sample": "Peter Novák býva v Košiciach. Má psa Dunča. V lete chodí k rieke Hornád.",
+    "worked": "Peter Novák, Dunčo, Košice a Hornád sú mená, preto majú veľké písmeno. Slová pes a rieka sú obyčajné slová, píšeme ich malým písmenom.",
+    "exercises": [
+     "Nájdi v príklade všetky mená.",
+     "Napíš svoje meno a priezvisko.",
+     "Napíš meno zvieraťa.",
+     "Oprav: bývam v trnave.",
+     "Píšeme slovo pes veľkým písmenom?"
+    ],
+    "test": [
+     "Ako sa volá pes?",
+     "V ktorom meste býva Peter?",
+     "Napíš správne: jana ide s dunčom",
+     "Kedy píšeme veľké písmeno?",
+     "Je Hornád mesto, alebo rieka?"
+    ],
+    "steps": [
+     "Opýtaj sa: je to meno človeka, zvieraťa, mesta alebo rieky?",
+     "Ak áno, napíš veľké písmeno.",
+     "Veľké písmeno píš aj na začiatku každej vety.",
+     "Častá chyba: písať veľkým písmenom obyčajné slová: pes, mesto."
+    ],
+    "answers": [
+     "Dunčo.",
+     "V Košiciach.",
+     "Jana ide s Dunčom.",
+     "Na začiatku vety a v menách.",
+     "Rieka."
+    ]
+   }
+  },
+  "eu-year-sk-beginner-1-l14": {
+   "sk": {
+    "title": "Bodka, otáznik, výkričník",
+    "theory": "Veta, ktorá niečo oznamuje, sa končí bodkou. Veta, ktorá sa pýta, sa končí otáznikom. Veta, ktorá vyjadruje radosť, údiv alebo želanie, sa končí výkričníkom.",
+    "sample": "Dnes svieti slnko. Pôjdeš von? To je krásny deň!",
+    "worked": "Prvá veta oznamuje: bodka. Druhá sa pýta: otáznik. Tretia vyjadruje radosť: výkričník. Všetky sa začínajú veľkým písmenom.",
+    "exercises": [
+     "Doplň znamienko: Ako sa voláš",
+     "Doplň znamienko: Mám mačku",
+     "Vymysli otázku pre pani učiteľku.",
+     "Vymysli vetu s výkričníkom.",
+     "Spočítaj vety v príklade."
+    ],
+    "test": [
+     "Čím sa končí otázka?",
+     "Akým písmenom sa začína veta?",
+     "Napíš správne: vonku prší",
+     "Ktorá veta v príklade vyjadruje radosť?",
+     "Koľko viet je v príklade?"
+    ],
+    "steps": [
+     "Opýtaj sa: veta oznamuje, pýta sa, alebo vyjadruje pocit?",
+     "Oznamuje – bodka, pýta sa – otáznik, pocit – výkričník.",
+     "Skontroluj veľké písmeno na začiatku.",
+     "Častá chyba: zabudnúť otáznik pri krátkej otázke: Prídeš?"
+    ],
+    "answers": [
+     "Otáznikom.",
+     "Veľkým písmenom.",
+     "Vonku prší.",
+     "To je krásny deň!",
+     "Tri."
+    ]
+   }
+  },
+  "eu-year-sk-beginner-1-l15": {
+   "sk": {
+    "title": "Abeceda a abecedné poradie",
+    "theory": "Písmená majú pevné poradie, ktoré voláme abeceda: a, á, ä, b, c, č, d, ď… Podľa abecedy sú zoradené slová v slovníku a mená v triednej knihe.",
+    "sample": "Abeceda sa začína: a, á, ä, b, c, č, d, ď, dz, dž, e. / Zoraď: pes, auto, kolo → auto, kolo, pes.",
+    "worked": "Slovo auto sa začína na a, kolo na k a pes na p. V abecede je a pred k a k pred p, preto poradie je auto, kolo, pes.",
+    "exercises": [
+     "Povedz abecedu po písmeno h.",
+     "Ktoré písmeno je po m?",
+     "Zoraď podľa abecedy: myš, dom, les.",
+     "Nájdi v slovníku slovo kolo.",
+     "Povedz prvé a posledné písmeno abecedy."
+    ],
+    "test": [
+     "Čo je abeceda?",
+     "Ktoré písmeno je po b?",
+     "Zoraď: zebra, auto, lev.",
+     "Na čo je abecedné poradie?",
+     "Ktorým písmenom sa abeceda začína?"
+    ],
+    "steps": [
+     "Pozri sa na prvé písmeno každého slova.",
+     "Nájdi tie písmená v abecede.",
+     "Slovo, ktorého písmeno je skôr, napíš prvé.",
+     "Častá chyba: zabúdať na písmená s mäkčeňom. Č je po c, š po s."
+    ],
+    "answers": [
+     "Písmená v pevnom poradí.",
+     "c.",
+     "auto, lev, zebra.",
+     "Nájdeme podľa neho slová v slovníku a mená v zozname.",
+     "a."
+    ]
+   }
+  },
+  "eu-year-sk-beginner-1-l16": {
+   "sk": {
+    "title": "Odpis, prepis a diktát",
+    "theory": "Odpis znamená napísať text písaným písmom z písaného písma. Prepis znamená prepísať text z tlačeného písma do písaného. Pri diktáte píšeme to, čo počujeme. Potom text vždy skontrolujeme.",
+    "sample": "Diktát: Ema má mačku. Mačka sa volá Micka. Micka spí na slnku.",
+    "worked": "Diktát má tri vety. Ema a Micka sú mená, preto majú veľké písmeno. Každá veta sa končí bodkou. Po diktáte skontrolujeme veľké písmená, dĺžne a mäkčene.",
+    "exercises": [
+     "Prepíš tlačenú vetu písaným písmom.",
+     "Odpíš vetu z tabule.",
+     "Napíš diktát od dospelého.",
+     "Skontroluj dĺžne a mäkčene.",
+     "Spočítaj vety v diktáte."
+    ],
+    "test": [
+     "Čo je prepis?",
+     "Ako sa volá mačka?",
+     "Koľko viet má diktát?",
+     "Čo kontrolujeme po diktáte?",
+     "Napíš: Micka spí."
+    ],
+    "steps": [
+     "Počúvaj celú vetu, kým začneš písať.",
+     "Píš po slovách a potichu si ich vyslovuj.",
+     "Na konci skontroluj veľké písmená, bodky, dĺžne a mäkčene.",
+     "Častá chyba: neskontrolovať text. Chyby často nájdeš, keď si ho prečítaš znova."
+    ],
+    "answers": [
+     "Prepísanie textu z tlačeného do písaného písma.",
+     "Micka.",
+     "Tri.",
+     "Veľké písmená, bodky, dĺžne a mäkčene.",
+     "Micka spí."
+    ]
+   }
+  },
+  "eu-year-sk-beginner-1-l17": {
+   "sk": {
+    "title": "Riekanky a vyčítanky",
+    "theory": "Ľudová slovesnosť sú riekanky, piesne, hádanky a rozprávky, ktoré si ľudia dlho odovzdávali ústne. Vyčítanka pomáha vybrať, kto bude hľadať. Má rytmus a rýmy.",
+    "sample": "Vlastná vyčítanka: Jeden, dva, tri, štyri, päť, vyletel si vtáčik hneď. / Vlastný jazykolam: Šesť šedivých šteniatok šlo po schodíkoch.",
+    "worked": "Vyčítanka má rytmus a rým: päť – hneď. Jazykolam je ťažký, lebo sa opakuje hláska š. Najprv ho hovoríme pomaly, potom rýchlejšie.",
+    "exercises": [
+     "Povedz vyčítanku a vyber, kto hľadá.",
+     "Povedz jazykolam trikrát.",
+     "Nájdi rým vo vyčítanke.",
+     "Vymysli vlastnú vyčítanku.",
+     "Povedz riekanku, ktorú poznáš."
+    ],
+    "test": [
+     "Čo je ľudová slovesnosť?",
+     "Na čo je vyčítanka?",
+     "Ktorá hláska sa opakuje v jazykolame?",
+     "Čo sa rýmuje s päť?",
+     "Na čo je jazykolam?"
+    ],
+    "steps": [
+     "Prečítaj celý text pomaly a nahlas.",
+     "Nájdi rytmus a slová, ktoré sa rýmujú.",
+     "Opakuj rýchlejšie, ale zreteľne.",
+     "Častá chyba: hovoriť jazykolam hneď rýchlo. Najprv pomaly a zreteľne."
+    ],
+    "answers": [
+     "Riekanky, piesne a rozprávky, ktoré si ľudia odovzdávali ústne.",
+     "Aby sme vybrali, kto bude hľadať.",
+     "š.",
+     "Hneď.",
+     "Učíme sa hovoriť rýchlo a zreteľne."
+    ]
+   }
+  },
+  "eu-year-sk-beginner-1-l18": {
+   "sk": {
+    "title": "Básnička: verš, rým, nálada",
+    "theory": "Básnička sa skladá z veršov, to sú riadky. Slová na konci veršov sa často rýmujú. Básničku čítame pomaly, s malou prestávkou na konci verša.",
+    "sample": "Vlastná básnička: / Jeseň kráča po ceste, / jablká nesie v košíku, / vietor fúka po meste, / lístie padá na chodníku.",
+    "worked": "Básnička má štyri verše. Ceste sa rýmuje s meste, košíku s chodníku. Nálada je pokojná a jesenná. Na konci každého verša urobíme krátku prestávku.",
+    "exercises": [
+     "Prečítaj básničku nahlas.",
+     "Nájdi slovo, ktoré sa rýmuje s košíku.",
+     "Nauč sa prvé dva verše.",
+     "Nakresli košík s jablkami.",
+     "Vymysli rým k slovu les."
+    ],
+    "test": [
+     "Koľko veršov má básnička?",
+     "Čo nesie jeseň v košíku?",
+     "Čo je verš?",
+     "Čo je rým?",
+     "Vymysli rým k slovu kos."
+    ],
+    "steps": [
+     "Čítaj básničku verš po verši.",
+     "Pozri sa na posledné slovo každého verša a hľadaj rýmy.",
+     "Uč sa ju po dvoch veršoch.",
+     "Častá chyba: čítať bez prestávok. Na konci verša sa krátko zastav."
+    ],
+    "answers": [
+     "Štyri.",
+     "Jablká.",
+     "Jeden riadok básničky.",
+     "Podobne znejúce konce slov.",
+     "Tvoja odpoveď. Napríklad: nos."
+    ]
+   }
+  },
+  "eu-year-sk-beginner-1-l19": {
+   "sk": {
+    "title": "Ľudová rozprávka: O kohútikovi a sliepočke",
+    "theory": "Rozprávka je vymyslený príbeh, často s opakovaním. V ľudovej rozprávke O kohútikovi a sliepočke beží sliepočka od jedného k druhému po pomoc, aby zachránila kohútika.",
+    "sample": "Prerozprávané vlastnými slovami: Kohútik prehltol zrnko a dusil sa. Sliepočka bežala k studničke po vodu. Studnička chcela šatku od švadlienky, švadlienka črievičky od obuvníka a tak ďalej. Napokon sliepočka všetko získala, priniesla vodu a kohútik bol zachránený.",
+    "worked": "Postavy sú kohútik, sliepočka a tí, ktorých prosí o pomoc. Dej sa opakuje: každý niečo chce. Rozprávka ukazuje, že vytrvalosť a ochota pomáhať sa oplatí.",
+    "exercises": [
+     "Prerozprávaj začiatok rozprávky.",
+     "Nakresli sliepočku pri studničke.",
+     "Prečo sliepočka behala od jedného k druhému?",
+     "Čo sa v rozprávke opakuje?",
+     "Zahrajte si rozprávku v skupine."
+    ],
+    "test": [
+     "Čo sa stalo kohútikovi?",
+     "Kam bežala sliepočka najprv?",
+     "Čo chcela studnička?",
+     "Ako sa rozprávka skončila?",
+     "Čo nás rozprávka učí?"
+    ],
+    "steps": [
+     "Nájdi postavy rozprávky.",
+     "Rozprávaj po poriadku: najprv, potom, napokon.",
+     "Povedz, čo nás rozprávka učí.",
+     "Častá chyba: poprehadzovať poradie. Bez poradia príbeh nedáva zmysel."
+    ],
+    "answers": [
+     "Prehltol zrnko a dusil sa.",
+     "K studničke po vodu.",
+     "Šatku od švadlienky.",
+     "Sliepočka priniesla vodu a kohútik bol zachránený.",
+     "Že vytrvalosť a ochota pomáhať sa oplatí."
+    ]
+   }
+  },
+  "eu-year-sk-beginner-1-l20": {
+   "sk": {
+    "title": "Bájka: Lev a myš",
+    "theory": "Bájka je krátky príbeh, v ktorom zvieratá hovoria a správajú sa ako ľudia. Na konci je ponaučenie. Veľa bájok pochádza od starovekého rozprávača Ezopa.",
+    "sample": "Prerozprávané vlastnými slovami: Myška zobudila spiaceho leva. Lev ju chcel zjesť, ale pustil ju. Neskôr sa lev chytil do siete. Myška sieť prehrýzla a leva oslobodila.",
+    "worked": "Postavy sú lev a myš. Lev je silný, myš malá, a predsa mu pomohla. Ponaučenie: aj malý môže pomôcť veľkému, láskavosť sa vracia.",
+    "exercises": [
+     "Prerozprávaj bájku.",
+     "Nakresli myšku pri sieti.",
+     "Aký je lev na začiatku?",
+     "Povedz ponaučenie vlastnými slovami.",
+     "Vymysli iný koniec."
+    ],
+    "test": [
+     "Kto sú postavy bájky?",
+     "Prečo lev myšku pustil?",
+     "Čo sa stalo levovi neskôr?",
+     "Ako mu myška pomohla?",
+     "Čo je ponaučenie?"
+    ],
+    "steps": [
+     "Nájdi postavy: lev a myš.",
+     "Povedz, čo sa stalo na začiatku a na konci.",
+     "Nájdi ponaučenie: čo nás bájka učí?",
+     "Častá chyba: myslieť si, že bájka hovorí iba o zvieratách. Zvieratá ukazujú, ako sa správajú ľudia."
+    ],
+    "answers": [
+     "Lev a myš.",
+     "Lebo sa nad ňou zľutoval.",
+     "Chytil sa do siete.",
+     "Prehrýzla sieť.",
+     "Poučenie na konci bájky."
+    ]
+   }
+  },
+  "eu-year-sk-beginner-1-l21": {
+   "sk": {
+    "title": "Hádanky",
+    "theory": "Hádanka opisuje vec, ale nepovie jej meno. Počúvame všetky indície a hádame. Hádanky patria k ľudovej slovesnosti.",
+    "sample": "Vlastná hádanka: Mám ihličie, ale nešijem, v zime v lese zelený som. (smrek) / Vlastná hádanka: Má štyri nohy, ale nechodí. (stôl)",
+    "worked": "Indície: ihličie, zelený aj v zime, rastie v lese – je to smrek. Pri druhej hádanke: štyri nohy, ale nechodí – stôl. Odpoveď kontrolujeme so všetkými indíciami.",
+    "exercises": [
+     "Uhádni: Visí na strome, je červené a okrúhle. (jablko)",
+     "Vymysli hádanku o slnku.",
+     "Povedz hádanku kamarátovi.",
+     "Nakresli odpoveď.",
+     "Povedz indície z hádanky o smreku."
+    ],
+    "test": [
+     "Čo je hádanka?",
+     "Aká je odpoveď na prvú hádanku?",
+     "Prečo je smrek zelený aj v zime?",
+     "Ako skontroluješ odpoveď?",
+     "Vymysli hádanku o mačke."
+    ],
+    "steps": [
+     "Vypočuj si hádanku až do konca.",
+     "Nájdi všetky indície.",
+     "Skontroluj odpoveď s každou indíciou.",
+     "Častá chyba: odpovedať po prvej indícii. Vypočuj si hádanku celú."
+    ],
+    "answers": [
+     "Opis veci bez jej mena.",
+     "Smrek.",
+     "Lebo má ihličie, ktoré neopadáva.",
+     "So všetkými indíciami.",
+     "Tvoja odpoveď. Napríklad: Má mäkké labky a rada priadne. (mačka)"
+    ]
+   }
+  },
+  "eu-year-sk-beginner-1-l22": {
+   "sk": {
+    "title": "Náučný text: jež",
+    "theory": "Náučný text nám dáva pravdivé informácie. Nerozpráva vymyslený príbeh. Čítame ho pozorne a odpovede hľadáme v texte.",
+    "sample": "Jež je malé zviera s pichliačmi na chrbte. Žije v lese, v parku aj v záhrade. Živí sa hmyzom a slimákmi. Na zimu si urobí pelech z lístia a spí.",
+    "worked": "Text hovorí, ako jež vyzerá, kde žije, čím sa živí a čo robí v zime. To sú pravdivé informácie. Jež v zime spí zimným spánkom.",
+    "exercises": [
+     "Prečítaj text dvakrát.",
+     "Podčiarkni, čím sa jež živí.",
+     "Nakresli ježa v pelechu.",
+     "Vysvetli s dospelým, čo je zimný spánok.",
+     "Polož otázku o ježovi."
+    ],
+    "test": [
+     "Čo má jež na chrbte?",
+     "Kde jež žije?",
+     "Čím sa živí?",
+     "Čo robí v zime?",
+     "Je náučný text vymyslený príbeh?"
+    ],
+    "steps": [
+     "Prečítaj otázku a nájdi dôležité slovo, napríklad zima.",
+     "Nájdi to slovo v texte.",
+     "Odpoveď je zvyčajne v tej istej vete.",
+     "Častá chyba: vymýšľať odpoveď. Odpovedaj iba tým, čo je v texte."
+    ],
+    "answers": [
+     "Pichliače.",
+     "V lese, v parku aj v záhrade.",
+     "Hmyzom a slimákmi.",
+     "Urobí si pelech z lístia a spí.",
+     "Nie, dáva pravdivé informácie."
+    ]
+   }
+  },
+  "eu-year-sk-beginner-1-l23": {
+   "sk": {
+    "title": "Blahoželanie a pozvánka",
+    "theory": "Blahoželanie má oslovenie, želanie a podpis. Pozvánka hovorí, kam pozývame, kedy a kde. Tak ten, kto ju číta, vie všetko potrebné.",
+    "sample": "Milá babka, / pozývam Ťa na oslavu svojich narodenín. / Kedy: v sobotu o 15.00. / Kde: u nás doma. / Teším sa! / Tvoja vnučka Lucka",
+    "worked": "Pozvánka sa začína oslovením Milá babka. Potom hovorí, čo oslavujeme, kedy a kde. Končí sa milým slovom a podpisom. Bez dňa a hodiny by babka nevedela, kedy prísť.",
+    "exercises": [
+     "Napíš oslovenie pre dedka.",
+     "Napíš pozvánku na hranie.",
+     "Napíš blahoželanie k meninám mamy.",
+     "Čo chýba v pozvánke bez miesta?",
+     "Podpíš svoju pozvánku."
+    ],
+    "test": [
+     "Čo musí byť v pozvánke?",
+     "Kedy je oslava Lucky?",
+     "Ako sa pozvánka začína?",
+     "Napíš krátke želanie pre mamu.",
+     "Kto pozvánku podpísal?"
+    ],
+    "steps": [
+     "Začni oslovením: Milá…",
+     "Napíš, kam pozývaš, kedy a kde.",
+     "Skonči milým slovom a podpisom.",
+     "Častá chyba: zabudnúť deň, hodinu alebo miesto. Bez nich nikto nevie, kedy prísť."
+    ],
+    "answers": [
+     "Kam pozývame, kedy a kde, oslovenie a podpis.",
+     "V sobotu o 15.00.",
+     "Milá babka.",
+     "Tvoja odpoveď. Napríklad: Všetko najlepšie, mamička!",
+     "Vnučka Lucka."
+    ]
+   }
+  },
+  "eu-year-sk-beginner-1-l24": {
+   "sk": {
+    "title": "Zdvorilé správanie a rozhovor",
+    "theory": "Pri rozhovore sa pozeráme na toho, s kým hovoríme. Zdravíme, prosíme, ďakujeme a ospravedlňujeme sa. Hovoríme nahlas tak, aby nás druhý počul, ale nekričíme.",
+    "sample": "Lukáš: Dobrý deň, pani knihovníčka. Môžem si požičať túto knihu, prosím? / Knihovníčka: Áno, vráť ju o týždeň. / Lukáš: Ďakujem, dovidenia.",
+    "worked": "Lukáš pozdravil, poprosil, poďakoval a rozlúčil sa. Knihovníčka mu povedala, kedy má knihu vrátiť. Rozhovor je zdvorilý a jasný.",
+    "exercises": [
+     "Pozdrav pani učiteľku.",
+     "Popros spolužiaka o pastelku.",
+     "Poďakuj za darček.",
+     "Ospravedlň sa, keď do niekoho vrazíš.",
+     "Rozlúč sa s kamarátom."
+    ],
+    "test": [
+     "Kedy má Lukáš knihu vrátiť?",
+     "Ktoré zdvorilé slová Lukáš použil?",
+     "Čo povieš, keď sa lúčiš?",
+     "Kam sa pozeráme pri rozhovore?",
+     "Čo povieš, keď niečo chceš?"
+    ],
+    "steps": [
+     "Pozdrav a pozri sa na druhého.",
+     "Povedz svoju prosbu a použi slovo prosím.",
+     "Poďakuj a rozlúč sa.",
+     "Častá chyba: skákať druhým do reči. Počkaj, kým dohovoria."
+    ],
+    "answers": [
+     "O týždeň.",
+     "Dobrý deň, prosím, ďakujem, dovidenia.",
+     "Dovidenia.",
+     "Na toho, s kým hovoríme.",
+     "Prosím."
+    ]
+   }
+  },
+  "eu-year-sk-beginner-1-l25": {
+   "sk": {
+    "title": "Opis hračky",
+    "theory": "Keď niečo opisujeme, hovoríme, ako to vyzerá: farba, veľkosť, tvar, z čoho je. Tak si to vie predstaviť aj ten, kto to nevidí. Opis začneme tým, čo je to.",
+    "sample": "Mám medvedíka Bruma. Je hnedý a mäkký. Má okrúhle uši a čierny nos. Na krku má červenú mašľu. Spávam s ním každú noc.",
+    "worked": "Opis sa začína tým, čo je to: medvedík Brumo. Potom hovorí farbu, tvar uší, nos a mašľu. Na konci je, prečo ho máme radi. Každá veta hovorí jednu vec.",
+    "exercises": [
+     "Opíš tromi vetami svoju hračku.",
+     "Povedz farbu svojej tašky.",
+     "Opíš loptu: tvar a farba.",
+     "Hádaj hračku podľa opisu kamaráta.",
+     "Nakresli medvedíka Bruma."
+    ],
+    "test": [
+     "Akej farby je Brumo?",
+     "Čo má Brumo na krku?",
+     "Aké má uši?",
+     "Čím sa opis začína?",
+     "Opíš jednou vetou svoju pastelku."
+    ],
+    "steps": [
+     "Povedz, čo opisuješ.",
+     "Povedz farbu, veľkosť, tvar a z čoho je.",
+     "Na konci povedz, prečo to máš rád.",
+     "Častá chyba: povedať iba je pekný. Povedz, ako vyzerá, aby si to iní vedeli predstaviť."
+    ],
+    "answers": [
+     "Hnedý.",
+     "Červenú mašľu.",
+     "Okrúhle.",
+     "Tým, čo opisujeme.",
+     "Tvoja odpoveď. Napríklad: Moja pastelka je dlhá a modrá."
+    ]
+   }
+  },
+  "eu-year-sk-beginner-1-l26": {
+   "sk": {
+    "title": "Rozprávanie podľa obrázkov",
+    "theory": "Keď rozprávame podľa obrázkov, pozeráme sa na ne po poriadku. Ku každému obrázku povieme vetu: kto, kde, čo robí. Používame slová najprv, potom, napokon.",
+    "sample": "Obrázok 1: chlapec sadí semienko. Obrázok 2: polieva ho. Obrázok 3: vyrástla slnečnica. / Rozprávanie: Najprv Jurko zasadil semienko. Potom ho každý deň polieval. Napokon vyrástla veľká slnečnica.",
+    "worked": "Rozprávanie má tri vety, jednu ku každému obrázku. Slová najprv, potom, napokon ukazujú poradie. Chlapcovi sme dali meno, aby bol príbeh živší.",
+    "exercises": [
+     "Rozprávaj tromi vetami, ako sa chystáš do školy.",
+     "Použi najprv, potom, napokon.",
+     "Nakresli tri obrázky o svojom dni.",
+     "Vymysli názov k rozprávaniu.",
+     "Rozprávaj kamarátovi o nedeli."
+    ],
+    "test": [
+     "Čo zasadil Jurko?",
+     "Čo robil potom?",
+     "Čo vyrástlo napokon?",
+     "Ktoré slová ukazujú poradie?",
+     "Koľko je obrázkov?"
+    ],
+    "steps": [
+     "Pozri sa na obrázky po poriadku.",
+     "Ku každému povedz vetu: kto, čo robí.",
+     "Spoj vety slovami najprv, potom, napokon.",
+     "Častá chyba: rozprávať iba o poslednom obrázku. Každý obrázok má svoju časť príbehu."
+    ],
+    "answers": [
+     "Semienko.",
+     "Každý deň ho polieval.",
+     "Veľká slnečnica.",
+     "Najprv, potom, napokon.",
+     "Tri."
+    ]
+   }
+  },
+  "eu-year-sk-beginner-1-l27": {
+   "sk": {
+    "title": "Kniha a knižnica",
+    "theory": "Kniha má obal, strany a ilustrácie. Na obale je meno autora a názov. V knižnici si knihy požičiavame, šetríme ich a vraciame včas.",
+    "sample": "Vlastný príklad: Na obale je napísané: Eva Malá – Rozprávky z lesa. Na obrázku je líška a zajac.",
+    "worked": "Názov hovorí, o čom kniha je: rozprávky z lesa. Eva Malá je autorka. Podľa obrázka odhadneme, kto v knihe vystupuje. Strany majú čísla, aby sme našli, kde sme skončili.",
+    "exercises": [
+     "Ukáž obal knihy.",
+     "Nájdi názov knihy v triede.",
+     "Nájdi meno autora.",
+     "Nakresli obal svojej obľúbenej knihy.",
+     "Povedz, ako knihu šetríš."
+    ],
+    "test": [
+     "Čo je na obale?",
+     "Kto je autorka knihy z príkladu?",
+     "O čom je kniha?",
+     "Čo sú ilustrácie?",
+     "Čo urobíme s požičanou knihou?"
+    ],
+    "steps": [
+     "Pozri sa na obal: autor a názov.",
+     "Prezri si obrázok a odhadni, o čom kniha je.",
+     "Čítaj a over svoj odhad.",
+     "Častá chyba: zamieňať názov a autora. Názov je meno knihy, autor ju napísal."
+    ],
+    "answers": [
+     "Meno autora a názov.",
+     "Eva Malá.",
+     "O rozprávkach z lesa.",
+     "Obrázky v knihe.",
+     "Šetríme ju a vrátime včas."
+    ]
+   }
+  },
+  "eu-year-sk-beginner-1-l28": {
+   "sk": {
+    "title": "Opakovanie: čo viem po 1. ročníku",
+    "theory": "Na konci roka prečítame krátky text a ukážeme, čo vieme: čítať s porozumením, deliť slová na slabiky, písať vety s veľkým písmenom a bodkou, písať de, te, ne, le a mäkčene.",
+    "sample": "Každé ráno si Matej chystá tašku. Dá do nej zošit, peračník a desiatu. Potom ide do školy so sestrou Terkou.",
+    "worked": "Text má tri vety. Matej a Terka sú mená, preto majú veľké písmeno. V mene Matej je te. Slovo peračník delíme na slabiky: pe-rač-ník.",
+    "exercises": [
+     "Prečítaj text nahlas.",
+     "Nájdi slovo s te.",
+     "Rozdeľ na slabiky: desiata.",
+     "Napíš vetu o svojej taške.",
+     "Povedz, čo ťa tento rok najviac bavilo."
+    ],
+    "test": [
+     "Čo robí Matej každé ráno?",
+     "Koľko viet má text?",
+     "Napíš správne: matej ide do školy",
+     "S kým ide Matej do školy?",
+     "Rozdeľ na slabiky: peračník."
+    ],
+    "steps": [
+     "Prečítaj text najprv pomaly, potom rýchlejšie.",
+     "Pýtaj sa: kto? čo robí? s kým?",
+     "Spočítaj vety podľa bodiek.",
+     "Častá chyba: písať meno malým písmenom. Mená majú vždy veľké písmeno: Matej."
+    ],
+    "answers": [
+     "Chystá si tašku.",
+     "Tri.",
+     "Matej ide do školy.",
+     "So sestrou Terkou.",
+     "pe-rač-ník."
+    ]
+   }
+  }
+ }
+}

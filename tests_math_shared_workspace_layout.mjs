@@ -7,7 +7,7 @@ const html=await(await frontend.fetch(new Request('https://math-layout.test/')))
 const script=html.split('<script>')[1]?.split('</script>')[0];
 assert.ok(script,'frontend boot script');
 new vm.Script(script);
-const start=script.indexOf('function openLearningSubjectAfterCountry(key)');
+const start=script.indexOf('function openLearningSubjectAfterCountry(key');
 const end=script.indexOf('// An OCR candidate is NEVER',start);
 assert.ok(start>0&&end>start,'one shared subject workspace');
 const workspace=script.slice(start,end);

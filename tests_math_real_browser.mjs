@@ -8,13 +8,15 @@ const origin='http://127.0.0.1:3992';
 fs.mkdirSync('math-browser-audit',{recursive:true});
 const server=http.createServer(async(req,res)=>{
  try{
+  const asset=req.url.match(/^\/education\/math\/supplements\/([A-Z-]+)\.json$/);
+  if(asset){res.writeHead(200,{'Content-Type':'application/json'});res.end(fs.readFileSync(new URL('./public/education/math/supplements/'+asset[1]+'.json',import.meta.url)));return}
   const response=await app.fetch(new Request(origin+req.url),{COMMUNICATION_ORACLE_ORIGIN:''});
   res.writeHead(response.status,Object.fromEntries(response.headers));
   res.end(Buffer.from(await response.arrayBuffer()));
  }catch(error){res.writeHead(500);res.end(String(error))}
 });
 await new Promise(resolve=>server.listen(3992,'127.0.0.1',resolve));
-const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
+const browser=await chromium.launch({headless:true,args:['--no-sandbox'],...(process.env.CHROMIUM_EXECUTABLE_PATH?{executablePath:process.env.CHROMIUM_EXECUTABLE_PATH}:{})});
 const page=await browser.newPage({viewport:{width:390,height:844},deviceScaleFactor:1,isMobile:true,hasTouch:true,locale:'ro-RO'});
 const errors=[];
 page.on('pageerror',err=>errors.push(String(err)));
@@ -31,6 +33,14 @@ async function chooseCountry(name){
 }
 async function pickMathStage(stage){
  await click(page.locator('#view-module .math-choice-row').filter({hasText:stage}).first());
+}
+// The branch list renders asynchronously after a grade is chosen (the RO/MD
+// cohort rules and supplements load first). Wait until the grade panel has
+// closed and branch rows exist instead of reading a still-empty list.
+async function readBranches(){
+ await page.waitForFunction(()=>!document.querySelector('#view-module .edu-grade-panel')&&
+  document.querySelectorAll('#view-module .math-choice-list .math-choice-row').length>0,null,{timeout:15000});
+ return page.locator('#view-module .math-choice-list .math-choice-row').allTextContents();
 }
 async function pickGrade(label){
  const search=page.locator('#view-module .edu-grade-panel input');
@@ -51,6 +61,7 @@ try{
  }
  await click(page.locator('#view-module .education-card').filter({hasText:'Matematică'}).first());
  await chooseCountry('România');
+ await page.locator('#view-module .math-choice-row').first().waitFor({state:'attached',timeout:15000});
  const stageButtons=await page.locator('#view-module .math-choice-row').allTextContents();
  for(const stage of ['Primar','Gimnaziu','Liceu','Universitate'])
   assert.ok(stageButtons.some(x=>x.includes(stage)),'Missing Maths school stage: '+stage);
@@ -89,7 +100,7 @@ try{
  await click(page.locator('#moduleContent > button').first());
  await pickMathStage('Primar');
  await pickGrade('1');
- let branches=await page.locator('#view-module .math-choice-list .math-choice-row').allTextContents();
+ let branches=await readBranches();
  assert.ok(branches.some(x=>x.includes('Aritmetică')),'Primary arithmetic missing');
  assert.ok(branches.some(x=>x.includes('Forme geometrice')),'Primary shapes missing');
  assert.ok(!branches.some(x=>x.includes('Algebră')),'Algebra branch must not appear in first primary year');
@@ -117,7 +128,7 @@ try{
  await click(page.locator('#view-module .module-actions-row .pocket-inline-back, #view-module .education-toolbar button').first());}
  await pickMathStage('Gimnaziu');
  await pickGrade('5');
- branches=await page.locator('#view-module .math-choice-list .math-choice-row').allTextContents();
+ branches=await readBranches();
  assert.ok(branches.some(x=>x.includes('Algebră')),'Romanian class V must show algebra');
  assert.ok(!branches.some(x=>x.includes('Aritmetică')),'Romanian class V must not show standalone arithmetic');
  await click(page.locator('#view-module .math-choice-row').filter({hasText:'Algebră'}).first());
@@ -154,13 +165,13 @@ try{
  await chooseCountry('Anglia');
  await pickMathStage('Primar');
  await pickGrade('Year 1');
- branches=await page.locator('#view-module .math-choice-list .math-choice-row').allTextContents();
+ branches=await readBranches();
  assert.ok(branches.some(x=>x.includes('Aritmetică')),'England Y1 has no primary arithmetic');
  assert.ok(!branches.some(x=>x.includes('Algebră')),'England Y1 shows formal algebra');
  await page.screenshot({path:'math-browser-audit/england-year1.png'});
  await click(page.locator('#view-module .math-stage-back').first());
  await pickGrade('Year 3');
- branches=await page.locator('#view-module .math-choice-list .math-choice-row').allTextContents();
+ branches=await readBranches();
  assert.ok(branches.some(x=>x.includes('Statistică')||x.includes('Date')),
   'DfE England Year 3 must include its statutory data/statistics branch');
  await click(page.locator('#view-module .math-choice-row').filter({hasText:'Aritmetică'}).first());
@@ -186,7 +197,7 @@ try{
  await click(page.locator('#view-module .math-stage-back').first());
  await click(page.locator('#view-module .math-stage-back').first());
  await pickGrade('Year 6');
- branches=await page.locator('#view-module .math-choice-list .math-choice-row').allTextContents();
+ branches=await readBranches();
  assert.ok(branches.some(x=>x.includes('Algebră')),'England Year 6 must show its DfE algebra branch');
  assert.ok(branches.some(x=>x.includes('Măsurători')),'England Year 6 must show its distinct measurement branch');
  assert.equal(branches.length,5,'England Year 6 must expose five substantial educational strands');
@@ -247,6 +258,7 @@ try{
  await click(page.locator('#view-module .module-actions-row .pocket-inline-back, #view-module .education-toolbar button').first());
  await pickMathStage('Universitate');
  await pickGrade('1');
+ await readBranches();
  const universityBranches=await page.locator('#view-module .math-choice-list .math-choice-row strong').allTextContents();
  assert.ok(universityBranches.some(x=>x.includes('Analiză matematică')),'University analysis branch unavailable');
  assert.ok(universityBranches.some(x=>x.includes('Algebră liniară')),'University linear algebra branch unavailable');

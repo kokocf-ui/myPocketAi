@@ -8,6 +8,7 @@ import {worldwideSchoolYears} from './education_worldwide_paths.mjs';
 import {EDUCATION_COUNTRY_UI_SCRIPT} from './education_country_ui.mjs';
 import {EUROPEAN_UI_LOCALES,EUROPEAN_LANGUAGE_LABELS} from './european_app_locales.mjs';
 import {POCKET_LANGUAGES,pocketLanguageFromCountry} from './language_first_install.mjs';
+import {LIT_NATIONAL_PACK_YEARS} from './literature_europe_client_lazy.mjs';
 
 const expected={MD:'ro',PL:'pl',HR:'hr',RS:'sr',HU:'hu',AT:'de',TR:'tr'};
 assert.deepEqual(Object.keys(LIT_SEVEN_COUNTRY_PROGRAMS).sort(),Object.keys(expected).sort());
@@ -30,6 +31,13 @@ for(const [country,language] of Object.entries(expected)){
    const frameworkVerified=(country==='PL'&&stage==='beginner'&&['I','IV'].includes(row.id));
    assert.equal(planned.verified,frameworkVerified,'Verify only documented national framework and grade');
    assert.ok(planned.note.includes('program')||planned.note.length>90,'Advisory national grade sequence must be explained');
+   if((LIT_NATIONAL_PACK_YEARS[country]?.[stage]||[]).includes(row.id)){
+    // Year with an authored national pack: exactly its ten chapter keys,
+    // without the generic sixteen-row sequence (no invented themes).
+    assert.equal(planned.units.length,10,country+' '+row.id+' national pack chapters');
+    assert.ok(planned.units.every(x=>x.id.startsWith('eu-year-'+country.toLowerCase()+'-'+stage+'-')),country+' '+row.id+' generic rows must be hidden');
+    continue;
+   }
    assert.ok(planned.units.length>=13,country+' '+row.id+' has only '+planned.units.length+' study units');
    assert.ok(planned.units.filter(x=>x.id.startsWith(country.toLowerCase()+'-')).every(x=>x.focus.length>=85),country+' '+row.id+' country-specific unit focus not teachable');
    assert.equal(new Set(planned.units.map(x=>x.label)).size,planned.units.length,country+' duplicate unit title');

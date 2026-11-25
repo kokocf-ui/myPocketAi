@@ -1,0 +1,1295 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "FI",
+ "stage": "beginner",
+ "grade": "1",
+ "version": "14a1f33a0b9e67411c236611ff8eb916fc94196d9e1d782f73057bded903a4fe",
+ "source": "https://www.oph.fi/en/education-and-qualifications/national-core-curriculum-primary-and-lower-secondary-basic-education",
+ "sourceTitle": "Opetushallitus: Perusopetuksen opetussuunnitelman perusteet 2014, äidinkieli ja kirjallisuus – suomen kieli ja kirjallisuus, vuosiluokat 1–2 (vuorovaikutustilanteissa toimiminen, tekstien tulkitseminen, tekstien tuottaminen, kielen, kirjallisuuden ja kulttuurin ymmärtäminen); 1. luokka tavallisten aapisten järjestyksessä (äänteet ja kirjaimet, tavut, pitkät ja lyhyet äänteet, diftongit, tavutus, ensimmäiset tekstit); omia harjoituksia, ei kopioitua tekstiä oppikirjoista",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "fi",
+ "labels": [
+  "Oma harjoitustehtävä · Suomi · 1. luokka",
+  "Opimme",
+  "Oma esimerkki",
+  "Selitys",
+  "Harjoitukset",
+  "Testaa itsesi",
+  "Omia harjoituksia, ei virallinen koe. Lue ne tarvittaessa aikuisen kanssa.",
+  "Etkö ymmärtänyt? Vaihe vaiheelta",
+  "Vastaukset (katso vasta, kun olet valmis)"
+ ],
+ "units": [
+  {
+   "title": "Koulun alku: puhuminen, kuunteleminen ja äänteet",
+   "keys": [
+    "eu-year-fi-beginner-1-l01",
+    "eu-year-fi-beginner-1-l02",
+    "eu-year-fi-beginner-1-l03"
+   ]
+  },
+  {
+   "title": "Vokaalit",
+   "keys": [
+    "eu-year-fi-beginner-1-l04",
+    "eu-year-fi-beginner-1-l05"
+   ]
+  },
+  {
+   "title": "Konsonantit ja sanojen lukeminen",
+   "keys": [
+    "eu-year-fi-beginner-1-l06",
+    "eu-year-fi-beginner-1-l07",
+    "eu-year-fi-beginner-1-l08",
+    "eu-year-fi-beginner-1-l09",
+    "eu-year-fi-beginner-1-l10"
+   ]
+  },
+  {
+   "title": "Pitkät ja lyhyet äänteet",
+   "keys": [
+    "eu-year-fi-beginner-1-l11",
+    "eu-year-fi-beginner-1-l12",
+    "eu-year-fi-beginner-1-l13",
+    "eu-year-fi-beginner-1-l14"
+   ]
+  },
+  {
+   "title": "Tavutus, yhdyssanat ja aakkoset",
+   "keys": [
+    "eu-year-fi-beginner-1-l15",
+    "eu-year-fi-beginner-1-l16",
+    "eu-year-fi-beginner-1-l17",
+    "eu-year-fi-beginner-1-l18"
+   ]
+  },
+  {
+   "title": "Sanat ja lauseet",
+   "keys": [
+    "eu-year-fi-beginner-1-l19",
+    "eu-year-fi-beginner-1-l20",
+    "eu-year-fi-beginner-1-l21"
+   ]
+  },
+  {
+   "title": "Lukeminen ja kirjallisuus",
+   "keys": [
+    "eu-year-fi-beginner-1-l22",
+    "eu-year-fi-beginner-1-l23",
+    "eu-year-fi-beginner-1-l24",
+    "eu-year-fi-beginner-1-l25",
+    "eu-year-fi-beginner-1-l26",
+    "eu-year-fi-beginner-1-l27",
+    "eu-year-fi-beginner-1-l28"
+   ]
+  },
+  {
+   "title": "Kirjoittaminen ja kertominen",
+   "keys": [
+    "eu-year-fi-beginner-1-l29",
+    "eu-year-fi-beginner-1-l30",
+    "eu-year-fi-beginner-1-l31",
+    "eu-year-fi-beginner-1-l32",
+    "eu-year-fi-beginner-1-l33"
+   ]
+  },
+  {
+   "title": "Ensimmäisen luokan lopuksi",
+   "keys": [
+    "eu-year-fi-beginner-1-l34"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-fi-beginner-1-l01": {
+   "fi": {
+    "title": "Hei, minun nimeni on …: tutustumme toisiimme",
+    "theory": "Ensimmäisinä päivinä tutustumme toisiimme. Kerromme nimemme kokonaisella lauseella: Minun nimeni on … Sovimme luokan säännöistä: viittaamme, kuuntelemme toisiamme, annamme toisen puhua loppuun ja puhumme selvästi.",
+    "sample": "Minun nimeni on Aino. Olen seitsemän vuotta vanha. Tykkään piirtää hevosia. Vieressäni istuu Eetu.",
+    "worked": "Aino esittelee itsensä neljällä lyhyellä lauseella: hän kertoo nimensä, ikänsä, mistä hän tykkää ja kuka istuu hänen vieressään. Puhuessaan hän katsoo luokkaa. Jokainen lause alkaa isolla kirjaimella ja päättyy pisteeseen.",
+    "exercises": [
+     "Esittele itsesi kahdella lauseella.",
+     "Kerro, mistä tykkäät.",
+     "Sano vieruskaverisi nimi.",
+     "Näytä, miten viittaat.",
+     "Toista, mitä luokkakaveri kertoi."
+    ],
+    "test": [
+     "Kuinka vanha Aino on?",
+     "Mitä teemme, kun haluamme sanoa jotain?",
+     "Miksi annamme toisen puhua loppuun?",
+     "Mistä sinä tykkäät?",
+     "Kuka istuu Ainon vieressä?"
+    ],
+    "steps": [
+     "Kerro ensin nimesi: Minun nimeni on …",
+     "Kerro sitten, kuinka vanha olet ja mistä tykkäät.",
+     "Kun toinen puhuu, kuuntelet etkä keskeytä.",
+     "Varo: Vastaa kokonaisella lauseella, älä vain yhdellä sanalla."
+    ],
+    "answers": [
+     "Seitsemän vuotta.",
+     "Viittaamme ja odotamme vuoroamme.",
+     "Jotta kaikki saavat puhua ja ymmärrämme toisiamme.",
+     "Oma vastauksesi. Esimerkiksi: Tykkään pelata jalkapalloa.",
+     "Eetu."
+    ]
+   }
+  },
+  "eu-year-fi-beginner-1-l02": {
+   "fi": {
+    "title": "Sanat koostuvat äänteistä, ja jotkut sanat rimmaavat",
+    "theory": "Sanat koostuvat äänteistä. Kun sanomme jokaisen äänteen erikseen, jaamme sanan osiin: s-u-u. Kun liitämme äänteet yhteen, saamme sanan takaisin: suu. Kaksi sanaa rimmaa, kun ne loppuvat samalla tavalla: kuu ja puu, talo ja valo.",
+    "sample": "kuu, puu, suu, talo, valo, kala, sala, lumi",
+    "worked": "Kala on neljä äännettä: k-a-l-a. Kuu, puu ja suu rimmaavat, koska ne kaikki loppuvat -uu. Talo ja valo loppuvat -alo. Lumi alkaa äänteellä l.",
+    "exercises": [
+     "Jaa sana äänteisiin: t-a-l-o. Montako äännettä kuulet?",
+     "Liitä äänteet yhteen: k-u-u.",
+     "Keksi sana, joka rimmaa sanan puu kanssa.",
+     "Millä äänteellä sana lumi alkaa?",
+     "Etsi luokasta jotain, joka alkaa äänteellä k."
+    ],
+    "test": [
+     "Montako äännettä on sanassa kala?",
+     "Rimmaavatko talo ja valo?",
+     "Liitä äänteet yhteen: s-u-u.",
+     "Millä äänteellä sana puu alkaa?",
+     "Mikä sana ei rimmaa: kuu, puu, talo?"
+    ],
+    "steps": [
+     "Sano sana hitaasti, ikään kuin venyttäisit sitä.",
+     "Jaa se äänteisiin ja laske ne sormilla.",
+     "Liitä äänteet nopeasti taas yhteen.",
+     "Varo: Kuuntele äännettä, älä kuvaa; sano sana aina ääneen."
+    ],
+    "answers": [
+     "Neljä: k-a-l-a.",
+     "Kyllä.",
+     "suu.",
+     "p.",
+     "talo."
+    ]
+   }
+  },
+  "eu-year-fi-beginner-1-l03": {
+   "fi": {
+    "title": "Tavut: taputamme sanoja",
+    "theory": "Sanat voi jakaa tavuihin. Taputamme kerran jokaista tavua kohti: ta-lo on kaksi tavua, ba-naa-ni kolme. Jokaisessa tavussa on vokaali. Taputtaminen auttaa, kun luemme ja kirjoitamme pitkiä sanoja.",
+    "sample": "kou-lu-rep-pu / ba-naa-ni / o-me-na / kuu",
+    "worked": "Koulureppu on neljä taputusta: kou-lu-rep-pu. Banaani ja omena ovat kolme. Kuu on vain yksi taputus: se on yksi tavu. Taputamme ja sanomme sanan samalla.",
+    "exercises": [
+     "Taputa sana: jalkapallo.",
+     "Taputa oma nimesi.",
+     "Montako tavua on sanassa jää?",
+     "Keksi sana, jossa on kolme tavua.",
+     "Taputa sana: elefantti."
+    ],
+    "test": [
+     "Montako tavua on sanassa talo?",
+     "Taputa: kala.",
+     "Montako tavua on sanassa kuu?",
+     "Mitä jokaisessa tavussa on?",
+     "Taputa: omena."
+    ],
+    "steps": [
+     "Sano sana hitaasti ja taputa samalla.",
+     "Laske, montako kertaa taputit.",
+     "Jokainen taputus on yksi tavu, ja jokaisessa tavussa on vokaali.",
+     "Varo: Älä taputa jokaista äännettä; taputa jokaista sanan osaa."
+    ],
+    "answers": [
+     "Kaksi: ta-lo.",
+     "ka-la.",
+     "Yksi.",
+     "Vokaali.",
+     "o-me-na."
+    ]
+   }
+  },
+  "eu-year-fi-beginner-1-l04": {
+   "fi": {
+    "title": "Vokaalit a, e, i, o ja u",
+    "theory": "Vokaalit ovat äänteitä, joita voi laulaa pitkään: a, e, i, o, u. Jokaisessa sanassa on ainakin yksi vokaali. Suomessa jokainen äänne kirjoitetaan omalla kirjaimellaan.",
+    "sample": "aamu, ele, ilo, olo, uni / Aamulla on ilo. / Uni on hyvä.",
+    "worked": "Aamu alkaa a:lla, ele e:llä, ilo i:llä, olo o:lla ja uni u:lla. Kokeile laulaa vokaalia: aaa. Ilman vokaalia emme voi lukea sanaa.",
+    "exercises": [
+     "Laula viisi vokaalia.",
+     "Kirjoita pieni a ja iso A.",
+     "Mikä vokaali on sanan ilo alussa?",
+     "Keksi sana, joka alkaa u:lla.",
+     "Tee pyöreä suu ja sano: o."
+    ],
+    "test": [
+     "Montako vokaalia opimme tänään?",
+     "Millä vokaalilla sana uni alkaa?",
+     "Onko jokaisessa sanassa vokaali?",
+     "Millä vokaalilla sana aamu alkaa?",
+     "Lue: ilo, olo, uni."
+    ],
+    "steps": [
+     "Vokaalit ovat a, e, i, o, u: sano ne järjestyksessä.",
+     "Katso peiliin: o:ssa suu on pyöreä, i:ssä hymyilet.",
+     "Sano sana hitaasti löytääksesi vokaalin.",
+     "Varo: e ja i muistuttavat toisiaan; puhu selvästi ja kuuntele."
+    ],
+    "answers": [
+     "Viisi.",
+     "u.",
+     "Kyllä.",
+     "a.",
+     "ilo, olo, uni."
+    ]
+   }
+  },
+  "eu-year-fi-beginner-1-l05": {
+   "fi": {
+    "title": "Vokaalit y, ä ja ö",
+    "theory": "Suomessa on myös vokaalit y, ä ja ö. Y kuten sanassa yö, ä kuten sanassa äiti ja ö kuten sanassa öljy. Nyt osaamme kaikki kahdeksan vokaalia: a e i o u y ä ö.",
+    "sample": "Äiti lukee yöllä. / Ystävä syö jäätelöä. / Pöydällä on hyvä kynä.",
+    "worked": "Äiti ja jäätelöä sisältävät ä:n. Yöllä, ystävä, syö ja kynä sisältävät y:n. Pöydällä ja jäätelöä sisältävät ö:n. Ä:ssä ja ö:ssä on kaksi pistettä.",
+    "exercises": [
+     "Sano: y, ä, ö.",
+     "Kirjoita ä.",
+     "Keksi sana, jossa on ö.",
+     "Mikä vokaali on sanan yö alussa?",
+     "Sano kaikki kahdeksan vokaalia."
+    ],
+    "test": [
+     "Milloin äiti lukee?",
+     "Mitä ystävä syö?",
+     "Montako vokaalia suomessa on?",
+     "Mitä pöydällä on?",
+     "Lue: yö, äiti, öljy."
+    ],
+    "steps": [
+     "Y:ssä suu on pyöreä kuin u:ssa, mutta sanot i.",
+     "Ö:ssä suu on pyöreä kuin o:ssa, mutta sanot e.",
+     "Ä:hän ja ö:hön kirjoitetaan kaksi pistettä.",
+     "Varo: Älä unohda pisteitä, muuten ä:stä tulee a ja ö:stä o."
+    ],
+    "answers": [
+     "Yöllä.",
+     "Jäätelöä.",
+     "Kahdeksan.",
+     "Hyvä kynä.",
+     "yö, äi-ti, öl-jy."
+    ]
+   }
+  },
+  "eu-year-fi-beginner-1-l06": {
+   "fi": {
+    "title": "s, m, l ja n: sana, maa ja lumi",
+    "theory": "Konsonantit tarvitsevat vokaalin, jotta niistä tulee sana. M sanotaan huulet kiinni, s sihisee kuin käärme, l sanotaan kieli hampaiden takana ja n nenän kautta. Uusia sanoja: sana, maa, lumi, nalle, sammal, ilma.",
+    "sample": "Lumi on maassa. / Nalle on sammalella. / Sami ui.",
+    "worked": "Lumi ja nalle alkavat l:llä. Maa ja maassa alkavat m:llä. Sammal ja Sami alkavat s:llä. Nalle alkaa n:llä. Luemme jokaisen äänteen ja liitämme ne yhteen: m-a-a on maa.",
+    "exercises": [
+     "Lue: sana, maa, lumi.",
+     "Sihise kuin käärme: sss.",
+     "Jaa äänteisiin: l-u-m-i.",
+     "Kirjoita iso M.",
+     "Keksi sana, jossa on n."
+    ],
+    "test": [
+     "Missä lumi on?",
+     "Missä nalle on?",
+     "Mitä Sami tekee?",
+     "Lue: ilma, sima, nenä.",
+     "Millä äänteellä sana sana alkaa?"
+    ],
+    "steps": [
+     "Sano konsonantin äänne ja heti vokaali perään: m-a.",
+     "Liitä äänteet sanaksi: maa.",
+     "Lue aina vasemmalta oikealle.",
+     "Varo: m ja n muistuttavat toisiaan; m:ssä on kaksi kaarta, n:ssä yksi."
+    ],
+    "answers": [
+     "Maassa.",
+     "Sammalella.",
+     "Hän ui.",
+     "il-ma, si-ma, ne-nä.",
+     "s."
+    ]
+   }
+  },
+  "eu-year-fi-beginner-1-l07": {
+   "fi": {
+    "title": "t, k ja p: talo, kala ja pallo",
+    "theory": "T, k ja p ovat lyhyitä äänteitä. P:ssä huulet aukeavat, t:ssä kieli koskettaa hampaita ja k sanotaan suun takaosassa. Uusia sanoja: talo, tuli, kala, kuu, pallo, puu.",
+    "sample": "Kissa istuu katolla. / Pekka potkaisee palloa. / Talon takana on puu.",
+    "worked": "Kissa, katolla ja potkaisee sisältävät k:n. Talo ja takana alkavat t:llä. Pekka, pallo ja puu alkavat p:llä. Luemme ensin hitaasti ja sitten nopeammin. Pekka on nimi, joten se alkaa isolla kirjaimella.",
+    "exercises": [
+     "Lue: talo, tuli, tukka.",
+     "Lue: pallo, puu, peli.",
+     "Lue: kala, kuu, kissa.",
+     "Kirjoita sana puu.",
+     "Keksi sana, jossa on t."
+    ],
+    "test": [
+     "Missä kissa istuu?",
+     "Mitä Pekka potkaisee?",
+     "Mitä talon takana on?",
+     "Lue: tikku, poika, katu.",
+     "Millä kirjaimella sana kala alkaa?"
+    ],
+    "steps": [
+     "P:ssä avaat huulet pienellä puhalluksella.",
+     "T:ssä kieli koskettaa kevyesti hampaita.",
+     "Lue ensin hitaasti, sitten nopeammin.",
+     "Varo: p ja b muistuttavat toisiaan; p:n vatsa on ylhäällä oikealla."
+    ],
+    "answers": [
+     "Katolla.",
+     "Palloa.",
+     "Puu.",
+     "tik-ku, poi-ka, ka-tu.",
+     "k."
+    ]
+   }
+  },
+  "eu-year-fi-beginner-1-l08": {
+   "fi": {
+    "title": "r, j, v ja h: rusina, juna ja vene",
+    "theory": "R sanotaan kielen kärjellä täristäen. J kuulostaa kuin sanassa jo. V sanotaan ylähampaat alahuulta vasten. H on pieni huokaus. Uusia sanoja: rusina, juna, jää, vene, vesi, hiiri, hattu.",
+    "sample": "Juna menee asemalle. / Hiiri syö rusinan. / Vene on vedessä.",
+    "worked": "Juna ja jää alkavat j:llä. Hiiri ja hattu alkavat h:lla. Rusina sisältää r:n. Vene ja vedessä alkavat v:llä. R voi olla vaikea; sitä harjoitellaan rauhassa.",
+    "exercises": [
+     "Lue: rusina, ruoho, rata.",
+     "Lue: juna, jää, joki.",
+     "Lue: vene, vesi, villa.",
+     "Lue: hiiri, hattu, heinä.",
+     "Kirjoita sana juna."
+    ],
+    "test": [
+     "Minne juna menee?",
+     "Mitä hiiri syö?",
+     "Missä vene on?",
+     "Lue: hevonen, jousi, raha.",
+     "Millä kirjaimella sana vesi alkaa?"
+    ],
+    "steps": [
+     "R:ssä kielen kärki värisee.",
+     "J sanotaan kuin sanassa jo, v ylähampaat alahuulta vasten.",
+     "H on kevyt huokaus, jonka tunnet kämmenellä.",
+     "Varo: Jos r on vielä vaikea, älä korvaa sitä l:llä kirjoittaessa; kirjoita r."
+    ],
+    "answers": [
+     "Asemalle.",
+     "Rusinan.",
+     "Vedessä.",
+     "he-vo-nen, jou-si, ra-ha.",
+     "v."
+    ]
+   }
+  },
+  "eu-year-fi-beginner-1-l09": {
+   "fi": {
+    "title": "d, g, b ja f: sade, bussi ja filmi",
+    "theory": "D on suomen sanoissa usein sanan keskellä: sade, kadulla. B, f ja g ovat yleisiä lainasanoissa: banaani, bussi, faarao, golf. Uusia sanoja: sade, kädet, bussi, banaani, filmi, golf.",
+    "sample": "Sade kastelee kadun. / Bussi pysähtyy. / Katsomme filmin ja syömme banaanin.",
+    "worked": "Sade ja kadun sisältävät d:n. Bussi ja banaanin alkavat b:llä. Filmi alkaa f:llä. Golf sisältää g:n ja f:n. B, f ja g ovat yleisiä vierasperäisissä sanoissa.",
+    "exercises": [
+     "Lue: sade, kädet, kadulla.",
+     "Lue: bussi, banaani, baari.",
+     "Lue: golf, faarao.",
+     "Kirjoita sana bussi.",
+     "Keksi sana, jossa on d."
+    ],
+    "test": [
+     "Mitä sade kastelee?",
+     "Mikä pysähtyy?",
+     "Mitä katsomme?",
+     "Lue: lude, bambu, kaakao.",
+     "Millä kirjaimella sana bussi alkaa?"
+    ],
+    "steps": [
+     "D sanotaan kevyesti kielen kärjellä.",
+     "B sanotaan huulet kiinni, ja se kuuluu usein lainasanoihin.",
+     "Lue sana äänne äänteeltä ja liitä yhteen.",
+     "Varo: b ja d muistuttavat toisiaan; b:n vatsa on oikealla, d:n vasemmalla."
+    ],
+    "answers": [
+     "Kadun.",
+     "Bussi.",
+     "Filmin.",
+     "lu-de, bam-bu, kaa-kao.",
+     "b."
+    ]
+   }
+  },
+  "eu-year-fi-beginner-1-l10": {
+   "fi": {
+    "title": "Suomea luetaan niin kuin se kirjoitetaan",
+    "theory": "Suomessa jokainen äänne kirjoitetaan omalla kirjaimellaan. Siksi voimme lukea uuden sanan sanomalla äänteet ja kirjoittaa sanan kuuntelemalla sitä tarkasti. Kun osaamme kirjaimet, osaamme lukea melkein kaikki sanat.",
+    "sample": "Aino näkee kuun. / Olli saa kalan. / Lamppu palaa pöydällä.",
+    "worked": "Jokaisen sanan voi lukea äänteiden avulla: O-l-l-i, k-a-l-a-n. Kun kirjoitamme, kuuntelemme jokaisen äänteen ja kirjoitamme sitä vastaavan kirjaimen.",
+    "exercises": [
+     "Kirjoita: kala.",
+     "Kirjoita: talo.",
+     "Kirjoita: lumi.",
+     "Lue: Olli saa kalan.",
+     "Kirjoita kaksi omaa sanaa."
+    ],
+    "test": [
+     "Mitä Aino näkee?",
+     "Mitä Olli saa?",
+     "Missä lamppu palaa?",
+     "Montako äännettä on sanassa kala?",
+     "Kirjoita: puu."
+    ],
+    "steps": [
+     "Sano sana hitaasti: k-a-l-a.",
+     "Kirjoita jokaisesta äänteestä yksi kirjain.",
+     "Lue sana ääneen jälkeenpäin ja tarkista.",
+     "Varo: Älä unohda äännettä keskeltä; sanassa lamppu kuuluu sekä m että pp."
+    ],
+    "answers": [
+     "Kuun.",
+     "Kalan.",
+     "Pöydällä.",
+     "Neljä.",
+     "puu."
+    ]
+   }
+  },
+  "eu-year-fi-beginner-1-l11": {
+   "fi": {
+    "title": "Pitkä vokaali: tuli ja tuuli",
+    "theory": "Vokaali voi olla lyhyt tai pitkä. Pitkä vokaali kirjoitetaan kahdella kirjaimella: tuuli, kaali, siili. Lyhyt vokaali kirjoitetaan yhdellä: tuli, sika. Pituus muuttaa sanan merkityksen.",
+    "sample": "Tuli palaa takassa. / Tuuli puhaltaa ulkona. / Siili on puun alla.",
+    "worked": "Tuli ja tuuli ovat eri sanoja. Tulessa u on lyhyt, tuulessa pitkä. Siili ja puun sisältävät pitkän vokaalin. Kun kuulemme pitkän äänteen, kirjoitamme kaksi kirjainta.",
+    "exercises": [
+     "Lyhyt vai pitkä: kala.",
+     "Lyhyt vai pitkä: maa.",
+     "Sano tuli ja tuuli. Mikä on ero?",
+     "Kirjoita: s__li (siili).",
+     "Keksi oma pari: lyhyt ja pitkä."
+    ],
+    "test": [
+     "Missä tuli palaa?",
+     "Mitä tuuli tekee?",
+     "Missä siili on?",
+     "Montako u:ta on sanassa tuuli?",
+     "Lue: sika, siika."
+    ],
+    "steps": [
+     "Sano sana ja kuuntele vokaalia: onko se lyhyt vai pitkä?",
+     "Venytä pitkää äännettä: tuuuli. Lyhyt on nopea: tuli.",
+     "Pitkä äänne: kaksi kirjainta. Lyhyt äänne: yksi kirjain.",
+     "Varo: Jos kirjoitat tuli, kun tarkoitat tuuli, sanan merkitys muuttuu."
+    ],
+    "answers": [
+     "Takassa.",
+     "Puhaltaa ulkona.",
+     "Puun alla.",
+     "Kaksi.",
+     "si-ka, sii-ka."
+    ]
+   }
+  },
+  "eu-year-fi-beginner-1-l12": {
+   "fi": {
+    "title": "Pitkä konsonantti: kuka ja kukka",
+    "theory": "Myös konsonantti voi olla pitkä. Pitkä konsonantti kirjoitetaan kahdella kirjaimella: kukka, kissa, pallo. Kuulemme sen, koska äänne kestää pidempään ja sana pysähtyy hetkeksi.",
+    "sample": "Kuka poimi kukan? / Kissa leikkii pallolla. / Mummi keittää teetä.",
+    "worked": "Kuka ja kukka ovat eri sanoja: kukassa on pitkä k. Kissa, pallolla ja keittää sisältävät pitkän konsonantin. Kun tavutamme, pitkä konsonantti jakautuu kahteen tavuun: kuk-ka, kis-sa.",
+    "exercises": [
+     "Lyhyt vai pitkä: kuka.",
+     "Lyhyt vai pitkä: kukka.",
+     "Tavuta: kissa.",
+     "Kirjoita: pa__o (pallo).",
+     "Keksi sana, jossa on pitkä t."
+    ],
+    "test": [
+     "Mitä kuka poimi?",
+     "Millä kissa leikkii?",
+     "Montako s:ää on sanassa kissa?",
+     "Tavuta: pallo.",
+     "Lue: tuli, tulli."
+    ],
+    "steps": [
+     "Sano sana ja kuuntele: pysähtyykö sana hetkeksi konsonantin kohdalla?",
+     "Jos pysähtyy, kirjoita kaksi konsonanttia.",
+     "Tavutuksessa pitkä konsonantti jakautuu: kuk-ka.",
+     "Varo: kisa ja kissa ovat eri sanoja; kuuntele tarkasti."
+    ],
+    "answers": [
+     "Kukan.",
+     "Pallolla.",
+     "Kaksi.",
+     "pal-lo.",
+     "tu-li, tul-li."
+    ]
+   }
+  },
+  "eu-year-fi-beginner-1-l13": {
+   "fi": {
+    "title": "Diftongit: ai, ei, oi, au ja äy",
+    "theory": "Diftongi on kaksi eri vokaalia samassa tavussa: ai sanassa laiva, ei sanassa leipä, oi sanassa poika, au sanassa auto ja äy sanassa käy. Luemme ne yhtenä liukuvana äänteenä.",
+    "sample": "Poika ajaa autolla. / Laiva lähtee satamasta. / Äiti ostaa leipää.",
+    "worked": "Poika, laiva, äiti ja leipää sisältävät diftongin. Auto alkaa au:lla. Diftongi pysyy samassa tavussa: poi-ka, lai-va, au-to.",
+    "exercises": [
+     "Lue: laiva, kaisla, maito.",
+     "Lue: leipä, peili, keitto.",
+     "Lue: auto, sauna, kaunis.",
+     "Tavuta: poika.",
+     "Keksi sana, jossa on ai."
+    ],
+    "test": [
+     "Millä poika ajaa?",
+     "Mistä laiva lähtee?",
+     "Mitä äiti ostaa?",
+     "Tavuta: auto.",
+     "Mikä diftongi on sanassa sauna?"
+    ],
+    "steps": [
+     "Etsi kaksi eri vokaalia vierekkäin: ai, ei, au.",
+     "Lue ne nopeasti yhdessä yhtenä äänteenä.",
+     "Tavuttaessa diftongi pysyy samassa tavussa: lai-va.",
+     "Varo: Älä jaa diftongia kahteen tavuun; se on lai-va, ei la-i-va."
+    ],
+    "answers": [
+     "Autolla.",
+     "Satamasta.",
+     "Leipää.",
+     "au-to.",
+     "au."
+    ]
+   }
+  },
+  "eu-year-fi-beginner-1-l14": {
+   "fi": {
+    "title": "Diftongit ie, uo ja yö: tie, suo ja yö",
+    "theory": "Diftongit ie, uo ja yö ovat erityisiä: ne ovat sanan ensimmäisessä tavussa. Tie, suo ja yö ovat lyhyitä sanoja, joissa on vain yksi tavu.",
+    "sample": "Tie vie metsään. / Suolla kasvaa hilloja. / Yöllä kuu loistaa.",
+    "worked": "Tie ja vie sisältävät ie:n. Suolla sisältää uo:n. Yöllä sisältää yö:n. Kaikki nämä diftongit ovat sanan ensimmäisessä tavussa: tie, suol-la, yöl-lä.",
+    "exercises": [
+     "Lue: tie, kieli, pieni.",
+     "Lue: suo, ruoka, nuori.",
+     "Lue: yö, työ, lyö.",
+     "Tavuta: ruoka.",
+     "Keksi sana, jossa on ie."
+    ],
+    "test": [
+     "Minne tie vie?",
+     "Mitä suolla kasvaa?",
+     "Milloin kuu loistaa?",
+     "Tavuta: pieni.",
+     "Lue: kuori, tiede, yöpuku."
+    ],
+    "steps": [
+     "Etsi ie, uo tai yö sanan alusta.",
+     "Lue diftongi yhtenä liukuvana äänteenä.",
+     "Pidä diftongi samassa tavussa: ruo-ka.",
+     "Varo: Älä lue i:tä ja e:tä erikseen sanassa tie; se on yksi tavu."
+    ],
+    "answers": [
+     "Metsään.",
+     "Hilloja.",
+     "Yöllä.",
+     "pie-ni.",
+     "kuo-ri, tie-de, yö-pu-ku."
+    ]
+   }
+  },
+  "eu-year-fi-beginner-1-l15": {
+   "fi": {
+    "title": "ng ja nk: kengät ja kenkä",
+    "theory": "Äänneyhtymä ng kirjoitetaan kahdella kirjaimella, mutta se on yksi pitkä äänne suun takaosassa: kengät, sängyt, Helsingissä. Nk kuulostaa samalta äänteeltä, jonka perässä on k: kenkä, sänky, Helsinki.",
+    "sample": "Kenkä on jalassa. / Kengät ovat eteisessä. / Asumme Helsingissä.",
+    "worked": "Kenkä ja Helsinki sisältävät nk:n: kuulemme lopussa k:n. Kengät ja Helsingissä sisältävät ng:n: se on yksi pitkä äänne ilman k:ta.",
+    "exercises": [
+     "Lue: kenkä, kengät.",
+     "Lue: sänky, sängyt.",
+     "Lue: Helsinki, Helsingissä.",
+     "Kirjoita sana kenkä.",
+     "Kuuluuko k sanassa kengät?"
+    ],
+    "test": [
+     "Missä kenkä on?",
+     "Missä kengät ovat?",
+     "Missä asumme?",
+     "Kirjoita sana kengät.",
+     "Kuuluuko k sanassa kenkä?"
+    ],
+    "steps": [
+     "Kuuntele, kuuluuko äänteen jälkeen k.",
+     "Jos kuuluu, kirjoita nk; jos ei, kirjoita ng.",
+     "Lue sana ääneen ja tarkista.",
+     "Varo: Älä kirjoita kenngät tai kengkät; oikein on kengät."
+    ],
+    "answers": [
+     "Jalassa.",
+     "Eteisessä.",
+     "Helsingissä.",
+     "kengät.",
+     "Kyllä."
+    ]
+   }
+  },
+  "eu-year-fi-beginner-1-l16": {
+   "fi": {
+    "title": "Tavutus: konsonanttisääntö",
+    "theory": "Kun tavutamme kirjoitettua sanaa, käytämme konsonanttisääntöä: jos vokaalin jälkeen tulee konsonantti ja vokaali, tavuraja tulee ennen konsonanttia: ka-la, ta-lo, o-me-na. Jos vokaalien välissä on kaksi konsonanttia, raja tulee niiden väliin: kis-sa, kar-hu.",
+    "sample": "ka-la / ta-lo / o-me-na / kis-sa / kar-hu / ham-mas",
+    "worked": "Kalassa on vokaali a, konsonantti l ja taas vokaali a, joten raja tulee ennen l:ää: ka-la. Kissassa on kaksi s:ää peräkkäin, joten raja tulee niiden väliin: kis-sa.",
+    "exercises": [
+     "Tavuta: kala.",
+     "Tavuta: kissa.",
+     "Tavuta: karhu.",
+     "Tavuta: omena.",
+     "Tavuta: lintu."
+    ],
+    "test": [
+     "Tavuta: talo.",
+     "Tavuta: hammas.",
+     "Mihin raja tulee, kun vokaalien välissä on yksi konsonantti?",
+     "Tavuta: kirja.",
+     "Tavuta: mansikka."
+    ],
+    "steps": [
+     "Etsi sanasta vokaalit.",
+     "Yksi konsonantti vokaalien välissä: raja ennen konsonanttia (ta-lo).",
+     "Kaksi konsonanttia: raja niiden väliin (kis-sa).",
+     "Varo: Tavu ei ala kahdella konsonantilla suomen omissa sanoissa; se on kar-hu, ei ka-rhu."
+    ],
+    "answers": [
+     "ta-lo.",
+     "ham-mas.",
+     "Ennen konsonanttia.",
+     "kir-ja.",
+     "man-sik-ka."
+    ]
+   }
+  },
+  "eu-year-fi-beginner-1-l17": {
+   "fi": {
+    "title": "Yhdyssanat: koulu + reppu = koulureppu",
+    "theory": "Yhdyssana on sana, joka on tehty kahdesta sanasta: koulu ja reppu ovat yhdessä koulureppu. Yhdyssana kirjoitetaan yhteen ilman väliä. Ensimmäinen sana kertoo, millainen jälkimmäinen on.",
+    "sample": "Laitan kirjat koulureppuun. / Pihalla on lumiukko. / Syön mansikkajäätelöä.",
+    "worked": "Koulureppu on reppu, jota käytetään koulussa. Lumiukko on ukko, joka on tehty lumesta. Mansikkajäätelö on jäätelöä, jossa on mansikkaa. Kaikki kirjoitetaan yhteen.",
+    "exercises": [
+     "Tee yhdyssana: lumi + ukko.",
+     "Tee yhdyssana: auto + talli.",
+     "Jaa kahteen sanaan: kotitie.",
+     "Keksi oma yhdyssana.",
+     "Mikä on koulureppu?"
+    ],
+    "test": [
+     "Mihin laitan kirjat?",
+     "Mitä pihalla on?",
+     "Kirjoitetaanko yhdyssana yhteen vai erikseen?",
+     "Tee yhdyssana: kirja + hylly.",
+     "Jaa kahteen sanaan: lumiukko."
+    ],
+    "steps": [
+     "Etsi yhdyssanasta kaksi tuttua sanaa.",
+     "Mieti, mitä sanat tarkoittavat yhdessä.",
+     "Kirjoita ne yhteen ilman väliä.",
+     "Varo: Älä kirjoita koulu reppu erikseen; oikein on koulureppu."
+    ],
+    "answers": [
+     "Koulureppuun.",
+     "Lumiukko.",
+     "Yhteen.",
+     "kirjahylly.",
+     "lumi ja ukko."
+    ]
+   }
+  },
+  "eu-year-fi-beginner-1-l18": {
+   "fi": {
+    "title": "Aakkoset ja aakkosjärjestys",
+    "theory": "Aakkosissa kirjaimet ovat tietyssä järjestyksessä: a, b, c, d, e … x, y, z, å, ä, ö. Suomen aakkosten lopussa ovat å, ä ja ö. Aakkosjärjestyksen avulla löydämme sanoja sanakirjasta ja nimiä luettelosta.",
+    "sample": "Luokan nimet aakkosjärjestyksessä: Aino, Eetu, Lauri, Sofia, Ville.",
+    "worked": "Aino on ensimmäisenä, koska a on aakkosten alussa. Eetu tulee seuraavaksi, koska e tulee ennen l:ää. Ville on viimeisenä, koska v on näistä kirjaimista viimeisenä aakkosissa.",
+    "exercises": [
+     "Laula tai lue aakkoset.",
+     "Mikä kirjain tulee b:n jälkeen?",
+     "Laita aakkosjärjestykseen: talo, auto, kala.",
+     "Mitkä kolme kirjainta ovat aakkosten lopussa?",
+     "Laita oman perheesi nimet aakkosjärjestykseen."
+    ],
+    "test": [
+     "Mikä kirjain on aakkosten ensimmäinen?",
+     "Mikä kirjain on suomen aakkosten viimeinen?",
+     "Kuka on luettelossa ensimmäisenä?",
+     "Laita aakkosjärjestykseen: puu, kuu, suu.",
+     "Miksi aakkosjärjestys on hyödyllinen?"
+    ],
+    "steps": [
+     "Katso sanojen ensimmäistä kirjainta.",
+     "Etsi kirjaimet aakkosista ja vertaa, kumpi tulee ensin.",
+     "Kirjoita sanat siinä järjestyksessä.",
+     "Varo: å, ä ja ö tulevat aivan lopussa z:n jälkeen."
+    ],
+    "answers": [
+     "a.",
+     "ö.",
+     "Aino.",
+     "kuu, puu, suu.",
+     "Sen avulla löydämme sanoja sanakirjasta ja nimiä luettelosta."
+    ]
+   }
+  },
+  "eu-year-fi-beginner-1-l19": {
+   "fi": {
+    "title": "Iso alkukirjain: nimet ja lauseen alku",
+    "theory": "Kirjoitamme ison kirjaimen lauseen alkuun ja nimiin: ihmisten, eläinten, kaupunkien, järvien ja maiden nimiin. Tavalliset sanat kirjoitetaan pienellä. Viikonpäivät ja kuukaudet kirjoitetaan pienellä.",
+    "sample": "Venla ja hänen koiransa Musti asuvat Tampereella Näsijärven rannalla.",
+    "worked": "Venla, Musti, Tampere ja Näsijärvi ovat nimiä, joten ne alkavat isolla kirjaimella. Koira on tavallinen sana, joten se kirjoitetaan pienellä. Lause alkaa isolla kirjaimella.",
+    "exercises": [
+     "Etsi esimerkistä nimet.",
+     "Kirjoita kotikuntasi nimi.",
+     "Kirjoita ystäväsi nimi.",
+     "Korjaa: asumme oulussa.",
+     "Kirjoitetaanko koira isolla?"
+    ],
+    "test": [
+     "Mikä on Venlan koiran nimi?",
+     "Missä he asuvat?",
+     "Minkä järven rannalla?",
+     "Kirjoita oikein: eino asuu turussa",
+     "Milloin kirjoitamme ison kirjaimen?"
+    ],
+    "steps": [
+     "Kysy itseltäsi: onko tämä tietyn ihmisen, eläimen tai paikan nimi?",
+     "Jos on, kirjoita iso kirjain.",
+     "Kirjoita iso kirjain myös jokaisen lauseen alkuun.",
+     "Varo: maanantai ja tammikuu kirjoitetaan pienellä."
+    ],
+    "answers": [
+     "Musti.",
+     "Tampereella.",
+     "Näsijärven.",
+     "Eino asuu Turussa.",
+     "Lauseen alussa ja nimissä."
+    ]
+   }
+  },
+  "eu-year-fi-beginner-1-l20": {
+   "fi": {
+    "title": "Yksi vai monta: kissa ja kissat",
+    "theory": "Kun jotain on enemmän kuin yksi, käytämme monikkoa. Monikon tunnus on usein t sanan lopussa: kissa – kissat, talo – talot, auto – autot. Joskus sana muuttuu hieman: kenkä – kengät.",
+    "sample": "Yksi kissa nukkuu. Kaksi kissaa leikkii. Pihalla on monta autoa, ja autot ovat punaisia.",
+    "worked": "Kissa muuttuu monikossa muotoon kissat, auto muotoon autot. Lukusanan jälkeen sanotaan kaksi kissaa, ei kaksi kissat. Kenkä muuttuu muotoon kengät.",
+    "exercises": [
+     "Kirjoita monikko: koira.",
+     "Kirjoita monikko: talo.",
+     "Kirjoita monikko: pallo.",
+     "Onko kissat yksikkö vai monikko?",
+     "Kirjoita monikko: kenkä."
+    ],
+    "test": [
+     "Mikä on sanan kissa monikko?",
+     "Mitä pihalla on?",
+     "Minkä värisiä autot ovat?",
+     "Kirjoita monikko: tyttö.",
+     "Kirjoita monikko: poika."
+    ],
+    "steps": [
+     "Kysy itseltäsi: yksi vai monta?",
+     "Monta: lisää usein t sanan loppuun.",
+     "Sano sana ääneen kuullaksesi, kuulostaako se oikealta.",
+     "Varo: Lukusanan jälkeen sanotaan kaksi kissaa, ei kaksi kissat."
+    ],
+    "answers": [
+     "Kissat.",
+     "Monta autoa.",
+     "Punaisia.",
+     "Tytöt.",
+     "Pojat."
+    ]
+   }
+  },
+  "eu-year-fi-beginner-1-l21": {
+   "fi": {
+    "title": "Vastakohdat ja sanojen merkitys",
+    "theory": "Sanoilla on merkitys. Vastakohta tarkoittaa päinvastaista: iso – pieni, kuuma – kylmä, ylös – alas. Kun emme tiedä sanan merkitystä, voimme kysyä tai katsoa kuvaa.",
+    "sample": "Norsu on iso, hiiri on pieni. / Kesällä on kuuma, talvella kylmä. / Hissi menee ylös ja alas.",
+    "worked": "Iso ja pieni ovat vastakohtia, samoin kuuma ja kylmä sekä ylös ja alas. Vastakohdat auttavat meitä kuvaamaan asioita tarkasti.",
+    "exercises": [
+     "Keksi vastakohta: iso.",
+     "Keksi vastakohta: märkä.",
+     "Keksi vastakohta: nopea.",
+     "Kuvaile luokkaa kahdella vastakohdalla.",
+     "Piirrä jotain isoa ja jotain pientä."
+    ],
+    "test": [
+     "Millainen norsu on?",
+     "Milloin on kylmä?",
+     "Minne hissi menee?",
+     "Mikä on sanan valoisa vastakohta?",
+     "Mikä on sanan vanha vastakohta?"
+    ],
+    "steps": [
+     "Mieti, mitä sana tarkoittaa.",
+     "Mieti, mikä tarkoittaa päinvastaista.",
+     "Kokeile sanoa molemmat lauseessa.",
+     "Varo: Vastakohta ei ole sama kuin samaa tarkoittava sana; ison vastakohta on pieni, ei suuri."
+    ],
+    "answers": [
+     "Iso.",
+     "Talvella.",
+     "Ylös ja alas.",
+     "Pimeä.",
+     "Nuori tai uusi."
+    ]
+   }
+  },
+  "eu-year-fi-beginner-1-l22": {
+   "fi": {
+    "title": "Loruja ja riimejä: luemme ja sanomme ääneen",
+    "theory": "Loru on lyhyt teksti, jossa on rytmi ja riimit ja jota on hauska sanoa ääneen. Runo koostuu säkeistä eli riveistä. Usein säkeiden lopussa olevat sanat rimmaavat. Sanomme lorun rauhallisesti ja pidämme pienen tauon jokaisen säkeen jälkeen.",
+    "sample": "Oma loru: / Aurinko paistaa ikkunaan, / kissa nousee unestaan. / Lintu laulaa oksalla, / kukka aukeaa pihalla.",
+    "worked": "Lorussa on neljä säettä. Ikkunaan rimmaa sanan unestaan kanssa, ja oksalla rimmaa sanan pihalla kanssa. Kun sanomme lorun ääneen, luemme rauhallisesti ja pidämme tauon jokaisen säkeen lopussa.",
+    "exercises": [
+     "Lue loru ääneen.",
+     "Etsi sana, joka rimmaa sanan oksalla kanssa.",
+     "Opettele kaksi ensimmäistä säettä ulkoa.",
+     "Piirrä lintu oksalla.",
+     "Keksi sana, joka rimmaa sanan kuu kanssa."
+    ],
+    "test": [
+     "Montako säettä lorussa on?",
+     "Mitä kissa tekee?",
+     "Mikä on säe?",
+     "Missä lintu laulaa?",
+     "Keksi sana, joka rimmaa sanan talo kanssa."
+    ],
+    "steps": [
+     "Lue loru säe kerrallaan.",
+     "Katso jokaisen säkeen viimeistä sanaa ja etsi samalta kuulostavia sanoja.",
+     "Opetellaksesi lorun toista kahta säettä kerrallaan.",
+     "Varo: Lue rauhallisesti ja tauoin; tämä ei ole kilpailu."
+    ],
+    "answers": [
+     "Neljä.",
+     "Nousee unestaan.",
+     "Runon rivi.",
+     "Oksalla.",
+     "Oma vastauksesi. Esimerkiksi: valo."
+    ]
+   }
+  },
+  "eu-year-fi-beginner-1-l23": {
+   "fi": {
+    "title": "Kansansatu: Kettu ja rapu",
+    "theory": "Kansansadut ovat vanhoja tarinoita, joita ihmiset ovat kertoneet toisilleen satoja vuosia. Monissa suomalaisissa kansansaduissa ovelat eläimet yrittävät huijata toisiaan.",
+    "sample": "Omin sanoin: Kettu nauraa ravulle, koska rapu liikkuu niin hitaasti. Ne päättävät juosta kilpaa. Rapu tarttuu salaa ketun häntään. Maalissa kettu kääntyy katsomaan, missä rapu on. Silloin rapu päästää irti ja sanoo: Minä olen jo täällä!",
+    "worked": "Henkilöt ovat kettu ja rapu. Kettu on nopea mutta ylpeä. Rapu on hidas mutta ovela. Satu näyttää, että ovela ajattelu voi voittaa nopeuden ja ettei toista pidä pilkata.",
+    "exercises": [
+     "Kerro satu omin sanoin.",
+     "Piirrä rapu ketun hännässä.",
+     "Millainen kettu on?",
+     "Miten rapu voittaa?",
+     "Keksi sadulle toinen loppu."
+    ],
+    "test": [
+     "Miksi kettu nauraa ravulle?",
+     "Mihin rapu tarttuu?",
+     "Mitä rapu sanoo maalissa?",
+     "Kuka voittaa kilpailun?",
+     "Mikä on kansansatu?"
+    ],
+    "steps": [
+     "Etsi henkilöt: kettu ja rapu.",
+     "Kerro tapahtumat järjestyksessä: ensin, sitten, lopuksi.",
+     "Mieti, mitä satu opettaa.",
+     "Varo: Älä vaihda tapahtumien järjestystä, muuten satu ei ole järkevä."
+    ],
+    "answers": [
+     "Koska rapu liikkuu niin hitaasti.",
+     "Ketun häntään.",
+     "Minä olen jo täällä!",
+     "Rapu.",
+     "Vanha tarina, jota ihmiset ovat kertoneet satoja vuosia."
+    ]
+   }
+  },
+  "eu-year-fi-beginner-1-l24": {
+   "fi": {
+    "title": "Tove Jansson: Muumit",
+    "theory": "Tove Jansson oli suomalainen kirjailija ja taiteilija. Hän syntyi Helsingissä. Hän kirjoitti ja kuvitti kirjat Muumeista, joita luetaan nykyään kaikkialla maailmassa.",
+    "sample": "Omin sanoin: Muumipeikko asuu Muumimamman ja Muumipapan kanssa sinisessä talossa Muumilaaksossa. Hänen paras ystävänsä on Nuuskamuikkunen, joka vaeltaa ja soittaa huuliharppua. Pikku Myyn ja Nipsun kanssa he kokevat monia seikkailuja.",
+    "worked": "Henkilöt ovat Muumipeikko, Muumimamma, Muumipappa, Nuuskamuikkunen, Pikku Myy ja Nipsu. Muumilaaksossa kaikki ovat tervetulleita, ja ystävyys on tärkeää. Tarinat näyttävät, että voi olla erilainen ja silti kuulua joukkoon.",
+    "exercises": [
+     "Kerro, mitä tiedät Muumeista.",
+     "Piirrä Muumitalo.",
+     "Millainen Pikku Myy on?",
+     "Kuka on sinun suosikkisi Muumilaaksossa?",
+     "Keksi oma seikkailu Muumilaaksoon."
+    ],
+    "test": [
+     "Kuka kirjoitti kirjat Muumeista?",
+     "Minkä värinen Muumitalo on?",
+     "Kuka on Muumipeikon paras ystävä?",
+     "Mitä Nuuskamuikkunen soittaa?",
+     "Missä kaupungissa Tove Jansson syntyi?"
+    ],
+    "steps": [
+     "Etsi henkilöt: kuka on mukana tarinassa?",
+     "Kerro, millaisia hahmot ovat: rohkeita, uteliaita, ystävällisiä.",
+     "Kerro, mitä tarinat näyttävät meille.",
+     "Varo: Muumit ovat keksittyjä hahmoja; kirjan tapahtumat ovat leikkiä."
+    ],
+    "answers": [
+     "Tove Jansson.",
+     "Sininen.",
+     "Nuuskamuikkunen.",
+     "Huuliharppua.",
+     "Helsingissä."
+    ]
+   }
+  },
+  "eu-year-fi-beginner-1-l25": {
+   "fi": {
+    "title": "Faabeli: Jänis ja kilpikonna",
+    "theory": "Faabeli on lyhyt tarina, jossa eläimet puhuvat ja käyttäytyvät kuin ihmiset. Lopussa on opetus. Monet vanhat faabelit ovat peräisin Aisopokselta.",
+    "sample": "Omin sanoin: Jänis nauraa kilpikonnalle, koska se on niin hidas. Ne juoksevat kilpaa. Jänis juoksee kauas edelle ja menee nukkumaan puun alle. Kilpikonna kulkee rauhallisesti eteenpäin pysähtymättä ja tulee ensimmäisenä maaliin.",
+    "worked": "Jänis on nopea mutta kerskailee. Kilpikonna on hidas mutta ei luovuta. Opetus on, että sinnikäs pääsee perille ja että toisille ei pidä nauraa.",
+    "exercises": [
+     "Kerro faabeli omin sanoin.",
+     "Piirrä nukkuva jänis.",
+     "Millainen kilpikonna on?",
+     "Sano opetus omin sanoin.",
+     "Keksi toinen loppu."
+    ],
+    "test": [
+     "Ketkä ovat faabelissa?",
+     "Miksi jänis nauraa kilpikonnalle?",
+     "Mitä jänis tekee kilpailun aikana?",
+     "Kuka voittaa?",
+     "Mikä on opetus?"
+    ],
+    "steps": [
+     "Etsi henkilöt: jänis ja kilpikonna.",
+     "Kerro, mitä kumpikin teki kilpailun aikana.",
+     "Etsi opetus: mitä faabeli opettaa meille?",
+     "Varo: Faabelissa eläimet puhuvat, mutta ne näyttävät, miten ihmiset käyttäytyvät."
+    ],
+    "answers": [
+     "Jänis ja kilpikonna.",
+     "Koska se on niin hidas.",
+     "Se menee nukkumaan puun alle.",
+     "Kilpikonna.",
+     "Faabelin lopussa oleva oppi."
+    ]
+   }
+  },
+  "eu-year-fi-beginner-1-l26": {
+   "fi": {
+    "title": "Arvoitukset ja vaikeat lauseet",
+    "theory": "Arvoitus kuvaa jotain sanomatta sen nimeä. Kuuntelemme kaikki vihjeet ja keksimme vastauksen. Nopeasti sanottava lause on vaikea sanoa nopeasti: yritämme sanoa sen ilman virheitä.",
+    "sample": "Oma arvoitus: Minulla on viisarit, mutta en osoita, sanon tik-tak koko päivän. (kello) / Oma vaikea lause: Kuusi kuivaa kukkaa kurkkii kuusen kolosta.",
+    "worked": "Vihjeet ovat viisarit ja tik-tak, joten vastaus on kello. Lause on vaikea, koska monet sanat alkavat k:lla. Sanomme sen ensin hitaasti ja sitten nopeammin.",
+    "exercises": [
+     "Arvaa: Sillä on hampaat, mutta se ei syö. (kampa)",
+     "Sano vaikea lause kolme kertaa.",
+     "Keksi arvoitus auringosta.",
+     "Mikä äänne toistuu lauseessa?",
+     "Kysy arvoitus luokkakaverilta."
+    ],
+    "test": [
+     "Mikä on arvoitus?",
+     "Mikä on esimerkin arvoituksen vastaus?",
+     "Miksi lause on vaikea?",
+     "Keksi arvoitus kuusta.",
+     "Millä kirjaimella sanat kuusi ja kukka alkavat?"
+    ],
+    "steps": [
+     "Kuuntele kaikki vihjeet.",
+     "Kysy itseltäsi: mikä asia sopii kaikkiin vihjeisiin?",
+     "Tarkista vastauksesi jokaisella vihjeellä.",
+     "Varo: Älä vastaa ensimmäisen vihjeen jälkeen; kuuntele kaikki."
+    ],
+    "answers": [
+     "Kuvaus jostain sanomatta sen nimeä.",
+     "Kello.",
+     "Koska monet sanat alkavat k:lla.",
+     "Oma vastauksesi. Esimerkiksi: Loistan yöllä, joskus pyöreänä ja joskus kapeana. (kuu)",
+     "k."
+    ]
+   }
+  },
+  "eu-year-fi-beginner-1-l27": {
+   "fi": {
+    "title": "Tietoteksti: siili",
+    "theory": "Tietoteksti kertoo oikeaa tietoa jostain aiheesta. Se ei kerro keksittyä tarinaa. Luemme huolellisesti ja etsimme vastaukset tekstistä.",
+    "sample": "Siilillä on piikit selässä. Yöllä se etsii kovakuoriaisia ja matoja. Talvella se nukkuu lehtikasan alla.",
+    "worked": "Teksti kertoo, miltä siili näyttää, milloin se etsii ruokaa, mitä se syö ja mitä se tekee talvella. Se on oikeaa tietoa. Siili nukkuu talven: se vaipuu talviuneen.",
+    "exercises": [
+     "Lue teksti kahdesti.",
+     "Alleviivaa, mitä siili syö.",
+     "Piirrä siili lehtikasan alle.",
+     "Selitä sana talviuni aikuisen kanssa.",
+     "Kysy kysymys siilistä."
+    ],
+    "test": [
+     "Mitä siilillä on selässä?",
+     "Milloin se etsii ruokaa?",
+     "Mitä siili syö?",
+     "Onko tietoteksti keksitty?",
+     "Montako lausetta tekstissä on?"
+    ],
+    "steps": [
+     "Lue kysymys ja etsi tärkein sana, esimerkiksi syö.",
+     "Etsi sama tai samankaltainen sana tekstistä.",
+     "Vastaus on usein samassa lauseessa.",
+     "Varo: Vastaa sen mukaan, mitä tekstissä lukee; älä keksi."
+    ],
+    "answers": [
+     "Piikit.",
+     "Yöllä.",
+     "Kovakuoriaisia ja matoja.",
+     "Ei, se kertoo oikeaa tietoa.",
+     "Kolme."
+    ]
+   }
+  },
+  "eu-year-fi-beginner-1-l28": {
+   "fi": {
+    "title": "Kuvakirja: kuvat ja teksti kertovat yhdessä",
+    "theory": "Kuvakirjassa kuvat ja teksti kertovat tarinan yhdessä. Kuvat näyttävät asioita, joita teksti ei sano. Katsomme kantta, luemme nimen ja arvaamme, mistä kirja kertoo.",
+    "sample": "Oma esimerkki: Kannessa on pieni tyttö sateenvarjon kanssa ja iso, märkä koira. Kirjan nimi on Sadepäivä.",
+    "worked": "Kuvan ja nimen perusteella voimme arvata, että kirja kertoo sateisesta päivästä, jolloin tyttö ja koira menevät kävelylle. Kun luemme, näemme, arvasimmeko oikein. Kuva näyttää myös, että koira on märkä, vaikka sitä ei lue nimessä.",
+    "exercises": [
+     "Katso kirjan kantta ja arvaa, mistä se kertoo.",
+     "Etsi luokasta kirjan nimi.",
+     "Piirrä kansi omalle kirjallesi.",
+     "Kerro, mitä kuva näyttää.",
+     "Etsi kirjasta kirjailijan nimi."
+    ],
+    "test": [
+     "Mitä esimerkin kannessa on?",
+     "Mikä on kirjan nimi?",
+     "Mistä kirja voisi kertoa?",
+     "Mitä kuva näyttää, mitä nimi ei kerro?",
+     "Mitä kuvat tekevät kuvakirjassa?"
+    ],
+    "steps": [
+     "Katso ensin kantta ja nimeä.",
+     "Arvaa, mistä kirja kertoo.",
+     "Lue kirja ja katso, arvasitko oikein.",
+     "Varo: Älä ohita kuvia; nekin kertovat tarinaa."
+    ],
+    "answers": [
+     "Pieni tyttö sateenvarjon kanssa ja iso, märkä koira.",
+     "Sadepäivä.",
+     "Oma vastauksesi. Esimerkiksi: Sateisesta päivästä, jolloin tyttö ja koira menevät kävelylle.",
+     "Että koira on märkä.",
+     "Ne kertovat tarinan yhdessä tekstin kanssa."
+    ]
+   }
+  },
+  "eu-year-fi-beginner-1-l29": {
+   "fi": {
+    "title": "Lause: piste, kysymysmerkki ja huutomerkki",
+    "theory": "Lause on joukko sanoja, jotka yhdessä tarkoittavat jotain. Se alkaa isolla kirjaimella. Kun lause kertoo jotain, se päättyy pisteeseen. Kun lause kysyy, se päättyy kysymysmerkkiin (?). Kun lause ilmaisee tunnetta, se päättyy huutomerkkiin (!).",
+    "sample": "Tänään aurinko paistaa. Lähdetkö puistoon? Onpa ihana päivä!",
+    "worked": "Ensimmäinen lause kertoo jotain: piste. Toinen kysyy: kysymysmerkki. Kolmas ilmaisee iloa: huutomerkki. Kaikki lauseet alkavat isolla kirjaimella.",
+    "exercises": [
+     "Lisää oikea merkki: Mikä sinun nimesi on",
+     "Lisää oikea merkki: Minulla on koira",
+     "Kirjoita kysymys opettajallesi.",
+     "Kirjoita lause, jossa on huutomerkki.",
+     "Laske esimerkin lauseet."
+    ],
+    "test": [
+     "Mihin merkkiin kysymys päättyy?",
+     "Millä lause alkaa?",
+     "Kirjoita oikein: tänään sataa",
+     "Mikä esimerkin lause ilmaisee iloa?",
+     "Montako lausetta esimerkissä on?"
+    ],
+    "steps": [
+     "Kysy itseltäsi: kertooko lause jotain, kysyykö se vai ilmaiseeko se tunnetta?",
+     "Kertoo: piste. Kysyy: ? Tunne: !",
+     "Ensimmäinen kirjain on aina iso.",
+     "Varo: Myös lyhyt kysymys, kuten Tuletko?, tarvitsee kysymysmerkin."
+    ],
+    "answers": [
+     "Kysymysmerkkiin.",
+     "Isolla kirjaimella.",
+     "Tänään sataa.",
+     "Onpa ihana päivä!",
+     "Kolme."
+    ]
+   }
+  },
+  "eu-year-fi-beginner-1-l30": {
+   "fi": {
+    "title": "Kirjoita kuvasta",
+    "theory": "Katsomme kuvaa ja kysymme: Kenet näen? Mitä hän tekee? Missä se on? Milloin? Sitten kirjoitamme kaksi tai kolme lausetta, jotka alkavat isolla kirjaimella ja päättyvät pisteeseen.",
+    "sample": "Kuva: tyttö tekee lumiukkoa. / Lauseet: Tyttö tekee lumiukkoa. On talvi. Lumiukolla on porkkananenä.",
+    "worked": "Kirjoitimme kolme lausetta. Ensimmäinen kertoo, kenet näemme ja mitä hän tekee. Toinen kertoo, milloin. Kolmas kertoo yksityiskohdan. Silloin teksti on selvä.",
+    "exercises": [
+     "Katso ikkunasta ja kirjoita lause.",
+     "Kysy kuvasta neljä kysymystä.",
+     "Kirjoita kaksi lausetta luokastasi.",
+     "Piirrä kuva ja kirjoita sen alle lause.",
+     "Lue lauseesi luokkakaverille."
+    ],
+    "test": [
+     "Mitä kysymyksiä kysymme kuvasta?",
+     "Mitä tyttö tekee?",
+     "Millainen nenä lumiukolla on?",
+     "Mihin kertova lause päättyy?",
+     "Kirjoita lause talvesta."
+    ],
+    "steps": [
+     "Katso kuvaa ja kysy: kuka? mitä hän tekee? missä? milloin?",
+     "Sano lause ääneen ennen kuin kirjoitat sen.",
+     "Tarkista: iso kirjain alussa, piste lopussa, välit sanojen välissä.",
+     "Varo: Kirjoita kokonaisia lauseita, älä vain yksittäisiä sanoja."
+    ],
+    "answers": [
+     "Kenet näen? Mitä hän tekee? Missä se on? Milloin?",
+     "Lumiukkoa.",
+     "Porkkananenä.",
+     "Pisteeseen.",
+     "Oma vastauksesi. Esimerkiksi: Talvella on kylmä."
+    ]
+   }
+  },
+  "eu-year-fi-beginner-1-l31": {
+   "fi": {
+    "title": "Kutsu ja kortti",
+    "theory": "Syntymäpäiväkortissa on tervehdys, toivotus ja nimi. Kutsussa kerrotaan, mihin kutsutaan, milloin ja missä. Silloin lukija tietää kaiken tarvittavan.",
+    "sample": "Hyvä mummi, / kutsun sinut syntymäpäiväjuhliini. / Milloin: lauantaina kello kolme. / Missä: meillä kotona. / Nähdään! / Terveisin Iida",
+    "worked": "Kutsu alkaa sanoilla Hyvä mummi. Sitten kerrotaan juhla, päivä, kellonaika ja paikka. Lopussa on ystävällinen tervehdys ja nimi. Ilman päivää ja kellonaikaa mummi ei tiedä, milloin tulla.",
+    "exercises": [
+     "Kirjoita tervehdys vaarillesi.",
+     "Kirjoita kutsu leikkimään.",
+     "Kirjoita syntymäpäiväkortti.",
+     "Mitä puuttuu kutsusta, jossa ei ole paikkaa?",
+     "Kirjoita nimesi kutsun alle."
+    ],
+    "test": [
+     "Mitä kutsussa pitää olla?",
+     "Milloin Iidan juhlat ovat?",
+     "Miten kutsu alkaa?",
+     "Kirjoita lyhyt toivotus äidillesi.",
+     "Mitä kutsun lopussa on?"
+    ],
+    "steps": [
+     "Aloita tervehdyksellä: Hyvä …, Hei …",
+     "Kirjoita, mihin kutsut, milloin ja missä.",
+     "Lopeta ystävälliseen tervehdykseen ja nimeesi.",
+     "Varo: Ilman päivää, kellonaikaa ja paikkaa kukaan ei tiedä, milloin tulla."
+    ],
+    "answers": [
+     "Mihin kutsutaan, milloin ja missä, sekä tervehdys ja nimi.",
+     "Lauantaina kello kolme.",
+     "Hyvä mummi.",
+     "Oma vastauksesi. Esimerkiksi: Hyvää syntymäpäivää, äiti!",
+     "Terveisin Iida."
+    ]
+   }
+  },
+  "eu-year-fi-beginner-1-l32": {
+   "fi": {
+    "title": "Kerro viikonlopustasi",
+    "theory": "Kun kerromme jostain, mitä olemme kokeneet, kerromme, kuka oli mukana, missä se tapahtui, mitä tapahtui ja miten se päättyi. Käytämme sanoja ensin, sitten ja lopuksi. Muut kuuntelevat ja voivat kysyä.",
+    "sample": "Sunnuntaina menin rannalle vanhempieni kanssa. Ensin rakensimme hiekkalinnan. Sitten iso aalto vei sen mennessään. Lopuksi nauroimme ja rakensimme uuden.",
+    "worked": "Kertomus kertoo, milloin (sunnuntaina), missä (rannalla), kenen kanssa (vanhempien), mitä tapahtui (aalto vei linnan) ja miten se päättyi (he rakensivat uuden). Sanat ensin, sitten ja lopuksi auttavat seuraamaan järjestystä.",
+    "exercises": [
+     "Kerro, mitä teit viikonloppuna.",
+     "Käytä sanoja ensin, sitten ja lopuksi.",
+     "Kysy kysymys luokkakaverin kertomuksesta.",
+     "Piirrä hiekkalinna.",
+     "Keksi esimerkin kertomukselle otsikko."
+    ],
+    "test": [
+     "Minne lapsi meni sunnuntaina?",
+     "Kenen kanssa?",
+     "Mikä vei hiekkalinnan?",
+     "Miten kertomus päättyi?",
+     "Mitkä sanat auttavat kertomaan järjestyksen?"
+    ],
+    "steps": [
+     "Mieti: kuka, missä, mitä tapahtui ja miten se päättyi.",
+     "Kerro järjestyksessä sanoilla ensin, sitten ja lopuksi.",
+     "Puhu rauhallisesti ja katso kuulijoita.",
+     "Varo: Älä hyppää minkään yli; kuulijan pitää ymmärtää, mitä tapahtui."
+    ],
+    "answers": [
+     "Rannalle.",
+     "Vanhempiensa kanssa.",
+     "Iso aalto.",
+     "He nauroivat ja rakensivat uuden.",
+     "Ensin, sitten, lopuksi."
+    ]
+   }
+  },
+  "eu-year-fi-beginner-1-l33": {
+   "fi": {
+    "title": "Keskustelu: kysymme ja kuuntelemme",
+    "theory": "Hyvässä keskustelussa puhutaan vuorotellen. Kuuntelemme, kun toinen puhuu, ja kysymme, jos emme ymmärrä jotain. Voimme kysyä kysymyssanoilla: kuka, mitä, missä, milloin ja miksi.",
+    "sample": "Ella: Mitä sinulla on eväänä retkellä? / Leo: Minulla on voileipiä ja omena. Mitä sinulla on? / Ella: Minulla on pullaa.",
+    "worked": "Ella kysyy kysymyssanalla mitä. Leo vastaa ja kysyy itse takaisin. He puhuvat vuorotellen ja kuuntelevat toisiaan. Näin keskustelu onnistuu.",
+    "exercises": [
+     "Kysy luokkakaverilta mitä-kysymys.",
+     "Kysy missä-kysymys.",
+     "Vastaa kokonaisella lauseella.",
+     "Kysy takaisin, kun olet vastannut.",
+     "Harjoittele esimerkin keskustelua kaverin kanssa."
+    ],
+    "test": [
+     "Mitä Leolla on eväänä?",
+     "Mitä Ellalla on?",
+     "Mitä kysymyssanaa Ella käyttää?",
+     "Mitä teemme hyvässä keskustelussa?",
+     "Kysy miksi-kysymys."
+    ],
+    "steps": [
+     "Kuuntele, kun toinen puhuu.",
+     "Vastaa kokonaisella lauseella.",
+     "Kysy itse takaisin, jotta keskustelu jatkuu.",
+     "Varo: Älä puhu toisen päälle; odota, kunnes toinen on valmis."
+    ],
+    "answers": [
+     "Voileipiä ja omena.",
+     "Pullaa.",
+     "Mitä.",
+     "Puhumme vuorotellen ja kuuntelemme toisiamme.",
+     "Oma vastauksesi. Esimerkiksi: Miksi tykkäät jalkapallosta?"
+    ]
+   }
+  },
+  "eu-year-fi-beginner-1-l34": {
+   "fi": {
+    "title": "Kertaus: tämän olen oppinut ensimmäisellä luokalla",
+    "theory": "Lukuvuoden lopussa luemme lyhyen tekstin ja näytämme, mitä osaamme: lukea ja ymmärtää, jakaa sanoja äänteisiin ja tavuihin, kirjoittaa lauseita isolla kirjaimella ja pisteellä sekä erottaa pitkät ja lyhyet äänteet.",
+    "sample": "Joka aamu Onni pakkaa koulureppunsa. Hän laittaa reppuun vihon, penaalin ja välipalan. Sitten hän pyöräilee kouluun isän kanssa.",
+    "worked": "Tekstissä on kolme lausetta. Onni pakkaa ensin repun ja pyöräilee sitten kouluun. Onni on nimi, joten se alkaa isolla kirjaimella. Koulureppu on yhdyssana. Sanassa pakkaa on sekä pitkä konsonantti kk että pitkä vokaali aa.",
+    "exercises": [
+     "Lue teksti ääneen.",
+     "Etsi tekstistä yhdyssana.",
+     "Tavuta sana välipala.",
+     "Kirjoita lause koulurepustasi.",
+     "Kerro, mitä opit tänä vuonna mieluiten."
+    ],
+    "test": [
+     "Mitä Onni tekee ensin?",
+     "Montako lausetta tekstissä on?",
+     "Kirjoita oikein: onni pyöräilee kouluun",
+     "Kenen kanssa Onni pyöräilee?",
+     "Tavuta sana koulureppu."
+    ],
+    "steps": [
+     "Lue ensin hitaasti ja sitten nopeammin.",
+     "Kysy itseltäsi: kuka? mitä hän tekee? kenen kanssa?",
+     "Laske lauseet pisteiden avulla.",
+     "Varo: Nimet ja lauseen alku kirjoitetaan isolla kirjaimella: Onni."
+    ],
+    "answers": [
+     "Hän pakkaa koulureppunsa.",
+     "Kolme.",
+     "Onni pyöräilee kouluun.",
+     "Isän kanssa.",
+     "kou-lu-rep-pu."
+    ]
+   }
+  }
+ }
+}
