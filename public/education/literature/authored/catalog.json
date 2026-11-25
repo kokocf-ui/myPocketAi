@@ -1,6 +1,6 @@
 {
  "schema": "mypocket-literature-authored-catalog/v1",
- "version": "1a8ffbd30aad82f305de1a93f17fefd2a2da644008db241097bba22ce78501e0",
+ "version": "fc0a7dcc72547af5017cfdd225802dd563802a38858d5c268a6107b3a543b3c7",
  "years": [
   {
    "country": "AT",
@@ -24,7 +24,7 @@
      "lang": "de",
      "name": "Deutsch",
      "file": "de-1",
-     "version": "ad8589bf4e7dcc3cb369a44a63a9fd2e13f0641502d9fcece3c1634590b4064a"
+     "version": "d4a17ba4d490043d900d2f72ca00d8a797ff88a8a7878e2190968702c321d660"
     },
     {
      "lang": "fr",
@@ -49,7 +49,7 @@
      "lang": "de",
      "name": "Deutsch",
      "file": "de-1",
-     "version": "a783bfc96a7c5d33f491d9b30d7166c69502a649db54b07871c136cc3c4647bb"
+     "version": "2da5d94940cc61fc9436dda306cdc65ef239f3fe0ac80ca05f2adfdb3ea2592d"
     },
     {
      "lang": "fr",
@@ -202,7 +202,7 @@
      "lang": "de",
      "name": "Deutsch",
      "file": "de-1",
-     "version": "4451414950443f3789ceaf55ef43138660d34563b70cbdf73ec6e20c1eb32c03"
+     "version": "eb1e50f7737b4cadba432d30fae98aee6e5eeb1e4085f29eea1214f0efc5fd3c"
     }
    ]
   },
