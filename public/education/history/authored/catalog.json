@@ -1,6 +1,6 @@
 {
  "schema": "mypocket-literature-authored-catalog/v1",
- "version": "ba1b311f00ecb933dd79637b9159c23b6f866e88eb53c1743839f6c7cc1d7892",
+ "version": "7776bcedce693ccf0299bf1473d13bf043b3c4f40ec052c1fbf2d814fbb6b319",
  "years": [
   {
    "country": "RO",
@@ -64,6 +64,19 @@
      "name": "Română",
      "file": "ro-8",
      "version": "0b6e0a4dd79e19d522ced7ad824dc228c688595149a1ea6b9a78ac638e089672"
+    }
+   ]
+  },
+  {
+   "country": "RO",
+   "stage": "medium",
+   "grade": "9",
+   "languages": [
+    {
+     "lang": "ro",
+     "name": "Română",
+     "file": "ro-9",
+     "version": "17d79d20921b72aa742a664b4b949b534e7f9beddf0d68f7e2e00e3a05b5a1ce"
     }
    ]
   }
