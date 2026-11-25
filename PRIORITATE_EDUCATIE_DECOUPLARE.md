@@ -76,6 +76,10 @@ Utilizatorul a testat APK-ul signed intermediar și a raportat că textul apare 
 
 **Regulă generală pentru toate materiile (decizia utilizatorului, nov. 2026):** regulile stabilite la Literatură se aplică la orice materie din Educație: programa oficială + manualele țării ca surse (fără teme inventate, fără text copiat din manuale), limba națională de școlarizare ca sursă unică, toate limbile oficiale la țările multilingve, densitate după manual (~30–36 lecții pe an, grupate pe unitățile manualului/programei), rol de „dascăl înțelegător” (explicație pas cu pas + greșeala frecventă la fiecare lecție, răspunsuri la test). Ordinea (confirmată prin ask_user): întâi se termină Literatura pentru **toți anii** (primar → liceu) și toate țările, pe lățime (anul 1 peste tot, apoi anul 2 etc.), apoi Istorie → Geografie → Informatică.
 
+## Istorie: pachete naționale pe an (motorul Literaturii)
+
+- RO: clasa a IV-a (`public/education/history/authored/RO/ro-4.json`, 33 lecții, 10 unități, OMEN 5003/2014). Urmează V–XII și Licență I–III (ARACIS). Revizuire independentă în așteptare.
+
 ## Literatură: pachete naționale pe an (ramura `arena/430ec340-mypocketai`)
 
 Decizii ale utilizatorului (nov. 2026): lecții în **limba națională de școlarizare**, o singură sursă per limbă; ordine **pe lățime** (întâi primar pentru toate țările, apoi gimnaziu, apoi liceu); pentru țările multilingve, **toate limbile oficiale de predare**; doar commit + push, **fără PR/merge și fără APK** până la alt semnal.

@@ -44,6 +44,9 @@ export async function literatureLoadAuthoredYear(country,stage,grade,options={})
 // new packs can be published as static assets without changing the frontend.
 // Both functions are serialized into the browser script: keep them closed.
 export async function literatureLoadAuthoredCatalog(options={}){
+ // Same engine for every school subject with national year packs:
+ // public/education/<subject>/authored/ (default: literature).
+ const subject=['history','geography','computing'].includes(options.subject)?options.subject:'literature';
  const valid=x=>Boolean(x&&x.schema==='mypocket-literature-authored-catalog/v1'&&typeof x.version==='string'&&
   /^[a-f0-9]{64}$/.test(x.version)&&Array.isArray(x.years)&&x.years.every(y=>y&&/^[A-Z]{2}(?:-[A-Z]{3})?$/.test(String(y.country||''))&&
    ['beginner','lower','medium','advanced'].includes(y.stage)&&typeof y.grade==='string'&&y.grade&&
@@ -51,9 +54,9 @@ export async function literatureLoadAuthoredCatalog(options={}){
     /^[a-z]{2,3}-[a-z0-9-]+$/.test(String(l.file||''))&&/^[a-f0-9]{64}$/.test(String(l.version||''))&&
     typeof l.name==='string'&&l.name.trim())));
  let storage=null;try{storage=options.storage===undefined?globalThis.localStorage:options.storage}catch{}
- const key='pocketai.literature.authored.catalog.v1';
+ const key=subject==='literature'?'pocketai.literature.authored.catalog.v1':'pocketai.'+subject+'.authored.catalog.v1';
  try{
-  const response=await (options.fetcher||globalThis.fetch)('/education/literature/authored/catalog.json',{cache:'no-store'});
+  const response=await (options.fetcher||globalThis.fetch)('/education/'+subject+'/authored/catalog.json',{cache:'no-store'});
   if(!response.ok)throw Error('authored_catalog_http_'+response.status);
   const data=await response.json();if(!valid(data))throw Error('invalid_authored_catalog');
   try{storage?.setItem(key,JSON.stringify(data))}catch{}
@@ -64,6 +67,7 @@ export async function literatureLoadAuthoredCatalog(options={}){
  }
 }
 export async function literatureLoadNationalYear(entry,language,options={}){
+ const subject=['history','geography','computing'].includes(options.subject)?options.subject:'literature';
  const c=String(entry?.country||'').toUpperCase(),s=String(entry?.stage||''),g=String(entry?.grade||'');
  const choice=(entry?.languages||[]).find(l=>l.lang===language);
  if(!choice)throw Error('unknown_national_year_language');
@@ -87,9 +91,9 @@ export async function literatureLoadNationalYear(entry,language,options={}){
     (row.answers===undefined||(Array.isArray(row.answers)&&row.answers.length===row.test.length&&row.answers.every(text))));
   }));
  let storage=null;try{storage=options.storage===undefined?globalThis.localStorage:options.storage}catch{}
- const key='pocketai.literature.national.v1.'+c+'.'+s+'.'+g+'.'+language;
+ const key=(subject==='literature'?'pocketai.literature.national.v1.':'pocketai.'+subject+'.national.v1.')+c+'.'+s+'.'+g+'.'+language;
  try{
-  const response=await (options.fetcher||globalThis.fetch)('/education/literature/authored/'+c+'/'+choice.file+'.json',{cache:'no-store'});
+  const response=await (options.fetcher||globalThis.fetch)('/education/'+subject+'/authored/'+c+'/'+choice.file+'.json',{cache:'no-store'});
   if(!response.ok)throw Error('national_pack_http_'+response.status);
   const data=await response.json();if(!valid(data))throw Error('invalid_national_pack');
   try{storage?.setItem(key,JSON.stringify(data))}catch{}
