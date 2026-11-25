@@ -1,0 +1,1100 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "RO",
+ "stage": "advanced",
+ "grade": "uni-ba-2",
+ "version": "1651953bb86f623f5e0cb9ec8ec27d8adafaf41e880a8366820f971bd9897995",
+ "source": "https://www.aracis.ro/",
+ "sourceTitle": "Sinteză orientativă a disciplinelor fundamentale comune programelor de licență Geografie din România, conform standardelor specifice ARACIS (Comisia de specialitate nr. 1 – Științe exacte și științe ale naturii, domeniul de licență Geografie: discipline fundamentale, de specializare și complementare) și planurilor de învățământ publicate de Universitatea din București (geo.unibuc.ro), Universitatea Babeș-Bolyai (geografie.ubbcluj.ro) și Universitatea „Alexandru Ioan Cuza” din Iași (geo.uaic.ro) — anul II: geomorfologie (agenți și procese, morfosculptură, morfostructură), biogeografie, geografia solurilor, geografia așezărilor urbane și rurale, geografia transporturilor, geografia hazardelor și riscurilor, modificări globale ale mediului, geografie politică, geografia regională a Europei; fiecare facultate are planul propriu, iar ordinea și denumirile cursurilor pot diferi; lecții originale, fără text copiat din cursuri sau manuale",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "ro",
+ "labels": [
+  "Activitate originală · România · Facultatea de Geografie · Licență, anul II",
+  "Teorie pe înțeles",
+  "Exemplu sau studiu de caz",
+  "Analiză explicată",
+  "Exerciții de seminar și laborator",
+  "Verifică-te",
+  "Exerciții originale; nu înlocuiesc cursul, bibliografia, lucrările practice sau evaluarea facultății.",
+  "Dacă nu ai înțeles: pas cu pas",
+  "Răspunsuri (verifică după ce termini)"
+ ],
+ "units": [
+  {
+   "title": "Geomorfologie",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-2-l01",
+    "eu-year-ro-advanced-uni-ba-2-l02",
+    "eu-year-ro-advanced-uni-ba-2-l03",
+    "eu-year-ro-advanced-uni-ba-2-l04",
+    "eu-year-ro-advanced-uni-ba-2-l05",
+    "eu-year-ro-advanced-uni-ba-2-l06",
+    "eu-year-ro-advanced-uni-ba-2-l07"
+   ]
+  },
+  {
+   "title": "Biogeografie și geografia solurilor",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-2-l08",
+    "eu-year-ro-advanced-uni-ba-2-l09",
+    "eu-year-ro-advanced-uni-ba-2-l10",
+    "eu-year-ro-advanced-uni-ba-2-l11",
+    "eu-year-ro-advanced-uni-ba-2-l12",
+    "eu-year-ro-advanced-uni-ba-2-l13"
+   ]
+  },
+  {
+   "title": "Geografia așezărilor și a transporturilor",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-2-l14",
+    "eu-year-ro-advanced-uni-ba-2-l15",
+    "eu-year-ro-advanced-uni-ba-2-l16",
+    "eu-year-ro-advanced-uni-ba-2-l17"
+   ]
+  },
+  {
+   "title": "Hazarde, riscuri și modificări globale ale mediului",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-2-l18",
+    "eu-year-ro-advanced-uni-ba-2-l19",
+    "eu-year-ro-advanced-uni-ba-2-l20",
+    "eu-year-ro-advanced-uni-ba-2-l21"
+   ]
+  },
+  {
+   "title": "Geografie politică",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-2-l22",
+    "eu-year-ro-advanced-uni-ba-2-l23",
+    "eu-year-ro-advanced-uni-ba-2-l24"
+   ]
+  },
+  {
+   "title": "Geografia regională a Europei",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-2-l25",
+    "eu-year-ro-advanced-uni-ba-2-l26",
+    "eu-year-ro-advanced-uni-ba-2-l27",
+    "eu-year-ro-advanced-uni-ba-2-l28",
+    "eu-year-ro-advanced-uni-ba-2-l29"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-ro-advanced-uni-ba-2-l01": {
+   "ro": {
+    "title": "Geomorfologia: obiect, agenți și procese; dezagregarea și alterarea",
+    "theory": "Geomorfologia studiază formele de relief, originea, evoluția și procesele care le creează. Relieful rezultă din acțiunea combinată a factorilor endogeni (mișcări tectonice, vulcanism – creează relieful major) și exogeni (apa, gheața, vântul, gravitația, omul – modelează suprafața). Factorii pasivi sunt roca și structura; factorii de control sunt clima, vegetația și timpul. Etapa inițială a modelării este meteorizarea: dezagregarea (fărâmițarea mecanică a rocilor prin variații de temperatură, îngheț-dezgheț – gelivație, cristalizarea sărurilor, rădăcini) și alterarea (descompunerea chimică prin dizolvare, hidroliză, oxidare, carbonatare). Dezagregarea predomină în climatele reci și aride, alterarea în cele calde și umede. Produsele meteorizării formează scoarța de alterare și grohotișurile, care sunt apoi transportate de agenți. Ciclul de eroziune (William Morris Davis) descria relieful ca trecând prin stadii de tinerețe, maturitate și bătrânețe, cu formarea unei peneplene; abordările moderne pun accentul pe procese și pe echilibrul dinamic.",
+    "sample": "Grohotișurile de la baza abrupturilor din Bucegi și Făgăraș se formează prin gelivație: apa îngheață în fisuri și desprinde blocuri.",
+    "worked": "Variațiile frecvente ale temperaturii în jurul lui 0°C fac din îngheț-dezgheț principalul proces de dezagregare la altitudini mari.",
+    "exercises": [
+     "Clasifică factorii care formează relieful.",
+     "Compară dezagregarea cu alterarea.",
+     "Explică gelivația.",
+     "Explică legătura dintre climă și tipul de meteorizare.",
+     "Prezintă critic ciclul de eroziune al lui Davis."
+    ],
+    "test": [
+     "Ce factori creează relieful major?",
+     "Ce este gelivația?",
+     "Unde predomină alterarea chimică?",
+     "Ce sunt grohotișurile?",
+     "Cine a formulat ciclul de eroziune?"
+    ],
+    "steps": [
+     "Identifică agentul și procesul.",
+     "Stabilește condițiile de climă și rocă.",
+     "Explică forma de relief rezultată.",
+     "Greșeala frecventă: să confunzi dezagregarea (mecanică, fără schimbarea compoziției) cu alterarea (chimică)."
+    ],
+    "answers": [
+     "Factorii endogeni (tectonici, vulcanici).",
+     "Dezagregarea rocilor prin îngheț și dezgheț repetat.",
+     "În climatele calde și umede.",
+     "Acumulări de fragmente de rocă la baza versanților.",
+     "William Morris Davis."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l02": {
+   "ro": {
+    "title": "Procesele de versant: deplasări gravitaționale și eroziune",
+    "theory": "Versanții sunt suprafețele înclinate dintre interfluvii și văi; ei evoluează prin procese gravitaționale și prin acțiunea apei. Prăbușirile și căderile de pietre au loc pe pante foarte mari, în roci fisurate. Alunecările de teren sunt deplasări ale unor mase de rocă și sol pe o suprafață de alunecare, favorizate de alternanța de roci permeabile și impermeabile (nisipuri peste argile, marne), de precipitații abundente, de pante, de defrișări și de construcții; sunt foarte frecvente în Subcarpați, Podișul Moldovei, Podișul Transilvaniei (glimeele de la Saschiz). Curgerile noroioase apar în materiale argiloase saturate (vulcanii noroioși sunt alt fenomen, legat de gaze). Solifluxiunea este alunecarea lentă a stratului dezghețat peste un strat înghețat. Eroziunea în suprafață (spălarea), eroziunea liniară (șiroiri, rigole, ogașe, ravene) și torenții modelează versanții; ravenele adânci pot forma un relief de badlands. Măsuri: împăduriri, terasări, drenaje, ziduri de sprijin, evitarea construcțiilor pe versanții instabili.",
+    "sample": "Satul Pârscov (județul Buzău) și alte localități subcarpatice au gospodării afectate frecvent de alunecări de teren.",
+    "worked": "Rocile argiloase și marnoase din Subcarpați, îmbibate cu apă, devin instabile pe pantele defrișate.",
+    "exercises": [
+     "Clasifică procesele de versant.",
+     "Explică condițiile de producere a alunecărilor de teren.",
+     "Explică etapele eroziunii liniare.",
+     "Localizează regiunile din România afectate de alunecări.",
+     "Propune măsuri de stabilizare a versanților."
+    ],
+    "test": [
+     "Ce roci favorizează alunecările?",
+     "Ce este solifluxiunea?",
+     "Ce sunt ravenele?",
+     "Ce sunt glimeele?",
+     "Ce măsură biologică reduce eroziunea?"
+    ],
+    "steps": [
+     "Analizează panta, roca și apa.",
+     "Identifică procesul și forma rezultată.",
+     "Propune măsuri de prevenire.",
+     "Greșeala frecventă: să crezi că alunecările se produc doar din cauza ploii; contează roca, panta, vegetația și intervenția omului."
+    ],
+    "answers": [
+     "Alternanța de roci permeabile peste roci argiloase (marne, argile).",
+     "Alunecarea lentă a stratului dezghețat peste un strat înghețat.",
+     "Forme adânci de eroziune liniară pe versanți.",
+     "Movile formate prin alunecări vechi (Saschiz, Movile).",
+     "Împădurirea."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l03": {
+   "ro": {
+    "title": "Relieful fluviatil",
+    "theory": "Râurile modelează relieful prin eroziune, transport și acumulare. Eroziunea verticală (adâncirea albiei) predomină în cursul superior și când nivelul de bază coboară; eroziunea laterală (lărgirea văii) predomină în cursul inferior. Profilul longitudinal tinde spre un profil de echilibru, concav. Formele de relief: valea (cu albia minoră, lunca sau albia majoră, terasele – vechi lunci rămase suspendate prin adâncirea râului), cheile și defileele (Cheile Bicazului, Defileul Dunării la Porțile de Fier), meandrele (divagante sau încătușate) și brațele moarte, conurile de dejecție (la ieșirea din munte), câmpiile aluviale, deltele (Delta Dunării) și estuarele. Nivelul de bază este nivelul la care se raportează eroziunea (nivelul mării sau un lac); coborârea lui reactivează eroziunea. Terasele râurilor românești (până la 7–8 trepte) arată ridicarea treptată a regiunilor și schimbările climatice cuaternare. Captările (piraterii) apar când un râu cu eroziune mai activă preia cursul altuia.",
+    "sample": "Oltul a străpuns Carpații Meridionali printr-un defileu, deoarece și-a menținut cursul în timp ce munții se înălțau (antecedență).",
+    "worked": "Râul s-a adâncit cu aceeași viteză cu care se ridica relieful, păstrându-și direcția.",
+    "exercises": [
+     "Explică procesele fluviatile.",
+     "Descrie elementele unei văi.",
+     "Explică formarea teraselor.",
+     "Explică formarea defileelor prin antecedență.",
+     "Explică formarea deltelor."
+    ],
+    "test": [
+     "Ce este lunca?",
+     "Ce sunt terasele?",
+     "Ce este nivelul de bază?",
+     "Ce sunt meandrele?",
+     "Ce este o captare?"
+    ],
+    "steps": [
+     "Identifică sectorul râului (superior, mijlociu, inferior).",
+     "Stabilește procesul dominant.",
+     "Explică forma de relief rezultată.",
+     "Greșeala frecventă: să confunzi lunca (inundată periodic) cu terasa (rămasă deasupra nivelului inundațiilor)."
+    ],
+    "answers": [
+     "Albia majoră a râului, inundată la ape mari.",
+     "Vechi lunci rămase suspendate prin adâncirea râului.",
+     "Nivelul la care se raportează eroziunea râului.",
+     "Bucle ale cursului râului.",
+     "Preluarea cursului unui râu de către altul."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l04": {
+   "ro": {
+    "title": "Relieful glaciar, periglaciar și carstic",
+    "theory": "Relieful glaciar este creat de ghețari: circuri (excavații în formă de amfiteatru, adesea cu lacuri), văi glaciare în formă de U, creste ascuțite și vârfuri piramidale, umeri glaciari, morene (acumulări de material transportat), fiorduri (văi glaciare invadate de mare – Norvegia). Relieful periglaciar se formează în climate reci, fără ghețari, prin îngheț-dezgheț: grohotișuri, câmpuri de pietre, pavaje poligonale, turnuri și coloane (Babele și Sfinxul din Bucegi sunt rezultatul dezagregării diferențiale, iar unii autori subliniază și rolul vântului). Relieful carstic se formează prin dizolvarea rocilor solubile (calcare, dolomite, gips, sare) de către apa încărcată cu CO₂. Forme exocarstice: lapiezuri, doline, uvale, polii, chei, sohodoluri (văi seci), ponoare (unde apa intră în subteran). Forme endocarstice: peșteri cu stalactite, stalagmite, coloane, avene (Avenul din Grind). În România: Munții Apuseni (Peștera Urșilor, Peștera Scărișoara cu ghețar), Munții Banatului, Mehedinți, Piatra Craiului, Podișul Dobrogei.",
+    "sample": "Peștera Scărișoara adăpostește unul dintre cei mai mari ghețari subterani din lume, vechi de câteva mii de ani.",
+    "worked": "Forma peșterii permite aerului rece de iarnă să intre și să rămână captiv, păstrând gheața tot anul.",
+    "exercises": [
+     "Descrie formele de relief glaciar.",
+     "Explică procesele periglaciare.",
+     "Explică formarea reliefului carstic.",
+     "Clasifică formele carstice.",
+     "Localizează relieful carstic și glaciar din România."
+    ],
+    "test": [
+     "Ce formă au văile glaciare?",
+     "Ce sunt morenele?",
+     "Ce rocă favorizează relieful carstic?",
+     "Ce este o dolină?",
+     "Ce peșteră are un ghețar subteran?"
+    ],
+    "steps": [
+     "Identifică agentul (gheață, îngheț, dizolvare).",
+     "Recunoaște forma de relief.",
+     "Explică geneza și localizează exemple.",
+     "Greșeala frecventă: să crezi că stalactitele cresc din podea; stalactitele atârnă din tavan, stalagmitele cresc din podea."
+    ],
+    "answers": [
+     "În formă de U.",
+     "Acumulări de material transportat de ghețar.",
+     "Calcarul (rocile solubile).",
+     "O depresiune circulară formată prin dizolvare.",
+     "Peștera Scărișoara."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l05": {
+   "ro": {
+    "title": "Relieful litoral și eolian",
+    "theory": "Relieful litoral se formează la contactul uscatului cu marea prin acțiunea valurilor, curenților și mareelor. Eroziunea marină creează faleze (maluri abrupte), platforme de abraziune, grote, arcade și coloane (stive). Acumularea creează plaje, cordoane litorale, săgeți, tomboli și lagune închise de cordoane. Tipuri de țărmuri: cu faleze, cu plaje, de tip fiord, rias (văi fluviale inundate), cu limane, deltaice, cu lagune. Litoralul românesc: în nord, țărm jos, deltaic și lagunar (Razim–Sinoie); în sud, faleze în loess și calcare (între Capul Midia și Vama Veche), cu plaje înguste afectate de eroziune, protejate prin diguri și înnisipare. Relieful eolian este format de vânt în zonele aride și pe litoral: deflația (spulberarea particulelor fine, formând depresiuni și deșerturi pietroase – reg), coraziunea (șlefuirea rocilor de nisipul purtat de vânt – ciuperci eoliene) și acumularea (dune, barcane, câmpuri de dune – erg). În România: dunele de la Hanu Conachi, Dăbuleni (Oltenia), Carei și grindurile Letea și Caraorman din deltă. Loessul este un depozit eolian fin, răspândit în Câmpia Română și Dobrogea.",
+    "sample": "Plajele de la Mamaia și Eforie au fost extinse prin înnisipare artificială pentru a opri eroziunea.",
+    "worked": "Lipsa aluviunilor aduse de Dunăre spre sud, reținute de baraje și diguri, a accentuat eroziunea litoralului.",
+    "exercises": [
+     "Clasifică formele de eroziune și acumulare marină.",
+     "Clasifică tipurile de țărmuri.",
+     "Descrie litoralul românesc.",
+     "Explică procesele eoliene.",
+     "Localizează formele eoliene din România."
+    ],
+    "test": [
+     "Ce sunt falezele?",
+     "Ce este o lagună?",
+     "Ce este deflația?",
+     "Ce sunt barcanele?",
+     "Ce depozit eolian acoperă Câmpia Română?"
+    ],
+    "steps": [
+     "Identifică agentul (valuri sau vânt).",
+     "Recunoaște forma de eroziune sau acumulare.",
+     "Explică geneza și măsurile de protecție.",
+     "Greșeala frecventă: să crezi că dunele există doar în deșerturi; ele se formează și pe litoral și în câmpii nisipoase."
+    ],
+    "answers": [
+     "Maluri abrupte formate prin eroziune marină.",
+     "O apă separată de mare printr-un cordon litoral.",
+     "Spulberarea particulelor fine de către vânt.",
+     "Dune în formă de semilună.",
+     "Loessul."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l06": {
+   "ro": {
+    "title": "Metode de cercetare geomorfologică și cartografierea reliefului",
+    "theory": "Cercetarea geomorfologică combină munca de teren cu analiza în laborator și GIS. Pe teren se observă și se descriu formele de relief, depozitele (granulometrie, stratificare), procesele active; se fac profile și măsurători (pante, adâncimi ale ravenelor, deplasarea alunecărilor cu repere și GNSS). Analiza morfometrică folosește indicatori calculați din hărți și modele digitale ale terenului: altitudinea, energia reliefului (diferența dintre altitudinea maximă și minimă pe o unitate de suprafață), densitatea fragmentării (lungimea văilor pe km²), panta, expoziția, curbura. Harta geomorfologică reprezintă formele după geneză (structurale, fluviatile, glaciare, carstice, de versant), vârstă și procese actuale, cu simboluri standardizate. Datarea formelor și depozitelor se face prin metode relative (stratigrafie, poziția teraselor) și absolute (radiocarbon, luminescență, nuclizi cosmogenici). Imaginile LiDAR și dronele permit cartarea detaliată a alunecărilor sub pădure. Studiile geomorfologice sunt folosite în amenajarea teritoriului, construcții și evaluarea riscurilor.",
+    "sample": "Pe un model digital LiDAR, cicatricile alunecărilor vechi ascunse sub pădure devin vizibile, chiar dacă nu se văd pe imaginile satelitare obișnuite.",
+    "worked": "Laserul pătrunde printre frunze și înregistrează suprafața terenului, dezvăluind formele de relief acoperite de vegetație.",
+    "exercises": [
+     "Explică etapele cercetării geomorfologice pe teren.",
+     "Calculează energia reliefului pe o hartă topografică.",
+     "Explică ce este densitatea fragmentării.",
+     "Descrie conținutul unei hărți geomorfologice.",
+     "Compară metodele de datare relativă și absolută."
+    ],
+    "test": [
+     "Ce este energia reliefului?",
+     "Ce indicator măsoară lungimea văilor pe km²?",
+     "Ce reprezintă harta geomorfologică?",
+     "Ce tehnologie arată relieful sub pădure?",
+     "Dă un exemplu de metodă de datare absolută."
+    ],
+    "steps": [
+     "Delimitează zona de studiu și sursele de date.",
+     "Calculează indicatorii morfometrici.",
+     "Cartografiază formele și interpretează-le genetic.",
+     "Greșeala frecventă: să confunzi altitudinea absolută cu energia reliefului; energia măsoară diferența de nivel pe o suprafață dată."
+    ],
+    "answers": [
+     "Diferența dintre altitudinea maximă și minimă pe o unitate de suprafață.",
+     "Densitatea fragmentării.",
+     "Formele de relief după geneză, vârstă și procese.",
+     "LiDAR.",
+     "Radiocarbonul (sau luminescența)."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l07": {
+   "ro": {
+    "title": "Morfostructura și relieful vulcanic",
+    "theory": "Relieful structural reflectă dispunerea rocilor. Pe structuri orizontale apar platouri și mese; pe structuri monoclinale (strate ușor înclinate) apar cueste – forme asimetrice cu un front abrupt și un revers lin (Podișul Moldovei, Podișul Târnavelor); pe structuri cutate apar sinclinale (cute în jos) și anticlinale (cute în sus), uneori cu relief inversat (sinclinale suspendate – Vârful Ceahlău, Vârful Bucegi); pe structuri faliate apar horsturi (blocuri ridicate – Munții Măcinului) și grabene (blocuri coborâte – Valea Rinului de sus); domurile (în Podișul Transilvaniei, cu gaze naturale) și cutele diapire (sare străpunsă spre suprafață – Slănic, Praid). Relieful vulcanic cuprinde conuri (stratovulcani – Vezuviu, Etna; vulcani-scut – Hawaii), cratere și caldere, platouri vulcanice, neck-uri (coșuri de lavă rămase prin eroziune – Detunatele din Apuseni, Dealul Cetății Deva). În România, lanțul vulcanic neogen din vestul Carpaților Orientali (Oaș, Gutâi, Țibleș, Călimani, Gurghiu, Harghita) are conuri erodate, caldera Călimanilor și craterul cu Lacul Sfânta Ana.",
+    "sample": "Craterul Ciomatu, cu Lacul Sfânta Ana, este legat de cea mai recentă activitate vulcanică din România, de acum circa 30.000 de ani.",
+    "worked": "Vulcanii din Harghita sunt stinși, dar emanațiile de gaze (mofete) arată o activitate post-vulcanică.",
+    "exercises": [
+     "Explică formarea cuestelor.",
+     "Compară anticlinalul cu sinclinalul.",
+     "Explică relieful inversat.",
+     "Clasifică formele de relief vulcanic.",
+     "Descrie lanțul vulcanic din Carpații Orientali."
+    ],
+    "test": [
+     "Ce este o cuestă?",
+     "Ce este un horst?",
+     "Ce sunt cutele diapire?",
+     "Ce sunt mofetele?",
+     "Ce lac se află în craterul Ciomatu?"
+    ],
+    "steps": [
+     "Identifică structura geologică.",
+     "Recunoaște forma de relief asociată.",
+     "Explică geneza și localizează exemple.",
+     "Greșeala frecventă: să crezi că relieful reflectă direct structura; eroziunea poate inversa relieful (sinclinale suspendate)."
+    ],
+    "answers": [
+     "O formă asimetrică pe strate înclinate, cu front abrupt și revers lin.",
+     "Un bloc ridicat între falii.",
+     "Cute străpunse de sare spre suprafață.",
+     "Emanații de gaze (CO₂) post-vulcanice.",
+     "Lacul Sfânta Ana."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l08": {
+   "ro": {
+    "title": "Biogeografia: arealele și factorii repartiției viețuitoarelor",
+    "theory": "Biogeografia studiază repartiția plantelor și animalelor și cauzele acesteia. Arealul este spațiul în care trăiește o specie; poate fi cosmopolit (răspândit pe aproape tot globul), endemic (limitat la o regiune – floarea de colț în Carpați are areal larg, dar garofița Pietrei Craiului este endemică), disjunct (fragmentat) sau relict (rămas din perioade trecute – zada, tisa). Factorii repartiției: climatici (temperatura, umezeala, lumina), edafici (solul), orografici (altitudinea, expoziția), biotici (competiția, prădătorii, polenizatorii), istorici (glaciațiunile, deriva continentelor, barierele geografice) și antropici (defrișări, introducerea de specii invazive – ambrozia, salcâmul, bizamul). Regiunile biogeografice ale lumii (Holarctică, Neotropicală, Afrotropicală, Indomalaiană, Australiană, Antarctică) reflectă izolarea istorică: fauna Australiei are marsupiale datorită separării timpurii a continentului. Insulele au multe specii endemice și sunt vulnerabile la invazii.",
+    "sample": "Garofița Pietrei Craiului (Dianthus callizonus) crește numai în Piatra Craiului și în câțiva munți vecini.",
+    "worked": "Speciile endemice sunt legate de condiții locale foarte specifice, de aceea sunt vulnerabile.",
+    "exercises": [
+     "Clasifică tipurile de areale.",
+     "Dă exemple de specii endemice și relicte din România.",
+     "Clasifică factorii repartiției viețuitoarelor.",
+     "Explică regiunile biogeografice ale lumii.",
+     "Explică efectele speciilor invazive."
+    ],
+    "test": [
+     "Ce este arealul?",
+     "Ce este o specie endemică?",
+     "Ce animale caracteristice are Australia?",
+     "Dă un exemplu de specie invazivă în România.",
+     "Ce este o specie relictă?"
+    ],
+    "steps": [
+     "Delimitează arealul speciei.",
+     "Analizează factorii care îl explică.",
+     "Evaluează amenințările și măsurile de protecție.",
+     "Greșeala frecventă: să confunzi specia endemică (areal restrâns) cu specia rară (puțini indivizi)."
+    ],
+    "answers": [
+     "Spațiul în care trăiește o specie.",
+     "O specie limitată la o anumită regiune.",
+     "Marsupialele.",
+     "Ambrozia (sau bizamul).",
+     "O specie rămasă dintr-o perioadă trecută."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l09": {
+   "ro": {
+    "title": "Biomurile Terrei și vegetația României",
+    "theory": "Biomurile sunt mari ecosisteme terestre determinate de climă: pădurea ecuatorială (biodiversitate maximă, etajată), savana (ierburi și arbori răzleți, cu sezon uscat), deșertul (plante adaptate secetei – cactuși, suculente), vegetația mediteraneană (arbuști sclerofili – maquis, garriga), stepa și preria (ierburi pe cernoziom), pădurea temperată de foioase, taigaua (conifere), tundra (mușchi, licheni, arbuști pitici) și biomurile montane, etajate. În România, vegetația se dispune pe zone și etaje: zona stepei (Dobrogea, estul Câmpiei Române – azi aproape complet cultivată), silvostepa, zona pădurilor de stejar (cer, gârniță, stejar pedunculat), etajul pădurilor de fag și amestec (dealuri și munți joși), etajul coniferelor (molid, brad, 1.200–1.800 m), etajul subalpin (jneapăn, ienupăr, afin) și etajul alpin (pajiști scurte, peste circa 2.000 m). Vegetația azonală: de luncă (sălcii, plopi), de deltă (stuf, papură), de sărătură, de nisipuri. Fauna urmează aceleași zone: România are cele mai mari populații de urși bruni, lupi și râși din UE.",
+    "sample": "Pădurile de molid ocupă etajul dintre circa 1.200 și 1.800 m în Carpați.",
+    "worked": "Temperaturile mai scăzute și sezonul de vegetație scurt favorizează coniferele, adaptate frigului.",
+    "exercises": [
+     "Descrie biomurile Terrei.",
+     "Explică legătura dintre climă și biomuri.",
+     "Descrie zonele și etajele de vegetație din România.",
+     "Explică vegetația azonală.",
+     "Explică importanța faunei mari din Carpați."
+    ],
+    "test": [
+     "Ce biom are cea mai mare biodiversitate?",
+     "Ce vegetație are taigaua?",
+     "Între ce altitudini se află etajul coniferelor în Carpați?",
+     "Ce vegetație este specifică etajului subalpin?",
+     "Ce vegetație azonală se întâlnește în deltă?"
+    ],
+    "steps": [
+     "Identifică zona sau etajul.",
+     "Leagă vegetația de climă și sol.",
+     "Analizează modificările produse de om.",
+     "Greșeala frecventă: să crezi că stepa din România este naturală azi; aproape toată a fost transformată în terenuri agricole."
+    ],
+    "answers": [
+     "Pădurea ecuatorială.",
+     "Păduri de conifere.",
+     "Circa 1.200–1.800 m.",
+     "Jneapănul (și ienupărul, afinul).",
+     "Stuful și papura."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l10": {
+   "ro": {
+    "title": "Conservarea biodiversității și biogeografia insulelor",
+    "theory": "Biodiversitatea are trei niveluri: genetic, al speciilor și al ecosistemelor. Punctele fierbinți ale biodiversității (hotspots) sunt regiuni cu multe specii endemice și puternic amenințate (Madagascar, Anzii tropicali, bazinul mediteranean, Sundaland). Teoria biogeografiei insulare (MacArthur și Wilson, 1967) arată că numărul de specii de pe o insulă depinde de suprafața ei (insulele mari au mai multe specii) și de distanța față de continent (insulele apropiate primesc mai ușor colonizatori), într-un echilibru între colonizare și extincție. Teoria se aplică și „insulelor” de habitat din peisajele fragmentate (păduri izolate între culturi). De aici rezultă principiile proiectării ariilor protejate: arii mari, apropiate, conectate prin coridoare ecologice. Amenințările principale sunt distrugerea habitatelor, supraexploatarea, speciile invazive, poluarea și schimbările climatice. Instrumente: Lista Roșie IUCN, Convenția privind diversitatea biologică, rețeaua Natura 2000, reintroducerea speciilor (zimbrul în Vânători-Neamț și Munții Țarcu, castorul în România).",
+    "sample": "Zimbrii au fost reintroduși în libertate în Munții Țarcu și în Parcul Natural Vânători-Neamț, după ce dispăruseră din România.",
+    "worked": "Reintroducerea reface o verigă dispărută a ecosistemului, dar cere habitate suficient de mari și conectate.",
+    "exercises": [
+     "Explică nivelurile biodiversității.",
+     "Explică ce sunt punctele fierbinți ale biodiversității.",
+     "Explică teoria biogeografiei insulare.",
+     "Aplică teoria la fragmentarea pădurilor.",
+     "Propune principii de proiectare a ariilor protejate."
+    ],
+    "test": [
+     "Câte niveluri are biodiversitatea?",
+     "Cine a formulat teoria biogeografiei insulare?",
+     "Ce insule au mai multe specii?",
+     "Ce listă clasifică speciile amenințate?",
+     "Ce animal mare a fost reintrodus în Carpați?"
+    ],
+    "steps": [
+     "Identifică nivelul de biodiversitate și amenințarea.",
+     "Aplică principiile biogeografiei.",
+     "Propune măsuri de conservare.",
+     "Greșeala frecventă: să crezi că mai multe arii mici izolate protejează la fel ca o arie mare conectată; conectivitatea contează."
+    ],
+    "answers": [
+     "Trei: genetic, al speciilor, al ecosistemelor.",
+     "MacArthur și Wilson (1967).",
+     "Insulele mari și apropiate de continent.",
+     "Lista Roșie IUCN.",
+     "Zimbrul."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l11": {
+   "ro": {
+    "title": "Solul: formare, profil și proprietăți",
+    "theory": "Solul este stratul afânat de la suprafața uscatului, format prin transformarea rocilor sub acțiunea climei, organismelor, reliefului și timpului (factorii pedogenetici, formulați de Vasili Dokuceaev). Solul are componente minerale (nisip, praf, argilă), materie organică (humus), apă și aer. Profilul de sol este format din orizonturi: O (litiera organică), A (orizontul de acumulare a humusului), E (eluvial, sărăcit prin spălare), B (iluvial, de acumulare a argilei, oxizilor), C (materialul parental alterat) și R (roca nealterată). Procese pedogenetice: humificarea, argilizarea, levigarea (spălarea elementelor solubile în adânc), podzolirea (în climate reci și umede, sub conifere), gleizarea (în condiții de exces de apă), salinizarea (în climate aride). Proprietăți: textura (proporția de nisip, praf și argilă), structura (grăunțoasă, poliedrică etc.), culoarea, pH-ul, conținutul de humus, porozitatea. Fertilitatea depinde de humus, textură, structură și apă. Formarea unui centimetru de sol poate dura sute de ani, de aceea solul este considerat o resursă practic neregenerabilă la scară umană.",
+    "sample": "Cernoziomul are un orizont A gros și negru, bogat în humus, format sub vegetație de stepă.",
+    "worked": "Ierburile stepei lasă anual multă materie organică în sol, care se acumulează sub formă de humus.",
+    "exercises": [
+     "Enumeră factorii pedogenetici.",
+     "Descrie profilul de sol.",
+     "Explică principalele procese pedogenetice.",
+     "Explică proprietățile solului.",
+     "Explică de ce solul este o resursă greu regenerabilă."
+    ],
+    "test": [
+     "Cine a formulat factorii pedogenetici?",
+     "Ce orizont acumulează humusul?",
+     "Ce este levigarea?",
+     "În ce condiții are loc podzolirea?",
+     "Ce este textura solului?"
+    ],
+    "steps": [
+     "Observă profilul și orizonturile.",
+     "Identifică procesele dominante.",
+     "Leagă solul de factorii de formare.",
+     "Greșeala frecventă: să confunzi solul cu roca; solul este un corp natural viu, format din rocă transformată, humus, apă și aer."
+    ],
+    "answers": [
+     "Vasili Dokuceaev.",
+     "Orizontul A.",
+     "Spălarea elementelor solubile spre adânc.",
+     "În climate reci și umede, sub conifere.",
+     "Proporția de nisip, praf și argilă."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l12": {
+   "ro": {
+    "title": "Clasificarea solurilor; solurile României și degradarea lor",
+    "theory": "Sistemul Român de Taxonomie a Solurilor (SRTS 2012) grupează solurile în clase. Principalele soluri din România: cernisoluri (cernoziomuri, faeoziomuri – în câmpii și podișuri de stepă și silvostepă, cele mai fertile), luvisoluri (preluvosoluri, luvosoluri – în dealuri, sub păduri de foioase), cambisoluri (eutricambosoluri, districambosoluri – în munți, sub păduri de fag și conifere), spodisoluri (podzoluri, prepodzoluri – la altitudini mari, sub conifere), umbrisoluri (sub pajiști alpine), protisoluri (aluviosoluri în lunci, regosoluri, litosoluri), hidrisoluri (gleiosoluri în zone cu exces de apă), salsodisoluri (solonceacuri, soloneț – sărături). La nivel mondial se folosește sistemul WRB (FAO). Degradarea solurilor: eroziunea (pe circa o treime din terenurile agricole ale României), alunecările, compactarea, salinizarea, acidifierea, poluarea cu metale grele și pesticide, scoaterea din circuitul agricol prin construcții, deșertificarea. Măsuri: agrotehnică antierozională (arături pe curbe de nivel, culturi în benzi), perdele forestiere, amendamente, irigații corecte, agricultură conservativă.",
+    "sample": "Copșa Mică a avut soluri poluate cu plumb și cadmiu pe kilometri în jurul uzinelor.",
+    "worked": "Metalele grele rămân în sol zeci de ani și intră în plante, afectând sănătatea oamenilor.",
+    "exercises": [
+     "Enumeră clasele de soluri din România.",
+     "Leagă solurile de zonele de vegetație și relief.",
+     "Compară clasificarea românească cu cea internațională.",
+     "Explică formele de degradare a solurilor.",
+     "Propune măsuri de protecție a solurilor."
+    ],
+    "test": [
+     "Ce clasă cuprinde cernoziomurile?",
+     "Ce soluri se formează sub pădurile de foioase din dealuri?",
+     "Ce soluri apar în lunci?",
+     "Ce sistem internațional de clasificare există?",
+     "Ce măsură reduce eroziunea pe pante?"
+    ],
+    "steps": [
+     "Identifică solul și clasa lui.",
+     "Leagă-l de factorii de formare.",
+     "Evaluează degradarea și măsurile de protecție.",
+     "Greșeala frecventă: să crezi că toate solurile din câmpie sunt cernoziomuri; în lunci apar aluviosoluri, iar în zonele umede gleiosoluri."
+    ],
+    "answers": [
+     "Cernisolurile.",
+     "Luvisolurile.",
+     "Aluviosolurile (protisoluri).",
+     "WRB (FAO).",
+     "Arăturile pe curbe de nivel (sau culturile în benzi)."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l13": {
+   "ro": {
+    "title": "Evaluarea terenurilor și bonitarea solurilor",
+    "theory": "Evaluarea terenurilor stabilește cât de potrivit este un teren pentru o anumită folosință (culturi de câmp, vii, livezi, pășuni, păduri, construcții). În România, bonitarea terenurilor agricole se face după metodologia Institutului de Cercetări pentru Pedologie și Agrochimie (ICPA), prin note de bonitare de la 0 la 100, calculate din indicatori: temperatura și precipitațiile, panta, gleizarea, salinizarea, textura, volumul edafic (grosimea utilă a solului), reacția (pH-ul), conținutul de humus, excesul de umiditate. Clasele de calitate merg de la clasa I (foarte bune, 81–100 puncte) la clasa a V-a (foarte slabe, sub 20 de puncte). Bonitarea servește la stabilirea impozitelor și a prețului terenurilor, la planificarea culturilor, la consolidarea terenurilor. Hărțile pedologice și GIS permit combinarea indicatorilor. La nivel internațional, FAO a propus cadrul de evaluare a terenurilor (Land Evaluation Framework, 1976). Evaluarea arată și restricțiile care pot fi ameliorate (irigații, desecări, amendamente calcaroase pentru solurile acide).",
+    "sample": "Un cernoziom pe teren plan, fără exces de umiditate, în Bărăgan poate primi note de bonitare peste 80 pentru grâu în condiții irigate.",
+    "worked": "Nota mare reflectă combinația favorabilă dintre sol fertil, relief plan și apă suficientă.",
+    "exercises": [
+     "Explică scopul evaluării terenurilor.",
+     "Enumeră indicatorii folosiți la bonitare.",
+     "Încadrează un teren într-o clasă de calitate.",
+     "Explică utilizările bonitării.",
+     "Propune ameliorări pentru un teren cu restricții."
+    ],
+    "test": [
+     "Ce institut a elaborat metodologia de bonitare din România?",
+     "Între ce valori variază notele de bonitare?",
+     "Ce note are clasa I?",
+     "Ce este volumul edafic?",
+     "Ce amendament se aplică pe solurile acide?"
+    ],
+    "steps": [
+     "Colectează datele de sol, climă și relief.",
+     "Calculează sau estimează nota de bonitare.",
+     "Interpretează clasa și propune măsuri.",
+     "Greșeala frecventă: să crezi că un teren are aceeași valoare pentru orice folosință; bonitarea se face separat pentru fiecare cultură sau folosință."
+    ],
+    "answers": [
+     "ICPA (Institutul de Cercetări pentru Pedologie și Agrochimie).",
+     "Între 0 și 100.",
+     "81–100 de puncte.",
+     "Grosimea utilă a solului pentru rădăcini.",
+     "Amendamentele calcaroase."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l14": {
+   "ro": {
+    "title": "Geografia așezărilor rurale",
+    "theory": "Așezările rurale sunt satele și cătunele, legate de activități agricole, forestiere, pastorale sau turistice. Clasificări: după mărime (sate mici, mijlocii, mari), după structură sau formă a vetrei (adunate – compacte, în câmpie, Câmpia Română și de Vest; răsfirate – în dealuri și podișuri; risipite – gospodării izolate în munți, de exemplu în Munții Apuseni, Bucovina, Banat), după textură (rețeaua de ulițe: neregulată, liniară, rectangulară – satele colonizate din Banat), după funcții (agricole, pastorale, forestiere, pescărești, turistice, mixte). Satul românesc tradițional era organizat în obști, cu vatra, moșia și hotarul. Satele s-au schimbat prin colectivizare, sistematizare (comunism), apoi prin emigrație și depopulare, periurbanizare (satele din jurul orașelor mari cresc rapid) și agroturism. Analiza unui sat cuprinde poziția, vatra, structura, textura, funcțiile, populația și dotările.",
+    "sample": "Satele din Munții Apuseni au gospodării risipite pe culmi, până la peste 1.400 m altitudine (Mărișel, Ocoale).",
+    "worked": "Creșterea animalelor și folosirea fânețelor au favorizat așezarea fiecărei familii lângă terenurile ei.",
+    "exercises": [
+     "Clasifică satele după structură.",
+     "Explică legătura dintre relief și forma satelor.",
+     "Clasifică satele după funcții.",
+     "Explică schimbările satului românesc după 1950.",
+     "Analizează un sat din județul tău."
+    ],
+    "test": [
+     "Ce structură au satele din Câmpia Română?",
+     "Unde se găsesc sate risipite?",
+     "Ce textură au satele din Banat?",
+     "Ce este periurbanizarea?",
+     "Ce activitate turistică se dezvoltă în sate?"
+    ],
+    "steps": [
+     "Localizează satul și unitatea de relief.",
+     "Analizează structura, textura și funcțiile.",
+     "Explică evoluția și problemele lui.",
+     "Greșeala frecventă: să consideri satul doar o așezare agricolă; multe sate au funcții turistice, forestiere sau rezidențiale."
+    ],
+    "answers": [
+     "Adunată (compactă).",
+     "În munți (Apuseni, Bucovina, Banat).",
+     "Rectangulară.",
+     "Extinderea orașului în satele din jur.",
+     "Agroturismul."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l15": {
+   "ro": {
+    "title": "Geografia urbană: geneză, morfologie și sisteme urbane",
+    "theory": "Geografia urbană studiază orașele: originea, poziția, situl, morfologia, funcțiile și rețelele urbane. Geneza orașelor românești: cetăți antice (Histria, Tomis, Callatis), târguri medievale (la contactul unităților de relief și pe drumuri comerciale), orașe săsești fortificate (Brașov, Sibiu, Sighișoara), orașe industriale din perioada comunistă (Victoria, Motru), stațiuni. Morfologia urbană analizează planul (radial-concentric, rectangular, neregulat), textura și structura funcțională: centrul istoric și CBD, zonele rezidențiale (cartiere de blocuri, case), zonele industriale, cele comerciale periferice, spațiile verzi. Modele ale structurii urbane: concentric (Burgess), sectorial (Hoyt), nuclee multiple (Harris și Ullman). Sistemul urban este rețeaua de orașe legate prin fluxuri, cu o ierarhie: în România, Bucureștiul domină (macrocefalie), urmat de centrele regionale (Cluj-Napoca, Iași, Timișoara, Constanța, Craiova, Brașov). Legea rang–mărime (Zipf) compară mărimea orașelor cu poziția lor în ierarhie. Probleme urbane: trafic, poluare, locuire, extindere necontrolată (urban sprawl), regenerarea zonelor industriale.",
+    "sample": "Bucureștiul are de peste șase ori mai mulți locuitori decât al doilea oraș al țării, ceea ce arată o rețea urbană macrocefală.",
+    "worked": "Concentrarea funcțiilor politice și economice în capitală explică dezechilibrul ierarhiei urbane.",
+    "exercises": [
+     "Explică geneza orașelor românești.",
+     "Analizează morfologia unui oraș.",
+     "Compară modelele structurii urbane.",
+     "Explică ierarhia urbană din România.",
+     "Explică legea rang–mărime."
+    ],
+    "test": [
+     "Ce oraș antic se afla pe locul Constanței?",
+     "Ce model urban este concentric?",
+     "Ce înseamnă macrocefalie urbană?",
+     "Ce este urban sprawl?",
+     "Ce lege compară mărimea orașelor cu rangul lor?"
+    ],
+    "steps": [
+     "Analizează poziția, situl și geneza orașului.",
+     "Descrie morfologia și funcțiile.",
+     "Încadrează orașul în sistemul urban.",
+     "Greșeala frecventă: să aplici modelele occidentale direct la orașele românești; istoria lor (inclusiv sistematizarea comunistă) le-a dat structuri specifice."
+    ],
+    "answers": [
+     "Tomis.",
+     "Modelul lui Burgess.",
+     "Dominarea rețelei de către un singur oraș mult mai mare.",
+     "Extinderea necontrolată a orașului spre periferii.",
+     "Legea rang–mărime (Zipf)."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l16": {
+   "ro": {
+    "title": "Spațiul periurban și zonele metropolitane",
+    "theory": "Spațiul periurban este zona de tranziție dintre oraș și mediul rural, în care se amestecă locuințe noi, terenuri agricole, depozite logistice, centre comerciale și infrastructură. Periurbanizarea este procesul de extindere a funcțiilor urbane în această zonă, determinat de prețurile mai mici ale terenurilor, dorința de a locui într-o casă, mobilitatea cu autoturismul și relocarea activităților economice. În România, după 2000, comunele din jurul marilor orașe au crescut spectaculos: Florești (lângă Cluj-Napoca), Chiajna, Bragadiru și Voluntari (lângă București), Dumbrăvița și Giroc (lângă Timișoara), Valea Lupului (lângă Iași). Efecte: creșterea populației și a veniturilor comunelor, dar și infrastructură insuficientă (drumuri, canalizare, școli), trafic, pierderea terenurilor agricole, dezvoltare haotică. Zonele metropolitane sunt asocieri de dezvoltare intercomunitară între oraș și localitățile din jur, pentru proiecte comune (transport public metropolitan, apă, deșeuri). Planificarea integrată și transportul public sunt soluțiile principale pentru o dezvoltare echilibrată.",
+    "sample": "Comuna Florești, de lângă Cluj-Napoca, a ajuns una dintre cele mai populate comune din România, cu peste 50.000 de locuitori.",
+    "worked": "Creșterea rapidă fără infrastructură suficientă a produs aglomerație și dependență de autoturism.",
+    "exercises": [
+     "Explică ce este spațiul periurban.",
+     "Explică factorii periurbanizării.",
+     "Dă exemple de comune periurbane din România.",
+     "Analizează efectele pozitive și negative ale periurbanizării.",
+     "Explică rolul zonelor metropolitane."
+    ],
+    "test": [
+     "Ce este periurbanizarea?",
+     "Lângă ce oraș se află comuna Florești?",
+     "Ce comună periurbană se află lângă Timișoara?",
+     "Ce este o zonă metropolitană?",
+     "Ce soluție reduce traficul periurban?"
+    ],
+    "steps": [
+     "Delimitează spațiul periurban.",
+     "Analizează dinamica populației și a construcțiilor.",
+     "Evaluează efectele și propune soluții de planificare.",
+     "Greșeala frecventă: să crezi că periurbanizarea este doar creștere; fără planificare produce costuri mari de infrastructură și mediu."
+    ],
+    "answers": [
+     "Extinderea funcțiilor urbane în zona din jurul orașului.",
+     "Lângă Cluj-Napoca.",
+     "Dumbrăvița (sau Giroc).",
+     "O asociere între oraș și localitățile din jur pentru proiecte comune.",
+     "Transportul public metropolitan."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l17": {
+   "ro": {
+    "title": "Geografia transporturilor",
+    "theory": "Geografia transporturilor studiază rețelele, fluxurile și rolul transporturilor în organizarea spațiului. O rețea de transport este formată din noduri (orașe, stații, porturi) și arce (drumuri, căi ferate). Indicatori: densitatea rețelei (km/100 km²), conectivitatea (indicii alfa, beta, gama din teoria grafurilor), accesibilitatea (timpul sau costul pentru a ajunge la un loc). Modurile de transport au avantaje diferite: rutier (flexibil, de la ușă la ușă), feroviar (eficient pentru volume mari și distanțe medii), naval (ieftin pentru volume foarte mari), aerian (rapid, scump), prin conducte. Intermodalitatea folosește containerele pentru a schimba ușor modul de transport. Huburile concentrează fluxurile (aeroporturi hub, porturi de transbordare). Transporturile influențează localizarea activităților și dezvoltarea regională (efectul de coridor). În România: rețeaua TEN-T (coridoarele Rin–Dunăre și Orient/Est-Mediteranean), autostrăzile în extindere, calea ferată în modernizare, portul Constanța, Dunărea și Canalul Dunăre–Marea Neagră, aeroportul Henri Coandă. Probleme: congestia, poluarea, siguranța, finanțarea.",
+    "sample": "Canalul Dunăre–Marea Neagră (inaugurat în 1984) scurtează drumul navelor spre Constanța cu aproape 400 km față de ruta prin Sulina.",
+    "worked": "O cale navigabilă artificială poate modifica radical accesibilitatea unui port.",
+    "exercises": [
+     "Explică elementele unei rețele de transport.",
+     "Calculează densitatea unei rețele.",
+     "Compară modurile de transport.",
+     "Explică ce este intermodalitatea.",
+     "Analizează rețeaua de transport a României."
+    ],
+    "test": [
+     "Ce sunt nodurile unei rețele?",
+     "Ce măsoară accesibilitatea?",
+     "Ce a facilitat intermodalitatea?",
+     "Când a fost inaugurat Canalul Dunăre–Marea Neagră?",
+     "Ce coridor TEN-T leagă Marea Nordului de Marea Neagră?"
+    ],
+    "steps": [
+     "Descrie rețeaua (noduri, arce).",
+     "Calculează indicatorii.",
+     "Evaluează rolul ei în dezvoltarea regională.",
+     "Greșeala frecventă: să crezi că o rețea densă înseamnă automat accesibilitate bună; contează și calitatea și viteza căilor."
+    ],
+    "answers": [
+     "Punctele rețelei: orașe, stații, porturi.",
+     "Timpul sau costul pentru a ajunge la un loc.",
+     "Containerul.",
+     "În 1984.",
+     "Coridorul Rin–Dunăre."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l18": {
+   "ro": {
+    "title": "Hazarde naturale și antropice: concepte și clasificare",
+    "theory": "Hazardul este un eveniment potențial periculos; riscul este probabilitatea producerii unor pierderi, în funcție de hazard, expunere și vulnerabilitate (R = H × E × V). Vulnerabilitatea poate fi fizică (construcții), socială (sărăcie, vârstă, informare), economică, instituțională. Reziliența este capacitatea comunității de a rezista și de a-și reveni. Clasificarea hazardelor: endogene (cutremure, vulcani, tsunami), geomorfologice (alunecări, prăbușiri, avalanșe), climatice (secete, valuri de căldură, furtuni, tornade, grindină, înghețuri), hidrologice (inundații, viituri), biologice (epidemii, invazii), tehnologice (accidente industriale, ruperi de baraje), de mediu (poluări). Hazardele pot fi combinate în cascadă (cutremur – tsunami – accident nuclear la Fukushima, 2011). Ciclul gestionării riscului: prevenire și atenuare, pregătire, răspuns, refacere. Instrumente: hărți de hazard și de risc, coduri de construcție, sisteme de avertizare, asigurări (PAID în România), educație. Cadrul de la Sendai (ONU, 2015–2030) stabilește obiectivele globale de reducere a riscului la dezastre.",
+    "sample": "Cutremurul din 2011 din Japonia a declanșat un tsunami, care a produs accidentul nuclear de la Fukushima.",
+    "worked": "Hazardele în cascadă cer planuri care iau în calcul mai multe fenomene succesive.",
+    "exercises": [
+     "Explică relația dintre hazard, expunere, vulnerabilitate și risc.",
+     "Clasifică hazardele.",
+     "Explică ce este reziliența.",
+     "Prezintă ciclul gestionării riscului.",
+     "Explică hazardele în cascadă."
+    ],
+    "test": [
+     "Care este formula riscului?",
+     "Ce este vulnerabilitatea?",
+     "Ce este reziliența?",
+     "Ce cadru ONU vizează reducerea riscului la dezastre?",
+     "Ce asigurare obligatorie a locuințelor există în România?"
+    ],
+    "steps": [
+     "Identifică hazardul și elementele expuse.",
+     "Evaluează vulnerabilitatea.",
+     "Propune măsuri pentru fiecare etapă a ciclului riscului.",
+     "Greșeala frecventă: să confunzi hazardul (fenomenul) cu riscul (probabilitatea pierderilor); fără oameni expuși nu există risc."
+    ],
+    "answers": [
+     "Risc = hazard × expunere × vulnerabilitate.",
+     "Gradul în care o comunitate poate fi afectată.",
+     "Capacitatea de a rezista și de a-și reveni după un dezastru.",
+     "Cadrul de la Sendai (2015–2030).",
+     "PAID (asigurarea obligatorie împotriva dezastrelor)."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l19": {
+   "ro": {
+    "title": "Riscuri geomorfologice, climatice și hidrologice în România",
+    "theory": "România este expusă la riscuri variate. Cutremurele din Vrancea (adâncime intermediară, 60–200 km) afectează suprafețe mari, inclusiv Bucureștiul (1940 – magnitudine 7,7; 1977 – 7,4 Mw, adică 7,2 pe scara Richter; 1986; 1990). Alunecările de teren afectează Subcarpații, podișurile și dealurile. Inundațiile: în 1970 (cele mai mari din secolul XX, pe Mureș, Someș, Siret), 2005, 2006 (Dunărea), 2010, 2024 (Galați). Secetele (2000, 2007, 2022, 2024) afectează sudul și estul, cu risc de deșertificare. Valurile de căldură sunt tot mai frecvente; viscolele și înghețurile afectează iarna estul țării. Avalanșele sunt frecvente în Făgăraș și Bucegi. Instituții: Inspectoratul General pentru Situații de Urgență, INFP (Institutul Național pentru Fizica Pământului), ANM, Administrația Națională „Apele Române”. Hărțile de hazard la inundații (Directiva Inundații a UE) și sistemul RO-ALERT sunt instrumente moderne.",
+    "sample": "Sistemul RO-ALERT trimite mesaje de avertizare pe telefoanele mobile din zonele amenințate de inundații sau fenomene extreme.",
+    "worked": "Avertizarea rapidă reduce victimele, chiar dacă fenomenul în sine nu poate fi oprit.",
+    "exercises": [
+     "Localizează principalele riscuri din România.",
+     "Explică particularitatea cutremurelor vrâncene.",
+     "Prezintă inundațiile majore din România.",
+     "Explică riscul de secetă și deșertificare.",
+     "Prezintă instituțiile și instrumentele de gestionare a riscului."
+    ],
+    "test": [
+     "La ce adâncime se produc cutremurele vrâncene?",
+     "În ce an au avut loc cele mai mari inundații din secolul XX?",
+     "Ce institut monitorizează cutremurele?",
+     "Ce sistem trimite avertizări pe telefoane?",
+     "Unde sunt frecvente avalanșele?"
+    ],
+    "steps": [
+     "Identifică riscul și regiunea expusă.",
+     "Analizează cauzele și vulnerabilitatea.",
+     "Prezintă măsurile instituționale.",
+     "Greșeala frecventă: să crezi că inundațiile pot fi eliminate complet prin diguri; digurile pot crește riscul în aval și pot fi depășite."
+    ],
+    "answers": [
+     "Între 60 și 200 km.",
+     "În 1970.",
+     "INFP (Institutul Național pentru Fizica Pământului).",
+     "RO-ALERT.",
+     "În Făgăraș și Bucegi."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l20": {
+   "ro": {
+    "title": "Cartografierea și evaluarea riscului",
+    "theory": "Evaluarea riscului parcurge etape: identificarea hazardului (ce fenomen, unde, cu ce frecvență), analiza hazardului (intensitate și probabilitate – de exemplu inundația cu probabilitate de 1%, adică perioada de revenire de 100 de ani), inventarierea elementelor expuse (populație, clădiri, infrastructură), analiza vulnerabilității și calculul riscului (pierderi probabile). Hărțile de susceptibilitate arată unde un fenomen se poate produce (de exemplu susceptibilitatea la alunecări, calculată în GIS din pantă, litologie, utilizarea terenului, precipitații); hărțile de hazard adaugă probabilitatea și intensitatea; hărțile de risc combină hazardul cu expunerea și vulnerabilitatea. Metodele pot fi calitative (expert), semi-cantitative (indici ponderați) sau cantitative (statistice, modele fizice, învățare automată). Validarea se face cu inventare de evenimente trecute. În România, Planurile de Urbanism General trebuie să includă hărțile de risc natural, iar Directiva Inundații a UE cere hărți de hazard și risc la inundații. Comunicarea riscului către populație este la fel de importantă ca evaluarea tehnică.",
+    "sample": "O inundație cu perioada de revenire de 100 de ani are, în fiecare an, o probabilitate de 1% să se producă, deci se poate produce și în doi ani consecutivi.",
+    "worked": "Perioada de revenire exprimă o probabilitate anuală, nu un interval fix între evenimente.",
+    "exercises": [
+     "Ordonează etapele evaluării riscului.",
+     "Explică perioada de revenire.",
+     "Compară hărțile de susceptibilitate, hazard și risc.",
+     "Construiește un indice simplu de susceptibilitate la alunecări.",
+     "Explică importanța comunicării riscului."
+    ],
+    "test": [
+     "Ce probabilitate anuală are o inundație „de 100 de ani”?",
+     "Ce arată harta de susceptibilitate?",
+     "Ce combină harta de risc?",
+     "Ce directivă UE cere hărți de risc la inundații?",
+     "Cum se validează o hartă de susceptibilitate?"
+    ],
+    "steps": [
+     "Identifică hazardul și datele disponibile.",
+     "Construiește harta de susceptibilitate sau de hazard.",
+     "Combin-o cu expunerea și vulnerabilitatea și validează rezultatul.",
+     "Greșeala frecventă: să interpretezi perioada de revenire ca pe un calendar; evenimentul poate apărea oricând, cu o anumită probabilitate."
+    ],
+    "answers": [
+     "1%.",
+     "Unde se poate produce un fenomen.",
+     "Hazardul cu expunerea și vulnerabilitatea.",
+     "Directiva Inundații.",
+     "Cu inventare ale evenimentelor trecute."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l21": {
+   "ro": {
+    "title": "Modificări globale ale mediului",
+    "theory": "Modificările globale ale mediului sunt schimbări la scară planetară produse în mare parte de activitățile umane. Schimbările climatice: încălzirea medie de circa 1,2–1,3°C față de perioada preindustrială, cu topirea ghețarilor și a gheții arctice, creșterea nivelului mării (peste 20 cm din 1900), schimbarea regimului precipitațiilor și extreme mai frecvente; rapoartele IPCC arată că influența umană este clară. Schimbările de utilizare a terenului: defrișări, extinderea agriculturii și a orașelor. Pierderea biodiversității: rata de dispariție a speciilor este mult mai mare decât rata naturală. Modificarea ciclurilor biogeochimice: azotul și fosforul din îngrășăminte produc eutrofizare și „zone moarte” în mări. Acidifierea oceanelor afectează coralii și organismele cu cochilii. Poluarea cu plastic și cu substanțe noi. Conceptul de „limite planetare” (Johan Rockström, 2009) identifică nouă praguri a căror depășire riscă destabilizarea sistemului Pământ; mai multe sunt deja depășite. Răspunsurile: atenuarea (reducerea emisiilor) și adaptarea (protecția împotriva efectelor).",
+    "sample": "Peste jumătate din recifele de corali ale lumii au fost afectate de episoade de albire produse de încălzirea apei.",
+    "worked": "Coralii sunt foarte sensibili la temperatură, iar albirea repetată duce la moartea lor.",
+    "exercises": [
+     "Enumeră componentele modificărilor globale.",
+     "Explică efectele schimbărilor climatice.",
+     "Explică acidifierea oceanelor.",
+     "Explică conceptul de limite planetare.",
+     "Compară atenuarea cu adaptarea."
+    ],
+    "test": [
+     "Cu cât a crescut nivelul mării din 1900?",
+     "Ce produce zonele moarte din mări?",
+     "Cine a propus conceptul de limite planetare?",
+     "Câte limite planetare există?",
+     "Ce înseamnă adaptarea la schimbările climatice?"
+    ],
+    "steps": [
+     "Identifică modificarea globală.",
+     "Analizează cauzele și efectele ei.",
+     "Propune măsuri de atenuare și adaptare.",
+     "Greșeala frecventă: să crezi că modificările globale înseamnă doar încălzirea climei; includ și biodiversitatea, solurile, apele și ciclurile chimice."
+    ],
+    "answers": [
+     "Cu peste 20 cm.",
+     "Excesul de azot și fosfor (eutrofizarea).",
+     "Johan Rockström.",
+     "Nouă.",
+     "Protecția împotriva efectelor schimbărilor deja produse."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l22": {
+   "ro": {
+    "title": "Geografia politică: stat, teritoriu, frontiere",
+    "theory": "Geografia politică studiază relațiile dintre spațiu și putere. Statul este definit de teritoriu, populație, putere suverană și recunoaștere internațională. Teritoriul statului cuprinde uscatul, apele interioare, marea teritorială (12 mile marine), spațiul aerian; Convenția ONU privind dreptul mării (1982) stabilește și zona economică exclusivă (200 de mile marine), unde statul are drepturi asupra resurselor. Frontierele pot fi naturale (urmează râuri, creste – Dunărea între România și Bulgaria), geometrice (urmează paralele sau meridiane – multe frontiere africane, granița SUA–Canada pe paralela de 49°), antropogeografice (urmează limite etnice sau istorice). Frontierele pot fi antecedente, subsecvente sau impuse (suprapuse peste grupuri etnice, cum sunt cele trasate de colonizatori în Africa). Organizarea internă a statului: unitar sau federal; diviziunile administrativ-teritoriale (în România – 41 de județe și municipiul București, comune, orașe, municipii; regiunile de dezvoltare nu sunt unități administrative). Disputa privind delimitarea platoului continental din Marea Neagră dintre România și Ucraina a fost soluționată de Curtea Internațională de Justiție în 2009, România primind circa 79% din zona disputată.",
+    "sample": "Curtea Internațională de Justiție de la Haga a decis în 2009 delimitarea platoului continental și a zonelor economice exclusive dintre România și Ucraina în Marea Neagră.",
+    "worked": "O dispută de frontieră maritimă rezolvată juridic poate deschide accesul la resurse, cum sunt gazele din Marea Neagră.",
+    "exercises": [
+     "Explică elementele teritoriului unui stat.",
+     "Explică zonele maritime stabilite de dreptul mării.",
+     "Clasifică frontierele.",
+     "Compară statul unitar cu cel federal.",
+     "Explică organizarea administrativ-teritorială a României."
+    ],
+    "test": [
+     "Câte mile marine are marea teritorială?",
+     "Ce este zona economică exclusivă?",
+     "Ce frontieră urmează paralela de 49°?",
+     "Câte județe are România?",
+     "Ce instanță a delimitat platoul continental România–Ucraina?"
+    ],
+    "steps": [
+     "Identifică elementul politic-teritorial.",
+     "Clasifică-l după criterii.",
+     "Analizează efectele lui geografice.",
+     "Greșeala frecventă: să confunzi regiunile de dezvoltare ale României cu unități administrative; ele nu au administrație aleasă."
+    ],
+    "answers": [
+     "12 mile marine.",
+     "Zona de 200 de mile marine în care statul are drepturi asupra resurselor.",
+     "Frontiera SUA–Canada.",
+     "41 (plus municipiul București).",
+     "Curtea Internațională de Justiție (2009)."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l23": {
+   "ro": {
+    "title": "Teorii geopolitice și organizarea politică a lumii",
+    "theory": "Geopolitica analizează influența factorilor geografici asupra puterii. Teorii clasice: Friedrich Ratzel – statul ca organism care are nevoie de spațiu vital (idee deformată ulterior de nazism); Alfred Thayer Mahan – puterea maritimă este decisivă; Halford Mackinder (1904) – teoria „Heartland”: cine controlează Europa de Est controlează inima continentală a Eurasiei și, în final, lumea; Nicholas Spykman – importanța „Rimland”-ului (zona de margine a Eurasiei). În timpul Războiului Rece: politica de îndiguire a URSS, teoria dominoului. După 1991: „sfârșitul istoriei” (Fukuyama), „ciocnirea civilizațiilor” (Huntington), lumea multipolară. Geopolitica critică analizează discursurile și reprezentările puterii. În România, geopolitica interbelică a fost dezvoltată de Simion Mehedinți, Ion Conea și Anton Golopenția (revista „Geopolitica și Geoistoria”, 1941–1944). Astăzi, poziția României la Marea Neagră, pe flancul estic al NATO și la granița UE, îi conferă importanță geopolitică.",
+    "sample": "Teoria Heartland a lui Mackinder a influențat strategiile marilor puteri în secolul XX, inclusiv în timpul Războiului Rece.",
+    "worked": "Ideile geopolitice pot deveni baze pentru decizii politice reale, de aceea trebuie analizate critic.",
+    "exercises": [
+     "Explică teoria Heartland.",
+     "Compară puterea maritimă (Mahan) cu cea continentală (Mackinder).",
+     "Explică teoria Rimland.",
+     "Prezintă geopolitica românească interbelică.",
+     "Explică importanța geopolitică actuală a României."
+    ],
+    "test": [
+     "Cine a formulat teoria Heartland?",
+     "Ce teoretician a susținut puterea maritimă?",
+     "Cine a scris despre „ciocnirea civilizațiilor”?",
+     "Ce revistă de geopolitică a apărut în România în 1941?",
+     "Ce concept a fost deformat de nazism?"
+    ],
+    "steps": [
+     "Identifică teoria și autorul.",
+     "Explică ideea principală și contextul ei.",
+     "Evaluează critic aplicarea ei astăzi.",
+     "Greșeala frecventă: să tratezi teoriile geopolitice ca legi obiective; ele sunt interpretări influențate de epocă și interese."
+    ],
+    "answers": [
+     "Halford Mackinder.",
+     "Alfred Thayer Mahan.",
+     "Samuel Huntington.",
+     "„Geopolitica și Geoistoria”.",
+     "Spațiul vital."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l24": {
+   "ro": {
+    "title": "Geografie istorică a spațiului românesc",
+    "theory": "Geografia istorică studiază evoluția în timp a teritoriului, a populației, a așezărilor și a granițelor. Pentru spațiul românesc, etapele principale sunt: populația geto-dacă și provincia romană Dacia (106–271), cu orașe și drumuri romane; perioada migrațiilor și formarea statelor medievale (Țara Românească, Moldova, voievodatul Transilvaniei în Regatul Ungariei, Dobrogea); dominația otomană, habsburgică și țaristă, care au schimbat granițele (Bucovina anexată de Habsburgi în 1775, Basarabia anexată de Imperiul Rus în 1812); Unirea Principatelor (1859), independența și revenirea Dobrogei de Nord (1878), Marea Unire (1918), pierderile teritoriale din 1940 (Basarabia, nordul Bucovinei, Ținutul Herța, nordul Transilvaniei – recuperat în 1945–1947, Cadrilaterul). Sursele geografiei istorice: hărțile vechi (harta Moldovei a lui Dimitrie Cantemir, hărțile iosefine ale Transilvaniei, hărțile austriece și rusești), registrele fiscale, conscripțiile, recensămintele. Ele permit reconstituirea schimbărilor de utilizare a terenului (defrișări, desecări) și ale rețelei de așezări.",
+    "sample": "Harta Moldovei din „Descriptio Moldaviae” a lui Dimitrie Cantemir (circa 1716) este una dintre primele hărți detaliate ale unui teritoriu românesc.",
+    "worked": "Hărțile vechi sunt surse prețioase pentru reconstituirea așezărilor, pădurilor și drumurilor din trecut.",
+    "exercises": [
+     "Ordonează schimbările teritoriale ale spațiului românesc.",
+     "Explică anexarea Bucovinei și a Basarabiei.",
+     "Prezintă schimbările teritoriale din 1940.",
+     "Enumeră sursele geografiei istorice.",
+     "Analizează o hartă veche comparativ cu una actuală."
+    ],
+    "test": [
+     "Când a fost anexată Bucovina de Habsburgi?",
+     "Când a fost anexată Basarabia de Imperiul Rus?",
+     "Când a revenit Dobrogea de Nord României?",
+     "Cine a realizat o hartă a Moldovei la începutul secolului al XVIII-lea?",
+     "Ce teritorii a pierdut România în 1940?"
+    ],
+    "steps": [
+     "Stabilește perioada și teritoriul.",
+     "Folosește hărți și documente istorice.",
+     "Compară situația istorică cu cea actuală.",
+     "Greșeala frecventă: să proiectezi granițele actuale asupra trecutului; teritoriile istorice aveau alte limite și statute."
+    ],
+    "answers": [
+     "În 1775.",
+     "În 1812.",
+     "În 1878.",
+     "Dimitrie Cantemir.",
+     "Basarabia, nordul Bucovinei, Ținutul Herța, nordul Transilvaniei, Cadrilaterul."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l25": {
+   "ro": {
+    "title": "Europa: cadrul natural regional",
+    "theory": "Europa este un continent puternic fragmentat, cu o lungime mare a țărmurilor raportată la suprafață. Structural, cuprinde: Platforma Est-Europeană (scut baltic, câmpii întinse), orogenul caledonian (Munții Scandinaviei, Scoția), orogenul hercinic (Masivul Central Francez, Masivul Șistos Renan, Masivul Boemiei, Uralii) și orogenul alpin (Alpi, Carpați, Pirinei, Apenini, Dinarici, Balcani, Caucaz), cu bazinele sedimentare asociate (Bazinul Parizian, Bazinul Londrei, Câmpia Panonică, Câmpia Padului). Glaciațiunile cuaternare au modelat nordul (fiorduri, lacuri glaciare, morene în Câmpia Germano-Polonă) și munții înalți. Climatul este influențat de Curentul Nord-Atlantic și de vânturile de vest, cu o trecere de la oceanic la continental spre est și cu climat mediteranean în sud. Hidrografia: râuri cu regim diferit (oceanic – Sena, nival – Volga, glaciar – Ron superior, mediteranean – cu ape mici vara). Zonele biopedoclimatice se succed de la tundră la vegetația mediteraneană. Europa are o rețea vastă de arii protejate și geoparcuri.",
+    "sample": "Fiordurile Norvegiei sunt văi glaciare invadate de mare după topirea calotei de gheață.",
+    "worked": "Formele glaciare arată că nordul Europei a fost acoperit de gheață până acum circa 10.000–12.000 de ani.",
+    "exercises": [
+     "Descrie unitățile structurale ale Europei.",
+     "Explică influența glaciațiunilor asupra reliefului.",
+     "Explică diferențierea climatică vest–est.",
+     "Compară regimurile râurilor europene.",
+     "Descrie succesiunea zonelor biopedoclimatice."
+    ],
+    "test": [
+     "Ce orogeneză a format Alpii?",
+     "Ce munți europeni sunt hercinici?",
+     "Ce curent influențează climatul vestic?",
+     "Ce regim are Volga?",
+     "Ce sunt fiordurile?"
+    ],
+    "steps": [
+     "Localizează unitatea naturală.",
+     "Explică geneza și caracteristicile ei.",
+     "Compar-o cu alte regiuni ale Europei.",
+     "Greșeala frecventă: să crezi că toți munții Europei sunt tineri; mulți sunt vechi, caledonieni sau hercinici."
+    ],
+    "answers": [
+     "Orogeneza alpină.",
+     "Masivul Central Francez (sau Masivul Boemiei, Uralii).",
+     "Curentul Nord-Atlantic.",
+     "Regim nival.",
+     "Văi glaciare invadate de mare."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l26": {
+   "ro": {
+    "title": "Europa: populație, așezări și economie regională",
+    "theory": "Europa are o populație îmbătrânită, cu fertilitate scăzută și imigrație importantă. Diversitatea etnică și lingvistică este mare: familii de limbi romanice, germanice, slave, baltice, celtice, fino-ugrice, plus greaca, albaneza, maghiara, turca. Urbanizarea este veche și ridicată, cu axe urbane și industriale: „Banana albastră” (de la Londra la Milano), „Însorita centură” mediteraneană (Barcelona–Marsilia–Genova), noile axe din Europa Centrală. Peisajele agrare europene sunt variate și moștenite istoric: openfield (câmpuri deschise), bocage (câmpuri cu garduri vii – vestul Franței), huerta (grădini irigate în Spania), coltura promiscua (culturi asociate în Italia), dehesa/montado (pășuni cu stejari – Iberia), satele-stradă cu parcele în fâșii (Waldhufen). Economia: Europa de Vest și de Nord sunt foarte dezvoltate, cu servicii și industrie de înaltă tehnologie; Europa Centrală și de Est au trecut după 1990 printr-o tranziție spre economia de piață și integrarea în UE; sudul are contraste (nordul Italiei față de Mezzogiorno). Regiunile industriale vechi (Ruhr, Midlands, Silezia, Valea Jiului) au cunoscut restructurări. Politica de coeziune a UE finanțează reducerea decalajelor regionale.",
+    "sample": "Peisajul de tip dehesa din Spania combină pășunatul cu păstrarea stejarilor, fiind un sistem agro-silvo-pastoral durabil.",
+    "worked": "Unele peisaje agrare tradiționale sunt exemple de folosire echilibrată a resurselor.",
+    "exercises": [
+     "Descrie diversitatea lingvistică a Europei.",
+     "Explică axele urbane europene.",
+     "Clasifică peisajele agrare tradiționale.",
+     "Compară economia Europei de Vest cu cea a Europei de Est.",
+     "Explică restructurarea regiunilor industriale vechi."
+    ],
+    "test": [
+     "Ce este „Banana albastră”?",
+     "Ce este bocage?",
+     "Ce peisaj agrar există în Spania cu stejari și pășuni?",
+     "Ce politică UE reduce decalajele regionale?",
+     "Ce regiune italiană este mai puțin dezvoltată?"
+    ],
+    "steps": [
+     "Identifică regiunea și caracteristicile ei.",
+     "Analizează factorii istorici și economici.",
+     "Compară regiunile între ele.",
+     "Greșeala frecventă: să tratezi Europa ca pe un spațiu uniform; diferențele regionale sunt foarte mari."
+    ],
+    "answers": [
+     "Axa urbană și economică de la Londra la Milano.",
+     "Câmpuri înconjurate de garduri vii.",
+     "Dehesa (montado în Portugalia).",
+     "Politica de coeziune.",
+     "Mezzogiorno."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l27": {
+   "ro": {
+    "title": "Regiuni ale Europei: profiluri geografice comparate",
+    "theory": "Analiza regională a Europei compară marile regiuni prin profiluri fizico- și economico-geografice. Europa Nordică (Norvegia, Suedia, Finlanda, Danemarca, Islanda): relief glaciar, păduri de conifere, populație redusă, state ale bunăstării, resurse (petrol norvegian, lemn, hidroenergie, geotermie). Insulele Britanice: climat oceanic, munți vechi, rol istoric industrial, servicii financiare. Europa de Vest (Franța, Benelux): câmpii și podișuri, agricultură intensivă, industrie și servicii, densitate mare în Benelux, Randstad. Europa Centrală (Germania, Polonia, Cehia, Slovacia, Ungaria, Austria, Elveția): contrastul dintre câmpiile nordice și munții alpini, industrie puternică, Elveția și Austria – state alpine, cu turism și servicii. Europa de Est (Rusia europeană, Ucraina, Belarus, Republica Moldova): câmpii întinse, cernoziomuri, climat continental, resurse energetice. Europa Mediteraneană (Iberia, Italia, Grecia): climat mediteranean, relief muntos, turism, agricultură specifică. Europa de Sud-Est și Balcanii: relief fragmentat, diversitate etnică, state în curs de integrare. Metode: analiza SWOT, profile, indicatori, cartografiere comparativă.",
+    "sample": "Norvegia, deși are puține terenuri agricole, are unul dintre cele mai mari niveluri de trai datorită petrolului și fondului suveran care îl administrează.",
+    "worked": "Gestionarea prudentă a veniturilor din resurse poate transforma bogăția naturală în prosperitate de durată.",
+    "exercises": [
+     "Realizează profilul geografic al unei regiuni europene.",
+     "Compară Europa Nordică cu Europa Mediteraneană.",
+     "Aplică analiza SWOT unei regiuni.",
+     "Explică diferențele dintre statele alpine și cele din câmpia nordică.",
+     "Explică specificul Balcanilor."
+    ],
+    "test": [
+     "Ce regiune europeană are relief glaciar dominant?",
+     "Ce stat nordic are un mare fond suveran din petrol?",
+     "Ce este Randstad?",
+     "Ce regiune europeană are cernoziomuri întinse?",
+     "Ce metodă evaluează punctele tari și slabe ale unei regiuni?"
+    ],
+    "steps": [
+     "Delimitează regiunea.",
+     "Analizează componentele naturale și umane după aceleași criterii.",
+     "Formulează concluzii comparative.",
+     "Greșeala frecventă: să compari regiuni folosind criterii diferite; comparația cere aceiași indicatori pentru toate regiunile."
+    ],
+    "answers": [
+     "Europa Nordică.",
+     "Norvegia.",
+     "Rețeaua urbană a marilor orașe olandeze (Amsterdam, Rotterdam, Haga, Utrecht).",
+     "Europa de Est (Ucraina, Rusia).",
+     "Analiza SWOT."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l28": {
+   "ro": {
+    "title": "Uniunea Europeană: spațiu, politici și regiuni",
+    "theory": "Uniunea Europeană organizează spațiul european prin politici comune. Nomenclatorul unităților teritoriale de statistică (NUTS) împarte statele în regiuni comparabile: NUTS 1 (macroregiuni – România are patru), NUTS 2 (regiuni de dezvoltare – România are opt), NUTS 3 (județe). Politica de coeziune alocă fonduri (FEDR, Fondul de Coeziune, Fondul Social European+) regiunilor mai puțin dezvoltate (cu PIB pe locuitor sub 75% din media UE). Politica Agricolă Comună sprijină fermierii și dezvoltarea rurală. Rețeaua TEN-T leagă statele prin coridoare de transport, iar Pactul Verde urmărește neutralitatea climatică. Strategiile macroregionale (Strategia UE pentru Regiunea Dunării – SUERD, din 2011, coordonată și de România) încurajează cooperarea între state și regiuni. Cooperarea transfrontalieră (programele Interreg, euroregiunile) reduce efectul de barieră al frontierelor. Disparitățile regionale rămân mari: între capitale și restul teritoriului, între vest și est, între centru și periferie. Regiunea București-Ilfov depășește media UE, în timp ce Nord-Est este printre regiunile cu cel mai mic PIB pe locuitor din UE.",
+    "sample": "Strategia UE pentru Regiunea Dunării reunește state membre și nemembre de-a lungul fluviului, de la Germania la Ucraina și Republica Moldova.",
+    "worked": "Un fluviu comun devine cadrul de cooperare pentru transport, mediu și dezvoltare.",
+    "exercises": [
+     "Explică sistemul NUTS.",
+     "Explică obiectivul politicii de coeziune.",
+     "Prezintă Strategia UE pentru Regiunea Dunării.",
+     "Explică rolul cooperării transfrontaliere.",
+     "Analizează disparitățile regionale din România."
+    ],
+    "test": [
+     "Câte regiuni NUTS 2 are România?",
+     "Ce prag de PIB definește regiunile mai puțin dezvoltate?",
+     "Ce strategie macroregională privește Dunărea?",
+     "Ce program finanțează cooperarea transfrontalieră?",
+     "Ce regiune românească depășește media UE?"
+    ],
+    "steps": [
+     "Identifică nivelul teritorial și politica.",
+     "Analizează indicatorii regionali.",
+     "Evaluează efectele politicilor asupra decalajelor.",
+     "Greșeala frecventă: să confunzi regiunile NUTS 2 cu unități administrative; în România ele sunt doar regiuni statistice și de dezvoltare."
+    ],
+    "answers": [
+     "Opt.",
+     "Sub 75% din media UE.",
+     "SUERD (Strategia UE pentru Regiunea Dunării).",
+     "Interreg.",
+     "București-Ilfov."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l29": {
+   "ro": {
+    "title": "Europa Centrală și de Est: transformări după 1990",
+    "theory": "După căderea regimurilor comuniste (1989–1991), statele din Europa Centrală și de Est au trecut prin transformări profunde. Politic: democratizare, noi state (destrămarea URSS, a Iugoslaviei, a Cehoslovaciei), integrarea în NATO și UE (2004, 2007, 2013). Economic: trecerea de la economia planificată la economia de piață, privatizare, dezindustrializarea unor regiuni (închiderea minelor și a combinatelor), apariția serviciilor și a investițiilor străine, creșterea exporturilor. Ritmul a fost diferit: Polonia, Cehia, Slovacia, Slovenia și statele baltice au avansat rapid; România și Bulgaria au recuperat mai târziu, dar au avut creșteri importante după aderare. Social și demografic: scăderea natalității, emigrația masivă spre Europa de Vest, îmbătrânirea, creșterea inegalităților, depopularea satelor și a orașelor mici industriale. Spațial: creșterea capitalelor și a marilor orașe (Varșovia, Praga, Budapesta, București, Cluj-Napoca), periurbanizarea, transformarea fostelor platforme industriale, modernizarea infrastructurii cu fonduri europene. Regiunea are încă decalaje față de vest, dar convergența a fost una dintre cele mai rapide din istoria economică europeană.",
+    "sample": "Polonia este singura economie din UE care nu a intrat în recesiune în timpul crizei financiare din 2008–2009.",
+    "worked": "Piața internă mare și fondurile europene au susținut creșterea economică chiar în anii de criză.",
+    "exercises": [
+     "Explică transformările politice după 1990.",
+     "Explică tranziția la economia de piață.",
+     "Compară ritmul transformărilor în diferite state.",
+     "Explică efectele demografice ale tranziției.",
+     "Analizează transformările spațiale ale orașelor."
+    ],
+    "test": [
+     "Ce state au aderat la UE în 2004 din Europa Centrală?",
+     "Ce stat din UE nu a intrat în recesiune în 2009?",
+     "Ce a produs dezindustrializarea?",
+     "Ce efect demografic major a avut tranziția?",
+     "Ce orașe au crescut cel mai mult?"
+    ],
+    "steps": [
+     "Stabilește etapele tranziției.",
+     "Compară statele după indicatori comuni.",
+     "Analizează efectele spațiale și sociale.",
+     "Greșeala frecventă: să tratezi Europa de Est ca pe un bloc uniform; traiectoriile statelor au fost foarte diferite."
+    ],
+    "answers": [
+     "Polonia, Cehia, Slovacia, Ungaria, Slovenia și statele baltice.",
+     "Polonia.",
+     "Închiderea minelor și combinatelor, șomaj, declinul unor regiuni.",
+     "Emigrația masivă și scăderea natalității.",
+     "Capitalele și marile centre regionale."
+    ]
+   }
+  }
+ }
+}
