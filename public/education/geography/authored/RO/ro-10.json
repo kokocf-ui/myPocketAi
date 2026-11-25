@@ -1,0 +1,1110 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "RO",
+ "stage": "medium",
+ "grade": "10",
+ "version": "44a4bef1c237742ef28da457bb54bf0ee2e9484b160f2600cf6b16f3637c3ae4",
+ "source": "https://isjbotosani.ro/wp-content/uploads/2021/02/Geografie_X_teoretic-si-vocational-1-2ore.pdf",
+ "sourceTitle": "Programa școlară pentru disciplina Geografie, clasa a X-a, aprobată prin OMECT nr. 4598/31.08.2004 (în vigoare pentru clasa a X-a până la aplicarea noii programe OMEC 6930/2025) — Geografie umană: geografie politică; geografia populației și a așezărilor umane; geografie economică; ansamblurile economice și geopolitice ale lumii. Lecții originale, fără text copiat din manuale",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "ro",
+ "labels": [
+  "Activitate originală · România · Geografie · Clasa a X-a",
+  "Lecția pe înțeles",
+  "Exemplu",
+  "Ce ne arată exemplul",
+  "Exerciții",
+  "Test",
+  "Activități originale, făcute după programa școlară; nu înlocuiesc manualul sau ora de la clasă.",
+  "Dacă nu ai înțeles: pas cu pas",
+  "Răspunsuri (verifică după ce termini)"
+ ],
+ "units": [
+  {
+   "title": "Geografie politică",
+   "keys": [
+    "eu-year-ro-medium-10-l01",
+    "eu-year-ro-medium-10-l02",
+    "eu-year-ro-medium-10-l03"
+   ]
+  },
+  {
+   "title": "Geografia populației",
+   "keys": [
+    "eu-year-ro-medium-10-l04",
+    "eu-year-ro-medium-10-l05",
+    "eu-year-ro-medium-10-l06",
+    "eu-year-ro-medium-10-l07",
+    "eu-year-ro-medium-10-l08",
+    "eu-year-ro-medium-10-l09",
+    "eu-year-ro-medium-10-l10",
+    "eu-year-ro-medium-10-l11"
+   ]
+  },
+  {
+   "title": "Geografia așezărilor umane",
+   "keys": [
+    "eu-year-ro-medium-10-l12",
+    "eu-year-ro-medium-10-l13",
+    "eu-year-ro-medium-10-l14",
+    "eu-year-ro-medium-10-l15",
+    "eu-year-ro-medium-10-l16",
+    "eu-year-ro-medium-10-l17"
+   ]
+  },
+  {
+   "title": "Geografie economică: resursele naturale",
+   "keys": [
+    "eu-year-ro-medium-10-l18",
+    "eu-year-ro-medium-10-l19"
+   ]
+  },
+  {
+   "title": "Geografie economică: agricultura",
+   "keys": [
+    "eu-year-ro-medium-10-l20",
+    "eu-year-ro-medium-10-l21"
+   ]
+  },
+  {
+   "title": "Geografie economică: industria",
+   "keys": [
+    "eu-year-ro-medium-10-l22",
+    "eu-year-ro-medium-10-l23",
+    "eu-year-ro-medium-10-l24"
+   ]
+  },
+  {
+   "title": "Geografie economică: serviciile",
+   "keys": [
+    "eu-year-ro-medium-10-l25",
+    "eu-year-ro-medium-10-l26",
+    "eu-year-ro-medium-10-l27"
+   ]
+  },
+  {
+   "title": "Ansamblurile economice și geopolitice ale lumii",
+   "keys": [
+    "eu-year-ro-medium-10-l28",
+    "eu-year-ro-medium-10-l29"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-ro-medium-10-l01": {
+   "ro": {
+    "title": "Statele și grupările regionale de state",
+    "theory": "Statul este o organizare politică a unei populații pe un teritoriu delimitat de granițe, cu putere suverană (nu se supune altei autorități). Elementele statului: teritoriul (uscat, ape, spațiu aerian), populația, puterea politică, recunoașterea internațională. Statele diferă prin suprafață (Rusia, Canada, SUA, China – foarte mari; microstate ca Vatican, Monaco), formă (compacte, alungite – Chile, fragmentate – Indonezia, enclavate – Lesotho), poziție (cu ieșire la mare sau fără – 44 de state nu au ieșire la ocean), formă de guvernământ (republică, monarhie) și structură (unitare sau federale). Grupările regionale de state sunt asocieri voluntare cu scopuri politice (ONU – 193 de membri), economice (Uniunea Europeană, USMCA – fostul NAFTA, Mercosur, ASEAN), militare (NATO) sau culturale (Francofonia, Liga Arabă).",
+    "sample": "Chile are peste 4.000 km lungime și o lățime medie de doar circa 180 km.",
+    "worked": "Forma alungită face dificile transporturile și administrarea, dar oferă o mare varietate climatică.",
+    "exercises": [
+     "Enumeră elementele statului.",
+     "Clasifică statele după formă.",
+     "Dă exemple de state fără ieșire la mare.",
+     "Compară statele unitare cu cele federale.",
+     "Clasifică grupările regionale după scop."
+    ],
+    "test": [
+     "Ce este suveranitatea?",
+     "Care este cel mai mare stat ca suprafață?",
+     "Ce formă are Chile?",
+     "Câte state membre are ONU?",
+     "Ce grupare militară are sediul la Bruxelles?"
+    ],
+    "steps": [
+     "Identifică elementele statului.",
+     "Clasifică-l după criterii (suprafață, formă, poziție, guvernământ).",
+     "Precizează grupările din care face parte.",
+     "Greșeala frecventă: să crezi că orice teritoriu cu nume propriu este stat; unele sunt teritorii dependente."
+    ],
+    "answers": [
+     "Puterea statului de a se conduce singur, fără a se supune altei autorități.",
+     "Rusia.",
+     "Formă alungită.",
+     "193.",
+     "NATO."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l02": {
+   "ro": {
+    "title": "Evoluția în timp a hărții politice",
+    "theory": "Harta politică s-a schimbat continuu. În Antichitate și Evul Mediu existau imperii mari (Roman, Bizantin, Mongol, Otoman). Marile descoperiri geografice au dus la imperiile coloniale europene (spaniol, portughez, britanic, francez, olandez). În secolul al XIX-lea s-au format statele naționale (Italia, Germania, România în 1859 și 1918) și au devenit independente statele latino-americane. Primul Război Mondial a destrămat imperiile Austro-Ungar, Otoman și Țarist. După al Doilea Război Mondial a urmat decolonizarea: aproape toate coloniile din Asia și Africa au devenit independente (mai ales între 1947 și 1975). După 1989–1991 s-au destrămat URSS (15 state), Iugoslavia și Cehoslovacia, iar Germania s-a reunificat. Cel mai nou stat recunoscut de ONU este Sudanul de Sud (2011).",
+    "sample": "În 1960, numit „Anul Africii”, 17 state africane și-au câștigat independența.",
+    "worked": "Decolonizarea a schimbat complet harta Africii în doar câțiva ani.",
+    "exercises": [
+     "Ordonează etapele evoluției hărții politice.",
+     "Explică urmările Primului Război Mondial.",
+     "Explică procesul de decolonizare.",
+     "Numește statele apărute după 1991.",
+     "Numește cel mai nou stat recunoscut de ONU."
+    ],
+    "test": [
+     "Ce imperii s-au destrămat după 1918?",
+     "Ce înseamnă decolonizare?",
+     "Câte state au rezultat din URSS?",
+     "Când s-a reunificat Germania?",
+     "Care este cel mai nou stat membru ONU?"
+    ],
+    "steps": [
+     "Stabilește perioada.",
+     "Identifică evenimentul care a schimbat harta.",
+     "Explică urmările asupra statelor.",
+     "Greșeala frecventă: să crezi că harta politică este definitivă; ea se poate schimba și azi."
+    ],
+    "answers": [
+     "Imperiile Austro-Ungar, Otoman și Țarist.",
+     "Obținerea independenței de către colonii.",
+     "15.",
+     "În 1990.",
+     "Sudanul de Sud (2011)."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l03": {
+   "ro": {
+    "title": "Principalele probleme actuale de geografie politică",
+    "theory": "Lumea contemporană are numeroase probleme politice cu dimensiune geografică. Conflictele teritoriale și de frontieră: Kashmir (India–Pakistan), Cipru (împărțit din 1974), Sahara Occidentală, Marea Chinei de Sud. Conflictele etnice și religioase: în Africa (Sudan), Orientul Mijlociu (conflictul israeliano-palestinian), Balcani (anii 1990). Regiunile separatiste: Transnistria (Republica Moldova), Abhazia și Osetia de Sud (Georgia). Războiul declanșat de Rusia împotriva Ucrainei (2022) a schimbat securitatea europeană. Alte probleme: statele cu recunoaștere limitată (Kosovo, Taiwan), terorismul, refugiații, controlul resurselor (petrol, apă), disputele din Arctica pe măsură ce gheața se topește.",
+    "sample": "Insula Cipru este împărțită din 1974, cu o zonă tampon a ONU între cele două părți.",
+    "worked": "Conflictele nerezolvate pot îngheța o situație timp de decenii.",
+    "exercises": [
+     "Numește conflicte teritoriale actuale.",
+     "Numește regiuni separatiste.",
+     "Explică ce este un stat cu recunoaștere limitată.",
+     "Explică de ce resursele pot produce conflicte.",
+     "Analizează un conflict actual pe hartă."
+    ],
+    "test": [
+     "Ce regiune își dispută India și Pakistanul?",
+     "Ce regiune separatistă se află în Republica Moldova?",
+     "Din ce an este Ciprul împărțit?",
+     "Ce război a început în Europa în 2022?",
+     "Ce regiune polară devine disputată?"
+    ],
+    "steps": [
+     "Localizează conflictul.",
+     "Identifică părțile și cauzele.",
+     "Analizează urmările geografice (populație, granițe, economie).",
+     "Greșeala frecventă: să reduci un conflict la o singură cauză; de obicei sunt implicate istoria, etnia, resursele și politica."
+    ],
+    "answers": [
+     "Kashmirul.",
+     "Transnistria.",
+     "Din 1974.",
+     "Războiul Rusiei împotriva Ucrainei.",
+     "Arctica."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l04": {
+   "ro": {
+    "title": "Evoluția numerică a populației",
+    "theory": "Populația lumii a crescut foarte lent timp de milenii: circa 250 de milioane la începutul erei noastre, 1 miliard în jurul anului 1800. A urmat o creștere accelerată: 2 miliarde (1927), 4 miliarde (1974), 6 miliarde (1999), 8 miliarde (2022). Explozia demografică din secolul XX se explică prin scăderea mortalității (medicină, vaccinuri, igienă, hrană mai bună) în timp ce natalitatea a rămas ridicată. Teoria tranziției demografice descrie trecerea de la natalitate și mortalitate mari la natalitate și mortalitate mici, prin etape intermediare cu creștere rapidă. Astăzi ritmul de creștere scade; ONU estimează un maxim de peste 10 miliarde în a doua jumătate a secolului. Diferențele regionale sunt mari: populația crește rapid în Africa subsahariană și scade în Europa și Asia de Est.",
+    "sample": "A durat mii de ani până la primul miliard, dar doar 12 ani între 7 și 8 miliarde.",
+    "worked": "Accelerarea arată efectul scăderii mortalității asupra creșterii populației.",
+    "exercises": [
+     "Ordonează pragurile de miliarde ale populației.",
+     "Explică cauzele exploziei demografice.",
+     "Descrie etapele tranziției demografice.",
+     "Compară evoluția populației în Africa și în Europa.",
+     "Interpretează un grafic al evoluției populației."
+    ],
+    "test": [
+     "Câți locuitori avea Terra în 1800?",
+     "Când s-a atins pragul de 8 miliarde?",
+     "Ce a provocat explozia demografică?",
+     "Ce este tranziția demografică?",
+     "Unde crește cel mai rapid populația?"
+    ],
+    "steps": [
+     "Citește datele sau graficul.",
+     "Identifică perioadele de creștere lentă și rapidă.",
+     "Explică factorii care le-au produs.",
+     "Greșeala frecventă: să crezi că populația lumii va crește la nesfârșit; ritmul încetinește deja."
+    ],
+    "answers": [
+     "Circa 1 miliard.",
+     "În 2022.",
+     "Scăderea mortalității cu natalitate ridicată.",
+     "Trecerea de la natalitate și mortalitate mari la natalitate și mortalitate mici.",
+     "În Africa subsahariană."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l05": {
+   "ro": {
+    "title": "Dinamica naturală: bilanțul natural al populației",
+    "theory": "Mișcarea naturală a populației depinde de natalitate și mortalitate. Natalitatea se exprimă în născuți vii la 1.000 de locuitori într-un an (‰); mortalitatea în decese la 1.000 de locuitori. Sporul (bilanțul) natural este diferența dintre natalitate și mortalitate: pozitiv (populația crește), negativ (populația scade, ca în România, Bulgaria, Italia, Japonia). Fertilitatea arată numărul mediu de copii pe femeie; nivelul de înlocuire a generațiilor este circa 2,1 copii. Factori care influențează natalitatea: nivelul de dezvoltare, educația femeilor, urbanizarea, religia, politicile demografice (de exemplu, politica copilului unic în China, 1980–2015). Mortalitatea infantilă (decese sub un an la 1.000 de născuți vii) și speranța de viață (peste 80 de ani în Japonia și Europa de Vest, sub 60 în unele state africane) arată nivelul de dezvoltare.",
+    "sample": "Dacă natalitatea este 9‰ și mortalitatea 13‰, sporul natural este –4‰.",
+    "worked": "Un spor negativ înseamnă că, fără imigrație, populația scade.",
+    "exercises": [
+     "Calculează sporul natural pentru date concrete.",
+     "Explică factorii care influențează natalitatea.",
+     "Explică ce este nivelul de înlocuire a generațiilor.",
+     "Compară speranța de viață în diferite regiuni.",
+     "Explică politica copilului unic."
+    ],
+    "test": [
+     "Ce este natalitatea?",
+     "Ce este sporul natural?",
+     "Ce înseamnă un spor natural negativ?",
+     "Care este nivelul de înlocuire a generațiilor?",
+     "Ce indicator arată decesele sub un an?"
+    ],
+    "steps": [
+     "Notează natalitatea și mortalitatea.",
+     "Calculează diferența.",
+     "Interpretează rezultatul și cauzele lui.",
+     "Greșeala frecventă: să confunzi natalitatea (‰ din populație) cu fertilitatea (copii pe femeie)."
+    ],
+    "answers": [
+     "Numărul de născuți vii la 1.000 de locuitori într-un an.",
+     "Diferența dintre natalitate și mortalitate.",
+     "Mor mai mulți oameni decât se nasc.",
+     "Circa 2,1 copii pe femeie.",
+     "Mortalitatea infantilă."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l06": {
+   "ro": {
+    "title": "Mobilitatea teritorială și bilanțul total al populației",
+    "theory": "Mobilitatea teritorială cuprinde deplasările oamenilor în spațiu. Migrațiile presupun schimbarea locuinței: interne (rural–urban, între regiuni) sau internaționale; temporare sau definitive; voluntare sau forțate (refugiați). Factorii de respingere (sărăcie, șomaj, conflicte, dezastre) și de atracție (locuri de muncă, salarii, siguranță, studii) explică direcțiile migrației. Deplasările zilnice (navetismul) și sezoniere nu schimbă locuința. Marile fluxuri actuale: spre Europa de Vest, America de Nord, statele petroliere din Golf. Bilanțul migratoriu este diferența dintre imigranți și emigranți. Bilanțul total al populației este suma dintre bilanțul natural și cel migratoriu. România a avut după 1990 atât bilanț natural negativ, cât și bilanț migratoriu negativ.",
+    "sample": "În Germania, populația a crescut în ultimii ani deși bilanțul natural a fost negativ, datorită imigrației.",
+    "worked": "Bilanțul total poate fi pozitiv chiar dacă se nasc mai puțini oameni decât mor.",
+    "exercises": [
+     "Clasifică migrațiile.",
+     "Explică factorii de respingere și de atracție.",
+     "Calculează bilanțul total pentru date concrete.",
+     "Numește marile fluxuri migratorii actuale.",
+     "Explică efectele emigrației pentru România."
+    ],
+    "test": [
+     "Ce este migrația?",
+     "Ce este navetismul?",
+     "Ce este bilanțul migratoriu?",
+     "Cum se calculează bilanțul total?",
+     "Ce fel de bilanț migratoriu a avut România după 1990?"
+    ],
+    "steps": [
+     "Identifică tipul de mobilitate.",
+     "Analizează cauzele și direcțiile.",
+     "Calculează bilanțurile și interpretează-le.",
+     "Greșeala frecventă: să crezi că navetismul este migrație; navetistul nu își schimbă locuința."
+    ],
+    "answers": [
+     "Deplasarea oamenilor cu schimbarea locuinței.",
+     "Deplasarea zilnică între locuință și locul de muncă.",
+     "Diferența dintre imigranți și emigranți.",
+     "Bilanțul natural plus bilanțul migratoriu.",
+     "Negativ."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l07": {
+   "ro": {
+    "title": "Răspândirea geografică a populației și densitatea",
+    "theory": "Populația este repartizată foarte inegal: circa 90% trăiește în emisfera nordică, iar majoritatea pe mai puțin de o cincime din uscat. Densitatea medie a lumii este de circa 60 loc./km² de uscat. Factorii naturali favorabili: climă temperată sau caldă și umedă, câmpii și lunci, soluri fertile, apă, apropierea de mare. Factorii nefavorabili: frigul (regiunile polare), ariditatea (deșerturile), altitudinea, pădurile ecuatoriale dese. Factorii social-economici și istorici: vechimea locuirii, resursele, industrializarea, urbanizarea, căile de comunicație. Marile concentrări: Asia de Est (China, Japonia, Coreea), Asia de Sud (India, Bangladesh), Europa, nord-estul SUA. State foarte dens populate: Bangladesh (peste 1.100 loc./km²), Singapore, Monaco; foarte slab: Mongolia, Australia, Canada (sub 5 loc./km²).",
+    "sample": "Bangladesh, cu circa 170 de milioane de locuitori pe o suprafață de trei ori mai mică decât România, are una dintre cele mai mari densități.",
+    "worked": "Câmpia fertilă a deltei Gangelui și Brahmaputrei permite o populație foarte numeroasă, dar expusă inundațiilor.",
+    "exercises": [
+     "Explică repartiția inegală a populației.",
+     "Clasifică factorii care influențează repartiția.",
+     "Numește marile concentrări de populație.",
+     "Calculează densitatea unui stat.",
+     "Explică de ce Canada și Australia au densitate mică."
+    ],
+    "test": [
+     "Ce procent din populație trăiește în emisfera nordică?",
+     "Care este densitatea medie a lumii?",
+     "Ce stat mare are densitate foarte mare?",
+     "Ce factor natural respinge populația din Sahara?",
+     "Ce stat are densitate foarte mică?"
+    ],
+    "steps": [
+     "Analizează harta densității.",
+     "Identifică factorii naturali și umani.",
+     "Explică diferențele regionale.",
+     "Greșeala frecventă: să crezi că densitatea mare înseamnă mereu sărăcie; Singapore și Țările de Jos sunt dens populate și bogate."
+    ],
+    "answers": [
+     "Circa 90%.",
+     "Circa 60 loc./km².",
+     "Bangladesh.",
+     "Ariditatea (lipsa apei).",
+     "Mongolia (sau Australia, Canada)."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l08": {
+   "ro": {
+    "title": "Tipuri de medii de viață",
+    "theory": "Mediile de viață sunt spațiile în care oamenii locuiesc și își desfășoară activitatea, rezultate din adaptarea la condițiile naturale. Mediul rural se caracterizează prin densitate mică, legătură strânsă cu natura, activități agricole, forestiere sau turistice. Mediul urban are densitate mare, clădiri și infrastructură, activități industriale și de servicii. Mediul periurban face trecerea între ele. După condițiile naturale, oamenii s-au adaptat la medii diverse: ecuatoriale (agricultură itinerantă, locuințe pe piloni), deșertice (oaze, nomadism – beduinii, tuaregii), polare (inuiții – vânătoare și pescuit), montane (creșterea animalelor, terase – în Anzi, Himalaya), temperate (agricultură intensivă, orașe). Globalizarea face ca modurile de viață să se apropie, dar diferențele rămân importante.",
+    "sample": "Inuiții din nordul Canadei și Groenlandei s-au adaptat frigului prin îmbrăcăminte din blană, locuințe izolate și hrană din vânătoarea de foci.",
+    "worked": "Mediul de viață arată cum oamenii găsesc soluții pentru condiții naturale dificile.",
+    "exercises": [
+     "Compară mediul rural cu cel urban.",
+     "Explică ce este mediul periurban.",
+     "Descrie adaptarea omului la mediul deșertic.",
+     "Descrie adaptarea omului la mediul montan.",
+     "Explică efectul globalizării asupra modurilor de viață."
+    ],
+    "test": [
+     "Ce este mediul de viață?",
+     "Ce caracterizează mediul rural?",
+     "Ce populații nomade trăiesc în Sahara?",
+     "Cum se numesc locuitorii tradiționali ai Arcticii?",
+     "Ce amenajări agricole se fac în munți?"
+    ],
+    "steps": [
+     "Identifică mediul de viață.",
+     "Descrie condițiile naturale.",
+     "Explică adaptările umane.",
+     "Greșeala frecventă: să crezi că un mod de viață tradițional este „înapoiat”; este adaptat condițiilor locului."
+    ],
+    "answers": [
+     "Spațiul în care oamenii locuiesc și își desfășoară activitatea.",
+     "Densitatea mică și activitățile agricole.",
+     "Beduinii și tuaregii.",
+     "Inuiți.",
+     "Terasele."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l09": {
+   "ro": {
+    "title": "Structuri demografice: rasială, etnolingvistică și confesională",
+    "theory": "Populația lumii este diversă. Rasele umane sunt grupe mari definite tradițional după trăsături fizice exterioare (culoarea pielii, a ochilor, forma părului); știința modernă arată că diferențele genetice dintre ele sunt foarte mici și că toți oamenii aparțin aceleiași specii, Homo sapiens. Structura etnică se referă la popoare (etnii), cu limbă, cultură și istorie comune. Structura lingvistică: peste 7.000 de limbi, grupate în familii (indo-europeană – cea mai răspândită, cu limbile romanice, germanice, slave, indo-iraniene; sino-tibetană; afro-asiatică; altaică; austroneziană). Cele mai vorbite limbi: engleza, chineza mandarină, hindi, spaniola, araba, franceza. Structura confesională: creștinismul (circa 2,4 miliarde), islamul (circa 1,9 miliarde), hinduismul, budismul, religiile tradiționale chineze, iudaismul; un număr mare de oameni nu sunt religioși.",
+    "sample": "Spaniola este limba oficială în peste 20 de state, majoritatea în America Latină.",
+    "worked": "Răspândirea limbilor europene pe alte continente este urmarea colonizării.",
+    "exercises": [
+     "Explică de ce rasele nu sunt categorii biologice stricte.",
+     "Grupează limbile pe familii.",
+     "Numește cele mai vorbite limbi.",
+     "Localizează marile religii pe hartă.",
+     "Explică legătura dintre colonizare și răspândirea limbilor."
+    ],
+    "test": [
+     "Cărei specii îi aparțin toți oamenii?",
+     "Care este cea mai răspândită familie de limbi?",
+     "Care este cea mai răspândită religie?",
+     "Ce religie predomină în Asia de Sud-Vest și Africa de Nord?",
+     "Ce limbă se vorbește în Brazilia?"
+    ],
+    "steps": [
+     "Alege criteriul (rasă, limbă, religie).",
+     "Identifică grupele principale și repartiția lor.",
+     "Explică factorii istorici ai repartiției.",
+     "Greșeala frecventă: să confunzi etnia (popor) cu cetățenia (apartenența la un stat)."
+    ],
+    "answers": [
+     "Homo sapiens.",
+     "Familia indo-europeană.",
+     "Creștinismul.",
+     "Islamul.",
+     "Portugheza."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l10": {
+   "ro": {
+    "title": "Structura pe vârste și sexe, socio-economică și pe medii",
+    "theory": "Structura pe grupe de vârstă se reprezintă prin piramida vârstelor. Piramida cu bază largă și vârf îngust arată o populație tânără, cu natalitate mare (Niger, Nigeria); piramida cu bază îngustă („urnă”) arată o populație îmbătrânită (Japonia, Italia, România). Îmbătrânirea demografică creează presiune pe sistemul de pensii și sănătate, iar populația foarte tânără are nevoie de școli și locuri de muncă. Structura pe sexe este aproape echilibrată; la vârste înaintate predomină femeile (speranță de viață mai mare). Structura socio-economică împarte populația activă pe sectoare: primar (agricultură, silvicultură, pescuit, minerit), secundar (industrie, construcții), terțiar (servicii) și, uneori, cuaternar (cercetare, IT). În statele dezvoltate predomină serviciile. Structura pe medii arată ponderea urbanului și a ruralului; peste 55% din omenire trăiește în orașe.",
+    "sample": "Japonia are aproape 30% din populație peste 65 de ani.",
+    "worked": "O pondere mare a vârstnicilor cere adaptarea economiei, a serviciilor de sănătate și a pensiilor.",
+    "exercises": [
+     "Interpretează o piramidă a vârstelor.",
+     "Compară o populație tânără cu una îmbătrânită.",
+     "Explică urmările îmbătrânirii.",
+     "Clasifică sectoarele de activitate.",
+     "Explică evoluția structurii pe medii."
+    ],
+    "test": [
+     "Ce formă are piramida unei populații tinere?",
+     "Ce stat are o populație foarte îmbătrânită?",
+     "Ce sector cuprinde serviciile?",
+     "Ce procent din omenire trăiește în orașe?",
+     "De ce predomină femeile la vârste înaintate?"
+    ],
+    "steps": [
+     "Citește piramida pe grupe de vârstă.",
+     "Identifică tipul de populație.",
+     "Explică cauzele și consecințele.",
+     "Greșeala frecventă: să crezi că o populație tânără este automat un avantaj; ea cere investiții mari în educație și locuri de muncă."
+    ],
+    "answers": [
+     "Bază largă și vârf îngust.",
+     "Japonia.",
+     "Sectorul terțiar.",
+     "Peste 55%.",
+     "Femeile au speranță de viață mai mare."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l11": {
+   "ro": {
+    "title": "Populația, protecția mediului și dezvoltarea durabilă",
+    "theory": "Creșterea populației și a consumului pun presiune pe mediu: mai multă hrană (defrișări, terenuri agricole), mai multă apă, energie, locuințe și deșeuri. Impactul nu depinde doar de numărul de oameni, ci și de consumul pe locuitor: un locuitor dintr-un stat bogat consumă mult mai multe resurse și emite mai mult dioxid de carbon decât unul dintr-un stat sărac. Amprenta ecologică arată suprafața de teren productiv necesară pentru a susține consumul unei persoane sau al unei țări. Dezvoltarea durabilă înseamnă satisfacerea nevoilor prezentului fără a compromite nevoile generațiilor viitoare; ea are trei piloni: economic, social și de mediu. ONU a adoptat în 2015 cele 17 Obiective de Dezvoltare Durabilă (eradicarea sărăciei, educație de calitate, apă curată, energie curată, acțiune climatică etc.).",
+    "sample": "Amprenta ecologică medie a unui locuitor din Qatar sau SUA este de câteva ori mai mare decât a unui locuitor din India.",
+    "worked": "Inegalitatea consumului arată că problema mediului ține și de modul de viață, nu doar de numărul de oameni.",
+    "exercises": [
+     "Explică relația dintre populație și mediu.",
+     "Explică ce este amprenta ecologică.",
+     "Compară consumul în statele bogate și sărace.",
+     "Explică pilonii dezvoltării durabile.",
+     "Numește cinci Obiective de Dezvoltare Durabilă."
+    ],
+    "test": [
+     "Ce este amprenta ecologică?",
+     "Câte Obiective de Dezvoltare Durabilă a adoptat ONU?",
+     "În ce an au fost adoptate?",
+     "Care sunt pilonii dezvoltării durabile?",
+     "De ce depinde impactul asupra mediului?"
+    ],
+    "steps": [
+     "Identifică presiunea asupra mediului.",
+     "Analizează rolul numărului și al consumului.",
+     "Propune soluții de dezvoltare durabilă.",
+     "Greșeala frecventă: să crezi că doar statele foarte populate afectează mediul; consumul pe locuitor contează enorm."
+    ],
+    "answers": [
+     "Suprafața productivă necesară pentru a susține consumul.",
+     "17.",
+     "În 2015.",
+     "Economic, social și de mediu.",
+     "De numărul de oameni și de consumul pe locuitor."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l12": {
+   "ro": {
+    "title": "Habitatul uman: definire și componente",
+    "theory": "Habitatul uman este spațiul amenajat de om pentru locuire și activități. Componentele lui: vatra (partea construită, cu locuințe, clădiri, străzi), moșia sau teritoriul (terenurile din jur folosite pentru agricultură, pășuni, păduri), populația, funcțiile, infrastructura. Așezările umane se împart în rurale (sate, cătune) și urbane (orașe). Locul unde se află așezarea (situl) și poziția față de alte elemente (văi, drumuri, râuri, porturi) explică apariția și dezvoltarea ei: așezări la vaduri de râu, la confluențe, la contactul dintre unități de relief (târguri), în porturi, lângă resurse. Criteriile de definire a orașului diferă de la o țară la alta: număr de locuitori (de la 200 în Danemarca la 10.000 sau mai mult în alte state), funcții, statut administrativ.",
+    "sample": "Multe orașe românești s-au dezvoltat la contactul dealurilor cu câmpia, unde se schimbau produse diferite.",
+    "worked": "Târgurile au apărut acolo unde se întâlneau oameni cu ocupații complementare: crescători de animale și agricultori.",
+    "exercises": [
+     "Explică ce este habitatul uman.",
+     "Enumeră componentele unei așezări.",
+     "Explică diferența dintre sit și poziție.",
+     "Dă exemple de așezări apărute la vaduri sau confluențe.",
+     "Explică de ce criteriile de oraș diferă între țări."
+    ],
+    "test": [
+     "Ce este habitatul uman?",
+     "Ce este vatra unei așezări?",
+     "Ce este moșia?",
+     "Ce este situl unei așezări?",
+     "Unde au apărut multe târguri?"
+    ],
+    "steps": [
+     "Identifică situl și poziția așezării.",
+     "Descrie componentele.",
+     "Explică apariția și dezvoltarea ei.",
+     "Greșeala frecventă: să crezi că un oraș se definește doar prin numărul de locuitori; contează și funcțiile și statutul."
+    ],
+    "answers": [
+     "Spațiul amenajat de om pentru locuire și activități.",
+     "Partea construită a așezării.",
+     "Teritoriul folosit din jurul vetrei.",
+     "Locul pe care este construită așezarea.",
+     "La contactul dintre unități de relief diferite."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l13": {
+   "ro": {
+    "title": "Urbanizarea, dinamica urbană și explozia urbană",
+    "theory": "Urbanizarea este procesul de creștere a numărului de orașe, a populației urbane și de răspândire a modului de viață urban. Primele orașe au apărut acum peste 5.000 de ani în Mesopotamia, Egipt, Valea Indusului și China. Revoluția industrială a accelerat urbanizarea în Europa și America de Nord în secolele XIX–XX. În 1950, circa 30% din omenire trăia în orașe; astăzi peste 55%; până în 2050, circa două treimi. Gradul de urbanizare este mare în statele dezvoltate și în America Latină (peste 80%) și mai mic în Africa și Asia de Sud. Explozia urbană din statele în dezvoltare este foarte rapidă, alimentată de exodul rural și de sporul natural, și produce cartiere informale (favelas, bidonvilluri), lipsa infrastructurii, trafic și poluare. În statele dezvoltate apar suburbanizarea (mutarea spre periferii) și, uneori, reurbanizarea centrelor.",
+    "sample": "Lagos (Nigeria) a crescut de la mai puțin de 1 milion de locuitori în 1960 la peste 15 milioane în aglomerare.",
+    "worked": "Creșterea atât de rapidă depășește capacitatea autorităților de a construi locuințe și infrastructură.",
+    "exercises": [
+     "Explică ce este urbanizarea.",
+     "Ordonează etapele istorice ale urbanizării.",
+     "Compară gradul de urbanizare pe continente.",
+     "Explică cauzele exploziei urbane.",
+     "Compară problemele urbane din statele dezvoltate și în dezvoltare."
+    ],
+    "test": [
+     "Unde au apărut primele orașe?",
+     "Ce procent din omenire trăia în orașe în 1950?",
+     "Ce regiune are grad de urbanizare de peste 80%?",
+     "Ce sunt favelele?",
+     "Ce este suburbanizarea?"
+    ],
+    "steps": [
+     "Analizează datele despre populația urbană.",
+     "Explică ritmul și cauzele urbanizării.",
+     "Identifică problemele și soluțiile.",
+     "Greșeala frecventă: să crezi că urbanizarea înseamnă automat dezvoltare; în multe state, orașele cresc fără locuri de muncă suficiente."
+    ],
+    "answers": [
+     "În Mesopotamia, Egipt, Valea Indusului, China.",
+     "Circa 30%.",
+     "America Latină (sau statele dezvoltate).",
+     "Cartiere informale sărace din orașele braziliene.",
+     "Mutarea populației din centrul orașului spre periferii."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l14": {
+   "ro": {
+    "title": "Funcțiile și structura funcțională a așezărilor",
+    "theory": "Funcțiile urbane sunt activitățile prin care un oraș servește populația proprie și pe cea din jur. Tipuri de funcții: administrativ-politică (capitale – Washington, Brasília, Canberra), industrială (Detroit, Ruhr, Galați), comercială și financiară (Londra, New York, Frankfurt, Hong Kong), de transport (porturi – Rotterdam, Shanghai, Singapore; noduri feroviare și aeriene), culturală și universitară (Oxford, Cambridge, Heidelberg), religioasă (Mecca, Vatican, Ierusalim), turistică și balneară (Veneția, Nisa, Băile Herculane), militară. Orașele mari sunt polifuncționale. Structura funcțională internă cuprinde zone: centrul (CBD – zona de afaceri, comerț, instituții), zonele rezidențiale, industriale, comerciale periferice, spațiile verzi. Așezările rurale au funcții agricole, pastorale, forestiere, pescărești, turistice sau mixte.",
+    "sample": "Mecca primește anual milioane de pelerini musulmani, ceea ce îi face funcția religioasă dominantă.",
+    "worked": "Funcția principală explică infrastructura orașului: hoteluri, transport, servicii pentru vizitatori.",
+    "exercises": [
+     "Clasifică funcțiile urbane.",
+     "Dă exemple de orașe pentru fiecare funcție.",
+     "Explică ce este un oraș polifuncțional.",
+     "Descrie zonele funcționale ale unui oraș.",
+     "Identifică funcțiile orașului tău sau ale celui mai apropiat oraș."
+    ],
+    "test": [
+     "Ce este funcția urbană?",
+     "Ce oraș are funcție religioasă importantă?",
+     "Ce este CBD?",
+     "Ce oraș este centru financiar mondial?",
+     "Ce funcții au satele din Delta Dunării?"
+    ],
+    "steps": [
+     "Identifică activitățile dominante.",
+     "Stabilește funcția principală.",
+     "Analizează structura funcțională internă.",
+     "Greșeala frecventă: să atribui unui oraș mare o singură funcție; orașele mari au funcții multiple."
+    ],
+    "answers": [
+     "Activitatea prin care orașul servește populația proprie și din jur.",
+     "Mecca (sau Vatican, Ierusalim).",
+     "Zona centrală de afaceri a orașului.",
+     "Londra (sau New York).",
+     "Funcții pescărești și turistice."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l15": {
+   "ro": {
+    "title": "Forme de aglomerare umană: metropole și megalopolisuri",
+    "theory": "Când orașele cresc, ele se extind și se unesc cu localitățile din jur. Aglomerarea urbană este orașul central împreună cu localitățile din jur legate funcțional de el. Zona metropolitană cuprinde orașul și aria lui de influență zilnică (navetism). Conurbația este unirea mai multor orașe de mărime apropiată (Ruhr în Germania, Randstad în Țările de Jos). Metropola este un oraș foarte mare, cu rol de conducere regională sau națională. Megaorașele au peste 10 milioane de locuitori (Tokyo, Delhi, Shanghai, Dhaka, São Paulo, Cairo, Ciudad de México, Beijing, Mumbai). Megalopolisul este o regiune urbanizată continuă de zeci de milioane de locuitori: Boston–Washington (BosWash) în SUA, Tokaido (Tokyo–Osaka) în Japonia, „Banana albastră” în Europa (de la Londra la Milano). Orașele globale (New York, Londra, Tokyo, Paris) controlează fluxurile financiare și economice mondiale.",
+    "sample": "Megalopolisul BosWash, pe coasta de est a SUA, are peste 50 de milioane de locuitori pe circa 700 km.",
+    "worked": "Orașele mari s-au unit prin suburbii și căi de comunicație, formând o singură regiune urbană.",
+    "exercises": [
+     "Explică diferența dintre aglomerare și conurbație.",
+     "Numește megaorașe ale lumii.",
+     "Descrie un megalopolis.",
+     "Explică ce este un oraș global.",
+     "Localizează pe hartă trei megalopolisuri."
+    ],
+    "test": [
+     "Ce este o conurbație?",
+     "Câți locuitori are un megaoraș?",
+     "Ce megalopolis se află în Japonia?",
+     "Ce este „Banana albastră”?",
+     "Dă exemplu de oraș global."
+    ],
+    "steps": [
+     "Identifică forma de aglomerare.",
+     "Analizează mărimea și legăturile funcționale.",
+     "Localizeaz-o și dă exemple.",
+     "Greșeala frecventă: să confunzi megaorașul (un oraș uriaș) cu megalopolisul (o regiune de orașe unite)."
+    ],
+    "answers": [
+     "Unirea mai multor orașe de mărime apropiată.",
+     "Peste 10 milioane.",
+     "Tokaido (Tokyo–Osaka).",
+     "Axa urbană europeană de la Londra la Milano.",
+     "New York (sau Londra, Tokyo, Paris)."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l16": {
+   "ro": {
+    "title": "Peisajele rurale",
+    "theory": "Peisajul rural este imaginea spațiului rural, rezultată din forma satelor, structura terenurilor agricole, tipul de culturi și amenajări. Factorii care îl modelează: relieful, clima, solurile, tradițiile, sistemul de proprietate și tehnologia. Tipuri de peisaje: openfield (câmpuri deschise, fără garduri, în câmpiile Europei), bocage (câmpuri înconjurate de garduri vii, în vestul Franței și Anglia), peisaje cu terase (orezării din Asia de Sud-Est, viticultură în Portugalia), peisaje de mari plantații (cafea, banane, trestie de zahăr), peisaje cu ferme mari mecanizate (Marile Câmpii ale SUA, cu parcele regulate), peisaje cu agricultură de subzistență și parcele mici. În România, peisajele rurale variază de la satele adunate din câmpie, cu parcele mari, la satele risipite din munți, cu fânețe. Peisajele rurale se schimbă prin mecanizare, comasare, urbanizare și turism.",
+    "sample": "Terasele cu orez din Asia de Sud-Est sunt construite pe pante abrupte, cu sisteme ingenioase de irigare.",
+    "worked": "Omul a transformat versanții în trepte orizontale pentru a reține apa necesară orezului.",
+    "exercises": [
+     "Explică ce este peisajul rural.",
+     "Compară openfield cu bocage.",
+     "Descrie peisajul cu terase.",
+     "Descrie un peisaj rural din România.",
+     "Explică schimbările actuale ale peisajelor rurale."
+    ],
+    "test": [
+     "Ce este un peisaj de tip openfield?",
+     "Unde se întâlnește bocage?",
+     "Ce cultură se face pe terase în Asia?",
+     "Ce caracterizează fermele din Marile Câmpii?",
+     "Ce schimbă peisajul rural azi?"
+    ],
+    "steps": [
+     "Observă forma parcelelor și a satelor.",
+     "Identifică tipul de peisaj.",
+     "Explică factorii naturali și umani.",
+     "Greșeala frecventă: să crezi că peisajul rural este natural; este creat de om de-a lungul secolelor."
+    ],
+    "answers": [
+     "Câmpuri deschise, fără garduri.",
+     "În vestul Franței și în Anglia.",
+     "Orezul.",
+     "Parcele mari, regulate, mecanizate.",
+     "Mecanizarea, comasarea, urbanizarea, turismul."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l17": {
+   "ro": {
+    "title": "Organizarea spațiului urban și rural; planul orașului; amenajarea teritoriului",
+    "theory": "Planul orașului arată modul de organizare a străzilor și clădirilor. Tipuri: radial-concentric (străzi care pornesc din centru și inele – Moscova, Paris, București), rectangular sau în tablă de șah (străzi perpendiculare – New York, Barcelona, multe orașe americane), liniar (de-a lungul unei văi sau artere), neregulat (orașe medievale, orașe arabe vechi). Amenajarea teritoriului înseamnă organizarea planificată a spațiului pentru a folosi rațional terenurile, a dezvolta echilibrat regiunile și a proteja mediul. La nivel local se folosesc planurile urbanistice (PUG), care stabilesc zonele de locuit, industriale, verzi, rețelele de transport. La nivel regional se urmăresc reducerea diferențelor dintre regiuni, infrastructura, protecția zonelor naturale. Exemple: orașe noi planificate (Brasília, Canberra), reabilitarea zonelor industriale abandonate, transport public modern.",
+    "sample": "Barcelona are un cartier (Eixample) cu străzi perpendiculare și intersecții teșite, proiectat în secolul al XIX-lea.",
+    "worked": "Planul rectangular face orientarea ușoară și permite circulația eficientă.",
+    "exercises": [
+     "Clasifică planurile orașelor.",
+     "Dă exemple de orașe pentru fiecare tip de plan.",
+     "Explică ce este amenajarea teritoriului.",
+     "Explică rolul planului urbanistic general.",
+     "Propune o amenajare pentru localitatea ta."
+    ],
+    "test": [
+     "Ce plan are New York?",
+     "Ce plan are Moscova?",
+     "Ce este amenajarea teritoriului?",
+     "Ce document organizează un oraș?",
+     "Ce capitală a fost construită după un plan?"
+    ],
+    "steps": [
+     "Observă rețeaua de străzi.",
+     "Identifică tipul de plan.",
+     "Evaluează avantajele și propune amenajări.",
+     "Greșeala frecventă: să crezi că orașele cresc doar spontan; multe sunt planificate total sau parțial."
+    ],
+    "answers": [
+     "Rectangular (în tablă de șah).",
+     "Radial-concentric.",
+     "Organizarea planificată a spațiului.",
+     "Planul urbanistic general (PUG).",
+     "Brasília (sau Canberra)."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l18": {
+   "ro": {
+    "title": "Resursele extraatmosferice, ale atmosferei și ale litosferei",
+    "theory": "Resursele naturale sunt elemente ale mediului folosite de om. Resursele extraatmosferice și atmosferice sunt energia solară (inepuizabilă, folosită în panouri fotovoltaice și termice), energia vântului (turbine eoliene – mai ales pe coaste și în larg: Marea Nordului, Danemarca, Dobrogea) și gazele din aer (azot, oxigen, folosite industrial). Resursele litosferei sunt: combustibilii fosili (cărbune, petrol, gaze naturale – neregenerabili), minereurile metalifere (fier, cupru, aluminiu din bauxită, aur, litiu, pământuri rare), minereurile nemetalifere (sare, sulf, fosfați), rocile de construcție, energia geotermală (Islanda, Italia) și solul. Petrolul se află mai ales în Orientul Mijlociu (Arabia Saudită, Iran, Irak), Venezuela, Rusia, SUA, Canada. Exploatarea lor produce dezvoltare, dar și poluare, epuizare și conflicte.",
+    "sample": "Islanda își încălzește majoritatea locuințelor folosind apa fierbinte din subsol.",
+    "worked": "Poziția pe Dorsala Atlantică oferă Islandei o energie geotermală abundentă.",
+    "exercises": [
+     "Clasifică resursele după sursă.",
+     "Compară resursele regenerabile cu cele neregenerabile.",
+     "Localizează marile zăcăminte de petrol.",
+     "Explică ce este energia geotermală.",
+     "Explică efectele exploatării resurselor."
+    ],
+    "test": [
+     "Ce resursă extraatmosferică este inepuizabilă?",
+     "Unde sunt multe parcuri eoliene marine?",
+     "Ce stat are mari rezerve de petrol?",
+     "Din ce minereu se obține aluminiul?",
+     "Ce stat folosește mult energia geotermală?"
+    ],
+    "steps": [
+     "Identifică resursa naturală.",
+     "Stabilește dacă este regenerabilă.",
+     "Localizează-o și explică folosirea.",
+     "Greșeala frecventă: să crezi că energia solară nu are niciun impact; producerea panourilor folosește resurse și energie."
+    ],
+    "answers": [
+     "Energia solară.",
+     "În Marea Nordului.",
+     "Arabia Saudită (sau Venezuela, Iran).",
+     "Din bauxită.",
+     "Islanda."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l19": {
+   "ro": {
+    "title": "Resursele hidrosferei și ale biosferei",
+    "theory": "Resursele hidrosferei sunt: apa dulce pentru consum, agricultură și industrie; energia hidraulică (marile hidrocentrale: Trei Defileuri – China, Itaipu – Brazilia/Paraguay, Porțile de Fier – România/Serbia); energia mareelor și a valurilor; resursele oceanului: pește și fructe de mare, sare, petrol și gaze de pe platformele continentale, noduli polimetalici pe fundul oceanului; căile de transport. Resursele biosferei sunt: pădurile (lemn, hârtie, biomasă, oxigen, protecția solului), resursele piscicole, vânatul, plantele medicinale, pajiștile pentru creșterea animalelor, diversitatea genetică. Supraexploatarea (pescuitul excesiv, defrișările – Amazonia, Indonezia, Congo) și poluarea le amenință. Gestionarea durabilă presupune cote de pescuit, certificarea lemnului, împăduriri, arii protejate.",
+    "sample": "Itaipu, pe fluviul Parana, produce o parte uriașă din electricitatea Paraguayului și a Braziliei.",
+    "worked": "Un fluviu mare cu debit constant poate furniza energie curată pentru milioane de oameni.",
+    "exercises": [
+     "Enumeră resursele hidrosferei.",
+     "Numește mari hidrocentrale.",
+     "Enumeră resursele biosferei.",
+     "Explică efectele pescuitului excesiv.",
+     "Propune măsuri de gestionare durabilă a pădurilor."
+    ],
+    "test": [
+     "Ce hidrocentrală se află pe Yangtze?",
+     "Ce resurse se găsesc pe fundul oceanului?",
+     "Ce rol au pădurile pentru mediu?",
+     "Ce înseamnă pescuit excesiv?",
+     "Ce măsură protejează resursele piscicole?"
+    ],
+    "steps": [
+     "Identifică resursa apei sau a vieții.",
+     "Precizează folosirea ei.",
+     "Analizează riscurile și soluțiile de gestionare.",
+     "Greșeala frecventă: să crezi că resursele biosferei se refac oricât le-am exploata; ele se pot epuiza."
+    ],
+    "answers": [
+     "Trei Defileuri.",
+     "Noduli polimetalici (și petrol, gaze).",
+     "Produc oxigen, protejează solul, reglează clima.",
+     "Pescuitul mai rapid decât se pot reface populațiile de pești.",
+     "Cotele de pescuit."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l20": {
+   "ro": {
+    "title": "Evoluția practicilor agricole; tipuri și structuri agricole",
+    "theory": "Agricultura a apărut acum circa 10.000 de ani în Orientul Apropiat (Semiluna Fertilă), apoi în China, America Centrală și alte regiuni (revoluția neolitică). Practicile s-au schimbat: agricultura itinerantă (defrișare prin ardere, cultivare câțiva ani, apoi mutare – încă în zonele ecuatoriale), agricultura tradițională de subzistență, rotația culturilor, mecanizarea (secolele XIX–XX), Revoluția Verde (după 1960 – soiuri productive, îngrășăminte, irigații în Asia și America Latină), agricultura de precizie (GPS, drone, senzori) și agricultura ecologică. Tipuri: agricultura intensivă (producții mari la hectar, multă muncă sau capital – Europa de Vest, orezăriile din Asia), extensivă (suprafețe mari, producție mică la hectar – pășunile din Australia), de subzistență (pentru familie) și comercială (pentru piață), plantațiile tropicale. Structurile agricole se referă la mărimea exploatațiilor, forma de proprietate și raportul dintre cultura plantelor și creșterea animalelor.",
+    "sample": "Revoluția Verde a dublat producția de cereale din India în câteva decenii.",
+    "worked": "Soiurile noi, irigațiile și îngrășămintele au redus foametea, dar au crescut consumul de apă și poluarea solului.",
+    "exercises": [
+     "Explică apariția agriculturii.",
+     "Ordonează etapele evoluției agriculturii.",
+     "Explică ce a fost Revoluția Verde.",
+     "Compară agricultura intensivă cu cea extensivă.",
+     "Explică ce este agricultura de precizie."
+    ],
+    "test": [
+     "Unde a apărut agricultura?",
+     "Ce este agricultura itinerantă?",
+     "Ce a adus Revoluția Verde?",
+     "Ce este agricultura de subzistență?",
+     "Ce tehnologii folosește agricultura de precizie?"
+    ],
+    "steps": [
+     "Identifică tipul de agricultură.",
+     "Precizează regiunea și caracteristicile.",
+     "Evaluează avantajele și efectele asupra mediului.",
+     "Greșeala frecventă: să confunzi agricultura intensivă cu cea „mare”; intensivă înseamnă producție mare pe hectar."
+    ],
+    "answers": [
+     "În Orientul Apropiat (Semiluna Fertilă).",
+     "Defrișare, cultivare câțiva ani, apoi mutarea pe alt teren.",
+     "Soiuri productive, îngrășăminte și irigații.",
+     "Agricultura pentru hrana familiei.",
+     "GPS, drone, senzori."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l21": {
+   "ro": {
+    "title": "Regiuni și peisaje agricole ale lumii",
+    "theory": "Marile regiuni agricole sunt legate de climă și tradiții. Grâul se cultivă în zonele temperate (China, India, Rusia, SUA, Canada, Franța, Ucraina, Argentina, Australia, România). Orezul domină Asia musonică (China, India, Indonezia, Bangladesh, Vietnam, Thailanda). Porumbul: SUA (Corn Belt), China, Brazilia, Argentina, Ucraina. Soia: Brazilia, SUA, Argentina. Plantele tropicale: cafea (Brazilia, Vietnam, Columbia), cacao (Coasta de Fildeș, Ghana), trestie de zahăr (Brazilia, India), banane, cauciuc natural, ceai (China, India, Kenya, Sri Lanka). Creșterea animalelor: bovine (Brazilia, India, SUA, Argentina), ovine (Australia, Noua Zeelandă, China), porcine (China, UE). Peisaje agricole: Corn Belt și Wheat Belt în SUA, pampa argentiniană, orezăriile Asiei, plantațiile tropicale, câmpiile cerealiere ale Europei de Est, agricultura mediteraneană.",
+    "sample": "În Corn Belt-ul SUA, porumbul se cultivă împreună cu soia și este folosit mult pentru hrana animalelor și biocombustibili.",
+    "worked": "O regiune agricolă se specializează după climă, sol și cererea pieței.",
+    "exercises": [
+     "Localizează marile regiuni cerealiere.",
+     "Numește principalii producători de orez.",
+     "Numește plantele tropicale și producătorii lor.",
+     "Localizează regiunile de creștere a animalelor.",
+     "Descrie un peisaj agricol al lumii."
+    ],
+    "test": [
+     "Ce stat produce cel mai mult cafea?",
+     "Ce cereală domină Asia musonică?",
+     "Ce este Corn Belt?",
+     "Ce stat produce mult cacao?",
+     "Ce stat are foarte multe oi?"
+    ],
+    "steps": [
+     "Identifică produsul agricol.",
+     "Leagă-l de climă și sol.",
+     "Localizează principalii producători.",
+     "Greșeala frecventă: să crezi că produsele tropicale se pot cultiva oriunde; ele cer căldură și umezeală."
+    ],
+    "answers": [
+     "Brazilia.",
+     "Orezul.",
+     "Regiunea porumbului din SUA.",
+     "Coasta de Fildeș.",
+     "Australia."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l22": {
+   "ro": {
+    "title": "Evoluția activităților industriale",
+    "theory": "Industria a evoluat de la meșteșuguri și manufacturi la marea industrie. Prima revoluție industrială (Marea Britanie, a doua jumătate a secolului al XVIII-lea) s-a bazat pe mașina cu abur, cărbune, textile și metalurgie. A doua revoluție industrială (sfârșitul secolului al XIX-lea) a adus electricitatea, petrolul, industria chimică și automobilul, cu producția pe bandă rulantă (Ford). A treia revoluție (după 1970) a adus electronica, calculatoarele, automatizarea. A patra (Industria 4.0) folosește roboți, inteligență artificială, internetul lucrurilor. Factorii de amplasare s-au schimbat: inițial lângă cărbune și minereuri (Ruhr, Silezia, Pennsylvania), apoi lângă porturi, piețe de consum și forță de muncă ieftină sau calificată, centre de cercetare. Dezindustrializarea a afectat vechile regiuni din Europa și SUA, iar producția s-a mutat în Asia (China, Vietnam, India).",
+    "sample": "Detroit, fostă capitală mondială a automobilului, și-a pierdut o mare parte din populație după declinul industriei.",
+    "worked": "Mutarea industriei poate transforma radical un oraș întreg: locuri de muncă pierdute, cartiere părăsite, scăderea populației.",
+    "exercises": [
+     "Ordonează revoluțiile industriale.",
+     "Explică factorii de amplasare a industriei.",
+     "Explică ce este dezindustrializarea.",
+     "Explică mutarea industriei în Asia.",
+     "Explică ce este Industria 4.0."
+    ],
+    "test": [
+     "Unde a început prima revoluție industrială?",
+     "Ce sursă de energie a dominat prima revoluție industrială?",
+     "Cine a introdus banda rulantă?",
+     "Ce oraș american a fost centrul automobilelor?",
+     "Ce înseamnă Industria 4.0?"
+    ],
+    "steps": [
+     "Identifică etapa industrială.",
+     "Precizează tehnologiile și resursele.",
+     "Explică schimbările în amplasarea industriei.",
+     "Greșeala frecventă: să crezi că industria a dispărut din Europa; s-a transformat spre ramuri de vârf."
+    ],
+    "answers": [
+     "În Marea Britanie.",
+     "Cărbunele.",
+     "Henry Ford.",
+     "Detroit.",
+     "Industria cu roboți, inteligență artificială și internetul lucrurilor."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l23": {
+   "ro": {
+    "title": "Industria energiei electrice",
+    "theory": "Energia electrică se produce în mai multe tipuri de centrale. Termocentralele ard cărbune, petrol sau gaze (cea mai mare parte a electricității mondiale, dar cu emisii mari de dioxid de carbon); China, India și SUA folosesc mult cărbunele. Hidrocentralele folosesc energia apei (Norvegia, Brazilia, Canada, China). Centralele nucleare folosesc fisiunea uraniului: SUA, Franța (cea mai mare pondere a nuclearului), China, Rusia, Coreea de Sud; România la Cernavodă. Accidentele de la Cernobîl (1986) și Fukushima (2011) au ridicat probleme de siguranță. Energia regenerabilă (eoliană, solară, geotermală, biomasă) crește rapid: China este cel mai mare producător de energie solară și eoliană; Germania, Spania, Danemarca au ponderi mari. Tranziția energetică urmărește înlocuirea combustibililor fosili cu surse curate. Consumul de electricitate pe locuitor arată nivelul de dezvoltare.",
+    "sample": "Franța produce aproximativ două treimi din electricitate în centrale nucleare.",
+    "worked": "Alegerea surselor de energie depinde de resursele țării și de deciziile politice.",
+    "exercises": [
+     "Clasifică tipurile de centrale electrice.",
+     "Compară avantajele și dezavantajele nuclearului.",
+     "Numește statele cu multă hidroenergie.",
+     "Explică ce este tranziția energetică.",
+     "Explică legătura dintre consumul de energie și dezvoltare."
+    ],
+    "test": [
+     "Ce tip de centrală produce cea mai mare parte a electricității mondiale?",
+     "Ce stat are cea mai mare pondere a energiei nucleare?",
+     "Unde a avut loc accidentul nuclear din 2011?",
+     "Ce stat produce cea mai multă energie solară?",
+     "Unde se află centrala nucleară din România?"
+    ],
+    "steps": [
+     "Identifică sursa de energie.",
+     "Analizează avantajele și dezavantajele.",
+     "Localizează principalii producători.",
+     "Greșeala frecventă: să crezi că energia regenerabilă poate înlocui imediat toată energia fosilă; tranziția cere timp și stocare."
+    ],
+    "answers": [
+     "Termocentralele.",
+     "Franța.",
+     "La Fukushima (Japonia).",
+     "China.",
+     "La Cernavodă."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l24": {
+   "ro": {
+    "title": "Regiunile industriale; studiu de caz",
+    "theory": "O regiune industrială este un teritoriu cu o concentrare mare de întreprinderi industriale. Regiuni clasice: Ruhr (Germania – bazată inițial pe cărbune și oțel, azi diversificată), Midlands (Anglia), Silezia (Polonia), nord-estul SUA (Manufacturing Belt), Donbas (Ucraina). Regiuni moderne: Silicon Valley (California – electronică, IT), Bavaria (automobile, electronică), nordul Italiei (Lombardia), Ile-de-France, Tokaido (Japonia), deltele Yangtze și Perlelor din China, Bangalore (India – IT), coasta Coreei de Sud. Studiu de caz: Ruhr a trecut de la mine și oțelării la servicii, logistică, cercetare și cultură (fostele mine transformate în muzee și spații culturale – complexul Zollverein, patrimoniu UNESCO). Delta Perlelor (Guangdong) a devenit în câteva decenii una dintre cele mai mari regiuni industriale ale lumii, cu electronice și textile pentru export.",
+    "sample": "Complexul minier Zollverein din Essen a fost transformat dintr-o mină de cărbune într-un centru cultural în patrimoniul UNESCO.",
+    "worked": "Restructurarea industrială poate transforma o regiune în declin într-un spațiu nou, atractiv.",
+    "exercises": [
+     "Numește regiuni industriale clasice.",
+     "Numește regiuni industriale moderne.",
+     "Prezintă evoluția regiunii Ruhr.",
+     "Prezintă dezvoltarea Deltei Perlelor.",
+     "Compară o regiune europeană cu una extraeuropeană."
+    ],
+    "test": [
+     "Ce bazin industrial german s-a bazat pe cărbune?",
+     "Unde se află Silicon Valley?",
+     "Ce oraș indian este centru IT?",
+     "Ce regiune chineză a devenit mare centru industrial?",
+     "Ce s-a întâmplat cu mina Zollverein?"
+    ],
+    "steps": [
+     "Localizează regiunea.",
+     "Identifică factorii apariției și ramurile.",
+     "Analizează evoluția și problemele ei.",
+     "Greșeala frecventă: să crezi că regiunile industriale rămân la fel; ele se transformă odată cu tehnologia."
+    ],
+    "answers": [
+     "Bazinul Ruhr.",
+     "În California (SUA).",
+     "Bangalore.",
+     "Delta Perlelor (Guangdong).",
+     "A devenit centru cultural, în patrimoniul UNESCO."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l25": {
+   "ro": {
+    "title": "Serviciile: definire și tipuri",
+    "theory": "Serviciile (sectorul terțiar) sunt activități care nu produc bunuri materiale, ci satisfac nevoi ale oamenilor și ale economiei. Tipuri: servicii pentru populație (comerț, educație, sănătate, cultură, turism, servicii personale), servicii pentru economie (transporturi, telecomunicații, bănci, asigurări, consultanță, publicitate), servicii publice (administrație, apărare, ordine publică). Sectorul cuaternar cuprinde activitățile bazate pe cunoaștere: cercetare, IT, inteligență artificială. Terțiarizarea economiei este creșterea ponderii serviciilor: în statele dezvoltate peste 70% din populația activă lucrează în servicii. Serviciile se concentrează în orașe, mai ales în orașele globale. Digitalizarea a schimbat serviciile: comerț online, bănci digitale, muncă la distanță.",
+    "sample": "În SUA și Marea Britanie, aproximativ 80% dintre angajați lucrează în servicii.",
+    "worked": "Terțiarizarea arată trecerea de la o economie industrială la una bazată pe servicii și cunoaștere.",
+    "exercises": [
+     "Explică ce sunt serviciile.",
+     "Clasifică serviciile.",
+     "Explică ce este terțiarizarea.",
+     "Explică ce este sectorul cuaternar.",
+     "Dă exemple de servicii digitale."
+    ],
+    "test": [
+     "Ce sector cuprinde serviciile?",
+     "Ce procent din angajați lucrează în servicii în statele dezvoltate?",
+     "Ce este sectorul cuaternar?",
+     "Unde se concentrează serviciile?",
+     "Ce a schimbat digitalizarea?"
+    ],
+    "steps": [
+     "Identifică activitatea.",
+     "Încadreaz-o într-un tip de serviciu.",
+     "Explică rolul ei în economie.",
+     "Greșeala frecventă: să crezi că serviciile nu produc valoare; ele formează cea mai mare parte a economiilor dezvoltate."
+    ],
+    "answers": [
+     "Sectorul terțiar.",
+     "Peste 70%.",
+     "Activitățile bazate pe cunoaștere (cercetare, IT).",
+     "În orașe.",
+     "Comerțul, băncile și munca (online)."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l26": {
+   "ro": {
+    "title": "Căile de comunicație și transporturile",
+    "theory": "Transporturile leagă locurile de producție de cele de consum și permit mobilitatea oamenilor. Transportul rutier este cel mai flexibil (autostrăzi – rețele dense în Europa, SUA, China); transportul feroviar este eficient pentru mărfuri grele și călători (trenuri de mare viteză – Shinkansen în Japonia, TGV, rețeaua din China, cea mai mare din lume); transportul naval maritim transportă cea mai mare parte a mărfurilor din comerțul mondial, cu nave container și petroliere (porturi: Shanghai, Singapore, Ningbo, Rotterdam); canale strategice: Suez, Panama; strâmtori: Malacca, Ormuz, Gibraltar, Bosfor; transportul fluvial (Rin, Dunăre, Mississippi, Yangtze); transportul aerian este rapid, pentru călători și mărfuri valoroase (aeroporturi: Atlanta, Dubai, Londra Heathrow); transportul prin conducte (petrol, gaze). Telecomunicațiile (cabluri submarine de fibră optică, sateliți) transportă informația.",
+    "sample": "Peste 80% din volumul comerțului mondial cu mărfuri se transportă pe mare.",
+    "worked": "Navele container uriașe au făcut transportul la mare distanță foarte ieftin, favorizând globalizarea.",
+    "exercises": [
+     "Compară tipurile de transport.",
+     "Numește marile porturi.",
+     "Explică importanța canalelor Suez și Panama.",
+     "Numește strâmtori strategice.",
+     "Explică rolul telecomunicațiilor."
+    ],
+    "test": [
+     "Ce tip de transport este cel mai flexibil?",
+     "Ce port este cel mai mare din lume?",
+     "Ce strâmtoare este importantă pentru petrol?",
+     "Ce tren de mare viteză există în Japonia?",
+     "Prin ce se transportă majoritatea mărfurilor?"
+    ],
+    "steps": [
+     "Identifică tipul de transport.",
+     "Analizează avantajele și limitele.",
+     "Localizează principalele căi și noduri.",
+     "Greșeala frecventă: să crezi că transportul aerian duce cele mai multe mărfuri; transportul maritim domină volumul."
+    ],
+    "answers": [
+     "Transportul rutier.",
+     "Shanghai.",
+     "Strâmtoarea Ormuz.",
+     "Shinkansen.",
+     "Pe mare."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l27": {
+   "ro": {
+    "title": "Comerțul și turismul",
+    "theory": "Comerțul este schimbul de bunuri și servicii. Comerțul interior se desfășoară într-o țară; comerțul exterior (internațional) cuprinde exporturile și importurile. Balanța comercială este diferența dintre exporturi și importuri: excedentară (China, Germania) sau deficitară (SUA). Mari puteri comerciale: China, SUA, Germania, Țările de Jos, Japonia. Organizația Mondială a Comerțului reglementează schimburile. Turismul este deplasarea temporară pentru recreere, cultură, sănătate sau afaceri. Factori: potențialul natural (plaje, munți, peisaje) și antropic (monumente, muzee, orașe istorice), infrastructura, siguranța, veniturile. Forme: turism de litoral, montan, cultural, balnear, de afaceri, ecoturism. Cele mai vizitate țări: Franța, Spania, SUA, Italia, Turcia. Turismul aduce venituri și locuri de muncă, dar și supraaglomerare (Veneția, Barcelona) și presiune asupra mediului.",
+    "sample": "Veneția a introdus o taxă de intrare pentru turiștii de o zi, pentru a limita aglomerația.",
+    "worked": "Turismul de masă poate afecta viața locuitorilor și monumentele, de aceea este reglementat.",
+    "exercises": [
+     "Explică ce este balanța comercială.",
+     "Numește marile puteri comerciale.",
+     "Enumeră factorii care favorizează turismul.",
+     "Clasifică formele de turism.",
+     "Explică efectele negative ale turismului de masă."
+    ],
+    "test": [
+     "Ce este exportul?",
+     "Ce stat are un excedent comercial mare?",
+     "Ce organizație reglementează comerțul mondial?",
+     "Care este cea mai vizitată țară?",
+     "Ce oraș italian limitează turiștii de o zi?"
+    ],
+    "steps": [
+     "Identifică forma de comerț sau de turism.",
+     "Analizează factorii și fluxurile.",
+     "Evaluează efectele economice și asupra mediului.",
+     "Greșeala frecventă: să crezi că turismul are doar beneficii; el poate degrada mediul și viața locală."
+    ],
+    "answers": [
+     "Vânzarea de bunuri și servicii în alte țări.",
+     "China (sau Germania).",
+     "Organizația Mondială a Comerțului.",
+     "Franța.",
+     "Veneția."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l28": {
+   "ro": {
+    "title": "Marile ansambluri economice și geopolitice ale lumii",
+    "theory": "Statele lumii se grupează în ansambluri economice și geopolitice pentru a-și crește puterea și cooperarea. Ansambluri economice: Uniunea Europeană (piață unică), USMCA (SUA, Canada, Mexic – fostul NAFTA), Mercosur (Brazilia, Argentina, Uruguay, Paraguay), ASEAN (Asia de Sud-Est), APEC (Cooperarea Economică Asia–Pacific), Uniunea Africană, OPEC (exportatorii de petrol). Grupuri ale marilor economii: G7 (SUA, Japonia, Germania, Marea Britanie, Franța, Italia, Canada) și G20; BRICS (Brazilia, Rusia, India, China, Africa de Sud și noi membri). Ansambluri geopolitice și militare: NATO, Organizația de Cooperare de la Shanghai. Lumea se împarte și în state dezvoltate (Nord) și state în dezvoltare (Sud), cu diferențe mari de nivel de trai.",
+    "sample": "OPEC grupează state exportatoare de petrol care încearcă să influențeze prețul prin cote de producție.",
+    "worked": "Un ansamblu economic poate influența piețele mondiale când controlează o resursă esențială.",
+    "exercises": [
+     "Clasifică ansamblurile după scop.",
+     "Numește membrii G7.",
+     "Explică ce este BRICS.",
+     "Explică rolul OPEC.",
+     "Explică împărțirea Nord–Sud."
+    ],
+    "test": [
+     "Ce state formează USMCA?",
+     "Ce organizație grupează exportatorii de petrol?",
+     "Ce state au format inițial BRICS?",
+     "Ce este Mercosur?",
+     "Ce alianță militară grupează state din Europa și America de Nord?"
+    ],
+    "steps": [
+     "Identifică ansamblul.",
+     "Precizează membrii și scopul.",
+     "Analizează rolul lui în lume.",
+     "Greșeala frecventă: să confunzi ansamblurile economice cu cele militare; scopurile lor sunt diferite."
+    ],
+    "answers": [
+     "SUA, Canada și Mexic.",
+     "OPEC.",
+     "Brazilia, Rusia, India, China (apoi Africa de Sud).",
+     "Piața comună a Americii de Sud.",
+     "NATO."
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l29": {
+   "ro": {
+    "title": "Uniunea Europeană și un ansamblu extraeuropean (ASEAN)",
+    "theory": "Uniunea Europeană are 27 de state membre și circa 450 de milioane de locuitori. A pornit de la Comunitatea Europeană a Cărbunelui și Oțelului (1951) și Comunitatea Economică Europeană (1957, Tratatul de la Roma), cu șase state, și a devenit Uniune prin Tratatul de la Maastricht (1992). Realizări: piața unică, moneda euro, spațiul Schengen, politici comune (agricolă, regională, de mediu), fonduri de coeziune. Marea Britanie a ieșit în 2020 (Brexit). ASEAN (Asociația Națiunilor din Asia de Sud-Est), fondată în 1967, are zece membri (Indonezia, Thailanda, Malaysia, Singapore, Filipine, Vietnam, Myanmar, Cambodgia, Laos, Brunei), cu peste 670 de milioane de locuitori. Ea urmărește cooperarea economică, o zonă de liber schimb și stabilitatea regională, dar are o integrare mult mai slabă decât UE (fără monedă comună sau instituții supranaționale puternice).",
+    "sample": "UE are instituții comune cu putere de decizie, pe când ASEAN funcționează prin consens între guverne.",
+    "worked": "Gradul de integrare diferă: UE este o uniune economică și politică, ASEAN o asociere de cooperare.",
+    "exercises": [
+     "Ordonează etapele construcției europene.",
+     "Enumeră realizările UE.",
+     "Numește membrii ASEAN.",
+     "Compară UE cu ASEAN.",
+     "Explică urmările Brexitului."
+    ],
+    "test": [
+     "Câte state are UE?",
+     "Ce tratat a creat Uniunea Europeană?",
+     "În ce an a ieșit Marea Britanie din UE?",
+     "Când a fost fondată ASEAN?",
+     "Câți membri are ASEAN?"
+    ],
+    "steps": [
+     "Prezintă ansamblul (membri, populație, scop).",
+     "Analizează realizările și problemele.",
+     "Compară două ansambluri după aceleași criterii.",
+     "Greșeala frecventă: să crezi că ASEAN are o monedă comună ca zona euro; nu are."
+    ],
+    "answers": [
+     "27.",
+     "Tratatul de la Maastricht (1992).",
+     "În 2020.",
+     "În 1967.",
+     "Zece."
+    ]
+   }
+  }
+ }
+}
