@@ -1,0 +1,242 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "NO",
+ "stage": "beginner",
+ "grade": "1",
+ "version": "03c92c8d151f15505c92bd7a16c4af5a05754366a1d2659f585853e1d7c9904d",
+ "source": "https://www.udir.no/lk20/nor01-08",
+ "sourceTitle": "Utdanningsdirektoratet: Læreplan i norsk (NOR01-08), etter 2. trinn (berre ramme; eigne øvingar)",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "nn",
+ "labels": [
+  "Eiga øvingsaktivitet · Noreg · 1. trinn (nynorsk)",
+  "Vi lærer",
+  "Eige døme",
+  "Forklaring",
+  "Øvingar",
+  "Test deg sjølv",
+  "Eigne øvingar, ikkje ei offisiell prøve. Les dei saman med ein vaksen om du treng det."
+ ],
+ "chapters": {
+  "eu-year-no-beginner-1-parcurs": {
+   "nn": {
+    "title": "Lydar, bokstavar og stavingar",
+    "theory": "Ord er laga av lydar. Kvar lyd skriv vi med éin eller fleire bokstavar. Nokre lydar skriv vi med to bokstavar: kj, sj, ng. Lange ord les vi i stavingar: so-la, fjel-let. Vi klappar éin gong for kvar staving.",
+    "sample": "Ingrid ser ein båt på fjorden. Båten har eit kvitt segl.",
+    "worked": "Fjor-den har to stavingar. Båt har éi. I båt skriv vi å. Ordet kvitt startar med kv. Vi set saman lydane og les ordet.",
+    "exercises": [
+     "Klapp stavingane i fjorden.",
+     "Finn to ord i teksten som startar med b.",
+     "Del i stavingar: Ingrid, båten, fjorden.",
+     "Finn eit ord i teksten med å.",
+     "Les høgt: ma, me, mi, mo, mu."
+    ],
+    "test": [
+     "Kor mange stavingar har fjorden?",
+     "Kva ser Ingrid på fjorden?",
+     "Kva farge har seglet?",
+     "Skriv eit ord som startar med s.",
+     "Set saman stavingane: ka-ke."
+    ]
+   }
+  },
+  "eu-year-no-beginner-1-intelegere": {
+   "nn": {
+    "title": "Lese og forstå ein kort tekst",
+    "theory": "Etter kvar setning stoppar vi og spør: Kven? Kva skjer? Kvar? Svara står i teksten. Det som ikkje står i teksten, finn vi ikkje på.",
+    "sample": "Olav går til stølen med bestefar. Han har ein blå sekk. Ved bekken plukkar han blåbær saman med Synne.",
+    "worked": "Kven? Olav. Med kven? Med bestefar. Kva har han? Ein blå sekk. Kvar plukkar han blåbær? Ved bekken. Kor gammal Olav er, står ikkje i teksten.",
+    "exercises": [
+     "Kven går Olav til stølen med?",
+     "Kva farge har sekken?",
+     "Kva plukkar borna?",
+     "Kven plukkar Olav saman med?",
+     "Strek under setninga som fortel kva Olav har."
+    ],
+    "test": [
+     "Står det i teksten kor gammal Olav er?",
+     "Er sekken raud? Korleis veit du det?",
+     "Kva er ein støl?",
+     "Finn eit ord for ein person i familien.",
+     "Teikn teksten og skriv eit ord under teikninga."
+    ]
+   }
+  },
+  "eu-year-no-beginner-1-narativ": {
+   "nn": {
+    "title": "Personar og hendingar i ei forteljing",
+    "theory": "Personane i ei forteljing kan vere menneske eller dyr. Hendingane er det som skjer. Vi fortel i rett rekkjefølgje: først, så, etterpå, til slutt.",
+    "sample": "Først fell vottane til Kari ned i snøen. Så finn ein hund vottane bak eit tre. Etterpå spring hunden bort til Kari med vottane i munnen. Til slutt klappar Kari hunden og seier takk.",
+    "worked": "Personane er Kari og hunden. Først: Vottane fell i snøen. Så: Hunden finn dei. Etterpå: Hunden spring til Kari. Til slutt: Kari klappar hunden og seier takk.",
+    "exercises": [
+     "Kven er personane?",
+     "Kva fell ned i snøen?",
+     "Kvar finn hunden vottane?",
+     "Fortel historia med først, så, etterpå, til slutt.",
+     "Korleis har Kari det til slutt? Kva ord hjelper deg?"
+    ],
+    "test": [
+     "Kven finn vottane?",
+     "Kva skjer først?",
+     "Kva gjer Kari til slutt?",
+     "Set i rekkjefølgje: Kari seier takk / vottane fell / hunden finn vottane.",
+     "Teikn den delen av historia du likar best."
+    ]
+   }
+  },
+  "eu-year-no-beginner-1-poezie": {
+   "nn": {
+    "title": "Rim og dikt",
+    "theory": "Eit dikt er kort og har ein rytme som ein song. Rimord høyrest like ut på slutten: hus og mus, sol og stol. Når vi les diktet høgt, høyrer vi rima.",
+    "sample": "Over fjellet skin ei sol,\nbestemor sit på ein stol.\nEin sau går og et av gras,\nog eg drikk mjølk av eit glas.",
+    "worked": "Sol og stol rimar, begge sluttar på -ol. Gras og glas rimar òg. Diktet har fire linjer. Vi les sakte og seier rimorda tydeleg.",
+    "exercises": [
+     "Finn ordet som rimar på sol.",
+     "Kvar sit bestemor?",
+     "Kor mange linjer har diktet?",
+     "Finn eit ord som rimar på hus.",
+     "Les diktet høgt og klapp rytmen."
+    ],
+    "test": [
+     "Rimar gras og glas?",
+     "Kva et sauen?",
+     "Finn eit ord som rimar på katt.",
+     "Kva drikk eg i diktet?",
+     "Skriv to ord som rimar."
+    ]
+   }
+  },
+  "eu-year-no-beginner-1-dialog": {
+   "nn": {
+    "title": "Samtale: lytte og snakke etter tur",
+    "theory": "I ein samtale snakkar vi etter tur. Vi lyttar til den andre er ferdig. Vi seier hei, takk og ha det. Eit spørsmål sluttar med spørsmålsteikn.",
+    "sample": "Eli: Hei! Kan eg få låne ei bok om hestar?\nBibliotekaren: Hei, Eli. Ja, gjerne. Vil du ha ei med bilete?\nEli: Ja takk.\nBibliotekaren: Ver så god.\nEli: Tusen takk, ha det!",
+    "worked": "Først seier Eli hei. Ho stiller eit spørsmål, difor sluttar setninga med spørsmålsteikn. Bibliotekaren svarar og spør om noko sjølv. Eli seier ja takk og tusen takk. Kvar person snakkar når den andre er ferdig.",
+    "exercises": [
+     "Korleis helsar Eli?",
+     "Kva bok vil Eli låne?",
+     "Finn ei setning med spørsmålsteikn.",
+     "Kva høflege ord seier Eli?",
+     "Spel samtalen to og to."
+    ],
+    "test": [
+     "Kven snakkar først?",
+     "Kva spør bibliotekaren om?",
+     "Kvifor ventar vi til den andre er ferdig?",
+     "Skriv eit spørsmål til læraren din.",
+     "Kva seier du når du får noko?"
+    ]
+   }
+  },
+  "eu-year-no-beginner-1-vocabular": {
+   "nn": {
+    "title": "Ordgrupper, motsetnader og fleirtal",
+    "theory": "Vi kan sortere ord i grupper: dyr, fargar, ting på skulen. Nokre ord er motsetnader: stor – liten, varm – kald. Mange substantiv får -ar eller -er i fleirtal: ein hest – to hestar, ei bok – tre bøker.",
+    "sample": "I sekken min er det eit pennal, tre bøker og to blyantar. Ute er det kaldt, men i klasserommet er det varmt.",
+    "worked": "Pennal, bok og blyant høyrer til gruppa skule. Ein blyant, to blyantar: I fleirtal kjem -ar til. Ei bok, tre bøker: o blir til ø. Kaldt og varmt er motsetnader.",
+    "exercises": [
+     "Sorter: katt, raud, blyant, blå, hund, bok.",
+     "Finn motsetnaden til stor.",
+     "Skriv i fleirtal: ein hest.",
+     "Finn to motsetnader i teksten.",
+     "Nemn tre dyr på ein gard."
+    ],
+    "test": [
+     "Kva er motsetnaden til dag?",
+     "Skriv i fleirtal: ein bil.",
+     "Kva ord er ikkje ei frukt: eple, pære, hammar, kirsebær?",
+     "Kor mange bøker er det i sekken?",
+     "Skriv to fargar."
+    ]
+   }
+  },
+  "eu-year-no-beginner-1-exprimare": {
+   "nn": {
+    "title": "Stor bokstav, punktum og æ, ø, å",
+    "theory": "Ei setning byrjar med stor bokstav og sluttar med punktum. Namn på personar og stader skriv vi òg med stor bokstav: Kari, Voss, Førde. På norsk har vi bokstavane æ, ø og å: bær, øyre, gå.",
+    "sample": "Sigrid bur i Ålesund. Ho et eit eple. Om vinteren går ho på ski.",
+    "worked": "Sigrid, Ho og Om står først i setninga og har stor bokstav. Sigrid og Ålesund er namn og skal òg ha stor bokstav. Kvar setning sluttar med punktum. I går skriv vi å.",
+    "exercises": [
+     "Skriv rett: per spelar fotball",
+     "Finn namna i teksten.",
+     "Set punktum: Eg et ein is",
+     "Skriv ordet øyre og ring rundt ø.",
+     "Kor mange setningar har teksten?"
+    ],
+    "test": [
+     "Kvifor skriv vi Ålesund med stor bokstav?",
+     "Kva set vi til slutt i ei setning?",
+     "Skriv rett: liv bur i florø",
+     "Finn eit ord i teksten med å.",
+     "Finn feilen: katten min heiter Pusur."
+    ]
+   }
+  },
+  "eu-year-no-beginner-1-redactare": {
+   "nn": {
+    "title": "Skrive ei setning til eit bilete",
+    "theory": "Før vi skriv, ser vi godt på biletet: Kven ser vi? Kva gjer personen? Kvar er personen? Så skriv vi ei setning med stor bokstav og punktum. Til slutt les vi setninga om att.",
+    "sample": "Bilete: Ein gut byggjer ein snømann i hagen.\nSetning: Guten byggjer ein snømann i hagen.",
+    "worked": "Kven? Guten. Kva gjer han? Han byggjer ein snømann. Kvar? I hagen. Setninga byrjar med stor G og sluttar med punktum. Til slutt les vi ho høgt.",
+    "exercises": [
+     "Skriv ei setning: ei jente et ein banan.",
+     "Kven ser vi på biletet i dømet?",
+     "Kva byggjer guten?",
+     "Skriv ei setning om favorittdyret ditt.",
+     "Les setninga di om att og sjekk punktumet."
+    ],
+    "test": [
+     "Kva spør vi om først når vi ser på eit bilete?",
+     "Kvar byggjer guten snømannen?",
+     "Skriv ei setning om rommet ditt.",
+     "Korleis byrjar ei setning?",
+     "Teikn eit bilete og skriv ei setning til det."
+    ]
+   }
+  },
+  "eu-year-no-beginner-1-interpretare": {
+   "nn": {
+    "title": "Meininga mi: samanlikne personar",
+    "theory": "Vi kan seie kva vi likar, og gi ein grunn: Eg likar ..., fordi ... Vi samanliknar personar: Kva er likt? Kva er ulikt? Andre har lov til å meine noko anna.",
+    "sample": "Haren Hallvard spring fort, men han ertar dei andre. Skjelpadda Tuva er sein, og ho hjelper alle. Eg likar Tuva, fordi ho er snill.",
+    "worked": "Hallvard er snøgg, Tuva er sein: Det er ulikt. Begge er dyr i skogen: Det er likt. Setninga med fordi gir grunnen. Ein ven kan godt like Hallvard best.",
+    "exercises": [
+     "Korleis er Hallvard?",
+     "Kva gjer Tuva for dei andre?",
+     "Kva er likt for Hallvard og Tuva?",
+     "Skriv: Eg likar ..., fordi ...",
+     "Kva person likar du best? Sei kvifor."
+    ],
+    "test": [
+     "Kva er ulikt for Hallvard og Tuva?",
+     "Kva ord bruker vi når vi gir ein grunn?",
+     "Har venen din lov til å meine noko anna?",
+     "Er Tuva snøgg eller sein?",
+     "Finn på ein tredje person og skildre han eller ho med eitt ord."
+    ]
+   }
+  },
+  "eu-year-no-beginner-1-verificare": {
+   "nn": {
+    "title": "Repetisjon: lese, forstå, skrive",
+    "theory": "Til slutt øver vi på alt om att: klappe stavingar, svare på spørsmål om ein tekst, fortelje i rekkjefølgje, finne rim, skrive stor bokstav og punktum og bruke æ, ø og å.",
+    "sample": "Om morgonen pakkar Astrid sekken sin. Ho tek med matpakke, vassflaske og hue. Etterpå syklar ho til skulen med veslebror.",
+    "worked": "Kven? Astrid. Kva gjer ho først? Ho pakkar sekken. Kva tek ho med? Matpakke, vassflaske og hue. Kva gjer ho etterpå? Ho syklar til skulen. Mat-pak-ke har tre stavingar.",
+    "exercises": [
+     "Klapp stavingane i vassflaske.",
+     "Kva tek Astrid med?",
+     "Kven syklar Astrid med?",
+     "Finn to substantiv i teksten.",
+     "Finn eit ord som rimar på hue."
+    ],
+    "test": [
+     "Kva gjer Astrid først?",
+     "Kor mange setningar har teksten?",
+     "Skriv rett: astrid syklar fort",
+     "Kva er motsetnaden til morgon?",
+     "Skriv ei setning om skulevegen din."
+    ]
+   }
+  }
+ }
+}

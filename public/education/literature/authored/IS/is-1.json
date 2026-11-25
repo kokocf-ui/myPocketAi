@@ -1,0 +1,242 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "IS",
+ "stage": "beginner",
+ "grade": "1",
+ "version": "b6bd62c2d4d4d231825c767f7beaacfc347bd8de21f3a48b2f7a818318c612c4",
+ "source": "https://op.europa.eu/en/publication-detail/-/publication/b82d1d07-abf4-11f1-b9e5-01aa75ed71a1/language-en",
+ "sourceTitle": "Eurydice (Evrópusambandið): yfirlit um menntakerfi; Aðalnámskrá grunnskóla, íslenska (aðeins rammi; eigin æfingar)",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "is",
+ "labels": [
+  "Eigið æfingaverkefni · Ísland · 1. bekkur",
+  "Við lærum",
+  "Eigið dæmi",
+  "Útskýring",
+  "Æfingar",
+  "Prófaðu þig",
+  "Eigin æfingar, ekki opinbert próf. Lestu þær með fullorðnum ef þú þarft."
+ ],
+ "chapters": {
+  "eu-year-is-beginner-1-parcurs": {
+   "is": {
+    "title": "Hljóð, stafir og atkvæði",
+    "theory": "Orð eru búin til úr hljóðum. Hvert hljóð skrifum við með einum eða fleiri stöfum. Sum hljóð eru skrifuð með tveimur stöfum: au, ei, ey. Löng orð lesum við í atkvæðum: ba-na-ni, hes-tur. Við klöppum einu sinni fyrir hvert atkvæði.",
+    "sample": "Sóley sér hest. Hesturinn stendur í haga og bítur gras.",
+    "worked": "Hes-tur hefur tvö atkvæði. Gras hefur eitt. Í nafninu Sóley skrifum við ey. Orðið haga byrjar á hljóðinu h. Við setjum hljóðin saman og lesum orðið.",
+    "exercises": [
+     "Klappaðu atkvæðin í orðinu hesturinn.",
+     "Finndu tvö orð í textanum sem byrja á h.",
+     "Skiptu í atkvæði: Sóley, haga, hestur.",
+     "Finndu orð í textanum með ey.",
+     "Lestu upphátt: ma, me, mi, mo, mu."
+    ],
+    "test": [
+     "Hvað hefur orðið hestur mörg atkvæði?",
+     "Hvar stendur hesturinn?",
+     "Hvað bítur hesturinn?",
+     "Skrifaðu orð sem byrjar á s.",
+     "Settu atkvæðin saman: ka-ka."
+    ]
+   }
+  },
+  "eu-year-is-beginner-1-intelegere": {
+   "is": {
+    "title": "Að lesa og skilja stuttan texta",
+    "theory": "Eftir hverja setningu stoppum við og spyrjum: Hver? Hvað gerist? Hvar? Svörin eru í textanum. Það sem stendur ekki í textanum búum við ekki til.",
+    "sample": "Bjarki fer í fjöruna með ömmu sinni. Hann er með gula fötu. Við steinana finnur hann skeljar með Heklu.",
+    "worked": "Hver? Bjarki. Með hverjum? Með ömmu sinni. Hvað er hann með? Gula fötu. Hvar finnur hann skeljar? Við steinana í fjörunni. Hvað Bjarki er gamall stendur ekki í textanum.",
+    "exercises": [
+     "Með hverjum fer Bjarki í fjöruna?",
+     "Hvernig er fatan á litinn?",
+     "Hvað finna börnin?",
+     "Með hverjum leitar Bjarki?",
+     "Strikaðu undir setninguna sem segir hvað Bjarki er með."
+    ],
+    "test": [
+     "Stendur í textanum hvað Bjarki er gamall?",
+     "Er fatan rauð? Hvernig veistu það?",
+     "Hvað er fjara?",
+     "Finndu orð yfir manneskju í fjölskyldunni.",
+     "Teiknaðu mynd við textann og skrifaðu eitt orð undir."
+    ]
+   }
+  },
+  "eu-year-is-beginner-1-narativ": {
+   "is": {
+    "title": "Persónur og atburðir í sögu",
+    "theory": "Í sögu eru persónur og atburðir. Persónur geta verið fólk eða dýr. Atburðir eru það sem gerist. Við segjum frá í réttri röð: fyrst, svo, síðan, að lokum.",
+    "sample": "Fyrst missir lundinn Lundi fisk í sjóinn. Svo syndir selur að fiskinum. Síðan ýtir selurinn fiskinum upp á klettinn. Að lokum þakkar Lundi selnum fyrir.",
+    "worked": "Persónurnar eru lundinn og selurinn. Fyrst: Lundi missir fiskinn. Svo: Selurinn syndir að honum. Síðan: Selurinn ýtir fiskinum upp. Að lokum: Lundi þakkar fyrir.",
+    "exercises": [
+     "Hverjar eru persónurnar?",
+     "Hvað missir lundinn?",
+     "Hvert ýtir selurinn fiskinum?",
+     "Segðu söguna með fyrst, svo, síðan, að lokum.",
+     "Hvernig líður Lunda að lokum?"
+    ],
+    "test": [
+     "Hver hjálpar lundanum?",
+     "Hvað gerist fyrst?",
+     "Hvað gerir Lundi að lokum?",
+     "Raðaðu: Lundi þakkar / Lundi missir fisk / selurinn syndir.",
+     "Teiknaðu uppáhaldshlutann þinn í sögunni."
+    ]
+   }
+  },
+  "eu-year-is-beginner-1-poezie": {
+   "is": {
+    "title": "Rím og ljóð",
+    "theory": "Ljóð er stutt og hefur takt eins og lag. Rímorð hljóma eins í lokin: sól og jól, hús og mús. Þegar við lesum ljóðið upphátt heyrum við rímið.",
+    "sample": "Á himni skín hin bjarta sól,\nog brátt koma aftur jól.\nLítil mús í holu býr,\nog úti gengur gömul kýr.",
+    "worked": "Sól og jól ríma, bæði enda á -ól. Býr og kýr ríma líka. Ljóðið hefur fjórar línur. Við lesum hægt og segjum rímorðin skýrt.",
+    "exercises": [
+     "Finndu orðið sem rímar við sól.",
+     "Hvar býr músin?",
+     "Hvað hefur ljóðið margar línur?",
+     "Finndu orð sem rímar við hús.",
+     "Lestu ljóðið upphátt og klappaðu taktinn."
+    ],
+    "test": [
+     "Ríma býr og kýr?",
+     "Hvaða dýr gengur úti?",
+     "Finndu orð sem rímar við hár.",
+     "Hvað skín á himni?",
+     "Skrifaðu tvö orð sem ríma."
+    ]
+   }
+  },
+  "eu-year-is-beginner-1-dialog": {
+   "is": {
+    "title": "Samtal: hlusta og tala til skiptis",
+    "theory": "Í samtali tölum við til skiptis. Við hlustum þangað til hinn er búinn. Við segjum góðan daginn, takk og bless. Spurning endar á spurningarmerki.",
+    "sample": "Arna: Góðan daginn! Má ég fá lánaða bók um hesta?\nBókavörður: Góðan daginn, Arna. Já, gjarnan. Viltu bók með myndum?\nArna: Já, takk.\nBókavörður: Gjörðu svo vel.\nArna: Takk fyrir, bless!",
+    "worked": "Fyrst segir Arna góðan daginn. Hún spyr spurningar og þess vegna endar setningin á spurningarmerki. Bókavörðurinn svarar og spyr líka. Arna segir já takk og takk fyrir. Hver talar þegar hinn er búinn.",
+    "exercises": [
+     "Hvernig heilsar Arna?",
+     "Hvernig bók vill Arna fá lánaða?",
+     "Finndu setningu með spurningarmerki.",
+     "Hvaða kurteisu orð segir Arna?",
+     "Leikið samtalið tvö og tvö."
+    ],
+    "test": [
+     "Hver talar fyrst?",
+     "Hvað spyr bókavörðurinn um?",
+     "Af hverju bíðum við þangað til hinn er búinn?",
+     "Skrifaðu spurningu til kennarans þíns.",
+     "Hvað segir þú þegar þú færð eitthvað?"
+    ]
+   }
+  },
+  "eu-year-is-beginner-1-vocabular": {
+   "is": {
+    "title": "Orðaflokkar, andheiti og fleirtala",
+    "theory": "Við getum flokkað orð: dýr, litir, hlutir í skólanum. Sum orð eru andheiti: stór – lítill, heitur – kaldur. Nafnorð eru til í eintölu og fleirtölu: einn blýantur – tveir blýantar, ein bók – tvær bækur.",
+    "sample": "Í töskunni minni eru pennaveski, tveir blýantar og tvær bækur. Úti er kalt en inni í stofunni er heitt.",
+    "worked": "Pennaveski, blýantur og bók eru hlutir í skólanum. Einn blýantur, tveir blýantar: Í fleirtölu verður -ur að -ar. Ein bók, tvær bækur: ó verður æ. Kalt og heitt eru andheiti.",
+    "exercises": [
+     "Flokkaðu: köttur, rauður, blýantur, blár, hundur, bók.",
+     "Finndu andheiti orðsins stór.",
+     "Skrifaðu í fleirtölu: einn hestur.",
+     "Finndu tvö andheiti í textanum.",
+     "Nefndu þrjú dýr á sveitabæ."
+    ],
+    "test": [
+     "Hvað er andheiti orðsins dagur?",
+     "Skrifaðu í fleirtölu: einn bíll.",
+     "Hvaða orð er ekki ávöxtur: epli, pera, hamar, banani?",
+     "Hvað eru margar bækur í töskunni?",
+     "Skrifaðu tvo liti."
+    ]
+   }
+  },
+  "eu-year-is-beginner-1-exprimare": {
+   "is": {
+    "title": "Stór stafur, punktur og þ, ð, æ",
+    "theory": "Setning byrjar á stórum staf og endar á punkti. Nöfn á fólki og stöðum skrifum við líka með stórum staf: Arna, Akureyri, Reykjavík. Í íslensku eru stafirnir þ, ð og æ: þak, maður, æfing.",
+    "sample": "Ragnar býr á Akureyri. Hann borðar epli. Á veturna fer hann á skíði.",
+    "worked": "Ragnar, Hann og Á eru fremst í setningunum og byrja á stórum staf. Ragnar og Akureyri eru nöfn og fá líka stóran staf. Hver setning endar á punkti. Í orðinu borðar skrifum við ð.",
+    "exercises": [
+     "Skrifaðu rétt: siggi spilar fótbolta",
+     "Finndu nöfnin í textanum.",
+     "Settu punkt: Ég borða ís",
+     "Skrifaðu orðið þak og hringaðu um þ.",
+     "Hvað eru margar setningar í textanum?"
+    ],
+    "test": [
+     "Af hverju er Akureyri skrifað með stórum staf?",
+     "Hvað setjum við í lok setningar?",
+     "Skrifaðu rétt: anna býr í keflavík",
+     "Finndu orð í textanum með ð.",
+     "Finndu villuna: hundurinn minn heitir Snati."
+    ]
+   }
+  },
+  "eu-year-is-beginner-1-redactare": {
+   "is": {
+    "title": "Að skrifa setningu við mynd",
+    "theory": "Áður en við skrifum skoðum við myndina vel: Hvern sjáum við? Hvað er hann eða hún að gera? Hvar? Svo skrifum við setningu með stórum staf og punkti. Að lokum lesum við setninguna aftur.",
+    "sample": "Mynd: Stelpa rennir sér á sleða niður brekku.\nSetning: Stelpan rennir sér á sleða niður brekkuna.",
+    "worked": "Hver? Stelpan. Hvað gerir hún? Hún rennir sér á sleða. Hvar? Niður brekkuna. Setningin byrjar á stóru S og endar á punkti. Að lokum lesum við hana upphátt.",
+    "exercises": [
+     "Skrifaðu setningu: strákur borðar banana.",
+     "Hvern sjáum við á myndinni í dæminu?",
+     "Á hverju rennir stelpan sér?",
+     "Skrifaðu setningu um uppáhaldsdýrið þitt.",
+     "Lestu setninguna þína aftur og athugaðu punktinn."
+    ],
+    "test": [
+     "Hvað spyrjum við fyrst þegar við skoðum mynd?",
+     "Hvar rennir stelpan sér?",
+     "Skrifaðu setningu um herbergið þitt.",
+     "Hvernig byrjar setning?",
+     "Teiknaðu mynd og skrifaðu setningu við hana."
+    ]
+   }
+  },
+  "eu-year-is-beginner-1-interpretare": {
+   "is": {
+    "title": "Mín skoðun: að bera saman persónur",
+    "theory": "Við getum sagt hvað okkur finnst og gefið ástæðu: Mér líkar vel við ..., af því að ... Við berum saman persónur: Hvað er eins? Hvað er ólíkt? Aðrir mega hafa aðra skoðun.",
+    "sample": "Refurinn Rebbi er fljótur en hann stríðir hinum. Skjaldbakan Sigga er hæg og hún hjálpar öllum. Mér líkar vel við Siggu af því að hún er góð.",
+    "worked": "Rebbi er fljótur, Sigga er hæg: Það er ólíkt. Bæði eru dýr: Það er eins. Setningin með af því að gefur ástæðuna. Vinur þinn má frekar líka við Rebba.",
+    "exercises": [
+     "Hvernig er Rebbi?",
+     "Hvað gerir Sigga fyrir hina?",
+     "Hvað er eins hjá Rebba og Siggu?",
+     "Skrifaðu: Mér líkar vel við ..., af því að ...",
+     "Hvaða persóna finnst þér best? Segðu af hverju."
+    ],
+    "test": [
+     "Hvað er ólíkt hjá Rebba og Siggu?",
+     "Hvaða orð notum við til að gefa ástæðu?",
+     "Má vinur þinn hafa aðra skoðun?",
+     "Er Sigga fljót eða hæg?",
+     "Búðu til þriðju persónuna og lýstu henni með einu orði."
+    ]
+   }
+  },
+  "eu-year-is-beginner-1-verificare": {
+   "is": {
+    "title": "Upprifjun: lesa, skilja, skrifa",
+    "theory": "Að lokum æfum við allt aftur: klappa atkvæði, svara spurningum um texta, segja frá í réttri röð, finna rím, skrifa stóran staf og punkt og nota þ, ð og æ.",
+    "sample": "Á morgnana setur Embla nesti í töskuna sína. Hún tekur samloku, vatnsflösku og húfu. Síðan gengur hún í skólann með bróður sínum.",
+    "worked": "Hver? Embla. Hvað gerir hún fyrst? Hún setur nesti í töskuna. Hvað tekur hún? Samloku, vatnsflösku og húfu. Hvað gerir hún síðan? Hún gengur í skólann. Sam-lo-ka hefur þrjú atkvæði.",
+    "exercises": [
+     "Klappaðu atkvæðin í orðinu vatnsflaska.",
+     "Hvað tekur Embla með sér?",
+     "Með hverjum gengur Embla í skólann?",
+     "Finndu tvö nafnorð í textanum.",
+     "Finndu orð sem rímar við húfa."
+    ],
+    "test": [
+     "Hvað gerir Embla fyrst?",
+     "Hvað eru margar setningar í textanum?",
+     "Skrifaðu rétt: embla fer í skólann",
+     "Hvað er andheiti orðsins morgunn?",
+     "Skrifaðu setningu um leiðina þína í skólann."
+    ]
+   }
+  }
+ }
+}

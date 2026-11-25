@@ -1,6 +1,6 @@
 {
  "schema": "mypocket-literature-authored-catalog/v1",
- "version": "d457b474c933821be0f86b988dcd5e0b8c210d857449e83f37bf31ad370d2b7e",
+ "version": "c6906cbe0241015ea3d761907015f3aa8a0b1ede97ab19de6e7fb89ffb69eeae",
  "years": [
   {
    "country": "BE",
@@ -66,6 +66,19 @@
    ]
   },
   {
+   "country": "DK",
+   "stage": "beginner",
+   "grade": "1",
+   "languages": [
+    {
+     "lang": "da",
+     "name": "Dansk",
+     "file": "da-1",
+     "version": "5028451f200087493b4c7c59a82b0a38329e34060eb3b8d2078c9622529c41e3"
+    }
+   ]
+  },
+  {
    "country": "ES",
    "stage": "beginner",
    "grade": "P1",
@@ -97,6 +110,25 @@
    ]
   },
   {
+   "country": "FI",
+   "stage": "beginner",
+   "grade": "1",
+   "languages": [
+    {
+     "lang": "fi",
+     "name": "Suomi",
+     "file": "fi-1",
+     "version": "7348936fc005b78a6ac2e58aaa2491f3e8195ed49d0774e192946433ab8df864"
+    },
+    {
+     "lang": "sv",
+     "name": "Svenska",
+     "file": "sv-1",
+     "version": "8a69c34bd88de56f5ac91980f5a704190bc9203d5b3c56ec64c6f62d0db6777c"
+    }
+   ]
+  },
+  {
    "country": "GB-ENG",
    "stage": "beginner",
    "grade": "Y1",
@@ -106,6 +138,19 @@
      "name": "English",
      "file": "en-y1",
      "version": "e3c187e09080894a05fd2c8fb41c636d49fcd09e0a18644ef0415790ae04a202"
+    }
+   ]
+  },
+  {
+   "country": "IS",
+   "stage": "beginner",
+   "grade": "1",
+   "languages": [
+    {
+     "lang": "is",
+     "name": "Íslenska",
+     "file": "is-1",
+     "version": "b6bd62c2d4d4d231825c767f7beaacfc347bd8de21f3a48b2f7a818318c612c4"
     }
    ]
   },
@@ -136,6 +181,25 @@
    ]
   },
   {
+   "country": "NO",
+   "stage": "beginner",
+   "grade": "1",
+   "languages": [
+    {
+     "lang": "nb",
+     "name": "Norsk bokmål",
+     "file": "nb-1",
+     "version": "996fee8f74b151a923997c746e752d228b393f0f9c900b504df24bd614289f22"
+    },
+    {
+     "lang": "nn",
+     "name": "Norsk nynorsk",
+     "file": "nn-1",
+     "version": "03c92c8d151f15505c92bd7a16c4af5a05754366a1d2659f585853e1d7c9904d"
+    }
+   ]
+  },
+  {
    "country": "PT",
    "stage": "beginner",
    "grade": "1",
@@ -145,6 +209,19 @@
      "name": "Português",
      "file": "pt-1",
      "version": "0aecd33b65902ca7e46e755b8d2c73653c6a79dd1d4ac9fa98f1d6f14cfd66ea"
+    }
+   ]
+  },
+  {
+   "country": "SE",
+   "stage": "beginner",
+   "grade": "1",
+   "languages": [
+    {
+     "lang": "sv",
+     "name": "Svenska",
+     "file": "sv-1",
+     "version": "c049c76f7f51faaeb663d59c5459a9571eeefb842d91974a713c2a2d525b44fe"
     }
    ]
   }

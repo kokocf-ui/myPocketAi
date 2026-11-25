@@ -1,0 +1,242 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "SE",
+ "stage": "beginner",
+ "grade": "1",
+ "version": "c049c76f7f51faaeb663d59c5459a9571eeefb842d91974a713c2a2d525b44fe",
+ "source": "https://www.skolverket.se/undervisning/grundskolan/laroplan-lgr22-for-grundskolan-samt-for-forskoleklassen-och-fritidshemmet/curriculums/LGR22",
+ "sourceTitle": "Skolverket: Lgr22, Svenska, årskurs 1–3 (endast ram; egna övningar)",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "sv",
+ "labels": [
+  "Egen övningsaktivitet · Sverige · årskurs 1",
+  "Vi lär oss",
+  "Eget exempel",
+  "Förklaring",
+  "Övningar",
+  "Testa dig själv",
+  "Egna övningar, inte ett officiellt prov. Läs dem tillsammans med en vuxen om det behövs."
+ ],
+ "chapters": {
+  "eu-year-se-beginner-1-parcurs": {
+   "sv": {
+    "title": "Ljud, bokstäver och stavelser",
+    "theory": "Ord består av ljud. Varje ljud skriver vi med en eller flera bokstäver. Vissa ljud skrivs med flera bokstäver: sj, sk, tj, ng. Långa ord läser vi i stavelser: blå-bär, ka-nin. Vi klappar en gång för varje stavelse.",
+    "sample": "Ella plockar blåbär i skogen. Hon lägger dem i en liten hink.",
+    "worked": "Blå-bär har två stavelser. Sko-gen har också två. Ordet skogen börjar med sk. I ordet liten hör vi fem ljud: l-i-t-e-n. Vi sätter ihop ljuden och läser ordet.",
+    "exercises": [
+     "Klappa stavelserna i blåbär.",
+     "Hitta ett ord i texten som börjar med sk.",
+     "Dela i stavelser: Ella, skogen, liten.",
+     "Vilket ljud börjar ordet hink med?",
+     "Läs högt: ma, me, mi, mo, mu."
+    ],
+    "test": [
+     "Hur många stavelser har blåbär?",
+     "Var plockar Ella blåbär?",
+     "Vad lägger Ella blåbären i?",
+     "Skriv ett ord som börjar med b.",
+     "Sätt ihop stavelserna: sof-fa."
+    ]
+   }
+  },
+  "eu-year-se-beginner-1-intelegere": {
+   "sv": {
+    "title": "Läsa och förstå en kort text",
+    "theory": "Efter varje mening stannar vi och frågar: Vem? Vad händer? Var? Svaren står i texten. Det som inte står i texten hittar vi inte på.",
+    "sample": "Leo åker till sjön med sin morbror. Han har ett grönt fiskespö. På bryggan fiskar han tillsammans med Alva.",
+    "worked": "Vem? Leo. Med vem? Med sin morbror. Vad har han? Ett grönt fiskespö. Var fiskar han? På bryggan vid sjön. Om Leo får en fisk står inte i texten.",
+    "exercises": [
+     "Vem åker Leo till sjön med?",
+     "Vilken färg har fiskespöet?",
+     "Var fiskar barnen?",
+     "Vem fiskar Leo tillsammans med?",
+     "Stryk under meningen som berättar vad Leo har."
+    ],
+    "test": [
+     "Står det i texten om Leo får en fisk?",
+     "Är fiskespöet rött? Hur vet du det?",
+     "Vad är en brygga?",
+     "Hitta ett ord för en person i familjen.",
+     "Rita texten och skriv ett ord under bilden."
+    ]
+   }
+  },
+  "eu-year-se-beginner-1-narativ": {
+   "sv": {
+    "title": "Personer och händelser i en berättelse",
+    "theory": "Personerna i en berättelse kan vara människor eller djur. Händelserna är det som händer. Vi berättar i ordning: först, sedan, därefter, till sist.",
+    "sample": "Först tappar älgen Olle sin halsduk i snön. Sedan hittar en räv halsduken bakom en sten. Därefter springer räven fram till Olle med halsduken. Till sist säger Olle tack, och de leker tillsammans.",
+    "worked": "Personerna är älgen Olle och räven. Först: Olle tappar halsduken. Sedan: Räven hittar den. Därefter: Räven springer till Olle. Till sist: Olle säger tack och de leker.",
+    "exercises": [
+     "Vilka är personerna?",
+     "Vad tappar Olle?",
+     "Var hittar räven halsduken?",
+     "Berätta historien med först, sedan, därefter, till sist.",
+     "Hur känner sig Olle till sist? Vilket ord hjälper dig?"
+    ],
+    "test": [
+     "Vem hittar halsduken?",
+     "Vad händer först?",
+     "Vad gör Olle och räven till sist?",
+     "Sätt i ordning: de leker / Olle tappar halsduken / räven hittar den.",
+     "Rita din favoritdel av berättelsen."
+    ]
+   }
+  },
+  "eu-year-se-beginner-1-poezie": {
+   "sv": {
+    "title": "Rim och dikter",
+    "theory": "En dikt är kort och har en rytm som en sång. Rimord låter likadant i slutet: hus och mus, sol och stol. När vi läser dikten högt hör vi rimmen.",
+    "sample": "Uppe på berget ligger snö,\nnedanför glittrar en blå sjö.\nEn ekorre hoppar, kvick och glad,\nhan gömmer sig bland gröna blad.",
+    "worked": "Snö och sjö rimmar, båda slutar på -ö. Glad och blad rimmar också. Dikten har fyra rader. Vi läser långsamt och säger rimorden tydligt.",
+    "exercises": [
+     "Hitta ordet som rimmar på snö.",
+     "Vad gör ekorren?",
+     "Hur många rader har dikten?",
+     "Hitta ett ord som rimmar på hus.",
+     "Läs dikten högt och klappa rytmen."
+    ],
+    "test": [
+     "Rimmar sol och stol?",
+     "Vilken färg har sjön i dikten?",
+     "Hitta ett ord som rimmar på katt.",
+     "Vilket djur finns i dikten?",
+     "Skriv två ord som rimmar."
+    ]
+   }
+  },
+  "eu-year-se-beginner-1-dialog": {
+   "sv": {
+    "title": "Samtal: lyssna och prata i tur och ordning",
+    "theory": "I ett samtal pratar vi i tur och ordning. Vi lyssnar tills den andra är klar. Vi säger hej, tack och hej då. En fråga slutar med frågetecken.",
+    "sample": "Saga: Hej! Får jag låna en bok om hästar?\nBibliotekarien: Hej Saga. Ja, gärna. Vill du ha en med bilder?\nSaga: Ja tack.\nBibliotekarien: Varsågod.\nSaga: Tack så mycket, hej då!",
+    "worked": "Först säger Saga hej. Hon ställer en fråga, därför slutar meningen med frågetecken. Bibliotekarien svarar och ställer en egen fråga. Saga säger ja tack och tack så mycket. Var och en pratar när den andra är klar.",
+    "exercises": [
+     "Hur hälsar Saga?",
+     "Vilken bok vill Saga låna?",
+     "Hitta en mening med frågetecken.",
+     "Vilka artiga ord säger Saga?",
+     "Spela samtalet två och två."
+    ],
+    "test": [
+     "Vem pratar först?",
+     "Vad frågar bibliotekarien?",
+     "Varför väntar vi tills den andra är klar?",
+     "Skriv en fråga till din lärare.",
+     "Vad säger du när du får något?"
+    ]
+   }
+  },
+  "eu-year-se-beginner-1-vocabular": {
+   "sv": {
+    "title": "Ordgrupper, motsatser och plural",
+    "theory": "Vi kan sortera ord i grupper: djur, färger, saker i skolan. Vissa ord är motsatser: stor – liten, varm – kall. Många substantiv får en ändelse i plural: en penna – två pennor, en bok – tre böcker.",
+    "sample": "I min väska finns ett suddgummi, två pennor och tre böcker. Ute är det kallt, men i klassrummet är det varmt.",
+    "worked": "Suddgummi, penna och bok hör till gruppen skola. En penna, två pennor: a blir -or. En bok, tre böcker: o blir ö och -er kommer till. Kallt och varmt är motsatser.",
+    "exercises": [
+     "Sortera: katt, röd, penna, blå, hund, bok.",
+     "Hitta motsatsen till stor.",
+     "Skriv i plural: en penna.",
+     "Hitta två motsatser i texten.",
+     "Nämn tre djur på en bondgård."
+    ],
+    "test": [
+     "Vad är motsatsen till dag?",
+     "Skriv i plural: en bil.",
+     "Vilket ord är inte en frukt: äpple, päron, hammare, körsbär?",
+     "Hur många böcker finns i väskan?",
+     "Skriv två färger."
+    ]
+   }
+  },
+  "eu-year-se-beginner-1-exprimare": {
+   "sv": {
+    "title": "Stor bokstav, punkt och å, ä, ö",
+    "theory": "En mening börjar med stor bokstav och slutar med punkt. Namn på personer och städer skrivs också med stor bokstav: Saga, Umeå, Malmö. På svenska har vi bokstäverna å, ä och ö: åka, äpple, öga.",
+    "sample": "Nils bor i Göteborg. Han äter ett äpple. På vintern åker han skidor.",
+    "worked": "Nils, Han och På står först i meningen och har stor bokstav. Nils och Göteborg är namn och skrivs också med stor bokstav. Varje mening slutar med punkt. I äpple skriver vi ä, i åker skriver vi å.",
+    "exercises": [
+     "Skriv rätt: maja spelar fotboll",
+     "Hitta namnen i texten.",
+     "Sätt punkt: Jag äter en glass",
+     "Skriv ordet äpple och ringa in ä.",
+     "Hur många meningar har texten?"
+    ],
+    "test": [
+     "Varför skrivs Göteborg med stor bokstav?",
+     "Vad sätter vi sist i en mening?",
+     "Skriv rätt: olle bor i luleå",
+     "Hitta ett ord i texten med å.",
+     "Hitta felet: min katt heter Misse."
+    ]
+   }
+  },
+  "eu-year-se-beginner-1-redactare": {
+   "sv": {
+    "title": "Skriva en mening till en bild",
+    "theory": "Innan vi skriver tittar vi noga på bilden: Vem ser vi? Vad gör personen? Var är personen? Sedan skriver vi en mening med stor bokstav och punkt. Till sist läser vi meningen igen.",
+    "sample": "Bild: En pojke matar ankor vid en damm.\nMening: Pojken ger ankorna bröd vid dammen.",
+    "worked": "Vem? Pojken. Vad gör han? Han ger ankorna bröd. Var? Vid dammen. Meningen börjar med stort P och slutar med punkt. Till sist läser vi den högt.",
+    "exercises": [
+     "Skriv en mening: en flicka äter en banan.",
+     "Vem ser vi på bilden i exemplet?",
+     "Vad ger pojken ankorna?",
+     "Skriv en mening om ditt favoritdjur.",
+     "Läs din mening igen och kontrollera punkten."
+    ],
+    "test": [
+     "Vad frågar vi först när vi tittar på en bild?",
+     "Var matar pojken ankorna?",
+     "Skriv en mening om ditt rum.",
+     "Hur börjar en mening?",
+     "Rita en bild och skriv en mening till den."
+    ]
+   }
+  },
+  "eu-year-se-beginner-1-interpretare": {
+   "sv": {
+    "title": "Vad jag tycker: jämföra personer",
+    "theory": "Vi kan säga vad vi tycker om och ge ett skäl: Jag tycker om ..., eftersom ... Vi jämför personer: Vad är lika? Vad är olika? Andra får tycka något annat.",
+    "sample": "Haren Hugo springer fort, men han retas med de andra. Sköldpaddan Tilda är långsam, och hon hjälper alla. Jag tycker om Tilda, eftersom hon är snäll.",
+    "worked": "Hugo är snabb, Tilda är långsam: Det är olika. Båda är djur i skogen: Det är lika. Meningen med eftersom ger skälet. En kompis får tycka bättre om Hugo.",
+    "exercises": [
+     "Hur är Hugo?",
+     "Vad gör Tilda för de andra?",
+     "Vad är lika för Hugo och Tilda?",
+     "Skriv: Jag tycker om ..., eftersom ...",
+     "Vilken person tycker du mest om? Säg varför."
+    ],
+    "test": [
+     "Vad är olika för Hugo och Tilda?",
+     "Vilket ord använder vi för att ge ett skäl?",
+     "Får din kompis tycka något annat?",
+     "Är Tilda snabb eller långsam?",
+     "Hitta på en tredje person och beskriv den med ett ord."
+    ]
+   }
+  },
+  "eu-year-se-beginner-1-verificare": {
+   "sv": {
+    "title": "Repetition: läsa, förstå, skriva",
+    "theory": "Till sist repeterar vi allt: klappa stavelser, svara på frågor om en text, berätta i ordning, hitta rim, skriva stor bokstav och punkt och använda å, ä och ö.",
+    "sample": "På morgonen packar Elsa sin ryggsäck. Hon tar med en smörgås, en vattenflaska och en mössa. Sedan går hon till skolan med sin syster.",
+    "worked": "Vem? Elsa. Vad gör hon först? Hon packar ryggsäcken. Vad tar hon med? En smörgås, en vattenflaska och en mössa. Vad gör hon sedan? Hon går till skolan. Rygg-säck har två stavelser, smör-gås också.",
+    "exercises": [
+     "Klappa stavelserna i vattenflaska.",
+     "Vad tar Elsa med?",
+     "Vem går Elsa till skolan med?",
+     "Hitta två substantiv i texten.",
+     "Hitta ett ord som rimmar på mössa."
+    ],
+    "test": [
+     "Vad gör Elsa först?",
+     "Hur många meningar har texten?",
+     "Skriv rätt: elsa går till skolan",
+     "Vad är motsatsen till morgon?",
+     "Skriv en mening om din skolväg."
+    ]
+   }
+  }
+ }
+}

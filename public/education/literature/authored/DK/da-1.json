@@ -1,0 +1,242 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "DK",
+ "stage": "beginner",
+ "grade": "1",
+ "version": "5028451f200087493b4c7c59a82b0a38329e34060eb3b8d2078c9622529c41e3",
+ "source": "https://uvm.dk/grundskole/folkeskolen/fag-og-indhold/fag-emner-og-tvaergaaende-temaer/faelles-maal/",
+ "sourceTitle": "Børne- og Undervisningsministeriet: Fælles Mål, dansk, 1.–2. klasse (kun ramme; egne øvelser)",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "da",
+ "labels": [
+  "Egen øveaktivitet · Danmark · 1. klasse",
+  "Vi lærer",
+  "Eget eksempel",
+  "Forklaring",
+  "Øvelser",
+  "Test dig selv",
+  "Egne øvelser, ikke en officiel prøve. Læs dem sammen med en voksen, hvis du har brug for det."
+ ],
+ "chapters": {
+  "eu-year-dk-beginner-1-parcurs": {
+   "da": {
+    "title": "Lyde, bogstaver og stavelser",
+    "theory": "Ord består af lyde. Hver lyd skriver vi med et eller flere bogstaver. Nogle lyde skrives med to bogstaver: sj, ng. Lange ord læser vi i stavelser: cy-kel, ba-na-nen. Vi klapper én gang for hver stavelse.",
+    "sample": "Asta har en rød cykel. Hun kører til stranden med sin far.",
+    "worked": "Cy-kel har to stavelser. Stran-den har også to. Ordet rød starter med lyden r. I ordet stranden hører vi n til sidst. Vi sætter lydene sammen og læser ordet.",
+    "exercises": [
+     "Klap stavelserne i cykel.",
+     "Find to ord i teksten, der starter med s.",
+     "Del i stavelser: Asta, stranden, cykel.",
+     "Hvilken lyd starter ordet far med?",
+     "Læs højt: ma, me, mi, mo, mu."
+    ],
+    "test": [
+     "Hvor mange stavelser har cykel?",
+     "Hvor kører Asta hen?",
+     "Hvilken farve har cyklen?",
+     "Skriv et ord, der starter med b.",
+     "Sæt stavelserne sammen: so-fa."
+    ]
+   }
+  },
+  "eu-year-dk-beginner-1-intelegere": {
+   "da": {
+    "title": "Læse og forstå en kort tekst",
+    "theory": "Efter hver sætning stopper vi og spørger: Hvem? Hvad sker der? Hvor? Svarene står i teksten. Det, der ikke står i teksten, finder vi ikke på.",
+    "sample": "Malte går i skoven med sin mormor. Han har en gul spand. Ved søen samler han sten med Ida.",
+    "worked": "Hvem? Malte. Med hvem? Med sin mormor. Hvad har han? En gul spand. Hvor samler de sten? Ved søen. Hvor gammel Malte er, står ikke i teksten.",
+    "exercises": [
+     "Hvem går Malte i skoven med?",
+     "Hvilken farve har spanden?",
+     "Hvad samler børnene?",
+     "Hvem samler Malte sten med?",
+     "Understreg den sætning, der fortæller, hvad Malte har."
+    ],
+    "test": [
+     "Står det i teksten, hvor gammel Malte er?",
+     "Er spanden blå? Hvordan ved du det?",
+     "Hvad er en sø?",
+     "Find et ord for en person i familien.",
+     "Tegn teksten og skriv et ord under tegningen."
+    ]
+   }
+  },
+  "eu-year-dk-beginner-1-narativ": {
+   "da": {
+    "title": "Personer og handling i en fortælling",
+    "theory": "Personerne i en fortælling kan være mennesker eller dyr. Handlingen er det, der sker. Vi fortæller i rækkefølge: først, så, bagefter, til sidst.",
+    "sample": "Først blæser Ellas hue af i vinden. Så lander huen i et træ. Bagefter flyver en krage op og skubber huen ned. Til sidst griner Ella og siger tak til kragen.",
+    "worked": "Personerne er Ella og kragen. Først: Huen blæser af. Så: Den lander i et træ. Bagefter: Kragen skubber den ned. Til sidst: Ella griner og siger tak.",
+    "exercises": [
+     "Hvem er personerne?",
+     "Hvad blæser af i vinden?",
+     "Hvor lander huen?",
+     "Fortæl historien med først, så, bagefter, til sidst.",
+     "Hvordan har Ella det til sidst? Hvilket ord hjælper dig?"
+    ],
+    "test": [
+     "Hvem skubber huen ned?",
+     "Hvad sker der først?",
+     "Hvad gør Ella til sidst?",
+     "Sæt i rækkefølge: Ella griner / huen blæser af / kragen skubber huen.",
+     "Tegn det bedste sted i historien."
+    ]
+   }
+  },
+  "eu-year-dk-beginner-1-poezie": {
+   "da": {
+    "title": "Rim og digte",
+    "theory": "Et digt er kort og har en rytme som en sang. Rimord lyder ens til sidst: hus og mus, sol og stol. Når vi siger digtet højt, kan vi høre rimene.",
+    "sample": "Ved stranden skinner gul en sol,\nmin far han sidder på en stol.\nEn lille krabbe går i sand,\nog jeg går ud og plasker i vand.",
+    "worked": "Sol og stol rimer, de slutter begge på -ol. Sand og vand rimer også. Digtet har fire linjer. Vi læser langsomt og siger rimordene tydeligt.",
+    "exercises": [
+     "Find det ord, der rimer på sol.",
+     "Hvor sidder far?",
+     "Hvor mange linjer har digtet?",
+     "Find et ord, der rimer på hus.",
+     "Sig digtet højt og klap rytmen."
+    ],
+    "test": [
+     "Rimer sand og vand?",
+     "Hvilket dyr går i sandet?",
+     "Find et ord, der rimer på kat.",
+     "Hvilken farve har solen i digtet?",
+     "Skriv to ord, der rimer."
+    ]
+   }
+  },
+  "eu-year-dk-beginner-1-dialog": {
+   "da": {
+    "title": "Samtale: lytte og tale på skift",
+    "theory": "I en samtale taler vi på skift. Vi lytter, til den anden er færdig. Vi siger goddag, tak og farvel. Et spørgsmål slutter med et spørgsmålstegn.",
+    "sample": "Oskar: Goddag! Må jeg få et rugbrød?\nBageren: Goddag, Oskar. Skal det være skåret?\nOskar: Ja tak.\nBageren: Værsgo. Det koster 25 kroner.\nOskar: Tak, farvel!",
+    "worked": "Først siger Oskar goddag. Bageren stiller et spørgsmål, så sætningen slutter med et spørgsmålstegn. Oskar svarer ja tak. Til sidst siger han tak og farvel. Hver taler, når den anden er færdig.",
+    "exercises": [
+     "Hvordan hilser Oskar?",
+     "Hvad vil Oskar købe?",
+     "Find sætningen med et spørgsmålstegn.",
+     "Hvilke høflige ord siger Oskar?",
+     "Spil samtalen to og to."
+    ],
+    "test": [
+     "Hvem taler først?",
+     "Hvad koster rugbrødet?",
+     "Hvorfor venter vi, til den anden er færdig?",
+     "Skriv et spørgsmål til din lærer.",
+     "Hvad siger du, når du går ud af en butik?"
+    ]
+   }
+  },
+  "eu-year-dk-beginner-1-vocabular": {
+   "da": {
+    "title": "Ordgrupper, modsætninger og flertal",
+    "theory": "Vi kan sortere ord i grupper: dyr, farver, ting i skolen. Nogle ord er modsætninger: stor – lille, varm – kold. Mange navneord får -er eller -e i flertal: en blyant – to blyanter, en bog – tre bøger.",
+    "sample": "I min taske er der et penalhus, to blyanter og tre bøger. Ude er det koldt, men i klassen er det varmt.",
+    "worked": "Penalhus, blyant og bog hører til gruppen skole. En blyant, to blyanter: I flertal kommer der -er på. En bog, tre bøger: o bliver til ø. Koldt og varmt er modsætninger.",
+    "exercises": [
+     "Sorter: kat, rød, blyant, blå, hund, bog.",
+     "Find modsætningen til stor.",
+     "Skriv i flertal: en blyant.",
+     "Find to modsætninger i teksten.",
+     "Nævn tre dyr på en bondegård."
+    ],
+    "test": [
+     "Hvad er modsætningen til dag?",
+     "Skriv i flertal: en bil.",
+     "Hvilket ord er ikke en frugt: æble, pære, hammer, kirsebær?",
+     "Hvor mange bøger er der i tasken?",
+     "Skriv to farver."
+    ]
+   }
+  },
+  "eu-year-dk-beginner-1-exprimare": {
+   "da": {
+    "title": "Stort bogstav, punktum og æ, ø, å",
+    "theory": "En sætning starter med stort bogstav og slutter med punktum. Navne på personer og byer skrives også med stort: Asta, Odense, Aarhus. På dansk har vi bogstaverne æ, ø og å: æble, bøger, gås.",
+    "sample": "Freja bor i Aalborg. Hun spiser et æble. Om vinteren går hun på skøjter.",
+    "worked": "Freja, Hun og Om står først i sætningen og har stort bogstav. Freja og Aalborg er navne og skrives også med stort. Hver sætning slutter med punktum. I æble skriver vi æ, i skøjter skriver vi ø.",
+    "exercises": [
+     "Skriv rigtigt: emil spiller bold",
+     "Find navnene i teksten.",
+     "Sæt punktum: Jeg spiser en is",
+     "Skriv ordet æble og sæt ring om æ.",
+     "Hvor mange sætninger har teksten?"
+    ],
+    "test": [
+     "Hvorfor skrives Aalborg med stort?",
+     "Hvad sætter vi til sidst i en sætning?",
+     "Skriv rigtigt: nora bor i vejle",
+     "Find et ord i teksten med ø.",
+     "Find fejlen: min hund hedder Bobby."
+    ]
+   }
+  },
+  "eu-year-dk-beginner-1-redactare": {
+   "da": {
+    "title": "Skrive en sætning til et billede",
+    "theory": "Før vi skriver, ser vi godt på billedet: Hvem ser vi? Hvad laver personen? Hvor er personen? Så skriver vi en sætning med stort bogstav og punktum. Til sidst læser vi sætningen igen.",
+    "sample": "Billede: En pige bygger et sandslot på stranden.\nSætning: Pigen bygger et sandslot på stranden.",
+    "worked": "Hvem? Pigen. Hvad laver hun? Hun bygger et sandslot. Hvor? På stranden. Sætningen starter med stort P og slutter med punktum. Til sidst læser vi den højt.",
+    "exercises": [
+     "Skriv en sætning: en dreng spiser en banan.",
+     "Hvem ser vi på billedet i eksemplet?",
+     "Hvad bygger pigen?",
+     "Skriv en sætning om dit yndlingsdyr.",
+     "Læs din sætning igen og tjek punktummet."
+    ],
+    "test": [
+     "Hvad spørger vi om først, når vi ser et billede?",
+     "Hvor bygger pigen sandslottet?",
+     "Skriv en sætning om dit værelse.",
+     "Hvordan starter en sætning?",
+     "Tegn et billede og skriv en sætning til."
+    ]
+   }
+  },
+  "eu-year-dk-beginner-1-interpretare": {
+   "da": {
+    "title": "Min mening: sammenligne personer",
+    "theory": "Vi kan sige, hvad vi kan lide, og give en grund: Jeg kan lide ..., fordi ... Vi sammenligner personer: Hvad er ens? Hvad er forskelligt? Andre må gerne mene noget andet.",
+    "sample": "Ræven Rolf er hurtig, men han driller de andre. Sneglen Sofie er langsom, og hun hjælper alle. Jeg kan lide Sofie, fordi hun er sød.",
+    "worked": "Rolf er hurtig, Sofie er langsom: Det er forskelligt. Begge bor i skoven: Det er ens. Sætningen med fordi giver grunden. En ven må godt bedre kunne lide Rolf.",
+    "exercises": [
+     "Hvordan er Rolf?",
+     "Hvad gør Sofie for de andre?",
+     "Hvad er ens for Rolf og Sofie?",
+     "Skriv: Jeg kan lide ..., fordi ...",
+     "Hvilken person kan du bedst lide? Sig hvorfor."
+    ],
+    "test": [
+     "Hvad er forskelligt for Rolf og Sofie?",
+     "Hvilket ord bruger vi, når vi giver en grund?",
+     "Må din ven mene noget andet end dig?",
+     "Er Sofie hurtig eller langsom?",
+     "Find på en tredje person, og beskriv den med ét ord."
+    ]
+   }
+  },
+  "eu-year-dk-beginner-1-verificare": {
+   "da": {
+    "title": "Repetition: læse, forstå, skrive",
+    "theory": "Til sidst øver vi det hele igen: klappe stavelser, svare på spørgsmål til en tekst, fortælle i rækkefølge, finde rim, skrive stort bogstav og punktum og bruge æ, ø og å.",
+    "sample": "Om morgenen pakker Ida sin taske. Hun tager en madpakke, en vandflaske og en hue med. Bagefter cykler hun til skole med sin bror.",
+    "worked": "Hvem? Ida. Hvad gør hun først? Hun pakker sin taske. Hvad tager hun med? En madpakke, en vandflaske og en hue. Hvad gør hun bagefter? Hun cykler til skole. Mad-pak-ke har tre stavelser.",
+    "exercises": [
+     "Klap stavelserne i madpakke.",
+     "Hvad tager Ida med?",
+     "Hvem cykler Ida med?",
+     "Find to navneord i teksten.",
+     "Find et ord, der rimer på hue."
+    ],
+    "test": [
+     "Hvad gør Ida først?",
+     "Hvor mange sætninger har teksten?",
+     "Skriv rigtigt: ida cykler hurtigt",
+     "Hvad er modsætningen til morgen?",
+     "Skriv en sætning om din skolevej."
+    ]
+   }
+  }
+ }
+}
