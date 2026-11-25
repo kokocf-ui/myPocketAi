@@ -16,8 +16,10 @@ on:
       - 'public/education/literature/profiles/**'
       - 'public/education/literature/authored/**'
       - 'public/education/history/authored/**'
+      - 'public/education/geography/authored/**'
       - 'education_national_subject_packs.mjs'
       - 'tests_history_national_packs.mjs'
+      - 'tests_geography_national_packs.mjs'
       - 'education_all_country_subject_matrix.mjs'
       - '.github/workflows/literature-50-grade-depth.yml'
   workflow_dispatch:
@@ -69,6 +71,8 @@ jobs:
           node scripts/build_literature_national_packs.mjs
           node scripts/build_literature_national_packs.mjs --subject=history
           node tests_history_national_packs.mjs
+          node scripts/build_literature_national_packs.mjs --subject=geography
+          node tests_geography_national_packs.mjs
           node tests_literature_national_packs.mjs
           node tests_literature_country_profiles.mjs
           node tests_literature_authored_packs.mjs

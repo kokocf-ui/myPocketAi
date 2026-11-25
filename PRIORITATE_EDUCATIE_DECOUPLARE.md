@@ -80,6 +80,10 @@ Utilizatorul a testat APK-ul signed intermediar și a raportat că textul apare 
 
 - RO: clasele IV–XII (`public/education/history/authored/RO/ro-4.json` … `ro-12.json`, 9 pachete / 273 lecții): IV OMEN 5003/2014; V–VIII OMEN 3393/2017; IX OMEC 6930/2025; X OMEC 4598/2004; XI–XII OMECI 5099/2009. Licență I–III (`ro-uni-ba-1..3.json`, câte 26 lecții, sinteză ARACIS verificată pe UB/UBB/UAIC). Istoria RO completă: 12 pachete / 351 lecții. Revizuire independentă în așteptare; nu se declară aprobare completă.
 
+## Geografie: pachete naționale pe an (motorul Literaturii)
+
+- RO: clasa a IV-a (`public/education/geography/authored/RO/ro-4.json`, 32 lecții, 4 unități, OMEN 5003/2014). Urmează V–XII și Licență I–III. Revizuire independentă în așteptare.
+
 ## Literatură: pachete naționale pe an (ramura `arena/430ec340-mypocketai`)
 
 Decizii ale utilizatorului (nov. 2026): lecții în **limba națională de școlarizare**, o singură sursă per limbă; ordine **pe lățime** (întâi primar pentru toate țările, apoi gimnaziu, apoi liceu); pentru țările multilingve, **toate limbile oficiale de predare**; doar commit + push, **fără PR/merge și fără APK** până la alt semnal.
