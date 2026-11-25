@@ -1,6 +1,6 @@
 {
  "schema": "mypocket-literature-authored-catalog/v1",
- "version": "f4b93b29e065928ce57515c60d7974f017d1738ce375ec74142f0dcd5bd1a485",
+ "version": "5b4b507a34b1b7d31e5a6056ce824e9138a78f6a08485dcf4e99031f739eb216",
  "years": [
   {
    "country": "AT",
@@ -176,7 +176,7 @@
      "lang": "is",
      "name": "Íslenska",
      "file": "is-1",
-     "version": "b6bd62c2d4d4d231825c767f7beaacfc347bd8de21f3a48b2f7a818318c612c4"
+     "version": "9add13c8f63aa8417f7675c2a339906490d7af22cc6816152b73f64b3c7945b5"
     }
    ]
   },
