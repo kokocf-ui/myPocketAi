@@ -102,6 +102,20 @@ if(typeof litOpen==='function'&&typeof LIT_TOPICS==='object'&&
    }
   }
   const shown=originalOpen(stage);
+  // Textbook units as headings between the lesson cards (full grid width).
+  if(stage==='topics'&&litJourney.branch==='program'&&typeof $==='function'){
+   const units=litProgram()?.units||[];
+   if(units.some(u=>u.unit)){
+    const cards=[...($('moduleContent')?.querySelectorAll?.('.lit-choice-card')||[])];
+    let last='';
+    units.forEach((u,i)=>{
+     if(!u.unit||u.unit===last||!cards[i])return;
+     const heading=document.createElement('p');heading.className='lit-unit-heading';
+     heading.style.cssText='grid-column:1/-1;font-weight:700;margin:12px 0 0;text-align:left';
+     heading.textContent=u.unit;cards[i].before(heading);last=u.unit;
+    });
+   }
+  }
   // The legacy university selector displayed one fake school-style grade.
   // Replace it with clear Bachelor/Master/research choices, leaving all
   // school-year selectors and prior navigation unchanged.
@@ -159,7 +173,28 @@ if(typeof litOpen==='function'&&typeof LIT_TOPICS==='object'&&
   }
   if(typeof LIT_EUROPE_PROGRAMS!=='undefined')
    literatureClientGradeExpand(LIT_EUROPE_PROGRAMS,litJourney);
+  // A loaded textbook-sequence national pack defines the year's lessons
+  // itself: titles in the language of instruction, grouped by textbook unit.
+  const nationalPack=typeof LIT_NATIONAL_YEAR==='object'?LIT_NATIONAL_YEAR.pack:null;
+  if(nationalPack&&Array.isArray(nationalPack.units)&&nationalPack.country===String(litJourney.country)&&
+     nationalPack.stage===String(litJourney.level)&&nationalPack.grade===grade){
+   const units=[];
+   for(const unit of nationalPack.units)for(const key of unit.keys){
+    const row=nationalPack.chapters?.[key]?.[nationalPack.language];
+    if(row)units.push({id:key+'-'+units.length,topic:'genres',ro:row.title,en:row.title,
+     focus:row.theory,order:units.length+1,unit:unit.title});
+   }
+   if(units.length)return {source:nationalPack.source||null,sourceTitle:nationalPack.sourceTitle||'',
+    verified:false,regions:false,note:nationalPack.sourceTitle||'',units};
+  }
   let plan=originalProgram();
+  // Ten-part national packs: show each chapter under the pack's own title.
+  if(nationalPack&&!nationalPack.units&&nationalPack.country===String(litJourney.country)&&
+     nationalPack.stage===String(litJourney.level)&&nationalPack.grade===grade)
+   plan={...plan,units:plan.units.map(u=>{
+    const row=nationalPack.chapters?.[String(u.id).replace(/-\d+$/,'')]?.[nationalPack.language];
+    return row?{...u,ro:row.title,en:row.title}:u;
+   })};
   if(litJourney.country!=='RO')return plan;
   if(/^\d{1,2}$/.test(grade)&&typeof LIT_EUROPE_PROGRAMS!=='undefined'){
    const prior=(LIT_EUROPE_PROGRAMS.RO?.byGrade?.[grade]||[])

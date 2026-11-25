@@ -1,6 +1,6 @@
 {
  "schema": "mypocket-literature-authored-catalog/v1",
- "version": "5dad75438f436b74eb7f6666a4f0821aa44480d665f9c9dfa312e5b3eb1577cc",
+ "version": "69b91bf132f45d7666f4db4706201e784f0202cfca32bd61fcd0c581c6511781",
  "years": [
   {
    "country": "AT",
@@ -299,7 +299,7 @@
      "lang": "tr",
      "name": "Türkçe",
      "file": "tr-1",
-     "version": "e9975485928ddbb85632c63fb941929ad159e7325d07d2d5d296d759941cfb39"
+     "version": "9be37069ebd516d757c5df8f669202c7fe99532b48ac74a0a484274a41d028ce"
     }
    ]
   }

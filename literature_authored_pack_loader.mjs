@@ -75,8 +75,12 @@ export async function literatureLoadNationalYear(entry,language,options={}){
  const valid=x=>Boolean(x&&x.schema==='mypocket-literature-authored/v2'&&x.country===c&&x.stage===s&&x.grade===g&&
   x.sourceLanguage===language&&x.version===choice.version&&x.chapters&&typeof x.chapters==='object'&&!Array.isArray(x.chapters)&&
   (x.labels===undefined||(Array.isArray(x.labels)&&x.labels.length===7&&x.labels.every(text)))&&
+  // Textbook-sequence packs group their lessons into the units of the
+  // official programme/textbook; every lesson belongs to exactly one unit.
+  (x.units===undefined||(Array.isArray(x.units)&&x.units.length>0&&x.units.every(u=>u&&text(u.title)&&Array.isArray(u.keys)&&u.keys.length>0&&u.keys.every(k=>x.chapters?.[k]))&&
+   x.units.flatMap(u=>u.keys).join('|')===Object.keys(x.chapters||{}).join('|')))&&
   Object.keys(x.chapters).length>0&&Object.entries(x.chapters).every(([k,record])=>{
-   if(!k.startsWith(prefix)||!parts.includes(k.slice(prefix.length)))return false;
+   if(!k.startsWith(prefix)||!(parts.includes(k.slice(prefix.length))||/^l\d{2}$/.test(k.slice(prefix.length))))return false;
    const row=record?.[language];
    return Boolean(record&&Object.keys(record).length===1&&row&&['title','theory','sample','worked'].every(f=>text(row[f]))&&
     list(row.exercises)&&list(row.test));
@@ -88,14 +92,14 @@ export async function literatureLoadNationalYear(entry,language,options={}){
   if(!response.ok)throw Error('national_pack_http_'+response.status);
   const data=await response.json();if(!valid(data))throw Error('invalid_national_pack');
   try{storage?.setItem(key,JSON.stringify(data))}catch{}
-  return {country:c,stage:s,grade:g,language,chapters:data.chapters,labels:data.labels||null,version:data.version,status:data.status||'',offline:false};
+  return {country:c,stage:s,grade:g,language,chapters:data.chapters,labels:data.labels||null,units:data.units||null,source:data.source||null,sourceTitle:data.sourceTitle||'',version:data.version,status:data.status||'',offline:false};
  }catch(error){
   // A cached copy of an older version stays usable offline; validate its own
   // structure, not the version announced by the newer catalog.
   try{
    const saved=JSON.parse(storage?.getItem(key)||'null');
    if(saved&&/^[a-f0-9]{64}$/.test(String(saved.version||''))&&valid({...saved,version:choice.version}))
-    return {country:c,stage:s,grade:g,language,chapters:saved.chapters,labels:saved.labels||null,version:saved.version,status:saved.status||'',offline:true};
+    return {country:c,stage:s,grade:g,language,chapters:saved.chapters,labels:saved.labels||null,units:saved.units||null,source:saved.source||null,sourceTitle:saved.sourceTitle||'',version:saved.version,status:saved.status||'',offline:true};
   }catch{}
   throw Error('literature_national_year_unavailable',{cause:error});
  }

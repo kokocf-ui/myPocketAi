@@ -31,7 +31,10 @@ export function displayedYears(country,stage){
  return KNOWN[country]?.[stage]||worldwideSchoolYears(country,stage,'literature').map(x=>String(x.id));
 }
 export const slugOf=grade=>String(grade).toLowerCase().replace(/[^a-z0-9-]/g,'-');
-export const packVersion=pack=>createHash('sha256').update(JSON.stringify([pack.labels||null,pack.chapters])).digest('hex');
+export const packVersion=pack=>createHash('sha256').update(JSON.stringify(pack.units?[pack.labels||null,pack.chapters,pack.units]:[pack.labels||null,pack.chapters])).digest('hex');
+// Textbook-sequence packs: one lesson per textbook unit/week, grouped by unit.
+export const TEXTBOOK_PACK_MIN_LESSONS=24,TEXTBOOK_PACK_MAX_LESSONS=40;
+export const packLessonKeys=pack=>Object.keys(pack.chapters||{});
 
 const root=fileURLToPath(new URL('../public/education/literature/',import.meta.url));
 const authoredRoot=root+'authored/';
@@ -68,12 +71,23 @@ export async function collectNationalPacks(){
    const offered=new Set((progs[country]?.byGrade?.[pack.grade]||[]).map(r=>String(r[0])));
    const prefix='eu-year-'+country.toLowerCase()+'-'+pack.stage+'-'+slug+'-';
    const keys=Object.keys(pack.chapters||{});
-   if(keys.length!==NATIONAL_PACK_PARTS.length)fail('expected 10 chapters, found '+keys.length);
+   const textbook=pack.units!==undefined;
+   let parts=NATIONAL_PACK_PARTS;
+   if(textbook){
+    // Lessons follow the official programme/textbook sequence; the selector
+    // takes them from the pack, so they need not exist in the profile.
+    if(!(keys.length>=TEXTBOOK_PACK_MIN_LESSONS&&keys.length<=TEXTBOOK_PACK_MAX_LESSONS))fail('textbook pack needs '+TEXTBOOK_PACK_MIN_LESSONS+'-'+TEXTBOOK_PACK_MAX_LESSONS+' lessons, found '+keys.length);
+    parts=keys.map(k=>k.slice(prefix.length));
+    if(!keys.every((k,i)=>k===prefix+'l'+String(i+1).padStart(2,'0')))fail('textbook lesson keys must be '+prefix+'l01.. in order');
+    if(!(Array.isArray(pack.units)&&pack.units.length>=2&&pack.units.every(u=>u&&typeof u.title==='string'&&u.title.trim().length>=4&&Array.isArray(u.keys)&&u.keys.length)))fail('units');
+    else if(pack.units.flatMap(u=>u.keys).join('|')!==keys.join('|'))fail('units must cover every lesson once, in order');
+    if(new Set((pack.units||[]).map(u=>u.title)).size!==(pack.units||[]).length)fail('duplicated unit title');
+   }else if(keys.length!==NATIONAL_PACK_PARTS.length)fail('expected 10 chapters, found '+keys.length);
    const samples=new Set(),titles=new Set();
-   for(const part of NATIONAL_PACK_PARTS){
+   for(const part of parts){
     const key=prefix+part,record=pack.chapters?.[key];
     if(!record){fail('missing chapter '+part);continue}
-    if(!offered.has(key))fail('chapter not offered by selector: '+key);
+    if(!textbook&&!offered.has(key))fail('chapter not offered by selector: '+key);
     const row=record[lang];
     if(!row||Object.keys(record).length!==1){fail(part+': exactly one source language');continue}
     for(const f of ['title','theory','sample','worked'])if(!(typeof row[f]==='string'&&row[f].trim().length>=(f==='title'?4:f==='sample'?20:60)))fail(part+'.'+f+' too short');
@@ -126,14 +140,15 @@ if(isMain){
  for(const entry of loaded.years)for(const l of entry.languages){
   const item=packs.find(p=>p.country===entry.country&&p.file===l.file);
   const pack=await literatureLoadNationalYear(entry,l.lang,{storage:null,fetcher:async()=>({ok:true,json:async()=>item.pack})});
-  for(const part of NATIONAL_PACK_PARTS)for(const mode of ['lesson','examples','exercises','test']){
-   const m=literatureNationalYearMaterial({pack,country:entry.country,stage:entry.stage,grade:entry.grade,
-    topicKey:'eu-year-'+entry.country.toLowerCase()+'-'+entry.stage+'-'+slugOf(entry.grade)+'-'+part,mode});
-   if(!m||m.sourceLanguage!==l.lang||!m.text.includes(pack.chapters[Object.keys(pack.chapters).find(k=>k.endsWith('-'+part))][l.lang].sample))
+  for(const topicKey of packLessonKeys(pack))for(const mode of ['lesson','examples','exercises','test']){
+   const m=literatureNationalYearMaterial({pack,country:entry.country,stage:entry.stage,grade:entry.grade,topicKey,mode});
+   const part=topicKey;
+   if(!m||m.sourceLanguage!==l.lang||!m.text.includes(pack.chapters[topicKey][l.lang].sample))
     throw Error('Render failed '+entry.country+' '+entry.grade+' '+l.lang+' '+part+' '+mode);
   }
  }
  const langs=new Set(packs.map(p=>p.country+':'+p.lang));
- console.log('Verified '+packs.length+' national Literature packs ('+packs.length*10+' lessons), '+catalog.years.length+' years, '+
+ const lessons=packs.reduce((n,p)=>n+packLessonKeys(p.pack).length,0),textbookPacks=packs.filter(p=>p.pack.units).length;
+ console.log('Verified '+packs.length+' national Literature packs ('+lessons+' lessons; '+textbookPacks+' in textbook sequence), '+catalog.years.length+' years, '+
   new Set(packs.map(p=>p.country)).size+' systems, '+langs.size+' country-languages'+(write?' — written':''));
 }

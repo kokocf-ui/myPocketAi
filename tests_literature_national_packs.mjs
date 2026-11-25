@@ -105,4 +105,17 @@ for(const path of ['/education/literature/authored/catalog.json','/education/lit
 assert.equal((await service.fetch(new Request('https://e.test/education/literature/authored/gb/en-y1.json'),{ASSETS:assets})).status,404);
 assert.equal((await service.fetch(new Request('https://e.test/education/literature/authored/catalog.js'),{ASSETS:assets})).status,404);
 
-console.log('PASS national Literature packs: '+packs.length+' packs / '+packs.length*10+' lessons; catalog, loaders, cache/offline, single source, renderer, activity flow, original-language fallback, no HTML bundling, service paths');
+// 8. Textbook-sequence packs (TR year 1): units cover every lesson in order,
+// the loader keeps units/source and rejects broken unit lists.
+const trEntry=catalog.years.find(y=>y.country==='TR'&&y.grade==='1');
+const tr=await read('TR/tr-1.json');
+assert.ok(Array.isArray(tr.units)&&tr.units.length>=8&&Object.keys(tr.chapters).length>=30,'TR year 1 follows the textbook sequence');
+assert.deepEqual(tr.units.flatMap(u=>u.keys),Object.keys(tr.chapters));
+let trp=await literatureLoadNationalYear(trEntry,'tr',{storage:null,fetcher:ok(tr)});
+assert.deepEqual(trp.units,tr.units);assert.equal(trp.source,tr.source);
+const broken=structuredClone(tr);broken.units[0].keys.push(broken.units[1].keys[0]);
+await assert.rejects(literatureLoadNationalYear(trEntry,'tr',{storage:null,fetcher:ok(broken)}),/unavailable/,'a lesson may belong to one unit only');
+for(const key of Object.keys(tr.chapters))assert.ok(literatureNationalYearMaterial({pack:trp,country:'TR',stage:'beginner',grade:'1',topicKey:key,mode:'lesson'})?.text.includes(tr.chapters[key].tr.sample));
+const totalLessons=packs.reduce((n,p)=>n+Object.keys(p.pack.chapters).length,0);
+
+console.log('PASS national Literature packs: '+packs.length+' packs / '+totalLessons+' lessons (textbook sequence: '+packs.filter(p=>p.pack.units).map(p=>p.country+' '+p.lang).join(', ')+'); catalog, loaders, cache/offline, single source, renderer, activity flow, original-language fallback, no HTML bundling, service paths');

@@ -139,7 +139,9 @@ try{
  assert.equal((await litStage()).instructionLanguage,'nl');
  assert.deepEqual(served,['catalog.json','BE/nl-1.json']);
  await choice('Programa clasei|Grade syllabus');
- assert.equal((await cards()).length,10,'Year 1 must list the ten national chapters');
+ const beCards=await cards();
+ assert.equal(beCards.length,10,'Year 1 must list the ten national chapters');
+ assert.equal(beCards[0],'1. Klanken, letters en klankgroepen','Cards use the pack titles in the language of instruction');
  await choice('^1\\.');
  let view=await openTheory('nl');
  assert.match(view.reader,/Klanken, letters en klankgroepen/);
@@ -204,11 +206,19 @@ try{
  assert.equal(served.at(-1),'TR/tr-1.json');
  await choice('Programa clasei|Grade syllabus');
  const trCards=await cards();
- assert.equal(trCards.length,10,'TR year 1 must list the ten national chapters: '+JSON.stringify(trCards));
- assert.ok(!trCards.some(x=>/Yunus Emre|Namık Kemal|Tartışmacı/.test(x)),'No generic upper-level themes in TR year 1: '+JSON.stringify(trCards));
- await choice('^1\\.');
+ // Textbook sequence: one lesson per textbook unit/week, titles in Turkish,
+ // grouped under the eight official themes of the TYMM programme.
+ const trPack=JSON.parse(await readFile(new URL('./public/education/literature/authored/TR/tr-1.json',import.meta.url),'utf8'));
+ const trTitles=trPack.units.flatMap(u=>u.keys).map(k=>trPack.chapters[k].tr.title);
+ assert.ok(trTitles.length>=30,'TR year 1 follows the textbook sequence');
+ assert.deepEqual(trCards,trTitles.map((t,i)=>(i+1)+'. '+t),'TR year 1 cards must be the pack lessons in order');
+ assert.ok(!trCards.some(x=>/Yunus Emre|Namık Kemal|Tartışmacı|Primele texte/.test(x)),'No generic themes in TR year 1: '+JSON.stringify(trCards));
+ const headings=await js("[...document.querySelectorAll('#moduleContent .lit-unit-heading')].map(x=>({t:x.textContent,w:x.getBoundingClientRect().width}))");
+ assert.deepEqual(headings.map(h=>h.t),trPack.units.map(u=>u.title),'Unit headings follow the official themes');
+ assert.ok(headings.every(h=>h.w>300),'Unit headings span the list width: '+JSON.stringify(headings));
+ await choice('^2\\. ');
  view=await openTheory('tr');
- assert.match(view.reader,/a, n, e, t, i, l/);
+ assert.match(view.reader,/a ve n sesleri/);
  assert.match(view.reader,/Türkiye/);
  await closeReader();
  assert.deepEqual(exceptions,[],'No uncaught browser exceptions');
