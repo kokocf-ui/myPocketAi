@@ -1,6 +1,6 @@
 {
  "schema": "mypocket-literature-authored-catalog/v1",
- "version": "87fd8bfb97a83adafd7c14266c4c1b16a8ab7dd40276e34819cffa4b2a6b6335",
+ "version": "292318b26ab01c848334010b35a90dc928f1a513c203d45112fc7fafebc5f0d1",
  "years": [
   {
    "country": "AT",
@@ -100,7 +100,7 @@
      "lang": "ca",
      "name": "Català",
      "file": "ca-p1",
-     "version": "b6ad39f8adba385ffaa08b4ee8052675ba35c4bf862a3687fefcac62725d0035"
+     "version": "1d18c96442de18162d761371acdf063d75e42e6268df3e6c588d318412fc6bdd"
     },
     {
      "lang": "es",
