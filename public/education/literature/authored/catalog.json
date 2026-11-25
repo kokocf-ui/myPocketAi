@@ -1,6 +1,6 @@
 {
  "schema": "mypocket-literature-authored-catalog/v1",
- "version": "cf890df14fb3530c4dfa50749c424134a0f048daae012c25e0bda3c0b0f59e8f",
+ "version": "3b56b12bb6b9ced122a1ee6ead3643fae4b149f330c8bbca0db0774f9d328511",
  "years": [
   {
    "country": "AD",
@@ -168,6 +168,32 @@
    ]
   },
   {
+   "country": "GB-NIR",
+   "stage": "beginner",
+   "grade": "Y1",
+   "languages": [
+    {
+     "lang": "en",
+     "name": "English",
+     "file": "en-y1",
+     "version": "63446fe0033f632fb91d3232343fa2b9e9ee7a98dd4d0a52daca2fada3867dd9"
+    }
+   ]
+  },
+  {
+   "country": "GB-SCT",
+   "stage": "beginner",
+   "grade": "P1",
+   "languages": [
+    {
+     "lang": "en",
+     "name": "English",
+     "file": "en-p1",
+     "version": "cd3a7da3d7c58b3caeaab3ff3565ec9b7895fd691d39771f7eda9f25cbb1a38a"
+    }
+   ]
+  },
+  {
    "country": "GB-WLS",
    "stage": "beginner",
    "grade": "Y1",
@@ -190,6 +216,19 @@
      "name": "Hrvatski",
      "file": "hr-1",
      "version": "0330368942738c01170833a773070274c614974c03df9ec38ee5aa0bcfeefefd"
+    }
+   ]
+  },
+  {
+   "country": "IE",
+   "stage": "beginner",
+   "grade": "JI",
+   "languages": [
+    {
+     "lang": "en",
+     "name": "English",
+     "file": "en-ji",
+     "version": "dc0bee39f7676a9055f5e6b39854c85c86a2c54af0938b7e7643d23ecf588011"
     }
    ]
   },
