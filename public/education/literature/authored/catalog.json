@@ -1,6 +1,6 @@
 {
  "schema": "mypocket-literature-authored-catalog/v1",
- "version": "96363004099672d8b0891eca63db113986bdc09e3264950b3fdceb0b48581480",
+ "version": "d8d004f5f1df84898501c98f8640216995ed922c5ea43f64c98a3093fe1bc519",
  "years": [
   {
    "country": "AD",
@@ -201,6 +201,19 @@
    ]
   },
   {
+   "country": "EE",
+   "stage": "beginner",
+   "grade": "1",
+   "languages": [
+    {
+     "lang": "et",
+     "name": "Eesti",
+     "file": "et-1",
+     "version": "5a0bc32edd7da51f36d4b4b9590122b73fef615fd78f8558f75d172df92692b9"
+    }
+   ]
+  },
+  {
    "country": "ES",
    "stage": "beginner",
    "grade": "P1",
@@ -381,6 +394,19 @@
    ]
   },
   {
+   "country": "LT",
+   "stage": "beginner",
+   "grade": "1",
+   "languages": [
+    {
+     "lang": "lt",
+     "name": "Lietuvių",
+     "file": "lt-1",
+     "version": "bb1186e9c0acf7297eef3a988d72393099e6af7befd162bd947a38a1d54d94a1"
+    }
+   ]
+  },
+  {
    "country": "LU",
    "stage": "beginner",
    "grade": "E1",
@@ -390,6 +416,19 @@
      "name": "Deutsch",
      "file": "de-e1",
      "version": "a7bd15499cbc35bbaee57b1595b85ab7b2704dc74590c9b44579f21c4ab5aeb2"
+    }
+   ]
+  },
+  {
+   "country": "LV",
+   "stage": "beginner",
+   "grade": "1",
+   "languages": [
+    {
+     "lang": "lv",
+     "name": "Latviešu",
+     "file": "lv-1",
+     "version": "d0c877d38730f2854baf9e46e141fd1a586fc90d72274558fb35f0672cdbc88c"
     }
    ]
   },

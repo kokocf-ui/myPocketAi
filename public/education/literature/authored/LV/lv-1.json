@@ -1,0 +1,1064 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "LV",
+ "stage": "beginner",
+ "grade": "1",
+ "version": "d0c877d38730f2854baf9e46e141fd1a586fc90d72274558fb35f0672cdbc88c",
+ "source": "https://www.skola2030.lv/",
+ "sourceTitle": "VISC / Skola2030 — valsts pamatizglītības standarts (MK noteikumi Nr. 747, 2018), mācību priekšmets Latviešu valoda, 1. klase: klausīšanās un runāšana, skaņas un burti, garumzīme un mīkstinājuma zīme, lasīšana ar izpratni, rakstīšana, folklora un bērnu literatūra; secība kā parastajās ābecēs; paša materiāli, bez mācību grāmatu teksta",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "lv",
+ "labels": [
+  "Paša vingrinājums · Latvija · 1. klase",
+  "Mācāmies",
+  "Paša piemērs",
+  "Skaidrojums",
+  "Vingrinājumi",
+  "Pārbaudi sevi",
+  "Paša vingrinājumi, nevis oficiāls tests vai mācību grāmatas teksts. Ja vajag, lasi kopā ar pieaugušo.",
+  "Ja nesaproti: soli pa solim",
+  "Atbildes (pārbaudi, kad esi pabeidzis)"
+ ],
+ "units": [
+  {
+   "title": "Gatavojamies lasīt un rakstīt",
+   "keys": [
+    "eu-year-lv-beginner-1-l01",
+    "eu-year-lv-beginner-1-l02",
+    "eu-year-lv-beginner-1-l03",
+    "eu-year-lv-beginner-1-l04"
+   ]
+  },
+  {
+   "title": "Burti",
+   "keys": [
+    "eu-year-lv-beginner-1-l05",
+    "eu-year-lv-beginner-1-l06",
+    "eu-year-lv-beginner-1-l07",
+    "eu-year-lv-beginner-1-l08",
+    "eu-year-lv-beginner-1-l09",
+    "eu-year-lv-beginner-1-l10",
+    "eu-year-lv-beginner-1-l11",
+    "eu-year-lv-beginner-1-l12"
+   ]
+  },
+  {
+   "title": "Rakstām pareizi",
+   "keys": [
+    "eu-year-lv-beginner-1-l13",
+    "eu-year-lv-beginner-1-l14",
+    "eu-year-lv-beginner-1-l15",
+    "eu-year-lv-beginner-1-l16"
+   ]
+  },
+  {
+   "title": "Lasām",
+   "keys": [
+    "eu-year-lv-beginner-1-l17",
+    "eu-year-lv-beginner-1-l18",
+    "eu-year-lv-beginner-1-l19",
+    "eu-year-lv-beginner-1-l20",
+    "eu-year-lv-beginner-1-l21",
+    "eu-year-lv-beginner-1-l22",
+    "eu-year-lv-beginner-1-l23"
+   ]
+  },
+  {
+   "title": "Sazināmies",
+   "keys": [
+    "eu-year-lv-beginner-1-l24",
+    "eu-year-lv-beginner-1-l25",
+    "eu-year-lv-beginner-1-l26"
+   ]
+  },
+  {
+   "title": "Grāmata un atkārtošana",
+   "keys": [
+    "eu-year-lv-beginner-1-l27",
+    "eu-year-lv-beginner-1-l28"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-lv-beginner-1-l01": {
+   "lv": {
+    "title": "Iepazīstamies un runājam pēc kārtas",
+    "theory": "Pirmajā klasē mācāmies klausīties. Runā viens, pārējie klausās un nepārtrauc. Atbildam ar pilnu teikumu: Mani sauc… Lietojam pieklājīgus vārdus: labdien, lūdzu, paldies, atvaino.",
+    "sample": "Mani sauc Laura. Man ir septiņi gadi. Man patīk zīmēt. Man blakus sēž Kārlis.",
+    "worked": "Laura pateica četrus īsus teikumus: vārdu, vecumu, kas viņai patīk un kas sēž blakus. Katrs teikums sākas ar lielo burtu un beidzas ar punktu.",
+    "exercises": [
+     "Iepazīstini ar sevi divos teikumos.",
+     "Pastāsti, ko tev patīk darīt.",
+     "Nosauc sava sola biedra vārdu.",
+     "Parādi, kā tu pacel roku, ja gribi runāt.",
+     "Atkārto, ko klasesbiedrs pastāstīja par sevi."
+    ],
+    "test": [
+     "Cik gadu ir Laurai?",
+     "Ko mēs darām, ja gribam runāt?",
+     "Kāpēc mēs nepārtraucam citus?",
+     "Kādu vārdu tu saki, kad kaut ko saņem?",
+     "Kas sēž blakus Laurai?"
+    ],
+    "steps": [
+     "Vispirms pasaki savu vārdu: Mani sauc…",
+     "Tad pasaki, cik tev gadu un kas tev patīk.",
+     "Kad runā kāds cits, klausies un pagaidi, līdz viņš beidz.",
+     "Bieža kļūda: atbildēt ar vienu vārdu. Atbildi ar pilnu teikumu."
+    ],
+    "answers": [
+     "Septiņi gadi.",
+     "Paceļam roku un gaidām savu kārtu.",
+     "Lai katrs varētu runāt un mēs viens otru saprastu.",
+     "Paldies.",
+     "Kārlis."
+    ]
+   }
+  },
+  "eu-year-lv-beginner-1-l02": {
+   "lv": {
+    "title": "Teikums, vārds, zilbe, skaņa",
+    "theory": "Kad runājam, mēs lietojam teikumus. Teikums sastāv no vārdiem. Vārdus dalām zilbēs, kuras var noplaukšķināt. Zilbes sastāv no skaņām. Skaņu mēs dzirdam un izrunājam, burtu redzam un rakstām.",
+    "sample": "Mammai ir soma. / mam-ma / m-a-m-a",
+    "worked": "Teikumā ir trīs vārdi: Mammai, ir, soma. Vārdā mamma ir divas zilbes: mam-ma. Ejam no lielā uz mazo: teikums, vārds, zilbe, skaņa.",
+    "exercises": [
+     "Cik vārdu ir teikumā: Anna dzied?",
+     "Noplaukšķini vārdu ziema.",
+     "Cik skaņu ir vārdā mala?",
+     "Pasaki teikumu par savu somu.",
+     "Kura ir pirmā skaņa vārdā auto?"
+    ],
+    "test": [
+     "No kā sastāv teikums?",
+     "Cik zilbju ir vārdā roka?",
+     "Cik skaņu ir vārdā sols?",
+     "Kura ir pēdējā skaņa vārdā sols?",
+     "Ar ko skaņa atšķiras no burta?"
+    ],
+    "steps": [
+     "Pasaki teikumu un saskaiti vārdus uz pirkstiem.",
+     "Noplaukšķini vārdu: viens plaukšķis ir viena zilbe.",
+     "Izrunā lēnām, lai sadzirdētu katru skaņu atsevišķi.",
+     "Bieža kļūda: jaukt zilbi ar skaņu. Zilbi plaukšķinām, skaņu izrunājam atsevišķi."
+    ],
+    "answers": [
+     "No vārdiem.",
+     "Divas: ro-ka.",
+     "Četras: s-o-l-s.",
+     "s.",
+     "Skaņu dzirdam un izrunājam, burtu redzam un rakstām."
+    ]
+   }
+  },
+  "eu-year-lv-beginner-1-l03": {
+   "lv": {
+    "title": "Patskaņi un līdzskaņi",
+    "theory": "Patskaņus izrunājam brīvi, ar atvērtu muti: a, e, i, o, u. Līdzskaņus izrunājam ar šķērsli: lūpas, zobi vai mēle aiztur gaisu. Katrā zilbē ir patskanis.",
+    "sample": "patskaņi: a, e, i, o, u / līdzskaņi: m, n, l, s / mam-ma — divi patskaņi, divas zilbes",
+    "worked": "Vārdā sala patskanis ir a, bet s un l ir līdzskaņi. Cik patskaņu vārdā, tik zilbju: sa-la, divas zilbes.",
+    "exercises": [
+     "Nosauc visus patskaņus.",
+     "Atrodi patskani vārdā sols.",
+     "Pasaki vārdu, kas sākas ar līdzskani.",
+     "Saskaiti patskaņus vārdā tomāts.",
+     "Izrunā lēnām: a, e, i, o, u."
+    ],
+    "test": [
+     "Kā mēs izrunājam patskaņus?",
+     "Cik patskaņu ir vārdā roka?",
+     "Cik zilbju ir vārdā tomāts?",
+     "Vai ir zilbe bez patskaņa?",
+     "Kādu skaņu dzirdi vārda ozols sākumā?"
+    ],
+    "steps": [
+     "Izrunā vārdu lēnām un skaļi.",
+     "Skaņa, ko izstiep ar atvērtu muti, ir patskanis.",
+     "Saskaiti patskaņus: cik patskaņu, tik zilbju.",
+     "Bieža kļūda: domāt, ka katra skaņa ir zilbe. Zilbi veido patskanis kopā ar līdzskaņiem."
+    ],
+    "answers": [
+     "Brīvi, ar atvērtu muti.",
+     "Divi: o un a.",
+     "Divas: to-māts.",
+     "Nē, katrā zilbē ir patskanis.",
+     "o."
+    ]
+   }
+  },
+  "eu-year-lv-beginner-1-l04": {
+   "lv": {
+    "title": "Gatavojam roku rakstīšanai",
+    "theory": "Pirms rakstīšanas iesildām roku: zīmējam apļus, viļņus un cilpas. Sēžam taisni, kājas uz grīdas. Zīmuli turam viegli ar trim pirkstiem un stipri nespiežam.",
+    "sample": "1. rinda: stāvas līnijas. / 2. rinda: viļņi. / 3. rinda: ovāli. / 4. rinda: cilpas.",
+    "worked": "Šīs formas atrodam burtos: ovāls ir o un a, stāva līnija i un t, cilpa l. Kad tās vingrinām, burti kļūst skaistāki. Rakstām no kreisās uz labo pusi.",
+    "exercises": [
+     "Uzzīmē rindu ovālu.",
+     "Uzzīmē rindu viļņu.",
+     "Parādi, kā tu turi zīmuli.",
+     "Ar pirkstu uzzīmē gaisā cilpu.",
+     "Atrodi ovālu burtā a."
+    ],
+    "test": [
+     "Ar cik pirkstiem turam zīmuli?",
+     "Kā sēžam, kad rakstām?",
+     "Kādā virzienā rakstām?",
+     "Kurā burtā ir ovāls?",
+     "Ko dari, ja roka nogurst?"
+    ],
+    "steps": [
+     "Apsēdies taisni un noliec kājas uz grīdas.",
+     "Turi zīmuli ar trim pirkstiem un nespied.",
+     "Raksti no kreisās uz labo pusi un turies rindā.",
+     "Bieža kļūda: stipri spiest zīmuli. Kad roka nogurst, izkrati to un atpūties."
+    ],
+    "answers": [
+     "Ar trim.",
+     "Taisni, kājas uz grīdas.",
+     "No kreisās uz labo pusi.",
+     "Burtos o un a.",
+     "Izkratu to un atpūšos."
+    ]
+   }
+  },
+  "eu-year-lv-beginner-1-l05": {
+   "lv": {
+    "title": "Patskaņi A, E, I, O, U",
+    "theory": "Vispirms mācāmies burtus A, E, I, O, U. Katram burtam ir lielā un mazā forma. Lielo burtu rakstām teikuma sākumā un vārdos, kas ir īpašvārdi.",
+    "sample": "A a, E e, I i, O o, U u / a kā vārdā auto, o kā vārdā ozols, i kā vārdā Inese",
+    "worked": "Vārdā ozols sākumā dzirdam o. Vārdā Inese sākumā dzirdam i, un tā kā tas ir vārds, rakstām lielo I.",
+    "exercises": [
+     "Nosauc patskaņus pēc kārtas.",
+     "Uzraksti rindu burta o.",
+     "Kādu skaņu dzirdi vārda Inese sākumā?",
+     "Pasaki vārdu, kas sākas ar u.",
+     "Apvelc patskaņus: a m o u."
+    ],
+    "test": [
+     "Kurus burtus iemācījāmies?",
+     "Kāda skaņa ir vārda ozols sākumā?",
+     "Kuru burtu rakstām vārda Inese sākumā?",
+     "Cik formu ir katram burtam?",
+     "Ar kuru burtu sākas vārds egle?"
+    ],
+    "steps": [
+     "Izrunā vārdu lēnām, skaņu pa skaņai.",
+     "Klausies, kuru patskani tu izrunā.",
+     "Atrodi šo burtu un uzraksti.",
+     "Bieža kļūda: rakstīt dažāda lieluma burtus. Visi burti lai ir starp līnijām."
+    ],
+    "answers": [
+     "A, E, I, O, U.",
+     "o.",
+     "Lielo I.",
+     "Divas: lielā un mazā.",
+     "e."
+    ]
+   }
+  },
+  "eu-year-lv-beginner-1-l06": {
+   "lv": {
+    "title": "Garie patskaņi ā, ē, ī, ū",
+    "theory": "Patskaņi var būt īsi vai gari. Garo patskani rakstām ar garumzīmi: ā, ē, ī, ū. Garumzīme maina vārdu: kaza un kāza ir dažādi vārdi.",
+    "sample": "a – ā, e – ē, i – ī, u – ū / kaza – kāza / mana – māna",
+    "worked": "Kaza ir dzīvnieks, bet kāza ir svinības, kad cilvēki precas. Atšķirība ir tikai garumzīmē. Tāpēc garumzīmi nekad neaizmirstam.",
+    "exercises": [
+     "Izrunā: a – ā.",
+     "Salīdzini: kaza – kāza.",
+     "Uzraksti rindu burta ā.",
+     "Atrodi garo patskani vārdā pīle.",
+     "Pasaki vārdu ar ū."
+    ],
+    "test": [
+     "Ko nozīmē garumzīme?",
+     "Ar ko atšķiras kaza un kāza?",
+     "Kāds patskanis ir vārdā pīle?",
+     "Kā raksta garo a?",
+     "Vai garumzīme var mainīt vārda nozīmi?"
+    ],
+    "steps": [
+     "Izrunā vārdu un klausies, vai patskani izstiep.",
+     "Ja izstiep, raksti garumzīmi.",
+     "Izlasi vārdu vēlreiz un pārbaudi nozīmi.",
+     "Bieža kļūda: aizmirst garumzīmi. Tad kāzas vietā sanāk kaza."
+    ],
+    "answers": [
+     "Ka patskanis ir garš.",
+     "Kaza ir dzīvnieks, kāza ir svinības.",
+     "Garais ī.",
+     "ā.",
+     "Jā."
+    ]
+   }
+  },
+  "eu-year-lv-beginner-1-l07": {
+   "lv": {
+    "title": "Burti M, N, L, S, T, R: pirmās zilbes",
+    "theory": "Līdzskaņus M, N, L, S, T, R savienojam ar patskaņiem zilbēs: ma, no, lu, si, te, ra. No zilbēm veidojam vārdus: mam-ma, tē-tis, Ra-sa.",
+    "sample": "ma, me, mi, mo / na, no / la, le / sa, si / ta, te / ra, ri / mamma, tētis, Rasa, sala / Tētis lasa. / Rasa ir mana māsa.",
+    "worked": "Zilbi lasām kopā: m un a kopā ir ma. Vārdā tētis ir divas zilbes: tē-tis. Rasa ir vārds, tāpēc rakstām ar lielo burtu.",
+    "exercises": [
+     "Izlasi: ma, mo, mu.",
+     "Izlasi: la, li, le.",
+     "Izlasi: mamma, tētis, sala.",
+     "Saliec vārdu no zilbēm: Ra-sa.",
+     "Uzraksti rindu burta m."
+    ],
+    "test": [
+     "Kā lasām m un a kopā?",
+     "Cik zilbju ir vārdā tētis?",
+     "Izlasi: Tētis lasa.",
+     "Kas ir Rasa?",
+     "Kāpēc Rasa rakstām ar lielo burtu?"
+    ],
+    "steps": [
+     "Paskaties uz līdzskani un tūlīt uz patskani aiz tā.",
+     "Izlasi tos kopā kā vienu zilbi.",
+     "Savieno zilbes vārdā: mam-ma.",
+     "Bieža kļūda: lasīt pa burtiem: m, a, m, m, a. Lasi pa zilbēm: mam-ma."
+    ],
+    "answers": [
+     "Ma, kā vienu zilbi.",
+     "Divas: tē-tis.",
+     "Tētis lasa.",
+     "Mana māsa.",
+     "Jo tas ir vārds."
+    ]
+   }
+  },
+  "eu-year-lv-beginner-1-l08": {
+   "lv": {
+    "title": "Burti K, P, V, J, D: lasām teikumus",
+    "theory": "Jaunie burti ir K, P, V, J un D. Tagad lasām īsus teikumus. Teikums sākas ar lielo burtu un beidzas ar punktu.",
+    "sample": "kalns, pīle, vāvere, jūra, durvis / Pīle peld jūrā. / Vāvere ir kokā.",
+    "worked": "Teikumā Pīle peld jūrā ir trīs vārdi. Teikums sākas ar lielo burtu P un beidzas ar punktu. Vārdā vāvere ir trīs zilbes: vā-ve-re.",
+    "exercises": [
+     "Izlasi: ka, po, vi, ju, de.",
+     "Izlasi: kalns, pīle, jūra.",
+     "Izlasi: Pīle peld jūrā.",
+     "Uzraksti rindu burta k.",
+     "Izveido teikumu ar vārdu pīle."
+    ],
+    "test": [
+     "Kur peld pīle?",
+     "Kur ir vāvere?",
+     "Ar ko beidzas teikums?",
+     "Cik zilbju ir vārdā vāvere?",
+     "Izlasi: Jūra ir liela."
+    ],
+    "steps": [
+     "Lasi pa zilbēm: vā-ve-re.",
+     "Izlasi visu teikumu līdz punktam.",
+     "Atbildi uz jautājumu: kas? kur?",
+     "Bieža kļūda: apstāties teikuma vidū. Lasi līdz punktam."
+    ],
+    "answers": [
+     "Jūrā.",
+     "Kokā.",
+     "Ar punktu.",
+     "Trīs: vā-ve-re.",
+     "Jūra ir liela."
+    ]
+   }
+  },
+  "eu-year-lv-beginner-1-l09": {
+   "lv": {
+    "title": "Burti B, G, Z, C, H, F",
+    "theory": "Mācāmies B, G, Z, C, H un F. Nejaucam līdzīgas skaņas: b un p, g un k, z un s. Atšķirību dzirdam, kad izrunājam lēnām.",
+    "sample": "bumba, govs, zivs, cepure, halva, fazāns / Zivs peld upē. / Cepure ir zila.",
+    "worked": "Skaņas z un s ir līdzīgas, bet z ir skanīga, s nav. Teikumā Zivs peld upē ir trīs vārdi. Vārdā cepure ir trīs zilbes: ce-pu-re.",
+    "exercises": [
+     "Izlasi: bumba, govs, zivs.",
+     "Izlasi: cepure, halva, fazāns.",
+     "Izlasi: Zivs peld upē.",
+     "Uzraksti rindu burta z.",
+     "Pasaki vārdu, kas sākas ar b."
+    ],
+    "test": [
+     "Kur peld zivs?",
+     "Kāda ir cepure?",
+     "Kāda skaņa ir vārda zivs sākumā?",
+     "Cik zilbju ir vārdā cepure?",
+     "Izlasi: Govs ēd zāli."
+    ],
+    "steps": [
+     "Pieliec roku pie kakla un izrunā skaņu.",
+     "Ja kakls dūc, tā ir b, g vai z; ja nē, p, k vai s.",
+     "Uzraksti burtu, ko dzirdi.",
+     "Bieža kļūda: jaukt z un s. Izrunā lēnām un klausies."
+    ],
+    "answers": [
+     "Upē.",
+     "Zila.",
+     "z.",
+     "Trīs: ce-pu-re.",
+     "Govs ēd zāli."
+    ]
+   }
+  },
+  "eu-year-lv-beginner-1-l10": {
+   "lv": {
+    "title": "Mīkstie līdzskaņi ģ, ķ, ļ, ņ",
+    "theory": "Burti ģ, ķ, ļ un ņ ir mīkstie līdzskaņi. Tos raksta ar mīkstinājuma zīmi: komatiņu zem vai virs burta. Bez zīmes vārds izklausās citādi vai kļūst nepareizs.",
+    "sample": "ģimene, ķirbis, ļoti, ņaudēt, kaķis / Kaķis ņaud. / Ķirbis ir liels.",
+    "worked": "Vārdā kaķis ir mīkstais ķ, tāpēc rakstām komatiņu. Vārdā ģimene ģ ir mīksts. Ja zīmi aizmirst, sanāk nepareizs vārds.",
+    "exercises": [
+     "Izlasi: ģimene, ķirbis.",
+     "Izlasi: ļoti, ņaudēt.",
+     "Izlasi: Kaķis ņaud.",
+     "Uzraksti rindu burta ķ.",
+     "Atrodi mīksto līdzskani vārdā kaķis."
+    ],
+    "test": [
+     "Kas ir mīkstinājuma zīme?",
+     "Ko dara kaķis?",
+     "Kāds ir ķirbis?",
+     "Kāds līdzskanis ir vārda ģimene sākumā?",
+     "Izlasi: Mana ģimene."
+    ],
+    "steps": [
+     "Klausies, vai līdzskanis skan mīksti.",
+     "Ja skan mīksti, raksti mīkstinājuma zīmi.",
+     "Izlasi vārdu vēlreiz un pārbaudi.",
+     "Bieža kļūda: rakstīt kakis bez zīmes. Pareizi ir kaķis."
+    ],
+    "answers": [
+     "Komatiņš zem vai virs burta, kas rāda mīkstumu.",
+     "Ņaud.",
+     "Liels.",
+     "Mīkstais ģ.",
+     "Mana ģimene."
+    ]
+   }
+  },
+  "eu-year-lv-beginner-1-l11": {
+   "lv": {
+    "title": "Burti č, š, ž un divskaņi dz, dž",
+    "theory": "Burti č, š un ž ir ar jumtiņu. Jumtiņš maina skaņu: c – č, s – š, z – ž. Dz un dž raksta ar diviem burtiem, bet tā ir viena skaņa: dzērve, džemperis.",
+    "sample": "čiekurs, šalle, žagata, dzērve, džemperis / Žagata sēž kokā. / Šalle ir silta.",
+    "worked": "Vārdā šalle pirmā skaņa ir š. Vārdā žagata pirmā skaņa ir ž. Vārdā dzērve dz ir viena skaņa, tāpēc zilbes ir dzēr-ve.",
+    "exercises": [
+     "Izlasi: čiekurs, šalle, žagata.",
+     "Izlasi: dzērve, džemperis.",
+     "Izlasi: Žagata sēž kokā.",
+     "Uzraksti rindu burta š.",
+     "Pasaki vārdu ar č."
+    ],
+    "test": [
+     "Kur sēž žagata?",
+     "Kāda ir šalle?",
+     "Cik skaņu ir dz?",
+     "Kas ir jumtiņš?",
+     "Izlasi: Džemperis ir zils."
+    ],
+    "steps": [
+     "Atrodi vārdā burtu ar jumtiņu.",
+     "Atceries: dz un dž ir viena skaņa.",
+     "Izlasi vārdu pa zilbēm.",
+     "Bieža kļūda: aizmirst jumtiņu. Bez tā šalles vietā sanāk salle."
+    ],
+    "answers": [
+     "Kokā.",
+     "Silta.",
+     "Viena.",
+     "Zīme virs burta, kas maina skaņu.",
+     "Džemperis ir zils."
+    ]
+   }
+  },
+  "eu-year-lv-beginner-1-l12": {
+   "lv": {
+    "title": "Lasām un saprotam",
+    "theory": "Tagad zinām visus burtus. Kad lasām, savienojam skaņas vārdos un domājam, ko tie nozīmē. Pēc lasīšanas atbildam: kas, kur, ko dara.",
+    "sample": "Elza un Toms ir parkā. Toms spēlē bumbu. Elza baro pīles.",
+    "worked": "Tekstā ir trīs teikumi. Kas? Elza un Toms. Kur? Parkā. Ko dara? Toms spēlē bumbu, Elza baro pīles. Katrs teikums beidzas ar punktu.",
+    "exercises": [
+     "Izlasi tekstu skaļi.",
+     "Parādi visus punktus.",
+     "Pasaki, kur ir bērni.",
+     "Uzzīmē Tomu ar bumbu.",
+     "Pievieno vēl vienu teikumu par Elzu."
+    ],
+    "test": [
+     "Kas ir parkā?",
+     "Ko dara Toms?",
+     "Ko dara Elza?",
+     "Cik teikumu ir tekstā?",
+     "Kur ir bērni?"
+    ],
+    "steps": [
+     "Lasi tekstu lēnām, teikumu pa teikumam.",
+     "Jautā sev: kas? kur? ko dara?",
+     "Meklē atbildi tekstā.",
+     "Bieža kļūda: atbildēt no galvas. Meklē atbildi tekstā."
+    ],
+    "answers": [
+     "Elza un Toms.",
+     "Spēlē bumbu.",
+     "Baro pīles.",
+     "Trīs.",
+     "Parkā."
+    ]
+   }
+  },
+  "eu-year-lv-beginner-1-l13": {
+   "lv": {
+    "title": "Lielais burts īpašvārdos",
+    "theory": "Ar lielo burtu rakstām teikuma sākumu, cilvēku vārdus un uzvārdus, dzīvnieku vārdus, pilsētu, upju un ezeru nosaukumus. Pārējos vārdus rakstām ar mazo burtu.",
+    "sample": "Jānis Ozols dzīvo Rīgā. Viņam ir suns Reksis. Vasarā viņš brauc pie Daugavas.",
+    "worked": "Jānis Ozols, Reksis, Rīga un Daugava ir īpašvārdi, tāpēc tos rakstām ar lielo burtu. Vārdi suns un vasara ir parasti vārdi, tos rakstām ar mazo burtu.",
+    "exercises": [
+     "Atrodi piemērā visus īpašvārdus.",
+     "Uzraksti savu vārdu un uzvārdu.",
+     "Uzraksti kāda dzīvnieka vārdu.",
+     "Izlabo: es dzīvoju liepājā.",
+     "Vai vārdu kaķis rakstām ar lielo burtu?"
+    ],
+    "test": [
+     "Kā sauc suni?",
+     "Kurā pilsētā dzīvo Jānis?",
+     "Uzraksti pareizi: anna spēlējas ar reksi",
+     "Kad rakstām lielo burtu?",
+     "Vai Daugava ir pilsēta vai upe?"
+    ],
+    "steps": [
+     "Jautā sev: vai tas ir cilvēka, dzīvnieka, pilsētas vai upes vārds?",
+     "Ja jā, raksti lielo burtu.",
+     "Lielo burtu raksti arī katra teikuma sākumā.",
+     "Bieža kļūda: rakstīt ar lielo burtu parastus vārdus: suns, pilsēta."
+    ],
+    "answers": [
+     "Reksis.",
+     "Rīgā.",
+     "Anna spēlējas ar Reksi.",
+     "Teikuma sākumā un īpašvārdos.",
+     "Upe."
+    ]
+   }
+  },
+  "eu-year-lv-beginner-1-l14": {
+   "lv": {
+    "title": "Punkts, jautājuma zīme, izsaukuma zīme",
+    "theory": "Teikums, kas kaut ko paziņo, beidzas ar punktu. Teikums, kas jautā, beidzas ar jautājuma zīmi. Teikums, kas izsaka prieku, izbrīnu vai pavēli, beidzas ar izsaukuma zīmi.",
+    "sample": "Šodien spīd saule. Vai tu nāksi ārā? Cik jauka diena!",
+    "worked": "Pirmais teikums paziņo: punkts. Otrais jautā: jautājuma zīme. Trešais izsaka prieku: izsaukuma zīme. Visi sākas ar lielo burtu.",
+    "exercises": [
+     "Pieliec zīmi: Kā tevi sauc",
+     "Pieliec zīmi: Man ir kaķis",
+     "Izdomā jautājumu skolotājai.",
+     "Izdomā teikumu ar izsaukuma zīmi.",
+     "Saskaiti teikumus piemērā."
+    ],
+    "test": [
+     "Ar ko beidzas jautājums?",
+     "Ar kādu burtu sākas teikums?",
+     "Uzraksti pareizi: ārā līst",
+     "Kurš teikums piemērā izsaka prieku?",
+     "Cik teikumu ir piemērā?"
+    ],
+    "steps": [
+     "Jautā sev: teikums paziņo, jautā vai izsaka sajūtu?",
+     "Paziņo — punkts, jautā — jautājuma zīme, sajūta — izsaukuma zīme.",
+     "Pārbaudi lielo burtu sākumā.",
+     "Bieža kļūda: aizmirst jautājuma zīmi īsā jautājumā: Nāksi?"
+    ],
+    "answers": [
+     "Ar jautājuma zīmi.",
+     "Ar lielo burtu.",
+     "Ārā līst.",
+     "Cik jauka diena!",
+     "Trīs."
+    ]
+   }
+  },
+  "eu-year-lv-beginner-1-l15": {
+   "lv": {
+    "title": "Alfabēts",
+    "theory": "Burtiem ir noteikta secība — alfabēts. Latviešu alfabētā ir 33 burti: a, ā, b, c, č, d, e, ē, f, g, ģ, h, i, ī, j, k, ķ, l, ļ, m, n, ņ, o, p, r, s, š, t, u, ū, v, z, ž. Pēc alfabēta vārdi sakārtoti vārdnīcā.",
+    "sample": "Alfabēta sākums: a, ā, b, c, č, d, e, ē. / Sakārto: sols, auto, kalns → auto, kalns, sols.",
+    "worked": "Vārds auto sākas ar a, kalns ar k, sols ar s. Alfabētā a ir pirms k, un k pirms s, tāpēc secība ir auto, kalns, sols.",
+    "exercises": [
+     "Pasaki alfabētu līdz burtam k.",
+     "Kurš burts ir aiz m?",
+     "Sakārto pēc alfabēta: māja, egle, lācis.",
+     "Atrodi vārdnīcā vārdu kaķis.",
+     "Nosauc alfabēta pirmo un pēdējo burtu."
+    ],
+    "test": [
+     "Kas ir alfabēts?",
+     "Cik burtu ir latviešu alfabētā?",
+     "Sakārto: zivs, auto, lācis.",
+     "Kam noder alfabēta secība?",
+     "Ar kuru burtu beidzas alfabēts?"
+    ],
+    "steps": [
+     "Paskaties uz katra vārda pirmo burtu.",
+     "Atrodi šos burtus alfabētā.",
+     "Pirmo raksti vārdu, kura burts ir tālāk priekšā.",
+     "Bieža kļūda: aizmirst burtus ar garumzīmi un mīkstinājuma zīmi. Arī tiem ir sava vieta alfabētā."
+    ],
+    "answers": [
+     "Burti noteiktā secībā.",
+     "33.",
+     "auto, lācis, zivs.",
+     "Lai ātri atrastu vārdus vārdnīcā un vārdus sarakstā.",
+     "Ar ž."
+    ]
+   }
+  },
+  "eu-year-lv-beginner-1-l16": {
+   "lv": {
+    "title": "Norakstīšana un diktāts",
+    "theory": "Norakstot mēs pārrakstām tekstu no burtnīcas vai tāfeles. Diktātā rakstām to, ko dzirdam. Pēc tam vienmēr pārlasām un pārbaudām.",
+    "sample": "Diktāts: Līgai ir kaķis. Kaķis ir pelēks. Tas guļ saulē.",
+    "worked": "Diktātā ir trīs teikumi. Līga ir vārds, tāpēc ar lielo burtu. Katrs teikums beidzas ar punktu. Pēc diktāta pārbaudām lielos burtus, punktus, garumzīmes un mīkstinājuma zīmes.",
+    "exercises": [
+     "Noraksti teikumu no tāfeles.",
+     "Uzraksti diktātu, ko lasa pieaugušais.",
+     "Pārbaudi garumzīmes.",
+     "Saskaiti teikumus diktātā.",
+     "Pasvītro vārdu, kas tev šķiet grūts."
+    ],
+    "test": [
+     "Kas ir norakstīšana?",
+     "Kāds ir kaķis?",
+     "Cik teikumu ir diktātā?",
+     "Ko pārbaudām pēc diktāta?",
+     "Uzraksti: Kaķis guļ."
+    ],
+    "steps": [
+     "Noklausies visu teikumu, pirms raksti.",
+     "Raksti vārdu pa vārdam un klusi izrunā.",
+     "Beigās pārbaudi lielos burtus, punktus un zīmes.",
+     "Bieža kļūda: nepārbaudīt tekstu. Kļūdas bieži atrod, kad pārlasa."
+    ],
+    "answers": [
+     "Teksta pārrakstīšana no burtnīcas vai tāfeles.",
+     "Pelēks.",
+     "Trīs.",
+     "Lielos burtus, punktus, garumzīmes un mīkstinājuma zīmes.",
+     "Kaķis guļ."
+    ]
+   }
+  },
+  "eu-year-lv-beginner-1-l17": {
+   "lv": {
+    "title": "Skaitāmpanti un mēles mežģi",
+    "theory": "Folklora ir dziesmas, skaitāmpanti, mēles mežģi, mīklas un pasakas, ko cilvēki ilgi nodevuši no mutes mutē. Skaitāmpants palīdz izvēlēties, kurš būs ķērājs. Tam ir ritms un atskaņas.",
+    "sample": "Paša skaitāmpants: Viens, divi, trīs, / jauks ir šodien rīts, / tu ej ārā! / Paša mēles mežģis: Sešas sīkas sēnītes sēž zem sūnām.",
+    "worked": "Skaitāmpantam ir ritms un atskaņa: trīs — rīts. Mēles mežģis ir grūts, jo atkārtojas skaņa s. Vispirms to sakām lēnām, tad ātrāk.",
+    "exercises": [
+     "Pasaki skaitāmpantu un izvēlies ķērāju.",
+     "Pasaki mēles mežģi trīs reizes.",
+     "Atrodi atskaņu skaitāmpantā.",
+     "Izdomā savu skaitāmpantu.",
+     "Pasaki skaitāmpantu, ko zini."
+    ],
+    "test": [
+     "Kas ir folklora?",
+     "Kam noder skaitāmpants?",
+     "Kura skaņa atkārtojas mēles mežģī?",
+     "Kas veido atskaņu ar trīs?",
+     "Kam noder mēles mežģis?"
+    ],
+    "steps": [
+     "Izlasi tekstu lēnām un skaļi.",
+     "Atrodi ritmu un vārdus, kas skan līdzīgi.",
+     "Atkārto ātrāk, bet skaidri.",
+     "Bieža kļūda: uzreiz teikt mēles mežģi ātri. Vispirms lēnām un skaidri."
+    ],
+    "answers": [
+     "Dziesmas, skaitāmpanti, mīklas un pasakas, ko nodod no mutes mutē.",
+     "Lai izvēlētos, kurš būs ķērājs.",
+     "s.",
+     "Rīts.",
+     "Lai iemācītos runāt ātri un skaidri."
+    ]
+   }
+  },
+  "eu-year-lv-beginner-1-l18": {
+   "lv": {
+    "title": "Tautasdziesma",
+    "theory": "Tautasdziesmas jeb dainas ir īsas latviešu tautas dziesmas, parasti četrās rindās. Tajās bieži ir pamazināmie vārdi: saulīte, kalniņš. Tās stāsta par dabu, darbu un ģimeni.",
+    "sample": "Paša sacerēta rinda dainas stilā: / Saulīte vakarā / aiz kalniņa nolaidās; / rītā agri atkal nāca, / visiem siltu dienu nesa.",
+    "worked": "Dziesmā ir četras rindas. Saulīte un kalniņš ir pamazināmie vārdi, kas skan mīļi. Dziesma stāsta, ka saule vakarā noriet un rītā atkal lec.",
+    "exercises": [
+     "Izlasi dziesmu skaļi.",
+     "Atrodi pamazināmos vārdus.",
+     "Pastāsti, ko saule dara vakarā.",
+     "Uzzīmē sauli aiz kalna.",
+     "Pasaki pamazināmo vārdu no vārda māja."
+    ],
+    "test": [
+     "Cik rindu ir dziesmā?",
+     "Kas ir tautasdziesma?",
+     "Ko saule nes no rīta?",
+     "Kāds ir pamazināmais vārds no vārda saule?",
+     "Par ko bieži stāsta tautasdziesmas?"
+    ],
+    "steps": [
+     "Lasi dziesmu rindu pa rindai.",
+     "Atrodi vārdus, kas beidzas ar -īte vai -iņš.",
+     "Pastāsti savos vārdos, par ko ir dziesma.",
+     "Bieža kļūda: domāt, ka tautasdziesmā vienmēr jābūt atskaņām. Dainās tās bieži nav."
+    ],
+    "answers": [
+     "Četras.",
+     "Īsa latviešu tautas dziesma, parasti četrās rindās.",
+     "Siltu dienu.",
+     "Saulīte.",
+     "Par dabu, darbu un ģimeni."
+    ]
+   }
+  },
+  "eu-year-lv-beginner-1-l19": {
+   "lv": {
+    "title": "Dzejolis: rinda, atskaņa, noskaņa",
+    "theory": "Dzejolis sastāv no rindām. Vārdi rindu beigās bieži veido atskaņas. Dzejoli lasām lēnām, ar nelielu pauzi rindas beigās.",
+    "sample": "Paša dzejolis: / Snieg sniegs, snieg sniegs, / bērniem visiem liels ir prieks. / Ragavas no kalna slīd, / sniegavīrs pie mājas spīd.",
+    "worked": "Dzejolī ir četras rindas. Sniegs veido atskaņu ar prieks, slīd ar spīd. Noskaņa ir priecīga un ziemīga. Katras rindas beigās ieturam nelielu pauzi.",
+    "exercises": [
+     "Izlasi dzejoli skaļi.",
+     "Atrodi vārdu, kas veido atskaņu ar slīd.",
+     "Iemācies pirmās divas rindas.",
+     "Uzzīmē sniegavīru.",
+     "Izdomā atskaņu vārdam māja."
+    ],
+    "test": [
+     "Cik rindu ir dzejolī?",
+     "Kas slīd no kalna?",
+     "Kas ir rinda?",
+     "Kas ir atskaņa?",
+     "Izdomā atskaņu vārdam zaķis."
+    ],
+    "steps": [
+     "Lasi dzejoli rindu pa rindai.",
+     "Paskaties uz katras rindas pēdējo vārdu un meklē atskaņas.",
+     "Mācies pa divām rindām.",
+     "Bieža kļūda: lasīt bez pauzēm. Rindas beigās brīdi apstājies."
+    ],
+    "answers": [
+     "Četras.",
+     "Ragavas.",
+     "Viena dzejoļa rinda.",
+     "Līdzīgi skanošas vārdu beigas.",
+     "Tava atbilde. Piemēram: kaķis."
+    ]
+   }
+  },
+  "eu-year-lv-beginner-1-l20": {
+   "lv": {
+    "title": "Pasaka: Rācenis",
+    "theory": "Pasaka ir izdomāts stāsts. Pasakā par lielo rāceni vectētiņš viens pats nespēj izraut lielu rāceni. Viņam palīdz viens pēc otra, un izdodas tikai tad, kad velk visi kopā.",
+    "sample": "Atstāstījums savos vārdos: Vectētiņš iestādīja rāceni, un tas izauga ļoti liels. Viens pats viņš to nevarēja izraut. Viņš pasauca vecmāmiņu, tad mazmeitu, suni, kaķi un beigās peli. Kad visi vilka kopā, rācenis bija ārā.",
+    "worked": "Tēli ir vectētiņš, vecmāmiņa, mazmeita, suns, kaķis un pele. Darbība atkārtojas: katrs pasauc nākamo. Pasaka māca, ka kopā varam vairāk. Pat mazā pele palīdzēja.",
+    "exercises": [
+     "Atstāsti pasakas sākumu.",
+     "Nosauc tēlus pēc kārtas.",
+     "Uzzīmē rāceni un visus, kas velk.",
+     "Izspēlējiet pasaku grupā.",
+     "Pasaki, ko pasaka māca."
+    ],
+    "test": [
+     "Ko iestādīja vectētiņš?",
+     "Kāpēc vectētiņš sauca palīgā?",
+     "Kurš atnāca pēdējais?",
+     "Kā pasaka beidzas?",
+     "Ko pasaka māca?"
+    ],
+    "steps": [
+     "Atrodi pasakas tēlus.",
+     "Stāsti pēc kārtas: vispirms, tad, beigās.",
+     "Pasaki, ko pasaka māca.",
+     "Bieža kļūda: izlaist peli. Tā ir svarīga, jo ar to izdodas."
+    ],
+    "answers": [
+     "Rāceni.",
+     "Jo nevarēja to izraut viens.",
+     "Pele.",
+     "Visi kopā izrauj rāceni.",
+     "Ka kopā varam vairāk."
+    ]
+   }
+  },
+  "eu-year-lv-beginner-1-l21": {
+   "lv": {
+    "title": "Fabula: Lauva un pele",
+    "theory": "Fabula ir īss stāsts, kurā dzīvnieki runā un uzvedas kā cilvēki. Beigās ir pamācība. Daudzas fabulas stāstīja sengrieķu stāstnieks Ezops.",
+    "sample": "Atstāstījums savos vārdos: Pele pamodināja guļošu lauvu. Lauva gribēja peli apēst, bet palaida to vaļā. Vēlāk lauva iepinās tīklā. Pele pārgrauza tīklu un atbrīvoja lauvu.",
+    "worked": "Tēli ir lauva un pele. Lauva ir stiprs, pele maza, bet tomēr palīdzēja. Pamācība: arī mazais var palīdzēt lielajam, labais atgriežas.",
+    "exercises": [
+     "Atstāsti fabulu.",
+     "Uzzīmē peli pie tīkla.",
+     "Kāds ir lauva sākumā?",
+     "Pasaki pamācību savos vārdos.",
+     "Izdomā citas beigas."
+    ],
+    "test": [
+     "Kas ir fabulas tēli?",
+     "Kāpēc lauva palaida peli?",
+     "Kas notika ar lauvu vēlāk?",
+     "Kā pele viņam palīdzēja?",
+     "Kāda ir pamācība?"
+    ],
+    "steps": [
+     "Atrodi tēlus: lauva un pele.",
+     "Pasaki, kas notiek sākumā un beigās.",
+     "Atrodi pamācību: ko fabula māca?",
+     "Bieža kļūda: domāt, ka fabula ir tikai par dzīvniekiem. Dzīvnieki rāda, kā uzvedas cilvēki."
+    ],
+    "answers": [
+     "Lauva un pele.",
+     "Jo viņam kļuva peles žēl.",
+     "Iepinās tīklā.",
+     "Pārgrauza tīklu.",
+     "Arī mazais var palīdzēt lielajam."
+    ]
+   }
+  },
+  "eu-year-lv-beginner-1-l22": {
+   "lv": {
+    "title": "Mīklas",
+    "theory": "Mīkla apraksta lietu, bet nesaka tās nosaukumu. Klausāmies visus mājienus un uzminam. Mīklas ir daļa no folkloras.",
+    "sample": "Paša mīkla: Ir adatas, bet nešuj, ziemā mežā zaļa stāv. (egle) / Paša mīkla: Ir četras kājas, bet nestaigā. (galds)",
+    "worked": "Mājieni: adatas, zaļa ziemā, stāv mežā — tā ir egle. Otrajā: četras kājas, bet nestaigā — galds. Atbildi pārbaudām ar visiem mājieniem.",
+    "exercises": [
+     "Uzmini: Karājas kokā, sarkans un apaļš. (ābols)",
+     "Izdomā mīklu par sauli.",
+     "Uzdod mīklu draugam.",
+     "Uzzīmē atbildi.",
+     "Nosauc mājienus no mīklas par egli."
+    ],
+    "test": [
+     "Kas ir mīkla?",
+     "Kāda ir pirmās mīklas atbilde?",
+     "Kāpēc egle ziemā ir zaļa?",
+     "Kā pārbaudi atbildi?",
+     "Izdomā mīklu par kaķi."
+    ],
+    "steps": [
+     "Noklausies mīklu līdz galam.",
+     "Atrodi un nosauc visus mājienus.",
+     "Pārbaudi atbildi ar katru mājienu.",
+     "Bieža kļūda: atbildēt pēc pirmā mājiena. Noklausies visu mīklu."
+    ],
+    "answers": [
+     "Lietas apraksts bez tās nosaukuma.",
+     "Egle.",
+     "Jo adatas nenobirst.",
+     "Ar visiem mājieniem.",
+     "Tava atbilde. Piemēram: Ir mīkstas ķepas un murrā. (kaķis)"
+    ]
+   }
+  },
+  "eu-year-lv-beginner-1-l23": {
+   "lv": {
+    "title": "Informatīvs teksts: ezis",
+    "theory": "Informatīvs teksts sniedz patiesas ziņas. Tas nestāsta izdomātu stāstu. Lasām to uzmanīgi un meklējam atbildes tekstā.",
+    "sample": "Ezis ir mazs dzīvnieks ar adatām uz muguras. Tas dzīvo mežā, parkā un dārzā. Ezis ēd kukaiņus un gliemežus. Ziemai tas taisa ligzdu no lapām un guļ.",
+    "worked": "Teksts stāsta, kā ezis izskatās, kur dzīvo, ko ēd un ko dara ziemā. Tās ir patiesas ziņas. Ziemā ezis guļ ziemas miegu.",
+    "exercises": [
+     "Izlasi tekstu divreiz.",
+     "Pasvītro, ko ēd ezis.",
+     "Uzzīmē ezi ligzdā.",
+     "Paskaidro savos vārdos, kas ir ziemas miegs.",
+     "Uzdod jautājumu par ezi."
+    ],
+    "test": [
+     "Kas ezim ir uz muguras?",
+     "Kur dzīvo ezis?",
+     "Ko tas ēd?",
+     "Ko tas dara ziemā?",
+     "Vai informatīvs teksts ir izdomāts stāsts?"
+    ],
+    "steps": [
+     "Izlasi jautājumu un atrodi svarīgo vārdu, piemēram, ziema.",
+     "Atrodi šo vārdu tekstā.",
+     "Atbilde parasti ir tajā pašā teikumā.",
+     "Bieža kļūda: izdomāt atbildi. Atbildi tikai ar to, kas rakstīts tekstā."
+    ],
+    "answers": [
+     "Adatas.",
+     "Mežā, parkā un dārzā.",
+     "Kukaiņus un gliemežus.",
+     "Taisa ligzdu no lapām un guļ.",
+     "Nē, tas sniedz patiesas ziņas."
+    ]
+   }
+  },
+  "eu-year-lv-beginner-1-l24": {
+   "lv": {
+    "title": "Pieklājīga saruna un telefona saruna",
+    "theory": "Sarunā skatāmies uz sarunu biedru. Sveicinām, lūdzam, pateicamies un atvainojamies. Pa telefonu vispirms sakām, kas mēs esam, un beigās atvadāmies.",
+    "sample": "Mārtiņš: Labdien, te runā Mārtiņš. Vai vecmāmiņa ir mājās, lūdzu? / Tante: Tūlīt pasaukšu. / Mārtiņš: Paldies, uz redzēšanos.",
+    "worked": "Mārtiņš vispirms pateica, kas viņš ir, tad pieklājīgi palūdza un beigās pateicās. Pa telefonu mūs neredz, tāpēc sakām, kas zvana.",
+    "exercises": [
+     "Sasveicinies ar skolotāju.",
+     "Palūdz klasesbiedram zīmuli.",
+     "Pateicies par dāvanu.",
+     "Izspēlē telefona sarunu ar vecmāmiņu.",
+     "Atvainojies, ja kādam uzgrūdies."
+    ],
+    "test": [
+     "Ko meklē Mārtiņš?",
+     "Ko Mārtiņš saka vispirms?",
+     "Kādus pieklājīgus vārdus viņš lieto?",
+     "Kāpēc pa telefonu pasakām, kas esam?",
+     "Ko tu saki, kad atvadies?"
+    ],
+    "steps": [
+     "Sasveicinies un pasaki, kas tu esi.",
+     "Pasaki savu lūgumu ar vārdu lūdzu.",
+     "Pateicies un atvadies.",
+     "Bieža kļūda: sākt telefona sarunu bez sveiciena un nepateikt, kas zvana."
+    ],
+    "answers": [
+     "Vecmāmiņu.",
+     "Labdien, te runā Mārtiņš.",
+     "Labdien, lūdzu, paldies, uz redzēšanos.",
+     "Jo mūs neredz.",
+     "Uz redzēšanos."
+    ]
+   }
+  },
+  "eu-year-lv-beginner-1-l25": {
+   "lv": {
+    "title": "Stāstīšana pēc attēliem",
+    "theory": "Kad stāstām pēc attēliem, skatāmies tos pēc kārtas. Par katru attēlu sakām teikumu: kas, kur, ko dara. Lietojam vārdus vispirms, tad, beigās.",
+    "sample": "1. attēls: zēns iesēj sēklu. 2. attēls: laista to. 3. attēls: izaugusi saulespuķe. / Stāsts: Vispirms Roberts iesēja sēklu. Tad viņš to laistīja katru dienu. Beigās izauga liela saulespuķe.",
+    "worked": "Stāstā ir trīs teikumi, pa vienam katram attēlam. Vārdi vispirms, tad, beigās rāda secību. Zēnam devām vārdu, lai stāsts būtu dzīvāks.",
+    "exercises": [
+     "Pastāsti trīs teikumos, kā tu gatavojies skolai.",
+     "Lieto vārdus vispirms, tad, beigās.",
+     "Uzzīmē trīs attēlus par savu dienu.",
+     "Izdomā stāstam virsrakstu.",
+     "Pastāsti draugam par savu svētdienu."
+    ],
+    "test": [
+     "Ko iesēja Roberts?",
+     "Ko viņš darīja tad?",
+     "Kas izauga beigās?",
+     "Kuri vārdi rāda secību?",
+     "Cik ir attēlu?"
+    ],
+    "steps": [
+     "Aplūko attēlus pēc kārtas.",
+     "Par katru pasaki teikumu: kas, ko dara.",
+     "Savieno teikumus ar vispirms, tad, beigās.",
+     "Bieža kļūda: stāstīt tikai par pēdējo attēlu. Katrs attēls ir stāsta daļa."
+    ],
+    "answers": [
+     "Sēklu.",
+     "Laistīja to katru dienu.",
+     "Liela saulespuķe.",
+     "Vispirms, tad, beigās.",
+     "Trīs."
+    ]
+   }
+  },
+  "eu-year-lv-beginner-1-l26": {
+   "lv": {
+    "title": "Rotaļlietas apraksts",
+    "theory": "Kad kaut ko aprakstām, sakām, kāds tas ir: krāsu, lielumu, formu, no kā tas ir. Tā to var iztēloties arī tas, kurš to neredz. Aprakstu sākam ar to, kas tas ir.",
+    "sample": "Man ir rotaļu lācītis Rūcis. Viņš ir brūns un mīksts. Viņam ir apaļas ausis un melns deguns. Ap kaklu viņam ir sarkana lenta. Es guļu ar viņu katru nakti.",
+    "worked": "Apraksts sākas ar to, kas tas ir: lācītis Rūcis. Tad stāsta par krāsu, ausīm, degunu un lentu. Beigās pasaka, kāpēc viņu mīlam. Katrs teikums stāsta par vienu lietu.",
+    "exercises": [
+     "Apraksti trīs teikumos savu rotaļlietu.",
+     "Pasaki savas somas krāsu.",
+     "Apraksti bumbu: forma un krāsa.",
+     "Uzmini rotaļlietu pēc klasesbiedra apraksta.",
+     "Uzzīmē lācīti Rūci."
+    ],
+    "test": [
+     "Kādā krāsā ir Rūcis?",
+     "Kas viņam ir ap kaklu?",
+     "Kādas viņam ir ausis?",
+     "Ar ko sākas apraksts?",
+     "Apraksti vienā teikumā savu zīmuli."
+    ],
+    "steps": [
+     "Vispirms pasaki, ko apraksti.",
+     "Pasaki krāsu, lielumu, formu un no kā tas ir.",
+     "Beigās pasaki, kāpēc tev tas patīk.",
+     "Bieža kļūda: pateikt tikai, ka tā ir skaista. Apraksti, kāda tā ir, lai citi varētu iztēloties."
+    ],
+    "answers": [
+     "Brūnā.",
+     "Sarkana lenta.",
+     "Apaļas.",
+     "Ar to, ko aprakstām.",
+     "Tava atbilde. Piemēram: Mans zīmulis ir garš un zils."
+    ]
+   }
+  },
+  "eu-year-lv-beginner-1-l27": {
+   "lv": {
+    "title": "Grāmata un bibliotēka",
+    "theory": "Grāmatai ir vāks, lappuses un ilustrācijas. Uz vāka ir autora vārds un nosaukums. Bibliotēkā grāmatas aizņemamies, saudzējam un laikus atdodam.",
+    "sample": "Paša piemērs: Uz vāka rakstīts: Ieva Maza — Meža pasakas. Attēlā ir lapsa un zaķis.",
+    "worked": "Nosaukums pasaka, par ko ir grāmata: meža pasakas. Ieva Maza ir autore. Pēc attēla minam, kas grāmatā darbojas. Lappusēm ir numuri, lai atrastu, kur palikām.",
+    "exercises": [
+     "Parādi grāmatas vāku.",
+     "Atrodi klasē kādas grāmatas nosaukumu.",
+     "Atrodi autora vārdu.",
+     "Uzzīmē savas mīļākās grāmatas vāku.",
+     "Pastāsti, kā tu saudzē grāmatu."
+    ],
+    "test": [
+     "Kas ir uz vāka?",
+     "Kas ir piemēra grāmatas autore?",
+     "Par ko ir grāmata?",
+     "Kas ir ilustrācijas?",
+     "Ko darām ar aizņemtu grāmatu?"
+    ],
+    "steps": [
+     "Paskaties uz vāku: autors un nosaukums.",
+     "Aplūko attēlu un min, par ko ir grāmata.",
+     "Lasi un pārbaudi savu minējumu.",
+     "Bieža kļūda: jaukt nosaukumu un autoru. Nosaukums ir grāmatas vārds, autors to uzrakstīja."
+    ],
+    "answers": [
+     "Autora vārds un nosaukums.",
+     "Ieva Maza.",
+     "Par meža pasakām.",
+     "Attēli grāmatā.",
+     "Saudzējam un laikus atdodam."
+    ]
+   }
+  },
+  "eu-year-lv-beginner-1-l28": {
+   "lv": {
+    "title": "Atkārtošana: ko es protu pēc 1. klases",
+    "theory": "Gada beigās izlasām īsu tekstu un parādām, ko protam: lasīt ar izpratni, dalīt vārdus zilbēs, rakstīt teikumus ar lielo burtu un punktu, likt garumzīmes un mīkstinājuma zīmes.",
+    "sample": "Katru rītu Paula saliek skolas somu. Viņa ieliek burtnīcu, penāli un sviestmaizi. Tad viņa iet uz skolu kopā ar brāli Jāni.",
+    "worked": "Tekstā ir trīs teikumi. Paula un Jānis ir vārdi, tāpēc ar lielo burtu. Vārdā Jānis ir garais ā. Vārdu burtnīca dalām zilbēs: burt-nī-ca.",
+    "exercises": [
+     "Izlasi tekstu skaļi.",
+     "Atrodi vārdu ar garumzīmi.",
+     "Sadali zilbēs: sviestmaize.",
+     "Uzraksti teikumu par savu somu.",
+     "Pastāsti, kas tev šogad patika visvairāk."
+    ],
+    "test": [
+     "Ko Paula dara katru rītu?",
+     "Cik teikumu ir tekstā?",
+     "Ar ko Paula iet uz skolu?",
+     "Ko viņa ieliek somā?",
+     "Sadali zilbēs: burtnīca."
+    ],
+    "steps": [
+     "Izlasi tekstu vispirms lēnām, tad ātrāk.",
+     "Jautā: kas? ko dara? ar ko?",
+     "Saskaiti teikumus pēc punktiem.",
+     "Bieža kļūda: rakstīt vārdus ar mazo burtu. Cilvēku vārdi vienmēr ar lielo: Paula."
+    ],
+    "answers": [
+     "Saliek skolas somu.",
+     "Trīs.",
+     "Ar brāli Jāni.",
+     "Burtnīcu, penāli un sviestmaizi.",
+     "burt-nī-ca."
+    ]
+   }
+  }
+ }
+}

@@ -1,0 +1,1064 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "EE",
+ "stage": "beginner",
+ "grade": "1",
+ "version": "5a0bc32edd7da51f36d4b4b9590122b73fef615fd78f8558f75d172df92692b9",
+ "source": "https://oppekava.ee/",
+ "sourceTitle": "Haridus- ja Teadusministeerium — põhikooli riiklik õppekava, ainevaldkond Keel ja kirjandus, eesti keel, I kooliaste, 1. klass: suuline keelekasutus, lugemine, kirjutamine, häälikud ja tähed, pikad ja lühikesed häälikud, lastekirjandus ja rahvaluule; järjekord nagu tavalistes aabitsates; oma materjal, ilma õpikute tekstita",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "et",
+ "labels": [
+  "Oma harjutus · Eesti · 1. klass",
+  "Õpime",
+  "Oma näide",
+  "Selgitus",
+  "Harjutused",
+  "Kontrolli ennast",
+  "Oma harjutused, mitte ametlik test ega õpiku tekst. Vajadusel loe koos täiskasvanuga.",
+  "Kui sa ei saa aru: samm-sammult",
+  "Vastused (kontrolli, kui oled valmis)"
+ ],
+ "units": [
+  {
+   "title": "Valmistume lugema ja kirjutama",
+   "keys": [
+    "eu-year-ee-beginner-1-l01",
+    "eu-year-ee-beginner-1-l02",
+    "eu-year-ee-beginner-1-l03",
+    "eu-year-ee-beginner-1-l04"
+   ]
+  },
+  {
+   "title": "Tähed",
+   "keys": [
+    "eu-year-ee-beginner-1-l05",
+    "eu-year-ee-beginner-1-l06",
+    "eu-year-ee-beginner-1-l07",
+    "eu-year-ee-beginner-1-l08",
+    "eu-year-ee-beginner-1-l09",
+    "eu-year-ee-beginner-1-l10",
+    "eu-year-ee-beginner-1-l11",
+    "eu-year-ee-beginner-1-l12",
+    "eu-year-ee-beginner-1-l13"
+   ]
+  },
+  {
+   "title": "Kirjutame õigesti",
+   "keys": [
+    "eu-year-ee-beginner-1-l14",
+    "eu-year-ee-beginner-1-l15",
+    "eu-year-ee-beginner-1-l16",
+    "eu-year-ee-beginner-1-l17"
+   ]
+  },
+  {
+   "title": "Loeme",
+   "keys": [
+    "eu-year-ee-beginner-1-l18",
+    "eu-year-ee-beginner-1-l19",
+    "eu-year-ee-beginner-1-l20",
+    "eu-year-ee-beginner-1-l21",
+    "eu-year-ee-beginner-1-l22",
+    "eu-year-ee-beginner-1-l23"
+   ]
+  },
+  {
+   "title": "Suhtleme",
+   "keys": [
+    "eu-year-ee-beginner-1-l24",
+    "eu-year-ee-beginner-1-l25",
+    "eu-year-ee-beginner-1-l26"
+   ]
+  },
+  {
+   "title": "Raamat ja kordamine",
+   "keys": [
+    "eu-year-ee-beginner-1-l27",
+    "eu-year-ee-beginner-1-l28"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-ee-beginner-1-l01": {
+   "et": {
+    "title": "Tutvume ja räägime kordamööda",
+    "theory": "Esimeses klassis õpime kuulama. Üks räägib, teised kuulavad ega sega vahele. Vastame terve lausega: Minu nimi on… Kasutame viisakaid sõnu: tere, palun, aitäh, vabandust.",
+    "sample": "Minu nimi on Liisa. Ma olen seitsmeaastane. Mulle meeldib joonistada. Minu kõrval istub Markus.",
+    "worked": "Liisa ütles neli lühikest lauset: nime, vanuse, mis talle meeldib ja kes istub tema kõrval. Iga lause algab suure tähega ja lõpeb punktiga.",
+    "exercises": [
+     "Tutvusta end kahe lausega.",
+     "Ütle, mida sulle meeldib teha.",
+     "Ütle oma pinginaabri nimi.",
+     "Näita, kuidas sa tõstad kätt, kui tahad rääkida.",
+     "Korda, mida klassikaaslane endast rääkis."
+    ],
+    "test": [
+     "Kui vana on Liisa?",
+     "Mida me teeme, kui tahame rääkida?",
+     "Miks me ei sega teistele vahele?",
+     "Mis sõna ütled, kui midagi saad?",
+     "Kes istub Liisa kõrval?"
+    ],
+    "steps": [
+     "Kõigepealt ütle oma nimi: Minu nimi on…",
+     "Siis ütle, kui vana sa oled ja mis sulle meeldib.",
+     "Kui keegi teine räägib, kuula ja oota, kuni ta lõpetab.",
+     "Tavaline viga: vastata ühe sõnaga. Vasta terve lausega."
+    ],
+    "answers": [
+     "Seitsmeaastane.",
+     "Tõstame käe ja ootame oma järjekorda.",
+     "Et igaüks saaks rääkida ja me üksteist mõistaksime.",
+     "Aitäh.",
+     "Markus."
+    ]
+   }
+  },
+  "eu-year-ee-beginner-1-l02": {
+   "et": {
+    "title": "Lause, sõna, silp, häälik",
+    "theory": "Kui me räägime, kasutame lauseid. Lause koosneb sõnadest. Sõnad jagame silpideks, mida saab plaksutada. Silbid koosnevad häälikutest. Häälikut kuuleme ja hääldame, tähte näeme ja kirjutame.",
+    "sample": "Emal on kott. / e-ma / e-m-a",
+    "worked": "Lauses on kolm sõna: Emal, on, kott. Sõnas ema on kaks silpi: e-ma. Selles on kolm häälikut: e-m-a. Liigume suuremast väiksema poole: lause, sõna, silp, häälik.",
+    "exercises": [
+     "Mitu sõna on lauses: Anu laulab?",
+     "Plaksuta sõna kala.",
+     "Mitu häälikut on sõnas maja?",
+     "Ütle lause oma koolikoti kohta.",
+     "Mis on esimene häälik sõnas auto?"
+    ],
+    "test": [
+     "Millest koosneb lause?",
+     "Mitu silpi on sõnas lilled?",
+     "Mitu häälikut on sõnas nina?",
+     "Mis on viimane häälik sõnas maja?",
+     "Mille poolest erineb häälik tähest?"
+    ],
+    "steps": [
+     "Ütle lause ja loe sõnad sõrmedel üle.",
+     "Plaksuta sõna: üks plaks on üks silp.",
+     "Hääldame aeglaselt, et kuulda iga häälikut eraldi.",
+     "Tavaline viga: segi ajada silp ja häälik. Silpi plaksutame, häälikut hääldame üksi."
+    ],
+    "answers": [
+     "Sõnadest.",
+     "Kaks: lil-led.",
+     "Neli: n-i-n-a.",
+     "a.",
+     "Häälikut kuuleme ja hääldame, tähte näeme ja kirjutame."
+    ]
+   }
+  },
+  "eu-year-ee-beginner-1-l03": {
+   "et": {
+    "title": "Täishäälikud ja kaashäälikud",
+    "theory": "Täishäälikuid hääldame vabalt, suu lahti: a, e, i, o, u, õ, ä, ö, ü. Kaashäälikuid hääldame takistusega: huuled, hambad või keel takistavad õhku. Igas silbis on täishäälik.",
+    "sample": "täishäälikud: a, e, i, o, u, õ, ä, ö, ü / kaashäälikud: m, n, l, s / e-ma — kaks täishäälikut, kaks silpi",
+    "worked": "Sõnas kala on a täishäälik, k ja l on kaashäälikud. Igas silbis on täishäälik: ka-la. Eesti keeles on üheksa täishäälikut, nende hulgas õ, mida paljudes keeltes ei ole.",
+    "exercises": [
+     "Ütle kõik täishäälikud.",
+     "Leia täishäälik sõnas maa.",
+     "Ütle sõna, mis algab kaashäälikuga.",
+     "Loe täishäälikud sõnas lumi.",
+     "Hääldame aeglaselt: õ."
+    ],
+    "test": [
+     "Kuidas hääldame täishäälikuid?",
+     "Mitu täishäälikut on eesti keeles?",
+     "Mitu silpi on sõnas lumi?",
+     "Kas on silpi ilma täishäälikuta?",
+     "Milline täishäälik on sõnas õun esimene?"
+    ],
+    "steps": [
+     "Ütle sõna aeglaselt.",
+     "Häälik, mida venitad suu lahti, on täishäälik.",
+     "Igas silbis otsi täishäälikut.",
+     "Tavaline viga: unustada, et õ, ä, ö ja ü on samuti täishäälikud."
+    ],
+    "answers": [
+     "Vabalt, suu lahti.",
+     "Üheksa.",
+     "Kaks: lu-mi.",
+     "Ei, igas silbis on täishäälik.",
+     "õ."
+    ]
+   }
+  },
+  "eu-year-ee-beginner-1-l04": {
+   "et": {
+    "title": "Valmistame käe kirjutamiseks",
+    "theory": "Enne kirjutamist soojendame kätt: joonistame ringe, laineid ja aasasid. Istume sirgelt, jalad põrandal. Pliiatsit hoiame kergelt kolme sõrmega ega vajuta tugevalt.",
+    "sample": "Rida 1: püstjooned. / Rida 2: lained. / Rida 3: ovaalid. / Rida 4: aasad.",
+    "worked": "Neid kujundeid leiame tähtedest: ovaal on o-s ja a-s, püstjoon i-s ja t-s, aas l-is. Kui neid harjutame, muutuvad tähed ilusamaks. Kirjutame vasakult paremale.",
+    "exercises": [
+     "Joonista rida ovaale.",
+     "Joonista rida laineid.",
+     "Näita, kuidas sa pliiatsit hoiad.",
+     "Joonista sõrmega õhku aas.",
+     "Leia ovaal tähest a."
+    ],
+    "test": [
+     "Mitme sõrmega hoiame pliiatsit?",
+     "Kuidas istume kirjutades?",
+     "Mis suunas kirjutame?",
+     "Millises tähes on ovaal?",
+     "Mida teed, kui käsi väsib?"
+    ],
+    "steps": [
+     "Istu sirgelt ja pane jalad põrandale.",
+     "Hoia pliiatsit kolme sõrmega ja ära vajuta.",
+     "Kirjuta vasakult paremale ja püsi real.",
+     "Tavaline viga: pliiatsit tugevalt suruda. Kui käsi väsib, raputa seda ja puhka."
+    ],
+    "answers": [
+     "Kolme.",
+     "Sirgelt, jalad põrandal.",
+     "Vasakult paremale.",
+     "Tähtedes o ja a.",
+     "Raputan seda ja puhkan."
+    ]
+   }
+  },
+  "eu-year-ee-beginner-1-l05": {
+   "et": {
+    "title": "Täishäälikud A, E, I, O, U",
+    "theory": "Kõigepealt õpime tähti A, E, I, O, U. Igal tähel on suur ja väike kuju. Suurt tähte kirjutame lause alguses ja nimedes.",
+    "sample": "A a, E e, I i, O o, U u / a nagu sõnas auto, o nagu sõnas orav, i nagu nimes Indrek",
+    "worked": "Sõnas orav kuuleme alguses o-d. Nimes Indrek kuuleme alguses i-d, ja kuna see on nimi, kirjutame suure I.",
+    "exercises": [
+     "Ütle täishäälikud järjest.",
+     "Kirjuta rida tähte o.",
+     "Mis häälikut kuuled nime Indrek alguses?",
+     "Ütle sõna, mis algab tähega u.",
+     "Tõmba ring ümber täishäälikute: a m o u."
+    ],
+    "test": [
+     "Milliseid tähti õppisime?",
+     "Mis häälik on sõna orav alguses?",
+     "Mis tähe kirjutame nime Indrek algusesse?",
+     "Mitu kuju on igal tähel?",
+     "Mis tähega algab sõna ema?"
+    ],
+    "steps": [
+     "Ütle sõna aeglaselt.",
+     "Kuula, mis täishäälikut hääldad.",
+     "Leia see täht ja kirjuta.",
+     "Tavaline viga: kirjutada eri suurusega tähti. Kõik tähed olgu joonte vahel."
+    ],
+    "answers": [
+     "A, E, I, O, U.",
+     "o.",
+     "Suure I.",
+     "Kaks: suur ja väike.",
+     "e."
+    ]
+   }
+  },
+  "eu-year-ee-beginner-1-l06": {
+   "et": {
+    "title": "Täishäälikud Õ, Ä, Ö, Ü",
+    "theory": "Eesti keeles on täishäälikud õ, ä, ö ja ü. Täpid või laineke tähe peal muudavad häälikut: o ja õ, a ja ä. Kui märk ära unustada, saab sõnast teine või vale sõna.",
+    "sample": "õ nagu sõnas õun, ä nagu sõnas äke, ö nagu sõnas öö, ü nagu sõnas üks",
+    "worked": "Sõnas õun kuuleme alguses õ-d. Sõnas öö on pikk ö. Sõnas üks on alguses ü. Need tähed on eesti keelele väga tähtsad.",
+    "exercises": [
+     "Ütle õ, ä, ö, ü aeglaselt.",
+     "Ütle sõna, mis algab õ-ga.",
+     "Kirjuta rida tähte ä.",
+     "Leia ü sõnast üks.",
+     "Võrdle häälikuid o ja õ."
+    ],
+    "test": [
+     "Mis häälik on sõna õun alguses?",
+     "Mis häälik on sõnas öö?",
+     "Mis muudab o õ-ks?",
+     "Mis häälik on sõna üks alguses?",
+     "Kas õ on täishäälik?"
+    ],
+    "steps": [
+     "Kuula hoolikalt, kas häälik on o või õ, a või ä.",
+     "Kui kuuled õ, ä, ö või ü, ära unusta märki tähe peal.",
+     "Loe sõna uuesti ja kontrolli.",
+     "Tavaline viga: unustada täpid ä, ö, ü peal või laineke õ peal."
+    ],
+    "answers": [
+     "õ.",
+     "Pikk ö.",
+     "Laineke tähe peal.",
+     "ü.",
+     "Jah."
+    ]
+   }
+  },
+  "eu-year-ee-beginner-1-l07": {
+   "et": {
+    "title": "Tähed M, L, N, R, S: esimesed silbid",
+    "theory": "Kaashäälikud M, L, N, R ja S ühendame täishäälikutega silpideks: ma, lo, nu, ri, se. Silpidest teeme sõnu: e-ma, ni-na, sõ-na.",
+    "sample": "ma, me, mi, mo / la, le, li / na, ne / ra, ri / sa, se / ema, nina, sõna, lill / Emal on lill. / Mari on rõõmus.",
+    "worked": "Silbi loeme korraga: m ja a koos on ma. Sõnas ema on kaks silpi: e-ma. Sõnas lill on kaks l-i, sest seda häälikut hääldame pikalt. Mari on nimi, seepärast suure tähega.",
+    "exercises": [
+     "Loe: ma, mo, mu.",
+     "Loe: la, li, le.",
+     "Loe: ema, nina, sõna.",
+     "Tee silpidest sõna: ni-na.",
+     "Kirjuta rida tähte m."
+    ],
+    "test": [
+     "Kuidas loeme m ja a koos?",
+     "Mitu silpi on sõnas ema?",
+     "Loe: Emal on lill.",
+     "Milline on Mari?",
+     "Miks kirjutame Mari suure tähega?"
+    ],
+    "steps": [
+     "Vaata kaashäälikut ja kohe tema järel olevat täishäälikut.",
+     "Loe need koos ühe silbina.",
+     "Ühenda silbid sõnaks: e-ma.",
+     "Tavaline viga: lugeda täht tähe haaval: e, m, a. Loe silpide kaupa: e-ma."
+    ],
+    "answers": [
+     "Ma, ühe silbina.",
+     "Kaks: e-ma.",
+     "Emal on lill.",
+     "Rõõmus.",
+     "Sest see on nimi."
+    ]
+   }
+  },
+  "eu-year-ee-beginner-1-l08": {
+   "et": {
+    "title": "Tähed J ja V: loeme lauseid",
+    "theory": "Uued tähed on J ja V. Nüüd loeme lühikesi lauseid. Lause algab suure tähega ja lõpeb punktiga.",
+    "sample": "maja, vesi, uus, vana, Juss / Maja on suur. / Vesi on soe.",
+    "worked": "Lauses Maja on suur on kolm sõna. Lause algab suure tähega M ja lõpeb punktiga. Sõnas uus on pikk u, seepärast kirjutame kaks u-d.",
+    "exercises": [
+     "Loe: ja, vo, ju, vi.",
+     "Loe: maja, vesi, uus.",
+     "Loe: Vesi on soe.",
+     "Kirjuta rida tähte j.",
+     "Tee lause sõnaga maja."
+    ],
+    "test": [
+     "Milline on maja?",
+     "Milline on vesi?",
+     "Millega lõpeb lause?",
+     "Mitu silpi on sõnas vesi?",
+     "Loe: Juss on noor."
+    ],
+    "steps": [
+     "Loe silpide kaupa: ve-si.",
+     "Loe kogu lause punktini.",
+     "Vasta küsimusele: mis? milline?",
+     "Tavaline viga: peatuda lause keskel. Loe punktini."
+    ],
+    "answers": [
+     "Suur.",
+     "Soe.",
+     "Punktiga.",
+     "Kaks: ve-si.",
+     "Juss on noor."
+    ]
+   }
+  },
+  "eu-year-ee-beginner-1-l09": {
+   "et": {
+    "title": "Tähed K, P, T",
+    "theory": "Õpime tähti K, P ja T. Kui häälikut hääldame väga pikalt, kirjutame kaks tähte: kass, kapp, kott. Nii eristame sõnu, mis muidu oleksid sarnased.",
+    "sample": "kala, kass, puu, tool, kapp, kott / Kass on toas. / Kapp on suur.",
+    "worked": "Sõnas kala on üks k, sõnas kass on kaks s-i, sest s on pikk. Sõnas puu on pikk u. Lause Kass on toas räägib, kus kass on.",
+    "exercises": [
+     "Loe: ka, po, tu, ki.",
+     "Loe: kala, puu, tool.",
+     "Loe: kass, kapp, kott.",
+     "Loe: Kass on toas.",
+     "Kirjuta rida tähte k."
+    ],
+    "test": [
+     "Kus on kass?",
+     "Milline on kapp?",
+     "Mitu s-i on sõnas kass?",
+     "Mitu silpi on sõnas kala?",
+     "Loe: Tool on toas."
+    ],
+    "steps": [
+     "Ütle sõna ja kuula, kas häälik on lühike või pikk.",
+     "Väga pika kaashääliku kirjutame kahe tähega.",
+     "Loe sõna uuesti ja kontrolli tähendust.",
+     "Tavaline viga: kirjutada kas, kui mõtled looma. Loom on kass."
+    ],
+    "answers": [
+     "Toas.",
+     "Suur.",
+     "Kaks.",
+     "Kaks: ka-la.",
+     "Tool on toas."
+    ]
+   }
+  },
+  "eu-year-ee-beginner-1-l10": {
+   "et": {
+    "title": "Tähed H, D, G, B",
+    "theory": "Õpime tähti H, D, G ja B. Eesti keeles kõlavad d, g ja b pehmemalt kui t, k ja p. Kuula hoolikalt: kodu, tuba, lagi.",
+    "sample": "hunt, kodu, tuba, lagi, buss, habe / Buss sõidab. / Hunt on metsas.",
+    "worked": "Sõnas kodu kuuleme d-d, sõnas tuba b-d, sõnas lagi g-d. Need on pehmemad kui t, p ja k. Lause Hunt on metsas ütleb, kus hunt on.",
+    "exercises": [
+     "Loe: hunt, kodu, tuba.",
+     "Loe: lagi, buss, habe.",
+     "Loe: Buss sõidab.",
+     "Kirjuta rida tähte h.",
+     "Ütle sõna, mis algab b-ga."
+    ],
+    "test": [
+     "Kus on hunt?",
+     "Mida teeb buss?",
+     "Mis häälik on sõnas kodu keskel?",
+     "Mitu silpi on sõnas habe?",
+     "Loe: Tuba on soe."
+    ],
+    "steps": [
+     "Ütle sõna aeglaselt.",
+     "Kuula, kas häälik on pehme d, g, b või kõvem t, k, p.",
+     "Kirjuta täht, mida kuuled.",
+     "Tavaline viga: kirjutada kodu asemel kotu. Kuula hoolikalt pehmet häälikut."
+    ],
+    "answers": [
+     "Metsas.",
+     "Sõidab.",
+     "d.",
+     "Kaks: ha-be.",
+     "Tuba on soe."
+    ]
+   }
+  },
+  "eu-year-ee-beginner-1-l11": {
+   "et": {
+    "title": "Tähed F, Š, Z, Ž ja võõrtähed",
+    "theory": "Tähti F, Š, Z ja Ž kohtame peamiselt võõrsõnades: foto, šokolaad, žürii. Võõrtähed c, q, w, x ja y esinevad nimedes ja võõrsõnades. Š-d ja ž-d hääldame nagu sosinal ja suminal.",
+    "sample": "foto, šokolaad, žürii, zooloog / Šokolaad on magus. / Foto on seinal.",
+    "worked": "Sõna šokolaad algab š-ga, sõna foto f-ga. Need on laensõnad, mis on tulnud teistest keeltest. Lause Šokolaad on magus on kolme sõnaga.",
+    "exercises": [
+     "Loe: foto, šokolaad.",
+     "Loe: žürii, zooloog.",
+     "Loe: Šokolaad on magus.",
+     "Kirjuta rida tähte š.",
+     "Ütle sõna f-tähega."
+    ],
+    "test": [
+     "Milline on šokolaad?",
+     "Kus on foto?",
+     "Kus kohtame tähti f ja š kõige sagedamini?",
+     "Mis häälik on sõna šokolaad alguses?",
+     "Loe: Foto on ilus."
+    ],
+    "steps": [
+     "Leia sõnast täht, mida õpime.",
+     "Mõtle: kas see on võõrsõna?",
+     "Loe sõna silpide kaupa.",
+     "Tavaline viga: kirjutada š asemel s. Õige on šokolaad."
+    ],
+    "answers": [
+     "Magus.",
+     "Seinal.",
+     "Võõrsõnades.",
+     "š.",
+     "Foto on ilus."
+    ]
+   }
+  },
+  "eu-year-ee-beginner-1-l12": {
+   "et": {
+    "title": "Pikk ja lühike häälik",
+    "theory": "Eesti keeles on tähtis, kas häälik on lühike või pikk. Pika hääliku kirjutame kahe tähega. Pikkus muudab sõna tähendust: kas ja kass, lina ja linna.",
+    "sample": "kas – kass / lina – linna / sada – saada / Kas kass on kodus?",
+    "worked": "Kas on küsisõna, kass on loom. Lina on riie, linna ütleme lauses Ema läks linna. Sada on arv, saada tähendab saatma. Kõik see muutub ühe tähe tõttu.",
+    "exercises": [
+     "Ütle: kas – kass.",
+     "Ütle: lina – linna.",
+     "Loe: Kas kass on kodus?",
+     "Kirjuta: sada ja saada.",
+     "Leia pikk häälik sõnast puu."
+    ],
+    "test": [
+     "Mis vahe on sõnadel kas ja kass?",
+     "Kuidas kirjutame pika hääliku?",
+     "Mitu a-d on sõnas saada?",
+     "Mis tähendab sõna sada?",
+     "Loe: Ema läks linna."
+    ],
+    "steps": [
+     "Ütle sõna aeglaselt ja kuula hääliku pikkust.",
+     "Pika hääliku jaoks kirjuta kaks tähte.",
+     "Kontrolli, kas sõna tähendus on õige.",
+     "Tavaline viga: kirjutada pikk häälik ühe tähega. Siis tuleb teine sõna."
+    ],
+    "answers": [
+     "Kas on küsisõna, kass on loom.",
+     "Kahe tähega.",
+     "Kaks.",
+     "Arv sada.",
+     "Ema läks linna."
+    ]
+   }
+  },
+  "eu-year-ee-beginner-1-l13": {
+   "et": {
+    "title": "Loeme ja saame aru",
+    "theory": "Nüüd tunneme kõiki tähti. Kui loeme, ühendame häälikud sõnadeks ja mõtleme, mida need tähendavad. Pärast lugemist vastame: kes, kus, mida teeb.",
+    "sample": "Kati ja Toomas on pargis. Toomas mängib palli. Kati toidab parte.",
+    "worked": "Tekstis on kolm lauset. Kes? Kati ja Toomas. Kus? Pargis. Mida nad teevad? Toomas mängib palli, Kati toidab parte. Iga lause lõpeb punktiga.",
+    "exercises": [
+     "Loe tekst valjusti.",
+     "Näita kõiki punkte.",
+     "Ütle, kus lapsed on.",
+     "Joonista Toomas palliga.",
+     "Lisa veel üks lause Kati kohta."
+    ],
+    "test": [
+     "Kes on pargis?",
+     "Mida teeb Toomas?",
+     "Mida teeb Kati?",
+     "Mitu lauset on tekstis?",
+     "Kus lapsed on?"
+    ],
+    "steps": [
+     "Loe tekst aeglaselt, lause haaval.",
+     "Küsi endalt: kes? kus? mida teeb?",
+     "Otsi vastus tekstist.",
+     "Tavaline viga: vastata peast. Otsi vastus tekstist."
+    ],
+    "answers": [
+     "Kati ja Toomas.",
+     "Mängib palli.",
+     "Toidab parte.",
+     "Kolm.",
+     "Pargis."
+    ]
+   }
+  },
+  "eu-year-ee-beginner-1-l14": {
+   "et": {
+    "title": "Suur algustäht nimedes",
+    "theory": "Suure tähega kirjutame lause alguse, inimeste ees- ja perekonnanimed, loomade nimed, linnade, jõgede ja järvede nimed. Teised sõnad kirjutame väikese tähega.",
+    "sample": "Mart Tamm elab Tartus. Tal on koer Muki. Suvel käib ta Emajõe ääres.",
+    "worked": "Mart Tamm, Muki, Tartu ja Emajõgi on nimed, seepärast kirjutame need suure tähega. Sõnad koer ja suvi on tavalised sõnad ja kirjutame need väikese tähega.",
+    "exercises": [
+     "Leia näitest kõik nimed.",
+     "Kirjuta oma ees- ja perekonnanimi.",
+     "Kirjuta ühe looma nimi.",
+     "Paranda: elan tallinnas.",
+     "Kas sõna kass kirjutame suure tähega?"
+    ],
+    "test": [
+     "Mis on koera nimi?",
+     "Mis linnas elab Mart?",
+     "Kirjuta õigesti: anu mängib mukiga",
+     "Millal kirjutame suure tähe?",
+     "Kas Emajõgi on linn või jõgi?"
+    ],
+    "steps": [
+     "Küsi endalt: kas see on inimese, looma, linna või jõe nimi?",
+     "Kui jah, kirjuta suur täht.",
+     "Suure tähe kirjuta ka iga lause algusesse.",
+     "Tavaline viga: kirjutada suure tähega tavalisi sõnu: koer, linn."
+    ],
+    "answers": [
+     "Muki.",
+     "Tartus.",
+     "Anu mängib Mukiga.",
+     "Lause alguses ja nimedes.",
+     "Jõgi."
+    ]
+   }
+  },
+  "eu-year-ee-beginner-1-l15": {
+   "et": {
+    "title": "Punkt, küsimärk, hüüumärk",
+    "theory": "Lause, mis midagi teatab, lõpeb punktiga. Lause, mis küsib, lõpeb küsimärgiga. Lause, mis väljendab rõõmu, imestust või käsku, lõpeb hüüumärgiga.",
+    "sample": "Täna paistab päike. Kas sa tuled õue? Kui ilus päev!",
+    "worked": "Esimene lause teatab: punkt. Teine küsib: küsimärk. Kolmas väljendab rõõmu: hüüumärk. Kõik algavad suure tähega.",
+    "exercises": [
+     "Pane märk: Mis su nimi on",
+     "Pane märk: Mul on kass",
+     "Mõtle küsimus õpetajale.",
+     "Mõtle lause hüüumärgiga.",
+     "Loe näites laused kokku."
+    ],
+    "test": [
+     "Millega lõpeb küsimus?",
+     "Mis tähega algab lause?",
+     "Kirjuta õigesti: väljas sajab vihma",
+     "Milline lause näites väljendab rõõmu?",
+     "Mitu lauset on näites?"
+    ],
+    "steps": [
+     "Küsi endalt: kas lause teatab, küsib või väljendab tunnet?",
+     "Teatab — punkt, küsib — küsimärk, tunne — hüüumärk.",
+     "Kontrolli suurt tähte lause alguses.",
+     "Tavaline viga: unustada küsimärk lühikese küsimuse lõpus: Tuled?"
+    ],
+    "answers": [
+     "Küsimärgiga.",
+     "Suure tähega.",
+     "Väljas sajab vihma.",
+     "Kui ilus päev!",
+     "Kolm."
+    ]
+   }
+  },
+  "eu-year-ee-beginner-1-l16": {
+   "et": {
+    "title": "Tähestik",
+    "theory": "Tähtedel on kindel järjekord — tähestik. Eesti tähestikus on 32 tähte, nende hulgas ka võõrtähed: a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, š, z, ž, t, u, v, w, õ, ä, ö, ü, x, y. Tähestiku järgi on sõnad sõnaraamatus.",
+    "sample": "Tähestiku algus: a, b, c, d, e, f, g, h. / Järjesta: tool, auto, kala → auto, kala, tool.",
+    "worked": "Sõna auto algab a-ga, kala k-ga, tool t-ga. Tähestikus on a enne k-d ja k enne t-d, seepärast on järjekord auto, kala, tool.",
+    "exercises": [
+     "Ütle tähestik kuni täheni k.",
+     "Mis täht tuleb pärast m-i?",
+     "Järjesta tähestiku järgi: maja, ema, lill.",
+     "Leia sõnaraamatust sõna kass.",
+     "Ütle tähestiku esimene ja viimane täht."
+    ],
+    "test": [
+     "Mis on tähestik?",
+     "Mitu tähte on eesti tähestikus?",
+     "Järjesta: siil, auto, lumi.",
+     "Milleks on tähestikuline järjekord vajalik?",
+     "Kus asuvad tähestikus õ, ä, ö, ü?"
+    ],
+    "steps": [
+     "Vaata iga sõna esimest tähte.",
+     "Leia need tähed tähestikust.",
+     "Kirjuta esimesena sõna, mille täht on eespool.",
+     "Tavaline viga: arvata, et õ, ä, ö, ü on tähestiku alguses. Need on peaaegu lõpus."
+    ],
+    "answers": [
+     "Tähed kindlas järjekorras.",
+     "32.",
+     "auto, lumi, siil.",
+     "Et leida kiiresti sõnu sõnaraamatust ja nimesid nimekirjast.",
+     "Peaaegu lõpus, pärast w-d."
+    ]
+   }
+  },
+  "eu-year-ee-beginner-1-l17": {
+   "et": {
+    "title": "Ärakiri ja etteütlus",
+    "theory": "Ärakirjas kirjutame teksti vihikust või tahvlilt. Etteütluses kirjutame seda, mida kuuleme. Pärast seda loeme alati üle ja kontrollime.",
+    "sample": "Etteütlus: Ellil on kass. Kass on hall. Ta magab päikese käes.",
+    "worked": "Etteütluses on kolm lauset. Elli on nimi, seepärast suure tähega. Iga lause lõpeb punktiga. Pärast etteütlust kontrollime suuri tähti, punkte ning pikki ja lühikesi häälikuid.",
+    "exercises": [
+     "Kirjuta tahvlilt üks lause ära.",
+     "Kirjuta etteütlus, mida loeb täiskasvanu.",
+     "Kontrolli pikki häälikuid.",
+     "Loe etteütluses laused kokku.",
+     "Tõmba joon alla sõnale, mis tundub raske."
+    ],
+    "test": [
+     "Mis on ärakiri?",
+     "Milline on kass?",
+     "Mitu lauset on etteütluses?",
+     "Mida kontrollime pärast etteütlust?",
+     "Kirjuta: Kass magab."
+    ],
+    "steps": [
+     "Kuula kogu lause ära, enne kui kirjutad.",
+     "Kirjuta sõna haaval ja ütle endale vaikselt ette.",
+     "Lõpus kontrolli suuri tähti, punkte ja pikki häälikuid.",
+     "Tavaline viga: jätta tekst kontrollimata. Vead leiab sageli teisel lugemisel."
+    ],
+    "answers": [
+     "Teksti kirjutamine vihikust või tahvlilt.",
+     "Hall.",
+     "Kolm.",
+     "Suuri tähti, punkte ning pikki ja lühikesi häälikuid.",
+     "Kass magab."
+    ]
+   }
+  },
+  "eu-year-ee-beginner-1-l18": {
+   "et": {
+    "title": "Liisusalmid ja keeleväänajad",
+    "theory": "Rahvaluule on laulud, liisusalmid, keeleväänajad, mõistatused ja muinasjutud, mida inimesed on suust suhu edasi andnud. Liisusalm aitab valida, kes on kull. Sellel on rütm ja riim.",
+    "sample": "Oma liisusalm: Üks, kaks, kolm, neli, viis, / sina lähed välja siis! / Oma keeleväänaja: Kuus kukke kõndisid kuuse all.",
+    "worked": "Liisusalmil on rütm ja riim: viis — siis. Keeleväänaja on raske, sest häälik k kordub. Kõigepealt ütleme seda aeglaselt, siis kiiremini.",
+    "exercises": [
+     "Ütle liisusalm ja vali, kes on kull.",
+     "Ütle keeleväänajat kolm korda.",
+     "Leia liisusalmist riim.",
+     "Mõtle oma liisusalm.",
+     "Ütle liisusalm, mida tead."
+    ],
+    "test": [
+     "Mis on rahvaluule?",
+     "Milleks on liisusalm?",
+     "Mis häälik kordub keeleväänajas?",
+     "Mis riimub sõnaga viis?",
+     "Milleks on keeleväänaja?"
+    ],
+    "steps": [
+     "Loe tekst aeglaselt ja valjusti.",
+     "Leia rütm ja sõnad, mis riimuvad.",
+     "Korda kiiremini, aga selgelt.",
+     "Tavaline viga: öelda keeleväänajat kohe kiiresti. Kõigepealt aeglaselt ja selgelt."
+    ],
+    "answers": [
+     "Laulud, liisusalmid, mõistatused ja muinasjutud, mida on suust suhu edasi antud.",
+     "Et valida, kes on kull.",
+     "k.",
+     "Siis.",
+     "Et õppida rääkima kiiresti ja selgelt."
+    ]
+   }
+  },
+  "eu-year-ee-beginner-1-l19": {
+   "et": {
+    "title": "Luuletus: värss, riim, meeleolu",
+    "theory": "Luuletus koosneb värssidest ehk ridadest. Sõnad värsside lõpus sageli riimuvad. Luuletust loeme aeglaselt, väikese pausiga värsi lõpus.",
+    "sample": "Oma luuletus: / Sajab vaikselt valget lund, / karu magab talveund. / Lapsed õues kelgutavad, / lumememme ehitavad.",
+    "worked": "Luuletuses on neli värssi. Lund riimub sõnaga talveund, kelgutavad sõnaga ehitavad. Meeleolu on rahulik ja talvine. Iga värsi lõpus teeme väikese pausi.",
+    "exercises": [
+     "Loe luuletus valjusti.",
+     "Leia sõna, mis riimub sõnaga lund.",
+     "Õpi pähe kaks esimest värssi.",
+     "Joonista lumememm.",
+     "Mõtle riim sõnale maja."
+    ],
+    "test": [
+     "Mitu värssi on luuletuses?",
+     "Mida teeb karu?",
+     "Mis on värss?",
+     "Mis on riim?",
+     "Mõtle riim sõnale kass."
+    ],
+    "steps": [
+     "Loe luuletus värss värsi haaval.",
+     "Vaata iga värsi viimast sõna ja otsi riime.",
+     "Õpi pähe kaks värssi korraga.",
+     "Tavaline viga: lugeda ilma pausideta. Värsi lõpus peatu hetkeks."
+    ],
+    "answers": [
+     "Neli.",
+     "Magab talveund.",
+     "Üks luuletuse rida.",
+     "Sarnaselt kõlavad sõnalõpud.",
+     "Sinu vastus. Näiteks: klass."
+    ]
+   }
+  },
+  "eu-year-ee-beginner-1-l20": {
+   "et": {
+    "title": "Rahvajutt: Kaval-Ants ja Vanapagan",
+    "theory": "Rahvajutt on vanasti suust suhu räägitud lugu. Eesti rahvajuttudes petab kaval talumees Ants rumalat Vanapaganat. Selles loos jagavad nad saaki.",
+    "sample": "Ümberjutustus oma sõnadega: Ants ja Vanapagan harisid koos põldu. Ants küsis, kas Vanapagan tahab seda, mis kasvab maa peal, või seda, mis kasvab maa all. Vanapagan valis maa pealse. Ants pani kartulid maha ja Vanapagan sai ainult pealsed. Järgmisel aastal valis Vanapagan maa aluse, aga Ants külvas vilja ja Vanapagan sai ainult juured.",
+    "worked": "Tegelased on Ants ja Vanapagan. Ants on kaval, Vanapagan rumal ja ahne. Lugu õpetab, et enne valimist tuleb mõelda ja et tarkus on tugevam kui jõud.",
+    "exercises": [
+     "Jutusta loo algus ümber.",
+     "Nimeta tegelased.",
+     "Joonista Ants ja Vanapagan põllul.",
+     "Mängige lugu rühmas.",
+     "Miks jäi Vanapagan mõlemal korral ilma?"
+    ],
+    "test": [
+     "Mida tegid Ants ja Vanapagan koos?",
+     "Mida valis Vanapagan esimesel aastal?",
+     "Mida pani Ants maha esimesel aastal?",
+     "Mida sai Vanapagan teisel aastal?",
+     "Mida lugu õpetab?"
+    ],
+    "steps": [
+     "Leia loo tegelased: Ants ja Vanapagan.",
+     "Jutusta järjekorras: kõigepealt, siis, lõpuks.",
+     "Ütle, mida lugu õpetab.",
+     "Tavaline viga: segi ajada, mis kasvas maa peal ja mis maa all. Kartul on maa all, vili maa peal."
+    ],
+    "answers": [
+     "Harisid põldu.",
+     "Maa pealse.",
+     "Kartulid.",
+     "Ainult juured.",
+     "Enne valimist tuleb mõelda; tarkus on tugevam kui jõud."
+    ]
+   }
+  },
+  "eu-year-ee-beginner-1-l21": {
+   "et": {
+    "title": "Valm: Lõvi ja hiir",
+    "theory": "Valm on lühike lugu, kus loomad räägivad ja käituvad nagu inimesed. Lõpus on õpetus. Palju valme jutustas Vana-Kreeka jutustaja Aisopos.",
+    "sample": "Ümberjutustus oma sõnadega: Hiir äratas magava lõvi. Lõvi tahtis hiire ära süüa, kuid lasi ta minema. Hiljem jäi lõvi võrku. Hiir näris võrgu katki ja vabastas lõvi.",
+    "worked": "Tegelased on lõvi ja hiir. Lõvi on tugev, hiir väike, aga ta aitas siiski. Õpetus: ka väike võib suurt aidata, headus tuleb tagasi.",
+    "exercises": [
+     "Jutusta valm ümber.",
+     "Joonista hiir võrgu juures.",
+     "Milline on lõvi alguses?",
+     "Ütle õpetus oma sõnadega.",
+     "Mõtle teistsugune lõpp."
+    ],
+    "test": [
+     "Kes on valmi tegelased?",
+     "Miks lõvi hiire minema laskis?",
+     "Mis juhtus lõviga hiljem?",
+     "Kuidas hiir teda aitas?",
+     "Mis on õpetus?"
+    ],
+    "steps": [
+     "Leia tegelased: lõvi ja hiir.",
+     "Ütle, mis juhtub alguses ja lõpus.",
+     "Leia õpetus: mida valm õpetab?",
+     "Tavaline viga: arvata, et valm räägib ainult loomadest. Loomad näitavad, kuidas inimesed käituvad."
+    ],
+    "answers": [
+     "Lõvi ja hiir.",
+     "Sest tal hakkas hiirest kahju.",
+     "Ta jäi võrku.",
+     "Näris võrgu katki.",
+     "Õpetus valmi lõpus."
+    ]
+   }
+  },
+  "eu-year-ee-beginner-1-l22": {
+   "et": {
+    "title": "Mõistatused",
+    "theory": "Mõistatus kirjeldab asja, aga ei ütle selle nime. Kuulame kõik vihjed ja arvame ära. Mõistatused on osa rahvaluulest.",
+    "sample": "Oma mõistatus: Tal on okkad, aga ta ei õmble, talvel seisab metsas roheline. (kuusk) / Oma mõistatus: Tal on neli jalga, aga ta ei kõnni. (laud)",
+    "worked": "Vihjed: okkad, talvel roheline, seisab metsas — see on kuusk. Teises: neli jalga, aga ei kõnni — laud. Vastust kontrollime kõigi vihjetega.",
+    "exercises": [
+     "Arva ära: Ripub puu otsas, on punane ja ümmargune. (õun)",
+     "Mõtle mõistatus päikesest.",
+     "Esita mõistatus sõbrale.",
+     "Joonista vastus.",
+     "Nimeta kuuse mõistatuse vihjed."
+    ],
+    "test": [
+     "Mis on mõistatus?",
+     "Mis on esimese mõistatuse vastus?",
+     "Miks on kuusk talvel roheline?",
+     "Kuidas kontrollid vastust?",
+     "Mõtle mõistatus kassist."
+    ],
+    "steps": [
+     "Kuula mõistatus lõpuni.",
+     "Leia ja nimeta kõik vihjed.",
+     "Kontrolli vastust iga vihjega.",
+     "Tavaline viga: vastata pärast esimest vihjet. Kuula kogu mõistatus."
+    ],
+    "answers": [
+     "Asja kirjeldus ilma selle nimeta.",
+     "Kuusk.",
+     "Sest okkad ei lange maha.",
+     "Kõigi vihjetega.",
+     "Sinu vastus. Näiteks: Tal on pehmed käpad ja ta nurrub. (kass)"
+    ]
+   }
+  },
+  "eu-year-ee-beginner-1-l23": {
+   "et": {
+    "title": "Teabetekst: siil",
+    "theory": "Teabetekst annab tõest teavet. See ei räägi väljamõeldud lugu. Loeme seda tähelepanelikult ja otsime vastuseid tekstist.",
+    "sample": "Siil on väike loom, kellel on seljas okkad. Ta elab metsas, pargis ja aias. Siil sööb putukaid ja tigusid. Talveks teeb ta lehtedest pesa ja magab.",
+    "worked": "Tekst räägib, milline siil välja näeb, kus ta elab, mida sööb ja mida teeb talvel. See on tõene teave. Siil jääb talveunne.",
+    "exercises": [
+     "Loe tekst kaks korda.",
+     "Tõmba joon alla sõnadele, mis ütlevad, mida siil sööb.",
+     "Joonista siil pesas.",
+     "Selgita koos täiskasvanuga, mis on talveuni.",
+     "Esita küsimus siili kohta."
+    ],
+    "test": [
+     "Mis on siilil seljas?",
+     "Kus siil elab?",
+     "Mida ta sööb?",
+     "Mida ta teeb talvel?",
+     "Kas teabetekst on väljamõeldud lugu?"
+    ],
+    "steps": [
+     "Loe küsimus ja leia tähtis sõna, näiteks talv.",
+     "Leia see sõna tekstist.",
+     "Vastus on tavaliselt samas lauses.",
+     "Tavaline viga: vastust välja mõelda. Vasta ainult sellega, mis tekstis kirjas on."
+    ],
+    "answers": [
+     "Okkad.",
+     "Metsas, pargis ja aias.",
+     "Putukaid ja tigusid.",
+     "Teeb lehtedest pesa ja magab.",
+     "Ei, see annab tõest teavet."
+    ]
+   }
+  },
+  "eu-year-ee-beginner-1-l24": {
+   "et": {
+    "title": "Viisakas vestlus ja telefonikõne",
+    "theory": "Vestlusel vaatame vestluskaaslasele otsa. Tervitame, palume, täname ja vabandame. Telefonis ütleme kõigepealt, kes me oleme, ja lõpus jätame hüvasti.",
+    "sample": "Mart: Tere, siin räägib Mart. Kas vanaema on kodus, palun? / Tädi: Kohe kutsun. / Mart: Aitäh, head aega.",
+    "worked": "Mart tutvustas end kõigepealt, siis palus viisakalt ja lõpuks tänas. Telefonis meid ei nähta, seepärast ütleme, kes helistab.",
+    "exercises": [
+     "Tervita õpetajat.",
+     "Palu klassikaaslaselt pliiatsit.",
+     "Täna kingituse eest.",
+     "Mängi telefonikõnet vanaemaga.",
+     "Vabanda, kui kellelegi otsa põrkad."
+    ],
+    "test": [
+     "Keda Mart otsib?",
+     "Mida Mart ütleb kõigepealt?",
+     "Milliseid viisakaid sõnu ta kasutab?",
+     "Miks me telefonis end tutvustame?",
+     "Mida ütled hüvasti jättes?"
+    ],
+    "steps": [
+     "Tervita ja ütle, kes sa oled.",
+     "Ütle oma palve sõnaga palun.",
+     "Täna ja jäta hüvasti.",
+     "Tavaline viga: alustada telefonis ilma tervituseta ja ütlemata, kes helistab."
+    ],
+    "answers": [
+     "Vanaema.",
+     "Tere, siin räägib Mart.",
+     "Tere, palun, aitäh, head aega.",
+     "Sest meid ei nähta.",
+     "Head aega."
+    ]
+   }
+  },
+  "eu-year-ee-beginner-1-l25": {
+   "et": {
+    "title": "Jutustamine piltide järgi",
+    "theory": "Kui jutustame piltide järgi, vaatame neid järjekorras. Iga pildi kohta ütleme lause: kes, kus, mida teeb. Kasutame sõnu kõigepealt, siis, lõpuks.",
+    "sample": "Pilt 1: poiss paneb seemne mulda. Pilt 2: kastab seda. Pilt 3: kasvas päevalill. / Jutt: Kõigepealt pani Rasmus seemne mulda. Siis kastis ta seda iga päev. Lõpuks kasvas suur päevalill.",
+    "worked": "Jutus on kolm lauset, igale pildile üks. Sõnad kõigepealt, siis, lõpuks näitavad järjekorda. Andsime poisile nime, et lugu oleks elavam.",
+    "exercises": [
+     "Räägi kolme lausega, kuidas sa kooliks valmistud.",
+     "Kasuta sõnu kõigepealt, siis, lõpuks.",
+     "Joonista kolm pilti oma päevast.",
+     "Mõtle jutule pealkiri.",
+     "Räägi sõbrale oma pühapäevast."
+    ],
+    "test": [
+     "Mida pani Rasmus mulda?",
+     "Mida ta siis tegi?",
+     "Mis lõpuks kasvas?",
+     "Millised sõnad näitavad järjekorda?",
+     "Mitu pilti on?"
+    ],
+    "steps": [
+     "Vaata pilte järjekorras.",
+     "Ütle iga pildi kohta lause: kes, mida teeb.",
+     "Ühenda laused sõnadega kõigepealt, siis, lõpuks.",
+     "Tavaline viga: rääkida ainult viimasest pildist. Iga pilt on osa loost."
+    ],
+    "answers": [
+     "Seemne.",
+     "Kastis seda iga päev.",
+     "Suur päevalill.",
+     "Kõigepealt, siis, lõpuks.",
+     "Kolm."
+    ]
+   }
+  },
+  "eu-year-ee-beginner-1-l26": {
+   "et": {
+    "title": "Mänguasja kirjeldamine",
+    "theory": "Kui midagi kirjeldame, ütleme, milline see on: värv, suurus, kuju, millest tehtud. Nii saab seda ette kujutada ka see, kes seda ei näe. Kirjeldust alustame sellest, mis see on.",
+    "sample": "Mul on mängukaru Mõmmi. Ta on pruun ja pehme. Tal on ümmargused kõrvad ja must nina. Kaelas on tal punane lips. Ma magan temaga igal ööl.",
+    "worked": "Kirjeldus algab sellega, mis see on: mängukaru Mõmmi. Siis räägib värvist, kõrvadest, ninast ja lipsust. Lõpus ütleb, miks me teda armastame. Iga lause räägib ühest asjast.",
+    "exercises": [
+     "Kirjelda kolme lausega oma mänguasja.",
+     "Ütle oma koolikoti värv.",
+     "Kirjelda palli: kuju ja värv.",
+     "Arva mänguasi klassikaaslase kirjelduse järgi.",
+     "Joonista mängukaru Mõmmi."
+    ],
+    "test": [
+     "Mis värvi on Mõmmi?",
+     "Mis on tal kaelas?",
+     "Millised kõrvad tal on?",
+     "Millega algab kirjeldus?",
+     "Kirjelda ühe lausega oma pliiatsit."
+    ],
+    "steps": [
+     "Kõigepealt ütle, mida kirjeldad.",
+     "Ütle värv, suurus, kuju ja millest see on tehtud.",
+     "Lõpus ütle, miks see sulle meeldib.",
+     "Tavaline viga: öelda ainult, et see on ilus. Kirjelda, milline see on, et teised saaksid ette kujutada."
+    ],
+    "answers": [
+     "Pruuni.",
+     "Punane lips.",
+     "Ümmargused.",
+     "Sellega, mida kirjeldame.",
+     "Sinu vastus. Näiteks: Minu pliiats on pikk ja sinine."
+    ]
+   }
+  },
+  "eu-year-ee-beginner-1-l27": {
+   "et": {
+    "title": "Raamat ja raamatukogu",
+    "theory": "Raamatul on kaas, leheküljed ja illustratsioonid. Kaanel on autori nimi ja pealkiri. Raamatukogust laenutame raamatuid, hoiame neid ja toome õigel ajal tagasi.",
+    "sample": "Oma näide: Kaanel on kirjas: Eva Väike — Metsamuinasjutud. Pildil on rebane ja jänes.",
+    "worked": "Pealkiri ütleb, millest raamat räägib: metsamuinasjutud. Eva Väike on autor. Pildi järgi arvame, kes raamatus tegutsevad. Lehekülgedel on numbrid, et leida, kuhu jäime.",
+    "exercises": [
+     "Näita raamatu kaant.",
+     "Leia klassist ühe raamatu pealkiri.",
+     "Leia autori nimi.",
+     "Joonista oma lemmikraamatu kaas.",
+     "Räägi, kuidas sa raamatut hoiad."
+    ],
+    "test": [
+     "Mis on kaanel?",
+     "Kes on näite raamatu autor?",
+     "Millest raamat räägib?",
+     "Mis on illustratsioonid?",
+     "Mida teeme laenutatud raamatuga?"
+    ],
+    "steps": [
+     "Vaata kaant: autor ja pealkiri.",
+     "Vaata pilti ja arva, millest raamat räägib.",
+     "Loe ja kontrolli oma arvamust.",
+     "Tavaline viga: segi ajada pealkiri ja autor. Pealkiri on raamatu nimi, autor kirjutas selle."
+    ],
+    "answers": [
+     "Autori nimi ja pealkiri.",
+     "Eva Väike.",
+     "Metsamuinasjuttudest.",
+     "Pildid raamatus.",
+     "Hoiame seda ja toome õigel ajal tagasi."
+    ]
+   }
+  },
+  "eu-year-ee-beginner-1-l28": {
+   "et": {
+    "title": "Kordamine: mida ma oskan pärast 1. klassi",
+    "theory": "Aasta lõpus loeme lühikese teksti ja näitame, mida oskame: lugeda ja aru saada, jagada sõnu silpideks, kirjutada lauseid suure tähe ja punktiga, eristada pikki ja lühikesi häälikuid.",
+    "sample": "Igal hommikul paneb Kerli koolikoti valmis. Ta paneb sinna vihiku, pinali ja võileiva. Siis läheb ta vend Jaaniga kooli.",
+    "worked": "Tekstis on kolm lauset. Kerli ja Jaan on nimed, seepärast suure tähega. Sõnas Jaan on pikk a. Sõna vihik jagame silpideks: vi-hik.",
+    "exercises": [
+     "Loe tekst valjusti.",
+     "Leia sõna, kus on pikk häälik.",
+     "Jaga silpideks: hommikul.",
+     "Kirjuta lause oma koolikoti kohta.",
+     "Räägi, mis sulle sel aastal kõige rohkem meeldis."
+    ],
+    "test": [
+     "Mida teeb Kerli igal hommikul?",
+     "Mitu lauset on tekstis?",
+     "Kellega läheb Kerli kooli?",
+     "Mida ta kotti paneb?",
+     "Jaga silpideks: vihik."
+    ],
+    "steps": [
+     "Loe tekst kõigepealt aeglaselt, siis kiiremini.",
+     "Küsi: kes? mida teeb? kellega?",
+     "Loe laused punktide järgi kokku.",
+     "Tavaline viga: kirjutada nimed väikese tähega. Nimed on alati suure tähega: Kerli."
+    ],
+    "answers": [
+     "Paneb koolikoti valmis.",
+     "Kolm.",
+     "Vend Jaaniga.",
+     "Vihiku, pinali ja võileiva.",
+     "vi-hik."
+    ]
+   }
+  }
+ }
+}
