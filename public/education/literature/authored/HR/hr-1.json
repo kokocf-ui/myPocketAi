@@ -1,0 +1,242 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "HR",
+ "stage": "beginner",
+ "grade": "1",
+ "version": "be1d3c0a50e976cf1976142f448f86f0b715e6a5d8ff3eb0289a3afe627355c9",
+ "source": "https://narodne-novine.nn.hr/clanci/sluzbeni/2019_01_10_215.html",
+ "sourceTitle": "Kurikulum nastavnoga predmeta Hrvatski jezik (NN 10/2019), 1. razred OŠ: A Hrvatski jezik i komunikacija, B Književnost i stvaralaštvo, C Kultura i mediji; početno opismenjavanje kao u odobrenim početnicama; vlastiti materijali",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "hr",
+ "labels": [
+  "Vlastita vježba · Hrvatska · 1. razred osnovne škole",
+  "Učimo",
+  "Vlastiti primjer",
+  "Objašnjenje",
+  "Vježbe",
+  "Provjeri se",
+  "Vlastite vježbe, ne službena provjera i ne tekst iz početnice. Po potrebi ih čitaj s odraslom osobom."
+ ],
+ "chapters": {
+  "eu-year-hr-beginner-1-parcurs": {
+   "hr": {
+    "title": "Glas i slovo",
+    "theory": "Riječi se sastoje od glasova, a svaki glas zapisujemo slovom. U riječi čujemo početni, središnji i završni glas. Kad riječ rastavimo na glasove, radimo glasovnu analizu: s-o-k. Kad glasove spojimo u riječ, radimo glasovnu sintezu: m-a-k, mak. Glasove lj, nj i dž pišemo s dva slova.",
+    "sample": "Ana pije sok. Luka se njiše na ljuljački.",
+    "worked": "U riječi sok čujemo tri glasa: s-o-k. Početni glas je s, središnji o, a završni k. Riječ njiše počinje glasom nj, a ljuljački glasom lj. Te glasove pišemo s dva slova, ali izgovaramo kao jedan glas. Ana i Luka su imena.",
+    "exercises": [
+     "Rastavi na glasove: sok.",
+     "Koji je početni glas u riječi Ana?",
+     "Spoji glasove u riječ: m-a-k.",
+     "Pronađi u tekstu riječ s glasom nj.",
+     "Nacrtaj tri predmeta koji počinju glasom l."
+    ],
+    "test": [
+     "Koji je završni glas u riječi sok?",
+     "Koliko glasova ima riječ nos?",
+     "Spoji glasove: l-u-k.",
+     "Kojim se slovima piše glas lj?",
+     "Napiši početno slovo svojega imena."
+    ]
+   }
+  },
+  "eu-year-hr-beginner-1-intelegere": {
+   "hr": {
+    "title": "Čitamo riječi i rečenice",
+    "theory": "Glasove spajamo u slogove, slogove u riječi, a riječi u rečenice: ma-ma, mama, Mama čita. Nakon čitanja odgovaramo na pitanja: Tko? Što radi? Gdje? Odgovor tražimo u tekstu i ne izmišljamo ono čega u tekstu nema.",
+    "sample": "Ivo ima psa. Pas se zove Rex. Ivo i Rex trče po livadi.",
+    "worked": "Tko ima psa? Ivo. Kako se zove pas? Rex. Gdje trče? Po livadi. Riječ li-va-da ima tri sloga. Koje je boje Rex, u tekstu ne piše, zato to ne izmišljamo.",
+    "exercises": [
+     "Tko ima psa?",
+     "Kako se zove pas?",
+     "Gdje trče Ivo i Rex?",
+     "Rastavi na slogove: livada.",
+     "Pročitaj naglas prvu rečenicu."
+    ],
+    "test": [
+     "Piše li u tekstu koje je boje pas?",
+     "Koliko rečenica ima tekst?",
+     "Spoji slogove: tr-če.",
+     "Što radi Ivo s Rexom?",
+     "Nacrtaj Ivu i Rexa na livadi."
+    ]
+   }
+  },
+  "eu-year-hr-beginner-1-narativ": {
+   "hr": {
+    "title": "Priča: likovi i događaji",
+    "theory": "U priči postoje likovi i događaji. Likovi su ljudi, životinje ili izmišljena bića. Događaje prepričavamo redom: najprije, zatim, na kraju. Možemo reći što mislimo o postupcima likova i usporediti ih sa svojim postupcima.",
+    "sample": "Najprije je mala vjeverica pronašla tri oraha. Zatim je vidjela gladnoga zeca. Vjeverica mu je dala jedan orah. Na kraju su zajedno večerali pod hrastom.",
+    "worked": "Likovi su vjeverica i zec. Najprije vjeverica pronalazi orahe. Zatim vidi gladnoga zeca i daje mu orah. Na kraju večeraju zajedno. Vjeverica je dobra jer dijeli hranu. I mi možemo podijeliti užinu s prijateljem.",
+    "exercises": [
+     "Koji su likovi u priči?",
+     "Koliko je oraha pronašla vjeverica?",
+     "Što je vjeverica dala zecu?",
+     "Prepričaj priču riječima najprije, zatim i na kraju.",
+     "Kako se zec osjeća na kraju?"
+    ],
+    "test": [
+     "Gdje su likovi večerali?",
+     "Kakva je vjeverica? Zašto tako misliš?",
+     "Poredaj: večeraju zajedno / pronalazi orahe / vidi zeca.",
+     "Jesi li ti kada nešto podijelio ili podijelila s prijateljem?",
+     "Nacrtaj kraj priče."
+    ]
+   }
+  },
+  "eu-year-hr-beginner-1-poezie": {
+   "hr": {
+    "title": "Pjesma i rima",
+    "theory": "Pjesma se sastoji od stihova. Stih je jedan redak pjesme. Riječi koje na kraju stihova zvuče jednako rimuju se: mak – rak, more – gore. U pjesmama za djecu ima igre riječima i čudesnih, izmišljenih slika.",
+    "sample": "Na grani sjedi crni kos,\npjeva i češe svoj nos.\nKad sunce zađe iza gore,\nkos sanja plavo more.",
+    "worked": "Pjesma ima četiri stiha. Kos i nos se rimuju, a gore i more također. Kos koji češe nos je izmišljena, šaljiva slika jer ptice nemaju nos. Pjesmu čitamo polako i naglasimo riječi koje se rimuju.",
+    "exercises": [
+     "Koliko stihova ima pjesma?",
+     "Pronađi riječ koja se rimuje s kos.",
+     "Što sanja kos?",
+     "Pronađi riječ koja se rimuje s more.",
+     "Smisli rimu za riječ mak."
+    ],
+    "test": [
+     "Što je stih?",
+     "Može li kos doista češati nos? Zašto?",
+     "Rimuju li se gore i more?",
+     "Smisli rimu za riječ kuća.",
+     "Nacrtaj kosa iz pjesme."
+    ]
+   }
+  },
+  "eu-year-hr-beginner-1-dialog": {
+   "hr": {
+    "title": "Razgovor i pristojne riječi",
+    "theory": "U razgovoru govorimo jedan po jedan i slušamo sugovornika. Pitanje izgovaramo upitnom intonacijom, a odgovaramo cjelovitom rečenicom. Pristojne riječi su molim, hvala, oprosti i izvoli. Pozdravljamo kad dolazimo i kad odlazimo.",
+    "sample": "Mia: Dobar dan, teta knjižničarka! Molim vas, mogu li posuditi slikovnicu?\nKnjižničarka: Dobar dan, Mia. Izvoli, ovu možeš nositi kući.\nMia: Hvala! Kada je trebam vratiti?\nKnjižničarka: Vrati je za tjedan dana.",
+    "worked": "Mia najprije pozdravlja i kaže molim vas. Zatim postavlja pitanje, a na kraju pitanja stoji upitnik. Knjižničarka odgovara cjelovitom rečenicom i kaže izvoli. Mia kaže hvala. Svatko govori kad je na redu.",
+    "exercises": [
+     "Kako Mia pozdravlja?",
+     "Što Mia želi posuditi?",
+     "Pronađi rečenicu s upitnikom.",
+     "Koje pristojne riječi govore Mia i knjižničarka?",
+     "Odglumite razgovor u paru."
+    ],
+    "test": [
+     "Kada Mia treba vratiti slikovnicu?",
+     "Kada kažemo oprosti?",
+     "Odgovori cjelovitom rečenicom: Kako se zoveš?",
+     "Postavi prijatelju pitanje o njegovoj omiljenoj igri.",
+     "Zašto čekamo da sugovornik završi?"
+    ]
+   }
+  },
+  "eu-year-hr-beginner-1-vocabular": {
+   "hr": {
+    "title": "Riječi i značenje; mjesni govor",
+    "theory": "Kad ne razumijemo riječ, pitamo za njezino značenje ili je potražimo u dječjem rječniku. U rječniku su riječi poredane abecednim redom. Neke riječi u našem mjesnom govoru zvuče drukčije nego u hrvatskom standardnom jeziku.",
+    "sample": "Baka je rekla: Donesi mi pjat! Lucija nije znala što je pjat. Mama joj je objasnila da je to tanjur.",
+    "worked": "Riječ pjat dolazi iz mjesnoga govora, a u standardnom jeziku kažemo tanjur. Lucija je pitala za značenje, i to je dobro. U rječniku bismo riječ tanjur tražili pod slovom t. Abeceda počinje ovako: a, b, c, č, ć, d.",
+    "exercises": [
+     "Što znači riječ pjat?",
+     "Koju riječ koristimo u standardnom jeziku?",
+     "Poredaj abecednim redom: mama, baka, tata.",
+     "Pod kojim bismo slovom u rječniku tražili riječ sok?",
+     "Reci jednu riječ iz svojega mjesnoga govora."
+    ],
+    "test": [
+     "Što učiniš kad ne razumiješ riječ?",
+     "Kako su poredane riječi u rječniku?",
+     "Koje slovo dolazi nakon slova b?",
+     "Poredaj abecednim redom: zec, auto, kuća.",
+     "Tko je Luciji objasnio riječ?"
+    ]
+   }
+  },
+  "eu-year-hr-beginner-1-exprimare": {
+   "hr": {
+    "title": "Veliko početno slovo i rečenični znak",
+    "theory": "Rečenica počinje velikim početnim slovom i završava rečeničnim znakom: točkom, upitnikom ili uskličnikom. Velikim slovom pišemo i imena i prezimena ljudi te imena naselja: Marko Horvat, Split, Osijek.",
+    "sample": "Marko Horvat živi u Osijeku. Ide li Marko u školu? Danas je izlet!",
+    "worked": "Tekst ima tri rečenice i svaka počinje velikim slovom. Marko Horvat je ime i prezime, a Osijek ime grada, pa ih pišemo velikim slovom. Prva rečenica završava točkom, druga upitnikom jer pita, a treća uskličnikom jer izražava uzbuđenje.",
+    "exercises": [
+     "Koliko rečenica ima tekst?",
+     "Napiši pravilno: ana živi u zadru",
+     "Stavi rečenični znak: Imaš li olovku",
+     "Pronađi u tekstu ime grada.",
+     "Napiši svoje ime i prezime."
+    ],
+    "test": [
+     "Čime završava pitanje?",
+     "Zašto pišemo Osijek velikim slovom?",
+     "Napiši pravilno: danas pada snijeg",
+     "Koja rečenica u tekstu izražava uzbuđenje?",
+     "Napiši ime mjesta u kojem živiš."
+    ]
+   }
+  },
+  "eu-year-hr-beginner-1-redactare": {
+   "hr": {
+    "title": "Pišemo kratki tekst",
+    "theory": "Kratki tekst ima tri do pet povezanih rečenica. Prije pisanja razmislimo: Tko? Što se dogodilo? Gdje? Zatim pišemo školskim pisanim slovima, svaku rečenicu velikim slovom i rečeničnim znakom. Možemo nacrtati i slikopriču.",
+    "sample": "U subotu sam bio na moru. S tatom sam gradio dvorac od pijeska. Val je srušio dvorac. Smijali smo se i napravili novi.",
+    "worked": "Tekst ima četiri povezane rečenice. Prva kaže kada i gdje, druga što smo radili, treća što se dogodilo, a četvrta kako je završilo. Svaka rečenica počinje velikim slovom i završava točkom. Nakon pisanja tekst pročitamo i provjerimo slova.",
+    "exercises": [
+     "Gdje je dijete bilo u subotu?",
+     "Što je dijete gradilo?",
+     "Što se dogodilo s dvorcem?",
+     "Napiši tri rečenice o svojem vikendu.",
+     "Nacrtaj slikopriču od tri sličice."
+    ],
+    "test": [
+     "Koliko rečenica ima kratki tekst?",
+     "O čemu razmislimo prije pisanja?",
+     "Napiši rečenicu o svojoj obitelji.",
+     "Što provjerimo nakon pisanja?",
+     "Smisli naslov za tekst o moru."
+    ]
+   }
+  },
+  "eu-year-hr-beginner-1-interpretare": {
+   "hr": {
+    "title": "Biram slikovnicu: knjižnica i mediji",
+    "theory": "U školskoj knjižnici posuđujemo slikovnice. Biramo prema vlastitom interesu i objašnjavamo svoj izbor. Pročitane slikovnice preporučujemo drugima. Osim knjiga postoje animirani filmovi, dječje emisije i časopisi; biramo one primjerene našoj dobi.",
+    "sample": "Petar je u knjižnici izabrao slikovnicu o dinosaurima. Rekao je: Volim dinosaure jer su bili golemi. Preporučit ću je Sari.",
+    "worked": "Petar bira prema svojem interesu: voli dinosaure. Svoj izbor objašnjava riječju jer. Slikovnicu preporučuje prijateljici i tako se čitanje širi razredom. Animirani film o dinosaurima za djecu mogao bi biti primjeren, ali film za odrasle nije.",
+    "exercises": [
+     "Što je Petar izabrao?",
+     "Zašto Petar voli dinosaure?",
+     "Kome će preporučiti slikovnicu?",
+     "Reci koju bi ti slikovnicu izabrao ili izabrala i zašto.",
+     "Nabroji dva sadržaja za djecu osim knjige."
+    ],
+    "test": [
+     "Gdje posuđujemo slikovnice?",
+     "Koja riječ uvodi razlog?",
+     "Je li svaki film primjeren djeci?",
+     "Napiši naslov svoje omiljene slikovnice.",
+     "Kako možeš preporučiti knjigu prijatelju?"
+    ]
+   }
+  },
+  "eu-year-hr-beginner-1-verificare": {
+   "hr": {
+    "title": "Ponavljamo: što već znam",
+    "theory": "Ponavljamo: glasovna analiza i sinteza, čitanje riječi i rečenica, likovi i događaji, stih i rima, pristojan razgovor, značenje riječi, veliko slovo i rečenični znak te kratki tekst.",
+    "sample": "Ujutro Nina stavlja u torbu početnicu, pernicu i jabuku. Zatim s djedom ide u školu. Na putu vide crvenu vjevericu.",
+    "worked": "Tko? Nina. Što stavlja u torbu? Početnicu, pernicu i jabuku. Što radi zatim? S djedom ide u školu. Što vide na putu? Vjevericu. Riječ ja-bu-ka ima tri sloga. Nina je ime, pa ga pišemo velikim slovom.",
+    "exercises": [
+     "Rastavi na slogove: jabuka.",
+     "Što Nina stavlja u torbu?",
+     "S kim Nina ide u školu?",
+     "Pronađi u tekstu riječ koja počinje glasom p.",
+     "Koju životinju vide na putu?"
+    ],
+    "test": [
+     "Što Nina radi najprije?",
+     "Koliko rečenica ima tekst?",
+     "Napiši pravilno: nina ide u školu",
+     "Koji je početni glas u riječi djed?",
+     "Napiši rečenicu o svojoj torbi."
+    ]
+   }
+  }
+ }
+}

@@ -1,0 +1,242 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "TR",
+ "stage": "beginner",
+ "grade": "1",
+ "version": "e9975485928ddbb85632c63fb941929ad159e7325d07d2d5d296d759941cfb39",
+ "source": "https://tymm.meb.gov.tr/upload/program/2024programtur1234Onayli.pdf",
+ "sourceTitle": "MEB Türkiye Yüzyılı Maarif Modeli — Türkçe Dersi Öğretim Programı (2024), 1. sınıf: hazırlık haftası, ses esaslı ilk okuma yazma (a n e t i l, o k u r ı m, ü s ö y d z, ç b g c ş, p h v ğ f j), dinleme, konuşma, okuma, yazma; temalar sırasıyla; özgün materyal",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "tr",
+ "labels": [
+  "Özgün etkinlik · Türkiye · 1. sınıf (ilkokul)",
+  "Öğreniyoruz",
+  "Özgün örnek",
+  "Açıklama",
+  "Alıştırmalar",
+  "Kendini dene",
+  "Özgün alıştırmalar; resmî sınav ya da ders kitabı metni değildir. Gerekirse bir yetişkinle oku."
+ ],
+ "chapters": {
+  "eu-year-tr-beginner-1-parcurs": {
+   "tr": {
+    "title": "İlk sesler: a, n, e, t, i, l",
+    "theory": "Türkçede ilk okuma yazmaya seslerle başlarız. İlk ses grubu a, n, e, t, i, l seslerinden oluşur. Sesleri birleştirerek önce hece, sonra kelime yaparız: a ve n birleşir, an olur. e ve l birleşir, el olur. Seslerden heceye, heceden kelimeye, kelimeden cümleye gideriz.",
+    "sample": "Ela ile Nil. Tatil, tatil!",
+    "worked": "a ve l sesleri al hecesini, e ve l sesleri el hecesini yapar. E-la iki hecedir. Nil tek hecedir. ta-til iki hecedir. Bu metindeki bütün kelimeler ilk ses grubundaki seslerle yazılmıştır. Ela ve Nil özel isimdir, büyük harfle başlar.",
+    "exercises": [
+     "Birleştir: e ve l.",
+     "Ela kelimesini hecelerine ayır.",
+     "Metinde t sesiyle başlayan kelimeyi bul.",
+     "a, n, e, t, i, l seslerinden üç kelime yaz.",
+     "Adındaki ilk sesi söyle."
+    ],
+    "test": [
+     "Birleştir: a ve t.",
+     "Nil kaç hecelidir?",
+     "Metinde kaç tane özel isim var?",
+     "Hecelerden kelime yap: ta-til.",
+     "i sesiyle başlayan bir kelime söyle."
+    ]
+   }
+  },
+  "eu-year-tr-beginner-1-intelegere": {
+   "tr": {
+    "title": "Ses grupları büyüyor: o, k, u, r, ı, m",
+    "theory": "İkinci ses grubu o, k, u, r, ı, m seslerinden oluşur. Bu seslerle daha çok kelime okuruz: okul, kırmızı, ormana. Kelimeleri önce heceleyerek, sonra akıcı okuruz. Okuduğumuzu anlamak için Kim? Ne yapıyor? Nerede? sorularını sorarız.",
+    "sample": "Ömer okula koştu. Okulda Mira resim yaptı. Mira kırmızı kalem kullandı.",
+    "worked": "Kim okula koştu? Ömer. Okulda kim resim yaptı? Mira. Hangi rengi kullandı? Kırmızı. o-ku-la üç hecedir. kır-mı-zı da üç hecedir. Havanın nasıl olduğu metinde yazmıyor; yazmayan bir şeyi uydurmayız.",
+    "exercises": [
+     "Okula kim koştu?",
+     "Mira ne yaptı?",
+     "Mira hangi rengi kullandı?",
+     "kırmızı kelimesini hecelerine ayır.",
+     "Metni önce yavaş, sonra akıcı oku."
+    ],
+    "test": [
+     "Metinde havanın nasıl olduğu yazıyor mu?",
+     "Metinde kaç cümle var?",
+     "r sesi olan bir kelime bul.",
+     "Mira nerede resim yaptı?",
+     "Hecelerden kelime yap: o-kul."
+    ]
+   }
+  },
+  "eu-year-tr-beginner-1-narativ": {
+   "tr": {
+    "title": "Dinleme: olayları sıralıyoruz",
+    "theory": "Bir hikâyeyi dinlerken kişileri ve olayları aklımızda tutarız. Önce, sonra, en sonunda kelimeleriyle olayları sıralarız. Dinlerken konuşanın sözünü kesmeyiz. Görsellerden yararlanarak dinlediğimizi anlatırız.",
+    "sample": "Önce Kerem bahçede küçük bir kedi gördü. Sonra kedinin aç olduğunu fark etti. Annesiyle ona su ve mama verdi. En sonunda kedi Kerem'in yanında uyudu.",
+    "worked": "Hikâyedeki kişiler Kerem ve annesi. Önce Kerem kediyi görüyor. Sonra kedinin aç olduğunu fark ediyor. Annesiyle ona su ve mama veriyor. En sonunda kedi uyuyor. Kerem yardımseverdir; bu güzel bir davranıştır.",
+    "exercises": [
+     "Kerem bahçede ne gördü?",
+     "Kedi neden mama istedi?",
+     "Kerem kiminle kediye mama verdi?",
+     "Hikâyeyi önce, sonra, en sonunda kelimeleriyle anlat.",
+     "Kerem nasıl bir çocuk? Neden?"
+    ],
+    "test": [
+     "En sonunda ne oldu?",
+     "Sırala: kedi uyudu / Kerem kediyi gördü / kediye mama verdiler.",
+     "Hikâyede kaç kişi var?",
+     "Dinlerken nelere dikkat ederiz?",
+     "Hikâyenin sonunu çiz."
+    ]
+   }
+  },
+  "eu-year-tr-beginner-1-poezie": {
+   "tr": {
+    "title": "Şiir ve kafiye",
+    "theory": "Şiir dizelerden oluşur. Dize, şiirin bir satırıdır. Dizelerin sonunda benzer sesler kafiye oluşturur: kuş – uçuş, ağaç – kaç. Şiiri duygularımıza uygun bir sesle, yavaş ve anlamlı okuruz. Kısa şiirleri ezberleyip arkadaşlarımıza okuyabiliriz.",
+    "sample": "Pencereye kondu kuş,\nkanatları yumuşacık, pamuk gibi hoş.\nCik cik dedi, sabah oldu,\nsınıfımız neşeyle doldu.",
+    "worked": "Şiirde dört dize var. kuş ve hoş kafiyelidir. oldu ve doldu da kafiyelidir. Kuşun kanatları pamuğa benzetiliyor. Şiiri neşeli bir sesle okuruz ve her dizenin sonunda kısa bir duraklama yaparız.",
+    "exercises": [
+     "Şiirde kaç dize var?",
+     "Kuş nereye kondu?",
+     "oldu kelimesiyle kafiyeli kelimeyi bul.",
+     "Kuşun kanatları neye benzetiliyor?",
+     "Şiiri neşeli bir sesle oku."
+    ],
+    "test": [
+     "Dize nedir?",
+     "kuş ve hoş kafiyeli mi?",
+     "ağaç kelimesine kafiye bul.",
+     "Kuş ne dedi?",
+     "Şiirdeki kuşun resmini çiz."
+    ]
+   }
+  },
+  "eu-year-tr-beginner-1-dialog": {
+   "tr": {
+    "title": "Konuşma: kibar sözler ve sıra",
+    "theory": "Konuşurken sıramızı bekleriz ve karşımızdakinin gözüne bakarız. Kibar sözler kullanırız: günaydın, lütfen, teşekkür ederim, özür dilerim, rica ederim. Soru sorarken sesimiz yükselir ve yazıda soru işareti kullanırız.",
+    "sample": "Defne: Günaydın öğretmenim! Tahtayı silebilir miyim, lütfen?\nÖğretmen: Günaydın Defne. Tabii, buyur.\nDefne: Teşekkür ederim!\nÖğretmen: Rica ederim.",
+    "worked": "Defne önce selam veriyor, sonra lütfen diyerek izin istiyor. Sorunun sonunda soru işareti var. Öğretmen Defne sözünü bitirince cevap veriyor. Defne teşekkür ediyor, öğretmen rica ederim diyor. Herkes sırası gelince konuşuyor.",
+    "exercises": [
+     "Defne nasıl selam veriyor?",
+     "Defne ne yapmak istiyor?",
+     "Soru işareti olan cümleyi bul.",
+     "Teşekkür ederim sözüne nasıl cevap verilir?",
+     "Konuşmayı arkadaşınla canlandır."
+    ],
+    "test": [
+     "Ne zaman özür dilerim deriz?",
+     "Konuşurken neden sıramızı bekleriz?",
+     "Bir arkadaşından kibarca bir şey iste.",
+     "Dinlediğini nasıl gösterirsin?",
+     "Bir kibar söz yaz."
+    ]
+   }
+  },
+  "eu-year-tr-beginner-1-vocabular": {
+   "tr": {
+    "title": "Kelime hazinesi: zıt anlam ve eş anlam",
+    "theory": "Kelimelerin anlamını öğrenmek için metne, görsellere ve sözlüğe bakarız. Bazı kelimeler zıt anlamlıdır: büyük – küçük, sıcak – soğuk. Bazı kelimeler aynı anlama gelir: okul – mektep, kırmızı – al. Kelimeleri gruplayabiliriz: meyveler, renkler, aile.",
+    "sample": "Büyük bir ağacın altında küçük bir sincap var. Sincap fındık ve ceviz topluyor. Hava soğuk ama yuvası sıcak.",
+    "worked": "büyük ile küçük zıt anlamlıdır, soğuk ile sıcak da zıt anlamlıdır. fındık ve ceviz aynı gruba girer: kuru yemişler. Sincabın neden topladığını düşünürsek kışa hazırlandığını tahmin ederiz.",
+    "exercises": [
+     "Metinde zıt anlamlı iki kelime bul.",
+     "Sincap ne topluyor?",
+     "büyük kelimesinin zıt anlamlısını yaz.",
+     "Grupla: elma, mavi, armut, sarı.",
+     "Ailenden üç kişinin adını söyle."
+    ],
+    "test": [
+     "sıcak kelimesinin zıt anlamlısı nedir?",
+     "okul kelimesinin eş anlamlısı nedir?",
+     "Hangisi gruba uymaz: kedi, köpek, kalem, kuş?",
+     "Sincap nerede?",
+     "Bir kelimenin anlamını öğrenmek için nelere bakarız?"
+    ]
+   }
+  },
+  "eu-year-tr-beginner-1-exprimare": {
+   "tr": {
+    "title": "Büyük harf ve noktalama",
+    "theory": "Cümleye büyük harfle başlarız. Cümlenin sonuna nokta, soru işareti ya da ünlem işareti koyarız. Kişi adlarını ve şehir adlarını büyük harfle yazarız: Ayşe Yılmaz, Ankara, İzmir. Özel isimlere gelen ekleri kesme işaretiyle ayırırız: Ankara'da.",
+    "sample": "Ayşe İzmir'de yaşıyor. Sen hiç denize girdin mi? Ne güzel bir gün!",
+    "worked": "Metinde üç cümle var ve hepsi büyük harfle başlıyor. Ayşe kişi adı, İzmir şehir adı olduğu için büyük harfle yazılır. İzmir'de kelimesinde ek, kesme işaretiyle ayrılmıştır. İlk cümle nokta, ikinci soru işareti, üçüncü ünlem işaretiyle biter.",
+    "exercises": [
+     "Metinde kaç cümle var?",
+     "Doğru yaz: ali ankarada oturuyor",
+     "Sonuna uygun işareti koy: Kalemin var mı",
+     "Metindeki şehir adını bul.",
+     "Adını ve soyadını yaz."
+    ],
+    "test": [
+     "Soru cümlesinin sonuna ne konur?",
+     "Ayşe neden büyük harfle yazılır?",
+     "Doğru yaz: bugün kar yağıyor",
+     "Hangi cümle sevinç bildiriyor?",
+     "Yaşadığın şehrin adını yaz."
+    ]
+   }
+  },
+  "eu-year-tr-beginner-1-redactare": {
+   "tr": {
+    "title": "Görselden cümle yazıyoruz",
+    "theory": "Yazmadan önce görsele bakarız: Kim var? Ne yapıyor? Nerede? Sonra kısa ve anlamlı cümleler yazarız. Harfleri doğru ve okunaklı yazar, kelimeler arasında boşluk bırakırız. Yazdıktan sonra cümlemizi okuyup kontrol ederiz.",
+    "sample": "Görsel: Bir çocuk parkta bisiklet sürüyor.\nCümleler: Çocuk parkta bisiklet sürüyor. Bisikletin rengi mavi.",
+    "worked": "Kim? Bir çocuk. Ne yapıyor? Bisiklet sürüyor. Nerede? Parkta. Her cümle büyük harfle başlar ve noktayla biter. Kelimeler arasında boşluk bırakırız. En sonunda cümleleri okuyup eksik harf olup olmadığına bakarız.",
+    "exercises": [
+     "Görselde kim var?",
+     "Çocuk nerede bisiklet sürüyor?",
+     "Bir cümle yaz: kız kitap okuyor.",
+     "En sevdiğin oyuncakla ilgili iki cümle yaz.",
+     "Kelimeler arasında boşluk bıraktın mı? Kontrol et."
+    ],
+    "test": [
+     "Yazmadan önce hangi soruları sorarız?",
+     "Cümle neyle başlar?",
+     "Sınıfınla ilgili bir cümle yaz.",
+     "Yazdıktan sonra ne yaparız?",
+     "Bir resim çiz ve altına bir cümle yaz."
+    ]
+   }
+  },
+  "eu-year-tr-beginner-1-interpretare": {
+   "tr": {
+    "title": "Yol arkadaşımız kitaplar",
+    "theory": "Kitaplar bizim yol arkadaşımızdır. Kitabın kapağında başlık, yazar adı ve resim bulunur. Kapağa ve başlığa bakarak kitabın konusunu tahmin ederiz. Okuma köşesinden ya da kütüphaneden ilgimizi çeken kitabı seçer, neden beğendiğimizi anlatırız.",
+    "sample": "Kapakta fenerli küçük bir kaplumbağa var. Başlık: Kaplumbağa Gece Yürüyüşünde. Yazar: Elif Kaya.",
+    "worked": "Başlık Kaplumbağa Gece Yürüyüşünde, yazar Elif Kaya. Kapaktaki fener ve başlık, kaplumbağanın karanlıkta yürüyüşe çıktığını düşündürür. Tahminimizin doğru olup olmadığını okuyunca anlarız. Beğendiğimiz kitabı arkadaşımıza önerebiliriz.",
+    "exercises": [
+     "Kapakta hangi hayvan var?",
+     "Kitabın başlığı ne?",
+     "Kitabın yazarı kim?",
+     "Kitap ne hakkında olabilir?",
+     "Sevdiğin bir kitabı arkadaşına öner."
+    ],
+    "test": [
+     "Kapakta neler bulunur?",
+     "Kitabın konusunu nasıl tahmin ederiz?",
+     "Kitapları nereden seçebiliriz?",
+     "En sevdiğin kitabın adını yaz.",
+     "Bir kitabı neden beğendiğini bir cümleyle söyle."
+    ]
+   }
+  },
+  "eu-year-tr-beginner-1-verificare": {
+   "tr": {
+    "title": "Tekrar: neler öğrendim?",
+    "theory": "Tekrar ediyoruz: ses gruplarından hece ve kelime yapma, akıcı ve anlayarak okuma, olayları sıralama, şiir ve kafiye, kibar konuşma, zıt ve eş anlamlı kelimeler, büyük harf ve noktalama, görselden cümle yazma ve kitap seçme.",
+    "sample": "Sabah Zeynep çantasını hazırladı. Çantasına defterini, kalemliğini ve elmasını koydu. Sonra dedesiyle okula gitti.",
+    "worked": "Kim? Zeynep. Önce ne yaptı? Çantasını hazırladı. Çantasına neler koydu? Defterini, kalemliğini ve elmasını. Sonra ne yaptı? Dedesiyle okula gitti. çan-ta iki hecedir, kalem-lik de iki hecedir. Zeynep özel isim olduğu için büyük harfle başlar.",
+    "exercises": [
+     "kalemlik kelimesini hecelerine ayır.",
+     "Zeynep çantasına neler koydu?",
+     "Zeynep kiminle okula gitti?",
+     "Metinde d sesiyle başlayan bir kelime bul.",
+     "sabah kelimesinin zıt anlamlısını yaz."
+    ],
+    "test": [
+     "Zeynep önce ne yaptı?",
+     "Metinde kaç cümle var?",
+     "Doğru yaz: zeynep okula gidiyor",
+     "Son cümlede kaç kelime var?",
+     "Çantanla ilgili bir cümle yaz."
+    ]
+   }
+  }
+ }
+}

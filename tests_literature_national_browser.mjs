@@ -193,8 +193,26 @@ try{
  assert.ok(vatican,'Country picker missing');
  assert.deepEqual(vatican.found.filter(x=>/vatic|holy see|santa sede/i.test(x)),[],'Vatican City must not be offered in Education');
  assert.ok(vatican.italy.some(x=>/ital/i.test(x)),'Picker must still work (Italy)');
+ // 7. Dedicated profiles (TR): year 1 uses the national pack (official
+ // programme + textbook sequence), not the generic sixteen-row sequence.
+ const turkey=await js("(()=>{const i=document.getElementById('eduCountryInput');i.value='Tur';i.dispatchEvent(new Event('input',{bubbles:true}));const m=[...document.querySelectorAll('.edu-country-matches button')].find(x=>/turc|türk|turk/i.test(x.textContent));if(!m)return false;m.click();return true})()");
+ assert.ok(turkey,'Türkiye is not selectable');
+ await tap(['Continuă','Continue']);
+ await waitFor("window.__literatureAcceptance.snapshot().stage==='levels'",'Türkiye profile did not load');
+ await choice('^Primar|^Primary');await choice('^1$');
+ await waitFor("window.__literatureAcceptance.snapshot().stage==='branches'",'Türkiye year 1 pack did not open');
+ assert.equal(served.at(-1),'TR/tr-1.json');
+ await choice('Programa clasei|Grade syllabus');
+ const trCards=await cards();
+ assert.equal(trCards.length,10,'TR year 1 must list the ten national chapters: '+JSON.stringify(trCards));
+ assert.ok(!trCards.some(x=>/Yunus Emre|Namık Kemal|Tartışmacı/.test(x)),'No generic upper-level themes in TR year 1: '+JSON.stringify(trCards));
+ await choice('^1\\.');
+ view=await openTheory('tr');
+ assert.match(view.reader,/a, n, e, t, i, l/);
+ assert.match(view.reader,/Türkiye/);
+ await closeReader();
  assert.deepEqual(exceptions,[],'No uncaught browser exceptions');
- console.log('PASS real Chromium mobile 390x844: BE year 1 language of instruction (nl/fr/de), national lesson flow, offline cache reuse, original-language fallback, uncached-language retry, no Vatican City in Education');
+ console.log('PASS real Chromium mobile 390x844: BE year 1 language of instruction (nl/fr/de), national lesson flow, offline cache reuse, original-language fallback, uncached-language retry, no Vatican City in Education, TR year 1 national pack replaces the generic sequence');
 }finally{
  try{ws?.close()}catch{}
  // Wait for Chromium to exit before removing its profile (avoids ENOTEMPTY).

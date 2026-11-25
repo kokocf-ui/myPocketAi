@@ -1,0 +1,242 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "MD",
+ "stage": "beginner",
+ "grade": "1",
+ "version": "d899b62b4692fc8532950e82efea5fe3eff82f1e7ad6929d47484bf0df9fabd2",
+ "source": "https://www.edu.gov.md/ro/content/invatamint-general",
+ "sourceTitle": "MEC Republica Moldova — Curriculum pentru învățământul primar (2018), Limba și literatura română, clasa I: comunicare orală, lectură, scriere, Tainele cărții, elemente de construcție a comunicării; perioadele prealfabetară, alfabetară și postalfabetară, ca în Abecedar; material propriu",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "ro",
+ "labels": [
+  "Activitate originală · Republica Moldova · clasa I",
+  "Învățăm",
+  "Exemplu original",
+  "Explicație",
+  "Exerciții",
+  "Verifică-te",
+  "Exerciții originale, nu o evaluare oficială și nici text din Abecedar. Citește-le cu un adult, dacă e nevoie."
+ ],
+ "chapters": {
+  "eu-year-md-beginner-1-parcurs": {
+   "ro": {
+    "title": "Propoziția, cuvântul, silaba",
+    "theory": "Când vorbim, spunem propoziții. Propoziția este alcătuită din cuvinte, iar cuvântul este alcătuit din silabe. În perioada prealfabetară desenăm propoziția printr-o linie lungă și cuvintele prin linii mai scurte. Silabele le despărțim bătând din palme: min-ge, ca-să.",
+    "sample": "Doina are o minge. Mingea sare sus.",
+    "worked": "Prima propoziție are patru cuvinte: Doina, are, o, minge. O desenăm cu patru liniuțe. Cuvântul min-ge are două silabe, la fel și Doi-na. A doua propoziție, Mingea sare sus, are trei cuvinte. Fiecare propoziție spune ceva întreg.",
+    "exercises": [
+     "Câte cuvinte are propoziția Doina are o minge?",
+     "Desparte în silabe: minge.",
+     "Desenează propoziția Mingea sare sus cu liniuțe.",
+     "Bate din palme silabele numelui tău.",
+     "Spune o propoziție despre jucăria ta."
+    ],
+    "test": [
+     "Din ce este alcătuită propoziția?",
+     "Câte silabe are cuvântul Doina?",
+     "Care cuvânt are o singură silabă: sus, minge, Doina?",
+     "Câte propoziții are exemplul?",
+     "Desparte în silabe: carte."
+    ]
+   }
+  },
+  "eu-year-md-beginner-1-intelegere": {
+   "ro": {
+    "title": "Sunetul și litera; citim silabe și cuvinte",
+    "theory": "Sunetul îl auzim și îl rostim, litera o vedem și o scriem. Sunetele sunt vocale (a, ă, â, e, i, î, o, u) și consoane (m, n, r, s și altele). În Abecedar învățăm fiecare literă mică și mare, de tipar și de mână, apoi citim silabe, cuvinte și propoziții.",
+    "sample": "Ana are mere. Remus are un ou.",
+    "worked": "În cuvântul mere auzim sunetele m-e-r-e. Primul sunet, m, este consoană, al doilea, e, este vocală. Citim mai întâi pe silabe, me-re, apoi cuvântul întreg. Ana și Remus încep cu literă mare, pentru că sunt nume de persoane.",
+    "exercises": [
+     "Ce sunete auzi în cuvântul ou?",
+     "Care este primul sunet din cuvântul mere?",
+     "Citește pe silabe: Re-mus.",
+     "Găsește o vocală în cuvântul Ana.",
+     "Scrie litera mare și litera mică pentru sunetul m."
+    ],
+    "test": [
+     "Este a vocală sau consoană?",
+     "Câte sunete are cuvântul mere?",
+     "Ce are Remus?",
+     "Care este diferența dintre sunet și literă?",
+     "Scrie un cuvânt care începe cu sunetul r."
+    ]
+   }
+  },
+  "eu-year-md-beginner-1-narativ": {
+   "ro": {
+    "title": "Ascultăm o poveste și o reproducem",
+    "theory": "Când ascultăm o poveste, urmărim personajele și întâmplările. Apoi reproducem povestea cu ajutorul întrebărilor: Cine? Ce s-a întâmplat la început? Dar apoi? Dar la sfârșit? Ne gândim și la învățătura poveștii: ce am învățat din ea.",
+    "sample": "La început, o rățușcă s-a rătăcit lângă râu. Apoi a întâlnit o broscuță. Broscuța i-a arătat drumul spre ogradă. La sfârșit, rățușca i-a mulțumit și a promis că nu se va mai îndepărta singură.",
+    "worked": "Personajele sunt rățușca și broscuța. La început, rățușca se rătăcește. Apoi o întâlnește pe broscuță, care o ajută. La sfârșit, rățușca mulțumește. Învățătura: nu pleca singur departe de casă și mulțumește celui care te ajută.",
+    "exercises": [
+     "Cine s-a rătăcit?",
+     "Pe cine a întâlnit rățușca?",
+     "Unde a dus-o broscuța?",
+     "Povestește folosind cuvintele: la început, apoi, la sfârșit.",
+     "Ce a promis rățușca?"
+    ],
+    "test": [
+     "Care sunt personajele poveștii?",
+     "Ce învățătură are povestea?",
+     "Ordonează: rățușca mulțumește / se rătăcește / întâlnește broscuța.",
+     "Cum este broscuța? De ce crezi așa?",
+     "Desenează sfârșitul poveștii."
+    ]
+   }
+  },
+  "eu-year-md-beginner-1-poezie": {
+   "ro": {
+    "title": "Poezia: versul și rima",
+    "theory": "Poezia are versuri. Versul este un rând din poezie. Cuvintele de la sfârșitul versurilor care sună la fel rimează: floare – soare, nuc – duc. Poezia o citim rar, cu intonație, și o putem recita în fața clasei.",
+    "sample": "Vine toamna pe cărare,\ncu un coș de mere-n mână.\nPlouă blând peste ogoare,\nfrunza cade în fântână.",
+    "worked": "Poezia are patru versuri. Cărare rimează cu ogoare, iar mână rimează cu fântână. Toamna este descrisă ca o persoană care vine cu un coș în mână. Citim rar și facem o mică pauză la sfârșitul fiecărui vers.",
+    "exercises": [
+     "Câte versuri are poezia?",
+     "Ce aduce toamna în coș?",
+     "Găsește cuvântul care rimează cu mână.",
+     "Găsește o rimă pentru cuvântul floare.",
+     "Recită poezia cu voce tare."
+    ],
+    "test": [
+     "Ce este un vers?",
+     "Rimează cărare cu ogoare?",
+     "Unde cade frunza?",
+     "Găsește o rimă pentru cuvântul nuc.",
+     "Desenează toamna din poezie."
+    ]
+   }
+  },
+  "eu-year-md-beginner-1-dialog": {
+   "ro": {
+    "title": "Comunicăm politicos: salutul, rugămintea, mulțumirea",
+    "theory": "În comunicare folosim formule de politețe: bună ziua, vă rog, mulțumesc, cu plăcere, la revedere. Într-un dialog vorbim pe rând și ascultăm. Gesturile și privirea ne ajută: zâmbim și privim persoana cu care vorbim.",
+    "sample": "Mihai: Bună ziua, doamna învățătoare! Pot să șterg tabla, vă rog?\nÎnvățătoarea: Bună ziua, Mihai. Desigur, poftim buretele.\nMihai: Mulțumesc!\nÎnvățătoarea: Cu plăcere.",
+    "worked": "Mihai salută, apoi face o rugăminte și folosește vă rog. Învățătoarea răspunde politicos. Mihai mulțumește, iar ea spune cu plăcere. Întrebarea se termină cu semnul întrebării. Fiecare vorbește atunci când îi vine rândul.",
+    "exercises": [
+     "Cum salută Mihai?",
+     "Ce vrea să facă Mihai?",
+     "Găsește propoziția cu semnul întrebării.",
+     "Ce răspunde învățătoarea la mulțumesc?",
+     "Jucați dialogul în perechi."
+    ],
+    "test": [
+     "Ce formulă folosim când cerem ceva?",
+     "Cum ne luăm rămas-bun?",
+     "Ce gest arată că asculți?",
+     "Scrie o rugăminte către un coleg.",
+     "De ce vorbim pe rând?"
+    ]
+   }
+  },
+  "eu-year-md-beginner-1-vocabular": {
+   "ro": {
+    "title": "Cuvinte noi: descriem obiecte",
+    "theory": "Un obiect îl putem descrie spunând culoarea, forma, mărimea și la ce folosește. Cuvintele care arată însușiri ne ajută să vorbim mai clar: mare, mic, rotund, roșu. Cuvintele se pot grupa pe teme: familie, școală, fructe, anotimpuri.",
+    "sample": "Mărul este rotund, roșu și dulce. Ghiozdanul meu este mare și albastru. În el țin cărțile și caietele.",
+    "worked": "Despre măr spunem forma (rotund), culoarea (roșu) și gustul (dulce). Despre ghiozdan spunem mărimea (mare), culoarea (albastru) și la ce folosește: în el ținem cărțile. Măr intră în grupa fructe, ghiozdan în grupa școală.",
+    "exercises": [
+     "Ce formă are mărul?",
+     "Ce culoare are ghiozdanul?",
+     "La ce folosește ghiozdanul?",
+     "Descrie creionul tău: culoare și mărime.",
+     "Grupează: pară, caiet, prună, creion."
+    ],
+    "test": [
+     "Ce gust are mărul?",
+     "Numește trei membri ai familiei.",
+     "Care cuvânt nu se potrivește: iarnă, vară, pix, toamnă?",
+     "Descrie o minge în două cuvinte.",
+     "Ce cuvânt arată mărimea în exemplu?"
+    ]
+   }
+  },
+  "eu-year-md-beginner-1-exprimare": {
+   "ro": {
+    "title": "Propoziția enunțiativă, interogativă și exclamativă",
+    "theory": "Propoziția enunțiativă comunică ceva și se termină cu punct. Propoziția interogativă întreabă și se termină cu semnul întrebării. Propoziția exclamativă arată bucurie sau mirare și se termină cu semnul exclamării. Numele de persoane și de localități se scriu cu literă mare: Ion, Chișinău.",
+    "sample": "Ion locuiește la Bălți. Mergi la școală azi? Ce frumos ninge!",
+    "worked": "Prima propoziție comunică unde locuiește Ion, deci se termină cu punct. A doua întreabă, deci are semnul întrebării. A treia arată bucurie, deci are semnul exclamării. Fiecare propoziție începe cu literă mare. Ion și Bălți sunt nume, deci se scriu cu literă mare.",
+    "exercises": [
+     "Câte propoziții are exemplul?",
+     "Pune semnul potrivit: Ai un frate",
+     "Scrie corect: maria merge la chișinău",
+     "Găsește propoziția exclamativă.",
+     "Scrie o întrebare despre vreme."
+    ],
+    "test": [
+     "Cu ce semn se termină o întrebare?",
+     "De ce scriem Bălți cu literă mare?",
+     "Scrie corect: azi plouă",
+     "Ce arată propoziția exclamativă?",
+     "Scrie numele localității tale."
+    ]
+   }
+  },
+  "eu-year-md-beginner-1-redactare": {
+   "ro": {
+    "title": "Scriem propoziții după imagine",
+    "theory": "Înainte să scriem, privim imaginea și ne întrebăm: Cine este? Ce face? Unde? Apoi scriem o propoziție cu litere de mână, cu spațiu între cuvinte, cu literă mare la început și punct la sfârșit. Scrisul trebuie să fie îngrijit.",
+    "sample": "Imagine: un băiat udă florile din grădină.\nPropoziție: Băiatul udă florile în grădină.",
+    "worked": "Cine? Băiatul. Ce face? Udă florile. Unde? În grădină. Propoziția începe cu literă mare și se termină cu punct. Lăsăm spațiu între cuvinte. La sfârșit citim propoziția și verificăm dacă am scris toate literele.",
+    "exercises": [
+     "Cine este în imagine?",
+     "Ce face băiatul?",
+     "Scrie o propoziție: o fată citește o carte.",
+     "Scrie o propoziție despre animalul tău preferat.",
+     "Verifică dacă ai lăsat spațiu între cuvinte."
+    ],
+    "test": [
+     "Ce întrebări ne punem înainte de a scrie?",
+     "Cum trebuie să fie scrisul?",
+     "Scrie o propoziție despre clasa ta.",
+     "Ce punem la sfârșitul propoziției?",
+     "Desenează o imagine și scrie o propoziție sub ea."
+    ]
+   }
+  },
+  "eu-year-md-beginner-1-interpretare": {
+   "ro": {
+    "title": "Tainele cărții: coperta, titlul, autorul",
+    "theory": "Cartea are copertă, titlu, autor, file cu text și imagini. Pe copertă citim titlul și numele autorului. Imaginea de pe copertă ne ajută să ghicim despre ce este cartea. Cărțile le împrumutăm de la biblioteca școlii și le păstrăm curate.",
+    "sample": "Pe coperta cărții este un arici cu o umbrelă. Titlul este Ariciul și ploaia de vară. Autoarea este Ana Rusu.",
+    "worked": "Titlul este Ariciul și ploaia de vară, iar autoarea este Ana Rusu. Imaginea și titlul ne fac să credem că este vorba despre un arici care se ferește de ploaie. Dacă avem dreptate, aflăm citind. Cartea împrumutată o returnăm la timp.",
+    "exercises": [
+     "Ce animal este pe copertă?",
+     "Care este titlul cărții?",
+     "Cine este autoarea?",
+     "Despre ce crezi că este cartea?",
+     "Numește părțile unei cărți."
+    ],
+    "test": [
+     "Unde scrie titlul cărții?",
+     "Ce ne ajută să ghicim conținutul?",
+     "Cum păstrăm cartea?",
+     "Scrie titlul cărții tale preferate.",
+     "De unde putem împrumuta cărți?"
+    ]
+   }
+  },
+  "eu-year-md-beginner-1-verificare": {
+   "ro": {
+    "title": "Recapitulare: ce am învățat în clasa I",
+    "theory": "Recapitulăm: propoziția, cuvântul, silaba, sunetul și litera, povestea și învățătura ei, versul și rima, formulele de politețe, descrierea obiectelor, semnele de la sfârșitul propoziției, scrierea după imagine și părțile cărții.",
+    "sample": "Dimineața, Victoria își pregătește ghiozdanul. Pune în el Abecedarul, penarul și un măr. Apoi pleacă la școală cu bunelul.",
+    "worked": "Cine? Victoria. Ce face întâi? Își pregătește ghiozdanul. Ce pune în el? Abecedarul, penarul și un măr. Cu cine pleacă? Cu bunelul. Cuvântul pe-na-rul are trei silabe. Victoria se scrie cu literă mare, fiind nume de persoană.",
+    "exercises": [
+     "Desparte în silabe: penarul.",
+     "Ce pune Victoria în ghiozdan?",
+     "Cu cine pleacă Victoria la școală?",
+     "Găsește un cuvânt care începe cu sunetul m.",
+     "Câte cuvinte are ultima propoziție?"
+    ],
+    "test": [
+     "Ce face Victoria întâi?",
+     "Câte propoziții are textul?",
+     "Scrie corect: victoria merge la școală",
+     "Descrie mărul din ghiozdan în două cuvinte.",
+     "Scrie o propoziție despre ghiozdanul tău."
+    ]
+   }
+  }
+ }
+}

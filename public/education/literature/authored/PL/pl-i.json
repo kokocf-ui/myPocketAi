@@ -1,0 +1,242 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "PL",
+ "stage": "beginner",
+ "grade": "I",
+ "version": "da3c6c93053d66a1d21f1e5f4a01837295bc3fb8e675969c1ef4a842bad86160",
+ "source": "https://www.gov.pl/web/edukacja/nowe-podstawy-programowe-wychowania-przedszkolnego-i-ksztalcenia-ogolnego-dla-szkoly-podstawowej-wraz-ze-zmianami-w-ramowych-planach-nauczania-dla-publicznych-szkol-podstawowych--rozporzadzenia-podpisane",
+ "sourceTitle": "MEN — podstawa programowa 2026 (Reforma26. Kompas Jutra), edukacja wczesnoszkolna, klasa I (od 1.09.2026): edukacja polonistyczna — słuchanie, mówienie, czytanie, pisanie, kształcenie językowe; układ jak w podręcznikach do klasy I; materiały własne",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "pl",
+ "labels": [
+  "Własne ćwiczenie · Polska · klasa I szkoły podstawowej",
+  "Uczymy się",
+  "Własny przykład",
+  "Wyjaśnienie",
+  "Ćwiczenia",
+  "Sprawdź się",
+  "Własne ćwiczenia, nie oficjalny sprawdzian ani tekst z podręcznika. W razie potrzeby przeczytaj je z dorosłym."
+ ],
+ "chapters": {
+  "eu-year-pl-beginner-i-parcurs": {
+   "pl": {
+    "title": "Głoska, litera, sylaba",
+    "theory": "Głoskę słyszymy i wymawiamy, a literę widzimy i piszemy. Wyrazy dzielimy na sylaby: ko-tek. Samogłoski to a, ą, e, ę, i, o, ó, u, y. Niektóre głoski zapisujemy dwiema literami. To dwuznaki: sz, cz, rz, ch, dz, dź, dż.",
+    "sample": "Szymon ma kotka. Kotek je z miski.",
+    "worked": "Wyraz ko-tek ma dwie sylaby i pięć głosek: k-o-t-e-k. Samogłoski w tym wyrazie to o i e. W imieniu Szymon pierwszą głoskę sz zapisujemy dwiema literami. Imię Szymon piszemy wielką literą.",
+    "exercises": [
+     "Podziel na sylaby: kotek.",
+     "Ile głosek ma wyraz kot?",
+     "Znajdź w tekście dwuznak.",
+     "Wskaż samogłoski w wyrazie miska.",
+     "Wyklaszcz sylaby swojego imienia."
+    ],
+    "test": [
+     "Czym różni się głoska od litery?",
+     "Ile sylab ma wyraz miska?",
+     "Jakimi literami zapisujemy głoskę cz?",
+     "Czy b to samogłoska?",
+     "Napisz wyraz, który zaczyna się od sz."
+    ]
+   }
+  },
+  "eu-year-pl-beginner-i-intelegere": {
+   "pl": {
+    "title": "Czytamy ze zrozumieniem",
+    "theory": "Najpierw czytamy sylabami, potem całymi wyrazami i zdaniami. Po przeczytaniu odpowiadamy na pytania: Kto? Co robi? Gdzie? Odpowiedź znajdujemy w tekście. Jeśli czegoś w tekście nie ma, nie zmyślamy.",
+    "sample": "Ola i Kuba idą do parku. Kuba niesie latawiec. Ola ma czerwony szalik.",
+    "worked": "Kto idzie do parku? Ola i Kuba. Co niesie Kuba? Latawiec. Jaki szalik ma Ola? Czerwony. Jaka jest pogoda, tekst nie mówi, więc tego nie zmyślamy. Wyraz la-ta-wiec ma trzy sylaby.",
+    "exercises": [
+     "Dokąd idą Ola i Kuba?",
+     "Co niesie Kuba?",
+     "Jakiego koloru jest szalik Oli?",
+     "Podziel na sylaby: latawiec.",
+     "Przeczytaj głośno pierwsze zdanie."
+    ],
+    "test": [
+     "Czy w tekście jest napisane, jaka jest pogoda?",
+     "Ile zdań ma tekst?",
+     "Kto ma szalik?",
+     "Wskaż zdanie o latawcu.",
+     "Narysuj Olę i Kubę w parku."
+    ]
+   }
+  },
+  "eu-year-pl-beginner-i-narativ": {
+   "pl": {
+    "title": "Historyjka obrazkowa i bohaterowie",
+    "theory": "Opowiadanie ma bohaterów i wydarzenia. Historyjkę obrazkową układamy po kolei: najpierw, potem, na końcu. Szukamy przyczyny i skutku: coś się stało, bo… Możemy ocenić zachowanie bohatera i nadać historyjce tytuł.",
+    "sample": "Najpierw Zosia zostawiła rower na deszczu. Potem łańcuch zardzewiał. Tata pokazał Zosi, jak go wyczyścić. Na końcu Zosia schowała rower do garażu.",
+    "worked": "Bohaterami są Zosia i tata. Łańcuch zardzewiał, bo rower stał na deszczu: to przyczyna i skutek. Na końcu Zosia dba o rower, więc zachowała się dobrze. Tytuł historyjki może brzmieć: Rower i deszcz.",
+    "exercises": [
+     "Kto zostawił rower na deszczu?",
+     "Dlaczego łańcuch zardzewiał?",
+     "Co pokazał tata?",
+     "Opowiedz historyjkę słowami: najpierw, potem, na końcu.",
+     "Wymyśl inny tytuł historyjki."
+    ],
+    "test": [
+     "Gdzie Zosia schowała rower na końcu?",
+     "Ułóż po kolei: Zosia chowa rower / łańcuch rdzewieje / rower stoi na deszczu.",
+     "Jak oceniasz zachowanie Zosi na końcu?",
+     "Co jest przyczyną, a co skutkiem?",
+     "Narysuj ostatni obrazek historyjki."
+    ]
+   }
+  },
+  "eu-year-pl-beginner-i-poezie": {
+   "pl": {
+    "title": "Wiersz, rymy i recytacja",
+    "theory": "Wiersz składa się z wersów. Wyrazy na końcu wersów, które brzmią podobnie, to rymy: kot – płot, las – czas. Wiersz możemy recytować z pamięci: głośno albo cicho, szybko albo wolno, aby pokazać nastrój.",
+    "sample": "Na płocie siedzi rudy kot,\npatrzy, jak sąsiad maluje płot.\nA wróbel ćwierka: Nie mam czasu,\nlecę po ziarnka aż do lasu!",
+    "worked": "Wiersz ma cztery wersy. Kot rymuje się z płot, a czasu z lasu. Słowa wróbla możemy powiedzieć szybciej i weselej, bo wróbel się spieszy. Kota opisujemy wolniej i spokojniej.",
+    "exercises": [
+     "Ile wersów ma wiersz?",
+     "Znajdź rym do wyrazu kot.",
+     "Dokąd leci wróbel?",
+     "Dobierz rym do wyrazu dom.",
+     "Wyrecytuj wiersz raz cicho, a raz głośno."
+    ],
+    "test": [
+     "Co to jest wers?",
+     "Czy czasu rymuje się z lasu?",
+     "Co robi sąsiad?",
+     "Dobierz rym do wyrazu mama.",
+     "Jak powiesz słowa wróbla: wolno czy szybko? Dlaczego?"
+    ]
+   }
+  },
+  "eu-year-pl-beginner-i-dialog": {
+   "pl": {
+    "title": "Rozmawiamy grzecznie",
+    "theory": "W rozmowie słuchamy uważnie i czekamy na swoją kolej. Patrzymy na rozmówcę. Używamy zwrotów grzecznościowych: dzień dobry, proszę, dziękuję, przepraszam, do widzenia. Gdy czegoś nie rozumiemy, zadajemy pytanie.",
+    "sample": "Antek: Dzień dobry, pani bibliotekarko! Czy mogę wypożyczyć tę książkę?\nBibliotekarka: Dzień dobry, Antku. Proszę bardzo, oddaj ją za tydzień.\nAntek: Dziękuję! A czy mogę też wziąć komiks?\nBibliotekarka: Tak, proszę.",
+    "worked": "Antek najpierw się wita. Potem pyta, a na końcu pytania stoi znak zapytania. Bibliotekarka odpowiada, gdy Antek skończy mówić. Antek dziękuje. Każdy mówi wtedy, gdy przyjdzie jego kolej.",
+    "exercises": [
+     "Jak wita się Antek?",
+     "Co chce wypożyczyć Antek?",
+     "Znajdź zdanie ze znakiem zapytania.",
+     "Jakie zwroty grzecznościowe są w rozmowie?",
+     "Odegrajcie rozmowę w parach."
+    ],
+    "test": [
+     "Kiedy Antek ma oddać książkę?",
+     "Kiedy mówimy przepraszam?",
+     "Co robisz, gdy czegoś nie rozumiesz?",
+     "Napisz grzeczną prośbę do kolegi.",
+     "Dlaczego czekamy na swoją kolej?"
+    ]
+   }
+  },
+  "eu-year-pl-beginner-i-vocabular": {
+   "pl": {
+    "title": "Nazwy, czynności i wyrazy przeciwne",
+    "theory": "Wyrazy mogą nazywać ludzi, zwierzęta, rośliny i rzeczy: mama, pies, róża, stół. Inne wyrazy nazywają czynności: biega, czyta. Niektóre wyrazy mają znaczenie przeciwne: duży – mały. Mówimy o jednej rzeczy albo o wielu: kwiat – kwiaty.",
+    "sample": "Babcia podlewa róże. Pies biega po ogrodzie. Duży kot śpi, a mały kot się bawi.",
+    "worked": "Babcia to nazwa człowieka, pies i kot to zwierzęta, a róże to rośliny. Podlewa, biega, śpi i bawi się to czynności. Duży i mały mają przeciwne znaczenie. Róże to liczba mnoga, a jedna to róża.",
+    "exercises": [
+     "Znajdź w tekście nazwę rośliny.",
+     "Jakie czynności wykonują zwierzęta?",
+     "Podaj wyraz o przeciwnym znaczeniu do duży.",
+     "Napisz liczbę mnogą: kot.",
+     "Podziel na grupy: mama, stół, tulipan, chomik."
+    ],
+    "test": [
+     "Co robi babcia?",
+     "Jaki wyraz ma znaczenie przeciwne do ciepły?",
+     "Napisz liczbę pojedynczą: róże.",
+     "Który wyraz nazywa czynność: pies, biega, ogród?",
+     "Nazwij trzy rzeczy w swojej klasie."
+    ]
+   }
+  },
+  "eu-year-pl-beginner-i-exprimare": {
+   "pl": {
+    "title": "Zdanie, wielka litera i znaki na końcu",
+    "theory": "Zdanie zaczynamy wielką literą. Na końcu stawiamy kropkę, znak zapytania albo wykrzyknik. Wielką literą piszemy też imiona, nazwiska oraz nazwy miast, rzek i państw: Ewa Nowak, Kraków, Wisła, Polska.",
+    "sample": "Ewa Nowak mieszka w Gdańsku. Czy byłeś nad Wisłą? Ale piękna tęcza!",
+    "worked": "Tekst ma trzy zdania i każde zaczyna się wielką literą. Ewa Nowak to imię i nazwisko, Gdańsk to miasto, a Wisła to rzeka, więc piszemy je wielką literą. Pierwsze zdanie kończy się kropką, drugie znakiem zapytania, a trzecie wykrzyknikiem, bo wyraża zachwyt.",
+    "exercises": [
+     "Ile zdań jest w tekście?",
+     "Napisz poprawnie: ala mieszka w poznaniu",
+     "Postaw właściwy znak: Masz psa",
+     "Znajdź w tekście nazwę rzeki.",
+     "Napisz swoje imię i nazwisko."
+    ],
+    "test": [
+     "Czym kończy się pytanie?",
+     "Dlaczego Gdańsk piszemy wielką literą?",
+     "Napisz poprawnie: dziś pada śnieg",
+     "Które zdanie wyraża zachwyt?",
+     "Napisz nazwę swojej miejscowości."
+    ]
+   }
+  },
+  "eu-year-pl-beginner-i-redactare": {
+   "pl": {
+    "title": "Piszemy zdania: podpisy, odpowiedzi, życzenia",
+    "theory": "Piszemy krótkie zdania: podpisujemy obrazki, odpowiadamy na pytania pełnym zdaniem i układamy zdania z rozsypanki wyrazowej. Na laurce piszemy krótkie życzenia. Po napisaniu czytamy tekst i sprawdzamy litery oraz znaki.",
+    "sample": "Kochana Mamo! Życzę Ci zdrowia i uśmiechu. Twoja Hania",
+    "worked": "To krótkie życzenia na laurkę. Zaczynają się od zwrotu do osoby: Kochana Mamo! Wyrazy Mamo i Ci piszemy wielką literą z szacunku. Potem są życzenia, a na końcu podpis. Na koniec Hania czyta tekst jeszcze raz.",
+    "exercises": [
+     "Do kogo są życzenia?",
+     "Czego życzy Hania?",
+     "Ułóż zdanie z rozsypanki: lubi, Tomek, lody.",
+     "Odpowiedz pełnym zdaniem: Jak masz na imię?",
+     "Napisz krótkie życzenia dla babci."
+    ],
+    "test": [
+     "Co jest na końcu życzeń?",
+     "Podpisz obrazek: dziewczynka czyta książkę.",
+     "Uzupełnij zdanie: Pies … kość.",
+     "Co sprawdzasz po napisaniu?",
+     "Ułóż zdanie z wyrazów: świeci, słońce."
+    ]
+   }
+  },
+  "eu-year-pl-beginner-i-interpretare": {
+   "pl": {
+    "title": "Lektura i biblioteka: wybieram książkę",
+    "theory": "Nauczyciel czyta nam lektury, a my słuchamy i rozmawiamy o bohaterach. W bibliotece wybieramy książki według zainteresowań. Mówimy, co nam się podobało i dlaczego. Inni mogą mieć inne zdanie.",
+    "sample": "Filip wybrał w bibliotece książkę o kosmosie. Powiedział: Podoba mi się, bo są w niej zdjęcia planet. Marta wolała książkę o koniach.",
+    "worked": "Filip wybrał książkę według swoich zainteresowań i podał powód, używając słowa bo. Marta ma inne zdanie i to jest w porządku. Książkę, która nam się spodobała, możemy polecić koledze albo zrobić o niej plakat lub małą książeczkę.",
+    "exercises": [
+     "Jaką książkę wybrał Filip?",
+     "Dlaczego książka mu się podoba?",
+     "Jaką książkę wolała Marta?",
+     "Powiedz, jaką książkę ty byś wybrał lub wybrała i dlaczego.",
+     "Zrób małą książeczkę o swoim ulubionym zwierzęciu."
+    ],
+    "test": [
+     "Gdzie wypożyczamy książki?",
+     "Jakim słowem podajemy powód?",
+     "Czy Marta może mieć inne zdanie niż Filip?",
+     "Napisz tytuł książki, którą lubisz.",
+     "Jak możesz polecić książkę koledze?"
+    ]
+   }
+  },
+  "eu-year-pl-beginner-i-verificare": {
+   "pl": {
+    "title": "Powtórka: co już umiem",
+    "theory": "Powtarzamy: głoski, litery i sylaby, czytanie ze zrozumieniem, kolejność zdarzeń, rymy, grzeczną rozmowę, nazwy i czynności, wielką literę i znaki na końcu zdania oraz krótkie zdania i życzenia.",
+    "sample": "Rano Staś pakuje plecak. Wkłada elementarz, piórnik i kanapkę. Potem idzie z dziadkiem do szkoły.",
+    "worked": "Kto? Staś. Co robi najpierw? Pakuje plecak. Co wkłada? Elementarz, piórnik i kanapkę. Co robi potem? Idzie z dziadkiem do szkoły. Wyraz ka-nap-ka ma trzy sylaby. Imię Staś piszemy wielką literą.",
+    "exercises": [
+     "Podziel na sylaby: kanapka.",
+     "Co Staś wkłada do plecaka?",
+     "Z kim Staś idzie do szkoły?",
+     "Znajdź w tekście wyraz nazywający czynność.",
+     "Znajdź w tekście wyraz z dwuznakiem."
+    ],
+    "test": [
+     "Co Staś robi najpierw?",
+     "Ile zdań ma tekst?",
+     "Napisz poprawnie: staś idzie do szkoły",
+     "Podaj wyraz o znaczeniu przeciwnym do rano.",
+     "Napisz zdanie o swoim plecaku."
+    ]
+   }
+  }
+ }
+}

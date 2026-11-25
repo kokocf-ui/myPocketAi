@@ -1,0 +1,242 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "AT",
+ "stage": "beginner",
+ "grade": "1",
+ "version": "a18db02cafebf688db3d2384b26d285036b8579e87728be99fbde6597412b4a4",
+ "source": "https://www.ris.bka.gv.at/GeltendeFassung.wxe?Abfrage=Bundesnormen&Gesetzesnummer=10009275",
+ "sourceTitle": "Lehrplan der Volksschule (BGBl. II Nr. 1/2023), Deutsch, 1. Schulstufe: (Zu-)Hören und Sprechen, Lesen, Verfassen von Texten, (Recht-)Schreiben und Sprachbetrachtung; Abfolge wie in approbierten Fibeln (Buchstabenkanon, Silben, Sammelwörter); eigene Materialien",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "de",
+ "labels": [
+  "Eigene Übungsaktivität · Österreich · 1. Schulstufe (Volksschule)",
+  "Wir lernen",
+  "Eigenes Beispiel",
+  "Erklärung",
+  "Übungen",
+  "Teste dich",
+  "Eigene Übungen, kein offizieller Test und kein Text aus einer Fibel. Lies sie, wenn nötig, mit einem Erwachsenen."
+ ],
+ "chapters": {
+  "eu-year-at-beginner-1-parcurs": {
+   "de": {
+    "title": "Laut und Buchstabe",
+    "theory": "Jedes Wort besteht aus Lauten. Für jeden Laut gibt es ein Zeichen: den Buchstaben. In der Fibel lernen wir die Buchstaben der Reihe nach kennen, zuerst einfache wie M, A, L, O und I. Wir hören genau: Mit welchem Laut beginnt das Wort? Wir sprechen den Laut lang: Mmmama.",
+    "sample": "Mimi malt eine Maus. Die Maus mag Mais.",
+    "worked": "Maus beginnt mit dem Laut M. Wir hören ihn auch in Mimi, malt, mag und Mais. Im Wort Maus hören wir M – au – s. Für au schreiben wir zwei Buchstaben, sprechen aber einen Laut. So verbinden wir Laut und Buchstabe.",
+    "exercises": [
+     "Welche Wörter im Satz beginnen mit M?",
+     "Sprich das Wort Maus langsam: Welche Laute hörst du?",
+     "Finde einen Namen in deiner Klasse, der mit A beginnt.",
+     "Hörst du ein L in Lama? Wo: am Anfang, in der Mitte oder am Ende?",
+     "Male drei Dinge, die mit O beginnen."
+    ],
+    "test": [
+     "Mit welchem Laut beginnt Mais?",
+     "Wie viele Buchstaben hat das Wort Oma?",
+     "Welchen Laut hörst du am Ende von Maus?",
+     "Schreibe den ersten Buchstaben deines Namens.",
+     "Finde ein Wort mit dem Laut I am Anfang."
+    ]
+   }
+  },
+  "eu-year-at-beginner-1-intelegere": {
+   "de": {
+    "title": "Silben schwingen und Wörter lesen",
+    "theory": "Lange Wörter lesen wir in Silben. Beim Silbenschwingen sprechen wir ein Wort langsam und machen bei jeder Silbe einen Bogen mit der Hand: Ba-na-ne. Manche Fibeln drucken die Silben in zwei Farben. Aus Silben werden Wörter, aus Wörtern werden Sätze.",
+    "sample": "Lo-la und Ti-mo le-sen. Ti-mo liest Ro-se, Lo-la liest To-ma-te.",
+    "worked": "Lo-la hat zwei Silben, To-ma-te hat drei. Zuerst lesen wir Silbe für Silbe: To – ma – te. Dann ziehen wir die Silben zusammen und lesen das ganze Wort flüssig: Tomate. So wird unser Blick beim Lesen immer weiter.",
+    "exercises": [
+     "Schwinge das Wort Tomate: Wie viele Silben hat es?",
+     "Lies zusammen: Ro – se.",
+     "Teile in Silben: Limo, Sonne, Esel.",
+     "Welches Wort hat nur eine Silbe: Ball, Igel, Mama?",
+     "Klatsche die Silben deines Namens."
+    ],
+    "test": [
+     "Wie viele Silben hat Banane?",
+     "Setze zusammen: Ti – mo.",
+     "Welches Wort hat drei Silben: Lama, Tomate, Hut?",
+     "Teile in Silben: Rose.",
+     "Lies das Wort und klatsche dazu: Salat."
+    ]
+   }
+  },
+  "eu-year-at-beginner-1-narativ": {
+   "de": {
+    "title": "Einer Geschichte zuhören und nacherzählen",
+    "theory": "Wenn jemand vorliest, hören wir aufmerksam zu. Wir merken uns: Wer kommt vor? Was passiert zuerst, dann und zum Schluss? Danach erzählen wir die Geschichte mit eigenen Worten in der richtigen Reihenfolge nach. Bilder helfen uns dabei.",
+    "sample": "Zuerst verliert der Igel Ivo seinen roten Schal. Dann sucht er ihn im Laub. Ein Eichhörnchen zeigt ihm den Schal auf einem Ast. Zum Schluss bedankt sich Ivo und wickelt sich warm ein.",
+    "worked": "Die Figuren sind der Igel Ivo und das Eichhörnchen. Zuerst verliert Ivo den Schal. Dann sucht er im Laub. Danach hilft das Eichhörnchen. Zum Schluss bedankt sich Ivo. Mit zuerst, dann, danach und zum Schluss erzählen wir der Reihe nach.",
+    "exercises": [
+     "Wer verliert den Schal?",
+     "Welche Farbe hat der Schal?",
+     "Wo findet das Eichhörnchen den Schal?",
+     "Erzähle die Geschichte mit zuerst, dann und zum Schluss.",
+     "Male ein Bild zum Schluss der Geschichte."
+    ],
+    "test": [
+     "Was macht Ivo zuerst?",
+     "Wer hilft Ivo?",
+     "Was sagt Ivo am Ende wohl zum Eichhörnchen?",
+     "Ordne: Ivo bedankt sich / Ivo verliert den Schal / Ivo sucht im Laub.",
+     "Wie viele Figuren kommen in der Geschichte vor?"
+    ]
+   }
+  },
+  "eu-year-at-beginner-1-poezie": {
+   "de": {
+    "title": "Reime und Sprachspiele",
+    "theory": "Reimwörter klingen am Ende gleich: Haus – Maus, Hose – Rose. In vielen Fibeln beginnt ein neuer Buchstabe mit einem kurzen Reim zum Nachsprechen. Wir hören genau hin, sprechen im Rhythmus und erfinden eigene Reime, auch lustige Unsinnsreime.",
+    "sample": "Im Garten sitzt die kleine Maus,\nsie baut sich aus Papier ein Haus.\nDa kommt der Wind und bläst – o weh!\nJetzt fliegt das Haus bis an den See.",
+    "worked": "Maus und Haus reimen sich, beide enden auf -aus. Weh und See reimen sich auf -ee. Das Gedicht hat vier Zeilen. Wir sprechen es laut, klatschen den Rhythmus und betonen die Reimwörter am Ende jeder Zeile.",
+    "exercises": [
+     "Finde das Reimwort zu Maus im Gedicht.",
+     "Was baut die Maus?",
+     "Wer bläst das Haus weg?",
+     "Finde ein Reimwort zu Hose.",
+     "Erfinde einen Unsinnsreim mit Hut."
+    ],
+    "test": [
+     "Reimen sich See und weh?",
+     "Wie viele Zeilen hat das Gedicht?",
+     "Finde ein Reimwort zu Ball.",
+     "Wohin fliegt das Haus?",
+     "Welches Wort reimt sich nicht: Kanne, Tanne, Hose?"
+    ]
+   }
+  },
+  "eu-year-at-beginner-1-dialog": {
+   "de": {
+    "title": "Miteinander reden: Gesprächsregeln",
+    "theory": "In der Klasse reden wir miteinander. Gesprächsregeln helfen dabei: Wir lassen andere ausreden, schauen die Person an, sprechen laut und deutlich und zeigen auf, wenn wir etwas sagen wollen. Auch Mimik und Gestik sagen etwas, zum Beispiel ein Lächeln oder ein Nicken.",
+    "sample": "Emil: Guten Morgen, Frau Lehrerin! Darf ich die Blumen gießen?\nLehrerin: Guten Morgen, Emil. Ja, gerne. Die Kanne steht beim Fenster.\nEmil: Danke! Soll ich auch die Tafel putzen?\nLehrerin: Das macht heute Sara. Danke für deine Hilfe.",
+    "worked": "Emil grüßt zuerst. Dann stellt er eine Frage, darum steht am Ende ein Fragezeichen. Die Lehrerin antwortet erst, als Emil fertig ist. Emil sagt danke, die Lehrerin bedankt sich auch. Jede Person spricht, wenn sie dran ist. So gelingt ein Gespräch.",
+    "exercises": [
+     "Wie grüßt Emil?",
+     "Was möchte Emil machen?",
+     "Wo steht die Kanne?",
+     "Finde einen Satz mit einem Fragezeichen.",
+     "Spielt das Gespräch zu zweit."
+    ],
+    "test": [
+     "Wer putzt heute die Tafel?",
+     "Nenne eine Gesprächsregel.",
+     "Wie zeigst du ohne Worte, dass du zuhörst?",
+     "Schreibe eine höfliche Bitte an ein anderes Kind.",
+     "Warum lassen wir andere ausreden?"
+    ]
+   }
+  },
+  "eu-year-at-beginner-1-vocabular": {
+   "de": {
+    "title": "Wörter sammeln: Wortfelder und Sammelwörter",
+    "theory": "Wörter, die sehr oft vorkommen, lernen wir als ganze Wortbilder: ist, und, die, der, das. In Fibeln heißen sie oft Sammelwörter. Andere Wörter ordnen wir in Wortfelder: Kleidung, Spielsachen, Tiere, Essen. So wächst unser Wortschatz Schritt für Schritt.",
+    "sample": "Im Kasten liegen eine Haube, ein Ball, eine Puppe und ein Paar Handschuhe. Die Katze schläft auf dem Sessel.",
+    "worked": "Haube und Handschuhe gehören zum Wortfeld Kleidung. Ball und Puppe sind Spielsachen. Die Katze ist ein Tier. In Österreich sagen wir oft Haube statt Mütze, Kasten statt Schrank und Sessel statt Stuhl. Die und ein lernen wir als Sammelwörter.",
+    "exercises": [
+     "Ordne: Haube, Ball, Katze, Puppe, Hund, Schal.",
+     "Finde im Text zwei Spielsachen.",
+     "Wie sagt man in Österreich oft zur Mütze?",
+     "Nenne drei Dinge zum Essen.",
+     "Finde im Text das Wort die. Wie oft kommt es vor?"
+    ],
+    "test": [
+     "Zu welchem Wortfeld gehört Hose?",
+     "Welches Wort passt nicht: Apfel, Birne, Puppe, Banane?",
+     "Wo schläft die Katze?",
+     "Schreibe zwei Tiere auf.",
+     "Lies schnell: und, ist, die, das."
+    ]
+   }
+  },
+  "eu-year-at-beginner-1-exprimare": {
+   "de": {
+    "title": "Der Satz: großer Anfang, Zeichen am Ende",
+    "theory": "Ein Satz ist eine Sinneinheit. Er beginnt mit einem großen Buchstaben und endet mit einem Punkt, einem Fragezeichen oder einem Rufzeichen. Namen schreiben wir immer groß. Beim Sprechen machen wir Pausen, beim Schreiben setzen wir Satzzeichen.",
+    "sample": "Lena hat heute Geburtstag. Wer kommt zur Feier? Juhu, alle kommen!",
+    "worked": "Der Text hat drei Sätze. Jeder beginnt groß: Lena, Wer, Juhu. Der erste Satz erzählt etwas und endet mit einem Punkt. Der zweite fragt und endet mit einem Fragezeichen. Der dritte ruft vor Freude und endet mit einem Rufzeichen. Lena ist ein Name.",
+    "exercises": [
+     "Wie viele Sätze hat der Text?",
+     "Setze das richtige Zeichen: Hast du einen Hund",
+     "Schreibe richtig: tim spielt fußball",
+     "Finde den Namen im Text.",
+     "Welcher Satz ist eine Frage?"
+    ],
+    "test": [
+     "Womit beginnt jeder Satz?",
+     "Welches Zeichen steht nach einem Ausruf?",
+     "Schreibe richtig: der ball ist rot",
+     "Warum schreibt man Lena groß?",
+     "Schreibe einen Satz über dein Lieblingsessen."
+    ]
+   }
+  },
+  "eu-year-at-beginner-1-redactare": {
+   "de": {
+    "title": "Vom Erzählen zum Schreiben",
+    "theory": "Zuerst erzählen wir mündlich, was wir erlebt haben. Dann zeichnen wir ein Bild dazu oder schreiben ein bis drei einfache Sätze. Satzmuster helfen dabei: Ich war ... Ich habe ... Es war ... Zum Schluss lesen wir unseren Text noch einmal durch.",
+    "sample": "Ich war am Sonntag im Tiergarten. Ich habe einen Elefanten gesehen. Es war lustig.",
+    "worked": "Das Kind erzählt zuerst mündlich vom Ausflug. Dann schreibt es drei Sätze mit den Satzmustern Ich war ..., Ich habe ... und Es war ... Jeder Satz beginnt groß und endet mit einem Punkt. Beim Durchlesen prüft es: Fehlt ein Wort?",
+    "exercises": [
+     "Wo war das Kind am Sonntag?",
+     "Welches Tier hat es gesehen?",
+     "Schreibe einen Satz mit: Ich war ...",
+     "Zeichne etwas, das du am Wochenende erlebt hast.",
+     "Ergänze: Es war ..."
+    ],
+    "test": [
+     "Was machen wir, bevor wir schreiben?",
+     "Nenne ein Satzmuster aus dem Beispiel.",
+     "Schreibe zwei Sätze über deinen Schulweg.",
+     "Was prüfst du beim Durchlesen?",
+     "Erzähle einem Kind in einem Satz, was du gestern gemacht hast."
+    ]
+   }
+  },
+  "eu-year-at-beginner-1-interpretare": {
+   "de": {
+    "title": "Bücher entdecken und auswählen",
+    "theory": "In der Klassenbibliothek oder in der Bücherei wählen wir Bücher aus. Wir schauen auf das Titelbild und den Titel und überlegen: Worum geht es wohl? Es gibt Bilderbücher, Sachbücher und Hörbücher. Wir sagen, warum uns ein Buch gefällt, und hören, was andere wählen.",
+    "sample": "Auf dem Titelbild sieht man einen kleinen Drachen mit einer Laterne. Der Titel heißt: Der Drache, der sich vor der Nacht fürchtet.",
+    "worked": "Titelbild und Titel helfen beim Vermuten: Es geht wohl um einen Drachen, der im Dunkeln Angst hat. Vielleicht hilft ihm die Laterne. Ob die Vermutung stimmt, sehen wir beim Lesen. Ein Kind sagt: Ich wähle das Buch, weil ich Drachen mag.",
+    "exercises": [
+     "Was sieht man auf dem Titelbild?",
+     "Worum geht es wohl in dem Buch?",
+     "Was ist ein Sachbuch?",
+     "Wähle ein Buch und sage, warum du es magst.",
+     "Wo kannst du Bücher ausleihen?"
+    ],
+    "test": [
+     "Was hilft beim Vermuten?",
+     "Wovor fürchtet sich der Drache?",
+     "Nenne zwei Arten von Büchern.",
+     "Ergänze: Ich wähle das Buch, weil ...",
+     "Wie heißt dein Lieblingsbuch?"
+    ]
+   }
+  },
+  "eu-year-at-beginner-1-verificare": {
+   "de": {
+    "title": "Das kann ich schon",
+    "theory": "Zum Schluss wiederholen wir: Laute hören und Buchstaben zuordnen, Silben schwingen, einer Geschichte folgen, Reime finden, Gesprächsregeln, Wortfelder, großer Satzanfang und Satzzeichen am Ende, kurze Sätze schreiben.",
+    "sample": "Am Morgen packt Nora ihre Schultasche. Sie nimmt die Fibel, die Jause und ihre Federschachtel mit. Dann geht sie mit Opa zur Schule.",
+    "worked": "Wer? Nora. Was macht sie zuerst? Sie packt die Schultasche. Was nimmt sie mit? Fibel, Jause und Federschachtel. Was macht sie dann? Sie geht mit Opa zur Schule. Schul-ta-sche hat drei Silben. Die Jause ist die kleine Mahlzeit für die Pause.",
+    "exercises": [
+     "Schwinge das Wort Schultasche.",
+     "Was nimmt Nora mit?",
+     "Mit wem geht Nora zur Schule?",
+     "Finde ein Wort, das mit dem gleichen Laut beginnt wie Nora.",
+     "Was ist eine Jause?"
+    ],
+    "test": [
+     "Was macht Nora zuerst?",
+     "Wie viele Sätze hat der Text?",
+     "Schreibe richtig: nora geht zur schule",
+     "Zu welchem Wortfeld gehört Federschachtel?",
+     "Schreibe einen Satz über deine Schultasche."
+    ]
+   }
+  }
+ }
+}

@@ -1,7 +1,20 @@
 {
  "schema": "mypocket-literature-authored-catalog/v1",
- "version": "c6906cbe0241015ea3d761907015f3aa8a0b1ede97ab19de6e7fb89ffb69eeae",
+ "version": "5dad75438f436b74eb7f6666a4f0821aa44480d665f9c9dfa312e5b3eb1577cc",
  "years": [
+  {
+   "country": "AT",
+   "stage": "beginner",
+   "grade": "1",
+   "languages": [
+    {
+     "lang": "de",
+     "name": "Deutsch",
+     "file": "de-1",
+     "version": "a18db02cafebf688db3d2384b26d285036b8579e87728be99fbde6597412b4a4"
+    }
+   ]
+  },
   {
    "country": "BE",
    "stage": "beginner",
@@ -142,6 +155,19 @@
    ]
   },
   {
+   "country": "HR",
+   "stage": "beginner",
+   "grade": "1",
+   "languages": [
+    {
+     "lang": "hr",
+     "name": "Hrvatski",
+     "file": "hr-1",
+     "version": "be1d3c0a50e976cf1976142f448f86f0b715e6a5d8ff3eb0289a3afe627355c9"
+    }
+   ]
+  },
+  {
    "country": "IS",
    "stage": "beginner",
    "grade": "1",
@@ -181,6 +207,19 @@
    ]
   },
   {
+   "country": "MD",
+   "stage": "beginner",
+   "grade": "1",
+   "languages": [
+    {
+     "lang": "ro",
+     "name": "Română",
+     "file": "ro-1",
+     "version": "d899b62b4692fc8532950e82efea5fe3eff82f1e7ad6929d47484bf0df9fabd2"
+    }
+   ]
+  },
+  {
    "country": "NO",
    "stage": "beginner",
    "grade": "1",
@@ -200,6 +239,19 @@
    ]
   },
   {
+   "country": "PL",
+   "stage": "beginner",
+   "grade": "I",
+   "languages": [
+    {
+     "lang": "pl",
+     "name": "Polski",
+     "file": "pl-i",
+     "version": "da3c6c93053d66a1d21f1e5f4a01837295bc3fb8e675969c1ef4a842bad86160"
+    }
+   ]
+  },
+  {
    "country": "PT",
    "stage": "beginner",
    "grade": "1",
@@ -213,6 +265,19 @@
    ]
   },
   {
+   "country": "RS",
+   "stage": "beginner",
+   "grade": "1",
+   "languages": [
+    {
+     "lang": "sr",
+     "name": "Српски",
+     "file": "sr-1",
+     "version": "03cf04998cec9f342dcb1f1d4ff6f62426051be272d63a7f6abde68d70a09658"
+    }
+   ]
+  },
+  {
    "country": "SE",
    "stage": "beginner",
    "grade": "1",
@@ -222,6 +287,19 @@
      "name": "Svenska",
      "file": "sv-1",
      "version": "c049c76f7f51faaeb663d59c5459a9571eeefb842d91974a713c2a2d525b44fe"
+    }
+   ]
+  },
+  {
+   "country": "TR",
+   "stage": "beginner",
+   "grade": "1",
+   "languages": [
+    {
+     "lang": "tr",
+     "name": "Türkçe",
+     "file": "tr-1",
+     "version": "e9975485928ddbb85632c63fb941929ad159e7325d07d2d5d296d759941cfb39"
     }
    ]
   }
