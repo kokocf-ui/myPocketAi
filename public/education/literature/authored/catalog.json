@@ -1,6 +1,6 @@
 {
  "schema": "mypocket-literature-authored-catalog/v1",
- "version": "efd7e834ac55dea3f3927112e38e23084a640bc6c5251032dc96a20d9ef82684",
+ "version": "0eca09f713488fccd1737c9ebed37ae0151356876fbcfd8585e8016146e75b62",
  "years": [
   {
    "country": "AD",
@@ -75,6 +75,19 @@
      "name": "Nederlands",
      "file": "nl-1",
      "version": "9d451652eb23a42c7980c04ba5494727c9b996bd1f343be9708aa1903b3a0185"
+    }
+   ]
+  },
+  {
+   "country": "BG",
+   "stage": "beginner",
+   "grade": "1",
+   "languages": [
+    {
+     "lang": "bg",
+     "name": "Български",
+     "file": "bg-1",
+     "version": "735d261fc4dfc5a7bd698bbd969c5e7e0b46632ed14d41bd41c91a0399515874"
     }
    ]
   },
@@ -377,6 +390,19 @@
      "name": "Српски",
      "file": "sr-1",
      "version": "ca4a982e9353c26ea8f55aac04449f7f206f3035a8a3332bff07f7867de4df00"
+    }
+   ]
+  },
+  {
+   "country": "MK",
+   "stage": "beginner",
+   "grade": "1",
+   "languages": [
+    {
+     "lang": "mk",
+     "name": "Македонски",
+     "file": "mk-1",
+     "version": "f7642a7c6430e8aaee3b2c0cd65fbb7de23419a9dac58a0a05dacfb3fa62c247"
     }
    ]
   },
