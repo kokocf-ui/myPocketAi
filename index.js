@@ -15405,8 +15405,10 @@ function litNationalCatalogNow(){
 function litWithNationalYear(proceed){
  if(typeof LIT_NATIONAL_YEAR==='object')LIT_NATIONAL_YEAR.pack=null;
  const country=litJourney.country,stage=litJourney.level,grade=String(litJourney.grade||'');
+ // University study years (uni-ba-N) also open a national pack when the
+ // catalog has one (RO Faculty of Letters); otherwise the generic plan stays.
  if(typeof literatureLoadNationalYear!=='function'||typeof LIT_NATIONAL_YEAR!=='object'||
-    stage==='advanced'||!country||country==='OTHER-EU'){proceed();return}
+    !country||country==='OTHER-EU'){proceed();return}
  const catalog=litNationalCatalogNow();
  litNationalCatalogPrefetch();
  const entry=catalog?.years?.find(y=>y.country===country&&y.stage===stage&&y.grade===grade&&Array.isArray(y.languages)&&y.languages.length)||null;

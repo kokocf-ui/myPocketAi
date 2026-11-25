@@ -128,7 +128,9 @@ if(typeof litOpen==='function'&&typeof LIT_TOPICS==='object'&&
      const card=document.createElement('button');card.type='button';
      card.className='secondary-btn lit-option lit-choice-card';
      card.textContent=(typeof state!=='undefined'&&state.language==='ro')?year.ro:year.en;
-     card.onclick=()=>{litJourney.grade=year.id;litJourney.region='';litJourney.track='TC';litOpen('branches')};
+     card.onclick=()=>{litJourney.grade=year.id;litJourney.region='';litJourney.track='TC';
+      const go=()=>litOpen('branches');
+      if(typeof litWithNationalYear==='function')litWithNationalYear(go);else go()};
      list.append(card);
     }
     const info=document.createElement('p');
@@ -166,7 +168,10 @@ if(typeof litOpen==='function'&&typeof LIT_TOPICS==='object'&&
  };
  litProgram=function(){
   const grade=String(litJourney.grade);
-  if(litJourney.level==='advanced'){
+  const loadedUniversityPack=typeof LIT_NATIONAL_YEAR==='object'&&LIT_NATIONAL_YEAR.pack&&
+   Array.isArray(LIT_NATIONAL_YEAR.pack.units)&&LIT_NATIONAL_YEAR.pack.country===String(litJourney.country)&&
+   LIT_NATIONAL_YEAR.pack.stage==='advanced'&&LIT_NATIONAL_YEAR.pack.grade===grade;
+  if(litJourney.level==='advanced'&&!loadedUniversityPack){
    const university=literatureUniversityPlan(grade,
     typeof state!=='undefined'?String(state.language||'ro'):'ro');
    if(university)return university;
@@ -790,7 +795,9 @@ function litSimpleHeading(panel,title,note){
 function litSimpleWorkspace(panel){
  const branch=litJourney.branch,topic=litCurrentTopic();
  const country=educationCountrySelection.label||litJourney.country;
- panel.append(litSimpleNode('p',country+' · '+litJourney.grade,'lit-activity-note'));
+ const uniYear=typeof LIT_UNIVERSITY_YEARS!=='undefined'?LIT_UNIVERSITY_YEARS.find(y=>y.id===String(litJourney.grade)):null;
+ const yearLabel=uniYear?((typeof state!=='undefined'&&state.language==='ro')?uniYear.ro:uniYear.en):litJourney.grade;
+ panel.append(litSimpleNode('p',country+' · '+yearLabel,'lit-activity-note'));
  if(branch==='literature'){
   litSimpleLiterature(panel,{primary:litJourney.country==='RO'&&Number(litJourney.grade)<=4});
   return;

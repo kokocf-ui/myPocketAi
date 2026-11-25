@@ -24,7 +24,9 @@ export const NATIONAL_PACK_LANGUAGE_NAMES={
  sk:'Slovenčina',sl:'Slovenščina',sq:'Shqip',sr:'Српски',sv:'Svenska',tr:'Türkçe',uk:'Українська'
 };
 // Years displayed by the Literature selector (index.js litOpen('grades')).
-const KNOWN={'RO':{beginner:['1','2','3','4'],lower:['5','6','7','8'],medium:['9','10','11','12']},
+// RO university (Faculty of Letters, Licență I–III) uses the study-year ids
+// of the university selector (literature_university_years.mjs).
+const KNOWN={'RO':{beginner:['1','2','3','4'],lower:['5','6','7','8'],medium:['9','10','11','12'],advanced:['uni-ba-1','uni-ba-2','uni-ba-3']},
  'GB-ENG':{beginner:['Y1','Y2','Y3','Y4','Y5','Y6'],lower:['Y7','Y8','Y9'],medium:['Y10','Y11','Y12','Y13']},
  'FR':{beginner:['CP','CE1','CE2','CM1','CM2'],lower:['6e','5e','4e','3e'],medium:['2nde','1re','terminale']}};
 export function displayedYears(country,stage){
@@ -62,7 +64,8 @@ export async function collectNationalPacks(){
    if(pack.country!==country)fail('country mismatch');
    if(pack.sourceLanguage!==lang)fail('sourceLanguage must equal file prefix '+lang);
    if(!NATIONAL_PACK_LANGUAGE_NAMES[lang])fail('language name missing for '+lang);
-   if(!['beginner','lower','medium'].includes(pack.stage))fail('stage');
+   if(!['beginner','lower','medium','advanced'].includes(pack.stage))fail('stage');
+   if(pack.stage==='advanced'&&!(KNOWN[country]?.advanced||[]).includes(pack.grade))fail('university years need an explicit study-year list');
    if(slugOf(pack.grade)!==slug)fail('grade/file mismatch');
    if(!displayedYears(country,pack.stage).includes(pack.grade))fail('year '+pack.grade+' is not offered by the selector');
    if(!(typeof pack.status==='string'&&/review-pending|reviewed/.test(pack.status)))fail('status must state review state');
