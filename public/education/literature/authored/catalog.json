@@ -1,6 +1,6 @@
 {
  "schema": "mypocket-literature-authored-catalog/v1",
- "version": "eab04d2db35554454cfd2d2e666ae12dd9ed77fdfd1d9582b35786d650d31ac7",
+ "version": "37b1f6332f112248e5784c505420b4bd22b5fa0d40d122a924b5e1b1ceb6f3b3",
  "years": [
   {
    "country": "AD",
@@ -143,6 +143,19 @@
    ]
   },
   {
+   "country": "CY",
+   "stage": "beginner",
+   "grade": "1",
+   "languages": [
+    {
+     "lang": "el",
+     "name": "Ελληνικά",
+     "file": "el-1",
+     "version": "590411f1e5dbea83f56016f669a670426f2b88cf35c6647300dbcd4181ece3f6"
+    }
+   ]
+  },
+  {
    "country": "CZ",
    "stage": "beginner",
    "grade": "1",
@@ -280,6 +293,19 @@
      "name": "English",
      "file": "en-y1",
      "version": "f9090e6b1e5729a5284aee04088c7e39fd83bc056cd162fe0b5ae90cdfc0daf0"
+    }
+   ]
+  },
+  {
+   "country": "GR",
+   "stage": "beginner",
+   "grade": "1",
+   "languages": [
+    {
+     "lang": "el",
+     "name": "Ελληνικά",
+     "file": "el-1",
+     "version": "872ea67cd7c26a07650ba92579353fa4f87c13093b51f42754b5d4a25d3a571c"
     }
    ]
   },
