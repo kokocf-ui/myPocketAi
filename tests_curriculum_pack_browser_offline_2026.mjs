@@ -107,6 +107,33 @@ try {
   await click(page.locator('#view-module .math-choice-row').filter({hasText:'Algebră'}).first());
   assert.ok((await page.locator('#view-module .math-choice-row strong').allTextContents()).some(t=>t.includes('Actualizare independentă: Multiplii și divizorii')),'Reader navigation must use the updated pack without changing the frontend');
 
+  // A known but missing year pack is disclosed, not silently presented as complete.
+  const missingContext=await browser.newContext({viewport:{width:390,height:844},isMobile:true,hasTouch:true,locale:'ro-RO'});
+  const missingPage=await missingContext.newPage();let blockHU=true;
+  await missingPage.route('**/api/curriculum-pack?**',async route=>{
+    const q=new URL(route.request().url()).searchParams;
+    if(blockHU&&q.get('subject')==='mathematics'&&q.get('country')==='HU'&&q.get('grade')==='5')return route.abort();
+    return route.continue();
+  });
+  await missingPage.goto(origin+'/?nativeLaunch=1&mathQa=1',{waitUntil:'domcontentloaded'});
+  await click(missingPage.locator('[data-module="learning"]').first());
+  const missingNotice=missingPage.locator('#education-first-use-notice');
+  if(await missingNotice.count()){await missingNotice.locator('button').first().click();await missingNotice.waitFor({state:'detached'})}
+  await click(missingPage.locator('#view-module .education-card').filter({hasText:'Matematică'}).first());
+  await missingPage.locator('#eduCountryInput').fill('Ungaria');
+  await click(missingPage.locator('#view-module .edu-country-matches button').filter({hasText:'Ungaria'}).first());
+  await click(missingPage.locator('#view-module button').filter({hasText:'Continuă'}).first());
+  await click(missingPage.locator('#view-module .math-choice-row').nth(1));
+  await missingPage.locator('#view-module .edu-grade-panel input').fill('5');
+  await click(missingPage.locator('#view-module .edu-grade-choice-grid button').first());
+  const missingWarning=missingPage.locator('.edu-pack-unavailable');
+  await missingWarning.waitFor({state:'visible',timeout:10000});
+  assert.match(await missingWarning.innerText(),/generale sau incomplete/);
+  blockHU=false;await click(missingWarning.locator('button'));await missingWarning.waitFor({state:'detached',timeout:10000});
+  await click(missingPage.locator('#view-module .math-choice-row').filter({hasText:'Algebră'}).first());
+  assert.ok((await missingPage.locator('#view-module .math-choice-row strong').allTextContents()).some(t=>t.includes('Valoarea pozițională și ordonarea numerelor naturale')),'Retry must restore the actual year-pack reader');
+  await missingContext.close();
+
   // Phase 2: Disconnect network completely (airplane mode) and verify cached HU Grade 5 works 100% offline!
   const beforeOfflinePackRequests = packRequests;
   await context.setOffline(true);
