@@ -1,6 +1,6 @@
 {
  "schema": "mypocket-literature-authored-catalog/v1",
- "version": "c8b20664777020ba3eecc5b363c94887fa32e51b6e47bd9686264d7f193e50df",
+ "version": "047d390ed9d9784b5b12536b56a8c0f065e41ac6429516d39b83df7a73af0885",
  "years": [
   {
    "country": "AT",
@@ -30,7 +30,7 @@
      "lang": "fr",
      "name": "Français",
      "file": "fr-1",
-     "version": "c66b09ebbd0c084efa2df8a7af91fa66e045db9d82ed0b1da07b5463de3037e1"
+     "version": "f059738dfd9b1611a36a95a32226a1daa798b8548f7ce2367654d41ae55c286e"
     },
     {
      "lang": "nl",
@@ -55,7 +55,7 @@
      "lang": "fr",
      "name": "Français",
      "file": "fr-1",
-     "version": "3e88a6876b845d4cb031dbc774d20cfda2416d97f96a8a9d4aed6d05dcdaf2c4"
+     "version": "f06d7efb32b01088d79e4670c8b2b6d6792c97e572367a933e623f95d6a04685"
     },
     {
      "lang": "it",

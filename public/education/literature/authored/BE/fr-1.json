@@ -3,238 +3,1358 @@
  "country": "BE",
  "stage": "beginner",
  "grade": "1",
- "version": "c66b09ebbd0c084efa2df8a7af91fa66e045db9d82ed0b1da07b5463de3037e1",
+ "version": "f059738dfd9b1611a36a95a32226a1daa798b8548f7ce2367654d41ae55c286e",
  "source": "https://www.enseignement.be/parcours-dapprentissage/maternel-et-primaire-ordinaire/organisation-de-lenseignement-maternel-et-primaire/contenus-dapprentissage",
- "sourceTitle": "Fédération Wallonie-Bruxelles : référentiel de Français, 1re primaire (cadre uniquement ; activités originales)",
+ "sourceTitle": "Fédération Wallonie-Bruxelles : Référentiel de Français et Langues anciennes du tronc commun (en vigueur en 1re et 2e primaires) — parler, écouter, lire, écrire, fonctionnement de la langue, culture littéraire ; progression comme dans les méthodes de lecture de 1re primaire (voyelles, consonnes, sons complexes, lettres muettes, genre et nombre, premiers textes) ; activités originales, aucun texte copié des manuels",
  "status": "partial-original-material-independent-review-pending",
  "sourceLanguage": "fr",
  "labels": [
   "Activité originale indicative · Belgique (FWB) · 1re primaire",
-  "Pour apprendre",
+  "Apprenons",
   "Exemple original",
   "Explication",
   "Exercices",
-  "Je vérifie",
-  "Activités originales, pas une épreuve officielle. Lis avec un adulte si tu en as besoin."
+  "Vérifie ce que tu sais",
+  "Activités originales, pas une épreuve officielle. Lis avec un adulte si tu en as besoin.",
+  "Si tu n’as pas compris : pas à pas",
+  "Corrigé (à regarder seulement quand tu as fini)"
+ ],
+ "units": [
+  {
+   "title": "La rentrée",
+   "keys": [
+    "eu-year-be-beginner-1-l01",
+    "eu-year-be-beginner-1-l02",
+    "eu-year-be-beginner-1-l03"
+   ]
+  },
+  {
+   "title": "Les voyelles et les premières consonnes",
+   "keys": [
+    "eu-year-be-beginner-1-l04",
+    "eu-year-be-beginner-1-l05",
+    "eu-year-be-beginner-1-l06",
+    "eu-year-be-beginner-1-l07",
+    "eu-year-be-beginner-1-l08",
+    "eu-year-be-beginner-1-l09"
+   ]
+  },
+  {
+   "title": "Les sons à deux lettres",
+   "keys": [
+    "eu-year-be-beginner-1-l10",
+    "eu-year-be-beginner-1-l11",
+    "eu-year-be-beginner-1-l12",
+    "eu-year-be-beginner-1-l13",
+    "eu-year-be-beginner-1-l14",
+    "eu-year-be-beginner-1-l15"
+   ]
+  },
+  {
+   "title": "D’autres sons",
+   "keys": [
+    "eu-year-be-beginner-1-l16",
+    "eu-year-be-beginner-1-l17",
+    "eu-year-be-beginner-1-l18",
+    "eu-year-be-beginner-1-l19",
+    "eu-year-be-beginner-1-l20",
+    "eu-year-be-beginner-1-l21"
+   ]
+  },
+  {
+   "title": "Écrire juste",
+   "keys": [
+    "eu-year-be-beginner-1-l22",
+    "eu-year-be-beginner-1-l23",
+    "eu-year-be-beginner-1-l24",
+    "eu-year-be-beginner-1-l25",
+    "eu-year-be-beginner-1-l26"
+   ]
+  },
+  {
+   "title": "Lire et écouter des textes",
+   "keys": [
+    "eu-year-be-beginner-1-l27",
+    "eu-year-be-beginner-1-l28",
+    "eu-year-be-beginner-1-l29",
+    "eu-year-be-beginner-1-l30",
+    "eu-year-be-beginner-1-l31"
+   ]
+  },
+  {
+   "title": "Écrire et communiquer",
+   "keys": [
+    "eu-year-be-beginner-1-l32",
+    "eu-year-be-beginner-1-l33",
+    "eu-year-be-beginner-1-l34",
+    "eu-year-be-beginner-1-l35"
+   ]
+  },
+  {
+   "title": "Fin d’année",
+   "keys": [
+    "eu-year-be-beginner-1-l36"
+   ]
+  }
  ],
  "chapters": {
-  "eu-year-be-beginner-1-parcurs": {
+  "eu-year-be-beginner-1-l01": {
    "fr": {
-    "title": "Sons, lettres et syllabes",
-    "theory": "Les mots sont faits de sons. On écrit les sons avec des lettres. Certains sons s’écrivent avec deux lettres : ou, on, ch, an. Pour lire un mot nouveau, on lit syllabe par syllabe, puis on assemble : ca-na-pé donne canapé.",
-    "sample": "Papa a un sac rouge. Dans le sac, il y a une pomme et un chou.",
-    "worked": "Rou-ge a deux syllabes. Pom-me aussi. Dans rouge et chou, on entend le son ou, écrit avec deux lettres. Dans chou, ch fait un seul son.",
+    "title": "Se présenter et respecter les règles",
+    "theory": "Les premiers jours, on fait connaissance. On dit son prénom avec une phrase complète : Je m’appelle… On se met d’accord sur les règles de la classe : lever le doigt pour parler, écouter les autres, ne pas couper la parole et parler d’une voix claire.",
+    "sample": "Je m’appelle Lina. J’ai six ans. J’aime dessiner des dauphins. À côté de moi, il y a Hugo.",
+    "worked": "Lina se présente en quatre phrases courtes : son prénom, son âge, ce qu’elle aime et qui est assis à côté d’elle. Pendant qu’elle parle, elle regarde la classe. Chaque phrase commence par une majuscule et se termine par un point.",
     "exercises": [
-     "Frappe les syllabes de canapé.",
-     "Trouve deux mots avec le son ou.",
-     "Découpe en syllabes : pomme, rouge, papa.",
-     "Trouve un mot avec ch.",
-     "Lis à voix haute : ma, mé, mi, mo, mu."
+     "Présente-toi en deux phrases.",
+     "Dis ce que tu aimes faire.",
+     "Dis le prénom de ton voisin.",
+     "Montre comment tu lèves le doigt.",
+     "Répète ce qu’un camarade a dit."
     ],
     "test": [
-     "Combien de syllabes a canapé ?",
-     "Qu’y a-t-il dans le sac ?",
-     "Quelles lettres font le son ou ?",
-     "Écris un mot qui commence par la syllabe la.",
-     "Assemble les syllabes : vé-lo."
+     "Quel âge a Lina ?",
+     "Que fait-on quand on veut parler ?",
+     "Pourquoi ne coupe-t-on pas la parole ?",
+     "Qu’aimes-tu faire ?",
+     "Qui est assis à côté de Lina ?"
+    ],
+    "steps": [
+     "Commence par ton prénom : Je m’appelle…",
+     "Ajoute ton âge et ce que tu aimes.",
+     "Quand quelqu’un parle, écoute-le jusqu’au bout.",
+     "Attention : réponds par une phrase complète, pas par un seul mot."
+    ],
+    "answers": [
+     "Six ans.",
+     "On lève le doigt et on attend son tour.",
+     "Pour que tout le monde puisse parler et être compris.",
+     "Ta réponse. Par exemple : J’aime jouer au foot.",
+     "Hugo."
     ]
    }
   },
-  "eu-year-be-beginner-1-intelegere": {
+  "eu-year-be-beginner-1-l02": {
    "fr": {
-    "title": "Je lis et je comprends un petit texte",
-    "theory": "Quand tu lis, arrête-toi à chaque point et demande-toi : de qui parle-t-on ? Que se passe-t-il ? Où ? La réponse est dans le texte. Si le texte ne le dit pas, on n’invente pas.",
-    "sample": "Noé va à la mer avec sa mamie. Il a un seau vert. Sur la plage, il fait un château avec Lou.",
-    "worked": "De qui parle-t-on ? De Noé. Avec qui va-t-il ? Avec sa mamie. Qu’a-t-il ? Un seau vert. Que fait-il ? Un château. Le texte ne dit pas l’âge de Noé.",
+    "title": "Écouter les sons et les syllabes",
+    "theory": "Les mots sont faits de sons. On peut les découper en syllabes en frappant dans les mains : pa-pa a deux syllabes, cho-co-lat en a trois. Deux mots riment quand ils finissent par le même son : bateau et gâteau, souris et tapis.",
+    "sample": "bateau, gâteau, souris, tapis, lune, plume, chat, rat",
+    "worked": "Bateau et gâteau finissent par le son o : ils riment. Souris et tapis finissent par le son i. Lune et plume finissent par -une et -ume : on entend le même son u à la fin. Chat a une seule syllabe.",
     "exercises": [
-     "Avec qui Noé va-t-il à la mer ?",
-     "De quelle couleur est le seau ?",
-     "Que fait Noé sur la plage ?",
-     "Avec qui joue-t-il ?",
-     "Souligne la phrase qui dit ce que Noé a."
+     "Frappe les syllabes de tomate.",
+     "Trouve un mot qui rime avec bateau.",
+     "Par quel son commence lune ?",
+     "Trouve dans la classe un objet qui commence par le son p.",
+     "Lève la main si les mots riment : chat – rat."
     ],
     "test": [
-     "Le texte dit-il l’âge de Noé ?",
-     "Le seau est-il bleu ? Comment le sais-tu ?",
-     "Où Noé fait-il le château ?",
-     "Trouve un mot de la famille.",
-     "Dessine la scène et écris un mot."
+     "Combien de syllabes dans chat ?",
+     "Bateau et gâteau riment-ils ?",
+     "Par quel son commence souris ?",
+     "Dis un mot qui commence par le son m.",
+     "Quel mot ne rime pas : souris, tapis, lune ?"
+    ],
+    "steps": [
+     "Dis le mot lentement en frappant une fois dans les mains pour chaque morceau.",
+     "Compte les frappes : ce sont les syllabes.",
+     "Pour la rime, écoute seulement la fin des mots.",
+     "Attention : écoute le son, ne regarde pas seulement l’image ; dis toujours le mot à voix haute."
+    ],
+    "answers": [
+     "Une.",
+     "Oui.",
+     "s.",
+     "Ta réponse. Par exemple : maman, moto, mur.",
+     "lune."
     ]
    }
   },
-  "eu-year-be-beginner-1-narativ": {
+  "eu-year-be-beginner-1-l03": {
    "fr": {
-    "title": "Personnages et événements d’une histoire",
-    "theory": "Les personnages sont les personnes ou les animaux de l’histoire. Les événements, c’est ce qui se passe. Pour raconter dans l’ordre, on utilise : d’abord, ensuite, puis, à la fin.",
-    "sample": "D’abord, un hérisson perd sa pomme. Ensuite, un lapin la trouve sous une feuille. Puis le lapin la rapporte. À la fin, le hérisson dit merci.",
-    "worked": "Les personnages sont le hérisson et le lapin. D’abord : le hérisson perd la pomme. Ensuite : le lapin la trouve. Puis : il la rapporte. À la fin : le hérisson dit merci.",
+    "title": "Le graphisme : préparer la main à écrire",
+    "theory": "Avant les lettres, on trace des graphismes : traits, vagues, ronds, ponts et boucles. On tient le crayon avec trois doigts, sans serrer. On s’assied bien droit, les pieds au sol. On écrit de gauche à droite.",
+    "sample": "Ligne 1 : des vagues comme la mer. / Ligne 2 : des ponts comme des arches. / Ligne 3 : des ronds comme des ballons.",
+    "worked": "Les vagues, les ponts et les ronds se retrouvent ensuite dans les lettres : le rond dans le o, le pont dans le n et la boucle dans le l. En s’entraînant maintenant, on écrira mieux plus tard. Chaque ligne commence à gauche.",
     "exercises": [
+     "Trace une ligne de vagues.",
+     "Dessine cinq ballons.",
+     "Trace un grand pont dans l’air avec ton doigt.",
+     "Montre comment tu tiens ton crayon.",
+     "Fais des boucles sur toute la ligne."
+    ],
+    "test": [
+     "Avec combien de doigts tient-on le crayon ?",
+     "De quel côté commence-t-on à écrire ?",
+     "Quelle forme a un ballon ?",
+     "Comment s’assied-on pour écrire ?",
+     "Que fais-tu si ta main est fatiguée ?"
+    ],
+    "steps": [
+     "Assieds-toi bien droit, les pieds posés au sol.",
+     "Tiens le crayon entre le pouce, l’index et le majeur, sans serrer trop fort.",
+     "Commence à gauche et avance doucement vers la droite.",
+     "Attention : si ta main est fatiguée, secoue-la un instant puis recommence."
+    ],
+    "answers": [
+     "Avec trois doigts.",
+     "À gauche.",
+     "Un rond.",
+     "Bien droit, les pieds au sol.",
+     "Je la secoue un peu et je fais une pause."
+    ]
+   }
+  },
+  "eu-year-be-beginner-1-l04": {
+   "fr": {
+    "title": "Les voyelles : a, e, i, o, u, y",
+    "theory": "Les voyelles sont a, e, i, o, u et y. On les prononce la bouche ouverte, sans que la langue ou les lèvres arrêtent l’air. Tous les mots ont au moins une voyelle. Le é avec un accent aigu se dit comme dans école.",
+    "sample": "A E I O U Y / ami, école, île, olive, usine, vélo",
+    "worked": "Ami commence par a, école par é, île par i, olive par o et usine par u. Dans vélo, on entend é et o. Le y se lit souvent comme un i : un pyjama. Les voyelles sont le cœur des mots.",
+    "exercises": [
+     "Dis les six voyelles.",
+     "Écris le A majuscule et le a minuscule.",
+     "Par quelle voyelle commence usine ?",
+     "Trouve un mot qui commence par o.",
+     "Arrondis la bouche et dis : o."
+    ],
+    "test": [
+     "Combien y a-t-il de voyelles ?",
+     "Par quelle voyelle commence olive ?",
+     "Tous les mots ont-ils une voyelle ?",
+     "Comment se lit le y dans pyjama ?",
+     "Lis : ami, île, vélo."
+    ],
+    "steps": [
+     "Les voyelles sont a, e, i, o, u, y : dis-les dans l’ordre.",
+     "Regarde ta bouche dans un miroir : ronde pour o, souriante pour i.",
+     "Pour trouver la première voyelle, dis le mot lentement.",
+     "Attention : e et é ne se disent pas pareil ; écoute bien : petit, école."
+    ],
+    "answers": [
+     "Six.",
+     "o.",
+     "Oui.",
+     "Comme un i.",
+     "a-mi, île, vé-lo."
+    ]
+   }
+  },
+  "eu-year-be-beginner-1-l05": {
+   "fr": {
+    "title": "Le l et le r : lune et rat",
+    "theory": "Le l se dit avec la langue en haut, derrière les dents. Le r se dit au fond de la gorge. Une consonne avec une voyelle forme une syllabe : l + a = la, r + i = ri. Avec des syllabes, on lit des mots : lola, rira, lira.",
+    "sample": "la le li lo lu / ra re ri ro ru / Lola a lu. / Le rat rit.",
+    "worked": "On lit de gauche à droite : d’abord la consonne, ensuite la voyelle. Lola est un prénom : il commence par une majuscule. Dans le rat rit, on entend deux fois r. Chaque phrase se termine par un point.",
+    "exercises": [
+     "Lis : la, le, li, lo, lu.",
+     "Lis : ra, re, ri, ro, ru.",
+     "Assemble : l + i.",
+     "Écris le L majuscule.",
+     "Trouve un mot avec r."
+    ],
+    "test": [
+     "Qu’a fait Lola ?",
+     "Que fait le rat ?",
+     "Que forment une consonne et une voyelle ?",
+     "Lis : lire, rare, rôle.",
+     "Pourquoi Lola a-t-il une majuscule ?"
+    ],
+    "steps": [
+     "Dis le son de la consonne puis tout de suite la voyelle : l-a = la.",
+     "Assemble deux syllabes pour lire un mot : Lo-la.",
+     "Lis toujours de gauche à droite.",
+     "Attention : la et al ont les mêmes lettres, mais l’ordre change la syllabe."
+    ],
+    "answers": [
+     "Elle a lu.",
+     "Il rit.",
+     "Une syllabe.",
+     "li-re, ra-re, rô-le.",
+     "Parce que c’est un prénom."
+    ]
+   }
+  },
+  "eu-year-be-beginner-1-l06": {
+   "fr": {
+    "title": "Le m et le s : maman et sac",
+    "theory": "Le m se dit lèvres fermées : mmm. Le s siffle comme un serpent : sss. Au début d’un mot, le s fait toujours sss : sac, salade, sol. Nouveaux mots : maman, mardi, ami, sac, salade.",
+    "sample": "Maman a un sac. / Sami lit sur le sofa. / La salade est là.",
+    "worked": "Maman et mardi commencent par m. Sac, Sami, sofa et salade commencent par s. Le mot est se lit è. Sami est un prénom : il commence par une majuscule.",
+    "exercises": [
+     "Lis : ma, me, mi, mo, mu.",
+     "Lis : sa, se, si, so, su.",
+     "Lis : maman, salade, sol.",
+     "Écris le mot sac.",
+     "Trouve un mot avec m."
+    ],
+    "test": [
+     "Qu’a maman ?",
+     "Où lit Sami ?",
+     "Où est la salade ?",
+     "Lis : lime, rose, masse.",
+     "Par quelle lettre commence sofa ?"
+    ],
+    "steps": [
+     "Pour le m, ferme les lèvres et fais vibrer : mmm.",
+     "Pour le s, fais siffler un serpent : sss.",
+     "Lis les nouvelles syllabes puis assemble-les : sa-la-de.",
+     "Attention : m et n se ressemblent ; le m a deux ponts, le n un seul."
+    ],
+    "answers": [
+     "Un sac.",
+     "Sur le sofa.",
+     "Là.",
+     "li-me, ro-se, mas-se.",
+     "s."
+    ]
+   }
+  },
+  "eu-year-be-beginner-1-l07": {
+   "fr": {
+    "title": "Le t et le p : tomate et papa",
+    "theory": "Le t se dit avec le bout de la langue contre les dents, sans voix. Le p se dit en fermant les lèvres puis en soufflant. Nouveaux mots : tomate, tapis, papa, pomme, pipe, pirate.",
+    "sample": "Papa lave une tomate. / Le pirate a une pipe. / Le tapis est petit.",
+    "worked": "Tomate, tapis et petit ont le son t. Papa, pirate et pipe ont le son p. On lit les syllabes une à une : to-ma-te, pi-ra-te.",
+    "exercises": [
+     "Lis : ta, te, ti, to, tu.",
+     "Lis : pa, pe, pi, po, pu.",
+     "Lis : tomate, papa, pirate.",
+     "Écris le mot tapis.",
+     "Découpe en syllabes : tomate."
+    ],
+    "test": [
+     "Que lave papa ?",
+     "Qu’a le pirate ?",
+     "Comment est le tapis ?",
+     "Combien de syllabes dans pirate ?",
+     "Lis : patte, tortue, pomme."
+    ],
+    "steps": [
+     "Pour le t, pose le bout de la langue contre les dents.",
+     "Pour le p, ferme les lèvres puis souffle un petit coup.",
+     "Lis le mot syllabe par syllabe : pi-ra-te.",
+     "Attention : p et b se ressemblent ; le p n’a pas de voix, mets la main sur ta gorge pour sentir."
+    ],
+    "answers": [
+     "Une tomate.",
+     "Une pipe.",
+     "Petit.",
+     "Trois : pi-ra-te.",
+     "pat-te, tor-tue, pom-me."
+    ]
+   }
+  },
+  "eu-year-be-beginner-1-l08": {
+   "fr": {
+    "title": "Le n et le d : nid et dé",
+    "theory": "Le n se dit avec la langue en haut et l’air qui passe par le nez. Le d se dit comme le t, mais avec la voix. Nouveaux mots : nid, nuit, Noé, dé, dame, domino, salade.",
+    "sample": "Noé joue aux dominos. / La dame a un dé. / Le nid est dans l’arbre.",
+    "worked": "Noé, nid et nuit commencent par n. Dé, dame et domino commencent par d. Dans le mot dé, l’accent sur le e fait le son é.",
+    "exercises": [
+     "Lis : na, ne, ni, no, nu.",
+     "Lis : da, de, di, do, du.",
+     "Lis : nid, dé, domino.",
+     "Écris le mot dame.",
+     "Trouve un mot avec d."
+    ],
+    "test": [
+     "À quoi joue Noé ?",
+     "Qu’a la dame ?",
+     "Où est le nid ?",
+     "Lis : midi, note, dune.",
+     "Combien de syllabes dans domino ?"
+    ],
+    "steps": [
+     "Pour le n, mets la langue en haut et laisse passer l’air par le nez.",
+     "Pour le d, fais comme pour le t mais avec la voix.",
+     "Assemble les syllabes pour lire : do-mi-no.",
+     "Attention : b et d se confondent ; le d a son ventre à gauche."
+    ],
+    "answers": [
+     "Aux dominos.",
+     "Un dé.",
+     "Dans l’arbre.",
+     "mi-di, no-te, du-ne.",
+     "Trois : do-mi-no."
+    ]
+   }
+  },
+  "eu-year-be-beginner-1-l09": {
+   "fr": {
+    "title": "Le v et le f : vélo et fée",
+    "theory": "Le v et le f se disent avec les dents du haut sur la lèvre du bas. Pour le f, seul l’air passe ; pour le v, la gorge vibre. Nouveaux mots : vélo, vache, lavabo, fée, fil, farine.",
+    "sample": "La fée a une farine magique. / Victor va à vélo. / La vache est dans le pré.",
+    "worked": "Fée, farine et fil commencent par f. Victor, va, vélo et vache commencent par v. Si on met la main sur la gorge, on sent vibrer avec le v, pas avec le f.",
+    "exercises": [
+     "Dis avec la main sur la gorge : fff, vvv.",
+     "Lis : vélo, vache, lavabo.",
+     "Lis : fée, fil, farine.",
+     "Écris le mot vélo.",
+     "Trouve un mot avec f."
+    ],
+    "test": [
+     "Qu’a la fée ?",
+     "Comment va Victor ?",
+     "Où est la vache ?",
+     "Lis : fête, olive, café.",
+     "Par quelle lettre commence vache ?"
+    ],
+    "steps": [
+     "Pose les dents du haut sur la lèvre du bas.",
+     "Avec f, seul l’air sort ; avec v, la gorge vibre.",
+     "Écoute bien le mot avant de choisir la lettre.",
+     "Attention : f et v se confondent ; touche ta gorge pour sentir la vibration du v."
+    ],
+    "answers": [
+     "Une farine magique.",
+     "À vélo.",
+     "Dans le pré.",
+     "fê-te, o-li-ve, ca-fé.",
+     "v."
+    ]
+   }
+  },
+  "eu-year-be-beginner-1-l10": {
+   "fr": {
+    "title": "Le son ou : loup et poule",
+    "theory": "Deux voyelles peuvent former un seul son. Le o et le u ensemble font le son ou, comme dans loup. Nouveaux mots : loup, poule, roue, soupe, mouton, tour.",
+    "sample": "Le loup a vu une poule. / La soupe est trop chaude. / Le mouton tourne en rond.",
+    "worked": "Loup, poule, soupe, mouton et tourne ont le son ou. On lit les deux lettres ensemble, comme un seul son. Si on lisait o puis u, on ne comprendrait pas le mot.",
+    "exercises": [
+     "Lis : lou, mou, sou, tou, pou.",
+     "Lis : loup, poule, roue.",
+     "Écris le mot soupe.",
+     "Découpe en syllabes : mouton.",
+     "Trouve un autre mot avec ou."
+    ],
+    "test": [
+     "Qu’a vu le loup ?",
+     "Comment est la soupe ?",
+     "Que fait le mouton ?",
+     "Combien de lettres pour écrire le son ou ?",
+     "Lis : nous, route, foulard."
+    ],
+    "steps": [
+     "Quand tu vois o et u collés, lis-les comme un seul son : ou.",
+     "Lis la syllabe : l + ou = lou.",
+     "Puis lis le mot entier : loup.",
+     "Attention : dans loup, le p ne se prononce pas ; c’est une lettre muette."
+    ],
+    "answers": [
+     "Une poule.",
+     "Trop chaude.",
+     "Il tourne en rond.",
+     "Deux : o et u.",
+     "nous, rou-te, fou-lard."
+    ]
+   }
+  },
+  "eu-year-be-beginner-1-l11": {
+   "fr": {
+    "title": "Le son ch : chat et cheval",
+    "theory": "Le c et le h ensemble font un seul son : ch, comme dans chat. Nouveaux mots : chat, chien, cheval, vache, niche, chocolat.",
+    "sample": "Le chat dort sur la chaise. / Le chien est dans sa niche. / Charlotte mange du chocolat.",
+    "worked": "Chat, chaise, chien, niche, Charlotte et chocolat ont le son ch. On lit les deux lettres ensemble. Dans chat, le t est muet : on ne l’entend pas.",
+    "exercises": [
+     "Lis : cha, che, chi, cho, chu.",
+     "Lis : chat, chien, cheval.",
+     "Écris le mot niche.",
+     "Découpe en syllabes : chocolat.",
+     "Trouve un autre mot avec ch."
+    ],
+    "test": [
+     "Où dort le chat ?",
+     "Où est le chien ?",
+     "Que mange Charlotte ?",
+     "Combien de sons fait ch ?",
+     "Lis : vache, mouche, chemise."
+    ],
+    "steps": [
+     "Quand tu vois c et h ensemble, lis-les comme un seul son.",
+     "Lis les syllabes : cha, che, chi, cho, chu.",
+     "Puis lis le mot : che-val.",
+     "Attention : ch et j ne se disent pas pareil ; écoute : chat, joue."
+    ],
+    "answers": [
+     "Sur la chaise.",
+     "Dans sa niche.",
+     "Du chocolat.",
+     "Un seul son.",
+     "va-che, mou-che, che-mi-se."
+    ]
+   }
+  },
+  "eu-year-be-beginner-1-l12": {
+   "fr": {
+    "title": "Le son on : ballon et pompier",
+    "theory": "Le o et le n ensemble font le son on, comme dans ballon. Devant m, b et p, on écrit om : pompier, nombre. Nouveaux mots : ballon, mouton, bonbon, pont, pompier, ombre.",
+    "sample": "Le pompier monte sur le pont. / Léon a un ballon rond. / Le mouton mange un bonbon.",
+    "worked": "Ballon, rond, mouton, bonbon, pont, Léon et monte ont le son on. Pompier s’écrit avec om parce qu’il y a un p juste après.",
+    "exercises": [
+     "Lis : bon, mon, ton, son, rond.",
+     "Lis : ballon, pont, bonbon.",
+     "Écris le mot mouton.",
+     "Complète : p__pier (on ou om).",
+     "Trouve un autre mot avec on."
+    ],
+    "test": [
+     "Où monte le pompier ?",
+     "Comment est le ballon de Léon ?",
+     "Que mange le mouton ?",
+     "Devant quelles lettres écrit-on om ?",
+     "Lis : savon, nombre, maison."
+    ],
+    "steps": [
+     "Quand tu vois o et n ensemble, lis-les comme un seul son : on.",
+     "Regarde la lettre qui suit : devant m, b, p, on écrit om.",
+     "Lis le mot entier : pom-pier.",
+     "Attention : on n’écrit pas ponpier ; devant p, c’est om."
+    ],
+    "answers": [
+     "Sur le pont.",
+     "Rond.",
+     "Un bonbon.",
+     "Devant m, b et p.",
+     "sa-von, nom-bre, mai-son."
+    ]
+   }
+  },
+  "eu-year-be-beginner-1-l13": {
+   "fr": {
+    "title": "Le son an : maman et enfant",
+    "theory": "Le son an peut s’écrire an ou en : maman, enfant, vent, dent. Devant m, b et p, on écrit am ou em : jambe, lampe, temps. Il faut apprendre comment s’écrit chaque mot.",
+    "sample": "L’enfant joue avec sa maman. / Le vent souffle sur la lampe. / J’ai mal à la dent.",
+    "worked": "Enfant, maman, vent, dent et lampe ont le son an. Dans enfant, on l’écrit en puis an. Lampe s’écrit avec am parce qu’il y a un p juste après.",
+    "exercises": [
+     "Lis : an, en, ran, ten, man.",
+     "Lis : maman, enfant, dent.",
+     "Écris le mot vent.",
+     "Complète : j__be (an ou am).",
+     "Trouve un autre mot avec an."
+    ],
+    "test": [
+     "Avec qui joue l’enfant ?",
+     "Sur quoi souffle le vent ?",
+     "Où ai-je mal ?",
+     "De combien de façons s’écrit le son an ?",
+     "Lis : banane, tente, jambon."
+    ],
+    "steps": [
+     "Quand tu vois an, en, am ou em, lis le son an.",
+     "Devant m, b, p, écris am ou em : lampe, temps.",
+     "Pour savoir s’il faut a ou e, regarde le mot dans un livre ou un dictionnaire.",
+     "Attention : le son an s’écrit souvent en ; enfant et dent commencent ou finissent par en."
+    ],
+    "answers": [
+     "Avec sa maman.",
+     "Sur la lampe.",
+     "À la dent.",
+     "De quatre façons : an, en, am, em.",
+     "ba-na-ne, ten-te, jam-bon."
+    ]
+   }
+  },
+  "eu-year-be-beginner-1-l14": {
+   "fr": {
+    "title": "Le son in : lapin et pain",
+    "theory": "Le son in peut s’écrire in, ain ou ein : lapin, pain, peinture. Devant m, b et p, on écrit im : timbre, impossible. Nouveaux mots : lapin, sapin, jardin, main, train, plein.",
+    "sample": "Le lapin est dans le jardin. / Le train passe près du sapin. / J’ai du pain dans la main.",
+    "worked": "Lapin, jardin, sapin, train, pain et main ont le son in. On l’écrit in dans lapin, ain dans pain et main. Les deux écritures font le même son.",
+    "exercises": [
+     "Lis : lin, vin, fin, pin.",
+     "Lis : pain, main, train.",
+     "Lis : peinture, plein.",
+     "Écris le mot lapin.",
+     "Trouve un autre mot avec in."
+    ],
+    "test": [
+     "Où est le lapin ?",
+     "Où passe le train ?",
+     "Qu’ai-je dans la main ?",
+     "Comment s’écrit le son in dans main ?",
+     "Lis : matin, demain, timbre."
+    ],
+    "steps": [
+     "Quand tu vois in, ain, ein ou im, lis le son in.",
+     "Devant m, b, p, écris im : timbre.",
+     "Apprends les mots par cœur : pain et main s’écrivent avec ain.",
+     "Attention : ne confonds pas in et an ; écoute bien : lapin, maman."
+    ],
+    "answers": [
+     "Dans le jardin.",
+     "Près du sapin.",
+     "Du pain.",
+     "ain.",
+     "ma-tin, de-main, tim-bre."
+    ]
+   }
+  },
+  "eu-year-be-beginner-1-l15": {
+   "fr": {
+    "title": "Le son oi : roi et étoile",
+    "theory": "Le o et le i ensemble font le son oi, comme dans roi. Nouveaux mots : roi, toit, voiture, étoile, poisson, oiseau.",
+    "sample": "Le roi regarde les étoiles. / Un oiseau est sur le toit. / La voiture est noire.",
+    "worked": "Roi, étoiles, oiseau, toit, voiture et noire ont le son oi. On lit les deux lettres ensemble. Dans toit, le t final est muet.",
+    "exercises": [
+     "Lis : moi, toi, loi, roi.",
+     "Lis : voiture, étoile, poisson.",
+     "Écris le mot roi.",
+     "Découpe en syllabes : oiseau.",
+     "Trouve un autre mot avec oi."
+    ],
+    "test": [
+     "Que regarde le roi ?",
+     "Où est l’oiseau ?",
+     "De quelle couleur est la voiture ?",
+     "Combien de lettres pour écrire le son oi ?",
+     "Lis : soir, boire, armoire."
+    ],
+    "steps": [
+     "Quand tu vois o et i ensemble, lis le son oi.",
+     "Lis la syllabe : r + oi = roi.",
+     "Puis lis le mot entier : voi-tu-re.",
+     "Attention : dans toit, le t ne se prononce pas ; c’est une lettre muette."
+    ],
+    "answers": [
+     "Les étoiles.",
+     "Sur le toit.",
+     "Noire.",
+     "Deux : o et i.",
+     "soir, boi-re, ar-moi-re."
+    ]
+   }
+  },
+  "eu-year-be-beginner-1-l16": {
+   "fr": {
+    "title": "Les sons é et è : été et forêt",
+    "theory": "Le son é s’écrit é, mais aussi er ou ez à la fin d’un mot : été, manger, nez. Le son è s’écrit è, ê, ai ou ei : mère, forêt, lait, neige. Il faut apprendre comment s’écrit chaque mot.",
+    "sample": "En été, ma mère va dans la forêt. / Je bois du lait. / Il neige sur mon nez.",
+    "worked": "Été et nez ont le son é. Mère, forêt, lait et neige ont le son è, écrit de quatre façons : è, ê, ai, ei. Le même son peut donc s’écrire autrement.",
+    "exercises": [
+     "Lis : bébé, été, chanter.",
+     "Lis : mère, fête, lait, neige.",
+     "Écris le mot forêt.",
+     "Trouve un mot avec ai.",
+     "Complète : un n__ (ez)."
+    ],
+    "test": [
+     "Où va ma mère en été ?",
+     "Que bois-je ?",
+     "Où neige-t-il ?",
+     "Comment s’écrit le son è dans lait ?",
+     "Lis : rivière, tête, reine."
+    ],
+    "steps": [
+     "Écoute le son : é (bouche souriante) ou è (bouche plus ouverte) ?",
+     "Pour é, regarde : é, er, ez. Pour è : è, ê, ai, ei.",
+     "Apprends l’écriture de chaque mot en le copiant plusieurs fois.",
+     "Attention : à la fin de manger ou chanter, er se lit é."
+    ],
+    "answers": [
+     "Dans la forêt.",
+     "Du lait.",
+     "Sur mon nez.",
+     "ai.",
+     "ri-viè-re, tê-te, rei-ne."
+    ]
+   }
+  },
+  "eu-year-be-beginner-1-l17": {
+   "fr": {
+    "title": "Le son o : auto et bateau",
+    "theory": "Le son o s’écrit o, mais aussi au ou eau : vélo, auto, bateau. Nouveaux mots : auto, jaune, chaud, bateau, cadeau, oiseau.",
+    "sample": "Le bateau jaune est sur l’eau. / J’ai un cadeau pour toi. / Il fait chaud au soleil.",
+    "worked": "Bateau, eau, cadeau ont le son o écrit eau. Jaune, chaud et au ont le son o écrit au. Les trois écritures font le même son.",
+    "exercises": [
+     "Lis : au, eau, beau, peau.",
+     "Lis : auto, jaune, chaud.",
+     "Lis : bateau, cadeau, oiseau.",
+     "Écris le mot bateau.",
+     "Trouve un autre mot avec eau."
+    ],
+    "test": [
+     "Où est le bateau ?",
+     "De quelle couleur est-il ?",
+     "Qu’ai-je pour toi ?",
+     "De combien de façons s’écrit le son o ?",
+     "Lis : château, gauche, rideau."
+    ],
+    "steps": [
+     "Quand tu vois au ou eau, lis le son o.",
+     "Lis la syllabe puis le mot : ba-teau.",
+     "Apprends les mots : chaud avec au, bateau avec eau.",
+     "Attention : eau a trois lettres mais fait un seul son."
+    ],
+    "answers": [
+     "Sur l’eau.",
+     "Jaune.",
+     "Un cadeau.",
+     "De trois façons : o, au, eau.",
+     "châ-teau, gau-che, ri-deau."
+    ]
+   }
+  },
+  "eu-year-be-beginner-1-l18": {
+   "fr": {
+    "title": "Les sons eu et œu : feu et cœur",
+    "theory": "Le e et le u ensemble font le son eu, comme dans feu. On l’écrit aussi œu : cœur, sœur, œuf. Nouveaux mots : feu, bleu, jeudi, fleur, peur, sœur.",
+    "sample": "Ma sœur a peur du feu. / La fleur est bleue. / Jeudi, je mange un œuf.",
+    "worked": "Feu, bleue, jeudi et peur ont le son eu. Sœur et œuf ont le son eu écrit œu. Le œ est un e collé au o.",
+    "exercises": [
+     "Lis : feu, peu, jeu, bleu.",
+     "Lis : fleur, peur, beurre.",
+     "Lis : sœur, cœur, œuf.",
+     "Écris le mot bleu.",
+     "Trouve un autre mot avec eu."
+    ],
+    "test": [
+     "De quoi ma sœur a-t-elle peur ?",
+     "De quelle couleur est la fleur ?",
+     "Que mange-t-on jeudi ?",
+     "Comment s’écrit le son dans cœur ?",
+     "Lis : neuf, cheveu, docteur."
+    ],
+    "steps": [
+     "Quand tu vois e et u ensemble, lis le son eu.",
+     "Si tu vois œu, lis aussi le son eu.",
+     "Lis le mot entier : jeu-di.",
+     "Attention : ne confonds pas eu et ou ; écoute bien : feu, fou."
+    ],
+    "answers": [
+     "Du feu.",
+     "Bleue.",
+     "Un œuf.",
+     "Avec œu.",
+     "neuf, che-veu, doc-teur."
+    ]
+   }
+  },
+  "eu-year-be-beginner-1-l19": {
+   "fr": {
+    "title": "Le c et le ç : car, cerise et garçon",
+    "theory": "Devant a, o, u, le c fait le son k : car, col, cube. Devant e, i, y, il fait le son s : cerise, cinéma. Pour faire le son s devant a, o, u, on met une cédille : ç. Le son k s’écrit aussi qu ou k : quatre, kiwi.",
+    "sample": "Le garçon mange une cerise. / Ce car va au cinéma. / Quatre canards sont dans la mare.",
+    "worked": "Car, canards et col ont un c dur. Cerise, ce et cinéma ont un c doux. Garçon a un ç parce que le son s est devant o. Quatre s’écrit avec qu.",
+    "exercises": [
+     "Lis : ca, co, cu.",
+     "Lis : ce, ci.",
+     "Lis : ça, ço, çu.",
+     "Écris le mot garçon.",
+     "Lis : quatre, kiwi, coq."
+    ],
+    "test": [
+     "Que mange le garçon ?",
+     "Où va le car ?",
+     "Combien de canards sont dans la mare ?",
+     "Pourquoi met-on une cédille dans garçon ?",
+     "Lis : leçon, cinq, carotte."
+    ],
+    "steps": [
+     "Regarde la lettre après le c.",
+     "Devant a, o, u : son k. Devant e, i, y : son s.",
+     "Pour le son s devant a, o, u, ajoute la cédille : ç.",
+     "Attention : on ne met jamais de cédille devant e ou i : on écrit cerise, pas çerise."
+    ],
+    "answers": [
+     "Une cerise.",
+     "Au cinéma.",
+     "Quatre.",
+     "Pour faire le son s devant o.",
+     "le-çon, cinq, ca-rot-te."
+    ]
+   }
+  },
+  "eu-year-be-beginner-1-l20": {
+   "fr": {
+    "title": "Le g, le gu et le j : gâteau, girafe et jupe",
+    "theory": "Devant a, o, u, le g fait le son dur : gâteau, gomme, légume. Devant e, i, y, il fait le son j : girafe, genou. Pour garder le son dur devant e ou i, on écrit gu : guitare, bague. Le j fait toujours le son j : jupe, jardin.",
+    "sample": "La girafe mange un gâteau. / Guillaume joue de la guitare. / Julie met sa jupe rouge.",
+    "worked": "Gâteau et gomme ont un g dur. Girafe et genou ont un g qui fait j. Guitare et Guillaume ont gu : le u ne se lit pas, il garde le g dur. Julie et jupe ont un j.",
+    "exercises": [
+     "Lis : ga, go, gu.",
+     "Lis : ge, gi.",
+     "Lis : gue, gui.",
+     "Écris le mot jupe.",
+     "Lis : bague, genou, jardin."
+    ],
+    "test": [
+     "Que mange la girafe ?",
+     "De quoi joue Guillaume ?",
+     "De quelle couleur est la jupe de Julie ?",
+     "Quel son fait le g dans girafe ?",
+     "Lis : figure, orange, guêpe."
+    ],
+    "steps": [
+     "Regarde la lettre après le g.",
+     "Devant a, o, u : son dur. Devant e, i : son j.",
+     "Pour garder le son dur devant e, i, écris gu : guitare.",
+     "Attention : sans le u, guitare se lirait jitare ; le u ne se lit pas mais il est important."
+    ],
+    "answers": [
+     "Un gâteau.",
+     "De la guitare.",
+     "Rouge.",
+     "Le son j.",
+     "fi-gu-re, o-ran-ge, guê-pe."
+    ]
+   }
+  },
+  "eu-year-be-beginner-1-l21": {
+   "fr": {
+    "title": "Les sons gn et ill : montagne et fille",
+    "theory": "Le g et le n ensemble font le son gn, comme dans montagne. Les lettres ill font souvent le son y, comme dans fille ; on écrit ail, eil, ouil à la fin des mots : travail, soleil, fenouil. Nouveaux mots : araignée, ligne, champignon, fille, soleil, abeille.",
+    "sample": "La petite fille ramasse un champignon. / L’abeille vole au soleil. / Une araignée est sur la montagne.",
+    "worked": "Champignon, araignée et montagne ont le son gn. Fille et abeille ont ill. Soleil finit par eil. Ces groupes de lettres se lisent comme un seul son.",
+    "exercises": [
+     "Lis : gna, gne, gno.",
+     "Lis : montagne, ligne, champignon.",
+     "Lis : fille, abeille, soleil.",
+     "Écris le mot soleil.",
+     "Trouve un autre mot avec gn."
+    ],
+    "test": [
+     "Que ramasse la fille ?",
+     "Où vole l’abeille ?",
+     "Où est l’araignée ?",
+     "Comment finit le mot soleil ?",
+     "Lis : grenouille, cygne, travail."
+    ],
+    "steps": [
+     "Quand tu vois g et n ensemble, lis le son gn.",
+     "Quand tu vois ill, lis souvent le son y : fille.",
+     "À la fin des mots, cherche ail, eil, ouil : soleil.",
+     "Attention : ville et mille se lisent avec le son l ; ce sont des exceptions à retenir."
+    ],
+    "answers": [
+     "Un champignon.",
+     "Au soleil.",
+     "Sur la montagne.",
+     "Par eil.",
+     "gre-nouil-le, cy-gne, tra-vail."
+    ]
+   }
+  },
+  "eu-year-be-beginner-1-l22": {
+   "fr": {
+    "title": "Le s entre deux voyelles : rose et tasse",
+    "theory": "Entre deux voyelles, un seul s fait le son z : rose, maison, oiseau. Pour garder le son s entre deux voyelles, on écrit ss : tasse, poisson. Le z fait aussi le son z : zèbre, zoo.",
+    "sample": "Le poisson est dans la tasse ? Non, il est dans l’eau ! / La rose est près de la maison. / Le zèbre est au zoo.",
+    "worked": "Rose et maison ont un s entre deux voyelles : il se lit z. Poisson et tasse ont ss : il se lit s. Si on écrivait poison avec un seul s, ce serait un autre mot.",
+    "exercises": [
+     "Lis : rose, maison, cousin.",
+     "Lis : tasse, poisson, caisse.",
+     "Lis : zèbre, zoo, onze.",
+     "Écris le mot poisson.",
+     "Le s de rose fait-il s ou z ?"
+    ],
+    "test": [
+     "Où est le poisson ?",
+     "Où est la rose ?",
+     "Où est le zèbre ?",
+     "Comment écrit-on le son s entre deux voyelles ?",
+     "Lis : chemise, brosse, douze."
+    ],
+    "steps": [
+     "Regarde où est le s dans le mot.",
+     "Entre deux voyelles, un s seul fait z : rose.",
+     "Pour le son s entre deux voyelles, écris ss : tasse.",
+     "Attention : poisson (animal) et poison (dangereux) ne sont pas le même mot."
+    ],
+    "answers": [
+     "Dans l’eau.",
+     "Près de la maison.",
+     "Au zoo.",
+     "Avec ss.",
+     "che-mi-se, bros-se, dou-ze."
+    ]
+   }
+  },
+  "eu-year-be-beginner-1-l23": {
+   "fr": {
+    "title": "Les lettres muettes : chat, lit et grand",
+    "theory": "Beaucoup de mots ont une lettre muette à la fin : on l’écrit mais on ne l’entend pas. Pour la trouver, on cherche un mot de la même famille : grand – grande, lit – literie, chat – chaton.",
+    "sample": "Le petit chat dort sur le lit. / Il est grand et blanc. / Mon chaton est petit.",
+    "worked": "Petit, chat, lit, grand et blanc ont une lettre muette à la fin. Dans petite, on entend le t ; dans chaton, le t aussi ; dans grande, le d ; dans blanche, on entend que blanc finit par c.",
+    "exercises": [
+     "Trouve la lettre muette de petit.",
+     "Trouve la lettre muette de grand.",
+     "Écris le mot lit.",
+     "Trouve un mot de la famille de chat.",
+     "Lis : bois, nez, souris."
+    ],
+    "test": [
+     "Où dort le chat ?",
+     "Comment est-il ?",
+     "Quelle lettre est muette dans chat ?",
+     "Quel mot aide à écrire grand ?",
+     "Lis : tapis, dent, loup."
+    ],
+    "steps": [
+     "Dis le mot et écoute : l’as-tu entendu en entier ?",
+     "Cherche un mot de la même famille : petit – petite.",
+     "Si tu entends une lettre dans ce mot, écris-la aussi à la fin du premier.",
+     "Attention : on ne peut pas tout entendre ; apprends aussi les mots par cœur : loup, nez."
+    ],
+    "answers": [
+     "Sur le lit.",
+     "Grand et blanc.",
+     "Le t.",
+     "Grande.",
+     "ta-pis, dent, loup."
+    ]
+   }
+  },
+  "eu-year-be-beginner-1-l24": {
+   "fr": {
+    "title": "Les lettres rares : h, x, w, k et ph",
+    "theory": "Certaines lettres sont rares. Le h ne se prononce pas : hibou, homme. Le x se dit souvent ks : taxi, boxe. Le w et le k apparaissent dans des mots venus d’autres langues : wagon, kiwi, koala. Le ph fait le son f : photo, éléphant.",
+    "sample": "Le hibou regarde l’éléphant. / Le koala mange un kiwi ? Non ! / Je prends une photo du taxi.",
+    "worked": "Hibou commence par un h qu’on n’entend pas. Éléphant et photo ont ph : on entend f. Taxi a un x qui se dit ks. Koala et kiwi ont un k.",
+    "exercises": [
+     "Lis : hibou, homme, hiver.",
+     "Lis : photo, éléphant, dauphin.",
+     "Lis : taxi, wagon, kiwi.",
+     "Écris le mot photo.",
+     "Trouve un mot avec ph."
+    ],
+    "test": [
+     "Que regarde le hibou ?",
+     "De quoi je prends une photo ?",
+     "Quel son fait ph ?",
+     "Entend-on le h dans hibou ?",
+     "Lis : phare, boxe, kilo."
+    ],
+    "steps": [
+     "Retiens que le h ne se prononce pas.",
+     "Quand tu vois ph, lis le son f.",
+     "Quand tu vois x, essaie ks ; si le mot ne va pas, demande à un adulte.",
+     "Attention : éléphant s’écrit avec ph, pas avec f."
+    ],
+    "answers": [
+     "L’éléphant.",
+     "Du taxi.",
+     "Le son f.",
+     "Non.",
+     "pha-re, boxe, ki-lo."
+    ]
+   }
+  },
+  "eu-year-be-beginner-1-l25": {
+   "fr": {
+    "title": "Le nom et le déterminant : le chat, la souris",
+    "theory": "Le nom désigne une personne, un animal ou une chose. Devant le nom, on met souvent un déterminant : le, la, l’, un, une. Un nom est masculin (le garçon, un chien) ou féminin (la fille, une souris).",
+    "sample": "Le chien court après la balle. Une souris mange un fromage. L’ami de Léa arrive.",
+    "worked": "Chien, balle, souris, fromage et ami sont des noms. Le et un vont avec les noms masculins, la et une avec les noms féminins. Devant une voyelle, le et la deviennent l’ : l’ami.",
+    "exercises": [
+     "Mets le ou la : ___ table.",
+     "Mets un ou une : ___ vélo.",
+     "Trouve les noms dans l’exemple.",
+     "Mets l’ ou le : ___ arbre.",
+     "Écris trois noms d’animaux avec un déterminant."
+    ],
+    "test": [
+     "Après quoi court le chien ?",
+     "Que mange la souris ?",
+     "Quel déterminant va avec fille ?",
+     "Pourquoi écrit-on l’ami ?",
+     "Souris est-il masculin ou féminin ?"
+    ],
+    "steps": [
+     "Trouve le nom : c’est une personne, un animal ou une chose.",
+     "Demande-toi : dit-on un ou une ? Un : masculin. Une : féminin.",
+     "Devant une voyelle ou un h muet, écris l’ : l’arbre, l’homme.",
+     "Attention : le déterminant doit aller avec le nom : la table, pas le table."
+    ],
+    "answers": [
+     "La balle.",
+     "Un fromage.",
+     "la.",
+     "Parce que ami commence par une voyelle.",
+     "Féminin."
+    ]
+   }
+  },
+  "eu-year-be-beginner-1-l26": {
+   "fr": {
+    "title": "Le singulier et le pluriel : un chat, des chats",
+    "theory": "Quand il y en a un seul, le nom est au singulier : un chat. Quand il y en a plusieurs, il est au pluriel : des chats. Au pluriel, on ajoute souvent un s qu’on n’entend pas. Les déterminants les et des montrent le pluriel.",
+    "sample": "Un oiseau chante. Les oiseaux chantent. Le chat dort. Les chats dorment.",
+    "worked": "Chat au pluriel devient chats : on ajoute un s muet. Oiseau devient oiseaux : les mots en eau prennent un x. Le déterminant les ou des montre qu’il y en a plusieurs.",
+    "exercises": [
+     "Mets au pluriel : un livre.",
+     "Mets au pluriel : la fleur.",
+     "Mets au pluriel : un bateau.",
+     "Le mot chats est-il au singulier ou au pluriel ?",
+     "Écris le pluriel de un ami."
+    ],
+    "test": [
+     "Quel est le pluriel de chat ?",
+     "Quels déterminants montrent le pluriel ?",
+     "Entend-on le s de chats ?",
+     "Mets au pluriel : le gâteau.",
+     "Écris au pluriel : la souris."
+    ],
+    "steps": [
+     "Demande-toi : un seul ou plusieurs ?",
+     "Pour plusieurs, mets les ou des et ajoute un s au nom.",
+     "Les mots en eau prennent un x : bateaux, gâteaux.",
+     "Attention : on n’entend pas le s du pluriel, mais il faut l’écrire."
+    ],
+    "answers": [
+     "Chats.",
+     "Les et des.",
+     "Non.",
+     "Les gâteaux.",
+     "Les souris (le mot ne change pas)."
+    ]
+   }
+  },
+  "eu-year-be-beginner-1-l27": {
+   "fr": {
+    "title": "La comptine et le poème",
+    "theory": "Un poème est fait de vers : ce sont les lignes. Souvent, les mots à la fin des vers riment. Une comptine est un petit texte qu’on récite en jouant. On lit lentement, avec une pause à la fin de chaque vers.",
+    "sample": "Poème original : / Par la fenêtre entre le soleil, / le chat s’étire, encore en sommeil. / Le grillon chante dans le jardin, / la fleur s’ouvre pour le matin.",
+    "worked": "Le poème a quatre vers. Soleil rime avec sommeil, jardin rime avec matin. Pour dire le poème, on lit calmement et on fait une pause à la fin de chaque vers.",
+    "exercises": [
+     "Lis le poème à voix haute.",
+     "Trouve le mot qui rime avec soleil.",
+     "Apprends les deux premiers vers par cœur.",
+     "Dessine le jardin du poème.",
+     "Trouve un mot qui rime avec chat."
+    ],
+    "test": [
+     "Combien de vers a le poème ?",
+     "Que fait le chat ?",
+     "Qu’est-ce qu’un vers ?",
+     "Où chante le grillon ?",
+     "Trouve une rime pour lune."
+    ],
+    "steps": [
+     "Lis le poème ligne par ligne.",
+     "Regarde le dernier mot de chaque vers et cherche ceux qui sonnent pareil.",
+     "Pour l’apprendre, répète deux vers à la fois.",
+     "Attention : dis le poème lentement, avec des pauses ; ce n’est pas une course."
+    ],
+    "answers": [
+     "Quatre.",
+     "Il s’étire, encore en sommeil.",
+     "Une ligne du poème.",
+     "Dans le jardin.",
+     "Ta réponse. Par exemple : plume, brume."
+    ]
+   }
+  },
+  "eu-year-be-beginner-1-l28": {
+   "fr": {
+    "title": "Le conte : Boucle d’or et les trois ours",
+    "theory": "Un conte est une histoire ancienne, racontée depuis longtemps. Il commence souvent par Il était une fois. On raconte l’histoire dans l’ordre : au début, ensuite, à la fin.",
+    "sample": "Raconté avec nos mots : Il était une fois une petite fille aux cheveux dorés. Elle entre dans la maison des trois ours, qui sont partis se promener. Elle goûte leur soupe, s’assied sur leurs chaises et s’endort dans le lit du petit ours. Quand les ours reviennent, elle se réveille et s’enfuit.",
+    "worked": "Les personnages sont Boucle d’or et les trois ours : le grand, le moyen et le petit. Au début, elle entre dans la maison ; ensuite, elle goûte, s’assied et s’endort ; à la fin, les ours reviennent et elle s’enfuit. On n’entre pas chez les autres sans permission.",
+    "exercises": [
+     "Nomme les personnages du conte.",
+     "Raconte le début de l’histoire.",
+     "Dessine Boucle d’or dans le petit lit.",
+     "Pourquoi la maison est-elle vide ?",
+     "Raconte la fin de l’histoire."
+    ],
+    "test": [
+     "Comment commence souvent un conte ?",
+     "Chez qui entre Boucle d’or ?",
+     "Dans quel lit s’endort-elle ?",
+     "Que fait-elle quand les ours reviennent ?",
+     "Qu’est-ce qu’un conte ?"
+    ],
+    "steps": [
+     "Trouve les personnages : qui est dans l’histoire ?",
+     "Raconte dans l’ordre : au début, ensuite, à la fin.",
+     "Dis ce que l’histoire nous apprend.",
+     "Attention : si tu changes l’ordre, l’histoire n’a plus de sens."
+    ],
+    "answers": [
+     "Par Il était une fois.",
+     "Chez les trois ours.",
+     "Dans le lit du petit ours.",
+     "Elle se réveille et s’enfuit.",
+     "Une histoire ancienne racontée depuis longtemps."
+    ]
+   }
+  },
+  "eu-year-be-beginner-1-l29": {
+   "fr": {
+    "title": "La fable : Le Corbeau et le Renard",
+    "theory": "Une fable est une courte histoire avec des animaux qui parlent comme des personnes. À la fin, il y a une leçon : la morale. Jean de La Fontaine a écrit beaucoup de fables en vers, il y a plus de trois cents ans.",
+    "sample": "Racontée avec nos mots : Un corbeau, perché sur un arbre, tient un fromage dans son bec. Un renard rusé le complimente sur sa belle voix et lui demande de chanter. Le corbeau ouvre le bec pour chanter : le fromage tombe et le renard l’attrape.",
+    "worked": "Le renard est rusé : il fait des compliments pour obtenir le fromage. Le corbeau est trop fier et se laisse tromper. La morale : il faut se méfier de ceux qui nous flattent pour obtenir quelque chose.",
+    "exercises": [
+     "Raconte la fable avec tes mots.",
+     "Dessine le corbeau sur l’arbre.",
+     "Comment est le renard ?",
+     "Dis la morale avec tes mots.",
+     "Invente une autre fin."
+    ],
+    "test": [
      "Qui sont les personnages ?",
-     "Que perd le hérisson ?",
-     "Où est la pomme ?",
-     "Raconte avec d’abord, ensuite, puis, à la fin.",
-     "Comment se sent le hérisson à la fin ?"
+     "Que tient le corbeau ?",
+     "Que demande le renard ?",
+     "Pourquoi le fromage tombe-t-il ?",
+     "Qu’est-ce que la morale ?"
     ],
-    "test": [
-     "Qui trouve la pomme ?",
-     "Que se passe-t-il d’abord ?",
-     "Que dit le hérisson à la fin ?",
-     "Remets dans l’ordre : dit merci / perd la pomme / trouve la pomme.",
-     "Dessine ton moment préféré."
+    "steps": [
+     "Trouve les personnages : le corbeau et le renard.",
+     "Dis ce que veut chacun et ce qu’il fait.",
+     "Cherche la morale : que nous apprend la fable ?",
+     "Attention : dans une fable, les animaux parlent, mais ils représentent les comportements des personnes."
+    ],
+    "answers": [
+     "Le corbeau et le renard.",
+     "Un fromage.",
+     "De chanter.",
+     "Parce que le corbeau ouvre le bec pour chanter.",
+     "La leçon de la fable."
     ]
    }
   },
-  "eu-year-be-beginner-1-poezie": {
+  "eu-year-be-beginner-1-l30": {
    "fr": {
-    "title": "Comptines et rimes",
-    "theory": "Une comptine est un petit poème avec un rythme, comme une chanson. Deux mots riment quand ils finissent par le même son : chat et rat, soleil et abeille.",
-    "sample": "Le soleil brille sur le toit,\nle petit chat dit : moi, moi, moi !\nJe saute, je cours, je chante aussi,\nje joue dehors avec mon amie Lili.",
-    "worked": "Toit et moi riment : ils finissent par le son oi. Aussi et Lili finissent par le son i. Dans le troisième vers, il y a trois actions : saute, cours, chante.",
+    "title": "Devinettes et virelangues",
+    "theory": "Une devinette décrit une chose sans dire son nom. On écoute tous les indices et on cherche la réponse. Un virelangue est une phrase difficile à dire vite : on s’amuse à la répéter sans se tromper.",
+    "sample": "Devinette originale : J’ai des aiguilles mais je ne couds pas, je fais tic-tac toute la journée. (la montre) / Virelangue populaire : Un chasseur sachant chasser doit savoir chasser sans son chien.",
+    "worked": "Les indices sont les aiguilles et le tic-tac : la réponse est la montre. Le virelangue est difficile parce que les sons ch et s se mélangent. On le dit d’abord lentement, puis plus vite.",
     "exercises": [
-     "Dis la comptine à voix haute en tapant le rythme.",
-     "Quel mot rime avec toit ?",
-     "Quelles actions sont dans le troisième vers ?",
-     "Que dit le chat ?",
-     "Trouve un mot qui rime avec soleil."
+     "Devine : Il a des dents mais il ne mange pas. (le peigne)",
+     "Dis le virelangue trois fois.",
+     "Invente une devinette sur le soleil.",
+     "Quels sons se mélangent dans le virelangue ?",
+     "Pose une devinette à un camarade."
     ],
     "test": [
-     "Où brille le soleil ?",
-     "Avec qui je joue dehors ?",
-     "Écris deux mots qui riment avec chat.",
-     "Combien d’actions y a-t-il dans le troisième vers ?",
-     "Invente un vers qui finit par lune."
+     "Qu’est-ce qu’une devinette ?",
+     "Quelle est la réponse de la devinette ?",
+     "Pourquoi le virelangue est-il difficile ?",
+     "Invente une devinette sur la lune.",
+     "Combien de fois entend-on le mot chasser ?"
+    ],
+    "steps": [
+     "Écoute tous les indices.",
+     "Demande-toi : quelle chose a tout cela ?",
+     "Vérifie ta réponse avec chaque indice.",
+     "Attention : ne réponds pas dès le premier indice ; écoute jusqu’au bout."
+    ],
+    "answers": [
+     "Une description d’une chose sans dire son nom.",
+     "La montre.",
+     "Parce que les sons ch et s se mélangent.",
+     "Ta réponse. Par exemple : Je brille la nuit, parfois ronde, parfois fine. (la lune)",
+     "Deux fois (chasseur est un autre mot)."
     ]
    }
   },
-  "eu-year-be-beginner-1-dialog": {
+  "eu-year-be-beginner-1-l31": {
    "fr": {
-    "title": "Parler et écouter",
-    "theory": "Quand on parle avec quelqu’un, on parle chacun son tour. On regarde la personne et on répond à la question. Les mots polis sont : s’il te plaît, merci, de rien.",
-    "sample": "Lucas : Bonjour, Emma ! Qu’est-ce que tu as dans ton cartable ?\nEmma : Bonjour, Lucas ! J’ai un cahier et une banane.\nLucas : Tu me prêtes un crayon, s’il te plaît ?\nEmma : Bien sûr, tiens !\nLucas : Merci !",
-    "worked": "Lucas pose une question. Emma répond par une phrase entière. Lucas demande poliment un crayon et dit merci. Ils parlent chacun leur tour.",
+    "title": "Le texte documentaire : le hérisson",
+    "theory": "Un texte documentaire donne des informations vraies sur un sujet. Il ne raconte pas une histoire inventée. On le lit avec attention et on cherche les réponses dans le texte.",
+    "sample": "Le hérisson a des piquants sur le dos. Il sort la nuit pour manger des insectes et des vers. En hiver, il dort sous des feuilles.",
+    "worked": "Le texte dit à quoi ressemble le hérisson, quand il sort, ce qu’il mange et ce qu’il fait en hiver. Ce sont des informations vraies. Le hérisson dort en hiver : on dit qu’il hiberne.",
     "exercises": [
-     "Lis le dialogue avec un camarade.",
-     "Quelle question pose Lucas ?",
-     "Qu’a Emma dans son cartable ?",
-     "Trouve les mots polis.",
-     "Invente un dialogue : demande à un camarade son jeu préféré."
+     "Lis le texte deux fois.",
+     "Souligne ce que mange le hérisson.",
+     "Dessine un hérisson sous les feuilles.",
+     "Explique le mot hiberner avec un adulte.",
+     "Pose une question sur le hérisson."
     ],
     "test": [
-     "Qui dit bonjour en premier ?",
-     "Emma répond-elle par un mot ou par une phrase ?",
-     "Que veut emprunter Lucas ?",
-     "Que fait-on quand l’autre parle ?",
-     "Écris une question avec Qu’est-ce que."
+     "Qu’a le hérisson sur le dos ?",
+     "Quand sort-il ?",
+     "Que mange-t-il ?",
+     "Le texte documentaire est-il inventé ?",
+     "Combien de phrases a le texte ?"
+    ],
+    "steps": [
+     "Lis la question et trouve le mot important, par exemple mange.",
+     "Cherche ce mot dans le texte.",
+     "La réponse est souvent dans la même phrase.",
+     "Attention : réponds avec ce que dit le texte ; n’invente pas."
+    ],
+    "answers": [
+     "Des piquants.",
+     "La nuit.",
+     "Des insectes et des vers.",
+     "Non, il donne des informations vraies.",
+     "Trois."
     ]
    }
   },
-  "eu-year-be-beginner-1-vocabular": {
+  "eu-year-be-beginner-1-l32": {
    "fr": {
-    "title": "Les mots et leur sens",
-    "theory": "On peut classer les mots : animaux, couleurs, aliments. Certains mots ont un contraire : grand et petit, chaud et froid. Au pluriel, on ajoute souvent un s qu’on n’entend pas : un chat, des chats.",
-    "sample": "À la ferme, il y a un grand cheval et deux petits moutons. Le cheval a chaud. Il boit de l’eau froide.",
-    "worked": "Cheval et moutons sont des animaux. Grand et petit sont des contraires. Moutons prend un s parce qu’il y en a deux. Chaud et froid parlent de température.",
+    "title": "La phrase et la ponctuation",
+    "theory": "Une phrase est une suite de mots qui a du sens. Elle commence par une majuscule. Si elle raconte, elle se termine par un point. Si elle pose une question, elle se termine par un point d’interrogation (?). Si elle montre une émotion, par un point d’exclamation (!).",
+    "sample": "Aujourd’hui, il fait beau. Tu viens au parc avec moi ? Quelle belle journée !",
+    "worked": "La première phrase raconte : point. La deuxième pose une question : point d’interrogation. La troisième montre la joie : point d’exclamation. Toutes commencent par une majuscule.",
     "exercises": [
-     "Trouve tous les animaux du texte.",
-     "Trouve deux contraires.",
-     "Écris : un chien, deux …",
-     "Classe : rouge, pain, vert, fromage.",
-     "Quel est le contraire de chaud ?"
+     "Mets le bon signe : Comment t’appelles-tu",
+     "Mets le bon signe : J’ai un chien",
+     "Écris une question pour ton institutrice.",
+     "Écris une phrase avec un point d’exclamation.",
+     "Compte les phrases de l’exemple."
     ],
     "test": [
-     "Un arbre, des …?",
-     "Quel est le contraire de grand ?",
-     "Pourquoi moutons prend-il un s ?",
-     "Quel mot est une couleur : courir, jaune, tasse ?",
-     "Écris une phrase avec le mot petit."
-    ]
-   }
-  },
-  "eu-year-be-beginner-1-exprimare": {
-   "fr": {
-    "title": "Majuscule, point et espaces",
-    "theory": "Une phrase commence par une majuscule et finit par un point. Les prénoms et les noms de villes ont une majuscule. On laisse un espace entre les mots.",
-    "sample": "le chien de zoé joue dans le jardin\nLe chien de Zoé joue dans le jardin.",
-    "worked": "Dans la première ligne, il manque les majuscules et le point. Le commence la phrase. Zoé est un prénom : il prend une majuscule.",
-    "exercises": [
-     "Recopie la phrase correcte.",
-     "Trouve le prénom dans la phrase.",
-     "Corrige : il pleut aujourd’hui",
-     "Pourquoi Bruxelles a-t-il une majuscule ?",
-     "Écris une phrase sur ton école."
-    ],
-    "test": [
+     "Par quel signe se termine une question ?",
      "Par quoi commence une phrase ?",
-     "Que met-on à la fin d’une phrase ?",
-     "Corrige : le chat dort",
-     "Que laisse-t-on entre les mots ?",
-     "Écris ton prénom avec la majuscule."
+     "Écris correctement : il pleut aujourd’hui",
+     "Quelle phrase de l’exemple montre la joie ?",
+     "Combien de phrases y a-t-il dans l’exemple ?"
+    ],
+    "steps": [
+     "Demande-toi : la phrase raconte, pose une question ou montre une émotion ?",
+     "Raconte : point. Question : ? Émotion : !",
+     "La première lettre est toujours une majuscule.",
+     "Attention : même une question courte comme Tu viens ? prend un point d’interrogation."
+    ],
+    "answers": [
+     "Par un point d’interrogation.",
+     "Par une majuscule.",
+     "Il pleut aujourd’hui.",
+     "Quelle belle journée !",
+     "Trois."
     ]
    }
   },
-  "eu-year-be-beginner-1-redactare": {
+  "eu-year-be-beginner-1-l33": {
    "fr": {
-    "title": "J’écris une phrase sur un dessin",
-    "theory": "Avant d’écrire, dis ta phrase à voix haute et compte les mots. Écris-la, relis-la et vérifie : majuscule, espaces, point. Est-ce que la phrase a du sens ?",
-    "sample": "Dessin : un garçon donne à manger à un poisson.\nJe dis : Le garçon nourrit le poisson.\nJ’écris : Le garçon nourrit le poisson.\nJ’ajoute : Le poisson nage vite.",
-    "worked": "D’abord, on a dit la phrase : cinq mots. Puis on l’a écrite avec une majuscule et un point. En relisant, elle a du sens. On a ajouté une deuxième phrase.",
+    "title": "Écrire des phrases sur une image",
+    "theory": "On regarde une image et on se pose des questions : Qui est là ? Que fait-il ? Où est-ce ? Quand ? Ensuite, on écrit deux ou trois phrases avec une majuscule au début et un point à la fin.",
+    "sample": "Image : un garçon fait un bonhomme de neige. / Phrases : Le garçon fait un bonhomme de neige. C’est l’hiver. Le bonhomme a une carotte pour nez.",
+    "worked": "On a écrit trois phrases. La première dit qui est là et ce qu’il fait. La deuxième dit quand. La troisième ajoute un détail. Ainsi le texte est clair.",
     "exercises": [
-     "Dis une phrase sur un chat dans le jardin et compte les mots.",
-     "Écris ta phrase et vérifie le point.",
-     "Ajoute une deuxième phrase.",
-     "Lis ta phrase à un camarade.",
-     "Fais un dessin et écris deux phrases."
+     "Regarde par la fenêtre et écris une phrase.",
+     "Pose les quatre questions sur une image.",
+     "Écris deux phrases sur ta classe.",
+     "Fais un dessin et écris une phrase dessous.",
+     "Lis tes phrases à un camarade."
     ],
     "test": [
-     "Que fais-tu avant d’écrire ?",
-     "Combien de mots dans : Le soleil brille. ?",
-     "Que vérifies-tu après avoir écrit ?",
-     "Écris une phrase sur ton goûter.",
-     "Allonge la phrase : Je joue."
+     "Quelles questions se pose-t-on devant une image ?",
+     "Que fait le garçon ?",
+     "Qu’a le bonhomme pour nez ?",
+     "Par quoi se termine une phrase qui raconte ?",
+     "Écris une phrase sur l’hiver."
+    ],
+    "steps": [
+     "Regarde l’image et demande-toi : qui ? que fait-il ? où ? quand ?",
+     "Dis la phrase à voix haute avant de l’écrire.",
+     "Relis : majuscule au début, point à la fin, espaces entre les mots.",
+     "Attention : écris des phrases complètes, pas des mots isolés."
+    ],
+    "answers": [
+     "Qui est là ? Que fait-il ? Où est-ce ? Quand ?",
+     "Un bonhomme de neige.",
+     "Une carotte.",
+     "Par un point.",
+     "Ta réponse. Par exemple : En hiver, il fait froid."
     ]
    }
   },
-  "eu-year-be-beginner-1-interpretare": {
+  "eu-year-be-beginner-1-l34": {
    "fr": {
-    "title": "Ce que je pense et pourquoi",
-    "theory": "Après avoir lu, on peut dire ce qu’on pense et expliquer pourquoi avec le texte. On peut comparer deux personnages : qu’est-ce qui est pareil ? Qu’est-ce qui est différent ?",
-    "sample": "Jade partage ses crayons avec Tom. Hugo garde tous ses crayons. Tom sourit à Jade.",
-    "worked": "Jade et Hugo ont tous les deux des crayons : c’est pareil. C’est différent : Jade partage, Hugo non. Je pense que Jade est gentille, car le texte dit qu’elle partage et que Tom sourit.",
+    "title": "La carte de vœux et l’invitation",
+    "theory": "Une carte d’anniversaire contient une formule pour saluer, des vœux et une signature. Une invitation dit pourquoi on invite, quand et où. Ainsi, la personne qui la reçoit sait tout ce qu’il faut.",
+    "sample": "Chère mamy, / je t’invite à mon anniversaire. / Quand : samedi, à quinze heures. / Où : à la maison. / Je t’attends ! / Ta petite-fille, Zoé",
+    "worked": "L’invitation commence par Chère mamy. Ensuite, elle donne la fête, le jour, l’heure et le lieu. Elle se termine par une phrase gentille et la signature. Sans le jour ni l’heure, mamy ne saurait pas quand venir.",
     "exercises": [
-     "Qu’est-ce qui est pareil chez Jade et Hugo ?",
-     "Qu’est-ce qui est différent ?",
-     "Qui est gentil ? Pourquoi ?",
-     "Pourquoi Tom sourit-il ?",
-     "Que pourrait faire Hugo la prochaine fois ?"
+     "Écris une formule pour saluer ton papy.",
+     "Écris une invitation pour un goûter.",
+     "Écris une carte d’anniversaire.",
+     "Que manque-t-il à une invitation sans lieu ?",
+     "Signe ton invitation."
     ],
     "test": [
-     "Qui garde tous ses crayons ?",
-     "Qui sourit ?",
-     "Complète : Je pense que Jade est … car …",
-     "Le texte dit-il que Hugo est triste ?",
-     "Dis ce que tu aimes dans l’histoire et pourquoi."
+     "Que doit dire une invitation ?",
+     "Quand est la fête de Zoé ?",
+     "Comment commence l’invitation ?",
+     "Écris des vœux courts pour ta maman.",
+     "Qu’y a-t-il à la fin de l’invitation ?"
+    ],
+    "steps": [
+     "Commence par une formule : Cher…, Chère…",
+     "Écris pourquoi tu invites, quand et où.",
+     "Termine par une phrase gentille et ta signature.",
+     "Attention : sans le jour, l’heure et le lieu, personne ne sait quand venir."
+    ],
+    "answers": [
+     "Pourquoi on invite, quand et où, avec une formule et une signature.",
+     "Samedi, à quinze heures.",
+     "Chère mamy.",
+     "Ta réponse. Par exemple : Chère maman, joyeux anniversaire !",
+     "La signature."
     ]
    }
   },
-  "eu-year-be-beginner-1-verificare": {
+  "eu-year-be-beginner-1-l35": {
    "fr": {
-    "title": "Je révise la 1re primaire",
-    "theory": "On vérifie ce que tu as appris : lire en syllabes, trouver les réponses dans le texte, raconter dans l’ordre, entendre les rimes, parler chacun son tour, connaître de nouveaux mots et écrire des phrases avec majuscule et point.",
-    "sample": "Le petit chien Filou court dans le jardin. Il creuse un trou et trouve une balle. Il apporte la balle à papy. Papy la lance et Filou court vite.",
-    "worked": "Filou est le personnage principal. Ordre : court, creuse, trouve la balle, l’apporte à papy, papy la lance. Chaque phrase commence par une majuscule et finit par un point.",
+    "title": "Écouter et raconter : mon histoire",
+    "theory": "Quand on raconte ce qui nous est arrivé, on dit qui était là, où c’était, ce qui s’est passé et comment cela s’est terminé. On utilise des mots comme d’abord, ensuite, enfin. Les autres écoutent et peuvent poser des questions.",
+    "sample": "Dimanche, je suis allé à la mer avec mes parents. D’abord, nous avons fait un château de sable. Ensuite, une grosse vague l’a détruit. Enfin, nous avons ri et nous en avons fait un autre.",
+    "worked": "L’histoire dit quand (dimanche), où (la mer), avec qui (les parents), ce qui s’est passé (la vague a détruit le château) et comment cela finit (ils en font un autre). Les mots d’abord, ensuite et enfin aident à suivre l’ordre.",
+    "exercises": [
+     "Raconte ce que tu as fait ce week-end.",
+     "Utilise d’abord, ensuite et enfin.",
+     "Pose une question à un camarade sur son histoire.",
+     "Dessine le château de sable.",
+     "Invente un titre pour l’histoire de l’exemple."
+    ],
+    "test": [
+     "Où est allé l’enfant dimanche ?",
+     "Avec qui ?",
+     "Qu’est-ce qui a détruit le château ?",
+     "Comment l’histoire se termine-t-elle ?",
+     "Quels mots aident à dire l’ordre ?"
+    ],
+    "steps": [
+     "Pense : qui, où, ce qui s’est passé et comment cela finit.",
+     "Raconte dans l’ordre avec d’abord, ensuite, enfin.",
+     "Parle lentement et regarde ceux qui t’écoutent.",
+     "Attention : ne saute pas d’étape ; celui qui écoute doit comprendre ce qui s’est passé."
+    ],
+    "answers": [
+     "À la mer.",
+     "Avec ses parents.",
+     "Une grosse vague.",
+     "Ils ont ri et en ont fait un autre.",
+     "D’abord, ensuite, enfin."
+    ]
+   }
+  },
+  "eu-year-be-beginner-1-l36": {
+   "fr": {
+    "title": "Révision : ce que j’ai appris en 1re année",
+    "theory": "À la fin de l’année, on lit un petit texte et on montre ce qu’on sait : lire et comprendre, découper en syllabes, écrire des phrases avec une majuscule et un point, utiliser les sons complexes, le genre et le nombre.",
+    "sample": "Chaque matin, Théo prépare son cartable. Il prend son cahier, sa trousse et sa collation. Ensuite, il part à l’école avec son grand-père.",
+    "worked": "Le texte a trois phrases. Théo prépare d’abord son cartable, ensuite il part à l’école. Théo est un prénom : il a une majuscule. Matin a le son in, cartable a trois syllabes et école commence par é.",
     "exercises": [
      "Lis le texte à voix haute.",
-     "Qui est le personnage principal ?",
-     "Raconte dans l’ordre.",
-     "Trouve un mot avec le son ou.",
-     "Écris une phrase sur ce que fait Filou après."
+     "Trouve le mot avec le son in.",
+     "Trouve les noms féminins.",
+     "Écris une phrase sur ton cartable.",
+     "Dis ce que tu as préféré apprendre cette année."
     ],
     "test": [
-     "Que trouve Filou ?",
-     "Qui lance la balle ?",
-     "Trouve un mot avec une majuscule et dis pourquoi.",
-     "Quel est le contraire de vite ?",
-     "Écris une phrase sur ton animal préféré."
+     "Que fait Théo d’abord ?",
+     "Combien de phrases a le texte ?",
+     "Écris correctement : théo part à l’école",
+     "Avec qui part-il à l’école ?",
+     "Découpe en syllabes : cartable."
+    ],
+    "steps": [
+     "Lis d’abord lentement, puis de façon plus fluide.",
+     "Demande-toi : qui ? que fait-il ? avec qui ?",
+     "Compte les phrases grâce aux points.",
+     "Attention : les prénoms et le début de la phrase prennent une majuscule : Théo."
+    ],
+    "answers": [
+     "Il prépare son cartable.",
+     "Trois.",
+     "Théo part à l’école.",
+     "Avec son grand-père.",
+     "car-ta-ble."
     ]
    }
   }
