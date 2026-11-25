@@ -3,9 +3,9 @@
  "country": "RO",
  "stage": "lower",
  "grade": "8",
- "version": "5ed0ceadc138a118f1c3f5ed9360eb683766c00c6cc1537434fbe5c8b0df502f",
+ "version": "ce1eefe0a923d2d2719857044aa3710499486b91961bdb885f78f3309243c54a",
  "source": "https://programe.ise.ro/",
- "sourceTitle": "Ministerul Educației — Programa școlară Limba și literatura română, clasele a V-a – a VIII-a (OMEN 3393/2017): comunicare orală, lectură, redactare, elemente de construcție a comunicării, elemente de interculturalitate; clasa a VIII-a în ordinea obișnuită a manualelor aprobate, în pregătirea Evaluării Naționale (textul epic: nuvela, romanul, perspectiva narativă, conflictul, textul liric: imaginar poetic, motivul literar, tema și ideea poetică, prozodia, textul dramatic: drama, textul argumentativ și eseul, textul nonliterar: cererea și CV-ul, comentarierea unor secvențe, recapitularea părților de vorbire, funcțiile sintactice ale modurilor nepersonale, subordonatele subiectivă, predicativă, circumstanțiale de loc, timp, mod, cauză, scop, condițională și concesivă, conversiunea, împrumuturile, registrele limbii, ortografia și punctuația conform DOOM 3, literatura română în context european); lecții originale, fără text copiat din manuale",
+ "sourceTitle": "Ministerul Educației — Programa școlară Limba și literatura română, clasele a V-a – a VIII-a (OMEN 3393/2017): comunicare orală, lectură, redactare, elemente de construcție a comunicării, elemente de interculturalitate; clasa a VIII-a în ordinea obișnuită a manualelor aprobate, în pregătirea Evaluării Naționale (textul epic: nuvela, romanul, perspectiva narativă, conflictul, textul liric: imaginar poetic, motivul literar, tema și ideea poetică, prozodia, textul dramatic: drama, textul argumentativ și eseul, textul nonliterar: cererea și CV-ul, comentarierea unor secvențe, recapitularea părților de vorbire, funcțiile sintactice ale modurilor nepersonale, caracterizarea personajului, compunerea narativă și descriptivă, înțelegerea textului nonliterar, recapitularea sintaxei și a vocabularului, dezbaterea, subordonatele subiectivă, predicativă, circumstanțiale de loc, timp, mod, cauză, scop, condițională și concesivă, conversiunea, împrumuturile, registrele limbii, ortografia și punctuația conform DOOM 3, literatura română în context european); lecții originale, fără text copiat din manuale",
  "status": "partial-original-material-independent-review-pending",
  "sourceLanguage": "ro",
  "labels": [
@@ -263,8 +263,8 @@
    "ro": {
     "title": "Prozodia: măsură, rimă, ritm (aprofundare)",
     "theory": "Prozodia studiază versul. Măsura este numărul de silabe. Rima poate fi împerecheată (aabb), încrucișată (abab), îmbrățișată (abba) sau monorimă; poate fi masculină (accent pe ultima silabă: dor – zbor) sau feminină (accent pe penultima: floare – soare). Ritmul este succesiunea regulată de silabe accentuate și neaccentuate: trohaic (/ x), iambic (x /).",
-    "sample": "Vers trohaic: Ve-ni-se-ră zi-le-n floa-re (accente pe silabele impare). Vers iambic: Pe drum a-pus de stea (accente pe silabele pare: drum, pus, stea).",
-    "worked": "În primul vers, accentul cade pe silabele 1, 3, 5, 7: ritm trohaic (accentuat – neaccentuat). În al doilea, accentul cade pe 2, 4, 6: ritm iambic (neaccentuat – accentuat). Floare rimează feminin cu soare; stea rimează masculin cu nea.",
+    "sample": "Vers trohaic: Cân-tă vân-tul prin pă-du-re (accente pe silabele impare: cân, vân, du). Vers iambic: Pe drum a-pus de stea (accente pe silabele pare: drum, pus, stea).",
+    "worked": "În primul vers, accentele cad pe silabele impare (1, 3, 7; cuvântul scurt prin, pe silaba 5, se integrează ritmului): ritm trohaic (accentuat – neaccentuat). În al doilea, accentul cade pe 2, 4, 6: ritm iambic (neaccentuat – accentuat). Floare rimează feminin cu soare; stea rimează masculin cu nea.",
     "exercises": [
      "Stabilește măsura și rima unei strofe din manual.",
      "Spune ce rimă este: dor – zbor.",
@@ -647,7 +647,7 @@
   "eu-year-ro-lower-8-l17": {
    "ro": {
     "title": "Modurile nepersonale: funcții sintactice",
-    "theory": "Modurile nepersonale pot avea diferite funcții, dar nu pot fi predicat. Infinitivul poate fi subiect (A citi este plăcut), complement direct (Poate a cânta) sau atribut (dorința de a învăța). Gerunziul este de obicei complement circumstanțial (Ascultând muzică, a adormit). Participiul poate fi atribut (cartea citită) sau nume predicativ. Supinul poate fi atribut (mașină de spălat) sau complement (Am terminat de scris).",
+    "theory": "Modurile nepersonale pot avea diferite funcții, dar nu pot fi predicat. Infinitivul poate fi subiect (A citi este plăcut), complement direct (Știe a citi) sau atribut (dorința de a învăța). Gerunziul este de obicei complement circumstanțial (Ascultând muzică, a adormit). Participiul poate fi atribut (cartea citită) sau nume predicativ. Supinul poate fi atribut (mașină de spălat) sau complement (Am terminat de scris).",
     "sample": "Dorința de a câștiga l-a motivat. Alergând, a ajuns primul. Medalia câștigată strălucea. Avea multe lucruri de făcut.",
     "worked": "De a câștiga: infinitiv, atribut (ce dorință?). Alergând: gerunziu, complement circumstanțial de mod (cum a ajuns?). Câștigată: participiu, atribut (care medalie?). De făcut: supin, atribut (ce fel de lucruri?).",
     "exercises": [
@@ -1069,7 +1069,7 @@
     "title": "Împrumuturile și registrele limbii",
     "theory": "Limba română a primit cuvinte din multe limbi: slavă (a iubi, nevastă), maghiară (oraș, gând), turcă (cafea, ciorbă), greacă (a folosi, drum), franceză (birou, șofer), engleză (weekend, laptop). Registrul limbii se alege după situație: standard (corect, neutru), familiar (între prieteni), oficial (cereri, documente), științific (termeni de specialitate).",
     "sample": "Familiar: Salut, ce faci? Mergem la un suc? / Oficial: Vă rugăm să confirmați participarea până vineri. / Științific: Fotosinteza transformă energia luminoasă în energie chimică.",
-    "worked": "Primul enunț are registru familiar (salut, la un suc). Al doilea, registru oficial (formula de politețe vă rugăm). Al treilea, registru științific (termeni precisi: fotosinteza, energie chimică).",
+    "worked": "Primul enunț are registru familiar (salut, la un suc). Al doilea, registru oficial (formula de politețe vă rugăm). Al treilea, registru științific (termeni preciși: fotosinteza, energie chimică).",
     "exercises": [
      "Transformă un mesaj familiar în registru oficial.",
      "Găsește originea cuvintelor ciorbă și birou în dicționar.",
