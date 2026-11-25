@@ -1,6 +1,6 @@
 {
  "schema": "mypocket-literature-authored-catalog/v1",
- "version": "37b1f6332f112248e5784c505420b4bd22b5fa0d40d122a924b5e1b1ceb6f3b3",
+ "version": "b48a955800158fbc82ccc767e91931809b6080bcb463abf759e167a960d14d78",
  "years": [
   {
    "country": "AD",
@@ -461,6 +461,19 @@
      "name": "English",
      "file": "en-1",
      "version": "1f750074485443b29138c12e904816eae1f3d5271a35c67d55f6e72d6450628c"
+    }
+   ]
+  },
+  {
+   "country": "NL",
+   "stage": "beginner",
+   "grade": "G1",
+   "languages": [
+    {
+     "lang": "nl",
+     "name": "Nederlands",
+     "file": "nl-g1",
+     "version": "30901c953f1d97bce3c0df34a2ff4e37dddb917d2ba0c99a96e9594b8a981788"
     }
    ]
   },
