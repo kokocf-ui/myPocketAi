@@ -1,6 +1,6 @@
 {
  "schema": "mypocket-literature-authored-catalog/v1",
- "version": "69b91bf132f45d7666f4db4706201e784f0202cfca32bd61fcd0c581c6511781",
+ "version": "93addb1fd2b6e23a658b5a3557484ed1aecbff8f7e78927ca84275f0e3812c75",
  "years": [
   {
    "country": "AT",
@@ -273,7 +273,7 @@
      "lang": "sr",
      "name": "Српски",
      "file": "sr-1",
-     "version": "03cf04998cec9f342dcb1f1d4ff6f62426051be272d63a7f6abde68d70a09658"
+     "version": "2f7bc302b946a95de1c778ada8e61e9ca47ccd3d9b0161f40002bd14a2bee995"
     }
    ]
   },
