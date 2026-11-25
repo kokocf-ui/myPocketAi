@@ -1,0 +1,1336 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "RO",
+ "stage": "medium",
+ "grade": "9",
+ "version": "604f6f7229484b848db53bcfb0694ba0ff89b26be6ad3b40bbc59ab655086336",
+ "source": "https://rocnee.eu/images/rocnee/fisiere/curriculum/programe-scolare-liceu-transparenta-02-23-2026/Anexa_nr_49_Informatic%C4%83_IX_CS_MI_INT.pdf",
+ "sourceTitle": "Programa școlară de Informatică, clasa a IX-a, filiera teoretică, profil real, specializarea matematică-informatică, intensiv informatică, Anexa nr. 49 la OMEC nr. 3716/2026 (programa nouă, aplicată din anul școlar 2026–2027; limbaje Python și C++) — principiile programării, prelucrări numerice, subprograme, introducere în programarea orientată pe obiecte, interfețe grafice tkinter, fișiere text, modelul liniar, tablouri, generarea de șiruri, sortări",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "ro",
+ "labels": [
+  "Activitate originală · România · Informatică · intensiv · Clasa a IX-a",
+  "Lecția pe înțeles",
+  "Exemplu",
+  "Ce ne arată exemplul",
+  "Exerciții",
+  "Test",
+  "Activități originale, făcute după programa școlară; nu înlocuiesc manualul sau ora de la clasă.",
+  "Dacă nu ai înțeles: pas cu pas",
+  "Răspunsuri (verifică după ce termini)"
+ ],
+ "units": [
+  {
+   "title": "Principiile programării",
+   "keys": [
+    "eu-year-ro-medium-9-l01",
+    "eu-year-ro-medium-9-l02",
+    "eu-year-ro-medium-9-l03",
+    "eu-year-ro-medium-9-l04",
+    "eu-year-ro-medium-9-l05"
+   ]
+  },
+  {
+   "title": "Prelucrări numerice",
+   "keys": [
+    "eu-year-ro-medium-9-l06",
+    "eu-year-ro-medium-9-l07",
+    "eu-year-ro-medium-9-l08",
+    "eu-year-ro-medium-9-l09",
+    "eu-year-ro-medium-9-l10",
+    "eu-year-ro-medium-9-l11",
+    "eu-year-ro-medium-9-l12"
+   ]
+  },
+  {
+   "title": "Subprograme",
+   "keys": [
+    "eu-year-ro-medium-9-l13",
+    "eu-year-ro-medium-9-l14",
+    "eu-year-ro-medium-9-l15",
+    "eu-year-ro-medium-9-l16"
+   ]
+  },
+  {
+   "title": "Introducere în programarea orientată pe obiecte",
+   "keys": [
+    "eu-year-ro-medium-9-l17",
+    "eu-year-ro-medium-9-l18"
+   ]
+  },
+  {
+   "title": "Interfețe grafice cu tkinter",
+   "keys": [
+    "eu-year-ro-medium-9-l19",
+    "eu-year-ro-medium-9-l20",
+    "eu-year-ro-medium-9-l21"
+   ]
+  },
+  {
+   "title": "Fișiere text",
+   "keys": [
+    "eu-year-ro-medium-9-l22",
+    "eu-year-ro-medium-9-l23"
+   ]
+  },
+  {
+   "title": "Modelul liniar: liste, stive, cozi",
+   "keys": [
+    "eu-year-ro-medium-9-l24",
+    "eu-year-ro-medium-9-l25",
+    "eu-year-ro-medium-9-l26",
+    "eu-year-ro-medium-9-l27"
+   ]
+  },
+  {
+   "title": "Tablouri în Python și C++",
+   "keys": [
+    "eu-year-ro-medium-9-l28",
+    "eu-year-ro-medium-9-l29",
+    "eu-year-ro-medium-9-l30"
+   ]
+  },
+  {
+   "title": "Generarea de șiruri",
+   "keys": [
+    "eu-year-ro-medium-9-l31",
+    "eu-year-ro-medium-9-l32"
+   ]
+  },
+  {
+   "title": "Sortări",
+   "keys": [
+    "eu-year-ro-medium-9-l33",
+    "eu-year-ro-medium-9-l34",
+    "eu-year-ro-medium-9-l35"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-ro-medium-9-l01": {
+   "ro": {
+    "title": "Gândirea computațională",
+    "theory": "Gândirea computațională este modul de a rezolva probleme astfel încât soluția să poată fi executată de un calculator. Are patru componente. Descompunerea: împărțim problema mare în subprobleme mai mici. Recunoașterea tiparelor: observăm ce se repetă sau ce seamănă cu probleme deja rezolvate. Abstractizarea: păstrăm doar informațiile importante și ignorăm detaliile inutile. Algoritmul: scriem pașii clari, finiți și neambigui care duc la rezultat. Un algoritm corect are date de intrare, date de ieșire, pași bine definiți și se termină după un număr finit de pași. Aceste idei se folosesc în orice limbaj: în acest an lucrăm în paralel în Python și C++.",
+    "sample": "Problema: „afișează câte zile au trecut de la începutul anului până la o dată”. Descompunere: citirea datei, numărul de zile al lunilor anterioare, anul bisect. Tipar: aceeași adunare pentru fiecare lună. Abstractizare: ne interesează doar ziua, luna, anul.",
+    "worked": "Problema aparent complicată s-a redus la trei subprobleme simple. Tiparul repetat sugerează o buclă, iar abstractizarea ne spune ce date trebuie citite.",
+    "exercises": [
+     "Descompune problema organizării unei excursii în subprobleme.",
+     "Găsește tiparul comun pentru calculul ariilor mai multor dreptunghiuri.",
+     "Aplică abstractizarea pentru o hartă de metrou.",
+     "Enumeră proprietățile unui algoritm.",
+     "Descompune problema „este o dată calendaristică validă?”."
+    ],
+    "test": [
+     "Care sunt cele patru componente ale gândirii computaționale?",
+     "Ce înseamnă abstractizarea?",
+     "Ce proprietăți are un algoritm?",
+     "Ce înseamnă descompunerea?",
+     "De ce căutăm tipare?"
+    ],
+    "steps": [
+     "Înțelege ce se cere și care sunt datele.",
+     "Descompune problema și caută părți care se repetă sau sunt deja cunoscute.",
+     "Scrie pașii algoritmului și verifică-i pe un exemplu.",
+     "Greșeala frecventă: să începi direct să scrii cod fără să înțelegi și să descompui problema."
+    ],
+    "answers": [
+     "Descompunerea, recunoașterea tiparelor, abstractizarea și algoritmul.",
+     "Păstrarea doar a informațiilor importante.",
+     "Date de intrare și ieșire, pași clari, terminare după un număr finit de pași.",
+     "Împărțirea problemei în subprobleme mai mici.",
+     "Ca să refolosim soluții și să găsim repetări."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l02": {
+   "ro": {
+    "title": "Etapele rezolvării unei probleme",
+    "theory": "Rezolvarea unei probleme cu calculatorul trece prin etape. Analiza: înțelegem enunțul, identificăm datele de intrare, de ieșire și restricțiile (de exemplu 1 ≤ n ≤ 10⁹), facem exemple de mână. Proiectarea: alegem metoda și scriem algoritmul în pseudocod sau schemă logică. Implementarea: scriem programul într-un limbaj de programare. Testarea: rulăm pe exemplele din enunț, pe cazuri limită (cele mai mici și cele mai mari valori) și pe cazuri speciale; corectăm erorile (depanare). Documentarea: comentarii și explicații pentru cine va citi codul. Restricțiile influențează alegerea tipurilor de date (în C++ int ajunge până la aproximativ 2·10⁹, long long până la 9·10¹⁸) și a algoritmului.",
+    "sample": "Problemă: suma numerelor de la 1 la n, cu n ≤ 10⁹. Analiză: suma ajunge la aproximativ 5·10¹⁷, deci în C++ e nevoie de long long. Proiectare: formula n(n+1)/2 în loc de buclă. Testare: n = 1, n = 10, n = 10⁹.",
+    "worked": "Restricția a decis atât tipul de date, cât și metoda: o buclă de un miliard de pași ar fi prea lentă, iar int ar depăși capacitatea.",
+    "exercises": [
+     "Analizează o problemă dată: intrare, ieșire, restricții.",
+     "Alege tipul de date pentru rezultate de până la 10¹².",
+     "Construiește trei teste, inclusiv cazuri limită.",
+     "Explică diferența dintre implementare și proiectare.",
+     "Documentează un program scurt cu comentarii."
+    ],
+    "test": [
+     "Ce se face în etapa de analiză?",
+     "Ce este un caz limită?",
+     "Până la ce valoare aproximativă merge int în C++?",
+     "De ce contează restricțiile?",
+     "Ce înseamnă depanarea?"
+    ],
+    "steps": [
+     "Analizează enunțul și restricțiile, cu exemple de mână.",
+     "Proiectează algoritmul, apoi implementează-l.",
+     "Testează pe exemple, cazuri limită și speciale, apoi documentează.",
+     "Greșeala frecventă: să testezi doar pe exemplul din enunț; greșelile apar de obicei la cazurile limită."
+    ],
+    "answers": [
+     "Identificăm datele, rezultatele și restricțiile.",
+     "O valoare de la marginea intervalului permis.",
+     "Aproximativ 2·10⁹.",
+     "Hotărăsc tipurile de date și algoritmul potrivit.",
+     "Găsirea și corectarea erorilor."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l03": {
+   "ro": {
+    "title": "Pseudocod și urmărirea algoritmilor",
+    "theory": "Pseudocodul descrie algoritmul independent de limbaj, cu structurile: citește, scrie, ← (atribuire), dacă … atunci … altfel, cât timp … execută, pentru i ← a, b execută, repetă … până când. Operatorii folosiți: [x] partea întreagă, x % y restul, și, sau, not. Urmărirea (trace) unui algoritm înseamnă executarea lui pe hârtie, cu un tabel în care notăm valorile variabilelor după fiecare pas. Este principala metodă de a înțelege ce face un algoritm dat și de a găsi greșeli. La examene apar des cerințe ca: „ce se afișează pentru datele …”, „dați un set de date pentru care se afișează …”, „scrieți un algoritm echivalent care folosește altă structură repetitivă”.",
+    "sample": "citește n; k ← 0; cât timp n > 0 execută dacă n % 2 = 1 atunci k ← k + 1; n ← [n / 2]. scrie k. Pentru n = 13: n = 13 (k = 1), 6, 3 (k = 2), 1 (k = 3), 0. Se afișează 3.",
+    "worked": "Algoritmul împarte repetat la 2 și numără resturile 1: numără cifrele 1 din scrierea în baza 2 (13 = 1101₂ are trei cifre 1). Urmărirea ne-a arătat ce face, nu doar rezultatul.",
+    "exercises": [
+     "Urmărește un algoritm dat pentru două seturi de date.",
+     "Găsește un set de date pentru care algoritmul afișează 0.",
+     "Rescrie un algoritm cu cât timp folosind pentru.",
+     "Spune ce face, în cuvinte, un algoritm urmărit.",
+     "Traduce un algoritm din pseudocod în Python și C++."
+    ],
+    "test": [
+     "Ce înseamnă [x]?",
+     "Ce este urmărirea unui algoritm?",
+     "Ce conține tabelul de urmărire?",
+     "Ce structuri repetitive are pseudocodul?",
+     "Cum se scrie atribuirea în pseudocod?"
+    ],
+    "steps": [
+     "Construiește un tabel cu o coloană pentru fiecare variabilă.",
+     "Execută pas cu pas și notează fiecare modificare.",
+     "Formulează în cuvinte ce face algoritmul și verifică pe alt exemplu.",
+     "Greșeala frecventă: să sari pași în tabel „pentru că se vede”; exact acolo apar greșelile."
+    ],
+    "answers": [
+     "Partea întreagă a lui x.",
+     "Executarea lui pe hârtie, pas cu pas.",
+     "Valorile variabilelor după fiecare pas.",
+     "Cât timp, pentru, repetă … până când.",
+     "Cu săgeata ←."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l04": {
+   "ro": {
+    "title": "Proiectarea modulară",
+    "theory": "Proiectarea modulară înseamnă împărțirea unui program în module (subprograme, funcții) care rezolvă fiecare o sarcină bine definită. Proiectarea descendentă (top-down) pornește de la problema întreagă și o rafinează în subprobleme, până când fiecare este suficient de simplă. Avantaje: codul se citește și se testează mai ușor, un modul se poate refolosi, mai multe persoane pot lucra în paralel, o greșeală se caută într-un loc mic. Un modul bun are un nume care spune ce face, primește datele prin parametri, întoarce rezultatul și nu depinde de detalii din alte părți ale programului. Vom învăța sintaxa subprogramelor în Python și C++ într-un capitol următor.",
+    "sample": "Problema: afișează numerele prime palindrom mai mici decât n. Module: estePrim(x), estePalindrom(x) și programul principal care parcurge numerele și le afișează pe cele care trec ambele teste.",
+    "worked": "Fiecare modul se poate testa separat (estePrim(7) trebuie să dea adevărat). Programul principal rămâne scurt și ușor de urmărit.",
+    "exercises": [
+     "Împarte în module problema „media numerelor prime dintr-un șir”.",
+     "Desenează arborele proiectării descendente pentru un joc simplu.",
+     "Dă nume potrivite pentru trei module.",
+     "Explică două avantaje ale programării modulare.",
+     "Identifică un modul refolosibil în două probleme diferite."
+    ],
+    "test": [
+     "Ce este un modul?",
+     "Ce înseamnă proiectarea descendentă?",
+     "De ce se testează mai ușor un program modular?",
+     "Ce trebuie să spună numele unui modul?",
+     "Cum comunică modulele între ele?"
+    ],
+    "steps": [
+     "Scrie problema principală și împarte-o în sarcini.",
+     "Rafinează fiecare sarcină până devine simplă.",
+     "Stabilește pentru fiecare modul datele primite și rezultatul.",
+     "Greșeala frecventă: să faci module care modifică variabile globale ascunse; devin greu de testat și de refolosit."
+    ],
+    "answers": [
+     "O parte a programului care rezolvă o sarcină bine definită.",
+     "Rafinarea problemei de sus în jos, în subprobleme.",
+     "Pentru că fiecare modul se poate verifica separat.",
+     "Ce face modulul.",
+     "Prin parametri și valori returnate."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l05": {
+   "ro": {
+    "title": "Eficiența algoritmilor: noțiunea de complexitate",
+    "theory": "Pentru aceeași problemă pot exista algoritmi mai rapizi și mai lenți. Măsurăm eficiența prin numărul de operații în funcție de mărimea datelor n, nu prin secunde. Notația O mare descrie cum crește acest număr: O(1) – constant (formula n(n+1)/2), O(log n) – logaritmic (împărțirea repetată la 2), O(√n) – testul de primalitate până la radical, O(n) – liniar (o parcurgere), O(n log n) – sortările eficiente, O(n²) – două bucle imbricate. Un calculator face, orientativ, câteva sute de milioane de operații simple pe secundă; pentru n = 10⁶, un algoritm O(n²) face 10¹² operații – mult prea mult, iar unul O(n) termină imediat. Analiza complexității ne ajută să alegem algoritmul înainte de a-l scrie.",
+    "sample": "Primalitatea lui n = 10⁹ + 7: încercând toți divizorii de la 2 la n − 1 facem aproximativ 10⁹ împărțiri; până la √n doar aproximativ 31.623.",
+    "worked": "Ambele metode dau același răspuns, dar a doua este de circa 30.000 de ori mai rapidă. Diferența vine din complexitate: O(n) față de O(√n).",
+    "exercises": [
+     "Stabilește complexitatea a trei fragmente de cod.",
+     "Compară O(n) și O(n²) pentru n = 10⁵.",
+     "Explică de ce suma 1 + … + n se poate face în O(1).",
+     "Estimează dacă un algoritm O(n²) merge pentru n = 10⁴ într-o secundă.",
+     "Ordonează complexitățile de la cea mai rapidă la cea mai lentă."
+    ],
+    "test": [
+     "Ce măsoară complexitatea?",
+     "Ce complexitate are o parcurgere a unui șir?",
+     "Ce complexitate au două bucle imbricate de câte n pași?",
+     "Ce complexitate are testul de primalitate până la radical?",
+     "Ce înseamnă O(1)?"
+    ],
+    "steps": [
+     "Identifică mărimea datelor n.",
+     "Numără de câte ori se execută operația principală în funcție de n.",
+     "Păstrează termenul care crește cel mai repede și compară cu restricțiile.",
+     "Greșeala frecventă: să crezi că un algoritm corect este automat bun; poate fi prea lent pentru restricții mari."
+    ],
+    "answers": [
+     "Cum crește numărul de operații în funcție de mărimea datelor.",
+     "O(n).",
+     "O(n²).",
+     "O(√n).",
+     "Un număr constant de operații, indiferent de n."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l06": {
+   "ro": {
+    "title": "Prelucrarea cifrelor: invers, palindrom, cifre speciale",
+    "theory": "Ultima cifră a lui n este n % 10, iar n // 10 (Python) sau n / 10 (C++, întregi) o elimină. Repetând cât timp n > 0 parcurgem cifrele de la dreapta. Inversul (oglinditul) se construiește adăugând fiecare cifră la dreapta rezultatului: inv = inv * 10 + n % 10. Un număr este palindrom dacă este egal cu inversul lui (12321). Alte prelucrări: suma și produsul cifrelor, cifra maximă, numărul de cifre pare, eliminarea cifrelor pare (construim noul număr cu p = puterea lui 10 corespunzătoare). Pentru a păstra valoarea inițială, lucrăm pe o copie. În Python putem folosi și str(n)[::-1], dar algoritmul aritmetic este cerut la examene și merge identic în C++.",
+    "sample": "n = 2470. inv: 0 → 0·10 + 0 = 0; 0·10 + 7 = 7; 7·10 + 4 = 74; 74·10 + 2 = 742. Inversul lui 2470 este 742, deci 2470 nu este palindrom.",
+    "worked": "Cifra 0 de la final dispare din invers, pentru că 0 la început nu se scrie. Comparația cu valoarea inițială cere o copie, pentru că n a devenit 0 în timpul calculului.",
+    "exercises": [
+     "Calculează inversul unui număr în Python și în C++.",
+     "Verifică dacă un număr este palindrom.",
+     "Elimină cifrele pare ale unui număr păstrând ordinea celorlalte.",
+     "Afișează cifra maximă și de câte ori apare.",
+     "Construiește numărul format din prima și ultima cifră."
+    ],
+    "test": [
+     "Ce expresie dă ultima cifră?",
+     "Cum se construiește inversul?",
+     "Ce este un palindrom?",
+     "De ce lucrăm pe o copie a lui n?",
+     "Cât este inversul lui 1200?"
+    ],
+    "steps": [
+     "Fă o copie a numărului.",
+     "Extrage cifrele una câte una și prelucrează-le.",
+     "Compară sau afișează rezultatul și testează și pentru n = 0.",
+     "Greșeala frecventă: să compari inversul cu n după ce n a devenit 0 în buclă."
+    ],
+    "answers": [
+     "n % 10.",
+     "inv = inv * 10 + ultima cifră.",
+     "Un număr egal cu inversul lui.",
+     "Pentru că n se modifică în buclă, iar valoarea inițială se pierde.",
+     "21."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l07": {
+   "ro": {
+    "title": "Divizori și numere prime",
+    "theory": "Divizorii lui n vin în perechi (d, n / d), cu d ≤ √n ≤ n / d. De aceea îi putem găsi parcurgând d doar de la 1 până când d * d ≤ n: pentru fiecare d care divide n, numărăm atât d cât și n / d, cu grijă la d * d = n (pătrat perfect, divizorul se numără o singură dată). Complexitatea scade de la O(n) la O(√n). Un număr n ≥ 2 este prim dacă nu are divizori între 2 și √n. Testul eficient: tratăm separat 2, apoi încercăm doar divizorii impari. Folosim condiția d * d <= n (în C++ cu long long dacă n e mare) în loc de sqrt, ca să evităm erorile de rotunjire.",
+    "sample": "Divizorii lui 36: d = 1 (1, 36), 2 (2, 18), 3 (3, 12), 4 (4, 9), 6 (6, o singură dată, pentru că 6 · 6 = 36). Total 9 divizori, găsiți cu doar 6 încercări.",
+    "worked": "Perechile reduc munca la √36 = 6 pași. Pătratul perfect are număr impar de divizori, pentru că divizorul din mijloc nu are pereche distinctă.",
+    "exercises": [
+     "Numără divizorii lui n în O(√n).",
+     "Calculează suma divizorilor lui n.",
+     "Verifică primalitatea unui număr până la 10¹² în C++.",
+     "Afișează numerele prime dintr-un interval.",
+     "Verifică dacă un număr este perfect (egal cu suma divizorilor proprii)."
+    ],
+    "test": [
+     "De ce ajunge să parcurgem până la √n?",
+     "Ce se întâmplă cu divizorii unui pătrat perfect?",
+     "Care este cel mai mic număr prim?",
+     "De ce scriem d * d <= n în loc de d <= sqrt(n)?",
+     "Ce complexitate are testul de primalitate eficient?"
+    ],
+    "steps": [
+     "Parcurge d cât timp d * d ≤ n.",
+     "Pentru fiecare divizor d, ia în calcul și perechea n / d, o singură dată dacă sunt egale.",
+     "Testează pe 1, pe un prim, pe un pătrat perfect.",
+     "Greșeala frecventă: să declari 1 număr prim sau să numeri de două ori rădăcina unui pătrat perfect."
+    ],
+    "answers": [
+     "Pentru că divizorii vin în perechi d și n / d, iar unul este cel mult √n.",
+     "Rădăcina pătrată se numără o singură dată.",
+     "2.",
+     "Ca să evităm erorile de rotunjire ale numerelor reale.",
+     "O(√n)."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l08": {
+   "ro": {
+    "title": "Descompunerea în factori primi",
+    "theory": "Orice număr natural n ≥ 2 se scrie în mod unic ca produs de puteri de numere prime (teorema fundamentală a aritmeticii): 360 = 2³ · 3² · 5. Algoritmul: d = 2; cât timp n > 1: dacă d divide n, numărăm de câte ori (împărțim repetat) și afișăm d cu exponentul; apoi d crește. Optimizare: dacă d * d > n și n > 1, atunci n rămas este prim și este ultimul factor. Din descompunere obținem: numărul divizorilor (produsul (eᵢ + 1)), suma divizorilor, cmmdc și cmmmc. Complexitatea, cu optimizarea, este O(√n).",
+    "sample": "360: d = 2 → 180, 90, 45 (exponent 3); d = 3 → 15, 5 (exponent 2); d = 4 nu; d = 5 → 1 (exponent 1). Numărul divizorilor: (3 + 1)(2 + 1)(1 + 1) = 24.",
+    "worked": "Împărțirea repetată elimină complet fiecare factor, de aceea d = 4 nu mai poate divide n (factorul 2 a fost epuizat). Exponenții dau direct numărul divizorilor.",
+    "exercises": [
+     "Descompune în factori primi un număr citit.",
+     "Calculează numărul divizorilor din descompunere.",
+     "Afișează cel mai mare factor prim.",
+     "Verifică dacă un număr este liber de pătrate.",
+     "Folosește optimizarea d * d > n și explică efectul."
+    ],
+    "test": [
+     "Ce spune teorema fundamentală a aritmeticii?",
+     "De ce d = 4 nu divide niciodată n în algoritm?",
+     "Cum calculăm numărul divizorilor din exponenți?",
+     "Ce știm despre n dacă d * d > n și n > 1?",
+     "Care este descompunerea lui 84?"
+    ],
+    "steps": [
+     "Pornește cu d = 2 și împarte repetat cât timp d divide n, numărând exponentul.",
+     "Treci la următorul d până când d * d > n.",
+     "Dacă n rămas este mai mare decât 1, este ultimul factor prim.",
+     "Greșeala frecventă: să uiți factorul prim mare rămas la final (de exemplu 2 · 97 pentru 194)."
+    ],
+    "answers": [
+     "Orice n ≥ 2 se scrie unic ca produs de puteri de numere prime.",
+     "Pentru că factorul 2 a fost deja eliminat complet.",
+     "Înmulțim exponenții mărite cu 1.",
+     "Că n este prim.",
+     "2² · 3 · 7."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l09": {
+   "ro": {
+    "title": "Algoritmul lui Euclid: cmmdc, cmmmc, fracții",
+    "theory": "Algoritmul lui Euclid se bazează pe proprietatea cmmdc(a, b) = cmmdc(b, a % b). Varianta cu resturi: cât timp b ≠ 0: r = a % b; a = b; b = r; rezultatul este a. Varianta cu scăderi (mai lentă) înlocuiește numărul mai mare cu diferența. Complexitatea variantei cu resturi este O(log min(a, b)). Cmmmc se calculează ca a / cmmdc · b (împărțim întâi, ca să evităm depășirea). Aplicații: simplificarea fracțiilor (împărțim numărătorul și numitorul la cmmdc), numere prime între ele (cmmdc = 1), aducerea fracțiilor la același numitor. Python are math.gcd, C++ are std::gcd (C++17), dar algoritmul trebuie știut.",
+    "sample": "Simplificăm 84/126: cmmdc(84, 126): (126, 84) → (84, 42) → (42, 0), deci 42. Fracția devine 2/3. Cmmmc(84, 126) = 84 / 42 · 126 = 252.",
+    "worked": "Doar trei pași au fost necesari. Calculul cmmmc cu împărțirea la început păstrează valorile intermediare mici.",
+    "exercises": [
+     "Implementează Euclid cu resturi în Python și C++.",
+     "Simplifică o fracție citită.",
+     "Adună două fracții și afișează rezultatul ireductibil.",
+     "Verifică dacă două numere sunt prime între ele.",
+     "Calculează cmmdc pentru n numere."
+    ],
+    "test": [
+     "Pe ce proprietate se bazează algoritmul?",
+     "Când se oprește varianta cu resturi?",
+     "De ce calculăm a / cmmdc · b?",
+     "Când sunt două numere prime între ele?",
+     "Ce complexitate are varianta cu resturi?"
+    ],
+    "steps": [
+     "Aplică repetat (a, b) → (b, a % b) până când b devine 0.",
+     "Rezultatul este a; folosește-l pentru cmmmc sau simplificare.",
+     "Testează și cu un număr egal cu 0 sau cu numere egale.",
+     "Greșeala frecventă: să calculezi cmmmc ca a · b / cmmdc pe int; produsul poate depăși capacitatea tipului."
+    ],
+    "answers": [
+     "cmmdc(a, b) = cmmdc(b, a % b).",
+     "Când b devine 0.",
+     "Ca să evităm depășirea capacității.",
+     "Când cmmdc-ul lor este 1.",
+     "O(log min(a, b))."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l10": {
+   "ro": {
+    "title": "Baze de numerație",
+    "theory": "Un număr se poate scrie în orice bază b ≥ 2, folosind cifrele 0 … b − 1. Calculatoarele folosesc baza 2 (binar); baza 16 (hexazecimal, cu cifrele 0–9 și A–F) este o scriere prescurtată a binarului. Conversia din baza 10 în baza b: împărțim repetat la b și reținem resturile; cifrele rezultatului sunt resturile, citite în ordine inversă. Conversia din baza b în baza 10: fiecare cifră se înmulțește cu b la puterea poziției (schema lui Horner: rez = rez · b + cifră, de la stânga la dreapta). Între baza 2 și 16 grupăm câte 4 cifre binare. În program, rezultatul în baza 2 se poate construi ca număr zecimal cu aceleași cifre (rez = rez + rest · p, p = p · 10) pentru valori mici.",
+    "sample": "25 în baza 2: 25:2 = 12 rest 1; 12:2 = 6 rest 0; 6:2 = 3 rest 0; 3:2 = 1 rest 1; 1:2 = 0 rest 1. Citit invers: 11001₂. Verificare: 16 + 8 + 1 = 25.",
+    "worked": "Resturile dau cifrele de la dreapta spre stânga, de aceea se citesc invers. Verificarea prin puteri ale lui 2 confirmă rezultatul.",
+    "exercises": [
+     "Transformă 100 în baza 2 și în baza 16.",
+     "Transformă 101101₂ în baza 10 cu schema lui Horner.",
+     "Scrie un program de conversie din baza 10 în baza b ≤ 9.",
+     "Transformă 3F₁₆ în baza 2 și în baza 10.",
+     "Verifică dacă un număr este putere a lui 2 analizând scrierea binară."
+    ],
+    "test": [
+     "Ce cifre are baza 2?",
+     "Ce cifră hexazecimală înseamnă 15?",
+     "Cum se citesc resturile la conversia din baza 10?",
+     "Câte cifre binare corespund unei cifre hexazecimale?",
+     "Ce face schema lui Horner?"
+    ],
+    "steps": [
+     "Împarte repetat la b și notează resturile.",
+     "Citește resturile de la ultimul la primul.",
+     "Verifică prin conversia înapoi în baza 10.",
+     "Greșeala frecventă: să citești resturile în ordinea obținerii; numărul iese inversat."
+    ],
+    "answers": [
+     "0 și 1.",
+     "F.",
+     "În ordine inversă obținerii.",
+     "Patru.",
+     "Calculează valoarea în baza 10 prin rez = rez · b + cifră."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l11": {
+   "ro": {
+    "title": "Ciurul lui Eratostene",
+    "theory": "Când trebuie să aflăm toate numerele prime până la n (sau să răspundem rapid la multe întrebări „este x prim?”), testarea fiecărui număr este lentă. Ciurul lui Eratostene folosește un tablou de marcaje: la început presupunem toate numerele de la 2 la n prime; pentru fiecare i de la 2 cu i * i ≤ n, dacă i este încă nemarcat (prim), marcăm toți multiplii lui începând cu i * i (i * i, i * i + i, …) ca neprimi. La final, numerele nemarcate sunt prime. Complexitatea este aproximativ O(n log log n), foarte aproape de liniară. Memoria necesară este un tablou de n + 1 elemente; pentru n de ordinul 10⁷ încă este rezonabil.",
+    "sample": "n = 30. i = 2: marcăm 4, 6, …, 30. i = 3: marcăm 9, 15, 21, 27 (6, 12… erau deja marcate). i = 4 este marcat, îl sărim. i = 5: marcăm 25. 6 · 6 > 30, ne oprim. Prime: 2, 3, 5, 7, 11, 13, 17, 19, 23, 29.",
+    "worked": "Pornirea de la i * i evită marcarea repetată: multiplii mai mici ai lui i au fost deja marcați de factori mai mici. Am obținut toate primele cu foarte puține operații.",
+    "exercises": [
+     "Implementează ciurul până la n în Python și C++.",
+     "Numără numerele prime până la 10⁶.",
+     "Răspunde la q întrebări „este x prim?” folosind ciurul.",
+     "Afișează perechile de prime gemene până la n.",
+     "Explică de ce începem marcarea de la i * i."
+    ],
+    "test": [
+     "Ce problemă rezolvă ciurul?",
+     "De la ce valoare marcăm multiplii lui i?",
+     "Până unde merge i?",
+     "Ce memorie folosește ciurul?",
+     "Ce complexitate are aproximativ?"
+    ],
+    "steps": [
+     "Creează tabloul de marcaje, cu toate numerele de la 2 presupuse prime.",
+     "Pentru fiecare i prim cu i * i ≤ n, marchează multiplii de la i * i.",
+     "Parcurge tabloul și folosește numerele nemarcate.",
+     "Greșeala frecventă: să marchezi și numărul i însuși ca neprim, pornind de la i în loc de 2 · i sau i · i."
+    ],
+    "answers": [
+     "Găsirea tuturor numerelor prime până la n.",
+     "De la i * i.",
+     "Cât timp i * i ≤ n.",
+     "Un tablou de n + 1 marcaje.",
+     "O(n log log n)."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l12": {
+   "ro": {
+    "title": "Exponențierea rapidă",
+    "theory": "Calculul lui aⁿ prin n înmulțiri are complexitatea O(n). Exponențierea rapidă folosește observația: dacă n este par, aⁿ = (a²)ⁿ/²; dacă n este impar, aⁿ = a · aⁿ⁻¹. Iterativ: rez = 1; cât timp n > 0: dacă n este impar, rez = rez · a; a = a · a; n = n / 2. Numărul de pași este cât numărul de cifre binare ale lui n, adică O(log n). Pentru numere mari se lucrează modulo un număr m (de exemplu 10⁹ + 7): după fiecare înmulțire luăm restul la m, ca valorile să rămână mici. În Python, pow(a, n, m) face același lucru; în C++ folosim long long pentru produsele intermediare.",
+    "sample": "3¹³ mod 1000: n = 13 (impar) → rez = 3, a = 9, n = 6; par → a = 81, n = 3; impar → rez = 243, a = 6561 mod 1000 = 561, n = 1; impar → rez = 243 · 561 mod 1000 = 323, n = 0. Rezultat 323 (3¹³ = 1.594.323).",
+    "worked": "Am făcut 4 pași în loc de 13 înmulțiri. Restul la 1000 după fiecare înmulțire a păstrat numerele mici, iar rezultatul coincide cu ultimele trei cifre ale lui 3¹³.",
+    "exercises": [
+     "Implementează exponențierea rapidă iterativ.",
+     "Calculează 2¹⁰⁰ mod 10⁹ + 7.",
+     "Urmărește algoritmul pentru 5⁹.",
+     "Compară numărul de pași cu metoda simplă pentru n = 10⁹.",
+     "Calculează ultima cifră a lui 7²⁰²⁶."
+    ],
+    "test": [
+     "Ce complexitate are exponențierea rapidă?",
+     "Ce facem când exponentul este impar?",
+     "De ce luăm restul la m după fiecare înmulțire?",
+     "Ce funcție Python face exponențiere modulară?",
+     "Câți pași aproximativ pentru n = 10⁹?"
+    ],
+    "steps": [
+     "Pornește cu rez = 1.",
+     "Cât timp n > 0: dacă n e impar înmulțește rez cu a; ridică a la pătrat; înjumătățește n.",
+     "Aplică modulo după fiecare înmulțire și verifică pe un exemplu mic.",
+     "Greșeala frecventă: să aplici modulo doar la final; valorile intermediare depășesc capacitatea tipului."
+    ],
+    "answers": [
+     "O(log n).",
+     "Înmulțim rezultatul cu a.",
+     "Ca valorile să rămână mici și să nu depășească tipul.",
+     "pow(a, n, m).",
+     "Aproximativ 30."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l13": {
+   "ro": {
+    "title": "Funcții predefinite în Python și C++",
+    "theory": "Limbajele oferă funcții gata făcute (predefinite), grupate în biblioteci. În Python: abs, round, min, max, sum, len, int, float, str, input, print; modulul math (import math) are math.sqrt, math.floor, math.ceil, math.gcd, math.pi. În C++, biblioteca <cmath> are sqrt, pow, abs/fabs, floor, ceil, round; <algorithm> are min, max, swap, sort; <numeric> are gcd (C++17). Apelul unei funcții are forma nume(argumente) și întoarce un rezultat care poate fi folosit în expresii. Atenție la tipuri: sqrt și pow lucrează cu numere reale și pot da mici erori de rotunjire (pow(10, 2) poate deveni 99.9999 la conversia în int). Pentru verificarea pătratelor perfecte comparăm r * r cu n, unde r este rădăcina rotunjită.",
+    "sample": "Ipotenuza unui triunghi dreptunghic cu catetele 5 și 12: Python math.sqrt(5**2 + 12**2) dă 13.0; C++ sqrt(5*5 + 12*12) dă 13. Rotunjirea la două zecimale: round(x, 2) în Python.",
+    "worked": "Funcțiile predefinite scurtează codul și sunt bine testate. Trebuie însă cunoscute tipul rezultatului și posibilele erori de rotunjire ale numerelor reale.",
+    "exercises": [
+     "Calculează distanța dintre două puncte cu sqrt.",
+     "Verifică dacă un număr este pătrat perfect fără erori de rotunjire.",
+     "Afișează partea întreagă inferioară și superioară a unui număr real.",
+     "Folosește min și max pentru trei numere.",
+     "Compară math.gcd cu algoritmul lui Euclid scris de tine."
+    ],
+    "test": [
+     "Ce modul Python conține sqrt?",
+     "Ce bibliotecă C++ conține sqrt?",
+     "Ce face floor?",
+     "De ce pow poate da rezultate imprecise?",
+     "Ce întoarce len într-o listă?"
+    ],
+    "steps": [
+     "Identifică funcția predefinită potrivită și biblioteca ei.",
+     "Include sau importă biblioteca și apelează funcția cu argumentele corecte.",
+     "Verifică tipul rezultatului și posibilele rotunjiri.",
+     "Greșeala frecventă: să folosești int(pow(10, 2)) sau int(sqrt(n)) fără verificare; rotunjirea poate da 99 în loc de 100."
+    ],
+    "answers": [
+     "math.",
+     "<cmath>.",
+     "Rotunjește în jos la cel mai apropiat întreg.",
+     "Lucrează cu numere reale, care au erori de rotunjire.",
+     "Numărul de elemente."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l14": {
+   "ro": {
+    "title": "Definirea și apelul subprogramelor",
+    "theory": "Un subprogram (funcție) are un nume, parametri (datele primite) și, de obicei, un rezultat întors cu return. Python: def suma_cifre(n): … return s. C++: int sumaCifre(int n) { … return s; } – tipul rezultatului se scrie înaintea numelui; o funcție care nu întoarce nimic are tipul void. Parametrii din definiție se numesc formali; valorile din apel se numesc efective (argumente) și trebuie să corespundă ca număr, ordine și tip. La apel, execuția sare în funcție, iar la return revine în locul apelului cu valoarea calculată. În C++ funcția trebuie declarată înainte de a fi folosită (definită deasupra lui main sau prin prototip).",
+    "sample": "def este_prim(x): if x < 2: return False; d = 2; while d * d <= x: if x % d == 0: return False; d += 1; return True. Apel: print([x for x in range(20) if este_prim(x)]) afișează [2, 3, 5, 7, 11, 13, 17, 19].",
+    "worked": "Funcția încapsulează testul și poate fi apelată de oricâte ori. Return oprește imediat execuția funcției când găsim un divizor.",
+    "exercises": [
+     "Scrie funcția estePrim în Python și C++.",
+     "Scrie funcția inversul(n) și folosește-o pentru palindrom.",
+     "Scrie o funcție void care afișează o linie de n stele.",
+     "Identifică parametrii formali și efectivi într-un exemplu.",
+     "Scrie funcția cmmdc(a, b) și folosește-o pentru cmmmc."
+    ],
+    "test": [
+     "Ce face return?",
+     "Ce tip are o funcție C++ care nu întoarce nimic?",
+     "Ce sunt parametrii formali?",
+     "Ce trebuie să corespundă între parametrii formali și cei efectivi?",
+     "Unde trebuie definită funcția în C++ față de main?"
+    ],
+    "steps": [
+     "Stabilește ce primește funcția și ce întoarce.",
+     "Scrie antetul cu numele și parametrii, apoi corpul cu return.",
+     "Testează funcția separat, apoi folosește-o în programul principal.",
+     "Greșeala frecventă: să afișezi rezultatul în funcție în loc să-l întorci cu return; nu-l mai poți folosi în calcule."
+    ],
+    "answers": [
+     "Întoarce rezultatul și încheie execuția funcției.",
+     "void.",
+     "Parametrii din definiția funcției.",
+     "Numărul, ordinea și tipul.",
+     "Înainte de main sau declarată printr-un prototip."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l15": {
+   "ro": {
+    "title": "Transmiterea parametrilor",
+    "theory": "În C++, implicit, parametrii se transmit prin valoare: funcția primește o copie, iar modificările din funcție nu afectează variabila din apel. Prin referință (cu & în antet: void schimba(int &a, int &b)), funcția lucrează direct cu variabila din apel și o poate modifica; așa întoarcem mai multe rezultate. Tablourile se transmit fără copiere, deci funcția le poate modifica. În Python toate valorile sunt obiecte transmise prin referința obiectului: numerele, șirurile și tuplurile nu se pot modifica (imutabile), deci o atribuire în funcție nu schimbă variabila din apel; listele se pot modifica (mutabile), deci list.append în funcție se vede afară. Pentru mai multe rezultate, în Python întoarcem un tuplu: return a, b.",
+    "sample": "C++: void schimba(int &a, int &b) { int aux = a; a = b; b = aux; } – după schimba(x, y), x și y și-au schimbat valorile. Python: def schimba(a, b): return b, a; x, y = schimba(x, y).",
+    "worked": "Fără & în C++, funcția ar fi interschimbat doar copiile. În Python, rezultatul se obține prin valorile întoarse și reatribuite.",
+    "exercises": [
+     "Scrie o funcție C++ care întoarce prin referință suma și produsul.",
+     "Arată diferența dintre transmiterea prin valoare și prin referință.",
+     "Scrie o funcție Python care întoarce minimul și maximul unei liste.",
+     "Explică de ce o listă modificată în funcție se schimbă și în afară.",
+     "Scrie o funcție care inversează elementele unui tablou."
+    ],
+    "test": [
+     "Ce primește funcția la transmiterea prin valoare?",
+     "Ce simbol marchează referința în C++?",
+     "Cum întoarcem două rezultate în Python?",
+     "Se modifică un întreg Python atribuit în funcție?",
+     "Se transmit tablourile C++ prin copiere?"
+    ],
+    "steps": [
+     "Stabilește dacă funcția trebuie să modifice datele din apel.",
+     "Folosește referința în C++ sau valori returnate în Python.",
+     "Testează valorile variabilelor înainte și după apel.",
+     "Greșeala frecventă: să uiți & în C++ și să te miri că variabila din apel nu s-a schimbat."
+    ],
+    "answers": [
+     "O copie a valorii.",
+     "&.",
+     "Cu un tuplu: return a, b.",
+     "Nu.",
+     "Nu, funcția lucrează direct cu tabloul."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l16": {
+   "ro": {
+    "title": "Variabile locale și globale. Subprograme pentru probleme",
+    "theory": "Variabilele declarate într-o funcție sunt locale: există doar în timpul execuției funcției și nu se văd din afară. Variabilele declarate în afara funcțiilor sunt globale: se văd în tot programul (în Python, pentru a le modifica dintr-o funcție, trebuie declarate cu global). Folosirea excesivă a variabilelor globale face programul greu de urmărit; preferăm parametrii și return. O variabilă locală cu același nume ca una globală o ascunde pe cea globală în interiorul funcției. La rezolvarea problemelor, scriem funcții mici, fiecare testabilă, și un program principal care le combină. Exemplu: numerele dintr-un interval care au suma cifrelor număr prim – funcțiile sumaCifre și estePrim.",
+    "sample": "int s = 100; int sumaCifre(int n) { int s = 0; while (n) { s += n % 10; n /= 10; } return s; } – în funcție, s local ascunde s global; după apel, s global este tot 100.",
+    "worked": "Variabila locală trăiește doar în funcție și nu afectează variabila globală cu același nume. Funcția depinde doar de parametrul ei, deci este ușor de testat.",
+    "exercises": [
+     "Identifică variabilele locale și globale dintr-un program.",
+     "Explică ce afișează un program cu o variabilă locală care ascunde una globală.",
+     "Rezolvă cu două funcții: numerele din [a, b] cu suma cifrelor primă.",
+     "Rescrie un program cu variabile globale folosind parametri.",
+     "Folosește global în Python și explică de ce e bine să-l eviți."
+    ],
+    "test": [
+     "Unde există o variabilă locală?",
+     "Ce este o variabilă globală?",
+     "Ce cuvânt cheie Python permite modificarea unei globale în funcție?",
+     "Ce se întâmplă când locala și globala au același nume?",
+     "De ce evităm variabilele globale?"
+    ],
+    "steps": [
+     "Scrie fiecare sarcină ca funcție cu parametri și return.",
+     "Folosește variabile locale pentru calculele interne.",
+     "Combină funcțiile în programul principal și testează fiecare separat.",
+     "Greșeala frecventă: să folosești o globală ca acumulator în funcție și să uiți s-o resetezi între apeluri."
+    ],
+    "answers": [
+     "Doar în timpul execuției funcției în care este declarată.",
+     "O variabilă declarată în afara funcțiilor, vizibilă în tot programul.",
+     "global.",
+     "Locala o ascunde pe cea globală în funcție.",
+     "Fac programul greu de urmărit și de testat."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l17": {
+   "ro": {
+    "title": "Clase și obiecte",
+    "theory": "Programarea orientată pe obiecte (POO) grupează datele și operațiile care lucrează cu ele într-o singură unitate. O clasă este un tipar (de exemplu Elev), iar un obiect este un exemplar concret creat după acel tipar (elevul Ana). Clasa definește atribute (date: nume, clasa, note) și metode (funcții care lucrează cu atributele: adauga_nota, media). Python: class Elev: def __init__(self, nume): self.nume = nume; self.note = []. C++: class Elev { public: string nume; vector<int> note; double media() { … } };. Obiectul se creează: e = Elev(\"Ana\") în Python, Elev e; în C++. Accesăm atributele și metodele cu punct: e.media().",
+    "sample": "class Dreptunghi: def __init__(self, l, L): self.l = l; self.L = L; def aria(self): return self.l * self.L. d = Dreptunghi(3, 5); print(d.aria()) afișează 15.",
+    "worked": "Obiectul d păstrează împreună dimensiunile și știe să-și calculeze aria. Putem crea oricâte dreptunghiuri, fiecare cu datele lui.",
+    "exercises": [
+     "Definește clasa Punct cu coordonatele x și y și o metodă distanța față de origine.",
+     "Creează trei obiecte Dreptunghi și afișează ariile.",
+     "Adaugă clasei Elev o metodă media.",
+     "Identifică atributele și metodele unei clase date.",
+     "Scrie aceeași clasă în Python și C++."
+    ],
+    "test": [
+     "Ce este o clasă?",
+     "Ce este un obiect?",
+     "Ce sunt atributele?",
+     "Ce sunt metodele?",
+     "Ce reprezintă self în Python?"
+    ],
+    "steps": [
+     "Stabilește ce date are obiectul (atribute).",
+     "Stabilește ce operații face cu ele (metode).",
+     "Scrie clasa, creează obiecte și testează metodele.",
+     "Greșeala frecventă: să confunzi clasa cu obiectul; clasa este tiparul, obiectul este exemplarul concret."
+    ],
+    "answers": [
+     "Un tipar care definește atributele și metodele unor obiecte.",
+     "Un exemplar concret creat după o clasă.",
+     "Datele unui obiect.",
+     "Funcțiile definite în clasă, care lucrează cu atributele.",
+     "Obiectul curent, pentru care se apelează metoda."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l18": {
+   "ro": {
+    "title": "Constructori și încapsulare",
+    "theory": "Constructorul este metoda specială care se execută automat la crearea obiectului și inițializează atributele: __init__ în Python, metoda cu același nume ca clasa în C++ (Fractie(int a, int b) : num(a), den(b) {}). Încapsularea înseamnă ascunderea datelor interne și accesul la ele doar prin metode, ca obiectul să rămână mereu într-o stare corectă. În C++ folosim private pentru atribute și public pentru metode; în Python, prin convenție, atributele interne încep cu _ . De exemplu, o clasă Fractie nu trebuie să permită numitorul 0: constructorul verifică și simplifică fracția. Metodele care citesc o valoare se numesc getteri, cele care o modifică controlat – setteri.",
+    "sample": "class Fractie { int num, den; public: Fractie(int a, int b) { int g = gcd(a, b); num = a / g; den = b / g; } void afis() { cout << num << \"/\" << den; } }; Fractie f(6, 8); f.afis(); afișează 3/4.",
+    "worked": "Constructorul garantează că orice fracție creată este deja simplificată. Atributele private nu pot fi stricate din afara clasei.",
+    "exercises": [
+     "Scrie clasa Fractie cu constructor și simplificare.",
+     "Adaugă o metodă de adunare a două fracții.",
+     "Fă atributele private și adaugă getteri.",
+     "Împiedică în constructor numitorul 0.",
+     "Scrie clasa ContBancar cu metode depune și retrage, fără sold negativ."
+    ],
+    "test": [
+     "Când se execută constructorul?",
+     "Cum se numește constructorul în Python?",
+     "Ce înseamnă încapsularea?",
+     "Ce face private în C++?",
+     "Ce este un getter?"
+    ],
+    "steps": [
+     "Identifică regulile pe care trebuie să le respecte obiectul.",
+     "Verifică regulile în constructor și în metodele care modifică datele.",
+     "Ascunde atributele și testează că nu pot fi stricate din afară.",
+     "Greșeala frecventă: să lași atributele publice și să le modifici direct; obiectul poate ajunge într-o stare imposibilă."
+    ],
+    "answers": [
+     "Automat, la crearea obiectului.",
+     "__init__.",
+     "Ascunderea datelor și accesul doar prin metode.",
+     "Face atributele inaccesibile din afara clasei.",
+     "O metodă care citește valoarea unui atribut."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l19": {
+   "ro": {
+    "title": "Prima fereastră: Label, Button, Entry",
+    "theory": "Modulul tkinter, inclus în Python, creează aplicații cu ferestre. Structura minimă: import tkinter as tk; fer = tk.Tk(); fer.title(\"Aplicația mea\"); … fer.mainloop(). mainloop pornește bucla de evenimente: fereastra rămâne deschisă și așteaptă acțiunile utilizatorului. Widgeturile de bază: Label (text afișat), Button (buton cu acțiune: command=functie), Entry (câmp de introducere pe un rând; textul se citește cu .get()). Un widget se creează cu fereastra-părinte ca prim argument și se afișează cu un manager de așezare (de exemplu .pack()). Textul unei etichete se schimbă cu eticheta.config(text=…). Funcția dată la command se scrie fără paranteze.",
+    "sample": "Aplicație care salută: e = tk.Entry(fer); e.pack(); l = tk.Label(fer, text=\"\"); l.pack(); def saluta(): l.config(text=\"Salut, \" + e.get() + \"!\"); tk.Button(fer, text=\"Salută\", command=saluta).pack().",
+    "worked": "La apăsarea butonului, bucla de evenimente apelează funcția saluta, care citește textul din Entry și schimbă eticheta. Programul nu se termină după ultima linie, ci reacționează la utilizator.",
+    "exercises": [
+     "Creează o fereastră cu titlu și o etichetă.",
+     "Adaugă un buton care schimbă textul etichetei.",
+     "Citește un număr dintr-un Entry și afișează dublul lui.",
+     "Explică rolul lui mainloop.",
+     "Explică de ce command=saluta nu are paranteze."
+    ],
+    "test": [
+     "Ce face mainloop?",
+     "Ce widget afișează un text?",
+     "Cum citim textul dintr-un Entry?",
+     "Cum schimbăm textul unei etichete?",
+     "Ce se întâmplă dacă scriem command=saluta()?"
+    ],
+    "steps": [
+     "Creează fereastra principală.",
+     "Adaugă widgeturile și leagă butoanele de funcții.",
+     "Pornește mainloop și testează fiecare acțiune.",
+     "Greșeala frecventă: să scrii command=functie() cu paranteze; funcția se execută o dată la pornire, nu la clic."
+    ],
+    "answers": [
+     "Pornește bucla de evenimente care ține fereastra deschisă.",
+     "Label.",
+     "Cu .get().",
+     "Cu .config(text=...).",
+     "Funcția se apelează imediat la pornire, iar butonul nu mai face nimic."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l20": {
+   "ro": {
+    "title": "Așezarea widgeturilor: pack, grid, place, Frame",
+    "theory": "tkinter are trei manageri de așezare. pack așază widgeturile unul după altul (sus în jos sau, cu side=\"left\", de la stânga la dreapta); este simplu, bun pentru interfețe liniare. grid așază widgeturile într-un tabel cu rânduri și coloane (row=0, column=1), cu opțiuni ca sticky și padx/pady; este cel mai potrivit pentru formulare. place așază la coordonate exacte (x=20, y=40); este rar folosit, pentru că nu se adaptează la redimensionare. Într-un container nu amestecăm pack și grid. Frame este un container în care grupăm widgeturi; fiecare Frame poate avea propriul manager. Text este un câmp pe mai multe rânduri, iar Canvas o suprafață de desen.",
+    "sample": "Un formular: Label „Nume” la row=0, column=0 și Entry la row=0, column=1; Label „Vârstă” la row=1, column=0 și Entry la row=1, column=1; butonul „Trimite” la row=2, column=0, columnspan=2.",
+    "worked": "Grid aliniază etichetele și câmpurile pe coloane, ca într-un tabel. columnspan întinde butonul pe ambele coloane, sub formular.",
+    "exercises": [
+     "Așază trei butoane pe orizontală cu pack.",
+     "Construiește un formular cu grid.",
+     "Grupează butoanele într-un Frame separat.",
+     "Desenează un dreptunghi și un cerc pe un Canvas.",
+     "Explică de ce nu amestecăm pack și grid în același container."
+    ],
+    "test": [
+     "Ce manager așază widgeturile într-un tabel?",
+     "Ce manager folosește coordonate exacte?",
+     "Ce este un Frame?",
+     "Ce widget permite text pe mai multe rânduri?",
+     "Ce face columnspan?"
+    ],
+    "steps": [
+     "Schițează interfața pe hârtie.",
+     "Grupează părțile în Frame-uri și alege managerul potrivit pentru fiecare.",
+     "Rulează și ajustează spațierea cu padx și pady.",
+     "Greșeala frecventă: să amesteci pack și grid în același container; aplicația se blochează sau arată greșit."
+    ],
+    "answers": [
+     "grid.",
+     "place.",
+     "Un container pentru gruparea widgeturilor.",
+     "Text.",
+     "Întinde un widget pe mai multe coloane."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l21": {
+   "ro": {
+    "title": "Aplicație grafică: un calculator simplu",
+    "theory": "O aplicație grafică combină interfața cu logica programului. Exemplu: un calculator pentru cmmdc și cmmmc. Interfața: două Entry pentru numere, butoane „cmmdc” și „cmmmc”, o etichetă pentru rezultat. Logica: funcții separate care calculează (cmmdc cu Euclid), apelate din funcțiile butoanelor. Datele din Entry sunt text; le convertim cu int(). Dacă utilizatorul scrie ceva greșit, int() produce o eroare; o tratăm cu try: … except ValueError: și afișăm un mesaj („Introduceți numere întregi”), eventual cu tkinter.messagebox.showerror. Separarea logicii de interfață permite testarea funcțiilor de calcul fără fereastră.",
+    "sample": "def la_cmmdc(): try: a = int(e1.get()); b = int(e2.get()); rez.config(text=\"cmmdc = \" + str(cmmdc(a, b))) except ValueError: rez.config(text=\"Introduceți numere întregi\").",
+    "worked": "Funcția butonului doar citește, convertește și afișează; calculul propriu-zis este în cmmdc. Tratarea erorii împiedică oprirea aplicației la date greșite.",
+    "exercises": [
+     "Construiește calculatorul cmmdc/cmmmc.",
+     "Tratează datele greșite cu try/except.",
+     "Adaugă un buton care șterge câmpurile.",
+     "Afișează eroarea într-o fereastră messagebox.",
+     "Testează separat funcția de calcul."
+    ],
+    "test": [
+     "Ce tip au datele citite din Entry?",
+     "Ce eroare apare la int(\"abc\")?",
+     "De ce separăm logica de interfață?",
+     "Ce face messagebox.showerror?",
+     "Unde scriem calculul propriu-zis?"
+    ],
+    "steps": [
+     "Scrie și testează funcțiile de calcul fără interfață.",
+     "Construiește interfața și leagă butoanele de funcții care citesc și convertesc datele.",
+     "Tratează datele greșite și testează cazurile neobișnuite.",
+     "Greșeala frecventă: să uiți conversia cu int(); \"12\" + \"5\" dă \"125\", nu 17."
+    ],
+    "answers": [
+     "Text (str).",
+     "ValueError.",
+     "Ca funcțiile de calcul să poată fi testate separat.",
+     "Afișează o fereastră cu un mesaj de eroare.",
+     "Într-o funcție separată de cele ale butoanelor."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l22": {
+   "ro": {
+    "title": "Citirea și scrierea fișierelor text",
+    "theory": "Fișierele text păstrează datele după închiderea programului și permit prelucrarea unor date mari. Python: with open(\"date.in\") as f: n = int(f.readline()); v = list(map(int, f.readline().split())); scrierea: with open(\"date.out\", \"w\") as g: g.write(str(rez) + \"\n\") sau print(rez, file=g). Modul \"r\" citește, \"w\" scrie (șterge conținutul vechi), \"a\" adaugă la final. with închide automat fișierul. C++: #include <fstream>; ifstream fin(\"date.in\"); ofstream fout(\"date.out\"); fin >> n; fout << rez;. Fișierul de intrare trebuie să fie în dosarul programului (sau cu calea corectă). Numele fișierelor se scriu exact ca în enunț.",
+    "sample": "date.in conține pe primul rând 5, pe al doilea 3 8 1 9 4. Programul C++: fin >> n; for (i = 0; i < n; i++) { fin >> x; s += x; } fout << s; – în date.out apare 25.",
+    "worked": "Citirea din fișier funcționează exact ca de la tastatură, doar sursa diferă. Rezultatul rămâne salvat în date.out pentru verificare.",
+    "exercises": [
+     "Citește n și n numere dintr-un fișier și scrie suma în alt fișier.",
+     "Scrie aceeași rezolvare în Python și C++.",
+     "Adaugă un rând la finalul unui fișier existent.",
+     "Explică diferența dintre modurile \"w\" și \"a\".",
+     "Explică ce face with în Python."
+    ],
+    "test": [
+     "Ce mod deschide un fișier pentru citire?",
+     "Ce face modul \"w\" cu conținutul vechi?",
+     "Ce bibliotecă C++ lucrează cu fișiere?",
+     "Ce face with în Python?",
+     "Unde trebuie să se afle fișierul de intrare?"
+    ],
+    "steps": [
+     "Deschide fișierul de intrare cu numele exact din enunț.",
+     "Citește datele în ordinea în care apar.",
+     "Scrie rezultatul în fișierul de ieșire și închide fișierele.",
+     "Greșeala frecventă: să citești de la tastatură când enunțul cere fișiere sau să greșești o literă din nume."
+    ],
+    "answers": [
+     "\"r\".",
+     "Îl șterge.",
+     "<fstream>.",
+     "Închide automat fișierul.",
+     "În dosarul programului sau la calea indicată."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l23": {
+   "ro": {
+    "title": "Prelucrarea fișierelor cu număr necunoscut de valori",
+    "theory": "Uneori nu știm câte valori conține fișierul. În C++ citim cât timp citirea reușește: while (fin >> x) { … } – bucla se oprește la sfârșitul fișierului. În Python: for linie in f: parcurge fișierul rând cu rând; linie.split() desparte cuvintele sau numerele; f.read().split() citește toate valorile deodată. Rândurile pot fi prelucrate ca text: numărarea cuvintelor, a rândurilor sau a aparițiilor unui cuvânt. Un fișier poate avea pe fiecare rând mai multe informații (nume și medie); le despărțim și le convertim. Atenție la rândurile goale și la caracterul de sfârșit de rând (\n), pe care îl eliminăm cu strip().",
+    "sample": "numere.txt conține numere pe mai multe rânduri. Python: with open(\"numere.txt\") as f: valori = list(map(int, f.read().split())); print(len(valori), max(valori)). C++: while (fin >> x) { k++; if (x > mx) mx = x; }.",
+    "worked": "Ambele variante nu au nevoie să știe dinainte câte numere sunt. Citirea se oprește singură la sfârșitul fișierului.",
+    "exercises": [
+     "Numără valorile dintr-un fișier cu număr necunoscut de numere.",
+     "Numără rândurile și cuvintele unui fișier text.",
+     "Citește perechi nume–medie și afișează elevul cu media maximă.",
+     "Copiază într-un fișier nou doar numerele pare.",
+     "Elimină rândurile goale dintr-un fișier."
+    ],
+    "test": [
+     "Cum citim în C++ până la sfârșitul fișierului?",
+     "Cum parcurgem un fișier rând cu rând în Python?",
+     "Ce face split()?",
+     "Ce face strip()?",
+     "Ce se întâmplă cu while (fin >> x) la sfârșitul fișierului?"
+    ],
+    "steps": [
+     "Alege citirea până la sfârșitul fișierului (while fin >> x sau for linie in f).",
+     "Desparte și convertește datele de pe fiecare rând.",
+     "Prelucrează valorile și testează cu un fișier gol și cu unul cu rânduri goale.",
+     "Greșeala frecventă: să folosești while (!fin.eof()) în C++; ultima valoare poate fi prelucrată de două ori."
+    ],
+    "answers": [
+     "while (fin >> x).",
+     "for linie in f.",
+     "Desparte textul în bucăți după spații.",
+     "Elimină spațiile și \\n de la capetele textului.",
+     "Citirea eșuează și bucla se oprește."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l24": {
+   "ro": {
+    "title": "Lista: modelul liniar al datelor",
+    "theory": "O listă liniară este o colecție ordonată de elemente, în care fiecare element (cu excepția primului și ultimului) are un predecesor și un succesor. Operațiile de bază: accesul la elementul de pe o poziție, parcurgerea, căutarea, inserarea și ștergerea pe o poziție. În memoria calculatorului, lista se poate implementa secvențial (elementele unul după altul, ca în tablou: acces rapid prin poziție, dar inserarea și ștergerea mută elementele) sau înlănțuit (fiecare element reține adresa următorului: inserare rapidă, acces lent). În acest an folosim implementarea secvențială: list în Python și tablourile sau vector în C++. Stiva și coada sunt liste cu reguli speciale de acces.",
+    "sample": "O listă de așteptare la cabinet: 5 pacienți. Inserăm o urgență pe poziția 1: ceilalți se mută cu o poziție, deci 5 mutări. Accesul la al treilea pacient este însă imediat, prin poziție.",
+    "worked": "Implementarea secvențială face accesul rapid (O(1)), dar inserarea în față costă O(n) mutări. Alegerea implementării depinde de operațiile cele mai frecvente.",
+    "exercises": [
+     "Enumeră operațiile de bază pe o listă.",
+     "Explică diferența dintre implementarea secvențială și cea înlănțuită.",
+     "Numără mutările la inserarea pe poziția 1 într-o listă de n elemente.",
+     "Dă trei exemple de liste din viața reală.",
+     "Implementează inserarea pe o poziție în C++ și în Python."
+    ],
+    "test": [
+     "Ce este o listă liniară?",
+     "Ce avantaj are implementarea secvențială?",
+     "Ce dezavantaj are?",
+     "Ce reține un element în implementarea înlănțuită?",
+     "Ce complexitate are inserarea pe prima poziție în implementarea secvențială?"
+    ],
+    "steps": [
+     "Identifică operațiile pe care problema le face cel mai des.",
+     "Alege implementarea potrivită acestor operații.",
+     "Implementează operațiile și verifică pe exemple mici.",
+     "Greșeala frecventă: să crezi că inserarea la începutul unei liste Python este la fel de rapidă ca adăugarea la final."
+    ],
+    "answers": [
+     "O colecție ordonată de elemente, fiecare cu predecesor și succesor.",
+     "Acces rapid la orice poziție.",
+     "Inserarea și ștergerea mută multe elemente.",
+     "Adresa elementului următor.",
+     "O(n)."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l25": {
+   "ro": {
+    "title": "Stiva",
+    "theory": "Stiva este o listă în care inserarea și ștergerea se fac la un singur capăt, numit vârf: ultimul element introdus este primul scos (LIFO – Last In, First Out), ca la un teanc de farfurii. Operații: push (adaugă în vârf), pop (scoate din vârf), top (citește vârful), empty (verifică dacă e goală). În Python folosim o listă: st.append(x), st.pop(), st[-1], len(st) == 0. În C++: un tablou cu un indice al vârfului sau stack<int> din biblioteca standard. Aplicații: verificarea parantezelor, anularea operațiilor (Undo), evaluarea expresiilor, apelurile de funcții, întoarcerea în istoric în browser. Scoaterea dintr-o stivă goală este o eroare și trebuie verificată.",
+    "sample": "Verificăm „( [ ] { } )”: push (, push [, ] închide [ – pop, push {, } închide { – pop, ) închide ( – pop. Stiva e goală la final, deci parantezele sunt corecte. Pentru „( ]”, ] nu corespunde lui ( din vârf – incorect.",
+    "worked": "Ultima paranteză deschisă trebuie închisă prima, exact regula LIFO. Stiva reține parantezele încă deschise, în ordinea inversă a închiderii.",
+    "exercises": [
+     "Implementează o stivă cu push, pop, top în Python și C++.",
+     "Verifică parantezarea unei expresii cu stiva.",
+     "Afișează un cuvânt invers folosind o stivă.",
+     "Simulează operația Undo pentru un editor simplu.",
+     "Transformă un număr în baza 2 folosind o stivă pentru resturi."
+    ],
+    "test": [
+     "Ce înseamnă LIFO?",
+     "Ce face push?",
+     "Ce face pop?",
+     "Ce verificăm înainte de pop?",
+     "Cum se numește capătul stivei?"
+    ],
+    "steps": [
+     "Stabilește ce elemente se pun în stivă și când.",
+     "Aplică push și pop după regula problemei.",
+     "Verifică stiva goală înainte de pop și la final.",
+     "Greșeala frecventă: să faci pop dintr-o stivă goală fără verificare; programul se oprește cu eroare."
+    ],
+    "answers": [
+     "Ultimul intrat, primul ieșit.",
+     "Adaugă un element în vârf.",
+     "Scoate elementul din vârf.",
+     "Dacă stiva nu este goală.",
+     "Vârf."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l26": {
+   "ro": {
+    "title": "Coada",
+    "theory": "Coada este o listă în care inserarea se face la un capăt (spate) și ștergerea la celălalt (față): primul element introdus este primul scos (FIFO – First In, First Out), ca la o coadă la casă. Operații: push sau enqueue (adaugă în spate), pop sau dequeue (scoate din față), front (citește primul element), empty. Implementarea cu tablou folosește doi indici, prim și ultim; cu list în Python, pop(0) este lent (mută toate elementele), de aceea folosim collections.deque (append, popleft). În C++ există queue<int>. Aplicații: coada de imprimare, servirea clienților, procesele care așteaptă procesorul, parcurgerea în lățime (vom folosi la grafuri).",
+    "sample": "Coada de imprimare: se trimit documentele A, B, C. Se imprimă A (scos din față), apoi se adaugă D în spate. Coada este acum B, C, D; următorul imprimat este B.",
+    "worked": "Ordinea de servire este ordinea sosirii, regula FIFO. Adăugarea lui D nu îi permite să treacă înaintea lui B și C.",
+    "exercises": [
+     "Implementează o coadă cu doi indici într-un tablou C++.",
+     "Folosește collections.deque în Python pentru o coadă.",
+     "Simulează servirea clienților la o casă.",
+     "Explică de ce pop(0) pe o listă Python este lent.",
+     "Compară stiva cu coada pe trei exemple."
+    ],
+    "test": [
+     "Ce înseamnă FIFO?",
+     "La ce capăt se adaugă elementele?",
+     "La ce capăt se scot?",
+     "Ce structură Python este potrivită pentru cozi?",
+     "Dă un exemplu de coadă în informatică."
+    ],
+    "steps": [
+     "Identifică ordinea în care trebuie servite elementele.",
+     "Adaugă în spate și scoate din față.",
+     "Verifică dacă e goală înainte de scoatere și urmărește indicii.",
+     "Greșeala frecventă: să folosești pop(0) pe liste Python mari; fiecare scoatere mută toate elementele."
+    ],
+    "answers": [
+     "Primul intrat, primul ieșit.",
+     "În spate.",
+     "Din față.",
+     "collections.deque.",
+     "Coada de imprimare sau procesele care așteaptă procesorul."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l27": {
+   "ro": {
+    "title": "Lista de frecvențe",
+    "theory": "O listă (tablou) de frecvențe reține de câte ori apare fiecare valoare: fr[x] crește cu 1 la fiecare apariție a lui x. Funcționează când valorile sunt numere naturale dintr-un interval mic (de exemplu până la 10⁶). Cu ea rezolvăm în O(n + VMAX) probleme ca: valorile distincte, valoarea cea mai frecventă, valorile care lipsesc, ordonarea fără comparații, verificarea dacă două șiruri conțin aceleași valori (anagrame de cifre sau litere). Pentru litere, indicele se obține din codul caracterului: ord(c) − ord(\"a\") în Python, c − 'a' în C++. Pentru valori mari sau negative folosim un dicționar (dict în Python, map în C++) sau o translație (x + 1000 pentru valori de la −1000).",
+    "sample": "Sunt anagrame „listen” și „silent”? Construim frecvențele literelor pentru ambele cuvinte: l, i, s, t, e, n apar câte o dată în fiecare. Tablourile sunt egale, deci cuvintele sunt anagrame.",
+    "worked": "Comparația a 26 de frecvențe înlocuiește încercarea tuturor rearanjărilor. Metoda este liniară în lungimea cuvintelor.",
+    "exercises": [
+     "Afișează valorile distincte dintr-un șir folosind frecvențe.",
+     "Afișează litera cea mai frecventă dintr-un text.",
+     "Verifică dacă două cuvinte sunt anagrame.",
+     "Folosește un dicționar Python pentru valori mari.",
+     "Tratează valori negative printr-o translație."
+    ],
+    "test": [
+     "Ce reține fr[x]?",
+     "Când putem folosi un tablou de frecvențe?",
+     "Cum obținem indicele unei litere mici?",
+     "Ce folosim pentru valori foarte mari?",
+     "Ce complexitate are metoda?"
+    ],
+    "steps": [
+     "Stabilește intervalul valorilor și alege tablou sau dicționar.",
+     "Parcurge datele și crește frecvența fiecărei valori.",
+     "Parcurge frecvențele pentru a obține răspunsul.",
+     "Greșeala frecventă: să declari un tablou de frecvențe de 10⁹ elemente; nu încape în memorie."
+    ],
+    "answers": [
+     "De câte ori apare valoarea x.",
+     "Când valorile sunt naturale, într-un interval mic.",
+     "ord(c) − ord(\"a\") sau c − 'a'.",
+     "Un dicționar (dict sau map).",
+     "O(n + VMAX)."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l28": {
+   "ro": {
+    "title": "Lucrul cu liste în Python",
+    "theory": "Lista Python este o colecție ordonată și modificabilă: v = [3, 1, 4]. Indicii pornesc de la 0, iar indicii negativi numără de la final (v[-1] este ultimul). Operații: len(v), v.append(x) (adaugă la final, O(1)), v.insert(i, x) și v.pop(i) (inserare și ștergere pe poziție, O(n)), v.remove(x), x in v (căutare, O(n)), v.index(x), v.count(x), v.sort(), v.reverse(), sum, min, max. Feliile (slicing) v[a:b] dau elementele de la a la b − 1; v[::-1] dă lista inversată. Listele se pot construi prin comprehensiune: [x * x for x in range(10) if x % 2 == 0]. Atenție: b = v nu copiază lista, ci dă alt nume aceleiași liste; copia se face cu v.copy() sau v[:].",
+    "sample": "v = [5, 2, 8, 2, 9]. v[1:4] este [2, 8, 2]; v.count(2) este 2; [x for x in v if x > 4] este [5, 8, 9]; v[::-1] este [9, 2, 8, 2, 5].",
+    "worked": "Funcțiile și feliile Python fac multe prelucrări într-o singură linie. Trebuie însă să știm costul lor: count și in parcurg toată lista.",
+    "exercises": [
+     "Construiește o listă cu pătratele numerelor pare până la 20.",
+     "Afișează primele și ultimele trei elemente cu felii.",
+     "Elimină toate aparițiile unei valori.",
+     "Arată diferența dintre b = v și b = v.copy().",
+     "Inversează o listă în două moduri."
+    ],
+    "test": [
+     "Ce indice are ultimul element?",
+     "Ce dă v[2:5]?",
+     "Ce complexitate are append?",
+     "Ce face o comprehensiune de listă?",
+     "Copiază b = v lista?"
+    ],
+    "steps": [
+     "Alege operația de listă potrivită și află-i costul.",
+     "Folosește felii și comprehensiuni pentru cod clar.",
+     "Verifică rezultatul afișând lista.",
+     "Greșeala frecventă: să crezi că b = v face o copie; modificarea lui b schimbă și v."
+    ],
+    "answers": [
+     "-1.",
+     "Elementele de pe pozițiile 2, 3, 4.",
+     "O(1).",
+     "Construiește o listă dintr-o expresie și, eventual, o condiție.",
+     "Nu, dă alt nume aceleiași liste."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l29": {
+   "ro": {
+    "title": "Tablouri în C++: static și vector",
+    "theory": "În C++, un tablou static are dimensiunea fixată la compilare: int v[1001];. Tablourile declarate global sunt inițializate cu 0 și pot fi mari; cele locale au valori întâmplătoare și spațiu limitat. Biblioteca standard oferă vector<int> v; – un tablou dinamic, care își mărește singur dimensiunea: v.push_back(x), v.size(), v[i], v.pop_back(), v.clear(); vector<int> v(n, 0) creează n zerouri. Parcurgerea: for (int i = 0; i < v.size(); i++) sau for (int x : v). Accesul în afara limitelor nu este verificat automat cu [], de aceea greșelile de indice sunt periculoase; v.at(i) verifică. sort(v.begin(), v.end()) sortează.",
+    "sample": "vector<int> v; int x; while (fin >> x) v.push_back(x); cout << v.size(); – citește un număr necunoscut de valori și afișează câte sunt.",
+    "worked": "vector se adaptează la numărul de valori, ca lista Python. Pentru un tablou static ar fi trebuit să ghicim dinainte o dimensiune maximă.",
+    "exercises": [
+     "Citește n valori într-un tablou static și afișează-le invers.",
+     "Citește un număr necunoscut de valori într-un vector.",
+     "Parcurge un vector cu for (int x : v).",
+     "Explică de ce declarăm tablourile mari global.",
+     "Folosește sort pentru un vector și afișează rezultatul."
+    ],
+    "test": [
+     "Ce valori au elementele unui tablou global la început?",
+     "Ce face push_back?",
+     "Ce întoarce v.size()?",
+     "Verifică [] limitele tabloului?",
+     "Cum creezi un vector cu n zerouri?"
+    ],
+    "steps": [
+     "Alege între tablou static (dimensiune maximă cunoscută) și vector.",
+     "Declară-l global dacă este mare și folosește indici în limite.",
+     "Parcurge-l și testează cu cazuri limită (0 elemente, n maxim).",
+     "Greșeala frecventă: să declari local un tablou de un milion de elemente; programul se poate opri la pornire."
+    ],
+    "answers": [
+     "0.",
+     "Adaugă un element la final.",
+     "Numărul de elemente.",
+     "Nu.",
+     "vector<int> v(n, 0)."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l30": {
+   "ro": {
+    "title": "Algoritmi pe tablouri: inversare, rotire, interclasare",
+    "theory": "Inversarea unui tablou se face interschimbând v[i] cu v[n − 1 − i] pentru i de la 0 la n / 2 − 1 (numai până la jumătate, altfel îl inversăm de două ori). Rotirea cu o poziție spre stânga: salvăm primul element, mutăm restul cu o poziție și punem elementul salvat la final; rotirea cu k poziții se face eficient prin trei inversări (primele k, restul, tot tabloul). Interclasarea a două tablouri sortate a și b produce un tablou sortat c: comparăm elementele curente și îl copiem pe cel mai mic, apoi copiem ce a rămas. Complexitatea interclasării este O(n + m), mult mai bună decât lipirea și sortarea din nou. Algoritmul se folosește la sortarea prin interclasare.",
+    "sample": "a = [1, 4, 7], b = [2, 3, 9]. Comparăm 1–2 → 1; 4–2 → 2; 4–3 → 3; 4–9 → 4; 7–9 → 7; a s-a terminat, copiem 9. c = [1, 2, 3, 4, 7, 9].",
+    "worked": "La fiecare pas, cel mai mic element rămas este unul dintre cele două elemente curente. De aceea o singură parcurgere a ambelor tablouri este suficientă.",
+    "exercises": [
+     "Inversează un tablou pe loc.",
+     "Rotește un tablou cu k poziții spre stânga.",
+     "Interclasează două tablouri sortate.",
+     "Interclasează eliminând valorile duplicate.",
+     "Explică de ce inversarea merge doar până la jumătate."
+    ],
+    "test": [
+     "Până unde mergem la inversare?",
+     "Câte inversări folosește rotirea eficientă?",
+     "Ce condiție trebuie să îndeplinească tablourile interclasate?",
+     "Ce complexitate are interclasarea?",
+     "Ce facem când unul dintre tablouri se termină?"
+    ],
+    "steps": [
+     "Stabilește indicii elementelor care se interschimbă sau se compară.",
+     "Aplică algoritmul cu atenție la limitele indicilor.",
+     "Verifică pe un tablou cu număr par și impar de elemente.",
+     "Greșeala frecventă: să uiți să copiezi elementele rămase după ce unul dintre tablouri s-a terminat."
+    ],
+    "answers": [
+     "Până la jumătatea tabloului.",
+     "Trei.",
+     "Să fie sortate.",
+     "O(n + m).",
+     "Copiem restul celuilalt tablou."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l31": {
+   "ro": {
+    "title": "Șiruri recurente: Fibonacci și alte șiruri",
+    "theory": "Un șir recurent este definit prin primii termeni și o regulă care calculează fiecare termen din cei anteriori. Fibonacci: F₁ = F₂ = 1, Fₙ = Fₙ₋₁ + Fₙ₋₂: 1, 1, 2, 3, 5, 8, 13…. Generarea iterativă folosește doar două variabile: a, b = 1, 1; repetăm a, b = b, a + b (în C++: c = a + b; a = b; b = c;). Termenii cresc repede: F₉₃ depășește long long. Alte șiruri: progresia aritmetică (aₙ = aₙ₋₁ + r), geometrică (aₙ = aₙ₋₁ · q), șirul lui Collatz (n → n / 2 dacă e par, 3n + 1 dacă e impar). Problemele cer de obicei: al n-lea termen, termenii mai mici decât o valoare, primul termen cu o proprietate sau dacă un număr aparține șirului.",
+    "sample": "Termenii Fibonacci mai mici decât 50: a = 1, b = 1 → 1, 1, 2, 3, 5, 8, 13, 21, 34; următorul este 55 ≥ 50, deci ne oprim.",
+    "worked": "Nu am reținut tot șirul, ci doar ultimii doi termeni, suficienți pentru următorul. Bucla while se oprește la prima valoare care depășește limita.",
+    "exercises": [
+     "Afișează primii n termeni Fibonacci.",
+     "Verifică dacă un număr aparține șirului Fibonacci.",
+     "Afișează șirul lui Collatz pentru un n dat.",
+     "Calculează al n-lea termen al unei progresii geometrice.",
+     "Afișează termenii Fibonacci pari mai mici decât 10⁶."
+    ],
+    "test": [
+     "Ce este un șir recurent?",
+     "Care sunt primii șase termeni Fibonacci?",
+     "Câte variabile trebuie pentru generarea iterativă Fibonacci?",
+     "Ce regulă are șirul lui Collatz?",
+     "Ce problemă apare la termenii mari?"
+    ],
+    "steps": [
+     "Scrie primii termeni și regula de recurență.",
+     "Reține doar termenii necesari calculului următor.",
+     "Oprește generarea la condiția cerută și verifică primii termeni.",
+     "Greșeala frecventă: să actualizezi a = b; b = a + b; în această ordine; b se calculează cu noul a."
+    ],
+    "answers": [
+     "Un șir în care fiecare termen se calculează din cei anteriori.",
+     "1, 1, 2, 3, 5, 8.",
+     "Două (plus una auxiliară în C++).",
+     "n / 2 pentru n par, 3n + 1 pentru n impar.",
+     "Depășirea capacității tipului de date."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l32": {
+   "ro": {
+    "title": "Generarea numerelor cu o proprietate",
+    "theory": "Multe probleme cer generarea numerelor care îndeplinesc o proprietate: numere prime, palindromuri, numere cu cifre distincte, numere al căror pătrat se termină în ele însele. Metoda directă: parcurgem toate numerele dintr-un interval și testăm proprietatea cu o funcție. Metoda constructivă, mai eficientă: construim direct numerele cu proprietatea. De exemplu, palindromurile de 5 cifre se construiesc din primele 3 cifre (abc → abcba), deci sunt 900, fără a testa 90.000 de numere. Numerele cu cifrele în ordine crescătoare se pot genera adăugând cifre mai mari la dreapta. Alegerea metodei depinde de cât de rare sunt numerele căutate și de mărimea intervalului.",
+    "sample": "Palindromurile de 4 cifre: pentru a de la 1 la 9 și b de la 0 la 9, numărul este a·1000 + b·100 + b·10 + a. Generăm 90 de numere: 1001, 1111, …, 9999.",
+    "worked": "Metoda constructivă a produs direct cele 90 de palindromuri, în loc să testeze 9000 de numere. Este de 100 de ori mai rapidă.",
+    "exercises": [
+     "Generează numerele prime palindrom mai mici decât 10⁴.",
+     "Construiește direct palindromurile de 5 cifre.",
+     "Generează numerele de 3 cifre cu cifre distincte.",
+     "Compară numărul de operații al celor două metode pentru palindromuri.",
+     "Generează numerele mai mici decât 1000 cu suma cifrelor 10."
+    ],
+    "test": [
+     "Ce face metoda directă?",
+     "Ce face metoda constructivă?",
+     "Câte palindromuri de 5 cifre există?",
+     "Când merită metoda constructivă?",
+     "Cum construiești palindromul din abc?"
+    ],
+    "steps": [
+     "Scrie funcția care testează proprietatea.",
+     "Gândește dacă numerele pot fi construite direct.",
+     "Alege metoda după mărimea intervalului și verifică primele rezultate.",
+     "Greșeala frecventă: să testezi miliarde de numere când ele pot fi construite direct."
+    ],
+    "answers": [
+     "Parcurge toate numerele și le testează.",
+     "Construiește direct numerele care au proprietatea.",
+     "900.",
+     "Când numerele căutate sunt rare sau intervalul este mare.",
+     "abcba."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l33": {
+   "ro": {
+    "title": "Sortarea prin selecție",
+    "theory": "Sortarea prin selecție împarte tabloul în partea sortată (la început) și partea nesortată. La fiecare pas i (de la 0 la n − 2), caută poziția minimului din partea nesortată v[i … n − 1] și îl interschimbă cu v[i]. După pasul i, primele i + 1 elemente sunt la locul lor definitiv. Face întotdeauna aproximativ n²/2 comparații, deci complexitatea este O(n²), dar cel mult n − 1 interschimbări, util când mutarea elementelor este costisitoare. Nu este stabilă în forma de bază (elementele egale își pot schimba ordinea relativă). Pentru ordine descrescătoare căutăm maximul.",
+    "sample": "v = [29, 10, 14, 37, 13]. i = 0: minimul 10 → [10, 29, 14, 37, 13]; i = 1: minimul 13 → [10, 13, 14, 37, 29]; i = 2: 14 rămâne; i = 3: minimul 29 → [10, 13, 14, 29, 37].",
+    "worked": "La fiecare pas se fixează un element. Pasul i = 2 nu a făcut interschimbare, pentru că 14 era deja minimul părții nesortate.",
+    "exercises": [
+     "Implementează sortarea prin selecție în Python și C++.",
+     "Urmărește algoritmul pe un tablou de 6 elemente.",
+     "Modifică algoritmul pentru ordine descrescătoare.",
+     "Numără comparațiile pentru n = 100.",
+     "Sortează doar primele k elemente cele mai mici."
+    ],
+    "test": [
+     "Ce se caută la fiecare pas?",
+     "Câte interschimbări face cel mult?",
+     "Ce complexitate are?",
+     "Ce știm despre primele i + 1 elemente după pasul i?",
+     "Este stabilă sortarea prin selecție de bază?"
+    ],
+    "steps": [
+     "Pentru fiecare poziție i, caută minimul din v[i…n−1].",
+     "Interschimbă minimul cu v[i].",
+     "Urmărește tabloul după fiecare pas pe un exemplu mic.",
+     "Greșeala frecventă: să interschimbi la fiecare comparație în loc să reții poziția minimului; algoritmul devine altul, mai lent."
+    ],
+    "answers": [
+     "Minimul din partea nesortată.",
+     "n − 1.",
+     "O(n²).",
+     "Sunt la locul lor definitiv.",
+     "Nu."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l34": {
+   "ro": {
+    "title": "Sortarea prin metoda bulelor",
+    "theory": "Metoda bulelor parcurge repetat tabloul și compară elementele vecine: dacă v[j] > v[j + 1], le interschimbă. După prima parcurgere, cel mai mare element ajunge la final; după a doua, al doilea cel mai mare ajunge pe penultima poziție și așa mai departe. Optimizări: la parcurgerea k nu mai verificăm ultimele k − 1 poziții, deja fixate; folosim un semafor și ne oprim când o parcurgere nu face nicio interschimbare (tabloul este sortat). Complexitatea în cel mai rău caz este O(n²), dar pentru un tablou aproape sortat metoda cu semafor termină repede (O(n) dacă este deja sortat). Metoda este stabilă: elementele egale nu se interschimbă.",
+    "sample": "v = [3, 1, 2, 4]. Prima trecere: 3 > 1 → [1, 3, 2, 4]; 3 > 2 → [1, 2, 3, 4]; 3 < 4. A doua trecere nu face nicio interschimbare, deci ne oprim.",
+    "worked": "Semaforul a oprit algoritmul după doar două treceri. Fără el, am fi făcut trei treceri, ultima complet inutilă.",
+    "exercises": [
+     "Implementează metoda bulelor cu semafor.",
+     "Urmărește algoritmul pe un tablou sortat descrescător.",
+     "Numără trecerile pentru un tablou deja sortat.",
+     "Sortează descrescător cu metoda bulelor.",
+     "Explică de ce metoda bulelor este stabilă."
+    ],
+    "test": [
+     "Ce elemente se compară?",
+     "Ce element ajunge la final după prima trecere?",
+     "Când se oprește varianta cu semafor?",
+     "Ce complexitate are pentru un tablou deja sortat?",
+     "Este stabilă metoda bulelor?"
+    ],
+    "steps": [
+     "Parcurge tabloul comparând vecinii și interschimbă-i dacă nu sunt în ordine.",
+     "Reține într-un semafor dacă ai făcut vreo interschimbare.",
+     "Repetă până când o trecere nu mai schimbă nimic.",
+     "Greșeala frecventă: să compari v[j] cu v[j + 1] până la j = n − 1; ieși din tablou."
+    ],
+    "answers": [
+     "Elementele vecine.",
+     "Cel mai mare element.",
+     "Când o trecere nu face nicio interschimbare.",
+     "O(n).",
+     "Da."
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l35": {
+   "ro": {
+    "title": "Sortarea prin numărare",
+    "theory": "Sortarea prin numărare (counting sort) nu compară elementele între ele. Se folosește când valorile sunt numere naturale într-un interval mic [0, VMAX]. Construim tabloul de frecvențe fr; apoi parcurgem valorile de la 0 la VMAX și scriem fiecare valoare x de fr[x] ori. Complexitatea este O(n + VMAX): pentru un milion de note de la 1 la 10 este extrem de rapidă, mult mai bună decât O(n²) sau chiar O(n log n). Dezavantaje: memoria pentru tabloul de frecvențe și faptul că nu se poate folosi pentru valori reale sau foarte mari. Comparăm cele trei sortări: selecția și bulele sunt simple și generale, O(n²); numărarea este liniară, dar restrânsă. Pentru date mari și generale folosim sort din bibliotecă, O(n log n).",
+    "sample": "Note: 7, 9, 7, 10, 5, 9, 7. fr[5] = 1, fr[7] = 3, fr[9] = 2, fr[10] = 1. Rezultat: 5, 7, 7, 7, 9, 9, 10.",
+    "worked": "Nicio comparație între note nu a fost necesară. Am parcurs o dată notele și o dată valorile posibile.",
+    "exercises": [
+     "Implementează sortarea prin numărare pentru note.",
+     "Sortează cifrele unui număr pentru a obține cel mai mare număr posibil.",
+     "Compară timpul pentru 10⁶ valori cu bule și cu numărare.",
+     "Explică de ce sortarea prin numărare nu merge pentru valori până la 10⁹.",
+     "Alege sortarea potrivită pentru trei situații date."
+    ],
+    "test": [
+     "Compară elementele sortarea prin numărare?",
+     "Ce complexitate are?",
+     "Când se poate folosi?",
+     "Ce dezavantaj are?",
+     "Ce sortare din bibliotecă folosim pentru date mari generale?"
+    ],
+    "steps": [
+     "Verifică dacă valorile sunt naturale într-un interval mic.",
+     "Construiește frecvențele și rescrie valorile în ordine.",
+     "Compară soluția cu o sortare clasică pe un exemplu.",
+     "Greșeala frecventă: să folosești sortarea prin numărare pentru valori uriașe sau reale."
+    ],
+    "answers": [
+     "Nu.",
+     "O(n + VMAX).",
+     "Când valorile sunt naturale, într-un interval mic.",
+     "Memoria necesară tabloului de frecvențe.",
+     "sort (O(n log n))."
+    ]
+   }
+  }
+ }
+}
