@@ -1,6 +1,6 @@
 {
  "schema": "mypocket-literature-authored-catalog/v1",
- "version": "a412e956389867aff6193dd42dab53f214b855f90ff436f3152e97a756b0bf5b",
+ "version": "6705f425c29704544cf4512486ca91b3e58f6381665184dea4c76783cb1503f1",
  "years": [
   {
    "country": "AD",
@@ -724,7 +724,7 @@
      "lang": "ro",
      "name": "Română",
      "file": "ro-11",
-     "version": "5edc7db738d093afd85162bbfc5af7a599030e66c442d15b40075dce0c6f524c"
+     "version": "aa802223501244ac00baeb0848fb72abd2fe33df0419cde657aec7a09ef34865"
     }
    ]
   },

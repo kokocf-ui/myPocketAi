@@ -3,9 +3,9 @@
  "country": "RO",
  "stage": "medium",
  "grade": "11",
- "version": "5edc7db738d093afd85162bbfc5af7a599030e66c442d15b40075dce0c6f524c",
+ "version": "aa802223501244ac00baeb0848fb72abd2fe33df0419cde657aec7a09ef34865",
  "source": "https://programe.ise.ro/",
- "sourceTitle": "Ministerul Educației — Programa școlară Limba și literatura română, clasa a XI-a, ciclul superior al liceului (OMEdC nr. 3252/13.02.2006), în vigoare până la intrarea în vigoare a noii programe: Fundamente ale culturii române (originile limbii, latinitate și dacism, literatura populară), Perioada veche (umanismul, cronicarii, iluminismul), Perioada modernă — secolul al XIX-lea și începutul secolului al XX-lea (pașoptismul, Junimea, marii clasici, romantismul, realismul, simbolismul, prelungiri ale romantismului și clasicismului), perioada interbelică (romanul); Limbă și comunicare (norma și variantele literare libere, fonetica, vocabularul, morfosintaxa, structurile discursive, argumentarea, dezbaterea); ordinea obișnuită a manualelor aprobate; lecții originale, fără text copiat din opere sau manuale",
+ "sourceTitle": "Ministerul Educației — Programa școlară Limba și literatura română, clasa a XI-a, ciclul superior al liceului (OMEdC nr. 3252/13.02.2006), în vigoare până la intrarea în vigoare a noii programe: Fundamente ale culturii române (originile limbii, latinitate și dacism, literatura populară), Perioada veche (dimensiunea religioasă a existenței, formarea conștiinței istorice, umanismul și iluminismul), Perioada modernă — secolul al XIX-lea și începutul secolului al XX-lea (pașoptismul, Junimea, marii clasici, romantismul, realismul, simbolismul, prelungiri ale romantismului și clasicismului), perioada interbelică (orientări tematice și modele epice în roman); literatura și pictura; Limbă și comunicare (norma și variantele literare libere, fonetica, vocabularul, morfosintaxa, structurile discursive, argumentarea, dezbaterea); ordinea obișnuită a manualelor aprobate; lecții originale, fără text copiat din opere sau manuale",
  "status": "partial-original-material-independent-review-pending",
  "sourceLanguage": "ro",
  "labels": [
@@ -35,57 +35,59 @@
     "eu-year-ro-medium-11-l05",
     "eu-year-ro-medium-11-l06",
     "eu-year-ro-medium-11-l07",
-    "eu-year-ro-medium-11-l08"
+    "eu-year-ro-medium-11-l08",
+    "eu-year-ro-medium-11-l09"
    ]
   },
   {
    "title": "Pașoptismul și Junimea",
    "keys": [
-    "eu-year-ro-medium-11-l09",
     "eu-year-ro-medium-11-l10",
     "eu-year-ro-medium-11-l11",
     "eu-year-ro-medium-11-l12",
-    "eu-year-ro-medium-11-l13"
+    "eu-year-ro-medium-11-l13",
+    "eu-year-ro-medium-11-l14"
    ]
   },
   {
    "title": "Marii clasici: romantism și realism",
    "keys": [
-    "eu-year-ro-medium-11-l14",
     "eu-year-ro-medium-11-l15",
     "eu-year-ro-medium-11-l16",
     "eu-year-ro-medium-11-l17",
     "eu-year-ro-medium-11-l18",
-    "eu-year-ro-medium-11-l19"
+    "eu-year-ro-medium-11-l19",
+    "eu-year-ro-medium-11-l20",
+    "eu-year-ro-medium-11-l21"
    ]
   },
   {
    "title": "Simbolismul și prelungiri ale romantismului",
    "keys": [
-    "eu-year-ro-medium-11-l20",
-    "eu-year-ro-medium-11-l21",
     "eu-year-ro-medium-11-l22",
-    "eu-year-ro-medium-11-l23"
+    "eu-year-ro-medium-11-l23",
+    "eu-year-ro-medium-11-l24",
+    "eu-year-ro-medium-11-l25"
    ]
   },
   {
    "title": "Perioada interbelică: romanul",
    "keys": [
-    "eu-year-ro-medium-11-l24",
-    "eu-year-ro-medium-11-l25",
     "eu-year-ro-medium-11-l26",
-    "eu-year-ro-medium-11-l27"
+    "eu-year-ro-medium-11-l27",
+    "eu-year-ro-medium-11-l28",
+    "eu-year-ro-medium-11-l29"
    ]
   },
   {
    "title": "Limbă și comunicare",
    "keys": [
-    "eu-year-ro-medium-11-l28",
-    "eu-year-ro-medium-11-l29",
     "eu-year-ro-medium-11-l30",
     "eu-year-ro-medium-11-l31",
     "eu-year-ro-medium-11-l32",
-    "eu-year-ro-medium-11-l33"
+    "eu-year-ro-medium-11-l33",
+    "eu-year-ro-medium-11-l34",
+    "eu-year-ro-medium-11-l35"
    ]
   }
  ],
@@ -267,6 +269,41 @@
   },
   "eu-year-ro-medium-11-l06": {
    "ro": {
+    "title": "Studiu de caz: dimensiunea religioasă a existenței",
+    "theory": "În perioada veche, scrisul românesc este strâns legat de credință. Cazania lui Varlaam (Iași, 1643) oferă predici pentru toți românii, într-o limbă pe înțelesul credincioșilor; Didahiile lui Antim Ivireanul sunt predici cu valoare oratorică și morală; Biblia de la București (1688) este prima traducere integrală a Bibliei în limba română; poemul Viiața lumii de Miron Costin meditează asupra trecerii timpului și a deșertăciunii.",
+    "sample": "Meditație originală în spiritul epocii: Toate trec ca umbra; omul se bucură de putere și avere, dar timpul le ia pe toate; rămân doar faptele bune și numele curat.",
+    "worked": "Tema deșertăciunii și a trecerii timpului (vanitas) apare la Miron Costin. Funcția morală și limba accesibilă arată rolul textelor religioase în formarea limbii literare.",
+    "exercises": [
+     "Prezintă contribuția Cazaniei lui Varlaam.",
+     "Explică tema trecerii timpului în Viiața lumii.",
+     "Explică importanța Bibliei de la București.",
+     "Analizează un procedeu oratoric dintr-o didahie (adresare, întrebare retorică).",
+     "Explică legătura dintre textele religioase și formarea limbii literare."
+    ],
+    "test": [
+     "Când a apărut Cazania lui Varlaam?",
+     "Cine a scris Didahiile?",
+     "Ce este Biblia de la București?",
+     "Ce temă are Viiața lumii?",
+     "Ce funcție au textele religioase vechi?"
+    ],
+    "steps": [
+     "Plasează fiecare text în timp și spune ce tip de text este.",
+     "Identifică tema și funcția (morală, religioasă).",
+     "Leagă textele de dezvoltarea limbii române scrise.",
+     "Greșeala frecventă: să tratezi textele religioase doar ca documente bisericești, fără rolul lor cultural și lingvistic."
+    ],
+    "answers": [
+     "În 1643.",
+     "Antim Ivireanul.",
+     "Prima traducere integrală a Bibliei în limba română.",
+     "Trecerea timpului și deșertăciunea.",
+     "Morală și religioasă, cu rol în formarea limbii literare."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l07": {
+   "ro": {
     "title": "Studiu de caz: formarea conștiinței istorice — cronicarii",
     "theory": "Cronicarii moldoveni Grigore Ureche (Letopisețul Țării Moldovei), Miron Costin (Letopisețul și De neamul moldovenilor) și Ion Neculce (Letopisețul, precedat de O samă de cuvinte) constituie istoriografia în limba română. Ei afirmă originea romană, latinitatea limbii, unitatea de neam și scriu pentru a păstra memoria. Arta portretului (Ștefan cel Mare la Ureche) și arta narativă (legendele lui Neculce) anunță literatura.",
     "sample": "Portret original în manieră cronicărească: Era domn mic de stat, dar mare la sfat; aspru cu cei răi și milostiv cu cei necăjiți; nu se lenevea la război și știa să-și adune oamenii.",
@@ -300,7 +337,7 @@
     ]
    }
   },
-  "eu-year-ro-medium-11-l07": {
+  "eu-year-ro-medium-11-l08": {
    "ro": {
     "title": "Iluminismul și Școala Ardeleană",
     "theory": "Iluminismul (secolul al XVIII-lea) are încredere în rațiune, educație și progres. În Transilvania, Școala Ardeleană (Samuil Micu, Gheorghe Șincai, Petru Maior, Ion Budai-Deleanu) luptă pentru drepturile românilor (Supplex Libellus Valachorum, 1791), demonstrează originea latină, scrie gramatici, dicționare și istorii, propune scrierea cu alfabet latin și răspândește cultura prin școli.",
@@ -335,7 +372,7 @@
     ]
    }
   },
-  "eu-year-ro-medium-11-l08": {
+  "eu-year-ro-medium-11-l09": {
    "ro": {
     "title": "Țiganiada: epopee eroi-comică",
     "theory": "Țiganiada de Ion Budai-Deleanu, scrisă la sfârșitul secolului al XVIII-lea și publicată postum, este o epopee eroi-comică în douăsprezece cânturi. Prezintă, parodic, oastea țiganilor înarmată de Vlad Țepeș pentru a lupta împotriva turcilor și certurile lor despre forma de guvernare. Opera are note de subsol semnate de personaje-comentatori fictivi, satiră și critică socială iluministă.",
@@ -370,7 +407,7 @@
     ]
    }
   },
-  "eu-year-ro-medium-11-l09": {
+  "eu-year-ro-medium-11-l10": {
    "ro": {
     "title": "Dacia literară și programul pașoptist",
     "theory": "Pașoptismul este perioada de dinainte și din jurul revoluției de la 1848. Revista Dacia literară (Iași, 1840), condusă de Mihail Kogălniceanu, publică articolul-program Introducție: combate imitația și traducerile mediocre, cere o literatură originală, inspirată din istoria națională, din frumusețea naturii și din folclor, și unitatea literaturii în toate provinciile românești.",
@@ -405,7 +442,7 @@
     ]
    }
   },
-  "eu-year-ro-medium-11-l10": {
+  "eu-year-ro-medium-11-l11": {
    "ro": {
     "title": "Romantismul pașoptist: Umbra lui Mircea. La Cozia",
     "theory": "Poezia lui Grigore Alexandrescu ilustrează romantismul pașoptist: meditația asupra trecutului glorios, ruinele, noaptea, apa curgătoare, antiteza trecut–prezent și apelul la conștiința națională. În Umbra lui Mircea. La Cozia, eul liric, la mormântul domnitorului, evocă umbra lui Mircea cel Bătrân și faptele eroice, apoi reflectează asupra trecerii timpului.",
@@ -440,10 +477,10 @@
     ]
    }
   },
-  "eu-year-ro-medium-11-l11": {
+  "eu-year-ro-medium-11-l12": {
    "ro": {
     "title": "Forme hibride ale civilizației: Chirița în provincie",
-    "theory": "Comedia Chirița în provincie de Vasile Alecsandri satirizează imitația superficială a modei străine. Chirița, o boieroaică de provincie, vrea să pară educată și elegantă, amestecă franceza stricată cu româna (franțuzisme ridicole) și dorește să-și facă fiul, Guguță, ispravnic. Comicul de limbaj, de situație și de caracter arată conflictul dintre aparență și esență.",
+    "theory": "Tema formelor hibride de la mijlocul secolului al XIX-lea apare în texte precum Iașii și locuitorii lui la 1840 de Alecu Russo sau Iorgu de la Sadagura de Vasile Alecsandri. Comedia Chirița în provincie de Vasile Alecsandri satirizează imitația superficială a modei străine. Chirița, o boieroaică de provincie, vrea să pară educată și elegantă, amestecă franceza stricată cu româna (franțuzisme ridicole) și dorește să-și facă fiul, Guguță, ispravnic. Comicul de limbaj, de situație și de caracter arată conflictul dintre aparență și esență.",
     "sample": "Replică originală în stil hibrid: Ma chère, am făcut un voiaj superb la oraș; acolo toată lumea e tare comme il faut, nu ca la noi la moșie!",
     "worked": "Amestecul de cuvinte franceze și românești arată pretenția de rafinament, comică prin nepotrivire. Satira vizează imitația fără fond.",
     "exercises": [
@@ -475,10 +512,10 @@
     ]
    }
   },
-  "eu-year-ro-medium-11-l12": {
+  "eu-year-ro-medium-11-l13": {
    "ro": {
     "title": "Junimea și criticismul junimist",
-    "theory": "Societatea Junimea (Iași, 1863; Titu Maiorescu, Petre P. Carp, Vasile Pogor, Iacob Negruzzi, Theodor Rosetti) și revista Convorbiri literare (1867) au promovat spiritul critic, valoarea estetică și limba literară unitară. În studiul În contra direcției de astăzi în cultura română (1868), Maiorescu formulează teoria formelor fără fond: instituțiile importate fără pregătirea fondului cultural sunt goale și chiar dăunătoare.",
+    "theory": "Societatea Junimea (Iași, 1863; Titu Maiorescu, Petre P. Carp, Vasile Pogor, Iacob Negruzzi, Theodor Rosetti) și revista Convorbiri literare (1867) au promovat spiritul critic, valoarea estetică și limba literară unitară. În studiul În contra direcției de astăzi în cultura română (1868), Maiorescu formulează teoria formelor fără fond: instituțiile importate fără pregătirea fondului cultural sunt goale și chiar dăunătoare; în Direcția nouă în poezia și proza română, salută literatura originală a epocii.",
     "sample": "Exemplu original de formă fără fond: Un oraș construiește o bibliotecă uriașă, dar nu cumpără cărți și nu angajează bibliotecari; clădirea există, dar funcția ei lipsește.",
     "worked": "Clădirea (forma) nu are fond (cărți, oameni, obiceiul lecturii). Maiorescu cerea ca forma să fie precedată sau însoțită de fond.",
     "exercises": [
@@ -510,7 +547,7 @@
     ]
    }
   },
-  "eu-year-ro-medium-11-l13": {
+  "eu-year-ro-medium-11-l14": {
    "ro": {
     "title": "Dezbatere: România între Orient și Occident",
     "theory": "O dezbatere cu temă culturală cere documentare, argumente, exemple și respect pentru adversar. Tema România între Orient și Occident discută poziția culturii române între influențe orientale (bizantine, otomane, balcanice) și occidentale (franceze, germane), de la pașoptiști la Junimea și la interbelici. Structura: moțiune, echipe, discursuri, întrebări, replici, concluzii.",
@@ -545,7 +582,7 @@
     ]
    }
   },
-  "eu-year-ro-medium-11-l14": {
+  "eu-year-ro-medium-11-l15": {
    "ro": {
     "title": "Studiu de caz: diversitatea marilor clasici",
     "theory": "Epoca marilor clasici (a doua jumătate a secolului al XIX-lea) îi reunește pe Mihai Eminescu (poezie romantică, proză, publicistică), Ion Creangă (basme, povești, amintiri, cu oralitate și umor), I. L. Caragiale (comedii, momente și schițe, nuvele, cu satiră și comic) și Ioan Slavici (nuvele realiste psihologice, roman). Toți au fost legați de Junimea, dar viziunile și stilurile lor diferă.",
@@ -580,7 +617,7 @@
     ]
    }
   },
-  "eu-year-ro-medium-11-l15": {
+  "eu-year-ro-medium-11-l16": {
    "ro": {
     "title": "Romantismul: trăsături",
     "theory": "Romantismul (prima jumătate a secolului al XIX-lea în Europa) prețuiește sentimentul, imaginația și individualitatea; are ca teme natura, iubirea, istoria, visul, geniul, moartea; folosește antiteza, cultul eroului excepțional, evadarea în trecut sau în vis, amestecul genurilor și speciilor. În literatura română, se manifestă la pașoptiști și culminează cu Eminescu.",
@@ -615,7 +652,7 @@
     ]
    }
   },
-  "eu-year-ro-medium-11-l16": {
+  "eu-year-ro-medium-11-l17": {
    "ro": {
     "title": "Luceafărul: poem romantic",
     "theory": "Luceafărul de Mihai Eminescu (1883) este un poem alegoric și filozofic, construit pe un motiv de basm, despre condiția geniului. Are patru părți: povestea fetei de împărat și a Luceafărului; idila Cătălin–Cătălina; călătoria lui Hyperion la Demiurg; revenirea și decizia finală. Hyperion, nemuritor, nu poate trăi în lumea oamenilor; geniul rămâne singur, rece și nemuritor.",
@@ -650,7 +687,7 @@
     ]
    }
   },
-  "eu-year-ro-medium-11-l17": {
+  "eu-year-ro-medium-11-l18": {
    "ro": {
     "title": "Scrisoarea I: geniul și timpul",
     "theory": "Scrisoarea I de Mihai Eminescu (1881) este o satiră și o meditație filozofică. Începe cu un tablou nocturn, cu luna care veghează lumea; apoi apare portretul bătrânului dascăl, savant sărac care caută să înțeleagă universul. Urmează viziunea cosmogonică (nașterea și moartea universului) și meditația despre soarta geniului, uitat sau judecat superficial de posteritate.",
@@ -685,7 +722,7 @@
     ]
    }
   },
-  "eu-year-ro-medium-11-l18": {
+  "eu-year-ro-medium-11-l19": {
    "ro": {
     "title": "Sara pe deal: idila eminesciană",
     "theory": "Sara pe deal de Mihai Eminescu este o idilă romantică: eul liric așteaptă întâlnirea cu iubita într-un cadru rural, la ceas de seară. Natura (luna, stelele, salcâmul, buciumul, turmele, apele) creează armonia, iar iubirea este proiectată în viitor, ca vis al fericirii. Muzicalitatea și ritmul calm susțin atmosfera.",
@@ -720,7 +757,42 @@
     ]
    }
   },
-  "eu-year-ro-medium-11-l19": {
+  "eu-year-ro-medium-11-l20": {
+   "ro": {
+    "title": "Literatura și pictura: natura romantică",
+    "theory": "Programa cere o discuție despre felul în care o temă este tratată prin limbajele diferite ale literaturii și picturii. Literatura folosește cuvântul, succesiunea în timp, figurile de stil și vocea eului liric; pictura folosește culoarea, linia, compoziția, lumina, simultaneitatea. Teme potrivite: pictura religioasă medievală, natura în poezia și în pictura romantică, universul rural în poezie și în pictură (de exemplu, Nicolae Grigorescu).",
+    "sample": "Comparație originală: într-o poezie romantică, luna apare treptat, vers după vers, și eul liric își mărturisește dorul; într-un tablou romantic, luna, lacul și umbrele se văd deodată, iar starea vine din lumină și culoare.",
+    "worked": "Literatura construiește în timp și numește sentimentul; pictura arată simultan și sugerează prin culoare. Aceeași temă (natura nocturnă) primește efecte diferite.",
+    "exercises": [
+     "Compară o poezie de Eminescu cu un tablou romantic despre natură.",
+     "Descrie limbajul specific al unui tablou de Nicolae Grigorescu.",
+     "Scrie o poezie scurtă inspirată de un tablou.",
+     "Explică diferența dintre succesiune și simultaneitate.",
+     "Prezintă o temă comună literaturii și picturii românești."
+    ],
+    "test": [
+     "Ce mijloace folosește pictura?",
+     "Ce mijloace folosește literatura?",
+     "Ce înseamnă simultaneitate în pictură?",
+     "Ce pictor român a ilustrat universul rural?",
+     "Ce temă comună apare în exemplu?"
+    ],
+    "steps": [
+     "Alege o temă comună celor două arte.",
+     "Descrie mijloacele specifice fiecărei arte.",
+     "Compară efectele și formulează o concluzie.",
+     "Greșeala frecventă: să compari doar subiectul, fără limbajul specific fiecărei arte."
+    ],
+    "answers": [
+     "Culoarea, linia, compoziția, lumina.",
+     "Cuvântul, figurile de stil, vocea eului liric.",
+     "Toate elementele se văd deodată.",
+     "Nicolae Grigorescu.",
+     "Natura nocturnă."
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l21": {
    "ro": {
     "title": "Realismul: În vreme de război",
     "theory": "Realismul (secolul al XIX-lea) urmărește reprezentarea veridică a realității: narator obiectiv, personaje tipice în împrejurări tipice, detalii, critică socială. În nuvela În vreme de război de I. L. Caragiale, hangiul Stavrache intră în posesia averii fratelui său, popa Iancu, devenit căpitan de tâlhari și dat dispărut în război. Lăcomia și frica îl duc la nebunie, ceea ce dă nuvelei și o dimensiune psihologică.",
@@ -755,10 +827,10 @@
     ]
    }
   },
-  "eu-year-ro-medium-11-l20": {
+  "eu-year-ro-medium-11-l22": {
    "ro": {
     "title": "Studiu de caz: simbolismul european",
-    "theory": "Simbolismul apare în Franța la sfârșitul secolului al XIX-lea (Manifestul simbolist, 1886), având ca precursor pe Charles Baudelaire (Florile răului, 1857). Trăsături: sugestia în locul descrierii, simbolul, corespondențele dintre simțuri (sinestezia), muzicalitatea, cromatica, stările vagi (spleen, nevroză), spațiul citadin, ploaia, toamna.",
+    "theory": "Simbolismul apare în Franța la sfârșitul secolului al XIX-lea (Manifestul simbolist, 1886), având ca precursor pe Charles Baudelaire (Florile răului, 1857). Poeții principali sunt Paul Verlaine (Arta poetică: muzica înainte de toate), Arthur Rimbaud (Vocalele: fiecare vocală primește o culoare) și Stéphane Mallarmé (sugestia, poezia ermetică). Trăsături: sugestia în locul descrierii, simbolul, corespondențele dintre simțuri (sinestezia), muzicalitatea, cromatica, stările vagi (spleen, nevroză), spațiul citadin, ploaia, toamna.",
     "sample": "Sinestezie originală: un sunet albastru de vioară, un parfum cald ca o melodie, o tăcere de culoarea cenușii.",
     "worked": "Sinestezia unește simțuri diferite (auz–culoare, miros–auz). Simboliștii o folosesc pentru a sugera stări, nu pentru a le numi.",
     "exercises": [
@@ -770,7 +842,7 @@
     ],
     "test": [
      "Unde apare simbolismul?",
-     "Cine este precursorul lui?",
+     "Cine a cerut, într-o artă poetică, muzica înainte de toate?",
      "Ce este sinestezia?",
      "Ce preferă simboliștii: descrierea sau sugestia?",
      "Ce motive sunt frecvente?"
@@ -783,14 +855,14 @@
     ],
     "answers": [
      "În Franța.",
-     "Charles Baudelaire.",
+     "Paul Verlaine.",
      "Asocierea senzațiilor diferite.",
      "Sugestia.",
      "Ploaia, toamna, orașul, spleenul."
     ]
    }
   },
-  "eu-year-ro-medium-11-l21": {
+  "eu-year-ro-medium-11-l23": {
    "ro": {
     "title": "Simbolismul românesc: Macedonski și Noaptea de decembrie",
     "theory": "Alexandru Macedonski, prin revista Literatorul, este teoreticianul și promotorul simbolismului românesc. Noaptea de decembrie (1890) este un poem alegoric: un poet sărac, într-o noapte de iarnă, visează la un emir bogat care pornește spre Mecca prin pustiu, refuză să împartă apa cu un beduin și moare fără să ajungă. Poemul sugerează că idealul poate fi atins doar prin puritate și prin sacrificiu.",
@@ -825,42 +897,42 @@
     ]
    }
   },
-  "eu-year-ro-medium-11-l22": {
+  "eu-year-ro-medium-11-l24": {
    "ro": {
-    "title": "Simbolismul citadin: Bacovia și Minulescu",
-    "theory": "George Bacovia exprimă un simbolism al stărilor de apăsare: orașul de provincie, ploaia, toamna, cromatica (negru, plumburiu, violet), repetițiile; în Lacustră, ploaia neîntreruptă și imaginea locuinței pe piloni sugerează izolarea și nesiguranța. Ion Minulescu aduce un simbolism decorativ și ironic, cu romanțe, culori și o anumită teatralitate.",
-    "sample": "Comparație originală: la Bacovia, ploaia îneacă orașul și sufletul; la Minulescu, ploaia devine decor colorat, iar poetul pare să joace un rol cu zâmbet ironic.",
-    "worked": "Același motiv (ploaia) produce stări diferite: angoasă la Bacovia, joc și ironie la Minulescu. Ambii folosesc sugestia, muzicalitatea și cromatica, deci sunt simboliști.",
+    "title": "Simbolismul românesc: Minulescu și Dimitrie Anghel",
+    "theory": "Pe lângă Macedonski, simbolismul românesc îi are pe Ion Minulescu (Romanțe pentru mai târziu, 1908), cu un simbolism decorativ, teatral și ironic, cu orașe exotice, insule, culori și refrene, și pe Dimitrie Anghel (În grădină, 1905), poet al florilor, în care fiecare floare devine simbol al unei stări sufletești. Ștefan Petică aduce un simbolism delicat, muzical, cu stări vagi. (George Bacovia, cel mai important poet simbolist, se studiază în clasa a XII-a.)",
+    "sample": "Comparație originală: la Minulescu, poetul joacă un rol, cu gesturi mari și un zâmbet ironic, ca un actor care își recită romanța; la Anghel, o floare de grădină devine oglinda unei amintiri și a unei melancolii.",
+    "worked": "Ambii folosesc sugestia, simbolul și muzicalitatea, deci sunt simboliști. Diferă tonul: teatral și ironic la Minulescu, delicat și melancolic la Anghel.",
     "exercises": [
-     "Analizează motivul ploii în Lacustră.",
-     "Identifică cromatica bacoviană.",
-     "Explică ironia la Minulescu.",
+     "Identifică refrenul și efectul lui într-o romanță de Minulescu.",
+     "Explică simbolul florii la Dimitrie Anghel.",
+     "Găsește ironia în poezia lui Minulescu.",
      "Compară cei doi poeți.",
-     "Scrie două versuri simboliste despre oraș."
+     "Scrie o strofă simbolistă despre o floare."
     ],
     "test": [
-     "Ce stare domină poezia lui Bacovia?",
-     "Ce sugerează locuința pe piloni din Lacustră?",
-     "Ce ton are Minulescu?",
-     "Ce culori folosește Bacovia?",
-     "Ce au comun cei doi poeți?"
+     "Ce volum a publicat Minulescu în 1908?",
+     "Ce ton are poezia lui Minulescu?",
+     "Ce temă preferă Dimitrie Anghel?",
+     "Ce au comun cei doi poeți?",
+     "În ce clasă se studiază Bacovia?"
     ],
     "steps": [
-     "Identifică motivele și culorile.",
-     "Stabilește starea sugerată.",
-     "Compară efectul aceluiași motiv la doi poeți.",
+     "Identifică simbolurile și refrenele.",
+     "Stabilește tonul fiecărui poet.",
+     "Leagă trăsăturile de simbolism.",
      "Greșeala frecventă: să crezi că simbolismul are o singură tonalitate."
     ],
     "answers": [
-     "Apăsarea, angoasa, izolarea.",
-     "Izolarea și nesiguranța.",
-     "Ironic, teatral.",
-     "Negru, plumburiu, violet.",
-     "Sugestia, muzicalitatea, cromatica."
+     "Romanțe pentru mai târziu.",
+     "Teatral și ironic.",
+     "Florile.",
+     "Sugestia, simbolul, muzicalitatea.",
+     "În clasa a XII-a."
     ]
    }
   },
-  "eu-year-ro-medium-11-l23": {
+  "eu-year-ro-medium-11-l25": {
    "ro": {
     "title": "Prelungiri ale romantismului și clasicismului",
     "theory": "La începutul secolului al XX-lea, unele direcții continuă romantismul și clasicismul: sămănătorismul (revista Sămănătorul, Nicolae Iorga), cu idealizarea satului și a trecutului; poporanismul (Viața românească), cu interes pentru țărănime; poezia lui Octavian Goga, cu tema satului ardelean, a suferinței naționale și a poetului-mesianic; poezia lui George Coșbuc, cu echilibru clasic și viziune asupra lumii rurale.",
@@ -895,7 +967,7 @@
     ]
    }
   },
-  "eu-year-ro-medium-11-l24": {
+  "eu-year-ro-medium-11-l26": {
    "ro": {
     "title": "Modernismul lovinescian și romanul",
     "theory": "În perioada interbelică, Eugen Lovinescu, prin cenaclul și revista Sburătorul, promovează modernismul: teoria sincronismului (literatura română trebuie să se sincronizeze cu cea europeană), trecerea de la tematica rurală la cea urbană, de la personajul țăran la intelectual, de la lirismul prozei la obiectivitate și analiză psihologică. Romanul devine specia dominantă.",
@@ -930,7 +1002,7 @@
     ]
    }
   },
-  "eu-year-ro-medium-11-l25": {
+  "eu-year-ro-medium-11-l27": {
    "ro": {
     "title": "Ultima noapte de dragoste, întâia noapte de război",
     "theory": "Romanul lui Camil Petrescu (1930) este subiectiv, modernist, scris la persoana I. Ștefan Gheorghidiu, student la filozofie, trăiește drama geloziei în iubirea pentru Ela (partea întâi) și drama războiului (partea a doua). Romanul folosește memoria involuntară, analiza lucidă, jurnalul de front și autenticitatea; personajul caută absolutul în iubire și descoperă relativitatea adevărului.",
@@ -965,7 +1037,7 @@
     ]
    }
   },
-  "eu-year-ro-medium-11-l26": {
+  "eu-year-ro-medium-11-l28": {
    "ro": {
     "title": "Pădurea spânzuraților: roman psihologic",
     "theory": "Romanul lui Liviu Rebreanu (1922) urmărește drama locotenentului Apostol Bologa, ofițer român în armata austro-ungară în Primul Război Mondial. După ce participă la condamnarea la moarte a unui ofițer ceh dezertor, Bologa trece printr-o criză de conștiință; când este trimis pe frontul românesc, încearcă să dezerteze, este prins și condamnat. Romanul îmbină obiectivitatea cu analiza psihologică.",
@@ -1000,15 +1072,15 @@
     ]
    }
   },
-  "eu-year-ro-medium-11-l27": {
+  "eu-year-ro-medium-11-l29": {
    "ro": {
-    "title": "Enigma Otiliei: roman balzacian",
-    "theory": "Enigma Otiliei de G. Călinescu (1938) este un roman realist de factură balzaciană: narator omniscient, descrieri detaliate ale spațiului (casa lui Costache Giurgiuveanu din București), tipuri umane (avarul Costache, Aglae – baba absolută, Stănică Rațiu – arivistul), tema moștenirii și a familiei. Felix Sima, tânăr orfan, vine să studieze medicina și se îndrăgostește de Otilia, fată enigmatică și imprevizibilă.",
+    "title": "Studiu de caz: modele epice în romanul interbelic",
+    "theory": "Romanul interbelic urmează două modele epice: modelul balzacian (obiectiv, cu narator omniscient, tipuri, frescă socială; de exemplu, Rebreanu și Călinescu) și modelul proustian sau gidian (subiectiv, la persoana I, cu memorie, analiză și autenticitate; de exemplu, Camil Petrescu și Eliade). Enigma Otiliei de G. Călinescu (1938) este un roman realist de factură balzaciană: narator omniscient, descrieri detaliate ale spațiului (casa lui Costache Giurgiuveanu din București), tipuri umane (avarul Costache, Aglae – baba absolută, Stănică Rațiu – arivistul), tema moștenirii și a familiei. Felix Sima, tânăr orfan, vine să studieze medicina și se îndrăgostește de Otilia, fată enigmatică și imprevizibilă.",
     "sample": "Analiză originală: Casa este descrisă amănunțit, cu ziduri crăpate și ornamente pretențioase; aspectul ei anunță caracterul locatarilor: pretenție, decădere, avariție.",
     "worked": "Descrierea spațiului care caracterizează indirect personajele este o tehnică balzaciană. Tipurile umane și tema moștenirii confirmă realismul.",
     "exercises": [
-     "Explică trăsăturile romanului balzacian.",
-     "Caracterizează un tip uman din roman.",
+     "Compară modelul balzacian cu modelul proustian.",
+     "Caracterizează un tip uman din Enigma Otiliei.",
      "Analizează rolul descrierii casei.",
      "Discută enigma Otiliei.",
      "Compară Enigma Otiliei cu Ion."
@@ -1035,7 +1107,7 @@
     ]
    }
   },
-  "eu-year-ro-medium-11-l28": {
+  "eu-year-ro-medium-11-l30": {
    "ro": {
     "title": "Norma lingvistică și variantele literare libere",
     "theory": "Norma literară este ansamblul regulilor acceptate pentru limba standard, fixate de Academia Română în DOOM (Dicționarul ortografic, ortoepic și morfologic) și în Îndreptarul ortografic. Unele cuvinte au variante literare libere: două forme acceptate deopotrivă de normă, fără diferență de sens. Ele trebuie distinse de formele greșite (abateri) și de dubletele cu sensuri diferite.",
@@ -1070,7 +1142,7 @@
     ]
    }
   },
-  "eu-year-ro-medium-11-l29": {
+  "eu-year-ro-medium-11-l31": {
    "ro": {
     "title": "Fonetică și fonologie",
     "theory": "Fonetica studiază sunetele limbii. Sunetele sunt vocale (a, ă, â/î, e, i, o, u), consoane și semivocale (e, i, o, u care nu formează singure silaba). Grupurile vocalice sunt: diftongul (vocală + semivocală în aceeași silabă: ea în stea), triftongul (trei sunete în aceeași silabă: eoa în pleoape), hiatul (două vocale în silabe diferite: po-e-zi-e). Accentul cade pe o anumită silabă și poate deosebi sensuri (cópii / copíi).",
@@ -1105,7 +1177,7 @@
     ]
    }
   },
-  "eu-year-ro-medium-11-l30": {
+  "eu-year-ro-medium-11-l32": {
    "ro": {
     "title": "Noțiuni de vocabular: neologismele",
     "theory": "Neologismele sunt cuvinte împrumutate recent (mai ales din franceză, italiană, latină savantă, engleză). Ele pot fi adaptate (birou, șofer) sau neadaptate (weekend, show). Probleme frecvente: pleonasmul (a avansa înainte, a reveni din nou), paronimia (a confunda familiar / familial, eminent / iminent, a evalua / a evolua) și folosirea forțată a anglicismelor când există un cuvânt românesc potrivit.",
@@ -1140,7 +1212,7 @@
     ]
    }
   },
-  "eu-year-ro-medium-11-l31": {
+  "eu-year-ro-medium-11-l33": {
    "ro": {
     "title": "Noțiuni de morfosintaxă: valori ale cuvintelor",
     "theory": "Același cuvânt poate avea valori morfologice diferite în context. Exemple: o poate fi articol nehotărât (o carte), numeral (o carte, nu două), pronume personal (o văd) sau interjecție (O, ce frumos!); ca poate introduce o comparație (alb ca zăpada) sau poate fi conjuncție (vreau ca el să vină); cel poate fi articol demonstrativ (Ștefan cel Mare) sau pronume demonstrativ (cel de acolo). Analizăm întotdeauna rolul din enunț.",
@@ -1175,7 +1247,7 @@
     ]
    }
   },
-  "eu-year-ro-medium-11-l32": {
+  "eu-year-ro-medium-11-l34": {
    "ro": {
     "title": "Structuri discursive: descrierea și narațiunea",
     "theory": "Descrierea prezintă trăsăturile unui spațiu, obiect sau personaj; are verbe la imperfect sau prezent, epitete, comparații, imagini senzoriale și o ordine (de aproape la departe, de sus în jos). Poate fi literară (subiectivă, expresivă) sau nonliterară (obiectivă, tehnică). Narațiunea prezintă fapte succesive în timp, cu verbe de acțiune la perfectul simplu, compus sau prezentul narativ.",
@@ -1210,7 +1282,7 @@
     ]
    }
   },
-  "eu-year-ro-medium-11-l33": {
+  "eu-year-ro-medium-11-l35": {
    "ro": {
     "title": "Structuri discursive: textul argumentativ",
     "theory": "Textul argumentativ susține o opinie: ipoteza (teza), cel puțin două argumente cu exemple, conectori (în primul rând, de asemenea, prin urmare, totuși, în concluzie) și o concluzie. Argumentele pot fi logice, de autoritate, exemple, analogii. La liceu, se scrie adesea pornind de la un fragment dat și de la o temă (de exemplu, rolul tradiției sau al lecturii).",
