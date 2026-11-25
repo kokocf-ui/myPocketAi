@@ -67,7 +67,11 @@ export async function collectNationalPacks(){
    if(!displayedYears(country,pack.stage).includes(pack.grade))fail('year '+pack.grade+' is not offered by the selector');
    if(!(typeof pack.status==='string'&&/review-pending|reviewed/.test(pack.status)))fail('status must state review state');
    if(!(typeof pack.source==='string'&&/^https:\/\//.test(pack.source)&&typeof pack.sourceTitle==='string'&&pack.sourceTitle.trim()))fail('official framework source/sourceTitle');
-   if(!(Array.isArray(pack.labels)&&pack.labels.length===7&&pack.labels.every(x=>typeof x==='string'&&x.trim())))fail('7 labels');
+   if(!(Array.isArray(pack.labels)&&(pack.labels.length===7||pack.labels.length===9)&&pack.labels.every(x=>typeof x==='string'&&x.trim())))fail('7 or 9 labels');
+   // Tutor packs (9 labels): every lesson explains step by step, in plain
+   // words with common mistakes, and gives answers to check the test.
+   const tutor=pack.labels?.length===9;
+   if(pack.units!==undefined&&!tutor)fail('textbook-sequence packs need the tutor sections (9 labels: steps + answers)');
    const offered=new Set((progs[country]?.byGrade?.[pack.grade]||[]).map(r=>String(r[0])));
    const prefix='eu-year-'+country.toLowerCase()+'-'+pack.stage+'-'+slug+'-';
    const keys=Object.keys(pack.chapters||{});
@@ -95,6 +99,10 @@ export async function collectNationalPacks(){
     if(samples.has(row.sample))fail(part+': duplicated sample');samples.add(row.sample);
     if(titles.has(row.title))fail(part+': duplicated title');titles.add(row.title);
     if(new Set([...(row.exercises||[]),...(row.test||[])]).size!==10)fail(part+': repeated question');
+    if(tutor){
+     if(!(Array.isArray(row.steps)&&row.steps.length>=3&&row.steps.length<=7&&row.steps.every(x=>typeof x==='string'&&x.trim().length>=20)))fail(part+': steps need 3-7 plain explanations');
+     if(!(Array.isArray(row.answers)&&row.answers.length===5&&row.answers.every(x=>typeof x==='string'&&x.trim().length>=1)))fail(part+': answers need 5 items');
+    }else if(row.steps!==undefined||row.answers!==undefined)fail(part+': steps/answers need the 9-label tutor format');
    }
    packs.push({country,file:file.slice(0,-5),lang,pack});
   }
@@ -143,7 +151,9 @@ if(isMain){
   for(const topicKey of packLessonKeys(pack))for(const mode of ['lesson','examples','exercises','test']){
    const m=literatureNationalYearMaterial({pack,country:entry.country,stage:entry.stage,grade:entry.grade,topicKey,mode});
    const part=topicKey;
-   if(!m||m.sourceLanguage!==l.lang||!m.text.includes(pack.chapters[topicKey][l.lang].sample))
+   const row=pack.chapters[topicKey][l.lang];
+   if(!m||m.sourceLanguage!==l.lang||!m.text.includes(row.sample)||
+      (pack.labels?.length===9&&mode==='lesson'&&!m.text.includes(row.steps[0]))||(pack.labels?.length===9&&mode==='test'&&!m.text.includes(row.answers[4])))
     throw Error('Render failed '+entry.country+' '+entry.grade+' '+l.lang+' '+part+' '+mode);
   }
  }

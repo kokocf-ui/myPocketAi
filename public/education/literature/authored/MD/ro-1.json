@@ -3,7 +3,7 @@
  "country": "MD",
  "stage": "beginner",
  "grade": "1",
- "version": "0015f88a9b9c08ccf70592306d4b5addeb09a3c5effae454f2c350d4bbfbde6a",
+ "version": "d758ede37abe099602f1f2de4a852a5827555b10017fa5afc8911605e757e5c9",
  "source": "https://mecc.gov.md/sites/default/files/limba_si_literatura_romana_cl.1.pdf",
  "sourceTitle": "MEC Republica Moldova — Curriculum pentru învățământul primar (2018) și proiectarea de lungă durată, Limba și literatura română, clasa I (8 ore/săptămână): perioada preabecedară, abecedară și postabecedară, comunicare orală, lectură, scriere, Tainele cărții; lecții originale, nu text din Abecedar",
  "status": "partial-original-material-independent-review-pending",
@@ -15,7 +15,9 @@
   "Explicație",
   "Exerciții",
   "Verifică-te",
-  "Exerciții originale, nu o evaluare oficială și nici text din Abecedar. Citește-le cu un adult, dacă e nevoie."
+  "Exerciții originale, nu o evaluare oficială și nici text din Abecedar. Citește-le cu un adult, dacă e nevoie.",
+  "Dacă nu ai înțeles: pe înțelesul tău, pas cu pas",
+  "Răspunsuri (verifică după ce termini)"
  ],
  "units": [
   {
@@ -94,6 +96,19 @@
      "De ce nu întrerupem?",
      "Ce îți place ție să faci?",
      "Desenează-ți clasa."
+    ],
+    "steps": [
+     "Când te prezinți, spune întâi numele: Mă numesc …",
+     "Apoi spune vârsta și ce îți place.",
+     "Când vorbește altcineva, ascultă și nu-l întrerupe.",
+     "Atenție: vorbește în propoziții întregi, nu doar cu un cuvânt."
+    ],
+    "answers": [
+     "Șapte ani.",
+     "Ridicăm mâna și așteptăm să ne vină rândul.",
+     "Ca să-l lăsăm pe celălalt să termine și să ne înțelegem.",
+     "Răspunsul tău. Exemplu: Îmi place să mă joc cu mingea.",
+     "Răspunsul tău. Exemplu: Desenează băncile, tabla și colegii."
     ]
    }
   },
@@ -116,6 +131,19 @@
      "Care cuvânt are o singură silabă: sus, minge, Doina?",
      "Câte propoziții are exemplul?",
      "Desparte în silabe: carte."
+    ],
+    "steps": [
+     "Propoziția spune un gând întreg: Doina are o minge.",
+     "Numără cuvintele: ridică câte un deget pentru fiecare cuvânt.",
+     "Desparte cuvântul în silabe bătând din palme: Doi-na.",
+     "Atenție: o silabă are mereu o vocală; numără vocalele ca să verifici."
+    ],
+    "answers": [
+     "Din cuvinte.",
+     "Două: Doi-na.",
+     "sus.",
+     "Două.",
+     "car-te."
     ]
    }
   },
@@ -138,6 +166,19 @@
      "Spune un cuvânt care se termină cu sunetul ă.",
      "Ce sunet auzi la începutul numelui tău?",
      "Găsește în clasă un obiect care începe cu sunetul m."
+    ],
+    "steps": [
+     "Rostește cuvântul rar, ca și cum l-ai întinde: o-a-lă.",
+     "Primul sunet este cel pe care îl auzi la început, ultimul la sfârșit.",
+     "Pentru fiecare sunet desenează un cerculeț.",
+     "Atenție: numărăm sunetele pe care le auzim, nu ghicim."
+    ],
+    "answers": [
+     "o.",
+     "Trei: c-a-l.",
+     "Răspunsul tău. Exemplu: casă, masă.",
+     "Răspunsul tău. Exemplu: D pentru Daniela.",
+     "Răspunsul tău. Exemplu: masă, minge."
     ]
    }
   },
@@ -160,6 +201,19 @@
      "Ce element seamănă cu un ou?",
      "De ce lăsăm distanțe egale?",
      "Ce faci când te obosește mâna?"
+    ],
+    "steps": [
+     "Stai drept, cu spatele lipit de spătar și picioarele pe podea.",
+     "Ține creionul cu trei degete, fără să-l strângi tare.",
+     "Scrie elementele încet, de sus în jos, la distanțe egale.",
+     "Atenție: după un rând, odihnește mâna câteva secunde."
+    ],
+    "answers": [
+     "De sus în jos.",
+     "Drept, cu spatele sprijinit, picioarele pe podea, caietul puțin înclinat.",
+     "Ovalul.",
+     "Ca scrisul să fie îngrijit și ușor de citit.",
+     "Mă opresc puțin și îmi scutur ușor mâna."
     ]
    }
   },
@@ -182,6 +236,19 @@
      "Scrie litera mare M.",
      "Ce silabă începe cu a: ma sau am?",
      "Găsește un cuvânt care se termină cu a."
+    ],
+    "steps": [
+     "Sunetul a îl rostești cu gura larg deschisă; este o vocală.",
+     "Sunetul m îl rostești cu buzele închise; este o consoană.",
+     "Unește-le: m + a = ma; a + m = am.",
+     "Atenție: ma și am au aceleași litere, dar ordinea diferă; citește de la stânga la dreapta."
+    ],
+    "answers": [
+     "Vocală.",
+     "Două: ma-ma.",
+     "Scrie M mare: două bastonașe unite cu un „v” la mijloc.",
+     "am.",
+     "Răspunsul tău. Exemplu: mama, Ana."
     ]
    }
   },
@@ -204,6 +271,19 @@
      "Citește: un, nu, mi.",
      "Ce literă începe numele Ina?",
      "Scrie silaba mi."
+    ],
+    "steps": [
+     "Unește consoana n cu vocalele învățate: na, nu, ni.",
+     "Citește întâi silaba, apoi tot cuvântul.",
+     "Numele de persoane încep cu literă mare.",
+     "Atenție: semnul exclamării arată că cineva strigă sau cheamă."
+    ],
+    "answers": [
+     "Trei: a, u, i.",
+     "Semnul exclamării.",
+     "un, nu, mi.",
+     "I (mare).",
+     "Scrie: mi."
     ]
    }
   },
@@ -226,6 +306,19 @@
      "Citește: rama, Mara, nori.",
      "Ce semn punem la sfârșitul propoziției?",
      "Formează un cuvânt cu silaba ro."
+    ],
+    "steps": [
+     "Citește propoziția cuvânt cu cuvânt, apoi întreagă.",
+     "Numără cuvintele cu degetele.",
+     "Fiecare propoziție începe cu literă mare și se termină cu punct.",
+     "Atenție: Rino și Ana sunt nume, de aceea au literă mare."
+    ],
+    "answers": [
+     "Trei.",
+     "Rino.",
+     "ra-ma, Ma-ra, no-ri.",
+     "Punct.",
+     "Răspunsul tău. Exemplu: roată, Rodica."
     ]
    }
   },
@@ -248,6 +341,19 @@
      "Citește: lac, nucă, culoare.",
      "Cine are o cană?",
      "Scrie un cuvânt cu litera l."
+    ],
+    "steps": [
+     "Litera ă are o căciuliță deasupra; sunetul ei e mai închis decât a.",
+     "Desparte cuvintele în silabe: ca-nă, lu-nă.",
+     "Citește încet, apoi mai repede.",
+     "Atenție: căciulița se scrie după ce termini litera a."
+    ],
+    "answers": [
+     "Ă are căciuliță și se citește altfel.",
+     "Două: lu-nă.",
+     "lac, nu-că, cu-loa-re.",
+     "Ana.",
+     "Răspunsul tău. Exemplu: lac."
     ]
    }
   },
@@ -270,6 +376,19 @@
      "Citește: nas, sat, plop.",
      "Scrie de mână litera t.",
      "Formează o propoziție cu cuvântul tata."
+    ],
+    "steps": [
+     "Unește consoanele noi cu vocalele: sa, ta, pa.",
+     "Desparte cuvintele lungi: pa-să-re.",
+     "Spune propoziția cu glas tare, apoi scrie-o.",
+     "Atenție: t de mână are o liniuță orizontală sus; nu o uita."
+    ],
+    "answers": [
+     "Trei: pa-să-re.",
+     "Mare.",
+     "nas, sat, plop.",
+     "Scrie t de mână cu liniuța de sus.",
+     "Răspunsul tău. Exemplu: Tata citește o carte."
     ]
    }
   },
@@ -292,6 +411,19 @@
      "Citește: vară, ușă, rață.",
      "Câte silabe are cuvântul vioară?",
      "Scrie un cuvânt cu litera ț."
+    ],
+    "steps": [
+     "Ș și ț au o codiță dedesubt; fără ea ar fi s și t.",
+     "Rostește: s – ș, t – ț și ascultă diferența.",
+     "Desparte cuvintele în silabe: șo-ri-cel.",
+     "Atenție: codița o scrii la sfârșit, după literă."
+    ],
+    "answers": [
+     "Ș are codiță dedesubt și se citește altfel.",
+     "O față de pernă.",
+     "va-ră, u-șă, ra-ță.",
+     "Trei: vi-oa-ră.",
+     "Răspunsul tău. Exemplu: rață."
     ]
    }
   },
@@ -314,6 +446,19 @@
      "Ce îi place copilului?",
      "Desparte în silabe: zacuscă.",
      "Scrie un cuvânt cu litera z."
+    ],
+    "steps": [
+     "Î și â se citesc la fel.",
+     "Scrii î la început (și la sfârșit) de cuvânt: înalt.",
+     "Scrii â în interiorul cuvântului: pâine, mână.",
+     "Atenție: în cuvintele compuse cu în- rămâne î: neînțeles."
+    ],
+    "answers": [
+     "înalt.",
+     "ze-bră, fa-tă, bu-nic.",
+     "Pâinea caldă.",
+     "Trei: za-cus-că.",
+     "Răspunsul tău. Exemplu: zebră."
     ]
    }
   },
@@ -336,6 +481,19 @@
      "Câte silabe are cuvântul jucărie?",
      "Scrie un cuvânt cu litera h.",
      "Ce joacă copiii?"
+    ],
+    "steps": [
+     "Unește consoanele noi cu vocalele: ga, ha, ja.",
+     "Desparte cuvintele lungi: ju-că-ri-e.",
+     "Pune întrebarea: ce face? unde?",
+     "Atenție: g cu e sau i formează alt sunet; vom învăța asta în lecția următoare."
+    ],
+    "answers": [
+     "Pe drum.",
+     "gol, hai-nă, joi.",
+     "Patru: ju-că-ri-e.",
+     "Răspunsul tău. Exemplu: haină.",
+     "Hora."
     ]
    }
   },
@@ -358,6 +516,19 @@
      "Citește: cinci, ginere, ceas.",
      "Câte litere are grupul ce?",
      "Scrie un cuvânt cu grupul gi."
+    ],
+    "steps": [
+     "Când după c sau g vine e sau i, se citesc altfel: ce, ci, ge, gi.",
+     "Compară: cal – cer, gol – ger.",
+     "Citește grupul ca un singur sunet.",
+     "Atenție: în cireașă grupul ci se citește ca în cinci."
+    ],
+    "answers": [
+     "Ca un singur sunet, ca în cinci.",
+     "Gâtul lung.",
+     "cinci, gi-ne-re, ceas.",
+     "Două.",
+     "Răspunsul tău. Exemplu: girafă."
     ]
    }
   },
@@ -380,6 +551,19 @@
      "Citește: ochi, ghete, chitară.",
      "Cum sunt urechile iepurelui?",
      "Scrie un cuvânt cu grupul ghe."
+    ],
+    "steps": [
+     "Grupurile che, chi, ghe, ghi au trei litere.",
+     "Litera h schimbă citirea: ce – che, gi – ghi.",
+     "Citește cuvântul încet și găsește grupul.",
+     "Atenție: în ghiozdan e ghi, nu gi."
+    ],
+    "answers": [
+     "Trei.",
+     "Gheață.",
+     "ochi, ghe-te, chi-ta-ră.",
+     "Lungi.",
+     "Răspunsul tău. Exemplu: gheață."
     ]
    }
   },
@@ -402,6 +586,19 @@
      "Spune un cuvânt cu litera k.",
      "Așază în ordine alfabetică: mama, bunica, tata.",
      "La ce ne ajută ordinea alfabetului?"
+    ],
+    "steps": [
+     "Literele k, q, w, x, y apar mai ales în cuvinte din alte limbi și în nume.",
+     "x se citește de obicei cs: taxi.",
+     "Spune alfabetul pe bucăți: a ă â b c d …",
+     "Atenție: alfabetul nostru are 31 de litere."
+    ],
+    "answers": [
+     "31.",
+     "t.",
+     "Răspunsul tău. Exemplu: kilogram.",
+     "bunica, mama, tata.",
+     "Să găsim cuvintele în dicționar și cărțile în listă."
     ]
    }
   },
@@ -424,6 +621,19 @@
      "Unde cade frunza?",
      "Găsește o rimă pentru cuvântul nuc.",
      "Desenează toamna din poezie."
+    ],
+    "steps": [
+     "Poezia are versuri; versul este un rând.",
+     "Caută cuvintele de la sfârșitul versurilor care sună la fel: rima.",
+     "Citește rar, cu pauză la sfârșitul versului.",
+     "Atenție: rima e la sfârșitul cuvintelor, nu la început."
+    ],
+    "answers": [
+     "Un rând din poezie.",
+     "Da.",
+     "În fântână.",
+     "Răspunsul tău. Exemplu: duc, cuc.",
+     "Răspunsul tău. Exemplu: Desenează toamna cu coșul de mere."
     ]
    }
   },
@@ -446,6 +656,19 @@
      "Ordonează: rățușca mulțumește / se rătăcește / întâlnește broscuța.",
      "Cum este broscuța? De ce crezi așa?",
      "Desenează sfârșitul poveștii."
+    ],
+    "steps": [
+     "Ascultă povestea și ține minte personajele.",
+     "Spune ce s-a întâmplat la început, apoi, la sfârșit.",
+     "Gândește-te ce ne învață povestea.",
+     "Atenție: nu schimba ordinea întâmplărilor."
+    ],
+    "answers": [
+     "Rățușca și broscuța.",
+     "Să nu plecăm singuri departe și să mulțumim celui care ne ajută.",
+     "Se rătăcește / întâlnește broscuța / rățușca mulțumește.",
+     "Bună și săritoare, pentru că a ajutat-o pe rățușcă.",
+     "Răspunsul tău. Exemplu: Desenează rățușca acasă, în ogradă."
     ]
    }
   },
@@ -468,6 +691,19 @@
      "Cine a scris Iedul cu trei capre?",
      "Ce faci tu dacă bate cineva străin la ușă?",
      "Desenează iedul cel mic."
+    ],
+    "steps": [
+     "Spune cine sunt personajele: capra, iezii, lupul.",
+     "Gândește-te cine a ascultat sfatul și cine nu.",
+     "Spune învățătura cu cuvintele tale.",
+     "Atenție: lupul prefăcut ne arată că nu trebuie să credem orice voce."
+    ],
+    "answers": [
+     "Capra, cei trei iezi și lupul.",
+     "Cei doi iezi mari.",
+     "Octav Pancu-Iași.",
+     "Nu deschid ușa și îi chem pe părinți.",
+     "Răspunsul tău. Exemplu: Desenează iedul ascuns în horn."
     ]
    }
   },
@@ -490,6 +726,19 @@
      "Inventează o ghicitoare despre soare.",
      "Cine a creat ghicitorile populare?",
      "Spune un alt proverb pe care îl știi."
+    ],
+    "steps": [
+     "La ghicitoare, ascultă toate indiciile.",
+     "Întreabă-te: ce lucru are toate aceste însușiri?",
+     "Proverbul îl explici cu un exemplu din viață.",
+     "Atenție: ghicitorile și proverbele populare n-au un autor cunoscut."
+    ],
+    "answers": [
+     "Un text scurt care descrie un lucru fără să-i spună numele.",
+     "O vorbă înțeleaptă a poporului care dă un sfat.",
+     "Răspunsul tău. Exemplu: Dimineața răsare, seara apune, ziua ne încălzește (soarele).",
+     "Poporul.",
+     "Răspunsul tău. Exemplu: Graba strică treaba."
     ]
    }
   },
@@ -512,6 +761,19 @@
      "Găsește o rimă pentru cuvântul floare.",
      "Desenează-o pe mama ta.",
      "Spune o propoziție frumoasă despre mama."
+    ],
+    "steps": [
+     "Citește poezia rar și cu drag.",
+     "Găsește rimele: cuvânt – pământ.",
+     "Spune ce simți tu când citești despre mama.",
+     "Atenție: graiul înseamnă limba vorbită."
+    ],
+    "answers": [
+     "Patru.",
+     "Poet din Republica Moldova, a scris multe poezii pentru copii.",
+     "Răspunsul tău. Exemplu: soare, cărare.",
+     "Răspunsul tău. Exemplu: Desenează-o pe mama zâmbind.",
+     "Răspunsul tău. Exemplu: Mama mea are cele mai calde mâini."
     ]
    }
   },
@@ -534,6 +796,19 @@
      "Ce obicei de iarnă îți place cel mai mult?",
      "Desenează o sorcovă.",
      "Scrie o urare scurtă pentru anul nou."
+    ],
+    "steps": [
+     "Află ce este obiceiul: colindul, sorcova.",
+     "Spune când se face: de Crăciun, de Anul Nou.",
+     "Rostește urarea cu glas vesel.",
+     "Atenție: obiceiurile le-am moștenit de la străbuni."
+    ],
+    "answers": [
+     "Cântece populare de sărbătoare.",
+     "De la străbuni (bunici, străbunici).",
+     "Răspunsul tău. Exemplu: Mersul cu sorcova.",
+     "Răspunsul tău. Exemplu: O crenguță cu flori colorate.",
+     "Răspunsul tău. Exemplu: La mulți ani, cu sănătate!"
     ]
    }
   },
@@ -556,6 +831,19 @@
      "Ce scriem la sfârșit?",
      "Scrie o invitație la ziua ta.",
      "Cu ce cuvinte începe invitația?"
+    ],
+    "steps": [
+     "Invitația spune: ce eveniment, când, unde.",
+     "Începe cu o adresare: Dragă …",
+     "Se încheie cu semnătura.",
+     "Atenție: adresarea și numele se scriu cu literă mare."
+    ],
+    "answers": [
+     "Evenimentul, ziua, ora și locul.",
+     "Felicitarea transmite urări; invitația cheamă la un eveniment.",
+     "Semnătura.",
+     "Răspunsul tău. Exemplu: Dragă Ana, te invit la ziua mea, sâmbătă, la ora 12.",
+     "Dragă bunico."
     ]
    }
   },
@@ -578,6 +866,19 @@
      "Ce gest arată că asculți?",
      "Scrie o rugăminte către un coleg.",
      "De ce vorbim pe rând?"
+    ],
+    "steps": [
+     "Când ceri ceva, spune vă rog sau te rog.",
+     "Când primești, spune mulțumesc.",
+     "La plecare spunem la revedere.",
+     "Atenție: privește persoana și vorbește calm."
+    ],
+    "answers": [
+     "Vă rog / te rog.",
+     "La revedere.",
+     "Privesc persoana și dau din cap.",
+     "Răspunsul tău. Exemplu: Îmi împrumuți radiera, te rog?",
+     "Ca să ne putem auzi și înțelege."
     ]
    }
   },
@@ -600,6 +901,19 @@
      "Care cuvânt nu se potrivește: iarnă, vară, pix, toamnă?",
      "Descrie o minge în două cuvinte.",
      "Ce cuvânt arată mărimea în exemplu?"
+    ],
+    "steps": [
+     "Pentru a descrie un obiect, spune culoarea, forma, mărimea.",
+     "Spune și la ce folosește.",
+     "Grupează cuvintele după temă.",
+     "Atenție: cuvintele care arată însușiri răspund la întrebarea cum este?"
+    ],
+    "answers": [
+     "Dulce.",
+     "Răspunsul tău. Exemplu: mama, tata, bunica.",
+     "pix.",
+     "Răspunsul tău. Exemplu: rotundă și colorată.",
+     "mare."
     ]
    }
   },
@@ -622,6 +936,19 @@
      "Scrie corect: azi plouă",
      "Ce arată propoziția exclamativă?",
      "Scrie numele localității tale."
+    ],
+    "steps": [
+     "Întreabă-te: propoziția spune, întreabă sau arată emoție?",
+     "Spune → punct; întreabă → semnul întrebării; emoție → semnul exclamării.",
+     "Numele de persoane și localități se scriu cu literă mare.",
+     "Atenție: și răspunsul la o întrebare se termină cu punct."
+    ],
+    "answers": [
+     "Cu semnul întrebării.",
+     "Pentru că este numele unei localități.",
+     "Azi plouă.",
+     "Bucurie, mirare sau altă emoție puternică.",
+     "Răspunsul tău. Exemplu: Chișinău."
     ]
    }
   },
@@ -644,6 +971,19 @@
      "Scrie o propoziție despre clasa ta.",
      "Ce punem la sfârșitul propoziției?",
      "Desenează o imagine și scrie o propoziție sub ea."
+    ],
+    "steps": [
+     "Privește imaginea: Cine? Ce face? Unde?",
+     "Spune propoziția cu voce tare înainte să o scrii.",
+     "Scrie cu literă mare la început și punct la sfârșit.",
+     "Atenție: lasă spațiu între cuvinte și verifică literele."
+    ],
+    "answers": [
+     "Cine? Ce face? Unde?",
+     "Îngrijit, cu spațiu între cuvinte.",
+     "Răspunsul tău. Exemplu: Clasa noastră este luminoasă.",
+     "Punct.",
+     "Răspunsul tău. Exemplu: Desenează o pisică și scrie: Pisica doarme."
     ]
    }
   },
@@ -666,6 +1006,19 @@
      "Ce cuvinte arată ordinea întâmplărilor?",
      "Desenează a patra imagine.",
      "Cum este băiețelul? De ce?"
+    ],
+    "steps": [
+     "Privește imaginile în ordine, de la stânga la dreapta.",
+     "Spune ce se întâmplă în fiecare: mai întâi, apoi, la sfârșit.",
+     "Găsește un titlu care spune ideea poveștii.",
+     "Atenție: fiecare imagine e un pas al poveștii; nu sări peste ele."
+    ],
+    "answers": [
+     "Trei.",
+     "Pentru că băiețelul a udat-o în fiecare zi.",
+     "Mai întâi, apoi, la sfârșit.",
+     "Răspunsul tău. Exemplu: Băiețelul îi dă floarea mamei.",
+     "Harnic și răbdător, pentru că a udat zilnic."
     ]
    }
   },
@@ -688,6 +1041,19 @@
      "Cum păstrăm cartea?",
      "Scrie titlul cărții tale preferate.",
      "De unde putem împrumuta cărți?"
+    ],
+    "steps": [
+     "Privește coperta: titlu, autor, imagine.",
+     "Ghicește despre ce e cartea, apoi verifică citind.",
+     "Păstrează cartea curată și returneaz-o la timp.",
+     "Atenție: titlul și autorul sunt pe copertă."
+    ],
+    "answers": [
+     "Pe copertă.",
+     "Imaginea și titlul de pe copertă.",
+     "O învelim, n-o îndoim, nu scriem în ea.",
+     "Răspunsul tău. Exemplu: Capra cu trei iezi.",
+     "De la biblioteca școlii."
     ]
    }
   },
@@ -710,6 +1076,19 @@
      "Ce fel de cărți găsim în bibliotecă?",
      "Desenează un semn de carte.",
      "Ce carte ai vrea să împrumuți?"
+    ],
+    "steps": [
+     "Alege cartea după ce te interesează.",
+     "Învelește cartea și folosește semnul de carte.",
+     "Returnează cartea la timp.",
+     "Atenție: nu îndoi colțurile paginilor."
+    ],
+    "answers": [
+     "Bibliotecara.",
+     "Ca s-o poată citi și alți copii.",
+     "Povești, poezii, enciclopedii.",
+     "Răspunsul tău. Exemplu: Un semn de carte cu o floare.",
+     "Răspunsul tău. Exemplu: O carte despre dinozauri."
     ]
    }
   },
@@ -732,6 +1111,19 @@
      "Scrie corect: victoria merge la școală",
      "Descrie mărul din ghiozdan în două cuvinte.",
      "Scrie o propoziție despre ghiozdanul tău."
+    ],
+    "steps": [
+     "Citește textul și pune întrebările: Cine? Ce face? Cu cine?",
+     "Numără propozițiile după punct.",
+     "Numele se scriu cu literă mare.",
+     "Atenție: citește încet, apoi fluent."
+    ],
+    "answers": [
+     "Își pregătește ghiozdanul.",
+     "Trei.",
+     "Victoria merge la școală.",
+     "Răspunsul tău. Exemplu: roșu și dulce.",
+     "Răspunsul tău. Exemplu: Ghiozdanul meu este albastru."
     ]
    }
   }

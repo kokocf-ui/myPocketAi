@@ -74,7 +74,7 @@ export async function literatureLoadNationalYear(entry,language,options={}){
  const list=v=>Array.isArray(v)&&v.length>=3&&v.every(text);
  const valid=x=>Boolean(x&&x.schema==='mypocket-literature-authored/v2'&&x.country===c&&x.stage===s&&x.grade===g&&
   x.sourceLanguage===language&&x.version===choice.version&&x.chapters&&typeof x.chapters==='object'&&!Array.isArray(x.chapters)&&
-  (x.labels===undefined||(Array.isArray(x.labels)&&x.labels.length===7&&x.labels.every(text)))&&
+  (x.labels===undefined||(Array.isArray(x.labels)&&(x.labels.length===7||x.labels.length===9)&&x.labels.every(text)))&&
   // Textbook-sequence packs group their lessons into the units of the
   // official programme/textbook; every lesson belongs to exactly one unit.
   (x.units===undefined||(Array.isArray(x.units)&&x.units.length>0&&x.units.every(u=>u&&text(u.title)&&Array.isArray(u.keys)&&u.keys.length>0&&u.keys.every(k=>x.chapters?.[k]))&&
@@ -83,7 +83,8 @@ export async function literatureLoadNationalYear(entry,language,options={}){
    if(!k.startsWith(prefix)||!(parts.includes(k.slice(prefix.length))||/^l\d{2}$/.test(k.slice(prefix.length))))return false;
    const row=record?.[language];
    return Boolean(record&&Object.keys(record).length===1&&row&&['title','theory','sample','worked'].every(f=>text(row[f]))&&
-    list(row.exercises)&&list(row.test));
+    list(row.exercises)&&list(row.test)&&(row.steps===undefined||list(row.steps))&&
+    (row.answers===undefined||(Array.isArray(row.answers)&&row.answers.length===row.test.length&&row.answers.every(text))));
   }));
  let storage=null;try{storage=options.storage===undefined?globalThis.localStorage:options.storage}catch{}
  const key='pocketai.literature.national.v1.'+c+'.'+s+'.'+g+'.'+language;

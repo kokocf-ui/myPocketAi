@@ -220,6 +220,7 @@ try{
  view=await openTheory('tr');
  assert.match(view.reader,/a ve n sesleri/);
  assert.match(view.reader,/Türkiye/);
+ assert.match(view.reader,/Anlamadıysan: adım adım/,'Textbook lessons include the step-by-step tutor section');
  await closeReader();
  assert.deepEqual(exceptions,[],'No uncaught browser exceptions');
  console.log('PASS real Chromium mobile 390x844: BE year 1 language of instruction (nl/fr/de), national lesson flow, offline cache reuse, original-language fallback, uncached-language retry, no Vatican City in Education, TR year 1 national pack replaces the generic sequence');

@@ -3,7 +3,7 @@
  "country": "HR",
  "stage": "beginner",
  "grade": "1",
- "version": "0b63ffe7cd26b0a95abf13d05d2ee62c8455a7b989995e7314656dd5b780e380",
+ "version": "0330368942738c01170833a773070274c614974c03df9ec38ee5aa0bcfeefefd",
  "source": "https://narodne-novine.nn.hr/clanci/sluzbeni/2019_01_10_215.html",
  "sourceTitle": "Kurikulum nastavnoga predmeta Hrvatski jezik (NN 10/2019), 1. razred OŠ: A Hrvatski jezik i komunikacija (početno čitanje i pisanje školskim formalnim pismom), B Književnost i stvaralaštvo, C Kultura i mediji; redoslijed kao u odobrenim početnicama; vlastiti materijali, ne tekst iz početnice",
  "status": "partial-original-material-independent-review-pending",
@@ -15,7 +15,9 @@
   "Objašnjenje",
   "Vježbe",
   "Provjeri se",
-  "Vlastite vježbe, ne službena provjera i ne tekst iz početnice ili čitanke. Po potrebi ih čitaj s odraslom osobom."
+  "Vlastite vježbe, ne službena provjera i ne tekst iz početnice ili čitanke. Po potrebi ih čitaj s odraslom osobom.",
+  "Ako nisi razumio ili razumjela: korak po korak",
+  "Odgovori (provjeri tek kad završiš)"
  ],
  "units": [
   {
@@ -104,6 +106,19 @@
      "Nacrtaj niz malih krugova.",
      "Kakve su crte u valu: ravne ili oble?",
      "Ispričaj u dvije rečenice kako si došao ili došla u školu."
+    ],
+    "steps": [
+     "Kad netko govori, odloži olovku i pogledaj ga u lice.",
+     "Olovku drži s tri prsta, opušteno.",
+     "Crte crtaj polako, slijeva nadesno, kao što ćeš poslije pisati slova.",
+     "Pazi: bolje je nekoliko urednih crta nego mnogo brzih i krivih."
+    ],
+    "answers": [
+     "Osobu koja govori.",
+     "Slijeva.",
+     "Nacrtaj krugove jedan do drugoga, iste veličine.",
+     "Oble.",
+     "Tvoj odgovor. Primjer: Došao sam s tatom. Išli smo pješice."
     ]
    }
   },
@@ -126,6 +141,19 @@
      "Spoji glasove: l-u-k.",
      "Kojim se slovima piše glas lj?",
      "Napiši početno slovo svojega imena."
+    ],
+    "steps": [
+     "Izgovori riječ polako, kao da je razvlačiš: s-o-k.",
+     "Svaki dio koji čuješ jedan je glas; broji ih na prste.",
+     "Glas čujemo, a slovo vidimo i pišemo.",
+     "Pazi: glasove lj, nj i dž pišemo s dva slova, ali su to jedan glas."
+    ],
+    "answers": [
+     "k.",
+     "Tri: n-o-s.",
+     "luk.",
+     "L i J (lj).",
+     "Tvoj odgovor. Primjer: M za Mia."
     ]
    }
   },
@@ -148,6 +176,19 @@
      "Napiši veliko tiskano slovo E.",
      "Koji glas čuješ na početku riječi oko?",
      "Izgovori samoglasnike obrnutim redom."
+    ],
+    "steps": [
+     "Samoglasnike izgovaraš otvorenim ustima: a, e, i, o, u.",
+     "Izgovori a pa o i vidi kako se usta mijenjaju.",
+     "Velika tiskana slova pišemo između crta, sva iste visine.",
+     "Pazi: svaka riječ ima barem jedan samoglasnik."
+    ],
+    "answers": [
+     "Pet.",
+     "a i u.",
+     "Napiši E: jedna okomita crta i tri vodoravne.",
+     "o.",
+     "u, o, i, e, a."
     ]
    }
   },
@@ -170,6 +211,19 @@
      "Pročitaj: SOL, LISA, TIM.",
      "Kakav je slon u primjeru?",
      "Napiši riječ u kojoj čuješ glas L."
+    ],
+    "steps": [
+     "Spoji suglasnik sa samoglasnikom: M + A = MA.",
+     "Od slogova složi riječ: MA + MA = MAMA.",
+     "Čitaj glas po glas, pa izgovori cijelu riječ odjednom.",
+     "Pazi: imena pišemo velikim početnim slovom."
+    ],
+    "answers": [
+     "Tri: S-A-T.",
+     "Sat.",
+     "SOL, LI-SA, TIM.",
+     "Mali.",
+     "Tvoj odgovor. Primjer: LAMA, SOL."
     ]
    }
   },
@@ -192,6 +246,19 @@
      "Pročitaj: RAK, VJETAR, PERO.",
      "Koliko riječi ima rečenica PAS SPAVA?",
      "Napiši riječ koja počinje glasom K."
+    ],
+    "steps": [
+     "Nova slova spajaj sa samoglasnicima: RA, VE, JO, KU, PI.",
+     "Duže riječi dijeli na slogove: MLI-JE-KO.",
+     "Nakon čitanja pitaj: tko? što? gdje?",
+     "Pazi: R izgovaramo titranjem jezika; ne miješaj ga s L."
+    ],
+    "answers": [
+     "Kapu.",
+     "Mlijeko.",
+     "RAK, VJE-TAR, PE-RO.",
+     "Dvije.",
+     "Tvoj odgovor. Primjer: KAPA, KUĆA."
     ]
    }
   },
@@ -214,6 +281,19 @@
      "Pročitaj: ZID, GORA, HLAD.",
      "Koliko slogova ima riječ BAKA?",
      "Napiši riječ koja počinje glasom D."
+    ],
+    "steps": [
+     "B i P izgovaraš usnama: B je zvučno, P bezvučno.",
+     "Riječi dijeli na slogove: BA-KA, GI-TA-RA.",
+     "Pitaj se gdje? što? tko?",
+     "Pazi: D i T, Z i S lako se zamijene; izgovaraj pažljivo."
+    ],
+    "answers": [
+     "U vrtu.",
+     "Gitaru.",
+     "ZID, GO-RA, HLAD.",
+     "Dva: BA-KA.",
+     "Tvoj odgovor. Primjer: DJED, DAN."
     ]
    }
   },
@@ -236,6 +316,19 @@
      "Koji glas čuješ na početku riječi ČAŠA: č ili ć?",
      "Pročitaj: CIPELA, KUĆA, ŽIR.",
      "Napiši riječ u kojoj čuješ glas Ž."
+    ],
+    "steps": [
+     "Č je tvrđe (čaša), Ć mekše (kuća). Izgovori ih jedno za drugim.",
+     "Š izgovori kao šum vjetra, Ž kao zujanje.",
+     "Ako nisi siguran ili sigurna, ponovi riječ naglas.",
+     "Pazi: zamjena č i ć mijenja izgovor i pravopis riječi."
+    ],
+    "answers": [
+     "Mlijeko.",
+     "U vodu.",
+     "č.",
+     "CI-PE-LA, KU-ĆA, ŽIR.",
+     "Tvoj odgovor. Primjer: ŽABA, ŽIR."
     ]
    }
   },
@@ -258,6 +351,19 @@
      "Kojim se slovima piše glas nj?",
      "Pročitaj: ĐON, FENJER, LJETO.",
      "Napiši svoje ime velikim tiskanim slovima."
+    ],
+    "steps": [
+     "DŽ, LJ i NJ pišemo s dva slova, ali izgovaramo kao jedan glas.",
+     "Đ je mekši glas od DŽ: ĐAK, DŽEP.",
+     "Hrvatska abeceda ima 30 slova; izgovaraj ih redom s učiteljicom.",
+     "Pazi: u riječi KONJ glas nj je na kraju."
+    ],
+    "answers": [
+     "30.",
+     "Žuti.",
+     "N i J.",
+     "ĐON, FE-NJER, LJE-TO.",
+     "Napiši ime velikim tiskanim slovima, npr. MIA."
     ]
    }
   },
@@ -280,6 +386,19 @@
      "Prepiši: Ivan voli more.",
      "Što ostavljamo između riječi?",
      "Napiši ime svoje učiteljice ili učitelja."
+    ],
+    "steps": [
+     "Rečenica počinje velikim slovom, ostala su slova mala.",
+     "Imena također počinju velikim slovom.",
+     "Neka slova imaju produžetak gore (b, d, h, k, l, t), a neka dolje (g, j, p).",
+     "Pazi: između riječi ostavi razmak."
+    ],
+    "answers": [
+     "Velikim slovom.",
+     "b, d, h, k, l, t (u primjeru t, k i l).",
+     "Ivan voli more.",
+     "Razmak.",
+     "Tvoj odgovor. Primjer: Ana Kovač."
     ]
    }
   },
@@ -302,6 +421,19 @@
      "Kakva je vjeverica?",
      "Što bi ti ponio ili ponijela u šumu?",
      "Nacrtaj Anu i Petra u šumi."
+    ],
+    "steps": [
+     "Najprije pročitaj tekst naglas, polako i razgovijetno.",
+     "Zatim pročitaj tiho, u sebi.",
+     "Odgovore na pitanja traži u tekstu.",
+     "Pazi: ne izmišljaj ono čega u tekstu nema."
+    ],
+    "answers": [
+     "Četiri.",
+     "Petar nosi košaricu.",
+     "Mala.",
+     "Tvoj odgovor. Primjer: Vodu i sendvič.",
+     "Tvoj odgovor. Primjer: Nacrtaj Anu kako bere borovnice."
     ]
    }
   },
@@ -324,6 +456,19 @@
      "Spoji slogove: tr-če.",
      "Što radi Ivo s Rexom?",
      "Nacrtaj Ivu i Rexa na livadi."
+    ],
+    "steps": [
+     "Spoji glasove u slogove, a slogove u riječi.",
+     "Pročitaj rečenicu do točke.",
+     "Pitaj: tko? što radi? gdje?",
+     "Pazi: što nije napisano, ne izmišljamo."
+    ],
+    "answers": [
+     "Ne piše.",
+     "Tri.",
+     "trče.",
+     "Trči po livadi.",
+     "Tvoj odgovor. Primjer: Nacrtaj Ivu i Rexa kako trče."
     ]
    }
   },
@@ -346,6 +491,19 @@
      "Napiši pravilno: danas pada snijeg",
      "Koja rečenica u tekstu izražava uzbuđenje?",
      "Napiši ime mjesta u kojem živiš."
+    ],
+    "steps": [
+     "Rečenica počinje velikim slovom.",
+     "Imena ljudi i mjesta pišemo velikim slovom.",
+     "Na kraju stavi točku, upitnik ili uskličnik.",
+     "Pazi: i prezime počinje velikim slovom."
+    ],
+    "answers": [
+     "Upitnikom.",
+     "Jer je to ime grada.",
+     "Danas pada snijeg.",
+     "Danas je izlet!",
+     "Tvoj odgovor. Primjer: Rijeka."
     ]
    }
   },
@@ -368,6 +526,19 @@
      "Napiši rečenicu o svojoj obitelji.",
      "Što provjerimo nakon pisanja?",
      "Smisli naslov za tekst o moru."
+    ],
+    "steps": [
+     "Prije pisanja razmisli: tko? što se dogodilo? gdje?",
+     "Napiši tri do pet rečenica koje su povezane.",
+     "Svaka rečenica počinje velikim slovom i završava znakom.",
+     "Pazi: nakon pisanja pročitaj tekst i provjeri slova."
+    ],
+    "answers": [
+     "Tri do pet.",
+     "Tko? Što se dogodilo? Gdje?",
+     "Tvoj odgovor. Primjer: Moja obitelj voli izlete.",
+     "Slova, velika slova i rečenične znakove.",
+     "Tvoj odgovor. Primjer: Dvorac od pijeska."
     ]
    }
   },
@@ -390,6 +561,19 @@
      "Koliko rečenica ima diktat?",
      "Prepiši: Danas je lijep dan.",
      "Zašto pišemo Maza velikim slovom?"
+    ],
+    "steps": [
+     "Kod diktata poslušaj cijelu rečenicu prije pisanja.",
+     "Piši riječ po riječ, polako.",
+     "Na kraju provjeri velika slova i točke.",
+     "Pazi: imena (Luka, Maza) pišemo velikim slovom."
+    ],
+    "answers": [
+     "Velika slova i rečenične znakove.",
+     "Maza.",
+     "Tri.",
+     "Danas je lijep dan.",
+     "Jer je to ime."
     ]
    }
   },
@@ -412,6 +596,19 @@
      "Poredaj: večeraju zajedno / pronalazi orahe / vidi zeca.",
      "Jesi li ti kada nešto podijelio ili podijelila s prijateljem?",
      "Nacrtaj kraj priče."
+    ],
+    "steps": [
+     "Nabroji likove: tko je u priči?",
+     "Prepričaj događaje redom: najprije, zatim, na kraju.",
+     "Reci što misliš o postupku lika i zašto.",
+     "Pazi: ne mijenjaj redoslijed događaja."
+    ],
+    "answers": [
+     "Pod hrastom.",
+     "Dobra, jer dijeli hranu sa zecom.",
+     "Pronalazi orahe / vidi zeca / večeraju zajedno.",
+     "Tvoj odgovor. Primjer: Podijelio sam užinu s prijateljem.",
+     "Tvoj odgovor. Primjer: Nacrtaj vjevericu i zeca pod hrastom."
     ]
    }
   },
@@ -434,6 +631,19 @@
      "Rimuju li se gore i more?",
      "Smisli rimu za riječ kuća.",
      "Nacrtaj kosa iz pjesme."
+    ],
+    "steps": [
+     "Stih je jedan redak pjesme.",
+     "Pronađi riječi na kraju stihova koje zvuče jednako: rima.",
+     "Pjesmu čitaj polako i naglasi rime.",
+     "Pazi: u pjesmama ima izmišljenih, šaljivih slika."
+    ],
+    "answers": [
+     "Jedan redak pjesme.",
+     "Ne, jer ptice nemaju nos; to je šaljiva slika.",
+     "Da.",
+     "Tvoj odgovor. Primjer: ruča, buča.",
+     "Tvoj odgovor. Primjer: Nacrtaj kosa na grani."
     ]
    }
   },
@@ -456,6 +666,19 @@
      "Što radi kiša?",
      "Napiši dvije riječi koje te podsjećaju na jesen.",
      "Smisli rimu za riječ list."
+    ],
+    "steps": [
+     "Čitaj pjesmu polako i zamišljaj slike.",
+     "Pronađi riječi za ono što vidiš i čuješ.",
+     "Pronađi rime na krajevima stihova.",
+     "Pazi: pjesnička slika uspoređuje stvari na neobičan način (kesten u ladici)."
+    ],
+    "answers": [
+     "Jesen.",
+     "Četiri.",
+     "Tiho kuca na prozore.",
+     "Tvoj odgovor. Primjer: lišće, kesten.",
+     "Tvoj odgovor. Primjer: kist, čist."
     ]
    }
   },
@@ -478,6 +701,19 @@
      "Smisli zagonetku o suncu.",
      "Koliko zagonetki ima u primjeru?",
      "Tko je stvarao narodne zagonetke?"
+    ],
+    "steps": [
+     "Poslušaj cijeli opis.",
+     "Traži trag po trag: što nema, a što radi?",
+     "Kad pogodiš, provjeri rješenje sa svakim tragom.",
+     "Pazi: zagonetka ne kaže ime, ali svaki trag vodi do rješenja."
+    ],
+    "answers": [
+     "Opis nečega što treba pogoditi.",
+     "sat.",
+     "Tvoj odgovor. Primjer: Grije i svijetli, danju je gore, noću ga nema (sunce).",
+     "Dvije.",
+     "Narod."
     ]
    }
   },
@@ -500,6 +736,19 @@
      "Kakva je kornjača?",
      "Dodaj jednu repliku zecu.",
      "Po čemu se igrokaz razlikuje od priče?"
+    ],
+    "steps": [
+     "Prije svake replike pročitaj ime lika.",
+     "Repliku izgovori glasom lika.",
+     "Igrokaz izvedite u paru ili s lutkama.",
+     "Pazi: igrokaz se izvodi, a priča se pripovijeda."
+    ],
+    "answers": [
+     "Kratki tekst za izvođenje u kojem likovi razgovaraju.",
+     "Šaljivac, brz.",
+     "Mirna i strpljiva.",
+     "Tvoj odgovor. Primjer: ZEC: Pričekat ću te na cilju!",
+     "Igrokaz se izvodi i likovi govore, a priču netko pripovijeda."
     ]
    }
   },
@@ -522,6 +771,19 @@
      "Kakav je vuk?",
      "Što ti učiniš ako ti se obrati nepoznata osoba?",
      "Nacrtaj Crvenkapicu."
+    ],
+    "steps": [
+     "Nabroji likove bajke.",
+     "Pronađi što je čudesno ili opasno.",
+     "Reci tko je dobar, a tko zao, i kako je završilo.",
+     "Pazi: u bajkama dobro pobjeđuje zlo."
+    ],
+    "answers": [
+     "Priča u kojoj se događaju čudesne stvari i dobro pobjeđuje.",
+     "Braća Grimm.",
+     "Lukav i opasan.",
+     "Ne razgovaram s njom i odem odrasloj osobi koju poznajem.",
+     "Tvoj odgovor. Primjer: Nacrtaj Crvenkapicu s košaricom."
     ]
    }
   },
@@ -544,6 +806,19 @@
      "Bi li ti pomogao ili pomogla cvrčku? Zašto?",
      "Koje godišnje doba dolazi nakon ljeta?",
      "Nacrtaj mrava i cvrčka."
+    ],
+    "steps": [
+     "Usporedi likove: što radi mrav, a što cvrčak?",
+     "Pogledaj što se dogodilo zimi.",
+     "Reci pouku svojim riječima.",
+     "Pazi: u basni životinje govore, ali se ponašaju kao ljudi."
+    ],
+    "answers": [
+     "Kratka priča u kojoj životinje govore, a na kraju je pouka.",
+     "Bezbrižan.",
+     "Tvoj odgovor. Primjer: Bih, ali bih mu rekao da sljedeće ljeto i on radi.",
+     "Jesen.",
+     "Tvoj odgovor. Primjer: Nacrtaj mrava s hranom i cvrčka."
     ]
    }
   },
@@ -566,6 +841,19 @@
      "Kojim redom pratimo slike?",
      "Zašto je izrastao suncokret?",
      "Dodaj četvrtu sliku i ispričaj je."
+    ],
+    "steps": [
+     "Slike prati slijeva nadesno.",
+     "Za svaku sliku reci što se događa.",
+     "U stripu pročitaj oblačiće: to govore likovi.",
+     "Pazi: smisli naslov koji kaže glavnu misao."
+    ],
+    "answers": [
+     "Tri.",
+     "U njemu piše što lik govori.",
+     "Slijeva nadesno.",
+     "Jer ga je dječak svaki dan zalijevao.",
+     "Tvoj odgovor. Primjer: Dječak daruje suncokret mami."
     ]
    }
   },
@@ -588,6 +876,19 @@
      "Odgovori cjelovitom rečenicom: Kako se zoveš?",
      "Postavi prijatelju pitanje o njegovoj omiljenoj igri.",
      "Zašto čekamo da sugovornik završi?"
+    ],
+    "steps": [
+     "Pozdravi kad dolaziš i kad odlaziš.",
+     "Kad tražiš nešto, reci molim; kad dobiješ, hvala.",
+     "Govori kad dođe tvoj red.",
+     "Pazi: odgovaraj cjelovitom rečenicom."
+    ],
+    "answers": [
+     "Za tjedan dana.",
+     "Kad pogriješimo ili nekoga ometamo.",
+     "Zovem se Ana.",
+     "Tvoj odgovor. Primjer: Koja ti je omiljena igra?",
+     "Da bismo se razumjeli i bili pristojni."
     ]
    }
   },
@@ -610,6 +911,19 @@
      "Koje slovo dolazi nakon slova b?",
      "Poredaj abecednim redom: zec, auto, kuća.",
      "Tko je Luciji objasnio riječ?"
+    ],
+    "steps": [
+     "Kad ne razumiješ riječ, pitaj ili je potraži u rječniku.",
+     "U rječniku su riječi poredane abecednim redom.",
+     "Neke riječi mjesnoga govora razlikuju se od standardnih.",
+     "Pazi: abeceda počinje a, b, c, č, ć, d …"
+    ],
+    "answers": [
+     "Pitam ili potražim u rječniku.",
+     "Abecednim redom.",
+     "c.",
+     "auto, kuća, zec.",
+     "Mama."
     ]
    }
   },
@@ -632,6 +946,19 @@
      "Daj prijatelju uputu od dva koraka.",
      "Zašto slušamo uputu do kraja?",
      "Gdje je drvo?"
+    ],
+    "steps": [
+     "Poslušaj uputu do kraja.",
+     "Radi korak po korak, redom.",
+     "Ako nešto nisi čuo ili čula, pitaj.",
+     "Pazi: ne preskači korake."
+    ],
+    "answers": [
+     "Četiri.",
+     "Drvo.",
+     "Tvoj odgovor. Primjer: Uzmi plavu bojicu i nacrtaj sunce.",
+     "Da bismo znali sve korake.",
+     "Pokraj kuće."
     ]
    }
   },
@@ -654,6 +981,19 @@
      "Što sve kažemo kad opisujemo?",
      "Nacrtaj Rexa prema opisu.",
      "Opiši svoju školsku torbu."
+    ],
+    "steps": [
+     "Kad opisuješ, reci veličinu, boju i oblik.",
+     "Dodaj što radi ili čemu služi.",
+     "Riječi koje opisuju odgovaraju na pitanje: kakav je?",
+     "Pazi: opis treba pomoći drugima da zamisle predmet."
+    ],
+    "answers": [
+     "velik, smeđ, duge, mekano.",
+     "Tvoj odgovor. Primjer: crvena i slatka.",
+     "Veličinu, boju, oblik i što radi ili čemu služi.",
+     "Tvoj odgovor. Primjer: Nacrtaj velikog smeđeg psa s dugim ušima.",
+     "Tvoj odgovor. Primjer: Moja torba je plava i ima dva džepa."
     ]
    }
   },
@@ -676,6 +1016,19 @@
      "Je li svaki film primjeren djeci?",
      "Napiši naslov svoje omiljene slikovnice.",
      "Kako možeš preporučiti knjigu prijatelju?"
+    ],
+    "steps": [
+     "Biraj slikovnicu prema onome što te zanima.",
+     "Svoj izbor objasni riječju jer.",
+     "Preporuči slikovnicu prijatelju.",
+     "Pazi: biraj filmove i emisije primjerene svojoj dobi."
+    ],
+    "answers": [
+     "U knjižnici.",
+     "jer.",
+     "Ne.",
+     "Tvoj odgovor. Primjer: Mali princ.",
+     "Kažem mu zašto mi se svidjela."
     ]
    }
   },
@@ -698,6 +1051,19 @@
      "Ispričaj kratko svoj omiljeni crtić.",
      "Koliko je dugo primjereno gledati crtiće?",
      "Nacrtaj naslovnicu dječjega časopisa."
+    ],
+    "steps": [
+     "Biraj sadržaje za djecu.",
+     "Gledaj ekran kratko i, kad možeš, s odraslom osobom.",
+     "O onome što si gledao ili gledala možeš ispričati.",
+     "Pazi: nije svaki sadržaj primjeren djeci."
+    ],
+    "answers": [
+     "Priče, igre i zanimljivosti.",
+     "Ne.",
+     "Tvoj odgovor. Primjer: Crtić o psu koji traži prijatelje.",
+     "Kratko, uz dogovor s roditeljima.",
+     "Tvoj odgovor. Primjer: Nacrtaj naslovnicu s dupinom."
     ]
    }
   },
@@ -720,6 +1086,19 @@
      "Što su učinili lutkari na kraju?",
      "Jesi li ti bio ili bila u kazalištu?",
      "Nabroji dva pravila ponašanja u kazalištu."
+    ],
+    "steps": [
+     "U kazalištu glumci ili lutke izvode priču.",
+     "Kao publika sjedimo mirno i ne razgovaramo.",
+     "Na kraju zapljeskamo.",
+     "Pazi: mobitel se isključi."
+    ],
+    "answers": [
+     "Lutkari.",
+     "Mjesto na kojem se izvodi predstava.",
+     "Naklonili su se.",
+     "Tvoj odgovor. Primjer: Jesam, gledao sam lutkarsku predstavu.",
+     "Sjedimo mirno i ne razgovaramo."
     ]
    }
   },
@@ -742,6 +1121,19 @@
      "Napiši pravilno: nina ide u školu",
      "Koji je početni glas u riječi djed?",
      "Napiši rečenicu o svojoj torbi."
+    ],
+    "steps": [
+     "Pročitaj tekst i pitaj: tko? što radi? s kim?",
+     "Broji rečenice po točkama.",
+     "Imena pišemo velikim slovom.",
+     "Pazi: najprije čitaj polako, a zatim tečno."
+    ],
+    "answers": [
+     "Stavlja u torbu početnicu, pernicu i jabuku.",
+     "Tri.",
+     "Nina ide u školu.",
+     "d.",
+     "Tvoj odgovor. Primjer: Moja torba je crvena."
     ]
    }
   }

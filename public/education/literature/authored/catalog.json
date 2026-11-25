@@ -1,6 +1,6 @@
 {
  "schema": "mypocket-literature-authored-catalog/v1",
- "version": "a1c5f0071b9b685e8c4ababa4da5c70342c6cc2a8599103bdd551ac19fd66457",
+ "version": "9457b06577ba04b1af4f2d7e677ce2b41eb227abff02be3f7b0a60f048226894",
  "years": [
   {
    "country": "AT",
@@ -163,7 +163,7 @@
      "lang": "hr",
      "name": "Hrvatski",
      "file": "hr-1",
-     "version": "0b63ffe7cd26b0a95abf13d05d2ee62c8455a7b989995e7314656dd5b780e380"
+     "version": "0330368942738c01170833a773070274c614974c03df9ec38ee5aa0bcfeefefd"
     }
    ]
   },
@@ -215,7 +215,7 @@
      "lang": "ro",
      "name": "Română",
      "file": "ro-1",
-     "version": "0015f88a9b9c08ccf70592306d4b5addeb09a3c5effae454f2c350d4bbfbde6a"
+     "version": "d758ede37abe099602f1f2de4a852a5827555b10017fa5afc8911605e757e5c9"
     }
    ]
   },
@@ -273,7 +273,7 @@
      "lang": "sr",
      "name": "Српски",
      "file": "sr-1",
-     "version": "2f7bc302b946a95de1c778ada8e61e9ca47ccd3d9b0161f40002bd14a2bee995"
+     "version": "341e34d5fd3ec398af3c768731e1e153943a8a2364ef88a9d21507cd0cb1a320"
     }
    ]
   },
@@ -299,7 +299,7 @@
      "lang": "tr",
      "name": "Türkçe",
      "file": "tr-1",
-     "version": "9be37069ebd516d757c5df8f669202c7fe99532b48ac74a0a484274a41d028ce"
+     "version": "8c472cfe6815666c30d3d06f74066ed5d16c7140deaf4b5e76e79ed1775e4d49"
     }
    ]
   }

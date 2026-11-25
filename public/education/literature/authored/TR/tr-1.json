@@ -3,7 +3,7 @@
  "country": "TR",
  "stage": "beginner",
  "grade": "1",
- "version": "9be37069ebd516d757c5df8f669202c7fe99532b48ac74a0a484274a41d028ce",
+ "version": "8c472cfe6815666c30d3d06f74066ed5d16c7140deaf4b5e76e79ed1775e4d49",
  "source": "https://tymm.meb.gov.tr/upload/program/2024programtur1234Onayli.pdf",
  "sourceTitle": "MEB Türkiye Yüzyılı Maarif Modeli — Türkçe Dersi Öğretim Programı (2024), 1. sınıf: hazırlık haftası, 8 tema, ses esaslı ilk okuma yazma (a n e t i l · o k u r ı m · ü s ö y d z · ç b g c ş · p h v ğ f j); temalara göre özgün dersler, ders kitabı metni değildir",
  "status": "partial-original-material-independent-review-pending",
@@ -15,7 +15,9 @@
   "Açıklama",
   "Alıştırmalar",
   "Kendini dene",
-  "Özgün alıştırmalar; resmî sınav ya da ders kitabı metni değildir. Gerekirse bir yetişkinle oku."
+  "Özgün alıştırmalar; resmî sınav ya da ders kitabı metni değildir. Gerekirse bir yetişkinle oku.",
+  "Anlamadıysan: adım adım, kolayca",
+  "Cevaplar (testi bitirdikten sonra kontrol et)"
  ],
  "units": [
   {
@@ -121,6 +123,19 @@
      "Bir daire çiz.",
      "Zil sesi mi, kuş sesi mi daha yüksek?",
      "Okulda ilk gün ne hissettin? Bir cümleyle anlat."
+    ],
+    "steps": [
+     "Öğretmen konuşurken ona bak ve elindekini bırak; böylece kulağın da dikkatini verir.",
+     "Kalemi başparmak, işaret ve orta parmakla tut; sıkma, rahat tut.",
+     "Çizgileri hep soldan sağa, yukarıdan aşağı çiz: harfler de böyle yazılır.",
+     "Dikkat: Hızlı çizmek yerine yavaş ve düzgün çiz. Elin yorulursa kısa bir mola ver."
+    ],
+    "answers": [
+     "Konuşan kişinin yüzüne bakarız.",
+     "Soldan sağa (ve yukarıdan aşağı) başlatırız.",
+     "Yuvarlak bir çizgi çizip başladığın yerde bitir.",
+     "Genellikle zil sesi daha yüksektir.",
+     "Kendi cevabın. Örnek: Biraz heyecanlıydım ama mutluydum."
     ]
    }
   },
@@ -143,6 +158,19 @@
      "Adında a sesi olan bir arkadaşını söyle.",
      "Satırı oku: an na an.",
      "n sesini tek başına mı, heceyle mi okuruz?"
+    ],
+    "steps": [
+     "a sesini ağzını kocaman açarak söyle: aaa.",
+     "n sesini yalnız söyleme; a ile birleştir: a+n = an, n+a = na.",
+     "an kapalı hecedir (ünsüzle biter); na açık hecedir (ünlüyle biter).",
+     "Dikkat: na ile an farklıdır; harflerin sırasına bak, soldan sağa oku."
+    ],
+    "answers": [
+     "a sesi.",
+     "Açık hece (ünlüyle biter).",
+     "Kendi cevabın. Örnek: Ada, Arda, Kaan.",
+     "an – na – an.",
+     "Heceyle okuruz (a ile birleştirerek)."
     ]
    }
   },
@@ -165,6 +193,19 @@
      "Hangi harf büyük yazılmış?",
      "Satırı oku: ne en ne.",
      "Cümlenin sonunda hangi işaret var?"
+    ],
+    "steps": [
+     "e sesini gülümser gibi söyle: eee.",
+     "Önce heceleri tek tek oku: an-ne. Sonra birleştir: anne.",
+     "Cümlenin ilk harfi büyük yazılır, sonuna nokta konur.",
+     "Dikkat: anne kelimesinde iki n var; ikisini de yaz."
+    ],
+    "answers": [
+     "İki hecelidir: an-ne.",
+     "na.",
+     "A harfi (Anne).",
+     "ne – en – ne.",
+     "Nokta."
     ]
    }
   },
@@ -187,6 +228,19 @@
      "tat kelimesinin son sesi hangisi?",
      "Hecelerden kelime yap: ta-ne.",
      "Kelimeler arasına ne bırakırız?"
+    ],
+    "steps": [
+     "t sesini dilinin ucunu dişlerine değdirerek söyle, a ile birleştir: ta, at.",
+     "Kelimeyi hecelerine ayır: ta-ne. Hece sayısı, ağzının kaç kez açıldığı kadardır.",
+     "Her kelimeden sonra küçük bir boşluk bırak, kelimeler birbirine yapışmasın.",
+     "Dikkat: Cümle büyük harfle başlar: Anne."
+    ],
+    "answers": [
+     "Tek hecelidir.",
+     "Üç kelime: Anne, tane, at.",
+     "t sesi.",
+     "tane.",
+     "Boşluk bırakırız."
     ]
    }
   },
@@ -209,6 +263,19 @@
      "Bir arkadaşından kibarca bir şey iste.",
      "Dinlediğini nasıl gösterirsin?",
      "Bir kibar söz yaz."
+    ],
+    "steps": [
+     "Bir şey isterken lütfen, alınca teşekkür ederim deriz.",
+     "Bir hata yaptığımızda özür dilerim deriz.",
+     "Arkadaşın konuşurken sözünü kesme; o bitirince sen konuş.",
+     "Dikkat: Kibar söz söylerken karşındakinin gözüne bak ve sakin konuş."
+    ],
+    "answers": [
+     "Bir hata yaptığımızda ya da birini üzdüğümüzde.",
+     "Herkes birbirini duyabilsin ve anlayabilsin diye.",
+     "Kendi cevabın. Örnek: Kalemini kullanabilir miyim, lütfen?",
+     "Gözüne bakarak, başımı sallayarak, sözünü kesmeyerek.",
+     "Kendi cevabın. Örnek: Teşekkür ederim."
     ]
    }
   },
@@ -231,6 +298,19 @@
      "Satırı oku: ti ni in.",
      "Hecelerden kelime yap: ni-ne.",
      "i ile başlayan bir kelime söyle."
+    ],
+    "steps": [
+     "i sesini dudaklarını yana açarak söyle: iii.",
+     "Heceleri birleştir: nin-ni, ni-ne.",
+     "Büyük İ harfine nokta koymayı unutma.",
+     "Dikkat: i (noktalı) ile ı (noktasız) farklı harflerdir; sonra ı harfini de öğreneceğiz."
+    ],
+    "answers": [
+     "İki hecelidir: nin-ni.",
+     "Noktası vardır.",
+     "ti – ni – in.",
+     "nine.",
+     "Kendi cevabın. Örnek: inek, iki."
     ]
    }
   },
@@ -253,6 +333,19 @@
      "Virgülde ne yaparız?",
      "Hecelerden kelime yap: i-le.",
      "Öğrendiğin seslerle bir kelime yaz."
+    ],
+    "steps": [
+     "l sesini dilinin ucunu üst dişlerinin arkasına değdirerek söyle: la, le, li.",
+     "Kişi adlarını büyük harfle başlat: Lale, Nil, Ela.",
+     "Virgül gördüğünde kısa bir an dur, sonra okumaya devam et.",
+     "Dikkat: Kelimenin her yerinde l aynı okunur: el, ile, Lale."
+    ],
+    "answers": [
+     "Kişi adı olduğu için.",
+     "İki hecelidir: La-le.",
+     "Kısa bir an dururuz.",
+     "ile.",
+     "Kendi cevabın. Örnek: tel, Nil, Lale."
     ]
    }
   },
@@ -275,6 +368,19 @@
      "Hecelerden kelime yap: o-to.",
      "o ile başlayan bir kelime söyle.",
      "Ali neden büyük harfle başlar?"
+    ],
+    "steps": [
+     "o sesini dudaklarını yuvarlayarak söyle: ooo.",
+     "Heceleri oku: ol-ta, o-to. Sonra kelimeyi bir solukta söyle.",
+     "Kelimeleri saymak için her kelimede bir parmağını kaldır.",
+     "Dikkat: Ali bir kişi adıdır; büyük A ile yazılır."
+    ],
+    "answers": [
+     "İki hecelidir: ol-ta.",
+     "Üç kelime: Ali, olta, al.",
+     "oto.",
+     "Kendi cevabın. Örnek: okul, oya.",
+     "Kişi adı olduğu için."
     ]
    }
   },
@@ -297,6 +403,19 @@
      "Hecelerden kelime yap: ka-le.",
      "Metinde kişi adı hangisi?",
      "Öğrendiğin seslerle bir cümle yaz."
+    ],
+    "steps": [
+     "k sesini dilinin arkasıyla söyle: ka, ke, ki, ko.",
+     "Kelimeyi hecelerine ayır: ki-lit, ka-le.",
+     "Kişi adı her zaman büyük harfle başlar: Kaan.",
+     "Dikkat: kek tek hecedir, çünkü ağzımız bir kez açılır."
+    ],
+    "answers": [
+     "Tek hecelidir.",
+     "ki.",
+     "kale.",
+     "Kaan (ve Ela).",
+     "Kendi cevabın. Örnek: Kaan kale al."
     ]
    }
   },
@@ -319,6 +438,19 @@
      "Hecelerden kelime yap: o-kul.",
      "Mustafa neyi çok istiyordu?",
      "Tuna okula. cümlesinde kaç kelime var?"
+    ],
+    "steps": [
+     "Öğretmen dinleme metnini okurken önemli bilgileri aklında tut: kim, nerede, ne zaman.",
+     "u sesini dudaklarını öne uzatarak söyle: uuu. Heceler: ku, tu, lu.",
+     "Okuma satırını heceleyerek oku: o-ku-la, ku-tu.",
+     "Dikkat: Dinleme metnini sen okumazsın, dinlersin; okuma satırını ise sen okursun."
+    ],
+    "answers": [
+     "1881 yılında.",
+     "Ali Rıza Efendi.",
+     "okul.",
+     "Okula gitmeyi.",
+     "İki kelime: Tuna, okula."
     ]
    }
   },
@@ -341,6 +473,19 @@
      "Hecelerden kelime yap: ku-ru.",
      "Kar tane tane ne demek?",
      "r ile biten bir kelime söyle."
+    ],
+    "steps": [
+     "r sesini dilinin ucunu titreterek söyle: ra, re, ri.",
+     "tren kelimesinde iki ünsüz yan yana: t ve r. Yavaş oku: tren.",
+     "Anlamını bilmediğin kelimeyi öğretmenine sor: ak = beyaz.",
+     "Dikkat: r sesini l sesiyle karıştırma: kar başka, kal başka."
+    ],
+    "answers": [
+     "Tek hecelidir.",
+     "Trenle gidiyor.",
+     "kuru.",
+     "Kar tanelerinin birer birer düşmesi.",
+     "Kendi cevabın. Örnek: kar, tren, okur."
     ]
    }
   },
@@ -363,6 +508,19 @@
      "Hecelerden kelime yap: ma-ma.",
      "Soru eki mi nasıl yazılır: ayrı mı bitişik mi?",
      "m ile başlayan bir kelime söyle."
+    ],
+    "steps": [
+     "ı noktasızdır, i noktalıdır. Okurken ve yazarken noktaya dikkat et.",
+     "m sesini dudaklarını kapatarak söyle: ma, me, mi.",
+     "Soru eki mi ayrı yazılır: kalem mi?",
+     "Dikkat: Büyük I noktasızdır, büyük İ noktalıdır: Irmak, İnci."
+    ],
+    "answers": [
+     "ı noktasızdır, i noktalıdır; farklı seslerdir.",
+     "İki hecelidir: ka-lem.",
+     "mama.",
+     "Ayrı yazılır.",
+     "Kendi cevabın. Örnek: Mine, masa."
     ]
    }
   },
@@ -385,6 +543,19 @@
      "Hecelerden kelime yap: süs-lü.",
      "Ömer ne istiyor?",
      "s ile başlayan bir kelime söyle."
+    ],
+    "steps": [
+     "ü ve ö seslerini dudaklarını yuvarlayıp söyle: ü, ö.",
+     "s sesini yılan gibi uzat: sss, sonra ü ile birleştir: sü.",
+     "Bir istek ya da heyecan bildiren cümlenin sonuna ünlem (!) koy.",
+     "Dikkat: ü ve ö harflerinin iki noktasını unutma; noktasız u ve o başka harflerdir."
+    ],
+    "answers": [
+     "İki hecelidir: ü-tü.",
+     "Bir istek bildirdiği için.",
+     "süslü.",
+     "Süt istiyor.",
+     "Kendi cevabın. Örnek: süt, ses."
     ]
    }
   },
@@ -407,6 +578,19 @@
      "Hecelerden kelime yap: ku-zu.",
      "Yazın kiminle deniz kenarındalar?",
      "y ile başlayan bir kelime söyle."
+    ],
+    "steps": [
+     "y, d, z seslerini bildiğin ünlülerle birleştir: ya, de, zi.",
+     "Uzun kelimeleri hecelerine ayır: yıl-dız, de-niz.",
+     "Cümleyi okurken önce kim, sonra ne yapıyor diye düşün.",
+     "Dikkat: z sesi arı vızıltısı gibidir: zzz; s sesiyle karıştırma."
+    ],
+    "answers": [
+     "İki hecelidir: yıl-dız.",
+     "Yemek yer.",
+     "kuzu.",
+     "Dede ile.",
+     "Kendi cevabın. Örnek: yaz, yemek."
     ]
    }
   },
@@ -429,6 +613,19 @@
      "Hikâyede kaç kişi var?",
      "Dinlerken nelere dikkat ederiz?",
      "Hikâyenin sonunu çiz."
+    ],
+    "steps": [
+     "Dinlerken olayların sırasını parmaklarınla say: önce, sonra, en sonunda.",
+     "Kim? sorusuyla kişileri bul: Kerem ve annesi.",
+     "Anlatırken olayları dinlediğin sırayla söyle.",
+     "Dikkat: Olayların yerini değiştirirsen hikâyenin anlamı bozulur."
+    ],
+    "answers": [
+     "Kedi Kerem’in yanında uyudu.",
+     "Kerem kediyi gördü / kediye mama verdiler / kedi uyudu.",
+     "İki kişi: Kerem ve annesi (bir de kedi var).",
+     "Konuşanı sessizce dinleriz, olayların sırasını aklımızda tutarız.",
+     "Kendi cevabın. Örnek: Kerem ile kediyi uyurken çiz."
     ]
    }
   },
@@ -451,6 +648,19 @@
      "Hecelerden kelime yap: bu-lut.",
      "Virgülde ne yaparız?",
      "ç ile başlayan bir kelime söyle."
+    ],
+    "steps": [
+     "ç sesini “çuf çuf” der gibi söyle; b sesini dudaklarını kapatıp aç.",
+     "Kelimeleri hecele: çi-çek, bu-lut.",
+     "Virgülde kısa bir an dur.",
+     "Dikkat: ç harfinin altındaki çengeli unutma; yoksa c olur."
+    ],
+    "answers": [
+     "İki hecelidir: bu-lut.",
+     "Bir çiçek buldu.",
+     "bulut.",
+     "Kısa bir an dururuz.",
+     "Kendi cevabın. Örnek: çay, çanta."
     ]
    }
   },
@@ -473,6 +683,19 @@
      "Hecelerden kelime yap: ca-mi.",
      "kuşlar kelimesi bir kuşu mu, çok kuşu mu anlatır?",
      "c ile başlayan bir kelime söyle."
+    ],
+    "steps": [
+     "g ve c seslerini dikkatle ayır: gece (g), cam (c).",
+     "ş sesini “şşş, sessiz ol” der gibi söyle.",
+     "Kelimenin sonundaki -lar birden çok varlığı gösterir: kuş → kuşlar.",
+     "Dikkat: ş harfinin altındaki çengeli unutma; yoksa s olur."
+    ],
+    "answers": [
+     "İki hecelidir: ge-ce.",
+     "Camı sildi.",
+     "cami.",
+     "Çok kuşu.",
+     "Kendi cevabın. Örnek: Cem, cam."
     ]
    }
   },
@@ -495,6 +718,19 @@
      "Pide ne zaman yenmiş?",
      "Hecelerden kelime yap: has-ta.",
      "p ile biten bir kelime söyle."
+    ],
+    "steps": [
+     "p sesini dudaklarını patlatır gibi aç: pa; h sesini nefes verir gibi söyle: ha.",
+     "Kelimeyi hecele: ki-tap, pi-de.",
+     "Ne zaman? sorusunun cevabı bir zamandır: pazar günü.",
+     "Dikkat: p ve b seslerini karıştırma: pide ile bide farklıdır."
+    ],
+    "answers": [
+     "İki hecelidir: pi-de.",
+     "Kitap okudu.",
+     "Pazar günü.",
+     "hasta.",
+     "Kendi cevabın. Örnek: kitap, top."
     ]
    }
   },
@@ -517,6 +753,19 @@
      "Hecelerden kelime yap: ev-de.",
      "j ile biten bir kelime söyle.",
      "Kaç tane ünlü harf var?"
+    ],
+    "steps": [
+     "ğ yumuşak g’dir; kendinden önceki sesi uzatır: ağaç (aağaç gibi).",
+     "Türkçede hiçbir kelime ğ ile başlamaz.",
+     "Alfabemizde 29 harf var; 8’i ünlü: a, e, ı, i, o, ö, u, ü.",
+     "Dikkat: v ile f yakın seslerdir; dudağını dişine değdirip v’yi sesli, f’yi sessiz söyle."
+    ],
+    "answers": [
+     "Hayır, yoktur.",
+     "29 harf.",
+     "evde.",
+     "Kendi cevabın. Örnek: plaj.",
+     "8 tane."
     ]
    }
   },
@@ -539,6 +788,19 @@
      "Kitapları nereden seçebiliriz?",
      "En sevdiğin kitabın adını yaz.",
      "Bir kitabı neden beğendiğini bir cümleyle söyle."
+    ],
+    "steps": [
+     "Kitabı açmadan önce kapağa bak: resim, başlık ve yazar adı.",
+     "Başlık ve resimden konuyu tahmin et.",
+     "Okuduktan sonra tahminin doğru muydu, kontrol et.",
+     "Dikkat: Kitabı beğenip beğenmediğini “çünkü” ile açıkla."
+    ],
+    "answers": [
+     "Resim, başlık ve yazar adı.",
+     "Kapaktaki resme ve başlığa bakarak.",
+     "Okuma köşesinden ya da kütüphaneden.",
+     "Kendi cevabın. Örnek: Küçük Prens.",
+     "Kendi cevabın. Örnek: Kitabı beğendim çünkü hayvanlar konuşuyordu."
     ]
    }
   },
@@ -561,13 +823,26 @@
      "Sırala: Selin kuş katladı / Eda davul çaldı / Can şarkı söyledi.",
      "Utanmak ne demek?",
      "Bir arkadaşının yeteneğini söyle."
+    ],
+    "steps": [
+     "Hikâyedeki kişileri bul: Eda, Can, Selin.",
+     "Her kişinin ne yaptığını söyle: yeteneğini bul.",
+     "Kişinin duygusu değişebilir: Selin önce utandı, sonra cesaret etti.",
+     "Dikkat: Herkesin yeteneği farklıdır; birini diğerinden üstün görmeyiz."
+    ],
+    "answers": [
+     "Eda, Can ve Selin.",
+     "Utandığı hâlde yeteneğini gösterdiği için.",
+     "Eda davul çaldı / Can şarkı söyledi / Selin kuş katladı.",
+     "Bir şeyi yapmaktan çekinmek, mahcup olmak.",
+     "Kendi cevabın. Örnek: Ali çok güzel resim yapar."
     ]
    }
   },
   "eu-year-tr-beginner-1-l22": {
    "tr": {
-    "title": "Ses grupları büyüyor: o, k, u, r, ı, m",
-    "theory": "İkinci ses grubu o, k, u, r, ı, m seslerinden oluşur. Bu seslerle daha çok kelime okuruz: okul, kırmızı, ormana. Kelimeleri önce heceleyerek, sonra akıcı okuruz. Okuduğumuzu anlamak için Kim? Ne yapıyor? Nerede? sorularını sorarız.",
+    "title": "Akıcı okuma: Kim? Ne yaptı? Nerede?",
+    "theory": "Artık bütün harfleri bildiğimiz için metinleri daha akıcı okuruz. Önce kelimeleri heceleyerek, sonra bir solukta okuruz. Okuduğumuzu anlamak için Kim? Ne yaptı? Nerede? sorularını sorarız ve cevapları metinde ararız.",
     "sample": "Ömer okula koştu. Okulda Mira resim yaptı. Mira kırmızı kalem kullandı.",
     "worked": "Kim okula koştu? Ömer. Okulda kim resim yaptı? Mira. Hangi rengi kullandı? Kırmızı. o-ku-la üç hecedir. kır-mı-zı da üç hecedir. Havanın nasıl olduğu metinde yazmıyor; yazmayan bir şeyi uydurmayız.",
     "exercises": [
@@ -583,6 +858,19 @@
      "r sesi olan bir kelime bul.",
      "Mira nerede resim yaptı?",
      "Hecelerden kelime yap: o-kul."
+    ],
+    "steps": [
+     "Önce kelimeleri heceleyerek oku, sonra bir solukta.",
+     "Kim? Ne yaptı? Nerede? sorularını sor.",
+     "Cevabı metinde ara; yazmayan şeyi uydurma.",
+     "Dikkat: Cümleleri saymak için noktaları say."
+    ],
+    "answers": [
+     "Hayır, yazmıyor.",
+     "Üç cümle.",
+     "Kendi cevabın. Örnek: resim, kırmızı.",
+     "Okulda.",
+     "okul."
     ]
    }
   },
@@ -605,6 +893,19 @@
      "ağaç kelimesine kafiye bul.",
      "Kuş ne dedi?",
      "Şiirdeki kuşun resmini çiz."
+    ],
+    "steps": [
+     "Şiirin her satırı bir dizedir.",
+     "Dizelerin sonundaki kelimeleri karşılaştır: benzer sesle bitiyorlarsa kafiyelidir.",
+     "Şiiri duygusuna uygun sesle, yavaş oku.",
+     "Dikkat: Kafiye için kelimenin sonu benzemeli, başı değil: kuş – hoş."
+    ],
+    "answers": [
+     "Şiirin bir satırıdır.",
+     "Evet, kafiyelidir.",
+     "Kendi cevabın. Örnek: kaç, aç.",
+     "Cik cik dedi.",
+     "Kendi cevabın. Örnek: Pencerede duran bir kuş çiz."
     ]
    }
   },
@@ -627,6 +928,19 @@
      "Öğrenmek istediğin bir şeyi yaz.",
      "Cümlenin sonuna ne koyarız?",
      "Bir arkadaşını iki cümleyle tanıt."
+    ],
+    "steps": [
+     "Önce adını söyle: Benim adım …",
+     "Sonra yaşını söyle: Ben … yaşındayım.",
+     "Sonra yapabildiğin bir şeyi söyle: Ben … yapabilirim.",
+     "Dikkat: Her cümle büyük harfle başlar, noktayla biter."
+    ],
+    "answers": [
+     "Adımızı, yaşımızı, neler yapabildiğimizi.",
+     "Dört cümle.",
+     "Kendi cevabın. Örnek: Yüzmeyi öğrenmek istiyorum.",
+     "Nokta.",
+     "Kendi cevabın. Örnek: Arkadaşımın adı Elif. Elif çok güzel şarkı söyler."
     ]
    }
   },
@@ -649,6 +963,19 @@
      "Sırala: bal peteklerde saklanır / arılar nektar toplar / nektar kovana taşınır.",
      "Metinde kaç cümle var?",
      "Başka bir hayvanla ilgili bildiğin bir bilgiyi söyle."
+    ],
+    "steps": [
+     "Bilgilendirici metin gerçek bilgileri anlatır; hikâye gibi uydurulmuş değildir.",
+     "Metindeki adımları sırayla bul: önce, sonra, en sonunda.",
+     "Bilmediğin kelimeleri sor ya da sözlüğe bak: petek, nektar.",
+     "Dikkat: Bilgileri değiştirmeden, metinde yazdığı gibi anlat."
+    ],
+    "answers": [
+     "Bilgilendirici metin gerçek bilgi verir; hikâyede olaylar ve kişiler vardır.",
+     "Arıların balı sakladığı altıgen gözler.",
+     "Arılar nektar toplar / nektar kovana taşınır / bal peteklerde saklanır.",
+     "Dört cümle.",
+     "Kendi cevabın. Örnek: Penguenler uçamaz ama çok iyi yüzer."
     ]
    }
   },
@@ -671,6 +998,19 @@
      "Hangisi gruba uymaz: kedi, köpek, kalem, kuş?",
      "Sincap nerede?",
      "Bir kelimenin anlamını öğrenmek için nelere bakarız?"
+    ],
+    "steps": [
+     "Zıt anlamlı kelimeler birbirinin tersidir: büyük – küçük.",
+     "Eş anlamlı kelimeler aynı anlama gelir: okul – mektep.",
+     "Gruplarken kelimelerin ortak özelliğini bul: hepsi hayvan mı?",
+     "Dikkat: Bilmediğin kelimenin anlamını metne, resme ya da sözlüğe bakarak bul."
+    ],
+    "answers": [
+     "soğuk.",
+     "mektep.",
+     "kalem (diğerleri hayvan).",
+     "Büyük bir ağacın altında.",
+     "Metne, görsellere ve sözlüğe."
     ]
    }
   },
@@ -693,6 +1033,19 @@
      "Defne soruları kime sordu?",
      "Ne zaman? sorusuna cevap olan bir cümle yaz.",
      "Soru sorarken sesimiz nasıl değişir?"
+    ],
+    "steps": [
+     "Merak ettiğin şey için bir soru kelimesi seç: kim, ne, nerede, ne zaman, neden, nasıl.",
+     "Soru cümlesinin sonuna soru işareti (?) koy.",
+     "Soru sorarken cümlenin sonunda sesini yükselt.",
+     "Dikkat: Cevap bir soru değildir; cevabın sonuna nokta koyarız."
+    ],
+    "answers": [
+     "Soru işareti.",
+     "Kendi cevabın. Örnek: kim, nerede, nasıl.",
+     "Babasına.",
+     "Kendi cevabın. Örnek: Okul sabah dokuzda başlar.",
+     "Cümlenin sonunda yükselir."
     ]
    }
   },
@@ -715,6 +1068,19 @@
      "Sırala: filiz çıktı / kabuk çatladı / fasulye pamuğa kondu.",
      "Gözlem yapmak ne demek?",
      "Bir gözlem cümlesi yaz: Bugün … gördüm."
+    ],
+    "steps": [
+     "Gözlemi aynı şeyi birkaç gün izleyerek yap.",
+     "Her gün tarih ya da gün yaz.",
+     "Gördüğün değişikliği kısa bir cümleyle not et.",
+     "Dikkat: Görmediğin şeyi yazma; yalnızca gözlemlediğini yaz."
+    ],
+    "answers": [
+     "Gün (tarih) ve kısa cümleler.",
+     "6. günde.",
+     "Fasulye pamuğa kondu / kabuk çatladı / filiz çıktı.",
+     "Bir şeyi dikkatle izleyip değişiklikleri fark etmek.",
+     "Kendi cevabın. Örnek: Bugün yaprağın büyüdüğünü gördüm."
     ]
    }
   },
@@ -737,6 +1103,19 @@
      "Kız nasıl biri? Neden?",
      "Masalları kimlerden dinleriz?",
      "Masalın sonunu sen değiştir ve anlat."
+    ],
+    "steps": [
+     "Masalın başlangıç sözünü tanı: Bir varmış bir yokmuş.",
+     "Olağanüstü olayı bul: gerçekte olmayan şey (serçenin konuşması).",
+     "İyilik ve sonuç arasındaki bağı düşün: kız iyilik yaptı, ödüllendirildi.",
+     "Dikkat: Masaldaki olaylar gerçek değildir ama bize bir ders verir."
+    ],
+    "answers": [
+     "Bir varmış bir yokmuş diye.",
+     "Serçeye iyilik yaptığı için.",
+     "İyi kalpli ve yardımsever; yaralı serçeyi iyileştirdi.",
+     "Büyüklerimizden (anne, baba, dede, nine).",
+     "Kendi cevabın. Örnek: Serçe her bahar kızın penceresine gelip şarkı söylemiş."
     ]
    }
   },
@@ -759,6 +1138,19 @@
      "Bir hayvanla ilgili bilmece sor.",
      "Tekerlemede k ile başlayan kelimeleri say.",
      "Bildiğin bir bilmeceyi arkadaşına sor."
+    ],
+    "steps": [
+     "Bilmecede ipuçlarını tek tek dinle ve neyi anlattığını düşün.",
+     "Tekerlemede tekrar eden sesi bul.",
+     "Tekerlemeyi önce yavaş, sonra hızlı söyle.",
+     "Dikkat: Bilmecenin cevabını söylerken ipuçlarıyla kontrol et."
+    ],
+    "answers": [
+     "Bilmece bir şeyi adını söylemeden anlatır; tekerleme ses tekrarlarıyla hızlı söylenen eğlenceli bir sözdür.",
+     "Önce yavaş, sonra hızlı.",
+     "Kendi cevabın. Örnek: Miyav der, süt içer; nedir? (kedi)",
+     "Kırmızı, kurdele, kıvrım, kediye.",
+     "Kendi cevabın. Örnek: Ağzı var dili yok, konuşur; nedir? (kitap)"
     ]
    }
   },
@@ -781,6 +1173,19 @@
      "Bildiğin başka bir atasözünü söyle.",
      "Damla ne demek?",
      "Bir şeyi her gün biraz yaparak öğrendiğin bir şeyi anlat."
+    ],
+    "steps": [
+     "Atasözü kısa ve öğüt veren bir sözdür.",
+     "Atasözünün anlamını kendi sözlerinle söyle.",
+     "Günlük hayattan bir örnekle açıkla.",
+     "Dikkat: Atasözlerinin söyleyeni bilinmez; halkın ortak sözüdür."
+    ],
+    "answers": [
+     "Söyleyeni bilinmez; halk arasında söylenmiştir.",
+     "Oya’nın kumbarası doldu.",
+     "Kendi cevabın. Örnek: Bugünün işini yarına bırakma.",
+     "Bir sıvının küçük bir parçası, küçük su tanesi.",
+     "Kendi cevabın. Örnek: Her gün biraz okuyarak hızlı okumayı öğrendim."
     ]
    }
   },
@@ -803,6 +1208,19 @@
      "Sırala: ebe tahmin eder / ebe seçilir / oyuncular dolaşır.",
      "Büyüklerine çocukken hangi oyunu oynadıklarını sor ve anlat.",
      "Oyun oynarken hangi kurallara uyarız?"
+    ],
+    "steps": [
+     "Yönergeyi baştan sona bir kez oku.",
+     "Adımları numaralarına göre sırayla uygula.",
+     "Bir adımı anlamadıysan durup tekrar oku ya da sor.",
+     "Dikkat: Adımları atlarsan oyun ya da iş doğru olmaz."
+    ],
+    "answers": [
+     "Bir işin nasıl yapılacağını sırayla anlatır.",
+     "Adımların sırasını gösterir.",
+     "Ebe seçilir / oyuncular dolaşır / ebe tahmin eder.",
+     "Kendi cevabın. Örnek: Annem çocukken seksek oynamış.",
+     "Sıramızı bekleriz, hile yapmayız, kimseyi incitmeyiz."
     ]
    }
   },
@@ -825,6 +1243,19 @@
      "Sırala: yapraklar soldu / Arda suladı / görev Arda’ya verildi.",
      "Arda nasıl biri? Neden?",
      "Sorumluluk kelimesiyle bir cümle kur."
+    ],
+    "steps": [
+     "Bir olayın nedenini bul: Neden oldu?",
+     "Sonucunu bul: Ne oldu?",
+     "Kişinin hatasını nasıl düzelttiğine bak.",
+     "Dikkat: Sorumluluk bir görevi zamanında ve dikkatle yapmaktır."
+    ],
+    "answers": [
+     "Sebep bir olayın nedenidir, sonuç o olayın ortaya çıkardığı durumdur.",
+     "Yeniden dikleşti.",
+     "Görev Arda’ya verildi / yapraklar soldu / Arda suladı.",
+     "Sorumluluk sahibi; hatasını fark edip düzeltti.",
+     "Kendi cevabın. Örnek: Odamı toplamak benim sorumluluğum."
     ]
    }
   },
@@ -847,6 +1278,19 @@
      "Doğru yaz: bugün kar yağıyor",
      "Hangi cümle sevinç bildiriyor?",
      "Yaşadığın şehrin adını yaz."
+    ],
+    "steps": [
+     "Cümleye büyük harfle başla.",
+     "Kişi ve şehir adlarını büyük harfle yaz.",
+     "Cümlenin türüne göre nokta, soru işareti ya da ünlem koy.",
+     "Dikkat: Özel isme gelen eki kesme işaretiyle ayır: İzmir’de."
+    ],
+    "answers": [
+     "Soru işareti.",
+     "Kişi adı olduğu için.",
+     "Bugün kar yağıyor.",
+     "Ne güzel bir gün!",
+     "Kendi cevabın. Örnek: Ankara."
     ]
    }
   },
@@ -869,6 +1313,19 @@
      "Sınıfınla ilgili bir cümle yaz.",
      "Yazdıktan sonra ne yaparız?",
      "Bir resim çiz ve altına bir cümle yaz."
+    ],
+    "steps": [
+     "Görsele bak ve sor: Kim? Ne yapıyor? Nerede?",
+     "Cevapları bir cümlede birleştir.",
+     "Cümleye büyük harfle başla, noktayla bitir.",
+     "Dikkat: Yazdıktan sonra cümleni yüksek sesle oku ve eksik harf var mı bak."
+    ],
+    "answers": [
+     "Kim? Ne yapıyor? Nerede?",
+     "Büyük harfle.",
+     "Kendi cevabın. Örnek: Sınıfımızda yirmi öğrenci var.",
+     "Cümlemizi okuyup kontrol ederiz.",
+     "Kendi cevabın. Örnek: Bir kedi çizip altına “Kedi uyuyor.” yazabilirsin."
     ]
    }
   },
@@ -891,6 +1348,19 @@
      "Metninde büyük harf ve noktayı kontrol et.",
      "Sıra bildiren iki kelime yaz.",
      "Yarın yapacağın bir işi yaz."
+    ],
+    "steps": [
+     "Önce gününü düşün: sabah, öğlen, akşam ne yaptın?",
+     "Her bölüm için bir cümle yaz.",
+     "Sıra kelimeleri kullan: önce, sonra, en sonunda.",
+     "Dikkat: Cümleler birbirine bağlı olmalı; aynı günü anlatmalı."
+    ],
+    "answers": [
+     "Birbirine bağlı birkaç cümleden.",
+     "Çantasını hazırladı ve erkenden uyudu.",
+     "Her cümlenin büyük harfle başlayıp noktayla bittiğine bak.",
+     "Kendi cevabın. Örnek: önce, sonra.",
+     "Kendi cevabın. Örnek: Yarın bitkimi sulayacağım."
     ]
    }
   },
@@ -913,6 +1383,19 @@
      "Doğru yaz: zeynep okula gidiyor",
      "Son cümlede kaç kelime var?",
      "Çantanla ilgili bir cümle yaz."
+    ],
+    "steps": [
+     "Metni yavaş, sonra akıcı oku.",
+     "Kim? Ne yaptı? sorularını sor.",
+     "Yazarken büyük harf ve noktaya dikkat et.",
+     "Dikkat: Kelimeleri sayarken her boşluk yeni bir kelimeyi başlatır."
+    ],
+    "answers": [
+     "Çantasını hazırladı.",
+     "Üç cümle.",
+     "Zeynep okula gidiyor.",
+     "Dört kelime: Sonra, dedesiyle, okula, gitti.",
+     "Kendi cevabın. Örnek: Çantam mavi ve büyük."
     ]
    }
   }

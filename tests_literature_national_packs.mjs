@@ -116,6 +116,23 @@ assert.deepEqual(trp.units,tr.units);assert.equal(trp.source,tr.source);
 const broken=structuredClone(tr);broken.units[0].keys.push(broken.units[1].keys[0]);
 await assert.rejects(literatureLoadNationalYear(trEntry,'tr',{storage:null,fetcher:ok(broken)}),/unavailable/,'a lesson may belong to one unit only');
 for(const key of Object.keys(tr.chapters))assert.ok(literatureNationalYearMaterial({pack:trp,country:'TR',stage:'beginner',grade:'1',topicKey:key,mode:'lesson'})?.text.includes(tr.chapters[key].tr.sample));
+// Tutor layer: every textbook lesson explains step by step (lesson mode) and the
+// test mode ends with the answers; the answers never leak into lesson/exercise modes.
+for(const {country,lang,pack} of packs.filter(p=>p.pack.units)){
+ assert.equal(pack.labels.length,9,country+' textbook pack needs tutor labels');
+ const entry=catalog.years.find(y=>y.country===country&&y.lang===lang)||catalog.years.find(y=>y.country===country);
+ const loaded=await literatureLoadNationalYear(entry,lang,{storage:null,fetcher:ok(pack)});
+ for(const [key,row] of Object.entries(pack.chapters)){
+  const c=row[lang];assert.ok(c.steps.length>=3&&c.answers.length===c.test.length,country+' '+key);
+  const mat=mode=>literatureNationalYearMaterial({pack:loaded,country,stage:entry.stage,grade:entry.grade,topicKey:key,mode})?.text||'';
+  const lesson=mat('lesson'),test=mat('test'),ex=mat('exercises');
+  assert.ok(lesson.includes(pack.labels[7])&&c.steps.every(s=>lesson.includes(s)),country+' '+key+' steps');
+  assert.ok(test.includes(pack.labels[8])&&c.answers.every(a=>test.includes(a)),country+' '+key+' answers');
+  assert.ok(!lesson.includes(pack.labels[8])&&!ex.includes(pack.labels[8]),country+' '+key+' answers only in test mode');
+ }
+}
+const brokenHelp=structuredClone(tr);const k0=Object.keys(brokenHelp.chapters)[0];brokenHelp.chapters[k0].tr.answers.pop();
+await assert.rejects(literatureLoadNationalYear(trEntry,'tr',{storage:null,fetcher:ok(brokenHelp)}),/unavailable/,'answers must match the test');
 const totalLessons=packs.reduce((n,p)=>n+Object.keys(p.pack.chapters).length,0);
 
 console.log('PASS national Literature packs: '+packs.length+' packs / '+totalLessons+' lessons (textbook sequence: '+packs.filter(p=>p.pack.units).map(p=>p.country+' '+p.lang).join(', ')+'); catalog, loaders, cache/offline, single source, renderer, activity flow, original-language fallback, no HTML bundling, service paths');
