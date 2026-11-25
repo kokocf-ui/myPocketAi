@@ -1,0 +1,13 @@
+name: diag-live-packs
+on:
+  push:
+    branches: [arena/430ec340-mypocketai]
+    paths: ['.github/workflows/diag-live-packs.yml','scripts/diag_live_packs.mjs']
+jobs:
+  diag:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: 22}
+      - run: node scripts/diag_live_packs.mjs
