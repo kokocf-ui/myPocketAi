@@ -74,7 +74,7 @@ Utilizatorul a testat APK-ul signed intermediar și a raportat că textul apare 
 
 ## Regulă generală pentru toate materiile
 
-**Regulă generală pentru toate materiile (decizia utilizatorului, nov. 2026):** regulile stabilite la Literatură se aplică la orice materie din Educație: programa oficială + manualele țării ca surse (fără teme inventate, fără text copiat din manuale), limba națională de școlarizare ca sursă unică, toate limbile oficiale la țările multilingve, densitate după manual (~30–36 lecții pe an, grupate pe unitățile manualului/programei), rol de „dascăl înțelegător” (explicație pas cu pas + greșeala frecventă la fiecare lecție, răspunsuri la test). Ordinea: întâi se termină Literatura, apoi Geografie, Istorie, Informatică.
+**Regulă generală pentru toate materiile (decizia utilizatorului, nov. 2026):** regulile stabilite la Literatură se aplică la orice materie din Educație: programa oficială + manualele țării ca surse (fără teme inventate, fără text copiat din manuale), limba națională de școlarizare ca sursă unică, toate limbile oficiale la țările multilingve, densitate după manual (~30–36 lecții pe an, grupate pe unitățile manualului/programei), rol de „dascăl înțelegător” (explicație pas cu pas + greșeala frecventă la fiecare lecție, răspunsuri la test). Ordinea (confirmată prin ask_user): întâi se termină Literatura pentru **toți anii** (primar → liceu) și toate țările, pe lățime (anul 1 peste tot, apoi anul 2 etc.), apoi Istorie → Geografie → Informatică.
 
 ## Literatură: pachete naționale pe an (ramura `arena/430ec340-mypocketai`)
 
