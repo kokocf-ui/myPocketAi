@@ -84,6 +84,10 @@ Utilizatorul a testat APK-ul signed intermediar și a raportat că textul apare 
 
 - RO: clasa a IV-a (`public/education/geography/authored/RO/ro-4.json`, 32 lecții, 4 unități, OMEN 5003/2014); V (30), VI (30), VII (31), VIII (30) după OMEN 3393/2017 (`ro-5..8.json`); IX (30) OMEC 6930/2025; X (29) OMECT 4598/2004; XI (30) OMEdC 3252/2006; XII (30) OMEdC 5959/2006 (`ro-9..12.json`); Licență I–III (`ro-uni-ba-1..3.json`, 30/29/30, sinteză ARACIS verificată pe UB/UBB/UAIC). Geografia RO completă: 12 pachete / 361 lecții. Revizuire independentă în așteptare; nu se declară aprobare completă.
 
+## Informatică: pachete naționale pe an (motorul Literaturii)
+
+- RO: clasele V–VIII (`public/education/computing/authored/RO/ro-5..8.json`, 28/28/28/24, OMEN 3393/2017); IX–XII matematică-informatică intensiv informatică (`ro-9..12.json`, 35/28/32/28; IX OMEC 3716/2026 Anexa 49, X–XII OMECI 5099/2009 Anexa 5; modulele obligatorii întâi, cele opționale ca extra); TIC IX–XII pentru celelalte profiluri (`ro-tic-9..12.json`, 26/24/24/24; IX programa TC 2025, X–XII OMECI 5099/2009, cu variantele de specializare ca unități etichetate); Licență I–III Informatică (`ro-uni-ba-1..3.json`, 30/30/29, sinteză ARACIS verificată pe UB/UBB/UAIC). Informatica RO completă: 15 pachete / 418 lecții. Revizuire independentă în așteptare; nu se declară decuplare sau completitudine curriculară. După Informatica RO, lucrul la Educație se oprește la cererea utilizatorului.
+
 ## Literatură: pachete naționale pe an (ramura `arena/430ec340-mypocketai`)
 
 Decizii ale utilizatorului (nov. 2026): lecții în **limba națională de școlarizare**, o singură sursă per limbă; ordine **pe lățime** (întâi primar pentru toate țările, apoi gimnaziu, apoi liceu); pentru țările multilingve, **toate limbile oficiale de predare**; doar commit + push, **fără PR/merge și fără APK** până la alt semnal.

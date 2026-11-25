@@ -1,5 +1,10 @@
 # Informatică — starea implementării (2026-11-08)
 
+## Pachete naționale (2026-11, ramura `arena/430ec340-mypocketai`)
+- România are lecții pe ani, cu motorul Literaturii (`computing_national_packs.mjs` + `public/education/computing/authored/`): V–VIII, IX–XII intensiv informatică, TIC IX–XII (traseu separat) și Licență I–III Informatică — 15 pachete / 418 lecții, fiecare lecție cu teorie, exemplu, analiză, 5 exerciții, test cu 5 răspunsuri și pași (ultimul = greșeala frecventă).
+- Celelalte țări și anii fără pachet păstrează fluxul de mai jos (nivel → ramură → capitole → spațiu de lucru).
+- Test: `tests_computing_national_packs.mjs`; verificare/scriere: `node scripts/build_literature_national_packs.mjs --subject=computing [--write]`.
+
 ## Confirmat în cod
 - Materia „Informatică” folosește un flux educațional separat, fără schimbarea modulului: nivel → ramură/specializare → capitole în ordine → spațiu de lucru.
 - **Trei niveluri**: Începător (inițiere digitală), Mediu (gimnaziu/liceu), Avansat (universitate/specializări).
