@@ -1,0 +1,1054 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "RO",
+ "stage": "lower",
+ "grade": "6",
+ "version": "261932983496280533fd0259e346e3ad7fb121a33611cce1aeca288ec7c48618",
+ "source": "https://www.ise.ro/wp-content/uploads/2017/01/Istorie.pdf",
+ "sourceTitle": "Programa școlară pentru disciplina Istorie, clasele a V-a – a VIII-a, aprobată prin OMEN nr. 3393/28.02.2017 — clasa a VI-a (1 oră/săptămână): Călători și călătorii – Europa și Lumea Nouă; Geneza spiritului modern; Spre o nouă societate; Secolul naționalităților, cu studiile de caz din programă. Lecții originale, ordonate după unitățile manualelor aprobate, fără text copiat",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "ro",
+ "labels": [
+  "Activitate originală · România · Istorie · Clasa a VI-a",
+  "Lecția pe înțeles",
+  "Exemplu",
+  "Ce ne arată exemplul",
+  "Exerciții",
+  "Test",
+  "Activități originale, făcute după programa școlară; nu înlocuiesc manualul sau ora de la clasă.",
+  "Dacă nu ai înțeles: pas cu pas",
+  "Răspunsuri (verifică după ce termini)"
+ ],
+ "units": [
+  {
+   "title": "Călători și călătorii – Europa și Lumea Nouă",
+   "keys": [
+    "eu-year-ro-lower-6-l01",
+    "eu-year-ro-lower-6-l02",
+    "eu-year-ro-lower-6-l03",
+    "eu-year-ro-lower-6-l04",
+    "eu-year-ro-lower-6-l05",
+    "eu-year-ro-lower-6-l06"
+   ]
+  },
+  {
+   "title": "Geneza spiritului modern",
+   "keys": [
+    "eu-year-ro-lower-6-l07",
+    "eu-year-ro-lower-6-l08",
+    "eu-year-ro-lower-6-l09",
+    "eu-year-ro-lower-6-l10",
+    "eu-year-ro-lower-6-l11",
+    "eu-year-ro-lower-6-l12",
+    "eu-year-ro-lower-6-l13",
+    "eu-year-ro-lower-6-l14",
+    "eu-year-ro-lower-6-l15",
+    "eu-year-ro-lower-6-l16"
+   ]
+  },
+  {
+   "title": "Spre o nouă societate",
+   "keys": [
+    "eu-year-ro-lower-6-l17",
+    "eu-year-ro-lower-6-l18",
+    "eu-year-ro-lower-6-l19",
+    "eu-year-ro-lower-6-l20",
+    "eu-year-ro-lower-6-l21",
+    "eu-year-ro-lower-6-l22",
+    "eu-year-ro-lower-6-l23",
+    "eu-year-ro-lower-6-l24"
+   ]
+  },
+  {
+   "title": "Secolul naționalităților",
+   "keys": [
+    "eu-year-ro-lower-6-l25",
+    "eu-year-ro-lower-6-l26",
+    "eu-year-ro-lower-6-l27",
+    "eu-year-ro-lower-6-l28"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-ro-lower-6-l01": {
+   "ro": {
+    "title": "Călătoriile și percepția spațiului în Evul Mediu",
+    "theory": "În Evul Mediu, oamenii călătoreau pentru negoț, pelerinaj, război sau diplomație. Drumurile erau grele și nesigure; se mergea pe jos, călare, cu căruța sau cu corăbii. Hărțile medievale (mappae mundi) puneau adesea Ierusalimul în centru și amestecau geografia cu credința. Lumea cunoscută europenilor cuprindea Europa, nordul Africii și o parte a Asiei. Negustori precum Marco Polo au adus informații despre Asia, iar busola, cârma și corabia caravelă au făcut posibile drumuri mai lungi pe mare.",
+    "sample": "O hartă medievală înfățișează monștri în zonele necunoscute ale oceanului.",
+    "worked": "Monștrii arată teama și necunoașterea. Hărțile medievale ne spun cum își imaginau oamenii lumea, nu doar cum era ea.",
+    "exercises": [
+     "Enumeră motivele pentru care se călătorea în Evul Mediu.",
+     "Descrie o hartă medievală.",
+     "Compară lumea cunoscută în anul 1300 cu lumea de azi.",
+     "Explică rolul busolei în navigație.",
+     "Descrie mijloacele de transport medievale."
+    ],
+    "test": [
+     "De ce călătoreau oamenii în Evul Mediu?",
+     "Ce oraș era adesea în centrul hărților medievale?",
+     "Ce continente cunoșteau europenii?",
+     "Ce instrument ajuta la orientarea pe mare?",
+     "Ce negustor a adus informații despre China?"
+    ],
+    "steps": [
+     "Identifică motivul călătoriei.",
+     "Descrie mijloacele și dificultățile drumului.",
+     "Explică cum se vedea lumea pe hărțile vremii.",
+     "Greșeala frecventă: să crezi că oamenii medievali credeau că Pământul este plat; cei învățați știau că este rotund."
+    ],
+    "answers": [
+     "Pentru negoț, pelerinaj, război sau diplomație.",
+     "Ierusalimul.",
+     "Europa, nordul Africii și o parte a Asiei.",
+     "Busola.",
+     "Marco Polo."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l02": {
+   "ro": {
+    "title": "Marile descoperiri geografice: cauze și drumuri",
+    "theory": "În secolele XV–XVI, europenii au căutat drumuri noi pe mare spre India și China, pentru condimente, mătase și aur, mai ales după ce turcii au controlat drumurile din Orient. Portughezii au mers în jurul Africii: Bartolomeu Dias a ajuns la Capul Bunei Speranțe (1488), iar Vasco da Gama a ajuns în India (1498). Spaniolii au mers spre vest. Au contribuit caravela, busola, astrolabul și hărțile mai bune.",
+    "sample": "Piperul era atât de scump în Europa încât uneori era folosit ca mijloc de plată.",
+    "worked": "Valoarea mare a condimentelor explică de ce statele și negustorii au investit în expediții riscante.",
+    "exercises": [
+     "Enumeră cauzele marilor descoperiri.",
+     "Urmărește pe hartă drumurile lui Dias și Vasco da Gama.",
+     "Explică de ce condimentele erau prețioase.",
+     "Descrie caravela.",
+     "Explică rolul Portugaliei în explorări."
+    ],
+    "test": [
+     "Ce căutau europenii în Asia?",
+     "Unde a ajuns Bartolomeu Dias?",
+     "În ce an a ajuns Vasco da Gama în India?",
+     "Ce corabie au folosit exploratorii?",
+     "Ce instrument măsura poziția după stele?"
+    ],
+    "steps": [
+     "Identifică motivele economice, politice și religioase.",
+     "Urmărește traseele pe hartă.",
+     "Leagă descoperirile de progresele tehnice.",
+     "Greșeala frecventă: să crezi că exploratorii voiau doar să cunoască lumea; motivele economice au fost foarte importante."
+    ],
+    "answers": [
+     "Condimente, mătase și aur.",
+     "La Capul Bunei Speranțe.",
+     "În 1498.",
+     "Caravela.",
+     "Astrolabul."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l03": {
+   "ro": {
+    "title": "Cristofor Columb",
+    "theory": "Cristofor Columb, navigator genovez, a convins regii Spaniei să-i finanțeze o expediție spre vest, crezând că va ajunge în Asia. În 1492, cu trei corăbii (Santa Maria, Pinta și Niña), a ajuns în insulele din Marea Caraibilor. A făcut patru călătorii și a murit convins că ajunsese în Asia. Continentul a primit numele de America după Amerigo Vespucci, care a arătat că este o lume nouă.",
+    "sample": "Columb i-a numit pe localnici „indieni”.",
+    "worked": "Numele greșit arată că el credea că ajunsese în India. Uneori, o descoperire este înțeleasă corect abia mai târziu.",
+    "exercises": [
+     "Urmărește pe hartă prima călătorie a lui Columb.",
+     "Explică de ce Columb a mers spre vest.",
+     "Explică de unde vine numele America.",
+     "Imaginează-ți jurnalul unui marinar din 1492.",
+     "Compară scopul lui Columb cu rezultatul călătoriei."
+    ],
+    "test": [
+     "De unde era Columb?",
+     "Cine i-a finanțat expediția?",
+     "În ce an a ajuns în America?",
+     "Câte corăbii avea?",
+     "După cine a primit America numele?"
+    ],
+    "steps": [
+     "Află scopul călătoriei.",
+     "Urmărește drumul și rezultatul.",
+     "Compară ce credea Columb cu ce descoperise.",
+     "Greșeala frecventă: să crezi că Columb știa că a descoperit un continent nou; el credea că ajunsese în Asia."
+    ],
+    "answers": [
+     "Din Genova.",
+     "Regii Spaniei.",
+     "În 1492.",
+     "Trei.",
+     "Amerigo Vespucci."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l04": {
+   "ro": {
+    "title": "Fernando Magellan și prima călătorie în jurul lumii",
+    "theory": "Fernando Magellan, navigator portughez în serviciul Spaniei, a plecat în 1519 cu cinci corăbii, spre vest. A trecut printr-o strâmtoare din sudul Americii (azi strâmtoarea Magellan) și a traversat un ocean pe care l-a numit Pacific. Magellan a fost ucis în Filipine (1521). În 1522, o singură corabie, condusă de Juan Sebastián Elcano, s-a întors în Spania: era prima călătorie în jurul lumii.",
+    "sample": "Din cele cinci corăbii și aproape 250 de oameni, s-au întors o corabie și 18 marinari.",
+    "worked": "Cifrele arată cât de periculoase erau călătoriile. Totodată, întoarcerea lor a dovedit practic că Pământul este rotund și că oceanele comunică.",
+    "exercises": [
+     "Urmărește pe hartă drumul expediției.",
+     "Explică de ce oceanul a fost numit Pacific.",
+     "Explică ce a dovedit această călătorie.",
+     "Explică rolul lui Elcano.",
+     "Compară călătoria lui Magellan cu cea a lui Columb."
+    ],
+    "test": [
+     "În ce an a plecat Magellan?",
+     "Ce strâmtoare îi poartă numele?",
+     "Ce ocean a numit el?",
+     "Unde a murit Magellan?",
+     "Cine a adus corabia înapoi în Spania?"
+    ],
+    "steps": [
+     "Urmărește traseul pe hartă.",
+     "Notează momentele importante și pierderile.",
+     "Explică ce a demonstrat călătoria.",
+     "Greșeala frecventă: să crezi că Magellan s-a întors acasă; el a murit în Filipine."
+    ],
+    "answers": [
+     "În 1519.",
+     "Strâmtoarea Magellan.",
+     "Oceanul Pacific.",
+     "În Filipine.",
+     "Juan Sebastián Elcano."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l05": {
+   "ro": {
+    "title": "Lumea Nouă: civilizații, cucerire, misionarism și exploatare",
+    "theory": "În America existau civilizații dezvoltate: aztecii (Mexic), mayașii și incașii (Peru), cu orașe, temple, calendare și drumuri. Conchistadorii spanioli (Hernán Cortés, Francisco Pizarro) i-au cucerit cu arme de foc și cai, profitând de rivalitățile dintre localnici. Bolile aduse de europeni, precum variola, au omorât o mare parte a populației. Misionarii au răspândit creștinismul; unii, ca Bartolomé de las Casas, au apărat drepturile băștinașilor. Coloniștii au exploatat minele și plantațiile, iar apoi au adus sclavi din Africa.",
+    "sample": "Bartolomé de las Casas a scris despre suferințele indigenilor și a cerut oprirea abuzurilor.",
+    "worked": "Izvorul arată că și în epocă au existat oameni care au condamnat violențele. Istoria trebuie privită din perspectiva tuturor celor implicați.",
+    "exercises": [
+     "Descrie o civilizație precolumbiană.",
+     "Explică de ce puțini spanioli au putut cuceri imperii mari.",
+     "Explică rolul bolilor în cucerire.",
+     "Analizează poziția lui Bartolomé de las Casas.",
+     "Explică începuturile comerțului cu sclavi."
+    ],
+    "test": [
+     "Unde trăiau aztecii?",
+     "Cine a cucerit Imperiul Inca?",
+     "Ce boală a ucis mulți băștinași?",
+     "Cine a apărat drepturile indigenilor?",
+     "Ce au adus europenii din Africa pentru plantații?"
+    ],
+    "steps": [
+     "Descrie civilizațiile dinaintea cuceririi.",
+     "Explică cauzele victoriei europenilor.",
+     "Analizează urmările din perspectiva tuturor.",
+     "Greșeala frecventă: să crezi că America era un loc gol, fără civilizații; existau imperii și orașe mari."
+    ],
+    "answers": [
+     "În Mexic.",
+     "Francisco Pizarro.",
+     "Variola.",
+     "Bartolomé de las Casas.",
+     "Sclavi."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l06": {
+   "ro": {
+    "title": "Urmările marilor descoperiri",
+    "theory": "Marile descoperiri au schimbat lumea. Europenii au cunoscut noi continente; au circulat între Lumea Veche și Lumea Nouă plante, animale și boli: din America au venit porumbul, cartoful, roșia, cacaua și tutunul, iar spre America au mers calul, grâul și vitele. Comerțul s-a mutat spre Oceanul Atlantic, iar Spania și Portugalia au creat imperii coloniale. Pentru popoarele cucerite, urmările au fost tragice.",
+    "sample": "Mămăliga din porumb a devenit hrană de bază în Țările Române după ce porumbul a ajuns din America.",
+    "worked": "O descoperire din cealaltă parte a lumii a schimbat alimentația țăranilor români. Urmările marilor descoperiri au ajuns și la noi.",
+    "exercises": [
+     "Enumeră plante venite din America.",
+     "Explică ce animale au dus europenii în America.",
+     "Explică de ce comerțul s-a mutat spre Atlantic.",
+     "Analizează urmările pentru popoarele indigene.",
+     "Explică cum a ajuns porumbul în alimentația românilor."
+    ],
+    "test": [
+     "Ce plante au venit din America?",
+     "Ce animal au dus europenii în America?",
+     "Ce state au creat primele imperii coloniale?",
+     "Spre ce ocean s-a mutat comerțul?",
+     "Ce mâncare românească se face din porumb?"
+    ],
+    "steps": [
+     "Fă o listă a schimburilor dintre continente.",
+     "Explică urmările economice și politice.",
+     "Analizează urmările pentru fiecare parte.",
+     "Greșeala frecventă: să vezi doar urmările pozitive pentru Europa, uitând suferința popoarelor cucerite."
+    ],
+    "answers": [
+     "Porumbul, cartoful, roșia, cacaua, tutunul.",
+     "Calul.",
+     "Spania și Portugalia.",
+     "Spre Oceanul Atlantic.",
+     "Mămăliga."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l07": {
+   "ro": {
+    "title": "Renașterea și umanismul",
+    "theory": "Renașterea (secolele XIV–XVI) a început în orașele italiene, mai ales la Florența, și s-a răspândit în Europa. Oamenii au redescoperit cultura antică greco-romană. Umanismul punea omul, cu rațiunea și talentul lui, în centrul preocupărilor. Mecenații, precum familia Medici, sprijineau artiștii. Tiparul cu litere mobile, inventat de Johannes Gutenberg (în jurul anului 1450), a făcut cărțile mai ieftine și a răspândit ideile.",
+    "sample": "Primul mare tipărit al lui Gutenberg a fost Biblia.",
+    "worked": "Tiparul a înlocuit copierea de mână, lentă și scumpă. Cărțile au ajuns la mai mulți oameni, iar ideile s-au răspândit mai repede.",
+    "exercises": [
+     "Explică ce înseamnă Renaștere.",
+     "Explică ce este umanismul.",
+     "Explică rolul mecenaților.",
+     "Explică importanța tiparului.",
+     "Compară arta medievală cu cea renascentistă."
+    ],
+    "test": [
+     "Unde a început Renașterea?",
+     "Ce cultură au redescoperit oamenii Renașterii?",
+     "Ce pune umanismul în centru?",
+     "Ce familie florentină sprijinea artiștii?",
+     "Cine a inventat tiparul cu litere mobile?"
+    ],
+    "steps": [
+     "Află unde și când a apărut Renașterea.",
+     "Identifică ideile principale: Antichitatea și omul.",
+     "Leagă ideile de invenții și artă.",
+     "Greșeala frecventă: să crezi că Renașterea a respins credința; artiștii au creat multe opere religioase."
+    ],
+    "answers": [
+     "La Florența, în orașele italiene.",
+     "Cultura antică greco-romană.",
+     "Omul.",
+     "Familia Medici.",
+     "Johannes Gutenberg."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l08": {
+   "ro": {
+    "title": "Leonardo da Vinci și Michelangelo",
+    "theory": "Leonardo da Vinci a fost pictor, inginer, inventator și om de știință; a pictat Mona Lisa și Cina cea de Taină și a desenat proiecte de mașini zburătoare. Michelangelo Buonarroti a fost sculptor, pictor și arhitect: a sculptat statuia lui David, a pictat bolta Capelei Sixtine și a proiectat cupola Bazilicii Sfântul Petru din Roma. Amândoi sunt modele ale „omului universal” al Renașterii.",
+    "sample": "Caietele lui Leonardo au desene ale corpului uman făcute după observarea directă.",
+    "worked": "Desenele arată spiritul Renașterii: cunoașterea prin observație și legătura dintre artă și știință.",
+    "exercises": [
+     "Numește două opere de Leonardo.",
+     "Numește două opere de Michelangelo.",
+     "Explică ce înseamnă „om universal”.",
+     "Descrie Capela Sixtină.",
+     "Compară cei doi artiști."
+    ],
+    "test": [
+     "Cine a pictat Mona Lisa?",
+     "Cine a sculptat statuia lui David?",
+     "Ce capelă a pictat Michelangelo?",
+     "Ce proiecta Leonardo pe lângă picturi?",
+     "Ce cupolă a proiectat Michelangelo?"
+    ],
+    "steps": [
+     "Identifică operele fiecărui artist.",
+     "Explică domeniile în care au lucrat.",
+     "Leagă operele de ideile Renașterii.",
+     "Greșeala frecventă: să crezi că artiștii Renașterii lucrau doar într-un domeniu; mulți erau pictori, ingineri și savanți."
+    ],
+    "answers": [
+     "Leonardo da Vinci.",
+     "Michelangelo.",
+     "Capela Sixtină.",
+     "Mașini și invenții, precum mașini zburătoare.",
+     "Cupola Bazilicii Sfântul Petru."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l09": {
+   "ro": {
+    "title": "Niccolò Machiavelli și William Shakespeare",
+    "theory": "Niccolò Machiavelli, gânditor florentin, a scris Principele (1513), o carte despre cum își câștigă și își păstrează puterea un conducător; el a analizat politica așa cum este, nu cum ar trebui să fie. William Shakespeare (1564–1616), dramaturg englez, a scris tragedii (Romeo și Julieta, Hamlet, Macbeth), comedii și drame istorice, jucate la teatrul Globe din Londra. Operele lui explorează iubirea, puterea, gelozia și ambiția.",
+    "sample": "Expresia „scopul scuză mijloacele” este asociată cu Machiavelli, deși el nu a scris-o exact așa.",
+    "worked": "Ideile unui autor pot fi simplificate sau deformate în timp. De aceea trebuie citit textul original.",
+    "exercises": [
+     "Explică ideea principală din Principele.",
+     "Numește trei piese de Shakespeare.",
+     "Explică de ce Shakespeare este jucat și azi.",
+     "Discută dacă un conducător poate fi și eficient, și moral.",
+     "Descrie teatrul Globe."
+    ],
+    "test": [
+     "Ce carte a scris Machiavelli?",
+     "Despre ce este cartea?",
+     "Ce dramaturg englez a scris Hamlet?",
+     "Unde se jucau piesele lui Shakespeare?",
+     "Ce teme explorează Shakespeare?"
+    ],
+    "steps": [
+     "Identifică autorul și opera.",
+     "Explică ideea principală.",
+     "Leagă opera de spiritul Renașterii.",
+     "Greșeala frecventă: să atribui lui Machiavelli citate pe care nu le-a scris exact."
+    ],
+    "answers": [
+     "Principele.",
+     "Despre cum își câștigă și își păstrează puterea un conducător.",
+     "William Shakespeare.",
+     "La teatrul Globe din Londra.",
+     "Iubirea, puterea, gelozia, ambiția."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l10": {
+   "ro": {
+    "title": "Giordano Bruno și Galileo Galilei: o nouă imagine a universului",
+    "theory": "Nicolaus Copernic a propus teoria heliocentrică: Pământul și planetele se învârt în jurul Soarelui. Giordano Bruno a mers mai departe, susținând că universul este infinit; a fost condamnat de Inchiziție și ars pe rug la Roma (1600). Galileo Galilei a folosit luneta pentru a observa cerul, a descoperit sateliții lui Jupiter și a susținut heliocentrismul; în 1633 a fost obligat de Inchiziție să renunțe la ideile lui.",
+    "sample": "Galileo a văzut prin lunetă patru sateliți care se roteau în jurul lui Jupiter.",
+    "worked": "Observația arăta că nu toate corpurile cerești se rotesc în jurul Pământului. Așa s-a născut știința bazată pe experiment.",
+    "exercises": [
+     "Explică diferența dintre geocentrism și heliocentrism.",
+     "Explică ce a descoperit Galileo cu luneta.",
+     "Explică de ce Bruno și Galileo au fost judecați.",
+     "Discută libertatea de gândire în știință.",
+     "Ordonează: Copernic, Bruno, Galileo."
+    ],
+    "test": [
+     "Ce susține teoria heliocentrică?",
+     "Cine a propus-o?",
+     "Ce soartă a avut Giordano Bruno?",
+     "Ce instrument a folosit Galileo?",
+     "Ce a descoperit el în jurul lui Jupiter?"
+    ],
+    "steps": [
+     "Identifică ideea științifică nouă.",
+     "Explică dovezile aduse prin observație.",
+     "Analizează reacția autorităților.",
+     "Greșeala frecventă: să crezi că Galileo a inventat ideea heliocentrismului; ea venea de la Copernic, iar Galileo a adus dovezi."
+    ],
+    "answers": [
+     "Că Pământul se învârte în jurul Soarelui.",
+     "Nicolaus Copernic.",
+     "A fost ars pe rug în 1600.",
+     "Luneta.",
+     "Sateliți."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l11": {
+   "ro": {
+    "title": "Reforma: Martin Luther și Henric al VIII-lea",
+    "theory": "În secolul al XVI-lea, mulți creștini criticau abuzurile din Biserica Catolică, mai ales vânzarea indulgențelor (iertarea păcatelor pe bani). În 1517, călugărul german Martin Luther a afișat 95 de teze împotriva acestor abuzuri. Așa a început Reforma protestantă. Luther a tradus Biblia în germană. În Anglia, regele Henric al VIII-lea s-a despărțit de papă și a creat Biserica Anglicană, cu regele în frunte. Jean Calvin a răspândit Reforma în Elveția și Franța.",
+    "sample": "Traducerea Bibliei în germană le-a permis oamenilor simpli să o citească singuri.",
+    "worked": "Folosirea limbii poporului în religie a fost o idee a Reformei. Ea a încurajat alfabetizarea și dezvoltarea limbilor naționale.",
+    "exercises": [
+     "Explică ce erau indulgențele.",
+     "Explică ce a făcut Luther în 1517.",
+     "Explică de ce Henric al VIII-lea a rupt legătura cu papa.",
+     "Explică urmările Reformei.",
+     "Compară luteranismul cu anglicanismul."
+    ],
+    "test": [
+     "Ce criticau reformatorii?",
+     "În ce an a afișat Luther tezele?",
+     "În ce limbă a tradus Luther Biblia?",
+     "Ce biserică a creat Henric al VIII-lea?",
+     "Unde a predicat Calvin?"
+    ],
+    "steps": [
+     "Identifică problemele criticate.",
+     "Află ce au propus reformatorii.",
+     "Explică urmările religioase și politice.",
+     "Greșeala frecventă: să crezi că Reforma a fost doar o dispută religioasă; a avut și urmări politice și culturale."
+    ],
+    "answers": [
+     "Abuzurile, mai ales vânzarea indulgențelor.",
+     "În 1517.",
+     "În germană.",
+     "Biserica Anglicană.",
+     "În Elveția și Franța."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l12": {
+   "ro": {
+    "title": "Contrareforma și Inchiziția",
+    "theory": "Biserica Catolică a răspuns Reformei prin Contrareformă. Conciliul de la Trento (1545–1563) a reafirmat învățătura catolică și a îndreptat unele abuzuri. Ordinul iezuiților, înființat de Ignațiu de Loyola, a deschis școli și a trimis misionari în lume. Inchiziția era un tribunal bisericesc care judeca ereziile, adică ideile contrare învățăturii Bisericii; a folosit tortura și pedepse grele. S-a creat și un Index al cărților interzise.",
+    "sample": "Iezuiții au fondat colegii în multe orașe europene, unde se preda și știință.",
+    "worked": "Contrareforma a avut două fețe: represiune prin Inchiziție, dar și educație prin școlile iezuiților.",
+    "exercises": [
+     "Explică ce este Contrareforma.",
+     "Explică rolul Conciliului de la Trento.",
+     "Explică activitatea iezuiților.",
+     "Explică ce era Inchiziția.",
+     "Discută urmările Indexului cărților interzise."
+    ],
+    "test": [
+     "Ce conciliu a reafirmat învățătura catolică?",
+     "Cine a înființat ordinul iezuiților?",
+     "Ce era Inchiziția?",
+     "Ce era o erezie?",
+     "Ce era Indexul?"
+    ],
+    "steps": [
+     "Identifică măsurile luate de Biserica Catolică.",
+     "Separă măsurile de reformă de cele de represiune.",
+     "Explică urmările pentru Europa catolică.",
+     "Greșeala frecventă: să crezi că toate măsurile Contrareformei au fost represive; au existat și școli și reforme interne."
+    ],
+    "answers": [
+     "Conciliul de la Trento.",
+     "Ignațiu de Loyola.",
+     "Un tribunal bisericesc care judeca ereziile.",
+     "O idee contrară învățăturii Bisericii.",
+     "Lista cărților interzise."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l13": {
+   "ro": {
+    "title": "Barocul",
+    "theory": "Barocul este un stil artistic apărut în Italia la sfârșitul secolului al XVI-lea și răspândit în secolul al XVII-lea. Se caracterizează prin mișcare, contraste puternice de lumină și umbră, decor bogat, curbe și emoție. A fost folosit în biserici, palate, pictură, sculptură și muzică. Reprezentanți: sculptorul Gian Lorenzo Bernini, pictorii Caravaggio și Rubens, compozitorii Johann Sebastian Bach și Antonio Vivaldi. În România, influența barocului se vede în unele biserici și palate din Transilvania.",
+    "sample": "Piața Sfântul Petru din Roma, proiectată de Bernini, are o colonadă care pare să îmbrățișeze credincioșii.",
+    "worked": "Arhitectura barocă vrea să impresioneze și să emoționeze. Forma colonadei transmite un mesaj, nu doar o funcție.",
+    "exercises": [
+     "Enumeră trăsăturile barocului.",
+     "Compară Renașterea cu Barocul.",
+     "Descrie o pictură de Caravaggio.",
+     "Ascultă un fragment din Vivaldi și descrie-l.",
+     "Caută o clădire barocă în România."
+    ],
+    "test": [
+     "Unde a apărut barocul?",
+     "Ce trăsături are barocul?",
+     "Cine a proiectat Piața Sfântul Petru?",
+     "Numește un compozitor baroc.",
+     "Numește un pictor baroc."
+    ],
+    "steps": [
+     "Observă forma, lumina și decorul.",
+     "Compară cu stilul Renașterii.",
+     "Explică efectul asupra privitorului.",
+     "Greșeala frecventă: să confunzi echilibrul calm al Renașterii cu mișcarea și dramatismul barocului."
+    ],
+    "answers": [
+     "În Italia.",
+     "Mișcare, contraste, decor bogat, emoție.",
+     "Bernini.",
+     "Bach sau Vivaldi.",
+     "Caravaggio sau Rubens."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l14": {
+   "ro": {
+    "title": "Absolutismul: Soliman Magnificul",
+    "theory": "Absolutismul este o formă de conducere în care monarhul are puterea totală, fără să fie limitat de alte instituții. Imperiul Otoman a atins apogeul în timpul sultanului Soliman Magnificul (1520–1566): a cucerit Belgradul, a învins Ungaria la Mohács (1526) și a asediat Viena (1529). Imperiul se întindea pe trei continente. Soliman a fost numit și „Legiuitorul”, pentru legile sale. Țările Române plăteau tribut Imperiului Otoman.",
+    "sample": "După bătălia de la Mohács, o mare parte a Ungariei a intrat sub stăpânire otomană.",
+    "worked": "Bătălia a schimbat harta Europei Centrale. Transilvania a devenit principat autonom sub suzeranitate otomană.",
+    "exercises": [
+     "Explică ce este absolutismul.",
+     "Urmărește pe hartă cuceririle lui Soliman.",
+     "Explică urmările bătăliei de la Mohács.",
+     "Explică de ce Soliman a fost numit „Legiuitorul”.",
+     "Explică relația Țărilor Române cu Imperiul Otoman."
+    ],
+    "test": [
+     "Ce este absolutismul?",
+     "Când a domnit Soliman Magnificul?",
+     "Unde a învins Ungaria în 1526?",
+     "Ce oraș a asediat în 1529?",
+     "Cum mai era numit Soliman?"
+    ],
+    "steps": [
+     "Identifică puterile monarhului.",
+     "Urmărește cuceririle și urmările lor.",
+     "Leagă evenimentele de istoria românilor.",
+     "Greșeala frecventă: să crezi că Țările Române au fost provincii otomane; ele au avut autonomie, dar plăteau tribut."
+    ],
+    "answers": [
+     "Conducerea în care monarhul are puterea totală.",
+     "În 1520–1566.",
+     "La Mohács.",
+     "Viena.",
+     "„Legiuitorul”."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l15": {
+   "ro": {
+    "title": "Ludovic al XIV-lea și Palatul de la Versailles",
+    "theory": "Ludovic al XIV-lea a domnit în Franța între 1643 și 1715, numit „Regele Soare”. El a concentrat toată puterea în mâinile sale; i se atribuie fraza „Statul sunt eu”. A construit Palatul de la Versailles, unde i-a adus pe nobili, ca să-i controleze. Curtea avea o etichetă strictă. Franța a devenit cea mai puternică țară din Europa, dar războaiele și luxul au costat mult.",
+    "sample": "Sala Oglinzilor de la Versailles are 357 de oglinzi.",
+    "worked": "Palatul era un instrument al puterii: luxul impresiona ambasadorii și arăta măreția regelui.",
+    "exercises": [
+     "Explică de ce Ludovic al XIV-lea era „Regele Soare”.",
+     "Explică rolul Palatului de la Versailles.",
+     "Explică de ce i-a adus pe nobili la curte.",
+     "Enumeră urmările domniei pentru Franța.",
+     "Compară absolutismul cu democrația."
+    ],
+    "test": [
+     "Când a domnit Ludovic al XIV-lea?",
+     "Cum era numit?",
+     "Ce palat a construit?",
+     "Ce frază i se atribuie?",
+     "De ce i-a adus pe nobili la curte?"
+    ],
+    "steps": [
+     "Identifică formele de manifestare a puterii.",
+     "Explică rolul palatului și al curții.",
+     "Evaluează urmările domniei.",
+     "Greșeala frecventă: să crezi că luxul de la Versailles era doar plăcere; era și un instrument politic."
+    ],
+    "answers": [
+     "În 1643–1715.",
+     "„Regele Soare”.",
+     "Palatul de la Versailles.",
+     "„Statul sunt eu.”",
+     "Pentru a-i controla."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l16": {
+   "ro": {
+    "title": "Petru cel Mare",
+    "theory": "Petru cel Mare, țar al Rusiei (1682–1725), a vrut să modernizeze țara după modelul Europei Occidentale. A călătorit incognito în Olanda și Anglia, unde a învățat construcția de corăbii. A reorganizat armata, a creat o flotă, a construit noua capitală, Sankt Petersburg (1703), și a obligat nobilii să-și taie bărbile și să poarte haine occidentale. A făcut din Rusia un imperiu. În 1711, s-a aliat cu Dimitrie Cantemir, domnul Moldovei, împotriva turcilor.",
+    "sample": "Petru a impus o taxă pe barbă celor care refuzau să se radă.",
+    "worked": "Măsura pare ciudată, dar avea un scop: schimbarea obiceiurilor pentru a apropia Rusia de Europa Occidentală.",
+    "exercises": [
+     "Explică reformele lui Petru cel Mare.",
+     "Explică de ce a construit Sankt Petersburg.",
+     "Explică alianța cu Dimitrie Cantemir.",
+     "Discută modernizarea impusă cu forța.",
+     "Compară pe Petru cel Mare cu Ludovic al XIV-lea."
+    ],
+    "test": [
+     "Ce țară a condus Petru cel Mare?",
+     "Ce oraș a construit?",
+     "În ce an?",
+     "Ce a învățat în Occident?",
+     "Cu ce domn român s-a aliat?"
+    ],
+    "steps": [
+     "Identifică reformele.",
+     "Explică scopul lor: apropierea de Occident.",
+     "Evaluează urmările pentru Rusia.",
+     "Greșeala frecventă: să crezi că modernizarea lui Petru a fost acceptată de toți; mulți s-au opus."
+    ],
+    "answers": [
+     "Rusia.",
+     "Sankt Petersburg.",
+     "În 1703.",
+     "Construcția de corăbii.",
+     "Dimitrie Cantemir."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l17": {
+   "ro": {
+    "title": "Iluminismul: Montesquieu și Rousseau",
+    "theory": "Iluminismul (secolul al XVIII-lea) a fost un curent de idei care punea accent pe rațiune, cunoaștere, libertate și drepturi. Montesquieu a propus separarea puterilor în stat: puterea legislativă (face legile), executivă (le aplică) și judecătorească (judecă), ca nicio persoană să nu aibă toată puterea. Jean-Jacques Rousseau a scris Contractul social, susținând că puterea vine de la popor. Voltaire a luptat pentru toleranță, iar Diderot a coordonat Enciclopedia.",
+    "sample": "Constituțiile de azi, inclusiv cea a României, separă puterile statului.",
+    "worked": "Ideea lui Montesquieu a devenit o regulă a statelor democratice. Iluminismul a pregătit lumea modernă.",
+    "exercises": [
+     "Explică separarea puterilor în stat.",
+     "Explică ideea suveranității poporului.",
+     "Explică ce era Enciclopedia.",
+     "Găsește separarea puterilor în Constituția României.",
+     "Explică de ce Iluminismul se numește așa."
+    ],
+    "test": [
+     "Ce a propus Montesquieu?",
+     "Care sunt cele trei puteri?",
+     "Ce carte a scris Rousseau?",
+     "De unde vine puterea, după Rousseau?",
+     "Cine a coordonat Enciclopedia?"
+    ],
+    "steps": [
+     "Identifică ideea gânditorului.",
+     "Explică ce problemă voia să rezolve.",
+     "Caută urmele ei în statele de azi.",
+     "Greșeala frecventă: să confunzi puterea legislativă (face legile) cu cea executivă (le aplică)."
+    ],
+    "answers": [
+     "Separarea puterilor în stat.",
+     "Legislativă, executivă și judecătorească.",
+     "Contractul social.",
+     "De la popor.",
+     "Diderot."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l18": {
+   "ro": {
+    "title": "Opinia publică: cafenele, saloane și cluburi",
+    "theory": "În secolul al XVIII-lea a apărut opinia publică: oamenii discutau despre politică, științe și cărți. Locurile de întâlnire erau cafenelele (mai ales la Londra și Paris), saloanele găzduite de doamne educate, cluburile politice și societățile de lectură. Ziarele și revistele se înmulțeau. Așa s-au răspândit ideile iluministe și au început oamenii să se implice în viața publică.",
+    "sample": "În cafenelele din Londra se citeau ziare și se discutau știrile zilei.",
+    "worked": "Cafeneaua era un spațiu în care oameni de condiții diferite discutau liber. Ea a contribuit la nașterea opiniei publice.",
+    "exercises": [
+     "Explică ce este opinia publică.",
+     "Descrie un salon literar.",
+     "Explică rolul ziarelor.",
+     "Compară cafeneaua secolului al XVIII-lea cu rețelele de socializare de azi.",
+     "Explică legătura dintre opinia publică și Iluminism."
+    ],
+    "test": [
+     "Ce este opinia publică?",
+     "Unde se întâlneau oamenii să discute?",
+     "Cine găzduia saloanele?",
+     "Ce publicații s-au înmulțit?",
+     "Ce idei se răspândeau astfel?"
+    ],
+    "steps": [
+     "Identifică locurile și mijloacele de discuție.",
+     "Explică cine participa.",
+     "Leagă opinia publică de schimbările politice.",
+     "Greșeala frecventă: să crezi că toți oamenii participau la viața publică; mulți erau analfabeți sau excluși."
+    ],
+    "answers": [
+     "Părerea comună a oamenilor despre problemele publice.",
+     "În cafenele, saloane și cluburi.",
+     "Doamne educate.",
+     "Ziarele și revistele.",
+     "Ideile iluministe."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l19": {
+   "ro": {
+    "title": "Viața cotidiană în secolul al XVIII-lea",
+    "theory": "În secolul al XVIII-lea, majoritatea oamenilor trăiau la sat și lucrau pământul. Orașele creșteau, dar erau aglomerate și murdare. Igiena era slabă, iar bolile (ciuma, variola) făceau multe victime; în 1796, Edward Jenner a creat vaccinul împotriva variolei. Cafeaua, ceaiul, ciocolata și zahărul au devenit tot mai răspândite. Moda era importantă pentru nobili. Școlile se înmulțeau încet.",
+    "sample": "Vaccinul lui Jenner a pornit de la observația că mulgătoarele care avuseseră o boală ușoară a vacilor nu se îmbolnăveau de variolă.",
+    "worked": "Observația atentă a dus la o descoperire care a salvat milioane de vieți. Variola a fost eradicată în secolul XX.",
+    "exercises": [
+     "Compară viața de la sat cu cea de la oraș în secolul al XVIII-lea.",
+     "Explică descoperirea lui Jenner.",
+     "Enumeră produsele noi intrate în alimentație.",
+     "Descrie igiena orașelor vremii.",
+     "Compară viața cotidiană de atunci cu cea de azi."
+    ],
+    "test": [
+     "Unde trăiau majoritatea oamenilor?",
+     "Ce boli făceau multe victime?",
+     "Cine a creat vaccinul împotriva variolei?",
+     "În ce an?",
+     "Ce băuturi noi au devenit răspândite?"
+    ],
+    "steps": [
+     "Alege un aspect: locuință, hrană, sănătate.",
+     "Descrie cum era atunci.",
+     "Compară cu prezentul.",
+     "Greșeala frecventă: să crezi că viața tuturor era ca a nobililor de la curte; majoritatea erau țărani săraci."
+    ],
+    "answers": [
+     "La sat.",
+     "Ciuma și variola.",
+     "Edward Jenner.",
+     "În 1796.",
+     "Cafeaua, ceaiul și ciocolata."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l20": {
+   "ro": {
+    "title": "Revoluția Glorioasă",
+    "theory": "În Anglia, conflictele dintre rege și Parlament au dus în secolul al XVII-lea la un război civil. În 1688, regele Iacob al II-lea a fost înlăturat fără vărsare de sânge, iar pe tron au venit Wilhelm de Orania și Maria. Acest eveniment se numește Revoluția Glorioasă. În 1689, ei au acceptat Declarația drepturilor (Bill of Rights), care limita puterea regelui: fără Parlament, regele nu putea impune taxe sau ține armată. Anglia a devenit monarhie constituțională.",
+    "sample": "Bill of Rights cerea ca alegerile pentru Parlament să fie libere.",
+    "worked": "Documentul a pus regele sub lege și a întărit Parlamentul. Monarhia constituțională este opusul absolutismului.",
+    "exercises": [
+     "Explică de ce revoluția a fost numită „glorioasă”.",
+     "Explică prevederile Bill of Rights.",
+     "Compară monarhia constituțională cu absolutismul.",
+     "Ordonează: războiul civil, 1688, 1689.",
+     "Explică rolul Parlamentului englez."
+    ],
+    "test": [
+     "Când a avut loc Revoluția Glorioasă?",
+     "Ce rege a fost înlăturat?",
+     "Cine a urcat pe tron?",
+     "Ce document a fost adoptat în 1689?",
+     "Ce formă de conducere a devenit Anglia?"
+    ],
+    "steps": [
+     "Identifică conflictul dintre rege și Parlament.",
+     "Află cum s-a rezolvat.",
+     "Explică urmările pentru puterea regelui.",
+     "Greșeala frecventă: să crezi că Anglia a renunțat la rege; a păstrat monarhia, dar limitată de lege."
+    ],
+    "answers": [
+     "În 1688.",
+     "Iacob al II-lea.",
+     "Wilhelm de Orania și Maria.",
+     "Bill of Rights.",
+     "Monarhie constituțională."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l21": {
+   "ro": {
+    "title": "Constituirea SUA: Declarația de independență și Constituția",
+    "theory": "Cele 13 colonii engleze din America de Nord s-au revoltat împotriva taxelor impuse fără consimțământul lor. La 4 iulie 1776 au adoptat Declarația de independență, redactată în principal de Thomas Jefferson, care afirma că toți oamenii au dreptul la viață, libertate și căutarea fericirii. După război, George Washington a devenit primul președinte. Constituția SUA (1787) a creat un stat federal, cu separarea puterilor; este cea mai veche constituție scrisă încă în vigoare.",
+    "sample": "Sloganul coloniștilor era: „Nicio taxă fără reprezentare.”",
+    "worked": "Coloniștii cereau ca taxele să fie votate de reprezentanții lor. Ideea legăturii dintre taxe și vot este de bază în democrație.",
+    "exercises": [
+     "Explică de ce s-au revoltat coloniile.",
+     "Explică ideile Declarației de independență.",
+     "Explică ce este un stat federal.",
+     "Găsește separarea puterilor în Constituția SUA.",
+     "Analizează limitele epocii: sclavia a continuat."
+    ],
+    "test": [
+     "Câte colonii s-au revoltat?",
+     "Când a fost adoptată Declarația de independență?",
+     "Cine a redactat-o în principal?",
+     "Cine a fost primul președinte al SUA?",
+     "Când a fost adoptată Constituția SUA?"
+    ],
+    "steps": [
+     "Identifică cauzele revoltei.",
+     "Explică ideile documentelor.",
+     "Evaluează urmările și limitele.",
+     "Greșeala frecventă: să crezi că Declarația a eliberat imediat pe toți oamenii; sclavia a rămas până în 1865."
+    ],
+    "answers": [
+     "13.",
+     "La 4 iulie 1776.",
+     "Thomas Jefferson.",
+     "George Washington.",
+     "În 1787."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l22": {
+   "ro": {
+    "title": "Revoluția franceză: de la supus la cetățean",
+    "theory": "În 1789, Franța avea datorii mari, iar majoritatea populației (starea a treia) plătea taxe, în timp ce clerul și nobilimea aveau privilegii. Pe 14 iulie 1789, parizienii au cucerit Bastilia, simbol al absolutismului. Adunarea Națională a adoptat Declarația drepturilor omului și ale cetățeanului (august 1789): oamenii se nasc liberi și egali în drepturi. Monarhia a fost înlocuită cu republica (1792), dar revoluția a trecut și printr-o perioadă de teroare.",
+    "sample": "Articolul 1 al Declarației spune că oamenii se nasc și rămân liberi și egali în drepturi.",
+    "worked": "Ideea egalității în drepturi a desființat privilegiile. Oamenii nu mai erau supuși ai regelui, ci cetățeni cu drepturi.",
+    "exercises": [
+     "Explică cauzele revoluției franceze.",
+     "Explică importanța cuceririi Bastiliei.",
+     "Explică principiile Declarației drepturilor omului.",
+     "Explică diferența dintre supus și cetățean.",
+     "Analizează perioada Terorii."
+    ],
+    "test": [
+     "Ce eveniment a avut loc pe 14 iulie 1789?",
+     "Cine plătea majoritatea taxelor?",
+     "Ce document a fost adoptat în august 1789?",
+     "Ce spune primul articol?",
+     "Când a devenit Franța republică?"
+    ],
+    "steps": [
+     "Identifică problemele societății franceze.",
+     "Ordonează evenimentele revoluției.",
+     "Explică schimbările aduse.",
+     "Greșeala frecventă: să crezi că revoluția a fost doar pașnică; a avut și violențe, ca în perioada Terorii."
+    ],
+    "answers": [
+     "Cucerirea Bastiliei.",
+     "Starea a treia.",
+     "Declarația drepturilor omului și ale cetățeanului.",
+     "Oamenii se nasc liberi și egali în drepturi.",
+     "În 1792."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l23": {
+   "ro": {
+    "title": "Napoleon I și răspândirea ideilor revoluției",
+    "theory": "Napoleon Bonaparte, general talentat, a preluat puterea în Franța în 1799 și s-a încoronat împărat în 1804. A cucerit o mare parte a Europei. Codul civil (1804) a stabilit egalitatea în fața legii și dreptul de proprietate; a fost preluat de multe țări. Campania din Rusia (1812) a fost un dezastru. Napoleon a fost învins definitiv la Waterloo (1815) și exilat. Prin cuceririle lui, ideile revoluției franceze s-au răspândit în Europa.",
+    "sample": "Codul civil napoleonian a influențat și Codul civil român din 1864.",
+    "worked": "Legile lui Napoleon au trăit mai mult decât imperiul său. Ele au influențat dreptul în multe țări, inclusiv România.",
+    "exercises": [
+     "Ordonează: 1799, 1804, 1812, 1815.",
+     "Explică importanța Codului civil.",
+     "Explică de ce campania din Rusia a eșuat.",
+     "Explică cum s-au răspândit ideile revoluției.",
+     "Evaluează personalitatea lui Napoleon."
+    ],
+    "test": [
+     "Când s-a încoronat Napoleon împărat?",
+     "Ce cod de legi a dat?",
+     "Unde a eșuat în 1812?",
+     "Unde a fost învins definitiv?",
+     "În ce an?"
+    ],
+    "steps": [
+     "Ordonează etapele carierei lui Napoleon.",
+     "Identifică realizările și eșecurile.",
+     "Explică urmările pentru Europa.",
+     "Greșeala frecventă: să-l vezi pe Napoleon doar ca pe un cuceritor; legile lui au avut urmări de durată."
+    ],
+    "answers": [
+     "În 1804.",
+     "Codul civil.",
+     "În Rusia.",
+     "La Waterloo.",
+     "În 1815."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l24": {
+   "ro": {
+    "title": "Revoluția industrială și viața oamenilor",
+    "theory": "Revoluția industrială a început în Anglia, în a doua jumătate a secolului al XVIII-lea. Mașina cu abur perfecționată de James Watt a pus în mișcare fabrici, locomotive și vapoare. Munca manuală a fost înlocuită de mașini, iar producția a crescut mult. Oamenii s-au mutat de la sat la oraș, în cartiere aglomerate. Muncitorii, inclusiv copiii, lucrau multe ore în condiții grele; au apărut sindicatele care cereau drepturi.",
+    "sample": "În fabricile de la începutul secolului al XIX-lea, copiii lucrau și 12 ore pe zi.",
+    "worked": "Condițiile grele au dus la apariția legilor care au limitat munca copiilor. Progresul tehnic a adus și probleme sociale.",
+    "exercises": [
+     "Explică de ce revoluția industrială a început în Anglia.",
+     "Explică rolul mașinii cu abur.",
+     "Descrie condițiile de muncă din fabrici.",
+     "Explică apariția sindicatelor.",
+     "Compară munca de atunci cu cea de azi."
+    ],
+    "test": [
+     "Unde a început revoluția industrială?",
+     "Cine a perfecționat mașina cu abur?",
+     "Ce a înlocuit munca manuală?",
+     "Unde s-au mutat oamenii?",
+     "Ce organizații au apărut pentru drepturile muncitorilor?"
+    ],
+    "steps": [
+     "Identifică invențiile importante.",
+     "Explică schimbările economice.",
+     "Analizează urmările sociale.",
+     "Greșeala frecventă: să vezi doar progresul tehnic, uitând condițiile grele ale muncitorilor."
+    ],
+    "answers": [
+     "În Anglia.",
+     "James Watt.",
+     "Mașinile.",
+     "La oraș.",
+     "Sindicatele."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l25": {
+   "ro": {
+    "title": "Statele moderne: revoluție și emancipare națională",
+    "theory": "În secolul al XIX-lea, ideea națională s-a răspândit: popoarele care aveau aceeași limbă, cultură și istorie doreau să trăiască într-un stat propriu. Grecia și-a câștigat independența față de Imperiul Otoman (1830). Italia s-a unificat (1861), cu contribuția lui Cavour și Garibaldi, iar Germania s-a unificat în 1871, sub conducerea lui Otto von Bismarck, cancelarul Prusiei.",
+    "sample": "Bismarck spunea că marile probleme se rezolvă „prin fier și sânge”.",
+    "worked": "Fraza arată că unificarea Germaniei s-a făcut prin războaie. Ideea națională a putut fi realizată în moduri diferite.",
+    "exercises": [
+     "Explică ce este o națiune.",
+     "Explică cum s-a unificat Italia.",
+     "Explică cum s-a unificat Germania.",
+     "Ordonează: 1830, 1861, 1871.",
+     "Compară unificarea Italiei cu cea a Germaniei."
+    ],
+    "test": [
+     "Ce este ideea națională?",
+     "Când și-a câștigat Grecia independența?",
+     "Cine a contribuit la unificarea Italiei?",
+     "Când s-a unificat Germania?",
+     "Cine a condus unificarea Germaniei?"
+    ],
+    "steps": [
+     "Identifică dorința națională.",
+     "Află cum s-a realizat unificarea.",
+     "Compară cazurile Italiei și Germaniei.",
+     "Greșeala frecventă: să crezi că Italia și Germania au existat dintotdeauna ca state unite; s-au unificat în secolul al XIX-lea."
+    ],
+    "answers": [
+     "Dorința unei națiuni de a avea stat propriu.",
+     "În 1830.",
+     "Cavour și Garibaldi.",
+     "În 1871.",
+     "Otto von Bismarck."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l26": {
+   "ro": {
+    "title": "Revoluțiile de la 1848 în Europa",
+    "theory": "În 1848, revoluții au izbucnit în multe țări europene: Franța, statele germane și italiene, Imperiul Austriac, Țările Române. Revoluționarii cereau libertăți (de exprimare, de presă), constituții, drepturi pentru țărani, egalitate și unitate națională. Multe revoluții au fost înfrânte, dar ideile lor s-au realizat mai târziu. Anul 1848 a fost numit „primăvara popoarelor”.",
+    "sample": "În 1848, Franța a devenit republică și a introdus votul universal pentru bărbați.",
+    "worked": "Unele revendicări au fost câștigate imediat, altele mai târziu. Ideile revoluției au schimbat Europa pe termen lung.",
+    "exercises": [
+     "Enumeră revendicările revoluționarilor de la 1848.",
+     "Arată pe hartă țările cuprinse de revoluție.",
+     "Explică de ce 1848 a fost numit „primăvara popoarelor”.",
+     "Explică de ce multe revoluții au fost înfrânte.",
+     "Explică urmările pe termen lung."
+    ],
+    "test": [
+     "În ce an a avut loc „primăvara popoarelor”?",
+     "Ce cereau revoluționarii?",
+     "Ce a devenit Franța în 1848?",
+     "Au reușit toate revoluțiile?",
+     "Au fost și Țările Române cuprinse de revoluție?"
+    ],
+    "steps": [
+     "Identifică țările și revendicările.",
+     "Explică rezultatul imediat.",
+     "Explică urmările pe termen lung.",
+     "Greșeala frecventă: să crezi că revoluțiile înfrânte nu au avut importanță; ideile lor s-au realizat mai târziu."
+    ],
+    "answers": [
+     "În 1848.",
+     "Libertăți, constituții, drepturi, unitate națională.",
+     "Republică.",
+     "Nu, multe au fost înfrânte.",
+     "Da."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l27": {
+   "ro": {
+    "title": "Românii și modernitatea",
+    "theory": "În secolul al XIX-lea, românii s-au modernizat sub influența Europei Occidentale. Tinerii boieri au studiat la Paris și în alte orașe și au adus idei noi. S-au înființat școli în limba română, teatre, ziare; alfabetul chirilic a fost înlocuit cu cel latin. Revoluția de la 1848 a cerut libertăți și unire. Unirea Principatelor (1859), sub Alexandru Ioan Cuza, a creat statul român modern; Independența (1877) și Marea Unire (1918) au completat acest proces.",
+    "sample": "Ziarele românești din secolul al XIX-lea publicau articole despre unire și drepturi.",
+    "worked": "Presa a răspândit ideile moderne și a pregătit societatea pentru unire. Modernizarea a fost și culturală, nu doar politică.",
+    "exercises": [
+     "Explică rolul tinerilor care au studiat în Occident.",
+     "Enumeră instituțiile moderne create în secolul al XIX-lea.",
+     "Explică importanța trecerii la alfabetul latin.",
+     "Ordonează: 1848, 1859, 1877.",
+     "Explică ce înseamnă modernizare."
+    ],
+    "test": [
+     "Unde au studiat mulți tineri români?",
+     "Ce alfabet au adoptat românii?",
+     "Ce cereau revoluționarii români la 1848?",
+     "Ce s-a întâmplat în 1859?",
+     "Ce s-a câștigat în 1877?"
+    ],
+    "steps": [
+     "Identifică influențele occidentale.",
+     "Află ce instituții noi au apărut.",
+     "Leagă modernizarea de crearea statului.",
+     "Greșeala frecventă: să crezi că modernizarea s-a făcut fără opoziție; mulți boieri conservatori s-au opus."
+    ],
+    "answers": [
+     "La Paris și în alte orașe occidentale.",
+     "Alfabetul latin.",
+     "Libertăți și unire.",
+     "Unirea Principatelor.",
+     "Independența."
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l28": {
+   "ro": {
+    "title": "Epoca victoriană și La Belle Époque",
+    "theory": "Epoca victoriană (1837–1901) poartă numele reginei Victoria a Marii Britanii. Marea Britanie avea cel mai mare imperiu colonial și o industrie puternică. La sfârșitul secolului al XIX-lea și începutul secolului XX, perioada numită La Belle Époque („Epoca frumoasă”) a adus pace în Europa, progrese tehnice (electricitatea, telefonul, automobilul, cinematograful) și o viață culturală bogată, mai ales la Paris. Turnul Eiffel a fost construit pentru Expoziția Universală din 1889.",
+    "sample": "Frații Lumière au prezentat primul spectacol public de cinema la Paris, în 1895.",
+    "worked": "Invențiile au schimbat felul în care oamenii se distrau. La Belle Époque a fost o epocă a încrederii în progres, până la Primul Război Mondial.",
+    "exercises": [
+     "Explică de unde vine numele epocii victoriene.",
+     "Enumeră invențiile din La Belle Époque.",
+     "Descrie Turnul Eiffel și motivul construirii lui.",
+     "Explică de ce perioada a fost numită „Epoca frumoasă”.",
+     "Explică ce a pus capăt acestei perioade."
+    ],
+    "test": [
+     "Cine a fost regina Victoria?",
+     "Ce țară avea cel mai mare imperiu colonial?",
+     "Ce înseamnă La Belle Époque?",
+     "Când a fost construit Turnul Eiffel?",
+     "Cine a prezentat primul spectacol de cinema?"
+    ],
+    "steps": [
+     "Identifică perioada și țara.",
+     "Enumeră schimbările tehnice și culturale.",
+     "Explică limitele: nu toți au trăit bine.",
+     "Greșeala frecventă: să crezi că în La Belle Époque toți oamenii trăiau bine; muncitorii și coloniile aveau o viață grea."
+    ],
+    "answers": [
+     "Regina Marii Britanii între 1837 și 1901.",
+     "Marea Britanie.",
+     "„Epoca frumoasă”.",
+     "În 1889.",
+     "Frații Lumière."
+    ]
+   }
+  }
+ }
+}
