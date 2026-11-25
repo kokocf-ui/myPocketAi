@@ -690,7 +690,10 @@ function eduCountryFold(value){return String(value||'').normalize('NFD').replace
 const EDU_EUROPE_COUNTRY_CODES=new Set(EDU_EUROPE_COUNTRY_LIST);
 function eduCountryOptions(){
  const all=typeof HG_COUNTRY_PICKER_DATA!=='undefined'?HG_COUNTRY_PICKER_DATA:[];
- const seen=new Set(),options=all.filter(x=>x&&EDU_EUROPE_COUNTRY_CODES.has(x.id)&&!seen.has(x.id)&&seen.add(x.id));
+ // Vatican City has no school system of its own (pupils follow the Italian
+ // programme); the user asked to remove it from Education entirely.
+ const hidden=new Set(['VA']);
+ const seen=new Set(hidden),options=all.filter(x=>x&&EDU_EUROPE_COUNTRY_CODES.has(x.id)&&!seen.has(x.id)&&seen.add(x.id));
  // The common History/Geography country catalogue can omit a legitimate
  // European education jurisdiction (Kosovo was missing). Never silently
  // drop an approved system from the country-first Education selection.

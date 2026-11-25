@@ -185,28 +185,16 @@ try{
  await backToGrades();await choice('^2$');
  await waitFor("window.__literatureAcceptance.snapshot().stage==='branches'",'Year without pack must open directly');
  assert.equal(await js("!!document.querySelector('#moduleContent .lit-instruction-language')"),false);
- // 6. Vatican City follows the Italian school programme (no separate track).
+ // 6. Vatican City is not part of Education (no school system of its own).
  for(let i=0;i<8&&(await litStage()).stage!=='levels';i++){await js("document.querySelector('#view-module .lit-back')?.click()");await sleep(150)}
  assert.equal((await litStage()).stage,'levels');
  await js("document.querySelector('#view-module .lit-back').click()");await sleep(150);
- const vatican=await js("(()=>{const i=document.getElementById('eduCountryInput');if(!i)return false;i.value='Vatican';i.dispatchEvent(new Event('input',{bubbles:true}));const b=[...document.querySelectorAll('.edu-country-matches button')].find(x=>/vatic/i.test(x.textContent));if(!b)return false;b.click();return true})()");
- assert.ok(vatican,'Vatican City must be selectable');
- await tap(['Continuă','Continue']);
- await waitFor("window.__literatureAcceptance.snapshot().stage==='levels'",'Italian programme did not load for Vatican City');
- const host=await js("({journey:window.__literatureAcceptance.snapshot(),note:document.querySelector('#moduleContent .lit-curriculum-host')?.textContent||''})");
- assert.equal(host.journey.country,'IT');assert.equal(host.journey.curriculumOf,'VA');
- assert.match(host.note,/programa școlii italiene/);
- await choice('^Primar|^Primary');
- assert.deepEqual(await cards(),['P1','P2','P3','P4','P5'],'Vatican City must show the Italian primary years');
- await choice('^P1$');
- await waitFor("window.__literatureAcceptance.snapshot().stage==='branches'",'Italian P1 pack did not open');
- assert.equal(served.at(-1),'IT/it-p1.json');
- await choice('Programa clasei|Grade syllabus');await choice('^1\\.');
- view=await openTheory('it');
- assert.ok(view.reader.length>200&&!/NU lecția completă specifică/.test(view.reader),'Italian national lesson expected: '+view.reader.slice(0,200));
- await closeReader();
+ const vatican=await js("(()=>{const i=document.getElementById('eduCountryInput');if(!i)return null;const found=[];for(const q of ['Vatican','Vatic','Holy See','Santa Sede']){i.value=q;i.dispatchEvent(new Event('input',{bubbles:true}));found.push(...[...document.querySelectorAll('.edu-country-matches button')].map(x=>x.textContent))}i.value='Ital';i.dispatchEvent(new Event('input',{bubbles:true}));return {found,italy:[...document.querySelectorAll('.edu-country-matches button')].map(x=>x.textContent)}})()");
+ assert.ok(vatican,'Country picker missing');
+ assert.deepEqual(vatican.found.filter(x=>/vatic|holy see|santa sede/i.test(x)),[],'Vatican City must not be offered in Education');
+ assert.ok(vatican.italy.some(x=>/ital/i.test(x)),'Picker must still work (Italy)');
  assert.deepEqual(exceptions,[],'No uncaught browser exceptions');
- console.log('PASS real Chromium mobile 390x844: BE year 1 language of instruction (nl/fr/de), national lesson flow, offline cache reuse, original-language fallback, uncached-language retry, Vatican City → Italian programme');
+ console.log('PASS real Chromium mobile 390x844: BE year 1 language of instruction (nl/fr/de), national lesson flow, offline cache reuse, original-language fallback, uncached-language retry, no Vatican City in Education');
 }finally{
  try{ws?.close()}catch{}
  // Wait for Chromium to exit before removing its profile (avoids ENOTEMPTY).

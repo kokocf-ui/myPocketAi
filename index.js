@@ -15308,7 +15308,7 @@ const LIT_COUNTRIES=[
  ['FI','Finlanda','Finland','fi',null],['SE','Suedia','Sweden','sv',null],
  ['NO','Norvegia','Norway','no',null],['DK','Danemarca','Denmark','da',null],
  ['IS','Islanda','Iceland','is',null],['LU','Luxemburg','Luxembourg','fr',null],
- ['MT','Malta','Malta','mt',null],['TR','Turcia','Türkiye','tr','https://tymm.meb.gov.tr/ogretim-programlari/ders/turk-dili-ve-edebiyati-dersi'],['RU','Rusia (partea europeană)','European Russia','ru',null],['BY','Belarus','Belarus','be',null],['XK','Kosovo','Kosovo','sq',null],['AD','Andorra','Andorra','ca',null],['LI','Liechtenstein','Liechtenstein','de',null],['MC','Monaco','Monaco','fr',null],['SM','San Marino','San Marino','it',null],['VA','Vatican','Vatican City','it',null],['OTHER-EU','Altă țară europeană','Other European country','',null]
+ ['MT','Malta','Malta','mt',null],['TR','Turcia','Türkiye','tr','https://tymm.meb.gov.tr/ogretim-programlari/ders/turk-dili-ve-edebiyati-dersi'],['RU','Rusia (partea europeană)','European Russia','ru',null],['BY','Belarus','Belarus','be',null],['XK','Kosovo','Kosovo','sq',null],['AD','Andorra','Andorra','ca',null],['LI','Liechtenstein','Liechtenstein','de',null],['MC','Monaco','Monaco','fr',null],['SM','San Marino','San Marino','it',null],['OTHER-EU','Altă țară europeană','Other European country','',null]
 ];
 const LIT_LANGUAGES=[['ro','Română','Romanian'],['en','Engleză','English'],['fr','Franceză','French'],['de','Germană','German'],['it','Italiană','Italian'],['es','Spaniolă','Spanish'],['pt','Portugheză','Portuguese'],['nl','Neerlandeză','Dutch'],['pl','Poloneză','Polish'],['ru','Rusă','Russian'],['la','Latină','Latin'],['el','Greacă','Greek'],['cy','Galeză','Welsh'],['ga','Irlandeză','Irish'],['fi','Finlandeză','Finnish'],['sv','Suedeză','Swedish'],['no','Norvegiană','Norwegian'],['da','Daneză','Danish'],['is','Islandeză','Icelandic'],['cs','Cehă','Czech'],['sk','Slovacă','Slovak'],['hu','Maghiară','Hungarian'],['bg','Bulgară','Bulgarian'],['hr','Croată','Croatian'],['sl','Slovenă','Slovenian'],['sr','Sârbă','Serbian'],['bs','Bosniacă','Bosnian'],['mk','Macedoneană','Macedonian'],['sq','Albaneză','Albanian'],['uk','Ucraineană','Ukrainian'],['lt','Lituaniană','Lithuanian'],['lv','Letonă','Latvian'],['et','Estonă','Estonian'],['tr','Turcă','Turkish'],['be','Belarusă','Belarusian'],['ca','Catalană','Catalan'],['mt','Malteză','Maltese']];
 const LIT_BRANCHES=[{id:'program',ro:'📑 Programa clasei și capitole',en:'📑 Grade syllabus and chapters',noteRo:'Materii organizate după anul selectat',noteEn:'Lessons by school year'},{id:'grammar',ro:'📚 Gramatică și fonetică',en:'📚 Grammar and phonetics',noteRo:'Reguli, exemple și teste',noteEn:'Rules, examples and tests'},{id:'vocabulary',ro:'🔤 Vocabular și dicționar',en:'🔤 Vocabulary and dictionary',noteRo:'Sensuri, sinonime și definiții',noteEn:'Meanings, synonyms and definitions'},{id:'analysis',ro:'🔎 Analiză lingvistică',en:'🔎 Linguistic analysis',noteRo:'Cuvinte, propoziții și texte',noteEn:'Words, sentences and passages'},{id:'literature',ro:'📖 Literatură',en:'📖 Literature',noteRo:'Studiază, rezumat, eseu și analiză',noteEn:'Study, summary, essay and analysis'},{id:'writing',ro:'✍️ Comunicare și redactare',en:'✍️ Communication and writing',noteRo:'Texte și compuneri',noteEn:'Texts and compositions'},{id:'assessment',ro:'🎓 Pregătire evaluări',en:'🎓 Assessment practice',noteRo:'Recapitulări și teste',noteEn:'Revision and tests'}];
@@ -15322,16 +15322,6 @@ const LIT_TOPICS={
  writing:[['essay','Eseu argumentativ sau literar','Argumentative or literary essay'],['composition','Compunere creativă','Creative composition'],['commentary','Comentariu și analiză de text','Commentary and close reading'],['summary','Rezumat și sinteză','Summary and synthesis'],['review','Recenzie și prezentare','Review and presentation'],['work-summary','Rezumat și sinteză de operă','Work summary and synthesis'],['research','Lucrare academică','Academic paper']]
 };
 let litJourney={stage:'countries',country:'RO',language:'ro',level:'beginner',grade:'',track:'TC',region:'',branch:'program',topic:'',targetSchool:'',busy:false};
-// Jurisdictions without their own school curriculum follow another country's
-// programme. Vatican City pupils attend schools following the Italian
-// programme; no separate (e.g. theological) track is modelled.
-const LIT_CURRICULUM_HOST={VA:'IT'};
-function litApplyCurriculumHost(code){
- const chosen=String(code||'');
- const host=LIT_CURRICULUM_HOST[chosen];
- litJourney.curriculumOf=host?chosen:'';
- return host||chosen;
-}
 function litStartCountryProfile(){
  const country=litJourney.country;
  litJourney.stage='loading-profile';
@@ -15575,18 +15565,13 @@ function litOpen(stage){
    }
   }
  };
- if(stage==='countries'){list(LIT_COUNTRIES.map(x=>({id:x[0],ro:x[1],en:x[2]})),c=>{litJourney.country=litApplyCurriculumHost(c.id);const selected=LIT_COUNTRIES.find(x=>x[0]===litJourney.country);litJourney.language=LIT_LANGUAGES.some(x=>x[0]===selected?.[3])?selected[3]:'en';litStartCountryProfile()},true)}
+ if(stage==='countries'){list(LIT_COUNTRIES.map(x=>({id:x[0],ro:x[1],en:x[2]})),c=>{litJourney.country=c.id;const selected=LIT_COUNTRIES.find(x=>x[0]===c.id);litJourney.language=LIT_LANGUAGES.some(x=>x[0]===selected?.[3])?selected[3]:'en';litStartCountryProfile()},true)}
  if(stage==='languages'){const choices=LIT_LANGUAGES.map(x=>({id:x[0],ro:x[1],en:x[2]}));list(choices,c=>{litJourney.language=c.id;litOpen('levels')},true)}
  if(stage==='levels'){
   const currentLanguage=LIT_LANGUAGES.find(x=>x[0]===litJourney.language);
   const currentLabel=learningLabel(currentLanguage?.[1]||'Română',currentLanguage?.[2]||'Romanian');
   const languageHint=litText('p',learningLabel('Limba materiei: ','Subject language: ')+currentLabel);
   languageHint.className='lit-selected-language';panel.append(languageHint);
-  if(litJourney.curriculumOf==='VA'){
-   const hostNote=litText('p',learningLabel('Statul Cetății Vaticanului nu are o programă școlară proprie: elevii urmează programa școlii italiene. De aceea se afișează programa Italiei.',
-    'Vatican City has no school curriculum of its own: pupils follow the Italian school programme, so the Italian programme is shown.'));
-   hostNote.className='lit-curriculum-host';panel.append(hostNote);
-  }
 
   panel.append(litText('p',learningLabel('Nivelul determină complexitatea explicațiilor și cerințelor.','Level determines the depth of teaching and exercises.')));
   const choices=[{id:'beginner',ro:'Primar — clasele I–IV',en:'Primary school'},{id:'lower',ro:'Începător — Gimnaziu',en:'Beginner — lower secondary'},{id:'medium',ro:'Mediu — Liceu',en:'Intermediate — upper secondary'},{id:'advanced',ro:'Avansat — Universitate și mai departe',en:'Advanced — University and beyond'}];
@@ -16244,8 +16229,8 @@ function openLearningSubjectAfterCountry(key,mathSupplementReady=false){
   hgOpen('subjects');return;
  }
  if(key==='literature'){
-  const incoming=litApplyCurriculumHost(String(educationCountrySelection.code||litJourney.country||'RO'));
-  const selected=LIT_COUNTRIES.find(x=>x[0]===incoming);
+  const selected=LIT_COUNTRIES.find(x=>x[0]===educationCountrySelection.code);
+  const incoming=String(educationCountrySelection.code||litJourney.country||'RO');
   if(litJourney.country!==incoming){litJourney.grade='';litJourney.level='beginner';}
   litJourney.country=incoming;
   if(selected?.[3]&&LIT_LANGUAGES.some(x=>x[0]===selected[3]))litJourney.language=selected[3];
