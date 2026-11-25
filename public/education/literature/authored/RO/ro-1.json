@@ -1,0 +1,1362 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "RO",
+ "stage": "beginner",
+ "grade": "1",
+ "version": "a21f80551e5cb50720e3c17841c73e8e53f2a080d0faed622e08212b3f38faad",
+ "source": "https://programe.ise.ro/",
+ "sourceTitle": "Ministerul Educației — Programa școlară Comunicare în limba română, clasa pregătitoare, clasa I și clasa a II-a (OMEN 3418/2013): receptarea și exprimarea de mesaje orale, receptarea de mesaje scrise (citire), redactarea de mesaje (scriere); clasa I în ordinea obișnuită a manualelor aprobate (recapitularea din clasa pregătitoare, literele mari și mici de tipar și de mână, grupurile de litere, diftongii, semnele de punctuație, texte literare și nonliterare scurte, mesaje: bilet, felicitare, invitație); lecții originale, fără text copiat din manuale",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "ro",
+ "labels": [
+  "Activitate originală · România · clasa I",
+  "Învățăm",
+  "Exemplu original",
+  "Explicație",
+  "Exerciții",
+  "Verifică-te",
+  "Exerciții originale, nu o evaluare oficială și nici text din manual. Citește-le cu un adult, dacă e nevoie.",
+  "Dacă nu ai înțeles: pe înțelesul tău, pas cu pas",
+  "Răspunsuri (verifică după ce termini)"
+ ],
+ "units": [
+  {
+   "title": "Ne amintim din clasa pregătitoare",
+   "keys": [
+    "eu-year-ro-beginner-1-l01",
+    "eu-year-ro-beginner-1-l02",
+    "eu-year-ro-beginner-1-l03"
+   ]
+  },
+  {
+   "title": "Sunete și litere: a, m, u, n, e, i, r, o, c, ă, l, t",
+   "keys": [
+    "eu-year-ro-beginner-1-l04",
+    "eu-year-ro-beginner-1-l05",
+    "eu-year-ro-beginner-1-l06",
+    "eu-year-ro-beginner-1-l07",
+    "eu-year-ro-beginner-1-l08",
+    "eu-year-ro-beginner-1-l09"
+   ]
+  },
+  {
+   "title": "Sunete și litere: s, p, î, â, ș, ț, d, v, b, f, z, g, j, h",
+   "keys": [
+    "eu-year-ro-beginner-1-l10",
+    "eu-year-ro-beginner-1-l11",
+    "eu-year-ro-beginner-1-l12",
+    "eu-year-ro-beginner-1-l13",
+    "eu-year-ro-beginner-1-l14",
+    "eu-year-ro-beginner-1-l15",
+    "eu-year-ro-beginner-1-l16"
+   ]
+  },
+  {
+   "title": "Grupuri de litere, diftongi și alfabetul",
+   "keys": [
+    "eu-year-ro-beginner-1-l17",
+    "eu-year-ro-beginner-1-l18",
+    "eu-year-ro-beginner-1-l19",
+    "eu-year-ro-beginner-1-l20",
+    "eu-year-ro-beginner-1-l21",
+    "eu-year-ro-beginner-1-l22"
+   ]
+  },
+  {
+   "title": "Scriem corect",
+   "keys": [
+    "eu-year-ro-beginner-1-l23",
+    "eu-year-ro-beginner-1-l24",
+    "eu-year-ro-beginner-1-l25",
+    "eu-year-ro-beginner-1-l26"
+   ]
+  },
+  {
+   "title": "Citim texte literare și nonliterare",
+   "keys": [
+    "eu-year-ro-beginner-1-l27",
+    "eu-year-ro-beginner-1-l28",
+    "eu-year-ro-beginner-1-l29",
+    "eu-year-ro-beginner-1-l30",
+    "eu-year-ro-beginner-1-l31"
+   ]
+  },
+  {
+   "title": "Comunicăm",
+   "keys": [
+    "eu-year-ro-beginner-1-l32",
+    "eu-year-ro-beginner-1-l33",
+    "eu-year-ro-beginner-1-l34",
+    "eu-year-ro-beginner-1-l35"
+   ]
+  },
+  {
+   "title": "Final de clasa I",
+   "keys": [
+    "eu-year-ro-beginner-1-l36"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-ro-beginner-1-l01": {
+   "ro": {
+    "title": "Bun venit în clasa I: ne prezentăm și stabilim reguli",
+    "theory": "În clasa I continuăm ce am început în clasa pregătitoare. Ne prezentăm într-o propoziție întreagă: Mă numesc … Stabilim reguli: ridicăm mâna când vrem să vorbim, ascultăm colegul până termină, vorbim clar și politicos.",
+    "sample": "Mă numesc Ioana. Am șapte ani. Îmi place să desenez. Colegul meu de bancă este Matei.",
+    "worked": "Ioana se prezintă în patru propoziții scurte: numele, vârsta, ce îi place și cine îi este coleg de bancă. Când vorbește, privește clasa. Fiecare propoziție începe cu literă mare și se termină cu punct.",
+    "exercises": [
+     "Prezintă-te în două propoziții.",
+     "Spune ce îți place să faci.",
+     "Spune numele colegului de bancă.",
+     "Arată cum ceri cuvântul.",
+     "Repetă ce a spus un coleg despre el."
+    ],
+    "test": [
+     "Câți ani are Ioana?",
+     "Ce facem când vrem să spunem ceva?",
+     "De ce îl lăsăm pe coleg să termine?",
+     "Ce îți place ție să faci?",
+     "Cine este colegul de bancă al Ioanei?"
+    ],
+    "steps": [
+     "Spune întâi numele tău: Mă numesc …",
+     "Apoi spune câți ani ai și ce îți place.",
+     "Când vorbește altcineva, asculți și nu întrerupi.",
+     "Greșeala frecventă: răspunsul dintr-un singur cuvânt. Răspunde printr-o propoziție întreagă."
+    ],
+    "answers": [
+     "Șapte ani.",
+     "Ridicăm mâna și așteptăm să ne vină rândul.",
+     "Ca să putem vorbi toți și să ne înțelegem.",
+     "Răspunsul tău. Exemplu: Îmi place să joc fotbal.",
+     "Matei."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-1-l02": {
+   "ro": {
+    "title": "Propoziția, cuvântul, silaba, sunetul",
+    "theory": "Când vorbim, spunem propoziții. Propoziția este alcătuită din cuvinte. Cuvintele se despart în silabe, pe care le bătem din palme. Silabele sunt alcătuite din sunete. Sunetul îl auzim și îl rostim; litera o vedem și o scriem.",
+    "sample": "Mara are o minge roșie. / Ma-ra / M-a-r-a",
+    "worked": "Propoziția are cinci cuvinte: Mara, are, o, minge, roșie. Cuvântul Mara are două silabe: Ma-ra. Are patru sunete: m-a-r-a. Mergem de la mare la mic: propoziție, cuvânt, silabă, sunet.",
+    "exercises": [
+     "Câte cuvinte are propoziția: Ana citește?",
+     "Bate din palme cuvântul pisică.",
+     "Câte sunete are cuvântul sac?",
+     "Spune o propoziție despre ghiozdan.",
+     "Care este primul sunet din cuvântul mamă?"
+    ],
+    "test": [
+     "Din ce este alcătuită propoziția?",
+     "Câte silabe are cuvântul minge?",
+     "Câte sunete are cuvântul nor?",
+     "Care este ultimul sunet din cuvântul pom?",
+     "Ce deosebește sunetul de literă?"
+    ],
+    "steps": [
+     "Spune propoziția și numără cuvintele pe degete.",
+     "Bate din palme fiecare cuvânt: o bătaie pentru fiecare silabă.",
+     "Rostește rar cuvântul ca să auzi fiecare sunet.",
+     "Greșeala frecventă: confuzia dintre silabă și sunet. Silaba se bate din palme, sunetul se rostește singur."
+    ],
+    "answers": [
+     "Din cuvinte.",
+     "Două: min-ge.",
+     "Trei: n-o-r.",
+     "m.",
+     "Sunetul îl auzim și îl rostim; litera o vedem și o scriem."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-1-l03": {
+   "ro": {
+    "title": "Literele de tipar și literele de mână",
+    "theory": "Fiecare literă are patru forme: mare și mică de tipar, pe care le citim în carte, și mare și mică de mână, pe care le scriem în caiet. Înainte de a scrie, exersăm elementele grafice: bastonașe, bucle, ovale. Stăm drept și ținem creionul ușor, cu trei degete.",
+    "sample": "Rândul 1: bastonașe drepte. / Rândul 2: bastonașe cu întoarcere. / Rândul 3: ovale ca niște ouă.",
+    "worked": "Elementele grafice se regăsesc în litere: ovalul în o și a, bastonașul în i și t, bucla în l. Dacă le exersăm acum, scriem mai frumos. Scriem de la stânga la dreapta, între liniile caietului.",
+    "exercises": [
+     "Fă un rând de bastonașe.",
+     "Fă un rând de ovale.",
+     "Desenează cu degetul în aer o buclă.",
+     "Arată cum ții creionul.",
+     "Găsește în carte o literă mare de tipar."
+    ],
+    "test": [
+     "Câte forme are o literă?",
+     "Pe care le citim în carte?",
+     "În ce direcție scriem?",
+     "Cu câte degete ținem creionul?",
+     "Ce faci când obosește mâna?"
+    ],
+    "steps": [
+     "Stai drept, cu tălpile pe podea.",
+     "Ține creionul între degetul mare, arătător și mijlociu, fără să strângi tare.",
+     "Scrie de la stânga la dreapta și respectă liniile caietului.",
+     "Greșeala frecventă: apăsarea prea tare pe creion. Dacă obosești, scutură mâna și reia."
+    ],
+    "answers": [
+     "Patru: mare și mică de tipar, mare și mică de mână.",
+     "Literele de tipar.",
+     "De la stânga la dreapta.",
+     "Cu trei degete.",
+     "O scutur ușor și mă odihnesc."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-1-l04": {
+   "ro": {
+    "title": "Literele a și m: mama",
+    "theory": "Sunetul a îl rostim cu gura larg deschisă. Sunetul m îl rostim cu buzele lipite. Din m și a facem silaba ma, iar din două silabe ma facem cuvântul mama. Învățăm să scriem A, a, M, m.",
+    "sample": "ma, am, mama / Am mama. / Mama!",
+    "worked": "Cuvântul mama are două silabe la fel: ma-ma. Are patru sunete: m-a-m-a. Propoziția Am mama începe cu literă mare și se termină cu punct.",
+    "exercises": [
+     "Citește: ma, am, mama.",
+     "Scrie un rând de a.",
+     "Scrie un rând de m.",
+     "Desparte în silabe: mama.",
+     "Găsește un cuvânt care începe cu a."
+    ],
+    "test": [
+     "Câte silabe are cuvântul mama?",
+     "Cum rostim sunetul m?",
+     "Câte sunete are cuvântul mama?",
+     "Citește: Am mama.",
+     "Cu ce literă începe cuvântul mama?"
+    ],
+    "steps": [
+     "Rostește m cu buzele lipite, apoi deschide gura pentru a: ma.",
+     "Unește două silabe ma și obții mama.",
+     "Citește rar, apoi mai repede.",
+     "Greșeala frecventă: citirea literă cu literă, fără unire. Unește sunetele în silabă: m-a devine ma."
+    ],
+    "answers": [
+     "Două: ma-ma.",
+     "Cu buzele lipite.",
+     "Patru.",
+     "Am mama.",
+     "m."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-1-l05": {
+   "ro": {
+    "title": "Literele u și n: un, nu, nuna",
+    "theory": "Sunetul u îl rostim cu buzele rotunjite. Sunetul n îl rostim cu limba sus, iar aerul trece pe nas. Cuvinte noi: un, nu, nuna. Învățăm să scriem U, u, N, n.",
+    "sample": "un, nu, nuna, Ana / Mama Ana. / Nuna Ana.",
+    "worked": "Cuvântul un are două sunete: u-n. Cuvântul nu are tot două sunete, dar în altă ordine: n-u. Ana este un nume, așa că o scriem cu literă mare.",
+    "exercises": [
+     "Citește: un, nu.",
+     "Citește: nuna, Ana.",
+     "Scrie un rând de u.",
+     "Scrie un rând de n.",
+     "Compară cuvintele un și nu."
+    ],
+    "test": [
+     "Câte sunete are cuvântul un?",
+     "Ce observi la cuvintele un și nu?",
+     "Citește: Nuna Ana.",
+     "Cum rostim sunetul u?",
+     "De ce scriem Ana cu literă mare?"
+    ],
+    "steps": [
+     "Rostește u cu buzele rotunde și n cu aerul pe nas.",
+     "Citește silaba, apoi cuvântul întreg.",
+     "Uită-te la ordinea literelor: un și nu au aceleași litere, așezate altfel.",
+     "Greșeala frecventă: confuzia dintre n și u la scris. Litera n are o boltă deasupra, iar u este deschis în sus."
+    ],
+    "answers": [
+     "Două: u-n.",
+     "Au aceleași litere, în altă ordine.",
+     "Nuna Ana.",
+     "Cu buzele rotunjite.",
+     "Pentru că este un nume."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-1-l06": {
+   "ro": {
+    "title": "Literele e și i: Ema, Ina, nume",
+    "theory": "Sunetul e îl rostim cu gura puțin deschisă. Sunetul i îl rostim ca atunci când zâmbim. Cuvinte noi: Ema, Ina, nume, mine, mie. Învățăm să scriem E, e, I, i.",
+    "sample": "Ema, Ina, nume, mine / Ana e mama Inei. / Ema e nuna Inei.",
+    "worked": "Ema, Ina și Ana sunt nume: le scriem cu literă mare. În aceste propoziții folosim doar literele învățate până acum: a, m, u, n, e, i. Cuvântul nume are două silabe: nu-me. Cuvântul mine are tot două silabe: mi-ne.",
+    "exercises": [
+     "Citește: Ema, Ina.",
+     "Citește: nume, mine, mie.",
+     "Scrie un rând de e.",
+     "Scrie un rând de i.",
+     "Desparte în silabe: nume."
+    ],
+    "test": [
+     "Cine este mama Inei?",
+     "Câte silabe are cuvântul mine?",
+     "Cum rostim sunetul i?",
+     "Citește: Ema e nuna Inei.",
+     "Cu ce literă începe cuvântul Ema?"
+    ],
+    "steps": [
+     "Rostește e cu gura puțin deschisă și i zâmbind.",
+     "Unește consoana cu vocala: n și e fac ne.",
+     "Citește cuvântul pe silabe, apoi întreg.",
+     "Greșeala frecventă: confuzia dintre e și i. Rostește clar și ascultă: me, mi."
+    ],
+    "answers": [
+     "Ana.",
+     "Două: mi-ne.",
+     "Ca atunci când zâmbim.",
+     "Ema e nuna Inei.",
+     "E."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-1-l07": {
+   "ro": {
+    "title": "Literele r și o: mere, nor, Ion",
+    "theory": "Sunetul r îl rostim cu vârful limbii care vibrează. Sunetul o îl rostim cu gura rotundă. Cuvinte noi: mere, nor, rama, Ion, roman. Învățăm să scriem R, r, O, o.",
+    "sample": "Ana are mere. / Ion e mare. / Mama are un ou mare.",
+    "worked": "Cuvintele are, mere și mare au sunetul r. Ion și ou au sunetul o. Ion este un nume și începe cu literă mare.",
+    "exercises": [
+     "Citește: mere, nor, rama.",
+     "Citește: Ion, roman.",
+     "Scrie un rând de r.",
+     "Scrie un rând de o.",
+     "Găsește un cuvânt cu r la început."
+    ],
+    "test": [
+     "Ce are Ana?",
+     "Cum e Ion?",
+     "Ce are mama?",
+     "Cum rostim sunetul o?",
+     "Câte silabe are cuvântul mere?"
+    ],
+    "steps": [
+     "Rostește r lăsând vârful limbii să vibreze.",
+     "Pentru o, fă gura rotundă.",
+     "Citește pe silabe: me-re, apoi mere.",
+     "Greșeala frecventă: înlocuirea lui r cu l când citești sau scrii. Ascultă diferența: rac, lac."
+    ],
+    "answers": [
+     "Mere.",
+     "Mare.",
+     "Un ou mare.",
+     "Cu gura rotundă.",
+     "Două: me-re."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-1-l08": {
+   "ro": {
+    "title": "Literele c și ă: cană, cameră, Călin",
+    "theory": "Sunetul c îl rostim scurt, în fundul gurii. Sunetul ă este scurt și îl rostim cu gura puțin deschisă. Cuvinte noi: cană, cameră, mac, Călin, mămică. Învățăm să scriem C, c, Ă, ă.",
+    "sample": "Călin are o cană. / Ana are o cameră mare. / Un mac e mic.",
+    "worked": "Cană, cameră, mac, mic și Călin au sunetul c. Cană, cameră și Călin au sunetul ă. Litera ă are deasupra un semn ca un zâmbet, numit căciulă.",
+    "exercises": [
+     "Citește: cană, cameră, mac.",
+     "Citește: Călin, mămică.",
+     "Scrie un rând de c.",
+     "Scrie un rând de ă.",
+     "Desparte în silabe: cameră."
+    ],
+    "test": [
+     "Ce are Călin?",
+     "Cum e camera Anei?",
+     "Ce semn are litera ă?",
+     "Câte silabe are cuvântul cană?",
+     "Citește: Ana are o cană."
+    ],
+    "steps": [
+     "Rostește c scurt, în fundul gurii.",
+     "Pentru ă, deschide puțin gura și rostește scurt.",
+     "Nu uita căciula de pe ă când scrii.",
+     "Greșeala frecventă: scrierea lui a în loc de ă. Fără căciulă, casă devine casa, alt cuvânt."
+    ],
+    "answers": [
+     "O cană.",
+     "Mare.",
+     "O căciulă.",
+     "Două: ca-nă.",
+     "Ana are o cană."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-1-l09": {
+   "ro": {
+    "title": "Literele l și t: lac, lalea, tata",
+    "theory": "Sunetul l îl rostim cu limba sus, în spatele dinților. Sunetul t îl rostim scurt, atingând dinții cu limba. Cuvinte noi: lac, lalea, tata, Toma, lămâie. Învățăm să scriem L, l, T, t.",
+    "sample": "Tata e la lac. / Toma are o lalea. / Lacul e mare.",
+    "worked": "Lac, lalea și lacul au sunetul l. Tata și Toma au sunetul t. Toma este un nume: literă mare. Cuvântul lalea are două silabe: la-lea.",
+    "exercises": [
+     "Citește: lac, lalea, lămâie.",
+     "Citește: tata, Toma, toamnă.",
+     "Scrie un rând de l.",
+     "Scrie un rând de t.",
+     "Găsește un cuvânt cu t la început."
+    ],
+    "test": [
+     "Unde e tata?",
+     "Ce are Toma?",
+     "Cum e lacul?",
+     "Cum rostim sunetul t?",
+     "Câte silabe are cuvântul tata?"
+    ],
+    "steps": [
+     "Rostește l cu limba în spatele dinților de sus.",
+     "Pentru t, atinge ușor dinții cu limba.",
+     "Citește pe silabe și apoi tot cuvântul.",
+     "Greșeala frecventă: confuzia dintre l mic de mână și litera b. Litera l are doar bucla, fără burtică."
+    ],
+    "answers": [
+     "La lac.",
+     "O lalea.",
+     "Mare.",
+     "Scurt, atingând dinții cu limba.",
+     "Două: ta-ta."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-1-l10": {
+   "ro": {
+    "title": "Literele s și p: sac, pom, soare",
+    "theory": "Sunetul s șuieră ca un șarpe. Sunetul p îl rostim deschizând buzele cu un mic suflu. Cuvinte noi: sac, pom, soare, Paul, pisică. Învățăm să scriem S, s, P, p.",
+    "sample": "Paul pune mere în sac. / Soarele e sus. / Pisica stă sub pom.",
+    "worked": "Sac, soare, sus, stă și sub au sunetul s. Paul, pune, pisica și pom au sunetul p. Paul este un nume și se scrie cu literă mare.",
+    "exercises": [
+     "Citește: sac, soare, sus.",
+     "Citește: pom, Paul, pisică.",
+     "Scrie un rând de s.",
+     "Scrie un rând de p.",
+     "Desparte în silabe: pisică."
+    ],
+    "test": [
+     "Ce pune Paul în sac?",
+     "Unde e soarele?",
+     "Unde stă pisica?",
+     "Câte silabe are cuvântul pisică?",
+     "Cu ce sunet începe cuvântul pom?"
+    ],
+    "steps": [
+     "Pentru s, lasă aerul să șuiere printre dinți.",
+     "Pentru p, deschide buzele cu un mic suflu.",
+     "Citește pe silabe: pi-si-că.",
+     "Greșeala frecventă: confuzia dintre p și b. Litera p are burtica sus, iar b are burtica jos."
+    ],
+    "answers": [
+     "Mere.",
+     "Sus.",
+     "Sub pom.",
+     "Trei: pi-si-că.",
+     "p."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-1-l11": {
+   "ro": {
+    "title": "Literele î și â: înot, pâine, România",
+    "theory": "Literele î și â notează același sunet. Scriem î la începutul și la sfârșitul cuvântului: înot, încet, a coborî. Scriem â în interiorul cuvântului: pâine, mână, România. Î are deasupra un semn ca un acoperiș, la fel ca â.",
+    "sample": "Înotăm în lac. / Am pâine în mână. / România este țara mea.",
+    "worked": "Înotăm și în încep cu î. Pâine, mână și România au â în interior. Sunetul este același, dar locul din cuvânt ne spune ce literă scriem.",
+    "exercises": [
+     "Citește: înot, încet, înalt.",
+     "Citește: pâine, mână, câine.",
+     "Scrie î sau â: p_ine.",
+     "Scrie î sau â: _nalt.",
+     "Găsește un cuvânt care începe cu î."
+    ],
+    "test": [
+     "Ce facem în lac?",
+     "Ce am în mână?",
+     "Care este țara noastră?",
+     "Când scriem î?",
+     "Când scriem â?"
+    ],
+    "steps": [
+     "Ascultă unde se aude sunetul: la început, la sfârșit sau în interior.",
+     "La început sau la sfârșit scrii î; în interior scrii â.",
+     "Citește cuvântul scris și verifică.",
+     "Greșeala frecventă: scrierea lui î în interiorul cuvântului. Scriem pâine, nu pîine."
+    ],
+    "answers": [
+     "Înotăm.",
+     "Pâine.",
+     "România.",
+     "La începutul și la sfârșitul cuvântului.",
+     "În interiorul cuvântului."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-1-l12": {
+   "ro": {
+    "title": "Literele ș și ț: școală, țară, ață",
+    "theory": "Sunetul ș îl rostim ca atunci când cerem liniște: șșș. Sunetul ț sună ca un ț scurt, ca în țânțar. Literele ș și ț au dedesubt o virguliță. Cuvinte noi: școală, șoarece, roșu, țară, ață, țânțar.",
+    "sample": "Șoricelul stă sub masă. / Țara noastră este România. / Ana coase cu ață roșie.",
+    "worked": "Școală, șoricelul și roșie au sunetul ș. Țara și ață au sunetul ț. Virgulița de sub literă le deosebește de s și t.",
+    "exercises": [
+     "Citește: școală, șoarece, roșu.",
+     "Citește: țară, ață, țânțar.",
+     "Scrie un rând de ș.",
+     "Scrie un rând de ț.",
+     "Spune șșș ca atunci când ceri liniște."
+    ],
+    "test": [
+     "Unde stă șoricelul?",
+     "Care este țara noastră?",
+     "Cu ce coase Ana?",
+     "Ce semn au literele ș și ț?",
+     "Cu ce sunet începe cuvântul țânțar?"
+    ],
+    "steps": [
+     "Pentru ș, rostește ca atunci când ceri liniște.",
+     "Pentru ț, rostește scurt, ca în țânțar.",
+     "Pune virgulița dedesubt când scrii ș și ț.",
+     "Greșeala frecventă: uitarea virguliței. Fără ea, ață devine ată și roșu devine rosu, cuvinte greșite."
+    ],
+    "answers": [
+     "Sub masă.",
+     "România.",
+     "Cu ață roșie.",
+     "O virguliță dedesubt.",
+     "ț."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-1-l13": {
+   "ro": {
+    "title": "Literele d și v: dop, vulpe, Dana",
+    "theory": "Sunetul d îl rostim moale, cu limba la dinți. Sunetul v îl rostim cu dinții de sus pe buza de jos. Cuvinte noi: dop, dinte, Dana, vulpe, val, vânt. Învățăm să scriem D, d, V, v.",
+    "sample": "Dana vede o vulpe. / Vântul face valuri pe lac. / Sticla are un dop.",
+    "worked": "Dana și dop au sunetul d. Vede, vulpe, vântul și valuri au sunetul v. Dana este un nume: literă mare.",
+    "exercises": [
+     "Citește: dop, dinte, Dana.",
+     "Citește: vulpe, val, vânt.",
+     "Scrie un rând de d.",
+     "Scrie un rând de v.",
+     "Desparte în silabe: vulpe."
+    ],
+    "test": [
+     "Ce vede Dana?",
+     "Ce face vântul?",
+     "Ce are sticla?",
+     "Câte silabe are cuvântul valuri?",
+     "Cum rostim sunetul v?"
+    ],
+    "steps": [
+     "Pentru d, pune limba la dinți și rostește moale.",
+     "Pentru v, pune dinții de sus pe buza de jos.",
+     "Citește pe silabe: vul-pe.",
+     "Greșeala frecventă: confuzia dintre d și b la citire. Litera d are burtica la stânga, b la dreapta."
+    ],
+    "answers": [
+     "O vulpe.",
+     "Face valuri pe lac.",
+     "Un dop.",
+     "Două: va-luri.",
+     "Cu dinții de sus pe buza de jos."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-1-l14": {
+   "ro": {
+    "title": "Literele b și f: bunica, floare",
+    "theory": "Sunetul b îl rostim cu buzele lipite, apoi le deschidem. Sunetul f îl rostim suflând, cu dinții pe buza de jos. Cuvinte noi: bunica, bec, bea, floare, foc, fată. Învățăm să scriem B, b, F, f.",
+    "sample": "Bunica are o floare. / Fata bea lapte. / Focul e cald.",
+    "worked": "Bunica și bea au sunetul b. Floare, fata și focul au sunetul f. Sunetele f și v seamănă: la f doar suflăm, la v se aude și vocea.",
+    "exercises": [
+     "Citește: bunica, bec, bea.",
+     "Citește: floare, foc, fată.",
+     "Scrie un rând de b.",
+     "Scrie un rând de f.",
+     "Desparte în silabe: bunica."
+    ],
+    "test": [
+     "Ce are bunica?",
+     "Ce bea fata?",
+     "Cum e focul?",
+     "Câte silabe are cuvântul floare?",
+     "Cu ce sunet începe cuvântul foc?"
+    ],
+    "steps": [
+     "Pentru b, lipește buzele și apoi deschide-le.",
+     "Pentru f, suflă cu dinții pe buza de jos.",
+     "Pune mâna pe gât: la v simți vibrația, la f nu.",
+     "Greșeala frecventă: confuzia dintre f și v. Fată și vată sunt cuvinte diferite; ascultă bine."
+    ],
+    "answers": [
+     "O floare.",
+     "Lapte.",
+     "Cald.",
+     "Două: floa-re.",
+     "f."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-1-l15": {
+   "ro": {
+    "title": "Literele z și g: zi, gâscă, Gabi",
+    "theory": "Sunetul z bâzâie ca o albină: zzz. Sunetul g îl rostim în fundul gurii. Când g stă înaintea lui a, o, u, ă, â sau a unei consoane, citim g ca în gâscă. Cuvinte noi: zi, zahăr, gâscă, gol, gură, Gabi.",
+    "sample": "Gâsca e lângă lac. / Azi e o zi frumoasă. / Gabi pune zahăr în ceai.",
+    "worked": "Zi, azi și zahăr au sunetul z. Gâsca, lângă și Gabi au sunetul g. După g urmează a, â sau o altă literă din listă, așa că îl citim ca în gâscă.",
+    "exercises": [
+     "Citește: zi, zahăr, zebră.",
+     "Citește: gâscă, gol, gură.",
+     "Scrie un rând de z.",
+     "Scrie un rând de g.",
+     "Bâzâie ca o albină: zzz."
+    ],
+    "test": [
+     "Unde e gâsca?",
+     "Cum e ziua de azi?",
+     "Ce pune Gabi în ceai?",
+     "Cu ce sunet începe cuvântul zebră?",
+     "Citește: Gabi are o gâscă."
+    ],
+    "steps": [
+     "Pentru z, lasă aerul să bâzâie printre dinți.",
+     "Pentru g, rostește în fundul gurii.",
+     "Uită-te la litera de după g: a, o, u, ă sau â.",
+     "Greșeala frecventă: confuzia dintre z și s. Ascultă: zi și si sună diferit."
+    ],
+    "answers": [
+     "Lângă lac.",
+     "Frumoasă.",
+     "Zahăr.",
+     "z.",
+     "Gabi are o gâscă."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-1-l16": {
+   "ro": {
+    "title": "Literele j și h: joc, haină, Horia",
+    "theory": "Sunetul j îl rostim ca un ș cu voce: jjj. Sunetul h este ca o suflare caldă pe mâini. Cuvinte noi: joc, jucărie, jos, haină, hartă, Horia. Învățăm să scriem J, j, H, h.",
+    "sample": "Horia joacă un joc. / Haina e jos, pe scaun. / Pe perete este o hartă.",
+    "worked": "Joacă, joc și jos au sunetul j. Horia, haina și hartă au sunetul h. Horia este un nume: literă mare.",
+    "exercises": [
+     "Citește: joc, jucărie, jos.",
+     "Citește: haină, hartă, Horia.",
+     "Scrie un rând de j.",
+     "Scrie un rând de h.",
+     "Suflă cald pe mâini: hhh."
+    ],
+    "test": [
+     "Ce face Horia?",
+     "Unde e haina?",
+     "Ce este pe perete?",
+     "Cu ce sunet începe cuvântul jos?",
+     "Câte silabe are cuvântul jucărie?"
+    ],
+    "steps": [
+     "Pentru j, rostește ca ș, dar cu voce.",
+     "Pentru h, suflă cald, ca pe mâini iarna.",
+     "Citește pe silabe: ju-că-ri-e.",
+     "Greșeala frecventă: confuzia dintre j și ș. Ascultă: joc are voce, șoc doar șuieră."
+    ],
+    "answers": [
+     "Joacă un joc.",
+     "Jos, pe scaun.",
+     "O hartă.",
+     "j.",
+     "Patru: ju-că-ri-e."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-1-l17": {
+   "ro": {
+    "title": "Grupurile de litere ce și ci: cer, cinci",
+    "theory": "Când c stă înaintea lui e sau i, sună altfel, ca în cer și cinci. De aceea ce și ci sunt grupuri de litere. Le citim împreună, dintr-o dată.",
+    "sample": "Cerul e senin. / Am cinci cireșe. / Ceasul arată ora opt.",
+    "worked": "Cerul și ceasul au grupul ce. Cinci și cireșe au grupul ci. În grup, c nu se mai citește ca în cană, ci ca la începutul cuvântului cer.",
+    "exercises": [
+     "Citește: cer, ceas, ceapă.",
+     "Citește: cinci, cireșe, cine.",
+     "Scrie un rând de ce.",
+     "Scrie un rând de ci.",
+     "Găsește un cuvânt cu ce."
+    ],
+    "test": [
+     "Cum e cerul?",
+     "Câte cireșe am?",
+     "Ce arată ceasul?",
+     "Cum citim c înainte de e?",
+     "Citește: Cine are cinci cireșe?"
+    ],
+    "steps": [
+     "Uită-te la litera de după c.",
+     "Dacă urmează e sau i, citește grupul ce sau ci dintr-o dată.",
+     "Altfel, c se citește ca în cană.",
+     "Greșeala frecventă: citirea lui c ca în cană în cuvântul cer. În grupul ce sunetul se schimbă."
+    ],
+    "answers": [
+     "Senin.",
+     "Cinci.",
+     "Ora opt.",
+     "Ca în cer.",
+     "Cine are cinci cireșe?"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-1-l18": {
+   "ro": {
+    "title": "Grupurile de litere ge și gi: geantă, girafă",
+    "theory": "Când g stă înaintea lui e sau i, sună ca în geantă și girafă. Ge și gi sunt grupuri de litere și le citim dintr-o dată.",
+    "sample": "Gina are o geantă nouă. / Girafa e înaltă. / Afară e ger.",
+    "worked": "Geantă și ger au grupul ge. Gina și girafa au grupul gi. Spre deosebire de gâscă, aici g se citește moale.",
+    "exercises": [
+     "Citește: ger, geantă, gem.",
+     "Citește: girafă, Gina, ginere.",
+     "Scrie un rând de ge.",
+     "Scrie un rând de gi.",
+     "Găsește un cuvânt cu gi."
+    ],
+    "test": [
+     "Ce are Gina?",
+     "Cum e girafa?",
+     "Cum e afară?",
+     "Cum citim g înainte de i?",
+     "Citește: Gina mănâncă gem."
+    ],
+    "steps": [
+     "Uită-te la litera de după g.",
+     "Dacă urmează e sau i, citește ge sau gi moale.",
+     "Altfel, g se citește ca în gâscă.",
+     "Greșeala frecventă: citirea lui g ca în gâscă în cuvântul geantă."
+    ],
+    "answers": [
+     "O geantă nouă.",
+     "Înaltă.",
+     "Ger.",
+     "Moale, ca în girafă.",
+     "Gina mănâncă gem."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-1-l19": {
+   "ro": {
+    "title": "Grupurile de litere che și chi: cheie, ochi",
+    "theory": "Grupurile che și chi se citesc cu sunetul c tare, ca în cană, urmat de e sau i: cheie, ochi, chitară. Litera h ne arată că c rămâne tare.",
+    "sample": "Cheia e pe masă. / Am doi ochi. / Unchiul cântă la chitară.",
+    "worked": "Cheia are grupul che. Ochi, unchiul și chitară au grupul chi. Fără h am citi cer în loc de cheie: h păstrează sunetul tare.",
+    "exercises": [
+     "Citește: cheie, ureche, chec.",
+     "Citește: ochi, chitară, unchi.",
+     "Scrie un rând de che.",
+     "Scrie un rând de chi.",
+     "Compară: ce – che."
+    ],
+    "test": [
+     "Unde e cheia?",
+     "Câți ochi am?",
+     "La ce cântă unchiul?",
+     "Ce rol are litera h în che?",
+     "Citește: Unchiul are o cheie."
+    ],
+    "steps": [
+     "Vezi che sau chi? Citește c tare, ca în cană.",
+     "Litera h nu se aude; ea doar păstrează sunetul tare.",
+     "Compară cu ce și ci, care sunt moi.",
+     "Greșeala frecventă: scrierea fără h: ceie în loc de cheie."
+    ],
+    "answers": [
+     "Pe masă.",
+     "Doi.",
+     "La chitară.",
+     "Păstrează sunetul c tare.",
+     "Unchiul are o cheie."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-1-l20": {
+   "ro": {
+    "title": "Grupurile de litere ghe și ghi: ghete, ghiozdan",
+    "theory": "Grupurile ghe și ghi se citesc cu sunetul g tare, ca în gâscă, urmat de e sau i: ghete, ghiozdan, ghindă. Litera h ne arată că g rămâne tare.",
+    "sample": "Ghiozdanul meu e greu. / Am ghete noi. / Veverița ascunde o ghindă.",
+    "worked": "Ghete are grupul ghe. Ghiozdanul și ghindă au grupul ghi. Fără h am citi geantă în loc de ghete: h păstrează sunetul tare.",
+    "exercises": [
+     "Citește: ghete, gheață, gheară.",
+     "Citește: ghiozdan, ghindă, unghie.",
+     "Scrie un rând de ghe.",
+     "Scrie un rând de ghi.",
+     "Compară: ge – ghe."
+    ],
+    "test": [
+     "Cum e ghiozdanul?",
+     "Ce am nou?",
+     "Ce ascunde veverița?",
+     "Ce rol are h în ghi?",
+     "Citește: Gheața e rece."
+    ],
+    "steps": [
+     "Vezi ghe sau ghi? Citește g tare, ca în gâscă.",
+     "Litera h nu se aude; ea doar păstrează sunetul tare.",
+     "Compară cu ge și gi, care sunt moi.",
+     "Greșeala frecventă: scrierea fără h: giozdan în loc de ghiozdan."
+    ],
+    "answers": [
+     "Greu.",
+     "Ghete.",
+     "O ghindă.",
+     "Păstrează sunetul g tare.",
+     "Gheața e rece."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-1-l21": {
+   "ro": {
+    "title": "Diftongii ea, oa, ia, ie: seara, școala, iepure",
+    "theory": "Uneori două vocale stau în aceeași silabă și le rostim dintr-o suflare: ea în seara, oa în școala, ia în iarna, ie în iepure. Ele formează diftongi și nu se despart.",
+    "sample": "Iarna ninge mult. / Iepurele fuge seara. / Școala noastră e aproape.",
+    "worked": "Iarna are ia, iepurele are ie, seara are ea și școala are oa. La despărțirea în silabe, diftongul rămâne întreg: iar-na, ie-pu-re, sea-ra, școa-la.",
+    "exercises": [
+     "Citește: seara, stea, mea.",
+     "Citește: școala, floare, soare.",
+     "Citește: iarna, iepure, piele.",
+     "Desparte în silabe: seara.",
+     "Desparte în silabe: floare."
+    ],
+    "test": [
+     "Când ninge mult?",
+     "Când fuge iepurele?",
+     "Unde e școala?",
+     "Desparte în silabe: iepure.",
+     "Câte silabe are cuvântul școala?"
+    ],
+    "steps": [
+     "Caută două vocale una lângă alta: ea, oa, ia, ie.",
+     "Rostește-le dintr-o suflare, în aceeași silabă.",
+     "Când desparți în silabe, nu le separa.",
+     "Greșeala frecventă: despărțirea greșită: se-a-ra. Corect este sea-ra."
+    ],
+    "answers": [
+     "Iarna.",
+     "Seara.",
+     "Aproape.",
+     "ie-pu-re.",
+     "Două: școa-la."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-1-l22": {
+   "ro": {
+    "title": "Literele x, k, q, w, y și alfabetul",
+    "theory": "Mai învățăm câteva litere. X se citește cs, ca în taxi, sau gz, ca în examen. K, q, w și y apar mai ales în cuvinte venite din alte limbi: kilogram, kiwi, watt, yoga. Alfabetul limbii române are 31 de litere, așezate într-o ordine fixă.",
+    "sample": "Luăm un taxi. / Am cumpărat un kilogram de mere. / Alfabetul începe cu a, ă, â, b, c.",
+    "worked": "Taxi are x citit cs. Kilogram are k. Alfabetul ne ajută să găsim cuvintele în dicționar și numele în catalog, pentru că ele sunt așezate în această ordine.",
+    "exercises": [
+     "Citește: taxi, xilofon, examen.",
+     "Citește: kilogram, kiwi, yoga.",
+     "Spune alfabetul.",
+     "Ce literă vine după m în alfabet?",
+     "Așază în ordine alfabetică: mere, cană, lac."
+    ],
+    "test": [
+     "Câte litere are alfabetul limbii române?",
+     "Cum citim x în taxi?",
+     "Cu ce literă începe alfabetul?",
+     "Ce literă vine după b?",
+     "La ce ne ajută ordinea alfabetică?"
+    ],
+    "steps": [
+     "Spune alfabetul încet, literă cu literă.",
+     "Pentru ordinea alfabetică, uită-te la prima literă a cuvintelor.",
+     "Găsește literele în alfabet și vezi care vine prima.",
+     "Greșeala frecventă: uitarea literelor ă, â și î din alfabet. Ele au și ele locul lor."
+    ],
+    "answers": [
+     "31.",
+     "cs.",
+     "a.",
+     "c.",
+     "Ne ajută să găsim cuvinte în dicționar și nume în catalog."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-1-l23": {
+   "ro": {
+    "title": "Despărțirea cuvintelor în silabe",
+    "theory": "Cuvintele se despart în silabe după cum le rostim, bătând din palme. Fiecare silabă are o vocală sau un diftong. Când un cuvânt nu încape la capătul rândului, îl despărțim în silabe și punem o liniuță.",
+    "sample": "car-te / pă-pu-șă / fe-reas-tră / ma-să / ur-su-leț",
+    "worked": "Carte are două silabe, păpușă trei, fereastră trei, iar ursuleț trei. Fiecare silabă are o vocală. În fereastră, ea rămâne împreună: fe-reas-tră.",
+    "exercises": [
+     "Desparte în silabe: carte.",
+     "Desparte în silabe: păpușă.",
+     "Desparte în silabe: ursuleț.",
+     "Bate din palme cuvântul ciocolată.",
+     "Câte silabe are cuvântul fereastră?"
+    ],
+    "test": [
+     "Câte silabe are cuvântul carte?",
+     "Desparte în silabe: masă.",
+     "Ce are fiecare silabă?",
+     "Ce punem la capătul rândului când despărțim un cuvânt?",
+     "Desparte în silabe: ciocolată."
+    ],
+    "steps": [
+     "Rostește cuvântul rar și bate din palme.",
+     "Fiecare bătaie este o silabă; verifică să aibă o vocală.",
+     "Scrie silabele cu liniuță între ele.",
+     "Greșeala frecventă: lăsarea unei consoane singure pe rând. O silabă nu poate fi fără vocală."
+    ],
+    "answers": [
+     "Două: car-te.",
+     "ma-să.",
+     "O vocală sau un diftong.",
+     "O liniuță.",
+     "cio-co-la-tă."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-1-l24": {
+   "ro": {
+    "title": "Scrierea cu literă mare",
+    "theory": "Scriem cu literă mare la începutul propoziției și la nume: de persoane, de animale, de orașe, de râuri, de munți și de țări. Celelalte cuvinte le scriem cu literă mică. Zilele săptămânii și lunile anului se scriu cu literă mică.",
+    "sample": "Andrei și cățelul lui, Grivei, locuiesc în Cluj-Napoca, lângă râul Someș.",
+    "worked": "Andrei, Grivei, Cluj-Napoca și Someș sunt nume: au literă mare. Cățelul este un cuvânt obișnuit: are literă mică. Propoziția începe cu literă mare.",
+    "exercises": [
+     "Găsește numele din exemplu.",
+     "Scrie numele localității tale.",
+     "Scrie numele unui prieten.",
+     "Corectează: eu locuiesc în iași.",
+     "Se scrie cu literă mare cuvântul cățel?"
+    ],
+    "test": [
+     "Cum se numește cățelul lui Andrei?",
+     "În ce oraș locuiesc?",
+     "Lângă ce râu?",
+     "Scrie corect: maria merge la brașov",
+     "Când scriem cu literă mare?"
+    ],
+    "steps": [
+     "Întreabă-te: este numele unei anumite persoane, al unui animal sau al unui loc?",
+     "Dacă da, scrie cu literă mare.",
+     "Scrie literă mare și la începutul fiecărei propoziții.",
+     "Greșeala frecventă: scrierea zilelor și lunilor cu literă mare. Corect: luni, martie."
+    ],
+    "answers": [
+     "Grivei.",
+     "În Cluj-Napoca.",
+     "Lângă râul Someș.",
+     "Maria merge la Brașov.",
+     "La începutul propoziției și la nume."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-1-l25": {
+   "ro": {
+    "title": "Punctul, semnul întrebării și semnul exclamării",
+    "theory": "Propoziția care spune ceva se termină cu punct. Propoziția care întreabă se termină cu semnul întrebării (?). Propoziția care arată o bucurie, o mirare sau o rugăminte puternică se termină cu semnul exclamării (!).",
+    "sample": "Astăzi este soare. Mergi cu mine în parc? Ce zi frumoasă!",
+    "worked": "Prima propoziție spune ceva: punct. A doua întreabă: semnul întrebării. A treia arată bucurie: semnul exclamării. Toate încep cu literă mare.",
+    "exercises": [
+     "Pune semnul potrivit: Cum te numești",
+     "Pune semnul potrivit: Am un cățel",
+     "Scrie o întrebare pentru învățătoare.",
+     "Scrie o propoziție cu semnul exclamării.",
+     "Numără propozițiile din exemplu."
+    ],
+    "test": [
+     "Cu ce semn se termină o întrebare?",
+     "Cu ce începe o propoziție?",
+     "Scrie corect: azi plouă",
+     "Care propoziție din exemplu arată bucurie?",
+     "Câte propoziții sunt în exemplu?"
+    ],
+    "steps": [
+     "Întreabă-te: propoziția spune, întreabă sau arată o emoție?",
+     "Spune: punct. Întreabă: semnul întrebării. Emoție: semnul exclamării.",
+     "Verifică litera mare de la început.",
+     "Greșeala frecventă: uitarea semnului întrebării la o întrebare scurtă, ca Vii?"
+    ],
+    "answers": [
+     "Cu semnul întrebării.",
+     "Cu literă mare.",
+     "Azi plouă.",
+     "Ce zi frumoasă!",
+     "Trei."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-1-l26": {
+   "ro": {
+    "title": "Dialogul: două puncte și linia de dialog",
+    "theory": "Când scriem ce spune cineva, folosim două puncte înainte de vorbele lui și linia de dialog la începutul rândului. Fiecare vorbitor începe pe un rând nou, cu linie de dialog.",
+    "sample": "Mama l-a întrebat pe Radu: / — Ți-ai terminat tema? / — Da, am terminat-o! a răspuns el.",
+    "worked": "După cuvântul întrebat urmează două puncte, pentru că vin vorbele mamei. Pe rândul următor, linia de dialog arată că vorbește mama. Pe rândul nou, altă linie de dialog arată că vorbește Radu.",
+    "exercises": [
+     "Găsește cele două puncte din exemplu.",
+     "Câte linii de dialog sunt în exemplu?",
+     "Scrie o întrebare a unui coleg, cu linie de dialog.",
+     "Scrie răspunsul tău, pe rând nou.",
+     "Citește dialogul cu un coleg."
+    ],
+    "test": [
+     "Ce semn punem înainte de vorbele cuiva?",
+     "Cu ce începe rândul în care vorbește cineva?",
+     "Ce a întrebat-o mama pe Radu?",
+     "Ce a răspuns Radu?",
+     "Când începem un rând nou în dialog?"
+    ],
+    "steps": [
+     "Pune două puncte după cuvinte ca: a spus, a întrebat.",
+     "Treci pe rând nou și pune linia de dialog.",
+     "Pentru fiecare vorbitor, începe un rând nou.",
+     "Greșeala frecventă: scrierea vorbelor a doi copii pe același rând. Fiecare vorbitor are rândul lui."
+    ],
+    "answers": [
+     "Două puncte.",
+     "Cu linia de dialog.",
+     "Dacă și-a terminat tema.",
+     "Da, am terminat-o!",
+     "Când vorbește altă persoană."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-1-l27": {
+   "ro": {
+    "title": "Poezia: versul, strofa și rima",
+    "theory": "Poezia este alcătuită din versuri, adică rânduri. Mai multe versuri formează o strofă. Când cuvintele de la sfârșitul versurilor sună la fel, spunem că rimează. Citim poezia rar, cu pauză la sfârșitul versului.",
+    "sample": "Poezie originală: / Toamna vine pe cărare, / cu un coș de mere mare. / Frunzele se-ntorc în joc, / ca un covor de foc.",
+    "worked": "Poezia are patru versuri și o strofă. Cărare rimează cu mare, joc rimează cu foc. Când o recităm, facem o mică pauză la sfârșitul fiecărui vers.",
+    "exercises": [
+     "Citește poezia cu voce tare.",
+     "Găsește cuvântul care rimează cu joc.",
+     "Învață pe de rost primele două versuri.",
+     "Desenează coșul cu mere.",
+     "Găsește un cuvânt care rimează cu soare."
+    ],
+    "test": [
+     "Câte versuri are poezia?",
+     "Ce aduce toamna în coș?",
+     "Ce este un vers?",
+     "Ce este o strofă?",
+     "Găsește un cuvânt care rimează cu pom."
+    ],
+    "steps": [
+     "Citește poezia vers cu vers.",
+     "Uită-te la ultimul cuvânt din fiecare vers și caută cuvinte care sună la fel.",
+     "Ca să o înveți, repetă câte două versuri.",
+     "Greșeala frecventă: citirea în grabă, fără pauze. Poezia se citește rar, cu pauză la fiecare vers."
+    ],
+    "answers": [
+     "Patru.",
+     "Mere.",
+     "Un rând dintr-o poezie.",
+     "Un grup de versuri.",
+     "Răspunsul tău. Exemplu: om, tom."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-1-l28": {
+   "ro": {
+    "title": "Ion Creangă: Ursul păcălit de vulpe",
+    "theory": "Ion Creangă este un mare povestitor român. A scris povești pline de umor, cu animale și oameni de la țară. În povestea Ursul păcălit de vulpe aflăm, în glumă, de ce ursul are coada scurtă.",
+    "sample": "Cu cuvintele noastre: Vulpea flămândă se preface moartă pe drum. Un om care duce pește în car o aruncă în căruță. Vulpea aruncă peștii pe drum și fuge cu ei. Ursul o întreabă de unde are pește. Ea îl minte că l-a prins cu coada, în apa lacului. Ursul își ține coada toată noaptea în lacul înghețat, iar coada îi rămâne prinsă în gheață și se rupe.",
+    "worked": "Personajele sunt vulpea, ursul și omul. Vulpea este șireată, ursul este prea încrezător. Povestea ne arată că nu trebuie să credem orice ni se spune și explică, în glumă, de ce ursul are coada scurtă.",
+    "exercises": [
+     "Povestește începutul poveștii.",
+     "Desenează ursul la lac.",
+     "Cum este vulpea?",
+     "Ce a pățit ursul?",
+     "Spune sfârșitul poveștii cu cuvintele tale."
+    ],
+    "test": [
+     "Cine a scris povestea Ursul păcălit de vulpe?",
+     "Ce face vulpea pe drum?",
+     "Unde își ține ursul coada?",
+     "Ce se întâmplă cu coada ursului?",
+     "Ce ne învață povestea?"
+    ],
+    "steps": [
+     "Găsește personajele: cine apare în poveste?",
+     "Povestește în ordine: întâi, apoi, la sfârșit.",
+     "Spune ce ne învață povestea.",
+     "Greșeala frecventă: schimbarea ordinii întâmplărilor. Fără ordine, povestea nu mai are sens."
+    ],
+    "answers": [
+     "Ion Creangă.",
+     "Se preface moartă.",
+     "În lacul înghețat.",
+     "Rămâne prinsă în gheață și se rupe.",
+     "Să nu credem orice ni se spune."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-1-l29": {
+   "ro": {
+    "title": "Fabula: Greierele și furnica",
+    "theory": "Fabula este o poveste scurtă în care animalele vorbesc și se poartă ca oamenii. La sfârșit ne învață ceva: aceasta este morala. Multe fabule vechi au fost scrise de Esop și de La Fontaine.",
+    "sample": "Cu cuvintele noastre: Toată vara, greierele cântă și se distrează. Furnica muncește și strânge mâncare pentru iarnă. Când vine iarna, greierele nu are ce mânca și îi cere ajutor furnicii, care îi amintește că vara el doar a cântat.",
+    "worked": "Greierele este vesel, dar nu se gândește la ziua de mâine. Furnica este harnică și prevăzătoare. Morala este că trebuie să muncim și să ne pregătim din timp.",
+    "exercises": [
+     "Povestește fabula cu cuvintele tale.",
+     "Desenează furnica la muncă.",
+     "Cum este greierele?",
+     "Spune morala cu cuvintele tale.",
+     "Inventează un alt sfârșit."
+    ],
+    "test": [
+     "Cine sunt personajele fabulei?",
+     "Ce face greierele vara?",
+     "Ce face furnica vara?",
+     "Ce se întâmplă iarna?",
+     "Ce este morala?"
+    ],
+    "steps": [
+     "Găsește personajele: greierele și furnica.",
+     "Spune ce a făcut fiecare vara și ce s-a întâmplat iarna.",
+     "Găsește morala: ce ne învață fabula?",
+     "Greșeala frecventă: să crezi că fabula vorbește doar despre insecte. Animalele ne arată cum se poartă oamenii."
+    ],
+    "answers": [
+     "Greierele și furnica.",
+     "Cântă și se distrează.",
+     "Muncește și strânge mâncare.",
+     "Greierele nu are ce mânca și cere ajutor.",
+     "Învățătura fabulei."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-1-l30": {
+   "ro": {
+    "title": "Ghicitori, proverbe și frământări de limbă",
+    "theory": "Ghicitoarea descrie ceva fără să-i spună numele; ascultăm toate indiciile și găsim răspunsul. Proverbul este o vorbă scurtă și înțeleaptă a poporului. Frământarea de limbă este o propoziție greu de rostit repede.",
+    "sample": "Ghicitoare originală: Am ace, dar nu cos; când mă atingi, mă fac ghem. (ariciul) / Proverb: Ai carte, ai parte. / Frământare originală: Șase șoricei șușotesc șoptit sub șopron.",
+    "worked": "Indiciile sunt acele și ghemul: răspunsul este ariciul. Proverbul ne spune că cine învață are un viitor mai bun. Frământarea e grea pentru că se repetă sunetul ș.",
+    "exercises": [
+     "Ghicește: Are dinți, dar nu mănâncă. (pieptenele)",
+     "Spune frământarea de trei ori.",
+     "Explică proverbul Ai carte, ai parte.",
+     "Inventează o ghicitoare despre soare.",
+     "Spune o ghicitoare unui coleg."
+    ],
+    "test": [
+     "Ce este o ghicitoare?",
+     "Care este răspunsul la ghicitoarea din exemplu?",
+     "Ce ne învață proverbul Ai carte, ai parte?",
+     "De ce e grea frământarea de limbă?",
+     "Inventează o ghicitoare despre lună."
+    ],
+    "steps": [
+     "Ascultă toate indiciile.",
+     "Întreabă-te: ce lucru are toate aceste însușiri?",
+     "Verifică răspunsul cu fiecare indiciu.",
+     "Greșeala frecventă: răspunsul grăbit, după primul indiciu. Ascultă ghicitoarea până la capăt."
+    ],
+    "answers": [
+     "O descriere a unui lucru fără să-i spunem numele.",
+     "Ariciul.",
+     "Că cine învață are un viitor mai bun.",
+     "Pentru că se repetă sunetul ș.",
+     "Răspunsul tău. Exemplu: Noaptea strălucesc pe cer, uneori rotundă, alteori subțire. (luna)"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-1-l31": {
+   "ro": {
+    "title": "Textul informativ: barza",
+    "theory": "Textul informativ ne dă informații adevărate despre un subiect. El nu spune o poveste inventată. Îl citim cu atenție și căutăm răspunsurile în text.",
+    "sample": "Barza este o pasăre mare, albă, cu aripi negre și cioc roșu. Primăvara se întoarce din țările calde și își face cuibul pe stâlpi sau pe acoperișuri. Toamna pleacă din nou spre sud.",
+    "worked": "Textul spune cum arată barza, unde își face cuibul și ce face primăvara și toamna. Acestea sunt informații adevărate. Barza este o pasăre călătoare.",
+    "exercises": [
+     "Citește textul de două ori.",
+     "Subliniază culorile berzei.",
+     "Desenează o barză în cuib.",
+     "Explică, împreună cu un adult, ce înseamnă pasăre călătoare.",
+     "Pune o întrebare despre barză."
+    ],
+    "test": [
+     "Ce culoare are ciocul berzei?",
+     "Unde își face barza cuibul?",
+     "Când se întoarce barza?",
+     "Este textul informativ o poveste inventată?",
+     "Câte propoziții are textul?"
+    ],
+    "steps": [
+     "Citește întrebarea și găsește cuvântul cel mai important, de exemplu cuibul.",
+     "Caută acel cuvânt sau unul asemănător în text.",
+     "Răspunsul este de obicei în aceeași propoziție.",
+     "Greșeala frecventă: răspunsul inventat. Răspunde doar cu ce scrie în text."
+    ],
+    "answers": [
+     "Roșu.",
+     "Pe stâlpi sau pe acoperișuri.",
+     "Primăvara.",
+     "Nu, dă informații adevărate.",
+     "Trei."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-1-l32": {
+   "ro": {
+    "title": "Felicitarea și invitația",
+    "theory": "Felicitarea are o formulă de adresare, o urare și semnătura. Invitația spune la ce invităm, când și unde. Astfel, cel care o citește știe tot ce îi trebuie.",
+    "sample": "Dragă bunico, / te invit la ziua mea de naștere. / Când: sâmbătă, la ora 3. / Unde: la noi acasă. / Te aștept cu drag! / Nepoata ta, Sofia",
+    "worked": "Invitația începe cu Dragă bunico. Apoi spune ce sărbătorim, ziua, ora și locul. Se încheie cu o formulă caldă și cu semnătura. Fără zi și oră, bunica nu ar ști când să vină.",
+    "exercises": [
+     "Scrie o formulă de adresare pentru bunicul.",
+     "Scrie o invitație la joacă.",
+     "Scrie o felicitare de ziua mamei.",
+     "Ce lipsește dintr-o invitație fără loc?",
+     "Semnează invitația ta."
+    ],
+    "test": [
+     "Ce trebuie să scrie într-o invitație?",
+     "Când este ziua Sofiei?",
+     "Cum începe invitația?",
+     "Scrie o urare scurtă pentru mama.",
+     "Ce scrie la sfârșitul invitației?"
+    ],
+    "steps": [
+     "Începe cu o formulă de adresare: Dragă …",
+     "Scrie la ce inviți, când și unde.",
+     "Încheie cu o formulă caldă și semnătura.",
+     "Greșeala frecventă: uitarea zilei, orei sau locului. Fără ele, nimeni nu știe când să vină."
+    ],
+    "answers": [
+     "La ce invităm, când și unde, cu adresare și semnătură.",
+     "Sâmbătă, la ora 3.",
+     "Dragă bunico.",
+     "Răspunsul tău. Exemplu: La mulți ani, mama mea dragă!",
+     "Nepoata ta, Sofia."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-1-l33": {
+   "ro": {
+    "title": "Biletul și cuvintele politicoase",
+    "theory": "Biletul este un mesaj scurt pentru cineva care nu este de față. Are adresare, mesajul și semnătura. Când vorbim cu alții, folosim cuvinte politicoase: bună ziua, te rog, mulțumesc, scuze, la revedere.",
+    "sample": "Mamă, / am plecat la bunica, pe strada vecină. Mă întorc la ora 6. / Radu",
+    "worked": "Biletul spune cui îi scriem (mamei), unde a plecat Radu și când se întoarce. La sfârșit este semnătura. Așa mama nu se îngrijorează.",
+    "exercises": [
+     "Scrie un bilet pentru tata.",
+     "Spune cum saluți dimineața.",
+     "Spune cum ceri o carte politicos.",
+     "Spune ce spui când primești un cadou.",
+     "Spune ce spui când ai greșit."
+    ],
+    "test": [
+     "Ce este un bilet?",
+     "Unde a plecat Radu?",
+     "Când se întoarce Radu?",
+     "Ce cuvânt folosim când cerem ceva?",
+     "Ce spunem când plecăm?"
+    ],
+    "steps": [
+     "Scrie cui îi lași biletul.",
+     "Spune clar unde ești sau ce trebuie făcut și când.",
+     "Semnează biletul ca să știe cine l-a scris.",
+     "Greșeala frecventă: biletul fără semnătură. Cine îl citește trebuie să știe de la cine este."
+    ],
+    "answers": [
+     "Un mesaj scurt pentru cineva care nu este de față.",
+     "La bunica, pe strada vecină.",
+     "La ora 6.",
+     "Te rog.",
+     "La revedere."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-1-l34": {
+   "ro": {
+    "title": "Povestim după un șir de imagini",
+    "theory": "Când povestim după imagini, le privim în ordine și spunem ce se întâmplă în fiecare: cine apare, unde, ce face. Folosim cuvintele întâi, apoi și la sfârșit. Așa povestirea are început, mijloc și sfârșit.",
+    "sample": "Imaginea 1: un copil plantează o sămânță. Imaginea 2: udă pământul. Imaginea 3: a crescut o floare. / Povestire: Întâi, Mihai a plantat o sămânță. Apoi a udat-o în fiecare zi. La sfârșit, a crescut o floare frumoasă.",
+    "worked": "Povestirea are trei propoziții, câte una pentru fiecare imagine. Cuvintele întâi, apoi și la sfârșit arată ordinea. Am dat copilului un nume, ca povestea să fie mai vie.",
+    "exercises": [
+     "Povestește ce faci dimineața, în trei propoziții.",
+     "Folosește întâi, apoi și la sfârșit.",
+     "Desenează trei imagini despre o zi de școală.",
+     "Dă un titlu povestirii din exemplu.",
+     "Povestește unui coleg ce ai făcut duminică."
+    ],
+    "test": [
+     "Ce a plantat Mihai?",
+     "Ce a făcut apoi?",
+     "Ce a crescut la sfârșit?",
+     "Ce cuvinte arată ordinea?",
+     "Câte imagini sunt în exemplu?"
+    ],
+    "steps": [
+     "Privește imaginile în ordine, de la prima la ultima.",
+     "Pentru fiecare imagine spune o propoziție: cine, ce face.",
+     "Leagă propozițiile cu întâi, apoi, la sfârșit.",
+     "Greșeala frecventă: povestirea doar a unei imagini. Fiecare imagine are partea ei din poveste."
+    ],
+    "answers": [
+     "O sămânță.",
+     "A udat-o în fiecare zi.",
+     "O floare frumoasă.",
+     "Întâi, apoi, la sfârșit.",
+     "Trei."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-1-l35": {
+   "ro": {
+    "title": "Cartea și biblioteca",
+    "theory": "Cartea are copertă, foi, pagini și rânduri. Pe copertă găsim titlul și autorul. La bibliotecă împrumutăm cărți, le păstrăm curate și le aducem înapoi la timp.",
+    "sample": "Exemplu original: Pe copertă scrie: Povești cu animale. Autor: Maria Pop. Ilustrații: un arici și o vulpe.",
+    "worked": "Titlul ne spune despre ce este cartea: povești cu animale. Autorul este cel care a scris-o. Ilustrațiile ne ajută să ghicim ce vom citi. Paginile sunt numerotate, ca să găsim ușor locul unde am rămas.",
+    "exercises": [
+     "Arată coperta unei cărți.",
+     "Găsește titlul unei cărți din clasă.",
+     "Găsește numele autorului.",
+     "Desenează coperta cărții tale preferate.",
+     "Spune cum păstrezi o carte curată."
+    ],
+    "test": [
+     "Ce găsim pe copertă?",
+     "Cine este autorul?",
+     "Ce sunt ilustrațiile?",
+     "Ce facem cu o carte împrumutată?",
+     "Despre ce este cartea din exemplu?"
+    ],
+    "steps": [
+     "Uită-te întâi la copertă: titlul și autorul.",
+     "Privește ilustrațiile și ghicește despre ce este cartea.",
+     "Citește și verifică dacă ai ghicit.",
+     "Greșeala frecventă: confuzia dintre titlu și autor. Titlul este numele cărții, autorul este cel care a scris-o."
+    ],
+    "answers": [
+     "Titlul și autorul.",
+     "Cel care a scris cartea.",
+     "Desenele din carte.",
+     "O păstrăm curată și o aducem înapoi la timp.",
+     "Despre povești cu animale."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-1-l36": {
+   "ro": {
+    "title": "Recapitulare: ce am învățat în clasa I",
+    "theory": "La sfârșitul anului citim un text scurt și arătăm ce știm: citim și înțelegem, despărțim cuvintele în silabe, scriem propoziții cu literă mare și punct, folosim corect grupurile de litere și semnele de punctuație.",
+    "sample": "În fiecare dimineață, Alex își pregătește ghiozdanul. Pune înăuntru caietul, penarul și un măr. Apoi pleacă la școală cu sora lui.",
+    "worked": "Textul are trei propoziții. Alex își pregătește întâi ghiozdanul, apoi pleacă la școală. Alex este un nume: literă mare. Ghiozdanul are grupul ghi, iar școală are diftongul oa: școa-lă.",
+    "exercises": [
+     "Citește textul cu voce tare.",
+     "Găsește cuvântul cu grupul ghi.",
+     "Desparte în silabe: dimineață.",
+     "Scrie o propoziție despre ghiozdanul tău.",
+     "Spune ce ți-a plăcut cel mai mult să înveți anul acesta."
+    ],
+    "test": [
+     "Ce face Alex întâi?",
+     "Câte propoziții are textul?",
+     "Scrie corect: alex merge la școală",
+     "Cu cine pleacă Alex la școală?",
+     "Desparte în silabe: școală."
+    ],
+    "steps": [
+     "Citește întâi rar, apoi mai repede.",
+     "Întreabă-te: cine? ce face? cu cine?",
+     "Numără propozițiile după punctele de la sfârșit.",
+     "Greșeala frecventă: numele scris cu literă mică. Numele și începutul propoziției au literă mare: Alex."
+    ],
+    "answers": [
+     "Își pregătește ghiozdanul.",
+     "Trei.",
+     "Alex merge la școală.",
+     "Cu sora lui.",
+     "școa-lă."
+    ]
+   }
+  }
+ }
+}
