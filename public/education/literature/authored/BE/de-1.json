@@ -1,0 +1,242 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "BE",
+ "stage": "beginner",
+ "grade": "1",
+ "version": "ad8589bf4e7dcc3cb369a44a63a9fd2e13f0641502d9fcece3c1634590b4064a",
+ "source": "https://ostbelgienbildung.be/",
+ "sourceTitle": "Deutschsprachige Gemeinschaft Belgiens: Rahmenplan Deutsch als Unterrichtssprache, Primarschule (nur Rahmen; eigene Aufgaben)",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "de",
+ "labels": [
+  "Eigene Übungsaktivität · Belgien (Ostbelgien) · 1. Schuljahr",
+  "Wir lernen",
+  "Eigenes Beispiel",
+  "Erklärung",
+  "Übungen",
+  "Teste dich",
+  "Eigene Übungen, kein offizieller Test. Lies sie, wenn nötig, mit einem Erwachsenen."
+ ],
+ "chapters": {
+  "eu-year-be-beginner-1-parcurs": {
+   "de": {
+    "title": "Laute hören, Buchstaben lesen",
+    "theory": "Jedes Wort hat Laute. Wir hören zuerst den Anlaut: Bei Ball hören wir am Anfang B. Dann lesen wir Laut für Laut und ziehen die Laute zusammen: R-o-s-e wird Rose.",
+    "sample": "Lena hat eine rote Rose. Sie bringt die Rose zu Oma nach Eupen.",
+    "worked": "Rose beginnt mit dem Anlaut R. Ro-se hat zwei Silben. Oma beginnt mit O. Eupen ist eine Stadt in Ostbelgien und beginnt mit Eu, zwei Buchstaben für einen Laut.",
+    "exercises": [
+     "Welchen Anlaut hat Rose?",
+     "Klatsche die Silben von Oma.",
+     "Finde ein Wort mit dem Anlaut L.",
+     "Ziehe zusammen: M-u-s.",
+     "Lies laut: La, Le, Li, Lo, Lu."
+    ],
+    "test": [
+     "Welchen Anlaut hat Lena?",
+     "Wohin bringt Lena die Rose?",
+     "Welche zwei Buchstaben schreiben einen Laut in Eupen?",
+     "Schreibe ein Wort mit dem Anlaut S.",
+     "Wie viele Silben hat Rose?"
+    ]
+   }
+  },
+  "eu-year-be-beginner-1-intelegere": {
+   "de": {
+    "title": "Ich lese und verstehe",
+    "theory": "Lies Satz für Satz. Frage dich: Wer? Was? Wo? Die Antwort steht im Text. Was nicht dasteht, wissen wir nicht.",
+    "sample": "Jonas fährt mit dem Fahrrad zum Venn. Er nimmt eine Flasche Wasser mit. Dort sieht er einen großen Vogel.",
+    "worked": "Wer? Jonas. Womit fährt er? Mit dem Fahrrad. Wohin? Zum Venn. Was nimmt er mit? Eine Flasche Wasser. Was sieht er? Einen großen Vogel. Wie der Vogel heißt, steht nicht im Text.",
+    "exercises": [
+     "Womit fährt Jonas?",
+     "Wohin fährt er?",
+     "Was nimmt er mit?",
+     "Was sieht Jonas?",
+     "Unterstreiche den Satz mit dem Vogel."
+    ],
+    "test": [
+     "Steht im Text, wie der Vogel heißt?",
+     "Fährt Jonas mit dem Auto? Woher weißt du das?",
+     "Was ist in der Flasche?",
+     "Ist der Vogel klein?",
+     "Male, was Jonas sieht."
+    ]
+   }
+  },
+  "eu-year-be-beginner-1-narativ": {
+   "de": {
+    "title": "Wer macht was in der Geschichte?",
+    "theory": "In einer Geschichte gibt es Figuren. Sie tun etwas. Wir erzählen der Reihe nach mit: zuerst, dann, danach, zum Schluss.",
+    "sample": "Zuerst sucht ein kleiner Bär Honig. Dann fragt er die Biene. Danach zeigt die Biene ihm einen Baum. Zum Schluss isst der Bär Honig und lacht.",
+    "worked": "Die Figuren sind der Bär und die Biene. Zuerst: Der Bär sucht Honig. Dann: Er fragt die Biene. Danach: Sie zeigt den Baum. Zum Schluss: Er isst und lacht.",
+    "exercises": [
+     "Wer sind die Figuren?",
+     "Was sucht der Bär?",
+     "Wen fragt er?",
+     "Erzähle mit zuerst, dann, danach, zum Schluss.",
+     "Warum lacht der Bär am Ende?"
+    ],
+    "test": [
+     "Was zeigt die Biene?",
+     "Was passiert zuerst?",
+     "Was macht der Bär zum Schluss?",
+     "Ordne: lacht / sucht Honig / fragt die Biene.",
+     "Male die Biene und den Bären."
+    ]
+   }
+  },
+  "eu-year-be-beginner-1-poezie": {
+   "de": {
+    "title": "Ein kleines Gedicht",
+    "theory": "Gedichte haben einen Takt. Am Ende der Zeilen klingen oft Wörter gleich. Das ist ein Reim: Baum und Traum, Bein und klein.",
+    "sample": "Im Garten steht ein grüner Baum,\nda träumt ein Vogel einen Traum.\nDer Wind ist leise, warm und fein,\nund ich bin froh, ich bin nicht klein.",
+    "worked": "Baum und Traum reimen sich. Fein und klein reimen sich auch. Der Vogel träumt im Baum. In Zeile drei steht, wie der Wind ist: leise, warm und fein.",
+    "exercises": [
+     "Sprich das Gedicht und klatsche dazu.",
+     "Was reimt sich auf Baum?",
+     "Wo steht der Baum?",
+     "Wie ist der Wind?",
+     "Finde ein Reimwort zu Bein."
+    ],
+    "test": [
+     "Wer träumt?",
+     "Welches Wort reimt sich auf fein?",
+     "Welche Farbe hat der Baum?",
+     "Schreibe zwei Reimwörter zu Haus.",
+     "Erfinde eine Zeile mit dem Wort Sonne."
+    ]
+   }
+  },
+  "eu-year-be-beginner-1-dialog": {
+   "de": {
+    "title": "Miteinander sprechen",
+    "theory": "Wir begrüßen uns, fragen und antworten. Wir reden nacheinander und hören gut zu. Bitte und danke sind höflich.",
+    "sample": "Sara: Guten Morgen, Elias! Spielst du mit mir?\nElias: Guten Morgen, Sara! Ja, gern. Was spielen wir?\nSara: Fangen, bitte!\nElias: Gut, du bist dran!",
+    "worked": "Sara begrüßt Elias und fragt. Elias antwortet mit Ja, gern und stellt eine Frage. Sara sagt bitte. Beide sprechen nacheinander.",
+    "exercises": [
+     "Spiele das Gespräch mit einem Partner.",
+     "Was fragt Sara?",
+     "Was antwortet Elias?",
+     "Was möchte Sara spielen?",
+     "Begrüße deinen Partner und frage ihn etwas."
+    ],
+    "test": [
+     "Wie begrüßen sich die Kinder?",
+     "Wer sagt bitte?",
+     "Was fragt Elias?",
+     "Was tust du, wenn der andere spricht?",
+     "Schreibe eine Frage mit Spielst du."
+    ]
+   }
+  },
+  "eu-year-be-beginner-1-vocabular": {
+   "de": {
+    "title": "Neue Wörter kennenlernen",
+    "theory": "Wörter gehören zu Gruppen, zum Beispiel Schule: Heft, Stift, Tafel. Manche Wörter sind Gegenteile: hell und dunkel, laut und leise.",
+    "sample": "In der Schule liegt ein Heft auf dem Tisch. Daneben liegen zwei Stifte. Draußen ist es dunkel, drinnen ist es hell.",
+    "worked": "Heft und Stifte gehören zur Schule. Dunkel und hell sind Gegenteile. Stifte ist mehr als ein Stift.",
+    "exercises": [
+     "Finde Schulwörter im Text.",
+     "Finde zwei Gegenteile.",
+     "Ein Stift, zwei …",
+     "Was ist das Gegenteil von laut?",
+     "Nenne drei Dinge aus deinem Federmäppchen."
+    ],
+    "test": [
+     "Ein Heft, zwei …?",
+     "Was ist das Gegenteil von hell?",
+     "Welches Wort gehört nicht zur Schule: Tafel, Banane, Stift?",
+     "Wo liegt das Heft?",
+     "Schreibe einen Satz mit dunkel."
+    ]
+   }
+  },
+  "eu-year-be-beginner-1-exprimare": {
+   "de": {
+    "title": "Satzanfang groß, Punkt am Ende",
+    "theory": "Am Satzanfang schreiben wir groß. Am Ende steht ein Punkt. Namen und Nomen schreiben wir groß: Lena, Schule, Baum.",
+    "sample": "am morgen geht paul zur schule\nAm Morgen geht Paul zur Schule.",
+    "worked": "Am steht am Satzanfang und wird großgeschrieben. Morgen und Schule sind Nomen, Paul ist ein Name. Am Ende fehlt der Punkt.",
+    "exercises": [
+     "Schreibe den Satz richtig ab.",
+     "Finde den Namen.",
+     "Finde zwei Nomen.",
+     "Berichtige: der hund bellt",
+     "Schreibe einen Satz über deinen Morgen."
+    ],
+    "test": [
+     "Was schreiben wir am Satzanfang?",
+     "Was steht am Ende?",
+     "Warum schreiben wir Baum groß?",
+     "Berichtige: lena malt",
+     "Schreibe deinen Namen."
+    ]
+   }
+  },
+  "eu-year-be-beginner-1-redactare": {
+   "de": {
+    "title": "Ich schreibe zu einem Bild",
+    "theory": "Schau das Bild an. Sage einen Satz. Schreibe ihn auf. Lies ihn noch einmal: Ist alles richtig?",
+    "sample": "Bild: Ein Junge baut einen Schneemann.\nIch sage: Der Junge baut einen Schneemann.\nIch schreibe es auf.\nIch ergänze: Der Schneemann hat eine Mütze.",
+    "worked": "Wir haben den Satz zuerst gesagt. Dann haben wir ihn geschrieben. Junge und Schneemann sind Nomen und werden großgeschrieben. Der zweite Satz sagt mehr über den Schneemann.",
+    "exercises": [
+     "Sage einen Satz zu einem Bild mit einer Katze.",
+     "Schreibe deinen Satz auf.",
+     "Prüfe Großschreibung und Punkt.",
+     "Schreibe noch einen Satz dazu.",
+     "Lies beide Sätze vor."
+    ],
+    "test": [
+     "Was machst du zuerst?",
+     "Was prüfst du am Ende?",
+     "Wie viele Wörter hat: Ich male.?",
+     "Schreibe einen Satz über den Winter.",
+     "Mache den Satz länger: Der Hund spielt."
+    ]
+   }
+  },
+  "eu-year-be-beginner-1-interpretare": {
+   "de": {
+    "title": "Meine Meinung sagen",
+    "theory": "Wir sagen, was uns gefällt, und erklären warum. Wir finden einen Grund im Text.",
+    "sample": "Mila hilft ihrem Freund beim Aufräumen. Danach spielen beide zusammen. Der Freund sagt: Danke, Mila!",
+    "worked": "Mila hilft. Der Freund sagt danke. Ich finde Mila hilfsbereit, weil sie beim Aufräumen hilft.",
+    "exercises": [
+     "Wem hilft Mila?",
+     "Was machen die Kinder danach?",
+     "Was sagt der Freund?",
+     "Wie findest du Mila? Warum?",
+     "Wann hast du jemandem geholfen?"
+    ],
+    "test": [
+     "Wer hilft?",
+     "Wofür bedankt sich der Freund?",
+     "Ergänze: Ich finde Mila …, weil …",
+     "Steht im Text, wie alt Mila ist?",
+     "Was gefällt dir an der Geschichte?"
+    ]
+   }
+  },
+  "eu-year-be-beginner-1-verificare": {
+   "de": {
+    "title": "Wiederholung 1. Schuljahr",
+    "theory": "Wir wiederholen: Laute hören, Wörter lesen, Fragen zum Text beantworten, der Reihe nach erzählen, reimen, miteinander sprechen und Sätze richtig schreiben.",
+    "sample": "Die Katze Mimi springt auf den Stuhl. Sie sieht einen Wollknäuel. Sie spielt mit der Wolle. Dann schläft sie ein.",
+    "worked": "Mimi ist die Hauptfigur. Reihenfolge: springt, sieht die Wolle, spielt, schläft. Jeder Satz beginnt groß und endet mit Punkt.",
+    "exercises": [
+     "Lies den Text laut.",
+     "Wer ist die Hauptfigur?",
+     "Erzähle der Reihe nach.",
+     "Finde ein Nomen.",
+     "Schreibe, was Mimi am nächsten Tag macht."
+    ],
+    "test": [
+     "Wohin springt Mimi?",
+     "Womit spielt sie?",
+     "Was macht sie zum Schluss?",
+     "Welchen Anlaut hat Mimi?",
+     "Schreibe einen Satz über eine Katze."
+    ]
+   }
+  }
+ }
+}

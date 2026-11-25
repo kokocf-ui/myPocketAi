@@ -1,0 +1,242 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "BE",
+ "stage": "beginner",
+ "grade": "1",
+ "version": "c66b09ebbd0c084efa2df8a7af91fa66e045db9d82ed0b1da07b5463de3037e1",
+ "source": "https://www.enseignement.be/parcours-dapprentissage/maternel-et-primaire-ordinaire/organisation-de-lenseignement-maternel-et-primaire/contenus-dapprentissage",
+ "sourceTitle": "Fédération Wallonie-Bruxelles : référentiel de Français, 1re primaire (cadre uniquement ; activités originales)",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "fr",
+ "labels": [
+  "Activité originale indicative · Belgique (FWB) · 1re primaire",
+  "Pour apprendre",
+  "Exemple original",
+  "Explication",
+  "Exercices",
+  "Je vérifie",
+  "Activités originales, pas une épreuve officielle. Lis avec un adulte si tu en as besoin."
+ ],
+ "chapters": {
+  "eu-year-be-beginner-1-parcurs": {
+   "fr": {
+    "title": "Sons, lettres et syllabes",
+    "theory": "Les mots sont faits de sons. On écrit les sons avec des lettres. Certains sons s’écrivent avec deux lettres : ou, on, ch, an. Pour lire un mot nouveau, on lit syllabe par syllabe, puis on assemble : ca-na-pé donne canapé.",
+    "sample": "Papa a un sac rouge. Dans le sac, il y a une pomme et un chou.",
+    "worked": "Rou-ge a deux syllabes. Pom-me aussi. Dans rouge et chou, on entend le son ou, écrit avec deux lettres. Dans chou, ch fait un seul son.",
+    "exercises": [
+     "Frappe les syllabes de canapé.",
+     "Trouve deux mots avec le son ou.",
+     "Découpe en syllabes : pomme, rouge, papa.",
+     "Trouve un mot avec ch.",
+     "Lis à voix haute : ma, mé, mi, mo, mu."
+    ],
+    "test": [
+     "Combien de syllabes a canapé ?",
+     "Qu’y a-t-il dans le sac ?",
+     "Quelles lettres font le son ou ?",
+     "Écris un mot qui commence par la syllabe la.",
+     "Assemble les syllabes : vé-lo."
+    ]
+   }
+  },
+  "eu-year-be-beginner-1-intelegere": {
+   "fr": {
+    "title": "Je lis et je comprends un petit texte",
+    "theory": "Quand tu lis, arrête-toi à chaque point et demande-toi : de qui parle-t-on ? Que se passe-t-il ? Où ? La réponse est dans le texte. Si le texte ne le dit pas, on n’invente pas.",
+    "sample": "Noé va à la mer avec sa mamie. Il a un seau vert. Sur la plage, il fait un château avec Lou.",
+    "worked": "De qui parle-t-on ? De Noé. Avec qui va-t-il ? Avec sa mamie. Qu’a-t-il ? Un seau vert. Que fait-il ? Un château. Le texte ne dit pas l’âge de Noé.",
+    "exercises": [
+     "Avec qui Noé va-t-il à la mer ?",
+     "De quelle couleur est le seau ?",
+     "Que fait Noé sur la plage ?",
+     "Avec qui joue-t-il ?",
+     "Souligne la phrase qui dit ce que Noé a."
+    ],
+    "test": [
+     "Le texte dit-il l’âge de Noé ?",
+     "Le seau est-il bleu ? Comment le sais-tu ?",
+     "Où Noé fait-il le château ?",
+     "Trouve un mot de la famille.",
+     "Dessine la scène et écris un mot."
+    ]
+   }
+  },
+  "eu-year-be-beginner-1-narativ": {
+   "fr": {
+    "title": "Personnages et événements d’une histoire",
+    "theory": "Les personnages sont les personnes ou les animaux de l’histoire. Les événements, c’est ce qui se passe. Pour raconter dans l’ordre, on utilise : d’abord, ensuite, puis, à la fin.",
+    "sample": "D’abord, un hérisson perd sa pomme. Ensuite, un lapin la trouve sous une feuille. Puis le lapin la rapporte. À la fin, le hérisson dit merci.",
+    "worked": "Les personnages sont le hérisson et le lapin. D’abord : le hérisson perd la pomme. Ensuite : le lapin la trouve. Puis : il la rapporte. À la fin : le hérisson dit merci.",
+    "exercises": [
+     "Qui sont les personnages ?",
+     "Que perd le hérisson ?",
+     "Où est la pomme ?",
+     "Raconte avec d’abord, ensuite, puis, à la fin.",
+     "Comment se sent le hérisson à la fin ?"
+    ],
+    "test": [
+     "Qui trouve la pomme ?",
+     "Que se passe-t-il d’abord ?",
+     "Que dit le hérisson à la fin ?",
+     "Remets dans l’ordre : dit merci / perd la pomme / trouve la pomme.",
+     "Dessine ton moment préféré."
+    ]
+   }
+  },
+  "eu-year-be-beginner-1-poezie": {
+   "fr": {
+    "title": "Comptines et rimes",
+    "theory": "Une comptine est un petit poème avec un rythme, comme une chanson. Deux mots riment quand ils finissent par le même son : chat et rat, soleil et abeille.",
+    "sample": "Le soleil brille sur le toit,\nle petit chat dit : moi, moi, moi !\nJe saute, je cours, je chante aussi,\nje joue dehors avec mon amie Lili.",
+    "worked": "Toit et moi riment : ils finissent par le son oi. Aussi et Lili finissent par le son i. Dans le troisième vers, il y a trois actions : saute, cours, chante.",
+    "exercises": [
+     "Dis la comptine à voix haute en tapant le rythme.",
+     "Quel mot rime avec toit ?",
+     "Quelles actions sont dans le troisième vers ?",
+     "Que dit le chat ?",
+     "Trouve un mot qui rime avec soleil."
+    ],
+    "test": [
+     "Où brille le soleil ?",
+     "Avec qui je joue dehors ?",
+     "Écris deux mots qui riment avec chat.",
+     "Combien d’actions y a-t-il dans le troisième vers ?",
+     "Invente un vers qui finit par lune."
+    ]
+   }
+  },
+  "eu-year-be-beginner-1-dialog": {
+   "fr": {
+    "title": "Parler et écouter",
+    "theory": "Quand on parle avec quelqu’un, on parle chacun son tour. On regarde la personne et on répond à la question. Les mots polis sont : s’il te plaît, merci, de rien.",
+    "sample": "Lucas : Bonjour, Emma ! Qu’est-ce que tu as dans ton cartable ?\nEmma : Bonjour, Lucas ! J’ai un cahier et une banane.\nLucas : Tu me prêtes un crayon, s’il te plaît ?\nEmma : Bien sûr, tiens !\nLucas : Merci !",
+    "worked": "Lucas pose une question. Emma répond par une phrase entière. Lucas demande poliment un crayon et dit merci. Ils parlent chacun leur tour.",
+    "exercises": [
+     "Lis le dialogue avec un camarade.",
+     "Quelle question pose Lucas ?",
+     "Qu’a Emma dans son cartable ?",
+     "Trouve les mots polis.",
+     "Invente un dialogue : demande à un camarade son jeu préféré."
+    ],
+    "test": [
+     "Qui dit bonjour en premier ?",
+     "Emma répond-elle par un mot ou par une phrase ?",
+     "Que veut emprunter Lucas ?",
+     "Que fait-on quand l’autre parle ?",
+     "Écris une question avec Qu’est-ce que."
+    ]
+   }
+  },
+  "eu-year-be-beginner-1-vocabular": {
+   "fr": {
+    "title": "Les mots et leur sens",
+    "theory": "On peut classer les mots : animaux, couleurs, aliments. Certains mots ont un contraire : grand et petit, chaud et froid. Au pluriel, on ajoute souvent un s qu’on n’entend pas : un chat, des chats.",
+    "sample": "À la ferme, il y a un grand cheval et deux petits moutons. Le cheval a chaud. Il boit de l’eau froide.",
+    "worked": "Cheval et moutons sont des animaux. Grand et petit sont des contraires. Moutons prend un s parce qu’il y en a deux. Chaud et froid parlent de température.",
+    "exercises": [
+     "Trouve tous les animaux du texte.",
+     "Trouve deux contraires.",
+     "Écris : un chien, deux …",
+     "Classe : rouge, pain, vert, fromage.",
+     "Quel est le contraire de chaud ?"
+    ],
+    "test": [
+     "Un arbre, des …?",
+     "Quel est le contraire de grand ?",
+     "Pourquoi moutons prend-il un s ?",
+     "Quel mot est une couleur : courir, jaune, tasse ?",
+     "Écris une phrase avec le mot petit."
+    ]
+   }
+  },
+  "eu-year-be-beginner-1-exprimare": {
+   "fr": {
+    "title": "Majuscule, point et espaces",
+    "theory": "Une phrase commence par une majuscule et finit par un point. Les prénoms et les noms de villes ont une majuscule. On laisse un espace entre les mots.",
+    "sample": "le chien de zoé joue dans le jardin\nLe chien de Zoé joue dans le jardin.",
+    "worked": "Dans la première ligne, il manque les majuscules et le point. Le commence la phrase. Zoé est un prénom : il prend une majuscule.",
+    "exercises": [
+     "Recopie la phrase correcte.",
+     "Trouve le prénom dans la phrase.",
+     "Corrige : il pleut aujourd’hui",
+     "Pourquoi Bruxelles a-t-il une majuscule ?",
+     "Écris une phrase sur ton école."
+    ],
+    "test": [
+     "Par quoi commence une phrase ?",
+     "Que met-on à la fin d’une phrase ?",
+     "Corrige : le chat dort",
+     "Que laisse-t-on entre les mots ?",
+     "Écris ton prénom avec la majuscule."
+    ]
+   }
+  },
+  "eu-year-be-beginner-1-redactare": {
+   "fr": {
+    "title": "J’écris une phrase sur un dessin",
+    "theory": "Avant d’écrire, dis ta phrase à voix haute et compte les mots. Écris-la, relis-la et vérifie : majuscule, espaces, point. Est-ce que la phrase a du sens ?",
+    "sample": "Dessin : un garçon donne à manger à un poisson.\nJe dis : Le garçon nourrit le poisson.\nJ’écris : Le garçon nourrit le poisson.\nJ’ajoute : Le poisson nage vite.",
+    "worked": "D’abord, on a dit la phrase : cinq mots. Puis on l’a écrite avec une majuscule et un point. En relisant, elle a du sens. On a ajouté une deuxième phrase.",
+    "exercises": [
+     "Dis une phrase sur un chat dans le jardin et compte les mots.",
+     "Écris ta phrase et vérifie le point.",
+     "Ajoute une deuxième phrase.",
+     "Lis ta phrase à un camarade.",
+     "Fais un dessin et écris deux phrases."
+    ],
+    "test": [
+     "Que fais-tu avant d’écrire ?",
+     "Combien de mots dans : Le soleil brille. ?",
+     "Que vérifies-tu après avoir écrit ?",
+     "Écris une phrase sur ton goûter.",
+     "Allonge la phrase : Je joue."
+    ]
+   }
+  },
+  "eu-year-be-beginner-1-interpretare": {
+   "fr": {
+    "title": "Ce que je pense et pourquoi",
+    "theory": "Après avoir lu, on peut dire ce qu’on pense et expliquer pourquoi avec le texte. On peut comparer deux personnages : qu’est-ce qui est pareil ? Qu’est-ce qui est différent ?",
+    "sample": "Jade partage ses crayons avec Tom. Hugo garde tous ses crayons. Tom sourit à Jade.",
+    "worked": "Jade et Hugo ont tous les deux des crayons : c’est pareil. C’est différent : Jade partage, Hugo non. Je pense que Jade est gentille, car le texte dit qu’elle partage et que Tom sourit.",
+    "exercises": [
+     "Qu’est-ce qui est pareil chez Jade et Hugo ?",
+     "Qu’est-ce qui est différent ?",
+     "Qui est gentil ? Pourquoi ?",
+     "Pourquoi Tom sourit-il ?",
+     "Que pourrait faire Hugo la prochaine fois ?"
+    ],
+    "test": [
+     "Qui garde tous ses crayons ?",
+     "Qui sourit ?",
+     "Complète : Je pense que Jade est … car …",
+     "Le texte dit-il que Hugo est triste ?",
+     "Dis ce que tu aimes dans l’histoire et pourquoi."
+    ]
+   }
+  },
+  "eu-year-be-beginner-1-verificare": {
+   "fr": {
+    "title": "Je révise la 1re primaire",
+    "theory": "On vérifie ce que tu as appris : lire en syllabes, trouver les réponses dans le texte, raconter dans l’ordre, entendre les rimes, parler chacun son tour, connaître de nouveaux mots et écrire des phrases avec majuscule et point.",
+    "sample": "Le petit chien Filou court dans le jardin. Il creuse un trou et trouve une balle. Il apporte la balle à papy. Papy la lance et Filou court vite.",
+    "worked": "Filou est le personnage principal. Ordre : court, creuse, trouve la balle, l’apporte à papy, papy la lance. Chaque phrase commence par une majuscule et finit par un point.",
+    "exercises": [
+     "Lis le texte à voix haute.",
+     "Qui est le personnage principal ?",
+     "Raconte dans l’ordre.",
+     "Trouve un mot avec le son ou.",
+     "Écris une phrase sur ce que fait Filou après."
+    ],
+    "test": [
+     "Que trouve Filou ?",
+     "Qui lance la balle ?",
+     "Trouve un mot avec une majuscule et dis pourquoi.",
+     "Quel est le contraire de vite ?",
+     "Écris une phrase sur ton animal préféré."
+    ]
+   }
+  }
+ }
+}

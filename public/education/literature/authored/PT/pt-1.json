@@ -1,0 +1,242 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "PT",
+ "stage": "beginner",
+ "grade": "1",
+ "version": "0aecd33b65902ca7e46e755b8d2c73653c6a79dd1d4ac9fa98f1d6f14cfd66ea",
+ "source": "https://www.dge.mec.pt/",
+ "sourceTitle": "Direção-Geral da Educação: Aprendizagens Essenciais de Português, 1.º ano (apenas o quadro; atividades originais)",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "pt",
+ "labels": [
+  "Atividade original orientadora · Portugal · 1.º ano",
+  "Vamos aprender",
+  "Exemplo original",
+  "Explicação",
+  "Exercícios",
+  "Verifica o que sabes",
+  "Atividades originais, não são uma prova oficial. Lê com um adulto, se precisares."
+ ],
+ "chapters": {
+  "eu-year-pt-beginner-1-parcurs": {
+   "pt": {
+    "title": "Sons, letras e sílabas",
+    "theory": "As palavras são feitas de sons, e os sons escrevem-se com letras. As letras juntam-se em sílabas: ma, me, mi, mo, mu. Para ler uma palavra nova, lê sílaba a sílaba e depois junta: bo-ne-ca é boneca.",
+    "sample": "A mãe do Rui tem uma mochila. Na mochila há uma boneca e uma maçã.",
+    "worked": "Bo-ne-ca tem três sílabas. Ma-çã tem duas. Em mochila, ch são duas letras que fazem um só som. Batemos uma palma por cada sílaba.",
+    "exercises": [
+     "Bate uma palma por cada sílaba de mochila.",
+     "Procura no texto duas palavras que começam por m.",
+     "Divide em sílabas: boneca, maçã, mãe.",
+     "Muda uma letra de mala e forma outra palavra.",
+     "Lê em voz alta: pa, pe, pi, po, pu."
+    ],
+    "test": [
+     "Quantas sílabas tem boneca?",
+     "O que há na mochila?",
+     "Que duas letras fazem um só som em mochila?",
+     "Escreve uma palavra que comece pela sílaba sa.",
+     "Junta as sílabas: lu-a."
+    ]
+   }
+  },
+  "eu-year-pt-beginner-1-intelegere": {
+   "pt": {
+    "title": "Leio e compreendo um texto curto",
+    "theory": "Quando leres, para em cada ponto final e pergunta: de quem fala? O que acontece? Onde? A resposta está nas palavras do texto. Se o texto não diz, não inventamos.",
+    "sample": "O Tiago vai à praia com a avó. Leva um balde azul. Na praia faz um castelo de areia com a Inês.",
+    "worked": "De quem fala? Do Tiago. Com quem vai? Com a avó. O que leva? Um balde azul. O que faz? Um castelo de areia. O texto não diz quantos anos tem o Tiago.",
+    "exercises": [
+     "Com quem vai o Tiago à praia?",
+     "De que cor é o balde?",
+     "O que faz o Tiago na praia?",
+     "Com quem brinca?",
+     "Sublinha a frase que diz o que leva o Tiago."
+    ],
+    "test": [
+     "O texto diz quantos anos tem o Tiago?",
+     "O balde é vermelho? Como sabes?",
+     "De que é feito o castelo?",
+     "Procura uma palavra que diga uma pessoa da família.",
+     "Desenha a cena e escreve uma palavra."
+    ]
+   }
+  },
+  "eu-year-pt-beginner-1-narativ": {
+   "pt": {
+    "title": "Personagens e acontecimentos de uma história",
+    "theory": "As personagens são as pessoas ou os animais da história. Os acontecimentos são o que acontece. Para contar por ordem usamos: primeiro, depois, a seguir, no fim.",
+    "sample": "Primeiro, um esquilo perdeu a sua bolota. Depois, um coelho encontrou-a debaixo de uma folha. A seguir, o coelho devolveu-a. No fim, o esquilo agradeceu.",
+    "worked": "As personagens são o esquilo e o coelho. Primeiro: o esquilo perde a bolota. Depois: o coelho encontra-a. A seguir: devolve-a. No fim: o esquilo agradece.",
+    "exercises": [
+     "Quem são as personagens?",
+     "O que perdeu o esquilo?",
+     "Onde estava a bolota?",
+     "Conta a história com primeiro, depois, a seguir e no fim.",
+     "Como se sente o esquilo no fim? Que palavra te ajuda?"
+    ],
+    "test": [
+     "Quem encontrou a bolota?",
+     "O que aconteceu primeiro?",
+     "O que fez o esquilo no fim?",
+     "Ordena: agradece / perde a bolota / encontra-a.",
+     "Desenha a parte de que mais gostas."
+    ]
+   }
+  },
+  "eu-year-pt-beginner-1-poezie": {
+   "pt": {
+    "title": "Poemas e rimas",
+    "theory": "Um poema é um texto curto em versos, com ritmo, como uma canção. Duas palavras rimam quando acabam com os mesmos sons: gato e sapato, lua e rua.",
+    "sample": "O sol nasce de manhã,\na rã salta na maçã.\nCanto, danço, salto e rio,\nbrinco no jardim com o meu tio.",
+    "worked": "Manhã e maçã rimam porque acabam em -ã. Rio e tio também rimam. No terceiro verso há quatro ações: canto, danço, salto e rio.",
+    "exercises": [
+     "Lê o poema em voz alta e marca o ritmo com palmas.",
+     "Procura a palavra que rima com tio.",
+     "Que ações há no terceiro verso?",
+     "Onde salta a rã?",
+     "Diz uma palavra que rime com sol."
+    ],
+    "test": [
+     "Que palavra rima com manhã?",
+     "Com quem brinco no jardim?",
+     "Escreve duas palavras que rimem com gato.",
+     "Quando nasce o sol no poema?",
+     "Inventa um verso que acabe em lua."
+    ]
+   }
+  },
+  "eu-year-pt-beginner-1-dialog": {
+   "pt": {
+    "title": "Falo e escuto",
+    "theory": "Quando falamos com alguém, respeitamos a vez: um fala e o outro escuta. Olhamos para a pessoa e respondemos ao que nos perguntam. As perguntas terminam com ponto de interrogação. Usamos palavras simpáticas: por favor, obrigado, obrigada, de nada.",
+    "sample": "Pedro: Olá, Marta! O que tens na mochila?\nMarta: Olá, Pedro! Tenho um livro e uma tangerina.\nPedro: Deixas-me ver o livro, por favor?\nMarta: Claro! Aqui está.\nPedro: Obrigado!",
+    "worked": "O Pedro faz uma pergunta e a Marta responde com uma frase completa. O Pedro pede com simpatia: por favor, e no fim diz obrigado. Falam à vez.",
+    "exercises": [
+     "Lê o diálogo com um colega.",
+     "O que pergunta o Pedro primeiro?",
+     "O que tem a Marta na mochila?",
+     "Procura as palavras simpáticas do diálogo.",
+     "Inventa um diálogo: pergunta a um colega qual é o seu jogo preferido."
+    ],
+    "test": [
+     "Quem diz olá primeiro?",
+     "A Marta responde com uma palavra ou com uma frase?",
+     "O que quer ver o Pedro?",
+     "O que fazemos enquanto o outro fala?",
+     "Escreve uma pergunta que comece por O que."
+    ]
+   }
+  },
+  "eu-year-pt-beginner-1-vocabular": {
+   "pt": {
+    "title": "Palavras e significados",
+    "theory": "As palavras podem ser agrupadas: animais, cores, comida. Algumas têm um contrário: grande e pequeno, frio e quente. Se juntamos -s, dizemos que há mais do que um: um cão, dois cães; uma vaca, duas vacas.",
+    "sample": "Na quinta há um cavalo grande e dois ratos pequenos. O cavalo tem calor e bebe água fria.",
+    "worked": "Cavalo e ratos são animais. Grande e pequenos são contrários. Ratos quer dizer mais do que um rato. Calor e fria falam da temperatura.",
+    "exercises": [
+     "Procura todos os animais do texto.",
+     "Procura duas palavras contrárias.",
+     "Escreve: um gato, dois …",
+     "Separa em cores e comida: verde, pão, vermelho, queijo.",
+     "Qual é o contrário de frio?"
+    ],
+    "test": [
+     "Uma árvore, duas …?",
+     "Uma flor, muitas …?",
+     "Qual é o contrário de grande?",
+     "Que palavra é uma cor: correr, amarelo, caneca?",
+     "Escreve uma frase com a palavra pequeno."
+    ]
+   }
+  },
+  "eu-year-pt-beginner-1-exprimare": {
+   "pt": {
+    "title": "Maiúscula, ponto final e dígrafos",
+    "theory": "A frase começa com letra maiúscula e acaba com ponto final. Os nomes de pessoas e de terras levam maiúscula. Alguns sons escrevem-se com duas letras: ch (chave), lh (folha), nh (vinho), rr (carro), ss (osso).",
+    "sample": "o cão da ana brinca no jardim\nO cão da Ana brinca no jardim.",
+    "worked": "Na primeira linha faltam a maiúscula e o ponto final. Ana é nome de pessoa e leva maiúscula. Cão tem til, que faz o som nasal.",
+    "exercises": [
+     "Copia a frase correta.",
+     "Procura o nome de pessoa na frase.",
+     "Escreve duas palavras com lh.",
+     "Lê e explica a diferença: caro, carro.",
+     "Corrige: hoje chove"
+    ],
+    "test": [
+     "Com que começa uma frase?",
+     "O que pomos no fim de uma frase?",
+     "Completa com nh ou lh: fo…a (de árvore).",
+     "Porque é que Lisboa se escreve com maiúscula?",
+     "Escreve uma palavra com ch."
+    ]
+   }
+  },
+  "eu-year-pt-beginner-1-redactare": {
+   "pt": {
+    "title": "Escrevo uma frase sobre um desenho",
+    "theory": "Antes de escrever, diz a frase em voz alta e conta as palavras. Depois escreve-a, volta a lê-la e verifica: maiúscula, espaços entre as palavras, ponto final e se faz sentido.",
+    "sample": "Desenho: uma menina rega uma flor.\nDigo: A menina rega a flor.\nEscrevo: A menina rega a flor.\nAcrescento: A flor cresce muito.",
+    "worked": "Primeiro dissemos a frase em voz alta: cinco palavras. Depois escrevemo-la com maiúscula e ponto final. Ao ler, faz sentido. Acrescentámos outra frase para contar mais.",
+    "exercises": [
+     "Diz uma frase sobre um gato no jardim e conta as palavras.",
+     "Escreve a tua frase e verifica o ponto final.",
+     "Acrescenta uma segunda frase.",
+     "Lê a tua frase a um colega.",
+     "Faz um desenho e escreve duas frases."
+    ],
+    "test": [
+     "O que fazes antes de escrever?",
+     "Quantas palavras há em: O sol aquece.?",
+     "O que verificas depois de escrever?",
+     "Escreve uma frase sobre o teu pequeno-almoço.",
+     "Aumenta a frase: Eu brinco."
+    ]
+   }
+  },
+  "eu-year-pt-beginner-1-interpretare": {
+   "pt": {
+    "title": "O que penso e porquê",
+    "theory": "Depois de ler, podemos dizer o que pensamos e explicar porquê, apontando para o texto. Também podemos comparar duas personagens: em que são parecidas? Em que são diferentes?",
+    "sample": "A Sofia partilha os lápis de cor com o Duarte. O Martim guarda todos os lápis e não partilha. O Duarte sorri para a Sofia.",
+    "worked": "A Sofia e o Martim têm lápis: nisso são parecidos. São diferentes porque a Sofia partilha e o Martim não. Penso que a Sofia é generosa porque o texto diz que ela partilha e o Duarte sorri.",
+    "exercises": [
+     "Em que são parecidos a Sofia e o Martim?",
+     "Em que são diferentes?",
+     "Quem é generoso? Porque pensas isso?",
+     "Porque sorri o Duarte?",
+     "O que podia fazer o Martim da próxima vez?"
+    ],
+    "test": [
+     "Quem guarda todos os lápis?",
+     "Quem sorri?",
+     "Completa: Penso que a Sofia é … porque …",
+     "O texto diz que o Martim está triste?",
+     "Diz uma coisa de que gostas na história e porquê."
+    ]
+   }
+  },
+  "eu-year-pt-beginner-1-verificare": {
+   "pt": {
+    "title": "Revisão do 1.º ano",
+    "theory": "Vamos verificar o que aprendeste: ler juntando sílabas, encontrar respostas no texto, contar os acontecimentos por ordem, ouvir rimas, falar à vez, conhecer palavras novas e escrever frases com maiúscula e ponto final.",
+    "sample": "O cãozinho Pipo corre para o jardim. Faz um buraco e encontra uma bola. Leva a bola ao avô. O avô atira-a e o Pipo corre depressa.",
+    "worked": "O Pipo é a personagem principal. Os acontecimentos por ordem: corre para o jardim, faz um buraco, encontra a bola, leva-a ao avô, o avô atira-a. Cada frase começa com maiúscula e acaba com ponto final.",
+    "exercises": [
+     "Lê o texto em voz alta.",
+     "Quem é a personagem principal?",
+     "Conta os acontecimentos por ordem.",
+     "Procura uma palavra com til.",
+     "Escreve uma frase sobre o que o Pipo faz a seguir."
+    ],
+    "test": [
+     "O que encontra o Pipo?",
+     "Quem atira a bola?",
+     "Procura uma palavra com maiúscula e diz porquê.",
+     "Qual é o contrário de depressa?",
+     "Escreve uma frase sobre o teu animal preferido."
+    ]
+   }
+  }
+ }
+}

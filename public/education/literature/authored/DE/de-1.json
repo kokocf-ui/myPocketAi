@@ -1,0 +1,242 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "DE",
+ "stage": "beginner",
+ "grade": "1",
+ "version": "e417bf11cae7e0bbdef93055b71690d5cfd18429733862a04424b04e62b068cf",
+ "source": "https://www.kmk.org/bildungsministerkonferenz/bildungsthemen/bildungsstandards.html",
+ "sourceTitle": "KMK: Bildungsstandards im Fach Deutsch für den Primarbereich (nur Rahmen; Länderlehrpläne können abweichen; Aufgaben sind eigene Materialien)",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "de",
+ "labels": [
+  "Eigene Übungsaktivität · Deutschland · Klasse 1",
+  "Wir lernen",
+  "Eigenes Beispiel",
+  "Erklärung",
+  "Übungen",
+  "Teste dich",
+  "Eigene Übungen, kein offizieller Test. Lies sie, wenn nötig, mit einem Erwachsenen."
+ ],
+ "chapters": {
+  "eu-year-de-beginner-1-parcurs": {
+   "de": {
+    "title": "Laute, Buchstaben und Silben",
+    "theory": "Wörter bestehen aus Lauten. Jeden Laut schreiben wir mit einem oder mehreren Buchstaben. Manche Laute haben mehrere Buchstaben: sch, ch, ei, au, eu. Lange Wörter lesen wir in Silben: Ba-na-ne. Beim Silbenschwingen klatschen wir jede Silbe.",
+    "sample": "Mama hat eine Tasche. In der Tasche sind eine Banane und ein Buch.",
+    "worked": "Ta-sche hat zwei Silben. Ba-na-ne hat drei. In Tasche schreiben wir sch für einen Laut. In Buch hört man am Ende ch. So setzen wir Laute zu Wörtern zusammen.",
+    "exercises": [
+     "Klatsche die Silben von Banane.",
+     "Finde im Text zwei Wörter mit dem Anlaut B.",
+     "Trenne in Silben: Tasche, Mama, Banane.",
+     "Finde ein Wort mit sch.",
+     "Lies laut: Ma, Me, Mi, Mo, Mu."
+    ],
+    "test": [
+     "Wie viele Silben hat Banane?",
+     "Was ist in der Tasche?",
+     "Welche drei Buchstaben schreiben einen Laut in Tasche?",
+     "Schreibe ein Wort, das mit Au anfängt.",
+     "Setze die Silben zusammen: So-fa."
+    ]
+   }
+  },
+  "eu-year-de-beginner-1-intelegere": {
+   "de": {
+    "title": "Einen kurzen Text lesen und verstehen",
+    "theory": "Halte beim Lesen an jedem Punkt an und frage: Um wen geht es? Was passiert? Wo? Die Antwort steht im Text. Was nicht im Text steht, denken wir uns nicht aus.",
+    "sample": "Ben geht mit Opa in den Park. Er hat einen gelben Ball. Im Park spielt er mit Lea am Teich.",
+    "worked": "Um wen geht es? Um Ben. Mit wem geht er? Mit Opa. Was hat er? Einen gelben Ball. Wo spielt er? Am Teich. Wie alt Ben ist, steht nicht im Text.",
+    "exercises": [
+     "Mit wem geht Ben in den Park?",
+     "Welche Farbe hat der Ball?",
+     "Mit wem spielt Ben?",
+     "Wo spielen die Kinder?",
+     "Unterstreiche den Satz, der sagt, was Ben hat."
+    ],
+    "test": [
+     "Steht im Text, wie alt Ben ist?",
+     "Ist der Ball rot? Woher weißt du das?",
+     "Was ist ein Teich?",
+     "Finde ein Wort für eine Person aus der Familie.",
+     "Male das Bild zum Text und schreibe ein Wort dazu."
+    ]
+   }
+  },
+  "eu-year-de-beginner-1-narativ": {
+   "de": {
+    "title": "Figuren und Ereignisse in einer Geschichte",
+    "theory": "Figuren sind die Menschen oder Tiere in einer Geschichte. Ereignisse sind das, was passiert. Wir erzählen in der richtigen Reihenfolge: zuerst, dann, danach, am Ende.",
+    "sample": "Zuerst verliert ein Igel seinen Apfel. Dann findet ein Hase den Apfel unter einem Blatt. Danach bringt der Hase den Apfel zurück. Am Ende sagt der Igel danke.",
+    "worked": "Die Figuren sind der Igel und der Hase. Zuerst: Der Igel verliert den Apfel. Dann: Der Hase findet ihn. Danach: Er bringt ihn zurück. Am Ende: Der Igel sagt danke.",
+    "exercises": [
+     "Wer sind die Figuren?",
+     "Was verliert der Igel?",
+     "Wo liegt der Apfel?",
+     "Erzähle die Geschichte mit zuerst, dann, danach, am Ende.",
+     "Wie fühlt sich der Igel am Ende? Welches Wort hilft dir?"
+    ],
+    "test": [
+     "Wer findet den Apfel?",
+     "Was passiert zuerst?",
+     "Was sagt der Igel am Ende?",
+     "Ordne: sagt danke / verliert den Apfel / findet den Apfel.",
+     "Male deine Lieblingsstelle."
+    ]
+   }
+  },
+  "eu-year-de-beginner-1-poezie": {
+   "de": {
+    "title": "Reime und Gedichte",
+    "theory": "Ein Gedicht ist kurz und hat einen Rhythmus wie ein Lied. Reimwörter klingen am Ende gleich: Maus und Haus, Hund und bunt. Wenn wir das Gedicht laut sprechen, hören wir die Reime.",
+    "sample": "Die Sonne lacht, der Himmel blau,\ndie Katze ruft ganz laut: Miau!\nIch hüpfe, tanze, renne schnell,\nund draußen ist es warm und hell.",
+    "worked": "Blau und Miau reimen sich, sie klingen am Ende gleich. Schnell und hell reimen sich auch. In der dritten Zeile stehen drei Tunwörter: hüpfe, tanze, renne.",
+    "exercises": [
+     "Sprich das Gedicht laut und klatsche den Takt.",
+     "Welches Wort reimt sich auf schnell?",
+     "Was ruft die Katze?",
+     "Welche Tunwörter stehen in Zeile drei?",
+     "Finde ein Reimwort zu Haus."
+    ],
+    "test": [
+     "Welches Wort reimt sich auf blau?",
+     "Wie ist es draußen?",
+     "Schreibe zwei Reimwörter zu Hund.",
+     "Wer lacht im Gedicht?",
+     "Erfinde eine Zeile, die mit Maus endet."
+    ]
+   }
+  },
+  "eu-year-de-beginner-1-dialog": {
+   "de": {
+    "title": "Sprechen und zuhören",
+    "theory": "Wenn wir miteinander sprechen, wechseln wir uns ab: Einer spricht, der andere hört zu. Wir schauen die Person an und antworten auf die Frage. Freundliche Wörter sind bitte und danke.",
+    "sample": "Tim: Hallo, Mia! Was hast du in deinem Ranzen?\nMia: Hallo, Tim! Ich habe ein Heft und einen Apfel.\nTim: Leihst du mir bitte einen Stift?\nMia: Klar, hier bitte!\nTim: Danke!",
+    "worked": "Tim stellt eine Frage. Mia antwortet mit einem ganzen Satz. Dann bittet Tim freundlich um einen Stift und sagt am Ende danke. Die Kinder sprechen abwechselnd.",
+    "exercises": [
+     "Lies das Gespräch mit einem Partner.",
+     "Was fragt Tim zuerst?",
+     "Was hat Mia im Ranzen?",
+     "Finde die freundlichen Wörter.",
+     "Erfinde ein Gespräch: Frage deinen Partner nach seinem Lieblingsspiel."
+    ],
+    "test": [
+     "Wer sagt zuerst hallo?",
+     "Antwortet Mia mit einem Wort oder mit einem Satz?",
+     "Was möchte Tim leihen?",
+     "Was tun wir, wenn der andere spricht?",
+     "Schreibe eine Frage mit Was."
+    ]
+   }
+  },
+  "eu-year-de-beginner-1-vocabular": {
+   "de": {
+    "title": "Wörter und ihre Bedeutung",
+    "theory": "Wörter kann man ordnen: Tiere, Farben, Essen. Manche Wörter haben ein Gegenteil: groß und klein, heiß und kalt. Nomen gibt es in der Einzahl und Mehrzahl: ein Hund, zwei Hunde; eine Katze, zwei Katzen.",
+    "sample": "Auf dem Hof steht ein großes Pferd. Daneben sitzen zwei kleine Katzen. Das Pferd trinkt kaltes Wasser.",
+    "worked": "Pferd und Katzen sind Tiere. Groß und klein sind Gegenteile. Katzen ist die Mehrzahl von Katze. Die Nomen Hof, Pferd, Katzen und Wasser schreiben wir groß.",
+    "exercises": [
+     "Finde alle Tiere im Text.",
+     "Finde zwei Gegenteile.",
+     "Schreibe: ein Hund, zwei …",
+     "Ordne nach Farben und Essen: rot, Brot, grün, Käse.",
+     "Was ist das Gegenteil von kalt?"
+    ],
+    "test": [
+     "Ein Baum, zwei …?",
+     "Eine Blume, viele …?",
+     "Was ist das Gegenteil von groß?",
+     "Welches Wort ist eine Farbe: laufen, gelb, Tasse?",
+     "Schreibe einen Satz mit dem Wort klein."
+    ]
+   }
+  },
+  "eu-year-de-beginner-1-exprimare": {
+   "de": {
+    "title": "Großschreibung und Punkt",
+    "theory": "Ein Satz beginnt mit einem großen Buchstaben und endet mit einem Punkt. Im Deutschen schreiben wir auch alle Nomen groß: der Hund, die Schule, das Haus. Namen schreiben wir immer groß. Zwischen Wörtern lassen wir eine Lücke.",
+    "sample": "der hund von lina spielt im garten\nDer Hund von Lina spielt im Garten.",
+    "worked": "In der ersten Zeile fehlen die großen Buchstaben und der Punkt. Der steht am Satzanfang. Hund und Garten sind Nomen, Lina ist ein Name: Sie werden großgeschrieben.",
+    "exercises": [
+     "Schreibe den richtigen Satz ab.",
+     "Finde den Namen im Satz.",
+     "Finde die Nomen im Satz.",
+     "Berichtige: heute regnet es",
+     "Schreibe einen Satz über deine Schule."
+    ],
+    "test": [
+     "Wie beginnt ein Satz?",
+     "Was steht am Ende eines Satzes?",
+     "Warum schreiben wir Ball groß?",
+     "Berichtige: die katze schläft",
+     "Schreibe zwei Nomen mit Begleiter (der, die, das)."
+    ]
+   }
+  },
+  "eu-year-de-beginner-1-redactare": {
+   "de": {
+    "title": "Einen Satz zu einem Bild schreiben",
+    "theory": "Bevor du schreibst, sprich den Satz laut. Zähle die Wörter. Schreibe ihn dann auf, lies ihn noch einmal und prüfe: großer Anfang, Nomen groß, Lücken, Punkt. Ergibt der Satz Sinn?",
+    "sample": "Bild: Ein Mädchen gießt eine Blume.\nIch sage: Das Mädchen gießt die Blume.\nIch schreibe: Das Mädchen gießt die Blume.\nIch ergänze: Die Blume wächst.",
+    "worked": "Zuerst haben wir den Satz laut gesprochen: fünf Wörter. Dann haben wir ihn mit großem Anfang und Punkt geschrieben. Mädchen und Blume sind Nomen. Ein zweiter Satz erzählt mehr.",
+    "exercises": [
+     "Sprich einen Satz über einen Hund im Garten und zähle die Wörter.",
+     "Schreibe deinen Satz und prüfe den Punkt.",
+     "Schreibe einen zweiten Satz dazu.",
+     "Lies deinen Satz einem Partner vor.",
+     "Male ein Bild und schreibe zwei Sätze."
+    ],
+    "test": [
+     "Was tust du, bevor du schreibst?",
+     "Wie viele Wörter hat: Die Sonne scheint.?",
+     "Was prüfst du nach dem Schreiben?",
+     "Schreibe einen Satz über dein Frühstück.",
+     "Mache den Satz länger: Ich spiele."
+    ]
+   }
+  },
+  "eu-year-de-beginner-1-interpretare": {
+   "de": {
+    "title": "Was ich denke und warum",
+    "theory": "Nach dem Lesen können wir sagen, was wir denken, und mit dem Text begründen. Wir können zwei Figuren vergleichen: Was ist gleich? Was ist anders?",
+    "sample": "Emma teilt ihre Stifte mit Paul. Max behält alle seine Stifte und teilt nicht. Paul lächelt Emma an.",
+    "worked": "Emma und Max haben beide Stifte: Das ist gleich. Anders ist: Emma teilt, Max nicht. Ich denke, Emma ist nett, weil im Text steht, dass sie teilt und Paul lächelt.",
+    "exercises": [
+     "Was ist bei Emma und Max gleich?",
+     "Was ist anders?",
+     "Wer ist nett? Warum denkst du das?",
+     "Warum lächelt Paul?",
+     "Was könnte Max das nächste Mal tun?"
+    ],
+    "test": [
+     "Wer behält alle Stifte?",
+     "Wer lächelt?",
+     "Ergänze: Ich denke, Emma ist …, weil …",
+     "Steht im Text, dass Max traurig ist?",
+     "Sage, was dir an der Geschichte gefällt, und warum."
+    ]
+   }
+  },
+  "eu-year-de-beginner-1-verificare": {
+   "de": {
+    "title": "Wiederholung Klasse 1",
+    "theory": "Wir prüfen, was du gelernt hast: Silben lesen, Antworten im Text finden, der Reihe nach erzählen, Reime hören, abwechselnd sprechen, neue Wörter kennen und Sätze mit Großschreibung und Punkt schreiben.",
+    "sample": "Der kleine Hund Bello rennt in den Garten. Er buddelt ein Loch und findet einen Ball. Er bringt den Ball zu Oma. Oma wirft ihn und Bello rennt schnell.",
+    "worked": "Bello ist die Hauptfigur. Reihenfolge: rennt in den Garten, buddelt, findet den Ball, bringt ihn zu Oma, Oma wirft. Jeder Satz beginnt groß und endet mit Punkt.",
+    "exercises": [
+     "Lies den Text laut.",
+     "Wer ist die Hauptfigur?",
+     "Erzähle die Ereignisse der Reihe nach.",
+     "Finde zwei Nomen.",
+     "Schreibe einen Satz, was Bello danach macht."
+    ],
+    "test": [
+     "Was findet Bello?",
+     "Wer wirft den Ball?",
+     "Finde ein großgeschriebenes Wort und sage, warum es groß ist.",
+     "Was ist das Gegenteil von schnell?",
+     "Schreibe einen Satz über dein Lieblingstier."
+    ]
+   }
+  }
+ }
+}

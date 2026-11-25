@@ -1,0 +1,242 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "BE",
+ "stage": "beginner",
+ "grade": "1",
+ "version": "8b99f4de1469870930f1037132dcb3c372424df1531d69f7629a58a058b34123",
+ "source": "https://onderwijsdoelen.be/",
+ "sourceTitle": "Vlaamse overheid: onderwijsdoelen Nederlands, eerste leerjaar lager onderwijs (alleen kader; eigen oefeningen)",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "nl",
+ "labels": [
+  "Eigen oefenactiviteit · België (Vlaanderen) · Eerste leerjaar",
+  "We leren",
+  "Eigen voorbeeld",
+  "Uitleg",
+  "Oefeningen",
+  "Test jezelf",
+  "Eigen oefeningen, geen officiële toets. Lees ze samen met een volwassene als dat nodig is."
+ ],
+ "chapters": {
+  "eu-year-be-beginner-1-parcurs": {
+   "nl": {
+    "title": "Klanken, letters en klankgroepen",
+    "theory": "Woorden bestaan uit klanken. Elke klank schrijven we met een of meer letters. Sommige klanken schrijven we met twee letters: aa, oo, ie, oe, ij, ui. Een nieuw woord lees je klank voor klank en dan zeg je het snel: m-aa-n wordt maan.",
+    "sample": "Mama heeft een tas. In de tas zit een peer en een boek. De maan schijnt.",
+    "worked": "Maan heeft drie klanken: m-aa-n. Aa schrijven we met twee letters. In boek hoor je oe, ook twee letters. In schijnt zie je ij. Zo hakken en plakken we woorden.",
+    "exercises": [
+     "Hak het woord maan in klanken.",
+     "Zoek twee woorden met oe of ee.",
+     "Plak de klanken: v-i-s.",
+     "Zoek een woord met ij.",
+     "Lees hardop: aa, oo, ee, uu."
+    ],
+    "test": [
+     "Hoeveel klanken heeft vis?",
+     "Wat zit er in de tas?",
+     "Welke twee letters schrijven de klank in boek?",
+     "Schrijf een woord dat begint met r.",
+     "Plak: r-oo-s."
+    ]
+   }
+  },
+  "eu-year-be-beginner-1-intelegere": {
+   "nl": {
+    "title": "Een korte tekst lezen en begrijpen",
+    "theory": "Stop bij elk punt en vraag je af: over wie gaat het? Wat gebeurt er? Waar? Het antwoord staat in de tekst. Wat niet in de tekst staat, verzinnen we niet.",
+    "sample": "Lars gaat met oma naar zee. Hij heeft een groene emmer. Op het strand maakt hij een kasteel met Fien.",
+    "worked": "Over wie gaat het? Over Lars. Met wie gaat hij? Met oma. Wat heeft hij? Een groene emmer. Wat maakt hij? Een kasteel. Hoe oud Lars is, staat niet in de tekst.",
+    "exercises": [
+     "Met wie gaat Lars naar zee?",
+     "Welke kleur heeft de emmer?",
+     "Wat maakt Lars op het strand?",
+     "Met wie speelt hij?",
+     "Onderstreep de zin die zegt wat Lars heeft."
+    ],
+    "test": [
+     "Staat in de tekst hoe oud Lars is?",
+     "Is de emmer rood? Hoe weet je dat?",
+     "Waar maakt Lars het kasteel?",
+     "Zoek een woord voor iemand uit de familie.",
+     "Teken de tekst en schrijf er een woord bij."
+    ]
+   }
+  },
+  "eu-year-be-beginner-1-narativ": {
+   "nl": {
+    "title": "Personages en gebeurtenissen",
+    "theory": "Personages zijn de mensen of dieren in een verhaal. Gebeurtenissen zijn de dingen die gebeuren. We vertellen in de juiste volgorde: eerst, dan, daarna, op het einde.",
+    "sample": "Eerst verliest een egel zijn appel. Dan vindt een konijn de appel onder een blad. Daarna brengt het konijn de appel terug. Op het einde zegt de egel dankjewel.",
+    "worked": "De personages zijn de egel en het konijn. Eerst: de egel verliest de appel. Dan: het konijn vindt hem. Daarna: het brengt hem terug. Op het einde: de egel zegt dankjewel.",
+    "exercises": [
+     "Wie zijn de personages?",
+     "Wat verliest de egel?",
+     "Waar ligt de appel?",
+     "Vertel het verhaal met eerst, dan, daarna, op het einde.",
+     "Hoe voelt de egel zich op het einde?"
+    ],
+    "test": [
+     "Wie vindt de appel?",
+     "Wat gebeurt er eerst?",
+     "Wat zegt de egel op het einde?",
+     "Zet in volgorde: zegt dankjewel / verliest de appel / vindt de appel.",
+     "Teken je lievelingsstukje."
+    ]
+   }
+  },
+  "eu-year-be-beginner-1-poezie": {
+   "nl": {
+    "title": "Versjes en rijm",
+    "theory": "Een versje is kort en heeft een ritme, zoals een liedje. Woorden rijmen als ze hetzelfde eindigen: maan en baan, huis en muis.",
+    "sample": "De zon is geel, de lucht is blauw,\nde poes op het dak zegt zacht: miauw.\nIk spring, ik dans, ik loop heel snel,\nik speel buiten, dat kan ik wel.",
+    "worked": "Blauw en miauw rijmen: ze klinken hetzelfde op het einde. Snel en wel rijmen ook. In de derde regel staan drie dingen die ik doe: spring, dans, loop.",
+    "exercises": [
+     "Zeg het versje hardop en klap het ritme.",
+     "Welk woord rijmt op snel?",
+     "Wat zegt de poes?",
+     "Welke dingen doe ik in regel drie?",
+     "Zoek een rijmwoord op huis."
+    ],
+    "test": [
+     "Welk woord rijmt op blauw?",
+     "Waar zit de poes?",
+     "Schrijf twee rijmwoorden op maan.",
+     "Welke kleur heeft de zon?",
+     "Verzin een regel die eindigt op muis."
+    ]
+   }
+  },
+  "eu-year-be-beginner-1-dialog": {
+   "nl": {
+    "title": "Spreken en luisteren",
+    "theory": "Als we met iemand praten, spreken we om de beurt: de ene praat, de andere luistert. We kijken de persoon aan en antwoorden op de vraag. Beleefde woorden zijn alsjeblieft en dankjewel.",
+    "sample": "Jens: Dag, Lotte! Wat zit er in je boekentas?\nLotte: Dag, Jens! Ik heb een schrift en een banaan.\nJens: Mag ik een potlood lenen, alsjeblieft?\nLotte: Natuurlijk, hier!\nJens: Dankjewel!",
+    "worked": "Jens stelt een vraag. Lotte antwoordt met een hele zin. Jens vraagt beleefd om een potlood en zegt dankjewel. Ze praten om de beurt.",
+    "exercises": [
+     "Lees het gesprek met een maatje.",
+     "Wat vraagt Jens eerst?",
+     "Wat zit er in de boekentas van Lotte?",
+     "Zoek de beleefde woorden.",
+     "Verzin een gesprek: vraag je maatje naar zijn lievelingsspel."
+    ],
+    "test": [
+     "Wie zegt eerst dag?",
+     "Antwoordt Lotte met een woord of met een zin?",
+     "Wat wil Jens lenen?",
+     "Wat doe je als de ander praat?",
+     "Schrijf een vraag met Wat."
+    ]
+   }
+  },
+  "eu-year-be-beginner-1-vocabular": {
+   "nl": {
+    "title": "Woorden en hun betekenis",
+    "theory": "Woorden kun je sorteren: dieren, kleuren, eten. Sommige woorden hebben een tegenstelling: groot en klein, warm en koud. Meer dan één maken we vaak met -en of -s: een boom, twee bomen; een auto, twee auto’s.",
+    "sample": "Op de boerderij staat een groot paard. Er lopen twee kleine kippen. Het paard drinkt koud water.",
+    "worked": "Paard en kippen zijn dieren. Groot en klein zijn tegenstellingen. Kippen is meer dan één kip. Warm en koud gaan over temperatuur.",
+    "exercises": [
+     "Zoek alle dieren in de tekst.",
+     "Zoek twee tegenstellingen.",
+     "Schrijf: een hond, twee …",
+     "Sorteer: rood, brood, groen, kaas.",
+     "Wat is het tegenovergestelde van koud?"
+    ],
+    "test": [
+     "Een boom, twee …?",
+     "Een fiets, twee …?",
+     "Wat is het tegenovergestelde van groot?",
+     "Welk woord is een kleur: lopen, geel, tas?",
+     "Schrijf een zin met het woord klein."
+    ]
+   }
+  },
+  "eu-year-be-beginner-1-exprimare": {
+   "nl": {
+    "title": "Hoofdletter, punt en spaties",
+    "theory": "Een zin begint met een hoofdletter en eindigt met een punt. Namen van mensen en steden schrijven we met een hoofdletter. Tussen woorden laten we een open ruimte.",
+    "sample": "de hond van mila speelt in de tuin\nDe hond van Mila speelt in de tuin.",
+    "worked": "In de eerste regel ontbreken de hoofdletters en de punt. De begint de zin. Mila is een naam en krijgt een hoofdletter.",
+    "exercises": [
+     "Schrijf de juiste zin over.",
+     "Zoek de naam in de zin.",
+     "Verbeter: het regent vandaag",
+     "Waarom schrijven we Gent met een hoofdletter?",
+     "Schrijf een zin over je school."
+    ],
+    "test": [
+     "Waarmee begint een zin?",
+     "Wat staat er aan het einde van een zin?",
+     "Verbeter: de kat slaapt",
+     "Wat laat je tussen woorden?",
+     "Schrijf je naam met een hoofdletter."
+    ]
+   }
+  },
+  "eu-year-be-beginner-1-redactare": {
+   "nl": {
+    "title": "Een zin bij een tekening schrijven",
+    "theory": "Zeg eerst je zin hardop en tel de woorden. Schrijf hem dan op, lees hem opnieuw en controleer: hoofdletter, spaties, punt. Klopt de zin?",
+    "sample": "Tekening: een jongen geeft een vis eten.\nIk zeg: De jongen geeft de vis eten.\nIk schrijf: De jongen geeft de vis eten.\nIk voeg toe: De vis zwemt snel.",
+    "worked": "Eerst zeiden we de zin hardop: zes woorden. Dan schreven we hem met een hoofdletter en een punt. Bij het nalezen klopt hij. We voegden een tweede zin toe.",
+    "exercises": [
+     "Zeg een zin over een kat in de tuin en tel de woorden.",
+     "Schrijf je zin en controleer de punt.",
+     "Voeg een tweede zin toe.",
+     "Lees je zin voor aan een maatje.",
+     "Maak een tekening en schrijf twee zinnen."
+    ],
+    "test": [
+     "Wat doe je voor je schrijft?",
+     "Hoeveel woorden heeft: De zon schijnt.?",
+     "Wat controleer je na het schrijven?",
+     "Schrijf een zin over je ontbijt.",
+     "Maak de zin langer: Ik speel."
+    ]
+   }
+  },
+  "eu-year-be-beginner-1-interpretare": {
+   "nl": {
+    "title": "Wat ik denk en waarom",
+    "theory": "Na het lezen zeggen we wat we denken en leggen we uit waarom met de tekst. We kunnen twee personages vergelijken: wat is hetzelfde? Wat is anders?",
+    "sample": "Noor deelt haar kleurpotloden met Seppe. Vic houdt al zijn potloden voor zichzelf. Seppe lacht naar Noor.",
+    "worked": "Noor en Vic hebben allebei potloden: dat is hetzelfde. Anders is: Noor deelt, Vic niet. Ik denk dat Noor lief is, want de tekst zegt dat ze deelt en Seppe lacht.",
+    "exercises": [
+     "Wat is hetzelfde bij Noor en Vic?",
+     "Wat is anders?",
+     "Wie is lief? Waarom denk je dat?",
+     "Waarom lacht Seppe?",
+     "Wat kan Vic de volgende keer doen?"
+    ],
+    "test": [
+     "Wie houdt alle potloden?",
+     "Wie lacht?",
+     "Vul aan: Ik denk dat Noor … is, want …",
+     "Staat in de tekst dat Vic verdrietig is?",
+     "Zeg wat je leuk vindt aan het verhaal en waarom."
+    ]
+   }
+  },
+  "eu-year-be-beginner-1-verificare": {
+   "nl": {
+    "title": "Herhaling eerste leerjaar",
+    "theory": "We kijken wat je geleerd hebt: klanken plakken, antwoorden in de tekst vinden, in volgorde vertellen, rijm horen, om de beurt praten, nieuwe woorden kennen en zinnen schrijven met een hoofdletter en een punt.",
+    "sample": "Het hondje Bo rent de tuin in. Hij graaft een kuil en vindt een bal. Hij brengt de bal naar opa. Opa gooit hem weg en Bo rent snel.",
+    "worked": "Bo is het hoofdpersonage. Volgorde: rent de tuin in, graaft, vindt de bal, brengt hem naar opa, opa gooit. Elke zin begint met een hoofdletter en eindigt met een punt.",
+    "exercises": [
+     "Lees de tekst hardop.",
+     "Wie is het hoofdpersonage?",
+     "Vertel in volgorde wat er gebeurt.",
+     "Zoek een woord met oo of aa.",
+     "Schrijf een zin over wat Bo daarna doet."
+    ],
+    "test": [
+     "Wat vindt Bo?",
+     "Wie gooit de bal?",
+     "Zoek een woord met een hoofdletter en zeg waarom.",
+     "Wat is het tegenovergestelde van snel?",
+     "Schrijf een zin over je lievelingsdier."
+    ]
+   }
+  }
+ }
+}
