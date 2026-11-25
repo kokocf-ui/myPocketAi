@@ -6,6 +6,7 @@ on:
     paths:
       - 'math_*.mjs'
       - 'tests_math_*.mjs'
+      - 'tests_science_container_translation.mjs'
       - 'education_country_ui.mjs'
       - 'education_all_country_subject_matrix.mjs'
       - 'index.js'
@@ -19,6 +20,7 @@ on:
     paths:
       - 'math_*.mjs'
       - 'tests_math_*.mjs'
+      - 'tests_science_container_translation.mjs'
       - 'education_country_ui.mjs'
       - 'education_all_country_subject_matrix.mjs'
       - 'index.js'
@@ -121,6 +123,8 @@ jobs:
           node tests_math_gcse_tiers.mjs
           node tests_math_ro_upper_cohort_2026.mjs
           node tests_math_theorems_countries.mjs
+          node tests_math_az_reader_browser.mjs
+          node tests_science_container_translation.mjs
           node tests_math_journey.mjs
           node tests_education_country_first.mjs
           node tests_math_subject_coverage.mjs

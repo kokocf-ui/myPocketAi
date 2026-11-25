@@ -65,6 +65,7 @@ permissions:
   contents: read
 jobs:
   apk-debug:
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
@@ -108,5 +109,48 @@ jobs:
         with:
           name: myPocketAI-android-debug-NOT-UPGRADEABLE
           path: android/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
+          retention-days: 7
+  branch-preview:
+    if: github.event_name == 'workflow_dispatch' && github.ref != 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.7'
+      - name: Validate and bundle branch UI and matching Education assets
+        run: |
+          node --check index.js
+          node tests_android_ui_preview.mjs
+          node tests_education_source_translation.mjs
+          node tests_science_container_translation.mjs
+          node scripts/build_android_ui_preview.mjs
+      - name: Build isolated debug preview (not production signed)
+        env:
+          POCKET_TOOLS_UI_PREVIEW: 'true'
+          POCKET_VERSION_CODE: ${{ github.run_number }}
+        run: gradle -p android --no-daemon assembleDebug
+      - name: Verify package identity and bundled snapshots
+        run: |
+          APK=android/app/build/outputs/apk/debug/app-debug.apk
+          AAPT=$(find "${ANDROID_HOME:-/usr/local/lib/android/sdk}/build-tools" -name aapt -type f | sort -V | tail -1)
+          "$AAPT" dump badging "$APK" | grep -F "package: name='ai.mypocket.mobile.preview'"
+          unzip -l "$APK" > /tmp/preview-files.txt
+          grep -F 'assets/tools-ui-preview.html' /tmp/preview-files.txt
+          grep -F 'assets/preview/education/literature/authored/FR/CP.json' /tmp/preview-files.txt
+          grep -F 'assets/preview/education/literature/authored/HU/1.json' /tmp/preview-files.txt
+          test "$(grep -c 'assets/preview/packs/p-.*\.json' /tmp/preview-files.txt)" -ge 3496
+          cp "$APK" myPocketAI-education-test.apk
+          sha256sum myPocketAI-education-test.apk
+      - uses: actions/upload-artifact@v4
+        with:
+          name: myPocketAI-education-test-debug
+          path: myPocketAI-education-test.apk
           if-no-files-found: error
           retention-days: 7

@@ -1,9 +1,9 @@
 {
-  "schema": "mypocket-literature-authored/v1",
+  "schema": "mypocket-literature-authored/v2",
   "country": "FR",
   "stage": "beginner",
   "grade": "CP",
-  "version": "586858210bf3bd3a8598ed5a121d1c3de77108acba961ca361f6a48cf55153bc",
+  "version": "98f243c7c3c7c124387f8909ae912daad72416902fad386cb5a21567e412e205",
   "source": "https://www.education.gouv.fr/sites/default/files/document/Annexe%203%20%E2%80%93%20Programme%20de%20fran%C3%A7ais%20du%20cycle%202-403818.pdf",
   "sourceTitle": "Ministère de l’Éducation nationale, Programme de français du cycle 2 (2024), repères CP",
   "status": "partial-original-material-independent-review-pending",
@@ -28,46 +28,6 @@
           "Recopie la syllabe « la ».",
           "Montre la majuscule dans « Lila »."
         ]
-      },
-      "ro": {
-        "title": "Litere și silabe: încep să citesc în franceză",
-        "theory": "Recunoaștem literele și asociem treptat litere sau grupuri de litere cu sunete. Apoi putem alătura sunetele pentru a citi o silabă. Ordinea depinde de progresia clasei. Citește cu un adult dacă este nevoie.",
-        "sample": "la · li · Lila",
-        "worked": "În « la », l și a formează o silabă. Prenumele Lila poate fi împărțit în două silabe: Li-la. Majuscula marchează începutul prenumelui scris.",
-        "exercises": [
-          "Arată litera l în « la ».",
-          "Citește silabele « la » și « li », cu ajutor dacă este nevoie.",
-          "Bate din palme pentru silabele din « Lila ».",
-          "Copiază « Lila » păstrând majuscula.",
-          "Alege împreună cu un adult un alt prenume și ascultă silabele."
-        ],
-        "test": [
-          "Încercuiește litera a în « la ».",
-          "Citește « li », cu ajutor dacă este nevoie.",
-          "Câte silabe auzi în « Lila »?",
-          "Copiază silaba « la ».",
-          "Arată majuscula din « Lila »."
-        ]
-      },
-      "en": {
-        "title": "Letters and syllables: starting to read French",
-        "theory": "We recognise letters and gradually connect letters or letter groups to sounds. We can then blend sounds to read a syllable. The order depends on the class progression. Read with an adult if needed.",
-        "sample": "la · li · Lila",
-        "worked": "In “la”, l and a form one syllable. The name Lila can be divided into two syllables: Li-la. The capital marks the beginning of the written name.",
-        "exercises": [
-          "Point to the letter l in “la”.",
-          "Read “la” and “li”, with help if needed.",
-          "Clap the syllables in “Lila”.",
-          "Copy “Lila”, keeping its capital letter.",
-          "Choose another name with an adult and listen for its syllables."
-        ],
-        "test": [
-          "Circle the letter a in “la”.",
-          "Read “li”, with help if needed.",
-          "How many syllables can you hear in “Lila”?",
-          "Copy the syllable “la”.",
-          "Point to the capital in “Lila”."
-        ]
       }
     },
     "eu-year-fr-beginner-cp-intelegere": {
@@ -89,46 +49,6 @@
           "Que fait-elle avant de poser le livre ?",
           "Sur quoi pose-t-elle le livre ?",
           "Cite une information que le texte ne donne pas."
-        ]
-      },
-      "ro": {
-        "title": "Înțeleg o poveste scurtă în franceză",
-        "theory": "Pentru a înțelege o poveste, caută cine acționează și ce se întâmplă. Sprijină răspunsul pe cuvintele textului. Dacă un detaliu lipsește, spune că textul nu îl precizează. Un adult poate citi cu voce tare.",
-        "sample": "Mila a un livre. Elle lit avec Léo. Puis elle pose le livre sur la table.",
-        "worked": "Mila are o carte, citește cu Léo, apoi așază cartea pe masă. Textul nu spune ce poveste se află în carte.",
-        "exercises": [
-          "Cine are o carte?",
-          "Cu cine citește Mila?",
-          "Unde așază cartea?",
-          "Spune acțiunile în ordine.",
-          "Textul precizează titlul cărții?"
-        ],
-        "test": [
-          "Numește cele două personaje.",
-          "Ce obiect are Mila?",
-          "Ce face înainte de a așeza cartea?",
-          "Pe ce așază cartea?",
-          "Numește o informație pe care textul nu o oferă."
-        ]
-      },
-      "en": {
-        "title": "Understand a short French story",
-        "theory": "To understand a story, find who acts and what happens. Support answers with words from the passage. If a detail is missing, say the passage does not tell us. An adult can read the passage aloud.",
-        "sample": "Mila a un livre. Elle lit avec Léo. Puis elle pose le livre sur la table.",
-        "worked": "Mila has a book, reads with Léo, then puts the book on the table. The passage does not say what story is in the book.",
-        "exercises": [
-          "Who has a book?",
-          "Who reads with Mila?",
-          "Where does she put the book?",
-          "Tell the actions in order.",
-          "Does the passage give the book’s title?"
-        ],
-        "test": [
-          "Name the two characters.",
-          "What object does Mila have?",
-          "What does she do before putting the book down?",
-          "What does she put the book on?",
-          "Name one detail the passage does not give."
         ]
       }
     },
@@ -152,47 +72,52 @@
           "Où faut-il laisser un espace ?",
           "Relis ta phrase et vérifie sa majuscule et son point."
         ]
-      },
-      "ro": {
-        "title": "Scriu și verific o propoziție scurtă în franceză",
-        "theory": "Înainte de a scrie, spune ideea cu voce tare. Într-o propoziție scrisă separăm cuvintele prin spații, începem cu majusculă și încheiem cu semnul potrivit. Recitește cu ajutor pentru a verifica.",
-        "sample": "Lila lit.",
-        "worked": "« Lila lit. » are două cuvinte despărțite printr-un spațiu. Prenumele începe cu majusculă, iar propoziția se termină cu punct.",
+      }
+    },
+    "eu-year-fr-beginner-cp-narativ": {
+      "fr": {
+        "title": "Personnages et actions dans une histoire",
+        "theory": "Dans une histoire, les personnages font des actions. Pour comprendre ce qui arrive, cherche qui agit, ce que fait chaque personnage et dans quel ordre. Réponds avec les mots du texte. Si une information ne figure pas dans le texte, ne l’invente pas.",
+        "sample": "Lina cherche son chat. Tom voit le chat sous la table. Lina remercie Tom.",
+        "worked": "Le texte nomme Lina, Tom et le chat. Lina cherche le chat, puis Tom le voit sous la table. Enfin, Lina remercie Tom. Le texte ne dit pas pourquoi le chat est sous la table.",
         "exercises": [
-          "Copiază « Lila lit. » păstrând punctul.",
-          "Arată spațiul dintre cuvinte.",
-          "Numără cuvintele propoziției.",
-          "Arată majuscula de la începutul prenumelui.",
-          "Împreună cu un adult, scrie o propoziție scurtă despre o activitate care îți place."
+          "Nomme les deux personnages dont les prénoms sont écrits.",
+          "Que cherche Lina au début ?",
+          "Qui voit le chat ?",
+          "Montre les mots qui disent où se trouve le chat.",
+          "Raconte les trois actions dans l’ordre, avec l’aide du texte."
         ],
         "test": [
-          "Scrie « Lila lit. ».",
-          "Câte cuvinte sunt?",
-          "Ce semn încheie această propoziție?",
-          "Unde trebuie lăsat un spațiu?",
-          "Recitește propoziția și verifică majuscula și punctul."
+          "Quel animal Lina cherche-t-elle ?",
+          "Où Tom voit-il le chat ?",
+          "Qui remercie Tom ?",
+          "Le texte dit-il pourquoi le chat est sous la table ?",
+          "Dessine une action de l’histoire et explique ton choix."
         ]
-      },
-      "en": {
-        "title": "Write and check a short French sentence",
-        "theory": "Before writing, say your idea aloud. In a written sentence separate words with spaces, start with a capital letter and use suitable punctuation at the end. Read it again with help to check.",
-        "sample": "Lila lit.",
-        "worked": "“Lila lit.” has two words separated by a space. The name begins with a capital letter and the sentence ends with a full stop.",
+      }
+    },
+    "eu-year-fr-beginner-cp-poezie": {
+      "fr": {
+        "title": "Écouter et dire un petit poème",
+        "theory": "Un poème peut être écrit en plusieurs lignes appelées vers. Écoute les sons, le rythme et les images qu’évoquent les mots. Lis à voix haute avec un adulte si besoin, sans inventer des informations absentes du texte.",
+        "sample": "La pluie danse sur le toit.\nUne goutte saute près de moi.\nLe soleil revient tout doux.",
+        "worked": "Ce petit poème comporte trois vers. On peut imaginer les gouttes en lisant « La pluie danse ». Les mots « toit » et « moi » ont un son final proche. Le texte ne précise pas le moment de la journée.",
         "exercises": [
-          "Copy “Lila lit.”, keeping the full stop.",
-          "Point to the space between the words.",
-          "Count the words in the sentence.",
-          "Point to the capital at the beginning of the name.",
-          "With an adult, write a short sentence about an activity you enjoy."
+          "Combien de vers vois-tu ?",
+          "Lis le premier vers avec un adulte si besoin.",
+          "Quels mots ont un son final proche : « toit », « moi » ou « doux » ?",
+          "Que fait la pluie dans le premier vers ?",
+          "Choisis un vers et dessine ce qu’il te fait imaginer."
         ],
         "test": [
-          "Write “Lila lit.”.",
-          "How many words are there?",
-          "Which mark ends this sentence?",
-          "Where should there be a space?",
-          "Read your sentence again and check the capital and full stop."
+          "Montre le dernier vers.",
+          "Que fait une goutte dans le deuxième vers ?",
+          "Que fait le soleil à la fin ?",
+          "Le poème indique-t-il l’heure ?",
+          "Récite un vers à voix haute avec de l’aide si besoin."
         ]
       }
     }
-  }
+  },
+  "sourceLanguage": "fr"
 }

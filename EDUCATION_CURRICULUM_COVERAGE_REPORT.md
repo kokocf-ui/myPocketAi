@@ -4,12 +4,12 @@ Acest raport descrie registrele existente, nu certifică manuale complete, compe
 
 ## Imagine de ansamblu
 
-- Matematică: 799 pachete în 50 sisteme; auditul de pregătire enumeră 817 trasee, 4 candidați anuali și 7 revizuiri parțiale; 0 aprobate integral. Categorii ale auditului, nu număr de programe certificate.
-- Fizică, Chimie, Biologie, Astronomie: 2697 pachete în total; numărul de ani cu aprobare pedagogică integrală în registru este 0. Materialele și notele comune rămân parțial în HTML și Worker.
-- Matricea generală: 50 sisteme, 11 materii, 7420 selecții valide: 66 încadrări de tip cadru verificat, 655 cu conținut pe clasă neverificat și 6699 generale; 685 selecții fără unități. Această matrice folosește o clasificare conservatoare diferită de inventarele pachetelor de Matematică/Științe: nu deduce absența pachetelor din eticheta „general”.
-- Literatura: 624 rute școlare, 0 țări cu revizuire independentă în registru. Eticheta de material exact este un rezultat tehnic de rutare, nu o aprobare curriculară.
+- Matematică: 799 pachete în 50 sisteme; auditul enumeră 817 trasee, 4 candidați anuali și 7 încadrări parțiale. Câmpul fullyApproved=0 este implicit în cod, nu un rezultat al verificării independente a fiecărui an și nu demonstrează că acoperirea generală lipsește.
+- Fizică, Chimie, Biologie, Astronomie: 2697 pachete în total. Indicatorul fullyApproved=0 este stabilit implicit în cod, nu o măsurătoare a lipsei conținutului sau un audit al tuturor anilor. Materialele și notele comune rămân parțial în HTML și Worker.
+- Matricea generală: 50 sisteme, 11 materii, 7420 selecții valide: 66 încadrări de tip cadru verificat, 655 cu conținut pe clasă neverificat și 6699 generale; 685 selecții fără unități. Clasificarea este cea a matricei, nu un audit complet al pachetelor sau al cititoarelor. Pentru Matematică și cele patru Științe, matricea atribuie eticheta generală prin construcție: aceste numere nu dovedesc lipsa acoperirii generale sau lipsa pachetelor.
+- Literatura: 624 rute școlare. Auditul marchează implicit toate țările reviewed=false; aceasta nu dovedește că ele nu au fost revizuite, ci că auditul nu conține evidența unei aprobări individuale. Eticheta de material exact este un rezultat tehnic de rutare, nu o aprobare curriculară.
 
-| Materie Științe | Sisteme cu pachet | Pachete școlare | Pachete universitare | Lecții în pachete | Revizuite integral |
+| Materie Științe | Sisteme cu pachet | Pachete școlare | Pachete universitare | Lecții în pachete | Flag implicit fullyApproved |
 |---|---:|---:|---:|---:|---:|
 | physics | 50 | 327 | 202 | 7412 | 0 |
 | chemistry | 50 | 343 | 201 | 6614 | 0 |
@@ -18,7 +18,7 @@ Acest raport descrie registrele existente, nu certifică manuale complete, compe
 
 ## 50 de sisteme: Istorie, Geografie, Informatică și Literatură
 
-Istorie/Geografie/Informatică: `C/N/G` înseamnă număr de selecții în matrice cu cadru identificat / conținut de clasă neverificat / parcurs general (inclusiv universitate). `G` nu dovedește un curs național complet. Pentru Literatură: `E/R/S/F/O` sunt capitole școlare rutate în limba română către material exact / material românesc pe an / practică europeană comună / suport general / numai online; nu sunt ani compleți, nu includ toate limbile sau universitatea și nu măsoară calitatea lecțiilor.
+Istorie/Geografie/Informatică: `C/N/G` înseamnă număr de selecții în matrice cu cadru identificat / conținut de clasă neverificat / parcurs general (inclusiv universitate). Această clasificare nu este un audit exhaustiv al tuturor lecțiilor și nici nu dovedește absența conținutului național din alte surse. Pentru Literatură: `E/R/S/F/O` sunt capitole școlare rutate în limba română către material exact / material românesc pe an / practică europeană comună / suport general / numai online; nu sunt ani compleți, nu includ toate limbile sau universitatea și nu măsoară calitatea lecțiilor.
 
 | Sistem | Istorie C/N/G | Geografie C/N/G | Informatică C/N/G | Literatură: rute școlare | Literatură E/R/S/F/O |
 |---|---:|---:|---:|---:|---:|
@@ -37,7 +37,7 @@ Istorie/Geografie/Informatică: `C/N/G` înseamnă număr de selecții în matri
 | EE | 0/0/13 | 0/0/13 | 0/0/13 | 12 | 0/0/120/0/0 |
 | ES | 0/0/13 | 0/0/13 | 0/0/13 | 12 | 0/0/120/0/0 |
 | FI | 0/0/13 | 0/0/13 | 0/0/13 | 12 | 0/0/120/0/0 |
-| FR | 0/0/13 | 0/0/13 | 0/0/13 | 12 | 3/0/117/4/0 |
+| FR | 0/0/13 | 0/0/13 | 0/0/13 | 12 | 5/0/115/4/0 |
 | GR | 0/0/13 | 0/0/13 | 0/0/13 | 12 | 0/0/120/0/0 |
 | HR | 0/0/13 | 0/0/13 | 0/0/13 | 12 | 0/0/0/192/0 |
 | HU | 0/0/14 | 0/0/14 | 0/0/14 | 13 | 12/0/0/196/0 |

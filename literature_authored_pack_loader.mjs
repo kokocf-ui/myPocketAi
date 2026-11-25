@@ -4,21 +4,26 @@ export async function literatureLoadAuthoredYear(country,stage,grade,options={})
  const france=c==='FR'&&s==='beginner'&&g==='CP';
  if(!hungary&&!france)throw Error('unknown_authored_year');
  const valid=x=>{
-  if(!(x&&x.schema==='mypocket-literature-authored/v1'&&x.country===c&&x.stage===s&&x.grade===g&&
+  if(!(x&&x.schema==='mypocket-literature-authored/v2'&&x.sourceLanguage===(france?'fr':'hu')&&x.country===c&&x.stage===s&&x.grade===g&&
    typeof x.version==='string'&&/^[a-f0-9]{64}$/.test(x.version)&&x.chapters&&typeof x.chapters==='object'&&!Array.isArray(x.chapters)))return false;
-  if(france)return ['parcurs','intelegere','redactare'].every(part=>['fr','ro','en'].every(lang=>{
-   const row=x.chapters['eu-year-fr-beginner-cp-'+part]?.[lang];
-   return row&&['title','theory','sample','worked'].every(k=>typeof row[k]==='string'&&row[k].trim())&&
+  if(france)return ['parcurs','intelegere','redactare'].every(part=>x.chapters['eu-year-fr-beginner-cp-'+part])&&
+   Object.entries(x.chapters).every(([key,record])=>{
+    const row=record?.fr;
+    return key.startsWith('eu-year-fr-beginner-cp-')&&record&&Object.keys(record).length===1&&row&&
+     ['title','theory','sample','worked'].every(k=>typeof row[k]==='string'&&row[k].trim())&&
+     ['exercises','test'].every(k=>Array.isArray(row[k])&&row[k].length>0&&row[k].every(q=>typeof q==='string'&&q.trim()));
+   });
+  const parts=['year-focus','year-reading','year-writing'];
+  if(g==='1')return parts.every(part=>x.chapters['hu-beginner-1-'+part])&&Object.values(x.chapters).every(record=>{
+   const row=record?.hu;
+   return record&&Object.keys(record).length===1&&row&&['title','sample','theory','worked','steps'].every(k=>typeof row[k]==='string'&&row[k].trim())&&
     ['exercises','test'].every(k=>Array.isArray(row[k])&&row[k].length>0&&row[k].every(q=>typeof q==='string'&&q.trim()));
-  }));
-  const parts=['year-focus','year-reading','year-writing'],langs=['ro','en','hu'];
-  if(g==='1')return parts.every(part=>langs.every(lang=>{
-   const row=x.chapters['hu-beginner-1-'+part]?.[lang];
-   return row&&typeof row.title==='string'&&typeof row.sample==='string'&&typeof row.theory==='string'&&
-    Array.isArray(row.exercises)&&Array.isArray(row.test);
-  }));
-  return typeof x.chapters.sample==='string'&&langs.every(lang=>typeof x.chapters.meaning?.[lang]==='string')&&
-   parts.every(part=>langs.every(lang=>Array.isArray(x.chapters.chapters?.[part]?.[lang])&&x.chapters.chapters[part][lang].length>=4));
+  });
+  return typeof x.chapters.sample==='string'&&x.chapters.sample.trim()&&Object.keys(x.chapters.meaning||{}).join(',')==='hu'&&
+   typeof x.chapters.meaning.hu==='string'&&x.chapters.meaning.hu.trim()&&parts.every(part=>x.chapters.chapters?.[part])&&
+   Object.values(x.chapters.chapters||{}).every(record=>record&&Object.keys(record).join(',')==='hu'&&
+    Array.isArray(record.hu)&&record.hu.length===4&&record.hu.slice(0,2).every(x=>typeof x==='string'&&x.trim())&&
+    record.hu.slice(2).every(items=>Array.isArray(items)&&items.length>0&&items.every(q=>typeof q==='string'&&q.trim())));
  };
  let storage=null;try{storage=options.storage===undefined?globalThis.localStorage:options.storage}catch{}
  const key='pocketai.literature.authored.v1.'+c+'.'+s+'.'+g;

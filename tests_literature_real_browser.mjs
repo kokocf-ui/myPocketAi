@@ -151,7 +151,7 @@ try{
  assert.ok(reader.visible,'Theory reader did not open: '+JSON.stringify({reader,exceptions,logs}));
  assert.ok(!/Războiul stelelor|George Lucas|Star Wars/i.test(reader.text),'Grade IX automatically inserted unrelated Star Wars example');
  // Exercise real navigation, stage choice, reader and Back on other systems.
- await js("[...document.querySelectorAll('.lit-reader-overlay button')].find(b=>/Înapoi|Back/.test(b.textContent)).click()");
+ await js("[...document.querySelectorAll('.lit-reader-overlay button')].find(b=>/Înapoi|Back|Vissza/.test(b.textContent)).click()");
  const litStage=()=>js('window.__literatureAcceptance.snapshot()');
  async function backToLevels(){
   for(let i=0;i<8;i++){
@@ -182,10 +182,19 @@ try{
  const poem=await js("document.querySelector('.lit-reader-overlay')?.innerText||''");
  assert.match(poem,/dansează ploaia|Rain dances/,'Poetry exercise must include its relevant original poem: '+JSON.stringify({journey:await litStage(),text:await js("document.querySelector('#view-module')?.innerText"),exceptions,logs}));
  assert.ok(!/Unde s-a găsit cartea|Where was the book found/.test(poem),'Unrelated book question in poetry');
- await js("[...document.querySelectorAll('.lit-reader-overlay button')].find(b=>/Înapoi|Back/.test(b.textContent)).click()");
+ await js("[...document.querySelectorAll('.lit-reader-overlay button')].find(b=>/Înapoi|Back|Vissza/.test(b.textContent)).click()");
  // France CP: a real French authored chapter, then a separate cached visit offline.
  await backToLevels();await choice('Primar|Primary');await choice('^CP$');await choice('Programa clasei|Grade syllabus');
  await choice('Înțelegerea unui text.*CP');
+ // Exercise the real frontend translation path with a deterministic mock API.
+ await js("window.__litMockFetch=window.fetch.bind(window);window.fetch=async(u,o)=>{let d;try{d=JSON.parse(o?.body||'{}')}catch{}if(d?.education_translate){let p=JSON.parse(d.message.split('Input JSON: ')[1]);return new Response(JSON.stringify({status:'success',reply:JSON.stringify({text:'TRADUCERE '+p.text})}),{status:200,headers:{'Content-Type':'application/json'}})}return window.__litMockFetch(u,o)}");
+ await js("[...document.querySelectorAll('#moduleContent .lit-activity-button')].find(b=>/^(Exerciții|Exercises)$/.test(b.textContent.trim())).click()");await sleep(400);
+ let translatedFrench=await js("document.querySelector('.lit-reader-overlay')?.innerText||''");
+ assert.match(translatedFrench,/TRADUCERE/);assert.match(translatedFrench,/Mila a un livre/);assert.doesNotMatch(translatedFrench,/__EDU_KEEP_/);
+ await js("[...document.querySelectorAll('.lit-reader-overlay button')].find(b=>/Înapoi|Back/.test(b.textContent)).click();window.fetch=async()=>{throw new TypeError('offline')}");
+ await js("[...document.querySelectorAll('#moduleContent .lit-activity-button')].find(b=>/^(Exerciții|Exercises)$/.test(b.textContent.trim())).click()");await sleep(250);
+ translatedFrench=await js("document.querySelector('.lit-reader-overlay')?.innerText||''");assert.match(translatedFrench,/TRADUCERE/,'Previously translated lesson must be usable from cache offline');
+ await js("[...document.querySelectorAll('.lit-reader-overlay button')].find(b=>/Înapoi|Back/.test(b.textContent)).click();window.fetch=window.__litMockFetch");
  await js("window.__literatureAcceptance.setLanguage('fr');[...document.querySelectorAll('#moduleContent .lit-activity-button')].find(b=>/^(Exerciții|Exercises)$/.test(b.textContent.trim())).click()");await sleep(250);
  const franceCP=await js("document.querySelector('.lit-reader-overlay')?.innerText||''");
  assert.match(franceCP,/Mila a un livre/);assert.match(franceCP,/Avec qui Mila lit-elle/);
@@ -194,9 +203,9 @@ try{
  await backToLevels();
  await js("window.__literatureOnlineFetch=window.fetch.bind(window);window.fetch=async()=>{throw new TypeError('Failed to fetch')}");
  await choice('Primar|Primary');await choice('^CP$');await choice('Programa clasei|Grade syllabus');await choice('Compunere și revizuire.*CP');
- await js("[...document.querySelectorAll('#moduleContent .lit-activity-button')].find(b=>/^(Teorie|Theory)$/.test(b.textContent.trim())).click()");await sleep(250);
- assert.match(await js("document.querySelector('.lit-reader-overlay')?.innerText||''"),/Lila lit/,'Cached France CP lesson must remain available offline');
- await js("[...document.querySelectorAll('.lit-reader-overlay button')].find(b=>/Înapoi|Back/.test(b.textContent)).click();window.fetch=window.__literatureOnlineFetch");
+ await js("window.__literatureAcceptance.setLanguage('fr');[...document.querySelectorAll('#moduleContent .lit-activity-button')].find(b=>/^(Teorie|Theory)$/.test(b.textContent.trim())).click()");await sleep(250);
+ assert.match(await js("document.querySelector('.lit-reader-overlay')?.innerText||''"),/Lila lit/,'Cached original France CP lesson must remain available offline');
+ await js("window.__literatureAcceptance.setLanguage('ro');[...document.querySelectorAll('.lit-reader-overlay button')].find(b=>/Înapoi|Back/.test(b.textContent)).click();window.fetch=window.__literatureOnlineFetch");
  await chooseCountry('Hungary','Ungar|Hungary');
  // First visit grade 2 online so it can later be opened from the real cache.
  await choice('Primar|Primary');await choice('^2$');
@@ -204,11 +213,15 @@ try{
  await choice('^1$');await choice('Programa clasei|Grade syllabus');
  // The three year-focused HU lessons must work without any network request.
  await choice('Betűk');await js("window.__literatureOnlineFetch=window.fetch.bind(window);window.fetch=async()=>{throw new TypeError('Failed to fetch')}");
+ // Original is available offline; an unvisited Romanian translation is not.
  await js("[...document.querySelectorAll('#moduleContent .lit-activity-button')].find(b=>/^(Teorie|Theory)$/.test(b.textContent.trim())).click()");await sleep(200);
+ assert.match(await js("document.querySelector('.lit-activity-status')?.textContent||''"),/Traducerea nu este disponibilă/);
+ assert.equal(await js("!!document.querySelector('.lit-reader-overlay')"),false);
+ await js("window.__literatureAcceptance.setLanguage('hu');[...document.querySelectorAll('#moduleContent .lit-activity-button')].find(b=>/^(Teorie|Theory)$/.test(b.textContent.trim())).click()");await sleep(200);
  const hungarian=await js("document.querySelector('.lit-reader-overlay')?.innerText||''");
  assert.match(hungarian,/szem/,'Grade 1 Hungary lesson must contain actual Hungarian examples');
  assert.ok(!/NU lecția completă specifică/.test(hungarian),'A dedicated chapter must not use the general fallback');
- await js("[...document.querySelectorAll('.lit-reader-overlay button')].find(b=>/Înapoi|Back/.test(b.textContent)).click()");
+ await js("window.__literatureAcceptance.setLanguage('ro');[...document.querySelectorAll('.lit-reader-overlay button')].find(b=>/Înapoi|Back|Vissza/.test(b.textContent)).click()");
  await js("document.querySelector('#view-module .lit-back').click()");await sleep(100);
  await choice('Hangtan');
  // Simulate an unavailable online service, not a successful invented lesson.
@@ -216,14 +229,14 @@ try{
  const fallback=await js("({reader:document.querySelector('.lit-reader-overlay')?.innerText||'',status:document.querySelector('.lit-activity-status')?.textContent||''})");
  assert.match(fallback.reader,/NU lecția completă specifică/,'National chapter must disclose limited offline support');
  assert.match(fallback.status,/doar sprijin general offline/);
- await js("[...document.querySelectorAll('.lit-reader-overlay button')].find(b=>/Înapoi|Back/.test(b.textContent)).click()");
+ await js("[...document.querySelectorAll('.lit-reader-overlay button')].find(b=>/Înapoi|Back|Vissza/.test(b.textContent)).click()");
  await backToLevels();await choice('Primar|Primary');await choice('^2$');
  await choice('Programa clasei|Grade syllabus');await choice('Szövegértés és eseményrend');
- await js("[...document.querySelectorAll('#moduleContent .lit-activity-button')].find(b=>/^(Teorie|Theory)$/.test(b.textContent.trim())).click()");await sleep(200);
+ await js("window.__literatureAcceptance.setLanguage('hu');[...document.querySelectorAll('#moduleContent .lit-activity-button')].find(b=>/^(Teorie|Theory)$/.test(b.textContent.trim())).click()");await sleep(200);
  const secondGrade=await js("document.querySelector('.lit-reader-overlay')?.innerText||''");
  assert.match(secondGrade,/Bence/,'Hungary grade 2 must use its own offline passage');
  assert.ok(!/NU lecția completă specifică/.test(secondGrade),'Grade 2 authored chapter must not show generic fallback');
- await js("[...document.querySelectorAll('.lit-reader-overlay button')].find(b=>/Înapoi|Back/.test(b.textContent)).click()");
+ await js("window.__literatureAcceptance.setLanguage('ro');[...document.querySelectorAll('.lit-reader-overlay button')].find(b=>/Înapoi|Back|Vissza/.test(b.textContent)).click()");
  // Grade 3 was not downloaded: disclose it rather than silently replacing it.
  await backToLevels();await choice('Primar|Primary');await choice('^3$');
  assert.match(await js("document.querySelector('#moduleContent')?.textContent||''"),/nu sunt disponibile offline|not available offline/i);
@@ -239,7 +252,7 @@ try{
  await js("[...document.querySelectorAll('.lit-reader-overlay button')].find(b=>/Următoarea/.test(b.textContent)&&!b.disabled)?.click()");
  const universityNext=await js("document.querySelector('.lit-reader-overlay')?.innerText||''");
  assert.match(universityNext,/Metodă de lucru/,'University reader pagination must reach the method');
- await js("[...document.querySelectorAll('.lit-reader-overlay button')].find(b=>/Înapoi|Back/.test(b.textContent)).click()");
+ await js("[...document.querySelectorAll('.lit-reader-overlay button')].find(b=>/Înapoi|Back|Vissza/.test(b.textContent)).click()");
  // RO was loaded earlier: it must reopen from local storage during an outage.
  await chooseCountry('Romania','Rom[aâ]n|Romania');
  assert.equal((await litStage()).stage,'levels','Previously loaded country should open from cache offline');

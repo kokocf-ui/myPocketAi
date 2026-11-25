@@ -284,6 +284,12 @@ assert.equal(transResp.status, 200, 'education_translate must accept >4000-char 
 assert.equal(transJson.status, 'success');
 assert.equal(transJson.language, 'hy');
 assert.match(aiCalls.at(-1).opts.messages[0].content, /Armenian \(language code: hy\)/);
+const azCalls=[];
+const azResponse=await backendWorker.fetch(new Request('https://unit.test/api/chat',{
+ method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({education_translate:true,language:'az',message:'Translate JSON: {"title":"Abaterea standard"}'})
+}),{AI:{run:async(_model,opts)=>{azCalls.push(opts);return {response:JSON.stringify({title:'Standart kənarlaşma'})}}}});
+assert.equal(azResponse.status,200);assert.equal((await azResponse.json()).language,'az');
+assert.match(azCalls[0].messages[0].content,/Azerbaijani \(language code: az\)/,'Target is the user interface language, not the study country');
 
 for (const testCase of [
   {module: 'learning', language: 'ka', message: '2x + 4 = 10', expectSys: /Georgian \(language code ka\)/},
@@ -598,7 +604,7 @@ assert.equal(labelBox.eduDetectProseLang(hybridLocalizedBody), 'ro', 'Hybrid Ita
   // 12a. Open Laws & Theorems in Dutch ('nl'): zero raw Romanian before OR after fetch!
   domBox.mathTheoryQuickReference();
   const panel = moduleContent.children[1];
-  const optionsList = panel.children[4];
+  const optionsList = panel.children.find(child => child.className === 'math-theory-scroll-list');
   assert.ok(optionsList.children.length >= 200, 'All 211 theorem buttons rendered');
   assert.ok(
     optionsList.children.every((b) => b.textContent === '…'),
@@ -621,7 +627,7 @@ assert.equal(labelBox.eduDetectProseLang(hybridLocalizedBody), 'ro', 'Hybrid Ita
   // Reopen Laws & Theorems in Dutch: 0ms instant from per-string cache with 0 network calls!
   const beforeReopenCalls = fetchCalls;
   domBox.mathTheoryQuickReference();
-  const reopenedList = moduleContent.children[1].children[4];
+  const reopenedList = moduleContent.children[1].children.find(child => child.className === 'math-theory-scroll-list');
   assert.equal(fetchCalls, beforeReopenCalls, 'Reopening Laws & Theorems uses 0ms per-string cache');
   assert.ok(reopenedList.children[0].textContent.startsWith('NL: '));
 

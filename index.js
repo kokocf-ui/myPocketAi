@@ -8448,7 +8448,7 @@ function scienceLocalizeContainer(container){
   const raw=String(attr?node.getAttribute(attr)||'':node.nodeValue||'').trim();
   if(!raw||raw.length<2||!/[A-Za-z]/.test(raw))return;
   if(typeof eduGetCachedString==='function'){
-   const hit=eduGetCachedString(lang,raw);
+   const hit=eduGetCachedString(raw,lang);
    if(hit){if(attr)node.setAttribute(attr,hit);else node.nodeValue=node.nodeValue.replace(raw,hit);return;}
   }
   targets.push({node,attr,raw});
@@ -8468,17 +8468,28 @@ function scienceLocalizeContainer(container){
  };
  walk(container);
  if(!rawList.length)return;
- eduTranslateMaterial(rawList,lang).then(translated=>{
-  if(!Array.isArray(translated)||state.language!==lang)return;
+ const showTranslationError=()=>{
+  if(state.language!==lang||!container.isConnected||container.querySelector('.science-translation-notice'))return;
+  const notice=document.createElement('div');notice.className='science-translation-notice';notice.setAttribute('role','status');
+  notice.setAttribute('data-edu-no-translate','true');
+  const text=document.createElement('span');text.textContent=learningLabel('Traducerea nu este disponibilă. Este afișat textul original.','Translation is unavailable. The original text is shown.');
+  const retry=document.createElement('button');retry.type='button';retry.className='secondary-btn';retry.textContent=learningLabel('Încearcă din nou','Try again');
+  retry.onclick=()=>{notice.remove();scienceLocalizeContainer(container)};
+  notice.append(text,retry);container.prepend(notice);
+ };
+ eduTranslateMaterial({lines:rawList},'science:container','mixed',{targetLanguage:lang}).then(translated=>{
+  if(state.language!==lang)return;
+  if(!Array.isArray(translated?.lines)){showTranslationError();return;}
+  container.querySelector('.science-translation-notice')?.remove();
   const map=new Map();
-  rawList.forEach((src,idx)=>{if(translated[idx])map.set(src,translated[idx]);});
+  rawList.forEach((src,idx)=>{if(translated.lines[idx])map.set(src,translated.lines[idx]);});
   for(const t of targets){
    const val=map.get(t.raw);
    if(!val)continue;
    if(t.attr){if(t.node?.isConnected)t.node.setAttribute(t.attr,val);}
    else if(t.node?.parentNode?.isConnected)t.node.nodeValue=t.node.nodeValue.replace(t.raw,val);
   }
- }).catch(()=>{});
+ }).catch(showTranslationError);
 }
 
 function scienceBuildPackCorrelationBanner(subjectId){
@@ -11878,8 +11889,10 @@ function scienceAttachLessonReview(dialog){
 }
 
 function educationOpenPagedLesson(title,body){
+ const options=arguments[2]||{};
  document.getElementById('educationPagedLessonDialog')?.remove();
  const reqLang=typeof state!=='undefined'&&state?.language?String(state.language):'ro';
+ const translatePage=reqLang!=='ro'||(options.sourceLanguage&&options.sourceLanguage!==reqLang);
  const nl=String.fromCharCode(10);
  let rawBase=educationNumberLessonAnswers(String(body||'').replaceAll(String.fromCharCode(13),'').trim());
  if(reqLang!=='ro'&&rawBase.startsWith('# ')){
@@ -11912,7 +11925,7 @@ function educationOpenPagedLesson(title,body){
  back.textContent=learningLabel('← Înapoi','← Back');back.onclick=()=>dialog.close();head.append(back);
  const origCleanTitle=educationCleanLessonLine(title);
  let currentCleanTitle=origCleanTitle;
- const pageTranslatedLang=[],pageReady=pages.map(()=>reqLang==='ro');
+ const pageTranslatedLang=[],pageReady=pages.map(()=>!translatePage),pageFailed=[];
  head.eduPrintableMaterial=()=>({title:educationCleanLessonLine(title),text:educationCleanLessonText(raw)});
  eduAttachPrintAction(head);
  // Only voice-enabled Sciences show this control. Speak the current page,
@@ -11964,7 +11977,7 @@ function educationOpenPagedLesson(title,body){
  let runPageEntry=null;
  const paint=()=>{
   content.replaceChildren();
-  if(reqLang!=='ro'&&!pageReady[page]){
+  if(translatePage&&!pageReady[page]){
    const waitEl=document.createElement('p');
    waitEl.textContent=learningLabel('Se traduce lecția…','Translating the lesson…');
    waitEl.setAttribute('data-edu-translated',reqLang);
@@ -12022,16 +12035,16 @@ function educationOpenPagedLesson(title,body){
  let dialogClosed=false;
  dialog.addEventListener('close',()=>{stopPageAudio();if(scienceReader)window.removeEventListener('pocket-speech-state',updatePageSpeech);dialog.remove()});
  dialog.addEventListener('close',()=>{dialogClosed=true});
- const proseLang=typeof eduDetectProseLang==='function'?eduDetectProseLang(raw):'ro';
- const canApiTranslate=typeof eduTranslateMaterial==='function'&&Boolean(typeof CLIENT_CONFIG!=='undefined'&&CLIENT_CONFIG?.apiUrl);
+ const proseLang=options.sourceLanguage||(typeof eduDetectProseLang==='function'?eduDetectProseLang(raw):'ro');
+ const canApiTranslate=typeof eduTranslateMaterial==='function';
  const pendingEntries=[];
- if(reqLang!=='ro'){
+ if(translatePage){
   let titleReady=false;
+  const canUseStringCache=!(reqLang==='ro'&&options.sourceLanguage&&options.sourceLanguage!=='ro');
   const syncTitle=(typeof eduUiText==='function'&&eduUiText(origCleanTitle)!==origCleanTitle?eduUiText(origCleanTitle):'')||
-   (typeof eduGetCachedString==='function'?eduGetCachedString(origCleanTitle,reqLang):'');
+   (canUseStringCache&&typeof eduGetCachedString==='function'?eduGetCachedString(origCleanTitle,reqLang):'');
   if(syncTitle){currentCleanTitle=syncTitle;titleReady=true;}
-  else if(proseLang===reqLang||(typeof eduDetectProseLang==='function'&&eduDetectProseLang(origCleanTitle)===reqLang))titleReady=true;
-  else if(!canApiTranslate)titleReady=true;
+  else if(proseLang===reqLang||(!options.sourceLanguage&&typeof eduDetectProseLang==='function'&&eduDetectProseLang(origCleanTitle)===reqLang))titleReady=true;
   const isFormulaOnly=s=>{
    if(!s||s.length<=2)return true;
    if(!/[A-Za-zĂÂÎȘȚăâîșț]{3,}/.test(s))return true;
@@ -12052,21 +12065,25 @@ function educationOpenPagedLesson(title,body){
      const core=educationCleanLessonLine(prefix?trimmed.slice(prefix.length):trimmed);
      if(isFormulaOnly(core))continue;
      const sHit=(typeof eduUiText==='function'&&eduUiText(core)!==core?eduUiText(core):'')||
-      (typeof eduGetCachedString==='function'?eduGetCachedString(core,reqLang):'');
+      (canUseStringCache&&typeof eduGetCachedString==='function'?eduGetCachedString(core,reqLang):'');
      if(sHit){rawLines[li]=prefix+sHit;continue;}
-     if(typeof eduDetectProseLang==='function'&&eduDetectProseLang(core)===reqLang)continue;
+     if(!options.sourceLanguage&&typeof eduDetectProseLang==='function'&&eduDetectProseLang(core)===reqLang)continue;
      needLines.push({li,prefix,core});
     }
     pages[pIdx]=rawLines.join(nl);
     const includeTitle=pIdx===0&&!titleReady;
-    if((!needLines.length&&!includeTitle)||!canApiTranslate){
+    if(!needLines.length&&!includeTitle){
      pageReady[pIdx]=true;pageTranslatedLang[pIdx]=reqLang;
+     continue;
+    }
+    if(!canApiTranslate){
+     pageReady[pIdx]=true;pageFailed[pIdx]=true;
      if(includeTitle)titleReady=true;
      continue;
     }
     const cacheId='paged-v3:'+baseKey+':p'+pIdx;
     const payload={...(includeTitle?{title:origCleanTitle}:{}),...(needLines.length?{lines:needLines.map(x=>x.core)}:{})};
-    const hit=typeof eduReadCachedTranslation==='function'?eduReadCachedTranslation(payload,cacheId,'mixed'):null;
+    const hit=typeof eduReadCachedTranslation==='function'?eduReadCachedTranslation(payload,cacheId,options.sourceLanguage||'mixed'):null;
     if(hit){
      if(includeTitle&&typeof hit.title==='string'&&hit.title.trim()){currentCleanTitle=hit.title.trim();titleReady=true;}
      if(Array.isArray(hit.lines)){
@@ -12090,13 +12107,26 @@ function educationOpenPagedLesson(title,body){
   dialog.dataset.eduLocalized=reqLang;
   head.eduPrintableMaterial=()=>({title:currentCleanTitle,text:educationCleanLessonText(pages.join(nl+nl))});
  }
+ const updateTranslationStatus=()=>{
+  if(pageFailed.some(Boolean)){
+   heading.removeAttribute('data-edu-localized');
+   delete dialog.dataset.eduLocalized;
+   statusNote.textContent=learningLabel('Traducerea nu este disponibilă. Este afișat textul original.','Translation is unavailable. The original text is shown.')+' ';
+   statusNote.removeAttribute('data-edu-localized');
+   const retry=document.createElement('button');retry.type='button';retry.className='secondary-btn';
+   retry.textContent=learningLabel('Încearcă din nou','Try again');retry.onclick=()=>{dialog.close();educationOpenPagedLesson(title,body,options)};
+   statusNote.append(retry);statusNote.hidden=false;
+  }else statusNote.hidden=true;
+ };
  document.body.append(dialog);
  try{dialog.showModal()}catch{dialog.setAttribute('open','')}
  runPageEntry=(entry,isPriority)=>{
   if(!entry||entry.started)return entry?.promise;
   entry.started=true;
-  entry.promise=eduTranslateMaterial(entry.payload,entry.cacheId,'mixed',{priority:Boolean(isPriority)}).then(res=>{
+  entry.promise=eduTranslateMaterial(entry.payload,entry.cacheId,options.sourceLanguage||'mixed',{priority:Boolean(isPriority),targetLanguage:reqLang}).then(res=>{
    if(dialogClosed||state.language!==reqLang)return;
+   if(!res){pageFailed[entry.pIdx]=true;return;}
+   pageFailed[entry.pIdx]=false;
    if(entry.includeTitle){
     if(typeof res?.title==='string'&&res.title.trim())currentCleanTitle=res.title.trim();
     heading.textContent=currentCleanTitle;heading.title=currentCleanTitle;
@@ -12108,13 +12138,13 @@ function educationOpenPagedLesson(title,body){
    }
    pageTranslatedLang[entry.pIdx]=reqLang;
    head.eduPrintableMaterial=()=>({title:currentCleanTitle,text:educationCleanLessonText(pages.join(nl+nl))});
-  }).catch(()=>{}).finally(()=>{
+  }).catch(()=>{pageFailed[entry.pIdx]=true}).finally(()=>{
    pageReady[entry.pIdx]=true;
    delete pendingByPage[entry.pIdx];
    if(!dialogClosed&&state.language===reqLang){
     if(entry.includeTitle&&heading.textContent!==currentCleanTitle){heading.textContent=currentCleanTitle;heading.title=currentCleanTitle;}
     if(entry.pIdx===page)paint();
-    if(Object.keys(pendingByPage).length===0)statusNote.hidden=true;
+    if(pageFailed.some(Boolean)||Object.keys(pendingByPage).length===0)updateTranslationStatus();
    }
   });
   return entry.promise;
@@ -12130,7 +12160,7 @@ function educationOpenPagedLesson(title,body){
     await runPageEntry(pendingEntries[i],i===0||pendingEntries[i].pIdx===page);
    }
   })().catch(()=>{});
- }
+ }else updateTranslationStatus();
  return dialog;
 }
 

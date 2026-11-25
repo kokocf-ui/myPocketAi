@@ -1,4 +1,9 @@
 plugins { id 'com.android.application' }
+// A preview must never be built as a production release.
+if (System.getenv('POCKET_TOOLS_UI_PREVIEW') == 'true' &&
+    gradle.startParameter.taskNames.any { it.toLowerCase().contains('release') }) {
+    throw new GradleException('Branch UI preview is for debug builds only')
+}
 android {
     namespace 'ai.mypocket.mobile'
     compileSdk 35
@@ -32,6 +37,13 @@ android {
         }
     }
     buildTypes {
+        debug {
+            // Isolated, disposable branch preview: can coexist with production.
+            if (System.getenv('POCKET_TOOLS_UI_PREVIEW') == 'true') {
+                applicationIdSuffix '.preview'
+                resValue 'string', 'app_name', 'myPocket AI Test'
+            }
+        }
         release {
             if (System.getenv('POCKET_KEYSTORE_PATH')) signingConfig signingConfigs.release
         }
@@ -85,4 +97,8 @@ tasks.register("bundlePocketAvatar", Copy) {
     }
 }
 android.sourceSets.main.assets.srcDir(pocketAvatarAssetDir)
+// Generated only for the explicit debug preview; never include in releases.
+if (System.getenv('POCKET_TOOLS_UI_PREVIEW') == 'true') {
+    android.sourceSets.debug.assets.srcDir(layout.buildDirectory.dir('generated/pocket-preview-assets'))
+}
 tasks.matching { it.name == "preBuild" }.configureEach { dependsOn("bundlePocketAvatar") }

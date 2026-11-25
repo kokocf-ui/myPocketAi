@@ -29,4 +29,12 @@ assert.match(flow,/if unzip -l "\$APK" \| grep -Fq 'assets\/tools-ui-preview\.ht
  'Production APK verification must reject old UI snapshots');
 
 
-console.log('PASS: signed main APK uses Cloudflare UI and refuses obsolete bundled previews');
+assert.match(java,/BuildConfig\.TOOLS_UI_PREVIEW && !request\.isForMainFrame\(\)/, 'Pack interception is preview-only');
+assert.match(java,/APP_HOST\.equalsIgnoreCase\(resource\.getHost\(\)\)/, 'Preview assets remain same-origin');
+assert.match(java,/mypocketai-commercial-curriculum-pack-v1:2026-11\|/, 'Preview uses the production pack naming salt');
+assert.match(java,/preview\/packs\/p-/, 'Preview uses bundled annual packs');
+assert.match(java,/404,"Not Found"/, 'Missing preview assets do not fall through to incompatible live content');
+assert.match(gradle,/applicationIdSuffix '\.preview'/, 'Debug preview is isolated from production');
+assert.match(gradle,/Branch UI preview is for debug builds only/, 'Preview cannot be built as a release');
+assert.match(gradle,/sourceSets\.debug\.assets/, 'Only debug variant gets generated snapshot');
+console.log('PASS: production uses Cloudflare; isolated debug preview bundles its UI and Education assets');

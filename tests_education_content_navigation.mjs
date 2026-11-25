@@ -211,10 +211,11 @@ for(const css of [
  const end=boot.indexOf('\nfunction educationScienceTheoryReader(',start);
  assert.ok(start>=0&&end>start,'Common formatted reader missing');
  class Node{
-  constructor(tag){this.tag=tag;this.children=[];this.style={};this.attrs={};this.scrollTop=0;this.hidden=false;this.disabled=false;this.textContent=''}
+  constructor(tag){this.tag=tag;this.children=[];this.style={};this.attrs={};this.dataset={};this.scrollTop=0;this.hidden=false;this.disabled=false;this.textContent=''}
   append(...items){this.children.push(...items)}
   replaceChildren(...items){this.children=[...items]}
   setAttribute(name,value){this.attrs[name]=value}
+  removeAttribute(name){delete this.attrs[name]}
   addEventListener(){}
   remove(){}
   showModal(){this.open=true}
@@ -242,6 +243,22 @@ for(const css of [
  next.onclick();assert.ok(counter.textContent.includes('2 / '),'Next shows page two');
  assert.equal(content.scrollTop,0,'Changing page resets text scroll');
  prev.onclick();assert.ok(counter.textContent.includes('1 / '),'Previous restores page one');
+ // A known non-Romanian source must translate even when the target is RO.
+ // On failure, expose the original honestly and offer a working retry.
+ const state={language:'ro'};let attempts=0;
+ const withTranslation=new Function('document','window','learningLabel','eduAttachPrintAction','state','eduTranslateMaterial',
+  boot.slice(start,end)+';return educationOpenPagedLesson;')(doc,{innerWidth:390},x=>x,()=>{},state,async payload=>{
+   attempts++;return attempts===1?null:{...payload,...(payload.title?{title:'Titlu tradus'}:{}),...(payload.lines?{lines:payload.lines.map(()=> 'Text tradus')}: {})};
+  });
+ const failed=withTranslation('Bonjour','Une histoire en français.',{sourceLanguage:'fr'});
+ await new Promise(resolve=>setTimeout(resolve,0));
+ const failStatus=failed.children[0].children.find(x=>x.className==='education-paged-translate-status');
+ assert.match(failStatus.textContent,/Traducerea nu este disponibilă/);
+ assert.equal(failed.children[2].children[0].attrs['data-edu-translated'],undefined);
+ assert.equal(failStatus.children[0].textContent,'Încearcă din nou');failStatus.children[0].onclick();
+ await new Promise(resolve=>setTimeout(resolve,0));
+ const retried=doc.body.children.at(-1);
+ assert.match(rendered(retried.children[2]),/Text tradus/);assert.equal(attempts,2);
 }
 {
  const start=boot.indexOf('function hgGuaranteedSections(topic){');
