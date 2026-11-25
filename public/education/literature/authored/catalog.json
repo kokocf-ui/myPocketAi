@@ -1,6 +1,6 @@
 {
  "schema": "mypocket-literature-authored-catalog/v1",
- "version": "4b078af8642880519125a197982950d2fa9e6b96d4e5c41038733bf81fd8f7ae",
+ "version": "d457b474c933821be0f86b988dcd5e0b8c210d857449e83f37bf31ad370d2b7e",
  "years": [
   {
    "country": "BE",
@@ -24,6 +24,31 @@
      "name": "Nederlands",
      "file": "nl-1",
      "version": "8b99f4de1469870930f1037132dcb3c372424df1531d69f7629a58a058b34123"
+    }
+   ]
+  },
+  {
+   "country": "CH",
+   "stage": "beginner",
+   "grade": "1",
+   "languages": [
+    {
+     "lang": "de",
+     "name": "Deutsch",
+     "file": "de-1",
+     "version": "a783bfc96a7c5d33f491d9b30d7166c69502a649db54b07871c136cc3c4647bb"
+    },
+    {
+     "lang": "fr",
+     "name": "Français",
+     "file": "fr-1",
+     "version": "3e88a6876b845d4cb031dbc774d20cfda2416d97f96a8a9d4aed6d05dcdaf2c4"
+    },
+    {
+     "lang": "it",
+     "name": "Italiano",
+     "file": "it-1",
+     "version": "73ca6dca44ba1b8fdd383b2446393962e2aa29240a7bb82262f7859f79aa7d16"
     }
    ]
   },
@@ -94,6 +119,19 @@
      "name": "Italiano",
      "file": "it-p1",
      "version": "c5ce83facf0de4c0d221ac92762501bf7bc547ea494e9e83ab8f037c8812f4f5"
+    }
+   ]
+  },
+  {
+   "country": "LI",
+   "stage": "beginner",
+   "grade": "1",
+   "languages": [
+    {
+     "lang": "de",
+     "name": "Deutsch",
+     "file": "de-1",
+     "version": "4451414950443f3789ceaf55ef43138660d34563b70cbdf73ec6e20c1eb32c03"
     }
    ]
   },

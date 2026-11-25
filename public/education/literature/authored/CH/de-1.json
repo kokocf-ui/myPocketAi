@@ -1,0 +1,242 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "CH",
+ "stage": "beginner",
+ "grade": "1",
+ "version": "a783bfc96a7c5d33f491d9b30d7166c69502a649db54b07871c136cc3c4647bb",
+ "source": "https://www.lehrplan21.ch/",
+ "sourceTitle": "Lehrplan 21 (Deutschschweiz), Fachbereich Deutsch, Zyklus 1 (nur Rahmen; kantonale Lehrpläne können abweichen; Aufgaben sind eigene Materialien)",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "de",
+ "labels": [
+  "Eigene Übungsaktivität · Schweiz (Deutschschweiz) · 1. Klasse",
+  "Wir lernen",
+  "Eigenes Beispiel",
+  "Erklärung",
+  "Übungen",
+  "Teste dich",
+  "Eigene Übungen, kein offizieller Test. Lies sie, wenn nötig, mit einem Erwachsenen."
+ ],
+ "chapters": {
+  "eu-year-ch-beginner-1-parcurs": {
+   "de": {
+    "title": "Laute, Buchstaben und Silben",
+    "theory": "Wörter bestehen aus Lauten. Für jeden Laut schreiben wir einen oder mehrere Buchstaben. Manche Laute brauchen zwei oder drei Buchstaben: ch, sch, ei, ie. Lange Wörter lesen wir in Silben: Mur-mel-tier. Bei jeder Silbe klatschen wir einmal.",
+    "sample": "Lino sieht ein Murmeltier. Es sitzt auf einem Stein und pfeift laut.",
+    "worked": "Mur-mel-tier hat drei Silben. Stein hat nur eine Silbe. In Stein schreiben wir ei für einen Laut, in sieht schreiben wir ie. In pfeift hören wir am Anfang pf. So setzen wir Laute zu Wörtern zusammen.",
+    "exercises": [
+     "Klatsche die Silben von Murmeltier.",
+     "Finde im Text zwei Wörter mit dem Anlaut S.",
+     "Trenne in Silben: Lino, sitzen, Steine.",
+     "Finde im Text ein Wort mit ei.",
+     "Lies laut: La, Le, Li, Lo, Lu."
+    ],
+    "test": [
+     "Wie viele Silben hat Murmeltier?",
+     "Wo sitzt das Murmeltier?",
+     "Welche zwei Buchstaben schreiben einen Laut in sieht?",
+     "Schreibe ein Wort, das mit Sch anfängt.",
+     "Setze die Silben zusammen: Ber-ge."
+    ]
+   }
+  },
+  "eu-year-ch-beginner-1-intelegere": {
+   "de": {
+    "title": "Einen kurzen Text lesen und verstehen",
+    "theory": "Nach jedem Satz halten wir kurz an und fragen: Wer? Was passiert? Wo? Die Antworten stehen im Text. Was nicht im Text steht, erfinden wir nicht dazu.",
+    "sample": "Mia fährt mit ihrer Tante an den See. Sie hat ein rotes Boot aus Holz. Am Ufer lässt sie das Boot mit Noah schwimmen.",
+    "worked": "Wer? Mia. Mit wem fährt sie? Mit ihrer Tante. Was hat sie? Ein rotes Boot aus Holz. Wo spielt sie? Am Ufer vom See. Wie das Wetter ist, steht nicht im Text.",
+    "exercises": [
+     "Mit wem fährt Mia an den See?",
+     "Welche Farbe hat das Boot?",
+     "Woraus ist das Boot gemacht?",
+     "Mit wem spielt Mia am Ufer?",
+     "Unterstreiche den Satz, der sagt, was Mia hat."
+    ],
+    "test": [
+     "Steht im Text, wie das Wetter ist?",
+     "Ist das Boot blau? Woher weisst du das?",
+     "Was ist ein Ufer?",
+     "Finde ein Wort für eine Person aus der Familie.",
+     "Zeichne das Bild zum Text und schreibe ein Wort dazu."
+    ]
+   }
+  },
+  "eu-year-ch-beginner-1-narativ": {
+   "de": {
+    "title": "Figuren und Ereignisse in einer Geschichte",
+    "theory": "Figuren sind die Menschen oder Tiere in einer Geschichte. Ereignisse sind das, was passiert. Wir erzählen in der richtigen Reihenfolge: zuerst, dann, danach, zum Schluss.",
+    "sample": "Zuerst rollt die Mütze von Ueli den Hang hinunter. Dann bleibt sie an einem Zaun hängen. Danach holt eine Ziege die Mütze mit dem Maul. Zum Schluss lacht Ueli und streichelt die Ziege.",
+    "worked": "Die Figuren sind Ueli und die Ziege. Zuerst: Die Mütze rollt hinunter. Dann: Sie bleibt am Zaun hängen. Danach: Die Ziege holt sie. Zum Schluss: Ueli lacht und streichelt die Ziege.",
+    "exercises": [
+     "Wer sind die Figuren?",
+     "Was rollt den Hang hinunter?",
+     "Wo bleibt die Mütze hängen?",
+     "Erzähle die Geschichte mit zuerst, dann, danach, zum Schluss.",
+     "Wie fühlt sich Ueli am Ende? Welches Wort hilft dir?"
+    ],
+    "test": [
+     "Wer holt die Mütze?",
+     "Was passiert zuerst?",
+     "Was macht Ueli zum Schluss?",
+     "Ordne: Ueli lacht / die Mütze rollt / die Ziege holt die Mütze.",
+     "Zeichne deine Lieblingsstelle."
+    ]
+   }
+  },
+  "eu-year-ch-beginner-1-poezie": {
+   "de": {
+    "title": "Reime und Gedichte",
+    "theory": "Ein Gedicht ist kurz und hat einen Rhythmus wie ein Lied. Reimwörter klingen am Ende gleich: Berg und Zwerg, See und Schnee. Wenn wir das Gedicht laut sprechen, hören wir die Reime.",
+    "sample": "Auf dem Berg liegt weisser Schnee,\nunten glänzt der blaue See.\nDie Kuh im Stall macht laut: Muh!\nUnd ich, ich ziehe Stiefel zu.",
+    "worked": "Schnee und See reimen sich, beide enden mit -ee. Muh und zu reimen sich auch. Das Gedicht hat vier Zeilen. Wir lesen es langsam und betonen die Reimwörter am Zeilenende.",
+    "exercises": [
+     "Finde das Reimwort zu Schnee.",
+     "Was macht die Kuh?",
+     "Wie viele Zeilen hat das Gedicht?",
+     "Finde ein Reimwort zu Haus.",
+     "Sprich das Gedicht laut und klatsche dazu."
+    ],
+    "test": [
+     "Reimen sich Berg und Zwerg?",
+     "Welche Farbe hat der See im Gedicht?",
+     "Finde ein Reimwort zu Hand.",
+     "Welches Tier kommt im Gedicht vor?",
+     "Schreibe zwei Wörter, die sich reimen."
+    ]
+   }
+  },
+  "eu-year-ch-beginner-1-dialog": {
+   "de": {
+    "title": "Gespräch: zuhören und abwechselnd sprechen",
+    "theory": "In einem Gespräch sprechen wir abwechselnd. Wir hören zu, bis der andere fertig ist. Wir grüssen, sagen bitte und danke. Eine Frage endet mit einem Fragezeichen.",
+    "sample": "Lea: Guten Morgen, Frau Huber! Darf ich ein Buch ausleihen?\nFrau Huber: Guten Morgen, Lea. Ja, gern. Welches möchtest du?\nLea: Das Buch über Pferde, bitte.\nFrau Huber: Bitte schön.\nLea: Danke vielmals!",
+    "worked": "Zuerst grüsst Lea. Dann stellt sie eine Frage, darum steht am Ende ein Fragezeichen. Frau Huber antwortet. Lea sagt bitte und danke. Jede Person spricht, wenn die andere fertig ist.",
+    "exercises": [
+     "Wie grüsst Lea?",
+     "Welches Buch möchte Lea?",
+     "Finde den Satz mit einem Fragezeichen.",
+     "Welche höflichen Wörter sagt Lea?",
+     "Spielt das Gespräch zu zweit."
+    ],
+    "test": [
+     "Wer spricht zuerst?",
+     "Was antwortet Frau Huber auf die Frage?",
+     "Warum warten wir, bis der andere fertig ist?",
+     "Schreibe eine Frage an deine Lehrerin oder deinen Lehrer.",
+     "Wie bedankst du dich, wenn du etwas bekommst?"
+    ]
+   }
+  },
+  "eu-year-ch-beginner-1-vocabular": {
+   "de": {
+    "title": "Wortgruppen, Gegenteile und Mehrzahl",
+    "theory": "Wörter kann man in Gruppen ordnen: Tiere, Farben, Dinge in der Schule. Manche Wörter sind Gegenteile: gross – klein, hell – dunkel. Viele Nomen haben eine Einzahl und eine Mehrzahl: der Berg – die Berge, das Kind – die Kinder.",
+    "sample": "Im Schulzimmer liegen ein Heft, zwei Stifte und drei Bücher. Draussen ist es hell, im Keller ist es dunkel.",
+    "worked": "Heft, Stift und Buch gehören zur Gruppe Schule. Ein Stift, zwei Stifte: In der Mehrzahl kommt -e dazu. Ein Buch, drei Bücher: Aus u wird ü und -er kommt dazu. Hell und dunkel sind Gegenteile.",
+    "exercises": [
+     "Ordne: Katze, rot, Heft, blau, Hund, Stift.",
+     "Finde das Gegenteil von gross.",
+     "Schreibe die Mehrzahl: der Berg.",
+     "Finde im Text zwei Gegenteile.",
+     "Nenne drei Tiere, die auf einem Bauernhof leben."
+    ],
+    "test": [
+     "Was ist das Gegenteil von warm?",
+     "Schreibe die Mehrzahl: das Kind.",
+     "Welches Wort passt nicht: Apfel, Birne, Hammer, Kirsche?",
+     "Wie heisst die Einzahl von Bücher?",
+     "Schreibe zwei Farben auf."
+    ]
+   }
+  },
+  "eu-year-ch-beginner-1-exprimare": {
+   "de": {
+    "title": "Grossschreibung, Punkt und ss",
+    "theory": "Jeder Satz beginnt mit einem grossen Buchstaben und endet mit einem Punkt. Auch Nomen schreiben wir gross: der Hund, die Schule. In der Schweiz schreiben wir kein ß, sondern immer ss: gross, Strasse, Fuss.",
+    "sample": "Die Strasse ist nass. Ein grosser Hund läuft zur Schule. Mein Fuss tut nicht weh.",
+    "worked": "Die, Ein und Mein stehen am Satzanfang, darum sind sie gross. Strasse, Hund, Schule und Fuss sind Nomen, auch sie schreiben wir gross. Nach jedem Satz kommt ein Punkt. Strasse, grosser und Fuss schreiben wir mit ss.",
+    "exercises": [
+     "Schreibe richtig: der hund schläft",
+     "Finde im Text alle Nomen.",
+     "Setze den Punkt: Ich spiele im Garten",
+     "Schreibe richtig mit ss: Stra_e.",
+     "Wie viele Sätze hat der Text?"
+    ],
+    "test": [
+     "Warum schreibt man Schule gross?",
+     "Was steht am Ende eines Satzes?",
+     "Schreibe richtig: die katze ist gross",
+     "Schreibe das Wort Fuss ab und unterstreiche ss.",
+     "Finde den Fehler: mein Bruder heisst Jan."
+    ]
+   }
+  },
+  "eu-year-ch-beginner-1-redactare": {
+   "de": {
+    "title": "Einen Satz zu einem Bild schreiben",
+    "theory": "Bevor wir schreiben, schauen wir das Bild genau an: Wer ist zu sehen? Was macht die Person? Wo ist sie? Dann schreiben wir einen Satz mit grossem Anfang und Punkt. Danach lesen wir den Satz noch einmal.",
+    "sample": "Bild: Ein Mädchen baut am Bach einen kleinen Damm aus Steinen.\nSatz: Das Mädchen baut am Bach einen Damm.",
+    "worked": "Wer? Das Mädchen. Was macht es? Es baut einen Damm. Wo? Am Bach. Der Satz beginnt mit Das, gross geschrieben, und endet mit einem Punkt. Zum Schluss lesen wir ihn laut und prüfen ihn.",
+    "exercises": [
+     "Schreibe einen Satz: Ein Bub isst einen Apfel.",
+     "Wer ist auf dem Bild im Beispiel zu sehen?",
+     "Was macht das Mädchen?",
+     "Schreibe einen Satz über dein Lieblingstier.",
+     "Lies deinen Satz noch einmal und prüfe den Punkt."
+    ],
+    "test": [
+     "Was fragen wir zuerst, wenn wir ein Bild anschauen?",
+     "Wo baut das Mädchen den Damm?",
+     "Schreibe einen Satz über dein Zimmer.",
+     "Womit beginnt jeder Satz?",
+     "Zeichne ein Bild und schreibe einen Satz dazu."
+    ]
+   }
+  },
+  "eu-year-ch-beginner-1-interpretare": {
+   "de": {
+    "title": "Meine Meinung: Figuren vergleichen",
+    "theory": "Wir können sagen, was uns gefällt, und einen Grund nennen: Mir gefällt ..., weil ... Wir vergleichen Figuren: Was ist gleich? Was ist anders? Andere dürfen eine andere Meinung haben.",
+    "sample": "Der Fuchs Flin ist schnell und schlau. Die Schnecke Sina ist langsam, aber sie hilft allen. Mir gefällt Sina, weil sie hilfsbereit ist.",
+    "worked": "Flin ist schnell, Sina ist langsam: Das ist anders. Beide sind Tiere im Wald: Das ist gleich. Der Satz mit weil nennt den Grund. Jemand anderes darf Flin lieber mögen.",
+    "exercises": [
+     "Wie ist der Fuchs?",
+     "Was macht die Schnecke für die anderen?",
+     "Was ist bei Flin und Sina gleich?",
+     "Schreibe: Mir gefällt ..., weil ...",
+     "Welche Figur magst du lieber? Sag warum."
+    ],
+    "test": [
+     "Was ist bei Flin und Sina anders?",
+     "Welches Wort leitet einen Grund ein?",
+     "Darf deine Freundin eine andere Meinung haben?",
+     "Ist Sina schnell oder langsam?",
+     "Erfinde eine dritte Figur und beschreibe sie mit einem Wort."
+    ]
+   }
+  },
+  "eu-year-ch-beginner-1-verificare": {
+   "de": {
+    "title": "Wiederholung: lesen, verstehen, schreiben",
+    "theory": "Zum Schluss wiederholen wir: Silben klatschen, Fragen zum Text beantworten, Figuren und Reihenfolge nennen, Reime finden, Satzanfang gross und Punkt am Ende, Nomen gross und ss statt ß.",
+    "sample": "Am Morgen packt Jonas seinen Rucksack. Er nimmt ein Brot, eine Flasche Wasser und seine Mütze mit. Dann wandert er mit Papa auf den Hügel.",
+    "worked": "Wer? Jonas. Was macht er zuerst? Er packt den Rucksack. Was nimmt er mit? Brot, Wasser und Mütze. Was macht er dann? Er wandert mit Papa. Ruck-sack hat zwei Silben, Fla-sche auch.",
+    "exercises": [
+     "Klatsche die Silben von Rucksack.",
+     "Was nimmt Jonas mit?",
+     "Mit wem wandert Jonas?",
+     "Finde zwei Nomen im Text.",
+     "Finde ein Reimwort zu Brot."
+    ],
+    "test": [
+     "Was macht Jonas zuerst?",
+     "Wie viele Sätze hat der Text?",
+     "Schreibe richtig: jonas wandert gern",
+     "Was ist das Gegenteil von Morgen?",
+     "Schreibe einen Satz über eine Wanderung."
+    ]
+   }
+  }
+ }
+}

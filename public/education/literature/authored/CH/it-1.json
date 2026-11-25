@@ -1,0 +1,242 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "CH",
+ "stage": "beginner",
+ "grade": "1",
+ "version": "73ca6dca44ba1b8fdd383b2446393962e2aa29240a7bb82262f7859f79aa7d16",
+ "source": "https://www.edk.ch/de/bildungssystem/beschreibung/lehrplaene",
+ "sourceTitle": "CDPE/EDK: Piano di studio della scuola dell'obbligo ticinese, Italiano, primo ciclo (solo quadro; esercizi originali)",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "it",
+ "labels": [
+  "Attività originale · Svizzera italiana (Ticino) · 1a elementare",
+  "Impariamo",
+  "Esempio originale",
+  "Spiegazione",
+  "Esercizi",
+  "Verifico",
+  "Esercizi originali, non una prova ufficiale. Leggili con un adulto se serve."
+ ],
+ "chapters": {
+  "eu-year-ch-beginner-1-parcurs": {
+   "it": {
+    "title": "Suoni, lettere e sillabe",
+    "theory": "Le parole sono fatte di suoni. Alcuni suoni si scrivono con più lettere: ch, gh, gn, sc. Per leggere una parola lunga la dividiamo in sillabe: ca-sta-gna. A ogni sillaba battiamo le mani.",
+    "sample": "Gino raccoglie le castagne nel bosco. Le mette in un cesto di vimini.",
+    "worked": "Ca-sta-gne ha tre sillabe. Bo-sco ne ha due. In castagne, gn si scrive con due lettere ma è un solo suono. In cesto, ce si legge come in cena. Uniamo i suoni e leggiamo la parola.",
+    "exercises": [
+     "Batti le sillabe di castagne.",
+     "Trova nel testo una parola con gn.",
+     "Dividi in sillabe: Gino, cesto, bosco.",
+     "Trova una parola del testo che comincia con la c.",
+     "Leggi ad alta voce: ma, me, mi, mo, mu."
+    ],
+    "test": [
+     "Quante sillabe ha castagne?",
+     "Dove raccoglie le castagne Gino?",
+     "Quali due lettere fanno un solo suono in castagne?",
+     "Scrivi una parola che comincia con ch.",
+     "Unisci le sillabe: ca-sa."
+    ]
+   }
+  },
+  "eu-year-ch-beginner-1-intelegere": {
+   "it": {
+    "title": "Leggere e capire un breve testo",
+    "theory": "Dopo ogni frase ci fermiamo e chiediamo: Chi? Che cosa succede? Dove? Le risposte sono nel testo. Quello che non è scritto non lo inventiamo.",
+    "sample": "Sara va al lago con la nonna. Ha una barchetta di carta azzurra. Sulla riva la fa galleggiare con Luca.",
+    "worked": "Chi? Sara. Con chi va? Con la nonna. Che cosa ha? Una barchetta di carta azzurra. Dove gioca? Sulla riva del lago. Che giorno è non è scritto nel testo.",
+    "exercises": [
+     "Con chi va al lago Sara?",
+     "Di che colore è la barchetta?",
+     "Di che cosa è fatta la barchetta?",
+     "Con chi gioca Sara?",
+     "Sottolinea la frase che dice che cosa ha Sara."
+    ],
+    "test": [
+     "Il testo dice che giorno è?",
+     "La barchetta è rossa? Come lo sai?",
+     "Che cos'è una riva?",
+     "Trova una parola che indica una persona della famiglia.",
+     "Disegna il testo e scrivi una parola sotto il disegno."
+    ]
+   }
+  },
+  "eu-year-ch-beginner-1-narativ": {
+   "it": {
+    "title": "Personaggi e fatti di una storia",
+    "theory": "I personaggi sono le persone o gli animali di una storia. I fatti sono quello che succede. Raccontiamo in ordine: prima, poi, dopo, alla fine.",
+    "sample": "Prima il ghiro Tobia si sveglia dopo l'inverno. Poi cerca da mangiare, ma il bosco è vuoto. Dopo una ghiandaia gli porta una nocciola. Alla fine Tobia ringrazia e fa colazione.",
+    "worked": "I personaggi sono il ghiro Tobia e la ghiandaia. Prima: Tobia si sveglia. Poi: cerca da mangiare. Dopo: la ghiandaia porta una nocciola. Alla fine: Tobia ringrazia e mangia.",
+    "exercises": [
+     "Chi sono i personaggi?",
+     "Quando si sveglia Tobia?",
+     "Che cosa porta la ghiandaia?",
+     "Racconta la storia con prima, poi, dopo, alla fine.",
+     "Come si sente Tobia alla fine? Quale parola ti aiuta?"
+    ],
+    "test": [
+     "Chi porta la nocciola?",
+     "Che cosa succede prima?",
+     "Che cosa fa Tobia alla fine?",
+     "Metti in ordine: ringrazia / si sveglia / cerca da mangiare.",
+     "Disegna il momento che ti piace di più."
+    ]
+   }
+  },
+  "eu-year-ch-beginner-1-poezie": {
+   "it": {
+    "title": "Rime e poesie",
+    "theory": "Una poesia è breve e ha un ritmo, come una canzone. Le parole in rima finiscono con lo stesso suono: sole e viole, monte e fonte. Quando diciamo la poesia ad alta voce, sentiamo le rime.",
+    "sample": "Sopra il monte splende il sole,\nnel prato crescono le viole.\nIl lago è calmo, liscio e blu,\nio lo guardo e non parlo più.",
+    "worked": "Sole e viole fanno rima: finiscono con -ole. Blu e più fanno rima con il suono u. La poesia ha quattro versi. Leggiamo piano e facciamo sentire le parole in rima alla fine dei versi.",
+    "exercises": [
+     "Trova la parola che fa rima con sole.",
+     "Dove crescono le viole?",
+     "Quanti versi ha la poesia?",
+     "Trova una parola che fa rima con gatto.",
+     "Di' la poesia battendo il ritmo."
+    ],
+    "test": [
+     "Monte e fonte fanno rima?",
+     "Di che colore è il lago nella poesia?",
+     "Trova una parola che fa rima con mare.",
+     "Dove splende il sole?",
+     "Scrivi due parole che fanno rima."
+    ]
+   }
+  },
+  "eu-year-ch-beginner-1-dialog": {
+   "it": {
+    "title": "Dialogo: ascoltare e parlare a turno",
+    "theory": "In una conversazione parliamo a turno. Ascoltiamo finché l'altro ha finito. Diciamo buongiorno, per favore e grazie. Una domanda finisce con il punto interrogativo.",
+    "sample": "Elia: Buongiorno! Vorrei tre mele, per favore.\nFruttivendola: Buongiorno, Elia. Rosse o gialle?\nElia: Rosse, per favore.\nFruttivendola: Ecco a te. Sono due franchi.\nElia: Grazie, arrivederci!",
+    "worked": "Prima Elia saluta. La fruttivendola fa una domanda: la frase finisce con il punto interrogativo. Elia risponde e dice per favore. Alla fine dice grazie e arrivederci. Ognuno parla quando l'altro ha finito.",
+    "exercises": [
+     "Come saluta Elia?",
+     "Quali mele sceglie Elia?",
+     "Trova la frase con il punto interrogativo.",
+     "Quali parole gentili usa Elia?",
+     "Recitate la scena in due."
+    ],
+    "test": [
+     "Chi parla per primo?",
+     "Quanto costano le mele?",
+     "Perché aspettiamo che l'altro abbia finito?",
+     "Scrivi una domanda per la tua maestra o il tuo maestro.",
+     "Che cosa dici quando esci da un negozio?"
+    ]
+   }
+  },
+  "eu-year-ch-beginner-1-vocabular": {
+   "it": {
+    "title": "Gruppi di parole, contrari e plurale",
+    "theory": "Possiamo ordinare le parole in gruppi: animali, colori, cose della scuola. Alcune parole sono contrari: alto – basso, pieno – vuoto. Al plurale molte parole cambiano la vocale finale: il libro, i libri; la penna, le penne.",
+    "sample": "Nello zaino ci sono un quaderno, due matite e tre libri. La borraccia è piena, il bicchiere è vuoto.",
+    "worked": "Quaderno, matita e libro sono cose della scuola. Una matita, due matite: la a diventa e. Un libro, tre libri: la o diventa i. Pieno e vuoto sono contrari.",
+    "exercises": [
+     "Ordina: cane, giallo, quaderno, verde, gatto, matita.",
+     "Trova il contrario di alto.",
+     "Scrivi al plurale: la penna.",
+     "Trova nel testo due contrari.",
+     "Nomina tre animali della fattoria."
+    ],
+    "test": [
+     "Qual è il contrario di caldo?",
+     "Scrivi al plurale: il quaderno.",
+     "Quale parola non è un frutto: mela, pera, martello, ciliegia?",
+     "Quante matite ci sono nello zaino?",
+     "Scrivi due colori."
+    ]
+   }
+  },
+  "eu-year-ch-beginner-1-exprimare": {
+   "it": {
+    "title": "Maiuscola, punto, ch e ci",
+    "theory": "Ogni frase comincia con la lettera maiuscola e finisce con il punto. Anche i nomi di persone e di città hanno la maiuscola: Elia, Lugano, Bellinzona. Attenzione: chi e che hanno il suono duro, ci e ce hanno il suono dolce.",
+    "sample": "Marta abita a Locarno. Ogni mattina va a scuola a piedi. Che bello il cielo azzurro!",
+    "worked": "Marta, Ogni e Che sono all'inizio della frase: hanno la maiuscola. Marta e Locarno sono nomi propri: maiuscola anche qui. In che il suono è duro, in cielo il suono è dolce. Le frasi finiscono con il punto o con il punto esclamativo.",
+    "exercises": [
+     "Scrivi bene: luca gioca a calcio",
+     "Trova i nomi propri nel testo.",
+     "Metti il punto: Io mangio una mela",
+     "Completa con ch o c: _iave.",
+     "Quante frasi ha il testo?"
+    ],
+    "test": [
+     "Perché Locarno ha la maiuscola?",
+     "Che cosa mettiamo alla fine di una frase?",
+     "Scrivi bene: anna abita a lugano",
+     "Copia la parola cielo e cerchia ci.",
+     "Trova l'errore: il mio cane si chiama Fido."
+    ]
+   }
+  },
+  "eu-year-ch-beginner-1-redactare": {
+   "it": {
+    "title": "Scrivere una frase su un'immagine",
+    "theory": "Prima di scrivere guardiamo bene l'immagine: Chi vediamo? Che cosa fa? Dove si trova? Poi scriviamo una frase con la maiuscola e il punto. Infine rileggiamo la frase.",
+    "sample": "Immagine: Una bambina dà da mangiare alle anatre vicino al lago.\nFrase: La bambina dà il pane alle anatre.",
+    "worked": "Chi? La bambina. Che cosa fa? Dà il pane alle anatre. Dove? Vicino al lago. La frase comincia con La, maiuscola, e finisce con il punto. Alla fine la rileggiamo ad alta voce.",
+    "exercises": [
+     "Scrivi una frase: un bambino beve il latte.",
+     "Chi vediamo nell'immagine dell'esempio?",
+     "Che cosa fa la bambina?",
+     "Scrivi una frase sul tuo animale preferito.",
+     "Rileggi la tua frase e controlla il punto."
+    ],
+    "test": [
+     "Che cosa chiediamo prima, guardando un'immagine?",
+     "Dove sono le anatre?",
+     "Scrivi una frase sulla tua camera.",
+     "Con che cosa comincia ogni frase?",
+     "Disegna un'immagine e scrivi una frase."
+    ]
+   }
+  },
+  "eu-year-ch-beginner-1-interpretare": {
+   "it": {
+    "title": "La mia opinione: confrontare i personaggi",
+    "theory": "Possiamo dire che cosa ci piace e spiegare perché: Mi piace ..., perché ... Confrontiamo i personaggi: che cosa è uguale? Che cosa è diverso? Gli altri possono pensarla in un altro modo.",
+    "sample": "La volpe Rina è veloce, ma non aspetta mai gli amici. La lumaca Lalla è lenta e aiuta tutti. Mi piace Lalla, perché è gentile.",
+    "worked": "Rina è veloce, Lalla è lenta: è diverso. Tutte e due vivono nel bosco: è uguale. La frase con perché dà la spiegazione. Un compagno può preferire Rina.",
+    "exercises": [
+     "Com'è Rina?",
+     "Che cosa fa Lalla per gli altri?",
+     "Che cosa è uguale tra Rina e Lalla?",
+     "Scrivi: Mi piace ..., perché ...",
+     "Quale personaggio preferisci? Di' perché."
+    ],
+    "test": [
+     "Che cosa è diverso tra Rina e Lalla?",
+     "Quale parola usiamo per spiegare il motivo?",
+     "Un tuo compagno può pensarla diversamente?",
+     "Lalla è veloce o lenta?",
+     "Inventa un terzo personaggio e descrivilo con una parola."
+    ]
+   }
+  },
+  "eu-year-ch-beginner-1-verificare": {
+   "it": {
+    "title": "Ripasso: leggere, capire, scrivere",
+    "theory": "Per finire ripassiamo: battere le sillabe, rispondere alle domande su un testo, dire i personaggi e l'ordine dei fatti, trovare le rime, usare la maiuscola e il punto, leggere bene ch e ci.",
+    "sample": "Al mattino Nico prepara lo zaino. Prende un panino, la borraccia e il berretto. Poi va in gita in montagna con il papà.",
+    "worked": "Chi? Nico. Che cosa fa prima? Prepara lo zaino. Che cosa prende? Un panino, la borraccia e il berretto. Che cosa fa poi? Va in gita. Bor-rac-cia ha tre sillabe, mon-ta-gna anche.",
+    "exercises": [
+     "Batti le sillabe di montagna.",
+     "Che cosa prende Nico?",
+     "Con chi va in gita Nico?",
+     "Trova due nomi di oggetti nel testo.",
+     "Trova una parola che fa rima con panino."
+    ],
+    "test": [
+     "Che cosa fa Nico prima?",
+     "Quante frasi ha il testo?",
+     "Scrivi bene: nico va in montagna",
+     "Qual è il contrario di mattino?",
+     "Scrivi una frase su una gita."
+    ]
+   }
+  }
+ }
+}

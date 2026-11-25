@@ -1,0 +1,242 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "LI",
+ "stage": "beginner",
+ "grade": "1",
+ "version": "4451414950443f3789ceaf55ef43138660d34563b70cbdf73ec6e20c1eb32c03",
+ "source": "https://www.llv.li/en/national-administration/office-of-education/educational-fields/education-system---types-of-schools",
+ "sourceTitle": "Schulamt Liechtenstein: Bildungssystem und Liechtensteiner Lehrplan (LiLe), Deutsch, 1. Klasse (nur Rahmen; Aufgaben sind eigene Materialien)",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "de",
+ "labels": [
+  "Eigene Übungsaktivität · Liechtenstein · 1. Klasse",
+  "Wir lernen",
+  "Eigenes Beispiel",
+  "Erklärung",
+  "Übungen",
+  "Teste dich",
+  "Eigene Übungen, kein offizieller Test. Lies sie, wenn nötig, mit einem Erwachsenen."
+ ],
+ "chapters": {
+  "eu-year-li-beginner-1-parcurs": {
+   "de": {
+    "title": "Anlaut, Buchstaben und Silben",
+    "theory": "Jedes Wort besteht aus Lauten. Den ersten Laut nennen wir Anlaut: Rhein beginnt mit R. Manche Laute schreiben wir mit mehreren Buchstaben: au, eu, sch, ch. Lange Wörter zerlegen wir in Silben: Schmet-ter-ling.",
+    "sample": "Ein Schmetterling fliegt über die Wiese. Er setzt sich auf eine blaue Blume.",
+    "worked": "Schmet-ter-ling hat drei Silben, Blu-me hat zwei. Am Anfang von Schmetterling schreiben wir sch für einen Laut. In blaue hören wir au. Der Anlaut von Wiese ist W.",
+    "exercises": [
+     "Klatsche die Silben von Schmetterling.",
+     "Was ist der Anlaut von Blume?",
+     "Trenne in Silben: Wiese, fliegen, blaue.",
+     "Finde im Text ein Wort mit au.",
+     "Lies laut: Ra, Re, Ri, Ro, Ru."
+    ],
+    "test": [
+     "Wie viele Silben hat Blume?",
+     "Wohin setzt sich der Schmetterling?",
+     "Welche drei Buchstaben schreiben einen Laut in Schmetterling?",
+     "Schreibe ein Wort mit dem Anlaut R.",
+     "Setze die Silben zusammen: Wol-ke."
+    ]
+   }
+  },
+  "eu-year-li-beginner-1-intelegere": {
+   "de": {
+    "title": "Genau lesen und Fragen beantworten",
+    "theory": "Wir lesen langsam und stellen Fragen: Wer? Was? Wo? Womit? Die Antworten finden wir im Text. Wenn etwas nicht im Text steht, sagen wir: Das steht nicht da.",
+    "sample": "Elias geht mit seinem Onkel zum Rhein. Er nimmt einen grünen Kescher mit. Am Ufer beobachtet er mit Sofia kleine Fische.",
+    "worked": "Wer? Elias. Mit wem geht er? Mit seinem Onkel. Wohin? Zum Rhein. Was nimmt er mit? Einen grünen Kescher. Was sieht er am Ufer? Kleine Fische. Ob die Sonne scheint, steht nicht im Text.",
+    "exercises": [
+     "Mit wem geht Elias zum Rhein?",
+     "Welche Farbe hat der Kescher?",
+     "Was beobachten die Kinder?",
+     "Mit wem ist Elias am Ufer?",
+     "Unterstreiche den Satz, der sagt, was Elias mitnimmt."
+    ],
+    "test": [
+     "Steht im Text, ob die Sonne scheint?",
+     "Ist der Kescher gelb? Woher weisst du das?",
+     "Was ist ein Kescher? Frage nach oder schau ein Bild an.",
+     "Finde ein Wort für eine Person aus der Familie.",
+     "Zeichne das Bild zum Text und schreibe ein Wort dazu."
+    ]
+   }
+  },
+  "eu-year-li-beginner-1-narativ": {
+   "de": {
+    "title": "Figuren und Reihenfolge",
+    "theory": "Eine Geschichte hat Figuren und Ereignisse. Die Figuren handeln, die Ereignisse folgen nacheinander. Wörter wie zuerst, dann, danach und zum Schluss zeigen die Reihenfolge.",
+    "sample": "Zuerst fällt im Malbun viel Schnee. Dann baut Nina mit ihrem Bruder einen Schneemann. Danach bekommt der Schneemann eine Karotte als Nase. Zum Schluss trinken die Kinder warmen Tee.",
+    "worked": "Die Figuren sind Nina und ihr Bruder. Zuerst: Es schneit viel. Dann: Sie bauen einen Schneemann. Danach: Er bekommt eine Karottennase. Zum Schluss: Sie trinken Tee.",
+    "exercises": [
+     "Wer sind die Figuren?",
+     "Was passiert zuerst?",
+     "Was bauen die Kinder?",
+     "Erzähle die Geschichte mit zuerst, dann, danach, zum Schluss.",
+     "Was bekommt der Schneemann als Nase?"
+    ],
+    "test": [
+     "Was trinken die Kinder zum Schluss?",
+     "Mit wem baut Nina?",
+     "Wo fällt der Schnee?",
+     "Ordne: Tee trinken / Schneemann bauen / Schnee fällt.",
+     "Zeichne den Schneemann."
+    ]
+   }
+  },
+  "eu-year-li-beginner-1-poezie": {
+   "de": {
+    "title": "Gedichte und Reimwörter",
+    "theory": "Gedichte haben Zeilen und einen Klang. Oft reimen sich die Wörter am Ende der Zeilen: Licht und Gesicht, Turm und Wurm. Wir sprechen das Gedicht langsam und deutlich.",
+    "sample": "Hoch am Felsen steht das Schloss,\nunten trabt ein braunes Ross.\nAm Abend leuchtet goldnes Licht,\nes scheint mir warm ins Gesicht.",
+    "worked": "Schloss und Ross reimen sich, beide enden mit -oss. Licht und Gesicht reimen sich auf -icht. Das Gedicht hat vier Zeilen. Beim Vorlesen machen wir am Zeilenende eine kleine Pause.",
+    "exercises": [
+     "Finde das Reimwort zu Schloss.",
+     "Welches Tier trabt unten?",
+     "Wie viele Zeilen hat das Gedicht?",
+     "Finde ein Reimwort zu Turm.",
+     "Sprich das Gedicht und mach am Zeilenende eine Pause."
+    ],
+    "test": [
+     "Reimen sich Licht und Gesicht?",
+     "Welche Farbe hat das Ross?",
+     "Finde ein Reimwort zu Maus.",
+     "Wo steht das Schloss?",
+     "Schreibe zwei Wörter, die sich reimen."
+    ]
+   }
+  },
+  "eu-year-li-beginner-1-dialog": {
+   "de": {
+    "title": "Miteinander sprechen",
+    "theory": "Bei einem Gespräch wechseln wir uns ab. Wir schauen die andere Person an und hören gut zu. Wir grüssen, sagen bitte und danke. Nach einer Frage steht ein Fragezeichen.",
+    "sample": "Jan: Guten Tag! Ich hätte gern ein Brot, bitte.\nVerkäuferin: Guten Tag, Jan. Möchtest du auch ein Gipfeli?\nJan: Nein, danke. Nur das Brot.\nVerkäuferin: Das macht drei Franken.\nJan: Bitte schön. Auf Wiedersehen!",
+    "worked": "Jan grüsst zuerst. Die Verkäuferin stellt eine Frage, am Ende steht ein Fragezeichen. Jan antwortet höflich mit Nein, danke. Er bezahlt und verabschiedet sich. Jeder spricht, wenn der andere fertig ist.",
+    "exercises": [
+     "Wie grüsst Jan?",
+     "Was möchte Jan kaufen?",
+     "Finde den Satz mit einem Fragezeichen.",
+     "Wie sagt Jan höflich Nein?",
+     "Spielt das Gespräch zu zweit."
+    ],
+    "test": [
+     "Wer stellt eine Frage?",
+     "Wie viel kostet es?",
+     "Wie verabschiedet sich Jan?",
+     "Schreibe eine Frage an ein anderes Kind.",
+     "Warum schauen wir die andere Person beim Sprechen an?"
+    ]
+   }
+  },
+  "eu-year-li-beginner-1-vocabular": {
+   "de": {
+    "title": "Wortgruppen, Gegenteile und Mehrzahl",
+    "theory": "Wörter, die zusammengehören, bilden eine Gruppe: Obst, Kleidung, Fahrzeuge. Gegenteile sagen das Umgekehrte: schnell – langsam, oben – unten. Nomen haben Einzahl und Mehrzahl: der Baum – die Bäume, die Jacke – die Jacken.",
+    "sample": "Im Schrank hängen eine Jacke, zwei Hosen und drei Mützen. Oben auf dem Hügel stehen hohe Bäume, unten im Tal fährt ein Bus.",
+    "worked": "Jacke, Hose und Mütze gehören zur Gruppe Kleidung. Eine Hose, zwei Hosen: In der Mehrzahl kommt -n dazu. Der Baum, die Bäume: Aus au wird äu und -e kommt dazu. Oben und unten sind Gegenteile.",
+    "exercises": [
+     "Ordne: Apfel, Bus, Birne, Zug, Banane, Velo.",
+     "Finde das Gegenteil von schnell.",
+     "Schreibe die Mehrzahl: die Jacke.",
+     "Welches Fahrzeug steht im Text?",
+     "Nenne drei Kleidungsstücke."
+    ],
+    "test": [
+     "Was ist das Gegenteil von oben?",
+     "Schreibe die Mehrzahl: der Baum.",
+     "Welches Wort passt nicht: Hose, Mütze, Gabel, Jacke?",
+     "Wie viele Mützen hängen im Schrank?",
+     "Schreibe zwei Obstsorten auf."
+    ]
+   }
+  },
+  "eu-year-li-beginner-1-exprimare": {
+   "de": {
+    "title": "Gross schreiben, Punkt setzen, ss statt ß",
+    "theory": "Am Satzanfang schreiben wir gross, am Satzende steht ein Punkt. Nomen und Namen schreiben wir immer gross: das Schloss, Vaduz, Nina. In Liechtenstein schreiben wir wie in der Schweiz kein ß, sondern ss: gross, heiss, Gruss.",
+    "sample": "Nina wohnt in Vaduz. Im Sommer ist es heiss. Sie schreibt der Oma einen Gruss.",
+    "worked": "Nina, Im und Sie stehen am Satzanfang und sind gross. Nina und Vaduz sind Namen, Sommer, Oma und Gruss sind Nomen: alle gross. Jeder Satz endet mit einem Punkt. Heiss und Gruss schreiben wir mit ss.",
+    "exercises": [
+     "Schreibe richtig: der fluss ist breit",
+     "Finde im Text die Namen.",
+     "Setze den Punkt: Wir gehen in den Wald",
+     "Schreibe richtig mit ss: hei_.",
+     "Wie viele Sätze hat der Text?"
+    ],
+    "test": [
+     "Warum schreibt man Vaduz gross?",
+     "Was steht am Satzende?",
+     "Schreibe richtig: das schloss ist alt",
+     "Schreibe Gruss ab und unterstreiche ss.",
+     "Finde den Fehler: meine Oma wohnt in Schaan."
+    ]
+   }
+  },
+  "eu-year-li-beginner-1-redactare": {
+   "de": {
+    "title": "Zu einem Bild schreiben",
+    "theory": "Zuerst schauen wir das Bild an und sagen, was wir sehen. Dann schreiben wir einen Satz: Wer macht was, und wo? Der Satz beginnt gross und endet mit einem Punkt. Am Schluss prüfen wir jedes Wort.",
+    "sample": "Bild: Ein Bub fährt mit dem Velo über eine Brücke.\nSatz: Der Bub fährt mit dem Velo über die Brücke.",
+    "worked": "Wer? Der Bub. Was macht er? Er fährt Velo. Wo? Über die Brücke. Velo ist bei uns das Wort für Fahrrad. Der Satz beginnt mit Der und endet mit einem Punkt.",
+    "exercises": [
+     "Schreibe einen Satz: Ein Mädchen liest ein Buch.",
+     "Wer ist auf dem Bild im Beispiel zu sehen?",
+     "Womit fährt der Bub?",
+     "Schreibe einen Satz über deinen Schulweg.",
+     "Prüfe deinen Satz: Ist der Anfang gross?"
+    ],
+    "test": [
+     "Was machen wir, bevor wir schreiben?",
+     "Wo fährt der Bub?",
+     "Schreibe einen Satz über dein Lieblingsessen.",
+     "Was steht am Ende des Satzes?",
+     "Zeichne ein Bild und schreibe einen Satz dazu."
+    ]
+   }
+  },
+  "eu-year-li-beginner-1-interpretare": {
+   "de": {
+    "title": "Ich sage meine Meinung",
+    "theory": "Ich darf sagen, was ich denke, und einen Grund nennen: Ich finde ..., weil ... Beim Vergleichen fragen wir: Worin sind die Figuren gleich? Worin sind sie verschieden? Wir hören auch die Meinung der anderen an.",
+    "sample": "Der Bär Bruno ist stark, aber er teilt nie. Die Maus Mila ist klein und teilt ihre Beeren. Ich finde Mila gut, weil sie teilt.",
+    "worked": "Bruno ist stark und gross, Mila ist klein: Das ist verschieden. Beide leben im Wald: Das ist gleich. Mit weil nennen wir den Grund. Ein anderes Kind darf Bruno besser finden.",
+    "exercises": [
+     "Wie ist Bruno?",
+     "Was teilt Mila?",
+     "Worin sind Bruno und Mila gleich?",
+     "Schreibe: Ich finde ..., weil ...",
+     "Welche Figur findest du besser? Sag warum."
+    ],
+    "test": [
+     "Worin sind Bruno und Mila verschieden?",
+     "Mit welchem Wort nennen wir einen Grund?",
+     "Was machst du, wenn ein Kind anders denkt?",
+     "Ist Mila gross oder klein?",
+     "Erfinde eine neue Figur und gib ihr einen Namen."
+    ]
+   }
+  },
+  "eu-year-li-beginner-1-verificare": {
+   "de": {
+    "title": "Wiederholung: alles noch einmal",
+    "theory": "Zum Abschluss üben wir alles noch einmal: Anlaut hören, Silben klatschen, Fragen zum Text beantworten, die Reihenfolge erzählen, Reime finden, gross schreiben, den Punkt setzen und ss statt ß verwenden.",
+    "sample": "Am Samstag fährt Lara mit dem Bus nach Vaduz. Sie besucht das Museum. Danach isst sie mit ihrer Gotte ein Eis.",
+    "worked": "Wer? Lara. Wann? Am Samstag. Womit fährt sie? Mit dem Bus. Was macht sie zuerst? Sie besucht das Museum. Was macht sie danach? Sie isst ein Eis. Gotte heisst Patin. Mu-se-um hat drei Silben.",
+    "exercises": [
+     "Klatsche die Silben von Museum.",
+     "Womit fährt Lara?",
+     "Wohin fährt Lara?",
+     "Finde zwei Nomen im Text.",
+     "Finde ein Reimwort zu Bus."
+    ],
+    "test": [
+     "Was macht Lara zuerst?",
+     "Wie viele Sätze hat der Text?",
+     "Schreibe richtig: lara isst gern eis",
+     "Was ist der Anlaut von Samstag?",
+     "Schreibe einen Satz über einen Ausflug."
+    ]
+   }
+  }
+ }
+}

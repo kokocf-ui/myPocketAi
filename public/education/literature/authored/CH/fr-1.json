@@ -1,0 +1,242 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "CH",
+ "stage": "beginner",
+ "grade": "1",
+ "version": "3e88a6876b845d4cb031dbc774d20cfda2416d97f96a8a9d4aed6d05dcdaf2c4",
+ "source": "https://www.plandetudes.ch/",
+ "sourceTitle": "Plan d'études romand (PER), Français, cycle 1 (cadre seulement ; les cantons peuvent préciser ; exercices originaux)",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "fr",
+ "labels": [
+  "Activité originale · Suisse romande · 3e année HarmoS (1re primaire)",
+  "Nous apprenons",
+  "Exemple original",
+  "Explication",
+  "Exercices",
+  "Je vérifie",
+  "Exercices originaux, pas une évaluation officielle. Lis-les avec un adulte si besoin."
+ ],
+ "chapters": {
+  "eu-year-ch-beginner-1-parcurs": {
+   "fr": {
+    "title": "Sons, lettres et syllabes",
+    "theory": "Les mots sont faits de sons. Un son peut s'écrire avec une lettre ou avec plusieurs : ou, on, ch, an. Pour lire un mot long, on le coupe en syllabes : ca-ba-ne. On frappe dans les mains à chaque syllabe.",
+    "sample": "Noé monte au chalet. Il porte une cabane pour les oiseaux.",
+    "worked": "Ca-ba-ne a trois syllabes. Cha-let en a deux. Dans chalet, ch s'écrit avec deux lettres pour un seul son. Dans pour, on entend ou. On assemble les sons pour lire le mot.",
+    "exercises": [
+     "Frappe les syllabes de cabane.",
+     "Trouve dans le texte un mot qui commence par ch.",
+     "Coupe en syllabes : chalet, oiseau, Noé.",
+     "Trouve un mot du texte avec ou.",
+     "Lis à voix haute : ma, me, mi, mo, mu."
+    ],
+    "test": [
+     "Combien de syllabes a le mot cabane ?",
+     "Où monte Noé ?",
+     "Quelles deux lettres font un seul son dans chalet ?",
+     "Écris un mot qui commence par on.",
+     "Assemble les syllabes : la-pin."
+    ]
+   }
+  },
+  "eu-year-ch-beginner-1-intelegere": {
+   "fr": {
+    "title": "Lire et comprendre un court texte",
+    "theory": "Après chaque phrase, on s'arrête et on se demande : Qui ? Que se passe-t-il ? Où ? Les réponses sont dans le texte. Ce qui n'est pas écrit, on ne l'invente pas.",
+    "sample": "Inès va au bord du lac avec son grand-père. Elle a un cerf-volant jaune. Sur la plage, elle le fait voler avec Malik.",
+    "worked": "Qui ? Inès. Avec qui ? Avec son grand-père. Qu'a-t-elle ? Un cerf-volant jaune. Où joue-t-elle ? Sur la plage, au bord du lac. L'heure de la journée n'est pas écrite dans le texte.",
+    "exercises": [
+     "Avec qui Inès va-t-elle au lac ?",
+     "De quelle couleur est le cerf-volant ?",
+     "Avec qui joue Inès ?",
+     "Où les enfants jouent-ils ?",
+     "Souligne la phrase qui dit ce qu'Inès a."
+    ],
+    "test": [
+     "Le texte dit-il quelle heure il est ?",
+     "Le cerf-volant est-il vert ? Comment le sais-tu ?",
+     "Qu'est-ce qu'un lac ?",
+     "Trouve un mot qui désigne une personne de la famille.",
+     "Dessine le texte et écris un mot sous ton dessin."
+    ]
+   }
+  },
+  "eu-year-ch-beginner-1-narativ": {
+   "fr": {
+    "title": "Personnages et événements d'une histoire",
+    "theory": "Les personnages sont les personnes ou les animaux d'une histoire. Les événements sont ce qui se passe. On raconte dans l'ordre : d'abord, ensuite, puis, à la fin.",
+    "sample": "D'abord, l'écureuil Pip cache des noisettes sous la neige. Ensuite, il oublie l'endroit. Puis une mésange lui montre la cachette. À la fin, ils partagent les noisettes.",
+    "worked": "Les personnages sont l'écureuil Pip et la mésange. D'abord : Pip cache les noisettes. Ensuite : il oublie l'endroit. Puis : la mésange l'aide. À la fin : ils partagent.",
+    "exercises": [
+     "Qui sont les personnages ?",
+     "Que cache Pip ?",
+     "Où sont cachées les noisettes ?",
+     "Raconte l'histoire avec d'abord, ensuite, puis, à la fin.",
+     "Comment se sent Pip à la fin ? Quel mot t'aide ?"
+    ],
+    "test": [
+     "Qui montre la cachette ?",
+     "Que se passe-t-il d'abord ?",
+     "Que font les amis à la fin ?",
+     "Remets en ordre : ils partagent / Pip cache / Pip oublie.",
+     "Dessine ton moment préféré."
+    ]
+   }
+  },
+  "eu-year-ch-beginner-1-poezie": {
+   "fr": {
+    "title": "Rimes et poèmes",
+    "theory": "Un poème est court et il a un rythme, comme une chanson. Les mots qui riment finissent par le même son : lune et brune, bateau et château. Quand on dit le poème à voix haute, on entend les rimes.",
+    "sample": "Sur le lac glisse un bateau,\nsur la colline dort un château.\nLe soleil brille, rond et doré,\net moi je chante tout l'été.",
+    "worked": "Bateau et château riment : ils finissent par le son o. Doré et été riment aussi, avec le son é. Le poème a quatre lignes, qu'on appelle des vers. On lit lentement et on fait entendre les rimes.",
+    "exercises": [
+     "Trouve le mot qui rime avec bateau.",
+     "Que fait le soleil ?",
+     "Combien de vers a le poème ?",
+     "Trouve un mot qui rime avec souris.",
+     "Dis le poème en frappant le rythme."
+    ],
+    "test": [
+     "Est-ce que lune et brune riment ?",
+     "Où dort le château ?",
+     "Trouve un mot qui rime avec chat.",
+     "Quand est-ce que l'enfant chante ?",
+     "Écris deux mots qui riment."
+    ]
+   }
+  },
+  "eu-year-ch-beginner-1-dialog": {
+   "fr": {
+    "title": "Dialogue : écouter et parler chacun son tour",
+    "theory": "Dans une conversation, on parle chacun son tour. On écoute jusqu'à ce que l'autre ait fini. On dit bonjour, s'il vous plaît et merci. Une question se termine par un point d'interrogation.",
+    "sample": "Tom : Bonjour Monsieur ! Je voudrais un pain, s'il vous plaît.\nLe boulanger : Bonjour. Un pain blanc ou un pain complet ?\nTom : Un pain complet, s'il vous plaît.\nLe boulanger : Voilà. Ça fait trois francs.\nTom : Merci, au revoir !",
+    "worked": "D'abord, Tom dit bonjour. Le boulanger pose une question : la phrase finit par un point d'interrogation. Tom répond et dit s'il vous plaît. À la fin, il dit merci et au revoir. Chacun parle quand l'autre a fini.",
+    "exercises": [
+     "Comment Tom salue-t-il ?",
+     "Quel pain Tom choisit-il ?",
+     "Trouve la phrase avec un point d'interrogation.",
+     "Quels mots polis Tom utilise-t-il ?",
+     "Jouez la scène à deux."
+    ],
+    "test": [
+     "Qui parle en premier ?",
+     "Combien coûte le pain ?",
+     "Pourquoi attend-on que l'autre ait fini ?",
+     "Écris une question pour ton enseignante ou ton enseignant.",
+     "Que dis-tu quand tu sors d'un magasin ?"
+    ]
+   }
+  },
+  "eu-year-ch-beginner-1-vocabular": {
+   "fr": {
+    "title": "Familles de mots, contraires et pluriel",
+    "theory": "On peut ranger les mots en familles : animaux, couleurs, objets de l'école. Certains mots sont des contraires : grand – petit, chaud – froid. Au pluriel, on ajoute souvent un s : un crayon, des crayons.",
+    "sample": "Dans mon sac, il y a un cahier, deux crayons et trois gommes. Dehors il fait froid, mais dans la classe il fait chaud.",
+    "worked": "Cahier, crayon et gomme vont dans la famille de l'école. Un crayon, deux crayons : au pluriel on ajoute s. Un cahier, des cahiers. Froid et chaud sont des contraires.",
+    "exercises": [
+     "Range : chat, rouge, cahier, bleu, chien, crayon.",
+     "Trouve le contraire de grand.",
+     "Écris au pluriel : une gomme.",
+     "Trouve deux contraires dans le texte.",
+     "Nomme trois animaux de la ferme."
+    ],
+    "test": [
+     "Quel est le contraire de jour ?",
+     "Écris au pluriel : un livre.",
+     "Quel mot n'est pas un fruit : pomme, poire, marteau, cerise ?",
+     "Combien de gommes y a-t-il dans le sac ?",
+     "Écris deux couleurs."
+    ]
+   }
+  },
+  "eu-year-ch-beginner-1-exprimare": {
+   "fr": {
+    "title": "Majuscule, point et son é",
+    "theory": "Une phrase commence par une majuscule et se termine par un point. Les prénoms et les noms de villes prennent aussi une majuscule : Léa, Genève, Sion. Pour le son é, on écrit souvent é : école, vélo, été.",
+    "sample": "Léa habite à Lausanne. Elle va à l'école à vélo. En été, elle nage dans le lac.",
+    "worked": "Léa, Elle et En sont au début des phrases : ils ont une majuscule. Léa et Lausanne sont des noms propres : majuscule aussi. Chaque phrase finit par un point. Dans école, vélo et été, on entend é et on écrit é.",
+    "exercises": [
+     "Écris correctement : tom joue au ballon",
+     "Trouve les noms propres dans le texte.",
+     "Mets le point : Je mange une pomme",
+     "Complète avec é : v_lo.",
+     "Combien de phrases a le texte ?"
+    ],
+    "test": [
+     "Pourquoi Lausanne a-t-il une majuscule ?",
+     "Que met-on à la fin d'une phrase ?",
+     "Écris correctement : nina habite à sion",
+     "Recopie le mot école et entoure é.",
+     "Trouve l'erreur : mon chat s'appelle Moka."
+    ]
+   }
+  },
+  "eu-year-ch-beginner-1-redactare": {
+   "fr": {
+    "title": "Écrire une phrase sur une image",
+    "theory": "Avant d'écrire, on regarde bien l'image : Qui voit-on ? Que fait la personne ? Où est-elle ? Ensuite, on écrit une phrase avec une majuscule et un point. Puis on relit la phrase.",
+    "sample": "Image : Un garçon construit un bonhomme de neige devant sa maison.\nPhrase : Le garçon fait un bonhomme de neige devant sa maison.",
+    "worked": "Qui ? Le garçon. Que fait-il ? Un bonhomme de neige. Où ? Devant sa maison. La phrase commence par Le, avec une majuscule, et finit par un point. À la fin, on la relit à voix haute.",
+    "exercises": [
+     "Écris une phrase : une fille mange une pomme.",
+     "Qui voit-on sur l'image de l'exemple ?",
+     "Que fait le garçon ?",
+     "Écris une phrase sur ton animal préféré.",
+     "Relis ta phrase et vérifie le point."
+    ],
+    "test": [
+     "Quelle question pose-t-on d'abord devant une image ?",
+     "Où le garçon fait-il le bonhomme ?",
+     "Écris une phrase sur ta chambre.",
+     "Par quoi commence chaque phrase ?",
+     "Dessine une image et écris une phrase."
+    ]
+   }
+  },
+  "eu-year-ch-beginner-1-interpretare": {
+   "fr": {
+    "title": "Mon avis : comparer des personnages",
+    "theory": "On peut dire ce qu'on aime et donner une raison : J'aime ..., parce que ... On compare des personnages : qu'est-ce qui est pareil ? Qu'est-ce qui est différent ? Les autres ont le droit de penser autrement.",
+    "sample": "Le lièvre Léon court vite, mais il se moque des autres. La tortue Tina est lente et elle aide ses amis. J'aime Tina, parce qu'elle est gentille.",
+    "worked": "Léon est rapide, Tina est lente : c'est différent. Les deux sont des animaux de la forêt : c'est pareil. La phrase avec parce que donne la raison. Un ami peut préférer Léon.",
+    "exercises": [
+     "Comment est Léon ?",
+     "Que fait Tina pour ses amis ?",
+     "Qu'est-ce qui est pareil chez Léon et Tina ?",
+     "Écris : J'aime ..., parce que ...",
+     "Quel personnage préfères-tu ? Dis pourquoi."
+    ],
+    "test": [
+     "Qu'est-ce qui est différent entre Léon et Tina ?",
+     "Quels mots servent à donner une raison ?",
+     "Ton ami peut-il penser autrement ?",
+     "Tina est-elle rapide ou lente ?",
+     "Invente un troisième personnage et décris-le avec un mot."
+    ]
+   }
+  },
+  "eu-year-ch-beginner-1-verificare": {
+   "fr": {
+    "title": "Révision : lire, comprendre, écrire",
+    "theory": "Pour finir, on révise : frapper les syllabes, répondre aux questions sur un texte, nommer les personnages et l'ordre, trouver des rimes, mettre une majuscule et un point, et écrire é pour le son é.",
+    "sample": "Le matin, Zoé prépare son sac. Elle prend une pomme, une gourde et son bonnet. Ensuite, elle part en promenade avec sa maman.",
+    "worked": "Qui ? Zoé. Que fait-elle d'abord ? Elle prépare son sac. Que prend-elle ? Une pomme, une gourde et son bonnet. Que fait-elle ensuite ? Elle part en promenade. Gour-de a deux syllabes, pro-me-na-de en a quatre.",
+    "exercises": [
+     "Frappe les syllabes de promenade.",
+     "Que prend Zoé ?",
+     "Avec qui Zoé part-elle ?",
+     "Trouve deux noms d'objets dans le texte.",
+     "Trouve un mot qui rime avec bonnet."
+    ],
+    "test": [
+     "Que fait Zoé d'abord ?",
+     "Combien de phrases a le texte ?",
+     "Écris correctement : zoé aime la neige",
+     "Quel est le contraire de matin ?",
+     "Écris une phrase sur une promenade."
+    ]
+   }
+  }
+ }
+}
