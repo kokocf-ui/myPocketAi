@@ -1,6 +1,6 @@
 {
  "schema": "mypocket-literature-authored-catalog/v1",
- "version": "a6ec1b463e584c4acf361ad7a844a2c39f7a892d962907994256a866c2d85cb2",
+ "version": "f4b93b29e065928ce57515c60d7974f017d1738ce375ec74142f0dcd5bd1a485",
  "years": [
   {
    "country": "AT",
@@ -131,7 +131,7 @@
      "lang": "fi",
      "name": "Suomi",
      "file": "fi-1",
-     "version": "7348936fc005b78a6ac2e58aaa2491f3e8195ed49d0774e192946433ab8df864"
+     "version": "14a1f33a0b9e67411c236611ff8eb916fc94196d9e1d782f73057bded903a4fe"
     },
     {
      "lang": "sv",
