@@ -15322,6 +15322,16 @@ const LIT_TOPICS={
  writing:[['essay','Eseu argumentativ sau literar','Argumentative or literary essay'],['composition','Compunere creativă','Creative composition'],['commentary','Comentariu și analiză de text','Commentary and close reading'],['summary','Rezumat și sinteză','Summary and synthesis'],['review','Recenzie și prezentare','Review and presentation'],['work-summary','Rezumat și sinteză de operă','Work summary and synthesis'],['research','Lucrare academică','Academic paper']]
 };
 let litJourney={stage:'countries',country:'RO',language:'ro',level:'beginner',grade:'',track:'TC',region:'',branch:'program',topic:'',targetSchool:'',busy:false};
+// Jurisdictions without their own school curriculum follow another country's
+// programme. Vatican City pupils attend schools following the Italian
+// programme; no separate (e.g. theological) track is modelled.
+const LIT_CURRICULUM_HOST={VA:'IT'};
+function litApplyCurriculumHost(code){
+ const chosen=String(code||'');
+ const host=LIT_CURRICULUM_HOST[chosen];
+ litJourney.curriculumOf=host?chosen:'';
+ return host||chosen;
+}
 function litStartCountryProfile(){
  const country=litJourney.country;
  litJourney.stage='loading-profile';
@@ -15565,13 +15575,18 @@ function litOpen(stage){
    }
   }
  };
- if(stage==='countries'){list(LIT_COUNTRIES.map(x=>({id:x[0],ro:x[1],en:x[2]})),c=>{litJourney.country=c.id;const selected=LIT_COUNTRIES.find(x=>x[0]===c.id);litJourney.language=LIT_LANGUAGES.some(x=>x[0]===selected?.[3])?selected[3]:'en';litStartCountryProfile()},true)}
+ if(stage==='countries'){list(LIT_COUNTRIES.map(x=>({id:x[0],ro:x[1],en:x[2]})),c=>{litJourney.country=litApplyCurriculumHost(c.id);const selected=LIT_COUNTRIES.find(x=>x[0]===litJourney.country);litJourney.language=LIT_LANGUAGES.some(x=>x[0]===selected?.[3])?selected[3]:'en';litStartCountryProfile()},true)}
  if(stage==='languages'){const choices=LIT_LANGUAGES.map(x=>({id:x[0],ro:x[1],en:x[2]}));list(choices,c=>{litJourney.language=c.id;litOpen('levels')},true)}
  if(stage==='levels'){
   const currentLanguage=LIT_LANGUAGES.find(x=>x[0]===litJourney.language);
   const currentLabel=learningLabel(currentLanguage?.[1]||'Română',currentLanguage?.[2]||'Romanian');
   const languageHint=litText('p',learningLabel('Limba materiei: ','Subject language: ')+currentLabel);
   languageHint.className='lit-selected-language';panel.append(languageHint);
+  if(litJourney.curriculumOf==='VA'){
+   const hostNote=litText('p',learningLabel('Statul Cetății Vaticanului nu are o programă școlară proprie: elevii urmează programa școlii italiene. De aceea se afișează programa Italiei.',
+    'Vatican City has no school curriculum of its own: pupils follow the Italian school programme, so the Italian programme is shown.'));
+   hostNote.className='lit-curriculum-host';panel.append(hostNote);
+  }
 
   panel.append(litText('p',learningLabel('Nivelul determină complexitatea explicațiilor și cerințelor.','Level determines the depth of teaching and exercises.')));
   const choices=[{id:'beginner',ro:'Primar — clasele I–IV',en:'Primary school'},{id:'lower',ro:'Începător — Gimnaziu',en:'Beginner — lower secondary'},{id:'medium',ro:'Mediu — Liceu',en:'Intermediate — upper secondary'},{id:'advanced',ro:'Avansat — Universitate și mai departe',en:'Advanced — University and beyond'}];
@@ -16229,8 +16244,8 @@ function openLearningSubjectAfterCountry(key,mathSupplementReady=false){
   hgOpen('subjects');return;
  }
  if(key==='literature'){
-  const selected=LIT_COUNTRIES.find(x=>x[0]===educationCountrySelection.code);
-  const incoming=String(educationCountrySelection.code||litJourney.country||'RO');
+  const incoming=litApplyCurriculumHost(String(educationCountrySelection.code||litJourney.country||'RO'));
+  const selected=LIT_COUNTRIES.find(x=>x[0]===incoming);
   if(litJourney.country!==incoming){litJourney.grade='';litJourney.level='beginner';}
   litJourney.country=incoming;
   if(selected?.[3]&&LIT_LANGUAGES.some(x=>x[0]===selected[3]))litJourney.language=selected[3];
