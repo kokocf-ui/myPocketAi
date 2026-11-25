@@ -38,3 +38,65 @@ export async function literatureLoadAuthoredYear(country,stage,grade,options={})
   throw Error('literature_authored_year_unavailable',{cause:error});
  }
 }
+
+// Generic national Literature year packs (schema v2, one source language per
+// file). The catalog lists which country/stage/year/language packs exist, so
+// new packs can be published as static assets without changing the frontend.
+// Both functions are serialized into the browser script: keep them closed.
+export async function literatureLoadAuthoredCatalog(options={}){
+ const valid=x=>Boolean(x&&x.schema==='mypocket-literature-authored-catalog/v1'&&typeof x.version==='string'&&
+  /^[a-f0-9]{64}$/.test(x.version)&&Array.isArray(x.years)&&x.years.every(y=>y&&/^[A-Z]{2}(?:-[A-Z]{3})?$/.test(String(y.country||''))&&
+   ['beginner','lower','medium','advanced'].includes(y.stage)&&typeof y.grade==='string'&&y.grade&&
+   Array.isArray(y.languages)&&y.languages.length>0&&y.languages.every(l=>l&&/^[a-z]{2,3}$/.test(String(l.lang||''))&&
+    /^[a-z]{2,3}-[a-z0-9-]+$/.test(String(l.file||''))&&/^[a-f0-9]{64}$/.test(String(l.version||''))&&
+    typeof l.name==='string'&&l.name.trim())));
+ let storage=null;try{storage=options.storage===undefined?globalThis.localStorage:options.storage}catch{}
+ const key='pocketai.literature.authored.catalog.v1';
+ try{
+  const response=await (options.fetcher||globalThis.fetch)('/education/literature/authored/catalog.json',{cache:'no-store'});
+  if(!response.ok)throw Error('authored_catalog_http_'+response.status);
+  const data=await response.json();if(!valid(data))throw Error('invalid_authored_catalog');
+  try{storage?.setItem(key,JSON.stringify(data))}catch{}
+  return {catalog:data,offline:false};
+ }catch(error){
+  try{const saved=JSON.parse(storage?.getItem(key)||'null');if(valid(saved))return {catalog:saved,offline:true}}catch{}
+  throw Error('literature_authored_catalog_unavailable',{cause:error});
+ }
+}
+export async function literatureLoadNationalYear(entry,language,options={}){
+ const c=String(entry?.country||'').toUpperCase(),s=String(entry?.stage||''),g=String(entry?.grade||'');
+ const choice=(entry?.languages||[]).find(l=>l.lang===language);
+ if(!choice)throw Error('unknown_national_year_language');
+ const slug=g.toLowerCase().replace(/[^a-z0-9-]/g,'-');
+ const prefix='eu-year-'+c.toLowerCase()+'-'+s+'-'+slug+'-';
+ const parts=['parcurs','intelegere','narativ','poezie','dialog','vocabular','exprimare','redactare','interpretare','verificare'];
+ const text=v=>typeof v==='string'&&v.trim().length>0;
+ const list=v=>Array.isArray(v)&&v.length>=3&&v.every(text);
+ const valid=x=>Boolean(x&&x.schema==='mypocket-literature-authored/v2'&&x.country===c&&x.stage===s&&x.grade===g&&
+  x.sourceLanguage===language&&x.version===choice.version&&x.chapters&&typeof x.chapters==='object'&&!Array.isArray(x.chapters)&&
+  (x.labels===undefined||(Array.isArray(x.labels)&&x.labels.length===7&&x.labels.every(text)))&&
+  Object.keys(x.chapters).length>0&&Object.entries(x.chapters).every(([k,record])=>{
+   if(!k.startsWith(prefix)||!parts.includes(k.slice(prefix.length)))return false;
+   const row=record?.[language];
+   return Boolean(record&&Object.keys(record).length===1&&row&&['title','theory','sample','worked'].every(f=>text(row[f]))&&
+    list(row.exercises)&&list(row.test));
+  }));
+ let storage=null;try{storage=options.storage===undefined?globalThis.localStorage:options.storage}catch{}
+ const key='pocketai.literature.national.v1.'+c+'.'+s+'.'+g+'.'+language;
+ try{
+  const response=await (options.fetcher||globalThis.fetch)('/education/literature/authored/'+c+'/'+choice.file+'.json',{cache:'no-store'});
+  if(!response.ok)throw Error('national_pack_http_'+response.status);
+  const data=await response.json();if(!valid(data))throw Error('invalid_national_pack');
+  try{storage?.setItem(key,JSON.stringify(data))}catch{}
+  return {country:c,stage:s,grade:g,language,chapters:data.chapters,labels:data.labels||null,version:data.version,status:data.status||'',offline:false};
+ }catch(error){
+  // A cached copy of an older version stays usable offline; validate its own
+  // structure, not the version announced by the newer catalog.
+  try{
+   const saved=JSON.parse(storage?.getItem(key)||'null');
+   if(saved&&/^[a-f0-9]{64}$/.test(String(saved.version||''))&&valid({...saved,version:choice.version}))
+    return {country:c,stage:s,grade:g,language,chapters:saved.chapters,labels:saved.labels||null,version:saved.version,status:saved.status||'',offline:true};
+  }catch{}
+  throw Error('literature_national_year_unavailable',{cause:error});
+ }
+}

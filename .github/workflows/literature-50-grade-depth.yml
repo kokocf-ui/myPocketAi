@@ -11,6 +11,8 @@ on:
       - 'scripts/audit_literature_readiness.mjs'
       - 'scripts/build_literature_profiles.mjs'
       - 'scripts/build_literature_authored_packs.mjs'
+      - 'scripts/build_literature_national_packs.mjs'
+      - 'education_pack_service.mjs'
       - 'public/education/literature/profiles/**'
       - 'public/education/literature/authored/**'
       - 'education_all_country_subject_matrix.mjs'
@@ -60,6 +62,8 @@ jobs:
         run: |
           node scripts/build_literature_profiles.mjs --verify
           node scripts/build_literature_authored_packs.mjs --verify
+          node scripts/build_literature_national_packs.mjs
+          node tests_literature_national_packs.mjs
           node tests_literature_country_profiles.mjs
           node tests_literature_authored_packs.mjs
           node tests_literature_france_cp.mjs

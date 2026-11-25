@@ -17,7 +17,7 @@ import {EXAM_UI_SCRIPT} from './exam_ui.mjs';
 import {RECIPE_READER_PAGES_UI_SCRIPT} from './recipe_reader_pages_ui.mjs';
 import {LITERATURE_TASK_UI_SCRIPT} from './literature_task_ui.mjs';
 import {literatureLoadCountryProfile} from './literature_profile_loader.mjs';
-import {literatureLoadAuthoredYear} from './literature_authored_pack_loader.mjs';
+import {literatureLoadAuthoredYear,literatureLoadAuthoredCatalog,literatureLoadNationalYear} from './literature_authored_pack_loader.mjs';
 import {mathLoadCountrySupplement} from './math_country_supplement_loader.mjs';
 import {UNIVERSITY_DOMAINS} from './university_domains.mjs';
 import {UNIVERSITY_PROGRAM_OPTIONS,UNIVERSITY_ADMISSION_ENTRIES} from './university_admissions_verified.mjs';
@@ -15273,6 +15273,8 @@ async function hgGenerate(extra,output){
 const LIT_EUROPE_PROGRAMS=Object.create(null);
 const literatureLoadCountryProfile=${literatureLoadCountryProfile.toString()};
 const literatureLoadAuthoredYear=${literatureLoadAuthoredYear.toString()};
+const literatureLoadAuthoredCatalog=${literatureLoadAuthoredCatalog.toString()};
+const literatureLoadNationalYear=${literatureLoadNationalYear.toString()};
 const LIT_EUROPE_COMMON=${JSON.stringify(LIT_EU_COMMON)};
 const litSchoolTracksForGrade=${literatureTracksForGrade.toString()};
 const litHungaryAdmissionTopics=${hungaryAdmissionTopicsForGrade.toString()};
@@ -15352,7 +15354,7 @@ function litWithAuthoredYear(proceed){
  const country=litJourney.country,stage=litJourney.level,grade=String(litJourney.grade||'');
  const hungary=country==='HU'&&stage==='beginner'&&['1','2','3','4'].includes(grade);
  const france=country==='FR'&&stage==='beginner'&&grade==='CP';
- if(!hungary&&!france){proceed();return}
+ if(!hungary&&!france){litWithNationalYear(proceed);return}
  litJourney.stage='loading-authored-year';
  const host=$('moduleContent');host.replaceChildren();
  const panel=document.createElement('div');panel.className='math-choice-panel science-choice-panel lit-panel';
@@ -15379,6 +15381,56 @@ function litWithAuthoredYear(proceed){
   }
  };
  load();
+}
+// National year packs: any country/year/language listed in the static
+// catalog. Multilingual systems offer each language of instruction as its own
+// single-source pack (never a translation of another language's lessons).
+let litNationalCatalogMemo=null;
+function litWithNationalYear(proceed){
+ if(typeof LIT_NATIONAL_YEAR==='object')LIT_NATIONAL_YEAR.pack=null;
+ const country=litJourney.country,stage=litJourney.level,grade=String(litJourney.grade||'');
+ if(typeof literatureLoadAuthoredCatalog!=='function'||typeof LIT_NATIONAL_YEAR!=='object'||
+    stage==='advanced'||!country||country==='OTHER-EU'){proceed();return}
+ litJourney.stage='loading-national-year';
+ const host=$('moduleContent');host.replaceChildren();
+ const panel=document.createElement('div');panel.className='math-choice-panel science-choice-panel lit-panel lit-national-year';
+ const back=litBtn(learningLabel('← Înapoi','← Back'),()=>litOpen('grades'),'secondary-btn lit-back');
+ const message=litText('p',learningLabel('Se verifică lecțiile disponibile pentru această clasă…','Checking the lessons available for this year…'));
+ panel.append(back,message);host.append(panel);
+ const active=()=>panel.isConnected&&litJourney.stage==='loading-national-year'&&litJourney.country===country&&String(litJourney.grade)===grade;
+ const general=()=>{if(active()){LIT_NATIONAL_YEAR.pack=null;proceed()}};
+ const openPack=async(entry,lang)=>{
+  message.textContent=learningLabel('Se încarcă lecțiile originale ale clasei…','Loading the original lessons for this year…');
+  panel.querySelectorAll('.lit-national-retry,.lit-national-general').forEach(n=>n.remove());
+  try{
+   const pack=await literatureLoadNationalYear(entry,lang);
+   if(!active())return;
+   LIT_NATIONAL_YEAR.pack=pack;litJourney.instructionLanguage=lang;litJourney.language=lang;
+   try{localStorage.setItem('pocketai.literature.instruction.'+country,lang)}catch{}
+   proceed();
+  }catch{
+   if(!active())return;
+   message.textContent=learningLabel('Lecțiile acestei clase nu sunt disponibile offline. Conectează-te la internet și încearcă din nou sau continuă cu materialul general.','These year-specific lessons are not available offline. Connect to the internet and try again, or continue with the general material.');
+   panel.append(litBtn(learningLabel('Încearcă din nou','Try again'),()=>openPack(entry,lang),'secondary-btn lit-national-retry'),
+    litBtn(learningLabel('Continuă cu materialul general','Continue with general material'),general,'secondary-btn lit-national-general'));
+  }
+ };
+ (async()=>{
+  let catalog=litNationalCatalogMemo;
+  if(!catalog){
+   try{const loaded=await literatureLoadAuthoredCatalog();catalog=loaded.catalog;if(!loaded.offline)litNationalCatalogMemo=catalog}catch{}
+  }
+  if(!active())return;
+  const entry=catalog?.years?.find(y=>y.country===country&&y.stage===stage&&y.grade===grade)||null;
+  if(!entry){general();return}
+  if(entry.languages.length===1){openPack(entry,entry.languages[0].lang);return}
+  let remembered='';try{remembered=localStorage.getItem('pocketai.literature.instruction.'+country)||''}catch{}
+  message.textContent=learningLabel('Alege limba de școlarizare. Fiecare variantă are lecții proprii, scrise direct în acea limbă.','Choose the language of instruction. Each option has its own lessons written directly in that language.');
+  const box=document.createElement('div');box.className='lit-instruction-languages';
+  const ordered=entry.languages.slice().sort((a,b)=>Number(b.lang===remembered)-Number(a.lang===remembered));
+  for(const option of ordered)box.append(litBtn(option.name+(option.lang===remembered?' ✓':''),()=>{box.remove();openPack(entry,option.lang)},'secondary-btn lit-instruction-language'));
+  panel.append(box);
+ })();
 }
 function litProgram(){
  const profile=LIT_EUROPE_PROGRAMS[litJourney.country]||null;

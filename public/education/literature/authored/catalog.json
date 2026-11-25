@@ -1,0 +1,19 @@
+{
+ "schema": "mypocket-literature-authored-catalog/v1",
+ "version": "324edde55ed6e655552caafd7a135f31c0d934b77229bec8bd19e03bff55e4ce",
+ "years": [
+  {
+   "country": "GB-ENG",
+   "stage": "beginner",
+   "grade": "Y1",
+   "languages": [
+    {
+     "lang": "en",
+     "name": "English",
+     "file": "en-y1",
+     "version": "e3c187e09080894a05fd2c8fb41c636d49fcd09e0a18644ef0415790ae04a202"
+    }
+   ]
+  }
+ ]
+}

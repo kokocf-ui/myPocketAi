@@ -1,0 +1,242 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "GB-ENG",
+ "stage": "beginner",
+ "grade": "Y1",
+ "version": "e3c187e09080894a05fd2c8fb41c636d49fcd09e0a18644ef0415790ae04a202",
+ "source": "https://www.gov.uk/government/publications/national-curriculum-in-england-english-programmes-of-study/national-curriculum-in-england-english-programmes-of-study",
+ "sourceTitle": "Department for Education: English programmes of study, Key Stage 1 — Year 1 (framework only; activities are original)",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "en",
+ "labels": [
+  "Original practice activity · England · Year 1",
+  "Let’s learn",
+  "Original example",
+  "How it works",
+  "Practice",
+  "Check what you know",
+  "These are original activities, not an official test. Read them with an adult if you need help."
+ ],
+ "chapters": {
+  "eu-year-gb-eng-beginner-y1-parcurs": {
+   "en": {
+    "title": "Sounds, letters and blending",
+    "theory": "In Year 1 you learn that letters stand for sounds. Some sounds are written with two letters, like sh, ch, th and ck. To read a new word, say each sound in order and then blend the sounds together quickly: s-h-i-p becomes ship.",
+    "sample": "Sam has a red ship. The ship is on a big pond. Sam and his dad push the ship.",
+    "worked": "Look at ship: the letters s and h make one sound, sh. So we say sh-i-p, three sounds, and blend them: ship. In push, the u sounds like the u in put, and sh comes at the end.",
+    "exercises": [
+     "Say the sounds in red, then blend them.",
+     "Find two words in the text with the sound sh.",
+     "Which word has the sound d at the start and at the end?",
+     "Read big, pond and push. Clap once for each word.",
+     "Change one sound in ship to make a new real word."
+    ],
+    "test": [
+     "How many sounds are in the word ship?",
+     "Which two letters make one sound in the word fish?",
+     "Read the word chop. Which two letters make one sound?",
+     "Find the word in the text that rhymes with dish.",
+     "Write a word that starts with the sound th."
+    ]
+   }
+  },
+  "eu-year-gb-eng-beginner-y1-intelegere": {
+   "en": {
+    "title": "Reading a short text and answering questions",
+    "theory": "When you read, stop at each full stop and think: who is it about, what happens, and where is it? Find the answer in the words of the text. If the text does not say something, we do not make it up.",
+    "sample": "Mia has a kite. It is red and blue. She runs up the hill. The wind lifts the kite up high.",
+    "worked": "Who is it about? Mia. What does she have? A kite. Where does she run? Up the hill. The text tells us the colours: red and blue. It does not tell us how old Mia is.",
+    "exercises": [
+     "Who has a kite?",
+     "What colours is the kite?",
+     "Where does Mia run?",
+     "What lifts the kite?",
+     "Point to the sentence that tells you where the kite goes."
+    ],
+    "test": [
+     "Does the text say how old Mia is?",
+     "Is the kite green? How do you know?",
+     "What does Mia do on the hill?",
+     "Find a word that means the opposite of low.",
+     "Draw the kite and write one word about it."
+    ]
+   }
+  },
+  "eu-year-gb-eng-beginner-y1-narativ": {
+   "en": {
+    "title": "Characters and events in a story",
+    "theory": "Characters are the people or animals in a story. Events are the things that happen. Good readers tell events in order: first, next, then, at the end.",
+    "sample": "First, a little duck lost her hat. Next, a frog found the hat in the reeds. Then the frog gave the hat back. At the end, the duck said thank you.",
+    "worked": "The characters are the duck and the frog. First: the duck lost her hat. Next: the frog found it. Then: he gave it back. At the end: the duck said thank you. The order words help us retell.",
+    "exercises": [
+     "Name the two characters.",
+     "What did the duck lose?",
+     "Where did the frog find the hat?",
+     "Retell the story using first, next, then and at the end.",
+     "How do you think the duck felt at the end? Use a word from the story to help you."
+    ],
+    "test": [
+     "Who found the hat?",
+     "What happened first?",
+     "What did the duck say at the end?",
+     "Put these in order: thank you / lost hat / found hat.",
+     "Draw your favourite part and say what happens."
+    ]
+   }
+  },
+  "eu-year-gb-eng-beginner-y1-poezie": {
+   "en": {
+    "title": "Rhymes and poems",
+    "theory": "A poem is often short and has a beat, like a song. Rhyming words end with the same sound: cat, hat, mat. Saying a poem aloud helps you hear the rhyme and the rhythm.",
+    "sample": "The sun is up, the sky is blue,\nThe bird says tweet, the cow says moo.\nI hop, I skip, I clap, I run,\nI play outside and have some fun.",
+    "worked": "blue and moo rhyme because they end with the same sound oo. run and fun rhyme too. The second line has two animal sounds. The third line has four action words: hop, skip, clap, run.",
+    "exercises": [
+     "Read the poem aloud and clap the beat.",
+     "Find the word that rhymes with run.",
+     "Find the two animal sounds.",
+     "Which words tell us what I do in line three?",
+     "Make up a new word that rhymes with sun."
+    ],
+    "test": [
+     "Which word rhymes with blue?",
+     "What colour is the sky in the poem?",
+     "Say three words that rhyme with hop.",
+     "What does the bird say?",
+     "Write one line of your own that ends with fun or sun."
+    ]
+   }
+  },
+  "eu-year-gb-eng-beginner-y1-dialog": {
+   "en": {
+    "title": "Talking and listening",
+    "theory": "When we speak with someone, we take turns. We look at the person, we listen, and we answer the question that was asked. A full answer is easier to understand than one word.",
+    "sample": "Tom: Hello, Ana! What is in your bag?\nAna: Hi, Tom! I have a book and an apple.\nTom: Can I see the book?\nAna: Yes, here you are.",
+    "worked": "Tom asks a question: What is in your bag? Ana answers it in a full sentence. Then Tom asks politely: Can I see the book? Ana says yes and gives it. They take turns.",
+    "exercises": [
+     "Read the dialogue with a partner.",
+     "What question does Tom ask first?",
+     "What two things are in Ana’s bag?",
+     "Find the polite words in the dialogue.",
+     "Make a new dialogue: ask your partner what they like to eat."
+    ],
+    "test": [
+     "Who says hello first?",
+     "Does Ana answer with one word or a full sentence?",
+     "What does Tom want to see?",
+     "What do we do while the other person talks?",
+     "Ask a question that starts with What."
+    ]
+   }
+  },
+  "eu-year-gb-eng-beginner-y1-vocabular": {
+   "en": {
+    "title": "Words and what they mean",
+    "theory": "Words can be sorted into groups, like animals, colours or food. Some words have opposites: big and small, hot and cold. Adding -s or -es can mean more than one: one cat, two cats; one box, two boxes.",
+    "sample": "In the box there is one fox and two cats. The fox is small. The cats are big. One cat is hot, so she sits in the shade.",
+    "worked": "Fox and cats are animals. Big and small are opposites. Cats means more than one cat, so we add -s. Box becomes boxes because after x we add -es.",
+    "exercises": [
+     "Find all the animals in the text.",
+     "Find two words that are opposites.",
+     "Write the word for more than one fox.",
+     "Sort these into colours and food: red, bread, green, jam.",
+     "Say the opposite of hot."
+    ],
+    "test": [
+     "One dog, two …?",
+     "One dish, two …?",
+     "What is the opposite of big?",
+     "Which word is a colour: run, pink, cup?",
+     "Use the word small in a sentence."
+    ]
+   }
+  },
+  "eu-year-gb-eng-beginner-y1-exprimare": {
+   "en": {
+    "title": "Capital letters, spaces and full stops",
+    "theory": "A sentence starts with a capital letter and ends with a full stop. We leave a finger space between words. The word I and names of people and places always have a capital letter. We can join two ideas with and.",
+    "sample": "my dog is called rex. he likes to run\nMy dog is called Rex. He likes to run and jump.",
+    "worked": "The first line has no capital letters and is missing a full stop. In the correct version, My and He start with capitals, Rex is a name so it has a capital, and each sentence ends with a full stop. And joins run and jump.",
+    "exercises": [
+     "Copy the correct sentences with finger spaces.",
+     "Find the name in the sentence.",
+     "Correct this: i like cake",
+     "Join with and: I have a cat. I have a dog.",
+     "Write a sentence about your friend using their name."
+    ],
+    "test": [
+     "What goes at the start of a sentence?",
+     "What goes at the end of a sentence?",
+     "Why does London have a capital letter?",
+     "Correct this: we went to the park",
+     "Write one sentence using and."
+    ]
+   }
+  },
+  "eu-year-gb-eng-beginner-y1-redactare": {
+   "en": {
+    "title": "Writing a sentence about a picture",
+    "theory": "Before you write, say your sentence out loud. Count the words. Then write it, read it back and check: capital letter, finger spaces, full stop, and does it make sense?",
+    "sample": "Picture idea: a girl feeds a cat.\nSay it: The girl feeds the cat.\nWrite it: The girl feeds the cat.\nAdd more: The girl feeds the cat and it purrs.",
+    "worked": "First we said the sentence aloud: five words. Then we wrote it with a capital T and a full stop. Reading it back, it makes sense. We added a second idea with and to make it more interesting.",
+    "exercises": [
+     "Say a sentence about a dog in the park. Count the words.",
+     "Write your sentence and check the full stop.",
+     "Add an idea to your sentence using and.",
+     "Read your sentence to a partner.",
+     "Draw a picture and write two sentences about it."
+    ],
+    "test": [
+     "What do you do before you write a sentence?",
+     "How many words are in: The sun is hot.?",
+     "What do you check after writing?",
+     "Write a sentence about your lunch.",
+     "Make this longer with and: I can swim."
+    ]
+   }
+  },
+  "eu-year-gb-eng-beginner-y1-interpretare": {
+   "en": {
+    "title": "What I think and why",
+    "theory": "After reading, we can say what we think. We say why by pointing to the text. We can also compare two characters: how are they the same and how are they different?",
+    "sample": "Ben shares his crayons with Lily. Max keeps all his crayons and does not share. Lily smiles at Ben.",
+    "worked": "Ben and Max both have crayons, so they are the same in that way. They are different because Ben shares and Max does not. I think Ben is kind because the text says he shares and Lily smiles.",
+    "exercises": [
+     "How are Ben and Max the same?",
+     "How are they different?",
+     "Who do you think is kind? Say why.",
+     "Why does Lily smile?",
+     "What could Max do next time?"
+    ],
+    "test": [
+     "Who keeps all his crayons?",
+     "Who smiles?",
+     "Finish: I think Ben is … because …",
+     "Is it in the text that Max is sad?",
+     "Say one thing you like about the story and why."
+    ]
+   }
+  },
+  "eu-year-gb-eng-beginner-y1-verificare": {
+   "en": {
+    "title": "Year 1 review",
+    "theory": "Let’s check what you have learned: blending sounds to read words, finding answers in a text, telling events in order, hearing rhymes, taking turns when we talk, knowing more words, and writing sentences with capital letters and full stops.",
+    "sample": "Pip the puppy ran into the garden. He dug a hole and found a ball. Pip took the ball to Nan. Nan threw it and Pip ran fast.",
+    "worked": "Pip is the main character. Events in order: ran into the garden, dug a hole, found a ball, took it to Nan, Nan threw it. Ball and fast are easy to blend. Each sentence starts with a capital and ends with a full stop.",
+    "exercises": [
+     "Read the text aloud, blending any new words.",
+     "Who is the main character?",
+     "Tell the events in order.",
+     "Find a word that rhymes with hall.",
+     "Write a new sentence about what Pip does next."
+    ],
+    "test": [
+     "What did Pip find?",
+     "Who threw the ball?",
+     "Find two words with a capital letter and say why.",
+     "Which word means the opposite of slow?",
+     "Write one sentence about your favourite animal."
+    ]
+   }
+  }
+ }
+}
