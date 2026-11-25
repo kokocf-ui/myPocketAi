@@ -123,15 +123,12 @@ function computingRenderNationalLesson(panel){
  const modes=[['lesson',computingLabel('📘 Teorie','📘 Theory')],['examples',computingLabel('🔎 Exemple','🔎 Examples')],['exercises',computingLabel('✏️ Exerciții','✏️ Exercises')],['test',computingLabel('✅ Test cu răspunsuri','✅ Test with answers')]];
  for(const [mode,label] of modes){
   panel.append(computingNationalButton(label,()=>{
-   const material=literatureNationalYearMaterial({pack,country:pack.country,stage:pack.stage,grade:pack.grade,topicKey:key,mode});
-   if(!material)return;
-   let shown=false;
-   try{shown=typeof litShowMaterialReader==='function'&&litShowMaterialReader(row.title,material.text)}catch{shown=false}
-   if(!shown){
-    out.replaceChildren();
-    if(typeof renderStudyBlocks==='function')renderStudyBlocks(out,material.text);
-    else computingParagraph(out,material.text);
-   }
+   let material=null;
+   try{material=literatureNationalYearMaterial({pack,country:pack.country,stage:pack.stage,grade:pack.grade,topicKey:key,mode})}catch{}
+   if(!material){out.replaceChildren();computingParagraph(out,computingLabel('Materialul nu a putut fi pregătit. Revino la lecții și deschide din nou.','The material could not be prepared. Go back to the lessons and open it again.'));return}
+   if(typeof eduNationalShowMaterial==='function'){eduNationalShowMaterial(row.title,material.text,out,pack.language);return}
+   out.replaceChildren();
+   if(typeof renderStudyBlocks==='function')renderStudyBlocks(out,material.text);else computingParagraph(out,material.text);
   }));
  }
  const keys=(pack.units||[]).flatMap(u=>u.keys),next=keys[keys.indexOf(key)+1];
