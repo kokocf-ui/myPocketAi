@@ -11,6 +11,8 @@ on:
       - 'index.js'
       - 'curriculum_pack_*.mjs'
       - 'scripts/build_curriculum_packs.mjs'
+      - 'scripts/build_math_country_supplements.mjs'
+      - 'public/education/math/supplements/**'
       - '.github/workflows/math-country-year-acceptance.yml'
   push:
     branches: [main]
@@ -22,6 +24,8 @@ on:
       - 'index.js'
       - 'curriculum_pack_*.mjs'
       - 'scripts/build_curriculum_packs.mjs'
+      - 'scripts/build_math_country_supplements.mjs'
+      - 'public/education/math/supplements/**'
       - '.github/workflows/math-country-year-acceptance.yml'
 permissions:
   contents: read
@@ -122,6 +126,8 @@ jobs:
           node tests_math_subject_coverage.mjs
           node tests_education_theory_ui.mjs
           node scripts/build_curriculum_packs.mjs --verify
+          node scripts/build_math_country_supplements.mjs --verify
+          node tests_math_country_supplements.mjs
           node tests_curriculum_pack_decoupling_2026.mjs
           node tests_math_romania_full_2026.mjs
           node tests_math_batch2_md_uk_fr_de_2026.mjs
@@ -137,6 +143,7 @@ jobs:
           npm install --no-save --no-package-lock playwright@1.56.1
           npx playwright install --with-deps chromium
           node tests_math_real_browser.mjs
+          node tests_math_country_supplements_browser.mjs
           node tests_math_ro9_browser_2026.mjs
           node tests_math_reader_locale_2026.mjs
           node tests_curriculum_pack_browser_offline_2026.mjs

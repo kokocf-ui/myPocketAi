@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import http from 'node:http';
+import {readFile} from 'node:fs/promises';
 import app from './index.js';
 import { chromium } from 'playwright';
 
@@ -8,6 +9,8 @@ let packRequests = 0;
 
 const server = http.createServer(async (req, res) => {
   try {
+    const asset=req.url.match(/^\/education\/math\/supplements\/([A-Z-]+)\.json$/);
+    if(asset){res.writeHead(200,{'Content-Type':'application/json'});res.end(await readFile(new URL('./public/education/math/supplements/'+asset[1]+'.json',import.meta.url)));return}
     if (req.url.startsWith('/api/curriculum-pack')) packRequests++;
     const result = await app.fetch(new Request(origin + req.url, { headers: req.headers }), {
       COMMUNICATION_ORACLE_ORIGIN: ''
@@ -21,7 +24,7 @@ const server = http.createServer(async (req, res) => {
 });
 
 await new Promise(ok => server.listen(4396, '127.0.0.1', ok));
-const browser = await chromium.launch({ headless: true, args: ['--no-sandbox'] });
+const browser = await chromium.launch({ headless: true, args: ['--no-sandbox'], ...(process.env.CHROMIUM_EXECUTABLE_PATH?{executablePath:process.env.CHROMIUM_EXECUTABLE_PATH}:{}) });
 const context = await browser.newContext({
   viewport: { width: 390, height: 844 },
   isMobile: true,

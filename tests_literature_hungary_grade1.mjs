@@ -35,7 +35,8 @@ const cfg={litJourney:journey,state:{language:'ro'},
  document:{createElement:tag=>({tagName:tag.toUpperCase(),textContent:''})},
  AbortController,setTimeout,clearTimeout,fetch:async()=>{requests++;throw new TypeError('Failed to fetch')}
 };
-const ui=vm.runInNewContext(LITERATURE_TASK_UI_SCRIPT+'\n({generate:litSimpleGenerate})',cfg);
+cfg.__huGrade1=LIT_HU_GRADE1_CHAPTERS;
+const ui=vm.runInNewContext(LITERATURE_TASK_UI_SCRIPT+'\nObject.assign(LIT_HU_GRADE1_CHAPTERS,__huGrade1);\n({generate:litSimpleGenerate})',cfg);
 const el=()=>({textContent:'',append(node){this.textContent+=node.textContent}});
 for(const language of ['ro','en','hu'])for(const k of keys)for(const mode of ['lesson','examples','exercises','test']){
  cfg.state.language=language;key=k;journey.topic=k+'-0';

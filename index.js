@@ -17,6 +17,8 @@ import {EXAM_UI_SCRIPT} from './exam_ui.mjs';
 import {RECIPE_READER_PAGES_UI_SCRIPT} from './recipe_reader_pages_ui.mjs';
 import {LITERATURE_TASK_UI_SCRIPT} from './literature_task_ui.mjs';
 import {literatureLoadCountryProfile} from './literature_profile_loader.mjs';
+import {literatureLoadAuthoredYear} from './literature_authored_pack_loader.mjs';
+import {mathLoadCountrySupplement} from './math_country_supplement_loader.mjs';
 import {UNIVERSITY_DOMAINS} from './university_domains.mjs';
 import {UNIVERSITY_PROGRAM_OPTIONS,UNIVERSITY_ADMISSION_ENTRIES} from './university_admissions_verified.mjs';
 import {PRACTICAL_COURSES,PRACTICAL_COUNTRIES,PRACTICAL_LEVELS} from './practical_curriculum.mjs';
@@ -83,7 +85,8 @@ import {physicsUpperYearLessons} from './physics_upper_course.mjs';
 import {PHYSICS_UPPER_CASES} from './physics_upper_cases.mjs';
 import {PHYSICS_UPPER_CASES_EN} from './physics_upper_cases_en.mjs';
 import {SCIENCE_ADVISORY_PROGRESSION,SCIENCE_PROGRESSION_SOURCES,SCIENCE_PRIMARY_LESSON_BANK,SCIENCE_PRIMARY_ENGLISH,SCIENCE_PRIMARY_DEPTH,scienceGradeTopicPlan,scienceGradeLessonFrame} from './science_grade_progression.mjs';
-import {SCIENCE_LOWER_TOPIC_LESSONS,scienceLowerTopicContent} from './science_lower_secondary_lessons.mjs';
+import {scienceLowerTopicContent} from './science_lower_secondary_lessons.mjs';
+import {scienceLoadSharedPack} from './science_shared_pack_loader.mjs';
 import {CHEMISTRY_SPECIALIZATIONS,CHEMISTRY_SPECIALTY_TOPICS,CHEMISTRY_SPECIALTY_LESSONS,CHEMISTRY_MOLECULES,chemistryVerifiedExercise} from './chemistry_advanced.mjs';
 import {BIOLOGY_TOPICS,BIOLOGY_SPECIALIZATIONS,BIOLOGY_SPECIALTY_TOPICS,biologyVerifiedExercise} from './biology_curriculum.mjs';
 import {BIOLOGY_UPPER_YEAR_TOPICS,BIOLOGY_UPPER_YEAR_BANK,biologyUpperYearLessons} from './biology_upper_course.mjs';
@@ -8508,6 +8511,37 @@ function scienceBuildPackCorrelationBanner(subjectId){
  return box;
 }
 
+function scienceStartSubject(subject){
+ scienceJourney.stage='loading-shared';
+ const root=$('view-module'),host=$('moduleContent');
+ root.classList.remove('learning-choose','learning-country-gate','learning-math','learning-hg','learning-languages');
+ root.classList.add('learning-active','learning-science','science-choice-stage','science-scroll-stage');
+ root.classList.remove('science-subject-stage','science-year-stage');
+ host.replaceChildren();
+ const panel=document.createElement('div');panel.className='math-choice-panel science-choice-panel';
+ const back=document.createElement('button');back.type='button';back.className='secondary-btn science-stage-back';
+ back.textContent=learningLabel('← Înapoi','← Back');back.onclick=()=>scienceJourneyShowChoices('subjects');
+ const notice=document.createElement('p');
+ panel.append(back,notice);host.append(panel);
+ const active=()=>panel.isConnected&&scienceJourney.stage==='loading-shared'&&scienceJourney.subject===subject;
+ const load=async()=>{
+  notice.textContent=learningLabel('Se încarcă materialele pentru materia aleasă…','Loading the selected subject materials…');
+  try{
+   const pack=await scienceLoadSharedPack(subject);
+   if(!active())return;
+   SCIENCE_LOWER_TOPIC_LESSONS[subject]=pack.topics;
+   scienceJourneyShowChoices('years');
+  }catch{
+   if(!active())return;
+   notice.textContent=learningLabel('Materialele acestei materii nu sunt disponibile offline. Conectează-te la internet și încearcă din nou.','This subject material is not available offline. Connect to the internet and try again.');
+   if(!panel.querySelector('.science-shared-retry')){
+    const retry=document.createElement('button');retry.type='button';retry.className='secondary-btn science-shared-retry';
+    retry.textContent=learningLabel('Încearcă din nou','Try again');retry.onclick=load;panel.append(retry);
+   }
+  }
+ };
+ load();
+}
 function scienceJourneyShowChoices(stage){
  const science=LEARNING_SUBJECTS.find(s=>s[0]==='science');
  if(!science)return;
@@ -8844,7 +8878,7 @@ function scienceJourneyShowChoices(stage){
    if(stage==='subjects'){
     scienceJourney.subject=item.id;scienceJourney.level=null;scienceJourney.schoolStage=null;scienceJourney.grade=null;scienceJourney.gradePosition=0;
     scienceJourney.specialty=null;scienceJourney.topic=null;scienceJourney.universityRoute=null;
-    scienceJourneyShowChoices('years');
+    scienceStartSubject(item.id);
    }else if(stage==='specialties'){
     scienceJourney.specialty=item.id;scienceJourney.topic=null;scienceJourneyShowChoices('topics');
    }else{
@@ -9577,7 +9611,9 @@ const SCIENCE_PROGRESSION_SOURCES=${JSON.stringify(SCIENCE_PROGRESSION_SOURCES)}
 const SCIENCE_PRIMARY_LESSON_BANK=${JSON.stringify(SCIENCE_PRIMARY_LESSON_BANK)};
 const SCIENCE_PRIMARY_ENGLISH=${JSON.stringify(SCIENCE_PRIMARY_ENGLISH)};
 const SCIENCE_PRIMARY_DEPTH=${JSON.stringify(SCIENCE_PRIMARY_DEPTH)};
-const SCIENCE_LOWER_TOPIC_LESSONS=${JSON.stringify(SCIENCE_LOWER_TOPIC_LESSONS)};
+// Supplementary notes are loaded for the selected subject, not embedded here.
+const SCIENCE_LOWER_TOPIC_LESSONS=Object.create(null);
+const scienceLoadSharedPack=${scienceLoadSharedPack.toString()};
 const scienceLowerTopicContent=${scienceLowerTopicContent.toString()};
 const SCIENCE_EXACT_REFERENCE=${JSON.stringify(SCIENCE_EXACT_REFERENCE)};
 const SCIENCE_RO_LOWER_TOPICS=${JSON.stringify(SCIENCE_RO_LOWER_TOPICS)};
@@ -15206,6 +15242,7 @@ async function hgGenerate(extra,output){
 // Country programmes are independent static assets, loaded on country entry.
 const LIT_EUROPE_PROGRAMS=Object.create(null);
 const literatureLoadCountryProfile=${literatureLoadCountryProfile.toString()};
+const literatureLoadAuthoredYear=${literatureLoadAuthoredYear.toString()};
 const LIT_EUROPE_COMMON=${JSON.stringify(LIT_EU_COMMON)};
 const litSchoolTracksForGrade=${literatureTracksForGrade.toString()};
 const litHungaryAdmissionTopics=${hungaryAdmissionTopicsForGrade.toString()};
@@ -15277,6 +15314,33 @@ function litStartCountryProfile(){
    if(!active())return;
    message.textContent=learningLabel('Programa acestei țări nu este disponibilă offline. Conectează-te la internet și încearcă din nou.','This country programme is not available offline. Connect to the internet and try again.');
    if(!panel.querySelector('.lit-profile-retry'))panel.append(litBtn(learningLabel('Încearcă din nou','Try again'),load,'secondary-btn lit-profile-retry'));
+  }
+ };
+ load();
+}
+function litWithAuthoredYear(proceed){
+ const country=litJourney.country,stage=litJourney.level,grade=String(litJourney.grade||'');
+ if(country!=='HU'||stage!=='beginner'||!['1','2','3','4'].includes(grade)){proceed();return}
+ litJourney.stage='loading-authored-year';
+ const host=$('moduleContent');host.replaceChildren();
+ const panel=document.createElement('div');panel.className='math-choice-panel science-choice-panel lit-panel';
+ const back=litBtn(learningLabel('← Înapoi','← Back'),()=>litOpen('grades'),'secondary-btn lit-back');
+ const message=litText('p','');panel.append(back,message);host.append(panel);
+ const active=()=>panel.isConnected&&litJourney.stage==='loading-authored-year'&&litJourney.country===country&&String(litJourney.grade)===grade;
+ const load=async()=>{
+  message.textContent=learningLabel('Se încarcă lecțiile originale ale clasei…','Loading the original lessons for this year…');
+  try{
+   const pack=await literatureLoadAuthoredYear(country,stage,grade);
+   if(!active())return;
+   if(grade==='1'){
+    for(const key of Object.keys(LIT_HU_GRADE1_CHAPTERS))delete LIT_HU_GRADE1_CHAPTERS[key];
+    Object.assign(LIT_HU_GRADE1_CHAPTERS,pack.chapters);
+   }else LIT_HU_PRIMARY_BATCH[grade]=pack.chapters;
+   proceed();
+  }catch{
+   if(!active())return;
+   message.textContent=learningLabel('Lecțiile acestei clase nu sunt disponibile offline. Conectează-te la internet și încearcă din nou.','These year-specific lessons are not available offline. Connect to the internet and try again.');
+   if(!panel.querySelector('.lit-authored-retry'))panel.append(litBtn(learningLabel('Încearcă din nou','Try again'),load,'secondary-btn lit-authored-retry'));
   }
  };
  load();
@@ -15439,9 +15503,11 @@ function litOpen(stage){
     }
     litJourney.track=tracks[0]?.[0]||'TC';
     const goLit=()=>litOpen(tracks.length>1?'tracks':litIsRegional()?'regions':'branches');
-    if(typeof eduRunWithCurriculumPack==='function'){
-     eduRunWithCurriculumPack('literature',litJourney.country,c.id,goLit,litJourney.level);
-    }else goLit();
+    litWithAuthoredYear(()=>{
+     if(typeof eduRunWithCurriculumPack==='function'){
+      eduRunWithCurriculumPack('literature',litJourney.country,c.id,goLit,litJourney.level);
+     }else goLit();
+    });
    })
  }
  if(stage==='tracks'){
@@ -16025,8 +16091,40 @@ function openLearningSubject(key){
  if(key==='languages')return openLearningSubjectAfterCountry(key);
  return educationCountryGate(key,()=>openLearningSubjectAfterCountry(key));
 }
-function openLearningSubjectAfterCountry(key){
+const mathLoadCountrySupplement=${mathLoadCountrySupplement.toString()};
+function mathStartCountrySupplement(country){
+ const root=$('view-module'),host=$('moduleContent');
+ root.classList.remove('learning-choose','learning-country-gate','learning-science','learning-hg','learning-literature');
+ root.classList.add('learning-active','learning-math');host.replaceChildren();
+ const panel=document.createElement('div');panel.className='math-choice-panel';
+ const back=document.createElement('button');back.type='button';back.className='secondary-btn math-supplement-back';
+ back.textContent=learningLabel('← Înapoi','← Back');back.onclick=()=>educationCountryGate('math',()=>openLearningSubjectAfterCountry('math'));
+ const notice=document.createElement('p');panel.append(back,notice);host.append(panel);
+ const active=()=>panel.isConnected&&educationCountrySelection.code===country;
+ const load=async()=>{
+  notice.textContent=learningLabel('Se încarcă materialele de matematică pentru țara aleasă…','Loading the selected country maths materials…');
+  try{
+   const result=await mathLoadCountrySupplement(country);
+   if(!active())return;
+   for(const [bank,data] of [[MATH_BULK_FIRST_LESSONS,result.banks.bulk],[MATH_SECOND_BATCH_FIRST_LESSONS,result.banks.second],[MATH_FINAL_FIRST_LESSONS,result.banks.final]]){
+    for(const key of Object.keys(bank))if(key.startsWith(country+'|'))delete bank[key];
+    Object.assign(bank,data);
+   }
+   openLearningSubjectAfterCountry('math',true);
+  }catch{
+   if(!active())return;
+   notice.textContent=learningLabel('Materialele de matematică pentru această țară nu sunt disponibile offline. Conectează-te la internet și încearcă din nou.','Maths materials for this country are not available offline. Connect to the internet and try again.');
+   if(!panel.querySelector('.math-supplement-retry')){
+    const retry=document.createElement('button');retry.type='button';retry.className='secondary-btn math-supplement-retry';
+    retry.textContent=learningLabel('Încearcă din nou','Try again');retry.onclick=load;panel.append(retry);
+   }
+  }
+ };
+ load();
+}
+function openLearningSubjectAfterCountry(key,mathSupplementReady=false){
  mathClearWorkspaceHeader();
+ if(key==='math'&&!mathSupplementReady)return mathStartCountrySupplement(educationCountrySelection.code);
  if(key==='history'){
   hgJourney.country=educationCountrySelection.code;
   hgJourney.grade=null;hgJourney.level=null;hgJourney.topic=null;hgJourney.speciality=null;

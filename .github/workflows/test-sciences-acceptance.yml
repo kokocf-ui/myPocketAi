@@ -12,6 +12,8 @@ on:
   pull_request:
     paths:
       - 'science_*.mjs'
+      - 'scripts/build_science_shared_packs.mjs'
+      - 'public/education/science/shared/**'
       - 'tests_science_*.mjs'
       - 'tests_physics_complete.mjs'
       - 'tests_chemistry_*.mjs'
@@ -52,6 +54,8 @@ jobs:
           node --check science_textbook_correlation_2026.mjs
           node --check science_europe_packs_2026.mjs
           node --check science_curriculum_readiness.mjs
+          node scripts/build_science_shared_packs.mjs --verify
+          node tests_science_shared_packs.mjs
           node tests_science_europe_packs_and_laws_2026.mjs
           node tests_education_all_country_subject_matrix.mjs
           node tests_science_grade_progression.mjs

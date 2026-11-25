@@ -27,6 +27,12 @@ const server=createServer(async(req,res)=>{
   catch{res.writeHead(404);res.end()}
   return;
  }
+ const authored=req.url.match(/^\/education\/literature\/authored\/HU\/([1-4])\.json$/);
+ if(authored){
+  try{const data=await readFile(new URL('./public/education/literature/authored/HU/'+authored[1]+'.json',import.meta.url));res.writeHead(200,{'Content-Type':'application/json'});res.end(data)}
+  catch{res.writeHead(404);res.end()}
+  return;
+ }
  res.writeHead(200,{'Content-Type':'text/html; charset=utf-8','Access-Control-Allow-Origin':'*'});res.end(html)
 });
 await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
@@ -178,7 +184,10 @@ try{
  assert.ok(!/Unde s-a găsit cartea|Where was the book found/.test(poem),'Unrelated book question in poetry');
  await js("[...document.querySelectorAll('.lit-reader-overlay button')].find(b=>/Înapoi|Back/.test(b.textContent)).click()");
  await chooseCountry('Hungary','Ungar|Hungary');
- await choice('Primar|Primary');await choice('^1$');await choice('Programa clasei|Grade syllabus');
+ // First visit grade 2 online so it can later be opened from the real cache.
+ await choice('Primar|Primary');await choice('^2$');
+ await js("document.querySelector('#view-module .lit-back').click()");await sleep(100);
+ await choice('^1$');await choice('Programa clasei|Grade syllabus');
  // The three year-focused HU lessons must work without any network request.
  await choice('Betűk');await js("window.__literatureOnlineFetch=window.fetch.bind(window);window.fetch=async()=>{throw new TypeError('Failed to fetch')}");
  await js("[...document.querySelectorAll('#moduleContent .lit-activity-button')].find(b=>/^(Teorie|Theory)$/.test(b.textContent.trim())).click()");await sleep(200);
@@ -201,6 +210,13 @@ try{
  assert.match(secondGrade,/Bence/,'Hungary grade 2 must use its own offline passage');
  assert.ok(!/NU lecția completă specifică/.test(secondGrade),'Grade 2 authored chapter must not show generic fallback');
  await js("[...document.querySelectorAll('.lit-reader-overlay button')].find(b=>/Înapoi|Back/.test(b.textContent)).click()");
+ // Grade 3 was not downloaded: disclose it rather than silently replacing it.
+ await backToLevels();await choice('Primar|Primary');await choice('^3$');
+ assert.match(await js("document.querySelector('#moduleContent')?.textContent||''"),/nu sunt disponibile offline|not available offline/i);
+ assert.ok(await js("!!document.querySelector('.lit-authored-retry')"));
+ await js("window.fetch=window.__literatureOnlineFetch;document.querySelector('.lit-authored-retry').click()");await sleep(300);
+ assert.equal((await litStage()).stage,'branches','Retry loads the selected authored year');
+ await js("window.fetch=async()=>{throw new TypeError('Failed to fetch')}");
  await backToLevels();await choice('Universitate|University');await choice('Licență.*anul I$|Bachelor.*Year 1$');
  await choice('Programa clasei|Grade syllabus');await choice('Introducere în studiile literare');
  await js("[...document.querySelectorAll('#moduleContent .lit-activity-button')].find(b=>/^(Teorie|Theory)$/.test(b.textContent.trim())).click()");await sleep(200);

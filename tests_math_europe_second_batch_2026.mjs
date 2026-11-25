@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import vm from 'node:vm';
+import {readFileSync,readdirSync} from 'node:fs';
 import app from './index.js';
 import {MATH_SECOND_BATCH_COUNTRIES,MATH_SECOND_BATCH_SOURCE_REGISTRY,
  MATH_SECOND_BATCH_STAGE_LABELS,MATH_SECOND_BATCH_FIRST_GRADE,
@@ -154,11 +155,9 @@ const html=await(await app.fetch(new Request('https://math-23-batch.test/'))).te
 const inline=html.match(/<script[^>]*>([\s\S]*?)<\/script>/)?.[1];
 assert.ok(inline,'Actual Android HTML must embed scripts');
 new vm.Script(inline);
-assert.ok(inline.includes('const MATH_SECOND_BATCH_FIRST_LESSONS='));
-const raw=inline.split('const MATH_SECOND_BATCH_FIRST_LESSONS=')[1]?.split(';\n')[0];
-assert.ok(raw);
-const bank=JSON.parse(raw);
-assert.equal(Object.keys(bank).length,69,'69 native starter cards must be shipped to Android');
+assert.ok(inline.includes('const MATH_SECOND_BATCH_FIRST_LESSONS=Object.create(null)'), 'Starter bank must not be embedded');
+const bank=Object.assign({},...readdirSync(new URL('./public/education/math/supplements/',import.meta.url)).filter(name=>name.endsWith('.json')).map(name=>JSON.parse(readFileSync(new URL('./public/education/math/supplements/'+name,import.meta.url),'utf8')).banks.second));
+assert.equal(Object.keys(bank).length,69);
 assert.equal(bank['MT|lower|7|algebra'][0].country,'MT');
 assert.equal(bank['TR|primary|1|arithmetic'][0].grade,'1');
 assert.equal(bank['GB-WLS|intermediate|Y10|functions'][0].country,'GB-WLS');

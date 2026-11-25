@@ -36,7 +36,8 @@ const cfg={litJourney:journey,state:{language:'ro'},litProgram:()=>({verified:fa
  LIT_OFFLINE_THEORY_DATA:{},learningLabel:(ro,en)=>ro,educationCountrySelection:{label:'Ungaria'},CLIENT_CONFIG:{apiUrl:'/api'},
  document:{createElement:tag=>({tagName:tag.toUpperCase(),textContent:''})},AbortController,setTimeout,clearTimeout,
  fetch:async()=>{calls++;throw new TypeError('Failed to fetch')}};
-const ui=vm.runInNewContext(LITERATURE_TASK_UI_SCRIPT+'\n({generate:litSimpleGenerate})',cfg);
+cfg.__huPrimary=LIT_HU_PRIMARY_BATCH;
+const ui=vm.runInNewContext(LITERATURE_TASK_UI_SCRIPT+'\nObject.assign(LIT_HU_PRIMARY_BATCH,__huPrimary);\n({generate:litSimpleGenerate})',cfg);
 const element=()=>({textContent:'',append(node){this.textContent+=node.textContent}});
 for(const grade of ['2','3','4'])for(const part of keys)for(const language of ['ro','en','hu'])for(const mode of ['lesson','examples','exercises','test']){
  journey.grade=grade;key=`hu-beginner-${grade}-${part}`;journey.topic=key+'-0';cfg.state.language=language;

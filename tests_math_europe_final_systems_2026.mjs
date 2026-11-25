@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import vm from 'node:vm';
+import {readFileSync} from 'node:fs';
 import app from './index.js';
 import {MATH_FINAL_COUNTRIES,MATH_FINAL_STAGE_LABELS,MATH_FINAL_SOURCES,
  MATH_FINAL_FIRST,finalMathStudyYears,finalMathPhase,finalMathGradeProfile,
@@ -146,9 +147,8 @@ const html=await(await app.fetch(new Request('https://math-all-50-stage.test/'))
 const inline=html.match(/<script[^>]*>([\s\S]*?)<\/script>/)?.[1];
 assert.ok(inline);
 new vm.Script(inline);
-assert.ok(inline.includes('const MATH_FINAL_FIRST_LESSONS='));
-const raw=inline.split('const MATH_FINAL_FIRST_LESSONS=')[1]?.split(';\n')[0];
-const bank=JSON.parse(raw);
+assert.ok(inline.includes('const MATH_FINAL_FIRST_LESSONS=Object.create(null)'), 'Starter bank must not be embedded');
+const bank=Object.assign({},...EDUCATION_EUROPE_COUNTRIES.map(code=>JSON.parse(readFileSync(new URL('./public/education/math/supplements/'+code+'.json',import.meta.url),'utf8')).banks.final));
 assert.equal(Object.keys(bank).length,30);
 assert.ok(bank['UA|primary|1|arithmetic'][0].worked);
 assert.ok(bank['SM|lower|6|algebra'][0].worked);

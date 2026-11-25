@@ -6,9 +6,7 @@ import {MATH_THEOREMS_UI_SCRIPT} from './math_theorems_ui.mjs';
 import {mathCountryGradeAreas,mathCountryStudyYears} from './math_country_grade_areas.mjs';
 import {mathCountryPhasePlan,MATH_COUNTRY_STAGE_LABELS} from './math_country_year_alignment_2026.mjs';
 import {ENGLAND_KS4_LESSONS,ENGLAND_KS4_EXCLUDED_TITLES} from './math_england_ks4_curriculum.mjs';
-import {MATH_BULK_CODES,bulkMathFirstLessons} from './math_europe_batch_2026.mjs';
-import {MATH_SECOND_BATCH_COUNTRIES,secondBatchMathStarterLessons} from './math_europe_second_batch_2026.mjs';
-import {MATH_FINAL_COUNTRIES,finalMathStarterLessons} from './math_europe_final_systems_2026.mjs';
+
 import {MATH_READER_LOCALE_UI_SCRIPT} from './math_reader_locale_ui.mjs';
 import {RO9_SCIENCE_2026_LESSONS} from './math_ro9_science_2026.mjs';
 import {ENGLAND_Y34_LESSONS} from './math_england_year3_year4_2026.mjs';
@@ -39,12 +37,6 @@ const EDU_MATH_GRADE_AREAS={};
 const EDU_MATH_GRADE_NOTES={};
 const EDU_MATH_COUNTRY_NOTES={};
 const EDU_MATH_GRADE_PHASES={};
-const EDU_MATH_BULK_EXAMPLES={};
-const EDU_MATH_BULK_SET=new Set(MATH_BULK_CODES);
-const EDU_MATH_SECOND_BATCH_EXAMPLES={};
-const EDU_MATH_SECOND_BATCH_SET=new Set(MATH_SECOND_BATCH_COUNTRIES);
-const EDU_MATH_FINAL_EXAMPLES={};
-const EDU_MATH_FINAL_SET=new Set(MATH_FINAL_COUNTRIES);
 for(const code of EDUCATION_EUROPE_COUNTRIES)for(const stage of EDUCATION_SCHOOL_STAGES){
  const years=mathCountryStudyYears({country:code,stage,years:educationCountrySchoolYears(code,stage).years});
  EDU_MATH_COUNTRY_YEARS[code+'|'+stage]=years.map(({id,ro,en,it,es,native,nativeLang})=>({id,ro,en,...(it?{it}:{}),...(es?{es}:{}),...(native?{native,nativeLang}:{})}));
@@ -55,24 +47,6 @@ for(const code of EDUCATION_EUROPE_COUNTRIES)for(const stage of EDUCATION_SCHOOL
   EDU_MATH_GRADE_AREAS[code+'|'+stage+'|'+year.id]=path.units.map(({id,ro,en,it,es,native,nativeLang})=>({id,ro,en,...(it?{it}:{}),...(es?{es}:{}),...(native?{native,nativeLang}:{})}));
   const {phase,phases}=mathCountryPhasePlan({country:code,stage,grade:year.id,years});
   EDU_MATH_GRADE_PHASES[code+'|'+stage+'|'+year.id]={phase,phases};
-  if(EDU_MATH_BULK_SET.has(code)&&stage!=='advanced'){
-   const clientStage=stage==='beginner'?'primary':stage==='medium'?'intermediate':stage;
-   const topic=stage==='beginner'?'arithmetic':stage==='lower'?'algebra':'functions';
-   const entries=bulkMathFirstLessons({country:code,stage:clientStage,grade:year.id,topic});
-   if(entries.length)EDU_MATH_BULK_EXAMPLES[[code,clientStage,year.id,topic].join('|')]=entries;
-  }
-  if(EDU_MATH_SECOND_BATCH_SET.has(code)&&stage!=='advanced'){
-   const clientStage=stage==='beginner'?'primary':stage==='medium'?'intermediate':stage;
-   const topic=stage==='beginner'?'arithmetic':stage==='lower'?'algebra':'functions';
-   const entries=secondBatchMathStarterLessons({country:code,stage:clientStage,grade:year.id,topic,years});
-   if(entries.length)EDU_MATH_SECOND_BATCH_EXAMPLES[[code,clientStage,year.id,topic].join('|')]=entries;
-  }
-  if(EDU_MATH_FINAL_SET.has(code)&&stage!=='advanced'){
-   const clientStage=stage==='beginner'?'primary':stage==='medium'?'intermediate':stage;
-   const topic=stage==='beginner'?'arithmetic':stage==='lower'?'algebra':'functions';
-   const entries=finalMathStarterLessons({country:code,stage:clientStage,grade:year.id,topic});
-   if(entries.length)EDU_MATH_FINAL_EXAMPLES[[code,clientStage,year.id,topic].join('|')]=entries;
-  }
   const note=String(path.note||'');
   const countryNoteKey=code+'|'+stage;
   if(!Object.hasOwn(EDU_MATH_COUNTRY_NOTES,countryNoteKey))EDU_MATH_COUNTRY_NOTES[countryNoteKey]=note;
@@ -134,11 +108,11 @@ export const EDUCATION_COUNTRY_UI_SCRIPT=
  'const EDU_MATH_STAGE_LABELS='+JSON.stringify(MATH_COUNTRY_STAGE_LABELS)+';\n'+
  'const EDU_MATH_GRADE_PHASES='+serializeCompactJsonMap(EDU_MATH_GRADE_PHASES)+';\n'+
  MATH_READER_LOCALE_UI_SCRIPT+'\n'+
- 'const MATH_FINAL_FIRST_LESSONS='+JSON.stringify(EDU_MATH_FINAL_EXAMPLES)+';\n'+
+ 'const MATH_FINAL_FIRST_LESSONS=Object.create(null);\n'+
  'function finalMathStarterLessons({country,stage,grade,topic}={}){return MATH_FINAL_FIRST_LESSONS[[String(country||\'\').toUpperCase(),stage,grade,topic].join(\'|\')]||[];}\n'+
- 'const MATH_SECOND_BATCH_FIRST_LESSONS='+JSON.stringify(EDU_MATH_SECOND_BATCH_EXAMPLES)+';\n'+
+ 'const MATH_SECOND_BATCH_FIRST_LESSONS=Object.create(null);\n'+
  'function secondBatchMathStarterLessons({country,stage,grade,topic}={}){return MATH_SECOND_BATCH_FIRST_LESSONS[[String(country||\'\').toUpperCase(),stage,grade,topic].join(\'|\')]||[];}\n'+
- 'const MATH_BULK_FIRST_LESSONS='+JSON.stringify(EDU_MATH_BULK_EXAMPLES)+';\n'+
+ 'const MATH_BULK_FIRST_LESSONS=Object.create(null);\n'+
  'function bulkMathFirstLessons({country,stage,grade,topic}={}){return MATH_BULK_FIRST_LESSONS[[String(country||\'\').toUpperCase(),stage,grade,topic].join(\'|\')]||[];}\n'+
  'const EDU_MATH_COUNTRY_NOTES='+serializeCompactStringMap(EDU_MATH_COUNTRY_NOTES)+';\n'+
  'const EDU_MATH_GRADE_NOTES='+serializeCompactStringMap(EDU_MATH_GRADE_NOTES)+';\n'+

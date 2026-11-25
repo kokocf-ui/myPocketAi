@@ -76,6 +76,7 @@ assert.ok(start>0&&end>start&&lessonStart>0&&chemEnd>chemStart);
 const injected='let activeLearningSubject=null;let sciencePendingAssessmentSpec=null;';
 const api=vm.runInNewContext(injected+
  script.slice(lessonStart,lessonEnd)+script.slice(start,end)+script.slice(chemStart,chemEnd)+
+ '\nscienceStartSubject=()=>scienceJourneyShowChoices("years");'+
  '\n({open:scienceJourneyShowChoices,back:scienceBack,state:scienceJourney})',sandbox);
 const find=(root,predicate)=>{const result=[];const walk=n=>{
  if(!n||typeof n!=='object')return;
