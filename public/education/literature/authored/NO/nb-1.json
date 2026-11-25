@@ -3,9 +3,9 @@
  "country": "NO",
  "stage": "beginner",
  "grade": "1",
- "version": "996fee8f74b151a923997c746e752d228b393f0f9c900b504df24bd614289f22",
+ "version": "de230c233edc6e35faf7a9dcd1d5183893b033f9fded37bbe7680241a54348ec",
  "source": "https://www.udir.no/lk20/nor01-08",
- "sourceTitle": "Utdanningsdirektoratet: Læreplan i norsk (NOR01-08), etter 2. trinn (kun ramme; egne øvinger)",
+ "sourceTitle": "Utdanningsdirektoratet: Læreplan i norsk (NOR01-08, LK20), kompetansemål etter 2. trinn (lytte og samtale, lese, skrive, språklig bevissthet, tekster og litteratur); 1. trinn etter vanlig rekkefølge i norske lesebøker (lyder og bokstaver, lydrette ord, korte og lange vokaler, stumme bokstaver, diftonger, kj- og skj-lyd, de første tekstene); bokmål; egne øvinger, ingen tekst kopiert fra en lærebok",
  "status": "partial-original-material-independent-review-pending",
  "sourceLanguage": "nb",
  "labels": [
@@ -15,226 +15,1279 @@
   "Forklaring",
   "Øvinger",
   "Test deg selv",
-  "Egne øvinger, ikke en offisiell prøve. Les dem sammen med en voksen om du trenger det."
+  "Egne øvinger, ikke en offisiell prøve. Les dem sammen med en voksen om du trenger det.",
+  "Forsto du det ikke? Steg for steg",
+  "Fasit (se først når du er ferdig)"
+ ],
+ "units": [
+  {
+   "title": "Skolestart: snakke, lytte og lyder",
+   "keys": [
+    "eu-year-no-beginner-1-l01",
+    "eu-year-no-beginner-1-l02",
+    "eu-year-no-beginner-1-l03"
+   ]
+  },
+  {
+   "title": "Vokalene",
+   "keys": [
+    "eu-year-no-beginner-1-l04",
+    "eu-year-no-beginner-1-l05"
+   ]
+  },
+  {
+   "title": "Konsonanter og lydrette ord",
+   "keys": [
+    "eu-year-no-beginner-1-l06",
+    "eu-year-no-beginner-1-l07",
+    "eu-year-no-beginner-1-l08",
+    "eu-year-no-beginner-1-l09",
+    "eu-year-no-beginner-1-l10"
+   ]
+  },
+  {
+   "title": "Korte og lange lyder, vanlige ord",
+   "keys": [
+    "eu-year-no-beginner-1-l11",
+    "eu-year-no-beginner-1-l12",
+    "eu-year-no-beginner-1-l13"
+   ]
+  },
+  {
+   "title": "Vanskelige lyder",
+   "keys": [
+    "eu-year-no-beginner-1-l14",
+    "eu-year-no-beginner-1-l15",
+    "eu-year-no-beginner-1-l16",
+    "eu-year-no-beginner-1-l17",
+    "eu-year-no-beginner-1-l18"
+   ]
+  },
+  {
+   "title": "Ord og setninger",
+   "keys": [
+    "eu-year-no-beginner-1-l19",
+    "eu-year-no-beginner-1-l20",
+    "eu-year-no-beginner-1-l21"
+   ]
+  },
+  {
+   "title": "Lesing og litteratur",
+   "keys": [
+    "eu-year-no-beginner-1-l22",
+    "eu-year-no-beginner-1-l23",
+    "eu-year-no-beginner-1-l24",
+    "eu-year-no-beginner-1-l25",
+    "eu-year-no-beginner-1-l26",
+    "eu-year-no-beginner-1-l27",
+    "eu-year-no-beginner-1-l28"
+   ]
+  },
+  {
+   "title": "Skrive og fortelle",
+   "keys": [
+    "eu-year-no-beginner-1-l29",
+    "eu-year-no-beginner-1-l30",
+    "eu-year-no-beginner-1-l31",
+    "eu-year-no-beginner-1-l32",
+    "eu-year-no-beginner-1-l33"
+   ]
+  },
+  {
+   "title": "Avslutning på 1. trinn",
+   "keys": [
+    "eu-year-no-beginner-1-l34"
+   ]
+  }
  ],
  "chapters": {
-  "eu-year-no-beginner-1-parcurs": {
+  "eu-year-no-beginner-1-l01": {
    "nb": {
-    "title": "Lyder, bokstaver og stavelser",
-    "theory": "Ord består av lyder. Hver lyd skriver vi med én eller flere bokstaver. Noen lyder skrives med to bokstaver: kj, sj, ng. Lange ord leser vi i stavelser: ba-na-nen, sol-skinn. Vi klapper én gang for hver stavelse.",
-    "sample": "Emil ser et tog. Toget kjører over en lang bro.",
-    "worked": "To-get har to stavelser. Bro har én. I kjører skriver vi kj for én lyd. Ordet lang slutter med ng-lyden. Vi setter lydene sammen og leser ordet.",
+    "title": "Hei, jeg heter …: vi blir kjent",
+    "theory": "De første dagene blir vi kjent med hverandre. Vi sier navnet vårt i en hel setning: Jeg heter … Vi lager klasseregler: vi rekker opp hånden, vi lytter til hverandre, vi lar den andre snakke ferdig, og vi snakker tydelig.",
+    "sample": "Jeg heter Ingrid. Jeg er seks år. Jeg liker å tegne hester. Ved siden av meg sitter Mats.",
+    "worked": "Ingrid presenterer seg med fire korte setninger: navnet sitt, alderen sin, hva hun liker, og hvem som sitter ved siden av henne. Mens hun snakker, ser hun på klassen. Hver setning begynner med stor bokstav og slutter med punktum.",
     "exercises": [
-     "Klapp stavelsene i kjører.",
-     "Finn to ord i teksten som starter med t.",
-     "Del i stavelser: Emil, toget, lange.",
-     "Finn et ord i teksten med kj.",
-     "Les høyt: ma, me, mi, mo, mu."
+     "Presenter deg selv med to setninger.",
+     "Si hva du liker å gjøre.",
+     "Si navnet på sidemannen din.",
+     "Vis hvordan du rekker opp hånden.",
+     "Gjenta det en klassekamerat fortalte."
     ],
     "test": [
-     "Hvor mange stavelser har toget?",
-     "Hva kjører over broen?",
-     "Hvilken lyd slutter ordet lang med?",
-     "Skriv et ord som starter med s.",
-     "Sett sammen stavelsene: syk-kel."
+     "Hvor gammel er Ingrid?",
+     "Hva gjør vi når vi vil si noe?",
+     "Hvorfor lar vi den andre snakke ferdig?",
+     "Hva liker du å gjøre?",
+     "Hvem sitter ved siden av Ingrid?"
+    ],
+    "steps": [
+     "Si først navnet ditt: Jeg heter …",
+     "Si så hvor gammel du er, og hva du liker.",
+     "Når en annen snakker, lytter du og avbryter ikke.",
+     "Pass på: Svar med en hel setning, ikke bare med ett ord."
+    ],
+    "answers": [
+     "Seks år.",
+     "Vi rekker opp hånden og venter på tur.",
+     "Slik at alle får snakke, og vi forstår hverandre.",
+     "Ditt svar. For eksempel: Jeg liker å spille fotball.",
+     "Mats."
     ]
    }
   },
-  "eu-year-no-beginner-1-intelegere": {
+  "eu-year-no-beginner-1-l02": {
    "nb": {
-    "title": "Lese og forstå en kort tekst",
-    "theory": "Etter hver setning stopper vi og spør: Hvem? Hva skjer? Hvor? Svarene står i teksten. Det som ikke står i teksten, dikter vi ikke opp.",
-    "sample": "Nora går til fjæra med farmor. Hun har ei rød bøtte. Ved steinene finner hun krabber sammen med Jonas.",
-    "worked": "Hvem? Nora. Med hvem? Med farmor. Hva har hun? Ei rød bøtte. Hvor finner hun krabber? Ved steinene i fjæra. Hvilken dag det er, står ikke i teksten.",
+    "title": "Ord består av lyder, og noen ord rimer",
+    "theory": "Ord består av lyder. Når vi sier hver lyd for seg, deler vi ordet: m-u-s. Når vi setter lydene sammen, får vi ordet igjen: mus. To ord rimer når de slutter likt: mus og hus, sol og stol.",
+    "sample": "mus, hus, sol, stol, bil, pil, ku, sju",
+    "worked": "Mus har tre lyder: m-u-s. Mus og hus rimer, fordi begge slutter på -us. Sol og stol slutter på -ol. Bil begynner med lyden b, pil med lyden p.",
     "exercises": [
-     "Hvem går Nora til fjæra med?",
-     "Hvilken farge har bøtta?",
-     "Hva finner barna?",
-     "Hvem leter Nora sammen med?",
-     "Strek under setningen som forteller hva Nora har."
+     "Del ordet i lyder: s-o-l. Hvor mange lyder hører du?",
+     "Sett lydene sammen: h-u-s.",
+     "Finn et ord som rimer på ku.",
+     "Hvilken lyd begynner bil med?",
+     "Finn noe i klasserommet som begynner med lyden b."
     ],
     "test": [
-     "Står det i teksten hvilken dag det er?",
-     "Er bøtta blå? Hvordan vet du det?",
-     "Hva er ei fjære?",
-     "Finn et ord for en person i familien.",
-     "Tegn teksten og skriv et ord under tegningen."
+     "Hvor mange lyder har mus?",
+     "Rimer bil og pil?",
+     "Sett lydene sammen: s-o-l.",
+     "Hvilken lyd begynner mus med?",
+     "Hvilket ord rimer ikke: hus, mus, bil?"
+    ],
+    "steps": [
+     "Si ordet langsomt, som om du drar det ut.",
+     "Del det i lyder, og tell dem på fingrene.",
+     "Sett lydene raskt sammen igjen.",
+     "Pass på: Lytt til lyden, ikke til bildet; si alltid ordet høyt."
+    ],
+    "answers": [
+     "Tre: m-u-s.",
+     "Ja.",
+     "sol.",
+     "m.",
+     "bil."
     ]
    }
   },
-  "eu-year-no-beginner-1-narativ": {
+  "eu-year-no-beginner-1-l03": {
    "nb": {
-    "title": "Personer og hendelser i en fortelling",
-    "theory": "Personene i en fortelling kan være mennesker eller dyr. Hendelsene er det som skjer. Vi forteller i riktig rekkefølge: først, så, etterpå, til slutt.",
-    "sample": "Først mister ekornet Kvikk en kongle i bekken. Så tar vannet kongla med seg. Etterpå fanger en and kongla med nebbet. Til slutt får Kvikk kongla tilbake og sier takk.",
-    "worked": "Personene er ekornet Kvikk og anda. Først: Kvikk mister kongla. Så: Vannet tar den med seg. Etterpå: Anda fanger den. Til slutt: Kvikk får den tilbake og sier takk.",
+    "title": "Stavelser: vi klapper ordene",
+    "theory": "Lange ord kan deles i stavelser. Vi klapper én gang for hver stavelse: sko-le har to stavelser, ba-na-ner har tre. Hver stavelse har en vokal. Å klappe hjelper oss når vi skal lese og skrive lange ord.",
+    "sample": "sko-le-sekk / ba-na-ner / ap-pel-sin / bok",
+    "worked": "Skolesekk har tre klapp: sko-le-sekk. Bananer og appelsin har også tre. Bok har bare ett klapp: det er én stavelse. Vi klapper og sier ordet samtidig.",
     "exercises": [
-     "Hvem er personene?",
-     "Hva mister Kvikk?",
-     "Hvor havner kongla?",
-     "Fortell historien med først, så, etterpå, til slutt.",
-     "Hvordan har Kvikk det til slutt? Hvilket ord hjelper deg?"
+     "Klapp ordet: fotball.",
+     "Klapp ditt eget navn.",
+     "Hvor mange stavelser har is?",
+     "Finn et ord med tre stavelser.",
+     "Klapp ordet: elefant."
     ],
     "test": [
-     "Hvem fanger kongla?",
-     "Hva skjer først?",
-     "Hva sier Kvikk til slutt?",
-     "Sett i rekkefølge: Kvikk sier takk / Kvikk mister kongla / anda fanger kongla.",
-     "Tegn den delen av historien du liker best."
+     "Hvor mange stavelser har skole?",
+     "Klapp: banan.",
+     "Hvor mange stavelser har bok?",
+     "Hva har hver stavelse?",
+     "Klapp: appelsin."
+    ],
+    "steps": [
+     "Si ordet langsomt, og klapp samtidig.",
+     "Tell hvor mange ganger du klappet.",
+     "Hvert klapp er en stavelse, og hver stavelse har en vokal.",
+     "Pass på: Ikke klapp for hver lyd; klapp for hver del av ordet."
+    ],
+    "answers": [
+     "To: sko-le.",
+     "ba-nan.",
+     "Én.",
+     "En vokal.",
+     "ap-pel-sin."
     ]
    }
   },
-  "eu-year-no-beginner-1-poezie": {
+  "eu-year-no-beginner-1-l04": {
    "nb": {
-    "title": "Rim og dikt",
-    "theory": "Et dikt er kort og har en rytme som en sang. Rimord høres like ut på slutten: hus og mus, sol og stol. Når vi leser diktet høyt, hører vi rimene.",
-    "sample": "Høyt på fjellet ligger snø,\nnede i dalen glitrer en sjø.\nEn reinsdyrflokk går sakte forbi,\nog fuglene synger: tirili!",
-    "worked": "Snø og sjø rimer, begge slutter på -ø. Forbi og tirili rimer også. Diktet har fire linjer. Vi leser langsomt og sier rimordene tydelig.",
+    "title": "Vokalene a, e, i, o og u",
+    "theory": "Vokalene er lydene vi kan synge lenge: a, e, i, o, u. Hvert ord har minst én vokal. Vokalen kan være kort som i katt eller lang som i mus.",
+    "sample": "katt, en, is, sol, mus / En katt og en mus. / Sola skinner.",
+    "worked": "Katt har en a, en har en e, is har en i, sol har en o og mus har en u. Prøv å synge vokalen: aaa. Uten vokal kan vi ikke lese et ord.",
     "exercises": [
-     "Finn ordet som rimer på snø.",
-     "Hvilke dyr går forbi?",
-     "Hvor mange linjer har diktet?",
-     "Finn et ord som rimer på hus.",
-     "Les diktet høyt og klapp rytmen."
+     "Syng de fem vokalene.",
+     "Skriv en liten a og en stor A.",
+     "Hvilken vokal hører du i is?",
+     "Finn et ord med o.",
+     "Lag en rund munn og si: o."
     ],
     "test": [
-     "Rimer sol og stol?",
-     "Hvor ligger snøen?",
-     "Finn et ord som rimer på katt.",
-     "Hva synger fuglene?",
-     "Skriv to ord som rimer."
+     "Hvor mange vokaler lærte vi i dag?",
+     "Hvilken vokal hører du i mus?",
+     "Har alle ord en vokal?",
+     "Hvilken vokal hører du i katt?",
+     "Les: is, sol, katt."
+    ],
+    "steps": [
+     "Vokalene er a, e, i, o, u: si dem i rekkefølge.",
+     "Se i et speil: ved o blir munnen rund, ved i smiler du.",
+     "Si ordet langsomt for å finne vokalen.",
+     "Pass på: e og i ligner på hverandre; snakk tydelig og lytt."
+    ],
+    "answers": [
+     "Fem.",
+     "u.",
+     "Ja.",
+     "a.",
+     "is, sol, katt."
     ]
    }
   },
-  "eu-year-no-beginner-1-dialog": {
+  "eu-year-no-beginner-1-l05": {
    "nb": {
-    "title": "Samtale: lytte og snakke etter tur",
-    "theory": "I en samtale snakker vi etter tur. Vi lytter til den andre er ferdig. Vi sier hei, takk og ha det. Et spørsmål slutter med spørsmålstegn.",
-    "sample": "Ali: Hei! Kan jeg få kjøpe en bolle?\nBakeren: Hei, Ali. Vil du ha en med rosiner?\nAli: Ja takk.\nBakeren: Vær så god. Det blir 20 kroner.\nAli: Takk, ha det!",
-    "worked": "Først sier Ali hei. Bakeren stiller et spørsmål, derfor slutter setningen med spørsmålstegn. Ali svarer ja takk. Til slutt sier han takk og ha det. Hver person snakker når den andre er ferdig.",
+    "title": "De siste vokalene: y, æ, ø og å",
+    "theory": "Norsk har også vokalene y, æ, ø og å. Y sier y som i by. Æ sier æ som i ære. Ø sier ø som i øre. Å sier å som i båt. Nå kan vi alle ni vokalene: a e i o u y æ ø å.",
+    "sample": "Båten ligger ved brygga. / Vi bor i en by ved sjøen. / Lise har vondt i øret.",
+    "worked": "Båten har å. By har y. Sjøen og øret har ø. Æ, ø og å står sist i alfabetet. De er bokstaver som ikke finnes i alle språk.",
     "exercises": [
-     "Hvordan hilser Ali?",
-     "Hva vil Ali kjøpe?",
-     "Finn setningen med spørsmålstegn.",
-     "Hvilke høflige ord sier Ali?",
-     "Spill samtalen to og to."
+     "Si: y, æ, ø, å.",
+     "Skriv en å.",
+     "Finn et ord med ø.",
+     "Hvilken vokal hører du i by?",
+     "Si alle ni vokalene."
     ],
     "test": [
-     "Hvem snakker først?",
-     "Hva koster bollen?",
-     "Hvorfor venter vi til den andre er ferdig?",
-     "Skriv et spørsmål til læreren din.",
-     "Hva sier du når du går ut av en butikk?"
+     "Hvor ligger båten?",
+     "Hvor ligger byen?",
+     "Hvor har Lise vondt?",
+     "Hvor mange vokaler har norsk?",
+     "Les: hø, sy, får."
+    ],
+    "steps": [
+     "Ved y spisser du munnen som til u, men sier i.",
+     "Ved ø spisser du munnen som til o, men sier e.",
+     "Å skrives med en liten ring over a.",
+     "Pass på: Glem ikke ringen på å og streken i ø, ellers blir det en annen bokstav."
+    ],
+    "answers": [
+     "Ved brygga.",
+     "Ved sjøen.",
+     "I øret.",
+     "Ni.",
+     "hø, sy, får."
     ]
    }
   },
-  "eu-year-no-beginner-1-vocabular": {
+  "eu-year-no-beginner-1-l06": {
    "nb": {
-    "title": "Ordgrupper, motsetninger og flertall",
-    "theory": "Vi kan sortere ord i grupper: dyr, farger, ting på skolen. Noen ord er motsetninger: stor – liten, varm – kald. Mange substantiv får -er i flertall: en blyant – to blyanter, en bok – tre bøker.",
-    "sample": "I sekken min er det et pennal, to blyanter og tre bøker. Ute er det kaldt, men i klasserommet er det varmt.",
-    "worked": "Pennal, blyant og bok hører til gruppen skole. En blyant, to blyanter: I flertall kommer -er til. En bok, tre bøker: o blir til ø. Kaldt og varmt er motsetninger.",
+    "title": "m, s, l og r: mor, sol og is",
+    "theory": "Konsonanter trenger en vokal for å bli til et ord. M sier vi med lukkede lepper, s hveser som en slange, og l sier vi med tunga bak tennene. R sier vi med tungespissen. Nye ord: mor, sol, is, ris, mus, lus.",
+    "sample": "Mor har is. / Sol og is. / Musa spiser ris.",
+    "worked": "Mor og musa har m. Sol, is og ris har s. Sol har også en l. Mor og ris har en r. Vi leser hver lyd og setter dem sammen: m-o-r blir mor.",
     "exercises": [
-     "Sorter: katt, rød, blyant, blå, hund, bok.",
-     "Finn motsetningen til stor.",
-     "Skriv i flertall: en blyant.",
-     "Finn to motsetninger i teksten.",
-     "Nevn tre dyr på en gård."
+     "Les: mor, sol, is.",
+     "Hves som en slange: sss.",
+     "Del i lyder: r-i-s.",
+     "Skriv en stor M.",
+     "Finn et ord med l."
     ],
     "test": [
-     "Hva er motsetningen til dag?",
-     "Skriv i flertall: en bil.",
-     "Hvilket ord er ikke en frukt: eple, pære, hammer, kirsebær?",
-     "Hvor mange bøker er det i sekken?",
-     "Skriv to farger."
+     "Hvem har is?",
+     "Hva spiser musa?",
+     "Les: lus, mus, ris.",
+     "Hvilken lyd begynner sol med?",
+     "Hvordan sier vi m?"
+    ],
+    "steps": [
+     "Si lyden til konsonanten og straks vokalen etterpå: m-o.",
+     "Sett lydene sammen til et ord: mor.",
+     "Les alltid fra venstre mot høyre.",
+     "Pass på: m og n ligner på hverandre; m har to buer, n har én."
+    ],
+    "answers": [
+     "Mor.",
+     "Ris.",
+     "lus, mus, ris.",
+     "s.",
+     "Med lukkede lepper."
     ]
    }
   },
-  "eu-year-no-beginner-1-exprimare": {
+  "eu-year-no-beginner-1-l07": {
    "nb": {
-    "title": "Stor bokstav, punktum og æ, ø, å",
-    "theory": "En setning starter med stor bokstav og slutter med punktum. Navn på personer og steder skrives også med stor bokstav: Nora, Bergen, Tromsø. På norsk har vi bokstavene æ, ø og å: være, øye, gå.",
-    "sample": "Sofie bor i Trondheim. Hun spiser et eple. Om vinteren går hun på ski.",
-    "worked": "Sofie, Hun og Om står først i setningen og har stor bokstav. Sofie og Trondheim er navn og skrives også med stor bokstav. Hver setning slutter med punktum. I går skriver vi å.",
+    "title": "t, p og k: tak, pil og katt",
+    "theory": "T, p og k er korte lyder. Ved p åpner vi leppene, ved t slår tunga mot tennene, og k sier vi bakerst i munnen. Nye ord: tak, tog, pil, pappa, katt, kopp.",
+    "sample": "Katten sitter på taket. / Pappa drikker av en kopp. / Ida har en pil og en topp.",
+    "worked": "Katten og kopp har k. Taket og topp har t. Pil og pappa har p. Vi leser først langsomt og så raskere. Ida er et navn og har stor bokstav.",
     "exercises": [
-     "Skriv riktig: lars spiller fotball",
-     "Finn navnene i teksten.",
-     "Sett punktum: Jeg spiser en is",
-     "Skriv ordet øye og ring rundt ø.",
+     "Les: tak, tog, tolv.",
+     "Les: pil, pappa, pute.",
+     "Les: katt, kopp, kake.",
+     "Skriv ordet pil.",
+     "Finn et ord med t."
+    ],
+    "test": [
+     "Hvor sitter katten?",
+     "Hva drikker pappa av?",
+     "Hva har Ida?",
+     "Les: tut, pip, kort.",
+     "Hvilken bokstav begynner kopp med?"
+    ],
+    "steps": [
+     "Ved p åpner du leppene med et lite pust.",
+     "Ved t slår tunga lett mot tennene.",
+     "Les først langsomt, så raskere.",
+     "Pass på: p og b ligner på hverandre; p har magen oppe til høyre."
+    ],
+    "answers": [
+     "På taket.",
+     "Av en kopp.",
+     "En pil og en topp.",
+     "tut, pip, kort.",
+     "k."
+    ]
+   }
+  },
+  "eu-year-no-beginner-1-l08": {
+   "nb": {
+    "title": "n, d og b: nese, dør og bil",
+    "theory": "N sier vi gjennom nesa. D og b er myke lyder. Nye ord: nese, nål, dør, due, bil, buss.",
+    "sample": "Bussen kjører gjennom byen. / Dua sitter på døra. / Bo har en blå bil.",
+    "worked": "Bussen, byen, Bo, blå og bil begynner med b. Dua og døra begynner med d. Nese og nål begynner med n. Bo er et navn og skrives med stor bokstav.",
+    "exercises": [
+     "Les: nese, nål, ni.",
+     "Les: dør, due, dans.",
+     "Les: bil, buss, ball.",
+     "Skriv ordet buss.",
+     "Finn et ord med b."
+    ],
+    "test": [
+     "Hvor kjører bussen?",
+     "Hvor sitter dua?",
+     "Hvilken farge har bilen til Bo?",
+     "Les: nå, bad, din.",
+     "Hvilken bokstav begynner dør med?"
+    ],
+    "steps": [
+     "N sier du med tunga oppe og lufta gjennom nesa.",
+     "D og b sier du mykt.",
+     "Les ordet lyd for lyd, og sett det sammen.",
+     "Pass på: b og d ligner på hverandre; b har magen til høyre, d til venstre."
+    ],
+    "answers": [
+     "Gjennom byen.",
+     "På døra.",
+     "Blå.",
+     "nå, bad, din.",
+     "d."
+    ]
+   }
+  },
+  "eu-year-no-beginner-1-l09": {
+   "nb": {
+    "title": "f, v, g, h og j: fisk, vei og jul",
+    "theory": "F og v sier vi med de øverste tennene mot underleppa. G sier vi bakerst i munnen. H er et lite sukk. J sier j som i ja. Nye ord: fisk, far, vei, vann, gås, hus, jul, jakke.",
+    "sample": "Far fanger en fisk. / Gåsa går over veien. / Til jul får Jonas en ny jakke.",
+    "worked": "Far, fanger og fisk begynner med f. Veien og vann har v. Gåsa og går begynner med g. Jul, Jonas og jakke begynner med j. Jonas er et navn og har stor bokstav.",
+    "exercises": [
+     "Les: fisk, far, fem.",
+     "Les: vei, vann, vind.",
+     "Les: gås, hus, jul.",
+     "Skriv ordet fisk.",
+     "Sukk mot hånden din: hhh."
+    ],
+    "test": [
+     "Hva fanger far?",
+     "Hvor går gåsa?",
+     "Hva får Jonas til jul?",
+     "Les: hatt, jord, gul.",
+     "Hvilken bokstav begynner vann med?"
+    ],
+    "steps": [
+     "Til f og v setter du de øverste tennene mot underleppa.",
+     "Ved f blåser du bare, ved v summer det litt.",
+     "H er et sukk, j sier j som i ja.",
+     "Pass på: f og v høres nesten like ut; lytt godt: fin, vin."
+    ],
+    "answers": [
+     "En fisk.",
+     "Over veien.",
+     "En ny jakke.",
+     "hatt, jord, gul.",
+     "v."
+    ]
+   }
+  },
+  "eu-year-no-beginner-1-l10": {
+   "nb": {
+    "title": "Lydrette ord: vi leser og skriver",
+    "theory": "Et lydrett ord skriver vi akkurat slik vi sier det: hver lyd har sin bokstav. Sol, mus, bil, fisk og lampe er lydrette ord. Dem kan vi lese ved å si lydene og skrive ved å lytte.",
+    "sample": "Ida ser en sol. / Ola har en mus og en fisk. / Lampa lyser på bordet.",
+    "worked": "Sol, mus, fisk og lampa er lydrette: vi hører alle bokstavene. Vi kan skrive dem selv ved å si ordet langsomt og skrive én lyd om gangen.",
+    "exercises": [
+     "Skriv: sol.",
+     "Skriv: bil.",
+     "Skriv: mus.",
+     "Les: Ola har en fisk.",
+     "Finn selv to lydrette ord."
+    ],
+    "test": [
+     "Hva ser Ida?",
+     "Hva har Ola?",
+     "Hvor lyser lampa?",
+     "Er sol et lydrett ord?",
+     "Skriv: fisk."
+    ],
+    "steps": [
+     "Si ordet langsomt: s-o-l.",
+     "Skriv én bokstav for hver lyd du hører.",
+     "Les ordet høyt etterpå for å sjekke.",
+     "Pass på: Ikke glem en lyd i midten; i fisk hører du både s og k."
+    ],
+    "answers": [
+     "En sol.",
+     "En mus og en fisk.",
+     "På bordet.",
+     "Ja.",
+     "fisk."
+    ]
+   }
+  },
+  "eu-year-no-beginner-1-l11": {
+   "nb": {
+    "title": "Lang eller kort vokal: tak og takk",
+    "theory": "En vokal kan være lang, som i tak og hat, eller kort, som i takk og hatt. Etter en kort vokal skriver vi ofte to like konsonanter: takk, hatt, ball, katt. Etter en lang vokal skriver vi bare én: tak, hat, bok.",
+    "sample": "Vi ser på taket. / Takk for maten! / Gutten har en rød hatt og en ball.",
+    "worked": "I tak er a lang, i takk er a kort. Takk, hatt, ball og katt har kort vokal og to like konsonanter. Rød og bok har lang vokal og bare én konsonant til slutt.",
+    "exercises": [
+     "Lang eller kort: sol.",
+     "Lang eller kort: katt.",
+     "Si tak og takk. Hva er forskjellen?",
+     "Skriv: kat_ (katt eller kat?).",
+     "Finn et eget par med lang og kort vokal."
+    ],
+    "test": [
+     "Hva ser vi på?",
+     "Hva sier vi etter maten?",
+     "Hvor mange t har katt?",
+     "Er a lang eller kort i takk?",
+     "Skriv ordet hatt."
+    ],
+    "steps": [
+     "Si ordet, og lytt til vokalen: er den lang eller kort?",
+     "Kort vokal: skriv ofte to like konsonanter.",
+     "Lang vokal: skriv bare én konsonant.",
+     "Pass på: Kat med én t er feil; katt har kort a."
+    ],
+    "answers": [
+     "På taket.",
+     "Takk for maten!",
+     "To.",
+     "Kort.",
+     "hatt."
+    ]
+   }
+  },
+  "eu-year-no-beginner-1-l12": {
+   "nb": {
+    "title": "Ord vi skal kunne: jeg, er, og, det, ikke",
+    "theory": "Noen ord står i nesten alle tekster: jeg, er, og, det, de, ikke, en, et, han, hun. Mange av dem skriver vi ikke slik vi sier dem: vi sier jæi, men skriver jeg; vi sier å, men skriver og. Dem lærer vi utenat.",
+    "sample": "Jeg er glad. / Han og hun leker. / De har ikke en hund, men en katt.",
+    "worked": "Jeg, er, og, de og ikke står i nesten alle bøker. Jeg uttales jæi, og uttales å, det uttales de, de uttales di. Når vi kjenner igjen ordene med en gang, leser vi raskere og forstår mer.",
+    "exercises": [
+     "Les: jeg, er, og, det.",
+     "Skriv ordet og.",
+     "Finn ordet ikke i eksemplet.",
+     "Les: han, hun, de.",
+     "Skriv en setning med jeg er."
+    ],
+    "test": [
+     "Hvordan sier vi ordet og?",
+     "Hva har de?",
+     "Hvem leker?",
+     "Skriv ordet jeg.",
+     "Hvorfor lærer vi de vanlige ordene utenat?"
+    ],
+    "steps": [
+     "Se på ordet som et bilde: j-e-g.",
+     "Si det høyt slik vi uttaler det: jæi.",
+     "Les det mange ganger til du kjenner det igjen med en gang.",
+     "Pass på: Ikke skriv jæi eller å; skriv jeg og og."
+    ],
+    "answers": [
+     "Å.",
+     "En katt.",
+     "Han og hun.",
+     "jeg.",
+     "Slik at vi kan lese dem raskt."
+    ]
+   }
+  },
+  "eu-year-no-beginner-1-l13": {
+   "nb": {
+    "title": "Stumme bokstaver: hv, hj, gj og d",
+    "theory": "Noen bokstaver sier ingenting: de er stumme. I hv, hj og gj sier h og g ingenting: hva, hvor, hvem, hjem, hjul, gjest. D er ofte stum til slutt: god, land, med.",
+    "sample": "Hvor er hunden? / Hvem kommer hjem? / Vi har en god gjest.",
+    "worked": "I hvor og hvem sier vi bare v. I hjem sier vi bare j, og i gjest sier vi bare j. I god og land hører vi ikke d. Vi må huske å skrive de stumme bokstavene.",
+    "exercises": [
+     "Les: hva, hvor, hvem.",
+     "Les: hjem, hjul, hjerte.",
+     "Les: gjest, gjerde, god.",
+     "Skriv ordet hva.",
+     "Finn den stumme bokstaven i hjem."
+    ],
+    "test": [
+     "Hvem kommer hjem?",
+     "Hvilken bokstav er stum i hvor?",
+     "Hva slags gjest har vi?",
+     "Skriv ordet hjem.",
+     "Hører du d i god?"
+    ],
+    "steps": [
+     "Begynner et spørreord med v-lyd, skrives det ofte med hv: hva, hvor.",
+     "Ord som hjem og gjest begynner med hj og gj.",
+     "Til slutt i ord som god og land er d ofte stum.",
+     "Pass på: Ikke skriv va og jem; skriv hva og hjem."
+    ],
+    "answers": [
+     "Ditt svar. For eksempel: Noen vi venter på, kanskje pappa.",
+     "h.",
+     "En god gjest.",
+     "hjem.",
+     "Nei, d er stum."
+    ]
+   }
+  },
+  "eu-year-no-beginner-1-l14": {
+   "nb": {
+    "title": "Diftonger: ei, au og øy",
+    "theory": "En diftong er to vokaler som glir sammen til én lyd: ei som i stein, au som i sau og øy som i øy. Vi leser dem som én lyd.",
+    "sample": "Sauen står på en stein. / Vi reiser til en øy. / Det er en fin dag i mai.",
+    "worked": "Stein, reiser og mai har ei eller ai. Sauen har au. Øy har øy. Vi leser de to vokalene raskt sammen.",
+    "exercises": [
+     "Les: stein, vei, rein.",
+     "Les: sau, maur, haug.",
+     "Les: øy, høy, røyk.",
+     "Skriv ordet sau.",
+     "Finn et ord med ei."
+    ],
+    "test": [
+     "Hvor står sauen?",
+     "Hvor reiser vi?",
+     "Hvilken diftong har sau?",
+     "Les: geit, laus, gøy.",
+     "Hva er en diftong?"
+    ],
+    "steps": [
+     "Se etter to vokaler side om side: ei, au, øy.",
+     "Les dem raskt sammen som én lyd.",
+     "Si så hele ordet: stein.",
+     "Pass på: Les ikke a og u hver for seg i sau; det er én glidende lyd."
+    ],
+    "answers": [
+     "På en stein.",
+     "Til en øy.",
+     "au.",
+     "geit, laus, gøy.",
+     "To vokaler som glir sammen til én lyd."
+    ]
+   }
+  },
+  "eu-year-no-beginner-1-l15": {
+   "nb": {
+    "title": "Kj-lyden: kjole, kino og kirke",
+    "theory": "Kj-lyden kan skrives kj som i kjole, tj som i tjue og k foran i og y som i kino, kirke og kylling. Vi hører den samme lyden, men skriver forskjellig.",
+    "sample": "Jenta har en rød kjole. / Tjue barn går på kino. / Kyllingen sover.",
+    "worked": "Kjole har kj, tjue har tj, og kino og kyllingen har k foran i og y. Alle høres likt ut. K foran a, o og u sier k: katt, ku.",
+    "exercises": [
+     "Les: kjole, kjøkken, kjeks.",
+     "Les: kino, kirke, kylling.",
+     "Les: tjue, tjukk.",
+     "Skriv ordet kjole.",
+     "Høres k likt ut i katt og i kino?"
+    ],
+    "test": [
+     "Hvilken farge har kjolen?",
+     "Hvor mange barn går på kino?",
+     "Hva gjør kyllingen?",
+     "Hvordan skrives kj-lyden i tjue?",
+     "Les: kiste, kjære, kyss."
+    ],
+    "steps": [
+     "Lytt etter kj-lyden i ordet.",
+     "Husk: kj, tj eller k foran i og y.",
+     "Les ordet høyt, og se nøye på bokstavene.",
+     "Pass på: K foran a, o og u sier k: katt; foran i og y blir det kj-lyd: kino."
+    ],
+    "answers": [
+     "Rød.",
+     "Tjue.",
+     "Den sover.",
+     "Med tj.",
+     "kis-te, kjæ-re, kyss."
+    ]
+   }
+  },
+  "eu-year-no-beginner-1-l16": {
+   "nb": {
+    "title": "Skj-lyden: sju, skjorte og ski",
+    "theory": "Skj-lyden kan skrives sj som i sju, skj som i skjorte og sk foran i og y som i ski og sky. Vi hører den samme lyden, men skriver forskjellig.",
+    "sample": "Sju barn går på ski. / Pappa tar på seg en skjorte. / En hvit sky flyr over himmelen.",
+    "worked": "Sju har sj, skjorte har skj, og ski og sky har sk foran i og y. Alle høres likt ut. Vi lærer hvordan ordene skrives ved å lese dem mange ganger.",
+    "exercises": [
+     "Les: sju, sjø, sjokolade.",
+     "Les: skjorte, skje, skjegg.",
+     "Les: ski, sky, skinne.",
+     "Skriv ordet sju.",
+     "Finn et ord med skj-lyd."
+    ],
+    "test": [
+     "Hvor mange barn går på ski?",
+     "Hva tar pappa på seg?",
+     "Hvilken farge har skya?",
+     "Hvordan skrives skj-lyden i ski?",
+     "Les: sjal, skilt, skjelle."
+    ],
+    "steps": [
+     "Lytt etter skj-lyden i ordet.",
+     "Husk: sj, skj eller sk foran i og y.",
+     "Er du usikker, slå opp ordet eller spør.",
+     "Pass på: I ski skriver vi sk, ikke sj; foran i blir sk en skj-lyd."
+    ],
+    "answers": [
+     "Sju.",
+     "En skjorte.",
+     "Hvit.",
+     "Med sk.",
+     "sjal, skilt, skjel-le."
+    ]
+   }
+  },
+  "eu-year-no-beginner-1-l17": {
+   "nb": {
+    "title": "ng og nk: sang, ring og benk",
+    "theory": "Ng er én lyd bakerst i munnen, som i sang og ring. Nk høres ut som ng med en k etter, som i benk og tanke. Vi skriver ng og nk, aldri nng.",
+    "sample": "Vi synger en sang. / Mormor har en ring. / Gutten sitter på en benk i parken.",
+    "worked": "Sang, ring og synger har ng. Benk har nk. I nk hører vi en k til slutt.",
+    "exercises": [
+     "Les: sang, ring, lang.",
+     "Les: benk, tanke, blank.",
+     "Skriv ordet ring.",
+     "Finn et ord med nk.",
+     "Hører du en k i ring?"
+    ],
+    "test": [
+     "Hva synger vi?",
+     "Hva har mormor?",
+     "Hvor sitter gutten?",
+     "Hører du en k i benk?",
+     "Les: konge, tenke, gynge."
+    ],
+    "steps": [
+     "Ng er én lyd bakerst i munnen.",
+     "I nk hører du ng og så en k.",
+     "Les ordet høyt, og lytt til slutten.",
+     "Pass på: Ikke skriv nkg eller ngk; det er ng eller nk."
+    ],
+    "answers": [
+     "En sang.",
+     "En ring.",
+     "På en benk i parken.",
+     "Ja.",
+     "kon-ge, ten-ke, gyn-ge."
+    ]
+   }
+  },
+  "eu-year-no-beginner-1-l18": {
+   "nb": {
+    "title": "Konsonanter sammen: krone, blomst og strand",
+    "theory": "Noen ganger står to eller tre konsonanter sammen: kr i krone, bl i blomst, str i strand. Vi sier hver lyd raskt etter hverandre.",
+    "sample": "Prinsessen har en krone. / En blå blomst vokser på stranda. / Stine bygger et slott av sand.",
+    "worked": "Krone, blomst, blå, stranda, Stine og slott har konsonanter som står sammen. Hvis vi glemmer en lyd, blir det et annet ord eller et ord som ikke finnes.",
+    "exercises": [
+     "Les: krone, tre, fra.",
+     "Les: blomst, glass, klapp.",
+     "Les: strand, strek, sprang.",
+     "Skriv ordet tre.",
+     "Del i lyder: b-l-å."
+    ],
+    "test": [
+     "Hva har prinsessen?",
+     "Hvor vokser blomsten?",
+     "Hva bygger Stine?",
+     "Hvor mange lyder har tre?",
+     "Les: plante, frø, skritt."
+    ],
+    "steps": [
+     "Finn konsonantene som står sammen.",
+     "Si hver lyd raskt etter hverandre: b-l.",
+     "Sett så sammen hele ordet: blomst.",
+     "Pass på: Ikke legg til en vokal mellom konsonantene; det er blå, ikke belå."
+    ],
+    "answers": [
+     "En krone.",
+     "På stranda.",
+     "Et slott av sand.",
+     "Tre: t-r-e.",
+     "plan-te, frø, skritt."
+    ]
+   }
+  },
+  "eu-year-no-beginner-1-l19": {
+   "nb": {
+    "title": "Stor forbokstav: navn og begynnelsen av setningen",
+    "theory": "Vi skriver stor bokstav i begynnelsen av en setning og i navn: navn på mennesker, dyr, byer, fjell og land. Vanlige ord skriver vi med liten bokstav. Dager og måneder skriver vi med liten bokstav.",
+    "sample": "Nora og hunden hennes, Bamse, bor i Bergen på Vestlandet.",
+    "worked": "Nora, Bamse, Bergen og Vestlandet er navn: de får stor bokstav. Hunden er et vanlig ord: det får liten bokstav. Setningen begynner med stor bokstav.",
+    "exercises": [
+     "Finn navnene i eksemplet.",
+     "Skriv navnet på stedet der du bor.",
+     "Skriv navnet på en venn.",
+     "Rett: vi bor i tromsø.",
+     "Skal hund ha stor bokstav?"
+    ],
+    "test": [
+     "Hva heter hunden til Nora?",
+     "Hvor bor de?",
+     "I hvilken landsdel bor de?",
+     "Skriv riktig: emil bor i trondheim",
+     "Når skriver vi stor bokstav?"
+    ],
+    "steps": [
+     "Spør deg selv: er det navnet på en bestemt person, et dyr eller et sted?",
+     "Hvis ja, skriv stor bokstav.",
+     "Skriv også stor bokstav i begynnelsen av hver setning.",
+     "Pass på: mandag og januar skrives med liten bokstav."
+    ],
+    "answers": [
+     "Bamse.",
+     "I Bergen.",
+     "På Vestlandet.",
+     "Emil bor i Trondheim.",
+     "I begynnelsen av en setning og i navn."
+    ]
+   }
+  },
+  "eu-year-no-beginner-1-l20": {
+   "nb": {
+    "title": "En, ei og et: en gutt, ei jente, et hus",
+    "theory": "Foran et substantiv står ofte en, ei eller et. Noen ord heter en: en gutt, en bil. Noen kan hete ei: ei jente, ei bok. Andre heter et: et hus, et eple, et tre. På bokmål kan vi også si en jente og en bok.",
+    "sample": "En gutt og ei jente leker ved et hus. / Jeg spiser et eple. / Jenta leser ei bok.",
+    "worked": "Gutt og bil er en-ord. Jente og bok kan være ei-ord eller en-ord. Hus, eple og tre er et-ord. Vi sier ordet høyt og hører hva som høres riktig ut.",
+    "exercises": [
+     "Sett en eller et: ___ bil.",
+     "Sett en eller et: ___ tre.",
+     "Sett en eller et: ___ hund.",
+     "Finn substantivene i eksemplet.",
+     "Skriv tre dyr med en, ei eller et."
+    ],
+    "test": [
+     "Hvor leker barna?",
+     "Hva spiser jeg?",
+     "Heter det en hus eller et hus?",
+     "Hva leser jenta?",
+     "Sett en eller et: ___ bord."
+    ],
+    "steps": [
+     "Finn substantivet: et menneske, et dyr eller en ting.",
+     "Si det høyt med en og med et: hva høres riktig ut?",
+     "Lær et-ordene godt: et hus, et eple, et tre.",
+     "Pass på: Det heter et eple, ikke en eple."
+    ],
+    "answers": [
+     "Ved et hus.",
+     "Et eple.",
+     "Et hus.",
+     "Ei bok.",
+     "et."
+    ]
+   }
+  },
+  "eu-year-no-beginner-1-l21": {
+   "nb": {
+    "title": "En eller flere: bil, biler og hus",
+    "theory": "Når det er flere enn én, bruker vi flertall. Ofte legger vi til -er: bil – biler, gutt – gutter, jente – jenter. Noen korte et-ord endrer seg ikke: et hus – to hus.",
+    "sample": "En katt sover. To katter leker. På veien kjører tre biler.",
+    "worked": "Katt blir katter med -er. Bil blir biler med -er. Jente blir jenter med bare -r, fordi ordet slutter på e. Hus heter hus både i entall og flertall.",
+    "exercises": [
+     "Skriv flertall av hund.",
+     "Skriv flertall av bil.",
+     "Skriv flertall av jente.",
+     "Er katter entall eller flertall?",
+     "Skriv flertall av gutt."
+    ],
+    "test": [
+     "Hva er flertall av katt?",
+     "Hvor mange biler kjører?",
+     "Hva er flertall av hus?",
+     "Skriv flertall av gate.",
+     "Skriv flertall av bok."
+    ],
+    "steps": [
+     "Spør deg selv: én eller flere?",
+     "Flere: legg til -er, eller bare -r når ordet slutter på e.",
+     "Si ordet høyt for å høre om det høres riktig ut.",
+     "Pass på: Noen ord endrer seg: ei bok – mange bøker."
+    ],
+    "answers": [
+     "Katter.",
+     "Tre.",
+     "Hus.",
+     "Gater.",
+     "Bøker."
+    ]
+   }
+  },
+  "eu-year-no-beginner-1-l22": {
+   "nb": {
+    "title": "Rim og regler: vi leser og sier dem høyt",
+    "theory": "En regle er en kort tekst med rytme og rim som er morsom å si høyt. Et dikt består av linjer. Ofte rimer ordene til slutt i linjene. Vi sier regla rolig og tar en liten pause etter hver linje.",
+    "sample": "Egen regle: / Sola titter inn i vårt hus, / katten jager en liten mus. / Fuglen synger høyt sin sang, / sommerdagen er varm og lang.",
+    "worked": "Regla har fire linjer. Hus rimer på mus, sang rimer på lang. Når vi sier den høyt, leser vi rolig og tar en liten pause til slutt i hver linje.",
+    "exercises": [
+     "Les regla høyt.",
+     "Finn rimordet til hus.",
+     "Lær de to første linjene utenat.",
+     "Tegn katten og musa.",
+     "Finn et ord som rimer på bok."
+    ],
+    "test": [
+     "Hvor mange linjer har regla?",
+     "Hva jager katten?",
+     "Hva er en linje i et dikt?",
+     "Hvordan er sommerdagen?",
+     "Finn et ord som rimer på ball."
+    ],
+    "steps": [
+     "Les regla linje for linje.",
+     "Se på det siste ordet i hver linje, og finn ord som høres like ut.",
+     "For å lære den gjentar du to linjer om gangen.",
+     "Pass på: Les rolig og med pauser; det er ikke et kappløp."
+    ],
+    "answers": [
+     "Fire.",
+     "En liten mus.",
+     "En rad med ord i et dikt.",
+     "Varm og lang.",
+     "Ditt svar. For eksempel: troll, null."
+    ]
+   }
+  },
+  "eu-year-no-beginner-1-l23": {
+   "nb": {
+    "title": "Et folkeeventyr: De tre bukkene Bruse",
+    "theory": "Folkeeventyr er gamle fortellinger som folk har fortalt i hundrevis av år. Asbjørnsen og Moe samlet mange norske eventyr. Ofte skjer ting tre ganger.",
+    "sample": "Med våre egne ord: Tre bukker vil gå over en bru for å spise gress i lia. Under brua bor et troll. Den lille bukken og den mellomste bukken sier at trollet skal vente på en større bukk. Den store bukken er så sterk at han stanger trollet i elva. Så kan alle tre spise gress.",
+    "worked": "Personene er de tre bukkene og trollet. Ting skjer tre ganger: tre bukker går over brua. De små bukkene er lure, og den store er sterk. Til slutt blir trollet beseiret.",
+    "exercises": [
+     "Fortell eventyret med egne ord.",
+     "Tegn brua og trollet.",
+     "Hvor mange ganger går en bukk over brua?",
+     "Hvordan er den lille bukken lur?",
+     "Finn på en annen slutt."
+    ],
+    "test": [
+     "Hvor vil bukkene?",
+     "Hvem bor under brua?",
+     "Hva gjør den store bukken?",
+     "Hvem samlet mange norske eventyr?",
+     "Hva er et folkeeventyr?"
+    ],
+    "steps": [
+     "Finn personene: de tre bukkene og trollet.",
+     "Fortell hva som skjer hver gang en bukk går over brua.",
+     "Se hvordan eventyret slutter.",
+     "Pass på: I folkeeventyr skjer ting ofte tre ganger; husk alle tre."
+    ],
+    "answers": [
+     "Over brua for å spise gress.",
+     "Et troll.",
+     "Han stanger trollet i elva.",
+     "Asbjørnsen og Moe.",
+     "En gammel fortelling som folk har fortalt i mange år."
+    ]
+   }
+  },
+  "eu-year-no-beginner-1-l24": {
+   "nb": {
+    "title": "Thorbjørn Egner: Folk og røvere i Kardemomme by",
+    "theory": "Thorbjørn Egner skrev og tegnet bøker og sanger for barn. Den mest kjente fortellingen hans er Folk og røvere i Kardemomme by.",
+    "sample": "Med våre egne ord: Tre røvere, Kasper, Jesper og Jonatan, bor utenfor den fredelige Kardemomme by sammen med en løve. Om natten stjeler de mat fra byen. Til slutt blir de tatt og havner i fengsel. Der lærer de å oppføre seg pent, og senere redder de byen fra en brann.",
+    "worked": "Personene er de tre røverne, folket i byen og politimester Bastian. Først stjeler røverne, så blir de tatt, og til slutt blir de helter. Fortellingen viser at man kan forandre seg og bli bedre.",
+    "exercises": [
+     "Fortell begynnelsen av fortellingen.",
+     "Tegn Kardemomme by.",
+     "Hvordan forandrer røverne seg?",
+     "Hvem bor sammen med røverne?",
+     "Fortell slutten av fortellingen."
+    ],
+    "test": [
+     "Hvem skrev Folk og røvere i Kardemomme by?",
+     "Hva heter de tre røverne?",
+     "Hva stjeler de?",
+     "Hva redder røverne byen fra?",
+     "Hva viser fortellingen oss?"
+    ],
+    "steps": [
+     "Finn personene: hvem er med i fortellingen?",
+     "Fortell i rekkefølge: først, så, til slutt.",
+     "Si hva fortellingen viser oss.",
+     "Pass på: Ikke bytt om på rekkefølgen, da gir fortellingen ikke mening."
+    ],
+    "answers": [
+     "Thorbjørn Egner.",
+     "Kasper, Jesper og Jonatan.",
+     "Mat.",
+     "En brann.",
+     "At man kan forandre seg og bli bedre."
+    ]
+   }
+  },
+  "eu-year-no-beginner-1-l25": {
+   "nb": {
+    "title": "En fabel: Haren og skilpadden",
+    "theory": "En fabel er en kort fortelling med dyr som snakker og oppfører seg som mennesker. Til slutt er det en lærdom: moralen. Mange gamle fabler kommer fra Æsop.",
+    "sample": "Med våre egne ord: Haren ler av skilpadden fordi hun er så treg. De løper om kapp. Haren løper langt foran og legger seg til å sove under et tre. Skilpadden går rolig videre uten å stoppe og kommer først i mål.",
+    "worked": "Haren er rask, men skryter. Skilpadden er treg, men gir ikke opp. Moralen er at den som holder ut, når målet, og at man ikke skal le av andre.",
+    "exercises": [
+     "Fortell fabelen med egne ord.",
+     "Tegn den sovende haren.",
+     "Hvordan er skilpadden?",
+     "Si moralen med egne ord.",
+     "Finn på en annen slutt."
+    ],
+    "test": [
+     "Hvem er med i fabelen?",
+     "Hvorfor ler haren av skilpadden?",
+     "Hva gjør haren under kappløpet?",
+     "Hvem vinner?",
+     "Hva er en moral?"
+    ],
+    "steps": [
+     "Finn personene: haren og skilpadden.",
+     "Fortell hva hver av dem gjorde under kappløpet.",
+     "Finn moralen: hva lærer fabelen oss?",
+     "Pass på: I en fabel snakker dyrene, men de viser hvordan mennesker oppfører seg."
+    ],
+    "answers": [
+     "Haren og skilpadden.",
+     "Fordi hun er så treg.",
+     "Han legger seg til å sove under et tre.",
+     "Skilpadden.",
+     "Lærdommen i fabelen."
+    ]
+   }
+  },
+  "eu-year-no-beginner-1-l26": {
+   "nb": {
+    "title": "Gåter og tungekrøll",
+    "theory": "En gåte beskriver noe uten å si navnet. Vi lytter til alle hintene og finner svaret. En tungekrøll er en setning som er vanskelig å si fort: vi prøver å si den uten feil.",
+    "sample": "Egen gåte: Jeg har visere, men jeg peker ikke, jeg sier tikk-takk hele dagen. (ei klokke) / Egen tungekrøll: Fem fete fluer fløy forbi fars fine flagg.",
+    "worked": "Hintene er viserne og tikk-takk: svaret er ei klokke. Tungekrøllen er vanskelig fordi mange ord begynner med f. Vi sier den først langsomt og så fortere.",
+    "exercises": [
+     "Gjett: Den har tenner, men spiser ikke. (en kam)",
+     "Si tungekrøllen tre ganger.",
+     "Finn på en gåte om sola.",
+     "Hvilken lyd kommer igjen i tungekrøllen?",
+     "Gi en gåte til en klassekamerat."
+    ],
+    "test": [
+     "Hva er en gåte?",
+     "Hva er svaret på gåten i eksemplet?",
+     "Hvorfor er tungekrøllen vanskelig?",
+     "Finn på en gåte om månen.",
+     "Hvilken bokstav begynner fem og fluer med?"
+    ],
+    "steps": [
+     "Lytt til alle hintene.",
+     "Spør deg selv: hvilken ting har alt dette?",
+     "Sjekk svaret ditt med hvert hint.",
+     "Pass på: Ikke svar etter første hint; lytt til alt."
+    ],
+    "answers": [
+     "En beskrivelse av noe uten å si navnet.",
+     "Ei klokke.",
+     "Fordi mange ord begynner med f.",
+     "Ditt svar. For eksempel: Jeg lyser om natten, noen ganger rund og noen ganger smal. (månen)",
+     "f."
+    ]
+   }
+  },
+  "eu-year-no-beginner-1-l27": {
+   "nb": {
+    "title": "En fagtekst: pinnsvinet",
+    "theory": "En fagtekst gir ekte kunnskap om et tema. Den forteller ikke en oppdiktet historie. Vi leser nøye og finner svarene i teksten.",
+    "sample": "Pinnsvinet har pigger på ryggen. Om natten leter det etter biller og meitemark. Om vinteren sover det under en haug med løv.",
+    "worked": "Teksten forteller hvordan pinnsvinet ser ut, når det leter etter mat, hva det spiser, og hva det gjør om vinteren. Det er ekte kunnskap. Pinnsvinet sover om vinteren: det går i dvale.",
+    "exercises": [
+     "Les teksten to ganger.",
+     "Strek under hva pinnsvinet spiser.",
+     "Tegn et pinnsvin under løvet.",
+     "Forklar ordet dvale sammen med en voksen.",
+     "Still et spørsmål om pinnsvinet."
+    ],
+    "test": [
+     "Hva har pinnsvinet på ryggen?",
+     "Når leter det etter mat?",
+     "Hva spiser pinnsvinet?",
+     "Er en fagtekst oppdiktet?",
      "Hvor mange setninger har teksten?"
     ],
-    "test": [
-     "Hvorfor skrives Trondheim med stor bokstav?",
-     "Hva setter vi til slutt i en setning?",
-     "Skriv riktig: ida bor i bodø",
-     "Finn et ord i teksten med å.",
-     "Finn feilen: hunden min heter Bamse."
+    "steps": [
+     "Les spørsmålet, og finn det viktigste ordet, for eksempel spiser.",
+     "Finn det ordet eller et lignende ord i teksten.",
+     "Svaret står ofte i den samme setningen.",
+     "Pass på: Svar med det som står i teksten; ikke dikt opp noe."
+    ],
+    "answers": [
+     "Pigger.",
+     "Om natten.",
+     "Biller og meitemark.",
+     "Nei, den gir ekte kunnskap.",
+     "Tre."
     ]
    }
   },
-  "eu-year-no-beginner-1-redactare": {
+  "eu-year-no-beginner-1-l28": {
    "nb": {
-    "title": "Skrive en setning til et bilde",
-    "theory": "Før vi skriver, ser vi godt på bildet: Hvem ser vi? Hva gjør personen? Hvor er personen? Så skriver vi en setning med stor bokstav og punktum. Til slutt leser vi setningen igjen.",
-    "sample": "Bilde: En jente aker på kjelke ned en bakke.\nSetning: Jenta aker på kjelke ned bakken.",
-    "worked": "Hvem? Jenta. Hva gjør hun? Hun aker på kjelke. Hvor? Ned bakken. Setningen starter med stor J og slutter med punktum. Til slutt leser vi den høyt.",
+    "title": "Bildeboka: bilder og tekst forteller sammen",
+    "theory": "I en bildebok forteller bildene og teksten historien sammen. Bildene viser ting som teksten ikke sier. Vi ser på forsiden, leser tittelen og gjetter hva boka handler om.",
+    "sample": "Eget eksempel: Forsiden viser ei lita jente med en paraply og en stor, våt hund. Tittelen er: Regnværsdagen.",
+    "worked": "Ut fra bildet og tittelen kan vi gjette at boka handler om en dag med regn, der jenta og hunden går en tur. Når vi leser, ser vi om vi gjettet riktig. Bildet viser også at hunden er våt, selv om det ikke står i tittelen.",
     "exercises": [
-     "Skriv en setning: en gutt spiser en banan.",
-     "Hvem ser vi på bildet i eksempelet?",
-     "Hva aker jenta på?",
-     "Skriv en setning om favorittdyret ditt.",
-     "Les setningen din igjen og sjekk punktumet."
+     "Se på forsiden av en bok, og gjett hva den handler om.",
+     "Finn tittelen på en bok i klasserommet.",
+     "Tegn en forside til din egen bok.",
+     "Fortell hva et bilde viser.",
+     "Finn navnet på forfatteren av en bok."
     ],
     "test": [
-     "Hva spør vi om først når vi ser på et bilde?",
-     "Hvor aker jenta?",
-     "Skriv en setning om rommet ditt.",
-     "Hvordan starter en setning?",
-     "Tegn et bilde og skriv en setning til det."
+     "Hva viser forsiden i eksemplet?",
+     "Hva er tittelen?",
+     "Hva kan boka handle om?",
+     "Hva viser bildet som tittelen ikke sier?",
+     "Hva gjør bildene i en bildebok?"
+    ],
+    "steps": [
+     "Se først på forsiden og tittelen.",
+     "Gjett hva boka handler om.",
+     "Les boka, og se om du gjettet riktig.",
+     "Pass på: Ikke hopp over bildene; de forteller også historien."
+    ],
+    "answers": [
+     "Ei lita jente med en paraply og en stor, våt hund.",
+     "Regnværsdagen.",
+     "Ditt svar. For eksempel: En dag med regn, der jenta og hunden går en tur.",
+     "At hunden er våt.",
+     "De forteller historien sammen med teksten."
     ]
    }
   },
-  "eu-year-no-beginner-1-interpretare": {
+  "eu-year-no-beginner-1-l29": {
    "nb": {
-    "title": "Min mening: sammenligne personer",
-    "theory": "Vi kan si hva vi liker, og gi en grunn: Jeg liker ..., fordi ... Vi sammenligner personer: Hva er likt? Hva er forskjellig? Andre har lov til å mene noe annet.",
-    "sample": "Reven Rikke er rask, men hun erter de andre. Sneglen Sondre er treg, og han hjelper alle. Jeg liker Sondre, fordi han er snill.",
-    "worked": "Rikke er rask, Sondre er treg: Det er forskjellig. Begge bor i skogen: Det er likt. Setningen med fordi gir grunnen. En venn kan godt like Rikke best.",
+    "title": "Setningen: punktum, spørsmålstegn og utropstegn",
+    "theory": "En setning er en gruppe ord som betyr noe sammen. Den begynner med stor bokstav. Forteller setningen noe, slutter den med punktum. Stiller den et spørsmål, slutter den med spørsmålstegn (?). Viser den en følelse, slutter den med utropstegn (!).",
+    "sample": "I dag skinner sola. Vil du bli med til parken? For en fin dag!",
+    "worked": "Den første setningen forteller noe: punktum. Den andre stiller et spørsmål: spørsmålstegn. Den tredje viser glede: utropstegn. Alle setningene begynner med stor bokstav.",
     "exercises": [
-     "Hvordan er Rikke?",
-     "Hva gjør Sondre for de andre?",
-     "Hva er likt for Rikke og Sondre?",
-     "Skriv: Jeg liker ..., fordi ...",
-     "Hvilken person liker du best? Si hvorfor."
+     "Sett riktig tegn: Hva heter du",
+     "Sett riktig tegn: Jeg har en hund",
+     "Skriv et spørsmål til læreren din.",
+     "Skriv en setning med utropstegn.",
+     "Tell setningene i eksemplet."
     ],
     "test": [
-     "Hva er forskjellig for Rikke og Sondre?",
-     "Hvilket ord bruker vi når vi gir en grunn?",
-     "Har vennen din lov til å mene noe annet?",
-     "Er Sondre rask eller treg?",
-     "Finn på en tredje person og beskriv den med ett ord."
+     "Hvilket tegn avslutter et spørsmål?",
+     "Hva begynner en setning med?",
+     "Skriv riktig: det regner i dag",
+     "Hvilken setning i eksemplet viser glede?",
+     "Hvor mange setninger er det i eksemplet?"
+    ],
+    "steps": [
+     "Spør deg selv: forteller setningen noe, stiller den et spørsmål eller viser den en følelse?",
+     "Forteller: punktum. Spørsmål: ? Følelse: !",
+     "Den første bokstaven er alltid stor.",
+     "Pass på: Også et kort spørsmål som Kommer du? skal ha spørsmålstegn."
+    ],
+    "answers": [
+     "Spørsmålstegn.",
+     "Stor bokstav.",
+     "Det regner i dag.",
+     "For en fin dag!",
+     "Tre."
     ]
    }
   },
-  "eu-year-no-beginner-1-verificare": {
+  "eu-year-no-beginner-1-l30": {
    "nb": {
-    "title": "Repetisjon: lese, forstå, skrive",
-    "theory": "Til slutt øver vi på alt igjen: klappe stavelser, svare på spørsmål om en tekst, fortelle i rekkefølge, finne rim, skrive stor bokstav og punktum og bruke æ, ø og å.",
-    "sample": "Om morgenen pakker Jonas sekken sin. Han tar med matpakke, vannflaske og lue. Etterpå går han på tur i skogen med pappa.",
-    "worked": "Hvem? Jonas. Hva gjør han først? Han pakker sekken. Hva tar han med? Matpakke, vannflaske og lue. Hva gjør han etterpå? Han går på tur. Mat-pak-ke har tre stavelser.",
+    "title": "Skriv til et bilde",
+    "theory": "Vi ser på et bilde og spør: Hvem ser jeg? Hva gjør han eller hun? Hvor er det? Når? Så skriver vi to eller tre setninger med stor bokstav først og punktum til slutt.",
+    "sample": "Bilde: ei jente lager en snømann. / Setninger: Jenta lager en snømann. Det er vinter. Snømannen har en gulrot som nese.",
+    "worked": "Vi skrev tre setninger. Den første sier hvem vi ser, og hva hun gjør. Den andre sier når. Den tredje forteller en detalj. Da blir teksten tydelig.",
     "exercises": [
-     "Klapp stavelsene i matpakke.",
-     "Hva tar Jonas med?",
-     "Hvem går Jonas på tur med?",
-     "Finn to substantiv i teksten.",
-     "Finn et ord som rimer på lue."
+     "Se ut av vinduet, og skriv en setning.",
+     "Still de fire spørsmålene til et bilde.",
+     "Skriv to setninger om klassen din.",
+     "Tegn et bilde, og skriv en setning under.",
+     "Les setningene dine for en klassekamerat."
     ],
     "test": [
-     "Hva gjør Jonas først?",
+     "Hvilke spørsmål stiller vi til et bilde?",
+     "Hva lager jenta?",
+     "Hva har snømannen som nese?",
+     "Hva slutter en fortellende setning med?",
+     "Skriv en setning om vinteren."
+    ],
+    "steps": [
+     "Se på bildet, og spør: hvem? hva gjør han eller hun? hvor? når?",
+     "Si setningen høyt før du skriver den.",
+     "Sjekk: stor bokstav først, punktum til slutt, mellomrom mellom ordene.",
+     "Pass på: Skriv hele setninger, ikke bare enkeltord."
+    ],
+    "answers": [
+     "Hvem ser jeg? Hva gjør han eller hun? Hvor er det? Når?",
+     "En snømann.",
+     "En gulrot.",
+     "Punktum.",
+     "Ditt svar. For eksempel: Om vinteren er det kaldt."
+    ]
+   }
+  },
+  "eu-year-no-beginner-1-l31": {
+   "nb": {
+    "title": "En invitasjon og et kort",
+    "theory": "Et bursdagskort har en hilsen, et ønske og et navn. En invitasjon forteller hva vi inviterer til, når og hvor. Da vet leseren alt han eller hun trenger å vite.",
+    "sample": "Kjære farmor, / jeg inviterer deg til bursdagen min. / Når: lørdag klokka tre. / Hvor: hjemme hos oss. / Vi ses! / Klem fra Sofie",
+    "worked": "Invitasjonen begynner med Kjære farmor. Så står selskapet, dagen, klokkeslettet og stedet. Den slutter med en vennlig hilsen og navnet. Uten dag og klokkeslett vet ikke farmor når hun skal komme.",
+    "exercises": [
+     "Skriv en hilsen til morfaren din.",
+     "Skriv en invitasjon til å leke.",
+     "Skriv et bursdagskort.",
+     "Hva mangler i en invitasjon uten sted?",
+     "Skriv navnet ditt under invitasjonen."
+    ],
+    "test": [
+     "Hva skal stå i en invitasjon?",
+     "Når er bursdagen til Sofie?",
+     "Hvordan begynner invitasjonen?",
+     "Skriv et kort ønske til moren din.",
+     "Hva står til slutt i invitasjonen?"
+    ],
+    "steps": [
+     "Begynn med en hilsen: Kjære …, Hei …",
+     "Skriv hva du inviterer til, når og hvor.",
+     "Avslutt med en vennlig hilsen og navnet ditt.",
+     "Pass på: Uten dag, klokkeslett og sted vet ingen når de skal komme."
+    ],
+    "answers": [
+     "Hva vi inviterer til, når og hvor, med en hilsen og et navn.",
+     "Lørdag klokka tre.",
+     "Kjære farmor.",
+     "Ditt svar. For eksempel: Kjære mamma, gratulerer med dagen!",
+     "Klem fra Sofie."
+    ]
+   }
+  },
+  "eu-year-no-beginner-1-l32": {
+   "nb": {
+    "title": "Fortell om helgen din",
+    "theory": "Når vi forteller om noe vi har opplevd, sier vi hvem som var med, hvor det var, hva som skjedde, og hvordan det endte. Vi bruker ord som først, så og til slutt. De andre lytter og kan stille spørsmål.",
+    "sample": "På søndag dro jeg til stranda med foreldrene mine. Først bygde vi et sandslott. Så skylte en stor bølge det bort. Til slutt lo vi og bygde et nytt.",
+    "worked": "Fortellingen sier når (på søndag), hvor (på stranda), med hvem (foreldrene), hva som skjedde (bølgen skylte bort slottet), og hvordan det endte (de bygde et nytt). Ordene først, så og til slutt hjelper oss å følge rekkefølgen.",
+    "exercises": [
+     "Fortell hva du gjorde i helgen.",
+     "Bruk først, så og til slutt.",
+     "Still et spørsmål om fortellingen til en klassekamerat.",
+     "Tegn sandslottet.",
+     "Finn på en tittel til fortellingen i eksemplet."
+    ],
+    "test": [
+     "Hvor dro barnet på søndag?",
+     "Med hvem?",
+     "Hva skylte bort sandslottet?",
+     "Hvordan endte fortellingen?",
+     "Hvilke ord hjelper oss å si rekkefølgen?"
+    ],
+    "steps": [
+     "Tenk: hvem, hvor, hva skjedde, og hvordan endte det.",
+     "Fortell i rekkefølge med først, så og til slutt.",
+     "Snakk rolig, og se på dem som lytter.",
+     "Pass på: Ikke hopp over noe; den som lytter, skal forstå hva som skjedde."
+    ],
+    "answers": [
+     "Til stranda.",
+     "Med foreldrene sine.",
+     "En stor bølge.",
+     "De lo og bygde et nytt.",
+     "Først, så, til slutt."
+    ]
+   }
+  },
+  "eu-year-no-beginner-1-l33": {
+   "nb": {
+    "title": "Samtale: vi spør og lytter",
+    "theory": "I en god samtale bytter vi på å snakke. Vi lytter mens den andre snakker, og vi spør hvis vi ikke forstår noe. Vi kan spørre med spørreord: hvem, hva, hvor, når og hvorfor.",
+    "sample": "Live: Hva har du i matpakka i dag? / Noah: Jeg har brødskiver med brunost. Hva har du? / Live: Jeg har pannekaker.",
+    "worked": "Live stiller et spørsmål med hva. Noah svarer og stiller selv et spørsmål tilbake. De bytter på å snakke og lytter til hverandre. Slik blir samtalen god.",
+    "exercises": [
+     "Still en klassekamerat et spørsmål med hva.",
+     "Still et spørsmål med hvor.",
+     "Svar med en hel setning.",
+     "Spør tilbake når du har svart.",
+     "Øv på samtalen i eksemplet med en venn."
+    ],
+    "test": [
+     "Hva har Noah i matpakka?",
+     "Hva har Live?",
+     "Hvilket spørreord bruker Live?",
+     "Hva gjør vi i en god samtale?",
+     "Still et spørsmål med hvorfor."
+    ],
+    "steps": [
+     "Lytt mens den andre snakker.",
+     "Svar med en hel setning.",
+     "Still selv et spørsmål tilbake, så samtalen fortsetter.",
+     "Pass på: Ikke snakk i munnen på hverandre; vent til den andre er ferdig."
+    ],
+    "answers": [
+     "Brødskiver med brunost.",
+     "Pannekaker.",
+     "Hva.",
+     "Vi bytter på å snakke og lytter til hverandre.",
+     "Ditt svar. For eksempel: Hvorfor liker du fotball?"
+    ]
+   }
+  },
+  "eu-year-no-beginner-1-l34": {
+   "nb": {
+    "title": "Repetisjon: dette har jeg lært på 1. trinn",
+    "theory": "På slutten av året leser vi en kort tekst og viser hva vi kan: lese og forstå, dele ord i lyder og stavelser, skrive setninger med stor bokstav og punktum, de vanlige ordene og de vanskelige lydene.",
+    "sample": "Hver morgen pakker Henrik skolesekken sin. Han legger ned boka, pennalet og matpakka. Så sykler han til skolen sammen med pappa.",
+    "worked": "Teksten har tre setninger. Henrik pakker først sekken og sykler så til skolen. Henrik er et navn: stor bokstav. Skolesekken har sk foran o, så vi sier en vanlig sk-lyd. Pakker har kort a og to k-er.",
+    "exercises": [
+     "Les teksten høyt.",
+     "Finn ordet med sk.",
+     "Klapp ordet matpakka.",
+     "Skriv en setning om skolesekken din.",
+     "Fortell hva du likte best å lære i år."
+    ],
+    "test": [
+     "Hva gjør Henrik først?",
      "Hvor mange setninger har teksten?",
-     "Skriv riktig: jonas går på tur",
-     "Hva er motsetningen til morgen?",
-     "Skriv en setning om en tur."
+     "Skriv riktig: henrik sykler til skolen",
+     "Hvem sykler Henrik sammen med?",
+     "Hvor mange stavelser har skolesekk?"
+    ],
+    "steps": [
+     "Les først langsomt og så raskere.",
+     "Spør deg selv: hvem? hva gjør han? sammen med hvem?",
+     "Tell setningene ved å se på punktumene.",
+     "Pass på: Navn og begynnelsen av en setning får stor bokstav: Henrik."
+    ],
+    "answers": [
+     "Han pakker skolesekken sin.",
+     "Tre.",
+     "Henrik sykler til skolen.",
+     "Med pappa.",
+     "Tre: sko-le-sekk."
     ]
    }
   }
