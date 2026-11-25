@@ -1,0 +1,1141 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "RO",
+ "stage": "advanced",
+ "grade": "uni-ba-1",
+ "version": "d13e1bcbe5cbf36e5ace76b518d25f7b572b5e15f41c3d52e9bbe376eeb131df",
+ "source": "https://www.aracis.ro/",
+ "sourceTitle": "Sinteză orientativă a disciplinelor comune programelor de licență Informatică din România (domeniul fundamental Matematică și științe ale naturii, domeniul de licență Informatică, 180 ECTS), conform standardelor specifice ARACIS și planurilor de învățământ publicate de Universitatea din București (fmi.unibuc.ro), Universitatea Babeș-Bolyai (cs.ubbcluj.ro – Informatică, linia română) și Universitatea „Alexandru Ioan Cuza” din Iași (info.uaic.ro) — anul I: arhitectura sistemelor de calcul, logică computațională, fundamentele programării / programare procedurală, structuri de date și algoritmi, programare orientată obiect, sisteme de operare, algoritmica grafurilor; fiecare facultate are planul propriu, iar ordinea și denumirile cursurilor pot diferi; disciplinele de matematică (algebră, analiză, geometrie) se studiază la cursurile de matematică; lecții originale, fără text copiat din cursuri sau manuale",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "ro",
+ "labels": [
+  "Activitate originală · România · Facultatea de Matematică și Informatică · Licență Informatică, anul I",
+  "Teorie pe înțeles",
+  "Exemplu rezolvat",
+  "Analiză explicată",
+  "Exerciții de seminar și laborator",
+  "Verifică-te",
+  "Exerciții originale; nu înlocuiesc cursul, laboratorul, bibliografia sau evaluarea facultății.",
+  "Dacă nu ai înțeles: pas cu pas",
+  "Răspunsuri (verifică după ce termini)"
+ ],
+ "units": [
+  {
+   "title": "Arhitectura sistemelor de calcul",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-1-l01",
+    "eu-year-ro-advanced-uni-ba-1-l02",
+    "eu-year-ro-advanced-uni-ba-1-l03",
+    "eu-year-ro-advanced-uni-ba-1-l04"
+   ]
+  },
+  {
+   "title": "Logică computațională",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-1-l05",
+    "eu-year-ro-advanced-uni-ba-1-l06",
+    "eu-year-ro-advanced-uni-ba-1-l07",
+    "eu-year-ro-advanced-uni-ba-1-l08"
+   ]
+  },
+  {
+   "title": "Fundamentele programării",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-1-l09",
+    "eu-year-ro-advanced-uni-ba-1-l10",
+    "eu-year-ro-advanced-uni-ba-1-l11",
+    "eu-year-ro-advanced-uni-ba-1-l12"
+   ]
+  },
+  {
+   "title": "Structuri de date și algoritmi",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-1-l13",
+    "eu-year-ro-advanced-uni-ba-1-l14",
+    "eu-year-ro-advanced-uni-ba-1-l15",
+    "eu-year-ro-advanced-uni-ba-1-l16",
+    "eu-year-ro-advanced-uni-ba-1-l17",
+    "eu-year-ro-advanced-uni-ba-1-l18"
+   ]
+  },
+  {
+   "title": "Programare orientată obiect",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-1-l19",
+    "eu-year-ro-advanced-uni-ba-1-l20",
+    "eu-year-ro-advanced-uni-ba-1-l21",
+    "eu-year-ro-advanced-uni-ba-1-l22"
+   ]
+  },
+  {
+   "title": "Sisteme de operare",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-1-l23",
+    "eu-year-ro-advanced-uni-ba-1-l24",
+    "eu-year-ro-advanced-uni-ba-1-l25",
+    "eu-year-ro-advanced-uni-ba-1-l26"
+   ]
+  },
+  {
+   "title": "Algoritmica grafurilor",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-1-l27",
+    "eu-year-ro-advanced-uni-ba-1-l28",
+    "eu-year-ro-advanced-uni-ba-1-l29",
+    "eu-year-ro-advanced-uni-ba-1-l30"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-ro-advanced-uni-ba-1-l01": {
+   "ro": {
+    "title": "Reprezentarea numerelor întregi: baze de numerație și complement față de doi",
+    "theory": "Calculatorul lucrează cu biți (0 și 1), deci orice număr trebuie scris în baza 2. Conversia din baza 10 în baza 2 se face prin împărțiri repetate la 2, citind resturile de jos în sus; baza 16 (hexazecimal) grupează câte 4 biți într-o cifră (0–9, A–F) și este folosită ca scriere scurtă. Numerele naturale pe n biți iau valori de la 0 la 2^n − 1. Pentru numerele întregi cu semn, aproape toate procesoarele folosesc complementul față de doi: un număr negativ −x se obține inversând toți biții lui x și adunând 1. Bitul cel mai semnificativ arată semnul (1 = negativ), iar pe n biți intervalul este de la −2^(n−1) la 2^(n−1) − 1 (pe 8 biți: −128…127). Avantajul: adunarea și scăderea folosesc același circuit, fără reguli speciale pentru semn. Dacă rezultatul iese din interval apare depășirea (overflow): adunând două numere pozitive obținem un rezultat cu bitul de semn 1.",
+    "sample": "Reprezentăm −5 pe 8 biți. 5 = 00000101; inversăm biții: 11111010; adunăm 1: 11111011. Verificare: 11111011 + 00000101 = 1 00000000; transportul din afara celor 8 biți se pierde și rămâne 0, deci numărul este într-adevăr opusul lui 5.",
+    "worked": "Inversarea și adunarea lui 1 produc opusul. Suma cu 5 dă 0 pe 8 biți, ceea ce confirmă că adunarea obișnuită funcționează și pentru numere negative.",
+    "exercises": [
+     "Convertește 200 în baza 2 și în baza 16.",
+     "Reprezintă −37 în complement față de doi pe 8 biți.",
+     "Află valoarea zecimală a lui 10010110 interpretat cu semn.",
+     "Calculează 100 + 50 pe 8 biți cu semn și explică rezultatul.",
+     "Scrie intervalul numerelor întregi cu semn pe 16 biți."
+    ],
+    "test": [
+     "Cum se convertește un număr din baza 10 în baza 2?",
+     "De ce folosim baza 16?",
+     "Cum se obține −x în complement față de doi?",
+     "Care este intervalul pe 8 biți cu semn?",
+     "Când apare depășirea?"
+    ],
+    "steps": [
+     "Scrie numărul pozitiv pe numărul cerut de biți, completând cu zerouri la stânga.",
+     "Pentru un număr negativ, inversează toți biții și adună 1.",
+     "Verifică adunând rezultatul cu numărul pozitiv: trebuie să obții 0 pe n biți.",
+     "Greșeala frecventă: să uiți să completezi cu zerouri până la n biți înainte de inversare; bitul de semn iese greșit."
+    ],
+    "answers": [
+     "Prin împărțiri repetate la 2, citind resturile de jos în sus.",
+     "Pentru că o cifră hexazecimală înlocuiește exact 4 biți.",
+     "Inversăm toți biții lui x și adunăm 1.",
+     "De la −128 la 127.",
+     "Când rezultatul iese din intervalul reprezentabil pe n biți."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l02": {
+   "ro": {
+    "title": "Numere reale în virgulă mobilă: standardul IEEE 754",
+    "theory": "Numerele reale se reprezintă în virgulă mobilă, asemănător scrierii științifice: valoare = (−1)^semn × 1,mantisă × 2^(exponent − deplasament). În simplă precizie (32 de biți), standardul IEEE 754 folosește 1 bit de semn, 8 biți de exponent, cu deplasamentul 127, și 23 de biți pentru partea fracționară a mantisei; cifra 1 dinaintea virgulei nu se memorează (bit ascuns). Dubla precizie are 64 de biți (1 + 11 + 52, deplasament 1023). Există valori speciale: zero cu semn, infinit și NaN (rezultatul unor operații nedefinite, ca 0/0). Consecința practică: multe numere zecimale simple, ca 0,1, nu au reprezentare exactă în baza 2, deci apar erori de rotunjire. De aceea două numere reale nu se compară cu == după calcule, ci verificând dacă diferența lor este mai mică decât o toleranță.",
+    "sample": "Reprezentăm 5,75 în simplă precizie. 5,75 = 101,11 în baza 2 = 1,0111 × 2^2. Semnul este 0; exponentul memorat este 2 + 127 = 129 = 10000001; mantisa memorată este 0111 urmat de zerouri. Cei 32 de biți sunt 0 10000001 01110000000000000000000, adică 0x40B80000.",
+    "worked": "Normalizarea aduce numărul la forma 1,… × 2^e. Deplasamentul face ca exponentul să fie memorat ca număr natural, iar bitul 1 din fața virgulei nu se mai scrie.",
+    "exercises": [
+     "Reprezintă −12,5 în simplă precizie IEEE 754.",
+     "Decodifică numărul 0x41200000.",
+     "Explică de ce 0,1 + 0,2 nu este exact 0,3 în calculator.",
+     "Scrie o funcție care compară două numere reale cu o toleranță.",
+     "Compară simpla și dubla precizie: biți, exponent, precizie."
+    ],
+    "test": [
+     "Din ce părți este formată reprezentarea în virgulă mobilă?",
+     "Ce este deplasamentul exponentului?",
+     "Ce este bitul ascuns?",
+     "Ce înseamnă NaN?",
+     "De ce nu comparăm numere reale cu ==?"
+    ],
+    "steps": [
+     "Scrie numărul în baza 2, separat partea întreagă de cea fracționară.",
+     "Normalizează-l la forma 1,mantisă × 2^e.",
+     "Calculează exponentul memorat adunând deplasamentul și scrie semnul, exponentul și mantisa.",
+     "Greșeala frecventă: să memorezi și cifra 1 dinaintea virgulei în mantisă; ea este implicită și nu se scrie."
+    ],
+    "answers": [
+     "Semn, exponent și mantisă.",
+     "Valoarea adunată exponentului real ca să fie memorat ca număr natural (127 în simplă precizie).",
+     "Cifra 1 din fața virgulei, care nu se memorează.",
+     "Not a Number, rezultatul unei operații nedefinite.",
+     "Din cauza erorilor de rotunjire; folosim o toleranță."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l03": {
+   "ro": {
+    "title": "Algebra booleană și circuitele logice",
+    "theory": "Circuitele calculatorului sunt construite din porți logice care implementează operațiile algebrei booleene: ȘI (AND), SAU (OR), NU (NOT), SAU exclusiv (XOR), precum și NAND și NOR. Orice funcție booleană poate fi descrisă printr-un tabel de adevăr și scrisă ca expresie, de exemplu ca sumă de produse (câte un termen pentru fiecare linie în care funcția este 1). Expresiile se simplifică folosind legile algebrei booleene (comutativitate, distributivitate, absorbție, De Morgan: NOT(a AND b) = NOT a OR NOT b) sau diagrame Karnaugh, ceea ce reduce numărul de porți. Circuitele combinaționale (fără memorie) au ieșirea determinată doar de intrări: sumatoare, multiplexoare, decodificatoare. Circuitele secvențiale (bistabili, registre, numărătoare) au și memorie. Poarta NAND singură este universală: cu ea se poate construi orice altă poartă.",
+    "sample": "Semisumatorul adună doi biți A și B. Din tabelul de adevăr: suma S este 1 când exact unul dintre biți este 1, deci S = A XOR B; transportul C este 1 doar când ambii sunt 1, deci C = A AND B. Sumatorul complet adaugă transportul de intrare: S = A XOR B XOR Cin și Cout = (A AND B) OR (Cin AND (A XOR B)).",
+    "worked": "Tabelul de adevăr a dus direct la expresii. Legând în lanț 8 sumatoare complete obținem un sumator pe 8 biți.",
+    "exercises": [
+     "Scrie tabelul de adevăr pentru funcția majoritate a trei biți.",
+     "Simplifică expresia (A AND B) OR (A AND NOT B).",
+     "Construiește poarta NOT și poarta AND numai din porți NAND.",
+     "Desenează un multiplexor 2:1 și scrie-i expresia.",
+     "Verifică legea lui De Morgan prin tabel de adevăr."
+    ],
+    "test": [
+     "Ce porți logice de bază cunoști?",
+     "Ce este un circuit combinațional?",
+     "Prin ce diferă un circuit secvențial?",
+     "De ce este NAND o poartă universală?",
+     "Ce spune legea lui De Morgan?"
+    ],
+    "steps": [
+     "Scrie tabelul de adevăr al funcției cerute.",
+     "Scrie expresia ca sumă de produse pentru liniile cu valoarea 1.",
+     "Simplifică expresia cu legile algebrei booleene și desenează circuitul.",
+     "Greșeala frecventă: să aplici De Morgan fără să schimbi operatorul; negarea unui ȘI devine un SAU între negații."
+    ],
+    "answers": [
+     "ȘI, SAU, NU, XOR, NAND, NOR.",
+     "Un circuit fără memorie, a cărui ieșire depinde doar de intrări.",
+     "Are memorie, deci ieșirea depinde și de starea anterioară.",
+     "Pentru că din ea se poate construi orice altă poartă.",
+     "NOT(a AND b) = NOT a OR NOT b și NOT(a OR b) = NOT a AND NOT b."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l04": {
+   "ro": {
+    "title": "Procesorul, memoria și limbajul de asamblare",
+    "theory": "Modelul von Neumann pune programul și datele în aceeași memorie. Procesorul (CPU) are o unitate de control, o unitate aritmetică și logică (UAL) și registre, mici memorii foarte rapide. El repetă ciclul instrucțiunii: aduce instrucțiunea de la adresa din contorul de program (fetch), o decodifică (decode), o execută (execute) și trece la următoarea. Instrucțiunile mașinii sunt simple: încărcare din memorie în registru, operație aritmetică, salt condiționat. Limbajul de asamblare le scrie prin mnemonice (de exemplu add, mov, jmp), câte o linie pentru o instrucțiune. Memoria este organizată ierarhic: registre, cache (L1, L2, L3), memorie principală (RAM), disc; cu cât e mai aproape de procesor, cu atât e mai rapidă, mai mică și mai scumpă. Memoria cache funcționează datorită localității: programele refolosesc datele recente (localitate temporală) și accesează adrese vecine (localitate spațială).",
+    "sample": "Pentru instrucțiunea C s = s + v[i], compilatorul generează aproximativ: încarcă v[i] din memorie într-un registru, adună registrul la registrul care ține s, iar la final scrie s înapoi în memorie. Parcurgând vectorul în ordine, după primul acces linia de cache aduce și elementele vecine, deci următoarele citiri sunt foarte rapide.",
+    "worked": "O singură instrucțiune dintr-un limbaj de nivel înalt devine mai multe instrucțiuni mașină. Parcurgerea în ordine a memoriei folosește bine localitatea spațială.",
+    "exercises": [
+     "Descrie pașii ciclului instrucțiunii pentru o adunare.",
+     "Ordonează nivelurile ierarhiei de memorie după viteză și capacitate.",
+     "Explică de ce parcurgerea unei matrice pe linii este mai rapidă în C decât pe coloane.",
+     "Scrie în pseudo-asamblare suma a două variabile din memorie.",
+     "Dă un exemplu de localitate temporală."
+    ],
+    "test": [
+     "Ce componente are procesorul?",
+     "Care sunt etapele ciclului instrucțiunii?",
+     "Ce este limbajul de asamblare?",
+     "Ce este memoria cache?",
+     "Ce este localitatea spațială?"
+    ],
+    "steps": [
+     "Identifică datele din memorie de care are nevoie instrucțiunea.",
+     "Descompune operația în încărcări, calcule și scrieri.",
+     "Analizează ordinea accesărilor din punctul de vedere al cache-ului.",
+     "Greșeala frecventă: să crezi că toate accesările la memorie costă la fel; un acces la RAM este mult mai lent decât unul la cache."
+    ],
+    "answers": [
+     "Unitate de control, UAL și registre.",
+     "Aducere, decodificare, execuție.",
+     "Scrierea instrucțiunilor mașină prin mnemonice.",
+     "O memorie mică și rapidă între procesor și RAM.",
+     "Accesarea adreselor vecine celor folosite recent."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l05": {
+   "ro": {
+    "title": "Logica propozițională: sintaxă, semantică, tabele de adevăr",
+    "theory": "Logica propozițională lucrează cu propoziții care pot fi doar adevărate sau false. Formulele se construiesc din variabile propoziționale (p, q, r) și conectori: negație ¬, conjuncție ∧, disjuncție ∨, implicație →, echivalență ↔. Sintaxa spune ce formule sunt corect construite; semantica le dă valoare: o interpretare (atribuire) dă fiecărei variabile valoarea 0 sau 1, iar valoarea formulei se calculează după tabelele conectorilor. Implicația p → q este falsă doar când p este adevărată și q falsă. O formulă este tautologie (validă) dacă este adevărată în toate interpretările, satisfiabilă dacă este adevărată în cel puțin una, și contradicție dacă nu este adevărată în niciuna. Cu n variabile tabelul de adevăr are 2^n linii. Două formule sunt echivalente dacă au aceeași valoare în toate interpretările; o formula φ este consecință logică a unei mulțimi de formule dacă este adevărată în toate interpretările care le fac adevărate pe acestea.",
+    "sample": "Verificăm dacă ((p → q) ∧ p) → q este tautologie (regula modus ponens). Tabelul are 4 linii. Singura linie în care concluzia q este falsă cu p adevărat este p=1, q=0; acolo p → q este 0, deci premisa (p → q) ∧ p este 0, iar implicația întreagă este 1. În celelalte linii, implicația este și ea 1. Formula este tautologie.",
+    "worked": "Am căutat singura situație care putea face implicația falsă și am arătat că ea nu apare. Tabelul complet confirmă rezultatul.",
+    "exercises": [
+     "Construiește tabelul de adevăr pentru (p ∨ q) → ¬r.",
+     "Verifică dacă p → (q → p) este tautologie.",
+     "Arată că p ∧ ¬p este contradicție.",
+     "Stabilește dacă formulele p → q și ¬q → ¬p sunt echivalente.",
+     "Formalizează: „Dacă plouă și nu am umbrelă, mă ud”."
+    ],
+    "test": [
+     "Ce este o interpretare?",
+     "Când este falsă implicația?",
+     "Ce este o tautologie?",
+     "Câte linii are tabelul cu 3 variabile?",
+     "Ce înseamnă consecință logică?"
+    ],
+    "steps": [
+     "Identifică variabilele propoziționale și conectorii.",
+     "Construiește tabelul de adevăr, cu câte o coloană pentru fiecare subformulă.",
+     "Citește coloana finală: toate 1 – tautologie, cel puțin un 1 – satisfiabilă, niciun 1 – contradicție.",
+     "Greșeala frecventă: să consideri implicația falsă când premisa este falsă; atunci implicația este adevărată."
+    ],
+    "answers": [
+     "O atribuire de valori 0 sau 1 tuturor variabilelor.",
+     "Doar când premisa este adevărată și concluzia falsă.",
+     "O formulă adevărată în toate interpretările.",
+     "8.",
+     "Formula este adevărată în toate interpretările care fac adevărate premisele."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l06": {
+   "ro": {
+    "title": "Echivalențe logice și forme normale",
+    "theory": "Formulele echivalente se pot înlocui una cu alta, ceea ce permite transformarea lor în forme standard. Echivalențe des folosite: p → q ≡ ¬p ∨ q; legile lui De Morgan ¬(p ∧ q) ≡ ¬p ∨ ¬q și ¬(p ∨ q) ≡ ¬p ∧ ¬q; dubla negație ¬¬p ≡ p; distributivitatea p ∨ (q ∧ r) ≡ (p ∨ q) ∧ (p ∨ r). Un literal este o variabilă sau negația ei. Forma normală conjunctivă (FNC) este o conjuncție de clauze, fiecare clauză fiind o disjuncție de literali; forma normală disjunctivă (FND) este o disjuncție de conjuncții de literali. Orice formulă are o FNC și o FND echivalente. Algoritmul: eliminăm ↔ și →, împingem negațiile spre variabile cu De Morgan și dubla negație, apoi distribuim ∨ peste ∧ (pentru FNC) sau ∧ peste ∨ (pentru FND). FNC este forma de intrare a programelor SAT, care decid satisfiabilitatea.",
+    "sample": "Aducem ¬(p → q) ∨ r la FNC. Eliminăm implicația: ¬(¬p ∨ q) ∨ r. De Morgan: (p ∧ ¬q) ∨ r. Distribuim ∨ peste ∧: (p ∨ r) ∧ (¬q ∨ r). Am obținut două clauze.",
+    "worked": "Ordinea pașilor a contat: întâi eliminarea implicației, apoi negațiile, la final distributivitatea. Rezultatul este echivalent cu formula inițială.",
+    "exercises": [
+     "Adu la FNC formula (p ↔ q).",
+     "Adu la FND formula (p ∨ q) ∧ ¬r.",
+     "Demonstrează prin echivalențe că p → q ≡ ¬q → ¬p.",
+     "Simplifică ¬(¬p ∧ ¬q).",
+     "Scrie FND a funcției majoritate a trei variabile."
+    ],
+    "test": [
+     "Cu ce formulă echivalează p → q?",
+     "Ce este un literal?",
+     "Ce este o clauză?",
+     "Ce este FNC?",
+     "În ce ordine se fac pașii transformării?"
+    ],
+    "steps": [
+     "Elimină echivalențele și implicațiile.",
+     "Împinge negațiile până la variabile cu De Morgan și dubla negație.",
+     "Distribuie conectorii până obții forma cerută și verifică pe o interpretare.",
+     "Greșeala frecventă: să distribui înainte de a împinge negațiile; obții o formulă care nu este în formă normală."
+    ],
+    "answers": [
+     "Cu ¬p ∨ q.",
+     "O variabilă sau negația ei.",
+     "O disjuncție de literali.",
+     "O conjuncție de clauze.",
+     "Eliminarea implicațiilor, negațiile spre variabile, distributivitatea."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l07": {
+   "ro": {
+    "title": "Metoda rezoluției",
+    "theory": "Rezoluția este o metodă de demonstrare automată care lucrează pe formule în FNC, scrise ca mulțimi de clauze. Regula rezoluției: din clauzele C1 ∨ p și C2 ∨ ¬p se deduce rezolventul C1 ∨ C2 (literalul p și negația lui se elimină). Dacă din mulțimea de clauze se poate deduce clauza vidă □ (de exemplu din p și ¬p), mulțimea este nesatisfiabilă. Pentru a demonstra că φ este consecință a premiselor, folosim reducerea la absurd: adăugăm negația lui φ la premise, aducem totul la FNC și căutăm clauza vidă. Metoda este corectă (nu deduce nimic fals) și completă pentru nesatisfiabilitate (dacă mulțimea este nesatisfiabilă, clauza vidă poate fi derivată). Rezoluția stă la baza limbajului Prolog și a multor demonstratoare automate.",
+    "sample": "Demonstrăm că din p ∨ q, p → r și q → r rezultă r. Clauzele premiselor: {p ∨ q}, {¬p ∨ r}, {¬q ∨ r}; adăugăm negația concluziei {¬r}. Din {¬p ∨ r} și {¬r} obținem {¬p}; din {¬q ∨ r} și {¬r} obținem {¬q}; din {p ∨ q} și {¬p} obținem {q}; din {q} și {¬q} obținem □.",
+    "worked": "Clauza vidă arată că premisele împreună cu negația concluziei nu pot fi adevărate simultan. Deci concluzia r este consecință logică a premiselor.",
+    "exercises": [
+     "Demonstrează prin rezoluție modus ponens.",
+     "Arată că {p ∨ q, ¬p ∨ q, p ∨ ¬q, ¬p ∨ ¬q} este nesatisfiabilă.",
+     "Aplică rezoluția pentru tranzitivitatea implicației.",
+     "Explică de ce se adaugă negația concluziei.",
+     "Găsește o mulțime de clauze din care nu se poate obține □ și dă o interpretare care o satisface."
+    ],
+    "test": [
+     "Ce este un rezolvent?",
+     "Ce înseamnă clauza vidă?",
+     "Pe ce formă lucrează rezoluția?",
+     "De ce adăugăm negația concluziei?",
+     "Ce limbaj de programare folosește rezoluția?"
+    ],
+    "steps": [
+     "Adu premisele și negația concluziei la FNC și scrie lista clauzelor.",
+     "Alege perechi de clauze care conțin un literal și negația lui și calculează rezolvenții.",
+     "Continuă până obții clauza vidă sau nu mai apar clauze noi.",
+     "Greșeala frecventă: să elimini două perechi de literali opuși dintr-o dată; regula rezoluției elimină o singură pereche."
+    ],
+    "answers": [
+     "Clauza obținută din două clauze prin eliminarea unei perechi p și ¬p.",
+     "Contradicția: mulțimea de clauze este nesatisfiabilă.",
+     "Pe formă normală conjunctivă, ca mulțime de clauze.",
+     "Pentru a demonstra prin reducere la absurd.",
+     "Prolog."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l08": {
+   "ro": {
+    "title": "Logica predicatelor de ordinul I",
+    "theory": "Logica propozițională nu poate exprima afirmații ca „toți studenții au un număr matricol”. Logica predicatelor introduce un domeniu de obiecte, variabile care iau valori în el, constante, funcții și predicate (proprietăți sau relații, ca Student(x) sau Mai_mare(x, y)), precum și cuantificatorii universal ∀ („pentru orice”) și existențial ∃ („există”). „Toți studenții sunt înscriși” se scrie ∀x (Student(x) → Înscris(x)), iar „unii studenți lucrează” se scrie ∃x (Student(x) ∧ Lucrează(x)). Negația schimbă cuantificatorul: ¬∀x P(x) ≡ ∃x ¬P(x) și ¬∃x P(x) ≡ ∀x ¬P(x). O variabilă este legată dacă se află sub un cuantificator care o leagă, altfel este liberă. Ordinea cuantificatorilor diferiți contează: ∀x ∃y Mai_mare(y, x) pe numere naturale este adevărată, dar ∃y ∀x Mai_mare(y, x) este falsă.",
+    "sample": "Formalizăm „orice program care compilează și trece testele poate fi livrat”: ∀x ((Program(x) ∧ Compilează(x) ∧ TreceTestele(x)) → Livrabil(x)). Negația, „există un program care compilează, trece testele și nu poate fi livrat”: ∃x (Program(x) ∧ Compilează(x) ∧ TreceTestele(x) ∧ ¬Livrabil(x)).",
+    "worked": "Cuantificatorul universal merge cu implicația, iar cel existențial cu conjuncția. La negare, ∀ devine ∃, iar implicația devine conjuncție cu concluzia negată.",
+    "exercises": [
+     "Formalizează: „Niciun număr prim mai mare decât 2 nu este par”.",
+     "Neagă formula ∀x ∃y P(x, y) și împinge negația spre predicat.",
+     "Stabilește variabilele libere și legate în ∀x (P(x, y) → ∃y Q(y)).",
+     "Explică diferența dintre ∀x ∃y și ∃y ∀x pe un exemplu.",
+     "Formalizează: „Unii studenți promovează toate examenele”."
+    ],
+    "test": [
+     "Ce aduce nou logica predicatelor?",
+     "Ce conector merge de obicei cu ∀?",
+     "Cum se neagă ∀x P(x)?",
+     "Ce este o variabilă liberă?",
+     "Contează ordinea cuantificatorilor?"
+    ],
+    "steps": [
+     "Stabilește domeniul și predicatele de care ai nevoie.",
+     "Scrie formula: ∀ cu implicație, ∃ cu conjuncție.",
+     "Verifică formula citind-o înapoi în limbaj natural.",
+     "Greșeala frecventă: să scrii ∀x (Student(x) ∧ Înscris(x)); asta înseamnă că toate obiectele domeniului sunt studenți înscriși."
+    ],
+    "answers": [
+     "Variabile, predicate și cuantificatori.",
+     "Implicația.",
+     "Prin ∃x ¬P(x).",
+     "O variabilă care nu este legată de niciun cuantificator.",
+     "Da, pentru cuantificatori diferiți."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l09": {
+   "ro": {
+    "title": "De la problemă la program: specificare, abstractizare și testare",
+    "theory": "Un program bun începe cu o specificare clară: ce date primește funcția, ce condiții trebuie să îndeplinească ele (precondiția), ce rezultat întoarce și ce relație are cu datele (postcondiția). Problema se descompune în funcții mici, fiecare cu o singură responsabilitate (abstractizare procedurală), iar datele se grupează în structuri cu operații proprii. Testarea verifică dacă implementarea respectă specificarea: pentru fiecare funcție scriem teste cu date obișnuite, cu cazuri-limită (vector vid, un element, valori maxime) și cu date care încalcă precondiția, când trebuie semnalată o eroare. Testele automate (unitare) se rulează după fiecare modificare, ca să descoperim imediat ce am stricat. În dezvoltarea ghidată de teste (TDD) testul se scrie înaintea funcției.",
+    "sample": "Specificăm funcția pozitie_maxim(v, n). Precondiție: n ≥ 1. Postcondiție: întoarce cel mai mic indice k pentru care v[k] este maxim. Teste: [3, 7, 2] → 1; [5] → 0; [4, 9, 9] → 1 (primul maxim); [−2, −8] → 0. Prima implementare cu > în loc de ≥ trece toate testele, iar o variantă cu ≥ ar pica testul [4, 9, 9].",
+    "worked": "Postcondiția precisă (primul maxim) a dus la un test care deosebește implementările. Cazurile-limită au verificat vectorul de un element și valorile negative.",
+    "exercises": [
+     "Scrie specificarea unei funcții care verifică dacă un număr este prim.",
+     "Propune teste pentru o funcție care inversează un șir de caractere.",
+     "Descompune în funcții o aplicație de gestiune a notelor.",
+     "Scrie un test care să detecteze o eroare de tipul „unu în plus” la o buclă.",
+     "Explică ordinea pașilor în TDD."
+    ],
+    "test": [
+     "Ce este precondiția?",
+     "Ce este postcondiția?",
+     "Ce sunt cazurile-limită?",
+     "De ce automatizăm testele?",
+     "Ce înseamnă TDD?"
+    ],
+    "steps": [
+     "Scrie specificarea: date, precondiții, rezultat, postcondiții.",
+     "Scrie testele, inclusiv cazurile-limită, înainte sau imediat după implementare.",
+     "Implementează funcția și rulează testele după fiecare modificare.",
+     "Greșeala frecventă: să testezi doar cu date „frumoase”; erorile apar de obicei la vectorul vid, la un element sau la valori egale."
+    ],
+    "answers": [
+     "Condiția pe care trebuie să o îndeplinească datele de intrare.",
+     "Relația garantată între date și rezultat.",
+     "Date de la marginea domeniului: vid, un element, valori extreme.",
+     "Ca să le rulăm după fiecare modificare și să vedem imediat regresiile.",
+     "Dezvoltare ghidată de teste: testul se scrie înaintea codului."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l10": {
+   "ro": {
+    "title": "Funcții, transmiterea parametrilor și stiva de apeluri",
+    "theory": "Fiecare apel de funcție primește un cadru (înregistrare de activare) pe stiva de apeluri, cu parametrii, variabilele locale și adresa de revenire; la terminarea funcției cadrul dispare, deci variabilele locale nu mai există. Parametrii pot fi transmiși prin valoare (funcția primește o copie, modificările nu se văd în afară) sau prin referință/adresă (funcția lucrează pe variabila originală). În C transmiterea este întotdeauna prin valoare; pentru a modifica o variabilă a apelantului transmitem adresa ei (un pointer). În C++ există și referințele (int &x). Vectorii transmiși în C se convertesc la pointer către primul element, deci funcția poate modifica elementele și nu cunoaște lungimea – aceasta se transmite separat. O eroare gravă este întoarcerea adresei unei variabile locale: după revenire, memoria ei nu mai este validă.",
+    "sample": "Funcția void schimba(int *a, int *b) { int t = *a; *a = *b; *b = t; } apelată cu schimba(&x, &y) interschimbă x și y. Varianta void schimba(int a, int b), cu același corp scris fără steluțe, ar schimba doar copiile, iar x și y ar rămâne neschimbate după apel.",
+    "worked": "Transmițând adresele, funcția a modificat variabilele apelantului. Prin valoare, modificările ar fi rămas în cadrul funcției, care dispare la revenire.",
+    "exercises": [
+     "Desenează stiva de apeluri pentru main → f → g.",
+     "Scrie o funcție C care întoarce prin parametri minimul și maximul unui vector.",
+     "Explică ce afișează un program care modifică un parametru transmis prin valoare.",
+     "Rescrie interschimbarea în C++ cu referințe.",
+     "Explică de ce este greșită funcția care întoarce adresa unui vector local."
+    ],
+    "test": [
+     "Ce conține un cadru de stivă?",
+     "Ce înseamnă transmitere prin valoare?",
+     "Cum modificăm în C o variabilă a apelantului?",
+     "Cum se transmite un vector în C?",
+     "De ce nu întoarcem adresa unei variabile locale?"
+    ],
+    "steps": [
+     "Stabilește ce parametri trebuie doar citiți și ce parametri trebuie modificați.",
+     "Transmite prin valoare datele citite și prin adresă sau referință cele modificate.",
+     "Urmărește pe desenul stivei ce se întâmplă la apel și la revenire.",
+     "Greșeala frecventă: să întorci un pointer către o variabilă locală; după revenire, memoria ei poate fi suprascrisă oricând."
+    ],
+    "answers": [
+     "Parametrii, variabilele locale și adresa de revenire.",
+     "Funcția primește o copie a valorii.",
+     "Transmitem adresa ei printr-un pointer.",
+     "Ca pointer către primul element, fără lungime.",
+     "Pentru că variabila nu mai există după revenirea din funcție."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l11": {
+   "ro": {
+    "title": "Pointeri și memorie alocată dinamic",
+    "theory": "Un pointer este o variabilă care memorează o adresă. Operatorul & dă adresa unei variabile, iar * accesează valoarea de la o adresă. Aritmetica pointerilor ține cont de tipul elementului: p + 1 indică următorul element, nu următorul octet. Memoria unui program are mai multe zone: zona statică (variabile globale), stiva (variabile locale, eliberate automat) și heap-ul (memorie cerută explicit, care trăiește până o eliberăm). În C, malloc(n * sizeof(int)) cere memorie din heap și întoarce NULL dacă nu reușește; free(p) o eliberează. În C++ folosim new și delete (sau, mai sigur, containere și pointeri inteligenți). Erori tipice: scurgeri de memorie (memorie neeliberată), folosirea memoriei după eliberare (pointer agățat), eliberarea de două ori, accesul în afara zonei alocate. Instrumente ca Valgrind sau AddressSanitizer le detectează.",
+    "sample": "Citim n numere într-un vector alocat dinamic: int *v = malloc(n * sizeof(int)); verificăm dacă v == NULL; citim și prelucrăm; la final free(v); v = NULL. Dacă uitam free, într-o funcție apelată de mii de ori programul ar fi consumat tot mai multă memorie.",
+    "worked": "Alocarea dinamică permite o dimensiune cunoscută abia la rulare. Verificarea lui NULL și eliberarea la final sunt la fel de importante ca alocarea.",
+    "exercises": [
+     "Scrie o funcție care întoarce un vector alocat dinamic cu primele n pătrate perfecte.",
+     "Explică diferența dintre stivă și heap pe un exemplu.",
+     "Găsește erorile dintr-un program care folosește memoria după free.",
+     "Calculează adresa lui p + 3 pentru un pointer la int.",
+     "Realocă un vector care se umple, dublându-i capacitatea."
+    ],
+    "test": [
+     "Ce memorează un pointer?",
+     "Ce face operatorul *?",
+     "Ce zone de memorie are un program?",
+     "Ce întoarce malloc când nu reușește?",
+     "Ce este o scurgere de memorie?"
+    ],
+    "steps": [
+     "Stabilește cât trăiește data: pe durata funcției (stivă) sau mai mult (heap).",
+     "Alocă, verifică rezultatul și folosește memoria doar în limitele alocate.",
+     "Eliberează memoria o singură dată, când nu mai este folosită, și pune pointerul pe NULL.",
+     "Greșeala frecventă: să folosești pointerul după free; memoria poate fi deja dată altei variabile."
+    ],
+    "answers": [
+     "O adresă de memorie.",
+     "Accesează valoarea de la adresa memorată.",
+     "Zona statică, stiva și heap-ul.",
+     "NULL.",
+     "Memorie alocată și neeliberată, care nu mai poate fi folosită."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l12": {
+   "ro": {
+    "title": "Recursivitatea: caz de bază, stivă și eficiență",
+    "theory": "O funcție recursivă se apelează pe ea însăși pentru o problemă mai mică. Corectitudinea se sprijină pe două lucruri: cazul de bază, rezolvat direct, și pasul recursiv, care reduce problema spre cazul de bază (raționament prin inducție). Fiecare apel ocupă un cadru pe stivă, deci o recursivitate prea adâncă produce depășirea stivei. Eficiența depinde de numărul de apeluri: factorialul face n apeluri, dar Fibonacci scris naiv, fib(n) = fib(n − 1) + fib(n − 2), recalculează aceleași valori și face un număr exponențial de apeluri. Remediul este memoizarea (păstrăm rezultatele calculate într-un tabel) sau varianta iterativă. Recursivitatea este naturală pentru structuri recursive (arbori, expresii) și pentru metodele divide et impera.",
+    "sample": "Calculăm fib(40). Varianta naivă face peste 300 de milioane de apeluri. Cu memoizare, un vector memo de 41 de elemente inițializat cu −1 face ca fiecare valoare să fie calculată o singură dată: aproximativ 80 de apeluri, iar rezultatul, 102334155, apare instantaneu.",
+    "worked": "Problema nu era recursivitatea, ci recalcularea acelorași subprobleme. Memoizarea a transformat timpul exponențial în timp liniar.",
+    "exercises": [
+     "Scrie recursiv suma cifrelor unui număr.",
+     "Desenează arborele de apeluri pentru fib(5) naiv.",
+     "Adaugă memoizare funcției fib.",
+     "Scrie recursiv căutarea binară și stabilește adâncimea maximă.",
+     "Transformă factorialul recursiv în variantă iterativă."
+    ],
+    "test": [
+     "Din ce părți este formată o funcție recursivă?",
+     "Ce se întâmplă la o recursivitate prea adâncă?",
+     "De ce este lent Fibonacci naiv?",
+     "Ce este memoizarea?",
+     "Pentru ce structuri este naturală recursivitatea?"
+    ],
+    "steps": [
+     "Stabilește cazul de bază și rezultatul lui.",
+     "Scrie pasul recursiv, verificând că problema se micșorează spre cazul de bază.",
+     "Numără apelurile; dacă aceleași subprobleme se repetă, adaugă memoizare.",
+     "Greșeala frecventă: să uiți cazul de bază sau să nu micșorezi problema; recursivitatea nu se oprește până la depășirea stivei."
+    ],
+    "answers": [
+     "Cazul de bază și pasul recursiv.",
+     "Depășirea stivei.",
+     "Pentru că recalculează aceleași valori de foarte multe ori.",
+     "Păstrarea rezultatelor calculate pentru a nu le recalcula.",
+     "Pentru arbori, expresii și metodele divide et impera."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l13": {
+   "ro": {
+    "title": "Analiza complexității: notațiile O, Θ și Ω",
+    "theory": "Eficiența unui algoritm se măsoară prin numărul de operații elementare în funcție de dimensiunea datelor n, nu prin secunde, care depind de calculator. Notația O dă o margine superioară: f(n) = O(g(n)) dacă există c > 0 și n0 astfel încât f(n) ≤ c·g(n) pentru orice n ≥ n0. Ω dă o margine inferioară, iar Θ înseamnă ambele (aceeași creștere). Constantele și termenii mai mici se ignoră: 3n² + 5n + 7 = Θ(n²). Clase uzuale, în ordine crescătoare: O(1), O(log n), O(n), O(n log n), O(n²), O(2^n). Analizăm cazul cel mai defavorabil, uneori și cazul mediu; pentru structuri cu operații ieftine și rare operații scumpe folosim analiza amortizată (de exemplu adăugarea la un vector dinamic care își dublează capacitatea are cost amortizat O(1)). Și memoria suplimentară se analizează la fel.",
+    "sample": "Bucla for i = 0..n−1, for j = 0..i−1 execută corpul de 0 + 1 + … + (n − 1) = n(n − 1)/2 ori, deci are complexitatea Θ(n²). Pentru n = 10⁵ înseamnă circa 5 × 10⁹ operații, prea mult pentru o secundă; un algoritm O(n log n) ar face aproximativ 1,7 × 10⁶.",
+    "worked": "Suma aritmetică a dat numărul exact de pași. Estimarea pentru n concret arată de ce clasa de complexitate decide dacă un program este utilizabil.",
+    "exercises": [
+     "Stabilește complexitatea unei bucle în care i se dublează la fiecare pas.",
+     "Arată din definiție că 5n + 3 = O(n).",
+     "Ordonează crescător: n log n, n², log n, 2^n, n.",
+     "Analizează complexitatea căutării binare.",
+     "Explică de ce adăugarea la un vector dinamic are cost amortizat O(1)."
+    ],
+    "test": [
+     "Ce măsoară complexitatea?",
+     "Ce înseamnă notația O?",
+     "Ce înseamnă Θ?",
+     "De ce ignorăm constantele?",
+     "Ce este analiza amortizată?"
+    ],
+    "steps": [
+     "Identifică operația care se repetă cel mai des.",
+     "Numără de câte ori se execută în funcție de n, de obicei ca sumă.",
+     "Păstrează termenul dominant și încadrează-l într-o clasă.",
+     "Greșeala frecventă: să aduni complexitățile buclelor imbricate în loc să le înmulțești."
+    ],
+    "answers": [
+     "Creșterea numărului de operații în funcție de dimensiunea datelor.",
+     "O margine superioară a creșterii.",
+     "Margine superioară și inferioară de același ordin.",
+     "Pentru că nu schimbă ordinul de creștere pentru n mare.",
+     "Costul mediu pe operație într-un șir lung de operații."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l14": {
+   "ro": {
+    "title": "Tipuri abstracte de date: liste înlănțuite, stive și cozi",
+    "theory": "Un tip abstract de date (TAD) este definit prin operațiile sale, nu prin implementare. Lista înlănțuită memorează elementele în noduri alocate separat, fiecare cu valoare și pointer către următorul (simplu înlănțuită) sau și către anterior (dublu înlănțuită). Inserarea și ștergerea după un nod cunoscut costă O(1), dar accesul la poziția k costă O(k), spre deosebire de vector, unde accesul este O(1) și inserarea la mijloc O(n). Stiva (LIFO – ultimul intrat, primul ieșit) are operațiile push, pop și top; se folosește la stiva de apeluri, la evaluarea expresiilor și la operația „anulează”. Coada (FIFO – primul intrat, primul ieșit) are operațiile enqueue și dequeue; se folosește la planificare, buffere și parcurgerea în lățime. Ambele se pot implementa cu vector circular sau cu listă, cu operații O(1).",
+    "sample": "Verificăm parantezele expresiei ( [ { } ] ( ) ) cu o stivă: la fiecare paranteză deschisă facem push; la una închisă, vârful trebuie să fie perechea ei și facem pop. La final stiva trebuie să fie goală. Pentru ( [ ) ] verificarea eșuează la ), pentru că vârful este [.",
+    "worked": "Stiva reține ordinea inversă a deschiderilor, exact ce trebuie pentru închideri. Condiția de stivă goală la final prinde parantezele rămase deschise.",
+    "exercises": [
+     "Implementează o stivă cu listă simplu înlănțuită.",
+     "Implementează o coadă cu vector circular.",
+     "Inversează o listă simplu înlănțuită fără memorie suplimentară.",
+     "Evaluează o expresie în formă postfixată cu o stivă.",
+     "Compară vectorul și lista pentru acces, inserare și memorie."
+    ],
+    "test": [
+     "Ce este un tip abstract de date?",
+     "Ce cost are accesul la poziția k într-o listă?",
+     "Ce înseamnă LIFO?",
+     "Unde se folosește coada?",
+     "Cum se implementează eficient o coadă cu vector?"
+    ],
+    "steps": [
+     "Stabilește operațiile de care ai nevoie și cât de des le folosești.",
+     "Alege structura potrivită: vector, listă, stivă sau coadă.",
+     "Implementează și tratează cazurile-limită: structură goală, un singur element.",
+     "Greșeala frecventă: să faci pop pe o stivă goală fără verificare; programul citește memorie invalidă."
+    ],
+    "answers": [
+     "Un tip definit prin operațiile sale, independent de implementare.",
+     "O(k).",
+     "Ultimul intrat, primul ieșit.",
+     "La planificare, buffere și parcurgerea în lățime.",
+     "Cu vector circular, cu indici de început și sfârșit."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l15": {
+   "ro": {
+    "title": "Tabele de dispersie",
+    "theory": "Tabela de dispersie (hash table) implementează un dicționar (cheie → valoare) cu operații în timp mediu O(1). O funcție de dispersie transformă cheia într-un indice dintr-un vector de m poziții, de exemplu h(k) = k mod m pentru chei numerice. Când două chei primesc același indice apare o coliziune. Ea se rezolvă prin înlănțuire (fiecare poziție ține o listă de elemente) sau prin adresare deschisă (căutăm altă poziție liberă, de exemplu verificând pozițiile următoare – sondare liniară). Factorul de încărcare α = n/m determină performanța: la înlănțuire, căutarea costă în medie O(1 + α); când α crește peste un prag, tabela se mărește și elementele se redistribuie (rehashing). O funcție de dispersie bună distribuie uniform cheile; cazul cel mai defavorabil, cu toate cheile pe aceeași poziție, costă O(n).",
+    "sample": "Inserăm cheile 12, 22, 7, 17, 5 într-o tabelă cu m = 5 și h(k) = k mod 5, cu înlănțuire. Pozițiile: 12 → 2, 22 → 2, 7 → 2, 17 → 2, 5 → 0. Patru chei ajung pe poziția 2, deci căutarea lui 17 parcurge o listă de 4. Cu m = 7: 12 → 5, 22 → 1, 7 → 0, 17 → 3, 5 → 5 – o singură coliziune.",
+    "worked": "Toate cheile aveau același rest la 5, deci funcția a distribuit prost. Un m prim, care nu se potrivește cu tiparul cheilor, a împrăștiat cheile.",
+    "exercises": [
+     "Inserează cheile 10, 21, 32, 43 cu m = 11 și sondare liniară.",
+     "Calculează factorul de încărcare și decide când faci rehashing.",
+     "Propune o funcție de dispersie pentru șiruri de caractere.",
+     "Folosește o tabelă de dispersie pentru a număra aparițiile cuvintelor dintr-un text.",
+     "Explică de ce cazul cel mai defavorabil este O(n)."
+    ],
+    "test": [
+     "Ce face funcția de dispersie?",
+     "Ce este o coliziune?",
+     "Ce metode de rezolvare a coliziunilor cunoști?",
+     "Ce este factorul de încărcare?",
+     "Când se face rehashing?"
+    ],
+    "steps": [
+     "Alege dimensiunea tabelei și funcția de dispersie.",
+     "Calculează indicele fiecărei chei și rezolvă coliziunile prin metoda aleasă.",
+     "Urmărește factorul de încărcare și mărește tabela când trece de prag.",
+     "Greșeala frecventă: să alegi m ca putere a lui 10 pentru chei cu tipar zecimal; multe chei ajung pe aceleași poziții."
+    ],
+    "answers": [
+     "Transformă cheia într-un indice din tabelă.",
+     "Două chei cu același indice.",
+     "Înlănțuirea și adresarea deschisă.",
+     "Raportul dintre numărul de elemente și numărul de poziții.",
+     "Când factorul de încărcare depășește un prag ales."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l16": {
+   "ro": {
+    "title": "Arbori binari de căutare și arbori echilibrați",
+    "theory": "Un arbore binar de căutare (ABC) respectă regula: pentru fiecare nod, toate cheile din subarborele stâng sunt mai mici, iar toate cheile din subarborele drept sunt mai mari. Căutarea pornește din rădăcină și coboară la stânga sau la dreapta, deci costă O(h), unde h este înălțimea. Inserarea adaugă o frunză pe drumul de căutare. Ștergerea unui nod cu doi fii îl înlocuiește cu succesorul (cea mai mică cheie din subarborele drept). Parcurgerea în inordine (stânga, rădăcină, dreapta) dă cheile sortate crescător. Dacă inserăm cheile deja sortate, arborele degenerează într-o listă și h = n. Arborii echilibrați (AVL, roșu-negru) refac echilibrul prin rotații după fiecare inserare sau ștergere, garantând h = O(log n). La AVL, diferența de înălțime dintre subarborii oricărui nod este cel mult 1.",
+    "sample": "Inserăm 50, 30, 70, 20, 40, 60, 80: arborele are înălțimea 3 (nivelurile 50; 30 și 70; 20, 40, 60, 80), iar inordinea dă 20 30 40 50 60 70 80. Inserând aceleași chei în ordinea 20, 30, 40, 50, 60, 70, 80, fiecare nod are doar fiu drept și înălțimea devine 7.",
+    "worked": "Aceleași chei pot da arbori foarte diferiți. Ordinea de inserare decide înălțimea, de aceea arborii echilibrați corectează forma prin rotații.",
+    "exercises": [
+     "Construiește ABC-ul pentru cheile 8, 3, 10, 1, 6, 14, 4, 7.",
+     "Șterge din arborele construit nodul 3 și desenează rezultatul.",
+     "Scrie recursiv căutarea într-un ABC.",
+     "Aplică o rotație simplă la dreapta pe un arbore dezechilibrat.",
+     "Verifică dacă un arbore dat este AVL."
+    ],
+    "test": [
+     "Ce regulă respectă un ABC?",
+     "Ce cost are căutarea?",
+     "Ce dă parcurgerea în inordine?",
+     "Când degenerează un ABC?",
+     "Cum refac arborii AVL echilibrul?"
+    ],
+    "steps": [
+     "Compară cheia căutată cu rădăcina și coboară în subarborele potrivit.",
+     "La inserare, adaugă frunza unde s-a oprit căutarea; la ștergere, tratează separat cazurile cu 0, 1 sau 2 fii.",
+     "Verifică echilibrul și, dacă este nevoie, aplică rotațiile.",
+     "Greșeala frecventă: să verifici regula ABC doar între părinte și fii direcți; ea trebuie respectată de întregul subarbore."
+    ],
+    "answers": [
+     "Cheile din stânga sunt mai mici, iar cele din dreapta mai mari decât nodul.",
+     "O(h), unde h este înălțimea.",
+     "Cheile în ordine crescătoare.",
+     "Când cheile sunt inserate în ordine sortată.",
+     "Prin rotații după inserare sau ștergere."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l17": {
+   "ro": {
+    "title": "Heap-uri și cozi de priorități",
+    "theory": "O coadă de priorități extrage mereu elementul cu prioritatea cea mai mare (sau cea mai mică). Implementarea uzuală este heap-ul binar: un arbore binar complet, memorat într-un vector, în care fiecare părinte este mai mare sau egal decât fiii (max-heap). Cu indexare de la 0, fiii nodului i sunt la 2i + 1 și 2i + 2, iar părintele la (i − 1)/2, cu împărțire întreagă. Inserarea pune elementul la final și îl urcă prin interschimbări cu părintele cât timp este mai mare: O(log n). Extragerea maximului mută ultimul element în rădăcină și îl coboară spre fiul mai mare: O(log n). Construirea unui heap din n elemente, coborând nodurile de la jumătate spre început, costă O(n). Heapsort construiește heap-ul și extrage repetat maximul: O(n log n), fără memorie suplimentară, dar nu este stabil. Cozile de priorități se folosesc la algoritmul lui Dijkstra, la planificare și la simulări.",
+    "sample": "Inserăm în max-heap-ul [9, 5, 8, 1, 3] valoarea 7. Ea ajunge la indicele 5, cu părintele la indicele 2 (valoarea 8); 7 < 8, deci rămâne acolo: [9, 5, 8, 1, 3, 7]. Inserăm apoi 10 la indicele 6, cu părintele tot 8: îl interschimbăm, apoi îl comparăm cu 9 de la indicele 0 și îl interschimbăm: [10, 5, 9, 1, 3, 7, 8].",
+    "worked": "Elementul urcă doar pe drumul spre rădăcină, deci face cel mult log n pași. Vectorul păstrează forma de arbore complet fără pointeri.",
+    "exercises": [
+     "Construiește un max-heap din [3, 9, 2, 7, 5, 8].",
+     "Extrage maximul din heap-ul obținut și reface proprietatea de heap.",
+     "Sortează cu heapsort vectorul [4, 1, 6, 2].",
+     "Implementează un min-heap pentru planificarea sarcinilor după termen.",
+     "Explică de ce heapsort nu este stabil."
+    ],
+    "test": [
+     "Ce proprietate are un max-heap?",
+     "Unde sunt fiii nodului i?",
+     "Ce cost are inserarea?",
+     "Ce cost are construirea unui heap din n elemente?",
+     "Unde se folosesc cozile de priorități?"
+    ],
+    "steps": [
+     "Pune elementul nou la final sau ultimul element în rădăcină.",
+     "Urcă-l sau coboară-l prin interschimbări până când proprietatea de heap este refăcută.",
+     "Verifică pe vector relațiile părinte–fii pentru nodurile modificate.",
+     "Greșeala frecventă: să cobori elementul spre fiul mai mic; trebuie interschimbat cu fiul mai mare, altfel proprietatea se strică."
+    ],
+    "answers": [
+     "Fiecare părinte este mai mare sau egal decât fiii.",
+     "La 2i + 1 și 2i + 2.",
+     "O(log n).",
+     "O(n).",
+     "La Dijkstra, la planificare și la simulări."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l18": {
+   "ro": {
+    "title": "Sortări eficiente: interclasare și sortare rapidă",
+    "theory": "Sortările simple (selecție, inserție, bule) au complexitatea O(n²) în cazul defavorabil. Sortarea prin interclasare (mergesort) împarte vectorul în două jumătăți, le sortează recursiv și le interclasează: O(n log n) în orice caz, este stabilă (păstrează ordinea elementelor egale), dar folosește memorie suplimentară O(n). Sortarea rapidă (quicksort) alege un pivot, rearanjează vectorul astfel încât elementele mai mici să ajungă în stânga și cele mai mari în dreapta (partiționare), apoi sortează recursiv cele două părți: O(n log n) în medie, foarte rapidă în practică, dar O(n²) în cel mai rău caz, când pivotul este mereu extremul (de exemplu primul element la un vector deja sortat); un pivot aleator face cazul rău foarte improbabil. Orice sortare bazată doar pe comparații are nevoie de Ω(n log n) comparații în cazul cel mai defavorabil. Sortarea prin numărare evită comparațiile și are O(n + k) pentru valori întregi între 0 și k.",
+    "sample": "Sortăm prin interclasare [5, 2, 4, 1]. Împărțim în [5, 2] și [4, 1], apoi în elemente singure. Interclasăm: [2, 5] și [1, 4]. Interclasarea finală compară 2 cu 1 (ia 1), 2 cu 4 (ia 2), 5 cu 4 (ia 4), apoi adaugă 5: [1, 2, 4, 5].",
+    "worked": "Vectorul se înjumătățește de log n ori, iar interclasarea pe fiecare nivel costă O(n). De aici rezultă O(n log n).",
+    "exercises": [
+     "Sortează rapid [3, 8, 1, 9, 4] cu primul element ca pivot și arată partițiile.",
+     "Construiește un vector pentru care quicksort cu primul element ca pivot face O(n²).",
+     "Scrie funcția de interclasare a doi vectori sortați.",
+     "Sortează prin numărare notele de la 1 la 10 ale unei grupe.",
+     "Explică pe un exemplu ce înseamnă sortare stabilă."
+    ],
+    "test": [
+     "Ce complexitate are mergesort?",
+     "De ce memorie are nevoie mergesort?",
+     "Când ajunge quicksort la O(n²)?",
+     "Ce înseamnă sortare stabilă?",
+     "Care este limita inferioară pentru sortările prin comparații?"
+    ],
+    "steps": [
+     "Alege algoritmul după date: dimensiune, memorie disponibilă, nevoie de stabilitate.",
+     "Aplică pașii: împărțire, rezolvare recursivă, combinare sau partiționare.",
+     "Verifică pe un exemplu mic și analizează cazul cel mai defavorabil.",
+     "Greșeala frecventă: să alegi mereu primul element ca pivot pe date aproape sortate; quicksort devine pătratic."
+    ],
+    "answers": [
+     "O(n log n) în orice caz.",
+     "De memorie suplimentară O(n).",
+     "Când pivotul este mereu cel mai mic sau cel mai mare element.",
+     "Elementele egale își păstrează ordinea inițială.",
+     "Ω(n log n) comparații."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l19": {
+   "ro": {
+    "title": "Clase, obiecte și încapsulare",
+    "theory": "Programarea orientată obiect grupează datele și operațiile care le prelucrează în clase. O clasă descrie un tip (atribute și metode), iar un obiect este o instanță concretă a ei. Încapsularea ascunde reprezentarea internă: atributele sunt private, iar accesul se face prin metode publice care păstrează invariantul clasei – condiția care trebuie să fie mereu adevărată pentru un obiect valid (de exemplu soldul unui cont nu este negativ). Astfel, reprezentarea poate fi schimbată fără a modifica restul programului. În C++ membrii au specificatorii public, private și protected; metodele care nu modifică obiectul se marchează const. Un TAD implementat ca clasă are interfața (declarațiile din fișierul .h) separată de implementare (fișierul .cpp).",
+    "sample": "Clasa Cont are atributul privat sold și metodele depune(suma) și retrage(suma). retrage verifică dacă suma este pozitivă și nu depășește soldul; altfel semnalează o eroare. Codul din afara clasei nu poate scrie cont.sold = −100, deci invariantul „sold ≥ 0” nu poate fi încălcat.",
+    "worked": "Ascunderea atributului a mutat toate verificările într-un singur loc. Restul programului lucrează doar prin metode care păstrează invariantul.",
+    "exercises": [
+     "Scrie clasa Fractie cu numărător și numitor, care păstrează fracția simplificată.",
+     "Stabilește invariantul clasei Interval [a, b].",
+     "Separă clasa Cont în fișier de interfață și fișier de implementare.",
+     "Marchează corect metodele const ale unei clase Punct.",
+     "Explică ce s-ar strica dacă atributele clasei Fractie ar fi publice."
+    ],
+    "test": [
+     "Ce este o clasă?",
+     "Ce este un obiect?",
+     "Ce înseamnă încapsulare?",
+     "Ce este invariantul unei clase?",
+     "Ce înseamnă o metodă const?"
+    ],
+    "steps": [
+     "Stabilește datele clasei și invariantul lor.",
+     "Declară atributele private și metodele publice care păstrează invariantul.",
+     "Testează obiectul cu operații valide și invalide.",
+     "Greșeala frecventă: să faci toate atributele publice „ca să fie mai simplu”; orice cod poate strica invariantul."
+    ],
+    "answers": [
+     "Descrierea unui tip: atribute și metode.",
+     "O instanță concretă a unei clase.",
+     "Ascunderea reprezentării interne în spatele unei interfețe.",
+     "Condiția mereu adevărată pentru un obiect valid.",
+     "O metodă care nu modifică obiectul."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l20": {
+   "ro": {
+    "title": "Constructori, destructori și gestionarea resurselor",
+    "theory": "Constructorul inițializează obiectul la creare și trebuie să stabilească invariantul; poate avea parametri și valori implicite, iar lista de inițializare inițializează direct atributele. Destructorul se apelează automat când obiectul își termină durata de viață și eliberează resursele (memorie, fișiere, conexiuni). Principiul RAII (achiziția resursei este inițializare) leagă o resursă de durata de viață a unui obiect: resursa este preluată în constructor și eliberată în destructor, deci nu se pierde nici dacă apare o excepție. Dacă o clasă gestionează direct memorie, copierea implicită copiază doar pointerul (copiere superficială), iar două obiecte ar elibera aceeași zonă. De aceea, conform regulii celor trei, o clasă care are nevoie de destructor are nevoie și de constructor de copiere și de operator de atribuire cu copiere (iar în C++ modern și de operațiile de mutare – regula celor cinci).",
+    "sample": "Clasa Vector alocă în constructor un tablou de n elemente cu new și îl eliberează în destructor cu delete[]. Fără constructor de copiere scris de noi, Vector b = a; ar copia pointerul, iar la final ambii destructori ar elibera aceeași zonă. Constructorul de copiere corect alocă un tablou nou și copiază elementele (copiere profundă).",
+    "worked": "Destructorul a făcut eliberarea automată. Copierea profundă a dat fiecărui obiect propria resursă, deci eliberarea dublă a dispărut.",
+    "exercises": [
+     "Scrie constructorul cu listă de inițializare pentru clasa Punct.",
+     "Implementează constructorul de copiere și operatorul de atribuire pentru clasa Vector.",
+     "Explică ordinea apelării destructorilor pentru obiecte locale.",
+     "Rescrie clasa Vector folosind std::vector și explică de ce nu mai ai nevoie de destructor.",
+     "Arată cum RAII închide un fișier chiar dacă apare o excepție."
+    ],
+    "test": [
+     "Ce face constructorul?",
+     "Când se apelează destructorul?",
+     "Ce înseamnă RAII?",
+     "Ce este copierea superficială?",
+     "Ce spune regula celor trei?"
+    ],
+    "steps": [
+     "Stabilește ce resurse deține clasa.",
+     "Preia resursele în constructor și eliberează-le în destructor.",
+     "Definește copierea și atribuirea sau interzice-le explicit, apoi testează copierea.",
+     "Greșeala frecventă: să scrii destructor pentru memorie alocată, dar să lași copierea implicită; apare eliberarea dublă."
+    ],
+    "answers": [
+     "Inițializează obiectul și stabilește invariantul.",
+     "Automat, la sfârșitul duratei de viață a obiectului.",
+     "Resursa este legată de durata de viață a unui obiect.",
+     "Copierea pointerului, nu a datelor indicate.",
+     "Destructorul, constructorul de copiere și atribuirea se definesc împreună."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l21": {
+   "ro": {
+    "title": "Moștenire și polimorfism",
+    "theory": "Moștenirea permite unei clase derivate să preia atributele și metodele unei clase de bază și să le extindă; relația potrivită este „este un” (un Cerc este o Formă). Polimorfismul permite ca același apel să execute metode diferite după tipul real al obiectului. În C++ el se obține cu metode virtuale apelate prin pointer sau referință la clasa de bază: legarea se face la execuție (legare dinamică). O metodă virtuală pură (= 0) face clasa abstractă – nu poate fi instanțiată și definește doar interfața. Clasa de bază polimorfică trebuie să aibă destructor virtual, altfel ștergerea printr-un pointer la bază nu apelează destructorul derivatei. Principiul substituției Liskov cere ca un obiect derivat să poată înlocui oricând unul de bază fără a strica programul. Când relația nu este „este un”, ci „are un”, folosim compunerea, nu moștenirea.",
+    "sample": "Clasa abstractă Forma are metoda virtuală pură arie(). Cerc și Dreptunghi o implementează. Un vector de pointeri la Forma conține un cerc cu raza 1 și un dreptunghi 2 × 3; bucla care adună forme[i]->arie() obține aproximativ 3,14 + 6 = 9,14, fără să știe tipul fiecărei forme.",
+    "worked": "Legarea dinamică a ales metoda potrivită la execuție. Pentru o formă nouă, de exemplu Triunghi, bucla rămâne neschimbată.",
+    "exercises": [
+     "Proiectează o ierarhie de clase pentru angajații unei firme.",
+     "Explică ce se întâmplă dacă metoda arie() nu este virtuală.",
+     "Arată de ce lipsa destructorului virtual produce o scurgere de memorie.",
+     "Decide între moștenire și compunere pentru Mașină și Motor.",
+     "Găsește încălcarea principiului Liskov în exemplul Pătrat derivat din Dreptunghi."
+    ],
+    "test": [
+     "Ce relație exprimă moștenirea?",
+     "Ce este polimorfismul?",
+     "Ce este o clasă abstractă?",
+     "De ce avem nevoie de destructor virtual?",
+     "Când preferăm compunerea?"
+    ],
+    "steps": [
+     "Verifică dacă relația este „este un”; altfel folosește compunerea.",
+     "Pune în clasa de bază interfața comună, cu metode virtuale și destructor virtual.",
+     "Implementează metodele în derivate și folosește obiectele prin pointeri la bază.",
+     "Greșeala frecventă: să derivezi o clasă doar ca să refolosești cod, fără relația „este un”; ierarhia devine greu de întreținut."
+    ],
+    "answers": [
+     "Relația „este un”.",
+     "Același apel execută metode diferite după tipul real al obiectului.",
+     "O clasă cu cel puțin o metodă virtuală pură, care nu poate fi instanțiată.",
+     "Ca ștergerea prin pointer la bază să apeleze destructorul derivatei.",
+     "Când relația este „are un”."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l22": {
+   "ro": {
+    "title": "Șabloane, biblioteca standard și excepții",
+    "theory": "Șabloanele (templates) permit scrierea unui cod generic, valabil pentru mai multe tipuri: template <typename T> T maxim(T a, T b) funcționează pentru int, double sau string; compilatorul generează câte o variantă pentru fiecare tip folosit. Biblioteca standard C++ (STL) oferă containere generice (vector, list, deque, set și map – arbori echilibrați, unordered_map – tabelă de dispersie), iteratori, care parcurg uniform orice container, și algoritmi (sort, find, binary_search, accumulate). Alegerea containerului se face după operațiile frecvente și complexitatea lor. Excepțiile separă tratarea erorilor de logica obișnuită: codul care detectează eroarea aruncă (throw) un obiect excepție, iar codul care știe să o trateze o prinde (try … catch). Între cele două, destructorii obiectelor locale se apelează automat, de aceea RAII și excepțiile lucrează bine împreună.",
+    "sample": "Numărăm aparițiile cuvintelor dintr-un text cu std::map<string, int> frecv; pentru fiecare cuvânt facem frecv[cuv]++. Parcurgând map-ul obținem cuvintele în ordine alfabetică, fiecare cu frecvența lui. Dacă nu avem nevoie de ordine, unordered_map dă operații în medie O(1) în loc de O(log n).",
+    "worked": "Containerul potrivit a redus programul la câteva linii. Diferența dintre map și unordered_map este exact diferența dintre un arbore echilibrat și o tabelă de dispersie.",
+    "exercises": [
+     "Scrie un șablon de funcție care caută un element într-un vector.",
+     "Alege containerul potrivit pentru o coadă de sarcini și justifică.",
+     "Sortează un vector de studenți după medie cu std::sort și o funcție de comparare.",
+     "Aruncă o excepție la împărțirea la zero și trateaz-o în main.",
+     "Explică ce se întâmplă cu obiectele locale când este aruncată o excepție."
+    ],
+    "test": [
+     "Ce este un șablon?",
+     "Ce containere asociative oferă STL?",
+     "Ce rol au iteratorii?",
+     "Cum se tratează o excepție?",
+     "De ce se potrivesc RAII și excepțiile?"
+    ],
+    "steps": [
+     "Identifică operațiile frecvente asupra datelor.",
+     "Alege containerul și algoritmii din biblioteca standard după complexitatea lor.",
+     "Tratează erorile cu excepții prinse acolo unde pot fi rezolvate.",
+     "Greșeala frecventă: să prinzi toate excepțiile și să le ignori; erorile reale dispar fără urmă."
+    ],
+    "answers": [
+     "Cod generic, parametrizat cu tipuri.",
+     "set, map, unordered_set, unordered_map.",
+     "Parcurg uniform orice container.",
+     "Cu throw la detectare și try … catch acolo unde poate fi rezolvată.",
+     "Pentru că destructorii eliberează resursele automat la aruncarea excepției."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l23": {
+   "ro": {
+    "title": "Rolul sistemului de operare, procese și apeluri de sistem",
+    "theory": "Sistemul de operare (SO) administrează resursele calculatorului (procesor, memorie, dispozitive, fișiere) și oferă programelor servicii printr-o interfață comună. Nucleul (kernel) rulează în mod privilegiat; programele obișnuite rulează în mod utilizator și cer servicii prin apeluri de sistem (citire de fișier, creare de proces). Un proces este un program în execuție, cu spațiu de adrese propriu, registre, fișiere deschise și o stare: nou, gata de execuție, în execuție, blocat (așteaptă o operație de intrare-ieșire), terminat. În sistemele Unix, fork() creează un proces copil, copie a părintelui: în copil întoarce 0, în părinte întoarce identificatorul copilului (PID), iar la eroare −1. exec înlocuiește programul procesului cu altul, iar wait permite părintelui să aștepte terminarea copilului. Procesele comunică prin pipe-uri, semnale, memorie partajată sau socket-uri.",
+    "sample": "Un program apelează fork() o dată. După apel există două procese care continuă de la aceeași instrucțiune. Codul if (pid == 0) { afișează „copil” } else { wait(NULL); afișează „părinte” } face ca mesajul copilului să apară mereu primul, pentru că părintele îl așteaptă.",
+    "worked": "Valoarea întoarsă de fork deosebește cele două procese. Fără wait, ordinea mesajelor ar depinde de planificatorul sistemului.",
+    "exercises": [
+     "Desenează diagrama stărilor unui proces.",
+     "Stabilește câte procese există după trei apeluri fork() consecutive.",
+     "Scrie un program în care părintele creează un copil care rulează comanda ls.",
+     "Explică diferența dintre mod utilizator și mod nucleu.",
+     "Folosește un pipe pentru a trimite un mesaj de la părinte la copil."
+    ],
+    "test": [
+     "Ce face sistemul de operare?",
+     "Ce este un apel de sistem?",
+     "Ce este un proces?",
+     "Ce întoarce fork() în copil?",
+     "La ce folosește wait?"
+    ],
+    "steps": [
+     "Identifică resursele și serviciile de care are nevoie programul.",
+     "Urmărește crearea proceselor și valorile întoarse de fork.",
+     "Stabilește cine așteaptă pe cine și cum comunică procesele.",
+     "Greșeala frecventă: să crezi că după fork variabilele sunt comune; fiecare proces are propria copie a spațiului de adrese."
+    ],
+    "answers": [
+     "Administrează resursele și oferă servicii programelor.",
+     "Cererea unui serviciu de la nucleu.",
+     "Un program în execuție, cu resursele sale.",
+     "0.",
+     "Părintele așteaptă terminarea unui copil."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l24": {
+   "ro": {
+    "title": "Fire de execuție și planificarea procesorului",
+    "theory": "Un fir de execuție (thread) este o secvență de execuție dintr-un proces; firele aceluiași proces împart memoria și fișierele, dar fiecare are stiva și registrele proprii. Ele permit lucrul simultan pe mai multe nuclee și sunt mai ieftin de creat decât procesele, dar accesul la date comune trebuie sincronizat. Planificatorul alege ce proces sau fir primește procesorul. Criterii: utilizarea procesorului, timpul de răspuns, timpul de așteptare, timpul total (turnaround). Algoritmi clasici: FCFS (primul venit, primul servit – simplu, dar sarcinile scurte așteaptă după cele lungi), SJF (cea mai scurtă sarcină întâi – minimizează timpul mediu de așteptare, dar cere estimarea duratei), Round Robin (fiecare primește pe rând o cuantă de timp – bun pentru sisteme interactive) și planificarea cu priorități, unde îmbătrânirea (creșterea priorității în timp) previne înfometarea.",
+    "sample": "Round Robin cu cuanta 4 pentru P1 = 10, P2 = 4, P3 = 6 unități, toate sosite la 0: P1 0–4, P2 4–8 (gata), P3 8–12, P1 12–16, P3 16–18 (gata), P1 18–20 (gata). Timpi totali: 20, 8, 18, media 15,33. Timpi de așteptare (total minus durată): 10, 4, 12, media 8,67.",
+    "worked": "Diagrama Gantt a arătat ordinea exactă. Timpul de așteptare se calculează simplu ca diferență dintre timpul total și durata de execuție.",
+    "exercises": [
+     "Calculează timpul mediu de așteptare pentru FCFS pe același exemplu.",
+     "Calculează același timp pentru SJF și compară.",
+     "Repetă Round Robin cu cuanta 2.",
+     "Explică ce este înfometarea și cum o previne îmbătrânirea.",
+     "Compară crearea unui fir cu crearea unui proces."
+    ],
+    "test": [
+     "Ce împart firele aceluiași proces?",
+     "Ce dezavantaj are FCFS?",
+     "Ce minimizează SJF?",
+     "Cum funcționează Round Robin?",
+     "Ce este înfometarea?"
+    ],
+    "steps": [
+     "Desenează diagrama Gantt după regulile algoritmului.",
+     "Calculează pentru fiecare proces timpul total și timpul de așteptare.",
+     "Fă mediile și compară algoritmii.",
+     "Greșeala frecventă: să uiți momentul sosirii; timpul total se măsoară de la sosire, nu de la 0."
+    ],
+    "answers": [
+     "Memoria și fișierele procesului.",
+     "Sarcinile scurte așteaptă după cele lungi.",
+     "Timpul mediu de așteptare.",
+     "Fiecare primește pe rând o cuantă de timp.",
+     "Un proces care nu primește niciodată procesorul."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l25": {
+   "ro": {
+    "title": "Gestiunea memoriei: paginare și memorie virtuală",
+    "theory": "Fiecare proces folosește adrese virtuale, ca și cum ar avea toată memoria pentru el; unitatea de gestiune a memoriei (MMU) le traduce în adrese fizice. La paginare, memoria virtuală este împărțită în pagini de dimensiune fixă (de exemplu 4 KiB), iar memoria fizică în cadre de aceeași dimensiune. O adresă virtuală se descompune în număr de pagină și deplasament; tabela de pagini a procesului dă cadrul corespunzător, iar adresa fizică este cadru × dimensiune + deplasament. Un TLB (cache al traducerilor) evită accesarea tabelei la fiecare instrucțiune. Memoria virtuală ține în RAM doar paginile folosite: accesarea unei pagini absente produce un defect de pagină, iar SO o aduce de pe disc, eventual eliminând alta după un algoritm de înlocuire (FIFO, LRU – cea mai puțin recent folosită). Dacă procesele au nevoie de mai multe pagini decât încap, sistemul petrece mai mult timp cu transferuri decât cu calcule (thrashing).",
+    "sample": "Pagini de 4 KiB = 0x1000 octeți. Adresa virtuală 0x3A7F are pagina 0x3 și deplasamentul 0xA7F. Tabela spune că pagina 3 se află în cadrul 7, deci adresa fizică este 0x7A7F.",
+    "worked": "Deplasamentul se păstrează neschimbat, iar doar numărul paginii se înlocuiește cu numărul cadrului. Cu dimensiuni puteri ale lui 2, traducerea înseamnă doar înlocuirea biților de sus.",
+    "exercises": [
+     "Tradu adresa 0x12345 cu pagini de 4 KiB, știind că pagina 0x12 este în cadrul 0x5.",
+     "Simulează LRU cu 3 cadre pentru referințele 1, 2, 3, 1, 4, 2, 5.",
+     "Simulează FIFO pe aceleași referințe și compară numărul de defecte.",
+     "Explică rolul TLB.",
+     "Descrie cauzele și efectele fenomenului de thrashing."
+    ],
+    "test": [
+     "Ce este o adresă virtuală?",
+     "Ce este o pagină?",
+     "Ce conține tabela de pagini?",
+     "Ce este un defect de pagină?",
+     "Ce face algoritmul LRU?"
+    ],
+    "steps": [
+     "Descompune adresa virtuală în număr de pagină și deplasament.",
+     "Caută cadrul în tabela de pagini; dacă pagina lipsește, tratează defectul de pagină.",
+     "Compune adresa fizică din cadru și deplasament.",
+     "Greșeala frecventă: să modifici și deplasamentul la traducere; el rămâne același."
+    ],
+    "answers": [
+     "Adresa folosită de proces, tradusă de MMU în adresă fizică.",
+     "O bucată de dimensiune fixă a memoriei virtuale.",
+     "Corespondența dintre pagini și cadre.",
+     "Accesarea unei pagini care nu este în memoria fizică.",
+     "Înlocuiește pagina cea mai puțin recent folosită."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l26": {
+   "ro": {
+    "title": "Sisteme de fișiere și lucrul în linia de comandă",
+    "theory": "Sistemul de fișiere organizează datele de pe disc în fișiere și directoare, într-un arbore cu rădăcina /. Căile pot fi absolute (de la rădăcină) sau relative (de la directorul curent). În Unix, fiecare fișier are un inode cu metadatele (dimensiune, proprietar, permisiuni, adresele blocurilor de date); numele din director este doar o legătură către inode. Permisiunile se dau pentru proprietar, grup și ceilalți, fiecare cu citire (r = 4), scriere (w = 2) și execuție (x = 1): chmod 754 înseamnă rwx pentru proprietar, r-x pentru grup și r-- pentru ceilalți. Shell-ul interpretează comenzile: ls, cd, cp, mv, rm, mkdir, grep, find. Redirectările (>, >>, <) leagă intrarea sau ieșirea unei comenzi de un fișier, iar pipe-ul (|) trimite ieșirea unei comenzi la intrarea alteia. Scripturile shell automatizează secvențe de comenzi.",
+    "sample": "Numărăm liniile cu cuvântul „eroare” din toate fișierele .log din directorul curent: cat *.log | grep -i eroare | wc -l. Pentru a salva liniile într-un fișier: grep -i eroare *.log > erori.txt. Ca să poată rula scriptul analiza.sh doar proprietarul, iar grupul să-l poată citi: chmod 740 analiza.sh.",
+    "worked": "Pipe-ul a combinat trei comenzi simple într-o prelucrare completă. Permisiunile în octal au exprimat precis drepturile fiecărei categorii.",
+    "exercises": [
+     "Scrie permisiunile simbolice pentru chmod 640 și 755.",
+     "Găsește toate fișierele .cpp mai mari de 1 MB dintr-un director.",
+     "Scrie un script care face o copie de rezervă a unui director, cu data în nume.",
+     "Explică diferența dintre > și >>.",
+     "Explică diferența dintre o cale absolută și una relativă."
+    ],
+    "test": [
+     "Ce conține un inode?",
+     "Ce înseamnă chmod 754?",
+     "Ce face pipe-ul?",
+     "Ce face redirectarea >?",
+     "La ce folosesc scripturile shell?"
+    ],
+    "steps": [
+     "Stabilește ce trebuie să facă fiecare comandă.",
+     "Leagă comenzile prin pipe-uri și redirectări.",
+     "Testează pe date de probă înainte de a rula comenzi care șterg sau suprascriu.",
+     "Greșeala frecventă: să rulezi rm -r cu o cale greșită fără verificare; fișierele șterse din linia de comandă nu ajung în coșul de gunoi."
+    ],
+    "answers": [
+     "Metadatele fișierului: dimensiune, proprietar, permisiuni, blocuri.",
+     "rwx pentru proprietar, r-x pentru grup, r-- pentru ceilalți.",
+     "Trimite ieșirea unei comenzi la intrarea alteia.",
+     "Scrie ieșirea comenzii într-un fișier, suprascriindu-l.",
+     "La automatizarea secvențelor de comenzi."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l27": {
+   "ro": {
+    "title": "Reprezentarea grafurilor și parcurgerile BFS și DFS",
+    "theory": "Un graf G = (V, E) are noduri și muchii (neorientat) sau arce (orientat). Se reprezintă prin matrice de adiacență (spațiu O(V²), verificarea unei muchii în O(1)) sau prin liste de adiacență (spațiu O(V + E), potrivite pentru grafuri rare, cum sunt majoritatea celor reale). Parcurgerea în lățime (BFS) folosește o coadă și vizitează nodurile pe niveluri, în ordinea distanței față de sursă; într-un graf neponderat dă drumurile cu număr minim de muchii. Parcurgerea în adâncime (DFS) folosește recursivitatea sau o stivă și merge cât mai adânc înainte de a reveni; marchează timpii de descoperire și de terminare și este baza pentru detectarea ciclurilor, sortarea topologică și componentele tare conexe. Ambele au complexitatea O(V + E) cu liste de adiacență. Orice parcurgere trebuie să marcheze nodurile vizitate, altfel ciclurile o fac să nu se termine.",
+    "sample": "Graful neorientat are muchiile 1–2, 1–3, 2–4, 3–4, 4–5. BFS din 1: coada [1] → vizităm 2 și 3 (distanța 1) → din 2 vizităm 4 (distanța 2) → din 4 vizităm 5 (distanța 3). Drumul minim spre 5 este 1–2–4–5. DFS din 1, cu vecinii în ordine crescătoare: 1, 2, 4, 3, apoi revenim în 4 și vizităm 5.",
+    "worked": "BFS a găsit distanțele pe niveluri. DFS a mers în adâncime și a vizitat altă ordine, dar ambele au atins toate nodurile accesibile.",
+    "exercises": [
+     "Scrie matricea și listele de adiacență pentru un graf cu 5 noduri.",
+     "Aplică BFS dintr-un nod dat și afișează distanțele.",
+     "Aplică DFS și notează timpii de descoperire și de terminare.",
+     "Detectează cu DFS dacă un graf neorientat are cicluri.",
+     "Explică de ce BFS nu dă drumuri minime într-un graf ponderat."
+    ],
+    "test": [
+     "Ce spațiu ocupă matricea de adiacență?",
+     "Ce structură folosește BFS?",
+     "Ce dă BFS într-un graf neponderat?",
+     "Ce complexitate au BFS și DFS cu liste?",
+     "De ce marcăm nodurile vizitate?"
+    ],
+    "steps": [
+     "Alege reprezentarea după densitatea grafului.",
+     "Aplică parcurgerea potrivită: BFS pentru distanțe în număr de muchii, DFS pentru structură.",
+     "Marchează nodurile vizitate și reține informațiile cerute (distanțe, părinți, timpi).",
+     "Greșeala frecventă: să marchezi nodul ca vizitat abia când îl scoți din coadă; același nod poate intra de mai multe ori în coadă."
+    ],
+    "answers": [
+     "O(V²).",
+     "O coadă.",
+     "Drumurile cu număr minim de muchii.",
+     "O(V + E).",
+     "Ca ciclurile să nu facă parcurgerea infinită."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l28": {
+   "ro": {
+    "title": "Sortarea topologică și componentele conexe",
+    "theory": "Într-un graf orientat fără cicluri (DAG), sortarea topologică ordonează nodurile astfel încât fiecare arc u → v să aibă u înaintea lui v; ea modelează dependențele: cursuri cu condiții prealabile, ordinea compilării modulelor, sarcinile unui proiect. Algoritmul lui Kahn pune în coadă nodurile cu grad interior 0, le scoate pe rând, le adaugă la rezultat și scade gradul vecinilor; dacă la final rămân noduri nescoase, graful are un ciclu. Alternativ, ordinea descrescătoare a timpilor de terminare din DFS este o sortare topologică. Într-un graf neorientat, componentele conexe se găsesc prin parcurgeri repetate din nodurile nevizitate. Într-un graf orientat, o componentă tare conexă este un grup maximal în care din orice nod se poate ajunge în oricare altul; algoritmii lui Kosaraju sau Tarjan le găsesc în O(V + E).",
+    "sample": "Cursurile au dependențele: Programare → Structuri de date, Programare → POO, Structuri de date → Grafuri, Logică → Grafuri. Kahn pornește cu Programare și Logică (grad 0). Scoatem Programare: Structuri de date și POO ajung la grad 0. Scoatem Logică, apoi Structuri de date (Grafuri ajunge la grad 0), POO și Grafuri. Ordinea: Programare, Logică, Structuri de date, POO, Grafuri.",
+    "worked": "Fiecare curs apare după toate condițiile lui. Pot exista mai multe ordini corecte, în funcție de ordinea scoaterii din coadă.",
+    "exercises": [
+     "Aplică algoritmul lui Kahn pe un graf al sarcinilor unui proiect.",
+     "Arată cum detectează Kahn un ciclu.",
+     "Găsește componentele conexe ale unui graf neorientat dat.",
+     "Aplică Kosaraju pe un graf orientat cu 6 noduri.",
+     "Explică de ce un graf cu ciclu nu are sortare topologică."
+    ],
+    "test": [
+     "Ce este un DAG?",
+     "Ce garantează sortarea topologică?",
+     "Cum detectează Kahn un ciclu?",
+     "Ce este o componentă tare conexă?",
+     "Ce complexitate au acești algoritmi?"
+    ],
+    "steps": [
+     "Calculează gradul interior al fiecărui nod.",
+     "Scoate repetat nodurile cu grad 0 și actualizează vecinii.",
+     "Verifică dacă au fost scoase toate nodurile; altfel, semnalează un ciclu.",
+     "Greșeala frecventă: să crezi că sortarea topologică este unică; de obicei există mai multe ordini corecte."
+    ],
+    "answers": [
+     "Un graf orientat fără cicluri.",
+     "Fiecare arc merge de la un nod aflat mai devreme la unul aflat mai târziu.",
+     "Rămân noduri care nu ajung niciodată la grad 0.",
+     "Un grup maximal de noduri accesibile reciproc.",
+     "O(V + E)."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l29": {
+   "ro": {
+    "title": "Drumuri minime: Dijkstra și Bellman-Ford",
+    "theory": "Într-un graf ponderat, drumul minim are suma minimă a costurilor. Algoritmul lui Dijkstra pornește din sursă cu distanța 0 și infinit în rest; scoate repetat nodul nevizitat cu distanța cea mai mică (cu o coadă de priorități) și relaxează arcele care pleacă din el: dacă dist[u] + cost(u, v) < dist[v], actualizează dist[v] și părintele lui v. Funcționează doar cu costuri nenegative și are complexitatea O((V + E) log V) cu heap. Bellman-Ford relaxează toate arcele de V − 1 ori, acceptă costuri negative și detectează ciclurile de cost negativ (dacă după V − 1 runde o relaxare mai reușește), dar are O(V·E). Pentru drumuri minime între toate perechile de noduri, Floyd-Warshall folosește programarea dinamică în O(V³). Drumul propriu-zis se reconstituie mergând înapoi pe părinți.",
+    "sample": "Graful neorientat: A–B 4, A–C 1, C–B 2, B–D 1, C–D 5. Dijkstra din A: dist(C) = 1; din C relaxăm B (1 + 2 = 3 < 4) și D (1 + 5 = 6); scoatem B cu 3 și relaxăm D (3 + 1 = 4 < 6). Rezultat: B = 3, C = 1, D = 4, iar drumul spre D este A–C–B–D.",
+    "worked": "Muchia directă A–B, cu costul 4, nu era cea mai bună. Relaxarea a corectat distanțele de fiecare dată când a găsit un drum mai ieftin.",
+    "exercises": [
+     "Aplică Dijkstra pe un graf cu 6 noduri și reconstituie drumurile.",
+     "Construiește un exemplu în care Dijkstra greșește din cauza unui cost negativ.",
+     "Aplică Bellman-Ford pe un graf cu un arc negativ.",
+     "Detectează un ciclu de cost negativ cu Bellman-Ford.",
+     "Aplică Floyd-Warshall pe un graf cu 4 noduri."
+    ],
+    "test": [
+     "Ce înseamnă relaxarea unui arc?",
+     "Ce condiție cere Dijkstra?",
+     "Ce complexitate are Dijkstra cu heap?",
+     "Ce avantaj are Bellman-Ford?",
+     "Cum se reconstituie drumul?"
+    ],
+    "steps": [
+     "Inițializează distanțele: 0 pentru sursă, infinit în rest.",
+     "Alege algoritmul după costuri și relaxează arcele în ordinea cerută de el.",
+     "Reconstituie drumurile din vectorul de părinți și verifică pe exemplu.",
+     "Greșeala frecventă: să aplici Dijkstra pe un graf cu costuri negative; distanțele pot ieși greșite."
+    ],
+    "answers": [
+     "Actualizarea distanței lui v dacă drumul prin u este mai scurt.",
+     "Costuri nenegative.",
+     "O((V + E) log V).",
+     "Acceptă costuri negative și detectează ciclurile negative.",
+     "Mergând înapoi pe părinți, de la destinație la sursă."
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l30": {
+   "ro": {
+    "title": "Arbori parțiali de cost minim: Kruskal și Prim",
+    "theory": "Un arbore parțial al unui graf neorientat conex leagă toate nodurile folosind V − 1 muchii, fără cicluri. Arborele parțial de cost minim (APM) are suma minimă a costurilor; modelează rețele cât mai ieftine de cabluri, drumuri sau conducte. Algoritmul lui Kruskal sortează muchiile crescător după cost și le adaugă pe rând dacă nu formează un ciclu; verificarea se face eficient cu o structură de mulțimi disjuncte (union-find), cu reuniune după rang și comprimarea drumurilor; complexitatea este O(E log E). Algoritmul lui Prim crește arborele dintr-un nod de start, adăugând de fiecare dată cea mai ieftină muchie care leagă arborele de un nod nou; cu heap are O(E log V). Ambele sunt algoritmi greedy corecți datorită proprietății tăieturii: muchia de cost minim care traversează o tăietură aparține unui APM.",
+    "sample": "Muchiile: A–B 1, B–C 2, A–C 3, C–D 4, B–D 5. Kruskal: adăugăm A–B (1) și B–C (2); A–C (3) ar închide ciclul A–B–C, deci o sărim; adăugăm C–D (4). Avem 3 muchii pentru 4 noduri, costul total 7, iar B–D nu mai este necesară.",
+    "worked": "Algoritmul s-a oprit după V − 1 muchii. Muchia sărită ar fi creat un ciclu, iar union-find ar fi arătat că A și C erau deja în aceeași mulțime.",
+    "exercises": [
+     "Aplică Kruskal pe un graf cu 6 noduri și 9 muchii.",
+     "Aplică Prim pe același graf, pornind din alt nod, și compară costul.",
+     "Implementează union-find cu reuniune după rang.",
+     "Explică de ce APM-ul nu este neapărat unic.",
+     "Arată că APM-ul nu dă drumuri minime între două noduri."
+    ],
+    "test": [
+     "Câte muchii are un arbore parțial cu V noduri?",
+     "Cum procedează Kruskal?",
+     "La ce folosește union-find?",
+     "Cum procedează Prim?",
+     "Ce proprietate garantează corectitudinea?"
+    ],
+    "steps": [
+     "Verifică dacă graful este conex și neorientat.",
+     "Aplică Kruskal (muchii sortate, union-find) sau Prim (creștere din nod, heap).",
+     "Oprește-te la V − 1 muchii și calculează costul total.",
+     "Greșeala frecventă: să confunzi APM-ul cu drumurile minime; APM-ul minimizează costul total al rețelei, nu distanța dintre două noduri."
+    ],
+    "answers": [
+     "V − 1.",
+     "Adaugă muchiile în ordinea crescătoare a costului, dacă nu formează cicluri.",
+     "La verificarea rapidă dacă două noduri sunt deja legate.",
+     "Crește arborele adăugând cea mai ieftină muchie spre un nod nou.",
+     "Proprietatea tăieturii."
+    ]
+   }
+  }
+ }
+}
