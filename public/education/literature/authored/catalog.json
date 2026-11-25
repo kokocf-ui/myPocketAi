@@ -1,6 +1,6 @@
 {
  "schema": "mypocket-literature-authored-catalog/v1",
- "version": "9457b06577ba04b1af4f2d7e677ce2b41eb227abff02be3f7b0a60f048226894",
+ "version": "d3f5532a5382064939017586b1a358ad2e0bc7209052d7aa9d511999d51c2b42",
  "years": [
   {
    "country": "AT",
@@ -11,7 +11,7 @@
      "lang": "de",
      "name": "Deutsch",
      "file": "de-1",
-     "version": "a18db02cafebf688db3d2384b26d285036b8579e87728be99fbde6597412b4a4"
+     "version": "a7a6ce2559916a4fc7c535ea800acc32c0c1d6c03bb58896e1f541903d3ea3eb"
     }
    ]
   },
