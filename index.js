@@ -42,6 +42,7 @@ import {EDUCATION_SCHOOL_YEARS,HG_SCHOOL_PLANS,HG_SCHOOL_GENERAL,HG_SCHOOL_SOURC
 import {EDUCATION_WORLDWIDE_SCHEMES,EDUCATION_WORLDWIDE_FALLBACK,worldwideSchoolYears,worldwideSchoolNotice,worldwideStudyChapters} from './education_worldwide_paths.mjs';
 import {COMPUTING_LEVELS,COMPUTING_PATHS,COMPUTING_TOPICS} from './computing_curriculum.mjs';
 import {COMPUTING_UI_SCRIPT} from './computing_ui.mjs';
+import {COMPUTING_NATIONAL_PACKS_SCRIPT} from './computing_national_packs.mjs';
 import {LIT_EU_COMMON} from './literature_common_program.mjs';
 import {literatureTracksForGrade,hungaryAdmissionTopicsForGrade,HUNGARY_ADMISSION_REFERENCES} from './literature_school_streams.mjs';
 import {LIT_OFFLINE_THEORY} from './literature_offline_theory.mjs';
@@ -16033,6 +16034,7 @@ function litWorkspace(panel){
 
 ${LITERATURE_TASK_UI_SCRIPT}
 ${EDUCATION_NATIONAL_SUBJECT_PACKS_SCRIPT}
+${COMPUTING_NATIONAL_PACKS_SCRIPT}
 ${COMPUTING_UI_SCRIPT}
 ${EXAM_UI_SCRIPT}
 ${PRACTICAL_UI_SCRIPT}

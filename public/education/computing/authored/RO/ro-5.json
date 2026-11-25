@@ -1,0 +1,1069 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "RO",
+ "stage": "lower",
+ "grade": "5",
+ "version": "81ba422936d4ac39b09ad6495f9a825c21edf94fc8b1a85fb75b9cac3529804f",
+ "source": "https://rocnee.eu/images/rocnee/fisiere/programe_scolare/Inv%20gimnazial/Tehnologii/informatica_tic/OMEN_3393_Informatica_Tic_5-8_gimnaziu.pdf",
+ "sourceTitle": "Programa școlară pentru disciplina Informatică și TIC, clasele a V-a – a VIII-a, aprobată prin OMEN nr. 3393/28.02.2017 — clasa a V-a: norme de ergonomie și siguranță, sisteme de calcul, sisteme de operare și fișiere, Internet și drepturi de autor, editoare grafice, algoritmi (structura secvențială și alternativă), medii grafice interactive",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "ro",
+ "labels": [
+  "Activitate originală · România · Informatică și TIC · Clasa a V-a",
+  "Lecția pe înțeles",
+  "Exemplu",
+  "Ce ne arată exemplul",
+  "Exerciții",
+  "Test",
+  "Activități originale, făcute după programa școlară; nu înlocuiesc manualul sau ora de la clasă.",
+  "Dacă nu ai înțeles: pas cu pas",
+  "Răspunsuri (verifică după ce termini)"
+ ],
+ "units": [
+  {
+   "title": "Norme de ergonomie și de siguranță",
+   "keys": [
+    "eu-year-ro-lower-5-l01",
+    "eu-year-ro-lower-5-l02"
+   ]
+  },
+  {
+   "title": "Sisteme de calcul",
+   "keys": [
+    "eu-year-ro-lower-5-l03",
+    "eu-year-ro-lower-5-l04",
+    "eu-year-ro-lower-5-l05",
+    "eu-year-ro-lower-5-l06",
+    "eu-year-ro-lower-5-l07"
+   ]
+  },
+  {
+   "title": "Sisteme de operare și fișiere",
+   "keys": [
+    "eu-year-ro-lower-5-l08",
+    "eu-year-ro-lower-5-l09",
+    "eu-year-ro-lower-5-l10",
+    "eu-year-ro-lower-5-l11"
+   ]
+  },
+  {
+   "title": "Internet și drepturi de autor",
+   "keys": [
+    "eu-year-ro-lower-5-l12",
+    "eu-year-ro-lower-5-l13",
+    "eu-year-ro-lower-5-l14",
+    "eu-year-ro-lower-5-l15"
+   ]
+  },
+  {
+   "title": "Editoare grafice",
+   "keys": [
+    "eu-year-ro-lower-5-l16",
+    "eu-year-ro-lower-5-l17",
+    "eu-year-ro-lower-5-l18",
+    "eu-year-ro-lower-5-l19"
+   ]
+  },
+  {
+   "title": "Algoritmi",
+   "keys": [
+    "eu-year-ro-lower-5-l20",
+    "eu-year-ro-lower-5-l21",
+    "eu-year-ro-lower-5-l22",
+    "eu-year-ro-lower-5-l23",
+    "eu-year-ro-lower-5-l24"
+   ]
+  },
+  {
+   "title": "Medii grafice interactive",
+   "keys": [
+    "eu-year-ro-lower-5-l25",
+    "eu-year-ro-lower-5-l26",
+    "eu-year-ro-lower-5-l27",
+    "eu-year-ro-lower-5-l28"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-ro-lower-5-l01": {
+   "ro": {
+    "title": "Reguli de siguranță în laboratorul de informatică",
+    "theory": "Laboratorul de informatică are multe aparate electrice, deci primele reguli sunt despre siguranță. Nu atingem prizele, cablurile sau spatele calculatorului; dacă un cablu este rupt ori un aparat scoate fum sau miros de ars, nu umblăm la el, ci anunțăm imediat profesorul. Nu aducem lichide și mâncare lângă tastatură: apa vărsată poate produce scurtcircuit. Pornim și oprim calculatorul doar cum ne arată profesorul (oprirea corectă se face din meniul sistemului de operare, nu din butonul de alimentare ținut apăsat). Nu mutăm monitoarele și nu deschidem carcasa. Păstrăm ordinea: genți puse deoparte, căi de acces libere. Regulile protejează oamenii, dar și aparatele și datele colegilor.",
+    "sample": "Andrei își varsă sucul pe masă. El nu încearcă să șteargă tastatura care încă funcționează, ci se îndepărtează și anunță profesorul, care oprește alimentarea.",
+    "worked": "Exemplul arată ordinea corectă: întâi siguranța persoanei, apoi a aparatului. Lichidul și curentul electric sunt o combinație periculoasă, iar decizia de a opri alimentarea aparține adultului responsabil, nu elevului.",
+    "exercises": [
+     "Enumeră trei reguli de siguranță din laborator.",
+     "Explică de ce nu avem voie cu lichide lângă calculator.",
+     "Descrie ce faci dacă simți miros de ars la un monitor.",
+     "Explică diferența dintre oprirea corectă și oprirea forțată.",
+     "Alcătuiește un afiș cu cinci reguli pentru laboratorul clasei."
+    ],
+    "test": [
+     "Ce faci dacă observi un cablu rupt?",
+     "De ce nu deschidem carcasa calculatorului?",
+     "Cum se oprește corect un calculator?",
+     "Ce poate produce apa vărsată pe tastatură?",
+     "Pe cine anunți când apare o problemă?"
+    ],
+    "steps": [
+     "Citește regula și gândește-te ce pericol evită: curent, cădere, pierderea datelor.",
+     "Leagă fiecare regulă de un exemplu concret din laborator.",
+     "Exersează procedura: oprești lucrul, nu atingi, anunți profesorul.",
+     "Greșeala frecventă: să încerci să repari singur o problemă electrică; orice defect se anunță profesorului."
+    ],
+    "answers": [
+     "Nu îl ating și anunț profesorul.",
+     "Pentru că există piese sub tensiune și se pot strica aparatul sau garanția.",
+     "Din meniul sistemului de operare (Închidere).",
+     "Un scurtcircuit sau defectarea tastaturii.",
+     "Profesorul."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l02": {
+   "ro": {
+    "title": "Ergonomia: poziția corectă la calculator",
+    "theory": "Ergonomia studiază cum ne potrivim locul de muncă pentru a lucra sănătos. La calculator stăm cu spatele drept, sprijinit de spătar, cu tălpile pe podea și genunchii la un unghi de aproximativ 90 de grade. Monitorul se află în fața noastră, la o distanță de aproximativ o lungime de braț (50–70 cm), cu marginea de sus cam la nivelul ochilor. Antebrațele stau orizontal, iar încheieturile nu se îndoaie puternic pe tastatură. Lumina nu trebuie să se reflecte în ecran. Pentru ochi, folosim regula 20-20-20: la fiecare 20 de minute privim 20 de secunde ceva aflat la aproximativ 6 metri (20 de picioare). Pauzele scurte și mișcarea previn durerile de spate, de gât și oboseala ochilor.",
+    "sample": "Maria lucrează la un proiect o oră. Ea își reglează scaunul, așază monitorul în față și, la fiecare 20 de minute, se uită pe fereastră câteva secunde.",
+    "worked": "Maria aplică trei idei ergonomice: poziția corpului, poziția monitorului și pauzele pentru ochi. Ergonomia nu înseamnă o singură regulă, ci un set de obiceiuri care împreună previn oboseala.",
+    "exercises": [
+     "Descrie poziția corectă a spatelui și a picioarelor.",
+     "Explică regula 20-20-20.",
+     "Spune unde se așază monitorul și la ce distanță.",
+     "Explică de ce reflexiile pe ecran obosesc ochii.",
+     "Verifică-ți poziția acasă și notează două lucruri de corectat."
+    ],
+    "test": [
+     "Ce studiază ergonomia?",
+     "La ce distanță aproximativă stă monitorul?",
+     "La ce nivel este marginea de sus a monitorului?",
+     "Cât de des facem o pauză pentru ochi după regula 20-20-20?",
+     "Cum stau tălpile când lucrăm la calculator?"
+    ],
+    "steps": [
+     "Verifică pe rând: scaun și spate, picioare, mâini, monitor, lumină.",
+     "Corectează câte un element, nu totul deodată.",
+     "Programează pauze scurte în timpul lucrului.",
+     "Greșeala frecventă: să crezi că o poziție greșită contează doar la adulți; obiceiurile se formează din copilărie."
+    ],
+    "answers": [
+     "Adaptarea locului de muncă la om, pentru a lucra sănătos.",
+     "Aproximativ o lungime de braț (50–70 cm).",
+     "Cam la nivelul ochilor.",
+     "La fiecare 20 de minute.",
+     "Pe podea (sau pe un suport)."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l03": {
+   "ro": {
+    "title": "Ce este un sistem de calcul? Tipuri de sisteme",
+    "theory": "Un sistem de calcul este un ansamblu de echipamente (hardware) și programe (software) care primește date, le prelucrează după instrucțiuni, le păstrează și oferă rezultate. Tipuri: calculatorul personal de birou (desktop), laptopul (portabil, cu baterie), tableta și telefonul inteligent (smartphone, cu ecran tactil), serverele (calculatoare puternice care oferă servicii altor calculatoare, de exemplu site-uri) și sistemele încorporate, ascunse în alte aparate: mașina de spălat, mașina, semaforul inteligent. Sistemele de comunicații (rețele, routere, telefonie) leagă calculatoarele între ele. Toate urmează același ciclu: intrare – prelucrare – stocare – ieșire.",
+    "sample": "Un ceas inteligent măsoară pulsul (intrare), calculează media (prelucrare), păstrează valorile (stocare) și le afișează pe ecran (ieșire).",
+    "worked": "Exemplul arată că și un aparat mic este un sistem de calcul, pentru că parcurge ciclul complet intrare – prelucrare – stocare – ieșire. Mărimea aparatului nu decide dacă este sau nu calculator.",
+    "exercises": [
+     "Definește sistemul de calcul cu propriile cuvinte.",
+     "Clasifică aparatele: laptop, frigider inteligent, server, tabletă.",
+     "Explică ciclul intrare – prelucrare – stocare – ieșire pe un telefon.",
+     "Dă două exemple de sisteme încorporate din casă.",
+     "Compară un laptop cu un desktop."
+    ],
+    "test": [
+     "Ce înseamnă hardware?",
+     "Ce rol are un server?",
+     "Ce este un sistem încorporat?",
+     "Care sunt cele patru etape ale ciclului de prelucrare?",
+     "Prin ce se deosebește laptopul de desktop?"
+    ],
+    "steps": [
+     "Identifică aparatul și ce date primește.",
+     "Caută unde sunt prelucrate și păstrate datele.",
+     "Stabilește cum este afișat rezultatul și încadrează aparatul într-un tip.",
+     "Greșeala frecventă: să crezi că doar calculatorul cu monitor și tastatură este sistem de calcul."
+    ],
+    "answers": [
+     "Partea fizică a sistemului de calcul (echipamentele).",
+     "Oferă servicii altor calculatoare din rețea.",
+     "Un calculator ascuns într-un alt aparat, cu o sarcină precisă.",
+     "Intrare, prelucrare, stocare, ieșire.",
+     "Este portabil și are baterie."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l04": {
+   "ro": {
+    "title": "Scurtă istorie a sistemelor de calcul",
+    "theory": "Oamenii au folosit mereu unelte de calcul: abacul, apoi mașinile mecanice de calcul (Pascal, în secolul al XVII-lea). În secolul al XIX-lea, Charles Babbage a proiectat o mașină analitică programabilă, iar Ada Lovelace a scris ceea ce este considerat primul program. În anii 1940 au apărut calculatoarele electronice cu tuburi, uriașe, cât o cameră (ENIAC, 1945–1946). Tranzistorul și apoi circuitul integrat (cipul) au micșorat calculatoarele. Din anii 1970–1980 au apărut calculatoarele personale, iar din anii 1990 Internetul s-a răspândit în lume. Astăzi purtăm în buzunar telefoane mai puternice decât calculatoarele de atunci. România a avut și ea pionieri: calculatorul CIFA-1 (1957) și MECIPT-1 (1961).",
+    "sample": "Un telefon actual cântărește circa 200 de grame, pe când ENIAC cântărea în jur de 27 de tone și ocupa o sală întreagă.",
+    "worked": "Comparația arată ideea principală a istoriei calculatoarelor: miniaturizarea. Fiecare invenție (tranzistor, circuit integrat, microprocesor) a făcut aparatele mai mici, mai rapide și mai ieftine.",
+    "exercises": [
+     "Ordonează: calculatorul personal, abacul, ENIAC, smartphone-ul.",
+     "Explică ce a schimbat tranzistorul.",
+     "Cine este considerată primul programator?",
+     "Numește un calculator românesc timpuriu.",
+     "Realizează o axă a timpului cu cinci momente."
+    ],
+    "test": [
+     "Ce unealtă de calcul este foarte veche?",
+     "Ce a proiectat Charles Babbage?",
+     "Când a apărut ENIAC?",
+     "Ce invenție a permis calculatoarele mici?",
+     "Când s-a răspândit Internetul în lume?"
+    ],
+    "steps": [
+     "Așază invențiile pe o axă a timpului.",
+     "Notează pentru fiecare ce problemă a rezolvat.",
+     "Observă tendința: mai mic, mai rapid, mai ieftin.",
+     "Greșeala frecventă: să memorezi doar ani; important este ce a schimbat fiecare invenție."
+    ],
+    "answers": [
+     "Abacul.",
+     "O mașină analitică programabilă.",
+     "În anii 1945–1946.",
+     "Tranzistorul și apoi circuitul integrat.",
+     "În anii 1990."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l05": {
+   "ro": {
+    "title": "Unitatea centrală: procesorul și memoria internă",
+    "theory": "Unitatea centrală conține componentele care prelucrează datele. Pe placa de bază (placa principală) sunt montate procesorul și memoria. Procesorul (CPU) execută instrucțiunile programelor: face calcule și decide ce urmează; viteza lui se exprimă în gigahertzi (GHz). Memoria internă are două tipuri: RAM, memoria de lucru, în care stau programele deschise și datele folosite acum – se golește când oprim calculatorul; ROM, memoria care păstrează permanent programul de pornire. Sursa de alimentare transformă curentul de la priză pentru componente, iar ventilatoarele răcesc procesorul. Dacă RAM-ul este mic, calculatorul devine lent când deschidem multe programe.",
+    "sample": "Ioana scrie o compunere și se oprește curentul înainte să salveze. Când repornește calculatorul, textul nu mai este.",
+    "worked": "Textul nesalvat stătea doar în memoria RAM, care se golește fără curent. De aceea salvăm des: salvarea copiază datele pe o memorie externă care le păstrează.",
+    "exercises": [
+     "Explică rolul procesorului.",
+     "Compară RAM cu ROM.",
+     "Explică de ce se pierde un text nesalvat.",
+     "Spune pe ce componentă sunt montate procesorul și memoria.",
+     "Explică de ce mai multă memorie RAM ajută când deschizi multe programe."
+    ],
+    "test": [
+     "Ce face procesorul?",
+     "În ce unitate se exprimă viteza procesorului?",
+     "Ce se întâmplă cu RAM-ul când oprim calculatorul?",
+     "Ce păstrează memoria ROM?",
+     "Ce rol are sursa de alimentare?"
+    ],
+    "steps": [
+     "Identifică componenta despre care este vorba.",
+     "Spune ce face ea în ciclul de prelucrare.",
+     "Verifică dacă păstrează datele fără curent.",
+     "Greșeala frecventă: să confunzi memoria RAM cu spațiul de stocare; RAM-ul este temporar, discul păstrează datele."
+    ],
+    "answers": [
+     "Execută instrucțiunile programelor.",
+     "În gigahertzi (GHz).",
+     "Se golește.",
+     "Programul de pornire al calculatorului.",
+     "Transformă curentul de la priză pentru componente."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l06": {
+   "ro": {
+    "title": "Dispozitive de intrare și de ieșire",
+    "theory": "Dispozitivele periferice se conectează la unitatea centrală. Dispozitivele de intrare trimit date spre calculator: tastatura, mouse-ul, touchpad-ul, microfonul, camera web, scanerul, ecranul tactil când îl atingem. Dispozitivele de ieșire primesc rezultatele de la calculator: monitorul, imprimanta, boxele și căștile, proiectorul. Unele sunt de intrare-ieșire: ecranul tactil (afișează și primește atingeri), căștile cu microfon, imprimanta multifuncțională cu scaner. Le conectăm prin porturi (USB, HDMI, mufă audio) sau fără fir (Bluetooth, Wi-Fi). Pentru a decide tipul, ne întrebăm în ce direcție circulă datele: spre calculator sau dinspre calculator.",
+    "sample": "Mihai vorbește la telefon cu bunica pe un apel video: camera și microfonul trimit imaginea și vocea, iar ecranul și difuzorul redau imaginea și vocea bunicii.",
+    "worked": "Într-o singură activitate apar ambele tipuri de dispozitive. Regula direcției datelor ajută: camera și microfonul sunt intrări, ecranul și difuzorul sunt ieșiri.",
+    "exercises": [
+     "Clasifică: scaner, boxe, microfon, proiector, mouse.",
+     "Dă un exemplu de dispozitiv de intrare-ieșire.",
+     "Explică regula direcției datelor.",
+     "Numește trei porturi de conectare.",
+     "Descrie dispozitivele folosite într-o lecție online."
+    ],
+    "test": [
+     "Este tastatura dispozitiv de intrare sau de ieșire?",
+     "Ce tip de dispozitiv este imprimanta?",
+     "De ce ecranul tactil este de intrare-ieșire?",
+     "Ce port folosim pentru un monitor modern?",
+     "Ce tehnologie fără fir conectează căștile?"
+    ],
+    "steps": [
+     "Întreabă-te: datele merg spre calculator sau ies din el?",
+     "Dacă merg spre calculator, este intrare; dacă ies, este ieșire.",
+     "Dacă se întâmplă amândouă, este dispozitiv de intrare-ieșire.",
+     "Greșeala frecventă: să clasifici după aspect, nu după direcția datelor."
+    ],
+    "answers": [
+     "De intrare.",
+     "De ieșire.",
+     "Pentru că afișează imagini și primește atingeri.",
+     "HDMI (sau DisplayPort).",
+     "Bluetooth."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l07": {
+   "ro": {
+    "title": "Memoria externă și unitățile de măsură",
+    "theory": "Datele se păstrează pe termen lung pe memorii externe (de stocare): hard diskul (HDD, cu discuri magnetice), SSD-ul (fără piese în mișcare, mult mai rapid), memoria flash USB (stick), cardul de memorie, discurile optice (CD, DVD) și stocarea în cloud (pe servere, prin Internet). Cea mai mică unitate de informație este bitul (0 sau 1). 8 biți formează un octet (byte, B). Apoi: 1 KB ≈ 1024 B, 1 MB ≈ 1024 KB, 1 GB ≈ 1024 MB, 1 TB ≈ 1024 GB. Un text scurt are câțiva KB, o fotografie câțiva MB, un film câțiva GB. Producătorii de discuri folosesc adesea 1000 în loc de 1024, de aceea un disc de 500 GB apare puțin mai mic în calculator.",
+    "sample": "Un stick are 16 GB. O fotografie are 4 MB. Câte fotografii încap? 16 GB ≈ 16 × 1024 MB = 16.384 MB; 16.384 : 4 = 4096 fotografii (aproximativ).",
+    "worked": "Calculul arată metoda: aducem ambele mărimi la aceeași unitate, apoi împărțim. Rezultatul este aproximativ, pentru că sistemul de fișiere ocupă și el puțin spațiu.",
+    "exercises": [
+     "Ordonează crescător: GB, bit, KB, TB, byte, MB.",
+     "Transformă 3 MB în KB.",
+     "Compară HDD cu SSD.",
+     "Calculează câte melodii de 5 MB încap pe un card de 2 GB.",
+     "Explică avantajul și riscul stocării în cloud."
+    ],
+    "test": [
+     "Câți biți are un octet?",
+     "Câți KB are aproximativ un MB?",
+     "Ce memorie nu are piese în mișcare?",
+     "Ce este stocarea în cloud?",
+     "Care este mai mare: 1 TB sau 900 GB?"
+    ],
+    "steps": [
+     "Scrie șirul unităților: bit, byte, KB, MB, GB, TB.",
+     "Când urci o treaptă împarți la 1024; când cobori, înmulțești.",
+     "Adu mărimile la aceeași unitate înainte de a le compara.",
+     "Greșeala frecventă: să compari 500 MB cu 2 GB uitând să transformi; 2 GB înseamnă 2048 MB."
+    ],
+    "answers": [
+     "8 biți.",
+     "1024 KB.",
+     "SSD-ul (și memoria flash).",
+     "Păstrarea fișierelor pe servere, accesate prin Internet.",
+     "1 TB (≈ 1024 GB)."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l08": {
+   "ro": {
+    "title": "Hardware și software. Tipuri de programe",
+    "theory": "Hardware înseamnă partea fizică, pe care o putem atinge; software înseamnă programele, adică instrucțiunile care spun hardware-ului ce să facă. Fără software, calculatorul nu poate face nimic util; fără hardware, programele nu au pe ce rula. Software-ul se împarte în: software de sistem – sistemul de operare și driverele, care fac legătura cu componentele; software de aplicație – programele pentru sarcini concrete: editoare de text, editoare grafice, browsere, jocuri, programe educaționale; utilitare – antivirus, programe de arhivare. După licență, unele programe sunt comerciale (se plătesc), altele gratuite (freeware) sau libere și deschise (open source), al căror cod poate fi studiat și îmbunătățit.",
+    "sample": "Elena descarcă un program de desen gratuit. Ea verifică întâi dacă provine de pe site-ul oficial, apoi îl instalează cu ajutorul părinților.",
+    "worked": "Programul de desen este software de aplicație, iar instalarea lui folosește sistemul de operare. Descărcarea doar din surse oficiale este o regulă de siguranță, pentru că programele din surse nesigure pot conține viruși.",
+    "exercises": [
+     "Clasifică: browser, driver de imprimantă, antivirus, joc, sistem de operare.",
+     "Explică de ce un calculator are nevoie de software.",
+     "Dă exemplu de program gratuit și de program comercial.",
+     "Explică ce înseamnă open source.",
+     "Spune de ce descărcăm programe doar din surse sigure."
+    ],
+    "test": [
+     "Ce este software-ul?",
+     "Ce tip de software este sistemul de operare?",
+     "Ce face un driver?",
+     "Ce tip de program este un editor grafic?",
+     "Ce înseamnă freeware?"
+    ],
+    "steps": [
+     "Întreabă-te dacă poți atinge obiectul: dacă da, este hardware.",
+     "Pentru software, stabilește dacă lucrează pentru calculator sau pentru o sarcină a ta.",
+     "Încadrează-l: de sistem, de aplicație sau utilitar.",
+     "Greșeala frecventă: să crezi că un program este hardware pentru că îl instalezi de pe un stick; stick-ul este hardware, programul este software."
+    ],
+    "answers": [
+     "Programele care spun hardware-ului ce să facă.",
+     "Software de sistem.",
+     "Face legătura dintre sistemul de operare și o componentă.",
+     "Software de aplicație.",
+     "Program gratuit."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l09": {
+   "ro": {
+    "title": "Sistemul de operare și interfața grafică",
+    "theory": "Sistemul de operare este programul principal care pornește odată cu calculatorul și gestionează tot: procesorul, memoria, fișierele, perifericele și celelalte programe. Exemple: Windows, macOS și Linux pentru calculatoare, Android și iOS pentru telefoane. El ne oferă o interfață grafică: desktopul (spațiul de lucru), pictogramele (iconițele care reprezintă programe și fișiere), bara de activități, meniul de start și ferestrele. O fereastră are bară de titlu, butoane pentru minimizare, maximizare/restaurare și închidere, și poate fi mutată sau redimensionată. Putem schimba setări: data și ora, volumul, imaginea de fundal, luminozitatea.",
+    "sample": "Radu are deschise trei ferestre: un desen, un text și browserul. El minimizează desenul, mută textul în stânga și închide browserul.",
+    "worked": "Exemplul arată operațiile de bază cu ferestre. Minimizarea ascunde fereastra fără să închidă programul, iar închiderea oprește programul; de aceea, înainte de închidere salvăm lucrul.",
+    "exercises": [
+     "Numește trei sisteme de operare.",
+     "Explică rolul sistemului de operare.",
+     "Descrie butoanele unei ferestre.",
+     "Explică diferența dintre minimizare și închidere.",
+     "Schimbă imaginea de fundal și notează pașii."
+    ],
+    "test": [
+     "Ce este desktopul?",
+     "Ce reprezintă o pictogramă?",
+     "Ce sistem de operare are un telefon Android?",
+     "Ce face butonul de maximizare?",
+     "Ce gestionează sistemul de operare?"
+    ],
+    "steps": [
+     "Identifică elementul de interfață despre care este vorba.",
+     "Spune ce operație vrei să faci: deschidere, mutare, minimizare, închidere.",
+     "Execută operația și verifică rezultatul.",
+     "Greșeala frecventă: să închizi o fereastră crezând că doar o ascunzi; poți pierde lucrul nesalvat."
+    ],
+    "answers": [
+     "Spațiul principal de lucru al interfeței grafice.",
+     "Un program, un fișier sau un folder.",
+     "Android.",
+     "Mărește fereastra pe tot ecranul.",
+     "Procesorul, memoria, fișierele, perifericele și programele."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l10": {
+   "ro": {
+    "title": "Fișiere și foldere: nume, extensie, cale",
+    "theory": "Toate datele salvate sunt păstrate în fișiere: un document, o imagine, o melodie. Un fișier are un nume și, de obicei, o extensie după punct, care arată tipul: .txt și .docx pentru text, .png și .jpg pentru imagini, .mp3 pentru sunet, .mp4 pentru film, .pdf pentru documente de citit. Folderele (directoarele) grupează fișierele, ca dosarele dintr-un dulap, și pot conține alte foldere. Astfel apare o structură arborescentă. Calea arată drumul până la fișier, de exemplu D:\\Școala\\Informatică\\desen.png: unitatea D:, folderul Școala, subfolderul Informatică, fișierul desen.png. Nume bune: scurte, clare, fără caractere interzise precum / \\ : * ? \" < > |.",
+    "sample": "Ana are pe desktop 40 de fișiere amestecate. Ea creează folderele Școala, Poze și Muzică și mută fiecare fișier unde îi este locul.",
+    "worked": "Organizarea în foldere face fișierele ușor de găsit. Extensia o ajută pe Ana să știe imediat unde merge fiecare fișier: .jpg în Poze, .mp3 în Muzică, .docx în Școala.",
+    "exercises": [
+     "Spune tipul fișierelor: tema.docx, vacanta.jpg, cantec.mp3, film.mp4.",
+     "Desenează arborele de foldere pentru materiile tale.",
+     "Scrie calea către un fișier din structura desenată.",
+     "Explică de ce un nume ca „fișier nou 7” este nepotrivit.",
+     "Enumeră trei caractere interzise în numele fișierelor."
+    ],
+    "test": [
+     "Ce arată extensia unui fișier?",
+     "Ce este un folder?",
+     "Ce extensie are de obicei o fotografie?",
+     "Ce arată calea unui fișier?",
+     "Poate un folder să conțină alt folder?"
+    ],
+    "steps": [
+     "Citește extensia pentru a afla tipul fișierului.",
+     "Alege folderul potrivit tipului și subiectului.",
+     "Scrie calea de la unitate până la fișier, despărțind nivelurile.",
+     "Greșeala frecventă: să ștergi sau să schimbi extensia când redenumești; fișierul poate să nu se mai deschidă corect."
+    ],
+    "answers": [
+     "Tipul fișierului.",
+     "Un container care grupează fișiere și alte foldere.",
+     ".jpg (sau .png).",
+     "Drumul de la unitate, prin foldere, până la fișier.",
+     "Da (subfolder)."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l11": {
+   "ro": {
+    "title": "Operații cu fișiere și foldere",
+    "theory": "Cu fișierele și folderele facem câteva operații de bază: creare (clic dreapta – Nou), redenumire, copiere (rămâne și originalul), mutare (originalul se mută în alt loc), ștergere și căutare. Copierea și mutarea se fac cu Copiere/Decupare și Lipire (Ctrl+C, Ctrl+X, Ctrl+V) sau prin tragere cu mouse-ul. Fișierele șterse de pe disc ajung de obicei în Coșul de reciclare, de unde pot fi restaurate până la golirea lui; fișierele șterse de pe un stick nu trec prin coș. Pentru a selecta mai multe fișiere folosim Ctrl (fișiere separate) sau Shift (un șir continuu). Căutarea după nume sau extensie (de exemplu *.png) ne ajută când nu știm unde am pus un fișier.",
+    "sample": "Victor vrea să-i dea profesorului o copie a proiectului pe stick, dar să păstreze proiectul și pe calculator. El folosește Copiere, nu Decupare.",
+    "worked": "Diferența dintre copiere și mutare este esențială: la copiere există două exemplare, la mutare unul singur. Victor a ales corect, pentru că voia să păstreze originalul.",
+    "exercises": [
+     "Explică diferența dintre copiere și mutare.",
+     "Scrie combinațiile de taste pentru copiere, decupare și lipire.",
+     "Explică cum restaurezi un fișier șters.",
+     "Descrie cum selectezi cinci fișiere aflate unul după altul.",
+     "Caută toate imaginile .png dintr-un folder și notează pașii."
+    ],
+    "test": [
+     "Ce face Ctrl+X?",
+     "Unde ajunge un fișier șters de pe disc?",
+     "Ce tastă folosești pentru a selecta fișiere separate?",
+     "Ce se întâmplă cu originalul la copiere?",
+     "Trec prin Coșul de reciclare fișierele șterse de pe stick?"
+    ],
+    "steps": [
+     "Stabilește dacă vrei să păstrezi originalul.",
+     "Dacă da, copiază; dacă nu, mută.",
+     "Verifică la final că fișierul este la locul nou și se deschide.",
+     "Greșeala frecventă: să golești Coșul de reciclare fără să verifici ce conține."
+    ],
+    "answers": [
+     "Decupează (pregătește mutarea).",
+     "În Coșul de reciclare.",
+     "Ctrl.",
+     "Rămâne la locul lui.",
+     "Nu, de obicei se șterg definitiv."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l12": {
+   "ro": {
+    "title": "Rețele de calculatoare și Internetul",
+    "theory": "O rețea de calculatoare înseamnă două sau mai multe dispozitive legate între ele pentru a schimba date și a folosi resurse comune (o imprimantă, o conexiune). Rețeaua din școală sau de acasă este o rețea locală; Internetul este rețeaua mondială care leagă milioane de rețele. Legătura se face prin cabluri, fibră optică sau fără fir (Wi-Fi, rețele mobile 4G/5G). Routerul dirijează datele între rețele. Serviciile cele mai folosite ale Internetului sunt: web-ul (site-uri și pagini), poșta electronică (e-mail), mesageria și apelurile video, stocarea în cloud, transferul de fișiere. Web-ul nu este totuna cu Internetul: web-ul este doar un serviciu care funcționează prin Internet.",
+    "sample": "Acasă, laptopul, telefonul și televizorul se conectează la același router Wi-Fi. Toate pot ajunge la Internet prin conexiunea furnizorului.",
+    "worked": "Exemplul arată o rețea locală conectată la Internet: dispozitivele comunică întâi cu routerul, iar acesta trimite datele mai departe în rețeaua mondială.",
+    "exercises": [
+     "Definește rețeaua de calculatoare.",
+     "Compară rețeaua locală cu Internetul.",
+     "Enumeră trei servicii ale Internetului.",
+     "Explică rolul routerului.",
+     "Explică de ce web-ul nu este totuna cu Internetul."
+    ],
+    "test": [
+     "Ce leagă Internetul?",
+     "Ce dispozitiv dirijează datele între rețele?",
+     "Ce înseamnă Wi-Fi?",
+     "Este e-mailul un serviciu al Internetului?",
+     "Ce resursă poate fi folosită în comun într-o rețea?"
+    ],
+    "steps": [
+     "Identifică dispozitivele și cum sunt legate.",
+     "Stabilește dacă rețeaua este locală sau parte din Internet.",
+     "Numește serviciul folosit: web, e-mail, apel video.",
+     "Greșeala frecventă: să spui că Internetul și web-ul sunt același lucru."
+    ],
+    "answers": [
+     "Milioane de rețele din toată lumea.",
+     "Routerul.",
+     "Conexiune fără fir la o rețea.",
+     "Da.",
+     "O imprimantă (sau conexiunea la Internet)."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l13": {
+   "ro": {
+    "title": "Browserul și căutarea informației",
+    "theory": "Browserul (navigatorul) este programul cu care deschidem pagini web: Chrome, Firefox, Edge, Safari. Fiecare pagină are o adresă (URL), de exemplu https://www.edu.ro; litera „s” din https arată o conexiune securizată. Ca să găsim informații folosim un motor de căutare, căruia îi dăm cuvinte-cheie clare: nu „vreau să știu despre planete”, ci „planetele sistemului solar”. Ghilimelele caută o expresie exactă. Rezultatele nu sunt toate corecte: verificăm cine a scris pagina, dacă este o sursă oficială sau de încredere (instituții, enciclopedii, manuale), dacă informația este recentă și dacă o găsim confirmată și în alte surse. Putem salva paginile utile ca favorite (marcaje).",
+    "sample": "Sara caută înălțimea vârfului Moldoveanu. Primul site spune 2544 m, al doilea 2543 m. Ea verifică într-o sursă oficială și notează valoarea împreună cu sursa.",
+    "worked": "Diferențele mici apar des pe Internet. Metoda Sarei este corectă: compară surse, preferă una de încredere și notează de unde a luat informația.",
+    "exercises": [
+     "Numește trei browsere.",
+     "Transformă întrebarea „cum se fac curcubeele” în cuvinte-cheie.",
+     "Explică ce arată https.",
+     "Enumeră trei criterii de verificare a unei surse.",
+     "Caută o informație în două surse și compară-le."
+    ],
+    "test": [
+     "Ce este un browser?",
+     "Ce este un URL?",
+     "Ce face motorul de căutare?",
+     "Ce rol au ghilimelele în căutare?",
+     "Ce sunt favoritele?"
+    ],
+    "steps": [
+     "Formulează cuvinte-cheie scurte și precise.",
+     "Citește titlul și adresa rezultatelor înainte să intri.",
+     "Verifică informația în cel puțin încă o sursă de încredere.",
+     "Greșeala frecventă: să crezi că primul rezultat este întotdeauna corect."
+    ],
+    "answers": [
+     "Programul cu care deschidem pagini web.",
+     "Adresa unei pagini web.",
+     "Găsește pagini după cuvinte-cheie.",
+     "Caută expresia exactă.",
+     "Pagini salvate pentru a le deschide rapid."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l14": {
+   "ro": {
+    "title": "Siguranța pe Internet",
+    "theory": "Pe Internet ne protejăm ca pe stradă. Nu dăm date personale (adresă, număr de telefon, școală, parole, poze cu documente) persoanelor necunoscute. O parolă bună este lungă (cel puțin 12 caractere), amestecă litere mari și mici, cifre și simboluri și nu se spune nimănui, cu excepția părinților. Nu deschidem linkuri sau atașamente primite de la necunoscuți: pot fi înșelătorii (phishing) sau viruși. Ce publicăm rămâne mult timp online. Dacă cineva ne jignește, ne amenință sau ne cere poze (hărțuire online, cyberbullying), nu răspundem, păstrăm dovezile (capturi de ecran), blocăm persoana și spunem unui adult de încredere. Și noi respectăm pe ceilalți: nu publicăm poze cu alții fără acordul lor.",
+    "sample": "Luca primește un mesaj: „Ai câștigat o tabletă! Intră pe link și scrie parola contului.” El nu dă clic, le arată părinților mesajul și îl șterge.",
+    "worked": "Mesajul are semnele unei înșelătorii: un premiu neașteptat, grabă și cererea unei parole. Nicio firmă serioasă nu cere parola prin mesaj.",
+    "exercises": [
+     "Enumeră cinci date personale pe care nu le dai necunoscuților.",
+     "Creează după reguli un exemplu de parolă puternică (nu folosi una reală).",
+     "Descrie semnele unui mesaj de tip phishing.",
+     "Explică pașii de urmat în caz de hărțuire online.",
+     "Explică de ce cerem acordul înainte de a publica poza unui coleg."
+    ],
+    "test": [
+     "Cât de lungă ar trebui să fie o parolă bună?",
+     "Ce este phishingul?",
+     "Ce faci dacă cineva te amenință online?",
+     "Cui îi poți spune parola?",
+     "De ce păstrăm capturi de ecran în caz de hărțuire?"
+    ],
+    "steps": [
+     "Oprește-te înainte de a da clic sau de a răspunde.",
+     "Întreabă-te: cunosc persoana? îmi cere date sau bani? mă grăbește?",
+     "Dacă ceva pare ciudat, nu continua și cere ajutorul unui adult.",
+     "Greșeala frecventă: să crezi că un mesaj este sigur doar pentru că pare să vină de la o firmă cunoscută."
+    ],
+    "answers": [
+     "Cel puțin 12 caractere.",
+     "O înșelătorie prin care cineva încearcă să-ți afle datele.",
+     "Nu răspund, păstrez dovezile, blochez persoana și spun unui adult.",
+     "Doar părinților.",
+     "Ca dovadă pentru adulți și, dacă e nevoie, pentru autorități."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l15": {
+   "ro": {
+    "title": "Drepturi de autor și creditarea informației",
+    "theory": "Orice text, fotografie, desen, melodie sau film are un autor, iar legea îi protejează munca prin dreptul de autor. Faptul că o imagine se găsește pe Internet nu înseamnă că o putem folosi oricum. Pentru temele școlare putem folosi informații și imagini dacă menționăm sursa: autorul, titlul, site-ul și data accesării. A copia un text și a-l prezenta ca al tău se numește plagiat și este necinstit. Unele lucrări au licențe Creative Commons, care spun ce ai voie să faci (de exemplu CC BY: poți folosi lucrarea dacă menționezi autorul). Există și lucrări în domeniul public, a căror protecție a expirat, și bănci de imagini gratuite. Cel mai sigur: creezi tu imaginea sau scrii cu cuvintele tale.",
+    "sample": "Pentru un proiect despre Delta Dunării, Bianca folosește o fotografie cu licență CC BY și scrie sub ea numele fotografului și site-ul de unde a luat-o.",
+    "worked": "Bianca respectă licența: CC BY cere tocmai menționarea autorului. Creditarea sursei arată respect pentru munca altora și îi permite profesorului să verifice informația.",
+    "exercises": [
+     "Explică ce este dreptul de autor.",
+     "Explică ce este plagiatul.",
+     "Scrie creditarea pentru o imagine găsită pe un site.",
+     "Explică ce cere licența CC BY.",
+     "Reformulează cu cuvintele tale un paragraf dintr-o enciclopedie."
+    ],
+    "test": [
+     "Pot folosi orice imagine de pe Internet fără să întreb?",
+     "Ce date trec când citez o sursă?",
+     "Ce este domeniul public?",
+     "Ce înseamnă să creditezi o sursă?",
+     "Ce poți face pentru a evita plagiatul?"
+    ],
+    "steps": [
+     "Verifică dacă lucrarea are o licență și ce permite.",
+     "Folosește-o doar cum permite licența.",
+     "Scrie sursa sub imagine sau la finalul lucrării.",
+     "Greșeala frecventă: să crezi că dacă schimbi câteva cuvinte dintr-un text copiat, textul devine al tău."
+    ],
+    "answers": [
+     "Nu; trebuie să respect drepturile autorului și licența.",
+     "Autorul, titlul, site-ul și data accesării.",
+     "Lucrări a căror protecție a expirat și pot fi folosite liber.",
+     "Să menționezi de unde ai luat informația.",
+     "Să scrii cu cuvintele tale și să citezi sursele."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l16": {
+   "ro": {
+    "title": "Editorul grafic: interfață și imagini digitale",
+    "theory": "Un editor grafic este o aplicație cu care desenăm și modificăm imagini: Paint, Paint 3D, Krita, GIMP sau aplicații online. Imaginile obișnuite sunt formate din puncte mici colorate, numite pixeli, așezate în rânduri și coloane; de aceea se numesc imagini raster (bitmap). Dimensiunea unei imagini se exprimă în pixeli, de exemplu 1920 × 1080. Interfața are: zona de desen (pânza), bara de instrumente (creion, pensulă, radieră, găleată de umplere, forme, text), paleta de culori, meniul cu comenzi (Fișier – Nou, Deschidere, Salvare) și opțiunile de mărire (zoom). Dacă mărim mult o imagine raster, vedem pătrățelele pixelilor.",
+    "sample": "Tudor mărește o fotografie de 8 ori și observă că marginea unei frunze arată ca o scară din pătrățele colorate.",
+    "worked": "Pătrățelele sunt pixelii. Exemplul arată de ce imaginile raster își pierd claritatea când le mărim prea mult: pixelii nu se înmulțesc, ci doar devin mai mari.",
+    "exercises": [
+     "Numește trei editoare grafice.",
+     "Explică ce este un pixel.",
+     "Calculează câți pixeli are o imagine de 100 × 50.",
+     "Descrie zonele interfeței editorului folosit la clasă.",
+     "Explică de ce o imagine mică mărită devine neclară."
+    ],
+    "test": [
+     "Ce este un editor grafic?",
+     "Ce este o imagine raster?",
+     "Ce înseamnă 1920 × 1080?",
+     "Unde alegem culoarea?",
+     "Ce face instrumentul zoom?"
+    ],
+    "steps": [
+     "Deschide editorul și identifică zonele interfeței.",
+     "Alege instrumentul potrivit pentru ce vrei să desenezi.",
+     "Mărește imaginea pentru detalii, apoi revino la mărimea normală.",
+     "Greșeala frecventă: să confunzi zoomul cu redimensionarea; zoomul doar te apropie, nu schimbă imaginea."
+    ],
+    "answers": [
+     "O aplicație pentru desenat și modificat imagini.",
+     "O imagine formată din pixeli.",
+     "1920 de pixeli pe lățime și 1080 pe înălțime.",
+     "În paleta de culori.",
+     "Apropie sau depărtează vederea asupra imaginii."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l17": {
+   "ro": {
+    "title": "Instrumente de desen și culori",
+    "theory": "Instrumentele de bază ale unui editor grafic sunt: creionul (linii subțiri, libere), pensula (linii mai groase, cu diferite texturi), radiera (șterge), găleata de umplere (colorează o zonă închisă cu o singură culoare), formele (linie, dreptunghi, elipsă, poligon), pipeta (preia o culoare din imagine) și instrumentul text. Avem de obicei două culori active: culoarea 1 (prim-plan, clic stânga) și culoarea 2 (fundal, clic dreapta). Pentru forme alegem conturul și umplerea. Grosimea liniei se alege din meniul de dimensiuni. Găleata umple doar zone închise: dacă un contur are o „gaură”, culoarea se scurge în tot desenul.",
+    "sample": "Ilinca desenează o casă și vrea să coloreze acoperișul cu roșu, dar tot cerul se face roșu. Ea apasă Anulare (Ctrl+Z), mărește imaginea și închide un mic spațiu dintre linii.",
+    "worked": "Găleata de umplere colorează toți pixelii vecini de aceeași culoare. Spațiul liber dintre linii a lăsat culoarea să treacă în cer; închiderea conturului și Anularea rezolvă problema.",
+    "exercises": [
+     "Spune ce instrument folosești pentru: o linie dreaptă, un cerc, colorarea unei zone.",
+     "Explică diferența dintre culoarea 1 și culoarea 2.",
+     "Explică de ce găleata colorează uneori tot desenul.",
+     "Folosește pipeta pentru a reface o culoare dintr-o fotografie.",
+     "Desenează un peisaj folosind cel puțin cinci instrumente."
+    ],
+    "test": [
+     "Ce face pipeta?",
+     "Ce combinație de taste anulează ultima operație?",
+     "Ce zone umple găleata de umplere?",
+     "Ce alegem pentru o formă în afară de contur?",
+     "Ce instrument șterge?"
+    ],
+    "steps": [
+     "Gândește desenul pe părți: contur, apoi culori, apoi detalii.",
+     "Alege instrumentul și grosimea potrivite fiecărei părți.",
+     "Folosește Ctrl+Z imediat când greșești.",
+     "Greșeala frecventă: să colorezi cu găleata o zonă care nu are contur complet închis."
+    ],
+    "answers": [
+     "Preia o culoare din imagine.",
+     "Ctrl+Z.",
+     "Zonele închise, cu aceeași culoare.",
+     "Umplerea (culoarea interioară).",
+     "Radiera."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l18": {
+   "ro": {
+    "title": "Operații de editare: selecție, copiere, transformări",
+    "theory": "Pentru a modifica o parte din imagine o selectăm: selecție dreptunghiulară sau selecție liberă (formă oarecare). Partea selectată poate fi mutată, copiată și lipită (Ctrl+C, Ctrl+V) pentru a obține mai multe exemplare, ștearsă, redimensionată (mărită sau micșorată, de preferat păstrând proporțiile), rotită (de exemplu cu 90° sau 180°) sau răsturnată (oglindită) orizontal ori vertical. Putem decupa imaginea la zona selectată. Opțiunea de selecție transparentă lasă să se vadă fundalul în jurul obiectului mutat. Instrumentul text adaugă inscripții cu font, mărime și culoare alese. Ordinea corectă: întâi selectăm, apoi aplicăm operația.",
+    "sample": "Pentru o felicitare, David desenează un singur fulg de zăpadă, apoi îl selectează, îl copiază de 10 ori și micșorează unele copii.",
+    "worked": "Copierea selecției economisește timp și face fulgii identici, iar redimensionarea dă impresia de adâncime: fulgii mici par mai depărtați.",
+    "exercises": [
+     "Explică diferența dintre selecția dreptunghiulară și cea liberă.",
+     "Descrie pașii pentru a obține 5 copii ale unui desen.",
+     "Explică ce înseamnă răsturnare orizontală.",
+     "Explică de ce păstrăm proporțiile la redimensionare.",
+     "Realizează un model repetitiv (de exemplu un gard) prin copiere."
+    ],
+    "test": [
+     "Ce facem înainte de a muta o parte din imagine?",
+     "Ce face rotirea cu 180°?",
+     "Ce face decuparea?",
+     "La ce folosește selecția transparentă?",
+     "Cu ce instrument adăugăm o inscripție?"
+    ],
+    "steps": [
+     "Selectează exact partea pe care vrei să o modifici.",
+     "Alege operația: mutare, copiere, redimensionare, rotire.",
+     "Verifică rezultatul și anulează dacă nu e bun.",
+     "Greșeala frecventă: să aplici operația fără selecție; atunci se modifică toată imaginea."
+    ],
+    "answers": [
+     "O selectăm.",
+     "Întoarce imaginea cu capul în jos.",
+     "Păstrează doar zona selectată.",
+     "Lasă să se vadă fundalul în jurul obiectului mutat.",
+     "Cu instrumentul text."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l19": {
+   "ro": {
+    "title": "Salvarea imaginilor și proiectul grafic",
+    "theory": "Când salvăm o imagine alegem numele, locul (folderul) și formatul. Formatele uzuale: PNG – păstrează exact culorile și poate avea fundal transparent, bun pentru desene, scheme și capturi de ecran; JPG (JPEG) – comprimă imaginea și ocupă puțin spațiu, bun pentru fotografii, dar pierde puțin din calitate la fiecare salvare; BMP – necomprimat, ocupă mult spațiu; GIF – puține culori, poate conține animații. Salvăm des, ca să nu pierdem munca. Un proiect grafic (afiș, felicitare) se face în etape: alegem tema și mesajul, schițăm, desenăm, adăugăm text lizibil, verificăm și salvăm, creditând imaginile preluate.",
+    "sample": "Robert salvează o schemă cu text mic în format JPG și observă pete în jurul literelor. O salvează din nou ca PNG, iar literele sunt clare.",
+    "worked": "Petele sunt efectul compresiei JPG, potrivită pentru fotografii, nu pentru desene cu linii nete și text. Alegerea formatului depinde de tipul imaginii.",
+    "exercises": [
+     "Alege formatul pentru: o fotografie din excursie, o schemă cu text, un desen cu fundal transparent.",
+     "Explică ce pierde formatul JPG.",
+     "Descrie etapele unui proiect grafic.",
+     "Realizează o felicitare și salveaz-o cu un nume potrivit.",
+     "Compară mărimea aceluiași desen salvat ca BMP și ca PNG."
+    ],
+    "test": [
+     "Ce format poate avea fundal transparent?",
+     "Ce format este potrivit pentru fotografii?",
+     "De ce un fișier BMP ocupă mult spațiu?",
+     "Ce format poate conține animații simple?",
+     "De ce salvăm des?"
+    ],
+    "steps": [
+     "Stabilește ce fel de imagine ai: fotografie, desen sau schemă.",
+     "Alege formatul potrivit și un nume clar.",
+     "Salvează în folderul proiectului și verifică deschiderea fișierului.",
+     "Greșeala frecventă: să salvezi și să resalvezi un desen ca JPG; calitatea scade la fiecare salvare."
+    ],
+    "answers": [
+     "PNG (și GIF).",
+     "JPG.",
+     "Pentru că nu este comprimat.",
+     "GIF.",
+     "Ca să nu pierdem munca dacă apare o problemă."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l20": {
+   "ro": {
+    "title": "Noțiunea de algoritm",
+    "theory": "Un algoritm este o succesiune finită de pași clari, executați într-o anumită ordine, care rezolvă o problemă. Folosim algoritmi zilnic: o rețetă, instrucțiunile de montare a unui joc, drumul spre școală. Un algoritm bun are câteva proprietăți: claritate – fiecare pas este precis, fără să lase loc de interpretări; finitudine – se termină după un număr de pași; generalitate – rezolvă toate problemele de același tip, nu doar un caz; corectitudine – dă rezultatul bun. Calculatorul nu „ghicește” ce vrem: execută exact pașii primiți, în ordinea dată. De aceea trebuie să gândim cu grijă ordinea și să nu sărim niciun pas.",
+    "sample": "Algoritmul pentru ceai: 1. Fierbe apa. 2. Pune plicul în cană. 3. Toarnă apa fierbinte. 4. Așteaptă 3–5 minute. 5. Scoate plicul. Dacă schimbăm pașii 3 și 1, turnăm apă rece.",
+    "worked": "Exemplul arată că ordinea pașilor contează și că fiecare pas trebuie să fie precis („așteaptă 3–5 minute”, nu „așteaptă puțin”). Algoritmul se și termină, deci este finit.",
+    "exercises": [
+     "Scrie algoritmul pentru spălatul pe mâini.",
+     "Spune ce proprietate lipsește: „Amestecă până e bine”.",
+     "Ordonează pașii amestecați ai unui algoritm de plantare a unei flori.",
+     "Explică de ce un algoritm trebuie să se termine.",
+     "Scrie un algoritm general pentru adunarea a două numere oarecare."
+    ],
+    "test": [
+     "Ce este un algoritm?",
+     "Ce înseamnă claritatea unui algoritm?",
+     "Ce înseamnă finitudinea?",
+     "Ce înseamnă generalitatea?",
+     "Poate calculatorul să completeze singur un pas lipsă?"
+    ],
+    "steps": [
+     "Înțelege problema: ce ai la început și ce vrei să obții.",
+     "Scrie pașii unul câte unul, în ordine, cât mai precis.",
+     "Verifică algoritmul urmându-l exact ca un robot.",
+     "Greșeala frecventă: să scrii pași vagi, ca „fă puțin” sau „cât trebuie”; un algoritm cere pași preciși."
+    ],
+    "answers": [
+     "O succesiune finită de pași clari care rezolvă o problemă.",
+     "Fiecare pas este precis și are un singur înțeles.",
+     "Algoritmul se termină după un număr de pași.",
+     "Rezolvă toate problemele de același tip.",
+     "Nu, execută doar pașii primiți."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l21": {
+   "ro": {
+    "title": "Date de intrare și de ieșire. Constante și variabile",
+    "theory": "Orice algoritm lucrează cu date. Datele de intrare sunt cele pe care le primește la început (de exemplu, lungimea și lățimea unui dreptunghi). Datele de ieșire sunt rezultatele (aria). Între ele pot exista date intermediare, folosite în calcul. Datele pot fi constante – valori care nu se schimbă în timpul algoritmului (de exemplu numărul de minute dintr-o oră, 60) – sau variabile, adică „cutii” cu nume în care păstrăm valori care se pot schimba (de exemplu scor, vârsta, suma). O variabilă are un nume și o valoare; când îi dăm o valoare nouă, cea veche se pierde. Datele pot fi numere (întregi sau cu virgulă), texte sau valori logice (adevărat/fals).",
+    "sample": "Algoritmul pentru transformarea orelor în minute: intrare – numărul de ore h; calcul – minute = h × 60; ieșire – minute. Pentru h = 3 obținem 180.",
+    "worked": "În exemplu, h și minute sunt variabile, pentru că valorile lor se schimbă de la o rulare la alta, iar 60 este o constantă. Identificarea intrărilor și ieșirilor este primul pas în orice problemă.",
+    "exercises": [
+     "Identifică intrările și ieșirile pentru calculul perimetrului unui pătrat.",
+     "Dă exemplu de constantă și de variabilă din viața de zi cu zi.",
+     "Explică ce se întâmplă cu valoarea veche a unei variabile.",
+     "Scrie datele pentru calculul vârstei din anul nașterii.",
+     "Clasifică datele: 12, „Ana”, adevărat, 3,5."
+    ],
+    "test": [
+     "Ce sunt datele de intrare?",
+     "Ce este o variabilă?",
+     "Este 60 (minute într-o oră) constantă sau variabilă?",
+     "Ce tipuri de date cunoști?",
+     "Care este data de ieșire la calculul ariei?"
+    ],
+    "steps": [
+     "Citește problema și caută ce ți se dă: acestea sunt intrările.",
+     "Caută ce ți se cere: acesta este rezultatul (ieșirea).",
+     "Dă nume clare variabilelor și stabilește care valori sunt constante.",
+     "Greșeala frecventă: să crezi că o variabilă păstrează toate valorile primite; ea o păstrează doar pe ultima."
+    ],
+    "answers": [
+     "Datele primite la începutul algoritmului.",
+     "Un nume pentru o valoare care se poate schimba.",
+     "Constantă.",
+     "Numere, texte, valori logice.",
+     "Aria."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l22": {
+   "ro": {
+    "title": "Expresii și operații cu date",
+    "theory": "O expresie combină date (numere, variabile) cu operatori, iar calculatorul o evaluează la o valoare. Operatorii aritmetici: + adunare, − scădere, × (în programe *) înmulțire, : (în programe /) împărțire; unele limbaje au și rest (de exemplu 17 rest 5 este 2). Ordinea efectuării este ca la matematică: întâi parantezele, apoi înmulțirea și împărțirea, apoi adunarea și scăderea. Operatorii relaționali compară valori și dau răspunsul adevărat sau fals: <, >, =, ≠, ≤, ≥. Operatorii logici leagă condiții: ȘI (adevărat doar când ambele condiții sunt adevărate), SAU (adevărat când cel puțin una este adevărată), NU (schimbă adevărat în fals și invers).",
+    "sample": "Pentru x = 7: x + 3 × 2 = 13; (x + 3) × 2 = 20; x > 5 este adevărat; x > 5 ȘI x < 6 este fals.",
+    "worked": "Primele două expresii diferă doar prin paranteze, dar dau rezultate diferite, pentru că parantezele schimbă ordinea operațiilor. Ultima condiție este falsă, pentru că ȘI cere ca ambele părți să fie adevărate.",
+    "exercises": [
+     "Calculează pentru a = 4: a × a − 2 și (a − 2) × a.",
+     "Spune dacă e adevărat sau fals, pentru n = 10: n ≥ 10, n ≠ 10.",
+     "Calculează restul împărțirii lui 23 la 4.",
+     "Evaluează pentru v = 12: v > 10 ȘI v < 18.",
+     "Scrie o condiție care verifică dacă un număr este între 1 și 100."
+    ],
+    "test": [
+     "Ce operație se face prima în 2 + 3 × 4?",
+     "Ce rezultat dă un operator relațional?",
+     "Când este adevărată o condiție cu ȘI?",
+     "Când este adevărată o condiție cu SAU?",
+     "Ce face operatorul NU?"
+    ],
+    "steps": [
+     "Înlocuiește variabilele cu valorile lor.",
+     "Calculează întâi parantezele, apoi înmulțirile și împărțirile, apoi adunările și scăderile.",
+     "Pentru condiții, evaluează fiecare parte și apoi aplică ȘI, SAU sau NU.",
+     "Greșeala frecventă: să calculezi de la stânga la dreapta fără să ții cont de ordinea operațiilor."
+    ],
+    "answers": [
+     "Înmulțirea 3 × 4.",
+     "Adevărat sau fals.",
+     "Când ambele condiții sunt adevărate.",
+     "Când cel puțin o condiție este adevărată.",
+     "Schimbă adevărat în fals și fals în adevărat."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l23": {
+   "ro": {
+    "title": "Structura secvențială",
+    "theory": "Structura secvențială (liniară) este cea mai simplă: pașii se execută unul după altul, exact în ordinea scrisă, fiecare o singură dată. Un algoritm secvențial tipic are trei părți: citim datele de intrare, facem calculele, afișăm rezultatul. În pseudocod scriem, de exemplu: citește a, b; s ← a + b; scrie s. Săgeata ← înseamnă atribuire: variabila din stânga primește valoarea expresiei din dreapta. Într-o schemă logică, pașii sunt blocuri legate prin săgeți de sus în jos, între blocurile START și STOP. Ordinea contează: nu putem afișa suma înainte de a o calcula și nici calcula înainte de a citi datele.",
+    "sample": "Algoritm pentru media a două note: citește n1, n2; m ← (n1 + n2) / 2; scrie m. Pentru n1 = 8 și n2 = 10, m = 9.",
+    "worked": "Algoritmul are cele trei etape: intrare, calcul, ieșire. Parantezele sunt necesare: fără ele, n1 + n2 / 2 ar însemna 8 + 5 = 13, nu media.",
+    "exercises": [
+     "Scrie un algoritm secvențial pentru perimetrul unui dreptunghi.",
+     "Scrie un algoritm care transformă metri în centimetri.",
+     "Urmărește algoritmul x ← 5; x ← x + 3; x ← x × 2 și spune valoarea finală.",
+     "Explică ce înseamnă atribuirea.",
+     "Găsește greșeala: scrie s; s ← a + b; citește a, b."
+    ],
+    "test": [
+     "Cum se execută pașii în structura secvențială?",
+     "Ce înseamnă săgeata ← în pseudocod?",
+     "Care sunt cele trei etape ale unui algoritm simplu?",
+     "Cu ce bloc începe o schemă logică?",
+     "De câte ori se execută fiecare pas?"
+    ],
+    "steps": [
+     "Scrie întâi citirea datelor de intrare.",
+     "Scrie calculele cu atribuiri, în ordinea în care au nevoie unele de altele.",
+     "Scrie la final afișarea rezultatului și verifică pe un exemplu numeric.",
+     "Greșeala frecventă: să afișezi un rezultat înainte de a-l calcula."
+    ],
+    "answers": [
+     "Unul după altul, în ordinea scrisă.",
+     "Atribuire: variabila primește valoarea din dreapta.",
+     "Citire, calcul, afișare.",
+     "START.",
+     "O singură dată."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l24": {
+   "ro": {
+    "title": "Structura alternativă (decizională)",
+    "theory": "Uneori algoritmul trebuie să aleagă între două drumuri, după o condiție. Aceasta este structura alternativă: dacă condiția este adevărată, se execută un set de pași; altfel (dacă este falsă), se execută alt set. În pseudocod: dacă condiție atunci pași1 altfel pași2. Ramura „altfel” poate lipsi; atunci, când condiția e falsă, nu se face nimic. În schema logică, decizia se desenează ca un romb cu două ieșiri: DA și NU. Condițiile folosesc operatori relaționali și logici, de exemplu nota ≥ 5. Putem pune o decizie în interiorul alteia, pentru mai multe cazuri.",
+    "sample": "Algoritm pentru promovare: citește nota; dacă nota ≥ 5 atunci scrie „promovat” altfel scrie „nepromovat”. Pentru nota 7 se afișează „promovat”.",
+    "worked": "Exemplul are o singură condiție și două ramuri. Pentru orice notă se execută exact una dintre ramuri, niciodată amândouă.",
+    "exercises": [
+     "Scrie un algoritm care spune dacă un număr este par.",
+     "Scrie un algoritm care afișează cel mai mare dintre două numere.",
+     "Desenează rombul de decizie pentru „temperatura < 0”.",
+     "Scrie un algoritm care spune dacă un număr este pozitiv, negativ sau zero.",
+     "Urmărește algoritmul pentru nota 4 și spune ce se afișează."
+    ],
+    "test": [
+     "Ce figură reprezintă decizia în schema logică?",
+     "Ce se întâmplă când condiția este adevărată?",
+     "Poate lipsi ramura „altfel”?",
+     "Câte ramuri se execută la o decizie?",
+     "Ce condiție verifică dacă un număr este par?"
+    ],
+    "steps": [
+     "Identifică întrebarea la care răspunde algoritmul: aceasta devine condiția.",
+     "Scrie ce se face pe ramura DA și ce se face pe ramura NU.",
+     "Testează algoritmul cu o valoare pentru fiecare ramură.",
+     "Greșeala frecventă: să testezi doar un caz; trebuie verificată fiecare ramură a deciziei."
+    ],
+    "answers": [
+     "Rombul.",
+     "Se execută pașii de pe ramura „atunci” (DA).",
+     "Da.",
+     "Exact una.",
+     "Restul împărțirii la 2 este 0."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l25": {
+   "ro": {
+    "title": "Mediul grafic interactiv: scena, personajele și blocurile",
+    "theory": "Un mediu grafic interactiv (de exemplu Scratch) ne permite să programăm prin blocuri colorate pe care le îmbinăm ca piesele de puzzle, fără să scriem cod. Interfața are: scena – locul unde se vede rezultatul; personajele (sprite-urile) – obiectele pe care le programăm; fundalurile; paleta de blocuri, grupate pe categorii de culori (Mișcare, Aspect, Sunet, Evenimente, Control, Senzori, Operatori, Variabile); zona de scripturi, unde construim programele. Un script începe de obicei cu un bloc eveniment, de exemplu „când se face clic pe steagul verde”. Butonul steag verde pornește programul, iar butonul roșu îl oprește. Scena are un sistem de coordonate: x pe orizontală și y pe verticală, centrul fiind (0, 0).",
+    "sample": "Cristina adaugă personajul pisică și scrie: când se face clic pe steag – mergi 100 de pași – spune „Bună!” timp de 2 secunde. La clic pe steag, pisica se deplasează și vorbește.",
+    "worked": "Scriptul începe cu un eveniment și continuă cu blocuri de mișcare și de aspect, executate în ordine. Fără blocul eveniment, programul nu ar porni la clic pe steag.",
+    "exercises": [
+     "Numește patru categorii de blocuri.",
+     "Explică rolul blocului „când se face clic pe steag”.",
+     "Spune unde este punctul (0, 0) pe scenă.",
+     "Adaugă un personaj nou și schimbă-i fundalul.",
+     "Construiește un script în care personajul se prezintă."
+    ],
+    "test": [
+     "Ce este un sprite?",
+     "Unde construim scripturile?",
+     "Ce face steagul verde?",
+     "Ce coordonate are centrul scenei?",
+     "Cu ce tip de bloc începe de obicei un script?"
+    ],
+    "steps": [
+     "Alege personajul pe care vrei să-l programezi.",
+     "Pune un bloc eveniment la începutul scriptului.",
+     "Adaugă blocurile de acțiune în ordine și testează cu steagul verde.",
+     "Greșeala frecventă: să construiești blocurile pentru alt personaj decât cel selectat; fiecare sprite are scripturile lui."
+    ],
+    "answers": [
+     "Un personaj sau obiect care poate fi programat.",
+     "În zona de scripturi.",
+     "Pornește programul.",
+     "(0, 0).",
+     "Cu un bloc eveniment."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l26": {
+   "ro": {
+    "title": "Structura secvențială prin blocuri: mișcare, aspect, sunet",
+    "theory": "În mediul grafic, structura secvențială înseamnă blocuri așezate unul sub altul, executate de sus în jos. Blocurile de Mișcare deplasează personajul (mergi 10 pași, rotește-te 15 grade, mergi la x: y:, alunecă în 1 secundă la x: y:). Blocurile de Aspect schimbă înfățișarea (spune, gândește, comută la costumul următor, schimbă mărimea, arată/ascunde). Blocurile de Sunet redau sunete. Blocul „așteaptă 1 secunde” din Control încetinește execuția, ca să vedem fiecare pas; fără el, mișcările sunt atât de rapide încât par instantanee. Schimbarea costumelor una după alta creează impresia de animație, ca într-un desen animat.",
+    "sample": "Un script: mergi la x: −200 y: 0; spune „Pornesc!” 1 secundă; alunecă în 2 secunde la x: 200 y: 0; redă sunetul „Miau”. Personajul traversează scena de la stânga la dreapta.",
+    "worked": "Blocurile se execută strict în ordine. Pornind de la o poziție fixă, programul dă același rezultat la fiecare rulare; fără primul bloc, personajul ar porni de unde a rămas data trecută.",
+    "exercises": [
+     "Construiește un script care desenează mișcarea pe un traseu în formă de L.",
+     "Explică de ce folosim blocul „așteaptă”.",
+     "Fă o animație din două costume care se schimbă.",
+     "Explică de ce începem scriptul cu „mergi la x: y:”.",
+     "Programează un personaj să spună trei replici una după alta."
+    ],
+    "test": [
+     "În ce ordine se execută blocurile secvențiale?",
+     "Ce face blocul „alunecă”?",
+     "Ce categorie conține blocul „spune”?",
+     "Cum obținem impresia de animație?",
+     "Ce se întâmplă fără blocul „așteaptă” între mișcări?"
+    ],
+    "steps": [
+     "Stabilește poziția de start a personajului.",
+     "Așază blocurile în ordinea acțiunilor din poveste.",
+     "Adaugă pauze unde trebuie să se vadă acțiunea și testează.",
+     "Greșeala frecventă: să uiți poziția de start; atunci programul se comportă diferit la fiecare rulare."
+    ],
+    "answers": [
+     "De sus în jos, unul după altul.",
+     "Mută personajul treptat într-un timp dat.",
+     "Aspect.",
+     "Prin schimbarea costumelor una după alta.",
+     "Mișcările sunt prea rapide pentru a fi văzute."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l27": {
+   "ro": {
+    "title": "Structura alternativă prin blocuri și senzori",
+    "theory": "Pentru decizii, mediul grafic are blocurile „dacă … atunci” și „dacă … atunci … altfel” din categoria Control. În locul hexagonal al blocului punem o condiție: din categoria Senzori (atinge marginea?, atinge culoarea?, tasta spațiu apăsată?, atinge personajul Minge?) sau din Operatori (comparații: >, <, = și ȘI, SAU, NU). Senzorii permit programului să reacționeze la ce se întâmplă: dacă personajul atinge marginea, se întoarce; dacă jucătorul apasă o tastă, personajul sare. Răspunsul utilizatorului poate fi preluat cu „întreabă și așteaptă”, iar valoarea lui se află în blocul „răspuns”.",
+    "sample": "Joc de ghicit: întreabă „Cât fac 6 × 7?” și așteaptă; dacă răspuns = 42 atunci spune „Corect!” altfel spune „Mai încearcă!”.",
+    "worked": "Programul alege ramura după răspunsul primit. Pentru a fi sigur că merge, îl testăm de două ori: o dată cu 42 (ramura atunci) și o dată cu alt număr (ramura altfel).",
+    "exercises": [
+     "Programează un personaj care spune „Au!” dacă atinge marginea.",
+     "Construiește un quiz cu o întrebare și două ramuri.",
+     "Explică ce este un senzor într-un mediu grafic.",
+     "Programează o săritură la apăsarea tastei spațiu.",
+     "Testează quiz-ul cu un răspuns corect și cu unul greșit."
+    ],
+    "test": [
+     "În ce categorie se află blocul „dacă … atunci”?",
+     "Ce tip de bloc punem în locul condiției?",
+     "Unde se păstrează ce a scris utilizatorul?",
+     "Ce face un senzor?",
+     "Câte teste faci minimum pentru un „dacă … atunci … altfel”?"
+    ],
+    "steps": [
+     "Formulează condiția ca o întrebare cu răspuns da/nu.",
+     "Alege senzorul sau operatorul potrivit pentru condiție.",
+     "Pune acțiunile pe ramurile corecte și testează fiecare ramură.",
+     "Greșeala frecventă: să pui condiția într-un loc unde se verifică o singură dată, la pornire, când ea trebuie verificată mereu."
+    ],
+    "answers": [
+     "Control.",
+     "Un bloc condiție (Senzori sau Operatori).",
+     "În blocul „răspuns”.",
+     "Detectează o situație: atingere, tastă, culoare.",
+     "Două, câte unul pentru fiecare ramură."
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l28": {
+   "ro": {
+    "title": "Proiect: o poveste sau un joc interactiv",
+    "theory": "La finalul anului construim un produs informatic: o poveste animată, un quiz sau un mic joc. Lucrăm în etape. 1. Planificarea: ce vrem să facem, ce personaje și fundaluri avem, ce face fiecare personaj (scenariul). 2. Realizarea: adăugăm personajele și fundalurile, apoi scriem scripturile, pe rând, pentru fiecare personaj, folosind structurile secvențială și alternativă. 3. Testarea și depanarea: rulăm programul și căutăm greșelile (bug-urile) – un personaj care pornește din loc greșit, o condiție greșită, o replică lipsă. Corectăm câte o greșeală și testăm din nou. 4. Prezentarea: explicăm colegilor ce face programul. Folosim doar imagini și sunete create de noi sau cu licență potrivită.",
+    "sample": "Echipa lui Matei face un joc: o minge cade, iar jucătorul mută un coș cu săgețile. Dacă mingea atinge coșul, scorul crește. La test, mingea trece prin coș fără să conteze, pentru că verificarea se făcea o singură dată, la început.",
+    "worked": "Greșeala a fost găsită prin testare: condiția trebuie verificată mereu, nu doar la pornire. Depanarea pas cu pas, cu o singură modificare odată, ajută echipa să afle exact ce a reparat problema.",
+    "exercises": [
+     "Scrie scenariul unei povești cu două personaje.",
+     "Enumeră etapele unui proiect informatic.",
+     "Explică ce este un bug și ce înseamnă depanarea.",
+     "Realizează un quiz cu trei întrebări și scor.",
+     "Prezintă proiectul colegilor în trei propoziții."
+    ],
+    "test": [
+     "Care este prima etapă a unui proiect?",
+     "Ce este un bug?",
+     "Ce înseamnă depanarea?",
+     "De ce corectăm câte o greșeală odată?",
+     "Ce imagini folosim în proiect?"
+    ],
+    "steps": [
+     "Scrie scenariul pe hârtie înainte de a programa.",
+     "Programează câte un personaj și testează după fiecare script.",
+     "Notează greșelile găsite, corectează-le pe rând și testează din nou.",
+     "Greșeala frecventă: să programezi tot proiectul dintr-odată și să testezi doar la final; greșelile devin greu de găsit."
+    ],
+    "answers": [
+     "Planificarea (scenariul).",
+     "O greșeală în program.",
+     "Găsirea și corectarea greșelilor.",
+     "Ca să știm exact ce modificare a rezolvat problema.",
+     "Create de noi sau cu licență care permite folosirea."
+    ]
+   }
+  }
+ }
+}
