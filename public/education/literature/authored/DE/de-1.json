@@ -3,9 +3,9 @@
  "country": "DE",
  "stage": "beginner",
  "grade": "1",
- "version": "e417bf11cae7e0bbdef93055b71690d5cfd18429733862a04424b04e62b068cf",
- "source": "https://www.kmk.org/bildungsministerkonferenz/bildungsthemen/bildungsstandards.html",
- "sourceTitle": "KMK: Bildungsstandards im Fach Deutsch für den Primarbereich (nur Rahmen; Länderlehrpläne können abweichen; Aufgaben sind eigene Materialien)",
+ "version": "4682a32175cf464c94e9cdbfb43d4378287fe1a2aa337f64706b5bb4390685c3",
+ "source": "https://deutsches-schulportal.de/content/uploads/2022/06/WeBis_D_M_P-SI_Beschluss_378KMK_23062022.pdf",
+ "sourceTitle": "KMK: Bildungsstandards im Fach Deutsch für den Primarbereich (Beschluss vom 15.10.2004 i. d. F. vom 23.06.2022): Sprechen und Zuhören; Schreiben; Lesen – mit Texten und Medien umgehen; Sprache und Sprachgebrauch untersuchen; Klasse 1 nach den Lehrplänen der Länder (z. B. Anlauttabelle, Buchstabeneinführung, Silben, erste Texte) und der Abfolge gängiger Fibeln; eigene Materialien, kein Text aus einer Fibel",
  "status": "partial-original-material-independent-review-pending",
  "sourceLanguage": "de",
  "labels": [
@@ -15,226 +15,1269 @@
   "Erklärung",
   "Übungen",
   "Teste dich",
-  "Eigene Übungen, kein offizieller Test. Lies sie, wenn nötig, mit einem Erwachsenen."
+  "Eigene Übungen, kein offizieller Test und kein Text aus einer Fibel. Lies sie, wenn nötig, mit einem Erwachsenen.",
+  "Wenn du es nicht verstanden hast: Schritt für Schritt",
+  "Lösungen (erst nachschauen, wenn du fertig bist)"
+ ],
+ "units": [
+  {
+   "title": "Schulanfang: Zuhören, Sprechen, Vorübungen",
+   "keys": [
+    "eu-year-de-beginner-1-l01",
+    "eu-year-de-beginner-1-l02",
+    "eu-year-de-beginner-1-l03",
+    "eu-year-de-beginner-1-l04"
+   ]
+  },
+  {
+   "title": "Erste Buchstaben",
+   "keys": [
+    "eu-year-de-beginner-1-l05",
+    "eu-year-de-beginner-1-l06",
+    "eu-year-de-beginner-1-l07",
+    "eu-year-de-beginner-1-l08",
+    "eu-year-de-beginner-1-l09",
+    "eu-year-de-beginner-1-l10"
+   ]
+  },
+  {
+   "title": "Weitere Buchstaben",
+   "keys": [
+    "eu-year-de-beginner-1-l11",
+    "eu-year-de-beginner-1-l12",
+    "eu-year-de-beginner-1-l13",
+    "eu-year-de-beginner-1-l14",
+    "eu-year-de-beginner-1-l15",
+    "eu-year-de-beginner-1-l16"
+   ]
+  },
+  {
+   "title": "Laute aus mehreren Buchstaben",
+   "keys": [
+    "eu-year-de-beginner-1-l17",
+    "eu-year-de-beginner-1-l18",
+    "eu-year-de-beginner-1-l19",
+    "eu-year-de-beginner-1-l20",
+    "eu-year-de-beginner-1-l21",
+    "eu-year-de-beginner-1-l22"
+   ]
+  },
+  {
+   "title": "Lesen und Literatur",
+   "keys": [
+    "eu-year-de-beginner-1-l23",
+    "eu-year-de-beginner-1-l24",
+    "eu-year-de-beginner-1-l25",
+    "eu-year-de-beginner-1-l26",
+    "eu-year-de-beginner-1-l27"
+   ]
+  },
+  {
+   "title": "Schreiben und Sprachbetrachtung",
+   "keys": [
+    "eu-year-de-beginner-1-l28",
+    "eu-year-de-beginner-1-l29",
+    "eu-year-de-beginner-1-l30",
+    "eu-year-de-beginner-1-l31",
+    "eu-year-de-beginner-1-l32"
+   ]
+  },
+  {
+   "title": "Zum Schluss: Sachtexte und Wiederholung",
+   "keys": [
+    "eu-year-de-beginner-1-l33",
+    "eu-year-de-beginner-1-l34"
+   ]
+  }
  ],
  "chapters": {
-  "eu-year-de-beginner-1-parcurs": {
+  "eu-year-de-beginner-1-l01": {
    "de": {
-    "title": "Laute, Buchstaben und Silben",
-    "theory": "Wörter bestehen aus Lauten. Jeden Laut schreiben wir mit einem oder mehreren Buchstaben. Manche Laute haben mehrere Buchstaben: sch, ch, ei, au, eu. Lange Wörter lesen wir in Silben: Ba-na-ne. Beim Silbenschwingen klatschen wir jede Silbe.",
-    "sample": "Mama hat eine Tasche. In der Tasche sind eine Banane und ein Buch.",
-    "worked": "Ta-sche hat zwei Silben. Ba-na-ne hat drei. In Tasche schreiben wir sch für einen Laut. In Buch hört man am Ende ch. So setzen wir Laute zu Wörtern zusammen.",
+    "title": "Wir lernen uns kennen: Gesprächsregeln",
+    "theory": "In der ersten Schulwoche lernen wir einander kennen. Wir sagen unseren Namen, hören den anderen zu und lassen sie ausreden. Wer etwas sagen möchte, zeigt auf und wartet. Wir sprechen laut und deutlich, damit uns alle verstehen.",
+    "sample": "Ich heiße Lena. Ich bin sechs Jahre alt. Ich spiele gern Fußball. Neben mir sitzt Jonas.",
+    "worked": "Lena stellt sich in vier kurzen Sätzen vor: Name, Alter, was sie gern macht und wer neben ihr sitzt. So wissen die anderen gleich viel über sie. Beim Vorstellen schauen wir die anderen an.",
     "exercises": [
-     "Klatsche die Silben von Banane.",
-     "Finde im Text zwei Wörter mit dem Anlaut B.",
-     "Trenne in Silben: Tasche, Mama, Banane.",
-     "Finde ein Wort mit sch.",
-     "Lies laut: Ma, Me, Mi, Mo, Mu."
+     "Stell dich in zwei Sätzen vor.",
+     "Sag, was du gern spielst.",
+     "Nenne den Namen eines anderen Kindes in deiner Klasse.",
+     "Zeig auf, bevor du sprichst.",
+     "Hör zu und wiederhole, was ein anderes Kind gesagt hat."
     ],
     "test": [
-     "Wie viele Silben hat Banane?",
-     "Was ist in der Tasche?",
-     "Welche drei Buchstaben schreiben einen Laut in Tasche?",
-     "Schreibe ein Wort, das mit Au anfängt.",
-     "Setze die Silben zusammen: So-fa."
+     "Wie alt ist Lena?",
+     "Was machen wir, wenn wir etwas sagen möchten?",
+     "Warum lassen wir andere ausreden?",
+     "Was spielst du gern?",
+     "Wer sitzt neben Lena?"
+    ],
+    "steps": [
+     "Beim Vorstellen sagst du zuerst deinen Namen: Ich heiße …",
+     "Dann sagst du dein Alter und was du gern machst.",
+     "Wenn ein anderes Kind spricht, hörst du zu und unterbrichst nicht.",
+     "Achtung: Sprich in ganzen Sätzen, nicht nur mit einem Wort."
+    ],
+    "answers": [
+     "Sechs Jahre.",
+     "Wir zeigen auf und warten, bis wir dran sind.",
+     "Damit alle in Ruhe sprechen können und wir einander verstehen.",
+     "Deine Antwort. Zum Beispiel: Ich spiele gern mit Bausteinen.",
+     "Jonas."
     ]
    }
   },
-  "eu-year-de-beginner-1-intelegere": {
+  "eu-year-de-beginner-1-l02": {
    "de": {
-    "title": "Einen kurzen Text lesen und verstehen",
-    "theory": "Halte beim Lesen an jedem Punkt an und frage: Um wen geht es? Was passiert? Wo? Die Antwort steht im Text. Was nicht im Text steht, denken wir uns nicht aus.",
-    "sample": "Ben geht mit Opa in den Park. Er hat einen gelben Ball. Im Park spielt er mit Lea am Teich.",
-    "worked": "Um wen geht es? Um Ben. Mit wem geht er? Mit Opa. Was hat er? Einen gelben Ball. Wo spielt er? Am Teich. Wie alt Ben ist, steht nicht im Text.",
+    "title": "Laute hören: Anlaut, Endlaut, Reim",
+    "theory": "Wörter bestehen aus Lauten. Den ersten Laut nennen wir Anlaut, den letzten Endlaut. Wir sprechen ein Wort langsam und gedehnt, dann hören wir die Laute besser. Wörter, die am Ende gleich klingen, reimen sich: Maus und Haus.",
+    "sample": "Maus, Haus, Mond, Apfel, Igel, Sonne, Tonne",
+    "worked": "Maus beginnt mit M, Apfel mit A, Igel mit I. Maus und Haus reimen sich, weil sie gleich enden. Auch Sonne und Tonne reimen sich. Mond reimt sich mit keinem Wort aus der Reihe.",
     "exercises": [
-     "Mit wem geht Ben in den Park?",
-     "Welche Farbe hat der Ball?",
-     "Mit wem spielt Ben?",
-     "Wo spielen die Kinder?",
-     "Unterstreiche den Satz, der sagt, was Ben hat."
+     "Sprich langsam: Mmmaus. Welcher Laut kommt zuerst?",
+     "Finde ein Reimwort zu Haus.",
+     "Welcher Laut steht am Ende von Igel?",
+     "Suche in der Klasse etwas, das mit T beginnt.",
+     "Klatsche, wenn sich zwei Wörter reimen: Hose – Rose."
     ],
     "test": [
-     "Steht im Text, wie alt Ben ist?",
-     "Ist der Ball rot? Woher weißt du das?",
-     "Was ist ein Teich?",
-     "Finde ein Wort für eine Person aus der Familie.",
-     "Male das Bild zum Text und schreibe ein Wort dazu."
+     "Mit welchem Laut beginnt Apfel?",
+     "Reimen sich Sonne und Tonne?",
+     "Welcher Laut steht am Ende von Haus?",
+     "Finde ein Wort, das mit M beginnt.",
+     "Welches Wort reimt sich nicht: Maus, Haus, Mond?"
+    ],
+    "steps": [
+     "Sprich das Wort ganz langsam, als würdest du es dehnen: Mmm-aaa-uuu-sss.",
+     "Der Laut, den du zuerst hörst, ist der Anlaut.",
+     "Der Laut ganz am Schluss ist der Endlaut.",
+     "Achtung: Wir hören auf den Klang, nicht auf das Bild. Sprich das Wort immer laut."
+    ],
+    "answers": [
+     "A.",
+     "Ja.",
+     "S.",
+     "Deine Antwort. Zum Beispiel: Mama, Mond, Milch.",
+     "Mond."
     ]
    }
   },
-  "eu-year-de-beginner-1-narativ": {
+  "eu-year-de-beginner-1-l03": {
    "de": {
-    "title": "Figuren und Ereignisse in einer Geschichte",
-    "theory": "Figuren sind die Menschen oder Tiere in einer Geschichte. Ereignisse sind das, was passiert. Wir erzählen in der richtigen Reihenfolge: zuerst, dann, danach, am Ende.",
-    "sample": "Zuerst verliert ein Igel seinen Apfel. Dann findet ein Hase den Apfel unter einem Blatt. Danach bringt der Hase den Apfel zurück. Am Ende sagt der Igel danke.",
-    "worked": "Die Figuren sind der Igel und der Hase. Zuerst: Der Igel verliert den Apfel. Dann: Der Hase findet ihn. Danach: Er bringt ihn zurück. Am Ende: Der Igel sagt danke.",
+    "title": "Die Anlauttabelle: Bilder helfen beim Schreiben",
+    "theory": "Die Anlauttabelle zeigt zu jedem Buchstaben ein Bild. Das Bild beginnt mit dem Laut des Buchstabens: Affe für A, Mond für M, Sonne für S. Wenn wir ein Wort schreiben wollen, sprechen wir es langsam, suchen jeden Laut in der Tabelle und schreiben den Buchstaben daneben.",
+    "sample": "Wir schreiben MAMA: M wie Mond, A wie Affe, M wie Mond, A wie Affe. / Wir schreiben OMA: O wie Ofen, M wie Mond, A wie Affe.",
+    "worked": "Für MAMA sprechen wir langsam: M-A-M-A. Zu jedem Laut suchen wir das passende Bild: Mond für M, Affe für A. So finden wir den Buchstaben. OMA hat drei Laute und drei Buchstaben.",
     "exercises": [
-     "Wer sind die Figuren?",
-     "Was verliert der Igel?",
-     "Wo liegt der Apfel?",
-     "Erzähle die Geschichte mit zuerst, dann, danach, am Ende.",
-     "Wie fühlt sich der Igel am Ende? Welches Wort hilft dir?"
+     "Suche in der Anlauttabelle das Bild für S.",
+     "Schreibe mit der Tabelle das Wort OMA.",
+     "Welches Bild passt zu M?",
+     "Sprich langsam: Sofa. Welche Laute hörst du?",
+     "Schreibe deinen Namen mit Hilfe der Tabelle."
     ],
     "test": [
-     "Wer findet den Apfel?",
-     "Was passiert zuerst?",
-     "Was sagt der Igel am Ende?",
-     "Ordne: sagt danke / verliert den Apfel / findet den Apfel.",
-     "Male deine Lieblingsstelle."
+     "Wozu hilft die Anlauttabelle?",
+     "Welches Bild steht in unserem Beispiel für A?",
+     "Wie viele Laute hat OMA?",
+     "Womit beginnt das Bild für einen Buchstaben?",
+     "Welches Wort beginnt wie Mond: Maus oder Haus?"
+    ],
+    "steps": [
+     "Sprich das Wort ganz langsam: O-M-A.",
+     "Such für jeden Laut ein Bild, das genauso beginnt.",
+     "Schreib den Buchstaben, der neben dem Bild steht.",
+     "Achtung: Sprich jedes Wort deutlich, sonst findest du den falschen Laut."
+    ],
+    "answers": [
+     "Sie zeigt, welcher Buchstabe zu einem Laut gehört.",
+     "Der Affe.",
+     "Drei: O-M-A.",
+     "Mit dem Laut des Buchstabens.",
+     "Maus."
     ]
    }
   },
-  "eu-year-de-beginner-1-poezie": {
+  "eu-year-de-beginner-1-l04": {
    "de": {
-    "title": "Reime und Gedichte",
-    "theory": "Ein Gedicht ist kurz und hat einen Rhythmus wie ein Lied. Reimwörter klingen am Ende gleich: Maus und Haus, Hund und bunt. Wenn wir das Gedicht laut sprechen, hören wir die Reime.",
-    "sample": "Die Sonne lacht, der Himmel blau,\ndie Katze ruft ganz laut: Miau!\nIch hüpfe, tanze, renne schnell,\nund draußen ist es warm und hell.",
-    "worked": "Blau und Miau reimen sich, sie klingen am Ende gleich. Schnell und hell reimen sich auch. In der dritten Zeile stehen drei Tunwörter: hüpfe, tanze, renne.",
+    "title": "Schwungübungen und richtige Stifthaltung",
+    "theory": "Bevor wir Buchstaben schreiben, üben wir Schwünge: Linien, Bögen, Kreise, Wellen und Girlanden. Wir halten den Stift locker mit drei Fingern. Wir sitzen gerade, beide Füße stehen am Boden. Wir schreiben von links nach rechts.",
+    "sample": "Reihe 1: Wellen wie das Meer. / Reihe 2: Bögen wie kleine Brücken. / Reihe 3: Kreise wie Luftballons.",
+    "worked": "Wellen, Bögen und Kreise kommen später in vielen Buchstaben vor: der Kreis im o, der Bogen im n, die Welle im s. Wer sie jetzt locker übt, schreibt später leichter. Wir beginnen jede Reihe links.",
     "exercises": [
-     "Sprich das Gedicht laut und klatsche den Takt.",
-     "Welches Wort reimt sich auf schnell?",
-     "Was ruft die Katze?",
-     "Welche Tunwörter stehen in Zeile drei?",
-     "Finde ein Reimwort zu Haus."
+     "Zeichne eine Reihe Wellen.",
+     "Zeichne fünf Luftballons.",
+     "Male mit dem Finger einen großen Bogen in die Luft.",
+     "Zeig, wie du den Stift hältst.",
+     "Zeichne eine Girlande über die ganze Zeile."
     ],
     "test": [
-     "Welches Wort reimt sich auf blau?",
-     "Wie ist es draußen?",
-     "Schreibe zwei Reimwörter zu Hund.",
-     "Wer lacht im Gedicht?",
-     "Erfinde eine Zeile, die mit Maus endet."
+     "Mit wie vielen Fingern halten wir den Stift?",
+     "Auf welcher Seite beginnen wir zu schreiben?",
+     "Welche Form hat ein Luftballon?",
+     "Wie sitzen wir beim Schreiben?",
+     "Was machst du, wenn deine Hand müde wird?"
+    ],
+    "steps": [
+     "Setz dich gerade hin, die Füße stehen am Boden.",
+     "Halte den Stift mit Daumen, Zeigefinger und Mittelfinger, ohne fest zu drücken.",
+     "Fang links an und zieh die Schwünge langsam nach rechts.",
+     "Achtung: Wenn die Hand müde wird, schüttle sie kurz aus und mach dann weiter."
+    ],
+    "answers": [
+     "Mit drei Fingern.",
+     "Links.",
+     "Einen Kreis.",
+     "Gerade, beide Füße am Boden.",
+     "Ich schüttle die Hand kurz aus und mache eine Pause."
     ]
    }
   },
-  "eu-year-de-beginner-1-dialog": {
+  "eu-year-de-beginner-1-l05": {
    "de": {
-    "title": "Sprechen und zuhören",
-    "theory": "Wenn wir miteinander sprechen, wechseln wir uns ab: Einer spricht, der andere hört zu. Wir schauen die Person an und antworten auf die Frage. Freundliche Wörter sind bitte und danke.",
-    "sample": "Tim: Hallo, Mia! Was hast du in deinem Ranzen?\nMia: Hallo, Tim! Ich habe ein Heft und einen Apfel.\nTim: Leihst du mir bitte einen Stift?\nMia: Klar, hier bitte!\nTim: Danke!",
-    "worked": "Tim stellt eine Frage. Mia antwortet mit einem ganzen Satz. Dann bittet Tim freundlich um einen Stift und sagt am Ende danke. Die Kinder sprechen abwechselnd.",
+    "title": "M m und A a: Mama",
+    "theory": "Der Laut m klingt, wenn die Lippen geschlossen sind: mmm. Der Laut a klingt mit weit offenem Mund. A ist ein Selbstlaut, M ist ein Mitlaut. Aus m und a wird die Silbe ma, aus a und m wird am. Zwei Silben ma ergeben Mama.",
+    "sample": "ma ma am am / Mama / Ma-ma, am, Mama!",
+    "worked": "Wir lesen von links nach rechts. Zuerst m, dann a: ma. Zuerst a, dann m: am. Die Buchstaben sind gleich, aber die Reihenfolge ändert das Wort. Mama hat zwei Silben: Ma-ma.",
     "exercises": [
-     "Lies das Gespräch mit einem Partner.",
-     "Was fragt Tim zuerst?",
-     "Was hat Mia im Ranzen?",
-     "Finde die freundlichen Wörter.",
-     "Erfinde ein Gespräch: Frage deinen Partner nach seinem Lieblingsspiel."
+     "Sprich: mmm – aaa.",
+     "Schreibe eine Reihe M und eine Reihe m.",
+     "Lies: ma, am, Mama.",
+     "Finde ein Wort, das mit M beginnt.",
+     "Klatsche die Silben: Ma-ma."
     ],
     "test": [
-     "Wer sagt zuerst hallo?",
-     "Antwortet Mia mit einem Wort oder mit einem Satz?",
-     "Was möchte Tim leihen?",
-     "Was tun wir, wenn der andere spricht?",
-     "Schreibe eine Frage mit Was."
+     "Ist a ein Selbstlaut oder ein Mitlaut?",
+     "Wie viele Silben hat Mama?",
+     "Lies: am oder ma – was steht zuerst in Mama?",
+     "Wie klingt m: mit offenen oder geschlossenen Lippen?",
+     "Schreibe ein großes M."
+    ],
+    "steps": [
+     "Sprich m mit geschlossenen Lippen: mmm.",
+     "Sprich a mit offenem Mund: aaa.",
+     "Zieh die Laute zusammen: mmm-aaa = ma.",
+     "Achtung: Lies immer von links nach rechts, sonst wird aus ma ein am."
+    ],
+    "answers": [
+     "Ein Selbstlaut.",
+     "Zwei: Ma-ma.",
+     "ma.",
+     "Mit geschlossenen Lippen.",
+     "Ein großes M: zwei Striche nach unten, in der Mitte ein Spitz."
     ]
    }
   },
-  "eu-year-de-beginner-1-vocabular": {
+  "eu-year-de-beginner-1-l06": {
    "de": {
-    "title": "Wörter und ihre Bedeutung",
-    "theory": "Wörter kann man ordnen: Tiere, Farben, Essen. Manche Wörter haben ein Gegenteil: groß und klein, heiß und kalt. Nomen gibt es in der Einzahl und Mehrzahl: ein Hund, zwei Hunde; eine Katze, zwei Katzen.",
-    "sample": "Auf dem Hof steht ein großes Pferd. Daneben sitzen zwei kleine Katzen. Das Pferd trinkt kaltes Wasser.",
-    "worked": "Pferd und Katzen sind Tiere. Groß und klein sind Gegenteile. Katzen ist die Mehrzahl von Katze. Die Nomen Hof, Pferd, Katzen und Wasser schreiben wir groß.",
+    "title": "I i und O o: Mimi und Oma",
+    "theory": "Die Selbstlaute i und o sind neu. Bei i lächeln wir, bei o machen wir einen runden Mund. Mit m und a können wir jetzt neue Wörter lesen: Mimi, Oma, Omi, Mia. Namen schreiben wir mit großem Anfangsbuchstaben.",
+    "sample": "Mimi, Mia, Oma, Omi. / Oma, Mimi! / Mia? Mimi!",
+    "worked": "Mimi und Mia sind Namen, Oma und Omi sind Wörter für die Großmutter. Am Anfang steht immer ein großer Buchstabe. Das Ausrufezeichen zeigt, dass jemand ruft. Das Fragezeichen zeigt eine Frage.",
     "exercises": [
-     "Finde alle Tiere im Text.",
-     "Finde zwei Gegenteile.",
-     "Schreibe: ein Hund, zwei …",
-     "Ordne nach Farben und Essen: rot, Brot, grün, Käse.",
-     "Was ist das Gegenteil von kalt?"
+     "Mach einen runden Mund und sprich: ooo.",
+     "Lies: Mimi, Mia, Oma.",
+     "Schreibe eine Reihe i mit Punkt.",
+     "Wie viele Silben hat Omi?",
+     "Finde ein Wort mit o."
     ],
     "test": [
-     "Ein Baum, zwei …?",
-     "Eine Blume, viele …?",
-     "Was ist das Gegenteil von groß?",
-     "Welches Wort ist eine Farbe: laufen, gelb, Tasse?",
-     "Schreibe einen Satz mit dem Wort klein."
+     "Wie viele Selbstlaute kennst du jetzt?",
+     "Wie viele Silben hat Mimi?",
+     "Was zeigt das Ausrufezeichen?",
+     "Lies: im, Mio, Ami.",
+     "Schreibe den Namen Mia."
+    ],
+    "steps": [
+     "Bei i lächelst du, bei o machst du den Mund rund.",
+     "Verbinde die Laute zu Silben: mi, mo.",
+     "Lies Silbe für Silbe und dann das ganze Wort: Mi-mi.",
+     "Achtung: Vergiss den Punkt auf dem kleinen i nicht."
+    ],
+    "answers": [
+     "Drei: a, i, o.",
+     "Zwei: Mi-mi.",
+     "Dass jemand ruft.",
+     "im, Mi-o, A-mi.",
+     "Mia."
     ]
    }
   },
-  "eu-year-de-beginner-1-exprimare": {
+  "eu-year-de-beginner-1-l07": {
    "de": {
-    "title": "Großschreibung und Punkt",
-    "theory": "Ein Satz beginnt mit einem großen Buchstaben und endet mit einem Punkt. Im Deutschen schreiben wir auch alle Nomen groß: der Hund, die Schule, das Haus. Namen schreiben wir immer groß. Zwischen Wörtern lassen wir eine Lücke.",
-    "sample": "der hund von lina spielt im garten\nDer Hund von Lina spielt im Garten.",
-    "worked": "In der ersten Zeile fehlen die großen Buchstaben und der Punkt. Der steht am Satzanfang. Hund und Garten sind Nomen, Lina ist ein Name: Sie werden großgeschrieben.",
+    "title": "L l und S s: Lisa, Salami",
+    "theory": "Das l klingt, wenn die Zunge oben anstößt: lll. Das s klingt wie eine zischende Schlange: sss. Jetzt lesen wir schon kurze Sätze. Ein Satz beginnt mit einem großen Buchstaben und endet mit einem Punkt.",
+    "sample": "Lisa isst Salami. / Mama malt. / Oma liest.",
+    "worked": "Wir lesen drei Sätze. Jeder beginnt groß und endet mit einem Punkt. In Salami hören wir drei Silben: Sa-la-mi. Lisa ist ein Name, darum schreiben wir ihn groß.",
     "exercises": [
-     "Schreibe den richtigen Satz ab.",
-     "Finde den Namen im Satz.",
-     "Finde die Nomen im Satz.",
-     "Berichtige: heute regnet es",
-     "Schreibe einen Satz über deine Schule."
+     "Lies: la, li, lo, sa, si, so.",
+     "Wie viele Silben hat Salami?",
+     "Schreibe den Satz: Mama malt.",
+     "Finde ein Wort mit l.",
+     "Zisch wie eine Schlange: sss."
     ],
     "test": [
-     "Wie beginnt ein Satz?",
-     "Was steht am Ende eines Satzes?",
-     "Warum schreiben wir Ball groß?",
-     "Berichtige: die katze schläft",
-     "Schreibe zwei Nomen mit Begleiter (der, die, das)."
+     "Was isst Lisa?",
+     "Wie viele Sätze hat das Beispiel?",
+     "Womit endet ein Satz?",
+     "Lies: Lama, Los, Saal.",
+     "Wer liest?"
+    ],
+    "steps": [
+     "Lies die Silben einzeln: Sa-la-mi.",
+     "Dann sag das ganze Wort schnell: Salami.",
+     "Ein Satz endet mit einem Punkt; dort machst du eine kleine Pause.",
+     "Achtung: Der erste Buchstabe im Satz ist groß."
+    ],
+    "answers": [
+     "Salami.",
+     "Drei.",
+     "Mit einem Punkt.",
+     "La-ma, Los, Saal.",
+     "Oma."
     ]
    }
   },
-  "eu-year-de-beginner-1-redactare": {
+  "eu-year-de-beginner-1-l08": {
    "de": {
-    "title": "Einen Satz zu einem Bild schreiben",
-    "theory": "Bevor du schreibst, sprich den Satz laut. Zähle die Wörter. Schreibe ihn dann auf, lies ihn noch einmal und prüfe: großer Anfang, Nomen groß, Lücken, Punkt. Ergibt der Satz Sinn?",
-    "sample": "Bild: Ein Mädchen gießt eine Blume.\nIch sage: Das Mädchen gießt die Blume.\nIch schreibe: Das Mädchen gießt die Blume.\nIch ergänze: Die Blume wächst.",
-    "worked": "Zuerst haben wir den Satz laut gesprochen: fünf Wörter. Dann haben wir ihn mit großem Anfang und Punkt geschrieben. Mädchen und Blume sind Nomen. Ein zweiter Satz erzählt mehr.",
+    "title": "E e und U u: Emil und der Uhu",
+    "theory": "Die Selbstlaute e und u sind neu. Jetzt kennen wir fünf Selbstlaute: a, e, i, o, u. Jedes Wort braucht mindestens einen Selbstlaut. Wir lesen Wörter wie Emil, Uhu, Esel, Mus, Seil.",
+    "sample": "Emil sieht einen Uhu. / Ein Esel isst Mus. / Lea malt ein Seil.",
+    "worked": "Ein Uhu ist eine Eule. Emil sieht ihn. Der Esel isst Mus, das ist ein Brei aus Obst. Wir lesen jeden Satz langsam und dann noch einmal flüssig. Uhu und Esel haben je zwei Silben.",
     "exercises": [
-     "Sprich einen Satz über einen Hund im Garten und zähle die Wörter.",
-     "Schreibe deinen Satz und prüfe den Punkt.",
-     "Schreibe einen zweiten Satz dazu.",
-     "Lies deinen Satz einem Partner vor.",
-     "Male ein Bild und schreibe zwei Sätze."
+     "Sag alle fünf Selbstlaute auf.",
+     "Lies: Uhu, Esel, Emil.",
+     "Schreibe ein großes E.",
+     "Wie viele Silben hat Esel?",
+     "Finde ein Wort mit u."
     ],
     "test": [
-     "Was tust du, bevor du schreibst?",
-     "Wie viele Wörter hat: Die Sonne scheint.?",
-     "Was prüfst du nach dem Schreiben?",
-     "Schreibe einen Satz über dein Frühstück.",
-     "Mache den Satz länger: Ich spiele."
+     "Wie viele Selbstlaute gibt es?",
+     "Was isst der Esel?",
+     "Wer sieht den Uhu?",
+     "Wie viele Silben hat Uhu?",
+     "Was malt Lea?"
+    ],
+    "steps": [
+     "Die fünf Selbstlaute sind a, e, i, o, u.",
+     "Suche in jedem Wort den Selbstlaut: E-sel, U-hu.",
+     "Jeder Selbstlaut gehört zu einer Silbe; so kannst du Silben zählen.",
+     "Achtung: e und i klingen ähnlich; sprich deutlich und hör genau hin."
+    ],
+    "answers": [
+     "Fünf: a, e, i, o, u.",
+     "Mus.",
+     "Emil.",
+     "Zwei: U-hu.",
+     "Ein Seil."
     ]
    }
   },
-  "eu-year-de-beginner-1-interpretare": {
+  "eu-year-de-beginner-1-l09": {
    "de": {
-    "title": "Was ich denke und warum",
-    "theory": "Nach dem Lesen können wir sagen, was wir denken, und mit dem Text begründen. Wir können zwei Figuren vergleichen: Was ist gleich? Was ist anders?",
-    "sample": "Emma teilt ihre Stifte mit Paul. Max behält alle seine Stifte und teilt nicht. Paul lächelt Emma an.",
-    "worked": "Emma und Max haben beide Stifte: Das ist gleich. Anders ist: Emma teilt, Max nicht. Ich denke, Emma ist nett, weil im Text steht, dass sie teilt und Paul lächelt.",
+    "title": "R r und N n: Rosi und Nina",
+    "theory": "Das r klingt im Hals oder mit der Zunge: rrr. Das n klingt durch die Nase: nnn. Mit den neuen Buchstaben bilden wir Wörter wie Rose, Nina, Nase, rennen. Ein Name bleibt immer groß.",
+    "sample": "Nina riecht an einer Rose. / Rosi rennt nun mit Nina.",
+    "worked": "Nina riecht an einer Rose: Sie hält die Nase an die Blume. Danach rennen Rosi und Nina miteinander. Wir lesen zuerst langsam, Silbe für Silbe: Ro-se, ren-nen.",
     "exercises": [
-     "Was ist bei Emma und Max gleich?",
-     "Was ist anders?",
-     "Wer ist nett? Warum denkst du das?",
-     "Warum lächelt Paul?",
-     "Was könnte Max das nächste Mal tun?"
+     "Lies: ra, re, ri, ro, ru.",
+     "Lies: Rose, Nase, Nina.",
+     "Schreibe eine Reihe n.",
+     "Teile in Silben: rennen.",
+     "Finde ein Wort mit r am Anfang."
     ],
     "test": [
-     "Wer behält alle Stifte?",
-     "Wer lächelt?",
-     "Ergänze: Ich denke, Emma ist …, weil …",
-     "Steht im Text, dass Max traurig ist?",
-     "Sage, was dir an der Geschichte gefällt, und warum."
+     "Woran riecht Nina?",
+     "Wer rennt mit Nina?",
+     "Wie viele Silben hat Rose?",
+     "Lies: Ring, nur, Raum.",
+     "Durch welchen Körperteil klingt das n?"
+    ],
+    "steps": [
+     "Lies die neuen Silben: ra, re, ri, ro, ru und na, ne, ni, no, nu.",
+     "Setze die Silben zu Wörtern zusammen: Ro-se.",
+     "Frag dich nach dem Lesen: Wer? Was macht er oder sie?",
+     "Achtung: In rennen stehen zwei n hintereinander; beide schreiben wir."
+    ],
+    "answers": [
+     "An einer Rose.",
+     "Rosi.",
+     "Zwei: Ro-se.",
+     "Ring, nur, Raum.",
+     "Durch die Nase."
     ]
    }
   },
-  "eu-year-de-beginner-1-verificare": {
+  "eu-year-de-beginner-1-l10": {
    "de": {
-    "title": "Wiederholung Klasse 1",
-    "theory": "Wir prüfen, was du gelernt hast: Silben lesen, Antworten im Text finden, der Reihe nach erzählen, Reime hören, abwechselnd sprechen, neue Wörter kennen und Sätze mit Großschreibung und Punkt schreiben.",
-    "sample": "Der kleine Hund Bello rennt in den Garten. Er buddelt ein Loch und findet einen Ball. Er bringt den Ball zu Oma. Oma wirft ihn und Bello rennt schnell.",
-    "worked": "Bello ist die Hauptfigur. Reihenfolge: rennt in den Garten, buddelt, findet den Ball, bringt ihn zu Oma, Oma wirft. Jeder Satz beginnt groß und endet mit Punkt.",
+    "title": "T t und H h: Tomate und Hut",
+    "theory": "Das t klingt kurz und hart: t. Das h hören wir nur leise wie einen Hauch, wenn wir auf die Hand atmen. Neue Wörter: Tomate, Hut, Hase, Tante, Heu. Wir lesen schon kleine Texte aus mehreren Sätzen.",
+    "sample": "Tante Hanna hat einen Hut. / Der Hase isst Heu. / Tim isst eine Tomate.",
+    "worked": "Drei Sätze erzählen drei kleine Dinge. Tante Hanna trägt einen Hut, der Hase frisst Heu und Tim isst eine Tomate. Tomate hat drei Silben: To-ma-te.",
     "exercises": [
-     "Lies den Text laut.",
-     "Wer ist die Hauptfigur?",
-     "Erzähle die Ereignisse der Reihe nach.",
-     "Finde zwei Nomen.",
-     "Schreibe einen Satz, was Bello danach macht."
+     "Atme auf die Hand und sprich: hhh.",
+     "Lies: Hut, Hase, Heu.",
+     "Teile in Silben: Tomate.",
+     "Schreibe ein großes T.",
+     "Finde ein Wort, das mit H beginnt."
     ],
     "test": [
-     "Was findet Bello?",
-     "Wer wirft den Ball?",
-     "Finde ein großgeschriebenes Wort und sage, warum es groß ist.",
-     "Was ist das Gegenteil von schnell?",
-     "Schreibe einen Satz über dein Lieblingstier."
+     "Wer hat einen Hut?",
+     "Was isst Tim?",
+     "Wie viele Silben hat Tomate?",
+     "Lies: Tor, Hand, Hose.",
+     "Was isst der Hase?"
+    ],
+    "steps": [
+     "Halte die Hand vor den Mund: Bei h spürst du einen Hauch.",
+     "Lies das Wort Silbe für Silbe: To-ma-te.",
+     "Lies dann den Satz noch einmal ganz.",
+     "Achtung: Das t ist kurz; zieh es nicht lang."
+    ],
+    "answers": [
+     "Tante Hanna.",
+     "Eine Tomate.",
+     "Drei: To-ma-te.",
+     "Tor, Hand, Ho-se.",
+     "Heu."
+    ]
+   }
+  },
+  "eu-year-de-beginner-1-l11": {
+   "de": {
+    "title": "W w und F f: Wolke und Fisch",
+    "theory": "Bei w berühren die oberen Zähne die Unterlippe und es summt. Bei f ist es ähnlich, aber es bläst nur Luft. Wörter: Wolke, Wal, Fisch, Feder, Wiese. Wir hören genau hin, damit wir w und f nicht verwechseln.",
+    "sample": "Auf der Wiese liegt eine Feder. / Der Wind weht. / Im Teich schwimmt ein Fisch.",
+    "worked": "Wiese und Wind beginnen mit W, Feder und Fisch mit F. Der Wind weht die Feder vielleicht weg. Fisch lesen wir schon ganz, auch wenn sch neu ist: Die Lehrerin hilft beim Lesen.",
+    "exercises": [
+     "Sprich: www – fff. Spürst du den Unterschied?",
+     "Lies: Wal, Wiese, Feder.",
+     "Schreibe ein großes W.",
+     "Finde ein Tier mit F.",
+     "Wie viele Silben hat Feder?"
+    ],
+    "test": [
+     "Was liegt auf der Wiese?",
+     "Wo schwimmt der Fisch?",
+     "Beginnt Wolke mit W oder mit F?",
+     "Lies: Fee, Wald, Ofen.",
+     "Schreibe ein Wort mit f."
+    ],
+    "steps": [
+     "Leg die oberen Zähne auf die Unterlippe.",
+     "Bei w summt es, bei f bläst du nur Luft.",
+     "Leg die Hand an den Hals: Bei w spürst du ein Kribbeln.",
+     "Achtung: Wal mit W und Fee mit F – sprich das Wort laut, bevor du schreibst."
+    ],
+    "answers": [
+     "Eine Feder.",
+     "Im Teich.",
+     "Mit W.",
+     "Fee, Wald, O-fen.",
+     "Deine Antwort. Zum Beispiel: Fee."
+    ]
+   }
+  },
+  "eu-year-de-beginner-1-l12": {
+   "de": {
+    "title": "D d und K k: Dose und Kamel",
+    "theory": "Das d klingt weich, das k klingt hart und kommt hinten im Mund. Wörter: Dose, Dach, Kamel, Kind, Kuh. Mit vielen Buchstaben können wir schon kleine Geschichten lesen.",
+    "sample": "Das Kind hat eine Dose. / In der Dose ist ein Keks. / Das Kind teilt den Keks mit Doris.",
+    "worked": "Die drei Sätze bilden eine kleine Geschichte. Zuerst hat das Kind eine Dose, dann sehen wir, was darin ist, und am Ende teilt das Kind. Teilen ist freundlich.",
+    "exercises": [
+     "Lies: da, de, di, do, du.",
+     "Lies: Kamel, Kind, Kuh.",
+     "Schreibe ein großes D und ein großes K.",
+     "Finde ein Wort mit k am Ende.",
+     "Erzähl die Geschichte mit eigenen Worten."
+    ],
+    "test": [
+     "Was ist in der Dose?",
+     "Mit wem teilt das Kind?",
+     "Beginnt Kuh mit k oder mit g?",
+     "Lies: Dorf, Kino, Decke.",
+     "Wie viele Sätze hat die Geschichte?"
+    ],
+    "steps": [
+     "Sprich d weich und k hart aus.",
+     "Lies jeden Satz und frag: Was passiert hier?",
+     "Erzähl die Geschichte mit „zuerst, dann, am Ende“.",
+     "Achtung: Kind schreibt man mit d am Ende, obwohl man ein t hört; verlängere: Kinder."
+    ],
+    "answers": [
+     "Ein Keks.",
+     "Mit Doris.",
+     "Mit k.",
+     "Dorf, Ki-no, De-cke.",
+     "Drei."
+    ]
+   }
+  },
+  "eu-year-de-beginner-1-l13": {
+   "de": {
+    "title": "B b und P p: Ball und Puppe",
+    "theory": "B und p klingen ähnlich. Beide sprechen wir mit den Lippen. Bei p kommt ein kleiner Luftstoß, bei b nicht. Wir halten ein Blatt Papier vor den Mund: Bei p bewegt es sich. Wörter: Ball, Banane, Puppe, Papa.",
+    "sample": "Ben spielt Ball. / Paula hat eine Puppe. / Papa bringt eine Banane.",
+    "worked": "Ben, Paula und Papa sind Namen oder Personen. Ball und Banane beginnen mit B, Puppe und Papa mit P. Das Wort Puppe hat zwei p in der Mitte.",
+    "exercises": [
+     "Halte ein Blatt vor den Mund und sprich: p – b.",
+     "Lies: Ball, Banane, Papa.",
+     "Schreibe eine Reihe b.",
+     "Teile in Silben: Banane.",
+     "Finde ein Wort mit p."
+    ],
+    "test": [
+     "Wer spielt Ball?",
+     "Was bringt Papa?",
+     "Bei welchem Laut bewegt sich das Blatt?",
+     "Lies: Brot, Pilz, Bus.",
+     "Wie viele Silben hat Banane?"
+    ],
+    "steps": [
+     "Sprich p und b vor einem Blatt Papier.",
+     "Bei p wackelt das Blatt, bei b fast nicht.",
+     "Sprich das Wort deutlich, dann weißt du, welchen Buchstaben du brauchst.",
+     "Achtung: b und d sehen ähnlich aus. Beim b ist der Bauch rechts unten."
+    ],
+    "answers": [
+     "Ben.",
+     "Eine Banane.",
+     "Beim p.",
+     "Brot, Pilz, Bus.",
+     "Drei: Ba-na-ne."
+    ]
+   }
+  },
+  "eu-year-de-beginner-1-l14": {
+   "de": {
+    "title": "G g und J j: Gans und Jacke",
+    "theory": "Das g klingt weich hinten im Mund. Das j klingt wie am Anfang von ja. Wörter: Gans, Garten, Jacke, Januar, Junge. Der erste Monat des Jahres heißt Januar und beginnt mit J.",
+    "sample": "Im Januar ist es kalt. / Jakob zieht die Jacke an. / Im Garten steht eine Gans.",
+    "worked": "Der Text erzählt vom Winter. Weil es im Januar kalt ist, zieht Jakob eine Jacke an. Im Garten steht eine Gans. Januar und Jacke beginnen mit J, Garten und Gans mit G.",
+    "exercises": [
+     "Lies: ga, ge, gi, go, gu.",
+     "Lies: Jacke, Junge, Januar.",
+     "Schreibe ein großes J.",
+     "Finde ein Wort mit g.",
+     "Wie heißt der erste Monat des Jahres?"
+    ],
+    "test": [
+     "Warum zieht Jakob die Jacke an?",
+     "Wo steht die Gans?",
+     "Beginnt Joghurt mit J oder mit G?",
+     "Lies: Gabel, Joghurt, Gras.",
+     "Schreibe ein Wort mit j."
+    ],
+    "steps": [
+     "Sprich j wie am Anfang von ja.",
+     "Sprich g hinten im Mund, kurz und weich.",
+     "Frag nach dem Lesen: Warum passiert etwas? Die Antwort steht oft im Satz davor.",
+     "Achtung: Januar, Jacke und Joghurt beginnen mit J, nicht mit G."
+    ],
+    "answers": [
+     "Weil es im Januar kalt ist.",
+     "Im Garten.",
+     "Mit J.",
+     "Ga-bel, Jo-ghurt, Gras.",
+     "Deine Antwort. Zum Beispiel: Junge."
+    ]
+   }
+  },
+  "eu-year-de-beginner-1-l15": {
+   "de": {
+    "title": "Z z und V v: Zebra und Vogel",
+    "theory": "Das z klingt wie ts: Zebra. Das v klingt meistens wie f: Vogel, Vater. In manchen Wörtern klingt es wie w: Vase. Diese Wörter merken wir uns.",
+    "sample": "Der Vogel sitzt auf dem Zaun. / Vater zeigt auf das Zebra. / Zwei Vögel zwitschern.",
+    "worked": "Vogel und Vater beginnen mit V, klingen aber wie f. Zaun, Zebra und zwei beginnen mit Z. Wörter mit V merken wir uns gut, weil wir sie nicht hören können.",
+    "exercises": [
+     "Sprich: Zebra, Zaun, zwei.",
+     "Lies: Vogel, Vater, viel.",
+     "Schreibe ein großes V und ein großes Z.",
+     "Finde ein Wort mit z.",
+     "Merkwort: Wie schreibt man Vogel?"
+    ],
+    "test": [
+     "Wo sitzt der Vogel?",
+     "Worauf zeigt Vater?",
+     "Wie klingt das v in Vogel?",
+     "Lies: Zahn, vier, Zug.",
+     "Schreibe das Wort Vater."
+    ],
+    "steps": [
+     "Z klingt wie ts: Ts-ebra.",
+     "V klingt meistens wie f.",
+     "Wörter mit V lernst du als Merkwörter: Vogel, Vater, vier, viel, von.",
+     "Achtung: Wenn du f hörst, kann es auch V sein; merk dir die Wörter."
+    ],
+    "answers": [
+     "Auf dem Zaun.",
+     "Auf das Zebra.",
+     "Wie f.",
+     "Zahn, vier, Zug.",
+     "Vater."
+    ]
+   }
+  },
+  "eu-year-de-beginner-1-l16": {
+   "de": {
+    "title": "X, Y, Qu, C: seltene Buchstaben und das ABC",
+    "theory": "Einige Buchstaben kommen selten vor. X klingt wie ks: Hexe, Taxi. Y finden wir in Pony und Baby. Qu klingt wie kw: Qualle. C finden wir in Clown und Computer. Jetzt kennen wir alle Buchstaben des Alphabets.",
+    "sample": "Die Hexe fährt mit dem Taxi zum Zoo. / Dort sieht sie ein Pony und eine Qualle. / A B C D E F G H I J K L M N O P Q R S T U V W X Y Z",
+    "worked": "Hexe und Taxi haben ein x. Pony hat ein y. Qualle beginnt mit Qu. Danach steht das ganze Alphabet: 26 Buchstaben. Dazu kommen die Umlaute ä, ö, ü und das ß.",
+    "exercises": [
+     "Sing oder sprich das ABC.",
+     "Lies: Taxi, Pony, Qualle.",
+     "Welcher Buchstabe kommt nach M?",
+     "Ordne nach dem ABC: Hund, Affe, Maus.",
+     "Finde ein Wort mit x."
+    ],
+    "test": [
+     "Wie viele Buchstaben hat das ABC?",
+     "Wie klingt x in Hexe?",
+     "Welcher Buchstabe kommt vor B?",
+     "Wohin fährt die Hexe?",
+     "Wozu hilft uns das ABC?"
+    ],
+    "steps": [
+     "Sprich das ABC in kleinen Stücken: A B C D – E F G.",
+     "Für die Reihenfolge schaust du nur auf den ersten Buchstaben.",
+     "Wenn er gleich ist, schaust du auf den zweiten Buchstaben.",
+     "Achtung: Qu schreiben wir immer zusammen, q steht nie allein."
+    ],
+    "answers": [
+     "26 (dazu ä, ö, ü und ß).",
+     "Wie ks.",
+     "A.",
+     "Zum Zoo.",
+     "Wörter in einer Liste oder im Wörterbuch schnell zu finden."
+    ]
+   }
+  },
+  "eu-year-de-beginner-1-l17": {
+   "de": {
+    "title": "Ei ei und Au au: Eis und Auto",
+    "theory": "Manche Laute schreiben wir mit zwei Buchstaben. Ei klingt wie in Eis, au klingt wie in Auto. Die zwei Buchstaben lesen wir zusammen als einen Laut. Wörter: Eis, Bein, Ei, Auto, Baum, Maus.",
+    "sample": "Im Sommer essen wir ein Eis. / Papas Auto steht unter dem Baum. / Eine Maus läuft weg.",
+    "worked": "Eis und Ei beginnen mit ei. Auto, Baum und Maus haben au. Wir lesen ei und au immer zusammen, nicht e-i oder a-u. Unter dem Baum ist Schatten.",
+    "exercises": [
+     "Lies: Eis, Ei, Bein.",
+     "Lies: Auto, Baum, Maus.",
+     "Kreise in den Sätzen alle ei ein.",
+     "Finde ein Wort mit au.",
+     "Schreibe das Wort Eis."
+    ],
+    "test": [
+     "Wann essen wir ein Eis?",
+     "Wo steht das Auto?",
+     "Wie lesen wir ei: zusammen oder getrennt?",
+     "Lies: Seife, Haus, klein.",
+     "Wer läuft weg?"
+    ],
+    "steps": [
+     "Such im Wort zuerst die zwei Buchstaben, die zusammengehören: ei, au.",
+     "Lies sie als einen Laut.",
+     "Lies dann das ganze Wort.",
+     "Achtung: In Eis liest du nicht e-i, sondern ei wie in mein."
+    ],
+    "answers": [
+     "Im Sommer.",
+     "Unter dem Baum.",
+     "Zusammen.",
+     "Sei-fe, Haus, klein.",
+     "Eine Maus."
+    ]
+   }
+  },
+  "eu-year-de-beginner-1-l18": {
+   "de": {
+    "title": "Eu eu und Äu äu: Eule und Häuser",
+    "theory": "Eu und äu klingen gleich: wie oi. Wir schreiben äu, wenn es ein verwandtes Wort mit au gibt: Haus – Häuser, Baum – Bäume. Sonst schreiben wir eu: Eule, heute, Feuer.",
+    "sample": "Heute sehen wir eine Eule. / Sie sitzt auf einem der Bäume. / Hinter den Bäumen stehen Häuser.",
+    "worked": "Eule und heute schreiben wir mit eu. Bäume und Häuser schreiben wir mit äu, weil sie von Baum und Haus kommen. Das Klingen ist gleich, die Schreibung zeigt die Verwandtschaft.",
+    "exercises": [
+     "Lies: Eule, heute, Feuer.",
+     "Lies: Bäume, Häuser, Mäuse.",
+     "Wie heißt die Einzahl von Häuser?",
+     "Finde ein Wort mit eu.",
+     "Schreibe: Maus – Mäuse."
+    ],
+    "test": [
+     "Wo sitzt die Eule?",
+     "Schreibt man Bäume mit eu oder äu?",
+     "Wie heißt die Mehrzahl von Haus?",
+     "Lies: neu, läuten, Freund.",
+     "Wann sehen wir die Eule?"
+    ],
+    "steps": [
+     "Eu und äu klingen gleich: oi.",
+     "Frag dich: Gibt es ein verwandtes Wort mit au?",
+     "Wenn ja, schreibst du äu: Baum – Bäume. Wenn nein, schreibst du eu: Eule.",
+     "Achtung: Freund und heute haben kein verwandtes Wort mit au, darum eu."
+    ],
+    "answers": [
+     "Auf einem der Bäume.",
+     "Mit äu.",
+     "Häuser.",
+     "neu, läu-ten, Freund.",
+     "Heute."
+    ]
+   }
+  },
+  "eu-year-de-beginner-1-l19": {
+   "de": {
+    "title": "Ä, Ö, Ü: Umlaute",
+    "theory": "Ä, ö und ü sind Umlaute. Sie haben zwei Punkte. Ä klingt fast wie e, ö mit runden Lippen wie e, ü mit runden Lippen wie i. Oft kommen sie in der Mehrzahl vor: Apfel – Äpfel, Vogel – Vögel, Buch – Bücher.",
+    "sample": "Auf dem Tisch liegen zwei Äpfel. / Im Baum singen Vögel. / Im Regal stehen viele Bücher.",
+    "worked": "Äpfel kommt von Apfel, Vögel von Vogel, Bücher von Buch. In der Mehrzahl wird aus a ein ä, aus o ein ö, aus u ein ü. Die zwei Punkte dürfen wir nicht vergessen.",
+    "exercises": [
+     "Lies: Äpfel, Vögel, Bücher.",
+     "Sprich mit runden Lippen: ööö, üüü.",
+     "Bilde die Mehrzahl: Hut.",
+     "Finde ein Wort mit ü.",
+     "Schreibe ein großes Ö."
+    ],
+    "test": [
+     "Wie heißt die Mehrzahl von Apfel?",
+     "Was singt im Baum?",
+     "Was steht im Regal?",
+     "Lies: Käse, Möwe, müde.",
+     "Wie viele Punkte hat ein Umlaut?"
+    ],
+    "steps": [
+     "Sprich zuerst den Laut ohne Punkte: a, o, u.",
+     "Mach die Lippen anders: aus a wird ä, aus o wird ö, aus u wird ü.",
+     "Denk an die Einzahl: Äpfel kommt von Apfel.",
+     "Achtung: Ohne die zwei Punkte wird es ein anderes Wort: schon – schön."
+    ],
+    "answers": [
+     "Äpfel.",
+     "Vögel.",
+     "Viele Bücher.",
+     "Kä-se, Mö-we, mü-de.",
+     "Zwei."
+    ]
+   }
+  },
+  "eu-year-de-beginner-1-l20": {
+   "de": {
+    "title": "Ch ch und Sch sch: Buch und Schule",
+    "theory": "Sch schreiben wir mit drei Buchstaben, ch mit zwei. Sch klingt wie das Leise-Zeichen: schhh. Ch klingt nach a, o, u kräftig wie in Buch, nach e und i weich wie in ich. Wörter: Schule, Fisch, Buch, Milch, lachen.",
+    "sample": "In der Schule lese ich ein Buch. / Mittags trinke ich Milch. / Wir lachen über einen Witz.",
+    "worked": "Schule und Fisch haben sch. Buch und lachen haben ein kräftiges ch, ich und Milch ein weiches ch. Wir schreiben sch immer mit drei Buchstaben: s, c und h.",
+    "exercises": [
+     "Sprich das Leise-Zeichen: schhh.",
+     "Lies: Schule, Fisch, Tasche.",
+     "Lies: Buch, ich, Milch.",
+     "Wie viele Buchstaben hat sch?",
+     "Finde ein Wort mit ch."
+    ],
+    "test": [
+     "Was lese ich in der Schule?",
+     "Was trinke ich mittags?",
+     "Mit wie vielen Buchstaben schreibt man sch?",
+     "Lies: Schaf, Kuchen, Licht.",
+     "Worüber lachen wir?"
+    ],
+    "steps": [
+     "Sch hat drei Buchstaben: s, c, h. Lies sie als einen Laut.",
+     "Ch hat zwei Buchstaben: c, h.",
+     "Nach a, o, u klingt ch kräftig (Buch), nach e, i weich (ich).",
+     "Achtung: Schreib bei sch nicht nur sh; das c gehört dazu."
+    ],
+    "answers": [
+     "Ein Buch.",
+     "Milch.",
+     "Mit drei.",
+     "Schaf, Ku-chen, Licht.",
+     "Über einen Witz."
+    ]
+   }
+  },
+  "eu-year-de-beginner-1-l21": {
+   "de": {
+    "title": "Sp und St am Wortanfang: Spiel und Stern",
+    "theory": "Am Wortanfang sprechen wir sp wie schp und st wie scht. Wir schreiben aber nur sp und st. Wörter: Spiel, spielen, Sport, Stern, Stift, Stuhl.",
+    "sample": "Am Abend sehen wir einen Stern. / In der Pause spielen wir ein Spiel. / Ich lege den Stift auf den Stuhl.",
+    "worked": "Stern, Stift und Stuhl sprechen wir mit scht, schreiben sie aber mit St. Spiel und spielen sprechen wir mit schp und schreiben sp. Das ist eine wichtige Regel für das Schreiben.",
+    "exercises": [
+     "Sprich: Stern, Stift, Stuhl.",
+     "Lies: Spiel, Sport, Spinne.",
+     "Schreibe: Stern.",
+     "Finde ein Wort mit Sp am Anfang.",
+     "Wie spricht man St am Anfang?"
+    ],
+    "test": [
+     "Was sehen wir am Abend?",
+     "Wohin lege ich den Stift?",
+     "Schreibt man Stern mit Scht oder mit St?",
+     "Lies: Stein, Spiegel, Straße.",
+     "Was machen wir in der Pause?"
+    ],
+    "steps": [
+     "Hörst du am Anfang schp oder scht?",
+     "Dann schreibst du nur sp oder st.",
+     "Sag dir: „Ich höre scht, ich schreibe st.“",
+     "Achtung: Schreib nicht Schtern; richtig ist Stern."
+    ],
+    "answers": [
+     "Einen Stern.",
+     "Auf den Stuhl.",
+     "Mit St.",
+     "Stein, Spie-gel, Stra-ße.",
+     "Wir spielen ein Spiel."
+    ]
+   }
+  },
+  "eu-year-de-beginner-1-l22": {
+   "de": {
+    "title": "ie, ß und Pf: Biene, Fuß und Apfel",
+    "theory": "Ein langes i schreiben wir meistens mit ie: Biene, Wiese, spielen. Nach einem langen Selbstlaut oder ei, au schreiben wir oft ß: Fuß, Straße, heiß. Pf hören wir am Anfang von Pferd und in Apfel.",
+    "sample": "Die Biene fliegt über die Wiese. / Das Pferd läuft auf der Straße. / Mein Fuß tut weh.",
+    "worked": "In Biene und Wiese hören wir ein langes i und schreiben ie. In Straße und Fuß ist der Selbstlaut lang, darum steht ß. Pferd hat pf am Anfang: Wir hören p und f fast zugleich.",
+    "exercises": [
+     "Lies: Biene, Wiese, Liebe.",
+     "Lies: Fuß, Straße, groß.",
+     "Lies: Pferd, Apfel, Kopf.",
+     "Ist das i in Biene lang oder kurz?",
+     "Finde ein Wort mit ß."
+    ],
+    "test": [
+     "Wo fliegt die Biene?",
+     "Wo läuft das Pferd?",
+     "Wie schreibt man meist ein langes i?",
+     "Lies: Ziege, süß, Topf.",
+     "Was tut weh?"
+    ],
+    "steps": [
+     "Sprich das Wort und hör: Ist das i lang? Dann meistens ie.",
+     "Ist der Selbstlaut vor dem s-Laut lang? Dann oft ß.",
+     "Bei pf sprichst du p und f schnell hintereinander.",
+     "Achtung: Kurzes i schreiben wir mit i: Kind, Fisch, Tisch."
+    ],
+    "answers": [
+     "Über die Wiese.",
+     "Auf der Straße.",
+     "Mit ie.",
+     "Zie-ge, süß, Topf.",
+     "Mein Fuß."
+    ]
+   }
+  },
+  "eu-year-de-beginner-1-l23": {
+   "de": {
+    "title": "Ein Gedicht hören und vortragen",
+    "theory": "Ein Gedicht hat Zeilen, die wir Verse nennen. Oft reimen sich die Wörter am Ende der Verse. Wir lesen ein Gedicht langsam und machen am Ende jeder Zeile eine kleine Pause. Wir können es auswendig lernen und vortragen.",
+    "sample": "Eigenes Gedicht: / Der Schnee fällt leis auf Dach und Haus, / im Garten hüpft die kleine Maus. / Sie friert und sucht ein warmes Nest, / dort schläft sie dann und hält es fest.",
+    "worked": "Das Gedicht hat vier Verse. Haus reimt sich mit Maus, Nest mit fest. Es erzählt von einem Wintertag und einer Maus, die ein warmes Nest sucht. Beim Vortragen sprechen wir leise wie der Schnee.",
+    "exercises": [
+     "Lies das Gedicht laut und mach Pausen.",
+     "Finde das Reimwort zu Haus.",
+     "Male die Maus im Schnee.",
+     "Lerne zwei Verse auswendig.",
+     "Finde ein Reimwort zu Schnee."
+    ],
+    "test": [
+     "Wie viele Verse hat das Gedicht?",
+     "Was sucht die Maus?",
+     "Reimen sich Nest und fest?",
+     "Welche Jahreszeit beschreibt das Gedicht?",
+     "Finde ein Reimwort zu Baum."
+    ],
+    "steps": [
+     "Lies das Gedicht Zeile für Zeile.",
+     "Schau dir das letzte Wort jeder Zeile an und finde, was gleich klingt.",
+     "Zum Auswendiglernen: Lerne immer zwei Zeilen, dann die nächsten zwei.",
+     "Achtung: Sprich langsam und deutlich; ein Gedicht ist kein Wettrennen."
+    ],
+    "answers": [
+     "Vier.",
+     "Ein warmes Nest.",
+     "Ja.",
+     "Den Winter.",
+     "Deine Antwort. Zum Beispiel: Traum, Saum."
+    ]
+   }
+  },
+  "eu-year-de-beginner-1-l24": {
+   "de": {
+    "title": "Ein Märchen nacherzählen: Der Wolf und die sieben Geißlein",
+    "theory": "Märchen sind alte Geschichten. Die Brüder Grimm haben viele aufgeschrieben. Im Märchen gibt es Gute und Böse, oft auch Zauber. Am Ende siegt das Gute. Wir erzählen nach: Wer kommt vor? Was passiert zuerst, dann, am Ende?",
+    "sample": "Mit unseren Worten erzählt: Die Mutter Geiß geht in den Wald und warnt ihre Kinder vor dem Wolf. Der Wolf verstellt seine Stimme und färbt seine Pfote weiß. Die Geißlein öffnen die Tür. Nur das jüngste versteckt sich im Uhrkasten. Am Ende rettet die Mutter alle.",
+    "worked": "Die Figuren sind die Mutter Geiß, die sieben Geißlein und der Wolf. Der Wolf ist listig und täuscht die Kinder. Das jüngste Geißlein ist klug und versteckt sich. Die Geschichte lehrt uns: Öffne nicht einfach Fremden die Tür.",
+    "exercises": [
+     "Nenne die Figuren des Märchens.",
+     "Erzähl, was zuerst passiert.",
+     "Wo versteckt sich das jüngste Geißlein?",
+     "Male den Wolf mit der weißen Pfote.",
+     "Erzähl das Ende."
+    ],
+    "test": [
+     "Wer hat das Märchen aufgeschrieben?",
+     "Wovor warnt die Mutter ihre Kinder?",
+     "Wie täuscht der Wolf die Geißlein?",
+     "Was machst du, wenn ein Fremder an die Tür klopft?",
+     "Wer rettet die Geißlein am Ende?"
+    ],
+    "steps": [
+     "Nenne zuerst die Figuren: Wer kommt vor?",
+     "Erzähl dann mit „zuerst, dann, am Ende“.",
+     "Sag zum Schluss, was das Märchen uns lehrt.",
+     "Achtung: Erzähl in der richtigen Reihenfolge, sonst versteht man die Geschichte nicht."
+    ],
+    "answers": [
+     "Die Brüder Grimm.",
+     "Vor dem Wolf.",
+     "Er verstellt seine Stimme und färbt seine Pfote weiß.",
+     "Ich öffne nicht und rufe einen Erwachsenen.",
+     "Die Mutter Geiß."
+    ]
+   }
+  },
+  "eu-year-de-beginner-1-l25": {
+   "de": {
+    "title": "Rätsel und Sprachspiele",
+    "theory": "Ein Rätsel beschreibt etwas, ohne es zu nennen. Wir hören genau zu und suchen die Lösung. Bei Sprachspielen spielen wir mit Lauten und Wörtern: Zungenbrecher sprechen wir schnell, ohne zu stolpern.",
+    "sample": "Eigenes Rätsel: Ich habe Zeiger, aber keine Finger. Ich tick und tack den ganzen Tag. (die Uhr) / Zungenbrecher: Fischers Fritz fischt frische Fische.",
+    "worked": "Das Rätsel nennt zwei Hinweise: Zeiger und Ticken. Beides passt zur Uhr. Der Zungenbrecher ist ein bekannter Spruch aus dem Volksmund; viele Wörter beginnen mit f, darum ist er schwer.",
+    "exercises": [
+     "Löse: Ich habe einen Kopf, aber keine Haare. (Tipp: Nagel)",
+     "Sprich den Zungenbrecher dreimal schnell.",
+     "Erfinde ein Rätsel über einen Hund.",
+     "Wie viele Wörter des Zungenbrechers beginnen mit F?",
+     "Stell einem anderen Kind ein Rätsel."
+    ],
+    "test": [
+     "Was ist ein Rätsel?",
+     "Was ist die Lösung des Uhr-Rätsels?",
+     "Warum ist ein Zungenbrecher schwer?",
+     "Erfinde ein Rätsel über die Sonne.",
+     "Welcher Laut kommt im Zungenbrecher oft vor?"
+    ],
+    "steps": [
+     "Hör alle Hinweise des Rätsels.",
+     "Frag dich: Was hat alle diese Eigenschaften?",
+     "Prüfe deine Lösung mit jedem Hinweis.",
+     "Achtung: Rate nicht nach dem ersten Hinweis; hör zuerst bis zum Ende zu."
+    ],
+    "answers": [
+     "Eine Beschreibung von etwas, ohne es zu nennen.",
+     "Die Uhr.",
+     "Weil viele Wörter gleich beginnen und man leicht stolpert.",
+     "Deine Antwort. Zum Beispiel: Ich bin rund und gelb, wärme dich am Tag und gehe am Abend schlafen. (die Sonne)",
+     "Das F (f)."
+    ]
+   }
+  },
+  "eu-year-de-beginner-1-l26": {
+   "de": {
+    "title": "Ein Bilderbuch entdecken und die Bücherei besuchen",
+    "theory": "Ein Bilderbuch erzählt mit Bildern und wenig Text. Auf dem Umschlag stehen der Titel und der Name der Autorin oder des Autors. In der Schulbibliothek leihen wir Bücher aus, behandeln sie gut und bringen sie pünktlich zurück.",
+    "sample": "Auf dem Umschlag sieht man einen Fuchs mit einem roten Regenschirm. Der Titel heißt: Der Fuchs und der Sommerregen. Geschrieben hat es Lisa Berger.",
+    "worked": "Das Bild auf dem Umschlag verrät, worum es gehen könnte: um einen Fuchs und Regen. Titel und Name der Autorin stehen vorne. Bevor wir lesen, vermuten wir, was passieren wird. Danach prüfen wir die Vermutung.",
+    "exercises": [
+     "Zeig an einem Buch den Titel.",
+     "Vermute, was der Fuchs im Buch erlebt.",
+     "Nenne drei Regeln für geliehene Bücher.",
+     "Male einen Umschlag für dein Lieblingsbuch.",
+     "Erzähl einem Kind von einem Buch, das dir gefällt."
+    ],
+    "test": [
+     "Wo steht der Titel eines Buches?",
+     "Wer hat das Buch über den Fuchs geschrieben?",
+     "Wie behandeln wir geliehene Bücher?",
+     "Schreibe den Titel deines Lieblingsbuches.",
+     "Wo können wir in der Schule Bücher ausleihen?"
+    ],
+    "steps": [
+     "Schau dir den Umschlag an: Bild, Titel, Name.",
+     "Vermute, worum es geht, und lies dann nach.",
+     "Behandle das Buch gut und bring es pünktlich zurück.",
+     "Achtung: Knicke keine Seiten; nimm ein Lesezeichen."
+    ],
+    "answers": [
+     "Auf dem Umschlag.",
+     "Lisa Berger.",
+     "Sorgfältig: nicht knicken, nicht bemalen, pünktlich zurückbringen.",
+     "Deine Antwort. Zum Beispiel: Die kleine Raupe Nimmersatt.",
+     "In der Schulbibliothek."
+    ]
+   }
+  },
+  "eu-year-de-beginner-1-l27": {
+   "de": {
+    "title": "Szenisches Spiel: eine kleine Szene spielen",
+    "theory": "In einer Szene sprechen Figuren miteinander. Vor jedem Satz steht der Name der Figur, die spricht. Wir spielen die Szene mit verteilten Rollen oder mit Handpuppen. Wir sprechen laut, mit passender Stimme und zeigen Gefühle.",
+    "sample": "IGEL: Hallo, Hase! Warum bist du so traurig? / HASE: Ich habe meine Karotte verloren. / IGEL: Komm, wir suchen gemeinsam! / HASE: Danke, du bist ein guter Freund.",
+    "worked": "In der Szene sprechen zwei Figuren: Igel und Hase. Der Hase ist traurig, der Igel hilft. Wer den Hasen spielt, spricht traurig, später froh. Wer den Igel spielt, spricht freundlich.",
+    "exercises": [
+     "Lies die Szene mit einem anderen Kind.",
+     "Sprich den Satz des Hasen traurig.",
+     "Erfinde einen Satz für den Igel dazu.",
+     "Spiel die Szene mit Handpuppen.",
+     "Wie endet die Szene?"
+    ],
+    "test": [
+     "Wie viele Figuren sprechen?",
+     "Warum ist der Hase traurig?",
+     "Was schlägt der Igel vor?",
+     "Wie spricht der Hase am Ende?",
+     "Woran erkennst du, wer gerade spricht?"
+    ],
+    "steps": [
+     "Lies den Namen vor dem Satz: Diese Figur spricht.",
+     "Überleg, wie sich die Figur fühlt.",
+     "Sprich mit passender Stimme und schau dein Gegenüber an.",
+     "Achtung: Den Namen der Figur sagst du beim Spielen nicht laut."
+    ],
+    "answers": [
+     "Zwei.",
+     "Er hat seine Karotte verloren.",
+     "Gemeinsam zu suchen.",
+     "Froh und dankbar.",
+     "Am Namen vor dem Satz."
+    ]
+   }
+  },
+  "eu-year-de-beginner-1-l28": {
+   "de": {
+    "title": "Der Satz: Punkt, Fragezeichen, Ausrufezeichen",
+    "theory": "Ein Satz beginnt mit einem großen Buchstaben. Am Ende steht ein Satzzeichen. Ein Erzählsatz endet mit einem Punkt, ein Fragesatz mit einem Fragezeichen, ein Ausrufesatz mit einem Ausrufezeichen. Zwischen den Wörtern lassen wir Abstand.",
+    "sample": "Tom geht in den Park. Kommst du mit? Das ist toll!",
+    "worked": "Der erste Satz erzählt etwas: Punkt. Der zweite fragt: Fragezeichen. Der dritte zeigt Freude: Ausrufezeichen. Jeder Satz beginnt groß. Statt Ausrufezeichen sagt man auch Ausrufungszeichen.",
+    "exercises": [
+     "Setze das richtige Zeichen: Wie heißt du",
+     "Setze das richtige Zeichen: Ich habe einen Hund",
+     "Schreibe eine Frage an deine Lehrerin.",
+     "Schreibe einen Satz mit Ausrufezeichen.",
+     "Zähle die Sätze im Beispiel."
+    ],
+    "test": [
+     "Womit endet ein Fragesatz?",
+     "Womit beginnt jeder Satz?",
+     "Schreibe richtig: heute regnet es",
+     "Was zeigt das Ausrufezeichen?",
+     "Wie viele Sätze hat das Beispiel?"
+    ],
+    "steps": [
+     "Frag dich: Erzählt der Satz, fragt er oder ruft er?",
+     "Erzählt: Punkt. Fragt: Fragezeichen. Ruft: Ausrufezeichen.",
+     "Der erste Buchstabe ist immer groß.",
+     "Achtung: Auch eine kurze Frage wie „Kommst du?“ bekommt ein Fragezeichen."
+    ],
+    "answers": [
+     "Mit einem Fragezeichen.",
+     "Mit einem großen Buchstaben.",
+     "Heute regnet es.",
+     "Freude, Staunen oder einen Ruf.",
+     "Drei."
+    ]
+   }
+  },
+  "eu-year-de-beginner-1-l29": {
+   "de": {
+    "title": "Namenwörter schreiben wir groß",
+    "theory": "Namenwörter (Nomen) bezeichnen Menschen, Tiere, Pflanzen und Dinge. Wir schreiben sie groß. Vor ihnen kann ein Begleiter stehen: der, die, das oder ein, eine. So erkennen wir Namenwörter: der Hund, die Blume, das Haus.",
+    "sample": "Der Hund spielt mit dem Ball. Die Katze schläft auf dem Sofa. Das Kind isst einen Apfel.",
+    "worked": "Hund, Ball, Katze, Sofa, Kind und Apfel sind Namenwörter. Vor jedem kann ein Begleiter stehen: der Hund, das Sofa. Darum schreiben wir sie groß.",
+    "exercises": [
+     "Finde alle Namenwörter im Beispiel.",
+     "Setze der, die oder das ein: ___ Sonne.",
+     "Schreibe drei Tiere mit Begleiter.",
+     "Welches Wort ist ein Namenwort: laufen, Tisch, rot?",
+     "Schreibe drei Dinge aus deiner Schultasche."
+    ],
+    "test": [
+     "Wie schreiben wir Namenwörter?",
+     "Wie viele Namenwörter hat das Beispiel?",
+     "Welcher Begleiter passt zu Haus?",
+     "Ist schläft ein Namenwort?",
+     "Schreibe ein Namenwort für eine Pflanze."
+    ],
+    "steps": [
+     "Frag dich: Kann ich der, die, das oder ein davorsetzen?",
+     "Wenn ja, ist es ein Namenwort und du schreibst es groß.",
+     "Probe: der Hund passt, der läuft passt nicht.",
+     "Achtung: Auch Namen von Menschen und Orten schreiben wir groß: Anna, Berlin."
+    ],
+    "answers": [
+     "Groß.",
+     "Sechs: Hund, Ball, Katze, Sofa, Kind, Apfel.",
+     "das.",
+     "Nein.",
+     "Deine Antwort. Zum Beispiel: die Blume."
+    ]
+   }
+  },
+  "eu-year-de-beginner-1-l30": {
+   "de": {
+    "title": "Wörter schreiben: Silben, Laute, Abschreiben",
+    "theory": "Wir schreiben ein Wort, indem wir es langsam in Silben sprechen und jeden Laut aufschreiben. Beim Abschreiben lesen wir ein Wort, merken es uns, schreiben es auswendig und vergleichen. So lernen wir, Wörter richtig zu schreiben.",
+    "sample": "Abschreibtext: Mia hat eine Katze. Die Katze heißt Lilo. Lilo trinkt gern Milch.",
+    "worked": "Beim Abschreiben lesen wir zuerst ein Wort, zum Beispiel Katze. Dann decken wir es zu, schreiben es und kontrollieren. Namen wie Mia und Lilo schreiben wir groß. Jeder Satz endet mit einem Punkt.",
+    "exercises": [
+     "Sprich in Silben und schreibe: Ka-tze.",
+     "Schreibe den Abschreibtext Wort für Wort ab.",
+     "Kontrolliere deinen Text mit dem Beispiel.",
+     "Schreibe das Wort Milch auswendig.",
+     "Wie viele Silben hat Lilo?"
+    ],
+    "test": [
+     "Wie heißt Mias Katze?",
+     "Was trinkt Lilo gern?",
+     "Wie viele Sätze hat der Text?",
+     "Schreibe: Die Katze schläft.",
+     "Was machst du, nachdem du ein Wort abgeschrieben hast?"
+    ],
+    "steps": [
+     "Lies das Wort und sprich es in Silben.",
+     "Deck es zu und schreib es aus dem Gedächtnis.",
+     "Deck es wieder auf und vergleiche Buchstabe für Buchstabe.",
+     "Achtung: Wenn du einen Fehler findest, streich das Wort sauber durch und schreib es neu."
+    ],
+    "answers": [
+     "Lilo.",
+     "Milch.",
+     "Drei.",
+     "Die Katze schläft.",
+     "Ich vergleiche es mit der Vorlage."
+    ]
+   }
+  },
+  "eu-year-de-beginner-1-l31": {
+   "de": {
+    "title": "Sätze zu einem Bild schreiben",
+    "theory": "Wir schauen ein Bild genau an und stellen Fragen: Wer ist zu sehen? Was macht er oder sie? Wo ist das? Dann schreiben wir zwei oder drei Sätze. Jeder Satz beginnt groß und endet mit einem Satzzeichen.",
+    "sample": "Bild: Ein Mädchen baut im Schnee einen Schneemann. / Sätze: Das Mädchen baut einen Schneemann. Es ist Winter. Der Schneemann hat eine Karotte als Nase.",
+    "worked": "Zum Bild haben wir drei Sätze geschrieben. Der erste sagt, wer was macht. Der zweite sagt, wann es ist. Der dritte beschreibt eine Kleinigkeit. So wird der Text genau.",
+    "exercises": [
+     "Schau aus dem Fenster und schreibe einen Satz dazu.",
+     "Stelle die drei Fragen zu einem Bild.",
+     "Schreibe zwei Sätze über deine Klasse.",
+     "Male ein Bild und schreibe einen Satz darunter.",
+     "Lies deine Sätze vor."
+    ],
+    "test": [
+     "Welche Fragen stellen wir zu einem Bild?",
+     "Was baut das Mädchen?",
+     "Was hat der Schneemann als Nase?",
+     "Womit endet ein Satz?",
+     "Schreibe einen Satz über den Winter."
+    ],
+    "steps": [
+     "Schau das Bild an und frag: Wer? Was macht er oder sie? Wo?",
+     "Sag den Satz zuerst laut, dann schreib ihn.",
+     "Lies am Ende nach: großer Anfang, Punkt am Schluss, Abstände.",
+     "Achtung: Schreib ganze Sätze, nicht nur einzelne Wörter."
+    ],
+    "answers": [
+     "Wer? Was macht er oder sie? Wo?",
+     "Einen Schneemann.",
+     "Eine Karotte.",
+     "Mit einem Punkt (oder Frage- oder Ausrufezeichen).",
+     "Deine Antwort. Zum Beispiel: Im Winter ist es kalt."
+    ]
+   }
+  },
+  "eu-year-de-beginner-1-l32": {
+   "de": {
+    "title": "Eine Einladung und einen Glückwunsch schreiben",
+    "theory": "Eine Einladung sagt, wozu wir einladen, wann und wo es stattfindet. Ein Glückwunsch wünscht etwas Schönes, zum Beispiel zum Geburtstag. Am Anfang steht eine Anrede, am Ende der Name.",
+    "sample": "Liebe Oma, / ich lade dich zu meinem Geburtstag ein. / Wann: Samstag, um 15 Uhr / Wo: bei uns zu Hause / Ich freue mich auf dich! / Deine Lara",
+    "worked": "Die Einladung beginnt mit der Anrede Liebe Oma. Dann stehen Anlass, Zeit und Ort. Am Ende stehen ein freundlicher Satz und der Name. So weiß die Oma alles, was sie braucht.",
+    "exercises": [
+     "Schreibe eine Anrede an deinen Opa.",
+     "Schreibe eine Einladung zu einem Spielnachmittag.",
+     "Schreibe einen Glückwunsch zum Geburtstag.",
+     "Was fehlt: Wann? Wo? Wer lädt ein?",
+     "Unterschreibe mit deinem Namen."
+    ],
+    "test": [
+     "Was steht in einer Einladung?",
+     "Wann ist Laras Geburtstagsfeier?",
+     "Wie beginnt die Einladung?",
+     "Schreibe einen kurzen Glückwunsch.",
+     "Was steht am Ende einer Einladung?"
+    ],
+    "steps": [
+     "Beginn mit einer Anrede: Liebe … oder Lieber …",
+     "Schreib, wozu du einlädst, wann und wo.",
+     "Beende mit einem freundlichen Satz und deinem Namen.",
+     "Achtung: Ohne Zeit und Ort kann niemand kommen."
+    ],
+    "answers": [
+     "Wozu, wann und wo, dazu Anrede und Name.",
+     "Am Samstag um 15 Uhr.",
+     "Mit Liebe Oma.",
+     "Deine Antwort. Zum Beispiel: Alles Gute zum Geburtstag!",
+     "Der Name."
+    ]
+   }
+  },
+  "eu-year-de-beginner-1-l33": {
+   "de": {
+    "title": "Einen Sachtext lesen: Der Igel",
+    "theory": "Ein Sachtext erklärt, wie etwas wirklich ist. Er erzählt keine erfundene Geschichte. Wir lesen ihn langsam und suchen Antworten auf Fragen. Neue Wörter klären wir mit der Lehrerin oder im Wörterbuch.",
+    "sample": "Der Igel hat viele Stacheln. Er frisst Käfer und Würmer. Im Winter hält er Winterschlaf unter einem Laubhaufen.",
+    "worked": "Der Text erklärt drei Dinge über den Igel: wie er aussieht, was er frisst und wo er im Winter schläft. Das ist wahr und nicht erfunden. Winterschlaf heißt: Der Igel schläft den ganzen Winter.",
+    "exercises": [
+     "Lies den Sachtext zweimal.",
+     "Unterstreiche, was der Igel frisst.",
+     "Male einen Igel mit Stacheln.",
+     "Erkläre das Wort Winterschlaf.",
+     "Stell eine eigene Frage zum Igel."
+    ],
+    "test": [
+     "Was frisst der Igel?",
+     "Wo hält er Winterschlaf?",
+     "Ist ein Sachtext erfunden?",
+     "Was hat der Igel auf dem Rücken?",
+     "Wie viele Sätze hat der Text?"
+    ],
+    "steps": [
+     "Lies die Frage und such das wichtigste Wort, zum Beispiel frisst.",
+     "Such dieses Wort im Text.",
+     "Die Antwort steht meistens im selben Satz.",
+     "Achtung: Erfinde nichts dazu; antworte nur mit dem, was im Text steht."
+    ],
+    "answers": [
+     "Käfer und Würmer.",
+     "Unter einem Laubhaufen.",
+     "Nein, er erklärt, wie etwas wirklich ist.",
+     "Viele Stacheln.",
+     "Drei."
+    ]
+   }
+  },
+  "eu-year-de-beginner-1-l34": {
+   "de": {
+    "title": "Wiederholung: Was ich in der 1. Klasse gelernt habe",
+    "theory": "Am Ende des Jahres lesen wir einen kurzen Text und zeigen, was wir können: Laute hören, Buchstaben lesen, Sätze schreiben, Namenwörter groß schreiben und Fragen zu einem Text beantworten.",
+    "sample": "Am Morgen packt Felix seine Schultasche. Er nimmt das Lesebuch, das Federmäppchen und ein Pausenbrot mit. Dann geht er mit seiner Schwester zur Schule.",
+    "worked": "Der Text hat drei Sätze. Felix packt die Schultasche, nimmt drei Dinge mit und geht mit seiner Schwester. Im Federmäppchen sind Stifte; das Pausenbrot isst er in der Pause.",
+    "exercises": [
+     "Lies den Text laut und flüssig.",
+     "Finde alle Namenwörter.",
+     "Was nimmt Felix mit?",
+     "Schreibe einen Satz über deine Schultasche.",
+     "Erzähl, was du am liebsten gelernt hast."
+    ],
+    "test": [
+     "Was macht Felix zuerst?",
+     "Wie viele Sätze hat der Text?",
+     "Schreibe richtig: felix geht zur schule",
+     "Mit wem geht Felix zur Schule?",
+     "Was isst Felix in der Pause?"
+    ],
+    "steps": [
+     "Lies den Text zuerst langsam, dann flüssig.",
+     "Frag: Wer? Was macht er? Mit wem?",
+     "Zähl die Sätze an den Punkten.",
+     "Achtung: Namen und Namenwörter schreibst du groß: Felix, Schule."
+    ],
+    "answers": [
+     "Er packt seine Schultasche.",
+     "Drei.",
+     "Felix geht zur Schule.",
+     "Mit seiner Schwester.",
+     "Sein Pausenbrot."
     ]
    }
   }
