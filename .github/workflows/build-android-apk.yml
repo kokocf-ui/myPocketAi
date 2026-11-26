@@ -236,8 +236,8 @@ jobs:
         run: |
           gh release create "education-test-${GITHUB_RUN_ID}" myPocketAI-signed-education-test.apk \
             --target "$GITHUB_SHA" --prerelease --latest=false \
-            --title "myPocketAI — signed practical-course test (${GITHUB_RUN_ID})" \
-            --notes "User-requested signed branch-test APK from ${GITHUB_SHA}. Includes the reviewed UI and matching local Education content (guided practical workshops, language resources, and mobile window/touch containment fixes). Same signing certificate as the production release, verified during build; versionCode ${POCKET_VERSION_CODE}. Installs as an update without uninstalling. This is a branch test, not a production deployment. Live APIs still require connectivity. Known APK translation issue remains under investigation; browser mocks do not prove it fixed."
+            --title "myPocketAI — signed Romania test (${GITHUB_RUN_ID})" \
+            --notes "User-requested signed branch-test APK for testing in Romania, from ${GITHUB_SHA}; versionCode ${POCKET_VERSION_CODE}. Bundles this branch UI and matching Education content, including the latest transit display fixes for unavailable or estimated timetables and complete source attribution. Same signing certificate as the production release, verified during build; installs as an update without uninstalling. This build does not deploy a backend or activate HERE. Real transport results depend on configured live providers; Germany HERE coverage has not been live-verified. No HERE requests are made by this build workflow. Existing Education, language resources, practical workshops and mobile layout changes are included. Known APK translation issue remains under investigation; browser mocks do not prove it fixed. This is a test prerelease, not the latest production release."
       - name: Remove temporary key and reference APK
         if: always()
         run: rm -f "$RUNNER_TEMP/pocket-preview-release.jks" "$RUNNER_TEMP/check.csr" "$RUNNER_TEMP/published/myPocketAI-signed-release.apk"

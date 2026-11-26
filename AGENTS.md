@@ -7,7 +7,81 @@
 
 ## 1. Reguli permanente de lucru cu utilizatorul
 
-**COMPARAȚIE SERVICII/COSTURI DE (2026-11-26, după 4be7e8f):**
+**APK PENTRU TESTARE ROMÂNIA — APROBAT EXPLICIT (2026-11-26, nou):**
+User cere APK cu TOATE modificările curente pentru a-l trimite prietenului din RO.
+Aceasta înlocuiește vechea restricție fărăAPK DOAR pentru build semnat de test și
+link prerelease non-latest; nu autorizează merge main/frontendprod/Oracle/plată.
+Folosește workflow build-android-apk.yml / signed-branch-preview, currentbranch,
+publish_signed_apk=true, aceeași cheie permanentă, versionCode>501884 și>toate
+prereleaseurile publicate. Nu construi debug ca update. UI ramură+Educationassets
+bundled; backendul rămâne remote, codul HERE server nu intră în APK, nici cheia.
+CapturaUsage a userului: CurrentMonth2026-11-01..26, DatesUTC, NoResults și întârziere
+până2zile. Este intervalul raportului, NU expirareazi și NU dovadă completă reset/
+consumzero. LimitaHERE2încercăritotal FĂRĂretry rămâne; pânăacumZEROliveHERE.
+Pregătire build în curs; NU raporta APK nou livrat pânăworkflow+cert+versionPASS.
+
+**ACCES HERE CREAT DE USER / ACORD LIMITAT LIVE (2026-11-26, ulterior):**
+User a creat cont HERE și aplicația myPocketAI Public, apoi a confirmat salvarea
+cheii în Cloudflare; NU am citit/verificat secretul și NU îl cerem în chat.
+Capturile userului confirmă subscripție activă BasePlan + SelfServeAccount0EUR,
+PublicTransitMonthlyTieredPricingquantity0 și prețuri0/0.00233/0.00187EURunit.
+Cota publică oficială5000free/lună rămâne referință; resetareaUTC și eligibilitatea
+concretă sub restricțiile BasePlan NU au fost confirmate de aceste capturi.
+User a aprobat backend-only + teste live CONDIȚIONAT de protecția cotei gratuite;
+a cerut explicit mai PUȚINE teste decât6. Asistentul a redus limita la MAXIMUM2
+ÎNCERCĂRI HERE ÎN TOTAL (una locală, una interurbană), incl.erori, FĂRĂ retry.
+Aceasta NU autorizează câte2 la fiecare rerun, workflow sau tură! Restul offline.
+Încercări HERE efectuate de agent până aici: ZERO. Niciun deploy/workflow nou.
+Nu seta fictiv gates review=true și nu activa4500/lună fără verificarea ciclului,
+soldului, utilizatorilor cotei și drepturilor. Consultație oficială repetată:
+base-plan-restrictions definește larg Asset, incl.userapp; nu prezenta planul
+ca eligibilitate GPScomercială garantată. Dacă nu pot fi confirmate condițiile,
+acordul userului cere explicit să NU trimitem nici cele2cereri.
+GitHub auth localOK; `gh secret list` a dat403ResourceNotAccessibleByIntegration,
+NU dovadă că secretul Cloudflare lipsește, NU cere valoarea și nu loga credentiale.
+Această permisiune GitHub nu confirmă starea contului Cloudflare.
+Producția rămânev185+APK501884. Restricția veche „niciun cont/cheie creat” de mai
+jos descrie DOAR etapa de pregătire, nu starea actuală raportată de utilizator.
+
+**DECIZIE NOUĂ HERE / GRATUIT ÎNAINTE DE PLATĂ (2026-11-26, după a53953e):**
+Această intrare ÎNLOCUIE recomandarea istorică de mai jos. User a ales HERE și
+acceptă trasee A→B furnizate de API fără orar confirmat: linie, stații, transferuri,
+număr opriri numai dacă furnizat/verificabil; fără ore/stații inventate. Orar real
+unde există (UK neschimbat), altfel orientativ + avertisment că nu poate fi garantat.
+User cere servicii/cote GRATUITE implicit, FĂRĂ abonamente până la profitabilitate
+și aprobare explicită; la epuizare oprire, NU depășire/plată/fallback automat.
+Pregătit local HERE DE-only `here_national_transit.mjs`, registry/policy/backend,
+OFF implicit, fără APIkey/live/cont/card/contract/deploy/APK/Oracle/merge main.
+MOTIS păstrat separat. Un singur GET oficial /v8/routes per căutare, alternative
+în același apel, return=intermediate, fără retry/bus fallback/redirect. Schema
+oficială https://transit.router.hereapi.com/v8/openapi verificată documentar:
+sections[].notices noSchedule => estimated, lipsătime => unavailable/route_only,
+altfel program furnizat, NU garanție/realtime. Nu routingMode=estimated inventat!
+Toate punctele returnate verificate DE prin mecanism comun; nu frontieră continuă.
+UI fără limitarea atribuirii700char, păstrează toate textele+URL; aici și în lista
+HERE. Nulltime nu produce1970, nu calculează catchability/leaveby/sosire-vs-walk
+pentru orientativ; detaliile rămân accesibile. Fără geometrie/locuri/tarife inventate.
+Hardcap persistent separat `HereTransitBudget`, SQLite DO singleton fix,
+rezervare atomică ÎNAINTE de fetch, incl.erori/noresult, fără refund. Default4500
+cereri/lunăUTC, configurabil1..4500, failclosed indisponibil/corupt/epuizat.
+Binding+migration here-transit-budget-v1 DOAR în fișier local Wrangler, nu remote;
+namespacecomunicare păstrat. Gates HERE_TRANSIT_ENABLED, TERMS_REVIEWED,
+FREE_TIER_REVIEWED, EXCLUSIVE_ACCOUNT, UTC_MONTH_REVIEWED (toate prefixHERE_TRANSIT_)
++SecretHERE_TRANSIT_API_KEY+bindingobligatoriu. Nicio variabilă HERE remote.
+Contorul NU garantează costzero pe întregcontul: consumextern/cheialteapp/cicludiferit/
+consumanterior/ștergerenamespace sunt în afara lui. Înainte de activare verifică
+eligibilitatea reală BasePlan, soldul gratuit și reducerea plafonului inițial,
+exclusivitate/aliniereUTC, limiteleCloudflare/geocoding. Dacă nu se pot îndeplini
+GRATUIT, rămâneOFF. NU cere cheia în chat. Nu activare/deploy fără aprobare separată.
+Ghid complet `HERE_GERMANY_PREPARATION_2026-11-26.md`; comparația veche e istorică.
+PASS7adaptor+2Worker+2budget, inclusiv runtimeWorkerslocal60concurente→7permise/
+53blocate la plafontest7, blocat și dupărestart. BrowserHERE360/393/430 cu lipsăorar+
+estimated și atribuirelungă. national-transport/transit-audit/check/browser5suite
+PASS, backend+frontendwranglerdryrunPASS. Nu validareJSONschema completă, nu probălive
+sau fizicăHERE; acoperirea/contul/ciclul/eligibilitatea rămân neverificate.
+Producția rămâne **backendv185 + APK501884**, FI/EEactive, DE/NOOFF.
+
+**ISTORIC — COMPARAȚIE SERVICII/COSTURI DE (2026-11-26, după 4be7e8f):**
 User aprobă comparația găzduire proprie vs comercială, NU achiziție/activare.
 Raport nou `GERMANY_PROVIDER_COMPARISON_2026-11-26.md`: surse oficiale, scenarii
 cost și email englezesc pregătit către triptix, NETRIMIS. Nu a fost modificat

@@ -30,6 +30,16 @@ class_name = "PocketCommunicationHub"
 tag = "communication-sqlite-v1"
 new_sqlite_classes = ["PocketCommunicationHub"]
 
+# HERE preparation only: no enable flags or API key. Never deploy without approval.
+# Separate persistent singleton; existing communication namespace is unchanged.
+[[durable_objects.bindings]]
+name = "HERE_TRANSIT_BUDGET"
+class_name = "HereTransitBudget"
+
+[[migrations]]
+tag = "here-transit-budget-v1"
+new_sqlite_classes = ["HereTransitBudget"]
+
 [[vpc_services]]
 binding = "EN_URBAN_VPC"
 service_id = "01a1e3ea-f6fa-7d11-8f85-21f267b1d833"

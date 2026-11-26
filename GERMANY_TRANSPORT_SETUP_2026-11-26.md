@@ -1,5 +1,12 @@
 # Germania — adaptor pregătit, serviciu încă neconectat
 
+> **Actualizare ulterioară, 26.11.2026:** utilizatorul a ales HERE, numai cu
+> cotă gratuită și oprire la plafon, și acceptă trasee orientative fără orar
+> garantat. Pregătirea nouă, încă **OFF / fără deploy**, este descrisă în
+> [HERE_GERMANY_PREPARATION_2026-11-26.md](HERE_GERMANY_PREPARATION_2026-11-26.md).
+> Recomandările anterioare de mai jos rămân istoric, nu decizia curentă.
+
+
 > **Comparație ulterioară pregătită:** `GERMANY_PROVIDER_COMPARISON_2026-11-26.md`
 > include triptix (ofertă necesară), HERE Public Transit (alt protocol/adaptor,
 > tarife publice și condiții de clarificat), referințe de cost pentru hardware și

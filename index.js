@@ -21484,12 +21484,16 @@ function appendTransitLegs(host,journey){
  if(typeof journey?.attribution?.text==='string'&&journey.attribution.text.trim()){
   const attribution=document.createElement('p');attribution.className='transit-source-attribution';
   attribution.style.cssText='font-size:12px;line-height:1.4;overflow-wrap:anywhere;color:#bdd6e3';
-  attribution.textContent=journey.attribution.text.trim().slice(0,700);host.append(attribution);
+  attribution.textContent=journey.attribution.text.trim();host.append(attribution);
  }
 }
 // Provider boarding times are never shifted. This only calculates a leave-by
 // recommendation so an access walk has a practical buffer before boarding.
+function transitScheduleUncertain(journey){
+ return journey?.route_only===true||['indicative','estimated','unavailable','unconfirmed'].includes(String(journey?.schedule_status||'').toLowerCase());
+}
 function transitBoardingBuffer(journey){
+ if(transitScheduleUncertain(journey))return null;
  const first=(journey?.legs||[]).find(l=>!/^(walking|walk|foot|pedestrian)$/i.test(String(l.mode||'')));
  const boarding=Date.parse(journey?.firstVehicleDepartureTime||journey?.boarding_stop?.departure_time||first?.departureTime||'');
  // TfL minutes are not a verified route from the current GPS position.
@@ -21819,9 +21823,9 @@ function appendTransitCards(host,options){
   title.style.cssText='font-size:17px;line-height:1.35;overflow-wrap:anywhere';
   title.textContent=(i+1)+'. '+from+' → '+to;
   const schedule=document.createElement('div');schedule.style.cssText='font-size:16px;font-weight:750';
-  schedule.textContent=transitClock(journey.startDateTime||first?.departureTime,journey.time_zone)+
+  schedule.textContent=(transitScheduleUncertain(journey)?dialogText('Orientativ · ','Indicative · '):'')+transitClock(journey.startDateTime||first?.departureTime,journey.time_zone)+
     ' → '+transitClock(journey.arrivalDateTime,journey.time_zone)+
-    ' · '+formatTravelDurationMinutes(journey.durationMinutes);
+    (journey.durationMinutes!=null?' · '+formatTravelDurationMinutes(journey.durationMinutes):'');
   const date=document.createElement('small');date.style.cssText='font-size:12px;opacity:.85';
   date.textContent=transitDateLabel(journey.startDateTime,journey.time_zone);
   const meters=Number(journey.distanceMeters);
@@ -21831,8 +21835,8 @@ function appendTransitCards(host,options){
   if(journey.route_only===true||['indicative','estimated','unavailable','unconfirmed'].includes(String(journey.schedule_status||''))){
    const note=document.createElement('small');
    note.className='transit-estimated-timetable';
-   note.textContent=dialogText('Orar orientativ sau indisponibil · confirmă direct la operator.',
-    'Indicative or unavailable timetable · confirm directly with the operator.');
+   note.textContent=dialogText('Orar orientativ sau indisponibil · nu poate fi garantat; confirmă direct la operator.',
+    'Indicative or unavailable timetable · not guaranteed; confirm directly with the operator.');
    note.style.cssText='font-size:12px;line-height:1.4;color:#e5ced8';
    button.append(note);
   }
@@ -21841,6 +21845,11 @@ function appendTransitCards(host,options){
    $('moduleQuickLayer').setAttribute('aria-hidden','false');
    $('moduleLayerTitle').textContent=t[0];void selectTransitJourney(options,i)};
   host.append(button);
+  if(journey.provider==='HERE Public Transit'&&journey.attribution?.text){
+   const attribution=document.createElement('p');attribution.className='transit-source-attribution';
+   attribution.style.cssText='font-size:12px;line-height:1.4;overflow-wrap:anywhere';
+   attribution.textContent=journey.attribution.text;host.append(attribution);
+  }
  }
 }
 function appendTransitOverview(host,text){
@@ -21955,7 +21964,7 @@ async function showTransitWalkingComparison(notice,options){
   if(!notice.isConnected)return;
   const minutes=transitVerifiedWalkingMinutes(route,origin,destination);
   if(minutes===null)return;
-  const best=options.filter(j=>transitArrivalMs(j)!==null).sort(compareTransitDisplayTimes)[0];
+  const best=options.filter(j=>!transitScheduleUncertain(j)&&transitArrivalMs(j)!==null).sort(compareTransitDisplayTimes)[0];
   if(!best)return;
   // Calculate all displayed durations against ONE clock snapshot. The
   // 12-minute itinerary is not a 12-minute wait from the current time.
@@ -22018,6 +22027,7 @@ function feasibleTransitChoices(options){
  const requestedAt=state.lastTransitChoice?.transitDepartureAt||state.lastTransitResponse?.transit_departure_at;
  const requestedMs=requestedAt?Date.parse(requestedAt):null;
  return (Array.isArray(options)?options:[]).filter(journey=>{
+  if(transitScheduleUncertain(journey))return true;
   const buffer=transitBoardingBuffer(journey);
   if(buffer){
    if(buffer.recommended<now)return false;
@@ -22415,8 +22425,8 @@ function renderTransitChoices(options,selectedIndex=null){
   body.append(summary);
   if(journey.route_only===true||['indicative','estimated','unavailable','unconfirmed'].includes(String(journey.schedule_status||''))){
    const note=document.createElement('p');note.className='transit-estimated-timetable';
-   note.textContent=dialogText('Variantă orientativă: verifică orarul, tariful și locurile la operator. Eva nu face rezervări.',
-    'Indicative option: confirm timetables, fares and seats with the operator. Eva does not take bookings.');
+   note.textContent=dialogText('Variantă orientativă: orarul nu poate fi garantat. Verifică orarul, tariful și locurile la operator. Eva nu face rezervări.',
+    'Indicative option: the timetable cannot be guaranteed. Confirm timetables, fares and seats with the operator. Eva does not take bookings.');
    body.append(note);
   }
   const bufferText=transitBoardingAdvice(journey);
@@ -22608,7 +22618,7 @@ async function openTransitJourneyMap(selected,resume=null){
     state.lastTransitChoice?.transitDestination?.label||journey.legs?.at(-1)?.to||'');
  const intro=document.createElement('strong');intro.textContent=String(journey.legs?.[0]?.from||'—')+' → '+destination;
  const timing=document.createElement('p');timing.textContent=transitClock(journey.startDateTime,journey.time_zone)+
-  ' → '+transitClock(journey.arrivalDateTime,journey.time_zone)+' · '+formatTravelDurationMinutes(journey.durationMinutes);
+  ' → '+transitClock(journey.arrivalDateTime,journey.time_zone)+(journey.durationMinutes!=null?' · '+formatTravelDurationMinutes(journey.durationMinutes):'');
  const notice=document.createElement('p');notice.style.cssText='font-size:13px;opacity:.85';
  notice.textContent=dialogText('Liniile punctate indică tronsoane fără geometrie de drum verificată; nu sunt indicații de navigație.',
   'Dashed lines are schematic connections without verified road geometry, not navigation directions.');
@@ -22798,8 +22808,7 @@ async function selectTransitJourneyWithNavigation(options,index,navigate=false){
  if(state.lastTransitChoice?.mixedJourney===true&&!navigate){
   selected.loading=false;selected.error='';renderTransitChoices(options,index);return;
  }
- if(state.lastTransitChoice?.mixedJourney===true&&
-  (journey.route_only===true||['indicative','estimated','unavailable','unconfirmed'].includes(String(journey.schedule_status||'').toLowerCase()))){
+ if(transitScheduleUncertain(journey)){
   selected.loading=false;selected.error='';renderTransitChoices(options,index);return;
  }
  if(isRomanianRailJourney(journey)&&!validTransitBoardingStop(stop)){selected.loading=false;selected.error='';renderTransitChoices(options,index);return;}

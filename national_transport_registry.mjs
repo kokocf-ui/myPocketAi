@@ -1,3 +1,4 @@
+import {hereNationalConfigured} from './here_national_transit.mjs';
 import {germanyNationalConfigured} from './germany_national_transit.mjs';
 import {digitransitNationalConfigured} from './digitransit_national_transit.mjs';
 import {enturNationalConfigured} from './entur_national_transit.mjs';
@@ -5,7 +6,7 @@ import {EUROPE_COUNTRIES,europeanCountrySources} from './europe_country_sources.
 // One domestic-transport record per country. A catalog entry is NOT an adapter,
 // an imported timetable, an active feed, or evidence of countrywide coverage.
 const implemented={
- DE:{urban_transport:['germany_motis_national_transit'],intercity_transport:['germany_motis_national_transit'],domesticPlanner:'germany_motis_national_transit'},
+ DE:{urban_transport:['here_national_transit','germany_motis_national_transit'],intercity_transport:['here_national_transit','germany_motis_national_transit'],domesticPlanner:'germany_motis_national_transit',domesticPlanners:['here_national_transit','germany_motis_national_transit']},
  RO:{urban_transport:['ro_urban_gtfs'],intercity_transport:['ro_national_transit']},
  GB:{urban_transport:['tfl','en_urban_gtfs'],intercity_transport:['uk_national_transit']},
  NO:{urban_transport:['entur_national_transit'],intercity_transport:['entur_national_transit'],domesticPlanner:'entur_national_transit'},
@@ -18,6 +19,7 @@ export const NATIONAL_TRANSPORT_COUNTRIES=Object.freeze(Object.fromEntries(
   urban_transport:Object.freeze(implemented[country]?.urban_transport||[]),
   intercity_transport:Object.freeze(implemented[country]?.intercity_transport||[]),
   domesticPlanner:implemented[country]?.domesticPlanner||null,
+  domesticPlanners:Object.freeze(implemented[country]?.domesticPlanners||[]),
   timetableCoverage:'not_verified_countrywide',
   validationStatus:['NO','FI','EE','DE'].includes(country)?'contract_tests_only':implemented[country]?'live_coverage_not_reverified':'not_implemented',
   integrationStatus:implemented[country]?'implemented_adapters':'sources_require_integration'
@@ -30,6 +32,7 @@ export function configuredNationalTransportProviders(env={}){
   try{const u=new URL(String(url||'').trim());return u.protocol==='https:'&&!u.username&&!u.password&&!u.search&&!u.hash&&u.pathname==='/';}catch{return false;}
  };
  return [
+  hereNationalConfigured(env)?'here_national_transit':null,
   germanyNationalConfigured(env)?'germany_motis_national_transit':null,
   enturNationalConfigured(env)?'entur_national_transit':null,
   digitransitNationalConfigured(env)?'digitransit_national_transit':null,

@@ -7,7 +7,9 @@ export function nationalPublicTransportPolicy({originCountry='',destinationCount
  if(!/^[A-Z]{2}$/.test(to))return {status:'destination_country_unverified',provider:null,country:from};
  if(from!==to)return {status:'international_destination',provider:null,country:from};
  if(from==='RO'&&localRoute&&!urbanRoute)return {status:'local_provider_not_connected',provider:null,country:from,category:'urban_transport'};
- const domesticPlanner=NATIONAL_TRANSPORT_COUNTRIES[from]?.domesticPlanner;
+ const profile=NATIONAL_TRANSPORT_COUNTRIES[from];
+ // Choose once; quota errors never trigger another provider or paid fallback.
+ const domesticPlanner=profile?.domesticPlanners?.find(p=>enabledProviders.includes(p))||profile?.domesticPlanner;
  const permitted=domesticPlanner?['intercity_transport',domesticPlanner]:{RO:urbanRoute?['urban_transport','ro_urban_gtfs']:['intercity_transport','ro_national_transit'],
   GB:londonRoute?['urban_transport','tfl']:englandLocalRoute&&enabledProviders.includes('en_urban_gtfs')?['urban_transport','en_urban_gtfs']:['intercity_transport','uk_national_transit']}[from];
  if(!permitted)return {status:'country_provider_not_connected',provider:null,country:from};

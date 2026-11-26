@@ -3,12 +3,17 @@ import {annotateTransportJourneys,transportNoticeLine} from './transport_availab
 // Existing RO/GB and Directions response paths are intentionally independent.
 export function nationalTransportResponse(result,{country,provider,language='ro',destination,departureAt}={}){
  const en=language==='en',journeys=annotateTransportJourneys(result?.journeys||[],language);
- const clock=(value,zone)=>new Date(value).toLocaleString(en?'en-GB':'ro-RO',{
+ const clock=(value,zone)=>!value||!Number.isFinite(Date.parse(value))?'—':new Date(value).toLocaleString(en?'en-GB':'ro-RO',{
   timeZone:zone,day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});
- const description=journeys.map((j,i)=>(i+1)+'. '+clock(j.startDateTime,j.time_zone)+'–'+clock(j.arrivalDateTime,j.time_zone)+
+ const indicative=j=>j.route_only===true||['indicative','estimated','unavailable','unconfirmed'].includes(j.schedule_status);
+ const description=journeys.map((j,i)=>(i+1)+'. '+(indicative(j)?(en?'Indicative · ':'Orientativ · '):'')+clock(j.startDateTime,j.time_zone)+'–'+clock(j.arrivalDateTime,j.time_zone)+
   ' · '+j.legs.filter(l=>l.mode!=='walking').map(l=>[l.mode,...l.lineNames].join(' ')+' · '+l.from+' → '+l.to).join(' / ')).join('\n');
  const unavailable=result?.status==='invalid_departure'
   ?(en?'Choose a valid departure within the next 60 days.':'Alege o plecare validă în următoarele 60 de zile.')
+  :result?.status==='free_quota_exhausted'
+  ?(en?'The free monthly transit allowance is exhausted. Requests are stopped; no paid fallback is used.':'Cota lunară gratuită pentru transport s-a epuizat. Cererile sunt oprite; nu folosesc o alternativă cu plată.')
+  :result?.status==='budget_unavailable'
+  ?(en?'The free allowance could not be checked. Requests are stopped to avoid charges.':'Cota gratuită nu poate fi verificată. Cererile sunt oprite pentru a evita costurile.')
   :result?.status==='quota_exceeded'||result?.status==='access_denied'
   ?(en?'The national provider is temporarily unavailable or has restricted access. This does not mean there is no transport.':'Furnizorul național este momentan indisponibil sau a limitat accesul. Asta nu înseamnă că nu există transport.')
   :result?.status==='domestic_route_unverified'
@@ -17,9 +22,10 @@ export function nationalTransportResponse(result,{country,provider,language='ro'
  const reply=journeys.length
   ?(en?'Domestic public transport · ':'Transport public național · ')+country+' → '+destination.label+'\n'+description+'\n\n'+
    (en?'Source: ':'Sursa: ')+provider+'. '+
-   (en?'Provider timetable; live updates only where explicitly supplied. Walking access and transfers need separate navigation checks.':
-    'Orarul furnizorului; actualizări în timp real numai unde sunt furnizate explicit. Accesul pietonal și transferurile necesită verificare separată pentru navigare.')+
-   '\n'+transportNoticeLine(journeys[0],language)+(journeys[0].attribution?.text?'\n'+journeys[0].attribution.text:'')
+   (journeys.some(indicative)?(en?'Indicative route; the timetable cannot be guaranteed. Confirm with the operator.':'Traseu orientativ; orarul nu poate fi garantat. Verifică la operator.')+' ':'')+
+   (en?'Times only where supplied by the provider; live updates only where explicitly supplied. Walking access and transfers need separate navigation checks.':
+    'Ore numai unde sunt furnizate de operator; actualizări în timp real numai unde sunt furnizate explicit. Accesul pietonal și transferurile necesită verificare separată pentru navigare.')+
+   '\n'+[...new Set(journeys.map(j=>transportNoticeLine(j,language)))].join('\n')+'\n'+[...new Set(journeys.map(j=>j.attribution?.text).filter(Boolean))].join('\n')
   :unavailable;
  return {reply,national_public_transport:true,country_code:country,mixed_journey:false,international_journey:false,
   transit_available:journeys.length>0,route_available:false,route_geometry_available:false,transit_geometry_available:false,

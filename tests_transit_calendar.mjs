@@ -25,7 +25,7 @@ assert.ok(/11.+11.+2026/.test(helpers.transitDateLabel('2026-11-11T13:00:00Z','E
 assert.ok(frontend.includes("date.textContent=transitDateLabel(journey.startDateTime,journey.time_zone)"),'Compact cards keep the real travel date');
 assert.ok(frontend.includes("request.className='transit-selected-departure'"),'Show the calendar date the user requested');
 assert.ok(backend.includes('startsAt>=earliestRequested-120000'),'Reject TfL routes earlier than calendar selection');
-const boardingSource=frontend.slice(frontend.indexOf('function transitBoardingBuffer('),frontend.indexOf('function appendTransitCards('));
+const boardingSource=frontend.slice(frontend.indexOf('function transitScheduleUncertain('),frontend.indexOf('function appendTransitCards('));
 const boarding=new Function('dialogText','transitClock','transitDateLabel','formatTravelDurationMinutes',boardingSource+
  '\nreturn {transitBoardingBuffer,transitBoardingAdvice};')(
  (ro,en)=>ro,
@@ -55,7 +55,7 @@ assert.ok(boarding.transitBoardingAdvice(safe).includes('5 min rezervă'),
 const impossible=makeJourney(2,5,3);
 const filterSource=frontend.slice(frontend.indexOf('function feasibleTransitChoices('),frontend.indexOf('const TRANSIT_REFRESH_TEXT='));
 const feasible=new Function('state','transitBoardingBuffer','compareTransitDisplayTimes',
- filterSource+'\nreturn feasibleTransitChoices;')(
+ frontend.slice(frontend.indexOf('function transitScheduleUncertain('),frontend.indexOf('function transitBoardingBuffer('))+filterSource+'\nreturn feasibleTransitChoices;')(
  {lastTransitChoice:{transitDepartureAt:later(0)}},boarding.transitBoardingBuffer,()=>0);
 assert.deepEqual(feasible([safe,impossible]),[safe],
  'Do not offer future itinerary requiring the user to leave before their chosen time');

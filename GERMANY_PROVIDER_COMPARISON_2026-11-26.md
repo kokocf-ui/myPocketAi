@@ -1,5 +1,12 @@
 # Germania — servicii comerciale versus găzduire proprie
 
+> **Actualizare ulterioară, 26.11.2026:** utilizatorul a ales HERE, numai cu
+> cotă gratuită și oprire la plafon, și acceptă trasee orientative fără orar
+> garantat. Pregătirea nouă, încă **OFF / fără deploy**, este descrisă în
+> [HERE_GERMANY_PREPARATION_2026-11-26.md](HERE_GERMANY_PREPARATION_2026-11-26.md).
+> Recomandările anterioare de mai jos rămân istoric, nu decizia curentă.
+
+
 Verificat la **26 noiembrie 2026**. Cercetare pentru myPocketAI, cu monetizare
 planificată. Nu este ofertă contractuală, aviz juridic sau comandă de servicii.
 

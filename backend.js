@@ -1,3 +1,5 @@
+import {planHereNationalJourney} from './here_national_transit.mjs';
+export {HereTransitBudget} from './here_transit_budget.mjs';
 import {planGermanyNationalJourney} from './germany_national_transit.mjs';
 import {planDigitransitNationalJourney} from './digitransit_national_transit.mjs';
 import {planEnturNationalJourney} from './entur_national_transit.mjs';
@@ -3976,6 +3978,7 @@ export default {
       }
       authorizedNationalProvider=authorization.provider;verifiedNationalCountry=originCountry;
       const extraNationalPlanner={
+        here_national_transit:{plan:planHereNationalJourney,label:'HERE Public Transit'},
         germany_motis_national_transit:{plan:planGermanyNationalJourney,label:'MOTIS Germany'},
         entur_national_transit:{plan:planEnturNationalJourney,label:'Entur'},
         digitransit_national_transit:{plan:planDigitransitNationalJourney,label:'Digitransit'}
