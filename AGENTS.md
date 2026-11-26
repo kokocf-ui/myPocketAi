@@ -7,6 +7,32 @@
 
 ## 1. Reguli permanente de lucru cu utilizatorul
 
+**AUTORIZARE NOUĂ APKTEST + PREGĂTIRE v187 (2026-11-26, cea mai nouă etapă):**
+User: „Hai sa rezolvăm ce mai avem de făcut și să eliberăm un apk pentru testare”.
+Permite backendmatching+APKsemnatdetest pebranch, NUmainmerge/prodfrontend/Oracle/
+paidservices/HERE. Raportnou `MIXED_PROGRESSIVE_APK_TEST_RELEASE_2026-11-26.md`.
+- Protocolopt-inbody `mixed_progressive:true` pe/api/chat -> NDJSONstarted/progress/
+  result/error, unasingurăcăutare; compatJSONlegacy. Proxyfrontendexistent transmite
+  streamfărădeployfrontend. HTMLsnapshotnouînAPK.
+- progressground/graph/air -> client; opțiuniutilizabileînaintefinal; detailselectat
+  nuresetat deprogres/final; Backlaultimalistă; Backcalendarabort+generationguard.
+  Partialstreaminterruptedpăstreazăevidence+mesaj, nufalsnoconnection.
+- parentsignalinair/graph/groundhub/flightgroundenrichment; nomenclaturăFlixBusH1
+  cheapbusticketsfromcorectată; diagnosticmixed_ground_onlyopreșteair.
+- TestsNOIprotocolactualproxy+Worker2calls/gate+UTF8fragment/interrupt/cancel și
+  browserHTTPstream360/393/430(detalii/back/latechunks)PASS; înmixedgates.
+  Mixed/transitaudit/national/check/bootsyntax/Androidpreview/bothbrowsersuites/
+  frontendbackenddryrun/bundlednames6860903PASSoffline. NUfizicLIVEcoverage.
+- PublicFlixBusglobalroutepageLondontoOradeachunks0/1există, include listăstații
+  orașe+mapcoords; UKredirectgeneric. ListaNUe îmbarcare/schimbconfirmatpentrudată,
+  NUhardcodateînapp. Relatareuser+sourceevidenceNUinventarAPIlicențiat.
+- Backendversionpregătitv187 și CIassertionssync; no-providerprotocolsmokenou
+  prinfrontenddupădeploy (emptyinvalidmessage, result400v187). CIexistentEva/
+  weather/location/FI/EEsmokesneschimbatcaacoperire. HEREOFF0/max2.
+LaînscriereaacesteinoteîncăNUdeploy/APKnou; prodrămânev186/APK501886 pânăla
+confirmarearunurilor. Actualizeazăraportulșinota cuworkflowIDs/rezultate/digest.
+Nuconfunda progresulUIrezolvat cuorare/transferuricompleteFlixBusverificate.
+
 **IMPLEMENTARE INCREMENTALĂ MULTIRAMURĂ (2026-11-26, după confirmarea user):**
 User a cerut deja afiliereOmio; ei i-au cerut maimulțiabonați (relatareauser).
 Cerința e căutare+armonizareproprie: FlixBus UK→Oradea poate fi ofertă cu schimb,

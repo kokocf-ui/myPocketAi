@@ -298,8 +298,8 @@ jobs:
           node tests_mixed_uk_fallback.mjs
           node tests_short_local_transit_arrival.mjs
 
-      - name: Verify reported transit failures offline (no provider requests)
-        run: npm run test:transit-reported-failures
+      - name: Verify reported transit failures and progressive mixed search offline
+        run: npm run test:transit-reported-failures && npm run test:mixed-orientation
 
       - name: Verify country-scoped national transport adapters
         run: npm run test:national-transport
@@ -340,6 +340,16 @@ jobs:
             fi
             if [ "$attempt" -eq 1 ]; then sleep 15; else sleep 45; fi
           done
+      - name: Verify progressive mixed protocol through existing frontend (no provider query)
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.backend_only == true }}
+        run: node scripts/smoke_mixed_progress_protocol.mjs --allow-network
+      - name: Save progressive protocol report
+        if: ${{ always() && github.event_name == 'workflow_dispatch' && inputs.backend_only == true }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: mixed-progress-live-smoke
+          path: mixed-progress-live-smoke.json
+          if-no-files-found: warn
       - name: Verify deprecated Cloudflare communication route is closed
         run: |
           node --input-type=module -e "const r=await fetch('https://lifewise-ai-api.kokocf.workers.dev/api/communication',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'health'})});const d=await r.json();if(r.status!==410||d.error!=='communication_moved_to_oracle'){console.error('Unexpected legacy chat route',r.status,d);process.exit(1)}console.log('Cloudflare chat writes disabled; Oracle is the selected endpoint');"

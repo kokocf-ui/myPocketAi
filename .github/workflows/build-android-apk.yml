@@ -144,6 +144,7 @@ jobs:
           node --check index.js
           node tests_android_ui_preview.mjs
           npm run test:transit-reported-failures
+          npm run test:mixed-orientation
           node tests_divertisment_frontend_presence.mjs
           node tests_education_source_translation.mjs
           node tests_science_container_translation.mjs
@@ -238,7 +239,8 @@ jobs:
           gh release create "education-test-${GITHUB_RUN_ID}" myPocketAI-signed-education-test.apk \
             --target "$GITHUB_SHA" --prerelease --latest=false \
             --title "myPocketAI — signed Romania test (${GITHUB_RUN_ID})" \
-            --notes "User-requested signed branch-test APK for testing in Romania, from ${GITHUB_SHA}; versionCode ${POCKET_VERSION_CODE}. Bundles this branch UI and matching Education content, including the latest transit display fixes for unavailable or estimated timetables and complete source attribution. Same signing certificate as the production release, verified during build; installs as an update without uninstalling. Includes the physical-report fixes: walking-access failure preserves itinerary details, an explicit all-stages map with walking verification states, compatible stop coordinates, and partial nearby-airport results. Backend transit fixes are released separately as v186; check its deployment report. This APK build itself does not deploy a backend or activate HERE. Real transport results depend on configured live providers; Germany HERE coverage has not been live-verified. No HERE requests are made by this build workflow. Existing Education, language resources, practical workshops and mobile layout changes are included. Known APK translation issue remains under investigation; browser mocks do not prove it fixed. This is a test prerelease, not the latest production release."
+            --notes "User-requested signed branch-test APK from ${GITHUB_SHA}; versionCode ${POCKET_VERSION_CODE}. Same permanent signing certificate as production, verified during build; installs as an update without uninstalling. Includes local transport reuse at both ends, independent rail/coach/corridor searches, progressive mixed results with selectable early options and preserved detail/Back navigation, and the physical-report walking/latency fixes. Requires backend v187, deployed separately; this build does not deploy a backend. Operator route pages may include changes and are indicative, not a dated booking or guaranteed connection. Real UK–Oradea door-to-door service availability remains for live/physical testing. No new paid services, HERE activation, main merge, Oracle changes or production frontend deployment. Germany HERE is OFF and unverified. Test prerelease, not the latest production release."
+
       - name: Remove temporary key and reference APK
         if: always()
         run: rm -f "$RUNNER_TEMP/pocket-preview-release.jks" "$RUNNER_TEMP/check.csr" "$RUNNER_TEMP/published/myPocketAI-signed-release.apk"

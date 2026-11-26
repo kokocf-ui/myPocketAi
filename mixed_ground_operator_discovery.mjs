@@ -69,7 +69,7 @@ const fromToTitle=(title,targetCity)=>{
  // When a title has a more verbose suffix, its destination should still
  // start with the exact city requested, not an unrelated intermediate stop.
  if(!fold(destination).startsWith(fold(targetCity))||!fold(targetCity))return null;
- const origin=trim(match[1].replace(/^(?:bus|coach|train|rail|cheap tickets)\s+(?:from\s+)?/i,''),75);
+ const origin=trim(match[1].replace(/^(?:(?:cheap|affordable)\s+)?(?:bus|coach|train|rail)(?:\s+tickets)?\s+(?:from\s+)?|^(?:cheap\s+)?tickets\s+(?:from\s+)?/i,''),75);
  if(!origin||fold(origin)===fold(destination)||
     /^(?:bus|coach|train|rail|ferry|ticket|tickets|travel|cheap tickets|bus tickets)$/i.test(origin))return null;
  return {origin,destination:targetCity};

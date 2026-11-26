@@ -111,7 +111,7 @@ export async function connectCandidateFlightToGround(env,{
  planAccess=planTransCAPIJourney,
  planEgress=null,
  planRegional=null,
- now=Date.now(),budgetMs=7500
+ now=Date.now(),budgetMs=7500,signal:parentSignal=null
 }={}){
  if(!validPoint(origin)||!validPoint(destination)||
     !Array.isArray(flight?.legs)||flight.legs.length!==1||
@@ -122,6 +122,8 @@ export async function connectCandidateFlightToGround(env,{
  if(start<now-2*60000||start>now+60*86400000)
   return {status:'invalid_departure_date',completeDoorToDoor:false};
  const controller=new AbortController(),signal=controller.signal;
+ const cancel=()=>controller.abort();parentSignal?.addEventListener('abort',cancel,{once:true});
+ if(parentSignal?.aborted)cancel();
  const timer=setTimeout(()=>controller.abort(),Math.max(1,Math.min(7500,Number(budgetMs)||7500)));
  const bounded=(work,fallback)=>beforeTransitAbort(work,signal,fallback,
   fallback?.status?{...fallback,status:'provider_unavailable'}:fallback);
@@ -230,5 +232,5 @@ export async function connectCandidateFlightToGround(env,{
   groundSearchIncomplete:signal.aborted,
   accessStatus:entry.status||'local_transport_unavailable',
   egressStatus:outbound?'scheduled_connection_found':egress.status||'unavailable'};
- }finally{clearTimeout(timer);controller.abort();}
+ }finally{clearTimeout(timer);parentSignal?.removeEventListener('abort',cancel);controller.abort();}
 }

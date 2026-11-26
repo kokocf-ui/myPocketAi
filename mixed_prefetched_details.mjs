@@ -35,7 +35,7 @@ export async function prepareMixedFlightOptions(env,{
 }={},{
  connect=connectCandidateFlightToGround,
  discover=discoverAirportCandidates,resolveZone=resolveAirportZone,
- planAccess,planEgress=null,planRegional=null,now=Date.now(),budgetMs=7500
+ planAccess,planEgress=null,planRegional=null,now=Date.now(),budgetMs=7500,signal=null
 }={}){
  const selected=Array.isArray(candidates)?candidates.slice(0,Math.max(0,Math.min(6,limit))):[];
  if(!point(origin)||!point(destination))return selected.map(flight=>({
@@ -64,7 +64,7 @@ export async function prepareMixedFlightOptions(env,{
     origin,destination,flight,requestedAt,language
    },{discover:cachedDiscover,resolveZone:cachedZone,
     ...(typeof planAccess==='function'?{planAccess}:{}),
-    planEgress,planRegional,now,budgetMs});
+    planEgress,planRegional,now,budgetMs,signal});
    return {...flight,itinerary:{
     ...incomplete(flight,origin,destination,details?.status||'provider_unavailable'),
     ...(details&&typeof details==='object'?details:{})

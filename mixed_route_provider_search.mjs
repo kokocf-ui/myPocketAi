@@ -66,7 +66,7 @@ function candidatePairs(origin,destination,rawNodes,maxHubs){
 export async function searchMixedRouteProviders({
  origin,destination,departureAt,candidateNodes=[],sources=[],
  maxProviderCalls=20,maxHubs=6,maxResults=8,horizonHours=72,
- allowedModes=null,identityCrosswalk=[],parallelDirect=false,now=Date.now(),budgetMs=18000
+ allowedModes=null,identityCrosswalk=[],parallelDirect=false,now=Date.now(),budgetMs=18000,signal:parentSignal=null
 }={}){
  const from=fromNode(origin),to=fromNode(destination);
  if(!from||!to||from.id===to.id||!asDate(departureAt)||
@@ -80,6 +80,8 @@ export async function searchMixedRouteProviders({
  if(!providers.length)return {status:'sources_unavailable',journeys:[],
   providerChecks:[],searchCalls:0,completeJourneyVerified:false};
  const controller=new AbortController(),signal=controller.signal;
+ const cancel=()=>controller.abort();parentSignal?.addEventListener('abort',cancel,{once:true});
+ if(parentSignal?.aborted)cancel();
  const timer=setTimeout(()=>controller.abort(),Math.max(1,Math.min(18000,Number(budgetMs)||18000)));
  let calls=0;
  const search=(source,query)=>beforeTransitAbort(()=>{calls++;return source.searchLegs({...query,signal});},signal,{status:'search_timeout',legs:[]},{status:'provider_unavailable',legs:[]});
@@ -174,5 +176,5 @@ export async function searchMixedRouteProviders({
    // A-to-B journey, even if a nearby airport produced an isolated result.
    missingConnections:graph.status!=='verified',
    budgetExhausted:calls>=budget,searchIncomplete:signal.aborted};
- }finally{clearTimeout(timer);controller.abort();}
+ }finally{clearTimeout(timer);parentSignal?.removeEventListener('abort',cancel);controller.abort();}
 }

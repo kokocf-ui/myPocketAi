@@ -189,3 +189,8 @@ assert.ok(!corridorCalls.some(x=>/Mill Lane|Nufărului/i.test(x)),
  'Never pass street-level private route endpoints to the search provider');
 
 console.log('PASS official coach route discovery, verified geography, indicative fare, zero fabricated transfers');
+
+for(const title of ['Cheap bus tickets from London to Oradea','Bus London to Oradea - Buy affordable tickets']){
+ const rows=normalizeMixedOperatorEvidence([{url:'https://global.flixbus.com/bus-routes/bus-london-oradea',title}],{origin,destination});
+ assert.equal(rows.length,1);assert.equal(rows[0].from,'London','Official FlixBus title formats must not turn advertising words into a city');
+}

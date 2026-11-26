@@ -1,3 +1,4 @@
+import {mixedProgressResponse} from './mixed_progress_stream.mjs';
 import {createMixedLocalPlanner} from './mixed_local_planner.mjs';
 import {planHereNationalJourney} from './here_national_transit.mjs';
 export {HereTransitBudget} from './here_transit_budget.mjs';
@@ -1330,9 +1331,9 @@ const ROUTE_REPLY_TEXT={
  pl:['Trasa piesza','Trasa samochodowa','Odległość','Szacowany czas','Wskazówki','Dostawca nie podał wskazówek dla tej trasy.','Trasę obliczył Geoapify.']
 };
 
-async function handleBackendRequest(request, env) {
+async function handleBackendRequest(request, env, runtime={}) {
     if(request.signal?.aborted)return Response.json({status:"error",reason:"search_timeout",transit:[]},{status:408});
-    const API_VERSION = "v186";
+    const API_VERSION = "v187";
     // The previous FP8 model took 32–55 seconds on live mobile requests.
     // Keep the supported fast 8B default; allow only a deployed, active fast model as an override.
     const allowedTextModels=["@cf/meta/llama-3.1-8b-instruct-fast","@cf/meta/llama-3.3-70b-instruct-fp8-fast"];
@@ -1903,6 +1904,16 @@ async function handleBackendRequest(request, env) {
       data = await request.json();
     } catch {
       return json({ app: "Pocket AI", version: API_VERSION, error: "JSON invalid" }, 400);
+    }
+
+    // Opt-in wire protocol. The existing frontend proxy forwards this body
+    // unchanged, so bundled test APKs do not need a production frontend deploy.
+    if(data?.mixed_journey===true&&data.mixed_progressive===true&&
+       data.national_public_transport!==true&&new URL(request.url).pathname==='/api/chat'){
+      const streamHeaders=new Headers(request.headers);streamHeaders.delete('content-length');
+      return mixedProgressResponse(request,(onProgress,signal)=>handleBackendRequest(
+        new Request(request.url,{method:'POST',headers:streamHeaders,signal,
+          body:JSON.stringify({...data,mixed_progressive:false})}),env,{onProgress}),runtime);
     }
 
     // Country selection for national public transport: GPS is checked server-side.
@@ -4052,6 +4063,10 @@ async function handleBackendRequest(request, env) {
           origin:data.journey_origin||(hasValidLocation?{latitude,longitude,label:'GPS'}:null),
           destination:data.transit_destination,departureAt:data.transit_departure_at||null,
           language:lang,cache:typeof caches!=='undefined'?caches.default:null,
+          signal:request.signal,includeFlights:data.mixed_ground_only!==true,
+          onProgress:fields=>runtime.onProgress?.({status:'success',mixed_journey:true,
+            reply:lang==='ro'?'Variante primite; căutarea continuă.':'Options received; search continues.',
+            transit_destination_point:overrides.destination||data.transit_destination,...fields}),
           cacheBaseUrl:new URL(request.url).origin,...overrides
         },{planAccess:localPointPlanner,planEgress:localEgress,planRegional:searchRomanianAirportOnward});
         return indicativePromise;
@@ -4435,8 +4450,8 @@ async function handleBackendRequest(request, env) {
                 let hubCandidates=[];
                 if(internationalTarget&&env.GEOAPIFY_API_KEY){
                   const [originGround,destinationGround]=await Promise.all([
-                    discoverGroundTransferCandidates(env,start,{radiusKm:140,limit:3}),
-                    discoverGroundTransferCandidates(env,end,{radiusKm:140,limit:3})
+                    discoverGroundTransferCandidates(env,start,{radiusKm:140,limit:3,signal:request.signal}),
+                    discoverGroundTransferCandidates(env,end,{radiusKm:140,limit:3,signal:request.signal})
                   ]);
                   const originNodes=originGround.candidates||[];
                   const destinationNodes=destinationGround.candidates||[];
@@ -4458,13 +4473,14 @@ async function handleBackendRequest(request, env) {
                   candidateNodes:hubCandidates,sources,
                   maxProviderCalls:hubCandidates.length?18:2,
                   maxHubs:hubCandidates.length?6:0,
-                  parallelDirect:true,maxResults:requestedOptionsCount,
+                  parallelDirect:true,maxResults:requestedOptionsCount,signal:request.signal,
                   now:Date.now()-90000
                 });
                 surfaceSearch={status:combined.status,providerChecks:combined.providerChecks,
                   searchCalls:combined.searchCalls,searchIncomplete:combined.searchIncomplete===true};
                 if(combined.status==='verified'&&combined.journeys.length){
                   const transit=annotateTransportJourneys(combined.journeys,lang);
+                  runtime.onProgress?.({status:'success',mixed_journey:true,transit,transit_available:true});
                   const lines=transit.map((j,i)=>(i+1)+'. '+
                     formatJourneyDurationMinutes(j.durationMinutes,lang)+' · '+j.modeSignature+
                     ' · '+j.startDateTime+' → '+j.arrivalDateTime).join('\n');
@@ -5260,6 +5276,7 @@ async function handleBackendRequest(request, env) {
         const transitDiagnostics = {elapsedMs:Date.now()-transitStartedAt, destination:targetName, tflChecks, tflJourneys:transitOptions.length, journeysWithGeometry:transitOptions.filter(j=>j.geometryAvailable).length, geometrySegments:transitOptions.reduce((n,j)=>n+(Array.isArray(j.routeSegments)?j.routeSegments.length:0),0), bodsVehicles:nearbyBuses.length, rttServices:rttServices.length, providers:{tfl:transportErrors.tfl||tflChecks.requestStatus,bods:transportErrors.bods||bodsStatus,rtt:transportErrors.rtt||rttStatus,rtt_services:transportErrors.rtt_services||null,geoapify:transportErrors.geoapify|| (env.GEOAPIFY_API_KEY?"configured":"not_configured")}};
         if (transportErrors.tfl || transportErrors.bods || transportErrors.rtt || transportErrors.rtt_services || transportErrors.geoapify) console.warn("Pocket AI v96 transit provider diagnostics", JSON.stringify(transitDiagnostics));
         else console.info("Pocket AI v96 transit provider summary", JSON.stringify(transitDiagnostics));
+        if(explicitMixedJourney&&transitOptions.length)runtime.onProgress?.({status:'success',mixed_journey:true,transit:annotateTransportJourneys(transitOptions,lang),transit_available:true});
         return json({app:"Pocket AI",version:API_VERSION,status:"success",language:lang,message_received:message,reply,route_available:Boolean(transitRoute),route:transitRoute,route_geometry_available:Boolean(transitRoute && Array.isArray(transitRoute.coordinates) && transitRoute.coordinates.length>=2),transit_available:transitOptions.length>0,transit_destination_point:{latitude:targetLat,longitude:targetLon,label:targetName},fastest_transit:annotateTransportJourneys([transitOptions.reduce((best,j)=>!best||(Date.parse(j.arrivalDateTime||'')||Infinity)<(Date.parse(best.arrivalDateTime||'')||Infinity)?j:best,null)].filter(Boolean),lang)[0]||null,...await mixedExtraFields(),requested_transit_count:requestedOptionsCount,transit:annotateTransportJourneys(transitOptions,lang),transit_geometry_available:transitOptions.some(j=>j.geometryAvailable),nearby_buses:nearbyBuses,rail_services_at_grays:rttServices,transit_provider:transitOptions.length?"TfL":"unavailable",transit_departure_at:departureAt,provider_status:{tfl:transportErrors.tfl?"unavailable":tflChecks.requestStatus,bods:bodsStatus,rtt:rttStatus,rtt_entitlements:typeof rttEntitlements === "undefined" ? [] : rttEntitlements,geoapify:transportErrors.geoapify?"unavailable":(env.GEOAPIFY_API_KEY?"configured":"not_configured")},diagnostics:transitDiagnostics,source:"TfL Journey Planner"+(nearbyBuses.length?"; BODS SIRI-VM live vehicle feed":"")+(rttServices.length?"; Realtime Trains location services at Grays":""),ai_connected:Boolean(env.AI)});
       } catch (e) {
         console.warn("Pocket AI v96 transit-first branch failed", String(e && e.message || e).slice(0,180));

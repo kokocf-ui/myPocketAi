@@ -7,7 +7,8 @@ import {discoverMixedGroundOperators} from './mixed_ground_operator_discovery.mj
 import {prepareMixedFlightOptions} from './mixed_prefetched_details.mjs';
 const point=p=>p&&p.latitude!=null&&p.longitude!=null&&Number.isFinite(+p.latitude)&&Number.isFinite(+p.longitude)&&Math.abs(+p.latitude)<=90&&Math.abs(+p.longitude)<=180;
 export async function searchMixedIndicativeOptions(env,{
- origin,destination,departureAt=null,language='ro',international=false,cache=null,cacheBaseUrl=null
+ origin,destination,departureAt=null,language='ro',international=false,cache=null,cacheBaseUrl=null,
+ signal=null,onProgress=null,includeFlights=true
 }={},dependencies={}){
  if(!point(origin)||!point(destination))return {};
  const rad=Math.PI/180,lat=(destination.latitude-origin.latitude)*rad,lon=(destination.longitude-origin.longitude)*rad;
@@ -24,15 +25,22 @@ export async function searchMixedIndicativeOptions(env,{
  };
  let partialGround=null;
  const groundAbort=new AbortController();
+ const cancel=()=>groundAbort.abort();signal?.addEventListener('abort',cancel,{once:true});
+ if(signal?.aborted)cancel();
+ const groundFields=ground=>({operator_options:Array.isArray(ground?.operators)?ground.operators:[],
+  ground_connections:Array.isArray(ground?.connections)?ground.connections:[],
+  ground_corridor_status:ground?.corridorDiscoveryStatus||null,
+  ground_search_incomplete:ground?.searchIncomplete===true,
+  operator_discovery_status:ground?.status||'provider_unavailable',operator_search_summary:ground?.summary||null});
  const groundTimer=setTimeout(()=>groundAbort.abort(),19500);
  const groundWork=()=>beforeTransitAbort(()=>discoverGround(env,{origin,destination,signal:groundAbort.signal,
-  onProgress:partial=>{partialGround={...partialGround,...partial};}}),groundAbort.signal,null);
+  onProgress:partial=>{partialGround={...partialGround,...partial};onProgress?.(groundFields(partialGround));}}),groundAbort.signal,null);
  const groundFallback=()=>({...partialGround,status:partialGround?.status||'search_timeout',searchIncomplete:true});
  // Enrich the air branch as soon as its own candidates arrive. Ground
  // discovery must neither wait for this nor delay it by up to twenty seconds.
  const airWork=(async()=>{
-  const air=(international||km>=150)?await bounded(
-   ()=>discoverAir(env,{origin,destination,departureAt,maxDays:3,cache,cacheBaseUrl,budgetMs:22000}),
+  const air=includeFlights&&(international||km>=150)?await bounded(
+   ()=>discoverAir(env,{origin,destination,departureAt,maxDays:3,cache,cacheBaseUrl,budgetMs:22000,signal}),
    25000,{status:'provider_unavailable',candidates:[]}):{status:'disabled',candidates:[]};
   let flights=Array.isArray(air?.candidates)?air.candidates.slice(0,6):[],ready=false;
   if(flights.length){
@@ -40,12 +48,14 @@ export async function searchMixedIndicativeOptions(env,{
    try{
     const enriched=await Promise.race([
      prepare(env,{candidates:flights,origin,destination,requestedAt:departureAt||new Date().toISOString(),language,limit:6,airportCandidates:air?.airportCandidates},
-      {planAccess:dependencies.planAccess,planEgress:dependencies.planEgress,planRegional:dependencies.planRegional}),
+      {planAccess:dependencies.planAccess,planEgress:dependencies.planEgress,planRegional:dependencies.planRegional,signal}),
      new Promise(resolve=>{timeout=setTimeout(()=>resolve(null),8500)})
     ]);
     if(Array.isArray(enriched)&&enriched.length){flights=enriched;ready=true;}
    }catch{}finally{clearTimeout(timeout)}
   }
+  if(!signal?.aborted)onProgress?.({flight_candidates:flights,flight_details_prepared:ready,
+   flight_search_status:air?.status||'provider_unavailable',flight_search_incomplete:air?.searchIncomplete===true});
   return {air,flights,ready};
  })();
  const [{air,flights,ready},groundResult]=await Promise.all([
@@ -53,6 +63,7 @@ export async function searchMixedIndicativeOptions(env,{
   km>=30?bounded(groundWork,20000,groundFallback):Promise.resolve({status:'disabled',operators:[]})
  ]);
  clearTimeout(groundTimer);groundAbort.abort();
+ signal?.removeEventListener('abort',cancel);
  const ground=groundResult||groundFallback();
  return {
   planning_scope:'indicative_multimodal',seat_confirmation_required:false,
@@ -65,11 +76,6 @@ export async function searchMixedIndicativeOptions(env,{
   flight_provider_queries:Number(air?.providerSearchCount)||0,
   flight_candidates_received:Array.isArray(air?.candidates)?air.candidates.length:0,
   ...(flights.length?{flight_candidates:flights,flight_details_prepared:ready}:{}),
-  operator_options:Array.isArray(ground?.operators)?ground.operators:[],
-  ground_connections:Array.isArray(ground?.connections)?ground.connections:[],
-  ground_corridor_status:ground?.corridorDiscoveryStatus||null,
-  ground_search_incomplete:ground?.searchIncomplete===true,
-  operator_discovery_status:ground?.status||'provider_unavailable',
-  operator_search_summary:ground?.summary||null
+  ...groundFields(ground)
  };
 }
