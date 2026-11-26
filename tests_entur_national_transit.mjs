@@ -24,7 +24,7 @@ test('Norway opt-in requires both explicit switches and an identifying client he
 test('Country policy is domestic-only for all 49 countries; catalog is never a connection',()=>{
  for(const country of EUROPE_COUNTRIES){
   assert.equal(policy({originCountry:country,destinationCountry:country==='GB'?'RO':'GB',enabledProviders:['entur_national_transit']}).status,'international_destination');
-  if(!['RO','GB','NO','FI','EE'].includes(country)){
+  if(!['RO','GB','NO','FI','EE','DE'].includes(country)){
    assert.equal(policy({originCountry:country,destinationCountry:country,enabledProviders:['entur_national_transit']}).status,'country_provider_not_connected');
    assert.deepEqual(nationalTransportCoverage(country,configuredNationalTransportProviders(env)).configured_adapters,[]);
   }

@@ -33,7 +33,7 @@ test('Every European country has a separate honest domestic profile, not a fake 
   }
  }
  assert.equal(nationalTransportCoverage('US'),null);
- assert.equal(nationalTransportCoverage('DE').integration_status,'sources_require_integration');
+ assert.equal(nationalTransportCoverage('DE').integration_status,'implemented_adapters');
  assert.ok(nationalTransportCoverage('DE').source_catalog.length);
 });
 test('Configured readiness validates private endpoint, token and binding; country coverage stays separate',()=>{

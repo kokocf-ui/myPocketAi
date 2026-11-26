@@ -1,5 +1,12 @@
 # Conectări naționale — primul adaptor nou și verificare fără prezență fizică
 
+> **Etapă Germania, ulterioară actualizării FI/EE:** adaptor MOTIS 2 DE pregătit și
+> testat numai offline/sintetic, fără serviciu/date/configurație/live. Ghid:
+> `GERMANY_TRANSPORT_SETUP_2026-11-26.md`. Sunt acum 6 profiluri cu cod de adaptor,
+> 43 fără; DE și NO sunt OFF. Nu confunda implementarea cu țară conectată.
+> Nicio publicare nouă: backendul livrat rămâne v185, APK 501884.
+
+
 > **Actualizare ulterioară, aceeași zi:** FI/EE au acum adaptor Digitransit și
 > backend **v185 activat cu acordul utilizatorului**, cu patru probe live locale/
 > interurbane reușite și FI→EE refuzat. Detalii în

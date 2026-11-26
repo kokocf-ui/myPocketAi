@@ -1,3 +1,4 @@
+import {planGermanyNationalJourney} from './germany_national_transit.mjs';
 import {planDigitransitNationalJourney} from './digitransit_national_transit.mjs';
 import {planEnturNationalJourney} from './entur_national_transit.mjs';
 import {nationalTransportResponse} from './national_transport_response.mjs';
@@ -3975,6 +3976,7 @@ export default {
       }
       authorizedNationalProvider=authorization.provider;verifiedNationalCountry=originCountry;
       const extraNationalPlanner={
+        germany_motis_national_transit:{plan:planGermanyNationalJourney,label:'MOTIS Germany'},
         entur_national_transit:{plan:planEnturNationalJourney,label:'Entur'},
         digitransit_national_transit:{plan:planDigitransitNationalJourney,label:'Digitransit'}
       }[authorization.provider];

@@ -7,6 +7,40 @@
 
 ## 1. Reguli permanente de lucru cu utilizatorul
 
+**ETAPĂ GERMANIA / PREGĂTIRE, NU LIVE (2026-11-26, după afc0153):**
+User a aprobat continuarea cu DE, fără publicări până la explicarea accesului.
+Am verificat politica oficială Transitous: comercial INTERZIS; nu ocoli prin
+staging/aliasuri/internal și nu folosi serviciul public nici ca fallback.
+Sursă pinuită public-transport/transitous b1ce91355f2f200ff26c6bc3025297eb7eedba24,
+website/content/api.html. MOTIS motor MIT != permisiune serviciu/date!
+Pregătit `germany_national_transit.mjs` pentru instanță proprie sau furnizor
+contractat, GET/api/v6/plan după MOTIS v2.11.4 / e020e64d048d66d076078f900bade368a58b3b22.
+Fără endpoint implicit/achiziție/instalare/date importate; Germania NU conectată.
+Secretele FI NU se aplică DE. Ghid GERMANY_TRANSPORT_SETUP_2026-11-26.md descrie
+opțiuni și catalogul DELFI; nu inventa portal/cheie națională de rutare.
+Config viitoare: GERMANY_NATIONAL_ENABLED+GERMANY_MOTIS_TERMS_REVIEWED+
+GERMANY_MOTIS_DATA_REVIEWED true, GERMANY_MOTIS_BASE_URL HTTPS origin fără
+cale/query/credențiale, GERMANY_MOTIS_ATTRIBUTION max500 obligatoriu. Token Secret
+opțional GERMANY_MOTIS_API_TOKEN, numai Bearer dacă gatewayul ales îl suportă;
+MOTIS de bază NU emite cheie. Nimic DE setat în Wrangler sau remote.
+Registry6profilecuadaptor RO/GB/NO/FI/EE/DE,43fără; DE/NO OFF. DE fără config
+not_connected, nu apare ca disponibilă numai fiindcă există cod. Planifică DOAR
+DE→DE după GPS+destinație independente; reverifică toate opririle (max36/6.5s/4),
+nu frontiera continuă a șinei/șoselei. Query moduri explicite fără avion/flex;
+manual redirect fără leak token; etapizare/crono/stopuri/date/anulări; refuză
+loopedCalendarSince și rezervări obligatorii. intermediateStops e fărăcapete,
+spredeosebire de FIstopCalls. Fără fares/stock/geometrie/acces inventate.
+PASS8adaptor+4Worker; schema request/enums/câmpuri după OpenAPI (NU fullJSONschema),
+national/transit19/orientation11/check/dryruns2/browser4suite360/393/430,
+HTML6991306B. Schema/parseryaml2.8.1 ignorate.bundle-check fărădependencyapp.
+Script verify_national_transport_live extins DE, rulat DOAROFFLINE statusnot_run,
+live_requestsfalse. Nicio probă DE publică/sintetică prezentată ca live.
+**NUdeploy/NUworkflow/NUAPK/NUOracle/NUcost/NUmerge** în această etapă. Livrat
+rămâne v185+APK501884. Urmează alegere infrastructură/furnizor+date+licențe+
+acoperire înainte de activare; nu porni MOTIS greu în Worker/Oracle existent
+fără acord/dimensionare. Austria/Elveția sunt separate, neimplementate aici.
+
+
 **REZULTAT LIVE DIGITRANSIT — 2026-11-26 (prevalează asupra notelor vechi):**
 User a creat abonament comercial, a salvat cheia în Worker și a autorizat explicit
 backend+activare+teste live și termenii. Backend **v185**, cod publicat

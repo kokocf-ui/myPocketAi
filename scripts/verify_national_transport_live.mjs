@@ -4,13 +4,17 @@
 import {mkdirSync,writeFileSync} from 'node:fs';
 import {planEnturNationalJourney,enturNationalConfigured} from '../entur_national_transit.mjs';
 import {planDigitransitNationalJourney,digitransitNationalConfigured} from '../digitransit_national_transit.mjs';
+import {planGermanyNationalJourney,germanyNationalConfigured} from '../germany_national_transit.mjs';
 import {verifiedGpsCountry} from '../country_gps_resolution.mjs';
 const args=process.argv.slice(2),country=args.find(a=>a.startsWith('--country='))?.slice(10)||'NO';
-if(!['NO','FI','EE'].includes(country))throw Error('Only NO, FI and EE have implemented live verifiers; other countries are never silently mapped to them.');
-const plan=country!=='NO'?planDigitransitNationalJourney:planEnturNationalJourney;
-const configured=country!=='NO'?digitransitNationalConfigured:enturNationalConfigured;
+if(!['NO','FI','EE','DE'].includes(country))throw Error('Only NO, FI, EE and DE have implemented live verifiers; other countries are never silently mapped to them.');
+const plan=country==='DE'?planGermanyNationalJourney:country!=='NO'?planDigitransitNationalJourney:planEnturNationalJourney;
+const configured=country==='DE'?germanyNationalConfigured:country!=='NO'?digitransitNationalConfigured:enturNationalConfigured;
 const live=args.includes('--allow-network');
-const cases=country==='EE'?[
+const cases=country==='DE'?[
+ {id:'frankfurt-local',from:{latitude:50.107,longitude:8.663},to:{latitude:50.115,longitude:8.682}},
+ {id:'frankfurt-berlin-intercity',from:{latitude:50.107,longitude:8.663},to:{latitude:52.525,longitude:13.369}}
+]:country==='EE'?[
  {id:'tallinn-local',from:{latitude:59.439,longitude:24.737},to:{latitude:59.437,longitude:24.755}},
  {id:'tallinn-tartu-intercity',from:{latitude:59.439,longitude:24.737},to:{latitude:58.373,longitude:26.707}}
 ]:country==='FI'?[

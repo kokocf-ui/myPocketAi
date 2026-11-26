@@ -50,7 +50,7 @@ try{
   assert.ok(await field.isVisible(),'Destination stays usable with reduced keyboard viewport');
   country='DE';await page.evaluate(()=>window.__national.init());
   await body.getByText('Nu este conectat încă un motor verificat de transport public pentru această țară.',{exact:true}).waitFor();
-  assert.equal(await field.isDisabled(),true,'Catalog-only countries cannot pretend to plan routes');
+  assert.equal(await field.isDisabled(),true,'Countries without configured services cannot pretend to plan routes');
   assert.equal(lookups,6);assert.deepEqual(errors,[]);await page.close();
  }
  console.log('PASS national transport production browser 360/393/430: RO/GB/NO/FI/EE coverage notice, GPS lookup, no horizontal overflow, DE fails honestly, reduced viewport');
