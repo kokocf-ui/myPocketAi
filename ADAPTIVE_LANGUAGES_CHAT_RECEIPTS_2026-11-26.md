@@ -33,4 +33,12 @@ The user correctly noted that the previous static content expansion covered Engl
 
 ## Delivery
 
-Final local validation complete; implementation to be committed/pushed, then an authorized same-key signed branch APK built. Must exceed previously delivered versionCode 501880. No PR, merge, latest promotion or production frontend/backend deployment. APK translation remains deferred/unverified; no physical Android acceptance, live AI quality, recipient installation or guaranteed instantaneous messaging claim.
+Implementation commit **962cb3272680113e0d4938692210dec90e5ac61b** pushed to `arena/8ae2700b-mypocketai`. Authorized manual run **45830522404** completed successfully: release signing, permanent certificate / package identity / increasing version / bundled snapshots verified; publishing succeeded; debug job skipped.
+
+- **VersionCode 501881**, above previously delivered 501880; same permanent signing key, update without uninstalling.
+- Prerelease `education-test-45830522404`, not latest; no PR, merge or production frontend/backend deployment.
+- Direct APK: https://github.com/kokocf-ui/myPocketAi/releases/download/education-test-45830522404/myPocketAI-signed-education-test.apk
+- GitHub asset **796055249**, uploaded, **77,627,300 bytes**.
+- GitHub metadata digest: `sha256:48a0873c6af8123b86839be5f32fe6951fb82eb464e23fa4f0777cf0de37889f` (not a locally recalculated APK hash).
+
+APK translation remains deferred/unverified. Build and CI certificate success are not physical Android acceptance, live AI quality, recipient installation or a guarantee of instantaneous messaging. Future stable updates must exceed the test version installed on the phone.
