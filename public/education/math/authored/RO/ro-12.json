@@ -1,0 +1,1177 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "RO",
+ "stage": "medium",
+ "grade": "12",
+ "version": "30fd0cd37103437111e4b4e8a01720b5c66e7236754002914fea0ba9ce67cf7a",
+ "source": "https://www.edu.ro/programe_scolare_liceu",
+ "sourceTitle": "Programa școlară de Matematică pentru clasa a XII-a, ciclul superior al liceului, filiera teoretică, profilul real, specializarea matematică-informatică (programa M1 aprobată prin OMEC nr. 5959/22.12.2006, în vigoare pentru clasa a XII-a în 2026–2027) — algebră: grupuri, inele și corpuri, inele de polinoame; analiză: primitive, integrala definită și aplicațiile ei; lecții originale, fără text copiat din manuale",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "ro",
+ "labels": [
+  "Activitate originală · România · Matematică · Clasa a XII-a (matematică-informatică, M1)",
+  "Teorie pe înțeles",
+  "Exemplu",
+  "Rezolvare explicată",
+  "Exerciții",
+  "Verifică-te",
+  "Exerciții originale; nu înlocuiesc manualul sau evaluarea de la clasă.",
+  "Dacă nu ai înțeles: pas cu pas",
+  "Răspunsuri (verifică după ce termini)"
+ ],
+ "units": [
+  {
+   "title": "Legi de compoziție",
+   "keys": [
+    "eu-year-ro-medium-12-l01",
+    "eu-year-ro-medium-12-l02",
+    "eu-year-ro-medium-12-l03"
+   ]
+  },
+  {
+   "title": "Grupuri",
+   "keys": [
+    "eu-year-ro-medium-12-l04",
+    "eu-year-ro-medium-12-l05",
+    "eu-year-ro-medium-12-l06",
+    "eu-year-ro-medium-12-l07",
+    "eu-year-ro-medium-12-l08"
+   ]
+  },
+  {
+   "title": "Inele și corpuri",
+   "keys": [
+    "eu-year-ro-medium-12-l09",
+    "eu-year-ro-medium-12-l10",
+    "eu-year-ro-medium-12-l11",
+    "eu-year-ro-medium-12-l12"
+   ]
+  },
+  {
+   "title": "Inele de polinoame",
+   "keys": [
+    "eu-year-ro-medium-12-l13",
+    "eu-year-ro-medium-12-l14",
+    "eu-year-ro-medium-12-l15",
+    "eu-year-ro-medium-12-l16",
+    "eu-year-ro-medium-12-l17",
+    "eu-year-ro-medium-12-l18",
+    "eu-year-ro-medium-12-l19"
+   ]
+  },
+  {
+   "title": "Primitive",
+   "keys": [
+    "eu-year-ro-medium-12-l20",
+    "eu-year-ro-medium-12-l21",
+    "eu-year-ro-medium-12-l22",
+    "eu-year-ro-medium-12-l23"
+   ]
+  },
+  {
+   "title": "Integrala definită",
+   "keys": [
+    "eu-year-ro-medium-12-l24",
+    "eu-year-ro-medium-12-l25",
+    "eu-year-ro-medium-12-l26",
+    "eu-year-ro-medium-12-l27",
+    "eu-year-ro-medium-12-l28"
+   ]
+  },
+  {
+   "title": "Aplicații ale integralei definite",
+   "keys": [
+    "eu-year-ro-medium-12-l29",
+    "eu-year-ro-medium-12-l30",
+    "eu-year-ro-medium-12-l31"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-ro-medium-12-l01": {
+   "ro": {
+    "title": "Lege de compoziție; parte stabilă; tabla operației",
+    "theory": "O lege de compoziție pe mulțimea M asociază oricărei perechi (x, y) de elemente din M un element x ∗ y tot din M. O submulțime H a lui M este parte stabilă dacă x ∗ y ∈ H pentru orice x, y ∈ H. Pentru mulțimi finite, legea se poate descrie printr-o tablă (tabel cu rezultatele tuturor compunerilor). Exemple: adunarea și înmulțirea pe ℤ, compunerea funcțiilor, înmulțirea matricelor.",
+    "sample": "Adunarea este lege de compoziție pe ℕ, dar scăderea nu este, pentru că 2 − 5 ∉ ℕ.",
+    "worked": "Pe ℝ definim x ∗ y = x + y − 3. Verificăm că H = [3, +∞) este parte stabilă: dacă x ≥ 3 și y ≥ 3, atunci x + y − 3 ≥ 3 + 3 − 3 = 3, deci x ∗ y ∈ H. Calculăm 2 ∗ 5 = 4 și (1 ∗ 2) ∗ 3 = 0 ∗ 3 = 0.",
+    "exercises": [
+     "Pe ℝ, x ∗ y = 2xy − x − y + 1. Calculează 1 ∗ 3 și 0 ∗ 0.",
+     "Arată că mulțimea numerelor pare este parte stabilă față de adunare.",
+     "Este mulțimea numerelor impare parte stabilă față de adunare? Dar față de înmulțire?",
+     "Construiește tabla înmulțirii modulo 4 pe {0, 1, 2, 3}.",
+     "Arată că H = (1, +∞) este parte stabilă pentru x ∗ y = xy − x − y + 2."
+    ],
+    "test": [
+     "Este scăderea lege de compoziție pe ℕ?",
+     "Ce înseamnă parte stabilă?",
+     "2 ∗ 3 pentru x ∗ y = x + y + 1?",
+     "Este ℤ parte stabilă a lui ℚ față de adunare?",
+     "Ce descrie tabla unei legi?"
+    ],
+    "steps": [
+     "Scrie explicit legea și mulțimea pe care este definită.",
+     "Pentru stabilitate, ia x, y arbitrare din H și arată că x ∗ y ∈ H.",
+     "Verifică pe exemple numerice și, pentru mulțimi finite, construiește tabla.",
+     "Greșeala frecventă: să verifici stabilitatea doar pe câteva exemple; demonstrația trebuie făcută pentru elemente arbitrare."
+    ],
+    "answers": [
+     "Nu",
+     "Rezultatul compunerii rămâne în submulțime",
+     "6",
+     "Da",
+     "Rezultatele tuturor compunerilor"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l02": {
+   "ro": {
+    "title": "Proprietăți ale legilor: asociativitate, comutativitate, element neutru",
+    "theory": "Legea ∗ este asociativă dacă (x ∗ y) ∗ z = x ∗ (y ∗ z) și comutativă dacă x ∗ y = y ∗ x, pentru orice x, y, z. Elementul neutru e verifică x ∗ e = e ∗ x = x pentru orice x; dacă există, este unic. Pentru adunare, neutrul este 0, pentru înmulțire 1, pentru compunerea funcțiilor funcția identică. O lege comutativă are tabla simetrică față de diagonala principală.",
+    "sample": "Pentru x ∗ y = x + y − 3 pe ℝ, elementul neutru este 3, pentru că x + 3 − 3 = x.",
+    "worked": "Pentru x ∗ y = xy − 2x − 2y + 6 = (x − 2)(y − 2) + 2: comutativitatea este evidentă; asociativitatea: (x ∗ y) ∗ z = (x − 2)(y − 2)(z − 2) + 2 = x ∗ (y ∗ z). Neutrul: (x − 2)(e − 2) + 2 = x pentru orice x cere e − 2 = 1, deci e = 3.",
+    "exercises": [
+     "Studiază asociativitatea și comutativitatea lui x ∗ y = x + y + xy pe ℝ.",
+     "Află elementul neutru al legii x ∗ y = x + y + 5 pe ℝ.",
+     "Are elementul neutru legea x ∗ y = 2x + y pe ℝ? Justifică.",
+     "Arată că x ∗ y = (x − 1)(y − 1) + 1 are neutrul e = 2.",
+     "Este compunerea funcțiilor comutativă? Dă un contraexemplu."
+    ],
+    "test": [
+     "Neutrul adunării?",
+     "Neutrul înmulțirii?",
+     "Este scăderea asociativă?",
+     "Câte elemente neutre poate avea o lege?",
+     "Ce simetrie are tabla unei legi comutative?"
+    ],
+    "steps": [
+     "Scrie definiția proprietății pentru elemente arbitrare.",
+     "Calculează ambii membri și compară-i (sau rezolvă ecuația pentru neutru).",
+     "Când e posibil, scrie legea într-o formă „produs deplasat” care simplifică verificarea.",
+     "Greșeala frecventă: să cauți neutrul doar din x ∗ e = x și să uiți să verifici e ∗ x = x la legile necomutative."
+    ],
+    "answers": [
+     "0",
+     "1",
+     "Nu",
+     "Cel mult unul",
+     "Față de diagonala principală"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l03": {
+   "ro": {
+    "title": "Elemente simetrizabile",
+    "theory": "Într-o mulțime cu lege asociativă și element neutru e, elementul x este simetrizabil dacă există x′ cu x ∗ x′ = x′ ∗ x = e. Simetricul este unic. La adunare, simetricul se numește opus (−x); la înmulțire, invers (x⁻¹). Proprietăți: (x′)′ = x și (x ∗ y)′ = y′ ∗ x′. În ℤ, față de înmulțire, doar 1 și −1 sunt inversabile.",
+    "sample": "Față de adunare, simetricul lui 5 este −5, iar față de înmulțirea pe ℚ*, simetricul lui 2/3 este 3/2.",
+    "worked": "Pentru x ∗ y = (x − 2)(y − 2) + 2 cu neutrul 3: căutăm x′ cu (x − 2)(x′ − 2) + 2 = 3, deci x′ = 2 + 1/(x − 2), definit pentru x ≠ 2. Exemplu: simetricul lui 4 este 2,5. Verificare: (4 − 2)(2,5 − 2) + 2 = 3.",
+    "exercises": [
+     "Află simetricul lui x pentru legea x ∗ y = x + y − 3 pe ℝ.",
+     "Care elemente din ℤ₆ sunt inversabile față de înmulțire?",
+     "Pentru x ∗ y = x + y + xy, află elementele simetrizabile.",
+     "Arată că simetricul unui element este unic.",
+     "Află inversa matricei (1 1 / 0 1) față de înmulțirea matricelor."
+    ],
+    "test": [
+     "Simetricul lui 7 față de adunare?",
+     "Inversul lui 4 față de înmulțire?",
+     "Este 0 inversabil față de înmulțire?",
+     "Simetricul lui x ∗ y este…?",
+     "Inversabile în (ℤ, ·)?"
+    ],
+    "steps": [
+     "Află întâi elementul neutru.",
+     "Rezolvă ecuația x ∗ x′ = e în necunoscuta x′.",
+     "Precizează pentru care x există soluția și verifică.",
+     "Greșeala frecventă: să afli simetricul fără să fi verificat existența elementului neutru."
+    ],
+    "answers": [
+     "−7",
+     "1/4",
+     "Nu",
+     "y′ ∗ x′",
+     "1 și −1"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l04": {
+   "ro": {
+    "title": "Grup: definiție și exemple",
+    "theory": "Un grup (G, ∗) este o mulțime cu o lege de compoziție asociativă, cu element neutru și în care toate elementele sunt simetrizabile. Dacă legea este și comutativă, grupul este abelian. Exemple: (ℤ, +), (ℚ*, ·), (ℝ, +), (ℤₙ, +), grupul permutărilor (Sₙ, ∘), matricele inversabile cu înmulțirea, (ℂ*, ·). Contraexemple: (ℕ, +) nu este grup (lipsesc opusele), (ℤ, ·) nu este grup.",
+    "sample": "(ℤ, +) este grup abelian: adunarea este asociativă, comutativă, neutrul este 0 și opusul lui x este −x.",
+    "worked": "Arătăm că (ℝ, ∗), cu x ∗ y = x + y − 3, este grup abelian: asociativitate (x + y − 3) + z − 3 = x + (y + z − 3) − 3; comutativitate evidentă; neutrul 3; simetricul lui x este 6 − x, pentru că x + (6 − x) − 3 = 3.",
+    "exercises": [
+     "Arată că (ℤ, ∗), x ∗ y = x + y + 1, este grup abelian.",
+     "Arată că (ℤ₅, +) este grup și scrie tabla.",
+     "De ce (ℕ, +) nu este grup?",
+     "Arată că G = (0, +∞) cu înmulțirea este grup abelian.",
+     "Este (ℤ₄*, ·) = ({1, 2, 3}, · mod 4) un grup? Justifică."
+    ],
+    "test": [
+     "Care sunt axiomele de grup?",
+     "Este (ℕ, +) grup?",
+     "Ce înseamnă grup abelian?",
+     "Neutrul lui (ℚ*, ·)?",
+     "Este (S₃, ∘) abelian?"
+    ],
+    "steps": [
+     "Verifică faptul că legea este lege de compoziție pe G (stabilitate).",
+     "Verifică asociativitatea, existența neutrului și a simetricelor.",
+     "Pentru abelian, verifică și comutativitatea.",
+     "Greșeala frecventă: să uiți verificarea stabilității; legea trebuie să rămână în G (de exemplu 2·2 = 0 în ℤ₄ scoate din {1, 2, 3})."
+    ],
+    "answers": [
+     "Asociativitate, neutru, simetrice",
+     "Nu",
+     "Legea este comutativă",
+     "1",
+     "Nu"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l05": {
+   "ro": {
+    "title": "Reguli de calcul în grup; puterea unui element; ordinul unui element",
+    "theory": "Într-un grup sunt valabile regulile de simplificare: dacă ax = ay, atunci x = y. Ecuația ax = b are soluția unică x = a⁻¹b. Puterile: a⁰ = e, aⁿ⁺¹ = aⁿ·a, a⁻ⁿ = (a⁻¹)ⁿ, cu aᵐaⁿ = aᵐ⁺ⁿ. Ordinul unui element a este cel mai mic n ≥ 1 cu aⁿ = e (dacă există). În notație aditivă, puterea devine multiplu: na.",
+    "sample": "În (ℤ₆, +), elementul 2 are ordinul 3, pentru că 2 + 2 + 2 = 0.",
+    "worked": "În (ℂ*, ·), i are ordinul 4: i² = −1, i³ = −i, i⁴ = 1. În S₃, permutarea σ = (1 2 3 / 2 3 1) are σ² ≠ e și σ³ = e, deci ordinul 3. Ecuația σx = τ are soluția x = σ⁻¹τ.",
+    "exercises": [
+     "Află ordinul lui 4 în (ℤ₁₀, +).",
+     "Află ordinul lui −1 în (ℝ*, ·).",
+     "Află ordinul matricei (0 −1 / 1 0) față de înmulțire.",
+     "Rezolvă în (ℤ₇, +) ecuația 3 + x = 1.",
+     "Arată că într-un grup (ab)⁻¹ = b⁻¹a⁻¹."
+    ],
+    "test": [
+     "Ordinul lui 1 în (ℤ₅, +)?",
+     "Ordinul neutrului?",
+     "Soluția lui ax = b?",
+     "Ordinul lui i în (ℂ*, ·)?",
+     "Este a⁻ⁿ = (a⁻¹)ⁿ?"
+    ],
+    "steps": [
+     "Calculează puterile succesive ale elementului.",
+     "Oprește-te la prima putere egală cu neutrul.",
+     "Ordinul este acel exponent; la ecuații, înmulțește cu inversul pe partea corectă.",
+     "Greșeala frecventă: în notația aditivă să calculezi a·a în loc de a + a; „puterea” în (ℤₙ, +) este un multiplu."
+    ],
+    "answers": [
+     "5",
+     "1",
+     "x = a⁻¹b",
+     "4",
+     "Da"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l06": {
+   "ro": {
+    "title": "Subgrupuri",
+    "theory": "O submulțime nevidă H a grupului G este subgrup dacă este grup cu legea indusă; criteriu: pentru orice x, y din H, x ∗ y⁻¹ ∈ H (sau: H este parte stabilă și conține simetricele elementelor sale). Exemple: nℤ este subgrup al lui (ℤ, +); {1, −1, i, −i} este subgrup al lui (ℂ*, ·); orice grup are subgrupurile triviale {e} și G.",
+    "sample": "Mulțimea numerelor pare 2ℤ este subgrup al lui (ℤ, +).",
+    "worked": "Arătăm că H = {z ∈ ℂ : |z| = 1} este subgrup al lui (ℂ*, ·): dacă |x| = |y| = 1, atunci |x·y⁻¹| = |x|/|y| = 1, deci x·y⁻¹ ∈ H. În (ℤ₆, +), subgrupurile sunt {0}, {0, 3}, {0, 2, 4} și ℤ₆.",
+    "exercises": [
+     "Arată că 3ℤ este subgrup al lui (ℤ, +).",
+     "Este mulțimea numerelor impare subgrup al lui (ℤ, +)?",
+     "Află toate subgrupurile lui (ℤ₄, +).",
+     "Arată că {1, −1} este subgrup al lui (ℚ*, ·).",
+     "Arată că matricele (1 a / 0 1), a ∈ ℝ, formează un subgrup al matricelor inversabile."
+    ],
+    "test": [
+     "Subgrupurile triviale ale lui G?",
+     "Este {0, 2, 4} subgrup în (ℤ₆, +)?",
+     "Criteriul de subgrup?",
+     "Este ℕ subgrup al lui (ℤ, +)?",
+     "Conține orice subgrup neutrul?"
+    ],
+    "steps": [
+     "Verifică faptul că H este nevidă (conține neutrul).",
+     "Ia x, y arbitrare din H și arată că x ∗ y⁻¹ ∈ H.",
+     "Concluzionează; pentru infirmare, dă un contraexemplu.",
+     "Greșeala frecventă: să verifici doar stabilitatea; ℕ este stabilă la adunare, dar nu este subgrup (lipsesc opusele)."
+    ],
+    "answers": [
+     "{e} și G",
+     "Da",
+     "x ∗ y⁻¹ ∈ H pentru orice x, y din H",
+     "Nu",
+     "Da"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l07": {
+   "ro": {
+    "title": "Morfisme și izomorfisme de grupuri",
+    "theory": "O funcție f: (G, ∗) → (H, ∘) este morfism de grupuri dacă f(x ∗ y) = f(x) ∘ f(y) pentru orice x, y. Proprietăți: f(e) = e′ și f(x⁻¹) = f(x)⁻¹. Un morfism bijectiv este izomorfism; grupurile izomorfe au aceeași „structură” (de exemplu același număr de elemente de fiecare ordin). Exemplu clasic: f(x) = ln x este izomorfism de la ((0, +∞), ·) la (ℝ, +).",
+    "sample": "Funcția f(x) = 2x este morfism de la (ℤ, +) la (ℤ, +), pentru că 2(x + y) = 2x + 2y.",
+    "worked": "Arătăm că f: (ℝ, +) → ((0, +∞), ·), f(x) = eˣ, este izomorfism: e^(x + y) = eˣ·eʸ (morfism), iar f este bijectivă cu inversa ln. Pentru legea x ∗ y = x + y − 3, funcția f(x) = x + 3 este izomorfism de la (ℝ, +) la (ℝ, ∗): f(x + y) = x + y + 3 = (x + 3) + (y + 3) − 3.",
+    "exercises": [
+     "Arată că f(x) = 3x este morfism de la (ℝ, +) la (ℝ, +). Este izomorfism?",
+     "Arată că f(x) = |x| este morfism de la (ℝ*, ·) la (ℝ*, ·).",
+     "Arată că f(x) = x − 1 este izomorfism de la (ℝ, ∗), x ∗ y = x + y − 1, la (ℝ, +).",
+     "Sunt izomorfe (ℤ₄, +) și ({1, −1, i, −i}, ·)? Indică un izomorfism.",
+     "Arată că un morfism duce neutrul în neutru."
+    ],
+    "test": [
+     "Ce condiție definește un morfism?",
+     "Cât este f(e) pentru un morfism?",
+     "Ce este un izomorfism?",
+     "Este ln un izomorfism de la ((0, +∞), ·) la (ℝ, +)?",
+     "Cât este f(x⁻¹) pentru un morfism?"
+    ],
+    "steps": [
+     "Scrie f(x ∗ y) și f(x) ∘ f(y) folosind legile celor două grupuri.",
+     "Arată că sunt egale pentru orice x, y.",
+     "Pentru izomorfism, demonstrează și bijectivitatea.",
+     "Greșeala frecventă: să folosești aceeași lege în ambii membri; în stânga se compune în G, în dreapta în H."
+    ],
+    "answers": [
+     "f(x ∗ y) = f(x) ∘ f(y)",
+     "Neutrul lui H",
+     "Un morfism bijectiv",
+     "Da",
+     "f(x)⁻¹"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l08": {
+   "ro": {
+    "title": "Grupuri finite; ordinul unui grup; teorema lui Lagrange",
+    "theory": "Ordinul unui grup finit este numărul elementelor sale. Teorema lui Lagrange: ordinul oricărui subgrup al unui grup finit G divide ordinul lui G. Consecințe: ordinul oricărui element divide ordinul grupului și a^|G| = e; un grup cu un număr prim p de elemente este ciclic. Exemplu de aplicație: mica teoremă a lui Fermat, a^(p − 1) ≡ 1 (mod p) pentru p prim care nu divide a.",
+    "sample": "Grupul (ℤ₆, +) are ordinul 6, deci subgrupurile lui pot avea doar 1, 2, 3 sau 6 elemente.",
+    "worked": "În (ℤ₇*, ·), grup cu 6 elemente, ordinul lui 2: 2¹ = 2, 2² = 4, 2³ = 8 = 1, deci ordinul 3, care divide 6. Ordinul lui 3: 3, 2, 6, 4, 5, 1, deci ordinul 6 — 3 generează grupul (grup ciclic). Fermat: 3⁶ ≡ 1 (mod 7).",
+    "exercises": [
+     "Ce ordine pot avea elementele unui grup cu 8 elemente?",
+     "Află ordinele elementelor lui (ℤ₈, +).",
+     "Arată că (ℤ₅*, ·) este ciclic și găsește un generator.",
+     "Calculează restul împărțirii lui 2¹⁰⁰ la 7 folosind Lagrange (Fermat).",
+     "Poate avea un grup cu 10 elemente un subgrup cu 4 elemente? Justifică."
+    ],
+    "test": [
+     "Ce afirmă teorema lui Lagrange?",
+     "Ordinul lui (ℤ₅, +)?",
+     "Poate un grup cu 9 elemente avea un element de ordin 4?",
+     "Ce este un grup ciclic?",
+     "Cât este a^|G| într-un grup finit?"
+    ],
+    "steps": [
+     "Află ordinul grupului.",
+     "Folosește Lagrange: ordinele posibile ale elementelor și subgrupurilor sunt divizorii.",
+     "Calculează concret ordinele și trage concluzia.",
+     "Greșeala frecventă: să crezi că pentru orice divizor există un subgrup sau un element de acel ordin; Lagrange dă doar o condiție necesară."
+    ],
+    "answers": [
+     "Ordinul subgrupului divide ordinul grupului",
+     "5",
+     "Nu",
+     "Un grup generat de un singur element",
+     "e"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l09": {
+   "ro": {
+    "title": "Inel: definiție și exemple; reguli de calcul",
+    "theory": "Un inel (A, +, ·) are două legi: (A, +) este grup abelian, înmulțirea este asociativă și distributivă față de adunare. Dacă înmulțirea are element neutru 1, inelul este unitar; dacă e comutativă, inelul este comutativ. Exemple: (ℤ, +, ·), (ℚ, +, ·), (ℤₙ, +, ·), inelul matricelor pătratice (necomutativ), inelul polinoamelor. Reguli: a·0 = 0, a(−b) = −ab, (−a)(−b) = ab.",
+    "sample": "Mulțimea ℤ cu adunarea și înmulțirea obișnuite este un inel comutativ și unitar.",
+    "worked": "Inelul M₂(ℝ) este unitar, dar necomutativ: pentru A = (1 1 / 0 0) și B = (0 0 / 1 0), AB = (1 0 / 0 0), iar BA = (0 0 / 1 1). Tot aici, C = (0 1 / 0 0) ≠ O, dar C² = O.",
+    "exercises": [
+     "Verifică pe exemple distributivitatea în (ℤ₆, +, ·).",
+     "Arată că 2ℤ este inel, dar nu este unitar.",
+     "Arată că în orice inel a·0 = 0.",
+     "Găsește două matrice nenule de ordin 2 cu produsul O.",
+     "Este (ℕ, +, ·) inel? Justifică."
+    ],
+    "test": [
+     "Ce structură este (A, +) într-un inel?",
+     "Este M₂(ℝ) comutativ?",
+     "Este 2ℤ inel unitar?",
+     "Cât este a·0 într-un inel?",
+     "Cât este (−a)(−b) într-un inel?"
+    ],
+    "steps": [
+     "Verifică axiomele grupului abelian pentru adunare.",
+     "Verifică asociativitatea înmulțirii și distributivitatea.",
+     "Precizează dacă inelul este unitar și comutativ.",
+     "Greșeala frecventă: să crezi că orice inel este comutativ și fără „surprize”; în M₂(ℝ), AB ≠ BA și un produs poate fi O cu factori nenuli."
+    ],
+    "answers": [
+     "Grup abelian",
+     "Nu",
+     "Nu",
+     "0",
+     "ab"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l10": {
+   "ro": {
+    "title": "Inelul ℤₙ al claselor de resturi; divizori ai lui zero; elemente inversabile",
+    "theory": "ℤₙ = {0̂, 1̂, …, (n−1)̂} cu adunarea și înmulțirea modulo n este un inel comutativ și unitar. Un divizor al lui zero este a ≠ 0 pentru care există b ≠ 0 cu ab = 0. În ℤₙ, clasa â este inversabilă dacă și numai dacă cmmdc(a, n) = 1. Un inel comutativ, unitar, fără divizori ai lui zero se numește domeniu de integritate (de exemplu ℤ).",
+    "sample": "În ℤ₆, 2̂·3̂ = 0̂, deci 2̂ și 3̂ sunt divizori ai lui zero.",
+    "worked": "În ℤ₈, elementele inversabile sunt cele cu cmmdc(a, 8) = 1: 1̂, 3̂, 5̂, 7̂. Inversul lui 3̂: 3·3 = 9 ≡ 1, deci 3̂⁻¹ = 3̂. Rezolvăm 3̂x = 5̂ în ℤ₈: x = 3̂·5̂ = 15 ≡ 7̂. Verificare: 3·7 = 21 ≡ 5.",
+    "exercises": [
+     "Află elementele inversabile din ℤ₁₀.",
+     "Află divizorii lui zero din ℤ₁₂.",
+     "Rezolvă în ℤ₇: 4̂x + 1̂ = 6̂.",
+     "Rezolvă în ℤ₅ ecuația x² = 4̂.",
+     "Arată că ecuația 2̂x = 1̂ nu are soluții în ℤ₄."
+    ],
+    "test": [
+     "Câte elemente are ℤ₉?",
+     "Este 3̂ inversabil în ℤ₉?",
+     "Inversul lui 2̂ în ℤ₅?",
+     "Este 2̂ divizor al lui zero în ℤ₈?",
+     "Când este â inversabil în ℤₙ?"
+    ],
+    "steps": [
+     "Calculează modulo n (restul împărțirii la n).",
+     "Pentru inversabilitate, verifică cmmdc(a, n) = 1 și caută inversul în tabla înmulțirii.",
+     "La ecuații, înmulțește cu inversul coeficientului (dacă există) și verifică.",
+     "Greșeala frecventă: să „împarți” în ℤₙ la un element neinversabil; în ℤ₄, 2̂x = 1̂ nu are soluții."
+    ],
+    "answers": [
+     "9",
+     "Nu",
+     "3̂",
+     "Da",
+     "Când cmmdc(a, n) = 1"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l11": {
+   "ro": {
+    "title": "Corpuri; corpul ℤₚ; ecuații și sisteme în corpuri",
+    "theory": "Un corp este un inel unitar în care 0 ≠ 1 și orice element nenul este inversabil. Exemple: (ℚ, +, ·), (ℝ, +, ·), (ℂ, +, ·) și ℤₚ pentru p prim. Un corp nu are divizori ai lui zero, deci produsul este 0 doar dacă un factor este 0, ceea ce permite rezolvarea ecuațiilor ca în ℝ: împărțim la elemente nenule și descompunem în factori.",
+    "sample": "ℤ₅ este corp, deoarece 5 este prim: toate elementele nenule 1̂, 2̂, 3̂, 4̂ sunt inversabile.",
+    "worked": "Rezolvăm sistemul în ℤ₅: x + 2y = 1̂, 3x + y = 2̂. Din prima: x = 1̂ − 2y. Înlocuim: 3̂ − 6y + y = 3̂ − 5y = 3̂ (căci 5 ≡ 0), deci 3̂ = 2̂ — fals; sistemul nu are soluții. (Determinantul 1 − 6 = −5 ≡ 0 confirmă că nu este de tip Cramer.)",
+    "exercises": [
+     "Este ℤ₆ corp? Justifică.",
+     "Rezolvă în ℤ₇: x² − 3̂x + 2̂ = 0̂.",
+     "Rezolvă în ℤ₅ sistemul x + y = 3̂, x − y = 1̂.",
+     "Scrie tabla inversurilor în ℤ₁₁ pentru elementele 1̂–5̂.",
+     "Arată că un corp nu are divizori ai lui zero."
+    ],
+    "test": [
+     "Este ℤ₇ corp?",
+     "Este ℤ corp?",
+     "Inversul lui 3̂ în ℤ₇?",
+     "Are un corp divizori ai lui zero?",
+     "Exemple de corpuri infinite?"
+    ],
+    "steps": [
+     "Verifică dacă structura este corp (pentru ℤₙ: n prim).",
+     "Rezolvă ca în ℝ, folosind inversele și descompunerea în factori.",
+     "Calculează modulo p la fiecare pas și verifică soluțiile.",
+     "Greșeala frecventă: să aplici regulile corpului în ℤ₆ sau ℤ₈; acestea nu sunt corpuri, deoarece 6 și 8 nu sunt prime."
+    ],
+    "answers": [
+     "Da",
+     "Nu",
+     "5̂",
+     "Nu",
+     "ℚ, ℝ, ℂ"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l12": {
+   "ro": {
+    "title": "Morfisme de inele și corpuri",
+    "theory": "O funcție f: A → B între inele este morfism de inele dacă f(x + y) = f(x) + f(y) și f(xy) = f(x)f(y) pentru orice x, y (iar pentru inele unitare se cere și f(1) = 1). Un morfism bijectiv este izomorfism. Exemple: f: ℤ → ℤₙ, f(x) = x̂ (morfism surjectiv); conjugarea z ↦ z̄ este un izomorfism al corpului ℂ pe el însuși; f(a + bi) = (a −b / b a) identifică ℂ cu un corp de matrice.",
+    "sample": "Funcția f(x) = x̂ de la ℤ la ℤ₅ este morfism de inele: restul sumei este suma resturilor.",
+    "worked": "Verificăm că f(a + bi) = (a −b / b a) păstrează înmulțirea: (a + bi)(c + di) = (ac − bd) + (ad + bc)i, iar (a −b / b a)(c −d / d c) = (ac − bd  −(ad + bc) / ad + bc  ac − bd). Rezultatele corespund.",
+    "exercises": [
+     "Arată că z ↦ z̄ păstrează suma și produsul în ℂ.",
+     "Este f(x) = 2x morfism de inele de la ℤ la ℤ? Justifică.",
+     "Arată că f: ℤ → ℤ₃, f(x) = x̂ este morfism surjectiv.",
+     "Arată că pentru un morfism de inele unitare f(0) = 0.",
+     "Verifică că f(i)² = f(−1) pentru f(a + bi) = (a −b / b a)."
+    ],
+    "test": [
+     "Ce două condiții definește un morfism de inele?",
+     "Este conjugarea un izomorfism al lui ℂ?",
+     "f(1) pentru morfisme unitare?",
+     "Este f(x) = 2x morfism de inele pe ℤ?",
+     "Cât este f(0) pentru un morfism de inele?"
+    ],
+    "steps": [
+     "Verifică păstrarea adunării.",
+     "Verifică păstrarea înmulțirii (și a lui 1, la inele unitare).",
+     "Pentru izomorfism, demonstrează bijectivitatea.",
+     "Greșeala frecventă: să verifici doar adunarea; f(x) = 2x păstrează suma, dar nu produsul (2xy ≠ 4xy)."
+    ],
+    "answers": [
+     "f(x + y) = f(x) + f(y) și f(xy) = f(x)f(y)",
+     "Da",
+     "1",
+     "Nu",
+     "0"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l13": {
+   "ro": {
+    "title": "Polinoame: forma algebrică, grad, operații, valoare",
+    "theory": "Un polinom cu coeficienți într-un corp K are forma f = aₙXⁿ + … + a₁X + a₀; dacă aₙ ≠ 0, gradul este n și aₙ este coeficientul dominant. Valoarea în α este f(α). Polinoamele se adună și se înmulțesc ca expresiile algebrice; grad(fg) = grad f + grad g (pe un corp). Suma coeficienților este f(1), iar termenul liber este f(0). Două polinoame sunt egale dacă au aceiași coeficienți.",
+    "sample": "Polinomul f = 2X³ − X + 5 are gradul 3, coeficientul dominant 2 și f(1) = 6.",
+    "worked": "f = X² + 1, g = X − 2: fg = X³ − 2X² + X − 2, de grad 3 = 2 + 1. Suma coeficienților lui fg este 1 − 2 + 1 − 2 = −2 = f(1)·g(1) = 2·(−1). Pentru (X + 1)¹⁰, suma coeficienților este 2¹⁰ = 1 024.",
+    "exercises": [
+     "Calculează f + g și fg pentru f = X² − 3X + 1, g = 2X + 3.",
+     "Află gradul și coeficientul dominant pentru (2X − 1)³.",
+     "Calculează f(−1) pentru f = X⁴ − 2X³ + X − 5.",
+     "Află a, b astfel încât X² + aX + b = (X − 1)(X + 3).",
+     "Calculează suma coeficienților polinomului (3X − 2)⁷."
+    ],
+    "test": [
+     "Gradul lui 5X⁴ − X?",
+     "Termenul liber al lui X² + 3X + 7?",
+     "Suma coeficienților este f(…)?",
+     "grad(fg) pentru grade 2 și 3?",
+     "f(2) pentru f = X²?"
+    ],
+    "steps": [
+     "Scrie polinomul în forma algebrică ordonată.",
+     "Efectuează operațiile, grupând termenii asemenea.",
+     "Verifică prin valori (de exemplu f(1)) sau prin grad.",
+     "Greșeala frecventă: să confunzi suma coeficienților cu termenul liber; suma este f(1), termenul liber f(0)."
+    ],
+    "answers": [
+     "4",
+     "7",
+     "f(1)",
+     "5",
+     "4"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l14": {
+   "ro": {
+    "title": "Împărțirea cu rest a polinoamelor; teorema împărțirii cu rest",
+    "theory": "Pentru polinoamele f și g ≠ 0 există unic câtul q și restul r cu f = g·q + r și grad r < grad g. Împărțirea se face ca la numere: împărțim termenul dominant al deîmpărțitului la cel al împărțitorului, înmulțim, scădem și continuăm. g divide f dacă restul este 0.",
+    "sample": "Împărțind X² − 1 la X − 1 obținem câtul X + 1 și restul 0.",
+    "worked": "Împărțim f = X³ + 2X² − 5X + 3 la g = X² + X − 1: primul termen al câtului X; X·g = X³ + X² − X, scădem: X² − 4X + 3. Al doilea termen: 1; scădem X² + X − 1: −5X + 4. Câtul q = X + 1, restul r = −5X + 4. Verificare: (X² + X − 1)(X + 1) − 5X + 4 = X³ + 2X² − 1 − 5X + 4 = X³ + 2X² − 5X + 3.",
+    "exercises": [
+     "Împarte X³ − 3X² + 4 la X − 2.",
+     "Împarte 2X⁴ − X² + 1 la X² + 1.",
+     "Află restul împărțirii lui X⁵ + 1 la X² − 1.",
+     "Află a pentru care X³ + aX + 2 se divide cu X² + X + 1 (folosește împărțirea).",
+     "Verifică relația f = gq + r pentru exercițiul 1."
+    ],
+    "test": [
+     "Ce condiție are gradul restului?",
+     "Când divide g pe f?",
+     "Gradul câtului pentru grade 5 și 2?",
+     "Restul împărțirii lui X² la X?",
+     "Câtul lui X² − 1 la X + 1?"
+    ],
+    "steps": [
+     "Ordonează ambele polinoame descrescător (completează gradele lipsă cu 0).",
+     "Împarte termenii dominanți, înmulțește împărțitorul și scade, repetat.",
+     "Oprește-te când gradul restului este mai mic decât al împărțitorului; verifică f = gq + r.",
+     "Greșeala frecventă: să greșești semnele la scădere sau să nu lași loc pentru puterile lipsă ale lui X."
+    ],
+    "answers": [
+     "grad r < grad g",
+     "Când restul este 0",
+     "3",
+     "0",
+     "X − 1"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l15": {
+   "ro": {
+    "title": "Teorema lui Bézout; schema lui Horner",
+    "theory": "Teorema restului: restul împărțirii lui f la X − a este f(a). Teorema lui Bézout: X − a divide f dacă și numai dacă f(a) = 0, adică a este rădăcină. Schema lui Horner calculează rapid câtul și restul împărțirii la X − a: coborâm coeficientul dominant, apoi la fiecare pas înmulțim ultimul rezultat cu a și adunăm coeficientul următor.",
+    "sample": "Restul împărțirii lui X² + 3X + 1 la X − 1 este f(1) = 5.",
+    "worked": "Împărțim f = 2X³ − 3X² + 4 la X − 2 cu Horner. Coeficienți: 2, −3, 0, 4. Coborâm 2; 2·2 − 3 = 1; 1·2 + 0 = 2; 2·2 + 4 = 8. Câtul 2X² + X + 2, restul 8 = f(2). Verificare: f(2) = 16 − 12 + 4 = 8.",
+    "exercises": [
+     "Află restul împărțirii lui X⁴ − 3X + 2 la X + 1.",
+     "Folosește Horner: împarte X³ − 6X² + 11X − 6 la X − 1.",
+     "Verifică dacă 2 este rădăcină a lui X³ − 8 și descompune polinomul.",
+     "Află m pentru care X³ + mX − 4 se divide cu X − 2.",
+     "Restul împărțirii lui f la X − 1 este 3, iar la X + 1 este 5. Află restul la X² − 1."
+    ],
+    "test": [
+     "Restul lui f la X − a?",
+     "Când divide X − a pe f?",
+     "Restul lui X³ la X − 2?",
+     "Este 1 rădăcină a lui X² − 1?",
+     "Ce produce schema lui Horner?"
+    ],
+    "steps": [
+     "Scrie toți coeficienții, inclusiv zerourile pentru puterile lipsă.",
+     "Aplică Horner cu a (pentru X + 1 folosește a = −1).",
+     "Ultimul număr este restul f(a); ceilalți sunt coeficienții câtului.",
+     "Greșeala frecventă: la împărțirea la X + 1 să folosești a = 1 în loc de a = −1."
+    ],
+    "answers": [
+     "f(a)",
+     "Când f(a) = 0",
+     "8",
+     "Da",
+     "Câtul și restul împărțirii la X − a"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l16": {
+   "ro": {
+    "title": "Rădăcini; descompunerea în factori; relațiile lui Viète",
+    "theory": "Un polinom de grad n are cel mult n rădăcini într-un corp; în ℂ are exact n rădăcini (numărate cu multiplicitate) și se descompune f = aₙ(X − x₁)…(X − xₙ). Relațiile lui Viète pentru grad 3, aX³ + bX² + cX + d: x₁ + x₂ + x₃ = −b/a, x₁x₂ + x₁x₃ + x₂x₃ = c/a, x₁x₂x₃ = −d/a. Rădăcina a este multiplă de ordin k dacă (X − a)ᵏ divide f, dar (X − a)ᵏ⁺¹ nu.",
+    "sample": "Polinomul X² − 5X + 6 are rădăcinile 2 și 3, cu suma 5 și produsul 6.",
+    "worked": "f = X³ − 6X² + 11X − 6: f(1) = 0, Horner dă câtul X² − 5X + 6 = (X − 2)(X − 3), deci f = (X − 1)(X − 2)(X − 3). Viète: 1 + 2 + 3 = 6, 1·2 + 1·3 + 2·3 = 11, 1·2·3 = 6. Pentru rădăcinile x₁, x₂, x₃ calculăm x₁² + x₂² + x₃² = 6² − 2·11 = 14.",
+    "exercises": [
+     "Descompune în factori X³ − 7X + 6.",
+     "Scrie relațiile lui Viète pentru X³ + 2X² − X + 5.",
+     "Fie x₁, x₂, x₃ rădăcinile lui X³ − 2X + 1. Calculează x₁² + x₂² + x₃².",
+     "Află polinomul monic de grad 3 cu rădăcinile 1, −1, 2.",
+     "Arată că 1 este rădăcină dublă a lui X³ − 3X + 2."
+    ],
+    "test": [
+     "Câte rădăcini complexe are un polinom de grad 4?",
+     "Suma rădăcinilor lui X² − 7X + 10?",
+     "Produsul rădăcinilor lui X³ − 8?",
+     "Când este a rădăcină dublă?",
+     "Descompunerea lui X² − 4?"
+    ],
+    "steps": [
+     "Găsește o rădăcină (de exemplu printre divizorii termenului liber).",
+     "Împarte cu Horner și continuă cu câtul.",
+     "Scrie descompunerea; pentru expresii simetrice, folosește Viète.",
+     "Greșeala frecventă: la Viète să uiți semnele alternante: suma este −b/a, iar produsul (grad 3) este −d/a."
+    ],
+    "answers": [
+     "4",
+     "7",
+     "8",
+     "Când (X − a)² divide f, dar (X − a)³ nu",
+     "(X − 2)(X + 2)"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l17": {
+   "ro": {
+    "title": "Polinoame cu coeficienți reali, raționali și întregi; rădăcini conjugate și rădăcini raționale",
+    "theory": "Dacă un polinom cu coeficienți reali are rădăcina a + bi (b ≠ 0), atunci are și rădăcina a − bi. Dacă un polinom cu coeficienți raționali are rădăcina a + b√d (√d irațional), are și a − b√d. Pentru coeficienți întregi, o rădăcină rațională p/q (fracție ireductibilă) are p divizor al termenului liber și q divizor al coeficientului dominant; rădăcinile întregi divid termenul liber.",
+    "sample": "Polinomul X² + 1 are rădăcinile conjugate i și −i.",
+    "worked": "f = X³ − 3X² + 4X − 2 are rădăcina 1 + i; atunci are și 1 − i, deci se divide cu (X − 1 − i)(X − 1 + i) = X² − 2X + 2. Împărțind, câtul este X − 1, deci a treia rădăcină este 1. Pentru 2X³ − X² − 2X + 1, candidații raționali sunt ±1, ±1/2; f(1/2) = 1/4 − 1/4 − 1 + 1 = 0.",
+    "exercises": [
+     "Află polinomul real de grad minim, monic, cu rădăcina 2 − 3i.",
+     "Știind că 1 + √2 este rădăcină a lui X³ − 3X² + X + 1, află celelalte rădăcini.",
+     "Află rădăcinile raționale ale polinomului 2X³ + 3X² − 1.",
+     "Arată că X³ − X − 1 nu are rădăcini raționale.",
+     "Polinomul real f are rădăcina i. Arată că X² + 1 îl divide."
+    ],
+    "test": [
+     "Rădăcina conjugată a lui 3 + 2i?",
+     "Candidații întregi pentru X³ + 2X − 3?",
+     "Pereche rațională pentru 1 + √5?",
+     "Divizorii termenului liber 6?",
+     "Poate avea un polinom real de grad 3 trei rădăcini nereale?"
+    ],
+    "steps": [
+     "Identifică tipul coeficienților (reali, raționali, întregi).",
+     "Aplică proprietatea potrivită: rădăcina conjugată sau lista candidaților raționali.",
+     "Împarte la factorul găsit și continuă cu câtul.",
+     "Greșeala frecventă: să aplici regula rădăcinilor conjugate unui polinom cu coeficienți complecși, unde ea nu mai este valabilă."
+    ],
+    "answers": [
+     "3 − 2i",
+     "±1, ±3",
+     "1 − √5",
+     "±1, ±2, ±3, ±6",
+     "Nu"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l18": {
+   "ro": {
+    "title": "Polinoame cu coeficienți în ℤₚ; polinoame ireductibile",
+    "theory": "Polinoamele se pot considera și cu coeficienți în ℤₚ (p prim): calculele se fac modulo p, iar rădăcinile se caută verificând pe rând toate elementele lui ℤₚ. Un polinom de grad cel puțin 1 este ireductibil peste un corp K dacă nu se poate scrie ca produs de două polinoame de grad mai mic cu coeficienți în K. Un polinom de grad 2 sau 3 este ireductibil peste K dacă și numai dacă nu are rădăcini în K. Peste ℂ, ireductibile sunt doar polinoamele de gradul I; peste ℝ, cele de gradul I și cele de gradul II cu Δ < 0.",
+    "sample": "Polinomul X² + 1 este ireductibil peste ℝ, dar peste ℂ se descompune în (X − i)(X + i).",
+    "worked": "În ℤ₅[X], f = X² + 1: f(0̂) = 1̂, f(1̂) = 2̂, f(2̂) = 5 ≡ 0̂, f(3̂) = 10 ≡ 0̂, f(4̂) = 17 ≡ 2̂. Rădăcinile sunt 2̂ și 3̂, deci f = (X − 2̂)(X − 3̂) = (X + 3̂)(X + 2̂) în ℤ₅[X]. În ℤ₃[X], X² + 1 nu are rădăcini (valorile 1̂, 2̂, 2̂), deci este ireductibil.",
+    "exercises": [
+     "Află rădăcinile polinomului X² + X + 1̂ în ℤ₃[X].",
+     "Descompune în factori X² − 1̂ în ℤ₇[X].",
+     "Arată că X² + X + 1̂ este ireductibil în ℤ₂[X].",
+     "Este X³ + X + 1̂ ireductibil peste ℤ₂? Justifică.",
+     "Este X⁴ + 4 ireductibil peste ℝ? (indiciu: X⁴ + 4 = (X² + 2)² − 4X²)"
+    ],
+    "test": [
+     "Este X² + 1 ireductibil peste ℂ?",
+     "Ireductibile peste ℝ de gradul II?",
+     "Cum cauți rădăcinile în ℤₚ?",
+     "Grad 3 fără rădăcini în K înseamnă…?",
+     "Valoarea lui X² + 1 în 2̂ din ℤ₅?"
+    ],
+    "steps": [
+     "Calculează valorile polinomului în toate elementele lui ℤₚ.",
+     "Rădăcinile găsite dau factori X − a (Bézout).",
+     "Pentru grad 2 sau 3, lipsa rădăcinilor arată ireductibilitatea.",
+     "Greșeala frecventă: să aplici criteriul „fără rădăcini ⇒ ireductibil” la grad 4; X⁴ + 4 nu are rădăcini reale, dar se descompune."
+    ],
+    "answers": [
+     "Nu",
+     "Cele cu Δ < 0",
+     "Verific toate elementele",
+     "Polinomul este ireductibil",
+     "0̂"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l19": {
+   "ro": {
+    "title": "Ecuații algebrice speciale: bipătrate, binome, reciproce",
+    "theory": "Ecuația bipătrată ax⁴ + bx² + c = 0 se rezolvă cu y = x². Ecuația binomă xⁿ = a se rezolvă cu rădăcinile de ordin n (din numere complexe). Ecuația reciprocă (coeficienți egali simetric față de mijloc) de grad 4 se împarte la x² și se notează y = x + 1/x; cea de grad impar are rădăcina −1 și se reduce la una de grad par.",
+    "sample": "Ecuația bipătrată x⁴ − 5x² + 4 = 0 are soluțiile ±1 și ±2.",
+    "worked": "Ecuația reciprocă x⁴ − 5x³ + 8x² − 5x + 1 = 0: împărțim la x²: (x² + 1/x²) − 5(x + 1/x) + 8 = 0; cu y = x + 1/x, x² + 1/x² = y² − 2, deci y² − 5y + 6 = 0, y = 2 sau y = 3. Din x + 1/x = 2: x = 1 (dublă); din x + 1/x = 3: x = (3 ± √5)/2.",
+    "exercises": [
+     "Rezolvă: x⁴ − 13x² + 36 = 0.",
+     "Rezolvă în ℂ: x⁴ + 3x² − 4 = 0.",
+     "Rezolvă în ℂ: x³ = −1.",
+     "Rezolvă ecuația reciprocă: x⁴ + x³ − 4x² + x + 1 = 0.",
+     "Rezolvă ecuația reciprocă de grad 3: x³ + 2x² + 2x + 1 = 0."
+    ],
+    "test": [
+     "Ce substituție la ecuația bipătrată?",
+     "Ce substituție la ecuația reciprocă de grad 4?",
+     "Ce rădăcină are orice ecuație reciprocă de grad impar?",
+     "x² + 1/x² în funcție de y = x + 1/x?",
+     "Câte soluții complexe are x⁶ = 1?"
+    ],
+    "steps": [
+     "Recunoaște tipul ecuației după coeficienți.",
+     "Aplică substituția potrivită și rezolvă ecuația auxiliară.",
+     "Revino la x și verifică toate soluțiile.",
+     "Greșeala frecventă: la ecuația bipătrată să păstrezi doar soluțiile pozitive ale lui y când se lucrează în ℂ; și y < 0 dă soluții (imaginare)."
+    ],
+    "answers": [
+     "y = x²",
+     "y = x + 1/x",
+     "−1",
+     "y² − 2",
+     "6"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l20": {
+   "ro": {
+    "title": "Primitive: definiție, proprietăți; primitivele funcțiilor uzuale",
+    "theory": "F este o primitivă a lui f pe un interval I dacă F este derivabilă și F′ = f. Două primitive ale aceleiași funcții diferă printr-o constantă; mulțimea lor se notează ∫f(x)dx = F(x) + C. Orice funcție continuă pe un interval are primitive. Primitive uzuale: ∫xⁿdx = xⁿ⁺¹/(n + 1) + C (n ≠ −1), ∫1/x dx = ln|x| + C, ∫eˣdx = eˣ + C, ∫aˣdx = aˣ/ln a + C, ∫sin x dx = −cos x + C, ∫cos x dx = sin x + C, ∫1/(1 + x²)dx = arctg x + C. Integrala este liniară.",
+    "sample": "O primitivă a lui 2x este x², pentru că (x²)′ = 2x.",
+    "worked": "∫(3x² − 4x + 5)dx = x³ − 2x² + 5x + C. ∫(eˣ + 1/x)dx = eˣ + ln|x| + C pe (0, +∞). Verificăm derivând: (x³ − 2x² + 5x)′ = 3x² − 4x + 5.",
+    "exercises": [
+     "Calculează: ∫(4x³ + 2x)dx.",
+     "Calculează: ∫(√x + 1/x²)dx, x > 0.",
+     "Calculează: ∫(2 sin x − 3 cos x)dx.",
+     "Află primitiva F a lui f(x) = 3x² + 1 cu F(0) = 2.",
+     "Arată că F(x) = x ln x − x este o primitivă a lui ln x."
+    ],
+    "test": [
+     "∫x² dx = ?",
+     "∫eˣ dx = ?",
+     "∫cos x dx = ?",
+     "Prin ce diferă două primitive?",
+     "∫1/x dx = ?"
+    ],
+    "steps": [
+     "Descompune integrandul în sumă de funcții uzuale (liniaritate).",
+     "Aplică primitivele uzuale pentru fiecare termen.",
+     "Adaugă constanta C și verifică prin derivare.",
+     "Greșeala frecventă: să uiți constanta C sau să scrii ∫xⁿ dx = nxⁿ⁻¹ (aceea este derivata, nu primitiva)."
+    ],
+    "answers": [
+     "x³/3 + C",
+     "eˣ + C",
+     "sin x + C",
+     "Printr-o constantă",
+     "ln|x| + C"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l21": {
+   "ro": {
+    "title": "Metoda integrării prin părți",
+    "theory": "Din formula derivatei produsului rezultă ∫f(x)g′(x)dx = f(x)g(x) − ∫f′(x)g(x)dx. Alegem f partea care se simplifică prin derivare (polinom, ln x, arctg x) și g′ partea ușor de integrat (eˣ, sin x, cos x, xⁿ). Uneori metoda se aplică de două ori sau conduce la o ecuație în integrala căutată.",
+    "sample": "Prin părți, ∫x eˣ dx = x eˣ − ∫eˣ dx = (x − 1)eˣ + C.",
+    "worked": "∫ln x dx: f = ln x, g′ = 1, deci f′ = 1/x, g = x: x ln x − ∫x·(1/x)dx = x ln x − x + C. ∫x cos x dx: f = x, g′ = cos x: x sin x − ∫sin x dx = x sin x + cos x + C.",
+    "exercises": [
+     "Calculează: ∫x e²ˣ dx.",
+     "Calculează: ∫x sin x dx.",
+     "Calculează: ∫x ln x dx, x > 0.",
+     "Calculează: ∫x² eˣ dx (prin părți de două ori).",
+     "Calculează: ∫eˣ sin x dx (ecuație în integrală)."
+    ],
+    "test": [
+     "Formula integrării prin părți?",
+     "Ce alegi ca f la ∫x eˣ dx?",
+     "∫ln x dx = ?",
+     "Ce alegi ca g′ la ∫x cos x dx?",
+     "De câte ori aplici metoda la ∫x² eˣ dx?"
+    ],
+    "steps": [
+     "Identifică f (se simplifică prin derivare) și g′ (se integrează ușor).",
+     "Calculează f′ și g, apoi aplică formula.",
+     "Calculează integrala rămasă și verifică prin derivare.",
+     "Greșeala frecventă: să alegi invers (f = eˣ, g′ = x), ceea ce complică integrala în loc să o simplifice."
+    ],
+    "answers": [
+     "∫fg′ = fg − ∫f′g",
+     "f = x",
+     "x ln x − x + C",
+     "g′ = cos x",
+     "De două ori"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l22": {
+   "ro": {
+    "title": "Metoda schimbării de variabilă",
+    "theory": "Dacă integrandul are forma f(u(x))·u′(x), atunci ∫f(u(x))u′(x)dx = F(u(x)) + C, unde F este o primitivă a lui f. Practic, notăm u = u(x), du = u′(x)dx. Forme frecvente: ∫u′/u dx = ln|u| + C, ∫u′eᵘ dx = eᵘ + C, ∫uⁿu′ dx = uⁿ⁺¹/(n + 1) + C, ∫u′ cos u dx = sin u + C.",
+    "sample": "Prin substituție, ∫2x e^(x²) dx = e^(x²) + C (cu u = x²).",
+    "worked": "∫x(x² + 1)⁵ dx: u = x² + 1, du = 2x dx, deci (1/2)∫u⁵du = u⁶/12 + C = (x² + 1)⁶/12 + C. ∫tg x dx = ∫sin x/cos x dx = −ln|cos x| + C (u = cos x).",
+    "exercises": [
+     "Calculează: ∫2x/(x² + 3) dx.",
+     "Calculează: ∫cos x·sin³x dx.",
+     "Calculează: ∫e^(3x + 1) dx.",
+     "Calculează: ∫x√(x² + 4) dx.",
+     "Calculează: ∫ln x/x dx, x > 0."
+    ],
+    "test": [
+     "∫u′/u dx = ?",
+     "Ce notezi la ∫2x e^(x²) dx?",
+     "∫cos(2x) dx = ?",
+     "du pentru u = x² + 1?",
+     "∫e^(5x) dx = ?"
+    ],
+    "steps": [
+     "Caută o funcție u(x) a cărei derivată apare (până la o constantă) în integrand.",
+     "Notează u și du și rescrie integrala în u.",
+     "Integrează în u și revino la x; verifică prin derivare.",
+     "Greșeala frecventă: să uiți constanta care apare din du (de exemplu factorul 1/2 când du = 2x dx)."
+    ],
+    "answers": [
+     "ln|u| + C",
+     "u = x²",
+     "sin(2x)/2 + C",
+     "2x dx",
+     "e^(5x)/5 + C"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l23": {
+   "ro": {
+    "title": "Primitivele funcțiilor raționale",
+    "theory": "Pentru o fracție rațională P/Q: dacă grad P ≥ grad Q, împărțim întâi și obținem un polinom plus o fracție proprie. Fracția proprie se descompune în fracții simple: A/(x − a), A/(x − a)ᵏ, (Bx + C)/(x² + px + q) cu Δ < 0. Primitive de bază: ∫1/(x − a)dx = ln|x − a| + C, ∫1/(x² + a²)dx = (1/a)arctg(x/a) + C.",
+    "sample": "Descompunerea 1/(x(x + 1)) = 1/x − 1/(x + 1) dă primitiva ln|x| − ln|x + 1| + C.",
+    "worked": "∫(3x + 1)/((x − 1)(x + 2)) dx: (3x + 1)/((x − 1)(x + 2)) = A/(x − 1) + B/(x + 2); pentru x = 1: 4 = 3A, A = 4/3; pentru x = −2: −5 = −3B, B = 5/3. Primitiva: (4/3)ln|x − 1| + (5/3)ln|x + 2| + C.",
+    "exercises": [
+     "Calculează: ∫1/(x² − 1) dx.",
+     "Calculează: ∫1/(x² + 4) dx.",
+     "Calculează: ∫(x² + 1)/(x − 1) dx (împarte întâi).",
+     "Calculează: ∫(2x + 3)/(x² + 3x + 5) dx.",
+     "Calculează: ∫1/((x − 1)²) dx."
+    ],
+    "test": [
+     "Ce faci dacă grad P ≥ grad Q?",
+     "∫1/(x − 3) dx = ?",
+     "∫1/(x² + 1) dx = ?",
+     "Descompunerea lui 1/(x(x − 1))?",
+     "∫1/(x² + 9) dx = ?"
+    ],
+    "steps": [
+     "Dacă e cazul, împarte polinoamele pentru a obține o fracție proprie.",
+     "Descompune numitorul în factori și fracția în fracții simple (află coeficienții).",
+     "Integrează fiecare fracție simplă și adună rezultatele.",
+     "Greșeala frecventă: să descompui în fracții simple înainte de a împărți, când gradul numărătorului este cel puțin al numitorului."
+    ],
+    "answers": [
+     "Împart polinoamele",
+     "ln|x − 3| + C",
+     "arctg x + C",
+     "1/(x − 1) − 1/x",
+     "(1/3)arctg(x/3) + C"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l24": {
+   "ro": {
+    "title": "Diviziuni, sume Riemann, integrabilitate",
+    "theory": "O diviziune a intervalului [a, b] este un șir de puncte a = x₀ < x₁ < … < xₙ = b; norma este cea mai mare lungime a subintervalelor. Alegând puncte intermediare ξᵢ ∈ [xᵢ₋₁, xᵢ], suma Riemann este σ = Σ f(ξᵢ)(xᵢ − xᵢ₋₁): aria aproximativă a unor dreptunghiuri. f este integrabilă dacă sumele Riemann au aceeași limită (integrala ∫ₐᵇ f(x)dx) când norma tinde la 0. Orice funcție continuă sau monotonă pe [a, b] este integrabilă.",
+    "sample": "Pentru f(x) = x pe [0, 1] cu diviziunea în 2 părți egale și ξ capătul drept, suma Riemann este 0,5·0,5 + 1·0,5 = 0,75.",
+    "worked": "Pentru f(x) = x pe [0, 1], cu n părți egale și ξᵢ = i/n: σₙ = Σ (i/n)(1/n) = (1 + 2 + … + n)/n² = (n + 1)/(2n) → 1/2. Deci ∫₀¹ x dx = 1/2, aria triunghiului cu catetele 1 și 1.",
+    "exercises": [
+     "Calculează suma Riemann pentru f(x) = x² pe [0, 2], diviziunea în 4 părți egale, ξ capătul drept.",
+     "Scrie suma Riemann pentru f(x) = 2x + 1 pe [0, 1] cu n părți egale și calculează-i limita.",
+     "Interpretează geometric ∫₀² 3 dx.",
+     "De ce este integrabilă o funcție continuă pe [a, b]?",
+     "Calculează norma diviziunii 0 < 0,5 < 1,2 < 2."
+    ],
+    "test": [
+     "Ce reprezintă geometric o sumă Riemann?",
+     "Este integrabilă o funcție continuă?",
+     "Ce este norma unei diviziuni?",
+     "∫₀¹ x dx = ?",
+     "∫₀³ 2 dx = ?"
+    ],
+    "steps": [
+     "Scrie diviziunea și lungimile subintervalelor.",
+     "Alege punctele intermediare și calculează suma Σ f(ξᵢ)Δxᵢ.",
+     "Pentru integrală, calculează limita sumelor când norma tinde la 0.",
+     "Greșeala frecventă: să uiți să înmulțești valorile f(ξᵢ) cu lungimile subintervalelor."
+    ],
+    "answers": [
+     "Suma ariilor unor dreptunghiuri",
+     "Da",
+     "Lungimea maximă a unui subinterval",
+     "1/2",
+     "6"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l25": {
+   "ro": {
+    "title": "Formula Leibniz–Newton",
+    "theory": "Dacă f este continuă pe [a, b] și F este o primitivă a ei, atunci ∫ₐᵇ f(x)dx = F(b) − F(a), notat F(x)|ₐᵇ. Această formulă leagă integrala definită de primitive și transformă calculul ariilor în calcul de primitive. Integrala definită este un număr (nu mai apare constanta C).",
+    "sample": "Prin Leibniz–Newton, ∫₀² x² dx = x³/3 de la 0 la 2 = 8/3.",
+    "worked": "∫₁ᵉ (1/x) dx = ln x|₁ᵉ = 1 − 0 = 1. ∫₀^π sin x dx = −cos x|₀^π = −(−1) + 1 = 2. ∫₀¹ (3x² + 2x) dx = (x³ + x²)|₀¹ = 2.",
+    "exercises": [
+     "Calculează: ∫₁³ (2x + 1) dx.",
+     "Calculează: ∫₀¹ eˣ dx.",
+     "Calculează: ∫₀^(π/2) cos x dx.",
+     "Calculează: ∫₀¹ 1/(1 + x²) dx.",
+     "Calculează: ∫₁⁴ √x dx."
+    ],
+    "test": [
+     "Formula Leibniz–Newton?",
+     "Apare constanta C în integrala definită?",
+     "∫₀¹ 2x dx = ?",
+     "∫₀^π sin x dx = ?",
+     "∫₁ᵉ 1/x dx = ?"
+    ],
+    "steps": [
+     "Găsește o primitivă F a integrandului.",
+     "Calculează F(b) și F(a).",
+     "Scade: F(b) − F(a), cu atenție la semne.",
+     "Greșeala frecventă: să calculezi F(a) − F(b) în loc de F(b) − F(a), obținând semnul opus."
+    ],
+    "answers": [
+     "∫ₐᵇ f = F(b) − F(a)",
+     "Nu",
+     "1",
+     "2",
+     "1"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l26": {
+   "ro": {
+    "title": "Proprietățile integralei definite; teorema de medie",
+    "theory": "Proprietăți: liniaritatea; aditivitatea la interval ∫ₐᶜ = ∫ₐᵇ + ∫ᵇᶜ; ∫ₐᵃ f = 0 și ∫ᵇₐ f = −∫ₐᵇ f; monotonia: dacă f ≤ g pe [a, b], atunci ∫f ≤ ∫g; dacă f ≥ 0, integrala este ≥ 0. Dacă m ≤ f ≤ M, atunci m(b − a) ≤ ∫ₐᵇ f ≤ M(b − a). Teorema de medie: pentru f continuă există c ∈ [a, b] cu ∫ₐᵇ f = f(c)(b − a). Pentru f impară pe [−a, a], integrala este 0; pentru f pară, 2∫₀ᵃ f.",
+    "sample": "Funcția x³ este impară, deci ∫₋₂² x³ dx = 0.",
+    "worked": "Pentru f(x) = |x − 1| pe [0, 3] folosim aditivitatea: ∫₀¹ (1 − x)dx + ∫₁³ (x − 1)dx = 1/2 + 2 = 5/2. Estimăm ∫₀¹ e^(x²) dx: 1 ≤ e^(x²) ≤ e pe [0, 1], deci integrala este între 1 și e.",
+    "exercises": [
+     "Calculează: ∫₀³ |x − 2| dx.",
+     "Calculează: ∫₋₁¹ (x⁵ + x³ − x) dx fără primitive.",
+     "Arată că 0 ≤ ∫₀¹ x²eˣ dx ≤ e.",
+     "Calculează: ∫₋₂² x² dx folosind paritatea.",
+     "Compară, fără calcul, ∫₀¹ x² dx și ∫₀¹ x³ dx."
+    ],
+    "test": [
+     "Cât este ∫ₐᵃ f?",
+     "∫ᵇₐ f în funcție de ∫ₐᵇ f?",
+     "Integrala unei funcții impare pe [−a, a]?",
+     "Dacă f ≥ 0, semnul integralei?",
+     "Ce afirmă teorema de medie?"
+    ],
+    "steps": [
+     "Identifică proprietatea utilă (aditivitate, paritate, monotonie).",
+     "Împarte intervalul sau încadrează funcția, după caz.",
+     "Calculează sau estimează și verifică semnul.",
+     "Greșeala frecventă: să integrezi |f| fără a împărți intervalul în punctele unde f își schimbă semnul."
+    ],
+    "answers": [
+     "0",
+     "−∫ₐᵇ f",
+     "0",
+     "≥ 0",
+     "Există c cu ∫ₐᵇ f = f(c)(b − a)"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l27": {
+   "ro": {
+    "title": "Metode de calcul ale integralelor definite: prin părți și prin schimbare de variabilă",
+    "theory": "Integrarea prin părți la integrala definită: ∫ₐᵇ f g′ dx = f g|ₐᵇ − ∫ₐᵇ f′g dx. Schimbarea de variabilă: ∫ₐᵇ f(u(x))u′(x)dx = ∫_{u(a)}^{u(b)} f(t)dt — schimbăm și limitele de integrare, așa că nu mai revenim la x. Se folosesc și pentru funcții raționale, după descompunere.",
+    "sample": "Prin substituție, ∫₀¹ 2x e^(x²) dx = ∫₀¹ eᵗ dt = e − 1.",
+    "worked": "∫₀¹ x eˣ dx = (x eˣ)|₀¹ − ∫₀¹ eˣ dx = e − (e − 1) = 1. ∫₀^(π/2) sin x cos x dx: t = sin x, limitele 0 și 1: ∫₀¹ t dt = 1/2.",
+    "exercises": [
+     "Calculează: ∫₁ᵉ ln x dx.",
+     "Calculează: ∫₀^π x sin x dx.",
+     "Calculează: ∫₀¹ x/(x² + 1) dx.",
+     "Calculează: ∫₀² x√(x² + 5) dx.",
+     "Calculează: ∫₂³ 1/(x² − 1) dx."
+    ],
+    "test": [
+     "Ce faci cu limitele la schimbarea de variabilă?",
+     "∫₀¹ x eˣ dx = ?",
+     "Formula integrării prin părți la integrala definită?",
+     "Limitele noi pentru t = x² pe [0, 2]?",
+     "Revii la x după substituție?"
+    ],
+    "steps": [
+     "Alege metoda (prin părți sau substituție).",
+     "La substituție, calculează noile limite; la părți, evaluează termenul f g la capete.",
+     "Calculează integrala rămasă și simplifică.",
+     "Greșeala frecventă: să schimbi variabila fără să schimbi limitele de integrare."
+    ],
+    "answers": [
+     "Le recalculez pentru noua variabilă",
+     "1",
+     "∫ₐᵇ f g′ = f g|ₐᵇ − ∫ₐᵇ f′g",
+     "0 și 4",
+     "Nu"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l28": {
+   "ro": {
+    "title": "Integrale ale funcțiilor trigonometrice; șiruri de integrale și relații de recurență",
+    "theory": "Pentru integrale trigonometrice folosim formule: sin²x = (1 − cos 2x)/2, cos²x = (1 + cos 2x)/2, sin x cos x = (sin 2x)/2, și substituții (t = sin x sau t = cos x când apare factorul derivatei). Șirurile de integrale Iₙ = ∫ₐᵇ fₙ(x)dx se studiază: monotonia prin semnul lui Iₙ₊₁ − Iₙ, mărginirea prin încadrarea integrandului, iar relațiile de recurență se obțin prin integrare prin părți.",
+    "sample": "Cu formula de coborâre a puterii, ∫₀^π sin²x dx = ∫₀^π (1 − cos 2x)/2 dx = π/2.",
+    "worked": "Iₙ = ∫₀¹ xⁿeˣ dx. Prin părți: Iₙ = xⁿeˣ|₀¹ − n∫₀¹ xⁿ⁻¹eˣ dx = e − nIₙ₋₁ (n ≥ 1). Cu I₀ = e − 1 obținem I₁ = e − (e − 1) = 1 și I₂ = e − 2. Pentru Jₙ = ∫₀¹ xⁿ dx/(1 + x): xⁿ⁺¹ ≤ xⁿ pe [0, 1], deci Jₙ₊₁ ≤ Jₙ (șir descrescător), iar 0 ≤ Jₙ ≤ ∫₀¹ xⁿ dx = 1/(n + 1), deci Jₙ → 0.",
+    "exercises": [
+     "Calculează: ∫₀^(π/2) cos²x dx.",
+     "Calculează: ∫₀^(π/2) sin³x dx (scrie sin³x = sin x(1 − cos²x)).",
+     "Pentru Iₙ = ∫₀¹ xⁿ e⁻ˣ dx, arată că Iₙ = −1/e + nIₙ₋₁.",
+     "Arată că șirul Iₙ = ∫₀¹ xⁿ/(1 + x²) dx este descrescător și tinde la 0.",
+     "Pentru Iₙ = ∫₀¹ xⁿ dx/(x + 1), arată că Iₙ + Iₙ₋₁ = 1/n."
+    ],
+    "test": [
+     "sin²x prin cos 2x?",
+     "∫₀^π sin²x dx = ?",
+     "Cum obții de obicei o relație de recurență?",
+     "Cum studiezi monotonia lui Iₙ?",
+     "Limita lui ∫₀¹ xⁿ dx când n → ∞?"
+    ],
+    "steps": [
+     "Pentru puteri pare ale lui sin, cos coboară puterea; pentru puteri impare, separă un factor și substituie.",
+     "La șiruri de integrale, compară integranzii lui Iₙ₊₁ și Iₙ pe interval (monotonie) și încadrează-i (mărginire, limită).",
+     "Pentru recurență, aplică integrarea prin părți și recunoaște Iₙ₋₁ în integrala rămasă.",
+     "Greșeala frecventă: să derivezi în loc să integrezi factorul g′ la integrarea prin părți, ratând relația de recurență."
+    ],
+    "answers": [
+     "(1 − cos 2x)/2",
+     "π/2",
+     "Prin integrare prin părți",
+     "Prin semnul lui Iₙ₊₁ − Iₙ",
+     "0"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l29": {
+   "ro": {
+    "title": "Aria unei suprafețe plane",
+    "theory": "Pentru f continuă și f ≥ 0 pe [a, b], aria subgraficului (între grafic, Ox și dreptele x = a, x = b) este ∫ₐᵇ f(x)dx. Dacă f ≤ 0, aria este −∫ₐᵇ f; în general, aria este ∫ₐᵇ |f(x)|dx. Aria dintre graficele lui f și g, cu g ≤ f pe [a, b], este ∫ₐᵇ (f − g)dx; capetele se află adesea din intersecția graficelor.",
+    "sample": "Aria de sub graficul lui x² pe [0, 3] este 9.",
+    "worked": "Aria dintre y = x și y = x²: intersecții la x = 0 și x = 1; pe [0, 1], x ≥ x². Aria = ∫₀¹ (x − x²)dx = 1/2 − 1/3 = 1/6. Aria dintre sin x și Ox pe [0, 2π] este ∫₀^π sin x dx + |∫_π^{2π} sin x dx| = 2 + 2 = 4.",
+    "exercises": [
+     "Calculează aria subgraficului lui f(x) = eˣ pe [0, 1].",
+     "Calculează aria dintre y = x² și y = 4.",
+     "Calculează aria dintre y = x² și y = 2x.",
+     "Calculează aria dintre graficul lui x² − 1 și Ox pe [0, 2].",
+     "Calculează aria dintre y = 1/x, Ox și dreptele x = 1, x = e²."
+    ],
+    "test": [
+     "Aria de sub y = 2 pe [0, 3]?",
+     "Aria când f ≤ 0?",
+     "Aria dintre f și g cu g ≤ f?",
+     "De unde iei capetele intervalului la aria dintre două grafice?",
+     "Aria de sub 1/x pe [1, e]?"
+    ],
+    "steps": [
+     "Desenează graficele și stabilește intervalul (intersecțiile).",
+     "Stabilește semnul funcției sau care grafic este deasupra.",
+     "Integrează diferența corectă (sau |f|) și verifică pozitivitatea.",
+     "Greșeala frecventă: să integrezi direct o funcție care își schimbă semnul; părțile negative scad din arie în loc să se adune."
+    ],
+    "answers": [
+     "6",
+     "−∫ₐᵇ f",
+     "∫ₐᵇ (f − g)",
+     "Din intersecția graficelor",
+     "1"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l30": {
+   "ro": {
+    "title": "Volumul corpurilor de rotație",
+    "theory": "Rotind subgraficul funcției continue f ≥ 0 pe [a, b] în jurul axei Ox, obținem un corp de rotație cu volumul V = π∫ₐᵇ f²(x)dx (suma volumelor unor discuri subțiri de rază f(x)). Formula regăsește volumele cunoscute: con, cilindru, sferă.",
+    "sample": "Rotind y = 1 pe [0, 2] obținem un cilindru cu volumul π·∫₀² 1 dx = 2π.",
+    "worked": "Rotind y = x pe [0, h] obținem un con cu raza bazei h și înălțimea h: V = π∫₀ʰ x² dx = πh³/3, adică formula πR²h/3. Rotind y = √(R² − x²) pe [−R, R]: V = π∫ (R² − x²)dx = π(2R³ − 2R³/3) = 4πR³/3 — volumul sferei.",
+    "exercises": [
+     "Calculează volumul corpului obținut prin rotirea lui y = √x pe [0, 4].",
+     "Calculează volumul pentru y = eˣ pe [0, 1].",
+     "Calculează volumul pentru y = x² pe [0, 1].",
+     "Regăsește volumul conului cu R = 3 și h = 4 rotind y = 3x/4.",
+     "Calculează volumul pentru y = sin x pe [0, π]."
+    ],
+    "test": [
+     "Formula volumului corpului de rotație?",
+     "Ce corp se obține rotind y = x?",
+     "Ce corp se obține rotind y = 1?",
+     "Volumul pentru y = 1 pe [0, 1]?",
+     "Ce reprezintă πf²(x)dx?"
+    ],
+    "steps": [
+     "Verifică f ≥ 0 și stabilește intervalul.",
+     "Calculează f²(x) și integrala ∫ₐᵇ f²(x)dx.",
+     "Înmulțește cu π și verifică pe o formulă geometrică, dacă e posibil.",
+     "Greșeala frecventă: să uiți să ridici f la pătrat sau să omiți factorul π."
+    ],
+    "answers": [
+     "V = π∫ₐᵇ f²(x)dx",
+     "Un con",
+     "Un cilindru",
+     "π",
+     "Volumul unui disc subțire"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l31": {
+   "ro": {
+    "title": "Calculul unor limite de șiruri cu ajutorul integralei; funcții definite prin integrale",
+    "theory": "O sumă de forma (1/n)Σ f(k/n), k = 1, …, n, este o sumă Riemann pentru f pe [0, 1], deci tinde la ∫₀¹ f(x)dx. Funcția F(x) = ∫ₐˣ f(t)dt, cu f continuă, este derivabilă și F′(x) = f(x) (F este o primitivă a lui f care se anulează în a). Aceasta permite studiul funcțiilor definite prin integrale și calculul unor limite.",
+    "sample": "Pentru F(x) = ∫₀ˣ t² dt, derivata este F′(x) = x².",
+    "worked": "lim (1/n)(1/n + 2/n + … + n/n) = ∫₀¹ x dx = 1/2. lim (1/(n + 1) + 1/(n + 2) + … + 1/(2n)) = lim (1/n)Σ 1/(1 + k/n) = ∫₀¹ 1/(1 + x)dx = ln 2.",
+    "exercises": [
+     "Calculează: lim (1² + 2² + … + n²)/n³ cu ajutorul integralei.",
+     "Calculează: lim (1/n)Σ e^(k/n), k = 1, …, n.",
+     "Fie F(x) = ∫₁ˣ ln t dt. Calculează F′(x) și studiază monotonia lui F pe (1, +∞).",
+     "Calculează: lim (1/x)∫₀ˣ cos t dt când x → 0.",
+     "Fie F(x) = ∫₀ˣ e^(−t²) dt. Arată că F este strict crescătoare."
+    ],
+    "test": [
+     "Derivata lui ∫ₐˣ f(t)dt?",
+     "lim (1/n)Σ k/n = ?",
+     "Ce sumă Riemann recunoști în (1/n)Σ f(k/n)?",
+     "F(a) pentru F(x) = ∫ₐˣ f(t)dt?",
+     "Monotonia lui ∫₀ˣ t² dt pe (0, +∞)?"
+    ],
+    "steps": [
+     "Rescrie suma ca (1/n)Σ f(k/n), identificând f.",
+     "Recunoaște suma Riemann pe [0, 1] și scrie limita ca integrală.",
+     "Calculează integrala; la funcții definite prin integrale, folosește F′ = f.",
+     "Greșeala frecventă: să uiți factorul 1/n când rescrii suma; fără el nu ai o sumă Riemann."
+    ],
+    "answers": [
+     "f(x)",
+     "1/2",
+     "O sumă Riemann pe [0, 1]",
+     "0",
+     "Crescătoare"
+    ]
+   }
+  }
+ }
+}
