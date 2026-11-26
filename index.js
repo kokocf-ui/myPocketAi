@@ -1,3 +1,5 @@
+import {foreignResourceKey,foreignValidateResource,foreignLoadResource} from './foreign_language_resource_loader.mjs';
+import {FOREIGN_LANGUAGE_RESOURCES_SCRIPT,FOREIGN_LANGUAGE_RESOURCES_STYLE} from './foreign_language_resources_ui.mjs';
 import {EDUCATION_INPUT_TOOLS_SCRIPT} from './education_input_tools.mjs';
 import {EDUCATION_EXERCISE_TUTOR_SCRIPT} from './education_exercise_tutor.mjs';
 import {SCIENCE_REVIEW_SUPPLEMENTS_SCRIPT} from './science_review_supplements.mjs';
@@ -1471,6 +1473,7 @@ body.long-choice-active{overflow:hidden}
 }
 @media(max-height:600px){.pocket-select-modal,.pocket-select-modal .pocket-unified-window{max-height:85dvh}}
 
+${FOREIGN_LANGUAGE_RESOURCES_STYLE}
 ${ACCOUNT_STYLE}
 </style>
 <style id="reminders-workspace-style">
@@ -8972,6 +8975,9 @@ const MATH_TILE_ICONS={
 const MATH_STAGE_ICONS={primary:'🎒',lower:'📚',intermediate:'🎓',advanced:'🏛️'};
 const educationValidateStudyPack=${educationValidateStudyPack.toString()};
 const educationLoadStudyPack=${educationLoadStudyPack.toString()};
+const foreignResourceKey=${foreignResourceKey.toString()};
+const foreignValidateResource=${foreignValidateResource.toString()};
+const foreignLoadResource=${foreignLoadResource.toString()};
 const MATH_DEPTH_STAGES=${JSON.stringify(MATH_DEPTH_STAGES)};
 const MATH_DEPTH_EN_LOWER=${JSON.stringify(MATH_DEPTH_EN_LOWER)};
 const MATH_DEPTH_EN_UNIVERSITY=${JSON.stringify(MATH_DEPTH_EN_UNIVERSITY)};
@@ -14266,8 +14272,8 @@ function languageWords(){
  return FOREIGN_PHRASE_DATA[languageJourney.language]||[];
 }
 function foreignStudyButton(label,fn,cls='secondary-btn'){const b=document.createElement('button');b.type='button';b.className=cls;b.textContent=label;b.onclick=fn;return b}
-function languageStatus(msg){const el=$('languageStatus');if(el)el.textContent=msg}
-function languageVoiceStop(){if(languageJourney.voice&&pocketNativeVoiceAvailable())pocketNativeVoiceSend({action:'stopListen'});languageJourney.voice=false}
+function languageStatus(msg){const el=document.querySelector('.foreign-resource-dialog [role=status]')||$('languageStatus');if(el)el.textContent=msg}
+function languageVoiceStop(){if(languageJourney.voice&&pocketNativeVoiceAvailable())pocketNativeVoiceSend({action:'stopListen'});if(pocketNativeVoiceAvailable())pocketNativeVoiceSend({action:'stop'});if(typeof window!=='undefined')window.speechSynthesis?.cancel();languageJourney.voice=false}
 function languageBack(){
  languageVoiceStop();
  const previous={placement:'levels',variants:'languages',levels:['la','el','zh','en'].includes(languageJourney.language)?'variants':'languages',topics:'levels',lesson:'topics'};
@@ -14295,6 +14301,7 @@ function languageSpeak(text){
   languageStatus(learningLabel('Voce indisponibilă.','Voice unavailable.'));return;
  }
  const v=new SpeechSynthesisUtterance(String(text));v.lang=locale;v.rate=languageJourney.slow?0.7:0.88;
+ const voices=window.speechSynthesis.getVoices?.()||[];const voice=voices.find(x=>x.lang.toLowerCase()===locale.toLowerCase())||voices.find(x=>x.lang.split('-')[0]===locale.split('-')[0]);if(voice)v.voice=voice;
  v.onerror=()=>languageStatus(learningLabel('Motorul vocal nu poate reda acest text.','The voice engine cannot play this text.'));
  window.speechSynthesis.cancel();window.speechSynthesis.speak(v);
 }
@@ -14567,6 +14574,7 @@ function languageOpen(stage){
   });
   if(stage==='topics'){
    const shortcuts=document.createElement('div');shortcuts.className='foreign-topic-shortcuts';
+   shortcuts.append(foreignStudyButton(learningLabel('📚 Dicționar · conjugări · ghid · audio','📚 Dictionary · conjugations · guide · audio'),()=>languageResourcesOpen(),'primary-btn foreign-resources-open'));
    const saved=languageLastLesson();
    if(saved&&saved.language===languageJourney.language&&(saved.variant||null)===(languageJourney.variant||null)&&saved.level===languageJourney.level){
     const lastTopic=FOREIGN_TOPIC_DATA.find(x=>x.id===saved.topic);
@@ -14624,6 +14632,7 @@ function languageOpen(stage){
     foreignStudyButton(learningLabel('Următorul →','Next →'),()=>languageSetCard(languageJourney.cardIndex+1),'secondary-btn foreign-card-next'));
    panel.append(nav);
   }
+  panel.append(foreignStudyButton(learningLabel('📚 Dicționar · conjugări · ghid · audio','📚 Dictionary · conjugations · guide · audio'),()=>languageResourcesOpen(languageJourney.topic==='grammar'?'grammar':languageJourney.topic==='listening'?'audio':languageJourney.topic==='conversation'?'guide':'dictionary'),'secondary-btn foreign-resources-open'));
   const more=document.createElement('details');more.className='foreign-more-activities';
   const summary=document.createElement('summary');summary.textContent=learningLabel('Alte activități · ascultare, evaluare, recapitulare','More activities · listening, assessment, review');more.append(summary);
   const modes=document.createElement('div');modes.className='foreign-more-buttons';
@@ -16067,6 +16076,7 @@ function litWorkspace(panel){
 
 ${LITERATURE_TASK_UI_SCRIPT}
 ${EDUCATION_EXERCISE_TUTOR_SCRIPT}
+${FOREIGN_LANGUAGE_RESOURCES_SCRIPT}
 ${EDUCATION_INPUT_TOOLS_SCRIPT}
 ${EDUCATION_NATIONAL_SUBJECT_PACKS_SCRIPT}
 ${MATH_NATIONAL_PACKS_SCRIPT}

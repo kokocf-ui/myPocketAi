@@ -1,0 +1,194 @@
+{
+  "schema": "mypocket-language-resources/v1",
+  "key": "nl",
+  "version": "3e61b3844204a5a1bffdc698874ae5c444a14e5f6e4b476edc7db89bed03ef76",
+  "language": "nl",
+  "variant": "standard",
+  "sourceLanguage": "ro",
+  "level": "A1",
+  "locale": "nl-NL",
+  "pronunciationNote": "IPA largă pentru exemplele marcate IPA; celelalte exemple sunt transliterări etichetate separat. Pronunția variază după regiune și context.",
+  "scopeNote": "Resursă introductivă originală, nu dicționar exhaustiv și nu curs complet A1–C2. Explicațiile sunt sursă unică; motorul comun traduce explicațiile, nu formele de învățat.",
+  "provenance": [
+    "Conținut introductiv original al proiectului: lexic, expresii practice și explicații gramaticale. Nu este o copie a unui dicționar sau manual publicat.",
+    "Cadru general CEFR: https://www.coe.int/en/web/common-european-framework-reference-languages"
+  ],
+  "dictionary": [
+    {
+      "id": "word-0",
+      "term": "huis",
+      "phonetic": "/ɦœy̯s/",
+      "gloss": "casă",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "ipa"
+    },
+    {
+      "id": "word-1",
+      "term": "boek",
+      "phonetic": "/buk/",
+      "gloss": "carte",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "ipa"
+    },
+    {
+      "id": "word-2",
+      "term": "dag",
+      "phonetic": "/dɑx/",
+      "gloss": "zi",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "ipa"
+    },
+    {
+      "id": "word-3",
+      "term": "nacht",
+      "phonetic": "/nɑxt/",
+      "gloss": "noapte",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "ipa"
+    },
+    {
+      "id": "word-4",
+      "term": "vriend",
+      "phonetic": "/vrint/",
+      "gloss": "prieten",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "ipa"
+    },
+    {
+      "id": "word-5",
+      "term": "familie",
+      "phonetic": "/faˈmili/",
+      "gloss": "familie",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "ipa"
+    },
+    {
+      "id": "word-6",
+      "term": "stad",
+      "phonetic": "/stɑt/",
+      "gloss": "oraș",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "ipa"
+    },
+    {
+      "id": "word-7",
+      "term": "tijd",
+      "phonetic": "/tɛi̯t/",
+      "gloss": "timp",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "ipa"
+    },
+    {
+      "id": "entry-10",
+      "term": "Ik wil graag water, alstublieft.",
+      "phonetic": "/ɪk ʋɪl ɣraːx ˈʋaːtər ɑlstyˈblift/",
+      "gloss": "Aș dori apă, vă rog.",
+      "glossLanguage": "ro",
+      "category": "restaurant",
+      "notation": "ipa"
+    },
+    {
+      "id": "entry-11",
+      "term": "Ik heb hulp nodig.",
+      "phonetic": "/ɪk ɦɛp ɦʏlp ˈnoːdəx/",
+      "gloss": "Am nevoie de ajutor.",
+      "glossLanguage": "ro",
+      "category": "help",
+      "notation": "ipa"
+    },
+    {
+      "id": "entry-12",
+      "term": "Kunt u dat langzamer herhalen?",
+      "phonetic": "/kʏnt y dɑt ˈlɑŋzaːmər ɦɛrˈɦaːlən/",
+      "gloss": "Puteți repeta mai rar?",
+      "glossLanguage": "ro",
+      "category": "help",
+      "notation": "ipa"
+    },
+    {
+      "id": "travel",
+      "term": "Eén kaartje, alstublieft.",
+      "phonetic": "/eːn ˈkaːrtjə ɑlstyˈblift/",
+      "gloss": "Un bilet, vă rog.",
+      "glossLanguage": "ro",
+      "category": "directions",
+      "notation": "ipa"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "grammar-0",
+      "title": "zijn",
+      "explanation": "Prezentul verbului zijn este neregulat. Jij bent este ordinea afirmativă; în întrebarea ben jij? dispare terminația -t. Pronumele u poate apărea cu bent sau is.",
+      "sourceLanguage": "ro",
+      "forms": [
+        {
+          "person": "ik",
+          "form": "ben"
+        },
+        {
+          "person": "jij / je",
+          "form": "bent"
+        },
+        {
+          "person": "hij / zij / het",
+          "form": "is"
+        },
+        {
+          "person": "wij",
+          "form": "zijn"
+        },
+        {
+          "person": "jullie",
+          "form": "zijn"
+        },
+        {
+          "person": "zij (plural)",
+          "form": "zijn"
+        }
+      ],
+      "task": {
+        "prompt": "Ik ___ student.",
+        "answers": [
+          "ben"
+        ],
+        "feedback": "Compară persoana, timpul și forma din tabel. Păstrează accentele și diacriticele."
+      }
+    }
+  ],
+  "guide": [
+    {
+      "id": "directions",
+      "title": "Bilete și transport",
+      "note": "",
+      "entryIds": [
+        "travel"
+      ]
+    },
+    {
+      "id": "restaurant",
+      "title": "La masă",
+      "note": "",
+      "entryIds": [
+        "entry-10"
+      ]
+    },
+    {
+      "id": "help",
+      "title": "Ajutor și clarificări",
+      "note": "Formule de comunicare, nu înlocuitor pentru serviciile de urgență.",
+      "entryIds": [
+        "entry-11",
+        "entry-12"
+      ]
+    }
+  ]
+}

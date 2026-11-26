@@ -11,9 +11,12 @@ import {EDUCATION_EUROPE_COUNTRIES} from '../education_all_country_subject_matri
 import {educationValidateStudyPack} from '../education_study_pack_loader.mjs';
 import {scienceValidateSharedPack} from '../science_shared_pack_loader.mjs';
 import {literatureLoadAuthoredYear,literatureLoadNationalYear} from '../literature_authored_pack_loader.mjs';
+import {foreignValidateResource,foreignResourceKey} from '../foreign_language_resource_loader.mjs';
+import {FOREIGN_LANGUAGES} from '../foreign_languages_curriculum.mjs';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const source=path.join(root,'public'),dest=path.join(root,'.education-pack-assets');
 const patterns=[
+ {dir:'education/languages/resources-v1',pattern:/^[a-z]{2}(?:-[A-Za-z]+)?\.json$/,kind:'language'},
  {dir:'education/study-v1',pattern:/^(math|physics|chemistry|biology)\.json$/,kind:'study'},
  {dir:'packs',pattern:/^p-[0-9a-f]{24}\.json$/,kind:'year'},
  {dir:'education/literature/profiles',pattern:/^[A-Z-]+\.json$/,kind:'profile'},
@@ -78,6 +81,10 @@ for(const {dir,pattern,kind} of patterns){
   else if(kind==='review')valid=data.schema==='mypocket-science-review/v1'&&data.country==='RO'&&data.language==='ro'&&Array.isArray(data.lessons)&&data.lessons.length>0&&data.version===digest(data.lessons);
   else if(kind==='math')valid=data.schema==='mypocket-math-supplements/v1'&&data.country===name&&data.banks&&
     ['bulk','second','final'].every(k=>data.banks[k]&&typeof data.banks[k]==='object'&&!Array.isArray(data.banks[k]))&&data.version===digest(data.banks);
+  else if(kind==='language'){
+   const {schema,key,version,...payload}=data;
+   valid=foreignValidateResource(data,name)&&version===digest(payload);
+  }
   else if(kind==='study'){
    const {schema,subject,version,...payload}=data;
    valid=educationValidateStudyPack(data,name)&&version===digest(payload);
@@ -98,4 +105,10 @@ for(const country of EDUCATION_EUROPE_COUNTRIES){
 }
 for(const file of [...['math','physics','chemistry','biology'].map(s=>'education/study-v1/'+s+'.json'),'education/literature/profiles/OTHER-EU.json','education/literature/authored/FR/CP.json',...['1','2','3','4'].map(g=>'education/literature/authored/HU/'+g+'.json'),...['physics','chemistry','biology','astronomy'].map(s=>'education/science/shared-v2/'+s+'.json')])
  await readFile(path.join(dest,file)).catch(()=>{throw Error('Missing '+file)});
+
+for(const language of FOREIGN_LANGUAGES)for(const variant of language.variants.length?language.variants:['standard']){
+ const file='education/languages/resources-v1/'+foreignResourceKey(language.id,variant)+'.json';
+ await readFile(path.join(dest,file)).catch(()=>{throw Error('Missing '+file)});
+}
+
 console.log(`Staged ${files} validated Education assets (${bytes} bytes). No frontend or backend deployment performed.`);

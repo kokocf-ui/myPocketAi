@@ -1,0 +1,233 @@
+{
+  "schema": "mypocket-language-resources/v1",
+  "key": "en-US",
+  "version": "1b932630076957c6a3581d10fa98d7578e3a5ae7861112960ed27b0abad3c6f9",
+  "language": "en",
+  "variant": "US",
+  "sourceLanguage": "ro",
+  "level": "A1",
+  "locale": "en-US",
+  "pronunciationNote": "IPA largă pentru exemplele marcate IPA; celelalte exemple sunt transliterări etichetate separat. Pronunția variază după regiune și context.",
+  "scopeNote": "Resursă introductivă originală, nu dicționar exhaustiv și nu curs complet A1–C2. Explicațiile sunt sursă unică; motorul comun traduce explicațiile, nu formele de învățat.",
+  "provenance": [
+    "Conținut introductiv original al proiectului: lexic, expresii practice și explicații gramaticale. Nu este o copie a unui dicționar sau manual publicat.",
+    "Cadru general CEFR: https://www.coe.int/en/web/common-european-framework-reference-languages"
+  ],
+  "dictionary": [
+    {
+      "id": "word-0",
+      "term": "house",
+      "phonetic": "/haʊs/",
+      "gloss": "casă",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "ipa"
+    },
+    {
+      "id": "word-1",
+      "term": "book",
+      "phonetic": "/bʊk/",
+      "gloss": "carte",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "ipa"
+    },
+    {
+      "id": "word-2",
+      "term": "day",
+      "phonetic": "/deɪ/",
+      "gloss": "zi",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "ipa"
+    },
+    {
+      "id": "word-3",
+      "term": "night",
+      "phonetic": "/naɪt/",
+      "gloss": "noapte",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "ipa"
+    },
+    {
+      "id": "word-4",
+      "term": "friend",
+      "phonetic": "/frend/",
+      "gloss": "prieten",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "ipa"
+    },
+    {
+      "id": "word-5",
+      "term": "family",
+      "phonetic": "/ˈfæməli/",
+      "gloss": "familie",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "ipa"
+    },
+    {
+      "id": "word-6",
+      "term": "city",
+      "phonetic": "/ˈsɪti/",
+      "gloss": "oraș",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "ipa"
+    },
+    {
+      "id": "word-7",
+      "term": "time",
+      "phonetic": "/taɪm/",
+      "gloss": "timp",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "ipa"
+    },
+    {
+      "id": "entry-6",
+      "term": "I would like some water, please.",
+      "phonetic": "/aɪ wʊd laɪk səm ˈwɔtər pliːz/",
+      "gloss": "Aș dori apă, vă rog.",
+      "glossLanguage": "ro",
+      "category": "restaurant",
+      "notation": "ipa"
+    },
+    {
+      "id": "entry-7",
+      "term": "I need help.",
+      "phonetic": "/aɪ niːd help/",
+      "gloss": "Am nevoie de ajutor.",
+      "glossLanguage": "ro",
+      "category": "help",
+      "notation": "ipa"
+    },
+    {
+      "id": "entry-8",
+      "term": "Could you repeat more slowly?",
+      "phonetic": "/kʊd juː rɪˈpiːt mɔr ˈsloʊli/",
+      "gloss": "Puteți repeta mai rar?",
+      "glossLanguage": "ro",
+      "category": "help",
+      "notation": "ipa"
+    },
+    {
+      "id": "travel",
+      "term": "One ticket, please.",
+      "phonetic": "/wʌn ˈtɪkɪt pliːz/",
+      "gloss": "Un bilet, vă rog.",
+      "glossLanguage": "ro",
+      "category": "directions",
+      "notation": "ipa"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "grammar-0",
+      "title": "be",
+      "explanation": "Prezent simplu. Folosește am cu I, is cu he/she/it și are cu you/we/they. Pentru negație adaugă not; la întrebare inversează verbul și subiectul: Are you ready?",
+      "sourceLanguage": "ro",
+      "forms": [
+        {
+          "person": "I",
+          "form": "am"
+        },
+        {
+          "person": "you",
+          "form": "are"
+        },
+        {
+          "person": "he / she / it",
+          "form": "is"
+        },
+        {
+          "person": "we",
+          "form": "are"
+        },
+        {
+          "person": "you (plural)",
+          "form": "are"
+        },
+        {
+          "person": "they",
+          "form": "are"
+        }
+      ],
+      "task": {
+        "prompt": "She ___ a student.",
+        "answers": [
+          "is"
+        ],
+        "feedback": "Compară persoana, timpul și forma din tabel. Păstrează accentele și diacriticele."
+      }
+    },
+    {
+      "id": "grammar-1",
+      "title": "learn",
+      "explanation": "Prezent simplu afirmativ: persoana a III-a singular adaugă -s. După does/does not revii la learn, nu learns.",
+      "sourceLanguage": "ro",
+      "forms": [
+        {
+          "person": "I",
+          "form": "learn"
+        },
+        {
+          "person": "you",
+          "form": "learn"
+        },
+        {
+          "person": "he / she / it",
+          "form": "learns"
+        },
+        {
+          "person": "we",
+          "form": "learn"
+        },
+        {
+          "person": "you (plural)",
+          "form": "learn"
+        },
+        {
+          "person": "they",
+          "form": "learn"
+        }
+      ],
+      "task": {
+        "prompt": "He ___ English.",
+        "answers": [
+          "learns"
+        ],
+        "feedback": "Compară persoana, timpul și forma din tabel. Păstrează accentele și diacriticele."
+      }
+    }
+  ],
+  "guide": [
+    {
+      "id": "directions",
+      "title": "Bilete și transport",
+      "note": "",
+      "entryIds": [
+        "travel"
+      ]
+    },
+    {
+      "id": "restaurant",
+      "title": "La masă",
+      "note": "",
+      "entryIds": [
+        "entry-6"
+      ]
+    },
+    {
+      "id": "help",
+      "title": "Ajutor și clarificări",
+      "note": "Formule de comunicare, nu înlocuitor pentru serviciile de urgență.",
+      "entryIds": [
+        "entry-7",
+        "entry-8"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,233 @@
+{
+  "schema": "mypocket-language-resources/v1",
+  "key": "pt",
+  "version": "b5241f39b4e730a260a7e83bf32bf5b427d21f1468e543a822010433170407b8",
+  "language": "pt",
+  "variant": "standard",
+  "sourceLanguage": "ro",
+  "level": "A1",
+  "locale": "pt-PT",
+  "pronunciationNote": "IPA largă pentru exemplele marcate IPA; celelalte exemple sunt transliterări etichetate separat. Pronunția variază după regiune și context.",
+  "scopeNote": "Resursă introductivă originală, nu dicționar exhaustiv și nu curs complet A1–C2. Explicațiile sunt sursă unică; motorul comun traduce explicațiile, nu formele de învățat.",
+  "provenance": [
+    "Conținut introductiv original al proiectului: lexic, expresii practice și explicații gramaticale. Nu este o copie a unui dicționar sau manual publicat.",
+    "Cadru general CEFR: https://www.coe.int/en/web/common-european-framework-reference-languages"
+  ],
+  "dictionary": [
+    {
+      "id": "word-0",
+      "term": "casa",
+      "phonetic": "/ˈkazɐ/",
+      "gloss": "casă",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "ipa"
+    },
+    {
+      "id": "word-1",
+      "term": "livro",
+      "phonetic": "/ˈlivɾu/",
+      "gloss": "carte",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "ipa"
+    },
+    {
+      "id": "word-2",
+      "term": "dia",
+      "phonetic": "/ˈdiɐ/",
+      "gloss": "zi",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "ipa"
+    },
+    {
+      "id": "word-3",
+      "term": "noite",
+      "phonetic": "/ˈnojtɨ/",
+      "gloss": "noapte",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "ipa"
+    },
+    {
+      "id": "word-4",
+      "term": "amigo",
+      "phonetic": "/ɐˈmiɡu/",
+      "gloss": "prieten",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "ipa"
+    },
+    {
+      "id": "word-5",
+      "term": "família",
+      "phonetic": "/fɐˈmiliɐ/",
+      "gloss": "familie",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "ipa"
+    },
+    {
+      "id": "word-6",
+      "term": "cidade",
+      "phonetic": "/siˈðaðɨ/",
+      "gloss": "oraș",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "ipa"
+    },
+    {
+      "id": "word-7",
+      "term": "tempo",
+      "phonetic": "/ˈtẽpu/",
+      "gloss": "timp",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "ipa"
+    },
+    {
+      "id": "entry-10",
+      "term": "Queria água, por favor.",
+      "phonetic": "/kɨˈɾiɐ ˈaɡwɐ puɾ fɐˈvoɾ/",
+      "gloss": "Aș dori apă, vă rog.",
+      "glossLanguage": "ro",
+      "category": "restaurant",
+      "notation": "ipa"
+    },
+    {
+      "id": "entry-11",
+      "term": "Preciso de ajuda.",
+      "phonetic": "/pɾɨˈsizu dɨ ɐˈʒudɐ/",
+      "gloss": "Am nevoie de ajutor.",
+      "glossLanguage": "ro",
+      "category": "help",
+      "notation": "ipa"
+    },
+    {
+      "id": "entry-12",
+      "term": "Pode repetir mais devagar?",
+      "phonetic": "/ˈpɔðɨ ʁɨpɨˈtiɾ majʒ dɨvɐˈɡaɾ/",
+      "gloss": "Puteți repeta mai rar?",
+      "glossLanguage": "ro",
+      "category": "help",
+      "notation": "ipa"
+    },
+    {
+      "id": "travel",
+      "term": "Um bilhete, por favor.",
+      "phonetic": "/ũ biˈʎetɨ puɾ fɐˈvoɾ/",
+      "gloss": "Un bilet, vă rog.",
+      "glossLanguage": "ro",
+      "category": "directions",
+      "notation": "ipa"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "grammar-0",
+      "title": "ser",
+      "explanation": "Prezent indicativ în portugheza europeană. Ser exprimă aici identitatea. Você și vocês iau formele persoanei a III-a; vós este rar în conversația curentă, dar este inclus în tabelul gramatical.",
+      "sourceLanguage": "ro",
+      "forms": [
+        {
+          "person": "eu",
+          "form": "sou"
+        },
+        {
+          "person": "tu",
+          "form": "és"
+        },
+        {
+          "person": "ele / ela / você",
+          "form": "é"
+        },
+        {
+          "person": "nós",
+          "form": "somos"
+        },
+        {
+          "person": "vós",
+          "form": "sois"
+        },
+        {
+          "person": "eles / elas / vocês",
+          "form": "são"
+        }
+      ],
+      "task": {
+        "prompt": "Nós ___ estudantes.",
+        "answers": [
+          "somos"
+        ],
+        "feedback": "Compară persoana, timpul și forma din tabel. Păstrează accentele și diacriticele."
+      }
+    },
+    {
+      "id": "grammar-1",
+      "title": "falar",
+      "explanation": "Prezent regulat în -ar: fal- primește -o, -as, -a, -amos, -ais, -am. În portugheza europeană tu și você folosesc forme diferite.",
+      "sourceLanguage": "ro",
+      "forms": [
+        {
+          "person": "eu",
+          "form": "falo"
+        },
+        {
+          "person": "tu",
+          "form": "falas"
+        },
+        {
+          "person": "ele / ela / você",
+          "form": "fala"
+        },
+        {
+          "person": "nós",
+          "form": "falamos"
+        },
+        {
+          "person": "vós",
+          "form": "falais"
+        },
+        {
+          "person": "eles / vocês",
+          "form": "falam"
+        }
+      ],
+      "task": {
+        "prompt": "Eu ___ português.",
+        "answers": [
+          "falo"
+        ],
+        "feedback": "Compară persoana, timpul și forma din tabel. Păstrează accentele și diacriticele."
+      }
+    }
+  ],
+  "guide": [
+    {
+      "id": "directions",
+      "title": "Bilete și transport",
+      "note": "",
+      "entryIds": [
+        "travel"
+      ]
+    },
+    {
+      "id": "restaurant",
+      "title": "La masă",
+      "note": "",
+      "entryIds": [
+        "entry-10"
+      ]
+    },
+    {
+      "id": "help",
+      "title": "Ajutor și clarificări",
+      "note": "Formule de comunicare, nu înlocuitor pentru serviciile de urgență.",
+      "entryIds": [
+        "entry-11",
+        "entry-12"
+      ]
+    }
+  ]
+}

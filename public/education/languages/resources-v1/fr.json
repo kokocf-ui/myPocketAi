@@ -1,0 +1,233 @@
+{
+  "schema": "mypocket-language-resources/v1",
+  "key": "fr",
+  "version": "738257bc19a53164eb73f95fd4f86682a962c984f431bc8218d557596890ed42",
+  "language": "fr",
+  "variant": "standard",
+  "sourceLanguage": "ro",
+  "level": "A1",
+  "locale": "fr-FR",
+  "pronunciationNote": "IPA largă pentru exemplele marcate IPA; celelalte exemple sunt transliterări etichetate separat. Pronunția variază după regiune și context.",
+  "scopeNote": "Resursă introductivă originală, nu dicționar exhaustiv și nu curs complet A1–C2. Explicațiile sunt sursă unică; motorul comun traduce explicațiile, nu formele de învățat.",
+  "provenance": [
+    "Conținut introductiv original al proiectului: lexic, expresii practice și explicații gramaticale. Nu este o copie a unui dicționar sau manual publicat.",
+    "Cadru general CEFR: https://www.coe.int/en/web/common-european-framework-reference-languages"
+  ],
+  "dictionary": [
+    {
+      "id": "word-0",
+      "term": "maison",
+      "phonetic": "/mɛzɔ̃/",
+      "gloss": "casă",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "ipa"
+    },
+    {
+      "id": "word-1",
+      "term": "livre",
+      "phonetic": "/livʁ/",
+      "gloss": "carte",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "ipa"
+    },
+    {
+      "id": "word-2",
+      "term": "jour",
+      "phonetic": "/ʒuʁ/",
+      "gloss": "zi",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "ipa"
+    },
+    {
+      "id": "word-3",
+      "term": "nuit",
+      "phonetic": "/nɥi/",
+      "gloss": "noapte",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "ipa"
+    },
+    {
+      "id": "word-4",
+      "term": "ami",
+      "phonetic": "/ami/",
+      "gloss": "prieten",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "ipa"
+    },
+    {
+      "id": "word-5",
+      "term": "famille",
+      "phonetic": "/famij/",
+      "gloss": "familie",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "ipa"
+    },
+    {
+      "id": "word-6",
+      "term": "ville",
+      "phonetic": "/vil/",
+      "gloss": "oraș",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "ipa"
+    },
+    {
+      "id": "word-7",
+      "term": "temps",
+      "phonetic": "/tɑ̃/",
+      "gloss": "timp",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "ipa"
+    },
+    {
+      "id": "entry-10",
+      "term": "Je voudrais de l’eau, s’il vous plaît.",
+      "phonetic": "/ʒə vudʁɛ də lo sil vu plɛ/",
+      "gloss": "Aș dori apă, vă rog.",
+      "glossLanguage": "ro",
+      "category": "restaurant",
+      "notation": "ipa"
+    },
+    {
+      "id": "entry-11",
+      "term": "J’ai besoin d’aide.",
+      "phonetic": "/ʒe bəzwɛ̃ dɛd/",
+      "gloss": "Am nevoie de ajutor.",
+      "glossLanguage": "ro",
+      "category": "help",
+      "notation": "ipa"
+    },
+    {
+      "id": "entry-12",
+      "term": "Pouvez-vous répéter plus lentement ?",
+      "phonetic": "/puve vu ʁepete ply lɑ̃tmɑ̃/",
+      "gloss": "Puteți repeta mai rar?",
+      "glossLanguage": "ro",
+      "category": "help",
+      "notation": "ipa"
+    },
+    {
+      "id": "travel",
+      "term": "Un billet, s’il vous plaît.",
+      "phonetic": "/œ̃ bijɛ sil vu plɛ/",
+      "gloss": "Un bilet, vă rog.",
+      "glossLanguage": "ro",
+      "category": "directions",
+      "notation": "ipa"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "grammar-0",
+      "title": "être",
+      "explanation": "Prezent indicativ. Verbul être este neregulat. Pronumele subiect se exprimă de regulă. Forma vous este și plural, și adresare politicoasă unei persoane.",
+      "sourceLanguage": "ro",
+      "forms": [
+        {
+          "person": "je",
+          "form": "suis"
+        },
+        {
+          "person": "tu",
+          "form": "es"
+        },
+        {
+          "person": "il / elle / on",
+          "form": "est"
+        },
+        {
+          "person": "nous",
+          "form": "sommes"
+        },
+        {
+          "person": "vous",
+          "form": "êtes"
+        },
+        {
+          "person": "ils / elles",
+          "form": "sont"
+        }
+      ],
+      "task": {
+        "prompt": "Nous ___ à la gare.",
+        "answers": [
+          "sommes"
+        ],
+        "feedback": "Compară persoana, timpul și forma din tabel. Păstrează accentele și diacriticele."
+      }
+    },
+    {
+      "id": "grammar-1",
+      "title": "parler",
+      "explanation": "Prezentul verbelor regulate în -er: elimină -er și adaugă -e, -es, -e, -ons, -ez, -ent. În j', apostroful ține locul vocalei elidate înaintea unui sunet vocalic, nu înaintea lui parle.",
+      "sourceLanguage": "ro",
+      "forms": [
+        {
+          "person": "je",
+          "form": "parle"
+        },
+        {
+          "person": "tu",
+          "form": "parles"
+        },
+        {
+          "person": "il / elle",
+          "form": "parle"
+        },
+        {
+          "person": "nous",
+          "form": "parlons"
+        },
+        {
+          "person": "vous",
+          "form": "parlez"
+        },
+        {
+          "person": "ils / elles",
+          "form": "parlent"
+        }
+      ],
+      "task": {
+        "prompt": "Vous ___ français.",
+        "answers": [
+          "parlez"
+        ],
+        "feedback": "Compară persoana, timpul și forma din tabel. Păstrează accentele și diacriticele."
+      }
+    }
+  ],
+  "guide": [
+    {
+      "id": "directions",
+      "title": "Bilete și transport",
+      "note": "",
+      "entryIds": [
+        "travel"
+      ]
+    },
+    {
+      "id": "restaurant",
+      "title": "La masă",
+      "note": "",
+      "entryIds": [
+        "entry-10"
+      ]
+    },
+    {
+      "id": "help",
+      "title": "Ajutor și clarificări",
+      "note": "Formule de comunicare, nu înlocuitor pentru serviciile de urgență.",
+      "entryIds": [
+        "entry-11",
+        "entry-12"
+      ]
+    }
+  ]
+}

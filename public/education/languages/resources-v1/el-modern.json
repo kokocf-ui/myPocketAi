@@ -1,0 +1,194 @@
+{
+  "schema": "mypocket-language-resources/v1",
+  "key": "el-modern",
+  "version": "08386847401057ec429cc7bf434adac7da70c8e6fe2fa85ad3156128e2b7b8f3",
+  "language": "el",
+  "variant": "modern",
+  "sourceLanguage": "ro",
+  "level": "A1",
+  "locale": "el-GR",
+  "pronunciationNote": "IPA largă pentru exemplele marcate IPA; celelalte exemple sunt transliterări etichetate separat. Pronunția variază după regiune și context.",
+  "scopeNote": "Resursă introductivă originală, nu dicționar exhaustiv și nu curs complet A1–C2. Explicațiile sunt sursă unică; motorul comun traduce explicațiile, nu formele de învățat.",
+  "provenance": [
+    "Conținut introductiv original al proiectului: lexic, expresii practice și explicații gramaticale. Nu este o copie a unui dicționar sau manual publicat.",
+    "Cadru general CEFR: https://www.coe.int/en/web/common-european-framework-reference-languages"
+  ],
+  "dictionary": [
+    {
+      "id": "word-0",
+      "term": "σπίτι",
+      "phonetic": "/ˈspiti/",
+      "gloss": "casă",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "ipa"
+    },
+    {
+      "id": "word-1",
+      "term": "βιβλίο",
+      "phonetic": "/viˈvlio/",
+      "gloss": "carte",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "ipa"
+    },
+    {
+      "id": "word-2",
+      "term": "μέρα",
+      "phonetic": "/ˈmera/",
+      "gloss": "zi",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "ipa"
+    },
+    {
+      "id": "word-3",
+      "term": "νύχτα",
+      "phonetic": "/ˈnixta/",
+      "gloss": "noapte",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "ipa"
+    },
+    {
+      "id": "word-4",
+      "term": "φίλος",
+      "phonetic": "/ˈfilos/",
+      "gloss": "prieten",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "ipa"
+    },
+    {
+      "id": "word-5",
+      "term": "οικογένεια",
+      "phonetic": "/ikoˈʝenia/",
+      "gloss": "familie",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "ipa"
+    },
+    {
+      "id": "word-6",
+      "term": "πόλη",
+      "phonetic": "/ˈpoli/",
+      "gloss": "oraș",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "ipa"
+    },
+    {
+      "id": "word-7",
+      "term": "χρόνος",
+      "phonetic": "/ˈxronos/",
+      "gloss": "timp",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "ipa"
+    },
+    {
+      "id": "entry-10",
+      "term": "Θα ήθελα νερό, παρακαλώ.",
+      "phonetic": "/θa ˈiθela neˈro parakaˈlo/",
+      "gloss": "Aș dori apă, vă rog.",
+      "glossLanguage": "ro",
+      "category": "restaurant",
+      "notation": "ipa"
+    },
+    {
+      "id": "entry-11",
+      "term": "Χρειάζομαι βοήθεια.",
+      "phonetic": "/xriˈazome voˈiθia/",
+      "gloss": "Am nevoie de ajutor.",
+      "glossLanguage": "ro",
+      "category": "help",
+      "notation": "ipa"
+    },
+    {
+      "id": "entry-12",
+      "term": "Μπορείτε να επαναλάβετε πιο αργά;",
+      "phonetic": "/boˈrite na epanaˈlavete pço arˈɣa/",
+      "gloss": "Puteți repeta mai rar?",
+      "glossLanguage": "ro",
+      "category": "help",
+      "notation": "ipa"
+    },
+    {
+      "id": "travel",
+      "term": "Ένα εισιτήριο, παρακαλώ.",
+      "phonetic": "/ˈena isiˈtirio parakaˈlo/",
+      "gloss": "Un bilet, vă rog.",
+      "glossLanguage": "ro",
+      "category": "directions",
+      "notation": "ipa"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "grammar-0",
+      "title": "είμαι",
+      "explanation": "Prezentul verbului είμαι. Pronumele subiect poate lipsi. Formele είμαστε și είσαστε / είστε sunt folosite la plural; aici învățăm forma είστε pentru persoana a II-a plural.",
+      "sourceLanguage": "ro",
+      "forms": [
+        {
+          "person": "εγώ",
+          "form": "είμαι"
+        },
+        {
+          "person": "εσύ",
+          "form": "είσαι"
+        },
+        {
+          "person": "αυτός / αυτή / αυτό",
+          "form": "είναι"
+        },
+        {
+          "person": "εμείς",
+          "form": "είμαστε"
+        },
+        {
+          "person": "εσείς",
+          "form": "είστε"
+        },
+        {
+          "person": "αυτοί / αυτές / αυτά",
+          "form": "είναι"
+        }
+      ],
+      "task": {
+        "prompt": "Εμείς ___ εδώ.",
+        "answers": [
+          "είμαστε"
+        ],
+        "feedback": "Compară persoana, timpul și forma din tabel. Păstrează accentele și diacriticele."
+      }
+    }
+  ],
+  "guide": [
+    {
+      "id": "directions",
+      "title": "Bilete și transport",
+      "note": "",
+      "entryIds": [
+        "travel"
+      ]
+    },
+    {
+      "id": "restaurant",
+      "title": "La masă",
+      "note": "",
+      "entryIds": [
+        "entry-10"
+      ]
+    },
+    {
+      "id": "help",
+      "title": "Ajutor și clarificări",
+      "note": "Formule de comunicare, nu înlocuitor pentru serviciile de urgență.",
+      "entryIds": [
+        "entry-11",
+        "entry-12"
+      ]
+    }
+  ]
+}

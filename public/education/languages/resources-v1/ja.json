@@ -1,0 +1,186 @@
+{
+  "schema": "mypocket-language-resources/v1",
+  "key": "ja",
+  "version": "b93669db405891eac90a0dd005bdc278e6d93f74b46ae8c2191d368122a99466",
+  "language": "ja",
+  "variant": "standard",
+  "sourceLanguage": "ro",
+  "level": "A1",
+  "locale": "ja-JP",
+  "pronunciationNote": "Rōmaji este transliterare, nu IPA; nu reprezintă complet accentul muzical japonez.",
+  "scopeNote": "Resursă introductivă originală, nu dicționar exhaustiv și nu curs complet A1–C2. Explicațiile sunt sursă unică; motorul comun traduce explicațiile, nu formele de învățat.",
+  "provenance": [
+    "Conținut introductiv original al proiectului: lexic, expresii practice și explicații gramaticale. Nu este o copie a unui dicționar sau manual publicat.",
+    "Cadru general CEFR: https://www.coe.int/en/web/common-european-framework-reference-languages"
+  ],
+  "dictionary": [
+    {
+      "id": "word-0",
+      "term": "家",
+      "phonetic": "ie",
+      "gloss": "casă",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "romaji"
+    },
+    {
+      "id": "word-1",
+      "term": "本",
+      "phonetic": "hon",
+      "gloss": "carte",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "romaji"
+    },
+    {
+      "id": "word-2",
+      "term": "日",
+      "phonetic": "hi",
+      "gloss": "zi",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "romaji"
+    },
+    {
+      "id": "word-3",
+      "term": "夜",
+      "phonetic": "yoru",
+      "gloss": "noapte",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "romaji"
+    },
+    {
+      "id": "word-4",
+      "term": "友達",
+      "phonetic": "tomodachi",
+      "gloss": "prieten",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "romaji"
+    },
+    {
+      "id": "word-5",
+      "term": "家族",
+      "phonetic": "kazoku",
+      "gloss": "familie",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "romaji"
+    },
+    {
+      "id": "word-6",
+      "term": "町",
+      "phonetic": "machi",
+      "gloss": "oraș",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "romaji"
+    },
+    {
+      "id": "word-7",
+      "term": "時間",
+      "phonetic": "jikan",
+      "gloss": "timp",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "romaji"
+    },
+    {
+      "id": "entry-10",
+      "term": "お水をお願いします。",
+      "phonetic": "omizu o onegai shimasu",
+      "gloss": "Aș dori apă, vă rog.",
+      "glossLanguage": "ro",
+      "category": "restaurant",
+      "notation": "romaji"
+    },
+    {
+      "id": "entry-11",
+      "term": "助けてください。",
+      "phonetic": "tasukete kudasai",
+      "gloss": "Vă rog să mă ajutați.",
+      "glossLanguage": "ro",
+      "category": "help",
+      "notation": "romaji"
+    },
+    {
+      "id": "entry-12",
+      "term": "もう少しゆっくり話してください。",
+      "phonetic": "mō sukoshi yukkuri hanashite kudasai",
+      "gloss": "Vă rog să vorbiți puțin mai rar.",
+      "glossLanguage": "ro",
+      "category": "help",
+      "notation": "romaji"
+    },
+    {
+      "id": "travel",
+      "term": "切符を一枚お願いします。",
+      "phonetic": "kippu o ichimai onegai shimasu",
+      "gloss": "Un bilet, vă rog.",
+      "glossLanguage": "ro",
+      "category": "directions",
+      "notation": "romaji"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "grammar-0",
+      "title": "です",
+      "explanation": "Copula politicoasă です nu se conjugă după persoană. Se schimbă în funcție de timp și polaritate. でした este trecut afirmativ; ではありません este negație politicoasă. Particula は se citește wa când marchează tema.",
+      "sourceLanguage": "ro",
+      "forms": [
+        {
+          "person": "現在・肯定",
+          "form": "です"
+        },
+        {
+          "person": "過去・肯定",
+          "form": "でした"
+        },
+        {
+          "person": "現在・否定",
+          "form": "ではありません"
+        },
+        {
+          "person": "過去・否定",
+          "form": "ではありませんでした"
+        }
+      ],
+      "task": {
+        "prompt": "私は学生___。",
+        "answers": [
+          "です"
+        ],
+        "feedback": "Compară persoana, timpul și forma din tabel. Păstrează accentele și diacriticele."
+      }
+    }
+  ],
+  "guide": [
+    {
+      "id": "directions",
+      "title": "Bilete și transport",
+      "note": "",
+      "entryIds": [
+        "travel"
+      ]
+    },
+    {
+      "id": "restaurant",
+      "title": "La masă",
+      "note": "",
+      "entryIds": [
+        "entry-10"
+      ]
+    },
+    {
+      "id": "help",
+      "title": "Ajutor și clarificări",
+      "note": "Formule de comunicare, nu înlocuitor pentru serviciile de urgență.",
+      "entryIds": [
+        "entry-11",
+        "entry-12"
+      ]
+    }
+  ]
+}

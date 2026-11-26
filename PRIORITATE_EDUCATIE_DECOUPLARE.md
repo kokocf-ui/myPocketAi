@@ -1,5 +1,12 @@
 # Prioritatea curentă: decuplare Educație și eliminarea fișelor pretraduse duplicate
 
+## Cerere ulterioară — Limbi străine, 26 noiembrie 2026
+
+Implementat incrementul cerut pentru dicționar căutabil, teme/conjugări cu exerciții și răspunsuri, transcriere etichetată, ghid practic și laborator audio (TTS + înregistrare locală opțională). Cele14limbi/19variante au19pachete statice sursă unică,100.524B în afara HTML/Worker; explicații RO și traducere explicită prin motorul comun, fără traducerea formelor țintă. Este lexic **introductiv** (12intrări/variantă modernă,8/clasică), nu dicționar exhaustiv sau curs CEFR complet. Detalii/acoperire/limite: `FOREIGN_LANGUAGES_RESOURCES_2026-11-26.md`.
+
+Testele noi, browserele producție și regresiile study/science/input PASS;102comenzi UI:100PASS/aceleași2eșecuri istorice. HTML producție actual **7.065.132B** (<8MB), Worker7.449.864B; nu măsurare de spațiu pe telefon. MicrofonChromiumsimulat, traducere/TTSsimulate; fără Android fizic/AI live, fără PR/merge/deploy/APK. Traducerea APK rămâne amânată. Conținutul nou este deja decuplat, nu extinde băncile JS; restul decuplării de mai jos rămâne nefinalizat.
+
+
 ## Continuare sigură pentru spațiu — 26 noiembrie 2026
 
 La recomandarea utilizatorului au fost decuplate încă **631 fișe originale**: Matematică RO V–VIII, completări RO Fizică/Chimie/Biologie, Biologie liceală și banca originală engleză de Fizică gimnazială. Patru pachete canonice în `public/education/study-v1/`, încărcate numai pentru țara/materia relevantă. Toate exporturile de date din cele25module migrate au fost comparate exact. Nu s-au eliminat materiale distincte ca presupuse traduceri. S-au păstrat lecțiile și metadatele, nu s-au creat noi certificări.

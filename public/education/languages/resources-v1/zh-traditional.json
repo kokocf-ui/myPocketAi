@@ -1,0 +1,186 @@
+{
+  "schema": "mypocket-language-resources/v1",
+  "key": "zh-traditional",
+  "version": "dda08263db8a1f3861e17f027a3a8e5e9dab37c018afc7f8bb20082d667cbe8c",
+  "language": "zh",
+  "variant": "traditional",
+  "sourceLanguage": "ro",
+  "level": "A1",
+  "locale": "zh-TW",
+  "pronunciationNote": "Pinyin cu tonuri, nu IPA. Semnele de ton indică pronunția lexicală; în vorbire apar schimbări de ton.",
+  "scopeNote": "Resursă introductivă originală, nu dicționar exhaustiv și nu curs complet A1–C2. Explicațiile sunt sursă unică; motorul comun traduce explicațiile, nu formele de învățat.",
+  "provenance": [
+    "Conținut introductiv original al proiectului: lexic, expresii practice și explicații gramaticale. Nu este o copie a unui dicționar sau manual publicat.",
+    "Cadru general CEFR: https://www.coe.int/en/web/common-european-framework-reference-languages"
+  ],
+  "dictionary": [
+    {
+      "id": "word-0",
+      "term": "家",
+      "phonetic": "jiā",
+      "gloss": "casă",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "pinyin"
+    },
+    {
+      "id": "word-1",
+      "term": "書",
+      "phonetic": "shū",
+      "gloss": "carte",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "pinyin"
+    },
+    {
+      "id": "word-2",
+      "term": "天",
+      "phonetic": "tiān",
+      "gloss": "zi",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "pinyin"
+    },
+    {
+      "id": "word-3",
+      "term": "夜晚",
+      "phonetic": "yèwǎn",
+      "gloss": "noapte",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "pinyin"
+    },
+    {
+      "id": "word-4",
+      "term": "朋友",
+      "phonetic": "péngyou",
+      "gloss": "prieten",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "pinyin"
+    },
+    {
+      "id": "word-5",
+      "term": "家庭",
+      "phonetic": "jiātíng",
+      "gloss": "familie",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "pinyin"
+    },
+    {
+      "id": "word-6",
+      "term": "城市",
+      "phonetic": "chéngshì",
+      "gloss": "oraș",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "pinyin"
+    },
+    {
+      "id": "word-7",
+      "term": "時間",
+      "phonetic": "shíjiān",
+      "gloss": "timp",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "pinyin"
+    },
+    {
+      "id": "entry-7",
+      "term": "請給我水。",
+      "phonetic": "qǐng gěi wǒ shuǐ",
+      "gloss": "Vă rog să-mi dați apă.",
+      "glossLanguage": "ro",
+      "category": "restaurant",
+      "notation": "pinyin"
+    },
+    {
+      "id": "entry-8",
+      "term": "我需要幫助。",
+      "phonetic": "wǒ xūyào bāngzhù",
+      "gloss": "Am nevoie de ajutor.",
+      "glossLanguage": "ro",
+      "category": "help",
+      "notation": "pinyin"
+    },
+    {
+      "id": "entry-9",
+      "term": "請說慢一點。",
+      "phonetic": "qǐng shuō màn yìdiǎn",
+      "gloss": "Vă rog să vorbiți puțin mai rar.",
+      "glossLanguage": "ro",
+      "category": "help",
+      "notation": "pinyin"
+    },
+    {
+      "id": "travel",
+      "term": "請給我一張票。",
+      "phonetic": "qǐng gěi wǒ yì zhāng piào",
+      "gloss": "Un bilet, vă rog.",
+      "glossLanguage": "ro",
+      "category": "directions",
+      "notation": "pinyin"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "grammar-0",
+      "title": "是",
+      "explanation": "Mandarina nu conjugă verbul după persoană sau număr. 是 rămâne neschimbat în exemplele de identitate. Pentru negație folosește 不是; adjectivul predicativ nu cere automat 是. Tabelul ilustrează folosirea, nu o conjugare europeană.",
+      "sourceLanguage": "ro",
+      "forms": [
+        {
+          "person": "我",
+          "form": "是學生。"
+        },
+        {
+          "person": "你",
+          "form": "是學生。"
+        },
+        {
+          "person": "他 / 她",
+          "form": "是學生。"
+        },
+        {
+          "person": "我們",
+          "form": "是學生。"
+        }
+      ],
+      "task": {
+        "prompt": "我___學生。",
+        "answers": [
+          "是"
+        ],
+        "feedback": "Compară persoana, timpul și forma din tabel. Păstrează accentele și diacriticele."
+      }
+    }
+  ],
+  "guide": [
+    {
+      "id": "directions",
+      "title": "Bilete și transport",
+      "note": "",
+      "entryIds": [
+        "travel"
+      ]
+    },
+    {
+      "id": "restaurant",
+      "title": "La masă",
+      "note": "",
+      "entryIds": [
+        "entry-7"
+      ]
+    },
+    {
+      "id": "help",
+      "title": "Ajutor și clarificări",
+      "note": "Formule de comunicare, nu înlocuitor pentru serviciile de urgență.",
+      "entryIds": [
+        "entry-8",
+        "entry-9"
+      ]
+    }
+  ]
+}
