@@ -51,3 +51,16 @@ Dimensiuni fără hook-uri de test: HTML brut/snapshot **6.871.477 B**, HTML pro
 Se construiește release semnat de test pe aceeași ramură, cu aceeași cheie permanentă, snapshotul nou și pachetele corespunzătoare. Fără merge/deployproducție. Joburile de semnare pentru aceste teste sunt serializate; versiunea se calculează acum peste maximul dintre stabil și APK-urile noastre de test publicate (nu repetă automat 501878). Rezultatul și linkul se completează după terminarea run-ului.
 
 **Rămân deschise:** verificarea pe telefon după instalare, traducerea APK raportată anterior, vocile/permisiunile fizice și calitatea răspunsurilor AI live. Corecția de layout nu este declarată reparare a acestor probleme.
+
+
+### APK corectiv livrat
+
+- Commit aplicație **19aafa89611470b8a999c8733f2939b073fd276a**; run **45818418399** încheiat **success**.
+- Job `signed-branch-preview` success; `apk-debug` skipped. Verificarea certificatului/identității/versiunii/snapshoturilor și publicarea au conclusion success în API-ul Actions.
+- Prerelease **education-test-45818418399**, nu latest și fără merge/deploy de producție. **versionCode 501879**, mai mare decât APK-ul anterior 501878; aceeași cheie permanentă, pentru actualizare fără dezinstalare.
+- Asset `myPocketAI-signed-education-test.apk`, **uploaded**, **77.610.304 B** (~77,6 MB).
+- Descărcare directă: https://github.com/kokocf-ui/myPocketAi/releases/download/education-test-45818418399/myPocketAI-signed-education-test.apk
+- Digest raportat de metadata GitHub: `sha256:d3fb36652847855d6fa9452f9a81d01f1e9133e631dd51bcf3373108a61a2565` (nu recalcul local al APK-ului).
+- Run: https://github.com/kokocf-ui/myPocketAi/actions/runs/45818418399
+
+Instalarea și comportamentul fizic rămân de confirmat de utilizator. Datele de mai sus provin din rezultatul CI și API-urile release/asset, nu dintr-un test pe telefon. O viitoare versiune stabilă destinată actualizării acestui test trebuie să aibă versionCode cel puțin compatibil, preferabil **peste 501879**.
