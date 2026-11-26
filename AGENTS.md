@@ -7,6 +7,35 @@
 
 ## 1. Reguli permanente de lucru cu utilizatorul
 
+**ROMЕ2RIO STUDIAT CA REPER DE CĂUTARE MULTIRAMURĂ (2026-11-26):**
+User a reiterat că sugestia Rome2Rio era să studiem cum explorează/afișează
+mai multe combinații simultan, NU doar link afiliat/alt furnizor de zboruri.
+Cercetare publică efectuată cu web_search+fetch_page, fără modificări de cod,
+fără scrape automat/integrări/cereri către furnizorii noștri/deploy/APK nou.
+Surse primare citite:
+- https://www.rome2rio.com/s/Grays/Oradea chunks0,2: pagina publică listează12
+  variante INCLUSIV mașină/tunel/feribot, nu12variantepublice și nu probădatată.
+  Exemple: trenLondonStPancras→Brussels→Liège+autocarOradea; autocarviaMaidstone
+  sauLondon; zborviaBudapest+bus; Luton→Cluj+bus; Luton→Debrecen+tren.
+  Sunt EXEMPLEATRIBUITER2R, NUorareverificatepentru04dec04:00, NUlista noastră
+  fixă de huburi/rute și NUdate autorizate automat pentru integrarea aplicației.
+- https://help.rome2rio.com/en/support/solutions/articles/22000280935-how-to-search-with-rome2rio :
+  inițial opțiuni+durate+prețuri ESTIMATE; apoi detalii/operatori/data/pasageri.
+- https://www.rome2rio.com/about/ : declară că este parteOmioGroupdin2019,
+  nu doar presupunerea unui simplu afiliat plătit. Nu am verificat contracte/API
+  disponibile nouă și nu recomand acces pe baza ofertelor vechi2014/2015.
+Nu deduce algoritmul intern/concurența HTTP/cache dintr-o pagină cu12rezultate!
+Comparare cu repo: există deja paralelism air/ground (Promise.all), dar răspunsul
+unic așteaptă rezultatul agregat și apoi prepareflight; graph colectează înainte
+compose. Progresul intern NUeste încă livrare incrementală pe ecran. Nu spune
+că avem deja comportamentRome2Rio fiindcă am paralelizat câtevaapeluri.
+Direcție de proiectare, ÎNCĂNEIMPLEMENTATĂînaceastăetapă: familii independente
+train/coach/train+coach/air+ground; explorare huburi după conectivitate nu exclusiv
+proximitate; bugete separate+concurență limitată+cache; rezultate progresive
+fără a aștepta toate sursele; estimat vsdatat vsrezervare clar separate. Reutilizează
+local la ambelecapete pentru orice familie; nu crește cereri/plăți fărăcontrol.
+CodHEADfad871c neschimbat de cercetare; prodrămânev186/APK501886; HEREOFF0/max2.
+
 **CERINȚĂ CLARIFICATĂ: LEGĂTURI LOCALE + TREN/AUTOCAR, NU AEROPORT OBLIGATORIU (2026-11-26):**
 User NU a cerut încăpublicare/nouAPK, ci lucrureal la legături existente înlocal,
 laambelecapete și pe rutier/feroviar. Nu mai prezenta UI/back/2zboruri ca rezolvare.
