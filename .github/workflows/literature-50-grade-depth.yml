@@ -91,6 +91,8 @@ jobs:
           node scripts/build_literature_national_packs.mjs --subject=math
           node tests_math_national_packs.mjs
           node scripts/build_literature_national_packs.mjs --subject=biology
+          node scripts/build_literature_national_packs.mjs --subject=physics
+          node scripts/build_literature_national_packs.mjs --subject=chemistry
           node tests_science_national_packs.mjs
           node tests_literature_national_packs.mjs
           node tests_literature_country_profiles.mjs
