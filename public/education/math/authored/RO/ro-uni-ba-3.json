@@ -1,0 +1,1146 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "RO",
+ "stage": "advanced",
+ "grade": "uni-ba-3",
+ "version": "1a335f9c4521410b3abb49b269d7dadc36d939e44601ffe8619fba5b0caa4cd0",
+ "source": "https://www.aracis.ro/standarde-specifice/",
+ "sourceTitle": "Sinteză orientativă a disciplinelor fundamentale comune programelor de licență Matematică din România (domeniul de licență Matematică, 180 ECTS), conform standardelor specifice ARACIS și planurilor de învățământ publicate de Universitatea din București (fmi.unibuc.ro), Universitatea Babeș-Bolyai (math.ubbcluj.ro) și Universitatea „Alexandru Ioan Cuza” din Iași (math.uaic.ro) — anul III: analiză complexă, teoria măsurii, analiză funcțională, topologie, ecuații cu derivate parțiale, statistică matematică, optimizare / cercetări operaționale, geometrie proiectivă și neeuclidiană, teoria numerelor; fiecare facultate are planul propriu, iar ordinea, denumirile și cursurile opționale pot diferi; lecții originale, fără text copiat din cursuri sau manuale",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "ro",
+ "labels": [
+  "Activitate originală · România · Facultatea de Matematică · Licență Matematică, anul III",
+  "Teorie pe înțeles",
+  "Exemplu",
+  "Rezolvare explicată",
+  "Exerciții",
+  "Verifică-te",
+  "Exerciții originale; nu înlocuiesc cursul, seminarul, bibliografia sau evaluarea facultății.",
+  "Dacă nu ai înțeles: pas cu pas",
+  "Răspunsuri (verifică după ce termini)"
+ ],
+ "units": [
+  {
+   "title": "Analiză complexă",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-3-l01",
+    "eu-year-ro-advanced-uni-ba-3-l02",
+    "eu-year-ro-advanced-uni-ba-3-l03",
+    "eu-year-ro-advanced-uni-ba-3-l04",
+    "eu-year-ro-advanced-uni-ba-3-l05",
+    "eu-year-ro-advanced-uni-ba-3-l06"
+   ]
+  },
+  {
+   "title": "Teoria măsurii și integrala Lebesgue",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-3-l07",
+    "eu-year-ro-advanced-uni-ba-3-l08",
+    "eu-year-ro-advanced-uni-ba-3-l09"
+   ]
+  },
+  {
+   "title": "Analiză funcțională",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-3-l10",
+    "eu-year-ro-advanced-uni-ba-3-l11",
+    "eu-year-ro-advanced-uni-ba-3-l12",
+    "eu-year-ro-advanced-uni-ba-3-l13"
+   ]
+  },
+  {
+   "title": "Topologie",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-3-l14",
+    "eu-year-ro-advanced-uni-ba-3-l15",
+    "eu-year-ro-advanced-uni-ba-3-l16"
+   ]
+  },
+  {
+   "title": "Ecuații cu derivate parțiale",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-3-l17",
+    "eu-year-ro-advanced-uni-ba-3-l18",
+    "eu-year-ro-advanced-uni-ba-3-l19",
+    "eu-year-ro-advanced-uni-ba-3-l20"
+   ]
+  },
+  {
+   "title": "Statistică matematică",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-3-l21",
+    "eu-year-ro-advanced-uni-ba-3-l22",
+    "eu-year-ro-advanced-uni-ba-3-l23",
+    "eu-year-ro-advanced-uni-ba-3-l24"
+   ]
+  },
+  {
+   "title": "Optimizare și cercetări operaționale",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-3-l25",
+    "eu-year-ro-advanced-uni-ba-3-l26",
+    "eu-year-ro-advanced-uni-ba-3-l27"
+   ]
+  },
+  {
+   "title": "Geometrie și teoria numerelor",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-3-l28",
+    "eu-year-ro-advanced-uni-ba-3-l29",
+    "eu-year-ro-advanced-uni-ba-3-l30"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-ro-advanced-uni-ba-3-l01": {
+   "ro": {
+    "title": "Funcții complexe elementare: exponențiala, logaritmul, puterile",
+    "theory": "Exponențiala complexă e^z = eˣ(cos y + i sin y) pentru z = x + iy; ea este periodică, cu perioada 2πi, și nu se anulează. Formula lui Euler: e^(iθ) = cos θ + i sin θ. Logaritmul complex este multivoc: log z = ln|z| + i(arg z + 2kπ); ramura principală Log z folosește arg z ∈ (−π, π]. Puterile z^w = e^(w log z) sunt și ele, în general, multivoce. sin z și cos z nu mai sunt mărginite în ℂ.",
+    "sample": "Din formula lui Euler, e^(iπ) = −1.",
+    "worked": "Log(−1) = ln 1 + iπ = iπ (ramura principală). i^i = e^(i·log i) = e^(i·i(π/2 + 2kπ)) = e^(−π/2 − 2kπ); valoarea principală e^(−π/2) ≈ 0,208 este un număr real. cos(i) = (e⁻¹ + e)/2 ≈ 1,543 > 1.",
+    "exercises": [
+     "Calculează e^(1 + iπ/2) în formă algebrică.",
+     "Află toate valorile lui log(1 + i).",
+     "Rezolvă în ℂ ecuația e^z = −2.",
+     "Calculează valoarea principală a lui (1 + i)^i.",
+     "Arată că |e^z| = e^(Re z)."
+    ],
+    "test": [
+     "Formula lui Euler?",
+     "Perioada lui e^z?",
+     "Log(1) pe ramura principală?",
+     "Este sin z mărginită în ℂ?",
+     "Se anulează vreodată e^z?"
+    ],
+    "steps": [
+     "Scrie z în forma algebrică sau trigonometrică.",
+     "Aplică definiția (exponențiala, logaritmul cu toate ramurile, puterea prin e^(w log z)).",
+     "Precizează ramura folosită și simplifică rezultatul.",
+     "Greșeala frecventă: să tratezi log z ca univoc și să aplici fără grijă log(zw) = log z + log w pe ramura principală."
+    ],
+    "answers": [
+     "e^(iθ) = cos θ + i sin θ",
+     "2πi",
+     "0",
+     "Nu",
+     "Nu"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l02": {
+   "ro": {
+    "title": "Funcții olomorfe; condițiile Cauchy–Riemann; funcții armonice",
+    "theory": "f = u + iv este derivabilă complex (olomorfă) pe un deschis dacă limita (f(z + h) − f(z))/h există pentru h complex → 0. Condițiile necesare (și, cu derivate parțiale continue, suficiente) sunt Cauchy–Riemann: uₓ = v_y, u_y = −vₓ. Părțile reală și imaginară ale unei funcții olomorfe sunt armonice (Δu = uₓₓ + u_yy = 0). Dată o funcție armonică u, putem găsi conjugata armonică v.",
+    "sample": "Funcția f(z) = z² = (x² − y²) + i·2xy este olomorfă: uₓ = 2x = v_y și u_y = −2y = −vₓ.",
+    "worked": "f(z) = z̄ = x − iy: uₓ = 1, v_y = −1, deci nu este olomorfă nicăieri. Pentru u = x² − y² + x (armonică: 2 − 2 = 0), din v_y = uₓ = 2x + 1 obținem v = 2xy + y + g(x); din v_x = −u_y = 2y rezultă g′ = 0. Deci f = z² + z.",
+    "exercises": [
+     "Verifică Cauchy–Riemann pentru f(z) = e^z.",
+     "Arată că f(z) = |z|² este derivabilă complex doar în 0.",
+     "Arată că u = eˣ cos y este armonică și află conjugata armonică.",
+     "Află f olomorfă cu Re f = x³ − 3xy² și f(0) = 0.",
+     "Arată că o funcție olomorfă cu partea reală constantă este constantă."
+    ],
+    "test": [
+     "Condițiile Cauchy–Riemann?",
+     "Este z̄ olomorfă?",
+     "Laplacianul unei funcții armonice?",
+     "Sunt părțile reală și imaginară ale unei funcții olomorfe armonice?",
+     "Este e^z olomorfă pe ℂ?"
+    ],
+    "steps": [
+     "Scrie f = u + iv și calculează derivatele parțiale.",
+     "Verifică uₓ = v_y și u_y = −vₓ (și continuitatea derivatelor).",
+     "Pentru conjugata armonică, integrează condițiile și determină funcția de o variabilă.",
+     "Greșeala frecventă: să crezi că orice funcție netedă de x și y este olomorfă; z̄ și |z|² sunt netede, dar nu olomorfe."
+    ],
+    "answers": [
+     "uₓ = v_y și u_y = −vₓ",
+     "Nu",
+     "0",
+     "Da",
+     "Da"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l03": {
+   "ro": {
+    "title": "Integrala complexă; teorema lui Cauchy",
+    "theory": "Integrala pe o curbă γ(t), t ∈ [a, b]: ∫_γ f(z)dz = ∫ₐᵇ f(γ(t))γ′(t)dt. Teorema lui Cauchy: dacă f este olomorfă pe un domeniu simplu conex, integrala pe orice curbă închisă din domeniu este 0; atunci integrala nu depinde de drum, iar f are primitivă. Integrala fundamentală: ∮_{|z − a| = r} (z − a)ⁿ dz = 2πi pentru n = −1 și 0 pentru orice alt n întreg.",
+    "sample": "Integrala lui 1/z pe cercul unitate parcurs o dată în sens trigonometric este 2πi.",
+    "worked": "∮_{|z| = 1} dz/z: γ = e^(it), γ′ = ie^(it), integrandul devine i dt, deci 2πi. Funcția 1/z nu este olomorfă în 0, de aceea Cauchy nu se aplică. În schimb ∮_{|z| = 1} e^z dz = 0 (e^z olomorfă pe ℂ) și ∮_{|z| = 1} dz/(z − 3) = 0 (singularitatea 3 este în afara cercului).",
+    "exercises": [
+     "Calculează ∫_γ z̄ dz pe cercul unitate.",
+     "Calculează ∫_γ z² dz pe segmentul de la 0 la 1 + i.",
+     "Calculează ∮_{|z| = 2} dz/(z − 1).",
+     "Calculează ∮_{|z| = 1} z⁻² dz.",
+     "Explică de ce ∮ dz/z ≠ 0 nu contrazice teorema lui Cauchy."
+    ],
+    "test": [
+     "∮_{|z| = 1} dz/z = ?",
+     "Ce afirmă teorema lui Cauchy?",
+     "∮_{|z| = 1} z⁵ dz = ?",
+     "Ce înseamnă simplu conex?",
+     "Depinde ∫ f dz de drum dacă f e olomorfă pe un domeniu simplu conex?"
+    ],
+    "steps": [
+     "Verifică dacă f este olomorfă în interiorul curbei (atunci integrala este 0).",
+     "Dacă nu, parametrizează curba și calculează direct sau folosește integrala fundamentală.",
+     "Atenție la sensul de parcurgere și la poziția singularităților.",
+     "Greșeala frecventă: să aplici teorema lui Cauchy când o singularitate se află în interiorul curbei."
+    ],
+    "answers": [
+     "2πi",
+     "Integrala unei funcții olomorfe pe o curbă închisă este 0",
+     "0",
+     "Fără „găuri”",
+     "Nu"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l04": {
+   "ro": {
+    "title": "Formula integrală a lui Cauchy și consecințe: Liouville, teorema fundamentală a algebrei",
+    "theory": "Formula integrală Cauchy: pentru f olomorfă pe un domeniu care conține discul închis, f(a) = (1/2πi)∮ f(z)/(z − a)dz, iar f⁽ⁿ⁾(a) = (n!/2πi)∮ f(z)/(z − a)ⁿ⁺¹dz. Consecințe: o funcție olomorfă este indefinit derivabilă; teorema lui Liouville (o funcție întreagă mărginită este constantă); teorema fundamentală a algebrei (orice polinom neconstant are o rădăcină în ℂ); principiul modulului maxim.",
+    "sample": "Cu formula integrală, ∮_{|z| = 1} e^z/z dz = 2πi·e⁰ = 2πi.",
+    "worked": "∮_{|z| = 2} cos z/(z − π/2)² dz = 2πi·(cos)′(π/2) = 2πi·(−sin(π/2)) = −2πi. Teorema fundamentală: dacă p nu ar avea rădăcini, 1/p ar fi întreagă și mărginită (tinde la 0 la infinit), deci constantă — contradicție.",
+    "exercises": [
+     "Calculează ∮_{|z| = 3} z²/(z − 2) dz.",
+     "Calculează ∮_{|z| = 1} sin z/z³ dz.",
+     "Calculează ∮_{|z| = 2} e^z/(z(z − 1)) dz (descompune în fracții simple).",
+     "Arată cu Liouville că sin z nu este mărginită pe ℂ.",
+     "Arată că o funcție întreagă cu |f(z)| ≤ |z| pentru orice z este de forma cz."
+    ],
+    "test": [
+     "Formula integrală Cauchy pentru f(a)?",
+     "Ce afirmă teorema lui Liouville?",
+     "Este o funcție olomorfă indefinit derivabilă?",
+     "Ce garantează teorema fundamentală a algebrei?",
+     "∮_{|z| = 1} e^z/z dz = ?"
+    ],
+    "steps": [
+     "Identifică punctul a și funcția olomorfă f din integrand.",
+     "Aplică formula pentru f(a) sau pentru derivata f⁽ⁿ⁾(a).",
+     "Înmulțește corect cu 2πi/n! și verifică faptul că a este în interiorul curbei.",
+     "Greșeala frecventă: la derivate să uiți factorul n! din formula integrală."
+    ],
+    "answers": [
+     "f(a) = (1/2πi)∮ f(z)/(z − a)dz",
+     "O funcție întreagă mărginită este constantă",
+     "Da",
+     "Orice polinom neconstant are o rădăcină complexă",
+     "2πi"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l05": {
+   "ro": {
+    "title": "Serii Taylor și Laurent; clasificarea singularităților",
+    "theory": "O funcție olomorfă pe un disc se dezvoltă în serie Taylor. Pe o coroană r < |z − a| < R se dezvoltă în serie Laurent Σ cₙ(z − a)ⁿ, n ∈ ℤ; partea cu puteri negative este partea principală. Singularitatea izolată a este: aparentă (partea principală lipsește), pol de ordin m (partea principală are un număr finit de termeni, ultimul c₋ₘ) sau esențială (o infinitate de termeni; de exemplu e^(1/z) în 0).",
+    "sample": "Funcția sin z/z are în 0 o singularitate aparentă: sin z/z = 1 − z²/3! + ….",
+    "worked": "f(z) = 1/(z(z − 1)) pe 0 < |z| < 1: 1/(z − 1) = −(1 + z + z² + …), deci f = −1/z − 1 − z − …; pol simplu în 0, cu c₋₁ = −1. e^(1/z) = 1 + 1/z + 1/(2!z²) + … are o singularitate esențială în 0.",
+    "exercises": [
+     "Scrie seria Laurent a lui e^z/z² în jurul lui 0 și clasifică singularitatea.",
+     "Clasifică singularitatea lui (1 − cos z)/z² în 0.",
+     "Dezvoltă 1/(z − 2) în serie Laurent pe |z| > 2.",
+     "Află ordinul polului lui 1/sin²z în 0.",
+     "Clasifică singularitatea lui z·sin(1/z) în 0."
+    ],
+    "test": [
+     "Ce este partea principală?",
+     "Tipul singularității lui e^(1/z) în 0?",
+     "Tipul singularității lui sin z/z în 0?",
+     "Ordinul polului lui 1/z³ în 0?",
+     "Ce este c₋₁?"
+    ],
+    "steps": [
+     "Scrie dezvoltările cunoscute (geometrică, exponențială, sin, cos) în jurul punctului.",
+     "Combină-le pentru a obține seria Laurent pe coroana cerută.",
+     "Clasifică singularitatea după partea principală.",
+     "Greșeala frecventă: să folosești dezvoltarea geometrică pe o coroană greșită; 1/(z − 2) se dezvoltă diferit pentru |z| < 2 și |z| > 2."
+    ],
+    "answers": [
+     "Termenii cu puteri negative",
+     "Esențială",
+     "Aparentă",
+     "3",
+     "Reziduul"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l06": {
+   "ro": {
+    "title": "Teorema reziduurilor și aplicații la integrale reale",
+    "theory": "Reziduul lui f în a este coeficientul c₋₁ din seria Laurent. Pentru un pol simplu: Rez(f, a) = lim (z − a)f(z); pentru f = g/h cu h(a) = 0, h′(a) ≠ 0: Rez = g(a)/h′(a). Teorema reziduurilor: ∮_γ f dz = 2πi·Σ Rez(f, aₖ) pentru singularitățile din interior. Aplicații: integrale ∫₋∞^∞ P/Q dx (semicerc în semiplanul superior) și ∫₀^(2π) R(cos θ, sin θ)dθ (cu z = e^(iθ)).",
+    "sample": "Reziduul lui 1/(z − 2) în 2 este 1.",
+    "worked": "∫₋∞^∞ dx/(1 + x²): închidem cu un semicerc mare în semiplanul superior; singurul pol interior este i, Rez = 1/(2i). Integrala este 2πi·1/(2i) = π (contribuția semicercului tinde la 0). Rezultatul coincide cu arctg x de la −∞ la ∞.",
+    "exercises": [
+     "Calculează ∮_{|z| = 2} dz/(z² + 1).",
+     "Calculează reziduul lui e^z/(z − 1)² în 1.",
+     "Calculează ∫₋∞^∞ dx/(x² + 4).",
+     "Calculează ∫₀^(2π) dθ/(2 + cos θ).",
+     "Calculează ∫₋∞^∞ dx/(1 + x⁴)."
+    ],
+    "test": [
+     "Teorema reziduurilor?",
+     "Reziduul într-un pol simplu?",
+     "Rez(g/h, a) cu h′(a) ≠ 0?",
+     "Ce substituție la ∫₀^(2π) R(cos θ, sin θ)dθ?",
+     "Ce contur folosești pentru ∫₋∞^∞ P/Q dx?"
+    ],
+    "steps": [
+     "Găsește singularitățile din interiorul conturului.",
+     "Calculează reziduurile (formula pentru pol simplu sau multiplu).",
+     "Aplică 2πi·Σ reziduuri și, la integrale reale, arată că arcul suplimentar nu contribuie.",
+     "Greșeala frecventă: să incluzi reziduurile polilor din afara conturului (de exemplu −i la semicercul superior)."
+    ],
+    "answers": [
+     "∮ f dz = 2πi·Σ Rez",
+     "lim (z − a)f(z)",
+     "g(a)/h′(a)",
+     "z = e^(iθ)",
+     "Un semicerc în semiplanul superior"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l07": {
+   "ro": {
+    "title": "σ-algebre, măsuri, măsura Lebesgue",
+    "theory": "O σ-algebră pe X este o familie de submulțimi închisă la complementară și la reuniuni numărabile. O măsură μ este o funcție μ ≥ 0 pe σ-algebră, cu μ(∅) = 0 și numărabil aditivă. Măsura Lebesgue pe ℝ extinde lungimea: λ([a, b]) = b − a; orice mulțime numărabilă are măsura 0 (de exemplu ℚ). Mulțimea lui Cantor este nenumărabilă, dar are măsura 0. Există mulțimi nemăsurabile (Vitali).",
+    "sample": "Măsura Lebesgue a intervalului [2, 5] este 3, iar a mulțimii ℚ ∩ [0, 1] este 0.",
+    "worked": "ℚ = {q₁, q₂, …}: acoperim qₙ cu un interval de lungime ε/2ⁿ; lungimea totală ≤ ε, pentru orice ε > 0, deci λ(ℚ) = 0. Mulțimea lui Cantor: eliminăm 1/3, apoi 2/9, apoi 4/27, …; suma eliminată este (1/3)/(1 − 2/3) = 1, deci restul are măsura 0.",
+    "exercises": [
+     "Arată că orice mulțime finită are măsura Lebesgue 0.",
+     "Calculează măsura mulțimii [0, 1] \\ ℚ.",
+     "Arată că măsura este monotonă: A ⊆ B ⇒ μ(A) ≤ μ(B).",
+     "Verifică faptul că familia tuturor submulțimilor lui X este o σ-algebră.",
+     "Calculează suma lungimilor eliminate la construcția mulțimii lui Cantor."
+    ],
+    "test": [
+     "λ([0, 3]) = ?",
+     "Măsura lui ℚ?",
+     "Ce închidere are o σ-algebră?",
+     "Este mulțimea lui Cantor numărabilă?",
+     "Măsura mulțimii lui Cantor?"
+    ],
+    "steps": [
+     "Identifică σ-algebra și măsura folosite.",
+     "Acoperă mulțimea cu intervale (sau descompune-o în mulțimi disjuncte).",
+     "Folosește aditivitatea numărabilă și monotonia pentru a calcula sau majora măsura.",
+     "Greșeala frecventă: să crezi că o mulțime nenumărabilă trebuie să aibă măsură pozitivă; mulțimea lui Cantor are măsura 0."
+    ],
+    "answers": [
+     "3",
+     "0",
+     "Complementară și reuniuni numărabile",
+     "Nu",
+     "0"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l08": {
+   "ro": {
+    "title": "Funcții măsurabile; integrala Lebesgue",
+    "theory": "f este măsurabilă dacă {f > a} este măsurabilă pentru orice a. Integrala Lebesgue se construiește pentru funcții simple (Σ aᵢ·μ(Aᵢ)), apoi pentru f ≥ 0 ca supremum al integralelor funcțiilor simple mai mici, apoi pentru f = f⁺ − f⁻. Ideea: împărțim valorile, nu domeniul. Orice funcție integrabilă Riemann pe [a, b] este integrabilă Lebesgue, cu aceeași integrală; funcția lui Dirichlet are integrala Lebesgue 0. Proprietățile „aproape peste tot” (a.p.t.) ignoră mulțimile de măsură 0.",
+    "sample": "Funcția lui Dirichlet (1 pe ℚ, 0 în rest) are integrala Lebesgue 0 pe [0, 1], deoarece ℚ are măsura 0.",
+    "worked": "f = 2 pe [0, 1), 5 pe [1, 3] este simplă: ∫f dλ = 2·1 + 5·2 = 12. Două funcții egale a.p.t. au aceeași integrală: de exemplu f(x) = x și g egală cu x în afara lui ℚ și 7 pe ℚ au ∫₀¹ = 1/2.",
+    "exercises": [
+     "Calculează integrala Lebesgue a funcției simple 3·1_[0,2] + 1·1_[2,5].",
+     "Arată că dacă f = 0 a.p.t. și f ≥ 0, atunci ∫f = 0.",
+     "Calculează ∫₀¹ f dλ pentru f = x² pe ℝ \\ ℚ și f = 0 pe ℚ.",
+     "Arată că orice funcție continuă este măsurabilă.",
+     "Explică diferența de idee dintre integrala Riemann și cea Lebesgue."
+    ],
+    "test": [
+     "Integrala lui Dirichlet pe [0, 1]?",
+     "Ce înseamnă a.p.t.?",
+     "Integrala funcției simple Σ aᵢ1_Aᵢ?",
+     "Este orice funcție integrabilă Riemann integrabilă Lebesgue?",
+     "Ce împarte integrala Lebesgue?"
+    ],
+    "steps": [
+     "Verifică măsurabilitatea funcției.",
+     "Scrie-o ca funcție simplă sau aproximeaz-o crescător cu funcții simple.",
+     "Calculează integrala, ignorând mulțimile de măsură 0.",
+     "Greșeala frecventă: să crezi că modificarea unei funcții pe ℚ schimbă integrala Lebesgue; ℚ are măsura 0."
+    ],
+    "answers": [
+     "0",
+     "Cu excepția unei mulțimi de măsură 0",
+     "Σ aᵢμ(Aᵢ)",
+     "Da",
+     "Mulțimea valorilor"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l09": {
+   "ro": {
+    "title": "Teoremele de convergență; spațiile Lᵖ",
+    "theory": "Teorema convergenței monotone: dacă 0 ≤ fₙ ↗ f, atunci ∫fₙ → ∫f. Lema lui Fatou: ∫lim inf fₙ ≤ lim inf ∫fₙ. Teorema convergenței dominate (Lebesgue): dacă fₙ → f a.p.t. și |fₙ| ≤ g integrabilă, atunci ∫fₙ → ∫f. Spațiul Lᵖ (1 ≤ p < ∞) conține funcțiile cu ∫|f|ᵖ < ∞ (identificate a.p.t.), cu norma ‖f‖ₚ = (∫|f|ᵖ)^(1/p); este complet (Riesz–Fischer). Inegalitatea lui Hölder: ∫|fg| ≤ ‖f‖ₚ‖g‖_q, 1/p + 1/q = 1.",
+    "sample": "Pentru fₙ(x) = xⁿ pe [0, 1], |fₙ| ≤ 1 și fₙ → 0 a.p.t., deci ∫fₙ → 0 (convergența dominată).",
+    "worked": "fₙ = n·1_(0, 1/n) tinde la 0 punctual, dar ∫fₙ = 1 pentru orice n: nu există o funcție integrabilă care să le domine pe toate, deci nu putem trece la limită. Exemplul arată că ipoteza dominării este esențială.",
+    "exercises": [
+     "Calculează lim ∫₀^∞ e^(−nx) dx cu convergența dominată (sau direct).",
+     "Calculează lim ∫₀¹ n x/(1 + n²x²) dx.",
+     "Aplică convergența monotonă pentru fₙ = min(f, n).",
+     "Verifică inegalitatea Cauchy–Schwarz (Hölder cu p = q = 2) pentru f = 1, g = x pe [0, 1].",
+     "Arată că 1/√x aparține lui L¹(0, 1), dar nu lui L²(0, 1)."
+    ],
+    "test": [
+     "Ce cere convergența dominată?",
+     "Ce afirmă convergența monotonă?",
+     "Norma în Lᵖ?",
+     "Este Lᵖ complet?",
+     "Ce relație au p și q în Hölder?"
+    ],
+    "steps": [
+     "Verifică tipul convergenței (punctuală, monotonă).",
+     "Caută o funcție integrabilă care domină șirul (sau monotonia).",
+     "Aplică teorema și calculează integrala limitei.",
+     "Greșeala frecventă: să schimbi limita cu integrala fără o funcție dominantă; exemplul n·1_(0, 1/n) dă un rezultat greșit."
+    ],
+    "answers": [
+     "|fₙ| ≤ g integrabilă și fₙ → f a.p.t.",
+     "Pentru 0 ≤ fₙ ↗ f, ∫fₙ → ∫f",
+     "(∫|f|ᵖ)^(1/p)",
+     "Da",
+     "1/p + 1/q = 1"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l10": {
+   "ro": {
+    "title": "Spații normate și spații Banach",
+    "theory": "O normă pe un spațiu vectorial verifică ‖x‖ ≥ 0 (= 0 doar pentru x = 0), ‖αx‖ = |α|‖x‖, ‖x + y‖ ≤ ‖x‖ + ‖y‖. Un spațiu normat complet (orice șir Cauchy converge) este spațiu Banach. Exemple: ℝⁿ cu orice normă, C[a, b] cu norma sup, ℓᵖ, Lᵖ. În dimensiune finită toate normele sunt echivalente și bila închisă este compactă; în dimensiune infinită bila unitate nu este compactă.",
+    "sample": "Spațiul C[0, 1] cu norma ‖f‖∞ = max|f(x)| este spațiu Banach.",
+    "worked": "C[0, 1] cu norma ‖f‖₁ = ∫₀¹|f| nu este complet: funcțiile continue fₙ care cresc liniar de la 0 la 1 pe [1/2 − 1/n, 1/2] formează un șir Cauchy care tinde în ‖·‖₁ spre o funcție treaptă, discontinuă. În ℓ², vectorii eₙ = (0, …, 1, 0, …) au ‖eₙ − eₘ‖ = √2, deci nu au subșir convergent: bila unitate nu este compactă.",
+    "exercises": [
+     "Verifică axiomele normei pentru ‖x‖₁ = |x₁| + |x₂| pe ℝ².",
+     "Arată că ‖f‖∞ și ‖f‖₁ nu sunt echivalente pe C[0, 1].",
+     "Arată că ℓ∞ (șiruri mărginite cu norma sup) este spațiu Banach.",
+     "Calculează ‖f‖∞ și ‖f‖₂ pentru f(x) = x pe [0, 1].",
+     "Arată că un subspațiu închis al unui spațiu Banach este Banach."
+    ],
+    "test": [
+     "Ce este un spațiu Banach?",
+     "Sunt normele pe ℝⁿ echivalente?",
+     "Este bila unitate din ℓ² compactă?",
+     "Norma sup a lui sin pe [0, π]?",
+     "Este C[0, 1] cu ‖·‖₁ complet?"
+    ],
+    "steps": [
+     "Verifică axiomele normei.",
+     "Pentru completitudine, ia un șir Cauchy, găsește limita candidată și verifică dacă e în spațiu.",
+     "Folosește exemple de tip eₙ pentru fenomenele din dimensiune infinită.",
+     "Greșeala frecventă: să extinzi la dimensiune infinită rezultatele din ℝⁿ (echivalența normelor, compacitatea bilei)."
+    ],
+    "answers": [
+     "Un spațiu normat complet",
+     "Da",
+     "Nu",
+     "1",
+     "Nu"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l11": {
+   "ro": {
+    "title": "Spații Hilbert; proiecții ortogonale; baze ortonormate și serii Fourier",
+    "theory": "Un spațiu Hilbert este un spațiu cu produs scalar, complet în norma ‖x‖ = √⟨x, x⟩ (de exemplu ℓ², L²). Teorema proiecției: pentru un subspațiu închis M, orice x se scrie unic x = m + m⊥. Într-o bază ortonormată (eₙ), x = Σ⟨x, eₙ⟩eₙ și ‖x‖² = Σ|⟨x, eₙ⟩|² (Parseval). În L²(−π, π), funcțiile 1/√(2π), cos nx/√π, sin nx/√π formează o bază ortonormată: seriile Fourier.",
+    "sample": "În ℝ³, proiecția lui (1, 2, 3) pe planul xOy este (1, 2, 0).",
+    "worked": "Seria Fourier a lui f(x) = x pe (−π, π): f impară, bₙ = (1/π)∫x sin nx dx = 2(−1)ⁿ⁺¹/n, deci x = 2(sin x − sin 2x/2 + sin 3x/3 − …). Parseval: (1/π)∫x² dx = 2π²/3 = Σ4/n², de unde Σ1/n² = π²/6.",
+    "exercises": [
+     "Calculează proiecția lui (1, 1, 1) pe dreapta generată de (1, 2, 2).",
+     "Calculează coeficienții Fourier ai lui f(x) = |x| pe (−π, π).",
+     "Folosește seria lui x pentru a obține 1 − 1/3 + 1/5 − … = π/4 (x = π/2).",
+     "Arată că sin nx și sin mx sunt ortogonale în L²(−π, π) pentru n ≠ m.",
+     "Enunță inegalitatea lui Bessel și explică legătura cu Parseval."
+    ],
+    "test": [
+     "Ce este un spațiu Hilbert?",
+     "Egalitatea lui Parseval?",
+     "Σ1/n² = ?",
+     "Teorema proiecției pentru M închis?",
+     "Este ℓ² spațiu Hilbert?"
+    ],
+    "steps": [
+     "Verifică ortonormarea sistemului folosit.",
+     "Calculează coeficienții ⟨x, eₙ⟩ (coeficienții Fourier).",
+     "Scrie dezvoltarea și aplică Parseval sau proiecția pentru concluzii numerice.",
+     "Greșeala frecventă: să uiți normarea funcțiilor trigonometrice când aplici Parseval, obținând factori greșiți de π."
+    ],
+    "answers": [
+     "Un spațiu cu produs scalar complet",
+     "‖x‖² = Σ|⟨x, eₙ⟩|²",
+     "π²/6",
+     "x = m + m⊥ unic",
+     "Da"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l12": {
+   "ro": {
+    "title": "Operatori liniari mărginiți; norma operatorului",
+    "theory": "Un operator liniar T: X → Y între spații normate este continuu dacă și numai dacă este mărginit: ‖Tx‖ ≤ C‖x‖. Norma operatorului ‖T‖ = sup{‖Tx‖ : ‖x‖ ≤ 1}. Spațiul operatorilor mărginiți B(X, Y) este Banach dacă Y este Banach. Funcționalele liniare continue formează dualul X*. Exemple: operatorii integrali, deplasarea pe ℓ², derivarea (nemărginită pe C¹ cu norma sup).",
+    "sample": "Operatorul de înmulțire cu 3 pe orice spațiu normat are norma 3.",
+    "worked": "T: C[0, 1] → C[0, 1], (Tf)(x) = ∫₀ˣ f(t)dt: |Tf(x)| ≤ x‖f‖∞ ≤ ‖f‖∞, iar pentru f = 1 avem Tf = x cu norma 1, deci ‖T‖ = 1. Derivarea D pe polinoame cu norma sup pe [0, 1]: D(xⁿ) = nxⁿ⁻¹, ‖xⁿ‖ = 1, ‖D(xⁿ)‖ = n — nemărginit.",
+    "exercises": [
+     "Calculează norma funcționalei φ(f) = f(0) pe C[0, 1].",
+     "Calculează norma operatorului de deplasare la dreapta pe ℓ².",
+     "Arată că un operator liniar mărginit este continuu.",
+     "Calculează norma matricei diag(2, 5) ca operator pe ℝ² euclidian.",
+     "Arată că φ(f) = ∫₀¹ f(t)dt are norma 1 pe C[0, 1]."
+    ],
+    "test": [
+     "Continuu ⇔ … pentru operatori liniari?",
+     "Definiția normei operatorului?",
+     "Este derivarea mărginită în norma sup?",
+     "Ce este dualul X*?",
+     "Norma operatorului identitate?"
+    ],
+    "steps": [
+     "Majorează ‖Tx‖ printr-o constantă ori ‖x‖.",
+     "Găsește un x (sau un șir) pentru care majorarea este atinsă sau aproape atinsă.",
+     "Concluzionează valoarea normei (sau nemărginirea).",
+     "Greșeala frecventă: să dai doar o majorare și s-o numești normă, fără să arăți că este atinsă (cea mai mică constantă)."
+    ],
+    "answers": [
+     "Mărginit",
+     "sup ‖Tx‖ pentru ‖x‖ ≤ 1",
+     "Nu",
+     "Spațiul funcționalelor liniare continue",
+     "1"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l13": {
+   "ro": {
+    "title": "Principiile fundamentale: punct fix Banach, Hahn–Banach, Banach–Steinhaus",
+    "theory": "Teorema de punct fix a lui Banach: o contracție (d(Tx, Ty) ≤ q·d(x, y), q < 1) pe un spațiu metric complet are un punct fix unic, limita iterațiilor xₙ₊₁ = Txₙ; eroarea d(xₙ, x*) ≤ qⁿd(x₁, x₀)/(1 − q). Hahn–Banach: o funcțională liniară continuă pe un subspațiu se extinde la tot spațiul cu aceeași normă (dualul are „destule” elemente). Banach–Steinhaus (mărginirea uniformă): o familie de operatori punctual mărginită pe un spațiu Banach este uniform mărginită.",
+    "sample": "Funcția T(x) = x/2 + 1 pe ℝ este o contracție cu punctul fix 2.",
+    "worked": "Ecuația x = cos x pe [0, 1]: |cos′x| = |sin x| ≤ sin 1 ≈ 0,84 < 1, iar cos duce [0, 1] în [0, 1], deci există un punct fix unic. Iterând din 0: 1; 0,540; 0,858; 0,654; … → 0,739. Teorema stă și la baza demonstrației lui Cauchy–Lipschitz pentru ecuații diferențiale.",
+    "exercises": [
+     "Arată că T(x) = (x + 2/x)/2 este contracție pe [1, 2] și află punctul fix.",
+     "Câte iterații garantează eroarea sub 10⁻³ pentru o contracție cu q = 1/2 și d(x₁, x₀) = 1?",
+     "Arată că T(f)(x) = 1 + ∫₀ˣ f(t)/2 dt este contracție pe C[0, 1].",
+     "Arată că x ↦ x + 1/x pe [1, ∞) verifică d(Tx, Ty) < d(x, y), dar nu are punct fix.",
+     "Explică de ce Hahn–Banach garantează că dualul unui spațiu normat nenul este nenul."
+    ],
+    "test": [
+     "Condițiile teoremei de punct fix Banach?",
+     "Este punctul fix al unei contracții unic?",
+     "Ce afirmă Hahn–Banach?",
+     "Ce afirmă Banach–Steinhaus?",
+     "Punctul fix al lui x/2 + 1?"
+    ],
+    "steps": [
+     "Verifică faptul că spațiul este complet și că T îl duce în el însuși.",
+     "Arată inegalitatea de contracție cu q < 1 (de exemplu prin derivată).",
+     "Aplică teorema: existență, unicitate, iterații și estimarea erorii.",
+     "Greșeala frecventă: să aplici teorema cu q = 1 sau doar cu d(Tx, Ty) < d(x, y); este nevoie de o constantă q < 1 fixă."
+    ],
+    "answers": [
+     "Contracție pe un spațiu metric complet",
+     "Da",
+     "Funcționalele se extind păstrând norma",
+     "Punctual mărginit ⇒ uniform mărginit",
+     "2"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l14": {
+   "ro": {
+    "title": "Spații topologice; continuitate; homeomorfisme",
+    "theory": "O topologie pe X este o familie de mulțimi „deschise” care conține ∅ și X și este închisă la reuniuni arbitrare și intersecții finite. Orice metrică dă o topologie, dar există topologii nemetrizabile. f: X → Y este continuă dacă preimaginea oricărei mulțimi deschise este deschisă. Un homeomorfism este o bijecție continuă cu inversa continuă; spațiile homeomorfe sunt „la fel” din punct de vedere topologic (ceașca și gogoașa).",
+    "sample": "Intervalul (0, 1) este homeomorf cu ℝ, prin x ↦ tg(π(x − 1/2)).",
+    "worked": "Pe X = {a, b, c}, τ = {∅, {a}, {a, b}, X} este o topologie (verificăm reuniunile și intersecțiile). Funcția f: [0, 2π) → cercul unitate, f(t) = (cos t, sin t), este bijectivă și continuă, dar nu homeomorfism: inversa nu este continuă în (1, 0).",
+    "exercises": [
+     "Verifică dacă {∅, {a}, {b}, X} este topologie pe {a, b, c}.",
+     "Arată că topologia discretă face orice funcție continuă (cu domeniul discret).",
+     "Arată că [0, 1] și [0, 2] sunt homeomorfe.",
+     "De ce [0, 1) și (0, 1) nu sunt homeomorfe? (indiciu: eliminarea unui punct)",
+     "Arată că preimaginea unei mulțimi închise printr-o funcție continuă este închisă."
+    ],
+    "test": [
+     "Axiomele unei topologii?",
+     "Definiția topologică a continuității?",
+     "Ce este un homeomorfism?",
+     "Sunt (0, 1) și ℝ homeomorfe?",
+     "Este orice topologie metrizabilă?"
+    ],
+    "steps": [
+     "Verifică axiomele pentru familia de mulțimi dată.",
+     "Pentru continuitate, calculează preimaginile deschișilor.",
+     "Pentru homeomorfism, verifică bijectivitatea și continuitatea în ambele sensuri (sau găsește un invariant diferit).",
+     "Greșeala frecventă: să consideri suficientă o bijecție continuă; inversa trebuie verificată separat."
+    ],
+    "answers": [
+     "∅, X; reuniuni arbitrare; intersecții finite",
+     "Preimaginea unui deschis este deschisă",
+     "O bijecție continuă cu inversa continuă",
+     "Da",
+     "Nu"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l15": {
+   "ro": {
+    "title": "Compacitate și conexitate",
+    "theory": "Un spațiu este compact dacă orice acoperire cu deschiși are o subacoperire finită. Imaginea continuă a unui compact este compactă; un compact din ℝ este închis și mărginit; o funcție continuă pe un compact își atinge marginile. Un spațiu este conex dacă nu se poate scrie ca reuniune a doi deschiși nevizi disjuncți; imaginea continuă a unui conex este conexă (de aici teorema valorilor intermediare). Conexitatea prin arce este o variantă mai puternică.",
+    "sample": "Intervalul [0, 1] este compact și conex; mulțimea {0, 1} este compactă, dar nu conexă.",
+    "worked": "(0, 1) nu este compact: acoperirea (1/n, 1), n ≥ 2, nu are subacoperire finită. ℝ \\ {0} nu este conex: (−∞, 0) și (0, ∞) sunt deschiși, disjuncți și nevizi. De aceea o funcție continuă pe ℝ \\ {0} poate schimba semnul fără să se anuleze (1/x).",
+    "exercises": [
+     "Arată că ℝ nu este compact, cu o acoperire potrivită.",
+     "Arată că imaginea continuă a unui spațiu conex este conexă.",
+     "Folosește conexitatea pentru a arăta că un polinom de grad impar are o rădăcină reală.",
+     "Arată că cercul și intervalul [0, 1] nu sunt homeomorfe (elimină un punct).",
+     "Este ℚ conex? Justifică."
+    ],
+    "test": [
+     "Definiția compacității?",
+     "Este (0, 1) compact?",
+     "Este ℝ \\ {0} conex?",
+     "Ce teoremă rezultă din conexitatea intervalelor?",
+     "Imaginea continuă a unui compact este…?"
+    ],
+    "steps": [
+     "Pentru compacitate, folosește caracterizarea (închis și mărginit în ℝⁿ) sau o acoperire fără subacoperire finită.",
+     "Pentru conexitate, caută o separare în doi deschiși disjuncți sau folosește imagini continue.",
+     "Aplică proprietățile (extreme, valori intermediare) în problema concretă.",
+     "Greșeala frecventă: să crezi că mărginirea singură implică compacitatea; (0, 1) este mărginit, dar nu compact."
+    ],
+    "answers": [
+     "Orice acoperire deschisă are o subacoperire finită",
+     "Nu",
+     "Nu",
+     "Teorema valorilor intermediare",
+     "Compactă"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l16": {
+   "ro": {
+    "title": "Spații metrice complete; teorema lui Baire; completarea",
+    "theory": "Un spațiu metric este complet dacă orice șir Cauchy converge. ℝ, ℝⁿ, C[a, b] cu norma sup sunt complete; ℚ și (0, 1) nu sunt. Orice spațiu metric are o completare (ℝ este completarea lui ℚ). Teorema lui Baire: într-un spațiu metric complet, o reuniune numărabilă de mulțimi închise cu interior vid are interior vid; consecințe: ℝ nu este numărabil; există funcții continue nicăieri derivabile („majoritatea” funcțiilor continue).",
+    "sample": "Șirul 1; 1,4; 1,41; 1,414; … este Cauchy în ℚ, dar limita √2 nu este în ℚ, deci ℚ nu este complet.",
+    "worked": "Aplicăm Baire: dacă ℝ ar fi numărabil, ℝ = ∪{xₙ}, reuniune de mulțimi închise cu interior vid — contradicție cu Baire, deoarece ℝ este complet și are interior nevid. Spațiul (0, 1) cu metrica uzuală nu este complet (1/n → 0 ∉ (0, 1)), deși este homeomorf cu ℝ, care este complet: completitudinea nu este proprietate topologică.",
+    "exercises": [
+     "Arată că un subspațiu închis al unui spațiu complet este complet.",
+     "Arată că ℕ cu metrica uzuală este complet.",
+     "Este (0, 1] complet? Justifică.",
+     "Folosește Baire pentru a arăta că ℚ nu este o intersecție numărabilă de deschiși în ℝ.",
+     "Arată că orice șir convergent este Cauchy."
+    ],
+    "test": [
+     "Ce este un spațiu complet?",
+     "Este ℚ complet?",
+     "Completarea lui ℚ?",
+     "Este completitudinea invariantă la homeomorfisme?",
+     "Este C[a, b] cu norma sup complet?"
+    ],
+    "steps": [
+     "Ia un șir Cauchy oarecare din spațiu.",
+     "Găsește limita lui într-un spațiu mai mare (de exemplu ℝ).",
+     "Verifică dacă limita aparține spațiului; folosește Baire pentru rezultate de existență.",
+     "Greșeala frecventă: să crezi că două spații homeomorfe sunt simultan complete; (0, 1) și ℝ arată contrariul."
+    ],
+    "answers": [
+     "Orice șir Cauchy converge",
+     "Nu",
+     "ℝ",
+     "Nu",
+     "Da"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l17": {
+   "ro": {
+    "title": "Clasificarea ecuațiilor de ordinul al doilea; condiții la limită",
+    "theory": "Ecuația a u_xx + 2b u_xy + c u_yy + termeni de ordin inferior = 0 este eliptică dacă b² − ac < 0 (ecuația lui Laplace), parabolică dacă b² − ac = 0 (ecuația căldurii) și hiperbolică dacă b² − ac > 0 (ecuația undelor). Tipul decide comportamentul soluțiilor și ce condiții sunt potrivite: condiții la limită (Dirichlet: valoarea pe frontieră; Neumann: derivata normală) pentru eliptice, condiții inițiale și la limită pentru parabolice și hiperbolice. O problemă este bine pusă (Hadamard) dacă are soluție unică, care depinde continuu de date.",
+    "sample": "Ecuația undelor u_tt − c²u_xx = 0 este hiperbolică.",
+    "worked": "Pentru u_xx + 4u_xy + 3u_yy = 0: a = 1, b = 2, c = 3, b² − ac = 4 − 3 = 1 > 0, deci hiperbolică. Pentru u_xx + 2u_xy + 5u_yy = 0: 1 − 5 < 0, eliptică. Ecuația lui Tricomi y u_xx + u_yy = 0 schimbă tipul: eliptică pentru y > 0, hiperbolică pentru y < 0.",
+    "exercises": [
+     "Clasifică: u_xx − 4u_xy + 4u_yy = 0.",
+     "Clasifică ecuația căldurii u_t = k u_xx.",
+     "Clasifică: 2u_xx + u_xy + u_yy = 0.",
+     "Ce condiții sunt potrivite pentru o coardă vibrantă fixată la capete?",
+     "Explică ce înseamnă problemă bine pusă în sensul lui Hadamard."
+    ],
+    "test": [
+     "Tipul ecuației lui Laplace?",
+     "Tipul ecuației căldurii?",
+     "Criteriul pentru hiperbolic?",
+     "Ce prescrie condiția Dirichlet?",
+     "Ce înseamnă problemă bine pusă?"
+    ],
+    "steps": [
+     "Identifică coeficienții a, b, c ai termenilor de ordinul doi (atenție la factorul 2 de la b).",
+     "Calculează b² − ac și stabilește tipul.",
+     "Alege condițiile potrivite tipului și interpretează fizic.",
+     "Greșeala frecventă: să iei coeficientul lui u_xy drept b în loc de 2b, obținând un discriminant greșit."
+    ],
+    "answers": [
+     "Eliptic",
+     "Parabolic",
+     "b² − ac > 0",
+     "Valoarea soluției pe frontieră",
+     "Soluție unică, care depinde continuu de date"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l18": {
+   "ro": {
+    "title": "Ecuația căldurii; metoda separării variabilelor și seriile Fourier",
+    "theory": "Ecuația u_t = k u_xx pe 0 < x < L, cu u(0, t) = u(L, t) = 0 și u(x, 0) = f(x), descrie temperatura unei bare. Căutăm u = X(x)T(t): X″/X = T′/(kT) = −λ. Problema la limită dă Xₙ = sin(nπx/L), λₙ = (nπ/L)²; Tₙ = e^(−kλₙt). Soluția: u = Σ bₙ e^(−k(nπ/L)²t) sin(nπx/L), unde bₙ sunt coeficienții Fourier în sinusuri ai lui f. Termenii cu n mare dispar rapid: căldura netezește.",
+    "sample": "Dacă f(x) = sin(πx) pe [0, 1], soluția este u = e^(−kπ²t) sin(πx).",
+    "worked": "Pentru L = π, k = 1, f(x) = 3 sin x − sin 4x: u(x, t) = 3e^(−t) sin x − e^(−16t) sin 4x. După t = 1, al doilea termen este de ~e¹⁵ ori mai mic decât primul relativ — profilul devine aproape sinusoidal.",
+    "exercises": [
+     "Rezolvă u_t = u_xx pe (0, π) cu u = 0 la capete și u(x, 0) = 2 sin 3x.",
+     "Calculează coeficienții bₙ pentru f(x) = 1 pe (0, π).",
+     "Scrie soluția pentru f(x) = 1 și discută limita când t → ∞.",
+     "Ce se schimbă dacă capetele sunt izolate (u_x = 0)?",
+     "Arată prin separarea variabilelor de ce λ trebuie să fie pozitiv."
+    ],
+    "test": [
+     "Ce descrie ecuația căldurii?",
+     "Funcțiile proprii pentru capete la 0 pe (0, L)?",
+     "Cum evoluează în timp fiecare mod?",
+     "Limita soluției când t → ∞ cu capete la 0?",
+     "Ce coeficienți intră în soluție?"
+    ],
+    "steps": [
+     "Separă variabilele: u = X(x)T(t) și obține două ecuații diferențiale ordinare.",
+     "Rezolvă problema la limită pentru X (valori și funcții proprii) și ecuația pentru T.",
+     "Suprapune soluțiile și determină coeficienții din condiția inițială (serie Fourier).",
+     "Greșeala frecventă: să uiți că exponentul de timp depinde de n² și să scrii aceeași exponențială pentru toate modurile."
+    ],
+    "answers": [
+     "Propagarea căldurii (difuzia)",
+     "sin(nπx/L)",
+     "Scade exponențial cu e^(−k(nπ/L)²t)",
+     "0",
+     "Coeficienții Fourier în sinusuri ai lui f"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l19": {
+   "ro": {
+    "title": "Ecuația undelor; formula lui d’Alembert",
+    "theory": "Ecuația u_tt = c²u_xx descrie vibrațiile unei coarde. Pe toată axa, cu u(x, 0) = f(x), u_t(x, 0) = g(x), soluția este formula lui d’Alembert: u = [f(x − ct) + f(x + ct)]/2 + (1/2c)∫_{x−ct}^{x+ct} g(s)ds — două unde care se deplasează în sensuri opuse cu viteza c. Pe o coardă fixată, separarea variabilelor dă modurile proprii sin(nπx/L)·cos(nπct/L) (armonicele).",
+    "sample": "Pentru g = 0, profilul inițial f se împarte în două jumătăți care pleacă în sensuri opuse.",
+    "worked": "f(x) = e^(−x²), g = 0, c = 1: u(x, t) = [e^(−(x − t)²) + e^(−(x + t)²)]/2. La t = 3 avem două „cocoașe” cu înălțimea 1/2 centrate în ±3. Pe coarda de lungime L, frecvențele proprii sunt nc/(2L): armonica fundamentală și multiplii ei.",
+    "exercises": [
+     "Scrie soluția d’Alembert pentru f = 0, g(x) = cos x, c = 2.",
+     "Verifică direct că u = F(x − ct) + G(x + ct) rezolvă ecuația undelor.",
+     "Scrie soluția pe coarda (0, π) cu c = 1, u(x, 0) = sin 2x, u_t(x, 0) = 0.",
+     "Calculează frecvența fundamentală a unei coarde cu L = 0,5 m și c = 200 m/s.",
+     "Explică diferența de comportament între ecuația undelor și ecuația căldurii."
+    ],
+    "test": [
+     "Formula lui d’Alembert pentru g = 0?",
+     "Viteza de propagare în u_tt = c²u_xx?",
+     "Ce sunt modurile proprii ale coardei?",
+     "Netezește ecuația undelor datele inițiale?",
+     "Frecvența fundamentală a coardei de lungime L?"
+    ],
+    "steps": [
+     "Identifică f, g și c.",
+     "Aplică formula lui d’Alembert (pe axă) sau separarea variabilelor (pe coardă fixată).",
+     "Interpretează soluția: unde care se propagă sau suprapunere de armonice.",
+     "Greșeala frecventă: să crezi că ecuația undelor netezește singularitățile ca ecuația căldurii; ea le transportă cu viteza c."
+    ],
+    "answers": [
+     "u = [f(x − ct) + f(x + ct)]/2",
+     "c",
+     "sin(nπx/L)cos(nπct/L)",
+     "Nu",
+     "c/(2L)"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l20": {
+   "ro": {
+    "title": "Ecuația lui Laplace; funcții armonice; principiul de maxim",
+    "theory": "Ecuația lui Laplace Δu = 0 descrie stări staționare (temperatură de echilibru, potențial electrostatic). Soluțiile sunt funcțiile armonice. Proprietatea de medie: u(a) este media valorilor lui u pe orice cerc centrat în a. Principiul de maxim: o funcție armonică neconstantă pe un domeniu mărginit își atinge maximul și minimul doar pe frontieră; de aici unicitatea soluției problemei Dirichlet. Pe disc, soluția se scrie cu formula lui Poisson sau prin serii Fourier în coordonate polare.",
+    "sample": "Funcția u = x² − y² este armonică, deoarece 2 − 2 = 0.",
+    "worked": "Problema Dirichlet pe discul unitate cu u = cos 2θ pe cerc: în polare soluțiile armonice sunt rⁿcos nθ, rⁿsin nθ, deci u = r²cos 2θ = x² − y². Verificăm proprietatea de medie în 0: media lui cos 2θ pe cerc este 0 = u(0, 0).",
+    "exercises": [
+     "Verifică dacă u = eˣ sin y este armonică.",
+     "Rezolvă problema Dirichlet pe discul unitate cu u = sin θ pe frontieră.",
+     "Arată unicitatea soluției problemei Dirichlet cu principiul de maxim.",
+     "Fie u armonică pe discul unitate cu u = 1 + cos θ pe cerc. Calculează u(0).",
+     "Arată că ln(x² + y²) este armonică pe ℝ² \\ {0}."
+    ],
+    "test": [
+     "Ce descrie ecuația lui Laplace?",
+     "Proprietatea de medie?",
+     "Unde își atinge maximul o funcție armonică neconstantă?",
+     "Soluțiile armonice separate în polare?",
+     "Este x² + y² armonică?"
+    ],
+    "steps": [
+     "Verifică Δu = 0 sau scrie problema în coordonate potrivite (polare pe disc).",
+     "Folosește soluții separate (rⁿcos nθ, rⁿsin nθ) și potrivește condiția pe frontieră.",
+     "Aplică principiul de maxim sau proprietatea de medie pentru unicitate și estimări.",
+     "Greșeala frecventă: să consideri armonică orice funcție „simplă”; x² + y² are Δ = 4 ≠ 0."
+    ],
+    "answers": [
+     "Stări staționare",
+     "u(a) este media pe cercurile centrate în a",
+     "Pe frontieră",
+     "rⁿcos nθ și rⁿsin nθ",
+     "Nu"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l21": {
+   "ro": {
+    "title": "Estimare punctuală: estimatori nedeplasați, metoda verosimilității maxime",
+    "theory": "Din eșantionul X₁, …, Xₙ estimăm parametrii necunoscuți. Un estimator θ̂ este nedeplasat dacă E(θ̂) = θ și consistent dacă θ̂ → θ când n → ∞. Media de selecție X̄ estimează nedeplasat media; dispersia de selecție corectată s² = Σ(Xᵢ − X̄)²/(n − 1) estimează nedeplasat dispersia. Metoda verosimilității maxime alege θ care maximizează L(θ) = Π f(xᵢ; θ), de obicei prin derivarea lui ln L.",
+    "sample": "Pentru datele 2, 4, 6, media de selecție este 4 și s² = (4 + 0 + 4)/2 = 4.",
+    "worked": "Pentru o repartiție exponențială cu parametrul λ: ln L = n ln λ − λΣxᵢ; derivata n/λ − Σxᵢ = 0 dă λ̂ = 1/x̄. Pentru Bernoulli(p) cu k succese din n: L = pᵏ(1 − p)ⁿ⁻ᵏ, maximul în p̂ = k/n.",
+    "exercises": [
+     "Calculează x̄ și s² pentru 3, 5, 7, 9.",
+     "Arată că X̄ este un estimator nedeplasat al mediei.",
+     "Află estimatorul de verosimilitate maximă pentru parametrul λ al repartiției Poisson.",
+     "De ce împărțim la n − 1 în s²?",
+     "Află estimatorul de verosimilitate maximă al lui θ pentru repartiția uniformă pe [0, θ]."
+    ],
+    "test": [
+     "Ce înseamnă estimator nedeplasat?",
+     "Estimatorul de verosimilitate maximă pentru p (Bernoulli)?",
+     "Cu ce împarți în dispersia corectată?",
+     "Ce este un estimator consistent?",
+     "Ce funcție maximizează metoda verosimilității?"
+    ],
+    "steps": [
+     "Scrie modelul și funcția de verosimilitate L(θ) (sau ln L).",
+     "Derivează și rezolvă ecuația de verosimilitate (verifică maximul).",
+     "Studiază proprietățile estimatorului (nedeplasare, consistență).",
+     "Greșeala frecventă: să derivezi formal fără să verifici domeniul; la uniforma pe [0, θ] maximul este la capăt, θ̂ = max xᵢ."
+    ],
+    "answers": [
+     "E(θ̂) = θ",
+     "k/n",
+     "n − 1",
+     "Converge la θ când n → ∞",
+     "L(θ) = Π f(xᵢ; θ)"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l22": {
+   "ro": {
+    "title": "Intervale de încredere",
+    "theory": "Un interval de încredere de nivel 1 − α conține parametrul cu probabilitatea 1 − α (în sensul repetării eșantionării). Pentru medie, cu σ cunoscut: x̄ ± z_(α/2)·σ/√n (z₀,₀₂₅ ≈ 1,96 pentru 95%). Cu σ necunoscut și date normale: x̄ ± t_(α/2; n−1)·s/√n (repartiția Student). Pentru o proporție: p̂ ± z√(p̂(1 − p̂)/n). Intervalul se îngustează când n crește (ca 1/√n).",
+    "sample": "Pentru n = 100, x̄ = 50 și σ = 10, intervalul de 95% este 50 ± 1,96, adică (48,04; 51,96).",
+    "worked": "Un sondaj pe 400 de persoane dă p̂ = 0,52. Eroarea standard este √(0,52·0,48/400) ≈ 0,025; intervalul de 95%: 0,52 ± 1,96·0,025 ≈ (0,471; 0,569). Concluzie: nu putem afirma că majoritatea susține propunerea, deoarece intervalul conține 0,5.",
+    "exercises": [
+     "Construiește intervalul de 95% pentru media cu x̄ = 20, σ = 4, n = 64.",
+     "Câte persoane trebuie intervievate pentru o eroare de ±2% la 95%?",
+     "Construiește intervalul cu t pentru x̄ = 10, s = 2, n = 16 (t ≈ 2,131).",
+     "Cum se schimbă lungimea intervalului dacă n crește de 4 ori?",
+     "Interpretează corect afirmația „intervalul de 95% este (48; 52)”."
+    ],
+    "test": [
+     "Cuantila z pentru 95%?",
+     "Formula intervalului pentru medie cu σ cunoscut?",
+     "Ce repartiție folosești când σ este necunoscut?",
+     "Cum scade lungimea intervalului cu n?",
+     "Intervalul pentru o proporție?"
+    ],
+    "steps": [
+     "Identifică parametrul, nivelul de încredere și dacă σ este cunoscut.",
+     "Calculează estimatorul punctual și eroarea standard.",
+     "Construiește intervalul cu cuantila potrivită (z sau t) și interpretează-l.",
+     "Greșeala frecventă: să spui că parametrul are 95% probabilitate să fie în intervalul deja calculat; 95% se referă la metoda de construcție."
+    ],
+    "answers": [
+     "1,96",
+     "x̄ ± z·σ/√n",
+     "Student (t)",
+     "Ca 1/√n",
+     "p̂ ± z√(p̂(1 − p̂)/n)"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l23": {
+   "ro": {
+    "title": "Teste de ipoteze statistice; p-valoarea",
+    "theory": "Un test compară ipoteza nulă H₀ cu ipoteza alternativă H₁. Calculăm o statistică de test și p-valoarea: probabilitatea, sub H₀, de a obține un rezultat cel puțin atât de extrem. Dacă p < α (de obicei 0,05), respingem H₀. Erori: de tip I (respingem H₀ adevărată, probabilitate α) și de tip II (nu respingem H₀ falsă). Testul z și testul t pentru medie, testul χ² pentru frecvențe și independență.",
+    "sample": "Dacă un test dă p = 0,003 și α = 0,05, respingem ipoteza nulă.",
+    "worked": "O monedă dă 60 de capete din 100. H₀: p = 0,5. z = (60 − 50)/5 = 2, p-valoarea bilaterală ≈ 0,046 < 0,05: respingem H₀ la nivelul 5%, dar nu la nivelul 1%. Testul χ² pentru un zar: Σ(Oᵢ − Eᵢ)²/Eᵢ comparat cu χ² cu 5 grade de libertate.",
+    "exercises": [
+     "Formulează H₀ și H₁ pentru: „noul medicament scade tensiunea”.",
+     "Calculează statistica z pentru x̄ = 103, μ₀ = 100, σ = 15, n = 100.",
+     "La 120 de aruncări de zar, frecvențele sunt 25, 17, 15, 23, 24, 16. Calculează statistica χ².",
+     "Explică diferența dintre erorile de tip I și de tip II.",
+     "Ce înseamnă o p-valoare de 0,2?"
+    ],
+    "test": [
+     "Când respingi H₀?",
+     "Ce este eroarea de tip I?",
+     "Ce măsoară p-valoarea?",
+     "Testul pentru frecvențe observate și așteptate?",
+     "p = 0,03 la α = 0,01: respingi H₀?"
+    ],
+    "steps": [
+     "Formulează H₀, H₁ și nivelul de semnificație α.",
+     "Calculează statistica de test și p-valoarea (sau regiunea critică).",
+     "Decide și formulează concluzia în contextul problemei.",
+     "Greșeala frecventă: să interpretezi „nu respingem H₀” ca „am demonstrat H₀”; datele doar nu sunt suficiente pentru a o respinge."
+    ],
+    "answers": [
+     "Când p < α",
+     "Respingerea unei H₀ adevărate",
+     "Probabilitatea unui rezultat cel puțin atât de extrem sub H₀",
+     "Testul χ²",
+     "Nu"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l24": {
+   "ro": {
+    "title": "Regresie liniară și corelație",
+    "theory": "Regresia liniară simplă caută dreapta y = a + bx care minimizează suma pătratelor erorilor (metoda celor mai mici pătrate): b = Σ(xᵢ − x̄)(yᵢ − ȳ)/Σ(xᵢ − x̄)², a = ȳ − b·x̄. Coeficientul de corelație r ∈ [−1, 1] măsoară intensitatea legăturii liniare, iar r² este proporția din variația lui y explicată de model. Corelația nu înseamnă cauzalitate.",
+    "sample": "Pentru punctele (1, 2), (2, 4), (3, 6), dreapta de regresie este y = 2x, cu r = 1.",
+    "worked": "Date (1, 1), (2, 3), (3, 2), (4, 4): x̄ = 2,5, ȳ = 2,5. Σ(x − x̄)(y − ȳ) = (−1,5)(−1,5) + (−0,5)(0,5) + (0,5)(−0,5) + (1,5)(1,5) = 2,25 − 0,25 − 0,25 + 2,25 = 4; Σ(x − x̄)² = 5. b = 0,8, a = 2,5 − 2 = 0,5: y = 0,5 + 0,8x.",
+    "exercises": [
+     "Calculează dreapta de regresie pentru (0, 1), (1, 3), (2, 5), (3, 7).",
+     "Calculează r pentru datele din exemplu (Σ(y − ȳ)² = 5).",
+     "Interpretează r² = 0,64.",
+     "Dă un exemplu de corelație puternică fără legătură cauzală.",
+     "Arată că dreapta de regresie trece prin (x̄, ȳ)."
+    ],
+    "test": [
+     "Ce minimizează metoda celor mai mici pătrate?",
+     "Formula pantei b?",
+     "Intervalul lui r?",
+     "Ce înseamnă r²?",
+     "Implică corelația cauzalitate?"
+    ],
+    "steps": [
+     "Calculează mediile x̄ și ȳ.",
+     "Calculează sumele de produse și de pătrate ale abaterilor, apoi b și a.",
+     "Calculează r și r² și interpretează potrivirea modelului.",
+     "Greșeala frecventă: să interpretezi un r mare ca dovadă de cauzalitate; poate exista o a treia variabilă comună."
+    ],
+    "answers": [
+     "Suma pătratelor erorilor",
+     "Σ(x − x̄)(y − ȳ)/Σ(x − x̄)²",
+     "[−1, 1]",
+     "Proporția din variația lui y explicată",
+     "Nu"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l25": {
+   "ro": {
+    "title": "Programare liniară: modelare și metoda grafică",
+    "theory": "O problemă de programare liniară maximizează sau minimizează o funcție liniară (funcția obiectiv) cu restricții liniare (inegalități) și variabile nenegative. Mulțimea soluțiilor admisibile este un poliedru convex; dacă optimul există, el se atinge într-un vârf. În două variabile, desenăm regiunea admisibilă și evaluăm funcția obiectiv în vârfuri (sau deplasăm dreapta de nivel).",
+    "sample": "Maximul lui x + y pe triunghiul cu vârfurile (0, 0), (2, 0), (0, 3) este 3, atins în (0, 3).",
+    "worked": "Max z = 3x + 2y cu x + y ≤ 4, x + 3y ≤ 6, x, y ≥ 0. Vârfuri: (0, 0), (4, 0), (0, 2) și intersecția x + y = 4, x + 3y = 6: (3, 1). Valori: 0, 12, 4, 11. Optimul este z = 12 în (4, 0).",
+    "exercises": [
+     "Rezolvă grafic: max 2x + y, cu x + y ≤ 5, x ≤ 3, x, y ≥ 0.",
+     "Modelează: o fabrică produce mese (profit 30) și scaune (profit 10), cu restricții de lemn și ore de muncă date.",
+     "Rezolvă grafic: min x + 2y cu x + y ≥ 3, x ≥ 1, y ≥ 0.",
+     "Ce se întâmplă dacă dreapta de nivel este paralelă cu o latură a regiunii?",
+     "Dă un exemplu de problemă fără optim (regiune nemărginită)."
+    ],
+    "test": [
+     "Unde se atinge optimul unei probleme liniare?",
+     "Ce formă are regiunea admisibilă?",
+     "Ce este funcția obiectiv?",
+     "Câte vârfuri verifici în metoda grafică?",
+     "Poate avea o problemă liniară o infinitate de soluții optime?"
+    ],
+    "steps": [
+     "Scrie variabilele, funcția obiectiv și restricțiile.",
+     "Desenează regiunea admisibilă și găsește vârfurile (intersecții de drepte).",
+     "Evaluează funcția obiectiv în vârfuri și alege optimul.",
+     "Greșeala frecventă: să cauți optimul în interiorul regiunii; pentru funcții liniare el se află pe frontieră, într-un vârf."
+    ],
+    "answers": [
+     "Într-un vârf al regiunii admisibile",
+     "Un poliedru convex",
+     "Funcția liniară de optimizat",
+     "Toate vârfurile regiunii",
+     "Da"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l26": {
+   "ro": {
+    "title": "Metoda simplex",
+    "theory": "Metoda simplex rezolvă probleme liniare cu multe variabile. Aducem problema la forma standard (restricții egalități, cu variabile de abatere), pornim dintr-o soluție de bază admisibilă (un vârf) și trecem la un vârf vecin care îmbunătățește funcția obiectiv. Criteriul de intrare: variabila cu cel mai bun cost redus; criteriul de ieșire: testul raportului minim (păstrează admisibilitatea). Când niciun cost redus nu mai îmbunătățește, soluția este optimă.",
+    "sample": "Restricția x + y ≤ 4 devine x + y + s = 4, cu variabila de abatere s ≥ 0.",
+    "worked": "Max 3x + 2y, x + y + s₁ = 4, x + 3y + s₂ = 6. Pornim din x = y = 0 (s₁ = 4, s₂ = 6). Intră x (coeficientul 3 este cel mai mare); rapoartele 4/1 și 6/1, iese s₁. Noua soluție: x = 4, s₂ = 2, z = 12. Costul redus al lui y devine 2 − 3 = −1 < 0, deci soluția este optimă (în acord cu metoda grafică).",
+    "exercises": [
+     "Adu la forma standard: max x + 2y, x + y ≤ 3, x − y ≥ −1, x, y ≥ 0.",
+     "Aplică un pas simplex pentru max 2x + 3y, x + y ≤ 4, x + 2y ≤ 6.",
+     "Ce indică un raport minim inexistent (toate elementele coloanei ≤ 0)?",
+     "Explică geometric un pas al metodei simplex.",
+     "Ce este o soluție de bază degenerată?"
+    ],
+    "test": [
+     "Ce sunt variabilele de abatere?",
+     "Criteriul de ieșire din bază?",
+     "Când este soluția optimă (maximizare)?",
+     "Ce reprezintă o soluție de bază geometric?",
+     "Ce indică o coloană fără elemente pozitive?"
+    ],
+    "steps": [
+     "Adu problema la forma standard și găsește o soluție de bază admisibilă.",
+     "Alege variabila care intră (cost redus) și pe cea care iese (raportul minim).",
+     "Pivotează și repetă până când niciun cost redus nu mai îmbunătățește funcția.",
+     "Greșeala frecventă: să alegi variabila care iese fără testul raportului minim, obținând o soluție neadmisibilă (valori negative)."
+    ],
+    "answers": [
+     "Variabile adăugate pentru a transforma inegalitățile în egalități",
+     "Testul raportului minim",
+     "Când niciun cost redus nu mai îmbunătățește funcția",
+     "Un vârf al regiunii admisibile",
+     "Problemă nemărginită (fără optim finit)"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l27": {
+   "ro": {
+    "title": "Dualitate; problema transporturilor",
+    "theory": "Fiecărei probleme liniare (primale) îi corespunde o problemă duală: pentru max cᵀx, Ax ≤ b, x ≥ 0, duala este min bᵀy, Aᵀy ≥ c, y ≥ 0. Teorema dualității: dacă una are optim, și cealaltă are, iar valorile optime sunt egale; variabilele duale sunt „prețuri umbră” ale resurselor. Problema transporturilor minimizează costul transportului de la m surse la n destinații, cu oferte și cereri date; se rezolvă cu o soluție inițială (colțul nord-vest, costul minim) și îmbunătățiri (metoda potențialelor).",
+    "sample": "Duala problemei max 3x + 2y, x + y ≤ 4, x + 3y ≤ 6 este min 4u + 6v, u + v ≥ 3, u + 3v ≥ 2.",
+    "worked": "Pentru exemplul precedent, soluția duală optimă este u = 3, v = 0: 4·3 + 6·0 = 12, egal cu optimul primal. v = 0 arată că a doua resursă nu este folosită integral (are surplus 2), deci o unitate în plus din ea nu crește profitul; o unitate în plus din prima resursă crește profitul cu 3.",
+    "exercises": [
+     "Scrie duala pentru max x + y, 2x + y ≤ 8, x + 3y ≤ 9, x, y ≥ 0.",
+     "Verifică egalitatea valorilor optime pentru exercițiul precedent.",
+     "Construiește o soluție inițială prin colțul nord-vest pentru 2 surse (oferte 30, 20) și 3 destinații (cereri 10, 25, 15).",
+     "Interpretează economic o variabilă duală egală cu 5.",
+     "Ce condiție de echilibru trebuie verificată la problema transporturilor?"
+    ],
+    "test": [
+     "Ce afirmă teorema dualității?",
+     "Ce reprezintă variabilele duale?",
+     "Ce minimizează problema transporturilor?",
+     "Condiția de echilibru la transport?",
+     "Duala unei probleme de maxim este de…?"
+    ],
+    "steps": [
+     "Scrie primalul în forma canonică.",
+     "Construiește duala (transpui matricea, inversezi rolul lui b și c, schimbi max cu min).",
+     "Rezolvă una dintre probleme și interpretează variabilele duale; la transport, verifică echilibrul ofertă–cerere.",
+     "Greșeala frecventă: să uiți să transpui matricea restricțiilor când scrii duala."
+    ],
+    "answers": [
+     "Valorile optime ale primalei și dualei sunt egale",
+     "Prețurile umbră ale resurselor",
+     "Costul total al transportului",
+     "Oferta totală = cererea totală",
+     "Minim"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l28": {
+   "ro": {
+    "title": "Geometrie proiectivă: coordonate omogene, biraport",
+    "theory": "Planul proiectiv adaugă planului euclidian „punctele de la infinit”, câte unul pentru fiecare direcție, astfel încât oricare două drepte distincte se intersectează. Un punct are coordonate omogene [x : y : z], definite până la un factor nenul; punctele cu z = 0 sunt la infinit. Transformările proiective (date de matrice inversabile 3 × 3) păstrează coliniaritatea și biraportul a patru puncte coliniare: (A, B; C, D) = (AC/BC)/(AD/BD). Principiul dualității schimbă rolul punctelor și dreptelor.",
+    "sample": "Dreptele paralele y = x și y = x + 1 se intersectează în planul proiectiv în punctul de la infinit [1 : 1 : 0].",
+    "worked": "Pe dreapta reală, biraportul punctelor 0, 1, 2, 3 este (0 − 2)/(1 − 2) : (0 − 3)/(1 − 3) = 2 : (3/2) = 4/3. O transformare proiectivă x ↦ (2x + 1)/(x + 1) le duce în 1, 3/2, 5/3, 7/4; biraportul calculat cu noile puncte este tot 4/3.",
+    "exercises": [
+     "Scrie în coordonate omogene dreapta 2x − y + 3 = 0 și punctul ei de la infinit.",
+     "Află intersecția proiectivă a dreptelor x + y = 1 și x + y = 2.",
+     "Calculează biraportul punctelor 1, 2, 4, 8.",
+     "Verifică invarianța biraportului pentru transformarea x ↦ 1/x pe punctele 1, 2, 3, 4.",
+     "Enunță dualul afirmației „prin două puncte distincte trece o singură dreaptă”."
+    ],
+    "test": [
+     "Ce coordonate au punctele de la infinit?",
+     "Se intersectează două drepte paralele în planul proiectiv?",
+     "Ce invariant păstrează transformările proiective?",
+     "Ce înseamnă [x : y : z] = [2x : 2y : 2z]?",
+     "Dualul unui punct este…?"
+    ],
+    "steps": [
+     "Trece în coordonate omogene (x, y) ↦ [x : y : 1].",
+     "Calculează intersecții, imagini sau biraportul în coordonate omogene.",
+     "Verifică invarianța și interpretează punctele de la infinit.",
+     "Greșeala frecventă: să consideri coordonatele omogene unice; ele sunt definite doar până la înmulțirea cu un factor nenul."
+    ],
+    "answers": [
+     "z = 0",
+     "Da, într-un punct de la infinit",
+     "Biraportul",
+     "Același punct",
+     "O dreaptă"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l29": {
+   "ro": {
+    "title": "Grupuri de transformări; izometriile planului; geometrii neeuclidiene",
+    "theory": "Programul Erlangen (Klein) definește o geometrie prin grupul de transformări și invarianții săi: geometria euclidiană (izometrii: distanțe), afină (paralelism, rapoarte pe drepte), proiectivă (biraport). Izometriile planului sunt translațiile, rotațiile, simetriile axiale și simetriile cu alunecare; orice izometrie este compunere de cel mult trei simetrii axiale. În geometriile neeuclidiene axioma paralelelor se schimbă: în geometria hiperbolică (Lobacevski–Bolyai) există o infinitate de paralele printr-un punct, iar suma unghiurilor unui triunghi este < 180°; pe sferă (eliptică) nu există paralele, iar suma este > 180°.",
+    "sample": "Compunerea a două simetrii față de drepte paralele este o translație.",
+    "worked": "Compunem simetriile față de dreptele concurente d₁ și d₂, care formează unghiul 30°: rezultatul este rotația cu 60° în jurul punctului de intersecție. Pe sfera unitate, triunghiul cu vârfurile în polul nord și în două puncte ale ecuatorului aflate la 90° are trei unghiuri drepte: suma 270°, iar excesul π/2 este chiar aria triunghiului.",
+    "exercises": [
+     "Ce izometrie obții compunând două simetrii față de drepte paralele aflate la distanța 3?",
+     "Arată că rotațiile în jurul unui punct fix formează un grup.",
+     "Clasifică izometria (x, y) ↦ (−x, y + 2).",
+     "Care este aria unui triunghi sferic cu unghiurile 90°, 90°, 60° pe sfera unitate?",
+     "Ce invariant păstrează transformările afine, dar nu și cele proiective?"
+    ],
+    "test": [
+     "Ce definește o geometrie în programul Erlangen?",
+     "Compunerea a două simetrii față de drepte concurente?",
+     "Suma unghiurilor unui triunghi hiperbolic?",
+     "Câte paralele printr-un punct în geometria hiperbolică?",
+     "Invariantul fundamental al izometriilor?"
+    ],
+    "steps": [
+     "Identifică grupul de transformări și invarianții lui.",
+     "Pentru izometrii, descompune în simetrii sau verifică punctele fixe și orientarea.",
+     "Pentru geometrii neeuclidiene, compară cu axioma paralelelor și suma unghiurilor.",
+     "Greșeala frecventă: să crezi că suma unghiurilor unui triunghi este 180° în orice geometrie; aceasta este specifică geometriei euclidiene."
+    ],
+    "answers": [
+     "Un grup de transformări și invarianții lui",
+     "O rotație cu dublul unghiului dintre drepte",
+     "Mai mică decât 180°",
+     "O infinitate",
+     "Distanța"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-3-l30": {
+   "ro": {
+    "title": "Teoria numerelor: congruențe, teorema chineză a resturilor, Euler, RSA",
+    "theory": "Congruența a ≡ b (mod n) înseamnă că n divide a − b. Ecuația ax ≡ b (mod n) are soluții dacă și numai dacă d = cmmdc(a, n) divide b. Teorema chineză a resturilor: pentru moduli coprimi două câte două, un sistem x ≡ aᵢ (mod nᵢ) are soluție unică modulo produsul. Teorema lui Euler: a^φ(n) ≡ 1 (mod n) pentru cmmdc(a, n) = 1, unde φ este indicatorul lui Euler. Criptosistemul RSA folosește n = pq, cheia publică e și cheia privată d cu ed ≡ 1 (mod φ(n)).",
+    "sample": "Avem 17 ≡ 2 (mod 5), pentru că 5 divide 17 − 2 = 15.",
+    "worked": "Sistemul x ≡ 2 (mod 3), x ≡ 3 (mod 5): numerele ≡ 3 (mod 5) sunt 3, 8, 13; 8 ≡ 2 (mod 3), deci x ≡ 8 (mod 15). RSA mic: p = 3, q = 11, n = 33, φ = 20, e = 3, d = 7 (3·7 = 21 ≡ 1). Mesajul 4: c = 4³ = 64 ≡ 31 (mod 33); decriptare 31⁷ ≡ 4 (mod 33).",
+    "exercises": [
+     "Rezolvă: 7x ≡ 3 (mod 10).",
+     "Rezolvă sistemul x ≡ 1 (mod 4), x ≡ 2 (mod 5), x ≡ 3 (mod 7).",
+     "Calculează φ(36) și 5^φ(36) mod 36.",
+     "Află ultima cifră a lui 7²⁰²⁶ folosind Euler.",
+     "În RSA cu p = 5, q = 11, e = 3, află cheia privată d."
+    ],
+    "test": [
+     "Ce înseamnă a ≡ b (mod n)?",
+     "Când are soluții ax ≡ b (mod n)?",
+     "φ(p) pentru p prim?",
+     "Ce afirmă teorema lui Euler?",
+     "Ce condiție leagă e și d în RSA?"
+    ],
+    "steps": [
+     "Traduce problema în congruențe.",
+     "Folosește cmmdc și inversul modular, teorema chineză sau teorema lui Euler, după caz.",
+     "Verifică soluția prin calcul direct modulo n.",
+     "Greșeala frecventă: să „împarți” o congruență la un număr care nu este coprim cu modulul; inversul modular există doar când cmmdc = 1."
+    ],
+    "answers": [
+     "n divide a − b",
+     "Când cmmdc(a, n) divide b",
+     "p − 1",
+     "a^φ(n) ≡ 1 (mod n) pentru a coprim cu n",
+     "ed ≡ 1 (mod φ(n))"
+    ]
+   }
+  }
+ }
+}
