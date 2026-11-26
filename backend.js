@@ -840,7 +840,7 @@ function selectTransitAlternatives(candidates,limit=4){
 }
 // Optional MOTIS v6-compatible provider. Use only a separately licensed/authorized service;
 // Transitous' volunteer public endpoint is NOT enabled by default (non-commercial policy).
-async function planMOTISMixedJourney(env,from,to,language,requestedDepartureAt=null){
+async function planMOTISMixedJourney(env,from,to,language,requestedDepartureAt=null,{signal=null}={}){
  const raw=String(env.MOTIS_API_BASE_URL||'').trim();
  if(!raw)return {status:'not_configured',journeys:[]};
  const departure=motisQueryDepartureAt(requestedDepartureAt);
@@ -864,7 +864,7 @@ async function planMOTISMixedJourney(env,from,to,language,requestedDepartureAt=n
    // Optional bearer token for the localhost-only Europe Slim relay, exposed via
    // an authenticated HTTPS tunnel. Existing licensed MOTIS services are unchanged.
    if(String(env.MOTIS_API_TOKEN||'').trim())motisHeaders.Authorization='Bearer '+String(env.MOTIS_API_TOKEN).trim();
-   const response=await fetch(url.toString(),{headers:motisHeaders,signal:AbortSignal.timeout(16000)});
+   const response=await fetch(url.toString(),{headers:motisHeaders,signal:signal?AbortSignal.any([signal,AbortSignal.timeout(16000)]):AbortSignal.timeout(16000)});
   if(!response.ok)return {status:'provider_http_'+response.status,journeys:[]};
   data=await response.json();
  }catch{return {status:'provider_unavailable',journeys:[]};}
@@ -5132,13 +5132,19 @@ export default {
           if(env.TFL_APP_KEY)await Promise.allSettled([...missing.keys()].slice(0,4).map(async id=>{try{if(!/^[A-Za-z0-9_-]{1,100}$/.test(id))return;const u=new URL('https://api.tfl.gov.uk/StopPoint/'+encodeURIComponent(id));u.searchParams.set('app_key',env.TFL_APP_KEY);const r=await fetch(u.href,{headers:{Accept:'application/json'},signal:AbortSignal.timeout(4000)});if(!r.ok)return;const raw=await r.json();const point=transitOperatorPoint(raw);if(point&&point.stop_id===id)missing.set(id,point)}catch{}}));
           for(const journey of transitOptions){const first=(journey.legs||[]).find(l=>!/^(walking|walk|foot|pedestrian)$/i.test(String(l.mode||'')));if(first&&!first.departurePoint&&missing.get(first.departureStopId))first.departurePoint=missing.get(first.departureStopId);journey.boarding_stop=transitBoardingStop(journey.legs);journey.walking_access_available=Boolean(journey.boarding_stop);journey.boarding_details_source=journey.boarding_stop?'operator_stop_point':null;}
         }
+        // Quick itinerary cards already have source timetable evidence. Do not
+        // serialize unrelated BODS (12s) + RTT (2 x 10s) checks after TfL.
+        // Legacy conversational context remains available; quick searches opt in
+        // only when those separate live feeds are actually requested.
+        const includeLiveVehicleFeeds=data.transit_live_feeds===true||
+          (!data.national_public_transport&&!data.transit_query&&!data.transit_destination&&!explicitMixedJourney);
         // BODS: request a small live-vehicle window around the origin. SIRI-VM is XML;
         // extract only limited public fields for nearby-bus context, never treat these as confirmed route legs.
-        let bodsStatus = !transitOptions.length?"not_needed_without_journey":"not_configured";
+        let bodsStatus = !transitOptions.length?"not_needed_without_journey":!includeLiveVehicleFeeds?"not_requested_for_itinerary":"not_configured";
         const nearbyBuses = [];
         // SIRI-VM is nearby vehicle context, not an alternative journey planner.
         // Avoid up to 12 seconds of additional wait when TfL returned no route.
-        if (env.BODS_API_KEY && transitOptions.length) {
+        if (env.BODS_API_KEY && transitOptions.length && includeLiveVehicleFeeds) {
           try {
             const delta = 0.035;
             const minLat = Math.max(-90, latitude - delta), maxLat = Math.min(90, latitude + delta);
@@ -5164,12 +5170,12 @@ export default {
           } catch (e) { bodsStatus = "network_error"; transportErrors.bods = String(e && e.name || "network_error"); }
         }
         // RTT: query the documented location line-up for Grays and summarize real returned services.
-        let rttStatus = !transitOptions.length?"not_needed_without_journey":"not_configured";
+        let rttStatus = !transitOptions.length?"not_needed_without_journey":!includeLiveVehicleFeeds?"not_requested_for_itinerary":"not_configured";
         const rttServices = [];
         let rttEntitlements = [];
         // RTT's location list cannot replace a missing TfL itinerary; do not
         // wait on two sequential RTT calls when there is no verified journey.
-        if (env.RTT_API_TOKEN && transitOptions.length) {
+        if (env.RTT_API_TOKEN && transitOptions.length && includeLiveVehicleFeeds) {
           try {
             const rr = await fetch("https://data.rtt.io/api/info", {headers:{"Accept":"application/json","Authorization":"Bearer " + env.RTT_API_TOKEN},signal:AbortSignal.timeout(10000)});
             rttStatus = rr.ok ? "reachable" : "http_" + rr.status;
@@ -5246,7 +5252,7 @@ export default {
         const transitDiagnostics = {elapsedMs:Date.now()-transitStartedAt, destination:targetName, tflChecks, tflJourneys:transitOptions.length, journeysWithGeometry:transitOptions.filter(j=>j.geometryAvailable).length, geometrySegments:transitOptions.reduce((n,j)=>n+(Array.isArray(j.routeSegments)?j.routeSegments.length:0),0), bodsVehicles:nearbyBuses.length, rttServices:rttServices.length, providers:{tfl:transportErrors.tfl||tflChecks.requestStatus,bods:transportErrors.bods||bodsStatus,rtt:transportErrors.rtt||rttStatus,rtt_services:transportErrors.rtt_services||null,geoapify:transportErrors.geoapify|| (env.GEOAPIFY_API_KEY?"configured":"not_configured")}};
         if (transportErrors.tfl || transportErrors.bods || transportErrors.rtt || transportErrors.rtt_services || transportErrors.geoapify) console.warn("Pocket AI v96 transit provider diagnostics", JSON.stringify(transitDiagnostics));
         else console.info("Pocket AI v96 transit provider summary", JSON.stringify(transitDiagnostics));
-        return json({app:"Pocket AI",version:API_VERSION,status:"success",language:lang,message_received:message,reply,route_available:Boolean(transitRoute),route:transitRoute,route_geometry_available:Boolean(transitRoute && Array.isArray(transitRoute.coordinates) && transitRoute.coordinates.length>=2),transit_available:transitOptions.length>0,transit_destination_point:{latitude:targetLat,longitude:targetLon,label:targetName},fastest_transit:annotateTransportJourneys([transitOptions.reduce((best,j)=>!best||(Date.parse(j.arrivalDateTime||'')||Infinity)<(Date.parse(best.arrivalDateTime||'')||Infinity)?j:best,null)].filter(Boolean),lang)[0]||null,...await mixedExtraFields(),requested_transit_count:requestedOptionsCount,transit:annotateTransportJourneys(transitOptions,lang),transit_geometry_available:transitOptions.some(j=>j.geometryAvailable),nearby_buses:nearbyBuses,rail_services_at_grays:rttServices,transit_provider:transitOptions.length?"TfL":"unavailable",transit_departure_at:departureAt,provider_status:{tfl:transportErrors.tfl?"unavailable":tflChecks.requestStatus,bods:bodsStatus,rtt:rttStatus,rtt_entitlements:typeof rttEntitlements === "undefined" ? [] : rttEntitlements,geoapify:transportErrors.geoapify?"unavailable":(env.GEOAPIFY_API_KEY?"configured":"not_configured")},diagnostics:transitDiagnostics,source:"TfL Journey Planner; BODS SIRI-VM live vehicle feed; Realtime Trains location services at Grays",ai_connected:Boolean(env.AI)});
+        return json({app:"Pocket AI",version:API_VERSION,status:"success",language:lang,message_received:message,reply,route_available:Boolean(transitRoute),route:transitRoute,route_geometry_available:Boolean(transitRoute && Array.isArray(transitRoute.coordinates) && transitRoute.coordinates.length>=2),transit_available:transitOptions.length>0,transit_destination_point:{latitude:targetLat,longitude:targetLon,label:targetName},fastest_transit:annotateTransportJourneys([transitOptions.reduce((best,j)=>!best||(Date.parse(j.arrivalDateTime||'')||Infinity)<(Date.parse(best.arrivalDateTime||'')||Infinity)?j:best,null)].filter(Boolean),lang)[0]||null,...await mixedExtraFields(),requested_transit_count:requestedOptionsCount,transit:annotateTransportJourneys(transitOptions,lang),transit_geometry_available:transitOptions.some(j=>j.geometryAvailable),nearby_buses:nearbyBuses,rail_services_at_grays:rttServices,transit_provider:transitOptions.length?"TfL":"unavailable",transit_departure_at:departureAt,provider_status:{tfl:transportErrors.tfl?"unavailable":tflChecks.requestStatus,bods:bodsStatus,rtt:rttStatus,rtt_entitlements:typeof rttEntitlements === "undefined" ? [] : rttEntitlements,geoapify:transportErrors.geoapify?"unavailable":(env.GEOAPIFY_API_KEY?"configured":"not_configured")},diagnostics:transitDiagnostics,source:"TfL Journey Planner"+(nearbyBuses.length?"; BODS SIRI-VM live vehicle feed":"")+(rttServices.length?"; Realtime Trains location services at Grays":""),ai_connected:Boolean(env.AI)});
       } catch (e) {
         console.warn("Pocket AI v96 transit-first branch failed", String(e && e.message || e).slice(0,180));
         return json({app:"Pocket AI",version:API_VERSION,status:"success",language:lang,message_received:message,reply:lang === "en" ? "The public-transport request could not be completed right now. No unverified route was supplied; try again or specify a station/postcode." : "Cererea de transport public nu a putut fi completată acum. Nu am afișat un traseu neverificat; încearcă din nou sau precizează o stație/un cod poștal.",route_available:false,transit_available:false,ai_connected:Boolean(env.AI)});

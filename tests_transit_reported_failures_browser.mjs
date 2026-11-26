@@ -23,9 +23,9 @@ window.__reportedTransit={
  renderTransitChoices([journey]);
  },select(){return selectTransitJourneyWithNavigation(state.lastTransitResponse.transit,0)},
  draws(){return __mapDraws},
- mixed(){closeRouteMap(false);state.lastTransitChoice={kind:'transit',mixedJourney:true};
+ mixed(extra={}){closeRouteMap(false);state.lastTransitChoice={kind:'transit',mixedJourney:true,journeyOrigin:{label:'Synthetic home'},transitDestination:{label:'Synthetic destination'}};
  renderMixedUnifiedResults({international_journey:true,transit:[],flight_search_status:'search_timeout',flight_search_termination:'search_timeout',flight_search_incomplete:true,
- flight_airport_candidates:{origin:[{iata:'AAA',name:'Synthetic origin airport'}],destination:[{iata:'BBB',name:'Synthetic nearby airport'}]}},
+ flight_airport_candidates:{origin:[{iata:'AAA',name:'Synthetic origin airport'}],destination:[{iata:'BBB',name:'Synthetic nearby airport'}]},...extra},
  {transitDestination:{label:'Synthetic destination'}})}
 };
 function extraFunGames(){`);
@@ -43,12 +43,18 @@ try{
  for(const width of [360,393,430]){
   const page=await browser.newPage({viewport:{width,height:817},isMobile:true,hasTouch:true});const errors=[];
   page.on('pageerror',e=>errors.push(e.message));
-  await page.route('**/*',r=>r.request().url().startsWith('http://127.0.0.1:')?r.continue():
-   r.request().method()==='POST'?r.fulfill({status:503,contentType:'application/json',body:JSON.stringify({status:'error',route_available:false})}):r.abort());
+  let releaseWalk=null,holdWalk=true,walkSuccess=false;
+  await page.route('**/*',async r=>r.request().method()==='POST'?
+   (holdWalk?await new Promise(resolve=>{releaseWalk=resolve}):null,r.fulfill({status:walkSuccess?200:503,contentType:'application/json',body:JSON.stringify(walkSuccess?{status:'success',route_available:true,route:{profile:'walk',coordinates:[[.3,51.48],[.302,51.482]],destination:{latitude:51.482,longitude:.302},durationSeconds:180,distanceMeters:300}}:{status:'error',route_available:false})})):
+   r.request().url().startsWith('http://127.0.0.1:')?r.continue():r.abort());
   await page.goto('http://127.0.0.1:'+server.address().port+'/?nativeLaunch=1');
   await page.evaluate(j=>window.__reportedTransit.init(j),journey);
-  await page.evaluate(()=>window.__reportedTransit.select());
+  await page.evaluate(()=>{window.__walkSelection=window.__reportedTransit.select()});
   const body=page.locator('#moduleLayerBody');
+  assert.match(await body.innerText(),/TEST 1/);
+  assert.match(await body.locator('.transit-access-status').innerText(),/Se calculează/,'Details render before pedestrian provider responds');
+  await page.waitForTimeout(40);assert.ok(releaseWalk);holdWalk=false;releaseWalk();
+  await page.evaluate(()=>window.__walkSelection);
   assert.match(await body.innerText(),/TEST 1/);assert.match(await body.innerText(),/3 opriri până la coborâre/);
   assert.match(await body.locator('.transit-access-status').innerText(),/pietonal/);
   assert.equal(await body.locator('.transit-journey-choice').count(),0,'No bounce back to option list');
@@ -66,7 +72,41 @@ try{
   assert.match(await body.locator('.mixed-airport-coverage').innerText(),/AAA.*BBB/s);
   assert.match(await body.locator('.mixed-airport-coverage').innerText(),/nu zboruri sau transferuri confirmate/);
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);
+  // Reproduce selecting a flight from a deeply scrolled list. The header
+  // must reset to the top and remain visible at the bottom of its details.
+  const flight={legs:[{mode:'flight',from:'LTN',to:'DEB',startLocal:'2026-12-04 06:05',endLocal:'2026-12-04 09:45'}],
+   itinerary:{accessStatus:'no_connection_before_boarding',egressStatus:'not_configured',accessJourney:null,egressJourney:null}};
+  await page.evaluate(f=>window.__reportedTransit.mixed({flight_candidates:[f,f,f]}),flight);
+  await body.evaluate(el=>{el.scrollTop=el.scrollHeight});
+  await body.locator('.mixed-unverified-candidate').last().click();
+  const back=body.locator('.transit-detail-toolbar button');
+  assert.equal(await body.evaluate(el=>el.scrollTop),0,'Opening flight resets inherited list scroll');
+  assert.match(await body.innerText(),/90 min/,'Explain the selected departure/boarding constraint');
+  assert.match(await body.innerText(),/Nu avem acum date/,'Distinguish missing provider from an empty timetable');
+  await body.evaluate(el=>{el.scrollTop=el.scrollHeight});
+  const pinned=await back.boundingBox(),area=await body.boundingBox();
+  assert.ok(pinned.y>=area.y&&pinned.y+pinned.height<=area.y+area.height,'Back remains visible after details scroll');
+  await back.click();assert.equal(await body.locator('.mixed-unverified-candidate').count(),3);
+  await body.locator('.mixed-unverified-candidate').first().click();
+  await page.evaluate(()=>window.pocketAndroidBack());
+  assert.equal(await body.locator('.mixed-unverified-candidate').count(),3,'Android Back also restores mixed results');
+  // Cancel a pending pedestrian lookup: its late failure must not reopen details.
+  await page.evaluate(j=>window.__reportedTransit.init(j),journey);
+  releaseWalk=null;holdWalk=true;
+  await page.evaluate(()=>{window.__walkSelection=window.__reportedTransit.select()});
+  await page.waitForTimeout(40);assert.ok(releaseWalk);
+  await body.locator('.quick-navigation-toolbar button').first().click();
+  releaseWalk();await page.evaluate(()=>window.__walkSelection);
+  assert.equal(await body.locator('.transit-journey-choice').count(),1,'Late pedestrian reply cannot replace the options after Back');
+  // The success path also stays in readable details, rather than spending
+  // more time opening the full map without an explicit navigation action.
+  await page.evaluate(j=>window.__reportedTransit.init(j),journey);
+  walkSuccess=true;holdWalk=false;
+  await page.evaluate(()=>window.__reportedTransit.select());
+  assert.match(await body.innerText(),/TEST 1/);
+  assert.equal(await body.locator('.transit-access-status').innerText(),'');
+  assert.equal(await page.locator('.route-map-window').count(),0,'No automatic map/enrichment waterfall');
   assert.deepEqual(errors,[]);await page.close();
  }
- console.log('PASS reported failures mobile 360/393/430: walking failure retains details, all 3 walks mapped/unverified, nearby airport timeout disclosure');
+ console.log('PASS physical-report regressions 360/393/430: immediate details during pending walk; success/failure/cancel; all 3 walks; sticky mixed Back and Android Back; boarding/provider diagnostics');
 }finally{await browser.close();await new Promise(ok=>server.close(ok));}

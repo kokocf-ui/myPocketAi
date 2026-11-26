@@ -31,11 +31,11 @@ const incomplete=(flight,origin,destination,status)=>({
  * by city/country. A missing provider yields an explicitly incomplete itinerary.
  */
 export async function prepareMixedFlightOptions(env,{
- candidates=[],origin,destination,requestedAt=null,language='ro',limit=6
+ candidates=[],origin,destination,requestedAt=null,language='ro',limit=6,airportCandidates=null
 }={},{
  connect=connectCandidateFlightToGround,
  discover=discoverAirportCandidates,resolveZone=resolveAirportZone,
- planAccess,planEgress=null,planRegional=null,now=Date.now()
+ planAccess,planEgress=null,planRegional=null,now=Date.now(),budgetMs=7500
 }={}){
  const selected=Array.isArray(candidates)?candidates.slice(0,Math.max(0,Math.min(6,limit))):[];
  if(!point(origin)||!point(destination))return selected.map(flight=>({
@@ -45,12 +45,14 @@ export async function prepareMixedFlightOptions(env,{
  const cachedDiscover=(e,place,options)=>{
   const key=Number(place.latitude)+','+Number(place.longitude)+'|'+
    (options?.radiusKm||'')+'|'+(options?.limit||'');
-  if(!locationCache.has(key))locationCache.set(key,Promise.resolve().then(()=>discover(e,place,options)));
+  const known=place===origin?airportCandidates?.origin:place===destination?airportCandidates?.destination:null;
+  if(!locationCache.has(key))locationCache.set(key,Array.isArray(known)&&known.length?
+   Promise.resolve({status:'ok',airports:known}):Promise.resolve().then(()=>discover(e,place,options)));
   return locationCache.get(key);
  };
- const cachedZone=(e,airport,at)=>{
+ const cachedZone=(e,airport,at,options)=>{
   const key=String(airport?.iata||'')+'|'+at;
-  if(!zoneCache.has(key))zoneCache.set(key,Promise.resolve().then(()=>resolveZone(e,airport,at)));
+  if(!zoneCache.has(key))zoneCache.set(key,Promise.resolve().then(()=>resolveZone(e,airport,at,options)));
   return zoneCache.get(key);
  };
  return Promise.all(selected.map(async flight=>{
@@ -62,7 +64,7 @@ export async function prepareMixedFlightOptions(env,{
     origin,destination,flight,requestedAt,language
    },{discover:cachedDiscover,resolveZone:cachedZone,
     ...(typeof planAccess==='function'?{planAccess}:{}),
-    planEgress,planRegional,now});
+    planEgress,planRegional,now,budgetMs});
    return {...flight,itinerary:{
     ...incomplete(flight,origin,destination,details?.status||'provider_unavailable'),
     ...(details&&typeof details==='object'?details:{})

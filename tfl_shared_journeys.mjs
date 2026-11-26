@@ -1,9 +1,11 @@
+import {beforeTransitAbort} from './transit_deadline.mjs';
 // One provider-facing TfL journey API adapter shared by all backend entry paths.
 // No fabricated journeys; callers remain responsible for destination, walking
 // feasibility and transfer validation before showing a confirmed itinerary.
 export async function requestTfLJourneys({
  from,to,appKey,appId='',departureAt=null,requestedCount=3,
- auxiliary=false,modes='',includeBusAlternative=false,fetcher=fetch
+ auxiliary=false,modes='',includeBusAlternative=false,fetcher=fetch,
+ budgetMs=12000,supplementaryBudgetMs=1800
 }={}){
  if(!from||!to)return {journeys:[],responses:[],status:'not_configured',attempts:[]};
  const base=new URL('https://api.tfl.gov.uk/Journey/JourneyResults/'+from+'/to/'+to);
@@ -32,8 +34,13 @@ export async function requestTfLJourneys({
   }
  }
  const attempts=[],responses=[];
+ const controller=new AbortController(),signal=controller.signal;
+ const deadline=Date.now()+Math.max(1,Math.min(12000,Number(budgetMs)||12000));
+ let timer=setTimeout(()=>controller.abort(),Math.max(1,deadline-Date.now()));
+ try{
  const desired=Math.max(1,Math.min(4,Number(requestedCount)||3));
  const execute=async (preference='',relaxed=false,publicAccess=false,modeOverride='')=>{
+  if(signal.aborted)return null;
   const u=new URL(base.toString());
   if(modeOverride)u.searchParams.set('mode',modeOverride);
   if(publicAccess){u.searchParams.delete('app_key');u.searchParams.delete('app_id');}
@@ -46,14 +53,16 @@ export async function requestTfLJourneys({
    }
   }
   try{
-   const response=await fetcher(u.toString(),{
-    headers:{Accept:'application/json'},signal:AbortSignal.timeout(relaxed?8000:10000)
-   });
+   const response=await beforeTransitAbort(()=>fetcher(u.toString(),{
+    headers:{Accept:'application/json'},signal:AbortSignal.any([signal,AbortSignal.timeout(relaxed?8000:10000)])
+   }),signal,null);
+   if(!response){attempts.push({mode:modeOverride||modes||'all',status:'search_timeout'});return null;}
    if(!response.ok){
     attempts.push({mode:modeOverride||modes||'all',preference:preference||'default',public:publicAccess||!appKey,status:'http_'+response.status});
     return null;
    }
-   const data=await response.json();
+   const data=await beforeTransitAbort(()=>response.json(),signal,null);
+   if(signal.aborted){attempts.push({mode:modeOverride||modes||'all',status:'search_timeout'});return null;}
    if(!Array.isArray(data?.journeys)){
     attempts.push({mode:modeOverride||modes||'all',preference:preference||'default',public:publicAccess||!appKey,status:'invalid_response'});
     return null;
@@ -74,6 +83,12 @@ export async function requestTfLJourneys({
  const primaryPromise=execute(auxiliary?'':'leasttime');
  const busPromise=includeBusAlternative&&!auxiliary&&!modes?execute('leasttime',false,false,'bus'):null;
  const primary=await primaryPromise;
+ // Once useful routes exist, optional preferences/bus diversity must not hold
+ // the whole response hostage. Keep anything already received at cancellation.
+ if(responses.some(r=>r.journeys.length)){
+  clearTimeout(timer);
+  timer=setTimeout(()=>controller.abort(),Math.max(1,Math.min(deadline-Date.now(),Number(supplementaryBudgetMs)||1800)));
+ }
  const authDenied=Boolean(appKey)&&attempts.some(a=>a.mode===(modes||'all')&&['http_401','http_403'].includes(a.status));
  if(authDenied){
   // TfL permits limited unauthenticated access. One bounded public attempt
@@ -96,5 +111,5 @@ export async function requestTfLJourneys({
   ?(attempts.some(a=>a.public&&a.count>0)?'ok_public':'ok'):
    attempts.some(a=>a.status==='ok')?'no_journeys_returned':
    attempts.at(-1)?.status||'request_failed'};
-
+ }finally{clearTimeout(timer);controller.abort();}
 }

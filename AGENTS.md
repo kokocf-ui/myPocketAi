@@ -7,6 +7,31 @@
 
 ## 1. Reguli permanente de lucru cu utilizatorul
 
+**RETEST FIZIC APK501886: LATENȚĂ + MIXT INCOMPLET (2026-11-26, CEL MAI NOU):**
+User a trimis 9capturi19:20–19:26: opțiuniGraysVictoria întârzie, selectare1intermitent,
+3walkingerror; mixt04dec04:00 afișează LTNDEB61GBP/STNCLJ81GBP, fărăgroundșiBack.
+Acestea sunt observațiiFIZICE. NU declara501886gata pentruRO sau door-to-doorrezolvat.
+Corecții noi DOARPEBRANCH, NEnoudeploy/NEnouAPK înaceastăetapă:
+- renderlocaldetailsSINCRON înaintewalk;8sbackground vs25s; numapautomat la success;
+  updatepreservescroll, Backanulează/stalelateAPI, legtableînainteerror/refresh.
+- TfLdeadlinecomun12s, extrasmax1.8sdupăprimary; nu promite12sendtoend!
+- quicktransit nu așteaptă BODS12s+RTT10+10s, marknot_requested_for_itinerary.
+- mixed stickytoolbar+scrollTop0+nativeBackselector; childnoshink; dailyquotehidden
+  câttransitopen (browser a depistat bannerinterceptândtapulBack).
+- airportdiscoveryreuse; ground7.5spercandidate sub8.5souter; independentaccess/egress,
+  primulaccesssamplepăstratdacăal2leatimeout; signalsUK/geo/timezone/MOTIS.
+- UIexplicăboardingdeadline/providerabsent/timeout, nu presupunenoconnection.
+04:00start/06:05flight cu90minbuffer =>04:35deadline, NUprobadetransferimposibil.
+Raport `TRANSIT_APK501886_RETEST_FIXES_2026-11-26.md` cu detalii/limite.
+PASSoffline:transit-audit(inclnoulatencytestfullWorker),national,mixed,check,boot,
+Victoria,flight-ground,fixedpoint; browserreported+mixed360/393/430;2dryruns+bundlednames.
+Browserregressioncorectat săinterceptezesameoriginPOST:acumrequesthold+503/200realmock,
+nu doarHTML→JSONparseerror. Pendingwalkdetails/success/fail/latecancel/sticky/nativeBackPASS.
+Niciolivesearch/publish/HERE/Oracle/mainmerge. Prodrămânev186+501886. HEREOFF0/max2.
+LegăturiterealeGraysLTN/DEBOradea și performanțafizică dupăfix încăNEVERIFICATE;
+nu prezenta fixuriledeUI/partialpreservation ca groundjourneysconfirmate.
+
+
 **CORECȚII LIVRATE: BACKENDv186 + APK501886 (2026-11-26):**
 User a aprobat publicarea pentru a retesta. Codecommit ee3f68fb6921f36a21892eb819001a376dd9e1c1.
 Deployworkflow45882292516/backendjob140124312964 SUCCESS; frontendjobSKIPPED.

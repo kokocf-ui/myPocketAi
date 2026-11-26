@@ -64,13 +64,14 @@ assert.equal(cards[0].children[1].textContent,'🚌');
 assert.equal(cards[1].children[1].textContent,'✈️');
 
 cards[0].onclick();
-assert.equal(body.children[0].tag,'button','Back stays inside results');
+assert.equal(body.children[0].className,'quick-navigation-toolbar transit-detail-toolbar','Back stays pinned inside results and supports native Back');
+assert.equal(body.children[0].children[0].tag,'button');
 const link=body.children.find(e=>e.tag==='a');
 assert.equal(link?.href,'https://www.flixbus.co.uk/bus-routes/london-oradea');
 assert.equal(link?.textContent,'Bilete și rezervare · FlixBus');
 assert.ok(body.children.some(e=>e.className==='mixed-unverified-access-leg'));
 assert.ok(body.children.some(e=>e.className==='mixed-unverified-egress-leg'));
-body.children[0].onclick();
+body.children[0].children[0].onclick();
 assert.equal(shown,2);
 cards=body.children.filter(e=>e.className.includes('mixed-unverified-candidate'));
 cards[1].onclick();

@@ -30,7 +30,7 @@ export async function searchMixedIndicativeOptions(env,{
   let timeout;
   try{
    const enriched=await Promise.race([
-    prepare(env,{candidates:flights,origin,destination,requestedAt:departureAt||new Date().toISOString(),language,limit:6},
+    prepare(env,{candidates:flights,origin,destination,requestedAt:departureAt||new Date().toISOString(),language,limit:6,airportCandidates:air?.airportCandidates},
      {planEgress:dependencies.planEgress,planRegional:dependencies.planRegional}),
     new Promise(resolve=>{timeout=setTimeout(()=>resolve(null),8500)})
    ]);

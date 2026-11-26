@@ -1,5 +1,12 @@
 # myPocketAI — test Android în România
 
+> **Rezultat retest APK 501886:** utilizatorul a confirmat probleme de latență,
+> verificare pietonală intermitentă și lipsa revenirii/legăturilor terestre în mixt.
+> Nu considera acest APK validat pentru trimitere în România. Corecțiile următoare
+> sunt doar pe ramură; vezi `TRANSIT_APK501886_RETEST_FIXES_2026-11-26.md`.
+> Instrucțiunile de mai jos descriu livrarea istorică 501886, nu un APK nou.
+
+
 ## Actualizare pentru retest — APK 501886 + backend v186
 
 [Descarcă noul APK semnat 501886](https://github.com/kokocf-ui/myPocketAi/releases/download/education-test-45882296441/myPocketAI-signed-education-test.apk)
