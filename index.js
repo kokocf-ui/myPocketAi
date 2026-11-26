@@ -24475,7 +24475,18 @@ function welcomeUser(){
   speechSynthesis.speak(utterance);
  }else{pocketGreetingActive=false;state.avatarTimer=setTimeout(hideAvatar,2800)}
 }
-$('avatarClose').addEventListener('click',()=>{if(state.voiceMode){state.voiceMode=false;stopRecognition();stopSpeech();setPressed($('voiceBtn'),false)}if(pocketExitOpen)pocketExitClose();else hideAvatar()});
+function pocketInterruptAvatar(){
+ if(pocketExitOpen)return; // Exit confirmation retains its own explicit buttons.
+ state.voiceMode=false;state.dictationMode=false;pocketGreetingActive=false;
+ stopRecognition();setPressed($('voiceBtn'),false);setPressed($('dictationBtn'),false);
+ stopSpeech();hideAvatar();setStatus(dialogText('Redare oprită.','Playback stopped.'));
+}
+$('avatarClose').addEventListener('click',()=>{if(pocketExitOpen)pocketExitClose();else pocketInterruptAvatar()});
+avatarOverlay.querySelector('.avatar-stage').addEventListener('click',()=>pocketInterruptAvatar());
+avatarOverlay.querySelector('.avatar-stage').setAttribute('role','button');
+avatarOverlay.querySelector('.avatar-stage').setAttribute('tabindex','0');
+avatarOverlay.querySelector('.avatar-stage').setAttribute('aria-label','Oprește vocea și închide avatarul');
+avatarOverlay.querySelector('.avatar-stage').addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();pocketInterruptAvatar()}});
 // 05 — Speech output, independent from network request handling
 let speechVoiceCache=[];
 let pocketNativeSpokenText='';
@@ -24556,7 +24567,7 @@ function speakText(text,{continuous=false}={}){stopRecognition();state.dictation
  if(!ok){state.speaking=false;hideAvatar();notify('Nu am putut porni vocea Android.');}
  return ok;
 }
-if(!('speechSynthesis'in window)||!('SpeechSynthesisUtterance'in window)){hideAvatar();notify('Redarea vocală nu este disponibilă în acest browser. Răspunsul rămâne disponibil în scris.');return false}stopSpeech();const utterance=new SpeechSynthesisUtterance(prepareSpeechText(text));utterance.lang=pocketSpeechLocale(state.language);utterance.rate=state.language==='en'?1:0.96;utterance.pitch=state.language==='en'?1:1.04;state.speaking=true;pocketNotifySpeechState();showAvatar({message:'Îți citesc răspunsul…',status:'Răspund vocal…',speaking:true});utterance.onstart=()=>{avatar3dLoad();avatar3dSend('start',{text:utterance.text})};utterance.onboundary=event=>avatar3dSend('boundary',{charIndex:event.charIndex});utterance.onend=()=>{avatar3dSend('stop');state.speaking=false;pocketNotifySpeechState();avatarOverlay.classList.remove('speaking');voiceWave.hidden=true;hideAvatar();if(continuous&&state.voiceMode){setStatus('Te ascult…');setTimeout(()=>{if(state.voiceMode&&!state.speaking&&!state.recognition)startRecognition('voice')},120)}};utterance.onerror=()=>{avatar3dSend('stop');state.speaking=false;pocketNotifySpeechState();avatarOverlay.classList.remove('speaking');voiceWave.hidden=true;hideAvatar();if(continuous&&state.voiceMode){setStatus('Redarea vocală nu a pornit. Poți continua prin microfon sau text.')}else{notify('Răspunsul text este disponibil; redarea vocală nu a reușit.')}};const speakWhenReady=()=>{const voice=getSpeechVoice();if(voice)utterance.voice=voice;try{window.speechSynthesis.speak(utterance)}catch{state.speaking=false;hideAvatar();notify('Nu am putut porni redarea vocală. Răspunsul rămâne disponibil în scris.')}};if(refreshSpeechVoices().length)speakWhenReady();else waitForSpeechVoices().then(speakWhenReady);return true}
+if(!('speechSynthesis'in window)||!('SpeechSynthesisUtterance'in window)){hideAvatar();notify('Redarea vocală nu este disponibilă în acest browser. Răspunsul rămâne disponibil în scris.');return false}stopSpeech();const utterance=new SpeechSynthesisUtterance(prepareSpeechText(text));utterance.lang=pocketSpeechLocale(state.language);utterance.rate=state.language==='en'?1:0.96;utterance.pitch=state.language==='en'?1:1.04;state.speaking=true;pocketNotifySpeechState();showAvatar({message:'Îți citesc răspunsul…',status:'Răspund vocal…',speaking:true});utterance.onstart=()=>{avatar3dLoad();avatar3dSend('start',{text:utterance.text})};utterance.onboundary=event=>avatar3dSend('boundary',{charIndex:event.charIndex});utterance.onend=()=>{avatar3dSend('stop');state.speaking=false;pocketNotifySpeechState();avatarOverlay.classList.remove('speaking');voiceWave.hidden=true;hideAvatar();if(continuous&&state.voiceMode){setStatus('Te ascult…');setTimeout(()=>{if(state.voiceMode&&!state.speaking&&!state.recognition)startRecognition('voice')},120)}};utterance.onerror=()=>{avatar3dSend('stop');state.speaking=false;pocketNotifySpeechState();avatarOverlay.classList.remove('speaking');voiceWave.hidden=true;hideAvatar();if(continuous&&state.voiceMode){setStatus('Redarea vocală nu a pornit. Poți continua prin microfon sau text.')}else{notify('Răspunsul text este disponibil; redarea vocală nu a reușit.')}};const speakWhenReady=()=>{if(!state.speaking)return;const voice=getSpeechVoice();if(voice)utterance.voice=voice;try{window.speechSynthesis.speak(utterance)}catch{state.speaking=false;hideAvatar();notify('Nu am putut porni redarea vocală. Răspunsul rămâne disponibil în scris.')}};if(refreshSpeechVoices().length)speakWhenReady();else waitForSpeechVoices().then(speakWhenReady);return true}
 function pocketNotifySpeechState(){window.dispatchEvent(new Event('pocket-speech-state'))}
 function stopSpeech(){const wasSpeaking=state.speaking;if(pocketNativeVoiceAvailable())pocketNativeVoiceSend({action:'stop'});avatar3dSend('stop');pocketNativeSpokenText='';if('speechSynthesis'in window)window.speechSynthesis.cancel();state.speaking=false;avatarOverlay.classList.remove('speaking');voiceWave.hidden=true;pocketNotifySpeechState();if(wasSpeaking&&avatarOverlay.classList.contains('visible')&&!pocketExitOpen)hideAvatar()}
 // 06 — Speech recognition: dictation and continuous voice are distinct modes
@@ -25174,7 +25185,9 @@ setTimeout(()=>{if(pocketFirstEntrance&&!pocketGreetingActive){pocketRevealMainA
 
 /* Avatar floats over the real application, with no blocking panel or gestures. */
 .avatar-overlay,.avatar-overlay.visible{background:transparent!important;pointer-events:none!important;transition:opacity .35s ease,visibility .35s ease!important}
-.avatar-overlay .avatar-stage{pointer-events:none!important}
+.avatar-overlay .avatar-stage{pointer-events:auto!important;cursor:pointer}
+.avatar-overlay.exit-mode .avatar-stage{pointer-events:none!important}
+.avatar-overlay .avatar-close{z-index:10!important}
 .avatar-overlay .avatar-stage #avatar3dFrame{left:10%!important;top:13%!important;right:auto!important;bottom:auto!important;width:80%!important;height:73%!important;pointer-events:none!important;background:transparent!important}
 
 

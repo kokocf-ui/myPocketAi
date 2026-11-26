@@ -1,3 +1,5 @@
+import {assistantPreferredName,assistantIdentityInstruction} from './assistant_personal_identity.mjs';
+import {weatherPracticalAdvice,weatherLocalityLabel} from './weather_practical_advice.mjs';
 import {assistantUnderstandRequest,assistantUnderstandingInstruction,assistantRepeatsRecentReply,assistantVariationRequested} from './assistant_understanding.mjs';
 import {handleEducationInk} from './education_ink_api.mjs';
 import {educationTutorResponse} from './education_exercise_tutor.mjs';
@@ -3061,6 +3063,11 @@ export default {
     // E1: Speech-act gate has priority over stale route context, named-POI
     // lookup, news/web research, old lesson topics and fixed canned replies.
     // The app brand remains myPocket AI; only the avatar is named Eva.
+    const preferredName=(data.module||'assistant')==='assistant'?assistantPreferredName(originalMessage,data.history):null;
+    if(preferredName)return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,
+      message_received:originalMessage,reply:lang==='ro'?'Sigur, îți spun '+preferredName+'. Eu sunt Eva. 😊':'Of course, I’ll call you '+preferredName+'. I’m Eva. 😊',
+      conversation_intent:'eva_name_preference',conversational_reply:true,ai_generated:false,
+      web_search_status:'not_needed',location_received:false});
     const evaTurn=creativeEntryIntent.requested?null:classifyEvaTurn(message,{module: data.module||'assistant'});
     if(evaTurn?.kind==='exit'){
       return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,
@@ -6040,9 +6047,8 @@ export default {
           const rr=await fetch(reverse.href,{headers:{Accept:"application/json","User-Agent":"PocketAI/105 (weather locality)"},signal:AbortSignal.timeout(3500)});
           if(rr.ok){
             const place=await rr.json(),a=place?.address||{};
-            const locality=a.town||a.city||a.village||a.suburb||a.municipality||a.county;
-            const district=a.suburb&&a.suburb!==locality?a.suburb:null;
-            if(locality)point.label=[district,locality].filter(Boolean).join(", ");
+            const locality=weatherLocalityLabel(a);
+            if(locality)point.label=locality;
           }
         }catch{/* Preserve GPS forecast when reverse geocoding is unavailable. */}
 
@@ -6119,7 +6125,7 @@ export default {
             if(rainWindow)reply+="\nPloaie estimată între "+rainWindow.start+" și "+rainWindow.end+" (orientativ).";
             else if(hourlyRows.every(x=>x.precipitation_mm!==null&&x.precipitation_mm<0.1))reply+="\nNu sunt prognozate precipitații măsurabile în orele disponibile.";
             if(wind>0)reply+="\nVânt: până la "+f(wind)+" km/h.";
-            if(Number.isFinite(first.feels_like)&&first.feels_like<=10)reply+="\nO jachetă ar fi utilă dacă ieși.";
+
           }else{
             reply="Weather in "+point.label+" ("+date+"): "+sky+".\nTemperature: "+f(values.minimum)+"–"+f(values.maximum)+"°C"+(Number.isFinite(first.feels_like)?"; feels like "+f(first.feels_like)+"°C at "+first.time:"")+".";
             if(peak!==null)reply+="\nPeak precipitation probability in available hours: "+f(peak)+"%.";
@@ -6127,9 +6133,12 @@ export default {
             if(wind>0)reply+="\nWind up to "+f(wind)+" km/h.";
           }
         }
+        const adviceRows=weather.period==='current'&&Number.isFinite(forecast.current?.temperature_2m)?[{temperature:forecast.current.temperature_2m,feels_like:forecast.current.apparent_temperature,weather_code:forecast.current.weather_code,wind_kmh:forecast.current.wind_speed_10m},...hourlyRows.slice(1)]:hourlyRows;
+        const practicalAdvice=weatherPracticalAdvice(adviceRows,lang);
+        if(practicalAdvice.length)reply+='\n'+practicalAdvice.join('\n');
         reply+=`\nOpen-Meteo · ${t[6]}: ${retrieved} (${tz}).\nhttps://open-meteo.com/`;
         responseWeatherContext={query:weather.query,period:weather.period,offset:weather.offset,date:weather.date||'',pending:false};
-        return sendWeather(reply,{weather_ok:true,weather:{provider:'Open-Meteo',location:point.label,latitude:point.latitude,longitude:point.longitude,date,timezone:tz,period:weather.period,retrieved_at:fetchedAt,hourly:hourlyRows,rain_window:rainWindow,...values},sources:[{title:'Open-Meteo',url:'https://open-meteo.com/',retrieved_at:fetchedAt}]});
+        return sendWeather(reply,{weather_ok:true,weather:{provider:'Open-Meteo',location:point.label,latitude:point.latitude,longitude:point.longitude,date,timezone:tz,period:weather.period,retrieved_at:fetchedAt,hourly:hourlyRows,rain_window:rainWindow,practical_advice:practicalAdvice,...values},sources:[{title:'Open-Meteo',url:'https://open-meteo.com/',retrieved_at:fetchedAt}]});
       }catch{return sendWeather(t[9]);}
     }
     const distanceText=message.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
@@ -6456,22 +6465,18 @@ export default {
         // the occupied building or a verified postal address. Present them as estimates.
         const ro=lang!=='en';
         const lines=[(ro?'Locație aproximativă: ':'Approximate location: ')+addressLabel+'.'];
-        if(streetUsable&&(postalCode||nearbyPostcodes.length)){
-          const codes=nearbyPostcodes.map(p=>p.postcode+' (~'+Math.round(p.distance)+' m)');
-          const existing=new Set(nearbyPostcodes.map(p=>p.postcode.replace(/\s+/g,'').toUpperCase()));
-          for(const p of [postalCode,originalPostcode])if(p&&!existing.has(p.replace(/\s+/g,'').toUpperCase())){codes.push(p);existing.add(p.replace(/\s+/g,'').toUpperCase())}
-          lines.push((ro?'Coduri poștale din apropiere (neconfirmate): ':'Nearby postcodes (unconfirmed): ')+codes.join('; ')+'.');
-        }
+        // Postcode centroids and reverse matches are not a verified postal address.
+        // Keep uncertain candidates out of the answer, speech and location card.
         if(numberUsable&&nearbyAddresses.length){
           lines.push((ro?'Adrese cartografiate în apropiere (nu pot confirma care este a ta): ':'Nearby mapped addresses (I cannot confirm which is yours): ')+nearbyAddresses.map(a=>a.houseNumber+' '+a.street+' (~'+a.distance_m+' m)').join('; ')+'.');
         }
         lines.push(houseNumber&&numberUsable
-          ?(ro?'Numărul și codul poștal sunt estimări; verifică adresa exactă.':'The building number and postcode are estimates; verify the exact address.')
+          ?(ro?'Numărul este estimat; nu pot confirma codul poștal sau adresa exactă.':'The building number is estimated; I cannot confirm the postcode or exact address.')
           :(ro?'Nu pot confirma numărul clădirii sau adresa exactă din poziția GPS.':'I cannot confirm the building number or exact address from GPS.'));
         if(accuracyKnown)lines.push((ro?'Precizie GPS: ±':'GPS accuracy: ±')+Math.round(accuracyMeters)+' m.');
         const reply=lines.join('\n');
         console.info("Pocket AI v96 location diagnostic", JSON.stringify({ diagnosticId: locationDiagnosticId, stage: "reverse_geocode_completed", coordinatesValid: hasValidLocation, timestamp: new Date().toISOString() }));
-        return json({ app: "Pocket AI", version: API_VERSION, status: "success", language: lang, message_received: message, reply, location_received: true, street: streetUsable ? street || null : null, house_number: numberUsable ? houseNumber || null : null, postcode: streetUsable ? postalCode || null : null, gps_accuracy_m: accuracyKnown ? Math.round(accuracyMeters) : null, address_is_estimate:true, nearby_addresses:nearbyAddresses, nearby_postcodes:nearbyPostcodes, area: place || null, reverse_geocode_ok: true, source: reverseSources.join(" + "), current_location:true, ai_connected: Boolean(env.AI) });
+        return json({ app: "Pocket AI", version: API_VERSION, status: "success", language: lang, message_received: message, reply, location_received: true, street: streetUsable ? street || null : null, house_number: numberUsable ? houseNumber || null : null, postcode: null, gps_accuracy_m: accuracyKnown ? Math.round(accuracyMeters) : null, address_is_estimate:true, nearby_addresses:nearbyAddresses, nearby_postcodes:[], area: place || null, reverse_geocode_ok: true, source: reverseSources.join(" + "), current_location:true, ai_connected: Boolean(env.AI) });
       } catch (reverseError) {
         console.warn("Pocket AI v96 reverse geocoding failed", JSON.stringify({ stage: "reverse_geocode_error", errorName: reverseError && reverseError.name ? String(reverseError.name) : "UnknownError" }));
         const reply = lang === "en"
@@ -8803,7 +8808,7 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
     if(/\b(?:salari\w*|salary|wage\w*|earnings|gross|brut|net)\b/i.test(contextualSearch.query.normalize("NFD").replace(/[\u0300-\u036f]/g,""))) systemMessage += "\n\nCOMPENSATION DATA QUALITY: Distinguish population-wide reported earnings from recruitment-site estimates, mean from median, gross from net and salary from cost of living. Give an exact number only with relevant evidence and specify its period and scope if known. No personal income tax alone does NOT prove every gross salary equals take-home pay: other employee deductions or social/pension contributions may apply. Never invent salary-to-net tables or falsely claim a published average is a verified net figure.";
     if (dialogueOnlyIntent) systemMessage += "\n\nCONVERSATIONAL FEEDBACK: The user is talking to you about your behavior or feelings, not requesting external research. Respond to the actual tone and concern naturally in 1–3 sentences, with empathy and a little playfulness if appropriate. If they correct you, acknowledge the specific mistake and offer a useful correction or one focused question; do not launch into an unrelated lecture or make up facts. Keep a consistent fictional feminine voice without pretending to feel human emotions.";
     if (contextualSearch.context_applied) systemMessage += "\n\nCONVERSATIONAL FOLLOW-UP: The current question refers to an earlier explicit user topic. Resolve omitted subjects from recent USER turns, including a previously specified city or country. If the user explicitly switches places, replace the old location. A prior assistant answer is not proof: do not repeat an unverified number, gross/net classification, source, or date as a fact. Answer the latest precise question first, and distinguish what the sources verify from what remains uncertain. Do not change location because of UI language.";
-    if((data.module||'assistant')==='assistant')systemMessage+='\n\n'+assistantUnderstandingInstruction();
+    if((data.module||'assistant')==='assistant')systemMessage+='\n\n'+assistantUnderstandingInstruction()+' '+assistantIdentityInstruction();
     systemMessage += lang==='ro'
       ? "\\n\\nREGULI DE CONCIZIE ȘI RELEVANȚĂ: Mai întâi identifică exact ce solicită ultimul mesaj: salut, întrebare factuală, explicație, listă, corecție sau continuare. Nu confunda «Salut, ce faci?» cu o întrebare de cercetare ori cu un subiect din istoricul vechi. La saluturi și conversații ușoare răspunde în 1–2 propoziții; la întrebări factuale simple răspunde direct în 1–4 propoziții sau câteva puncte. Nu introduce explicații istorice ori liste nesolicitate. Folosește istoricul numai când este necesar pentru o referință clară. Verifică intern fiecare element dintr-o comparație: structură, ordine, categorie, culori, cifre și diferențe; elimină elementele care nu respectă criteriul, chiar dacă sunt vag asociate. Nu afirma că ai găsit sau verificat articole decât dacă sursele sunt efectiv disponibile și relevante. Dacă nu poți susține un detaliu, recunoaște incertitudinea în loc să îl inventezi. Caracterul jucăuș schimbă tonul, NU crește lungimea și NU adaugă informații fără legătură."
       : "\\n\\nRELEVANCE AND BREVITY: Classify the latest message as greeting, factual question, request, correction, or follow-up. Never turn a simple greeting into an unrelated research lesson from old history. Answer casual greetings in 1–2 sentences and simple factual questions in a few precise sentences or bullets. Do not introduce unsolicited lists or explanations. Use history only for clear references. For comparisons, check the exact criteria (structure, order, colours, quantities and distinctions); exclude items that do not fit. Never claim to have researched or verified sources unless they are actually available. If an important fact is uncertain, say so. A playful persona changes the tone, not the length or factual standards.";

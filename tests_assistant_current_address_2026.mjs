@@ -60,8 +60,8 @@ try{
   assert.equal(result.address_is_estimate,true);
   assert.equal(result.house_number,null);
   assert.match(result.reply,/Locație aproximativă: Mill Lane, Grays/);
-  assert.match(result.reply,/Coduri poștale din apropiere \(neconfirmate\): RM20 4YD/);
-  assert.match(result.reply,/RM20 4YE/);
+  assert.doesNotMatch(result.reply,/Coduri poștale din apropiere|RM20 4YD/);
+  assert.equal(result.postcode,null);assert.deepEqual(result.nearby_postcodes,[]);
   assert.match(result.reply,/Nu pot confirma numărul clădirii/);
   assert.match(result.reply,/12 Mill Lane/);
   assert.match(result.reply,/14 Mill Lane/);

@@ -1,3 +1,4 @@
+import {assistantIdentityInstruction} from './assistant_personal_identity.mjs';
 import {assistantUnderstandingInstruction} from './assistant_understanding.mjs';
 // Eva's conversation gate. Separate speech acts from location, research,
 // curricular and route commands before the backend starts any provider lookup.
@@ -92,7 +93,7 @@ export function evaDialogueSystem(language='ro',act='banter'){
   :act==='feedback'
   ?(isRo?' Dacă ți se cere să fii mai naturală, arată asta în răspuns în loc să explici teoria comunicării.':' If asked to sound more natural, demonstrate that rather than lecturing about rhetoric.')
   :'';
- return base+tone+' ' +assistantUnderstandingInstruction();
+ return base+tone+' ' +assistantUnderstandingInstruction()+' '+assistantIdentityInstruction();
 }
 
 // Last-resort sanitization only; do not paraphrase factual answers here.

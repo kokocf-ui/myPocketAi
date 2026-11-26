@@ -135,16 +135,16 @@ try {
 
   const precise = await askLocation(4, true);
   assert.equal(precise.house_number, '42', 'Nearby mapped building can be offered as an estimate');
-  assert.equal(precise.postcode, 'RM17 6JL', 'Nearby postcode candidate should be retained as an estimate');
+  assert.equal(precise.postcode, null, 'Unverified postcode candidates must not be displayed');
   assert.match(precise.reply, /Locație aproximativă: 42 London Road, Grays, United Kingdom/);
-  assert.match(precise.reply, /Coduri poștale din apropiere \(neconfirmate\): RM17 6JL/);
-  assert.match(precise.reply, /estimări/);
+  assert.doesNotMatch(precise.reply, /RM17 6JL|Coduri poștale din apropiere/);
+  assert.match(precise.reply, /estimat/);
   assert.equal(precise.address_is_estimate, true);
 
   // Even without GEOAPIFY_API_KEY, Nominatim layer=address + postcodes.io still recover house number & postcode
   const osmAndOnsOnly = await askLocation(5, false);
   assert.equal(osmAndOnsOnly.house_number, '42');
-  assert.equal(osmAndOnsOnly.postcode, 'RM17 6JL');
+  assert.equal(osmAndOnsOnly.postcode, null);
 
   const mediumAccuracy = await askLocation(75, true);
   assert.equal(mediumAccuracy.house_number, null, 'Coarse GPS must not attribute a nearby house number');
@@ -159,7 +159,7 @@ try {
   scenario = 'uk_far_building_no_hallucination';
   const unnumberedSpot = await askLocation(4, true);
   assert.equal(unnumberedSpot.house_number, null, 'Must never borrow a house number 84 m away');
-  assert.equal(unnumberedSpot.postcode, 'RM16 6AB', 'Nearby postcode candidate may be shown only as unconfirmed');
+  assert.equal(unnumberedSpot.postcode, null, 'Unconfirmed postcode candidates stay out of the location result');
 
   // 2. Issue #2: Non-location questions must NEVER trigger "nu am putut identifica / precizează localitatea sau țara"
   scenario = 'non_location_ai';

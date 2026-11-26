@@ -34,7 +34,7 @@ try{
  assert.match(result.reply,/Grays/);
  assert.match(result.reply,/RM20 4YE/);
  assert.equal(result.house_number,'10');
- assert.equal(result.postcode,'RM20 4YE');
+ assert.equal(result.postcode,null);
  assert.equal(result.gps_accuracy_m,20);
 
  result=await ask('Pe ce stradă mă aflu?');
