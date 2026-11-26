@@ -128,11 +128,13 @@ function practicalOpen(stage){
   practicalList(panel,PRACTICAL_COURSES_DATA.map(c=>({id:c.id,icon:c.icon,ro:c.ro,en:c.en})),choice=>{practicalJourney.course=choice.id;practicalJourney.chapter='';practicalOpen('chapters')},{tiles:true,showAll:true});return;
  }
  const course=practicalCourse();if(!course){practicalOpen('courses');return}
+ if(!course.chapters.length){practicalEnsureCourse(course.id,stage,panel);return}
  panel.append(practicalNode('p',stage==='lesson'?practicalLabel(practicalCountry()[1],practicalCountry()[2])+' · '+practicalLabel(course.ro,course.en):practicalLabel(course.ro,course.en)));
  if(stage==='chapters'){
+  practicalPathway(panel,course);
   const chapters=[...course.chapters].sort((a,b)=>a.order-b.order);
-  const finished=chapters.filter(x=>practicalSavedForChapter(x.id)?.completed).length;
-  const progress=practicalNode('p',practicalLabel('Curs cu ','Course with ')+chapters.length+practicalLabel(' capitole. Parcurse: ',' chapters. Completed: ')+finished+'/'+chapters.length+'. '+practicalLabel('Alege orice capitol.','Choose any chapter.'));
+  const finished=chapters.filter(x=>practicalWorkbookReviewed(x.id)).length;
+  const progress=practicalNode('p',practicalLabel('Curs cu ','Course with ')+chapters.length+practicalLabel(' capitole. Lucrări autoevaluate: ',' chapters. Self-reviewed work: ')+finished+'/'+chapters.length+'. '+practicalLabel('Alege orice capitol.','Choose any chapter.'));
   panel.append(progress);
   const syllabus=PRACTICAL_SYLLABI_DATA.find(x=>x.id===course.id);
   if(syllabus){
@@ -140,11 +142,11 @@ function practicalOpen(stage){
     readActions.style.cssText='display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;width:100%;min-width:0;margin:12px 0 14px;';
     readActions.append(
      practicalButton(practicalLabel('📖 Prezentarea cursului','📖 Course overview'),()=>educationOpenPagedLesson(practicalLabel(course.ro,course.en),practicalCoursePresentation(syllabus,'overview'))),
-     practicalButton(practicalLabel('📋 Proiect final','📋 Final project'),()=>educationOpenPagedLesson(practicalLabel('Proiect final · ','Final project · ')+practicalLabel(course.ro,course.en),practicalCoursePresentation(syllabus,'project')))
+     practicalButton(practicalLabel('📋 Proiect final','📋 Final project'),()=>practicalWorkshopOpen(true))
     );
     panel.append(readActions);
   }
-  practicalList(panel,chapters.map((x,i)=>({id:x.id,icon:practicalSavedForChapter(x.id)?.completed?'✅':'📘',ro:(i+1)+'. '+x.title+(practicalSavedForChapter(x.id)?.completed?' ✓':''),en:(i+1)+'. '+x.title})),choice=>{practicalJourney.chapter=choice.id;practicalJourney.variant=0;practicalOpen('lesson')},{tiles:true,showAll:true});
+  practicalList(panel,chapters.map((x,i)=>({id:x.id,icon:practicalWorkbookReviewed(x.id)?'✅':'📘',ro:(i+1)+'. '+x.title+(practicalWorkbookReviewed(x.id)?' ✓':''),en:(i+1)+'. '+x.title})),choice=>{practicalJourney.chapter=choice.id;practicalJourney.variant=0;practicalOpen('lesson')},{tiles:true,showAll:true});
   return;
  }
  if(stage==='lesson')practicalLesson(panel);
@@ -244,7 +246,7 @@ function practicalLesson(panel){
  study.append(practicalNode('h4',practicalLabel('Exerciții legate de această lecție','Exercises for this lesson')));
  (guide?.exercise||chapter.practice).forEach((task,i)=>study.append(practicalMaterial('p',(i+1)+'. '+task)));
  if(chapter.order===course.chapters.length&&syllabus){
-   study.append(practicalNode('h3',practicalLabel('Proiectul de absolvire al cursului','Course completion project')),practicalMaterial('p',syllabus.project));
+   study.append(practicalNode('h3',practicalLabel('Proiectul final de antrenament','Final training project')),practicalMaterial('p',syllabus.project));
    study.append(practicalNode('h4',practicalLabel('Criterii de verificare a proiectului','Project review criteria')));
    const criteria=practicalNode('ol');criteria.style.paddingLeft='23px';syllabus.rubric.forEach(item=>criteria.append(practicalMaterial('li',item)));study.append(criteria);
  }
@@ -312,7 +314,7 @@ function practicalLesson(panel){
  }else links.append(practicalNode('p',practicalLabel('Nu există o sursă oficială verificată care să corespundă exact acestei lecții; nu afișăm un link fără legătură.','No verified official source for this exact lesson; unrelated links are omitted.')));
  panel.append(links);
  const progress=practicalNode('div','','practical-progress');progress.style.cssText='margin:12px 0;display:flex;flex-wrap:wrap;gap:8px;align-items:center;';
- const mark=practicalButton(saved.completed?practicalLabel('✓ Lecție parcursă','✓ Lesson completed'):practicalLabel('○ Marchează lecția parcursă','○ Mark lesson completed'),()=>{const newStatus=!Boolean(practicalReadSaved().completed);practicalSave({completed:newStatus});mark.textContent=newStatus?practicalLabel('✓ Lecție parcursă','✓ Lesson completed'):practicalLabel('○ Marchează lecția parcursă','○ Mark lesson completed')});
+ const mark=practicalButton(saved.completed?practicalLabel('✓ Citită (declarat)','✓ Read (self-reported)'):practicalLabel('○ Marchează citirea','○ Mark as read'),()=>{const newStatus=!Boolean(practicalReadSaved().completed);practicalSave({completed:newStatus});mark.textContent=newStatus?practicalLabel('✓ Citită (declarat)','✓ Read (self-reported)'):practicalLabel('○ Marchează citirea','○ Mark as read')});
  progress.append(mark,practicalButton(practicalLabel('🔊 Citește lecția','🔊 Read lesson'),()=>{if(state.speaking){stopSpeech();return}speakText(study.textContent||'')}));panel.append(progress);
  const practice=practicalNode('section','','practical-workspace');practice.style.cssText='margin-top:16px;border:1px solid #5d90a5;border-radius:13px;padding:12px;min-width:0;';
  practice.append(practicalNode('h3',practicalLabel('Atelier practic','Practice workshop')));
@@ -397,7 +399,7 @@ function practicalLesson(panel){
    result.replaceChildren(practicalNode('h4',practicalLabel('Rezultat: ','Result: ')+correct+'/'+qs.length+' ('+pct+'%)'));
    qs.forEach((q,i)=>result.append(practicalNode('p',(i+1)+'. '+(selected[i]===q.correct?'✓ ':'✗ ')+practicalLabel('Ai ales: ','Selected: ')+displayChoices[i][selected[i]]+'. '+practicalLabel('Răspuns corect: ','Correct answer: ')+displayChoices[i][q.correct]+'. '+displayExplanations[i])));
    questionHost.querySelectorAll('input').forEach(x=>x.disabled=true);verify.disabled=true;questionHost.hidden=true;pager.hidden=true;
-   practicalSave({lastScore:pct,lastCorrect:correct,lastTotal:qs.length,completed:true,lastVariant:version});
+   practicalSave({lastScore:pct,lastCorrect:correct,lastTotal:qs.length,lastVariant:version});
    // The result is already shown once in .practical-result and collected by PDF export. Do not add a second visible copy.
   },'primary-btn');
   const newQuiz=practicalButton(practicalLabel('＋ Test nou','＋ New practice'),()=>{version=(version+1)%Math.max(1,course.chapters.length-1);practicalSave({lastVariant:version});drawQuiz();assessment.scrollIntoView({block:'start',behavior:'smooth'})});
@@ -444,7 +446,9 @@ function practicalLesson(panel){
  const tools=practicalNode('div','','practical-lesson-actions');
  const makeAction=(label,nodes)=>practicalButton(label,()=>practicalActivityDialog(label+' · '+chapter.title,nodes,storage),'secondary-btn');
  tools.append(lessonOpen,
-  makeAction(practicalLabel('🛠️ Atelier practic','🛠️ Practice workshop'),[progress,practice]),
+  practicalButton(practicalLabel('🛠️ Atelier ghidat și lucrarea mea','🛠️ Guided workshop and my work'),()=>practicalWorkshopOpen(false),'primary-btn'),
+  practicalButton(practicalLabel('📋 Proiect final și portofoliu','📋 Final project and portfolio'),()=>practicalWorkshopOpen(true)),
+  makeAction(practicalLabel('💬 Întrebări opționale pentru AI','💬 Optional AI questions'),[progress,practice]),
   makeAction(practicalLabel('✅ Test de verificare','✅ Knowledge check'),[assessment]),
   makeAction(practicalLabel('🔗 Resurse oficiale','🔗 Official resources'),[resources]));
  const cv=panel.querySelector('.practical-cv-workshop');

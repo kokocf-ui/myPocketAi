@@ -3,6 +3,9 @@ on:
   pull_request:
     paths:
       - 'index.js'
+      - 'practical_*.mjs'
+      - 'tests_practical_*.mjs'
+      - 'public/education/practical/course-v1/**'
       - 'foreign_language*.mjs'
       - 'public/education/languages/resources-v1/**'
       - 'scripts/check_foreign_language_resources.mjs'
@@ -39,6 +42,7 @@ jobs:
       - run: npx playwright install --with-deps chromium
       - name: Source, offline, update and routing contracts
         run: |
+          npm run test:practical-workshops
           npm run test:foreign-resources
           npm run check
           npm run test:education-study
@@ -61,6 +65,7 @@ jobs:
           node scripts/check_education_study_bundle.mjs .bundle-check/index.js
           export CHROMIUM_PATH="$(node --input-type=module -e "import {chromium} from 'playwright';console.log(chromium.executablePath())")"
           export POCKET_BUNDLE=./.bundle-check/index.check.mjs
+          node tests_practical_workshops_browser.mjs
           node tests_foreign_language_resources_browser.mjs
           node tests_education_study_browser.mjs
           node tests_science_source_browser.mjs

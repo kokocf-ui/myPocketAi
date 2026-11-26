@@ -11,11 +11,13 @@ import {EDUCATION_EUROPE_COUNTRIES} from '../education_all_country_subject_matri
 import {educationValidateStudyPack} from '../education_study_pack_loader.mjs';
 import {scienceValidateSharedPack} from '../science_shared_pack_loader.mjs';
 import {literatureLoadAuthoredYear,literatureLoadNationalYear} from '../literature_authored_pack_loader.mjs';
+import {practicalValidatePack} from '../practical_course_pack_loader.mjs';
 import {foreignValidateResource,foreignResourceKey} from '../foreign_language_resource_loader.mjs';
 import {FOREIGN_LANGUAGES} from '../foreign_languages_curriculum.mjs';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const source=path.join(root,'public'),dest=path.join(root,'.education-pack-assets');
 const patterns=[
+ {dir:'education/practical/course-v1',pattern:/^(finance|trades|business|digital|career|daily)\.json$/,kind:'practical'},
  {dir:'education/languages/resources-v1',pattern:/^[a-z]{2}(?:-[A-Za-z]+)?\.json$/,kind:'language'},
  {dir:'education/study-v1',pattern:/^(math|physics|chemistry|biology)\.json$/,kind:'study'},
  {dir:'packs',pattern:/^p-[0-9a-f]{24}\.json$/,kind:'year'},
@@ -81,6 +83,7 @@ for(const {dir,pattern,kind} of patterns){
   else if(kind==='review')valid=data.schema==='mypocket-science-review/v1'&&data.country==='RO'&&data.language==='ro'&&Array.isArray(data.lessons)&&data.lessons.length>0&&data.version===digest(data.lessons);
   else if(kind==='math')valid=data.schema==='mypocket-math-supplements/v1'&&data.country===name&&data.banks&&
     ['bulk','second','final'].every(k=>data.banks[k]&&typeof data.banks[k]==='object'&&!Array.isArray(data.banks[k]))&&data.version===digest(data.banks);
+  else if(kind==='practical'){valid=practicalValidatePack(data,name)&&data.version===digest(data.content)}
   else if(kind==='language'){
    const {schema,key,version,...payload}=data;
    valid=foreignValidateResource(data,name)&&version===digest(payload);
@@ -111,4 +114,5 @@ for(const language of FOREIGN_LANGUAGES)for(const variant of language.variants.l
  await readFile(path.join(dest,file)).catch(()=>{throw Error('Missing '+file)});
 }
 
+for(const id of ['finance','trades','business','digital','career','daily'])await readFile(path.join(dest,'education/practical/course-v1/'+id+'.json'));
 console.log(`Staged ${files} validated Education assets (${bytes} bytes). No frontend or backend deployment performed.`);

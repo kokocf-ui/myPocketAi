@@ -1,3 +1,5 @@
+import {practicalValidatePack,practicalLoadPack,practicalCheckpointCorrect,practicalCanSelfReview} from './practical_course_pack_loader.mjs';
+import {PRACTICAL_WORKSHOP_SCRIPT,PRACTICAL_WORKSHOP_STYLE} from './practical_workshop_ui.mjs';
 import {foreignResourceKey,foreignValidateResource,foreignLoadResource} from './foreign_language_resource_loader.mjs';
 import {FOREIGN_LANGUAGE_RESOURCES_SCRIPT,FOREIGN_LANGUAGE_RESOURCES_STYLE} from './foreign_language_resources_ui.mjs';
 import {EDUCATION_INPUT_TOOLS_SCRIPT} from './education_input_tools.mjs';
@@ -28,12 +30,8 @@ import {mathLoadCountrySupplement} from './math_country_supplement_loader.mjs';
 import {educationValidateStudyPack,educationLoadStudyPack} from './education_study_pack_loader.mjs';
 import {UNIVERSITY_DOMAINS} from './university_domains.mjs';
 import {UNIVERSITY_PROGRAM_OPTIONS,UNIVERSITY_ADMISSION_ENTRIES} from './university_admissions_verified.mjs';
-import {PRACTICAL_COURSES,PRACTICAL_COUNTRIES,PRACTICAL_LEVELS} from './practical_curriculum.mjs';
+import {PRACTICAL_COURSE_CATALOG,PRACTICAL_COUNTRIES,PRACTICAL_LEVELS} from './practical_curriculum.mjs';
 import {PRACTICAL_REFERENCES} from './practical_sources.mjs';
-import {PRACTICAL_GUIDES} from './practical_guides.mjs';
-import {PRACTICAL_SYLLABI} from './practical_syllabi.mjs';
-import {PRACTICAL_DEPTH} from './practical_depth.mjs';
-import {PRACTICAL_DEPTH_EXTRA} from './practical_depth_extra.mjs';
 import {PRACTICAL_UI_SCRIPT} from './practical_ui.mjs';
 import {EDUCATION_SELECTS_UI_SCRIPT} from './education_selects_ui.mjs';
 import {EDUCATION_SCOPE_UI_SCRIPT} from './education_scope_ui.mjs';
@@ -1473,6 +1471,7 @@ body.long-choice-active{overflow:hidden}
 }
 @media(max-height:600px){.pocket-select-modal,.pocket-select-modal .pocket-unified-window{max-height:85dvh}}
 
+${PRACTICAL_WORKSHOP_STYLE}
 ${FOREIGN_LANGUAGE_RESOURCES_STYLE}
 ${ACCOUNT_STYLE}
 </style>
@@ -14057,12 +14056,16 @@ const EXAM_SUBJECTS_DATA=${JSON.stringify(EXAM_SUBJECTS)};
 const EXAM_SESSION_YEARS_DATA=${JSON.stringify(EXAM_SESSION_YEARS)};
 const EXAM_PRACTICE_DATA=${JSON.stringify(EXAM_LOCAL_BANK)};
 const EXAM_THEORY_DATA=Object.fromEntries(['math','physics','chemistry','biology','astronomy'].map(id=>[id,(typeof EDUCATION_THEORY_DATA!=='undefined'?EDUCATION_THEORY_DATA:[]).filter(e=>e.subject===id).slice(0,40)]));
-const PRACTICAL_COURSES_DATA=${JSON.stringify(PRACTICAL_COURSES)};
+const practicalValidatePack=${practicalValidatePack.toString()};
+const practicalLoadPack=${practicalLoadPack.toString()};
+const practicalCheckpointCorrect=${practicalCheckpointCorrect.toString()};
+const practicalCanSelfReview=${practicalCanSelfReview.toString()};
+const PRACTICAL_COURSES_DATA=${JSON.stringify(PRACTICAL_COURSE_CATALOG)};
 const PRACTICAL_COUNTRIES_DATA=${JSON.stringify(PRACTICAL_COUNTRIES)};
 const PRACTICAL_REFERENCES_DATA=${JSON.stringify(PRACTICAL_REFERENCES)};
-const PRACTICAL_GUIDES_DATA=${JSON.stringify(PRACTICAL_GUIDES)};
-const PRACTICAL_SYLLABI_DATA=${JSON.stringify(PRACTICAL_SYLLABI)};
-const PRACTICAL_DEPTH_DATA=${JSON.stringify({...PRACTICAL_DEPTH,...PRACTICAL_DEPTH_EXTRA})};
+const PRACTICAL_GUIDES_DATA={};
+const PRACTICAL_SYLLABI_DATA=[];
+const PRACTICAL_DEPTH_DATA={};
 const PRACTICAL_LEVELS_DATA=${JSON.stringify(PRACTICAL_LEVELS)};
 const COMPUTING_LEVELS_DATA=${JSON.stringify(COMPUTING_LEVELS)};
 const COMPUTING_PATHS_DATA=${JSON.stringify(COMPUTING_PATHS)};
@@ -16085,6 +16088,7 @@ ${SCIENCE_REVIEW_SUPPLEMENTS_SCRIPT}
 ${COMPUTING_NATIONAL_PACKS_SCRIPT}
 ${COMPUTING_UI_SCRIPT}
 ${EXAM_UI_SCRIPT}
+${PRACTICAL_WORKSHOP_SCRIPT}
 ${PRACTICAL_UI_SCRIPT}
 ${EDUCATION_SELECTS_UI_SCRIPT}
 ${EDUCATION_COUNTRY_UI_SCRIPT}

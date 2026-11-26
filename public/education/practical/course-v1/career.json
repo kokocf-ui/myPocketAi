@@ -1,0 +1,815 @@
+{
+  "schema": "mypocket-practical-course/v1",
+  "id": "career",
+  "sourceLanguage": "ro",
+  "version": "eac5cc97f38b74f78be95d7f6851376a09375673ce369d871075b1ea7276a174",
+  "content": {
+    "course": {
+      "id": "career",
+      "icon": "🧭",
+      "ro": "Carieră și angajare",
+      "en": "Careers and employment",
+      "summary": "CV, interviu, competențe, proiecte și dezvoltare.",
+      "unit": "career",
+      "lessons": [
+        [
+          "Identificarea competențelor",
+          "Competențele includ cunoștințe, practici și comportamente observabile. Pornește de la activități reale și formulează dovezi concrete, fără să inventezi calificări sau diplome. Separă ceea ce poți face independent de ceea ce încă exersezi.",
+          "Scrie trei activități și câte un rezultat verificabil pentru fiecare.",
+          "Exemplu: «Am organizat inventarul pentru 80 de produse» oferă mai multe informații decât «sunt organizat».",
+          "Ce dovedește mai bine o competență?",
+          [
+            "Un exemplu real și măsurabil",
+            "O laudă vagă",
+            "O calificare inventată",
+            "Un titlu decorativ"
+          ],
+          0
+        ],
+        [
+          "CV și profil profesional",
+          "Un CV clar arată experiența relevantă, educația, competențele și realizările. Adaptează-l la cerințele postului, folosește cronologie consecventă și evită datele personale care nu sunt necesare. Formatul și așteptările diferă după țară și domeniu.",
+          "Creează o secțiune de experiență în care fiecare punct începe cu un verb de acțiune.",
+          "Exemplu: «Am redus timpul de inventariere prin etichetarea rafturilor» descrie o contribuție.",
+          "Ce informație prioritizezi într-un CV?",
+          [
+            "Experiența și abilitățile relevante, verificabile",
+            "Detalii irelevante",
+            "Parole personale",
+            "Realizări inventate"
+          ],
+          0
+        ],
+        [
+          "Căutarea și evaluarea unui job",
+          "Citește responsabilitățile, programul, locul, remunerația și condițiile. Verifică angajatorul și evită cererile suspecte de bani, acte sau coduri. Cerințele legale și drepturile diferă după jurisdicție; consultă surse oficiale.",
+          "Compară două anunțuri pe criterii identice și notează întrebările de clarificat.",
+          "Exemplu: două oferte cu salarii asemănătoare pot avea program și costuri de deplasare diferite.",
+          "Ce verifici la un anunț de angajare?",
+          [
+            "Condițiile reale și identitatea angajatorului",
+            "Doar fotografia",
+            "Doar numărul de like-uri",
+            "Doar culoarea paginii"
+          ],
+          0
+        ],
+        [
+          "Pregătirea pentru interviu",
+          "Exersează exemple specifice și răspunsuri structurate: situație, sarcină, acțiune, rezultat. Ascultă întrebarea înainte de a răspunde și recunoaște când nu știi ceva. Pregătește întrebări despre responsabilități și criteriile de succes ale rolului.",
+          "Descrie un moment în care ai rezolvat o problemă, fără să inventezi experiențe.",
+          "Exemplu: explici ce problemă a apărut, ce ai făcut și ce rezultat s-a obținut.",
+          "Cum structurezi un răspuns comportamental?",
+          [
+            "Situație, sarcină, acțiune, rezultat",
+            "Doar părerea despre șef",
+            "O poveste fără rezultat",
+            "Un răspuns învățat fără legătură"
+          ],
+          0
+        ],
+        [
+          "Portofoliu și proiecte",
+          "Un portofoliu arată mostre potrivite pentru profesia vizată și rolul concret în fiecare proiect. Respectă confidențialitatea, drepturile de autor și permisiunile. Explică problema, soluția, instrumentele și rezultatele, inclusiv limitările.",
+          "Selectează două proiecte și redactează câte o fișă de o pagină.",
+          "Exemplu: un mic program demonstrativ poate ilustra procesul de testare și depanare.",
+          "Ce trebuie să fie clar într-un portofoliu?",
+          [
+            "Contribuția și rezultatul propriu",
+            "Datele secrete ale clientului",
+            "Copierea muncii altora",
+            "Numai un titlu spectaculos"
+          ],
+          0
+        ],
+        [
+          "Plan de dezvoltare profesională",
+          "Alege un obiectiv de învățare verificabil, un set de resurse și o metodă de evaluare. Planifică repetiții și proiecte practice; verifică periodic dacă abilitățile dobândite corespund celor cerute în domeniu. Pentru meserii reglementate, verifică acreditările și autorizările locale.",
+          "Construiește un plan de 30 de zile cu o competență, trei sarcini și un rezultat demonstrabil.",
+          "Exemplu: înveți o formulă de tabel, creezi un raport, apoi îi verifici calculele.",
+          "Cum verifici progresul profesional?",
+          [
+            "Prin rezultate demonstrate și feedback",
+            "Numai prin timpul petrecut",
+            "Prin diplome inventate",
+            "Fără niciun obiectiv"
+          ],
+          0
+        ]
+      ],
+      "chapters": [
+        {
+          "id": "career-1",
+          "level": "beginner",
+          "order": 1,
+          "title": "Identificarea competențelor",
+          "theory": "Competențele includ cunoștințe, practici și comportamente observabile. Pornește de la activități reale și formulează dovezi concrete, fără să inventezi calificări sau diplome. Separă ceea ce poți face independent de ceea ce încă exersezi.",
+          "method": "Scrie trei activități și câte un rezultat verificabil pentru fiecare.",
+          "caseStudy": "Exemplu: «Am organizat inventarul pentru 80 de produse» oferă mai multe informații decât «sunt organizat».",
+          "question": {
+            "prompt": "Ce dovedește mai bine o competență?",
+            "choices": [
+              "Un exemplu real și măsurabil",
+              "O laudă vagă",
+              "O calificare inventată",
+              "Un titlu decorativ"
+            ],
+            "correct": 0,
+            "explanation": "Scrie trei activități și câte un rezultat verificabil pentru fiecare."
+          },
+          "practice": [
+            "Explică în propriile cuvinte regula de bază a lecției și indică un exemplu realist.",
+            "Rezolvă cazul practic de mai sus, cu pași numerotați și verificarea concluziei.",
+            "Construiește un checklist aplicabil unei situații reale, precizând ce trebuie verificat înainte de acțiune."
+          ]
+        },
+        {
+          "id": "career-2",
+          "level": "beginner",
+          "order": 2,
+          "title": "CV și profil profesional",
+          "theory": "Un CV clar arată experiența relevantă, educația, competențele și realizările. Adaptează-l la cerințele postului, folosește cronologie consecventă și evită datele personale care nu sunt necesare. Formatul și așteptările diferă după țară și domeniu.",
+          "method": "Creează o secțiune de experiență în care fiecare punct începe cu un verb de acțiune.",
+          "caseStudy": "Exemplu: «Am redus timpul de inventariere prin etichetarea rafturilor» descrie o contribuție.",
+          "question": {
+            "prompt": "Ce informație prioritizezi într-un CV?",
+            "choices": [
+              "Experiența și abilitățile relevante, verificabile",
+              "Detalii irelevante",
+              "Parole personale",
+              "Realizări inventate"
+            ],
+            "correct": 0,
+            "explanation": "Creează o secțiune de experiență în care fiecare punct începe cu un verb de acțiune."
+          },
+          "practice": [
+            "Explică în propriile cuvinte regula de bază a lecției și indică un exemplu realist.",
+            "Rezolvă cazul practic de mai sus, cu pași numerotați și verificarea concluziei.",
+            "Construiește un checklist aplicabil unei situații reale, precizând ce trebuie verificat înainte de acțiune."
+          ]
+        },
+        {
+          "id": "career-3",
+          "level": "intermediate",
+          "order": 3,
+          "title": "Căutarea și evaluarea unui job",
+          "theory": "Citește responsabilitățile, programul, locul, remunerația și condițiile. Verifică angajatorul și evită cererile suspecte de bani, acte sau coduri. Cerințele legale și drepturile diferă după jurisdicție; consultă surse oficiale.",
+          "method": "Compară două anunțuri pe criterii identice și notează întrebările de clarificat.",
+          "caseStudy": "Exemplu: două oferte cu salarii asemănătoare pot avea program și costuri de deplasare diferite.",
+          "question": {
+            "prompt": "Ce verifici la un anunț de angajare?",
+            "choices": [
+              "Condițiile reale și identitatea angajatorului",
+              "Doar fotografia",
+              "Doar numărul de like-uri",
+              "Doar culoarea paginii"
+            ],
+            "correct": 0,
+            "explanation": "Compară două anunțuri pe criterii identice și notează întrebările de clarificat."
+          },
+          "practice": [
+            "Explică în propriile cuvinte regula de bază a lecției și indică un exemplu realist.",
+            "Rezolvă cazul practic de mai sus, cu pași numerotați și verificarea concluziei.",
+            "Construiește un checklist aplicabil unei situații reale, precizând ce trebuie verificat înainte de acțiune."
+          ]
+        },
+        {
+          "id": "career-4",
+          "level": "intermediate",
+          "order": 4,
+          "title": "Pregătirea pentru interviu",
+          "theory": "Exersează exemple specifice și răspunsuri structurate: situație, sarcină, acțiune, rezultat. Ascultă întrebarea înainte de a răspunde și recunoaște când nu știi ceva. Pregătește întrebări despre responsabilități și criteriile de succes ale rolului.",
+          "method": "Descrie un moment în care ai rezolvat o problemă, fără să inventezi experiențe.",
+          "caseStudy": "Exemplu: explici ce problemă a apărut, ce ai făcut și ce rezultat s-a obținut.",
+          "question": {
+            "prompt": "Cum structurezi un răspuns comportamental?",
+            "choices": [
+              "Situație, sarcină, acțiune, rezultat",
+              "Doar părerea despre șef",
+              "O poveste fără rezultat",
+              "Un răspuns învățat fără legătură"
+            ],
+            "correct": 0,
+            "explanation": "Descrie un moment în care ai rezolvat o problemă, fără să inventezi experiențe."
+          },
+          "practice": [
+            "Explică în propriile cuvinte regula de bază a lecției și indică un exemplu realist.",
+            "Rezolvă cazul practic de mai sus, cu pași numerotați și verificarea concluziei.",
+            "Construiește un checklist aplicabil unei situații reale, precizând ce trebuie verificat înainte de acțiune."
+          ]
+        },
+        {
+          "id": "career-5",
+          "level": "advanced",
+          "order": 5,
+          "title": "Portofoliu și proiecte",
+          "theory": "Un portofoliu arată mostre potrivite pentru profesia vizată și rolul concret în fiecare proiect. Respectă confidențialitatea, drepturile de autor și permisiunile. Explică problema, soluția, instrumentele și rezultatele, inclusiv limitările.",
+          "method": "Selectează două proiecte și redactează câte o fișă de o pagină.",
+          "caseStudy": "Exemplu: un mic program demonstrativ poate ilustra procesul de testare și depanare.",
+          "question": {
+            "prompt": "Ce trebuie să fie clar într-un portofoliu?",
+            "choices": [
+              "Contribuția și rezultatul propriu",
+              "Datele secrete ale clientului",
+              "Copierea muncii altora",
+              "Numai un titlu spectaculos"
+            ],
+            "correct": 0,
+            "explanation": "Selectează două proiecte și redactează câte o fișă de o pagină."
+          },
+          "practice": [
+            "Explică în propriile cuvinte regula de bază a lecției și indică un exemplu realist.",
+            "Rezolvă cazul practic de mai sus, cu pași numerotați și verificarea concluziei.",
+            "Construiește un checklist aplicabil unei situații reale, precizând ce trebuie verificat înainte de acțiune."
+          ]
+        },
+        {
+          "id": "career-6",
+          "level": "advanced",
+          "order": 6,
+          "title": "Plan de dezvoltare profesională",
+          "theory": "Alege un obiectiv de învățare verificabil, un set de resurse și o metodă de evaluare. Planifică repetiții și proiecte practice; verifică periodic dacă abilitățile dobândite corespund celor cerute în domeniu. Pentru meserii reglementate, verifică acreditările și autorizările locale.",
+          "method": "Construiește un plan de 30 de zile cu o competență, trei sarcini și un rezultat demonstrabil.",
+          "caseStudy": "Exemplu: înveți o formulă de tabel, creezi un raport, apoi îi verifici calculele.",
+          "question": {
+            "prompt": "Cum verifici progresul profesional?",
+            "choices": [
+              "Prin rezultate demonstrate și feedback",
+              "Numai prin timpul petrecut",
+              "Prin diplome inventate",
+              "Fără niciun obiectiv"
+            ],
+            "correct": 0,
+            "explanation": "Construiește un plan de 30 de zile cu o competență, trei sarcini și un rezultat demonstrabil."
+          },
+          "practice": [
+            "Explică în propriile cuvinte regula de bază a lecției și indică un exemplu realist.",
+            "Rezolvă cazul practic de mai sus, cu pași numerotați și verificarea concluziei.",
+            "Construiește un checklist aplicabil unei situații reale, precizând ce trebuie verificat înainte de acțiune."
+          ]
+        }
+      ]
+    },
+    "syllabus": {
+      "id": "career",
+      "intro": "Un curs practic pentru alegerea unui rol, inventarierea realizărilor reale, redactarea CV-ului, evaluarea ofertelor, pregătirea pentru interviu și dezvoltarea unui portofoliu. Nu inventăm diplome, experiențe, rezultate și nici nu trimiterea automată candidaturi în numele utilizatorului.",
+      "outcomes": [
+        "Transformi competențe generale în dovezi clare și verificabile.",
+        "Redactezi un CV adaptat postului, fără date inutile.",
+        "Analizezi un anunț și verifici identitatea angajatorului.",
+        "Construiești un răspuns STAR, un portofoliu și un plan de progres."
+      ],
+      "project": "DOSAR DE CANDIDATURĂ — alege o ofertă fictivă sau publică și pregătește un CV relevant, o matrice Cerință–Dovadă, două răspunsuri STAR, o fișă de portofoliu cu date permise pentru publicare și un plan de dezvoltare pe 30 de zile. Niciun material nu trebuie să conțină experiențe inventate despre persoana reală.",
+      "rubric": [
+        "CV-ul este complet, coerent, lizibil și orientat spre rol.",
+        "Competențele sunt susținute de fapte, fără exagerări.",
+        "Planul de interviu răspunde cerințelor postului.",
+        "Datele personale și confidențiale sunt protejate."
+      ],
+      "prerequisite": "Poți începe fără experiență de muncă; proiectele reale de voluntariat sau studiu pot fi relevante."
+    },
+    "guides": {
+      "career-1": {
+        "goal": "Să identifici competențe reale și să le demonstrezi cu rezultate.",
+        "steps": [
+          "Scrie 5 activități pe care le-ai făcut efectiv la școală, voluntariat sau muncă.",
+          "Pentru fiecare activitate, precizează ce ai realizat tu, nu echipa în general.",
+          "Asociază o competență observabilă și dovada ei: organizare, comunicare, utilizarea unui instrument.",
+          "Notează ce nivel poți demonstra: începător, autonom sau avansat, fără exagerări.",
+          "Compară lista cu cerințele unui anunț de angajare."
+        ],
+        "model": [
+          "FIȘĂ MODEL (exemplu fictiv)",
+          "Activitate: actualizarea unui inventar de 80 de produse.",
+          "Acțiune personală: am verificat etichete și am corectat diferențele din tabel.",
+          "Competență demonstrată: atenție la detalii și lucru cu tabele.",
+          "Dovadă: raportul final verificat de responsabil.",
+          "De dezvoltat: formule și filtre avansate."
+        ],
+        "check": [
+          "Oferi câte o dovadă pentru fiecare competență.",
+          "Nu incluzi diplome sau responsabilități inventate.",
+          "Poți explica într-un interviu fiecare exemplu."
+        ],
+        "exercise": [
+          "Construiește propria matrice Activitate → Acțiune → Competență → Dovadă.",
+          "Transformă două abilități generale în realizări concrete, verificabile."
+        ]
+      },
+      "career-2": {
+        "goal": "Să poți scrie și adapta integral un CV pentru un post real.",
+        "steps": [
+          "Alege postul pentru care aplici și evidențiază 4–6 cerințe din anunț.",
+          "Pregătește datele de contact necesare: nume, oraș, telefon, e-mail profesional; nu adăuga CNP sau informații intime.",
+          "Scrie un profil profesional scurt, de 2–4 fraze, cu experiența și obiectivul relevante.",
+          "Listează experiențele în ordine cronologică inversă: rol, organizație, interval, 2–4 realizări.",
+          "Folosește formula verb de acțiune + activitate + rezultat verificabil. Dacă nu ai experiență, pune în valoare practica, voluntariatul și proiectele reale.",
+          "Adaugă studii, certificări existente, competențe și limbi cunoscute la nivelul real.",
+          "Revede ortografia, lizibilitatea, datele și adaptarea la post; salvează PDF cu nume descriptiv."
+        ],
+        "model": [
+          "CV EXEMPLU — TOATE DATELE SUNT FICTIVE",
+          "ALEX POPESCU | București | [telefon] | [e-mail]",
+          "PROFIL PROFESIONAL",
+          "Lucrător logistic cu experiență practică în recepție și inventariere. Utilizez tabele pentru urmărirea stocurilor și verificarea diferențelor. Caut un post de operator depozit.",
+          "EXPERIENȚĂ PROFESIONALĂ",
+          "Operator depozit — Firma Exemplu | 2023–2025",
+          "• Am verificat cantitățile la recepția mărfurilor și am raportat discrepanțe.",
+          "• Am actualizat evidența stocurilor într-un tabel electronic.",
+          "• Am reorganizat etichetele rafturilor pentru identificare mai ușoară.",
+          "STUDII",
+          "Liceu — diplomă obținută (instituție și an: se completează doar cu date reale).",
+          "COMPETENȚE",
+          "Inventariere; comunicare; Excel nivel de bază; organizarea stocurilor.",
+          "LIMBI",
+          "Română — nativă; engleză — nivel declarat realist.",
+          "ATENȚIE: model didactic, nu atribui aceste experiențe unei persoane reale."
+        ],
+        "check": [
+          "CV-ul conține date corecte, profil, experiență, educație și competențe.",
+          "Fiecare realizare este verificabilă și relevantă pentru postul ales.",
+          "Nu include data nașterii sau alte date sensibile fără necesitate; verifică practicile locale.",
+          "PDF-ul poate fi citit pe telefon, iar numele fișierului indică postul."
+        ],
+        "exercise": [
+          "Redactează secțiunile unui CV pentru un post ales și compară-le cu anunțul.",
+          "Rescrie o responsabilitate vagă ca realizare folosind verb, acțiune și rezultat."
+        ]
+      },
+      "career-3": {
+        "goal": "Să evaluezi un anunț de angajare înainte de a aplica.",
+        "steps": [
+          "Citește titlul rolului, atribuțiile zilnice, locul de muncă și programul.",
+          "Notează cerințele obligatorii separat de cele opționale.",
+          "Compară salariul și alte condiții doar dacă sunt publicate; cere clarificări când lipsesc.",
+          "Verifică identitatea angajatorului prin pagina oficială și adresa de contact.",
+          "Nu plăti pentru promisiunea unui loc de muncă și nu trimite copii de acte înainte de a verifica scopul și destinatarul."
+        ],
+        "model": [
+          "FIȘĂ DE COMPARARE (anunț fictiv)",
+          "Rol: asistent administrativ | Program: luni–vineri",
+          "Cerințe: tabele, comunicare, atenție la detalii.",
+          "Experiență proprie: tabele — DA; comunicare — DA; software avansat — de învățat.",
+          "Neclarități: salariu exact, condiții de probă, lucru la distanță.",
+          "Acțiune: trimite CV adaptat și întreabă politicos ce lipsește."
+        ],
+        "check": [
+          "Postul are atribuții și condiții suficient de clare.",
+          "Datele companiei pot fi verificate independent.",
+          "Nu ai acceptat cereri suspecte de bani sau parole."
+        ],
+        "exercise": [
+          "Construiește un tabel Cerință → Dovada mea → Lipsă → Întrebare.",
+          "Scrie trei întrebări de clarificare pe care le-ai pune angajatorului."
+        ]
+      },
+      "career-4": {
+        "goal": "Să răspunzi la interviu cu exemple reale și structurate.",
+        "steps": [
+          "Identifică 3 competențe esențiale cerute de post.",
+          "Pentru fiecare pregătește un exemplu concret folosind Situație–Sarcină–Acțiune–Rezultat (STAR).",
+          "Descrie ce ai făcut tu și ce rezultat a produs; nu inventa cifre.",
+          "Exersează răspunsul oral în 60–90 de secunde și elimină formulările fără legătură.",
+          "Pregătește întrebări despre rol, formare și criteriile de evaluare."
+        ],
+        "model": [
+          "RĂSPUNS STAR — EXEMPLU FICTIV",
+          "Întrebare: povestește despre o greșeală identificată la muncă.",
+          "Situație: existau diferențe între etichete și inventar.",
+          "Sarcină: să verific o secțiune de produse.",
+          "Acțiune: am comparat înregistrările, am documentat diferențele și le-am comunicat.",
+          "Rezultat: echipa a actualizat evidența și a redus neclaritățile.",
+          "Înlocuiește cazul fictiv cu propria experiență."
+        ],
+        "check": [
+          "Răspunsul arată o acțiune personală reală.",
+          "Include un rezultat fără exagerări.",
+          "Ai înțeles întrebarea înainte de a răspunde."
+        ],
+        "exercise": [
+          "Scrie un răspuns STAR la întrebarea «Ce problemă ai rezolvat?»",
+          "Pregătește două întrebări potrivite despre responsabilitățile postului."
+        ]
+      },
+      "career-5": {
+        "goal": "Să pregătești un portofoliu profesional care dovedește ce poți face.",
+        "steps": [
+          "Alege două proiecte relevante pentru rol, nu neapărat cele mai recente.",
+          "Pentru fiecare scrie obiectivul, instrumentele, contribuția ta și rezultatul.",
+          "Adaugă capturi sau fișiere doar dacă ai dreptul să le distribui.",
+          "Ascunde datele confidențiale, identitățile clienților și informațiile de acces.",
+          "Pregătește o variantă scurtă pentru aplicație și una detaliată pentru interviu."
+        ],
+        "model": [
+          "FIȘĂ PROIECT (model fictiv)",
+          "Titlu: Organizarea unui registru de stocuri.",
+          "Problemă: documentele nu erau ușor de consultat.",
+          "Rolul meu: am creat și verificat un tabel cu produse și cantități.",
+          "Instrument: aplicație de calcul tabelar.",
+          "Rezultat: inventarul a devenit mai ușor de căutat și actualizat.",
+          "Limitări: date demonstrative, fără informații confidențiale."
+        ],
+        "check": [
+          "Fiecare proiect conține contribuția proprie.",
+          "Ai permisiunea să arăți toate materialele.",
+          "Rezultatul este demonstrabil și bine explicat."
+        ],
+        "exercise": [
+          "Redactează două fișe de proiect folosind șablonul.",
+          "Alege ce dovadă vizuală este relevantă și ce informații trebuie anonimizate."
+        ]
+      },
+      "career-6": {
+        "goal": "Să construiești un plan de învățare de 30 de zile cu rezultate măsurabile.",
+        "steps": [
+          "Alege o singură competență prioritară din anunțurile de angajare care te interesează.",
+          "Definește un rezultat observabil, de exemplu un raport într-un tabel.",
+          "Împarte luna în patru săptămâni: bază, exersare, proiect, evaluare.",
+          "Stabilește timp realist pentru practică și feedback.",
+          "Compară proiectul final cu cerințele inițiale și ajustează planul."
+        ],
+        "model": [
+          "PLAN 30 DE ZILE (exemplu)",
+          "Săpt. 1: 3 exerciții despre formule și referințe.",
+          "Săpt. 2: tabel de evidență cu 20 rânduri fictive.",
+          "Săpt. 3: raport cu filtre și totaluri.",
+          "Săpt. 4: verificarea erorilor și prezentarea proiectului.",
+          "Rezultat: fișier demonstrativ și explicația lui."
+        ],
+        "check": [
+          "Ținta este concretă și poate fi verificată.",
+          "Sarcinile sunt adaptate timpului disponibil.",
+          "Documentezi ce ai învățat și ce nu a mers."
+        ],
+        "exercise": [
+          "Scrie propriul plan cu patru etape săptămânale.",
+          "Formulează două criterii de reușită pentru proiectul final."
+        ]
+      }
+    },
+    "depth": {
+      "career-1": [
+        [
+          "De la adjectiv la dovadă",
+          "Expresii precum «responsabil», «creativ» sau «bun organizator» sunt greu de verificat fără context. Identifică acțiunea pe care ai realizat-o, instrumentele folosite și rezultatul observabil. Dacă nu ai cifre, descrie îmbunătățirea calitativă fără să inventezi procente. Exemplu: «am verificat lista de livrări și am semnalat discrepanțele înainte de închidere» spune mult mai mult decât «atenție la detalii»."
+        ],
+        [
+          "Competențe transferabile și specifice",
+          "Comunicarea, planificarea și rezolvarea problemelor pot fi transferate între domenii, dar trebuie ilustrate prin situații proprii. Competențele tehnice, cum ar fi utilizarea unui utilaj, un program sau o metodă, se descriu la nivelul real. Separă ce ai învățat teoretic de ce poți executa independent. Această diferență îi ajută atât pe angajator, cât și pe candidat."
+        ],
+        [
+          "Matricea de competențe",
+          "Creează patru coloane: cerința postului, activitatea ta, dovada și ce trebuie îmbunătățit. Dacă o cerință nu este susținută, marcheaz-o «de învățat», nu o ascunde în formulări ambigue. Folosește apoi matricea pentru CV, interviu și planul de dezvoltare. Actualizeaz-o numai când poți explica și demonstra experiența indicată."
+        ]
+      ],
+      "career-2": [
+        [
+          "Rolul CV-ului și alegerea informației",
+          "CV-ul nu este autobiografie, ci un document de selecție. Recruiterul trebuie să identifice rapid ce rol urmărești și de ce experiența ta este relevantă. Pentru fiecare secțiune, întreabă «ajută această informație la evaluarea candidaturii?». Nu este necesar să incluzi date personale excesive. Normele privind fotografia, vârsta și alte detalii diferă după țară și trebuie verificate."
+        ],
+        [
+          "Cronologie și exprimarea realizărilor",
+          "Experiența se prezintă de obicei în ordine cronologică inversă, cu rolul, organizația și intervalul. Fiecare punct trebuie să înceapă cu o acțiune clară; descrie ce ai făcut, prin ce mijloc și cu ce rezultat. Nu atribui integral realizările echipei propriei persoane. Pentru cine nu are experiență profesională, proiectele de studiu, practica și voluntariatul reale pot demonstra competențe."
+        ],
+        [
+          "Adaptare, verificare și export PDF",
+          "Folosește termenii relevanți din anunț doar dacă descriu competențe reale. Verifică faptul că datele de contact sunt corecte, că titlurile sunt consecvente și că fișierul este lizibil pe ecran mic. Un PDF ajută la păstrarea aspectului, dar nu repară automat un document greșit. Denumește-l clar și recitește-l după export, înainte de a-l trimite."
+        ]
+      ],
+      "career-3": [
+        [
+          "Citirea unei oferte ca document de condiții",
+          "Analizează separat atribuțiile, calificările cerute, programul, locul, remunerația și modul de evaluare. Formulările «avantaje competitive» sau «salariu atractiv» nu sunt sume concrete. Notează ce este confirmat în anunț și ce trebuie întrebat. O ofertă poate părea potrivită ca titlu, dar poate avea condiții zilnice incompatibile cu situația candidatului."
+        ],
+        [
+          "Diferența dintre obligatoriu și preferabil",
+          "Unele anunțuri diferențiază cerințe esențiale de competențe dorite. Marchează-le separat. Pentru fiecare cerință arată o dovadă, o competență apropiată sau un gol de pregătire. Nu te autoexclude automat pentru lipsuri mici, dar nici nu revendica o calificare obligatorie pe care nu o ai. Pentru profesiile reglementate, lipsa autorizării poate împiedica legal exercitarea rolului."
+        ],
+        [
+          "Siguranța în procesul de recrutare",
+          "Verifică existența angajatorului în surse independente, domeniul e-mailului și dacă postul apare în canalele sale oficiale. Cererile urgente de bani, coduri, acces la telefon sau fotografii nejustificate ale documentelor sunt motive de oprire. Nu confunda o platformă populară cu garanția autenticității fiecărui anunț. Păstrează o evidență a candidaturilor și comunică numai prin canale adecvate."
+        ]
+      ],
+      "career-4": [
+        [
+          "Ce evaluează întrebările de interviu",
+          "Întrebările comportamentale încearcă să înțeleagă cum ai acționat în situații reale, iar cele tehnice urmăresc modul de gândire și cunoștințele relevante. Nu răspunde automat cu un discurs memorat. Ascultă, cere o clarificare când întrebarea este ambiguă și alege un episod autentic care ilustrează competența solicitată."
+        ],
+        [
+          "Metoda STAR fără povestiri inventate",
+          "Situația descrie contextul suficient pentru înțelegere; sarcina precizează ce trebuia făcut; acțiunea spune ce ai realizat tu; rezultatul explică efectul sau ce ai învățat. Nu sunt necesare cifre spectaculoase. Dacă rezultatul a fost mixt, poți arăta ce ai corectat ulterior. Structura este un sprijin pentru comunicare, nu o listă rigidă de replici."
+        ],
+        [
+          "Întrebări, etică și evaluare",
+          "Pregătește întrebări despre o zi de lucru obișnuită, echipa, criteriile de succes și etapele următoare. Verifică eventualele condiții de angajare prin surse corespunzătoare jurisdicției. După interviu notează ce întrebări ți-au creat dificultăți și exersează fără să inventezi experiențe. Scopul este o conversație clară, nu memorarea unei măști profesionale."
+        ]
+      ],
+      "career-5": [
+        [
+          "Ce dovedește un portofoliu",
+          "Portofoliul reunește selecții relevante pentru rol, nu toate documentele produse vreodată. Fiecare proiect are un obiectiv, o problemă, o contribuție proprie și un rezultat. Un exemplu scurt, dar verificabil, poate fi mai valoros decât un catalog mare fără explicații. Pentru un rol administrativ poți arăta un tabel fictiv; pentru un rol tehnic, o schiță sau un proiect demonstrativ."
+        ],
+        [
+          "Drepturi și confidențialitate",
+          "Un proiect realizat la serviciu nu devine automat public. Verifică permisiunile de distribuire și elimină datele confidențiale, identitățile clienților sau informațiile de acces. Dacă nu poți arăta documentul original, recreează un model fictiv și declară acest lucru. Nu prezenta o lucrare copiată ca realizare proprie."
+        ],
+        [
+          "Cum descrii procesul de lucru",
+          "Include o descriere scurtă a cerinței, instrumentele alese, două sau trei decizii importante, criteriul de verificare și rezultatul. Explică ce ai face diferit într-o nouă versiune. Această reflecție demonstrează învățare și gândire critică, nu doar un rezultat vizual. Organizează proiectele astfel încât un cititor să poată vedea contribuția în câteva minute."
+        ]
+      ],
+      "career-6": [
+        [
+          "Stabilește o competență prioritară",
+          "Alege o abilitate asociată rolului dorit și descrie-o ca rezultat observabil, nu ca intenție vagă. «Voi învăța Excel» este greu de evaluat; «voi crea un raport cu formule și filtre, verificat manual» poate fi demonstrat. Notează de unde pornești și ce ai nevoie să înveți înainte de sarcina finală."
+        ],
+        [
+          "Învățarea în cicluri scurte",
+          "Planul poate alterna o lecție, un exercițiu, aplicarea într-un mini-proiect și revizuirea erorilor. Este mai util să revii asupra greșelilor decât să bifezi cursuri parcurse pasiv. Folosește resurse credibile și un criteriu concret de finalizare pentru fiecare săptămână. Nu programa mai multe ore decât ai disponibile."
+        ],
+        [
+          "Evaluare și dovadă de progres",
+          "La sfârșit compară produsul final cu criteriile de la început. Cere feedback specific și păstrează o variantă înainte și după corecturi. Dacă un obiectiv nu a fost îndeplinit, identifică blocajul real: resursa, timpul, fundamentul teoretic sau lipsa practică. Ajustează următoarea etapă pe baza acestei observații."
+        ]
+      ]
+    },
+    "workshops": [
+      {
+        "id": "career-1",
+        "title": "Competență demonstrată",
+        "minutes": 25,
+        "scenario": "Personajul a organizat voluntar un inventar și a introdus 50 de poziții verificate. Nu are certificat de operator și nu trebuie să îl inventeze.",
+        "artifact": "Matrice de trei competențe susținute prin dovezi",
+        "template": "Activitate reală sau fictivă etichetată:\nAcțiunea mea:\nInstrument folosit:\nRezultat observabil:\nDovadă fără date personale:\nLimită / de învățat:",
+        "mistake": "„Sunt responsabil” nu este singur o dovadă; separă contribuția personală de cea a echipei.",
+        "transfer": "Alege o altă activitate și arată ce dovadă ai putea oferi fără a divulga documente confidențiale.",
+        "safety": "Folosește date fictive pentru exercițiu și experiențe reale numai la propria alegere; fără CNP/acte, certificări inventate sau promisiuni de angajare.",
+        "tools": [
+          "Anunț fictiv sau public fără date personale",
+          "Caietul local",
+          "Atelierul CV existent, opțional"
+        ],
+        "evidence": [
+          {
+            "id": "artifact",
+            "text": "Am produs livrabila „Matrice de trei competențe susținute prin dovezi”, nu doar am recitit teoria."
+          },
+          {
+            "id": "reason",
+            "text": "Am explicat o alegere prin datele concrete ale scenariului și am notat ce lipsește."
+          },
+          {
+            "id": "check",
+            "text": "Am verificat rezultatul față de exemplul explicat și am corectat greșelile observate."
+          },
+          {
+            "id": "safety",
+            "text": "Am respectat limita de siguranță și confidențialitate a acestui exercițiu."
+          }
+        ],
+        "checkpoint": {
+          "type": "choice",
+          "question": "Care afirmație este susținută de scenariu?",
+          "choices": [
+            "Am introdus și verificat 50 de poziții într-un inventar",
+            "Sunt specialist certificat fără diplomă",
+            "Am condus întreaga organizație"
+          ],
+          "correct": 0,
+          "explanation": "O activitate și un rezultat verificabil sunt mai utile decât un titlu sau o certificare inventată."
+        }
+      },
+      {
+        "id": "career-2",
+        "title": "CV adaptat, nu autobiografie",
+        "minutes": 30,
+        "scenario": "Un anunț fictiv cere relații cu clienții și lucru cu tabele. Candidatul are voluntariat la un eveniment și un inventar în tabel, fără experiență managerială.",
+        "artifact": "CV de o pagină și corespondență cu două cerințe",
+        "template": "Rol vizat:\nProfil scurt:\nCerință → dovada mea:\nExperiență (acțiune și rezultat):\nStudii reale:\nCompetențe la nivel demonstrabil:\nDate de contact fictive:\nVerificări înainte de PDF:",
+        "mistake": "Nu adăuga CNP, acte, parole sau o experiență managerială doar pentru a potrivi anunțul.",
+        "transfer": "Adaptează același profil pentru un alt anunț: indică explicit ce elimini și ce dovadă păstrezi.",
+        "safety": "Folosește date fictive pentru exercițiu și experiențe reale numai la propria alegere; fără CNP/acte, certificări inventate sau promisiuni de angajare.",
+        "tools": [
+          "Anunț fictiv sau public fără date personale",
+          "Caietul local",
+          "Atelierul CV existent, opțional"
+        ],
+        "evidence": [
+          {
+            "id": "artifact",
+            "text": "Am produs livrabila „CV de o pagină și corespondență cu două cerințe”, nu doar am recitit teoria."
+          },
+          {
+            "id": "reason",
+            "text": "Am explicat o alegere prin datele concrete ale scenariului și am notat ce lipsește."
+          },
+          {
+            "id": "check",
+            "text": "Am verificat rezultatul față de exemplul explicat și am corectat greșelile observate."
+          },
+          {
+            "id": "safety",
+            "text": "Am respectat limita de siguranță și confidențialitate a acestui exercițiu."
+          }
+        ],
+        "checkpoint": {
+          "type": "choice",
+          "question": "Ce alegi pentru CV?",
+          "choices": [
+            "Două exemple relevante, reale, legate de cerințe",
+            "Toate datele actului de identitate",
+            "O diplomă inventată"
+          ],
+          "correct": 0,
+          "explanation": "Relevanța și veridicitatea sunt esențiale. Folosește atelierul CV existent pentru redactare și export, cu date fictive în exercițiu."
+        }
+      },
+      {
+        "id": "career-3",
+        "title": "Compară ofertele fără grabă",
+        "minutes": 35,
+        "scenario": "Oferta A spune „salariu atractiv”, fără program. Oferta B arată atribuțiile și programul, dar cere o calificare pe care candidatul nu o deține. Nu presupunem că vreuna este potrivită.",
+        "artifact": "Fișă de potrivire și verificare a angajatorului",
+        "template": "Cerințe esențiale:\nDovezi ale candidatului:\nDate confirmate pentru A:\nDate lipsă pentru A:\nCondiții obligatorii pentru B:\nVerificare independentă a angajatorului:\nÎntrebări înainte de candidatură:",
+        "mistake": "Titlul atractiv nu compensează lipsa unei calificări obligatorii; nu plăti pentru a debloca un interviu suspect.",
+        "transfer": "Construiește un mesaj cu trei întrebări despre condițiile lipsă, fără a trimite acte personale.",
+        "safety": "Folosește date fictive pentru exercițiu și experiențe reale numai la propria alegere; fără CNP/acte, certificări inventate sau promisiuni de angajare.",
+        "tools": [
+          "Anunț fictiv sau public fără date personale",
+          "Caietul local",
+          "Atelierul CV existent, opțional"
+        ],
+        "evidence": [
+          {
+            "id": "artifact",
+            "text": "Am produs livrabila „Fișă de potrivire și verificare a angajatorului”, nu doar am recitit teoria."
+          },
+          {
+            "id": "reason",
+            "text": "Am explicat o alegere prin datele concrete ale scenariului și am notat ce lipsește."
+          },
+          {
+            "id": "check",
+            "text": "Am verificat rezultatul față de exemplul explicat și am corectat greșelile observate."
+          },
+          {
+            "id": "safety",
+            "text": "Am respectat limita de siguranță și confidențialitate a acestui exercițiu."
+          }
+        ],
+        "checkpoint": {
+          "type": "choice",
+          "question": "Ce faci cu o calificare obligatorie pe care nu o ai?",
+          "choices": [
+            "O marchezi ca lipsă și verifici cerința, fără să pretinzi că o deții",
+            "O inventezi în CV",
+            "O înlocuiești cu o fotografie"
+          ],
+          "correct": 0,
+          "explanation": "Cerințele obligatorii, în special cele reglementate, nu se acoperă prin formulări ambigue. Se verifică potrivirea reală."
+        }
+      },
+      {
+        "id": "career-4",
+        "title": "Interviu cu exemplu STAR",
+        "minutes": 40,
+        "scenario": "Alege un episod real sau unul didactic etichetat clar: ai observat o eroare într-o listă și ai cerut corectarea înainte de predare. Nu atribui rezultate neverificate.",
+        "artifact": "Răspuns STAR și două întrebări pentru angajator",
+        "template": "Situație:\nSarcină:\nAcțiunea mea:\nRezultat verificabil:\nCe aș îmbunătăți:\nÎntrebări pentru angajator:\nFeedback după repetiție:",
+        "mistake": "Nu transforma STAR într-un discurs memorat care nu răspunde întrebării.",
+        "transfer": "Repetă răspunsul în 90 de secunde și notează o informație neclară pentru ascultător, fără evaluare vocală automată.",
+        "safety": "Folosește date fictive pentru exercițiu și experiențe reale numai la propria alegere; fără CNP/acte, certificări inventate sau promisiuni de angajare.",
+        "tools": [
+          "Anunț fictiv sau public fără date personale",
+          "Caietul local",
+          "Atelierul CV existent, opțional"
+        ],
+        "evidence": [
+          {
+            "id": "artifact",
+            "text": "Am produs livrabila „Răspuns STAR și două întrebări pentru angajator”, nu doar am recitit teoria."
+          },
+          {
+            "id": "reason",
+            "text": "Am explicat o alegere prin datele concrete ale scenariului și am notat ce lipsește."
+          },
+          {
+            "id": "check",
+            "text": "Am verificat rezultatul față de exemplul explicat și am corectat greșelile observate."
+          },
+          {
+            "id": "safety",
+            "text": "Am respectat limita de siguranță și confidențialitate a acestui exercițiu."
+          }
+        ],
+        "checkpoint": {
+          "type": "choice",
+          "question": "Ce trebuie să fie clar în secțiunea Acțiune?",
+          "choices": [
+            "Ce ai făcut tu efectiv",
+            "Doar ce a făcut întreaga echipă",
+            "O promisiune de rezultat viitor"
+          ],
+          "correct": 0,
+          "explanation": "Acțiunea personală face contribuția evaluabilă; rezultatul trebuie separat și susținut de ce se cunoaște."
+        }
+      },
+      {
+        "id": "career-5",
+        "title": "Portofoliu fără expuneri",
+        "minutes": 45,
+        "scenario": "Ai un tabel demonstrativ și un raport realizat în echipă. Raportul conține date confidențiale; nu îl încărca în aplicație.",
+        "artifact": "Fișă de proiect publicabil și control al permisiunilor",
+        "template": "Scopul proiectului:\nContribuția personală:\nInstrumente:\nDemonstrație cu date sintetice:\nRezultat și limită:\nCe NU pot publica:\nPermisiuni necesare / alternativă anonimizată:",
+        "mistake": "Anonimizarea superficială sau acordul unui coleg nu dă automat dreptul de publicare.",
+        "transfer": "Explică modul în care ai prezenta oral o muncă pe care nu ai dreptul să o distribui.",
+        "safety": "Folosește date fictive pentru exercițiu și experiențe reale numai la propria alegere; fără CNP/acte, certificări inventate sau promisiuni de angajare.",
+        "tools": [
+          "Anunț fictiv sau public fără date personale",
+          "Caietul local",
+          "Atelierul CV existent, opțional"
+        ],
+        "evidence": [
+          {
+            "id": "artifact",
+            "text": "Am produs livrabila „Fișă de proiect publicabil și control al permisiunilor”, nu doar am recitit teoria."
+          },
+          {
+            "id": "reason",
+            "text": "Am explicat o alegere prin datele concrete ale scenariului și am notat ce lipsește."
+          },
+          {
+            "id": "check",
+            "text": "Am verificat rezultatul față de exemplul explicat și am corectat greșelile observate."
+          },
+          {
+            "id": "safety",
+            "text": "Am respectat limita de siguranță și confidențialitate a acestui exercițiu."
+          }
+        ],
+        "checkpoint": {
+          "type": "choice",
+          "question": "Ce exemplu este mai sigur pentru un portofoliu public?",
+          "choices": [
+            "O demonstrație proprie cu date sintetice și drepturi clare",
+            "Raportul confidențial integral",
+            "O bază de date cu numele clienților"
+          ],
+          "correct": 0,
+          "explanation": "Datele sintetice și o descriere a contribuției pot demonstra abilități fără a expune informații protejate. Se verifică și drepturile de utilizare."
+        }
+      },
+      {
+        "id": "career-6",
+        "title": "Un plan profesional verificabil",
+        "minutes": 50,
+        "scenario": "Personajul vrea să poată realiza independent un tabel cu formule în patru săptămâni. Are două sesiuni de 45 minute pe săptămână. Nu este o garanție de angajare.",
+        "artifact": "Plan de învățare cu livrabilă săptămânală și revizie",
+        "template": "Competență vizată:\nNivel inițial și dovadă:\nSăptămâna 1 — rezultat:\nSăptămâna 2 — rezultat:\nSăptămâna 3 — rezultat:\nSăptămâna 4 — demonstrație finală:\nTimp și obstacole:\nCum verific progresul:",
+        "mistake": "Numărul de ore consumate nu dovedește singur că poți executa sarcina.",
+        "transfer": "Redu disponibilitatea la o sesiune pe săptămână și adaptează termenul sau amploarea rezultatului.",
+        "safety": "Folosește date fictive pentru exercițiu și experiențe reale numai la propria alegere; fără CNP/acte, certificări inventate sau promisiuni de angajare.",
+        "tools": [
+          "Anunț fictiv sau public fără date personale",
+          "Caietul local",
+          "Atelierul CV existent, opțional"
+        ],
+        "evidence": [
+          {
+            "id": "artifact",
+            "text": "Am produs livrabila „Plan de învățare cu livrabilă săptămânală și revizie”, nu doar am recitit teoria."
+          },
+          {
+            "id": "reason",
+            "text": "Am explicat o alegere prin datele concrete ale scenariului și am notat ce lipsește."
+          },
+          {
+            "id": "check",
+            "text": "Am verificat rezultatul față de exemplul explicat și am corectat greșelile observate."
+          },
+          {
+            "id": "safety",
+            "text": "Am respectat limita de siguranță și confidențialitate a acestui exercițiu."
+          }
+        ],
+        "checkpoint": {
+          "type": "number",
+          "question": "Câte minute sunt planificate în total pentru patru săptămâni?",
+          "answer": 360,
+          "explanation": "4 săptămâni × 2 sesiuni × 45 minute = 360 minute. Competența se verifică printr-o demonstrație, nu doar prin acest total."
+        }
+      }
+    ],
+    "pathway": {
+      "title": "DOSAR DE CANDIDATURĂ",
+      "principle": "Mai întâi înțelegi exemplul, apoi produci o lucrare, verifici și explici decizia. Nu este suficient să memorezi răspunsuri.",
+      "safety": "Folosește date fictive pentru exercițiu și experiențe reale numai la propria alegere; fără CNP/acte, certificări inventate sau promisiuni de angajare.",
+      "tools": [
+        "Anunț fictiv sau public fără date personale",
+        "Caietul local",
+        "Atelierul CV existent, opțional"
+      ],
+      "finalTemplate": "Scopul dosarului:\nContext fictiv și limite:\n1. Livrabila capitolului 1 și concluzia:\n2. Livrabila capitolului 2 și concluzia:\n3. Livrabila capitolului 3 și concluzia:\n4. Livrabila capitolului 4 și concluzia:\n5. Livrabila capitolului 5 și concluzia:\n6. Livrabila capitolului 6 și concluzia:\nCe am corectat după verificare:\nRiscuri / informații care trebuie verificate de un specialist:\nCe voi aplica mai departe în siguranță:"
+    }
+  }
+}

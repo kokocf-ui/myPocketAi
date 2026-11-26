@@ -1,0 +1,781 @@
+{
+  "schema": "mypocket-practical-course/v1",
+  "id": "trades",
+  "sourceLanguage": "ro",
+  "version": "da6497ff22b7098f4e147ce00aace539326f7b9e98d2bba018752271ae0b5249",
+  "content": {
+    "course": {
+      "id": "trades",
+      "icon": "🛠️",
+      "ro": "Meserii și abilități",
+      "en": "Trades and vocational skills",
+      "summary": "Măsurare, materiale, organizarea lucrării și siguranță.",
+      "unit": "tasks",
+      "lessons": [
+        [
+          "Măsurători și unități",
+          "Orice lucrare începe cu măsurarea corectă. Notează unitatea, verifică instrumentul și măsoară de două ori înainte de a decide dimensiunea finală. Schița cu cote trebuie să distingă lungimea, lățimea și adâncimea.",
+          "Măsoară un obiect obișnuit și înregistrează rezultatul în centimetri și milimetri.",
+          "Exemplu: 1,25 m înseamnă 125 cm sau 1250 mm.",
+          "Câți milimetri sunt în 1,25 metri?",
+          [
+            "1250",
+            "125",
+            "12,5",
+            "12500"
+          ],
+          0
+        ],
+        [
+          "Planul unei lucrări sigure",
+          "Identifică pericolele înainte de a începe o activitate. Folosește echipamentele potrivite și nu executa lucrări la instalații electrice, gaze, structuri portante sau alte sisteme periculoase fără persoană calificată. Oprirea lucrului este o alegere corectă când condițiile nu sunt sigure.",
+          "Scrie materialele, instrumentele, persoanele responsabile și condițiile de oprire.",
+          "Exemplu: observi un cablu deteriorat lângă apă: nu îl atingi și anunți un specialist.",
+          "Ce decizie este corectă în cazul unui cablu electric deteriorat?",
+          [
+            "Izolezi accesul și ceri ajutor calificat",
+            "Îl repari cu mâinile ude",
+            "Îl testezi prin atingere",
+            "Îl acoperi cu hârtie"
+          ],
+          0
+        ],
+        [
+          "Materiale și proprietăți",
+          "Alegerea materialului depinde de rezistență, masă, mediu, uzură și compatibilitate. Compară specificațiile și instrucțiunile producătorului înainte de utilizare; aceeași piesă poate fi potrivită într-un mediu și nepotrivită în altul.",
+          "Întocmește o fișă cu două materiale și proprietățile relevante.",
+          "Exemplu: un material vulnerabil la umezeală nu este automat potrivit într-un spațiu umed.",
+          "Ce contează când alegi materialul?",
+          [
+            "Proprietățile și condițiile de utilizare",
+            "Doar culoarea ambalajului",
+            "Doar numele magazinului",
+            "Doar forma etichetei"
+          ],
+          0
+        ],
+        [
+          "Citirea schițelor tehnice",
+          "Schițele descriu dimensiuni, toleranțe și poziții. Învață diferența dintre o vedere din față și una de sus; compară mai întâi simbolurile și legenda. Nu deduce unghiuri sau dimensiuni absente dintr-un desen care nu este la scară.",
+          "Desenează o piesă simplă cu trei cote și marchează ce nu este specificat.",
+          "Exemplu: un dreptunghi de 40×20 cm are suprafața de 800 cm².",
+          "Ce nu trebuie să presupui dintr-o schiță fără scară?",
+          [
+            "Dimensiuni neindicate",
+            "Cotele explicit înscrise",
+            "Unitățile declarate",
+            "Identitatea legendei"
+          ],
+          0
+        ],
+        [
+          "Calitate, verificare și evidență",
+          "Calitatea rezultă din criterii verificabile, nu doar aspect. Stabilește un standard, documentează etapele, notează diferențele și reia verificarea după corecție. Dacă rezultatul influențează siguranța, evaluarea trebuie făcută de un profesionist calificat.",
+          "Construiește o listă cu criterii: dimensiune, aspect, funcție, siguranță și documentare.",
+          "Exemplu: o piesă trebuie să aibă 100 ± 2 mm; măsori 103 mm, deci este în afara toleranței.",
+          "O piesă de 103 mm respectă toleranța 100 ± 2 mm?",
+          [
+            "Nu",
+            "Da, întotdeauna",
+            "Doar dacă este vopsită",
+            "Nu există date suficiente pentru interval"
+          ],
+          0
+        ],
+        [
+          "Proiect practic și estimarea resurselor",
+          "Descompune o lucrare în rezultate intermediare, timp estimat, materiale și verificări. Rezervă un interval pentru erori și întreruperi. Dacă o sarcină implică autorizări, igienă specială ori siguranța altor persoane, verifică regulile locale și cere personal competent.",
+          "Creează un deviz estimativ fără a-l prezenta drept ofertă reală și evidențiază ipotezele.",
+          "Exemplu: trei materiale de 10, 15 și 25 au cost de bază 50, fără transport și manoperă.",
+          "Ce trebuie evidențiat într-o estimare?",
+          [
+            "Ce costuri sunt incluse și care sunt presupuse",
+            "Doar rezultatul fără explicație",
+            "Numai durata optimistă",
+            "Prețul unei singure piese"
+          ],
+          0
+        ]
+      ],
+      "chapters": [
+        {
+          "id": "trades-1",
+          "level": "beginner",
+          "order": 1,
+          "title": "Măsurători și unități",
+          "theory": "Orice lucrare începe cu măsurarea corectă. Notează unitatea, verifică instrumentul și măsoară de două ori înainte de a decide dimensiunea finală. Schița cu cote trebuie să distingă lungimea, lățimea și adâncimea.",
+          "method": "Măsoară un obiect obișnuit și înregistrează rezultatul în centimetri și milimetri.",
+          "caseStudy": "Exemplu: 1,25 m înseamnă 125 cm sau 1250 mm.",
+          "question": {
+            "prompt": "Câți milimetri sunt în 1,25 metri?",
+            "choices": [
+              "1250",
+              "125",
+              "12,5",
+              "12500"
+            ],
+            "correct": 0,
+            "explanation": "Măsoară un obiect obișnuit și înregistrează rezultatul în centimetri și milimetri."
+          },
+          "practice": [
+            "Explică în propriile cuvinte regula de bază a lecției și indică un exemplu realist.",
+            "Rezolvă cazul practic de mai sus, cu pași numerotați și verificarea concluziei.",
+            "Construiește un checklist aplicabil unei situații reale, precizând ce trebuie verificat înainte de acțiune."
+          ]
+        },
+        {
+          "id": "trades-2",
+          "level": "beginner",
+          "order": 2,
+          "title": "Planul unei lucrări sigure",
+          "theory": "Identifică pericolele înainte de a începe o activitate. Folosește echipamentele potrivite și nu executa lucrări la instalații electrice, gaze, structuri portante sau alte sisteme periculoase fără persoană calificată. Oprirea lucrului este o alegere corectă când condițiile nu sunt sigure.",
+          "method": "Scrie materialele, instrumentele, persoanele responsabile și condițiile de oprire.",
+          "caseStudy": "Exemplu: observi un cablu deteriorat lângă apă: nu îl atingi și anunți un specialist.",
+          "question": {
+            "prompt": "Ce decizie este corectă în cazul unui cablu electric deteriorat?",
+            "choices": [
+              "Izolezi accesul și ceri ajutor calificat",
+              "Îl repari cu mâinile ude",
+              "Îl testezi prin atingere",
+              "Îl acoperi cu hârtie"
+            ],
+            "correct": 0,
+            "explanation": "Scrie materialele, instrumentele, persoanele responsabile și condițiile de oprire."
+          },
+          "practice": [
+            "Explică în propriile cuvinte regula de bază a lecției și indică un exemplu realist.",
+            "Rezolvă cazul practic de mai sus, cu pași numerotați și verificarea concluziei.",
+            "Construiește un checklist aplicabil unei situații reale, precizând ce trebuie verificat înainte de acțiune."
+          ]
+        },
+        {
+          "id": "trades-3",
+          "level": "intermediate",
+          "order": 3,
+          "title": "Materiale și proprietăți",
+          "theory": "Alegerea materialului depinde de rezistență, masă, mediu, uzură și compatibilitate. Compară specificațiile și instrucțiunile producătorului înainte de utilizare; aceeași piesă poate fi potrivită într-un mediu și nepotrivită în altul.",
+          "method": "Întocmește o fișă cu două materiale și proprietățile relevante.",
+          "caseStudy": "Exemplu: un material vulnerabil la umezeală nu este automat potrivit într-un spațiu umed.",
+          "question": {
+            "prompt": "Ce contează când alegi materialul?",
+            "choices": [
+              "Proprietățile și condițiile de utilizare",
+              "Doar culoarea ambalajului",
+              "Doar numele magazinului",
+              "Doar forma etichetei"
+            ],
+            "correct": 0,
+            "explanation": "Întocmește o fișă cu două materiale și proprietățile relevante."
+          },
+          "practice": [
+            "Explică în propriile cuvinte regula de bază a lecției și indică un exemplu realist.",
+            "Rezolvă cazul practic de mai sus, cu pași numerotați și verificarea concluziei.",
+            "Construiește un checklist aplicabil unei situații reale, precizând ce trebuie verificat înainte de acțiune."
+          ]
+        },
+        {
+          "id": "trades-4",
+          "level": "intermediate",
+          "order": 4,
+          "title": "Citirea schițelor tehnice",
+          "theory": "Schițele descriu dimensiuni, toleranțe și poziții. Învață diferența dintre o vedere din față și una de sus; compară mai întâi simbolurile și legenda. Nu deduce unghiuri sau dimensiuni absente dintr-un desen care nu este la scară.",
+          "method": "Desenează o piesă simplă cu trei cote și marchează ce nu este specificat.",
+          "caseStudy": "Exemplu: un dreptunghi de 40×20 cm are suprafața de 800 cm².",
+          "question": {
+            "prompt": "Ce nu trebuie să presupui dintr-o schiță fără scară?",
+            "choices": [
+              "Dimensiuni neindicate",
+              "Cotele explicit înscrise",
+              "Unitățile declarate",
+              "Identitatea legendei"
+            ],
+            "correct": 0,
+            "explanation": "Desenează o piesă simplă cu trei cote și marchează ce nu este specificat."
+          },
+          "practice": [
+            "Explică în propriile cuvinte regula de bază a lecției și indică un exemplu realist.",
+            "Rezolvă cazul practic de mai sus, cu pași numerotați și verificarea concluziei.",
+            "Construiește un checklist aplicabil unei situații reale, precizând ce trebuie verificat înainte de acțiune."
+          ]
+        },
+        {
+          "id": "trades-5",
+          "level": "advanced",
+          "order": 5,
+          "title": "Calitate, verificare și evidență",
+          "theory": "Calitatea rezultă din criterii verificabile, nu doar aspect. Stabilește un standard, documentează etapele, notează diferențele și reia verificarea după corecție. Dacă rezultatul influențează siguranța, evaluarea trebuie făcută de un profesionist calificat.",
+          "method": "Construiește o listă cu criterii: dimensiune, aspect, funcție, siguranță și documentare.",
+          "caseStudy": "Exemplu: o piesă trebuie să aibă 100 ± 2 mm; măsori 103 mm, deci este în afara toleranței.",
+          "question": {
+            "prompt": "O piesă de 103 mm respectă toleranța 100 ± 2 mm?",
+            "choices": [
+              "Nu",
+              "Da, întotdeauna",
+              "Doar dacă este vopsită",
+              "Nu există date suficiente pentru interval"
+            ],
+            "correct": 0,
+            "explanation": "Construiește o listă cu criterii: dimensiune, aspect, funcție, siguranță și documentare."
+          },
+          "practice": [
+            "Explică în propriile cuvinte regula de bază a lecției și indică un exemplu realist.",
+            "Rezolvă cazul practic de mai sus, cu pași numerotați și verificarea concluziei.",
+            "Construiește un checklist aplicabil unei situații reale, precizând ce trebuie verificat înainte de acțiune."
+          ]
+        },
+        {
+          "id": "trades-6",
+          "level": "advanced",
+          "order": 6,
+          "title": "Proiect practic și estimarea resurselor",
+          "theory": "Descompune o lucrare în rezultate intermediare, timp estimat, materiale și verificări. Rezervă un interval pentru erori și întreruperi. Dacă o sarcină implică autorizări, igienă specială ori siguranța altor persoane, verifică regulile locale și cere personal competent.",
+          "method": "Creează un deviz estimativ fără a-l prezenta drept ofertă reală și evidențiază ipotezele.",
+          "caseStudy": "Exemplu: trei materiale de 10, 15 și 25 au cost de bază 50, fără transport și manoperă.",
+          "question": {
+            "prompt": "Ce trebuie evidențiat într-o estimare?",
+            "choices": [
+              "Ce costuri sunt incluse și care sunt presupuse",
+              "Doar rezultatul fără explicație",
+              "Numai durata optimistă",
+              "Prețul unei singure piese"
+            ],
+            "correct": 0,
+            "explanation": "Creează un deviz estimativ fără a-l prezenta drept ofertă reală și evidențiază ipotezele."
+          },
+          "practice": [
+            "Explică în propriile cuvinte regula de bază a lecției și indică un exemplu realist.",
+            "Rezolvă cazul practic de mai sus, cu pași numerotați și verificarea concluziei.",
+            "Construiește un checklist aplicabil unei situații reale, precizând ce trebuie verificat înainte de acțiune."
+          ]
+        }
+      ]
+    },
+    "syllabus": {
+      "id": "trades",
+      "intro": "Acest curs te învață să citești cote, să organizezi o lucrare, să compari materiale după proprietăți și să verifici rezultatele. Nu este un manual de execuție pentru instalații electrice, gaze, structuri portante, lucrări la înălțime sau meserii reglementate. Exersăm cu schițe, calcule și planuri pe hârtie.",
+      "outcomes": [
+        "Transformi corect unități și citești o schiță cotată.",
+        "Identifici pericole și situații care impun oprirea activității.",
+        "Compari materiale prin fișe tehnice și criterii obiective.",
+        "Întocmești un deviz și o fișă de control al calității."
+      ],
+      "project": "DOSAR TEHNIC FICTIV — pentru un obiect simplu care nu necesită intervenții periculoase, realizează schița cotată, tabelul materialelor și proprietăților, identificarea riscurilor, calculul cantităților, devizul complet și fișa de verificare dimensională.",
+      "rubric": [
+        "Schița are unități și cote necesare, fără măsuri deduse din aspect.",
+        "Sunt precizate limitele de siguranță și când se cere un specialist.",
+        "Costurile incluse și cele necunoscute sunt separate.",
+        "Calitatea este evaluată prin criterii măsurabile."
+      ],
+      "prerequisite": "Nu ai nevoie de experiență de șantier; se lucrează cu exemple didactice, nu cu instalații periculoase."
+    },
+    "guides": {
+      "trades-1": {
+        "goal": "Să măsori și să transformi corect dimensiunile.",
+        "steps": [
+          "Alege instrumentul potrivit și identifică diviziunea sa minimă.",
+          "Măsoară lungimea, lățimea și adâncimea fără să schimbi sistemul de unități.",
+          "Înregistrează incertitudinea unde este relevantă și repetă citirea.",
+          "Transformă unitățile înainte de calcule și desenează o schiță cotată.",
+          "Compară rezultatul cu cerința, nu doar cu aspectul vizual."
+        ],
+        "model": [
+          "FIȘĂ DE MĂSURARE",
+          "Obiect: placă demonstrativă.",
+          "Lungime: 1,25 m = 125 cm = 1 250 mm.",
+          "Lățime: 0,40 m = 40 cm.",
+          "Arie geometrică: 1,25 × 0,40 = 0,50 m².",
+          "Nu tăia și nu modifica materialul înaintea verificării cotelor."
+        ],
+        "check": [
+          "Toate valorile indică unitatea.",
+          "Ai măsurat de două ori.",
+          "Nu ai confundat mm, cm și m."
+        ],
+        "exercise": [
+          "Desenează un dreptunghi cu trei cote și transformă-le în mm.",
+          "Calculează aria și verifică unitatea rezultatului."
+        ]
+      },
+      "trades-2": {
+        "goal": "Să pregătești o evaluare generală a riscurilor fără lucrări periculoase.",
+        "steps": [
+          "Descrie activitatea și pericolele observabile înainte de a interveni.",
+          "Identifică persoane expuse și condiții care ar putea agrava riscul.",
+          "Stabilește condiții de oprire și persoana calificată de contact.",
+          "Folosește instrucțiunile oficiale ale instrumentelor și echipamentul cerut.",
+          "Nu efectua reparații electrice, de gaz, structurale sau la înălțime fără calificare și autorizări necesare."
+        ],
+        "model": [
+          "CHECKLIST PRELIMINAR",
+          "Activitate: verificarea vizuală a unei încăperi.",
+          "Pericole: cablu deteriorat, podea udă, obiecte instabile.",
+          "Acțiune: delimitezi zona, nu atingi instalația, anunți persoana competentă.",
+          "Rezultat: lucrarea este amânată până la evaluarea profesională."
+        ],
+        "check": [
+          "Ai identificat pericolele înainte de activitate.",
+          "Ai stabilit când trebuie oprit lucrul.",
+          "Nu confunzi lista de verificare cu o autorizație."
+        ],
+        "exercise": [
+          "Completează un tabel Pericol → Persoană expusă → Măsură generală.",
+          "Explică de ce o lucrare la gaze nu se învață prin instrucțiuni improvizate."
+        ]
+      },
+      "trades-3": {
+        "goal": "Să alegi materiale prin proprietăți și mediul de utilizare.",
+        "steps": [
+          "Descrie funcția piesei sau a materialului în proiect.",
+          "Notează cerințele: umezeală, temperatură, uzură, masă, compatibilitate.",
+          "Citește fișa tehnică și instrucțiunile producătorului.",
+          "Compară două variante pe criterii identice, fără a presupune caracteristici nepublicate.",
+          "Verifică dacă montajul necesită calificări sau proceduri de siguranță."
+        ],
+        "model": [
+          "MATRICEA DECIZIEI — exemplu",
+          "Cerință: placă decorativă într-un loc umed.",
+          "Material A: sensibil la umezeală — nepotrivit.",
+          "Material B: declarat compatibil cu umezeala în fișa tehnică — candidat.",
+          "Decizie: verifici și celelalte cerințe; nu deduci rezistența din culoare."
+        ],
+        "check": [
+          "Datele provin din fișe tehnice reale.",
+          "Compari aceeași proprietate la ambele materiale.",
+          "Nu propui utilizări nesigure doar pentru cost."
+        ],
+        "exercise": [
+          "Construiește un tabel de comparație pentru două materiale.",
+          "Notează trei întrebări pe care le-ai pune furnizorului."
+        ]
+      },
+      "trades-4": {
+        "goal": "Să citești schițe și cote fără să inventezi dimensiuni.",
+        "steps": [
+          "Identifică vederea reprezentată: față, plan sau lateral.",
+          "Citește legenda, unitățile, liniile și cotele numerice.",
+          "Separă dimensiunile declarate de cele care par doar aproximative.",
+          "Calculează suprafețe sau perimetre doar dacă există suficiente date.",
+          "Marcați clar dimensiunile lipsă și cereți completări înainte de execuție."
+        ],
+        "model": [
+          "DESEN ÎN CUVINTE",
+          "Dreptunghi: latura lungă 40 cm; latura scurtă 20 cm.",
+          "Perimetru = 2 × (40 + 20) = 120 cm.",
+          "Arie = 40 × 20 = 800 cm².",
+          "Dacă o cotă nu este prezentă, nu o deduce din imaginea ne-scalată."
+        ],
+        "check": [
+          "Ai citit corect vederea și unitățile.",
+          "Ai identificat toate cotele lipsă.",
+          "Rezultatul numeric include unitatea potrivită."
+        ],
+        "exercise": [
+          "Interpretează un dreptunghi cotat și calculează perimetru/arie.",
+          "Scrie ce nu poate fi determinat dintr-o schiță fără scară."
+        ]
+      },
+      "trades-5": {
+        "goal": "Să verifici calitatea după toleranțe și criterii măsurabile.",
+        "steps": [
+          "Notează cerința din documentație și toleranțele admise.",
+          "Măsoară piesa cu un instrument adecvat și documentează valoarea.",
+          "Compară explicit intervalul admis cu valoarea găsită.",
+          "Înregistrează orice abatere și nu declara conform un produs care depășește toleranța.",
+          "Pentru componente de siguranță solicită verificarea personalului calificat."
+        ],
+        "model": [
+          "MODEL DE CONTROL",
+          "Dimensiune nominală: 100 mm.",
+          "Toleranță: ±2 mm; interval permis [98, 102] mm.",
+          "Valoare măsurată: 103 mm.",
+          "Concluzie: în afara toleranței, necesită verificare."
+        ],
+        "check": [
+          "Ai calculat limitele înainte de evaluare.",
+          "Ai notat măsurătoarea reală.",
+          "Nu ai ascuns abaterile sau lipsa datelor."
+        ],
+        "exercise": [
+          "Verifică o piesă de 99,5 mm la toleranța 100 ±2 mm.",
+          "Completează o fișă cu cerință, măsurat, verdict și acțiune."
+        ]
+      },
+      "trades-6": {
+        "goal": "Să planifici resursele unei lucrări sigure și să estimezi costuri.",
+        "steps": [
+          "Împarte lucrarea în etape și definește rezultatul fiecăreia.",
+          "Notează cantități, unități, costuri estimative și sursa lor.",
+          "Adaugă separat transport, manoperă, consumabile și o rezervă de risc.",
+          "Stabilește ce se poate face fără risc și ce necesită o persoană autorizată.",
+          "Verifică totalul și aprobările înainte de a începe."
+        ],
+        "model": [
+          "DEVIZ EXEMPLU (unități monetare fictive)",
+          "Material A: 2 × 10 = 20.",
+          "Material B: 1 × 15 = 15.",
+          "Consumabile: 15 | subtotal materiale: 50.",
+          "Transport: neestimat | manoperă: neestimat.",
+          "Total final necunoscut până la completarea costurilor lipsă."
+        ],
+        "check": [
+          "Devizul nu se prezintă drept ofertă finală dacă lipsesc costuri.",
+          "Unitățile și cantitățile sunt coerente.",
+          "Riscurile și specialiștii necesari sunt identificați."
+        ],
+        "exercise": [
+          "Completează un deviz cu 5 linii și costuri distincte.",
+          "Descrie condițiile de oprire ale lucrării."
+        ]
+      }
+    },
+    "depth": {
+      "trades-1": [
+        [
+          "Instrumentul și incertitudinea",
+          "Nu orice instrument poate măsura cu aceeași precizie. Înainte de a nota rezultatul verifică marcajul zero, unitățile și rezoluția. O cifră suplimentară inventată nu înseamnă o măsurare mai bună. Repetă citirea și compară rezultatele pentru a identifica diferențe semnificative."
+        ],
+        [
+          "Conversii și calcule",
+          "1,25 metri înseamnă 125 de centimetri și 1 250 milimetri. Într-o schiță toate cotele trebuie interpretate consecvent. Aria nu are aceleași unități ca lungimea: un dreptunghi de 1,25 m cu 0,4 m are suprafața de 0,5 m², nu 0,5 m."
+        ],
+        [
+          "Schița verificabilă",
+          "Desenează forma, marchează lungime, lățime și puncte de referință. Nu inventa dimensiuni dintr-o imagine care nu este la scară. Dacă lipsește o cotă, noteaz-o explicit ca necunoscută și precizează ce măsurare ar trebui făcută înainte de execuție."
+        ]
+      ],
+      "trades-2": [
+        [
+          "Evaluarea riscurilor",
+          "Începe cu identificarea pericolelor și a persoanelor expuse. Descrierea unui risc nu este o autorizație de a executa lucrarea. La cabluri deteriorate, gaze, structuri instabile sau substanțe necunoscute, evită intervenția și solicită un specialist competent."
+        ],
+        [
+          "Prevenția înaintea echipamentului",
+          "Preferă eliminarea sau izolarea pericolului atunci când sunt posibile și permise. Echipamentul individual de protecție nu justifică improvizații. Notează când trebuie oprită activitatea și cine poate lua decizia de reluare în siguranță."
+        ],
+        [
+          "Documentarea observației",
+          "O fișă de risc arată locul, descrierea situației, persoana responsabilă și acțiunea sigură propusă. Nu formula un diagnostic tehnic dacă nu ai date. Dacă există un incident, informează persoanele competente și păstrează dovezile fără a te expune unui pericol nou."
+        ]
+      ],
+      "trades-3": [
+        [
+          "Materialul potrivit depinde de scop",
+          "Rezistența, masa, comportarea la apă, temperatură și uzură sunt proprietăți relevante diferit în funcție de utilizare. Un produs decorativ nu este automat destinat susținerii unor sarcini. Folosește specificațiile producătorului, nu culoarea ambalajului, pentru comparație."
+        ],
+        [
+          "Matricea alegerii",
+          "Creează un tabel cu cerințele proiectului, caracteristicile a două materiale și sursele informației. Dacă lipsesc date, marchează necunoscut, nu estima fără explicație. Dacă specificațiile nu acoperă mediul de utilizare, nu presupune compatibilitatea."
+        ],
+        [
+          "Costul total de utilizare",
+          "Pe lângă prețul inițial pot conta întreținerea, înlocuirea și durata de folosire. Comparația trebuie să explice ipotezele și să evite durate de viață inventate. Într-un exercițiu poți calcula două scenarii de cost fără a pretinde că sunt oferte reale."
+        ]
+      ],
+      "trades-4": [
+        [
+          "Vederile unui obiect",
+          "O vedere din față, de sus sau laterală arată alte caracteristici ale aceleiași piese. Identifică vederea și legenda înainte de calcul. Dacă simbolurile sunt specifice unui standard tehnic, verifică standardul aplicabil în loc să atribui o semnificație aproximativă."
+        ],
+        [
+          "Scară și cotele înscrise",
+          "Un desen poate fi redimensionat pe telefon. Nu măsura cu rigla ecranul pentru a deduce lungimi. Utilizează cotele numerice înscrise; dacă un dreptunghi are 40 cm și 20 cm, aria este 800 cm², iar perimetrul 120 cm."
+        ],
+        [
+          "Ce faci cu datele lipsă",
+          "Când lipsește o dimensiune esențială, rezolvarea corectă poate fi să ceri completarea schiței. Nu inventa valori ca să obții un rezultat. Separă rezultatele calculabile din datele disponibile de acelea care nu pot fi determinate."
+        ]
+      ],
+      "trades-5": [
+        [
+          "Calitatea este o cerință verificabilă",
+          "Înainte de măsurare definește ce accepți: dimensiune, aspect, funcție sau finisaj. O piesă poate arăta bine și totuși să fie în afara toleranței. Pentru piese care influențează siguranța este necesară verificarea de către personal calificat."
+        ],
+        [
+          "Cum verifici o toleranță",
+          "La cota 100 ± 2 mm, intervalul permis este 98–102 mm, inclusiv limitele dacă nu se specifică altfel. Valoarea de 103 mm este neconformă. Notează intervalul înainte de măsurare și păstrează valoarea observată, fără rotunjire artificială."
+        ],
+        [
+          "Fișa unei neconformități",
+          "O abatere se descrie cu cerința, valoarea măsurată, instrumentul, data și pasul următor. Nu înlocui cifra observată cu cea dorită. După o corecție efectuată în condiții sigure, verificarea se repetă; nu se presupune automat reușita."
+        ]
+      ],
+      "trades-6": [
+        [
+          "Devizul complet",
+          "Separă materialele, cantitățile, prețurile unitare, transportul, manopera și alte costuri identificate. Dacă o valoare lipsește, afișează subtotalul cunoscut și menționează costurile necunoscute. Nu prezenta ca preț final o simplă sumă a materialelor."
+        ],
+        [
+          "Ordinea activităților",
+          "Stabilește pentru fiecare etapă ce intrări sunt necesare, ce rezultat trebuie verificat și ce dependențe există. Activitățile pentru care sunt necesare autorizații sau calificări trebuie marcate separat, nu transformate în instrucțiuni de bricolaj."
+        ],
+        [
+          "Scenarii și rezervă",
+          "Prețurile, cantitățile sau termenele pot varia. Creează un scenariu de bază și unul prudent, declarând ipotezele. Când lipsesc informații esențiale, e mai utilă o estimare parțială explicată decât o cifră precisă dar falsă."
+        ]
+      ]
+    },
+    "workshops": [
+      {
+        "id": "trades-1",
+        "title": "Măsoară fără să construiești",
+        "minutes": 25,
+        "scenario": "Pe hârtie, planifici o mapă dreptunghiulară de 1,2 m × 0,35 m. Lucrăm doar cu desen și riglă; nu folosim unelte de tăiere.",
+        "artifact": "Fișă de cote și arie cu unități",
+        "template": "Lungime în m/cm/mm:\nLățime în m/cm/mm:\nCalculul ariei:\nUnitatea ariei:\nDouă citiri repetate ale unei rigle:\nLimita preciziei:",
+        "mistake": "Nu transforma metri în centimetri pătrați folosind factorul 100; aria are conversie pătratică.",
+        "transfer": "Desenează o a doua variantă de 80 cm × 50 cm și compară ariile în aceeași unitate.",
+        "safety": "Simulare pe hârtie, fără tăiere, găurire, electricitate, gaze, structuri portante sau lucru la înălțime. Pentru lucrări reale este necesară competența/autorizarea corespunzătoare.",
+        "tools": [
+          "Hârtie și creion",
+          "Riglă, numai pentru desen",
+          "Calculator; fără unelte de execuție"
+        ],
+        "evidence": [
+          {
+            "id": "artifact",
+            "text": "Am produs livrabila „Fișă de cote și arie cu unități”, nu doar am recitit teoria."
+          },
+          {
+            "id": "reason",
+            "text": "Am explicat o alegere prin datele concrete ale scenariului și am notat ce lipsește."
+          },
+          {
+            "id": "check",
+            "text": "Am verificat rezultatul față de exemplul explicat și am corectat greșelile observate."
+          },
+          {
+            "id": "safety",
+            "text": "Am respectat limita de siguranță și confidențialitate a acestui exercițiu."
+          }
+        ],
+        "checkpoint": {
+          "type": "number",
+          "question": "Ce arie are dreptunghiul, în m²?",
+          "answer": 0.42,
+          "explanation": "1,2 × 0,35 = 0,42 m². Conversiile lungimilor sunt 120 cm și 35 cm."
+        }
+      },
+      {
+        "id": "trades-2",
+        "title": "Fișa de oprire a unei lucrări",
+        "minutes": 30,
+        "scenario": "Un client cere montarea unui suport lângă cabluri necunoscute și o conductă. Nu se găurește și nu se testează instalația. Scopul este să recunoști când lucrarea nu poate începe.",
+        "artifact": "Evaluare simplă a riscurilor și decizie de oprire",
+        "template": "Sarcina cerută:\nPericole observate:\nCe NU fac:\nInformații lipsă:\nSpecialist competent necesar:\nCondiții pentru reevaluare:",
+        "mistake": "Mănușile sau oprirea aparentă a unui întrerupător nu dovedesc absența tuturor riscurilor.",
+        "transfer": "Scrie cum comunici clientului refuzul temporar, ce nu știi și ce trebuie verificat de specialist.",
+        "safety": "Simulare pe hârtie, fără tăiere, găurire, electricitate, gaze, structuri portante sau lucru la înălțime. Pentru lucrări reale este necesară competența/autorizarea corespunzătoare.",
+        "tools": [
+          "Hârtie și creion",
+          "Riglă, numai pentru desen",
+          "Calculator; fără unelte de execuție"
+        ],
+        "evidence": [
+          {
+            "id": "artifact",
+            "text": "Am produs livrabila „Evaluare simplă a riscurilor și decizie de oprire”, nu doar am recitit teoria."
+          },
+          {
+            "id": "reason",
+            "text": "Am explicat o alegere prin datele concrete ale scenariului și am notat ce lipsește."
+          },
+          {
+            "id": "check",
+            "text": "Am verificat rezultatul față de exemplul explicat și am corectat greșelile observate."
+          },
+          {
+            "id": "safety",
+            "text": "Am respectat limita de siguranță și confidențialitate a acestui exercițiu."
+          }
+        ],
+        "checkpoint": {
+          "type": "choice",
+          "question": "Care decizie este justificată?",
+          "choices": [
+            "Nu încep și solicit evaluare competentă a instalațiilor",
+            "Fac o gaură mică pentru a afla ce este în perete",
+            "Continui dacă port mănuși"
+          ],
+          "correct": 0,
+          "explanation": "Instalațiile necunoscute impun oprirea și evaluarea de către un specialist; echipamentul personal nu elimină riscul ascuns."
+        }
+      },
+      {
+        "id": "trades-3",
+        "title": "Alege materialul după cerință",
+        "minutes": 35,
+        "scenario": "Pentru o machetă de birou, cartonul A costă 8 și este ușor de pliat; materialul B costă 18 și rezistă mai bine la umezeală, dar nu avem date despre adeziv. Nu fabricăm un obiect portant.",
+        "artifact": "Matrice cerință–proprietate–dovadă–limită",
+        "template": "Utilizare și mediu:\nCerințe obligatorii:\nA — avantaje și limite:\nB — avantaje și limite:\nDate tehnice lipsă:\nAlegere condiționată și motiv:",
+        "mistake": "Nu deduce rezistența sau compatibilitatea chimică numai din preț ori aspect.",
+        "transfer": "Schimbă mediul din uscat în umed și explică de ce alegerea inițială trebuie reevaluată.",
+        "safety": "Simulare pe hârtie, fără tăiere, găurire, electricitate, gaze, structuri portante sau lucru la înălțime. Pentru lucrări reale este necesară competența/autorizarea corespunzătoare.",
+        "tools": [
+          "Hârtie și creion",
+          "Riglă, numai pentru desen",
+          "Calculator; fără unelte de execuție"
+        ],
+        "evidence": [
+          {
+            "id": "artifact",
+            "text": "Am produs livrabila „Matrice cerință–proprietate–dovadă–limită”, nu doar am recitit teoria."
+          },
+          {
+            "id": "reason",
+            "text": "Am explicat o alegere prin datele concrete ale scenariului și am notat ce lipsește."
+          },
+          {
+            "id": "check",
+            "text": "Am verificat rezultatul față de exemplul explicat și am corectat greșelile observate."
+          },
+          {
+            "id": "safety",
+            "text": "Am respectat limita de siguranță și confidențialitate a acestui exercițiu."
+          }
+        ],
+        "checkpoint": {
+          "type": "choice",
+          "question": "Ce informație lipsește pentru o lipire sigură?",
+          "choices": [
+            "Compatibilitatea materialului cu adezivul, din fișele producătorului",
+            "Culoarea ambalajului",
+            "Numărul de reclame"
+          ],
+          "correct": 0,
+          "explanation": "Compatibilitatea și condițiile de folosire se verifică în fișele produselor; nu se improvizează amestecuri sau teste periculoase."
+        }
+      },
+      {
+        "id": "trades-4",
+        "title": "Citește cota, nu imaginea",
+        "minutes": 40,
+        "scenario": "Pe o schiță la scara 1:5, o muchie apare de 8 cm pe desen. Cota reală scrisă este 400 mm. Nu modifica un obiect real.",
+        "artifact": "Schiță adnotată cu scară, cote și ambiguități",
+        "template": "Scara:\nLungime pe desen:\nLungime reală calculată:\nCota înscrisă:\nConcordanță:\nO cotă care lipsește și trebuie cerută:",
+        "mistake": "Nu lua măsuri de pe o imagine redimensionată; cotele înscrise au prioritate față de aspectul ecranului.",
+        "transfer": "Ce faci dacă aceeași imagine afișată pe telefon pare de 6 cm? Explică de ce nu schimbi cota reală.",
+        "safety": "Simulare pe hârtie, fără tăiere, găurire, electricitate, gaze, structuri portante sau lucru la înălțime. Pentru lucrări reale este necesară competența/autorizarea corespunzătoare.",
+        "tools": [
+          "Hârtie și creion",
+          "Riglă, numai pentru desen",
+          "Calculator; fără unelte de execuție"
+        ],
+        "evidence": [
+          {
+            "id": "artifact",
+            "text": "Am produs livrabila „Schiță adnotată cu scară, cote și ambiguități”, nu doar am recitit teoria."
+          },
+          {
+            "id": "reason",
+            "text": "Am explicat o alegere prin datele concrete ale scenariului și am notat ce lipsește."
+          },
+          {
+            "id": "check",
+            "text": "Am verificat rezultatul față de exemplul explicat și am corectat greșelile observate."
+          },
+          {
+            "id": "safety",
+            "text": "Am respectat limita de siguranță și confidențialitate a acestui exercițiu."
+          }
+        ],
+        "checkpoint": {
+          "type": "number",
+          "question": "Ce lungime reală corespunde celor 8 cm pe desen, în mm?",
+          "answer": 400,
+          "explanation": "8 cm × 5 = 40 cm = 400 mm, în acord cu cota scrisă."
+        }
+      },
+      {
+        "id": "trades-5",
+        "title": "O verificare dimensională",
+        "minutes": 45,
+        "scenario": "Într-un exercițiu de hârtie, lungimea cerută este 200 mm, toleranță ±2 mm. Citirile fictive sunt 199, 202 și 204 mm.",
+        "artifact": "Fișă de control cu verdict justificat pentru fiecare citire",
+        "template": "Cerință și toleranță:\nInterval acceptat:\n199 mm — verdict și motiv:\n202 mm — verdict și motiv:\n204 mm — verdict și motiv:\nAcțiune pentru neconformitate:",
+        "mistake": "Nu rotunji o măsurare ca să o forțezi în toleranță și nu ascunde un rezultat nefavorabil.",
+        "transfer": "Adaugă instrumentul și rezoluția sa în fișă. Când ar fi justificată o nouă măsurare?",
+        "safety": "Simulare pe hârtie, fără tăiere, găurire, electricitate, gaze, structuri portante sau lucru la înălțime. Pentru lucrări reale este necesară competența/autorizarea corespunzătoare.",
+        "tools": [
+          "Hârtie și creion",
+          "Riglă, numai pentru desen",
+          "Calculator; fără unelte de execuție"
+        ],
+        "evidence": [
+          {
+            "id": "artifact",
+            "text": "Am produs livrabila „Fișă de control cu verdict justificat pentru fiecare citire”, nu doar am recitit teoria."
+          },
+          {
+            "id": "reason",
+            "text": "Am explicat o alegere prin datele concrete ale scenariului și am notat ce lipsește."
+          },
+          {
+            "id": "check",
+            "text": "Am verificat rezultatul față de exemplul explicat și am corectat greșelile observate."
+          },
+          {
+            "id": "safety",
+            "text": "Am respectat limita de siguranță și confidențialitate a acestui exercițiu."
+          }
+        ],
+        "checkpoint": {
+          "type": "number",
+          "question": "Care este limita superioară acceptată, în mm?",
+          "answer": 202,
+          "explanation": "Intervalul este [198, 202] mm; 199 și 202 sunt în interval, 204 este în afara lui."
+        }
+      },
+      {
+        "id": "trades-6",
+        "title": "Deviz pentru o machetă",
+        "minutes": 50,
+        "scenario": "Planifici pe hârtie patru foi la 7, două tuburi de adeziv compatibil la 6 și transport 10 unități. Nu sunt prețuri reale și nu se execută lucrarea.",
+        "artifact": "Dosar de planificare: schiță, cantități, costuri și control",
+        "template": "Schiță și dimensiuni:\nMaterial | Cantitate | Preț unitar | Subtotal\nFoi:\nAdeziv:\nTransport:\nTotal:\nCosturi necunoscute:\nRiscuri și verificări finale:",
+        "mistake": "Nu omite transportul și nu prezenta un deviz fictiv drept ofertă comercială sau aviz tehnic.",
+        "transfer": "Aplică o creștere de 10% numai materialelor și recalculează, păstrând transportul neschimbat.",
+        "safety": "Simulare pe hârtie, fără tăiere, găurire, electricitate, gaze, structuri portante sau lucru la înălțime. Pentru lucrări reale este necesară competența/autorizarea corespunzătoare.",
+        "tools": [
+          "Hârtie și creion",
+          "Riglă, numai pentru desen",
+          "Calculator; fără unelte de execuție"
+        ],
+        "evidence": [
+          {
+            "id": "artifact",
+            "text": "Am produs livrabila „Dosar de planificare: schiță, cantități, costuri și control”, nu doar am recitit teoria."
+          },
+          {
+            "id": "reason",
+            "text": "Am explicat o alegere prin datele concrete ale scenariului și am notat ce lipsește."
+          },
+          {
+            "id": "check",
+            "text": "Am verificat rezultatul față de exemplul explicat și am corectat greșelile observate."
+          },
+          {
+            "id": "safety",
+            "text": "Am respectat limita de siguranță și confidențialitate a acestui exercițiu."
+          }
+        ],
+        "checkpoint": {
+          "type": "number",
+          "question": "Care este totalul costurilor cunoscute?",
+          "answer": 50,
+          "explanation": "4 × 7 + 2 × 6 + 10 = 50. Eventualele pierderi, taxe sau alte costuri trebuie indicate separat, nu inventate."
+        }
+      }
+    ],
+    "pathway": {
+      "title": "DOSAR TEHNIC FICTIV",
+      "principle": "Mai întâi înțelegi exemplul, apoi produci o lucrare, verifici și explici decizia. Nu este suficient să memorezi răspunsuri.",
+      "safety": "Simulare pe hârtie, fără tăiere, găurire, electricitate, gaze, structuri portante sau lucru la înălțime. Pentru lucrări reale este necesară competența/autorizarea corespunzătoare.",
+      "tools": [
+        "Hârtie și creion",
+        "Riglă, numai pentru desen",
+        "Calculator; fără unelte de execuție"
+      ],
+      "finalTemplate": "Scopul dosarului:\nContext fictiv și limite:\n1. Livrabila capitolului 1 și concluzia:\n2. Livrabila capitolului 2 și concluzia:\n3. Livrabila capitolului 3 și concluzia:\n4. Livrabila capitolului 4 și concluzia:\n5. Livrabila capitolului 5 și concluzia:\n6. Livrabila capitolului 6 și concluzia:\nCe am corectat după verificare:\nRiscuri / informații care trebuie verificate de un specialist:\nCe voi aplica mai departe în siguranță:"
+    }
+  }
+}

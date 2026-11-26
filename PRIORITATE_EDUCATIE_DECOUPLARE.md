@@ -1,5 +1,12 @@
 # Prioritatea curentă: decuplare Educație și eliminarea fișelor pretraduse duplicate
 
+## Cerere curentă — Cursuri practice, apoi APK, 26 noiembrie 2026
+
+Implementate36ateliere ghidate/6cursuri, caiete locale cu livrabile și verificări pe scenariu, stări de autoevaluare separate de citire/grilă și portofoliu final PDF. Toate materialele practice în6pachete canonice,271.439B, fără date editoriale în HTML/Worker; materialele vechi păstrate exact prin adaptoare. HTMLproducție6.937.763B (<8MB). Raport/teste/limite: `PRACTICAL_COURSES_REDESIGN_2026-11-26.md`. Nu este acreditare sau calificare profesională.
+
+Utilizatorul cere acum explicit APK. Se folosește release semnat de test al ramurii active, cheia permanentă și snapshotul UI+pachete, fără merge sau deployproducție. Publicare numai prerelease pentru link direct `.apk`; rezultatul efectiv va fi notat după build. Traducerea APK rămâne problema amânată, nu declarată reparată.
+
+
 ## Cerere ulterioară — Limbi străine, 26 noiembrie 2026
 
 Implementat incrementul cerut pentru dicționar căutabil, teme/conjugări cu exerciții și răspunsuri, transcriere etichetată, ghid practic și laborator audio (TTS + înregistrare locală opțională). Cele14limbi/19variante au19pachete statice sursă unică,100.524B în afara HTML/Worker; explicații RO și traducere explicită prin motorul comun, fără traducerea formelor țintă. Este lexic **introductiv** (12intrări/variantă modernă,8/clasică), nu dicționar exhaustiv sau curs CEFR complet. Detalii/acoperire/limite: `FOREIGN_LANGUAGES_RESOURCES_2026-11-26.md`.

@@ -1,6 +1,12 @@
 name: Build myPocket AI Android APK
 on:
   workflow_dispatch:
+    inputs:
+      publish_signed_apk:
+        description: 'Publish this signed branch-test APK as a prerelease with a direct download link (no production deploy)'
+        type: boolean
+        default: false
+        required: false
   pull_request:
     branches: [main]
     paths:
@@ -112,7 +118,9 @@ jobs:
           if-no-files-found: error
           retention-days: 7
   signed-branch-preview:
-    # Manual only, never a production deployment or GitHub Release.
+    # Manual only; optional prerelease artifact, never a production deployment.
+    permissions:
+      contents: write
     if: github.event_name == 'workflow_dispatch' && github.ref != 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 30
@@ -135,6 +143,9 @@ jobs:
           node tests_divertisment_frontend_presence.mjs
           node tests_education_source_translation.mjs
           node tests_science_container_translation.mjs
+          node tests_practical_courses.mjs
+          node tests_practical_workshops.mjs
+          node tests_foreign_language_resources.mjs
           node scripts/build_android_ui_preview.mjs
       - name: Check permanent keystore and latest published APK
         env:
@@ -194,6 +205,10 @@ jobs:
           grep -F 'assets/tools-ui-preview.html' "$RUNNER_TEMP/preview-files.txt"
           grep -F 'assets/preview/education/literature/authored/FR/CP.json' "$RUNNER_TEMP/preview-files.txt"
           grep -F 'assets/preview/education/literature/authored/HU/1.json' "$RUNNER_TEMP/preview-files.txt"
+          for COURSE in finance trades business digital career daily; do
+            grep -F "assets/preview/education/practical/course-v1/$COURSE.json" "$RUNNER_TEMP/preview-files.txt"
+          done
+          grep -F 'assets/preview/education/languages/resources-v1/en-GB.json' "$RUNNER_TEMP/preview-files.txt"
           test "$(grep -c 'assets/preview/packs/p-.*\.json' "$RUNNER_TEMP/preview-files.txt")" -ge 3496
           cp "$APK" myPocketAI-signed-education-test.apk
           sha256sum myPocketAI-signed-education-test.apk
@@ -203,6 +218,15 @@ jobs:
           path: myPocketAI-signed-education-test.apk
           if-no-files-found: error
           retention-days: 7
+      - name: Publish requested signed test APK for direct mobile download
+        if: ${{ inputs.publish_signed_apk }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "education-test-${GITHUB_RUN_ID}" myPocketAI-signed-education-test.apk \
+            --target "$GITHUB_SHA" --prerelease --latest=false \
+            --title "myPocketAI — signed practical-course test (${GITHUB_RUN_ID})" \
+            --notes "User-requested signed branch-test APK from ${GITHUB_SHA}. Includes the reviewed UI and matching local Education content (guided practical workshops and language resources). Same signing certificate as the production release, verified during build; versionCode ${POCKET_VERSION_CODE}. Installs as an update without uninstalling. This is a branch test, not a production deployment. Live APIs still require connectivity. Known APK translation issue remains under investigation; browser mocks do not prove it fixed."
       - name: Remove temporary key and reference APK
         if: always()
         run: rm -f "$RUNNER_TEMP/pocket-preview-release.jks" "$RUNNER_TEMP/check.csr" "$RUNNER_TEMP/published/myPocketAI-signed-release.apk"

@@ -1,0 +1,800 @@
+{
+  "schema": "mypocket-practical-course/v1",
+  "id": "digital",
+  "sourceLanguage": "ro",
+  "version": "ba5bcfe4994aa9bafbca0ef8188111de099e4cc139e2b2bfbbac384c14fef147",
+  "content": {
+    "course": {
+      "id": "digital",
+      "icon": "💻",
+      "ro": "Competențe digitale",
+      "en": "Digital skills",
+      "summary": "Fișiere, documente, tabele, securitate și colaborare.",
+      "unit": "digital",
+      "lessons": [
+        [
+          "Fișiere, foldere și versiuni",
+          "O structură de foldere clară previne pierderile. Folosește nume descriptive, dată sau versiune și diferențiază documentele finale de schițe. Verifică extensia reală a fișierului și nu executa atașamente necunoscute.",
+          "Creează o organizare imaginară pentru proiecte, contracte și fotografii.",
+          "Exemplu: Proiect_2026-11-08_v2.pdf este mai descriptiv decât document1.",
+          "Cum denumești util un fișier?",
+          [
+            "Cu subiect și versiune sau dată",
+            "Numai «nou»",
+            "Folosind caractere aleatorii",
+            "Ascunzând extensia"
+          ],
+          0
+        ],
+        [
+          "Editarea documentelor și PDF",
+          "Un document profesional are titlu, secțiuni, paragrafe, surse și verificare ortografică. PDF-ul păstrează prezentarea la distribuire, dar verifică paginarea, caracterele și imaginile înainte de trimitere. Nu include automat date sensibile.",
+          "Pregătește un document scurt cu titlu, trei secțiuni, concluzie și nume descriptiv.",
+          "Exemplu: o ofertă de două pagini poate fi salvată ca Oferta_serviciu_2026.pdf.",
+          "Ce verifici înainte să trimiți un PDF?",
+          [
+            "Aspect, completitudine și date sensibile",
+            "Doar culoarea iconiței",
+            "Doar ora telefonului",
+            "Nimic dacă se deschide"
+          ],
+          0
+        ],
+        [
+          "Tabele și formule de bază",
+          "Într-un tabel fiecare coloană trebuie să aibă un sens și un tip de date stabil. Folosește formule pentru calcule repetate și verifică referințele la celule. Valorile numerice și unitățile trebuie interpretate consecvent.",
+          "Creează un tabel cu produs, cantitate, preț unitar și total, apoi verifică suma.",
+          "Exemplu: 3 bucăți × 8 unități monetare = 24.",
+          "Care este formula logică pentru totalul unei linii?",
+          [
+            "Cantitate × preț unitar",
+            "Cantitate + nume",
+            "Preț ÷ dată",
+            "Textul antetului"
+          ],
+          0
+        ],
+        [
+          "Siguranță digitală și parole",
+          "Folosește parole unice, autentificare multifactor unde este disponibilă și actualizări de securitate. Nu reutiliza codurile de recuperare sau nu le introduce pe pagini din linkuri suspecte. Verifică adresele și permisiunile înainte de partajare.",
+          "Analizează un exemplu de mesaj de phishing și marchează semnalele de risc.",
+          "Exemplu: un «administrator» cere parola prin mesaj; nu o trimiți.",
+          "Care este o practică sigură?",
+          [
+            "Parole unice și MFA",
+            "Aceeași parolă peste tot",
+            "Trimiterea codului unui necunoscut",
+            "Instalarea oricărui atașament"
+          ],
+          0
+        ],
+        [
+          "Automatizare și organizarea muncii",
+          "Automatizează mai întâi pașii repetați și bine definiți. Descrie intrarea, regula, rezultatul și modul de verificare. Un proces care afectează bani, date personale sau decizii importante are nevoie de verificări suplimentare și control uman.",
+          "Scrie un flux simplu: primește cererea → validează datele → generează document → revizuire.",
+          "Exemplu: extragi nume și dată dintr-un formular, dar verifici manual înainte de expediere.",
+          "Ce nu trebuie să lipsească dintr-o automatizare?",
+          [
+            "Verificarea rezultatului și posibilitatea corecției",
+            "Ascunderea completă a erorilor",
+            "Acces la toate parolele",
+            "Executarea fără scop"
+          ],
+          0
+        ],
+        [
+          "Colaborare și comunicare la distanță",
+          "Alege canalul potrivit și formulează obiectivul, termenul și responsabilul. La partajarea unui document, verifică cine poate citi, edita sau redistribui. Ține versiuni și decizii importante într-un loc ușor de găsit.",
+          "Redactează un rezumat de ședință cu decizie, responsabil și termen.",
+          "Exemplu: «Ana revizuiește documentul până vineri», mai clar decât «cineva se ocupă».",
+          "Ce face o sarcină colaborativă clară?",
+          [
+            "Responsabil, rezultat și termen",
+            "Numai un emoji",
+            "Un titlu vag",
+            "Acces necontrolat la toate fișierele"
+          ],
+          0
+        ]
+      ],
+      "chapters": [
+        {
+          "id": "digital-1",
+          "level": "beginner",
+          "order": 1,
+          "title": "Fișiere, foldere și versiuni",
+          "theory": "O structură de foldere clară previne pierderile. Folosește nume descriptive, dată sau versiune și diferențiază documentele finale de schițe. Verifică extensia reală a fișierului și nu executa atașamente necunoscute.",
+          "method": "Creează o organizare imaginară pentru proiecte, contracte și fotografii.",
+          "caseStudy": "Exemplu: Proiect_2026-11-08_v2.pdf este mai descriptiv decât document1.",
+          "question": {
+            "prompt": "Cum denumești util un fișier?",
+            "choices": [
+              "Cu subiect și versiune sau dată",
+              "Numai «nou»",
+              "Folosind caractere aleatorii",
+              "Ascunzând extensia"
+            ],
+            "correct": 0,
+            "explanation": "Creează o organizare imaginară pentru proiecte, contracte și fotografii."
+          },
+          "practice": [
+            "Explică în propriile cuvinte regula de bază a lecției și indică un exemplu realist.",
+            "Rezolvă cazul practic de mai sus, cu pași numerotați și verificarea concluziei.",
+            "Construiește un checklist aplicabil unei situații reale, precizând ce trebuie verificat înainte de acțiune."
+          ]
+        },
+        {
+          "id": "digital-2",
+          "level": "beginner",
+          "order": 2,
+          "title": "Editarea documentelor și PDF",
+          "theory": "Un document profesional are titlu, secțiuni, paragrafe, surse și verificare ortografică. PDF-ul păstrează prezentarea la distribuire, dar verifică paginarea, caracterele și imaginile înainte de trimitere. Nu include automat date sensibile.",
+          "method": "Pregătește un document scurt cu titlu, trei secțiuni, concluzie și nume descriptiv.",
+          "caseStudy": "Exemplu: o ofertă de două pagini poate fi salvată ca Oferta_serviciu_2026.pdf.",
+          "question": {
+            "prompt": "Ce verifici înainte să trimiți un PDF?",
+            "choices": [
+              "Aspect, completitudine și date sensibile",
+              "Doar culoarea iconiței",
+              "Doar ora telefonului",
+              "Nimic dacă se deschide"
+            ],
+            "correct": 0,
+            "explanation": "Pregătește un document scurt cu titlu, trei secțiuni, concluzie și nume descriptiv."
+          },
+          "practice": [
+            "Explică în propriile cuvinte regula de bază a lecției și indică un exemplu realist.",
+            "Rezolvă cazul practic de mai sus, cu pași numerotați și verificarea concluziei.",
+            "Construiește un checklist aplicabil unei situații reale, precizând ce trebuie verificat înainte de acțiune."
+          ]
+        },
+        {
+          "id": "digital-3",
+          "level": "intermediate",
+          "order": 3,
+          "title": "Tabele și formule de bază",
+          "theory": "Într-un tabel fiecare coloană trebuie să aibă un sens și un tip de date stabil. Folosește formule pentru calcule repetate și verifică referințele la celule. Valorile numerice și unitățile trebuie interpretate consecvent.",
+          "method": "Creează un tabel cu produs, cantitate, preț unitar și total, apoi verifică suma.",
+          "caseStudy": "Exemplu: 3 bucăți × 8 unități monetare = 24.",
+          "question": {
+            "prompt": "Care este formula logică pentru totalul unei linii?",
+            "choices": [
+              "Cantitate × preț unitar",
+              "Cantitate + nume",
+              "Preț ÷ dată",
+              "Textul antetului"
+            ],
+            "correct": 0,
+            "explanation": "Creează un tabel cu produs, cantitate, preț unitar și total, apoi verifică suma."
+          },
+          "practice": [
+            "Explică în propriile cuvinte regula de bază a lecției și indică un exemplu realist.",
+            "Rezolvă cazul practic de mai sus, cu pași numerotați și verificarea concluziei.",
+            "Construiește un checklist aplicabil unei situații reale, precizând ce trebuie verificat înainte de acțiune."
+          ]
+        },
+        {
+          "id": "digital-4",
+          "level": "intermediate",
+          "order": 4,
+          "title": "Siguranță digitală și parole",
+          "theory": "Folosește parole unice, autentificare multifactor unde este disponibilă și actualizări de securitate. Nu reutiliza codurile de recuperare sau nu le introduce pe pagini din linkuri suspecte. Verifică adresele și permisiunile înainte de partajare.",
+          "method": "Analizează un exemplu de mesaj de phishing și marchează semnalele de risc.",
+          "caseStudy": "Exemplu: un «administrator» cere parola prin mesaj; nu o trimiți.",
+          "question": {
+            "prompt": "Care este o practică sigură?",
+            "choices": [
+              "Parole unice și MFA",
+              "Aceeași parolă peste tot",
+              "Trimiterea codului unui necunoscut",
+              "Instalarea oricărui atașament"
+            ],
+            "correct": 0,
+            "explanation": "Analizează un exemplu de mesaj de phishing și marchează semnalele de risc."
+          },
+          "practice": [
+            "Explică în propriile cuvinte regula de bază a lecției și indică un exemplu realist.",
+            "Rezolvă cazul practic de mai sus, cu pași numerotați și verificarea concluziei.",
+            "Construiește un checklist aplicabil unei situații reale, precizând ce trebuie verificat înainte de acțiune."
+          ]
+        },
+        {
+          "id": "digital-5",
+          "level": "advanced",
+          "order": 5,
+          "title": "Automatizare și organizarea muncii",
+          "theory": "Automatizează mai întâi pașii repetați și bine definiți. Descrie intrarea, regula, rezultatul și modul de verificare. Un proces care afectează bani, date personale sau decizii importante are nevoie de verificări suplimentare și control uman.",
+          "method": "Scrie un flux simplu: primește cererea → validează datele → generează document → revizuire.",
+          "caseStudy": "Exemplu: extragi nume și dată dintr-un formular, dar verifici manual înainte de expediere.",
+          "question": {
+            "prompt": "Ce nu trebuie să lipsească dintr-o automatizare?",
+            "choices": [
+              "Verificarea rezultatului și posibilitatea corecției",
+              "Ascunderea completă a erorilor",
+              "Acces la toate parolele",
+              "Executarea fără scop"
+            ],
+            "correct": 0,
+            "explanation": "Scrie un flux simplu: primește cererea → validează datele → generează document → revizuire."
+          },
+          "practice": [
+            "Explică în propriile cuvinte regula de bază a lecției și indică un exemplu realist.",
+            "Rezolvă cazul practic de mai sus, cu pași numerotați și verificarea concluziei.",
+            "Construiește un checklist aplicabil unei situații reale, precizând ce trebuie verificat înainte de acțiune."
+          ]
+        },
+        {
+          "id": "digital-6",
+          "level": "advanced",
+          "order": 6,
+          "title": "Colaborare și comunicare la distanță",
+          "theory": "Alege canalul potrivit și formulează obiectivul, termenul și responsabilul. La partajarea unui document, verifică cine poate citi, edita sau redistribui. Ține versiuni și decizii importante într-un loc ușor de găsit.",
+          "method": "Redactează un rezumat de ședință cu decizie, responsabil și termen.",
+          "caseStudy": "Exemplu: «Ana revizuiește documentul până vineri», mai clar decât «cineva se ocupă».",
+          "question": {
+            "prompt": "Ce face o sarcină colaborativă clară?",
+            "choices": [
+              "Responsabil, rezultat și termen",
+              "Numai un emoji",
+              "Un titlu vag",
+              "Acces necontrolat la toate fișierele"
+            ],
+            "correct": 0,
+            "explanation": "Redactează un rezumat de ședință cu decizie, responsabil și termen."
+          },
+          "practice": [
+            "Explică în propriile cuvinte regula de bază a lecției și indică un exemplu realist.",
+            "Rezolvă cazul practic de mai sus, cu pași numerotați și verificarea concluziei.",
+            "Construiește un checklist aplicabil unei situații reale, precizând ce trebuie verificat înainte de acțiune."
+          ]
+        }
+      ]
+    },
+    "syllabus": {
+      "id": "digital",
+      "intro": "Construiești un flux digital complet: documente organizate, fișiere cu versiuni, un raport PDF, tabele cu formule verificabile și reguli de securitate. Exercițiile trebuie să poată fi făcute atât pe telefon, cât și pe calculator, adaptând pașii la instrumentele disponibile.",
+      "outcomes": [
+        "Organizezi fișiere și menții versiuni recunoscibile.",
+        "Creezi un document coerent și îl verifici după exportul PDF.",
+        "Folosești formule simple și verifici manual rezultatele.",
+        "Proiectezi o automatizare cu validări și control uman."
+      ],
+      "project": "PROIECT DIGITAL — creează o structură de foldere pentru un proiect fictiv, un tabel cu cantitate/preț/total, un document de o pagină cu interpretarea rezultatelor, o versiune PDF și un algoritm de automatizare care verifică intrările înainte de a pregăti fișierul.",
+      "rubric": [
+        "Fișierele au nume descriptive, versiuni și destinații logice.",
+        "Tabelul are formule și calcule verificate, nu doar valori lipite.",
+        "PDF-ul este lizibil și nu divulgă date sensibile.",
+        "Automatizarea are validare, gestionare de erori și control uman."
+      ],
+      "prerequisite": "Poți începe folosind doar telefonul. Nu sunt cerute abonamente cu plată."
+    },
+    "guides": {
+      "digital-1": {
+        "goal": "Să organizezi fișierele astfel încât să le găsești și să le versionez corect.",
+        "steps": [
+          "Stabilește un director principal pentru fiecare proiect.",
+          "Grupează fișierele în subfoldere: surse, lucru, rezultate finale.",
+          "Folosește nume descriptive cu data sau versiunea.",
+          "Verifică extensia reală și păstrează copii de siguranță unde este adecvat.",
+          "Nu păstra parole sau copii de acte în foldere accesibile public."
+        ],
+        "model": [
+          "STRUCTURĂ EXEMPLU",
+          "Proiect_CV/",
+          "  01_Surse/Anunt_post.pdf",
+          "  02_Lucru/CV_operator_v1.docx",
+          "  03_Final/CV_operator_2026-11-08.pdf",
+          "Fișierele din «Final» sunt doar variantele verificate."
+        ],
+        "check": [
+          "Numele permit identificarea conținutului.",
+          "Versiunile nu se confundă.",
+          "Permisiunile și copiile de siguranță sunt adecvate."
+        ],
+        "exercise": [
+          "Desenează o structură de foldere pentru 3 proiecte.",
+          "Propune un mod de redenumire pentru cinci fișiere intitulate «document»."
+        ]
+      },
+      "digital-2": {
+        "goal": "Să creezi și verifici un document înainte de exportul în PDF.",
+        "steps": [
+          "Definește publicul și obiectivul documentului.",
+          "Creează un titlu informativ și secțiuni în ordine logică.",
+          "Aplică stiluri consecvente pentru titluri, text și liste.",
+          "Verifică ortografia, numerotarea și imaginile.",
+          "Exportă ca PDF și verifică fiecare pagină pe telefon înainte de trimitere."
+        ],
+        "model": [
+          "STRUCTURA UNUI RAPORT EXEMPLU",
+          "Titlu: Raport de inventar — noiembrie 2026.",
+          "1. Scop: ce s-a verificat.",
+          "2. Date: tabelul sau sursa de observație.",
+          "3. Rezultate: valori și diferențe reale.",
+          "4. Concluzii: ce trebuie corectat.",
+          "5. Data, autor, versiune. PDF-ul trebuie să păstreze toate secțiunile."
+        ],
+        "check": [
+          "Paginile nu sunt tăiate.",
+          "Datele sensibile nu sunt afișate fără motiv.",
+          "Titlul și versiunea documentului sunt clare."
+        ],
+        "exercise": [
+          "Construiește un raport de o pagină folosind structura.",
+          "Identifică ce verifici la un PDF înainte de imprimare."
+        ]
+      },
+      "digital-3": {
+        "goal": "Să construiești un tabel și formule care se verifică ușor.",
+        "steps": [
+          "Definește coloanele și unitățile: produs, cantitate, preț unitar, total.",
+          "Introdu fiecare produs pe o linie separată și folosește numere, nu text în celule numerice.",
+          "Calculează valoarea liniei prin înmulțire.",
+          "Calculează totalul prin însumare și verifică două rânduri manual.",
+          "Folosește validare de date sau filtre doar după ce tabelul de bază este corect."
+        ],
+        "model": [
+          "TABEL EXEMPLU",
+          "A: Produs | B: Cantitate | C: Preț | D: Total",
+          "Rând 2: Caiet | 3 | 8 | formula D2=B2*C2 → 24",
+          "Rând 3: Pix | 5 | 2 | formula D3=B3*C3 → 10",
+          "D4=SUM(D2:D3) → 34",
+          "Nu confunda subtotalul cu un preț unitar."
+        ],
+        "check": [
+          "Formulele folosesc referințele corecte.",
+          "Totalurile se pot verifica manual.",
+          "Nu ai confundat separatorul zecimal cu cel de listă."
+        ],
+        "exercise": [
+          "Calculează totalurile pentru 4 produse cu prețuri diferite.",
+          "Arată ce se întâmplă dacă modifici cantitatea unui produs."
+        ]
+      },
+      "digital-4": {
+        "goal": "Să protejezi conturile și să verifici mesajele suspecte.",
+        "steps": [
+          "Folosește parole sau fraze de acces distincte pentru servicii importante.",
+          "Activează autentificarea multifactor acolo unde este disponibilă.",
+          "Nu comunica parole, coduri MFA sau coduri de recuperare în chat.",
+          "Actualizează aplicațiile din surse oficiale și verifică permisiunile.",
+          "În caz de incident, folosește procedura oficială de recuperare a contului."
+        ],
+        "model": [
+          "SCENARIU",
+          "Primești un mesaj: «Admin: pentru verificare trimite codul 2FA».",
+          "Nu îl trimiți; verifici separat dacă instituția a solicitat ceva.",
+          "Revizuiești sesiunile active și schimbi parola doar din aplicația oficială."
+        ],
+        "check": [
+          "Parolele nu sunt reutilizate.",
+          "Codurile de recuperare sunt păstrate în siguranță.",
+          "Nu instalezi aplicații necunoscute la cerere."
+        ],
+        "exercise": [
+          "Scrie o listă de protecție pentru un cont demonstrativ, fără a furniza parole reale.",
+          "Identifică trei indicii de phishing într-un mesaj fictiv."
+        ]
+      },
+      "digital-5": {
+        "goal": "Să proiectezi o automatizare simplă și verificabilă.",
+        "steps": [
+          "Descrie procesul repetitiv și scopul exact.",
+          "Definește datele de intrare, pașii, decizia și ieșirea.",
+          "Stabilește reguli pentru intrări lipsă și erori.",
+          "Testează cu date fictive, inclusiv cazuri-limită.",
+          "Păstrează controlul uman pentru bani, trimiteri externe și date sensibile."
+        ],
+        "model": [
+          "ALGORITM DEMONSTRATIV",
+          "INTRARE: cerere cu titlu și dată.",
+          "DACĂ titlul lipsește: afișează eroare și cere completare.",
+          "ALTFEL: generează nume de fișier din titlu și dată.",
+          "Creează PDF într-un folder de lucru.",
+          "Un om revizuiește înainte de expedierea externă."
+        ],
+        "check": [
+          "Există verificări pentru date invalide.",
+          "Rezultatul poate fi corectat.",
+          "Nu ai permis transferuri sau divulgări automate fără aprobare."
+        ],
+        "exercise": [
+          "Scrie pseudocod pentru clasificarea a 3 tipuri de fișiere.",
+          "Testează ce se întâmplă când un câmp necesar este gol."
+        ]
+      },
+      "digital-6": {
+        "goal": "Să coordonezi o activitate la distanță fără pierderea informațiilor.",
+        "steps": [
+          "Definește rezultatul și cine îl aprobă.",
+          "Împarte lucrul în sarcini cu responsabil și termen.",
+          "Alege un loc comun pentru documente și stabilește drepturile de acces.",
+          "Notează deciziile și diferența dintre propuneri și aprobări.",
+          "Revizuiește versiunea finală înainte de partajare."
+        ],
+        "model": [
+          "MINUTĂ DE ȘEDINȚĂ MODEL",
+          "Subiect: actualizare raport.",
+          "Decizie: tabelul trebuie revizuit.",
+          "Responsabil: persoana desemnată.",
+          "Termen: data stabilită de echipă.",
+          "Verificare: responsabilul prezintă varianta PDF spre aprobare.",
+          "Acest exemplu nu reprezintă o sarcină executată."
+        ],
+        "check": [
+          "Fiecare sarcină are un responsabil.",
+          "Permisiunile fișierelor sunt limitate corect.",
+          "Termenele și aprobările sunt clare."
+        ],
+        "exercise": [
+          "Scrie minuta unei ședințe fictive de 15 minute.",
+          "Transformă «cineva se ocupă» într-o sarcină precisă."
+        ]
+      }
+    },
+    "depth": {
+      "digital-1": [
+        [
+          "Dosare cu roluri clare",
+          "Împarte un proiect în surse, fișiere de lucru și rezultate finale. Numele trebuie să arate despre ce este documentul și, dacă există versiuni, să le distingă. Evită denumiri repetate ca «final_final2» și păstrează un singur loc pentru varianta aprobată."
+        ],
+        [
+          "Versiuni și copii de siguranță",
+          "O versiune nouă nu trebuie să distrugă automat documentul precedent, mai ales într-un proiect important. Copiile de siguranță trebuie protejate și să poată fi restaurate. Nu confunda sincronizarea cu garanția recuperării după ștergere accidentală."
+        ],
+        [
+          "Permisiuni și confidențialitate",
+          "Nu depozita acte, parole sau informații de acces în foldere publice. Verifică drepturile persoanelor cu care partajezi și revocă accesul când nu mai este necesar. Nu te baza numai pe numele fișierului pentru protecție."
+        ]
+      ],
+      "digital-2": [
+        [
+          "Structura înaintea aspectului",
+          "Un document convingător începe cu scop, titlu, secțiuni și concluzie. Stilurile coerente facilitează citirea; grafica nu trebuie să acopere informația. Include sursele și data când afirmațiile depind de informații externe."
+        ],
+        [
+          "Verificare după export",
+          "PDF-ul păstrează mai bine paginarea, dar poate conține fonturi lipsă, imagini tăiate sau pagini goale. Deschide rezultatul pe telefon și urmărește toate paginile. Verifică dacă numele fișierului identifică materialul, nu doar aplicația care l-a creat."
+        ],
+        [
+          "Distribuire și editare",
+          "Înainte de trimitere confirmă destinatarul, permisiunile și prezența datelor personale. Păstrează separat fișierul editabil dacă urmează revizuiri. O versiune PDF semnată sau oficială nu trebuie modificată fără procedura potrivită."
+        ]
+      ],
+      "digital-3": [
+        [
+          "Datele trebuie să fie coerente",
+          "Într-un tabel fiecare coloană are un sens și un tip: text, cantitate, preț, dată sau rezultat. Nu introduce unități ca text amestecat în celule care trebuie calculate. Folosește antet clar și păstrează aceeași convenție numerică."
+        ],
+        [
+          "Formule verificabile",
+          "Dacă B2 conține cantitatea și C2 prețul unitar, D2=B2*C2 reprezintă totalul liniei. Pentru mai multe linii poți însuma valorile, verificând două exemple manual. Nu confunda copierea formulei cu introducerea unei cifre statice."
+        ],
+        [
+          "Depanarea erorilor",
+          "O sumă neașteptată poate proveni din referință greșită, valori text sau rânduri omise. Verifică intervalul formulei și unitățile; nu schimba numărul final pentru a se potrivi așteptării. Arată ce ai corectat și de ce."
+        ]
+      ],
+      "digital-4": [
+        [
+          "Parole unice",
+          "Refolosirea aceleiași parole poate extinde consecințele compromiterii unui serviciu. Folosește parole distincte și autentificare multifactor când există. Nu introduce exemple de parole reale în aplicația de studiu și nu le trimite în mesaje."
+        ],
+        [
+          "Phishing și verificare",
+          "Un mesaj poate imita o instituție chiar dacă are sigle și formule oficiale. Verifică adresa și cererea printr-un canal independent. Nu divulga coduri temporare sau informații de recuperare, indiferent de urgența invocată."
+        ],
+        [
+          "Recuperare și actualizări",
+          "Cunoaște pașii de recuperare publicați de serviciul utilizat, menține dispozitivul actualizat și revizuiește permisiunile. Dacă observi un incident, limitează accesul prin metodele oficiale și documentează ce s-a întâmplat."
+        ]
+      ],
+      "digital-5": [
+        [
+          "Intrare, regulă, ieșire",
+          "Orice automatizare are date primite, reguli aplicate și un rezultat. Descrie fiecare pas înainte de alegerea instrumentului. Nu presupune că o cerere incompletă poate fi completată corect de algoritm fără confirmarea utilizatorului."
+        ],
+        [
+          "Validare și erori",
+          "Verifică dacă intrările obligatorii există și au tipul corect. Definește ce se întâmplă când data lipsește sau un document nu poate fi creat. Testează cu date fictive și cazuri limită, nu doar cu exemplul ideal."
+        ],
+        [
+          "Control uman",
+          "Dacă procesul trimite informații externe, efectuează plăți sau modifică date importante, păstrează puncte de confirmare. Un flux rapid, dar imposibil de verificat, poate amplifica greșeli. Înregistrează rezultatul și permite reluarea sigură."
+        ]
+      ],
+      "digital-6": [
+        [
+          "Sarcini cu responsabili",
+          "O întâlnire fără decizii și responsabili produce confuzie. Scrie ce rezultat se urmărește, cine îl pregătește și până când. Într-un document comun diferențiază propunerile de deciziile aprobate."
+        ],
+        [
+          "Permisiuni și versiuni",
+          "Partajează numai cu persoanele necesare și alege drepturi de citire sau editare potrivite. Evită modificările concurente fără un proces de revizuire. Stabilește care este versiunea finală aprobată."
+        ],
+        [
+          "Feedback util",
+          "Un comentariu precum «nu e bine» nu spune ce trebuie modificat. Precizează secțiunea, problema observată și criteriul de corectare. Verifică modificarea înainte de a închide sarcina."
+        ]
+      ]
+    },
+    "workshops": [
+      {
+        "id": "digital-1",
+        "title": "Găsește și restaurează fișierul",
+        "minutes": 25,
+        "scenario": "Folosești documente fără date personale: două versiuni ale aceleiași liste și o copie de rezervă. Nu șterge originale reale în timpul exercițiului.",
+        "artifact": "Arbore de foldere și jurnal de restaurare a unei copii",
+        "template": "Dosar principal:\nRegulă de denumire:\nVersiune curentă:\nCopie de rezervă separată:\nFișier de test restaurat și locație:\nCum verific egalitatea conținutului:",
+        "mistake": "Sincronizarea poate propaga ștergerea; nu este automat o copie de rezervă independentă.",
+        "transfer": "Imaginează pierderea accesului la contul principal. Cum ai recupera copia fără a divulga parole în acest caiet?",
+        "safety": "Lucrează pe copii și date sintetice. Fără parole/coduri, documente confidențiale sau operații distructive; nu trimitem automat ciorna la AI.",
+        "tools": [
+          "Copii de fișiere demonstrative",
+          "Editor de text sau tabel, opțional",
+          "Caietul local pentru plan și observații"
+        ],
+        "evidence": [
+          {
+            "id": "artifact",
+            "text": "Am produs livrabila „Arbore de foldere și jurnal de restaurare a unei copii”, nu doar am recitit teoria."
+          },
+          {
+            "id": "reason",
+            "text": "Am explicat o alegere prin datele concrete ale scenariului și am notat ce lipsește."
+          },
+          {
+            "id": "check",
+            "text": "Am verificat rezultatul față de exemplul explicat și am corectat greșelile observate."
+          },
+          {
+            "id": "safety",
+            "text": "Am respectat limita de siguranță și confidențialitate a acestui exercițiu."
+          }
+        ],
+        "checkpoint": {
+          "type": "choice",
+          "question": "Care verificare demonstrează mai bine că backupul este utilizabil?",
+          "choices": [
+            "Restaurarea unei copii de test și deschiderea ei",
+            "Faptul că apare o pictogramă de cloud",
+            "Redenumirea originalului în backup"
+          ],
+          "correct": 0,
+          "explanation": "O copie devine credibilă prin testarea restaurării; nu modificăm sau ștergem originalul pentru a exersa."
+        }
+      },
+      {
+        "id": "digital-2",
+        "title": "Un document care rămâne lizibil",
+        "minutes": 30,
+        "scenario": "Pregătești o pagină fictivă cu titlu, listă și un tabel. Folosește caractere românești; nu include acte personale.",
+        "artifact": "Document structurat și fișă de verificare a PDF-ului",
+        "template": "Public și scop:\nTitlu și subtitluri:\nTabel / listă necesară:\nNume fișier editabil:\nNume fișier PDF:\nVerificare pe ecran mic:\nOrdine de citire și diacritice:",
+        "mistake": "Exportul PDF nu repară textul tăiat sau o imagine ilizibilă; verifică fișierul exportat, nu numai sursa.",
+        "transfer": "Adaugă o imagine cu descriere și explică ce verifici pentru cine citește cu tehnologii asistive.",
+        "safety": "Lucrează pe copii și date sintetice. Fără parole/coduri, documente confidențiale sau operații distructive; nu trimitem automat ciorna la AI.",
+        "tools": [
+          "Copii de fișiere demonstrative",
+          "Editor de text sau tabel, opțional",
+          "Caietul local pentru plan și observații"
+        ],
+        "evidence": [
+          {
+            "id": "artifact",
+            "text": "Am produs livrabila „Document structurat și fișă de verificare a PDF-ului”, nu doar am recitit teoria."
+          },
+          {
+            "id": "reason",
+            "text": "Am explicat o alegere prin datele concrete ale scenariului și am notat ce lipsește."
+          },
+          {
+            "id": "check",
+            "text": "Am verificat rezultatul față de exemplul explicat și am corectat greșelile observate."
+          },
+          {
+            "id": "safety",
+            "text": "Am respectat limita de siguranță și confidențialitate a acestui exercițiu."
+          }
+        ],
+        "checkpoint": {
+          "type": "choice",
+          "question": "Ce verifici după export?",
+          "choices": [
+            "Deschid PDF-ul și verific conținutul, paginile și lizibilitatea",
+            "Presupun că exportul este întotdeauna perfect",
+            "Șterg documentul sursă fără verificare"
+          ],
+          "correct": 0,
+          "explanation": "Fișierul livrat trebuie deschis separat. Documentul editabil se păstrează pentru corecții ulterioare."
+        }
+      },
+      {
+        "id": "digital-3",
+        "title": "Un tabel cu total verificat",
+        "minutes": 35,
+        "scenario": "Într-un tabel fictiv ai 3 produse la 12 unități și 2 produse la 9 unități. Cantitatea și prețul sunt în coloane separate.",
+        "artifact": "Tabel cu formule și control aritmetic independent",
+        "template": "Coloane: Produs | Cantitate | Preț | Subtotal\nRândul 2:\nRândul 3:\nFormula în D2:\nFormula în D3:\nFormula total:\nControl manual:\nCe se întâmplă dacă schimb o cantitate:",
+        "mistake": "Nu tasta totalul ca număr fix într-un câmp care ar trebui să se actualizeze prin formulă.",
+        "transfer": "Schimbă cantitatea primului produs la 4 și verifică atât formula, cât și calculul manual.",
+        "safety": "Lucrează pe copii și date sintetice. Fără parole/coduri, documente confidențiale sau operații distructive; nu trimitem automat ciorna la AI.",
+        "tools": [
+          "Copii de fișiere demonstrative",
+          "Editor de text sau tabel, opțional",
+          "Caietul local pentru plan și observații"
+        ],
+        "evidence": [
+          {
+            "id": "artifact",
+            "text": "Am produs livrabila „Tabel cu formule și control aritmetic independent”, nu doar am recitit teoria."
+          },
+          {
+            "id": "reason",
+            "text": "Am explicat o alegere prin datele concrete ale scenariului și am notat ce lipsește."
+          },
+          {
+            "id": "check",
+            "text": "Am verificat rezultatul față de exemplul explicat și am corectat greșelile observate."
+          },
+          {
+            "id": "safety",
+            "text": "Am respectat limita de siguranță și confidențialitate a acestui exercițiu."
+          }
+        ],
+        "checkpoint": {
+          "type": "number",
+          "question": "Care este totalul celor două rânduri?",
+          "answer": 54,
+          "explanation": "3 × 12 + 2 × 9 = 36 + 18 = 54. Într-un tabel tipic D2 = B2*C2, D3 = B3*C3, total = SUM(D2:D3); numele funcției poate fi localizat."
+        }
+      },
+      {
+        "id": "digital-4",
+        "title": "Cont protejat, fără parole în caiet",
+        "minutes": 40,
+        "scenario": "Un cont fictiv primește un mesaj cu link de autentificare și o cerere de cod. Nu accesa linkuri reale și nu introduce parole sau coduri aici.",
+        "artifact": "Plan de protecție și recuperare a unui cont",
+        "template": "Semnale de phishing:\nCanal independent de acces:\nParolă unică — metodă de gestionare, fără valoare:\nAl doilea factor:\nPlan de recuperare, fără coduri:\nDacă am divulgat deja accesul:",
+        "mistake": "Nu păstra parola și codurile de recuperare în această aplicație ca exercițiu.",
+        "transfer": "Adaptează planul dacă pierzi telefonul cu al doilea factor, fără a scrie vreun cod real.",
+        "safety": "Lucrează pe copii și date sintetice. Fără parole/coduri, documente confidențiale sau operații distructive; nu trimitem automat ciorna la AI.",
+        "tools": [
+          "Copii de fișiere demonstrative",
+          "Editor de text sau tabel, opțional",
+          "Caietul local pentru plan și observații"
+        ],
+        "evidence": [
+          {
+            "id": "artifact",
+            "text": "Am produs livrabila „Plan de protecție și recuperare a unui cont”, nu doar am recitit teoria."
+          },
+          {
+            "id": "reason",
+            "text": "Am explicat o alegere prin datele concrete ale scenariului și am notat ce lipsește."
+          },
+          {
+            "id": "check",
+            "text": "Am verificat rezultatul față de exemplul explicat și am corectat greșelile observate."
+          },
+          {
+            "id": "safety",
+            "text": "Am respectat limita de siguranță și confidențialitate a acestui exercițiu."
+          }
+        ],
+        "checkpoint": {
+          "type": "choice",
+          "question": "Unde verifici alerta suspectă?",
+          "choices": [
+            "În aplicația sau site-ul oficial accesat independent",
+            "În linkul urgent din mesaj",
+            "Trimițând codul în conversație"
+          ],
+          "correct": 0,
+          "explanation": "Accesul independent evită capcana linkului. Dacă există compromitere, se folosesc procedurile oficiale de securizare și recuperare."
+        }
+      },
+      {
+        "id": "digital-5",
+        "title": "Automatizare cu revenire",
+        "minutes": 45,
+        "scenario": "Vrei să redenumești 20 de copii fictive de fișiere. Nu se rulează comenzi pe documente originale și nu se automatizează ștergeri.",
+        "artifact": "Plan de test pentru automatizare reversibilă",
+        "template": "Sarcina repetitivă:\nIntrare și regulă de transformare:\nDouă exemple înainte → după:\nCopii de test:\nRezultat așteptat:\nJurnal de modificări:\nCum revin la starea inițială:",
+        "mistake": "O automatizare mai rapidă poate produce mai repede și aceeași greșeală; testează pe copii înainte.",
+        "transfer": "Definește un caz-limită: două fișiere ar primi același nume. Cum oprești procesul fără pierdere?",
+        "safety": "Lucrează pe copii și date sintetice. Fără parole/coduri, documente confidențiale sau operații distructive; nu trimitem automat ciorna la AI.",
+        "tools": [
+          "Copii de fișiere demonstrative",
+          "Editor de text sau tabel, opțional",
+          "Caietul local pentru plan și observații"
+        ],
+        "evidence": [
+          {
+            "id": "artifact",
+            "text": "Am produs livrabila „Plan de test pentru automatizare reversibilă”, nu doar am recitit teoria."
+          },
+          {
+            "id": "reason",
+            "text": "Am explicat o alegere prin datele concrete ale scenariului și am notat ce lipsește."
+          },
+          {
+            "id": "check",
+            "text": "Am verificat rezultatul față de exemplul explicat și am corectat greșelile observate."
+          },
+          {
+            "id": "safety",
+            "text": "Am respectat limita de siguranță și confidențialitate a acestui exercițiu."
+          }
+        ],
+        "checkpoint": {
+          "type": "choice",
+          "question": "Ce faci înaintea aplicării în masă?",
+          "choices": [
+            "Test pe copii, compar rezultatul și pregătesc revenirea",
+            "Rulez direct pe originale",
+            "Ignor fișierele cu rezultat neașteptat"
+          ],
+          "correct": 0,
+          "explanation": "Un lot mic de test și un jurnal fac verificarea și revenirea posibile; nu executăm operații distructive pentru a învăța."
+        }
+      },
+      {
+        "id": "digital-6",
+        "title": "Colaborare cu acces minim",
+        "minutes": 50,
+        "scenario": "O echipă fictivă pregătește un document. Un coleg doar citește, altul editează, un colaborator extern comentează o singură săptămână.",
+        "artifact": "Matrice de acces și protocol de predare",
+        "template": "Rol | Acces necesar | Durată | Responsabil\nCititor:\nEditor:\nColaborator extern:\nCum verific linkul fără expunere publică:\nCum retrag accesul:\nCum aleg versiunea finală:",
+        "mistake": "Nu folosi automat „oricine are linkul poate edita” pentru materiale care nu sunt publice.",
+        "transfer": "Simulează plecarea unui colaborator și listează verificările de acces și proprietate asupra fișierelor.",
+        "safety": "Lucrează pe copii și date sintetice. Fără parole/coduri, documente confidențiale sau operații distructive; nu trimitem automat ciorna la AI.",
+        "tools": [
+          "Copii de fișiere demonstrative",
+          "Editor de text sau tabel, opțional",
+          "Caietul local pentru plan și observații"
+        ],
+        "evidence": [
+          {
+            "id": "artifact",
+            "text": "Am produs livrabila „Matrice de acces și protocol de predare”, nu doar am recitit teoria."
+          },
+          {
+            "id": "reason",
+            "text": "Am explicat o alegere prin datele concrete ale scenariului și am notat ce lipsește."
+          },
+          {
+            "id": "check",
+            "text": "Am verificat rezultatul față de exemplul explicat și am corectat greșelile observate."
+          },
+          {
+            "id": "safety",
+            "text": "Am respectat limita de siguranță și confidențialitate a acestui exercițiu."
+          }
+        ],
+        "checkpoint": {
+          "type": "choice",
+          "question": "Ce acces primește cineva care doar citește?",
+          "choices": [
+            "Citire, pentru perioada necesară",
+            "Administrare completă",
+            "Parola contului titularului"
+          ],
+          "correct": 0,
+          "explanation": "Permisiunea minimă necesară și retragerea accesului după colaborare limitează expunerea; parolele nu se partajează."
+        }
+      }
+    ],
+    "pathway": {
+      "title": "PROIECT DIGITAL",
+      "principle": "Mai întâi înțelegi exemplul, apoi produci o lucrare, verifici și explici decizia. Nu este suficient să memorezi răspunsuri.",
+      "safety": "Lucrează pe copii și date sintetice. Fără parole/coduri, documente confidențiale sau operații distructive; nu trimitem automat ciorna la AI.",
+      "tools": [
+        "Copii de fișiere demonstrative",
+        "Editor de text sau tabel, opțional",
+        "Caietul local pentru plan și observații"
+      ],
+      "finalTemplate": "Scopul dosarului:\nContext fictiv și limite:\n1. Livrabila capitolului 1 și concluzia:\n2. Livrabila capitolului 2 și concluzia:\n3. Livrabila capitolului 3 și concluzia:\n4. Livrabila capitolului 4 și concluzia:\n5. Livrabila capitolului 5 și concluzia:\n6. Livrabila capitolului 6 și concluzia:\nCe am corectat după verificare:\nRiscuri / informații care trebuie verificate de un specialist:\nCe voi aplica mai departe în siguranță:"
+    }
+  }
+}
