@@ -129,12 +129,9 @@ function funGeneratePuzzle(mode='rebus',seed=funPuzzleSeed(),difficulty='dificil
  const board={mode,seed,difficulty,width:C,height:R,grid,entries,density:answered/grid.length,style:'dense-barred'};
  return arrow&&funModulo(seed,2)===1?funTransposePuzzle(board):board;
 }
-function funDailyMaxim(dateKey){
- const first=['Un pas mic făcut azi','O întrebare pusă cu sinceritate','O idee notată la timp','O conversație cu atenție','Un lucru învățat azi','O greșeală privită cu calm','Un plan simplu și clar','Un gest de bunătate','O clipă de liniște','O alegere curajoasă','O privire nouă asupra lucrurilor','O promisiune respectată','Un început modest','O secundă de răbdare','Un răspuns căutat cu grijă','O încercare repetată','O carte deschisă la întâmplare','O lecție primită cu umor','O zi organizată cu răbdare','Un drum parcurs cu încredere','O observație atentă','O idee împărtășită','Un gând luminos','O întrebare dificilă'];
- const second=['poate schimba ritmul unei săptămâni','deschide o ușă pe care nu o vedeai','îți dă curaj pentru următorul pas','aduce ordine într-un plan complicat','lasă loc unei descoperiri','îți amintește ce contează','poate deveni începutul unei schimbări','face mai ușor un drum dificil','așază lucrurile într-o lumină nouă','îți oferă un motiv să continui','aduce un strop de curiozitate','poate însemna mai mult decât o promisiune','te învață ceva despre oameni','îți dă un moment de claritate','transformă efortul în experiență','lasă în urmă ceva folositor','îți pune imaginația la lucru','îți amintește să asculți','transformă așteptarea în pregătire'];
- const day=funDayNumber(dateKey),n=first.length*second.length,index=funModulo(day*37,n);
- return first[Math.floor(index/second.length)]+' '+second[index%second.length]+'.';
-}
+function funDailyMaximEntry(dateKey){return FUN_QUOTES[funModulo(funDayNumber(dateKey),FUN_QUOTES.length)]}
+function funDailyMaxim(dateKey){return funDailyMaximEntry(dateKey).text}
+function funQuoteEntry(text){return FUN_QUOTES.find(q=>q.text===text)||null}
 function funDailyJoke(dateKey){
  // Complete authored dialogues only: a question must never acquire an unrelated punchline.
  return FUN_JOKES[funModulo(funDayNumber(dateKey),FUN_JOKES.length)].replace(/ — /g,'\n— ');

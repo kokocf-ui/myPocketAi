@@ -1,3 +1,4 @@
+import {assistantUnderstandRequest,assistantUnderstandingInstruction,assistantRepeatsRecentReply,assistantVariationRequested} from './assistant_understanding.mjs';
 import {handleEducationInk} from './education_ink_api.mjs';
 import {educationTutorResponse} from './education_exercise_tutor.mjs';
 import {litEssaySpec,litEssayQuality,litEssayWords} from "./literature_essay_contract.mjs";
@@ -2269,6 +2270,14 @@ export default {
           'Deschid Deplasare spre… pentru alegerea destinației și a traseului.',
         journey_handoff:handoff,ai_connected:false
       });
+      // Stale coordinates or map context are never evidence of this turn's intent.
+      // Keep explicit structured UI selections and dedicated place searches intact.
+      if(!data.quick_place_search&&!data.selected_geographic_entity&&!assistantUnderstandRequest(data.message).allowImplicitLocation){
+        data={...data,location:null,coordinates:null,location_requested:false,
+          route_context:null,route_destination:null,transit_destination:null,
+          travel_mode:null,route_profile:null,route_start:false,route_compare:false,
+          route_via_query:null,place_context:null,distance_context:null,weather_context:null};
+      }
     }
 
     if (data?.address_lookup) {
@@ -3072,18 +3081,18 @@ export default {
         let draft=String(generated?.response||generated?.result?.response||'');
         // Social turns use a separate model path. Guard that path as well:
         // its short display sanitizer alone cannot reliably stop unpunctuated loops.
-        if(hasAssistantRepetitionLoop(draft)){
+        if(hasAssistantRepetitionLoop(draft)||assistantRepeatsRecentReply(draft,prior,originalMessage)){
           try{
             const retry=await env.AI.run(selectedAiModel,{
               messages:[
                 {role:'system',content:evaDialogueSystem(lang,evaTurn.speech_act)+userAddressInstruction+
-                  '\\nReply once, naturally and briefly. Do not repeat any phrase or clause from a failed draft.'},
+                  '\\nReply once, naturally and briefly. Do not repeat any phrase or clause from a failed draft. Give a new relevant example or perspective if asked, without changing facts.'},
                 ...prior.slice(-2),{role:'user',content:originalMessage}
               ],
               max_tokens:125,temperature:0.45
             });
             const replacement=String(retry?.response||retry?.result?.response||'');
-            draft=!hasAssistantRepetitionLoop(replacement)?replacement:'';
+            draft=!hasAssistantRepetitionLoop(replacement)&&!assistantRepeatsRecentReply(replacement,prior,originalMessage)?replacement:'';
           }catch{draft='';}
         }
         const reply=hasAssistantRepetitionLoop(draft)?'':cleanEvaReply(draft);
@@ -3287,7 +3296,7 @@ export default {
     // older conversation context. Otherwise a polite social message may be
     // interpreted as a geographic phrase or sent to a general AI research path.
     const dialogueIntent=classifyDialogueIntent(message);
-    const preventImplicitPlace=blocksImplicitPlaceLookup(message);
+    const preventImplicitPlace=blocksImplicitPlaceLookup(message)||((data.module||'assistant')==='assistant'&&!assistantUnderstandRequest(message).allowImplicitLocation);
     // T8: App controls are not addresses. Never send them to nearby venue
     // search or to AI generation when the request needs a device-side action.
     if(dialogueIntent.kind==="app_control"){
@@ -3418,12 +3427,15 @@ export default {
     const explicitKnowledge=/^(?:prezintă-mi|prezinta-mi|prezintă|prezinta|povestește-mi despre|povesteste-mi despre|descrie-mi|descrie|spune-mi despre|informații despre|informatii despre|ce știi despre|ce stii despre|tell me about|information about)\s+/i.test(message);
     const seekingRoute=Boolean(data.travel_mode||data.route_profile||data.route_destination||data.transit_destination||data.route_context?.destination)&&/^(?:mașină|masina|drive|driving|transport public|public transport|pietonal|walking|walk)$/i.test(message.trim()) || /\b(?:traseu|ajung|transport|route|directions|navigate|drive|walk|cauta|caută|find|nearby|aproape)\b/i.test(message);
     const possibleCity=parts.length<=2&&parts[0]?.split(/\s+/).length<=3&&/^[\p{L}\s.'-]{3,65}$/u.test(parts[0]||'')&&!/^(?:magazin|market|aldi|tesco|lidl|hotel|restaurant|pub|coffee|decathlon|sport direct)$/i.test(parts[0]||'');
-    const cityLookup=!seekingRoute&&!data.quick_place_search&&possibleCity&&!explicitKnowledge&&!knownTopic&&!countrySuffix&&parts.length===1;
+    const geographicNameEvidence=knownTopic||countryNameCodes.has(normalizeGeoName(bareTopic))
+      ||['alba','victoria','reading','nice','bath'].includes(normalizeGeoName(bareTopic))
+      ||assistantUnderstandRequest(message).allowImplicitLocation;
+    const cityLookup=geographicNameEvidence&&!seekingRoute&&!data.quick_place_search&&possibleCity&&!explicitKnowledge&&!knownTopic&&!countrySuffix&&parts.length===1;
 
     // Resolve short ambiguous names, including explicit knowledge questions such as
     // "Spune-mi despre Alba", before deciding on encyclopedia or geography.
     // Geography and encyclopaedia are separate destinations; Wikipedia text is never routable by itself.
-    const entityChoiceEligible=!seekingRoute&&!data.quick_place_search&&(!knownTopic||topicKey==='paris')&&parts.length===1&&
+    const entityChoiceEligible=geographicNameEvidence&&!seekingRoute&&!data.quick_place_search&&(!knownTopic||topicKey==='paris')&&parts.length===1&&
       /^[\p{L}][\p{L}\s'-]{2,39}$/u.test(bareTopic)&&bareTopic.split(/\s+/).length===1&&
       !countryNameCodes.has(normalizeGeoName(bareTopic))&&!/^(?:magazin|market|restaurant|hotel|pub|cafe|farmacie)$/i.test(bareTopic);
     if(entityChoiceEligible){
@@ -8791,6 +8803,7 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
     if(/\b(?:salari\w*|salary|wage\w*|earnings|gross|brut|net)\b/i.test(contextualSearch.query.normalize("NFD").replace(/[\u0300-\u036f]/g,""))) systemMessage += "\n\nCOMPENSATION DATA QUALITY: Distinguish population-wide reported earnings from recruitment-site estimates, mean from median, gross from net and salary from cost of living. Give an exact number only with relevant evidence and specify its period and scope if known. No personal income tax alone does NOT prove every gross salary equals take-home pay: other employee deductions or social/pension contributions may apply. Never invent salary-to-net tables or falsely claim a published average is a verified net figure.";
     if (dialogueOnlyIntent) systemMessage += "\n\nCONVERSATIONAL FEEDBACK: The user is talking to you about your behavior or feelings, not requesting external research. Respond to the actual tone and concern naturally in 1–3 sentences, with empathy and a little playfulness if appropriate. If they correct you, acknowledge the specific mistake and offer a useful correction or one focused question; do not launch into an unrelated lecture or make up facts. Keep a consistent fictional feminine voice without pretending to feel human emotions.";
     if (contextualSearch.context_applied) systemMessage += "\n\nCONVERSATIONAL FOLLOW-UP: The current question refers to an earlier explicit user topic. Resolve omitted subjects from recent USER turns, including a previously specified city or country. If the user explicitly switches places, replace the old location. A prior assistant answer is not proof: do not repeat an unverified number, gross/net classification, source, or date as a fact. Answer the latest precise question first, and distinguish what the sources verify from what remains uncertain. Do not change location because of UI language.";
+    if((data.module||'assistant')==='assistant')systemMessage+='\n\n'+assistantUnderstandingInstruction();
     systemMessage += lang==='ro'
       ? "\\n\\nREGULI DE CONCIZIE ȘI RELEVANȚĂ: Mai întâi identifică exact ce solicită ultimul mesaj: salut, întrebare factuală, explicație, listă, corecție sau continuare. Nu confunda «Salut, ce faci?» cu o întrebare de cercetare ori cu un subiect din istoricul vechi. La saluturi și conversații ușoare răspunde în 1–2 propoziții; la întrebări factuale simple răspunde direct în 1–4 propoziții sau câteva puncte. Nu introduce explicații istorice ori liste nesolicitate. Folosește istoricul numai când este necesar pentru o referință clară. Verifică intern fiecare element dintr-o comparație: structură, ordine, categorie, culori, cifre și diferențe; elimină elementele care nu respectă criteriul, chiar dacă sunt vag asociate. Nu afirma că ai găsit sau verificat articole decât dacă sursele sunt efectiv disponibile și relevante. Dacă nu poți susține un detaliu, recunoaște incertitudinea în loc să îl inventezi. Caracterul jucăuș schimbă tonul, NU crește lungimea și NU adaugă informații fără legătură."
       : "\\n\\nRELEVANCE AND BREVITY: Classify the latest message as greeting, factual question, request, correction, or follow-up. Never turn a simple greeting into an unrelated research lesson from old history. Answer casual greetings in 1–2 sentences and simple factual questions in a few precise sentences or bullets. Do not introduce unsolicited lists or explanations. Use history only for clear references. For comparisons, check the exact criteria (structure, order, colours, quantities and distinctions); exclude items that do not fit. Never claim to have researched or verified sources unless they are actually available. If an important fact is uncertain, say so. A playful persona changes the tone, not the length or factual standards.";
@@ -8917,7 +8930,7 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
       try{
         const primaryOpts={
           messages:primaryMessages,max_tokens:effectiveTokens,
-          temperature:eventResearchIntent||recipeInstruction?0.05:0.18
+          temperature:eventResearchIntent||recipeInstruction?0.05:(data.module||'assistant')==='assistant'?(assistantVariationRequested(originalMessage,data.history)?0.48:0.25):0.18
         };
         const mainOptions=creativeQualityEnabled&&creativeIntent.requested
           ?enhanceEvaCreativeOptions({module:data.module||'assistant',message},primaryOpts).options
@@ -9116,22 +9129,22 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
 
       // Recover from looping model output before it reaches the UI.
       // Retry once with a focused prompt; never turn repeated filler into fake facts.
-      if(!recipeInstruction&&typeof result?.response==="string"&&hasAssistantRepetitionLoop(result.response)){
+      if(!recipeInstruction&&typeof result?.response==="string"&&(hasAssistantRepetitionLoop(result.response)||((data.module||'assistant')==='assistant'&&assistantRepeatsRecentReply(result.response,data.history,originalMessage)))){
         stageMetrics.response_loop_detected=true;
         const repetitionStartedAt=Date.now();
         try{
           const revised=await env.AI.run(selectedAiModel,{
             messages:[
-              {role:"system",content:systemMessage.slice(0,4500)+
-                "\\nQUALITY RETRY: The previous draft repeated an identical sentence many times. Do not reuse it. Answer the user's latest question directly, concisely and completely in the selected language. Avoid generic introductions and repetition. Describe actual app capabilities only."},
-              ...modelHistory.slice(-2),
-              {role:"user",content:aiUserMessage.slice(0,3200)}
+              {role:"system",content:smartSystemMessage+
+                "\\nQUALITY RETRY: The previous draft repeated itself or a recent answer. Do not reuse it. If asked for another explanation, use a genuinely new relevant example or approach while preserving verified facts. Answer the user's latest question directly, concisely and completely in the selected language. Avoid generic introductions and repetition. Describe actual app capabilities only."},
+              ...modelHistory,
+              {role:"user",content:aiUserMessage}
             ],
             max_tokens:Math.min(550,requestedModelTokens),
             temperature:0.35
           });
           if(typeof revised?.response==="string"&&revised.response.trim().length>=20
-             &&!hasAssistantRepetitionLoop(revised.response)){
+             &&!hasAssistantRepetitionLoop(revised.response)&&!assistantRepeatsRecentReply(revised.response,data.history,originalMessage)){
             result={...revised,response:revised.response.trim()};
             stageMetrics.response_loop_recovered=true;
           }
@@ -9140,7 +9153,7 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
         }finally{
           stageMetrics.response_loop_retry_ms=Date.now()-repetitionStartedAt;
         }
-        if(hasAssistantRepetitionLoop(result.response)){
+        if(hasAssistantRepetitionLoop(result.response)||assistantRepeatsRecentReply(result.response,data.history,originalMessage)){
           console.warn("Pocket AI repeated model response rejected",JSON.stringify({diagnosticId,stage:"ai_repetition_loop"}));
           return json({app:"Pocket AI",version:API_VERSION,status:"error",
             error:lang==="ro"

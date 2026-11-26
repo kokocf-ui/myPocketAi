@@ -21,7 +21,9 @@
     "test:foreign-practice:browser": "node tests_foreign_language_practice_browser.mjs",
     "test:entertainment:browser": "node tests_entertainment_mobile_browser.mjs",
     "test:chat-media": "node tests_communication_media.mjs",
-    "test:communication-delivery:browser": "node tests_communication_delivery_browser.mjs"
+    "test:communication-delivery:browser": "node tests_communication_delivery_browser.mjs",
+    "test:editorial-assistant": "node tests_fun_editorial_content.mjs && node tests_assistant_understanding.mjs && node tests_assistant_understanding_backend.mjs",
+    "test:editorial-assistant:browser": "node tests_editorial_assistant_browser.mjs"
   },
   "dependencies": {
     "teleproto": "1.232.1"

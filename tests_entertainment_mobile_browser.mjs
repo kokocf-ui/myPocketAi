@@ -26,7 +26,7 @@ try{
   const pop=page.locator('.extra-fun-modal:not(.extra-fun-game-overlay)'),selected=pop.locator('blockquote'),archive=pop.locator('.extra-fun-jokes-archive');
   const before=await selected.boundingBox();await archive.evaluate(el=>el.scrollTop=el.scrollHeight);assert.deepEqual(await selected.boundingBox(),before,'Joke stays pinned while list scrolls');
   await tap(archive.getByRole('button').last());assert.equal(await quote.innerText(),await selected.innerText());
-  await tap(pop.getByRole('button',{name:'Mai multe bancuri',exact:true}));assert.equal(await archive.getByRole('button').count(),22);assert.equal(await pop.getByRole('button',{name:'Mai multe bancuri',exact:true}).count(),0);
+  await tap(pop.getByRole('button',{name:'Mai multe bancuri',exact:true}));await tap(pop.getByRole('button',{name:'Mai multe bancuri',exact:true}));assert.equal(await archive.getByRole('button').count(),30);assert.equal(await pop.getByRole('button',{name:'Mai multe bancuri',exact:true}).count(),0);
   await page.screenshot({path:'.bundle-check/entertainment/jokes-'+viewport.width+'.png'});await back();assert.equal(await pop.count(),0);
   await page.evaluate(()=>window.__fun.open('fun-maxim'));await bounded();
   await tap(page.locator('.extra-fun-quote-button'));await pop.getByRole('heading',{name:'Ce înseamnă?'}).waitFor();await back();

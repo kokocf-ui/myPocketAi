@@ -1,3 +1,4 @@
+import {assistantUnderstandRequest} from './assistant_understanding.mjs';
 // Fast, explicit destinations entered as a single line in Personal Assistant.
 // Never turn an ordinary question or a generic hotel search into navigation.
 export function assistantBareDestinationQuery(raw){
@@ -60,6 +61,8 @@ export function parseJourneyExpression(raw){
 export function assistantJourneyHandoff(raw){
  const text=String(raw||'').trim();
  if(!text||text.length>240)return null;
+ const understood=typeof assistantUnderstandRequest==='function'?assistantUnderstandRequest(text):null;
+ if(understood?.mode==='general'&&['correction_not_location','concept_not_destination','knowledge_or_composition','information_not_place','conversation_or_followup'].includes(understood.reason))return null;
  if(assistantBareDestinationQuery(text))return parseJourneyExpression(text);
  const fold=text.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
  if(/^(?:ce\b|care\b|cat\b|cati\b|cate\b|cand\b|cine\b|de ce\b|cum\s+(?!ajung\b|pot\s+ajung|merg\b|pot\s+merg|ma\s+deplasez\b)|explica|descrie|defineste|rezuma|tradu\w*|converteste|transforma|calculeaza|rezolva|numara|scrie|compune|povesteste|spune(?:-mi)?\b|what\b|which\b|who\b|when\b|why\b|how\s+(?!do\s+i\s+get\b|can\s+i\s+get\b|to\s+get\s+to\b)|explain|define|describe|translate|convert|calculate|solve|count|write|tell\s+me\b|want\s+to\b|need\s+to\b|try\s+to\b|i\s+want\s+to\s+(?!get\s+to\b|go\s+to\b))/u.test(fold))return null;
