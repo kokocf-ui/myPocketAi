@@ -5,7 +5,6 @@ import {SCIENCE_RO_LOWER_TOPICS,SCIENCE_RO_2017_SOURCE,scienceSchoolTopicLessons
 import {SCIENCE_GUIDES} from './science_extended_theory.mjs';
 import {SCIENCE_GUIDES_EN} from './science_english_reference_guides.mjs';
 import {scienceLowerTopicContent} from './science_lower_secondary_lessons.mjs';
-import {SCIENCE_LOWER_DEPTH} from './science_lower_secondary_depth.mjs';
 import {THEORY_ENTRIES} from './education_theory.mjs';
 import {scienceSchoolLessonMaterial,scienceSchoolLessonAssessment} from './science_school_lesson_material.mjs';
 

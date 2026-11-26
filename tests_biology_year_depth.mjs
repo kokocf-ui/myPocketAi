@@ -133,11 +133,13 @@ assert.equal(BIOLOGY_REFERENCE.length,20,'Definitions plus actual applicable sci
 assert.equal(new Set(BIOLOGY_REFERENCE.map(x=>x.id)).size,20);
 for(const item of BIOLOGY_REFERENCE){
  assert.ok(BIOLOGY_REFERENCE_GROUPS.some(x=>x.id===item.group),'Ungrouped Biology concept');
- for(const field of ['ro','en','formula','explainRo','explainEn','exampleRo','exampleEn','scopeRo','scopeEn'])
+ for(const field of ['ro','formula','explainRo','exampleRo','scopeRo'])
   assert.ok(item[field]?.length>=4,item.id+'/'+field+' empty');
  const textRo=biologyReferenceText(item,'ro'),textEn=biologyReferenceText(item,'en');
  assert.ok(textRo.includes(item.explainRo)&&textRo.includes(item.exampleRo)&&textRo.includes(item.scopeRo));
- assert.ok(textEn.includes(item.explainEn)&&textEn.includes(item.exampleEn));
+ assert.equal(textEn,textRo,'Original source is returned for the shared reader to translate');
+ assert.equal(item.sourceLanguage,'ro');
+ assert.ok(!('en' in item)&&!('explainEn' in item));
 }
 // Diagrams are selected by the actual Biology chapter. No reused DNA or
 // cell model for ecology, methods, anatomy or other unrelated chapters.
@@ -199,7 +201,7 @@ for(const fragment of [
  "else if(current==='biology-reference')scienceJourney.stage='years';",
  "subject:'biology',stage:'upper'",
  "subjectId==='biology'",
- "biologyReference?biologyReferenceText(law,state.language)",
+ "biologyReference?biologyReferenceText(law,law.sourceLanguage)",
 ])
  assert.ok(script.includes(fragment),'Missing Biology integration in Android: '+fragment);
 assert.ok(script.includes("scienceSchoolTopicLessons({")&&script.includes("country:educationCountrySelection.code,subject:'biology',grade:scienceJourney.grade"),

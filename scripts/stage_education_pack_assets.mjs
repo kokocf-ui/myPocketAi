@@ -8,6 +8,7 @@ import {fileURLToPath} from 'node:url';
 import {curriculumPackAssetName} from '../curriculum_pack_protocol.mjs';
 import {CURRICULUM_REMOTE_PACK_KEYS} from '../curriculum_pack_manifest.mjs';
 import {EDUCATION_EUROPE_COUNTRIES} from '../education_all_country_subject_matrix.mjs';
+import {scienceValidateSharedPack} from '../science_shared_pack_loader.mjs';
 import {literatureLoadAuthoredYear,literatureLoadNationalYear} from '../literature_authored_pack_loader.mjs';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const source=path.join(root,'public'),dest=path.join(root,'.education-pack-assets');
@@ -17,7 +18,7 @@ const patterns=[
  ...['literature','history','geography','computing','math','physics','chemistry','biology'].map(subject=>({dir:'education/'+subject+'/authored',pattern:/^(?:catalog|[A-Z-]+\/[A-Za-z0-9_-]+)\.json$/,kind:'authored'})),
  {dir:'education/science/review',pattern:/^RO\.json$/,kind:'review'},
  {dir:'education/math/supplements',pattern:/^[A-Z-]+\.json$/,kind:'math'},
- {dir:'education/science/shared',pattern:/^(physics|chemistry|biology|astronomy)\.json$/,kind:'science'}
+ {dir:'education/science/shared-v2',pattern:/^(physics|chemistry|biology|astronomy)\.json$/,kind:'science'}
 ];
 const digest=value=>createHash('sha256').update(JSON.stringify(value)).digest('hex');
 const seen=new Set();let files=0,bytes=0;
@@ -75,8 +76,10 @@ for(const {dir,pattern,kind} of patterns){
   else if(kind==='review')valid=data.schema==='mypocket-science-review/v1'&&data.country==='RO'&&data.language==='ro'&&Array.isArray(data.lessons)&&data.lessons.length>0&&data.version===digest(data.lessons);
   else if(kind==='math')valid=data.schema==='mypocket-math-supplements/v1'&&data.country===name&&data.banks&&
     ['bulk','second','final'].every(k=>data.banks[k]&&typeof data.banks[k]==='object'&&!Array.isArray(data.banks[k]))&&data.version===digest(data.banks);
-  else if(kind==='science')valid=data.schema==='mypocket-science-shared/v1'&&data.subject===name&&data.topics&&
-    typeof data.topics==='object'&&!Array.isArray(data.topics)&&Object.keys(data.topics).length>0&&data.version===digest(data.topics);
+  else if(kind==='science'){
+   const {schema,subject,version,...payload}=data;
+   valid=scienceValidateSharedPack(data,name)&&version===digest(payload);
+  }
   if(!valid)throw Error('Invalid Education asset: '+dir+'/'+entry);
   await mkdir(path.dirname(path.join(output,entry)),{recursive:true});
   await writeFile(path.join(output,entry),raw);files++;bytes+=raw.length;
@@ -87,6 +90,6 @@ for(const country of EDUCATION_EUROPE_COUNTRIES){
  for(const dir of ['education/literature/profiles','education/math/supplements'])
   await readFile(path.join(dest,dir,country+'.json')).catch(()=>{throw Error('Missing '+dir+'/'+country+'.json')});
 }
-for(const file of ['education/literature/profiles/OTHER-EU.json','education/literature/authored/FR/CP.json',...['1','2','3','4'].map(g=>'education/literature/authored/HU/'+g+'.json'),...['physics','chemistry','biology','astronomy'].map(s=>'education/science/shared/'+s+'.json')])
+for(const file of ['education/literature/profiles/OTHER-EU.json','education/literature/authored/FR/CP.json',...['1','2','3','4'].map(g=>'education/literature/authored/HU/'+g+'.json'),...['physics','chemistry','biology','astronomy'].map(s=>'education/science/shared-v2/'+s+'.json')])
  await readFile(path.join(dest,file)).catch(()=>{throw Error('Missing '+file)});
 console.log(`Staged ${files} validated Education assets (${bytes} bytes). No frontend or backend deployment performed.`);

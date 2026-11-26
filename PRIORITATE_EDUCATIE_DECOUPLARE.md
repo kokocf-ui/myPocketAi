@@ -1,4 +1,14 @@
-# Prioritatea curentă: verificare curriculară și continuarea Literaturii, cu decuplare Educație
+# Prioritatea curentă: decuplare Educație și eliminarea fișelor pretraduse duplicate
+
+## Increment 26 noiembrie 2026 — noua cerere explicită
+
+Utilizatorul cere acum verificarea pachetelor rămase cuplate, decuplarea lor și păstrarea exclusiv a fișei în limba originală; traducerea este numai treaba motorului comun. Implementat un increment, **nu toate materiile**: 33 fișe comune de Științe, 92 legi/referințe și 28 cursuri de bază Chimie universitară, într-o singură sursă română, în patru JSON-uri `science/shared-v2`. Referințele și cursurile migrate nu mai sunt în HTML. Modulele sursă vechi sunt adaptoare la aceleași JSON-uri; nu mai regenerează copii RO/EN. Raport, măsurători, teste și inventarul restanțelor: `EDUCATION_SOURCE_PACKS_2026-11-26.md`; audit reproductibil: `node scripts/audit_education_coupling.mjs`.
+
+Rămân încă bănci încorporate și variante bilingve în alte module (inclusiv cazuri Fizică liceală și universitară); continuă migrarea pe consumatori, fără ștergerea materialelor naționale distincte sau a etichetelor UI. `astronomy_laws_reference.mjs` și `chemistry_university_core.mjs`, menționate ca restanțe mai jos în istoric, sunt acum migrate. Nu este migrare academică completă, reparare a traducerii din APK sau publicare. Teste mobile pe bundle cu traduceri simulate, cache/retry, staging și dry-run trecute; `test:ui`100/102 cu restanțele istorice. Limita HTML respectată:7.491.346 octeți în producție.
+
+**Compatibilitate la publicare:** v2 folosește alt URL/cache; asset-urile v1 nu mai sunt în repo/staging și clienții vechi ar pierde aceste rute după înlocuirea serviciului. Nu publica automat: păstrează separat artifactele/rutele legacy deja publicate până la upgrade/retragere, disponibilizează v2 înainte de frontendul compatibil și verifică rollback. Niciun deploy/APK/PR/merge executat. Traducerea reală raportată pe APK rămâne amânată conform utilizatorului.
+
+## Context anterior (istoric, nu declarație de finalizare)
 
 Utilizatorul a cerut ca toate pachetele din Educație să fie independente de aplicație. Ulterior a cerut explicit să verificăm acoperirea curriculară și să continuăm implementarea Literaturii, apoi Istorie, Geografie și Informatică; continuăm decuplarea în paralel, fără a pretinde că este completă. Conținutul nou al Literaturii se creează în pachete, nu în HTML. O modificare la conținut trebuie să poată fi publicată fără reconstruirea APK-ului. Compactarea HTML-ului nu este decuplare.
 
