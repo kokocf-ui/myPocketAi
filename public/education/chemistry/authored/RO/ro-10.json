@@ -1,0 +1,1187 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "RO",
+ "stage": "medium",
+ "grade": "10",
+ "version": "3a1f31005a918912aa6657ac5a60c7281c646e084c4370b67d6e7c0caa637aba",
+ "source": "https://www.edu.ro/programe_scolare_liceu",
+ "sourceTitle": "Programa școlară de Chimie pentru clasa a X-a, ciclul inferior al liceului, filiera teoretică, profilul real (OMEC nr. 4598/31.08.2004) — introducere în chimia organică, hidrocarburi (alcani, alchene, alchine, alcadiene, arene, surse naturale), compuși organici cu funcțiuni (alcooli, acizi carboxilici, esteri, grăsimi, săpunuri), compuși cu importanță biologică (aminoacizi, proteine, zaharide, vitamine, medicamente); conținut corelat și cu noua programă OMEC 6930/2025; lecții originale, fără text copiat din manuale",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "ro",
+ "labels": [
+  "Activitate originală · România · Chimie · Clasa a X-a (profil real, matematică-informatică)",
+  "Teorie pe înțeles",
+  "Exemplu",
+  "Rezolvare explicată",
+  "Exerciții",
+  "Verifică-te",
+  "Exerciții originale; nu înlocuiesc manualul sau evaluarea de la clasă.",
+  "Dacă nu ai înțeles: pas cu pas",
+  "Răspunsuri (verifică după ce termini)"
+ ],
+ "units": [
+  {
+   "title": "Introducere în studiul chimiei organice",
+   "keys": [
+    "eu-year-ro-medium-10-l01",
+    "eu-year-ro-medium-10-l02",
+    "eu-year-ro-medium-10-l03",
+    "eu-year-ro-medium-10-l04",
+    "eu-year-ro-medium-10-l05",
+    "eu-year-ro-medium-10-l06"
+   ]
+  },
+  {
+   "title": "Alcani",
+   "keys": [
+    "eu-year-ro-medium-10-l07",
+    "eu-year-ro-medium-10-l08",
+    "eu-year-ro-medium-10-l09"
+   ]
+  },
+  {
+   "title": "Alchene",
+   "keys": [
+    "eu-year-ro-medium-10-l10",
+    "eu-year-ro-medium-10-l11",
+    "eu-year-ro-medium-10-l12"
+   ]
+  },
+  {
+   "title": "Alchine",
+   "keys": [
+    "eu-year-ro-medium-10-l13",
+    "eu-year-ro-medium-10-l14"
+   ]
+  },
+  {
+   "title": "Alcadiene; cauciucul natural și sintetic",
+   "keys": [
+    "eu-year-ro-medium-10-l15"
+   ]
+  },
+  {
+   "title": "Arene",
+   "keys": [
+    "eu-year-ro-medium-10-l16",
+    "eu-year-ro-medium-10-l17",
+    "eu-year-ro-medium-10-l18"
+   ]
+  },
+  {
+   "title": "Surse naturale de hidrocarburi; combustibili",
+   "keys": [
+    "eu-year-ro-medium-10-l19"
+   ]
+  },
+  {
+   "title": "Compuși organici cu funcțiuni",
+   "keys": [
+    "eu-year-ro-medium-10-l20",
+    "eu-year-ro-medium-10-l21",
+    "eu-year-ro-medium-10-l22",
+    "eu-year-ro-medium-10-l23",
+    "eu-year-ro-medium-10-l24",
+    "eu-year-ro-medium-10-l25",
+    "eu-year-ro-medium-10-l26",
+    "eu-year-ro-medium-10-l27"
+   ]
+  },
+  {
+   "title": "Compuși organici cu importanță biologică și din viața de zi cu zi",
+   "keys": [
+    "eu-year-ro-medium-10-l28",
+    "eu-year-ro-medium-10-l29",
+    "eu-year-ro-medium-10-l30",
+    "eu-year-ro-medium-10-l31"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-ro-medium-10-l01": {
+   "ro": {
+    "title": "Obiectul chimiei organice; elemente organogene; analiza elementală",
+    "theory": "Chimia organică studiază compușii carbonului (cu excepția oxizilor de carbon, a acidului carbonic și a carbonaților, studiați la chimia anorganică). Elementele organogene sunt C, H, O, N, halogeni, S, P. Carbonul este tetravalent în compușii organici, hidrogenul și halogenii monovalenți, oxigenul divalent, azotul trivalent. Analiza elementală calitativă identifică elementele (carbonul și hidrogenul prin ardere: CO₂ tulbură apa de var, apa se condensează); analiza cantitativă stabilește masa fiecărui element într-o probă.",
+    "sample": "Prin arderea zahărului se formează CO₂ și H₂O, dovadă că zahărul conține carbon și hidrogen.",
+    "worked": "Prin arderea a 4,6 g dintr-o substanță se obțin 8,8 g CO₂ și 5,4 g H₂O. Carbon: 8,8·12/44 = 2,4 g; hidrogen: 5,4·2/18 = 0,6 g; 2,4 + 0,6 = 3,0 g < 4,6 g, deci restul de 1,6 g este oxigen. Substanța conține C, H și O.",
+    "exercises": [
+     "Care sunt elementele organogene și ce valențe au?",
+     "Cum se identifică experimental carbonul și hidrogenul dintr-o substanță organică?",
+     "Calculează masa de carbon din 22 g CO₂.",
+     "Ce masă de hidrogen se află în 9 g apă?",
+     "De ce CO₂ și carbonații nu sunt considerați compuși organici?"
+    ],
+    "test": [
+     "Ce studiază chimia organică?",
+     "Valența carbonului în compușii organici?",
+     "Valența oxigenului?",
+     "Cum se identifică CO₂ rezultat la ardere?",
+     "Ce stabilește analiza elementală cantitativă?"
+    ],
+    "steps": [
+     "Identifică produșii de ardere (CO₂, H₂O) și elementele din care provin.",
+     "Calculează masele de C și H din masele de CO₂ și H₂O.",
+     "Compară cu masa probei pentru a deduce prezența oxigenului.",
+     "Greșeala frecventă: să uiți că diferența dintre masa probei și suma C + H poate reprezenta oxigen."
+    ],
+    "answers": [
+     "Compușii carbonului",
+     "Patru (tetravalent)",
+     "Doi (divalent)",
+     "Tulbură apa de var",
+     "Masa fiecărui element din probă"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l02": {
+   "ro": {
+    "title": "Legături covalente; catene de atomi de carbon; tipuri de atomi de carbon",
+    "theory": "Atomii de carbon formează legături covalente simple (C–C, C–H, C–O, C–N, C–Cl, O–H), duble (C=C, C=O) sau triple (C≡C, C≡N) și se pot lega între ei în catene: aciclice sau ciclice, liniare sau ramificate, saturate (doar legături simple) sau nesaturate (cu legături multiple). Heterocatenele conțin și alți atomi (O, N) în catenă. După numărul de atomi de carbon de care este legat, un carbon poate fi nular, primar, secundar, terțiar sau cuaternar.",
+    "sample": "În izobutan, CH(CH₃)₃, atomul central de carbon este terțiar.",
+    "worked": "În 2,2-dimetilpropan, C(CH₃)₄: un carbon cuaternar și patru carboni primari. În propenă, CH₂=CH–CH₃: catenă aciclică, liniară, nesaturată. Ciclohexanul are o catenă ciclică saturată, benzenul o catenă ciclică nesaturată (aromatică).",
+    "exercises": [
+     "Clasifică catenele: n-butan, izobutan, ciclopentan, propenă.",
+     "Stabilește tipul fiecărui atom de carbon în 2-metilbutan.",
+     "Ce este o heterocatenă? Dă un exemplu.",
+     "Câte legături covalente formează un atom de carbon?",
+     "Desenează o catenă ramificată cu 5 atomi de carbon."
+    ],
+    "test": [
+     "Ce este o catenă saturată?",
+     "Ce este un carbon terțiar?",
+     "Exemplu de legătură triplă?",
+     "Ce este o catenă ramificată?",
+     "Câți carboni leagă un carbon cuaternar?"
+    ],
+    "steps": [
+     "Scrie formula de structură desfășurată sau restrânsă.",
+     "Identifică tipul legăturilor și forma catenei.",
+     "Clasifică fiecare atom de carbon după numărul de carboni vecini.",
+     "Greșeala frecventă: să numeri și atomii de hidrogen la stabilirea tipului de carbon; contează doar carbonii vecini."
+    ],
+    "answers": [
+     "Catena care conține doar legături simple",
+     "Un carbon legat de alți trei atomi de carbon",
+     "C≡C",
+     "Catena cu ramificații laterale",
+     "Patru"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l03": {
+   "ro": {
+    "title": "Hibridizarea atomului de carbon; geometria moleculelor",
+    "theory": "La formarea legăturilor, orbitalii de valență ai carbonului se combină (hibridizare). sp³: patru orbitali echivalenți orientați spre vârfurile unui tetraedru, unghiuri de 109°28′ — carbonul cu patru legături simple (metan, etan). sp²: trei orbitali în plan la 120° plus un orbital p nehibridizat — carbonul cu o legătură dublă (etenă, molecula plană). sp: doi orbitali la 180° plus doi orbitali p — carbonul cu legătură triplă (etină, liniară). Legătura dublă = o legătură σ + o legătură π; triplă = σ + 2π. Lungimile legăturilor scad: C–C 1,54 Å, C=C 1,33 Å, C≡C 1,20 Å.",
+    "sample": "În etenă, toți cei șase atomi se află în același plan.",
+    "worked": "Etina HC≡CH: fiecare carbon este hibridizat sp, unghiul H–C–C = 180°, molecula liniară. În propenă CH₂=CH–CH₃, primii doi carboni sunt sp², al treilea sp³. Legătura π este mai slabă și mai reactivă decât σ, de aceea alchenele dau reacții de adiție.",
+    "exercises": [
+     "Precizează hibridizarea fiecărui carbon în CH₃–CH=CH₂ și HC≡C–CH₃.",
+     "Ce geometrie au moleculele de metan, etenă și etină?",
+     "Câte legături σ și π are molecula de etenă?",
+     "Ordonează legăturile C–C, C=C, C≡C după lungime.",
+     "De ce legătura π este mai reactivă decât legătura σ?"
+    ],
+    "test": [
+     "Unghiul de valență la carbonul sp³?",
+     "Geometria etenei?",
+     "Hibridizarea carbonului din etină?",
+     "Din ce este formată legătura dublă?",
+     "Lungimea legăturii C–C simple?"
+    ],
+    "steps": [
+     "Numără legăturile multiple ale fiecărui carbon.",
+     "Asociază: doar simple – sp³, o dublă – sp², o triplă sau două duble – sp.",
+     "Deduce geometria și unghiurile.",
+     "Greșeala frecventă: să consideri că toate legăturile dintr-o legătură dublă sunt echivalente; una este σ, cealaltă π."
+    ],
+    "answers": [
+     "109°28′",
+     "Plană",
+     "sp",
+     "O legătură σ și una π",
+     "1,54 Å"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l04": {
+   "ro": {
+    "title": "Formule chimice: procentuală, brută, moleculară; nesaturarea echivalentă",
+    "theory": "Formula procentuală arată compoziția în procente de masă. Formula brută arată raportul cel mai simplu al atomilor (CH₂O); formula moleculară arată numărul real de atomi (C₆H₁₂O₆ = (CH₂O)₆), aflat cu ajutorul masei molare. Formula de structură arată modul de legare. Nesaturarea echivalentă N.E. = (2a + 2 + c − b − d)/2 pentru CₐH_bN_cX_d (oxigenul nu intervine) dă numărul total de cicluri și legături π.",
+    "sample": "Benzenul C₆H₆ are N.E. = (12 + 2 − 6)/2 = 4: un ciclu și trei legături duble.",
+    "worked": "Substanță cu 40% C, 6,67% H, 53,33% O și M = 60 g/mol: C: 40/12 = 3,33; H: 6,67/1 = 6,67; O: 53,33/16 = 3,33 ⇒ raport 1 : 2 : 1, formula brută CH₂O (M = 30); n = 60/30 = 2 ⇒ C₂H₄O₂ (acid acetic). N.E. = (4 + 2 − 4)/2 = 1 (legătura C=O).",
+    "exercises": [
+     "Calculează compoziția procentuală a metanului.",
+     "Determină formula moleculară: 85,7% C, 14,3% H, M = 56 g/mol.",
+     "Calculează N.E. pentru C₄H₆ și interpretează.",
+     "Ce N.E. are C₂H₅Cl?",
+     "Determină formula brută a unei substanțe cu 52,17% C, 13,04% H, restul O."
+    ],
+    "test": [
+     "Ce arată formula brută?",
+     "Cum afli formula moleculară din cea brută?",
+     "Formula nesaturării echivalente?",
+     "Influențează oxigenul N.E.?",
+     "N.E. pentru un alcan?"
+    ],
+    "steps": [
+     "Împarte procentele la masele atomice și adu rezultatele la cel mai mic număr întreg.",
+     "Scrie formula brută și folosește masa molară pentru formula moleculară.",
+     "Calculează N.E. și propune structuri posibile.",
+     "Greșeala frecventă: să rotunjești prea devreme rapoartele atomice și să obții o formulă brută greșită."
+    ],
+    "answers": [
+     "Raportul cel mai simplu al atomilor",
+     "Înmulțind cu n = M/M_brută",
+     "N.E. = (2a + 2 + c − b − d)/2",
+     "Nu",
+     "0"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l05": {
+   "ro": {
+    "title": "Izomeria compușilor organici: de constituție și geometrică",
+    "theory": "Izomerii au aceeași formulă moleculară, dar structuri și proprietăți diferite. Izomeria de constituție: de catenă (n-butan și izobutan, C₄H₁₀), de poziție (1-butenă și 2-butenă), de funcțiune (etanol și dimetileter, C₂H₆O). Izomeria geometrică (cis–trans) apare la alchenele în care fiecare carbon al dublei legături are doi substituenți diferiți: cis – substituenții identici de aceeași parte, trans – de părți opuse; rotația în jurul legăturii duble este împiedicată.",
+    "sample": "Butanul și izobutanul au aceeași formulă, C₄H₁₀, dar temperaturi de fierbere diferite.",
+    "worked": "Pentanul C₅H₁₂ are 3 izomeri de catenă: n-pentan, 2-metilbutan (izopentan) și 2,2-dimetilpropan (neopentan); punctele de fierbere scad cu ramificarea (36 °C, 28 °C, 10 °C). 2-butena CH₃–CH=CH–CH₃ are izomeri cis și trans; 1-butena nu are izomerie geometrică (C1 are doi H).",
+    "exercises": [
+     "Scrie izomerii de catenă ai C₄H₁₀ și ai C₅H₁₂.",
+     "Scrie izomerii de poziție ai butenei.",
+     "Are propena izomeri geometrici? Justifică.",
+     "Scrie izomerul de funcțiune al etanolului.",
+     "Desenează izomerii cis și trans ai 2-pentenei."
+    ],
+    "test": [
+     "Ce sunt izomerii?",
+     "Ce este izomeria de catenă?",
+     "Condiția izomeriei cis–trans la alchene?",
+     "Izomerul de funcțiune al etanolului?",
+     "Câți izomeri are pentanul?"
+    ],
+    "steps": [
+     "Verifică formula moleculară comună.",
+     "Identifică diferența: catenă, poziția grupei sau a dublei legături, funcțiune, aranjare spațială.",
+     "Pentru cis–trans, verifică dacă fiecare carbon al dublei legături are doi substituenți diferiți.",
+     "Greșeala frecventă: să desenezi aceeași moleculă rotită sau întoarsă și să o consideri un izomer nou."
+    ],
+    "answers": [
+     "Compuși cu aceeași formulă moleculară și structuri diferite",
+     "Izomeri care diferă prin forma catenei",
+     "Fiecare carbon al dublei legături are doi substituenți diferiți",
+     "Dimetileterul",
+     "Trei"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l06": {
+   "ro": {
+    "title": "Clasificarea compușilor organici; grupe funcționale",
+    "theory": "Compușii organici se împart în hidrocarburi (doar C și H) și compuși cu funcțiuni. Hidrocarburile pot fi saturate (alcani, cicloalcani), nesaturate (alchene, alchine, alcadiene) și aromatice (arene). Grupa funcțională este atomul sau grupa de atomi care determină proprietățile chimice: halogen (–X, compuși halogenați), hidroxil (–OH, alcooli, fenoli), amino (–NH₂, amine), carbonil (>C=O, aldehide și cetone), carboxil (–COOH, acizi carboxilici), esterică (–COO–). Compușii cu funcțiuni simple au un singur fel de grupă; cei cu funcțiuni mixte au grupe diferite (aminoacizi, zaharide).",
+    "sample": "Etanolul are grupa hidroxil, iar acidul acetic grupa carboxil.",
+    "worked": "Clasificăm: CH₃–Cl (compus halogenat), CH₃–CH₂–OH (alcool), CH₃–CHO (aldehidă), CH₃–CO–CH₃ (cetonă), CH₃–COOH (acid carboxilic), H₂N–CH₂–COOH (glicina, funcțiune mixtă: amino și carboxil). Glucoza are grupe hidroxil și o grupă carbonil.",
+    "exercises": [
+     "Clasifică: C₂H₆, C₂H₄, C₆H₆, C₂H₂.",
+     "Identifică grupele funcționale din CH₃OH, CH₃COOH, CH₃NH₂, CH₃CHO.",
+     "Ce funcțiuni conține un aminoacid?",
+     "Dă un exemplu de compus cu funcțiune simplă și unul cu funcțiune mixtă.",
+     "Ce sunt hidrocarburile aromatice?"
+    ],
+    "test": [
+     "Ce sunt hidrocarburile?",
+     "Ce este o grupă funcțională?",
+     "Grupa funcțională a acizilor carboxilici?",
+     "Grupa funcțională a alcoolilor?",
+     "Ce sunt compușii cu funcțiuni mixte?"
+    ],
+    "steps": [
+     "Verifică dacă molecula conține doar C și H (hidrocarbură).",
+     "Identifică grupele funcționale prezente.",
+     "Clasifică (saturată/nesaturată/aromatică sau după funcțiune).",
+     "Greșeala frecventă: să confunzi grupa carbonil a aldehidelor (–CHO) cu grupa carboxil a acizilor (–COOH)."
+    ],
+    "answers": [
+     "Compuși formați doar din carbon și hidrogen",
+     "Grupa de atomi care determină proprietățile chimice",
+     "–COOH",
+     "–OH",
+     "Compuși cu grupe funcționale diferite"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l07": {
+   "ro": {
+    "title": "Alcanii: structură, serie omoloagă, denumire, izomerie, proprietăți fizice",
+    "theory": "Alcanii sunt hidrocarburi saturate aciclice, cu formula generală CₙH₂ₙ₊₂; atomii de carbon sunt hibridizați sp³. Seria omoloagă: metan CH₄, etan C₂H₆, propan C₃H₈, butan C₄H₁₀, pentan, hexan, heptan, octan, nonan, decan — doi termeni consecutivi diferă printr-o grupă –CH₂–. Denumirea IUPAC: alegi catena cea mai lungă, numerotezi astfel încât ramificațiile să aibă indici minimi, denumești radicalii (metil, etil, propil, izopropil) în ordine alfabetică. Proprietăți fizice: C₁–C₄ gaze, C₅–C₁₅ lichide, superiorii solizi; temperatura de fierbere crește cu masa moleculară; insolubili în apă.",
+    "sample": "Butanul, C₄H₁₀, este gazul din brichete.",
+    "worked": "Denumim CH₃–CH(CH₃)–CH₂–CH(C₂H₅)–CH₃: catena cea mai lungă are 6 atomi de C (prin etil) ⇒ 2,4-dimetilhexan. Metanul și propanul sunt inodori; gazului metan i se adaugă mercaptani urât mirositori pentru a detecta scurgerile.",
+    "exercises": [
+     "Scrie formulele primilor șase alcani.",
+     "Denumește IUPAC: CH₃–CH(CH₃)–CH(CH₃)–CH₃.",
+     "Scrie formula de structură a 3-etil-2-metilpentanului.",
+     "Ce stare de agregare au metanul, hexanul și parafina?",
+     "De ce gazului metan i se adaugă substanțe urât mirositoare?"
+    ],
+    "test": [
+     "Formula generală a alcanilor?",
+     "Hibridizarea carbonului în alcani?",
+     "Diferența dintre doi omologi consecutivi?",
+     "Starea de agregare a butanului?",
+     "Sunt alcanii solubili în apă?"
+    ],
+    "steps": [
+     "Identifică catena cea mai lungă.",
+     "Numerotează pentru indici minimi ai ramificațiilor.",
+     "Scrie numele: indici, radicali în ordine alfabetică, numele catenei de bază.",
+     "Greșeala frecventă: să alegi catena scrisă pe orizontală, care nu este întotdeauna cea mai lungă."
+    ],
+    "answers": [
+     "CₙH₂ₙ₊₂",
+     "sp³",
+     "O grupă –CH₂–",
+     "Gaz",
+     "Nu"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l08": {
+   "ro": {
+    "title": "Reacțiile alcanilor: substituție, izomerizare, descompunere termică",
+    "theory": "Alcanii sunt puțin reactivi (legături σ puternice). Halogenarea (substituție) are loc la lumină sau căldură: CH₄ + Cl₂ → CH₃Cl + HCl; prin substituții succesive se formează CH₂Cl₂, CHCl₃ (cloroform), CCl₄. La propan se pot obține doi compuși monohalogenați (1- și 2-cloropropan). Izomerizarea transformă alcanii liniari în ramificați (n-butan ⇌ izobutan, catalizator AlCl₃) — mărește cifra octanică. Descompunerea termică (cracare și dehidrogenare) la temperaturi mari rupe catena: C₄H₁₀ → CH₄ + C₃H₆ sau C₂H₆ + C₂H₄, sau elimină hidrogen: C₄H₁₀ → C₄H₈ + H₂.",
+    "sample": "Prin clorurarea metanului la lumină se obține clorometan și acid clorhidric.",
+    "worked": "Cracarea butanului: C₄H₁₀ → CH₄ + C₃H₆ și C₄H₁₀ → C₂H₆ + C₂H₄; dehidrogenarea dă butene și H₂. Calcul: ce volum de Cl₂ (c.n.) transformă 0,5 mol CH₄ integral în CCl₄? CH₄ + 4 Cl₂ → CCl₄ + 4 HCl ⇒ 2 mol Cl₂ = 44,8 L.",
+    "exercises": [
+     "Scrie ecuațiile substituțiilor succesive ale metanului cu clorul.",
+     "Câți derivați monoclorurați dă propanul? Denumește-i.",
+     "Scrie ecuația izomerizării n-butanului.",
+     "Scrie reacțiile de cracare și dehidrogenare ale propanului.",
+     "Ce masă de clorometan se obține din 11,2 L metan (c.n.)?"
+    ],
+    "test": [
+     "Condițiile halogenării alcanilor?",
+     "Produsul monoclorurării metanului?",
+     "Ce este izomerizarea?",
+     "Ce este cracarea?",
+     "Ce este dehidrogenarea?"
+    ],
+    "steps": [
+     "Identifică tipul reacției (substituție, izomerizare, descompunere).",
+     "Scrie ecuația cu structurile corecte și condițiile.",
+     "Calculează stoechiometric, dacă se cere.",
+     "Greșeala frecventă: să scrii adiție de halogen la alcani; alcanii dau substituție, nu au legături π."
+    ],
+    "answers": [
+     "Lumină sau căldură",
+     "CH₃Cl și HCl",
+     "Transformarea unui alcan liniar în unul ramificat",
+     "Ruperea catenei la temperatură înaltă",
+     "Eliminarea hidrogenului cu formarea unei alchene"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l09": {
+   "ro": {
+    "title": "Arderea alcanilor; putere calorică; utilizări",
+    "theory": "Alcanii ard în oxigen cu degajarea unei mari cantități de căldură: CₙH₂ₙ₊₂ + (3n + 1)/2 O₂ → n CO₂ + (n + 1) H₂O. Arderea incompletă (oxigen insuficient) produce CO, gaz foarte toxic, și funingine. Puterea calorică este căldura degajată la arderea unei unități de masă sau volum de combustibil (metanul ≈ 39 800 kJ/m³). Utilizări: combustibili (gaz metan, GPL — propan și butan, benzină, motorină), materii prime (metanul pentru H₂, negru de fum, metanol), solvenți, parafină, vaselină.",
+    "sample": "Arderea metanului: CH₄ + 2 O₂ → CO₂ + 2 H₂O.",
+    "worked": "Arderea propanului: C₃H₈ + 5 O₂ → 3 CO₂ + 4 H₂O. Pentru 44 g propan (1 mol) sunt necesari 5 mol O₂ = 112 L, adică 560 L aer (20% O₂). Centralele termice trebuie aerisite și verificate: arderea incompletă în spații închise produce CO, care blochează hemoglobina.",
+    "exercises": [
+     "Scrie ecuația arderii butanului.",
+     "Ce volum de aer (20% O₂) arde 10 m³ metan?",
+     "Calculează căldura degajată la arderea a 5 m³ metan (39 800 kJ/m³).",
+     "De ce arderea incompletă este periculoasă?",
+     "Ce este GPL și ce conține?"
+    ],
+    "test": [
+     "Produșii arderii complete a alcanilor?",
+     "Gazul toxic al arderii incomplete?",
+     "Ce este puterea calorică?",
+     "Ecuația arderii metanului?",
+     "Ce conține GPL-ul?"
+    ],
+    "steps": [
+     "Scrie și echilibrează ecuația arderii (C, apoi H, apoi O).",
+     "Calculează oxigenul sau aerul necesar și produșii.",
+     "Calculează căldura folosind puterea calorică.",
+     "Greșeala frecventă: să uiți că aerul conține doar aproximativ 20% oxigen în volume."
+    ],
+    "answers": [
+     "CO₂ și H₂O",
+     "Monoxidul de carbon",
+     "Căldura degajată la arderea unei unități de combustibil",
+     "CH₄ + 2 O₂ → CO₂ + 2 H₂O",
+     "Propan și butan"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l10": {
+   "ro": {
+    "title": "Alchenele: structură, denumire, izomerie, proprietăți fizice",
+    "theory": "Alchenele sunt hidrocarburi aciclice nesaturate cu o legătură dublă C=C, formula generală CₙH₂ₙ (n ≥ 2). Atomii de carbon ai dublei legături sunt sp². Denumirea: se înlocuiește sufixul -an cu -enă, iar catena principală conține dubla legătură, numerotată cu indice minim: etenă (etilenă), propenă, 1-butenă, 2-butenă. Radicali: vinil CH₂=CH–, alil CH₂=CH–CH₂–. Izomerie: de catenă, de poziție, geometrică (cis–trans). C₂–C₄ sunt gaze; sunt insolubile în apă.",
+    "sample": "Etena, CH₂=CH₂, este hormonul vegetal care grăbește coacerea fructelor.",
+    "worked": "Izomerii C₄H₈ aciclici: 1-butenă, cis-2-butenă, trans-2-butenă, 2-metilpropenă (izobutenă). Denumim CH₃–CH=C(CH₃)–CH₂–CH₃: 3-metil-2-pentenă.",
+    "exercises": [
+     "Scrie formulele și denumirile primelor trei alchene.",
+     "Scrie toți izomerii alchenelor C₄H₈.",
+     "Denumește: CH₂=C(CH₃)–CH₃.",
+     "Ce izomeri geometrici are 2-butena?",
+     "Ce este radicalul vinil?"
+    ],
+    "test": [
+     "Formula generală a alchenelor?",
+     "Sufixul alchenelor?",
+     "Hibridizarea carbonilor dublei legături?",
+     "Ce este radicalul alil?",
+     "Alchena care grăbește coacerea fructelor?"
+    ],
+    "steps": [
+     "Identifică catena cea mai lungă care conține dubla legătură.",
+     "Numerotează astfel încât dubla legătură să aibă indice minim.",
+     "Adaugă ramificațiile și verifică izomeria geometrică.",
+     "Greșeala frecventă: să numerotezi pentru a da indice minim ramificațiilor în loc de dublei legături."
+    ],
+    "answers": [
+     "CₙH₂ₙ",
+     "-enă",
+     "sp²",
+     "CH₂=CH–CH₂–",
+     "Etena"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l11": {
+   "ro": {
+    "title": "Reacții de adiție la alchene; regula lui Markovnikov",
+    "theory": "Legătura π se rupe ușor, iar alchenele dau reacții de adiție: hidrogenare (H₂, catalizator Ni/Pt/Pd) → alcan; halogenare (Br₂) → compus dihalogenat vicinal — decolorarea apei de brom este reacția de recunoaștere a nesaturării; adiția HX (HCl, HBr) și a apei (H₂SO₄ catalizator) → compuși halogenați și alcooli. Regula lui Markovnikov: la alchenele nesimetrice, hidrogenul se leagă de carbonul dublei legături care are mai mulți atomi de hidrogen.",
+    "sample": "Propena adiționează HCl formând majoritar 2-cloropropan.",
+    "worked": "CH₂=CH–CH₃ + H₂O (H₂SO₄) → CH₃–CH(OH)–CH₃ (2-propanol, izopropanol). CH₂=CH₂ + Br₂ → BrCH₂–CH₂Br (1,2-dibromoetan): soluția roșiatică de brom se decolorează. Ce masă de brom adiționează 2,8 g etenă (0,1 mol)? 0,1 mol Br₂ = 16 g.",
+    "exercises": [
+     "Scrie ecuațiile adiției H₂, Br₂, HCl și H₂O la etenă.",
+     "Scrie produsul principal al adiției HBr la propenă.",
+     "Cum deosebești experimental propanul de propenă?",
+     "Ce masă de brom decolorează 5,6 g de 1-butenă?",
+     "Aplică regula lui Markovnikov la adiția apei la 2-metilpropenă."
+    ],
+    "test": [
+     "Ce tip de reacție dau alchenele?",
+     "Reacția de recunoaștere a dublei legături?",
+     "Enunțul regulii lui Markovnikov?",
+     "Catalizatorul hidrogenării?",
+     "Produsul adiției apei la etenă?"
+    ],
+    "steps": [
+     "Identifică dubla legătură și reactantul adiționat.",
+     "Rupe legătura π și leagă câte un fragment de fiecare carbon (Markovnikov pentru HX și H₂O).",
+     "Denumește produsul și calculează stoechiometric.",
+     "Greșeala frecventă: să aplici invers regula lui Markovnikov și să obții 1-cloropropan ca produs principal din propenă."
+    ],
+    "answers": [
+     "Reacții de adiție",
+     "Decolorarea apei de brom",
+     "H se leagă de carbonul dublei legături cu mai mulți H",
+     "Ni, Pt sau Pd",
+     "Etanolul"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l12": {
+   "ro": {
+    "title": "Polimerizarea și oxidarea alchenelor; mase plastice",
+    "theory": "Polimerizarea este unirea a numeroase molecule de monomer în macromolecule: n CH₂=CH₂ → (–CH₂–CH₂–)ₙ (polietenă). Alți polimeri: polipropena, policlorura de vinil (PVC, din CH₂=CHCl), polistirenul. Oxidarea blândă (KMnO₄ în mediu neutru sau slab bazic) transformă alchenele în dioli (etena → etandiol, glicol), iar soluția violetă se decolorează cu precipitat brun de MnO₂. Oxidarea energică (KMnO₄/H₂SO₄ sau K₂Cr₂O₇/H₂SO₄) rupe dubla legătură și formează acizi carboxilici, cetone sau CO₂ și H₂O. Masele plastice sunt utile, dar persistă în mediu; colectarea separată și reciclarea reduc poluarea.",
+    "sample": "Pungile din plastic sunt adesea din polietenă.",
+    "worked": "Oxidarea energică a 2-butenei: CH₃–CH=CH–CH₃ → 2 CH₃–COOH (acid acetic). Oxidarea energică a 2-metilpropenei dă acetonă și CO₂ + H₂O. Gradul de polimerizare: o polietenă cu M = 28 000 g/mol are n = 28 000/28 = 1 000.",
+    "exercises": [
+     "Scrie ecuația polimerizării propenei.",
+     "Ce monomer are PVC-ul? Scrie polimerizarea.",
+     "Ce produși dă oxidarea energică a 2-pentenei?",
+     "Calculează gradul de polimerizare al unui PVC cu M = 62 500 g/mol.",
+     "De ce este importantă reciclarea maselor plastice?"
+    ],
+    "test": [
+     "Ce este polimerizarea?",
+     "Monomerul polietenei?",
+     "Produsul oxidării blânde a etenei?",
+     "Ce produc oxidările energice ale alchenelor?",
+     "Ce este gradul de polimerizare?"
+    ],
+    "steps": [
+     "Identifică monomerul și scrie unitatea structurală repetitivă.",
+     "Pentru oxidare, stabilește tipul (blândă – diol; energică – ruperea dublei legături).",
+     "Scrie produșii după substituenții carbonilor dublei legături și calculează.",
+     "Greșeala frecventă: să scrii unitatea polimerului cu dubla legătură păstrată; la polimerizare legătura π se desface."
+    ],
+    "answers": [
+     "Unirea monomerilor în macromolecule",
+     "Etena",
+     "Etandiolul (glicolul)",
+     "Acizi carboxilici, cetone sau CO₂ și H₂O",
+     "Numărul de unități monomere din macromoleculă"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l13": {
+   "ro": {
+    "title": "Alchinele: acetilena — structură, denumire, obținere",
+    "theory": "Alchinele sunt hidrocarburi aciclice nesaturate cu o legătură triplă C≡C, formula generală CₙH₂ₙ₋₂. Carbonii legăturii triple sunt hibridizați sp, iar acetilena (etina) HC≡CH este liniară. Denumire: sufixul -ină (etină, propină, 1-butină, 2-butină). Izomerie de catenă și de poziție (nu au izomerie geometrică). Acetilena se obține din carbid (carbură de calciu): CaC₂ + 2 H₂O → HC≡CH + Ca(OH)₂; carbidul se obține din CaO și cărbune la temperatură foarte înaltă. Industrial se obține și din metan.",
+    "sample": "Lampa cu carbid a minerilor producea acetilenă care ardea cu flacără luminoasă.",
+    "worked": "Ce volum de acetilenă (c.n.) se obține din 128 g carbid de puritate 80%? CaC₂ pur = 102,4 g ⇒ n = 102,4/64 = 1,6 mol ⇒ 1,6 mol C₂H₂ = 35,84 L. Izomerii C₄H₆ alchine: 1-butină și 2-butină.",
+    "exercises": [
+     "Scrie ecuația obținerii acetilenei din carbid.",
+     "Denumește: CH₃–C≡C–CH₃ și HC≡C–CH₂–CH₃.",
+     "De ce alchinele nu au izomeri geometrici?",
+     "Ce masă de carbid pur produce 44,8 L acetilenă (c.n.)?",
+     "Ce geometrie are molecula de acetilenă?"
+    ],
+    "test": [
+     "Formula generală a alchinelor?",
+     "Hibridizarea carbonilor legăturii triple?",
+     "Sufixul alchinelor?",
+     "Reacția carbidului cu apa?",
+     "Geometria acetilenei?"
+    ],
+    "steps": [
+     "Identifică legătura triplă și catena principală.",
+     "Denumește cu sufixul -ină și indice minim pentru legătura triplă.",
+     "Pentru obținere, scrie ecuația cu carbid și calculează (puritate).",
+     "Greșeala frecventă: să scrii formula generală CₙH₂ₙ pentru alchine; aceea este a alchenelor."
+    ],
+    "answers": [
+     "CₙH₂ₙ₋₂",
+     "sp",
+     "-ină",
+     "CaC₂ + 2 H₂O → C₂H₂ + Ca(OH)₂",
+     "Liniară"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l14": {
+   "ro": {
+    "title": "Reacțiile acetilenei: adiție, ardere; utilizări",
+    "theory": "Acetilena dă reacții de adiție: hidrogenare totală (Ni) → etan, parțială (Pd otrăvit) → etenă; adiția Br₂ (decolorează apa de brom) → 1,1,2,2-tetrabromoetan; adiția HCl (HgCl₂) → clorură de vinil CH₂=CHCl, monomerul PVC; adiția HCN → acrilonitril CH₂=CH–CN (monomerul fibrelor PNA); adiția apei (HgSO₄/H₂SO₄, reacția Kucerov) → acetaldehidă. Arderea acetilenei în oxigen produce o flacără de peste 3 000 °C, folosită la sudură și tăierea metalelor: 2 C₂H₂ + 5 O₂ → 4 CO₂ + 2 H₂O.",
+    "sample": "Flacăra oxiacetilenică este folosită la sudarea metalelor.",
+    "worked": "Ce masă de clorură de vinil se obține din 5,2 kg acetilenă (randament 90%)? n = 5,2/26 = 0,2 kmol ⇒ 0,2 kmol CH₂=CHCl teoretic = 12,5 kg; practic 11,25 kg. HC≡CH + HCN → CH₂=CH–CN.",
+    "exercises": [
+     "Scrie ecuațiile adiției H₂ (total), Br₂ și HCl la acetilenă.",
+     "Ce produs dă adiția apei la acetilenă?",
+     "Scrie ecuația arderii acetilenei și explică utilizarea la sudură.",
+     "Ce volum de O₂ (c.n.) arde 2 mol acetilenă?",
+     "Ce monomeri se obțin din acetilenă și ce polimeri formează?"
+    ],
+    "test": [
+     "Produsul adiției HCl la acetilenă?",
+     "Produsul adiției HCN la acetilenă?",
+     "Temperatura flăcării oxiacetilenice?",
+     "Produsul hidrogenării totale a acetilenei?",
+     "Produsul adiției apei la acetilenă?"
+    ],
+    "steps": [
+     "Identifică reactantul adiționat și numărul de etape (1 sau 2 legături π).",
+     "Scrie produsul și condițiile (catalizatorul).",
+     "Calculează cu stoechiometria și randamentul.",
+     "Greșeala frecventă: să consideri că acetilena adiționează un singur mol de Br₂; poate adiționa doi moli (două legături π)."
+    ],
+    "answers": [
+     "Clorura de vinil",
+     "Acrilonitrilul",
+     "Peste 3 000 °C",
+     "Etanul",
+     "Acetaldehida (etanal)"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l15": {
+   "ro": {
+    "title": "Alcadiene; cauciucul natural și sintetic; vulcanizarea",
+    "theory": "Alcadienele au două legături duble, formula generală CₙH₂ₙ₋₂ (izomere cu alchinele). Cele mai importante: 1,3-butadiena CH₂=CH–CH=CH₂ și izoprenul (2-metil-1,3-butadiena). Cauciucul natural este poliizopren, obținut din latexul arborelui de cauciuc. Cauciucul sintetic se obține prin polimerizarea butadienei, izoprenului, cloroprenului sau prin copolimerizarea butadienei cu stiren (cauciuc butadien-stirenic). Vulcanizarea (încălzire cu sulf) creează punți de sulf între catene: cauciucul devine elastic, rezistent și nelipicios — folosit la anvelope.",
+    "sample": "Anvelopele sunt fabricate din cauciuc vulcanizat.",
+    "worked": "n CH₂=C(CH₃)–CH=CH₂ → (–CH₂–C(CH₃)=CH–CH₂–)ₙ: în poliizopren rămâne câte o dublă legătură în fiecare unitate. O probă de cauciuc cu M = 68 000 g/mol are n = 68 000/68 = 1 000 unități de izopren.",
+    "exercises": [
+     "Scrie formula 1,3-butadienei și a izoprenului.",
+     "Scrie ecuația polimerizării butadienei.",
+     "Ce este vulcanizarea și ce proprietăți schimbă?",
+     "Calculează gradul de polimerizare al unui polibutadien cu M = 54 000 g/mol.",
+     "De ce s-a dezvoltat producția de cauciuc sintetic?"
+    ],
+    "test": [
+     "Formula generală a alcadienelor?",
+     "Monomerul cauciucului natural?",
+     "Ce este vulcanizarea?",
+     "Ce rămâne în unitatea poliizoprenului?",
+     "Ce utilizare principală are cauciucul vulcanizat?"
+    ],
+    "steps": [
+     "Identifică monomerul (dienă) și structura lui.",
+     "Scrie polimerizarea: dublele legături 1,3 devin o dublă legătură 2,3 în unitate.",
+     "Explică vulcanizarea și calculează gradul de polimerizare.",
+     "Greșeala frecventă: să crezi că în cauciuc nu mai există legături duble; fiecare unitate păstrează una, ceea ce permite vulcanizarea."
+    ],
+    "answers": [
+     "CₙH₂ₙ₋₂",
+     "Izoprenul",
+     "Încălzirea cu sulf care creează punți între catene",
+     "O legătură dublă",
+     "Anvelopele"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l16": {
+   "ro": {
+    "title": "Arene: benzenul — structură, denumire, toluen, stiren, naftalină",
+    "theory": "Arenele (hidrocarburi aromatice) conțin unul sau mai multe nuclee benzenice. Benzenul C₆H₆ are o moleculă plană, hexagonală, cu șase atomi de carbon sp² și șase electroni π delocalizați pe tot ciclul (sextet aromatic), de aceea toate legăturile C–C sunt egale (1,39 Å). Reprezentare: hexagon cu un cerc în interior. Arene mononucleare: benzen, toluen (metilbenzen), xileni, stiren (vinilbenzen); polinucleare: naftalina C₁₀H₈. Radicali: fenil C₆H₅–, benzil C₆H₅–CH₂–. Benzenul este lichid, insolubil în apă, toxic și cancerigen.",
+    "sample": "Toluenul are o grupă metil legată de nucleul benzenic.",
+    "worked": "Benzenul are N.E. = (12 + 2 − 6)/2 = 4 (un ciclu + trei „duble legături” delocalizate). Toluenul C₇H₈: N.E. = (14 + 2 − 8)/2 = 4. Xilenii C₈H₁₀ au trei izomeri de poziție: orto (1,2), meta (1,3) și para (1,4)-dimetilbenzen.",
+    "exercises": [
+     "Desenează structura benzenului și explică delocalizarea electronilor.",
+     "Scrie formulele toluenului, stirenului și naftalinei.",
+     "Scrie izomerii xilenului și denumește-i.",
+     "Calculează N.E. pentru naftalină C₁₀H₈.",
+     "De ce benzenul este manipulat cu precauție?"
+    ],
+    "test": [
+     "Formula moleculară a benzenului?",
+     "Hibridizarea carbonilor din benzen?",
+     "Ce este radicalul fenil?",
+     "Ce este stirenul?",
+     "Lungimea legăturilor C–C în benzen?"
+    ],
+    "steps": [
+     "Identifică nucleul benzenic și substituenții.",
+     "Denumește compusul (poziții orto, meta, para pentru doi substituenți).",
+     "Calculează N.E. și verifică structura.",
+     "Greșeala frecventă: să desenezi benzenul cu legături simple și duble fixe și să crezi că legăturile au lungimi diferite."
+    ],
+    "answers": [
+     "C₆H₆",
+     "sp²",
+     "C₆H₅–",
+     "Vinilbenzenul",
+     "1,39 Å"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l17": {
+   "ro": {
+    "title": "Reacții de substituție la nucleul aromatic; orientarea substituției",
+    "theory": "Datorită stabilității sextetului aromatic, benzenul dă mai ușor substituții decât adiții. Halogenarea (Cl₂/FeCl₃) → clorobenzen + HCl; nitrarea (HNO₃/H₂SO₄) → nitrobenzen + H₂O; alchilarea Friedel–Crafts (CH₃Cl/AlCl₃) → toluen + HCl. Substituenții deja existenți orientează substituția: cei de ordinul I (–CH₃, –OH, –NH₂, –Cl) orientează în pozițiile orto și para și (cu excepția halogenilor) activează nucleul; cei de ordinul II (–NO₂, –COOH, –CHO, –SO₃H) orientează în meta și dezactivează nucleul. La toluen, la lumină, clorurarea are loc la catena laterală (clorură de benzil).",
+    "sample": "Nitrarea toluenului dă un amestec de o-nitrotoluen și p-nitrotoluen.",
+    "worked": "Prin nitrarea totală a toluenului se obține 2,4,6-trinitrotoluen (TNT), un exploziv. Nitrarea acidului benzoic (–COOH, ordinul II) dă acid m-nitrobenzoic. Ce masă de nitrobenzen se obține din 39 g benzen (0,5 mol)? 0,5·123 = 61,5 g.",
+    "exercises": [
+     "Scrie ecuațiile clorurării, nitrării și alchilării benzenului.",
+     "Ce produși dă nitrarea fenolului?",
+     "Unde intră substituentul la nitrarea nitrobenzenului?",
+     "Ce produs dă clorurarea toluenului la lumină?",
+     "Ce masă de clorobenzen se obține din 7,8 g benzen?"
+    ],
+    "test": [
+     "Ce tip de reacție preferă benzenul?",
+     "Catalizatorul halogenării la nucleu?",
+     "Amestecul folosit la nitrare?",
+     "Orientarea substituenților de ordinul I?",
+     "Orientarea substituenților de ordinul II?"
+    ],
+    "steps": [
+     "Identifică substituentul existent și ordinul lui.",
+     "Stabilește pozițiile atacate (orto/para sau meta) și scrie produșii.",
+     "Precizează catalizatorul și calculează stoechiometric.",
+     "Greșeala frecventă: să confunzi clorurarea toluenului la nucleu (FeCl₃) cu cea la catena laterală (lumină)."
+    ],
+    "answers": [
+     "Reacții de substituție",
+     "FeCl₃",
+     "HNO₃ și H₂SO₄ concentrați",
+     "Orto și para",
+     "Meta"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l18": {
+   "ro": {
+    "title": "Adiția și oxidarea arenelor; utilizări",
+    "theory": "Benzenul adiționează în condiții energice: hidrogenul (Ni, temperatură, presiune) → ciclohexan; clorul la lumină → hexaclorociclohexan (fost insecticid). Nucleul benzenic rezistă la oxidare, dar arde cu flacără fumeagă: 2 C₆H₆ + 15 O₂ → 12 CO₂ + 6 H₂O. La toluen, catena laterală se oxidează (KMnO₄/H₂SO₄) la acid benzoic. Naftalina se oxidează catalitic (V₂O₅) la anhidridă ftalică. Utilizări: solvenți, materii prime pentru coloranți, medicamente, detergenți, mase plastice (polistiren din stiren), explozivi (TNT).",
+    "sample": "Prin oxidarea toluenului cu permanganat în mediu acid se obține acid benzoic, folosit ca și conservant.",
+    "worked": "C₆H₆ + 3 H₂ → C₆H₁₂ (ciclohexan): pentru 0,2 mol benzen trebuie 0,6 mol H₂ = 13,44 L (c.n.). Polistirenul (din stiren) este folosit la ambalaje și izolații termice.",
+    "exercises": [
+     "Scrie ecuația hidrogenării benzenului.",
+     "Ce produs dă oxidarea toluenului cu KMnO₄/H₂SO₄?",
+     "De ce benzenul arde cu flacără fumeagă?",
+     "Ce volum de H₂ (c.n.) hidrogenează 15,6 g benzen?",
+     "Dă trei utilizări ale arenelor."
+    ],
+    "test": [
+     "Produsul hidrogenării benzenului?",
+     "Se oxidează ușor nucleul benzenic?",
+     "Produsul oxidării toluenului?",
+     "Ce polimer se obține din stiren?",
+     "Ce exploziv se obține din toluen?"
+    ],
+    "steps": [
+     "Identifică tipul reacției (adiție, oxidare, ardere).",
+     "Scrie ecuația: nucleul se păstrează la oxidare, catena laterală devine –COOH.",
+     "Calculează stoechiometric și discută utilizările.",
+     "Greșeala frecventă: să crezi că permanganatul oxidează nucleul benzenic; se oxidează catena laterală."
+    ],
+    "answers": [
+     "Ciclohexanul",
+     "Nu",
+     "Acidul benzoic",
+     "Polistirenul",
+     "TNT (trinitrotoluen)"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l19": {
+   "ro": {
+    "title": "Petrolul, gazele naturale și cărbunii; cifra octanică",
+    "theory": "Gazele naturale conțin în principal metan (în România, gaz metan de mare puritate în Transilvania). Petrolul este un amestec complex de hidrocarburi, separat prin distilare fracționată în fracțiuni: gaze, benzină, petrol lampant, motorină, păcură (din care se obțin uleiuri, vaselină, parafină, bitum). Cracarea fracțiunilor grele mărește producția de benzină. Calitatea benzinei se exprimă prin cifra octanică (izooctanul = 100, n-heptanul = 0): hidrocarburile ramificate și aromatice au cifre octanice mari. Arderea combustibililor fosili eliberează CO₂ (efect de seră) și alți poluanți; de aceea se caută surse regenerabile.",
+    "sample": "O benzină cu cifra octanică 95 se comportă ca un amestec cu 95% izooctan și 5% n-heptan.",
+    "worked": "Puterea calorică permite compararea combustibililor: metan ≈ 39,8 MJ/m³, benzină ≈ 46 MJ/kg, cărbune (huilă) ≈ 29 MJ/kg. Un autoturism care consumă 6 kg benzină degajă la ardere ≈ 276 MJ, din care doar ~30% devin lucru mecanic.",
+    "exercises": [
+     "Ce fracțiuni se obțin la distilarea petrolului și la ce se folosesc?",
+     "Ce înseamnă cifra octanică 98?",
+     "De ce izomerizarea mărește calitatea benzinei?",
+     "Calculează energia degajată la arderea a 10 kg huilă (29 MJ/kg).",
+     "Ce probleme de mediu produce arderea combustibililor fosili?"
+    ],
+    "test": [
+     "Componentul principal al gazelor naturale?",
+     "Ce este distilarea fracționată?",
+     "Cifra octanică a izooctanului?",
+     "Ce hidrocarburi au cifră octanică mare?",
+     "Ce gaz cu efect de seră produce arderea?"
+    ],
+    "steps": [
+     "Identifică sursa și componentele principale.",
+     "Explică procesul de separare sau transformare (distilare, cracare, izomerizare).",
+     "Evaluează calitatea (cifra octanică, putere calorică) și impactul asupra mediului.",
+     "Greșeala frecventă: să crezi că cifra octanică arată conținutul de energie; ea arată rezistența la detonație."
+    ],
+    "answers": [
+     "Metanul",
+     "Separarea după temperaturile de fierbere",
+     "100",
+     "Cele ramificate și aromatice",
+     "Dioxidul de carbon"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l20": {
+   "ro": {
+    "title": "Compuși halogenați: clorometan, cloroform, freoni",
+    "theory": "Compușii halogenați conțin unul sau mai mulți atomi de halogen legați de un rest hidrocarbonat (R–X). Denumire: prefixul halogenului + numele hidrocarburii (clorometan CH₃Cl, cloroetan C₂H₅Cl) sau nume uzuale (cloroform CHCl₃, tetraclorură de carbon CCl₄). Legătura C–X este polară. Se obțin prin halogenarea alcanilor sau a arenelor și prin adiția HX sau X₂ la alchene și alchine. Utilizări: solvenți, anestezice (istoric cloroformul), agenți frigorifici (freonii, compuși cu Cl și F — interziși pentru că distrug stratul de ozon), monomeri (clorură de vinil, tetrafluoroetena pentru teflon). Mulți sunt toxici și persistenți în mediu.",
+    "sample": "Freonii folosiți odinioară în frigidere au fost interziși pentru că distrug stratul de ozon.",
+    "worked": "Clorometanul: CH₄ + Cl₂ → CH₃Cl + HCl (lumină). Conținutul de clor din CH₃Cl: 35,5/50,5 ≈ 70,3%. Teflonul (–CF₂–CF₂–)ₙ se obține prin polimerizarea tetrafluoroetenei CF₂=CF₂ și este folosit ca strat antiaderent.",
+    "exercises": [
+     "Denumește: CH₃Cl, CH₂Cl₂, CHCl₃, C₂H₅Br.",
+     "Calculează procentul de clor din cloroform.",
+     "Scrie două reacții prin care se obțin compuși halogenați.",
+     "De ce freonii au fost interziși?",
+     "Ce monomer are teflonul și la ce se folosește?"
+    ],
+    "test": [
+     "Ce sunt compușii halogenați?",
+     "Formula cloroformului?",
+     "Ce strat distrug freonii?",
+     "Monomerul teflonului?",
+     "Este legătura C–Cl polară?"
+    ],
+    "steps": [
+     "Identifică halogenul și restul hidrocarbonat.",
+     "Denumește compusul și scrie reacția de obținere potrivită.",
+     "Discută utilizările și impactul asupra sănătății și mediului.",
+     "Greșeala frecventă: să consideri compușii halogenați inofensivi; mulți sunt toxici și persistă în mediu."
+    ],
+    "answers": [
+     "Compuși cu halogen legat de un rest hidrocarbonat",
+     "CHCl₃",
+     "Stratul de ozon",
+     "Tetrafluoroetena",
+     "Da"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l21": {
+   "ro": {
+    "title": "Compuși carbonilici: formaldehida, acetaldehida, acetona",
+    "theory": "Compușii carbonilici conțin grupa carbonil >C=O. În aldehide, carbonilul este la capătul catenei (–CHO): metanal (formaldehidă) HCHO, etanal (acetaldehidă) CH₃CHO. În cetone, carbonilul este legat de doi radicali: propanona (acetona) CH₃–CO–CH₃. Se obțin prin oxidarea blândă a alcoolilor (primari → aldehide, secundari → cetone). Aldehidele se oxidează ușor (reacțiile Tollens și Fehling), cetonele nu. Formaldehida (soluția 40% = formol) conservă preparatele biologice și se folosește la rășini, dar este toxică și iritantă; acetona este un solvent foarte bun (dizolvant de ojă).",
+    "sample": "Acetona este solventul din dizolvantul pentru ojă.",
+    "worked": "Oxidarea blândă a 2-propanolului dă acetonă: CH₃–CH(OH)–CH₃ + [O] → CH₃–CO–CH₃ + H₂O. Formolul conține 40% formaldehidă: în 100 g formol sunt 40 g HCHO, adică 40/30 ≈ 1,33 mol.",
+    "exercises": [
+     "Scrie formulele metanalului, etanalului și acetonei.",
+     "Ce compus carbonilic se obține prin oxidarea blândă a etanolului?",
+     "Cum deosebești o aldehidă de o cetonă în laborator?",
+     "La ce se folosește formolul și de ce trebuie manipulat cu grijă?",
+     "Calculează masa de acetonă obținută din 12 g 2-propanol."
+    ],
+    "test": [
+     "Grupa funcțională a compușilor carbonilici?",
+     "Ce este acetona?",
+     "Cum se obțin aldehidele?",
+     "Ce reacții recunosc aldehidele?",
+     "Ce este formolul?"
+    ],
+    "steps": [
+     "Identifică grupa carbonil și poziția ei (capăt de catenă sau interior).",
+     "Clasifică (aldehidă sau cetonă) și denumește.",
+     "Scrie reacțiile de obținere și de recunoaștere și calculează.",
+     "Greșeala frecventă: să crezi că acetona dă oglinda de argint; reacția Tollens este caracteristică aldehidelor."
+    ],
+    "answers": [
+     "Carbonil (>C=O)",
+     "Propanona, o cetonă folosită ca solvent",
+     "Prin oxidarea blândă a alcoolilor primari",
+     "Reacțiile Tollens și Fehling",
+     "Soluția apoasă de formaldehidă 40%"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l22": {
+   "ro": {
+    "title": "Alcooli: metanolul și etanolul — structură, proprietăți fizice, acțiune biologică",
+    "theory": "Alcoolii conțin grupa hidroxil –OH legată de un carbon saturat. Alcoolii monohidroxilici saturați au formula CₙH₂ₙ₊₁OH: metanol CH₃OH, etanol CH₃CH₂OH, propanoli. Datorită legăturilor de hidrogen, au temperaturi de fierbere mult mai mari decât alcanii corespunzători, iar primii termeni sunt miscibili cu apa. Metanolul este foarte toxic (10 mL pot provoca orbire, 30 mL moartea). Etanolul afectează sistemul nervos, ficatul și dă dependență; consumul înainte de condus este interzis. Glicerina (propantriol) este un alcool trihidroxilic folosit în cosmetice.",
+    "sample": "Etanolul fierbe la 78 °C, iar etanul la −89 °C, deși au mase moleculare apropiate.",
+    "worked": "Densitatea etanolului este 0,79 g/mL: 100 mL vin cu 12% vol. alcool conțin 12 mL ≈ 9,5 g etanol. Metanolul este folosit ca solvent și materie primă, nu în băuturi; intoxicațiile apar la băuturi falsificate.",
+    "exercises": [
+     "Scrie formulele primilor trei alcooli monohidroxilici saturați.",
+     "De ce etanolul se amestecă cu apa în orice proporție?",
+     "Ce masă de etanol conțin 500 mL bere cu 5% vol. (ρ = 0,79 g/mL)?",
+     "Care sunt efectele metanolului asupra organismului?",
+     "Ce este glicerina și la ce se folosește?"
+    ],
+    "test": [
+     "Grupa funcțională a alcoolilor?",
+     "Formula generală a alcoolilor monohidroxilici saturați?",
+     "De ce alcoolii au temperaturi de fierbere mari?",
+     "De ce este periculos metanolul?",
+     "Formula etanolului?"
+    ],
+    "steps": [
+     "Identifică grupa –OH și catena.",
+     "Explică proprietățile fizice prin legăturile de hidrogen.",
+     "Discută acțiunea biologică și calculează cantitatea de alcool (volum, densitate).",
+     "Greșeala frecventă: să consideri metanolul o variantă mai slabă a etanolului; este mult mai toxic."
+    ],
+    "answers": [
+     "Hidroxil (–OH)",
+     "CₙH₂ₙ₊₁OH",
+     "Formează legături de hidrogen",
+     "Provoacă orbire sau moarte chiar în cantități mici",
+     "CH₃–CH₂–OH"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l23": {
+   "ro": {
+    "title": "Proprietățile chimice ale etanolului; fermentația alcoolică",
+    "theory": "Etanolul arde cu flacără albăstruie: C₂H₅OH + 3 O₂ → 2 CO₂ + 3 H₂O (bioetanol, combustibil). Oxidarea blândă (K₂Cr₂O₇/H₂SO₄) dă acetaldehidă, iar oxidarea energică (KMnO₄/H₂SO₄) acid acetic; schimbarea culorii dicromatului (portocaliu → verde) stătea la baza vechilor fiole de alcoolemie. Deshidratarea intramoleculară (H₂SO₄, 170 °C) dă etenă. Etanolul se obține prin fermentația alcoolică a glucozei, sub acțiunea enzimelor din drojdie: C₆H₁₂O₆ → 2 C₂H₅OH + 2 CO₂.",
+    "sample": "La fermentarea mustului se degajă CO₂ și se formează alcool.",
+    "worked": "Din 360 g glucoză (2 mol) se obțin teoretic 4 mol etanol = 184 g și 4 mol CO₂ = 89,6 L (c.n.). La randament 80%: 147,2 g etanol. Fermentarea în spații închise (pivnițe) este periculoasă din cauza acumulării CO₂.",
+    "exercises": [
+     "Scrie ecuația arderii etanolului.",
+     "Scrie ecuația fermentației alcoolice a glucozei.",
+     "Ce masă de etanol se obține din 90 kg glucoză, la randament 90%?",
+     "Ce produs dă deshidratarea etanolului?",
+     "De ce vinificația în pivnițe neaerisite este periculoasă?"
+    ],
+    "test": [
+     "Produsul oxidării blânde a etanolului?",
+     "Produsul oxidării energice a etanolului?",
+     "Ecuația fermentației alcoolice?",
+     "Ce enzime produc fermentația alcoolică?",
+     "Produsul deshidratării intramoleculare a etanolului?"
+    ],
+    "steps": [
+     "Identifică reactivul și condițiile (oxidare, deshidratare, fermentație, ardere).",
+     "Scrie ecuația echilibrată.",
+     "Calculează stoechiometric, cu randament dacă e cazul.",
+     "Greșeala frecventă: să uiți CO₂ din ecuația fermentației și să obții un singur mol de etanol pe mol de glucoză."
+    ],
+    "answers": [
+     "Acetaldehida",
+     "Acidul acetic",
+     "C₆H₁₂O₆ → 2 C₂H₅OH + 2 CO₂",
+     "Enzimele din drojdie",
+     "Etena"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l24": {
+   "ro": {
+    "title": "Acidul acetic: proprietăți acide; fermentația acetică",
+    "theory": "Acizii carboxilici conțin grupa carboxil –COOH. Acidul acetic (etanoic) CH₃COOH este un lichid cu miros înțepător; oțetul este soluția lui de 3–9%. Este un acid slab: CH₃COOH + H₂O ⇌ CH₃COO⁻ + H₃O⁺ (înroșește turnesolul). Reacții datorate acidității: cu metale active (2 CH₃COOH + Zn → (CH₃COO)₂Zn + H₂↑), cu oxizi metalici (CaO), cu baze (NaOH → CH₃COONa + H₂O), cu carbonați (CaCO₃ → efervescență CO₂ — de aceea oțetul îndepărtează piatra). Acidul acetic se obține prin fermentația acetică a etanolului: C₂H₅OH + O₂ → CH₃COOH + H₂O (bacterii Mycoderma aceti).",
+    "sample": "Oțetul îndepărtează depunerile de calcar din fierbător prin reacția cu carbonatul de calciu.",
+    "worked": "Ce masă de NaOH neutralizează 200 g oțet cu 6% acid acetic? m(acid) = 12 g ⇒ 0,2 mol ⇒ 0,2 mol NaOH = 8 g. 2 CH₃COOH + CaCO₃ → (CH₃COO)₂Ca + CO₂ + H₂O: 0,2 mol acid eliberează 0,1 mol CO₂ = 2,24 L.",
+    "exercises": [
+     "Scrie ecuațiile reacțiilor acidului acetic cu Mg, CaO, NaOH și Na₂CO₃.",
+     "Ce volum de H₂ (c.n.) degajă 12 g acid acetic cu zinc în exces?",
+     "Scrie ecuația fermentației acetice.",
+     "De ce vinul lăsat deschis se transformă în oțet?",
+     "Cum demonstrezi caracterul acid al oțetului?"
+    ],
+    "test": [
+     "Grupa funcțională a acizilor carboxilici?",
+     "Este acidul acetic un acid tare?",
+     "Ecuația fermentației acetice?",
+     "Ce gaz se degajă cu carbonații?",
+     "Concentrația aproximativă a oțetului?"
+    ],
+    "steps": [
+     "Identifică reactantul (metal, oxid, bază, carbonat) și scrie produșii (sare + H₂, apă sau CO₂).",
+     "Echilibrează ecuația.",
+     "Calculează stoechiometric pornind de la masa sau concentrația acidului.",
+     "Greșeala frecventă: să scrii acidul acetic ca acid tare care ionizează total; ionizarea lui este parțială (echilibru)."
+    ],
+    "answers": [
+     "Carboxil (–COOH)",
+     "Nu, este slab",
+     "C₂H₅OH + O₂ → CH₃COOH + H₂O",
+     "Dioxidul de carbon",
+     "3–9%"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l25": {
+   "ro": {
+    "title": "Reacția de esterificare; esteri",
+    "theory": "Acizii carboxilici reacționează cu alcoolii (catalizator H₂SO₄) formând esteri și apă: CH₃COOH + C₂H₅OH ⇌ CH₃COOC₂H₅ + H₂O (acetat de etil). Reacția este reversibilă și ajunge la echilibru; hidroliza esterului este reacția inversă. Echilibrul poate fi deplasat spre ester prin exces de reactant sau prin îndepărtarea apei (principiul lui Le Châtelier). Esterii au mirosuri plăcute (arome de fructe: acetat de izoamil – banane) și sunt folosiți ca solvenți (acetatul de etil se găsește în unele lacuri de unghii), în parfumerie și industria alimentară.",
+    "sample": "Acetatul de etil se obține din acid acetic și etanol.",
+    "worked": "Pentru reacția acid acetic + etanol, constanta de echilibru K_c ≈ 4. Pornind de la 1 mol acid și 1 mol alcool, la echilibru se formează 2/3 mol ester: (x²)/(1 − x)² = 4 ⇒ x/(1 − x) = 2 ⇒ x = 2/3. Folosind 3 mol alcool, conversia acidului crește la ≈ 90%.",
+    "exercises": [
+     "Scrie ecuația esterificării acidului acetic cu metanolul.",
+     "Denumește esterul CH₃COOCH₃.",
+     "Cum poți mări randamentul esterificării?",
+     "Ce este hidroliza unui ester?",
+     "Unde se folosesc esterii în viața de zi cu zi?"
+    ],
+    "test": [
+     "Ce este esterificarea?",
+     "Catalizatorul esterificării?",
+     "Este esterificarea reversibilă?",
+     "Ce miros au esterii?",
+     "Constanta de echilibru aproximativă acid acetic–etanol?"
+    ],
+    "steps": [
+     "Scrie acidul și alcoolul și elimină apa (OH de la acid, H de la alcool).",
+     "Scrie esterul, denumește-l (acid → -at, alcool → -il).",
+     "Aplică principiul lui Le Châtelier sau K_c pentru calcule de echilibru.",
+     "Greșeala frecventă: să consideri că reacția decurge complet; esterificarea este reversibilă și ajunge la echilibru."
+    ],
+    "answers": [
+     "Reacția acid + alcool → ester + apă",
+     "H₂SO₄",
+     "Da",
+     "Plăcut, de fructe",
+     "≈ 4"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l26": {
+   "ro": {
+    "title": "Grăsimi: structură, clasificare, importanță",
+    "theory": "Grăsimile (trigliceridele) sunt esteri ai glicerinei cu acizi grași (acizi monocarboxilici cu catenă lungă, de obicei cu număr par de atomi de C: palmitic C₁₅H₃₁COOH, stearic C₁₇H₃₅COOH, oleic C₁₇H₃₃COOH — nesaturat). Grăsimile solide (untura, untul) conțin mai ales acizi saturați; uleiurile vegetale lichide conțin acizi nesaturați. Uleiurile pot fi hidrogenate (margarină). Grăsimile sunt insolubile în apă, solubile în solvenți organici, mai ușoare decât apa. Rol: rezervă energetică (≈ 38 kJ/g), izolare termică, transportul vitaminelor liposolubile (A, D, E, K). Râncezirea este oxidarea lor la aer și lumină.",
+    "sample": "Uleiul de floarea-soarelui este lichid pentru că are mulți acizi grași nesaturați.",
+    "worked": "Trioleina are trei resturi de acid oleic (câte o dublă legătură fiecare): 1 mol trioleină adiționează 3 mol H₂ și devine tristearină (solidă). Ce masă de iod adiționează 1 mol trioleină? 3 mol I₂ = 762 g — principiul „cifrei de iod”, care măsoară nesaturarea.",
+    "exercises": [
+     "Scrie formula generală a unei trigliceride.",
+     "De ce untul este solid, iar uleiul lichid?",
+     "Ce volum de H₂ (c.n.) transformă 1 mol trioleină în tristearină?",
+     "De ce grăsimile râncezesc și cum le păstrăm?",
+     "Ce rol au grăsimile în organism?"
+    ],
+    "test": [
+     "Ce sunt grăsimile?",
+     "Un acid gras saturat?",
+     "Un acid gras nesaturat?",
+     "Cum se obține margarina?",
+     "Energia furnizată de 1 g grăsime?"
+    ],
+    "steps": [
+     "Identifică glicerina și resturile de acizi grași.",
+     "Stabilește dacă acizii sunt saturați sau nesaturați (legături C=C).",
+     "Leagă structura de starea de agregare, de reacții (hidrogenare) și de rolul biologic.",
+     "Greșeala frecventă: să consideri grăsimile alcooli sau acizi; ele sunt esteri."
+    ],
+    "answers": [
+     "Esteri ai glicerinei cu acizi grași",
+     "Acidul palmitic sau stearic",
+     "Acidul oleic",
+     "Prin hidrogenarea uleiurilor",
+     "≈ 38 kJ"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l27": {
+   "ro": {
+    "title": "Săpunuri și detergenți: acțiunea de spălare",
+    "theory": "Săpunurile sunt săruri de sodiu (solide) sau de potasiu (moi, lichide) ale acizilor grași, obținute prin hidroliza bazică a grăsimilor (saponificare): grăsime + 3 NaOH → glicerină + 3 R–COONa. Molecula de săpun (de exemplu palmitat de sodiu C₁₅H₃₁COONa) are o parte hidrofobă (catena lungă, nepolară) și o parte hidrofilă (–COO⁻Na⁺). În apă, catenele hidrofobe se înfig în picăturile de grăsime, iar capetele hidrofile rămân spre apă, formând micele care sunt îndepărtate prin clătire. În apa dură, săpunurile formează săruri de calciu insolubile; detergenții sintetici (alchilbenzensulfonați) spală și în apă dură, dar unii sunt greu biodegradabili.",
+    "sample": "Săpunul spală pentru că are un capăt care iubește apa și un capăt care iubește grăsimea.",
+    "worked": "Saponificarea tripalmitinei (M = 806 g/mol) cu NaOH: 1 mol grăsime + 3 mol NaOH → 3 mol palmitat de sodiu (M = 278 g/mol) = 834 g săpun și 1 mol glicerină (92 g). Din 80,6 kg tripalmitină: 83,4 kg săpun.",
+    "exercises": [
+     "Scrie ecuația saponificării tristearinei cu NaOH.",
+     "Explică acțiunea de spălare cu ajutorul micelelor.",
+     "De ce săpunul face puțină spumă în apa dură?",
+     "Ce diferență este între săpunurile de sodiu și cele de potasiu?",
+     "Ce probleme de mediu pot produce detergenții?"
+    ],
+    "test": [
+     "Ce sunt săpunurile?",
+     "Ce este saponificarea?",
+     "Partea hidrofobă a săpunului?",
+     "Ce sunt micelele?",
+     "De ce detergenții spală și în apă dură?"
+    ],
+    "steps": [
+     "Identifică grăsimea și baza; scrie produșii saponificării (glicerină + săpun).",
+     "Explică structura amfifilă (hidrofob–hidrofil) și formarea micelelor.",
+     "Calculează stoechiometric și discută utilizarea responsabilă.",
+     "Greșeala frecventă: să crezi că săpunul „dizolvă” chimic grăsimea; el o emulsionează în micele care se îndepărtează cu apa."
+    ],
+    "answers": [
+     "Săruri de sodiu sau potasiu ale acizilor grași",
+     "Hidroliza bazică a grăsimilor",
+     "Catena lungă de atomi de carbon",
+     "Agregate cu grăsimea în interior și capetele ionice spre apă",
+     "Nu formează săruri insolubile cu calciul"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l28": {
+   "ro": {
+    "title": "Aminoacizi și proteine",
+    "theory": "Aminoacizii conțin o grupă amino (–NH₂) și o grupă carboxil (–COOH); în organism se găsesc α-aminoacizi (grupa amino la carbonul vecin cu –COOH). Exemple: glicina H₂N–CH₂–COOH, α-alanina CH₃–CH(NH₂)–COOH. Au caracter amfoter (reacționează și cu acizi, și cu baze). Prin condensare, aminoacizii formează peptide și proteine, legați prin legături peptidice –CO–NH–. Proteinele (enzime, hemoglobină, keratină, colagen, anticorpi) sunt esențiale vieții; sursele: carne, ouă, lapte, leguminoase. Denaturarea (căldură, acizi, alcool, metale grele) distruge structura spațială și funcția proteinei — fierberea oului.",
+    "sample": "Albușul de ou se coagulează la fierbere: proteinele se denaturează.",
+    "worked": "Glicil-alanina: H₂N–CH₂–CO–NH–CH(CH₃)–COOH, formată din glicină și alanină cu eliminarea unei molecule de apă (M = 75 + 89 − 18 = 146 g/mol). Din doi aminoacizi diferiți se pot forma două dipeptide (Gly-Ala și Ala-Gly).",
+    "exercises": [
+     "Scrie formula glicinei și a α-alaninei.",
+     "Scrie ecuația formării dipeptidei glicil-glicină.",
+     "Ce înseamnă caracter amfoter?",
+     "Ce factori denaturează proteinele?",
+     "Dă exemple de proteine și rolul lor în organism."
+    ],
+    "test": [
+     "Ce grupe funcționale are un aminoacid?",
+     "Ce este legătura peptidică?",
+     "Ce este denaturarea?",
+     "Formula glicinei?",
+     "Surse de proteine?"
+    ],
+    "steps": [
+     "Identifică grupele –NH₂ și –COOH ale aminoacizilor.",
+     "Formează legătura peptidică eliminând apa (–COOH al primului cu –NH₂ al celui de-al doilea).",
+     "Discută rolul biologic și denaturarea.",
+     "Greșeala frecventă: să consideri că Gly-Ala și Ala-Gly sunt aceeași dipeptidă; ordinea aminoacizilor contează."
+    ],
+    "answers": [
+     "Amino și carboxil",
+     "–CO–NH–",
+     "Pierderea structurii spațiale și a funcției proteinei",
+     "H₂N–CH₂–COOH",
+     "Carne, ouă, lapte, leguminoase"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l29": {
+   "ro": {
+    "title": "Zaharide: glucoza, fructoza, zaharoza",
+    "theory": "Zaharidele (glucidele) sunt compuși cu funcțiuni mixte (mai multe grupe –OH și o grupă carbonil). Monozaharide: glucoza C₆H₁₂O₆ (aldohexoză, zahărul din struguri și din sânge) și fructoza (cetohexoză, din fructe și miere, cea mai dulce). Glucoza se formează prin fotosinteză și este principala sursă de energie a celulelor. Glucoza se recunoaște prin reacția cu reactivul Tollens (oglinda de argint) și cu reactivul Fehling (precipitat roșu-cărămiziu de Cu₂O). Dizaharide: zaharoza C₁₂H₂₂O₁₁ (zahărul din sfeclă și trestie), care prin hidroliză dă glucoză și fructoză.",
+    "sample": "Glucoza dă oglinda de argint cu reactivul Tollens, pentru că are o grupă aldehidă.",
+    "worked": "Fotosinteza: 6 CO₂ + 6 H₂O → C₆H₁₂O₆ + 6 O₂ (energie solară, clorofilă). Pentru 180 g glucoză se consumă 6 mol CO₂ = 134,4 L (c.n.) și se eliberează 134,4 L O₂. Zaharoza + H₂O → glucoză + fructoză (zahăr invertit, ca în miere).",
+    "exercises": [
+     "Scrie formula aciclică a glucozei.",
+     "Scrie ecuația fotosintezei și calculează CO₂ consumat pentru 90 g glucoză.",
+     "Cum identifici glucoza în laborator?",
+     "Ce produși dă hidroliza zaharozei?",
+     "De ce persoanele cu diabet trebuie să controleze glucoza din sânge?"
+    ],
+    "test": [
+     "Formula moleculară a glucozei?",
+     "Ce grupă carbonil are glucoza?",
+     "Ce este fructoza?",
+     "Produșii hidrolizei zaharozei?",
+     "Reacția de recunoaștere a glucozei?"
+    ],
+    "steps": [
+     "Identifică grupele funcționale (–OH și carbonil).",
+     "Asociază reacțiile caracteristice (Tollens, Fehling, hidroliză, fermentație).",
+     "Calculează stoechiometric (fotosinteză, fermentație).",
+     "Greșeala frecventă: să crezi că zaharoza dă oglinda de argint ca glucoza; zaharoza nu reduce reactivul Tollens."
+    ],
+    "answers": [
+     "C₆H₁₂O₆",
+     "Aldehidă",
+     "O cetohexoză din fructe și miere",
+     "Glucoză și fructoză",
+     "Oglinda de argint cu reactivul Tollens"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l30": {
+   "ro": {
+    "title": "Polizaharide: amidon, celuloză, glicogen",
+    "theory": "Polizaharidele sunt macromolecule formate din multe resturi de glucoză. Amidonul (din cartofi, cereale, orez) este rezerva de energie a plantelor; cu iodul dă o colorație albastru-violet (reacția de identificare); prin hidroliză (enzime sau acizi) dă dextrine, maltoză și în final glucoză. Glicogenul este rezerva de glucoză a animalelor (ficat, mușchi). Celuloza este componenta structurală a pereților celulari vegetali (bumbac, lemn, hârtie); omul nu o poate digera, dar este importantă ca fibre alimentare; celuloza se dizolvă în reactivul Schweizer și este folosită la fabricarea hârtiei și a fibrelor textile.",
+    "sample": "O picătură de iod pe o felie de cartof produce o pată albastru-violet: cartoful conține amidon.",
+    "worked": "Hidroliza totală: (C₆H₁₀O₅)ₙ + n H₂O → n C₆H₁₂O₆. Din 162 kg amidon se obțin teoretic 180 kg glucoză (raport 162 : 180), iar prin fermentarea glucozei — 92 kg etanol. Astfel se produce alcoolul din cereale.",
+    "exercises": [
+     "Cum identifici amidonul?",
+     "Scrie ecuația hidrolizei totale a amidonului.",
+     "Ce masă de glucoză se obține din 324 kg amidon?",
+     "De ce omul nu poate digera celuloza, iar rumegătoarele da?",
+     "Ce este glicogenul și unde se depozitează?"
+    ],
+    "test": [
+     "Ce este amidonul?",
+     "Reacția de identificare a amidonului?",
+     "Rolul celulozei în plante?",
+     "Unde se depozitează glicogenul?",
+     "Produsul final al hidrolizei amidonului?"
+    ],
+    "steps": [
+     "Identifică polizaharida și rolul ei biologic.",
+     "Scrie hidroliza (unitatea C₆H₁₀O₅ + H₂O → glucoză).",
+     "Calculează stoechiometric și leagă de aplicații (alimentație, hârtie, alcool).",
+     "Greșeala frecventă: să scrii unitatea amidonului C₆H₁₂O₆; în polizaharidă unitatea este C₆H₁₀O₅ (s-a eliminat apa)."
+    ],
+    "answers": [
+     "Polizaharida de rezervă a plantelor",
+     "Colorația albastru-violet cu iod",
+     "Componentă structurală a pereților celulari",
+     "În ficat și mușchi",
+     "Glucoza"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l31": {
+   "ro": {
+    "title": "Vitamine și medicamente; solubilitatea compușilor organici",
+    "theory": "Solubilitatea compușilor organici urmează regula „similar dizolvă similar”: compușii cu grupe polare (–OH, –COOH, –NH₂) și catene scurte (metanol, etanol, glicerină, acid acetic, glucoză, aminoacizi) sunt solubili în apă; hidrocarburile și compușii cu catene lungi se dizolvă în solvenți nepolari (benzină). Vitamina C (acid ascorbic, multe grupe –OH) este hidrosolubilă — nu se depozitează, trebuie consumată zilnic (citrice, ardei); vitamina D este liposolubilă — se depozitează în grăsimi (se sintetizează în piele la soare). Medicamente uzuale: aspirina (acid acetilsalicilic — grupe carboxil și esterică), paracetamolul (grupă hidroxil fenolică și amidică), ibuprofenul (grupă carboxil) — se folosesc doar conform prospectului.",
+    "sample": "Vitamina C se dizolvă în apă, iar vitamina D în grăsimi.",
+    "worked": "Explicăm de ce iodul se îndepărtează de pe piele cu alcool, nu cu apă: iodul este nepolar, iar etanolul are o parte nepolară (C₂H₅–). O pastilă de aspirină de 500 mg (M = 180 g/mol) conține ≈ 2,8·10⁻³ mol substanță activă.",
+    "exercises": [
+     "Clasifică după solubilitatea în apă: benzen, glucoză, etanol, hexan, glicerină.",
+     "De ce vitamina C trebuie consumată zilnic?",
+     "Identifică grupele funcționale din aspirină.",
+     "Ce solvent folosești pentru o pată de ulei? Justifică.",
+     "De ce nu trebuie depășită doza de paracetamol recomandată?"
+    ],
+    "test": [
+     "Ce înseamnă „similar dizolvă similar”?",
+     "Este vitamina C hidrosolubilă?",
+     "Unde se depozitează vitamina D?",
+     "Grupele funcționale ale aspirinei?",
+     "Un compus organic solubil în apă?"
+    ],
+    "steps": [
+     "Identifică grupele polare și lungimea catenei.",
+     "Prezice solubilitatea (apă sau solvent nepolar).",
+     "Leagă solubilitatea de rolul biologic (vitamine) și de utilizarea medicamentelor.",
+     "Greșeala frecventă: să crezi că mai multă vitamină liposolubilă înseamnă mai multă sănătate; excesul se acumulează și poate fi toxic."
+    ],
+    "answers": [
+     "Substanțele polare se dizolvă în solvenți polari",
+     "Da",
+     "În țesutul adipos (grăsimi)",
+     "Carboxil și esterică",
+     "Glucoza"
+    ]
+   }
+  }
+ }
+}
