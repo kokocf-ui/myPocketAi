@@ -23,6 +23,7 @@ import {EDUCATION_NATIONAL_SUBJECT_PACKS_SCRIPT} from './education_national_subj
 import {literatureLoadCountryProfile} from './literature_profile_loader.mjs';
 import {literatureLoadAuthoredYear,literatureLoadAuthoredCatalog,literatureLoadNationalYear} from './literature_authored_pack_loader.mjs';
 import {mathLoadCountrySupplement} from './math_country_supplement_loader.mjs';
+import {educationValidateStudyPack,educationLoadStudyPack} from './education_study_pack_loader.mjs';
 import {UNIVERSITY_DOMAINS} from './university_domains.mjs';
 import {UNIVERSITY_PROGRAM_OPTIONS,UNIVERSITY_ADMISSION_ENTRIES} from './university_admissions_verified.mjs';
 import {PRACTICAL_COURSES,PRACTICAL_COUNTRIES,PRACTICAL_LEVELS} from './practical_curriculum.mjs';
@@ -64,7 +65,7 @@ import {CHEMISTRY_GRADE_FRAMEWORKS,CHEMISTRY_UPPER_STUDY_SEQUENCE,CHEMISTRY_ENGL
 import {CHEMISTRY_EUROPE_REFERENCES,CHEMISTRY_NOT_OFFERED_LOWER_YEARS,CHEMISTRY_ADVISORY_LOWER_STEPS,CHEMISTRY_YEAR_TOPIC_SUGGESTIONS,CHEMISTRY_COUNTRY_GENERIC_SOURCE,chemistryCountryGradePlan} from './chemistry_country_alignment.mjs';
 import {CHEMISTRY_UNIVERSITY_PROFILES,CHEMISTRY_EHEA_REFERENCE,chemistryUniversityRoutes,chemistryUniversityYears,chemistryUniversityRoute} from './chemistry_university_europe.mjs';
 import {CHEMISTRY_UNIVERSITY_CORE} from './chemistry_university_core.mjs';
-import {CHEMISTRY_UNIVERSITY_COURSE_COUNT,CHEMISTRY_UNIVERSITY_SPECIALTY_YEARS,chemistryUniversityCourseChoices,chemistryUniversityStudyDocument} from './chemistry_university_study.mjs';
+import {CHEMISTRY_UNIVERSITY_SPECIALTY_YEARS,chemistryUniversityCourseChoices,chemistryUniversityStudyDocument} from './chemistry_university_study.mjs';
 import {scienceExtendedTheory,SCIENCE_GUIDES,SCIENCE_FEATURED,SCIENCE_METHOD} from './science_extended_theory.mjs';
 import {SCIENCE_GUIDES_EN} from './science_english_reference_guides.mjs';
 import {SCIENCE_UNIVERSITY_TRACK_GUIDES} from './science_university_track_guides.mjs';
@@ -8552,8 +8553,17 @@ function scienceStartSubject(subject){
  const load=async()=>{
   notice.textContent=learningLabel('Se încarcă materialele pentru materia aleasă…','Loading the selected subject materials…');
   try{
-   const pack=await scienceLoadSharedPack(subject);
+   const [pack,study]=await Promise.all([scienceLoadSharedPack(subject),
+    subject==='astronomy'?Promise.resolve(null):educationLoadStudyPack(subject)]);
    if(!active())return;
+   if(study){
+    SCIENCE_RO_LESSON_EXTRAS[subject]=study.banks.roLower.content;
+    if(subject==='physics'){
+     for(const key of Object.keys(PHYSICS_LOWER_ENGLISH_LESSONS))delete PHYSICS_LOWER_ENGLISH_LESSONS[key];
+     Object.assign(PHYSICS_LOWER_ENGLISH_LESSONS,study.banks.englishLower.content);
+    }
+    if(subject==='biology')BIOLOGY_UPPER_YEAR_BANK.splice(0,BIOLOGY_UPPER_YEAR_BANK.length,...study.banks.upper.content);
+   }
    SCIENCE_LOWER_TOPIC_LESSONS[subject]=pack.topics;
    const references=subject==='physics'?PHYSICS_LAWS_DATA:subject==='chemistry'?CHEMISTRY_LAWS_DATA:subject==='biology'?BIOLOGY_REFERENCE:ASTRONOMY_LAWS_DATA;
    references.splice(0,references.length,...pack.references);
@@ -8960,11 +8970,13 @@ const MATH_TILE_ICONS={
  analysis:'∫',differential:'∂',discrete:'🧩'
 };
 const MATH_STAGE_ICONS={primary:'🎒',lower:'📚',intermediate:'🎓',advanced:'🏛️'};
+const educationValidateStudyPack=${educationValidateStudyPack.toString()};
+const educationLoadStudyPack=${educationLoadStudyPack.toString()};
 const MATH_DEPTH_STAGES=${JSON.stringify(MATH_DEPTH_STAGES)};
 const MATH_DEPTH_EN_LOWER=${JSON.stringify(MATH_DEPTH_EN_LOWER)};
 const MATH_DEPTH_EN_UNIVERSITY=${JSON.stringify(MATH_DEPTH_EN_UNIVERSITY)};
-const RO5_MATH_LESSONS=${JSON.stringify(RO5_MATH_LESSONS)};
-const RO678_MATH_LESSONS=${JSON.stringify(RO678_MATH_LESSONS)};
+const RO5_MATH_LESSONS=[];
+const RO678_MATH_LESSONS=Object.create(null);
 const ENGLAND_Y6_MATH_LESSONS=${JSON.stringify(ENGLAND_Y6_MATH_LESSONS)};
 const MATH_GCSE_HIGHER_ONLY=${JSON.stringify(MATH_GCSE_HIGHER_ONLY)};
 ${mathGcseSelectTier.toString()}
@@ -9652,12 +9664,12 @@ const SCIENCE_EXACT_REFERENCE=${JSON.stringify(SCIENCE_EXACT_REFERENCE)};
 const SCIENCE_RO_LOWER_TOPICS=${JSON.stringify(SCIENCE_RO_LOWER_TOPICS)};
 const SCIENCE_RO_PHYSICS_LABELS=${JSON.stringify(SCIENCE_RO_PHYSICS_LABELS)};
 const SCIENCE_RO_BIOLOGY_LABELS=${JSON.stringify(SCIENCE_RO_BIOLOGY_LABELS)};
-const SCIENCE_RO_LESSON_EXTRAS=${JSON.stringify(SCIENCE_RO_LESSON_EXTRAS)};
+const SCIENCE_RO_LESSON_EXTRAS=Object.create(null);
 const SCIENCE_RO_2017_SOURCE=${JSON.stringify(SCIENCE_RO_2017_SOURCE)};
 const scienceRoGradeTopics=${scienceRoGradeTopics.toString()};
 const PHYSICS_ADVISORY_OER_SOURCES=${JSON.stringify(PHYSICS_ADVISORY_OER_SOURCES)};
 const PHYSICS_EUROPE_EXTRA_LESSONS=${JSON.stringify(PHYSICS_EUROPE_EXTRA_LESSONS)};
-const PHYSICS_LOWER_ENGLISH_LESSONS=${JSON.stringify(PHYSICS_LOWER_ENGLISH_LESSONS)};
+const PHYSICS_LOWER_ENGLISH_LESSONS=Object.create(null);
 const physicsAdvisoryTopicLessons=${physicsAdvisoryTopicLessons.toString()};
 const PHYSICS_PRIMARY_STRANDS=${JSON.stringify(PHYSICS_PRIMARY_STRANDS)};
 const PHYSICS_PRIMARY_SCAFFOLDS=${JSON.stringify(PHYSICS_PRIMARY_SCAFFOLDS)};
@@ -9783,7 +9795,6 @@ const chemistryUniversityRoute=${chemistryUniversityRoute.toString()};
 const chemistryUniversityYears=${chemistryUniversityYears.toString()};
 const CHEMISTRY_UNIVERSITY_CORE=[];
 const CHEMISTRY_UNIVERSITY_SPECIALTY_YEARS=${JSON.stringify(CHEMISTRY_UNIVERSITY_SPECIALTY_YEARS)};
-const CHEMISTRY_UNIVERSITY_COURSE_COUNT=${JSON.stringify(CHEMISTRY_UNIVERSITY_COURSE_COUNT)};
 const CHEMISTRY_SPECIALTY_TOPICS=CHEMISTRY_TOPIC_DATA.filter(x=>x.specialty);
 const CHEMISTRY_SPECIALTY_LESSONS=${JSON.stringify(CHEMISTRY_SPECIALTY_LESSONS)};
 const chemistryUniversityCourseChoices=${chemistryUniversityCourseChoices.toString()};
@@ -9802,7 +9813,7 @@ const BIOLOGY_LOWER_YEAR_TOPICS=${JSON.stringify(BIOLOGY_LOWER_YEAR_TOPICS)};
 const BIOLOGY_LOWER_YEAR_ROWS=${JSON.stringify(BIOLOGY_LOWER_YEAR_ROWS)};
 const biologyLowerYearLessons=${biologyLowerYearLessons.toString()};
 const BIOLOGY_UPPER_YEAR_TOPICS=${JSON.stringify(BIOLOGY_UPPER_YEAR_TOPICS)};
-const BIOLOGY_UPPER_YEAR_BANK=${JSON.stringify(BIOLOGY_UPPER_YEAR_BANK)};
+const BIOLOGY_UPPER_YEAR_BANK=[];
 const biologyUpperYearLessons=${biologyUpperYearLessons.toString()};
 const BIOLOGY_REFERENCE_GROUPS=${JSON.stringify(BIOLOGY_REFERENCE_GROUPS)};
 const BIOLOGY_REFERENCE=[];
@@ -16244,8 +16255,14 @@ function mathStartCountrySupplement(country){
  const load=async()=>{
   notice.textContent=learningLabel('Se încarcă materialele de matematică pentru țara aleasă…','Loading the selected country maths materials…');
   try{
-   const result=await mathLoadCountrySupplement(country);
+   const [result,study]=await Promise.all([mathLoadCountrySupplement(country),
+    country==='RO'?educationLoadStudyPack('math'):Promise.resolve(null)]);
    if(!active())return;
+   if(study){
+    RO5_MATH_LESSONS.splice(0,RO5_MATH_LESSONS.length,...study.banks.ro5.content);
+    for(const key of Object.keys(RO678_MATH_LESSONS))delete RO678_MATH_LESSONS[key];
+    Object.assign(RO678_MATH_LESSONS,study.banks.ro678.content);
+   }
    for(const [bank,data] of [[MATH_BULK_FIRST_LESSONS,result.banks.bulk],[MATH_SECOND_BATCH_FIRST_LESSONS,result.banks.second],[MATH_FINAL_FIRST_LESSONS,result.banks.final]]){
     for(const key of Object.keys(bank))if(key.startsWith(country+'|'))delete bank[key];
     Object.assign(bank,data);

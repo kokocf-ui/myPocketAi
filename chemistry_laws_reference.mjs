@@ -1,5 +1,6 @@
+import {readNodeEducationSharedPack} from './education_study_node_source.mjs';
 // Content lives only in the independently published single-source pack.
-import pack from './public/education/science/shared-v2/chemistry.json' with {type:'json'};
+const pack=readNodeEducationSharedPack('chemistry');
 // General reference; not a substitute for a country's official school curriculum.
 // Explanations, examples and conditions use the pack source language.
 export const CHEMISTRY_LAWS_GROUPS=Object.freeze([

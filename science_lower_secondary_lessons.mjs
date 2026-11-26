@@ -1,7 +1,8 @@
-import physics from './public/education/science/shared-v2/physics.json' with {type:'json'};
-import chemistry from './public/education/science/shared-v2/chemistry.json' with {type:'json'};
-import biology from './public/education/science/shared-v2/biology.json' with {type:'json'};
-import astronomy from './public/education/science/shared-v2/astronomy.json' with {type:'json'};
+import {readNodeEducationSharedPack} from './education_study_node_source.mjs';
+const physics=readNodeEducationSharedPack('physics');
+const chemistry=readNodeEducationSharedPack('chemistry');
+const biology=readNodeEducationSharedPack('biology');
+const astronomy=readNodeEducationSharedPack('astronomy');
 // Node/build compatibility; the browser loads only the selected subject.
 export const SCIENCE_LOWER_TOPIC_LESSONS=Object.freeze(Object.fromEntries(
  [physics,chemistry,biology,astronomy].map(pack=>[pack.subject,pack.topics])

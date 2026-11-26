@@ -1,5 +1,6 @@
+import {readNodeEducationSharedPack} from './education_study_node_source.mjs';
 // Content lives only in the independently published single-source pack.
-import pack from './public/education/science/shared-v2/physics.json' with {type:'json'};
+const pack=readNodeEducationSharedPack('physics');
 // General, non-country-certified reference for Physics: direct from the year selector.
 // Each entry contains an interpretation, valid conditions and a worked or reasoned example.
 export const PHYSICS_LAWS_GROUPS=Object.freeze([

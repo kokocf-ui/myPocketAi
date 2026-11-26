@@ -1,5 +1,6 @@
+import {readNodeEducationSharedPack} from './education_study_node_source.mjs';
 // Content lives only in the independently published single-source pack.
-import pack from './public/education/science/shared-v2/biology.json' with {type:'json'};
+const pack=readNodeEducationSharedPack('biology');
 // Biology reference: exact definitions, models and principles, NOT a list of
 // supposed universal laws. Reference is independent of the selected school year.
 // School-level scope differs between countries, tracks and exam boards.

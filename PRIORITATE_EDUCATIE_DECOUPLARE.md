@@ -1,6 +1,14 @@
 # Prioritatea curentă: decuplare Educație și eliminarea fișelor pretraduse duplicate
 
-## Increment 26 noiembrie 2026 — noua cerere explicită
+## Continuare sigură pentru spațiu — 26 noiembrie 2026
+
+La recomandarea utilizatorului au fost decuplate încă **631 fișe originale**: Matematică RO V–VIII, completări RO Fizică/Chimie/Biologie, Biologie liceală și banca originală engleză de Fizică gimnazială. Patru pachete canonice în `public/education/study-v1/`, încărcate numai pentru țara/materia relevantă. Toate exporturile de date din cele25module migrate au fost comparate exact. Nu s-au eliminat materiale distincte ca presupuse traduceri. S-au păstrat lecțiile și metadatele, nu s-au creat noi certificări.
+
+S-a eliminat și includerea tranzitivă în Worker a acestor patru pachete și a celor patru `shared-v2` anterioare: adaptoare Node fără import JSON static; în Worker structuri goale, în browser descărcare/hidratare cu validare, cache, retry și protecție la navigare concurentă. HTML producție **7.041.362B** (−449.984B), Worker **7.251,47KiB** (−aprox537,91KiB); nu este o măsurare a stocării telefonului/APK-ului, iar conținutul separat/cache-ul ocupă spațiu. Detalii/teste/restanțe: `EDUCATION_SAFE_DECOUPLING_2026-11-26.md`.
+
+Testele focalizate, browserele mobile pe bundle și staging-ul trecute; `test:ui`100/102 aceleași două eșecuri istorice. Rămân alte bănci cuplate (inclusiv Math depth, teorie comună, HG/Informatică și Fizică liceală/universitară); decuplarea nu este completă. Cele patru rute noi sunt aditive; publică asset-urile înaintea frontendului când va fi autorizat, fără a retrage rutele legacy încă necesare. **Fără deploy/APK/PR/merge**, fără test de AI live sau reparare declarată a traducerii APK.
+
+## Increment anterior 26 noiembrie 2026 — cererea de sursă unică
 
 Utilizatorul cere acum verificarea pachetelor rămase cuplate, decuplarea lor și păstrarea exclusiv a fișei în limba originală; traducerea este numai treaba motorului comun. Implementat un increment, **nu toate materiile**: 33 fișe comune de Științe, 92 legi/referințe și 28 cursuri de bază Chimie universitară, într-o singură sursă română, în patru JSON-uri `science/shared-v2`. Referințele și cursurile migrate nu mai sunt în HTML. Modulele sursă vechi sunt adaptoare la aceleași JSON-uri; nu mai regenerează copii RO/EN. Raport, măsurători, teste și inventarul restanțelor: `EDUCATION_SOURCE_PACKS_2026-11-26.md`; audit reproductibil: `node scripts/audit_education_coupling.mjs`.
 

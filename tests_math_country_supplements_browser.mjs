@@ -6,6 +6,7 @@ import app from './index.js';
 const requests=[];
 const server=createServer(async(req,res)=>{
  try{
+  if(/^\/education\/study-v1\/(math|physics|chemistry|biology)\.json$/.test(req.url)){res.writeHead(200,{'Content-Type':'application/json'});res.end(await readFile(new URL('./public'+req.url,import.meta.url)));return}
   const match=req.url.match(/^\/education\/math\/supplements\/([A-Z-]+)\.json$/);
   if(match){requests.push(match[1]);res.writeHead(200,{'Content-Type':'application/json'});res.end(await readFile(new URL('./public/education/math/supplements/'+match[1]+'.json',import.meta.url)));return}
   const response=await app.fetch(new Request('http://127.0.0.1:'+server.address().port+req.url,{headers:req.headers}));

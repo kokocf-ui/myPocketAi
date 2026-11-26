@@ -1,12 +1,7 @@
-import {SCIENCE_RO_PHYSICS_EXTRAS} from './science_ro_physics_extras.mjs';
-import {PHYSICS_RO_GRADE8_MORE} from './science_ro_physics_grade8_more.mjs';
-import {BIOLOGY_RO_GRADE5} from './science_ro_biology_grade5.mjs';
-import {BIOLOGY_RO_GRADE6} from './science_ro_biology_grade6.mjs';
-import {BIOLOGY_RO_GRADE7} from './science_ro_biology_grade7.mjs';
-import {BIOLOGY_RO_GRADE8} from './science_ro_biology_grade8.mjs';
-import {CHEMISTRY_RO_GRADE8} from './science_ro_chemistry_grade8.mjs';
-import {PHYSICS_RO_ADDITIONS} from './science_ro_physics_additions.mjs';
-import {BIOLOGY_RO_ADDITIONS} from './science_ro_biology_additions.mjs';
+import {readNodeEducationStudyPack} from './education_study_node_source.mjs';
+const physicsStudy=readNodeEducationStudyPack('physics');
+const chemistryStudy=readNodeEducationStudyPack('chemistry');
+const biologyStudy=readNodeEducationStudyPack('biology');
 import {physicsAdvisoryTopicLessons} from './physics_europe_lesson_bank.mjs';
 import {physicsPrimaryYearLessons} from './physics_primary_lessons.mjs';
 import {physicsUpperYearLessons} from './physics_upper_course.mjs';
@@ -66,14 +61,7 @@ export const SCIENCE_RO_PHYSICS_LABELS={
   optics:['Reflexie, refracție și lentile','Reflection, refraction and lenses']}
 };
 export const SCIENCE_RO_LESSON_EXTRAS=Object.freeze({
- chemistry:Object.freeze({'8':CHEMISTRY_RO_GRADE8}),
- biology:Object.freeze({'5':Object.freeze([...BIOLOGY_RO_GRADE5,...BIOLOGY_RO_ADDITIONS['5']]),
-  '6':Object.freeze([...BIOLOGY_RO_GRADE6,...BIOLOGY_RO_ADDITIONS['6']]),
-  '7':Object.freeze([...BIOLOGY_RO_GRADE7,...BIOLOGY_RO_ADDITIONS['7']]),
-  '8':Object.freeze([...BIOLOGY_RO_GRADE8,...BIOLOGY_RO_ADDITIONS['8']])}),
- physics:Object.freeze({'6':Object.freeze([...SCIENCE_RO_PHYSICS_EXTRAS['6'],...PHYSICS_RO_ADDITIONS['6']]),
-  '7':Object.freeze([...SCIENCE_RO_PHYSICS_EXTRAS['7'],...PHYSICS_RO_ADDITIONS['7']]),
-  '8':Object.freeze([...SCIENCE_RO_PHYSICS_EXTRAS['8'],...PHYSICS_RO_GRADE8_MORE,...PHYSICS_RO_ADDITIONS['8']])})
+ physics:physicsStudy.banks.roLower.content,chemistry:chemistryStudy.banks.roLower.content,biology:biologyStudy.banks.roLower.content
 });
 export function scienceRoGradeTopics(subject,grade,topics=[]){
  const ids=SCIENCE_RO_LOWER_TOPICS[String(subject)]?.[String(grade)]||null;

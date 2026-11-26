@@ -29,6 +29,7 @@ assert.ok(html.includes('function scienceStartSubject(subject){'));
 html=html.replace('function scienceStartSubject(subject){',hook+'\nfunction scienceStartSubject(subject){');
 const requests=[];
 const server=createServer(async(req,res)=>{
+ if(/^\/education\/study-v1\/(math|physics|chemistry|biology)\.json$/.test(req.url)){res.setHeader('Content-Type','application/json');res.end(await readFile('public'+req.url));return}
  const m=req.url.match(/^\/education\/science\/shared-v2\/(physics|chemistry|biology|astronomy)\.json$/);
  if(m){requests.push(m[1]);res.setHeader('Content-Type','application/json');res.end(await readFile('public'+req.url));return}
  res.setHeader('Content-Type','text/html');res.end(html);

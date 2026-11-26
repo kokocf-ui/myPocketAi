@@ -1,3 +1,4 @@
+import {readNodeEducationSharedPack} from './education_study_node_source.mjs';
 // Original Romanian common courses; translations belong to the shared engine.
-import pack from './public/education/science/shared-v2/chemistry.json' with {type:'json'};
+const pack=readNodeEducationSharedPack('chemistry');
 export const CHEMISTRY_UNIVERSITY_CORE=Object.freeze(pack.universityCore);

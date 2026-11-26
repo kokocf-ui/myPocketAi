@@ -8,6 +8,7 @@ import {chromium} from 'playwright';
 fs.mkdirSync('chemistry-browser-audit',{recursive:true});
 const server=http.createServer(async(req,res)=>{
  try{
+  if(/^\/education\/study-v1\/(math|physics|chemistry|biology)\.json$/.test(req.url)){res.writeHead(200,{'Content-Type':'application/json'});res.end(fs.readFileSync(new URL('./public'+req.url,import.meta.url)));return}
   const asset=req.url.match(/^\/education\/science\/shared-v2\/(physics|chemistry|biology|astronomy)\.json$/);
   if(asset){res.writeHead(200,{'Content-Type':'application/json'});res.end(fs.readFileSync(new URL('./public/education/science/shared-v2/'+asset[1]+'.json',import.meta.url)));return}
 

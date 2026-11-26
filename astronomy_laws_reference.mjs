@@ -1,5 +1,6 @@
+import {readNodeEducationSharedPack} from './education_study_node_source.mjs';
 // Content lives only in the independently published single-source pack.
-import pack from './public/education/science/shared-v2/astronomy.json' with {type:'json'};
+const pack=readNodeEducationSharedPack('astronomy');
 // General Astronomy & Astrophysics reference: accessible directly from the year selector.
 // Independent of any national school curriculum; includes laws, observational relations and IAU constants.
 export const ASTRONOMY_LAWS_GROUPS = Object.freeze([
