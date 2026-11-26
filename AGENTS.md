@@ -7,6 +7,27 @@
 
 ## 1. Reguli permanente de lucru cu utilizatorul
 
+**APK ROMÂNIA LIVRAT 501885 (2026-11-26, etapă încheiată):**
+Commit cod e7ee4d0e723eef7a96e7283957f011579994bde6, împins DOAR currentbranch.
+Workflowmanual build-android-apk.yml run45879014303 job140113297567 SUCCESS,
+signed-branch-preview; debugskipped. Verifică cheia/certificatidenticcuAPKpublicat,
+packageai.mypocket.mobile/versionCode501885 (mai mare501884 și testelepublicate),
+UIramură+3496packsEducation/lecții/cursuri. ReleaseprereleaseNOTlatest:
+https://github.com/kokocf-ui/myPocketAi/releases/download/education-test-45879014303/myPocketAI-signed-education-test.apk
+Asset797267170,77650828bytes,SHA256dinGitHubRESTmetadata:
+1f3cccdb9333d65a8f6d943eb9890334ebd6dde684e0434cdf5de13aa9624485.
+Stepscert/version/snapshot și publish/upload toateSUCCESS confirmateprinJobsAPI.
+Downloadbinary și logs în sandbox blocate de hostallowlistrelease-assets/results-
+receiver; NU afirma analizăindependentălocalăAPK/cert. Metadata/APIjobconfirmate.
+Raport `ROMANIA_APK_501885_VERIFICATION_2026-11-26.json`, checklist românesc
+`ROMANIA_APK_TEST_CHECKLIST_2026-11-26.md`. InstaleazăupdateFĂRĂdezinstalare.
+LocalPASSnational-transport/transit-audit/check/Androidpreviewgen și browser5suite
+360/393/430; synthetic/offlineHERE, ZEROrequestsHERE. Nu probăfizicăRO încă.
+Producțiebackendrămânev185, FI/EEactive, DE/NOOFF; APKnuactiveazăHERE și nuinclude
+cheia/adaptorserver; nofrontendproddeploy/noOracle/nomainmerge/noachiziție.
+HEREfreecycle/eligibility gates rămânnerezolvate, nu seta fictivtrue. Limitauser2
+încercăriHEREtotalfărăretry rămâneneconsumată. Nu confunda APKnoucuactivarebackend.
+
 **APK PENTRU TESTARE ROMÂNIA — APROBAT EXPLICIT (2026-11-26, nou):**
 User cere APK cu TOATE modificările curente pentru a-l trimite prietenului din RO.
 Aceasta înlocuiește vechea restricție fărăAPK DOAR pentru build semnat de test și
@@ -18,7 +39,7 @@ bundled; backendul rămâne remote, codul HERE server nu intră în APK, nici ch
 CapturaUsage a userului: CurrentMonth2026-11-01..26, DatesUTC, NoResults și întârziere
 până2zile. Este intervalul raportului, NU expirareazi și NU dovadă completă reset/
 consumzero. LimitaHERE2încercăritotal FĂRĂretry rămâne; pânăacumZEROliveHERE.
-Pregătire build în curs; NU raporta APK nou livrat pânăworkflow+cert+versionPASS.
+Istoric lansare build; rezultatul SUCCESS și APK501885 sunt consemnate deasupra.
 
 **ACCES HERE CREAT DE USER / ACORD LIMITAT LIVE (2026-11-26, ulterior):**
 User a creat cont HERE și aplicația myPocketAI Public, apoi a confirmat salvarea
