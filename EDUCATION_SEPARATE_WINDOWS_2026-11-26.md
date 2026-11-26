@@ -38,6 +38,14 @@ Passed on the production Wrangler dry-run bundle:
 
 ## Delivery
 
-Implementation will be committed/pushed to the current Arena branch, then a same-key signed branch-test APK built through the authorized manual workflow. Must exceed installed versionCode 501879. No main merge, production deployment, PR or latest-release promotion. Add the actual run/release/version after successful build; do not infer success from dispatch.
+Implementation commit **8b7fa58ea787e839376e082aa7dd567469f30300** pushed to `arena/8ae2700b-mypocketai`. Authorized manual workflow run **45826031309** completed successfully: signed branch release built; permanent certificate / package identity / increasing version / bundled snapshots checked; direct-download publishing succeeded; debug job skipped.
+
+- VersionCode **501880**, above installed 501879; same permanent signing key, update without uninstalling.
+- Prerelease `education-test-45826031309`, not latest; no main merge, production deployment or PR.
+- Direct APK: https://github.com/kokocf-ui/myPocketAi/releases/download/education-test-45826031309/myPocketAI-signed-education-test.apk
+- GitHub asset **795945895**, uploaded, **77,619,232 bytes**.
+- GitHub metadata digest: `sha256:20170c72304f6881e12dca9ff96f3b71ada16c67bece7e94d1b36862e348589a` (not a locally recalculated APK hash).
+
+This confirms build/delivery and CI certificate checks, not successful installation or physical UI/audio acceptance. Future stable updates must also exceed the test version installed on the phone.
 
 The existing APK translation issue remains deferred/unverified. No live AI, physical Android speech/pronunciation, or physical stylus validation is claimed.
