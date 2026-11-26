@@ -1331,7 +1331,7 @@ const ROUTE_REPLY_TEXT={
 
 export default {
   async fetch(request, env) {
-    const API_VERSION = "v185";
+    const API_VERSION = "v186";
     // The previous FP8 model took 32–55 seconds on live mobile requests.
     // Keep the supported fast 8B default; allow only a deployed, active fast model as an override.
     const allowedTextModels=["@cf/meta/llama-3.1-8b-instruct-fast","@cf/meta/llama-3.3-70b-instruct-fp8-fast"];

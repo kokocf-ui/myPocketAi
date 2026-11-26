@@ -298,6 +298,9 @@ jobs:
           node tests_mixed_uk_fallback.mjs
           node tests_short_local_transit_arrival.mjs
 
+      - name: Verify reported transit failures offline (no provider requests)
+        run: npm run test:transit-reported-failures
+
       - name: Verify country-scoped national transport adapters
         run: npm run test:national-transport
 

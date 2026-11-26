@@ -7,6 +7,15 @@
 
 ## 1. Reguli permanente de lucru cu utilizatorul
 
+**PUBLICARE CORECȚII + APK NOU APROBATE (2026-11-26, nou):**
+User: „Hai să facem corecțiile, să verific dacă este ok acum”. Aprobată livrarea
+controlată backend+APKsemnat pentru corecțiile raportate, NUmerge/main/frontendprod/
+Oracle/plată sau activareHERE. APIv186 pregătit, HERE_TRANSIT_ENABLED=false explicit
+înconfig deproducție (Secretuserpăstrat), FI/EE păstrate. Workflowbackend adaugă
+regresiilefixtures noi înainte de deploy; smokeversionv186. Buildsemnat nou trebuie
+>501885, aceeașicheie. Stareînaceastăintrare: pregătire, nu succes înainte Actions.
+PR#558 rămâneDRAFT. Testele/consumulHERE rămânZERO; nu probăliveflightGraysOradea.
+
 **PR DRAFT DESCHIS PENTRU REVIEW (2026-11-26):**
 PR#558 https://github.com/kokocf-ui/myPocketAi/pull/558, headcurrentbranch,
 base main, DRAFT, fărămerge. Include întregdiffcumulativ303+fișiere, nu doar
