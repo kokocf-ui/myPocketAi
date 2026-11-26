@@ -4,9 +4,9 @@
 // schema mypocket-literature-authored/v2), are loaded with
 // literatureLoadAuthoredCatalog/literatureLoadNationalYear({subject:'math'})
 // and rendered by literatureNationalYearMaterial in the shared reader.
-// Romania: primary 1-4, high school 9-12 (mathematics-informatics) and
+// Romania: primary 1-4, gimnaziu 5-8 (OMEN 3393/2017), high school 9-12 (mathematics-informatics) and
 // university Licență I-III (selector years 1..3 -> pack grades uni-ba-1..3).
-// Years without a pack (e.g. grades 5-8, 9-SCI) keep the existing branches.
+// Years without a pack (e.g. 9-SCI) keep the existing branches.
 // Every function is serialized with an explicit `var` (see
 // education_national_reader.mjs): keep them closed, no outer references.
 

@@ -40,9 +40,9 @@ const SUBJECT_KNOWN={history:{'RO':{beginner:['4'],lower:['5','6','7','8'],mediu
  computing:{'RO':{lower:['5','6','7','8'],medium:['9','10','11','12','tic-9','tic-10','tic-11','tic-12'],advanced:['uni-ba-1','uni-ba-2','uni-ba-3']}},
  // Mathematics: RO primary 1-4, high school 9-12 (mathematics-informatics;
  // 9-SCI keeps its own course), university Licență I-III (selector years
- // 1..3 are mapped to uni-ba-1..3 by math_national_packs.mjs). Grades 5-8
- // keep the existing programme-aligned course and need no pack.
- math:{'RO':{beginner:['1','2','3','4'],medium:['9','10','11','12'],advanced:['uni-ba-1','uni-ba-2','uni-ba-3']}},
+ // 1..3 are mapped to uni-ba-1..3 by math_national_packs.mjs). Gimnaziu 5-8
+ // (lower) follow OMEN 3393/2017; the older RO5/RO678 course is only a fallback.
+ math:{'RO':{beginner:['1','2','3','4'],lower:['5','6','7','8'],medium:['9','10','11','12'],advanced:['uni-ba-1','uni-ba-2','uni-ba-3']}},
  // Sciences (index.js scienceYearGroups): RO Biology primary = Științe ale
  // naturii III–IV, Biology from grade 5, Physics from 6, Chemistry from 7.
  physics:{'RO':{lower:['6','7','8'],medium:['9','10','11','12']}},

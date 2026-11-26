@@ -18,11 +18,11 @@ const urls=[];
 const fetcher=async url=>{urls.push(url);const path=url.replace('/education/','./public/education/');return {ok:true,json:async()=>JSON.parse(await read(path))}};
 const {catalog:loaded}=await literatureLoadAuthoredCatalog({subject:'math',storage:null,fetcher});
 assert.equal(urls[0],'/education/math/authored/catalog.json');
-const allowed={beginner:['1','2','3','4'],medium:['9','10','11','12'],advanced:['uni-ba-1','uni-ba-2','uni-ba-3']};
+const allowed={beginner:['1','2','3','4'],lower:['5','6','7','8'],medium:['9','10','11','12'],advanced:['uni-ba-1','uni-ba-2','uni-ba-3']};
 let lessons=0;
 for(const entry of loaded.years){
  assert.equal(entry.country,'RO');
- assert.ok(allowed[entry.stage]?.includes(entry.grade),'RO Math packs: primary, mate-info high school, Licență: '+entry.stage+' '+entry.grade);
+ assert.ok(allowed[entry.stage]?.includes(entry.grade),'RO Math packs: primary, gimnaziu, mate-info high school, Licență: '+entry.stage+' '+entry.grade);
  const pack=await literatureLoadNationalYear(entry,'ro',{subject:'math',storage:null,fetcher});
  assert.ok(urls.at(-1).startsWith('/education/math/authored/RO/'));
  assert.ok(pack.units.length>=2&&Object.keys(pack.chapters).length>=30,'about 30-36 lessons per year: '+entry.grade);
