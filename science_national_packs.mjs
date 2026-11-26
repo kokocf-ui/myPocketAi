@@ -51,7 +51,12 @@ function scienceNationalRender(stage,host){
   SCIENCE_NATIONAL.loading=key.id;
   const again=()=>{
    if(SCIENCE_NATIONAL.loading===key.id)SCIENCE_NATIONAL.loading='';
-   if(scienceJourney.stage==='topics'&&scienceNationalKey().id===key.id&&typeof scienceJourneyShowChoices==='function')scienceJourneyShowChoices('topics');
+   if(scienceJourney.stage==='topics'&&scienceNationalKey().id===key.id&&typeof scienceJourneyShowChoices==='function'){
+    const live=document.getElementById('moduleContent');
+    const warning=live&&live.querySelector('.edu-pack-unavailable');
+    scienceJourneyShowChoices('topics');
+    if(warning&&live&&!warning.isConnected)live.prepend(warning);
+   }
   };
   literatureLoadAuthoredCatalog({subject:key.subject}).then(({catalog})=>{
    const entry=(catalog?.years||[]).find(y=>y.country===key.country&&y.stage===key.stage&&y.grade===key.grade&&Array.isArray(y.languages)&&y.languages.length);

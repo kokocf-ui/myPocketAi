@@ -51,7 +51,14 @@ function mathNationalRender(stage,host){
   MATH_NATIONAL.loading=key.id;
   const again=()=>{
    if(MATH_NATIONAL.loading===key.id)MATH_NATIONAL.loading='';
-   if(mathJourney.stage==='branches'&&mathNationalKey().id===key.id&&typeof mathJourneyShowChoices==='function')mathJourneyShowChoices('branches');
+   if(mathJourney.stage==='branches'&&mathNationalKey().id===key.id&&typeof mathJourneyShowChoices==='function'){
+    // Keep a curriculum-pack warning (shown by eduRunWithCurriculumPack while
+    // the catalog was loading) when the year is re-rendered.
+    const live=document.getElementById('moduleContent');
+    const warning=live&&live.querySelector('.edu-pack-unavailable');
+    mathJourneyShowChoices('branches');
+    if(warning&&live&&!warning.isConnected)live.prepend(warning);
+   }
   };
   literatureLoadAuthoredCatalog({subject:'math'}).then(({catalog})=>{
    const entry=(catalog?.years||[]).find(y=>y.country===key.country&&y.stage===key.stage&&y.grade===key.grade&&Array.isArray(y.languages)&&y.languages.length);
