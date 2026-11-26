@@ -5,7 +5,7 @@ export function eduLessonWorkspace(host,{pack,row,lessonKey,subject='literature'
  const label=(ro,en)=>typeof eduUiLabel==='function'?eduUiLabel(ro,en):typeof learningLabel==='function'?learningLabel(ro,en):ro;
  const el=(tag,text='')=>{const n=document.createElement(tag);n.textContent=text;return n};
  const box=el('section');box.className='edu-lesson-workspace';
- box.style.cssText='display:flex;flex-direction:column;gap:10px;margin:16px 0;padding:12px;border:1px solid #79acbd;border-radius:12px;min-width:0;width:100%;box-sizing:border-box;';
+ box.style.cssText='display:flex;flex-direction:column;flex:0 0 auto;gap:10px;margin:16px 0;padding:12px;border:1px solid #79acbd;border-radius:12px;min-width:0;width:100%;box-sizing:border-box;';
  box.append(el('h3',label('✍️ Fereastra de lucru','✍️ Work area')),el('p',row.title));
  const select=el('select');select.setAttribute('aria-label',label('Alege cerința','Choose task'));select.style.cssText='width:100%;min-width:0;min-height:46px;';
  const tasks=[...(row.test||[]).map((prompt,i)=>({prompt,guide:row.answers?.[i]||'',kind:'test',i})),...(row.exercises||[]).map((prompt,i)=>({prompt,guide:'',kind:'exercise',i})),{prompt:'',guide:'',kind:'custom',i:0}];

@@ -1,7 +1,20 @@
 // Editorial packs are fetched only when the learner opens this reference dialog.
 export const FOREIGN_LANGUAGE_RESOURCES_STYLE=String.raw`
-.foreign-resource-dialog{width:min(760px,96vw);max-height:90dvh;overflow:auto;border:1px solid #9b6675;border-radius:18px;padding:18px;background:var(--card-bg,#24151e);color:var(--text-color,#fff)}
-.foreign-resource-dialog::backdrop{background:#000a}.foreign-resource-toolbar,.foreign-resource-tabs,.foreign-resource-actions{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.foreign-resource-tabs button[aria-pressed=true]{outline:2px solid #e7b1bf}.foreign-resource-content input,.foreign-resource-content select{box-sizing:border-box;width:100%;padding:12px;font-size:16px;color:inherit;background:#ffffff12;border:1px solid #aa7b8a;border-radius:8px}.foreign-resource-entry{border:1px solid #ffffff30;border-radius:12px;padding:12px;margin:10px 0;overflow-wrap:anywhere}.foreign-resource-entry strong{font-size:1.15em}.foreign-resource-entry p{margin:8px 0}.foreign-resource-entry table{width:100%;border-collapse:collapse}.foreign-resource-entry th,.foreign-resource-entry td{text-align:start;border-bottom:1px solid #ffffff30;padding:8px;overflow-wrap:anywhere}.foreign-resource-entry audio{width:100%;margin:10px 0}.foreign-resource-note{opacity:.85;font-size:.9em}.foreign-resource-content button{min-height:44px}.foreign-resource-content [hidden]{display:none!important}
+dialog.foreign-resource-dialog[open]{box-sizing:border-box;position:fixed;inset:0;margin:auto;width:min(760px,96vw);max-width:calc(100vw - 16px);height:calc(100dvh - 24px);max-height:calc(100dvh - 24px);display:flex;flex-direction:column;gap:10px;overflow:hidden;border:1px solid #58a9bd;border-radius:18px;padding:14px;background:linear-gradient(150deg,#12374a,#081c2d);color:#e6f7fc}
+.foreign-resource-dialog::backdrop{background:#000a}
+.foreign-resource-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex:0 0 auto}
+.foreign-resource-head h2{margin:0;font-size:clamp(16px,4.5vw,22px);line-height:1.2;overflow-wrap:anywhere}
+.foreign-resource-toolbar,.foreign-resource-actions{display:flex;gap:8px;flex-wrap:wrap;margin:0;flex:0 0 auto}
+.foreign-resource-tabs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;flex:0 0 auto}
+.foreign-resource-dialog button{box-sizing:border-box;min-height:44px!important;height:auto!important;min-width:0;max-width:100%;margin:0!important;padding:9px 10px!important;font-size:14px!important;line-height:1.25!important;white-space:normal;overflow-wrap:anywhere;touch-action:manipulation;flex-shrink:0}
+.foreign-resource-tabs button[aria-pressed=true]{outline:2px solid #66d9ed;outline-offset:1px;background:linear-gradient(150deg,#236e8d,#104765)!important}
+.foreign-resource-content{flex:1 1 auto;min-height:0;min-width:0;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;touch-action:pan-y;scroll-padding:8px;padding:3px 3px 16px;outline:none}
+.foreign-resource-content>h3{margin:4px 0 10px;font-size:18px}
+.foreign-resource-dialog>.foreign-resource-status{margin:0;font-size:13px;flex:0 0 auto}
+.foreign-resource-dialog>.foreign-resource-status:empty{display:none}
+.foreign-resource-content input,.foreign-resource-content select{box-sizing:border-box;width:100%;padding:12px;font-size:16px;color:inherit;background:#ffffff12;border:1px solid #5799aa;border-radius:8px}
+.foreign-resource-entry{border:1px solid #ffffff30;border-radius:12px;padding:12px;margin:10px 0;overflow-wrap:anywhere}.foreign-resource-entry strong{font-size:1.15em}.foreign-resource-entry p{margin:8px 0}.foreign-resource-entry table{width:100%;border-collapse:collapse}.foreign-resource-entry th,.foreign-resource-entry td{text-align:start;border-bottom:1px solid #ffffff30;padding:8px;overflow-wrap:anywhere}.foreign-resource-entry audio{width:100%;margin:10px 0}.foreign-resource-note{opacity:.85;font-size:.9em}.foreign-resource-content [hidden]{display:none!important}
+@media(max-height:520px){dialog.foreign-resource-dialog[open]{gap:6px;padding:9px}.foreign-resource-dialog button{min-height:40px!important;padding:6px!important}.foreign-resource-head h2{font-size:16px}}
 `;
 export const FOREIGN_LANGUAGE_RESOURCES_SCRIPT=String.raw`
 let languageResourceActive=null;
@@ -14,10 +27,12 @@ async function languageResourcesOpen(initialTab='dictionary'){
  const heading=document.createElement('h2');heading.textContent=learningLabel('Dicționar · gramatică · conversație · audio','Dictionary · grammar · conversation · audio');
  const toolbar=document.createElement('div');toolbar.className='foreign-resource-toolbar';
  const close=foreignStudyButton(learningLabel('Închide','Close'),()=>dialog.close());toolbar.append(close);
- const status=document.createElement('p');status.setAttribute('role','status');status.textContent=learningLabel('Se încarcă resursa…','Loading resource…');
+ const status=document.createElement('p');status.className='foreign-resource-status';status.setAttribute('role','status');status.textContent=learningLabel('Se încarcă resursa…','Loading resource…');
  const tabs=document.createElement('div');tabs.className='foreign-resource-tabs';tabs.setAttribute('aria-label',learningLabel('Secțiuni','Sections'));
  const content=document.createElement('div');content.className='foreign-resource-content';
- dialog.append(heading,toolbar,status,tabs,content);document.body.append(dialog);
+ const header=document.createElement('header');header.className='foreign-resource-head';header.append(heading,close);
+ content.tabIndex=-1;content.setAttribute('aria-live','polite');
+ dialog.append(header,toolbar,status,tabs,content);document.body.append(dialog);
  let alive=true,pack=null,tab=initialTab,translation={},translating=false;
  let recorder=null,stream=null,recordingToken=0,recordTimer=null,audioURL=null,audioEl=null;
  function stopCapture(discard=false){
@@ -81,17 +96,20 @@ async function languageResourcesOpen(initialTab='dictionary'){
  const translateButton=foreignStudyButton(learningLabel('Tradu / reîncearcă explicațiile','Translate / retry explanations'),translate);toolbar.append(translateButton);
  function render(){
   cleanupAudio();content.replaceChildren();
+  const names={dictionary:learningLabel('Dicționar','Dictionary'),grammar:learningLabel('Teme și conjugări','Topics and conjugations'),guide:learningLabel('Ghid de conversație','Conversation guide'),audio:learningLabel('Laborator audio','Audio lab')};
+  el('h3',names[tab]||names.dictionary,content);
+  const info=el('details',undefined,content);info.className='foreign-resource-info';el('summary',learningLabel('Despre resursă, transcriere și traducere','About this resource, transcription and translation'),info);
   tabs.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.tab===tab)));
-  el('p',learningLabel('Explicații originale: română. Sensurile lexicale sunt în română (engleză pentru cuvintele românești). Butonul de traducere folosește motorul comun al aplicației și păstrează exemplele originale.','Original explanations: Romanian. Glosses are Romanian (English for Romanian words). The translation button uses the shared app engine and preserves original target examples.'),content).className='foreign-resource-note';
-  const scope=el('p',txt('scopeNote',pack.scopeNote),content,translation.scopeNote?(state.language||'ro'):'ro');scope.className='foreign-resource-note';
-  el('p',txt('pronunciationNote',pack.pronunciationNote),content,translation.pronunciationNote?(state.language||'ro'):'ro').className='foreign-resource-note';
+  el('p',learningLabel('Explicații originale: română. Sensurile lexicale sunt în română (engleză pentru cuvintele românești). Butonul de traducere folosește motorul comun al aplicației și păstrează exemplele originale.','Original explanations: Romanian. Glosses are Romanian (English for Romanian words). The translation button uses the shared app engine and preserves original target examples.'),info).className='foreign-resource-note';
+  const scope=el('p',txt('scopeNote',pack.scopeNote),info,translation.scopeNote?(state.language||'ro'):'ro');scope.className='foreign-resource-note';
+  el('p',txt('pronunciationNote',pack.pronunciationNote),info,translation.pronunciationNote?(state.language||'ro'):'ro').className='foreign-resource-note';
   if(tab==='dictionary'){
    const search=el('input',undefined,content);search.type='search';search.placeholder=learningLabel('Caută cuvânt, transcriere sau sens','Search term, transcription or meaning');search.setAttribute('aria-label',search.placeholder);
    const count=el('p','',content);count.setAttribute('role','status');const results=el('div',undefined,content);
    const norm=x=>String(x).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase();
    const update=()=>{results.replaceChildren();const query=norm(search.value||'');const rows=pack.dictionary.filter(x=>norm([x.term,x.phonetic,x.gloss,txt('gloss-'+x.id,'')].join(' ')).includes(query));count.textContent=rows.length+' / '+pack.dictionary.length;if(!rows.length)el('p',learningLabel('Niciun rezultat în lexicul introductiv local.','No results in the local introductory lexicon.'),results);rows.forEach(x=>entryCard(x,results))};search.addEventListener('input',update);update();
   }else if(tab==='grammar'){
-   el('p',learningLabel('Teme introductive: citește explicația, compară formele, completează și verifică. Nu toate limbile conjugă după persoană.','Starter topics: read the explanation, compare forms, complete and check. Not every language conjugates for person.'),content);
+   el('p',learningLabel('Teme introductive: citește explicația, compară formele, completează și verifică. Nu toate limbile conjugă după persoană.','Starter topics: read the explanation, compare forms, complete and check. Not every language conjugates for person.'),info);
    pack.lessons.forEach(lesson=>{
     const card=el('article',undefined,content);card.className='foreign-resource-entry';el('h3',lesson.title,card,pack.locale);el('p',txt('explain-'+lesson.id,lesson.explanation),card,translation['explain-'+lesson.id]?(state.language||'ro'):'ro');
     const table=el('table',undefined,card);const caption=el('caption',learningLabel('Forme de învățat','Forms to learn'),table);const body=el('tbody',undefined,table);
@@ -145,10 +163,10 @@ async function languageResourcesOpen(initialTab='dictionary'){
   }
  }
  const tabNames=[['dictionary','📚 Dicționar','📚 Dictionary'],['grammar','📐 Teme și conjugări','📐 Topics and conjugations'],['guide','💬 Ghid de conversație','💬 Conversation guide'],['audio','🎧 Laborator audio','🎧 Audio lab']];
- tabNames.forEach(([id,ro,en])=>{const b=foreignStudyButton(learningLabel(ro,en),()=>{tab=id;render()});b.dataset.tab=id;tabs.append(b)});
+ tabNames.forEach(([id,ro,en])=>{const b=foreignStudyButton(learningLabel(ro,en),()=>{if(!pack)return;tab=id;render();content.scrollTop=0});b.dataset.tab=id;b.disabled=true;tabs.append(b)});
  try{
   const loaded=await foreignLoadResource(language,variant);if(!alive)return;
-  pack=loaded.data;status.textContent=loaded.offline?learningLabel('Resursă din cache. Vocile TTS depind de dispozitiv.','Cached resource. TTS voices depend on the device.'):learningLabel('Resursă încărcată; explicațiile originale sunt marcate cu limba sursă.','Resource loaded; original explanations are marked with their source language.');
+  pack=loaded.data;tabs.querySelectorAll('button').forEach(b=>b.disabled=false);status.textContent=loaded.offline?learningLabel('Resursă din cache. Vocile TTS depind de dispozitiv.','Cached resource. TTS voices depend on the device.'):'';
   render();
  }catch{
   if(!alive)return;

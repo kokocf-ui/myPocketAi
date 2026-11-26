@@ -54,12 +54,12 @@ try{
  await tab(/Teme/);const lesson=dialog().locator('.foreign-resource-entry').first();assert.equal(await lesson.locator('tr').count(),6);
  await lesson.getByRole('textbox').fill('are');await lesson.getByRole('button',{name:'Verifică',exact:true}).click();assert.match(await lesson.innerText(),/Mai încearcă/);
  await lesson.getByRole('textbox').fill('is');await lesson.getByRole('button',{name:'Verifică',exact:true}).click();assert.match(await lesson.innerText(),/Corect!/);await lesson.getByText('Arată răspunsul',{exact:true}).click();assert.equal(await lesson.locator('details p').innerText(),'is');
- await tab(/Ghid/);assert.equal(await dialog().locator('h3').count(),3);assert.match(await dialog().innerText(),/One ticket/);
- await tab(/Laborator/);assert.equal(await dialog().locator('details').first().getAttribute('open'),null);
+ await tab(/Ghid/);assert.equal(await dialog().locator('.foreign-resource-content>section>h3').count(),3);assert.match(await dialog().innerText(),/One ticket/);
+ await tab(/Laborator/);assert.equal(await dialog().locator('.foreign-resource-content>details:not(.foreign-resource-info)').first().getAttribute('open'),null);
  await dialog().locator('.foreign-resource-content > div').first().getByRole('button',{name:'🐢 Lent',exact:true}).click();
  let spoken=await page.evaluate(()=>window.__spoken.at(-1));assert.equal(spoken.rate,0.7);assert.equal(spoken.lang,'en-GB');assert.equal(spoken.voice,'GB');
  await dialog().getByRole('textbox',{name:'Scrie ce auzi',exact:true}).fill('house');await dialog().getByRole('button',{name:'Verifică textul',exact:true}).click();assert.match(await dialog().innerText(),/Text corect; nu este scor fonetic/);
- await dialog().getByText('Arată textul și transcrierea',{exact:true}).click();assert.ok(await dialog().locator('details').first().getAttribute('open')!==null);
+ await dialog().getByText('Arată textul și transcrierea',{exact:true}).click();assert.ok(await dialog().locator('.foreign-resource-content>details:not(.foreign-resource-info)').first().getAttribute('open')!==null);
  // Real MediaRecorder with fake browser microphone; no uploads.
  await dialog().getByRole('button',{name:'🎙 Înregistrează local',exact:true}).click();await dialog().getByText('Se înregistrează… maximum 45 secunde.',{exact:true}).waitFor();
  await page.waitForTimeout(1200); // Recording can also be stopped immediately; final data is emitted on stop.

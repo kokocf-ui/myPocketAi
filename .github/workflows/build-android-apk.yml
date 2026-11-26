@@ -118,6 +118,9 @@ jobs:
           if-no-files-found: error
           retention-days: 7
   signed-branch-preview:
+    concurrency:
+      group: pocketai-signed-branch-test
+      cancel-in-progress: false
     # Manual only; optional prerelease artifact, never a production deployment.
     permissions:
       contents: write
@@ -175,7 +178,15 @@ jobs:
           CODE=$(printf '%s' "$BADGING" | sed -n "s/.*versionCode='\([0-9]*\)'.*/\1/p")
           [[ "$CODE" =~ ^[0-9]+$ ]] && test "$CODE" -lt 2100000000
           echo "Reference release: $TAG, versionCode=$CODE"
-          echo "POCKET_VERSION_CODE=$((CODE + 1))" >> "$GITHUB_ENV"
+          # A user can already have a previous signed test installed. Increment
+          # beyond our published test versions too, not just the stable APK.
+          MAX_CODE=$CODE
+          PREVIEW_NOTES=$(gh api "repos/${GITHUB_REPOSITORY}/releases?per_page=100" --jq '.[] | select(.prerelease == true and (.tag_name | startswith("education-test-"))) | .body')
+          while read -r PREVIEW_CODE; do
+            if [[ "$PREVIEW_CODE" =~ ^[0-9]+$ ]] && test "$PREVIEW_CODE" -gt "$MAX_CODE"; then MAX_CODE=$PREVIEW_CODE; fi
+          done < <(printf '%s\n' "$PREVIEW_NOTES" | sed -nE 's/.*versionCode ([0-9]+).*/\1/p')
+          test "$MAX_CODE" -lt 2100000000
+          echo "POCKET_VERSION_CODE=$((MAX_CODE + 1))" >> "$GITHUB_ENV"
           echo "POCKET_KEY_ALIAS=mypocketai-release" >> "$GITHUB_ENV"
           echo "POCKET_KEYSTORE_PATH=$KEY" >> "$GITHUB_ENV"
       - name: Build permanent-key signed branch APK
@@ -226,7 +237,7 @@ jobs:
           gh release create "education-test-${GITHUB_RUN_ID}" myPocketAI-signed-education-test.apk \
             --target "$GITHUB_SHA" --prerelease --latest=false \
             --title "myPocketAI — signed practical-course test (${GITHUB_RUN_ID})" \
-            --notes "User-requested signed branch-test APK from ${GITHUB_SHA}. Includes the reviewed UI and matching local Education content (guided practical workshops and language resources). Same signing certificate as the production release, verified during build; versionCode ${POCKET_VERSION_CODE}. Installs as an update without uninstalling. This is a branch test, not a production deployment. Live APIs still require connectivity. Known APK translation issue remains under investigation; browser mocks do not prove it fixed."
+            --notes "User-requested signed branch-test APK from ${GITHUB_SHA}. Includes the reviewed UI and matching local Education content (guided practical workshops, language resources, and mobile window/touch containment fixes). Same signing certificate as the production release, verified during build; versionCode ${POCKET_VERSION_CODE}. Installs as an update without uninstalling. This is a branch test, not a production deployment. Live APIs still require connectivity. Known APK translation issue remains under investigation; browser mocks do not prove it fixed."
       - name: Remove temporary key and reference APK
         if: always()
         run: rm -f "$RUNNER_TEMP/pocket-preview-release.jks" "$RUNNER_TEMP/check.csr" "$RUNNER_TEMP/published/myPocketAI-signed-release.apk"

@@ -1,3 +1,4 @@
+import {EDUCATION_MOBILE_CONTAINMENT_STYLE} from './education_mobile_containment.mjs';
 import {practicalValidatePack,practicalLoadPack,practicalCheckpointCorrect,practicalCanSelfReview} from './practical_course_pack_loader.mjs';
 import {PRACTICAL_WORKSHOP_SCRIPT,PRACTICAL_WORKSHOP_STYLE} from './practical_workshop_ui.mjs';
 import {foreignResourceKey,foreignValidateResource,foreignLoadResource} from './foreign_language_resource_loader.mjs';
@@ -1472,7 +1473,6 @@ body.long-choice-active{overflow:hidden}
 @media(max-height:600px){.pocket-select-modal,.pocket-select-modal .pocket-unified-window{max-height:85dvh}}
 
 ${PRACTICAL_WORKSHOP_STYLE}
-${FOREIGN_LANGUAGE_RESOURCES_STYLE}
 ${ACCOUNT_STYLE}
 </style>
 <style id="reminders-workspace-style">
@@ -8110,6 +8110,8 @@ function pocketBackInsideModule(){
  return false;
 }
 window.pocketAndroidBack=function(){
+ const openLayers=[...document.querySelectorAll('dialog[open]')];const topLayer=openLayers.at(-1);
+ if(topLayer?.matches?.('.foreign-resource-dialog,.language-tutor-dialog,.practical-activity-dialog,[data-education-ink]')){topLayer.close();return}
  // The paged Mathematics/Theory reader is layered above the theory catalogue.
  // Close its TOP layer before touching the underlying dialogue or app navigation.
  // Previously it was missing here, allowing physical Back to reach Eva's exit prompt.
@@ -14491,22 +14493,24 @@ function languageTutorPrompt(mode,request,history){
  '\\nIstoric de învățare:\\n'+previous+'\\nSolicitarea utilizatorului: '+turn;
 }
 function languageConversationStart(mode){
+ document.querySelectorAll('dialog.language-tutor-dialog[open]').forEach(d=>d.close());
  const dialog=document.createElement('dialog');dialog.className='education-theory-dialog science-result-dialog language-tutor-dialog';
  const heading=document.createElement('div');heading.className='education-theory-head';
  const h=document.createElement('h2');h.textContent=learningLabel('Profesor AI · ','AI tutor · ')+mode;
  heading.append(h,foreignStudyButton(learningLabel('← Revenire','← Back'),()=>dialog.close()));dialog.append(heading);
- const transcript=document.createElement('div');transcript.className='science-result-text';transcript.style.maxHeight='50dvh';transcript.style.overflowY='auto';dialog.append(transcript);
- const entry=document.createElement('textarea');entry.rows=3;entry.id='languageTutorInput';entry.placeholder=learningLabel('Scrie răspunsul sau întrebarea…','Type your answer or question…');dialog.append(entry);
- const notice=document.createElement('p');notice.setAttribute('role','status');dialog.append(notice);
- const history=[];
+ const body=document.createElement('div');body.className='language-tutor-body';dialog.append(body);
+ const transcript=document.createElement('div');transcript.className='science-result-text';body.append(transcript);
+ const entry=document.createElement('textarea');entry.rows=3;entry.id='languageTutorInput';entry.placeholder=learningLabel('Scrie răspunsul sau întrebarea…','Type your answer or question…');entry.setAttribute('aria-label',entry.placeholder);body.append(entry);
+ const notice=document.createElement('p');notice.setAttribute('role','status');body.append(notice);
+ const history=[];let busy=false,controller=null;
  const send=async()=>{
-  const spoken=entry.value.trim();if(languageJourney.busy)return;
+  const spoken=entry.value.trim();if(busy)return;
   if(spoken&&eduScopeBeforeAI(spoken,()=>send(),()=>dialog.close()))return;
-  languageJourney.busy=true;entry.value='';notice.textContent=learningLabel('Profesorul răspunde…','Tutor is replying…');
+  busy=true;submit.disabled=true;entry.value='';notice.textContent=learningLabel('Profesorul răspunde…','Tutor is replying…');
   const prompt=languageTutorPrompt(mode,spoken||'Începe lecția cu prima întrebare.',history);
   if(spoken){const user=document.createElement('p');user.textContent=learningLabel('Eu: ','Me: ')+spoken;transcript.append(user)}
   try{
-   const controller=new AbortController();dialog.addEventListener('close',()=>controller.abort(),{once:true});
+   controller=new AbortController();
    const response=await fetch(CLIENT_CONFIG.apiUrl,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:eduScopePrompt(prompt),language:state.language,module:'assistant',history:[]}),signal:controller.signal});
    const data=await response.json();if(!response.ok||data.status!=='success'||!data.reply)throw Error('no response');
    if(!dialog.isConnected)return;
@@ -14517,12 +14521,15 @@ function languageConversationStart(mode){
    notice.textContent=learningLabel('Răspuns generat de AI; verifică explicațiile importante.','AI-generated response; verify important details.');
    transcript.scrollTop=transcript.scrollHeight;
   }catch{if(dialog.isConnected)notice.textContent=learningLabel('Răspuns indisponibil. Nu am înregistrat această încercare drept evaluare.','Answer unavailable. No assessment was recorded.')}
-  finally{languageJourney.busy=false}
+  finally{busy=false;if(dialog.isConnected)submit.disabled=false}
  };
- dialog.append(foreignStudyButton(learningLabel('🎙 Răspunde vocal','🎙 Speak answer'),languageDictate),
-  foreignStudyButton(learningLabel('Trimite / Continuă','Send / Continue'),send,'primary-btn'),
+ const actions=document.createElement('div');actions.className='language-tutor-actions';
+ const submit=foreignStudyButton(learningLabel('Trimite / Continuă','Send / Continue'),send,'primary-btn');
+ actions.append(foreignStudyButton(learningLabel('🎙 Răspunde vocal','🎙 Speak answer'),languageDictate),
+  submit,
   foreignStudyButton(learningLabel('🔊 Citește ultimul răspuns','🔊 Read last reply'),()=>{const last=history.filter(x=>x.role==='tutor').at(-1);if(last)languageSpeak(last.text)}));
- dialog.addEventListener('close',()=>{languageVoiceStop();dialog.remove()});
+ body.append(actions);
+ dialog.addEventListener('close',()=>{controller?.abort();languageVoiceStop();dialog.remove()});
  document.body.append(dialog);try{dialog.showModal()}catch{dialog.setAttribute('open','')};
  send();
 }
@@ -26813,6 +26820,9 @@ main.page:has(#view-module.my-documents-active.active){
 #view-module.learning-science.science-subject-stage.science-scroll-stage.active .science-subject-icon{
  font-size:clamp(22px,6vw,31px)!important;
 }
+
+${FOREIGN_LANGUAGE_RESOURCES_STYLE}
+${EDUCATION_MOBILE_CONTAINMENT_STYLE}
 
 </style>
 </body>
