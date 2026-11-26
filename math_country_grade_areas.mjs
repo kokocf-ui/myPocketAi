@@ -60,8 +60,8 @@ export function mathCountryStudyYears({country,stage,years=[]}={}){
  if(code==='RO'&&st==='medium'){
   const national=mathCountryYearSequence({country:code,stage:st,years});
   return national.flatMap(y=>String(y.id)==='9'?
-   [{...y,ro:'Clasa a IX-a · alege profilul școlar',
-     en:'Grade 9 · choose your school profile',nationalYearVerified:true},
+   [{...y,ro:'Clasa a IX-a · Matematică-informatică (TC+CS)',
+     en:'Grade 9 · Mathematics-informatics (TC+CS)',nationalYearVerified:true},
     {id:'9-SCI',ro:'Clasa a IX-a · Științe ale naturii (TC+CS)',
      en:'Grade 9 · Natural Sciences (TC+CS)',nationalYearVerified:true,
      curriculumVerified:false,countryFrameworkSpecific:true}]:[y]);
@@ -72,6 +72,10 @@ export function mathCountryStudyYears({country,stage,years=[]}={}){
    secondBatchMathStudyYears({country:code,stage:st,years:national})||
    bulkMathYearLabels({country:code,stage:st,years:national})||national;
  }
+ // Romania: Licență in Mathematics (3 years, 180 ECTS); the national packs
+ // map these selector years 1..3 to uni-ba-1..3.
+ if(code==='RO')return ['I','II','III'].map((r,i)=>({id:String(i+1),ro:'Licență Matematică · anul '+r,
+  en:'Mathematics bachelor · Year '+(i+1),curriculumVerified:false,nationalYearVerified:false}));
  if(Array.isArray(years)&&years.length>=3)return years;
  const count=({'RO':3,'GB-ENG':3,'GB-WLS':3,'GB-NIR':3,'GB-SCT':4})[code]||4;
  return Array.from({length:count},(_,i)=>({

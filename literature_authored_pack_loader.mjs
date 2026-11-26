@@ -46,7 +46,7 @@ export async function literatureLoadAuthoredYear(country,stage,grade,options={})
 export async function literatureLoadAuthoredCatalog(options={}){
  // Same engine for every school subject with national year packs:
  // public/education/<subject>/authored/ (default: literature).
- const subject=['history','geography','computing'].includes(options.subject)?options.subject:'literature';
+ const subject=['history','geography','computing','math'].includes(options.subject)?options.subject:'literature';
  const valid=x=>Boolean(x&&x.schema==='mypocket-literature-authored-catalog/v1'&&typeof x.version==='string'&&
   /^[a-f0-9]{64}$/.test(x.version)&&Array.isArray(x.years)&&x.years.every(y=>y&&/^[A-Z]{2}(?:-[A-Z]{3})?$/.test(String(y.country||''))&&
    ['beginner','lower','medium','advanced'].includes(y.stage)&&typeof y.grade==='string'&&y.grade&&
@@ -67,7 +67,7 @@ export async function literatureLoadAuthoredCatalog(options={}){
  }
 }
 export async function literatureLoadNationalYear(entry,language,options={}){
- const subject=['history','geography','computing'].includes(options.subject)?options.subject:'literature';
+ const subject=['history','geography','computing','math'].includes(options.subject)?options.subject:'literature';
  const c=String(entry?.country||'').toUpperCase(),s=String(entry?.stage||''),g=String(entry?.grade||'');
  const choice=(entry?.languages||[]).find(l=>l.lang===language);
  if(!choice)throw Error('unknown_national_year_language');

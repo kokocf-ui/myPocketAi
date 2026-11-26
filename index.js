@@ -43,6 +43,7 @@ import {EDUCATION_WORLDWIDE_SCHEMES,EDUCATION_WORLDWIDE_FALLBACK,worldwideSchool
 import {COMPUTING_LEVELS,COMPUTING_PATHS,COMPUTING_TOPICS} from './computing_curriculum.mjs';
 import {COMPUTING_UI_SCRIPT} from './computing_ui.mjs';
 import {COMPUTING_NATIONAL_PACKS_SCRIPT} from './computing_national_packs.mjs';
+import {MATH_NATIONAL_PACKS_SCRIPT} from './math_national_packs.mjs';
 import {LIT_EU_COMMON} from './literature_common_program.mjs';
 import {literatureTracksForGrade,hungaryAdmissionTopicsForGrade,HUNGARY_ADMISSION_REFERENCES} from './literature_school_streams.mjs';
 import {LIT_OFFLINE_THEORY} from './literature_offline_theory.mjs';
@@ -13190,10 +13191,16 @@ function mathJourneyShowChoices(stage){
    },()=>mathJourneyShowChoices('stages'));
   }
   if(stage==='chapters')return mathJourneyShowChoices('branches');
+  if(stage==='national-lesson')return mathJourneyShowChoices('branches');
   return mathJourneyShowChoices('stages');
  };
  const bar=document.createElement('div');bar.className='education-toolbar';
  bar.append(back);host.append(bar);
+ // National year packs (e.g. Romania 1-4, 9-12, Licență): units and lessons
+ // from the authored pack replace the generic branches for that year.
+ if((stage==='branches'||stage==='national-lesson')&&typeof mathNationalRender==='function'&&mathNationalRender(stage,host)){
+  requestAnimationFrame(mathFitViewport);return;
+ }
  const panel=document.createElement('div');panel.className='math-choice-panel';
  const curLang=String(state.language||'ro');
  const title=document.createElement('h2');
@@ -16034,6 +16041,7 @@ function litWorkspace(panel){
 
 ${LITERATURE_TASK_UI_SCRIPT}
 ${EDUCATION_NATIONAL_SUBJECT_PACKS_SCRIPT}
+${MATH_NATIONAL_PACKS_SCRIPT}
 ${COMPUTING_NATIONAL_PACKS_SCRIPT}
 ${COMPUTING_UI_SCRIPT}
 ${EXAM_UI_SCRIPT}
