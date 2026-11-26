@@ -6,6 +6,9 @@ compatibility_date = "2026-10-28"
 # Supplement sparse food results worldwide without a paid Places API.
 # Uses bounded, area-cached public OSM queries. Disable for large-scale traffic.
 [vars]
+# Owner approved commercial terms and FI/EE activation on 2026-11-26. Key stays a Worker Secret.
+DIGITRANSIT_NATIONAL_ENABLED = "true"
+DIGITRANSIT_TERMS_REVIEWED = "true"
 # Explicit-consent handwriting transcription; bounded image, one model, no storage.
 POCKET_EDUCATION_INK_ENABLED = "true"
 OSM_WORLD_FOOD_ENABLED = "true"

@@ -298,6 +298,9 @@ jobs:
           node tests_mixed_uk_fallback.mjs
           node tests_short_local_transit_arrival.mjs
 
+      - name: Verify country-scoped national transport adapters
+        run: npm run test:national-transport
+
       - name: Validate Romanian national Bilo provider
         run: node tests_ro_national_transit.mjs
 
@@ -346,5 +349,17 @@ jobs:
         with:
           name: eva-weather-live-smoke
           path: eva-weather-live-smoke.json
+          if-no-files-found: warn
+          retention-days: 7
+
+      - name: Verify authorized Finland and Estonia public transport LIVE
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.backend_only == true }}
+        run: node scripts/smoke_digitransit_worker_live.mjs --allow-network
+      - name: Save Finland and Estonia verification report
+        if: ${{ always() && github.event_name == 'workflow_dispatch' && inputs.backend_only == true }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: digitransit-worker-live-smoke
+          path: digitransit-worker-live-smoke.json
           if-no-files-found: warn
           retention-days: 7

@@ -9,7 +9,7 @@ async function ask(message,extra={}){
  const response=await fetch(origin+'/api/chat',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({module:'assistant',language:'ro',message,history:[],...extra}),signal:AbortSignal.timeout(60000)});
  const data=await response.json();
  results.push({message,status:response.status,version:data.version,error:data.error,reply:data.reply,conversation_intent:data.conversation_intent,weather_ok:data.weather_ok,weather_location:data.weather?.location,web_search_status:data.web_search_status});save();
- assert.equal(response.status,200,JSON.stringify({status:response.status,error:data.error}));assert.equal(data.version,'v183');return data;
+ assert.equal(response.status,200,JSON.stringify({status:response.status,error:data.error}));assert.equal(data.version,'v184');return data;
 }
 const name=await ask('Cum vrei tu, dar Costi, cred că este perfect',{history:[{role:'user',content:'Ce faci?'},{role:'assistant',content:'Sunt pregătită să aflu despre tine, Costi. Cum îți poți spune?'}]});
 assert.equal(name.conversation_intent,'eva_name_preference');assert.match(name.reply,/îți spun Costi/);assert.equal(name.web_search_status,'not_needed');assert.doesNotMatch(name.reply,/cântăreț|manele|am găsit|am căutat/);
@@ -19,4 +19,4 @@ const location=await ask('Locația mea',{location:{latitude:51.479,longitude:0.2
 assert.equal(location.current_location,true);assert.equal(location.postcode,null);assert.deepEqual(location.nearby_postcodes,[]);assert.doesNotMatch(location.reply,/Coduri poștale din apropiere|Nearby postcodes/);
 const social=await ask('Ce faci?',{user_profile:{preferred_name:'Costi'}});assert.equal(social.conversational_reply,true);assert.equal(social.web_search_status,'not_needed');assert.doesNotMatch(social.reply,/am găsit.*despre tine|ești un cântăreț|eşti un cântăreţ/i);
 writeFileSync('eva-weather-live-smoke.json',JSON.stringify({origin,checked_at:new Date().toISOString(),results},null,2));
-console.log('PASS live v183: exact Costi turn without search, real GPS-area forecast, no uncertain postcode list and conversational Eva response.');
+console.log('PASS live v184: exact Costi turn without search, real GPS-area forecast, no uncertain postcode list and conversational Eva response.');

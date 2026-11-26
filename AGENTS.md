@@ -7,6 +7,21 @@
 
 ## 1. Reguli permanente de lucru cu utilizatorul
 
+**ACTUALIZARE ACTIVARE AUTORIZATĂ DIGITRANSIT (2026-11-26):**
+Utilizatorul a confirmat că a salvat DIGITRANSIT_API_KEY în Cloudflare, a autorizat
+publicarea backendului/testele live FI+EE („Da, mergem mai departe”) și apoi a
+confirmat explicit revizuirea/acceptarea termenilor+limitelor comerciale („Da”).
+Aceasta înlocuiește interdicția veche NUMAI pentru backend+activare FI/EE+probe.
+FĂRĂ frontend/APK/Oracle/merge/activare NO. Cheia nu a fost citită sau cerută.
+wrangler-backend: ENABLED+TERMS_REVIEWED true, backend v184; workflow existent
+backend_only pe ramura curentă, fără merge. Adăugate regresii naționale înainte
+și probe public Worker locale+interurbane FI/EE+frontieră refuzată după deploy.
+Script smoke_digitransit_worker_live.mjs cere --allow-network, raportează numai
+metadate allowlist; nu exportă secrete. Cheia este folosită de Worker, nu runner.
+Verificări locale national/check/dryrun PASS. Rezultatul remote ÎNCĂ NECUNOSCUT
+la scrierea acestui paragraf; vezi intrarea ulterioară înainte de afirmații live.
+
+
 
 **ETAPĂ ACTUALĂ / DIGITRANSIT FI+EE ȘI CHEI API (2026-11-26, după78091ff):**
 User cere continuarea conectărilor și linkuri/pași ca să obțină cheia și să o
