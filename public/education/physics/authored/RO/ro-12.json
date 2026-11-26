@@ -1,0 +1,1167 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "RO",
+ "stage": "medium",
+ "grade": "12",
+ "version": "2183a3a51d088e264e3c8c5a638b29eea7e53a8e84474868cb5fcfce7a5424e9",
+ "source": "https://www.edu.ro/programe_scolare_liceu",
+ "sourceTitle": "Programa școlară de Fizică pentru clasa a XII-a, ciclul superior al liceului, filiera teoretică, profilul real (OMEC nr. 5959/22.12.2006) — teoria relativității restrânse, elemente de fizică cuantică, fizica atomului, semiconductoare și aplicații în electronică, fizică nucleară; programă în vigoare până la intrarea în aplicare a noii programe; lecții originale, fără text copiat din manuale",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "ro",
+ "labels": [
+  "Activitate originală · România · Fizică · Clasa a XII-a (profil real, matematică-informatică)",
+  "Teorie pe înțeles",
+  "Exemplu",
+  "Rezolvare explicată",
+  "Exerciții",
+  "Verifică-te",
+  "Exerciții originale; nu înlocuiesc manualul sau evaluarea de la clasă.",
+  "Dacă nu ai înțeles: pas cu pas",
+  "Răspunsuri (verifică după ce termini)"
+ ],
+ "units": [
+  {
+   "title": "Teoria relativității restrânse",
+   "keys": [
+    "eu-year-ro-medium-12-l01",
+    "eu-year-ro-medium-12-l02",
+    "eu-year-ro-medium-12-l03",
+    "eu-year-ro-medium-12-l04",
+    "eu-year-ro-medium-12-l05"
+   ]
+  },
+  {
+   "title": "Elemente de fizică cuantică",
+   "keys": [
+    "eu-year-ro-medium-12-l06",
+    "eu-year-ro-medium-12-l07",
+    "eu-year-ro-medium-12-l08",
+    "eu-year-ro-medium-12-l09",
+    "eu-year-ro-medium-12-l10",
+    "eu-year-ro-medium-12-l11"
+   ]
+  },
+  {
+   "title": "Fizica atomului",
+   "keys": [
+    "eu-year-ro-medium-12-l12",
+    "eu-year-ro-medium-12-l13",
+    "eu-year-ro-medium-12-l14",
+    "eu-year-ro-medium-12-l15",
+    "eu-year-ro-medium-12-l16",
+    "eu-year-ro-medium-12-l17"
+   ]
+  },
+  {
+   "title": "Semiconductoare și aplicații în electronică",
+   "keys": [
+    "eu-year-ro-medium-12-l18",
+    "eu-year-ro-medium-12-l19",
+    "eu-year-ro-medium-12-l20",
+    "eu-year-ro-medium-12-l21",
+    "eu-year-ro-medium-12-l22"
+   ]
+  },
+  {
+   "title": "Fizica nucleară",
+   "keys": [
+    "eu-year-ro-medium-12-l23",
+    "eu-year-ro-medium-12-l24",
+    "eu-year-ro-medium-12-l25",
+    "eu-year-ro-medium-12-l26",
+    "eu-year-ro-medium-12-l27",
+    "eu-year-ro-medium-12-l28",
+    "eu-year-ro-medium-12-l29",
+    "eu-year-ro-medium-12-l30",
+    "eu-year-ro-medium-12-l31"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-ro-medium-12-l01": {
+   "ro": {
+    "title": "Limitele mecanicii clasice; experimentul Michelson–Morley",
+    "theory": "În mecanica clasică timpul și lungimile sunt absolute, iar vitezele se compun prin adunare (transformările Galilei). Electromagnetismul lui Maxwell prezice însă viteza luminii c ≈ 3·10⁸ m/s fără a preciza față de ce sistem. Se presupunea un mediu, „eterul”, față de care lumina ar avea viteza c. Experimentul Michelson–Morley (1887) a căutat mișcarea Pământului față de eter, folosind un interferometru, dar nu a detectat nicio diferență: viteza luminii este aceeași în toate direcțiile. Mecanica clasică rămâne valabilă pentru viteze mult mai mici decât c.",
+    "sample": "Clasic, lumina emisă de un tren cu 30 m/s ar avea c + 30 m/s; experimental, are tot c.",
+    "worked": "Pământul se mișcă în jurul Soarelui cu ~30 km/s, adică v/c = 10⁻⁴. Interferometrul ar fi trebuit să arate o deplasare de aproximativ 0,4 franje la rotirea aparatului; precizia lui permitea observarea a 0,01 franje, dar rezultatul a fost nul. Concluzia: nu există un sistem de referință privilegiat pentru lumină.",
+    "exercises": [
+     "Ce prezice compunerea clasică a vitezelor pentru lumina emisă de o sursă în mișcare?",
+     "Ce era eterul și de ce a fost presupus?",
+     "Descrie pe scurt experimentul Michelson–Morley și rezultatul lui.",
+     "Când putem folosi liniștiți mecanica clasică?",
+     "Calculează raportul v/c pentru un avion cu 900 km/h."
+    ],
+    "test": [
+     "Ce sunt transformările Galilei?",
+     "Ce a căutat experimentul Michelson–Morley?",
+     "Care a fost rezultatul experimentului?",
+     "Viteza luminii în vid?",
+     "Când e valabilă mecanica clasică?"
+    ],
+    "steps": [
+     "Pornește de la predicția clasică (viteze care se adună).",
+     "Compară cu rezultatele experimentale (viteza luminii constantă).",
+     "Trage concluzia despre limitele modelului clasic.",
+     "Greșeala frecventă: să crezi că mecanica clasică este „greșită”; ea este o aproximare excelentă pentru viteze mult mai mici decât c."
+    ],
+    "answers": [
+     "Regulile clasice de trecere între sisteme inerțiale",
+     "Mișcarea Pământului față de eter",
+     "Nicio diferență a vitezei luminii",
+     "≈ 3·10⁸ m/s",
+     "Pentru viteze mult mai mici decât c"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l02": {
+   "ro": {
+    "title": "Postulatele teoriei relativității restrânse; relativitatea simultaneității",
+    "theory": "Einstein (1905) a pornit de la două postulate: (1) legile fizicii au aceeași formă în toate sistemele de referință inerțiale (principiul relativității); (2) viteza luminii în vid este aceeași, c, în toate sistemele inerțiale, independent de mișcarea sursei. Consecințe: simultaneitatea este relativă — două evenimente simultane într-un sistem pot să nu fie simultane în altul; timpul și spațiul nu mai sunt absolute. Nicio particulă cu masă nu poate atinge viteza c.",
+    "sample": "Două fulgere simultane pentru un observator de pe peron nu sunt simultane pentru unul din trenul în mișcare.",
+    "worked": "Un tren se mișcă spre dreapta; din mijlocul unui vagon se emite un fulger de lumină. Pentru pasager, lumina ajunge simultan la ambele capete. Pentru observatorul de pe peron, peretele din spate vine în întâmpinarea luminii, iar cel din față se îndepărtează, deci lumina atinge întâi peretele din spate. Ambele descrieri sunt corecte în sistemele lor.",
+    "exercises": [
+     "Enunță cele două postulate ale relativității restrânse.",
+     "Explică relativitatea simultaneității cu exemplul trenului.",
+     "De ce postulatul al doilea contrazice compunerea clasică a vitezelor?",
+     "Poate un corp cu masă să atingă viteza luminii?",
+     "Ce înseamnă că legile fizicii au aceeași formă în orice sistem inerțial?"
+    ],
+    "test": [
+     "Primul postulat al lui Einstein?",
+     "Al doilea postulat al lui Einstein?",
+     "Este simultaneitatea absolută?",
+     "Depinde viteza luminii de mișcarea sursei?",
+     "Ce este un sistem inerțial?"
+    ],
+    "steps": [
+     "Precizează cele două sisteme inerțiale și evenimentele.",
+     "Aplică postulatul constanței vitezei luminii în fiecare sistem.",
+     "Compară concluziile observatorilor și explică de ce ambele sunt corecte.",
+     "Greșeala frecventă: să crezi că doar unul dintre observatori are dreptate; în relativitate ambele descrieri sunt valabile."
+    ],
+    "answers": [
+     "Legile fizicii sunt aceleași în orice sistem inerțial",
+     "Viteza luminii în vid este aceeași în orice sistem inerțial",
+     "Nu, este relativă",
+     "Nu",
+     "Un sistem în care e valabil principiul inerției"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l03": {
+   "ro": {
+    "title": "Dilatarea duratelor",
+    "theory": "Durata proprie Δt₀ este intervalul dintre două evenimente măsurat de un ceas aflat în repaus față de ele (în același loc). Un observator față de care ceasul se mișcă cu viteza v măsoară o durată mai lungă: Δt = γ·Δt₀, cu factorul γ = 1/√(1 − v²/c²) ≥ 1. Efectul este confirmat de miuonii din radiația cosmică (care ajung la sol deși ar trebui să se dezintegreze înainte) și de ceasurile atomice din avioane și sateliții GPS.",
+    "sample": "La v = 0,6c, factorul γ = 1,25: un ceas în mișcare pare să meargă mai încet.",
+    "worked": "Miuonii au durata de viață proprie ~2,2 µs. La v = 0,995c, γ = 1/√(1 − 0,990) ≈ 10, deci în sistemul Pământului trăiesc ~22 µs și parcurg ~0,995·3·10⁸·22·10⁻⁶ ≈ 6,6 km — suficient să ajungă de la 6 km altitudine la sol. Clasic ar parcurge doar ~660 m.",
+    "exercises": [
+     "Calculează γ pentru v = 0,8c.",
+     "Un ceas în mișcare cu 0,6c măsoară 4 s. Ce durată măsoară observatorul fix?",
+     "La ce viteză γ = 2?",
+     "Explică de ce miuonii cosmici ajung la sol.",
+     "De ce sateliții GPS trebuie să corecteze ceasurile?"
+    ],
+    "test": [
+     "Formula dilatării duratelor?",
+     "Formula factorului γ?",
+     "Ce este durata proprie?",
+     "γ pentru v mult mai mic decât c?",
+     "O confirmare experimentală a dilatării timpului?"
+    ],
+    "steps": [
+     "Identifică sistemul în care cele două evenimente au loc în același loc (durata proprie).",
+     "Calculează γ = 1/√(1 − v²/c²).",
+     "Aplică Δt = γΔt₀ și verifică faptul că Δt > Δt₀.",
+     "Greșeala frecventă: să inversezi duratele: durata proprie este cea mai scurtă, măsurată de ceasul aflat în repaus față de evenimente."
+    ],
+    "answers": [
+     "Δt = γ·Δt₀",
+     "γ = 1/√(1 − v²/c²)",
+     "Durata măsurată de un ceas în repaus față de evenimente",
+     "Aproximativ 1",
+     "Miuonii din radiația cosmică"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l04": {
+   "ro": {
+    "title": "Contracția lungimilor; compunerea relativistă a vitezelor",
+    "theory": "Lungimea proprie l₀ este lungimea măsurată în sistemul în care corpul este în repaus. Pentru un observator față de care corpul se mișcă cu v (pe direcția lungimii), lungimea măsurată este mai mică: l = l₀/γ = l₀·√(1 − v²/c²); dimensiunile perpendiculare pe mișcare nu se schimbă. Vitezele nu se mai adună simplu: u = (u′ + v)/(1 + u′·v/c²). Rezultatul nu depășește niciodată c; pentru viteze mici, regăsim adunarea clasică.",
+    "sample": "O navă de 100 m în mișcare cu 0,6c apare observatorului fix lungă de 80 m.",
+    "worked": "O navă cu 0,5c lansează înainte o sondă cu 0,5c față de navă: u = (0,5c + 0,5c)/(1 + 0,25) = 0,8c (nu c). Un foton emis înainte: u = (c + 0,5c)/(1 + 0,5) = c — viteza luminii rămâne c. Pentru miuonul de la lecția anterioară, în sistemul lui, distanța de 6,6 km se contractă la ~0,66 km.",
+    "exercises": [
+     "Ce lungime are pentru un observator fix o riglă de 1 m care se mișcă cu 0,8c?",
+     "Compune relativist vitezele 0,6c și 0,6c.",
+     "Arată că o lumină emisă de o sursă în mișcare are tot viteza c.",
+     "La ce viteză o navă pare de două ori mai scurtă?",
+     "De ce nu observăm contracția lungimilor în viața de zi cu zi?"
+    ],
+    "test": [
+     "Formula contracției lungimilor?",
+     "Ce este lungimea proprie?",
+     "Formula compunerii relativiste a vitezelor?",
+     "Se contractă dimensiunile perpendiculare pe mișcare?",
+     "Poate viteza compusă depăși c?"
+    ],
+    "steps": [
+     "Identifică sistemul propriu al corpului (lungimea proprie).",
+     "Aplică l = l₀/γ sau formula relativistă de compunere a vitezelor.",
+     "Verifică limitele: l < l₀ și u ≤ c; pentru v ≪ c regăsești rezultatul clasic.",
+     "Greșeala frecventă: să aduni clasic vitezele apropiate de c și să obții valori mai mari decât viteza luminii."
+    ],
+    "answers": [
+     "l = l₀/γ",
+     "Lungimea măsurată în sistemul în care corpul e în repaus",
+     "u = (u′ + v)/(1 + u′v/c²)",
+     "Nu",
+     "Nu"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l05": {
+   "ro": {
+    "title": "Masa, impulsul și energia relativistă; E = m·c²",
+    "theory": "În relativitate, impulsul unui corp este p = γ·m₀·v, iar energia totală E = γ·m₀·c². Un corp în repaus are energia de repaus E₀ = m₀·c²; energia cinetică este Ec = E − E₀ = (γ − 1)·m₀·c² (pentru v ≪ c revine la m₀v²/2). Relația dintre energie și impuls: E² = p²c² + m₀²c⁴. Echivalența masă–energie explică energia eliberată în reacțiile nucleare: o mică pierdere de masă Δm eliberează Δm·c².",
+    "sample": "Un gram de masă corespunde unei energii de 9·10¹³ J, cât arderea a circa 2 000 de tone de benzină.",
+    "worked": "Un electron (m₀c² ≈ 0,511 MeV) accelerat până la γ = 3 are E ≈ 1,53 MeV și Ec ≈ 1,02 MeV. Soarele emite ~3,8·10²⁶ W, adică pierde Δm/Δt = P/c² ≈ 3,8·10²⁶/9·10¹⁶ ≈ 4,2·10⁹ kg pe secundă.",
+    "exercises": [
+     "Calculează energia de repaus a unui proton (m₀ = 1,67·10⁻²⁷ kg).",
+     "Ce energie cinetică are un corp de 1 kg la v = 0,6c?",
+     "Câtă masă corespunde unei energii de 9·10¹⁶ J?",
+     "Arată că pentru v ≪ c, (γ − 1)m₀c² ≈ m₀v²/2.",
+     "De ce nu poate un corp cu masă să atingă viteza c (argument energetic)?"
+    ],
+    "test": [
+     "Formula energiei de repaus?",
+     "Formula energiei cinetice relativiste?",
+     "Formula impulsului relativist?",
+     "Relația energie–impuls?",
+     "Ce explică relația E = mc²?"
+    ],
+    "steps": [
+     "Calculează γ pentru viteza dată.",
+     "Aplică E = γm₀c², Ec = (γ − 1)m₀c², p = γm₀v.",
+     "Verifică limita clasică și ordinul de mărime (folosește MeV pentru particule).",
+     "Greșeala frecventă: să folosești m₀v²/2 pentru particule rapide; la viteze apropiate de c trebuie formula relativistă."
+    ],
+    "answers": [
+     "E₀ = m₀·c²",
+     "Ec = (γ − 1)·m₀·c²",
+     "p = γ·m₀·v",
+     "E² = p²c² + m₀²c⁴",
+     "Energia eliberată prin pierderea de masă"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l06": {
+   "ro": {
+    "title": "Radiația termică; ipoteza cuantelor a lui Planck",
+    "theory": "Orice corp cald emite radiație electromagnetică (radiație termică). Spectrul unui corp negru depinde doar de temperatură: maximul se deplasează spre lungimi de undă mai mici când temperatura crește (legea lui Wien: λ_max·T ≈ 2,9·10⁻³ m·K). Fizica clasică nu putea explica forma spectrului („catastrofa ultravioletă”). Planck (1900) a presupus că energia se emite și se absoarbe în porții (cuante): ε = h·ν, cu h ≈ 6,63·10⁻³⁴ J·s (constanta lui Planck). Așa a început fizica cuantică.",
+    "sample": "Un fier înroșit trece de la roșu la galben-alb când îl încălzim mai tare.",
+    "worked": "Soarele are maximul de emisie în jur de 500 nm: T ≈ 2,9·10⁻³/5·10⁻⁷ ≈ 5 800 K. Corpul uman (310 K) are λ_max ≈ 9,4 µm, în infraroșu — de aceea camerele termice ne „văd” pe întuneric. O cuantă de lumină verde (ν ≈ 6·10¹⁴ Hz) are ε ≈ 4·10⁻¹⁹ J ≈ 2,5 eV.",
+    "exercises": [
+     "Calculează λ_max pentru o stea cu T = 10 000 K.",
+     "Ce energie are o cuantă de radiație cu ν = 5·10¹⁴ Hz?",
+     "De ce culoarea unei stele indică temperatura ei?",
+     "Ce a presupus Planck despre emisia radiației?",
+     "Transformă 3,2·10⁻¹⁹ J în electronvolți."
+    ],
+    "test": [
+     "Ce este radiația termică?",
+     "Legea lui Wien?",
+     "Energia unei cuante?",
+     "Valoarea constantei lui Planck?",
+     "Câți joule are 1 eV?"
+    ],
+    "steps": [
+     "Identifică temperatura sau frecvența dată.",
+     "Aplică legea lui Wien sau ε = hν (transformă în eV dacă e util).",
+     "Interpretează: temperatură mare ⇒ λ_max mic; frecvență mare ⇒ cuantă mai energică.",
+     "Greșeala frecventă: să crezi că energia unei cuante depinde de intensitatea luminii; ea depinde doar de frecvență."
+    ],
+    "answers": [
+     "Radiația emisă de corpuri din cauza temperaturii",
+     "λ_max·T ≈ 2,9·10⁻³ m·K",
+     "ε = h·ν",
+     "≈ 6,63·10⁻³⁴ J·s",
+     "1,6·10⁻¹⁹ J"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l07": {
+   "ro": {
+    "title": "Efectul fotoelectric extern: legile experimentale",
+    "theory": "Efectul fotoelectric extern este emisia de electroni dintr-un metal iluminat cu radiație electromagnetică potrivită. Legi experimentale: (1) intensitatea curentului de saturație (numărul de fotoelectroni pe secundă) este proporțională cu fluxul luminos; (2) energia cinetică maximă a fotoelectronilor crește liniar cu frecvența și nu depinde de intensitatea luminii; (3) efectul apare doar dacă frecvența depășește un prag ν₀ (pragul roșu), specific metalului; (4) efectul este practic instantaneu. Teoria ondulatorie clasică nu poate explica legile 2–4.",
+    "sample": "Lumina roșie, oricât de intensă, nu scoate electroni din zinc; ultravioletul slab îi scoate.",
+    "worked": "În experiment, tensiunea de frânare U_f care oprește cei mai rapizi electroni dă energia lor: Ec_max = e·U_f. Dacă U_f = 1,5 V, Ec_max = 1,5 eV = 2,4·10⁻¹⁹ J. Dublând intensitatea luminii, curentul de saturație se dublează, dar U_f rămâne 1,5 V.",
+    "exercises": [
+     "Enunță cele patru legi ale efectului fotoelectric.",
+     "Ce energie au cei mai rapizi electroni dacă tensiunea de frânare este 2 V?",
+     "Ce se schimbă dacă dublezi intensitatea luminii? Dar frecvența?",
+     "De ce teoria ondulatorie nu explică pragul de frecvență?",
+     "Ce este curentul de saturație?"
+    ],
+    "test": [
+     "Ce este efectul fotoelectric extern?",
+     "De ce depinde energia maximă a fotoelectronilor?",
+     "Ce este pragul roșu?",
+     "Ce mărește creșterea intensității luminii?",
+     "Relația dintre Ec_max și tensiunea de frânare?"
+    ],
+    "steps": [
+     "Identifică mărimea modificată (intensitate sau frecvență).",
+     "Aplică legile: intensitatea afectează numărul de electroni, frecvența afectează energia lor.",
+     "Folosește Ec_max = eU_f pentru calcule și verifică pragul.",
+     "Greșeala frecventă: să crezi că lumina mai intensă produce electroni mai rapizi; produce doar mai mulți electroni."
+    ],
+    "answers": [
+     "Emisia de electroni dintr-un metal iluminat",
+     "De frecvența radiației",
+     "Frecvența minimă pentru care apare efectul",
+     "Numărul de fotoelectroni (curentul de saturație)",
+     "Ec_max = e·U_f"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l08": {
+   "ro": {
+    "title": "Ecuația lui Einstein pentru efectul fotoelectric; fotonul",
+    "theory": "Einstein (1905) a explicat efectul fotoelectric considerând că lumina este formată din fotoni, fiecare cu energia ε = h·ν. Un foton este absorbit de un singur electron: h·ν = L_extracție + Ec_max (ecuația lui Einstein). Lucrul de extracție L este energia minimă necesară pentru a scoate electronul; frecvența de prag ν₀ = L/h. Fotonul are masă de repaus zero, viteza c și impulsul p = h/λ. Aplicații: celule fotoelectrice, senzori de imagine, fotomultiplicatoare.",
+    "sample": "Un foton de 4 eV scoate dintr-un metal cu L = 2,5 eV electroni cu energia maximă de 1,5 eV.",
+    "worked": "Cesiu, L = 1,9 eV; lumină de 400 nm: ε = hc/λ = 6,63·10⁻³⁴·3·10⁸/4·10⁻⁷ ≈ 4,97·10⁻¹⁹ J ≈ 3,1 eV. Ec_max = 3,1 − 1,9 = 1,2 eV, U_f = 1,2 V. Lungimea de undă de prag: λ₀ = hc/L ≈ 1 240 eV·nm/1,9 eV ≈ 650 nm.",
+    "exercises": [
+     "Calculează energia unui foton de 500 nm în eV (hc ≈ 1 240 eV·nm).",
+     "Un metal are L = 4,5 eV. Ce lungime de undă de prag are?",
+     "Ce energie cinetică maximă au electronii scoși de fotoni de 6 eV dintr-un metal cu L = 4 eV?",
+     "Calculează impulsul unui foton de 600 nm.",
+     "Cum determini constanta lui Planck din graficul U_f(ν)?"
+    ],
+    "test": [
+     "Ecuația lui Einstein?",
+     "Energia fotonului?",
+     "Frecvența de prag?",
+     "Impulsul fotonului?",
+     "Masa de repaus a fotonului?"
+    ],
+    "steps": [
+     "Calculează energia fotonului (hν sau hc/λ, în eV).",
+     "Scade lucrul de extracție pentru a afla Ec_max (dacă e pozitivă, efectul are loc).",
+     "Calculează U_f, λ₀ sau impulsul și interpretează.",
+     "Greșeala frecventă: să obții Ec_max negativă și să nu observi că, de fapt, fotonul nu poate scoate electroni (sub prag)."
+    ],
+    "answers": [
+     "h·ν = L + Ec_max",
+     "ε = h·ν",
+     "ν₀ = L/h",
+     "p = h/λ",
+     "Zero"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l09": {
+   "ro": {
+    "title": "Efectul Compton",
+    "theory": "La împrăștierea radiațiilor X pe electroni aproape liberi, radiația împrăștiată are o lungime de undă mai mare decât cea incidentă. Compton (1923) a explicat fenomenul ca o ciocnire elastică între un foton și un electron, cu conservarea energiei și a impulsului: Δλ = λ′ − λ = λ_C·(1 − cos θ), unde λ_C = h/(m₀·c) ≈ 2,43·10⁻¹² m este lungimea de undă Compton a electronului, iar θ unghiul de împrăștiere. Efectul confirmă că fotonul are impuls, adică un caracter corpuscular.",
+    "sample": "La împrăștierea sub 90°, lungimea de undă crește cu aproximativ 2,43 pm.",
+    "worked": "Raze X de λ = 0,1 nm = 100 pm împrăștiate la 180°: Δλ = 2·2,43 = 4,86 pm, λ′ ≈ 104,86 pm. Energia fotonului scade de la ~12,4 keV la ~11,8 keV; diferența (~0,57 keV) este preluată de electronul de recul.",
+    "exercises": [
+     "Calculează Δλ pentru θ = 60°.",
+     "La ce unghi variația lungimii de undă este maximă?",
+     "De ce efectul Compton nu se observă practic cu lumină vizibilă?",
+     "Ce legi de conservare se aplică în efectul Compton?",
+     "Ce dovedește efectul Compton despre foton?"
+    ],
+    "test": [
+     "Formula efectului Compton?",
+     "Lungimea de undă Compton a electronului?",
+     "Δλ la θ = 0?",
+     "Ce particule interacționează în efectul Compton?",
+     "Ce caracter al luminii evidențiază?"
+    ],
+    "steps": [
+     "Identifică unghiul de împrăștiere și lungimea de undă incidentă.",
+     "Aplică Δλ = λ_C(1 − cos θ) și află λ′.",
+     "Calculează energia preluată de electron și interpretează.",
+     "Greșeala frecventă: să crezi că lungimea de undă scade după împrăștiere; fotonul pierde energie, deci λ crește."
+    ],
+    "answers": [
+     "Δλ = λ_C·(1 − cos θ)",
+     "≈ 2,43 pm",
+     "Zero",
+     "Fotonul și electronul",
+     "Caracterul corpuscular"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l10": {
+   "ro": {
+    "title": "Ipoteza lui de Broglie; difracția electronilor",
+    "theory": "De Broglie (1924) a propus că și particulele (electroni, protoni) au proprietăți ondulatorii, cu lungimea de undă λ = h/p = h/(m·v). Ipoteza a fost confirmată de difracția electronilor pe cristale (Davisson și Germer, 1927). Pentru un electron accelerat la tensiunea U: λ = h/√(2·m·e·U). Lungimile de undă mici ale electronilor permit microscopului electronic să vadă detalii mult mai fine decât microscopul optic.",
+    "sample": "Un electron accelerat la 150 V are lungimea de undă de aproximativ 0,1 nm, cât distanța dintre atomi.",
+    "worked": "Electron, U = 100 V: p = √(2·9,1·10⁻³¹·1,6·10⁻¹⁹·100) = √(2,91·10⁻⁴⁷) ≈ 5,4·10⁻²⁴ kg·m/s, λ = 6,63·10⁻³⁴/5,4·10⁻²⁴ ≈ 1,23·10⁻¹⁰ m. O minge de 0,1 kg cu 10 m/s are λ ≈ 6,6·10⁻³⁴ m — de neobservat.",
+    "exercises": [
+     "Calculează lungimea de undă de Broglie a unui electron cu v = 10⁶ m/s.",
+     "De ce nu observăm proprietățile ondulatorii ale unei mingi?",
+     "Cum se schimbă λ dacă tensiunea de accelerare crește de 4 ori?",
+     "Ce experiment a confirmat ipoteza lui de Broglie?",
+     "De ce are microscopul electronic o rezoluție mai mare decât cel optic?"
+    ],
+    "test": [
+     "Formula lungimii de undă de Broglie?",
+     "Cine a confirmat difracția electronilor?",
+     "λ pentru electron accelerat la U?",
+     "O aplicație a undelor de Broglie?",
+     "De ce λ unei mingi e de neobservat?"
+    ],
+    "steps": [
+     "Calculează impulsul particulei (din viteză sau din tensiunea de accelerare).",
+     "Aplică relația lui de Broglie λ = h/p.",
+     "Compară λ cu dimensiunile obstacolelor pentru a decide dacă apare difracția.",
+     "Greșeala frecventă: să folosești formula fotonului λ = c/ν pentru electroni; pentru particule cu masă λ = h/(mv)."
+    ],
+    "answers": [
+     "λ = h/(m·v)",
+     "Davisson și Germer",
+     "λ = h/√(2meU)",
+     "Microscopul electronic",
+     "Masa ei este foarte mare, λ foarte mic"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l11": {
+   "ro": {
+    "title": "Dualismul undă–corpuscul; relațiile de nedeterminare",
+    "theory": "Lumina și microparticulele au atât proprietăți ondulatorii (interferență, difracție), cât și corpusculare (efect fotoelectric, Compton); aspectul observat depinde de experiment (dualismul undă–corpuscul). Relațiile de nedeterminare ale lui Heisenberg: Δx·Δp ≥ h/(4π) și ΔE·Δt ≥ h/(4π). Nu se pot cunoaște simultan, oricât de precis, poziția și impulsul unei particule. Aceasta nu ține de imperfecțiunea aparatelor, ci de natura microparticulelor; de aceea, în fizica cuantică vorbim de probabilități.",
+    "sample": "Dacă știm foarte precis poziția unui electron, impulsul lui devine foarte nedeterminat.",
+    "worked": "Un electron închis într-un atom (Δx ≈ 10⁻¹⁰ m) are Δp ≥ 6,63·10⁻³⁴/(4π·10⁻¹⁰) ≈ 5,3·10⁻²⁵ kg·m/s, deci Δv ≈ 5,3·10⁻²⁵/9,1·10⁻³¹ ≈ 5,8·10⁵ m/s — enorm. Pentru o bilă de 1 g localizată la 1 µm, Δv ≈ 5·10⁻²⁶ m/s — neglijabil.",
+    "exercises": [
+     "Calculează nedeterminarea minimă a impulsului pentru Δx = 1 nm.",
+     "De ce relațiile de nedeterminare nu afectează corpurile macroscopice?",
+     "Dă un exemplu de experiment în care lumina se comportă ca undă și unul în care se comportă ca particulă.",
+     "Ce înseamnă că în fizica cuantică vorbim de probabilități?",
+     "Explică de ce un electron nu poate „cădea” pe nucleu (argument de nedeterminare)."
+    ],
+    "test": [
+     "Ce este dualismul undă–corpuscul?",
+     "Relația de nedeterminare poziție–impuls?",
+     "Relația de nedeterminare energie–timp?",
+     "Se datorează nedeterminarea aparatelor imperfecte?",
+     "Ce experiment arată natura corpusculară a luminii?"
+    ],
+    "steps": [
+     "Identifică perechea de mărimi (x și p sau E și t).",
+     "Aplică Δx·Δp ≥ h/(4π) și calculează nedeterminarea minimă.",
+     "Compară cu valorile tipice și interpretează (micro sau macro).",
+     "Greșeala frecventă: să crezi că nedeterminarea se poate elimina cu aparate mai bune; ea este o proprietate a naturii."
+    ],
+    "answers": [
+     "Aceleași obiecte au proprietăți de undă și de particulă",
+     "Δx·Δp ≥ h/(4π)",
+     "ΔE·Δt ≥ h/(4π)",
+     "Nu",
+     "Efectul fotoelectric"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l12": {
+   "ro": {
+    "title": "Spectre atomice: emisie și absorbție; seriile spectrale ale hidrogenului",
+    "theory": "Gazele încălzite sau excitate electric emit lumină doar la anumite lungimi de undă: spectrul de linii (de emisie), caracteristic fiecărui element („amprenta” lui). Același gaz, străbătut de lumină albă, absoarbe exact aceleași lungimi de undă (spectru de absorbție, cu linii întunecate). Pentru hidrogen, lungimile de undă respectă formula 1/λ = R·(1/n² − 1/m²), cu R ≈ 1,097·10⁷ m⁻¹ (constanta Rydberg); n = 1 dă seria Lyman (UV), n = 2 seria Balmer (vizibil), n = 3 seria Paschen (IR).",
+    "sample": "Liniile întunecate din spectrul Soarelui arată ce elemente există în atmosfera lui.",
+    "worked": "Prima linie Balmer (m = 3 → n = 2): 1/λ = 1,097·10⁷·(1/4 − 1/9) = 1,097·10⁷·0,1389 ≈ 1,524·10⁶ m⁻¹, λ ≈ 656 nm (roșu, linia H_α). Limita seriei Balmer (m → ∞): λ = 4/R ≈ 365 nm.",
+    "exercises": [
+     "Calculează lungimea de undă a liniei Balmer m = 4 → n = 2.",
+     "Ce lungime de undă are prima linie Lyman (2 → 1)?",
+     "În ce domeniu spectral se află seria Paschen?",
+     "Ce diferență este între spectrul de emisie și cel de absorbție?",
+     "Cum au descoperit astronomii heliul în Soare?"
+    ],
+    "test": [
+     "Ce este un spectru de linii?",
+     "Formula seriilor hidrogenului?",
+     "În ce domeniu este seria Balmer?",
+     "Valoarea constantei Rydberg?",
+     "Ce arată liniile de absorbție?"
+    ],
+    "steps": [
+     "Identifică seria (n) și nivelul de pornire (m > n).",
+     "Aplică 1/λ = R(1/n² − 1/m²).",
+     "Plasează linia în spectru (UV, vizibil, IR) și interpretează.",
+     "Greșeala frecventă: să inversezi n și m, obținând o lungime de undă negativă."
+    ],
+    "answers": [
+     "Spectru format din linii la lungimi de undă precise",
+     "1/λ = R·(1/n² − 1/m²)",
+     "Vizibil",
+     "≈ 1,097·10⁷ m⁻¹",
+     "Elementele care absorb lumina"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l13": {
+   "ro": {
+    "title": "Modele atomice: Thomson și Rutherford",
+    "theory": "Thomson (1904) a propus atomul ca o sferă cu sarcină pozitivă uniform distribuită, în care sunt înglobați electronii („cozonacul cu stafide”). Experimentul lui Rutherford (1911): particule α trimise asupra unei foițe subțiri de aur au trecut aproape nedeviate în marea majoritate, dar câteva au fost deviate puternic, chiar întoarse. Concluzie: atomul are un nucleu foarte mic (~10⁻¹⁴ – 10⁻¹⁵ m), pozitiv, care conține aproape toată masa, iar electronii se rotesc în jurul lui (modelul planetar). Problema: după electrodinamica clasică, electronul accelerat ar radia energie și ar cădea pe nucleu.",
+    "sample": "Dacă nucleul ar avea mărimea unei mingi, atomul ar fi cât un stadion.",
+    "worked": "Raportul dintre raza atomului (~10⁻¹⁰ m) și raza nucleului (~10⁻¹⁴ m) este ~10⁴, deci volumul atomului este de ~10¹² ori mai mare. Doar aproximativ o particulă α din 8 000 era deviată la peste 90° — dovada unui nucleu foarte mic și dens.",
+    "exercises": [
+     "Descrie modelul lui Thomson și de ce a fost abandonat.",
+     "Ce observații a făcut Rutherford și ce concluzii a tras?",
+     "Ce raport există între volumul atomului și al nucleului?",
+     "De ce modelul planetar este instabil după fizica clasică?",
+     "De ce au fost folosite particule α și foițe foarte subțiri?"
+    ],
+    "test": [
+     "Ce propunea modelul Thomson?",
+     "Ce particule a folosit Rutherford?",
+     "Ce a descoperit Rutherford?",
+     "Dimensiunea nucleului?",
+     "Care era problema modelului planetar?"
+    ],
+    "steps": [
+     "Descrie modelul și predicția lui.",
+     "Compară predicția cu rezultatul experimental.",
+     "Trage concluzia despre structura atomului și limitele modelului.",
+     "Greșeala frecventă: să crezi că atomul este „plin”; aproape tot volumul lui este gol, iar masa este concentrată în nucleu."
+    ],
+    "answers": [
+     "O sferă pozitivă cu electroni înglobați",
+     "Particule α",
+     "Nucleul atomic mic, dens și pozitiv",
+     "~10⁻¹⁴ – 10⁻¹⁵ m",
+     "Electronul ar radia și ar cădea pe nucleu"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l14": {
+   "ro": {
+    "title": "Modelul lui Bohr pentru atomul de hidrogen",
+    "theory": "Bohr (1913) a adăugat modelului planetar două postulate: (1) electronul se mișcă doar pe anumite orbite permise (staționare), fără să radieze; momentul cinetic este cuantificat: m·v·r = n·h/(2π); (2) atomul emite sau absoarbe un foton doar la trecerea între două stări: h·ν = E_m − E_n. Pentru hidrogen: r_n = n²·r₁ (r₁ ≈ 0,053 nm) și E_n = −13,6 eV/n². Energia de ionizare din starea fundamentală este 13,6 eV. Modelul explică seriile spectrale, dar nu funcționează pentru atomi cu mai mulți electroni.",
+    "sample": "La trecerea electronului de pe nivelul 2 pe nivelul 1 se emite un foton de 10,2 eV.",
+    "worked": "E₁ = −13,6 eV, E₂ = −3,4 eV, E₃ ≈ −1,51 eV. Tranziția 3 → 2: ε = 1,89 eV, λ = 1 240/1,89 ≈ 656 nm (linia roșie H_α, aceeași ca în formula Rydberg). Raza orbitei n = 3: 9·0,053 ≈ 0,48 nm.",
+    "exercises": [
+     "Calculează energia nivelului n = 4 pentru hidrogen.",
+     "Ce energie are fotonul emis la tranziția 4 → 2? Ce culoare are?",
+     "Ce rază are orbita n = 2?",
+     "Ce energie trebuie să primească un atom de H în starea fundamentală pentru a fi ionizat?",
+     "De ce un atom de hidrogen nu absoarbe un foton de 5 eV din starea fundamentală?"
+    ],
+    "test": [
+     "Postulatul orbitelor staționare?",
+     "Postulatul frecvențelor?",
+     "Energia nivelului n la hidrogen?",
+     "Raza orbitei n?",
+     "Energia de ionizare a hidrogenului?"
+    ],
+    "steps": [
+     "Calculează energiile nivelurilor implicate (E_n = −13,6/n² eV).",
+     "Află energia fotonului ε = E_m − E_n și λ = hc/ε.",
+     "Interpretează (emisie sau absorbție, domeniul spectral).",
+     "Greșeala frecventă: să uiți că energiile nivelurilor sunt negative și să obții energii de foton greșite."
+    ],
+    "answers": [
+     "Electronul nu radiază pe orbitele permise",
+     "h·ν = E_m − E_n",
+     "E_n = −13,6 eV/n²",
+     "r_n = n²·r₁",
+     "13,6 eV"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l15": {
+   "ro": {
+    "title": "Atomul cu mai mulți electroni; numere cuantice; tabelul periodic",
+    "theory": "Starea unui electron în atom se descrie prin patru numere cuantice: principal n (stratul, energia), orbital l = 0…n − 1 (substratul s, p, d, f), magnetic m = −l…+l (orientarea) și de spin m_s = ±1/2. Principiul de excluziune al lui Pauli: într-un atom nu pot exista doi electroni cu toate cele patru numere cuantice identice. Rezultă capacitatea maximă a straturilor: 2n² electroni (2, 8, 18, 32). Ocuparea straturilor în ordinea energiilor explică periodicitatea proprietăților chimice din tabelul lui Mendeleev.",
+    "sample": "Stratul n = 2 poate avea cel mult 8 electroni: 2 în substratul s și 6 în substratul p.",
+    "worked": "Sodiul (Z = 11): 1s² 2s² 2p⁶ 3s¹ — un singur electron pe stratul exterior, ușor de cedat, ca la toate metalele alcaline. Neonul (Z = 10): 1s² 2s² 2p⁶ — strat complet, gaz inert. Numărul de stări pentru n = 3: l = 0, 1, 2 ⇒ 1 + 3 + 5 = 9 orbitali, 18 electroni.",
+    "exercises": [
+     "Câți electroni încap pe stratul n = 4?",
+     "Scrie configurația electronică a clorului (Z = 17).",
+     "Ce valori poate lua l pentru n = 3?",
+     "De ce gazele nobile sunt puțin reactive?",
+     "Enunță principiul lui Pauli."
+    ],
+    "test": [
+     "Câte numere cuantice descriu un electron?",
+     "Principiul de excluziune al lui Pauli?",
+     "Capacitatea maximă a stratului n?",
+     "Valorile numărului cuantic orbital?",
+     "Ce explică periodicitatea proprietăților chimice?"
+    ],
+    "steps": [
+     "Stabilește numărul de electroni (Z).",
+     "Ocupă straturile și substraturile respectând principiul lui Pauli și ordinea energiilor.",
+     "Leagă configurația stratului exterior de proprietățile chimice.",
+     "Greșeala frecventă: să crezi că orice strat are cel mult 8 electroni; capacitatea este 2n² (de exemplu 18 pentru n = 3)."
+    ],
+    "answers": [
+     "Patru",
+     "Doi electroni nu pot avea toate numerele cuantice identice",
+     "2n²",
+     "0, 1, …, n − 1",
+     "Configurația electronică a stratului exterior"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l16": {
+   "ro": {
+    "title": "Radiațiile X: producere, proprietăți, aplicații",
+    "theory": "Radiațiile X se produc într-un tub în care electronii accelerați la tensiuni mari (zeci de kV) sunt frânați brusc într-o țintă metalică (anod). Spectrul are o parte continuă (radiația de frânare), cu o lungime de undă minimă λ_min = h·c/(e·U), și linii caracteristice ale metalului țintei (tranziții către straturile interioare). Radiațiile X pătrund prin țesuturi moi, sunt absorbite mai mult de oase și metale, ionizează și impresionează filmul fotografic. Aplicații: radiografie, tomografie computerizată, controlul bagajelor, studiul cristalelor prin difracție.",
+    "sample": "Un tub de raze X la 50 kV produce fotoni de cel mult 50 keV.",
+    "worked": "U = 30 kV: λ_min = 1 240 eV·nm/30 000 eV ≈ 0,041 nm. Numai ~1% din energia electronilor devine radiație X, restul încălzește anodul — de aceea anodul este răcit sau rotitor. Expunerea trebuie limitată: personalul folosește șorțuri de plumb.",
+    "exercises": [
+     "Calculează λ_min pentru un tub la 100 kV.",
+     "Ce tensiune produce λ_min = 0,02 nm?",
+     "De ce oasele apar albe pe radiografie?",
+     "Cum se formează liniile caracteristice ale spectrului X?",
+     "Ce măsuri de protecție se iau în radiologie?"
+    ],
+    "test": [
+     "Cum se produc radiațiile X?",
+     "Formula lungimii de undă minime?",
+     "Ce sunt liniile caracteristice?",
+     "O aplicație medicală a radiațiilor X?",
+     "De ce sunt periculoase radiațiile X?"
+    ],
+    "steps": [
+     "Identifică tensiunea de accelerare (energia electronilor).",
+     "Aplică λ_min = hc/(eU) și interpretează spectrul.",
+     "Leagă proprietățile (pătrundere, ionizare) de aplicații și protecție.",
+     "Greșeala frecventă: să crezi că lungimea de undă minimă depinde de metalul anodului; ea depinde doar de tensiune."
+    ],
+    "answers": [
+     "Prin frânarea electronilor rapizi în anod",
+     "λ_min = h·c/(e·U)",
+     "Linii date de tranzițiile pe straturile interioare ale anodului",
+     "Radiografia",
+     "Sunt ionizante"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l17": {
+   "ro": {
+    "title": "Laserul: emisia stimulată și aplicații",
+    "theory": "Un atom excitat poate emite un foton spontan sau stimulat de un alt foton cu aceeași energie; fotonul stimulat este identic cu cel incident (aceeași frecvență, fază, direcție, polarizare). Pentru amplificare este necesară inversia de populație (mai mulți atomi excitați decât în starea fundamentală), obținută prin pompaj optic sau electric, de obicei folosind un nivel metastabil. Cavitatea rezonantă cu două oglinzi (una parțial transparentă) amplifică fasciculul. Lumina laser este coerentă, monocromatică, direcționată și intensă. Aplicații: medicină, telecomunicații, industrie (tăiere, sudură), măsurători, CD/DVD, imprimante.",
+    "sample": "Laserul He–Ne emite lumină roșie de 632,8 nm.",
+    "worked": "Un pointer laser de 1 mW la 650 nm emite N = P/(hc/λ) = 10⁻³/(3,06·10⁻¹⁹) ≈ 3,3·10¹⁵ fotoni pe secundă. Concentrat pe o pată de 1 mm², intensitatea este ~1 000 W/m², comparabilă cu lumina directă a Soarelui pe o suprafață mică — periculos pentru ochi.",
+    "exercises": [
+     "Ce diferență este între emisia spontană și cea stimulată?",
+     "Ce este inversia de populație și de ce este necesară?",
+     "Calculează numărul de fotoni pe secundă emiși de un laser de 5 mW la 532 nm.",
+     "Ce rol au oglinzile cavității rezonante?",
+     "Dă trei aplicații ale laserului."
+    ],
+    "test": [
+     "Ce este emisia stimulată?",
+     "Ce înseamnă LASER?",
+     "Ce este inversia de populație?",
+     "Ce este un nivel metastabil?",
+     "Rolul cavității rezonante?"
+    ],
+    "steps": [
+     "Identifică nivelurile energetice și tipul de emisie.",
+     "Explică obținerea inversiei de populație și amplificarea în cavitate.",
+     "Calculează puteri sau număr de fotoni și leagă de aplicații.",
+     "Greșeala frecventă: să crezi că laserul produce energie suplimentară; el doar concentrează energia primită prin pompaj."
+    ],
+    "answers": [
+     "Emisia unui foton identic cu fotonul care o declanșează",
+     "Amplificarea luminii prin emisie stimulată a radiației",
+     "Mai mulți atomi excitați decât neexcitați",
+     "Un nivel excitat cu durată de viață lungă",
+     "Amplifică și direcționează fasciculul"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l18": {
+   "ro": {
+    "title": "Conducția electrică în semiconductoare intrinseci; benzi de energie",
+    "theory": "În solide, nivelurile energetice ale atomilor formează benzi: banda de valență și banda de conducție, separate de banda interzisă (de lărgime E_g). La metale benzile se suprapun (conduc bine); la izolatori E_g este mare (peste ~5 eV); la semiconductoare E_g este mică (Si ≈ 1,1 eV, Ge ≈ 0,7 eV). La temperatura camerei, unii electroni trec în banda de conducție și lasă în urmă goluri (purtători pozitivi). Semiconductorul pur (intrinsec) are tot atâția electroni liberi câte goluri; conductivitatea lui crește cu temperatura (spre deosebire de metale).",
+    "sample": "Siliciul pur conduce mai bine la cald decât la rece, invers față de cupru.",
+    "worked": "Pentru Si, la 300 K, concentrația purtătorilor intrinseci este ~10¹⁶ m⁻³, față de ~10²⁸ m⁻³ electroni liberi în cupru. Un foton cu energia peste 1,1 eV (λ < 1 240/1,1 ≈ 1 130 nm) poate genera o pereche electron–gol — principiul celulei solare și al fotodiodei.",
+    "exercises": [
+     "Ce diferență este între metal, izolator și semiconductor din punctul de vedere al benzilor?",
+     "Ce este un gol și cum se deplasează?",
+     "De ce rezistența unui termistor semiconductor scade la încălzire?",
+     "Calculează lungimea de undă maximă care generează perechi electron–gol în germaniu.",
+     "Ce înseamnă semiconductor intrinsec?"
+    ],
+    "test": [
+     "Ce este banda interzisă?",
+     "Lărgimea benzii interzise la siliciu?",
+     "Ce purtători există într-un semiconductor intrinsec?",
+     "Cum variază conductivitatea semiconductorului cu temperatura?",
+     "Ce este un gol?"
+    ],
+    "steps": [
+     "Compară lărgimea benzii interzise cu energia termică sau a fotonilor.",
+     "Explică generarea perechilor electron–gol.",
+     "Concluzionează comportarea conductivității (temperatură, iluminare).",
+     "Greșeala frecventă: să crezi că golul este o particulă reală; este lipsa unui electron, care se comportă ca o sarcină pozitivă."
+    ],
+    "answers": [
+     "Intervalul de energii fără stări pentru electroni",
+     "≈ 1,1 eV",
+     "Electroni și goluri în număr egal",
+     "Crește",
+     "Lipsa unui electron din banda de valență"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l19": {
+   "ro": {
+    "title": "Semiconductoare extrinseci de tip n și p",
+    "theory": "Dopajul înseamnă introducerea controlată a unor impurități. Atomii pentavalenți (P, As) în siliciu (tetravalent) cedează un electron în plus: semiconductor de tip n, cu electronii purtători majoritari. Atomii trivalenți (B, Al) creează goluri: semiconductor de tip p, cu golurile purtători majoritari. Chiar o concentrație foarte mică de impurități (un atom la un milion) mărește conductivitatea de mii de ori. Semiconductorul dopat rămâne neutru electric în ansamblu.",
+    "sample": "Siliciul dopat cu fosfor este de tip n, iar cel dopat cu bor este de tip p.",
+    "worked": "Siliciul are ~5·10²⁸ atomi/m³. Un atom de fosfor la 10⁶ atomi de Si dă ~5·10²² electroni liberi/m³, de ~5 milioane de ori mai mulți decât purtătorii intrinseci (~10¹⁶ m⁻³). De aceea conducția în semiconductorul dopat este dominată de impurități.",
+    "exercises": [
+     "Ce tip de semiconductor obții dopând germaniul cu arsen?",
+     "Care sunt purtătorii majoritari într-un semiconductor de tip p?",
+     "De ce semiconductorul de tip n nu este încărcat negativ?",
+     "Estimează concentrația electronilor pentru 1 atom de P la 10⁷ atomi de Si.",
+     "De ce este important dopajul pentru industria electronică?"
+    ],
+    "test": [
+     "Ce este dopajul?",
+     "Ce impurități produc tip n?",
+     "Ce impurități produc tip p?",
+     "Purtătorii majoritari în tip n?",
+     "Este semiconductorul dopat încărcat electric?"
+    ],
+    "steps": [
+     "Stabilește valența impurității față de cea a semiconductorului.",
+     "Deduce tipul (n sau p) și purtătorii majoritari.",
+     "Estimează concentrația purtătorilor și efectul asupra conductivității.",
+     "Greșeala frecventă: să crezi că tipul n are sarcină negativă; materialul rămâne neutru, ionii donori compensează electronii."
+    ],
+    "answers": [
+     "Introducerea controlată de impurități",
+     "Atomi pentavalenți (P, As)",
+     "Atomi trivalenți (B, Al)",
+     "Electronii",
+     "Nu, rămâne neutru"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l20": {
+   "ro": {
+    "title": "Joncțiunea p–n; dioda semiconductoare",
+    "theory": "La contactul dintre o zonă p și una n, electronii și golurile difuzează și se recombină, formând o regiune sărăcită de purtători, cu un câmp electric intern (bariera de potențial, ~0,6–0,7 V la Si). Polarizare directă (+ pe p): bariera scade, curentul crește rapid. Polarizare inversă (+ pe n): bariera crește, curentul este foarte mic. Dioda conduce deci practic într-un singur sens. Caracteristica I(U) este neliniară. Aplicații: redresoare, protecție, detecție.",
+    "sample": "O diodă de siliciu începe să conducă semnificativ la aproximativ 0,7 V în sens direct.",
+    "worked": "Într-un circuit cu sursă de 5 V, rezistor de 430 Ω și diodă de Si polarizată direct: I ≈ (5 − 0,7)/430 = 0,01 A = 10 mA. Inversând dioda, curentul scade la câțiva nA — practic zero; toată tensiunea apare pe diodă.",
+    "exercises": [
+     "Calculează curentul printr-o diodă de Si în serie cu 1 kΩ la 9 V (polarizare directă).",
+     "Ce se întâmplă cu regiunea sărăcită la polarizare inversă?",
+     "Desenează caracteristica I(U) a unei diode.",
+     "De ce dioda este un element neliniar?",
+     "Ce este tensiunea de străpungere a unei diode?"
+    ],
+    "test": [
+     "Ce este joncțiunea p–n?",
+     "Ce este polarizarea directă?",
+     "Tensiunea de deschidere a diodei de Si?",
+     "Ce face dioda la polarizare inversă?",
+     "Ce este regiunea sărăcită?"
+    ],
+    "steps": [
+     "Stabilește sensul polarizării (p la + înseamnă direct).",
+     "Folosește modelul simplificat: în direct cade ~0,7 V, în invers curent ≈ 0.",
+     "Calculează curentul cu legea lui Ohm pe restul circuitului.",
+     "Greșeala frecventă: să aplici legea lui Ohm diodei ca unui rezistor obișnuit; caracteristica ei este neliniară."
+    ],
+    "answers": [
+     "Contactul dintre o zonă p și una n",
+     "Plus pe zona p, minus pe zona n",
+     "≈ 0,7 V",
+     "Practic nu conduce",
+     "Zona fără purtători liberi de lângă joncțiune"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l21": {
+   "ro": {
+    "title": "Redresarea curentului alternativ; dioda LED, fotodioda, celula solară",
+    "theory": "Redresorul transformă curentul alternativ în curent continuu: o diodă (monoalternanță) lasă să treacă doar o alternanță; puntea cu patru diode (dublă alternanță) folosește ambele alternanțe; un condensator de filtrare netezește tensiunea. LED-ul emite lumină la recombinarea electronilor cu golurile în polarizare directă; culoarea depinde de lărgimea benzii interzise (ε ≈ E_g). Fotodioda și celula solară transformă lumina în curent: fotonii generează perechi electron–gol separate de câmpul joncțiunii.",
+    "sample": "Încărcătorul telefonului conține un transformator coborâtor și o punte redresoare.",
+    "worked": "Un LED roșu emite la ~630 nm: ε = 1 240/630 ≈ 1,97 eV, deci materialul are E_g ≈ 2 eV. Un LED albastru (~470 nm) necesită ~2,6 eV. O celulă solară de 0,02 m² cu randament 20%, la 1 000 W/m², dă 4 W.",
+    "exercises": [
+     "Desenează schema unui redresor monoalternanță și forma tensiunii de ieșire.",
+     "Ce avantaj are puntea redresoare?",
+     "Ce lărgime a benzii interzise are un LED verde de 530 nm?",
+     "Ce putere dă un panou de 1,6 m² cu randament 18% la 800 W/m²?",
+     "De ce LED-urile sunt mai eficiente decât becurile cu incandescență?"
+    ],
+    "test": [
+     "Ce face un redresor?",
+     "Câte diode are puntea redresoare?",
+     "Rolul condensatorului de filtrare?",
+     "De ce depinde culoarea LED-ului?",
+     "Ce transformă celula solară?"
+    ],
+    "steps": [
+     "Identifică dispozitivul și sensul de polarizare.",
+     "Explică fenomenul fizic (conducție unidirecțională, recombinare, generare de perechi).",
+     "Calculează mărimea cerută (E_g din λ, putere, formă de undă).",
+     "Greșeala frecventă: să crezi că LED-ul funcționează în polarizare inversă; el emite lumină doar polarizat direct."
+    ],
+    "answers": [
+     "Transformă c.a. în c.c.",
+     "Patru",
+     "Netezește tensiunea redresată",
+     "De lărgimea benzii interzise",
+     "Energia luminii în energie electrică"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l22": {
+   "ro": {
+    "title": "Tranzistorul; circuite integrate",
+    "theory": "Tranzistorul bipolar are trei zone (n–p–n sau p–n–p): emitor, bază, colector. Un curent mic în bază controlează un curent mult mai mare în colector: I_C = β·I_B, unde β (factorul de amplificare) are valori de ordinul 100. Tranzistorul funcționează ca amplificator (semnale audio, radio) sau ca întrerupător electronic (comutator) controlat — baza circuitelor digitale. Tranzistorul cu efect de câmp (MOSFET) este controlat de tensiune și este folosit în procesoare. Circuitele integrate conțin pe un singur cip de siliciu miliarde de tranzistoare.",
+    "sample": "Cu β = 100, un curent de bază de 0,1 mA comandă un curent de colector de 10 mA.",
+    "worked": "Un tranzistor comandă un releu de 50 mA cu β = 200: I_B necesar = 50/200 = 0,25 mA; de la o ieșire de 5 V (0,7 V pe joncțiunea bază–emitor), R_B ≤ 4,3/0,25·10⁻³ = 17,2 kΩ; se alege de obicei mai mică pentru siguranță (de exemplu 10 kΩ). Procesoarele moderne au peste 10¹⁰ tranzistoare.",
+    "exercises": [
+     "Ce curent de colector corespunde unui curent de bază de 20 µA la β = 150?",
+     "Ce curent de bază este necesar pentru I_C = 0,3 A la β = 100?",
+     "Explică funcționarea tranzistorului ca întrerupător.",
+     "Ce diferență este între tranzistorul bipolar și MOSFET?",
+     "De ce miniaturizarea tranzistoarelor a revoluționat electronica?"
+    ],
+    "test": [
+     "Care sunt zonele tranzistorului bipolar?",
+     "Relația dintre I_C și I_B?",
+     "Două funcții ale tranzistorului?",
+     "Ce este un circuit integrat?",
+     "Cum este controlat un MOSFET?"
+    ],
+    "steps": [
+     "Identifică tipul tranzistorului și modul de funcționare (amplificator sau comutator).",
+     "Aplică I_C = β·I_B și legea lui Ohm pe circuitul bazei.",
+     "Verifică valorile și funcția din circuit.",
+     "Greșeala frecventă: să crezi că tranzistorul „produce” curentul amplificat; energia vine de la sursa de alimentare, tranzistorul doar o controlează."
+    ],
+    "answers": [
+     "Emitor, bază, colector",
+     "I_C = β·I_B",
+     "Amplificator și comutator",
+     "Un cip cu foarte multe componente integrate",
+     "Prin tensiune"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l23": {
+   "ro": {
+    "title": "Proprietățile nucleului atomic; forțe nucleare",
+    "theory": "Nucleul este format din protoni și neutroni (nucleoni). Notația ᴬ_Z X: Z = numărul de protoni (numărul atomic), A = numărul de nucleoni (numărul de masă), N = A − Z neutroni. Izotopii au același Z, dar A diferit. Raza nucleului: R ≈ r₀·A^(1/3), cu r₀ ≈ 1,2·10⁻¹⁵ m; densitatea nucleară (~2·10¹⁷ kg/m³) este aceeași pentru toate nucleele. Nucleonii sunt ținuți împreună de forțele nucleare tari: foarte intense, cu rază scurtă de acțiune (~10⁻¹⁵ m), independente de sarcină, mai puternice decât respingerea electrică dintre protoni.",
+    "sample": "Carbonul-12 are 6 protoni și 6 neutroni, iar carbonul-14 are 6 protoni și 8 neutroni.",
+    "worked": "Pentru ²⁷Al: R ≈ 1,2·10⁻¹⁵·3 = 3,6·10⁻¹⁵ m. Pentru ²¹⁶Po: A^(1/3) = 6, R ≈ 7,2·10⁻¹⁵ m. Un vârf de ac din materie nucleară (1 mm³) ar avea ~2·10⁸ kg.",
+    "exercises": [
+     "Câți protoni și neutroni are ²³⁸U (Z = 92)?",
+     "Calculează raza nucleului ⁶⁴Cu.",
+     "Ce sunt izotopii? Dă un exemplu.",
+     "De ce nucleul nu se dezintegrează din cauza respingerii protonilor?",
+     "Comparați densitatea nucleară cu cea a apei."
+    ],
+    "test": [
+     "Din ce este format nucleul?",
+     "Ce reprezintă A și Z?",
+     "Raza nucleului în funcție de A?",
+     "Ce sunt izotopii?",
+     "Raza de acțiune a forțelor nucleare?"
+    ],
+    "steps": [
+     "Citește din notație Z și A și calculează N = A − Z.",
+     "Aplică R = r₀A^(1/3) pentru dimensiune.",
+     "Interpretează stabilitatea prin forțele nucleare și raportul N/Z.",
+     "Greșeala frecventă: să confunzi numărul de masă A cu numărul de neutroni; neutronii sunt A − Z."
+    ],
+    "answers": [
+     "Protoni și neutroni",
+     "A = număr de nucleoni, Z = număr de protoni",
+     "R ≈ r₀·A^(1/3)",
+     "Nuclee cu același Z și A diferit",
+     "~10⁻¹⁵ m"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l24": {
+   "ro": {
+    "title": "Defectul de masă; energia de legătură",
+    "theory": "Masa unui nucleu este mai mică decât suma maselor nucleonilor liberi: defectul de masă Δm = Z·m_p + N·m_n − m_nucleu. Energia de legătură E_l = Δm·c² este energia necesară pentru a desface nucleul în nucleoni (sau eliberată la formarea lui). În unități atomice: 1 u ≈ 931,5 MeV/c². Energia de legătură pe nucleon (E_l/A) este maximă (~8,8 MeV) în jurul fierului (A ≈ 56): nucleele grele eliberează energie prin fisiune, iar cele ușoare prin fuziune.",
+    "sample": "Nucleul de heliu-4 are energia de legătură de circa 28,3 MeV, adică ~7,1 MeV pe nucleon.",
+    "worked": "Heliu-4: 2·1,00728 u + 2·1,00866 u = 4,03188 u; masa nucleului ≈ 4,00151 u; Δm = 0,03037 u, E_l = 0,03037·931,5 ≈ 28,3 MeV, E_l/A ≈ 7,07 MeV. Formarea unui mol de heliu ar elibera ~28,3·1,6·10⁻¹³·6·10²³ ≈ 2,7·10¹² J.",
+    "exercises": [
+     "Calculează energia de legătură corespunzătoare unui defect de masă de 0,1 u.",
+     "Ce energie de legătură pe nucleon are un nucleu cu A = 56 și E_l = 492 MeV?",
+     "De ce fierul este cel mai stabil nucleu?",
+     "Explică de ce fisiunea uraniului eliberează energie folosind curba E_l/A.",
+     "Transformă 1 u în MeV/c² și în kg (1 u ≈ 1,66·10⁻²⁷ kg)."
+    ],
+    "test": [
+     "Ce este defectul de masă?",
+     "Formula energiei de legătură?",
+     "Echivalentul energetic al unității atomice?",
+     "Unde este maximă E_l/A?",
+     "Ce înseamnă E_l/A mare?"
+    ],
+    "steps": [
+     "Calculează masa nucleonilor separați și scade masa nucleului.",
+     "Transformă defectul de masă în energie (931,5 MeV/u).",
+     "Calculează E_l/A și compară stabilitatea nucleelor.",
+     "Greșeala frecventă: să folosești masa atomului (cu electroni) amestecată cu masa protonilor fără să compensezi electronii."
+    ],
+    "answers": [
+     "Diferența dintre masa nucleonilor liberi și masa nucleului",
+     "E_l = Δm·c²",
+     "≈ 931,5 MeV",
+     "În jurul fierului (A ≈ 56)",
+     "Nucleu mai stabil"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l25": {
+   "ro": {
+    "title": "Radioactivitatea: dezintegrările α, β, γ",
+    "theory": "Radioactivitatea este transformarea spontană a nucleelor instabile cu emisie de radiații. Dezintegrarea α: nucleul emite un nucleu de heliu ⁴₂He; A scade cu 4, Z cu 2. Dezintegrarea β⁻: un neutron devine proton, se emit un electron și un antineutrino; Z crește cu 1, A rămâne. β⁺: un proton devine neutron, cu emisie de pozitron și neutrino; Z scade cu 1. Radiația γ: fotoni de energie mare emiși de nucleul excitat, fără schimbarea lui A sau Z. În orice transformare se conservă numărul de nucleoni și sarcina electrică.",
+    "sample": "Uraniul-238 emite o particulă α și devine toriu-234.",
+    "worked": "²²⁶₈₈Ra → ²²²₈₆Rn + ⁴₂He (α). ¹⁴₆C → ¹⁴₇N + e⁻ + antineutrino (β⁻) — baza datării cu carbon. Seria ²³⁸U → ²⁰⁶Pb: scăderea lui A cu 32 cere 8 dezintegrări α (Z scade cu 16, de la 92 la 76), iar pentru a ajunge la Z = 82 sunt necesare 6 dezintegrări β⁻.",
+    "exercises": [
+     "Completează: ²¹⁰₈₄Po → ? + ⁴₂He.",
+     "Ce nucleu rezultă din dezintegrarea β⁻ a ⁶⁰₂₇Co?",
+     "Câte dezintegrări α și β⁻ duc de la ²³²₉₀Th la ²⁰⁸₈₂Pb?",
+     "Ce se schimbă în nucleu la emisia γ?",
+     "Ordonează radiațiile α, β, γ după puterea de pătrundere."
+    ],
+    "test": [
+     "Ce este o particulă α?",
+     "Cum se schimbă Z la β⁻?",
+     "Cum se schimbă A și Z la α?",
+     "Ce este radiația γ?",
+     "Ce mărimi se conservă în reacțiile nucleare?"
+    ],
+    "steps": [
+     "Scrie ecuația cu A și Z pentru fiecare particulă.",
+     "Aplică conservarea numărului de nucleoni și a sarcinii.",
+     "Identifică nucleul rezultat (după Z) din tabelul periodic.",
+     "Greșeala frecventă: să crezi că la β⁻ se emite un electron din învelișul atomului; el provine din transformarea unui neutron din nucleu."
+    ],
+    "answers": [
+     "Un nucleu de heliu-4",
+     "Crește cu 1",
+     "A scade cu 4, Z scade cu 2",
+     "Fotoni de mare energie emiși de nucleu",
+     "Numărul de nucleoni și sarcina"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l26": {
+   "ro": {
+    "title": "Legea dezintegrării radioactive; timpul de înjumătățire",
+    "theory": "Dezintegrarea este un proces statistic: nu se poate prezice când se dezintegrează un anumit nucleu, dar pentru multe nuclee N(t) = N₀·e^(−λt) = N₀·2^(−t/T½), unde λ este constanta de dezintegrare și T½ = ln 2/λ timpul de înjumătățire. Activitatea Λ = λ·N (numărul de dezintegrări pe secundă) se măsoară în becquerel (Bq). Datarea cu carbon-14 (T½ ≈ 5 730 ani) estimează vârsta resturilor organice.",
+    "sample": "După două timpi de înjumătățire rămâne un sfert din nucleele inițiale.",
+    "worked": "Iod-131 (T½ = 8 zile): după 24 de zile rămâne 1/8. Un os are o activitate a ¹⁴C de 4 ori mai mică decât un organism viu: au trecut 2·5 730 = 11 460 ani. 1 g de ²²⁶Ra (T½ ≈ 1 600 ani ≈ 5·10¹⁰ s; N ≈ 2,7·10²¹) are Λ ≈ 0,693·2,7·10²¹/5·10¹⁰ ≈ 3,7·10¹⁰ Bq (1 curie).",
+    "exercises": [
+     "Ce fracție rămâne după 5 timpi de înjumătățire?",
+     "Un izotop are T½ = 2 h. Cât rămâne din 80 mg după 6 h?",
+     "Calculează constanta de dezintegrare pentru T½ = 10 zile.",
+     "Activitatea unui eșantion scade de la 800 Bq la 100 Bq în 15 zile. Află T½.",
+     "De ce nu se poate prezice momentul dezintegrării unui anumit nucleu?"
+    ],
+    "test": [
+     "Legea dezintegrării radioactive?",
+     "Relația dintre T½ și λ?",
+     "Ce este activitatea?",
+     "Unitatea activității?",
+     "T½ pentru carbon-14?"
+    ],
+    "steps": [
+     "Identifică T½ (sau λ) și timpul scurs.",
+     "Calculează numărul de înjumătățiri t/T½ și N = N₀·2^(−t/T½).",
+     "Calculează activitatea sau vârsta și verifică plauzibilitatea.",
+     "Greșeala frecventă: să crezi că după două timpi de înjumătățire substanța dispare complet; rămâne un sfert."
+    ],
+    "answers": [
+     "N = N₀·e^(−λt)",
+     "T½ = ln 2/λ",
+     "Numărul de dezintegrări pe secundă",
+     "Becquerelul",
+     "≈ 5 730 ani"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l27": {
+   "ro": {
+    "title": "Interacțiunea radiațiilor nucleare cu substanța; detecție și protecție",
+    "theory": "Radiațiile nucleare ionizează substanța pe care o străbat. Particulele α ionizează puternic, dar sunt oprite de o foaie de hârtie sau de piele; β sunt oprite de câțiva mm de aluminiu; γ sunt foarte penetrante și sunt atenuate de straturi groase de plumb sau beton. Detectori: contorul Geiger–Müller, camera cu ceață, detectorii cu scintilație și semiconductori. Doza absorbită se măsoară în gray (Gy = J/kg), doza echivalentă (efectul biologic) în sievert (Sv). Protecție: distanță, timp scurt de expunere, ecranare.",
+    "sample": "Doza medie anuală din fondul natural este de circa 2–3 mSv.",
+    "worked": "Un corp de 70 kg absoarbe 0,14 J de radiație γ: doza absorbită 0,002 Gy = 2 mGy; pentru γ, factorul de calitate este 1, deci 2 mSv. Aceeași energie din particule α (factor 20) ar da 40 mSv. Intensitatea unei surse punctiforme scade cu pătratul distanței: la distanță dublă, doza devine de 4 ori mai mică.",
+    "exercises": [
+     "Ce doză absoarbe un corp de 50 kg care primește 0,1 J?",
+     "Ce ecran oprește particulele α, β și γ?",
+     "Cum funcționează contorul Geiger–Müller?",
+     "De ce sursele α sunt periculoase mai ales dacă sunt inhalate?",
+     "De câte ori scade doza dacă te îndepărtezi de la 1 m la 3 m de o sursă punctiformă?"
+    ],
+    "test": [
+     "Ce este doza absorbită?",
+     "Unitatea dozei echivalente?",
+     "Ce oprește particulele α?",
+     "Un detector de radiații?",
+     "Cele trei reguli de protecție?"
+    ],
+    "steps": [
+     "Identifică tipul radiației și puterea ei de pătrundere.",
+     "Calculează doza (energie/masă) și doza echivalentă (cu factorul de calitate).",
+     "Propune măsuri de protecție (distanță, timp, ecranare).",
+     "Greșeala frecventă: să crezi că radiația α este inofensivă pentru că e oprită de piele; în interiorul corpului este cea mai periculoasă."
+    ],
+    "answers": [
+     "Energia absorbită pe unitatea de masă",
+     "Sievertul",
+     "O foaie de hârtie",
+     "Contorul Geiger–Müller",
+     "Distanță, timp, ecranare"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l28": {
+   "ro": {
+    "title": "Reacții nucleare; legi de conservare",
+    "theory": "O reacție nucleară este transformarea nucleelor prin ciocnire cu particule (n, p, α, alte nuclee). Notație: a + X → Y + b sau X(a, b)Y. Se conservă numărul de nucleoni, sarcina electrică, energia totală (inclusiv energia de repaus) și impulsul. Energia de reacție Q = (m_inițial − m_final)·c²: dacă Q > 0 reacția este exoenergetică, dacă Q < 0 este endoenergetică (necesită energie). Rutherford a realizat prima reacție nucleară artificială (1919): ¹⁴N + α → ¹⁷O + p; Chadwick a descoperit neutronul (1932) prin ⁹Be + α → ¹²C + n.",
+    "sample": "În orice reacție nucleară suma numerelor de masă și suma sarcinilor rămân aceleași.",
+    "worked": "Reacția ⁷Li + p → 2 ⁴He: mase 7,01600 u + 1,00783 u = 8,02383 u; produși 2·4,00260 u = 8,00520 u; Δm = 0,01863 u, Q ≈ 0,01863·931,5 ≈ 17,4 MeV (exoenergetică) — prima reacție nucleară cu particule accelerate artificial (Cockcroft și Walton, 1932).",
+    "exercises": [
+     "Completează: ²⁷₁₃Al + ⁴₂He → ³⁰₁₅P + ?",
+     "Completează: ¹⁴₇N + n → ¹⁴₆C + ?",
+     "Calculează Q pentru Δm = 0,005 u și precizează tipul reacției.",
+     "Ce mărimi se conservă într-o reacție nucleară?",
+     "Cum a fost descoperit neutronul?"
+    ],
+    "test": [
+     "Ce este o reacție nucleară?",
+     "Formula energiei de reacție?",
+     "Ce înseamnă reacție exoenergetică?",
+     "Prima reacție nucleară artificială?",
+     "Notația X(a, b)Y înseamnă?"
+    ],
+    "steps": [
+     "Scrie reacția cu A și Z pentru fiecare particulă.",
+     "Determină particula necunoscută din conservarea lui A și Z.",
+     "Calculează Q din diferența de masă și stabilește tipul reacției.",
+     "Greșeala frecventă: să uiți masa particulei emise (de exemplu neutronul) la calculul energiei de reacție."
+    ],
+    "answers": [
+     "Transformarea nucleelor prin ciocnire cu particule",
+     "Q = (m_inițial − m_final)·c²",
+     "Reacție care eliberează energie (Q > 0)",
+     "¹⁴N + α → ¹⁷O + p",
+     "Nucleul X lovit de a devine Y emițând b"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l29": {
+   "ro": {
+    "title": "Fisiunea nucleară; reactorul nuclear",
+    "theory": "Fisiunea este ruperea unui nucleu greu (²³⁵U, ²³⁹Pu), după absorbția unui neutron lent, în două nuclee medii, cu emisia a 2–3 neutroni și ~200 MeV energie. Neutronii emiși pot produce noi fisiuni: reacția în lanț. În reactorul nuclear reacția este controlată (factorul de multiplicare k = 1): moderatorul (apă grea, grafit) încetinește neutronii, barele de control (cadmiu, bor) absorb neutronii în exces, agentul de răcire preia căldura, care produce abur pentru turbine. Centrala de la Cernavodă folosește reactoare CANDU cu uraniu natural și apă grea. Deșeurile radioactive necesită depozitare sigură.",
+    "sample": "Fisiunea unui gram de uraniu-235 eliberează cam cât arderea a trei tone de cărbune.",
+    "worked": "În 1 g de ²³⁵U sunt 6·10²³/235 ≈ 2,56·10²¹ nuclee; la 200 MeV = 3,2·10⁻¹¹ J pe fisiune: E ≈ 8,2·10¹⁰ J. Un reactor de 700 MW electrici cu randament 33% (2 100 MW termici) consumă ~2,1·10⁹/8,2·10¹⁰ ≈ 0,026 g de ²³⁵U pe secundă, adică ~2,2 kg pe zi.",
+    "exercises": [
+     "Completează: ²³⁵U + n → ¹⁴¹Ba + ⁹²Kr + ? n.",
+     "Ce energie eliberează fisiunea a 10 g de ²³⁵U?",
+     "Care este rolul moderatorului? Dar al barelor de control?",
+     "Ce înseamnă k = 1, k > 1 și k < 1?",
+     "Ce avantaje și dezavantaje are energia nucleară?"
+    ],
+    "test": [
+     "Ce este fisiunea nucleară?",
+     "Energia eliberată într-o fisiune?",
+     "Ce este reacția în lanț?",
+     "Rolul moderatorului?",
+     "Ce tip de reactor are Cernavodă?"
+    ],
+    "steps": [
+     "Scrie reacția de fisiune echilibrând A și Z (numărul de neutroni).",
+     "Calculează energia: număr de nuclee × energia pe fisiune.",
+     "Explică controlul reacției în reactor și problemele de siguranță.",
+     "Greșeala frecventă: să crezi că reactorul poate exploda ca o bombă atomică; uraniul din reactor este prea puțin îmbogățit și reacția este controlată."
+    ],
+    "answers": [
+     "Ruperea unui nucleu greu în două nuclee medii",
+     "≈ 200 MeV",
+     "Fisiuni produse succesiv de neutronii emiși",
+     "Încetinește neutronii",
+     "CANDU"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l30": {
+   "ro": {
+    "title": "Fuziunea nucleară",
+    "theory": "Fuziunea este unirea a două nuclee ușoare într-un nucleu mai greu, cu eliberare de energie (de exemplu deuteriu + tritiu → heliu + neutron + 17,6 MeV). Pentru a învinge respingerea electrică, nucleele trebuie să aibă viteze foarte mari: temperaturi de zeci-sute de milioane de kelvin (reacții termonucleare). Fuziunea alimentează Soarele și stelele (lanțul proton–proton transformă hidrogenul în heliu). Pe Pământ se cercetează fuziunea controlată (tokamak, proiectul ITER): combustibil abundent, deșeuri puțin radioactive, dar dificultăți tehnice mari.",
+    "sample": "Soarele transformă în fiecare secundă circa 600 de milioane de tone de hidrogen în heliu.",
+    "worked": "D + T → ⁴He + n: Q = 17,6 MeV pentru 5 nucleoni, ~3,5 MeV pe nucleon, de circa 4 ori mai mult decât la fisiune (~0,85 MeV/nucleon). Deuteriul se extrage din apa de mare (~33 g pe m³ de apă) — o resursă practic inepuizabilă.",
+    "exercises": [
+     "Completează: ²H + ²H → ³He + ?",
+     "De ce fuziunea necesită temperaturi foarte mari?",
+     "Compară energia pe nucleon la fuziune și la fisiune.",
+     "Ce este un tokamak?",
+     "Ce avantaje ar avea centralele cu fuziune?"
+    ],
+    "test": [
+     "Ce este fuziunea nucleară?",
+     "De ce sunt necesare temperaturi mari?",
+     "Ce reacții alimentează Soarele?",
+     "Ce este ITER?",
+     "Energia reacției D + T?"
+    ],
+    "steps": [
+     "Scrie reacția de fuziune echilibrând A și Z.",
+     "Calculează energia eliberată și energia pe nucleon.",
+     "Discută condițiile (temperatură, confinare) și perspectivele energetice.",
+     "Greșeala frecventă: să confunzi fuziunea (unirea nucleelor ușoare) cu fisiunea (ruperea nucleelor grele)."
+    ],
+    "answers": [
+     "Unirea a două nuclee ușoare",
+     "Pentru a învinge respingerea electrică",
+     "Fuziunea hidrogenului în heliu",
+     "Un reactor experimental de fuziune",
+     "17,6 MeV"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l31": {
+   "ro": {
+    "title": "Particule elementare și acceleratoare de particule",
+    "theory": "Pe lângă electron, proton și neutron au fost descoperite multe alte particule: pozitronul (antiparticula electronului), neutrinul, mezonii, muonii. Protonul și neutronul sunt formați din quarkuri (u, d), legați prin gluoni; electronul și neutrinul sunt leptoni, considerați elementari. Fiecare particulă are o antiparticulă; la întâlnire se anihilează, transformându-se în energie (fotoni). Patru interacțiuni fundamentale: gravitațională, electromagnetică, tare și slabă. Particulele se studiază cu acceleratoare (ciclotron, sincrotron; LHC de la CERN, unde s-a descoperit bosonul Higgs în 2012).",
+    "sample": "Protonul este format din doi quarkuri u și un quark d.",
+    "worked": "Sarcinile quarkurilor: u = +2/3 e, d = −1/3 e. Proton (uud): 2/3 + 2/3 − 1/3 = +1; neutron (udd): 2/3 − 1/3 − 1/3 = 0. Anihilarea electron–pozitron în repaus produce doi fotoni de câte 0,511 MeV. La Măgurele, laserul ELI-NP este o infrastructură de cercetare de nivel mondial.",
+    "exercises": [
+     "Verifică sarcina neutronului din compoziția de quarkuri.",
+     "Ce energie au fotonii produși la anihilarea unui electron cu un pozitron în repaus?",
+     "Enumeră cele patru interacțiuni fundamentale.",
+     "Ce este o antiparticulă?",
+     "De ce sunt necesare acceleratoare foarte mari pentru descoperirea particulelor noi?"
+    ],
+    "test": [
+     "Din ce sunt formați protonii?",
+     "Ce este pozitronul?",
+     "Ce se întâmplă la anihilare?",
+     "Câte interacțiuni fundamentale există?",
+     "Ce particulă s-a descoperit la LHC în 2012?"
+    ],
+    "steps": [
+     "Identifică particulele și compoziția lor (quarkuri, leptoni).",
+     "Aplică legile de conservare (sarcină, energie) la reacții sau anihilări.",
+     "Leagă descoperirile de instrumentele folosite (acceleratoare, detectori).",
+     "Greșeala frecventă: să crezi că protonul și neutronul sunt particule elementare; ei sunt formați din quarkuri."
+    ],
+    "answers": [
+     "Din quarkuri (uud)",
+     "Antiparticula electronului",
+     "Particulele se transformă în fotoni",
+     "Patru",
+     "Bosonul Higgs"
+    ]
+   }
+  }
+ }
+}
