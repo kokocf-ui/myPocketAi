@@ -26,7 +26,7 @@ test('Request uses Routing v2 planConnection, Finland endpoint, variables and he
  const result=await plan(env,options,{...opts,fetchImpl:async(url,init)=>{calls.push({url,init});return Response.json(payload([pattern()]));}});
  assert.equal(result.status,'ok');assert.equal(calls.length,2);assert.equal(result.journeys.length,1);
  for(const {url,init} of calls){
-  assert.equal(url,DIGITRANSIT_ENDPOINT);assert.ok(url.includes('/v2/finland/'));assert.equal(init.redirect,'error');
+  assert.equal(url,DIGITRANSIT_ENDPOINT);assert.ok(url.includes('/v2/finland/'));assert.equal(init.redirect,'manual');
   assert.equal(init.headers['digitransit-subscription-key'],env.DIGITRANSIT_API_KEY);
   assert.ok(!url.includes(env.DIGITRANSIT_API_KEY));assert.ok(!init.body.includes(env.DIGITRANSIT_API_KEY));
   const b=JSON.parse(init.body);assert.equal(b.query,DIGITRANSIT_QUERY);
@@ -106,4 +106,15 @@ test('Estonia uses its documented shared endpoint but retains independent countr
  assert.equal(nationalTransportCoverage('EE',configuredNationalTransportProviders(env)).urban_configured,true);
  const foreign=await plan(env,request,{...opts,verifyCountry:async pt=>pt.latitude===(a.latitude+b.latitude)/2?'FI':'EE',fetchImpl:async()=>Response.json(payload([p]))});
  assert.equal(foreign.status,'domestic_route_unverified');assert.deepEqual(foreign.journeys,[]);
+});
+
+test('Cloudflare-compatible manual redirect never forwards the subscription key to a new origin',async()=>{
+ let calls=0;
+ const result=await plan(env,options,{...opts,fetchImpl:async(url,init)=>{
+  calls++;assert.equal(url,DIGITRANSIT_ENDPOINT);assert.equal(init.redirect,'manual');
+  return new Response(null,{status:302,headers:{location:'https://untrusted.example/'}});
+ }});
+ assert.equal(calls,2);assert.equal(result.status,'provider_http_error');assert.deepEqual(result.journeys,[]);
+ const error=await plan(env,options,{...opts,fetchImpl:async()=>{throw new TypeError('Unsupported redirect mode '+env.DIGITRANSIT_API_KEY);}});
+ assert.equal(error.source_status.main_diagnostic,'redirect_mode');assert.ok(!JSON.stringify(error).includes(env.DIGITRANSIT_API_KEY));
 });

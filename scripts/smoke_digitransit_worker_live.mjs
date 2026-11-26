@@ -5,7 +5,7 @@ import {writeFileSync} from 'node:fs';
 import {pathToFileURL} from 'node:url';
 const endpoint='https://lifewise-ai-api.kokocf.workers.dev/api/chat';
 export function validateJourneyResponse(data,country){
- assert.equal(data.version,'v184');assert.equal(data.country_code,country);
+ assert.equal(data.version,'v185');assert.equal(data.country_code,country);
  assert.equal(data.transit_provider,'Digitransit');assert.equal(data.transit_available,true);
  assert.equal(data.international_journey,false);assert.equal(data.mixed_journey,false);
  assert.ok(data.transit?.length>0);

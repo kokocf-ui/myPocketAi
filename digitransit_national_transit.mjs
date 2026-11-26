@@ -84,7 +84,7 @@ export async function planDigitransitNationalJourney(env,{from,to,originCountry,
  const max=Math.min(6,Math.max(1,Math.floor(Number(limit))||4));
  const query=async onlyBus=>{
   try{
-   const response=await (opts.fetchImpl||fetch)(DIGITRANSIT_ENDPOINT,{method:'POST',redirect:'error',
+   const response=await (opts.fetchImpl||fetch)(DIGITRANSIT_ENDPOINT,{method:'POST',redirect:'manual',
     headers:{'Content-Type':'application/json','Accept':'application/json','digitransit-subscription-key':env.DIGITRANSIT_API_KEY},
     body:JSON.stringify({query:DIGITRANSIT_QUERY,variables:{origin:{location:{coordinate:point(from)}},destination:{location:{coordinate:point(to)}},
      at:{earliestDeparture:at},limit:max,modes:{transitOnly:true,transit:{access:['WALK'],egress:['WALK'],transfer:['WALK'],
@@ -100,7 +100,12 @@ export async function planDigitransitNationalJourney(env,{from,to,originCountry,
    if(connection?.routingErrors?.length)return {status:'provider_routing_error',patterns:[]};
    if(!Array.isArray(connection?.edges))return {status:'invalid_response',patterns:[]};
    return {status:connection.edges.length?'ok':'no_results',patterns:connection.edges.slice(0,max).map(e=>e?.node),receivedAt:new Date().toISOString()};
-  }catch(e){return {status:['AbortError','TimeoutError'].includes(e?.name)?'timeout':'network_error',patterns:[]};}
+  }catch(e){
+   // Only bounded categories leave the adapter; exception messages may contain secrets.
+   const message=String(e?.message||'');
+   const diagnostic=/redirect/i.test(message)?'redirect_mode':/illegal invocation/i.test(message)?'fetch_binding':/AbortSignal|not a function/i.test(message)?'runtime_api':/TLS|SSL|certificate/i.test(message)?'tls':/DNS|resolve/i.test(message)?'dns':'request_failed';
+   return {status:['AbortError','TimeoutError'].includes(e?.name)?'timeout':'network_error',diagnostic,patterns:[]};
+  }
  };
  const wantBus=preference==='bus_only',localAlternative=!wantBus&&max>1&&pointDistanceMeters(from,to)<=80000;
  const [main,bus]=await Promise.all([query(wantBus),localAlternative?query(true):null]);
@@ -111,5 +116,5 @@ export async function planDigitransitNationalJourney(env,{from,to,originCountry,
  }
  const verified=await verifyDomesticJourneys(candidates,country,opts.verifyCountry),selected=selectNationalJourneys(verified.journeys,max);
  return {status:selected.length?'ok':candidates.length&&verified.rejected?'domestic_route_unverified':sources.some(s=>s.status==='ok')?'no_valid_itinerary':main.status,
-  journeys:selected,source_status:{main:main.status,bus:bus?.status||'not_requested'},country_checks:verified.checks};
+  journeys:selected,source_status:{main:main.status,bus:bus?.status||'not_requested',...(main.diagnostic?{main_diagnostic:main.diagnostic}:{}),...(bus?.diagnostic?{bus_diagnostic:bus.diagnostic}:{})},country_checks:verified.checks};
 }
