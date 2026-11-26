@@ -1,3 +1,4 @@
+import {configuredNationalTransportProviders,nationalTransportCoverage} from './national_transport_registry.mjs';
 import {searchMixedIndicativeOptions} from './mixed_indicative_search.mjs';
 import {transportTicketUrl} from './transport_ticket_links.mjs';
 import {evaFarewellReply,evaFarewellFallback} from './eva_farewell.mjs';
@@ -1902,17 +1903,9 @@ export default {
       const country=valid?await verifiedGpsCountry({latitude:Number(p.latitude),longitude:Number(p.longitude),geoapifyKey:env.GEOAPIFY_API_KEY,timeoutMs:2200}):null;
       // Report actual connector readiness separately. The city router rejects
       // missing/short access tokens, so do not call a truthy placeholder "ready".
-      const roCoverage=country==='RO'?{
-       intercity_configured:Boolean(String(env.BILO_API_KEY||'').trim()),
-       urban_configured:Boolean((typeof env.RO_URBAN_VPC?.fetch==='function'||
-         String(env.RO_URBAN_API_URL||'').trim())&&
-         String(env.RO_URBAN_API_TOKEN||'').trim().length>=32)
-      }:null;
-      const supported=country==='RO'
-       ?Boolean(roCoverage.intercity_configured||roCoverage.urban_configured)
-       :country==='GB'?Boolean(env.TRANSCAPI_API_KEY||env.TFL_APP_KEY||env.TFL_PUBLIC_FALLBACK!=='false'):false;
-      return json({country_code:country||'',supported,source:'verified_gps_country',
-       ...(roCoverage?{provider_coverage:roCoverage}:{})});
+      const coverage=nationalTransportCoverage(country,configuredNationalTransportProviders(env));
+      return json({country_code:country||'',supported:Boolean(coverage?.configured_adapters.length),
+       source:'verified_gps_country',...(coverage?{provider_coverage:coverage}:{})});
     }
     // One-field Deplasare spre… autocomplete. No AI model or route calculation:
     // map provider candidates are rendered as suggestions while typing.
@@ -3924,7 +3917,7 @@ export default {
     const normalizedTransitMessage = message.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
 
     // Only Maps -> Transport public național. Deplasare spre… is untouched.
-    let authorizedNationalProvider=null;
+    let authorizedNationalProvider=null,verifiedNationalCountry=null;
     if(data.national_public_transport===true){
       const destination=data.transit_destination;
       const destLat=Number(destination?.latitude),destLon=Number(destination?.longitude);
@@ -3942,7 +3935,7 @@ export default {
         verifiedGpsCountry({latitude:destLat,longitude:destLon,geoapifyKey:env.GEOAPIFY_API_KEY,timeoutMs:2200})
       ]);
       const urbanRegion=originCountry==='RO'&&romanianUrbanRegion(
-        {latitude,longitude},{latitude:destLat,longitude:destLon});
+        {latitude,longitude},{latitude:destLat,longitude:destLon},{verifiedCountry:originCountry});
       const roScope=romanianLocalJourneyScope({
         from:{latitude,longitude},to:{latitude:destLat,longitude:destLon},
         urbanRegion:Boolean(urbanRegion)
@@ -3950,14 +3943,7 @@ export default {
       const urbanRoute=originCountry==='RO'&&Boolean(urbanRegion);
       const londonRoute=originCountry==='GB'&&isTfLLondonCorridorPoint(latitude,longitude)&&
         isTfLLondonCorridorPoint(destLat,destLon);
-      const providers=[
-        String(env.BILO_API_KEY||'').trim()?'ro_national_transit':null,
-        (typeof env.RO_URBAN_VPC?.fetch==='function'||String(env.RO_URBAN_API_URL||'').trim())&&
-          String(env.RO_URBAN_API_TOKEN||'').trim().length>=32?'ro_urban_gtfs':null,
-        env.TRANSCAPI_API_KEY?'uk_national_transit':null,
-        (typeof env.EN_URBAN_VPC?.fetch==='function'||String(env.EN_URBAN_API_URL||'').trim())&&String(env.EN_URBAN_API_TOKEN||'').trim().length>=32?'en_urban_gtfs':null,
-        env.TFL_APP_KEY||env.TFL_PUBLIC_FALLBACK!=='false'?'tfl':null
-      ].filter(Boolean);
+      const providers=configuredNationalTransportProviders(env);
       const authorization=nationalPublicTransportPolicy({
         originCountry,destinationCountry,urbanRoute:Boolean(urbanRoute),
         localRoute:originCountry==='RO'&&roScope.localRoute,londonRoute,
@@ -3984,7 +3970,11 @@ export default {
         }
         return reject(authorization.status,errors[authorization.status]||errors.national_provider_not_connected);
       }
-      authorizedNationalProvider=authorization.provider;
+      authorizedNationalProvider=authorization.provider;verifiedNationalCountry=originCountry;
+      // Downstream planners must use the same points/country just verified,
+      // not stale mixed-route origins or an autocomplete country label.
+      data.journey_origin={latitude,longitude,country_code:originCountry};
+      data.transit_destination={...destination,country_code:destinationCountry};
       // The existing Romania urban/Bilo and UK TfL/TransCAPI paths below
       // execute only after this country-specific registry authorization.
     }
@@ -3994,7 +3984,7 @@ export default {
     const transitDecision=isTransitJourneyRequest(message,{explicitTransitMode:chosenTravelMode==='transit',boardingAccessRequested,pendingRouteProfile:data.route_context?.pending==='profile',explicitTransitDestination:Boolean(data.transit_destination||data.transit_query),history:data.history});
     const publicTransportIntent=transitDecision.is_journey;
     const directWalkingTarget=data.route_profile==='walk'&&data.route_destination&&Number.isFinite(data.route_destination.latitude)&&Number.isFinite(data.route_destination.longitude)&&Math.abs(data.route_destination.latitude)<=90&&Math.abs(data.route_destination.longitude)<=180&&typeof data.route_destination.label==='string';
-    const explicitMixedJourney=data.mixed_journey===true;
+    const explicitMixedJourney=data.mixed_journey===true&&data.national_public_transport!==true;
     // A destination named "Underground" is not a request to ride the Tube.
     // Explicit car instructions must reach the road router, not transit lookup.
     const explicitCarRoute=routeMessageSpec(message)?.profile==='drive' && chosenTravelMode!=='transit';
@@ -4041,17 +4031,17 @@ export default {
       // Verified, local Romanian urban transport is queried before intercity
       // rail/coach. Requires both origin and destination coordinates in one
       // supported municipal region. No UK TfL/TransCAPI fallback for Romania.
-      const urbanFrom=data.journey_origin||data.route_context?.origin||
-        (hasValidLocation?{latitude,longitude}:null);
+      const urbanFrom=data.national_public_transport===true?{latitude,longitude}:
+        data.journey_origin||data.route_context?.origin||(hasValidLocation?{latitude,longitude}:null);
       const urbanTo=data.transit_destination||data.route_context?.destination||data.route_destination;
-      const urbanRegion=romanianUrbanRegion(urbanFrom,urbanTo);
+      const urbanRegion=romanianUrbanRegion(urbanFrom,urbanTo,{verifiedCountry:verifiedNationalCountry});
       if(urbanRegion && !explicitCarRoute &&
          (typeof env.RO_URBAN_VPC?.fetch==='function'||env.RO_URBAN_API_URL) &&
          String(env.RO_URBAN_API_TOKEN||'').trim().length>=32 &&
          (!data.national_public_transport||authorizedNationalProvider==='ro_urban_gtfs')){
         const selectedUrbanAt=typeof data.transit_departure_at==='string'?data.transit_departure_at.trim():'';
         const result=await planRomanianUrbanViaOracle(env,{
-          from:urbanFrom,to:urbanTo,departureAt:selectedUrbanAt||null,limit:requestedOptionsCount
+          from:urbanFrom,to:urbanTo,departureAt:selectedUrbanAt||null,limit:requestedOptionsCount,verifiedCountry:verifiedNationalCountry
         });
         if(result.journeys.length){
           // Universal presentation contract: show confirmed lines even when
@@ -4119,8 +4109,12 @@ export default {
       }
       if(roTransitQuery && (env.BILO_API_KEY || !env.MOTIS_API_BASE_URL) &&
          (!data.national_public_transport||authorizedNationalProvider==='ro_national_transit')){
-        const origin=roTransitQuery.origin || await reverseRomanianOriginCity(env,hasValidLocation?{latitude,longitude}:null);
-        const destination=roTransitQuery.destination;
+        const origin=data.national_public_transport===true
+          ?await reverseRomanianOriginCity(env,{latitude,longitude})
+          :roTransitQuery.origin || await reverseRomanianOriginCity(env,hasValidLocation?{latitude,longitude}:null);
+        const destination=data.national_public_transport===true
+          ?String(data.transit_destination?.city||data.transit_destination?.label||'').trim()
+          :roTransitQuery.destination;
         if(!origin||!destination){
           const reply=lang==='en'
             ?'For a verified trip in Romania, tell me the departure and arrival city (for example: train from Oradea to Cluj-Napoca).'

@@ -1,3 +1,4 @@
+import {NATIONAL_TRANSPORT_COUNTRIES} from './national_transport_registry.mjs';
 import {europeanCountrySources,EUROPE_COUNTRIES} from './europe_country_sources.mjs';
 // Smart Country Registry v2 — configuration and dispatch decisions, no network calls.
 // Providers must be explicitly enabled by backend configuration, never by this file.
@@ -45,13 +46,10 @@ const globalGeneral = {
  geocode:['geoapify','photon'],
  news:[],events:[],education:[],weather:[]
 };
-const local = {
- RO:{transport:{urban_transport:['ro_urban_gtfs'],intercity_transport:['ro_national_transit']},general:{}},
- GB:{transport:{urban_transport:['tfl','en_urban_gtfs'],intercity_transport:['uk_national_transit']},general:{shop:['uk_food_retailers'],corner_shop:['uk_food_retailers'],fast_food:['uk_food_retailers']}},
- HU:{transport:{},general:{}},FR:{transport:{},general:{}},
- DE:{transport:{},general:{}},IT:{transport:{},general:{}},
- ES:{transport:{},general:{}}
-};
+const local=Object.fromEntries(Object.entries(NATIONAL_TRANSPORT_COUNTRIES).map(([country,p])=>[country,{
+ transport:{urban_transport:p.urban_transport,intercity_transport:p.intercity_transport},
+ general:country==='GB'?{shop:['uk_food_retailers'],corner_shop:['uk_food_retailers'],fast_food:['uk_food_retailers']}:{}
+}]));
 const unique = values => [...new Set(values.filter(Boolean))];
 function configuredIds(ids,enabled){const allowed=new Set(enabled);return unique(ids).filter(id=>allowed.has(id));}
 const locality = (id,request) => id!=='tfl'||fold(request.region)==='london';

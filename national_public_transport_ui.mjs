@@ -145,15 +145,16 @@ function showNationalTransitSearch(choice){
    country=code;field.disabled=false;let name=country;
    try{name=new Intl.DisplayNames([state.language||'ro'],{type:'region'}).of(country)||country}catch{}
    // A connected provider is not proof of live timetables. Show exactly
-   // which Romanian adapter is configured before destination entry.
-   const coverage=code==='RO'&&data.provider_coverage&&typeof data.provider_coverage==='object'
+   // which domestic adapters are configured before destination entry.
+   const coverage=data.provider_coverage&&typeof data.provider_coverage==='object'
     ?data.provider_coverage:null;
    status.style.whiteSpace='pre-line';
    status.textContent=t('scope')+': '+name+'. '+t('short')+
     (coverage?'\n'+(ro?'Tren/autocar':'Train/coach')+': '+
       (coverage.intercity_configured?(ro?'configurat':'configured'):(ro?'neconfigurat':'not configured'))+
       ' · '+(ro?'Transport urban':'City transport')+': '+
-      (coverage.urban_configured?(ro?'configurat':'configured'):(ro?'neconfigurat':'not configured')):'');
+      (coverage.urban_configured?(ro?'configurat':'configured'):(ro?'neconfigurat':'not configured'))+
+      (ro?' · Acoperirea locală se verifică la căutare; configurat nu înseamnă disponibil în orice localitate.':' · Local coverage is checked when searching; configured does not mean available in every locality.'):'');
    const saved=choice?.transitDestination;
    if(saved&&Number.isFinite(Number(saved.latitude))&&Number.isFinite(Number(saved.longitude))&&
       String(saved.country_code||country).toUpperCase()===country){

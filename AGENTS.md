@@ -8,6 +8,35 @@
 ## 1. Reguli permanente de lucru cu utilizatorul
 
 
+**ETAPĂ ACTUALĂ / TRANSPORT NAȚIONAL PE ȚĂRI (2026-11-26, după 5aa5336):**
+User vrea Transport public adaptat țării GPS, local + interurban în aceeași țară,
+nu transfrontalier; România dincolo de București, o singură aplicație într-un loc
+necunoscut. Raport `NATIONAL_TRANSPORT_FOUNDATION_2026-11-26.md`.
+`national_transport_registry.mjs`: 49 de fișe ale catalogului european existent,
+adaptoare implementate numai RO/GB; configurația separată de acoperirea efectivă,
+`countrywide_coverage_verified:false`, țările neconectate NU devin suportate prin
+înregistrare. Registry + Worker folosesc aceeași configurație. Notice RO/GB UI.
+RO: selecție automată `romania` după verificarea țării; toate cele 42 de sloturi
+județene + 4 legacy + agregat opțional încărcabile (47), stații importate reale
+lângă ambele capete, planificare separată per feed, fără legături ghicite între
+feeduri, bus-only păstrat, limită cumulată 150MiB JSON. În afara razelor legacy,
+prag local 18km; rural/regional complet NU rezolvat. Docker dependency closure
+reparată; README actualizat fără a pretinde starea remote. Național folosește
+originea GPS/codul verificat, nu contexte mixte vechi; țări diferite blocate;
+flagul mixt accidental nu lansează suplimente transfrontaliere. Bilo național
+folosește localitatea rezolvată din GPS + destinația selectată, nu text/stale origin.
+PASS `test:national-transport`13 comenzi incluzând 9 teste noi, transit-audit19,
+mixed-orientation11, mixed-indicative/check/dryruns frontend+backend; browser
+bundle360/393/430 RO/GB notice + DE neconectat + viewport redus. Snapshot6990923B.
+Date sintetice, NU date/operatori/licențe noi sau probă de acoperire live.
+Test suplimentar `tests_country_city_choice_resume.mjs` are aserțiune textuală
+veche `place_context:state.placeSearchContext||null` față de condiția preexistentă
+assistantGeoAllowed în index.js (nemodificat); nu slăbi protecția. Nu se declară
+toată suita repo verde. Urmează surse/drepturi/importuri/validări reale pe țară și
+operator, nu doar fișe. **Încă NU publicare, NU APK, NU operare Oracle, NU PR/merge**;
+ultimul livrat rămâne501884/backendv183. Commit+push doar pe branch curent.
+
+
 **CERERE ACTUALĂ / TRANSPORT MIXT ORIENTATIV (2026-11-26, dupăd7d9ba8):** user„Încănu”publicare/APK; cereDirections→mixtGPS→destinațiecamRome2Rio, mijloacegăsite,fărăcondițielocuriconfirmate,linkbiletepertren/autocar/avion. Raport `MIXED_INDICATIVE_PLANNING_2026-11-26.md`. Nueraînprincipiugatestoc,ci orare/continuitate+earlyreturn+GPSgeneric+selectdependentaacces. Serviciunou`mixed_indicative_search.mjs`surseindependenteterestre/aeriene,șidomestic>=30kmterestru/>=150kmaer(oriinternațional), memoizat+timeout25/20s+enrichment8.5s,păstreazăcandidați/transferslipsă. BackendincludealternativescândrevinruteRO/UK/MOTIS/TfL; nationalpublictransportindependentneactivat. OrașGPSreverseînainteasearchweb,numaicitycătreweb. `transport_ticket_links.mjs`URLsurse→siteoficialcunoscut→căutareOmioetichetată(NUofertă/inventatdeeplink);URLpăstrateînnormalizări/compactare. Detaliimixtimediatefărănetwork/GPS/navigareautomată; hartăaccesacțiuneseparată;Backrestituietoatealternativele;linkvizibilpersegmentrelevant,inclusivflight+airportground. Lipsurileorare/terminale/transferurirămânmarcate,nurutecompleteinventate. PASS26mixednonbrowser+11orientationsubset+19transit+6Eva/check/dryrunfront/backend/browserbundle360/393/430coexistențătraincoachflight/linkuri/Back; snapshot6990711B. Providerisimulați,nulive,nucertificareRome2Rio/global/stock. Nicioactivarekey/licență/feednou. **NUDEPLOY/NUAPK/PR/MERGE, nuîntrebainsistentpublicare:** refuztemporarexplicitînaceastăcerere,ultimlivrat501884/v183,următor>501884numaidupăacord. GTFSrouterseparatnepublicat. ToateschimbărilelocaleanterioareEva/Maps/transporttrebuiepăstrateînviitoarealivrare.
 
 
