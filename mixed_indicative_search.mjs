@@ -22,7 +22,7 @@ export async function searchMixedIndicativeOptions(env,{
   catch{return fallback;}finally{clearTimeout(timer)}
  };
  const [air,ground]=await Promise.all([
-  (international||km>=150)?bounded(()=>discoverAir(env,{origin,destination,departureAt,maxDays:3,cache,cacheBaseUrl}),25000,{status:'provider_unavailable',candidates:[]}):Promise.resolve({status:'disabled',candidates:[]}),
+  (international||km>=150)?bounded(()=>discoverAir(env,{origin,destination,departureAt,maxDays:3,cache,cacheBaseUrl,budgetMs:22000}),25000,{status:'provider_unavailable',candidates:[]}):Promise.resolve({status:'disabled',candidates:[]}),
   km>=30?bounded(()=>discoverGround(env,{origin,destination}),20000,{status:'provider_unavailable',operators:[]}):Promise.resolve({status:'disabled',operators:[]})
  ]);
  let flights=Array.isArray(air?.candidates)?air.candidates.slice(0,6):[],ready=false;
@@ -41,6 +41,9 @@ export async function searchMixedIndicativeOptions(env,{
   planning_scope:'indicative_multimodal',seat_confirmation_required:false,
   flight_search_status:air?.status||'provider_unavailable',
   flight_dates_checked:Array.isArray(air?.datesChecked)?air.datesChecked:[],
+  flight_airport_candidates:air?.airportCandidates||null,
+  flight_search_incomplete:air?.searchIncomplete===true,
+  flight_search_termination:air?.terminationStatus||null,
   flight_source_cache_used:air?.fromCachedProviderResults===true,
   flight_provider_queries:Number(air?.providerSearchCount)||0,
   flight_candidates_received:Array.isArray(air?.candidates)?air.candidates.length:0,

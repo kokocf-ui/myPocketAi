@@ -7,6 +7,31 @@
 
 ## 1. Reguli permanente de lucru cu utilizatorul
 
+**RAPORT FIZIC APK501885 / CORECȚII LOCALE (2026-11-26, ulterior):**
+User a oprit deschiderea PR pentru a raporta capturi: Grays→Victoria lista există,
+selectarea cade în eroarepietonală+revine listă, mersulpejosincomplet/neclar pehartă,
+număropririabsent; mixtGrays→Oradea28nov fărădatezbor și fărăalternativeutile.
+NU declara APK501885 pregătit de trimis în RO/validat fizic! Nu dezinstalare.
+Remedieri locale: failure păstrează selecteditinerary+detalii/eroare, invalidează
+accessWalkVerified, CTAhartătoateetape chiar fărăaccesverificat/orar; hartă+finalwalk
+acceptă arrivalPoint și arrivalLatLon, rejectnullcoords, toatewalksinbounds, statiimarkers,
+walkstatus explicit și fără falsăverificare la timeout/limita12, reuseaccessdoarendpoints.
+TfLstopcount compară naptanId/id/icsId; fărăcapete/ambiguitate rămânenecunoscut,
+NU numără partiallist și NU declararezolvatăacoperireTfLlive.
+Zboruri: outer25s putea pierde results în timp ce până9cereri secvențiale continuau!
+Deadlinecomun22s propagat aeroport/quota/search, partialflightspăstrate, abortrest;
+fără mărire plafoncereri. Taildestairports6..12 verificate și în scenariucrossborder,
+nu prioritizaexclusiv primulborderairport. EmptyexactGoogleFlightsresponse e rezultatgol,
+nu autherror; quota/authfail tot opresc. UIarată aeroporturigeografice+timeout/plafon,
+nu ruteconfirmate. Groundenrichmentfail nu ascunde flightsprimite.
+Raport `TRANSIT_PHYSICAL_REPORT_FIXES_2026-11-26.md`; test7noi și mobile360/393/430
+`tests_transit_reported_failures{,_browser}.mjs`. PASStransit-audit/national/mixed/check,
+browsernaționale5+mixed+regresienouă, frontend/backenddryruns+browsernames.
+NUconfirmareliveGraysOradea și NU promite existăzboranumit. Niciun APIHERE sauzborlive,
+ZEROHERE/max2total încăneconsumate. Backendv185neschimbat, APKcurent501885fărăacestefixuri.
+Nu altAPK/deploy/Oracle/mainmerge înaceastăetapă. Cererea anterioară PR rămâne
+neexecutată până verificare; PRpoatefi DRAFTpentru review, nu acorddemerge.
+
 **APK ROMÂNIA LIVRAT 501885 (2026-11-26, etapă încheiată):**
 Commit cod e7ee4d0e723eef7a96e7283957f011579994bde6, împins DOAR currentbranch.
 Workflowmanual build-android-apk.yml run45879014303 job140113297567 SUCCESS,

@@ -42,7 +42,7 @@ export function normalizeAirportCandidates(data,origin,{limit=20}={}){
  * not because any city or airport is hardcoded.
  */
 export async function discoverAirportCandidates(env,location,{
-  radiusKm=250,limit=40,fetcher=fetch
+  radiusKm=250,limit=40,fetcher=fetch,signal=null
 }={}){
  const p=point(location);
  if(!p)return {status:'location_unverified',airports:[]};
@@ -56,7 +56,7 @@ export async function discoverAirportCandidates(env,location,{
  url.searchParams.set('limit',String(Math.min(100,Math.max(10,limit))));
  url.searchParams.set('apiKey',apiKey);
  try{
-   const r=await fetcher(url,{headers:{Accept:'application/json'},signal:AbortSignal.timeout(7000)});
+   const r=await fetcher(url,{headers:{Accept:'application/json'},signal:signal?AbortSignal.any([signal,AbortSignal.timeout(7000)]):AbortSignal.timeout(7000)});
    if(!r.ok)return {status:'provider_http_'+r.status,airports:[]};
    const json=await r.json();
    return {status:'candidates_only',airports:normalizeAirportCandidates(json,p,{limit}),

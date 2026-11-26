@@ -8,11 +8,17 @@ export function transitStopCount(leg){
 export function tflLegStopCount(raw){
  if(!raw||/^(walking|walk|foot|pedestrian)$/i.test(String(raw.mode?.name||'')))return null;
  const stops=raw.path?.stopPoints;
- const id=p=>String(p?.naptanId||p?.id||'');
- const from=id(raw.departurePoint),to=id(raw.arrivalPoint);
- if(!Array.isArray(stops)||!from||!to||from===to)return null;
- const start=stops.findIndex(p=>id(p)===from);
- const end=stops.findIndex((p,i)=>i>start&&id(p)===to);
+ const ids=p=>new Set([p?.naptanId,p?.id,p?.icsId].filter(v=>v!=null&&String(v).trim()).map(String));
+ const from=ids(raw.departurePoint),to=ids(raw.arrivalPoint);
+ if(!Array.isArray(stops)||!from.size||!to.size||[...from].some(v=>to.has(v)))return null;
+ const matches=(p,expected)=>[...ids(p)].some(v=>expected.has(v));
+ const starts=stops.map((p,i)=>matches(p,from)?i:-1).filter(i=>i>=0);
+ // A repeated endpoint can be a loop; do not choose an arbitrary occurrence.
+ if(starts.length!==1)return null;
+ const start=starts[0];
+ const ends=stops.map((p,i)=>i>start&&matches(p,to)?i:-1).filter(i=>i>=0);
+ if(ends.length!==1)return null;
+ const end=ends[0];
  // A partial list without either endpoint cannot establish an exact count.
  return start>=0&&end>start?end-start:null;
 }

@@ -47,6 +47,17 @@ export async function cachedMixedFlightSearch(env,request,{
  return result;
 }
 
+
+// Deadline races also bound injected providers. Real network requests receive
+// the same abort signal, so a timed-out screen does not keep spending queries.
+async function untilAborted(work,signal,fallback){
+ if(signal.aborted)return fallback;
+ let stop;
+ const aborted=new Promise(resolve=>{stop=()=>resolve(fallback);signal.addEventListener('abort',stop,{once:true});});
+ try{return await Promise.race([Promise.resolve().then(()=>signal.aborted?fallback:work()),aborted]);}
+ catch{return fallback;}finally{signal.removeEventListener('abort',stop);}
+}
+
 const day = ms => new Date(ms).toISOString().slice(0,10);
 const code = v => /^[A-Z]{3}$/.test(String(v||'').toUpperCase());
 const uniqueCodes = (airports,max) => [...new Set(
@@ -92,15 +103,21 @@ export function rankMixedFlightCandidates(candidates,{max=12}={}){
  */
 export async function discoverMixedFlightCandidates(env,{origin,destination,departureAt=null,
  now=Date.now(),maxDays=3,maxProviderQueries=9,discover=discoverAirportCandidates,
- search=searchSerpApiFreeFlights,cache=null,cacheBaseUrl=null}={}){
+ search=searchSerpApiFreeFlights,cache=null,cacheBaseUrl=null,signal=null,budgetMs=22000}={}){
  if(env?.SERPAPI_FLIGHTS_PILOT_ENABLED!=='true'||
     env?.SERPAPI_FLIGHTS_TERMS_REVIEWED!=='true')
    return {status:'disabled',candidates:[],datesChecked:[]};
  if(!origin||!destination)return {status:'missing_endpoints',candidates:[],datesChecked:[]};
+ const controller=new AbortController();
+ const timer=setTimeout(()=>controller.abort(),Math.max(1,Math.min(22000,Number(budgetMs)||22000)));
+ const cancel=()=>controller.abort();signal?.addEventListener('abort',cancel,{once:true});
+ if(signal?.aborted)controller.abort();
+ try{
  const [from,to]=await Promise.all([
-  discover(env,origin,{radiusKm:240,limit:40}),
-  discover(env,destination,{radiusKm:240,limit:40})
+  untilAborted(()=>discover(env,origin,{radiusKm:240,limit:40,signal:controller.signal}),controller.signal,{status:'search_timeout',airports:[]}),
+  untilAborted(()=>discover(env,destination,{radiusKm:240,limit:40,signal:controller.signal}),controller.signal,{status:'search_timeout',airports:[]})
  ]);
+ const airportCandidates={origin:from.airports||[],destination:to.airports||[]};
  // Search beyond the first six geographic results; regional and international
  // airports can coexist around the user's actual departure and destination.
  const departureAirports=uniqueCodes(from.airports,12);
@@ -117,14 +134,15 @@ export async function discoverMixedFlightCandidates(env,{origin,destination,depa
  const borderAirport=referenceCountry?arrivalAirports.find(iata=>
   airportCountry.get(iata)&&airportCountry.get(iata)!==referenceCountry)||null:null;
  if(!departureAirports.length||!arrivalAirports.length)
-  return {status:'no_airport_pair',candidates:[],datesChecked:[],
-   airportDiscovery:{origin:from.status,destination:to.status}};
+  return {status:controller.signal.aborted?'search_timeout':'no_airport_pair',candidates:[],datesChecked:[],
+   searchIncomplete:controller.signal.aborted,terminationStatus:controller.signal.aborted?'search_timeout':'no_airport_pair',
+   airportDiscovery:{origin:from.status,destination:to.status},airportCandidates};
  const start=departureAt?Date.parse(departureAt):now;
  if(!Number.isFinite(start))return {status:'invalid_date',candidates:[],datesChecked:[]};
  const days=departureAt?1:Math.max(1,Math.min(7,maxDays));
  const maxQueries=Math.max(1,Math.min(12,Number(maxProviderQueries)||9));
  const datesChecked=[],all=[],seen=new Set();
- let lastStatus='no_candidates',queries=0,cachedProviderResponses=0;
+ let lastStatus='no_candidates',queries=0,cachedProviderResponses=0,queryBudgetExhausted=false;
  for(let offset=0;offset<days&&queries<maxQueries;offset++){
   const outboundDate=day(start+offset*86400000);
   // One pooled query, then independently scan airports which the pooled
@@ -146,6 +164,8 @@ export async function discoverMixedFlightCandidates(env,{origin,destination,depa
    // Broad availability remains independent of which departure terminal the
    // passenger uses. This is a discovery query, NOT a transfer assumption.
    add(departureAirports.slice(0,6),arrivalAirports.slice(0,6),1);
+   if(arrivalAirports.length>6)
+    add(departureAirports.slice(0,6),arrivalAirports.slice(6,12),1);
    if(borderAirport){
     // A regional airport over the border can be the practical gateway:
     // reserve quota for exact departure-airport searches against that
@@ -166,13 +186,13 @@ export async function discoverMixedFlightCandidates(env,{origin,destination,depa
   }
   let attempted=0,foundThisDay=0,providerDiagnostic=null;
   for(const request of requests){
-   if(queries>=maxQueries)break;
+   if(queries>=maxQueries||controller.signal.aborted){queryBudgetExhausted=queries>=maxQueries;lastStatus=controller.signal.aborted?'search_timeout':lastStatus;break;}
    queries++;attempted++;
    let result;
    try{
-    result=await cachedMixedFlightSearch(env,{
-      ...request,outboundDate,currency:'GBP',userInitiated:true
-     },{search,cache,cacheBaseUrl});
+    result=await untilAborted(()=>cachedMixedFlightSearch(env,{
+      ...request,outboundDate,currency:'GBP',userInitiated:true,signal:controller.signal
+     },{search,cache,cacheBaseUrl}),controller.signal,{status:'search_timeout',candidates:[]});
    }catch{result={status:'provider_unavailable',candidates:[]};}
    lastStatus=result?.status||'provider_unavailable';
    if(result?.cacheReused)cachedProviderResponses++;
@@ -202,11 +222,15 @@ export async function discoverMixedFlightCandidates(env,{origin,destination,depa
    ...(providerDiagnostic?{diagnostic:providerDiagnostic}:{})});
   // The selected date is fixed; an undated request shows the first day with
   // results, but compares all checked airport sources for that day.
+  if(!foundThisDay&&offset+1<days&&queries>=maxQueries)queryBudgetExhausted=true;
   if(foundThisDay||!['candidate_results_only','provider_error'].includes(lastStatus))break;
  }
  return {status:all.length?'candidate_results_only':lastStatus,
   candidates:rankMixedFlightCandidates(all,{max:20}),datesChecked,
-  departureAirports,arrivalAirports,borderAirport,providerSearchCount:queries,
+  departureAirports,arrivalAirports,borderAirport,airportCandidates,providerSearchCount:queries,
+  searchIncomplete:controller.signal.aborted||queryBudgetExhausted||lastStatus!=='candidate_results_only',
+  terminationStatus:controller.signal.aborted?'search_timeout':queryBudgetExhausted?'query_budget_exhausted':lastStatus,
   fromCachedProviderResults:cachedProviderResponses>0,
   completeDoorToDoor:false,timezoneAndTransfersUnverified:true};
+ }finally{clearTimeout(timer);signal?.removeEventListener('abort',cancel);controller.abort();}
 }

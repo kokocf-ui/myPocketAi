@@ -21872,8 +21872,8 @@ ru:['Пешком от последней остановки до цели','Р�
 pl:['Pieszo z ostatniego przystanku do celu','Obliczanie końcowego odcinka…','Końcowy odcinek niezweryfikowany.']
 };
 function finalTransitWalkPoints(journey){
- const lastVehicle=[...(journey?.legs||[])].reverse().find(l=>!/(?:walk|foot|pedestrian)/i.test(String(l.mode||''))&&l.arrivalLatLon);
- const arrival=lastVehicle?.arrivalLatLon,target=state.lastTransitResponse?.transit_destination_point;
+ const lastVehicle=[...(journey?.legs||[])].reverse().find(l=>!/(?:walk|foot|pedestrian)/i.test(String(l.mode||''))&&(l.arrivalPoint||l.arrivalLatLon));
+ const endpoint=lastVehicle?.arrivalPoint||lastVehicle?.arrivalLatLon,arrival=endpoint?{lat:endpoint.latitude??endpoint.lat,lon:endpoint.longitude??endpoint.lon}:null,target=state.lastTransitResponse?.transit_destination_point;
  const valid=(lat,lon)=>lat!==null&&lat!==undefined&&lon!==null&&lon!==undefined&&
   Number.isFinite(Number(lat))&&Number.isFinite(Number(lon))&&Math.abs(Number(lat))<=90&&Math.abs(Number(lon))<=180;
  if(!valid(arrival?.lat,arrival?.lon)||!valid(target?.latitude,target?.longitude)||!target?.label)return null;
@@ -22142,12 +22142,21 @@ function renderMixedUnifiedResults(data,choice){
  const flights=Array.isArray(data?.flight_candidates)?data.flight_candidates:[];
  // An operator-page result must not hide a failed/empty flight search.
  // Never translate source failure into the assertion that flights do not exist.
- if(data?.international_journey===true&&!flights.length){
+ if(data?.international_journey===true&&(!flights.length||data.flight_search_incomplete===true)){
   const status=String(data?.flight_search_status||'not_reported');
   const airNote=document.createElement('p');
   airNote.className='mixed-flight-search-disclosure';
   airNote.style.cssText='padding:9px 11px;border:1px solid #996273;border-radius:9px;font-size:12px;line-height:1.4;color:#e4d7dc;margin:8px 0';
   airNote.textContent=
+   data.flight_search_termination==='query_budget_exhausted'?
+    dialogText('✈️ Am atins limita de interogări pentru această căutare. Variantele primite sunt păstrate, dar nu toate aeroporturile/datele au fost verificate.',
+     '✈️ The query limit for this search was reached. Returned options are kept, but not all airports/dates were checked.'):
+   data.flight_search_incomplete===true&&flights.length&&data.flight_search_termination!=='search_timeout'?
+    dialogText('✈️ Rezultate parțiale: păstrez zborurile primite, deși verificarea celorlalte variante nu s-a încheiat.',
+     '✈️ Partial results: returned flights are kept although other options could not all be checked.'):
+   status==='search_timeout'||data.flight_search_termination==='search_timeout'?
+    dialogText('✈️ Căutarea aeroporturilor și zborurilor apropiate a atins limita de timp. Păstrez variantele deja primite; verificarea nu este completă.',
+     '✈️ Nearby airport and flight search reached its time limit. Results already received are kept; the search is incomplete.'):
    ['free_quota_not_confirmed','quota_check_failed','search_http_429'].includes(status)?
     dialogText('✈️ Sursa aeriană nu are acum o cotă gratuită de interogări confirmată. Zborurile existente pot lipsi din rezultate.',
      '✈️ Flight search quota is not currently available or confirmed. Existing flights may be absent from these results.'):
@@ -22163,6 +22172,19 @@ function renderMixedUnifiedResults(data,choice){
     dialogText('✈️ Furnizorul nu a prezentat zboruri pentru această căutare. Verificarea nu dovedește că nu există curse.',
      '✈️ The supplier did not return flights for this search. This does not prove none operate.');
   host.append(airNote);
+ }
+ const nearby=data?.flight_airport_candidates;
+ if(nearby){
+  const group=document.createElement('section');group.className='mixed-airport-coverage';
+  const title=document.createElement('strong');title.textContent=dialogText('Aeroporturi apropiate identificate','Nearby airports identified');group.append(title);
+  for(const [side,label] of [['origin',dialogText('La plecare','Near origin')],['destination',dialogText('La destinație, inclusiv peste graniță','Near destination, including across borders')]]){
+   const airports=Array.isArray(nearby[side])?nearby[side].filter(a=>/^[A-Z]{3}$/.test(String(a?.iata||''))).slice(0,12):[];
+   if(!airports.length)continue;
+   const row=document.createElement('p');row.style.cssText='font-size:13px;overflow-wrap:anywhere';
+   row.textContent=label+': '+airports.map(a=>a.iata+(a.name?' — '+String(a.name).slice(0,100):'')).join('; ');group.append(row);
+  }
+  const disclaimer=document.createElement('p');disclaimer.textContent=dialogText('Acestea sunt puncte de legătură, nu zboruri sau transferuri confirmate. Variantele aeriene primite sunt păstrate chiar dacă un transfer terestru nu poate fi verificat.',
+   'These are connection points, not confirmed flights or transfers. Returned flight options are retained even if a ground transfer cannot be verified.');group.append(disclaimer);host.append(group);
  }
  if(connections.length)appendMixedGroundConnectionCards(host,connections,choice);
  if(providers.length)appendMixedGroundOperatorCards(host,providers,choice);
@@ -22437,10 +22459,11 @@ function renderTransitChoices(options,selectedIndex=null){
   if(selected?.accessRoute&&!selected.error){const walk=document.createElement('button');walk.type='button';walk.className='transit-choice-action';walk.textContent=t[9];walk.onclick=()=>openRouteMap(selected.accessRoute,walk,selected.accessOptions);body.append(walk)}
   if(state.lastTransitChoice){const refresh=document.createElement('button');refresh.type='button';refresh.className='transit-choice-action transit-refresh-action';refresh.textContent=t[15];refresh.onclick=()=>refreshTransitDepartures(refresh);body.append(refresh)}
   // Keep final-mile directions above the long leg table.
-  if(state.lastTransitChoice?.mixedJourney===true&&validTransitBoardingStop(journey.boarding_stop)&&journey.route_only!==true){
+  if((journey.legs||[]).length){
    const navigate=document.createElement('button');navigate.type='button';navigate.className='transit-choice-action';
-   navigate.textContent=dialogText('Hartă și navigare până la îmbarcare','Map and navigation to boarding');
-   navigate.onclick=()=>void selectTransitJourneyWithNavigation(options,selectedIndex,true);body.append(navigate);
+   navigate.classList.add('transit-all-stages-map');
+   navigate.textContent=dialogText('Hartă: toate etapele și deplasările pe jos','Map: all stages and walking legs');
+   navigate.onclick=()=>void openTransitJourneyMap(selected||{journey,options,index:selectedIndex});body.append(navigate);
   }
   appendFinalTransitWalkAction(body,journey);appendTransitLegs(body,journey);return;
  }
@@ -22455,7 +22478,8 @@ function renderTransitChoices(options,selectedIndex=null){
 
 function transitCoordinate(point){
  if(!point)return null;
- const lat=Number(point.lat??point.latitude),lon=Number(point.lon??point.longitude);
+ const rawLat=point.lat??point.latitude,rawLon=point.lon??point.longitude;if(rawLat==null||rawLon==null)return null;
+ const lat=Number(rawLat),lon=Number(rawLon);
  return Number.isFinite(lat)&&Number.isFinite(lon)&&Math.abs(lat)<=90&&Math.abs(lon)<=180?[lat,lon]:null;
 }
 function transitWalkLeg(mode){return /^(walking|walk|foot|pedestrian)$/i.test(String(mode||''))}
@@ -22617,7 +22641,7 @@ async function openTransitJourneyMap(selected,resume=null){
  const destination=String(state.lastTransitResponse?.transit_destination_point?.label||
     state.lastTransitChoice?.transitDestination?.label||journey.legs?.at(-1)?.to||'');
  const intro=document.createElement('strong');intro.textContent=String(journey.legs?.[0]?.from||'—')+' → '+destination;
- const timing=document.createElement('p');timing.textContent=transitClock(journey.startDateTime,journey.time_zone)+
+ const timing=document.createElement('p');timing.textContent=(transitScheduleUncertain(journey)?dialogText('Orientativ · ','Indicative · '):'')+transitClock(journey.startDateTime,journey.time_zone)+
   ' → '+transitClock(journey.arrivalDateTime,journey.time_zone)+(journey.durationMinutes!=null?' · '+formatTravelDurationMinutes(journey.durationMinutes):'');
  const notice=document.createElement('p');notice.style.cssText='font-size:13px;opacity:.85';
  notice.textContent=dialogText('Liniile punctate indică tronsoane fără geometrie de drum verificată; nu sunt indicații de navigație.',
@@ -22682,6 +22706,7 @@ async function openTransitJourneyMap(selected,resume=null){
   note.hidden=false;note.textContent=dialogText('Navigația a fost oprită.','Navigation stopped.');
  };
  details.append(intro,timing);
+ if(selected.error){const warning=document.createElement('p');warning.className='transit-access-status';warning.textContent=selected.error;details.append(warning)}
  const leaveBy=transitBoardingAdvice(journey);
  if(leaveBy){const advice=document.createElement('p');advice.className='transit-boarding-buffer-notice';
   advice.textContent=leaveBy;details.append(advice)}
@@ -22694,9 +22719,13 @@ async function openTransitJourneyMap(selected,resume=null){
   const place=document.createElement('div');place.textContent=(leg.from||'—')+' → '+(leg.to||'—');
   const clock=document.createElement('small');clock.textContent=transitClock(leg.departureTime,journey.time_zone)+
    ' → '+transitClock(leg.arrivalTime,journey.time_zone);
-  row.append(label,place,clock);appendTransitStopCount(row,leg);appendTransportTicketAction(row,leg);stages.append(row);
+  row.append(label,place,clock);appendTransitStopCount(row,leg);appendTransportTicketAction(row,leg);
+  if(transitWalkLeg(leg.mode)){const status=document.createElement('p');status.className='transit-walk-stage-status';status.textContent=dialogText('Traseu pietonal neverificat.','Walking path unverified.');row.append(status)}
+  stages.append(row);
  }
- details.append(stages);
+ details.append(stages);appendFinalTransitWalkAction(details,journey);
+ if(journey.attribution?.text){const source=document.createElement('p');source.className='transit-source-attribution';source.style.cssText='font-size:12px;overflow-wrap:anywhere';source.textContent=journey.attribution.text;details.append(source)}
+ if(transitScheduleUncertain(journey)){const warning=document.createElement('p');warning.textContent=dialogText('Traseu orientativ; orarul nu poate fi garantat. Verifică la operator.','Indicative route; the timetable cannot be guaranteed. Confirm with the operator.');details.append(warning)}
  layer.append(head,note,mapHost,details);document.body.append(layer);
  const current={layer,route:selected.accessRoute||null,journey,mapHost,details,
   followButton:follow,recenter,liveStatus:note,walkRoutes,
@@ -22714,7 +22743,7 @@ async function openTransitJourneyMap(selected,resume=null){
   const map=L.map(mapHost,{rotate:rotateReady});current.map=map;current.leaflet=L;
   L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,
    attribution:'&copy; OpenStreetMap contributors'}).addTo(map);
-  const all=[],unverified=[];
+  const all=[],unverified=selected.error?[-1]:[];
   const savedWalks=new Map();
   for(const stage of (resume?.walkingLegs||[])){
    if(!Number.isInteger(stage.index)||!Array.isArray(stage.coordinates)||stage.coordinates.length<2||
@@ -22730,7 +22759,7 @@ async function openTransitJourneyMap(selected,resume=null){
   const marker=(p,label)=>{if(!p)return;all.push(p);
    L.marker(p,{title:label}).addTo(map).bindPopup(label)};
   const line=(p,color,dashed=false)=>{if(p.length<2)return;
-   p.forEach(x=>all.push(x));L.polyline(p,{color,weight:dashed?3:5,
+   p.forEach(x=>all.push(x));return L.polyline(p,{color,weight:dashed?3:5,
     opacity:dashed?.6:.95,dashArray:dashed?'6,9':undefined}).addTo(map)};
   const access=selected.accessRoute&&validMapRoute(selected.accessRoute)?
     selected.accessRoute:savedWalks.get(-1);
@@ -22741,19 +22770,20 @@ async function openTransitJourneyMap(selected,resume=null){
   const walkJobs=[];
   for(const [i,leg] of (journey.legs||[]).entries()){
    const savedLeg=savedWalks.get(i);
-   let from=transitCoordinate(leg.departurePoint),to=transitCoordinate(leg.arrivalLatLon);
+   let from=transitCoordinate(leg.departurePoint),to=transitCoordinate(leg.arrivalPoint||leg.arrivalLatLon);
    if(!from&&savedLeg)from=[savedLeg.coordinates[0][1],savedLeg.coordinates[0][0]];
    if(!to&&savedLeg){const end=savedLeg.coordinates.at(-1);to=[end[1],end[0]]}
-   if(!from&&i>0)from=transitCoordinate(journey.legs[i-1]?.arrivalLatLon);
+   if(!from&&i>0)from=transitCoordinate(journey.legs[i-1]?.arrivalPoint||journey.legs[i-1]?.arrivalLatLon);
    if(!to&&i+1<journey.legs.length)to=transitCoordinate(journey.legs[i+1]?.departurePoint);
    if(!from||!to){unverified.push(i+1);if(from)marker(from,'📌 '+leg.from);if(to)marker(to,'📌 '+leg.to);continue}
+   if(!transitWalkLeg(leg.mode)){marker(from,leg.from||'');marker(to,leg.to||'')}
    const verified=Array.isArray(leg.coordinates)&&leg.coordinates.length>=2&&leg.geometryAvailable===true;
    if(verified){const p=leg.coordinates.filter(c=>Array.isArray(c)&&Number.isFinite(c[0])&&Number.isFinite(c[1]))
     .map(c=>[c[1],c[0]]);if(p.length>1)line(p,transitWalkLeg(leg.mode)?'#0f91e2':'#822d4a')}
    else if(!transitWalkLeg(leg.mode)){line([from,to],'#822d4a',true);unverified.push(i+1)}
    if(transitWalkLeg(leg.mode)){
     marker(from,'📌 '+(leg.from||'')+' → '+(leg.to||''));
-    const initial=L.polyline([from,to],{color:'#0f91e2',weight:3,opacity:.5,dashArray:'4,7'}).addTo(map);
+    const initial=line([from,to],'#0f91e2',true);
     walkJobs.push({i,leg,from,to,initial,savedLeg});
    }
   }
@@ -22773,13 +22803,13 @@ async function openTransitJourneyMap(selected,resume=null){
   current.cleanup=()=>{window.removeEventListener('resize',resize);clearTimeout(timeout);controller.abort()};
   // One at a time to keep the navigation API bounded; the map opens immediately.
   for(const job of walkJobs.slice(0,12)){
-   if(activeRouteMap!==current||controller.signal.aborted)break;
+   if(activeRouteMap!==current||controller.signal.aborted){unverified.push(job.i+1);continue;}
    try{
     if(transitDistance({latitude:job.from[0],longitude:job.from[1]},
       {latitude:job.to[0],longitude:job.to[1]})<8){job.initial.remove();continue}
 
     const verified=job.savedLeg&&transitVerifiedPath(job.savedLeg,job.from,job.to)?
-     job.savedLeg:await transitStreetPath(job.from,job.to,job.leg.to||'',controller.signal);
+     job.savedLeg:access&&transitVerifiedPath(access,job.from,job.to)?access:await transitStreetPath(job.from,job.to,job.leg.to||'',controller.signal);
     if(!verified){unverified.push(job.i+1);continue}
     const p=verified.coordinates.map(c=>[c[1],c[0]]);
     job.initial.remove();line(p,'#0f91e2');walkRoutes.set(job.i,verified);
@@ -22787,9 +22817,10 @@ async function openTransitJourneyMap(selected,resume=null){
      const walk=document.createElement('small');walk.style.display='block';
      walk.textContent='📌 '+Math.round(verified.distanceMeters||0)+' m'+
        (Number.isFinite(verified.durationSeconds)?' · '+formatTravelDurationMinutes(verified.durationSeconds/60):'');
-     row?.append(walk)}
+     const status=row?.querySelector('.transit-walk-stage-status');if(status)status.textContent=dialogText('Traseu pietonal verificat.','Walking path verified.');row?.append(walk)}
    }catch{unverified.push(job.i+1)}
   }
+  if(walkJobs.length>12)unverified.push(...walkJobs.slice(12).map(j=>j.i+1));
   if(activeRouteMap===current&&!current.navigating)note.textContent=unverified.length?
    dialogText('Traseu orientativ: segmentele fără geometrie verificată sunt punctate.',
     'Overview map: segments without verified geometry are dashed.'):
@@ -22812,7 +22843,7 @@ async function selectTransitJourneyWithNavigation(options,index,navigate=false){
   selected.loading=false;selected.error='';renderTransitChoices(options,index);return;
  }
  if(isRomanianRailJourney(journey)&&!validTransitBoardingStop(stop)){selected.loading=false;selected.error='';renderTransitChoices(options,index);return;}
- const fail=message=>{if(!valid())return;selected.loading=false;selected.error=message;renderTransitChoices(options);transitRefreshNotice(message)};
+ const fail=message=>{if(!valid())return;selected.loading=false;selected.error=message;selected.timeUnverified=true;journey.accessWalkVerified=false;renderTransitChoices(options,index)};
  if(!validTransitBoardingStop(stop)){
   // A verified provider itinerary without coordinate-backed boarding data
   // is still useful as timetable details; do not pretend to navigate to a stop.

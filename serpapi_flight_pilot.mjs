@@ -92,10 +92,12 @@ export async function searchSerpApiFreeFlights(env,params,{fetcher=fetch}={}) {
   if (!key) return {status:'no_free_key',candidates:[]};
   const url = prepareSerpApiFlightSearch(params);
   if (!url) return {status:'invalid_request',candidates:[]};
+  const boundedSignal=ms=>params.signal?AbortSignal.any([params.signal,AbortSignal.timeout(ms)]):AbortSignal.timeout(ms);
   try {
+    if(params.signal?.aborted)return {status:'search_timeout',candidates:[]};
     const quotaUrl = new URL('https://serpapi.com/account.json');
     quotaUrl.searchParams.set('api_key',key);
-    const quotaResponse = await fetcher(quotaUrl,{signal:AbortSignal.timeout(7000)});
+    const quotaResponse = await fetcher(quotaUrl,{signal:boundedSignal(7000)});
     if (!quotaResponse.ok) return {status:'quota_check_failed',candidates:[]};
     const quota = await quotaResponse.json();
     // A paid subscription or insufficient quota must never be silently used.
@@ -104,10 +106,15 @@ export async function searchSerpApiFreeFlights(env,params,{fetcher=fetch}={}) {
         Number(quota?.total_searches_left ?? quota?.plan_searches_left) < 1 ||
         !Number.isFinite(Number(quota?.total_searches_left ?? quota?.plan_searches_left)))
       return {status:'free_quota_not_confirmed',candidates:[]};
+    if(params.signal?.aborted)return {status:'search_timeout',candidates:[]};
     url.searchParams.set('api_key',key);
-    const response = await fetcher(url,{signal:AbortSignal.timeout(20000)});
+    const response = await fetcher(url,{signal:boundedSignal(20000)});
     if (!response.ok) return {status:'search_http_'+response.status,candidates:[]};
     const payload = await response.json();
+    // This exact provider response means this airport/date query is empty,
+    // not that credentials failed or that nearby airports have no flights.
+    if(typeof payload.error==='string'&&/^Google Flights (?:hasn't|has not) returned any results for this query\.?$/i.test(payload.error.trim()))
+      return {status:'candidate_results_only',candidates:[],resultStatus:'no_results',freeQuotaChecked:true};
     if (payload.error || payload.search_metadata?.status==='Error'){
       // Report a bounded, secret-redacted provider explanation, not a raw payload.
       const diagnostic=String(payload.error||payload.search_metadata?.status||'unknown')
@@ -124,5 +131,5 @@ export async function searchSerpApiFreeFlights(env,params,{fetcher=fetch}={}) {
       directBookingAvailable:false,
       freeQuotaChecked:true,
       searchCostEstimate:0};
-  } catch {return {status:'provider_unavailable',candidates:[]};}
+  } catch(e) {return {status:params.signal?.aborted||['AbortError','TimeoutError'].includes(e?.name)?'search_timeout':'provider_unavailable',candidates:[]};}
 }
