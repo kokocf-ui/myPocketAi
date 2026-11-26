@@ -1,3 +1,4 @@
+import {beforeTransitAbort} from './transit_deadline.mjs';
 // Independent exploratory sources: a scheduled ground journey must not hide
 // flight/coach/rail route evidence. No ticket-stock prerequisite, guessed times
 // or invented first/last mile. Failed enrichment preserves the source option.
@@ -18,20 +19,28 @@ export async function searchMixedIndicativeOptions(env,{
  const bounded=async(work,ms,fallback)=>{
   let timer;
   try{return await Promise.race([Promise.resolve().then(work),
-   new Promise(resolve=>{timer=setTimeout(()=>resolve(fallback),ms)})]);}
-  catch{return fallback;}finally{clearTimeout(timer)}
+   new Promise(resolve=>{timer=setTimeout(()=>resolve(typeof fallback==='function'?fallback():fallback),ms)})]);}
+  catch{return typeof fallback==='function'?fallback():fallback;}finally{clearTimeout(timer)}
  };
- const [air,ground]=await Promise.all([
+ let partialGround=null;
+ const groundAbort=new AbortController();
+ const groundTimer=setTimeout(()=>groundAbort.abort(),19500);
+ const groundWork=()=>beforeTransitAbort(()=>discoverGround(env,{origin,destination,signal:groundAbort.signal,
+  onProgress:partial=>{partialGround={...partialGround,...partial};}}),groundAbort.signal,null);
+ const groundFallback=()=>({...partialGround,status:partialGround?.status||'search_timeout',searchIncomplete:true});
+ const [air,groundResult]=await Promise.all([
   (international||km>=150)?bounded(()=>discoverAir(env,{origin,destination,departureAt,maxDays:3,cache,cacheBaseUrl,budgetMs:22000}),25000,{status:'provider_unavailable',candidates:[]}):Promise.resolve({status:'disabled',candidates:[]}),
-  km>=30?bounded(()=>discoverGround(env,{origin,destination}),20000,{status:'provider_unavailable',operators:[]}):Promise.resolve({status:'disabled',operators:[]})
+  km>=30?bounded(groundWork,20000,groundFallback):Promise.resolve({status:'disabled',operators:[]})
  ]);
+ clearTimeout(groundTimer);groundAbort.abort();
+ const ground=groundResult||groundFallback();
  let flights=Array.isArray(air?.candidates)?air.candidates.slice(0,6):[],ready=false;
  if(flights.length){
   let timeout;
   try{
    const enriched=await Promise.race([
     prepare(env,{candidates:flights,origin,destination,requestedAt:departureAt||new Date().toISOString(),language,limit:6,airportCandidates:air?.airportCandidates},
-     {planEgress:dependencies.planEgress,planRegional:dependencies.planRegional}),
+     {planAccess:dependencies.planAccess,planEgress:dependencies.planEgress,planRegional:dependencies.planRegional}),
     new Promise(resolve=>{timeout=setTimeout(()=>resolve(null),8500)})
    ]);
    if(Array.isArray(enriched)&&enriched.length){flights=enriched;ready=true;}
@@ -51,6 +60,7 @@ export async function searchMixedIndicativeOptions(env,{
   operator_options:Array.isArray(ground?.operators)?ground.operators:[],
   ground_connections:Array.isArray(ground?.connections)?ground.connections:[],
   ground_corridor_status:ground?.corridorDiscoveryStatus||null,
+  ground_search_incomplete:ground?.searchIncomplete===true,
   operator_discovery_status:ground?.status||'provider_unavailable',
   operator_search_summary:ground?.summary||null
  };

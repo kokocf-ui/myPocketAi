@@ -126,13 +126,14 @@ async function nearbyMajorCity(env,origin,expected,{fetcher}){
   const r=await fetcher(url,{headers:{Accept:'application/json'},signal:AbortSignal.timeout(6000)});
   if(!r.ok)return '';
   const body=await r.json();
+  const expectedCode=await expected;
   const cities=(Array.isArray(body.features)?body.features:[]).map(feature=>{
    const p=feature.properties||{},raw=p.datasource?.raw||{};
    const code=String(p.country_code||'').toUpperCase();
    const name=trim(p.name||p.city||'',75);
    const population=Number(p.population??raw.population);
    return {name,country:code,population:Number.isFinite(population)?population:0};
-  }).filter(c=>c.name&&(!expected||c.country===expected));
+  }).filter(c=>c.name&&(!expectedCode||c.country===expectedCode));
   cities.sort((a,b)=>b.population-a.population);
   return cities[0]?.name||'';
  }catch{return ''}
@@ -304,10 +305,10 @@ export function composeOfficialGroundConnections(legs,{fromCity,toCity,interchan
  return [...unique,...duplicates].slice(0,Math.max(1,Math.min(12,max)));
 }
 async function discoverOfficialCorridorConnections(env,{
- origin,destination,majorCity,fromCity,toCity,braveKey,fetcher
+ origin,destination,majorCity,fromCity,toCity,braveKey,exaKey,fetcher,signal=null,onProgress=null,corridorCitiesPromise=null
 }={}){
- if(!braveKey)return {connections:[],corridorCities:[],segmentPages:0,status:'provider_unavailable'};
- const cities=await discoverGroundCorridorCities(env,{origin,destination,fetcher,maxCities:5});
+ if(!braveKey&&!exaKey)return {connections:[],corridorCities:[],segmentPages:0,status:'provider_unavailable'};
+ const cities=await (corridorCitiesPromise||discoverGroundCorridorCities(env,{origin,destination,fetcher,maxCities:2}));
  if(!cities.length)return {connections:[],corridorCities:[],segmentPages:0,status:'corridor_city_unavailable'};
  const gateway=majorCity||fromCity,requests=[],searchedPairs=[];
  for(const city of cities){
@@ -316,17 +317,34 @@ async function discoverOfficialCorridorConnections(env,{
  }
  // Query endpoints separately, not "route London via hardcoded X". Every X
  // comes from the geographic corridor. Concurrency is bounded for the API.
- let cursor=0;
+ let cursor=0,searchCount=0,quotaBlocked=false;
  const pages=[];
  const worker=async()=>{
-  while(cursor<requests.length){
+  while(cursor<requests.length&&!signal?.aborted&&!quotaBlocked&&searchCount<6){
    const index=cursor++,pair=requests[index];
    const lookup=async query=>{
+    if(signal?.aborted||quotaBlocked||searchCount>=6)return [];
+    searchCount++;
+    if(!braveKey){
+     try{
+      const r=await fetcher('https://api.exa.ai/search',{
+       method:'POST',headers:{'Content-Type':'application/json','x-api-key':exaKey},
+       body:JSON.stringify({query,type:'auto',numResults:8,contents:{text:{maxCharacters:850}}}),
+       signal:AbortSignal.timeout(7000)
+      });
+      if([401,403,429].includes(r.status))quotaBlocked=true;
+      if(!r.ok)return [];
+      const data=await r.json();
+      return normalizeMixedOperatorEvidence(data.results,{origin:{city:pair.from},destination:{city:pair.to}})
+       .filter(x=>fold(x.from)===fold(pair.from));
+     }catch{return []}
+    }
     const u=new URL('https://api.search.brave.com/res/v1/web/search');
     u.searchParams.set('q',query);u.searchParams.set('count','20');
     try{
      const r=await fetcher(u,{headers:{Accept:'application/json',
       'X-Subscription-Token':braveKey},signal:AbortSignal.timeout(7000)});
+     if([401,403,429].includes(r.status))quotaBlocked=true;
      if(!r.ok)return [];
      const data=await r.json();
      const hits=(Array.isArray(data.web?.results)?data.web.results:[]).map(x=>({
@@ -351,6 +369,8 @@ async function discoverOfficialCorridorConnections(env,{
     eligible=[...eligible,...await lookup(query)];
    }
    pages.push(...eligible);
+   onProgress?.({connections:composeOfficialGroundConnections(pages,{fromCity:gateway,toCity,interchanges:cities,max:6}),
+    corridorDiscoveryStatus:'partial_operator_route_pages'});
    searchedPairs.push({from:pair.from,to:pair.to,
     modes:[...new Set(eligible.map(x=>x.mode))],
     operatorPages:eligible.length});
@@ -364,7 +384,8 @@ async function discoverOfficialCorridorConnections(env,{
   corridorCities:cities.map(x=>({name:x.name,country_code:x.country_code})),
   segmentPages:pages.length,
   searchedPairs:searchedPairs.sort((a,b)=>a.from.localeCompare(b.from)||a.to.localeCompare(b.to)),
-  status:'operator_route_page_discovery'
+  searchCount,searchIncomplete:signal?.aborted===true||quotaBlocked||searchCount>=6,
+  status:signal?.aborted?'search_timeout':quotaBlocked?'quota_or_access_blocked':'operator_route_page_discovery'
  };
 }
 
@@ -383,19 +404,31 @@ export async function resolveMixedOriginLocality(env,origin,{fetcher=fetch}={}){
   return city?{...origin,city,country_code:country(p)||country(origin)}:null;
  }catch{return null}
 }
-export async function discoverMixedGroundOperators(env,{origin,destination,fetcher=fetch}={}){
+export async function discoverMixedGroundOperators(env,{origin,destination,fetcher=fetch,signal=null,onProgress=null}={}){
+ const upstream=fetcher;
+ fetcher=(url,options={})=>{
+  if(signal?.aborted)return Promise.reject(new Error('ground_search_aborted'));
+  return upstream(url,{...options,...(signal?{signal:options.signal?AbortSignal.any([signal,options.signal]):signal}:{})});
+ };
  const key=trim(env?.EXA_API_KEY,300);
  const braveKey=trim(env?.BRAVE_API_KEY,300);
  if(!key&&!braveKey)return {status:'search_providers_not_configured',operators:[]};
- origin=await resolveMixedOriginLocality(env,origin,{fetcher});
+ // Independent geography must not consume serial 6s + 6s + 5.5s windows
+ // before the first surface-source query is even launched.
+ const originPromise=resolveMixedOriginLocality(env,origin,{fetcher});
+ const countryPromise=originPromise.then(p=>resolveOriginCountry(env,p,{fetcher}));
+ const majorCityPromise=nearbyMajorCity(env,origin,countryPromise,{fetcher});
+ const corridorCitiesPromise=discoverGroundCorridorCities(env,{origin,destination,fetcher,maxCities:2});
+ const resolvedOrigin=await originPromise;
+ const [sourceCountry,majorCity]=await Promise.all([countryPromise,majorCityPromise]);
+ origin=resolvedOrigin;
  const fromCity=locality(origin),toCity=locality(destination);
  if(!fromCity||!toCity)return {status:'location_unavailable',operators:[]};
  // Search only approximate places, not street addresses or precise GPS.
- const sourceCountry=await resolveOriginCountry(env,origin,{fetcher});
  const destinationCountry=country(destination);
  const readableCountry=sourceCountry?
   new Intl.DisplayNames(['en'],{type:'region'}).of(sourceCountry):fromCity;
- const majorCity=await nearbyMajorCity(env,origin,sourceCountry,{fetcher});
+
  const queries=[
   [fromCity,toCity,'bus coach train transport operator official route'].join(' '),
   [majorCity||readableCountry,toCity,destinationCountry,
@@ -453,9 +486,15 @@ export async function discoverMixedGroundOperators(env,{origin,destination,fetch
  }
  if(!successful)return {status:errors.join('|')||'provider_unavailable',operators:[],
   summary:{fromCity,toCity,majorCity,sourceHits:0,matchingRoutes:0,errors:errors.slice(0,4)}};
- // Validate all candidate origins concurrently, bounded by the shortlist,
- // instead of a potentially 30-second chain of individual geocoding requests.
- const verdicts=await Promise.all(eligible.map(async option=>{
+ const accepted=[];
+ let partialConnections=[];
+ const publish=()=>onProgress?.({status:accepted.length?'official_operator_options':'partial_operator_route_pages',
+  operators:[...accepted],connections:partialConnections,corridorDiscoveryStatus:'searching',searchIncomplete:true});
+ const corridorPromise=discoverOfficialCorridorConnections(env,{
+  origin,destination,majorCity,fromCity,toCity,braveKey,exaKey:key,fetcher,signal,corridorCitiesPromise,
+  onProgress:partial=>{partialConnections=partial.connections||partialConnections;publish();}
+ });
+ const verify=async option=>{
   if(!option.access_transfer_needed)return {...option,
    access_transfer_verified:true,country_match_verified:true};
   if(!sourceCountry)return null;
@@ -468,14 +507,13 @@ export async function discoverMixedGroundOperators(env,{origin,destination,fetch
   const valid=await verifyOriginGeography(env,option.from,sourceCountry,{fetcher});
   return valid?{...option,access_transfer_verified:false,country_match_verified:true,
    origin_country_evidence:'geocode_city'}:null;
+ };
+ await Promise.all(eligible.map(async option=>{
+  const verified=await verify(option);
+  if(verified){accepted.push(verified);publish();}
  }));
- const accepted=verdicts.filter(Boolean);
- // Independently look for rail+coach and coach-only operator route chains.
- // An unavailable provider or unconfirmed leg never becomes an invented route.
- const corridor=await discoverOfficialCorridorConnections(env,{
-  origin,destination,majorCity,fromCity,toCity,braveKey,fetcher
- });
- return {connections:corridor.connections,
+ const corridor=await corridorPromise;
+ return {connections:corridor.connections,searchIncomplete:corridor.searchIncomplete===true,
   corridorDiscoveryStatus:corridor.status,
   corridorCitiesChecked:corridor.corridorCities,
   corridorSegmentPages:corridor.segmentPages,

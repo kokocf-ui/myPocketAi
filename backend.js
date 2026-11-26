@@ -1,3 +1,4 @@
+import {createMixedLocalPlanner} from './mixed_local_planner.mjs';
 import {planHereNationalJourney} from './here_national_transit.mjs';
 export {HereTransitBudget} from './here_transit_budget.mjs';
 import {planGermanyNationalJourney} from './germany_national_transit.mjs';
@@ -61,7 +62,7 @@ import {evaluateMixedJourneyGeography} from "./mixed_route_quality.mjs";
 import {searchMixedRouteProviders} from "./mixed_route_provider_search.mjs";
 import {discoverAirportCandidates} from "./mixed_airport_discovery.mjs";
 import {discoverGroundTransferCandidates} from "./mixed_ground_transfer_discovery.mjs";
-import {makeTransCAPIMixedSource,makeMOTISMixedSource} from "./mixed_existing_provider_adapters.mjs";
+import {makeTransCAPIMixedSource,makeMOTISMixedSource,makeLocalMixedSource} from "./mixed_existing_provider_adapters.mjs";
 import {checkSerpApiSecretStatus} from "./serpapi_account_status.mjs";
 import {connectCandidateFlightToGround} from "./mixed_flight_ground_connections.mjs";
 import {searchRomanianAirportOnward} from "./mixed_romanian_airport_onward.mjs";
@@ -1329,8 +1330,8 @@ const ROUTE_REPLY_TEXT={
  pl:['Trasa piesza','Trasa samochodowa','Odległość','Szacowany czas','Wskazówki','Dostawca nie podał wskazówek dla tej trasy.','Trasę obliczył Geoapify.']
 };
 
-export default {
-  async fetch(request, env) {
+async function handleBackendRequest(request, env) {
+    if(request.signal?.aborted)return Response.json({status:"error",reason:"search_timeout",transit:[]},{status:408});
     const API_VERSION = "v186";
     // The previous FP8 model took 32–55 seconds on live mobile requests.
     // Keep the supported fast 8B default; allow only a deployed, active fast model as an override.
@@ -1419,8 +1420,10 @@ export default {
          !payload.flight||!payload.origin||!payload.destination)
         return json({status:'invalid_request',completeDoorToDoor:false},400);
       try{
+        const local=createMixedLocalPlanner({env,dispatch:handleBackendRequest,language:payload.language||'ro'});
         const result=await connectCandidateFlightToGround(env,payload,{
-          planEgress:planMOTISMixedJourney,
+          planAccess:local,
+          planEgress:(e,from,to,language,departureAt,options={})=>local(e,from,to,4,{...options,departureAt}),
           planRegional:searchRomanianAirportOnward
         });
         return json({app:'Pocket AI',version:API_VERSION,...result});
@@ -4039,6 +4042,9 @@ export default {
       const transitOptions = [];
       const requestedOptionsCount=requestedTransitCount(message,data.transit_count);
       const transportPreference=data.transit_preference==='bus_only'?'bus_only':'all';
+      const localPointPlanner=createMixedLocalPlanner({env,dispatch:handleBackendRequest,language:lang});
+      const localEgress=(e,from,to,language,departureAt,options={})=>
+        localPointPlanner(e,from,to,4,{...options,departureAt});
       let indicativePromise=null;
       const mixedExtraFields=(overrides={})=>{
         if(!explicitMixedJourney||transportPreference!=='all')return Promise.resolve({});
@@ -4047,7 +4053,7 @@ export default {
           destination:data.transit_destination,departureAt:data.transit_departure_at||null,
           language:lang,cache:typeof caches!=='undefined'?caches.default:null,
           cacheBaseUrl:new URL(request.url).origin,...overrides
-        },{planEgress:planMOTISMixedJourney,planRegional:searchRomanianAirportOnward});
+        },{planAccess:localPointPlanner,planEgress:localEgress,planRegional:searchRomanianAirportOnward});
         return indicativePromise;
       };
 
@@ -4393,8 +4399,9 @@ export default {
               city:String(data.transit_destination?.city||''),
               country_code:String(data.transit_destination?.country_code||'').toUpperCase()},
             departureAt:effectiveDepartureAt,international:internationalTarget});
-          const mixedFlightFields=()=>extraPromise;
-          const mixedGroundFields=()=>extraPromise;
+          let surfaceSearch={status:'not_requested',providerChecks:[]};
+          const mixedFlightFields=async()=>({...await extraPromise,ground_provider_search:surfaceSearch});
+          const mixedGroundFields=mixedFlightFields;
           const flightSearchPromise=extraPromise.then(fields=>({
             candidates:fields.flight_candidates||[],status:fields.flight_search_status||'disabled',
             datesChecked:fields.flight_dates_checked||[]
@@ -4406,14 +4413,18 @@ export default {
             const tc=makeTransCAPIMixedSource(env,{licensed:Boolean(env.TRANSCAPI_API_KEY)});
             const mt=makeMOTISMixedSource(env,{
               licensed:Boolean(env.MOTIS_API_BASE_URL),
-              planner:(e,from,to,when)=>planMOTISMixedJourney(e,from,to,lang,when)
+              planner:(e,from,to,when,options)=>planMOTISMixedJourney(e,from,to,lang,when,options)
             });
             const start={...mixedOrigin,id:'mixed:departure'};
             const end={id:'mixed:arrival',latitude:targetLat,longitude:targetLon,label:targetName};
             // The planner must use every enabled licensed source, even when only
             // one can directly cover A→B. Other sources may cover proven
             // access/transfer legs discovered in a later expansion stage.
-            const sources=[tc,mt].filter(s=>s.enabled&&s.licensed);
+            const local=makeLocalMixedSource({planner:localPointPlanner,
+              canServe:(a,b)=>Boolean(
+                isTfLLondonCorridorPoint(a.latitude,a.longitude)&&isTfLLondonCorridorPoint(b.latitude,b.longitude)||
+                romanianUrbanRegion(a,b))});
+            const sources=[local,tc,mt].filter(s=>s.enabled&&s.licensed);
             if(sources.length){
               try{
                 const searchAt=effectiveDepartureAt||new Date().toISOString();
@@ -4423,17 +4434,12 @@ export default {
                 // Geoapify supplies locations only, never scheduled services.
                 let hubCandidates=[];
                 if(internationalTarget&&env.GEOAPIFY_API_KEY){
-                  const [originGround,destinationGround,originAir,destinationAir]=
-                    await Promise.all([
-                      discoverGroundTransferCandidates(env,start,{radiusKm:140,limit:2}),
-                      discoverGroundTransferCandidates(env,end,{radiusKm:140,limit:2}),
-                      discoverAirportCandidates(env,start,{radiusKm:240,limit:12}),
-                      discoverAirportCandidates(env,end,{radiusKm:240,limit:12})
-                    ]);
-                  const originNodes=[...(originGround.candidates||[]),
-                    ...(originAir.airports||[]).slice(0,1)];
-                  const destinationNodes=[...(destinationGround.candidates||[]),
-                    ...(destinationAir.airports||[]).slice(0,1)];
+                  const [originGround,destinationGround]=await Promise.all([
+                    discoverGroundTransferCandidates(env,start,{radiusKm:140,limit:3}),
+                    discoverGroundTransferCandidates(env,end,{radiusKm:140,limit:3})
+                  ]);
+                  const originNodes=originGround.candidates||[];
+                  const destinationNodes=destinationGround.candidates||[];
                   hubCandidates=[
                     ...originNodes.map(n=>({...n,mixedHubRole:'origin_access'})),
                     ...destinationNodes.map(n=>({...n,mixedHubRole:'destination_egress'}))
@@ -4455,6 +4461,8 @@ export default {
                   parallelDirect:true,maxResults:requestedOptionsCount,
                   now:Date.now()-90000
                 });
+                surfaceSearch={status:combined.status,providerChecks:combined.providerChecks,
+                  searchCalls:combined.searchCalls,searchIncomplete:combined.searchIncomplete===true};
                 if(combined.status==='verified'&&combined.journeys.length){
                   const transit=annotateTransportJourneys(combined.journeys,lang);
                   const lines=transit.map((j,i)=>(i+1)+'. '+
@@ -4491,7 +4499,7 @@ export default {
             }))&&
             (transportPreference==='bus_only'||transcapiZone!=='gb'||!isTfLLondonCorridorPoint(mixedOrigin.latitude,mixedOrigin.longitude)||!isTfLLondonCorridorPoint(targetLat,targetLon));
           if(transcapiEligible && (!data.national_public_transport||authorizedNationalProvider==='uk_national_transit')){
-            const nationalOptions={preference:transportPreference,departureOffsetMinutes,departureAt};
+            const nationalOptions={preference:transportPreference,departureOffsetMinutes,departureAt,signal:request.signal};
             const nationalTo={latitude:targetLat,longitude:targetLon};
             const localBusAlternative=!explicitMixedJourney&&transportPreference==='all'&&
               routeGeoDistance(mixedOrigin,nationalTo)<=80000;
@@ -4608,7 +4616,7 @@ export default {
           // MOTIS v6 can use the calendar via the documented time parameter.
           const planned=data.national_public_transport===true?{status:'national_only',journeys:[]}:
             !String(env.MOTIS_API_BASE_URL||'').trim()?{status:'not_configured',journeys:[]}:
-            validTarget&&mixedOriginValid?await planMOTISMixedJourney(env,mixedOrigin,{latitude:targetLat,longitude:targetLon},lang,effectiveDepartureAt):
+            validTarget&&mixedOriginValid?await planMOTISMixedJourney(env,mixedOrigin,{latitude:targetLat,longitude:targetLon},lang,effectiveDepartureAt,{signal:request.signal}):
             {status:!validTarget?'destination_unverified':'origin_missing',journeys:[]};
           if(planned.journeys.length){
             const transit=planned.journeys.slice(0,requestedOptionsCount),fastest=transit[0];
@@ -4938,7 +4946,7 @@ export default {
             // Both TfL consumers use one provider adapter.
             // Fetch alternative preferences only if the primary request is insufficient.
             const tflData=await requestTfLJourneys({
-              from,to,appKey:env.TFL_APP_KEY,appId:env.TFL_APP_ID,
+              from,to,appKey:env.TFL_APP_KEY,appId:env.TFL_APP_ID,signal:request.signal,
               departureAt:effectiveDepartureAt,requestedCount:requestedOptionsCount,
               modes:transportPreference==='bus_only'?'bus':'',
               includeBusAlternative:!explicitMixedJourney&&transportPreference!=='bus_only'
@@ -9300,5 +9308,5 @@ Răspunde firesc și concis în mod implicit, dar oferă detaliile necesare sarc
         ai_connected: true
       }, quotaExceeded?429:502);
     }
-  }
-};
+}
+export default {fetch:handleBackendRequest};

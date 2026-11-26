@@ -60,8 +60,11 @@ export async function planFixedPointBoardingAccess(env,{
   earliestDeparture:new Date(earliest).toISOString(),
   latestArrival:new Date(deadline).toISOString()
  });
- return {status:chosen?'scheduled_connection_found':signal?.aborted?'search_timeout':samples.some(r=>
-   r.status==='fulfilled'&&r.value?.status==='not_configured')?
-   'local_transport_not_configured':'no_connection_before_boarding',
-  journey:chosen,attemptedAt};
+ const statuses=samples.map(r=>r.status==='fulfilled'?r.value?.status:'provider_unavailable');
+ const checkedSchedule=journeys.length>0||statuses.every(s=>['success','no_usable_journeys','no_journeys_returned'].includes(s));
+ return {status:chosen?'scheduled_connection_found':signal?.aborted?'search_timeout':
+  statuses.includes('not_configured')?'local_transport_not_configured':
+  checkedSchedule?'no_connection_before_boarding':
+  String(statuses.find(s=>s&&s!=='success')||'local_provider_unavailable'),
+  journey:chosen,attemptedAt,providerStatuses:statuses};
 }

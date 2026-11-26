@@ -5,7 +5,7 @@ import {beforeTransitAbort} from './transit_deadline.mjs';
 export async function requestTfLJourneys({
  from,to,appKey,appId='',departureAt=null,requestedCount=3,
  auxiliary=false,modes='',includeBusAlternative=false,fetcher=fetch,
- budgetMs=12000,supplementaryBudgetMs=1800
+ budgetMs=12000,supplementaryBudgetMs=1800,signal:parentSignal=null
 }={}){
  if(!from||!to)return {journeys:[],responses:[],status:'not_configured',attempts:[]};
  const base=new URL('https://api.tfl.gov.uk/Journey/JourneyResults/'+from+'/to/'+to);
@@ -35,6 +35,8 @@ export async function requestTfLJourneys({
  }
  const attempts=[],responses=[];
  const controller=new AbortController(),signal=controller.signal;
+ const cancel=()=>controller.abort();parentSignal?.addEventListener('abort',cancel,{once:true});
+ if(parentSignal?.aborted)controller.abort();
  const deadline=Date.now()+Math.max(1,Math.min(12000,Number(budgetMs)||12000));
  let timer=setTimeout(()=>controller.abort(),Math.max(1,deadline-Date.now()));
  try{
@@ -111,5 +113,5 @@ export async function requestTfLJourneys({
   ?(attempts.some(a=>a.public&&a.count>0)?'ok_public':'ok'):
    attempts.some(a=>a.status==='ok')?'no_journeys_returned':
    attempts.at(-1)?.status||'request_failed'};
- }finally{clearTimeout(timer);controller.abort();}
+ }finally{clearTimeout(timer);parentSignal?.removeEventListener('abort',cancel);controller.abort();}
 }

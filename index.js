@@ -22153,8 +22153,8 @@ function renderMixedUnifiedResults(data,choice){
  endpoints.textContent=String(choice?.journeyOrigin?.label||state.lastTransitChoice?.journeyOrigin?.label||dialogText('Locația mea (GPS)','My location (GPS)'))+
   ' → '+String(choice?.transitDestination?.label||data?.transit_destination_point?.label||'');host.append(endpoints);
  const overview=document.createElement('p');overview.className='mixed-planning-overview';
- overview.textContent=dialogText('Planificare orientativă de la plecare la destinație. Nu este necesară confirmarea locurilor pentru afișare. Orarele, prețurile și locurile se verifică la rezervarea fiecărui segment.',
-  'Indicative planning from origin to destination. Seat confirmation is not required to display options. Check schedules, fares and seats when booking each leg.');
+ overview.textContent=dialogText('Comparăm transport local, tren, autocar și avion de la plecare la destinație; aeroportul nu este obligatoriu. Nu este necesară confirmarea locurilor pentru afișare. Orarele, prețurile și locurile se verifică la rezervarea fiecărui segment.',
+  'Compare local transport, trains, coaches and flights from origin to destination; an airport is not required. Seat confirmation is not required to display options. Check schedules, fares and seats when booking each leg.');
  overview.style.cssText='font-size:13px;line-height:1.45;color:#d5e6ec';host.append(overview);
  const providers=Array.isArray(data?.operator_options)?data.operator_options:[];
  const connections=Array.isArray(data?.ground_connections)?data.ground_connections:[];
@@ -22192,6 +22192,22 @@ function renderMixedUnifiedResults(data,choice){
      '✈️ The supplier did not return flights for this search. This does not prove none operate.');
   host.append(airNote);
  }
+ if(!options.length&&!providers.length&&!connections.length){
+  const groundNote=document.createElement('p');groundNote.className='mixed-ground-search-disclosure';
+  const status=String(data?.operator_discovery_status||'not_reported');
+  groundNote.textContent=data?.ground_search_incomplete===true?
+   dialogText('🚆 🚌 Verificarea legăturilor terestre nu s-a încheiat. Asta nu înseamnă că lipsesc trenurile sau autocarele.',
+    '🚆 🚌 Surface connection search is incomplete. This does not mean no trains or coaches operate.'):
+   status==='search_providers_not_configured'?
+   dialogText('🚆 🚌 Sursa de căutare a rutelor feroviare și rutiere nu este conectată. Zborurile nu reprezintă toate variantele.',
+    '🚆 🚌 Surface route discovery is not connected. Flights are not all the alternatives.'):
+   dialogText('🚆 🚌 Nu am primit încă legături terestre utilizabile de la sursele conectate. Nu am confirmat absența trenurilor sau autocarelor.',
+    '🚆 🚌 Connected sources have not returned usable surface links. This is not confirmation that trains or coaches are absent.');
+  host.append(groundNote);
+ }
+ if(connections.length)appendMixedGroundConnectionCards(host,connections,choice);
+ if(providers.length)appendMixedGroundOperatorCards(host,providers,choice);
+ if(flights.length)appendMixedAirCandidateCards(host,flights,choice);
  const nearby=data?.flight_airport_candidates;
  if(nearby){
   const group=document.createElement('section');group.className='mixed-airport-coverage';
@@ -22205,9 +22221,6 @@ function renderMixedUnifiedResults(data,choice){
   const disclaimer=document.createElement('p');disclaimer.textContent=dialogText('Acestea sunt puncte de legătură, nu zboruri sau transferuri confirmate. Variantele aeriene primite sunt păstrate chiar dacă un transfer terestru nu poate fi verificat.',
    'These are connection points, not confirmed flights or transfers. Returned flight options are retained even if a ground transfer cannot be verified.');group.append(disclaimer);host.append(group);
  }
- if(connections.length)appendMixedGroundConnectionCards(host,connections,choice);
- if(providers.length)appendMixedGroundOperatorCards(host,providers,choice);
- if(flights.length)appendMixedAirCandidateCards(host,flights,choice);
  if(!options.length&&!providers.length&&!connections.length&&!flights.length){
   const note=document.createElement('p');note.className='mixed-no-routes-note';
   note.textContent=dialogText('Nu am primit încă variante de transport de la furnizorii conectați. Rămâi în Transport mixt; schimbă data sau revino la destinație.',

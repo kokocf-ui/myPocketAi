@@ -7,6 +7,38 @@
 
 ## 1. Reguli permanente de lucru cu utilizatorul
 
+**CERINȚĂ CLARIFICATĂ: LEGĂTURI LOCALE + TREN/AUTOCAR, NU AEROPORT OBLIGATORIU (2026-11-26):**
+User NU a cerut încăpublicare/nouAPK, ci lucrureal la legături existente înlocal,
+laambelecapete și pe rutier/feroviar. Nu mai prezenta UI/back/2zboruri ca rezolvare.
+ModificărinoiDOARBRANCH, prodrămânev186+APK501886:
+- `mixed_local_planner.mjs` refolosește handlerulnormaldeterministic ÎNPROCES,
+  puncte+dată, historygol, mixed=false/composition=false, cachepersearch,max12delegări.
+  GB/RO samepipeline; alteperechidomesticecuțarăfolosescregistrulgated existent,
+  fărăactivaredețări/HERE. Handlernumit `handleBackendRequest`, default{fetch:...}.
+- ambelecapetezbor + endpointdetalii folosesc localplanner, nu TC-only/MOTIS-only;
+  graph sourceLocalTransit pentruacces/continuaregară/autogară/port înacoperire.
+- surfacegraphfărăaeroporturiobligatorii;3nodurisurfacefiecarecapăt,18sdeadline,
+  păstreazădirectresultsdacăaltproviderslow; contorrealcallspornite.
+- fixarrivalPoint vsarrivalLatLon + query-scopedIDs care nu depășesclimitacând
+  IDgeograficelungi; nu relaxastopidentity/cross-providerproof.
+- corridorExaexistent utilizabildacăBravelipsește; max2localitățigeografice,
+  max6queriescorridor înplus2directe, stop401/403/429/nopaidtier. Limitapersearch
+  NUgaranteazăsoldgratuitcont. Geografieparalelă, countryfilterdupădovadă,
+  accepteddirect+partialcorridor emiseînaintefinal, păstrate la20stimeoutouter.
+- UIaratăterestruînainteairportcoverage, mesajdesine dacătrains/coachnoreturn;
+  no_connection_before_boarding doar cu orar verificat, nupentruquota/sourcefail.
+Raport `MIXED_SHARED_LOCAL_SURFACE_LINKS_2026-11-26.md` cu limiteclare.
+PASSoffline newtest `tests_mixed_shared_local_surface.mjs`: ACTUALnormalWorker
+cuTfLmock, inverslocalcontinuare, regionalLutonTCmock, nicioAI/airrecursion;
+buslocal→coachgraphfărăaeroport; arrivalPoint/longIDs; Exa-onlytrain→coachcorridor;
+partialfail/deadline, registrygates. Addedtotransit-reported-failuresgate+mixedsuite.
+Browser360/393/430 confirmă și train/coachONLYcardsfărăzbor, details/back/noextranetwork.
+National/transit/mixed/check/boot+dryruns/bundlednamesPASS. NUprobeLIVE/providercoverage.
+ÎncăfărădovadăliveGraysLTN/DEBOradea, fărăAPKnou/deploy/main/Oracle/HERE;0/max2HERE.
+Paginioperatorcity-to-city NUidentificăautomatgara/autogara/transfer/data; fără
+coordonate/stopproofnuinventa lastmile și nu numi chainpages itinerarconfirmat.
+
+
 **RETEST FIZIC APK501886: LATENȚĂ + MIXT INCOMPLET (2026-11-26, CEL MAI NOU):**
 User a trimis 9capturi19:20–19:26: opțiuniGraysVictoria întârzie, selectare1intermitent,
 3walkingerror; mixt04dec04:00 afișează LTNDEB61GBP/STNCLJ81GBP, fărăgroundșiBack.

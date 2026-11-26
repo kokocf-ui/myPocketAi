@@ -45,6 +45,23 @@ try{
   await body.getByRole('button',{name:'← Înapoi la variante',exact:true}).tap();
   await body.locator('.mixed-unverified-candidate').first().tap();
   assert.equal(await body.getByRole('link',{name:'Bilete și rezervare · FlixBus'}).getAttribute('href'),'https://www.flixbus.co.uk/bus-routes/london-oradea');
+  // Surface-only results must survive an empty/disabled flight source, with
+  // ordinary local access/egress gaps disclosed rather than an airport screen.
+  const train={from:'London',to:'Brussels',mode:'train',operator:'Eurostar',url:'https://www.eurostar.com/uk-en/train/london-to-brussels'};
+  const coach={from:'Brussels',to:'Oradea',mode:'coach',operator:'FlixBus',url:'https://www.flixbus.com/bus-routes/brussels-oradea'};
+  await page.evaluate(d=>window.__mixed.init(d),{...data,transit:[],flight_candidates:[],flight_search_status:'disabled',
+   ground_connections:[{from:'London',to:'Oradea',transferCity:'Brussels',segments:[train,coach]}]});
+  assert.equal(await body.locator('.mixed-unverified-candidate').count(),2,'Rail+coach chain and direct coach exist without a single flight');
+  assert.equal(await body.locator('.mixed-airport-coverage').count(),0);
+  const beforeSurface=external;
+  await body.locator('.mixed-unverified-candidate').first().tap();
+  assert.equal(await body.getByRole('link',{name:'Bilete și rezervare · Eurostar'}).count(),1);
+  assert.equal(await body.getByRole('link',{name:'Bilete și rezervare · FlixBus'}).count(),1);
+  assert.match(await body.innerText(),/Adresa finală Oradea/);
+  assert.match(await body.innerText(),/Nu avem încă dovada/,'Route pages are not promoted to a timed transfer');
+  await body.locator('.transit-detail-toolbar button').tap();
+  assert.equal(await body.locator('.mixed-unverified-candidate').count(),2);
+  assert.equal(external,beforeSurface,'Selecting surface details only reads initial evidence');
   assert.deepEqual(errors,[]);await page.close();
  }
  console.log('PASS production mobile 360/393/430: indicative train+coach+flight coexist, details without network, per-leg tickets, explicit gaps, Back retains all modes');
