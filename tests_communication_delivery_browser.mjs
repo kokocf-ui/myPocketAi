@@ -27,6 +27,13 @@ window.__chat={
    const attachmentId=crypto.randomUUID();result.attachments[attachmentId]={iv:encode(iv),cipher:encode(cipher),kind:'audio',mime:'audio/wav'};
    result.messages.push({id:crypto.randomUUID(),sender,recipient,kind:'media',attachment_kind:'audio',attachment_id:attachmentId,created_ms:Date.now()-10000+index});
   }
+  for(const sender of [identity.id,peer.id]){
+   const png=Uint8Array.from(atob('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jXioAAAAASUVORK5CYII='),c=>c.charCodeAt(0));
+   const recipient=sender===identity.id?peer.id:identity.id,iv=crypto.getRandomValues(new Uint8Array(12));
+   const cipher=await crypto.subtle.encrypt({name:'AES-GCM',iv,additionalData:bytes(sender+'|'+recipient)},await cryptoKey(peer),png);
+   const attachmentId=crypto.randomUUID();result.attachments[attachmentId]={iv:encode(iv),cipher:encode(cipher),kind:'image',mime:'image/png'};
+   result.messages.push({id:crypto.randomUUID(),sender,recipient,kind:'media',attachment_kind:'image',attachment_id:attachmentId,created_ms:Date.now()});
+  }
   window.__fixtureFile=new File([wav],'voice.wav',{type:'audio/wav'});return result;
  },refresh(){return refreshMessages()},upload(){window.__uploadResult=null;void uploadChosenFile(window.__fixtureFile).then(x=>window.__uploadResult=x)}
 };
@@ -40,7 +47,7 @@ const acceptedIds=new Set();
 try{
  for(const viewport of [{width:393,height:817},{width:360,height:640}]){
   envelopes=[];attachments={};requests=[];acceptedIds.clear();messageChecks=0;
-  const page=await browser.newPage({viewport,isMobile:true,hasTouch:true}),errors=[];page.on('pageerror',e=>errors.push(e.message));
+  const page=await browser.newPage({viewport,isMobile:true,hasTouch:true}),errors=[];page.on('pageerror',e=>{errors.push(e.message);console.error('PAGE',e.message)});
   await page.route('**/*',async route=>{
    const req=route.request();if(req.url().includes('mypocketai.duckdns.org')){
     if(req.method()!=='POST')return route.fulfill({contentType:'application/json',body:'{"ok":true}'});
@@ -49,7 +56,7 @@ try{
     if(data.action==='messages'){messageChecks++;response.messages=structuredClone(envelopes)}
     if(data.action==='contacts')response.contacts=[];
     if(data.action==='lists')response.lists=[];
-    if(data.action==='pending_messages')response.messages=[];
+    if(data.action==='pending_messages')return route.fulfill({status:501,contentType:'application/json',body:'{"ok":false,"error":"pending_endpoint_unavailable"}'});
     if(data.action==='attachment')response.attachment=attachments[data.attachmentId];
     if(data.action==='receipt'){
      if(data.receiptType==='played'&&failPlayedOnce){failPlayedOnce=false;return route.fulfill({status:503,contentType:'application/json',body:'{"ok":false,"error":"temporarily_unavailable"}'})}
@@ -70,6 +77,17 @@ try{
   });
   await page.goto('http://127.0.0.1:'+server.address().port+'/?nativeLaunch=1');await page.evaluate(()=>window.__chat.init());
   const fixture=await page.evaluate(()=>window.__chat.fixture());envelopes=fixture.messages;attachments=fixture.attachments;await page.evaluate(()=>window.__chat.refresh());
+  await page.waitForFunction(()=>document.querySelectorAll('.comm-inline-image img').length===2&&[...document.querySelectorAll('.comm-inline-image img')].every(x=>x.complete&&x.naturalWidth>0));
+  const photoUrls=await page.locator('.comm-inline-image img').evaluateAll(xs=>xs.map(x=>x.src));
+  await page.evaluate(()=>window.__chat.refresh());assert.deepEqual(await page.locator('.comm-inline-image img').evaluateAll(xs=>xs.map(x=>x.src)),photoUrls,'Photos persist across polls without re-download');
+  assert.ok(requests.some(x=>x.action==='receipt'&&x.receiptType==='delivered'&&x.messageIds.includes(envelopes[1].id)),'Fetched conversation sends real delivery receipt even without pending endpoint');
+  await page.evaluate(()=>{window.__exports=[];window.__exportOutcome='saved';window.PocketAndroidAttachmentExport={postMessage(payload){const data=JSON.parse(payload);window.__exports.push(data);setTimeout(()=>window.dispatchEvent(new CustomEvent('pocket-attachment-export',{detail:{id:data.id,status:window.__exportOutcome}})),10)}}});
+  await page.locator('.comm-inline-image').first().tap();await page.locator('.comm-media-viewer').waitFor();
+  await page.locator('.comm-download-link').tap();await page.waitForFunction(()=>window.__exports.length===1);await page.locator('.comm-media-viewer').getByText('Fișier salvat.',{exact:true}).waitFor();
+  const exported=await page.evaluate(()=>window.__exports[0]);assert.equal(exported.mime,'image/png');assert.match(exported.name,/\.png$/);assert.ok(exported.base64.startsWith('iVBOR'));
+  await page.evaluate(()=>window.__exportOutcome='cancelled');await page.locator('.comm-download-link').tap();await page.locator('.comm-media-viewer').getByText('Salvare anulată.',{exact:true}).waitFor();
+  await page.evaluate(()=>window.__exportOutcome='error');await page.locator('.comm-download-link').tap();await page.locator('.comm-media-viewer').getByText('Salvarea nu a reușit. Încearcă din nou.',{exact:true}).waitFor();
+  await page.locator('.comm-media-viewer').getByRole('button',{name:'Închide',exact:true}).tap();
   const voices=page.locator('.comm-message--voice');await voices.first().waitFor();assert.equal(await voices.count(),2);
   assert.match(await voices.first().innerText(),/Pe server/);assert.match(await voices.last().innerText(),/↓ Primit/);
   for(const field of ['delivered_at','read_at','played_at']){

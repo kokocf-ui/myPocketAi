@@ -19,6 +19,8 @@
     "test:practical-workshops:browser": "node tests_practical_workshops_browser.mjs",
     "test:education-mobile:browser": "node tests_education_mobile_containment_browser.mjs",
     "test:foreign-practice:browser": "node tests_foreign_language_practice_browser.mjs",
+    "test:entertainment:browser": "node tests_entertainment_mobile_browser.mjs",
+    "test:chat-media": "node tests_communication_media.mjs",
     "test:communication-delivery:browser": "node tests_communication_delivery_browser.mjs"
   },
   "dependencies": {

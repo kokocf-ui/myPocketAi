@@ -43,7 +43,7 @@ assert.match(menus,/action:'delete_message'/,'Server-synchronized delete remains
 assert.match(menus,/action:\(\)=>hideMessageLocally\(message,peer\)/,
  'Local-only deletion remains available to both parties');
 
-assert.match(refresh,/existing=isAudio\?inlineVoiceRows\.get\(message\.id\):null/,
+assert.match(refresh,/existing=isAudio\?inlineVoiceRows\.get\(message\.id\):isImage\?inlineImageRows\.get\(message\.id\):null/,
  'Same player survives 8-second chat polling');
 assert.match(refresh,/transcript\.insertBefore\(wanted,current\)/);
 assert.doesNotMatch(refresh,/transcript\.replaceChildren\(\.\.\.nodes\)/,

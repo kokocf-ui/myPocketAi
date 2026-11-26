@@ -66,7 +66,7 @@ for(let i=0;i<365;i++){
  maxims.add(api.funDailyMaxim(key));jokes.add(api.funDailyJoke(key));
 }
 assert.equal(maxims.size,365,'One new distinct maxim for at least 365 consecutive days');
-assert.ok(jokes.size>40,'Jokes must extend well beyond the old finite collection');
+assert.equal(jokes.size,22,'Only complete coherent dialogues, not randomized question/punchline combinations');
 const begin=new Date(2026,10,23,12),readings=new Set();
 for(let i=0;i<31;i++){
  const d=new Date(begin);d.setDate(d.getDate()+i);

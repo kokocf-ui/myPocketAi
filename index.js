@@ -8110,8 +8110,9 @@ function pocketBackInsideModule(){
  return false;
 }
 window.pocketAndroidBack=function(){
+ const funPopup=[...document.querySelectorAll('.extra-fun-modal')].at(-1);if(funPopup?.pocketDismiss){funPopup.pocketDismiss();return}
  const openLayers=[...document.querySelectorAll('dialog[open]')];const topLayer=openLayers.at(-1);
- if(topLayer?.matches?.('.foreign-practice-dialog,.foreign-resource-dialog,.language-tutor-dialog,.edu-workspace-dialog,.practical-activity-dialog,[data-education-ink]')){topLayer.close();return}
+ if(topLayer?.matches?.('.comm-media-viewer,.foreign-practice-dialog,.foreign-resource-dialog,.language-tutor-dialog,.edu-workspace-dialog,.practical-activity-dialog,[data-education-ink]')){topLayer.close();return}
  // The paged Mathematics/Theory reader is layered above the theory catalogue.
  // Close its TOP layer before touching the underlying dialogue or app navigation.
  // Previously it was missing here, allowing physical Back to reach Eva's exit prompt.

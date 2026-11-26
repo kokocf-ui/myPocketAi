@@ -1287,6 +1287,7 @@ public final class MainActivity extends ComponentActivity {
                     });
                 });
         }
+        new PocketAttachmentExport(this,web,APP_HOST);
         // Profile bridge is available only to the app's trusted first-party page.
         // Email never enters window.__pocketNativeProfile or the AI request.
         if(WebViewFeature.isFeatureSupported(WebViewFeature.WEB_MESSAGE_LISTENER)){

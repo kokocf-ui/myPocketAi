@@ -54,6 +54,9 @@ jobs:
           npm run check
           npm run test:education-study
           npm run test:science-source
+          npm run test:chat-media
+          node tests_fun_generator_2026.mjs
+          node tests_extra_fun_2026.mjs
           npm run test:education-input
           node tests_math_ro5_source_alignment.mjs
           node tests_math_ro678_country_curriculum.mjs
@@ -77,6 +80,7 @@ jobs:
           node tests_foreign_language_resources_browser.mjs
           node tests_foreign_language_practice_browser.mjs
           node tests_communication_delivery_browser.mjs
+          node tests_entertainment_mobile_browser.mjs
           node tests_education_study_browser.mjs
           node tests_science_source_browser.mjs
           node tests_education_workspace_browser.mjs
