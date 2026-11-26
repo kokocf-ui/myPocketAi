@@ -25,7 +25,9 @@
     "test:editorial-assistant": "node tests_fun_editorial_content.mjs && node tests_assistant_understanding.mjs && node tests_assistant_understanding_backend.mjs",
     "test:editorial-assistant:browser": "node tests_editorial_assistant_browser.mjs",
     "test:eva-weather-creator": "node tests_eva_identity_weather.mjs && node tests_eva_weather_backend.mjs && node tests_assistant_current_address_2026.mjs && node tests_creator_business_profiles.mjs",
-    "test:eva-weather-creator:browser": "node tests_eva_creator_mobile_browser.mjs"
+    "test:eva-weather-creator:browser": "node tests_eva_creator_mobile_browser.mjs",
+    "test:transit-audit": "node tests_transit_bus_stops.mjs && node tests_ro_urban_gtfs.mjs && node tests_ro_urban_server.mjs && node tests_national_public_transport.mjs && node tests_shared_tfl_reader_regression.mjs && node tests_transit_entrypoint_parity.mjs && node tests_short_local_transit_arrival.mjs && node tests_transit_final_mile.mjs && node tests_transit_full_journey_native.mjs && node tests_transit_navigation_resume.mjs && node tests_transit_calendar.mjs && node tests_uk_national_transit.mjs && node tests_ro_national_transit.mjs && node tests_mixed_international_regression.mjs && node tests_mixed_transport_ui.mjs && node tests_mixed_transport_comparison.mjs && node tests_mixed_uk_fallback.mjs && node tests_maps_walk_drive_visibility.mjs && node tests_module_landing_locales.mjs",
+    "test:transit-audit:browser": "node tests_transit_bus_stops_browser.mjs"
   },
   "dependencies": {
     "teleproto": "1.232.1"

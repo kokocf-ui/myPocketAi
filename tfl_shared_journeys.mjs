@@ -3,15 +3,14 @@
 // feasibility and transfer validation before showing a confirmed itinerary.
 export async function requestTfLJourneys({
  from,to,appKey,appId='',departureAt=null,requestedCount=3,
- auxiliary=false,modes='',fetcher=fetch
+ auxiliary=false,modes='',includeBusAlternative=false,fetcher=fetch
 }={}){
  if(!from||!to)return {journeys:[],responses:[],status:'not_configured',attempts:[]};
  const base=new URL('https://api.tfl.gov.uk/Journey/JourneyResults/'+from+'/to/'+to);
  if(appKey)base.searchParams.set('app_key',appKey);
  if(appKey&&appId)base.searchParams.set('app_id',appId);
- if(auxiliary){
-  if(modes)base.searchParams.set('mode',modes);
- }else{
+ if(modes)base.searchParams.set('mode',modes);
+ if(!auxiliary){
   base.searchParams.set('nationalSearch','true');
   base.searchParams.set('alternativeMetro','true');
   base.searchParams.set('alternativeRoute','true');
@@ -34,8 +33,9 @@ export async function requestTfLJourneys({
  }
  const attempts=[],responses=[];
  const desired=Math.max(1,Math.min(4,Number(requestedCount)||3));
- const execute=async (preference='',relaxed=false,publicAccess=false)=>{
+ const execute=async (preference='',relaxed=false,publicAccess=false,modeOverride='')=>{
   const u=new URL(base.toString());
+  if(modeOverride)u.searchParams.set('mode',modeOverride);
   if(publicAccess){u.searchParams.delete('app_key');u.searchParams.delete('app_id');}
   if(!auxiliary){
    u.searchParams.set('journeyPreference',preference||'leasttime');
@@ -50,24 +50,31 @@ export async function requestTfLJourneys({
     headers:{Accept:'application/json'},signal:AbortSignal.timeout(relaxed?8000:10000)
    });
    if(!response.ok){
-    attempts.push({preference:preference||'default',public:publicAccess||!appKey,status:'http_'+response.status});
+    attempts.push({mode:modeOverride||modes||'all',preference:preference||'default',public:publicAccess||!appKey,status:'http_'+response.status});
     return null;
    }
    const data=await response.json();
    if(!Array.isArray(data?.journeys)){
-    attempts.push({preference:preference||'default',public:publicAccess||!appKey,status:'invalid_response'});
+    attempts.push({mode:modeOverride||modes||'all',preference:preference||'default',public:publicAccess||!appKey,status:'invalid_response'});
     return null;
    }
-   attempts.push({preference:preference||'default',public:publicAccess||!appKey,status:'ok',count:data.journeys.length});
+   if((modeOverride||modes)==='bus')data.journeys=data.journeys.filter(j=>
+    Array.isArray(j.legs)&&j.legs.some(l=>l.mode?.name==='bus')&&
+    j.legs.every(l=>['bus','walking','walk'].includes(l.mode?.name)));
+   attempts.push({mode:modeOverride||modes||'all',preference:preference||'default',public:publicAccess||!appKey,status:'ok',count:data.journeys.length});
    responses.push(data);
    return data;
   }catch(error){
-   attempts.push({preference:preference||'default',public:publicAccess||!appKey,status:String(error?.name||'network_error').slice(0,50)});
+   attempts.push({mode:modeOverride||modes||'all',preference:preference||'default',public:publicAccess||!appKey,status:String(error?.name||'network_error').slice(0,50)});
    return null;
   }
  };
- const primary=await execute(auxiliary?'':'leasttime');
- const authDenied=Boolean(appKey)&&['http_401','http_403'].includes(attempts.at(-1)?.status);
+ // One bounded bus-only query runs alongside the normal search. It does not
+ // relax validation or replace the fastest mixed-mode options.
+ const primaryPromise=execute(auxiliary?'':'leasttime');
+ const busPromise=includeBusAlternative&&!auxiliary&&!modes?execute('leasttime',false,false,'bus'):null;
+ const primary=await primaryPromise;
+ const authDenied=Boolean(appKey)&&attempts.some(a=>a.mode===(modes||'all')&&['http_401','http_403'].includes(a.status));
  if(authDenied){
   // TfL permits limited unauthenticated access. One bounded public attempt
   // can recover a deployment with a stale Worker API key; never bypass 429.
@@ -80,7 +87,11 @@ export async function requestTfLJourneys({
  if(appKey&&!auxiliary&&!authDenied&&!responses.some(r=>r.journeys.length)){
   await execute('leasttime',true);
  }
- const journeys=responses.flatMap(r=>r.journeys);
+ if(busPromise)await busPromise;
+ const seen=new Set();
+ const journeys=responses.flatMap(r=>r.journeys).filter(j=>{
+  const key=JSON.stringify(j);if(seen.has(key))return false;seen.add(key);return true;
+ });
  return {journeys,responses,attempts,status:journeys.length
   ?(attempts.some(a=>a.public&&a.count>0)?'ok_public':'ok'):
    attempts.some(a=>a.status==='ok')?'no_journeys_returned':

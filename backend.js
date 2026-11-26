@@ -1,3 +1,4 @@
+import {tflLegStopCount} from './transit_stop_counts.mjs';
 import {assistantPreferredName,assistantIdentityInstruction} from './assistant_personal_identity.mjs';
 import {weatherPracticalAdvice,weatherLocalityLabel} from './weather_practical_advice.mjs';
 import {assistantUnderstandRequest,assistantUnderstandingInstruction,assistantRepeatsRecentReply,assistantVariationRequested} from './assistant_understanding.mjs';
@@ -4019,6 +4020,7 @@ export default {
       let departureAt=null;
       const transitOptions = [];
       const requestedOptionsCount=requestedTransitCount(message,data.transit_count);
+      const transportPreference=data.transit_preference==='bus_only'?'bus_only':'all';
       // Verified, local Romanian urban transport is queried before intercity
       // rail/coach. Requires both origin and destination coordinates in one
       // supported municipal region. No UK TfL/TransCAPI fallback for Romania.
@@ -4329,7 +4331,6 @@ export default {
           // door-to-door provider before MOTIS or the old external-link fallback.
           // GB, Ireland and NL+BE each have their own TransCAPI planning zone.
           // Cross-zone UK→Europe journeys still require a licensed international planner.
-          const transportPreference=data.transit_preference==='bus_only'?'bus_only':'all';
           const departureOffsetMinutes=[0,15,30,60,120].includes(Number(data.transit_departure_offset))?Number(data.transit_departure_offset):0;
           const selectedDeparture=typeof data.transit_departure_at==='string'?data.transit_departure_at.trim():'';
           const requestedMs=selectedDeparture?Date.parse(selectedDeparture):null;
@@ -4513,7 +4514,25 @@ export default {
             }))&&
             (transportPreference==='bus_only'||transcapiZone!=='gb'||!isTfLLondonCorridorPoint(mixedOrigin.latitude,mixedOrigin.longitude)||!isTfLLondonCorridorPoint(targetLat,targetLon));
           if(transcapiEligible && (!data.national_public_transport||authorizedNationalProvider==='uk_national_transit')){
-            const national=await planTransCAPIJourney(env,mixedOrigin,{latitude:targetLat,longitude:targetLon},requestedOptionsCount,{preference:transportPreference,departureOffsetMinutes,departureAt});
+            const nationalOptions={preference:transportPreference,departureOffsetMinutes,departureAt};
+            const nationalTo={latitude:targetLat,longitude:targetLon};
+            const localBusAlternative=!explicitMixedJourney&&transportPreference==='all'&&
+              routeGeoDistance(mixedOrigin,nationalTo)<=80000;
+            const [national,busAlternative]=await Promise.all([
+              planTransCAPIJourney(env,mixedOrigin,nationalTo,requestedOptionsCount,nationalOptions),
+              localBusAlternative?planTransCAPIJourney(env,mixedOrigin,nationalTo,requestedOptionsCount,
+                {...nationalOptions,preference:'bus_only'}):null
+            ]);
+            if(busAlternative?.journeys?.length&&requestedOptionsCount>1){
+              const busOnly=j=>j.legs.some(l=>l.mode==='bus'||l.mode==='coach')&&
+                j.legs.every(l=>['bus','coach','walking'].includes(l.mode));
+              if(!national.journeys.some(busOnly)){
+                const bus=[...busAlternative.journeys].sort((a,b)=>Date.parse(a.arrivalDateTime)-Date.parse(b.arrivalDateTime))[0];
+                if(national.journeys.length>=requestedOptionsCount)national.journeys.pop();
+                national.journeys.push(bus);national.status='success';
+                national.journeys.sort((a,b)=>Date.parse(a.arrivalDateTime)-Date.parse(b.arrivalDateTime));
+              }
+            }
             if(national.journeys.length){
               const transit=national.journeys,first=transit[0];
               const clock=value=>{
@@ -4943,12 +4962,14 @@ export default {
             // Fetch alternative preferences only if the primary request is insufficient.
             const tflData=await requestTfLJourneys({
               from,to,appKey:env.TFL_APP_KEY,appId:env.TFL_APP_ID,
-              departureAt:effectiveDepartureAt,requestedCount:requestedOptionsCount
+              departureAt:effectiveDepartureAt,requestedCount:requestedOptionsCount,
+              modes:transportPreference==='bus_only'?'bus':'',
+              includeBusAlternative:!explicitMixedJourney&&transportPreference!=='bus_only'
             });
             const tj={journeys:tflData.journeys};
             tflChecks.requestStatus=tflData.status;
             tflChecks.attempts=(tflData.attempts||[]).slice(0,5).map(a=>({
-              preference:a.preference,status:a.status,public:Boolean(a.public),count:a.count||0
+              mode:a.mode,preference:a.preference,status:a.status,public:Boolean(a.public),count:a.count||0
             }));
             tflChecks.rawJourneys=tj.journeys.length;
             if(!tj.journeys.length)transportErrors.tfl=tflData.status;
@@ -4977,7 +4998,7 @@ export default {
                 const point=l.departurePoint||{},properties=Array.isArray(point.additionalProperties)?point.additionalProperties:[];
                 const property=key=>String(properties.find(p=>String(p.key||'').toLowerCase()===key.toLowerCase())?.value||'').slice(0,160);
                 const lineNames=[...new Set((Array.isArray(l.routeOptions)?l.routeOptions:[]).map(r=>String(r.lineIdentifier?.name||r.name||'').trim()).filter(Boolean))].slice(0,6);
-                return {departureStopId:String(point.naptanId||point.icsId||point.id||'').slice(0,100),departurePoint:transitOperatorPoint(point),lineNames,stopIndicator:property('Indicator')||property('StopLetter')||property('PlatformName'),towards:property('Towards'),mode:l.mode&&l.mode.name||"transport",from:l.departurePoint&&l.departurePoint.commonName||"",to:l.arrivalPoint&&l.arrivalPoint.commonName||"",durationMinutes:Number(l.duration)||null,departureTime:l.departureTime||null,arrivalTime:l.arrivalTime||null,instruction:l.instruction&&l.instruction.summary||"",arrivalLatLon:(Number.isFinite(Number(l.arrivalPoint&&l.arrivalPoint.lat))&&Number.isFinite(Number(l.arrivalPoint&&l.arrivalPoint.lon)))?{lat:Number(l.arrivalPoint.lat),lon:Number(l.arrivalPoint.lon)}:null,coordinates,geometryAvailable:coordinates.length >= 2};
+                return {stopCount:tflLegStopCount(l),departureStopId:String(point.naptanId||point.icsId||point.id||'').slice(0,100),departurePoint:transitOperatorPoint(point),lineNames,stopIndicator:property('Indicator')||property('StopLetter')||property('PlatformName'),towards:property('Towards'),mode:l.mode&&l.mode.name||"transport",from:l.departurePoint&&l.departurePoint.commonName||"",to:l.arrivalPoint&&l.arrivalPoint.commonName||"",durationMinutes:Number(l.duration)||null,departureTime:l.departureTime||null,arrivalTime:l.arrivalTime||null,instruction:l.instruction&&l.instruction.summary||"",arrivalLatLon:(Number.isFinite(Number(l.arrivalPoint&&l.arrivalPoint.lat))&&Number.isFinite(Number(l.arrivalPoint&&l.arrivalPoint.lon)))?{lat:Number(l.arrivalPoint.lat),lon:Number(l.arrivalPoint.lon)}:null,coordinates,geometryAvailable:coordinates.length >= 2};
               });
               const routeSegments = legs.filter(leg => leg.geometryAvailable).map(leg => ({mode:leg.mode,from:leg.from,to:leg.to,coordinates:leg.coordinates}));
               transitOptions.push({provider:"TfL",time_zone:"Europe/London",durationMinutes:Number(j.duration)||null,startDateTime:j.startDateTime||null,arrivalDateTime:j.arrivalDateTime||null,legs,routeSegments,geometryAvailable:routeSegments.length > 0});
@@ -5070,6 +5091,7 @@ export default {
             // Keep verified TfL routes when timestamps cannot be parsed; exclude only provably missed departures.
             const earliestRequested=effectiveDepartureAt?Date.parse(effectiveDepartureAt):null;
             const candidates=ranked.filter(j=>{
+              if(transportPreference==='bus_only'&&!vehicleLegs(j).every(l=>l.mode==='bus'||l.mode==='coach'))return false;
               if(j.departureFeasible===false)return false;
               if(earliestRequested===null||!Number.isFinite(earliestRequested))return true;
               const firstLeg=j.legs?.[0];
@@ -5093,6 +5115,14 @@ export default {
               return score(a)-score(b);
             });
             const selected=selectTransitAlternatives(candidates,requestedOptionsCount);
+            if(!explicitMixedJourney&&requestedOptionsCount>1){
+              const busOnly=j=>vehicleLegs(j).length>0&&vehicleLegs(j).every(l=>l.mode==='bus'||l.mode==='coach');
+              const bus=candidates.find(busOnly);
+              if(bus&&!selected.some(busOnly)){
+                if(selected.length>=requestedOptionsCount)selected.pop();
+                selected.push(bus);
+              }
+            }
             // Display verified departures in time order, not score order.
             selected.sort((a,b)=>{
               // Sort by the departure displayed on the card, INCLUDING the access walk.

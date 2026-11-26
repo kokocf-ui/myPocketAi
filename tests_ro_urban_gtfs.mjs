@@ -56,4 +56,18 @@ test('weekday calendar, empty coverage, validation',()=>{
 test('CSV parser handles BOM, escaped quotations and commas',()=>{
  const rows=parseGtfsCsv('\uFEFFstop_id,stop_name\r\nA,"Piața, Unirii"\r\nB,"Gara ""Centru"""\n');
  assert.deepEqual(rows,[{stop_id:'A',stop_name:'Piața, Unirii'},{stop_id:'B',stop_name:'Gara "Centru"'}]);
+});test('stop counts use ordered calls, not gaps in GTFS sequence numbers',()=>{
+ const irregular={...feed,stop_times:feed.stop_times.map(x=>({...x,stop_sequence:String(Number(x.stop_sequence)*10)}))};
+ const r=plan(irregular,a,c,{date:'2026-11-12',afterHHMM:'10:00',maxStraightLineMeters:150});
+ const journey=r.journeys.find(x=>x.legs.length===2);
+ assert.deepEqual(journey.legs.map(l=>l.stopCount),[1,1]);
+});
+test('local GTFS retains a bus-only alternative alongside faster trams',()=>{
+ const extra={...feed,trips:[...feed.trips,{trip_id:'directBus',route_id:'B12',service_id:'WEEK'}],stop_times:[...feed.stop_times,
+  {trip_id:'directBus',stop_id:'A',stop_sequence:10,arrival_time:'10:40:00',departure_time:'10:40:00'},
+  {trip_id:'directBus',stop_id:'C',stop_sequence:30,arrival_time:'11:00:00',departure_time:'11:00:00'}]};
+ const journeys=plan(extra,a,c,{date:'2026-11-12',afterHHMM:'10:00',maxStraightLineMeters:150,maxResults:2}).journeys;
+ assert.equal(journeys.length,2);
+ assert.ok(journeys.some(j=>j.legs.every(l=>l.mode==='bus')));
+ assert.ok(journeys.some(j=>j.legs.some(l=>l.mode==='tram')));
 });
