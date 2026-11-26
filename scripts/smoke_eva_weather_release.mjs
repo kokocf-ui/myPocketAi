@@ -3,10 +3,13 @@ import assert from 'node:assert/strict';
 import {writeFileSync} from 'node:fs';
 const origin=process.env.POCKET_SMOKE_ORIGIN||'https://lifewise-ai-api.kokocf.workers.dev';
 const results=[];
+const save=()=>writeFileSync('eva-weather-live-smoke.json',JSON.stringify({origin,checked_at:new Date().toISOString(),results},null,2));
+process.on('uncaughtException',error=>{save();console.error('::error::'+String(error.message).replace(/\r?\n/g,' ').slice(0,500)+' | '+JSON.stringify(results.at(-1)||{}).slice(0,2500));process.exitCode=1;});
 async function ask(message,extra={}){
  const response=await fetch(origin+'/api/chat',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({module:'assistant',language:'ro',message,history:[],...extra}),signal:AbortSignal.timeout(60000)});
- const data=await response.json();assert.equal(response.status,200,JSON.stringify({status:response.status,error:data.error}));assert.equal(data.version,'v183');
- results.push({message,status:response.status,version:data.version,reply:data.reply,conversation_intent:data.conversation_intent,weather_ok:data.weather_ok,web_search_status:data.web_search_status});return data;
+ const data=await response.json();
+ results.push({message,status:response.status,version:data.version,error:data.error,reply:data.reply,conversation_intent:data.conversation_intent,weather_ok:data.weather_ok,weather_location:data.weather?.location,web_search_status:data.web_search_status});save();
+ assert.equal(response.status,200,JSON.stringify({status:response.status,error:data.error}));assert.equal(data.version,'v183');return data;
 }
 const name=await ask('Cum vrei tu, dar Costi, cred că este perfect',{history:[{role:'user',content:'Ce faci?'},{role:'assistant',content:'Sunt pregătită să aflu despre tine, Costi. Cum îți poți spune?'}]});
 assert.equal(name.conversation_intent,'eva_name_preference');assert.match(name.reply,/îți spun Costi/);assert.equal(name.web_search_status,'not_needed');assert.doesNotMatch(name.reply,/cântăreț|manele|am găsit|am căutat/);
